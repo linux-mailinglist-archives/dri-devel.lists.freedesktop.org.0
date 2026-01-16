@@ -2,132 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C824D2E248
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 09:39:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F94D2E202
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 09:38:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEDB910E834;
-	Fri, 16 Jan 2026 08:39:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF11610E82D;
+	Fri, 16 Jan 2026 08:38:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="hCXR19Gx";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="DpsKwFtH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH7PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11010005.outbound.protection.outlook.com [52.101.201.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E6BE10E834
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 08:39:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZmCh+yjH/TRxPWl/WtWfKRZ+IaVijGqt9qv55ZdPhJNF5hxPzJmin0aQVQFcYbk+a2tfC61e5xqRUGonvWvxIOILtrpCJal8ZGC+PIrW3o/ZKwuAVB2R0sUyEQVEUzFtLe4bCZraoD/jT3EXUiiJGFCGJIJ0BfCVwVcy8TASbWPxwKWWoUTzdGvQXhA3rHGjoh0L/X454mxK8J7NSkos5bCLmn0hTZN9fKJwMASAKYoKPCjuYpDprhtwuZJuZidwlJ7oAIhngO2GrL3SaS67w7vc5GmDodJYW1mmyAOeyFkVfhaKCpe5E5ru/uWDX4w/C/7Zag0p2EBsclre1aVh1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m7Avm8Vfyp+ZrTO3ASaUwcvhrk+9VGOxgDdyqZzFJ4Y=;
- b=hWzcMWs6XNR2FiPlHfcC/XSLip6Q2pKk0jbskmpGniSwVA0d1asEdmTQ5tqLPSKBVSUGf4Y6O6K3RtKVOG8t6zV91ZLfhHLzFotV8Dp8pFmBIAndswJOp3DcjxEk6rUF8vioBcADtKPX1gqby54GC7jbXN9aAVAS8Sla3PXK+faVmev4BTfXqvI2iNl3r6sYh/nWkYgcGXdYJP/IU8+akk7x6uf1xDsD7Qidf7LokIsup8sUI9W0Fx1AXQQiA8fDIk4qvX1wC+n88TLRVtFUnOiewRBM6WrQxmMgaN/R0nJZzh6BUgt+Eie0Dos7RhLOWbs+mpktJJZeXgnffvF5xg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m7Avm8Vfyp+ZrTO3ASaUwcvhrk+9VGOxgDdyqZzFJ4Y=;
- b=hCXR19Gxsall/9E+4ZqrM05glCP+aVv1inbzFF760HShCaEvpmaYj/yImdXksE8lieGvf/fjUtD1HT+WIaJy9LOx9fZLFHLur+etPI6I+9XbnaGpoKcAujKf0M7Wz0AtTYPBaYK7ioKGRCzAa2JtmxRpQ4O7hzOJ7nphvnQHii4=
-Received: from BN0PR04CA0122.namprd04.prod.outlook.com (2603:10b6:408:ed::7)
- by MN2PR12MB4453.namprd12.prod.outlook.com (2603:10b6:208:260::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Fri, 16 Jan
- 2026 08:39:19 +0000
-Received: from BN2PEPF0000449E.namprd02.prod.outlook.com
- (2603:10b6:408:ed:cafe::f8) by BN0PR04CA0122.outlook.office365.com
- (2603:10b6:408:ed::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.8 via Frontend Transport; Fri,
- 16 Jan 2026 08:39:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BN2PEPF0000449E.mail.protection.outlook.com (10.167.243.149) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9542.4 via Frontend Transport; Fri, 16 Jan 2026 08:39:18 +0000
-Received: from honglei-remote.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 16 Jan
- 2026 02:39:15 -0600
-From: Honglei Huang <honglei1.huang@amd.com>
-To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
- <Ray.Huang@amd.com>
-CC: Gurchetan Singh <gurchetansingh@chromium.org>,
- <odaki@rsg.ci.i.u-tokyo.ac.jp>, Chia-I Wu <olvaffe@gmail.com>,
- <dri-devel@lists.freedesktop.org>, <virtualization@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, Honglei Huang <Honglei1.Huang@amd.com>
-Subject: [PATCH v5 5/5] drm/virtio: advertise base userptr feature to userspace
-Date: Fri, 16 Jan 2026 16:38:08 +0800
-Message-ID: <20260116083808.325180-6-honglei1.huang@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260116083808.325180-1-honglei1.huang@amd.com>
-References: <20260116083808.325180-1-honglei1.huang@amd.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC84110E827
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 08:38:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1768552695;
+ bh=yU/cWjJBj+NhpHJS4cKKZwwUyJjxIfRzXbNI37qFnkU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=DpsKwFtHpQ9MTFynhckGPHCBEf31Mh8lc/oJa46klSb4ZvAiCCXxOhNsPmhEe0t+z
+ 8qIfN2lHP8YVLMZodQ1HmCAl3S6ng/bpiaarM3+f5IpG2UEl+N9+opZFKklSn5pW0j
+ 5FQcjPbDcalEJ6znA4hTepkbPlu5uz8hIOolbUoxUwTWPugNtXKrCayKBe1A8iWBZe
+ 11nqKPwTcw/Kp/T92AwrTvL6dWsxgJeRLtNNqMHmU250ZwFnk1zvMTBmt+zn7fYrYk
+ E6eLve8Z7RaUpTa+NTCbHJggBXr9P7BtLAV1vO1YIhVlp0RiRYy9CuIbMpd7uSak7d
+ o7/BNFXlIEDfg==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id CA5C617E0117;
+ Fri, 16 Jan 2026 09:38:14 +0100 (CET)
+Date: Fri, 16 Jan 2026 09:38:09 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chia-I Wu
+ <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>,
+ kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v9 2/4] drm/panthor: Extend IRQ helpers for mask
+ modification/restoration
+Message-ID: <20260116093809.65fac02a@fedora>
+In-Reply-To: <2543019.CQOukoFCf9@workhorse>
+References: <20260115-panthor-tracepoints-v9-0-e13e4f7d01dc@collabora.com>
+ <20260115-panthor-tracepoints-v9-2-e13e4f7d01dc@collabora.com>
+ <20260115161757.00f7f6df@fedora> <2543019.CQOukoFCf9@workhorse>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF0000449E:EE_|MN2PR12MB4453:EE_
-X-MS-Office365-Filtering-Correlation-Id: acbaa2c1-ce2b-425a-a367-08de54dabd57
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|36860700013|1800799024|7416014|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?cKktRCZs1if+8cpOQFUXovZ+WHg2psCXj7TbDzScUMQzAwDez48GT9uZdxIc?=
- =?us-ascii?Q?n+EK1NjMIcbsKQ/PiM7AfzYaAg7gzN3x4iQZkSxOHWWDJPjnY6CNf4rlGYq9?=
- =?us-ascii?Q?nilvz1Mc3jdSLRZj+1qmD3n4JZfqOlFd7m280387lNpKtoV1/K8MNFFU0S1W?=
- =?us-ascii?Q?otuPIMKrfOuwCqzK+iPaV1AMsgB0XSRrBDrV7VfHypsq1nhpB/1O+GoQBn5d?=
- =?us-ascii?Q?nnPnY+VjErsQsE74IXUEMjwOkw6mHqiqiLfVoc+BccSoZLv3BbJDfUKXUjW1?=
- =?us-ascii?Q?6Oau+dk3y27HJGSOw58A03Z0GS0LmSSRqPwZDFOZlSXDTxezAjjJwO6ppDvC?=
- =?us-ascii?Q?g23yi+LX2NNEAYFeintI5axI+w7FbLjbIdKWCBjm/2NFy9yK2wVIJXhBtEsT?=
- =?us-ascii?Q?ToPocQqWEy8QuAbzKfhlw0b+b3N42goQ82EtK1nB+9gMYO6QGlaaX7cL5KSI?=
- =?us-ascii?Q?utgwhR47rhoKV07KsATz+KrDXguVfMxSNrn3EM8VXUAlpXnOa9ytmO4xms+5?=
- =?us-ascii?Q?pSEJN7zaXWQn8YftUqTVS/fsY58rvHPQ+gn/V2GRVV0dcyx3HFJ9UImSMb92?=
- =?us-ascii?Q?zaJnqW+LEy/Ej2Vp5erR0S8PWmAuB3s8KUDTjKSzjtcfL/KaSPGAs3wE7sKh?=
- =?us-ascii?Q?sS6d4qyuLwlenBBzhR0ewdWUbZIoQ8QeUcNJiS77+btGkbyZJ1ybqMapZ7yx?=
- =?us-ascii?Q?BH7h562r7hNy38RDiveZv3C6EIPVVj5YQ49OixNsvoFfQXTb6vk2xCcfCTQp?=
- =?us-ascii?Q?D0dvoRd3DTL4SpEv5697h0weMm1XGIuRrwS+pY/Ve/wtFpHYEd2PtLGvvb61?=
- =?us-ascii?Q?o6ca+Oz2Hx1Xcyo8YUICIpQItbtPtXIpOMB+J7bHDF0A7dmbZuT2aORZQSfQ?=
- =?us-ascii?Q?HxCwiPChbJ7FKeG8vWRD6nnbs19yiUdB9lY8ePhvwM4SUubxniE/L3p6h8dw?=
- =?us-ascii?Q?uRwKiMe04XKrX44OJZ9RzWTwOx4IE0ZdyYwvU+lCN3P94s0G1Vjkh8hTgSyM?=
- =?us-ascii?Q?1lGnsJDrVGvjhCV2kp8lYu1+E/v8KtAa5HwcUIyET7SfD+VLBQ7KT2xlrQd2?=
- =?us-ascii?Q?YdKMlwiCrUSWB45pcfMDOkl1vCnMd+rMadbiZ28TLqlA1Ew1/6WdV/kWbFwj?=
- =?us-ascii?Q?mJIZawp3RT6nlLqI5rmBLPEIiHR0ND8b+61ryIwtd7PRPJTnNr7/BEAfLz61?=
- =?us-ascii?Q?VZtJRmqeHK4eYiDQSnEX5fZ+A8lcu4h1RN/noB80fhmDm3iiDZTCybQaa9Qv?=
- =?us-ascii?Q?Q4hhx1bgrdlLqSjzLcNQzjLGmyL5rimqbea34BG0zcywYdSwLplrLH0neGPZ?=
- =?us-ascii?Q?sf5lrRU93SezZXNbfmMkCWQAiFly+mDC+ru2dMmOKrRGFMWEn4Q6bHp4mF/Z?=
- =?us-ascii?Q?metaP6RIBAGgGp1LyV7xrIro/mcPaA3r5d7LtPlhKdC6Jv995DI0vP7tjpRL?=
- =?us-ascii?Q?/CMY7M/zCUKLyUAwxuSe9AV2ri7kGrHyTCI40s2lH2YH4Df3x1RLVMM6kDOh?=
- =?us-ascii?Q?KTyL5VDJVr+Kwuwi8Qzy000SuVAdXJIQKoTGLmKXh8SrzDGnyZ/Q2x6/S123?=
- =?us-ascii?Q?S5F7etbWiI1QX1avPfHEcvNawgFPyGFgso5DSp/6MiSBjls+e+uTh+4Fy8w0?=
- =?us-ascii?Q?GZrSVSBekFo9bYGyl6QE58EJn2FbSq36nMcAnI0+Q3YnROZ/lY/tbowPmIFe?=
- =?us-ascii?Q?GVMx1g=3D=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(36860700013)(1800799024)(7416014)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 08:39:18.9018 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: acbaa2c1-ce2b-425a-a367-08de54dabd57
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF0000449E.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4453
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,79 +70,465 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Honglei Huang <Honglei1.Huang@amd.com>
+On Thu, 15 Jan 2026 21:05:54 +0100
+Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
 
-Integrate userptr functionality into the blob resource creation path.
+> On Thursday, 15 January 2026 16:17:57 Central European Standard Time Boris Brezillon wrote:
+> > On Thu, 15 Jan 2026 14:59:00 +0100
+> > Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
+> >   
+> > > The current IRQ helpers do not guarantee mutual exclusion that covers
+> > > the entire transaction from accessing the mask member and modifying the
+> > > mask register.
+> > > 
+> > > This makes it hard, if not impossible, to implement mask modification
+> > > helpers that may change one of these outside the normal
+> > > suspend/resume/isr code paths.
+> > > 
+> > > Add a spinlock to struct panthor_irq that protects both the mask member
+> > > and register. Acquire it in all code paths that access these, but drop
+> > > it before processing the threaded handler function. Then, add the
+> > > aforementioned new helpers: enable_events, and disable_events. They work
+> > > by ORing and NANDing the mask bits.
+> > > 
+> > > resume is changed to no longer have a mask passed, as pirq->mask is
+> > > supposed to be the user-requested mask now, rather than a mirror of the
+> > > INT_MASK register contents. Users of the resume helper are adjusted
+> > > accordingly, including a rather painful refactor in panthor_mmu.c.
+> > > 
+> > > In panthor_mmu.c, the bespoke mask modification is excised, and replaced
+> > > with enable_events/disable_events in as_enable/as_disable.
+> > > 
+> > > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> > > ---
+> > >  drivers/gpu/drm/panthor/panthor_device.h | 74 +++++++++++++++++++++++++-------
+> > >  drivers/gpu/drm/panthor/panthor_fw.c     |  3 +-
+> > >  drivers/gpu/drm/panthor/panthor_gpu.c    |  2 +-
+> > >  drivers/gpu/drm/panthor/panthor_mmu.c    | 47 ++++++++++----------
+> > >  drivers/gpu/drm/panthor/panthor_pwr.c    |  2 +-
+> > >  5 files changed, 87 insertions(+), 41 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> > > index 2bf9a8434dc5..42580968adb3 100644
+> > > --- a/drivers/gpu/drm/panthor/panthor_device.h
+> > > +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> > > @@ -84,9 +84,12 @@ struct panthor_irq {
+> > >  	/** @irq: IRQ number. */
+> > >  	int irq;
+> > >  
+> > > -	/** @mask: Current mask being applied to xxx_INT_MASK. */
+> > > +	/** @mask: Values to write to xxx_INT_MASK if active. */
+> > >  	u32 mask;
+> > >  
+> > > +	/** @mask_lock: protects modifications to _INT_MASK and @mask */
+> > > +	spinlock_t mask_lock;
+> > > +
+> > >  	/** @state: one of &enum panthor_irq_state reflecting the current state. */
+> > >  	atomic_t state;
+> > >  };
+> > > @@ -422,6 +425,8 @@ static irqreturn_t panthor_ ## __name ## _irq_raw_handler(int irq, void *data)
+> > >  	struct panthor_device *ptdev = pirq->ptdev;						\
+> > >  	enum panthor_irq_state state;								\
+> > >  												\
+> > > +	guard(spinlock_irqsave)(&pirq->mask_lock);						\  
+> > 
+> > That's me being old school, but I prefer to have a scoped_guard()
+> > around the INT_MASK write happening at the end to reflect exactly the
+> > data you're protecting against concurrent access. Unless mask_lock also
+> > covers the state changes, in which case the documentation should
+> > reflect that.
+> > 
+> > 
+> > Also, _irqsave() in an interrupt context is redundant, I think, but
+> > it's less of an issue, I guess.
+> >   
+> > > +												\
+> > >  	state = atomic_read(&pirq->state);							\
+> > >  	if (state == PANTHOR_IRQ_STATE_SUSPENDED || state == PANTHOR_IRQ_STATE_SUSPENDING)	\
+> > >  		return IRQ_NONE;								\
+> > > @@ -438,11 +443,16 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
+> > >  	struct panthor_device *ptdev = pirq->ptdev;						\
+> > >  	enum panthor_irq_state state;								\
+> > >  	irqreturn_t ret = IRQ_NONE;								\
+> > > +	u32 mask;										\
+> > >  												\
+> > > -	atomic_cmpxchg(&pirq->state, PANTHOR_IRQ_STATE_ACTIVE, PANTHOR_IRQ_STATE_PROCESSING);	\
+> > > +	scoped_guard(spinlock_irqsave, &pirq->mask_lock) {					\
+> > > +		mask = pirq->mask;								\
+> > > +		atomic_cmpxchg(&pirq->state, PANTHOR_IRQ_STATE_ACTIVE,				\
+> > > +			       PANTHOR_IRQ_STATE_PROCESSING);					\  
+> > 
+> > Okay, it seems like it's the <mask,state> pair the lock protects.
+> > There's probably a good reason which I'm missing, so it's probably
+> > worth adding a comment somewhere to explain the locking scheme.  
+> 
+> The reason why I try to do state changes inside the lock rather than
+> keeping the critical section to a minimum is that it reduces the number
+> of <mask,state> combinations that are visible to other code paths to
+> a minimum. If I didn't do it here for example, I'd have to deal with
+> the cognitive load of a situation where one thread is going through
+> _suspend, and I need to make sure that no matter the order the state
+> changes become visible to this thread, we don't misbehave.
+> 
+> I'm fairly sure that example would be okay in this case, but the
+> problem is more that I have to think about it at all. Doing a state
+> change within the lock means that we know we're not going to spin
+> at the lock after already proclaiming to the world that our state
+> changed. Similarly, doing it within the lock rather than after the
+> lock means that we won't get an inopportune interleave with something
+> else after modifying the mask and dropping the lock but before changing
+> the state atomic.
+> 
+> Saying that the lock protects the state atomic also isn't 100% true
+> because suspend writes to it outside the lock. It's allowed to do that
+> as a SUSPENDING->SUSPENDED transition that isn't mutually exclusive
+> with someone else doing mask related things is fine, as we're
+> already done with the mask by then, and nobody will mess with it
+> if we're SUSPENDING.
 
-This patch adds validation for the userptr blob creation:
-- Include VIRTGPU_BLOB_FLAG_USE_USERPTR and VIRTGPU_BLOB_FLAG_USERPTR_RDONLY
-  in VIRTGPU_BLOB_FLAG_USE_MASK.
-- Verify that a userptr is provided if and only if the
-  VIRTGPU_BLOB_FLAG_USE_USERPTR flag is set.
-- Pass the userptr address from the ioctl params to the internal structure.
-- Invoke virtio_gpu_userptr_create() when a userptr blob is requested.
+Okay, makes sense. Can we document that somewhere, maybe something like this
+added to the mask_lock doc?
 
-With this change, userspace can create userptr blob resources by setting
-the VIRTGPU_BLOB_FLAG_USE_USERPTR flag and providing a valid userptr address.
++       /**
++        * @mask_lock: protects modifications to _INT_MASK and @mask.
++        *
++        * In paths where _INT_MASK is updated based on a state
++        * transition/check it's crucial for the state update/check to be
++        * inside the locked section, otherwise it introduces a race window
++        * leading to potential _INT_MASK inconsistencies.
++        */
 
-Signed-off-by: Honglei Huang <Honglei1.Huang@amd.com>
----
- drivers/gpu/drm/virtio/virtgpu_ioctl.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index c33c05736..adaaf80b2 100644
---- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-@@ -36,7 +36,9 @@
- 
- #define VIRTGPU_BLOB_FLAG_USE_MASK (VIRTGPU_BLOB_FLAG_USE_MAPPABLE | \
- 				    VIRTGPU_BLOB_FLAG_USE_SHAREABLE | \
--				    VIRTGPU_BLOB_FLAG_USE_CROSS_DEVICE)
-+				    VIRTGPU_BLOB_FLAG_USE_CROSS_DEVICE | \
-+				    VIRTGPU_BLOB_FLAG_USE_USERPTR | \
-+				    VIRTGPU_BLOB_FLAG_USERPTR_RDONLY)
- 
- /* Must be called with &virtio_gpu_fpriv.struct_mutex held. */
- static void virtio_gpu_create_context_locked(struct virtio_gpu_device *vgdev,
-@@ -453,6 +455,17 @@ static int verify_blob(struct virtio_gpu_device *vgdev,
- 			return -EINVAL;
- 	}
- 
-+	if (rc_blob->blob_flags & VIRTGPU_BLOB_FLAG_USE_USERPTR) {
-+		if (!rc_blob->userptr)
-+			return -EINVAL;
-+	} else {
-+		if (rc_blob->userptr)
-+			return -EINVAL;
-+
-+		if (rc_blob->blob_flags & VIRTGPU_BLOB_FLAG_USERPTR_RDONLY)
-+			return -EINVAL;
-+	}
-+
- 	switch (rc_blob->blob_mem) {
- 	case VIRTGPU_BLOB_MEM_GUEST:
- 		*guest_blob = true;
-@@ -489,6 +502,7 @@ static int verify_blob(struct virtio_gpu_device *vgdev,
- 	params->size = rc_blob->size;
- 	params->blob = true;
- 	params->blob_flags = rc_blob->blob_flags;
-+	params->userptr = rc_blob->userptr;
- 	return 0;
- }
- 
-@@ -527,8 +541,10 @@ static int virtio_gpu_resource_create_blob_ioctl(struct drm_device *dev,
- 				      vfpriv->ctx_id, NULL, NULL);
- 	}
- 
--	if (guest_blob)
-+	if (guest_blob && !params.userptr)
- 		ret = virtio_gpu_object_create(vgdev, &params, &bo, NULL);
-+	else if (guest_blob && params.userptr)
-+		ret = virtio_gpu_userptr_create(vgdev, file, &params, &bo);
- 	else if (!guest_blob && host3d_blob)
- 		ret = virtio_gpu_vram_create(vgdev, &params, &bo);
- 	else
--- 
-2.34.1
+> 
+> > > +	}											\
+> > >  												\
+> > >  	while (true) {										\
+> > > -		u32 status = gpu_read(ptdev, __reg_prefix ## _INT_RAWSTAT) & pirq->mask;	\
+> > > +		u32 status = (gpu_read(ptdev, __reg_prefix ## _INT_RAWSTAT) & mask);		\
+> > >  												\
+> > >  		if (!status)									\
+> > >  			break;									\
+> > > @@ -451,10 +461,16 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
+> > >  		ret = IRQ_HANDLED;								\
+> > >  	}											\
+> > >  												\
+> > > -	state = atomic_read(&pirq->state);							\
+> > > -	if (state != PANTHOR_IRQ_STATE_SUSPENDED && state != PANTHOR_IRQ_STATE_SUSPENDING) {	\
+> > > -		gpu_write(ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
+> > > -		atomic_set(&pirq->state, PANTHOR_IRQ_STATE_ACTIVE);				\
+> > > +	scoped_guard(spinlock_irqsave, &pirq->mask_lock) {					\
+> > > +		state = atomic_read(&pirq->state);						\
+> > > +		if (state != PANTHOR_IRQ_STATE_SUSPENDED &&					\
+> > > +		    state != PANTHOR_IRQ_STATE_SUSPENDING) {					\
+> > > +			/* Only restore the bits that were used and are still enabled */	\
+> > > +			gpu_write(ptdev, __reg_prefix ## _INT_MASK,				\
+> > > +				  gpu_read(ptdev, __reg_prefix ## _INT_MASK) |			\
+> > > +				  (mask & pirq->mask));						\
+> > > +			atomic_set(&pirq->state, PANTHOR_IRQ_STATE_ACTIVE);			\
+> > > +		}										\
+> > >  	}											\
+> > >  												\
+> > >  	return ret;										\
+> > > @@ -462,19 +478,21 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
+> > >  												\
+> > >  static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)			\
+> > >  {												\
+> > > -	pirq->mask = 0;										\
+> > > -	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);					\
+> > > -	atomic_set(&pirq->state, PANTHOR_IRQ_STATE_SUSPENDING);					\
+> > > +	scoped_guard(spinlock_irqsave, &pirq->mask_lock) {					\
+> > > +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);				\
+> > > +		atomic_set(&pirq->state, PANTHOR_IRQ_STATE_SUSPENDING);				\
+> > > +	}											\
+> > >  	synchronize_irq(pirq->irq);								\
+> > >  	atomic_set(&pirq->state, PANTHOR_IRQ_STATE_SUSPENDED);					\
+> > >  }												\
+> > >  												\
+> > > -static inline void panthor_ ## __name ## _irq_resume(struct panthor_irq *pirq, u32 mask)	\
+> > > +static inline void panthor_ ## __name ## _irq_resume(struct panthor_irq *pirq)			\
+> > >  {												\
+> > > -	pirq->mask = mask;									\
+> > > +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
+> > > +												\
+> > >  	atomic_set(&pirq->state, PANTHOR_IRQ_STATE_ACTIVE);					\
+> > > -	gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, mask);				\
+> > > -	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, mask);				\
+> > > +	gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, pirq->mask);				\
+> > > +	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, pirq->mask);				\
+> > >  }												\
+> > >  												\
+> > >  static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
+> > > @@ -483,13 +501,39 @@ static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
+> > >  {												\
+> > >  	pirq->ptdev = ptdev;									\
+> > >  	pirq->irq = irq;									\
+> > > -	panthor_ ## __name ## _irq_resume(pirq, mask);						\
+> > > +	pirq->mask = mask;									\
+> > > +	spin_lock_init(&pirq->mask_lock);							\
+> > > +	panthor_ ## __name ## _irq_resume(pirq);						\
+> > >  												\
+> > >  	return devm_request_threaded_irq(ptdev->base.dev, irq,					\
+> > >  					 panthor_ ## __name ## _irq_raw_handler,		\
+> > >  					 panthor_ ## __name ## _irq_threaded_handler,		\
+> > >  					 IRQF_SHARED, KBUILD_MODNAME "-" # __name,		\
+> > >  					 pirq);							\
+> > > +}												\
+> > > +												\
+> > > +static inline void panthor_ ## __name ## _irq_enable_events(struct panthor_irq *pirq, u32 mask)	\
+> > > +{												\
+> > > +	enum panthor_irq_state state;								\
+> > > +												\
+> > > +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
+> > > +												\
+> > > +	state = atomic_read(&pirq->state);							\
+> > > +	pirq->mask |= mask;									\
+> > > +	if (state != PANTHOR_IRQ_STATE_SUSPENDED || state != PANTHOR_IRQ_STATE_SUSPENDING)	\
+> > > +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
+
+
+Hm, I don't see a situation where _INT_MASK should be written when
+the state is not PANTHOR_IRQ_STATE_ACTIVE. If I'm correct, we can
+probably go for something like this:
+
+	/* The only situation where we need to write the new mask is if the IRQ is active.      \
+         * If it's being processed, the mask will be restored for us in _irq_threaded_handler() \
+         * on the PROCESSING -> ACTIVE transition.                                              \
+         * If the IRQ is suspended/suspending, the mask is restored at resume time.             \
+         */                                                                                     \
+        if (atomic_read(&pirq->state) == PANTHOR_IRQ_STATE_ACTIVE)                              \
+                gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, pirq->mask);                  \
+
+
+
+> > > +}												\
+> > > +												\
+> > > +static inline void panthor_ ## __name ## _irq_disable_events(struct panthor_irq *pirq, u32 mask)\
+> > > +{												\
+> > > +	enum panthor_irq_state state;								\
+> > > +												\
+> > > +	guard(spinlock_irqsave)(&pirq->mask_lock);						\
+> > > +												\
+> > > +	state = atomic_read(&pirq->state);							\
+> > > +	pirq->mask &= ~mask;									\
+> > > +	if (state != PANTHOR_IRQ_STATE_SUSPENDED || state != PANTHOR_IRQ_STATE_SUSPENDING)	\
+> > > +		gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
+> > >  }
+> > >  
+> > >  extern struct workqueue_struct *panthor_cleanup_wq;
+> > > diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> > > index a64ec8756bed..0e46625f7621 100644
+> > > --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> > > +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> > > @@ -1080,7 +1080,8 @@ static int panthor_fw_start(struct panthor_device *ptdev)
+> > >  	bool timedout = false;
+> > >  
+> > >  	ptdev->fw->booted = false;
+> > > -	panthor_job_irq_resume(&ptdev->fw->irq, ~0);
+> > > +	panthor_job_irq_enable_events(&ptdev->fw->irq, ~0);  
+> > 
+> > We don't change the mask after initialization AFAICT, so I'm not sure
+> > this _enable_events() is needed.  
+> 
+> The mask is initialized to 0. I think I can drop this, as long as it's
+> fine that the mask bits are enabled as soon as the IRQ is requested,
+> since the IRQ request helper resumes it.
+
+Ah right. We should keep the panthor_job_irq_enable_events() here, my bad.
+
+> 
+> > > +	panthor_job_irq_resume(&ptdev->fw->irq);
+> > >  	gpu_write(ptdev, MCU_CONTROL, MCU_CONTROL_AUTO);
+> > >  
+> > >  	if (!wait_event_timeout(ptdev->fw->req_waitqueue,
+> > > diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> > > index 057e167468d0..9304469a711a 100644
+> > > --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> > > +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> > > @@ -395,7 +395,7 @@ void panthor_gpu_suspend(struct panthor_device *ptdev)
+> > >   */
+> > >  void panthor_gpu_resume(struct panthor_device *ptdev)
+> > >  {
+> > > -	panthor_gpu_irq_resume(&ptdev->gpu->irq, GPU_INTERRUPTS_MASK);
+> > > +	panthor_gpu_irq_resume(&ptdev->gpu->irq);
+> > >  	panthor_hw_l2_power_on(ptdev);
+> > >  }
+> > >  
+> > > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > > index 198d59f42578..a1b7917a31b1 100644
+> > > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> > > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > > @@ -562,9 +562,21 @@ static u64 pack_region_range(struct panthor_device *ptdev, u64 *region_start, u6
+> > >  	return region_width | *region_start;
+> > >  }
+> > >  
+> > > +static u32 panthor_mmu_as_fault_mask(struct panthor_device *ptdev, u32 as)
+> > > +{
+> > > +	return BIT(as);
+> > > +}
+> > > +
+> > > +/* Forward declaration to call helpers within as_enable/disable */
+> > > +static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status);
+> > > +PANTHOR_IRQ_HANDLER(mmu, MMU, panthor_mmu_irq_handler);
+> > > +
+> > >  static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
+> > >  				 u64 transtab, u64 transcfg, u64 memattr)
+> > >  {
+> > > +	panthor_mmu_irq_enable_events(&ptdev->mmu->irq,
+> > > +				       panthor_mmu_as_fault_mask(ptdev, as_nr));
+> > > +
+> > >  	gpu_write64(ptdev, AS_TRANSTAB(as_nr), transtab);
+> > >  	gpu_write64(ptdev, AS_MEMATTR(as_nr), memattr);
+> > >  	gpu_write64(ptdev, AS_TRANSCFG(as_nr), transcfg);
+> > > @@ -580,6 +592,9 @@ static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr,
+> > >  
+> > >  	lockdep_assert_held(&ptdev->mmu->as.slots_lock);
+> > >  
+> > > +	panthor_mmu_irq_disable_events(&ptdev->mmu->irq,
+> > > +				       panthor_mmu_as_fault_mask(ptdev, as_nr));  
+> > 
+> > I'd move that at the end, when everything else in this function
+> > succeeded.  
+> 
+> That would be a functional change from what the behaviour was prior to
+> moving disable_events into as_disable.
+
+Fair enough. The rational here was that we would disable fault events
+before even knowing if the disable-AS operation passed, but I guess
+this sort of situation will lead to a GPU reset, and that's also the
+order we're doing it right now, so I guess we're good.
+
+> 
+> >   
+> > > +
+> > >  	/* Flush+invalidate RW caches, invalidate RO ones. */
+> > >  	ret = panthor_gpu_flush_caches(ptdev, CACHE_CLEAN | CACHE_INV,
+> > >  				       CACHE_CLEAN | CACHE_INV, CACHE_INV);
+> > > @@ -612,11 +627,6 @@ static u32 panthor_mmu_fault_mask(struct panthor_device *ptdev, u32 value)
+> > >  	return value & GENMASK(15, 0);
+> > >  }
+> > >  
+> > > -static u32 panthor_mmu_as_fault_mask(struct panthor_device *ptdev, u32 as)
+> > > -{
+> > > -	return BIT(as);
+> > > -}
+> > > -
+> > >  /**
+> > >   * panthor_vm_has_unhandled_faults() - Check if a VM has unhandled faults
+> > >   * @vm: VM to check.
+> > > @@ -670,6 +680,7 @@ int panthor_vm_active(struct panthor_vm *vm)
+> > >  	struct io_pgtable_cfg *cfg = &io_pgtable_ops_to_pgtable(vm->pgtbl_ops)->cfg;
+> > >  	int ret = 0, as, cookie;
+> > >  	u64 transtab, transcfg;
+> > > +	u32 fault_mask;
+> > >  
+> > >  	if (!drm_dev_enter(&ptdev->base, &cookie))
+> > >  		return -ENODEV;
+> > > @@ -743,14 +754,13 @@ int panthor_vm_active(struct panthor_vm *vm)
+> > >  	/* If the VM is re-activated, we clear the fault. */
+> > >  	vm->unhandled_fault = false;
+> > >  
+> > > -	/* Unhandled pagefault on this AS, clear the fault and re-enable interrupts
+> > > -	 * before enabling the AS.
+> > > +	/* Unhandled pagefault on this AS, clear the fault and enable the AS,
+> > > +	 * which re-enables interrupts.
+> > >  	 */
+> > > -	if (ptdev->mmu->as.faulty_mask & panthor_mmu_as_fault_mask(ptdev, as)) {
+> > > -		gpu_write(ptdev, MMU_INT_CLEAR, panthor_mmu_as_fault_mask(ptdev, as));
+> > > -		ptdev->mmu->as.faulty_mask &= ~panthor_mmu_as_fault_mask(ptdev, as);
+> > > -		ptdev->mmu->irq.mask |= panthor_mmu_as_fault_mask(ptdev, as);
+> > > -		gpu_write(ptdev, MMU_INT_MASK, ~ptdev->mmu->as.faulty_mask);
+> > > +	fault_mask = panthor_mmu_as_fault_mask(ptdev, as);
+> > > +	if (ptdev->mmu->as.faulty_mask & fault_mask) {
+> > > +		gpu_write(ptdev, MMU_INT_CLEAR, fault_mask);
+> > > +		ptdev->mmu->as.faulty_mask &= ~fault_mask;
+> > >  	}
+> > >  
+> > >  	/* The VM update is guarded by ::op_lock, which we take at the beginning
+> > > @@ -1698,7 +1708,6 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+> > >  	while (status) {
+> > >  		u32 as = ffs(status | (status >> 16)) - 1;
+> > >  		u32 mask = panthor_mmu_as_fault_mask(ptdev, as);
+> > > -		u32 new_int_mask;
+> > >  		u64 addr;
+> > >  		u32 fault_status;
+> > >  		u32 exception_type;
+> > > @@ -1716,8 +1725,6 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+> > >  		mutex_lock(&ptdev->mmu->as.slots_lock);
+> > >  
+> > >  		ptdev->mmu->as.faulty_mask |= mask;
+> > > -		new_int_mask =
+> > > -			panthor_mmu_fault_mask(ptdev, ~ptdev->mmu->as.faulty_mask);
+> > >  
+> > >  		/* terminal fault, print info about the fault */
+> > >  		drm_err(&ptdev->base,
+> > > @@ -1741,11 +1748,6 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+> > >  		 */
+> > >  		gpu_write(ptdev, MMU_INT_CLEAR, mask);
+> > >  
+> > > -		/* Ignore MMU interrupts on this AS until it's been
+> > > -		 * re-enabled.
+> > > -		 */
+> > > -		ptdev->mmu->irq.mask = new_int_mask;
+> > > -  
+> > 
+> > I guess we need a _diable_events(mask) to replace this.  
+> 
+> Nope! It lives in as_disable now, which is called a bit further down
+> (outside of the patch context window.
+
+Indeed, sorry for the noise.
+
+> Maybe I should play with b4's
+> settings to ensure the end of functions is visible in the context).
+
+Nah, now that I know it's there, that's fine.
+
+> 
+> > >  		if (ptdev->mmu->as.slots[as].vm)
+> > >  			ptdev->mmu->as.slots[as].vm->unhandled_fault = true;
+> > >  
+> > > @@ -1760,7 +1762,6 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+> > >  	if (has_unhandled_faults)
+> > >  		panthor_sched_report_mmu_fault(ptdev);
+> > >  }
+> > > -PANTHOR_IRQ_HANDLER(mmu, MMU, panthor_mmu_irq_handler);
+> > >  
+> > >  /**
+> > >   * panthor_mmu_suspend() - Suspend the MMU logic
+> > > @@ -1805,7 +1806,7 @@ void panthor_mmu_resume(struct panthor_device *ptdev)
+> > >  	ptdev->mmu->as.faulty_mask = 0;
+> > >  	mutex_unlock(&ptdev->mmu->as.slots_lock);
+> > >  
+> > > -	panthor_mmu_irq_resume(&ptdev->mmu->irq, panthor_mmu_fault_mask(ptdev, ~0));
+> > > +	panthor_mmu_irq_resume(&ptdev->mmu->irq);
+> > >  }
+> > >  
+> > >  /**
+> > > @@ -1859,7 +1860,7 @@ void panthor_mmu_post_reset(struct panthor_device *ptdev)
+> > >  
+> > >  	mutex_unlock(&ptdev->mmu->as.slots_lock);
+> > >  
+> > > -	panthor_mmu_irq_resume(&ptdev->mmu->irq, panthor_mmu_fault_mask(ptdev, ~0));
+> > > +	panthor_mmu_irq_resume(&ptdev->mmu->irq);
+> > >  
+> > >  	/* Restart the VM_BIND queues. */
+> > >  	mutex_lock(&ptdev->mmu->vm.lock);
+> > > diff --git a/drivers/gpu/drm/panthor/panthor_pwr.c b/drivers/gpu/drm/panthor/panthor_pwr.c
+> > > index 57cfc7ce715b..ed3b2b4479ca 100644
+> > > --- a/drivers/gpu/drm/panthor/panthor_pwr.c
+> > > +++ b/drivers/gpu/drm/panthor/panthor_pwr.c
+> > > @@ -545,5 +545,5 @@ void panthor_pwr_resume(struct panthor_device *ptdev)
+> > >  	if (!ptdev->pwr)
+> > >  		return;
+> > >  
+> > > -	panthor_pwr_irq_resume(&ptdev->pwr->irq, PWR_INTERRUPTS_MASK);
+> > > +	panthor_pwr_irq_resume(&ptdev->pwr->irq);
+> > >  }
+> > >   
+> > 
+> >   
+> 
+> 
+> 
+> 
 
