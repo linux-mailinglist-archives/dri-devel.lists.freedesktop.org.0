@@ -2,152 +2,207 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D86D2DAAC
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 09:05:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A954D2D10D
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 08:19:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDF1010E818;
-	Fri, 16 Jan 2026 08:05:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8613A10E805;
+	Fri, 16 Jan 2026 07:19:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=de.bosch.com header.i=@de.bosch.com header.b="GuD55PPX";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="uNvmxQFB";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="SSOCvrIf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from MRWPR03CU001.outbound.protection.outlook.com
- (mail-francesouthazon11011049.outbound.protection.outlook.com
- [40.107.130.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CAE310E804
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 07:10:56 +0000 (UTC)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D132D10E805
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 07:19:25 +0000 (UTC)
+X-UUID: ae1fba14f2ab11f0942a039f3f28ce95-20260116
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=DHe0zufxCGrfS+gsl5JaTKa+K+OqmLF5j8iERP6ljsg=; 
+ b=uNvmxQFBanUZLop4/NC25EwXBYQyAf5YHh1PqZajeg/92aQPMK/LNIKJBKeqrMWkrg3Eqkp/Pu9wdqcFHnieWMOdtKHVt+1ojHPh3Dk0frcJJ4tMB3GQ9pGrNZmUmCxzcDXVU+At82jbBsb1UPSAM7B0yv+f+2N+LbHffw6YFrI=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.9, REQID:c31038d3-0c67-4c43-a0db-69c92004fab4, IP:0,
+ UR
+ L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+ elease,TS:0
+X-CID-META: VersionHash:5047765, CLOUDID:13f4db79-8c8a-4fc4-88c0-3556e7711556,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|888|898,
+ TC:-5,Content:0|15|50,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BE
+ C:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: ae1fba14f2ab11f0942a039f3f28ce95-20260116
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 749386208; Fri, 16 Jan 2026 15:19:22 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Fri, 16 Jan 2026 15:19:21 +0800
+Received: from SI4PR04CU001.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server id
+ 15.2.2562.29 via Frontend Transport; Fri, 16 Jan 2026 15:19:21 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GFcgN+8OFIDdnkzZ7wQzwjlts06STN4veXPKTiW0lvpxY8tuS0TToXHld5+sn6+LpfTGCO2kNstBGOTJrbl9v3Vic4ij2bJVY0uFJmp2R8aygsKt3Zfb9rrnKJmF0JnLG9y45L66/Qp9B8E2iNoN/Jf2LrlBd2Lt9AaqeQDCfr5pZigFtITLiTVwOAthd1vST0ihAacKPqbonnp5ihjYd/1t95qtCeDmBxY1BkqzWc3NHpJx6z9BInXITJELSWaiaE0S7lh38FQ9Qfg3njoItFIvrLQLycRvpRcmpC8K32LzMIrN8ts8H2DoCakbiDvxWkagENwddJ8QWXK3z8Bhhg==
+ b=eG1J7lI0t3llPrFGeogm7nmrHER408MBBAVSiNgi3ySVU6V6hdO2frxLDXWZhuH00ep8hbSMh+krLyYMJNrSQeAOX7KElo9aSxfq7Ac5a7P5Xa++yIOOW1yLn7YMEZwsJIb3abUmlzqsd2TbEp++yVHFTiiQRqeDE7q5OhJPi0ToV2Wek8oBi6qFRpZK3q7K1VFOVY5Iiao3t3+AwQFTbEUMKRFBxzHJyP+ziQFoswtKfMS0u6WVBERFA9lBof/xhNDphzMDR69bPgNe9jZ6Q8WEuVUbPivCFgqkDSOcyrs9Vzauo1/uriczH+q6IUhPumC1KL2th2otxdwtKKzk4A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d2h2LZlfN7vjkZboDsVIJWl6KLggmhxwSPVWEU8NPpI=;
- b=X0sBJiMkpjLfKryKro97kCxQNNv+BLpnylbKpEG5Ldpk1G7Qe0o8Bjq93ZWbeVwghZPIcWbbh8pFhUyprtSdJD7Jt77sKzPVnGwXadysoE0BqaGvE+3bgNiY9qllVikYkGYLwdwl3YkUneyXxSKrkacf6YR8+2CCOixmwmwn4kZg3G3VVOGIKlrxemQnB0XHIqJAuz7ssrzjCkBeOuLwsRYO+t9Wix46yL/AZpjHrCtvYiNeHqi6WLrAamwPeQHBzRdfZZAgMfMna+0rl20/QIWjGXl/DZdNYOAwwXvcr9nIE5nyabJXZGVuQpcNAkpny37q9j9eNIrDqjV208jj4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 139.15.153.205) smtp.rcpttodomain=gmail.com smtp.mailfrom=de.bosch.com;
- dmarc=pass (p=reject sp=none pct=100) action=none header.from=de.bosch.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=de.bosch.com;
- s=selector2;
+ bh=qBGC9jtM0lgsiPD40PIUr/ZiPV8bfnFGIrnAK0oYcrM=;
+ b=IuwLKfH77+PaPNzk/Ll3BPakfPMJREqsAbZyCPGTwxTRarBpm1ff0EwxXSAEeoqCRmXinUEey0Let1jc27nvxVx2YysW8Q6CiJ0R7Zi3ATiMtqeJOM5TYih2OW/RRg9/xURaYrwMx9KGwdhcH1gZG7wv2699a6cx1hzPqIgLfXcnUbfFScE4wZ6pkT0AmmeVPxwvdOjti1+AGm5UAgIgdyWXJErfB5EbHXLgwdmHP/MqP9XQNSTLdAI+Pm+bZ0q8FwmVbg7CWmo4uVq86ccVrMqUx8m0x98bs8eibim9I0mOTAXvwFJWsOgSjanH2Xvj3i3K1Qa0WriJ76wzjAEZXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d2h2LZlfN7vjkZboDsVIJWl6KLggmhxwSPVWEU8NPpI=;
- b=GuD55PPXC0fYSjQRYo+p9lmgpTMvEQ6IeblZBAnfWQBChsZMCI7SGNrRDcObpPUepA+A3EmrDNNZ0POINCZ+BHxs0I8XZtLRps6j44KhgEU1B+kNIzAXtcY2CUGVT+W5+4dBrhHGdwW8NVRM0GqkdUgW5RzNpf3t2juPgeKo4DGw/Siw7mdtJIKjFCgilmTUfLOkqNPpxpeTQ899vMpcRyc2fPsayqTlNiK2dEuqCh/Y0HQLNyArUuZRVE9TEtA/e/KzG3mBZnKGFZH5vDr5/1jDPx9WZzFGCoouKcibSK0isYfq67p/mDs0bJsjIZNbKJeBIqq1K+qOnl6bVRECTg==
-Received: from AM8P191CA0021.EURP191.PROD.OUTLOOK.COM (2603:10a6:20b:21a::26)
- by GVXPR10MB8358.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:1e7::15)
+ bh=qBGC9jtM0lgsiPD40PIUr/ZiPV8bfnFGIrnAK0oYcrM=;
+ b=SSOCvrIfeW+OBZYpxPQbSufC7JararZswBorIRjtzxgy8mzbLCmsANVCuEyEaUmIQiLe4/uF9yYStQaPNUY2iej7ssjV+p43A000icW8dAJrAiFrNC6KnJwLExE3VZcqgSLzcaQasnrIFsFyc7N3m5l2Mvfy6lFfV9ecZ8uPSuE=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by KL1PR03MB8493.apcprd03.prod.outlook.com (2603:1096:820:13b::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Fri, 16 Jan
- 2026 07:10:51 +0000
-Received: from AMS0EPF000001A0.eurprd05.prod.outlook.com
- (2603:10a6:20b:21a:cafe::dd) by AM8P191CA0021.outlook.office365.com
- (2603:10a6:20b:21a::26) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.7 via Frontend Transport; Fri,
- 16 Jan 2026 07:10:48 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 139.15.153.205)
- smtp.mailfrom=de.bosch.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=de.bosch.com;
-Received-SPF: Pass (protection.outlook.com: domain of de.bosch.com designates
- 139.15.153.205 as permitted sender)
- receiver=protection.outlook.com; 
- client-ip=139.15.153.205; helo=eop.bosch-org.com; pr=C
-Received: from eop.bosch-org.com (139.15.153.205) by
- AMS0EPF000001A0.mail.protection.outlook.com (10.167.16.230) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9542.4 via Frontend Transport; Fri, 16 Jan 2026 07:10:50 +0000
-Received: from RNGMBX3002.de.bosch.com (10.124.11.207) by eop.bosch-org.com
- (139.15.153.205) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.35; Fri, 16 Jan
- 2026 08:10:43 +0100
-Received: from [10.34.219.93] (10.34.219.93) by smtp.app.bosch.com
- (10.124.11.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.35; Fri, 16 Jan
- 2026 08:10:42 +0100
-Message-ID: <fdc39008-ba4a-4170-b7ce-cca2deda5652@de.bosch.com>
-Date: Fri, 16 Jan 2026 08:10:42 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] rust/drm: tyr: Convert to the register!() macro
-To: Dirk Behme <dirk.behme@gmail.com>, Daniel Almeida
- <daniel.almeida@collabora.com>, Danilo Krummrich <dakr@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Benno Lossin
- <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross
- <tmgross@umich.edu>, Steven Price <steven.price@arm.com>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>
-References: <20260114-tyr-register-v1-1-7deb1b33627a@collabora.com>
- <f7ff8b11-b1a5-4537-9227-e42a3a40aa96@gmail.com>
-Content-Language: en-GB
-From: Dirk Behme <dirk.behme@de.bosch.com>
-In-Reply-To: <f7ff8b11-b1a5-4537-9227-e42a3a40aa96@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.34.219.93]
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS0EPF000001A0:EE_|GVXPR10MB8358:EE_
-X-MS-Office365-Filtering-Correlation-Id: 462a294f-c5c1-4092-1ac1-08de54ce6187
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|82310400026|1800799024|36860700013|13003099007|921020;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UGpkR1hMUnFtdTFWVUwrVk5TOGYwd1NnakIrZWFWYmU2QzYxenNuM3A5OGQx?=
- =?utf-8?B?c2RHcDQ3b0U2S3FnUVRwa1FodVU5M2Z3SDJEdjl0RlQyT1QvbGJyUTJ3eEFq?=
- =?utf-8?B?WGowdXYvYkJPdXlVR0JxdnBvSnorbWVZN3NiY0FTUE9kM1VNVlhRTUJ3dU12?=
- =?utf-8?B?Zm9MeVNxL2t1T2thNjFWS1hGZGNnaDZ2ckZNakp5S2IzRTZQZ2g3Q0pubVNw?=
- =?utf-8?B?VVg4MVNrcE5Pb08wNmNSRThtL01wOVdTQ29UbjF5RmltUVhhU0xMRVFGRlJk?=
- =?utf-8?B?SE1BdWZXK2cvRXdDMHM3Qkx4Um9OZGQwOUt3MGxFYXhxeHR6WVFJV25VWmdW?=
- =?utf-8?B?UXQxUUFicDBSNzVRYlROYzZzbkZuTUw5LzBLNmgydzc4emtsdEd3eDZXK1Nn?=
- =?utf-8?B?Z1ZPdlpyeW5nVStpZW1Sa25jeHFIRE10TWt2cjRJNWc0eXNXbGcvcTROdzZQ?=
- =?utf-8?B?VGxhWVRCdERJZTJxaFdXc3k4RVRaUjVhaWJRR0F4R1JIRlIxSUhwTVB6U0oy?=
- =?utf-8?B?V3NQYnRuWlNJWmJ4a20yOUxaaWxNTyt5citxZUtYM0lLajAyS0MvZUI1bmZh?=
- =?utf-8?B?Mzh1OUlvVHhvRGptcWVadWM1NjJ0dENnd3RxMHBMQloxeE0vdFZnVmRCYnpU?=
- =?utf-8?B?VDJwSGFtVEJhODN2aGdBM0FVeUxWLzhlYWVDRXVHUVljbEIyU00rRi9LUWY4?=
- =?utf-8?B?WktDbU9wMW5uNHVXdzFON3RUdUlsQ0xZdUlXVnhrWW13dTE0U0VONVFNVjdo?=
- =?utf-8?B?bFNaaDQvQ2hhaDZTNjRPSklDZGZDQ0hMSUU1NmhmYTRWeEdZdXBiVXFRQkhi?=
- =?utf-8?B?Q2t6UzUrWTJDYVVkWlU1L2JWLzhXOEZiYzhBWDJiQWlORThETnZDQ2RBZXFz?=
- =?utf-8?B?c3F3NVcrNHZtdG1XUFFaMTZRb0tNd1p3UjlDWjZTU3FCNHhNM0k0YjdIaDIv?=
- =?utf-8?B?b0tVRGg0MFlhTDdXUklpWGE1QVpIUnhVV0JzMjdVaS92L1hPd25iZDB0MTZR?=
- =?utf-8?B?YmduRmR4VGVsakUxSDUrRk56QzVqd3E5dkY5dVYwcjdmS2d4aklENWVwc3l5?=
- =?utf-8?B?d0Z6THZrekpjOWtTWFVOb1FIa3ZVMU05dHdqVVJvTnMwdHFDOXoyT1laUHE2?=
- =?utf-8?B?Q0hIbCs2V0pyZldwN3VNWnhyN0dSWXp4MVJyUzh6eXhQajIzcXRGL1pxMXY2?=
- =?utf-8?B?azRQVVBKcE84eSszR2xTQmxMTnQyN3NtNDRRS3BIaDFSZ045clJxR1kvWFVn?=
- =?utf-8?B?Vy92Rm1kcndIaEpPenJNeHZubUpMYjFDRTNiLzVnN2tKdjd5NGhBQjIrNldY?=
- =?utf-8?B?NW9OdVNzTFIvaGpFS3A0aWJVTDBwT0d5cHV0OWw2RU9abDFRanlscU81cnhF?=
- =?utf-8?B?TW9EWFo1ZE9nWjcvYmllNnBCVGhGdGgxSmkyOURYTGlTVVZtUjQvZkExcFNR?=
- =?utf-8?B?RUVPZlY0eGtSVmcyVDRhdGpSa0w0bEswRDI2M1VOa0FNREtxRmJ1N29pSmlq?=
- =?utf-8?B?d2Z6dmg1RURqSFZNVENwM00rRzVaMWkxNTNRV1I1S1Q2VDZrV29TL3JTeHoz?=
- =?utf-8?B?MUJjTkV5OCs2cWJLazA4anRyTGVuWkFkTmdWd0JLdktlZUU2MThDRXJnNUww?=
- =?utf-8?B?ZGkyMTJycUg2U0lxZVpWZ0ZUMnFmMHNBQlNPVDYxRmE4TGcyVlc1T1Fic2NJ?=
- =?utf-8?B?RGRaamtpVWlreitjWFpScEZKS0tEZmhNbld1SU1aTlBGLzl5S3VTS3l3Y1pK?=
- =?utf-8?B?dWVLZnp3ck51enZLRjN4TE1ud1dFSUlQcThGdFNXeDI5NDI0OVUxbEFYQTZo?=
- =?utf-8?B?bk1yMUFuWFI3WDROMGxTbUVuK1E2MDJ1bG41VkFuNEtQOUxoR2lnZ0Z4azU1?=
- =?utf-8?B?TkErUGhqNXNhVi9pR21pYjh1R2RKS3ltMzMweFNUcGh3WklYTXFjc3pQdkN0?=
- =?utf-8?B?R2M3dXlTMXFYVjdpcWVxUDNOYkpneEJkN2xFMitxWDFzUnBzdDVrRmMwcmFo?=
- =?utf-8?B?S1JOSDBvbFkxQXZCcXNsREpZeTAzdmc1VzdvT2tVT29lbWllaWNPQzVKQ3NX?=
- =?utf-8?B?UTFqUDc1THYxNEZsUXhndDlObkdlMm1OWDJoTWphekhZK1ZyZFFSdmM4K2tP?=
- =?utf-8?B?RlJGM2NlMlBsODMrSitsS0habnNraWJLTUV4OWxqTzNBak9zaUpRNHVGdHlq?=
- =?utf-8?B?cllmMXhlYTYzZm1Zd1JLZ3NwUG1EeUFHTU1odTFEVXQ3RDQwQVhXN0VaNDJt?=
- =?utf-8?Q?mYIduM9uCVt6rQytJ1eXem3kYShyJu/9PZY3ci0L2Y=3D?=
-X-Forefront-Antispam-Report: CIP:139.15.153.205; CTRY:DE; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:eop.bosch-org.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(82310400026)(1800799024)(36860700013)(13003099007)(921020);
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.6; Fri, 16 Jan
+ 2026 07:19:17 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::a3c2:b94a:70f:e640]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::a3c2:b94a:70f:e640%5]) with mapi id 15.20.9520.005; Fri, 16 Jan 2026
+ 07:19:17 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+CC: "tzimmermann@suse.de" <tzimmermann@suse.de>, "simona@ffwll.ch"
+ <simona@ffwll.ch>, "javierm@redhat.com" <javierm@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "airlied@gmail.com" <airlied@gmail.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "p.zabel@pengutronix.de"
+ <p.zabel@pengutronix.de>, "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "kernel@collabora.com" <kernel@collabora.com>
+Subject: Re: [PATCH] drm/mediatek: mtk_gem: Partial refactor and use
+ drm_gem_dma_object
+Thread-Topic: [PATCH] drm/mediatek: mtk_gem: Partial refactor and use
+ drm_gem_dma_object
+Thread-Index: AQHcUuhzKVhJ9741T0OwRTdnWBccnrVUywcA
+Date: Fri, 16 Jan 2026 07:19:17 +0000
+Message-ID: <46eccd39845cd516f243912981610d78f9b2d7a2.camel@mediatek.com>
+References: <20251111085114.9752-1-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20251111085114.9752-1-angelogioacchino.delregno@collabora.com>
+Accept-Language: zh-TW, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.52.3-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|KL1PR03MB8493:EE_
+x-ms-office365-filtering-correlation-id: 5c13642a-cbab-43a3-11f4-08de54cf8f6d
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|376014|7416014|366016|42112799006|1800799024|38070700021; 
+x-microsoft-antispam-message-info: =?utf-8?B?WjJYMlprVXViODRkbndKZTZIUStKcFhyOXh6YTVMZkZlWjZIeVdqSFBOdXIv?=
+ =?utf-8?B?cEZTemtoa1VadnorTlFJbUpDUURZck41VUlUVFdPZDhCRjZxUEJIbTNWTW90?=
+ =?utf-8?B?b3RZd3ZBOXdqbEZyNmZld0ZQVUxORG92eHpUKzdVTHZHSitURFRNb2pSRHJJ?=
+ =?utf-8?B?cWFLK29sM0h2bnNaSlBUTkFpS09aVmgvOU9wZUZnbG9kMW9mVEd5dHZvM1N5?=
+ =?utf-8?B?RHBHZlpGakdPUDA3QkNvMHU2TmE5U1VWdTJpcENzKzJnY0xpdlFST0h2d3VQ?=
+ =?utf-8?B?d0ZQajkvSDZkMytsNGJRZTluc1I5czhhbytwSEdleXVlMjJIN29NV3FWNFJy?=
+ =?utf-8?B?Q1EzaUd6OVkwUTZIODhVcmw1djh2U0k1NGN1WmFwZEtrNzl2bU5CeXdRUDFz?=
+ =?utf-8?B?R3BuTWdrKzZoTkswdjlEaWFYZ1k0N2F4SUlnQnQ3aWlxYzBrUngwZXh6R2dV?=
+ =?utf-8?B?MXhOc21sQW1yMVUxNllIQUVrV0U5d3hCN3AvcVVPM1pVM1pod1QzM1AvZXZI?=
+ =?utf-8?B?L0VocWk0M0RhR2d2SkRmRGVrZDdkNU9PTC9KTUdieHc5N0t5UEY3Ty9aZ2ZV?=
+ =?utf-8?B?RjJXcEl5bDhLOUg1N0V4RXU5amd6UFlJL3pqU1IvUDR0ck9VZUZaWUJaWFlY?=
+ =?utf-8?B?cWhFelNUWGd3NnhVUlhoWktiR09paDR5MU84dHJBbzFCQUp0Y0Z5VGI3bEtY?=
+ =?utf-8?B?ZDdQQ0xXSW0xQjZwOFAwUGI4L0hhUkxyaWF4ZUZHT0VocXBxSmJ3eDF6QnI2?=
+ =?utf-8?B?WCs4RUsrb2FNT0pIUWpDS1lKRFI3S1A0Q1RSVHpIenlYejVXM2ZWYWNHMFJs?=
+ =?utf-8?B?RWgrOFFDSGtHcWdPekc4MTZhanRrNmFkUHdGYjBqakFLU1dSRHk5aC9lRTdk?=
+ =?utf-8?B?bmdrK2JNNklkYnVydFpBWlJOQmp4SHR2NkRMR1lObDNHYjNoZGYvaCthSjNu?=
+ =?utf-8?B?cm1heXU1S2FYUmY1UzV4b3djdG4xT2lkV29DWERiUFZ5NFQ2SXYwQ2JOUVRv?=
+ =?utf-8?B?c2oya0p1YUFmcUp1SHUvN1NoWHo2YWYvS1pKc3d1SkFnd1pNN1lUWmFoWmhr?=
+ =?utf-8?B?UVN0cTNLWEIxTmNOQnY5WDVLN1Y1R0JkSEw5eUphWEE3TzhoZ0VjMkZjeVpv?=
+ =?utf-8?B?WDJxb0g0RHRPR010K0hZSDhaeWRMdmxsWTJJQXIvQzVtb0lUTCtsdTVKeTJn?=
+ =?utf-8?B?ZGJWeStrdE8zTituRTNvQXhxQVR4S29GTTJOQ2pMUHJLblRNYUYvdjlqWU1n?=
+ =?utf-8?B?azdITHdWU01kcnptanBuVzhOVjBQTkJudW9HQzIwMEExdFdYNCtPa1lYcTlz?=
+ =?utf-8?B?ZWlDVTl0Y01OUGJvQ1pvbGpQOUliRlJ0eDF3SWo5WkxNa01yM1Z0WmErMy9q?=
+ =?utf-8?B?eFFDcm5oeVUwZi93TjFWRnlQSG1ERzhFYVJQWDE0cnRYQUFQMEJQbzlEbXha?=
+ =?utf-8?B?ZlgrM2JWREJIOUFua0tFZXZQZjdHWDVRMHlhRW1pVDNYanVYcVZNZzlCQnBG?=
+ =?utf-8?B?UU4raXFJWVZpcll3WnhVVEttUW5KQlc3N0NwY2FVRkJUbURCVHp0ZjY2Mm0y?=
+ =?utf-8?B?c2dDUGc3SmowdGI0NDZZSkN5TEdRRXBzRnUxZnBSYUczNGoyRmFXaStNbmhP?=
+ =?utf-8?B?Z2FHbmE2Z1Q2cW5kRTNqbzZuSFVTZHFLUjB5bU50UU1yc0d0bm1PSjJDMy8v?=
+ =?utf-8?B?aEtFV3NhcHpoNFdzWFhkWXZZV0V3QUVuS0JoeXdHQ0VZcFlvRC9YN0drcGhL?=
+ =?utf-8?B?KzNWT3FFZ0lyRDhDczJEejBneVJwMFJwbWxQYjEyUXJaQXZHZTZwLzhqU1Vx?=
+ =?utf-8?B?T24rZm1KRFhNUW01b1VFRGlWUHd3Z0ZQTGNZYm1oOU1lTGJwTXRhQ2kxM1h5?=
+ =?utf-8?B?MWZtOWZuQy9QVys1bFFOUWZlY1RBYlpyaEd3cENLNktGTU1PY3RDUUFLOVlx?=
+ =?utf-8?B?MnhtNS8yTmJNeUF1eTU4VlNhZHcxczlMYXB2czdMejNYSEdsR01BMUo3VFlo?=
+ =?utf-8?B?YTNLVUcxVmtyMjIwY1RBSHdrcmEwRTV3d0VkU3lwWU1kdG0rS3JiZWs0K2sy?=
+ =?utf-8?B?cVloNzdObWxxSU1SS0F1U3VzaThQSi9jK2MvTmpBYm9McUsralhGTzFFcHV6?=
+ =?utf-8?B?bXJpUVZNdnZDRDlySmVTdEVDVkJiaDRoRERzTHlIb2krNE5LQVE5L0Ewak5D?=
+ =?utf-8?Q?sN5FpYiVLMo9SHZmLAY+axA=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(42112799006)(1800799024)(38070700021);
  DIR:OUT; SFP:1101; 
-X-OriginatorOrg: de.bosch.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 07:10:50.8619 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 462a294f-c5c1-4092-1ac1-08de54ce6187
-X-MS-Exchange-CrossTenant-Id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0ae51e19-07c8-4e4b-bb6d-648ee58410f4; Ip=[139.15.153.205];
- Helo=[eop.bosch-org.com]
-X-MS-Exchange-CrossTenant-AuthSource: AMS0EPF000001A0.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR10MB8358
-X-Mailman-Approved-At: Fri, 16 Jan 2026 08:05:22 +0000
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R05nT0FoY0dHWlVwRWtHQldJMFVyZ3ZaZjR0VHRkSFpwWUhqTkdMZ3ZPbkRv?=
+ =?utf-8?B?cWV6STArdFFGNHBhU1BZUGpGTngwcFFvNzRGSTltWkdMVTZqWWI1WVdkNEF1?=
+ =?utf-8?B?ZjIwK3FsMWNhTDJNL05KVHI2M1NPVFhqT1N5alRoYlhHL2o3bE13Qy8xaXRk?=
+ =?utf-8?B?UWRwdzRTeXdHalFacnZKZ1A1aGt2M0V0cFZoUk1JR2dJM0ZuUWM5dVdBQ2dO?=
+ =?utf-8?B?WXN1VGpIV0RvbUlzK3pEbElEV25QeWhwdVNlU2t5U3J5RlRsMXVBdVVqMEJ1?=
+ =?utf-8?B?YVRLUGtwdkc2aG9VeFhMTUhscDZhVGhWMVJFTXlFcTliK0JVK3VxYlpSSVhP?=
+ =?utf-8?B?cy9UOUJsY3o4TFlyUWgvcGdaREdFeHk5TDlYU213NUFkMitRNG9EbHhZYUc3?=
+ =?utf-8?B?VHRhM0R4ZHUweVNCWGFQZlFwSE9tTUpoT0l2dFdiMUg1TDJpM1UxeVFWWFhM?=
+ =?utf-8?B?QXZXWERGQ241RVNhamIyS2ppN2t4TEdNdVBiUFZrL3lEUU5Xa29xR2Y2bmVT?=
+ =?utf-8?B?RENLMFdGTElTY1Biam1uK3YzWVpwbk9mM3FQV1ZGNW1ubE4zaWZGV2JQREs5?=
+ =?utf-8?B?cWk5ODhTdHRqODl0YWVRc1BWR29oUzZjZDJwZVZqWGVVY1lTbUg0UE5SU1Vl?=
+ =?utf-8?B?K1lZRzY0T2wzdUYwZHVpMmRZbW9VM2M0N2ROTElvbTFyWTNvblBYdElmMFQr?=
+ =?utf-8?B?dEpiYjdocG1Ba3J4RzNnUk5USko4ZzBXNUI4Vzg5V3dMcE9CVWpOczd5NGFU?=
+ =?utf-8?B?SU1nYnJETmQ4aGhPb2RETTNUL25jeHRJL1dDOGh4dC8wa1VJZlkwc2lBbkhl?=
+ =?utf-8?B?MEE3bm5wOFlIeWlDQjVkK1pHNWp4NDczQ1lrY1FQNFpiRFJITW1UWFBwOVVS?=
+ =?utf-8?B?Y1QyZDVhV3M5ZEZvSnYwK0xGSStkM1ExZnp4TmdUL3gwZVE4aU4veThnbUd3?=
+ =?utf-8?B?VmhvVTZlU3puUzJyTWVLSVF5SmFNeWxPSWRiTjkya0dmR0EzMVRwS0lFQUs2?=
+ =?utf-8?B?V0hHc212S01KNjc4aUVScm9vazg4Y0xjTC9FamVKeXl6Nks5VmpBVDJDZkNt?=
+ =?utf-8?B?WFNmeCtnSE9xdlAvS0lBNGJ0Wm1jdEpPajhEODl5TEpsazB2WW1QTnNabjJE?=
+ =?utf-8?B?YlhxaXBBME8yU0p1Q3U3TnBvWitzSjd1YXVib2NEcHFsUGdxamE2YytEOEhE?=
+ =?utf-8?B?V0tHcytxeGlHYjFPUS94U08zOVdVN1VXRnF2RHFIdDQxNDRBM3FaOWE0MFk5?=
+ =?utf-8?B?VU1FN3hXUzhLOVdRWGNtSVczUjlYek5lSUZTMHNnR09YUUpWTTJaWHRsc3BJ?=
+ =?utf-8?B?K3NYY3NMcXJiSXJ6Mk4xUkRhdEh2N0N2aUxtZGc5bGJyTFcySTBuMTQ2bVZt?=
+ =?utf-8?B?YnczcGJtaUQrZy9ZU21PbE0zTXdubXdRKytxYzVPQ1pIRTVkU1pHTkJTWEpO?=
+ =?utf-8?B?RStIcWZ0TG10RHJxR1VIcnJEb0FiSDBqdUJUWjNxZFlWaE5PNU5vSTVCUmtw?=
+ =?utf-8?B?NzNLdnFsNkdFckhJNkdyWWFCSG1pOW5tcTJhWXdtMUhISThiNks0Nnc5TUxU?=
+ =?utf-8?B?QzR3UHVzOHEyYnZJRVhxVzJ6SXI1eDdHMGFqMU1SQ0JPSDRhTWVHT3VQd2pO?=
+ =?utf-8?B?ZktBc0Y0RWNBckZFU1RLZTJ1VndIV0FNbVcyelhYTzFJeHc0cjc3VXY4VXZG?=
+ =?utf-8?B?OGorTXhJQTNoc2JmbndBZVVOTUNiOC9wc2hFZTZacG1kM1AxQkF6b0p1K3pP?=
+ =?utf-8?B?TWV1WHJkb1NtUjZtS3M1cHBuNVRKcUczR0tSS0dwU1V1bEJnY0p2dnNJWUY1?=
+ =?utf-8?B?RlBSMTVvancwaUtMOWZFMW91L1EvTzRuZ2lOdGpiem01VlV1Rm5jZ3l2emVJ?=
+ =?utf-8?B?Ukw1YXMzSWcrUEEzYzhXTTMybEVwR21FRjVaYksxTC9GaDVDQmF4YmN2ZVNR?=
+ =?utf-8?B?SklUdkhmM1ZwQVhaejBRT0pPN240dVczRmcwazNiMXd1YzFETnltWVE2ZFZy?=
+ =?utf-8?B?SFRPTmlVNnhiUDIwY1Q3WS9aWjN5eGM1ZWZjaVppb3B2L3dmV0FTbEY4UEFS?=
+ =?utf-8?B?OGlXQUxCVVYwUzd1ZWIrTUdCa1VyMmVmREdsMURzWXhWLzV0WGhBd1JmczB3?=
+ =?utf-8?B?Smh0N2pWOGJIS1gxb3BMaC8wd2VDcms0MGw2MHgxd2Y0UXpjdUcwUWk5SVF2?=
+ =?utf-8?B?a0gzUU5vcTl0bmpPVEtvdkRlWEMwN0VrVUZ2OElwYnN1cFpkaWNGR3YxeFRj?=
+ =?utf-8?B?VlYvaSs4am9ISlJIOXN1NDFZTk4rT1Y0MFp4aFlyNHpwc2hsSTFzaG9KY1lK?=
+ =?utf-8?B?WHhRbTIxcElaMWJkZTBHUmxwNUppcG5pdFhvQ1hOUGZEaURRemd4Zz09?=
+Content-ID: <0F2E842C88EE5A4AB6B600DE2FE0F298@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c13642a-cbab-43a3-11f4-08de54cf8f6d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jan 2026 07:19:17.4317 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SkQSg/DLknhANIIiDBGtstYNHSxO1AeShYPEyR8ftM9gE10hi3CnCJ9iO9+EFI3yc+9K9VQnBh2LAIH2X9q4KQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR03MB8493
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_009_1114313631.1763421044"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,487 +218,208 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/01/2026 18:05, Dirk Behme wrote:
-> Hi Daniel,
-> 
-> On 14.01.26 23:53, Daniel Almeida wrote:
->> Replace regs::Register with kernel::register. This allow us to more
->> succinctly express the register set by introducing the ability to describe
->> fields and their documentation and to auto-generate the accessors. In
->> particular, this is very helpful as it does away with a lot of manual masks
->> and shifts.
-> 
-> 
-> As mentioned somewhere else already I really like switching to
-> register!(). Thanks!
-> 
-> Some coments below:
-> 
-> 
->> A future commit will eliminate HI/LO pairs once there is support for 64bit
->> reads and writes in kernel::register.
->>
->> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
->> ---
->> Note that this patch depends on a rebased version of Joel's patch at [0].
->>
->> That version is stale, so I ended up rebasing it locally myself for the
->> purpose of developing this patch and gathering some reviews on the list. In
->> other words, the current patch does not apply for the time being, but will
->> once a v7 for Joel's series is out.
->>
->> [0]: https://lore.kernel.org/rust-for-linux/20251003154748.1687160-1-joelagnelf@nvidia.com/
->> ---
->>   drivers/gpu/drm/tyr/driver.rs |  15 ++-
->>   drivers/gpu/drm/tyr/gpu.rs    |  55 ++++----
->>   drivers/gpu/drm/tyr/regs.rs   | 302 ++++++++++++++++++++++++++++++++----------
->>   3 files changed, 267 insertions(+), 105 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
->> index 0389c558c036..8e06db5320bf 100644
->> --- a/drivers/gpu/drm/tyr/driver.rs
->> +++ b/drivers/gpu/drm/tyr/driver.rs
->> @@ -66,19 +66,20 @@ unsafe impl Send for TyrData {}
->>   unsafe impl Sync for TyrData {}
->>   
->>   fn issue_soft_reset(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result {
->> -    regs::GPU_CMD.write(dev, iomem, regs::GPU_CMD_SOFT_RESET)?;
->> +    let io = iomem.access(dev)?;
->> +
->> +    regs::GpuCommand::default()
->> +        .set_command(regs::GPU_CMD_SOFT_RESET)
->> +        .write(io);
->>   
->>       // TODO: We cannot poll, as there is no support in Rust currently, so we
->>       // sleep. Change this when read_poll_timeout() is implemented in Rust.
->>       kernel::time::delay::fsleep(time::Delta::from_millis(100));
->>   
->> -    if regs::GPU_IRQ_RAWSTAT.read(dev, iomem)? & regs::GPU_IRQ_RAWSTAT_RESET_COMPLETED == 0 {
->> +    let rawstat = regs::GpuIrqRawstat::read(io);
->> +    if !rawstat.reset_completed() {
->>           dev_err!(dev, "GPU reset failed with errno\n");
->> -        dev_err!(
->> -            dev,
->> -            "GPU_INT_RAWSTAT is {}\n",
->> -            regs::GPU_IRQ_RAWSTAT.read(dev, iomem)?
->> -        );
->> +        dev_err!(dev, "GPU_INT_RAWSTAT is {}\n", u32::from(rawstat));
-> 
-> 
-> This is pre-existing, but printing `... INT ...` for `...IRQ...`
-> register looks confusing (wrong?).
-> 
-> 
->>           return Err(EIO);
->>       }
->> diff --git a/drivers/gpu/drm/tyr/gpu.rs b/drivers/gpu/drm/tyr/gpu.rs
->> index 6c582910dd5d..7c698fb1e36a 100644
->> --- a/drivers/gpu/drm/tyr/gpu.rs
->> +++ b/drivers/gpu/drm/tyr/gpu.rs
->> @@ -44,34 +44,36 @@ pub(crate) struct GpuInfo {
->>   
->>   impl GpuInfo {
->>       pub(crate) fn new(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result<Self> {
->> -        let gpu_id = regs::GPU_ID.read(dev, iomem)?;
->> -        let csf_id = regs::GPU_CSF_ID.read(dev, iomem)?;
->> -        let gpu_rev = regs::GPU_REVID.read(dev, iomem)?;
->> -        let core_features = regs::GPU_CORE_FEATURES.read(dev, iomem)?;
->> -        let l2_features = regs::GPU_L2_FEATURES.read(dev, iomem)?;
->> -        let tiler_features = regs::GPU_TILER_FEATURES.read(dev, iomem)?;
->> -        let mem_features = regs::GPU_MEM_FEATURES.read(dev, iomem)?;
->> -        let mmu_features = regs::GPU_MMU_FEATURES.read(dev, iomem)?;
->> -        let thread_features = regs::GPU_THREAD_FEATURES.read(dev, iomem)?;
->> -        let max_threads = regs::GPU_THREAD_MAX_THREADS.read(dev, iomem)?;
->> -        let thread_max_workgroup_size = regs::GPU_THREAD_MAX_WORKGROUP_SIZE.read(dev, iomem)?;
->> -        let thread_max_barrier_size = regs::GPU_THREAD_MAX_BARRIER_SIZE.read(dev, iomem)?;
->> -        let coherency_features = regs::GPU_COHERENCY_FEATURES.read(dev, iomem)?;
->> -
->> -        let texture_features = regs::GPU_TEXTURE_FEATURES0.read(dev, iomem)?;
->> -
->> -        let as_present = regs::GPU_AS_PRESENT.read(dev, iomem)?;
->> -
->> -        let shader_present = u64::from(regs::GPU_SHADER_PRESENT_LO.read(dev, iomem)?);
->> +        let io = (*iomem).access(dev)?;
->> +
->> +        let gpu_id = regs::GpuId::read(io).into();
->> +        let csf_id = regs::CsfId::read(io).into();
->> +        let gpu_rev = regs::RevIdr::read(io).into();
->> +        let core_features = regs::CoreFeatures::read(io).into();
->> +        let l2_features = regs::L2Features::read(io).into();
->> +        let tiler_features = regs::TilerFeatures::read(io).into();
->> +        let mem_features = regs::MemFeatures::read(io).into();
->> +        let mmu_features = regs::MmuFeatures::read(io).into();
->> +        let thread_features = regs::ThreadFeatures::read(io).into();
->> +        let max_threads = regs::ThreadMaxThreads::read(io).into();
->> +        let thread_max_workgroup_size = regs::ThreadMaxWorkgroupSize::read(io).into();
->> +        let thread_max_barrier_size = regs::ThreadMaxBarrierSize::read(io).into();
->> +        let coherency_features = regs::CoherencyFeatures::read(io).into();
-> 
-> 
-> Is there any reason why you replace the UPPERCASE register names with
-> CamelCase ones?
-> 
-> I was under the impression that we want to use UPPERCASE for register
-> names. Like in nova
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/nova-core/regs.rs
-> 
-> 
-> 
->> +        let texture_features = regs::TextureFeatures::read(io, 0).into();
->> +
->> +        let as_present = regs::AsPresent::read(io).into();
->> +
->> +        let shader_present = u64::from(u32::from(regs::ShaderPresentLo::read(io)));
->>           let shader_present =
->> -            shader_present | u64::from(regs::GPU_SHADER_PRESENT_HI.read(dev, iomem)?) << 32;
->> +            shader_present | u64::from(u32::from(regs::ShaderPresentHi::read(io))) << 32;
->>   
->> -        let tiler_present = u64::from(regs::GPU_TILER_PRESENT_LO.read(dev, iomem)?);
->> +        let tiler_present = u64::from(u32::from(regs::TilerPresentLo::read(io)));
->>           let tiler_present =
->> -            tiler_present | u64::from(regs::GPU_TILER_PRESENT_HI.read(dev, iomem)?) << 32;
->> +            tiler_present | u64::from(u32::from(regs::TilerPresentHi::read(io))) << 32;
->>   
->> -        let l2_present = u64::from(regs::GPU_L2_PRESENT_LO.read(dev, iomem)?);
->> -        let l2_present = l2_present | u64::from(regs::GPU_L2_PRESENT_HI.read(dev, iomem)?) << 32;
->> +        let l2_present = u64::from(u32::from(regs::L2PresentLo::read(io)));
->> +        let l2_present = l2_present | u64::from(u32::from(regs::L2PresentHi::read(io))) << 32;
->>   
->>           Ok(Self {
->>               gpu_id,
->> @@ -204,13 +206,14 @@ fn from(value: u32) -> Self {
->>   
->>   /// Powers on the l2 block.
->>   pub(crate) fn l2_power_on(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result {
->> -    regs::L2_PWRON_LO.write(dev, iomem, 1)?;
->> +    let io = (*iomem).access(dev)?;
->> +    regs::L2PwrOnLo::default().set_l2_pwron_lo(1).write(io);
->>   
->>       // TODO: We cannot poll, as there is no support in Rust currently, so we
->>       // sleep. Change this when read_poll_timeout() is implemented in Rust.
->>       kernel::time::delay::fsleep(time::Delta::from_millis(100));
->>   
->> -    if regs::L2_READY_LO.read(dev, iomem)? != 1 {
->> +    if regs::L2ReadyLo::read(io).l2_ready_lo() != 1 {
->>           dev_err!(dev, "Failed to power on the GPU\n");
->>           return Err(EIO);
->>       }
->> diff --git a/drivers/gpu/drm/tyr/regs.rs b/drivers/gpu/drm/tyr/regs.rs
->> index f46933aaa221..a4e05ff463c0 100644
->> --- a/drivers/gpu/drm/tyr/regs.rs
->> +++ b/drivers/gpu/drm/tyr/regs.rs
->> @@ -8,44 +8,62 @@
->>   #![allow(dead_code)]
->>   
->>   use kernel::bits::bit_u32;
->> -use kernel::device::Bound;
->> -use kernel::device::Device;
->> -use kernel::devres::Devres;
->>   use kernel::prelude::*;
->> +use kernel::register;
->>   
->> -use crate::driver::IoMem;
->> -
->> -/// Represents a register in the Register Set
->> -///
->> -/// TODO: Replace this with the Nova `register!()` macro when it is available.
->> -/// In particular, this will automatically give us 64bit register reads and
->> -/// writes.
->> -pub(crate) struct Register<const OFFSET: usize>;
->> -
->> -impl<const OFFSET: usize> Register<OFFSET> {
->> -    #[inline]
->> -    pub(crate) fn read(&self, dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result<u32> {
->> -        let value = (*iomem).access(dev)?.read32(OFFSET);
->> -        Ok(value)
->> -    }
->> -
->> -    #[inline]
->> -    pub(crate) fn write(&self, dev: &Device<Bound>, iomem: &Devres<IoMem>, value: u32) -> Result {
->> -        (*iomem).access(dev)?.write32(value, OFFSET);
->> -        Ok(())
->> -    }
->> -}
->> -
->> -pub(crate) const GPU_ID: Register<0x0> = Register;
->> -pub(crate) const GPU_L2_FEATURES: Register<0x4> = Register;
->> -pub(crate) const GPU_CORE_FEATURES: Register<0x8> = Register;
->> -pub(crate) const GPU_CSF_ID: Register<0x1c> = Register;
->> -pub(crate) const GPU_REVID: Register<0x280> = Register;
->> -pub(crate) const GPU_TILER_FEATURES: Register<0xc> = Register;
->> -pub(crate) const GPU_MEM_FEATURES: Register<0x10> = Register;
->> -pub(crate) const GPU_MMU_FEATURES: Register<0x14> = Register;
->> -pub(crate) const GPU_AS_PRESENT: Register<0x18> = Register;
->> -pub(crate) const GPU_IRQ_RAWSTAT: Register<0x20> = Register;
->> +register!(GpuId @ 0x0, "Information about the GPU architecture and release version" {
->> +    3:0     version_status as u32, "Status of the GPU release";
->> +    11:4    version_minor as u32, "Minor release version number";
->> +    15:12   version_major as u32, "Major release version number";
->> +    19:16   product_major as u32, "Product identifier";
->> +    23:20   arch_rev as u32, "Architecture patch revision";
->> +    27:24   arch_minor as u32, "Architecture minor revision";
->> +    31:28   arch_major as u32, "Architecture major revision";
->> +});
->> +
->> +register!(L2Features @ 0x4, "Level 2 cache features" {
->> +    7:0     line_size as u32, "L2 cache line size";
->> +    15:8    associativity as u32, "L2 cache associativity";
->> +    23:16   cache_size as u32, "L2 cache slice size";
->> +    31:24   bus_width as u32, "L2 cache bus width";
->> +});
->> +
->> +register!(CoreFeatures @ 0x8, "Information about the features of a shader core" {
->> +    7:0     core_variant as u32, "Shader core variant";
->> +});
->> +
->> +register!(CsfId @ 0x1c, "Version of the CSF hardware and MMU subsystem" {
->> +    3:0     mcu_rev as u32, "MCU revision ID";
->> +    9:4     mcu_minor as u32, "MCU minor revision number";
->> +    15:10   mcu_major as u32, "MCU major revision number";
->> +    19:16   cshw_rev as u32, "CSHW revision ID";
->> +    25:20   cshw_minor as u32, "CSHW minor revision number";
->> +    31:26   cshw_major as u32, "CSHW major revision number";
->> +});
->> +
->> +register!(RevIdr @ 0x280, "Extra revision information" {
->> +    31:0    revision as u32, "Revision information";
->> +});
->> +
->> +register!(TilerFeatures @ 0xc, "Tiler features" {
->> +    5:0     bin_size as u32, "Log of the tiler's bin size";
->> +    11:8    max_levels as u32, "Maximum number of available levels";
->> +});
->> +
->> +register!(MemFeatures @ 0x10, "Memory features" {
->> +    0:0     coherent_core_group as bool, "Core group is coherent";
->> +    1:1     coherent_super_group as bool, "Core supergroup is coherent";
->> +    11:8    l2_slices as u32, "L2 slice count";
->> +});
->> +
->> +register!(MmuFeatures @ 0x14, "MMU features" {
->> +    7:0     va_bits as u32, "Number of bits supported in virtual addresses";
->> +    15:8    pa_bits as u32, "Number of bits supported in physical addresses";
->> +});
->> +
->> +register!(AsPresent @ 0x18, "Address spaces present" {
->> +    31:0    as_present as u32, "Bitmask of present address spaces";
->> +});
->>   
->>   pub(crate) const GPU_IRQ_RAWSTAT_FAULT: u32 = bit_u32(0);
->>   pub(crate) const GPU_IRQ_RAWSTAT_PROTECTED_FAULT: u32 = bit_u32(1);
->> @@ -56,53 +74,193 @@ pub(crate) fn write(&self, dev: &Device<Bound>, iomem: &Devres<IoMem>, value: u3
->>   pub(crate) const GPU_IRQ_RAWSTAT_DOORBELL_STATUS: u32 = bit_u32(18);
->>   pub(crate) const GPU_IRQ_RAWSTAT_MCU_STATUS: u32 = bit_u32(19);
->>   
->> -pub(crate) const GPU_IRQ_CLEAR: Register<0x24> = Register;
->> -pub(crate) const GPU_IRQ_MASK: Register<0x28> = Register;
->> -pub(crate) const GPU_IRQ_STAT: Register<0x2c> = Register;
->> -pub(crate) const GPU_CMD: Register<0x30> = Register;
->> +register!(GpuIrqRawstat @ 0x20, "Raw unmasked interrupt status for the GPU" {
->> +    0:0     fault as bool, "A GPU fault has occourred";
->> +    1:1     protected_fault as bool, "Indicates a protected memory fault has occurred";
->> +    8:8     reset_completed as bool, "Indicates that a GPU reset has completed";
->> +    9:9     power_changed_single as bool, "Set when a single power domain has powered up or down";
->> +    10:10   power_changed_all as bool, "Set when all pending power domain changes are completed ";
->> +    17:17   clean_caches_completed as bool, "Indicates that a cache clean operation has completed";
->> +    18:18   doorbell_status as bool, "Mirrors the doorbell interrupt line to the CPU";
->> +    19:19   mcu_status as bool, "The MCU requires attention";
->> +});
->> +
->> +register!(GpuIrqClear @ 0x24, "Clears pending GPU interrupts" {
->> +    0:0     fault as bool, "Clear the fault interrupt";
->> +    1:1     protected_fault as bool, "Clear the protected_fault interrupt";
->> +    8:8     reset_completed as bool, "Clear the reset_completed interrupt";
->> +    9:9     power_changed_single as bool, "Clear the power_changed_single interrupt";
->> +    10:10   power_changed_all as bool, "Clear the power_changed_all interrupt";
->> +    17:17   clean_caches_completed as bool, "Clear the clean_caches_completed interrupt";
->> +    18:18   doorbell_status as bool, "Clear the doorbell_status interrupt";
->> +    19:19   mcu_status as bool, "Clear the mcu_status interrupt";
->> +});
->> +
->> +register!(GpuIrqMask @ 0x28, "Enabled GPU interrupts" {
->> +    0:0     fault as bool, "Enable the fault interrupt";
->> +    1:1     protected_fault as bool, "Enable the protected_fault interrupt";
->> +    8:8     reset_completed as bool, "Enable the reset_completed interrupt";
->> +    9:9     power_changed_single as bool, "Enable the power_changed_single interrupt";
->> +    10:10   power_changed_all as bool, "Enable the power_changed_all interrupt";
->> +    17:17   clean_caches_completed as bool, "Enable the clean_caches_completed interrupt";
->> +    18:18   doorbell_status as bool, "Enable the doorbell_status interrupt";
->> +    19:19   mcu_status as bool, "Enable the mcu_status interrupt";
->> +});
->> +
->> +register!(GpuIrqStatus @ 0x2c, "Masked GPU interrupt status" {
->> +    0:0     fault as bool, "The fault interrupt is pending";
->> +    1:1     protected_fault as bool, "The protected_fault interrupt is pending";
->> +    8:8     reset_completed as bool, "The reset_completed interrupt is pending";
->> +    9:9     power_changed_single as bool, "The power_changed_single interrupt is pending";
->> +    10:10   power_changed_all as bool, "The power_changed_all interrupt is pending";
->> +    17:17   clean_caches_completed as bool, "The clean_caches_completed interrupt is pending";
->> +    18:18   doorbell_status as bool, "The doorbell_status interrupt is pending";
->> +    19:19   mcu_status as bool, "The mcu_status interrupt is pending";
->> +});
->> +
->>   pub(crate) const GPU_CMD_SOFT_RESET: u32 = 1 | (1 << 8);
->>   pub(crate) const GPU_CMD_HARD_RESET: u32 = 1 | (2 << 8);
->> -pub(crate) const GPU_THREAD_FEATURES: Register<0xac> = Register;
->> -pub(crate) const GPU_THREAD_MAX_THREADS: Register<0xa0> = Register;
->> -pub(crate) const GPU_THREAD_MAX_WORKGROUP_SIZE: Register<0xa4> = Register;
->> -pub(crate) const GPU_THREAD_MAX_BARRIER_SIZE: Register<0xa8> = Register;
->> -pub(crate) const GPU_TEXTURE_FEATURES0: Register<0xb0> = Register;
->> -pub(crate) const GPU_SHADER_PRESENT_LO: Register<0x100> = Register;
->> -pub(crate) const GPU_SHADER_PRESENT_HI: Register<0x104> = Register;
->> -pub(crate) const GPU_TILER_PRESENT_LO: Register<0x110> = Register;
->> -pub(crate) const GPU_TILER_PRESENT_HI: Register<0x114> = Register;
->> -pub(crate) const GPU_L2_PRESENT_LO: Register<0x120> = Register;
->> -pub(crate) const GPU_L2_PRESENT_HI: Register<0x124> = Register;
->> -pub(crate) const L2_READY_LO: Register<0x160> = Register;
->> -pub(crate) const L2_READY_HI: Register<0x164> = Register;
->> -pub(crate) const L2_PWRON_LO: Register<0x1a0> = Register;
->> -pub(crate) const L2_PWRON_HI: Register<0x1a4> = Register;
->> -pub(crate) const L2_PWRTRANS_LO: Register<0x220> = Register;
->> -pub(crate) const L2_PWRTRANS_HI: Register<0x204> = Register;
->> -pub(crate) const L2_PWRACTIVE_LO: Register<0x260> = Register;
->> -pub(crate) const L2_PWRACTIVE_HI: Register<0x264> = Register;
->> -
->> -pub(crate) const MCU_CONTROL: Register<0x700> = Register;
->> +
->> +register!(GpuCommand @ 0x30, "GPU command register" {
->> +    7:0     command as u32, "GPU-specific command to execute";
->> +    31:8    payload as u32, "Payload for the command";
->> +});
->> +
->> +register!(ThreadFeatures @ 0xac, "Thread features of the GPU's threading system" {
->> +    21:0    max_registers as u32, "Total number of registers per core";
->> +    23:22   implementation_technology as u32;
->> +    31:24   max_task_queue as u32, "Maximum number of compute tasks waiting";
->> +
->> +});
->> +
->> +register!(ThreadMaxThreads @ 0xa0, "Maximum number of threads per core" {
->> +    31:0    max_threads as u32, "Maximum number of threads per core";
->> +});
->> +
->> +register!(ThreadMaxWorkgroupSize @ 0xa4, "Maximum number of threads per workgroup" {
->> +    31:0    max_workgroup_size as u32, "Maximum number of threads per workgroup";
->> +});
->> +
->> +register!(ThreadMaxBarrierSize @ 0xa8, "Maximum number of threads per barrier" {
->> +    31:0    max_barrier_size as u32, "Maximum number of threads per barrier";
->> +});
->> +
->> +register!(TextureFeatures @ 0xb0 [4], "Bitmap of supported texture formats" {});
->> +
->> +register!(ShaderPresentLo @ 0x100, "Bitmap of shader cores present in the hardware (lower 32 bits)" {
->> +    31:0    shader_present_lo as u32, "Bitmap of shader cores present in the hardware (lower 32 bits)";
->> +});
->> +
->> +register!(ShaderPresentHi @ 0x104, "Bitmap of shader cores present in the hardware (higher 32 bits)" {
->> +    31:0    shader_present_hi as u32, "Bitmap of shader cores present in the hardware (higher 32 bits)";
->> +});
->> +
->> +register!(TilerPresentLo @ 0x110, "Bitmap of tiler cores present in the hardware (lower 32 bits)" {
->> +    31:0    tiler_present_lo as u32, "Bitmap of tiler cores present in the hardware (lower 32 bits)";
->> +});
->> +
->> +register!(TilerPresentHi @ 0x114, "Bitmap of tiler cores present in the hardware (higher 32 bits)" {
->> +    31:0    tiler_present_hi as u32, "Bitmap of tiler cores present in the hardware (higher 32 bits)";
->> +});
->> +
->> +register!(L2PresentLo @ 0x120, "Bitmap of L2 caches present in the hardware (lower 32 bits)" {
->> +    31:0    l2_present_lo as u32, "Bitmap of L2 caches present in the hardware (lower 32 bits)";
->> +});
->> +
->> +register!(L2PresentHi @ 0x124, "Bitmap of L2 caches present in the hardware (higher 32 bits)" {
->> +    31:0    l2_present_hi as u32, "Bitmap of L2 caches present in the hardware (higher 32 bits)";
->> +});
->> +
->> +register!(L2ReadyLo @ 0x160, "Bitmap of L2 caches ready (lower 32 bits)" {
->> +    31:0    l2_ready_lo as u32, "Bitmap of L2 caches ready (lower 32 bits)";
->> +});
->> +
->> +register!(L2ReadyHi @ 0x164, "Bitmap of L2 caches ready (higher 32 bits)" {
->> +    31:0    l2_ready_hi as u32, "Bitmap of L2 caches ready (higher 32 bits)";
->> +});
->> +
->> +register!(L2PwrOnLo @ 0x1a0, "Bitmap of L2 caches power on requests (lower 32 bits)" {
->> +    31:0    l2_pwron_lo as u32, "Bitmap of L2 caches power on requests (lower 32 bits)";
->> +});
->> +
->> +register!(L2PwrOnHi @ 0x1a4, "Bitmap of L2 caches power on requests (higher 32 bits)" {
->> +    31:0    l2_pwron_hi as u32, "Bitmap of L2 caches power on requests (higher 32 bits)";
->> +});
->> +
->> +register!(L2PwrTransLo @ 0x200, "Bitmap of L2 caches in power transition (lower 32 bits)" {
->> +    31:0    l2_pwrtrans_lo as u32, "Bitmap of L2 caches in power transition (lower 32 bits)";
->> +});
->> +
->> +register!(L2PwrTransHi @ 0x204, "Bitmap of L2 caches in power transition (higher 32 bits)" {
->> +    31:0    l2_pwrtrans_hi as u32, "Bitmap of L2 caches in power transition (higher 32 bits)";
->> +});
->> +
->> +register!(L2PowerActiveLo @ 0x260, "Bitmap of L2 caches active (lower 32 bits)" {
->> +    31:0    l2_pwractive_lo as u32, "Bitmap of L2 caches active (lower 32 bits)";
->> +});
->> +
->> +register!(L2PowerActiveHi @ 0x264, "Bitmap of L2 caches active (higher 32 bits)" {
->> +    31:0    l2_pwractive_hi as u32, "Bitmap of L2 caches active (higher 32 bits)";
->> +});
->> +
->>   pub(crate) const MCU_CONTROL_ENABLE: u32 = 1;
->>   pub(crate) const MCU_CONTROL_AUTO: u32 = 2;
->>   pub(crate) const MCU_CONTROL_DISABLE: u32 = 0;
->>   
->> -pub(crate) const MCU_STATUS: Register<0x704> = Register;
->> +register!(McuControl @ 0x700, "Controls the execution state of the MCU subsystem" {
->> +    1:0     req as u32, "Request state change";
->> +});
-> 
-> 
-> Any reason why req is a u32 and not a u8? Same for some other places.
-> 
-> And would it be an option to move the const MCU_CONTROL* to an ìmpl
-> McuControl Same for STATUS below.
+--__=_Part_Boundary_009_1114313631.1763421044
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Just fyi something like [1] builds for me.
+SGksIEFuZ2VsbzoNCg0KT24gVHVlLCAyMDI1LTExLTExIGF0IDA5OjUxICswMTAwLCBBbmdlbG9H
+aW9hY2NoaW5vIERlbCBSZWdubyB3cm90ZToNCj4gRXh0ZXJuYWwgZW1haWwgOiBQbGVhc2UgZG8g
+bm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW50aWwgeW91IGhhdmUgdmVyaWZp
+ZWQgdGhlIHNlbmRlciBvciB0aGUgY29udGVudC4NCj4gDQo+IA0KPiBQYXJ0aWFsbHkgcmVmYWN0
+b3IgbXRrX2dlbSB0byBzdG9wIHVzaW5nIChhbmQgcmVtb3ZlKSB0aGUgdW5uZWVkZWQNCj4gY3Vz
+dG9tIG10a19nZW1fb2JqIHN0cnVjdHVyZSBhbmQgbWlncmF0ZSBkcml2ZXJzIHRvIHVzZSB0aGUg
+QVBJDQo+IGRlZmluZWQgZHJtX2dlbV9kbWFfb2JqZWN0IHN0cnVjdHVyZSBpbnN0ZWFkLCBhbmQg
+dG8gYWxpZ24gYWxsIG9mDQo+IHRoZSBmdW5jdGlvbnMgdG8gYmUgc2ltaWxhciB0byB0aGUgbG9n
+aWMgZnJvbSBkcm1fZ2VtX2RtYV9oZWxwZXIuDQo+IA0KPiBVbmZvcnR1bmF0ZWx5LCBmb3IgdGhp
+cyBkcml2ZXIgaXQgd2Fzbid0IHBvc3NpYmxlIHRvIGRpcmVjdGx5IHVzZQ0KPiB0aGUgZHJtX2dl
+bV9kbWFfaGVscGVyIGNhbGxiYWNrcyAoYXBhcnQgZnJvbSAucHJpbnRfaW5mbyksIGFzIHRoZQ0K
+PiBETUEgbWFwcGluZyBoZXJlIGlzIGRvbmUgb24gc3BlY2lmaWMgZG1hIGRldmljZXMgaW5zdGVh
+ZCBvZiB0aGUNCj4gbWFpbiBEUk0gZGV2aWNlLg0KPiANCj4gQWxzbywgc2luY2UgdGhlIG10a19n
+ZW1fb2JqIHN0cnVjdHVyZSBpcyBubyBtb3JlLCBhbHNvIG1pZ3JhdGUgdGhlDQo+IG10a19wbGFu
+ZS5jIGNvZGUgdG8gZ3JhYiB0aGUgRE1BIGFkZHJlc3MgZnJvbSBhIGRybV9nZW1fZG1hX29iamVj
+dA0KPiBhbmQgcmVwbGFjZSB0aGUgaW5jbHVzaW9uIG9mIHRoZSBjdXN0b20gbXRrX2dlbS5oIGhl
+YWRlciAoYXMgaXQgaXMNCj4gbm93IHVubmVlZGVkKSB3aXRoIHRoZSBEUk0gQVBJIHByb3ZpZGVk
+IGRybV9nZW1fZG1hX2hlbHBlci4NCj4gDQo+IFdoaWxlIGF0IGl0LCBhbHNvIHNldCBEUk1fR0VN
+X0RNQV9IRUxQRVIgYXMgYW4gdW5jb25kaXRpb25hbA0KPiBkZXBlbmRlbmN5IChyZW1vdmUgdGhl
+IGBpZiBEUk1fRkJERVZfRU1VTEFUSU9OYCBmcm9tIHRoZSBzZWxlY3QNCj4gRFJNX0dFTV9ETUFf
+SEVMUEVSIHN0YXRlbWVudCBpbiBLY29uZmlnKS4NCj4gDQo+IFRoaXMgcmVzb2x2ZXMgYW4gaXNz
+dWUgcG9pbnRlZCBieSBVQlNBTiwgYXMgd2hlbiB1c2luZyBkcm1fZmJkZXZfZG1hDQo+IHRoZSBk
+cm1fZ2VtX29iamVjdCBpcyBzdXBwb3NlZCB0byBiZSBjaGlsZCBvZiBhIGRybV9nZW1fZG1hX29i
+amVjdA0KPiBpbnN0ZWFkIG9mIGEgY3VzdG9tIG10a19nZW1fb2JqIChvciB0aGUgbXRrX2dlbV9v
+Ymogc2hvdWxkIGhhdmUgYmVlbg0KPiByZW9yZGVyZWQgdG8gaGF2ZSB0aGUgc2FtZSBmaWVsZHMg
+YXMgZHJtX2dlbV9kbWFfb2JqZWN0LCBidXQgdGhhdA0KPiB3b3VsZCBoYXZlIGJlZW4gdG9vIGZy
+YWdpbGUgYW5kIGdlbmVyYWxseSBhIGJhZCBpZGVhIGFueXdheSkuDQo+IA0KPiBGaXhlczogMDk5
+MjI4NGI0ZmU0ICgiZHJtL21lZGlhdGVrOiBVc2UgZmJkZXYtZG1hIikNCj4gU2lnbmVkLW9mZi1i
+eTogQW5nZWxvR2lvYWNjaGlubyBEZWwgUmVnbm8gPGFuZ2Vsb2dpb2FjY2hpbm8uZGVscmVnbm9A
+Y29sbGFib3JhLmNvbT4NCj4gLS0tDQoNCltzbmlwXQ0KDQo+IC0NCj4gIGludCBtdGtfZ2VtX2R1
+bWJfY3JlYXRlKHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2LCBzdHJ1Y3QgZHJtX2RldmljZSAq
+ZGV2LA0KPiAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgZHJtX21vZGVfY3JlYXRlX2R1
+bWIgKmFyZ3MpDQo+ICB7DQo+IC0gICAgICAgc3RydWN0IG10a19nZW1fb2JqICptdGtfZ2VtOw0K
+PiArICAgICAgIHN0cnVjdCBkcm1fZ2VtX2RtYV9vYmplY3QgKmRtYV9vYmo7DQo+ICAgICAgICAg
+aW50IHJldDsNCj4gDQo+ICAgICAgICAgYXJncy0+cGl0Y2ggPSBESVZfUk9VTkRfVVAoYXJncy0+
+d2lkdGggKiBhcmdzLT5icHAsIDgpOw0KPiBAQCAtMTM0LDI1ICsxNTUsMjQgQEAgaW50IG10a19n
+ZW1fZHVtYl9jcmVhdGUoc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYsIHN0cnVjdCBkcm1fZGV2
+aWNlICpkZXYsDQo+ICAgICAgICAgYXJncy0+c2l6ZSA9IGFyZ3MtPnBpdGNoOw0KPiAgICAgICAg
+IGFyZ3MtPnNpemUgKj0gYXJncy0+aGVpZ2h0Ow0KPiANCj4gLSAgICAgICBtdGtfZ2VtID0gbXRr
+X2dlbV9jcmVhdGUoZGV2LCBhcmdzLT5zaXplLCBmYWxzZSk7DQo+IC0gICAgICAgaWYgKElTX0VS
+UihtdGtfZ2VtKSkNCj4gLSAgICAgICAgICAgICAgIHJldHVybiBQVFJfRVJSKG10a19nZW0pOw0K
+PiArICAgICAgIGRtYV9vYmogPSBtdGtfZ2VtX2NyZWF0ZShkZXYsIGFyZ3MtPnNpemUpOw0KPiAr
+ICAgICAgIGlmIChJU19FUlIoZG1hX29iaikpDQo+ICsgICAgICAgICAgICAgICByZXR1cm4gUFRS
+X0VSUihkbWFfb2JqKTsNCj4gDQo+ICAgICAgICAgLyoNCj4gICAgICAgICAgKiBhbGxvY2F0ZSBh
+IGlkIG9mIGlkciB0YWJsZSB3aGVyZSB0aGUgb2JqIGlzIHJlZ2lzdGVyZWQNCj4gICAgICAgICAg
+KiBhbmQgaGFuZGxlIGhhcyB0aGUgaWQgd2hhdCB1c2VyIGNhbiBzZWUuDQo+ICAgICAgICAgICov
+DQo+IC0gICAgICAgcmV0ID0gZHJtX2dlbV9oYW5kbGVfY3JlYXRlKGZpbGVfcHJpdiwgJm10a19n
+ZW0tPmJhc2UsICZhcmdzLT5oYW5kbGUpOw0KPiArICAgICAgIHJldCA9IGRybV9nZW1faGFuZGxl
+X2NyZWF0ZShmaWxlX3ByaXYsICZkbWFfb2JqLT5iYXNlLCAmYXJncy0+aGFuZGxlKTsNCj4gKyAg
+ICAgICAvKiBkcm9wIHJlZmVyZW5jZSBmcm9tIGFsbG9jYXRlIC0gaGFuZGxlIGhvbGRzIGl0IG5v
+dy4gKi8NCj4gKyAgICAgICBkcm1fZ2VtX29iamVjdF9wdXQoJmRtYV9vYmotPmJhc2UpOw0KDQpJ
+J3ZlIHRyY2UgZHJtX2dlbV9oYW5kbGVfY3JlYXRlKCkgYW5kIGZpbmQgaXQgd291bGQgY2FsbCBk
+cm1fZ2VtX29iamVjdF9wdXQoKSB3aGVuIGVycm9yLg0KUGxlYXNlIGNvbmZpcm0gdGhpcy4NCklm
+IHNvLCBJIHdvdWxkIG1vZGlmeSB0aGlzIHdoZW4gSSBhcHBsaWVkLg0KDQpSZWdhcmRzLA0KQ0sN
+Cg0KPiAgICAgICAgIGlmIChyZXQpDQo+ICAgICAgICAgICAgICAgICBnb3RvIGVycl9oYW5kbGVf
+Y3JlYXRlOw0KPiANCj4gLSAgICAgICAvKiBkcm9wIHJlZmVyZW5jZSBmcm9tIGFsbG9jYXRlIC0g
+aGFuZGxlIGhvbGRzIGl0IG5vdy4gKi8NCj4gLSAgICAgICBkcm1fZ2VtX29iamVjdF9wdXQoJm10
+a19nZW0tPmJhc2UpOw0KPiAtDQo+ICAgICAgICAgcmV0dXJuIDA7DQo+IA0KPiAgZXJyX2hhbmRs
+ZV9jcmVhdGU6DQo+IC0gICAgICAgbXRrX2dlbV9mcmVlX29iamVjdCgmbXRrX2dlbS0+YmFzZSk7
+DQo+ICsgICAgICAgbXRrX2dlbV9mcmVlX29iamVjdCgmZG1hX29iai0+YmFzZSk7DQo+ICAgICAg
+ICAgcmV0dXJuIHJldDsNCj4gIH0NCj4gDQoNCg==
 
-This is inspired by
+--__=_Part_Boundary_009_1114313631.1763421044
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-https://lore.kernel.org/rust-for-linux/20251003154748.1687160-6-joelagnelf@nvidia.com/
+PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KSGksJiMzMjtBbmdlbG86DQoNCk9uJiMzMjtUdWUsJiMz
+MjsyMDI1LTExLTExJiMzMjthdCYjMzI7MDk6NTEmIzMyOyswMTAwLCYjMzI7QW5nZWxvR2lvYWNj
+aGlubyYjMzI7RGVsJiMzMjtSZWdubyYjMzI7d3JvdGU6DQomZ3Q7JiMzMjtFeHRlcm5hbCYjMzI7
+ZW1haWwmIzMyOzomIzMyO1BsZWFzZSYjMzI7ZG8mIzMyO25vdCYjMzI7Y2xpY2smIzMyO2xpbmtz
+JiMzMjtvciYjMzI7b3BlbiYjMzI7YXR0YWNobWVudHMmIzMyO3VudGlsJiMzMjt5b3UmIzMyO2hh
+dmUmIzMyO3ZlcmlmaWVkJiMzMjt0aGUmIzMyO3NlbmRlciYjMzI7b3ImIzMyO3RoZSYjMzI7Y29u
+dGVudC4NCiZndDsmIzMyOw0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtQYXJ0aWFsbHkmIzMyO3JlZmFj
+dG9yJiMzMjttdGtfZ2VtJiMzMjt0byYjMzI7c3RvcCYjMzI7dXNpbmcmIzMyOyhhbmQmIzMyO3Jl
+bW92ZSkmIzMyO3RoZSYjMzI7dW5uZWVkZWQNCiZndDsmIzMyO2N1c3RvbSYjMzI7bXRrX2dlbV9v
+YmomIzMyO3N0cnVjdHVyZSYjMzI7YW5kJiMzMjttaWdyYXRlJiMzMjtkcml2ZXJzJiMzMjt0byYj
+MzI7dXNlJiMzMjt0aGUmIzMyO0FQSQ0KJmd0OyYjMzI7ZGVmaW5lZCYjMzI7ZHJtX2dlbV9kbWFf
+b2JqZWN0JiMzMjtzdHJ1Y3R1cmUmIzMyO2luc3RlYWQsJiMzMjthbmQmIzMyO3RvJiMzMjthbGln
+biYjMzI7YWxsJiMzMjtvZg0KJmd0OyYjMzI7dGhlJiMzMjtmdW5jdGlvbnMmIzMyO3RvJiMzMjti
+ZSYjMzI7c2ltaWxhciYjMzI7dG8mIzMyO3RoZSYjMzI7bG9naWMmIzMyO2Zyb20mIzMyO2RybV9n
+ZW1fZG1hX2hlbHBlci4NCiZndDsmIzMyOw0KJmd0OyYjMzI7VW5mb3J0dW5hdGVseSwmIzMyO2Zv
+ciYjMzI7dGhpcyYjMzI7ZHJpdmVyJiMzMjtpdCYjMzI7d2FzbiYjMzk7dCYjMzI7cG9zc2libGUm
+IzMyO3RvJiMzMjtkaXJlY3RseSYjMzI7dXNlDQomZ3Q7JiMzMjt0aGUmIzMyO2RybV9nZW1fZG1h
+X2hlbHBlciYjMzI7Y2FsbGJhY2tzJiMzMjsoYXBhcnQmIzMyO2Zyb20mIzMyOy5wcmludF9pbmZv
+KSwmIzMyO2FzJiMzMjt0aGUNCiZndDsmIzMyO0RNQSYjMzI7bWFwcGluZyYjMzI7aGVyZSYjMzI7
+aXMmIzMyO2RvbmUmIzMyO29uJiMzMjtzcGVjaWZpYyYjMzI7ZG1hJiMzMjtkZXZpY2VzJiMzMjtp
+bnN0ZWFkJiMzMjtvZiYjMzI7dGhlDQomZ3Q7JiMzMjttYWluJiMzMjtEUk0mIzMyO2RldmljZS4N
+CiZndDsmIzMyOw0KJmd0OyYjMzI7QWxzbywmIzMyO3NpbmNlJiMzMjt0aGUmIzMyO210a19nZW1f
+b2JqJiMzMjtzdHJ1Y3R1cmUmIzMyO2lzJiMzMjtubyYjMzI7bW9yZSwmIzMyO2Fsc28mIzMyO21p
+Z3JhdGUmIzMyO3RoZQ0KJmd0OyYjMzI7bXRrX3BsYW5lLmMmIzMyO2NvZGUmIzMyO3RvJiMzMjtn
+cmFiJiMzMjt0aGUmIzMyO0RNQSYjMzI7YWRkcmVzcyYjMzI7ZnJvbSYjMzI7YSYjMzI7ZHJtX2dl
+bV9kbWFfb2JqZWN0DQomZ3Q7JiMzMjthbmQmIzMyO3JlcGxhY2UmIzMyO3RoZSYjMzI7aW5jbHVz
+aW9uJiMzMjtvZiYjMzI7dGhlJiMzMjtjdXN0b20mIzMyO210a19nZW0uaCYjMzI7aGVhZGVyJiMz
+MjsoYXMmIzMyO2l0JiMzMjtpcw0KJmd0OyYjMzI7bm93JiMzMjt1bm5lZWRlZCkmIzMyO3dpdGgm
+IzMyO3RoZSYjMzI7RFJNJiMzMjtBUEkmIzMyO3Byb3ZpZGVkJiMzMjtkcm1fZ2VtX2RtYV9oZWxw
+ZXIuDQomZ3Q7JiMzMjsNCiZndDsmIzMyO1doaWxlJiMzMjthdCYjMzI7aXQsJiMzMjthbHNvJiMz
+MjtzZXQmIzMyO0RSTV9HRU1fRE1BX0hFTFBFUiYjMzI7YXMmIzMyO2FuJiMzMjt1bmNvbmRpdGlv
+bmFsDQomZ3Q7JiMzMjtkZXBlbmRlbmN5JiMzMjsocmVtb3ZlJiMzMjt0aGUmIzMyOyYjOTY7aWYm
+IzMyO0RSTV9GQkRFVl9FTVVMQVRJT04mIzk2OyYjMzI7ZnJvbSYjMzI7dGhlJiMzMjtzZWxlY3QN
+CiZndDsmIzMyO0RSTV9HRU1fRE1BX0hFTFBFUiYjMzI7c3RhdGVtZW50JiMzMjtpbiYjMzI7S2Nv
+bmZpZykuDQomZ3Q7JiMzMjsNCiZndDsmIzMyO1RoaXMmIzMyO3Jlc29sdmVzJiMzMjthbiYjMzI7
+aXNzdWUmIzMyO3BvaW50ZWQmIzMyO2J5JiMzMjtVQlNBTiwmIzMyO2FzJiMzMjt3aGVuJiMzMjt1
+c2luZyYjMzI7ZHJtX2ZiZGV2X2RtYQ0KJmd0OyYjMzI7dGhlJiMzMjtkcm1fZ2VtX29iamVjdCYj
+MzI7aXMmIzMyO3N1cHBvc2VkJiMzMjt0byYjMzI7YmUmIzMyO2NoaWxkJiMzMjtvZiYjMzI7YSYj
+MzI7ZHJtX2dlbV9kbWFfb2JqZWN0DQomZ3Q7JiMzMjtpbnN0ZWFkJiMzMjtvZiYjMzI7YSYjMzI7
+Y3VzdG9tJiMzMjttdGtfZ2VtX29iaiYjMzI7KG9yJiMzMjt0aGUmIzMyO210a19nZW1fb2JqJiMz
+MjtzaG91bGQmIzMyO2hhdmUmIzMyO2JlZW4NCiZndDsmIzMyO3Jlb3JkZXJlZCYjMzI7dG8mIzMy
+O2hhdmUmIzMyO3RoZSYjMzI7c2FtZSYjMzI7ZmllbGRzJiMzMjthcyYjMzI7ZHJtX2dlbV9kbWFf
+b2JqZWN0LCYjMzI7YnV0JiMzMjt0aGF0DQomZ3Q7JiMzMjt3b3VsZCYjMzI7aGF2ZSYjMzI7YmVl
+biYjMzI7dG9vJiMzMjtmcmFnaWxlJiMzMjthbmQmIzMyO2dlbmVyYWxseSYjMzI7YSYjMzI7YmFk
+JiMzMjtpZGVhJiMzMjthbnl3YXkpLg0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtGaXhlczomIzMyOzA5
+OTIyODRiNGZlNCYjMzI7KCZxdW90O2RybS9tZWRpYXRlazomIzMyO1VzZSYjMzI7ZmJkZXYtZG1h
+JnF1b3Q7KQ0KJmd0OyYjMzI7U2lnbmVkLW9mZi1ieTomIzMyO0FuZ2Vsb0dpb2FjY2hpbm8mIzMy
+O0RlbCYjMzI7UmVnbm8mIzMyOyZsdDthbmdlbG9naW9hY2NoaW5vLmRlbHJlZ25vQGNvbGxhYm9y
+YS5jb20mZ3Q7DQomZ3Q7JiMzMjstLS0NCg0KW3NuaXBdDQoNCiZndDsmIzMyOy0NCiZndDsmIzMy
+OyYjMzI7aW50JiMzMjttdGtfZ2VtX2R1bWJfY3JlYXRlKHN0cnVjdCYjMzI7ZHJtX2ZpbGUmIzMy
+OypmaWxlX3ByaXYsJiMzMjtzdHJ1Y3QmIzMyO2RybV9kZXZpY2UmIzMyOypkZXYsDQomZ3Q7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjtzdHJ1Y3QmIzMyO2RybV9tb2RlX2NyZWF0ZV9kdW1iJiMzMjsqYXJncykNCiZndDsm
+IzMyOyYjMzI7ew0KJmd0OyYjMzI7LSYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+c3RydWN0JiMzMjttdGtfZ2VtX29iaiYjMzI7Km10a19nZW07DQomZ3Q7JiMzMjsrJiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtzdHJ1Y3QmIzMyO2RybV9nZW1fZG1hX29iamVjdCYj
+MzI7KmRtYV9vYmo7DQomZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7aW50JiMzMjtyZXQ7DQomZ3Q7JiMzMjsNCiZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjthcmdzLSZndDtwaXRjaCYjMzI7PSYjMzI7RElWX1JPVU5E
+X1VQKGFyZ3MtJmd0O3dpZHRoJiMzMjsqJiMzMjthcmdzLSZndDticHAsJiMzMjs4KTsNCiZndDsm
+IzMyO0BAJiMzMjstMTM0LDI1JiMzMjsrMTU1LDI0JiMzMjtAQCYjMzI7aW50JiMzMjttdGtfZ2Vt
+X2R1bWJfY3JlYXRlKHN0cnVjdCYjMzI7ZHJtX2ZpbGUmIzMyOypmaWxlX3ByaXYsJiMzMjtzdHJ1
+Y3QmIzMyO2RybV9kZXZpY2UmIzMyOypkZXYsDQomZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7YXJncy0mZ3Q7c2l6ZSYjMzI7PSYjMzI7YXJncy0mZ3Q7cGl0
+Y2g7DQomZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7YXJn
+cy0mZ3Q7c2l6ZSYjMzI7Kj0mIzMyO2FyZ3MtJmd0O2hlaWdodDsNCiZndDsmIzMyOw0KJmd0OyYj
+MzI7LSYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7bXRrX2dlbSYjMzI7PSYjMzI7
+bXRrX2dlbV9jcmVhdGUoZGV2LCYjMzI7YXJncy0mZ3Q7c2l6ZSwmIzMyO2ZhbHNlKTsNCiZndDsm
+IzMyOy0mIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO2lmJiMzMjsoSVNfRVJSKG10
+a19nZW0pKQ0KJmd0OyYjMzI7LSYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3JldHVybiYjMzI7UFRSX0VSUiht
+dGtfZ2VtKTsNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO2Rt
+YV9vYmomIzMyOz0mIzMyO210a19nZW1fY3JlYXRlKGRldiwmIzMyO2FyZ3MtJmd0O3NpemUpOw0K
+Jmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7aWYmIzMyOyhJU19F
+UlIoZG1hX29iaikpDQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7cmV0dXJuJiMzMjtQVFJf
+RVJSKGRtYV9vYmopOw0KJmd0OyYjMzI7DQomZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7LyoNCiZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
+IzMyOyYjMzI7JiMzMjsmIzMyOyomIzMyO2FsbG9jYXRlJiMzMjthJiMzMjtpZCYjMzI7b2YmIzMy
+O2lkciYjMzI7dGFibGUmIzMyO3doZXJlJiMzMjt0aGUmIzMyO29iaiYjMzI7aXMmIzMyO3JlZ2lz
+dGVyZWQNCiZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
+IzMyOyomIzMyO2FuZCYjMzI7aGFuZGxlJiMzMjtoYXMmIzMyO3RoZSYjMzI7aWQmIzMyO3doYXQm
+IzMyO3VzZXImIzMyO2NhbiYjMzI7c2VlLg0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
+IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7Ki8NCiZndDsmIzMyOy0mIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyO3JldCYjMzI7PSYjMzI7ZHJtX2dlbV9oYW5kbGVfY3JlYXRlKGZpbGVf
+cHJpdiwmIzMyOyZhbXA7bXRrX2dlbS0mZ3Q7YmFzZSwmIzMyOyZhbXA7YXJncy0mZ3Q7aGFuZGxl
+KTsNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3JldCYjMzI7
+PSYjMzI7ZHJtX2dlbV9oYW5kbGVfY3JlYXRlKGZpbGVfcHJpdiwmIzMyOyZhbXA7ZG1hX29iai0m
+Z3Q7YmFzZSwmIzMyOyZhbXA7YXJncy0mZ3Q7aGFuZGxlKTsNCiZndDsmIzMyOysmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOy8qJiMzMjtkcm9wJiMzMjtyZWZlcmVuY2UmIzMyO2Zy
+b20mIzMyO2FsbG9jYXRlJiMzMjstJiMzMjtoYW5kbGUmIzMyO2hvbGRzJiMzMjtpdCYjMzI7bm93
+LiYjMzI7Ki8NCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO2Ry
+bV9nZW1fb2JqZWN0X3B1dCgmYW1wO2RtYV9vYmotJmd0O2Jhc2UpOw0KDQpJJiMzOTt2ZSYjMzI7
+dHJjZSYjMzI7ZHJtX2dlbV9oYW5kbGVfY3JlYXRlKCkmIzMyO2FuZCYjMzI7ZmluZCYjMzI7aXQm
+IzMyO3dvdWxkJiMzMjtjYWxsJiMzMjtkcm1fZ2VtX29iamVjdF9wdXQoKSYjMzI7d2hlbiYjMzI7
+ZXJyb3IuDQpQbGVhc2UmIzMyO2NvbmZpcm0mIzMyO3RoaXMuDQpJZiYjMzI7c28sJiMzMjtJJiMz
+Mjt3b3VsZCYjMzI7bW9kaWZ5JiMzMjt0aGlzJiMzMjt3aGVuJiMzMjtJJiMzMjthcHBsaWVkLg0K
+DQpSZWdhcmRzLA0KQ0sNCg0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyO2lmJiMzMjsocmV0KQ0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtn
+b3RvJiMzMjtlcnJfaGFuZGxlX2NyZWF0ZTsNCiZndDsmIzMyOw0KJmd0OyYjMzI7LSYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7LyomIzMyO2Ryb3AmIzMyO3JlZmVyZW5jZSYjMzI7
+ZnJvbSYjMzI7YWxsb2NhdGUmIzMyOy0mIzMyO2hhbmRsZSYjMzI7aG9sZHMmIzMyO2l0JiMzMjtu
+b3cuJiMzMjsqLw0KJmd0OyYjMzI7LSYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+ZHJtX2dlbV9vYmplY3RfcHV0KCZhbXA7bXRrX2dlbS0mZ3Q7YmFzZSk7DQomZ3Q7JiMzMjstDQom
+Z3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7cmV0dXJuJiMz
+MjswOw0KJmd0OyYjMzI7DQomZ3Q7JiMzMjsmIzMyO2Vycl9oYW5kbGVfY3JlYXRlOg0KJmd0OyYj
+MzI7LSYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7bXRrX2dlbV9mcmVlX29iamVj
+dCgmYW1wO210a19nZW0tJmd0O2Jhc2UpOw0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7bXRrX2dlbV9mcmVlX29iamVjdCgmYW1wO2RtYV9vYmotJmd0O2Jhc2Up
+Ow0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3JldHVy
+biYjMzI7cmV0Ow0KJmd0OyYjMzI7JiMzMjt9DQomZ3Q7JiMzMjsNCg0KDQo8L3ByZT4NCjwvcD48
+L2JvZHk+PC9odG1sPjwhLS10eXBlOnRleHQtLT48IS0tey0tPjxwcmU+KioqKioqKioqKioqKiBN
+RURJQVRFSyBDb25maWRlbnRpYWxpdHkgTm90aWNlDQogKioqKioqKioqKioqKioqKioqKioNClRo
+ZSBpbmZvcm1hdGlvbiBjb250YWluZWQgaW4gdGhpcyBlLW1haWwgbWVzc2FnZSAoaW5jbHVkaW5n
+IGFueSANCmF0dGFjaG1lbnRzKSBtYXkgYmUgY29uZmlkZW50aWFsLCBwcm9wcmlldGFyeSwgcHJp
+dmlsZWdlZCwgb3Igb3RoZXJ3aXNlDQpleGVtcHQgZnJvbSBkaXNjbG9zdXJlIHVuZGVyIGFwcGxp
+Y2FibGUgbGF3cy4gSXQgaXMgaW50ZW5kZWQgdG8gYmUgDQpjb252ZXllZCBvbmx5IHRvIHRoZSBk
+ZXNpZ25hdGVkIHJlY2lwaWVudChzKS4gQW55IHVzZSwgZGlzc2VtaW5hdGlvbiwgDQpkaXN0cmli
+dXRpb24sIHByaW50aW5nLCByZXRhaW5pbmcgb3IgY29weWluZyBvZiB0aGlzIGUtbWFpbCAoaW5j
+bHVkaW5nIGl0cyANCmF0dGFjaG1lbnRzKSBieSB1bmludGVuZGVkIHJlY2lwaWVudChzKSBpcyBz
+dHJpY3RseSBwcm9oaWJpdGVkIGFuZCBtYXkgDQpiZSB1bmxhd2Z1bC4gSWYgeW91IGFyZSBub3Qg
+YW4gaW50ZW5kZWQgcmVjaXBpZW50IG9mIHRoaXMgZS1tYWlsLCBvciBiZWxpZXZlDQogDQp0aGF0
+IHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMgZS1tYWlsIGluIGVycm9yLCBwbGVhc2Ugbm90aWZ5IHRo
+ZSBzZW5kZXIgDQppbW1lZGlhdGVseSAoYnkgcmVwbHlpbmcgdG8gdGhpcyBlLW1haWwpLCBkZWxl
+dGUgYW55IGFuZCBhbGwgY29waWVzIG9mIA0KdGhpcyBlLW1haWwgKGluY2x1ZGluZyBhbnkgYXR0
+YWNobWVudHMpIGZyb20geW91ciBzeXN0ZW0sIGFuZCBkbyBub3QNCmRpc2Nsb3NlIHRoZSBjb250
+ZW50IG9mIHRoaXMgZS1tYWlsIHRvIGFueSBvdGhlciBwZXJzb24uIFRoYW5rIHlvdSENCjwvcHJl
+PjwhLS19LS0+
 
-Best regards
+--__=_Part_Boundary_009_1114313631.1763421044--
 
-Dirk
-
-[1]
-
-#[repr(u32)]
-#[derive(Debug, Default, Clone, Copy, PartialEq)]
-enum McuControl {
-     #[default]
-     Disable = 0,
-     Enable = 1,
-     Auto = 2,
-}
-
-impl From<McuControl> for u8 {
-     fn from(ctrl: McuControl) -> Self {
-         ctrl as u8
-     }
-}
-
-impl From<u8> for McuControl {
-     fn from(req: u8) -> Self {
-         match req & 0x3 {
-             0 => McuControl::Disable,
-             1 => McuControl::Enable,
-             2 => McuControl::Auto,
-             _ => McuControl::Disable,
-         }
-     }
-}
-
-register!(MCUCONTROL @ 0x700, "Controls the execution state of the MCU 
-subsystem" {
-     1:0     req as u8 => McuControl, "Request state change";
-});
