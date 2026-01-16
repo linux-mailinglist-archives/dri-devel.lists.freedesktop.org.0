@@ -2,142 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EEE5D2F198
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 10:54:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B035D2F23A
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 10:57:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B72F710E848;
-	Fri, 16 Jan 2026 09:54:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D399710E847;
+	Fri, 16 Jan 2026 09:57:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="fcb9Zt79";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MPe3TG6O";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="U5WMVL8T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY3PR05CU001.outbound.protection.outlook.com
- (mail-westcentralusazhn15013060.outbound.protection.outlook.com
- [52.102.133.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC99F10E848
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 09:54:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C+bPmvF3zYHs1oh8FAsrbjj8NfrYmpwxCiwT4y6ATEHxI2LHhthXzuRDMyDdkKr8ASoyGaOBTQZ/6GzYE8wfZ/38C0w6hACeGlYDyvFl41K0qzrCy1aMH1w+5piEKBqlFf2NgtC3pyPUlb9udvP0PDhnxlnbaaSdSd89Y7hWyA7aflnxVIp3C+kyumcmVg+uTqKc8eFfrs6E4HHaGOQgyUEBS62m99/bdX5/1cWuwqpEX0YV5cp1IX6e1eQKv1vKVftTCG+wUGbmClJvem0IX6UI6VkfFNjq90+0dcHsSApc/s6R9/QE7B4s2MEjI4eB3uDXrjXQPcgr0pgt5yFJMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HJE33N1jIYsoFx3Ds8AS5TSct3fLPcWJwS0Rd2/R4+0=;
- b=BKEHDgAC58bMXMVIFnxsByAVCZCny6z+y7WfXYOVU4BFe6UavkMxXqHy4DCbprQvwWyNA7cHWTeOhFnuh7EkU0vceht1/Y3oKxA8MMc+WolqsjuhjZfFicxSnQ9T+zB7uxG3bz6frAr9ipBJGexkcnwjqeXkf3xMHCUMh3xLv862jOkhOJKq+6cyHESUkFif1m+/IN914p/+Y7wcO94HuwRAfig8Q9Jhv3e2ECb4odmIYly0XCDvYI9UC8tnO3zT8i8zUm06jaQGJZ799wkqByNv3fUfkAUJMPdWyd92WJQT3CgkydCrpuPGQ055zpBwu0xSOb3wp1HwFCxTcbzoTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HJE33N1jIYsoFx3Ds8AS5TSct3fLPcWJwS0Rd2/R4+0=;
- b=fcb9Zt79Ss0nPJ6j0x1zlCDs0jE24ShqD0J1tjfX/p11oNWYVQcdDhIW80wr7LIEn3rnn3ydmG8yywmacBO9t2lE29bWhSkus9PGkExKO3/f7ogQPTeRACqEgEhbzUx6XpKOmsn1In2Caadq7xBtokE1Ba0IC0NJbZZbtFSI54w=
-Received: from SA1P222CA0158.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:3c3::18)
- by IA3PR10MB8492.namprd10.prod.outlook.com (2603:10b6:208:580::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.4; Fri, 16 Jan
- 2026 09:54:35 +0000
-Received: from SA2PEPF00003AE5.namprd02.prod.outlook.com
- (2603:10b6:806:3c3:cafe::a3) by SA1P222CA0158.outlook.office365.com
- (2603:10b6:806:3c3::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.8 via Frontend Transport; Fri,
- 16 Jan 2026 09:54:32 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
-Received: from flwvzet201.ext.ti.com (198.47.21.195) by
- SA2PEPF00003AE5.mail.protection.outlook.com (10.167.248.5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9542.4 via Frontend Transport; Fri, 16 Jan 2026 09:54:33 +0000
-Received: from DFLE213.ent.ti.com (10.64.6.71) by flwvzet201.ext.ti.com
- (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 16 Jan
- 2026 03:54:32 -0600
-Received: from DFLE208.ent.ti.com (10.64.6.66) by DFLE213.ent.ti.com
- (10.64.6.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 16 Jan
- 2026 03:54:32 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE208.ent.ti.com
- (10.64.6.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 16 Jan 2026 03:54:32 -0600
-Received: from a0512632.dhcp.ti.com (a0512632.dhcp.ti.com [172.24.233.20])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60G9s6SW2958972;
- Fri, 16 Jan 2026 03:54:25 -0600
-From: Swamil Jain <s-jain1@ti.com>
-To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
- <airlied@gmail.com>, <simona@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <robh@kernel.org>,
- <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <aradhya.bhatia@linux.dev>,
- <mwalle@kernel.org>
-CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <devarsht@ti.com>, <praneeth@ti.com>,
- <u-kumar1@ti.com>, <s-jain1@ti.com>
-Subject: [PATCH v4 3/3] drm: tidss: tidss_drv: Add support for AM62P display
- subsystem
-Date: Fri, 16 Jan 2026 15:24:06 +0530
-Message-ID: <20260116095406.2544565-4-s-jain1@ti.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260116095406.2544565-1-s-jain1@ti.com>
-References: <20260116095406.2544565-1-s-jain1@ti.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EF3F10E841
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 09:57:49 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60G8HLgY1240968
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 09:57:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ c+uJpy77A6qGXpHZGMOoyXWjGDOHGU5pnw9fJmRASH4=; b=MPe3TG6OQrHZR2J7
+ I68gPXZBzRcZb8aZ6IjvZYHhejrHi0r5jdUyCD4zMzYPjMX5ty5lBTadI/aTOlpu
+ bYaDvOgfluJvz+YHvNhrpMHyyjXptKjXY+07AyoxGI6ZawllpE00AgaZ15BF1v9w
+ LLXbW6wx1N2aK7BSy2zKgc85YGDjgxMkvAQtN6mrid9HJ+u/MFwLzafur0S2BwRm
+ RF6rz8UncEviMjabb7wKvXSEnetymItwvSkI8lYGJ7C8rGsL5WlUuzG7jAsStY9n
+ YXjJ3xUydfXC5FIroEHx5Z6L28TvvRBhFb8CdGijr8tCbM5pNOhwrAe7XKylXGM6
+ wlKt9Q==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bq96sspet-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 09:57:48 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-501423e1faaso5389141cf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 01:57:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1768557467; x=1769162267;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=c+uJpy77A6qGXpHZGMOoyXWjGDOHGU5pnw9fJmRASH4=;
+ b=U5WMVL8T/wmp6JKnAZvCQFRCHFsRJccpz6onI7nlhsSmFf9L0b02lgmgHzBTMm+0Zl
+ hkzriOrPbl4SLf9KJp1hio79wXNKtztDOSM4Kkk4YcmgGCej7vuUAyyckk/lQew84S6y
+ pbcfAAZ9+KxSjJnGRwmjPx25KahvTF1xo6jYP8B0KBwR3wVecESZBPCSa6coqjO2juJx
+ zPHzFmhmFl74na2vyvO2pwBV/Vc3tuGtzrgDbX/6NZO9Zmafa6hxh5yx04WxtXmhxxWo
+ lPwwSUEiN1+baDGA003SWjVIS5we/oV+xfLe0Ski61lGOrzs4rkH2gTkVRijKey0KbVb
+ stMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768557467; x=1769162267;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=c+uJpy77A6qGXpHZGMOoyXWjGDOHGU5pnw9fJmRASH4=;
+ b=Y0tGoaSBRvV8sP5mQ4gWEmkKS6W8QvILJoY0+eaqSOwzq4HtH0ITDoz13AiNnD22zB
+ pHRoYUDODijZ0z5YZfA6Q78Csf3d8bhUARifYzmkh4GRCZXxkOuWrxyjWTH5bc3Von9K
+ I3WL4Bv9jjCVxaH+/4vJYJVyyWQfbjGEfzP3cMXaiehPh2AMhgrvi00sM1/QAaWvm0Ba
+ U0OyiN0iRoKp0P7X4hji1+RDG1pOlyWCmIYy8Ak+cRHiM4g0pVnMlXKEGrRh8sv2dOBl
+ De/x3OqIudotyyT6ts85lAQ7CrmsZHgDFT9f9LpWadIPDA1omuMq7TP5g59hKEnAaUf2
+ oKqQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXbCnw7WxxInuuBAtqAXFHYh7MP2Q2y9+FyQsHnECIvNlapLmbTmrj6XQLBgKu+EMvpBv5/kczoNXc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz9U8MG7qNYtRper+wjlY9ZqzjhC9rqOtQwAvM91VJ1y06EqZoC
+ CJeH2HUiwT+ZVWTP0VNdZg5QD/DAsXIG0JOJSav4JMW2jWv3J2iSQkESjyRkk5Ux3tWEk1ACwoc
+ o9D5GFNsGFeb2jIdG7kDxAidWkkSI2KgOhi3NSBOP6GFKA6f/bKXZYKqtKpxGay+uoAlW+cI=
+X-Gm-Gg: AY/fxX4uloI90n6lNQpNeNE5ChpT1Tml/45otKuRnj/HHXjPtR9oWc35umhKS3PTlYi
+ ct5rw/eJtvD4GM0Ar2BQ9JXstc1dC8b87eEpzO4yHsM89lKrFLi2eYkjdRaoJU5O3jdtyq6wUmD
+ EZBXoPxj5dfeNJj6PqcEjzLuMD7r7QYkvS3p6awfaDgaaXwHME+XAy8pEGbgQ6IxciPvTT8i1LV
+ N2fCrOn0cU7uFlLN+dt486TTEPYGAw4ZzraKxFIciuckoGtMBHDUuN3C40WVRuGmTQz7Wf4HcXY
+ SKhxcCoTCy+0z660zZe8kyIDH5SwgrxuRG0bDuN6rn05RBhIyC/tx5al+aDgk5UssQsuTKcq/hv
+ WlUeMvT4aEjSqMlHwbXa/Q8XorIkYg11YgQGakJ3FA2ONiv6dkpzN4bOBt+RLWtNTwuw=
+X-Received: by 2002:ac8:59cd:0:b0:4ee:1063:d0f3 with SMTP id
+ d75a77b69052e-502a17d68b2mr27218281cf.11.1768557467433; 
+ Fri, 16 Jan 2026 01:57:47 -0800 (PST)
+X-Received: by 2002:ac8:59cd:0:b0:4ee:1063:d0f3 with SMTP id
+ d75a77b69052e-502a17d68b2mr27218161cf.11.1768557467003; 
+ Fri, 16 Jan 2026 01:57:47 -0800 (PST)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-65452bce4c4sm1912925a12.4.2026.01.16.01.57.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Jan 2026 01:57:46 -0800 (PST)
+Message-ID: <3019516e-afb7-411f-b80a-716540a3f8f5@oss.qualcomm.com>
+Date: Fri, 16 Jan 2026 10:57:44 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003AE5:EE_|IA3PR10MB8492:EE_
-X-MS-Office365-Filtering-Correlation-Id: c1c585cd-2789-43ae-ee57-08de54e5405b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|34020700016|36860700013|82310400026|376014|7416014|921020|12100799066;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?5Wy/pueIO9crMs156oTlzNqBaIjPONrBzGLPDwOEGo8oMxbskA67htmqa63S?=
- =?us-ascii?Q?t6XVcIieL/TyM1E/KGV742ESD6CSMLbWNSjv3OXT77p9T4WLylc+/1l8DfjN?=
- =?us-ascii?Q?guS0AvDMflbRLbmeIlv4cAhWIbPTKd3d+v5WwfBJ5m6L45dpvdwHrPu3qFCx?=
- =?us-ascii?Q?uxVne4E0e9odw3AUwLpsu0asA3kp3uOoP+6xLklZ1S9Ls+TlPmOkodgqIVk5?=
- =?us-ascii?Q?o3Kq0fX8KxmqZyHP1vXDWtOST3RwYh0BRSpPJYpavwCmPcAki3nP2rfkwBrm?=
- =?us-ascii?Q?cUPR6J/fiH0sWIR6Y2a7rCYekC9H4l0bORftdLP70sANtlYqoheLshdEIY5F?=
- =?us-ascii?Q?WKndb3X0zMy6qku2+rOjOaOErRfvqnQuU5kBLTL70dsrvQ8oNlAkMGZdduob?=
- =?us-ascii?Q?A4le5/puEsb4DbocGjm5xNjqqCX0cWcCbONoSDnL39Fet2Iu+h1GBSEGwkMl?=
- =?us-ascii?Q?6DssYG8lI6N/iLox2oOzAdJsnlfE0j2as+gGOS0/P7O2WIZ3kFPG+Iv541V7?=
- =?us-ascii?Q?Wk3eUReV4HxVuLK8bDiV3uNwF0qepvNZAAELdAfg3z5gifpV6txu42lmbX++?=
- =?us-ascii?Q?+mtnbMAqG4sCpETqNQ7d0mjKdw25gklmJU9xM/NxUNm14DBXVxx0surZTYip?=
- =?us-ascii?Q?/5ffqyGg10dueUIZlKwClNVXwjGEITtT/0zogJWAtXP2m5Mpn7f8HgF/7cAy?=
- =?us-ascii?Q?4dzPMRR11d5IlkRWsjoiGps7e6Zh3yk5KQQQi04bV0T4UT+sIBfGBbCZWQm3?=
- =?us-ascii?Q?hwjlWw77T6GGJUd+bH8CObMZF7XVpjRlsuFNNQC5H4Zoyq5y1w//b7n5zrAj?=
- =?us-ascii?Q?2wkSyDyj0YmFeb5ZjdogMp/U3HNgwGIIsXFzVMVxE3LOWAtQN8WK/bS4gk85?=
- =?us-ascii?Q?aiMaUZ6KgT3rR1Z2Cc668u5cGyCpJHLjuAYRG/d9oYTSkH4qxVUsSo5a/Fnf?=
- =?us-ascii?Q?QadsFKLYnGG3oweF6iIUkqfSYvK1skte2sh8U68caHR6GF3Y2aVajAADUp76?=
- =?us-ascii?Q?xHNtPhibL+OKpTBxWcpO4+153FkjrxDmM8dw2itckapOrsiGhmG5CXmNyDxi?=
- =?us-ascii?Q?3QGcFB/mG30cxs766yX9YG70Q5zt/6Wt0uFyXRq7EV/njhPh2PNhVWPePdjR?=
- =?us-ascii?Q?/CNkZvI4mJgoXFWKdIu47J01rPQAjTaecb/QfTGFK4fQxHR+AJJ59HvsiIam?=
- =?us-ascii?Q?ehVDtCwp178SjugEijauxKnQ1QDOOOdc1fPh6dFe6k7uZ9Qpv5z/hqVoLeNU?=
- =?us-ascii?Q?6QsZ7mvSw90NbLubeC+v9mZ9zq18HfGCSggbG0CKU1YWmkWh5VD7kruNby3j?=
- =?us-ascii?Q?6i6NbC9MECJ3LK2nm6lkUOtGxGuPPtnoQsCsdYqb4Ep34cbeolRSwJQ2YZi/?=
- =?us-ascii?Q?rooWnk09kxmogFatYlLNQGiReexZjoABl22NFPh/iZwFoiEGwqlSs4cASIC2?=
- =?us-ascii?Q?J4ihDv/OtNT6si79d6AgSC52Io17GiXKTqpL7RJvawK6opHj5Ut3KKiw8uTi?=
- =?us-ascii?Q?owVlD+0w8zWluBGesiGrypS2dz1iMOhOTa6id3kNIQIP/ubYHKmEqiBUxnkE?=
- =?us-ascii?Q?Zei1CULUBLapHOrGkJgthJmAu6+ImvhO0Fiz6sZU8Q1qJHCGnKm5nlEKh+w8?=
- =?us-ascii?Q?A5HpJNRj8pJqCEjjtaY177TGpj7d5khRGC4haqIqGSypfeNCSNosxqaXlBxJ?=
- =?us-ascii?Q?haaltSK11LfW01/2q2MWlNTc5GI=3D?=
-X-Forefront-Antispam-Report: CIP:198.47.21.195; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:flwvzet201.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
- SFS:(13230040)(1800799024)(34020700016)(36860700013)(82310400026)(376014)(7416014)(921020)(12100799066);
- DIR:OUT; SFP:1501; 
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 09:54:33.6348 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1c585cd-2789-43ae-ee57-08de54e5405b
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.195];
- Helo=[flwvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF00003AE5.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR10MB8492
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/msm/dpu: correct error messages in RM
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20260115-dpu-fix-dspp-v1-0-b73152c147b3@oss.qualcomm.com>
+ <20260115-dpu-fix-dspp-v1-1-b73152c147b3@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260115-dpu-fix-dspp-v1-1-b73152c147b3@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: -WiFa-md3SH6HFTdv7XBmCoB7N-RjOBZ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE2MDA3MyBTYWx0ZWRfXxaDxtAyvS2zc
+ Dtb8uKT0h2N+ibntnbeL8biSMysOO3H0L5wLvgWFj3NP2E97S3mRYdfu/6vHfIhqXR+tn4IN61S
+ cwkys0/DJePogxGMc+4GKzVlX+n3g14XUld7WvGEHCPwauy/RoOdPrJt7AxHd1uR0HvF9wECoUx
+ C5f083Oud3IwkQwMlgjd1RLxm5DQh1PQFBolbPgrb3X5jTXjLkQcUSwQ8rsN+Chdw0qOrEMCsv8
+ zGQwKbXyYhdMmjO3fux5YTLoiTzy9gHEoKHziLm3SdN1RnjnaFZnoA1bxR14Bw6YIIuLGMlt6Lr
+ TJO+O88xXm1lcOAEsOswq8UPwWsAiiyeXYFt1NvQEnS49We9UHJydOKY1D+evTFJf0dS11TYL3r
+ cm/D2gI3kSD3IEm0sqVQ3FMWf9g06Lr7N/0bqLgv/bQAcj0zhZAF9waULqJtd17Hr42Fd1nNXlL
+ dYDNnV/y2If8VX1YZVg==
+X-Proofpoint-GUID: -WiFa-md3SH6HFTdv7XBmCoB7N-RjOBZ
+X-Authority-Analysis: v=2.4 cv=M9tA6iws c=1 sm=1 tr=0 ts=696a0b9c cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=W2xj9Y3iJeoAxjfXkiAA:9
+ a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-16_03,2026-01-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 clxscore=1015 malwarescore=0 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 adultscore=0 spamscore=0 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2601160073
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,34 +145,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DSS controller on TI's AM62P SoC features two instances of the TI
-DSS. Each DSS instance supports two video ports, similar to the DSS
-controller found on the TI AM62X SoC. This allows three independent
-video streams to be supported: OLDI, DPI, and DSI.
+On 1/15/26 9:05 PM, Dmitry Baryshkov wrote:
+> Some of error messages in RM reference block index, while other print
+> the enum value (which is shifted by 1), not to mention that some of the
+> messages are misleading. Reformat the messages, making them more clear
+> and also always printing the hardware block name.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
 
-Since the DSS instances on AM62P are architecturally similar to those
-on the AM62X DSS controller, the existing dispc_am625_feats
-configuration can be reused for the AM62P DSS support.
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-This patch adds the necessary device tree compatibility entry for
-"ti,am62p-dss" in the tidss driver, pointing to dispc_am625_feats,
-thereby enabling DSS support on AM62P devices.
+Konrad
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Signed-off-by: Swamil Jain <s-jain1@ti.com>
----
- drivers/gpu/drm/tidss/tidss_drv.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-index 93e0c34c73aa..ff6d0adf89e8 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.c
-+++ b/drivers/gpu/drm/tidss/tidss_drv.c
-@@ -319,6 +319,7 @@ static const struct of_device_id tidss_of_table[] = {
- 	{ .compatible = "ti,am625-dss", .data = &dispc_am625_feats, },
- 	{ .compatible = "ti,am62a7-dss", .data = &dispc_am62a7_feats, },
- 	{ .compatible = "ti,am62l-dss", .data = &dispc_am62l_feats, },
-+	{ .compatible = "ti,am62p-dss", .data = &dispc_am625_feats, },
- 	{ .compatible = "ti,am65x-dss", .data = &dispc_am65x_feats, },
- 	{ .compatible = "ti,j721e-dss", .data = &dispc_j721e_feats, },
- 	{ }
