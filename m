@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7AFCD32EFA
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 15:56:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3829CD32EFD
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 15:56:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6928910E8B5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5763F10E8B2;
 	Fri, 16 Jan 2026 14:55:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="n1dQMUtD";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=stu.xidian.edu.cn header.i=@stu.xidian.edu.cn header.b="e7W07z1h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8134D10E10C
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 08:54:53 +0000 (UTC)
-Received: from [133.11.54.205] (h205.csg.ci.i.u-tokyo.ac.jp [133.11.54.205])
- (authenticated bits=0)
- by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 60G8s9Dt038331
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Fri, 16 Jan 2026 17:54:15 +0900 (JST)
- (envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
-DKIM-Signature: a=rsa-sha256; bh=vMaN48b+DmtoUknmJ5ekzd+XKSx2hXy5fgMpMnhoDAY=; 
- c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
- h=Message-ID:Date:Subject:To:From;
- s=rs20250326; t=1768553655; v=1;
- b=n1dQMUtDEijf6li7u4nt1WVL5eMiEQ/i92FXHXxXOpFjVL9YZnk87/P0qCx/dP3l
- nKn5nbLLDw+g1sidJdqJ2KWVbvRgIDibwsoPcsCCYUv8K8SPS4XmwlhNMDhysPwI
- pm1MKds06WAeZN4kNOaEWqTL5J3RNE9pQ9W5zAYfHOGvtHme0SNJx5LYIdHBhU6C
- CGJC7K0HeGVUYytmAGFz1Tl9fugZ7CznASSqlFARhMgoPGORk6Opvz9I7PjXTe7M
- W2bc+zu9X7CLZa75T//Owxi4yJ2awRKBNYqVWVv2CjXN03CN4lfaqA3I9olFcjha
- pswJhwgVEFE2AJF+b+4HRw==
-Message-ID: <cc444faa-af80-4bab-ac3b-a013fef4a695@rsg.ci.i.u-tokyo.ac.jp>
-Date: Fri, 16 Jan 2026 17:54:09 +0900
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net
+ (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9A3D510E83A
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 08:59:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=stu.xidian.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
+ Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID;
+ bh=/BrJcE1PsgJ+OzLLASkCs6t1iq33tQqHARF5r+C+qhI=; b=e7W07z1h18ofK
+ 23Wwz/oeAM7R7BeyUzubiAUBuFkoXw+by/ssn0HMTkoBUCyXmpxDezfNzG9aMVeA
+ c63biKX0XbPYgd/UuWRumOMTjw189d1uEwgPFpjENrm2264/jvr8KYrRSvUALCFm
+ Yr8sw/c0xpFHv6bmirwnQIwsjytEMw=
+Received: from wangzhi_xd$stu.xidian.edu.cn ( [113.200.174.24] ) by
+ ajax-webmail-hzbj-edu-front-4.icoremail.net (Coremail) ; Fri, 16 Jan 2026
+ 16:59:22 +0800 (GMT+08:00)
+X-Originating-IP: [113.200.174.24]
+Date: Fri, 16 Jan 2026 16:59:22 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?546L5b+X?= <wangzhi_xd@stu.xidian.edu.cn>
+To: "Marcel Holtmann" <marcel@holtmann.org>,
+ "Maxim Krasnyansky" <maxk@qualcomm.com>
+Cc: linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [BUG] KASAN: null-ptr-deref in h5_recv during HCI UART handling on
+ Linux 6.18
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2024.3-cmXT6 build
+ 20250410(2f5ccd7f) Copyright (c) 2002-2026 www.mailtech.cn
+ mispb-8dfce572-2f24-404d-b59d-0dd2e304114c-icoremail.cn
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/5] virtio-gpu: Add userptr support for compute
- workloads
-To: Honglei Huang <honghuan@amd.com>
-Cc: Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
- Honglei Huang <honglei1.huang@amd.com>,
- David Airlie <airlied@redhat.com>, Ray.Huang@amd.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Simona Vetter <simona@ffwll.ch>
-References: <20260115075851.173318-1-honglei1.huang@amd.com>
- <5b66df7d-374c-4e9c-88d5-bb514f9a7725@rsg.ci.i.u-tokyo.ac.jp>
- <2ae03f22-740d-4a48-b5f3-114eef92fb29@amd.com>
-Content-Language: en-US
-From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-In-Reply-To: <2ae03f22-740d-4a48-b5f3-114eef92fb29@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Message-ID: <4835da7e.dad1.19bc607dc1b.Coremail.wangzhi_xd@stu.xidian.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: BrQMCkBmzeDq_WlpOAoZAQ--.19452W
+X-CM-SenderInfo: qstqimqsqqliuu6v33wo0lvxldqovvfxof0/1tbiAgUPCGlo+NCX+
+	gAAsE
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
 X-Mailman-Approved-At: Fri, 16 Jan 2026 14:55:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,119 +67,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2026/01/16 16:20, Honglei Huang wrote:
-> 
-> 
-> On 2026/1/15 17:20, Akihiko Odaki wrote:
->> On 2026/01/15 16:58, Honglei Huang wrote:
->>> From: Honglei Huang <honghuan@amd.com>
->>>
->>> Hello,
->>>
->>> This series adds virtio-gpu userptr support to enable ROCm native
->>> context for compute workloads. The userptr feature allows the host to
->>> directly access guest userspace memory without memcpy overhead, which is
->>> essential for GPU compute performance.
->>>
->>> The userptr implementation provides buffer-based zero-copy memory 
->>> access.
->>> This approach pins guest userspace pages and exposes them to the host
->>> via scatter-gather tables, enabling efficient compute operations.
->>
->> This description looks identical with what 
->> VIRTIO_GPU_BLOB_MEM_HOST3D_GUEST does so there should be some 
->> explanation how it makes difference.
->>
->> I have already pointed out this when reviewing the QEMU patches[1], 
->> but I note that here too, since QEMU is just a middleman and this 
->> matter is better discussed by Linux and virglrenderer developers.
->>
->> [1] https://lore.kernel.org/qemu-devel/35a8add7-da49-4833-9e69- 
->> d213f52c771a@amd.com/
->>
-> 
-> Thanks for raising this important point about the distinction between
-> VIRTGPU_BLOB_FLAG_USE_USERPTR and VIRTIO_GPU_BLOB_MEM_HOST3D_GUEST.
-> I might not have explained it clearly previously.
-> 
-> The key difference is memory ownership and lifecycle:
-> 
-> BLOB_MEM_HOST3D_GUEST:
->    - Kernel allocates memory (drm_gem_shmem_create)
->    - Userspace accesses via mmap(GEM_BO)
->    - Use case: Graphics resources (Vulkan/OpenGL)
-> 
-> BLOB_FLAG_USE_USERPTR:
->    - Userspace pre-allocates memory (malloc/mmap)
-
-"Kernel allocates memory" and "userspace pre-allocates memory" is a bit 
-ambiguous phrasing. Either way, the userspace requests the kernel to map 
-memory with a system call, brk() or mmap().
-
->    - Kernel only get existing pages
->    - Use case: Compute workloads (ROCm/CUDA) with large datasets, like
-> GPU needs load a big model file 10G+, UMD mmap the fd file, then give 
-> the mmap ptr into userspace then driver do not need a another copy.
-> But if the shmem is used, the userspace needs copy the file data into a 
-> shmem mmap ptr there is a copy overhead.
-> 
-> Userptr:
-> 
-> file -> open/mmap -> userspace ptr -> driver
-> 
-> shmem:
-> 
-> user alloc shmem ──→ mmap shmem ──→ shmem userspace ptr -> driver
->                                                ↑
->                                                │ copy
->                                                │
-> file ──→ open/mmap ──→ file userptr ──────────┘
-> 
-> 
-> For compute workloads, this matters significantly:
->    Without userptr: malloc(8GB) → alloc GEM BO → memcpy 8GB → compute → 
-> memcpy 8GB back
->    With userptr:    malloc(8GB) → create userptr BO → compute (zero-copy)
-
-Why don't you alloc GEM BO first and read the file into there?
-
-> 
-> The explicit flag serves three purposes:
-> 
-> 1. Although both send scatter-gather entries to host. The flag makes the 
-> intent unambiguous.
-
-Why will the host care?
-
-> 
-> 2. Ensures consistency between flag and userptr address field.
-
-Addresses are represented with the nr_entries and following struct 
-virtio_gpu_mem_entry entries, whenever 
-VIRTIO_GPU_CMD_RESOURCE_CREATE_BLOB or 
-VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING is used. Having a special flag 
-introduces inconsistency.
-
-> 
-> 3. Future HMM support: There is a plan to upgrade userptr implementation 
-> to use Heterogeneous Memory Management for better GPU coherency and 
-> dynamic page migration. The flag provides a clean path to future upgrade.
-
-How will the upgrade path with the flag and the one without the flag 
-look like, and in what aspect the upgrade path with the flag is "cleaner"?
-
-> 
-> I understand the concern about API complexity. I'll defer to the virtio- 
-> gpu maintainers for the final decision on whether this design is 
-> acceptable or if they prefer an alternative approach.
-
-It is fine to have API complexity. The problem here is the lack of clear 
-motivation and documentation.
-
-Another way to put this is: how will you explain the flag in the virtio 
-specification? It should say "the driver MAY/SHOULD/MUST do something" 
-and/or "the device MAY/SHOULD/MUST do something", and then Linux and 
-virglrenderer can implement the flag accordingly.
-
-Regards,
-Akihiko Odaki
+RGVhciBNYWludGFpbmVycywKCldoZW4gdXNpbmcgb3VyIGN1c3RvbWl6ZWQgU3l6a2FsbGVyIHRv
+IGZ1enogdGhlIGxhdGVzdCBMaW51eCBrZXJuZWwsIHRoZSBmb2xsb3dpbmcgY3Jhc2ggd2FzIHRy
+aWdnZXJlZC4KCkhFQUQgY29tbWl0OjdkMGE2NmU0YmI5MDgxZDc1YzgyZWM0OTU3YzUwMDM0Y2Iw
+ZWE0NDkKZ2l0IHRyZWU6IHVwc3RyZWFtCk91dHB1dDpodHRwczovL2dpdGh1Yi5jb20vbWFudWFs
+MC9jcmFzaC9ibG9iL21haW4vcmVwb3J0XzgyNTBfbHBzcy50eHQKS2VybmVsIGNvbmZpZzogaHR0
+cHM6Ly9naXRodWIuY29tL21hbnVhbDAvY3Jhc2gvYmxvYi9tYWluL2NvbmZpZ19zeXpib3QudHh0
+CkMgcmVwcm9kdWNlcjpodHRwczovL2dpdGh1Yi5jb20vbWFudWFsMC9jcmFzaC9ibG9iL21haW4v
+cmVwcm9fODI1MF9scHNzLmMKU3l6IHJlcHJvZHVjZXI6aHR0cHM6Ly9naXRodWIuY29tL21hbnVh
+bDAvY3Jhc2gvYmxvYi9tYWluL3JlcHJvXzgyNTBfbHBzcy5zeXoKCktBU0FOIHJlcG9ydHMgYSBu
+dWxsLXBvaW50ZXIgZGVyZWZlcmVuY2UgaW4gaDVfcmVjdiB3aXRoaW4gZHJpdmVycy9ibHVldG9v
+dGgvaGNpX2g1LmMgd2hlbiBwcm9jZXNzaW5nIEhDSSBVQVJUIGlucHV0LiBUaGUgaXNzdWUgaXMg
+dHJpZ2dlcmVkIGR1cmluZyBub3JtYWwgaW9jdGwvc3lzY2FsbCBwYXRocyB3aGlsZSByZWNlaXZp
+bmcgZGF0YSB2aWEgaGNpX3VhcnRfdHR5X3JlY2VpdmUuIFRoaXMgaW5kaWNhdGVzIHRoYXQgYSBw
+b2ludGVyIHdhcyB1bmV4cGVjdGVkbHkgTlVMTCB3aGVuIGRlcmVmZXJlbmNlZCwgbGVhZGluZyB0
+byBhIGdlbmVyYWwgcHJvdGVjdGlvbiBmYXVsdCBvbiBhIG5vbi1jYW5vbmljYWwgYWRkcmVzcy4g
+VGhlIGJ1ZyBpcyBjb25zaXN0ZW50bHkgcmVwcm9kdWNpYmxlIHdpdGggb3VyIFN5emthbGxlciBm
+dXp6aW5nIHNldHVwIGFuZCBhZmZlY3RzIHRoZSBCbHVldG9vdGggSDUgZHJpdmVyIHN0YWNrIG9u
+IExpbnV4IDYuMTguCgpJZiB5b3UgZml4IHRoaXMgaXNzdWUsIHBsZWFzZSBhZGQgdGhlIGZvbGxv
+d2luZyB0YWcgdG8gdGhlIGNvbW1pdDoKUmVwb3J0ZWQtYnk6IFpoaSBXYW5nIDx3YW5nemhpQHN0
+dS54aWRpYW4uZWR1LmNuPiwgQmluIFl1PGJ5dUB4aWRpYW4uZWR1LmNuPiwgTWluZ1l1IFdhbmc8
+dzE1MzAzNzQ2MDYyQDE2My5jb20+LCBXZW5KaWFuIEx1PDE5ODYxNzAyNjc4QDE2My5jb20+LCBL
+ZUZlbmcgR2FvPDI0MDE1NTMwNjRAcXEuY29tPgoKCk9vcHM6IGdlbmVyYWwgcHJvdGVjdGlvbiBm
+YXVsdCwgcHJvYmFibHkgZm9yIG5vbi1jYW5vbmljYWwgYWRkcmVzcyAweGRmZmZmYzAwMDAwMDAw
+NWY6IDAwMDAgWyMxXSBTTVAgS0FTQU4gUFRJCktBU0FOOiBudWxsLXB0ci1kZXJlZiBpbiByYW5n
+ZSBbMHgwMDAwMDAwMDAwMDAwMmY4LTB4MDAwMDAwMDAwMDAwMDJmZl0KQ1BVOiAwIFVJRDogMCBQ
+SUQ6IDEwODI2MyBDb21tOiBzeXouMS45ODAzIE5vdCB0YWludGVkIDYuMTguMCAjMSBQUkVFTVBU
+KGZ1bGwpIApIYXJkd2FyZSBuYW1lOiBRRU1VIFN0YW5kYXJkIFBDIChpNDQwRlggKyBQSUlYLCAx
+OTk2KSwgQklPUyByZWwtMS4xNi4zLTAtZ2E2ZWQ2YjcwMWYwYS1wcmVidWlsdC5xZW11Lm9yZyAw
+NC8wMS8yMDE0ClJJUDogMDAxMDpoNV9yZWN2KzB4ZmMvMHg4ZjAgaG9tZS93bXkvRnV6emVyL3Ro
+aXJkX3Rvb2wvbGludXgtNi4xOC9kcml2ZXJzL2JsdWV0b290aC9oY2lfaDUuYzo1NzIKQ29kZTog
+YzEgZTggMDMgNGMgMDEgZjAgNDggODkgNDQgMjQgMDggNDggOGQgODMgMDggMDMgMDAgMDAgNDgg
+ODkgNDQgMjQgMzAgNDggYzEgZTggMDMgNDggODkgNDQgMjQgMTAgZTggNjkgY2MgOGYgZjkgNDgg
+OGIgNDQgMjQgMDggPDgwPiAzOCAwMCAwZiA4NSBhNyAwMSAwMCAwMCA0OCA4OSBlYSA0OCA4OSBl
+OSA0OCA4YiA4MyBmOCAwMiAwMCAwMApSU1A6IDAwMTg6ZmZmZmM5MDAwN2JhZmJlOCBFRkxBR1M6
+IDAwMDEwMjEyClJBWDogZGZmZmZjMDAwMDAwMDA1ZiBSQlg6IDAwMDAwMDAwMDAwMDAwMDAgUkNY
+OiBmZmZmYzkwMDE0MmUyMDAwClJEWDogMDAwMDAwMDAwMDA4MDAwMCBSU0k6IGZmZmZmZmZmODgy
+YThiOTcgUkRJOiAwMDAwMDAwMDAwMDAwMDA1ClJCUDogZmZmZmM5MDAwN2JhZmQ3OCBSMDg6IDAw
+MDAwMDAwMDAwMDAwMDAgUjA5OiBmZmZmZWQxMDA3M2RlMDgzClIxMDogMDAwMDAwMDAwMDAwMDAw
+MSBSMTE6IDAwMDAwMDAwMDAwMDAwMDAgUjEyOiAwMDAwMDAwMDAwMDAwMDAxClIxMzogMDAwMDAw
+MDAwMDAwMDAwMSBSMTQ6IGRmZmZmYzAwMDAwMDAwMDAgUjE1OiBmZmZmODg4MDM5ZWYwNDAwCkZT
+OiAgMDAwMDdmNjk1MzBlMjY0MCgwMDAwKSBHUzpmZmZmODg4MGNmMDAxMDAwKDAwMDApIGtubEdT
+OjAwMDAwMDAwMDAwMDAwMDAKQ1M6ICAwMDEwIERTOiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAw
+MDA4MDA1MDAzMwpDUjI6IDAwMDAwMDAwMDAwMDAwMDAgQ1IzOiAwMDAwMDAwMDM2YjYwMDAwIENS
+NDogMDAwMDAwMDAwMDAwMDZmMApDYWxsIFRyYWNlOgogPFRBU0s+CiBoY2lfdWFydF90dHlfcmVj
+ZWl2ZSsweDI1Yi8weDgwMCBob21lL3dteS9GdXp6ZXIvdGhpcmRfdG9vbC9saW51eC02LjE4L2Ry
+aXZlcnMvYmx1ZXRvb3RoL2hjaV9sZGlzYy5jOjYyNwogdGlvY3N0aSBob21lL3dteS9GdXp6ZXIv
+dGhpcmRfdG9vbC9saW51eC02LjE4L2RyaXZlcnMvdHR5L3R0eV9pby5jOjIyOTAgW2lubGluZV0K
+IHR0eV9pb2N0bCsweDUwMi8weDE2OTAgaG9tZS93bXkvRnV6emVyL3RoaXJkX3Rvb2wvbGludXgt
+Ni4xOC9kcml2ZXJzL3R0eS90dHlfaW8uYzoyNzA2CiB2ZnNfaW9jdGwgaG9tZS93bXkvRnV6emVy
+L3RoaXJkX3Rvb2wvbGludXgtNi4xOC9mcy9pb2N0bC5jOjUxIFtpbmxpbmVdCiBfX2RvX3N5c19p
+b2N0bCBob21lL3dteS9GdXp6ZXIvdGhpcmRfdG9vbC9saW51eC02LjE4L2ZzL2lvY3RsLmM6NTk3
+IFtpbmxpbmVdCiBfX3NlX3N5c19pb2N0bCBob21lL3dteS9GdXp6ZXIvdGhpcmRfdG9vbC9saW51
+eC02LjE4L2ZzL2lvY3RsLmM6NTgzIFtpbmxpbmVdCiBfX3g2NF9zeXNfaW9jdGwrMHgxOGYvMHgy
+MTAgaG9tZS93bXkvRnV6emVyL3RoaXJkX3Rvb2wvbGludXgtNi4xOC9mcy9pb2N0bC5jOjU4Mwog
+ZG9fc3lzY2FsbF94NjQgaG9tZS93bXkvRnV6emVyL3RoaXJkX3Rvb2wvbGludXgtNi4xOC9hcmNo
+L3g4Ni9lbnRyeS9zeXNjYWxsXzY0LmM6NjMgW2lubGluZV0KIGRvX3N5c2NhbGxfNjQrMHhjYi8w
+eGZhMCBob21lL3dteS9GdXp6ZXIvdGhpcmRfdG9vbC9saW51eC02LjE4L2FyY2gveDg2L2VudHJ5
+L3N5c2NhbGxfNjQuYzo5NAogZW50cnlfU1lTQ0FMTF82NF9hZnRlcl9od2ZyYW1lKzB4NzcvMHg3
+ZgpSSVA6IDAwMzM6MHg3ZjY5NTIxYjA1OWQKQ29kZTogMDIgYjggZmYgZmYgZmYgZmYgYzMgNjYg
+MGYgMWYgNDQgMDAgMDAgZjMgMGYgMWUgZmEgNDggODkgZjggNDggODkgZjcgNDggODkgZDYgNDgg
+ODkgY2EgNGQgODkgYzIgNGQgODkgYzggNGMgOGIgNGMgMjQgMDggMGYgMDUgPDQ4PiAzZCAwMSBm
+MCBmZiBmZiA3MyAwMSBjMyA0OCBjNyBjMSBhOCBmZiBmZiBmZiBmNyBkOCA2NCA4OSAwMSA0OApS
+U1A6IDAwMmI6MDAwMDdmNjk1MzBlMWY5OCBFRkxBR1M6IDAwMDAwMjQ2IE9SSUdfUkFYOiAwMDAw
+MDAwMDAwMDAwMDEwClJBWDogZmZmZmZmZmZmZmZmZmZkYSBSQlg6IDAwMDA3ZjY5NTI0MjVmYTAg
+UkNYOiAwMDAwN2Y2OTUyMWIwNTlkClJEWDogMDAwMDIwMDAwMDAwMDA4MCBSU0k6IDAwMDAwMDAw
+MDAwMDU0MTIgUkRJOiAwMDAwMDAwMDAwMDAwMDBjClJCUDogMDAwMDdmNjk1MjI0ZTA3OCBSMDg6
+IDAwMDAwMDAwMDAwMDAwMDAgUjA5OiAwMDAwMDAwMDAwMDAwMDAwClIxMDogMDAwMDAwMDAwMDAw
+MDAwMCBSMTE6IDAwMDAwMDAwMDAwMDAyNDYgUjEyOiAwMDAwMDAwMDAwMDAwMDAwClIxMzogMDAw
+MDdmNjk1MjQyNjAzOCBSMTQ6IDAwMDA3ZjY5NTI0MjVmYTAgUjE1OiAwMDAwN2Y2OTUzMGMyMDAw
+CiA8L1RBU0s+CgpUaGFua3MsClpoaSBXYW5nCgo=
