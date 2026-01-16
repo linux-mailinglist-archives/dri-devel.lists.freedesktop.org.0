@@ -2,96 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E005D3867A
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 21:06:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02645D38714
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 21:19:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19C4B10E922;
-	Fri, 16 Jan 2026 20:06:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22B2010E1D4;
+	Fri, 16 Jan 2026 20:19:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="aiZHUF2P";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gPZ/XnEf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA44810E922
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 20:06:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1768593999;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PAII7mTGSKHnVbVtbYqYnUY14STvK0vS9h+9Pl6qxlo=;
- b=aiZHUF2PFCXEbYNq+u/uKbwSE8ujPlYuodUy8Hs9+XgpGo55CpeZDzYYxjxZhtA58Xf5cf
- i6hLunR00AFLSPmGyxJ0FzvqVM+NMlPD4hST7b0+Ru6jv0Ax8kCg4pt/4z3jGF5ijXKgNm
- JnB2+vlT8ztPfbb8djUwduWzfX4ezQM=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-522-PxHUdz7_NNeJcBKAF8M0gA-1; Fri, 16 Jan 2026 15:06:38 -0500
-X-MC-Unique: PxHUdz7_NNeJcBKAF8M0gA-1
-X-Mimecast-MFC-AGG-ID: PxHUdz7_NNeJcBKAF8M0gA_1768593998
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-5029b0c3786so67326551cf.3
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 12:06:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768593998; x=1769198798;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=PAII7mTGSKHnVbVtbYqYnUY14STvK0vS9h+9Pl6qxlo=;
- b=QSq9VkRuHftx6fjleeGUVhukkG+fgK3hKeR0+jo1+HTAhbdr7rFKtBqhHExk65VFcQ
- 1+cWj+//nK7f75Gb71PoM9NC8XhdePOHgTPqCrudTvQu3TuyhQNhRLPpPm8/xpF/E5mE
- oe0J9PURV6km2+roRMzipCOHHpq5fRDWQY8txHjJQomF8hEYb94ebHFgvOUG2axQ79SN
- SXMbxeUC5uvJLQy7mSCkri4ctsSgDyApqfcILYbByXtr3e5JorpgfkEw6Uzs8Vd0KCuV
- vW/RU2S5V7aoNRGg4yIhd+ao6El0N3KdOXycugTtRlQNpmSfOMqoV8EunMnHpHY0SaLi
- BDFg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU+xwNHBcP0rIDIGt+oq14e8jwqg3CvVBRk23U6UKRwdzzhiErZoqlrJjzpcoMVZJt6skq/WpzHudA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwKephpJ+AxI+8PCfEfpiorAxEw4V5RsIXe8Ru5HYphfxG+SBD6
- ba0gDB1cjOqrMJ3w/j1NH1Pgyo09usiWmHCdzLCINWUgAtYFsyLaVfmVlgxsGFwmJjojb2mz1g+
- zjBPWbxmikbFPbc7w2xIycmSdiU1foLuU7Tdc816h1iY7211OfTPodw3d08HcPB1CrX5WeQ==
-X-Gm-Gg: AY/fxX7y4ydXNyV3B3n55mcbXNb/pV3wcUHK7/F/XkLfohzwtGhnC1v1Atb71pB5eTu
- wxRUDWViqAaOn09yRyevewy8OeDKqN62d/YZmJKKdWgXNyWm2PDT93vghMsizZ/zRJotJx+jikp
- Fxf1oGgP4tvqzVMD10Ic8kIv2O+TQs5kqTpccDxqyMMGPe6HJKAYoo4IELVeHjkHW2kmXFPecYH
- RmWptNi5Rs7uc+LfrJdRiIMpCJFO8r8sBglGZ3aVR30po6uTHvwYXkBI47OH3pujmqk8hryd/x0
- 35VAgk9SypwrNd5KZShOpWummWZaR5iez2AHWz6U4+wjn6dJOwztEqTtSQhXStu6UzuzgL6CfQ8
- xo3/cFFI7s/LQK6Ed/1G/0BixsExQ9p5CO8/1FWNnKNbnKFJWTb0=
-X-Received: by 2002:ac8:588f:0:b0:4f3:5816:bd8d with SMTP id
- d75a77b69052e-502a179ca4fmr63770341cf.62.1768593997954; 
- Fri, 16 Jan 2026 12:06:37 -0800 (PST)
-X-Received: by 2002:ac8:588f:0:b0:4f3:5816:bd8d with SMTP id
- d75a77b69052e-502a179ca4fmr63769841cf.62.1768593997449; 
- Fri, 16 Jan 2026 12:06:37 -0800 (PST)
-Received: from localhost (pool-100-17-20-16.bstnma.fios.verizon.net.
- [100.17.20.16]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-502a1efb0b2sm28738281cf.29.2026.01.16.12.06.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jan 2026 12:06:35 -0800 (PST)
-From: Eric Chanudet <echanude@redhat.com>
-Date: Fri, 16 Jan 2026 15:05:39 -0500
-Subject: [PATCH v3 2/2] dma-buf: system_heap: account for system heap
- allocation in memcg
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8463610E03A
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 20:19:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+ Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=pi/RgB1Unl19HefTzRzEML+gH6nwxFlmQo0yAUtLu50=; b=gPZ/XnEfysgzVoe7cAHYKmaSM6
+ MnV3MbHFJstrlliwKK8D4lydxC3BNKdgBmmI+vlP33T2NpuQpSlnkIi2X3w6I1ymmTwEz/oBsNa7f
+ tfSUuXdjgCx4K7OtIQ5Kq2pWih4NfO+yw3fJxmlcoANr6JbfVVr/Hc282XZqbNlxQdsBiDVUeDyLq
+ 1kRBQbNjykWiMnNvobOVRaWAN/3TyOY/IaPg7lhSfAR8LSEEuMvWE+nJlVPQStxb66psi4R/6wrdL
+ 5ofbJeVpjtVyMsbgHLKyviNuyRLZ7O1zYf04VOCJvqc53ZlTu+czwwWU3ybuvRdinaQbwn43YfAtd
+ eNVbgJ7A==;
+Received: from [187.36.210.68]
+ (helo=1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1vgqIL-006Ixj-NB; Fri, 16 Jan 2026 21:19:45 +0100
+From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Subject: [PATCH v3 0/4] Power Management for Raspberry Pi V3D GPU
+Date: Fri, 16 Jan 2026 17:19:21 -0300
+Message-Id: <20260116-v3d-power-management-v3-0-4e1874e81dd6@igalia.com>
 MIME-Version: 1.0
-Message-Id: <20260116-dmabuf-heap-system-memcg-v3-2-ecc6b62cc446@redhat.com>
-References: <20260116-dmabuf-heap-system-memcg-v3-0-ecc6b62cc446@redhat.com>
-In-Reply-To: <20260116-dmabuf-heap-system-memcg-v3-0-ecc6b62cc446@redhat.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Maxime Ripard <mripard@redhat.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
- Eric Chanudet <echanude@redhat.com>
-X-Mailer: b4 0.14.2
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: pkjUvvATxObZd9Vr5xpl2QrvyJcm0M9Kk2u5VoLibbc_1768593998
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAEmdamkC/4XNzQ7CIAzA8VcxnMVA2acn38N4gNFtTdxYYEHNs
+ neX7aQH4/HftL8uLKAnDOx8WJjHSIHcmEIdD6zp9dghJ5uagYBclFDxqCyf3AM9H/SoOxxwnDm
+ iMWkjs01dsHQ6eWzpubPXW+qewuz8a/8S5Tb9A0bJBS8r0dYARoqsulCn76RPjRvYJkb4UJT8o
+ UBShAKbF0bIusi+lHVd3/BRqc//AAAA
+X-Change-ID: 20250728-v3d-power-management-eebb2024dc96
+To: Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Stefan Wahren <wahrenst@gmx.net>, Maxime Ripard <mripard@kernel.org>, 
+ Melissa Wen <mwen@igalia.com>, Iago Toral Quiroga <itoral@igalia.com>, 
+ Chema Casanova <jmcasanova@igalia.com>, Dom Cobley <popcornmix@gmail.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ kernel-dev@igalia.com, =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3820; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=7LO6dBysStjJCgGOxwLNnnvymrV1b0iyEoeH8+uq/HU=;
+ b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBpap1XGa785xzblDV26B8st9hr/i9zDrBoX3wgT
+ b/N4WHsEkCJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaWqdVwAKCRA/8w6Kdoj6
+ qsIfCACTw1ugyC8RJ61VNgnGoOTjZFRX4EEkp3B0G6ZuumCDGEHD955np+TUPNOFFxmNpZL8rqE
+ UTqzZKRnJWzC3twgvonI2geHhx34TYNufK+Q/khzBmFFtiOGQ09kelxiKPdDvoDEEItk24SDMoA
+ 2ci4k56418zrWjSKBOR/d86t0h51fyj7Jmsi89SVdH4T+pU5CAEYnaYG5c0bwSiQj8d0xXCZTND
+ tie3GjV26cDjZJzvV6wLSeIXKzq2+PyOtbyUTpsiOer0RTqKTaRv0W2NpUC5vGWuC+ITtQvM0MP
+ zJNIhLh2mkoyjvjcWp2P+2PPnqHLDQoodu3IgrfN5/4AVAtw
+X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
+ fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,43 +84,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The system dma-buf heap lets userspace allocate buffers from the page
-allocator. However, these allocations are not accounted for in memcg,
-allowing processes to escape limits that may be configured.
+This series introduces Runtime Power Management (PM) support for the
+Raspberry Pi V3D GPU.
 
-Pass __GFP_ACCOUNT for system heap allocations, based on the
-dma_heap.mem_accounting parameter, to use memcg and account for them.
+Currently, the V3D clock remains enabled for the entire system uptime,
+even when the GPU is idle. With the introduction of Runtime PM, the
+clock can now be disabled during idle periods. For example, with this
+series applied on a Raspberry Pi 5, if we check `vcgencmd measure_clock
+v3d`, we get:
 
-Signed-off-by: Eric Chanudet <echanude@redhat.com>
+(idle)
+
+$ vcgencmd measure_clock v3d
+frequency(0)=0
+
+(running glmark2)
+
+$ vcgencmd measure_clock v3d
+frequency(0)=960016128
+
+One particular change was required in this version to ensure a
+meaningful reduction in idle power consumption: the V3D clock rate must
+be explicitly set to the minimum rate during suspend. As explained in
+an inline comment, this is needed as some firmware versions may not
+fully power off the clock when its state is set to off. This issue can
+be mitigated by setting the clock rate to 0 during suspend. For this
+same reason, PATCH 1/4 has been added in this version.
+
+Apart from that, the v3d patches are mostly identical to v2, but rebased
+on top of drm-misc-next.
+
+To ease testing in Raspberry Pi 4 and 5, I prepared a downstream branch
+backporting this series to rpi-6.18.y [1].
+
+[1] https://github.com/mairacanal/linux-rpi/tree/v3d/downstream/power-management-6.18
+
+Best regards,
+- Maíra
+
 ---
- drivers/dma-buf/heaps/system_heap.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+v1 -> v2: https://lore.kernel.org/r/20250728-v3d-power-management-v1-0-780f922b1048@igalia.com
 
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 4c782fe33fd497a74eb5065797259576f9b651b6..4049d042afa14ec2f4d034f59f1740600a20c1e5 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -320,14 +320,17 @@ static struct page *alloc_largest_available(unsigned long size,
- {
- 	struct page *page;
- 	int i;
-+	gfp_t flags;
- 
- 	for (i = 0; i < NUM_ORDERS; i++) {
- 		if (size <  (PAGE_SIZE << orders[i]))
- 			continue;
- 		if (max_order < orders[i])
- 			continue;
--
--		page = alloc_pages(order_flags[i], orders[i]);
-+		flags = order_flags[i];
-+		if (mem_accounting)
-+			flags |= __GFP_ACCOUNT;
-+		page = alloc_pages(flags, orders[i]);
- 		if (!page)
- 			continue;
- 		return page;
+- [1/5] NEW PATCH: "clk: bcm: rpi: Add missing logs if firmware fails" (Stefan Wahren)
+- [2/5] Remove the "Fixes:" tag (Stefan Wahren)
+- [2/5] dev_err_ratelimited() instead of dev_err() (Stefan Wahren)
+- [2/5] Instead of logging the clock ID, use clk_hw_get_name(hw) to log the name (Stefan Wahren)
+- [2/5] Add a newline character at the end of the log message (Stefan Wahren)
+- [2/5] Use CLK_IS_CRITICAL for all clocks that can't be disabled (Maxime Ripard)
+- [3/5] NEW PATCH: "clk: bcm: rpi: Maximize V3D clock"
+- [4/5] Use devm_reset_control_get_optional_exclusive() (Philipp Zabel)
+- [4/5] Make sure that resource are cleaned in the inverse order of allocation (Philipp Zabel)
 
--- 
-2.52.0
+v2 -> v3: https://lore.kernel.org/r/20250731-v3d-power-management-v2-0-032d56b01964@igalia.com
+
+- Rebased on top of drm-misc-next
+- Patches "[PATCH v2 1/5] clk: bcm: rpi: Add missing logs if firmware
+  fails", "[PATCH v2 2/5] clk: bcm: rpi: Turn firmware clock on/off when
+  preparing/unpreparing", and "[PATCH v2 3/5] clk: bcm: rpi: Maximize
+  V3D clock" were applied to clk-next.
+- [1/4] NEW PATCH: "clk: bcm: rpi: Let V3D consumers manage clock rate"
+- [2/4] NEW PATCH: "clk: bcm: rpi: Mark PIXEL_CLK and HEVC_CLK as CLK_IGNORE_UNUSED"
+- [3/4] Added Philipp's R-b (Philipp Zabel)
+- [4/4] s/drm_err/DRM_ERROR
+- [4/4] Set the clock rate to 0 during suspend and to the maximum rate
+  during resume
+
+---
+Maíra Canal (4):
+      clk: bcm: rpi: Let V3D consumers manage clock rate
+      clk: bcm: rpi: Mark PIXEL_CLK and HEVC_CLK as CLK_IGNORE_UNUSED
+      drm/v3d: Allocate all resources before enabling the clock
+      drm/v3d: Introduce Runtime Power Management
+
+ drivers/clk/bcm/clk-raspberrypi.c |   9 +--
+ drivers/gpu/drm/v3d/Makefile      |   3 +-
+ drivers/gpu/drm/v3d/v3d_debugfs.c |  23 +++++-
+ drivers/gpu/drm/v3d/v3d_drv.c     | 163 ++++++++++++++++++--------------------
+ drivers/gpu/drm/v3d/v3d_drv.h     |  23 +++++-
+ drivers/gpu/drm/v3d/v3d_gem.c     |  21 ++++-
+ drivers/gpu/drm/v3d/v3d_irq.c     |  15 ++--
+ drivers/gpu/drm/v3d/v3d_mmu.c     |  12 ++-
+ drivers/gpu/drm/v3d/v3d_power.c   |  96 ++++++++++++++++++++++
+ drivers/gpu/drm/v3d/v3d_submit.c  |  19 ++++-
+ 10 files changed, 270 insertions(+), 114 deletions(-)
+---
+base-commit: 26b4309a3ab82a0697751cde52eb336c29c19035
+change-id: 20250728-v3d-power-management-eebb2024dc96
 
