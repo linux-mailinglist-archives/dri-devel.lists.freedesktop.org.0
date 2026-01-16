@@ -2,143 +2,170 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E855D3857E
-	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 20:09:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E6ED385AB
+	for <lists+dri-devel@lfdr.de>; Fri, 16 Jan 2026 20:17:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BAC510E1B8;
-	Fri, 16 Jan 2026 19:09:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABEB110E25F;
+	Fri, 16 Jan 2026 19:17:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="ZmLicNzP";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.cz header.i=@suse.cz header.b="Mo+68MVr";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Oj286jig";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="rTK0cGo1";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="fZ6A3sjl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A7CA10E1B8
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 19:09:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
- s=s31663417; t=1768590566; x=1769195366; i=wahrenst@gmx.net;
- bh=QOIsIzI7WiDlq65gAQN/Rp2PT4RYKGrXr3biwu9dKdk=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=ZmLicNzPpp9Zq+xMcgTa3fzvl/oHsZFC/lbxTl8SeJsQclBjpXW2dTAiRMeGQxPo
- fYOufzXysxdKcyayRcb7sf3rxyup3CaiT61Xcs+vl0rX1ZeGGCFLJkSnp1g6w77p2
- L1/uJ20Td72wAkCQxzqY/UPadfvhv6C+loW/o4zEMxnEB5nkwTcwc75pMclBoXCaj
- 8VSJx2Ip+wE2ovmqwX+o+jOtS7BY6wWX7pgQhLNwGFGAcc2IBpPm+rL0koFi1LIwP
- EVwQ6ilJgrt6/PqppQsrKTeMFF1DmI9zoyMbDfgo1fxdy1RQ3JeI6GzzYUn1T0pvV
- LSp/7azxGkMWHnXyVw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.156] ([91.41.209.202]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MHoRA-1vd1ZQ1nAE-00BcpJ; Fri, 16
- Jan 2026 20:09:26 +0100
-Message-ID: <f70c95cf-e048-47b6-aa6d-e65bf47fee47@gmx.net>
-Date: Fri, 16 Jan 2026 20:09:23 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A1C610E91C
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 19:17:26 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8084C33699;
+ Fri, 16 Jan 2026 19:17:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1768591044; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=bisbCLm02jmO7kyrUXkvEcJg6kYp00MTdd1BdKawzFo=;
+ b=Mo+68MVrcphyHUMmUlW76Ea+IsmX87ibhv7WIG7yqlPQbMBV6bacUF1uDNdefDYPXE5LtZ
+ NWFrlDlvXLchecXoIBohgRX0CtpRYvHwENNvD/NQ5JLxx+H89GoDT9MJHrJHbp75Kwv7yV
+ s8DTUjmNPC47SAG3Go3HG11sGVtN+p0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1768591044;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=bisbCLm02jmO7kyrUXkvEcJg6kYp00MTdd1BdKawzFo=;
+ b=Oj286jigOR0MEqC+M/Sg6/yRSSNYgmTKItEDIVykS1qj8qDWAvzuxdd2jgg22+SAUnUt+F
+ xVlgq40gtnt/FgAw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1768591043; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=bisbCLm02jmO7kyrUXkvEcJg6kYp00MTdd1BdKawzFo=;
+ b=rTK0cGo13Lnb3UHlVksaG/Tvwtp5cVmYRGk3/NxeEipVJk2HKo4DGENgtF6P4ohfHFgl24
+ nYqzuIJ3uepxhLKDkkgtMRvMC0YHa9qtv+6mlENtQODsN5FnNoA91JEZNKv33hagRw9MwM
+ 8hIdlBl7xl4h98om58DpHaZA/tSZsAM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1768591043;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=bisbCLm02jmO7kyrUXkvEcJg6kYp00MTdd1BdKawzFo=;
+ b=fZ6A3sjlOuoCcXiAId99hN+SdJvIBtJ9iF/7w7p/MGNiuyOUn2LXgyzUpzyrH/OhgGVRSa
+ Y4+YVjsFVyGZfZAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 334C03EA63;
+ Fri, 16 Jan 2026 19:17:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id cWpiCsOOamnQBgAAD6G6ig
+ (envelope-from <vbabka@suse.cz>); Fri, 16 Jan 2026 19:17:23 +0000
+Message-ID: <8006ea5f-8845-436a-a2d7-125399428762@suse.cz>
+Date: Fri, 16 Jan 2026 20:17:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] arm64: dts: broadcom: bcm2712: Add V3D device node
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- kernel-dev@igalia.com
-References: <20260114120610.82531-1-mcanal@igalia.com>
+Subject: Re: [PATCH v6 1/5] mm/zone_device: Reinitialize large zone device
+ private folios
 Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-Autocrypt: addr=wahrenst@gmx.net; keydata=
- xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
- IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
- NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
- JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
- TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
- f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
- V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
- aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
-In-Reply-To: <20260114120610.82531-1-mcanal@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:xVERlNxr39ZJa1OQNlLPowmVSOzZxVIBCwvnSaP0eJVd3KTDm4R
- Yw+ftRybwirOq18wiBFVwOZaouYMdsL+chLL0JyV8JJukA1GHsXA6Oxuu2Sewe8ZhBCO0aB
- mxrr0Kn9R7ejc80AQmQktZMcwNusB7p8EBzoPB7E+3SY0rr3F/k3yBFMf/C4X0SqWOMKJ11
- IMubcEZ0xPYpl/hRyIMwA==
+To: Jason Gunthorpe <jgg@nvidia.com>,
+ Francois Dugast <francois.dugast@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Matthew Brost <matthew.brost@intel.com>, Zi Yan <ziy@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ adhavan Srinivasan <maddy@linux.ibm.com>, Nicholas Piggin
+ <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>, Leon Romanovsky
+ <leon@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Balbir Singh <balbirs@nvidia.com>,
+ linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-mm@kvack.org, linux-cxl@vger.kernel.org
+References: <20260116111325.1736137-1-francois.dugast@intel.com>
+ <20260116111325.1736137-2-francois.dugast@intel.com>
+ <20260116174947.GA1134434@nvidia.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <20260116174947.GA1134434@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.997]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; MIME_TRACE(0.00)[0:+];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[38]; RCVD_TLS_ALL(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[lists.freedesktop.org,intel.com,nvidia.com,linux.ibm.com,gmail.com,ellerman.id.au,kernel.org,amd.com,ffwll.ch,linux.intel.com,suse.de,redhat.com,linux-foundation.org,oracle.com,google.com,suse.com,lists.ozlabs.org,vger.kernel.org,kvack.org];
+ R_RATELIMIT(0.00)[to_ip_from(RLzhxcfrrwnfnqtbioy5kgo5ee)];
+ FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid]
+X-Spam-Level: 
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ERruxhv27NQ=;sJ6zhfgSEtO+5BZXPWwNYS/+FT7
- 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
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,14 +181,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 14.01.26 um 13:04 schrieb Ma=C3=ADra Canal:
-> Commits 0ad5bc1ce463 ("drm/v3d: fix up register addresses for V3D 7.x")
-> and 6fd9487147c4 ("drm/v3d: add brcm,2712-v3d as a compatible V3D device=
-")
-> added driver support for V3D on BCM2712, but the corresponding device
-> tree node is still missing.
->
-> Add the V3D device tree node to the BCM2712 DTS.
->
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-Reviewed-by: Stefan Wahren <wahrenst@gmx.net>
+On 1/16/26 18:49, Jason Gunthorpe wrote:
+> On Fri, Jan 16, 2026 at 12:10:16PM +0100, Francois Dugast wrote:
+>> -void zone_device_page_init(struct page *page, unsigned int order)
+>> +void zone_device_page_init(struct page *page, struct dev_pagemap *pgmap,
+>> +			   unsigned int order)
+>>  {
+>> +	struct page *new_page = page;
+>> +	unsigned int i;
+>> +
+>>  	VM_WARN_ON_ONCE(order > MAX_ORDER_NR_PAGES);
+>>  
+>> +	for (i = 0; i < (1UL << order); ++i, ++new_page) {
+>> +		struct folio *new_folio = (struct folio *)new_page;
+>> +
+>> +		/*
+>> +		 * new_page could have been part of previous higher order folio
+>> +		 * which encodes the order, in page + 1, in the flags bits. We
+>> +		 * blindly clear bits which could have set my order field here,
+>> +		 * including page head.
+>> +		 */
+>> +		new_page->flags.f &= ~0xffUL;	/* Clear possible order, page head */
+>> +
+>> +#ifdef NR_PAGES_IN_LARGE_FOLIO
+>> +		/*
+>> +		 * This pointer math looks odd, but new_page could have been
+>> +		 * part of a previous higher order folio, which sets _nr_pages
+>> +		 * in page + 1 (new_page). Therefore, we use pointer casting to
+>> +		 * correctly locate the _nr_pages bits within new_page which
+>> +		 * could have modified by previous higher order folio.
+>> +		 */
+>> +		((struct folio *)(new_page - 1))->_nr_pages = 0;
+>> +#endif
+> 
+> This seems too weird, why is it in the loop?  There is only one
+> _nr_pages per folio.
+
+I suppose we could be getting say an order-9 folio that was previously used
+as two order-8 folios? And each of them had their _nr_pages in their head
+and we can't know that at this point so we have to reset everything?
+
+AFAIU this would not be a problem if the clearing of the previous state was
+done upon freeing, as e.g. v4 did, but I think you also argued it meant
+processing the pages when freeing and then again at reallocation, so it's
+now like this instead?
+
+Or maybe you mean that stray _nr_pages in some tail page from previous
+lifetimes can't affect the current lifetime in a wrong way for something
+looking at said page? I don't know immediately.
+
+> This is mostly zeroing some memory in the tail pages? Why?
+> 
+> Why can't this use the normal helpers, like memmap_init_compound()?
+> 
+>  struct folio *new_folio = page
+> 
+>  /* First 4 tail pages are part of struct folio */
+>  for (i = 4; i < (1UL << order); i++) {
+>      prep_compound_tail(..)
+>  }
+> 
+>  prep_comound_head(page, order)
+>  new_folio->_nr_pages = 0
+> 
+> ??
+> 
+> Jason
+
