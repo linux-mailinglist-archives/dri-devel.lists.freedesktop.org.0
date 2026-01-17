@@ -2,97 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD215D38EE6
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jan 2026 15:04:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94987D38EEC
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jan 2026 15:10:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F63C10E06E;
-	Sat, 17 Jan 2026 14:04:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9025210E078;
+	Sat, 17 Jan 2026 14:10:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nSaMfCRF";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="N0bPxD5w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CECDA10E06E
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 14:04:57 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id
- 98e67ed59e1d1-34cf1e31f85so1554007a91.1
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 06:04:57 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768658697; cv=none;
- d=google.com; s=arc-20240605;
- b=TUTp468U/c+zsDC5wDvuEdPc6JAiAgUdOyeiqMicyfEo5Ouvpc6hG3pu7mq0qLbapj
- Q/Md/hb1e/BatyNJ9dNj+l9UAjnItwcoW2Oxn2kQFx5KNO4wSVHJAAe0v0km7HwcnU9W
- lva8hBJhXn7zWF+RCIxlwKZ+Uililim5UKgspzATa4K0FDmjnB3kOk4e5wQH3P3sh5pC
- aMIlkCk2LwM4cL5NEKoi7u7woHala0BNhJ/+8a/YNEOM56ngJsvOG4rD8sRZWL8IkUEk
- 5D+WRlEMe68rlSjEYNjgbDZtmPg3oSO/nosNcVhHTuRwFgScc9+9MU6A5RmdxhknmQYC
- j6gg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:dkim-signature;
- bh=o0zJYKIcOw63QlxDIuh/u4oMuj+/FORjvTxLIWOQ0zw=;
- fh=lXyCz0Uhyc1Fwl7TaHc6YYjqbxo/FoC7nz+iWmZmTUA=;
- b=GspcZM7+2vnXQGgXTkurJUuSIhk8vyBbprhN1MBu495yaYLdEuFMJdejlD9d1NAfbD
- UrX0qeOsyZDOgYLjhL3Fa+PQwRKcPbE7bxsmHApUNxvO51bLN9fjWxBlyVEUeWgsQgiF
- 2OA1pEMJqfh1szptioTzjz1kUrS77vUeL1fp77NFMGbGAw2sMxV/g2Wz4bumdjfnqJr5
- yy9MDYMDI9ChtaOGtuNcBk6YgwIzl8/fu+14h/DWfLBAFlyZgJd/YVbPu/fBZdUTl0ck
- 6q99hlnoBXctphyj8peyZaJ0RjRNxTCJRclLgzSOP5RxrW1sDfdpYkQoT5pNso1H+EhC
- BxUg==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F28D10E078
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 14:10:11 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id
+ d2e1a72fcca58-81f3fcdb556so1435902b3a.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 06:10:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768658697; x=1769263497; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=o0zJYKIcOw63QlxDIuh/u4oMuj+/FORjvTxLIWOQ0zw=;
- b=nSaMfCRFHI4wRbL36EWvUCpl/l4CrlA7WYux0SiCyTWvUki4zzUkOEZgFScajRYRST
- tYsBxj6zvZ86QhdyS0ZESpmB86p+QUQ8obZGL88wvorNhAeUeL/eKdQ1s8R/+ecd+zf4
- vGYPL6PJ7ADc3EFjsB+OjlCZgTUp8VCA31jJXym6dGGaXE2XRCYlIbvUqhIVHBZsCnIl
- etDtxUa0V3PzYoc6My27yuZOfuMfJ0Rnk8aY2Xk1F1agqWA/NworsVbsOoMu2xK+30RR
- PQyFzSIIoMXHwS8Ew5QrmH3gVQ6xOhEL5qpHJBH8K5u8NDxg0xpqiEk/IQI6S7lFuRPa
- 9vQA==
+ d=gmail.com; s=20230601; t=1768659011; x=1769263811; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=1YsjaSB9aIQokwOFTN0Ov8qKUwyht65twzNGrMEevb0=;
+ b=N0bPxD5wag4+QNYz4qC7fFkPtgZFsGzswduEUA2yourdm/QK7LV/uzs5PU3iPYO+/9
+ rLMMZboPy4zHmVpMmFo+g+0dhNtlUGKzm0B0XGYjwchXlAPmcN9sECeYiZwAF2H7z9GR
+ 06M3snE8kh5E4J9MnkU5+Ayk1m2iiq2MgURGdF4wTGI9/MFfXLRiWxVs29lUXGtKJdln
+ uIdiLjYk1IR2h+x4I60Ewj9Zv/cjM5I/TwE2k/AUaoIkty4VtCL2SWB8ViRpKo1R75Hf
+ 9m87K5LoDDtjNoFpEIe1h8jrN75/vxvGQqPc8qDrd28YiL7fnjHE4YqG5AhhsGVvaQuN
+ UhZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768658697; x=1769263497;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=o0zJYKIcOw63QlxDIuh/u4oMuj+/FORjvTxLIWOQ0zw=;
- b=nJOWcuP2iLUHqSnWuGpKRjzlfqy6J/K5026khhCpfyH4DvgpNSqlNAIqObOf+YifJK
- 6QEv2lDjtDTKUy2RGbpxy45jNRHnet/gsPu2PiYTbvRpSVNgfSIKdYLMoBa+B8WVVisM
- SrLFs/FcKfUHCv32RkTOEFuINgbs0G6/sMQQ15pDeCBD8EE9bPCCyGDjDBSoz3PaKWlZ
- 0L2tZ6WqYt4AvX7llqvLYZeb8odBYmlI8xTCv+Nbmnx4RO/j0vommerKEn8B7KLJgLLm
- 985FxDn/4M8i6VtBtFjmH4gwH3bwyrX8XdL/H5MeBAqL8+2w6r/73F8d3pmS2+36Y8mt
- Zezw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWRHTwCDc27ndVTaQtitMXnojLxQ5wEJMnxYvYWyyfCVJLg1djBfq4h9ASWWNtSzjuE3ztHbAdQnnU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwPMORRs9oPWF5U6zebI9Erf7JllghEk7QN+JniCeziVsb7QW4n
- DDhQ1rBY+ZcsRrJ26nEVg+FryHPDlz40fPxIMbkNPjPpDOPn9C/F5LqQHWzVDZ3IbnBgPSumO8q
- sKA5vrXmhJxOANpnxkWaAIqV/mge35G0=
-X-Gm-Gg: AY/fxX6pbJkHK2/3eK84y299D8bblWRxJlAEBrAo7V/92kYBsUcJQBuk3a0ZODghWYl
- UZKyMUv8f1O3e0ANCvcJk5q+usNi5Ye+nMrV2OZJf5H0Ysdr9m5oyareYV+5mbOTwgxJWZohPF4
- NtcSggasWRl53GZpkx6JjpSDB81COA3LB+F8V1XVEn+U5g6myVd3zndjx47lVAee40oQ2Ha/+/+
- 9aeAHJtxmOCIn07EADEr1zpZTIdmBWYaVqjP/866Yq1RYXIe+XrEx/ZEdcRYZ+G2zwuHg==
-X-Received: by 2002:a17:90b:2e8b:b0:34a:a1dd:1f2a with SMTP id
- 98e67ed59e1d1-35272f6cea7mr5369420a91.20.1768658697170; Sat, 17 Jan 2026
- 06:04:57 -0800 (PST)
-MIME-Version: 1.0
-References: <20260113143445.889031-1-xjdeng@buaa.edu.cn>
- <2026011637-statute-showy-2c3f@gregkh>
-In-Reply-To: <2026011637-statute-showy-2c3f@gregkh>
+ d=1e100.net; s=20230601; t=1768659011; x=1769263811;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1YsjaSB9aIQokwOFTN0Ov8qKUwyht65twzNGrMEevb0=;
+ b=Ex9AyBoQAmL0uwuVTqmVgvshnXsOV2Kc38nIoOoaE0oBGgplA1MUQgiUl5kndhCcOX
+ RETQPq8ZMf7+Y4gGQKKltyZokLEFKziKlvphdIG26E+W+lLXN++MzhWtPODhVCz76BDy
+ ulLhqLtzTWnPfjRFg27hZZzaX2pWKowUno4+TS/IQBfogumteI79g4Ec+cMKRgK3Rwk2
+ nrHjhFYUzKBfIYPZIPnnDdAYhVbmrJ2LO7v4uXYOasawGb4tMGfG6Cu2y9x4ltikip8/
+ R0LgWridOUKFowZBkEVIRbLh+MvLljj13UT1PxJPZuD9tnTQu8kFNUFXhtpB3U1jqCon
+ riWg==
+X-Gm-Message-State: AOJu0Yz69qchDWFuUE36pSGzE/+vkk2YZX76Yg59PkecyPUKFPHAZXJ+
+ bfP4fB3qFlt17DoysT/wbJ59U6sPCIeatURcDbJva/ahsjsyruBYrJ6U
+X-Gm-Gg: AY/fxX4LcRM/UI+MPl67SMASUCHsOiB93rdqWLh6SKpcQ1p5XI/o7qDXqpJzqzTgBmb
+ rXk1iU5QIXbThypNWHvxLWDVdgxIxgGHwbCIpKQZm4Gv4kcGs896msql0nq+XuZqeC64/eoM/3v
+ 950jujbf6izLS1+W10Jmq2gpFU0pJwLf0SOlf5RKfIJS7fpBVDYLMZp19tbhsCN8WBbQsCdPyVv
+ ioC0INQYgc1hnD2KWWQSq63RsLOr7FsfJkyIZQT71iBfNqwm7XwL935wORO+uhYRMOQOxmYWpz2
+ 0eI4IL0koj7k0F43H8MJLYfHfRlWTXN51rrH3lzxWyVo4obeI8GN73yzpzqsO1PjwdUTbJVJ8NH
+ eu3xyEA4eM2E+u5D4Nmo0p1cTeqIak8DkyKTkemQIznotrcWnpUDMS9t4jTbKdolxRIUSpsbBEE
+ km+Suw9MgoItYnKtsij6Okk61hspfz3gf2Kg==
+X-Received: by 2002:a05:6a21:1506:b0:364:1332:54ca with SMTP id
+ adf61e73a8af0-38dfe7b7580mr5929841637.59.1768659011011; 
+ Sat, 17 Jan 2026 06:10:11 -0800 (PST)
+Received: from localhost.localdomain ([111.202.170.108])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-c5edf32dbc1sm4834519a12.21.2026.01.17.06.10.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 17 Jan 2026 06:10:10 -0800 (PST)
 From: Xingjing Deng <micro6947@gmail.com>
-Date: Sat, 17 Jan 2026 22:04:46 +0800
-X-Gm-Features: AZwV_QhMdhXRqpAUPwcrRQXzIqnB78fS_tjtJ65FVa00ZjjEvdH2FAt11GktpJQ
-Message-ID: <CAK+ZN9qE7C5E-17hKsoFiBUm8fd7JOLc3oJi=75=8DzBhjWBDA@mail.gmail.com>
-Subject: Re: [PATCH v4] misc: fastrpc: check qcom_scm_assign_mem() return in
- rpmsg_probe
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de, 
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+X-Google-Original-From: Xingjing Deng <xjdeng@buaa.edu.cn>
+To: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
+ gregkh@linuxfoundation.org
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, Xingjing Deng <xjdeng@buaa.edu.cn>,
  stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: [PATCH v3] misc: fastrpc: possible double-free of cctx->remote_heap
+Date: Sat, 17 Jan 2026 22:09:59 +0800
+Message-Id: <20260117140959.879035-1-xjdeng@buaa.edu.cn>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,85 +84,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: micro6947@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-OK, I have released v5.
-Thanks for your help.
+fastrpc_init_create_static_process() may free cctx->remote_heap on the
+err_map path but does not clear the pointer. Later, fastrpc_rpmsg_remove()
+frees cctx->remote_heap again if it is non-NULL, which can lead to a
+double-free if the INIT_CREATE_STATIC ioctl hits the error path and the rpmsg
+device is subsequently removed/unbound.
+Clear cctx->remote_heap after freeing it in the error path to prevent the
+later cleanup from freeing it again.
 
-Greg KH <gregkh@linuxfoundation.org> =E4=BA=8E2026=E5=B9=B41=E6=9C=8816=E6=
-=97=A5=E5=91=A8=E4=BA=94 22:47=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Tue, Jan 13, 2026 at 10:34:45PM +0800, Xingjing Deng wrote:
-> > In the SDSP probe path, qcom_scm_assign_mem() is used to assign the
-> > reserved memory to the configured VMIDs, but its return value was not
-> > checked.
-> >
-> > Fail the probe if the SCM call fails to avoid continuing with an
-> > unexpected/incorrect memory permission configuration
-> >
-> > Fixes: c3c0363bc72d4 ("misc: fastrpc: support complete DMA pool access =
-to the DSP")
-> > Cc: stable@vger.kernel.org # 6.11-rc1
-> > Signed-off-by: Xingjing Deng <xjdeng@buaa.edu.cn>
-> >
-> > ---
-> >
-> > v4:
-> > - Format the indentation
-> > - Link to v3: https://lore.kernel.org/linux-arm-msm/20260113084352.72it=
-rloj5w7qb5o3@hu-mojha-hyd.qualcomm.com/T/#t
-> >
-> > v3:
-> > - Add missing linux-kernel@vger.kernel.org to cc list.
-> > - Standarlize changelog placement/format.
-> > - Link to v2: https://lore.kernel.org/linux-arm-msm/20260113063618.e2ke=
-47gy3hnfi67e@hu-mojha-hyd.qualcomm.com/T/#t
-> >
-> > v2:
-> > - Add Fixes: and Cc: stable tags.
-> > - Link to v1: https://lore.kernel.org/linux-arm-msm/20260113022550.4029=
-635-1-xjdeng@buaa.edu.cn/T/#u
-> >
-> > Signed-off-by: Xingjing Deng <xjdeng@buaa.edu.cn>
-> > ---
-> >  drivers/misc/fastrpc.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> > index cbb12db110b3..9c41b51d80ee 100644
-> > --- a/drivers/misc/fastrpc.c
-> > +++ b/drivers/misc/fastrpc.c
-> > @@ -2339,10 +2339,10 @@ static int fastrpc_rpmsg_probe(struct rpmsg_dev=
-ice *rpdev)
-> >                       src_perms =3D BIT(QCOM_SCM_VMID_HLOS);
-> >
-> >                       err =3D qcom_scm_assign_mem(res.start, resource_s=
-ize(&res), &src_perms,
-> > -                                 data->vmperms, data->vmcount);
-> > +                                                             data->vmp=
-erms, data->vmcount);
->
-> I'm all for coding style cleanups, but don't mix that into a patch that
-> does something else.  Also, please indent this properly, checkpatch
-> should complain about this.
->
->
-> >                       if (err) {
-> >                               dev_err(rdev, "Failed to assign memory ph=
-ys 0x%llx size 0x%llx err %d",
-> > -                                     res.start, resource_size(&res), e=
-rr);
-> > +                                             res.start, resource_size(=
-&res), err);
->
-> Same here, that's not right.
->
-> And I don't see the real change here, are you sure you generated this
-> properly?  This just looks like coding style cleanups, which do not
-> match the changelog text.
->
-> thanks,
->
-> greg k-h
+Fixes: 0871561055e66 ("misc: fastrpc: Add support for audiopd")
+Cc: stable@vger.kernel.org # 6.2+
+Signed-off-by: Xingjing Deng <xjdeng@buaa.edu.cn>
+
+---
+
+v3:
+- Adjust the email format.
+- Link to v2: https://lore.kernel.org/linux-arm-msm/2026011650-gravitate-happily-5d0c@gregkh/T/#t
+
+v2:
+- Add Fixes: and Cc: stable@vger.kernel.org.
+- Link to v1: https://lore.kernel.org/linux-arm-msm/2026011227-casualty-rephrase-9381@gregkh/T/#t
+
+ drivers/misc/fastrpc.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+index ee652ef01534..fb3b54e05928 100644
+--- a/drivers/misc/fastrpc.c
++++ b/drivers/misc/fastrpc.c
+@@ -1370,6 +1370,7 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
+ 	}
+ err_map:
+ 	fastrpc_buf_free(fl->cctx->remote_heap);
++	fl->cctx->remote_heap = NULL;
+ err_name:
+ 	kfree(name);
+ err:
+-- 
+2.25.1
+
