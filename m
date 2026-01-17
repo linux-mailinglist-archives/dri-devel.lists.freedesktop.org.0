@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAB41D38A92
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jan 2026 01:19:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED171D38A97
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jan 2026 01:20:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2999610E090;
-	Sat, 17 Jan 2026 00:19:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C2EB10E26B;
+	Sat, 17 Jan 2026 00:20:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ddl/azSm";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TM5ClUEq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AD5D10E090
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 00:19:44 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-47d6a1f08bbso9069975e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 16:19:44 -0800 (PST)
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com
+ [74.125.82.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE16C10E26B
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 00:20:08 +0000 (UTC)
+Received: by mail-dy1-f182.google.com with SMTP id
+ 5a478bee46e88-2ae61424095so2843914eec.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 16:20:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768609182; x=1769213982; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1768609208; x=1769214008; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Qr4dd4sRl6alXbR76AfI/u+BBUeNx88I+aVBJKJ/FKc=;
- b=ddl/azSmIDU3XtDPvz+QE9JYhUxkmpWwr6kPirqF4yFFF35wF5UWzNiYjYSnhSX7OC
- qpTeWYJ07L0XBj5t10CFjouZmy3tJOwsxhLL9SwEcfZDcweky9f9svdGkDLePXITHqjw
- Nu1fHuvQqtjHDLBmTDl1/AQSpVUKIvPDRiYNSinwaMWBLWWAV8kzyHKeqA55uayfd09U
- ntMcVfQzADl4JOAQy6icFLK+siwr5NAru6Eo7vncur++cgWIggGj/nfephMZBJZCZ/gc
- /3HZZ64VkfeWe2wsv6L92FY5oSmBqIm2TvCABowg2CvVQyljRIyfCoSs5mtk7rBmffR4
- e3GA==
+ bh=cczEx05352KICGWcEnd+Dlv+PGQV2cIqtx8pi5Cp/Qo=;
+ b=TM5ClUEqii17CyCURm7foHbJmy35SPtxYyj5a7RmgmM+jxpxJFRrQ/wdUfCFhoHIcl
+ aGempmrK8ISMzmEADo6p8ADNMA4uYCm5TjncUutSjzk2clmxxBiUmFJiYORpXvRS3HA9
+ gGPPnyyaro+XGXMqd6JnFyaaCsfZnHP1EHGgLjDH1/XZncQAglMttLccpOpt2D4+b8fX
+ +rHNVG2aLhRUmvlQYcRYIZdxJJy1oQTjDJJndOZ2miSLDq4Ws8Pk9JPBqpWEU8Dumre/
+ HYhsjIYT/1raUH3BpvgoNa19qh6jLrqU27gyESpJn/LZFd1QX2HCsQNywnGKaR+1n61C
+ lRQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768609182; x=1769213982;
+ d=1e100.net; s=20230601; t=1768609208; x=1769214008;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Qr4dd4sRl6alXbR76AfI/u+BBUeNx88I+aVBJKJ/FKc=;
- b=qSx+vho3M3dggpff12E2DJQvFgO8d1mqGvDB4e6Twm8Ioll6PcP50A1oF0UbZBCAiO
- 07FN0sAxPfmeCMyyH9mur5XxW4ziO0RcPFpC6XE8ZVXhzfQnKdm1rHN87YYMgn8aUMJj
- FyMFg2/YgV2fKQtX9yCEPGQkUq7qs4mSD4AAde/4lTGWLdF9Rwmr6WLBmZCJvcPrj1dC
- qa4qwwrCs74W4WkwII6bpGWL9eSnBY5uH3NHOfs/WcXCEiS0EJv9aWtb7Bt/rsMteZuL
- HijGXar4BmuxPW9I3NY4pjfkpDfNDf+NW//T0N8FZ1fShEzAr5faGUpNltxVjij1LC1j
- iAOg==
+ bh=cczEx05352KICGWcEnd+Dlv+PGQV2cIqtx8pi5Cp/Qo=;
+ b=E1J+NC9rn1KHYr8uSp2kIZZ2Rgy5o1Rz3FBSHLU/QJzBHPM9R0dr//pZA7caohLqXU
+ VUZErjow87d9DFvhxdZ0kuZAx9POxbPb+Ln4A68EOkPPhGJw9SO7TY+6BFJNyC6nbXLy
+ dJx1ySOODtpD6tSFvNiK11cXlKHUBdKXKmesoarij+XTlcVFw0WSvVsknyipoI9hqC3i
+ 1AE3AYdOdeHHeIoyhPfNJ+Fz33joiZmQtkfDFiBLMrqMDuwZndOQapVLUjJg0CoFm2nI
+ VusTx/GrxBFUThP3Jok1e8bmlw+Fv9GNMvF948ljp5IXE9zXDPSuuMT5KoS1IwUHIEO7
+ wDig==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWfyJtgwf/HZGlaaMtfGMEVw8OyNlhJNgsx+LvSTSfYFVTTe660WIB/jg9TcXT/MXXOUQSa6qs9Y88=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwRkqC501TBk3ua0nmKcFG4qPkr1nXreBsE503SM7Tp7FpV0vLF
- Dbgt6Aq6npXbzdYxUfQiCATHzrFcac/wMGbD4lKYxWu1VPunqQ1+EnNh
-X-Gm-Gg: AY/fxX6DP7f+T5r18ZwN7VGCpSIigAGiFR99/q9wPiO2dJpQ3suhyvyqwxUPJyr4f1G
- 0+0Uv5bPZiLBUyJptvmwxtwExGe9wJM0AhQmvUEINx6etaugtrLQq6bK3buFVCJ+4JvlwdHHitQ
- 0vcU3FMhmEtyOo9BBv01WqzODarC5q2FHVgcZRYDY8SqdwaGfkisPR1uub8RW6/s22c7zE9abHj
- ULiyFo2f3aU961pp8Sck2N/BecAZyb2c8c/aaxMbRVDm/UIwgRejOqKCW7EW2JijLsiSDtyYRvo
- r1oP3YpTFSnmdCa5NtB58AWI4qHfnWiAxLmBzINLZ34S0yQRr5xCMtGTUZTqfM0/c9GR7TXJJOK
- no7ihyZevZWm43mXT45MmnKyR9hQvy9NiOasUtyW95kmdaibsiHu0tbh3WzcT70nbpVw5qAwiZn
- PpOAteCYQZUlMViyj/pegGjbgkXxCmhNZatXOxpwoyWOUW5YxeqPykR62Q21tmDjekBV9zN5c0F
- A==
-X-Received: by 2002:a05:600c:6091:b0:480:1a9a:e571 with SMTP id
- 5b1f17b1804b1-4801eb04160mr48471585e9.22.1768609182440; 
- Fri, 16 Jan 2026 16:19:42 -0800 (PST)
+ AJvYcCWpZx/wk0Mb8dYrTv0n7BU0hC3t3M18tziANBckpRfr+gIbNjkd9ICFpr9Yp3f406vlP/mXRgD6cjE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz5q1eA0+LxmpqZOp0Y8UuDm9m3yrUHwngY8JSlJ8SvvE4e5lQ8
+ D1Pz6JX19OSmQ5p/vgwBOQnJsTvA8ViSJNp294iHD55gkklNIg6L5zcB
+X-Gm-Gg: AY/fxX5xl/LsL9s/JgHvz5+u1HDMd7XvLza9lJzdX2iOHjglJfQJknmrLOe2XlcQU8l
+ PrDQt7ZX/VySpYwNs1YyWfuuYOdt0iXKCwXpXpndQthIaRiwZT7ugA0MiIfU3IS0YDcIV75UqdM
+ blZgN4CZTMjoN5S17Xnm3Uf5J9URx1MSlFTYHnTb9gzTREJx2cbBQM8gjMvNuZ6471NLvYq5kd6
+ /Yoxo+PVIe8Obi0NqZdBTq55zvatvlVVgdltTv5BTp470g9rrHU7YGzaTsbk97+ECid8KfRPsMu
+ G+SU/xlc5rbHNqyyIwjoc1C1AOVXGkqtQLDxB70lsJSluRZN9PW9BP8fFXAzY2KfUpNJ78sv7yv
+ MsCnFqJVY8+XfpB37EfvFK1/DIY5Orpxr6wiT5yn5wcQyBgfPCD8E08DEm/mGsf6mUzDf2Tjy8S
+ 2fF60ljC726Mu3CoEp0D6GDZtNRAgTbtVKxXtbSmChSRjeYlmd2IsTWAsgC7SiNqzDWVZ8mFmyS
+ w==
+X-Received: by 2002:a05:7301:1e85:b0:2ae:546a:f2c3 with SMTP id
+ 5a478bee46e88-2b6b46d2dd9mr3435395eec.3.1768609207520; 
+ Fri, 16 Jan 2026 16:20:07 -0800 (PST)
 Received: from orome (p200300e41f0ffa00f22f74fffe1f3a53.dip0.t-ipconnect.de.
  [2003:e4:1f0f:fa00:f22f:74ff:fe1f:3a53])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47f4289b7aasm124804445e9.2.2026.01.16.16.19.40
+ 5a478bee46e88-2b6b36550dfsm3932999eec.25.2026.01.16.16.20.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jan 2026 16:19:40 -0800 (PST)
-Date: Sat, 17 Jan 2026 01:19:38 +0100
+ Fri, 16 Jan 2026 16:20:06 -0800 (PST)
+Date: Sat, 17 Jan 2026 01:19:59 +0100
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: Rob Herring <robh@kernel.org>, 
@@ -77,16 +77,16 @@ Cc: Rob Herring <robh@kernel.org>,
  devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
  linux-kernel@vger.kernel.org, 
  linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 4/4 RESEND] ARM: tegra: adjust DSI nodes for
- Tegra20/Tegra30
-Message-ID: <aWrVjkNzmowjPr0i@orome>
+Subject: Re: [PATCH v2 1/4 RESEND] clk: tegra20: reparent dsi clock to
+ pll_d_out0
+Message-ID: <aWrVplD0jfx-JM1v@orome>
 References: <20251204061703.5579-1-clamor95@gmail.com>
- <20251204061703.5579-5-clamor95@gmail.com>
+ <20251204061703.5579-2-clamor95@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="3ps3p3ummquvspuh"
+ protocol="application/pgp-signature"; boundary="jaydkfl2lwerisz4"
 Content-Disposition: inline
-In-Reply-To: <20251204061703.5579-5-clamor95@gmail.com>
+In-Reply-To: <20251204061703.5579-2-clamor95@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,45 +103,45 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---3ps3p3ummquvspuh
+--jaydkfl2lwerisz4
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 4/4 RESEND] ARM: tegra: adjust DSI nodes for
- Tegra20/Tegra30
+Subject: Re: [PATCH v2 1/4 RESEND] clk: tegra20: reparent dsi clock to
+ pll_d_out0
 MIME-Version: 1.0
 
-On Thu, Dec 04, 2025 at 08:17:03AM +0200, Svyatoslav Ryhel wrote:
-> Add missing nvidia,mipi-calibrate and cells properties to DSI nodes.
+On Thu, Dec 04, 2025 at 08:17:00AM +0200, Svyatoslav Ryhel wrote:
+> Reparent DSI clock to PLLD_OUT0 instead of directly descend from PLLD.
 >=20
 > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> Acked-by: Stephen Boyd <sboyd@kernel.org>
 > ---
->  arch/arm/boot/dts/nvidia/tegra20.dtsi | 4 ++++
->  arch/arm/boot/dts/nvidia/tegra30.dtsi | 8 ++++++++
->  2 files changed, 12 insertions(+)
+>  drivers/clk/tegra/clk-tegra20.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
 Applied, thanks.
 
 Thierry
 
---3ps3p3ummquvspuh
+--jaydkfl2lwerisz4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmlq1ZoACgkQ3SOs138+
-s6FU/Q/+JnHz4z3iaM5N3GbdNqivjMvosUv7yPpTe+rH1fd0qedCwH/Ozg5mOBAA
-fj89b6CFl8jNcxU26br2W7ePbJCqnz9+SENaMtlKZbUMXOd5rDzcdie2PMSclLxH
-vC2ycq79lAOsKcUWCClkQb5vqR2Dny0w+Ph3Z94DhdxCpW0/NWWswmT8NePMsiNK
-dgFtnWfsbzDYLzuNi6tSfngA4sHR68lmmoywqje+s4L1LEgCjVQlbJLDt7ztniOt
-zp9kkVMbF03fOeyjk0L6iw+0MEHHGpCWWBqg5A0YG54vwot0kkb8E97tdJUBQJ9K
-2vgxQ5hrsAYcJVh0h9SSiAsVXKJq5gu+0grEiFClSZbHMbFb5+J003t8Stk+2CwP
-vKtIurLRZ65Dn3eQt2p7trRJzjfdQcSmATMUeoEqV0ledh40y2b/ACm8OgtE0HTq
-hEJYyaOjbKUHxy5Asmp9Ioe7iDaXlOlK0L2w+ZAP0Hxaaem1Zfr9RRkA1wZIdhsy
-/8ao0kVBfZCC0l8vN8/wEQm+3+P6QS45JpqCe4xj8OgJozy8qZU53UJVr1T9cc+l
-BUuegRtXLa3Lv3vnxfHkQvNJ1CiwyrOEzFwOsoC5fjvToYWY0zQ5WSF/jW6+8yeH
-yjb9+tfoli6Gml1zk63cL3Srqflb5bX2FxXT4dxCAvU3V1ErZtY=
-=KaHS
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmlq1a8ACgkQ3SOs138+
+s6G7cg/+Nqq8drdePQg7ZDPcGam2jT1OJFozjkQqShUwbw65NT30Ld24jWkBEDET
+V66VMxWnuD+FqJUtmYFgBgP+09riMOIn1kjUwq48fs2/gTigorAcdLx60a80NuP3
+uBece6NnnstpG/euRgY5blBwruOhTSyLnu9JPOVnnRSAoRncMndRKLWRykAn201U
+ikxuUD7pdh2KLMbPDdqQaTgE/IyyEqjmtt8N50vHBLOZZAvgxaG7UwQsf5RH/KUh
+GbB1fyfApGFoCvVJJT+Y3RIH1R0UA7Cz2iQ9BpnWq0qKZbRdx2aD3YoEhsAXT+qu
+U/bY+kcvYwshKoxl1KQoM3jkk0k4V7QoN03fnjyR21ZsXjnQzf0RKu/0UzC1BK5y
+vLBkf9olK7gFjgLDjrXEzKQUB3sIY/YGWig21onNSMU69zB+JOB6Y8ClDIOoyyJY
+HtzjYhTgsuwPMi1vocOk2HrDTlWl7KYZOOi2y00YGp8/bOhWoOvP9z7D4AcbR3zW
+kV248pj2Mzd/4/k0H2k69lMZeoBlXZnxAtK07aADqo7eRqYEFUjaESqAPSn7y1OL
+5wSs+0gnrfv7vEAC5r1wJ5e+VEXk20ErPvTfzrbQtmo98iyWuRLvR1e7t5X9vuAj
+BP+2EYu0xjdpPW9R9wuZG04CSNWKx4490GPl+9UTm8BmHsO5kPk=
+=bC1o
 -----END PGP SIGNATURE-----
 
---3ps3p3ummquvspuh--
+--jaydkfl2lwerisz4--
