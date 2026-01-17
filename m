@@ -2,215 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C903FD38BFE
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jan 2026 04:56:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21CC5D38C2C
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jan 2026 05:30:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC3310E06F;
-	Sat, 17 Jan 2026 03:56:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E055D10E06C;
+	Sat, 17 Jan 2026 04:30:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VrnDHHVj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="i/Ls+cTj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B8FA10E036;
- Sat, 17 Jan 2026 03:56:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768622175; x=1800158175;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=D3li7GO18rFL5TEXF/6ABW2ZpRWsh4PTRTGFC0VysPM=;
- b=VrnDHHVjxCsolyrtumox1hHneN4UDsFAE+d/8qwYlNi3iHTtEeYPcKxU
- Of+UsY0jAJoqO35logjZiLtc2iqETCDgXvRrzBOSPXtefL84nQKfBqYhP
- OMty7n10rS7WQ1v1NYtx9oF4VnbzqSf+zGT2J8RPL1xZcFKMbQatfKt/h
- /iwgokCEXa3AeDQP2vnKG6Ui6dZMcggEJfVnsgoDQRcO8j/jTWQlGy9gY
- G8b/4v37IJY5gIb1ZSTymNpWE3dVgJMMbrXihmNlP4bz/pWIf4Qc7+8Qw
- wC3zAjDvT2FQe8AKNLVhvKcWqTtx4Hk4Aeqry3hBfK1Cbl7AikV/RhefX A==;
-X-CSE-ConnectionGUID: tn79vM/FTrWX+e7t9cDDog==
-X-CSE-MsgGUID: CKAeYlHbQTOvrOILZ1ROyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="70019079"
-X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; d="scan'208";a="70019079"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2026 19:56:14 -0800
-X-CSE-ConnectionGUID: RxZwMw/JRluZQn2Yuiko3w==
-X-CSE-MsgGUID: gViun4ZFRXymboR/fNh4og==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; d="scan'208";a="205456569"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
- by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2026 19:56:13 -0800
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Fri, 16 Jan 2026 19:56:11 -0800
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Fri, 16 Jan 2026 19:56:11 -0800
-Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.17) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Fri, 16 Jan 2026 19:56:11 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jZqVRaTzVpzRRmtsLMG59jEGygu+ydiQCNtx/rzeCWzH2kt3pzs7Q16LDAnIsZg1T2de6Fe5CdUi5TQ8aiQHIHVpYLVw5xU+Z6tOZS6bC+3olnJIq9TY56ieygZA/XlL1HKrzcaKi3YP8YWoAaixWn/LSOKSwV6h6oKFZiDipJax7PBDYmRN/ZJBnf2CX3UA4o3p2tQMYbVFL+zB8AbVQreDh3yQtT1vtbv8X0lqod3aT0+2mbz5Wz1ZrPGEh23FV9uCtFq+MEONcYHIGVJ8JRjIEHO0WIsZver7zuhsb61Vu+rBgl/XKRL32ULeaU5QKF+AalQg5VaI1sq6nsEfHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gi1mmy0FMdw+wL+no/4kQWWdDfMyftFA7KvgghxqqTs=;
- b=k52U9e8p0FKC4Kb0wx9sSo/ohb2N4y4H/rGyT6jqwk92+kkIa5yf1X3mFgAAITizfvGyWW5zay1f2i6fzlXgf1DBvICSO826eMNo4RtInAqTFkwaGC+rtrnbfRPdhgv2GontI6BKcHTDf0JMkLcpaRIFj6v9dFuU/dSSmiAYQ1pUr+0OESndGExjHu8jOkCKHD0IvmJzNeabMARp/UoCGmLbSoZlLoWxE/1FEgLKnbpoDgpR2YuenNA2rZ5nRva9ZzJHSW39Sg5lrm4jff8M9ahSPFExepkqQDHb6+7uI8InZMt3FQq0xcAZ/sGPNXrk8KwHNFkIAz2f25qXOgKFpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by SA1PR11MB8795.namprd11.prod.outlook.com (2603:10b6:806:468::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.9; Sat, 17 Jan
- 2026 03:56:03 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9456.015; Sat, 17 Jan 2026
- 03:56:03 +0000
-Date: Fri, 16 Jan 2026 19:55:59 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Vlastimil Babka <vbabka@suse.cz>, Francois Dugast
- <francois.dugast@intel.com>, <intel-xe@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, Zi Yan <ziy@nvidia.com>, Alistair Popple
- <apopple@nvidia.com>, adhavan Srinivasan <maddy@linux.ibm.com>, "Nicholas
- Piggin" <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Felix Kuehling
- <Felix.Kuehling@amd.com>, Alex Deucher <alexander.deucher@amd.com>, Christian
- =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Hildenbrand <david@kernel.org>,
- Oscar Salvador <osalvador@suse.de>, Andrew Morton
- <akpm@linux-foundation.org>, Leon Romanovsky <leon@kernel.org>, "Lorenzo
- Stoakes" <lorenzo.stoakes@oracle.com>, "Liam R . Howlett"
- <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, "Suren
- Baghdasaryan" <surenb@google.com>, Michal Hocko <mhocko@suse.com>, "Balbir
- Singh" <balbirs@nvidia.com>, <linuxppc-dev@lists.ozlabs.org>,
- <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>,
- <linux-mm@kvack.org>, <linux-cxl@vger.kernel.org>
-Subject: Re: [PATCH v6 1/5] mm/zone_device: Reinitialize large zone device
- private folios
-Message-ID: <aWsIT8A2dLciFvhj@lstrano-desk.jf.intel.com>
-References: <20260116111325.1736137-1-francois.dugast@intel.com>
- <20260116111325.1736137-2-francois.dugast@intel.com>
- <20260116174947.GA1134434@nvidia.com>
- <8006ea5f-8845-436a-a2d7-125399428762@suse.cz>
- <aWqgHTZ5hjlRvlKU@lstrano-desk.jf.intel.com>
- <20260117005114.GC1134360@nvidia.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260117005114.GC1134360@nvidia.com>
-X-ClientProxiedBy: BYAPR08CA0053.namprd08.prod.outlook.com
- (2603:10b6:a03:117::30) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B7C010E06C
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 04:30:33 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-2a3e89aa5d0so26412085ad.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 20:30:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1768624232; x=1769229032; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=vCrSsGPr19mQwGzLbkxTfgCN7ZB1b84ZZ1vrvJhEPMM=;
+ b=i/Ls+cTjXafm1xBsOOMjdHtnDQGt7Wr8lErSsrrDJuBduPjSzh9Dk9IO98KyEXQu6+
+ c/J8bMTe3qklsRPiIiHyM7u8kvLpKOd5JzhGTBFDbEnJw0IYLImzo3l7iQGuPX7HOCb3
+ kT7193Xsg4OnrMe34iI6+oDXBYxxaRJw8EL21ccMWOkoAfl1HrTFhksKhk2OG1mYIzJc
+ FvQLByPyDLSRfTfmaa4RMEnuJq8CxVD9rbwyIfG5RnnXjFX/8aiIemf1npaLPfdAD4gT
+ M5pvQ76equCJQl+XxXpL8LEoxjreRKb3Gfcu/ED/vn2DP4D3QKQx7u/7CadMb5RVu3ia
+ vB7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768624232; x=1769229032;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vCrSsGPr19mQwGzLbkxTfgCN7ZB1b84ZZ1vrvJhEPMM=;
+ b=b+K2FdFVQrKiCIlGEOQwPF+vOnZctf7zjOeFA6aBhUlhNPCaN8W8DgzjuGD0fZ+8LH
+ H1YB1/g2yHIl3zFvTGF3g7ygSd2q/aMBX7qh8+PdjBvkpOHZW4TxTpiS0PN31x7N4e8v
+ lnyor4GLt/110i7+6N+LsNqgvoh7/SOLb68sRMH/mSpgZLm8FAd+/Inu1QFFF29X+9rb
+ d28XB79N3D3Es3ODf5X0zSvYYcMXrKWBLRn5XLhLMF/b2ngIATj0T5BVUBkX+WyES67n
+ 8gl6l+ni8mY2v217nRyubjMKRazOZnWLIcO59p4aj23syX+oC7mKJkhLHEvYWiW2Luo+
+ 8Mhg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVm83Nqou5/bzczjHBqP8VDJqkfab14MeTZXnIxMSi9xK/eX6CWMmL07xoXgQdmbcprP8fIdMr+nuM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyPV7lvgF5BCSjBb4qNulL7Qn6G55y8snihOL+irdkzErknqBQT
+ Fb4JpND/Rn0C3MqEI41P59JGFpmFIhwMyPtVtcoABCaBcB77VxfSnsLx
+X-Gm-Gg: AY/fxX4aRsBG1pblxKGAxC2kV/d6mrTjg+QDFPOBB6lBbbKgjfBMq7hfA/uq9dP9bR1
+ yfjUqnUdJoq1zL4iStoyjdF+c3ifOFxpYkymmBQ7wJjpBR0bcDAunTLDww+2PLM9OT2BqhB3YKF
+ FknAAaKb1JyQ8J7r9JoFflSder05M8iPH+troBp6l+1S/RetLMeIQ6ZocA3ws742BWkaWOtbEGf
+ EI3cPfVmlNHVsG0KYMbtIzYfdJhIp2NCQYfch2Oe8GXZcnDpIFZ5TrCA2VX205JQF0FkMinDvJi
+ 2kt0sGCqH2u6Huq1Ab984H6xFEmq8pNUecUutBFaF7UdAdfuHref+A7OMMOJVXRWqrvPmQOHJw+
+ OpQ1XtWuyxlVpAQbjdyd+M4A1qv6WgK6QqlItRInLe758IjBOmmme5B5KXWZLZtXv4GuMT+6NQ9
+ bxjDE/ra1NXjsIeTDhWf5q3u/ygO4vr8EOIjWs9IB1F2U=
+X-Received: by 2002:a17:902:f78a:b0:2a0:b066:3f55 with SMTP id
+ d9443c01a7336-2a7174efc71mr45039245ad.10.1768624232460; 
+ Fri, 16 Jan 2026 20:30:32 -0800 (PST)
+Received: from cmpatel-home.hsd1.or.comcast.net
+ ([2601:1c0:5780:9200:26af:b454:d793:29de])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-81fa108b23asm3370159b3a.3.2026.01.16.20.30.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Jan 2026 20:30:31 -0800 (PST)
+From: Chintan Patel <chintanlike@gmail.com>
+To: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-omap@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, andy@kernel.org, deller@gmx.de,
+ gregkh@linuxfoundation.org, Chintan Patel <chintanlike@gmail.com>,
+ kernel test robot <lkp@intel.com>
+Subject: [PATCH v7 1/2] staging: fbtft: Fix build failure when
+ CONFIG_FB_DEVICE=n
+Date: Fri, 16 Jan 2026 20:29:30 -0800
+Message-ID: <20260117042931.6088-1-chintanlike@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SA1PR11MB8795:EE_
-X-MS-Office365-Filtering-Correlation-Id: d1533163-9761-4370-6668-08de557c557b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Y0hLazBjeU9MNi9POFoxdUFkK2xWcFovZ3drQWhqUmlUMXdWTE4yeDgyOHND?=
- =?utf-8?B?TWhHR0grSmp2a253SzY5K3orcXNuOUM5YW1MUkxoYXVuWDZicVFTUTBWS3pa?=
- =?utf-8?B?MDA2SjRlOHdPVFFYeGxyTjdDYnZqRmhIcS9WRHhBdEREVUVIdFJ0dzFieEx0?=
- =?utf-8?B?Skg2VmdLOUxTT3VOQ0g5RHR2MGFlWmVzT2d0REdqZ0xJWnkwbTl2K0lEYVNL?=
- =?utf-8?B?alJGRTErOFlQbTJDckJIY2pJbENld3hySW5wclVjcHF6Ym5VRnBCdnVEUHJp?=
- =?utf-8?B?UC8wUFBGMjQ1c1FHbTZnalJwNjkvWm1XK1VaWTBZOWxUUGQzSmJKN1VvcE9H?=
- =?utf-8?B?akRqQm91MlNxdkNkOXFSeXlKekhHNFdDSmZGMk9TWHR0ZEJXN1NORUNpQVZC?=
- =?utf-8?B?bEJlamxxOHA2M2ROcVRVTWxOaVczTXVkTDRXRENxakczTWp4ZndnVEZzck10?=
- =?utf-8?B?RXpJRFJiVUI4eUs4Q0N6dXIvWEdEclg2aEpmMzBacWJDeGZWMzJPY3d1NU1V?=
- =?utf-8?B?cytnbWhVc0ZKODBRUUJsT2hwNlVRU05jUURwOHRjdnNicklvNzZpNDdTZW5o?=
- =?utf-8?B?WkpUSCtFNFQyUTFVUHNLczArZGRaczgzTXZHMjRzeWd1Ky9mRk9taTN0bTdu?=
- =?utf-8?B?VllFN1NBQlFGMnRrR3R4R2QycE4yYUpBWWFaMlNDT25vZU5CTE1qU1Z6Z3VZ?=
- =?utf-8?B?UEw4b0k3WEY5cDFKVjE5OGtCOWo5dzRpa2VoN2tlZWVQZlIzd1JPREdMYTQ0?=
- =?utf-8?B?SWMydTNpZXl6RVl3MlZvY0dzMWJIam1kbnpXaUc1VkJyYkQ0dFpUMFVwSU5M?=
- =?utf-8?B?YjFvcG1lbWF3c3hCZEZaSXJnT2dyU1RvQy9GYXBQR1lMTUJVVGxURThUVk8x?=
- =?utf-8?B?RHJYUkYxMTd1Z1Vrdm9uenIwM1QxY1FUMDd5SEZKbTVXM0ZsWWlRUDlBWUlY?=
- =?utf-8?B?ekRNUmZDVGEzSlZoU1J6eTFZSHZib1Y3Umo2UHJDNFVmemR0ZDBzRFBHWFho?=
- =?utf-8?B?QUhaVkxweGVnNWZxOVArTTRBYUdaNUJIWkM1OG04R3dmc0hzcWtDN0E4bFVZ?=
- =?utf-8?B?K3JpVkNaNEhlOVNQbUNETmNLUVhaSWhVUnloS0lMUm5WYzVIZnMwVlpxM3B4?=
- =?utf-8?B?M1ljWHFUamRMVWh5MkZlb1F1TVV5cDdCQXdiTDdTMjR0dkNhQ0ZiZmxIODBS?=
- =?utf-8?B?ZkdjejhlN3RveUNLRUs3RER1c2w0VlFvVlJ4U3VaRlgzZGczSERoSzcrWkFM?=
- =?utf-8?B?aTFoUmczbWQycTJidFdsQVk0RUwzR29yN2xGQjhybFYrUGozWCt6SmlNd09D?=
- =?utf-8?B?MFNVYWxpaW5ib1ZJa2lQN0VKc0JFYXRHd1VMT0RpSHh4NmkrZjdUdk1qS0J0?=
- =?utf-8?B?NzVhcno5cC91M0dwcjZpNnNSUjVmZ0ZJTlhkWDU2T25jTHIwTzdybjQ1a1Bh?=
- =?utf-8?B?U0tiQjUzcTRSUzk1aStwMlRSZks3QzNMVUtVNmFuSlVwV0RFeDRyR1d1RGE2?=
- =?utf-8?B?ZTJlclljVDZhUGN0SWN3d3luZEEwYmhQVkVaaHg0eUZXUC81VzFBWStZT2xm?=
- =?utf-8?B?dG84bnI5SjR1dzN3ei9QMmhiU2FRckk5MGlMUUpxSExmZVJDRFlScjBSV2E5?=
- =?utf-8?B?bzgyeFdvQVpFZ2ZBVWoxYzA0TUFHU0cyUmdiWVh3a1ArMG9QeG0vQVdubENk?=
- =?utf-8?B?Mzd0YVhWaGZQLzJPaWJJZmtNUEdoSlFHSVFQWTc3akN4ZnIvSXEreUhYNDdM?=
- =?utf-8?B?V3FuUEJGOGhHMUc2eXBtMHB1RElrenUvTjlRbWFRWG9pN2NBS3JicDYwMUw5?=
- =?utf-8?B?QzZlQ3lyNFpRNy9sNGpCbElJUjRSRGU2YlhSeDBLU0x3bkR4dXhZQTdVY1BV?=
- =?utf-8?B?eEo4dlp6NGxlZ0R5bnVqV0FMRDFIZ3ptVFFSMGFhd0Ntd1NlZG41UHNmY1Rp?=
- =?utf-8?B?aDNsRkVVTnlOVENIK0duM2ZBdXFyVVdiUDJGci85V05VMXUwU1RVR0VZV09B?=
- =?utf-8?B?dVdCSVdMaFh2VmdCSDhTUk96SVZMSnFPMWNNYjIyTGZoNkZmLytaT21mOXVR?=
- =?utf-8?B?WVZnSStuUVZ1M081amNJSjRPY3FYRmtoRG56REdjQ3Y3bTN3aUovSlk0OHFv?=
- =?utf-8?Q?2lxc=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WGZ5Ym00TDUyREpsdmV5SnlWOU8wL2lkK0xlL25XMGVzaVp0TEFnalRJVkFu?=
- =?utf-8?B?aEtwREtvVHp1SkFBeEd3cnppOXFwd1N2QTdjbVV5d2FacGV6NUkzeDNOWUtW?=
- =?utf-8?B?T29NWjV2NWpoaGJRKy9vYUt1UTF3cU4rNkw3M3h5bUthNnZMSzliT2s0ZGdt?=
- =?utf-8?B?Q3FMdmdjR3VJamFLZmFubmxmT2U3cEhhVlhLOXJmcXBvUWhkdXMvT2NtZFFE?=
- =?utf-8?B?K2NQbVVjcVE3RlFoMFV1WVdwTXBQTWxJNDVyQk01WTYxMEE0aWlBbXlxT2d3?=
- =?utf-8?B?cEdCMW80N1RwblEwOXRzME40bWhTWUJtTkRBZ0VDTk4wMHVNYTA0bXhVTnRZ?=
- =?utf-8?B?aDMyRVVhWXVzRGhHcDJpS3RtQTdUTEh5OTB5ZlZJZWMvSlcyU3V4TE9CNGZ1?=
- =?utf-8?B?WG41eTF3MWNra1FrZUpCNzh0WW1ITlN5S2Y3SUcrVXU0TjBZVnlwa3NnU01x?=
- =?utf-8?B?eTVaU1dSckR5NHFWd0VsWUdISmN6djNZUzB6eG5OcUlnQ1ZLbWE1eEs0SVpa?=
- =?utf-8?B?NzVDeUdiOEdNMDBRRUtwanM3Qyt0WmhZd1NjM0xSR2ZISlBxcDRCRTg3SG95?=
- =?utf-8?B?blhIeWRyMnA4cjVKdDRwUVM4YUFQd3R1aS9CanVWSElUQXFJdnJKMzlzSjdD?=
- =?utf-8?B?T0Rma0VzSHBGL2NUL0I1Ui9SYzRRK3g3NnBPamdsUWxHZEJIL0RmWHR6eHFw?=
- =?utf-8?B?QjNiV0krMzdvSitXWFVqNk00WWswNWRKWmI2TnppS3crY291aFVYUGhxcWJV?=
- =?utf-8?B?Qlc3TC9DOTI3VFBUVzZzdlBEblZZcXUzTTN1YUNKQkJnZFkxU00wUXAyOWlo?=
- =?utf-8?B?NGxrN2s0UkF5SmNKemtGbzFUK1YzTURpQXhCSFVvVjNZYnZBV24wSGFtRUo0?=
- =?utf-8?B?MzlldnhQTG1VcVJJNzJXdnZ0N2craU51Qk1BcHBQdFpmVk5IWjZVa0dZMnlk?=
- =?utf-8?B?bjhmSU5BdHdFSnlwVHZXMVo5TFJ6N3VpUmo1dUgxNWZxZ3NoNjhMQll6UFhy?=
- =?utf-8?B?TG1JNTRSb3o2ZVJXSml4cWZSS2xJL1FxT1NLaGVrNWVPaFZqVWxvYlI2Z1Nn?=
- =?utf-8?B?MFhUYnVHVHpJbk5nWHcxSG8rTElsZTVDNHFIcngrazZnWXNvY3IzUENNdnRJ?=
- =?utf-8?B?VGcreU5lMlA4c0o5b0NZa1dqV2Z2RmlpMGJsRWlwd1JQQXczTUlMUmVtZllk?=
- =?utf-8?B?QUlQdCtvdGRRRDNqb0RhU3FlemNTcVU2bTVFRnRmSmNMbXJmajg5UDA1REla?=
- =?utf-8?B?N1pjQzN1d0lMK2FuR245WXg0YUcwZkRvY1UycCs4WExnU0t6Z3VaOTRYOCt6?=
- =?utf-8?B?SUpMV1N1L0JoUVdvK2oyTnc3NjNYOXRUeXVBYUtyVENielptaWdvR0xESlFp?=
- =?utf-8?B?SElLWEJmeW9ZZ2VOcEQxQ01xNFZZZUs0SDhYekpFNVhoaGYrQ2R5N29zak0y?=
- =?utf-8?B?WnR1em94Ym0xbDg5NXlEMlhnUVZDOUJ2Z1JXMVpYNVNXcDVJRUd0aVl1ckRx?=
- =?utf-8?B?UjNZVm9iUjBUbmpCT3pMdHJrTFBFcUkvU3dKREQ1UlRDdnV3bzRwcTV2dllV?=
- =?utf-8?B?Z2g5Y1pmbWlEMUNRZ0kyVlFwM1pCdndpSENzQzIxV1g0VjNvY2FrdGx6bXJ0?=
- =?utf-8?B?OU1MN2J5Y0hGVkM4bjQrNGoreFN2TW9Kb0Y3OGxEeWp1MDdYTjZtRENYL2ZK?=
- =?utf-8?B?REM3Z2dHdTJQTHRXVWltUUd0bGlIY25mTnN5OThLQUJTZE4vTDI0NFQ3T01G?=
- =?utf-8?B?U29HRzVETDB1SmUrNUh3V3Z3YWs2b0xTMlJkYXhBdHFDdG1XdEZaOHFQMC9i?=
- =?utf-8?B?cVV0K2dxUHBBVUdmUDRkTHRFNHB2VkdvYzF0M3NxeXhkZ2lCQWZubFpqZ3Na?=
- =?utf-8?B?WFExVGYvSEFabktJNG0xSk82MmswM1J5V2VpRExWVnIzdTZ3VFZoQnlOR01H?=
- =?utf-8?B?VE9zeWZqY0lBNUY2WTkrUU9KaXNFVGVpckQzRHM3bEJDZzM3dVJabXhBVWww?=
- =?utf-8?B?Y2piYWRwTEt4TmFDM1hzY2Jsa0JYb2NpSERVdUM3d2REdVBYc1N3UHR5dnJE?=
- =?utf-8?B?a1JtalhEMnhoMU1EazVxQVFEazJUQU92OVI3c0JoWjN1c2xSOUtNVGl5czRQ?=
- =?utf-8?B?bEdVVm4xbG9KVzFkM2NOOEk5eS9OL292TGRlSE5ySXJwS1pLMW03TlkxdW1m?=
- =?utf-8?B?WGNyVHRMdTFseU9XeDFtUUl0VVo4WkFLdzFucTRuRU44czhLN3pkd0VSY0gw?=
- =?utf-8?B?MzNNWGlkV2JoM2d0NzY5bUlWclNDSmFmYW5rVWtoamtFL29hVmZwT3V1R0Qy?=
- =?utf-8?B?VFdRZWlXd0tKVkFKTGNxTFVtRjJ6UFQxNksrUFR6Um1Wd3l3R3Z5ZWdHSjBQ?=
- =?utf-8?Q?vZcKoA24R7jH3/0o=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1533163-9761-4370-6668-08de557c557b
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2026 03:56:03.3622 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Vxymx/dQOOKMp/54ZtX+PHrQlNcmsd79MBg2p/92OAwU2UdkyRjrYVi14RA3ZerQaoe89LCvz/V3/XbqrZFX+Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8795
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -226,114 +91,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 16, 2026 at 08:51:14PM -0400, Jason Gunthorpe wrote:
-> On Fri, Jan 16, 2026 at 12:31:25PM -0800, Matthew Brost wrote:
-> > > I suppose we could be getting say an order-9 folio that was previously used
-> > > as two order-8 folios? And each of them had their _nr_pages in their head
-> > 
-> > Yes, this is a good example. At this point we have idea what previous
-> > allocation(s) order(s) were - we could have multiple places in the loop
-> > where _nr_pages is populated, thus we have to clear this everywhere. 
-> 
-> Why? The fact you have to use such a crazy expression to even access
-> _nr_pages strongly says nothing will read it as _nr_pages.
-> 
-> Explain each thing:
-> 
-> 		new_page->flags.f &= ~0xffUL;	/* Clear possible order, page head */
-> 
-> OK, the tail page flags need to be set right, and prep_compound_page()
-> called later depends on them being zero.
-> 
-> 		((struct folio *)(new_page - 1))->_nr_pages = 0;
-> 
-> Can't see a reason, nothing reads _nr_pages from a random tail
-> page. _nr_pages is the last 8 bytes of struct page so it overlaps
-> memcg_data, which is also not supposed to be read from a tail page?
-> 
-> 		new_folio->mapping = NULL;
-> 
-> Pointless, prep_compound_page() -> prep_compound_tail() -> p->mapping = TAIL_MAPPING;
-> 
-> 		new_folio->pgmap = pgmap;	/* Also clear compound head */
-> 
-> Pointless, compound_head is set in prep_compound_tail(): set_compound_head(p, head);
-> 
-> 		new_folio->share = 0;   /* fsdax only, unused for device private */
-> 
-> Not sure, certainly share isn't read from a tail page..
-> 
-> > > > Why can't this use the normal helpers, like memmap_init_compound()?
-> > > > 
-> > > >  struct folio *new_folio = page
-> > > > 
-> > > >  /* First 4 tail pages are part of struct folio */
-> > > >  for (i = 4; i < (1UL << order); i++) {
-> > > >      prep_compound_tail(..)
-> > > >  }
-> > > > 
-> > > >  prep_comound_head(page, order)
-> > > >  new_folio->_nr_pages = 0
-> > > > 
-> > > > ??
-> > 
-> > I've beat this to death with Alistair, normal helpers do not work here.
-> 
-> What do you mean? It already calls prep_compound_page()! The issue
-> seems to be that prep_compound_page() makes assumptions about what
-> values are in flags already?
-> 
-> So how about move that page flags mask logic into
-> prep_compound_tail()? I think that would help Vlastimil's
-> concern. That function is already touching most of the cache line so
-> an extra word shouldn't make a performance difference.
-> 
-> > An order zero allocation could have _nr_pages set in its page,
-> > new_folio->_nr_pages is page + 1 memory.
-> 
-> An order zero allocation does not have _nr_pages because it is in page
-> +1 memory that doesn't exist.
-> 
-> An order zero allocation might have memcg_data in the same slot, does
-> it need zeroing? If so why not add that to prep_compound_head() ?
-> 
-> Also, prep_compound_head() handles order 0 too:
-> 
-> 	if (IS_ENABLED(CONFIG_64BIT) || order > 1) {
-> 		atomic_set(&folio->_pincount, 0);
-> 		atomic_set(&folio->_entire_mapcount, -1);
-> 	}
-> 	if (order > 1)
-> 		INIT_LIST_HEAD(&folio->_deferred_list);
-> 
-> So some of the problem here looks to be not calling it:
-> 
-> 	if (order)
-> 		prep_compound_page(page, order);
-> 
-> So, remove that if ? Also shouldn't it be moved above the
-> set_page_count/lock_page ?
-> 
+When CONFIG_FB_DEVICE is disabled, struct fb_info does
+not provide a valid dev pointer. Direct dereferences of
+fb_info->dev therefore result in build failures.
 
-I'm not addressing each comment, some might be valid, others are not.
+Fix this by avoiding direct accesses to fb_info->dev and
+switching the affected debug logging to framebuffer helpers
+that do not rely on a device pointer.
 
-Ok, can I rework this in a follow-up - I will commit to that? Anything
-we touch here is extremely sensitive to failures - Intel is the primary
-test vector for any modification to device pages for what I can tell.
+This fixes the following build failure reported by the
+kernel test robot.
 
-The fact is that large device pages do not really work without this
-patch, or prior revs. I’ve spent a lot of time getting large device
-pages stable — both here and in the initial series, commiting to help in
-follow on series touch SVM related things.
+Fixes: a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency optional")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202601110740.Y9XK5HtN-lkp@intel.com
+Signed-off-by: Chintan Patel <chintanlike@gmail.com>
 
-I’m going to miss my merge window with this (RB’d) patch blocked for
-large device pages. Expect my commitment to helping other vendors to
-drop if this happens. I’ll maybe just say: that doesn’t work in my CI,
-try again.
+---
+Changes in v7:
+- Split logging cleanups into a separate patch
+- Limit this patch to the CONFIG_FB_DEVICE=n build fix only
 
-Or perhaps we just revert large device pages in 6.19 if we can't get a
-consensus here as we shouldn't ship a non-functional kernel.
+Changes in v6:
+- Switch debug/info logging to fb_dbg() and fb_info()(suggested by Thomas Zimmermann)
+- Drop dev_of_fbinfo() usage in favor of framebuffer helpers that implicitly
+  handle the debug/info context.
+- Drop __func__ usage per review feedback(suggested by greg k-h)
+- Add Fixes tag for a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency optional")
+  (suggested by Andy Shevchenko)
 
-Matt
+Changes in v5:
+- Initial attempt to replace info->dev accesses using
+  dev_of_fbinfo() helper
 
-> Jason
+ drivers/staging/fbtft/fbtft-core.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 8a5ccc8ae0a1..1b3b62950205 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -365,9 +365,9 @@ static int fbtft_fb_setcolreg(unsigned int regno, unsigned int red,
+ 	unsigned int val;
+ 	int ret = 1;
+ 
+-	dev_dbg(info->dev,
+-		"%s(regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X)\n",
+-		__func__, regno, red, green, blue, transp);
++	fb_dbg(info,
++	       "regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X\n",
++	       regno, red, green, blue, transp);
+ 
+ 	switch (info->fix.visual) {
+ 	case FB_VISUAL_TRUECOLOR:
+@@ -391,8 +391,7 @@ static int fbtft_fb_blank(int blank, struct fb_info *info)
+ 	struct fbtft_par *par = info->par;
+ 	int ret = -EINVAL;
+ 
+-	dev_dbg(info->dev, "%s(blank=%d)\n",
+-		__func__, blank);
++	fb_dbg(info, "blank=%d\n", blank);
+ 
+ 	if (!par->fbtftops.blank)
+ 		return ret;
+@@ -793,11 +792,11 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
+ 	if (spi)
+ 		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
+ 			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
+-	dev_info(fb_info->dev,
+-		 "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
+-		 fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
+-		 fb_info->fix.smem_len >> 10, text1,
+-		 HZ / fb_info->fbdefio->delay, text2);
++	fb_info(fb_info,
++		"%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
++		fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
++		fb_info->fix.smem_len >> 10, text1,
++		HZ / fb_info->fbdefio->delay, text2);
+ 
+ 	/* Turn on backlight if available */
+ 	if (fb_info->bl_dev) {
+-- 
+2.43.0
+
