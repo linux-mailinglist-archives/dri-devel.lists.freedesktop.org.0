@@ -2,57 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A93D3943D
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jan 2026 11:35:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4115CD39476
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jan 2026 12:13:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A666F10E20E;
-	Sun, 18 Jan 2026 10:35:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E00F110E00D;
+	Sun, 18 Jan 2026 11:13:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="J8racZWh";
+	dkim=pass (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="CNMHF0Gi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E38A310E20E
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 10:35:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768732519; x=1800268519;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=fc5fY3cc6f/Am0DtQn1mfKj8uzQQuXVSWimgp+g/jfI=;
- b=J8racZWhLK622h3EChzsABcL8HFMUL9CVeuvJb4dIWsyhn0gjs+7N+Iy
- Ksn9jPZJ+FyBS7pR0DBvBx/EgJmhwU7PKjJPwcj9IxUAj8dgtyC96Dg+w
- kPgkLGrp9MDaYkVW3Qlu89yn8vudTRSEqGTf4VD9OVFYFJDokTYHpm1xM
- ET45PFsd2tbiYgH6KbLM3QLYu1LLIxA7XQk6diRTnJvE8Yi/cwIz1Pb+A
- wveFxjJiCebnaQOQFSDRtANfD5tTE0ct5K6U49rszRY1Z5TIFZOHBll9v
- 35r/kGlWq8Gpi7+2cX2jin+dZFx3MDWrFMpy1Pl71T0VZFIC8zFIgsjzC Q==;
-X-CSE-ConnectionGUID: L8pF3V8rR62kcVW+ykmkVA==
-X-CSE-MsgGUID: JSaPP9/wQ5W6LQBLuc4TKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="80610082"
-X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; d="scan'208";a="80610082"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2026 02:35:18 -0800
-X-CSE-ConnectionGUID: jiX1APw9TMqBYD4ehICdLw==
-X-CSE-MsgGUID: nV6pGx8zRuqZjed95dZSww==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; d="scan'208";a="205657130"
-Received: from dberech-mobl.ger.corp.intel.com (HELO
- soc-PF53RESW.clients.intel.com) ([10.245.130.193])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2026 02:35:17 -0800
-From: Farah Kassabri <farah.kassabri@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: farah.kassabri@intel.com,
-	ilia.levi@intel.com
-Subject: [PATCH] drm/gem: add helper to detect self-imported PRIME dma-bufs
-Date: Sun, 18 Jan 2026 12:35:02 +0200
-Message-Id: <20260118103502.5162-1-farah.kassabri@intel.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-244104.protonmail.ch (mail-244104.protonmail.ch
+ [109.224.244.104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A917810E084
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 09:55:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+ s=protonmail; t=1768643702; x=1768902902;
+ bh=QqVfeK3SfYvUi53Tki0TyzBz0y8YVVWc0anhKuMVQec=;
+ h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=CNMHF0GiQu8JCROrNnIKNO6WFM1cIWiJ+uJMeOyCI8RB2DIaG4zyhnLBWYZMAygOf
+ DQEs7oCDI3a67bP6uJB+uSpEChEgU2DbTXoAQOn9yQrOrrfa2NS7fEMx1xd63a4C/W
+ NuCZ1S4IUMudmVh1woP0QdaAKJzC55KlWOX+0ZSStm3okqT71miUxPgQ8bjTi9RZNQ
+ Jo15b56+Hq8rLKUnHouj8Apy6H0Vecjg3ra2rDjppXHtuZVIdDA14L0AvPUkHjO392
+ iZbjQLji1pZT82mwORsfh22fy8ViAmVeP5pse3GUWw+z8KmYumPSFOOW/bYuegVujR
+ HZ7UtMLQ2PzwA==
+Date: Sat, 17 Jan 2026 09:54:58 +0000
+To: kenneth.feng@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com
+From: decce6 <decce6@proton.me>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ decce6 <decce6@proton.me>
+Subject: [PATCH] drm/[radeon|amdgpu]: Add HAINAN clock adjustment
+Message-ID: <20260117095421.12700-1-decce6@proton.me>
+Feedback-ID: 132957244:user:proton
+X-Pm-Message-ID: 50c5b78347fc68f2714ce75f7848c9153c16531b
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Sun, 18 Jan 2026 11:13:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,124 +55,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add drm_gem_prime_self_import() to detect and handle the case where a
-PRIME dma-buf being imported was exported by the same DRM device.
+Currently, the AMD Radeon R5 M420 GPU is unstable when operating at the def=
+ault maximum 850MHz/1000MHz (core/memory) clock speeds. For example, a game=
+ may stop working within one minute after starting up. When using the amdgp=
+u driver, the process stops with exitcode 6 and the following message is pr=
+inted: "amdgpu: The CS has cancelled because the context is lost. This cont=
+ext is innocent."
 
-When the dma-buf originates from the importing device and uses the
-expected dma-buf ops, the helper returns the associated GEM object and
-takes an extra reference on it. This allows drivers to bypass the
-generic PRIME import path and avoid taking an additional reference on
-the dma-buf file.
+From my testing, limiting the clock speeds to 800/950 MHz makes it work per=
+fectly stably.
 
-The helper simplifies self-import handling and avoids duplication of
-this pattern across DRM drivers.
-
-Signed-off-by: Farah Kassabri <farah.kassabri@intel.com>
+Signed-off-by: decce6 <decce6@proton.me>
 ---
- drivers/gpu/drm/drm_prime.c | 48 ++++++++++++++++++++++++++++++-------
- include/drm/drm_prime.h     |  5 +++-
- 2 files changed, 44 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c | 4 ++++
+ drivers/gpu/drm/radeon/si_dpm.c            | 4 ++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index 21809a82187b..6c9ad3957f42 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -974,15 +974,9 @@ struct drm_gem_object *drm_gem_prime_import_dev(struct drm_device *dev,
- 	struct drm_gem_object *obj;
- 	int ret;
- 
--	if (drm_gem_is_prime_exported_dma_buf(dev, dma_buf)) {
--		/*
--		 * Importing dmabuf exported from our own gem increases
--		 * refcount on gem itself instead of f_count of dmabuf.
--		 */
--		obj = dma_buf->priv;
--		drm_gem_object_get(obj);
-+	obj = drm_gem_prime_self_import(dev, dma_buf, &drm_gem_prime_dmabuf_ops);
-+	if (obj)
- 		return obj;
--	}
- 
- 	if (!dev->driver->gem_prime_import_sg_table)
- 		return ERR_PTR(-EINVAL);
-@@ -1116,3 +1110,41 @@ void drm_prime_gem_destroy(struct drm_gem_object *obj, struct sg_table *sg)
- 	dma_buf_put(dma_buf);
- }
- EXPORT_SYMBOL(drm_prime_gem_destroy);
-+
-+/**
-+ * drm_gem_prime_self_import - Attempt to import a dma-buf exported by this DRM device
-+ * @dev: DRM device performing the import
-+ * @dma_buf: dma-buf to import
-+ * @expected_ops: dma-buf ops used by this driver
-+ *
-+ * If @dma_buf was exported by this DRM device using @expected_ops, return the
-+ * corresponding GEM object and take an extra reference on it. In this case,
-+ * the import avoids taking a reference on the dma-buf file and instead bumps
-+ * the GEM object's refcount directly.
-+ *
-+ * Returns:
-+ * A referenced GEM object on success, or %NULL if the dma-buf was not exported
-+ * by this device or does not match @expected_ops.
-+ */
-+struct drm_gem_object *drm_gem_prime_self_import(struct drm_device *dev,
-+						 struct dma_buf *dma_buf,
-+						 const struct dma_buf_ops *expected_ops)
-+{
-+	struct drm_gem_object *obj;
-+
-+	if (dma_buf->ops != expected_ops)
-+		return NULL;
-+
-+	obj = dma_buf->priv;
-+	if (!obj || obj->dev != dev)
-+		return NULL;
-+
-+	/*
-+	 * Importing dmabuf exported from our own gem increases
-+	 * refcount on gem itself instead of f_count of dmabuf.
-+	 */
-+	drm_gem_object_get(obj);
-+
-+	return obj;
-+}
-+EXPORT_SYMBOL(drm_gem_prime_self_import);
-diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h
-index f50f862f0d8b..4cdb543b9eb7 100644
---- a/include/drm/drm_prime.h
-+++ b/include/drm/drm_prime.h
-@@ -54,6 +54,7 @@ struct device;
- struct dma_buf_export_info;
- struct dma_buf;
- struct dma_buf_attachment;
-+struct dma_buf_ops;
- struct iosys_map;
- 
- enum dma_data_direction;
-@@ -108,6 +109,9 @@ struct drm_gem_object *drm_gem_prime_import_dev(struct drm_device *dev,
- 						struct device *attach_dev);
- struct drm_gem_object *drm_gem_prime_import(struct drm_device *dev,
- 					    struct dma_buf *dma_buf);
-+struct drm_gem_object *drm_gem_prime_self_import(struct drm_device *dev,
-+						 struct dma_buf *dma_buf,
-+						 const struct dma_buf_ops *expected_ops);
- 
- void drm_prime_gem_destroy(struct drm_gem_object *obj, struct sg_table *sg);
- 
-@@ -115,5 +119,4 @@ int drm_prime_sg_to_page_array(struct sg_table *sgt, struct page **pages,
- 			       int max_pages);
- int drm_prime_sg_to_dma_addr_array(struct sg_table *sgt, dma_addr_t *addrs,
- 				   int max_pages);
--
- #endif /* __DRM_PRIME_H__ */
--- 
+diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c b/drivers/gpu/drm/a=
+md/pm/legacy-dpm/si_dpm.c
+index 1f539cc65f41..fcb9e0e20175 100644
+--- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
++++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+@@ -3468,6 +3468,10 @@ static void si_apply_state_adjust_rules(struct amdgp=
+u_device *adev,
+ =09=09=09max_sclk =3D 60000;
+ =09=09=09max_mclk =3D 80000;
+ =09=09}
++=09=09if (adev->pdev->device =3D=3D 0x666f) {
++=09=09=09max_sclk =3D 80000;
++=09=09=09max_mclk =3D 95000;
++=09=09}
+ =09} else if (adev->asic_type =3D=3D CHIP_OLAND) {
+ =09=09if ((adev->pdev->revision =3D=3D 0xC7) ||
+ =09=09    (adev->pdev->revision =3D=3D 0x80) ||
+diff --git a/drivers/gpu/drm/radeon/si_dpm.c b/drivers/gpu/drm/radeon/si_dp=
+m.c
+index 9deb91970d4d..2f386ea8827f 100644
+--- a/drivers/gpu/drm/radeon/si_dpm.c
++++ b/drivers/gpu/drm/radeon/si_dpm.c
+@@ -2925,6 +2925,10 @@ static void si_apply_state_adjust_rules(struct radeo=
+n_device *rdev,
+ =09=09=09max_sclk =3D 60000;
+ =09=09=09max_mclk =3D 80000;
+ =09=09}
++=09=09if (rdev->pdev->device =3D=3D 0x666f) {
++=09=09=09max_sclk =3D 80000;
++=09=09=09max_mclk =3D 95000;
++=09=09}
+ =09} else if (rdev->family =3D=3D CHIP_OLAND) {
+ =09=09if ((rdev->pdev->revision =3D=3D 0xC7) ||
+ =09=09    (rdev->pdev->revision =3D=3D 0x80) ||
+--=20
 2.43.0
 
----------------------------------------------------------------------
-Intel Israel (74) Limited
-
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
 
