@@ -2,76 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94987D38EEC
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jan 2026 15:10:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 676B4D38EF0
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jan 2026 15:10:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9025210E078;
-	Sat, 17 Jan 2026 14:10:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4B4110E0B9;
+	Sat, 17 Jan 2026 14:10:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="N0bPxD5w";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nDmr/d22";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
- [209.85.210.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F28D10E078
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 14:10:11 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id
- d2e1a72fcca58-81f3fcdb556so1435902b3a.2
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 06:10:11 -0800 (PST)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A4F810E0B9
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 14:10:36 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-2a0d67f1877so19569515ad.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 06:10:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768659011; x=1769263811; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=1YsjaSB9aIQokwOFTN0Ov8qKUwyht65twzNGrMEevb0=;
- b=N0bPxD5wag4+QNYz4qC7fFkPtgZFsGzswduEUA2yourdm/QK7LV/uzs5PU3iPYO+/9
- rLMMZboPy4zHmVpMmFo+g+0dhNtlUGKzm0B0XGYjwchXlAPmcN9sECeYiZwAF2H7z9GR
- 06M3snE8kh5E4J9MnkU5+Ayk1m2iiq2MgURGdF4wTGI9/MFfXLRiWxVs29lUXGtKJdln
- uIdiLjYk1IR2h+x4I60Ewj9Zv/cjM5I/TwE2k/AUaoIkty4VtCL2SWB8ViRpKo1R75Hf
- 9m87K5LoDDtjNoFpEIe1h8jrN75/vxvGQqPc8qDrd28YiL7fnjHE4YqG5AhhsGVvaQuN
- UhZg==
+ d=gmail.com; s=20230601; t=1768659036; x=1769263836; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=LS4zezA5zWDHI1TzJGTvFcU5cfzTeVoC136inl8tl/Y=;
+ b=nDmr/d22UDMxEwzNhjTUnHrosws+ylV7e/5Qr5zCCOHoBcGu8brYCNo4P5sG6PPMs9
+ 45CyVYXD/Yon+XRfZ6k+mobfngsbOY+gd5NlYdrllS1sQLcdLw1JXsY/2muczjCEA0n4
+ +1QD7AW/isrOriG5nzU867Akl5R7x+c+Yrr34XbcNuhHQlMZUjFjF2+SrAdMSmjUyPng
+ bY50VBB4qHs5M/oirBRcHZNeDeRe5u4V2XliCg0WmBiBOhE77AuxkDlMzhSEL7h6a4/a
+ 0rTsjPYu/2srBdgDaSaak1VIGrt/xXStb2XhNlwRmeECU22/5bwXKK8LrJ0cymjvSK4y
+ oBSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768659011; x=1769263811;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1YsjaSB9aIQokwOFTN0Ov8qKUwyht65twzNGrMEevb0=;
- b=Ex9AyBoQAmL0uwuVTqmVgvshnXsOV2Kc38nIoOoaE0oBGgplA1MUQgiUl5kndhCcOX
- RETQPq8ZMf7+Y4gGQKKltyZokLEFKziKlvphdIG26E+W+lLXN++MzhWtPODhVCz76BDy
- ulLhqLtzTWnPfjRFg27hZZzaX2pWKowUno4+TS/IQBfogumteI79g4Ec+cMKRgK3Rwk2
- nrHjhFYUzKBfIYPZIPnnDdAYhVbmrJ2LO7v4uXYOasawGb4tMGfG6Cu2y9x4ltikip8/
- R0LgWridOUKFowZBkEVIRbLh+MvLljj13UT1PxJPZuD9tnTQu8kFNUFXhtpB3U1jqCon
- riWg==
-X-Gm-Message-State: AOJu0Yz69qchDWFuUE36pSGzE/+vkk2YZX76Yg59PkecyPUKFPHAZXJ+
- bfP4fB3qFlt17DoysT/wbJ59U6sPCIeatURcDbJva/ahsjsyruBYrJ6U
-X-Gm-Gg: AY/fxX4LcRM/UI+MPl67SMASUCHsOiB93rdqWLh6SKpcQ1p5XI/o7qDXqpJzqzTgBmb
- rXk1iU5QIXbThypNWHvxLWDVdgxIxgGHwbCIpKQZm4Gv4kcGs896msql0nq+XuZqeC64/eoM/3v
- 950jujbf6izLS1+W10Jmq2gpFU0pJwLf0SOlf5RKfIJS7fpBVDYLMZp19tbhsCN8WBbQsCdPyVv
- ioC0INQYgc1hnD2KWWQSq63RsLOr7FsfJkyIZQT71iBfNqwm7XwL935wORO+uhYRMOQOxmYWpz2
- 0eI4IL0koj7k0F43H8MJLYfHfRlWTXN51rrH3lzxWyVo4obeI8GN73yzpzqsO1PjwdUTbJVJ8NH
- eu3xyEA4eM2E+u5D4Nmo0p1cTeqIak8DkyKTkemQIznotrcWnpUDMS9t4jTbKdolxRIUSpsbBEE
- km+Suw9MgoItYnKtsij6Okk61hspfz3gf2Kg==
-X-Received: by 2002:a05:6a21:1506:b0:364:1332:54ca with SMTP id
- adf61e73a8af0-38dfe7b7580mr5929841637.59.1768659011011; 
- Sat, 17 Jan 2026 06:10:11 -0800 (PST)
-Received: from localhost.localdomain ([111.202.170.108])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-c5edf32dbc1sm4834519a12.21.2026.01.17.06.10.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Jan 2026 06:10:10 -0800 (PST)
-From: Xingjing Deng <micro6947@gmail.com>
-X-Google-Original-From: Xingjing Deng <xjdeng@buaa.edu.cn>
-To: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
- gregkh@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Xingjing Deng <xjdeng@buaa.edu.cn>,
- stable@vger.kernel.org
-Subject: [PATCH v3] misc: fastrpc: possible double-free of cctx->remote_heap
-Date: Sat, 17 Jan 2026 22:09:59 +0800
-Message-Id: <20260117140959.879035-1-xjdeng@buaa.edu.cn>
-X-Mailer: git-send-email 2.25.1
+ d=1e100.net; s=20230601; t=1768659036; x=1769263836;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LS4zezA5zWDHI1TzJGTvFcU5cfzTeVoC136inl8tl/Y=;
+ b=Hk27ky8zNj09N+As02xZ0CZp15o8vbvpNC3WuJ69taBxpSgKiiKOdX7fAWy1WDqAZx
+ T6L5tdtnf7stzj0HoVMEuWMwwthTYIYZWlIV/fUKCFkiGDQARbd8vqmmSWlBrqxawo8E
+ 7zA1SsI5+cMOLgWRkO11RqzjkskigBdKVrM1IpGGVTc5EBJlIX2z+2/c9mHvtSmdd6MP
+ CjOJfVLjdLzeLF5ws5fDESEeEUvVGoyjuVgnEOMDdSfnJXtQiBFchs0hZqm/0zID4UY1
+ 5EVGSR4UV+VYaMaUtvXEYVBOXKqVfuUBUB0Z7cScriiZNONrpm8gvn/9jbTYnYU7NPYB
+ 3qpg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXhQAtJGSLD431yL55n+tfQcvjjstoKMVpgO7twkdO2ksHBRX8tpX3yNvpW+1XA/l38I6taJcz2fic=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyWGV7DtSJO/9gK7fqkI7zaalXydOcDu6WF6Bq6QCdID6EF1KjR
+ RNoY95Sr7Bm5lNE5UchM+wjiw3pXipRHnUDF9p5qaX/XLrmaYOYsFk6hbgJ7eY9ubNVWpvbyDPs
+ oKjlaoP++fT85V+xqYN7Ams69rzZ9PWM=
+X-Gm-Gg: AY/fxX7d2VgcPVA6B5JiEgDlMJin1klKvQYCwwJ+yCGQgP89dvuKJnAoH38lUw3CpV7
+ nyXnCAS3m7P0uEwOthlxMgw7vcRT1R4tc1qrONQqv9dpCJp6BfjuAHAG2Z7ddhwhyrQzPiNVp/0
+ hJhPTtg8DOsOypIPyrRLF/Yu4IkKyMQ5436lUQIEGP1rFFkufNeFBKMOgID0qEc03mbQo7zLnx8
+ /Ls/cGFxjgaTKi9aYmxQ9s4b6k/ZyzotpqZlm1rFIzwjo4oEANm4yaWQe/+hMX37dbqWHM0LqDi
+ FH1O
+X-Received: by 2002:a17:902:f601:b0:295:fe17:83e with SMTP id
+ d9443c01a7336-2a7188a9654mr56251115ad.19.1768659035580; Sat, 17 Jan 2026
+ 06:10:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260112123249.3523369-1-xjdeng@buaa.edu.cn>
+ <2026011650-gravitate-happily-5d0c@gregkh>
+In-Reply-To: <2026011650-gravitate-happily-5d0c@gregkh>
+From: Xingjing Deng <micro6947@gmail.com>
+Date: Sat, 17 Jan 2026 22:10:25 +0800
+X-Gm-Features: AZwV_QiTCXCQyKNQnGgsaWolDN840KiArFFxTvmYD37MsiVp_TLVyXDoiyw1nEk
+Message-ID: <CAK+ZN9riLwTU7C9GZrjsrUNh69oTeF=5C6xg+2ifFz=0E+4H0g@mail.gmail.com>
+Subject: Re: [PATCH v2] misc: fastrpc: possible double-free of
+ cctx->remote_heap
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de, 
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ Xingjing Deng <xjdeng@buaa.edu.cn>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,46 +84,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: micro6947@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-fastrpc_init_create_static_process() may free cctx->remote_heap on the
-err_map path but does not clear the pointer. Later, fastrpc_rpmsg_remove()
-frees cctx->remote_heap again if it is non-NULL, which can lead to a
-double-free if the INIT_CREATE_STATIC ioctl hits the error path and the rpmsg
-device is subsequently removed/unbound.
-Clear cctx->remote_heap after freeing it in the error path to prevent the
-later cleanup from freeing it again.
+OK, I have released v3. Thanks for your help.
 
-Fixes: 0871561055e66 ("misc: fastrpc: Add support for audiopd")
-Cc: stable@vger.kernel.org # 6.2+
-Signed-off-by: Xingjing Deng <xjdeng@buaa.edu.cn>
-
----
-
-v3:
-- Adjust the email format.
-- Link to v2: https://lore.kernel.org/linux-arm-msm/2026011650-gravitate-happily-5d0c@gregkh/T/#t
-
-v2:
-- Add Fixes: and Cc: stable@vger.kernel.org.
-- Link to v1: https://lore.kernel.org/linux-arm-msm/2026011227-casualty-rephrase-9381@gregkh/T/#t
-
- drivers/misc/fastrpc.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index ee652ef01534..fb3b54e05928 100644
---- a/drivers/misc/fastrpc.c
-+++ b/drivers/misc/fastrpc.c
-@@ -1370,6 +1370,7 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
- 	}
- err_map:
- 	fastrpc_buf_free(fl->cctx->remote_heap);
-+	fl->cctx->remote_heap = NULL;
- err_name:
- 	kfree(name);
- err:
--- 
-2.25.1
-
+Greg KH <gregkh@linuxfoundation.org> =E4=BA=8E2026=E5=B9=B41=E6=9C=8816=E6=
+=97=A5=E5=91=A8=E4=BA=94 22:50=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Mon, Jan 12, 2026 at 08:32:49PM +0800, Xingjing Deng wrote:
+> > fastrpc_init_create_static_process() may free cctx->remote_heap on the
+> > err_map path but does not clear the pointer. Later, fastrpc_rpmsg_remov=
+e()
+> > frees cctx->remote_heap again if it is non-NULL, which can lead to a
+> > double-free if the INIT_CREATE_STATIC ioctl hits the error path and the=
+ rpmsg
+> > device is subsequently removed/unbound.
+> > Clear cctx->remote_heap after freeing it in the error path to prevent t=
+he
+> > later cleanup from freeing it again.
+> >
+> > Fixes: 0871561055e66 ("misc: fastrpc: Add support for audiopd")
+> > Cc: stable@vger.kernel.org # 6.2+
+> > Signed-off-by: Xingjing Deng <xjdeng@buaa.edu.cn>
+> >
+> > v2 changes:
+> > Add Fixes: and Cc: stable@vger.kernel.org.
+> > ---
+> >  drivers/misc/fastrpc.c | 1 +
+> >  1 file changed, 1 insertion(+)
+>
+> The version changes goes below the --- line, otherwise it ends up in the
+> changelog commit.
+>
+> Can you fix that up and resend a v3?
+>
+> thanks,
+>
+> greg k-h
