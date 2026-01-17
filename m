@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BCB2D38AA4
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jan 2026 01:25:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB77D38ABD
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jan 2026 01:31:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDF6D10E277;
-	Sat, 17 Jan 2026 00:25:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4009B10E27C;
+	Sat, 17 Jan 2026 00:31:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HrK5hTl8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CiXjx6gN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1955910E277
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 00:25:42 +0000 (UTC)
-Received: by mail-dl1-f43.google.com with SMTP id
- a92af1059eb24-12336c0a8b6so5392762c88.1
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 16:25:42 -0800 (PST)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDD5710E285
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 00:31:41 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-4801ea9bafdso4973375e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 16:31:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768609541; x=1769214341; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1768609900; x=1769214700; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kXSzRKLdZZRDc+qd/B0ftBuEII5cSa+ihfuKd80sVQ8=;
- b=HrK5hTl8ZSGeuaAmnxtGxQorueRF3AQfHyStftYjCmu0NzH/S3xie2vVPlTvTFrrYH
- XqukC1w5QtINoJ56/0gfNF6gOR982j59pR8BjY7twJUdk6yrKv8SFXgrwYwntnSNPNV5
- O9ISGpG5sy60O+wQMFUbMRTZKvov6jlfIEP85OyeOhA1CAqnJG0S5AqUKuwfK8HkJKb9
- w93N+NgABGMvNe7h/WV6LdQwBYHjTELp2tbWCaPA8ALJbh/7tQvyd3PfZFCCyGt8nsZ+
- HgHynev1rBhNK3BfacRWoUbzXZXAATN24SHhduH3Q2oYaviikSnfjGfKQ4unsqok79WT
- XZIg==
+ bh=iFv214rAmnxy+ZWfqYzxoI4aXe7hA3FW0xG43u2wRxw=;
+ b=CiXjx6gNCl9T8sTSMbJZf07aK8qRAjxC9mVtVPHNHOSEjFeLugS54wMHeMtEldb36A
+ pf57H905VgXYPp6n/gwMZmvHuqcPWUJy6rty6lkFW4jrIhZG9Gh/YDjxJiStC7IyoS3R
+ /DAyl1zFeis44GcvHRqGxcJ09HSIO2C7WZweTzbbuJKM4Fr7eqy1KfIiQgmMELCPDahF
+ mSlWLgIanlmBRDxG4kly0DdKwMI+yPWM49+WlxFUWhsQo9GN8NRTJCZbwkwaVP32afAw
+ wHKZlWQ+8+JzxtpOsLa2rl4/oKn4qtWQumh4MxZJLJnqrEiaHL6rl6hUak0BJJRCiz+5
+ jlbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768609541; x=1769214341;
+ d=1e100.net; s=20230601; t=1768609900; x=1769214700;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=kXSzRKLdZZRDc+qd/B0ftBuEII5cSa+ihfuKd80sVQ8=;
- b=WfbNVIzyuXjgTQ6bX/A69TiipfrscamBAahq+c+mXiVMaxkq8VfOPdGxpoBZd9/gX7
- rUNNXOhxA41NiRrYYkitYKdl+fROzAOG3zHCnO2wA5XjOCYUWvKl1gok4WoZGQhxCMCn
- F8eEy8cdawoqUDcighwUu5YGXmQuKDoAYDkKZ4u8IXAEY8Amvqpuz0tilyIGaeNVqXep
- LU1AlNXYTZyABOvJqitdQBpdhsnC+M12kAaBw/cszVGlMQl6MHbWo2aKkIeUZAKGSClu
- 8cDydKwLsFmOIZhcw+PAD0z+6ajvsPU8RRVstlOXR0ZMgtnAOyLo/MY2GkLRqmNppqBa
- Rt/A==
-X-Gm-Message-State: AOJu0YzlE9kCtwF+M4Ihsbh7fefpYf32Q36ZCizGM3If3sARb/L2q9d/
- UsHLsKilEZFKXTCZFz78xYYs8NzLuiN2xR8mcdEIg8ByFz1CAG2YExz/
-X-Gm-Gg: AY/fxX541TNqjvsUV3TWGNrLExh4SKR3n750AtKzDcmY6a7Ht5HDG65F+YG6vGQnhSw
- bHdThQi00RtuPszD6ko+fswJqc+piQypemch+RngdBL/4ae2NcY+C21uC4oXRTlRms3kQgN5kJl
- wN++tABCrVWeuoKsN0UvOyq3+O9mf7mWxTsO7Cs+/lVb1KYc9JKECV6cLoEaXE/HnUjol6vnDty
- LybiO/7Jt9Znb6ozkrR3u8EtZ3ItNZFTaTx0lD5n/xZjBwPiT/xJfQFTlLdRL5nlodE6GFg/gXb
- k063PSCsYGKPu/U2ogSLNuL2q1JYvzx/3+ad/tth7IUgW44f0192eXXR4McVQ30jJwNilaybmCa
- 0H97LPMF40rkhPMjYGqzop8Ox+bntHeqGug5Gq4q7Es+CwabHPEhnQ1C0fio2HeBtTuD1bMzQrP
- PVtzV22IRj481EjUry/Q7yFadQglq7BktQdAdk+5QCCT35De4VSMzF2kwjgMmnr+xzxV6eKJ/zU
- whJ9q0=
-X-Received: by 2002:a05:7022:225:b0:11b:9386:a3cf with SMTP id
- a92af1059eb24-1244a782252mr4273827c88.48.1768609541196; 
- Fri, 16 Jan 2026 16:25:41 -0800 (PST)
+ bh=iFv214rAmnxy+ZWfqYzxoI4aXe7hA3FW0xG43u2wRxw=;
+ b=Jxy/mQC3wUJa23QwwzDcMehUwqFf7cZeT3GoiElJsBMaAutJQrV/Bni2e9Ei76v5kC
+ 4wx42XPyXMACz9mtAd+df33Y2lLks3yLvB0G3dP5aSU2f2kYfiYyX+AkYa3FXsE3zWJp
+ 87TVdaU0kWhvBhZ6wpNCuZJRiooooBWrm8sJIFdEVd6nrotLf9+rP32PKLfYBGzcMeQB
+ J2XF72a/LBYAwcDPPZxaO9ONYmbC0WGNJfN2wnVQH50PBuBtfdyau6gGq/IDH3A81BVZ
+ fhgns5HOszpQ+Xd2f2DbsmGbXKVQXynR4m2GsLvh8O11nKjdC3VmCgK2C/04SLNqKQuH
+ Mjfg==
+X-Gm-Message-State: AOJu0Ywb06sLguhVznto3Zrr7q5Lnh8UvzObewvV3SBfR9Um8ziVqAGN
+ TuUt6Wx0OTGdD1+dS9Ko1Ov9jaodkoIz6BeB+bZ4OakIphe0h24LkclN
+X-Gm-Gg: AY/fxX6IagMBWJfQ3/VE+8l28G08q4fdFCjrzVrPgmzlWGUZf7A53Zp5M57dLUXiErb
+ QjS+VRRqc7uPpDS4a4l3mEvXKgfNsqlb1vxmX+wsUAv0vsPYpFBK6ozJW1+naOu8NmwT/0k4ty8
+ QFdDRuq36mSfHEFuWUQ9K1Kyz3TrtXpKK6BgxmBv96hkFdUBWJvOZtqyC1M8ejGxAoOPhQD7qDa
+ wFPD5uuaqpCCNYZ5mbHbP5qMX/HbyH6UNP64nKDKv7A7AXZu3ae76EIeeLF3P/jNBCJiUOTirgk
+ Qe0QnJcPw0IhCeABk4l6idQIeom/40GI+9JZdqUXLHC/+3m7mqh2SYLv7SDmA4qxK0kE1BHiWBH
+ lAYeM5Q0LYISiYro5hmjvltdlCq7cTBI4LVIdpKRKGuilthwepegNrbLjVuVqGt6uBZXVrdn9Qu
+ FWOsA405XBOJrOOq0Xb8kiXHwROpfpytjiEp0rl9sxXJmoaJAe868gg5zU75CJaPIa104A5124D
+ hfBmvM=
+X-Received: by 2002:a05:600c:3b9e:b0:477:9a28:b09a with SMTP id
+ 5b1f17b1804b1-4801e2a5861mr63784045e9.0.1768609900200; 
+ Fri, 16 Jan 2026 16:31:40 -0800 (PST)
 Received: from localhost
  (p200300e41f0ffa00f22f74fffe1f3a53.dip0.t-ipconnect.de.
  [2003:e4:1f0f:fa00:f22f:74ff:fe1f:3a53])
  by smtp.gmail.com with ESMTPSA id
- a92af1059eb24-1244ac585a9sm4287875c88.2.2026.01.16.16.25.39
+ 5b1f17b1804b1-4801e9fb193sm27730315e9.6.2026.01.16.16.31.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jan 2026 16:25:40 -0800 (PST)
+ Fri, 16 Jan 2026 16:31:38 -0800 (PST)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -90,8 +91,8 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-staging@lists.linux.dev
 Subject: Re: (subset) [PATCH v5 00/23] tegra-video: add CSI support for
  Tegra20 and Tegra30
-Date: Sat, 17 Jan 2026 01:25:32 +0100
-Message-ID: <176860947674.1613073.11085159197676774675.b4-ty@nvidia.com>
+Date: Sat, 17 Jan 2026 01:31:35 +0100
+Message-ID: <176860988748.1688420.11717122647073678.b4-ty@nvidia.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251022142051.70400-1-clamor95@gmail.com>
 References: <20251022142051.70400-1-clamor95@gmail.com>
@@ -123,8 +124,8 @@ On Wed, 22 Oct 2025 17:20:28 +0300, Svyatoslav Ryhel wrote:
 
 Applied, thanks!
 
-[10/23] dt-bindings: display: tegra: document Tegra132 MIPI calibration device
-        commit: d6e8b796d0d67699c74ee3cbc46601cf9ec925bb
+[04/23] dt-bindings: display: tegra: document Tegra30 VI and VIP
+        commit: d262d030baef287da33344a932639aab5f913c3a
 
 Best regards,
 -- 
