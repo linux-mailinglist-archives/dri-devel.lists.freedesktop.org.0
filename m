@@ -2,49 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A71D38AE1
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jan 2026 01:50:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A85A3D38AE2
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jan 2026 01:50:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E94D410E03E;
-	Sat, 17 Jan 2026 00:50:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2BC810E26F;
+	Sat, 17 Jan 2026 00:50:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="ZiV6WWac";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="wPLPHo8B";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="kHo2FD01";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="pEZm25ks";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B42DA10E03E
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 00:50:41 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBC9110E26F
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 00:50:44 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4dtJ6l2WjGz9sd0;
- Sat, 17 Jan 2026 01:50:39 +0100 (CET)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4dtJ6q1wvQz9tnr;
+ Sat, 17 Jan 2026 01:50:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1768611039;
+ s=mail20150812; t=1768611043;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=vMEzItdsAbE2liSXjdq4NBlkXExC27cQwbIFLcmYzOE=;
- b=ZiV6WWackpoamqYgyKEFPZTHSXAYvATKikVa0xzUIvXBk8N3IziE+DCDJleT8BQj3ABMzY
- +VsRKLdmNmPxsstORV5pD2ESlTJ99KxYX/IiMJAl2ZkGvJJDS87PypdtggAEfHDinuqgYz
- DNwp8Nm8eXKiuN8ABn0KHh1BJIvAbiI5kcyHdwYTQzkkgJ46mlZ+jmXA6QmDahCuDmZQfp
- VmKuzfKCa7Io3zOsROsjSkR4igSE5N1y9yvzRUl5Isr7zYB7RS94eb3tSrJUtDWBIy5rWN
- 6d0F24V4mAqirJ+pxCH/+xWIP7JLnKaUdjYEaEikikiww9xmei+3mvXlX3t7jw==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=R2StUYOSKIvxbYZNQ/iaVvb/LqaBjKMetc/e557o+i4=;
+ b=kHo2FD01NEaWZJ2rTwt5HmImJtC3e443bLH/QEFrcW6poi/ERNp2gPQs1IQp2nmGfZrJJB
+ I738GfFnUbaE9G+UYKJNST/WAO6vt3I3y3JsIlHDRwelRIj3VA1BH7EJCNv8iL+zqY+0bL
+ MOQegqH/YpdMT7EMRfC4uPbNOpJF2wtLxAYkI8PQbqRgIJrqQqIrdxUPCxxjkkMIvFLJF2
+ KQQ8vKmuhfERSt+Y9ucxPY4vPa5lJoEBT8/5XR3ZiD40uNVarH+hBZQ8tGpT+HGgzIRQ+F
+ t9t+6iCNEfgkVkc5e8aaCDBGIMP0ZSHa+2I9cBgJYCLNnNhRJ6IZIzoJYdbh0w==
+Authentication-Results: outgoing_mbo_mout;
+ dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=pEZm25ks;
+ spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org
+ designates 2001:67c:2050:b231:465::102 as permitted sender)
+ smtp.mailfrom=marek.vasut+renesas@mailbox.org
 From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1768611037;
+ s=mail20150812; t=1768611041;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=vMEzItdsAbE2liSXjdq4NBlkXExC27cQwbIFLcmYzOE=;
- b=wPLPHo8BWJFARuopooxE+0h4vU3HV54wfOK3vooCLU61mrZ8UXXDNTX7K2ExEmCpFZtUde
- llEOz/wYRBeFF4xljFQ1Z1XyD4mTIF0bSbQCGgM5eIbiCiIMdeKHfu5MvZyoCgabyrzXH1
- fA85qG1+h8LBDCkyyI+hu12FxEw93CJ47j0iunQgoU+o9JXioRJONS4TXsEFwgVxML0AJn
- k5O/JUqC+Y+mW+nuxpweuImcbOL/DsTBqRFQrpSSMAQ2FzI/NCw73LRSB6wKAv/HLZxYUj
- TAQLLMvc+Yc2YKgaQNRH4ANATScXlrLU4m0gIjj8/a0gko4ggTdH7hlFjAfx0A==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=R2StUYOSKIvxbYZNQ/iaVvb/LqaBjKMetc/e557o+i4=;
+ b=pEZm25ksjEB+SK3aznf3MiTOypY97he9EmpCpFrQGtY72xl/fNl4s0msb8Qqlxs6Y1cnCl
+ V+oLVqo9jGZWY/9S1a/lscO4ql5R5Whx6LR8iIUoHFk8XbSroMtD/qHDrIAO+MqleTUU3y
+ eTN3c90iOnDmUIz39SSFz8yFezoqPKFeiBNStKMNvxqRKU1F9W7aINfVmguUzrP1fhMukB
+ +qNUdJQIc+A9HIXqunvS6f8++rXPLysDaCQOd/bg+FM6Iuulh3p76QtuQHheJp7Q9AGJxv
+ bSQzk+KP8CFsDLLNFT+55iL9rK+EW8TYhxgyoprhKcSGO4NdJoaf7RzAeaCvVA==
 To: dri-devel@lists.freedesktop.org
 Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
@@ -58,13 +66,17 @@ Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
  Thierry Reding <thierry.reding@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 1/2] drm/panel: simple: Add Waveshare 13.3" panel support
-Date: Sat, 17 Jan 2026 01:49:48 +0100
-Message-ID: <20260117005028.126361-1-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH v3 2/2] arm64: dts: renesas: sparrow-hawk: Add overlay for
+ WaveShare Display 13.3"
+Date: Sat, 17 Jan 2026 01:49:49 +0100
+Message-ID: <20260117005028.126361-2-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20260117005028.126361-1-marek.vasut+renesas@mailbox.org>
+References: <20260117005028.126361-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: p9htipo4gu7ygoez4pjyw6mrx1ynd83w
-X-MBO-RS-ID: ed634f5f0ea607bcdd5
+X-MBO-RS-META: 8oaa3rjymsb4wxzzq3rwsfp1qhyoh5nc
+X-MBO-RS-ID: e55271f627dd3f688aa
+X-Rspamd-Queue-Id: 4dtJ6q1wvQz9tnr
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,17 +92,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add WaveShare 13.3inch 1920x1080 DSI Capacitive Touch Display support.
-
-While the panel is described as DPI panel, it is part of a larger unit
-in non-removable metal casing, so the actual internal configuration is
-not known. The panel is attached to "waveshare,dsi2dpi" bridge via DT.
-It is likely that internally, this panel is an LVDS panel, connected to
-ICN6211 DSI-to-DPI bridge and then another unknown DPI-to-LVDS bridge.
+Add a DT overlay to bind the WaveShare 13.3inch 1920x1080 DSI Capacitive
+Touch Display on the Retronix R-Car V4H Sparrow Hawk board.
 
 Current device link is at https://www.waveshare.com/13.3inch-dsi-lcd.htm
 
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+DEPENDS:
+- https://lore.kernel.org/linux-input/20260112234534.225954-1-marek.vasut+renesas@mailbox.org/
+- https://lore.kernel.org/linux-devicetree/20260112234834.226128-1-marek.vasut+renesas@mailbox.org/
 ---
 Cc: Conor Dooley <conor+dt@kernel.org>
 Cc: David Airlie <airlied@gmail.com>
@@ -111,60 +122,125 @@ Cc: dri-devel@lists.freedesktop.org
 Cc: linux-kernel@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
-V3: New patch. Note that the compatible string is already part of
-    Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+V2: No change
+V3: Use compatible = "waveshare,13.3inch-panel" and drop timings
+    and dimensions, those are part of panel-simple
 ---
- drivers/gpu/drm/panel/panel-simple.c | 30 ++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ arch/arm64/boot/dts/renesas/Makefile          |  3 +
+ ...r8a779g3-sparrow-hawk-ws-display-13in.dtso | 90 +++++++++++++++++++
+ 2 files changed, 93 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-ws-display-13in.dtso
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 91ab280869bac..40a73c32b0b17 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -4998,6 +4998,33 @@ static const struct panel_desc vl050_8048nt_c01 = {
- 	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
- };
+diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
+index 1fab1b50f20e6..8a2d1baa69c77 100644
+--- a/arch/arm64/boot/dts/renesas/Makefile
++++ b/arch/arm64/boot/dts/renesas/Makefile
+@@ -120,6 +120,9 @@ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-rpi-display-2-5in.dtb
+ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-rpi-display-2-7in.dtbo
+ r8a779g3-sparrow-hawk-rpi-display-2-7in-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-rpi-display-2-7in.dtbo
+ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-rpi-display-2-7in.dtb
++dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-ws-display-13in.dtbo
++r8a779g3-sparrow-hawk-ws-display-13in-dtbs := r8a779g3-sparrow-hawk.dtb r8a779g3-sparrow-hawk-ws-display-13in.dtbo
++dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-sparrow-hawk-ws-display-13in.dtb
  
-+static const struct drm_display_mode waveshare_133inch_mode = {
-+	.clock = 148500,
-+	.hdisplay = 1920,
-+	.hsync_start = 1920 + 88,
-+	.hsync_end = 1920 + 88 + 44,
-+	.htotal = 1920 + 88 + 44 + 148,
-+	.vdisplay = 1080,
-+	.vsync_start = 1080 + 4,
-+	.vsync_end = 1080 + 4 + 5,
-+	.vtotal = 1080 + 4 + 5 + 36,
-+	.flags = DRM_MODE_FLAG_PVSYNC | DRM_MODE_FLAG_PHSYNC,
+ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g3-white-hawk-single.dtb
+ r8a779g3-white-hawk-single-ard-audio-da7212-dtbs := r8a779g3-white-hawk-single.dtb white-hawk-ard-audio-da7212.dtbo
+diff --git a/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-ws-display-13in.dtso b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-ws-display-13in.dtso
+new file mode 100644
+index 0000000000000..4c3bfd28848aa
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-ws-display-13in.dtso
+@@ -0,0 +1,90 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++/*
++ * Device Tree Overlay for the Waveshare 13.3 MIPI DSI panel connected
++ * to J4:DSI on R-Car V4H ES3.0 Sparrow Hawk board
++ *
++ * Copyright (C) 2025-2026 Marek Vasut <marek.vasut+renesas@mailbox.org>
++ */
++
++/dts-v1/;
++/plugin/;
++
++#include <dt-bindings/gpio/gpio.h>
++
++&{/} {
++	panel {
++		compatible = "waveshare,13.3inch-panel";
++		power-supply = <&reg_5p0v>;
++
++		port {
++			panel_in: endpoint {
++				remote-endpoint = <&bridge_out>;
++			};
++		};
++	};
++
++	reg_5p0v: regulator-5p0v {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-5.0V";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		regulator-always-on;
++		regulator-boot-on;
++	};
 +};
 +
-+static const struct panel_desc waveshare_133inch = {
-+	.modes = &waveshare_133inch_mode,
-+	.num_modes = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 293,
-+		.height = 163,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-+	.connector_type = DRM_MODE_CONNECTOR_DPI,
-+	.bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE |
-+		     DRM_BUS_FLAG_SYNC_SAMPLE_POSEDGE,
++&i2c0_mux3 {
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	touchscreen@41 {
++		compatible = "ilitek,ili251x";
++		reg = <0x41>;
++	};
++
++	bridge@45 {
++		compatible = "waveshare,dsi2dpi";
++		reg = <0x45>;
++		power-supply = <&reg_5p0v>;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++
++				bridge_in: endpoint {
++					data-lanes = <1 2 3 4>;
++					remote-endpoint = <&dsi0_out>;
++				};
++			};
++
++			port@1 {
++				reg = <1>;
++
++				bridge_out: endpoint {
++					remote-endpoint = <&panel_in>;
++				};
++			};
++		};
++	};
 +};
 +
- static const struct drm_display_mode winstar_wf35ltiacd_mode = {
- 	.clock = 6410,
- 	.hdisplay = 320,
-@@ -5598,6 +5625,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "vxt,vl050-8048nt-c01",
- 		.data = &vl050_8048nt_c01,
-+	}, {
-+		.compatible = "waveshare,13.3inch-panel",
-+		.data = &waveshare_133inch,
- 	}, {
- 		.compatible = "winstar,wf35ltiacd",
- 		.data = &winstar_wf35ltiacd,
++&dsi0 {
++	status = "okay";
++
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		port@1 {
++			reg = <1>;
++
++			dsi0_out: endpoint {
++				remote-endpoint = <&bridge_in>;
++				data-lanes = <1 2 3 4>;
++			};
++		};
++	};
++};
 -- 
 2.51.0
 
