@@ -2,78 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21CC5D38C2C
-	for <lists+dri-devel@lfdr.de>; Sat, 17 Jan 2026 05:30:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2B74D38C2E
+	for <lists+dri-devel@lfdr.de>; Sat, 17 Jan 2026 05:31:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E055D10E06C;
-	Sat, 17 Jan 2026 04:30:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C15410E07C;
+	Sat, 17 Jan 2026 04:31:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="i/Ls+cTj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jygITZx7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B7C010E06C
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 04:30:33 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-2a3e89aa5d0so26412085ad.1
- for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 20:30:33 -0800 (PST)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B19010E07C
+ for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 04:31:04 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id
+ d2e1a72fcca58-81db1530173so1289859b3a.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 16 Jan 2026 20:31:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768624232; x=1769229032; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=vCrSsGPr19mQwGzLbkxTfgCN7ZB1b84ZZ1vrvJhEPMM=;
- b=i/Ls+cTjXafm1xBsOOMjdHtnDQGt7Wr8lErSsrrDJuBduPjSzh9Dk9IO98KyEXQu6+
- c/J8bMTe3qklsRPiIiHyM7u8kvLpKOd5JzhGTBFDbEnJw0IYLImzo3l7iQGuPX7HOCb3
- kT7193Xsg4OnrMe34iI6+oDXBYxxaRJw8EL21ccMWOkoAfl1HrTFhksKhk2OG1mYIzJc
- FvQLByPyDLSRfTfmaa4RMEnuJq8CxVD9rbwyIfG5RnnXjFX/8aiIemf1npaLPfdAD4gT
- M5pvQ76equCJQl+XxXpL8LEoxjreRKb3Gfcu/ED/vn2DP4D3QKQx7u/7CadMb5RVu3ia
- vB7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768624232; x=1769229032;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1768624264; x=1769229064; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vCrSsGPr19mQwGzLbkxTfgCN7ZB1b84ZZ1vrvJhEPMM=;
- b=b+K2FdFVQrKiCIlGEOQwPF+vOnZctf7zjOeFA6aBhUlhNPCaN8W8DgzjuGD0fZ+8LH
- H1YB1/g2yHIl3zFvTGF3g7ygSd2q/aMBX7qh8+PdjBvkpOHZW4TxTpiS0PN31x7N4e8v
- lnyor4GLt/110i7+6N+LsNqgvoh7/SOLb68sRMH/mSpgZLm8FAd+/Inu1QFFF29X+9rb
- d28XB79N3D3Es3ODf5X0zSvYYcMXrKWBLRn5XLhLMF/b2ngIATj0T5BVUBkX+WyES67n
- 8gl6l+ni8mY2v217nRyubjMKRazOZnWLIcO59p4aj23syX+oC7mKJkhLHEvYWiW2Luo+
- 8Mhg==
+ bh=2w/Q0mSJAiu6YE8Oa45NpmmddauxEQc9oB3CUI6p98s=;
+ b=jygITZx7/EA0RXVKEMLV6j3X1EsUkdmwydS4uMAo892QC1US082annrky7QiZx/qKs
+ CwexRGIDQgpSMwJm3IDmKpe6cfG7DjeSn0m5IaL/0Ar8CKF+d4A4J1WByQfAvvBiFs1T
+ t0G6bKuLNtkrAdTuNfxO1njIkPUAcyPl+unC+zM7rK899a78bK1OBCuTxRu7axBL50X/
+ H4iYPVZUCfYMF6c4D93PWziJCwWClFY7JoiK6MvO1/Cq4qjLYiqRxg5sLTT/ZoxlbOSz
+ RCxE5wAzwC6qPmhmW9Lp8xSFQRDpH+8ACWb4PTEwtway+ALC3F5R7332jWvbG28W91GS
+ 918A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768624264; x=1769229064;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=2w/Q0mSJAiu6YE8Oa45NpmmddauxEQc9oB3CUI6p98s=;
+ b=Smtxavzvmmg+7XaR109PWLBuy9DUVCdXNCXWrH+gK+I5Zd8N1XK1v2xRXO2ltCvryx
+ wHyNLvDswz7Ow6coa4FsTKqDWEP0KMowKpIAcyHsNEjvu52x2U8M1ZZsrcJOqvWMezlk
+ CP3KuKhe/zZwG9b4655KzZYGQDsSzkPkiIedDIiUbk/ompUXtqCI7pOjPBwfL97S2rn8
+ teiILXZwhL1RO+5qt8A8a0nTZpJV0GOzwKDH5ZSLzKGjbxM8GEAs7It46HNRu68Vkydx
+ fL4YJgWe0bQQ5dSJVQ6eUyu+V6wvLtJjN/RDT4MKR5lBBv3EriINvHIrWBq1+/6+Ik+J
+ Bw/w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVm83Nqou5/bzczjHBqP8VDJqkfab14MeTZXnIxMSi9xK/eX6CWMmL07xoXgQdmbcprP8fIdMr+nuM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyPV7lvgF5BCSjBb4qNulL7Qn6G55y8snihOL+irdkzErknqBQT
- Fb4JpND/Rn0C3MqEI41P59JGFpmFIhwMyPtVtcoABCaBcB77VxfSnsLx
-X-Gm-Gg: AY/fxX4aRsBG1pblxKGAxC2kV/d6mrTjg+QDFPOBB6lBbbKgjfBMq7hfA/uq9dP9bR1
- yfjUqnUdJoq1zL4iStoyjdF+c3ifOFxpYkymmBQ7wJjpBR0bcDAunTLDww+2PLM9OT2BqhB3YKF
- FknAAaKb1JyQ8J7r9JoFflSder05M8iPH+troBp6l+1S/RetLMeIQ6ZocA3ws742BWkaWOtbEGf
- EI3cPfVmlNHVsG0KYMbtIzYfdJhIp2NCQYfch2Oe8GXZcnDpIFZ5TrCA2VX205JQF0FkMinDvJi
- 2kt0sGCqH2u6Huq1Ab984H6xFEmq8pNUecUutBFaF7UdAdfuHref+A7OMMOJVXRWqrvPmQOHJw+
- OpQ1XtWuyxlVpAQbjdyd+M4A1qv6WgK6QqlItRInLe758IjBOmmme5B5KXWZLZtXv4GuMT+6NQ9
- bxjDE/ra1NXjsIeTDhWf5q3u/ygO4vr8EOIjWs9IB1F2U=
-X-Received: by 2002:a17:902:f78a:b0:2a0:b066:3f55 with SMTP id
- d9443c01a7336-2a7174efc71mr45039245ad.10.1768624232460; 
- Fri, 16 Jan 2026 20:30:32 -0800 (PST)
+ AJvYcCXmBliUBy1vKSZp5bHEY2F9u+Aijq7ci5MWFTNyKKZliPI6lfRoAGsTMpqo2Bqn0wfcXjNpJKQnq+c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwVFpxbKCw93nZbcykV6kGU7a/QeR1kyNl0lQHdy5footnwLZ4d
+ OS3f4DUEAoI1TSaF0QnQwgFiOnqlxO4XCzWajMz6cvlOVTwV6vLFIUlb
+X-Gm-Gg: AY/fxX5ztBw4nhdhb73Y/Qr5OCWuLXxYyixF8XchHx0IXPLTdwm4LdbFQQ+D8UhZozO
+ wkRpFRvtYN1PPLR7ZXhEy5pkNN/soeHMz9s+2w/IdDWoHkpSLFv0BWgOyfj9Z1SaqBk3vWzGUwI
+ J8DD8gqL88f8SHCJYjyuMwHBfN2clXTBj9SvVnwgB+pB/0X5Z6s1I7Qx7c8oYy0aYtA/NNiyA/H
+ KQG5X+FzdY0OjZjnykIR4Xz9X9UgXTzoxx8r91tNGsex2Q9Wzr1qsryEgCA2DgXlkJxNjWoyBYP
+ eFLf1lG1crXQ5bv1NQp7yAaQ4Zsgz0lUTKNYJzeDAxRnvP+1ZU5hNLL/Mb5X+i2mOAFRLGHOX7q
+ 7sexUwTSFpxMUqWeo/FZ8/vCeeE76UKQ13kfbFshnudfIaK8LVdufecDr4jaUl5I7uKzfYMWqql
+ 2go7i1Ud12yLCtuUeyB2qjtBOIThZZEcxM25cSqSjy3f4RhCB8SFf6Qg==
+X-Received: by 2002:a05:6a00:2989:b0:81e:af19:34b8 with SMTP id
+ d2e1a72fcca58-81fa01e487dmr4740579b3a.43.1768624263888; 
+ Fri, 16 Jan 2026 20:31:03 -0800 (PST)
 Received: from cmpatel-home.hsd1.or.comcast.net
  ([2601:1c0:5780:9200:26af:b454:d793:29de])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-81fa108b23asm3370159b3a.3.2026.01.16.20.30.31
+ d2e1a72fcca58-81fa108b23asm3370159b3a.3.2026.01.16.20.31.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jan 2026 20:30:31 -0800 (PST)
+ Fri, 16 Jan 2026 20:31:03 -0800 (PST)
 From: Chintan Patel <chintanlike@gmail.com>
 To: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-omap@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  tzimmermann@suse.de, andy@kernel.org, deller@gmx.de,
- gregkh@linuxfoundation.org, Chintan Patel <chintanlike@gmail.com>,
- kernel test robot <lkp@intel.com>
-Subject: [PATCH v7 1/2] staging: fbtft: Fix build failure when
- CONFIG_FB_DEVICE=n
-Date: Fri, 16 Jan 2026 20:29:30 -0800
-Message-ID: <20260117042931.6088-1-chintanlike@gmail.com>
+ gregkh@linuxfoundation.org, Chintan Patel <chintanlike@gmail.com>
+Subject: [PATCH v7 2/2] staging: fbtft: Make framebuffer registration message
+ debug-only
+Date: Fri, 16 Jan 2026 20:29:31 -0800
+Message-ID: <20260117042931.6088-2-chintanlike@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260117042931.6088-1-chintanlike@gmail.com>
+References: <20260117042931.6088-1-chintanlike@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,83 +93,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When CONFIG_FB_DEVICE is disabled, struct fb_info does
-not provide a valid dev pointer. Direct dereferences of
-fb_info->dev therefore result in build failures.
+The framebuffer registration message is informational only and not
+useful during normal operation. Convert it to debug-level logging to
+keep the driver quiet when working correctly.
 
-Fix this by avoiding direct accesses to fb_info->dev and
-switching the affected debug logging to framebuffer helpers
-that do not rely on a device pointer.
-
-This fixes the following build failure reported by the
-kernel test robot.
-
-Fixes: a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency optional")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202601110740.Y9XK5HtN-lkp@intel.com
 Signed-off-by: Chintan Patel <chintanlike@gmail.com>
-
 ---
-Changes in v7:
-- Split logging cleanups into a separate patch
-- Limit this patch to the CONFIG_FB_DEVICE=n build fix only
-
-Changes in v6:
-- Switch debug/info logging to fb_dbg() and fb_info()(suggested by Thomas Zimmermann)
-- Drop dev_of_fbinfo() usage in favor of framebuffer helpers that implicitly
-  handle the debug/info context.
-- Drop __func__ usage per review feedback(suggested by greg k-h)
-- Add Fixes tag for a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency optional")
-  (suggested by Andy Shevchenko)
-
-Changes in v5:
-- Initial attempt to replace info->dev accesses using
-  dev_of_fbinfo() helper
-
- drivers/staging/fbtft/fbtft-core.c | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ drivers/staging/fbtft/fbtft-core.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 8a5ccc8ae0a1..1b3b62950205 100644
+index 1b3b62950205..f427c0914907 100644
 --- a/drivers/staging/fbtft/fbtft-core.c
 +++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -365,9 +365,9 @@ static int fbtft_fb_setcolreg(unsigned int regno, unsigned int red,
- 	unsigned int val;
- 	int ret = 1;
- 
--	dev_dbg(info->dev,
--		"%s(regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X)\n",
--		__func__, regno, red, green, blue, transp);
-+	fb_dbg(info,
-+	       "regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X\n",
-+	       regno, red, green, blue, transp);
- 
- 	switch (info->fix.visual) {
- 	case FB_VISUAL_TRUECOLOR:
-@@ -391,8 +391,7 @@ static int fbtft_fb_blank(int blank, struct fb_info *info)
- 	struct fbtft_par *par = info->par;
- 	int ret = -EINVAL;
- 
--	dev_dbg(info->dev, "%s(blank=%d)\n",
--		__func__, blank);
-+	fb_dbg(info, "blank=%d\n", blank);
- 
- 	if (!par->fbtftops.blank)
- 		return ret;
-@@ -793,11 +792,11 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
+@@ -792,11 +792,11 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
  	if (spi)
  		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
  			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
--	dev_info(fb_info->dev,
--		 "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
--		 fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
--		 fb_info->fix.smem_len >> 10, text1,
--		 HZ / fb_info->fbdefio->delay, text2);
-+	fb_info(fb_info,
-+		"%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
-+		fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
-+		fb_info->fix.smem_len >> 10, text1,
-+		HZ / fb_info->fbdefio->delay, text2);
+-	fb_info(fb_info,
+-		"%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
+-		fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
+-		fb_info->fix.smem_len >> 10, text1,
+-		HZ / fb_info->fbdefio->delay, text2);
++	fb_dbg(fb_info,
++	       "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
++	       fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
++	       fb_info->fix.smem_len >> 10, text1,
++	       HZ / fb_info->fbdefio->delay, text2);
  
  	/* Turn on backlight if available */
  	if (fb_info->bl_dev) {
