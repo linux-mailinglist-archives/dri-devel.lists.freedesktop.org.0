@@ -2,80 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD52ED3956B
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jan 2026 14:47:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42413D396E8
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jan 2026 15:16:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 614B110E0CC;
-	Sun, 18 Jan 2026 13:47:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2331110E2A6;
+	Sun, 18 Jan 2026 14:16:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HsE8OTna";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gJbr+/P+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90D7F10E0CC
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 13:47:40 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-b876bf5277dso679415166b.0
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 05:47:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768744059; x=1769348859; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ublW3cuNUWppPpbTG6MuENxN8Gi/6c1TykFddWgBrwg=;
- b=HsE8OTnaElx5FD90pqU6xUn782it8i5weKD7QQERdoi2pGlmzNQV+sFLfT1X5u7eKk
- vW8gqVkeRf+DGB2tyc7emQXqIvAUjo2117Df+j4wKNKBkh6UDDX5R7nJ/1TBNtJFoaOA
- HbehgNm7WHCAHHdNK+TMapUN85u6+Lrh2zhB06rw/9n2L7FolRL/sA880F6l7ArZSP0H
- qDPKlwQiS6ndReDnBrT88Lli9KJv1NcAFpWeg8l28xiqPzDGutkHJjk8K/+yjAaBPAmn
- +8d1b44k8k1JGmNGVzPfoIHg1UWBhox+3dTtB2OAhaCdgxBXNfglO5UGQxTQ2UZrjLXQ
- s60w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768744059; x=1769348859;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ublW3cuNUWppPpbTG6MuENxN8Gi/6c1TykFddWgBrwg=;
- b=g9Uc5EE4FlvNEEgBfiJAIA8GSV4p1ylKeaKTsHOgRzN/9psGfIDMmuoPfT5DkZ4+2O
- 6WXj+ioC2mzUSt0LZtZNfL4OsGtMksjWJqjsgmC2gFORgudaIBNFakYZHCi2fa+7rIw+
- i5mk0RpHHcCdPPDvRcdiClHVy3Bz8gSpfE+87eRzv0CW/P1/lios1kWq+RDZWy+sutEl
- ycqIVa07Aurrlk7fOwbCdIfyoaVi10KHmVPGn5uZDhPXp+J07u19az2cMHn3X9kc6+H7
- T4Sht5CFljy0KJ5pV/fSSyzVIyRfFETuPVNON5T37e8y1NjwCn7fWm2fiCIx3HVkd8kw
- UYOA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWKINkYYRQuAFD2yU+GbBvK0MuHOCi1kG/dWbA/lpd0SwKbvp0FIFAPPuXve4nx451DbUYFHcitRRA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxWJFPlxlvmn/hgjBxdllAdEJ8n93FmM6j1JPvJuHrZrfSbhm24
- UTcYab7wxJWbgoDIpDR189UPiUbh39ZRDGhP22ceZhmOlSoTxj2FtEGG
-X-Gm-Gg: AY/fxX6qQjeJoiWuhDh8I143wvyAgFObSO3VTBNvJ5QDPCdSLW34UrqBcEEd1faOKE8
- gH057JzlWXxJYZnmJ+ozo6S5CTVt7Sk6HPYoKcowi328HG0cjDCmqPQb/kLoDM2QVkzIyFyveK3
- imQUyf1TphqSvZ+71nzkKUDBXt8TRi6qLUJobtw78nwzN9LGjlnGo2CZKDVxDnV+NkKePg96Dy+
- HkYfg+fVnC49EdPHvnSR80oBvZCuU1q9cN+6HhjIIe0WEyqo2xF94ow0wHXv0YdvdsHsp3C14ez
- l0jjAKsy96ROFebnahBGi1SXulGxTNUYk8Q2aYtUNqwIDZg0yzLHTeT79QVRGrndozcabZ6HwcE
- DHYXR8AI1oVyIcHaVMpsLMpjzYtDJly/UMhNOoeVAZ3aUCHLLG/PovYVfYWdJ2MexlF2f9S0sOh
- feNYQ0iJAgAIojbjA=
-X-Received: by 2002:a17:907:7b82:b0:b87:65c5:6036 with SMTP id
- a640c23a62f3a-b8777bda8f9mr1003253766b.21.1768744058727; 
- Sun, 18 Jan 2026 05:47:38 -0800 (PST)
-Received: from osama.. ([2a02:908:1b4:dac0:85a8:ed04:ac09:e3e0])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b87959c9a14sm804992266b.45.2026.01.18.05.47.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Jan 2026 05:47:38 -0800 (PST)
-From: Osama Abdelkader <osama.abdelkader@gmail.com>
-To: Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Thomas Zimmermann <tzimmermann@suse.de>, Lee Jones <lee@kernel.org>,
- Murad Masimov <m.masimov@mt-integration.ru>,
- Quanmin Yan <yanquanmin1@huawei.com>,
- Yongzhen Zhang <zhangyongzhen@kylinos.cn>,
- Osama Abdelkader <osama.abdelkader@gmail.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: syzbot+55e03490a0175b8dd81d@syzkaller.appspotmail.com
-Subject: [PATCH] fbdev: Fix slab-out-of-bounds read in fb_pad_unaligned_buffer
-Date: Sun, 18 Jan 2026 14:47:28 +0100
-Message-ID: <20260118134735.11507-1-osama.abdelkader@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19FCC10E2A6;
+ Sun, 18 Jan 2026 14:16:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768745805; x=1800281805;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=UudtuDq34MYJqWXnxCgj7hLDUtpJxnIbpapqDIrG7M8=;
+ b=gJbr+/P+MKHPZ+tCx6H9X5e2RxJAHi3CMH/0d98U3N9fSxupLpY1QeHk
+ nhTtMSlFMBM2s6+wxdRTnK1q1Wm/5sDwBDci7YgKYPHic+ePCdk1Ei+TY
+ ZK5ruH5VRkpUsPN2LZTR6CDPWygkzubawuZvsFkGCKVpLOTua1J4UkAQ6
+ amx34nH8NyNv5S9OwfFzHi56quMtC3ROjMXF5Y6GpVCNlYpZG+Uix2eTa
+ 1oL97e7laPoCuL4s6yGf+t6kDk90o0YXElzHKKC0vznw/Kwri9Gm5VIVJ
+ Bi9XUwmPuKzgU027EKzo/ub4YuiKUk2h3UkNfGoSORJrY4SbSFh09Q+wt Q==;
+X-CSE-ConnectionGUID: 2cufV3UxT7GWxVchB7t1Jg==
+X-CSE-MsgGUID: 9eyf3BurSRm6vLRpypiPaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="80279033"
+X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; d="scan'208";a="80279033"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2026 06:16:44 -0800
+X-CSE-ConnectionGUID: uEuCMJyAT1SPhq5oFgFZ9A==
+X-CSE-MsgGUID: YCbX+3UhScWByywIYHhhTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; d="scan'208";a="205264188"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.244.5])
+ ([10.245.244.5])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2026 06:16:38 -0800
+Message-ID: <f115c91bbc9c6087d8b32917b9e24e3363a91f33.camel@linux.intel.com>
+Subject: Re: [PATCH v2 0/4] dma-buf: document revoke mechanism to invalidate
+ shared buffers
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Leon Romanovsky <leon@kernel.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>,  Christian =?ISO-8859-1?Q?K=F6nig?=	
+ <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Gerd Hoffmann
+ <kraxel@redhat.com>,  Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu	
+ <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Lucas De Marchi	 <lucas.demarchi@intel.com>, Rodrigo
+ Vivi <rodrigo.vivi@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian
+ <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon
+ <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Alex Williamson
+ <alex@shazbot.org>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev, 
+ intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org, 
+ iommu@lists.linux.dev, kvm@vger.kernel.org
+Date: Sun, 18 Jan 2026 15:16:25 +0100
+In-Reply-To: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
+References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,54 +87,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function fb_pad_unaligned_buffer() was reading idx+1 bytes per row
-from the source buffer, but when mod == 0 (font width is a multiple of
-8 bits), the source buffer only has idx bytes per row. This caused a
-slab-out-of-bounds read when accessing src[idx] after the inner loop.
+Hi, Leon,
 
-Fix this by only reading the extra byte when mod != 0, ensuring we
-never read beyond the source buffer boundaries.
+On Sun, 2026-01-18 at 14:08 +0200, Leon Romanovsky wrote:
+> Changelog:
+> v2:
+> =C2=A0* Changed series to document the revoke semantics instead of
+> =C2=A0=C2=A0 implementing it.
+> v1:
+> https://patch.msgid.link/20260111-dmabuf-revoke-v1-0-fb4bcc8c259b@nvidia.=
+com
+>=20
+> ---------------------------------------------------------------------
+> ----
+> This series documents a dma-buf =E2=80=9Crevoke=E2=80=9D mechanism: to al=
+low a dma-
+> buf
+> exporter to explicitly invalidate (=E2=80=9Ckill=E2=80=9D) a shared buffe=
+r after it
+> has
+> been distributed to importers, so that further CPU and device access
+> is
+> prevented and importers reliably observe failure.
+>=20
+> The change in this series is to properly document and use existing
+> core
+> =E2=80=9Crevoked=E2=80=9D state on the dma-buf object and a corresponding=
+ exporter-
+> triggered
+> revoke operation. Once a dma-buf is revoked, new access paths are
+> blocked so
+> that attempts to DMA-map, vmap, or mmap the buffer fail in a
+> consistent way.
 
-This fixes the KASAN slab-out-of-bounds read reported by syzkaller:
-https://syzkaller.appspot.com/bug?extid=55e03490a0175b8dd81d
+This sounds like it does not match how many GPU-drivers use the
+move_notify() callback.
 
-Reported-by: syzbot+55e03490a0175b8dd81d@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=55e03490a0175b8dd81d
-Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
----
- drivers/video/fbdev/core/fbmem.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+move_notify() would typically invalidate any device maps and any
+asynchronous part of that invalidation would be complete when the dma-
+buf's reservation object becomes idle WRT DMA_RESV_USAGE_BOOKKEEP
+fences.
 
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index eff757ebbed1..a0c4932a6758 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -113,15 +113,17 @@ void fb_pad_unaligned_buffer(u8 *dst, u32 d_pitch, u8 *src, u32 idx, u32 height,
- 			dst[j+1] = tmp;
- 			src++;
- 		}
--		tmp = dst[idx];
--		tmp &= mask;
--		tmp |= *src >> shift_low;
--		dst[idx] = tmp;
--		if (shift_high < mod) {
--			tmp = *src << shift_high;
--			dst[idx+1] = tmp;
-+		if (mod) {
-+			tmp = dst[idx];
-+			tmp &= mask;
-+			tmp |= *src >> shift_low;
-+			dst[idx] = tmp;
-+			if (shift_high < mod) {
-+				tmp = *src << shift_high;
-+				dst[idx+1] = tmp;
-+			}
-+			src++;
- 		}
--		src++;
- 		dst += d_pitch;
- 	}
- }
--- 
-2.43.0
+However, the importer could, after obtaining the resv lock, obtain a
+new map using dma_buf_map_attachment(), and I'd assume the CPU maps
+work in the same way, I.E. move_notify() does not *permanently* revoke
+importer access.
+
+/Thomas
+
+
+>=20
+> Thanks
+>=20
+> Cc: linux-media@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: virtualization@lists.linux.dev
+> Cc: intel-xe@lists.freedesktop.org
+> Cc: linux-rdma@vger.kernel.org
+> Cc: iommu@lists.linux.dev
+> Cc: kvm@vger.kernel.org
+> To: Sumit Semwal <sumit.semwal@linaro.org>
+> To: Christian K=C3=B6nig <christian.koenig@amd.com>
+> To: Alex Deucher <alexander.deucher@amd.com>
+> To: David Airlie <airlied@gmail.com>
+> To: Simona Vetter <simona@ffwll.ch>
+> To: Gerd Hoffmann <kraxel@redhat.com>
+> To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> To: Gurchetan Singh <gurchetansingh@chromium.org>
+> To: Chia-I Wu <olvaffe@gmail.com>
+> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> To: Maxime Ripard <mripard@kernel.org>
+> To: Thomas Zimmermann <tzimmermann@suse.de>
+> To: Lucas De Marchi <lucas.demarchi@intel.com>
+> To: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> To: Jason Gunthorpe <jgg@ziepe.ca>
+> To: Leon Romanovsky <leon@kernel.org>
+> To: Kevin Tian <kevin.tian@intel.com>
+> To: Joerg Roedel <joro@8bytes.org>
+> To: Will Deacon <will@kernel.org>
+> To: Robin Murphy <robin.murphy@arm.com>
+> To: Alex Williamson <alex@shazbot.org>
+>=20
+> ---
+> Leon Romanovsky (4):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma-buf: Rename .move_notify() callback to=
+ a clearer identifier
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma-buf: Document revoke semantics
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 iommufd: Require DMABUF revoke semantics
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vfio: Add pinned interface to perform revo=
+ke semantics
+>=20
+> =C2=A0drivers/dma-buf/dma-buf.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 =
+6 +++---
+> =C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c |=C2=A0 4 ++--
+> =C2=A0drivers/gpu/drm/virtio/virtgpu_prime.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 2 +-
+> =C2=A0drivers/gpu/drm/xe/tests/xe_dma_buf.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 6 +++---
+> =C2=A0drivers/gpu/drm/xe/xe_dma_buf.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
+> =C2=A0drivers/infiniband/core/umem_dmabuf.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 4 ++--
+> =C2=A0drivers/infiniband/hw/mlx5/mr.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
+> =C2=A0drivers/iommu/iommufd/pages.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 11 +++++++++--
+> =C2=A0drivers/vfio/pci/vfio_pci_dmabuf.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 | 16 ++++++++++++++++
+> =C2=A0include/linux/dma-buf.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 | 25
+> ++++++++++++++++++++++---
+> =C2=A010 files changed, 60 insertions(+), 18 deletions(-)
+> ---
+> base-commit: 9ace4753a5202b02191d54e9fdf7f9e3d02b85eb
+> change-id: 20251221-dmabuf-revoke-b90ef16e4236
+>=20
+> Best regards,
+> --=C2=A0=20
+> Leon Romanovsky <leonro@nvidia.com>
+>=20
 
