@@ -2,79 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C06BD391D9
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jan 2026 01:19:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33A93D3943D
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jan 2026 11:35:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29B3910E034;
-	Sun, 18 Jan 2026 00:19:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A666F10E20E;
+	Sun, 18 Jan 2026 10:35:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EtavyVCN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="J8racZWh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A28310E034
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 00:19:25 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-64b7a38f07eso4315219a12.0
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 16:19:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768695563; x=1769300363; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=U8yPWNCbUsD1Zh7l62UZjxa3bF9d9nEOvTtSBxLfUzc=;
- b=EtavyVCNOimfVhoXJJgHdRjmuwjGnPsdMqrr7OMf6vsAI059aDxp5V8KV+23UUge4B
- jmUhcwUKewj6YXY9dIy6kkaNXxUbAhPvxdU3IQx8VBF1M9KWchgfEKfZGCh2P9iMZN+g
- dy8lbW/QG+2NXAlA1512oUVZdfX8/oD3KLu7pwgCXTGu11CFFOdo55Yj0i/PXkdDXP2F
- tvwVPDvrqR5ePaA4Snfj+6J5+f5u4Deb6aQgiWyp/whb6xTSaNmKD91G845wBhRJ4II2
- bWlNLv+hHoAi1k2Bv73w/Jz5NvOjoLtkFmRNN8ongSa4uvypVB+yo8NaEVOw4XZnJsg5
- sEZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768695563; x=1769300363;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=U8yPWNCbUsD1Zh7l62UZjxa3bF9d9nEOvTtSBxLfUzc=;
- b=ZVn28rBxWSWs5d+P26n3gH9eQYxFTym5lFDjV3tpgT/URSOFi9YoMVPBmI9sD+fJIo
- RpM2KOmmFoufiMpp5xeaCOUizqiVgbLIuUA+MRatPXN1hw7EYAbcLalre+MrFhccdukB
- 8pP9+fg2B3oxwSWz26rXqL9h0pa3Wphosx2GQrCuARiqaB8IZPvyh9vMecG+BEjT0P2M
- vM35vD18rFUKMW2jb/Xr0EH0vlIjkL3yGal9V1/NDpeBnyhP6AGCLSuhkykGzmQ6/7cJ
- ckDoC1HH/PGUfvOpk27HuMcjhXpsnim0C+frB9aw1/iC16J05yohDttTHQ67Qv7K4BnB
- e19A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUik1Z3tSSmn5547zz8EwC9gRe+lpcs1HgD0jrtSqeUWqH6WDJrx2jbVA8kkU8jQSpVMN8GqS2SSs8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyypz8Hx1Oolc0ov6yV0nrXfL/pHARf73BBxEfP2Ls+PgXQXwMe
- MZb5nIajNJ9VeAocIVINPUKT2iY+txKLmq3JaSkG7Owu8WofJYN59Y6F
-X-Gm-Gg: AY/fxX6uTClxagr9I8aYw0/nVCyuAMHFuu/CTeymjJXSxVz9m/dqZm4+oZG9Dw/KHjw
- z0UGTXfvYoqmJu+UnUSITmhy66b5AZCG59RQPa97omHm6u1i0V9YZ0DDhyaulHLiht4tUNUWhJA
- G2XgJwSe+a5I3FuARPbrnA/r+JEVQwzxxu3WO92muKJ4VjmbnUoGNZZnSVf1foyHA0bVzQL3kPK
- 8LRAfNbJRaENFsmxibuPGYqmV30ZuFOBpAn5yMPPbZz9Ey7ZAGYF4cMSAW402lF4wEkkj3UuOo7
- 2IdXx6OSOKXG45V/kTpUL458fOw7Mb2AabNFqa/9SygIuDgp3Q4NEtqIGnqrKXlhxQ7g+U20EOr
- KKZmQP3qYHs6FhWTnw7DiKNGvkqW5A9KfVSlZP9ifEpGHQcPD5xVyQLP967G7wZ0y4b7RIpE8E8
- O1iMCBAj8Ct/wqEQ==
-X-Received: by 2002:a05:6402:5243:b0:640:ef6e:e069 with SMTP id
- 4fb4d7f45d1cf-654524cf263mr4839330a12.1.1768695562948; 
- Sat, 17 Jan 2026 16:19:22 -0800 (PST)
-Received: from osama.. ([2a02:908:1b4:dac0:5102:ac1a:4cf6:b9b])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-65452bce4f7sm6543849a12.6.2026.01.17.16.19.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Jan 2026 16:19:22 -0800 (PST)
-From: Osama Abdelkader <osama.abdelkader@gmail.com>
-To: Zsolt Kajtar <soci@c64.rulez.org>, Simona Vetter <simona@ffwll.ch>,
- Helge Deller <deller@gmx.de>,
- Osama Abdelkader <osama.abdelkader@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: syzbot+7a63ce155648954e749b@syzkaller.appspotmail.com
-Subject: [PATCH] fbdev: sys_fillrect: Add bounds checking to prevent
- vmalloc-out-of-bounds
-Date: Sun, 18 Jan 2026 01:18:48 +0100
-Message-ID: <20260118001852.70173-1-osama.abdelkader@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E38A310E20E
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 10:35:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768732519; x=1800268519;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=fc5fY3cc6f/Am0DtQn1mfKj8uzQQuXVSWimgp+g/jfI=;
+ b=J8racZWhLK622h3EChzsABcL8HFMUL9CVeuvJb4dIWsyhn0gjs+7N+Iy
+ Ksn9jPZJ+FyBS7pR0DBvBx/EgJmhwU7PKjJPwcj9IxUAj8dgtyC96Dg+w
+ kPgkLGrp9MDaYkVW3Qlu89yn8vudTRSEqGTf4VD9OVFYFJDokTYHpm1xM
+ ET45PFsd2tbiYgH6KbLM3QLYu1LLIxA7XQk6diRTnJvE8Yi/cwIz1Pb+A
+ wveFxjJiCebnaQOQFSDRtANfD5tTE0ct5K6U49rszRY1Z5TIFZOHBll9v
+ 35r/kGlWq8Gpi7+2cX2jin+dZFx3MDWrFMpy1Pl71T0VZFIC8zFIgsjzC Q==;
+X-CSE-ConnectionGUID: L8pF3V8rR62kcVW+ykmkVA==
+X-CSE-MsgGUID: JSaPP9/wQ5W6LQBLuc4TKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="80610082"
+X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; d="scan'208";a="80610082"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2026 02:35:18 -0800
+X-CSE-ConnectionGUID: jiX1APw9TMqBYD4ehICdLw==
+X-CSE-MsgGUID: nV6pGx8zRuqZjed95dZSww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; d="scan'208";a="205657130"
+Received: from dberech-mobl.ger.corp.intel.com (HELO
+ soc-PF53RESW.clients.intel.com) ([10.245.130.193])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2026 02:35:17 -0800
+From: Farah Kassabri <farah.kassabri@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: farah.kassabri@intel.com,
+	ilia.levi@intel.com
+Subject: [PATCH] drm/gem: add helper to detect self-imported PRIME dma-bufs
+Date: Sun, 18 Jan 2026 12:35:02 +0200
+Message-Id: <20260118103502.5162-1-farah.kassabri@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,68 +68,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The sys_fillrect function was missing bounds validation, which could lead
-to vmalloc-out-of-bounds writes when the rectangle coordinates extend
-beyond the framebuffer's virtual resolution. This was detected by KASAN
-and reported by syzkaller.
+Add drm_gem_prime_self_import() to detect and handle the case where a
+PRIME dma-buf being imported was exported by the same DRM device.
 
-Add validation to:
-1. Check that width and height are non-zero
-2. Verify that dx and dy are within virtual resolution bounds
-3. Clip the rectangle dimensions to fit within virtual resolution if needed
+When the dma-buf originates from the importing device and uses the
+expected dma-buf ops, the helper returns the associated GEM object and
+takes an extra reference on it. This allows drivers to bypass the
+generic PRIME import path and avoid taking an additional reference on
+the dma-buf file.
 
-This follows the same pattern used in other framebuffer drivers like
-pm2fb_fillrect.
+The helper simplifies self-import handling and avoids duplication of
+this pattern across DRM drivers.
 
-Reported-by: syzbot+7a63ce155648954e749b@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=7a63ce155648954e749b
-Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
+Signed-off-by: Farah Kassabri <farah.kassabri@intel.com>
 ---
- drivers/video/fbdev/core/sysfillrect.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_prime.c | 48 ++++++++++++++++++++++++++++++-------
+ include/drm/drm_prime.h     |  5 +++-
+ 2 files changed, 44 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/video/fbdev/core/sysfillrect.c b/drivers/video/fbdev/core/sysfillrect.c
-index 12eea3e424bb..73fc322ff8fd 100644
---- a/drivers/video/fbdev/core/sysfillrect.c
-+++ b/drivers/video/fbdev/core/sysfillrect.c
-@@ -7,6 +7,7 @@
- #include <linux/module.h>
- #include <linux/fb.h>
- #include <linux/bitrev.h>
-+#include <linux/string.h>
- #include <asm/types.h>
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index 21809a82187b..6c9ad3957f42 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -974,15 +974,9 @@ struct drm_gem_object *drm_gem_prime_import_dev(struct drm_device *dev,
+ 	struct drm_gem_object *obj;
+ 	int ret;
  
- #ifdef CONFIG_FB_SYS_REV_PIXELS_IN_BYTE
-@@ -18,10 +19,28 @@
+-	if (drm_gem_is_prime_exported_dma_buf(dev, dma_buf)) {
+-		/*
+-		 * Importing dmabuf exported from our own gem increases
+-		 * refcount on gem itself instead of f_count of dmabuf.
+-		 */
+-		obj = dma_buf->priv;
+-		drm_gem_object_get(obj);
++	obj = drm_gem_prime_self_import(dev, dma_buf, &drm_gem_prime_dmabuf_ops);
++	if (obj)
+ 		return obj;
+-	}
  
- void sys_fillrect(struct fb_info *p, const struct fb_fillrect *rect)
- {
-+	struct fb_fillrect modded;
-+	int vxres, vyres;
-+
- 	if (!(p->flags & FBINFO_VIRTFB))
- 		fb_warn_once(p, "%s: framebuffer is not in virtual address space.\n", __func__);
- 
--	fb_fillrect(p, rect);
-+	vxres = p->var.xres_virtual;
-+	vyres = p->var.yres_virtual;
-+
-+	/* Validate and clip rectangle to virtual resolution */
-+	if (!rect->width || !rect->height ||
-+	    rect->dx >= vxres || rect->dy >= vyres)
-+		return;
-+
-+	memcpy(&modded, rect, sizeof(struct fb_fillrect));
-+
-+	if (modded.dx + modded.width > vxres)
-+		modded.width = vxres - modded.dx;
-+	if (modded.dy + modded.height > vyres)
-+		modded.height = vyres - modded.dy;
-+
-+	fb_fillrect(p, &modded);
+ 	if (!dev->driver->gem_prime_import_sg_table)
+ 		return ERR_PTR(-EINVAL);
+@@ -1116,3 +1110,41 @@ void drm_prime_gem_destroy(struct drm_gem_object *obj, struct sg_table *sg)
+ 	dma_buf_put(dma_buf);
  }
- EXPORT_SYMBOL(sys_fillrect);
+ EXPORT_SYMBOL(drm_prime_gem_destroy);
++
++/**
++ * drm_gem_prime_self_import - Attempt to import a dma-buf exported by this DRM device
++ * @dev: DRM device performing the import
++ * @dma_buf: dma-buf to import
++ * @expected_ops: dma-buf ops used by this driver
++ *
++ * If @dma_buf was exported by this DRM device using @expected_ops, return the
++ * corresponding GEM object and take an extra reference on it. In this case,
++ * the import avoids taking a reference on the dma-buf file and instead bumps
++ * the GEM object's refcount directly.
++ *
++ * Returns:
++ * A referenced GEM object on success, or %NULL if the dma-buf was not exported
++ * by this device or does not match @expected_ops.
++ */
++struct drm_gem_object *drm_gem_prime_self_import(struct drm_device *dev,
++						 struct dma_buf *dma_buf,
++						 const struct dma_buf_ops *expected_ops)
++{
++	struct drm_gem_object *obj;
++
++	if (dma_buf->ops != expected_ops)
++		return NULL;
++
++	obj = dma_buf->priv;
++	if (!obj || obj->dev != dev)
++		return NULL;
++
++	/*
++	 * Importing dmabuf exported from our own gem increases
++	 * refcount on gem itself instead of f_count of dmabuf.
++	 */
++	drm_gem_object_get(obj);
++
++	return obj;
++}
++EXPORT_SYMBOL(drm_gem_prime_self_import);
+diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h
+index f50f862f0d8b..4cdb543b9eb7 100644
+--- a/include/drm/drm_prime.h
++++ b/include/drm/drm_prime.h
+@@ -54,6 +54,7 @@ struct device;
+ struct dma_buf_export_info;
+ struct dma_buf;
+ struct dma_buf_attachment;
++struct dma_buf_ops;
+ struct iosys_map;
  
+ enum dma_data_direction;
+@@ -108,6 +109,9 @@ struct drm_gem_object *drm_gem_prime_import_dev(struct drm_device *dev,
+ 						struct device *attach_dev);
+ struct drm_gem_object *drm_gem_prime_import(struct drm_device *dev,
+ 					    struct dma_buf *dma_buf);
++struct drm_gem_object *drm_gem_prime_self_import(struct drm_device *dev,
++						 struct dma_buf *dma_buf,
++						 const struct dma_buf_ops *expected_ops);
+ 
+ void drm_prime_gem_destroy(struct drm_gem_object *obj, struct sg_table *sg);
+ 
+@@ -115,5 +119,4 @@ int drm_prime_sg_to_page_array(struct sg_table *sgt, struct page **pages,
+ 			       int max_pages);
+ int drm_prime_sg_to_dma_addr_array(struct sg_table *sgt, dma_addr_t *addrs,
+ 				   int max_pages);
+-
+ #endif /* __DRM_PRIME_H__ */
 -- 
 2.43.0
+
+---------------------------------------------------------------------
+Intel Israel (74) Limited
+
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
 
