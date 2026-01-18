@@ -2,48 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 210B2D39475
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jan 2026 12:13:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89435D3948A
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jan 2026 12:41:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04E2310E09E;
-	Sun, 18 Jan 2026 11:13:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8553710E27E;
+	Sun, 18 Jan 2026 11:41:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ubuntu.com header.i=@ubuntu.com header.b="nTkmg5VH";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XL4JAsgm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 602 seconds by postgrey-1.36 at gabe;
- Sat, 17 Jan 2026 21:12:10 UTC
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D97C210E15B
- for <dri-devel@lists.freedesktop.org>; Sat, 17 Jan 2026 21:12:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
- h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
- To: From; q=dns/txt; s=fe-953a8a3ca9; t=1768684330;
- bh=IAaSa4wat2ffqk/i/+1FIeDn4rpbQkurBn98MuS0Uzw=;
- b=nTkmg5VHQX1sNAsX8/+k4g+tG50V1tSwscQvgasrJTqBmV9gg2YbA60p3siLUc5VWMYg0qXWS
- NZSUaWwLYr5aWwaTM/08BIFd+WOkh+CfrOqz3MTh1HWkkwWBMZsWhUSDqn6c0exdChaiNmbGo5Z
- bTam1yP+0BmWk8TwMVyDEB+q6Dk3StftIGh4J9xBwxeRSvJKqI/5M6/Hs2H3yWYka9O/K9X5HJ+
- G8TISokdjTVLvK9RSr0USJTvoIOKrd/+3KAfBe7U7TgjWX30ULqp6HjgTtYmc7K3loh7lu6vYNf
- mPDw5BfMy/W7bDZYuk8CrY1fIeEZBGBd6uaxdAnr3s5Q==
-X-Forward-Email-ID: 696bf66d0ec748e38cfba62a
-X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
- 149.28.215.223
-X-Forward-Email-Version: 2.3.3
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
-From: Joshua Peisach <jpeisach@ubuntu.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Joshua Peisach <jpeisach@ubuntu.com>
-Subject: [PATCH] drm/edid: Use struct cea_db when parsing HDMI VSDB
-Date: Sat, 17 Jan 2026 15:51:39 -0500
-Message-ID: <20260117205139.13991-1-jpeisach@ubuntu.com>
-X-Mailer: git-send-email 2.51.0
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+ [209.85.208.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 830D610E119
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 11:41:18 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id
+ 4fb4d7f45d1cf-64b7d213fd6so633730a12.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 03:41:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1768736477; x=1769341277; darn=lists.freedesktop.org;
+ h=mime-version:user-agent:content-transfer-encoding
+ :disposition-notification-to:references:in-reply-to:date:cc:to:from
+ :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=mLh48X5tXDlaNj7wOvjo2Wepz3Px1aU/XLKAVLX3p/k=;
+ b=XL4JAsgmigUv1g+pPDe7C0YIdcq3pN8/T6CEBSjtSbiKqq+Rx95RE6E66soTedNNLb
+ e4C+2tShvOA8tnbFIycSAwmhNNQLhGhrvNa1ZYCxRlR2N3jMYOplWfhlnmDEpFHK4MaP
+ p1zPJ3DmNHkRQAmnsZwn1cPfg4khzSEzyHfybsumyllpuBCkbePnB0NBemXBbKbxM+9v
+ a8M+b3kcbuoxzBgtK95X27VG6EZwCPTuXoBs/rfQiZDtwFGb7TuUOYE0mT14i2vS8Y2O
+ h1bZEBK6pKjoEwJjVE2Cmyo74r0vBC1Jx9qMDifXG1RWSSpkt2qGhB7YGTnKdiK6VmKj
+ JiOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768736477; x=1769341277;
+ h=mime-version:user-agent:content-transfer-encoding
+ :disposition-notification-to:references:in-reply-to:date:cc:to:from
+ :subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=mLh48X5tXDlaNj7wOvjo2Wepz3Px1aU/XLKAVLX3p/k=;
+ b=LeDrdL2HJkDJvMckkDtnLZYde9LfNcVkESG63MfziDmWm26PXmjkNyS4VQzhsYeLf9
+ C12yBO7CndJA7mqA7jR1fePVEKi81Asfx/s/miIno662u9IRF5Xb/Fg/4OEjbmAz1BpX
+ h5KQLgPY85/1YW3/Ks6hf71qhNDV1njgAZmkDdV2VgLz8XJVvbBnEsWQT9eb5AlwIkZP
+ XMIDncsCKP9LV6hCye+wf2i2RoOSPCA5VaBlcl32ua/ytcECfZmRBjIhfND1yYO1rF99
+ 7igEonxKhbRHhJOunzPiIoL0/RsR2vAvJWBaoKo/wodzOkbDXXmQ0Ri4Kn3FE/a3MkJM
+ 3CtA==
+X-Gm-Message-State: AOJu0YxbuuhpzRSrTtz5yzGsXv02a2kqN5srvGL+YQje7rrckjBymjU8
+ BnDLBMMwyUfIJ2FoarUdHyCxi56k1Jp3vajPbdXvnhHDT92U2BzWj/ql
+X-Gm-Gg: AY/fxX5q/m5ps2s4dQA5qIzMI6PLbpWnATmKnLQM+enL+Z5Bc1BKAYGvMkEDWpvc5IK
+ bDGxg4kjbFIv1HsqeImsV/H2VgQzeNK6bAMCOC/nCmzkcPIT3w3CDMYdyFAJWavOyMWD3cjUao/
+ KApwXG/9r2Tof64ecvdrFRwu7re6LblVYgEhAReW8xFptS9kOeBk367ny2dTESf9iPAdoXS70AJ
+ 88DnCwlmIGdq2yPUWfAtPNODjrbg0t/9wUU2VQq4cPu0oFZMbwuwfvUtTDiX5uT6WH7cSpuw6uV
+ nc8G2fPn4aYqqq7C/QlaYVa5EBqZ01uu5ZD5F6Rssqv1IP7sm5vMc4zTJJR2AjMzkPjF9fBFOJ6
+ U5x6YoowVxQXuF3m8SWRHuv5AC1qOgFOzzHk/Rl3sKkL44xr67VCEpx0IPCIfUK24B+m+htH/nO
+ 5UqGEhBN2E9Iv+C+CqEvOqydTvBVw/q1fNAM389jFvGH/tyIFs+LKXWk6CyuYRw5m9vWs7aAc=
+X-Received: by 2002:a05:6402:4404:b0:647:853a:f161 with SMTP id
+ 4fb4d7f45d1cf-654523ccc08mr3578553a12.2.1768736476668; 
+ Sun, 18 Jan 2026 03:41:16 -0800 (PST)
+Received: from [192.168.1.239] (87-205-5-123.static.ip.netia.com.pl.
+ [87.205.5.123]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-654533cc70fsm7658121a12.17.2026.01.18.03.41.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 18 Jan 2026 03:41:16 -0800 (PST)
+Message-ID: <f7eb4d8540e1453fa7612e76ad7b78e5f4c165a4.camel@gmail.com>
+Subject: Re: [PATCH v2 0/3] amdgpu: Enable Adaptive Sync over PCON with HDMI
+ VRR
+From: Tomasz =?UTF-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
+To: alexander.deucher@amd.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, 	harry.wentland@amd.com, sunpeng.li@amd.com,
+ siqueira@igalia.com
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Date: Sun, 18 Jan 2026 12:41:14 +0100
+In-Reply-To: <20260113214104.146856-1-tomasz.pakula.oficjalny@gmail.com>
+References: <20260113214104.146856-1-tomasz.pakula.oficjalny@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 18 Jan 2026 11:13:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,120 +93,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_parse_hdmi_vsdb_video is one of the parsers that still do not use the
-cea_db struct, and currently passes a u8 pointer.
+On Tue, 2026-01-13 at 22:41 +0100, Tomasz Paku=C5=82a wrote:
+> Adaptive Sync over PCON is only available as FreeSync over HDMI. TVs whic=
+h do
+> not support FreeSync, do not have working VRR with DP -> HDMI 2.1 adapter=
+s even
+> though adapters will take care of HDMI VRR info packets.
+>=20
+> Since HDMI VRR relies on FRL modes, this will only be enabled for PCONs i=
+n the
+> VRR whitelist. HDMI VRR for native HDMI connector will still not be
+> possible/attempted.
+>=20
+> I myself validated these changes with my Samsung S95B + Bernhard validate=
+d on
+> LG C4 + FreeSync-less Sony Bravia 8. I used Alienware AW3423DWF that only
+> has HDMI 2.0 to check that FreeSync still triggers properly for "older" h=
+ardware
+>=20
+> For missing VRRmax or VRRmax =3D=3D 0, the upper boundary is the currentl=
+y selected
+> video mode refresh rate. I wasn't sure how best to implement it but 10000
+> works since the driver already limits VRR range to the currently selected
+> video mode and 10000 Hz should be good enough for years to come.
+>=20
+> Changes in v2:
+> - More info parsed from HDMI Forum vsdb
+> - EDID parsing squashed into one commit
+> - Support for VRRmax =3D=3D 0
+>=20
+> Tomasz Paku=C5=82a (3):
+>   drm/edid: parse more info from HDMI Forum vsdb
+>   drm/amd/display: rename PCON adaptive sync types
+>   drm/amd/display: enable HDMI VRR over PCON
+>=20
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 27 +++++++++--
+>  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  2 +-
+>  .../amd/display/modules/inc/mod_info_packet.h |  4 +-
+>  .../display/modules/info_packet/info_packet.c |  4 +-
+>  drivers/gpu/drm/drm_edid.c                    | 41 +++++++++++++++-
+>  include/drm/drm_connector.h                   | 47 +++++++++++++++++++
+>  6 files changed, 114 insertions(+), 11 deletions(-)
 
-Set the correct struct type and update references to the data accordingly.
-This also makes the same change to drm_parse_hdmi_deep_color_info as
-necessary.
+I'd like to inform you that this patch series will be superseded by
+another, bigger patch series which compiles my recent work as all the
+separate series/patches di conflict with each other.
 
-Signed-off-by: Joshua Peisach <jpeisach@ubuntu.com>
----
- drivers/gpu/drm/drm_edid.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 26bb7710a..15bd99e65 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -6290,7 +6290,7 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
- }
- 
- static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
--					   const u8 *hdmi)
-+					   const struct cea_db *db)
- {
- 	struct drm_display_info *info = &connector->display_info;
- 	unsigned int dc_bpc = 0;
-@@ -6298,24 +6298,24 @@ static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
- 	/* HDMI supports at least 8 bpc */
- 	info->bpc = 8;
- 
--	if (cea_db_payload_len(hdmi) < 6)
-+	if (cea_db_payload_len(db) < 6)
- 		return;
- 
--	if (hdmi[6] & DRM_EDID_HDMI_DC_30) {
-+	if (db->data[6] & DRM_EDID_HDMI_DC_30) {
- 		dc_bpc = 10;
- 		info->edid_hdmi_rgb444_dc_modes |= DRM_EDID_HDMI_DC_30;
- 		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI sink does deep color 30.\n",
- 			    connector->base.id, connector->name);
- 	}
- 
--	if (hdmi[6] & DRM_EDID_HDMI_DC_36) {
-+	if (db->data[6] & DRM_EDID_HDMI_DC_36) {
- 		dc_bpc = 12;
- 		info->edid_hdmi_rgb444_dc_modes |= DRM_EDID_HDMI_DC_36;
- 		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI sink does deep color 36.\n",
- 			    connector->base.id, connector->name);
- 	}
- 
--	if (hdmi[6] & DRM_EDID_HDMI_DC_48) {
-+	if (db->data[6] & DRM_EDID_HDMI_DC_48) {
- 		dc_bpc = 16;
- 		info->edid_hdmi_rgb444_dc_modes |= DRM_EDID_HDMI_DC_48;
- 		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI sink does deep color 48.\n",
-@@ -6333,7 +6333,7 @@ static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
- 	info->bpc = dc_bpc;
- 
- 	/* YCRCB444 is optional according to spec. */
--	if (hdmi[6] & DRM_EDID_HDMI_DC_Y444) {
-+	if (db->data[6] & DRM_EDID_HDMI_DC_Y444) {
- 		info->edid_hdmi_ycbcr444_dc_modes = info->edid_hdmi_rgb444_dc_modes;
- 		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI sink does YCRCB444 in deep color.\n",
- 			    connector->base.id, connector->name);
-@@ -6343,7 +6343,7 @@ static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
- 	 * Spec says that if any deep color mode is supported at all,
- 	 * then deep color 36 bit must be supported.
- 	 */
--	if (!(hdmi[6] & DRM_EDID_HDMI_DC_36)) {
-+	if (!(db->data[6] & DRM_EDID_HDMI_DC_36)) {
- 		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI sink should do DC_36, but does not!\n",
- 			    connector->base.id, connector->name);
- 	}
-@@ -6351,19 +6351,19 @@ static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
- 
- /* HDMI Vendor-Specific Data Block (HDMI VSDB, H14b-VSDB) */
- static void
--drm_parse_hdmi_vsdb_video(struct drm_connector *connector, const u8 *db)
-+drm_parse_hdmi_vsdb_video(struct drm_connector *connector, const struct cea_db *db)
- {
- 	struct drm_display_info *info = &connector->display_info;
- 	u8 len = cea_db_payload_len(db);
- 
- 	info->is_hdmi = true;
- 
--	info->source_physical_address = (db[4] << 8) | db[5];
-+	info->source_physical_address = (db->data[4] << 8) | db->data[5];
- 
- 	if (len >= 6)
--		info->dvi_dual = db[6] & 1;
-+		info->dvi_dual = db->data[6] & 1;
- 	if (len >= 7)
--		info->max_tmds_clock = db[7] * 5000;
-+		info->max_tmds_clock = db->data[7] * 5000;
- 
- 	/*
- 	 * Try to infer whether the sink supports HDMI infoframes.
-@@ -6371,7 +6371,7 @@ drm_parse_hdmi_vsdb_video(struct drm_connector *connector, const u8 *db)
- 	 * HDMI infoframe support was first added in HDMI 1.4. Assume the sink
- 	 * supports infoframes if HDMI_Video_present is set.
- 	 */
--	if (len >= 8 && db[8] & BIT(5))
-+	if (len >= 8 && db->data[8] & BIT(5))
- 		info->has_hdmi_infoframe = true;
- 
- 	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI: DVI dual %d, max TMDS clock %d kHz\n",
-@@ -6443,7 +6443,7 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
- 		const u8 *data = (const u8 *)db;
- 
- 		if (cea_db_is_hdmi_vsdb(db))
--			drm_parse_hdmi_vsdb_video(connector, data);
-+			drm_parse_hdmi_vsdb_video(connector, db);
- 		else if (cea_db_is_hdmi_forum_vsdb(db) ||
- 			 cea_db_is_hdmi_forum_scdb(db))
- 			drm_parse_hdmi_forum_scds(connector, data);
--- 
-2.51.0
-
+Thank you.
+Tomasz
