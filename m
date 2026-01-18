@@ -2,81 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC079D3948D
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jan 2026 12:42:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 886D9D394B1
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jan 2026 13:09:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2428A10E2A9;
-	Sun, 18 Jan 2026 11:42:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE0FA10E119;
+	Sun, 18 Jan 2026 12:09:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Xv2IQuuG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aG4uK31r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
- [209.85.208.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F6B710E2A9
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 11:42:18 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id
- 4fb4d7f45d1cf-655b5094119so425059a12.2
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 03:42:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768736537; x=1769341337; darn=lists.freedesktop.org;
- h=mime-version:user-agent:content-transfer-encoding
- :disposition-notification-to:references:in-reply-to:date:cc:to:from
- :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=te6FnboAFJ6x9uRbg9PS2os1I8lYLucGhR7IWQ0O5mc=;
- b=Xv2IQuuGmjJbkh4+e/6AG92ZAwngLTOtTzP8JimKvSxm7lLcPfmZo7z/tU/ficeLnk
- E5WDGr2qzS6aPlfKi5l9rPFXSpRUC+mGEGt7/EyCUiznGY58jOeFa7elr0Aakbe1UyXR
- boKfAiMPt4MA5R+5jNBlF2G+JkuVRoqFqrDeyRTvVY43JQrGtW4IBbY/8keofODcmEiy
- +qzaHAOg1m6fomvRZbHm9zTRTunkNSP/eBp44M/FUXahMYQ+1RKq85pZ81XKprqDvl0Q
- CODH1Rozr8NDbbNH5Ys9uKMYNacxRtVywgPYj9XCxcJLDZ5/TFyyieqZlNvNQQ53r/mQ
- g/nA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768736537; x=1769341337;
- h=mime-version:user-agent:content-transfer-encoding
- :disposition-notification-to:references:in-reply-to:date:cc:to:from
- :subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=te6FnboAFJ6x9uRbg9PS2os1I8lYLucGhR7IWQ0O5mc=;
- b=b8SjsTNvMaI+BSuC4qpkzZ39sdamoaK11N1tkzAlIDHr+9DoAYaKVsbPWf46ju1xIr
- OPePgEGlckW7SAcIAv+lRQ+Cb9ULAPJeugoku+1lu3WbthAbVLfTD5V/G6Cz8a1iRiaV
- Y5FYrF1Di8DRa1p6CAukI8fxd+fZ+mr8HxfgC02VUa4Gd/yxnvXbLrZCAuqFhKl6C3oN
- ok8QFedk4wAjCf9V9BSw0qKipe7kG9vNk7Kg3/GiCkbJYkizFh8V7m0tm8lY0KhQaCrm
- ZMWPL8VC8vxEKumt4xDb9Q+2+UyXgz20UPNI4ewrNUGu5KHj7gxqgg06lOD9MorTD4Ei
- USSA==
-X-Gm-Message-State: AOJu0Ywr0DRmTIdoLtRpTM9Ns7G1QP5hm/HR2ZTuZ7YnUWCcYmCyM58e
- v7dUlvU5HWqXGDnu9ksrZa98rVOFYf1CXWQQEg2tzN+A/RozRbjgORn2
-X-Gm-Gg: AY/fxX5Hg2phaliRxHR6p3qw5+Icw+SrwFJG2QB7Py9n7Lj/WSboMk6xUS/SKe75wOo
- e+3AJHokiiRo63fTq+N1MsQYNJT3y1UwcsIA2UHxK+wW3iThR0WDBXB5hW4k3/9HRQ68LXwFwY9
- 8COV4rnk5kMdmr9P6wEMbFBMQkc9LbL9cDBJoyD9q7tFv2E4bc0uP2ErmjRWkP/R1nHJo3LJCDH
- 459axkqxxq1EsRUqbHKTwbuK6uADMO5Ul0i5uotph/wMXVxRCIgdaMEnNnD5DKje7Ag/mrDPd+z
- B/nXeNCEypf3F4PSgOSX9seS/aaogemLRgJlDTHZZPlQZv+UcpjtY8/BcAGuM5qd5YiGh9oUYgD
- yk7zpi8DMHbqC1ttzx1c/VugthYJ7UqJ5wlElL21va9BG2neqGurLP6shuUC+fcuMxQhp2XkZf5
- W/2s6kCFFMW1nlfxnNTsLW2PLV1Jv4Ifpy8oTZ2oLZl1ewqYsga1hj5+Xac53jWwS9kAwWT2M=
-X-Received: by 2002:a17:907:3e82:b0:b87:2780:1b33 with SMTP id
- a640c23a62f3a-b879300dde7mr389871166b.3.1768736536773; 
- Sun, 18 Jan 2026 03:42:16 -0800 (PST)
-Received: from [192.168.1.239] (87-205-5-123.static.ip.netia.com.pl.
- [87.205.5.123]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b879513ea20sm835517266b.12.2026.01.18.03.42.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Jan 2026 03:42:16 -0800 (PST)
-Message-ID: <a728742803f7bef5ab5ec046b85e1cb9ff23171c.camel@gmail.com>
-Subject: Re: [PATCH 0/4] amdgpu: Enable Adaptive Sync over PCON with HDMI VRR
-From: Tomasz =?UTF-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-To: alexander.deucher@amd.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, 	harry.wentland@amd.com, sunpeng.li@amd.com,
- siqueira@igalia.com
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- bernhard.berger@gmail.com
-Date: Sun, 18 Jan 2026 12:42:15 +0100
-In-Reply-To: <20251220114649.169147-1-tomasz.pakula.oficjalny@gmail.com>
-References: <20251220114649.169147-1-tomasz.pakula.oficjalny@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 920B610E119;
+ Sun, 18 Jan 2026 12:08:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 50EC843A5A;
+ Sun, 18 Jan 2026 12:08:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92637C116D0;
+ Sun, 18 Jan 2026 12:08:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1768738139;
+ bh=6bmUHSFT3Q7/+tXPCxCaiihzWsFX2kmrdZwwrHRlKhY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=aG4uK31r0MqVjWD9XffPW7en2hhZsO688W532e1q8M7HRFYm320SE5m73+UGstOff
+ 0HrYZuKbh0toNswE4Xbm1P0QHSQKJblqIbIyQy0jq+i0SdliWxS4tc1gq5JCChkVGi
+ Riax/uALSvMxc5oVBHWULvwd01DMvBqLuON9emQT4OVyyB5VdFxK+Ox4k/LswzZTkG
+ Ah6VK2r5SR451CP05ufhWEs0FXamSBFN+a8yO057BxF8fnGNz5hAvSNoSnggXxVhx0
+ 5vL8oOMNUSVxROdcIeYu7DAAiE4l0/WXHLT4AilQNGqLbTAZ2WoezH1KLPDu6Lmimm
+ EDaAW2lmOJo2A==
+From: Leon Romanovsky <leon@kernel.org>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>, Kevin Tian <kevin.tian@intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Alex Williamson <alex@shazbot.org>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
+ intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+ iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: [PATCH v2 0/4] dma-buf: document revoke mechanism to invalidate
+ shared buffers
+Date: Sun, 18 Jan 2026 14:08:44 +0200
+Message-ID: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20251221-dmabuf-revoke-b90ef16e4236
+X-Mailer: b4 0.15-dev-a6db3
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,43 +77,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 2025-12-20 at 12:46 +0100, Tomasz Paku=C5=82a wrote:
-> Adaptive Sync over PCON is only available as FreeSync over HDMI. TVs whic=
-h do
-> not support FreeSync, do not have working VRR with DP -> HDMI 2.1 adapter=
-s even
-> though adapters will take care of HDMI VRR info packets.
->=20
-> First two patches add generic drm edid parsing for HDMI VRR and ALLM.
->=20
-> Since HDMI VRR relies on FRL modes, this will only be enabled for PCONs i=
-n the
-> VRR whitelist. HDMI VRR for native HDMI connector will still not be
-> possible/attempted.
->=20
-> I myself validated these changes with my Samsung S95B + Bernhard validate=
-d on
-> LG C4 + FreeSync-less Sony Bravia 8. I used Alienware AW3423DWF that only
-> has HDMI 2.0 to check that FreeSync still triggers properly for "older" h=
-ardware
->=20
-> Tomasz Paku=C5=82a (4):
->   drm/edid: parse HDMI ALLM info
->   drm/edid: parse HDMI VRR information
->   drm/amd/display: rename PCON adaptive sync types
->   drm/amd/display: enable HDMI VRR over PCON
->=20
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 24 +++++++++++++++----
->  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  2 +-
->  .../amd/display/modules/inc/mod_info_packet.h |  4 ++--
->  .../display/modules/info_packet/info_packet.c |  4 ++--
->  drivers/gpu/drm/drm_edid.c                    | 20 ++++++++++++++++
->  include/drm/drm_connector.h                   | 23 ++++++++++++++++++
->  6 files changed, 67 insertions(+), 10 deletions(-)
-
-I'd like to inform you that this patch series will be superseded by
-another, bigger patch series which compiles my recent work as all the
-separate series/patches di conflict with each other.
-
-Thank you.
-Tomasz
+Changelog:=0D
+v2:=0D
+ * Changed series to document the revoke semantics instead of=0D
+   implementing it.=0D
+v1: https://patch.msgid.link/20260111-dmabuf-revoke-v1-0-fb4bcc8c259b@nvidi=
+a.com=0D
+=0D
+-------------------------------------------------------------------------=0D
+This series documents a dma-buf =E2=80=9Crevoke=E2=80=9D mechanism: to allo=
+w a dma-buf=0D
+exporter to explicitly invalidate (=E2=80=9Ckill=E2=80=9D) a shared buffer =
+after it has=0D
+been distributed to importers, so that further CPU and device access is=0D
+prevented and importers reliably observe failure.=0D
+=0D
+The change in this series is to properly document and use existing core=0D
+=E2=80=9Crevoked=E2=80=9D state on the dma-buf object and a corresponding e=
+xporter-triggered=0D
+revoke operation. Once a dma-buf is revoked, new access paths are blocked s=
+o=0D
+that attempts to DMA-map, vmap, or mmap the buffer fail in a consistent way=
+.=0D
+=0D
+Thanks=0D
+=0D
+Cc: linux-media@vger.kernel.org=0D
+Cc: dri-devel@lists.freedesktop.org=0D
+Cc: linaro-mm-sig@lists.linaro.org=0D
+Cc: linux-kernel@vger.kernel.org=0D
+Cc: amd-gfx@lists.freedesktop.org=0D
+Cc: virtualization@lists.linux.dev=0D
+Cc: intel-xe@lists.freedesktop.org=0D
+Cc: linux-rdma@vger.kernel.org=0D
+Cc: iommu@lists.linux.dev=0D
+Cc: kvm@vger.kernel.org=0D
+To: Sumit Semwal <sumit.semwal@linaro.org>=0D
+To: Christian K=C3=B6nig <christian.koenig@amd.com>=0D
+To: Alex Deucher <alexander.deucher@amd.com>=0D
+To: David Airlie <airlied@gmail.com>=0D
+To: Simona Vetter <simona@ffwll.ch>=0D
+To: Gerd Hoffmann <kraxel@redhat.com>=0D
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>=0D
+To: Gurchetan Singh <gurchetansingh@chromium.org>=0D
+To: Chia-I Wu <olvaffe@gmail.com>=0D
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>=0D
+To: Maxime Ripard <mripard@kernel.org>=0D
+To: Thomas Zimmermann <tzimmermann@suse.de>=0D
+To: Lucas De Marchi <lucas.demarchi@intel.com>=0D
+To: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>=0D
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>=0D
+To: Jason Gunthorpe <jgg@ziepe.ca>=0D
+To: Leon Romanovsky <leon@kernel.org>=0D
+To: Kevin Tian <kevin.tian@intel.com>=0D
+To: Joerg Roedel <joro@8bytes.org>=0D
+To: Will Deacon <will@kernel.org>=0D
+To: Robin Murphy <robin.murphy@arm.com>=0D
+To: Alex Williamson <alex@shazbot.org>=0D
+=0D
+---=0D
+Leon Romanovsky (4):=0D
+      dma-buf: Rename .move_notify() callback to a clearer identifier=0D
+      dma-buf: Document revoke semantics=0D
+      iommufd: Require DMABUF revoke semantics=0D
+      vfio: Add pinned interface to perform revoke semantics=0D
+=0D
+ drivers/dma-buf/dma-buf.c                   |  6 +++---=0D
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c |  4 ++--=0D
+ drivers/gpu/drm/virtio/virtgpu_prime.c      |  2 +-=0D
+ drivers/gpu/drm/xe/tests/xe_dma_buf.c       |  6 +++---=0D
+ drivers/gpu/drm/xe/xe_dma_buf.c             |  2 +-=0D
+ drivers/infiniband/core/umem_dmabuf.c       |  4 ++--=0D
+ drivers/infiniband/hw/mlx5/mr.c             |  2 +-=0D
+ drivers/iommu/iommufd/pages.c               | 11 +++++++++--=0D
+ drivers/vfio/pci/vfio_pci_dmabuf.c          | 16 ++++++++++++++++=0D
+ include/linux/dma-buf.h                     | 25 ++++++++++++++++++++++---=
+=0D
+ 10 files changed, 60 insertions(+), 18 deletions(-)=0D
+---=0D
+base-commit: 9ace4753a5202b02191d54e9fdf7f9e3d02b85eb=0D
+change-id: 20251221-dmabuf-revoke-b90ef16e4236=0D
+=0D
+Best regards,=0D
+--  =0D
+Leon Romanovsky <leonro@nvidia.com>=0D
+=0D
