@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25D72D394B6
-	for <lists+dri-devel@lfdr.de>; Sun, 18 Jan 2026 13:09:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79866D394B5
+	for <lists+dri-devel@lfdr.de>; Sun, 18 Jan 2026 13:09:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 870F810E2B7;
-	Sun, 18 Jan 2026 12:09:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5F7D10E2B1;
+	Sun, 18 Jan 2026 12:09:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="b57lGzkE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XdjxvoAb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFBFC10E2B6;
- Sun, 18 Jan 2026 12:09:09 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AD8110E2B1;
+ Sun, 18 Jan 2026 12:09:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9FED8444A1;
- Sun, 18 Jan 2026 12:09:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E27A2C2BC86;
- Sun, 18 Jan 2026 12:09:08 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 7D3D66013F;
+ Sun, 18 Jan 2026 12:09:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE81EC116D0;
+ Sun, 18 Jan 2026 12:09:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768738149;
- bh=lFp92L2u8Fi3C1r4wz7ICZZY29W6l9NNfEn6EJZj7GA=;
+ s=k20201202; t=1768738146;
+ bh=mm/K0ex6EqQRFx0JMS0zNSZNpU/4euJk26DLE2qJ+Sg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=b57lGzkEObf4t2IQTf/DJYle2Vi+wmkenWL8JiZcUXMFG32RI5QLPPJvEQbZNmUVu
- tVm9SQkuRLXsV+VARTyTJ0ctKEAh36t9OF36xOHzMKHdzrqQIUN+wCKowPjw2OfZCq
- uTMmw9GjLJOlRA/x9vlNTo9600EoOlZ5fJuR5yabUCBsAqvyrwoWDAdpO0SdPcxQzn
- fmRvtiPmspxW0vLun5hT89R8Sl29pf9lU45i5p0t62erSJena939KfeGaNSbhd6Kjo
- PB+o9YyRlIiDI8/OKCEyXgL3nGXjyaFi1GkzNHDkMORYewY4EEZiBeSpWeQYfoARox
- VmHDCcvdgPMdg==
+ b=XdjxvoAbIavBsv0zTjO6R8fbQF+rxDrEloDI17HSRw8EIMmoYlO9e1JGeDF8ygBSb
+ DgwxwjM8cAFCAImsdYX98/uO47x5W1qIPn3fige+rpGGzGlpmwjq7Ok/0jl5ByFJ9b
+ cW+oTr0vpV5iwQKEPd5148hv8WsL1c3CHBPmXd5PXyHwliz2vu3R9i43p6R6s5940h
+ ZX3ASx3BaOF7dBiCLwTlnbHl215ruHoxrswzGJx2pYciOIg59FfiwJ8ITh7pe3o0ZU
+ 8b0hRA+t/hwDIB5bHfms2Jwu8MP0Q5b6aRT04w/rPh/GwaBNN+UaRhpSex9bA+Zz+W
+ Z/RNRyxV/ZtLw==
 From: Leon Romanovsky <leon@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>,
  =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -52,9 +52,9 @@ Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
  intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
  iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: [PATCH v2 2/4] dma-buf: Document revoke semantics
-Date: Sun, 18 Jan 2026 14:08:46 +0200
-Message-ID: <20260118-dmabuf-revoke-v2-2-a03bb27c0875@nvidia.com>
+Subject: [PATCH v2 3/4] iommufd: Require DMABUF revoke semantics
+Date: Sun, 18 Jan 2026 14:08:47 +0200
+Message-ID: <20260118-dmabuf-revoke-v2-3-a03bb27c0875@nvidia.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
 References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
@@ -79,55 +79,52 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-Document a DMA-buf revoke mechanism that allows an exporter to explicitly
-invalidate ("kill") a shared buffer after it has been handed out to
-importers. Once revoked, all further CPU and device access is blocked, and
-importers consistently observe failure.
-
-This requires both importers and exporters to honor the revoke contract.
-
-For importers, this means implementing .invalidate_mappings() and calling
-dma_buf_pin() after the DMA‑buf is attached to verify the exporter’s support
-for revocation.
-
-For exporters, this means implementing the .pin() callback, which checks
-the DMA‑buf attachment for a valid revoke implementation.
+IOMMUFD does not support page fault handling, and after a call to
+.invalidate_mappings() all mappings become invalid. Ensure that
+the IOMMUFD DMABUF importer is bound to a revoke‑aware DMABUF exporter
+(for example, VFIO).
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- include/linux/dma-buf.h | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/iommu/iommufd/pages.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 1b397635c793..e0bc0b7119f5 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -579,6 +579,25 @@ static inline bool dma_buf_is_dynamic(struct dma_buf *dmabuf)
- 	return !!dmabuf->ops->pin;
- }
+diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c
+index 76f900fa1687..a5eb2bc4ef48 100644
+--- a/drivers/iommu/iommufd/pages.c
++++ b/drivers/iommu/iommufd/pages.c
+@@ -1501,16 +1501,22 @@ static int iopt_map_dmabuf(struct iommufd_ctx *ictx, struct iopt_pages *pages,
+ 		mutex_unlock(&pages->mutex);
+ 	}
  
-+/**
-+ * dma_buf_attachment_is_revoke - check if a DMA-buf importer implements
-+ * revoke semantics.
-+ * @attach: the DMA-buf attachment to check
-+ *
-+ * Returns true if DMA-buf importer honors revoke semantics, which is
-+ * negotiated with the exporter, by making sure that importer implements
-+ * .invalidate_mappings() callback and calls to dma_buf_pin() after
-+ * DMA-buf attach.
-+ */
-+static inline bool
-+dma_buf_attachment_is_revoke(struct dma_buf_attachment *attach)
-+{
-+	return IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY) &&
-+	       dma_buf_is_dynamic(attach->dmabuf) &&
-+	       (attach->importer_ops &&
-+		attach->importer_ops->invalidate_mappings);
-+}
+-	rc = sym_vfio_pci_dma_buf_iommufd_map(attach, &pages->dmabuf.phys);
++	rc = dma_buf_pin(attach);
+ 	if (rc)
+ 		goto err_detach;
+ 
++	rc = sym_vfio_pci_dma_buf_iommufd_map(attach, &pages->dmabuf.phys);
++	if (rc)
++		goto err_unpin;
 +
- struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
- 					  struct device *dev);
- struct dma_buf_attachment *
+ 	dma_resv_unlock(dmabuf->resv);
+ 
+ 	/* On success iopt_release_pages() will detach and put the dmabuf. */
+ 	pages->dmabuf.attach = attach;
+ 	return 0;
+ 
++err_unpin:
++	dma_buf_unpin(attach);
+ err_detach:
+ 	dma_resv_unlock(dmabuf->resv);
+ 	dma_buf_detach(dmabuf, attach);
+@@ -1656,6 +1662,7 @@ void iopt_release_pages(struct kref *kref)
+ 	if (iopt_is_dmabuf(pages) && pages->dmabuf.attach) {
+ 		struct dma_buf *dmabuf = pages->dmabuf.attach->dmabuf;
+ 
++		dma_buf_unpin(pages->dmabuf.attach);
+ 		dma_buf_detach(dmabuf, pages->dmabuf.attach);
+ 		dma_buf_put(dmabuf);
+ 		WARN_ON(!list_empty(&pages->dmabuf.tracker));
 
 -- 
 2.52.0
