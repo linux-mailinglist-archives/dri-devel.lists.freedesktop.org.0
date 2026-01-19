@@ -2,43 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59DACD3A13B
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 09:18:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4215FD3A17D
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 09:24:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACA4410E397;
-	Mon, 19 Jan 2026 08:18:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B62410E395;
+	Mon, 19 Jan 2026 08:24:24 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OEz1UfHR";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id C6A5510E39F
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 08:18:17 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A09BD1517;
- Mon, 19 Jan 2026 00:18:10 -0800 (PST)
-Received: from [10.57.14.23] (unknown [10.57.14.23])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4DEF63F632;
- Mon, 19 Jan 2026 00:18:14 -0800 (PST)
-Message-ID: <fc3fb243-48fb-4a5a-8802-01a7fe5ef032@arm.com>
-Date: Mon, 19 Jan 2026 08:18:11 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7215B10E102;
+ Mon, 19 Jan 2026 08:24:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768811062; x=1800347062;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=FdJqB24QzJiFq06iM4nVmUAnIN7Ftjoc9PN19SL7PVA=;
+ b=OEz1UfHRlQhZBHN1zOBYxx2cPgujVAeCyT5lx5Cg5jJKOJJAL0pw4baY
+ vVJaRPDtXyXGN47OT412jt8mRSsAsTg9yy2lL4FVV+2HEBlfj/++MHtsy
+ R4kZWrihxvf+FWZxRHhW+ePxOt2wyFIi6YC1nZ0KASL9CL832soyZt0bQ
+ H1FCQwzb+4IAmMsZv1Zcoo0qPdeoeXgRzG1T7jOGFC11jcMghM9dTnXM0
+ 1RAt74v+boCXVN4bSX3GeMQsfxWKCVlbq0Yfd1TgVNt/wMOlTQxRT16Pr
+ HqYOK71vWWqZmbZWb9xFdNhASNBzDW2j8/j8e0oLNffdj0SBumFN0yvRj w==;
+X-CSE-ConnectionGUID: ovdFrRbDT2e11K83WL4Ceg==
+X-CSE-MsgGUID: LGUVse8kTO6fHOHinix4QA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="81130928"
+X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; d="scan'208";a="81130928"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2026 00:24:22 -0800
+X-CSE-ConnectionGUID: ahAP74soS2WwLGqHg1c9RQ==
+X-CSE-MsgGUID: sA33wVKrTFSXxkR+xu0xiw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; d="scan'208";a="205601779"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+ by orviesa009.jf.intel.com with ESMTP; 19 Jan 2026 00:24:19 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vhkYZ-00000000Nav-453O;
+ Mon, 19 Jan 2026 08:24:15 +0000
+Date: Mon, 19 Jan 2026 16:23:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tomasz =?utf-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
+ alexander.deucher@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com
+Cc: oe-kbuild-all@lists.linux.dev, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, siqueira@igalia.com,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, tomasz.pakula.oficjalny@gmail.com,
+ bernhard.berger@gmail.com
+Subject: Re: [PATCH 02/17] drm/amd/display: Refactor
+ amdgpu_dm_update_freesync_caps()
+Message-ID: <202601191507.cZ9ZcocL-lkp@intel.com>
+References: <20260119011146.62302-3-tomasz.pakula.oficjalny@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panthor: Fix NULL pointer dereference on
- panthor_fw_unplug
-To: Andy Yan <andyshrk@163.com>, Liviu Dudau <liviu.dudau@arm.com>
-Cc: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org,
- nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org, aishwarya.tcv@arm.com
-References: <20251215203312.1084182-1-karunika.choo@arm.com>
- <aUFV6chRKx7aoQ5z@e142607>
- <4e8c1dcc.54f2.19bd4f4f1ae.Coremail.andyshrk@163.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <4e8c1dcc.54f2.19bd4f4f1ae.Coremail.andyshrk@163.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260119011146.62302-3-tomasz.pakula.oficjalny@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,77 +76,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/01/2026 06:33, Andy Yan wrote:
-> 
-> Hello,
-> 
-> At 2025-12-16 20:51:53, "Liviu Dudau" <liviu.dudau@arm.com> wrote:
->> On Mon, Dec 15, 2025 at 08:33:12PM +0000, Karunika Choo wrote:
->>> This patch removes the MCU halt and wait for halt procedures during
->>> panthor_fw_unplug() as the MCU can be in a variety of states or the FW
->>> may not even be loaded/initialized at all, the latter of which can lead
->>> to a NULL pointer dereference.
->>>
->>> It should be safe on unplug to just disable the MCU without waiting for
->>> it to halt as it may not be able to.
->>>
->>> Fixes: 514072549865 ("drm/panthor: Support GLB_REQ.STATE field for Mali-G1 GPUs")
->>> Suggested-by: Boris Brezillon <boris.brezillon@collabora.com>
->>> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
->>
->> Reviewed-by: Liviu Dudau <liviu@dudau.co.uk>
-> 
->   Tested-by: Andy Yan <andyshrk@163.com>
-> 
-> Hope can be merged in 6.19 release cycle.
+Hi Tomasz,
 
-Boris has already merged this:
+kernel test robot noticed the following build warnings:
 
-commit 920c6af98e98e6afedf6318a75bac95af8415c6c
-Author: Karunika Choo <karunika.choo@arm.com>
-Date:   Mon Dec 15 20:33:12 2025 +0000
+[auto build test WARNING on next-20260116]
+[also build test WARNING on linus/master v6.19-rc6]
+[cannot apply to drm-misc/drm-misc-next v6.19-rc5 v6.19-rc4 v6.19-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-    drm/panthor: Fix NULL pointer dereference on panthor_fw_unplug
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomasz-Paku-a/drm-amd-display-Return-if-DisplayID-not-found-in-parse_amd_vsdb/20260119-091453
+base:   next-20260116
+patch link:    https://lore.kernel.org/r/20260119011146.62302-3-tomasz.pakula.oficjalny%40gmail.com
+patch subject: [PATCH 02/17] drm/amd/display: Refactor amdgpu_dm_update_freesync_caps()
+config: i386-buildonly-randconfig-001-20260119 (https://download.01.org/0day-ci/archive/20260119/202601191507.cZ9ZcocL-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260119/202601191507.cZ9ZcocL-lkp@intel.com/reproduce)
 
-However it's in the drm-misc-next branch which means it won't be pulled
-until the merge window. Ideally it would have gone in via
-drm-misc-fixes, but given this (AFAIK) only triggers in the combination
-of loading the panthor driver *and* not having the correct firmware I
-didn't think it was worth worrying about - and so haven't asked the DRM
-maintainers to cherry pick it. The fix should get backported into a
-6.19.x stable release.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601191507.cZ9ZcocL-lkp@intel.com/
 
-If I've missed something then let me (and the DRM maintainers) know and
-the commit can be cherry-picked.
+All warnings (new ones prefixed by >>):
 
-Thanks,
-Steve
+>> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:13200 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Returns true if (max_vfreq - min_vfreq) > 10
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:13217 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Returns true if connector is capable of freesync
 
-> 
->>
->> Best regards,
->> Liviu
->>
->>> ---
->>>  drivers/gpu/drm/panthor/panthor_fw.c | 4 ----
->>>  1 file changed, 4 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
->>> index 4beaa589ba66..a64ec8756bed 100644
->>> --- a/drivers/gpu/drm/panthor/panthor_fw.c
->>> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
->>> @@ -1261,10 +1261,6 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
->>>  		if (ptdev->fw->irq.irq)
->>>  			panthor_job_irq_suspend(&ptdev->fw->irq);
->>>  
->>> -		panthor_fw_halt_mcu(ptdev);
->>> -		if (!panthor_fw_wait_mcu_halted(ptdev))
->>> -			drm_warn(&ptdev->base, "Failed to halt MCU on unplug");
->>> -
->>>  		panthor_fw_stop(ptdev);
->>>  	}
->>>  
->>> -- 
->>> 2.49.0
->>>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for NET_SELFTESTS
+   Depends on [n]: NET [=y] && PHYLIB [=y] && INET [=n]
+   Selected by [m]:
+   - AMD_XGBE [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_AMD [=y] && (OF_ADDRESS [=y] || ACPI [=y] || PCI [=y]) && HAS_IOMEM [=y] && (X86 [=y] || ARM64 || COMPILE_TEST [=y]) && PTP_1588_CLOCK_OPTIONAL [=m]
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
