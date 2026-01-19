@@ -2,49 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D007DD3B48A
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 18:37:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A060BD3B4F6
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 18:57:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E65110E4E0;
-	Mon, 19 Jan 2026 17:37:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6F5410E1EC;
+	Mon, 19 Jan 2026 17:57:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M/kSTDKp";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="N1XjNODB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39A2910E4DF;
- Mon, 19 Jan 2026 17:37:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id EF4AF41AB5;
- Mon, 19 Jan 2026 17:37:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36C9DC116C6;
- Mon, 19 Jan 2026 17:37:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768844272;
- bh=dlkRPImrZHLGkEr79eYuSv8PXMFAfKCUT+ghYXPvzSI=;
- h=Date:From:To:Cc:Subject:From;
- b=M/kSTDKp3ampYq2PhKsTb/fb6IKO3dW97o6YslD//iwkrR/e3BNyPHNezN+HJDeyo
- cmgkvXpCfHFEO+JUlUGDFAdl5YgowSqHDNpenTcLMkiFMAgoNeQvrs38oNbZQ2636u
- 6DZ7G3gC704N54qYlGvJu4G2lnilMEp7q1eLspa5VOxqS9Zs0t6gxGLjMnpy0rzl6c
- pOXKhQnLpsm4QVG5Q9SZYh869Fr7C6NELxRbyNRFk1PVn9dTA81teDj7hymKoLirQT
- ZGI+q6yzB6tbZThBL4VrKRmBu16qz9aUaXe97K02WC3f+0CL0Fph0ftPS2ulWmioi8
- 0Brm+7U2NsgBA==
-Date: Mon, 19 Jan 2026 17:37:48 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Simona Vetter <simona.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-Subject: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <aW5r7NzicgqvpaUj@sirena.org.uk>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE9B10E1EC;
+ Mon, 19 Jan 2026 17:57:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768845424; x=1800381424;
+ h=date:from:to:cc:subject:message-id;
+ bh=u+HHB0lIzhvA+lLRRygJmV3H0QdwYkfzQhvCJzQc/H8=;
+ b=N1XjNODBnEx9TCVo6S5jdoNkCeT8GUp04z7Zsh6urJS+w1lvWrL7AAeK
+ ZE4QdJYmyOyAdHKsBtrBsNyCnlMwpoYZFsWi8MQJp9IzBwEf0+G/Xh1rl
+ 03eqO9Ob8cMrkO3DZhtfSJqiW4ooaGbTjL8+VddCYJL3Jl1H7BKQQc3QK
+ I0S4FIAG6dSu+IC7AhLUKJ8Yev9529x3lkf7cKiiSlqSWnVEyfEUIFnCo
+ b6Fqz2w77Bg8NbKj+mHxaeLntJtS7SWU+otGXLZVhdoDhaUPBiK4HIOvC
+ 4Fe4EPnTKj8PInVHrR1/EVCfIgMK/hmjgP3JXi92oOqcqHjEsAX3629Mi Q==;
+X-CSE-ConnectionGUID: 8WZsGGDGR+GdrqmUcRkTcg==
+X-CSE-MsgGUID: 5wFnee/XQCSbEFVq62FHnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="69962237"
+X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; d="scan'208";a="69962237"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2026 09:57:04 -0800
+X-CSE-ConnectionGUID: 0ZOvcPaVRyajKt+xPyZVbg==
+X-CSE-MsgGUID: MKSNq8gITGq5DIUpDm2xuw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; d="scan'208";a="237188577"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+ by fmviesa001.fm.intel.com with ESMTP; 19 Jan 2026 09:57:02 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vhtUp-00000000O8X-3n0l;
+ Mon, 19 Jan 2026 17:56:59 +0000
+Date: Tue, 20 Jan 2026 01:56:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Baryshkov <lumag@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [drm-tip:drm-tip 1415/1442]
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c:2740:15: error: too few
+ arguments to function 'drm_property_replace_blob_from_id'
+Message-ID: <202601200149.W0oZsXyn-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,64 +67,169 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+tree:   https://gitlab.freedesktop.org/drm/tip.git drm-tip
+head:   1629d3f34f235cd5e43cfd0386a152d65584ccd4
+commit: 7436a87db99d57196c49d10de35f41531993d5f1 [1415/1442] drm/tests: hdmi: check the infoframes behaviour
+config: x86_64-randconfig-013-20260119 (https://download.01.org/0day-ci/archive/20260120/202601200149.W0oZsXyn-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200149.W0oZsXyn-lkp@intel.com/reproduce)
 
-After merging the drm-misc tree, today's linux-next build (x86_64
-allmodconfig) failed like this:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601200149.W0oZsXyn-lkp@intel.com/
 
-/tmp/next/build/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c: In function 'drm_test_check_reject_hdr_infoframe_bpc_10':
-/tmp/next/build/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c:2926:49: error: passing argument 6 of 'drm_property_replace_blob_from_id' makes integer from pointer without a cast [-Wint-conversion]
- 2926 |                                                 &replaced);
-      |                                                 ^~~~~~~~~
-      |                                                 |
-      |                                                 bool * {aka _Bool *}
-In file included from /tmp/next/build/include/drm/drm_connector.h:33,
-                 from /tmp/next/build/include/drm/drm_modes.h:33,
-                 from /tmp/next/build/include/drm/drm_crtc.h:32,
-                 from /tmp/next/build/include/drm/drm_atomic.h:31,
-                 from /tmp/next/build/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c:7:
-/tmp/next/build/include/drm/drm_property.h:287:47: note: expected 'ssize_t' {aka 'long int'} but argument is of type 'bool *' {aka '_Bool *'}
-  287 |                                       ssize_t max_size,
-      |                                       ~~~~~~~~^~~~~~~~
-/tmp/next/build/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c:2922:15: error: too few arguments to function 'drm_property_replace_blob_from_id'
- 2922 |         ret = drm_property_replace_blob_from_id(drm,
-      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/tmp/next/build/include/drm/drm_property.h:282:5: note: declared here
-  282 | int drm_property_replace_blob_from_id(struct drm_device *dev,
-      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+All errors (new ones prefixed by >>):
 
-Caused by commit
+   drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c: In function 'drm_test_check_reject_hdr_infoframe_bpc_10':
+   drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c:2744:49: error: passing argument 6 of 'drm_property_replace_blob_from_id' makes integer from pointer without a cast [-Wint-conversion]
+    2744 |                                                 &replaced);
+         |                                                 ^~~~~~~~~
+         |                                                 |
+         |                                                 bool * {aka _Bool *}
+   In file included from include/drm/drm_connector.h:33,
+                    from include/drm/drm_modes.h:33,
+                    from include/drm/drm_crtc.h:32,
+                    from include/drm/drm_atomic.h:31,
+                    from drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c:7:
+   include/drm/drm_property.h:287:47: note: expected 'ssize_t' {aka 'long int'} but argument is of type 'bool *' {aka '_Bool *'}
+     287 |                                       ssize_t max_size,
+         |                                       ~~~~~~~~^~~~~~~~
+>> drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c:2740:15: error: too few arguments to function 'drm_property_replace_blob_from_id'
+    2740 |         ret = drm_property_replace_blob_from_id(drm,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_property.h:282:5: note: declared here
+     282 | int drm_property_replace_blob_from_id(struct drm_device *dev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   7436a87db99d5 (drm/tests: hdmi: check the infoframes behaviour)
 
-interacting with
+vim +/drm_property_replace_blob_from_id +2740 drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
 
-   ca59e33f5a1f6 (drm/atomic: add max_size check to drm_property_replace_blob_from_id())
+  2658	
+  2659	/*
+  2660	 * Test that the rejection of HDR InfoFrame results in the failure of
+  2661	 * drm_atomic_helper_connector_hdmi_update_infoframes() in the high bpc is
+  2662	 * supported.
+  2663	 */
+  2664	static void drm_test_check_reject_hdr_infoframe_bpc_10(struct kunit *test)
+  2665	{
+  2666		struct drm_atomic_helper_connector_hdmi_priv *priv;
+  2667		struct drm_modeset_acquire_ctx ctx;
+  2668		struct drm_atomic_state *state;
+  2669		struct drm_connector_state *new_conn_state;
+  2670		struct drm_crtc_state *crtc_state;
+  2671		struct drm_display_mode *preferred;
+  2672		struct drm_connector *conn;
+  2673		struct drm_device *drm;
+  2674		struct drm_crtc *crtc;
+  2675		int old_hdmi_update_failures;
+  2676		struct hdr_output_metadata hdr_data;
+  2677		struct drm_property_blob *hdr_blob;
+  2678		bool replaced;
+  2679		int ret;
+  2680	
+  2681		priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
+  2682					BIT(HDMI_COLORSPACE_RGB),
+  2683					10,
+  2684					&reject_hdr_infoframe_hdmi_funcs,
+  2685					test_edid_hdmi_1080p_rgb_max_200mhz_hdr);
+  2686		KUNIT_ASSERT_NOT_NULL(test, priv);
+  2687	
+  2688		drm = &priv->drm;
+  2689		crtc = priv->crtc;
+  2690		conn = &priv->connector;
+  2691	
+  2692		preferred = find_preferred_mode(conn);
+  2693		KUNIT_ASSERT_NOT_NULL(test, preferred);
+  2694	
+  2695		drm_modeset_acquire_init(&ctx, 0);
+  2696	
+  2697	retry_conn_enable:
+  2698		ret = drm_kunit_helper_enable_crtc_connector(test, drm,
+  2699							     crtc, conn,
+  2700							     preferred,
+  2701							     &ctx);
+  2702		if (ret == -EDEADLK) {
+  2703			ret = drm_modeset_backoff(&ctx);
+  2704			if (!ret)
+  2705				goto retry_conn_enable;
+  2706		}
+  2707		KUNIT_ASSERT_EQ(test, ret, 0);
+  2708	
+  2709		drm_encoder_helper_add(&priv->encoder, &test_encoder_helper_funcs);
+  2710	
+  2711		state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
+  2712		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
+  2713	
+  2714	retry_conn_state:
+  2715		new_conn_state = drm_atomic_get_connector_state(state, conn);
+  2716		if (PTR_ERR(new_conn_state) == -EDEADLK) {
+  2717			drm_atomic_state_clear(state);
+  2718			ret = drm_modeset_backoff(&ctx);
+  2719			if (!ret)
+  2720				goto retry_conn_state;
+  2721		}
+  2722		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
+  2723	
+  2724		crtc_state = drm_atomic_get_crtc_state(state, crtc);
+  2725		if (PTR_ERR(crtc_state) == -EDEADLK) {
+  2726			drm_atomic_state_clear(state);
+  2727			ret = drm_modeset_backoff(&ctx);
+  2728			if (!ret)
+  2729				goto retry_conn_state;
+  2730		}
+  2731		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_state);
+  2732	
+  2733		hdr_data.metadata_type = HDMI_STATIC_METADATA_TYPE1;
+  2734		hdr_data.hdmi_metadata_type1.eotf = HDMI_EOTF_TRADITIONAL_GAMMA_SDR;
+  2735		hdr_data.hdmi_metadata_type1.metadata_type = HDMI_STATIC_METADATA_TYPE1;
+  2736	
+  2737		hdr_blob = drm_property_create_blob(drm, sizeof(hdr_data), &hdr_data);
+  2738		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, hdr_blob);
+  2739	
+> 2740		ret = drm_property_replace_blob_from_id(drm,
+  2741							&new_conn_state->hdr_output_metadata,
+  2742							hdr_blob->base.id,
+  2743							sizeof(struct hdr_output_metadata), -1,
+  2744							&replaced);
+  2745		KUNIT_ASSERT_EQ(test, ret, 0);
+  2746		KUNIT_ASSERT_EQ(test, replaced, true);
+  2747	
+  2748		crtc_state->mode_changed = true;
+  2749	
+  2750		old_hdmi_update_failures = priv->hdmi_update_failures;
+  2751	
+  2752		ret = drm_atomic_check_only(state);
+  2753		if (ret == -EDEADLK) {
+  2754			drm_atomic_state_clear(state);
+  2755			ret = drm_modeset_backoff(&ctx);
+  2756			if (!ret)
+  2757				goto retry_conn_state;
+  2758		}
+  2759		KUNIT_ASSERT_EQ(test, ret, 0);
+  2760	
+  2761		ret = drm_atomic_commit(state);
+  2762		if (ret == -EDEADLK) {
+  2763			drm_atomic_state_clear(state);
+  2764			ret = drm_modeset_backoff(&ctx);
+  2765			if (!ret)
+  2766				goto retry_conn_state;
+  2767		}
+  2768		KUNIT_ASSERT_EQ(test, ret, 0);
+  2769	
+  2770		KUNIT_EXPECT_LE(test, old_hdmi_update_failures, priv->hdmi_update_failures);
+  2771	
+  2772		new_conn_state = conn->state;
+  2773		KUNIT_ASSERT_NOT_NULL(test, new_conn_state);
+  2774	
+  2775		KUNIT_ASSERT_EQ(test, new_conn_state->hdmi.output_bpc, 10);
+  2776		KUNIT_ASSERT_EQ(test, new_conn_state->hdmi.infoframes.hdr_drm.set, true);
+  2777	
+  2778		drm_modeset_drop_locks(&ctx);
+  2779		drm_modeset_acquire_fini(&ctx);
+  2780	}
+  2781	
 
-I have applied a fixup:
-
-From 7e99cf59cfdd75f6815ab3eb0b0d8140878bcd6f Mon Sep 17 00:00:00 2001
-From: Mark Brown <broonie@kernel.org>
-Date: Mon, 19 Jan 2026 17:27:36 +0000
-Subject: [PATCH] drm: Fix up incompatible API change
-
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-index d95786faf1817..dc1bda386387d 100644
---- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-@@ -2921,7 +2921,7 @@ static void drm_test_check_reject_hdr_infoframe_bpc_10(struct kunit *test)
- 
- 	ret = drm_property_replace_blob_from_id(drm,
- 						&new_conn_state->hdr_output_metadata,
--						hdr_blob->base.id,
-+						hdr_blob->base.id, -1,
- 						sizeof(struct hdr_output_metadata), -1,
- 						&replaced);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
 -- 
-2.47.3
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
