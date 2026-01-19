@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75503D3A7C9
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 13:05:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5BAD3A7D9
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 13:05:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF5FC10E411;
-	Mon, 19 Jan 2026 12:05:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D420410E41E;
+	Mon, 19 Jan 2026 12:05:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RzyRKDQB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cQPLPDTr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E1FD10E40A;
- Mon, 19 Jan 2026 12:05:17 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0921410E40A;
+ Mon, 19 Jan 2026 12:05:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 1A062444A3;
+ by tor.source.kernel.org (Postfix) with ESMTP id 1EC4F60155;
  Mon, 19 Jan 2026 12:05:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC637C19424;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA878C19425;
  Mon, 19 Jan 2026 12:05:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1768824316;
- bh=gswQgvIkCvCKkiNyrJA/gedBlbjViDDQyImQR0Lwtf4=;
+ bh=gIlHO7b2dpX1yT61k9PtOOKZE0nPF7btslse5y1Pu2s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RzyRKDQBKZ8Jd5mO530fmCqsSgPVKGTrzQlo0SAFbAu3XO+BVGDp0v53+SCfKNdCt
- CCpLlB5i4uwnLACxND1kGaKiPd/6DrKPu8UGfBPubqVllKHQxg+e4wrnmpMrW6WXIp
- BU4Kdnkhjw+Vg1BYLQ5ZAWOGhQDeCjdz2eB+VDrSLYp2q+1yLXbS3YaSDCtREmOQx3
- PeqUYx5SKCo+jGk5JoSxWH17jq6ujjtyvvzmssbAiYLhchZNIwdQaPmwOkFutOxae/
- 99142H+xXfrRjd+vzmaxQvZSTzk3wR5uNv0YK7s2D3AKZJ75i+0v6Irh3qLVOQ2CWF
- StaZatb/RdONw==
+ b=cQPLPDTr9HIYOdHR/wEdulLJPp1fpkTVYYwVsquoQQPDk16XAoVJga5jcBtKxIhhH
+ xtctZVCg8p4w1gGmntAfhG5XFNdd6DmXrpk0el86rDvwRVp+Sy/gjgMPlOOq6tsMlG
+ 7MRy+TppxhgzXmW4Yq0QKTKxqnucEuxHrL7LE79Du4BGlHDnug0AWDQaPUS1F8Ahty
+ UDBXW/dbOYiFSBQ/RB4hMIIZHr/9ZywTNOBuk1mhEKWQ7GU0h8Uta7pu1QvAea5FLJ
+ GvxoK00BLTRZ/L52HxqGhOfmko4ZxWKWOr8Cn4lzck97rWpm+QC0dldNFvTM7ajH6x
+ Azgkup5ORkhNQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99)
  (envelope-from <mchehab+huawei@kernel.org>)
- id 1vho0Q-00000001ZjE-3Jmu; Mon, 19 Jan 2026 13:05:14 +0100
+ id 1vho0Q-00000001ZjI-3Qjw; Mon, 19 Jan 2026 13:05:14 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
  Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- stable@vger.kernel.org
-Subject: [PATCH 2/9] docs: kdoc: avoid error_count overflows
-Date: Mon, 19 Jan 2026 13:04:57 +0100
-Message-ID: <233d1674db99ed8feb405a2f781de350f0fba0ac.1768823489.git.mchehab+huawei@kernel.org>
+ workflows@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH 3/9] docs: kdoc: ensure that comments are using our coding
+ style
+Date: Mon, 19 Jan 2026 13:04:58 +0100
+Message-ID: <50e430acd333a500719205e80ab3b2d297edcd7d.1768823489.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1768823489.git.mchehab+huawei@kernel.org>
 References: <cover.1768823489.git.mchehab+huawei@kernel.org>
@@ -65,70 +65,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The glibc library limits the return code to 8 bits. We need to
-stick to this limit when using sys.exit(error_count).
+Along kernel-doc libs, we opted to have all comments starting/ending
+with a blank comment line. Use the same style here.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: stable@vger.kernel.org
 ---
- scripts/kernel-doc.py | 26 +++++++++++++++++++-------
- 1 file changed, 19 insertions(+), 7 deletions(-)
+ scripts/kernel-doc.py | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
 diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-index 7a1eaf986bcd..1ebb16b9bb08 100755
+index 1ebb16b9bb08..f1f3f56edeb5 100755
 --- a/scripts/kernel-doc.py
 +++ b/scripts/kernel-doc.py
-@@ -116,6 +116,8 @@ SRC_DIR = os.path.dirname(os.path.realpath(__file__))
- 
- sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
- 
-+WERROR_RETURN_CODE = 3
-+
- DESC = """
- Read C language source or header FILEs, extract embedded documentation comments,
- and print formatted documentation to standard output.
-@@ -176,7 +178,21 @@ class MsgFormatter(logging.Formatter):
-         return logging.Formatter.format(self, record)
- 
- def main():
--    """Main program"""
-+    """
-+    Main program.
-+
-+    By default, the return value is:
-+
-+    - 0: success or Python version is not compatible with
-+      kernel-doc.  If -Werror is not used, it will also
-+      return 0 if there are issues at kernel-doc markups;
-+
-+    - 1: an abnormal condition happened;
-+
-+    - 2: argparse issued an error;
-+
-+    - 3: -Werror is used, and one or more unfiltered parse warnings happened.
-+    """
- 
+@@ -3,7 +3,7 @@
+ # Copyright(c) 2025: Mauro Carvalho Chehab <mchehab@kernel.org>.
+ #
+ # pylint: disable=C0103,R0912,R0914,R0915
+-
++#
+ # NOTE: While kernel-doc requires at least version 3.6 to run, the
+ #       command line should work with Python 3.2+ (tested with 3.4).
+ #       The rationale is that it shall fail gracefully during Kernel
+@@ -12,7 +12,7 @@
+ #       - no f-strings can be used on this file.
+ #       - the libraries that require newer versions can only be included
+ #         after Python version is checked.
+-
++#
+ # Converted from the kernel-doc script originally written in Perl
+ # under GPLv2, copyrighted since 1998 by the following authors:
+ #
+@@ -197,8 +197,9 @@ def main():
      parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,
                                       description=DESC)
-@@ -323,16 +339,12 @@ def main():
  
-     if args.werror:
-         print("%s warnings as errors" % error_count)    # pylint: disable=C0209
--        sys.exit(error_count)
-+        sys.exit(WERROR_RETURN_CODE)
- 
-     if args.verbose:
-         print("%s errors" % error_count)                # pylint: disable=C0209
- 
--    if args.none:
--        sys.exit(0)
++    #
+     # Normal arguments
 -
--    sys.exit(error_count)
--
-+    sys.exit(0)
++    #
+     parser.add_argument("-v", "-verbose", "--verbose", action="store_true",
+                         help="Verbose output, more warnings and other information.")
  
+@@ -213,8 +214,9 @@ def main():
+                         action="store_true",
+                         help="Enable line number output (only in ReST mode)")
+ 
++    #
+     # Arguments to control the warning behavior
+-
++    #
+     parser.add_argument("-Wreturn", "--wreturn", action="store_true",
+                         help="Warns about the lack of a return markup on functions.")
+ 
+@@ -235,8 +237,9 @@ def main():
+     parser.add_argument("-export-file", "--export-file", action='append',
+                         help=EXPORT_FILE_DESC)
+ 
++    #
+     # Output format mutually-exclusive group
+-
++    #
+     out_group = parser.add_argument_group("Output format selection (mutually exclusive)")
+ 
+     out_fmt = out_group.add_mutually_exclusive_group()
+@@ -248,8 +251,9 @@ def main():
+     out_fmt.add_argument("-N", "-none", "--none", action="store_true",
+                          help="Do not output documentation, only warnings.")
+ 
++    #
+     # Output selection mutually-exclusive group
+-
++    #
+     sel_group = parser.add_argument_group("Output selection (mutually exclusive)")
+     sel_mut = sel_group.add_mutually_exclusive_group()
+ 
+@@ -262,7 +266,9 @@ def main():
+     sel_mut.add_argument("-s", "-function", "--symbol", action='append',
+                          help=FUNCTION_DESC)
+ 
++    #
+     # Those are valid for all 3 types of filter
++    #
+     parser.add_argument("-n", "-nosymbol", "--nosymbol", action='append',
+                         help=NOSYMBOL_DESC)
+ 
+@@ -295,9 +301,11 @@ def main():
+ 
+     python_ver = sys.version_info[:2]
+     if python_ver < (3,6):
++        #
+         # Depending on Kernel configuration, kernel-doc --none is called at
+         # build time. As we don't want to break compilation due to the
+         # usage of an old Python version, return 0 here.
++        #
+         if args.none:
+             logger.error("Python 3.6 or later is required by kernel-doc. skipping checks")
+             sys.exit(0)
+@@ -307,7 +315,9 @@ def main():
+     if python_ver < (3,7):
+         logger.warning("Python 3.7 or later is required for correct results")
+ 
++    #
+     # Import kernel-doc libraries only after checking Python version
++    #
+     from kdoc.kdoc_files import KernelFiles             # pylint: disable=C0415
+     from kdoc.kdoc_output import RestFormat, ManFormat  # pylint: disable=C0415
+ 
+@@ -346,6 +356,8 @@ def main():
+ 
+     sys.exit(0)
+ 
++#
  # Call main method
++#
  if __name__ == "__main__":
+     main()
 -- 
 2.52.0
 
