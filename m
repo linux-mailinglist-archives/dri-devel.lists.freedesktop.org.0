@@ -2,100 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 046E4D3A12E
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 09:17:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C212D3A131
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 09:17:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E24310E3A2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACA9210E39C;
 	Mon, 19 Jan 2026 08:17:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="A42zWdUY";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="R23YK5sL";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Wi7Wu3Ls";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="a5oz0qTe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4FE610E39C
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 08:17:22 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A4F510E39C
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 08:17:23 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60J7qjiX4004371
+ 60J7sMc71742447
  for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 08:17:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- xMzeLdH4gkDYQXE3MEX/WwUYO0IiYwGQ9/Yw/tKZcNI=; b=A42zWdUYIYOrD0G+
- /o+bZvDph2WavJ8bAhIZL6ZX1FVFRPS0a3jaHqzOQfe4pUsOoawGVTqkQsk9w/60
- ExxdQNpkttSKJnFn/3vRFnCy12LbkPEvR3+GNITGU72xPwBi6UGtCG8/3bllcCgw
- mVcpF4pzQFGSpmSs8oroY/HmM2eoSzQG5w3GRNBvGT9Y08YKI527qj/8QLI2qK0I
- A+2316rAmX2mCAENp4x+TWitxl0y7j8p/f7xagPzhTVrsv2xuxrHZZTBMm18pAEv
- 3YzeRG14qpS9E24mxZ90tea4/ahE+1VTpaLfL6Hvb7eRUqAMBAXcVQYWL6aSrVXY
- JqO/FA==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bs79ehacr-1
+ ySBe32B9dFLBxykveI4xu5ZLa7Kh8Fdd134UNyMzTpw=; b=Wi7Wu3LswO6H6Rk5
+ nxBvkHFRXwtsp7kyLPXPOWzAHWb+zqVDX7ATsczThru5sIFe/QTRPlUhujMS9lYq
+ BbXDSmOP/zHQbPyDXBunAUecMYqGoc5Q12Zjw9t5SqqljDjxXJK1Kxj0FstDGKwj
+ EH2u1h174oQmcYsXBN6haacMucXF7stD4SYKfON+wdrALlLbcUeHy/1Q+9DOMOaw
+ WVbhzCuOn+U4Lddq+HXPZAZ5lR3cWlep1MnVcISBILaOB/w7DJosl+6nwAf/zhz4
+ bSiOB3yA4qzPfxD/KTjNE1w5u8BVPnkgp4+2NFm6KxfwDD8I0cRO8XoXhFhivQ0P
+ zaaqdw==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bsgmu83xg-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
  for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 08:17:22 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-88a3a4af701so100273576d6.1
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 00:17:21 -0800 (PST)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-8bc4493d315so1167915485a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 00:17:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768810641; x=1769415441;
+ d=oss.qualcomm.com; s=google; t=1768810642; x=1769415442;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=xMzeLdH4gkDYQXE3MEX/WwUYO0IiYwGQ9/Yw/tKZcNI=;
- b=R23YK5sLh8iCjETUqOg9gOLf8l1V8Tg2QZK08cUphtoX/wlC9Psy1otUCYMPIiE3qd
- RfvzTFrvDTrL2herQ0QXMTedCF2BPykYRT/luefQmCMgSQeEMvYa4cF4neHz9Of8pCal
- Nng6rLUnBGtpnkMx7eYXuSD8kZa+AvLn7xgkhe6H/J4HV656LiI9w5aReA+TfZlHIlqL
- kwtdC6xUemCKZFJ5y7c4tBt9gDH45+xzX18sdhxoAPJt/RdJkOH7Q/v2jb5VZ2oG0LgL
- Jlnpe57Tbi16R4S8ca1kxtSQBDZHQxSUs+Q80AaVOrlzvWnMMntQ+XUq3UKYuSXGRocm
- wcGA==
+ :reply-to; bh=ySBe32B9dFLBxykveI4xu5ZLa7Kh8Fdd134UNyMzTpw=;
+ b=a5oz0qTe2/CimQWKp8j0+B3Y+rI5D+xSBOtK5RdnisFK3z4goH8BMtQhRI0kx/iVsV
+ hFaUB+SP8RXganHBSn4zB27IF/gNnVPyH+pCIGRme76zXbwqNXRsrKnUOIm5BB+S43KB
+ sAaRHENW80m6U3WhJX/JC6W8Grnh8kzJfdP+/yMfT7Q325ExZecxixC6x8pNUBxmh2bj
+ KqNaocd1Qp2N7ewDfIUpQ5E759IPaVjWuEFJay6J/REcM+B6wJ9eSZrxYPLF2EqQnmPG
+ qLRrH2EaOxu1zwFTH4nKcnTHJFQqBJGDMSDNodC1oILukcLiaCsLyeLMDj56tBFbwL7E
+ QC8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768810641; x=1769415441;
+ d=1e100.net; s=20230601; t=1768810642; x=1769415442;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=xMzeLdH4gkDYQXE3MEX/WwUYO0IiYwGQ9/Yw/tKZcNI=;
- b=rvJPvTs4QeLxPNMmdk2evtltQWty051IX63Wfd049gfrvB5e14iSbh4T0n8bMbyGYE
- BR2UN1gDrKYwZnW4l40GO2eaFFMf3bbzPNbTqxtXPt1VywuZKX3GjtyxHMUq5T4+BvJZ
- bT7An2/o9sMBwwk9gx1LmSjL1lC1iOQZGbitcrQ9M6PLl8GNIjMaz/gR8Zz8rxXT10wI
- f6w/WwHcDq7NmtkVj7RFp1N6r7K1f5PBaCoSolGgzc898M+MB0K2o2ryWA1+gVHyyC6k
- 3NnjifR/gTnEg20mUM1EG/y1ZhtgfcPDmSZIhXN6vp7nql3jQ2Y5loOojo4/5rc7WNfK
- +kUw==
+ bh=ySBe32B9dFLBxykveI4xu5ZLa7Kh8Fdd134UNyMzTpw=;
+ b=JDPnAnEeiFhZIloKWsdwzrsy+pumAnYRSfBOaf4+YJ51U4IqDir0kbYdsllq7kO7PT
+ w4q3KRKsrIlmLvHI5ARqQXJdwSTHoywp+NOniLs+2pPdapkfg7wJQ0LysFlAPlxZSaYK
+ dHEbsnJ8vJ5CUr/7JETD2Dl7E0lkGypWB2x9RYW+bmlJ07Rnj74yedn3Xc3q/i5E3z1s
+ aZc8P9n/rMteA6leiZaoWjZfR2KMIbqLKx8hGystnm/JqsorwYuihtFHjlTRhxjvA0J3
+ l/4A1Euivm75V9T6fycOaoMlfQKcyEzTqSOB1Od86fH+qMlDEhgXTyTGLZpJRBcbcQNn
+ gwiQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWlKy14wiHEF6dXc7wrbPiJsBu2EOYEQ3iUS3JZIW8sqhUiq/Sx2tFz+mw/UgK0eX1NpqLeDWWJWYc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz83a9ysrm13F053HBS9Eg5e/lx4ocFPCRoo1zdk+RH1N+PU0Z0
- j7saaUmGVHJlxP4O/+NEAbf4VJhIXWXAYz5ztrWDvxr/tbYF8O99jApZHNV9kMquEGbD8bUKCpz
- ObBbw5NNei2vvhkRKz8HnX/TJAiKTpaIQoBZ4aviCfk4uyeBhbbX2t/Ub0ll6RjIrgyWwwn8=
-X-Gm-Gg: AY/fxX6iIzrP6MfX0S1JaAT2no14XY8it8lcE0R+2mKgiFTYsgYLN0DYD75MwFljspj
- Vt5oNL7xVAtvLZ4m3ZWIul3IJcWYILqAIsNzPo7W/lB3uwXiKz0GNVbQEmXqdzjd3Hyvyv6vQHX
- xc4GZigyZ9aMRjqYOSmz2qYP1gn0onfRyU+vcLc8QX22rcF5XXAUw3qZHiMfER3EsulM9flHw2T
- sF4kVfhS6huP48xK5OahpRlmuJrMFaUVSjv0wRymWR77qHdt6+4ZndKghKO5Ui1p3SM6kgJ5UNK
- 60653537Abl+KzTpBE7hFmtcOKd9v/ctCMvvpSurmD1Oe90BM742beuej1xMeUMAgdpsPKDizWX
- tthJsQSsa5kuk/B1UwYcNEEbA7KN8aD/KpgCFXowtvHDpj4AMDiGZunIq98bPZrOKR7oKG5TSG+
- l6c+FbdOS41/mqEfcnA4WQ3Uk=
-X-Received: by 2002:a05:620a:4043:b0:8c6:b14e:655d with SMTP id
- af79cd13be357-8c6b14e660fmr970512085a.74.1768810640991; 
- Mon, 19 Jan 2026 00:17:20 -0800 (PST)
-X-Received: by 2002:a05:620a:4043:b0:8c6:b14e:655d with SMTP id
- af79cd13be357-8c6b14e660fmr970508285a.74.1768810640371; 
- Mon, 19 Jan 2026 00:17:20 -0800 (PST)
+ AJvYcCX/26VeFMrVo0XcGe3TLQERP0b9OiutZ/wZrpdiXlF2nbw8Zg2rek6zs7ZR2tJ8rNfQQijAmOO9N80=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywtg/b2PjGtm1kdHLpgmmSpdGZIqAkYybEUrc5ctIQV8haEjh3a
+ zsBwIxyIINcFMUaLlAN34tgS6OfXK2vQlptOobiyoOZUmGlye8NFlvuPmXRsPNlS+hrbPKJaCpb
+ B0A5zUgMo39j1rKVfC9gjk7jTHcAWyw9zCXz6aU5Vcm1hxpIC9cPx3i6p2rBpaRPkN8LY13o=
+X-Gm-Gg: AY/fxX7fwAjWp1e/uBxvcxTvDA5cuecTeFjwDhdES+/vO9R6NaQ8SJtcQjvEE7USMbL
+ SNYcdZF1dycpCheMu0U1UwZf1NUbRzOsiqMZZWpFu+N8uWTgCvAKwsVPIFqG+YyyYoY/9ttEDWJ
+ DsZTfzWH4stwo+WrT4rnlBijzy4jrZvsPSlyGweiM4S6CD5E2jT/qmyDei374Oyibh6s13WV0p4
+ HVswhlTPagvWiK6n0824QFi5cH38tZ3MeVx1ts7PkwjqqRDuDdqEUOlSE8QCKndVdn4THgOxZLA
+ lRVnDS4Hq64Ol/F489u62kR7rR/g+ZIWWbICpPNOxWwDBbSOUs2OjDTzJHJrMI++3vCZsNDjyo1
+ uZdxSxE/d4mgin5ImgZ1/m1E1Cq08tCFe/ANdSKSblkwo6Jttoq2JiLSWqIrhiaG5Oz9yQm3CHp
+ j0NruzElRXhZ2WPDR1FZuntec=
+X-Received: by 2002:a05:620a:2982:b0:8c5:2ef1:7d4e with SMTP id
+ af79cd13be357-8c6a6948240mr1557610285a.73.1768810642022; 
+ Mon, 19 Jan 2026 00:17:22 -0800 (PST)
+X-Received: by 2002:a05:620a:2982:b0:8c5:2ef1:7d4e with SMTP id
+ af79cd13be357-8c6a6948240mr1557608685a.73.1768810641589; 
+ Mon, 19 Jan 2026 00:17:21 -0800 (PST)
 Received: from umbar.lan
  (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-38384dbec4dsm29636391fa.20.2026.01.19.00.17.19
+ 38308e7fff4ca-38384dbec4dsm29636391fa.20.2026.01.19.00.17.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jan 2026 00:17:19 -0800 (PST)
+ Mon, 19 Jan 2026 00:17:20 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Mon, 19 Jan 2026 10:17:15 +0200
-Subject: [PATCH v3 2/4] drm/msm/dpu: offset HBB values written to DPU by
- -13
+Date: Mon, 19 Jan 2026 10:17:16 +0200
+Subject: [PATCH v3 3/4] drm/msm/dpu: program correct register for UBWC
+ config on DPU 8.x+
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260119-msm-ubwc-fixes-v3-2-34aaa672c829@oss.qualcomm.com>
+Message-Id: <20260119-msm-ubwc-fixes-v3-3-34aaa672c829@oss.qualcomm.com>
 References: <20260119-msm-ubwc-fixes-v3-0-34aaa672c829@oss.qualcomm.com>
 In-Reply-To: <20260119-msm-ubwc-fixes-v3-0-34aaa672c829@oss.qualcomm.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>,
@@ -111,42 +111,41 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Val Packett <val@packett.cool>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2055;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3052;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=HWBT7H+ACSNaTYDAPUtOQBPmeUobbB01ZGnKJJ3+Wc8=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpbeiL3Nd+yf7puUGMY7KuxkWqmbU6DWV2RZ773
- F67oFji852JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaW3oiwAKCRCLPIo+Aiko
- 1SRyB/wKRd14DtwJro7LaLDkuj2jMns/ytO0vlhsDsFlv+Q/Fqae9x88klP0cZGKJ8lo8VuVhBx
- 1aZbO/P1jnM15YO1zOpdxhPSIFdSvm2jNocHZw/cD9jQNX7j8TboVeyikDRGRlHz6kyrVLAG94j
- JT97VDxWjGhJXEsMb9VX71mmJ/wKPSwEhLcwvt0UYOXxk5b+OdzCN1Wzgt3xtjc01CDv4uH2spX
- ZnDAX2JIrywtMjgNJBgDKIMWEp5asWACxVF2TAClZJ+jM6z55sC+as3fARVyYl7H7UnGuV0BE4J
- jsEAzASMscpw0+tuedB8HbdmUQYyhY/6oJfB2BqY3YTTPrTW
+ bh=lo3imQhUcYZeiROXs6LS6r/XOzlEgkEUmatFOrZKrog=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpbeiL/WY6dQq1hsAiruVmlJNpw57IWcvKI0mt4
+ N7D1QNofs2JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaW3oiwAKCRCLPIo+Aiko
+ 1UOrB/9IB96KEZsLVA0GwmxwgpsTgczf0JVTDWkX8qtyDLCq0z/ZfbuEcCSmPHBhsKwFIVJ5yuA
+ kN7oHWAkFgGWtbC2eu4yoTaTyAHwKgjYE65CzizRgOGqUxF8EO+Ap/2WUsuBWvM7+F49uDQkelh
+ 6Ei4TGLrMuMnkQwBWpn6TrsLHI7LC81RbZTnqRDpg7ARWgP40sF1JjnKrnokaOYXLXOeachxtKA
+ V73mG2sOraF9fHqtEMvyJTkwQJLT0Jaj9/iF/C7fVlcUjcSIB2oRleJZaurod5mC7vKxwvm0zr9
+ 3GqjoaiCca4Idd2hujFK0ERRWqepS1ZchB9uT5loLrVXi/NT
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE5MDA2NyBTYWx0ZWRfXzlkIG1C3OgaQ
- GiJt56j1rsjhzqIBBMozhtOaqNah0q6Jb94K+2Dnp+7zdKs1aH5yXbBZw/w3rGU0mvJu/i51VsS
- DFC6uFZgljEJMWkNkniKBftMl2uohTUFBhmKwsStY+1eQhCl1GT99IRHU8Vwl0wncrXWboy942m
- Hk0dQ04qTmHYCechlqWtfn371vGDX1KGBFfR3BN2pzuHuw2dhlC85fJ8A0ef+sS4DzVh70T6T26
- ZevZYYxGwWv6ZRGHLmO5rxznLmrGKL4pSP3uqPh6rpPN54RVk/SuEkPZyGvUYKeK82YT00KxfX5
- orIaQl4d3Ap8evDZTmjGdb2r/mo+Xl+TfrbNNv9yQL2iobKZn+6Xd1cOxm+mD/R/ZNlfvxVSl1n
- UQt46kpxPuwxwqy8HdcGWUhbZHaSyE1fknI5ddTdkfuXre5mUT7afwrz9RsER5uTCi7BZUuV1ex
- t/z8bYaHBEmOVJMHdZg==
-X-Authority-Analysis: v=2.4 cv=NY3rFmD4 c=1 sm=1 tr=0 ts=696de892 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE5MDA2NyBTYWx0ZWRfX4lBL4hKn724X
+ Km7wQC5hD5zAB6ObI8mB4SLwNyAh544tbaC0btpzVg3sRy55vPSBdh/uQ694+L9PnIYr7w4XU5x
+ k+/R8CY3fQh2KrQ7XgDpucmZoa0kZdwtZhfVVnCBfvoelAUv94STq0Ka2G3+XMyJBsfJZWQM+Ml
+ CiLBIxIW2JnJ7ddsarKbGk0cXXLO0ukinKy1jnOV08c2dudcFbiPvMuZ/P/UsCB58D8fbJpadIs
+ U6IDGo3IkWxZZUIughXK/l9zFvINkI9CCnaltZW4xNClFCTWqzkKbQUuxlREsAYZc543TM2HoaB
+ X+JcuwX6JdoewsQuQt/8/DnAWCrZiHSX3DEW9X1tLXU/N8QrBW90tvHeVu0eyUbGzspqFiKyNsu
+ lSW60DkUgWePKuxANTsxi67yclXP3NaZf7EyEPnehbzwmceztfc2iZuqZ42VAhgEWWlm43tJA11
+ R3tjnIAwafp61pohRiA==
+X-Authority-Analysis: v=2.4 cv=Is4Tsb/g c=1 sm=1 tr=0 ts=696de892 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=VBuLEOLxEfejlaYavu0A:9 a=QEXdDO2ut3YA:10
- a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-ORIG-GUID: n98DGWGaDtqQOrZA59zQmY7KrW9341dQ
-X-Proofpoint-GUID: n98DGWGaDtqQOrZA59zQmY7KrW9341dQ
+ a=EUspDBNiAAAA:8 a=7tap2HhiP8zdS8EL3YEA:9 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-ORIG-GUID: QgpoAUe0bZpMRojafl8OcPT7QY3HvEU6
+X-Proofpoint-GUID: QgpoAUe0bZpMRojafl8OcPT7QY3HvEU6
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2026-01-19_01,2026-01-19_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 impostorscore=0 suspectscore=0
- lowpriorityscore=0 adultscore=0 phishscore=0 bulkscore=0 clxscore=1015
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2601190067
+ adultscore=0 impostorscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0
+ spamscore=0 bulkscore=0 malwarescore=0 priorityscore=1501 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601190067
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,58 +161,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As in all other places, the Highest Bank Bit value should be programmed
-into the hardware with the offset of -13.  Correct the value written
-into the register to prevent unpredictable results.
+Since DPU 8.0 there is a separate register for the second rectangle,
+which needs to be programmed with the UBWC config if multirect is being
+used. Write pipe's UBWC configuration to the correct register.
 
-Fixes: 227d4ce0b09e ("drm/msm: Offset MDSS HBB value by 13")
+Fixes: 100d7ef6995d ("drm/msm/dpu: add support for SM8450")
 Tested-by: Val Packett <val@packett.cool> # x1e80100-dell-latitude-7455
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-index 6f1fc790ad6d..b66c4cb5760c 100644
+index b66c4cb5760c..a99e33230514 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-@@ -270,30 +270,32 @@ static void dpu_hw_sspp_setup_format(struct dpu_sw_pipe *pipe,
- 		((fmt->bpp - 1) << 9);
+@@ -72,6 +72,7 @@
+ #define SSPP_EXCL_REC_XY_REC1              0x188
+ #define SSPP_EXCL_REC_SIZE                 0x1B4
+ #define SSPP_EXCL_REC_XY                   0x1B8
++#define SSPP_UBWC_STATIC_CTRL_REC1         0x1c0
+ #define SSPP_CLK_CTRL                      0x330
  
- 	if (fmt->fetch_mode != MDP_FETCH_LINEAR) {
-+		u32 hbb = ctx->ubwc->highest_bank_bit - 13;
+ /* SSPP_SRC_OP_MODE & OP_MODE_REC1 */
+@@ -215,7 +216,7 @@ static void dpu_hw_sspp_setup_format(struct dpu_sw_pipe *pipe,
+ 	u32 chroma_samp, unpack, src_format;
+ 	u32 opmode = 0;
+ 	u32 fast_clear = 0;
+-	u32 op_mode_off, unpack_pat_off, format_off;
++	u32 op_mode_off, unpack_pat_off, format_off, ubwc_static_ctrl_off;
+ 
+ 	if (!ctx || !fmt)
+ 		return;
+@@ -225,10 +226,17 @@ static void dpu_hw_sspp_setup_format(struct dpu_sw_pipe *pipe,
+ 		op_mode_off = SSPP_SRC_OP_MODE;
+ 		unpack_pat_off = SSPP_SRC_UNPACK_PATTERN;
+ 		format_off = SSPP_SRC_FORMAT;
++		ubwc_static_ctrl_off = SSPP_UBWC_STATIC_CTRL;
+ 	} else {
+ 		op_mode_off = SSPP_SRC_OP_MODE_REC1;
+ 		unpack_pat_off = SSPP_SRC_UNPACK_PATTERN_REC1;
+ 		format_off = SSPP_SRC_FORMAT_REC1;
 +
- 		if (MSM_FORMAT_IS_UBWC(fmt))
- 			opmode |= MDSS_MDP_OP_BWC_EN;
- 		src_format |= (fmt->fetch_mode & 3) << 30; /*FRAME_FORMAT */
- 		DPU_REG_WRITE(c, SSPP_FETCH_CONFIG,
- 			DPU_FETCH_CONFIG_RESET_VALUE |
--			ctx->ubwc->highest_bank_bit << 18);
-+			hbb << 18);
++		/* reg wasn't present before DPU 8.0 */
++		if (ctx->mdss_ver->core_major_ver >= 8)
++			ubwc_static_ctrl_off = SSPP_UBWC_STATIC_CTRL_REC1;
++		else
++			ubwc_static_ctrl_off = SSPP_UBWC_STATIC_CTRL;
+ 	}
+ 
+ 	c = &ctx->hw;
+@@ -281,24 +289,24 @@ static void dpu_hw_sspp_setup_format(struct dpu_sw_pipe *pipe,
  		switch (ctx->ubwc->ubwc_enc_version) {
  		case UBWC_1_0:
  			fast_clear = fmt->alpha_enable ? BIT(31) : 0;
- 			DPU_REG_WRITE(c, SSPP_UBWC_STATIC_CTRL,
+-			DPU_REG_WRITE(c, SSPP_UBWC_STATIC_CTRL,
++			DPU_REG_WRITE(c, ubwc_static_ctrl_off,
  					fast_clear | (ctx->ubwc->ubwc_swizzle & 0x1) |
  					BIT(8) |
--					(ctx->ubwc->highest_bank_bit << 4));
-+					(hbb << 4));
+ 					(hbb << 4));
  			break;
  		case UBWC_2_0:
  			fast_clear = fmt->alpha_enable ? BIT(31) : 0;
- 			DPU_REG_WRITE(c, SSPP_UBWC_STATIC_CTRL,
+-			DPU_REG_WRITE(c, SSPP_UBWC_STATIC_CTRL,
++			DPU_REG_WRITE(c, ubwc_static_ctrl_off,
  					fast_clear | (ctx->ubwc->ubwc_swizzle) |
--					(ctx->ubwc->highest_bank_bit << 4));
-+					(hbb << 4));
+ 					(hbb << 4));
  			break;
  		case UBWC_3_0:
- 			DPU_REG_WRITE(c, SSPP_UBWC_STATIC_CTRL,
+-			DPU_REG_WRITE(c, SSPP_UBWC_STATIC_CTRL,
++			DPU_REG_WRITE(c, ubwc_static_ctrl_off,
  					BIT(30) | (ctx->ubwc->ubwc_swizzle) |
--					(ctx->ubwc->highest_bank_bit << 4));
-+					(hbb << 4));
+ 					(hbb << 4));
  			break;
  		case UBWC_4_0:
- 			DPU_REG_WRITE(c, SSPP_UBWC_STATIC_CTRL,
+-			DPU_REG_WRITE(c, SSPP_UBWC_STATIC_CTRL,
++			DPU_REG_WRITE(c, ubwc_static_ctrl_off,
+ 					MSM_FORMAT_IS_YUV(fmt) ? 0 : BIT(30));
+ 			break;
+ 		}
 
 -- 
 2.47.3
