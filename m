@@ -2,67 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E16D3A58B
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 11:46:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3DB6D3A5DE
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 11:53:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9DC110E0F2;
-	Mon, 19 Jan 2026 10:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1882710E3EF;
+	Mon, 19 Jan 2026 10:53:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AC/jLJl+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OpdkTsQs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DC0E10E0F2
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 10:46:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C25F10E320;
+ Mon, 19 Jan 2026 10:53:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 4BF7B6014E;
- Mon, 19 Jan 2026 10:46:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77CB5C116C6;
- Mon, 19 Jan 2026 10:45:59 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id AC79460140;
+ Mon, 19 Jan 2026 10:53:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C06F1C19422;
+ Mon, 19 Jan 2026 10:53:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768819560;
- bh=rkpu5Kvdq4UjpgR+E/cyIKMWzAhUNtRYXVnLJ7du0CY=;
+ s=k20201202; t=1768819996;
+ bh=1q27yzMVmLBdhU4D/EWhJZCqgMjxahH/mYESJWghn8I=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AC/jLJl+k4VzXeZjIYCjP7hmA5yOAwefAhLFkpRm4OEWHZFtQe/EnP4XOe7qYmfe9
- uvH93sd58BoTMx+bkl0xL91VjFXSMY9LAxDMPbk/nmkiDNdtlQHb14dv2o22jGGJRv
- iyyRzQFouO3cFZ2V4zZZ31Yn4nKyfAUlmUEd+6KlP4GqzVp9X/5WK032EJ6ESCVpyj
- qyB2QBROYwRKy8//DkjcBIL1QXVbgNCbRlGP12hfWS8G4MuJPyr+Ja6x2lMs3MjYo5
- /pG9J6BKQ/nTeS22hYFdhc/XIIK7rkkgAtw/jxHOMbhnqbKr6aZIqWLp9+7mrh4iKK
- 1yX8JUcNL9nRQ==
-Date: Mon, 19 Jan 2026 11:45:57 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Daniel Almeida <daniel.almeida@collabora.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>, Danilo Krummrich <dakr@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Drew Fustini <fustini@kernel.org>,
- Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
- linux-pm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-riscv@lists.infradead.org, 
- linux-pwm@vger.kernel.org, linux-clk@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] rust: clk: use the type-state pattern
-Message-ID: <20260119-thundering-tested-robin-4be817@houat>
-References: <20260107-clk-type-state-v3-0-77d3e3ee59c2@collabora.com>
- <20260107-clk-type-state-v3-1-77d3e3ee59c2@collabora.com>
- <20260108-delectable-fennec-of-sunshine-ffca19@houat>
- <98CD0BF6-3350-40B9-B8A9-F569AE3E3220@collabora.com>
+ b=OpdkTsQsAByKSZOuH5DOP1PFuu7t9GqCW2+xZDZ4wPjOB+LfhqU7I4kx0h1PA0bVc
+ sQvjJt+cbJxzgGXazSGQxw2vNNz8u6+MDRTkjAl+F8eDoa90tjt3DxdRlTHpFH+4zO
+ ZhXJddMFtauS+Vg79rL4DHBp9AMLJlHZruQvY18G1yiREFBVPlLHGmr7NvBXAnUd73
+ 0vUmDNy0Mp6GiPsvlWsUc2E3oXtx+u42qwjhNDIoRwpVDZ9O0Rmx9/vH5xWi+bI7+z
+ g9p6a9Mxgo7Dy5L8zJD5xKf0dNxrUJMFJDSMRzhdhw02wJpTluutGC5JS1BwSXoJXC
+ PHUVE3zE5n0vg==
+Date: Mon, 19 Jan 2026 12:53:12 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] dma-buf: document revoke mechanism to invalidate
+ shared buffers
+Message-ID: <20260119105312.GJ13201@unreal>
+References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
+ <f115c91bbc9c6087d8b32917b9e24e3363a91f33.camel@linux.intel.com>
+ <20260119075229.GE13201@unreal>
+ <9112a605d2ee382e83b84b50c052dd9e4a79a364.camel@linux.intel.com>
+ <78035892-758d-4104-9dd5-aed9a045d481@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="3exjby5pwbo6o3lx"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <98CD0BF6-3350-40B9-B8A9-F569AE3E3220@collabora.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <78035892-758d-4104-9dd5-aed9a045d481@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,93 +82,203 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jan 19, 2026 at 11:20:46AM +0100, Christian König wrote:
+> On 1/19/26 10:27, Thomas Hellström wrote:
+> > On Mon, 2026-01-19 at 09:52 +0200, Leon Romanovsky wrote:
+> >> On Sun, Jan 18, 2026 at 03:16:25PM +0100, Thomas Hellström wrote:
+> >>> Hi, Leon,
+> >>>
+> >>> On Sun, 2026-01-18 at 14:08 +0200, Leon Romanovsky wrote:
+> >>>> Changelog:
+> >>>> v2:
+> >>>>  * Changed series to document the revoke semantics instead of
+> >>>>    implementing it.
+> >>>> v1:
+> >>>> https://patch.msgid.link/20260111-dmabuf-revoke-v1-0-fb4bcc8c259b@nvidia.com
+> >>>>
+> >>>> -----------------------------------------------------------------
+> >>>> ----
+> >>>> ----
+> >>>> This series documents a dma-buf “revoke” mechanism: to allow a
+> >>>> dma-
+> >>>> buf
+> >>>> exporter to explicitly invalidate (“kill”) a shared buffer after
+> >>>> it
+> >>>> has
+> >>>> been distributed to importers, so that further CPU and device
+> >>>> access
+> >>>> is
+> >>>> prevented and importers reliably observe failure.
+> >>>>
+> >>>> The change in this series is to properly document and use
+> >>>> existing
+> >>>> core
+> >>>> “revoked” state on the dma-buf object and a corresponding
+> >>>> exporter-
+> >>>> triggered
+> >>>> revoke operation. Once a dma-buf is revoked, new access paths are
+> >>>> blocked so
+> >>>> that attempts to DMA-map, vmap, or mmap the buffer fail in a
+> >>>> consistent way.
+> >>>
+> >>> This sounds like it does not match how many GPU-drivers use the
+> >>> move_notify() callback.
+> >>
+> >> No change for them.
+> >>
+> >>>
+> >>> move_notify() would typically invalidate any device maps and any
+> >>> asynchronous part of that invalidation would be complete when the
+> >>> dma-
+> >>> buf's reservation object becomes idle WRT DMA_RESV_USAGE_BOOKKEEP
+> >>> fences.
+> >>
+> >> This part has not changed and remains the same for the revocation
+> >> flow as well.
+> >>
+> >>>
+> >>> However, the importer could, after obtaining the resv lock, obtain
+> >>> a
+> >>> new map using dma_buf_map_attachment(), and I'd assume the CPU maps
+> >>> work in the same way, I.E. move_notify() does not *permanently*
+> >>> revoke
+> >>> importer access.
+> >>
+> >> This part diverges by design and is documented to match revoke
+> >> semantics.  
+> 
+> Please don't document that. This is specific exporter behavior and doesn't belong into DMA-buf at all.
+> 
+> >> It defines what must occur after the exporter requests that the
+> >> buffer be  
+> >> "killed". An importer that follows revoke semantics will not attempt
+> >> to call  
+> >> dma_buf_map_attachment(), and the exporter will block any remapping
+> >> attempts  
+> >> regardless. See the priv->revoked flag in the VFIO exporter.
+> 
+> I have to clearly reject that.
+> 
+> It's the job of the exporter to reject such calls with an appropriate error and not the importer to not make them.
 
---3exjby5pwbo6o3lx
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 1/3] rust: clk: use the type-state pattern
-MIME-Version: 1.0
+Current code behaves as expected: the exporter rejects mapping attempts after
+.invalidate_mapping is called, and handles the logic internally.
 
-On Thu, Jan 08, 2026 at 11:14:37AM -0300, Daniel Almeida wrote:
-> Hi Maxime :)
->=20
-> >=20
-> > I don't know the typestate pattern that well, but I wonder if we don't
-> > paint ourselves into a corner by introducing it.
-> >=20
-> > While it's pretty common to get your clock from the get go into a state,
-> > and then don't modify it (like what devm_clk_get_enabled provides for
-> > example), and the typestate pattern indeed works great for those, we
->=20
-> Minor correction, devm_clk_get_enabled is not handled by the typestate
-> pattern. The next patch does include this function for convenience, but
-> you get a Result<()>. The typestate pattern is used when you want more
-> control.
->
-> > also have a significant number of drivers that will have a finer-grained
-> > control over the clock enablement for PM.
-> >=20
-> > For example, it's quite typical to have (at least) one clock for the bus
-> > interface that drives the register, and one that drives the main
-> > component logic. The former needs to be enabled only when you're
-> > accessing the registers (and can be abstracted with
-> > regmap_mmio_attach_clk for example), and the latter needs to be enabled
-> > only when the device actually starts operating.
-> >=20
-> > You have a similar thing for the prepare vs enable thing. The difference
-> > between the two is that enable can be called into atomic context but
-> > prepare can't.
-> >=20
-> > So for drivers that would care about this, you would create your device
-> > with an unprepared clock, and then at various times during the driver
-> > lifetime, you would mutate that state.
-> >=20
-> > AFAIU, encoding the state of the clock into the Clk type (and thus
-> > forcing the structure that holds it) prevents that mutation. If not, we
-> > should make it clearer (by expanding the doc maybe?) how such a pattern
-> > can be supported.
-> >=20
-> > Maxime
->=20
-> IIUC, your main point seems to be about mutating the state at runtime? Th=
-is is
-> possible with this code. You can just have an enum, for example:
->=20
-> enum MyClocks {
-> 	Unprepared(Clk<Unprepared>),
->         Prepared(Clk<Prepared>),
-> 	Enabled(Clk<Enabled>),=20
-> }
->=20
-> In fact, I specifically wanted to ensure that this was possible when writ=
-ing
-> these patches, as it=E2=80=99s needed by drivers. If you want to, I can c=
-over that in
-> the examples, no worries.
+However, it is not clear what exactly you are proposing. In v1 — which you
+objected to — I suggested negotiating revoke support along with the logic for
+rejecting mappings in the dma-buf core. In this version, you object to placing
+the rejection logic in the exporter.
 
-Yes, that would be great. I do wonder though if it wouldn't make sense
-to turn it the other way around. It creates a fair share of boilerplate
-for a number of drivers. Can't we keep Clk the way it is as a
-lower-level type, and crate a ManagedClk (or whatever name you prefer)
-that drivers can use, and would be returned by higher-level helpers, if
-they so choose?
-
-That way, we do have the typestate API for whoever wants to, without
-creating too much boilerplate for everybody else.
-
-Maxime
-
---3exjby5pwbo6o3lx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaW4LYAAKCRAnX84Zoj2+
-dnZsAX9nFpCf4rHo08JAKymz1W+q/77It0LDePnr7Z4FcKcAaOFxzUQGcpfN+CD1
-J+nBTwsBfRDR1L+GOUsrfRdzMmZlqPL4YaO+ZfgoF503ccIvPNhgVoyA+Vmf3hAc
-YZBwZl6Ufw==
-=sXrk
------END PGP SIGNATURE-----
-
---3exjby5pwbo6o3lx--
+> 
+> >> In addition, in this email thread, Christian explains that revoke
+> >> semantics already exists, with the combination of dma_buf_pin and
+> >> dma_buf_move_notify, just not documented:
+> >> https://lore.kernel.org/all/f7f1856a-44fa-44af-b496-eb1267a05d11@amd.com/
+> > 
+> > 
+> > Hmm,
+> > 
+> > Considering 
+> > 
+> > https://elixir.bootlin.com/linux/v6.19-rc5/source/drivers/infiniband/core/umem_dmabuf.c#L192
+> 
+> Yes, that case is well known.
+> 
+> > this sounds like it's not just undocumented but also in some cases
+> > unimplemented. The xe driver for one doesn't expect move_notify() to be
+> > called on pinned buffers,
+> 
+> And that is what we need to change. See move_notify can happen on pinned buffers currently as well.
+> 
+> For example in the case of PCI hot unplug. After pinning we just don't call it for memory management needs any more.
+> 
+> We just haven't documented that properly.
+> 
+> > so if that is indeed going to be part of the
+> > dma-buf protocol,  wouldn't support for that need to be advertised by
+> > the importer?
+> 
+> That's what this patch set here should do, yes.
+> 
+> Regards,
+> Christian.
+> 
+> > 
+> > Thanks,
+> > Thomas
+> > 
+> >>
+> >> Thanks
+> >>
+> >>>
+> >>> /Thomas
+> >>>
+> >>>
+> >>>>
+> >>>> Thanks
+> >>>>
+> >>>> Cc: linux-media@vger.kernel.org
+> >>>> Cc: dri-devel@lists.freedesktop.org
+> >>>> Cc: linaro-mm-sig@lists.linaro.org
+> >>>> Cc: linux-kernel@vger.kernel.org
+> >>>> Cc: amd-gfx@lists.freedesktop.org
+> >>>> Cc: virtualization@lists.linux.dev
+> >>>> Cc: intel-xe@lists.freedesktop.org
+> >>>> Cc: linux-rdma@vger.kernel.org
+> >>>> Cc: iommu@lists.linux.dev
+> >>>> Cc: kvm@vger.kernel.org
+> >>>> To: Sumit Semwal <sumit.semwal@linaro.org>
+> >>>> To: Christian König <christian.koenig@amd.com>
+> >>>> To: Alex Deucher <alexander.deucher@amd.com>
+> >>>> To: David Airlie <airlied@gmail.com>
+> >>>> To: Simona Vetter <simona@ffwll.ch>
+> >>>> To: Gerd Hoffmann <kraxel@redhat.com>
+> >>>> To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> >>>> To: Gurchetan Singh <gurchetansingh@chromium.org>
+> >>>> To: Chia-I Wu <olvaffe@gmail.com>
+> >>>> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> >>>> To: Maxime Ripard <mripard@kernel.org>
+> >>>> To: Thomas Zimmermann <tzimmermann@suse.de>
+> >>>> To: Lucas De Marchi <lucas.demarchi@intel.com>
+> >>>> To: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> >>>> To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> >>>> To: Jason Gunthorpe <jgg@ziepe.ca>
+> >>>> To: Leon Romanovsky <leon@kernel.org>
+> >>>> To: Kevin Tian <kevin.tian@intel.com>
+> >>>> To: Joerg Roedel <joro@8bytes.org>
+> >>>> To: Will Deacon <will@kernel.org>
+> >>>> To: Robin Murphy <robin.murphy@arm.com>
+> >>>> To: Alex Williamson <alex@shazbot.org>
+> >>>>
+> >>>> ---
+> >>>> Leon Romanovsky (4):
+> >>>>       dma-buf: Rename .move_notify() callback to a clearer
+> >>>> identifier
+> >>>>       dma-buf: Document revoke semantics
+> >>>>       iommufd: Require DMABUF revoke semantics
+> >>>>       vfio: Add pinned interface to perform revoke semantics
+> >>>>
+> >>>>  drivers/dma-buf/dma-buf.c                   |  6 +++---
+> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c |  4 ++--
+> >>>>  drivers/gpu/drm/virtio/virtgpu_prime.c      |  2 +-
+> >>>>  drivers/gpu/drm/xe/tests/xe_dma_buf.c       |  6 +++---
+> >>>>  drivers/gpu/drm/xe/xe_dma_buf.c             |  2 +-
+> >>>>  drivers/infiniband/core/umem_dmabuf.c       |  4 ++--
+> >>>>  drivers/infiniband/hw/mlx5/mr.c             |  2 +-
+> >>>>  drivers/iommu/iommufd/pages.c               | 11 +++++++++--
+> >>>>  drivers/vfio/pci/vfio_pci_dmabuf.c          | 16
+> >>>> ++++++++++++++++
+> >>>>  include/linux/dma-buf.h                     | 25
+> >>>> ++++++++++++++++++++++---
+> >>>>  10 files changed, 60 insertions(+), 18 deletions(-)
+> >>>> ---
+> >>>> base-commit: 9ace4753a5202b02191d54e9fdf7f9e3d02b85eb
+> >>>> change-id: 20251221-dmabuf-revoke-b90ef16e4236
+> >>>>
+> >>>> Best regards,
+> >>>> --  
+> >>>> Leon Romanovsky <leonro@nvidia.com>
+> >>>>
+> >>>
+> > 
+> 
