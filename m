@@ -2,82 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40369D3B1A3
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 17:41:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BFFED3B1D6
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 17:44:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B559C10E10D;
-	Mon, 19 Jan 2026 16:41:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30A4810E2C2;
+	Mon, 19 Jan 2026 16:44:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=shenghaoyang.info header.i=@shenghaoyang.info header.b="FhypDnec";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="G2Dgl8MZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B602810E10D
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 16:41:38 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id
- 98e67ed59e1d1-34c37a107b3so111181a91.3
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 08:41:38 -0800 (PST)
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+ [209.85.160.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A74310E4CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 16:44:23 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id
+ d75a77b69052e-501c6665144so46900771cf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 08:44:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shenghaoyang.info; s=google; t=1768840898; x=1769445698;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:mime-version:date:message-id:from:to:cc
- :subject:date:message-id:reply-to;
- bh=HcmmiqNbU3rGTkCmxroKjD8IC24Ld60SzEtjXGdLtbM=;
- b=FhypDnecruP4ZVHfh9UgVcxTg0lksPj1ygOwoDaaaJZqMz9F9LkEUir6toSVxFFCkg
- s8A3vNtXNWlrhWvvF75imqLUZDLkYXJC95Tg53K6UWWflZikgOAMeeu3iPOZWzFlUMGN
- dCzq2By1CAyHRBsMIfvoUdESHG7ZYLwTUlwsJEAhguzHoHUUFKnCl21C3J8If5lrYAAQ
- opc8sgPUd4UxHNItF8MdTDgKuGQjeNXKTSxRkhDqtuskfI7JC5I5PiozwLsNMRsJCOpU
- lYwGhwdD5Kq0XKNx11qiT3xCRyWogDzvYLrQ+pH5dSB+VmLJmfPN+ikhcaQ5K0wvQgXK
- K9CQ==
+ d=ziepe.ca; s=google; t=1768841062; x=1769445862; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=7mLdSjko9gcpWp2LFuEj2HWiy0Q3Aa6qTfE9JkGPgsY=;
+ b=G2Dgl8MZBAZs9CEZRXcDt4Y33OEHkw2ZzBP5BjvHiuSuQtB8YPPb63/EJANkEDJx7k
+ Bt1raykG4k9lmMYCuY+jHI0ZTvsWwrlGPSaYJU3ib8IRAjsX6WU9VeXLsZ+d+XJd7ztR
+ D6UKV1AFRSYeddCuTOY3PUinva/2NzP0pnpfTWswNvMEz/zenuleslOjxgJ3CQAIX+gE
+ cOU3UZWx6mp7Mj1iJsP+BHL4afzlgmMo1HZ4YGjZdW9dRVMtQpFOtlvyDLUe8XDZpdLw
+ moiCImdFbmwpApmOAzgw/xRVOoeOoCQ7Q4Prj+F4tRlktlw48tM3rzjNDm7Y+IKMbzXN
+ ni3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768840898; x=1769445698;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:mime-version:date:message-id:x-gm-gg
+ d=1e100.net; s=20230601; t=1768841062; x=1769445862;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HcmmiqNbU3rGTkCmxroKjD8IC24Ld60SzEtjXGdLtbM=;
- b=ijJTMJCI9OYjB+uEd7/7wugiR2gwBXIBFxLpkWIyQ8CvJTgW9ZU/V1ysYfztAEunJg
- wvNzHo/RiGJYn/mFQijLVitSzxiJrpShocUPTqhipb9zel6yXARPRG7xWn0MMdNtdoa4
- zQlbNe3AmSEm6p3CoOBBq54q5YyLS4vAkA6jqeyU93E9RGuFaTDplqqr5mCcV0Un+LxR
- WNWy0ApmvZMp8hUlUFrkGGmunMZgNDQ0nbM0vjx1jRb3ae/yMfJh6zXlKfpLJfLBVrGz
- eCvRZgRIG1UgGMquFLyEBgn1gAqMaEqgxU1lG1resJAc7DB6d7vkzQXR7tKIjZ3o5VIj
- o+5g==
-X-Gm-Message-State: AOJu0YzdbjPCA91HYj0YJb+384ymrzgN67HXT36OpPNwY6Xzlo+zsdat
- ZW8izqIdm7Seu1QIl9dI80WrG9LoEL/4MuxklthWcaQFxsuOCO0PEQVXxFliozT5r9g=
-X-Gm-Gg: AZuq6aL3kklxWWaPRGXCMMLmrB3AIQPLiiD3jhCnmc1sc6qy+DvsuHw72rjcSdjfj3h
- n0hr1E6z/jnX+fitL2o0H7OKAhvcNrRuxlXk7P78ky2ZbmEBhru5TPP+vxhHrM2qyQnGySGH5xZ
- NiNJ4CMWttuvwTAU8VbRp2c7kVHgH+daEJjGn3sigYH+sxFdyWTAqkE7tX07fqwCmTdNqhgOK4s
- LgEJCHyPfU4tNwA+scxZiy4EIeawHHyHCJCb2Zk4dHnAQd/URjzc64XNfAgH15UspG07H2OygjX
- i8A4Ka5m7SFw1H532NFZlaugeQZzP1wd09Uf3PeNpd4Y8mmGHQJQcoyPCr8ac2ydxf2zH3TypwX
- PfJthrD7E10WobQqgkUkGGSg2EPnbp+IqR02NpvkOyjWSN8dsLGSXkqqWUlYny4PPciHmoUaF8i
- 0eb2si+GXMHtmZ
-X-Received: by 2002:a17:90a:c887:b0:34a:b4a2:f0b5 with SMTP id
- 98e67ed59e1d1-352b5a7f82cmr160248a91.5.1768840898210; 
- Mon, 19 Jan 2026 08:41:38 -0800 (PST)
-Received: from [10.0.0.178] ([132.147.84.99]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-352677ec7dasm12316253a91.8.2026.01.19.08.41.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Jan 2026 08:41:37 -0800 (PST)
-Message-ID: <cc51e712-a337-46b0-91cb-6c3af76a84c3@shenghaoyang.info>
-Date: Tue, 20 Jan 2026 00:41:33 +0800
+ bh=7mLdSjko9gcpWp2LFuEj2HWiy0Q3Aa6qTfE9JkGPgsY=;
+ b=LpSL7oUgqB+XFYd2iB8jNsa5k3fB9LYo+J6wE8YMBXBMg5pS6mscdIrryJMu4y/Ona
+ ZOZBU2E1fabyMYcQrvAFO/oGbJ1Fmi2VLbCiSSEfqVfntzz5nVaZAYeXYVQDjM1+xG2D
+ JFEvkLsJlEkLnAeCGvdmxaRSRrZMXxu1b6H9G0u0IgD2A1TzBkBKG8z1COLcWkykQkSf
+ u+Tw0PtJaGhutb8KgCJGZjGgLklaewHqiISKd0I9ogMhFObJeTi279Vw2mTsZYyMnvKV
+ rxF8EYj2+EdenCw2vHMtHV02DhHNwDi1eN1X5FyxYLC4GDQiWMwbcotT0937Wqs6DE88
+ h5ow==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWwLIUYL2T2BQMjaW0puguM5EXWidJXQQaeYAJPEblNZvMkf+AonQvqqs5g6F5jqpVqUISHdVchcMs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz7lkz4L8Ay/W44ZY+RNAXSOaHFxj5/R8T0jn2vA37FdZvdUPre
+ mIEhMt7dkNwxXfKhTtjWCwTSffQAsQNOSgME5DSmdxXKNfaigEYNDZwlPmvyvu4Ywkk=
+X-Gm-Gg: AY/fxX6Mmu5kHKUYtcCmULjXOgGEKNyDcUh6/Zg8bxfSCeAGtUoZzlQYQzNJxPYrp9A
+ IrpqQ3Y++a8XCY31uhSmuwWfQN7GPfsRapbwXvlHntk4ysk7HDO1Ayhqtc8R8hBSfNtxkPfMVtC
+ 5nHYF8Ns8hBXhZfE6gynhhYSWoHnocIpvsTr9AdTuwMkz/wsepmFZ6+5Z8Z9cTivhIhMi65WRND
+ MNMrRcp4MH2rjF8yta1iAQ4iaSz02KTD05/axHWg6kheb7IT1Bg9Rf3MtB6EgFjSjt2JvqoLbpD
+ zntFC8UPiZx88boNEHUcQxPd2im7cRN+rXjp8F3tpkGvjc2ZMl1bbj+2ktiuS/YoeUr6CDeT/z4
+ yGWE3Pkzn2Grecd0Wghdqp/N6Ad6+QlrYUiTHK07ZLDD0t8rOr6K19TcmtwmtvJLW11Eo+l02Ow
+ Ia9X5H+2+AS5om2VT7p63tJE5pU8pq1kQyppT9U8n3n29a8bP6WH5NBH4kgwKmxfj6XtE=
+X-Received: by 2002:ac8:7d16:0:b0:4ee:1b36:b5c2 with SMTP id
+ d75a77b69052e-502a1f87eb4mr182498161cf.68.1768841062394; 
+ Mon, 19 Jan 2026 08:44:22 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-502a1ed3155sm72779401cf.19.2026.01.19.08.44.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Jan 2026 08:44:21 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+ (envelope-from <jgg@ziepe.ca>) id 1vhsMX-00000005IKH-0ezs;
+ Mon, 19 Jan 2026 12:44:21 -0400
+Date: Mon, 19 Jan 2026 12:44:21 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] dma-buf: Document revoke semantics
+Message-ID: <20260119164421.GF961572@ziepe.ca>
+References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
+ <20260118-dmabuf-revoke-v2-2-a03bb27c0875@nvidia.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/gud: fix NULL crtc dereference on display disable
-To: Thomas Zimmermann <tzimmermann@suse.de>, Ruben Wauters
- <rubenru09@aol.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, kernel test robot <lkp@intel.com>,
- Dan Carpenter <dan.carpenter@linaro.org>
-References: <20260118125044.54467-1-me@shenghaoyang.info>
- <fa36159a-fa41-4066-abea-60a439e944b3@suse.de>
-Content-Language: en-US
-From: Shenghao Yang <me@shenghaoyang.info>
-In-Reply-To: <fa36159a-fa41-4066-abea-60a439e944b3@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260118-dmabuf-revoke-v2-2-a03bb27c0875@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,35 +114,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 19/1/26 16:17, Thomas Zimmermann wrote:
-> Hi,
+On Sun, Jan 18, 2026 at 02:08:46PM +0200, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
 > 
-> thanks for the patch.
-
-Thanks for taking a look. I did forget about this oops and the
-smatch failure was a good reminder!
-
+> Document a DMA-buf revoke mechanism that allows an exporter to explicitly
+> invalidate ("kill") a shared buffer after it has been handed out to
+> importers. Once revoked, all further CPU and device access is blocked, and
+> importers consistently observe failure.
 > 
-> Am 18.01.26 um 13:50 schrieb Shenghao Yang:
->> Commit dc2d5ddb193e ("drm/gud: fix NULL fb and crtc dereferences
->> on USB disconnect") [1] only fixed the initial NULL crtc dereference
->> in gud_plane_atomic_update().
->>
->> However, planes can also be disabled in non-hotplug paths (e.g.
->> display disables via the DE). The drm_dev_enter() call would not
+> This requires both importers and exporters to honor the revoke contract.
 > 
-> 'DE' ?
+> For importers, this means implementing .invalidate_mappings() and calling
+> dma_buf_pin() after the DMA‑buf is attached to verify the exporter’s support
+> for revocation.
+> 
+> For exporters, this means implementing the .pin() callback, which checks
+> the DMA‑buf attachment for a valid revoke implementation.
+> 
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+>  include/linux/dma-buf.h | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+> 
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index 1b397635c793..e0bc0b7119f5 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -579,6 +579,25 @@ static inline bool dma_buf_is_dynamic(struct dma_buf *dmabuf)
+>  	return !!dmabuf->ops->pin;
+>  }
+>  
+> +/**
+> + * dma_buf_attachment_is_revoke - check if a DMA-buf importer implements
+> + * revoke semantics.
+> + * @attach: the DMA-buf attachment to check
+> + *
+> + * Returns true if DMA-buf importer honors revoke semantics, which is
+> + * negotiated with the exporter, by making sure that importer implements
+> + * .invalidate_mappings() callback and calls to dma_buf_pin() after
+> + * DMA-buf attach.
+> + */
 
-Ah - the desktop environment. I was scratching my head for why the
-box kept oops-ing on boot even after the hotplug fix. It turned out
-kscreen was applying the saved "disable display" setting.
+I think this clarification should also have comment to
+dma_buf_move_notify(). Maybe like this:
 
-> It seems to me that all these calls to GUD_REQ_SET_CONTROLLER_ENABLE(^1) and GUD_REQ_SET_DISPLAY_ENABLEshould rather go to the CRTC's atomic_enable/atomic_disable functions. Those currently seem missing from [1]. The atomic_update helper would then be reduced to damage handling. Best regards Thomas [1] https://elixir.bootlin.com/linux/v6.18.6/source/drivers/gpu/drm/gud/gud_drv.c#L341
-> ^1: SET_CONTROLLER_ENABLE sounds like it could even be part of device probing and runtime PM management, but that is a more invasive change.
+@@ -1324,7 +1324,18 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_sgt_unmap_attachment_unlocked, "DMA_BUF");
+  * @dmabuf:    [in]    buffer which is moving
+  *
+  * Informs all attachments that they need to destroy and recreate all their
+- * mappings.
++ * mappings. If the attachment is dynamic then the dynamic importer is expected
++ * to invalidate any caches it has of the mapping result and perform a new
++ * mapping request before allowing HW to do any further DMA.
++ *
++ * If the attachment is pinned then this informs the pinned importer that
++ * the underlying mapping is no longer available. Pinned importers may take
++ * this is as a permanent revocation so exporters should not trigger it
++ * lightly.
++ *
++ * For legacy pinned importers that cannot support invalidation this is a NOP.
++ * Drivers can call dma_buf_attachment_is_revoke() to determine if the
++ * importer supports this.
+  */
 
-That feels like it'd be much cleaner. I'll respin with that in v2.
+Also it would be nice to document what Christian pointed out regarding
+fences after move_notify.
 
-Shenghao
+> +static inline bool
+> +dma_buf_attachment_is_revoke(struct dma_buf_attachment *attach)
+> +{
+> +	return IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY) &&
+> +	       dma_buf_is_dynamic(attach->dmabuf) &&
+> +	       (attach->importer_ops &&
+> +		attach->importer_ops->invalidate_mappings);
+> +}
 
+And I don't think we should use a NULL invalidate_mappings function
+pointer to signal this.
+
+It sounds like the direction is to require importers to support
+move_notify, so we should not make it easy to just drop a NULL in the
+ops struct to get out of the desired configuration.
+
+I suggest defining a function
+"dma_buf_unsupported_invalidate_mappings" and use
+EXPORT_SYMBOL_FOR_MODULES so only RDMA can use it. Then check for that
+along with NULL importer_ops to cover the two cases where it is not
+allowed.
+
+The only reason RDMA has to use dma_buf_dynamic_attach() is to set the
+allow_p2p=true ..
+
+Jason
