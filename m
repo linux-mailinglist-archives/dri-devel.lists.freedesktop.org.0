@@ -2,138 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25008D3A6CA
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 12:27:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97680D3A703
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 12:38:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9014A10E3FB;
-	Mon, 19 Jan 2026 11:27:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBF7B10E3FD;
+	Mon, 19 Jan 2026 11:38:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MM31kRt3";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="e9cgcpGE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o95lIUnI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC1CE10E3FB
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 11:27:44 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60JA7Uur597645
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 11:27:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=YuV0fhRi68aQUo3arYwp0jdp
- xbF2bng4GId0KIEDBMo=; b=MM31kRt3LRCi0X7MXfkvoUzuW5Liia/0wuqyKjRd
- DtQtHzrFoi/UEj7kkpM7mAzCrJusM/zWH1Tj0dWBfytE20pUGuEBZwaTeXswbi4c
- 2FcrQc/SLI8t2c1CYZvQqrO2lw3zXD5azw0zvZAGH/GRauFlrpSuGtGV3ipQ7v3L
- DPr2iIrYqVgbaeDFZc1TvBF/K/+ddPQhW3sWEdcZBSIzCFnf1DDG0OhOje4uWUAi
- 2simUt6wBA10a/EiOSZ/5SdO83wsoM89a/jMojHGfpcClZsZdHGP65Lyk+MRaGzZ
- +LFcMPRhY9nixmu7gUGK0ePgx0j/7W6G2ODlmj71XgjtYw==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bsjk7g820-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 11:27:44 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-8c5311864d9so903310085a.2
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 03:27:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768822063; x=1769426863;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=YuV0fhRi68aQUo3arYwp0jdpxbF2bng4GId0KIEDBMo=;
- b=e9cgcpGEGTnbWhiXR/6PDfiZ4kNLbk4qGAXXJDZuCKobdfRl7U2u6Yg6sorsGFBfUO
- j1ZxzZohtHGyShl5QBKiIPwxnj2jhu0COF4TBbnyJ/ECA+baJdOvdcBRktyh9Q+wOAhJ
- 702mp1rW/tC5Ild7Bh9uQL9h91oDVAtYQT/c3DsNJ3Wkbm8B9eJn1QtN2pp6+RKvwNrC
- u+VRERBUsI5Fk/CkJF0fGNTSfpknQrvC2BEBWVkvYLDlx+5Gpvl7ZxNjvuGoqr35iNjG
- Um2ehnf6YSzFTLolxZItUh/f5t3x1To1tM58QT2yFOh2wkDoc6Dp9373q9HYYs6aMvCj
- Ha8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768822063; x=1769426863;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YuV0fhRi68aQUo3arYwp0jdpxbF2bng4GId0KIEDBMo=;
- b=NoD0F1+uNqc/NtpHtphNb4q5XPtb6lWo5nsxwQ37wSyHV+anUYNZ+21qbFnYAKtY6c
- YEfj/tgHBty9/zEVefX8L3AYh9EXNltIc4ZejGBAD55iQIpcKaHBYGOhtD1qsB3aRzpt
- S8MmJPNyzS9Iqf1RDJjztE6oIToL6DxUv0VQZvX3R/81/6X+b7XlvdEAlhyqugc1Dd48
- AlV2hr9RMyBKoqBU0NkCwXm3T4Um/JRfEx/YT1X9tpH7UKnBpAFrvwHo8uHcKL7BtWzK
- pse6PchAVbIg96Ch70pyawVMzeVR9Cg24FMULGOKNmB/ibaHzT+j61mxSJvT6fPBqi68
- hEdA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVAGhGULImJ0XbQgWbHfwbV5ZM+8S23ks6/fUW7wrpJpqJWR68jjj2D1adcIPnC/BmZ4lljTYQhvrY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzq6kvXm53mZAHRzy/GDVg792Z+43Wm3xd46swDoAmVi0JVWHqM
- nm2726rvC42O9MeT6uBu4kSwGNEL6qsSMVx2Ma/gvxn10ZmLnACchrXtqUC//W7uJBKKks8MlrP
- Ap9r6Pm0j/lWVFlw/1CjWoWLipFA0BtcBNRYIhgR9gMki8WQMtE6x+T4xvtGfffp9EA0Aswo=
-X-Gm-Gg: AY/fxX5RDMGAF8QlgoIoF3zdusJR5XaXpRKh/R/BQ6mKiBpT/6+KiTTvuy6llDFE4BQ
- eatMLSZRLkCc2DVRqZrsLaJ7uyTC6EnXTae7MD4QvNw8OwYgfXnjNN+sKRy633WX3G6XpTI1gtT
- atrQ5Og159WC8HZHI3wLabvlcJLCJqeySbz3bovtTo9k64bLoBM4+0HjJe+vc9SAOyJ/JItYfru
- 1soNLuKSqi8ifb5Zi8TrQhtb1CW06iWvKa5UbTjmMTANY2Sq/iOu/OX88nWvOp7mh1lnYwMZ+eR
- iOFe5Cu5GE3P4IraUsU99O2lwH8b7uJkDlAs3O7JLBhaojpKOZZkumpn8H7hG3j1WFcXNqrroK2
- LQh09R+RWtP9ZEXtgpu9svAI5x//nWqtWW/xf+byekZnrjNuOuJtZFWvL2up1aVyM+GxegJDCmG
- YEaXC4nN3B+8Z2mkd4D9i99RI=
-X-Received: by 2002:a05:620a:4492:b0:8b2:76c6:a7ae with SMTP id
- af79cd13be357-8c6a67703f7mr1563567985a.50.1768822063437; 
- Mon, 19 Jan 2026 03:27:43 -0800 (PST)
-X-Received: by 2002:a05:620a:4492:b0:8b2:76c6:a7ae with SMTP id
- af79cd13be357-8c6a67703f7mr1563564785a.50.1768822062959; 
- Mon, 19 Jan 2026 03:27:42 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59baf33ed36sm3270117e87.18.2026.01.19.03.27.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jan 2026 03:27:42 -0800 (PST)
-Date: Mon, 19 Jan 2026 13:27:40 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6B4610E3FD;
+ Mon, 19 Jan 2026 11:38:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 6BFF6401C4;
+ Mon, 19 Jan 2026 11:38:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAF89C116C6;
+ Mon, 19 Jan 2026 11:38:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1768822694;
+ bh=CrClsIc2cQ+j4T9ctzlJIQ48V1LHgsZOne+eJYYteFE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=o95lIUnIJLtm5H1ecUwFhfTaqZ8nSqbrYNgIxNbIA+6WYIcEq1Sqa87rxGSeMo0VL
+ vHw8DC9FbCqX0Nz0mhvt/PSlcRAy6Mq8sHRPplxRDJV/qfoAKynbCMEPYtXkEdQcFv
+ hrVCOI6apHff0eWTN4cuFHgEPuj9zajAjVYCZAmd1dER2smDFHw4xdnCUlx0th2L8Y
+ 5QybSPqj9mVswDPkVUtI1X5Mr1T6sCm+yMRqR62crXiBa3ESXKu9C4kv1sEQ46AdVu
+ uphdTz7g5eh0YGgDtE2pWT++/+mPznpxIOF26+4LbowbUaBJFL8U2wd9WzgaqQWyVu
+ ZlZrKl0qiby9g==
+Date: Mon, 19 Jan 2026 13:38:09 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Konrad Dybcio <konradybcio@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Stephan Gerhold <stephan.gerhold@linaro.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Val Packett <val@packett.cool>
-Subject: Re: [PATCH v3 4/4] drm/msm/dpu: fix SSPP_UBWC_STATIC_CTRL
- programming on UBWC 5.x+
-Message-ID: <fnlkcpf4dfgcy4cshl6g3ibjoon7pvdxyvmejokqygfyc2b2v3@og2xzf6fzuhj>
-References: <20260119-msm-ubwc-fixes-v3-0-34aaa672c829@oss.qualcomm.com>
- <20260119-msm-ubwc-fixes-v3-4-34aaa672c829@oss.qualcomm.com>
- <4cc944b3-8a41-45a2-95c8-c55dbcbf0830@oss.qualcomm.com>
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] dma-buf: Rename .move_notify() callback to a
+ clearer identifier
+Message-ID: <20260119113809.GK13201@unreal>
+References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
+ <20260118-dmabuf-revoke-v2-1-a03bb27c0875@nvidia.com>
+ <345b8dcb-5015-4801-b263-0dca4d1b3fca@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <4cc944b3-8a41-45a2-95c8-c55dbcbf0830@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE5MDA5NCBTYWx0ZWRfX5q3fCxP3olxZ
- WQJxXvzVUUaS8In0PBKwhZdZpWcxKngPjdpod3V9H84h1WuBZfBogWCoV7wq7fBKEAG22sxSvZl
- /XJEJlGHgHg0JYOw1UkAk02nP5i7VxodBvfFc9RBFb/vlaq5HhgT64YQNHQvoYXL8kVdFRfgZfD
- OP+6Q3IIYNVTB3n6VQ8jTc0Pzc6qxkhyvX7kn1twv6/v+bg66d0PbRULHdc7l8bsJgGY4gYf9oB
- WN+gJP/o6IELUkV/TWkl74ZZucZtyRqaVrQvcxve5c9NlYcoLV6SMTV7LiMXikFOvURV8e3vjFX
- sBy4Xua8xhrfJeuFAy4ZdMpv7dNjfNYSg1ii2/G4HRJ4TVdN3BfjQVFWGM/XtsJZiIgASt3oUrB
- vg98GON41eNHg1+LYb5s86SYVsF78ZwzzBPfVNo6fQh0IU32jkUns1dCfqVOazdTnJM+VyKQNy6
- c+f8D6hQEjXFpPuZQ8w==
-X-Proofpoint-ORIG-GUID: w7t7XTWdrQ4LJuExBFmSvlEbYi0tumsg
-X-Authority-Analysis: v=2.4 cv=WoAm8Nfv c=1 sm=1 tr=0 ts=696e1530 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=_JD9MDjJDg31YIc5yKYA:9 a=CjuIK1q_8ugA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-GUID: w7t7XTWdrQ4LJuExBFmSvlEbYi0tumsg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-19_02,2026-01-19_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 suspectscore=0 malwarescore=0 impostorscore=0 phishscore=0
- clxscore=1015 bulkscore=0 priorityscore=1501 adultscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601190094
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <345b8dcb-5015-4801-b263-0dca4d1b3fca@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,90 +80,225 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 19, 2026 at 12:08:07PM +0100, Konrad Dybcio wrote:
-> On 1/19/26 9:17 AM, Dmitry Baryshkov wrote:
-> > Code in dpu_hw_sspp_setup_format() doesn't handle UBWC versions bigger
-> > than 4.0. Replace switch-case with if-else checks, making sure that the
-> > register is initialized on UBWC 5.x (and later) hosts.
+On Mon, Jan 19, 2026 at 11:22:27AM +0100, Christian König wrote:
+> On 1/18/26 13:08, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
 > > 
-> > Fixes: c2577fc1740d ("drm/msm/dpu: Add support for SM8750")
-> > Tested-by: Val Packett <val@packett.cool> # x1e80100-dell-latitude-7455
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > Rename the .move_notify() callback to .invalidate_mappings() to make its
+> > purpose explicit and highlight that it is responsible for invalidating
+> > existing mappings.
+> > 
+> > Suggested-by: Christian König <christian.koenig@amd.com>
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> 
+> Reviewed-by: Christian König <christian.koenig@amd.com>
+
+Thanks,
+
+BTW, I didn't update the various xxx_move_notify() functions to use
+xxx_invalidate_mappings() names. Should those be converted as well?
+
+> 
 > > ---
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 44 +++++++++++++++--------------
-> >  1 file changed, 23 insertions(+), 21 deletions(-)
+> >  drivers/dma-buf/dma-buf.c                   | 6 +++---
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 4 ++--
+> >  drivers/gpu/drm/virtio/virtgpu_prime.c      | 2 +-
+> >  drivers/gpu/drm/xe/tests/xe_dma_buf.c       | 6 +++---
+> >  drivers/gpu/drm/xe/xe_dma_buf.c             | 2 +-
+> >  drivers/infiniband/core/umem_dmabuf.c       | 4 ++--
+> >  drivers/infiniband/hw/mlx5/mr.c             | 2 +-
+> >  drivers/iommu/iommufd/pages.c               | 2 +-
+> >  include/linux/dma-buf.h                     | 6 +++---
+> >  9 files changed, 17 insertions(+), 17 deletions(-)
 > > 
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-> > index a99e33230514..80a9fb76b139 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-> > @@ -279,6 +279,7 @@ static void dpu_hw_sspp_setup_format(struct dpu_sw_pipe *pipe,
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index edaa9e4ee4ae..59cc647bf40e 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -948,7 +948,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
+> >  	if (WARN_ON(!dmabuf || !dev))
+> >  		return ERR_PTR(-EINVAL);
 > >  
-> >  	if (fmt->fetch_mode != MDP_FETCH_LINEAR) {
-> >  		u32 hbb = ctx->ubwc->highest_bank_bit - 13;
-> > +		u32 ctrl_val;
+> > -	if (WARN_ON(importer_ops && !importer_ops->move_notify))
+> > +	if (WARN_ON(importer_ops && !importer_ops->invalidate_mappings))
+> >  		return ERR_PTR(-EINVAL);
 > >  
-> >  		if (MSM_FORMAT_IS_UBWC(fmt))
-> >  			opmode |= MDSS_MDP_OP_BWC_EN;
-> > @@ -286,30 +287,31 @@ static void dpu_hw_sspp_setup_format(struct dpu_sw_pipe *pipe,
-> >  		DPU_REG_WRITE(c, SSPP_FETCH_CONFIG,
-> >  			DPU_FETCH_CONFIG_RESET_VALUE |
-> >  			hbb << 18);
-> > -		switch (ctx->ubwc->ubwc_enc_version) {
-> > -		case UBWC_1_0:
-> > +
-> > +		if (ctx->ubwc->ubwc_enc_version == UBWC_1_0) {
-> >  			fast_clear = fmt->alpha_enable ? BIT(31) : 0;
-> > -			DPU_REG_WRITE(c, ubwc_static_ctrl_off,
-> > -					fast_clear | (ctx->ubwc->ubwc_swizzle & 0x1) |
-> > -					BIT(8) |
-> > -					(hbb << 4));
-> > -			break;
-> > -		case UBWC_2_0:
-> > +			ctrl_val = fast_clear | (ctx->ubwc->ubwc_swizzle & 0x1) |
-> > +				BIT(8) | (hbb << 4);
-> > +		} else if (ctx->ubwc->ubwc_enc_version == UBWC_2_0) {
-> >  			fast_clear = fmt->alpha_enable ? BIT(31) : 0;
-> > -			DPU_REG_WRITE(c, ubwc_static_ctrl_off,
-> > -					fast_clear | (ctx->ubwc->ubwc_swizzle) |
-> > -					(hbb << 4));
-> > -			break;
-> > -		case UBWC_3_0:
-> > -			DPU_REG_WRITE(c, ubwc_static_ctrl_off,
-> > -					BIT(30) | (ctx->ubwc->ubwc_swizzle) |
-> > -					(hbb << 4));
-> > -			break;
-> > -		case UBWC_4_0:
-> > -			DPU_REG_WRITE(c, ubwc_static_ctrl_off,
-> > -					MSM_FORMAT_IS_YUV(fmt) ? 0 : BIT(30));
-> > -			break;
-> > +			ctrl_val = fast_clear | ctx->ubwc->ubwc_swizzle | (hbb << 4);
-> > +		} else if (ctx->ubwc->ubwc_enc_version == UBWC_3_0) {
-> > +			ctrl_val = BIT(30) | (ctx->ubwc->ubwc_swizzle) | (hbb << 4);
-> > +		} else if (ctx->ubwc->ubwc_enc_version == UBWC_4_0) {
-> > +			ctrl_val = MSM_FORMAT_IS_YUV(fmt) ? 0 : BIT(30);
-> > +		} else if (ctx->ubwc->ubwc_enc_version <= UBWC_6_0) {
-> > +			if (MSM_FORMAT_IS_YUV(fmt))
-> > +				ctrl_val = 0;
-> > +			else if (MSM_FORMAT_IS_DX(fmt)) /* or FP16, but it's unsupported */
-> > +				ctrl_val = BIT(30);
-> > +			else
-> > +				ctrl_val = BIT(30) | BIT(31);
+> >  	attach = kzalloc(sizeof(*attach), GFP_KERNEL);
+> > @@ -1055,7 +1055,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_pin, "DMA_BUF");
+> >   *
+> >   * This unpins a buffer pinned by dma_buf_pin() and allows the exporter to move
+> >   * any mapping of @attach again and inform the importer through
+> > - * &dma_buf_attach_ops.move_notify.
+> > + * &dma_buf_attach_ops.invalidate_mappings.
+> >   */
+> >  void dma_buf_unpin(struct dma_buf_attachment *attach)
+> >  {
+> > @@ -1262,7 +1262,7 @@ void dma_buf_move_notify(struct dma_buf *dmabuf)
+> >  
+> >  	list_for_each_entry(attach, &dmabuf->attachments, node)
+> >  		if (attach->importer_ops)
+> > -			attach->importer_ops->move_notify(attach);
+> > +			attach->importer_ops->invalidate_mappings(attach);
+> >  }
+> >  EXPORT_SYMBOL_NS_GPL(dma_buf_move_notify, "DMA_BUF");
+> >  
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> > index e22cfa7c6d32..863454148b28 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> > @@ -450,7 +450,7 @@ amdgpu_dma_buf_create_obj(struct drm_device *dev, struct dma_buf *dma_buf)
+> >  }
+> >  
+> >  /**
+> > - * amdgpu_dma_buf_move_notify - &attach.move_notify implementation
+> > + * amdgpu_dma_buf_move_notify - &attach.invalidate_mappings implementation
+> >   *
+> >   * @attach: the DMA-buf attachment
+> >   *
+> > @@ -521,7 +521,7 @@ amdgpu_dma_buf_move_notify(struct dma_buf_attachment *attach)
+> >  
+> >  static const struct dma_buf_attach_ops amdgpu_dma_buf_attach_ops = {
+> >  	.allow_peer2peer = true,
+> > -	.move_notify = amdgpu_dma_buf_move_notify
+> > +	.invalidate_mappings = amdgpu_dma_buf_move_notify
+> >  };
+> >  
+> >  /**
+> > diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
+> > index ce49282198cb..19c78dd2ca77 100644
+> > --- a/drivers/gpu/drm/virtio/virtgpu_prime.c
+> > +++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
+> > @@ -288,7 +288,7 @@ static void virtgpu_dma_buf_move_notify(struct dma_buf_attachment *attach)
+> >  
+> >  static const struct dma_buf_attach_ops virtgpu_dma_buf_attach_ops = {
+> >  	.allow_peer2peer = true,
+> > -	.move_notify = virtgpu_dma_buf_move_notify
+> > +	.invalidate_mappings = virtgpu_dma_buf_move_notify
+> >  };
+> >  
+> >  struct drm_gem_object *virtgpu_gem_prime_import(struct drm_device *dev,
+> > diff --git a/drivers/gpu/drm/xe/tests/xe_dma_buf.c b/drivers/gpu/drm/xe/tests/xe_dma_buf.c
+> > index 5df98de5ba3c..1f2cca5c2f81 100644
+> > --- a/drivers/gpu/drm/xe/tests/xe_dma_buf.c
+> > +++ b/drivers/gpu/drm/xe/tests/xe_dma_buf.c
+> > @@ -23,7 +23,7 @@ static bool p2p_enabled(struct dma_buf_test_params *params)
+> >  static bool is_dynamic(struct dma_buf_test_params *params)
+> >  {
+> >  	return IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY) && params->attach_ops &&
+> > -		params->attach_ops->move_notify;
+> > +		params->attach_ops->invalidate_mappings;
+> >  }
+> >  
+> >  static void check_residency(struct kunit *test, struct xe_bo *exported,
+> > @@ -60,7 +60,7 @@ static void check_residency(struct kunit *test, struct xe_bo *exported,
+> >  
+> >  	/*
+> >  	 * Evict exporter. Evicting the exported bo will
+> > -	 * evict also the imported bo through the move_notify() functionality if
+> > +	 * evict also the imported bo through the invalidate_mappings() functionality if
+> >  	 * importer is on a different device. If they're on the same device,
+> >  	 * the exporter and the importer should be the same bo.
+> >  	 */
+> > @@ -198,7 +198,7 @@ static void xe_test_dmabuf_import_same_driver(struct xe_device *xe)
+> >  
+> >  static const struct dma_buf_attach_ops nop2p_attach_ops = {
+> >  	.allow_peer2peer = false,
+> > -	.move_notify = xe_dma_buf_move_notify
+> > +	.invalidate_mappings = xe_dma_buf_move_notify
+> >  };
+> >  
+> >  /*
+> > diff --git a/drivers/gpu/drm/xe/xe_dma_buf.c b/drivers/gpu/drm/xe/xe_dma_buf.c
+> > index 7c74a31d4486..1b9cd043e517 100644
+> > --- a/drivers/gpu/drm/xe/xe_dma_buf.c
+> > +++ b/drivers/gpu/drm/xe/xe_dma_buf.c
+> > @@ -287,7 +287,7 @@ static void xe_dma_buf_move_notify(struct dma_buf_attachment *attach)
+> >  
+> >  static const struct dma_buf_attach_ops xe_dma_buf_attach_ops = {
+> >  	.allow_peer2peer = true,
+> > -	.move_notify = xe_dma_buf_move_notify
+> > +	.invalidate_mappings = xe_dma_buf_move_notify
+> >  };
+> >  
+> >  #if IS_ENABLED(CONFIG_DRM_XE_KUNIT_TEST)
+> > diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
+> > index 0ec2e4120cc9..d77a739cfe7a 100644
+> > --- a/drivers/infiniband/core/umem_dmabuf.c
+> > +++ b/drivers/infiniband/core/umem_dmabuf.c
+> > @@ -129,7 +129,7 @@ ib_umem_dmabuf_get_with_dma_device(struct ib_device *device,
+> >  	if (check_add_overflow(offset, (unsigned long)size, &end))
+> >  		return ret;
+> >  
+> > -	if (unlikely(!ops || !ops->move_notify))
+> > +	if (unlikely(!ops || !ops->invalidate_mappings))
+> >  		return ret;
+> >  
+> >  	dmabuf = dma_buf_get(fd);
+> > @@ -195,7 +195,7 @@ ib_umem_dmabuf_unsupported_move_notify(struct dma_buf_attachment *attach)
+> >  
+> >  static struct dma_buf_attach_ops ib_umem_dmabuf_attach_pinned_ops = {
+> >  	.allow_peer2peer = true,
+> > -	.move_notify = ib_umem_dmabuf_unsupported_move_notify,
+> > +	.invalidate_mappings = ib_umem_dmabuf_unsupported_move_notify,
+> >  };
+> >  
+> >  struct ib_umem_dmabuf *
+> > diff --git a/drivers/infiniband/hw/mlx5/mr.c b/drivers/infiniband/hw/mlx5/mr.c
+> > index 325fa04cbe8a..97099d3b1688 100644
+> > --- a/drivers/infiniband/hw/mlx5/mr.c
+> > +++ b/drivers/infiniband/hw/mlx5/mr.c
+> > @@ -1620,7 +1620,7 @@ static void mlx5_ib_dmabuf_invalidate_cb(struct dma_buf_attachment *attach)
+> >  
+> >  static struct dma_buf_attach_ops mlx5_ib_dmabuf_attach_ops = {
+> >  	.allow_peer2peer = 1,
+> > -	.move_notify = mlx5_ib_dmabuf_invalidate_cb,
+> > +	.invalidate_mappings = mlx5_ib_dmabuf_invalidate_cb,
+> >  };
+> >  
+> >  static struct ib_mr *
+> > diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c
+> > index dbe51ecb9a20..76f900fa1687 100644
+> > --- a/drivers/iommu/iommufd/pages.c
+> > +++ b/drivers/iommu/iommufd/pages.c
+> > @@ -1451,7 +1451,7 @@ static void iopt_revoke_notify(struct dma_buf_attachment *attach)
+> >  
+> >  static struct dma_buf_attach_ops iopt_dmabuf_attach_revoke_ops = {
+> >  	.allow_peer2peer = true,
+> > -	.move_notify = iopt_revoke_notify,
+> > +	.invalidate_mappings = iopt_revoke_notify,
+> >  };
+> >  
+> >  /*
+> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > index 0bc492090237..1b397635c793 100644
+> > --- a/include/linux/dma-buf.h
+> > +++ b/include/linux/dma-buf.h
+> > @@ -407,7 +407,7 @@ struct dma_buf {
+> >  	 *   through the device.
+> >  	 *
+> >  	 * - Dynamic importers should set fences for any access that they can't
+> > -	 *   disable immediately from their &dma_buf_attach_ops.move_notify
+> > +	 *   disable immediately from their &dma_buf_attach_ops.invalidate_mappings
+> >  	 *   callback.
+> >  	 *
+> >  	 * IMPORTANT:
+> > @@ -458,7 +458,7 @@ struct dma_buf_attach_ops {
+> >  	bool allow_peer2peer;
+> >  
+> >  	/**
+> > -	 * @move_notify: [optional] notification that the DMA-buf is moving
+> > +	 * @invalidate_mappings: [optional] notification that the DMA-buf is moving
+> >  	 *
+> >  	 * If this callback is provided the framework can avoid pinning the
+> >  	 * backing store while mappings exists.
+> > @@ -475,7 +475,7 @@ struct dma_buf_attach_ops {
+> >  	 * New mappings can be created after this callback returns, and will
+> >  	 * point to the new location of the DMA-buf.
+> >  	 */
+> > -	void (*move_notify)(struct dma_buf_attachment *attach);
+> > +	void (*invalidate_mappings)(struct dma_buf_attachment *attach);
+> >  };
+> >  
+> >  /**
+> > 
 > 
-> Can we name these magic bits?
-
-I will raise the question internally. In general, I'd like to start
-shifting towards generated reg descriptions, but it will take some time
-to implement.
-
-> 
-> There's 2 more bitfields that I see downstream sets here (but it
-> doesn't claim to support UBWC6).. 
-
-For the formats which we don't support upstream. I'll add a comment
-here (and I probably should send another iteration anyway, fixing the
-error register too).
-
--- 
-With best wishes
-Dmitry
