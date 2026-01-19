@@ -2,75 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29E58D3A23D
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 09:58:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6570AD3A25C
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 10:04:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C71C10E39B;
-	Mon, 19 Jan 2026 08:58:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C68410E3CE;
+	Mon, 19 Jan 2026 09:04:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="i/mtPhXF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e33bUuuF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18AF710E39B
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 08:57:59 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75A1710E3C5;
+ Mon, 19 Jan 2026 09:04:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 283E76014F
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 08:57:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4AA2C2BCB1
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 08:57:57 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 2140A44114;
+ Mon, 19 Jan 2026 09:04:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B57CC116C6;
+ Mon, 19 Jan 2026 09:04:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768813077;
- bh=eUIdkUA5rSHUc/16jWwY/MLc6uCqT0F2f5ANhd+0ZMI=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=i/mtPhXFXtuQOx4GTYTOhellOiwIMNlHGM78B2WUjRqymYwTUeL2i8p2l0da/Sf5v
- Jw9h4qwOA7OtI672KQIJ7lekPY7xvnZjLVv9GaQmNfMeTNlrjG7qEegGPXf5+Zql+U
- GNMhXpSfl1t+0cIFkRZSAEFq+q+hWh3tq3KNbzazrpdQnm/u1949R5lDfqG0WjhF8E
- Yp2jpskWoathBbQgI+dkpyF45WoOgmePAiTbRrbTSWFL5b+a8ABa+1yAXm550OKJJY
- k2+h+ZEpWcWE18+r9Aee9pLmYVET1ROtnOJ4WYzsbXFDRPb9qkAkveNONEh28Bsx9o
- 04FlmXVquVJLQ==
-Received: by mail-yw1-f175.google.com with SMTP id
- 00721157ae682-7927541abfaso36388637b3.3
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 00:57:57 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWwT+cROLW2jOceu0jLwgh6RM/TfGEWSJFpbDZpgE05E7U9gnQIpYVmHZLWwPOmzm0nhEYD1mPwDpI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw2z+co/c1/H3T4SedEIb+1720Qi4Yfiljsz3W7TJ/aScSyuSa1
- bnLKXlKacj3YTXzT8LDx5IUU6nP9ZRT8VUS/Yw6y2q79+qEhkwHTfvw4JI8uMTevfBTbCfJi8Bb
- qkFWHmT0Q2A2L6NJOlzpavMqKe9kbutg=
-X-Received: by 2002:a05:690c:e3e6:b0:793:c8ab:8bc5 with SMTP id
- 00721157ae682-793c8ab8bcbmr75254207b3.46.1768813077137; Mon, 19 Jan 2026
- 00:57:57 -0800 (PST)
-MIME-Version: 1.0
-References: <20260116-drm-bridge-alloc-getput-drm_of_find_bridge-4-v1-0-e34b38f50d27@bootlin.com>
- <20260116-drm-bridge-alloc-getput-drm_of_find_bridge-4-v1-4-e34b38f50d27@bootlin.com>
-In-Reply-To: <20260116-drm-bridge-alloc-getput-drm_of_find_bridge-4-v1-4-e34b38f50d27@bootlin.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Mon, 19 Jan 2026 09:57:45 +0100
-X-Gmail-Original-Message-ID: <CAD++jLmriwfBaMKGP=-pOZyCnHZt78RKKURmOXuyNSTZz5geWQ@mail.gmail.com>
-X-Gm-Features: AZwV_QisP2RcYqah-7gXatWhtjOE-lesyGnKBPPcwA2KdgqZekYhuvcO0Ej5zQQ
-Message-ID: <CAD++jLmriwfBaMKGP=-pOZyCnHZt78RKKURmOXuyNSTZz5geWQ@mail.gmail.com>
-Subject: Re: [PATCH 4/6] drm/mcde: dsi: convert to of_drm_find_and_get_bridge()
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
+ s=k20201202; t=1768813486;
+ bh=9ibwmwir6DNuwcFVFVRMrnxNeKv3ejBMBmArbCsPm6s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=e33bUuuFuYAfNmaAVBINTTMiHDitg3Ewo284Wv30/72Z5sl3bIG03XiqzmmtksV2N
+ E9d2cJoHjdjKYaYooTlSPB4iJpWVL91L1AN491690/uRHfcmT6wUBbopZdfCbx77Px
+ Q3HC1qDJGA9Pt3HYbxuqrUGdEozMHTi5LrmTjFyJYKE+R+M0iAaeaStvmIivkeGtTZ
+ mxhJNSrhHrd2zaHDTg7GSf/GrHIQaeet8ghZgUq43q6WrWChlkPf5q6E/9m4Skchfc
+ 5l1Di/szMWkD2gAlw1okBT15wo+lo6dJX8Dgm6WcIx/IrIDWLVWHnzHUEXQ9299Wj5
+ PA/zo+uxfkTlQ==
+Date: Mon, 19 Jan 2026 11:04:40 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Edmund Dea <edmund.j.dea@intel.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] dma-buf: Document revoke semantics
+Message-ID: <20260119090440.GG13201@unreal>
+References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
+ <20260118-dmabuf-revoke-v2-2-a03bb27c0875@nvidia.com>
+ <8bc75706c18c410f9564805c487907aba0aab627.camel@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8bc75706c18c410f9564805c487907aba0aab627.camel@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,30 +79,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 16, 2026 at 6:33=E2=80=AFPM Luca Ceresoli <luca.ceresoli@bootli=
-n.com> wrote:
+On Sun, Jan 18, 2026 at 03:29:02PM +0100, Thomas Hellström wrote:
+> On Sun, 2026-01-18 at 14:08 +0200, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> > 
+> > Document a DMA-buf revoke mechanism that allows an exporter to
+> > explicitly
+> > invalidate ("kill") a shared buffer after it has been handed out to
+> > importers. Once revoked, all further CPU and device access is
+> > blocked, and
+> > importers consistently observe failure.
+> 
+> See previous comment WRT this.
+> 
+> > 
+> > This requires both importers and exporters to honor the revoke
+> > contract.
+> > 
+> > For importers, this means implementing .invalidate_mappings() and
+> > calling
+> > dma_buf_pin() after the DMA‑buf is attached to verify the exporter’s
+> > support
+> > for revocation.
+> 
+> Why would the importer want to verify the exporter's support for
+> revocation? If the exporter doesn't support it, the only consequence
+> would be that invalidate_mappings() would never be called, and that
+> dma_buf_pin() is a NOP. Besides, dma_buf_pin() would not return an
+> error if the exporter doesn't implement the pin() callback?
 
-> of_drm_find_bridge() is deprecated. Move to its replacement
-> of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
-> is put when done.
->
-> We need to handle the two cases: when a panel is found and when it isn't,
-> even though the latter is not supported. So:
->
->  * in case a panel is not found and bridge is, get a reference to the
->    found bridge
->  * in case a panel is found, get a reference to the panel_bridge when it
->    is added, so the following code always get exactly one reference that
->    it needs to put
->
-> Finally, use the next_bridge pointer in struct drm_bridge in order to
-> simplify putting the reference.
->
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+The idea is that both should do revoke and there is a need to indicate
+that this exporter has some expectations from the importers. One of them
+is that invalidate_mappings exists.
 
-I do not understand the change as a whole but the approach
-looks sane so:
-Acked-by: Linus Walleij <linusw@kernel.org>
+Thanks
 
-Yours,
-Linus Walleij
+> 
+> Or perhaps I missed a prereq patch?
+> 
+> Thanks,
+> Thomas
+> 
+> 
