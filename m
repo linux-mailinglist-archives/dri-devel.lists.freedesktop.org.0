@@ -2,180 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D0AD39FE2
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 08:32:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD26CD3A019
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 08:38:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6812F10E370;
-	Mon, 19 Jan 2026 07:32:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBD6F10E1C0;
+	Mon, 19 Jan 2026 07:38:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="UK3t6y8a";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="dzm4UbI7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BbPYsdkl";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xqKJWbB7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nXymW59z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from MW6PR02CU001.outbound.protection.outlook.com
- (mail-westus2azon11012006.outbound.protection.outlook.com [52.101.48.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D69B410E370;
- Mon, 19 Jan 2026 07:32:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XNXKGxQw1J8SHfgUDATczXC/maCXIpp3lo5NS0YYa8qklly9WIHh4vY8yrwMTm4GegB0f1Wt6XIMsUZqwwq+crehfzb62LYh5dxywBIk4Me/sPqWDgDuHiw2qy4xvwbvf1gw9Lb3F0J6w9hPyT5t5W4VPm5nhsIOHaf/UUWwoXp6Fbpx0REKcuvqNTIus0NV7lchYWojsCNOaGPrGYuZtfHdP1v8ULzscm0aHuvJU+k4IoUHyfNls9YB8jXpkVXw71s0Wy8pzZP25UyqCplyf7xx31mtdyqM1Ot3YWD9YnH/ZpPf6yqot1fo2hSFZ9dhEXgR0obKfaniXRefR4YDgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=en0sa9rYwczFxfgrjJTEK/gEsvRV0Px66cu+bWR/+L8=;
- b=wET1yuDZX7+OE8k3rl5QOrthZoCg+8MuiDIhkwvHWg7OncNSqyJK3u+Tpqys6w7nvEFhZJx0El6Pbo4Qc3mECu+7EZLyKQCMUiT00WEcJJi+oR9gpfxS2V25+VbeowMFqpFK/3lWS45VRIS7gVDrr/m6dxB2iFHHxVabrsHI9zv/Hi7IqulX0dekl3eAiijr822xH2Q+OtzHHJJWtHgMhDGN6ANwWpsRjQMqZ0Zm6ISWDs+RAosyBuctK++tlbevq1CtU6eBHY4PAq5bBh/4Y/W/z+8HvGBPol4cfRJ2omW1Q32L5AG/94VXJMXb3/cL1D95vnHKCGYnkiRM/d+F5g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=en0sa9rYwczFxfgrjJTEK/gEsvRV0Px66cu+bWR/+L8=;
- b=UK3t6y8arrkw/RispBdrd15alGtqYZzpS+ZQofF2kb9HY3ZL7Ha8ZBZCBfXbCQS82Y2kEBDzyrAWbmExFTeDXtgug5D5pQ3d8Qc14gNoO+CleV0Hnt3M+GuBMdFszzfdR2PH+RFObWHLsQchWYKhSluHAtLff+WkA55RZOuH+3KTfPs4vYepGzyAhU6Q+HiiVsv+bI9fdjEsh+Hl5gQzH9yRf1v8D3L0GmkY5K6d2SSeEQ4/O4j0y4UJ5XIWBagpJs8eUUKgHGIuMJhTRwLnFRk5ayYNUWlQaYvaF4nyT+VACvzAiGSi/7HFHWXnHnll5i5GAP1KGewz61rtSxZcug==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV3PR12MB9412.namprd12.prod.outlook.com (2603:10b6:408:211::18)
- by CH1PR12MB9621.namprd12.prod.outlook.com (2603:10b6:610:2b2::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Mon, 19 Jan
- 2026 07:32:28 +0000
-Received: from LV3PR12MB9412.namprd12.prod.outlook.com
- ([fe80::c319:33b5:293:6ec4]) by LV3PR12MB9412.namprd12.prod.outlook.com
- ([fe80::c319:33b5:293:6ec4%5]) with mapi id 15.20.9520.010; Mon, 19 Jan 2026
- 07:32:28 +0000
-Message-ID: <3380a80a-7574-4dbf-87cb-0735fb20cd15@nvidia.com>
-Date: Sun, 18 Jan 2026 23:32:20 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] dma-buf: Document revoke semantics
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
- linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
-References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
- <20260118-dmabuf-revoke-v2-2-a03bb27c0875@nvidia.com>
- <d41d08e3-6a86-40a4-925c-6a3172670079@nvidia.com>
- <20260119072524.GD13201@unreal>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <20260119072524.GD13201@unreal>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR04CA0005.namprd04.prod.outlook.com
- (2603:10b6:a03:40::18) To LV3PR12MB9412.namprd12.prod.outlook.com
- (2603:10b6:408:211::18)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35F1B10E1C0
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 07:38:34 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E12405BCFD;
+ Mon, 19 Jan 2026 07:38:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1768808313; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=KFJ54nMOhx8mffPk51jzPOExhgvMSATvxIPYY1eHHYk=;
+ b=dzm4UbI7tvUjfeNa0O+zlfzGtN6hsdqZmMQqdxTinfdEjk8VK0tGsipRZnXIEBW9vpEnqa
+ /5pR6SQdoPvOt8MxtGj1Zh1C/1g6B2aEYXdIc0wEf5fziPSzP3hmnYNrit/oZHLl+Q466t
+ WpajPfV9t3YrazRXdp4wI8yx3+zwbBg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1768808313;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=KFJ54nMOhx8mffPk51jzPOExhgvMSATvxIPYY1eHHYk=;
+ b=BbPYsdklfOsdb9VsbiMzqvwqrpP1+H7ZyHpqyYVIOPV1QypCCnUYigmnI2nG/FLvC9FKIE
+ c0mXrRqvSCN7vgBA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1768808312; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=KFJ54nMOhx8mffPk51jzPOExhgvMSATvxIPYY1eHHYk=;
+ b=xqKJWbB7XEe7Kt+oGeYNop182tnYGztB5d8/APNjfoN/YQJORiC946dUoknNFO4ELOTwh0
+ jXOCjZJr5XBUTnIvXLfN9c/h9zK3tNo7hyQHHmLVr8mUVc2xxsmQ9ieD81qXJpV8Jb/Jm/
+ SRCWgErxS9uHBUEkg7TSPVqpNMUJsG8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1768808312;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=KFJ54nMOhx8mffPk51jzPOExhgvMSATvxIPYY1eHHYk=;
+ b=nXymW59zb9Fnc1Vv9HYLwWI2+aYLZn5k/vh/FWKoZqgROysB5Ztkd/KHsxi0bBPzG7YMhg
+ zgm3hHXSVQBDdRCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9E2053EA63;
+ Mon, 19 Jan 2026 07:38:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 12QtJXjfbWm7ZAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 19 Jan 2026 07:38:32 +0000
+Message-ID: <5bc62c51-308c-483f-a92d-29354f2deeac@suse.de>
+Date: Mon, 19 Jan 2026 08:38:31 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9412:EE_|CH1PR12MB9621:EE_
-X-MS-Office365-Filtering-Correlation-Id: 420ccf31-48b7-4b28-6193-08de572ce578
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|1800799024|10070799003|366016; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dExjZXM3VnJlREMzand3UzlnWWpJd3NzR0JWM0tKbi9DNHlCUDVFWHNMT29o?=
- =?utf-8?B?dUpqaWpXY1ZmZ3NEckdBNXpsOHpKMWdzSW5vd3dFRCs4NnROMTRzbXdRelNi?=
- =?utf-8?B?czcvbVVMcExVaXBJcDN5djB1TlNkWTN2TXk1Q0l2UERzZ0F6UTFBdDRwYjJo?=
- =?utf-8?B?Z3NkZERYUGZ5ODVOWTg0T3dlY2xta0ZiMFRtSERkSDgvV2pIeXlNNU1Pb3Y0?=
- =?utf-8?B?TnR2akxwR0dwaDZoSGQrUUxYeTJQUEZXZHNzdmRxcVFZNnh1Tk9yQUhKRlIx?=
- =?utf-8?B?RHRKVFljRmhkVjlKckY1U0MrNFNzMEYyejhCUUhsOTFCRkJlTGxwWG10MVlx?=
- =?utf-8?B?SUtRMFd6UFNaOFllQjdxWVczY1VnZlFlTVR1UUsrMkRmNG55ek1QZ0tyaVBC?=
- =?utf-8?B?SC8rRTdoN1VaVnliL1hXcGtJVU83YjlUYWZUNnhoVmcrSm5Ma3JjUXpvc3BU?=
- =?utf-8?B?aG8zdmdGckt1TExzQlFHcm96cWJiOEZ0dGdBWVEzcy80ditUakNmS3RGMzg4?=
- =?utf-8?B?R3ovYW4ydjNLOUpXTnhFcitUN1ViVkkyNk94THFEUXJZUjVxZEc4VTBlb0R2?=
- =?utf-8?B?eW0vM1pXVWFuendqVFJqTk5tVjJGMlhJL1R0U0lvSWwvV2o3YnNsU2RIZVFF?=
- =?utf-8?B?bEMxQ1NIMm4vdkF2ajJLYkhObFFDNjVsNFYybWc4cmJRMlRYYjhCbXR1WHJX?=
- =?utf-8?B?MTFEWmdBYmVScExoRjc1Si9IUCtySStpdTg4QWpwOWMveXZnLzJyWFZpQjM1?=
- =?utf-8?B?emljQklua2N1OC9CcnArSWFQRFBpdC9HZUgzUzBCWTYvZnBCTm14Wm1JT3gz?=
- =?utf-8?B?Z3NjRVBpYW8rUzc2UWJqTkF2YUdjeTJuL1lXT2Q5a29FMDFxV0tMUmUzRml5?=
- =?utf-8?B?Q1pYYjNScFAyN0FtYy9pbHFSajUraHZ0STVXNkZVMWJwL25Oc0hvRWVtWGpk?=
- =?utf-8?B?cmFMTk9lUm9uSjcwSkl1SXJmWXF3bjc2MjJWTXU2UlJyYmYyMFZmQng1TVlX?=
- =?utf-8?B?enB4YXFWZEkzYnBkcjdJeW5KOXQ0U2E5TTlhV24xbnVnOTdPZzVQZlI5YWVG?=
- =?utf-8?B?bFhBNksrYjdGUWpZeE9jQkdpMHhiaWxnc3h2b0lNYzFPVHFzNTRma3M4alFB?=
- =?utf-8?B?NUR4ekNLRWovRGpScVdlRXQ0V29rNi81OGd5ZWY5TlJYenBHcExvWUN3S1ZI?=
- =?utf-8?B?dm9EeHNoNVNMUFJJYm1EZWExK2RvZjE1cDRRS25xWVdXMEhpUXpqTWNzMjdw?=
- =?utf-8?B?cTVUM3p6TXVmMmRZN2tOZnlETTl0MlA0S2dEcElXaHJVeGE3My9ITjYwQTQ1?=
- =?utf-8?B?ZFhLbCtObVZqMENxMi9ZUzhMTjhNWStxQlU2M1R0d3A4K2lHYTlPMGg2blIx?=
- =?utf-8?B?RDlTRlZDNndDRFA0TUFwMlNxTmptNDlObHJSdG9IODBQZU5nMExLZWphWFJr?=
- =?utf-8?B?ZXEybVNiVGFZRFNPcitqeGsrSE5PSWMweCtaNlRJUHU2TG9IdHo4Snl0ZUZS?=
- =?utf-8?B?NHd6WWxXa21oOHBrSWlXY2g1eVhwTWxQbVA4L2JtYVQxa0VqUmEyM2d5UW83?=
- =?utf-8?B?N0N2VmNKN2ZuMmo1RkpFWnUyTWV4NkV5NFhaVnZibnl3UStrelBxRFBCTWJB?=
- =?utf-8?B?Y012RUM0QnJzZ0VJa2hlQlpCTkRxWVpST1h5MFRyekNvWE1UcEg2cUVITHY1?=
- =?utf-8?B?VnVCajBZb3VMSUhaWTRhT1R4elZveFErdFdDU1MrdmgvUmZLcnRlQUJDZzlX?=
- =?utf-8?B?MGUrRFo0L0VKR1hPRkNWZHRjU2NHTG1NVGFJOERCd0JCUlJXYTJnUWUyQ3BX?=
- =?utf-8?B?WlA3ZGJvano0M3pTeS9UVVhjVmkrV2ptRjhwcDFuc1RqTzdDVmFlaUs4akhm?=
- =?utf-8?B?NGdhMDJhcGkwUXZLeWJTMVRDbTZCR20vQ2M1b2VOK1BjVTZPd2VOY0NaVGR6?=
- =?utf-8?B?L2hJVXV5aSsvaXBqejduSDM3UVdQUHNaUkt6UFNlQytWTFg3QjZnTTF0Z0JK?=
- =?utf-8?B?TVd4WW1jRjRwaktDUEd4MXl6eFE2dHJhaHIzQWgxNGJwcGhRZWtlY213dVcv?=
- =?utf-8?B?YmlTZ3JYYVQxUUNiRnp3UGlsL2NpeG42dDBvVlZiRnk1azJkZkRBMHRQVFEy?=
- =?utf-8?Q?802E=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV3PR12MB9412.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(10070799003)(366016); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UWJXK0RHQ1pvaVJ5Q2I3cjgvNGZ4cVBzOVIzb1pyWXMrMWtLWWtuT212S3ls?=
- =?utf-8?B?cHdPd1dDVkFqV05tZ2JvTXpZeE1ZdTBNTHZkeU52QXVYbVBxZWZtL1BKanJ5?=
- =?utf-8?B?Lzlwc05UdksrRVNYL2Q1a1cxTVN6Ym53TFhTZllRb052bVZEZXNneHNnWGR0?=
- =?utf-8?B?empIQTY2YXlRNnBzT0FuZW9rUzk4OG56bi9wSXBzZHhuWjJPeWZSVllOUkx2?=
- =?utf-8?B?STI0d3BnOCtVdVdFUnd6eXI1Tmp5dk5oQjkrZ1FIZlUvV1Z0d1VsdS83bEVs?=
- =?utf-8?B?cVBhYldndHlhZUtYeUJuWlFXNlBZQlpVSm9JUUhqRlgrTkpBTjRUMEdoN0lu?=
- =?utf-8?B?Y1dXSVFpN1MyUjBCWnBZQU9kSmhycnBjSmdlaEZ4VXpIZVptN2ZCVHM4VVo3?=
- =?utf-8?B?NGliVmVQK01HM2lqTCtOOXJsOE5PZUM1T1NtOTVSNkJUYkxnUzFhUWpYUWVx?=
- =?utf-8?B?K1VsbkRkSmxrZm93N1MzVTNLdVZiOVdrRDdiV1c3QXNqNkhwdjJTa2F4UlhP?=
- =?utf-8?B?S2N5TE5URmJ5VjdiNjJ5MlZzTUFXSHY0RDlWMXBwRTFrWjdqUWIvdFpuN2RT?=
- =?utf-8?B?Y3RGZmh6V0g3TGVvVVdIMnI5RXFEQ2I0cEdqNCtJUllzeTVSZVF1cTJUbDd0?=
- =?utf-8?B?SWptVC9tTVQrS3BTbVN2dEpiYnBFaW8zWkJvZm9GSHhOMTdWVUVLWkRMRWlH?=
- =?utf-8?B?ZWNreHA4cjFjT24wUmlMaU1yb3VvQjVLa3JFS0gvR0lmdGI4Qy9PdU9KUjVO?=
- =?utf-8?B?ZFRPQUQyamRrNjBvSmdvTThKaUtyZFBUYXgyTFkwQWJTc3c0bm52Mk12RkNO?=
- =?utf-8?B?YXIrZFA3NTA3WEJYVzZYeHNCVEJoOG4zejh1SzNMRlNZSis1cGdvdjBDMkxC?=
- =?utf-8?B?MTVpbVlUTG5nN1I0d3RGNmhRenMzWkREZUhUUU9TUUhCZmExdFhmK3Z6Um9p?=
- =?utf-8?B?VWh6V3k2UHRCQkRhQ0hVcTdZVUFjNUd1d1p4bkkrYXV2MUJ0d3BPeWFqL3Bm?=
- =?utf-8?B?ck1xOGkyOFJIdDRUbnlkTlcydFpIQ09aMktXTVN5NXhIME13MDliWmUvQWtC?=
- =?utf-8?B?aXQ0TTNqWDlHZENCV2k3a1JLM1QzNWNXdDJtN0JTVE45UlRScUppSjdISTR0?=
- =?utf-8?B?cVBYWGZQMnhZUEljbDVDcXhDbE5uRVF2SVlEQnZXcEFLSzNXcS9TbVpFSmRr?=
- =?utf-8?B?NHlVcFNXOElXTGNhSjR3MTBVRHh5ckdtSHc3NkVPdm1DWWx0L05TRHQ4a2Vs?=
- =?utf-8?B?d0pRQkJ0VTJITnNqd2VZY28zZloxdkRrbTA2YVZ6cTZ1NlVocUg2NVB1ZjZk?=
- =?utf-8?B?Q1hqOUgvTzVKbUtuZ0dVR2JsUDZFdTlJaEloWnFaRHBiVi8veGMzb0huN3l3?=
- =?utf-8?B?SDlOS1B5UDcxWVdhOEdJVEJXcHRJOGtQUk9IQ2Vab1pycnlEeHNHcERKUCs5?=
- =?utf-8?B?QTY3SjNZNU9wa3R4RGdMTFhtSEE3QVFwRnJROTVBc1BhaHY5azBacEVrUG9K?=
- =?utf-8?B?QjBFUzBlRXIzcFh1bjJXcTMrQ3pJMUlsdDh5WmQ0endsbGJUUkZEdFFFb2cr?=
- =?utf-8?B?bCt2THlEYlJnWGdZZmRML3dkMmdVTE5PK1dQSnJJSThBK2REeGIvbTJ0TWZK?=
- =?utf-8?B?MmNmNXBneVErR0dSTXlvald2YnRrRzdkREU4TC91V05NL0xaUGhqZDFvMWpS?=
- =?utf-8?B?NDdTQUVmblZRSmY2RC9lZDFzWXlubC9yK3BQY0lxWUVTdHJNTEpNRVBYdEt2?=
- =?utf-8?B?dXRYdXBIb09HOTdXUFVzZzhhemRDenZBUFh4S0dZa1JPNlovM3dha25DSXo3?=
- =?utf-8?B?RWtTa2Roc1RZMEtSdVRnT2kxQ3Zid00xTks4WHo2R3lsTFM5cDVKQk5NTmV6?=
- =?utf-8?B?MkFWSEZWRXQrakRES3VIVXdsM01WSU1kZjZ6M05wZjZZUC80eVo3TlgvaFFW?=
- =?utf-8?B?cE9uVWl3eEE1ZGZ4NzUzMGIySHowT2lUQTBFL0ZVS2pCZ0hWV3lSYnFkODQ1?=
- =?utf-8?B?bzlnaTA0WEsvbXNNaGFzejVucE93bWFPSnJNRE9oM0Y2Sjh6Z2dpMkZYUTdV?=
- =?utf-8?B?MXpHRU1zeitJeWZjbXJhRDZyeU9Yb1BRZEFOK0JhUWtmcVdKWEZhVmxPMWk5?=
- =?utf-8?B?S2ZzMjdGT0pDRkR6cVRHRnVDbWphVkhNM0pQcGJmK05jT1AxVlR5SktoMEtm?=
- =?utf-8?B?b0NSWjVNV25OLzZRcG90ODhJQlJsbkMxOURkRzhSSGVrUmhJTHRVOStrWTVt?=
- =?utf-8?B?VWN1TlEyRDhtY1lRdDdqL2tpNHV5aDVtZ28yYmdha1FMaXdEZ052WGpqNFhO?=
- =?utf-8?B?aFlvUFV4aDZMYWNHWkV4YVpFQ3ZhRkhaQ2tJN2dEamViUHcyeVFkZmRVMTc5?=
- =?utf-8?Q?SiQVPWIdf9cbPX4g=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 420ccf31-48b7-4b28-6193-08de572ce578
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9412.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2026 07:32:27.7438 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NgMHu6lfaUQeXV90usdKJqOTT7KBR0HtbsRs+n/1NPrcSfMcEHXDIdOrD1N7eyjrQVHB+zUdi+Z3d3p771JzBQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PR12MB9621
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev: sys_fillrect: Add bounds checking to prevent
+ vmalloc-out-of-bounds
+To: Osama Abdelkader <osama.abdelkader@gmail.com>,
+ Zsolt Kajtar <soci@c64.rulez.org>, Simona Vetter <simona@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: syzbot+7a63ce155648954e749b@syzkaller.appspotmail.com
+References: <20260118001852.70173-1-osama.abdelkader@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20260118001852.70173-1-osama.abdelkader@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_TO(0.00)[gmail.com,c64.rulez.org,ffwll.ch,gmx.de,vger.kernel.org,lists.freedesktop.org];
+ TAGGED_RCPT(0.00)[7a63ce155648954e749b]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; RCPT_COUNT_SEVEN(0.00)[8];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]; TO_DN_SOME(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.com:url]
+X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -191,37 +143,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/18/26 11:25 PM, Leon Romanovsky wrote:
-> On Sun, Jan 18, 2026 at 01:40:11PM -0800, John Hubbard wrote:
->> On 1/18/26 4:08 AM, Leon Romanovsky wrote:
->>> From: Leon Romanovsky <leonro@nvidia.com>
->> ...
->>> +/**
->>> + * dma_buf_attachment_is_revoke - check if a DMA-buf importer implements
->>> + * revoke semantics.
->>> + * @attach: the DMA-buf attachment to check
->>> + *
->>> + * Returns true if DMA-buf importer honors revoke semantics, which is
->>> + * negotiated with the exporter, by making sure that importer implements
->>> + * .invalidate_mappings() callback and calls to dma_buf_pin() after
->>> + * DMA-buf attach.
->>> + */
->>> +static inline bool
->>> +dma_buf_attachment_is_revoke(struct dma_buf_attachment *attach)
->>
->> Maybe a slight rename, to dma_buf_attachment_is_revocable()?
-> 
-> I can do that. The issue is that even "dma_buf_attachment_is_revoke"
-> is already too long. :)
-> 
+Hi,
 
-If you're really pressed for space for some reason, maybe
-dma_buf_attach_revocable() ?
+thanks for the patch.
 
-Just trying to hang on to the "revocable" part of the name, as
-I think it's an improvement.
+Am 18.01.26 um 01:18 schrieb Osama Abdelkader:
+> The sys_fillrect function was missing bounds validation, which could lead
+> to vmalloc-out-of-bounds writes when the rectangle coordinates extend
+> beyond the framebuffer's virtual resolution. This was detected by KASAN
+> and reported by syzkaller.
+>
+> Add validation to:
+> 1. Check that width and height are non-zero
+> 2. Verify that dx and dy are within virtual resolution bounds
+> 3. Clip the rectangle dimensions to fit within virtual resolution if needed
 
-thanks,
+This is rather a problem with the caller of the fillrect helper and 
+affects all drivers and all implementations of fb_fillrect. Clipping 
+should happen in the fbcon functions before invoking ->fb_con.
+
+Best regards
+Thomas
+
+>
+> This follows the same pattern used in other framebuffer drivers like
+> pm2fb_fillrect.
+>
+> Reported-by: syzbot+7a63ce155648954e749b@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=7a63ce155648954e749b
+> Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
+> ---
+>   drivers/video/fbdev/core/sysfillrect.c | 21 ++++++++++++++++++++-
+>   1 file changed, 20 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/video/fbdev/core/sysfillrect.c b/drivers/video/fbdev/core/sysfillrect.c
+> index 12eea3e424bb..73fc322ff8fd 100644
+> --- a/drivers/video/fbdev/core/sysfillrect.c
+> +++ b/drivers/video/fbdev/core/sysfillrect.c
+> @@ -7,6 +7,7 @@
+>   #include <linux/module.h>
+>   #include <linux/fb.h>
+>   #include <linux/bitrev.h>
+> +#include <linux/string.h>
+>   #include <asm/types.h>
+>   
+>   #ifdef CONFIG_FB_SYS_REV_PIXELS_IN_BYTE
+> @@ -18,10 +19,28 @@
+>   
+>   void sys_fillrect(struct fb_info *p, const struct fb_fillrect *rect)
+>   {
+> +	struct fb_fillrect modded;
+> +	int vxres, vyres;
+> +
+>   	if (!(p->flags & FBINFO_VIRTFB))
+>   		fb_warn_once(p, "%s: framebuffer is not in virtual address space.\n", __func__);
+>   
+> -	fb_fillrect(p, rect);
+> +	vxres = p->var.xres_virtual;
+> +	vyres = p->var.yres_virtual;
+> +
+> +	/* Validate and clip rectangle to virtual resolution */
+> +	if (!rect->width || !rect->height ||
+> +	    rect->dx >= vxres || rect->dy >= vyres)
+> +		return;
+> +
+> +	memcpy(&modded, rect, sizeof(struct fb_fillrect));
+> +
+> +	if (modded.dx + modded.width > vxres)
+> +		modded.width = vxres - modded.dx;
+> +	if (modded.dy + modded.height > vyres)
+> +		modded.height = vyres - modded.dy;
+> +
+> +	fb_fillrect(p, &modded);
+>   }
+>   EXPORT_SYMBOL(sys_fillrect);
+>   
+
 -- 
-John Hubbard
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
 
