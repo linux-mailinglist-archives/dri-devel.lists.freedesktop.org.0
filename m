@@ -2,176 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17CC1D3A5F6
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 11:56:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA09D3A605
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 11:57:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20ED510E320;
-	Mon, 19 Jan 2026 10:56:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3FCE10E3F5;
+	Mon, 19 Jan 2026 10:57:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="daeq5mSv";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ocbvuMh8";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UI+oKton";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazon11012001.outbound.protection.outlook.com [52.101.43.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D485D10E320;
- Mon, 19 Jan 2026 10:56:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cYhPcNa55dJBjOAgb7ys8xkfEEoIm8TR2X9fZK0eg0CqDv8rh7u6nL+Hcf7tdx57zYzA/PNlu2VmB3XOdFIAI9lrLQk2/VkCGqEuirZb+xvOH4ISOas3prXkcVbxMWPvNwYv28vokCeSS0bq0XFIpC2Dj7hO6QSp1tzYAY2lHU5QopE8ZwbtVgjOYb7MyCzAKhRI7O5p5i1fU2xuM/E6jy98er/pqDaHRm3oFhXwoWJThdQeVBv3tcxD/JlBJEb1bKcgbzPRQwfxpWUpfvE25Q+mVSHbMtwvciSgktF8/jRdvHaZjYvUTBQfAo7B44Jn4D5OpcgOZ96gNgZwAU/L0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5J5B22JfMFKxjXVfYMZAjnMIyGnXaUzR9ufqMmg07Zs=;
- b=RS/kSCarI5Hc6DTf2fv0H48F1X9e9ezlG/+/7qPV4OFx5hhXNsLqzP9wqGv2w0+1mZ0skI/aKLb/Jht5fV9DzIcvwA3RGs3SgiPzpaCz1hC2wSGdcQ3dZI44hMyi1ehqlGunj+BCpCtLwgAl72ge9yBNnbh85+z8jR18yGh/YZ7ZRRn/A91KX/f0Xj4DmAmxTZ10vfSgsjLCiRUTlSmC7PI7NJR6uyc53TRjXYGre0hHBJaOpIxP0ih6qnVVg4l5l24g49lYNSYpEgYwoUXlYV7sZ/0o88vPihNPMu+TyiSO6q8y1CoowjxsAxaIaD0makp/A0M6xYVLvPICmy6G0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5J5B22JfMFKxjXVfYMZAjnMIyGnXaUzR9ufqMmg07Zs=;
- b=daeq5mSveIyDyZe+ZJUsYGARmKqTq5yp0iN3goE7qSz4PF8RBLja2oDOgsEAtAwJw8FmRlkcgnWyZOYJkAu+VzwXqCX6Vm+DPRv+hz2T7d3Uovj3ZgsctJmPYcPLpYuynrI8850t0LDVao29G+7+4+curfJTni57WNpjGdZiv0I=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CYYPR12MB8889.namprd12.prod.outlook.com (2603:10b6:930:cb::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.11; Mon, 19 Jan
- 2026 10:56:37 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9520.011; Mon, 19 Jan 2026
- 10:56:37 +0000
-Message-ID: <9eba2527-a06e-4f74-a7d6-93f6f91e00e9@amd.com>
-Date: Mon, 19 Jan 2026 11:56:16 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] dma-buf: Document revoke semantics
-To: Leon Romanovsky <leon@kernel.org>, Sumit Semwal
- <sumit.semwal@linaro.org>, Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex@shazbot.org>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
- intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- iommu@lists.linux.dev, kvm@vger.kernel.org
-References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
- <20260118-dmabuf-revoke-v2-2-a03bb27c0875@nvidia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260118-dmabuf-revoke-v2-2-a03bb27c0875@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN9PR03CA0394.namprd03.prod.outlook.com
- (2603:10b6:408:111::9) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49E7310E3F7
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 10:57:47 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60J9kcjx774877
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 10:57:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ Iv3wCPCz7Y6lP/++ZHQPzus2wUGQzWlRuMJIcNIAEfA=; b=ocbvuMh89UuSLKWV
+ 3fKD4orKNFo2fAlosJkH6YQOzLzidy2Ii9h0wFG5HT/sva+fsDNJ9hdZhyXlxbsu
+ sYtfgmTT0npk/GREExUf6nsbM9/LzGFP+YVW8+Q+1XFYau2oRjbrgG8wkDIpuYW7
+ 5eQJ9c3n7hEFaHRDtPddoAXjLBAK8IwSpnbkn3vQxh2VJ/Z2MRVSwEHu9R6o5Rb6
+ mHWsEvoUCtp7JtlEZ5ibqqb1qM8EJ2rh9ZROJthZqt+uuGekiJOGQGuN8MgbA80B
+ qpg/fqJlZ3bhygUzz5T+zOn7POqc6HSka0qkx1/v+3MdfWERlxvp7nhYij39CMjT
+ gAs77A==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bsj9a87u0-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 10:57:46 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-88fd7ddba3fso18907026d6.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 02:57:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1768820266; x=1769425066;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Iv3wCPCz7Y6lP/++ZHQPzus2wUGQzWlRuMJIcNIAEfA=;
+ b=UI+oKtoniHR6VtKqOGPfH9TdbA2PtrfVMslSaoon7bhmG10AUExx7jgISw24eHTwQj
+ i9wvVPIIMFnyb5PExa8BbHXcDe5J6jDgU+3XLePpNbrsnWT5jIS9X02GHQF+gOSq9t5b
+ YBFh25UvbdAkRoCgETOjJbr8vcaLxUcRMBVFiu4Swe16tvkZ4jheR8UeKR9SzaND9bgJ
+ E+JFoTJX6FrK3qmlVVyGeShppTwL3C9wDpIm1o5tcoZhrbNT62wWjmluwtxlxd3pXTaH
+ B4KTHxZd2xj4Ygj0Lv/ngKz6uicN5JB732ouxgt56WwZalqm2hC1bFPchWK3Z9Jl5/gH
+ d9Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768820266; x=1769425066;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Iv3wCPCz7Y6lP/++ZHQPzus2wUGQzWlRuMJIcNIAEfA=;
+ b=AxziNHw2WEw16n9zwF1gkhRGc948BbEnYA7ThD/mHanotYakzOsCGQakDp2sZeMZjG
+ ELeM8R1n/rtPTBJFKnKpihh3X3I/M2lgrRUy65GUThQtZroKE3lVhsw64DHhhQnisy68
+ qKfTY6N7Yg55FUSF5a+0NcIAJfEyGhRhB+TBMOpqTejZxOn8VPGGibRbMVV3X7xaEGTx
+ HyUv4tbhbel+sc/jCWMJzKs/NwKuz5ZQ8BSWl+atijGEwYgcvr/DZp9PMKLE4IFgh2JM
+ dDfVIpBmUbyjfbka1OzIIG505IUHHQXa9YeNO+y6G5TCHU4HktQWLGfp1sdujPGAC3Nh
+ h0/w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX+/zhUQd+7AwREY6Z1Mr4lPMjvGtIthHL4KWNrzUcZ80Rj72hrV4qysVB1hDhoCa2cuZACfqdbqBA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyPCA9tt0SF4b1ME8Y0ObvwGplTLp9Q2TdGDpbpcXq3IqHitvwt
+ J5vcUp6Bzm0j/KFeMwJsDPLt7ZsRlP4mWabJ/uPEIGG490j26CdN2Gkf4Z9EdnfL/f6U8aF4PP6
+ oNItrOVfN85x5aap7XvlYoZ2en43s04nXENxGWu6jJ5wkec86Qdv8YqXPzUbwP1KRBxRJiSk=
+X-Gm-Gg: AY/fxX4foEPIQPh9PyphOlDnret0TjrvwIfwB1HKloq7rPasA6t84jmlIlPXNI28fMw
+ FSnpX6vMDTaZLCfRfv8SsNilJcBXC7hvVnwEUg1JE54li5rmC4NA9zHCiMiyLoMSpGNLozDXobD
+ bYg+CcQgVZLJJASJkV6PPlhO8iOP/XGa5kJcmINWGT6UKEd+MphUVJ3hSnPZWiQjA261N0twsFg
+ 00ySBThC5F5A3UD0qTnN0/2XkGIGomVLFlYrXzz1+zIKjk7SaGNCpU7o4j2Znvn2zlzVY76IuLG
+ dWOR3Dm62uwn7ZZIxl5INCUL2iOgnmPOlfmFk9K/YZ0R944/+o5vk3B48hAPHq7yj6t9Um/bMfy
+ P1M7oQrWsTH+1Xwp6s+qt9qZmCtJii/2hYfp90D9R3qIohOGVdBtupo1zGe+wmtNzQ+o=
+X-Received: by 2002:a05:620a:288c:b0:8c5:3892:a554 with SMTP id
+ af79cd13be357-8c6a6705accmr1215768785a.3.1768820265753; 
+ Mon, 19 Jan 2026 02:57:45 -0800 (PST)
+X-Received: by 2002:a05:620a:288c:b0:8c5:3892:a554 with SMTP id
+ af79cd13be357-8c6a6705accmr1215765885a.3.1768820265337; 
+ Mon, 19 Jan 2026 02:57:45 -0800 (PST)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b879513e8d1sm1102898466b.2.2026.01.19.02.57.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Jan 2026 02:57:44 -0800 (PST)
+Message-ID: <16e02476-0c26-4ca4-8080-c494a89e58a1@oss.qualcomm.com>
+Date: Mon, 19 Jan 2026 11:57:42 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CYYPR12MB8889:EE_
-X-MS-Office365-Filtering-Correlation-Id: 272541fe-1544-4749-5878-08de57496ac1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|366016|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?eUY1aVJ3MWJ4ekZGK0FUMmNzbWJka2NXR01DS2YzRzJBRUtYVjhhb0VFNjdW?=
- =?utf-8?B?ckFObng2MktBT0tWOFpEMVBMMlg5Z0NPbGY2Q3dDdHNvTmwzVHVVY3dMV1BK?=
- =?utf-8?B?Sy9WcDR1Wi9tY0pFb21FZURSRzV0cGhNcE90cHd5djhWT0NnWkJ3VmNRalVy?=
- =?utf-8?B?NWpZdDl1cmcyRllVejBZcnA2ak54YlUyK004QVZyN2lqbDhZemRCY0FmbUkx?=
- =?utf-8?B?QzFDR1l4MjdRN05meUlRaTBmTTNqazVsTmxsU3F6WmxoR3U0QkdaZ1RKRnNG?=
- =?utf-8?B?enVoSmVJcGNuRElhN1BtdUFsUmhjV2I4a2hmTlJzVGVnZTRNcVorNHZLOGJp?=
- =?utf-8?B?ZzJEZ1RmS2o5anQ2SjBid2FWeElQekNPZWZwUWozTUZSbklxNndTV3RkTDBj?=
- =?utf-8?B?anB6T0VSYk03NnJ6bWd1b25yTVdhcVFBbmNBVFJMU1A0U2wzREZkamVwZk1t?=
- =?utf-8?B?ZkNWaTFDRE9mVzVuU2ZkSVpxbkhBb3RiZGYzUGNBMUkxeUxxZ2JiNDZjMEVh?=
- =?utf-8?B?VmV3TWsyeG5uOHJXVlYxeTg1d1VuN3p6bzcvUXBBd1IvZlJRREs4Ymhicmds?=
- =?utf-8?B?a3RMTHVLOFMrZ3haYXRYWWMzWVNQTFlFSHI2cWo1MHNFcFNDRVNBUFRpNTAv?=
- =?utf-8?B?UkZ2MmRvOS9Yd2NhVlRjOU8xamdSV3RwcWhuOGkrWXczZVo5L1hscHNidW5x?=
- =?utf-8?B?NXpOZ1JFakZZbEFQV1REUW9xbXZnemJjUlFoMUZhZE1zOHJZeWhyUkUzeEE0?=
- =?utf-8?B?RU93UDUwMjhzMytzREFldm1pS2Y2amxqMjJ2aFRpRm1pc2V4WTArQkdZbDBU?=
- =?utf-8?B?L3gvdmNRaVhVemFYZnhqalZQK1JyL2M0STRRTzQ3Ky8yYWw3eGZaZFZvRGh5?=
- =?utf-8?B?eDJMRnpCV3pCWTN5UFJwRWFYb2Ria213RHJZanlPRFpWQWkyUHVrV3BnOXlj?=
- =?utf-8?B?bkQ1TEFiVHlMR09hUXJmM0x2bzNPYkJMU1hrZlZ1TndPT3Z2NDduYUZxSzRp?=
- =?utf-8?B?V3J2WG5BWTNwdTV1eW55YlQxaVBCWjNFOXVZZWpGM2pkZUtEZkl3OHZQblp0?=
- =?utf-8?B?RkdmOEkzMmlwNXZMRVg3dkpTREVSYlV6SkdEdm43RWJzekEwS1cwNlFoWGNl?=
- =?utf-8?B?TSszdGh6eFdvWkppbW94LzBFNnpzcXRFcHRFU29BUElVMkloOGpCcW5lT1dm?=
- =?utf-8?B?em12cTRHOGNLeXFxSHdkeklLcC9UbFF5dFB1YUs2eU4rNlF2emp4TUlwZEZl?=
- =?utf-8?B?SitaaVA0bHcxdnU1Q3cyaVYyV3ZFVXh5K01pMVVWY3RhVERPdXpPM2ZDZHlB?=
- =?utf-8?B?VFZYMW5xaEJTMlpocTNlVjFnOUlLdVJDb1FVUXBmTkhIMW1UOE16NFgrd2J0?=
- =?utf-8?B?L3R0ZWYreUM2TUdMSS9Vdnl2bThqQ0JMK0dMS1BMZFZ4NlNaVVJjbHdhdkhG?=
- =?utf-8?B?OWtKRnEyejJicmt4ZmxLVzNaVnNOQVMvQTh2YnF2NjBYS2FYSFZHVHNUa3Fl?=
- =?utf-8?B?ZUFtMnpmSnpuYjVXSFV1N2JKZ3ZTemF4bWZDMG5yU1p2Z1IweTZSV29DbU9E?=
- =?utf-8?B?UkZyRkJIb21KM0FuaElzc2YxSG5BSkszMHkrb2VXQ1NBcjlVYjFuNEZnWnBC?=
- =?utf-8?B?c0VaVERHOTNUcG5IRVcwTytaUUFlWlcvUWZ4aG0zWGk5MC90MTRIa3NQL0o5?=
- =?utf-8?B?bTN5UitYNDZaZWFZY2lRSXhIcGRldGxVSEFjdHFYeFZRblIrVHp2UXJSQVNx?=
- =?utf-8?B?THpoaTZYSnZ5aUxnTE9vNjhNWXBaVS9QUytnSzZnVFZ4UUN0RFE2SGZzODZu?=
- =?utf-8?B?UzY0OVM5MUpocWVrK1cxK3Z5K0RIUDJScUJHeE4xM3h3Z1FJekNDY2tHUnhx?=
- =?utf-8?B?UW54bnQvdEhSaWdocnRESW1YZ2ZDcFlHaXQreWVxeEZwR3VFZ3R5bHVraGhD?=
- =?utf-8?B?NDNENlJKS1JoODFQelB0ZG1BdWVWMnlhSW9YSUYvT1hmWnVTTHN0U0RQKzhO?=
- =?utf-8?B?NkpWZHFGSzRZZ0hhMHZHcWpmbzBZdU51YlpScU9ka1RySmZaU1Z4NG12VG9u?=
- =?utf-8?B?em9MeUowci9HQlBIUkNTUlFOUXZXNnlGRGlIUlRKbXo1Sy9MM0VSQ2V1WXhp?=
- =?utf-8?B?MkZYenJpeWZtemxLRFgyUlZHZjgyNXAySjJGM2phMS90RVZqck1WeVJCMERn?=
- =?utf-8?B?Umc9PQ==?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024)(921020); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YTNKeXIyYjBqY25VcWFYL2cxQzhPd1pmTGd4SmU5K2RtbWVOdFlIQzVmb3N3?=
- =?utf-8?B?eEcxa2g1WHhDcVl6VGoyQU1wMzhCbVVVd0VHanBLa09tRU9ZOC9uM0w3Qkd5?=
- =?utf-8?B?a2lSZDZzdC9qMlFHbUZyaC9DVStFUnQxZnVGNnlWZWFjSldCaUdrZjY0TWxV?=
- =?utf-8?B?OXQ1OTZwOUc0UythVStXN3pZMU15c2hwcmRPZVp0Nm9NYkxhYmw4enpUa2th?=
- =?utf-8?B?ZERVeHA1UmlPaWJwUm1heVBnd0I4RldNWTF1NGJtRHRJbC90ekFRb2hFdWU0?=
- =?utf-8?B?NU9aWTlGem9uZ1pkQTRDK2ZTVjJPOUdpRGxsWEZTNkJDSW12cHRwODZLcmNL?=
- =?utf-8?B?a2pHQzBlNG9aSTU4bVhBYTdPSUF1S3NGQlVrR29SY0ZEVStRdDJ3MHl5VVBF?=
- =?utf-8?B?QUY2by9BMW5acjFQV0Q4UWZzbklCWU1Nam5XVUtMTjVoWkNyMzFCNGpYcmhn?=
- =?utf-8?B?MHIzZlpBQWg2SzhjZnRjaEp2dGRnUXRXZ2UwN0hFTGpUR3hLclBVdW9KOC9V?=
- =?utf-8?B?MDhZTTJwaHpDQSsvZnNFTUE4VjVYaVJJaUlSbWcvaXZFcXkzNDQrYUxPdGhx?=
- =?utf-8?B?NFAyMm8ycFE2d1dZc3IzYmlBaElhQXNaVFVkMjBlRFVhZTY4MzlyeXFhejBB?=
- =?utf-8?B?cVpmbDdmVU9CdlErQm9sV0loMytOSThYSGszWUh0RGdlTDZPZ213LzE4aFRh?=
- =?utf-8?B?MFRpRTh2RkM2Zkl1cnkwWW91WkZQbU4rUFhZMVpqYmF2T2l0cHhBR241akRX?=
- =?utf-8?B?eDdJUHpoQklTU0VPZlFaMHI2K3Q3NGNiV2NzQXc2eGtuMUZnNy82NTR6Tm1y?=
- =?utf-8?B?dEpvYWpQRnZSSkZ0Rmx3NUJSZ3VLVFBhd3BWRUttd2t1SkZpdklkUXVGa1FE?=
- =?utf-8?B?RFp2c0ZkR3ZjMnpIbkV1NVl0cjM3WmVJVkZxM2NpK2tzdm9iWXZ3aEhHa1BO?=
- =?utf-8?B?WWIyUHhLYlpTUFN3anIrVWQ5NCtoM0xjQ2dEalNWRURVc2FxTnFMOFZEOEVX?=
- =?utf-8?B?YlNMcThseE52SXloZ05RZ1kzUlZUQnJFWXRUVE5HSktxLzNsY3ZEa0lmbVNZ?=
- =?utf-8?B?c3BSZGpGRlMwL0NJdCttWlNjK1d6VStNZXNPTkthUkpXMmIyaTBta0E0eWhZ?=
- =?utf-8?B?TUdvcmFJTkI2ZEFNTElNeXNnVENRRDdYR0wwcDBVMHhlYlV4L0luQUVwd3Vw?=
- =?utf-8?B?Q2FDdTA3Z1U3SGFUZE5jTGlFb05wV3BEbkNzbGh3bHRwMHk2eS9Fa0RVVHpM?=
- =?utf-8?B?SHdEUUVHTjZmdiszZEJSK0FSS05aUVEzQTNON0ZpRVNjNUpBT05CUzR2Q1JE?=
- =?utf-8?B?ZjNtTTN6bzVaWWlCWDRVWDByVHdOSThaQnlnSSs2enRNNUNtVGk3dm5wMmcr?=
- =?utf-8?B?OWxod2Z6SDlvb0djMmhVNmd3bHB3ZTRDK25Jb3hWd2M5RXFYdGJGVmZieXpC?=
- =?utf-8?B?bEIrQSt0S0hQT2toQ1c0WGVCRGNuOGsra3BqcmNHcitTSFJLWVlxaHdzME5K?=
- =?utf-8?B?S01iK3pGdnp5TjA2Mk8rNmtXMlJ1OWlNUllqV2UzYlZiQlhEaHhhOGZ2M3Ro?=
- =?utf-8?B?aHlNSkt6bFM0LzVwQTByUG52L05lYnc1OVREeU41dFlieDdORnB3MzVwUVhD?=
- =?utf-8?B?ZXdmaGhXZjhKSEZwM1QvZTh5cEdmbzgxMkVwOEgzYTVKeEg5TnNodGtRQmhq?=
- =?utf-8?B?ZHRaSDFMay9HWkpsYkhtOW5KQzgyNXUvdlNmSklwUUl0ODF3Qm95REx3d1Uy?=
- =?utf-8?B?ZXhrTjdQTm5MYjg2TFFlMHRRQy9QeTJvcW5EUHB3N0ZWTlVGTCttQ3FrK2hw?=
- =?utf-8?B?c3pUUnhVL0xobW1NTU1mOGk3TDNJK3Y0OXBYWCtRNlBEcHF0SUVFZ01VYXUr?=
- =?utf-8?B?OHA5clptbnBjWDJGRlJhTEFHK1ZaSHdKcElGcXNMamphbHE1dDgzT2NtQktW?=
- =?utf-8?B?TCs2clhKVENDS2E3U1lGMlpvKzlBWkYzREMrUnR6MEszalNNNjdnUjZhRW96?=
- =?utf-8?B?RjUyck5JSlY3QmprTDhHbjhDa3o5UjdUR2VaRmNsWjNNWXc4ZGorbkFCSkZJ?=
- =?utf-8?B?MnRLYTNTZzUzQU9abHg4bzIyRm53MUZTVXdQRFhVZlpkQXk3cGFJdVFmcU9E?=
- =?utf-8?B?cjd4K1pqem1sK1FZQmE4Yk93andDUVBKekhFYzFhMldmbkpVZW9WbnJoNEZL?=
- =?utf-8?B?UkkySVFSRDhLUVIwLzUyQjg2WkNib25mR0FHdkp5emNLQ0ZDaXdWYXpjYVNQ?=
- =?utf-8?B?K0RaZWFhVmNtU21hRjB0T2Y0Vi94YlRydmpWaU1qdUxKS0VNU0NlK1NVSUNB?=
- =?utf-8?Q?HnpKRGA4egU6rU4unB?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 272541fe-1544-4749-5878-08de57496ac1
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2026 10:56:37.2044 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 71Ob/ahZDo+new+8LaAlaElOj4PDkQ58m0R0bMuoumfp4pVgiGDEV65MbL0LZ2lQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8889
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/4] drm/msm/dpu: program correct register for UBWC
+ config on DPU 8.x+
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Konrad Dybcio <konradybcio@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Stephan Gerhold <stephan.gerhold@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Val Packett <val@packett.cool>
+References: <20260119-msm-ubwc-fixes-v3-0-34aaa672c829@oss.qualcomm.com>
+ <20260119-msm-ubwc-fixes-v3-3-34aaa672c829@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260119-msm-ubwc-fixes-v3-3-34aaa672c829@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: hZ2Y1pmLXBXboZ9xE0vhm-zPf-vtRfvO
+X-Authority-Analysis: v=2.4 cv=N40k1m9B c=1 sm=1 tr=0 ts=696e0e2a cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=X1d9jF6ZyTQ8TVP8WxQA:9
+ a=QEXdDO2ut3YA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE5MDA5MCBTYWx0ZWRfX9adl/mOGQD5o
+ TrXAqbdWrSG3BsJ1Ku4Mmm34iv9XydBCcGwAeozQivXNHjDN2Ce70eksyYPaXIkDMwFBmn5oB43
+ iJOGpvsyt+oD1vfnQrbGh3Loev8gwl6Ma1WTuIaC/h1uDoPDGvEZlqcfnnlhWYiQJhgPTGt2tmZ
+ 3dgPlofPc0NuTh83CwGszwbSbSTaKOjxk+4lUjZb9QYvQcCxFkwe/VG+CjrYXNvna4MkJwkfmWk
+ wPErOewNzqigT+FxjQwcTbHcNHZptfnFPeiatMntgOHr9KIF/87DHlkX7tefOv3PJd3qI0bwsWq
+ ZfkP5hvUjfsgZ4FL1xo2B09fKlbl+WH8iqwbinme+7WcPeMIlB+rpfFW4eZHZa9hMTIix7koE4M
+ TKcxWme26MeI2KrSAAfI1W9OpIJ71YGuK8r6V/OvDcVR3eSY2iV4rGwxHjR2vrNULDUtu/dnfE4
+ dg4uPjLZO2UiRYA9RZw==
+X-Proofpoint-GUID: hZ2Y1pmLXBXboZ9xE0vhm-zPf-vtRfvO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-19_02,2026-01-19_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 impostorscore=0 malwarescore=0 adultscore=0
+ spamscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601190090
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -187,80 +149,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/18/26 13:08, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
+On 1/19/26 9:17 AM, Dmitry Baryshkov wrote:
+> Since DPU 8.0 there is a separate register for the second rectangle,
+> which needs to be programmed with the UBWC config if multirect is being
+> used. Write pipe's UBWC configuration to the correct register.
 > 
-> Document a DMA-buf revoke mechanism that allows an exporter to explicitly
-> invalidate ("kill") a shared buffer after it has been handed out to
-> importers. Once revoked, all further CPU and device access is blocked, and
-> importers consistently observe failure.
-> 
-> This requires both importers and exporters to honor the revoke contract.
-> 
-> For importers, this means implementing .invalidate_mappings() and calling
-> dma_buf_pin() after the DMA‑buf is attached to verify the exporter’s support
-> for revocation.
-> 
-> For exporters, this means implementing the .pin() callback, which checks
-> the DMA‑buf attachment for a valid revoke implementation.
-> 
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> Fixes: 100d7ef6995d ("drm/msm/dpu: add support for SM8450")
+> Tested-by: Val Packett <val@packett.cool> # x1e80100-dell-latitude-7455
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > ---
->  include/linux/dma-buf.h | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index 1b397635c793..e0bc0b7119f5 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -579,6 +579,25 @@ static inline bool dma_buf_is_dynamic(struct dma_buf *dmabuf)
->  	return !!dmabuf->ops->pin;
->  }
->  
-> +/**
-> + * dma_buf_attachment_is_revoke - check if a DMA-buf importer implements
-> + * revoke semantics.
-> + * @attach: the DMA-buf attachment to check
-> + *
 
-> + * Returns true if DMA-buf importer honors revoke semantics, which is
-> + * negotiated with the exporter, by making sure that importer implements
-> + * .invalidate_mappings() callback and calls to dma_buf_pin() after
-> + * DMA-buf attach.
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-That wording is to unclear. Something like:
-
-Returns true if the DMA-buf importer can handle invalidating it's mappings at any time, even after pinning a buffer.
-
-> + */
-> +static inline bool
-> +dma_buf_attachment_is_revoke(struct dma_buf_attachment *attach)
-
-That's clearly not a good name. But that is already discussed in another thread.
-
-> +{
-> +	return IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY) &&
-
-Oh, we should have renamed that as well. Or maybe it is time to completely remove that config option.
-
-> +	       dma_buf_is_dynamic(attach->dmabuf) &&
-
-This is checking exporter and not importer capabilities, please drop.
-
-> +	       (attach->importer_ops &&
-> +		attach->importer_ops->invalidate_mappings);
-
-So when invalidate_mappings is implemented we need to be able to call it at any time. Yeah that sounds like a valid approach to me.
-
-But we need to remove the RDNA callback with the warning then to properly signal that. And also please document that in the callback kerneldoc.
-
-Regards,
-Christian.
-
-> +}
-> +
->  struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
->  					  struct device *dev);
->  struct dma_buf_attachment *
-> 
+Konrad
 
