@@ -2,104 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D923ED3B31B
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 18:03:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB904D3B417
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 18:24:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21F0510E4D3;
-	Mon, 19 Jan 2026 17:03:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C759F10E4D4;
+	Mon, 19 Jan 2026 17:24:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="Z6TPRuYt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="A7Kh/x2F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com
- [209.85.217.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70D8110E4D4
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 17:03:35 +0000 (UTC)
-Received: by mail-vs1-f49.google.com with SMTP id
- ada2fe7eead31-5ec96028b32so3108609137.2
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 09:03:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1768842214; x=1769447014; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=xPF37M4OZRPT3BtJHYXM5EEOm0b3fHdtNnzMGWb7xcQ=;
- b=Z6TPRuYtomHhTBeFZIgMWviJSMbcBE2fNtKf36Znh1aZLvLYdheJPhf1X2bALW/brH
- 27V9tlMlKMazmNkLilW/8IEvUqXwPkdEPd+o6SZoIlpr7gPKB7Q9NTEjZn/fUJoEHnet
- Sl4seCcJpF9sAEo3cx/xrjI3WtMxM1miUfDxgRlj2FaUpqyHwB6wuewGIVxouNd0PEc6
- 7KOi/FiA3HqttbUwlqnEorYYzbQJuc7j+eQ8P6jj0fQOU68ygUtUsP5zHitRA8AuXMPm
- QoX/6I5krfzITY01HQ/tSOoQjhFbP6cMcZEO9k2NshkEn7/jQupB/6sOgjKdRBAr5hx3
- JP0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768842214; x=1769447014;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xPF37M4OZRPT3BtJHYXM5EEOm0b3fHdtNnzMGWb7xcQ=;
- b=Se837Fe/ABsh7GFDyDjV1WZ90MS1GkNeCBPx9aoBvMAROw7LJn/mzYc78YTqrdQ668
- ETWazr6pk4L3aDRUqLCx22WDLbDnwgF2RZLn0wtctWbAS6/Ci+kwv/5bahQIIYmSwojR
- 90HPwb0e4j9cmN8tcFGOAF0fpTJO/y0tEAW2NCOuFWGtkVn9KQ+X/9nbo5uKRhet4Qzm
- WAIHAsJftJ9LAYE4CpAzS43QZsD7zxCTJFIoFxv2hNeiCBD5+r4CJIL3UFGNiazqREWi
- IuxFDzuIdVWPqpHG8vYUUIe7CrB+Wy10lL475XqPAYPwHid5YJOJwpMIBCtKYKZppxSt
- tquw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV3keZw8Qiyoy2QeO3HuAOjqgdpIN6nPMVNk5YFbEXkcA7+F46PDAwCAJkJkdhQcXZ/xiX1sz9RPEg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywc+plmOGwOO3FDwgIxDSL70ZD90zMYsMckpG0XQWTKtQ/sP1tA
- OWIho1CzBh5TxND8nuv9mNKBR7poer5OMsDkhm5vX3O4ndLS3TCIOsJYbqS2xXNkdKc=
-X-Gm-Gg: AY/fxX65K2ZiHuPqDKkH1SNoZgxraimUA47SAsrK+ncYUOivV8uhfU6wk4pDKVqdI9t
- Yn4U4pfsDF9UGm7mFKWC0TPtCj4yQtJAIF1cQkE4CLD79VnP0UWfIWk3OM/h1lp39hGUNVbvIws
- +wEvI17W4ln2cs8WBnAg0GDuMqY64O1mWNglm+MS4+0N0ds2MoWAComiVZ1DO42obctFX5Rt1SQ
- +5i1rHg6X/vp+meHRU8aRt0z5dkSHVCDckxT+oo15a0yI9aWq1JA1CpV/nuOB97zcjcjig0IcTU
- G3T7DB6G7psmGFGDDr+G8JSqHiu920AruEsn2cu4rQn/yw9C/4EX+a++qgRx6E9n66+VjcbGlrH
- H0Em/gx/CYfiEOHucvFRjXugg/F37eTPorpojRkffsRcyDzai7wTCN3aLGRJVkhq5+61sj9LiEI
- TiyAbM+GVd4n2yH2x6RVbEVUO4Qh8+uVxFJDPfxbKHuV6tnh2tIiMapzrvGeAv4ocgTY4=
-X-Received: by 2002:a05:6102:2ac9:b0:5db:d07c:218f with SMTP id
- ada2fe7eead31-5f1a55dacc2mr3505780137.40.1768842212920; 
- Mon, 19 Jan 2026 09:03:32 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-8942e6027c9sm90833946d6.13.2026.01.19.09.03.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jan 2026 09:03:32 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1vhsf5-00000005ITl-3vB3;
- Mon, 19 Jan 2026 13:03:31 -0400
-Date: Mon, 19 Jan 2026 13:03:31 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
- linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] vfio: Add pinned interface to perform revoke
- semantics
-Message-ID: <20260119170331.GJ961572@ziepe.ca>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7D5410E4D4;
+ Mon, 19 Jan 2026 17:24:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768843467; x=1800379467;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=qk3XuufPPEIck/9A121yktRTMzQ3kk4TF/duoWERK0Q=;
+ b=A7Kh/x2FeOZ0vfi0QpXM+KbS9sCp87IyGIm85l0+nB69n9TZivGxJK4C
+ MJysZX0YmjdiMH/5WahD1ZcDfZMtzEI9c2a3jf55UOw6JlLBuN2jDEC57
+ Hyat/tdD6JTYOi88nVgUBCFQT1K0rnPEbxxp7qFAqZ4s9Zf+Ie6Yq/3I9
+ 8sIwmRjkBTHPfv8c32OlvxaH0tAWM+K9ex9uvcYZaWnn8Z8eFNNTiDPzx
+ N6WXDuH+fVQuWMhOKROp7YxTLJTH63CAPhzQztKbxnRGcQo5zLN0AhzP/
+ HkBj5M0Hr+ICU2ANQ+I8ct5M0W0o86Df9sXBIUQEXc6ZeBIaMgeiPdoM9 Q==;
+X-CSE-ConnectionGUID: dzV2vQddQ3Wisz1EQKSO9A==
+X-CSE-MsgGUID: MowJw698RIuhdsugiP0BDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="70107686"
+X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; d="scan'208";a="70107686"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2026 09:24:26 -0800
+X-CSE-ConnectionGUID: cCp8cmdLTFaKiKQxa3/2oQ==
+X-CSE-MsgGUID: 4scyjDTQQq6KHTJ1sXWYZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; d="scan'208";a="243499496"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.244.32])
+ ([10.245.244.32])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2026 09:24:19 -0800
+Message-ID: <9679639cc7d9c2a27c5529484546faa65013f261.camel@linux.intel.com>
+Subject: Re: [PATCH v2 0/4] dma-buf: document revoke mechanism to invalidate
+ shared buffers
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Leon Romanovsky <leon@kernel.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>,  Christian =?ISO-8859-1?Q?K=F6nig?=	
+ <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Gerd Hoffmann
+ <kraxel@redhat.com>,  Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu	
+ <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Lucas De Marchi	 <lucas.demarchi@intel.com>, Rodrigo
+ Vivi <rodrigo.vivi@intel.com>, Kevin Tian	 <kevin.tian@intel.com>, Joerg
+ Roedel <joro@8bytes.org>, Will Deacon	 <will@kernel.org>, Robin Murphy
+ <robin.murphy@arm.com>, Alex Williamson	 <alex@shazbot.org>,
+ linux-media@vger.kernel.org, 	dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, 	linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, 	virtualization@lists.linux.dev,
+ intel-xe@lists.freedesktop.org, 	linux-rdma@vger.kernel.org,
+ iommu@lists.linux.dev, kvm@vger.kernel.org
+Date: Mon, 19 Jan 2026 18:24:16 +0100
+In-Reply-To: <20260119162424.GE961572@ziepe.ca>
 References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
- <20260118-dmabuf-revoke-v2-4-a03bb27c0875@nvidia.com>
- <bd37adf0-afd0-49c4-b608-7f9aa5994f7b@amd.com>
- <20260119130244.GN13201@unreal>
+ <f115c91bbc9c6087d8b32917b9e24e3363a91f33.camel@linux.intel.com>
+ <20260119075229.GE13201@unreal>
+ <9112a605d2ee382e83b84b50c052dd9e4a79a364.camel@linux.intel.com>
+ <20260119162424.GE961572@ziepe.ca>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260119130244.GN13201@unreal>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,13 +91,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 19, 2026 at 03:02:44PM +0200, Leon Romanovsky wrote:
+On Mon, 2026-01-19 at 12:24 -0400, Jason Gunthorpe wrote:
+> On Mon, Jan 19, 2026 at 10:27:00AM +0100, Thomas Hellstr=C3=B6m wrote:
+> > this sounds like it's not just undocumented but also in some cases
+> > unimplemented. The xe driver for one doesn't expect move_notify()
+> > to be
+> > called on pinned buffers, so if that is indeed going to be part of
+> > the
+> > dma-buf protocol,=C2=A0 wouldn't support for that need to be advertised
+> > by
+> > the importer?
+>=20
+> Can you clarify this?
+>=20
+> I don't see xe's importer calling dma_buf_pin() or dma_buf_attach()
+> outside of tests? It's importer implements a fully functional looking
+> dynamic attach with move_notify()?
+>=20
+> I see the exporer is checking for pinned and then not calling
+> move_notify - is that what you mean?
 
-> We (VFIO and IOMMUFD) followed the same pattern used in  
-> amdgpu_bo_move_notify(), which also does not wait.
+No it was if move_notify() is called on a pinned buffer, things will
+probably blow up.
 
-You have to be really careful copying anything from the GPU drivers as
-they have these waits hidden and batched in other parts of their
-operations..
+And I was under the impression that we'd might be pinning imported
+framebuffers but either we don't get any of those or we're using the
+incorrect interface to pin, so it might not be a big issue from the xe
+side. Need to check this.
 
-Jason
+In any case we'd want to support revoking also of pinned buffers moving
+forward, so question really becomes whether in the mean-time we need to
+flag somehow that we don't support it.
+
+Thanks,
+Thomas
+
+
+>=20
+> When I looked through all the importers only RDMA obviously didn't
+> support move_notify on pinned buffers.
+>=20
+> Jason
+
