@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFAE6D39CE7
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 04:30:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE0ED39CE8
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 04:30:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5952910E331;
-	Mon, 19 Jan 2026 03:30:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E29D10E33D;
+	Mon, 19 Jan 2026 03:30:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HB3Gxjzx";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PlgNBDSF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
- [209.85.222.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 909CD10E34B
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 03:30:47 +0000 (UTC)
-Received: by mail-qk1-f176.google.com with SMTP id
- af79cd13be357-8c538d17816so522729085a.0
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 19:30:47 -0800 (PST)
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
+ [209.85.219.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2462D10E331
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 03:30:48 +0000 (UTC)
+Received: by mail-qv1-f53.google.com with SMTP id
+ 6a1803df08f44-88888d80590so59941226d6.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 19:30:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768793446; x=1769398246; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1768793447; x=1769398247; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Gnop4z34aVye00gIQguUoewYT5lM9SytbUgSGtePF4w=;
- b=HB3Gxjzx3N62orYAsnP9lFJ4smXa3cTpxd8OQNBwrGY6G5apygZEtSNmHUhKyedbF2
- 8APbICgun+qO3aoq8trdxdmXxCNMtu5TvsDIv/ll/QxJ+NINySvBlEs4ncJE1ftWd5uI
- 1kUb0Jy81mdbnmwoCTZ+rKKEoqiDvbIfcmOWzf99Ipvt90xfpdU+/P+FCylf+Wpk4AvH
- 58nYABGBtrg1m3F3O8z57e2l1WP3sk6yadp9y0u0YgMoIdrFtbQTpOoR1P+0X1vfxV3n
- MKY9pI+UacAzo6WUxefhcTYLqAYncDwnz6zzfn5meOA1MyXMVB1Z+fIf70e46uQrsxmu
- Z9DQ==
+ bh=0Hq1Jil93LKWD5SqiddgyBykMfT43TbOI7JPjGrETyE=;
+ b=PlgNBDSFc8MBp4Uwg05oJm5bgwhQ1ATqZDQ0X5SELcVGKdSrGPf//t3RevL2L/cbED
+ h/TyjzdiuZf9QqmDPQ5dgew1UFGsRcBPaOJKaEAl9DbGMJYRUOhGVkOC9PxxruJJCNnx
+ mKsK2MxSkoa0PcwrZIK0smC+AZJ7xqlUzuPRnZszeQE+MaiVpSyfMXge5OsTMD9RacO5
+ RpgxMHLXG8o3aMwU7gZ408Ll3/EMIaUlHeoI8/ldugxuRvwEjWa6K/zNUZPdVr4CgvZD
+ 7Z3JoGSeUM/PNueXl0/f7BHVFuNBM4SO7SipHSP3ByZQ6UGrejPO6vzNOcMMUCchHe0/
+ xHcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768793446; x=1769398246;
+ d=1e100.net; s=20230601; t=1768793447; x=1769398247;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=Gnop4z34aVye00gIQguUoewYT5lM9SytbUgSGtePF4w=;
- b=JmNXlArbZUaMhxgVqonjSS1AwlqT0vrXtBK/BjP5/CTTRSgfFG8nrebddFVvW4mqG/
- gJh29PVPExLXGZCnFDvZnaB5Wz8BXR4zD4D4D9oQnq40QRQJq5fOTR9OIl2buHSD25US
- BvMV7XEKCv3wkRpB+zcILSkEDofsdp2Ckat+owZB/lIz8XutzM7fkmZQjS+vo74nwdYc
- yNv3A14AsDbRrcvFV7WF7N2y0mGBkV5ptFEw3BtaWmZRXiRtSydMrRwA+tDXh59EXOCq
- S2GOOJ54FDuAhRm5H1b1f2Ek/VpH1cDgs8I6fyjQx3FEjijjz/LawIgJ7pI5Qf/FuzA9
- 9KFw==
+ bh=0Hq1Jil93LKWD5SqiddgyBykMfT43TbOI7JPjGrETyE=;
+ b=Qy1+14JRNAVP6ud5Z41hXQp0nTv6bqLGPl3GwDjiHJibMKZaYuFaLtQt6IsRxkuDFf
+ V6gE3JpUfgxew2qzAGNdrkbktukxheHxSU//rrF3aIjYWC0XeQxGlSXNX/YmO2CLoZV5
+ 47j5KVwIYfZt0suc9x2ok7+1USt07hqcTfWQUxIm+Idn6ocTvDaUqNxPttkRqj6ZKNL7
+ 8NxDpwp1rJ33udxLUiY7Wtjw8nLJA+NQ9uYPxpFD9X1Ea/7yyDxuhFEzlk30WorDXmy2
+ 58NWL9qUZ3FohvSVytf+d982iyF3+p5kyKftekgyTCAhBgJwxiqfXE6DJEOW6XPdxxEm
+ Zqiw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWnax0j65RT0SLkE7LTe/7kX40ptdvAiWtxxUGXIu0vVXPBkJ1aCezqJ+tZoNt5Y77mOxOjA7pgEcI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwL65D92ZXrdkCQZFgVbDPRS0rZmvm9lKtDGzjV5W5ofYwWFGdc
- g0Y6ZxAK6ilz1zzO6hzcBzZe1/lwxB/LDUPkCGuocvygUPPkOTw7GHZw
-X-Gm-Gg: AY/fxX6w8NApn389KdIX/0dmlOFhrAM3kV32qoxHHYOswuuMbVle8qt2Ys1fPYGsBez
- FNTQDuTYKy2LKdLsv9IaGI8OcufZNCuUr9enbQtbQTwONKRRFdt8yYQ/Bk/r7vAYcaYNK3Eod0c
- FvnEroBQefH1wV9h9SNHBFHuOYBRYe2iXG6yzIQ+erhaUapS3NYinkolhZj4l2XjJTJQDd34toY
- BU2ICHW7UjLt6E02vOT4HVnvqrR/0uFQ5ioCfhJ2bRIJYLBb8PFhkWXwHbIe8duVy/puYCDos9a
- NmYp6kkJ6TM0/bD1gIKF8v7dXsBjfoBq4sBqNkZpVLSnvsqmrQXpR7uvxEarFd5KxYAqboA1H8o
- wpNZRublrQqfp1Dwn44yYQYQ8HVkdWEnsDt4lRpeHoV9Nk3PdsH0tDCgR4oAKfy+t9Xc4awggBZ
- rZYE90yPpQg7dY5shATTe24v20g38tZGmGQCbbESI+EOdaCXif7D4ZuacuKmApRpScSwo=
-X-Received: by 2002:a05:620a:711a:b0:8c0:ddb4:2141 with SMTP id
- af79cd13be357-8c6a68ec47amr1370029185a.24.1768793445587; 
- Sun, 18 Jan 2026 19:30:45 -0800 (PST)
+ AJvYcCVDxKZTceIib73n3ZnByCMfANVO785RhN3g0YIgqB8ooi07Yf1kVh9l2TH/6/W97kV45rSiYcLsy8A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyQG5co4qpxX2eQq/7IPgVWvbnQ94Ul64rsKZ/yjb55uNHR3UgU
+ Kam8t1+vcpIVn1uWeJFCM6hYKdQ7JsdNiNG3axLzSaWLpb++BB2oUQZO
+X-Gm-Gg: AY/fxX7tfVuRXCzWMXBAsqhbxGqC1A2cUxE6wwWDptd3a0fsqlzeySdx9R5DJZsrFo+
+ e6NKAHV+hSxfwop/V3d6Qsiyl9KjulsNSdl3cL2GWcsem0bKIAta8D0CLzQW10BclS8d19byFpn
+ 3g5cKfTGmrkby+WuOv0GweqA4Iwrs4udApIYJdeOqjQhuk1mzV0scIH3yl5DIHrAz2QQ0+I8h0O
+ my8tWxXMN4onxB29bplgsT2bh1GkUoNpaiscSW0XUuDsDbV3dFY+McpypslRkdWrBUjLjZ6Fy9i
+ L3OR4YVEMH7nuQvvOrt8QSECVIbgaVOaMDQX/PSSAeFOQumE9wuOxBDKcsfmYztTKNsXaeqG6/S
+ hZmAlspVSYegq/cvqqT7ASyvwL7YwhT1EzC4/CgtQr9M+9mbR5TveGeFbElpS/bKARj7SiHo5qG
+ 6CG0wKFMU3a8aRsIQdOgFloCI8tA560nV+20fXtjdWoU5Y9XepKKF7bESI3HEtZfgxukc=
+X-Received: by 2002:a0c:e008:0:b0:894:565c:98bf with SMTP id
+ 6a1803df08f44-894565c9997mr6435226d6.13.1768793446858; 
+ Sun, 18 Jan 2026 19:30:46 -0800 (PST)
 Received: from mighty.localdomain (nat-130-245-192-1.resnet.stonybrook.edu.
  [130.245.192.1]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-8c6a71ab20dsm724706885a.5.2026.01.18.19.30.44
+ af79cd13be357-8c6a71ab20dsm724706885a.5.2026.01.18.19.30.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Jan 2026 19:30:45 -0800 (PST)
+ Sun, 18 Jan 2026 19:30:46 -0800 (PST)
 From: Mithil Bavishi <bavishimithil@gmail.com>
 To: aaro.koskinen@iki.fi, andreas@kemnade.info, khilman@baylibre.com,
  rogerq@kernel.org, tony@atomide.com, robh@kernel.org, krzk+dt@kernel.org,
@@ -73,10 +73,12 @@ To: aaro.koskinen@iki.fi, andreas@kemnade.info, khilman@baylibre.com,
  prabhakar.mahadev-lad.rj@bp.renesas.com, thierry.reding@gmail.com
 Cc: linux-omap@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-hardening@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v4 02/10] dt-bindings: vendor-prefixes: Add Doestek
-Date: Sun, 18 Jan 2026 22:30:27 -0500
-Message-ID: <20260119033035.57538-4-bavishimithil@gmail.com>
+ linux-hardening@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v4 03/10] dt-bindings: display: bridge: lvds-codec: add
+ doestek, dtc34lm85am
+Date: Sun, 18 Jan 2026 22:30:28 -0500
+Message-ID: <20260119033035.57538-5-bavishimithil@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260119033035.57538-1-bavishimithil@gmail.com>
 References: <20260119033035.57538-1-bavishimithil@gmail.com>
@@ -97,28 +99,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add vendor prefix for Doestek Co., Ltd.
-Link: http://www.doestek.co.kr/
+Add compatible strings for the Doestek DTC34LM85AM Flat Panel Display
+Transmitter
 
 Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
-Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index c7591b2ae..70a195fc6 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -437,6 +437,8 @@ patternProperties:
-     description: D-Link Corporation
-   "^dmo,.*":
-     description: Data Modul AG
-+  "^doestek,.*":
-+    description: Doestek Co., Ltd.
-   "^domintech,.*":
-     description: Domintech Co., Ltd.
-   "^dongwoon,.*":
+diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+index 4f7d3e9cf..3ad01645c 100644
+--- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+@@ -33,6 +33,7 @@ properties:
+     oneOf:
+       - items:
+           - enum:
++              - doestek,dtc34lm85am # For the Doestek DTC34LM85AM Flat Panel Display (FPD) Transmitter
+               - ti,ds90c185   # For the TI DS90C185 FPD-Link Serializer
+               - ti,ds90c187   # For the TI DS90C187 FPD-Link Serializer
+               - ti,sn75lvds83 # For the TI SN75LVDS83 FlatLink transmitter
 -- 
 2.43.0
 
