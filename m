@@ -2,172 +2,176 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91647D3AB85
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 15:20:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 895CBD3AB89
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 15:20:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C7A210E28F;
-	Mon, 19 Jan 2026 14:20:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DACEB10E46D;
+	Mon, 19 Jan 2026 14:20:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="WOs3lDaS";
+	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="DvjNLEZH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11011018.outbound.protection.outlook.com [40.107.208.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DABB10E28F;
- Mon, 19 Jan 2026 14:20:25 +0000 (UTC)
+Received: from CWXP265CU008.outbound.protection.outlook.com
+ (mail-ukwestazon11020130.outbound.protection.outlook.com [52.101.195.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD99110E469
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 14:20:49 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ycl8ZvOEjkMFTNMNRm3aDOFR2u15apMVmA7LQbHP0PS7K0nMdlXbqA2tZNxYv/Y5ogYkCjR/tAowYOkU1IfD05IzBczdj/DxDN2jZxkyP97ep4fsK/yZ0MHKV8PVhXTmkIvcFkvhaPSOV1MbPiC7be7jMhKOnayucP5iRHMw8SFvMN+4M8yHiAXpJXg44oIWDVXKbFk/PGWQJIa8E+NjgHDnC5nufIMsjz2mh6MAAPzGii3ANnYrdLaRVuOgaHP/HWKlQ8OpnnmlmPgIABe3zReNMFi/MO00Rr36cTh3+8r8zZ/RP3HhskMzsq+BIMahWours7RtqRwrAayfjQI6eQ==
+ b=FwojydT818PIetopUfUVPZi18I23yzGtHWTo0HIjjlJoTRohy9EamiQ97h6KIUHiqp6tcM2tzHHfBfTqraPFq2m0Y+Jj1f1BfuraDQ70Me4ufSdUYbVbjrtYMIbrO8Nh8DL0k7iFgL+4x7RK0nAEqO5on5ZJi5VFkWCXyGjDSAODCQq2lciM3MRUnVrIhtkgQUFXugeqMZqX6SsV/HawAmBTjINQ1dwSB1ohRQg5kguFEE5Cw+0Dt0fw5e8gGR2fwOTWvFM/IRnOo11iVnCEeVOoq9/MC9rzUBmFza/Y1j8+Jy+09uLMgGh/sN93YLjijCG310P+LnSlBIHX/6oCow==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iCNnr7NUjm5/1nDgaPXZZoWC+17OmNd33pf1v65MhW0=;
- b=RgsVKqxbYMjwBbP8/ftRaE70cISRmSvgU9g4iEgN5cgtaoYm7MHOt4VnNHZSv8RrFm2IOt7TvFlgj/3LRVtLWQwUXbuS84NyZqjJJG7T/s+uck6UF+W5/aE/+2sOf7KERJz3dVh3ladhJaN5NZIaG8ZEowgy3UanXnNwzq+roi3ecDIRfJ8ZGnsqM1ICfDcXlocogovyrTKGgVijN0wv+Oj153u6s5VA6Yc4lc/KIyeB6ClEA/FoxBbgqmJtd65F6M6gUAemNGD5h5QdZz5DaMmH7aA5qpO0/dUmwbQJHgYCbCWo79pgK2fl6LJxDGZF2qYxHU1OgrlYh2aL0apCPA==
+ bh=j4IZdSsV4nvY2CIYd9yiCPF+inHDPdRhDc0D8ICyeKc=;
+ b=KkYuGf2ZJYwXVZem+6lP7X2zzxjzQyP2dTLFDUAMCU1Ea+FBjkmlKYlD9hYTmYkBAEDbcQUuQkF3DC3wndn0JzMbCOcIateG2CB0rFUSPfTmhg4KryewY75gYWAWch2ikpg/JN6wAvXemTcaBJZ9Rq0PFvi2Pd2HhKVot6Sm6vAQHrNwmdLXKkX9DPGiwtYgAGWSt9CPAaB/VwoQ5UuTr+cGLJervGRe3y8Ot5PUmUMtgtsA77ImgkfV1P2hxSRIfrPneEPsx2UfjjE3V0PSvGDk3FPzNhJ5JBDkd3+Tkbtw5d+iheq50wW0L9VVXmfRTzwZPGQU9pZQ7OBgQlcQeA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iCNnr7NUjm5/1nDgaPXZZoWC+17OmNd33pf1v65MhW0=;
- b=WOs3lDaSdVVavS74MwtJ5kHFM0FCdHYFjpJ9UXnq+E9vqLsC+kqQ1zmOhqVRgwY3S/u+u96CCccUYm5JYygbU2hMvxeaG8rR9oF4XagssFKpA3p2bhwZIs6FpMHRj2QAGMqNwDqskGRx9ZyS1FTplNLdhYmzqlceg0Put6YGD9izykKt6oRrrCVu1+NQX39W57w8vDfPd594kpWf2CUzdjvabK1t7gnEIVA0G2RUy5OQY+8KhChauk2Q6apH5yfHOcTXs/koEAl3v2qJA0th9euUL8+Fx+OOPG48wwjJuAbVnrHbsvhsXxftVqOpBUjBEdEdZ4WOve+laOIHFtt8ZA==
+ bh=j4IZdSsV4nvY2CIYd9yiCPF+inHDPdRhDc0D8ICyeKc=;
+ b=DvjNLEZHbIEsm2sdNB2DpV9TVDMP7hnZ+xdYQJbvag6WZbug6+j3S9guDghyFezBN4cRaIxsNYeiNDkKcQEPnk3vI/T22HrY9TBbhOAVZYVhSWfd4XOD/4alLSai9pZJZIuY3ttjESiHAZyDchJ7Hg9RZ3Ohns2VT/lDd7jEn5s=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by MN2PR12MB4488.namprd12.prod.outlook.com (2603:10b6:208:24e::19)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO2P265MB3594.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:1a3::12)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Mon, 19 Jan
- 2026 14:20:21 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::1b59:c8a2:4c00:8a2c]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::1b59:c8a2:4c00:8a2c%3]) with mapi id 15.20.9520.011; Mon, 19 Jan 2026
- 14:20:20 +0000
-Date: Mon, 19 Jan 2026 10:20:19 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Alistair Popple <apopple@nvidia.com>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Balbir Singh <balbirs@nvidia.com>, Vlastimil Babka <vbabka@suse.cz>,
- Francois Dugast <francois.dugast@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Zi Yan <ziy@nvidia.com>, adhavan Srinivasan <maddy@linux.ibm.com>,
- Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
- Andrew Morton <akpm@linux-foundation.org>,
- Leon Romanovsky <leon@kernel.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, linuxppc-dev@lists.ozlabs.org,
- kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-mm@kvack.org, linux-cxl@vger.kernel.org
-Subject: Re: [PATCH v6 1/5] mm/zone_device: Reinitialize large zone device
- private folios
-Message-ID: <20260119142019.GG1134360@nvidia.com>
-References: <20260116111325.1736137-1-francois.dugast@intel.com>
- <20260116111325.1736137-2-francois.dugast@intel.com>
- <20260116174947.GA1134434@nvidia.com>
- <8006ea5f-8845-436a-a2d7-125399428762@suse.cz>
- <aWqgHTZ5hjlRvlKU@lstrano-desk.jf.intel.com>
- <20260117005114.GC1134360@nvidia.com>
- <aWsIT8A2dLciFvhj@lstrano-desk.jf.intel.com>
- <eb94d115-18a6-455b-b020-f18f372e283a@nvidia.com>
- <aWsdv6dX2RgqajFQ@lstrano-desk.jf.intel.com>
- <4k72r4n5poss2glrof5fsapczkpcrnpokposeikw5wjvtodbto@wpqsxoxzpvy6>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4k72r4n5poss2glrof5fsapczkpcrnpokposeikw5wjvtodbto@wpqsxoxzpvy6>
-X-ClientProxiedBy: MN2PR14CA0007.namprd14.prod.outlook.com
- (2603:10b6:208:23e::12) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.9; Mon, 19 Jan
+ 2026 14:20:44 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9520.011; Mon, 19 Jan 2026
+ 14:20:44 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 19 Jan 2026 14:20:43 +0000
+Message-Id: <DFSMRQFIYQPO.1A38Y84XZ1GZO@garyguo.net>
+Subject: Re: [PATCH v3 1/3] rust: clk: use the type-state pattern
+From: "Gary Guo" <gary@garyguo.net>
+To: "Daniel Almeida" <daniel.almeida@collabora.com>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Viresh Kumar" <viresh.kumar@linaro.org>, "Danilo
+ Krummrich" <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Drew
+ Fustini" <fustini@kernel.org>, "Guo Ren" <guoren@kernel.org>, "Fu Wei"
+ <wefu@redhat.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ "Michael Turquette" <mturquette@baylibre.com>, "Stephen Boyd"
+ <sboyd@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
+ <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>
+Cc: <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-riscv@lists.infradead.org>,
+ <linux-pwm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260107-clk-type-state-v3-0-77d3e3ee59c2@collabora.com>
+ <20260107-clk-type-state-v3-1-77d3e3ee59c2@collabora.com>
+In-Reply-To: <20260107-clk-type-state-v3-1-77d3e3ee59c2@collabora.com>
+X-ClientProxiedBy: LO4P123CA0524.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c5::9) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|MN2PR12MB4488:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0090533b-3dc0-4c52-06ad-08de5765e0b5
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO2P265MB3594:EE_
+X-MS-Office365-Filtering-Correlation-Id: 52255224-0e98-4ce6-02a8-08de5765ee8c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|7416014|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?LoEN0bw0YS9QODI+HLd0i6RV+fi6M6ZIgolk8Cp/x2iU3hTg6SdG4YBbK/FV?=
- =?us-ascii?Q?4XxBQkFRFBB9vsupBtulHg3ykdXtq/ECXZErkIsTBjPLHPjrvXTf9wsLX30E?=
- =?us-ascii?Q?dywWvmrtumGTm+ETZ1+oi1XJr49Ldlz/4PJJgM28WcNd65e1cYpl+3H/2VgU?=
- =?us-ascii?Q?9L0bhblRGA1EnjeQVLvQYTIC/mkGT48As0ggBg+ce0kjp45P9Kst6pljBCDJ?=
- =?us-ascii?Q?NTIxZDc7LCXcVbn8TAd7WpkOt/j7L7CZxSo+wySNtD6zdEm9ldjuc4n3U4al?=
- =?us-ascii?Q?bdg5FB+eIqzzaF1IK14AuRQfwwSS3BR4KvSDLN6hLitY07Wol3wWukktEaQH?=
- =?us-ascii?Q?J9yUWZUWHs37y7VB7fFJa1lWC+maXewmkSfl8XSizNxLpxX4KpDccAS3KInH?=
- =?us-ascii?Q?NPFEaznPHnmupRP/RiFxLFq5NsaopXC2ClzWhRzwOtG/eRomtcHOd+NLEcLQ?=
- =?us-ascii?Q?J0Bm1uugInxcGkCFwoVyN0XkCF6JGAjUTLzsYVzgGgHV7eUi0KZ+IFICAO9u?=
- =?us-ascii?Q?3+ILL+Sd+EkbOOuMuq/rPZbc5Kpn25mP3C5+kRdp2gwzV7gE5K8p3omWFZP1?=
- =?us-ascii?Q?NFRPlJdmDOlLQ08KAy312GXQntpHb94Hr4zAP8THNOgMvr1r7KifTDkqZtST?=
- =?us-ascii?Q?hMLJI9RaSopGF6hI5vLN0rEOYbjM8ttLNMvrBt+eeZ9qGANbfXPmKPt48yud?=
- =?us-ascii?Q?wuGJT1+aswfYzqI6p+DlmLFMPc4wA1N259paS8Bq6ebyI5vyaqJcr2nFzYjC?=
- =?us-ascii?Q?wEuIuuORj0cfg5weZxNrcUWhRiG5RvzqJk930ghPpXdS/sfBhWkJrghAsZbL?=
- =?us-ascii?Q?tRkaneE34K/3d05Yp3X9Kl52LxxCbeP7qNGsRnK8GW0zFCw4je8WGqqbeIKm?=
- =?us-ascii?Q?zcrSxjgdS323Eu4CQxbZzY0XNoDr4LpIiOjgT1/HEEO63fvQOdX/dIFnCtng?=
- =?us-ascii?Q?2OlxaY6xNrL8SXnFHTr5oVsHfy36wPajkmY7R7gjG3Ms0TZchqX8VbDR0fwP?=
- =?us-ascii?Q?NFyd5oVysHwqHS6fP5ZjhAEeRCsjClZzDepVq50bW5lVJKms95aL9An6dEKw?=
- =?us-ascii?Q?1xPOGcWXd9U0dcGVk63EU82ol0tDhvkgjdUM91W/A5QnteqCcHscB2Zy2NQY?=
- =?us-ascii?Q?Zzx7tdcJfJpz4nc00l5Y0ub49C81OBAtwj0A5fx4F02cNCE4fwtsxah53OLg?=
- =?us-ascii?Q?0yDJinRE2mNoKIqt7WtvN+rDnmV+eCEMnhAZkhCiUh3zk8TbSjOmvWEJmyLI?=
- =?us-ascii?Q?4DFOv6cVyx4J7MmQNPpD5d6AfIEt30MgMaSVulWTivxnDM9rZjPrbNdffTi8?=
- =?us-ascii?Q?7u6UO9H0SbwdQDsEk1+2nfOO63dzWZVC/mXU5fgr17v4pI/HSQwwxkoOPV2D?=
- =?us-ascii?Q?F6dMQdxh1V1ZesfBn0DSQksdD6FPwFhROjlPfCdTN2RDKQ3lgYBOUpwnmpi/?=
- =?us-ascii?Q?ZtAFWXRRMvHtso5G+IVdikW4jKZ/ozZZ6nC0VSGB8uO5V9lEqTyrZN3Wm/oe?=
- =?us-ascii?Q?MSN3vw8Z4rvjll3x7MX0QZQaMsGkYdtI/5qbuS99AggxCjdLrzXstASv0YJg?=
- =?us-ascii?Q?eDBF9XWFfZcr9VOqkzM=3D?=
+ ARA:13230040|10070799003|1800799024|376014|7416014|366016|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?czV1Wmh0QUNLY2Z5QUtYUVZxeWl5aFhtZEtSbDRTZEtTVDZkWVlOVW9QOUoz?=
+ =?utf-8?B?NHEvZ1lHWnh0ell1R2VEeGsyNjU1b2U2d2RVWk1nSkFaZVRWbnZlT3pRV3lo?=
+ =?utf-8?B?V3pMcDlpMUsyRzdVZTA1QnJzekJ5cXIyWk9wWFExK1NVLytodzhqOGxjQTVX?=
+ =?utf-8?B?WmRBVWx3QVgxZVNJT1hPcjF2UWgwRjFNSkU3Q2VDREFvbVRXZndJR0lTY1JP?=
+ =?utf-8?B?YmovOTl6aVkwaG85RWtUcWpRbGdKU2VhaEJJTE9jazhtUENtM0xyaVlKdUQ1?=
+ =?utf-8?B?TjZzNk5hQUtMRkZlRTQ5cU5LcjdVcHU5SEVCNlFlaEx2TU50NDZmWDdrSmFU?=
+ =?utf-8?B?QnlLYVg5QXVybUZJSE9RSFQ3cnJlZHZ0bENObmZyOFlRRTBXcHM0YThvcDVr?=
+ =?utf-8?B?NGdzMzNEWjZiSjBMQjkyZWxQUUUwMkcrVDZQUzdNZ24rOFNvZGhmdUZGSEFx?=
+ =?utf-8?B?dXdKQjdxcEY5N0lSQUFhMW1id2FTZzQ5VXdGa2c5aGxkMkNYd21WbSttTHM2?=
+ =?utf-8?B?ZHN4Q2J3c2RCR2w5ZHFoRDNlUVE3VFk0YlFtbVhMRjh1c0tBdWgxWm9VOVlO?=
+ =?utf-8?B?R1VOOHhVa2wzOUhrZ05QcSs2UHpQUlYyYk5DQnpQdXlpQkhYNTVJa1M3L1pk?=
+ =?utf-8?B?ejQvMmpIaHh6ckcvVjV3UW1DRURJUmpSeUw5U2kvUFlHZUdKeUszZHpDUXJO?=
+ =?utf-8?B?RDR1ZDRNNkNLcmE2Z3Z4VTF2ZzZUNm0yU0lacytkaFp2anRxSHVWTDZvZEZp?=
+ =?utf-8?B?WjEwVTl1WExYRUNjcmIxbmRHdnlyOTBwWFgrTnJsakZ5N2pwMkhTRmthSE5R?=
+ =?utf-8?B?ZGRCWm5uU2U5bDJzMWgzeEF5S1U5ZU1oYkttU2M3Ukx2QllPVFdCYWdUTEpI?=
+ =?utf-8?B?aVlvaURud0U4Rk5yMXg2UG9kcTdYOTJLWG45UzNiVGp0NDhOMXVwKzNRUTll?=
+ =?utf-8?B?K1VnWHBxVFlyRjhnR2o5NG9uald3a3NNdWhkczE3OEVCcERtdjhITk1RTk9n?=
+ =?utf-8?B?eGJsUEZEVWt1alBIMHVDRWtYRVBsY2JCdXZWV0pERVBHUjFXSmRlWkhpVUdj?=
+ =?utf-8?B?L0JwNXlmckN5WW5lK3NzU1N0U1lhUXNuRnJlTCthalFCamhWUmZnMEVydEE0?=
+ =?utf-8?B?L2ZQWTdTQnBIdDZUTGhmYlZRU3dqa1RlQ011eitkeWtaOXJ1Y0krYUdrVGRQ?=
+ =?utf-8?B?dUNXV2EzY3F4b1R2ZFV6MnpONEUxS250N2VqSWZnNUcvTWhKdExRMmNLNCs3?=
+ =?utf-8?B?TTkvMDd3UlEyRnROSEY0cEpIUmlFeGJVSmJhTzd6eTlGdFFNSk0zNDlLZlpy?=
+ =?utf-8?B?WTZjVmdlY2Q5cXpqNW5DRjRXUG45bjZyYkd4SFhsV0xqS2xabnp1ZDhjQ1pa?=
+ =?utf-8?B?Wm40OUVyMnZ4VFdwTVZOa2NLMEhJczJoellycS9wS1QwUWhTQUJZVmJ3aGtM?=
+ =?utf-8?B?YVJoQzRZM1lUd05nWHZnK21MWGh5akRxdUU2ZmUycS9EZk9yN2NURjFKQzJ4?=
+ =?utf-8?B?NU44aEZVVmZYSEpPdzgwWHRTb1JOWFB3alhXQzhxYmZMVG9paGJXUTdOVHg3?=
+ =?utf-8?B?TGtqNEhiZk1lcUkxdXh3UXN0bkM0Mk13OTNMTlErMUNaSnhPbi8vVit3M1hU?=
+ =?utf-8?B?UWx6OWJ4RnlDb0UrN2l4TENjdmZVdmxtYUNrYWE3Nmp3Yzl5Q0l3NFJXNFNY?=
+ =?utf-8?B?bzdKQWozd0hwOEZtRHd0bDJobmVVaW5UK3lrTHoxTVBTWk9mRDJHSHBsVURV?=
+ =?utf-8?B?VjE1QnlvNFNwbjFOZDl4Qmt2cGRSWDVubGw1SlU5RklheVJhWlkydkFIQkNP?=
+ =?utf-8?B?SEtwVmlMSml4elBuSnZCcGJRcHdDWHJ2NUxMZHBwWk1NMjZzRWVMZG9RcjNC?=
+ =?utf-8?B?bWV4N29SRnliN3VLd1VnV0R5cFdHMlhHOXQ4QWpMREZHQXZCZll0RGR2Y1VF?=
+ =?utf-8?B?dTYwN083OE9oeUZMTUowdEwzd3ZyWkNhWFkrV1NBYnI3NWZWOEtRMkNOcE91?=
+ =?utf-8?B?alFpd2d4Ry9LbjYvL3R2TUtvNFB5SUVxTVRDTVBQVm9URlo1VUNlbHdxanlE?=
+ =?utf-8?B?UEIrNy9JMjJvUFE0cWxlMFdoRGZGSk1IaG9xYjQ2SXlEdWtWMnBlVXVlaUFH?=
+ =?utf-8?B?WXRCNVdIMFVHeXpXYkRKTENERVJDUTE2cGxZS1NkdFQ1a3BRUXlpMFVuWHYr?=
+ =?utf-8?B?NlE9PQ==?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV8PR12MB9620.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007); DIR:OUT;
- SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(1800799024)(376014)(7416014)(366016)(921020);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yZiOPg9xsIusNXWKYrcMlAkd//pisBeQtzjIy2wQNOxFeT3S213+qnBqdP9o?=
- =?us-ascii?Q?kq7jOOLSRZx25oVCQCu/WjAALBMNcUmI2tP+IMdruuEzvY2i9t9nhFbxFa+U?=
- =?us-ascii?Q?momjG4yGw6KQJpwKgdUPEFlJeXzYDc8VaxZRrlF4UKqj5IoPZyHjcQ/rK0nQ?=
- =?us-ascii?Q?UEltPwKfduUif1w+cdZCv1VIxDrUaH4n0pwdX6EXagIq016+qsxivTZmT/p7?=
- =?us-ascii?Q?1g0v8a3/p+X8M/lwsxBsp+lya2ME4t8Mh/S1SU10oq2Xt16YKQinooCYni+b?=
- =?us-ascii?Q?KtclZPVuFTxzWhE+0RykC+3I3Gg0Vz9zMjM1ou5Pf7S7vzucZlcNZSdq6w6q?=
- =?us-ascii?Q?HSNEYIaUzfhBwCasBKOpcMa2+cfwf1JPFFUkElgxU+n2iGpxhJ+Hn5ZCBVWS?=
- =?us-ascii?Q?t4o8UXtniK4HaKj+gpmqZSbp7B34WmpqBSkb8BICDpjoyiGWNzaKWNCQhzL0?=
- =?us-ascii?Q?IzOjIFH+lSY9pMx1YJWJQ7Zm0Y5nazVffDDYgKsc96ydzIeu05+6Q4tZdmWZ?=
- =?us-ascii?Q?8mVhP8+byWqLUh3YDpPtP3Hrm8/M3wAYvmgtBWhaQFq4l+rw3CTlhlKu75gs?=
- =?us-ascii?Q?UyDOTnJBH6OF0q0Vgn5gHlSmfV9pz7jW60s9aodTaYg+tAz9dbZKRemTxjmZ?=
- =?us-ascii?Q?50yaI7tg7/+H5tOf/Qhs3w1N5KMY/8L87e6YXnhgvdvk5Rc6nAF6+roeUtEb?=
- =?us-ascii?Q?o9alh4qEd6V/2FDw49/jUVO4xCMGoY65lYCRlfFbFVPM6pMCGHakxPDa6he0?=
- =?us-ascii?Q?r8nX9erU4mfd7pWZOJJi40DHFEOXkrVp02qIDiK5rzeYEcINFfBmFP32hdWR?=
- =?us-ascii?Q?seXcCBuP25wss4QFsJrYL7zUOacbFBhIvV2RfWlRQrvpHE1aazGRCaBqHgR4?=
- =?us-ascii?Q?tbchTcPj80EDEwjSu8m+OZqma5xd4U3RRZguQGYKuwyDY4LqylGj5Z75xE/n?=
- =?us-ascii?Q?aIauAR7mf6HV3cUPpTAEWMJx8k43GJW0CSYKFkhlpMb4ttpZZ+lnqR1lVYOJ?=
- =?us-ascii?Q?+bQbx3FrMDDd7lEkcF0Byb5eLcMVtm0704dLyxvwAnz8obvDbao1N1iMGftO?=
- =?us-ascii?Q?rEy+SI6haRBNrOp6S6yAXhybstydtKLMMtKiYkD2c2l9doYX/tS9RbuQW6bR?=
- =?us-ascii?Q?b3yjyfPmnIQcfICdNX9rPDF3Luxu08DsDWywoHWMdoQZZr7dnkwufkNWQdch?=
- =?us-ascii?Q?8GEnyh2jGviWKEvWU1/rYr8Epz4GDUG7tvZgFHRUfMo+TdyWXjeAsvcpgipv?=
- =?us-ascii?Q?qvJDG49waxkLEssgVN2VmDwyFtYqD3/quxpMh2VuM/zYU1UXo273rNyHxxvR?=
- =?us-ascii?Q?4xcU4OkXhJirZP7Y/4Vr6804tLKJp+Y/ROfDXtySzVphxrVThAGmWa3NcEOW?=
- =?us-ascii?Q?0kqwvHhEExrPKXQUwl0yFI3MQQBkt/POI3rvaZnUObQl1eIRmf9ZZLM28wG2?=
- =?us-ascii?Q?vCABytuzxpK3B/UVNiVhjKI5Ie0J9aZl+zsyDli0KAztNlvkSEaJIWlqDwqc?=
- =?us-ascii?Q?Q6WwTbS/F3ThoKEGoOBTg5rTgqUkgsVIR/RAkpC1HL1/REoS6tY/B0rMpm4E?=
- =?us-ascii?Q?41tgJ2YvnLFRXOwgf8t+VPo7fdk9Jn0dW8LVLNQu8LfcGJqKNAoLqq6XxTlo?=
- =?us-ascii?Q?pgx+9ec4tTah96exu50roD1tAUYXhoHtSZkxBpaWXkpq8oTolgJp/3CO/ynM?=
- =?us-ascii?Q?qEnr32tqo5VNwPbWmOvuXDoEVqtaWtDy7LxCVu1DvKC1Mkqj?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0090533b-3dc0-4c52-06ad-08de5765e0b5
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q0xPSDdQbmRrcjlzY3dFaHh0MXBoeTY5S21MaHluOE1iVW16Q0I0YVJscEtv?=
+ =?utf-8?B?a25abk4xWGpHK0g0Nkk3alVHWFZ6ZEN5NDd4QzMreFJ5ZE1ROG9aaDc2UmZO?=
+ =?utf-8?B?d2lMUTdQbi9HK1BEUWJsM0NCd1c2Z010N3BHWC9SZlI0N01nTTFCZUFhWU5X?=
+ =?utf-8?B?eUwrRjBBREcvQ3NGK1dIdEEvVnlmS2lQOHJTS0gwbHp6RDZXbmpsQU4rOHFX?=
+ =?utf-8?B?dWhFZU9KRVpnTTB0VjU1aytTMG9BdHRHUlh1UW4xWTE1Mi9IcTBMZUNoUTBT?=
+ =?utf-8?B?b0lEeTJQMnA2VzFvNHRkOTJxaEJyNnl2L1IzQlhTQy85aXcrV3lGbWtkbmxN?=
+ =?utf-8?B?VHkzeXJyZlZsQjk1ZThCL2xPbHV2RDFtMTk5VWNCUzU5a3RYYjQrMWFZZFNF?=
+ =?utf-8?B?SXQ3dGFlUjJ1K0podXUycXRHRFVyMS9kd1NIYW1qaFNYQ1U2NjlCS2NoYjRH?=
+ =?utf-8?B?MmZ0MDJqZmFqVGNKNWU4WmVBbGZiTWNJWDQvYUJyekRCa3h2QmVqRVpEVXhR?=
+ =?utf-8?B?enFCY1I2TDZqNFI3c2JIbW9HYThkVGxqY0RCMDZQUmFzWWhTaVhuOWNYMFl5?=
+ =?utf-8?B?QzFjVDBnTUdKYUFvRXRsYmZiWVhUZjNXZFh1UGxrZUxpS1hTWGNiNGJ5RzRl?=
+ =?utf-8?B?cHJBL0w0VkRYK2t4ckhnMXdraytQR284Z0tsN1UxNWIrRE9PZnJZZVYzZXYw?=
+ =?utf-8?B?djAxbmpncENqeHZWSU4xUDJWYWVnbi9WcmU3aythREt2MmI5ZVF0SVcwMnNq?=
+ =?utf-8?B?cHpTK1JLcFlpT2d2eFRsdEhRcVFuRWhwSTlNREEwdUx1b25ydFlraURXY2NK?=
+ =?utf-8?B?aThZSGx4SFgxdlVBeEhWWjR4T2dmUjB4L1kwUWZXVHZtTzBlSnVFdjlnMkYr?=
+ =?utf-8?B?NVZ1Z0F6Y0xSYXZFOEJKMDlJUzRUbEJmSkMxTVV6bGZEcVR5NEIyckFzTGM0?=
+ =?utf-8?B?WTVKaVhFa21iMGZmOU05Ty9JMjNNMmxGcHZDQWJwdWNjRHdxUkZ4WUxKYW5k?=
+ =?utf-8?B?Q21VMWNOWTgxZzViWmJkZENRZWI0T2tVMVdmLzJUMjYxdFRwVVR5TkNvN1Iv?=
+ =?utf-8?B?UUE1RGQ1dXIzbERtdVhBUmhDVllLL0ozVXc0cDZaOEZFWlBOaUh0aGdGZGJZ?=
+ =?utf-8?B?ZUNzMnVGbVp5bEtUbjZHSUpUZWlWejFUcnV6ek90aDJxOTg0R2Z6dkMxYjJn?=
+ =?utf-8?B?WjBDcE9RUkE4dXFvd08zeGVZNHpRQmNHZFJJeVBuSzh6bStzRUVVUFEvVGpB?=
+ =?utf-8?B?SlZOelViWHV6ZUJmMDdPcWhlNDEyU0cvWUIrQ2JKSHUwdVVua05VWVFHWUlo?=
+ =?utf-8?B?a216ZGxnMndaOUI2ZkZRajFqMmVRVVNhWlY5YnRNc0NkSWtnYjB1clFVbWlX?=
+ =?utf-8?B?Lzg1aXo3R3JCUG9jY2preTVDRFdkVEREUlg1R0RLb0dKdnlzai9CQlpkOE1R?=
+ =?utf-8?B?VVRoS2dsaDJIZnVBRkRsNVN2ZFJWZ0VMMVBpamxlT1JqUnVQTWlBQlg1Qndj?=
+ =?utf-8?B?cGQ0NzNiVnlZbkwwN1JGbE9xTHlwKzRYS0FUaEQrdVhZZDdXQXJaRnA5NUl6?=
+ =?utf-8?B?eDBkOGNxdTFjUlBuSnJsN212M3Z3QkJqRmFqaC9UODhJYk81a0hGcjBEL2Fh?=
+ =?utf-8?B?QVVFSWVubmxqZWxLOUJJZGFsSXh1eCtUU29CUnJYVmtOZm94YmRwRDRObVRz?=
+ =?utf-8?B?TExCaGQ1ZlQvL2hBcUhZdGNQc0dtSHpWTzFaUGJjbzJtVTYwc0dpdzdKb2VE?=
+ =?utf-8?B?NlZpUWI2LzI1V05Wbm9BMW9EMllCeGUzUVV4dUE4Vmp2NG1iMUROMHQyVGdK?=
+ =?utf-8?B?RkdNRTFSZlRnYTlQTGhWU3RpcmRmKzhacFdTWXZGdjN5cjFjNFk3NGgyMm0x?=
+ =?utf-8?B?bk5jeW9pZ0dXckR6SDhNR2RlTTAyRWRWSU5uM3lnU0hkQ0w2RnA5NGJZZ1I3?=
+ =?utf-8?B?cHZBSDVUNkx6WXNJcHZYSm4wb0JuTGlLYUM2UE4zUFVWMVBIMjBEOHUvTFlE?=
+ =?utf-8?B?S0V6aGZQaThIRnR1TDZvNUtqV0xKbGFPS2hQWnp1Q1gzZUkrYnVUdXJsUDEx?=
+ =?utf-8?B?STZnQ3ExM2k0UEJGaTBueG5haTNGQlp5UXc2L3dQQ3BNQVlqYVdqNGthNUl5?=
+ =?utf-8?B?UWR1T3BjdkJTaWp2ck41RkIwOVdiaFdSZG53dENiUmhkK3RlcTBvbXY3OXhi?=
+ =?utf-8?B?VUkrbXZ6bUNUYXBpc2ZRRFl3WUhlT3VmMHJLZGh1dEtBZ29YUWhpNzlEZGEw?=
+ =?utf-8?B?WEoweGdCWFhvcy9KenMxdlNxMmJ1a01aNFQ0N2ladTNRdDhSZy9HWWJsYlRY?=
+ =?utf-8?B?Z1ByOW9Bc0FUbUZUL2NhdkFLSTkrSkIyRWJMNmtBWG5Fa0VsSTRtZz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52255224-0e98-4ce6-02a8-08de5765ee8c
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2026 14:20:20.9107 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2026 14:20:43.9435 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0TOulGg/0Qeus+stAinh5JODxd5DbewXniOsPQ6m+fCqqlLgh67kJabR2vwgZZ1+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4488
+X-MS-Exchange-CrossTenant-UserPrincipalName: kltzRxpGrd/OsqgdfbRfN0xAZf0u55tK0fQjSVbJJLIQCwIgvq/xzJ6HuxVZbJaPAsI85XZMH1yo21+ROv47EA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB3594
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,153 +187,321 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 19, 2026 at 04:59:56PM +1100, Alistair Popple wrote:
-> On 2026-01-17 at 16:27 +1100, Matthew Brost <matthew.brost@intel.com> wrote...
-> > On Sat, Jan 17, 2026 at 03:42:16PM +1100, Balbir Singh wrote:
-> > > On 1/17/26 14:55, Matthew Brost wrote:
-> > > > On Fri, Jan 16, 2026 at 08:51:14PM -0400, Jason Gunthorpe wrote:
-> > > >> On Fri, Jan 16, 2026 at 12:31:25PM -0800, Matthew Brost wrote:
-> > > >>>> I suppose we could be getting say an order-9 folio that was previously used
-> > > >>>> as two order-8 folios? And each of them had their _nr_pages in their head
-> > > >>>
-> > > >>> Yes, this is a good example. At this point we have idea what previous
-> > > >>> allocation(s) order(s) were - we could have multiple places in the loop
-> > > >>> where _nr_pages is populated, thus we have to clear this everywhere. 
-> > > >>
-> > > >> Why? The fact you have to use such a crazy expression to even access
-> > > >> _nr_pages strongly says nothing will read it as _nr_pages.
-> > > >>
-> > > >> Explain each thing:
-> > > >>
-> > > >> 		new_page->flags.f &= ~0xffUL;	/* Clear possible order, page head */
-> > > >>
-> > > >> OK, the tail page flags need to be set right, and prep_compound_page()
-> > > >> called later depends on them being zero.
-> > > >>
-> > > >> 		((struct folio *)(new_page - 1))->_nr_pages = 0;
-> > > >>
-> > > >> Can't see a reason, nothing reads _nr_pages from a random tail
-> > > >> page. _nr_pages is the last 8 bytes of struct page so it overlaps
-> > > >> memcg_data, which is also not supposed to be read from a tail page?
-> 
-> This is (or was) either a order-0 page, a head page or a tail page, who
-> knows. So it doesn't really matter whether or not _nr_pages or memcg_data are
-> supposed to be read from a tail page or not. What really matters is does any of
-> vm_insert_page(), migrate_vma_*() or prep_compound_page() expect this to be a
-> particular value when called on this page?
-
-This weird expression is doing three things,
-1) it is zeroing memcg on the head page
-2) it is zeroing _nr_pages on the head folio
-3) it is zeroing memcg on all the tail pages.
-
-Are you aruging for 1, 2 or 3?
-
-#1 is missing today
-#2 is handled directly by the prep_compound_page() -> prep_compound_head() -> folio_set_order()
-#3 I argue isn't necessary.
-
-> AFAIK memcg_data is at least expected to be NULL for migrate_vma_*() when called
-> on an order-0 page, which means it has to be cleared.
-
-Great, so lets write that in prep_compound_head()!
-
-> Although I think it would be far less confusing if it was just written like that
-> rather than the folio math but it achieves the same thing and is technically
-> correct.
-
-I have yet to hear a reason to do #3.
-
-> > > >> 		new_folio->mapping = NULL;
-> > > >>
-> > > >> Pointless, prep_compound_page() -> prep_compound_tail() -> p->mapping = TAIL_MAPPING;
+On Wed Jan 7, 2026 at 3:09 PM GMT, Daniel Almeida wrote:
+> The current Clk abstraction can still be improved on the following issues=
+:
 >
-> Not pointless - vm_insert_page() for example expects folio_test_anon() which
-> which won't be the case if p->mapping was previously set to TAIL_MAPPING so it
-> needs to be cleared. migrate_vma_setup() has a similar issue.
+> a) It only keeps track of a count to clk_get(), which means that users ha=
+ve
+> to manually call disable() and unprepare(), or a variation of those, like
+> disable_unprepare().
+>
+> b) It allows repeated calls to prepare() or enable(), but it keeps no tra=
+ck
+> of how often these were called, i.e., it's currently legal to write the
+> following:
+>
+> clk.prepare();
+> clk.prepare();
+> clk.enable();
+> clk.enable();
+>
+> And nothing gets undone on drop().
+>
+> c) It adds a OptionalClk type that is probably not needed. There is no
+> "struct optional_clk" in C and we should probably not add one.
+>
+> d) It does not let a user express the state of the clk through the
+> type system. For example, there is currently no way to encode that a Clk =
+is
+> enabled via the type system alone.
+>
+> In light of the Regulator abstraction that was recently merged, switch th=
+is
+> abstraction to use the type-state pattern instead. It solves both a) and =
+b)
+> by establishing a number of states and the valid ways to transition betwe=
+en
+> them. It also automatically undoes any call to clk_get(), clk_prepare() a=
+nd
+> clk_enable() as applicable on drop(), so users do not have to do anything
+> special before Clk goes out of scope.
+>
+> It solves c) by removing the OptionalClk type, which is now simply encode=
+d
+> as a Clk whose inner pointer is NULL.
+>
+> It solves d) by directly encoding the state of the Clk into the type, e.g=
+.:
+> Clk<Enabled> is now known to be a Clk that is enabled.
+>
+> The INVARIANTS section for Clk is expanded to highlight the relationship
+> between the states and the respective reference counts that are owned by
+> each of them.
+>
+> The examples are expanded to highlight how a user can transition between
+> states, as well as highlight some of the shortcuts built into the API.
+>
+> The current implementation is also more flexible, in the sense that it
+> allows for more states to be added in the future. This lets us implement
+> different strategies for handling clocks, including one that mimics the
+> current API, allowing for multiple calls to prepare() and enable().
+>
+> The users (cpufreq.rs/ rcpufreq_dt.rs) were updated by this patch (and no=
+t
+> a separate one) to reflect the new changes. This is needed, because
+> otherwise this patch would break the build.
+>
+> Link: https://crates.io/crates/sealed [1]
+> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+> ---
+>  drivers/cpufreq/rcpufreq_dt.rs |   2 +-
+>  drivers/gpu/drm/tyr/driver.rs  |  31 +---
+>  drivers/pwm/pwm_th1520.rs      |  17 +-
+>  rust/kernel/clk.rs             | 399 +++++++++++++++++++++++++++--------=
+------
+>  rust/kernel/cpufreq.rs         |   8 +-
+>  5 files changed, 281 insertions(+), 176 deletions(-)
+>
+> diff --git a/drivers/cpufreq/rcpufreq_dt.rs b/drivers/cpufreq/rcpufreq_dt=
+.rs
+> index 31e07f0279db..f1bd7d71ed54 100644
+> --- a/drivers/cpufreq/rcpufreq_dt.rs
+> +++ b/drivers/cpufreq/rcpufreq_dt.rs
+> @@ -41,7 +41,7 @@ struct CPUFreqDTDevice {
+>      freq_table: opp::FreqTable,
+>      _mask: CpumaskVar,
+>      _token: Option<opp::ConfigToken>,
+> -    _clk: Clk,
+> +    _clk: Clk<kernel::clk::Unprepared>,
+>  }
+> =20
+>  #[derive(Default)]
+> diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.r=
+s
+> index 09711fb7fe0b..5692def25621 100644
+> --- a/drivers/gpu/drm/tyr/driver.rs
+> +++ b/drivers/gpu/drm/tyr/driver.rs
+> @@ -2,7 +2,7 @@
+> =20
+>  use kernel::c_str;
+>  use kernel::clk::Clk;
+> -use kernel::clk::OptionalClk;
+> +use kernel::clk::Enabled;
+>  use kernel::device::Bound;
+>  use kernel::device::Core;
+>  use kernel::device::Device;
+> @@ -37,7 +37,7 @@ pub(crate) struct TyrDriver {
+>      device: ARef<TyrDevice>,
+>  }
+> =20
+> -#[pin_data(PinnedDrop)]
+> +#[pin_data]
+>  pub(crate) struct TyrData {
+>      pub(crate) pdev: ARef<platform::Device>,
+> =20
+> @@ -92,13 +92,9 @@ fn probe(
+>          pdev: &platform::Device<Core>,
+>          _info: Option<&Self::IdInfo>,
+>      ) -> impl PinInit<Self, Error> {
+> -        let core_clk =3D Clk::get(pdev.as_ref(), Some(c_str!("core")))?;
+> -        let stacks_clk =3D OptionalClk::get(pdev.as_ref(), Some(c_str!("=
+stacks")))?;
+> -        let coregroup_clk =3D OptionalClk::get(pdev.as_ref(), Some(c_str=
+!("coregroup")))?;
+> -
+> -        core_clk.prepare_enable()?;
+> -        stacks_clk.prepare_enable()?;
+> -        coregroup_clk.prepare_enable()?;
+> +        let core_clk =3D Clk::<Enabled>::get(pdev.as_ref(), Some(c_str!(=
+"core")))?;
 
-It is pointless to put it in the loop! Sure set the head page.
+Ah, more turbofish.. I'd really want to avoid them if possible.
 
-> > > >> 		new_folio->pgmap = pgmap;	/* Also clear compound head */
-> > > >>
-> > > >> Pointless, compound_head is set in prep_compound_tail(): set_compound_head(p, head);
-> 
-> No it isn't - we're not clearing tail pages here, we're initialising ZONE_DEVICE
-> struct pages ready for use by the core-mm which means the pgmap needs to be
-> correct.
+Any disadvantage on just ask the user to chain `.get().prepare_enable()?`? =
+This
+way it is also clear that some action is performed.
 
-See above, same issue. The tail pages have pgmap set to NULL because
-prep_compound_tail() does it. So why do we set it to pgmap here and
-then clear it a few lines below?
+Alternatively, I think function names that mimick C API is also fine, e.g.
+`Clk::get_enabled`.
 
-Set it once in the head folio outside this loop.
+> +        let stacks_clk =3D Clk::<Enabled>::get_optional(pdev.as_ref(), S=
+ome(c_str!("stacks")))?;
+> +        let coregroup_clk =3D Clk::<Enabled>::get_optional(pdev.as_ref()=
+, Some(c_str!("coregroup")))?;
+> =20
+>          let mali_regulator =3D Regulator::<regulator::Enabled>::get(pdev=
+.as_ref(), c_str!("mali"))?;
+>          let sram_regulator =3D Regulator::<regulator::Enabled>::get(pdev=
+.as_ref(), c_str!("sram"))?;
+> @@ -145,17 +141,6 @@ impl PinnedDrop for TyrDriver {
+>      fn drop(self: Pin<&mut Self>) {}
+>  }
+> =20
+> -#[pinned_drop]
+> -impl PinnedDrop for TyrData {
+> -    fn drop(self: Pin<&mut Self>) {
+> -        // TODO: the type-state pattern for Clks will fix this.
+> -        let clks =3D self.clks.lock();
+> -        clks.core.disable_unprepare();
+> -        clks.stacks.disable_unprepare();
+> -        clks.coregroup.disable_unprepare();
+> -    }
+> -}
+> -
+>  // We need to retain the name "panthor" to achieve drop-in compatibility=
+ with
+>  // the C driver in the userspace stack.
+>  const INFO: drm::DriverInfo =3D drm::DriverInfo {
+> @@ -181,9 +166,9 @@ impl drm::Driver for TyrDriver {
+> =20
+>  #[pin_data]
+>  struct Clocks {
+> -    core: Clk,
+> -    stacks: OptionalClk,
+> -    coregroup: OptionalClk,
+> +    core: Clk<Enabled>,
+> +    stacks: Clk<Enabled>,
+> +    coregroup: Clk<Enabled>,
+>  }
+> =20
+>  #[pin_data]
+> diff --git a/drivers/pwm/pwm_th1520.rs b/drivers/pwm/pwm_th1520.rs
+> index 043dc4dbc623..f4d03b988533 100644
+> --- a/drivers/pwm/pwm_th1520.rs
+> +++ b/drivers/pwm/pwm_th1520.rs
+> @@ -23,7 +23,7 @@
+>  use core::ops::Deref;
+>  use kernel::{
+>      c_str,
+> -    clk::Clk,
+> +    clk::{Clk, Enabled},
+>      device::{Bound, Core, Device},
+>      devres,
+>      io::mem::IoMem,
+> @@ -90,11 +90,11 @@ struct Th1520WfHw {
+>  }
+> =20
+>  /// The driver's private data struct. It holds all necessary devres mana=
+ged resources.
+> -#[pin_data(PinnedDrop)]
+> +#[pin_data]
+>  struct Th1520PwmDriverData {
+>      #[pin]
+>      iomem: devres::Devres<IoMem<TH1520_PWM_REG_SIZE>>,
+> -    clk: Clk,
+> +    clk: Clk<Enabled>,
+>  }
+> =20
+>  impl pwm::PwmOps for Th1520PwmDriverData {
+> @@ -299,13 +299,6 @@ fn write_waveform(
+>      }
+>  }
+> =20
+> -#[pinned_drop]
+> -impl PinnedDrop for Th1520PwmDriverData {
+> -    fn drop(self: Pin<&mut Self>) {
+> -        self.clk.disable_unprepare();
+> -    }
+> -}
+> -
+>  struct Th1520PwmPlatformDriver;
+> =20
+>  kernel::of_device_table!(
+> @@ -326,9 +319,7 @@ fn probe(
+>          let dev =3D pdev.as_ref();
+>          let request =3D pdev.io_request_by_index(0).ok_or(ENODEV)?;
+> =20
+> -        let clk =3D Clk::get(dev, None)?;
+> -
+> -        clk.prepare_enable()?;
+> +        let clk =3D Clk::<Enabled>::get(dev, None)?;
+> =20
+>          // TODO: Get exclusive ownership of the clock to prevent rate ch=
+anges.
+>          // The Rust equivalent of `clk_rate_exclusive_get()` is not yet =
+available.
+> diff --git a/rust/kernel/clk.rs b/rust/kernel/clk.rs
+> index d192fbd97861..6323b40dc7ba 100644
+> --- a/rust/kernel/clk.rs
+> +++ b/rust/kernel/clk.rs
+> @@ -80,17 +80,78 @@ fn from(freq: Hertz) -> Self {
+>  mod common_clk {
+>      use super::Hertz;
+>      use crate::{
+> -        device::Device,
+> +        device::{Bound, Device},
+>          error::{from_err_ptr, to_result, Result},
+>          prelude::*,
+>      };
+> =20
+> -    use core::{ops::Deref, ptr};
+> +    use core::{marker::PhantomData, mem::ManuallyDrop, ptr};
+> +
+> +    mod private {
+> +        pub trait Sealed {}
+> +
+> +        impl Sealed for super::Unprepared {}
+> +        impl Sealed for super::Prepared {}
+> +        impl Sealed for super::Enabled {}
+> +    }
 
-> No problem with the above, and FWIW it seems correct. Although I suspect just
-> setting page->memcg_data = 0 would have been far less controversial ;)
+I guess it's time for me to work on a `#[sealed]` macro...
 
-It is "correct" but horrible.
+> +
+> +    /// A trait representing the different states that a [`Clk`] can be =
+in.
+> +    pub trait ClkState: private::Sealed {
+> +        /// Whether the clock should be disabled when dropped.
+> +        const DISABLE_ON_DROP: bool;
+> +
+> +        /// Whether the clock should be unprepared when dropped.
+> +        const UNPREPARE_ON_DROP: bool;
+> +    }
+> +
+> +    /// A state where the [`Clk`] is not prepared and not enabled.
 
-What is wrong with this? Isn't it so much better and more efficient??
+Do we want to make it explicit that it's "not known to be prepared or
+enabled"?
 
-diff --git a/mm/internal.h b/mm/internal.h
-index e430da900430a1..a7d3f5e4b85e49 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -806,14 +806,21 @@ static inline void prep_compound_head(struct page *page, unsigned int order)
- 		atomic_set(&folio->_pincount, 0);
- 		atomic_set(&folio->_entire_mapcount, -1);
- 	}
--	if (order > 1)
-+	if (order > 1) {
- 		INIT_LIST_HEAD(&folio->_deferred_list);
-+	} else {
-+		folio->mapping = NULL;
-+#ifdef CONFIG_MEMCG
-+		folio->memcg_data = 0;
-+#endif
-+	}
- }
- 
- static inline void prep_compound_tail(struct page *head, int tail_idx)
- {
- 	struct page *p = head + tail_idx;
- 
-+	p->flags.f &= ~0xffUL;	/* Clear possible order, page head */
- 	p->mapping = TAIL_MAPPING;
- 	set_compound_head(p, head);
- 	set_page_private(p, 0);
-diff --git a/mm/memremap.c b/mm/memremap.c
-index 4c2e0d68eb2798..7ec034c11068e1 100644
---- a/mm/memremap.c
-+++ b/mm/memremap.c
-@@ -479,19 +479,23 @@ void free_zone_device_folio(struct folio *folio)
- 	}
- }
- 
--void zone_device_page_init(struct page *page, unsigned int order)
-+void zone_device_page_init(struct page *page, struct dev_pagemap *pgmap,
-+			   unsigned int order)
- {
- 	VM_WARN_ON_ONCE(order > MAX_ORDER_NR_PAGES);
-+	struct folio *folio;
- 
- 	/*
- 	 * Drivers shouldn't be allocating pages after calling
- 	 * memunmap_pages().
- 	 */
- 	WARN_ON_ONCE(!percpu_ref_tryget_many(&page_pgmap(page)->ref, 1 << order));
--	set_page_count(page, 1);
--	lock_page(page);
- 
--	if (order)
--		prep_compound_page(page, order);
-+	prep_compound_page(page, order);
-+
-+	folio = page_folio(page);
-+	folio->pgmap = pgmap;
-+	folio_lock(folio);
-+	folio_set_count(folio, 1);
- }
- EXPORT_SYMBOL_GPL(zone_device_page_init);
+> +    pub struct Unprepared;
+> +
+> +    /// A state where the [`Clk`] is prepared but not enabled.
+> +    pub struct Prepared;
+> +
+> +    /// A state where the [`Clk`] is both prepared and enabled.
+> +    pub struct Enabled;
+> +
+> +    impl ClkState for Unprepared {
+> +        const DISABLE_ON_DROP: bool =3D false;
+> +        const UNPREPARE_ON_DROP: bool =3D false;
+> +    }
+> +
+> +    impl ClkState for Prepared {
+> +        const DISABLE_ON_DROP: bool =3D false;
+> +        const UNPREPARE_ON_DROP: bool =3D true;
+> +    }
+> +
+> +    impl ClkState for Enabled {
+> +        const DISABLE_ON_DROP: bool =3D true;
+> +        const UNPREPARE_ON_DROP: bool =3D true;
+> +    }
+> +
+> +    /// An error that can occur when trying to convert a [`Clk`] between=
+ states.
+> +    pub struct Error<State: ClkState> {
+> +        /// The error that occurred.
+> +        pub error: kernel::error::Error,
+> +
+> +        /// The [`Clk`] that caused the error, so that the operation may=
+ be
+> +        /// retried.
+> +        pub clk: Clk<State>,
+> +    }
 
-Jason
+I wonder if it makes sense to add a general `ErrorWith` type for errors tha=
+t
+carries error code + data.
+
+Best,
+Gary
