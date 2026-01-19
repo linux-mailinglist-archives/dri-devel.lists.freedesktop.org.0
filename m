@@ -2,68 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83ED0D39FA7
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 08:25:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5360D39FF8
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 08:34:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D59E110E374;
-	Mon, 19 Jan 2026 07:25:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22A4610E377;
+	Mon, 19 Jan 2026 07:34:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OOYMTqRr";
+	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="qD53FzuF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8829610E370;
- Mon, 19 Jan 2026 07:25:30 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 16355434B7;
- Mon, 19 Jan 2026 07:25:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09F96C116C6;
- Mon, 19 Jan 2026 07:25:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768807529;
- bh=Sy0oZJNxE3l4wUF1ShDJYtcIYRfebTgMszB/pVPpbG8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OOYMTqRrGNEs2jAmSYlM686r10g9BCiY0dH1nHfSd9wBLODRb8DM164wJPnvPjUZJ
- icgeXWdtQ7Oia1ErMzqcQuhf52/tfn7nc5Db0Pgu4mF4oKXHNz7EAU6VPQm5fLTGmH
- dpWD45Ghuyew+XIW6NcIv4QphDm7ZCu0u2N2glr45RlAuFFKTsiYSKNgep1eD0k+ze
- DGHBEAu/8vNU8SRkbYapnqC57ld4+aZRHd6cB3kj5nGczjtxNRKaQQAT7M5FarOcTS
- +AznVeitmh0vPl0biNbAXazx0fJsZPdtNy+ZzqhsViFUZFhUJS6vri3NJErSen8Aar
- zIN3x/bF6bUXQ==
-Date: Mon, 19 Jan 2026 09:25:24 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: John Hubbard <jhubbard@nvidia.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>,
+Received: from smtp-usa2.onexmail.com (smtp-usa2.onexmail.com [35.173.142.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3F7710E377
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 07:34:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
+ s=altu2504; t=1768808043;
+ bh=U2TFSPcQ4D5osA7spvoZ7LvXzYBPJmabhzFUGQTzcjw=;
+ h=From:To:Subject:Date:Message-Id;
+ b=qD53FzuFjGfQ7MidQgDRwrLcS9xW99UtdBfIQ7LzI2mq8tOcQ8xc3OivAm/xuE6Re
+ LXMJ95SbP6EZF7nnHqMsuOTgG/cjB1fRMV63WFbs71M6S7Bi1Y1c5zyHC6J+GGTAjI
+ YBxa/KzBfj0ltZHiFvz5QoeWPLRgX8JugXn2eaLc=
+X-QQ-mid: esmtpsz17t1768807868t02ae8551
+X-QQ-Originating-IP: RvQWtRJpgNlgEzXUx3Nd3SyLZyitafvRDavPpc6zxaQ=
+Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Mon, 19 Jan 2026 15:31:03 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 18243268186221231282
+From: Chaoyi Chen <kernel@airkyi.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Peter Chen <hzpeterchen@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
- linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] dma-buf: Document revoke semantics
-Message-ID: <20260119072524.GD13201@unreal>
-References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
- <20260118-dmabuf-revoke-v2-2-a03bb27c0875@nvidia.com>
- <d41d08e3-6a86-40a4-925c-6a3172670079@nvidia.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d41d08e3-6a86-40a4-925c-6a3172670079@nvidia.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Amit Sunil Dhamne <amitsd@google.com>,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Peter Robinson <pbrobinson@gmail.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v14 0/9] Add Type-C DP support for RK3399 EVB IND board
+Date: Mon, 19 Jan 2026 15:30:51 +0800
+Message-Id: <20260119073100.143-1-kernel@airkyi.com>
+X-Mailer: git-send-email 2.17.1
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: OW3qjH3bC/TAullrpf2oQQoS848khtXYf9gidu4WFd4oyHcfTi/fyXRJ
+ 8k+8GM2GNqddmQt3/uBl4g7L0CtA7PX4hb47Dwd/ccbC1wsRhen5lMpdvzyYtNm3PWcQj+8
+ hwtha9IfLriuqDal5X6WAouYcuaaom3F4lu9BWpwAcyyryJ/28rrh462E000e5ylCf3ZBes
+ yDoMyMBDl7P31MKcu5432shGZVm+vSWhcBaRgJGqG4waDmVJUuIDbzropMGRxFFqrIsxSO8
+ 09IfD0H0lXs5vrEaPU7apl4Wx25LhueaJfMbYS1gy9+os4+HyI1iCHRbijtGPqgpNMqi8CX
+ MzmvN1iDwKtW/j6pJkCIOYThnvEMMkCnOJvkG0SIyY5RhOjxfKwepC4o4XvZiVz9ZfWmqne
+ NRlfAribMpU6CZCtGoq9xYNSHKMCmSaZeZlli1B/0g7gdm6WasIgb8CsYCrA7OBmDif+Czv
+ nlrV9eBzyyPROo2sIy8WIAbrlN5rC0wLGNt8DltlQZuHb6kUTqW0UPcMbmG0ZRfYBgiYC4L
+ oBJYqtsgpfEl10sCQUGJdOV+HBX5gKKQSnVLb46tJmseEq+pjp327lADbSsBf7aAJKIjUCx
+ 3w+1xmtVaieKK2Hid2Qz3FyQgMdifwb4ZJh+3myk6wd6sy4wleXXP/hVDu8ToyF6rlk+TDx
+ XXQHRovoucSPCZJUdOh6ul1DKnXGpLNOL8w65jTp8Yj23ARU3xZklqbKAGJaHSEpwbd3ndR
+ 71etCn5yVJf2So2zdSpjqN6sFBrUk7xqZ4G/aulgUc6Wg2tnu3fyT1+TtNClYPxLLoz0pGq
+ yDfAsWU1aEg9So0jdSGh50yU4OYiKOnYaAS0OC3Bcc6MgnjZ6DolJyoR6uaVVs2joz5SgX4
+ zBEloO0afdg7usv9efQRMWEzIRfKuHJRUyXjZ4g77+FGNwq5WBvatwHqI37qBJTSW+6GQqe
+ upkaBYYgrC3BAF9u7+tbCmH4LPZbslbCWT6mv77iOpHj0qt26Wre+cLxiOZ1dulaZy2Det/
+ d22HDRO7qoF1BZdFaB10gGUSssjpU=
+X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
+X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,33 +98,205 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jan 18, 2026 at 01:40:11PM -0800, John Hubbard wrote:
-> On 1/18/26 4:08 AM, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> ...
-> > +/**
-> > + * dma_buf_attachment_is_revoke - check if a DMA-buf importer implements
-> > + * revoke semantics.
-> > + * @attach: the DMA-buf attachment to check
-> > + *
-> > + * Returns true if DMA-buf importer honors revoke semantics, which is
-> > + * negotiated with the exporter, by making sure that importer implements
-> > + * .invalidate_mappings() callback and calls to dma_buf_pin() after
-> > + * DMA-buf attach.
-> > + */
-> > +static inline bool
-> > +dma_buf_attachment_is_revoke(struct dma_buf_attachment *attach)
-> 
-> Maybe a slight rename, to dma_buf_attachment_is_revocable()?
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-I can do that. The issue is that even "dma_buf_attachment_is_revoke"
-is already too long. :)
+This series focuses on adding Type-C DP support for USBDP PHY and DP
+driver. The USBDP PHY and DP will perceive the changes in cable status
+based on the USB PD and Type-C state machines provided by TCPM. Before
+this, the USBDP PHY and DP controller of RK3399 sensed cable state
+changes through extcon, and devices such as the RK3399 Gru-Chromebook
+rely on them. This series should not break them.
 
-Thanks
+====
+1. DisplayPort HPD status notify
 
-> 
-> 
-> thanks,
-> -- 
-> John Hubbard
-> 
+Before v7, I implemented a variety of DP HPD status notify. However,
+they all had various problems and it was difficult to become a generic
+solution.
+
+Under the guidance of Heikki and Dmitry, a decoupled notification
+method between the TypeC and DRM subsystems was introduced in v7.
+First, a notification is sent when TypeC registers a new altmode.
+Then, a generic DP AUX HPD bridge is implemented on the DRM side.
+
+During v7-v10, we added a new notifier in typec to notify the altmode
+device register event. With the help of Greg and Heikki, we implemented
+the reuse of notifiers for the type bus itself in patch1 of v11.
+
+The USB subsystem related parts have already been merged into the
+usb-next branch in v13 [0][1]. Therefore, this series no longer includes
+these patches starting from v14. Thanks to Greg and Heikki!
+
+[0]: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/commit/?h=usb-next&id=67ab45426215c7fdccb65aecd4cac15bbe4dfcbb
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/commit/?h=usb-next&id=4dee13db29de6dd869af9b3827e1ff569644e838
+
+That makes it redundant for each Type-C controller driver to implement
+a similar DP AUX HPD bridge in embedded scenarios.
+
+====
+2. Altmode switching and orientation switching for USBDP PHY
+
+For USB Type-C interfaces, an external Type-C controller chip assists
+by detecting cable attachment, determining plug orientation, and
+reporting USB PD message. The USB/DP combo PHY supports software
+configurable pin mapping and DisplayPort lane assignment. Based on
+these message, the combo PHY can perform both altmode switching and
+orientation switching via software.
+
+The RK3399 EVB IND board has a Type-C interface DisplayPort. It use
+fusb302 chip as Type-C controller. The connection diagram is shown below:
+
+fusb302 chip +---> USB2.0 PHY ----> DWC3 USB controller
+             |
+             +---> USB/DP PHY0 +--> CDN-DP controller
+                               |
+                               +--> DWC3 USB controller
+
+====
+3. Multiple bridge model for RK3399 CDN-DP
+
+The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
+the CDN-DP can be switched to output to one of the PHYs.
+
+USB/DP PHY0 ---+
+               | <----> CDN-DP controller
+USB/DP PHY1 ---+
+
+In previous versions, if both PHY ports were connected to DP,
+the CDN-DP driver would select the first PHY port for output.
+
+On Dmitry's suggestion, we introduced a multi-bridge model to support
+flexible selection of the output PHY port. For each PHY port, a
+separate encoder and bridge are registered.
+
+The change is based on the DRM AUX HPD bridge, rather than the
+extcon approach. This requires the DT to correctly describe the
+connections between the first bridge in bridge chain and DP
+controller. And Once the first bridge is obtained, we can get the
+last bridge corresponding to the USB-C connector, and then set the
+DRM connector's fwnode to the corresponding one to enable HPD
+notification.
+
+====
+Patch1 add generic USB Type-C DP HPD bridge (Dmitry, Heikki).
+Patch2 add new API drm_aux_bridge_register_from_node() (Neil).
+Patch3 add new Type-C mode switch for RK3399 USBDP phy binding (Krzysztof).
+Patch4 add typec_mux and typec_switch for RK3399 USBDP PHY.
+Patch5 add DRM AUX bridge support for RK3399 USBDP PHY (Neil).
+Patch6 drops CDN-DP's extcon dependency when Type-C is present (Dmitry).
+Patch7 add multiple bridges to support PHY port selection (Dmitry, Luca).
+Patch8 add missing dp_out port for RK3399 CDN-DP.
+Patch9 add Type-C DP support for RK3399 EVB IND board (Diederik, Peter).
+
+Changes in v14:
+- Link to V13: https://lore.kernel.org/all/20251208015500.94-1-kernel@airkyi.com/
+- Drop the patches for the USB Type-C subsusytem part, as they have
+  already been merged into usb-next.
+
+Changes in v13:
+- Link to V12: https://lore.kernel.org/all/20251204063109.104-1-kernel@airkyi.com/
+- Only register drm dp hpd bridge for typec port altmode device.
+
+Changes in v12:
+- Link to V11: https://lore.kernel.org/all/20251128020405.90-1-kernel@airkyi.com/
+- Add missing Signed-off-by line.
+
+Changes in v11:
+- Link to V10: https://lore.kernel.org/all/20251120022343.250-1-kernel@airkyi.com/
+- Switch to using typec bus notifiers.
+
+Changes in v10:
+- Link to V9: https://lore.kernel.org/all/20251111105040.94-1-kernel@airkyi.com/
+- Notify TYPEC_ALTMODE_UNREGISTERED when altmode removed. 
+- Add drm_aux_bridge_register_from_node().
+- Fix refcount usage of drm_bridge.
+
+Changes in v9:
+- Link to V8: https://lore.kernel.org/all/20251029071435.88-1-kernel@airkyi.com/
+- Remove the exposed DRM_AUX_HPD_BRIDGE option, and select
+DRM_AUX_HPD_TYPEC_BRIDGE when it is available.
+- Add usb role switch for Type-C.
+- Remove USB2 PHY in Type-C connection.
+- ...
+
+Changes in v8:
+- Link to V7: https://lore.kernel.org/all/20251023033009.90-1-kernel@airkyi.com/
+- Export all typec device types for identification.
+- Merge generic DP HPD bridge into one module.
+- Fix coding style.
+
+Changes in v7:
+- Link to V6: https://lore.kernel.org/all/20251016022741.91-1-kernel@airkyi.com/
+- Add notifier functions for Type-C core.
+- Add generic USB Type-C DP HPD bridge.
+
+Changes in v6:
+- Link to V5: https://lore.kernel.org/all/20251011033233.97-1-kernel@airkyi.com/
+- Fix depend in Kconfig.
+- Check DP svid in tcphy_typec_mux_set().
+- Remove mode setting in tcphy_orien_sw_set().
+- Rename some variable names.
+- Attach the DP bridge to the next bridge.
+
+Changes in v5:
+- Link to V4: https://lore.kernel.org/all/20250922012039.323-1-kernel@airkyi.com/
+- Remove the calls related to `drm_aux_hpd_bridge_notify()`.
+- Place the helper functions in the same compilation unit.
+- Add more comments about parent device.
+- Add DRM AUX bridge support for RK3399 USBDP PHY
+- By parsing the HPD bridge chain, set the connector's of_node to the
+of_node corresponding to the USB-C connector.
+- Return EDID cache when other port is already enabled.
+
+Changes in v4:
+- Link to V3: https://lore.kernel.org/all/20250729090032.97-1-kernel@airkyi.com/
+- Add default HPD device for DisplayPort altmode.
+- Introduce multiple bridges for CDN-DP.
+- ...
+
+Changes in v3:
+- Link to V2: https://lore.kernel.org/all/20250718062619.99-1-kernel@airkyi.com/
+- Add more descriptions to clarify the role of the PHY in switching.
+- Fix wrong vdo value.
+- Fix port node in usb-c-connector.
+
+Changes in v2:
+- Link to V1: https://lore.kernel.org/all/20250715112456.101-1-kernel@airkyi.com/
+- Reuse dp-port/usb3-port in rk3399-typec-phy binding.
+- Fix compile error when CONFIG_TYPEC is not enabled.
+- Notify DP HPD state by USB/DP PHY.
+- Ignore duplicate HPD events.
+- Add endpoint to link DP PHY and DP controller.
+- Fix devicetree coding style.
+
+Chaoyi Chen (9):
+  drm/bridge: Implement generic USB Type-C DP HPD bridge
+  drm/bridge: aux: Add drm_aux_bridge_register_from_node()
+  dt-bindings: phy: rockchip: rk3399-typec-phy: Support mode-switch
+  phy: rockchip: phy-rockchip-typec: Add typec_mux/typec_switch support
+  phy: rockchip: phy-rockchip-typec: Add DRM AUX bridge
+  drm/rockchip: cdn-dp: Support handle lane info without extcon
+  drm/rockchip: cdn-dp: Add multiple bridges to support PHY port
+    selection
+  arm64: dts: rockchip: Add missing dp_out port for RK3399 CDN-DP
+  arm64: dts: rockchip: rk3399-evb-ind: Add support for DisplayPort
+
+ .../phy/rockchip,rk3399-typec-phy.yaml        |   6 +
+ arch/arm64/boot/dts/rockchip/rk3399-base.dtsi |  10 +-
+ .../boot/dts/rockchip/rk3399-evb-ind.dts      | 147 +++++++
+ drivers/gpu/drm/bridge/Kconfig                |  10 +
+ drivers/gpu/drm/bridge/Makefile               |   1 +
+ drivers/gpu/drm/bridge/aux-bridge.c           |  24 +-
+ .../gpu/drm/bridge/aux-hpd-typec-dp-bridge.c  |  49 +++
+ drivers/gpu/drm/rockchip/Kconfig              |   1 +
+ drivers/gpu/drm/rockchip/cdn-dp-core.c        | 350 +++++++++++++---
+ drivers/gpu/drm/rockchip/cdn-dp-core.h        |  18 +-
+ drivers/phy/rockchip/Kconfig                  |   3 +
+ drivers/phy/rockchip/phy-rockchip-typec.c     | 373 +++++++++++++++++-
+ include/drm/bridge/aux-bridge.h               |   6 +
+ 13 files changed, 914 insertions(+), 84 deletions(-)
+ create mode 100644 drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
+
+-- 
+2.51.1
+
