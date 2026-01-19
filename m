@@ -2,72 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F32AD3B2D6
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 17:58:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53B35D3B2E5
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 17:59:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1B7A10E4D1;
-	Mon, 19 Jan 2026 16:58:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90AC510E4CF;
+	Mon, 19 Jan 2026 16:59:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="Jema+que";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="Q62jz8uV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com
- [209.85.219.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00CDD10E4CF
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 16:58:45 +0000 (UTC)
-Received: by mail-qv1-f67.google.com with SMTP id
- 6a1803df08f44-88a3d2f3299so46752226d6.2
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 08:58:45 -0800 (PST)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
+ [209.85.160.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E7A410E4D2
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 16:59:53 +0000 (UTC)
+Received: by mail-qt1-f171.google.com with SMTP id
+ d75a77b69052e-50146483bf9so59740671cf.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 08:59:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1768841925; x=1769446725; darn=lists.freedesktop.org; 
+ d=ziepe.ca; s=google; t=1768841992; x=1769446792; darn=lists.freedesktop.org; 
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:from:to
  :cc:subject:date:message-id:reply-to;
- bh=ljxKTxaVdu8I0ces4FnKFMKgo+H8JcchtOlXOe2X8IE=;
- b=Jema+queIL0hQwAtJFjPoQTtTKh/xtjTGhoD6njed7GJWMUrzhR5YhlssnJTF/XK7O
- /Kqf8kWiuvM3qijCCiQi+t+km8lLR1/23sLOL2S3FsC3tMOschYF7BJViBdeVSxsK/Ot
- 9LKl7P0z65DxYczWufYFxOmYVUpxfAu1tThZdxyYnGuiIkjt/PrYCwIXFmDM8VQ79f9n
- KeXlchhlcqnbyWlWjpLviRLXM30BxaJ9kpuIXl1IVQh6ifwGCM5iDmqXT6BFY25y650q
- LP0U+NdWcqlupLjL/1Es5zwZtgGhSC9INZXGwSQa7UOPL77rsXQ94kMZwW3OGlyZBiz9
- 2vcg==
+ bh=TPsA7s1a/5IQbuetD0KLnhoW9jbCMPzN3lJpfuVRncw=;
+ b=Q62jz8uV0DbYXz1eUwSSsgNGb8yJitOTmzwFBHjedovTKxO9kptsWTHf7cOYlL30lA
+ ZkNVS/v3U0sEym6GEKnApPKdXSsDXUfIY/puyE2doNQQO5LZGKzL/mjj28BQYQlySSy1
+ xBz8RjzqWLW3dRd6nAbi4aTIZvKJkhbhVFxUUOBBDDXlm4MsBdVkEd4Sr4UBZtc0T4T2
+ YUdh/dOS9L2wcduPAp3CS/SWIoqaTzaeK/IqxcTLrctYqi/fwkOGU+N4b6ImnBCYjztK
+ h71QJ2PcMee3vqoexpfK2k09a5W4l74AVYTziQdiKTKNCDdLL8F8qK8Ef+QeANaJS32x
+ RgqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768841925; x=1769446725;
+ d=1e100.net; s=20230601; t=1768841992; x=1769446792;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ljxKTxaVdu8I0ces4FnKFMKgo+H8JcchtOlXOe2X8IE=;
- b=In3EgEYv5PUGvPL7cmYQHjsP5nez2u7cgVCYZIoiEFyBl3+k/82xOSpxdMuKA7GBBk
- d/Xu/Hyc10RnWzCLtR6F5bXsBgJGAr7mSydEUsvegwwLOm6mUyzUuStIPC7j1eVJIR33
- WdBC0a7WBx64vJoKFYqwoWcPVUSXQmlZcYN7U0YDLDhkiyNPP/Q02fVCcmqq/BXyiTxk
- fpYif9U0bJQvxyCtwGhPIMy7L1yRI86lsjdUoDAO8bMS9LYsl4gIFdvOHl06OhxL2kci
- Z4AZFmy6umvC5NyILLJGJ9p2duUSUQ2O8QfYwairSjiS4r40CLuQoklWkcFuYSYabxtf
- aeXQ==
+ bh=TPsA7s1a/5IQbuetD0KLnhoW9jbCMPzN3lJpfuVRncw=;
+ b=lfsxEOhUxiFt6tMG/WIeUlq16iFJIENHZa3op3DEmn2qz90XK84XlBMJj/IUfz8USO
+ 4nC4+fnNlynekPIh2PkaN8t7uXR3hQl5JQrAiQ7arv/TtG3cx3ZnUjs4qtxxUGx94gBG
+ fakyF+92wiOamDwMpFbNS73oZBYXtdu3k9XP61Z3VghvG4Xs0WHu4u9z9/C087exAtGk
+ FEngPnCeUSRT44DTCU/TB2sa5p924qzI1jtXT8cHBWxrSZ6NCFC8U0R/IVTxyNmi02u0
+ OQ5SD0YS9hAaFE8eLBsm2omy9/IONpNWYZ6s5Pk3JRLK4MkMa4uDYu5myIjgxULfBkwU
+ rmCw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUJle0g3d5PqaIWKOqkkIQBhEO6YyjcXgvNcuTbxwFZXpPOH+/7Q5aAWaK7YafLX1o0IlXIrHydxPk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzxhZZWNNqJircN3ZnWDPn0gGY3QTV9iPE0+TeOKYiqj8Hw0asN
- QBnIYaUIa32EKzJ/0b7oVRmSfRHryiC955pHszHYc4Z27vDDJqyeKYdJcgvpEcgAxQU=
-X-Gm-Gg: AZuq6aIXSOn0DBpMSozl5WloUzmTLb7DzzCRcpYOMC6qGcg/HZ7baz7VmtxLfU/Lu9J
- pEoJ+ZpE1OpUE9Mv+V2sif88rwl7T34dUpwW0KN68utbALg2rLkib1W2rKCwoLci23f/FuUS5z9
- QG/fTu9KSzlWdRu/kPxAjkzNbYTkbh5kPmj2ovlM23NIHStDI3eKY5ni+L+1AUbZajWaBj4Nck9
- Djuv/MMugWkAQnaJSoy9mme2IMORVc0PwNQPb0BC35UXO7jSRotPGEzCULPA/KGUg28fU5bGzd9
- hkAZWw+nDzsb71Glk5ZgHmGnR8ZpaVkqdTewmgyKMt3aNXHmy82aE12yur+uiW5fruiQxjf/wBH
- G6WJbwOc5jUk/AvkgUii/NtRSTR+Y/0tmxSBgC83shKgQPa6yX9TpGjA5PiGA/lLxJSjDThwaKn
- 8HWMXVPyjq2I4MoxW9uoklI4NDPhSKivsFx1KzkBKb7AKamOki9RaVzgs10vYJJ6/l7SUJoMtTT
- haV1g==
-X-Received: by 2002:a05:6214:2523:b0:88a:2e39:957e with SMTP id
- 6a1803df08f44-8942dd9e90fmr129930286d6.57.1768841924690; 
- Mon, 19 Jan 2026 08:58:44 -0800 (PST)
+ AJvYcCXUu/n/j+x44ftQPi8/8bhXmmATZCQQiJdWDRAiGRA4PUJq1zPugVkNF9GxwSvDWC8bNm3vXrYyddM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwYAJUAbHMawBT+V6iKkd6VqD+qk5JaIjyqUlPxyUjEA+rBhbfx
+ Li6MuVWqFIPm2vT6l3En5rfC04qKD0kYRYb37JpOB2PgxaPC6c3M6aK+tPFwKmj3sCI=
+X-Gm-Gg: AY/fxX7B6nGGDAV3YBBXlWLZN4RhO0W5pxZRnpZpZMd1AcAuHmmtoIKQDICSRJihMrs
+ mtycG5qdEuwHJq9xNzx5jAUB8iAIjhV/4RbIeUY+jQuF56mN6B8tO2iui2TeXqu0QHePI7x0kdS
+ jAmr+uqPpLFfp8oMC0LushxoeXMx8h+Oy0ikHJ/pVQIoqv8j0Wn0TC/80EFtY4tegluiA0rKoBe
+ ob973R6h9sEn20mQKrhASHkZgz+66gnxuDtgrSJgCW43NRz7gZtVg5E6+sFzNMVfDY+1VFjvYof
+ LVQ0hi1TR193Yzc60maoLK8MlZqXXYOQYFjFv6eXwn2vign/k0uFahdwc0NzHabgwo5Y8Z50BMI
+ OY6kNVKk0fdV5sYyHMkWRz8SU6zLNEQ0G8sOZcpgKxV1xMjmo1Y8LIaIbLz0Nfb23Gd8jNLth93
+ BD5lR2MGJ8h56/C+OWsbOvzS8ptgzfb3ZMO7YWkh/4aGpdNrNqOYC5CnV7BQ/vf/9ZCaA=
+X-Received: by 2002:ac8:7f56:0:b0:501:50cd:cd3a with SMTP id
+ d75a77b69052e-502a16b363amr184663241cf.43.1768841992288; 
+ Mon, 19 Jan 2026 08:59:52 -0800 (PST)
 Received: from ziepe.ca
  (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-8942e5e526dsm87021366d6.12.2026.01.19.08.58.44
+ 6a1803df08f44-8942e5e4d79sm93947786d6.2.2026.01.19.08.59.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jan 2026 08:58:44 -0800 (PST)
+ Mon, 19 Jan 2026 08:59:51 -0800 (PST)
 Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1vhsaR-00000005IQb-2Wqn;
- Mon, 19 Jan 2026 12:58:43 -0400
-Date: Mon, 19 Jan 2026 12:58:43 -0400
+ (envelope-from <jgg@ziepe.ca>) id 1vhsbX-00000005IQz-1QSu;
+ Mon, 19 Jan 2026 12:59:51 -0400
+Date: Mon, 19 Jan 2026 12:59:51 -0400
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Leon Romanovsky <leon@kernel.org>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>,
@@ -91,15 +90,15 @@ Cc: Sumit Semwal <sumit.semwal@linaro.org>,
  linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
  virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
  linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] dma-buf: document revoke mechanism to invalidate
- shared buffers
-Message-ID: <20260119165843.GH961572@ziepe.ca>
+Subject: Re: [PATCH v2 3/4] iommufd: Require DMABUF revoke semantics
+Message-ID: <20260119165951.GI961572@ziepe.ca>
 References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
+ <20260118-dmabuf-revoke-v2-3-a03bb27c0875@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
+In-Reply-To: <20260118-dmabuf-revoke-v2-3-a03bb27c0875@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,62 +114,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jan 18, 2026 at 02:08:44PM +0200, Leon Romanovsky wrote:
-> Changelog:
-> v2:
->  * Changed series to document the revoke semantics instead of
->    implementing it.
-> v1: https://patch.msgid.link/20260111-dmabuf-revoke-v1-0-fb4bcc8c259b@nvidia.com
+On Sun, Jan 18, 2026 at 02:08:47PM +0200, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
 > 
-> -------------------------------------------------------------------------
-> This series documents a dma-buf “revoke” mechanism: to allow a dma-buf
-> exporter to explicitly invalidate (“kill”) a shared buffer after it has
-> been distributed to importers, so that further CPU and device access is
-> prevented and importers reliably observe failure.
+> IOMMUFD does not support page fault handling, and after a call to
+> .invalidate_mappings() all mappings become invalid. Ensure that
+> the IOMMUFD DMABUF importer is bound to a revoke‑aware DMABUF exporter
+> (for example, VFIO).
 > 
-> The change in this series is to properly document and use existing core
-> “revoked” state on the dma-buf object and a corresponding exporter-triggered
-> revoke operation. Once a dma-buf is revoked, new access paths are blocked so
-> that attempts to DMA-map, vmap, or mmap the buffer fail in a consistent way.
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+>  drivers/iommu/iommufd/pages.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c
+> index 76f900fa1687..a5eb2bc4ef48 100644
+> --- a/drivers/iommu/iommufd/pages.c
+> +++ b/drivers/iommu/iommufd/pages.c
+> @@ -1501,16 +1501,22 @@ static int iopt_map_dmabuf(struct iommufd_ctx *ictx, struct iopt_pages *pages,
+>  		mutex_unlock(&pages->mutex);
+>  	}
+>  
+> -	rc = sym_vfio_pci_dma_buf_iommufd_map(attach, &pages->dmabuf.phys);
+> +	rc = dma_buf_pin(attach);
+>  	if (rc)
+>  		goto err_detach;
+>  
+> +	rc = sym_vfio_pci_dma_buf_iommufd_map(attach, &pages->dmabuf.phys);
+> +	if (rc)
+> +		goto err_unpin;
+> +
+>  	dma_resv_unlock(dmabuf->resv);
+>  
+>  	/* On success iopt_release_pages() will detach and put the dmabuf. */
+>  	pages->dmabuf.attach = attach;
+>  	return 0;
 
-I think it would help to explain the bigger picture in the cover letter:
-
-
-DMABUF has quietly allowed calling move_notify on pinned DMABUFs, even
-though legacy importers using dma_buf_attach() would simply ignore
-these calls.
-
-RDMA saw this and needed to use allow_peer2peer=true, so implemented a
-new-style pinned importer with an explicitly non-working move_notify()
-callback.
-
-This has been tolerable because the existing exporters are thought to
-only call move_notify() on a pinned DMABUF under RAS events and we
-have been willing to tolerate the UAF that results by allowing the
-importer to continue to use the mapping in this rare case.
-
-VFIO wants to implement a pin supporting exporter that will issue a
-revoking move_notify() around FLRs and a few other user triggerable
-operations. Since this is much more common we are not willing to
-tolerate the security UAF caused by interworking with
-non-move_notify() supporting drivers. Thus till now VFIO has required
-dynamic importers, even though it never actually moves the buffer
-location.
-
-To allow VFIO to work with pinned importers, according to how DMABUF
-was intended, we need to allow VFIO to detect if an importer is legacy
-or RDMA and does not actually implement move_notify().
-
-Introduce a new function that exporters can call to detect these less
-capable importers. VFIO can then refuse to accept them during attach.
-
-In theory all exporters that call move_notify() on pinned DMABUF's
-should call this function, however that would break a number of widely
-used NIC/GPU flows. Thus for now do not spread this further than VFIO
-until we can understand how much of RDMA can implement the full
-semantic.
-
-In the process clarify how move_notify is intended to be used with
-pinned DMABUFs.
+Don't we need an explicit unpin after unmapping?
 
 Jason
