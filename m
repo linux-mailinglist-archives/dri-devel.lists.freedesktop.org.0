@@ -2,46 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89D2AD3AF0B
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 16:31:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9708D3AF14
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 16:32:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 927D310E4A2;
-	Mon, 19 Jan 2026 15:31:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F98510E19B;
+	Mon, 19 Jan 2026 15:32:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="P4XhWmby";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QkQHq+Pp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A37C810E19B;
- Mon, 19 Jan 2026 15:31:36 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 21B5E60055;
- Mon, 19 Jan 2026 15:31:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4F74C19423;
- Mon, 19 Jan 2026 15:31:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768836695;
- bh=Rutg44yRMmYuxi30Cfs/bJk2QNaEIsjLQT0fhQq38kA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=P4XhWmby85H+lO40VgKGtSK24/QHQ6E5L84nZE8Pd9j6jlq7qb3SzZ6ZjMzbVZ5Gn
- xKUtz46DZEZXGaMMiMat+XTN9GSs5SLnBl/fJgTGTj5ruG2n37i/ZqraXzrGi2OgMY
- N6p9VhX5v7/uIG0phchviPvni4XSBh/6meWakfO8zN8By/cfL+nLCcakee3XqJyuy7
- fHA3vR7E5gDBhSW8CMNR5cuQ48KlOvjgkN1Jl7F9ijVnn+gMmEdR7JvH3fspNNZygK
- gOIcVotUxqMq1me14RZE/wsXs35Ug5Gof+230udkb/BdDORD64IPZ/kdTOLUbrUHUc
- VthUxFSvoT0RA==
-From: Danilo Krummrich <dakr@kernel.org>
-To: acourbot@nvidia.com
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH 2/2] Documentation: nova: update pending tasks
-Date: Mon, 19 Jan 2026 16:31:05 +0100
-Message-ID: <20260119153129.59876-2-dakr@kernel.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260119153129.59876-1-dakr@kernel.org>
-References: <20260119153129.59876-1-dakr@kernel.org>
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A223110E2AC
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 15:32:44 +0000 (UTC)
+Received: by mail-dl1-f54.google.com with SMTP id
+ a92af1059eb24-12339e20a87so170006c88.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 07:32:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768836764; cv=none;
+ d=google.com; s=arc-20240605;
+ b=b82sAJVLphL4YPByrHtRrfvhptft07awkxHBVQC3ArVPqG2hlz7Hkqsz+fN4RSJ136
+ GbX8XAk0yOoygybvZEAIeygkrYjuu47XQ1zyF8dvJuVAqWoHGyJryX27ixsYSw4tcmoP
+ 1fdJI7hZeMkkfd2oDHMTjm8KodWEIpuB8zIPriok4rSHQJ41dw3hjn5aIgjUvZkE2EFZ
+ cfYpal633BYFvFB1Em3BQd2ChQokWmsuCHfh5iRa+8PXdUZVfFVBJJ3YuT6Z0FyDo1ci
+ 3nPw3HbaeZrtdLoS5oQ/9Ud0jkmyGW6rbgHhjcNYmNjrdlVTss0bnHRK+KYoAVrU0HIa
+ rhrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=fImTte1fxp7A+UUuGPcjOwlAej0rmxglegz09JzZSyY=;
+ fh=NiE93Bkgvvd4pCsaysQTIlSsbQt00XkvA+IZYcKToAY=;
+ b=f7sUqNAj4QDqhpl1/qTlaBhv5uJXXxilobVpoRPyf1z9tO9mLuxyx4LnFrRbb+QL4N
+ gELY1t/wUBcy46S90KOnd44ZCWw7GaRr8MDYOX9U2JIPpOUmfRPvCl/d5qLya2Kgkk8C
+ YmQ1u8DwvrpjS2fLHlq+QT86t6YiIqIaRsmV7VoJEDPvdQOHV6XwyM9tMm/HE4n0JhcN
+ ZtPvCr4RwoD56Bmoc5bbCiuMepDLbfncnp+NYdm7ap1lpwNrYL0xh03OrDz/ApIlAmHN
+ jBpEYJ9mWDfw1zWqnEnlyhfRg3b4l4Iotk1PfUaQoP2oEm3s8uVyHolLD655NF3gBh4o
+ fHmA==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1768836764; x=1769441564; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fImTte1fxp7A+UUuGPcjOwlAej0rmxglegz09JzZSyY=;
+ b=QkQHq+PpnnUkcz4spL3GzL5pW+n/szuxcp/s3/NYy4m76G51TRIji4XCHj8x3/HBmR
+ 2sJH2j7UKvqiuh6QVYgj+hKG3MXQm1/26bThD0w0628+HHeTYW1RBjq/8KcJ5lvW+g0v
+ hAOS73HsFeTUPwpIGP+WHwulKNYhjq0FZj6AsWe++0rFPo8S9Js7mllh+ChOb7GWfkbT
+ zmqxTZsJXiARtMbFYDKfbR6HSnDejbi5bo+tpAfFbUI6zeLtAD4MBks0CrGh1wB0YvFk
+ pE9fpqnb7/Q/UaG3fFcrAmPAWKcr3zunyzzdIS6aVIhbRfxyWkMjYOkJv9zX/7n8+akJ
+ pFng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768836764; x=1769441564;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=fImTte1fxp7A+UUuGPcjOwlAej0rmxglegz09JzZSyY=;
+ b=VkIJ6Y4xO5dm6jGpbvgtx7BpyYSe7H+vU8gHShF812RlNiGMjTQfVSGdh4EskRoEXt
+ 9IbzNru3S/Mew1DsRLNd6e8pbXU+gYUdzZnVrK+gzH02Yb3k5Bt0o5Bqneft5pqsxJge
+ rr4+Uh8DgkF15Hs0OAx/BAidRkWg8LeZ5GXLf6m1Fft3O1In0hWNAoLGNcagkm+z2M99
+ BTZzIMm/dytDPRxsImVq9HgwFAP+V7x/ytjriVL0ZAMLaxhKmFCrUW/rNCyrChR4CQFE
+ pmXeGtOrzAohMW2Jo0PRrS+UfHchot6HUMnlPb1p2TCHLwqoz2vblnngvHBwnTG1c3E3
+ Vzug==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXBSUvNLfu1jtSSXD0GGYoc6RdwQsuiJyl6E8CudTXbvPgKLKC1KjjvZT/NbwFcq3Yy7iADVofZ1lc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz/9Invb3gP3t3CKst/YGFUXzhI1GGGtjgnaeq/7gmH1B5VIxV3
+ GT137AX8gs2rYMSqVli1SDSsCjk/nf0RDkiwrcu7AEwDFQbwlnpZW3OUX1peTu8QM+KCHPnKcdx
+ Pbc5zpbKI34Ke3AmCdWFNb2MyHmS6AiY=
+X-Gm-Gg: AY/fxX6fkgvrjIXT/KCoVUZLfXhRm+A/JS8+Xd8cwkKs6LXHnW2Dj3Lx0yyqPjpz5yh
+ QgPW996JplyZEXmWcQ7MWwSLzITt8dHRCrLxFcInwON0EOkueUDOd7qFKiZlCPe7f1KLebUw1t4
+ J3tpQBRSFH/A5zSj4KQOcAlypJBQdJu6UlzSI7eBN4zgamEauOSHxgQqVIvVfR/XjJVUHZvYJtk
+ IcVRFCfvNsh8VGn0hKATF3bUrMP7L1yKPgSrnrJ1b5Hpb17/PFsKhuIbznYTWqohwqPZGcO
+X-Received: by 2002:a05:7022:e80d:b0:119:e55a:95a0 with SMTP id
+ a92af1059eb24-1244a713d6bmr4923545c88.2.1768836763824; Mon, 19 Jan 2026
+ 07:32:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260117095421.12700-1-decce6@proton.me>
+In-Reply-To: <20260117095421.12700-1-decce6@proton.me>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 19 Jan 2026 10:32:32 -0500
+X-Gm-Features: AZwV_QiPXB_jMj4_9o148eXT2DvApiGgXceyKtRNlHPzqDodG8vQjdvbrt6w9gY
+Message-ID: <CADnq5_Nrp6xsEOgs8PVy5cmO3rV9QhdoyBDB6DdTdOtXpmnZ6Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/[radeon|amdgpu]: Add HAINAN clock adjustment
+To: decce6 <decce6@proton.me>
+Cc: kenneth.feng@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,57 +103,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some tasks, while already having some progress, are still pending, hence
-update them.
+On Sat, Jan 17, 2026 at 2:17=E2=80=AFPM decce6 <decce6@proton.me> wrote:
+>
+> Currently, the AMD Radeon R5 M420 GPU is unstable when operating at the d=
+efault maximum 850MHz/1000MHz (core/memory) clock speeds. For example, a ga=
+me may stop working within one minute after starting up. When using the amd=
+gpu driver, the process stops with exitcode 6 and the following message is =
+printed: "amdgpu: The CS has cancelled because the context is lost. This co=
+ntext is innocent."
+>
+> From my testing, limiting the clock speeds to 800/950 MHz makes it work p=
+erfectly stably.
+>
 
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
----
- Documentation/gpu/nova/core/todo.rst | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Thanks for the patch.  What revision is your chip?  Can you add the
+revision check as well?  Can you also split this into two patches, one
+for amdgpu and one for radeon?
 
-diff --git a/Documentation/gpu/nova/core/todo.rst b/Documentation/gpu/nova/core/todo.rst
-index 2d920ee76ab0..a3ba3e189049 100644
---- a/Documentation/gpu/nova/core/todo.rst
-+++ b/Documentation/gpu/nova/core/todo.rst
-@@ -41,8 +41,15 @@ trait [1] from the num crate.
- Having this generalization also helps with implementing a generic macro that
- automatically generates the corresponding mappings between a value and a number.
- 
-+FromPrimitive support has been worked on in the past, but hasn't been followed
-+since then [1].
-+
-+There also have been considerations of ToPrimitive [2].
-+
- | Complexity: Beginner
- | Link: https://docs.rs/num/latest/num/trait.FromPrimitive.html
-+| Link: https://lore.kernel.org/all/cover.1750689857.git.y.j3ms.n@gmail.com/ [1]
-+| Link: https://rust-for-linux.zulipchat.com/#narrow/channel/288089-General/topic/Implement.20.60FromPrimitive.60.20trait.20.2B.20derive.20macro.20for.20nova-core/with/541971854 [2]
- 
- Generic register abstraction [REGA]
- -----------------------------------
-@@ -152,7 +159,11 @@ PCI MISC APIs
- Extend the existing PCI device / driver abstractions by SR-IOV, config space,
- capability, MSI API abstractions.
- 
-+SR-IOV [1] and PCI configuration space [2] work is in progress.
-+
- | Complexity: Beginner
-+| Link: https://lore.kernel.org/all/20251119-rust-pci-sriov-v1-0-883a94599a97@redhat.com/ [1]
-+| Link: https://lore.kernel.org/all/20260115212657.399231-5-zhiw@nvidia.com/ [2]
- 
- GPU (general)
- =============
-@@ -191,7 +202,10 @@ Some possible options:
-     - maple_tree
-   - native Rust collections
- 
-+There is work in progress for using drm_buddy [1].
-+
- | Complexity: Advanced
-+| Link: https://lore.kernel.org/all/20251219203805.1246586-4-joelagnelf@nvidia.com/ [1]
- 
- Instance Memory
- ---------------
--- 
-2.52.0
+Alex
 
+> Signed-off-by: decce6 <decce6@proton.me>
+> ---
+>  drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c | 4 ++++
+>  drivers/gpu/drm/radeon/si_dpm.c            | 4 ++++
+>  2 files changed, 8 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c b/drivers/gpu/drm=
+/amd/pm/legacy-dpm/si_dpm.c
+> index 1f539cc65f41..fcb9e0e20175 100644
+> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+> @@ -3468,6 +3468,10 @@ static void si_apply_state_adjust_rules(struct amd=
+gpu_device *adev,
+>                         max_sclk =3D 60000;
+>                         max_mclk =3D 80000;
+>                 }
+> +               if (adev->pdev->device =3D=3D 0x666f) {
+> +                       max_sclk =3D 80000;
+> +                       max_mclk =3D 95000;
+> +               }
+>         } else if (adev->asic_type =3D=3D CHIP_OLAND) {
+>                 if ((adev->pdev->revision =3D=3D 0xC7) ||
+>                     (adev->pdev->revision =3D=3D 0x80) ||
+> diff --git a/drivers/gpu/drm/radeon/si_dpm.c b/drivers/gpu/drm/radeon/si_=
+dpm.c
+> index 9deb91970d4d..2f386ea8827f 100644
+> --- a/drivers/gpu/drm/radeon/si_dpm.c
+> +++ b/drivers/gpu/drm/radeon/si_dpm.c
+> @@ -2925,6 +2925,10 @@ static void si_apply_state_adjust_rules(struct rad=
+eon_device *rdev,
+>                         max_sclk =3D 60000;
+>                         max_mclk =3D 80000;
+>                 }
+> +               if (rdev->pdev->device =3D=3D 0x666f) {
+> +                       max_sclk =3D 80000;
+> +                       max_mclk =3D 95000;
+> +               }
+>         } else if (rdev->family =3D=3D CHIP_OLAND) {
+>                 if ((rdev->pdev->revision =3D=3D 0xC7) ||
+>                     (rdev->pdev->revision =3D=3D 0x80) ||
+> --
+> 2.43.0
+>
+>
