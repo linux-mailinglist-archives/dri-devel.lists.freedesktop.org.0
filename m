@@ -2,64 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE5A3D3B096
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 17:25:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40369D3B1A3
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 17:41:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3511A10E4CA;
-	Mon, 19 Jan 2026 16:25:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B559C10E10D;
+	Mon, 19 Jan 2026 16:41:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QbbYH+rK";
+	dkim=pass (2048-bit key; secure) header.d=shenghaoyang.info header.i=@shenghaoyang.info header.b="FhypDnec";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE43410E4C0;
- Mon, 19 Jan 2026 16:25:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768839914; x=1800375914;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=JqlRBUHAl1YjpoyO5IbE/848aJLSVa7jhlGg1cOrbaE=;
- b=QbbYH+rKomI41J02hxDNzzvRKhEkEA++ASq6yFwgFo61oX2lHkiWR+IK
- jV+ZzD3EtyAbu3CURKYA6ZlPFwEiKEDIMkBI7BRt1XlSyt4zw4sKbQKUg
- NCvPxRcjv7+ilDaSciApkcbPgYFI2PWrZ5ARAO4Er06OfTu6ZGkoNkFoY
- G1HreW0FVVxmqYOdENUbpJhaYl/YCOJmSoIKDCbK2buRz62aoA1173jMr
- SRkMdgmEpC+sEizYE2QRnnJWWSDTCzqDK4U/RQDkVVWoVsTXYjdS/lMkL
- ZsyPGvUWvkUGZiNz36PgpPRj48xyucScDno62dRQW5JSxRfi8IYT2d8ep A==;
-X-CSE-ConnectionGUID: qgl+YInQSJKhrssAtFHc5A==
-X-CSE-MsgGUID: WaSrElgtT1Sob9RJ964/XQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="73681401"
-X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; d="scan'208";a="73681401"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2026 08:25:13 -0800
-X-CSE-ConnectionGUID: Y7uuXMXhQvmU/oa1s5PzUA==
-X-CSE-MsgGUID: hH0RCehVSvivk1Hw+HNJIw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; d="scan'208";a="210751453"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.244.99])
- ([10.245.244.99])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2026 08:25:11 -0800
-Message-ID: <8c553c8d-2b09-4c2b-a744-dd789e5a1f64@intel.com>
-Date: Mon, 19 Jan 2026 16:25:08 +0000
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B602810E10D
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 16:41:38 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id
+ 98e67ed59e1d1-34c37a107b3so111181a91.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 08:41:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=shenghaoyang.info; s=google; t=1768840898; x=1769445698;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:mime-version:date:message-id:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HcmmiqNbU3rGTkCmxroKjD8IC24Ld60SzEtjXGdLtbM=;
+ b=FhypDnecruP4ZVHfh9UgVcxTg0lksPj1ygOwoDaaaJZqMz9F9LkEUir6toSVxFFCkg
+ s8A3vNtXNWlrhWvvF75imqLUZDLkYXJC95Tg53K6UWWflZikgOAMeeu3iPOZWzFlUMGN
+ dCzq2By1CAyHRBsMIfvoUdESHG7ZYLwTUlwsJEAhguzHoHUUFKnCl21C3J8If5lrYAAQ
+ opc8sgPUd4UxHNItF8MdTDgKuGQjeNXKTSxRkhDqtuskfI7JC5I5PiozwLsNMRsJCOpU
+ lYwGhwdD5Kq0XKNx11qiT3xCRyWogDzvYLrQ+pH5dSB+VmLJmfPN+ikhcaQ5K0wvQgXK
+ K9CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768840898; x=1769445698;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:mime-version:date:message-id:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HcmmiqNbU3rGTkCmxroKjD8IC24Ld60SzEtjXGdLtbM=;
+ b=ijJTMJCI9OYjB+uEd7/7wugiR2gwBXIBFxLpkWIyQ8CvJTgW9ZU/V1ysYfztAEunJg
+ wvNzHo/RiGJYn/mFQijLVitSzxiJrpShocUPTqhipb9zel6yXARPRG7xWn0MMdNtdoa4
+ zQlbNe3AmSEm6p3CoOBBq54q5YyLS4vAkA6jqeyU93E9RGuFaTDplqqr5mCcV0Un+LxR
+ WNWy0ApmvZMp8hUlUFrkGGmunMZgNDQ0nbM0vjx1jRb3ae/yMfJh6zXlKfpLJfLBVrGz
+ eCvRZgRIG1UgGMquFLyEBgn1gAqMaEqgxU1lG1resJAc7DB6d7vkzQXR7tKIjZ3o5VIj
+ o+5g==
+X-Gm-Message-State: AOJu0YzdbjPCA91HYj0YJb+384ymrzgN67HXT36OpPNwY6Xzlo+zsdat
+ ZW8izqIdm7Seu1QIl9dI80WrG9LoEL/4MuxklthWcaQFxsuOCO0PEQVXxFliozT5r9g=
+X-Gm-Gg: AZuq6aL3kklxWWaPRGXCMMLmrB3AIQPLiiD3jhCnmc1sc6qy+DvsuHw72rjcSdjfj3h
+ n0hr1E6z/jnX+fitL2o0H7OKAhvcNrRuxlXk7P78ky2ZbmEBhru5TPP+vxhHrM2qyQnGySGH5xZ
+ NiNJ4CMWttuvwTAU8VbRp2c7kVHgH+daEJjGn3sigYH+sxFdyWTAqkE7tX07fqwCmTdNqhgOK4s
+ LgEJCHyPfU4tNwA+scxZiy4EIeawHHyHCJCb2Zk4dHnAQd/URjzc64XNfAgH15UspG07H2OygjX
+ i8A4Ka5m7SFw1H532NFZlaugeQZzP1wd09Uf3PeNpd4Y8mmGHQJQcoyPCr8ac2ydxf2zH3TypwX
+ PfJthrD7E10WobQqgkUkGGSg2EPnbp+IqR02NpvkOyjWSN8dsLGSXkqqWUlYny4PPciHmoUaF8i
+ 0eb2si+GXMHtmZ
+X-Received: by 2002:a17:90a:c887:b0:34a:b4a2:f0b5 with SMTP id
+ 98e67ed59e1d1-352b5a7f82cmr160248a91.5.1768840898210; 
+ Mon, 19 Jan 2026 08:41:38 -0800 (PST)
+Received: from [10.0.0.178] ([132.147.84.99]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-352677ec7dasm12316253a91.8.2026.01.19.08.41.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Jan 2026 08:41:37 -0800 (PST)
+Message-ID: <cc51e712-a337-46b0-91cb-6c3af76a84c3@shenghaoyang.info>
+Date: Tue, 20 Jan 2026 00:41:33 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND 1/1] drm/buddy: release free_trees array on buddy mm
- teardown
-To: =?UTF-8?Q?Micha=C5=82_Grzelak?= <michal.grzelak@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- rodrigo.vivi@intel.com, Lucas De Marchi <lucas.demarchi@intel.com>,
- "Paneer Selvam, Arunpravin" <Arunpravin.PaneerSelvam@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-References: <20251219193237.1454565-1-michal.grzelak@intel.com>
-Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20251219193237.1454565-1-michal.grzelak@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] drm/gud: fix NULL crtc dereference on display disable
+To: Thomas Zimmermann <tzimmermann@suse.de>, Ruben Wauters
+ <rubenru09@aol.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, kernel test robot <lkp@intel.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+References: <20260118125044.54467-1-me@shenghaoyang.info>
+ <fa36159a-fa41-4066-abea-60a439e944b3@suse.de>
+Content-Language: en-US
+From: Shenghao Yang <me@shenghaoyang.info>
+In-Reply-To: <fa36159a-fa41-4066-abea-60a439e944b3@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,53 +93,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/12/2025 19:32, Michał Grzelak wrote:
-> During initialization of DRM buddy memory manager at drm_buddy_init,
-> mm->free_trees array is allocated for both clear and dirty RB trees.
-> During cleanup happening at drm_buddy_fini it is never freed, leading to
-> following memory leaks observed on xe module load & unload cycles:
-> 
->      kmemleak_alloc+0x4a/0x90
->      __kmalloc_cache_noprof+0x488/0x800
->      drm_buddy_init+0xc2/0x330 [drm_buddy]
->      __xe_ttm_vram_mgr_init+0xc3/0x190 [xe]
->      xe_ttm_stolen_mgr_init+0xf5/0x9d0 [xe]
->      xe_device_probe+0x326/0x9e0 [xe]
->      xe_pci_probe+0x39a/0x610 [xe]
->      local_pci_probe+0x47/0xb0
->      pci_device_probe+0xf3/0x260
->      really_probe+0xf1/0x3c0
->      __driver_probe_device+0x8c/0x180
->      driver_probe_device+0x24/0xd0
->      __driver_attach+0x10f/0x220
->      bus_for_each_dev+0x7f/0xe0
->      driver_attach+0x1e/0x30
->      bus_add_driver+0x151/0x290
-> 
-> Deallocate array for free trees when cleaning up buddy memory manager
-> in the same way as if going through out_free_tree label.
-> 
-> Fixes: d4cd665c98c1 ("drm/buddy: Separate clear and dirty free block trees")
-> Signed-off-by: Michał Grzelak <michal.grzelak@intel.com>
-> Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Hi,
 
-Arun/Christian, can you merge this one?
-
-> ---
->   drivers/gpu/drm/drm_buddy.c | 1 +
->   1 file changed, 1 insertion(+)
+On 19/1/26 16:17, Thomas Zimmermann wrote:
+> Hi,
 > 
-> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-> index 2f279b46bd2c..8308116058cc 100644
-> --- a/drivers/gpu/drm/drm_buddy.c
-> +++ b/drivers/gpu/drm/drm_buddy.c
-> @@ -420,6 +420,7 @@ void drm_buddy_fini(struct drm_buddy *mm)
->   
->   	for_each_free_tree(i)
->   		kfree(mm->free_trees[i]);
-> +	kfree(mm->free_trees);
->   	kfree(mm->roots);
->   }
->   EXPORT_SYMBOL(drm_buddy_fini);
+> thanks for the patch.
+
+Thanks for taking a look. I did forget about this oops and the
+smatch failure was a good reminder!
+
+> 
+> Am 18.01.26 um 13:50 schrieb Shenghao Yang:
+>> Commit dc2d5ddb193e ("drm/gud: fix NULL fb and crtc dereferences
+>> on USB disconnect") [1] only fixed the initial NULL crtc dereference
+>> in gud_plane_atomic_update().
+>>
+>> However, planes can also be disabled in non-hotplug paths (e.g.
+>> display disables via the DE). The drm_dev_enter() call would not
+> 
+> 'DE' ?
+
+Ah - the desktop environment. I was scratching my head for why the
+box kept oops-ing on boot even after the hotplug fix. It turned out
+kscreen was applying the saved "disable display" setting.
+
+> It seems to me that all these calls to GUD_REQ_SET_CONTROLLER_ENABLE(^1) and GUD_REQ_SET_DISPLAY_ENABLEshould rather go to the CRTC's atomic_enable/atomic_disable functions. Those currently seem missing from [1]. The atomic_update helper would then be reduced to damage handling. Best regards Thomas [1] https://elixir.bootlin.com/linux/v6.18.6/source/drivers/gpu/drm/gud/gud_drv.c#L341
+> ^1: SET_CONTROLLER_ENABLE sounds like it could even be part of device probing and runtime PM management, but that is a more invasive change.
+
+That feels like it'd be much cleaner. I'll respin with that in v2.
+
+Shenghao
 
