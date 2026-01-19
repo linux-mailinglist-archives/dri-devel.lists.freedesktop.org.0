@@ -2,144 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 695C7D3A04D
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 08:45:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38956D3A06B
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 08:47:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5FDA10E384;
-	Mon, 19 Jan 2026 07:45:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAFF810E383;
+	Mon, 19 Jan 2026 07:47:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="anEujeCh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/3U4m5Jv";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vjilY8Jm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ihOJzaqA";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MFZqcpE+";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KnV1GHJO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49E3B10E382
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 07:45:11 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8FB52336A6;
- Mon, 19 Jan 2026 07:45:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1768808710; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=4wRzNGVMrs2kDCf47lZNvlbT6/RNjONrSSFOz/syRaM=;
- b=anEujeCh9Wanp3AQvXiBq/B+GCVc477VoLG7UJnWe9Rr8uFtkypYvuiHR+02N8wJAQqayS
- 7+vKZ52BzAs2z0YgbLPdiFi/1ru9dmWuOMwcgpNqUT2W0qSk0/lUjah/qZlec5LZPuVeLs
- XS73hq3DSJWtTqUe9MnDuROcBQmWqmI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1768808710;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=4wRzNGVMrs2kDCf47lZNvlbT6/RNjONrSSFOz/syRaM=;
- b=/3U4m5JvPhO7cSrtbIJYdVUcoYJAl9DPjB1HlzAHSJjYV0pDzw0FRWwTAVZtwSfGRrZjYr
- deP/ojyWxYipXxBA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vjilY8Jm;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ihOJzaqA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1768808709; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=4wRzNGVMrs2kDCf47lZNvlbT6/RNjONrSSFOz/syRaM=;
- b=vjilY8Jm+AbnfGAtgbnMHUDIcZscswKFYWvSl0Gpslj/9OK2DXLLn6iRXzmDCJEUvvUEMw
- 1zeETZt7p0JTPxJi63mdp3bTCbVkBiRrIM0+rUWMz1u1fIrL2tL62sVEhQ38MWamLoZn3H
- Iv1/E7cth3wB0E4CwxznZ0rWruIN+/0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1768808709;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=4wRzNGVMrs2kDCf47lZNvlbT6/RNjONrSSFOz/syRaM=;
- b=ihOJzaqAL+2sxDJrZa5gLhLfuSwfjvvJOeMIMgQr6z8v24ivAwBPRVE0JRH3UqRIWb4Bhj
- s9cI91FTtPzlwxBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2E1113EA63;
- Mon, 19 Jan 2026 07:45:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id ZIyXCQXhbWlYawAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 19 Jan 2026 07:45:09 +0000
-Message-ID: <7d4b95ff-8a94-4d96-8b75-6153baad9fdf@suse.de>
-Date: Mon, 19 Jan 2026 08:45:08 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2386710E158
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 07:47:19 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60J5V0UW3010904
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 07:47:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ GZ85mfqi41v4PyjN22gGAFMq8Pfu7GHfOSwVNtysSmo=; b=MFZqcpE+zDEkEljI
+ eS3BEc+8YC8hC5WU6VnV2ZzFhUuBJIXceZxk4u1aUyaGZV7MVHM3TI/qgvDE3TVx
+ d2VLbsmSY36B1G9MQMuHKAjTNgB1uIwlTu9k3oL+AXpELUMyDvEI8sGuMU9dgtSS
+ b8jpEFgeQjIoorAOs8PyPxVgfkqWdnRhxUY25I/B8jK5yc8hCEJqgu3xqH6OHT3t
+ X5fo/GvUdPtKdt1AtEuCHVWpb+s1JjXXVoHrqjPf6RUP8ahBjE/3D7PiO2Ufh/Ff
+ TPkzm0JN7KKXihH0z/MRxItTixDSc1SrU9N7lzb3zX80yIN9yB/haU+8o5ha1foE
+ DsoV1Q==
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4br2gum72w-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 07:47:17 +0000 (GMT)
+Received: by mail-pg1-f200.google.com with SMTP id
+ 41be03b00d2f7-c337375d953so2344841a12.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 23:47:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1768808837; x=1769413637;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:cc:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=GZ85mfqi41v4PyjN22gGAFMq8Pfu7GHfOSwVNtysSmo=;
+ b=KnV1GHJOwCCtjl/paJzKPN1DfhS71mDxojgJLPQdR2+aDbd0GEXIOeVuvOJXTiJjjx
+ DjjZILDTR5sp+hmgkyhWBJsx6rLOraxsm7MjvTotLROYbTleXVm7Jm2HC/Z4e7457Yu0
+ XMOu+c8QJZOb/LM6I/OUHPYMQb3lqxJ2aR6pm52bqM+pgH6BOAvF10n+3KeQU79G0/XX
+ M016iohuXWSk67EubxQa5xNHbWAqnOygzc1f5Bhro5KCT/zoQYanGeQ3zR8zrv8TNfny
+ DbEP2FlpcIHdtMRuGja6QrcD6/pwku3Es5Y6zu6tgOPbiwkEkQbOouHHDOCd5NqVBLH/
+ hftQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768808837; x=1769413637;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:cc:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=GZ85mfqi41v4PyjN22gGAFMq8Pfu7GHfOSwVNtysSmo=;
+ b=rQUBw/6iBL13jNBNPF7rZQa8bqi0SzeT57X376qi3tj24cQfFXZdZ1zHSFHTQMtUZN
+ vbYURPcXFl0c4kKrQO2n5BYbvTEC70uMP5DrYaF9GFuetB3w1uN9LG9APkzntkc8br+a
+ AUp/etJcRfzIfVvu8iGVrmzvR2BTjsNkzg4VpwzaDLeae9E4UOfHBsXiUf9Xo/LXpWuD
+ iu5y9gBGcPf2Q9dKs0lNdOlyC4MMqA+RuIlsrv/tY1ORzNpwY/qA1sF+wrvFQdsov9vy
+ zvmmYcfe8TfOG7ZRrEjYtiyc4DEVzCAoMEXgMhovbhE3N3YXEPVYct7FbFdBT9rK5F/u
+ XFmg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUZe73PJEaf9JharYY16slQvRL8pFAtdba18X5UKWYWY578urjjwPOZ+RM4RVW+k2PFRsNTDYNcbmA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyb37z7fZlSCSulVWEtIw+zVwc8mKFnqa7Fr+FTyRkICTdtubEB
+ rbSOhWk+EQcFbv1O2TKzMxiqETRau3aP70P8ATtXwUjL+eevmR9cwrhr/ngNgsEwPwoJwnHFx0V
+ OUKXXfhqRh+JDGDB2qS2xNkIXDciSqx7hmhFQ+q4g3gWx6PTV97TXFhRogigo18kZ4Auytx4=
+X-Gm-Gg: AY/fxX7P5iuU0XeDZmolnPJFO9Pqn5vuVWp5SC1fpNFQPY0yerwqU2BoUZQJIrJQhc6
+ A7gc56dQLqkmdPkZuvDnLqD6zKzcbucQOE0h+hFrVfJSVnDe+IGsfUaOXeb+g5qnnETUWuinWND
+ nIvcL7jbfPNtTHHmy5NpHnxL+7cXy442vNWb7myR1EnOYP+SMww0F9abdpFPnj0NPLFfUx6WO7O
+ yIquuCyEvNApEvo6hcnbVpakDyloSfgS277XKbN4VjN74pXgM1S0jw/PbazKpddHqxxi7kb7Sdb
+ QvTtAI/Kq9jBMbT9zYkci9xcOpzXNJ2MlgnajxafoIlCak5qGmUQkSp6gvHnSRzjwYosQR1JKEt
+ wOu2DirK4+ONJTTO4SohrjWC68bC/DWiCVAGDs9ijkSdZ3zlRFFBGp78Tgrpbj16Bf3FRydhSby
+ t76g==
+X-Received: by 2002:a05:6300:6199:b0:364:14f4:5205 with SMTP id
+ adf61e73a8af0-38e00bc01aemr10040408637.1.1768808836731; 
+ Sun, 18 Jan 2026 23:47:16 -0800 (PST)
+X-Received: by 2002:a05:6300:6199:b0:364:14f4:5205 with SMTP id
+ adf61e73a8af0-38e00bc01aemr10040382637.1.1768808836236; 
+ Sun, 18 Jan 2026 23:47:16 -0800 (PST)
+Received: from [10.249.8.62] (tpe-colo-wan-fw-bordernet.qualcomm.com.
+ [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-c5edf2330d4sm8657224a12.5.2026.01.18.23.47.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 18 Jan 2026 23:47:15 -0800 (PST)
+Message-ID: <08675c7f-3875-4335-8dab-eb0044d42b38@oss.qualcomm.com>
+Date: Mon, 19 Jan 2026 15:47:08 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: Fix slab-out-of-bounds read in
- fb_pad_unaligned_buffer
-To: Osama Abdelkader <osama.abdelkader@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>, Murad Masimov <m.masimov@mt-integration.ru>,
- Quanmin Yan <yanquanmin1@huawei.com>,
- Yongzhen Zhang <zhangyongzhen@kylinos.cn>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: syzbot+55e03490a0175b8dd81d@syzkaller.appspotmail.com
-References: <20260118134735.11507-1-osama.abdelkader@gmail.com>
+Cc: wangao.wang@oss.qualcomm.com,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-media@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: Re: [PATCH v3 0/9] media: iris: migrate to using global UBWC config
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Bryan O'Donoghue <bod@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20260116-iris-ubwc-v3-0-662ac0e0761f@oss.qualcomm.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260118134735.11507-1-osama.abdelkader@gmail.com>
+From: Wangao Wang <wangao.wang@oss.qualcomm.com>
+In-Reply-To: <20260116-iris-ubwc-v3-0-662ac0e0761f@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.01
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch,gmx.de,kernel.org,mt-integration.ru,huawei.com,kylinos.cn,vger.kernel.org,lists.freedesktop.org];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; RCVD_TLS_ALL(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- RCPT_COUNT_SEVEN(0.00)[11]; MID_RHS_MATCH_FROM(0.00)[];
- TAGGED_RCPT(0.00)[55e03490a0175b8dd81d];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid]
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 8FB52336A6
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE5MDA2MyBTYWx0ZWRfX3BihJog9idyJ
+ wBDfGTbksL9NxMtgalGnt6Z8Q5nUmNsnz2kPUxW25gCydGloPT/UW9eUTbUAAKhKIJbDMoXpMFJ
+ 5ULwlqVymRcOXnBUD6RhhyzhYosOMq7Sp8Xo/BIJxsh54yv9HY0MYEn//xM4HRXLkHZSISddbw8
+ 0/ZeaDiukc6nO2P5W4ni1qvNrUd+K0il+qHV6wNyv/7GeTi3YjI5WWob/bu59N+aIIS3xpJIjz/
+ Zb9KPJYpDv3lyUhlmJq7zLcyDGFV1mVHsx82N1hwo1p7b95ONPLPE4h4Z00Zep8v6a5UKI84gx4
+ VCw3uDWpdsmeva9ZE3TlSMzWUlP5CeIeuWGckvrtH4I6v1tb3zNKbKh1XigfkB++B0gbSj7FR5z
+ pCpjI02LP+2YVcfqmnLahqRVKv4F998sPNMKdyKfogrERL/kpPGRk0xUPOPrtE6Cf3SfgvDvY18
+ RAOoyN4Na26ztnFzG8A==
+X-Authority-Analysis: v=2.4 cv=Sev6t/Ru c=1 sm=1 tr=0 ts=696de185 cx=c_pps
+ a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=RKnW3nVSh4YJs2QzWIQA:9 a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
+X-Proofpoint-GUID: w6yGUfyKcsiHmyJEKKBKf7ybdns3StkS
+X-Proofpoint-ORIG-GUID: w6yGUfyKcsiHmyJEKKBKf7ybdns3StkS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-19_01,2026-01-19_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0 impostorscore=0 spamscore=0 bulkscore=0
+ lowpriorityscore=0 clxscore=1011 priorityscore=1501 suspectscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2601190063
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,77 +156,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 18.01.26 um 14:47 schrieb Osama Abdelkader:
-> The function fb_pad_unaligned_buffer() was reading idx+1 bytes per row
-> from the source buffer, but when mod == 0 (font width is a multiple of
-> 8 bits), the source buffer only has idx bytes per row. This caused a
-> slab-out-of-bounds read when accessing src[idx] after the inner loop.
->
-> Fix this by only reading the extra byte when mod != 0, ensuring we
-> never read beyond the source buffer boundaries.
->
-> This fixes the KASAN slab-out-of-bounds read reported by syzkaller:
-> https://syzkaller.appspot.com/bug?extid=55e03490a0175b8dd81d
->
-> Reported-by: syzbot+55e03490a0175b8dd81d@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=55e03490a0175b8dd81d
-> Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
+
+On 2026/1/16 15:27, Dmitry Baryshkov wrote:
+> Having UBWC configuration in the driver is error prone. For example, the
+> driver specifies fixed values for HBB, while the actual value might
+> depend on the DDR type. Stop defining UBWC data in the iris driver and
+> use the global UBWC configuration registry.
+> 
+> Merge strategy: either merge SoC bits directly through the media tree
+> (with Bjorn's ack) or merge to the media tree through the immutable tag.
+> The drm patches will follow depending on the way the SoC patches are
+> merged.
+> 
+> Note: the patches are compile-tested only because of the lack of the
+> Gen2 hardware at hand.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > ---
->   drivers/video/fbdev/core/fbmem.c | 18 ++++++++++--------
->   1 file changed, 10 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> index eff757ebbed1..a0c4932a6758 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -113,15 +113,17 @@ void fb_pad_unaligned_buffer(u8 *dst, u32 d_pitch, u8 *src, u32 idx, u32 height,
->   			dst[j+1] = tmp;
->   			src++;
->   		}
-> -		tmp = dst[idx];
-> -		tmp &= mask;
-> -		tmp |= *src >> shift_low;
-> -		dst[idx] = tmp;
-> -		if (shift_high < mod) {
-> -			tmp = *src << shift_high;
-> -			dst[idx+1] = tmp;
-> +		if (mod) {
+> Changes in v3:
+> - Dropped applied and unrelated patches (they will be posted separately)
+> - Include printk.h, decoupling the series from fix picked up by Bjorn
+> - Introduced additional helpers to retrieve the data.
+> - Link to v2: https://lore.kernel.org/r/20260113-iris-ubwc-v2-0-4346a6ef07a9@oss.qualcomm.com
+> 
+> Changes in v2:
+> - Extended the commit message and added a comment for the min_acc length
+>    helper (Konrad)
+> - Link to v1: https://lore.kernel.org/r/20260110-iris-ubwc-v1-0-dd70494dcd7b@oss.qualcomm.com
+> 
+> ---
+> Dmitry Baryshkov (9):
+>        soc: qcom: ubwc: add helper to get min_acc length
+>        soc: qcom: ubwc: add helpers to get programmable values
+>        media: iris: retrieve UBWC platform configuration
+>        media: iris: don't specify min_acc_length in the source code
+>        media: iris: don't specify highest_bank_bit in the source code
+>        media: iris: don't specify ubwc_swizzle in the source code
+>        media: iris: don't specify bank_spreading in the source code
+>        media: iris: don't specify max_channels in the source code
+>        media: iris: drop remnants of UBWC configuration
+> 
+>   drivers/media/platform/qcom/iris/Kconfig           |  1 +
+>   drivers/media/platform/qcom/iris/iris_core.h       |  4 ++++
+>   .../platform/qcom/iris/iris_hfi_gen2_packet.c      | 18 ++++++++++------
+>   .../platform/qcom/iris/iris_platform_common.h      | 11 ----------
+>   .../media/platform/qcom/iris/iris_platform_gen2.c  | 14 ------------
+>   drivers/media/platform/qcom/iris/iris_probe.c      |  5 +++++
+>   include/linux/soc/qcom/ubwc.h                      | 25 ++++++++++++++++++++++
+>   7 files changed, 46 insertions(+), 32 deletions(-)
+> ---
+> base-commit: b775e489bec70895b7ef6b66927886bbac79598f
+> change-id: 20260110-iris-ubwc-06f64cbb31ae
+> 
+> Best regards,
 
-How do we end up here if mod equals 0? When I look at the callers of 
-this function, cases with (mod == 0) take an entirely different branch. 
-[1] [2]
-
-Best regards
-Thomas
-
-[1] 
-https://elixir.bootlin.com/linux/v6.18.6/source/drivers/video/fbdev/core/bitblit.c#L208
-[2] 
-https://elixir.bootlin.com/linux/v6.18.6/source/drivers/video/fbdev/core/fbcon_ud.c#L199
-
-> +			tmp = dst[idx];
-> +			tmp &= mask;
-> +			tmp |= *src >> shift_low;
-> +			dst[idx] = tmp;
-> +			if (shift_high < mod) {
-> +				tmp = *src << shift_high;
-> +				dst[idx+1] = tmp;
-> +			}
-> +			src++;
->   		}
-> -		src++;
->   		dst += d_pitch;
->   	}
->   }
+Tested the v2 patch series on Lemans and Monaco.
+Tested-by: Wangao Wang <wangao.wang@oss.qualcomm.com>
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
+Best Regards,
+Wangao
 
