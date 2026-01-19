@@ -2,81 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D599D39D29
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 04:40:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FFEAD39CDF
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 04:29:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D699B10E334;
-	Mon, 19 Jan 2026 03:40:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9888410E32B;
+	Mon, 19 Jan 2026 03:29:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PXemQUKH";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZK+U5OLu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
- [209.85.160.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B433810E334
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 03:40:31 +0000 (UTC)
-Received: by mail-qt1-f169.google.com with SMTP id
- d75a77b69052e-502a407dabaso22858491cf.0
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 19:40:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768794030; x=1769398830; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=KcbVa3268lyqxBGM305ylj+tBhZM3T/QjOKg0r4LL34=;
- b=PXemQUKHV4CgxFw9SoRCIeqhWGa0Lx16jxV1RxTzsYl4ppKyKpNEudBX9xdzM5edZN
- MznGndvXyQX+vHkDJMEek14k55R/3YqtearHQMYZylFoe8PbOtMhWytJYlqds7Rfod+z
- SQlHUm+3bXOYrml+7ihjx8W8IztCrAui8q5qkHh0L6ha7MOYM8DeUxXY9Nar+D5dtyjE
- V/RqxOvvth78KoEyaJluO7JM3qTrwFkr6Y4LsVG7v3Hx6PNqmpqBcseGDgCq6cftGd4h
- SwK20q8qL/kqEkp4cwOqZJlhLUUSK+DAQ/kue17t/JVzpxm9D0zcAFG5DsVZwvbyOJeA
- 7kjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768794030; x=1769398830;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KcbVa3268lyqxBGM305ylj+tBhZM3T/QjOKg0r4LL34=;
- b=EZahuRw2osLSybxbx+6i0E/TiGDpuwvidW5AdZOAZq2fvqPqtoQpQvZdLKw9BOdkzQ
- DQObIBu8ck6PbCbgzEQNdH82FAmskOoq/uBIbOtaPY0n8r5KPUwyqLD/Ysa0APJ0wunG
- /rZTMSDkHyQPnymOxjZZhqiRstGp1VxrE6hMHJLUHXymT3xlSJlDqTxG49Fa06vAGJRM
- jIEmZUN6lvXFQePwucAEzuxQ4iZQqZE5CcD5hF6l7TWYy0csatmVJM1IwxKcAjPOfO1H
- 7Jo8OhqntwomY4HdzaCZfANxGWqBlsw52HUzSTedeMLXaf06KcuTi/2FiZbbKk5gSzFt
- 6rJg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXxY4tgGWZSd/6nGh61ONEvQ6RvTCb/3bZ472rdymK+FSoRRHKFsSaDGfkIlCUbCSPAhQOi6uSVASc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwVSXwflOz1WiS7TSK20jAQ6xM6gWShJeOsOwLSpxY2BAy0zpvI
- 8lRgqe+Ho2A+/cAanxPUzrnbva1kKm0CCE7/LNXFcuxcLQu2tIRyTC8Z
-X-Gm-Gg: AY/fxX4sQPkc4age/+i/Ib7gEod4cvqX8tpJDzcQtgqKW9abXO/haU/FwyLFpMvJTdo
- XueqCnub/E1YSL5fwTrTjNLvatijYfAYsEsoWbBf7xG80mFO4T4c2UAGJWiy+wTp143rDR1qjrG
- H78KfMOfo/9V63L5fzm6VFtJPpQEK/HxYioZgR4QPpHZlu5VTvKWRgeUqP+PBQHuqkcWhxPkhdV
- R/zKhbDkyPWZII6xFtPEmxu6VcpFhGCBMXG29dqzHuoFaTVzinycPFEAi8ZPV0c3mYTBn1gxrqB
- hxqx7aZ9AJ744fN2ZrjguS/KvrW6RLbqrTqBjUT7vS7WLAJYVZcRfl+brG+D9kMT3nzmCG/jBMm
- 0gdGQmsUKX4z9hgm81RGHVvtHM3lIzQVlUEcD2SNMsQ98Z7AwXQHXv7yVqPvP0UwAe6CKHBcSug
- E6id+QqObr9zSrvbTtikjra3yXMyfosTBpEGVt09c6NWIlzGPdsNOMK3KyfYH0lzirsMQ=
-X-Received: by 2002:ac8:5d05:0:b0:502:9f86:ca31 with SMTP id
- d75a77b69052e-502a16b3652mr167438321cf.52.1768794030529; 
- Sun, 18 Jan 2026 19:40:30 -0800 (PST)
-Received: from mighty.localdomain (nat-130-245-192-1.resnet.stonybrook.edu.
- [130.245.192.1]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-502a1f1b872sm64030801cf.31.2026.01.18.19.40.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Jan 2026 19:40:30 -0800 (PST)
-From: Mithil Bavishi <bavishimithil@gmail.com>
-To: aaro.koskinen@iki.fi, andreas@kemnade.info, khilman@baylibre.com,
- rogerq@kernel.org, tony@atomide.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, neil.armstrong@linaro.org, rfoss@kernel.org,
- laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, quic_jesszhan@quicinc.com, bavishimithil@gmail.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com, thierry.reding@gmail.com
-Cc: linux-omap@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-hardening@vger.kernel.org
-Subject: 
-Date: Sun, 18 Jan 2026 22:40:24 -0500
-Message-ID: <20260119034025.58091-1-bavishimithil@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78BCE10E32B;
+ Mon, 19 Jan 2026 03:29:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768793391; x=1800329391;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=O4q+1AGtGrB28fOYUZxTRUC9O/6WswHRXwjokHzTSJM=;
+ b=ZK+U5OLulCc8MI2Gdk+Ai3CjEGiwSwXEcAnanew7sW4KSY09N2f9oNWx
+ FG12A0WdX3j/eRXDM/I+1e8c+MRfMja99OYUcIsYTM4uDpbH153dLoL6D
+ xfIYacxofMI37j26nUmKrQxzxP1OuvwdyCV1mLipqdNjlLpTawrw2PYPa
+ XXAuFPvy2mgIFp84+ZkkuVaC1rzcZKg+Ai0dK92erJWwfle0NglFqfn1D
+ mgwJrWlCqWFEsd0v47gLB93KPcxyLipp/noWBGvGagd1XkHGiNv7fbgux
+ kPmClTCdntdaPTv6a5lA2OQvD6jyasgaEr5pQtsffOi3IfhkkjY6EzGgY w==;
+X-CSE-ConnectionGUID: b9HSGMb1RyWKwYi+3JtNxg==
+X-CSE-MsgGUID: fkU2y2GtT4KCZ6q3FYWtRA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="70050091"
+X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; d="scan'208";a="70050091"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2026 19:29:51 -0800
+X-CSE-ConnectionGUID: iDM/5xg1SCaz+IuGLBmCJA==
+X-CSE-MsgGUID: gXEBc2lnSG2zoru9RTx9jw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; d="scan'208";a="243323843"
+Received: from rtauro-desk.iind.intel.com ([10.190.238.50])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2026 19:29:47 -0800
+From: Riana Tauro <riana.tauro@intel.com>
+To: intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
+ rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
+ simona.vetter@ffwll.ch, airlied@gmail.com, pratik.bari@intel.com,
+ joshua.santosh.ranjan@intel.com, ashwin.kumar.kulkarni@intel.com,
+ shubham.kumar@intel.com, ravi.kishore.koppuravuri@intel.com,
+ raag.jadav@intel.com, Riana Tauro <riana.tauro@intel.com>
+Subject: [PATCH v4 0/4] Introduce DRM_RAS using generic netlink for RAS
+Date: Mon, 19 Jan 2026 09:30:22 +0530
+Message-ID: <20260119040023.2821518-6-riana.tauro@intel.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,83 +71,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Subject: [PATCH v4 00/10] Initial support for Samsung Galaxy Tab 2 series
+This work is a continuation of the great work started by Aravind ([1] and [2])
+in order to fulfill the RAS requirements and proposal as previously discussed
+and agreed in the Linux Plumbers accelerator's bof of 2022 [3].
 
-This series adds initial support for the Samsung Galaxy Tab 2
-(samsung-espresso7/10) series of devices. It adds support for 6 variants
-(P3100, P3110, P3113, P5100, P5110, P5113). Downstream categorised them
-based on 3G and WiFi, but since they use different panel, touch
-controllers, batteries, I decided to categorise them based on screen
-size as espresso7 and espresso10.
+[1]: https://lore.kernel.org/dri-devel/20250730064956.1385855-1-aravind.iddamsetty@linux.intel.com/
+[2]: https://lore.kernel.org/all/4cbdfcc5-5020-a942-740e-a602d4c00cc2@linux.intel.com/
+[3]: https://airlied.blogspot.com/2022/09/accelerators-bof-outcomes-summary.html
 
-It adds basic functionality for both the models including panel, drm,
-sdcard, touchscreen, mmc, wifi, bluetooth, keys, battery, fuel gauge,
-pmic, sensors.
+During the past review round, Lukas pointed out that netlink had evolved
+in parallel during these years and that now, any new usage of netlink families
+would require the usage of the YAML description and scripts.
 
-Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
----
-Changes in v4
-- Fixed syntax in doestek vendor
-- Changed - to _ in node names
-- Removed address/size-cells in chosen
-- Added pinmux for i2c-gpio5,6,7, irled
-- Allow sdcard to poweroff (reg_espresso_external)
-- Changed power to key-power
-- Order alphabetically in omap4_pmx_wkup and omap4_pmx_core
-- Use generic node names
-- Added TODO for future nodes
-- Fix touchscreen values in espresso7 and espresso10
-- Add dts to Makefile
-- Commit message length under 75
-- Link to v3: https://lore.kernel.org/linux-omap/20241108200440.7562-1-bavishimithil@gmail.com/
-Changes in v3
-- Use device tree from the correct branch
-- Fix commit subjects to matching the subsystem
-- Add Doestek vendor
-- Add compatible for LVDS encoder
-- Add compatibles for 7 and 10 inch panels
-- Clean up device tree using "make CHECK_DTBS=y"
-- Link to v2: https://lore.kernel.org/all/20241030211215.347710-1-bavishimithil@gmail.com/
-Changes in v2
-- Fix node names in common dtsi to have - instead of _
-- Removed import for twl6030.dtsi
-- Edited dts to completely use twl6032 nodes
-- Fixed typo ldosb -> ldousb
-- Link to v1: https://lore.kernel.org/all/20241030194136.297648-1-bavishimithil@gmail.com/
---
+With this new requirement in place, the family name is hardcoded in the yaml file,
+so we are forced to have a single family name for the entire drm, and then we now
+we are forced to have a registration.
 
-Mithil Bavishi (10):
-  ARM: dts: twl6032: Add DTS file for TWL6032 PMIC
-  dt-bindings: vendor-prefixes: Add Doestek
-  dt-bindings: display: bridge: lvds-codec: add doestek,dtc34lm85am
-  dt-bindings: display: panel-lvds: Add compatible for Samsung
-    LTN070NL01 Panel
-  dt-bindings: display: panel-lvds: Add compatible for Samsung
-    LTN101AL03 Panel
-  ARM: dts: ti: omap: espresso-common: Add common device tree for
-    Samsung Galaxy Tab 2 series
-  dt-bindings: omap: Add Samsung Galaxy Tab 2 7.0
-  ARM: dts: ti: omap: samsung-espresso7: Add initial support for Galaxy
-    Tab 2 7.0
-  dt-bindings: omap: Add Samsung Galaxy Tab 2 10.1
-  ARM: dts: ti: omap: samsung-espresso10: Add initial support for Galaxy
-    Tab 2 10.1
+So, while doing the registration, we now created the concept of drm-ras-node.
+For now the only node type supported is the agreed error-counter. But that could
+be expanded for other cases like telemetry, requested by Zack for the qualcomm accel
+driver.
 
- .../devicetree/bindings/arm/ti/omap.yaml      |   2 +
- .../bindings/display/bridge/lvds-codec.yaml   |   1 +
- .../bindings/display/panel/panel-lvds.yaml    |   4 +
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- arch/arm/boot/dts/ti/omap/Makefile            |   2 +
- .../omap/omap4-samsung-espresso-common.dtsi   | 762 ++++++++++++++++++
- .../dts/ti/omap/omap4-samsung-espresso10.dts  | 104 +++
- .../dts/ti/omap/omap4-samsung-espresso7.dts   |  70 ++
- arch/arm/boot/dts/ti/omap/twl6032.dtsi        |  77 ++
- 9 files changed, 1024 insertions(+)
- create mode 100644 arch/arm/boot/dts/ti/omap/omap4-samsung-espresso-common.dtsi
- create mode 100644 arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dts
- create mode 100644 arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dts
- create mode 100644 arch/arm/boot/dts/ti/omap/twl6032.dtsi
+In this first version, only querying counter is supported. But also this is expandable
+to future introduction of multicast notification and also clearing the counters.
+
+This design with multiple nodes per device is already flexible enough for driver
+to decide if it wants to handle error per device, or per IP block, or per error
+category. I believe this fully attend to the requested AMD feedback in the earlier
+reviews.
+
+So, my proposal is to start simple with this case as is, and then iterate over
+with the drm-ras in tree so we evolve together according to various driver's RAS
+needs.
+
+I have provided a documentation and the first Xe implementation of the counter
+as reference.
+
+Also, it is worth to mention that we have a in-tree pyynl/cli.py tool that entirely
+exercises this new API, hence I hope this can be the reference code for the uAPI
+usage, while we continue with the plan of introducing IGT tests and tools for this
+and adjusting the internal vendor tools to open with open source developments and
+changing them to support these flows.
+
+Example:
+
+List Nodes:
+
+$ sudo ynl --family drm_ras --dump list-nodes
+[{'device-name': '0000:03:00.0',
+  'node-id': 0,
+  'node-name': 'correctable-errors',
+  'node-type': 'error-counter'},
+ {'device-name': '0000:03:00.0',
+  'node-id': 1,
+  'node-name': 'uncorrectable-errors',
+  'node-type': 'error-counter'}]
+
+Get Error counters:
+
+$ sudo ynl --family drm_ras  --dump get-error-counters --json '{"node-id":0}'
+[{'error-id': 1, 'error-name': 'GT', 'error-value': 0},
+ {'error-id': 2, 'error-name': 'SoC', 'error-value': 0}]
+
+Query Error counter:
+
+$ sudo ynl --family drm_ras --do query-error-counter  --json '{"node-id":0, "error-id":1}'
+{'error-id': 1, 'error-name': 'GT', 'error-value': 0}
+
+IGT : https://patchwork.freedesktop.org/patch/689729/?series=157409&rev=3
+
+Rev2: Fix review comments
+      Add support for GT and SOC errors
+
+Rev3: Add uAPI for errors and nodes
+      Update documentation
+       
+Rev4: Use only correctable and uncorrectable error nodes
+      use REG_BIT
+      remove redundant error strings
+
+Riana Tauro (3):
+  drm/xe/xe_drm_ras: Add support for drm ras
+  drm/xe/xe_hw_error: Add support for GT hardware errors
+  drm/xe/xe_hw_error: Add support for PVC SOC errors
+
+Rodrigo Vivi (1):
+  drm/ras: Introduce the DRM RAS infrastructure over generic netlink
+
+ Documentation/gpu/drm-ras.rst              | 109 ++++++
+ Documentation/gpu/index.rst                |   1 +
+ Documentation/netlink/specs/drm_ras.yaml   | 130 +++++++
+ drivers/gpu/drm/Kconfig                    |   9 +
+ drivers/gpu/drm/Makefile                   |   1 +
+ drivers/gpu/drm/drm_drv.c                  |   6 +
+ drivers/gpu/drm/drm_ras.c                  | 351 +++++++++++++++++
+ drivers/gpu/drm/drm_ras_genl_family.c      |  42 ++
+ drivers/gpu/drm/drm_ras_nl.c               |  54 +++
+ drivers/gpu/drm/xe/Makefile                |   1 +
+ drivers/gpu/drm/xe/regs/xe_hw_error_regs.h |  77 +++-
+ drivers/gpu/drm/xe/xe_device_types.h       |   4 +
+ drivers/gpu/drm/xe/xe_drm_ras.c            | 176 +++++++++
+ drivers/gpu/drm/xe/xe_drm_ras.h            |  15 +
+ drivers/gpu/drm/xe/xe_drm_ras_types.h      |  49 +++
+ drivers/gpu/drm/xe/xe_hw_error.c           | 431 +++++++++++++++++++--
+ include/drm/drm_ras.h                      |  76 ++++
+ include/drm/drm_ras_genl_family.h          |  17 +
+ include/drm/drm_ras_nl.h                   |  24 ++
+ include/uapi/drm/drm_ras.h                 |  49 +++
+ include/uapi/drm/xe_drm.h                  |  79 ++++
+ 21 files changed, 1663 insertions(+), 38 deletions(-)
+ create mode 100644 Documentation/gpu/drm-ras.rst
+ create mode 100644 Documentation/netlink/specs/drm_ras.yaml
+ create mode 100644 drivers/gpu/drm/drm_ras.c
+ create mode 100644 drivers/gpu/drm/drm_ras_genl_family.c
+ create mode 100644 drivers/gpu/drm/drm_ras_nl.c
+ create mode 100644 drivers/gpu/drm/xe/xe_drm_ras.c
+ create mode 100644 drivers/gpu/drm/xe/xe_drm_ras.h
+ create mode 100644 drivers/gpu/drm/xe/xe_drm_ras_types.h
+ create mode 100644 include/drm/drm_ras.h
+ create mode 100644 include/drm/drm_ras_genl_family.h
+ create mode 100644 include/drm/drm_ras_nl.h
+ create mode 100644 include/uapi/drm/drm_ras.h
 
 -- 
-2.43.0
+2.47.1
 
