@@ -2,84 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C18DAD39BCC
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 02:12:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE85D39C85
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 03:43:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D800710E314;
-	Mon, 19 Jan 2026 01:12:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8488310E033;
+	Mon, 19 Jan 2026 02:43:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="acb914OD";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="f24c+GSj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
- [209.85.208.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DFBF10E315
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 01:12:15 +0000 (UTC)
-Received: by mail-ed1-f68.google.com with SMTP id
- 4fb4d7f45d1cf-64c72418c6eso691692a12.1
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 17:12:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768785134; x=1769389934; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LmS0ptEIRfbi9CAZ3uGo3bYbHVKnzDLVy6mHiQZnvAs=;
- b=acb914ODKQ2bRLQYhuoBJKgxSaxOT7Can/xTcYtD419Lp3vTN2jKM05QI38lZ77v1H
- nTLrOVO2WXOceo+j2kn42KwAIgACoSIJEbH9AAsWtqUPEu/nGeODiu9felmj5iMXYdoF
- UZavfQii+se6PTReSn7piqpfzKrxIYbI9pj+I+o/uGg3nMGoKQEzyi21lcf87R/o3jv+
- CI/lbcSDauzKp/D46Q/LQ07MSwGnGK5n4beh33HRrRXoWhmFTQ27P/ZfU6swT1v+62y3
- 8hh0JmLRo9lrFFZgBSBOETh/SzRBl8uwCR28rAR8wKx5hk5heIrhjSZTNeoGRgAKq/ld
- OuUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768785134; x=1769389934;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=LmS0ptEIRfbi9CAZ3uGo3bYbHVKnzDLVy6mHiQZnvAs=;
- b=NYX0rn7lvw372DbbIKsRv8w9c2Tcmou5WdSrVgEcNcdc2UiRUhvI7g2f+0rwycD9t9
- qy94JmOCYn0CZQWICjBcLwr08ZN81w6x51jZjIDZUDE8eY03/6ZdmwMlvhYQqtlvvzXy
- qNw4Bq9lWLXuZJ80PbMG0VEaOR5L2Jg+KRy/eQmY08ffcmK4/Jvs40tUVcRZ6dIbXlJZ
- MxhJ8pJTu1kPyXQOV3OPNoiL9jI87Fdwa2B2M83WyWBW0x0yMt769iuHXwunkMrPqIKM
- JhGpBcha1DvlRCppri1F2nM6eTXG/u1KB+wBl73y3yGWOrrZzGDs+MZmxb78Kz0MOH2B
- o5DA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVZhW4cvMBtxzhtptcQepbf9vQflV8EDA9PDpFM/U7y5we3DndI1PSeXBnrIWs7+It7RcL4+FFuxg4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzO5PJ3/DNp1QGBE02tKotggNH9g7T4CfGC/oQINLisY5N8JKQa
- mpiWAAHV5NMxDfD9ZHpYRss0gpv3E0Dp8LUdPbcj/mtc2dVn43M6Y+Sr
-X-Gm-Gg: AY/fxX5hhzk3Z0/9+3Xx73171r8gFi49HnTqwmq/hkltSnIdwAQwITmWm7nkEqEhnHX
- nHsFI0faexR0RnmmV+Yn2tMkFnMWf3JTEhMMU4N2ySK2zx1bDpXGwv5b0fjv4ZcbIRlfQ1F9FUr
- NmYduHbFmuWvkROLgDW4YVjIgpJckxMfLfJq1La7amt886B6mW3G24qJC4ijbPxLKtRa8CjveLa
- K0AulBFYoKyw7LMwwQkX8b/GOZ7E12wgHuGVvgbTLMUqAVlgJLL5Z5SB8cMCA3Ntf1d9d0w9xIu
- k9roRkA46ZVb7MtzFKRfnglQ/4Q1i5oykXlVJ6vXpVoEB7CQq+9CpwDpFGX3pUfPoNJlm1AZOsO
- tLD0/yNShKW7I5VycXG/dtZ5DzeeAYUx1zdVbCqbN4PKXecmwyVVj7sSe1EQ/garVj9tOLDc2wo
- ZHFVtaYZDMPBhRW3kcgXq2Hm/UmT8sryr8EhhQdDiZdngqsGpeqarimTH9oyFlyleA
-X-Received: by 2002:a05:6402:348d:b0:64c:9e19:982d with SMTP id
- 4fb4d7f45d1cf-654523cc85bmr4269887a12.1.1768785133994; 
- Sun, 18 Jan 2026 17:12:13 -0800 (PST)
-Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-654535c4912sm8989806a12.30.2026.01.18.17.12.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Jan 2026 17:12:13 -0800 (PST)
-From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-To: alexander.deucher@amd.com,
-	harry.wentland@amd.com,
-	sunpeng.li@amd.com
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, siqueira@igalia.com,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, tomasz.pakula.oficjalny@gmail.com,
- bernhard.berger@gmail.com
-Subject: [PATCH 17/17] drm/amd/display: Enable HDMI VRR
-Date: Mon, 19 Jan 2026 02:11:46 +0100
-Message-ID: <20260119011146.62302-18-tomasz.pakula.oficjalny@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260119011146.62302-1-tomasz.pakula.oficjalny@gmail.com>
-References: <20260119011146.62302-1-tomasz.pakula.oficjalny@gmail.com>
-MIME-Version: 1.0
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B84C10E033
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 02:43:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=TyAXUBD7uOyPYlui3WNLL/25FSRmrDEhXyuUgnSCwxw=; b=f
+ 24c+GSjt6QNdZT/pv1Iv1y/eT9J3aOEl7FpCqNWRhdhr6sEZDZ5TN2jICXMxpYFX
+ ocwdm0nMv7dSbkFRWtmIRmUF3MqQeN1IiEZ/NZPK6/2i6jBITewmt0qNbjlzOzcd
+ th94hf2EV2O06FNPQRhpuDOZDrJGJFNCX6akz+d/cU=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-107 (Coremail) ; Mon, 19 Jan 2026 10:42:41 +0800
+ (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Mon, 19 Jan 2026 10:42:41 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Sebastian Reichel" <sebastian.reichel@collabora.com>
+Cc: heiko@sntech.de, hjc@rock-chips.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ "Andy Yan" <andy.yan@rock-chips.com>
+Subject: Re:Re: [PATCH v2] drm/rockchip: vop2: Add mode valid callback for crtc
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20251222(83accb85) Copyright (c) 2002-2026 www.mailtech.cn 163com
+In-Reply-To: <aW1uWZD6u4e2o6jF@venus>
+References: <20260117020738.294825-1-andyshrk@163.com> <aW1uWZD6u4e2o6jF@venus>
+X-CM-CTRLMSGS: 3aJFg3BsdXM9MTc2ODc5MDU2MDE3N19jOGE5NTM2MjQ0ZDM5YzliZDkzMTVkZ
+ DNkODc4MTZlNQ==
+X-NTES-SC: AL_Qu2dCvuSv00t5yacY+kfmUgWjuw/WsG1v/Ul1YBSP556jCHp1zA+YHtOI0XuzsGkOiqykTu2XSVH2/VTe6BkepsbK5GKdGuSvG2Z4ObiVbFiCw==
+Content-Transfer-Encoding: base64
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Message-ID: <5cc9f5c4.27fa.19bd4221378.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: aygvCgDHzwcimm1pknhZAA--.4457W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbC7QJkwmltmiJPpwAA3d
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,99 +66,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Why]
-We'd like to expose VRR functionality to end user if HDMI sink is
-advertising it's support.
-
-[How]
-VTEM info frame is used to signal HDMI sink that VRR is active.
-Use VTEM info packet as vrr_infopacket
-
-Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c   | 13 +++++++++++--
- .../gpu/drm/amd/display/modules/freesync/freesync.c |  4 ++++
- .../drm/amd/display/modules/inc/mod_info_packet.h   |  1 +
- .../amd/display/modules/info_packet/info_packet.c   |  1 +
- 4 files changed, 17 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index ef7e02ebda41..75c3c8ad07e5 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -9612,6 +9612,9 @@ static void update_freesync_state_on_stream(
- 					&new_stream->adaptive_sync_infopacket);
- 	}
- 
-+	if (aconn && aconn->as_type == ADAPTIVE_SYNC_TYPE_HDMI)
-+		packet_type = PACKET_TYPE_VTEM;
-+
- 	mod_freesync_build_vrr_infopacket(
- 		dm->freesync_module,
- 		new_stream,
-@@ -13347,8 +13350,14 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 		}
- 
- 	/* HDMI */
--	} else if (sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A && vsdb_freesync) {
--		monitor_range_from_vsdb(connector, &vsdb_info);
-+	} else if (sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A) {
-+		/* Prefer HDMI VRR */
-+		if (hdmi_vrr->supported) {
-+			amdgpu_dm_connector->as_type = ADAPTIVE_SYNC_TYPE_HDMI;
-+			monitor_range_from_hdmi(connector, valid_vsdb_cea ? &vsdb_info : NULL);
-+		} else if (vsdb_freesync)
-+			monitor_range_from_vsdb(connector, &vsdb_info);
-+
- 		freesync_capable = copy_range_to_amdgpu_connector(connector);
- 
- 	/* DP -> HDMI PCON */
-diff --git a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-index 1aae46d703ba..db197cf048e1 100644
---- a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-+++ b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-@@ -27,6 +27,7 @@
- #include "dc.h"
- #include "mod_freesync.h"
- #include "core_types.h"
-+#include "mod_info_packet.h"
- 
- #define MOD_FREESYNC_MAX_CONCURRENT_STREAMS  32
- 
-@@ -955,6 +956,9 @@ void mod_freesync_build_vrr_infopacket(struct mod_freesync *mod_freesync,
- 		return;
- 
- 	switch (packet_type) {
-+	case PACKET_TYPE_VTEM:
-+		mod_build_vtem_infopacket(stream, vrr, infopacket);
-+		break;
- 	case PACKET_TYPE_FS_V3:
- 		build_vrr_infopacket_v3(stream->signal, vrr, app_tf, infopacket, stream->freesync_on_desktop);
- 		break;
-diff --git a/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h b/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
-index 7bca0541443c..3fef1890a3fa 100644
---- a/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
-+++ b/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
-@@ -59,6 +59,7 @@ enum adaptive_sync_type {
- 	ADAPTIVE_SYNC_TYPE_PCON_ALLOWED     = 2,
- 	ADAPTIVE_SYNC_TYPE_PCON_NOT_ALLOWED = 3,
- 	ADAPTIVE_SYNC_TYPE_EDP              = 4,
-+	ADAPTIVE_SYNC_TYPE_HDMI             = 5,
- };
- 
- enum adaptive_sync_sdp_version {
-diff --git a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
-index 42a736a5509a..e6d3398046d5 100644
---- a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
-+++ b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
-@@ -686,6 +686,7 @@ void mod_build_adaptive_sync_infopacket(const struct dc_stream_state *stream,
- 		break;
- 	case ADAPTIVE_SYNC_TYPE_NONE:
- 	case ADAPTIVE_SYNC_TYPE_PCON_NOT_ALLOWED:
-+	case ADAPTIVE_SYNC_TYPE_HDMI:
- 	default:
- 		break;
- 	}
--- 
-2.52.0
-
+CkhlbGxvIFNlYmFzdGlhbiwKCkF0IDIwMjYtMDEtMTkgMDc6NDM6MzUsICJTZWJhc3RpYW4gUmVp
+Y2hlbCIgPHNlYmFzdGlhbi5yZWljaGVsQGNvbGxhYm9yYS5jb20+IHdyb3RlOgo+SGksCj4KPk9u
+IFNhdCwgSmFuIDE3LCAyMDI2IGF0IDEwOjA3OjMwQU0gKzA4MDAsIEFuZHkgWWFuIHdyb3RlOgo+
+PiBGcm9tOiBBbmR5IFlhbiA8YW5keS55YW5Acm9jay1jaGlwcy5jb20+Cj4+IAo+PiBUaGUgZGlm
+ZmVyZW50IFZpZGVvIFBvcnRzIHN1cHBvcnQgZGlmZmVyZW50IG1heGltdW0gcmVzb2x1dGlvbnMu
+Cj4+IFJlamVjdCByZXNvbHV0aW9ucyB0aGF0IGFyZSBub3Qgc3VwcG9ydGVkIGJ5IGEgc3BlY2lm
+aWMgVlAuCj4+IAo+PiBPbmx5IHRoZSBvdXRwdXQgd2lkdGggaXMgY2hlY2tlZCBiZWNhdXNlIHRo
+ZSBoYXJkd2FyZSBpdHNlbGYgZG9lcwo+PiBub3QgaGF2ZSBhIGhhcmQgb3V0cHV0IGhlaWdodCBs
+aW1pdC4KPj4gCj4+IEZpbHRlciB0aGUgbW9kZSB0aGF0IGNhbid0IG91dHB1dCBieSB0aGUgVlAv
+Y3J0Yy4KPj4gCj4+IFNpZ25lZC1vZmYtYnk6IEFuZHkgWWFuIDxhbmR5LnlhbkByb2NrLWNoaXBz
+LmNvbT4KPj4gCj4+IC0tLQo+Cj5BIGNvbW1vbiBSSzM1NzYgc2V0dXAgaXMgVlAwIG1hcHBlZCB0
+byBIRE1JIGFuZCBWUDEgbWFwcGVkIHRvIFVTQi1DCj5EUCBBbHRNb2RlLiBTaW5jZSBSSzM1NzYg
+VlAxIG9ubHkgc3VwcG9ydHMgMi41SywgdGhpcyBjYW4gZWFzaWx5Cj5iZWNvbWUgcmVsZXZhbnQg
+d2hlbiBjb25uZWN0aW5nIGEgNEsgc2NyZWVuIHZpYSBVU0ItQyBEUCBBbHRNb2RlLgo+SSd2ZSB0
+ZXN0ZWQgdGhhdCB0aGlzIHBhdGNoIHByb3Blcmx5IGRyb3BzIGFsbCB1bnN1cHBvcnRlZCBtb2Rl
+cwo+YmFzZWQgb24gdGhlIHJlc29sdXRpb24uCj4KPkZ1cnRoZXIgY2hlY2tzIHdpbGwgYmUgbmVl
+ZGVkIHRvIGVuc3VyZSB0aGUgYmFuZHdpZHRoIHJlcXVpcmVtZW50cwo+YXJlIGFsc28gbWV0IChl
+LmcuIFJLMzU3NiBWUDEgb25seSBzdXBwb3J0cyAyLjVLQDYwSHosIHNvIDIuNUtAMTIwSHoKPnNo
+b3VsZCBiZSBtYXJrZWQgYXMgQkFEKS4gSSB0aGluayB0aGUgYmFuZHdpZHRoIGNoZWNrIHNob3Vs
+ZCBiZSBhCj5zZXBhcmF0ZSBwYXRjaCwgYnV0IHRob3VnaHQgaXQgbWlnaHQgYmUgd29ydGggbWVu
+dGlvbmluZyBoZXJlIGluCj5jYXNlIHNvbWVib2R5IHN0dW1ibGVzIG92ZXIgaXQuCgpZZXMsIEkg
+YWxzbyB0aGluayBpdCdzIGJldHRlciB0byBkbyBieSBhIHNlcGFyYXRlIHBhdGNoLCAgYmVjYXVz
+ZSB3ZSBzaG91bGQgYWRkCm1vcmUgZGV0YWlsIGRjbGsgZGVzY3JpcHRpb24gZm9yIGV2ZXJ5IFZQ
+LiAgSSB3aWxsIGRvIGl0IGFmdGVyIHRoaXMgcGF0Y2ggZ2V0IG1lcmdlZC4KCj4KPkFueXdheXM6
+Cj4KPlJldmlld2VkLWJ5OiBTZWJhc3RpYW4gUmVpY2hlbCA8c2ViYXN0aWFuLnJlaWNoZWxAY29s
+bGFib3JhLmNvbT4KPlRlc3RlZC1ieTogU2ViYXN0aWFuIFJlaWNoZWwgPHNlYmFzdGlhbi5yZWlj
+aGVsQGNvbGxhYm9yYS5jb20+ICMgU2lnZTUKPgo+R3JlZXRpbmdzLAo+Cj4tLSBTZWJhc3RpYW4K
+Pgo+PiAKPj4gQ2hhbmdlcyBpbiB2MjoKPj4gLSBBZGQgbW9yZSBkZXRhaWxlZCBjb21taXQgbWVz
+c2FnZQo+PiAKPj4gIGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wMi5j
+IHwgMTIgKysrKysrKysrKysrCj4+ICAxIGZpbGUgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKQo+
+PiAKPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1f
+dm9wMi5jIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3AyLmMKPj4g
+aW5kZXggNDk4ZGYwY2U0NjgwLi43NGZiYTI5YmZmZjMgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wMi5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wMi5jCj4+IEBAIC0xNDM5LDYgKzE0MzksMTcg
+QEAgc3RhdGljIHZvaWQgdm9wMl9jcnRjX2Rpc2FibGVfdmJsYW5rKHN0cnVjdCBkcm1fY3J0YyAq
+Y3J0YykKPj4gIAl2b3AyX2NydGNfZGlzYWJsZV9pcnEodnAsIFZQX0lOVF9GU19GSUVMRCk7Cj4+
+ICB9Cj4+ICAKPj4gK3N0YXRpYyBlbnVtIGRybV9tb2RlX3N0YXR1cyB2b3AyX2NydGNfbW9kZV92
+YWxpZChzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCj4+ICsJCQkJCQkgY29uc3Qgc3RydWN0IGRybV9k
+aXNwbGF5X21vZGUgKm1vZGUpCj4+ICt7Cj4+ICsJc3RydWN0IHZvcDJfdmlkZW9fcG9ydCAqdnAg
+PSB0b192b3AyX3ZpZGVvX3BvcnQoY3J0Yyk7Cj4+ICsKPj4gKwlpZiAobW9kZS0+aGRpc3BsYXkg
+PiB2cC0+ZGF0YS0+bWF4X291dHB1dC53aWR0aCkKPj4gKwkJcmV0dXJuIE1PREVfQkFEX0hWQUxV
+RTsKPj4gKwo+PiArCXJldHVybiBNT0RFX09LOwo+PiArfQo+PiArCj4+ICBzdGF0aWMgYm9vbCB2
+b3AyX2NydGNfbW9kZV9maXh1cChzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCj4+ICAJCQkJIGNvbnN0
+IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICptb2RlLAo+PiAgCQkJCSBzdHJ1Y3QgZHJtX2Rpc3Bs
+YXlfbW9kZSAqYWRqX21vZGUpCj4+IEBAIC0xODg0LDYgKzE4OTUsNyBAQCBzdGF0aWMgdm9pZCB2
+b3AyX2NydGNfYXRvbWljX2ZsdXNoKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKPj4gIAo+PiAgc3Rh
+dGljIGNvbnN0IHN0cnVjdCBkcm1fY3J0Y19oZWxwZXJfZnVuY3Mgdm9wMl9jcnRjX2hlbHBlcl9m
+dW5jcyA9IHsKPj4gIAkubW9kZV9maXh1cCA9IHZvcDJfY3J0Y19tb2RlX2ZpeHVwLAo+PiArCS5t
+b2RlX3ZhbGlkID0gdm9wMl9jcnRjX21vZGVfdmFsaWQsCj4+ICAJLmF0b21pY19jaGVjayA9IHZv
+cDJfY3J0Y19hdG9taWNfY2hlY2ssCj4+ICAJLmF0b21pY19iZWdpbiA9IHZvcDJfY3J0Y19hdG9t
+aWNfYmVnaW4sCj4+ICAJLmF0b21pY19mbHVzaCA9IHZvcDJfY3J0Y19hdG9taWNfZmx1c2gsCj4+
+IC0tIAo+PiAyLjQzLjAKPj4gCj4+IGJhc2UtY29tbWl0OiAxNjEzYTY3YjUzNjBkNmZmNzhmNjIx
+NDNhMWNmMTIzNDE0YTFiNGQ5Cj4+IGJyYW5jaDogcmszNTc2LWRwLXVwc3RyZWFtCj4+IAo=
