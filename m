@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8612CD39CEB
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 04:30:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A308D39CED
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 04:31:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E386510E32F;
-	Mon, 19 Jan 2026 03:30:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2F8310E33B;
+	Mon, 19 Jan 2026 03:30:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CsGsS82K";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NZrKeG7Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
- [209.85.219.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 239CA10E341
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 03:30:49 +0000 (UTC)
-Received: by mail-qv1-f51.google.com with SMTP id
- 6a1803df08f44-88a288811a4so40642936d6.3
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 19:30:49 -0800 (PST)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B000010E33B
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 03:30:50 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id
+ af79cd13be357-8c6a822068eso346198585a.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 19:30:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768793448; x=1769398248; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1768793450; x=1769398250; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xT+OlgLwisjDHGRQGA0CO4AmF6Wqh7tGvnECOOk06AE=;
- b=CsGsS82K/qqkPZxbPRxg+RSiOjwV0MYrl7wv1LTaZCCDXOk55iKMDBlgYFNgcUw1W0
- EF14Zrd4IR2+BtnY5vCp7KXVlFc4WQwIJ/F0mDWkZP6UTuH+gnFi2hBjyQ2/OAJbcy+I
- R9TVkjgvB0mkZ+j8WoXDSR3fQtTP5Z08J/sqT3PMc6P92bgcWeKn7/nkLQ5/g9yQaAWi
- mFWbeljGpXvKyCdn5LRnQeyNZ/qILVWLumB6dRsjmCyTeSBjJuHKIktI4sgpBs0/rqfP
- kJmFU35MypuRlHxBzvfWMKXnbzptpQKLfkDjZm10PqsSDMsrd652t4kEAFORi/HljmD0
- 4uOg==
+ bh=/NkSp3Qp2ev5DvLNgpn6PFK/BAYbn/itTgc2RCCe8u8=;
+ b=NZrKeG7YAmQX/w5Lji3gwF3Aj2cmBej4zuNHNRer4EJ8tFvToqvFhiRUOtWyNkiMHT
+ Ie/scNvXaRP2pfA2PDiLRNf5U89hB/EfgG1vCD3ze+tZpc8JxJJSbMZwsABlScb6TsKQ
+ WisawYs4+kVytYpklP9bVS2grytCDpcy2hLdyU0DocWvROD4ONTfR4XrvYYgq6ens7Dy
+ 7dWEfpPYw7AgL5wPg/IyAteAxMR4MwYNSfJhYLkRISysMmIIEFPng5CK4bGrOnLqcTjo
+ dQSk4LKXxr8goWJGA1qdfAzaQ5Adc/GaHuUQUJzCvyn4Z+586uF0KYZ9UtyaX4OehDlT
+ oo2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768793448; x=1769398248;
+ d=1e100.net; s=20230601; t=1768793450; x=1769398250;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=xT+OlgLwisjDHGRQGA0CO4AmF6Wqh7tGvnECOOk06AE=;
- b=IKdBnC+899rWMxq0Oo9/WiPnyfZZE95NQ7cK0KLsUEoJKzjECyBZbsHLWWScZB7NdP
- R7k77dlGy0gFtQDrGikJYRaFNYkXC0b9wWnx1GQYvVLa3jmnWNJ7Zr/ACiP7HCNOmAeK
- BC2tl4JrsbXGLJb06c6nQwOuwBfdqS8mu5Rcoa+6caog+dDYHDE2oSNCih1ephB2e5Ym
- mtnlIoY9wxgtLr1ATqVmst5nYqWm0mXH/zmk6npVezfuCriMQ88bIs3kdjFDn8JiVzNr
- 3CLMxjJQpGMqeW5JWobEr6Jy8dae6lbNv2lGlUk62A6PIqF54s1RQhNKSTvvyAq8HZGk
- 1eLA==
+ bh=/NkSp3Qp2ev5DvLNgpn6PFK/BAYbn/itTgc2RCCe8u8=;
+ b=wbSv+mtQwCdB/vetSQ3jSyMLWMU6SZHU6Q4KEkQbRaX/eOQ4Y9dn2d+dpAF+xNTvIb
+ 7G7P+/S1bJ2VfnjgVMaonXkXXaiHJfa8w9FTAnhH3wSpprkeOB0FiANH4wXt7n7wK3ou
+ 6sZcHANVqtXNaaR8ZELtNG45OZx70kj1faoFS+JCYngRCL3k9DbWbhPMnNOGhdwyOrnb
+ o7IzPStRoefyRwkb1d3/lbYbqAc6TMkbSJlVxRnQ5GcqFHpLBHtTZMOOVjHc/lxFeWUr
+ LZPj40Wv6E1rLeJf74ZU+DUcFCyfFCbq7gcjTLij3Ob78VE3CBPiIqqjpYI2a0SSmfhC
+ yNYQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVRTsR6W1zwaNEKhRpKhWSjyvYjx3UxZzuXWbcjOTESTsKoaGJKo1brxuF6UETI47XkdWaJhhZAXvY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxlbbO+aJ1uvfRG1oHBLOqRiemeXrALxtx7OLzTiGxc9q3nPakH
- pSmCvHuxZFMLOP67bsIxy9+7pBUhHCX9mq+elVnu2WenDgTz6+x+a5MW
-X-Gm-Gg: AY/fxX59jcRFKrukM8TDexK0LbDhMjrpQf9Uxku2NwOQoagFB4/tQv55H6x92ydWJlc
- 5dm98CWbWvu++kAr5L7ulyjU3dDCzYMWx7YqMTzDVK/5n4HnvR/Jm9aKkPGN9MXv6WHo/FVVhdo
- KgQVN2NTwzlEfVjiaavBKcacFz4u5N1UDYP6pN+Zm1SGotUsE91M3mUCloEdRkNSH+IFG6AT5wy
- J6PDHpkRfyu58i4OsgbLkPv9tl7fvyeaiyq4xdilZcBr9zBE0R9UHSaY55FRyMAuXaqDMktdi+W
- 3y/bm4G4+oA1BJBkaqEjAsspTGdq5OvefOCu5ff0LUdqxt/I9VrxszsoNxisyLZqABQcMUuc3N/
- 2i46hklRzK9pD4sTVfVVJyV1/XTUpdXFWcdqCAUyayIAcOQL4MuDQAHL+GnyoySvvRaEDgaSH7Y
- 5aGO8AJol83vZB+EztMpqbxCkkV27lj2+Gg3IjdWF7TN4Cwlrj4kQujsrISTRc4wba/lc=
-X-Received: by 2002:a05:6214:1d25:b0:7d2:e1e6:f79f with SMTP id
- 6a1803df08f44-8942dda1871mr127151346d6.47.1768793448154; 
- Sun, 18 Jan 2026 19:30:48 -0800 (PST)
+ AJvYcCVP1KAOXctYG/+Hdsof9lHZ2LYU+VdJ/38m5W+EDJvdvPrHtKdDzrVZpMay36CpdLA614xxgJckYdU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzQ4oAn/yBsdUhoep2V0Jj4Xp2meZcaxrbLHGKAa9J8gBlHAooK
+ oHudyQaVo2knqEIt0bnnFwNfaln9XxqC4wqfhx4WJq+RCfnmUPFcfuHY
+X-Gm-Gg: AY/fxX4zwZgaWw7hxB7lDcbHwbXAkemEW8lIeje3GGk37c70eUgPNSE5M7bw4bMeQPy
+ d2kHB1qilAROhNKS1iMrOhCPo0KrS0AzXlHR4os6Y3Wpaj9XEcCf5SwEBARW3U1a8BPKbl7w2XF
+ H+3gFHgZ1clzPHP+4cUxeIi+W9qnRnKMn2QU4ew7Ae5sTyAQMSoK1B5wpRuDuTsm3dv4/uL1Ej0
+ f733n15A0dxY+p4ld4EF0V4O1sZ1OKooRQoa3PbNpsrzflaHm+3XisQ/NA/LOiRsAF5ecwXotvq
+ hnVJe+Iaf5EhsrxGMsiNKO8JYZ0I0wbbBKVkQS/w9HD5JYliCXlR6It1hWdqFranullTsgAmrFg
+ gTRdj35NJcxJbH5kCv7NSC2TxbDoWD5D4y3VPLGfJeB+yTMKC7Uk7HMcjzsgmvGU4pjRegMw7oY
+ ei6Ee3kmadi78eVPnDkh+w8U+R9hKtiG0YofNVHxvbNSYhxdkRX2je1z4CvLKM8u7hhvI=
+X-Received: by 2002:a05:620a:4729:b0:8b2:e8b5:1ea3 with SMTP id
+ af79cd13be357-8c6a68ec4edmr1367928485a.28.1768793449722; 
+ Sun, 18 Jan 2026 19:30:49 -0800 (PST)
 Received: from mighty.localdomain (nat-130-245-192-1.resnet.stonybrook.edu.
  [130.245.192.1]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-8c6a71ab20dsm724706885a.5.2026.01.18.19.30.47
+ af79cd13be357-8c6a71ab20dsm724706885a.5.2026.01.18.19.30.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Jan 2026 19:30:47 -0800 (PST)
+ Sun, 18 Jan 2026 19:30:49 -0800 (PST)
 From: Mithil Bavishi <bavishimithil@gmail.com>
 To: aaro.koskinen@iki.fi, andreas@kemnade.info, khilman@baylibre.com,
  rogerq@kernel.org, tony@atomide.com, robh@kernel.org, krzk+dt@kernel.org,
@@ -73,12 +73,11 @@ To: aaro.koskinen@iki.fi, andreas@kemnade.info, khilman@baylibre.com,
  prabhakar.mahadev-lad.rj@bp.renesas.com, thierry.reding@gmail.com
 Cc: linux-omap@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-hardening@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v4 04/10] dt-bindings: display: panel-lvds: Add compatible for
- Samsung LTN070NL01 Panel
-Date: Sun, 18 Jan 2026 22:30:29 -0500
-Message-ID: <20260119033035.57538-6-bavishimithil@gmail.com>
+ linux-hardening@vger.kernel.org
+Subject: [PATCH v4 05/10] dt-bindings: display: panel-lvds: Add compatible for
+ Samsung LTN101AL03 Panel
+Date: Sun, 18 Jan 2026 22:30:30 -0500
+Message-ID: <20260119033035.57538-7-bavishimithil@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260119033035.57538-1-bavishimithil@gmail.com>
 References: <20260119033035.57538-1-bavishimithil@gmail.com>
@@ -99,25 +98,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The LTN070NL01 is a 7.0 inch 1024x600, 24 bit, VESA Compatible, TFT
+The LTN101AL03 is a 10.1 inch 800x1280, 24 bit, VESA Compatible, TFT
 display panel
 
 Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
  Documentation/devicetree/bindings/display/panel/panel-lvds.yaml | 2 ++
  1 file changed, 2 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-index dbc01e640..68c16c1ae 100644
+index 68c16c1ae..b31c67bab 100644
 --- a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
 +++ b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-@@ -58,6 +58,8 @@ properties:
-           - hydis,hv070wx2-1e0
-           # Jenson Display BL-JT60050-01A 7" WSVGA (1024x600) color TFT LCD LVDS panel
+@@ -60,6 +60,8 @@ properties:
            - jenson,bl-jt60050-01a
-+          # Samsung LTN070NL01 7.0" WSVGA (1024x600) TFT LCD LVDS panel
-+          - samsung,ltn070nl01
+           # Samsung LTN070NL01 7.0" WSVGA (1024x600) TFT LCD LVDS panel
+           - samsung,ltn070nl01
++          # Samsung LTN101AL03 10.1" WXGA (800x1280) TFT LCD LVDS panel
++          - samsung,ltn101al03
            - tbs,a711-panel
            # Winstar WF70A8SYJHLNGA 7" WSVGA (1024x600) color TFT LCD LVDS panel
            - winstar,wf70a8syjhlnga
