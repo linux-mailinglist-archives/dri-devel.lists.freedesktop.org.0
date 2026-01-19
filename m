@@ -2,191 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E116D3A406
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 11:03:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECE45D3A451
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 11:10:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 189F510E3D7;
-	Mon, 19 Jan 2026 10:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 151CD10E3E6;
+	Mon, 19 Jan 2026 10:10:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="GpEEGbk7";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jDKaO7nK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY3PR05CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11013043.outbound.protection.outlook.com
- [40.93.201.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CAC210E30A;
- Mon, 19 Jan 2026 10:03:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p3CeNXa875P5PVZfIPTFSvPlFIiYAVGRP7qIKbOMF50VBq/bXjRRgchRKswssq69Q1rzRk8OYIy/bAnQ7H7F1f1Hyb/QQUth/n+ijkDb0NMm09uwR4VD/fn1LQ8H37Z5vmZn293DEN3USYGps06/cwLCXd6PG4UQN0Nz3EVTHiEqnUNKoBMjgzOSErAG0aeO02l3j6mPuP0/DxsSvxhoTR4iIV3XpLVgRD1vIhDzFscUj+xbzVS7qvxPLqQK0qyPTBUQamEzEOsZ6Uv5Q3G+s3UNeXAFQgyhH/CvO/dAiy/L7x57itE73mgd+5HheO66UkEhPbll188OHHSXws2Hlg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SFTKdGWFrjLyS8X5crONs5wz2+BPgW7kMXu+BJTcKJM=;
- b=hq41MtbtJiS17tSBC1Ph0P+lxankD+wdunl9T0LV9gpJHTr6UR4exBMcrJ/xMEVVDIdFcjXq+NWUYP25hyN40ZFhD1hVq3vSp/rHmwJ5qQ/Me8F5TfsHAGKkxqou179zP96+M9QE0Curv4QzaEXZJ7jLgBwyaT9heUk/g1l7juXO2Ke/aoePs06+D88RcFr526mRl+sWzd2oYxgngGNkIdCAysRZrIayOG7FWwMx3F/2qDj1n+5RrZsFgakHyxN7DClDFr2kmKvq15sFOd5s+Egfo0p1JpgYQr7U+WIOCddz66TVzbaEpavmuoXKWYjitgDN1rT1HcX4z8M7h/XixQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SFTKdGWFrjLyS8X5crONs5wz2+BPgW7kMXu+BJTcKJM=;
- b=GpEEGbk7ANKHd9QBBfgP6jdMW8KysYCBZeXGV+Y+3hLaeZ/x/+UcpizcLOKGoXefmaHOkWd/wtzwpZxFomGVUoBaiubfCmdekWeHAGI6ZnI5FX3aQcRPT475GRTeVROUIog6G+voGVGCoXCCmivH2SfGiTX/Qs/fPk0xo1QDyyg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB999103.namprd12.prod.outlook.com (2603:10b6:8:2fe::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.11; Mon, 19 Jan
- 2026 10:03:14 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9520.011; Mon, 19 Jan 2026
- 10:03:14 +0000
-Message-ID: <8ae98c9c-9cea-4c31-b888-9e3fcda42d86@amd.com>
-Date: Mon, 19 Jan 2026 11:03:00 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/12] Recover sysfb after DRM probe failure
-To: Zack Rusin <zack.rusin@broadcom.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, Alex Deucher
- <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- Ard Biesheuvel <ardb@kernel.org>, Ce Sun <cesun102@amd.com>,
- Chia-I Wu <olvaffe@gmail.com>, Danilo Krummrich <dakr@kernel.org>,
- Dave Airlie <airlied@redhat.com>, Deepak Rawat <drawat.floss@gmail.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Hans de Goede <hansg@kernel.org>, Hawking Zhang <Hawking.Zhang@amd.com>,
- Helge Deller <deller@gmx.de>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jocelyn Falempe <jfalempe@redhat.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Lijo Lazar <lijo.lazar@amd.com>, linux-efi@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- Lyude Paul <lyude@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- "Mario Limonciello (AMD)" <superm1@kernel.org>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Maxime Ripard <mripard@kernel.org>, nouveau@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
- spice-devel@lists.freedesktop.org,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, virtualization@lists.linux.dev,
- Vitaly Prosyak <vitaly.prosyak@amd.com>
-References: <20251229215906.3688205-1-zack.rusin@broadcom.com>
- <c816f7ed-66e0-4773-b3d1-4769234bd30b@suse.de>
- <CABQX2QNQU4XZ1rJFqnJeMkz8WP=t9atj0BqXHbDQab7ZnAyJxg@mail.gmail.com>
- <97993761-5884-4ada-b345-9fb64819e02a@suse.de>
- <CABQX2QMn_dTh2h44LRwB7+RxGqK3Jn+QCx38xWrzpNJG5SZ9-Q@mail.gmail.com>
- <f3643c19-c250-4927-b39d-37d2494c7c84@suse.de>
- <CABQX2QM0_6DJtrahJS7x9iF_wcSZRc4dohEiPnMCtAg7Vt7JPQ@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CABQX2QM0_6DJtrahJS7x9iF_wcSZRc4dohEiPnMCtAg7Vt7JPQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0078.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9a::20) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5AC410E3E5
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 10:10:22 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1A16E2D9;
+ Mon, 19 Jan 2026 11:09:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1768817391;
+ bh=Qay2toySjvtV5YKvWvOb020wKuZNfIJZypshhGGJ0x8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=jDKaO7nK3PHUWQqG8/nhkP4IsvS0dxmpZtYDrn7MSzvEH5fDqQNp3UYKrtd/cS8cz
+ Q+LHiMTjyobK54ehc1aZI73CegBHLdDivvNVuU6MbYlkyLbS515lmrE7VZbau+TueK
+ Xh0vc3xWkQEvPuLLn+IRx5bZmvo2wnDdB031qGoM=
+Message-ID: <462b3b7a-c228-456a-84bf-0e6103be61b7@ideasonboard.com>
+Date: Mon, 19 Jan 2026 12:10:17 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB999103:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5ac04a43-7bcc-4274-7af4-08de5741f599
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UUErbXNjNXY5dFVJWjh6VEp0TkhMOGFhQXRSSzlEWXNhYXRCQUIyZXc3ZEZj?=
- =?utf-8?B?cENsd1N1eUFCYk5rQS95NjY4UDd2TlNOSCt3R0lMQU9wYVlIZXVLMVFGYTFK?=
- =?utf-8?B?TnBKakQ0a2tXbm5UYjgwUjJrdDdnKzZnMFVNNG1rVTlOVjhtbEdYUE5MREta?=
- =?utf-8?B?dnR5TWhIYmR5SE14UGx0Nzd3S2pMaHB6eUF4OEl4dk9pU3BIbG1meXltUkMz?=
- =?utf-8?B?SS9JOUIrRDhuejZiNSsyb2s0RG9uSmlxVUJjVDUzb1lkMnhteTEwV1k1Zndz?=
- =?utf-8?B?ajhpVjdpQzQrZHdPYkw5a1Z1MnRLb1g3MEwzRmxvTVQzcHpJZEhmOXU3dEZV?=
- =?utf-8?B?aU1LRWZFM1V1OWlMUkxoOFdrZ3RrWWNOdWMwanZEcEttckhpS28zSkVvdVJH?=
- =?utf-8?B?SnpCNUtOa2dKUFhQdCtwOE0rTTN3Q2htSjZYOThDbXVROGNZeGxCZk0wU1Vl?=
- =?utf-8?B?SEFLZVp6R2xycDh6TnVMM1plaVIxYmxUWEhnL1ltcmdST09MUVBGb25GblhH?=
- =?utf-8?B?dG1BS2hVUVFVdnp0M01lUEJ3T0JKaXFPS3JxZ2l5RGxWY256Y3pHVEw2SGtV?=
- =?utf-8?B?VWJ6RHp1a3UrZFlwdEw3dm5IT1htdThOR01EM0hqUTlIcXpTV0ZGa1pRSUZv?=
- =?utf-8?B?SENWVUk2WWJvSUxDaEJKMUwvQ0F2TVc1NStoU29xSHJMamc5ZGtPbGgvQXpn?=
- =?utf-8?B?Uk9VdzliYXNFRTk4TkFZV3d4aFFOOEZRRTFDQjBBVXBQeUdIaXpyc0FTWm5C?=
- =?utf-8?B?dG43UTFRYW90dHFGQjIwbW81MzRDOWdENVZJaks3ZkFxUXp4Smp0b015WXdY?=
- =?utf-8?B?ZkRLeFZVYUY1WGUyU2FOTERsTVdxR2VLRFIzQ2V4eWhHdFVzd1ZPSEpvbFF2?=
- =?utf-8?B?alpBdi9SdHlrcFp0Mjc4WnFKdzF1Qkp1a0pHNXplcjdlRTFMd05NZXhFOFRD?=
- =?utf-8?B?NXJtVmtVQ3VMNnpCNXdwR0Q3K2MzbURSK3ZINlhQUDJDL291anpyWXd6UHl0?=
- =?utf-8?B?QVU0LytVc1NKb2QyOEtiM2RNNUI0RFZrSjdhTzh5MDFOdjBFUWRqT2dHSWpW?=
- =?utf-8?B?Q3FCa0dhcEphd2VvbUJOOEZtcEZ1d2RjN3lZcjF1V1JMNjdJNTFmUFRzcUk0?=
- =?utf-8?B?N0dJVUpLOVhyOVJ0Tkw2TXducEJ5NWtpYW55UVBEMGdOak1tZnFmTXRzSUt6?=
- =?utf-8?B?WmFMVHBxeUtreFhBZWRZNEx1MGhWNXNuWEM0QWNON0xsSTV6UnV2bnAvWnZP?=
- =?utf-8?B?SW4za3IvUllwMFRyQ2dvaDJ2UHljdGh0Y3BOd0JNdHZqMkhiQjVBaHdxenVr?=
- =?utf-8?B?eDljSzFwZVNMUE1mZVZTM0Q0Zi84d2NLRHJVQitJMC9lc08zaHNSOTFjMlJD?=
- =?utf-8?B?a0VSbEQrcFdSMHdodnhZWUtxWDBjOWJFNldLWGN2eFd4Y0JyYytWSDVUWW81?=
- =?utf-8?B?N0ptRWpjbG1Gb0lPYzIrdUVKd1lEZjV6QmJ1K1VVdWJYSlB4cmhlbmVQQmNP?=
- =?utf-8?B?V3pVYjB0V1VmQUdkbUt6UCsvcW9tRGRrQWdjUnRzQ2xtMitKOU5yRmdGeGd0?=
- =?utf-8?B?ZWhDZFgyUllhbXBJV1dRSjZ6azE2azY5c0ZlVWl4S1lVQ0xWQS9DYmdNWHRB?=
- =?utf-8?B?aWhhbnNDeHYwMnJXL0RyVGREMkx5aHVEbGNqejZFZTdqc1BJZFU4WEdCTUR2?=
- =?utf-8?B?N29walZSMk5BZzUrRkdxcmcrRnlReEZmeUNmMzg1ZlZFMDBrMWNKWGVmOHlX?=
- =?utf-8?B?YVFHV1pra0lWTXIzU3FsTHJoMVJvVXhDNEQ3dFNncW9IKzg2ZUVyVnVlamZV?=
- =?utf-8?B?anpsVlY3NDliOFNtWWIrMk9tUXgyb0ZHZ3RkNVZlY0VaeWluNVIweHJESWxw?=
- =?utf-8?B?UU96eWZCWmpzdXMzbkh3UnltUEhtMHB1eHgrMWRBSUxrcTR6elh2QTV4N0xO?=
- =?utf-8?B?UUZJL3VsZ1F6Zk1lL0hZbDA2UkVRcUFZN2dOUlRabVVXSzlSUWNIVktWaTUz?=
- =?utf-8?B?UjIrd1FNMElnQlFRREdCbzJMMFU1bTZiVzRwUlJyZi8xelAzQUJkMjBoamdq?=
- =?utf-8?B?cVo3aXp2c09JVEcvQllwRFlHSVBYbVNWZndKclFYSk9vRjY2dkk0dkRZSjVE?=
- =?utf-8?Q?4LmY=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MnZQZDdlbnFhb3lmWThNYzdlTURmWmdoYklpUHlvZTZVUURsbmpJRW5Wei80?=
- =?utf-8?B?OEQrTUxMTGliL0hMMXg1Uk1MZUN4a0Z6TGdTcWtIM0hhWVArQXRSQkNGNTNV?=
- =?utf-8?B?TW56Mit2ZExxZTlnQkNON0NibmxBaHAraW5xSjdWbzBPSGZoN016VWpUeFRM?=
- =?utf-8?B?UWR1Q29IVVl0UVVmZ0pHK2pKblo2amhoUVN4TGQ3UTFiaSttMTQ1VVBZTG53?=
- =?utf-8?B?UldEOVppZ3VDeUhNR1dlUjdOM1dQdU5BQ0h0cS9UVWRoRDNsNmFXMjNNVEJy?=
- =?utf-8?B?QzVKQVRCRE5pbmNxT3lPVnNGaDVBVmJaRXNqVEhqQ1hhRXpNMlMwQjdLbnJR?=
- =?utf-8?B?dnViMVQxV1RBSmRaUUpVTTMzdG1EVmNLQUhiQkorZFcrUk9pOExyMGFkUkxr?=
- =?utf-8?B?T0hpbEZFdTBVd08rZFNIdUtCVE92U29saUhSWE82OFEyK2d3R2ptQm04ZlNi?=
- =?utf-8?B?dGtSblJmbk9CTUtIMzhvV2c1QVZJajhDWHdVUFcxb1Q2bk5qbVZsckF5YS9R?=
- =?utf-8?B?dUJrczJLb1lZNDJUYnhBS2tNeW9aM1pBblBRUi9zOU8vVGpQT2IyOWl5ZWUy?=
- =?utf-8?B?cENoU1ErWE5XSFdzdDh6YkJBUFdmb3RaSXVENGdneVgzcFZOMTdCUVprWHFm?=
- =?utf-8?B?R3RxQk8yU29odi9VK3hORkVIK3BzVWRaeU9KL2pzNnNhK2p2Ui9tcnVvSUdX?=
- =?utf-8?B?ejRQb0dJQXQvRDAzRUlVVHlHMWtNeGJ0bFlTcERIVXRKcGxSbmxqVjQ3bnVU?=
- =?utf-8?B?NGRKanFEN0ZUZGlWK3lSSG10S3p2MzVYSVkzWDlQUmovb3JPNXo4a1hrbjBC?=
- =?utf-8?B?dTNybTVOTHNmNnduOEswaitQK2wxUWZsMmF6dE8vcEhnUjhjZnoyMGd5LzZH?=
- =?utf-8?B?L0J3U1FQaDhPS3VqcnFvbjZrRC9tRy9xV3RwYVVEbjRzY1Fod3JnNDZZaUYx?=
- =?utf-8?B?M0tBU0o4bGE5Skw4M1ZyOGxMVTZoTEdXbHI1cWFBSnpxbmx3dHVTK1FoWkFV?=
- =?utf-8?B?L1NOUmRwQktJb1U1RUlFUnRmN1JxR3YxYmRTWG9YM2xCZUNRZTJXY2RJM3Y0?=
- =?utf-8?B?TFh2S2VHcFcyUnJKUXVyak1VSUc1RmUza1Via1pLeXNsZnFGekd1dlVxNUU3?=
- =?utf-8?B?RDRvcnFiM09rNHJNbUk5Zk1aVEEvY3M4eUZhb1hhUlNKNzlFRjdqRWdVVUlW?=
- =?utf-8?B?WEdZcER0dVByRWdmUllCd01Qazl1S0cyMU13c2dqVkFIaTJ2SU40THlaRzhL?=
- =?utf-8?B?Q0ZIS3p4WU5DTlF5a0xCT3J6UmtxVTFGbzNrYXlYbEhxaHV3MENLaWlFOEZp?=
- =?utf-8?B?TUJ2VzdUL3BUaGE3czJpb1V0S0JwUjVXaWtLbWs1UDFpZWloeHBHNnlkTlpV?=
- =?utf-8?B?dGsrWGVsd2FFd2ZHQ0l4REswN2IzaHY2TFR3U010WmxraHMrdVFrQ1hzRU44?=
- =?utf-8?B?RUxHVkV6ZFlTbVRFWEdjeFUzSk0xTDFiYldFbHBEa09UU0tNZE1WMzE1Z3JK?=
- =?utf-8?B?dXVwM3N4Q3d2YWlWZkZ4VzVScDdpUGcvYkNMSjZGcGZvd0JnOTFDKys3UDkx?=
- =?utf-8?B?Q1hzWWFMckFSTWU5MzBrN21FTE0rejFFT0dLRUpEYzhvRmNBclBNQmpmV1Uw?=
- =?utf-8?B?SWQwMmY2OFI1VWlrZGNVQlFleldmeGFuRXZOQ0g2bkxsemNuZVJxcnpMMkY3?=
- =?utf-8?B?MlJWYWcxWWtWS1Y5OE42U3FtV0NPU0xZWm9ZUElQTzhQd1EvTmlNUG8zUk5m?=
- =?utf-8?B?bkhRS1IyakFiNm16VnhQeEFOVy81U3RlMCsvMXZicDV2bjJ5VDVDb1R0WldN?=
- =?utf-8?B?ekhSaDE4dU56cVk1L3htdlQzSFk5bGNpdnFZb2dwVTAxWk1KdUFnT211eHNq?=
- =?utf-8?B?a091bi9Eb1lzOWd1OUNWYm16NlFTRG9reEhBaDZvNXVVdFpvZUZmbmVzcFBJ?=
- =?utf-8?B?OEwrSTVyeXRwdjlmNkhVK2ZLTFdnZGV3QWZ4b3BKYm85Q0pkTUZCNXR6VHVy?=
- =?utf-8?B?SHo4d0V2VTdtbGNCU29ESDBEdG9ES0p5bGN6WGVQNXJYbFA2T29GdDVZUVcr?=
- =?utf-8?B?RFdWVFB1bFZhOW1sYWczYTl3d0pCMlZra0VtY0Q3Yk5YcWFXeGNPTEloZDFQ?=
- =?utf-8?B?NXhHdWNRN01HalpEanlGS1grNjcrc1VHamFuMVBscm9LOHJnd1BadGMyanZs?=
- =?utf-8?B?Y2hBUXpNU0g1c3pJbGVVQWZjTkMxTHo1a1ozWjhtK0N5TG5QTGhkc3dBNmwv?=
- =?utf-8?B?VW5GZEJ2d0NNM3VLVWFiY3V1ZlB0YS9ibHlyekR4dGNiZjc3c09OMWxMNUFs?=
- =?utf-8?Q?jaB2aGGklRkEgcx4oy?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ac04a43-7bcc-4274-7af4-08de5741f599
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2026 10:03:13.9919 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kwhI5gdpQX3txLeuFYgdHaHLP7sHAOxP/GZndYflLnqehrcaw4zlCL12M5CpDKoq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB999103
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/3] dt-bindings: display: ti, am65x-dss: Add am62p dss
+ compatible
+To: Swamil Jain <s-jain1@ti.com>, jyri.sarha@iki.fi, airlied@gmail.com,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, aradhya.bhatia@linux.dev, mwalle@kernel.org
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devarsht@ti.com, praneeth@ti.com,
+ u-kumar1@ti.com, Nishanth Menon <nm@ti.com>
+References: <20260116095406.2544565-1-s-jain1@ti.com>
+ <20260116095406.2544565-2-s-jain1@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20260116095406.2544565-2-s-jain1@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -202,69 +105,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/17/26 07:02, Zack Rusin wrote:
-> On Fri, Jan 16, 2026 at 2:58 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>
->> Hi
->>
->> Am 16.01.26 um 04:59 schrieb Zack Rusin:
->>> On Thu, Jan 15, 2026 at 6:02 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>>> That's really not going to work. For example, in the current series, you
->>>> invoke devm_aperture_remove_conflicting_pci_devices_done() after
->>>> drm_mode_reset(), drm_dev_register() and drm_client_setup().
->>> That's perfectly fine,
->>> devm_aperture_remove_conflicting_pci_devices_done is removing the
->>> reload behavior not doing anything.
->>>
->>> This series, essentially, just adds a "defer" statement to
->>> aperture_remove_conflicting_pci_devices that says
->>>
->>> "reload sysfb if this driver unloads".
->>>
->>> devm_aperture_remove_conflicting_pci_devices_done just cancels that defer.
->>
->> Exactly. And if that reload happens after the hardware state has been
->> changed, the result is undefined.
+Hi,
+
+On 16/01/2026 11:54, Swamil Jain wrote:
+> TI's AM62P SoC contains two instances of the TI Keystone Display
+> SubSystem (DSS), each with two video ports and two video planes. These
+> instances support up to three independent video streams through OLDI,
+> DPI, and DSI interfaces. The OLDI interfaces utilizes two OLDI
+> transmitters OLDI0 and OLDI1.
 > 
-> This is all predicated on drivers actually cleaning up after
-> themselves. I don't think any amount of good will or api design is
-> going to fix device specific state mismatches.
+> DSS0 (first instance) supports:
+>  - With respect to OLDI Tx interfaces, DSS0 instance can either drive
+>    both OLDI0 Tx and OLDI1 Tx together (e.g. dual link mode or clone
+>    mode) or can only drive OLDI0 Tx in single link mode with OLDI1 being
+>    utilized by DSS1 or left unused.
+>  - DPI output from video port 2.
 > 
->> The current recovery/reload is not reliable in any case. A number of
->> high-profile devs have also said that it doesn't work with their driver.
->> The same is true for ast. So the current approach is not going to happen.
->>
->>> There also might be the case of some crazy behavior, e.g. pci bar
->>> resize in the driver makes the vga hardware crash or something, in
->>> which case, yea, we should definitely skip this patch, at least until
->>> those drivers properly cleanup on exit.
->>
->> There's nothing crazy here. It's standard probing code.
->>
->> If you want to to move forward, my suggestion is to look at the proposal
->> with the aperture_funcs callbacks that control sysfb device access. And
->> from there, build a full prototype with one or two drivers.
+> DSS1 (second instance) supports:
+>  - With respect to OLDI Tx interfaces, DSS1 instance can only drive
+>    OLDI1 Tx given DSS0 is not utilizing that as described above.
+>  - DSI controller output from video port 2.
 > 
-> I don't think that approach is going to work. I don't think there's
-> anything that can be done if drivers didn't cleanup everything they've
-> done that might have broken sysfb on unload. I'm going to drop it
-> then, it's obviously a shame because it works fine with virtualized
-> drivers and they're ones that would likely profit from this the most
-> but I'm sceptical that I could do full system state set reset in a
-> generalized fashion for hw drivers or that the work required would be
-> worth the payoff.
-
-Well at least for PCI devices you could try doing a function level reset to get the HW back into some usable state.
-
-This does *not* work for AMD HW since we have HW/FW bugs, but at least for your virtualized use case it might work.
-
-All you need then is an EFI, Vesa or int10 call to re-init the HW to the pre-driver load setup.
-
-I know that is not the easiest thing to do, but still better than a black screen.
-
-Regards,
-Christian.
-
+> The two OLDI transmitters can be configured in clone mode to drive a
+> pair of identical OLDI single-link displays. DPI outputs from
+> DSS0 VP2, DSS1 VP1, and DSS1 VP2 are multiplexed, allowing only one
+> DPI output at a time.
 > 
-> z
+> Add the compatible string "ti,am62p-dss" and update related
+> description accordingly.
+> 
+> AM62P has different power domains for DSS and OLDI compared to other
+> Keystone SoCs. DSS0 can have up to 3 power-domains for DSS0, OLDI0 and
+> OLDI1, and DSS1 can have up to 2 power-domains for DSS1 and OLDI1.
+> 
+> Signed-off-by: Swamil Jain <s-jain1@ti.com>
+> ---
+>  .../bindings/display/ti/ti,am65x-dss.yaml     | 37 ++++++++++++++++++-
+>  1 file changed, 35 insertions(+), 2 deletions(-)
+I think we have a bad design issue here, and I don't know how to fix it.
+
+The OLDIs have been a bit difficult to model, as they are not full
+devices: they are not on a control bus, and don't have registers, yet
+they need configuration. Part of the config is done via separate IO
+controls with syscon, part of the config is done via DSS's registers.
+It's not documented, but I assume the OLDI registers in the DSS IP are
+wired somewhat directly to the OLDI IP.
+
+So currently we just consider OLDIs to be part of the DSS. We do model
+them as separate custom DSS child nodes in the DT, so that we can model
+the pipelines correctly. For example, to support dual-link OLDI, we have
+two OLDI TX nodes, which get their pixel stream from a single DSS port.
+The power-domains for the OLDIs were just set as DSS power-domains, as
+OLDIs were part of DSS in this design.
+
+This felt perhaps slightly hacky, but it also made sense and allowed us
+to model the HW.
+
+Now, with AM62P, it gets a bit interesting. We have two independent DSS
+IPs, each of which have two output ports, and we have two OLDI TX
+instances. The OLDI TX instances are shared between the DSS instances,
+and the first output port on both DSS can be muxed to an OLDI. The first
+DSS can be connected to both OLDI TXes, the second DSS can be connected
+only to the second OLDI.
+
+This DSS application note has a bit more info and some pics:
+https://www.ti.com/lit/pdf/sprads3
+
+Now, both DSS instances have identical registers for configuring both
+OLDI instances. This is not documented, but I'm guessing that when
+configuring the clock muxes (the clock tree is also "interesting"), it
+will also mux the configuration wires coming from the DSS instances. So
+when you change the parent clocks for DSS & OLDI to be the right ones to
+use, say, OLDI TX1 on DSS1, you also change where the OLDI configuration
+is coming from.
+
+So the OLDIs are now shared, and the configuration registers are
+duplicated and routed based on clock setup (afaiu). Clearly the OLDIs
+can not be considered being part of DSS0 or DSS1 anymore, nor can we set
+the OLDI power-domains in the DSS node.
+
+What this series does is that it adds three OLDI nodes, two for DSS0 (as
+DSS0 can use either one or two OLDIs) and one for DSS1. And then,
+depending on which OLDIs you happen to use, you're supposed to set the
+DSS power-domains accordingly, so that the DSS being used for OLDI has
+the necessary OLDI power-domains. And connect the media graph so that if
+your panel uses OLDI TX1 with the DSS0, you connect to that OLDI DT
+node, but if you use the same OLDI TX1 with the DSS1, you connect to
+another OLDI DT node. I don't think that's right at all...
+
+I don't right away have a good idea (well, not even a bad idea) how this
+should be designed.
+
+ Tomi
 
