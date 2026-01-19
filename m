@@ -2,57 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269BBD3A9AF
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 13:59:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4F2D3A9D0
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 14:02:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF32810E445;
-	Mon, 19 Jan 2026 12:59:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE81210E452;
+	Mon, 19 Jan 2026 13:02:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AWfqgjH+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="scELuI2G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1C3C10E445
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 12:59:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768827579; x=1800363579;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=+xwMt0mGaf+N1fXJaEggGorapo50EdwQYHtZL8qLyug=;
- b=AWfqgjH+imJ7vjHQqUws2T03wY8qx/xQiDawQAA/9XHv00IvSVZ5PFZs
- hmOu9D5yU22eK1CM4E2OIBjpr2s2iGxAjSjMLoiqUH3ktj/UbVjEf8RzM
- O38Pr9wG2TPcWekKUED//xq9M6fBVsb0jvYNY30zzclto5DDskPoslxui
- czI4Ar3FLghriautF0ta3inp4IGwcZSxuoZ689whNM1O39F5kkRYXKogY
- /Tm/GGpUq8A+3JEN3G56ddyh+0qDToAQNjuZKtTgl7JNlCk0NSDPsZ2xe
- wzoWEcizejbXoR3OERaCkIaYKka6F9vw0DtcQUHYIF5hggmkHCDCjQzQr g==;
-X-CSE-ConnectionGUID: fZm5J8w5Tk2sboc/juhR6g==
-X-CSE-MsgGUID: xeLeph5BTqiX68h03L5SQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="81478565"
-X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; d="scan'208";a="81478565"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2026 04:59:38 -0800
-X-CSE-ConnectionGUID: WiIuE7h7RgaQSFNEiHCWGA==
-X-CSE-MsgGUID: aqCxEeD3QSqx1G52fSzn4w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; d="scan'208";a="243442655"
-Received: from aotchere-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.12])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2026 04:59:36 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org, Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH] drm/rockchip: inno-hdmi: make inno_hdmi.h header
- self-contained
-In-Reply-To: <20260107152704.2290146-1-jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <20260107152704.2290146-1-jani.nikula@intel.com>
-Date: Mon, 19 Jan 2026 14:59:33 +0200
-Message-ID: <8e109e67e09b1d991105edb1ca1b61d37a9f88a7@intel.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFAC610E451;
+ Mon, 19 Jan 2026 13:02:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 0C5FC60127;
+ Mon, 19 Jan 2026 13:02:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4F21C116C6;
+ Mon, 19 Jan 2026 13:02:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1768827768;
+ bh=cCxg8035viPJsz2XBq1ifbK2lrZlRG1OCR5jkwA4Q7M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=scELuI2GW3wYYW2ZENuAuFSaCJYKTwxSRnj2LRAqiwezAEBgiUivhNWu7wR7lsvrp
+ JMiPt96eHalhzJp6zdj/VOztYexbL9CNdValyZad3QIoRwUqy2SNCBXDS5ZUmr2r5B
+ 3Q2LYZFjRo+TpYc7rFstqRHfbtMAFjLvRsXdqreX7yo2gyOr+diw1+LoloRIJTcEFf
+ H3YM1NaUjV02Jdtuy+J3LR9/YjENpaZ6LVp9bzMZphF9Lehv4mUuhwTkRGGGpb2kcJ
+ Ej14CRJRVv6csc6KuHzgzAe+xhdGGLSRvHHCsaiwAmERVJ+yIM5atMLB3FZRNKxX/w
+ fRLM6YcjAxsPA==
+Date: Mon, 19 Jan 2026 15:02:44 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v2 4/4] vfio: Add pinned interface to perform revoke
+ semantics
+Message-ID: <20260119130244.GN13201@unreal>
+References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
+ <20260118-dmabuf-revoke-v2-4-a03bb27c0875@nvidia.com>
+ <bd37adf0-afd0-49c4-b608-7f9aa5994f7b@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <bd37adf0-afd0-49c4-b608-7f9aa5994f7b@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,30 +80,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jan 19, 2026 at 01:12:45PM +0100, Christian König wrote:
+> On 1/18/26 13:08, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> > 
+> > DMABUF ->pin() interface is called when the DMABUF importer perform
+> > its DMA mapping, so let's use this opportunity to check if DMABUF
+> > exporter revoked its buffer or not.
+> > 
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > ---
+> >  drivers/vfio/pci/vfio_pci_dmabuf.c | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> > 
+> > diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> > index d4d0f7d08c53..af9c315ddf71 100644
+> > --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
+> > +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> > @@ -20,6 +20,20 @@ struct vfio_pci_dma_buf {
+> >  	u8 revoked : 1;
+> >  };
+> >  
+> > +static int vfio_pci_dma_buf_pin(struct dma_buf_attachment *attachment)
+> > +{
+> > +	struct vfio_pci_dma_buf *priv = attachment->dmabuf->priv;
+> > +
+> > +	dma_resv_assert_held(priv->dmabuf->resv);
+> > +
+> > +	return dma_buf_attachment_is_revoke(attachment) ? 0 : -EOPNOTSUPP;
+> 
+> It's probably better to do that check in vfio_pci_dma_buf_attach.
 
-Ping?
+I assume you are proposing to add this check in both
+vfio_pci_dma_buf_attach() and vfio_pci_dma_buf_pin(). Otherwise,
+importers that lack .invalidate_mapping() will invoke dma_buf_pin()
+and will not fail.
 
-On Wed, 07 Jan 2026, Jani Nikula <jani.nikula@intel.com> wrote:
-> Include linux/types.h for u8.
->
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  include/drm/bridge/inno_hdmi.h | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/include/drm/bridge/inno_hdmi.h b/include/drm/bridge/inno_hdmi.h
-> index 8b39655212e2..5bbcaeea94e2 100644
-> --- a/include/drm/bridge/inno_hdmi.h
-> +++ b/include/drm/bridge/inno_hdmi.h
-> @@ -6,6 +6,8 @@
->  #ifndef __INNO_HDMI__
->  #define __INNO_HDMI__
->  
-> +#include <linux/types.h>
-> +
->  struct device;
->  struct drm_encoder;
->  struct drm_display_mode;
+> 
+> And BTW the function vfio_pci_dma_buf_move() seems to be broken:
+> 
+> void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
+> {
+>         struct vfio_pci_dma_buf *priv;
+>         struct vfio_pci_dma_buf *tmp;
+> 
+>         lockdep_assert_held_write(&vdev->memory_lock);
+> 
+>         list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm) {
+>                 if (!get_file_active(&priv->dmabuf->file))
+>                         continue;
+> 
+>                 if (priv->revoked != revoked) {
+>                         dma_resv_lock(priv->dmabuf->resv, NULL);
+>                         priv->revoked = revoked;
+>                         dma_buf_move_notify(priv->dmabuf);
+> 
+> A dma_buf_move_notify() just triggers asynchronous invalidation of the mapping!
+> 
+> You need to use dma_resv_wait() to wait for that to finish.
 
--- 
-Jani Nikula, Intel
+We (VFIO and IOMMUFD) followed the same pattern used in  
+amdgpu_bo_move_notify(), which also does not wait.
+
+I'll add wait here.
+
+Thanks
+
+> 
+>                         dma_resv_unlock(priv->dmabuf->resv);
+>                 }
+>                 fput(priv->dmabuf->file);
+>         }
+> }
+> 
+> Regards,
+> Christian.
+> 
+> 
+> > +}
+> > +
+> > +static void vfio_pci_dma_buf_unpin(struct dma_buf_attachment *attachment)
+> > +{
+> > +	/* Do nothing */
+> > +}
+> > +
+> >  static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
+> >  				   struct dma_buf_attachment *attachment)
+> >  {
+> > @@ -76,6 +90,8 @@ static void vfio_pci_dma_buf_release(struct dma_buf *dmabuf)
+> >  }
+> >  
+> >  static const struct dma_buf_ops vfio_pci_dmabuf_ops = {
+> > +	.pin = vfio_pci_dma_buf_pin,
+> > +	.unpin = vfio_pci_dma_buf_unpin,
+> >  	.attach = vfio_pci_dma_buf_attach,
+> >  	.map_dma_buf = vfio_pci_dma_buf_map,
+> >  	.unmap_dma_buf = vfio_pci_dma_buf_unmap,
+> > 
+> 
