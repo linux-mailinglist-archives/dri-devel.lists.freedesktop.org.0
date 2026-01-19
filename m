@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9F7D39D9A
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 06:09:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 976B5D39DC3
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 06:28:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06B6710E00F;
-	Mon, 19 Jan 2026 05:09:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBFF910E35D;
+	Mon, 19 Jan 2026 05:28:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Bkgu6f5I";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dlhVpvN1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
- [209.85.222.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8AB610E00F
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 05:08:59 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id
- af79cd13be357-8c5265d06c3so492214685a.1
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 21:08:59 -0800 (PST)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE43C10E35E
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 05:28:22 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-29f102b013fso34643745ad.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 21:28:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768799338; x=1769404138; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1768800502; x=1769405302; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
  bh=nclpl2L8R9cKrulz3mBbfGGvQIswT/qMcBsWKZFoMYo=;
- b=Bkgu6f5IXl/itIO9JkXGijZ9qzyITtDseuaUP8UDJ5WbWi0Bj0BhbfkFnbVp78sckZ
- k4KdOctff9SJ45jSWVodZwmmDRYmtczQScDatlCZZkWAjXzeEBW/n0QZ5ba2f0jPoFDq
- sjvUymHRnaKG+ry8SqnRSG39PDNBMUsQI2Nv4lhcIpyzUfTVQCreSaQhBlSbLIsCLArm
- y8juLVWKToZ27YKVa4vHdCQl4BvXHm3PrLupLw8ZcZM/xz0RkxpmqdKiDdkF7SzkOLXE
- /bVMdNG6Hb170ERiZP1HQfAp2mBttTAPlSt+igi6uWWdE94nqkeIKxcfZOWmhwGsuhh6
- w3nw==
+ b=dlhVpvN18u5Q2thfQW2yFXpnOXQoRPUo1LqhDc3uMkwfkn57indNV3wtgJhvtLcn7y
+ C1Xy7Y0pMAxquosDZOiyQtf1N9pwmqytigBS1OhVQk/7H72bmeOaK4dmC1ElRD3A9kjy
+ /Nyked5mXpl5t9IG6u7qr5L2e6x1GJRinzwkJVaIQpDPGEpi+ZgR14IW2wnBgh9J4PKm
+ hNdgYIxbdhjWA7+UuQ/ZpmnJ1+2JTGUBc4kcbhCWKcSf2kAgSuUWCmu6h41/maTCXHgn
+ /lVeYCyjYe5vkPDZxPRjBF0YmYhOLb9Fxmu1t14H2agZMWnUqw1Z/Cevg9eV2lNcHLXY
+ K3uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768799338; x=1769404138;
+ d=1e100.net; s=20230601; t=1768800502; x=1769405302;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
  bh=nclpl2L8R9cKrulz3mBbfGGvQIswT/qMcBsWKZFoMYo=;
- b=o1IlPWVZWF7cMQbMh+l5IDR+CgtYWDklzjcTO3EA5fZWfzDZTru7B3w75G9ubba46m
- sS6C5IhYwmsulo8ZxMqVDUd46cVFv/sqHWCQYIKufyTWzqNTD1yVlnr8CeD9IZUNfCIV
- 4Io/WZ48Bfi5pphxfOOuyf0EpPZr9Vd+kaU7WkWTOeSvl9hjwmIpRZc10o/KKUO+NuVe
- ZmbnkxtbnnxnKk64AIOAzPpRAsjpYwbmi3/E5VP0Kp95ol2VSv2xggjwDRP7I/tETjoK
- 2rbkfq/O83Dhki7IF15wGi3xPibIEhduAZqyOuf5kIGcO0/unK7iivuj0E7jMgfZFg2p
- Q0qg==
+ b=QoZUNpmDtg4cwQltaho6rddyUu7bgFH4W3ao+WqS4B2PtFhkt5ApDbY05LDD8lfrYd
+ CYurg6rZL1OhNqyhyo0f7sHbUb52HCXFiPAULLqWaQ7uARtg4Mvmi+kzpGc4tLb2hkId
+ 9l3j9oE0prYIvhOIFMa9SDdF2tRbU4rHOzMFYwGOC4uFC5BopKenTcFfp9W3Dzbn9Cch
+ pt/iQ8bspsdTwcR5/qVP8VbcT9E2mNM1BfqUH9O4RwUzBBniKIlj+ecVuq+wF5VPT19y
+ NObryI1WkM2GYvzmkWKiZ/ZQsp/NUBAXKPlMEGxUTVGH1AEKz8F5LGuzF1eRpu2acMC0
+ 2t8g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU6YG4QLpdztKumDiEWXzN6P0oh7+g1gkaB0fGyXVkFQuPGnEdG2I/3/Ex6ASMP48ynGkzmWdYQbIU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxVW8rxliG1qC+8GV+fiYXUqX69SWrsa5YrT29R3dYVYhQ6wlYw
- SskRCjikGljEmiVxZTxDVv/erexrxZT8aF1MPMHh9XKVgeHHIWELY4pQPD0zLQ==
-X-Gm-Gg: AY/fxX5tyo2RHpL3Z1pzTFwONinZ/JrmcZOHqbfq1aa2mx34TDtQzMUCQuKr3rf5AjO
- lKqZUQML+IKbqlDmVSHeKUSrgo/zSHuWyKUtPZmka/Cf2ooXn5fX0pkIutRHUOjwvx3gOkj8oMc
- zSN3q6fPJGr/SqqxUr4a3Q7FqNgatbj24kJuvKvMqhCLITQhTA58f8nUSMi9EIIOfJssZc87doB
- aZW/pDAUgjGnQC8X2vF0yoSuq8MWi1Zx/l6clPp47G1bo1kU90/qLDPapU/5kX3+PC11gjAxWLP
- zYyDHJFM54Y+IZ9Bq66jPcfO4UYZscD9JIy3BaMaCZUxAQD6mFH5iWZbdbxKG8Uu7PfJd7TeoWg
- 6j+5BDB9NJE1/dYkOmZmG9tq/u2YwjJZxlm+pdHSejNq8B2fznYTDyC/c6P5Z01YXz53fUbHJ03
- 5TOb43WayRyFcb2tuiWQag1I6yW6sJY2+lJzYeIeDBZoihLS8paafmlNCTlwrDw/HcSit91/kUg
- gsJvA==
-X-Received: by 2002:a05:620a:450b:b0:8c6:a587:377f with SMTP id
- af79cd13be357-8c6a58737e7mr1680298485a.36.1768793444229; 
- Sun, 18 Jan 2026 19:30:44 -0800 (PST)
+ AJvYcCWuP4SHpI3us6P4NfoAExWP8oUpkXplEeFKmLJhMOVBGOqXORuQvex9y/cdfomiNOXJ98MQE7fjcRo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwqT1XZk4pCEfh+OekHQ0E69SSX9/Yr9SMiLnWwJPkNJo7cUd9Q
+ 3OJI8CnNjNph4BLZxQfvYd9XBh1oy/iHmxkOC1HGEIy+FbF2GDZtXIbf8IMpGw==
+X-Gm-Gg: AY/fxX5h9259/7q3a7HEYDMpuMoQVJRGlVRrnH76aJvEJ+fdnyQYuKdVdh3MuPiHFu5
+ 8fmmCznEw55VVEK1Krl15BqNER1XxVnRHmp7jDHE8EIh36UFuHNhbAHr5V9UGHEz/3C8UAgTM1H
+ ySJ7RRc8psTuwFnhoramP8U2dHCbmmamc7PszrsqeV55QKC6m3yz+Rd5Z8aqPEeXZi+rVIWgoX4
+ ZFVLUEH8O49owKvjK9otDutdGrqG3NyC+nAp7YaD/VcRoZ9rHz5xh77NoDV7B8IZobUgqBbCKYI
+ sz1usrS+a3itflEsBriimybHIimkU8TCtF1rh/c1+0XYp+c2VPEp+B6fdFV3DCtVCd3GammM2ri
+ ZE+DN6Q6RORXUadzrKB9zE1szx4HFo19sC1HYLgj1Tgm2IjsMCJE0dYBW/F5Mj79Q0e2mkYAEGG
+ goqIQpQzM/HFn3t9JBgBoVyYQOVqhYkaOprBqoNIUFuv1sz4QEXkwXfQSfXlkWOUkHXRI=
+X-Received: by 2002:a05:622a:15c6:b0:4ff:c63c:525b with SMTP id
+ d75a77b69052e-502a1e5d13cmr132927051cf.26.1768794044833; 
+ Sun, 18 Jan 2026 19:40:44 -0800 (PST)
 Received: from mighty.localdomain (nat-130-245-192-1.resnet.stonybrook.edu.
  [130.245.192.1]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-8c6a71ab20dsm724706885a.5.2026.01.18.19.30.42
+ d75a77b69052e-502a1f1b872sm64030801cf.31.2026.01.18.19.40.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Jan 2026 19:30:43 -0800 (PST)
+ Sun, 18 Jan 2026 19:40:44 -0800 (PST)
 From: Mithil Bavishi <bavishimithil@gmail.com>
 To: aaro.koskinen@iki.fi, andreas@kemnade.info, khilman@baylibre.com,
  rogerq@kernel.org, tony@atomide.com, robh@kernel.org, krzk+dt@kernel.org,
@@ -76,11 +75,11 @@ Cc: linux-omap@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-hardening@vger.kernel.org
 Subject: [PATCH v4 01/10] ARM: dts: twl6032: Add DTS file for TWL6032 PMIC
-Date: Sun, 18 Jan 2026 22:30:26 -0500
-Message-ID: <20260119033035.57538-3-bavishimithil@gmail.com>
+Date: Sun, 18 Jan 2026 22:40:25 -0500
+Message-ID: <20260119034025.58091-2-bavishimithil@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260119033035.57538-1-bavishimithil@gmail.com>
-References: <20260119033035.57538-1-bavishimithil@gmail.com>
+In-Reply-To: <20260119034025.58091-1-bavishimithil@gmail.com>
+References: <20260119034025.58091-1-bavishimithil@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
