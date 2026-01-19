@@ -2,68 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AB95D3B941
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 22:19:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F3A1D3B9B5
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 22:24:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 765C310E517;
-	Mon, 19 Jan 2026 21:19:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 033AE10E541;
+	Mon, 19 Jan 2026 21:24:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Cx1fTB/a";
+	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="YOQ5dA0J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C66D810E51A
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 21:19:35 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 4542EC214DB;
- Mon, 19 Jan 2026 21:19:07 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 5349460731;
- Mon, 19 Jan 2026 21:19:34 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id CB8AB10B68B40; Mon, 19 Jan 2026 22:19:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1768857572; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=+zd79SvLMG1hly2QtcgDamJi4UDVLpEodKvpOQbHx3E=;
- b=Cx1fTB/anyFkJSlJojV05GGAUS8Rrrj2qHPs3Cw9BTX1xfq2a0z1psGb46PsIiLjSWtdXG
- 6+3qiW2HEbVTQTvxQBBE+UuWJuWhvGMc0vYGoiYgklXHi2JgcgD3fJBWDdqGnWRU9npwcB
- uR9urfBFw0wc2ShFmN9TPUAEcUf75mOjPy+SAjkkxHLu2EEwWt7Ywsodvqg7brBq/xl5D+
- QURco2CNWXdR/C5VD8fo+1LMcE4l2zvNGfgv+QK/3Oluj1JCCC0ShO+jUu7Io0ignMKtJt
- FkC+Jtrtqmhen15CTNLMjNxnMDBMqo3AIZrivQFMN0DcBqeELvnb+y4R9SVkGA==
-Mime-Version: 1.0
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82DF010E541
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 21:24:27 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id
+ d9443c01a7336-2a3e76d0f64so28631895ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 13:24:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768857867; cv=none;
+ d=google.com; s=arc-20240605;
+ b=cbFYzLmEbAKMfsKZOH+3eMEalA5f2sZ88cAPmT1YkTgMb8mSEYAtbGNPkMqTLgqK/I
+ g6PrCL2r/wnIn8eIqCK7zQfKnwL4wfuEr5V8711nomgt6lE+Ub2tQHjLY1qol4ORZ+OB
+ POIhDqUSucJmlt0dTQYh+U/VGeJ3ZBPaQGw912jQh6L60HHg5/1JCaORywmenp8PswCR
+ 0kxooSg14hTQiBGGoF/Gg8MwcXvUFGxW3Ooqed9oCIdHHdxsSlNB465nxVpCADRE7g5E
+ cwHTRjlOO/jVatU0cG3Nlm7g4QdK8XXWX5qs+Hmy+7AWP2dvjuI63yWEg2EumVSaRGLu
+ 8BxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=AP5uij4auzaarNTMKGDAE5deLZectmAWZbcZ2tCl4Wo=;
+ fh=4V6dYwcSxuhNyZAANokd4VCL5cOo9gFRqDcmraYcYFI=;
+ b=OKRKjGhwssV5e6QntsSjvI8Hpf9mQOAonl2O7jkWyO5LWcqmFt/XCxcBLAX28P9fQy
+ nRjRowoAbPtDxFb7NVG6WleWgDDAWHXtJ03IqqLSHXPwuqibWW1Qe3TOl+mIrJEPOT3C
+ EQJiDgFJXl9suSbp3/uAp82Q9FmINW9HqsR2gLUv259csH9aI3jH/tz4SA5ke3DlscoE
+ lY85l6ixXIV7B4jKYP6GVXvMzuzorZYlSE4PM/9K9peA3Eq1natGrnxveXoyqZFBeKQg
+ LII0Z8997IWQZFPbVao0az0reYm0zlMbXSyIeWK1JdeGPfmjzkGqjAgRuTcv0y7NGxsI
+ pEYA==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20230601; t=1768857867; x=1769462667;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=AP5uij4auzaarNTMKGDAE5deLZectmAWZbcZ2tCl4Wo=;
+ b=YOQ5dA0JKow2BdKwaGO3Yp2OjztmU/5rRMuSZAdUcEpfVNRLDwluvejc4AN6EUjDX1
+ HtV/QhzsPj8iRI2OszGm8iUXSZcBPBTjRbEsxiDoyN3IS5WascjkGtR1f+OktjmahwrV
+ ieL/fnNM9RUiQLvdj+rCEy+wJZwFa5WIykrni+Apbw3jhkKgCiD/8rm9mJiX190/blqe
+ wFqWWsZ2T+hNH6RCZ9FjpE6VAbDgQsgtcy2QHcyxZWp0Xy9FqINoNp4WpFpiwiygdtmV
+ BSBW+/ioxnHFzR2uifiFljtvxZkH6OAxjCuguFSO8g30RsJemSnAXdaos4d2I9N2c/Ug
+ 6/yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768857867; x=1769462667;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=AP5uij4auzaarNTMKGDAE5deLZectmAWZbcZ2tCl4Wo=;
+ b=xFBtWFq/mppXQ4frkiY2A7OUpVjIMFbOJbzKiGi4a8Tiy1MwiWQee1cfeIxLcFQtwE
+ csnkjjMGJagnmnkrQNUoQoKmve42oYlsq0iEny+cNNngBJAyrvcTqslaHWNksmTHIojo
+ TFk4gFHfy1yt7zjVBMvX7IgucbgTvCvSFdudwOzXZzW3PgeC6Xy/xrQzp3VxYBS0EiXq
+ bFRcMFbkzDh3cTNyB7eu6U8V4rJIJITDprQURwrdeU0Z+FlzBY+QF4WxyPQv4JxVSZYn
+ L3/mL9Zo1LPtj7dEsZ/cQy5IZW5kOC4VyejPswn0h1rjlhT+f5yBj4F9O6c+osUJQLxP
+ IQoQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVDflewyIVrcP3Ky6TLqCzutKddYwtMdzYytSToOlQoK+eGM770h/iGjjysVXq44csZLEi/h7YpwYk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwBDMr92feNRcCdoqD15Ni+RNCJHaBpFHQdcFEQTIvRx2o4ig7L
+ w1U8sC3dV7ppaZtqVYFYG1g07TjpCUun4Ejfa4FMSsWDr4cZt/TnZi8DsMNdFZTjRLJ9q32a/7K
+ 08AxXHUz12I7cJpAS4cPISEK/aQQBdXI=
+X-Gm-Gg: AZuq6aJ9pNhsDAbyzdAlBYSRjPo9SsTUbAPz94C26pxkU8YG959ggNVcsxf1/LfxbVo
+ QqRhWjr1V0BtUm4dldnxhOeJ2q/lh8yCA8+PqD71L8YtYxqfJ7OXGv2NvkGzn3yDF0lvM6N/ixu
+ P1Eta6JWHWAwCeEZgqaZLyd4LoDimbk+DEroVkzv+xU6w4f1vbNHmAjQkRw4w/W6/Xz/L3Ryxcd
+ cBfH0Msz1LpCpJjwy7AoI3Lj91k84llP2o8t9STWYqyeb9M0VSHVmTnP7tutKwGAqryVXgttvR8
+ 2elChUnKmUOGHvgmx29KmiltiNRgjzD6Rg98XLk=
+X-Received: by 2002:a17:902:e787:b0:2a0:fb1c:144e with SMTP id
+ d9443c01a7336-2a700990c98mr136201155ad.7.1768857866821; Mon, 19 Jan 2026
+ 13:24:26 -0800 (PST)
+MIME-Version: 1.0
+References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-0-8d7a3dbacdf4@bootlin.com>
+ <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-3-v2-2-8d7a3dbacdf4@bootlin.com>
+ <CAFBinCBWUXNwEDCJNEmdCtOcGO9eVFfZFC9p9fpdRTesZ7xBSQ@mail.gmail.com>
+ <DFNN251V4JL9.2ECEDGOKN8I4F@bootlin.com>
+In-Reply-To: <DFNN251V4JL9.2ECEDGOKN8I4F@bootlin.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Mon, 19 Jan 2026 22:24:15 +0100
+X-Gm-Features: AZwV_QgxI3L9klOeJM7lsCljCRIK_bf05uJfhQMd5VWt4KtGJ4pArfXR_EjKQn4
+Message-ID: <CAFBinCCz+MobtXYdiyWRBBFBDo77iULLOZ1p2i4fAVnpJ1NzJw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] drm/meson/dw-hdmi: convert to
+ of_drm_find_and_get_bridge()
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
+ linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 19 Jan 2026 22:19:26 +0100
-Message-Id: <DFSVOBV5UY37.3HTQHOJT3A40N@bootlin.com>
-Subject: Re: [PATCH v4 18/25] drm/tilcdc: Convert to DRM managed resources
-Cc: "Markus Schneider-Pargmann" <msp@baylibre.com>, "Bajjuri Praneeth"
- <praneeth@ti.com>, "Louis Chauvet" <louis.chauvet@bootlin.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>, "Miguel Gazquez"
- <miguel.gazquez@bootlin.com>, "Herve Codina" <herve.codina@bootlin.com>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-omap@vger.kernel.org>
-To: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>, "Jyri Sarha"
- <jyri.sarha@iki.fi>, "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "Russell King"
- <linux@armlinux.org.uk>, "Bartosz Golaszewski" <brgl@bgdev.pl>, "Tony
- Lindgren" <tony@atomide.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Neil Armstrong" <neil.armstrong@linaro.org>, "Robert Foss"
- <rfoss@kernel.org>, "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
- "Jonas Karlman" <jonas@kwiboo.se>, "Jernej Skrabec"
- <jernej.skrabec@gmail.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20260116-feature_tilcdc-v4-0-2c1c22143087@bootlin.com>
- <20260116-feature_tilcdc-v4-18-2c1c22143087@bootlin.com>
-In-Reply-To: <20260116-feature_tilcdc-v4-18-2c1c22143087@bootlin.com>
-X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,153 +115,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri Jan 16, 2026 at 6:02 PM CET, Kory Maincent (TI.com) wrote:
-> Convert the tilcdc driver to use DRM managed resources (drmm_* APIs)
-> to eliminate resource lifetime issues, particularly in probe deferral
-> scenarios.
->
-> This conversion addresses potential use-after-free bugs by ensuring
-> proper cleanup ordering through the DRM managed resource framework.
-> The changes include:
-> - Replace drm_crtc_init_with_planes() with drmm_crtc_alloc_with_planes()
-> - Replace drm_universal_plane_init() with drmm_universal_plane_alloc()
-> - Replace drm_simple_encoder_init() with drmm_simple_encoder_alloc()
-> - Remove manual cleanup in tilcdc_crtc_destroy() and error paths
-> - Remove drm_encoder_cleanup() from encoder error handling paths
-> - Use drmm_add_action_or_reset() for remaining cleanup operations
->
-> This approach is recommended by the DRM subsystem for improved resource
-> lifetime management and is particularly important for drivers that may
-> experience probe deferral.
->
-> Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
-> ---
->
-> Change in v4:
-> - Newt patch.
+Hi Luca,
 
-Why? Adding patches along the way does not help getting your series merged
-timely. If there's a good reason for adding a new patch, please mention it
-here.
+On Tue, Jan 13, 2026 at 6:31=E2=80=AFPM Luca Ceresoli <luca.ceresoli@bootli=
+n.com> wrote:
+[...]
+> >> @@ -789,8 +789,12 @@ static void meson_dw_hdmi_unbind(struct device *d=
+ev, struct device *master,
+> >>                                    void *data)
+> >>  {
+> >>         struct meson_dw_hdmi *meson_dw_hdmi =3D dev_get_drvdata(dev);
+> >> +       struct platform_device *pdev =3D to_platform_device(dev);
+> >> +       int irq =3D platform_get_irq(pdev, 0);
+> >>
+> >> +       devm_free_irq(dev, irq, meson_dw_hdmi);
+> > I have one question (so I can understand things better):
+> > is there a particular reason why you went with free'ing the IRQ
+> > instead of "just" masking it (so the hardware won't fire anymore of
+> > those IRQs)?
+>
+> One reason is symmetry: _bind requests the irq, so _unbind does the
+> reverse.
+>
+> Another is I don't have the hardware, so I wanted my changes to be as sma=
+ll
+> and clear as possible.
+Understood, thanks!
 
-> -void tilcdc_crtc_destroy(struct drm_crtc *crtc)
-> +static void tilcdc_crtc_destroy(struct drm_device *dev, void *data)
->  {
-> -	struct tilcdc_drm_private *priv =3D ddev_to_tilcdc_priv(crtc->dev);
-> +	struct tilcdc_drm_private *priv =3D (struct tilcdc_drm_private *)data;
+> In principle one could request/free the irq in probe/remove and then
+> enable/disable it in bind/unbind. Whether it would be a good or bad idea =
+I
+> don't know, but surely it would be more complex and I wouldn't want to do
+> it without any chance to test it on hardware.
 >
-> -	tilcdc_crtc_shutdown(crtc);
-> +	tilcdc_crtc_shutdown(priv->crtc);
+> Also, that would only optimize the case of multiple bind/unbind cycles,
+> which are not quite realistic without bridge hotplug. And brigde hotplug
+> does not exist yet in mainline, and when it will arrive it will be used
+> only for a few use cases.
 >
->  	flush_workqueue(priv->wq);
->
-> -	of_node_put(crtc->port);
-> -	drm_crtc_cleanup(crtc);
-> +	of_node_put(priv->crtc->port);
->  }
->
->  int tilcdc_crtc_update_fb(struct drm_crtc *crtc,
-> @@ -714,7 +714,6 @@ static void tilcdc_crtc_reset(struct drm_crtc *crtc)
->  }
->
->  static const struct drm_crtc_funcs tilcdc_crtc_funcs =3D {
-> -	.destroy        =3D tilcdc_crtc_destroy,
->  	.set_config     =3D drm_atomic_helper_set_config,
->  	.page_flip      =3D drm_atomic_helper_page_flip,
->  	.reset		=3D tilcdc_crtc_reset,
-> @@ -960,12 +959,27 @@ int tilcdc_crtc_create(struct drm_device *dev)
->  {
->  	struct tilcdc_drm_private *priv =3D ddev_to_tilcdc_priv(dev);
->  	struct tilcdc_crtc *tilcdc_crtc;
-> +	struct tilcdc_plane *primary;
->  	struct drm_crtc *crtc;
->  	int ret;
->
-> -	tilcdc_crtc =3D devm_kzalloc(dev->dev, sizeof(*tilcdc_crtc), GFP_KERNEL=
-);
-> -	if (!tilcdc_crtc)
-> -		return -ENOMEM;
-> +	primary =3D tilcdc_plane_init(dev);
-> +	if (IS_ERR(primary)) {
-> +		dev_err(dev->dev, "Failed to initialize plane: %pe\n", primary);
-> +		return PTR_ERR(primary);
-> +	}
-> +
-> +	tilcdc_crtc =3D drmm_crtc_alloc_with_planes(dev, struct tilcdc_crtc, ba=
-se,
-> +						  &primary->base,
-> +						  NULL,
-> +						  &tilcdc_crtc_funcs,
-> +						  "tilcdc crtc");
-> +	if (IS_ERR(tilcdc_crtc)) {
-> +		dev_err(dev->dev, "Failed to init CRTC: %pe\n", tilcdc_crtc);
-> +		return PTR_ERR(tilcdc_crtc);
-> +	}
-> +
-> +	tilcdc_crtc->primary =3D primary;
+> I hope this answers your question.
+Yes, I was curious whether you considered devm_free_irq() as the only
+"correct" approach (in this case I would have recommended a comment)
+or whether other approaches are fine too.
+This is useful knowledge for me in case we ever need to restructure the dri=
+ver.
 
-(*) see below
 
->
->  	init_completion(&tilcdc_crtc->palette_loaded);
->  	tilcdc_crtc->palette_base =3D dmam_alloc_coherent(dev->dev,
-> @@ -978,10 +992,6 @@ int tilcdc_crtc_create(struct drm_device *dev)
->
->  	crtc =3D &tilcdc_crtc->base;
->
-> -	ret =3D tilcdc_plane_init(dev, &tilcdc_crtc->primary);
-> -	if (ret < 0)
-> -		goto fail;
-> -
->  	mutex_init(&tilcdc_crtc->enable_lock);
->
->  	init_waitqueue_head(&tilcdc_crtc->frame_done_wq);
-> @@ -989,20 +999,12 @@ int tilcdc_crtc_create(struct drm_device *dev)
->  	spin_lock_init(&tilcdc_crtc->irq_lock);
->  	INIT_WORK(&tilcdc_crtc->recover_work, tilcdc_crtc_recover_work);
->
-> -	ret =3D drm_crtc_init_with_planes(dev, crtc,
-> -					&tilcdc_crtc->primary,
-> -					NULL,
-> -					&tilcdc_crtc_funcs,
-> -					"tilcdc crtc");
-> -	if (ret < 0)
-> -		goto fail;
-> -
->  	drm_crtc_helper_add(crtc, &tilcdc_crtc_helper_funcs);
->
-> +	ret =3D drmm_add_action_or_reset(dev, tilcdc_crtc_destroy, priv);
-> +	if (ret)
-> +		return ret;
-
-Not related to your patch, but if the dmam_alloc_coherent() (not visible in
-the diff) fails, tilcdc_crtc_destroy() won't be called. Is this intended?
-At first sight this drmm_add_action_or_reset() should be moved at (*), just
-after the allocation.
-
-However being not related to your patch I'd leave this for another series
-anyway, to avoid making this series a moving target.
-
-> +
->  	priv->crtc =3D crtc;
->  	return 0;
-> -
-> -fail:
-> -	tilcdc_crtc_destroy(crtc);
-> -	return ret;
->  }
-
-I find this patch hard to read and I think because it is converting
-multiple things at once. Splitting it in small steps would have been nice,
-even thought I'm not 100% sure it would have been doable.
-
-Nevertheless it looks correct, so:
-
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Best regards,
+Martin
