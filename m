@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE53D39F7D
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 08:16:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E0BD39F86
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 08:17:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6852610E127;
-	Mon, 19 Jan 2026 07:16:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B3DD10E283;
+	Mon, 19 Jan 2026 07:17:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LnRil++k";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UV2CI48U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A42010E127
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 07:16:35 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6FAC10E283
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 07:17:47 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 37C40444B1;
- Mon, 19 Jan 2026 07:16:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BED6EC116C6;
- Mon, 19 Jan 2026 07:16:29 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 6172860151;
+ Mon, 19 Jan 2026 07:17:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5E75C116C6;
+ Mon, 19 Jan 2026 07:17:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768806995;
- bh=OEsOpCtuYUG2fYA58SjXhzmG1PM2OBBZd3ltwlOaFcs=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=LnRil++k8L5iSP6QpXROG+rFAyBgdlJFLYUjsVavT1MREhvMKad3Wua3iq+lJH3LP
- 2jRZXZpOSmn91W6KF2IjYI8EyR9hW39enYVJk/6ozFdNKkyZFfWg5qacmsgiUMBxis
- Re93wAjK4O66hGp1PVUZKq5m0drMaFSv9nzSDTxDPX5eGxA411FqI5VDyeD5qW00PB
- N14f4UMDAbZxtFdAahHAlPBl+TtzvQnbTk/EwOaBn5PJeZC0EvOT5R8pB0+XsK3dey
- XyehYv7ijcPvoCbkJz0tyz2qGHgqeySaFCggzFO79aBpQj1XuWIW8sY8aZkc/Go5kU
- /kvI8sjQzIe3g==
-Message-ID: <7075abf6-fde8-4ff2-8370-ca7f5361ef7c@kernel.org>
-Date: Mon, 19 Jan 2026 08:16:28 +0100
+ s=k20201202; t=1768807066;
+ bh=IsxoWxJDXcOy6IS9oZC97dcs9kOhYH3mkq9XnLoovg8=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=UV2CI48UYYIdmu/F3CJ7eWfwjOGLMtuh4FNYA5RbIBbup8w57re8E7prU3FY/WNrq
+ gQ+1p9HwHZjCCEEUVEsjtnbXqZkg4LtuHfG+8G1yEHc3InaP+F5XkfvadRm8RjDsTx
+ 6KKiq23vQa9G0KvFqg1DLWeYx07cO/QAWQ4ZRnPiPQsJ5rxVVqvewcx6MxyE11lYML
+ a5Kbm/ZNhLfJMqsyQIoFBG3i8o19R2WvFOnAN/tTzen9HqhkyVLPpcD2ww0Pw1rku1
+ 8mBHjza86FFpZzTrevfZW8aGoBaiD/NuRYZAK1k5A6JgT+y43ysL7CBV02iWPbbgZ8
+ f6CwHr/vpOOjg==
+Message-ID: <db9d334d-84f6-48bc-a27b-95f4225762f4@kernel.org>
+Date: Mon, 19 Jan 2026 08:17:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 09/10] dt-bindings: omap: Add Samsung Galaxy Tab 2 10.1
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Mithil Bavishi <bavishimithil@gmail.com>, aaro.koskinen@iki.fi,
  andreas@kemnade.info, khilman@baylibre.com, rogerq@kernel.org,
  tony@atomide.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
@@ -49,7 +50,7 @@ Cc: linux-omap@vger.kernel.org, devicetree@vger.kernel.org,
  linux-hardening@vger.kernel.org
 References: <20260119033035.57538-1-bavishimithil@gmail.com>
  <20260119033035.57538-11-bavishimithil@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <7075abf6-fde8-4ff2-8370-ca7f5361ef7c@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -94,7 +95,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260119033035.57538-11-bavishimithil@gmail.com>
+In-Reply-To: <7075abf6-fde8-4ff2-8370-ca7f5361ef7c@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -112,22 +113,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/01/2026 04:30, Mithil Bavishi wrote:
-> Add samsung-espresso10 codename for the 10 inch variant
+On 19/01/2026 08:16, Krzysztof Kozlowski wrote:
+> On 19/01/2026 04:30, Mithil Bavishi wrote:
+>> Add samsung-espresso10 codename for the 10 inch variant
+>>
+>> Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
 > 
-> Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
+> 
+> <form letter>
+> This is a friendly reminder during the review process.
+> 
+> It seems my or other reviewer's previous comments were not fully
+> addressed. Maybe the feedback got lost between the quotes, maybe you
+> just forgot to apply it. Please go back to the previous discussion and
+> either implement all requested changes or keep discussing them.
+> 
+> Thank you.
+> </form letter>
+> 
 
-
-<form letter>
-This is a friendly reminder during the review process.
-
-It seems my or other reviewer's previous comments were not fully
-addressed. Maybe the feedback got lost between the quotes, maybe you
-just forgot to apply it. Please go back to the previous discussion and
-either implement all requested changes or keep discussing them.
-
-Thank you.
-</form letter>
+Both comments... When you receive a comment under one patch, you must
+check if it does not apply to others. This is really sloppy to send me a
+patch with exactly the same problem, which I asked to fix already.
 
 Best regards,
 Krzysztof
