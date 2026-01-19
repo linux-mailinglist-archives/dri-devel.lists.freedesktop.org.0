@@ -2,64 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BFF4D3A029
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 08:41:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 695C7D3A04D
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 08:45:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD81210E380;
-	Mon, 19 Jan 2026 07:41:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5FDA10E384;
+	Mon, 19 Jan 2026 07:45:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EDtythUk";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="anEujeCh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/3U4m5Jv";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vjilY8Jm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ihOJzaqA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 109AC10E380
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 07:41:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768808463; x=1800344463;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=bFWKE0b6TgWpxQaPcHV9jdPULRgjopCFZs9cpiPFIK4=;
- b=EDtythUkWQFAOpL2FT5uzd8JMxpL4EVEFZ6902GB3H/1zi3eyP/4Pq9w
- amefhEAb6rngj48H55VSkBXz0YOpZCpztSFQcn0IZzSohqjt/4Mcr8Fr5
- EGCY/Qq33JFniKp/SsMi6h1VeeVyepZv/Cj5O3ksOZ6tcXXsO6/XjinWG
- QoieXfPW/oYosxGkvcl1DRI1s5AuebkoEC3Vz5SqREiDRVbuNtdZ4fFbq
- y1r63d55N32FEIcBXaH/wxIaNTy6dTR1VkvyWEmHeVp4WGa5YfNEr5faM
- p8fI6S6k+04oD4QTHHqt04mPanAtnHp1pkFeOSVZwpwL0ZP9LaLXIwGNw g==;
-X-CSE-ConnectionGUID: rjgVOfhFSNOOeWVNYWR1Nw==
-X-CSE-MsgGUID: LJSP+0byQTWZAPgurULufA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="70102070"
-X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; d="scan'208";a="70102070"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2026 23:41:02 -0800
-X-CSE-ConnectionGUID: H6vVu2ItTcWjpYo924LUfg==
-X-CSE-MsgGUID: 1y62ggCuQImIvwNJV84elg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; d="scan'208";a="237078527"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost)
- ([10.245.244.37])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2026 23:41:00 -0800
-Date: Mon, 19 Jan 2026 09:40:58 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Chintan Patel <chintanlike@gmail.com>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- andy@kernel.org, deller@gmx.de, gregkh@linuxfoundation.org
-Subject: Re: [PATCH v7 2/2] staging: fbtft: Make framebuffer registration
- message debug-only
-Message-ID: <aW3gCgB1YAsjuOZ7@smile.fi.intel.com>
-References: <20260117042931.6088-1-chintanlike@gmail.com>
- <20260117042931.6088-2-chintanlike@gmail.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49E3B10E382
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 07:45:11 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8FB52336A6;
+ Mon, 19 Jan 2026 07:45:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1768808710; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=4wRzNGVMrs2kDCf47lZNvlbT6/RNjONrSSFOz/syRaM=;
+ b=anEujeCh9Wanp3AQvXiBq/B+GCVc477VoLG7UJnWe9Rr8uFtkypYvuiHR+02N8wJAQqayS
+ 7+vKZ52BzAs2z0YgbLPdiFi/1ru9dmWuOMwcgpNqUT2W0qSk0/lUjah/qZlec5LZPuVeLs
+ XS73hq3DSJWtTqUe9MnDuROcBQmWqmI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1768808710;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=4wRzNGVMrs2kDCf47lZNvlbT6/RNjONrSSFOz/syRaM=;
+ b=/3U4m5JvPhO7cSrtbIJYdVUcoYJAl9DPjB1HlzAHSJjYV0pDzw0FRWwTAVZtwSfGRrZjYr
+ deP/ojyWxYipXxBA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vjilY8Jm;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ihOJzaqA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1768808709; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=4wRzNGVMrs2kDCf47lZNvlbT6/RNjONrSSFOz/syRaM=;
+ b=vjilY8Jm+AbnfGAtgbnMHUDIcZscswKFYWvSl0Gpslj/9OK2DXLLn6iRXzmDCJEUvvUEMw
+ 1zeETZt7p0JTPxJi63mdp3bTCbVkBiRrIM0+rUWMz1u1fIrL2tL62sVEhQ38MWamLoZn3H
+ Iv1/E7cth3wB0E4CwxznZ0rWruIN+/0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1768808709;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=4wRzNGVMrs2kDCf47lZNvlbT6/RNjONrSSFOz/syRaM=;
+ b=ihOJzaqAL+2sxDJrZa5gLhLfuSwfjvvJOeMIMgQr6z8v24ivAwBPRVE0JRH3UqRIWb4Bhj
+ s9cI91FTtPzlwxBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2E1113EA63;
+ Mon, 19 Jan 2026 07:45:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id ZIyXCQXhbWlYawAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 19 Jan 2026 07:45:09 +0000
+Message-ID: <7d4b95ff-8a94-4d96-8b75-6153baad9fdf@suse.de>
+Date: Mon, 19 Jan 2026 08:45:08 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260117042931.6088-2-chintanlike@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev: Fix slab-out-of-bounds read in
+ fb_pad_unaligned_buffer
+To: Osama Abdelkader <osama.abdelkader@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Lee Jones <lee@kernel.org>, Murad Masimov <m.masimov@mt-integration.ru>,
+ Quanmin Yan <yanquanmin1@huawei.com>,
+ Yongzhen Zhang <zhangyongzhen@kylinos.cn>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: syzbot+55e03490a0175b8dd81d@syzkaller.appspotmail.com
+References: <20260118134735.11507-1-osama.abdelkader@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20260118134735.11507-1-osama.abdelkader@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -3.01
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[gmail.com,ffwll.ch,gmx.de,kernel.org,mt-integration.ru,huawei.com,kylinos.cn,vger.kernel.org,lists.freedesktop.org];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ RCPT_COUNT_SEVEN(0.00)[11]; MID_RHS_MATCH_FROM(0.00)[];
+ TAGGED_RCPT(0.00)[55e03490a0175b8dd81d];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid]
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 8FB52336A6
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,17 +155,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 16, 2026 at 08:29:31PM -0800, Chintan Patel wrote:
-> The framebuffer registration message is informational only and not
-> useful during normal operation. Convert it to debug-level logging to
-> keep the driver quiet when working correctly.
+Hi
 
-Suggested-by: Greg ...?
+Am 18.01.26 um 14:47 schrieb Osama Abdelkader:
+> The function fb_pad_unaligned_buffer() was reading idx+1 bytes per row
+> from the source buffer, but when mod == 0 (font width is a multiple of
+> 8 bits), the source buffer only has idx bytes per row. This caused a
+> slab-out-of-bounds read when accessing src[idx] after the inner loop.
+>
+> Fix this by only reading the extra byte when mod != 0, ensuring we
+> never read beyond the source buffer boundaries.
+>
+> This fixes the KASAN slab-out-of-bounds read reported by syzkaller:
+> https://syzkaller.appspot.com/bug?extid=55e03490a0175b8dd81d
+>
+> Reported-by: syzbot+55e03490a0175b8dd81d@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=55e03490a0175b8dd81d
+> Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
+> ---
+>   drivers/video/fbdev/core/fbmem.c | 18 ++++++++++--------
+>   1 file changed, 10 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+> index eff757ebbed1..a0c4932a6758 100644
+> --- a/drivers/video/fbdev/core/fbmem.c
+> +++ b/drivers/video/fbdev/core/fbmem.c
+> @@ -113,15 +113,17 @@ void fb_pad_unaligned_buffer(u8 *dst, u32 d_pitch, u8 *src, u32 idx, u32 height,
+>   			dst[j+1] = tmp;
+>   			src++;
+>   		}
+> -		tmp = dst[idx];
+> -		tmp &= mask;
+> -		tmp |= *src >> shift_low;
+> -		dst[idx] = tmp;
+> -		if (shift_high < mod) {
+> -			tmp = *src << shift_high;
+> -			dst[idx+1] = tmp;
+> +		if (mod) {
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+How do we end up here if mod equals 0? When I look at the callers of 
+this function, cases with (mod == 0) take an entirely different branch. 
+[1] [2]
+
+Best regards
+Thomas
+
+[1] 
+https://elixir.bootlin.com/linux/v6.18.6/source/drivers/video/fbdev/core/bitblit.c#L208
+[2] 
+https://elixir.bootlin.com/linux/v6.18.6/source/drivers/video/fbdev/core/fbcon_ud.c#L199
+
+> +			tmp = dst[idx];
+> +			tmp &= mask;
+> +			tmp |= *src >> shift_low;
+> +			dst[idx] = tmp;
+> +			if (shift_high < mod) {
+> +				tmp = *src << shift_high;
+> +				dst[idx+1] = tmp;
+> +			}
+> +			src++;
+>   		}
+> -		src++;
+>   		dst += d_pitch;
+>   	}
+>   }
 
 -- 
-With Best Regards,
-Andy Shevchenko
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
 
 
