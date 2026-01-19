@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6FD7D3A477
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 11:13:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4167CD3A47A
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 11:14:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7C4610E30A;
-	Mon, 19 Jan 2026 10:13:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2132A10E3AF;
+	Mon, 19 Jan 2026 10:14:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IoP7E/9p";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AeDvMHo3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D774510E2A4;
- Mon, 19 Jan 2026 10:13:47 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C91210E3AF;
+ Mon, 19 Jan 2026 10:13:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id BA8A46014E;
- Mon, 19 Jan 2026 10:13:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E657EC116C6;
- Mon, 19 Jan 2026 10:13:45 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 34B6143D9B;
+ Mon, 19 Jan 2026 10:13:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89D94C16AAE;
+ Mon, 19 Jan 2026 10:13:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768817626;
- bh=1P25O01V1+pU3qLbbBJW/GjfXAE5BGBvNtHpKC+MLLk=;
+ s=k20201202; t=1768817639;
+ bh=NYdJQrmH02NA6Tbg7YbuRjFQaGimaDqIcuD9t2JJMBQ=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=IoP7E/9pRu+7PDLd0H764jZC/uaNamD0WEa4z1KHQ1LWmWDuerkPTvD00JtG85EOm
- SzdPIkNXbCfn6Md0mGJ1ogDNrUlWfYU1KRUElYJpxZ3ji5qbTBJlJDcSjQcC2+mviQ
- ZE/wyaZPh8k7s/KFqIk92XNEj6nHbp+MKbgOVDgXzCLBRNPoVgD69UHUxtGvi1aqJi
- iNASTiwUxup4KrDlPpADUKJgItJpUr2eliuygQdOW5LikrdFAKge0CU9xKkXvS/5es
- ZLften5mQg2ZaW9SoWZc5htrDu8insI8Ww82s/O0GqFp0V6EbvOVPO8lCv97yl2k9S
- EZ2Y8jIU3vGdw==
-Message-ID: <2fb910198a3be542215592ac3f22d6b2@kernel.org>
-Date: Mon, 19 Jan 2026 10:13:43 +0000
+ b=AeDvMHo3DwRyyOwsOt3Jiff3SJaHaI2TfoOMnycd8ue94ufW3X2ZpsF5JcszxdXUc
+ 99hNu2JtkOZ5cz0f9co2ywnQRG4iUmRAcalXQa3PXdAGi9q7O0igqVcMNLB24CJ/7N
+ U8w+R/ohSCTb/vVN1uKOeBRoEwuttAp7PCPpo/Z+z+AT0rExbUyP6gEo8P6xV9Dq96
+ qxaw406z3/DWloyzjHoWvgxE7taQOk8S58Btjo1yeiT8pzUrDxq0UPsbZSXHi/ppnN
+ Q1nJ0ThhOIm2KrJ7Hgqhe9cG6X2Yq6c+T8vVGpA78L/RCzsCY/wHLLT2Xh1G7ITpYm
+ UTSrxZGZkorMw==
+Message-ID: <12c1669e5947ce144bd295e5a26a93da@kernel.org>
+Date: Mon, 19 Jan 2026 10:13:56 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v4 01/10] drm/tests: hdmi: check the infoframes behaviour
-In-Reply-To: <20260107-limit-infoframes-2-v4-1-213d0d3bd490@oss.qualcomm.com>
-References: <20260107-limit-infoframes-2-v4-1-213d0d3bd490@oss.qualcomm.com>
+Subject: Re: [PATCH v4 07/10] drm/display: hdmi_state_helper: reject Audio
+ IF updates if it's not supported
+In-Reply-To: <20260107-limit-infoframes-2-v4-7-213d0d3bd490@oss.qualcomm.com>
+References: <20260107-limit-infoframes-2-v4-7-213d0d3bd490@oss.qualcomm.com>
 Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
@@ -81,11 +82,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 7 Jan 2026 20:14:58 +0200, Dmitry Baryshkov wrote:
-> Verify the InfoFrames behaviour. Check that reporting InfoFrame as
-> unsupported doesn't result in a commit error. Also check that HDR and
-> Audio InfoFrames are not triggered if corresponding features are not
-> enabled.
+On Wed, 7 Jan 2026 20:15:04 +0200, Dmitry Baryshkov wrote:
+> Updating the InfoFrame if it can not be sent over the wire makes no
+> sense. Change drm_atomic_helper_connector_hdmi_update_audio_infoframe()
+> and drm_atomic_helper_connector_hdmi_clear_audio_infoframe() to return
+> an error if Audio InfoFrame callbacks are not implemented.
 > 
 > 
 > [ ... ]
