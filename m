@@ -2,145 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38956D3A06B
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 08:47:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93FD0D3A0A0
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 08:52:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAFF810E383;
-	Mon, 19 Jan 2026 07:47:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09B3910E387;
+	Mon, 19 Jan 2026 07:52:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MFZqcpE+";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KnV1GHJO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VL41eV1F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2386710E158
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 07:47:19 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60J5V0UW3010904
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 07:47:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- GZ85mfqi41v4PyjN22gGAFMq8Pfu7GHfOSwVNtysSmo=; b=MFZqcpE+zDEkEljI
- eS3BEc+8YC8hC5WU6VnV2ZzFhUuBJIXceZxk4u1aUyaGZV7MVHM3TI/qgvDE3TVx
- d2VLbsmSY36B1G9MQMuHKAjTNgB1uIwlTu9k3oL+AXpELUMyDvEI8sGuMU9dgtSS
- b8jpEFgeQjIoorAOs8PyPxVgfkqWdnRhxUY25I/B8jK5yc8hCEJqgu3xqH6OHT3t
- X5fo/GvUdPtKdt1AtEuCHVWpb+s1JjXXVoHrqjPf6RUP8ahBjE/3D7PiO2Ufh/Ff
- TPkzm0JN7KKXihH0z/MRxItTixDSc1SrU9N7lzb3zX80yIN9yB/haU+8o5ha1foE
- DsoV1Q==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4br2gum72w-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 07:47:17 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id
- 41be03b00d2f7-c337375d953so2344841a12.3
- for <dri-devel@lists.freedesktop.org>; Sun, 18 Jan 2026 23:47:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768808837; x=1769413637;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:cc:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=GZ85mfqi41v4PyjN22gGAFMq8Pfu7GHfOSwVNtysSmo=;
- b=KnV1GHJOwCCtjl/paJzKPN1DfhS71mDxojgJLPQdR2+aDbd0GEXIOeVuvOJXTiJjjx
- DjjZILDTR5sp+hmgkyhWBJsx6rLOraxsm7MjvTotLROYbTleXVm7Jm2HC/Z4e7457Yu0
- XMOu+c8QJZOb/LM6I/OUHPYMQb3lqxJ2aR6pm52bqM+pgH6BOAvF10n+3KeQU79G0/XX
- M016iohuXWSk67EubxQa5xNHbWAqnOygzc1f5Bhro5KCT/zoQYanGeQ3zR8zrv8TNfny
- DbEP2FlpcIHdtMRuGja6QrcD6/pwku3Es5Y6zu6tgOPbiwkEkQbOouHHDOCd5NqVBLH/
- hftQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768808837; x=1769413637;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:cc:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GZ85mfqi41v4PyjN22gGAFMq8Pfu7GHfOSwVNtysSmo=;
- b=rQUBw/6iBL13jNBNPF7rZQa8bqi0SzeT57X376qi3tj24cQfFXZdZ1zHSFHTQMtUZN
- vbYURPcXFl0c4kKrQO2n5BYbvTEC70uMP5DrYaF9GFuetB3w1uN9LG9APkzntkc8br+a
- AUp/etJcRfzIfVvu8iGVrmzvR2BTjsNkzg4VpwzaDLeae9E4UOfHBsXiUf9Xo/LXpWuD
- iu5y9gBGcPf2Q9dKs0lNdOlyC4MMqA+RuIlsrv/tY1ORzNpwY/qA1sF+wrvFQdsov9vy
- zvmmYcfe8TfOG7ZRrEjYtiyc4DEVzCAoMEXgMhovbhE3N3YXEPVYct7FbFdBT9rK5F/u
- XFmg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUZe73PJEaf9JharYY16slQvRL8pFAtdba18X5UKWYWY578urjjwPOZ+RM4RVW+k2PFRsNTDYNcbmA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyb37z7fZlSCSulVWEtIw+zVwc8mKFnqa7Fr+FTyRkICTdtubEB
- rbSOhWk+EQcFbv1O2TKzMxiqETRau3aP70P8ATtXwUjL+eevmR9cwrhr/ngNgsEwPwoJwnHFx0V
- OUKXXfhqRh+JDGDB2qS2xNkIXDciSqx7hmhFQ+q4g3gWx6PTV97TXFhRogigo18kZ4Auytx4=
-X-Gm-Gg: AY/fxX7P5iuU0XeDZmolnPJFO9Pqn5vuVWp5SC1fpNFQPY0yerwqU2BoUZQJIrJQhc6
- A7gc56dQLqkmdPkZuvDnLqD6zKzcbucQOE0h+hFrVfJSVnDe+IGsfUaOXeb+g5qnnETUWuinWND
- nIvcL7jbfPNtTHHmy5NpHnxL+7cXy442vNWb7myR1EnOYP+SMww0F9abdpFPnj0NPLFfUx6WO7O
- yIquuCyEvNApEvo6hcnbVpakDyloSfgS277XKbN4VjN74pXgM1S0jw/PbazKpddHqxxi7kb7Sdb
- QvTtAI/Kq9jBMbT9zYkci9xcOpzXNJ2MlgnajxafoIlCak5qGmUQkSp6gvHnSRzjwYosQR1JKEt
- wOu2DirK4+ONJTTO4SohrjWC68bC/DWiCVAGDs9ijkSdZ3zlRFFBGp78Tgrpbj16Bf3FRydhSby
- t76g==
-X-Received: by 2002:a05:6300:6199:b0:364:14f4:5205 with SMTP id
- adf61e73a8af0-38e00bc01aemr10040408637.1.1768808836731; 
- Sun, 18 Jan 2026 23:47:16 -0800 (PST)
-X-Received: by 2002:a05:6300:6199:b0:364:14f4:5205 with SMTP id
- adf61e73a8af0-38e00bc01aemr10040382637.1.1768808836236; 
- Sun, 18 Jan 2026 23:47:16 -0800 (PST)
-Received: from [10.249.8.62] (tpe-colo-wan-fw-bordernet.qualcomm.com.
- [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-c5edf2330d4sm8657224a12.5.2026.01.18.23.47.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Jan 2026 23:47:15 -0800 (PST)
-Message-ID: <08675c7f-3875-4335-8dab-eb0044d42b38@oss.qualcomm.com>
-Date: Mon, 19 Jan 2026 15:47:08 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: wangao.wang@oss.qualcomm.com,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-media@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: Re: [PATCH v3 0/9] media: iris: migrate to using global UBWC config
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E5F210E158;
+ Mon, 19 Jan 2026 07:52:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 9503B60159;
+ Mon, 19 Jan 2026 07:52:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94EE5C19424;
+ Mon, 19 Jan 2026 07:52:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1768809154;
+ bh=FgccbxSW4ALrowfCLmsRR/Zu7j7Ob42C2Xqwm3A13m4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VL41eV1F4pT4aqEBXrqmgMj8ay967tZwnXgdE3sr95zj66Szyt/gEQZ9ZHC1/ZCoI
+ zHdHVoh19kPdrpptXHDlZLHPfMWdCRNwsBdwJ7VBIbjsDDrXymv7wyQjLraR/owc8z
+ evQ3EyRQBsTDbPFCBP+u0no9EvPNSeIC1y3//MY6sa/XWAJj/UJTznEsT5zeykc+UM
+ MOLIbXeG3taFetfPJqqhIWgSSkBbREOAi0MKLUbM9986sLho/+clz8Gf3zrknd4884
+ dnnSFY+E5761ocKkG9RiPkmSgCPvhyyXYSXwcxbhpYQalj7/p76ack/evO/E3Y0LdM
+ pnmfKlRF+LN7g==
+Date: Mon, 19 Jan 2026 09:52:29 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Bryan O'Donoghue <bod@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20260116-iris-ubwc-v3-0-662ac0e0761f@oss.qualcomm.com>
-Content-Language: en-US
-From: Wangao Wang <wangao.wang@oss.qualcomm.com>
-In-Reply-To: <20260116-iris-ubwc-v3-0-662ac0e0761f@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE5MDA2MyBTYWx0ZWRfX3BihJog9idyJ
- wBDfGTbksL9NxMtgalGnt6Z8Q5nUmNsnz2kPUxW25gCydGloPT/UW9eUTbUAAKhKIJbDMoXpMFJ
- 5ULwlqVymRcOXnBUD6RhhyzhYosOMq7Sp8Xo/BIJxsh54yv9HY0MYEn//xM4HRXLkHZSISddbw8
- 0/ZeaDiukc6nO2P5W4ni1qvNrUd+K0il+qHV6wNyv/7GeTi3YjI5WWob/bu59N+aIIS3xpJIjz/
- Zb9KPJYpDv3lyUhlmJq7zLcyDGFV1mVHsx82N1hwo1p7b95ONPLPE4h4Z00Zep8v6a5UKI84gx4
- VCw3uDWpdsmeva9ZE3TlSMzWUlP5CeIeuWGckvrtH4I6v1tb3zNKbKh1XigfkB++B0gbSj7FR5z
- pCpjI02LP+2YVcfqmnLahqRVKv4F998sPNMKdyKfogrERL/kpPGRk0xUPOPrtE6Cf3SfgvDvY18
- RAOoyN4Na26ztnFzG8A==
-X-Authority-Analysis: v=2.4 cv=Sev6t/Ru c=1 sm=1 tr=0 ts=696de185 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=RKnW3nVSh4YJs2QzWIQA:9 a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
-X-Proofpoint-GUID: w6yGUfyKcsiHmyJEKKBKf7ybdns3StkS
-X-Proofpoint-ORIG-GUID: w6yGUfyKcsiHmyJEKKBKf7ybdns3StkS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-19_01,2026-01-19_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0 impostorscore=0 spamscore=0 bulkscore=0
- lowpriorityscore=0 clxscore=1011 priorityscore=1501 suspectscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2601190063
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] dma-buf: document revoke mechanism to invalidate
+ shared buffers
+Message-ID: <20260119075229.GE13201@unreal>
+References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
+ <f115c91bbc9c6087d8b32917b9e24e3363a91f33.camel@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f115c91bbc9c6087d8b32917b9e24e3363a91f33.camel@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,65 +79,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sun, Jan 18, 2026 at 03:16:25PM +0100, Thomas Hellström wrote:
+> Hi, Leon,
+> 
+> On Sun, 2026-01-18 at 14:08 +0200, Leon Romanovsky wrote:
+> > Changelog:
+> > v2:
+> >  * Changed series to document the revoke semantics instead of
+> >    implementing it.
+> > v1:
+> > https://patch.msgid.link/20260111-dmabuf-revoke-v1-0-fb4bcc8c259b@nvidia.com
+> > 
+> > ---------------------------------------------------------------------
+> > ----
+> > This series documents a dma-buf “revoke” mechanism: to allow a dma-
+> > buf
+> > exporter to explicitly invalidate (“kill”) a shared buffer after it
+> > has
+> > been distributed to importers, so that further CPU and device access
+> > is
+> > prevented and importers reliably observe failure.
+> > 
+> > The change in this series is to properly document and use existing
+> > core
+> > “revoked” state on the dma-buf object and a corresponding exporter-
+> > triggered
+> > revoke operation. Once a dma-buf is revoked, new access paths are
+> > blocked so
+> > that attempts to DMA-map, vmap, or mmap the buffer fail in a
+> > consistent way.
+> 
+> This sounds like it does not match how many GPU-drivers use the
+> move_notify() callback.
 
+No change for them.
 
-On 2026/1/16 15:27, Dmitry Baryshkov wrote:
-> Having UBWC configuration in the driver is error prone. For example, the
-> driver specifies fixed values for HBB, while the actual value might
-> depend on the DDR type. Stop defining UBWC data in the iris driver and
-> use the global UBWC configuration registry.
 > 
-> Merge strategy: either merge SoC bits directly through the media tree
-> (with Bjorn's ack) or merge to the media tree through the immutable tag.
-> The drm patches will follow depending on the way the SoC patches are
-> merged.
-> 
-> Note: the patches are compile-tested only because of the lack of the
-> Gen2 hardware at hand.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
-> Changes in v3:
-> - Dropped applied and unrelated patches (they will be posted separately)
-> - Include printk.h, decoupling the series from fix picked up by Bjorn
-> - Introduced additional helpers to retrieve the data.
-> - Link to v2: https://lore.kernel.org/r/20260113-iris-ubwc-v2-0-4346a6ef07a9@oss.qualcomm.com
-> 
-> Changes in v2:
-> - Extended the commit message and added a comment for the min_acc length
->    helper (Konrad)
-> - Link to v1: https://lore.kernel.org/r/20260110-iris-ubwc-v1-0-dd70494dcd7b@oss.qualcomm.com
-> 
-> ---
-> Dmitry Baryshkov (9):
->        soc: qcom: ubwc: add helper to get min_acc length
->        soc: qcom: ubwc: add helpers to get programmable values
->        media: iris: retrieve UBWC platform configuration
->        media: iris: don't specify min_acc_length in the source code
->        media: iris: don't specify highest_bank_bit in the source code
->        media: iris: don't specify ubwc_swizzle in the source code
->        media: iris: don't specify bank_spreading in the source code
->        media: iris: don't specify max_channels in the source code
->        media: iris: drop remnants of UBWC configuration
-> 
->   drivers/media/platform/qcom/iris/Kconfig           |  1 +
->   drivers/media/platform/qcom/iris/iris_core.h       |  4 ++++
->   .../platform/qcom/iris/iris_hfi_gen2_packet.c      | 18 ++++++++++------
->   .../platform/qcom/iris/iris_platform_common.h      | 11 ----------
->   .../media/platform/qcom/iris/iris_platform_gen2.c  | 14 ------------
->   drivers/media/platform/qcom/iris/iris_probe.c      |  5 +++++
->   include/linux/soc/qcom/ubwc.h                      | 25 ++++++++++++++++++++++
->   7 files changed, 46 insertions(+), 32 deletions(-)
-> ---
-> base-commit: b775e489bec70895b7ef6b66927886bbac79598f
-> change-id: 20260110-iris-ubwc-06f64cbb31ae
-> 
-> Best regards,
+> move_notify() would typically invalidate any device maps and any
+> asynchronous part of that invalidation would be complete when the dma-
+> buf's reservation object becomes idle WRT DMA_RESV_USAGE_BOOKKEEP
+> fences.
 
-Tested the v2 patch series on Lemans and Monaco.
-Tested-by: Wangao Wang <wangao.wang@oss.qualcomm.com>
+This part has not changed and remains the same for the revocation flow as well.
 
--- 
-Best Regards,
-Wangao
+> 
+> However, the importer could, after obtaining the resv lock, obtain a
+> new map using dma_buf_map_attachment(), and I'd assume the CPU maps
+> work in the same way, I.E. move_notify() does not *permanently* revoke
+> importer access.
 
+This part diverges by design and is documented to match revoke semantics.  
+It defines what must occur after the exporter requests that the buffer be  
+"killed". An importer that follows revoke semantics will not attempt to call  
+dma_buf_map_attachment(), and the exporter will block any remapping attempts  
+regardless. See the priv->revoked flag in the VFIO exporter.
+
+In addition, in this email thread, Christian explains that revoke
+semantics already exists, with the combination of dma_buf_pin and
+dma_buf_move_notify, just not documented:
+https://lore.kernel.org/all/f7f1856a-44fa-44af-b496-eb1267a05d11@amd.com/
+
+Thanks
+
+> 
+> /Thomas
+> 
+> 
+> > 
+> > Thanks
+> > 
+> > Cc: linux-media@vger.kernel.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> > Cc: linux-kernel@vger.kernel.org
+> > Cc: amd-gfx@lists.freedesktop.org
+> > Cc: virtualization@lists.linux.dev
+> > Cc: intel-xe@lists.freedesktop.org
+> > Cc: linux-rdma@vger.kernel.org
+> > Cc: iommu@lists.linux.dev
+> > Cc: kvm@vger.kernel.org
+> > To: Sumit Semwal <sumit.semwal@linaro.org>
+> > To: Christian König <christian.koenig@amd.com>
+> > To: Alex Deucher <alexander.deucher@amd.com>
+> > To: David Airlie <airlied@gmail.com>
+> > To: Simona Vetter <simona@ffwll.ch>
+> > To: Gerd Hoffmann <kraxel@redhat.com>
+> > To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> > To: Gurchetan Singh <gurchetansingh@chromium.org>
+> > To: Chia-I Wu <olvaffe@gmail.com>
+> > To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > To: Maxime Ripard <mripard@kernel.org>
+> > To: Thomas Zimmermann <tzimmermann@suse.de>
+> > To: Lucas De Marchi <lucas.demarchi@intel.com>
+> > To: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> > To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > To: Jason Gunthorpe <jgg@ziepe.ca>
+> > To: Leon Romanovsky <leon@kernel.org>
+> > To: Kevin Tian <kevin.tian@intel.com>
+> > To: Joerg Roedel <joro@8bytes.org>
+> > To: Will Deacon <will@kernel.org>
+> > To: Robin Murphy <robin.murphy@arm.com>
+> > To: Alex Williamson <alex@shazbot.org>
+> > 
+> > ---
+> > Leon Romanovsky (4):
+> >       dma-buf: Rename .move_notify() callback to a clearer identifier
+> >       dma-buf: Document revoke semantics
+> >       iommufd: Require DMABUF revoke semantics
+> >       vfio: Add pinned interface to perform revoke semantics
+> > 
+> >  drivers/dma-buf/dma-buf.c                   |  6 +++---
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c |  4 ++--
+> >  drivers/gpu/drm/virtio/virtgpu_prime.c      |  2 +-
+> >  drivers/gpu/drm/xe/tests/xe_dma_buf.c       |  6 +++---
+> >  drivers/gpu/drm/xe/xe_dma_buf.c             |  2 +-
+> >  drivers/infiniband/core/umem_dmabuf.c       |  4 ++--
+> >  drivers/infiniband/hw/mlx5/mr.c             |  2 +-
+> >  drivers/iommu/iommufd/pages.c               | 11 +++++++++--
+> >  drivers/vfio/pci/vfio_pci_dmabuf.c          | 16 ++++++++++++++++
+> >  include/linux/dma-buf.h                     | 25
+> > ++++++++++++++++++++++---
+> >  10 files changed, 60 insertions(+), 18 deletions(-)
+> > ---
+> > base-commit: 9ace4753a5202b02191d54e9fdf7f9e3d02b85eb
+> > change-id: 20251221-dmabuf-revoke-b90ef16e4236
+> > 
+> > Best regards,
+> > --  
+> > Leon Romanovsky <leonro@nvidia.com>
+> > 
+> 
