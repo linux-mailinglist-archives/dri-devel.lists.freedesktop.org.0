@@ -2,33 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 187C9D3AA9B
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 14:44:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE1CD3AA9D
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 14:45:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEFA610E112;
-	Mon, 19 Jan 2026 13:44:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DA9010E466;
+	Mon, 19 Jan 2026 13:44:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACB9610E464
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 13:44:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F83810E112
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 13:44:53 +0000 (UTC)
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
  by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <m.felsch@pengutronix.de>)
- id 1vhpYk-0006Dl-8g; Mon, 19 Jan 2026 14:44:46 +0100
+ id 1vhpYk-0006Dl-Fj; Mon, 19 Jan 2026 14:44:46 +0100
 From: Marco Felsch <m.felsch@pengutronix.de>
-Subject: [PATCH v2 0/2] Add EDT ET057023UDBA Panel Support
-Date: Mon, 19 Jan 2026 14:44:41 +0100
-Message-Id: <20260119-v6-18-topic-panel-simple-et057023udba-v2-0-3c73f0c9d87a@pengutronix.de>
+Date: Mon, 19 Jan 2026 14:44:42 +0100
+Subject: [PATCH v2 1/2] dt-bindings: display: simple: add EDT ET057023UDBA
+ panel
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAEo1bmkC/5XNQQ6DIBCF4asY1p0GUKzpqvdoXIBMdRKLBJDYG
- O9e6g26/N/ifTuLGAgju1c7C5gp0uJKyEvFhkm7EYFsaSa5bLkQNeQWRAdp8TSA1w5niPT2MwI
- mrm5c1qs1GhQiCm5M3bTIypcP+KLtdJ596YliWsLnZLP4rf8KWQAH1WgrRYeopHl4dOOawuJou
- 1pk/XEcXwQT2nffAAAA
-X-Change-ID: 20260113-v6-18-topic-panel-simple-et057023udba-5eee10bb346e
+Message-Id: <20260119-v6-18-topic-panel-simple-et057023udba-v2-1-3c73f0c9d87a@pengutronix.de>
+References: <20260119-v6-18-topic-panel-simple-et057023udba-v2-0-3c73f0c9d87a@pengutronix.de>
+In-Reply-To: <20260119-v6-18-topic-panel-simple-et057023udba-v2-0-3c73f0c9d87a@pengutronix.de>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -61,33 +59,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-this adds the support for the above mentioned display from EDT.
-
-Regards,
-  Marco
+Add EDT ET057023UDBA 5.7" 24-bit 640x480 DPI panel.
 
 Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
-Changes in v2:
-- Link to v1: https://lore.kernel.org/r/20260113-v6-18-topic-panel-simple-et057023udba-v1-0-54ad218ee52b@pengutronix.de
-- add r-b (Neil)
-- fix order (Krzysztof)
+ Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
----
-Marco Felsch (2):
-      dt-bindings: display: simple: add EDT ET057023UDBA panel
-      drm/panel: simple: add EDT ET057023UDBA panel
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 2017428d8828e554f26f7c5d585f55a51b74a2ca..56d2a8a98a86d9354e7e27cfc962c61bc8a436d6 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -103,6 +103,8 @@ properties:
+       - dlc,dlc1010gig
+         # Emerging Display Technology Corp. 3.5" QVGA TFT LCD panel
+       - edt,et035012dm6
++        # Emerging Display Technology Corp. 5.7" 24-bit VGA TFT LCD panel
++      - edt,et057023udba
+         # Emerging Display Technology Corp. 5.7" VGA TFT LCD panel
+       - edt,et057090dhu
+       - edt,et070080dh6
 
- .../bindings/display/panel/panel-simple.yaml       |  2 ++
- drivers/gpu/drm/panel/panel-simple.c               | 32 ++++++++++++++++++++++
- 2 files changed, 34 insertions(+)
----
-base-commit: 7d0a66e4bb9081d75c82ec4957c50034cb0ea449
-change-id: 20260113-v6-18-topic-panel-simple-et057023udba-5eee10bb346e
-
-Best regards,
 -- 
-Marco Felsch <m.felsch@pengutronix.de>
+2.47.3
 
