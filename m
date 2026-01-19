@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F256DD3AA0A
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 14:13:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD479D3AA3C
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 14:23:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0277210E455;
-	Mon, 19 Jan 2026 13:13:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6753A10E458;
+	Mon, 19 Jan 2026 13:23:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XXNWw6OB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="oBqUf4gf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD8F010E454
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 13:13:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9E0324090E;
- Mon, 19 Jan 2026 13:13:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A1A7C116C6;
- Mon, 19 Jan 2026 13:13:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768828435;
- bh=+CgZWcmNGygQjfD27T+jBsRojt6pw3uvENO+XS4NxvM=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=XXNWw6OBkSaH02cWAwZjvJOZJZXBsqeN2f6csk5pLRwKU5shzpE2NsU3v9YEDJPsH
- HxcwDQK7tfuapzHJdyV+rrcU0+Zk3kVTeosGsJkNUBJx435U7ra+OcGeR+pY8ZKOQ9
- 8TxtniuuKmJqYxSO1/7NavnefBHny0TvTF+OOQHEdgAimnSmdAqtcpBm8PucbDJIPf
- 9WiKs0Lota3kNRR8lNBq1JsrnWksFx/gDG9myqT+rW7Gd+EjT9DDu/Fabd0IcdQZyb
- ENN4Eoo2lb4iuTU98WnZi+/J3/RPgApwF0FqMzEtPGu+zO7NKR7n0dGkPsaRXw1whH
- gO9xFz8YVSIrg==
-Mime-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E20410E456;
+ Mon, 19 Jan 2026 13:23:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768829007; x=1800365007;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=EeY2uaEGnTwq+4ZaogD0q59x2qILS3XqGNqn+Mciofc=;
+ b=oBqUf4gfvYRVZ6/Kk3OZpcDcn0TFDe4tugOHPalmTkU81j23IazhcF8h
+ c46zBgPNM9RAbGvN0tPVNSiLjf8Ct8yvxQSYpWWmTY4ogzltLKc7IUYBs
+ jwXHH2r0wr/d8ImiCbQbOzcVJ06pGtoWWuOaIkK3aMfIkCrQVEBSVacLt
+ A7rKNiJGkGe0eJphNYH5zFDETu+0YswawWEXi8uAv71gSS0MnXOi7xVgb
+ EIg3+F88YkihcIyudhxyluyv6IETFgk2WYto6U43BNQXTmffWkA8lbLlk
+ MMpPvZUZAfM5/hrUnWLHY90ynis5ZvH4szSW+DgfVszF8+YvjQH4sAfGx A==;
+X-CSE-ConnectionGUID: 0kuBXdqRS52/e0DB6tbcMg==
+X-CSE-MsgGUID: 6uPWjFJDSnKGpdS1b/h5TA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="69948439"
+X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; d="scan'208";a="69948439"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2026 05:23:26 -0800
+X-CSE-ConnectionGUID: xcFkq0vmRnucJbCLtIeBPg==
+X-CSE-MsgGUID: dVt4dC0LS8SC5HorO45NtA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; d="scan'208";a="205485240"
+Received: from aotchere-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.12])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2026 05:23:21 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Tomasz =?utf-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
+ alexander.deucher@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ siqueira@igalia.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ tomasz.pakula.oficjalny@gmail.com, bernhard.berger@gmail.com
+Subject: Re: [PATCH 01/17] drm/amd/display: Return if DisplayID not found in
+ parse_amd_vsdb()
+In-Reply-To: <20260119011146.62302-2-tomasz.pakula.oficjalny@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20260119011146.62302-1-tomasz.pakula.oficjalny@gmail.com>
+ <20260119011146.62302-2-tomasz.pakula.oficjalny@gmail.com>
+Date: Mon, 19 Jan 2026 15:23:18 +0200
+Message-ID: <b535614d27e30831628b4a70b7ed825fd03791d4@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 19 Jan 2026 14:13:48 +0100
-Message-Id: <DFSLCI9U4NCW.2HI2UPUI7G134@kernel.org>
-Subject: Re: [PATCH v3 1/3] rust: clk: use the type-state pattern
-Cc: "Alice Ryhl" <aliceryhl@google.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, "Viresh
- Kumar" <viresh.kumar@linaro.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
- <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Drew Fustini" <fustini@kernel.org>, "Guo Ren"
- <guoren@kernel.org>, "Fu Wei" <wefu@redhat.com>,
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, "Michael
- Turquette" <mturquette@baylibre.com>, "Stephen Boyd" <sboyd@kernel.org>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>,
- "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-riscv@lists.infradead.org>,
- <linux-pwm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>
-To: "Daniel Almeida" <daniel.almeida@collabora.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260107-clk-type-state-v3-0-77d3e3ee59c2@collabora.com>
- <20260107-clk-type-state-v3-1-77d3e3ee59c2@collabora.com>
- <20260108-delectable-fennec-of-sunshine-ffca19@houat>
- <98CD0BF6-3350-40B9-B8A9-F569AE3E3220@collabora.com>
- <20260119-thundering-tested-robin-4be817@houat>
- <aW4lCfUyumOKRRJm@google.com>
- <518D8B09-B9A1-4DB4-85CD-37A2DD3D5FB1@collabora.com>
-In-Reply-To: <518D8B09-B9A1-4DB4-85CD-37A2DD3D5FB1@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,23 +77,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon Jan 19, 2026 at 1:54 PM CET, Daniel Almeida wrote:
->> On 19 Jan 2026, at 09:35, Alice Ryhl <aliceryhl@google.com> wrote:
->> I think that if you still want an API where you just call enable/disable
->> directly on it with no protection against unbalanced calls, then that
->> should be the special API. Probably called RawClk and functions marked
->> unsafe. Unbalanced calls seem really dangerous and use should not be
->> encouraged.
+On Mon, 19 Jan 2026, Tomasz Paku=C5=82a <tomasz.pakula.oficjalny@gmail.com>=
+ wrote:
+> [Why]
+> The function would continue to try to parse EDID even if DisplayID
+> extension block wasn't found. Sometimes it got lucky and found AMD vsdb
+> in CEA extension block which made debugging harder.
+>
+> [How]
+> Add a return if DisplayID extension block wasn't found
 
-+1; and unless there is a use-case that requires otherwise, it should not e=
-ven
-be possible to do this at all -- at least for driver code.
+Maybe don't use homegrown EDID parsing, but use drm_edid.c instead?
 
-> I think we should discourage RawClk if at all possible. But if the consen=
-sus
-> is that we *really* need this easily-abused thing, I can provide a follow=
--up.
+BR,
+Jani.
 
-I think we should only do this if there are use-case with no alternative, s=
-o far
-there haven't been any AFAIK.
+>
+> Signed-off-by: Tomasz Paku=C5=82a <tomasz.pakula.oficjalny@gmail.com>
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/=
+gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 655c9fcb078a..a0d23853b8fc 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -13113,6 +13113,9 @@ static int parse_amd_vsdb(struct amdgpu_dm_connec=
+tor *aconnector,
+>  			break;
+>  	}
+>=20=20
+> +	if (i =3D=3D edid->extensions)
+> +		return false;
+> +
+>  	while (j < EDID_LENGTH - sizeof(struct amd_vsdb_block)) {
+>  		struct amd_vsdb_block *amd_vsdb =3D (struct amd_vsdb_block *)&edid_ext=
+[j];
+>  		unsigned int ieeeId =3D (amd_vsdb->ieee_id[2] << 16) | (amd_vsdb->ieee=
+_id[1] << 8) | (amd_vsdb->ieee_id[0]);
+
+--=20
+Jani Nikula, Intel
