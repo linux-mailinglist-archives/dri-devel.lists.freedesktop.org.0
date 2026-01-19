@@ -2,53 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF61AD3BC49
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 01:05:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D14D3BB86
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 00:09:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E37EE10E0BA;
-	Tue, 20 Jan 2026 00:05:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC5EC10E0B1;
+	Mon, 19 Jan 2026 23:09:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ubuntu.com header.i=@ubuntu.com header.b="RTC9I5xb";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="myg/cbjP";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ijr9BBX6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1312 seconds by postgrey-1.36 at gabe;
- Mon, 19 Jan 2026 23:06:49 UTC
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBB9310E0B1
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 23:06:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
- h=References: To: Cc: In-Reply-To: Date: Subject: Mime-Version:
- Content-Type: Message-Id: From; q=dns/txt; s=fe-953a8a3ca9; t=1768864009;
- bh=GOAvIkS47JMRryc+5uLQ2an69IO4ucmVZCQ3lmjAAFU=;
- b=RTC9I5xbbz1uRLclmTGj5srArml+2KQbHmaz65VojjleYKvp/iv0mIkdNfz2EXM1itsI3TqU8
- FrjSDPNitid2ghKTBeBTnNxBokpLW/HvSMis/qtjR0SNVG7VIbJBIuLl/EkajUXC48Jt0s0uJkY
- pF7wOAeedtwPDRL04x8DKzOJaMslnDUntShBlSv9YcZzml13ObemwNbo9+Lyy8LsI/LFJQ5psT6
- sy9ohTQJ3Ose3JfLasWp9+4S+ZSsD8oj0eJgdu8beEISixZQYBptboTgx+q0LwH8A6W/RUTiESR
- L3fg+HiutZUf0rnt+5KNMiHid+W/mKEJgkW227qEmmaw==
-X-Forward-Email-ID: 696eb3e65e9fa1468af18b8b
-X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
- 121.127.44.73
-X-Forward-Email-Version: 2.3.7
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
-From: "jpeisach@ubuntu.com" <jpeisach@ubuntu.com>
-Message-Id: <C730F113-8AD9-4353-9C0B-64EDD52CE940@ubuntu.com>
-Content-Type: multipart/alternative;
- boundary="Apple-Mail=_0077CD56-AB61-40C6-ACE1-3EA75817006A"
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.400.12\))
-Subject: Re: [PATCH] drm/edid: Use struct cea_db when parsing HDMI VSDB
-Date: Mon, 19 Jan 2026 17:44:43 -0500
-In-Reply-To: <cb276398394bd5de209dfcee5216fcb2f6670974@intel.com>
-Cc: dri-devel@lists.freedesktop.org,
- ville.syrjala@linux.intel.com
-To: Jani Nikula <jani.nikula@linux.intel.com>
-References: <20260117205139.13991-1-jpeisach@ubuntu.com>
- <cb276398394bd5de209dfcee5216fcb2f6670974@intel.com>
-X-Mailer: Apple Mail (2.3864.400.12)
-X-Mailman-Approved-At: Tue, 20 Jan 2026 00:05:04 +0000
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6446310E0B1
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 23:09:41 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60JKJVEt2789483
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 23:09:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=y7pTPfUH6iVzqZGYdTEFNi2K
+ I6ZRLfJ8c6TQ1mSDQ68=; b=myg/cbjPvoXM6VUgMkCT6HnLHMrhpB5Z096hKCnQ
+ P+LihECyI+10WkWLhns7DQP5Ctnfivr7GBZn7ZGmaebgZ6kqarQGjBYHz41HGfWt
+ 1nfoIHg721ELeXWhg7v3mXPT2gKhrD1mRFvvhJ4OV3+wdbRxKNWbtc2IkOOt4g/V
+ 6tkvhZWzvUQf6J2mAGab/7P0gszsTDXUQxjYi04sIHhP67GsPsYBOHEkuOXZ8w7E
+ G0ntrrCOlws3JegwM3SgtuRjagHqNTd4NMmUXgpo3Rb8i0EP0sTE+s8xuLPJzBYs
+ XbboYxkqn74CQ8F+lasKY6HSyxnnG4098Y+CXKycliW3Bw==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bsjrxsuej-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 23:09:40 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-8824d5b11easo112826806d6.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 15:09:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1768864179; x=1769468979;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=y7pTPfUH6iVzqZGYdTEFNi2KI6ZRLfJ8c6TQ1mSDQ68=;
+ b=ijr9BBX6rigZn7eIRvSFFclIXazNrtrqeqXnhg9IBw5TXIzOG+tVMB4oa00mEJZvMh
+ uZCgccupm2vDkbVguE+/mGAc6kjmqM1DzBzX0t+iKeG9cxEgCZJDLIDsDMYX8HpPACsH
+ +wA3DztvMjRGQieYtyspDL80pD8R7dxulZ9bCwuX9xyL+rjyYpOsfobMClo2EOA05ArX
+ vIHMO6GeV3ABpPmyjlJXDyjTqN+/j+rmRm0K7tqGzGpM/kJw/BFMWJj352boVnRbGv0a
+ NJ/uy1KjKuG01npNAraXUNjRGNxve4S7wDKgoZraoiq3BmLoPw7GxXSfS8lbFwjuC7CY
+ ms3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768864179; x=1769468979;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=y7pTPfUH6iVzqZGYdTEFNi2KI6ZRLfJ8c6TQ1mSDQ68=;
+ b=t2/hgOVgj1hjhuShszjs+M205otJIM3GhWd9drFqeUEIRH8URpHZISA4tpvmg0iNsK
+ MnBq+Vb0eDFVjMW/a3yHPY9xSgrmb7LjwhoYWTsGoqsfOWfDQjHGp5hP9ojX4L6rGj9T
+ 1gg/dojdM8Ze5c9n6yCfP9qXwZry704iKt9sQu8FYMy3QBCyAz/STWKqsuuMSNAe+8L1
+ zSEWKULkA0LdCyqgVNsOoJEhyAf9DpXzePp7zq5NkRkx5PYSyYuAvQQH0M3wn3zQUVff
+ P+Lc2FIiigpAXXQ+STLUuUQG/yZEezn6cSs9vBwxSo5hBGFpElG8yEdXColR5YC01/IA
+ i7Ug==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWpEDd9dWOqOV3j9zNVt4uZVo/dgDTCTpyunU/jNgTCyJ3A++cZctekWVok5Y0YSVrVTXUHol3ItOY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxCIKVvf5/62MlPhNJfLYW14FT+lz/MeHho02ksy/4U89z2fB0j
+ hvaW/iD7DL4fN2An5G5ENzWh/ASMaWfh+7cB4fGRvlekD6UaWVlNvnD1V5zW6qXX86I9MXxWJA2
+ +0PA8WJjEqy6BXgr0xKzRsrU/kGOn/K2efV1L7o6O7mlgeKImneOXTt6sv7NMt1IzaFKd/hs=
+X-Gm-Gg: AZuq6aLWkf7Wg7936mo3gKFCv40FZT14r+8h3qLfQmfAsyrzylLJGMK3z7lJokP6f/j
+ b3iE0hAaSh2YzhKq8WZellk0b6nYhynHgfIjraIHylISj2jE2cfCJA1xHhlRavaQ892yvh//bHH
+ kqNCjwTVaSRWCthpk8FHCtwMmyc7juZXiD1V1EN81lMnKtQl2dgNqPgVL0CwjYaaTYl1ytADMxn
+ aud7nryHPSw9AQHmNro9VPFRmHSBj+whut/KDsqMXCWagZwY/ib+TaOcC6GHT4u9gPu1gyINIhh
+ Vg33omYtZc+6gB2XV2FtjGb8BG1hr4XCAhJ+ATEzOKoNfvQ/gVB6wv5GOGz3aIXFGkD4omrslbm
+ bh7/U2nWP9DhgikrD1BztZfw0OuEG8JsN8Bn4CaC+DHckY3PjsVlQVl5sYGA5qp/IlIn2qbMW52
+ tTSKM4/UJS7dAmmEsdHWUGpFk=
+X-Received: by 2002:ad4:596f:0:b0:880:5193:1102 with SMTP id
+ 6a1803df08f44-8942e4ca766mr189035676d6.56.1768864179400; 
+ Mon, 19 Jan 2026 15:09:39 -0800 (PST)
+X-Received: by 2002:ad4:596f:0:b0:880:5193:1102 with SMTP id
+ 6a1803df08f44-8942e4ca766mr189035436d6.56.1768864178937; 
+ Mon, 19 Jan 2026 15:09:38 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-59baf3a17dcsm3686254e87.89.2026.01.19.15.09.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Jan 2026 15:09:36 -0800 (PST)
+Date: Tue, 20 Jan 2026 01:09:34 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <g6tcsjmc27jafnfwbyltlq7lhbldcdlfbf4qiqwrnp6iyndk3o@lrcnxz5ud27b>
+References: <aW5r7NzicgqvpaUj@sirena.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aW5r7NzicgqvpaUj@sirena.org.uk>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE5MDE5NCBTYWx0ZWRfXzeElVGTwqa2h
+ zzScNJUbC0MOWgWNHE43MSvGoC2njXBmeMfP7tRWsKm5tgVr20dKwSOX6ul0PGA0GswFFOL7s64
+ gxr+AA8kEhVP09RlydT7/VDyB04P+aNdsYg8kD9b641xvgW9C8NazsmNlQ7mskNREuU+fD52REH
+ ORHa4hIfuOAgZsaABPiK5mHg3CQ6/m72JDnic1XcLKY/rwYmHLsgw3JDvuXmyumLwB19FDxn47u
+ uqE5fr6CQQnAxtW0TfHwrYd3G61JIKaGgb7UiTV/vQfmYR9mtWjscBevvri4PZaOm+Sub8iy/1o
+ Ebji8plnds9EgePPt5MoLBJrAJO6VTCCOUQCEUawOA5iBxXowoHY8Do4vmtc6qXQ4dGbaurdfVS
+ k3XeLMnzLUOiOCEs3c3f/ik8tukpRzWnLthAU25iWMkSKDL0x2Uvgd4PyY4nSzew0a7OPGogBde
+ k0KDZpSFCGZhEINnYTg==
+X-Proofpoint-GUID: SUhTdue7T0BenD5cjlDwRwVCS1En4Ito
+X-Authority-Analysis: v=2.4 cv=PPUCOPqC c=1 sm=1 tr=0 ts=696eb9b4 cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=grscYz08w_xL7T5cvToA:9 a=CjuIK1q_8ugA:10
+ a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-ORIG-GUID: SUhTdue7T0BenD5cjlDwRwVCS1En4Ito
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-19_06,2026-01-19_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 clxscore=1015 lowpriorityscore=0 impostorscore=0
+ adultscore=0 spamscore=0 bulkscore=0 suspectscore=0 phishscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2601190194
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,630 +143,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jan 19, 2026 at 05:37:48PM +0000, Mark Brown wrote:
+> Hi all,
+> 
+> After merging the drm-misc tree, today's linux-next build (x86_64
+> allmodconfig) failed like this:
+> 
+> /tmp/next/build/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c: In function 'drm_test_check_reject_hdr_infoframe_bpc_10':
+> /tmp/next/build/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c:2926:49: error: passing argument 6 of 'drm_property_replace_blob_from_id' makes integer from pointer without a cast [-Wint-conversion]
+>  2926 |                                                 &replaced);
+>       |                                                 ^~~~~~~~~
+>       |                                                 |
+>       |                                                 bool * {aka _Bool *}
+> In file included from /tmp/next/build/include/drm/drm_connector.h:33,
+>                  from /tmp/next/build/include/drm/drm_modes.h:33,
+>                  from /tmp/next/build/include/drm/drm_crtc.h:32,
+>                  from /tmp/next/build/include/drm/drm_atomic.h:31,
+>                  from /tmp/next/build/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c:7:
+> /tmp/next/build/include/drm/drm_property.h:287:47: note: expected 'ssize_t' {aka 'long int'} but argument is of type 'bool *' {aka '_Bool *'}
+>   287 |                                       ssize_t max_size,
+>       |                                       ~~~~~~~~^~~~~~~~
+> /tmp/next/build/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c:2922:15: error: too few arguments to function 'drm_property_replace_blob_from_id'
+>  2922 |         ret = drm_property_replace_blob_from_id(drm,
+>       |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> /tmp/next/build/include/drm/drm_property.h:282:5: note: declared here
+>   282 | int drm_property_replace_blob_from_id(struct drm_device *dev,
+>       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> Caused by commit
+> 
+>    7436a87db99d5 (drm/tests: hdmi: check the infoframes behaviour)
+> 
+> interacting with
+> 
+>    ca59e33f5a1f6 (drm/atomic: add max_size check to drm_property_replace_blob_from_id())
+> 
+> I have applied a fixup:
 
---Apple-Mail=_0077CD56-AB61-40C6-ACE1-3EA75817006A
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+This fixup is correct. I've sent a formal patch,
 
+https://lore.kernel.org/all/20260119-fix-kunit-infoframe-v1-1-5f2f9b066594@oss.qualcomm.com/
 
+> 
 
-> On Jan 19, 2026, at 8:39=E2=80=AFAM, Jani Nikula =
-<jani.nikula@linux.intel.com> wrote:
->=20
-> On Sat, 17 Jan 2026, Joshua Peisach <jpeisach@ubuntu.com =
-<mailto:jpeisach@ubuntu.com>> wrote:
->> drm_parse_hdmi_vsdb_video is one of the parsers that still do not use =
-the
->> cea_db struct, and currently passes a u8 pointer.
->>=20
->> Set the correct struct type and update references to the data =
-accordingly.
->> This also makes the same change to drm_parse_hdmi_deep_color_info as
->> necessary.
->>=20
->> Signed-off-by: Joshua Peisach <jpeisach@ubuntu.com>
->> ---
->> drivers/gpu/drm/drm_edid.c | 26 +++++++++++++-------------
->> 1 file changed, 13 insertions(+), 13 deletions(-)
->>=20
->> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
->> index 26bb7710a..15bd99e65 100644
->> --- a/drivers/gpu/drm/drm_edid.c
->> +++ b/drivers/gpu/drm/drm_edid.c
->> @@ -6290,7 +6290,7 @@ static void drm_parse_hdmi_forum_scds(struct =
-drm_connector *connector,
->> }
->>=20
->> static void drm_parse_hdmi_deep_color_info(struct drm_connector =
-*connector,
->> -					   const u8 *hdmi)
->> +					   const struct cea_db *db)
->> {
->> 	struct drm_display_info *info =3D &connector->display_info;
->> 	unsigned int dc_bpc =3D 0;
->> @@ -6298,24 +6298,24 @@ static void =
-drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
->> 	/* HDMI supports at least 8 bpc */
->> 	info->bpc =3D 8;
->>=20
->> -	if (cea_db_payload_len(hdmi) < 6)
->> +	if (cea_db_payload_len(db) < 6)
->> 		return;
->>=20
->> -	if (hdmi[6] & DRM_EDID_HDMI_DC_30) {
->> +	if (db->data[6] & DRM_EDID_HDMI_DC_30) {
->=20
-> That's not the same thing, but off-by-one now. Ditto everywhere that
-> changes from u8* to db->data[].
->=20
-> The main problem with the change (even with fixed offsets) is that the
-> *specs* typically use indexing from the beginning of the data block, =
-not
-> from the beginning of payload data.
->=20
-> We've discussed this before with Ville (Cc'd) but I'm not sure if we
-> reached a conclusion.
->=20
-
-Okay, I'll thought the pointer was to the literal same information.
-
-Keep me posted about the indexing of the specs, I will probably submit a =
-v2.
-
-Thanks,
--Josh
-
-> BR,
-> Jani.
->=20
->=20
->> 		dc_bpc =3D 10;
->> 		info->edid_hdmi_rgb444_dc_modes |=3D =
-DRM_EDID_HDMI_DC_30;
->> 		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI sink =
-does deep color 30.\n",
->> 			    connector->base.id, connector->name);
->> 	}
->>=20
->> -	if (hdmi[6] & DRM_EDID_HDMI_DC_36) {
->> +	if (db->data[6] & DRM_EDID_HDMI_DC_36) {
->> 		dc_bpc =3D 12;
->> 		info->edid_hdmi_rgb444_dc_modes |=3D =
-DRM_EDID_HDMI_DC_36;
->> 		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI sink =
-does deep color 36.\n",
->> 			    connector->base.id, connector->name);
->> 	}
->>=20
->> -	if (hdmi[6] & DRM_EDID_HDMI_DC_48) {
->> +	if (db->data[6] & DRM_EDID_HDMI_DC_48) {
->> 		dc_bpc =3D 16;
->> 		info->edid_hdmi_rgb444_dc_modes |=3D =
-DRM_EDID_HDMI_DC_48;
->> 		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI sink =
-does deep color 48.\n",
->> @@ -6333,7 +6333,7 @@ static void =
-drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
->> 	info->bpc =3D dc_bpc;
->>=20
->> 	/* YCRCB444 is optional according to spec. */
->> -	if (hdmi[6] & DRM_EDID_HDMI_DC_Y444) {
->> +	if (db->data[6] & DRM_EDID_HDMI_DC_Y444) {
->> 		info->edid_hdmi_ycbcr444_dc_modes =3D =
-info->edid_hdmi_rgb444_dc_modes;
->> 		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI sink =
-does YCRCB444 in deep color.\n",
->> 			    connector->base.id, connector->name);
->> @@ -6343,7 +6343,7 @@ static void =
-drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
->> 	 * Spec says that if any deep color mode is supported at all,
->> 	 * then deep color 36 bit must be supported.
->> 	 */
->> -	if (!(hdmi[6] & DRM_EDID_HDMI_DC_36)) {
->> +	if (!(db->data[6] & DRM_EDID_HDMI_DC_36)) {
->> 		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI sink =
-should do DC_36, but does not!\n",
->> 			    connector->base.id, connector->name);
->> 	}
->> @@ -6351,19 +6351,19 @@ static void =
-drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
->>=20
->> /* HDMI Vendor-Specific Data Block (HDMI VSDB, H14b-VSDB) */
->> static void
->> -drm_parse_hdmi_vsdb_video(struct drm_connector *connector, const u8 =
-*db)
->> +drm_parse_hdmi_vsdb_video(struct drm_connector *connector, const =
-struct cea_db *db)
->> {
->> 	struct drm_display_info *info =3D &connector->display_info;
->> 	u8 len =3D cea_db_payload_len(db);
->>=20
->> 	info->is_hdmi =3D true;
->>=20
->> -	info->source_physical_address =3D (db[4] << 8) | db[5];
->> +	info->source_physical_address =3D (db->data[4] << 8) | =
-db->data[5];
->>=20
->> 	if (len >=3D 6)
->> -		info->dvi_dual =3D db[6] & 1;
->> +		info->dvi_dual =3D db->data[6] & 1;
->> 	if (len >=3D 7)
->> -		info->max_tmds_clock =3D db[7] * 5000;
->> +		info->max_tmds_clock =3D db->data[7] * 5000;
->>=20
->> 	/*
->> 	 * Try to infer whether the sink supports HDMI infoframes.
->> @@ -6371,7 +6371,7 @@ drm_parse_hdmi_vsdb_video(struct drm_connector =
-*connector, const u8 *db)
->> 	 * HDMI infoframe support was first added in HDMI 1.4. Assume =
-the sink
->> 	 * supports infoframes if HDMI_Video_present is set.
->> 	 */
->> -	if (len >=3D 8 && db[8] & BIT(5))
->> +	if (len >=3D 8 && db->data[8] & BIT(5))
->> 		info->has_hdmi_infoframe =3D true;
->>=20
->> 	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] HDMI: DVI dual =
-%d, max TMDS clock %d kHz\n",
->> @@ -6443,7 +6443,7 @@ static void drm_parse_cea_ext(struct =
-drm_connector *connector,
->> 		const u8 *data =3D (const u8 *)db;
->>=20
->> 		if (cea_db_is_hdmi_vsdb(db))
->> -			drm_parse_hdmi_vsdb_video(connector, data);
->> +			drm_parse_hdmi_vsdb_video(connector, db);
->> 		else if (cea_db_is_hdmi_forum_vsdb(db) ||
->> 			 cea_db_is_hdmi_forum_scdb(db))
->> 			drm_parse_hdmi_forum_scds(connector, data);
->=20
-> --=20
-> Jani Nikula, Intel
-
-
---Apple-Mail=_0077CD56-AB61-40C6-ACE1-3EA75817006A
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=utf-8
-
-<html aria-label=3D"message body"><head><meta http-equiv=3D"content-type" =
-content=3D"text/html; charset=3Dutf-8"></head><body =
-style=3D"overflow-wrap: break-word; -webkit-nbsp-mode: space; =
-line-break: after-white-space;"><br =
-id=3D"lineBreakAtBeginningOfMessage"><div><br><blockquote =
-type=3D"cite"><div>On Jan 19, 2026, at 8:39=E2=80=AFAM, Jani Nikula =
-&lt;jani.nikula@linux.intel.com&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div><meta charset=3D"UTF-8"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">On Sat, 17 Jan 2026, Joshua Peisach =
-&lt;</span><a href=3D"mailto:jpeisach@ubuntu.com" style=3D"font-family: =
-Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
-normal; font-weight: 400; letter-spacing: normal; orphans: 2; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: =
-0px;">jpeisach@ubuntu.com</a><span style=3D"caret-color: rgb(0, 0, 0); =
-font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">&gt; wrote:</span><br style=3D"caret-color: =
-rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: =
-normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
-normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: =
-solid;"><blockquote type=3D"cite" style=3D"font-family: Helvetica; =
-font-size: 12px; font-style: normal; font-variant-caps: normal; =
-font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; widows: 2; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-line: =
-none; text-decoration-thickness: auto; text-decoration-style: =
-solid;">drm_parse_hdmi_vsdb_video is one of the parsers that still do =
-not use the<br>cea_db struct, and currently passes a u8 =
-pointer.<br><br>Set the correct struct type and update references to the =
-data accordingly.<br>This also makes the same change to =
-drm_parse_hdmi_deep_color_info as<br>necessary.<br><br>Signed-off-by: =
-Joshua Peisach =
-&lt;jpeisach@ubuntu.com&gt;<br>---<br>drivers/gpu/drm/drm_edid.c | 26 =
-+++++++++++++-------------<br>1 file changed, 13 insertions(+), 13 =
-deletions(-)<br><br>diff --git a/drivers/gpu/drm/drm_edid.c =
-b/drivers/gpu/drm/drm_edid.c<br>index 26bb7710a..15bd99e65 100644<br>--- =
-a/drivers/gpu/drm/drm_edid.c<br>+++ b/drivers/gpu/drm/drm_edid.c<br>@@ =
--6290,7 +6290,7 @@ static void drm_parse_hdmi_forum_scds(struct =
-drm_connector *connector,<br>}<br><br>static void =
-drm_parse_hdmi_deep_color_info(struct drm_connector =
-*connector,<br>-<span class=3D"Apple-tab-span" style=3D"white-space: =
-pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
-pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
-pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
-pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
-pre;">	</span><span =
-class=3D"Apple-converted-space">&nbsp;</span>&nbsp;&nbsp;const u8 =
-*hdmi)<br>+<span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span><span =
-class=3D"Apple-converted-space">&nbsp;</span>&nbsp;&nbsp;const struct =
-cea_db *db)<br>{<br><span class=3D"Apple-tab-span" style=3D"white-space: =
-pre;">	</span>struct drm_display_info *info =3D =
-&amp;connector-&gt;display_info;<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>unsigned int dc_bpc =3D 0;<br>@@ =
--6298,24 +6298,24 @@ static void drm_parse_hdmi_deep_color_info(struct =
-drm_connector *connector,<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>/* HDMI supports at least 8 bpc =
-*/<br><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>info-&gt;bpc =3D 8;<br><br>-<span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>if (cea_db_payload_len(hdmi) &lt; =
-6)<br>+<span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>if (cea_db_payload_len(db) &lt; 6)<br><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>return;<br><br>-<span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>if (hdmi[6] &amp; =
-DRM_EDID_HDMI_DC_30) {<br>+<span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>if (db-&gt;data[6] &amp; =
-DRM_EDID_HDMI_DC_30) {<br></blockquote><br style=3D"caret-color: rgb(0, =
-0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">That's not the same thing, but off-by-one =
-now. Ditto everywhere that</span><br style=3D"caret-color: rgb(0, 0, 0); =
-font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">changes from u8* to =
-db-&gt;data[].</span><br style=3D"caret-color: rgb(0, 0, 0); =
-font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: =
-solid;"><br></div></blockquote><blockquote type=3D"cite"><div><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">The main problem with the change (even with =
-fixed offsets) is that the</span><br style=3D"caret-color: rgb(0, 0, 0); =
-font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">*specs* typically use indexing from the =
-beginning of the data block, not</span><br style=3D"caret-color: rgb(0, =
-0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">from the beginning of payload =
-data.</span><br style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
-normal; font-weight: 400; letter-spacing: normal; orphans: 2; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration-line: none; text-decoration-thickness: auto; =
-text-decoration-style: solid;"><br style=3D"caret-color: rgb(0, 0, 0); =
-font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">We've discussed this before with Ville =
-(Cc'd) but I'm not sure if we</span><br style=3D"caret-color: rgb(0, 0, =
-0); font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">reached a conclusion.</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: =
-solid;"></div></blockquote><div><br></div><div>Okay, I'll thought the =
-pointer was to the literal same =
-information.</div><div><br></div><div>Keep me posted about the indexing =
-of the specs, I will probably submit a =
-v2.</div><div><br></div><div>Thanks,</div><div>-Josh</div><br><blockquote =
-type=3D"cite"><div><span style=3D"caret-color: rgb(0, 0, 0); =
-font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">BR,</span><br style=3D"caret-color: rgb(0, =
-0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">Jani.</span><br style=3D"caret-color: =
-rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: =
-normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
-normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: =
-solid;"><blockquote type=3D"cite" style=3D"font-family: Helvetica; =
-font-size: 12px; font-style: normal; font-variant-caps: normal; =
-font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; widows: 2; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-line: =
-none; text-decoration-thickness: auto; text-decoration-style: =
-solid;"><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>dc_bpc =3D 10;<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	=
-</span>info-&gt;edid_hdmi_rgb444_dc_modes |=3D =
-DRM_EDID_HDMI_DC_30;<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>drm_dbg_kms(connector-&gt;dev, =
-"[CONNECTOR:%d:%s] HDMI sink does deep color 30.\n",<br><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-converted-space">&nbsp;</span>&nbsp;&nbsp;&nbsp;connector-&=
-gt;base.id, connector-&gt;name);<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>}<br><br>-<span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>if =
-(hdmi[6] &amp; DRM_EDID_HDMI_DC_36) {<br>+<span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>if (db-&gt;data[6] &amp; =
-DRM_EDID_HDMI_DC_36) {<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>dc_bpc =3D 12;<br><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>info-&gt;edid_hdmi_rgb444_dc_modes |=3D =
-DRM_EDID_HDMI_DC_36;<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>drm_dbg_kms(connector-&gt;dev, =
-"[CONNECTOR:%d:%s] HDMI sink does deep color 36.\n",<br><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-converted-space">&nbsp;</span>&nbsp;&nbsp;&nbsp;connector-&=
-gt;base.id, connector-&gt;name);<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>}<br><br>-<span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>if =
-(hdmi[6] &amp; DRM_EDID_HDMI_DC_48) {<br>+<span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>if (db-&gt;data[6] &amp; =
-DRM_EDID_HDMI_DC_48) {<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>dc_bpc =3D 16;<br><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>info-&gt;edid_hdmi_rgb444_dc_modes |=3D =
-DRM_EDID_HDMI_DC_48;<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>drm_dbg_kms(connector-&gt;dev, =
-"[CONNECTOR:%d:%s] HDMI sink does deep color 48.\n",<br>@@ -6333,7 =
-+6333,7 @@ static void drm_parse_hdmi_deep_color_info(struct =
-drm_connector *connector,<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>info-&gt;bpc =3D =
-dc_bpc;<br><br><span class=3D"Apple-tab-span" style=3D"white-space: =
-pre;">	</span>/* YCRCB444 is optional according to spec. */<br>-<span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>if =
-(hdmi[6] &amp; DRM_EDID_HDMI_DC_Y444) {<br>+<span class=3D"Apple-tab-span"=
- style=3D"white-space: pre;">	</span>if (db-&gt;data[6] &amp; =
-DRM_EDID_HDMI_DC_Y444) {<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	=
-</span>info-&gt;edid_hdmi_ycbcr444_dc_modes =3D =
-info-&gt;edid_hdmi_rgb444_dc_modes;<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>drm_dbg_kms(connector-&gt;dev, =
-"[CONNECTOR:%d:%s] HDMI sink does YCRCB444 in deep color.\n",<br><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-converted-space">&nbsp;</span>&nbsp;&nbsp;&nbsp;connector-&=
-gt;base.id, connector-&gt;name);<br>@@ -6343,7 +6343,7 @@ static void =
-drm_parse_hdmi_deep_color_info(struct drm_connector *connector,<br><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-converted-space">&nbsp;</span>* Spec says that if any =
-deep color mode is supported at all,<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-converted-space">&nbsp;</span>* then deep color 36 bit =
-must be supported.<br><span class=3D"Apple-tab-span" style=3D"white-space:=
- pre;">	</span><span =
-class=3D"Apple-converted-space">&nbsp;</span>*/<br>-<span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>if =
-(!(hdmi[6] &amp; DRM_EDID_HDMI_DC_36)) {<br>+<span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>if =
-(!(db-&gt;data[6] &amp; DRM_EDID_HDMI_DC_36)) {<br><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>drm_dbg_kms(connector-&gt;dev, "[CONNECTOR:%d:%s] HDMI sink =
-should do DC_36, but does not!\n",<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-converted-space">&nbsp;</span>&nbsp;&nbsp;&nbsp;connector-&=
-gt;base.id, connector-&gt;name);<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>}<br>@@ -6351,19 +6351,19 @@ =
-static void drm_parse_hdmi_deep_color_info(struct drm_connector =
-*connector,<br><br>/* HDMI Vendor-Specific Data Block (HDMI VSDB, =
-H14b-VSDB) */<br>static void<br>-drm_parse_hdmi_vsdb_video(struct =
-drm_connector *connector, const u8 =
-*db)<br>+drm_parse_hdmi_vsdb_video(struct drm_connector *connector, =
-const struct cea_db *db)<br>{<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>struct drm_display_info *info =3D =
-&amp;connector-&gt;display_info;<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>u8 len =3D =
-cea_db_payload_len(db);<br><br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>info-&gt;is_hdmi =3D =
-true;<br><br>-<span class=3D"Apple-tab-span" style=3D"white-space: =
-pre;">	</span>info-&gt;source_physical_address =3D (db[4] &lt;&lt; 8) | =
-db[5];<br>+<span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>info-&gt;source_physical_address =3D (db-&gt;data[4] &lt;&lt; 8) =
-| db-&gt;data[5];<br><br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>if (len &gt;=3D 6)<br>-<span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>info-&gt;dvi_dual =3D db[6] &amp; 1;<br>+<span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>info-&gt;dvi_dual =3D db-&gt;data[6] &amp; 1;<br><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>if (len =
-&gt;=3D 7)<br>-<span class=3D"Apple-tab-span" style=3D"white-space: =
-pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
-pre;">	</span>info-&gt;max_tmds_clock =3D db[7] * 5000;<br>+<span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>info-&gt;max_tmds_clock =3D db-&gt;data[7] * 5000;<br><br><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>/*<br><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span><span class=3D"Apple-converted-space">&nbsp;</span>* Try to infer =
-whether the sink supports HDMI infoframes.<br>@@ -6371,7 +6371,7 @@ =
-drm_parse_hdmi_vsdb_video(struct drm_connector *connector, const u8 =
-*db)<br><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span><span class=3D"Apple-converted-space">&nbsp;</span>* HDMI =
-infoframe support was first added in HDMI 1.4. Assume the sink<br><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-converted-space">&nbsp;</span>* supports infoframes if =
-HDMI_Video_present is set.<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-converted-space">&nbsp;</span>*/<br>-<span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>if (len =
-&gt;=3D 8 &amp;&amp; db[8] &amp; BIT(5))<br>+<span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>if (len =
-&gt;=3D 8 &amp;&amp; db-&gt;data[8] &amp; BIT(5))<br><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>info-&gt;has_hdmi_infoframe =3D true;<br><br><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>drm_dbg_kms(connector-&gt;dev, "[CONNECTOR:%d:%s] HDMI: DVI dual =
-%d, max TMDS clock %d kHz\n",<br>@@ -6443,7 +6443,7 @@ static void =
-drm_parse_cea_ext(struct drm_connector *connector,<br><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>const u8 =
-*data =3D (const u8 *)db;<br><br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>if =
-(cea_db_is_hdmi_vsdb(db))<br>-<span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	=
-</span>drm_parse_hdmi_vsdb_video(connector, data);<br>+<span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>drm_parse_hdmi_vsdb_video(connector, db);<br><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>else if =
-(cea_db_is_hdmi_forum_vsdb(db) ||<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-converted-space">&nbsp;</span>cea_db_is_hdmi_forum_scdb(db)=
-)<br><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>drm_parse_hdmi_forum_scds(connector, data);<br></blockquote><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">--<span =
-class=3D"Apple-converted-space">&nbsp;</span></span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">Jani Nikula, =
-Intel</span></div></blockquote></div><br></body></html>=
-
---Apple-Mail=_0077CD56-AB61-40C6-ACE1-3EA75817006A--
+-- 
+With best wishes
+Dmitry
