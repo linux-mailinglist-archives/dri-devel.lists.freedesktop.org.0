@@ -2,76 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC73CD3A6B2
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 12:23:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECCCDD3A6B9
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 12:23:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41C9110E3E5;
-	Mon, 19 Jan 2026 11:23:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 656D610E3FA;
+	Mon, 19 Jan 2026 11:23:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="gPIM+59y";
+	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="vMBVvIEH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
  [185.132.180.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6099B10E3E5
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 11:23:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC92F10E3FB
+ for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 11:23:55 +0000 (UTC)
 Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
  by mx07-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60J7Uk1b2326824; Mon, 19 Jan 2026 11:23:29 GMT
+ 60J7xnoC2378295; Mon, 19 Jan 2026 11:23:46 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
  :content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=dk201812; bh=w
- 25BmcYuEjY67PUld4Mxhgzp9H4hwdzWF9KGULdGe1s=; b=gPIM+59y2h/YtS+qP
- /gTC1NJ58S/MlNQJHNiUYNCWVvoDDDycICw0ssSfRbBX2KEvjQKVLfvpmNtNmCYo
- k4FzaiGwnJ59+MYwITdvHHkOWhIjH9dWeUNoibXtIvCVPCgDgXroP1YvgG6y6R+p
- pKz2cDr/uFZDxcuNwbWIbpCnfVn1+HykgubULiCWK8Wt94ZI/lW3Zww+5vKUxPqi
- otIsG725ehghUBpqrOtZVvO7LVCagqLg89kS91Rk3wMEYGrcFDdaWp/72h3HohQz
- paDxEH6TsWxOsAvnFTdxbxJJ2BZMVgFMOhKjOoiMqbluPmElXKiL9cMLcyJFy91n
- RsoxA==
+ :message-id:mime-version:references:subject:to; s=dk201812; bh=v
+ 2+HvGghzJ43WgCsyUbdH115MHquZ1aG1uWbSRxbWPw=; b=vMBVvIEHZ3T+ppllH
+ 78+tNDApY4spfs7Kodb9N7aHfsuxYx/XX9Z/ldte52IZeJNo8RGSFQ98AVVGtC46
+ JpAcpNsF30YZgc6kYw0/Uw02fi4Rzun3lkiv9z0XF6lMPt0d82GqaaZxLBfpaKqU
+ FIK7YEEHZ5alt/bRdF636fujp02KVnRhdFCr+DUa+TzRDCfuaXTbHX2xGihvVx3c
+ e0z363P7wpI5zp0iLEeGX2H3fCYbMuQ2MDY6dzKl0v6eZ4nuQJ4onVNgfRdTeEYU
+ 61i8/jPBtRLKJyC1Aa+6tGzN0ItdAf4U/SMxtlLBCabStM7unKnlAzZqWWAQW9cZ
+ 1sRMQ==
 Received: from hhmail01.hh.imgtec.org
  (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
- by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 4br3cv9aus-1
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 4br3cv9auy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Jan 2026 11:23:29 +0000 (GMT)
+ Mon, 19 Jan 2026 11:23:46 +0000 (GMT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  (172.25.4.28) by HHMAIL01.hh.imgtec.org (10.100.10.19) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Mon, 19 Jan 2026 11:23:28 +0000
+ 15.2.2562.35; Mon, 19 Jan 2026 11:23:45 +0000
 From: Matt Coster <matt.coster@imgtec.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matt Coster
- <matt.coster@imgtec.com>
-CC: Frank Binns <frank.binns@imgtec.com>, Brajesh Gupta
- <brajesh.gupta@imgtec.com>, Alessio Belle <alessio.belle@imgtec.com>,
- Alexandru Dadu <alexandru.dadu@imgtec.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-In-Reply-To: <20260113-device-support-info-v1-0-91e5db7f7294@imgtec.com>
-References: <20260113-device-support-info-v1-0-91e5db7f7294@imgtec.com>
-Subject: Re: [PATCH 0/6] drm/imagination: Introduce hardware support check
-Message-ID: <176882180831.5177.15144617033340003907.b4-ty@imgtec.com>
-Date: Mon, 19 Jan 2026 11:23:28 +0000
+To: <frank.binns@imgtec.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <alessio.belle@imgtec.com>,
+ <alexandru.dadu@imgtec.com>, Brajesh Gupta <brajesh.gupta@imgtec.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+In-Reply-To: <20260108040936.129769-1-brajesh.gupta@imgtec.com>
+References: <20260108040936.129769-1-brajesh.gupta@imgtec.com>
+Subject: Re: [PATCH] drm/imagination: Wait for FW trace update command
+ completion
+Message-ID: <176882182554.5508.3413577800755650601.b4-ty@imgtec.com>
+Date: Mon, 19 Jan 2026 11:23:45 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14.3
 X-Originating-IP: [172.25.4.28]
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE5MDA5NCBTYWx0ZWRfX0LzdYur9RjK3
- Gn2b9wDQsyfRMB04iaHFNyTDrq7b9hIgt0c+HGmLqcrRu54RfWsabuvCzlnMj5v+X4lfOP7j7nS
- MbjRvhLey3q4ZHYXw9wDOUyDG6+HtlY1/UIo1WlpKqOZrfVtVbJvtgP/rywO4ZwWeRccCRu6a7m
- 9VqShgZ3cDisZCPRUyetw4yKa3kXmsJX5QqUHITMy+nVfTagrsO6CMVzUV6ldR/Kvh47Mxnudwz
- lu+bS/bwV0+GEzCcrkhImOcLvAEZkUvmS7R1rE5JwBKVfbHZqwdaob917ABMnRrn5N0dVvat9Uz
- 53f0VphayZGNF0eQpR3IN9MLH3Kj6GuJIXQt0EkEPB8xqaR3Z9XcS1sjxHZH2ARBGjVOSh4TEdJ
- Tvhv10yIwt//+kXGN2+7ph9aUX7rfuvWlxiq8l1eTTItYNgP2tUCMxyH4MlxUmyDQXDimhpKCnK
- Ew9XrQ/qCfvC009FP0g==
-X-Proofpoint-GUID: LZwBx4c_Brkg7x1iopWwJ_cTxpqPFQkI
-X-Proofpoint-ORIG-GUID: LZwBx4c_Brkg7x1iopWwJ_cTxpqPFQkI
-X-Authority-Analysis: v=2.4 cv=HrN72kTS c=1 sm=1 tr=0 ts=696e1431 cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE5MDA5NCBTYWx0ZWRfX/d5gBjcPiMg6
+ chmu+NwQC+0z3J9S3jUDBZEnzBp8Z/GATOJ/yI262Yf/3Ybs75ax1IdLM/wS0PoPMq7bO5CMaEn
+ HGsg+5fCq/hnUO6829kUNCkPJC+0DgMZqKZMuX/uoWdwW6TY6FM6GS8T06BFo4yB3wFeWUZSJCU
+ KH1NlPvSGrc1RMQkx3V6KiGFFmEvl8/yMGjpkhAJlNCJPYLdEgZaWkEM+Z/hz50kLL6XOH1eZ9s
+ 9gbVaGC+QIuHQja9IApGpC++QBPjuP9Sj3WG8Uh3LRGFUty0Wg9KVGrK4Pe1mjs22pyROxL5QUS
+ pftFccb9cgRGXR26QX/xoUaPOeDBAh4vcjyWp82X7QJjPE/Zi/bL2HB1tFgbz92Pnd7RwLNxd2x
+ PIQA/9ztClwOsQ940nUqrwZQHeALMrkPV8oytYADAU2yiVItlWTo3qZJo7jw41xUHcmFMxV2SYD
+ Rks4zdmPPXtGrDza0Jg==
+X-Proofpoint-GUID: 4zKiaN5QKH-ZKsw6jqGIHPkOl24H6RtQ
+X-Proofpoint-ORIG-GUID: 4zKiaN5QKH-ZKsw6jqGIHPkOl24H6RtQ
+X-Authority-Analysis: v=2.4 cv=HrN72kTS c=1 sm=1 tr=0 ts=696e1442 cx=c_pps
  a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
  a=CzDp7rjNS_MA:10 a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=r_1tXGB3AAAA:8 a=3rG1qpFNtWm2xQ7BA1AA:9
+ a=VkNPw1HP01LnGYTKEx00:22 a=r_1tXGB3AAAA:8 a=yZ21L5JCK6vwprR6UgsA:9
  a=QEXdDO2ut3YA:10 a=t8nPyN_e6usw4ciXM-Pk:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,30 +87,20 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Tue, 13 Jan 2026 10:16:38 +0000, Matt Coster wrote:
-> We're seeing an influx of contributions to add support for lots of
-> different hardware containing Imagination GPUs, and for that we're
-> incredibly grateful.
+On Thu, 08 Jan 2026 04:09:36 +0000, Brajesh Gupta wrote:
+> Possibility of no FW trace available after update in the fw_trace_mask due
+> to asynchronous mode of command consumption in the FW.
 > 
-> Out of an abundance of caution, let's mark anything with intial support
-> that isn't yet reasonably widely tested as "experimental".
+> To ensure FW trace is available after update, wait for FW trace log update
+> command completion from the FW.
+> 
 > 
 > [...]
 
 Applied, thanks!
 
-[1/6] drm/imagination: Simplify module parameters
-      commit: a331631496a0af9a6f4e7e1860983afd8b1bb013
-[2/6] drm/imagination: Validate fw trace group_mask
-      commit: c6978643ea1c74c913f925c08ef9bafbdc031a04
-[3/6] drm/imagination: Load FW trace config at init
-      commit: ee184ab0ffb6cdd20527aa3b3729b824f52d3cd7
-[4/6] drm/imagination: Add gpuid module parameter
-      commit: 3bf74137340a1ced1566f4f9e9c2f08cba7bdf7c
-[5/6] drm/imagination: KUnit test for pvr_gpuid_decode_string()
-      commit: 3519e9ea13b49e7b37a20fa3a11a9e1fc5441af5
-[6/6] drm/imagination: Warn or error on unsupported hardware
-      commit: 1c21f240fbc1e47b94e68abfa2da2c01ed29a74d
+[1/1] drm/imagination: Wait for FW trace update command completion
+      commit: 812062e74a3945b575dce89d330b67cb50054a77
 
 Best regards,
 -- 
