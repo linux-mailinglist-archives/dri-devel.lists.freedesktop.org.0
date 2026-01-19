@@ -2,69 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2F4D3B50A
-	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 19:00:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAA01D3B58C
+	for <lists+dri-devel@lfdr.de>; Mon, 19 Jan 2026 19:23:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EC4610E4DD;
-	Mon, 19 Jan 2026 18:00:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0467210E1CB;
+	Mon, 19 Jan 2026 18:23:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GJLz99Fu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kODgE/7I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6004D10E4DD
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 18:00:28 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 1C6264E420D7;
- Mon, 19 Jan 2026 18:00:27 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 6905960731;
- Mon, 19 Jan 2026 18:00:26 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id CA3D810B682D3; Mon, 19 Jan 2026 19:00:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1768845624; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=WBf2lasmqqjrfsbF6WKQjkm17EIQ2p9rHE9R1xVmfv4=;
- b=GJLz99FuROhVPQbODGQoBmS8mQkJhHWgqwlB4dozNcQWeCn/sgZRLtTpvY1LDTWNwJs2Rk
- Q+XON3cIQ+yRX282TPZuXCbz7bIyLua5y6Scd4xEcjwJ06TYhC/GWP+A0al5xyhsygUfSc
- Suius3yeo98RjQHO1C7bVOYI6pwgJ2eKp4h8ub91LXxE/6q1XlcwDIVrg3i6FZcCTa1kSS
- pIeYCVaCaD/GP2lcbshIEzNpQWfS0SQLQkYGNNCuoSQIuhaiIYB2vObKV70l9D4esLxKaX
- OjKFHkZze15koeCsKB2EGcFkERJaoWpYrgDeEnLDV+3gtXrHXlDCr+FG7Vhr5Q==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 19 Jan 2026 19:00:18 +0100
-Message-Id: <DFSRFUYPL99P.WTKNJRWA36F7@bootlin.com>
-Subject: Re: [PATCH v4 19/25] drm/tilcdc: Convert to drm_device-based
- logging helpers
-Cc: "Markus Schneider-Pargmann" <msp@baylibre.com>, "Bajjuri Praneeth"
- <praneeth@ti.com>, "Louis Chauvet" <louis.chauvet@bootlin.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>, "Miguel Gazquez"
- <miguel.gazquez@bootlin.com>, "Herve Codina" <herve.codina@bootlin.com>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-omap@vger.kernel.org>
-To: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>, "Jyri Sarha"
- <jyri.sarha@iki.fi>, "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "Russell King"
- <linux@armlinux.org.uk>, "Bartosz Golaszewski" <brgl@bgdev.pl>, "Tony
- Lindgren" <tony@atomide.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Neil Armstrong" <neil.armstrong@linaro.org>, "Robert Foss"
- <rfoss@kernel.org>, "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
- "Jonas Karlman" <jonas@kwiboo.se>, "Jernej Skrabec"
- <jernej.skrabec@gmail.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20260116-feature_tilcdc-v4-0-2c1c22143087@bootlin.com>
- <20260116-feature_tilcdc-v4-19-2c1c22143087@bootlin.com>
-In-Reply-To: <20260116-feature_tilcdc-v4-19-2c1c22143087@bootlin.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2980210E1CB;
+ Mon, 19 Jan 2026 18:23:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id C747843845;
+ Mon, 19 Jan 2026 18:23:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 104A7C116C6;
+ Mon, 19 Jan 2026 18:23:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1768846985;
+ bh=Lii9Wo3zMBgNZu8BfSOY2bf+6SIZLbGpUqMsnL7Mo1g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kODgE/7I98Q5Jmc8h+EJtQ/PsgbfKxiuG7+i/OKTqySamVeiXJ1ev5n9Tu8e8+7Am
+ eWcBTByTaCuS0pN4zKkZls5MedNPAn4I+Hsbq1SmcbRlCuZl8IS6k6KUcZhOQ5cwPq
+ QEvQx8PMi6vRf/Cyws5p8kXrMKU7fcqSObgUcH6YasVT8Do8FUt//3CHGrsQYSZI57
+ JjtDLmYAxiJIjWc5xqiuIHK7ya1LGuV3tOBOZ43uv2pzg/gzqVH+Fg7JPomEkrSv71
+ pD+WzkHxHEeR8S/rk6YdY1H6mMFPgde202sJs+pg6vR5YElq7bO8BTz55Zfg/qynqM
+ P7D/uGSD1I3oQ==
+Date: Mon, 19 Jan 2026 20:23:00 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] iommufd: Require DMABUF revoke semantics
+Message-ID: <20260119182300.GO13201@unreal>
+References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
+ <20260118-dmabuf-revoke-v2-3-a03bb27c0875@nvidia.com>
+ <20260119165951.GI961572@ziepe.ca>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260119165951.GI961572@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,27 +79,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri Jan 16, 2026 at 6:02 PM CET, Kory Maincent (TI.com) wrote:
-> Replace dev_* logging calls with their DRM equivalents.
-> This aligns with the DRM subsystem's logging infrastructure and provides
-> better integration with DRM debugging mechanisms. The drm_* helpers
-> automatically include device information and integrate with DRM's
-> debug category filtering.
->
-> Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
-> ---
->
-> Change in v4:
-> - New patch.
+On Mon, Jan 19, 2026 at 12:59:51PM -0400, Jason Gunthorpe wrote:
+> On Sun, Jan 18, 2026 at 02:08:47PM +0200, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> > 
+> > IOMMUFD does not support page fault handling, and after a call to
+> > .invalidate_mappings() all mappings become invalid. Ensure that
+> > the IOMMUFD DMABUF importer is bound to a revoke‑aware DMABUF exporter
+> > (for example, VFIO).
+> > 
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > ---
+> >  drivers/iommu/iommufd/pages.c | 9 ++++++++-
+> >  1 file changed, 8 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c
+> > index 76f900fa1687..a5eb2bc4ef48 100644
+> > --- a/drivers/iommu/iommufd/pages.c
+> > +++ b/drivers/iommu/iommufd/pages.c
+> > @@ -1501,16 +1501,22 @@ static int iopt_map_dmabuf(struct iommufd_ctx *ictx, struct iopt_pages *pages,
+> >  		mutex_unlock(&pages->mutex);
+> >  	}
+> >  
+> > -	rc = sym_vfio_pci_dma_buf_iommufd_map(attach, &pages->dmabuf.phys);
+> > +	rc = dma_buf_pin(attach);
+> >  	if (rc)
+> >  		goto err_detach;
+> >  
+> > +	rc = sym_vfio_pci_dma_buf_iommufd_map(attach, &pages->dmabuf.phys);
+> > +	if (rc)
+> > +		goto err_unpin;
+> > +
+> >  	dma_resv_unlock(dmabuf->resv);
+> >  
+> >  	/* On success iopt_release_pages() will detach and put the dmabuf. */
+> >  	pages->dmabuf.attach = attach;
+> >  	return 0;
+> 
+> Don't we need an explicit unpin after unmapping?
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Yes, but this patch is going to be dropped in v3 because of this
+suggestion.
+https://lore.kernel.org/all/a397ff1e-615f-4873-98a9-940f9c16f85c@amd.com
 
-But please avoid adding more patches to a v2+ series unless there is a
-specific need. It does not help getting it applied.
+Thanks
 
-Luca
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> 
+> Jason
