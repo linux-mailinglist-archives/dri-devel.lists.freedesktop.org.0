@@ -2,73 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kIxyIFKpb2kZEwAAu9opvQ
+	id 3k45Bnejb2kJDwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 17:12:02 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 16:47:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 177A44728F
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 17:12:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3CC5469F1
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 16:47:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CD6210E5EF;
-	Tue, 20 Jan 2026 14:16:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D329410E5F3;
+	Tue, 20 Jan 2026 14:31:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jWxVCnbC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o5RlXDPc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9753610E5EF
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 14:16:05 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 601E2C214EF;
- Tue, 20 Jan 2026 14:15:36 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 75FC1606AB;
- Tue, 20 Jan 2026 14:16:03 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id C5B5010B698AE; Tue, 20 Jan 2026 15:15:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1768918562; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=+sjV4jKZbmaCgDV+GkMaLzLnPZD2hmO2N+9AYVVEwgo=;
- b=jWxVCnbCkzG1ahCUoIe6zWU7LBpBHB9DhliiM0lM8yu2Jq6FBVXrGVmvXCS3nMRLdeGeyC
- dhWRn6K1Rh+vjBnUoWUnJXUf4WRGtEXrsg7JshFYDmafpl8SIJdpySEakihoFFiDEqMngi
- iAmQzHGDrXCnxIn0Kyr75uMDpgbg2kBSbohOpxxCRM7qunkgrmR88S1QiUrDxqGpQDNc0/
- 8Kr47qQmMW4s++eN70Y8Bug/+6qGCFfEInYJEtufQPtVVPjSs8Eio488J11LDjS0NqdlI+
- oyxbmSmIfSAnD2FxMebS1yS4b5RWHr5imr2k3tGt+6EBj/9wi2F6EtA93teD7Q==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Philippe Cornu <philippe.cornu@st.com>, benjamin.gaignard@linaro.org, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Adrien Grassein <adrien.grassein@gmail.com>, Liu Ying <victor.liu@nxp.com>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Inki Dae <inki.dae@samsung.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- stable@vger.kernel.org
-In-Reply-To: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-0-8bad3ef90b9f@bootlin.com>
-References: <20260109-drm-bridge-alloc-getput-drm_of_find_bridge-2-v2-0-8bad3ef90b9f@bootlin.com>
-Subject: Re: [PATCH v2 00/12] drm/bridge: convert users of
- of_drm_find_bridge(), part 2
-Message-Id: <176891855295.598401.9824700731247929118.b4-ty@bootlin.com>
-Date: Tue, 20 Jan 2026 15:15:52 +0100
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B03C110E06B;
+ Tue, 20 Jan 2026 14:31:00 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 804B641AF3;
+ Tue, 20 Jan 2026 14:31:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC073C16AAE;
+ Tue, 20 Jan 2026 14:30:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1768919460;
+ bh=8kwLq8A6UNQfbJ+AhubQeU6mlyEurtih7K4BeillPc0=;
+ h=Date:From:To:Cc:Subject:From;
+ b=o5RlXDPcG7+agj1oKLLXB4r4z0IS6zStphWgikSpLRsOdLFUPmO2DhAgPxnNDhZxi
+ fVuBEmEWl8hefSIUh+Qiy/YcL4HQBHZPH6EOYdw+CTuijAfFuMx9sRXaL0lYFYwFYc
+ Sh9iEUKm+p+GF4nWJZ5C8D/7o6heRknlshA99T6ywup5cq+geUFuZ5ai6wu7bLIkmJ
+ 4epHVR7HmiQADLgeJB+otCLoTzYUnx6bJ05RJD2KIUh7sLw7BZgBkopiP6++TdLuwL
+ mprQskmuda8dn3ubEr+UPln+Xi5fzqLtMNicXJGzmnQF+nKBMt1AWZi7R6JIgDl4ju
+ c2X25+fh/ABbA==
+Date: Tue, 20 Jan 2026 14:30:55 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Simona Vetter <simona.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>
+Cc: Chen Ni <nichen@iscas.ac.cn>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: linux-next: manual merge of the drm-misc tree with the drm-next tree
+Message-ID: <aW-Rn_qcNP2CgOm2@sirena.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="9jgTUlvssYY4I/1+"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,84 +64,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
+X-Spamd-Result: default: False [-3.41 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[30];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:philippe.cornu@st.com,m:benjamin.gaignard@linaro.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:adrien.grassein@gmail.com,m:victor.liu@nxp.com,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:inki.dae@samsung.com,m:jagan@amarulasolutions.com,m:m.szyprowski@samsung.com,m:luca.ceresoli@bootlin.com,m:Hui.Pu@gehealthcare.com,m:thomas.petazzoni@bootlin.com,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:stable@vger.kernel.org,m:jernejskrabec@gmail.com,m:adriengrassein@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,st.com,linaro.org,intel.com,ideasonboard.com,kwiboo.se,nxp.com,pengutronix.de,samsung.com,amarulasolutions.com,bootlin.com];
+	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	TO_DN_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[bootlin.com:+];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,bootlin.com:email,bootlin.com:dkim,bootlin.com:mid]
-X-Rspamd-Queue-Id: 177A44728F
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+X-Rspamd-Queue-Id: D3CC5469F1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
-On Fri, 09 Jan 2026 08:31:31 +0100, Luca Ceresoli wrote:
-> This series converts all DRM bridge drivers (*) from the now deprecated
-> of_drm_find_bridge() to its replacement of_drm_find_and_get_bridge() which
-> allows correct bridge refcounting. It also converts per-driver
-> "next_bridge" pointers to the unified drm_bridge::next_bridge which puts
-> the reference automatically on bridge deallocation.
-> 
-> This is part of the work to support hotplug of DRM bridges. The grand plan
-> was discussed in [0].
-> 
-> [...]
+--9jgTUlvssYY4I/1+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks!
+Hi all,
 
-[01/12] drm: of: drm_of_panel_bridge_remove(): fix device_node leak
-        commit: a4b4385d0523e39a7c058cb5a6c8269e513126ca
-[02/12] drm: of: drm_of_panel_bridge_remove(): convert to of_drm_find_and_get_bridge()
-        commit: f675a276b84488e78287dd22c2e9461e4c008c66
-[03/12] drm/bridge: sii902x: convert to of_drm_find_and_get_bridge()
-        commit: d07490fb23958006bcecd6f2ba411571c099d104
-[04/12] drm/bridge: thc63lvd1024: convert to of_drm_find_and_get_bridge()
-        commit: 9d34e1a8cf7b643bca058a65f3441d90099b297f
-[05/12] drm/bridge: tfp410: convert to of_drm_find_and_get_bridge()
-        commit: 35dd5e1c089b6fd9f503bb15ebc1138d5a3f887e
-[06/12] drm/bridge: tpd12s015: convert to of_drm_find_and_get_bridge()
-        commit: 0bbca46cd50a527bded903ffe7f32e3761e825bd
-[07/12] drm/bridge: lt8912b: convert to of_drm_find_and_get_bridge()
-        commit: 31cb3cd7e7149983e279f3d6da3ae5757a965ea5
-[08/12] drm/bridge: imx8mp-hdmi-pvi: convert to of_drm_find_and_get_bridge()
-        commit: 7654c807f20701ebd1dc7e967270d017dcc36730
-[09/12] drm/bridge: imx8qxp-ldb: convert to of_drm_find_and_get_bridge()
-        commit: 32529d384cea3a9b939ff1b56aa30a13f8370129
-[10/12] drm/bridge: samsung-dsim: samsung_dsim_host_attach: use a temporary variable for the next bridge
-        commit: e5e1a0000746ded4d9fa16fceda0748aec2b6e6a
-[11/12] drm/bridge: samsung-dsim: samsung_dsim_host_attach: don't use the bridge pointer as an error indicator
-        commit: 33f86ac63031d0593e48eb0a738f2d1b1ee29879
-[12/12] drm/bridge: samsung-dsim: samsung_dsim_host_attach: convert to of_drm_find_and_get_bridge()
-        commit: 685d0dfc37d081e56374852165afc8ab3b3e8d5b
+Today's linux-next merge of the drm-misc tree got a conflict in:
 
-Best regards,
--- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
+  drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
 
+between commit:
+
+  f9c68b1c5be43 ("drm/mediatek: mtk_hdmi_v2: Remove unneeded semicolon")
+
+=66rom the drm-next tree and commit:
+
+  b626b1a1c9cca ("drm/bridge: refactor HDMI InfoFrame callbacks")
+
+=66rom the drm-misc tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+diff --cc drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
+index d510ca8cfc4a5,d0e4440b74911..0000000000000
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
+
+--9jgTUlvssYY4I/1+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmlvkZ8ACgkQJNaLcl1U
+h9BcWgf/f1PZ+vimrziCa4UmeSm0BThty9/eQhnU7AQaPN6eBJK3xnkjPEVElaKK
+vZmUvvBazSxIRd2Y2rUPBnG754LXtzBYWrg3KQraJZj91seqKmi6XN+aFpeKQJha
+g9sCisXi5XIsxF2IFS1zYVU6P0P9J8oOnQ3ilNCwMbVMb/iYeuZN3IuW+Fe/zemz
+ZGdK5spoTMmpqsP07IBdgQ6B1eaZ84SShGxILaOsS3eYFdu0jEJTm/Tdb3UOkVzr
+5mWgGaE4tLPAPTJVvX3vmKXqzaH2egTPRUxIXORcI8x0KnY3eZARSWMTd0DuZbuy
+Kd76V0digS1dvkh2+r3HAbzq1vxzUg==
+=6n4G
+-----END PGP SIGNATURE-----
+
+--9jgTUlvssYY4I/1+--
