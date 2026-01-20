@@ -2,73 +2,175 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id APc3KzYJcGlyUwAAu9opvQ
+	id WJJeL58JcGlyUwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 00:01:10 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 00:02:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 162EE4D680
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 00:01:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 125344D6F1
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 00:02:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFA110E65D;
-	Tue, 20 Jan 2026 23:01:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37FCD10E664;
+	Tue, 20 Jan 2026 23:02:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="popOrSrT";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ei5PoZf0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 755EE10E65D;
- Tue, 20 Jan 2026 23:01:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 8C8E860007;
- Tue, 20 Jan 2026 23:01:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1907BC16AAE;
- Tue, 20 Jan 2026 23:00:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768950064;
- bh=dClrHcKLkN3Omg1AAuVft+c2sQj8sX7paCLkftkiBBc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=popOrSrTL9zTWJldNDPUB2j/MRzDfzsPuDzrbGZEMz2xV40sXWFd2sKeg2EY4sjqR
- L0eryVBnxe5jnFEBcFxlvb5PVt1l7BrJxRnIGEPt80GYYVNsJcH639kCJy+hpbwKS8
- CEGdEWam6jmlu6Ig7XcnTwnroRUvpOEKqzUR9ZHmwRpcUtEKr3lw+DFcTl2X6Ly8hB
- YpQw6oZ3LmlQ698uP+J1c0w7g96Yt7qi/iEzBfbdCOGX9ZMmZ73NgtEa5HSVcPZATa
- W3U3abd+19StFhluNNTVpRntJ/48m7uV4OJyrpb29gzWdaPqNl1AecSeVWDo+Lu3pT
- Wrx/3WLNCpeAQ==
-Date: Wed, 21 Jan 2026 00:00:53 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Alex Shi <alexs@kernel.org>, Carlos Bilbao <carlos.bilbao@kernel.org>,
- David Airlie <airlied@gmail.com>, Federico Vaga <federico.vaga@vaga.pv.it>,
- Hu Haowen <2023002089@link.tyut.edu.cn>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
- <nsc@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter
- <simona@ffwll.ch>, Tvrtko Ursulin <tursulin@ursulin.net>, Yanteng Si
- <si.yanteng@linux.dev>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org, Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?=
- <thomas.weissschuh@linutronix.de>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Avadhut Naik <avadhut.naik@amd.com>,
- Chenguang Zhao <zhaochenguang@kylinos.cn>, David Disseldorp
- <ddiss@suse.de>, Dongliang Mu <dzm91@hust.edu.cn>, Gang Yan
- <yangang@kylinos.cn>, Kees Cook <kees@kernel.org>, Masahiro Yamada
- <masahiroy@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Randy Dunlap
- <rdunlap@infradead.org>, Shuah Khan <skhan@linuxfoundation.org>, Steven
- Rostedt <rostedt@goodmis.org>, Tamir Duberstein <tamird@gmail.com>, Vincent
- Mailhol <mailhol@kernel.org>, WangYuli <wanyl5933@chinaunicom.cn>
-Subject: Re: [PATCH 0/9] docs: Fix kernel-doc -Werror and moves it to
- tools/docs
-Message-ID: <20260121000053.5e274248@foz.lan>
-In-Reply-To: <87wm1bhozz.fsf@trenco.lwn.net>
-References: <cover.1768823489.git.mchehab+huawei@kernel.org>
- <87wm1bhozz.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from CH5PR02CU005.outbound.protection.outlook.com
+ (mail-northcentralusazon11012023.outbound.protection.outlook.com
+ [40.107.200.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4134410E664;
+ Tue, 20 Jan 2026 23:02:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=b7V7nDWGu6U1t/b6MtiirGTH056gRfTEA3ouiIBdTReAcwFIZ+geFLW7bBSzbHZXthjELuQueIpE8qDbh84nBaI/VfFHGBia2Ijw4yFwE00sOYjVpYSFSYbhoCdyKgmg47NlyXP6U7Rc5vsSHkgjS+KwJH2WTTU/WOVYRwqgIx5AiafPHLqe5oraO/w2WnKXFbgMNzfaGMNa4u1wUpXSQJh/Kir7I6A8ANRj0IyWGmDqyalgqag1RRAsnmqnMVoD7rxZTSEtCjPFo8OiVVV1suji1A10whiWsv2ZCOzCKqPgyv1u6UoAUcDTbvIxKoGkWNeJzyFH9Mv4fFHyD/Ni9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qfI4ksFsqdaJEwVOlr/HZSFYGEua3NQnn/TaEy/Jueg=;
+ b=wpnnwzFUt8lHNA/Ht8PchZ1WpMy870xQF9AwUqbv/fFUAgbU57Jc1LqXCxUJWCmCJjGPyUihiFu1qwasUW2eNpzV6gAtV2MfV3+tPlPucdqF61elLdvZtGxe/SPKH/02YAin1PhHpJgTF/v/yV52nlsfU36Jpe4rQtQHrOWA6IwR/WephLm32bRMy5xdU3wXyruZk7tWl6ok8akfcF9jxhg/CVsva4fLvltQW8u9sHHOMANVwQEpKRzpDpd748wXhKWl5yamLBjqSMX+UwmHFEZqlzPQRiaD6oq+4OwRhnGRbhkR3L5x6qXfW8btm7MH8se4/IDIWPmx++mNCS7bfg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qfI4ksFsqdaJEwVOlr/HZSFYGEua3NQnn/TaEy/Jueg=;
+ b=ei5PoZf0RJtURSmJxEg8WsSsC6jaKAa8C9UWe+yczKo8PIIE7vBysQWq+S7ByMILEnEoZWg4K6hhk5j+P3eAhbtscoLwUOJQiYp9IpAm6NKrJAMAINA9diRNwZZ90xQbo1yl7AdhDz2fLaLGX6tLW9Mln3uEnE25eB6208x1EW5LC3K9uP9fhzHuzKyIEOxwQMWYVCqHqozoMIYJCSlccezO7M93jwCHhWIF+FGCsautbnfmPMPMGwVyPG0F/y6iUj84oLBybkiUGUmWCSXLPlMGLD4AVDU1D6GsnK0gPmLMGsVipagx3VLR5bTrQJ2Z0uD/Bwnz3j2zrZAEfOv0nQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB9072.namprd12.prod.outlook.com (2603:10b6:8:be::6) by
+ MN0PR12MB6366.namprd12.prod.outlook.com (2603:10b6:208:3c1::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Tue, 20 Jan
+ 2026 23:02:48 +0000
+Received: from DM4PR12MB9072.namprd12.prod.outlook.com
+ ([fe80::9e49:782:8e98:1ff1]) by DM4PR12MB9072.namprd12.prod.outlook.com
+ ([fe80::9e49:782:8e98:1ff1%5]) with mapi id 15.20.9520.011; Tue, 20 Jan 2026
+ 23:02:48 +0000
+Message-ID: <fd4b6553-3e9e-4829-a12f-51d29a5d7571@nvidia.com>
+Date: Wed, 21 Jan 2026 10:02:40 +1100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 11/11] mm: Remove device private pages from the
+ physical address space
+To: Zi Yan <ziy@nvidia.com>
+Cc: linux-mm@kvack.org, balbirs@nvidia.com, matthew.brost@intel.com,
+ akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, david@redhat.com, apopple@nvidia.com,
+ lorenzo.stoakes@oracle.com, lyude@redhat.com, dakr@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, rcampbell@nvidia.com,
+ mpenttil@redhat.com, jgg@nvidia.com, willy@infradead.org,
+ linuxppc-dev@lists.ozlabs.org, intel-xe@lists.freedesktop.org, jgg@ziepe.ca,
+ Felix.Kuehling@amd.com
+References: <20260107091823.68974-1-jniethe@nvidia.com>
+ <20260107091823.68974-12-jniethe@nvidia.com>
+ <36F96303-8FBB-4350-9472-52CC50BAB956@nvidia.com>
+ <c9afedc6-f763-410f-b78b-522b98122f06@nvidia.com>
+ <6C5F185E-BB12-4B01-8283-F2C956E84AA3@nvidia.com>
+Content-Language: en-US
+From: Jordan Niethe <jniethe@nvidia.com>
+In-Reply-To: <6C5F185E-BB12-4B01-8283-F2C956E84AA3@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BY5PR16CA0027.namprd16.prod.outlook.com
+ (2603:10b6:a03:1a0::40) To DM4PR12MB9072.namprd12.prod.outlook.com
+ (2603:10b6:8:be::6)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB9072:EE_|MN0PR12MB6366:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3244da34-8226-4e5d-5719-08de58780765
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dldGOTIrTzNlaS9ja3lqOW81cEx3WW8yc1BBbkNXd2xJblJLUDlzTnlsQ3FM?=
+ =?utf-8?B?WUtWdGlUa28vZFdGd1ppeTBCMlNsSVB1NkZnQjEzR1I5YkF6aWtiaWN5emJH?=
+ =?utf-8?B?L2RvbXExcnF2bWE3d0FHd2IwMDR1SHRiNmwyaWc3QzJXTzk1VkRBSEVyWHgy?=
+ =?utf-8?B?M1U4MzYzUnZjdElHNUk3Ti9KUjVpTFdmNlZqa3BTVVZCOFNMTnYraCtQYzhn?=
+ =?utf-8?B?dUJweURmUDFYcGNTYWFUZHhEUGIvTWs3ck4wL2k0T2h4dlNnOVNlYTJxbXd1?=
+ =?utf-8?B?dXlTSnFoNVRVT2dNNnovR3RoVWMrMmEwSVhFcGNaNnhJd3JsWE1lNWJTN1FE?=
+ =?utf-8?B?U3lLOUJxaHlWelpNUXdjQTJaNWJWSmtJY1BxeUcyTE94V1g2K2YrVGVnRzlD?=
+ =?utf-8?B?QVczckVMNTJ0dDdtV21TSU1nY1lsdVhiWnRZaVVnUVdtMXFNUFNvYWNqTmpC?=
+ =?utf-8?B?ZUVrQmRMWW1hcXlaR0ROZzgrNlVWTFJxaHRQTGQ5ZmpsWVpkdnh2SjNrSFBv?=
+ =?utf-8?B?Y1djRHgxUjRDSlNoemxxM1VybVlSL0pRYk1tZG12M3lNQWhRWHFIWUhyLy9L?=
+ =?utf-8?B?RGlFREJqd3NpczUzRTVKY3BadzJCL1pmcFZrVHUvaFowMHpBOUUwRlNFRGk5?=
+ =?utf-8?B?OEpXK2ZhQWEyTENCVXBKK3JpMkV6RzkvWkdQTlJMQnlvTXA4N3VkbnRGa3Jj?=
+ =?utf-8?B?ZzIrT04xbEY5ZkhFN1gyT1dSZVlxZWwrRXBMMXhFV3QyWTh4ZlFyRVpDQVVm?=
+ =?utf-8?B?SEpwMmJhS2VuV29xbXp1bVdVcVdmZVY2YWkyVzVpOHdUTnNOTlkrMFlMcDUy?=
+ =?utf-8?B?S3hyYUFTS1dNaFVMWDJwWmlEMXlGaXdmcUViUFB4Q2RTT0VVSkpwZnFtcmN4?=
+ =?utf-8?B?RjZyWW5wbmgreXg2K0czV1c0WG1RN0dDUUlNMWpYT3hRZzArUjBBMWpPRjgr?=
+ =?utf-8?B?RUN4R2wvaWhzT0hBY0ZMRW8xVmlocUJoY2NoT0hlck4xS2poSHZGRmZCaUx1?=
+ =?utf-8?B?N2w4UVcySDl1clJubmdabC9SNFpDWGU3R1BzRnFldHlSbUFEUWo1d0xKa0xJ?=
+ =?utf-8?B?ZUVlNUluQkZhVFk5MUtSQm5naHdlaDg0NHpUTVd2L0x2WTBmbE1HYkhFcVVQ?=
+ =?utf-8?B?dnRHTlVqMm1pajFQczN4dnkxb0ZUTmhqeXZCR2xvajBGdFExVnVKQU5QUnZt?=
+ =?utf-8?B?TXlGK0tMY0h5UTVRS1BBYzNhUVExaGpPcGpTVWVPcy9WSnRBSGE3eFFtdXYy?=
+ =?utf-8?B?a0dZMk1WbDJxV3lLT0NYSnFSTk9jZEJ5NkFOajJDTm9taUphM1l2NW9KQjU0?=
+ =?utf-8?B?dDZzd3EyNGl2aGZQYUZrNU1UR0M3eWllVnZzSGhtQ1FCU1BFTjJGOHFjOHU2?=
+ =?utf-8?B?TEE3eThPWExsOWZkYzZwbEJNRW13TUh2Wkp6WUcwU2RXVXBPQlB2aG9ISTJa?=
+ =?utf-8?B?bkpMd0NTNGRrNjNnb3NmMm9NTk43RGVvelAxckZzMng5QndxeDgrbXFqdHp0?=
+ =?utf-8?B?U2RkaFNFNmJtN0JmdHBnZFpkRk8ySlpoTm9vMzRweUpjNFlEZFJlWDNoMHQ2?=
+ =?utf-8?B?VHNwc3hMaVZyZW9FRXgycENvWUM3NENhYmZaM1hxR0ZVVjJxcmZkaUR6eHRT?=
+ =?utf-8?B?QW8ySlhyVUg2a1RIK0ViaFA0OUFuQnFlRVdwN1ZjMHJPK3g0TlBpWmFtRTRP?=
+ =?utf-8?B?V0xZTmZ2L1pWblpkYnUzR2tsWWJRVUlhS1NYQUFHUzdQTXk2ZzQzYlNSb2V2?=
+ =?utf-8?B?L2U2OFJCb2daWTRGd0xIcG1pRkZhUlRucXNDQlRJUEVCSkpGbWZwNit1Y0ta?=
+ =?utf-8?B?Zmd1dmg3Qzh3RXdlZzZBZnQ1NmFHVnlGbkFzTG1UbmgyS2ZBc2tGejJsanFG?=
+ =?utf-8?B?MFY0b2Vhb0s1Tk1DQ0N6VkJGbHdONHNjVVN3dFYrSHNtTGs1WWo2aC9FU2hD?=
+ =?utf-8?B?UEQxL1pYUGZ1RENvTnBEUG9IWTdIRnhpZjRsSm9kL0Vka2lTa1JYcEs1dUhk?=
+ =?utf-8?B?SnFvRFhLbEFoV3ZQa2tNbjFlbjVKdFljMG1rQ3ZXbENDVzdLM1RuNVpjSVE3?=
+ =?utf-8?B?cyttZGdxRHRNWDZIVlQrdERHdUdYcWVlK3FuVS9tT3A4aFVJWGNYTnhRWXAy?=
+ =?utf-8?Q?nIyg=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB9072.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OFRNai81eWdQN3M0Q1VmZEVOK2pTek82MUE5SytBK2ZHc0MzdmZVZ0lsaVcz?=
+ =?utf-8?B?bWtvTnRXd0V3aUUzb1preTV4Y0pqbDJkOHRnQU04VUVHTzVDazdMajFGK3o5?=
+ =?utf-8?B?elUxVEJjNHVJOFlocUFyaHZhazlOZWRzTWlPSTlMakVZSTBwMWVxWDZWekRj?=
+ =?utf-8?B?ZFRsdnY2aWRiRjRDRm82QjczekFIMnV5S2pCa1owa3d3ODkwdnVqdW1LVnpi?=
+ =?utf-8?B?SjJRZU9ZVzY2T3dEQkVUU0V6a2U0U2tpZ3hSeHRkeXg1VGswdms3ZTRobThm?=
+ =?utf-8?B?NG5id3YvbmV1U1JBY3J4cW50V1I2Mnp3R2Z1THFDY1d3Z0g4ZS9tVDBLQkpE?=
+ =?utf-8?B?QktPZTFsMnpQaHZXNUNHRVUvVjF4c0lsckdvMU5LSkRLci93T2F3MGwyWWMy?=
+ =?utf-8?B?S3V3c1g0eWlaUzJXLzFBNjBwV1lQZW1EVkdBUlRPSnJyNWtSazRmUXdvejN2?=
+ =?utf-8?B?Ky83eGJ5OUVaRkhGejhwWndzU0k1UWdCNTdWTHh1RzdrWjAzUFYwMmtRckNC?=
+ =?utf-8?B?VFkyQVRIRWY5eGk0MWVYVlBVZUJqV2puVk9zRFNNK1U4QXNjWFA4Zi9GK0ZF?=
+ =?utf-8?B?eGRPYWJOR0ErK3pVbDZodUN2R2lZWVpTbU5tSmI4L21pS055L2kvWkJadDAw?=
+ =?utf-8?B?Ni90S2c5VyswdGV1SlZHdjJYc25uY2ZlaWNtaFRBZ1RiVUVYMmZGaGpFYTRB?=
+ =?utf-8?B?TnVTTkdta2w3OTZCdllzRENtUlQ5Yi9lTHpyMkVIYWpWZm14UXQrVWk0N0o0?=
+ =?utf-8?B?TmRvUHNza0lUZUt4MHdTWWlkcmJSL1NwaEY2VHByU29Nd0NrdUMwRWdRUmoz?=
+ =?utf-8?B?YmhnZmtWVm5Vb1BaZVZQR2hjN0pwWWplNzdVRjlHY1hJdWZlWXg4NStlSHgw?=
+ =?utf-8?B?NFB0R1ZGb3M0Z0p3bU9qUVdHSVFGWE0yWEsrbC90ODNoVHNGMkhEWTRucEx2?=
+ =?utf-8?B?bHQ5MGxxN0gxNmtXTnhNMmY3UlJiVlJZK0hOT29EOTBTY1pFamhsTnhZb0I5?=
+ =?utf-8?B?RmdGR2JHamxYaEJ4WFBWR1BheGtNcUFVN1gxcnpJbTRNb3h0eWliUnRNUTMr?=
+ =?utf-8?B?YlFEanhjZVhiOXc0K3RmZElJWWIyTi9BMndjbCtKVGh1L3hhZDVDMy8zRnEz?=
+ =?utf-8?B?WE1JZHIvb05Qam5HVGFEYmFnNW9nbDFtYzlSL2RlQ0puNTRhdHNXa2F5QVBF?=
+ =?utf-8?B?a0hQMnB4cWZxbjZwR3Z4aDVHOEtlMjRENDVvWE1ZWGdlSm5ta2RPUUI2SGdR?=
+ =?utf-8?B?Tk50NWZwbUkxVVp2emtSL2xXeHB5R09zVlJTOWVYV2hSRlRpUnltQ1NqQnQ0?=
+ =?utf-8?B?S1BjRGg0MXZOSzJwQkFtc1A0MnJ1S2hMY0M4N2Vwb2hGZjlvMmkxYjhnK2J4?=
+ =?utf-8?B?UHVXRU9XN0ovNEFaaTJNazM1R2J0SEdxQzhXcHpBZFk0SUdxaEVOUFl2M25v?=
+ =?utf-8?B?cmpwZzJvTUppcDkrQ3RjcEd1dm4vaXdEK1RhczIrYkMrVDFWK0F0bG12YnE3?=
+ =?utf-8?B?S0Y1MUJObTRXSnNiaXF5SnNkR1NPN2wyaCtFK2RHNktWMVNFZEQ0VUw3NHVt?=
+ =?utf-8?B?aDc4SlpJd3RIbHp5eHJydmpUakhkOGFtcEh5WWk0eXNaVzZRelIxSkZxQU0r?=
+ =?utf-8?B?K2JXZHd4NWZlaUtyOVg5REwxMjhCaDBnNVVFUzkwdGY4YWNDOWNiekNDU2lw?=
+ =?utf-8?B?K1RzUit6SmN6b3FYYlZLRGlDakhvcXFpSlNHa0tJamEzMW5TSjZRcFJ2NXZR?=
+ =?utf-8?B?K3NRRGJXSythOTg1bmthQ2tGWEFuUldiSnk2eTdNeU94bEwrbG43UXFIbUJx?=
+ =?utf-8?B?SzV4d0xJZ0Jna2dPa0M3OE5MTXRMMDVCWm5TZ3RkOWJvREErVWpGQkIvKy92?=
+ =?utf-8?B?bDE0anR6NDZMbVpORHM5bjZDYU1NaDRiTE9rV1JEdXJIcklrR2ZHVHdWRmpF?=
+ =?utf-8?B?RERNUWc1elNmWkYvWnh1OUV1SUlWZ2pTOStKT3BSTyt4STZiSmZ3aDdaVWtF?=
+ =?utf-8?B?MmZTQ0JRNzBabzl4TzkzVnVnaklXT1FEQk83aVRMS0w1cnl6TXc3anM4Wjht?=
+ =?utf-8?B?azBGOUVyMkhQYVYreEtJOE5BSHFyRHZXTXZ6eGxBTTc4Y0ltbkZhNXpuTVBs?=
+ =?utf-8?B?K2x3VnhPYUhGQXBrSkQrNHhLb3pFbCtFTXdHdStobW1LWThxc2hUeEwxbGR4?=
+ =?utf-8?B?TGlMZDEwSmZsaEV6UTM1YWo0cmUwSFdaQXJ0WFZwMjFyUEwweU9zb1MxK05N?=
+ =?utf-8?B?c2Z0YWJla0ZYM1c0RHpHNTB3Q2Q4c2lTb3IveWhoUTJjdloyZGVPVHZUU3ZL?=
+ =?utf-8?B?ZTdpT3cxQW1jNGZ3T2FHSVZzQVhUYzhuaVlTR2loL0RCb2NPV0xqUT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3244da34-8226-4e5d-5719-08de58780765
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB9072.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 23:02:47.9607 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bDhzGVKKnIvBDINodmXaxkRBkfXL/TPFpZRuaUdRrrYkzk7aZlG8lclkjxXN7kIaWSQJql/vvk9EM8Cm6Rda+Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6366
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,116 +185,308 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[37];
+	RCPT_COUNT_TWELVE(0.00)[22];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[huawei];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	URIBL_MULTI_FAIL(0.00)[nvidia.com:server fail,gabe.freedesktop.org:server fail,Nvidia.com:server fail];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vaga.pv.it,link.tyut.edu.cn,linux.intel.com,intel.com,ffwll.ch,ursulin.net,linux.dev,lists.freedesktop.org,vger.kernel.org,linutronix.de,amd.com,kylinos.cn,suse.de,hust.edu.cn,infradead.org,linuxfoundation.org,goodmis.org,chinaunicom.cn];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jniethe@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kvack.org,nvidia.com,intel.com,linux-foundation.org,vger.kernel.org,lists.freedesktop.org,redhat.com,oracle.com,kernel.org,gmail.com,ffwll.ch,infradead.org,lists.ozlabs.org,ziepe.ca,amd.com];
 	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,lwn.net:email,conf.py:url]
-X-Rspamd-Queue-Id: 162EE4D680
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,nvidia.com:email,nvidia.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+X-Rspamd-Queue-Id: 125344D6F1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Jon,
+Hi,
 
-On Tue, 20 Jan 2026 15:56:48 -0700
-Jonathan Corbet <corbet@lwn.net> wrote:
+On 21/1/26 09:53, Zi Yan wrote:
+> On 20 Jan 2026, at 17:33, Jordan Niethe wrote:
+> 
+>> On 14/1/26 07:04, Zi Yan wrote:
+>>> On 7 Jan 2026, at 4:18, Jordan Niethe wrote:
+>>>
+>>>> Currently when creating these device private struct pages, the first
+>>>> step is to use request_free_mem_region() to get a range of physical
+>>>> address space large enough to represent the devices memory. This
+>>>> allocated physical address range is then remapped as device private
+>>>> memory using memremap_pages().
+>>>>
+>>>> Needing allocation of physical address space has some problems:
+>>>>
+>>>>     1) There may be insufficient physical address space to represent the
+>>>>        device memory. KASLR reducing the physical address space and VM
+>>>>        configurations with limited physical address space increase the
+>>>>        likelihood of hitting this especially as device memory increases. This
+>>>>        has been observed to prevent device private from being initialized.
+>>>>
+>>>>     2) Attempting to add the device private pages to the linear map at
+>>>>        addresses beyond the actual physical memory causes issues on
+>>>>        architectures like aarch64 meaning the feature does not work there.
+>>>>
+>>>> Instead of using the physical address space, introduce a device private
+>>>> address space and allocate devices regions from there to represent the
+>>>> device private pages.
+>>>>
+>>>> Introduce a new interface memremap_device_private_pagemap() that
+>>>> allocates a requested amount of device private address space and creates
+>>>> the necessary device private pages.
+>>>>
+>>>> To support this new interface, struct dev_pagemap needs some changes:
+>>>>
+>>>>     - Add a new dev_pagemap::nr_pages field as an input parameter.
+>>>>     - Add a new dev_pagemap::pages array to store the device
+>>>>       private pages.
+>>>>
+>>>> When using memremap_device_private_pagemap(), rather then passing in
+>>>> dev_pagemap::ranges[dev_pagemap::nr_ranges] of physical address space to
+>>>> be remapped, dev_pagemap::nr_ranges will always be 1, and the device
+>>>> private range that is reserved is returned in dev_pagemap::range.
+>>>>
+>>>> Forbid calling memremap_pages() with dev_pagemap::ranges::type =
+>>>> MEMORY_DEVICE_PRIVATE.
+>>>>
+>>>> Represent this device private address space using a new
+>>>> device_private_pgmap_tree maple tree. This tree maps a given device
+>>>> private address to a struct dev_pagemap, where a specific device private
+>>>> page may then be looked up in that dev_pagemap::pages array.
+>>>>
+>>>> Device private address space can be reclaimed and the assoicated device
+>>>> private pages freed using the corresponding new
+>>>> memunmap_device_private_pagemap() interface.
+>>>>
+>>>> Because the device private pages now live outside the physical address
+>>>> space, they no longer have a normal PFN. This means that page_to_pfn(),
+>>>> et al. are no longer meaningful.
+>>>>
+>>>> Introduce helpers:
+>>>>
+>>>>     - device_private_page_to_offset()
+>>>>     - device_private_folio_to_offset()
+>>>>
+>>>> to take a given device private page / folio and return its offset within
+>>>> the device private address space.
+>>>>
+>>>> Update the places where we previously converted a device private page to
+>>>> a PFN to use these new helpers. When we encounter a device private
+>>>> offset, instead of looking up its page within the pagemap use
+>>>> device_private_offset_to_page() instead.
+>>>>
+>>>> Update the existing users:
+>>>>
+>>>>    - lib/test_hmm.c
+>>>>    - ppc ultravisor
+>>>>    - drm/amd/amdkfd
+>>>>    - gpu/drm/xe
+>>>>    - gpu/drm/nouveau
+>>>>
+>>>> to use the new memremap_device_private_pagemap() interface.
+>>>>
+>>>> Signed-off-by: Jordan Niethe <jniethe@nvidia.com>
+>>>> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+>>>>
+>>>> ---
+>>>>
+>>>> NOTE: The updates to the existing drivers have only been compile tested.
+>>>> I'll need some help in testing these drivers.
+>>>>
+>>>> v1:
+>>>> - Include NUMA node paramater for memremap_device_private_pagemap()
+>>>> - Add devm_memremap_device_private_pagemap() and friends
+>>>> - Update existing users of memremap_pages():
+>>>>       - ppc ultravisor
+>>>>       - drm/amd/amdkfd
+>>>>       - gpu/drm/xe
+>>>>       - gpu/drm/nouveau
+>>>> - Update for HMM huge page support
+>>>> - Guard device_private_offset_to_page and friends with CONFIG_ZONE_DEVICE
+>>>>
+>>>> v2:
+>>>> - Make sure last member of struct dev_pagemap remains DECLARE_FLEX_ARRAY(struct range, ranges);
+>>>> ---
+>>>>    Documentation/mm/hmm.rst                 |  11 +-
+>>>>    arch/powerpc/kvm/book3s_hv_uvmem.c       |  41 ++---
+>>>>    drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  23 +--
+>>>>    drivers/gpu/drm/nouveau/nouveau_dmem.c   |  35 ++--
+>>>>    drivers/gpu/drm/xe/xe_svm.c              |  28 +---
+>>>>    include/linux/hmm.h                      |   3 +
+>>>>    include/linux/leafops.h                  |  16 +-
+>>>>    include/linux/memremap.h                 |  64 +++++++-
+>>>>    include/linux/migrate.h                  |   6 +-
+>>>>    include/linux/mm.h                       |   2 +
+>>>>    include/linux/rmap.h                     |   5 +-
+>>>>    include/linux/swapops.h                  |  10 +-
+>>>>    lib/test_hmm.c                           |  69 ++++----
+>>>>    mm/debug.c                               |   9 +-
+>>>>    mm/memremap.c                            | 193 ++++++++++++++++++-----
+>>>>    mm/mm_init.c                             |   8 +-
+>>>>    mm/page_vma_mapped.c                     |  19 ++-
+>>>>    mm/rmap.c                                |  43 +++--
+>>>>    mm/util.c                                |   5 +-
+>>>>    19 files changed, 391 insertions(+), 199 deletions(-)
+>>>>
+>>> <snip>
+>>>
+>>>> diff --git a/include/linux/mm.h b/include/linux/mm.h
+>>>> index e65329e1969f..b36599ab41ba 100644
+>>>> --- a/include/linux/mm.h
+>>>> +++ b/include/linux/mm.h
+>>>> @@ -2038,6 +2038,8 @@ static inline unsigned long memdesc_section(memdesc_flags_t mdf)
+>>>>     */
+>>>>    static inline unsigned long folio_pfn(const struct folio *folio)
+>>>>    {
+>>>> +	VM_BUG_ON(folio_is_device_private(folio));
+>>>
+>>> Please use VM_WARN_ON instead.
+>>
+>> ack.
+>>
+>>>
+>>>> +
+>>>>    	return page_to_pfn(&folio->page);
+>>>>    }
+>>>>
+>>>> diff --git a/include/linux/rmap.h b/include/linux/rmap.h
+>>>> index 57c63b6a8f65..c1561a92864f 100644
+>>>> --- a/include/linux/rmap.h
+>>>> +++ b/include/linux/rmap.h
+>>>> @@ -951,7 +951,7 @@ static inline unsigned long page_vma_walk_pfn(unsigned long pfn)
+>>>>    static inline unsigned long folio_page_vma_walk_pfn(const struct folio *folio)
+>>>>    {
+>>>>    	if (folio_is_device_private(folio))
+>>>> -		return page_vma_walk_pfn(folio_pfn(folio)) |
+>>>> +		return page_vma_walk_pfn(device_private_folio_to_offset(folio)) |
+>>>>    		       PVMW_PFN_DEVICE_PRIVATE;
+>>>>
+>>>>    	return page_vma_walk_pfn(folio_pfn(folio));
+>>>> @@ -959,6 +959,9 @@ static inline unsigned long folio_page_vma_walk_pfn(const struct folio *folio)
+>>>>
+>>>>    static inline struct page *page_vma_walk_pfn_to_page(unsigned long pvmw_pfn)
+>>>>    {
+>>>> +	if (pvmw_pfn & PVMW_PFN_DEVICE_PRIVATE)
+>>>> +		return device_private_offset_to_page(pvmw_pfn >> PVMW_PFN_SHIFT);
+>>>> +
+>>>>    	return pfn_to_page(pvmw_pfn >> PVMW_PFN_SHIFT);
+>>>>    }
+>>>
+>>> <snip>
+>>>
+>>>> diff --git a/mm/page_vma_mapped.c b/mm/page_vma_mapped.c
+>>>> index 96c525785d78..141fe5abd33f 100644
+>>>> --- a/mm/page_vma_mapped.c
+>>>> +++ b/mm/page_vma_mapped.c
+>>>> @@ -107,6 +107,7 @@ static bool map_pte(struct page_vma_mapped_walk *pvmw, pmd_t *pmdvalp,
+>>>>    static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long pte_nr)
+>>>>    {
+>>>>    	unsigned long pfn;
+>>>> +	bool device_private = false;
+>>>>    	pte_t ptent = ptep_get(pvmw->pte);
+>>>>
+>>>>    	if (pvmw->flags & PVMW_MIGRATION) {
+>>>> @@ -115,6 +116,9 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long pte_nr)
+>>>>    		if (!softleaf_is_migration(entry))
+>>>>    			return false;
+>>>>
+>>>> +		if (softleaf_is_migration_device_private(entry))
+>>>> +			device_private = true;
+>>>> +
+>>>>    		pfn = softleaf_to_pfn(entry);
+>>>>    	} else if (pte_present(ptent)) {
+>>>>    		pfn = pte_pfn(ptent);
+>>>> @@ -127,8 +131,14 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long pte_nr)
+>>>>    			return false;
+>>>>
+>>>>    		pfn = softleaf_to_pfn(entry);
+>>>> +
+>>>> +		if (softleaf_is_device_private(entry))
+>>>> +			device_private = true;
+>>>>    	}
+>>>>
+>>>> +	if ((device_private) ^ !!(pvmw->pfn & PVMW_PFN_DEVICE_PRIVATE))
+>>>> +		return false;
+>>>> +
+>>>>    	if ((pfn + pte_nr - 1) < (pvmw->pfn >> PVMW_PFN_SHIFT))
+>>>>    		return false;
+>>>>    	if (pfn > ((pvmw->pfn >> PVMW_PFN_SHIFT) + pvmw->nr_pages - 1))
+>>>> @@ -137,8 +147,11 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long pte_nr)
+>>>>    }
+>>>>
+>>>>    /* Returns true if the two ranges overlap.  Careful to not overflow. */
+>>>> -static bool check_pmd(unsigned long pfn, struct page_vma_mapped_walk *pvmw)
+>>>> +static bool check_pmd(unsigned long pfn, bool device_private, struct page_vma_mapped_walk *pvmw)
+>>>>    {
+>>>> +	if ((device_private) ^ !!(pvmw->pfn & PVMW_PFN_DEVICE_PRIVATE))
+>>>> +		return false;
+>>>> +
+>>>>    	if ((pfn + HPAGE_PMD_NR - 1) < (pvmw->pfn >> PVMW_PFN_SHIFT))
+>>>>    		return false;
+>>>>    	if (pfn > (pvmw->pfn >> PVMW_PFN_SHIFT) + pvmw->nr_pages - 1)
+>>>> @@ -255,6 +268,8 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk *pvmw)
+>>>>
+>>>>    				if (!softleaf_is_migration(entry) ||
+>>>>    				    !check_pmd(softleaf_to_pfn(entry),
+>>>> +					       softleaf_is_device_private(entry) ||
+>>>> +					       softleaf_is_migration_device_private(entry),
+>>>>    					       pvmw))
+>>>>    					return not_found(pvmw);
+>>>>    				return true;
+>>>> @@ -262,7 +277,7 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk *pvmw)
+>>>>    			if (likely(pmd_trans_huge(pmde))) {
+>>>>    				if (pvmw->flags & PVMW_MIGRATION)
+>>>>    					return not_found(pvmw);
+>>>> -				if (!check_pmd(pmd_pfn(pmde), pvmw))
+>>>> +				if (!check_pmd(pmd_pfn(pmde), false, pvmw))
+>>>>    					return not_found(pvmw);
+>>>>    				return true;
+>>>>    			}
+>>>
+>>> It seems to me that you can add a new flag like “bool is_device_private” to
+>>> indicate whether pfn is a device private index instead of pfn without
+>>> manipulating pvmw->pfn itself.
+>>
+>> We could do it like that, however my concern with using a new param was that
+>> storing this info seperately might make it easier to misuse a device private
+>> index as a regular pfn.
+>>
+>> It seemed like it could be easy to overlook both when creating the pvmw and
+>> then when accessing the pfn.
+> 
+> That is why I asked for a helper function like page_vma_walk_pfn(pvmw) to
+> return the converted pfn instead of pvmw->pfn directly. You can add a comment
+> to ask people to use helper function and even mark pvmw->pfn /* do not use
+> directly */.
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> > Hi Jon,
-> >
-> > After a restful weekend and revisiting both yours and my series,
-> > I'm opting to send a patch series merging both into one:
-> >
-> > - The first 4 patches are from my series (no changes since v5):
-> >     https://lore.kernel.org/linux-doc/cover.1768642102.git.mchehab+huawei@kernel.org/T/#m81211c0ff38bbaa82b8b0b6606f242ccc0c2a9ac
-> >
-> > - It follows by the 2 patches from your renaming series:
-> >     https://lore.kernel.org/linux-doc/20260119111745.4694546b@foz.lan/T/#m51099c31a99dccccdb4d17cbaadc818e9e4df8c4
-> >
-> >   with the fix I proposed for kernel-doc to find its libraries
-> >
-> > I added 3 patches afterwards:
-> >
-> >   - patch 5: move possible return values from docstring to helper message;
-> >   - patch 6: improve MsgFormatter description;
-> >   - patch 7: moves kerneldoc_bin from conf.py to the sphinx/kerneldoc.py
-> >     (this is now just a debugging message - no need to pick it from env)
-> >
-> > IMO, this series is ready to be merged.  
-> 
-> Patch 7 adds a new warning:
-> 
->   WARNING: unknown config value 'kerneldoc_bin' in override, ignoring
-> 
-> It needs to be taken out of sphinx-build-wrapper; I've appended the
-> following patch to the series to deal with it. 
+Yeah I agree that is a good idea.
 
-True, thanks for checking it!
+> 
+> In addition, your patch manipulates pfn by left shifting it by 1. Are you sure
+> there is no weird arch having pfns with bit 63 being 1? Your change could
+> break it, right?
 
-> I think I'll go ahead
-> and tack on a patch putting in the scripts/kernel-doc symlink, then I
-> guess it's ready to go.
-
-Go ahead. Yeah, I think that, with such changes, this series is
-ready to go.
-> 
-> Thanks,
-> 
-> jon
-> 
-> From 4a3efd128f7da996b677151790d043ec44a00561 Mon Sep 17 00:00:00 2001
-> From: Jonathan Corbet <corbet@lwn.net>
-> Date: Tue, 20 Jan 2026 15:50:38 -0700
-> Subject: [PATCH] docs: sphinx-build-wrapper: stop setting kerneldoc_bin for
->  Sphinx
-> 
-> Now that the Sphinx build does not use the kerneldoc_bin configuration
-> variable, we shouldn't try to set it in the build wrapper or we get a nifty
-> warning:
-> 
->   WARNING: unknown config value 'kerneldoc_bin' in override, ignoring
-> 
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-> ---
->  tools/docs/sphinx-build-wrapper | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-> index cb2a5005e633..9f1ae1485f84 100755
-> --- a/tools/docs/sphinx-build-wrapper
-> +++ b/tools/docs/sphinx-build-wrapper
-> @@ -750,7 +750,6 @@ class SphinxBuilder:
->  
->              build_args = args + [
->                  "-d", doctree_dir,
-> -                "-D", f"kerneldoc_bin={kerneldoc}",
->                  "-D", f"version={self.kernelversion}",
->                  "-D", f"release={self.kernelrelease}",
->                  "-D", f"kerneldoc_srctree={self.srctree}",
+Currently for migrate pfns we left shift by pfns by MIGRATE_PFN_SHIFT (6), so I
+thought doing something similiar here should be safe.
 
 Thanks,
-Mauro
+Jordan.
+
+> 
+> 
+> Best Regards,
+> Yan, Zi
+
