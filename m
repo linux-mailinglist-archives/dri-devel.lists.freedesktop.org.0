@@ -2,59 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B255BD3C426
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 10:51:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6DDD3C46E
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 11:01:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A66710E5A4;
-	Tue, 20 Jan 2026 09:51:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A49CA10E5A5;
+	Tue, 20 Jan 2026 10:01:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="FzvkvTJh";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Qtk1k5b3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EFEF10E5A3;
- Tue, 20 Jan 2026 09:51:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=8qNj/Nnvyivr9EuRGcKz3wI3QHvS+TPp2PlLgCyIQ2Q=; b=FzvkvTJh9J9Xzr1pOVOTJdyjbe
- eV5aRW2ZheeVR4a1v47VZff3kFCEG4WPHBXmesl4pldQXbtLrmMfWUCoO1jfIkhyckHdcn//JuQQr
- Opu9lW2/UnQ57wVrNP3K58hXN26p7/U4WDGMYA6j/YNhHQGYmDupr8fcwMThM2IPa+SzmthLhWQ2f
- 0cEy9VubkIiXRYUBqNvDkRF3t3xj/43gfXU1XE/jZr6+EQjeli+ASNlNqGynro77Y+VN/qnf//6QQ
- +cVt3xRzZ92xYPSHc3Mtus6CifV0tu8Bv0mqfTsysIXZhMUPrpXE3+uNvHY+z+s43UadHnwUCnTLB
- 1i5UCavg==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vi8Or-007Vqr-Jv; Tue, 20 Jan 2026 10:51:49 +0100
-Message-ID: <b5b3461f-7434-42db-bad3-ae9187fdbfc1@igalia.com>
-Date: Tue, 20 Jan 2026 09:51:48 +0000
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A82A910E194
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 10:01:33 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dwNBs6cMWz9v0b;
+ Tue, 20 Jan 2026 11:01:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1768903286;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mKfE1HagS5zYjDz3V0NjsZ5zkfW7JXAOUyzpd++NnY0=;
+ b=Qtk1k5b3KnAA/8INIZcES60MabXbu9GWnCj/bVKXTNIirJsxIc45R410nnkxcaLDY7tX2m
+ msBx5XbN89BWIx/G6asUqmGSSBqY1mSDlrQGaVRzH84L3Oxey29PyBLEDa2ZPKFsAOKwCg
+ MOr1yDiYmpApX6mM2kN2Em90o3JLHjIp/EbBq9O3I/vwfsi9hUd4WnFkaYfRQNeP52RewL
+ ZeUzu/IN/DLT3yEL1r4hpyyGBnVUgI8tzonScZTQD6V0Xx0YuhBqUMA5Ujv1WBnu4GWPVB
+ O2l8hldV0T//t4VSO9ziqm/v9zAUwjMKBYDPKJeBLqQN3UhLndh9iYbO1VPWlA==
+Message-ID: <4db9e78d-ec91-4ff1-a395-cdd2d08225bd@mailbox.org>
+Date: Tue, 20 Jan 2026 11:01:21 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 09/28] drm/sched: Add fair scheduling policy
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <phasta@kernel.org>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-References: <20251219135351.25880-1-tvrtko.ursulin@igalia.com>
- <20251219135351.25880-10-tvrtko.ursulin@igalia.com>
- <DFONORJMB1ZM.1JHSIXB9ULHJV@kernel.org>
- <1fceb644-ff22-45c8-bd83-4a32786c35f2@igalia.com>
- <DFP4XVVKNIRC.2O817MGMKCQ3P@kernel.org>
- <7b1d848c-a0e3-4960-94da-4f9001c1d96f@igalia.com>
- <DFPK5HIP7G9C.2LJ6AOH2UPLEO@kernel.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <DFPK5HIP7G9C.2LJ6AOH2UPLEO@kernel.org>
+From: Marek Vasut <marek.vasut@mailbox.org>
+Subject: Re: [PATCH v3 1/2] drm/panel: simple: Add Waveshare 13.3" panel
+ support
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>,
+ David Airlie <airlied@gmail.com>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Simona Vetter <simona@ffwll.ch>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20260117005028.126361-1-marek.vasut+renesas@mailbox.org>
+ <CAMuHMdXHKJYcP78WLUfGrN8v+PmChj7jEsjhnVXYnSOzZ7mkpw@mail.gmail.com>
+ <926a0b23-5159-4f4e-b278-b545ae281410@mailbox.org>
+ <CAMuHMdXa=NSu788E5G-aY4CA3hrM8s8fO9ABpEN_wy+5A=JHNg@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CAMuHMdXa=NSu788E5G-aY4CA3hrM8s8fO9ABpEN_wy+5A=JHNg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: esnahd1odebpirxkdfyrm89nieiddxnx
+X-MBO-RS-ID: f259ff1c79d53f602e1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,78 +76,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 1/20/26 10:33 AM, Geert Uytterhoeven wrote:
 
-On 15/01/2026 23:39, Danilo Krummrich wrote:
-> On Thu Jan 15, 2026 at 2:00 PM CET, Tvrtko Ursulin wrote:
+Hello Geert,
 
-8><
+>>> That looks like the plain standard 60Hz Full HD mode.
+>>> Is there really no other copy of that structure available in the kernel?
+>>>
+>>> auo_t215hvn01_mode is almost the same, except for .clock and .flags.
+>>> drivers/video/fbdev/core/modedb.c has the same mode, but in a different
+>>> structure.
+>>
+>> The panel-simple.c is full of similar-ish panel timings . The timings
+>> above are adapted from the waveshare DTO for this panel. What else would
+>> you suggest I do/use for this device ?
+> 
+> I am just wondering if there is a better way for panels that use
+> standard timings.
 
->> Okay but I am sure you know there are memory barriers, RCU, SPSC queue,
->> completions, worker management, and at least two locks, and everything
->> is interdependent.
-> 
-> I am, and I couldn't describe the maintainance burden of the scheduler any
-> better. :)
-> 
->> This series at least removes a bunch of code without making things more
->> complicated and so can be a good base for further rework. If you suggest to
->> hold it until all of the above is resolved it will be a few more years easily.
-> 
-> Let me explain a bit where I'm coming from:
-> 
->  From a maintainer perspective - without saying that things are either black or
-> white - I'm assessing contributors and contributions on whether the intention is
-> to improve the infrastructure in terms of design and maintainability or whether
-> the main intention is to "just" get a certain feature merged.
-> 
-> While both are valuable contributions that are appreciated, contributions that
-> have a tendency into the latter direction, have to be seen with more sceptisism.
-> 
-> Especially when the code base already has known design issues, bulding features
-> on top is very dangerous. Not necessarily because the resulting code might be
-> wrong or because of regressions, etc. But because it most likely increases the
-> difficulty resolving the existing issues -- in the worst case leading to a dead
-> end.
-> 
-> Having that said, I am not saying that you "just" try to get your feature merged
-> no matter what. Quite the opposite, I very much appreciate your contributions to
-> the scheduler and recognize the cleanup work you are doing.
-> 
-> However, for this series I require you to acknowledge that, even if correct,
-> some of this code introduces additional workarounds due to existing design
-> issues, locking and synchronization subtleties that should be solved in better
-> ways.
-> 
-> I have no objections going ahead with this series if we are on the same page
-> regarding this and you are willing to also help out fixing those underlying
-> design issues, locking and synchronization quirks, etc. subsequently.
-> 
-> But if you are more leaning in the direction of "I don't see an issue overall,
-> the code is correct!" I do have concerns.
-> 
-> Improving the situation with the scheduler is the fundamental reason why Philipp
-> and me were stepping up as maintainers, Philipp being more of the active part
-> (doing a great job) and me working more in the background, helping and mentoring
-> him.
-> 
-> Believe me when I say that we want this to move forward, but we also have to
-> ensure that we are not making a step into the direction of increasing the
-> difficulty to solve the underlying issues.
-> 
-> So, again, if we are on the same page with this, no objections from my side.
+I sent a support request to waveshare to get hw details, but I am not 
+holding my breath.
 
-I thought it would have been obvious by now that I am trying to improve 
-and fix things across the board. I even mentioned I had attempted a more 
-ambitious rewrite already, which hit some stumbling blocks, so I settled 
-for this smaller step first.
+I don't think this panel should use standard timings in the first place, 
+it should use timings which match the panel, but those are unknown, 
+because the content of the metal case is unknown. For now, the timings 
+come from the waveshare DTO, which only by coincidence matches the 
+standard timings, but that may have to be updated in the future, at 
+which point the use of standard timings would have to be removed anyway.
 
-I am also glad to hear there is desire to attempt more significant 
-refactors. Because in the past I was a bit concerned with a little bit 
-of "it's scary don't touch it" messaging.
-
-So yes, I do plan to stick around to keep fixing and improving things.
-
-Regards,
-
-Tvrtko
-
+I don't think we should press for standard timings for this particular 
+panel. For other panels, the timings come from their EDID/DPCD/... so 
+that is already a solved problem.
