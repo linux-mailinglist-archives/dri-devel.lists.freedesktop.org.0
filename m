@@ -2,54 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F68D3C153
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 09:04:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E364CD3C15F
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 09:06:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5B6810E066;
-	Tue, 20 Jan 2026 08:04:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04E4310E571;
+	Tue, 20 Jan 2026 08:06:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="2VLnWmlV";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="f7ueIpoK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD37610E066
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 08:04:25 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 5D1734E421A5;
- Tue, 20 Jan 2026 08:04:24 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 21D41606AB;
- Tue, 20 Jan 2026 08:04:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 7431110B6822A; Tue, 20 Jan 2026 09:04:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1768896263; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=jQzX/s0Tz80laIdci7lnfrnYjLkdF1cy5tKElWmE3YY=;
- b=2VLnWmlVD4171PDwhgs6K6AYkvjHNpeUorXOGO93bpBR3Efad5SQPkvUCBVJQlOwb5+PxL
- AFyllj5EsOxDaYE3vRDdSnuM+gs+wqr/t5zfvyxMuPzjZw4cIreBUInetK5MlbjAWQCPBy
- fhxAOPN3atT7GE9corFUwDPbKubvX5M+fxWR5fKZ3JEIX5/a+J7TZvXsLBP2Xp65NS/bkF
- dyaBORW7YoUBrAehBoQD7IjAgyGVpLKY4KE/ZLLH3dqeWIt+YbAXOk4H7DoMyuKm4/DjGi
- ZRwEg2aRoqfxsoz9nxcvVlOL8FH57y4SDQQUT1YeyROGvjAa1A+xyqTOl1o+JA==
+Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com
+ [209.85.208.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E40DB10E571
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 08:06:26 +0000 (UTC)
+Received: by mail-ed1-f73.google.com with SMTP id
+ 4fb4d7f45d1cf-64c62f69defso5192440a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 00:06:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1768896385; x=1769501185;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=2ZyVSgGKZ7rE7RwBbuAawYyoDPy1ltMaT3wd65JIxCU=;
+ b=f7ueIpoK3Ti7x81AL4KtBduZE12VZ0HITxf95KsKeE8shQs4CI8FwyQQ+mGy6eKrnf
+ eBMcqsxD/MUwFiNm50O9lho6n+XWc6Jd/scr+5tXxP0OdPTNRxwpNfBUWp21u9oVijDe
+ Imj1eMIfz4V5cyLVXR1bDZ4EtWjcTgUl2nfyW2IgQWbwJvcBLj9DTshBuBUza48XAfo+
+ lOsq4QlqXtisdoR2jBOzHCKZz+5BLQwUSPP1zoSBdhW/b7V2dfoc+OuCZZUwinzZm+Hj
+ Gti6FJ4e1hsBoWokLmNoyQe5b9WNsYgFhuEaRSiSvwDxNJ2aVAXUQGFEPid/4+BS65mv
+ aQcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768896385; x=1769501185;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2ZyVSgGKZ7rE7RwBbuAawYyoDPy1ltMaT3wd65JIxCU=;
+ b=EdDs/4m17kpd73X0vfGoqph/TkievCtaj7dUGGvJ5aMVQEZ/X1xYe5835FUyosGOFf
+ MpIVJdMBoZukHm3iXWuGXYchaRlMowOGFR+i4R77OkSG00dS3vhqrmr7+p829naX1jEP
+ rubW7H8fbL4lRxbK6WRUccM+fbsXy9PcOvFXr768VUeviHqTS1o91zDzukTJ2Aat2mms
+ r5CPZkojcdzfH7C/zY3mYuqZx9MVLbGuqYi5VZRmglhJ2bgpriGTdWtPZ2gpoPAes0G6
+ iU3RCrcGOn4r5RO9nlOVfyS1MZRN89c5ollst62eCZjMz5pAajtmRjB1lO8Yk+4KjS1h
+ 6avQ==
+X-Gm-Message-State: AOJu0Yy0awbwE8DZeJQEUcuVTbbaW6Imf8wCjWBPu9TvPHN3Rtl7mDsh
+ 99Xtch4cWhfoCIkMqRjMZ524iGTZCWYnbkrNAERthmLMIpO7EZx0mOeSdF7Lx5hOmrNZ7L87sfw
+ 50HwzpfFTLZedITaPmA==
+X-Received: from edy14-n1.prod.google.com
+ ([2002:a05:6402:534e:10b0:658:775:9fc4])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:13d4:b0:640:ebe3:dd55 with SMTP id
+ 4fb4d7f45d1cf-657ff298c99mr895307a12.6.1768896385388; 
+ Tue, 20 Jan 2026 00:06:25 -0800 (PST)
+Date: Tue, 20 Jan 2026 08:06:24 +0000
+In-Reply-To: <20260119202645.362457-1-deborah.brouwer@collabora.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 20 Jan 2026 09:04:17 +0100
-Message-Id: <DFT9E29AZMH1.MTEUEMPJJGJB@bootlin.com>
-Subject: Re: [PATCH] drm/tests: hdmi: fix build failure
-Cc: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- "kernel test robot" <lkp@intel.com>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jani
- Nikula" <jani.nikula@linux.intel.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20260119-fix-kunit-infoframe-v1-1-5f2f9b066594@oss.qualcomm.com>
-In-Reply-To: <20260119-fix-kunit-infoframe-v1-1-5f2f9b066594@oss.qualcomm.com>
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20260119202645.362457-1-deborah.brouwer@collabora.com>
+Message-ID: <aW83gHux1JSYWPdz@google.com>
+Subject: Re: [PATCH v2] drm/tyr: use read_poll_timeout
+From: Alice Ryhl <aliceryhl@google.com>
+To: Deborah Brouwer <deborah.brouwer@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+ daniel.almeida@collabora.com, boris.brezillon@collabora.com, gary@garyguo.net
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,26 +77,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon Jan 19, 2026 at 9:08 PM CET, Dmitry Baryshkov wrote:
-> The commit ca59e33f5a1f ("drm/atomic: add max_size check to
-> drm_property_replace_blob_from_id()") added a new parameter to
-> drm_property_replace_blob_from_id(), however commit 7436a87db99d
-> ("drm/tests: hdmi: check the infoframes behaviour") was based on the
-> older tree and used the old number of params (with me failing to run
-> kunit tests when applying).
->
-> Fix the build error by specifying -1 as the max_size (as expected).
->
-> Fixes: 7436a87db99d ("drm/tests: hdmi: check the infoframes behaviour")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202601200306.dgF5deFm-lkp@i=
-ntel.com/
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+On Mon, Jan 19, 2026 at 12:26:45PM -0800, Deborah Brouwer wrote:
+> The L2 power-on sequence and soft reset in Tyr previously relied on fixed
+> sleeps followed by a single register check, since polling helpers were not
+> available in Rust at the time.
+> 
+> Now that read_poll_timeout() is available, poll the relevant registers
+> until the hardware reports readiness or a timeout is reached.
+> 
+> This avoids unnecessary delays on start-up.
+> 
+> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 
-Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Overall looks good to me.
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+
