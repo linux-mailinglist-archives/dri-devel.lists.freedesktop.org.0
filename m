@@ -2,93 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gIMsFpvdb2n8RwAAu9opvQ
+	id eCz5L/Xdb2n8RwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 20:55:07 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 20:56:37 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7DD44AD8C
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 20:55:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 531C24ADE3
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 20:56:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADA2110E12D;
-	Tue, 20 Jan 2026 19:55:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A307410E17A;
+	Tue, 20 Jan 2026 19:56:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BT94GSZn";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="O0xu7LW3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com
- [74.125.82.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9EEB10E12D
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 19:55:03 +0000 (UTC)
-Received: by mail-dy1-f170.google.com with SMTP id
- 5a478bee46e88-2b6c6f89f23so7347064eec.1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 11:55:03 -0800 (PST)
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4200C10E23A
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 19:56:34 +0000 (UTC)
+Received: by mail-dl1-f42.google.com with SMTP id
+ a92af1059eb24-12332910300so9199766c88.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 11:56:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768938903; x=1769543703; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=GQSNIybqd3//ZKhTtvTbCXW0y0uZ8xcJxwgof6wQOVw=;
- b=BT94GSZnYa1NpZ1y+ZZLmdlH9LLJZmcW1WXXnt+Q7sTa5I7mRkO29zpOXU6zBmjc9i
- YAzaV9+O8Rzc6Pg9plI8SPV3uNtIi9wqRuM20nxfk+dYCNwyDN5FL81MgZ78XSVlt0le
- Qqla0tufiiUY5B5nQfLe1DfxVQnUaWYGdixNgJz8u+7IwIP6LcO1scD0d+iKPra70hSX
- Ri2X9kezQYaQevRMYN9owMB8j75P/amPXvnAICVznp44Fob+g0j+lyNKiUas0zxT8XfF
- E+dhD1V8Jp7Juoc3hbPjm0O0fkBgS+L1fJ7O4I/vOWrmMgNXIVAWjsHTsV035B0lU+9r
- wwjA==
+ d=gmail.com; s=20230601; t=1768938993; x=1769543793; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=lPDgUMFRl+w+AbB4KcmndfGR0As68bgylKNbbH3AGMk=;
+ b=O0xu7LW36tc0hWFEe4U6u5vpdh7T0CHWTsYGNdnyU2tEjUNKlsE7ohVsll56MSqyfo
+ btPV7Vz3+/uhxE6dUM2xAdqhjlbBwSIDHt5s5WRGAXE0yGgyvZ6tfh2cg+IXn/D5Qw8/
+ WOCRiAJdGxPbYddLIFIF6Z0oIayN6SRrCWVPdW0NS3UBfneQB2eG3kUltebhyETI6HTt
+ L7Txse76MwSBuaYYIbQreGAFhtumELOTHI1h1W/CV5hkzUWU0JNs6/GEEbFmF3r0iYdA
+ 2UKQ21ML7jS1k8QjSuU1MtFAzn51VaUfrKlKo02FYP6Jtmzi+eX6755qmpuF5KX9Qiwv
+ 3Row==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768938903; x=1769543703;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GQSNIybqd3//ZKhTtvTbCXW0y0uZ8xcJxwgof6wQOVw=;
- b=EwvE0Y3ZR/LRrGLFM1qdH+e0Yxa7PVjmMIGkbhcZTOiKhXljinQxImjYxTKjOmyeEK
- SEKuQw7A1VygNR6s0VDZ5op6SZE2tV68VB+S2ACR5uW+Kgb3wC6++XoRB+pSLNrshipF
- A3NRGMmDfF53/lbHg+hk2Jiy9S2Xi7gqr6oui15vn1i62Jmlbmrk1rVdgpTzsjbB4YBw
- VoicUI9TDLMQLqhAFAxYI2v9R/8lrI4EmeivNYlNcDAM8tljP1gwCNSGV7FYMBi9UyGB
- eFjPq1Gd42q6OIDuZZnkJ5yIkDp8axi/N1f0OUgZIH6SKJF7/Zitq+Xc6ZWijLGgNCpR
- rjOA==
+ d=1e100.net; s=20230601; t=1768938993; x=1769543793;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lPDgUMFRl+w+AbB4KcmndfGR0As68bgylKNbbH3AGMk=;
+ b=wHPBuRdaNk2mJbqIv8C9A4hF41keYRPffJpZOVCbs9RtuK57q4jvedcLSaXU1k0l0i
+ HQpQq8zEgenlepzDXrTWtze1f9AfE7aEp3x5GnVZpVIacEgQ304SRs1PIwSOUJwKco/j
+ lLhZrhFcriCSDNOH551rZWyq1y8OQA6/DGav8GwhYTFyxRNwz/e9q4xBicTkVVCVnyX3
+ C8zDHLr8qYdJxbspR7bKDz9oc740mJkf3ivyngF7c1WR3pTZlQcS4ZcR5rS56qQ2QVwg
+ rhYxOxKyl+FiJXW/Hh/8FcsPdm7cT8st8vkH4nB/+d1YLAhXmQI+PruPKNy6MUXGx4ER
+ 4I5Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW3Xx9F2FoM77J5WvUbkFgMq4Mv5sc/uJyodPp2wZG+QEl/YST5MMmJHFx6ixDfxZIcMoWpZXoQMjo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwkMbJ77S26zo8xPbpd8yyAIoSVKzqMwdkA6flEClnI8yeU9rjp
- cYmhzrJ6pnobNZsusuFz3a9DurGk50rqMvo17VS5xWBZUTbKrQMPDZ2+
-X-Gm-Gg: AZuq6aKV8pp7bE9mpQhPfciqDGUBZbKlpPODupdAWp+V4UWPcD9VsJ8D/VS4o2j3WEk
- /n8Oqa0CR8pUjRqDXFht84/VIPvnlXCUoKmQx1cCqQMDfs0Ci0Andcw7QkRGBB9hUjuBQ4iruKR
- +7pj4ky7ODTvWpx8+neZkEPSM4c70GnvsF0p3ZbqcLdkSp3Fyj1G53JFCex17oQr99ucv9YNXUy
- xWeo2L+Tw1veETjTn99uV/nh1VRh/psW0ts0dIG3SBFaTK87qJjKFBaWRGBJAiK7La2VEYmtMd+
- m7kbU77EdaYd2/4uwfWC9Cmu218BQ2o/KyFB0h/8SfxO4s7QuJ0Sow7fvcRIghZLPOiFtoTshCp
- fVogk+dC95G8Aqsj0InNIauUZiUAbscduJC17nWk8oytg/4zctdnTVk9Z/gfxpagUW02sXlQTvf
- exnmhUsBkfrYh0/kd1xqXi4/uxf7Mwc1P0qupGs4Cq20IH30VKVko/
-X-Received: by 2002:a05:693c:6001:b0:2b6:c617:f7a0 with SMTP id
- 5a478bee46e88-2b6c617f916mr8511359eec.6.1768938902933; 
- Tue, 20 Jan 2026 11:55:02 -0800 (PST)
+ AJvYcCXE+av1o8/5Ih+A7gpBODaW2vmr2V2J6KNBrGm2YJAXoE6yeIJkzjid4EMJso9nsPUSu20Q8MvYfgs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxBssLIJ3+d/rTRxTNA8Bkq5KwJ2OjsHDBHB60IQ5ifCQ2GfqGS
+ kBikxRLaq7VEnxSaWSEZybGy+9yNMxkCKRCyWYXs1Us6HYrwFPVzadu8
+X-Gm-Gg: AY/fxX7MNL4x0adPhryzoBKZn3ECG/DsvFa7xeLYmQcbpOzhVHREde7d9cfOyGySP6w
+ Q8c7l8MvIp8tKVYIJM4v6bw4TKZS6PDKG1htKCsrYJTC/U48u72ETHp145tcxhTZRWpDn7BLtj6
+ x1VW/K/B1jXF/dU9BGctknSbiVRLJbscRdgjCaq8I0OZ/njoZdea2xWbZjrzm6UjLQ8rs2cYJkN
+ JlH2vUj1SfjKlt0wXfkNT4ETpF1CiS7drqKINpoQTI09UyXp8aPlpx76PJxK+Nmuez+RVulHtje
+ EUSUy8Vd8vwySYKedi7c9uc5hwIQDmZa1lekM1iEWD3+34gOjgpqJFbhtOydX00/tG4YAZAVsQc
+ dCKfzEN/WvKRy+AHS6ujdlG3Uy3CyaNEATwulXejSksIqQOkLVk0Pes2vNKuelRNEczijwO+u0X
+ Bz/BlV08EBpk0Fwy1EuSQItrqtUnHlremvVvVb1kDS1rHydAEZ94SB
+X-Received: by 2002:a05:7022:608b:b0:11e:3e9:3e8a with SMTP id
+ a92af1059eb24-1244a7910d8mr14869120c88.49.1768938993269; 
+ Tue, 20 Jan 2026 11:56:33 -0800 (PST)
 Received: from google.com ([2a00:79e0:2ebe:8:d631:e554:f0bd:4106])
  by smtp.gmail.com with ESMTPSA id
- 5a478bee46e88-2b6b34c0eefsm18611112eec.4.2026.01.20.11.55.01
+ a92af1059eb24-1244ad740c5sm23388705c88.8.2026.01.20.11.56.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jan 2026 11:55:02 -0800 (PST)
-Date: Tue, 20 Jan 2026 11:54:59 -0800
+ Tue, 20 Jan 2026 11:56:32 -0800 (PST)
+Date: Tue, 20 Jan 2026 11:56:29 -0800
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>
-Cc: linux-rockchip@lists.infradead.org, 
- Chris Morgan <macroalpha82@gmail.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- simona@ffwll.ch, airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org, 
- maarten.lankhorst@linux.intel.com, jesszhan0024@gmail.com,
- neil.armstrong@linaro.org, 
- jagan@edgeble.ai, conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org, 
- aweinzerl13@yahoo.com, Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH 5/6] dt-bindings: input: touchscreen: goodix: Add "panel"
- property
-Message-ID: <4dkhkwtbxmvns335xahyrwijvy5qjyifieuo27eluiehkjzman@v52ihb3o6o3s>
-References: <20260113195721.151205-1-macroalpha82@gmail.com>
- <20260113195721.151205-6-macroalpha82@gmail.com>
- <7863194.oDFzTOozpa@diego>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, sre@kernel.org, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, 
+ lgirdwood@gmail.com, broonie@kernel.org, jserv@ccns.ncku.edu.tw,
+ eleanor15x@gmail.com, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v4 3/6] dt-bindings: input:
+ google,goldfish-events-keypad: Convert to DT schema
+Message-ID: <nab4yksjgk7jbofm5fkrafuz5c3dmi2oocdzgoscfj6ua7zwfh@olnrxt7sa3qp>
+References: <20260113092602.3197681-1-visitorckw@gmail.com>
+ <20260113092602.3197681-4-visitorckw@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7863194.oDFzTOozpa@diego>
+In-Reply-To: <20260113092602.3197681-4-visitorckw@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,32 +103,33 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:visitorckw@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sre@kernel.org,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:lgirdwood@gmail.com,m:broonie@kernel.org,m:jserv@ccns.ncku.edu.tw,m:eleanor15x@gmail.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-input@vger.kernel.org,m:linux-pm@vger.kernel.org,m:linux-serial@vger.kernel.org,m:linux-sound@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:heiko@sntech.de,m:linux-rockchip@lists.infradead.org,m:macroalpha82@gmail.com,m:devicetree@vger.kernel.org,m:simona@ffwll.ch,m:airlied@gmail.com,m:tzimmermann@suse.de,m:mripard@kernel.org,m:maarten.lankhorst@linux.intel.com,m:jesszhan0024@gmail.com,m:neil.armstrong@linaro.org,m:jagan@edgeble.ai,m:conor+dt@kernel.org,m:krzk+dt@kernel.org,m:robh@kernel.org,m:aweinzerl13@yahoo.com,m:macromorgan@hotmail.com,m:conor@kernel.org,m:krzk@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[dmitrytorokhov@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[dmitrytorokhov@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,linuxfoundation.org,ccns.ncku.edu.tw,lists.freedesktop.org,vger.kernel.org];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[dmitrytorokhov@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[lists.infradead.org,gmail.com,lists.freedesktop.org,vger.kernel.org,ffwll.ch,suse.de,kernel.org,linux.intel.com,linaro.org,edgeble.ai,yahoo.com,hotmail.com];
+	TAGGED_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DKIM_TRACE(0.00)[gmail.com:+];
@@ -138,36 +137,19 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
-X-Rspamd-Queue-Id: B7DD44AD8C
+X-Rspamd-Queue-Id: 531C24ADE3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Jan 16, 2026 at 10:49:25AM +0100, Heiko Stübner wrote:
-> Hi Chris,
+On Tue, Jan 13, 2026 at 09:25:59AM +0000, Kuan-Wei Chiu wrote:
+> Convert the Android Goldfish Events Keypad binding to DT schema format.
+> Move the file to the input directory to match the subsystem.
+> Update the example node name to 'keypad' to comply with generic node
+> naming standards.
 > 
-> Am Dienstag, 13. Januar 2026, 20:57:20 Mitteleuropäische Normalzeit schrieb Chris Morgan:
-> > From: Chris Morgan <macromorgan@hotmail.com>
-> > 
-> > Add a "panel" property to define a relationship between a touchscreen
-> > and an associated panel when more than one of each exist in a device.
-> > 
-> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> > ---
-> >  Documentation/devicetree/bindings/input/touchscreen/goodix.yaml | 2 ++
-> 
-> This patch is part of a diverse series right now (drm-panel, input, dts)
-> and therefore possibly could be overlooked by Dmitry, as the patch should
-> likely go through the input subsystem (or would at least need an Ack from
-> Dmitry, for me to take it along) .
-> 
-> Best way would probably be to pick Rob's Ack and resend it separately
-> (pointing to this series as user).
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 
-You can definitely take it through another tree.
-
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
