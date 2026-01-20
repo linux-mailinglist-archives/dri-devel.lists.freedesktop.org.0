@@ -2,58 +2,170 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 713CFD3BBD2
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 00:35:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E1AD3BDA5
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 03:50:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BF4A10E54F;
-	Mon, 19 Jan 2026 23:35:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6237E10E545;
+	Tue, 20 Jan 2026 02:50:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WPACwENQ";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="X1qXdfFV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0164D10E550;
- Mon, 19 Jan 2026 23:35:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1768865725;
- bh=EIDY6ukxUEx2jxZ91hlUz1UpHM1wcNP5YSPiCVbXIpY=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=WPACwENQrJn3WLax62DYRlEEkSjznVzkFa+CO+Ru2XXDU6nrutxv/Yt5Sj2st5FGn
- rux1XlNr1livVuP8LOlq1VaiME27uNcZ4nUtu2b4CYbWYzmZZOEwjZ/NZ2Ay6NSgdd
- HsBn0VxB1GIndrkL4p82PoH6twHWDt40xwtuObIR+0JZxKYBtOCWh+SAEozhJ+sBu0
- LdRgKH8C0ozAy8htp3w0ysE9EaEHqinZQTLVYGKnqUf/rqLMJsF1URqJHSWRZMLAzB
- KLcV+xHLEEdLjsv/WbjXMw8fSnTDwc98R3Lmi8JJK5eZk2o2LWhVrekfFNrKkFOWmX
- sef/a4LfZrfhA==
-Received: from [192.168.0.79] (unknown
- [IPv6:2804:14d:72b4:81ae:67c:16ff:fe57:b5a3])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: dwlsalmeida)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0BA6B17E0FFA;
- Tue, 20 Jan 2026 00:35:22 +0100 (CET)
-From: Daniel Almeida <daniel.almeida@collabora.com>
-Date: Mon, 19 Jan 2026 20:34:47 -0300
-Subject: [PATCH 2/2] rust: drm: add FeatureRender
+Received: from CO1PR03CU002.outbound.protection.outlook.com
+ (mail-westus2azon11010038.outbound.protection.outlook.com [52.101.46.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 400FF10E0A8;
+ Tue, 20 Jan 2026 02:50:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JJKh/cwGXGUGp+wzSpatcrzApHHprfD0HrCjFPOjJuF9hz5zIxfKqKC1tCU4/p43TJyBJp0jWuvBSFquFu8r5QrOmlw2ysU92KjbAcvw977HUWke61Mm15INI5Q10WCJ75Z7E2K6z4ipp4+oeRmEwzxgQPvYwzj6V6g7qfgDI9PtJzbvoEAowHvqq3+c3gXsJe5tZuWva8uiheo2H3dRFPrRZNZnIR8KvIjb2tWvHfZ1Yiayz/LfLvWv4BRPF1PqNf/miqs1VHgOfp0VdyyIepPYYI+M1EIFPwY3h8fsWjW17ptpvz/k0KT2hkhRD/9iSfE21N3IaTImeWEcXNgjqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IhPlgWQqgli3eSv2RUrnByqxvea6Gk2uJgmB7dXrIQw=;
+ b=f7ZzohuGLWFgptNrYl+yvubPdSeWsQy7FG2rtOxPCkSXupWZvo72YyDbiMeMqMTcn0xpK91Hrt+B73L6ms2nyRdxhzI+XO4rxzU5ICnFEhkrOK1jVzj2PjFfuyAqNb81TuTxJ0/IzTJvaZum9kqZGi9R30TtZ45+2CLnMBaFmC2G+10zJ0YOjklqF4Q5mL880HhRRD1vnfxBAbequQvJIM5cEMtwU3ob8w7UkK3xc5VGt52I9T3fzdfEOLSwRvk72YuOQ0CTIwHyjkJg1S+fDooX+fL30isT7n5wQsGbwmDOHMlCZzIlPbn4fDiY2HzZDLK5BsaSflEmkq0Lo3x99g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IhPlgWQqgli3eSv2RUrnByqxvea6Gk2uJgmB7dXrIQw=;
+ b=X1qXdfFVuEuZg6Yb/ixDII9Rm0AXKt7ePOAD5HzpXH/K6MxxbZnnR1HhZ54qL/U6o0M+W75mIU696jwo+VAOp2qpdOljIW3PYhVDo6Dd5cnzuJuHFwY1+MzZcEsxNT1/9olLLSvhQYUd8X30hpRdrM9erQyx29A6N16oPbaQBFG8S3rw7IBKmGUamHwzhIUdkznV24GfkuuQjGIuwBOgA5XPck+sH5LNG1Iz216b/wyF2VWZEIU68PsDeyGuQEebqyPdq7U5fpNCy4tKHYrDc/HcioIfk6CICKSaAnNEZXHXb65TxqiSplOPD2QkuV1wAFfE/oB47ApearDsAxbOnQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ SA1PR12MB9489.namprd12.prod.outlook.com (2603:10b6:806:45c::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9520.11; Tue, 20 Jan 2026 02:50:24 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9520.011; Tue, 20 Jan 2026
+ 02:50:24 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: Jason Gunthorpe <jgg@nvidia.com>, Balbir Singh <balbirs@nvidia.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Alistair Popple <apopple@nvidia.com>,
+ Matthew Brost <matthew.brost@intel.com>, Vlastimil Babka <vbabka@suse.cz>,
+ Francois Dugast <francois.dugast@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, adhavan Srinivasan <maddy@linux.ibm.com>,
+ Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>, Leon Romanovsky <leon@kernel.org>, 
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, linuxppc-dev@lists.ozlabs.org,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-mm@kvack.org, linux-cxl@vger.kernel.org
+Subject: Re: [PATCH v6 1/5] mm/zone_device: Reinitialize large zone device
+ private folios
+Date: Mon, 19 Jan 2026 21:50:16 -0500
+X-Mailer: MailMate (2.0r6290)
+Message-ID: <EE2956E3-CCEA-4EF9-A1A4-A483245091FC@nvidia.com>
+In-Reply-To: <ef6ef1e2-25f1-4f1b-a8d4-98c0d7b4ad0c@nvidia.com>
+References: <20260116174947.GA1134434@nvidia.com>
+ <8006ea5f-8845-436a-a2d7-125399428762@suse.cz>
+ <aWqgHTZ5hjlRvlKU@lstrano-desk.jf.intel.com>
+ <20260117005114.GC1134360@nvidia.com>
+ <aWsIT8A2dLciFvhj@lstrano-desk.jf.intel.com>
+ <eb94d115-18a6-455b-b020-f18f372e283a@nvidia.com>
+ <aWsdv6dX2RgqajFQ@lstrano-desk.jf.intel.com>
+ <4k72r4n5poss2glrof5fsapczkpcrnpokposeikw5wjvtodbto@wpqsxoxzpvy6>
+ <20260119142019.GG1134360@nvidia.com>
+ <96926697-070C-45DE-AD26-559652625859@nvidia.com>
+ <20260119203551.GQ1134360@nvidia.com>
+ <ef6ef1e2-25f1-4f1b-a8d4-98c0d7b4ad0c@nvidia.com>
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: BYAPR06CA0027.namprd06.prod.outlook.com
+ (2603:10b6:a03:d4::40) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260119-drm-render-v1-2-8326e4d5cb44@collabora.com>
-References: <20260119-drm-render-v1-0-8326e4d5cb44@collabora.com>
-In-Reply-To: <20260119-drm-render-v1-0-8326e4d5cb44@collabora.com>
-To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Trevor Gross <tmgross@umich.edu>, 
- Boris Brezillon <boris.brezillon@collabora.com>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-X-Mailer: b4 0.14.3
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|SA1PR12MB9489:EE_
+X-MS-Office365-Filtering-Correlation-Id: bddcc1fd-17ae-4dd1-fe3d-08de57cea8a7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?CiQXsW9/YSzJ7gYMVfdiqc6m4KkSCmd5zkWZuV6gNTxYlNPN5HKQARmuTKvV?=
+ =?us-ascii?Q?8nsVhl+OwnqzE/9gjQS4g8HuUni3UcEC9LAonzK1WahH8l+ZoBfWABycByJu?=
+ =?us-ascii?Q?ybYEu69J0rlPE9Y9NcDrbx0AqTxwLvkq61omi4/wCihv12ITYkjBKToLTRfa?=
+ =?us-ascii?Q?a49yEPjCBBJYAlQUdUEm4bQZFQduoaHve8f+jAsePICj9QcKy1oyWBy1wTa/?=
+ =?us-ascii?Q?2qQbLy33+mfhiEyG563cDlUSeZWzugALZbygEJBDRIUJXjsZpN9PYukX4kC+?=
+ =?us-ascii?Q?QldGs4+8bdAR08r/BMPEEa69OL3s3JnF1/f69EFsOQ2167RQUCKxZlAL3Vgp?=
+ =?us-ascii?Q?Wfi/A1ArRoSlrc3DVsQ2vRPFWQ25LLEkhUvsT5mhGNAC67iI30mxEH2/UVZW?=
+ =?us-ascii?Q?Rp4scm+ggrz4VCnL/hAO5vluQSUrBKhbRu99fdwHRyFoRtgLrAzNbgmQnOM8?=
+ =?us-ascii?Q?2S1s1uhIsHpen0dCh6cQvPQpobmigbp3WyWMfSvTuQmAptDMr8oqkLD71xfY?=
+ =?us-ascii?Q?XuMxh/QudK2d74ofX+bwNE7RRUyVS3lDkOimfZgzvC+y1m+Lmk1fAq9o0Mn7?=
+ =?us-ascii?Q?x/Tu4UDATHqTL9CWATtgJRjRI18ZqNmPxt1i1L/+ZBQWdRFGXFiCN8wTVRpD?=
+ =?us-ascii?Q?6//Fmbup4NFDwoU6Ljft5EJuRMqpDcboOL532J0J/ArOyQeokZfdkCYvC36s?=
+ =?us-ascii?Q?BPRKg7cvLsfFQX3+Rw0I0X/OiYkJmq5gXujvgKq1ixf9GFDX1jSYFCrZPBgU?=
+ =?us-ascii?Q?2pNORc/bliKTXuVAgeME1lv18M2yGhQNH4fIAbnwVkvZAoyA3WGKN7bhWUlh?=
+ =?us-ascii?Q?yEWdyeRaVvp5mFOHfgMixXXKnoEOJ7XhYn3PvQvKcTtuR7OhD94DhLsFowgD?=
+ =?us-ascii?Q?joF//1X09lzLVZx9+lX1T14+Tta/iCJZeMkLUTplxclBKopnxOG3YuMe3JW1?=
+ =?us-ascii?Q?dVz9timIeAL4u/isF6K7lXC4vQeLsia1D/mq9laoesIfqzp1TlecMdlRzwUc?=
+ =?us-ascii?Q?9LFycZbhxJ2Zjtw1hnzRCdr8PM4WspbxXswAsdGchVx07XiRt7O2TDQUoIm0?=
+ =?us-ascii?Q?fr8rQLFZ94RAMfLtGWLkyw1MumY4B5uECFg/kSxUhw8Lcn6FSNp3KdBRyONg?=
+ =?us-ascii?Q?AkhkAFyif+xWuxr4d37M16RrYdFw6L7oE9w2Ej+bKgWOpiha08qrDNggYCWa?=
+ =?us-ascii?Q?X7xukd7ZPnu7eTUlPtr2yH0TlmmjBeGBQsZ7fmvgQNnLp6C8OGbLmqo2ScAF?=
+ =?us-ascii?Q?zpn/2Ow9HdN2A4BU8BozESK9yDRvdc9UqW/+a/cACs/cYMfpBwn4WRQdj23M?=
+ =?us-ascii?Q?iIRHLwCIWV/QWMEptraguMQiUo7faDK8DfanH30NgXYdE+NCK36XJ9kFP3d8?=
+ =?us-ascii?Q?Kn3R3aVH3OMn7ODGSRwtMnih+4MqrfrEZmrpnBq0Vs6Nq5OYN8wS5egeStHL?=
+ =?us-ascii?Q?hjoL1Zs+vCMgw3fBWWlliO9RmwZI61dnpipNkn6/qjqEo3bvjWVWYgl0osAR?=
+ =?us-ascii?Q?c7RxLP8bfsojMja4ZBtu9Wf4XXyVkv8C/pGLLj029JmsU8NpbIRxETMcmDQF?=
+ =?us-ascii?Q?hFizuTmAvTbix3LkfAc=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS7PR12MB9473.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HU5+3v35rgrAUCNrL0HSRQnDOukE8XTcJqRTRGztuj/H6omag2DQCVQX0OlA?=
+ =?us-ascii?Q?pOT4XTLO2lgmxQ1+Qir1T4M9ZnSCwyKhQVuferOuZXMid/6fFdKZDeZP1/KP?=
+ =?us-ascii?Q?Em+bsU06kRbUpH/HoheORSs+sRq/TeyMY9l9YalJlo/fOtwPi8P/x6FokniG?=
+ =?us-ascii?Q?Paq5btFnqp0RMh7adqgS3WzM3mu8dBl3l+c8Q91dX8ZA/nA8UPQ2qPAocQya?=
+ =?us-ascii?Q?J1st2AMCb+uY88TxOF6lgbCAOyf+2SrycIgpiYHwgKx4FtgshWZ+n2SJIMtG?=
+ =?us-ascii?Q?l87k83qXKkeKyTxGXsyZFzvtiwTvTE/X/aVwArPAN5z4JuAMREzDHaBKISbh?=
+ =?us-ascii?Q?d9zbf1TbHto0ZSlmqug7RnEP+t0dGjSUjDUTpqZZ3u30RN2hYtlV5zaHP3gp?=
+ =?us-ascii?Q?nI2F+K2JOlE86fKEsF1Ip4LjaJIFwamI5PIUEOWvuMnRrovrjn/mvPRLU3Qh?=
+ =?us-ascii?Q?L2B/ZZOR/xs9FwOCmnstZQx9+byI0vQN8w8Xd/ZqEjgsbPtJyT5soBeDGI85?=
+ =?us-ascii?Q?flkV2cwEE1TbQH5UbtRijNScdwBNa8yfOI3Hv/ycWaTx210zkhjpDAKrDIpj?=
+ =?us-ascii?Q?q3JEBoIpstoqlfl5ojU1cwW5/Mku7D0OYLdrvS0zrJenybi7PFnbCZ8ZLnaH?=
+ =?us-ascii?Q?BRCErSmTFnr1NN1AjRACS/AYsHlpEymruvWWnjP7N5SmEF94Qw+huSCJR+rl?=
+ =?us-ascii?Q?50Sn9M27KepWbZvjY6r75IUe9T/w4DG/6ZwMNMFokwbzRZZ5Zj86xw5MPjc1?=
+ =?us-ascii?Q?Lc2xfwfeXDr/4PQd6FrLrtriOeOMqklC0qNpfnbWkGdBhb2EnP9ChS1aCFZe?=
+ =?us-ascii?Q?X5qYZt+Ptj910VdbLwkcBdBAY09rJ8oN8oerP2m5cZaSjqQ5Y6GURaEWkuUD?=
+ =?us-ascii?Q?aINCzw4VyEKTseM2BopkCW0qIIJSTII1V3yflv5pgLtbzjbsmVLkqVz+G9Ok?=
+ =?us-ascii?Q?MtsHjgpp7Vi4eB6mvvO5v50xz8Ib2DQms2KR4YHG7BzIGHgdh9B9xOTgGkYD?=
+ =?us-ascii?Q?AIFuomlfmGQmc65L1Xca7+x0fSumjYnXRhA5ZUS85MarksJS4GOH2hMGxw6c?=
+ =?us-ascii?Q?UbQKP4wBiODS5H1KtYWOoPUoFR9rV22THwy+6Pp0iG2hmq6ZKVpCDIxrFlt5?=
+ =?us-ascii?Q?Aq738nfbsdyT1L4n/oK+NpDsk8CzZjhhabKHYunx55Elux+vaWVd9HnELn/v?=
+ =?us-ascii?Q?Ths+PYhtQHjRhEP2vycsBEuxm7v4DnvjwEcveJd5r7xfphSnx86SOtPkkJiK?=
+ =?us-ascii?Q?kwFYMQOn4Dop/3VEjBV1aqS/ETDIwmXwyGL6G8eKPFmlt8o+UshRnlVOVmbA?=
+ =?us-ascii?Q?nyw+TB1OvprvEbos7VtXZH3KqT87nzjBuyJ0ykzMXfJW58ps9N7wI2oPUXtW?=
+ =?us-ascii?Q?ml3R3B+8/6WbcX8c2wHtzlaCq0+oJ4imlrmhxmYV0DLSgpwMDZ52itr8D8Ws?=
+ =?us-ascii?Q?z4bmjgW+LCvwqb48N2H+8UkDDIkpg/FnsGyU+x3k1ERYWs400E6s7sM4YSlu?=
+ =?us-ascii?Q?PS2+OQmZ+BYtCKh2mvvO7S4XTo87Lx8TaeL4pPcxlCFQR9cvsHchz8e43I+I?=
+ =?us-ascii?Q?fOK+DC5RyhvDhkWISteMwb4EuCqeE9TCEPs2HFVQC9XK126SbJHKhJ+sk9+9?=
+ =?us-ascii?Q?Dc1M9MCtJpW5KWAJuYxvk6Dm6eZsp7nrWi2WObwVQdtA1vLtnEwMJRcF7NK0?=
+ =?us-ascii?Q?igPFWlM1Zrz1OAI0Gak02ViDPXfyLK8/v3AK9nprV9Qm+tqW?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bddcc1fd-17ae-4dd1-fe3d-08de57cea8a7
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 02:50:24.0539 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jlWSxLPRLzNNCOor+9elAt5NVJaWQybuOSgruNwlOHL3msuw4V37J+fbH4VJQv61
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB9489
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,131 +181,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a feature for drivers willing to expose render nodes to userspace. This
-comes with an added safety requirement in the DriverFeatures trait. This,
-in turn, exposes /dev/dri/renderDXX nodes that can be used by userspace to
-control the device.
+On 19 Jan 2026, at 17:15, Balbir Singh wrote:
 
-This is then enabled in the Tyr driver, while it's left as NoRender for
-Nova for the time being.
+> On 1/20/26 07:35, Jason Gunthorpe wrote:
+>> On Mon, Jan 19, 2026 at 03:09:00PM -0500, Zi Yan wrote:
+>>>> diff --git a/mm/internal.h b/mm/internal.h
+>>>> index e430da900430a1..a7d3f5e4b85e49 100644
+>>>> --- a/mm/internal.h
+>>>> +++ b/mm/internal.h
+>>>> @@ -806,14 +806,21 @@ static inline void prep_compound_head(struct p=
+age *page, unsigned int order)
+>>>>  		atomic_set(&folio->_pincount, 0);
+>>>>  		atomic_set(&folio->_entire_mapcount, -1);
+>>>>  	}
+>>>> -	if (order > 1)
+>>>> +	if (order > 1) {
+>>>>  		INIT_LIST_HEAD(&folio->_deferred_list);
+>>>> +	} else {
+>>>> +		folio->mapping =3D NULL;
+>>>> +#ifdef CONFIG_MEMCG
+>>>> +		folio->memcg_data =3D 0;
+>>>> +#endif
+>>>> +	}
+>>>
+>>> prep_compound_head() is only called on >0 order pages. The above
+>>> code means when order =3D=3D 1, folio->mapping and folio->memcg_data =
+are
+>>> assigned NULL.
+>>
+>> OK, fair enough, the conditionals would have to change and maybe it
+>> shouldn't be called "compound_head" if it also cleans up normal pages.=
 
-Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
----
- drivers/gpu/drm/nova/driver.rs |  4 +++-
- drivers/gpu/drm/tyr/driver.rs  | 12 +++++++++---
- rust/kernel/drm/device.rs      | 10 +++++++++-
- rust/kernel/drm/driver.rs      | 37 ++++++++++++++++++++++++++++++++++++-
- 4 files changed, 57 insertions(+), 6 deletions(-)
+>>
+>>>>  static inline void prep_compound_tail(struct page *head, int tail_i=
+dx)
+>>>>  {
+>>>>  	struct page *p =3D head + tail_idx;
+>>>>
+>>>> +	p->flags.f &=3D ~0xffUL;	/* Clear possible order, page head */
+>>>
+>>> No one cares about tail page flags if it is not checked in check_new_=
+page()
+>>> from mm/page_alloc.c.
+>>
+>> At least page_fixed_fake_head() does check PG_head in some
+>> configurations. It does seem safer to clear it. Possibly order is
+>> never used, but it is free to clear it.
+>>
+>>>> -	if (order)
+>>>> -		prep_compound_page(page, order);
+>>>> +	prep_compound_page(page, order);
+>>>
+>>> prep_compound_page() should only be called for >0 order pages. This c=
+reates
+>>> another weirdness in device pages by assuming all pages are
+>>> compound.
+>>
+>> OK
+>>
+>>>> +	folio =3D page_folio(page);
+>>>> +	folio->pgmap =3D pgmap;
+>>>> +	folio_lock(folio);
+>>>> +	folio_set_count(folio, 1);
+>>>
+>>> /* clear possible previous page->mapping */
+>>> folio->mapping =3D NULL;
+>>>
+>>> /* clear possible previous page->_nr_pages */
+>>> #ifdef CONFIG_MEMCG
+>>> 	folio->memcg_data =3D 0;
+>>> #endif
+>>
+>> This is reasonable too, but prep_compound_head() was doing more than
+>> that, it is also clearing the order, and this needs to clear the head
+>> bit.  That's why it was apppealing to reuse those functions, but you
+>> are right they are not ideal.
 
-diff --git a/drivers/gpu/drm/nova/driver.rs b/drivers/gpu/drm/nova/driver.rs
-index 247a05f7b3a7..4de1e4cfdc5d 100644
---- a/drivers/gpu/drm/nova/driver.rs
-+++ b/drivers/gpu/drm/nova/driver.rs
-@@ -73,4 +73,6 @@ impl drm::Driver for NovaDriver {
- // SAFETY: This trait requires implementers to observe the safety requirements
- // of each enabled feature. There are no features enabled, so this is safe by
- // definition.
--unsafe impl drm::driver::DriverFeatures for NovaDriver {}
-+unsafe impl drm::driver::DriverFeatures for NovaDriver {
-+    type Render = drm::driver::NoRender;
-+}
-diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
-index ec2aa30515a1..c12ad8467605 100644
---- a/drivers/gpu/drm/tyr/driver.rs
-+++ b/drivers/gpu/drm/tyr/driver.rs
-@@ -192,9 +192,15 @@ impl drm::Driver for TyrDriver {
- }
- 
- // SAFETY: This trait requires implementers to observe the safety requirements
--// of each enabled feature. There are no features enabled, so this is safe by
--// definition.
--unsafe impl drm::driver::DriverFeatures for TyrDriver {}
-+// of each enabled feature.
-+//
-+// For `FeatureRender`: we do not call modesetting APIs in our ioctls, and we do
-+// not use any APIs requiring a DRM master. Furthermore, it is not possible for
-+// a client to interfere in another client by design. This is enforced by the
-+// `VM` layer and, at a lower level, by the system's IOMMU.
-+unsafe impl drm::driver::DriverFeatures for TyrDriver {
-+    type Render = drm::driver::RenderSupported;
-+}
- 
- #[pin_data]
- struct Clocks {
-diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
-index cfc2f34e8cc2..b2c2e6c195af 100644
---- a/rust/kernel/drm/device.rs
-+++ b/rust/kernel/drm/device.rs
-@@ -62,7 +62,15 @@ pub struct Device<T: drm::Driver> {
- 
- impl<T: drm::Driver> Device<T> {
-     const fn compute_features() -> u32 {
--        drm::driver::FEAT_GEM
-+        use crate::drm::driver::FeatureRender;
-+
-+        let mut features = drm::driver::FEAT_GEM;
-+
-+        if T::Render::ENABLED {
-+            features |= drm::driver::FEAT_RENDER;
-+        }
-+
-+        features
-     }
- 
-     const VTABLE: bindings::drm_driver = drm_legacy_fields! {
-diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
-index fdfd083ba2b6..331a998e47e4 100644
---- a/rust/kernel/drm/driver.rs
-+++ b/rust/kernel/drm/driver.rs
-@@ -15,6 +15,9 @@
- /// Driver use the GEM memory manager. This should be set for all modern drivers.
- pub(crate) const FEAT_GEM: u32 = bindings::drm_driver_feature_DRIVER_GEM;
- 
-+/// Driver supports render nodes, i.e.: /dev/dri/renderDXX devices.
-+pub(crate) const FEAT_RENDER: u32 = bindings::drm_driver_feature_DRIVER_RENDER;
-+
- /// Information data for a DRM Driver.
- pub struct DriverInfo {
-     /// Driver major version.
-@@ -182,4 +185,36 @@ fn drop(&mut self) {
- ///
- /// Drivers implementing this trait must ensure they comply with the safety
- /// requirements of each supported feature.
--pub unsafe trait DriverFeatures {}
-+///
-+/// - For drivers implementing `FeatureRender`:
-+///
-+/// The render-accessible subset of the driver's functionality must not allow
-+/// clients to interfere with each other or require master privileges. In other
-+/// words, any ioctl declared with [`drm::RENDER_ALLOW`] must not call any
-+/// KMS/modesetting APIs or require `DRM_MASTER`.
-+pub unsafe trait DriverFeatures {
-+    /// Feature for render nodes.
-+    type Render: FeatureRender;
-+}
-+
-+/// Controls whether render nodes are supported via `Self::ENABLED`.
-+pub trait FeatureRender: drm::private::Sealed {
-+    /// Whether render nodes are enabled.
-+    const ENABLED: bool;
-+}
-+
-+/// A marker type indicating that the driver supports render nodes.
-+pub struct RenderSupported;
-+
-+/// A marker type indicating that the driver does not support render nodes.
-+pub struct NoRender;
-+
-+impl drm::private::Sealed for RenderSupported {}
-+impl FeatureRender for RenderSupported {
-+    const ENABLED: bool = true;
-+}
-+
-+impl drm::private::Sealed for NoRender {}
-+impl FeatureRender for NoRender {
-+    const ENABLED: bool = false;
-+}
+PG_head is and must be bit 6, that means the stored order needs to be
+at least 2^6=3D64 to get it set. Who allocates a folio with that large or=
+der?
+This p->flags.f &=3D ~0xffUL thing is unnecessary. What really needs
+to be done is folio->flags.f &=3D ~PAGE_FLAGS_CHECK_AT_PREP to make
+sure the new folio flags are the same as newly allocated folios
+from core MM page allocator.
 
--- 
-2.52.0
+>>
+>> I suppose we want some prep_single_page(page) and some reorg to share
+>> code with the other prep function.
 
+This is just an unnecessary need due to lack of knowledge of/do not want
+to investigate core MM page and folio initialization code.
+
+>>
+>
+> There is __init_zone_device_page() and __init_single_page(),
+> it does zero out the page and sets the zone, pfn, nid among other thing=
+s.
+> I propose we use the current version with zone_device_free_folio() as i=
+s.
+>
+> We can figure out if __init_zone_device_page() can be reused or refacto=
+red
+> for the purposes to doing this with core MM API's
+>
+>
+>>> This patch mixed the concept of page and folio together, thus
+>>> causing confusion. Core MM sees page and folio two separate things:
+>>> 1. page is the smallest internal physical memory management unit,
+>>> 2. folio is an abstraction on top of pages, and other abstractions ca=
+n be
+>>>    slab, ptdesc, and more (https://kernelnewbies.org/MatthewWilcox/Me=
+mdescs).
+>>
+>> I think the users of zone_device_page_init() are principally trying to=
+
+>> create something that can be installed in a non-special PTE. Meaning
+>> the output is always a folio because it is going to be read as a folio=
+
+>> in the page walkers.
+>>
+>> Thus, the job of this function is to take the memory range starting at=
+
+>> page for 2^order and turn it into a single valid folio with refcount
+>> of 1.
+>>
+>>> If device pages have to initialize on top of pages with obsolete stat=
+es,
+>>> at least it should be first initialized as pages, then as folios to a=
+void
+>>> confusion.
+>>
+>> I don't think so. It should do the above job efficiently and iterate
+>> over the page list exactly once.
+
+folio initialization should not iterate over any page list, since folio i=
+s
+supposed to be treated as a whole instead of individual pages.
+
+Based on my understanding,
+
+folio->mapping =3D NULL;
+folio->memcg_data =3D 0;
+folio->flags.f &=3D ~PAGE_FLAGS_CHECK_AT_PREP;
+
+should be enough.
+
+if (order)
+	folio_set_large_rmappable(folio);
+
+is done at zone_device_folio_init().
+
+Best Regards,
+Yan, Zi
