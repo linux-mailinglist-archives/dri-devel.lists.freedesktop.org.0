@@ -2,65 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F291D3C300
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 10:08:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D2E2D3C323
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 10:14:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F23B810E590;
-	Tue, 20 Jan 2026 09:08:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 067C610E18D;
+	Tue, 20 Jan 2026 09:14:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Jx08zulJ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="2OB6gJfW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com
- [209.85.221.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97F3310E590
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 09:08:51 +0000 (UTC)
-Received: by mail-wr1-f74.google.com with SMTP id
- ffacd0b85a97d-431026b6252so5201819f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 01:08:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1768900130; x=1769504930;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=m0gC0kf1LN2c3lXGpvzmQRYw5J4jv726UtOthXTVGD8=;
- b=Jx08zulJCOgZtQv1Vc2H6wq9jW7EcQmWr+H85fvM0mFcuVDFqsi6JuDdnDb3BuvRBe
- wzLd0hRwOzAmPsiXmnWj1IHEsqnUAixqvQBHX+6lBTWpLJLv3Z3rJ8YHrUbAgHVZMAyx
- BY24W/0R9YZ3eOB3XV6nYCIuNmbarilrILEOujhvvhFNRcDi4TfMVKdoCvn8GOYI9zGS
- 8CqKmW5wREZhU+80GQKX/ShvfkD2nwxHTDlsutEo8IYnYD6wucVAcJe2vzsS+0KUDRx8
- LOcF5lwzQ02O28MFvw0dpCLd/AeeKECvxSv/YxLe9dIGf+W5bVyJlRT9yTRWLJmxWvZ3
- mScw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768900130; x=1769504930;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=m0gC0kf1LN2c3lXGpvzmQRYw5J4jv726UtOthXTVGD8=;
- b=COpxii1j6BWsg5NiSKhNU+ik5RA1tXAB5wKvqdCBsuJPISwZH1lHPCnwvwQ3goUnGw
- mxstN+UDMv/0BAp8P1GnxHXmf2vlSqHissWVtjEVDU9MkMvrYvCDMrvC5ib/isw5OT7H
- L9TM8tbbf8sUuC6Saune1DGYOct98VbghgwxbRo/j0RuteCk23gCJqmPj1xoWlpT1hRD
- WUEx5f4y9STNHAu88ilD6V/C917SBhUvbbLK/QXB1q+jFfIB4yZ2n6dSwi49XKMbUsax
- 5IHdtrH6dsNMCycNGqj46MKhVuGpmgrVdNlqUf30h1JWxKgDlOh9gt/pZL9pYGpLqjII
- O+vA==
-X-Gm-Message-State: AOJu0Yxr7I3m5NBwOUOc0v2Cg28Pp4zwzOzuZjL4X605L0NT9n4BPcbs
- FVzZU5AeOrwwBG/eFRiguW0yZzJPaH2R5vVHRWq6/gXLR2qvQEYNCJ0i9iiBaXN23WZ/1vwsOx0
- t/E2m15ofFHOX9veWbw==
-X-Received: from wrbhb6.prod.google.com ([2002:a05:6000:4906:b0:434:3054:ca87])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:1861:b0:432:dd71:8f2c with SMTP id
- ffacd0b85a97d-4356a03321dmr19272507f8f.10.1768900130207; 
- Tue, 20 Jan 2026 01:08:50 -0800 (PST)
-Date: Tue, 20 Jan 2026 09:08:49 +0000
-In-Reply-To: <20260119202645.362457-1-deborah.brouwer@collabora.com>
-Mime-Version: 1.0
-References: <20260119202645.362457-1-deborah.brouwer@collabora.com>
-Message-ID: <aW9GIafnsiCVnUbD@google.com>
-Subject: Re: [PATCH v2] drm/tyr: use read_poll_timeout
-From: Alice Ryhl <aliceryhl@google.com>
-To: Deborah Brouwer <deborah.brouwer@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
- daniel.almeida@collabora.com, boris.brezillon@collabora.com, gary@garyguo.net
-Content-Type: text/plain; charset="utf-8"
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E35DB10E18D
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 09:14:03 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 624E31A28FD;
+ Tue, 20 Jan 2026 09:14:02 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 32C4B606AB;
+ Tue, 20 Jan 2026 09:14:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 424DE10B6B32C; Tue, 20 Jan 2026 10:13:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1768900441; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:content-language:in-reply-to:references;
+ bh=AEyibXM1X/4xUK9h1x7As2jj6DIYHxerG8iFPiVejEQ=;
+ b=2OB6gJfW18Lv8CNzRs6zVwVr9O1MEQSLLGN1jo3gj4Quv9joeNjU5XWGtmyfCPQXojjdn0
+ XGx+RjgH4mV6dhtwCgzFKr3DbxELZspQT/hQhH+ZP4cmqihXEDeE7SYwkNftL6GFZmU1Xx
+ D0CPZXhNjtTBrlFlPAOZMX0GTZmGQlDB0ixt/gRdKSbLQ+XKjZQXjXhvBKWqK8brqInHOu
+ bz84chp95lT/fn/FAUllRTF9Y1alU+QZooRwXMh7t7mfr+C7s6icnrHwHdF9wkKogaKpHW
+ We8IR3JSqhJvCDxifa4J9t1Wpb3zG9g69Bdn/WWQPjmJlXol3xDeR4D6PKWYlg==
+Message-ID: <37093fdf-cc26-4bb6-b506-3e959aac8b1e@bootlin.com>
+Date: Tue, 20 Jan 2026 10:13:59 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/2] mfd: cgbc: Add support for backlight
+To: petri.karhula@novatron.fi, Lee Jones <lee@kernel.org>,
+ Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+References: <20251205-cgbc-backlight-v6-0-e4175b0bf406@novatron.fi>
+ <20251205-cgbc-backlight-v6-2-e4175b0bf406@novatron.fi>
+Content-Language: en-US
+From: Thomas Richard <thomas.richard@bootlin.com>
+In-Reply-To: <20251205-cgbc-backlight-v6-2-e4175b0bf406@novatron.fi>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,16 +65,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 19, 2026 at 12:26:45PM -0800, Deborah Brouwer wrote:
-> The L2 power-on sequence and soft reset in Tyr previously relied on fixed
-> sleeps followed by a single register check, since polling helpers were not
-> available in Rust at the time.
+On 12/5/25 1:19 PM, Petri Karhula via B4 Relay wrote:
+> From: Petri Karhula <petri.karhula@novatron.fi>
 > 
-> Now that read_poll_timeout() is available, poll the relevant registers
-> until the hardware reports readiness or a timeout is reached.
+> The Board Controller has control for display backlight.
+> Add backlight cell for the cgbc-backlight driver which
+> adds support for backlight brightness control.
 > 
-> This avoids unnecessary delays on start-up.
-> 
-> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+Reviewed-by: Thomas Richard <thomas.richard@bootlin.com>
 
-Merged into drm-rust-next, thanks!
+Best Regards,
+Thomas
