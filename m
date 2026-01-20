@@ -2,57 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iFUeDqe/b2kOMQAAu9opvQ
+	id gNPRG+LAb2lsMQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 18:47:19 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 18:52:34 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D1648D02
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 18:47:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FCEA48E2E
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 18:52:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC83E10E1A3;
-	Tue, 20 Jan 2026 17:47:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A0EB10E63F;
+	Tue, 20 Jan 2026 17:52:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ubuntu.com header.i=@ubuntu.com header.b="bIfQKQue";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Tj9WSvzv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABC5E10E1A3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 17:47:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
- h=References: To: Cc: In-Reply-To: Date: Subject: Mime-Version:
- Content-Type: Message-Id: From; q=dns/txt; s=fe-953a8a3ca9; t=1768931233;
- bh=7MIzic+Es/z7rMcG3xrBCRoO7u0vnggyXiDjz2kil8M=;
- b=bIfQKQueCOyO5rPHE6hJO0U7DT6VDB5n4zyNNEHfoo5BVAduHZw2XIadUCsAQsfBAEJRJOeOR
- PcNJathR5chsdtjgnQGmXc1QpVEacm96rcVTnWOQRMfIj310A7Jbex6vxUCH+TbneMl+VAzVRLv
- +d620opv3Op3Ayd369am2pw5qCRPxnoG6znI1JL11/gpTIxR95W52SsmTqzSFhtPnS2MunimVpt
- yUqxW5D2XVifQ55CC7GSbD0cq74g/gGYXDhBdYmrrLq/7VDKel7UkZMzcBLWldglqXP1KbTwCEH
- RUj+jysC58nZWjvhJvMmi8LOORdWA6twf1Hql5+hHRgQ==
-X-Forward-Email-ID: 696fbfa077d9fdc6f4dac9db
-X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
- 121.127.44.73
-X-Forward-Email-Version: 2.3.7
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
-From: "jpeisach@ubuntu.com" <jpeisach@ubuntu.com>
-Message-Id: <F9D0FB5B-2C81-4BC1-B6D4-8E660ABE2D9B@ubuntu.com>
-Content-Type: multipart/alternative;
- boundary="Apple-Mail=_0A198576-722A-4463-9131-510A57D06179"
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.400.12\))
-Subject: Re: [PATCH] drm/edid: Use struct cea_db when parsing HDMI VSDB
-Date: Tue, 20 Jan 2026 12:46:59 -0500
-In-Reply-To: <aW-1d--9syo7F61k@intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, dri-devel@lists.freedesktop.org
-To: =?utf-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20260117205139.13991-1-jpeisach@ubuntu.com>
- <cb276398394bd5de209dfcee5216fcb2f6670974@intel.com>
- <aW-iQPICWLQ6Iez7@intel.com>
- <E4531EA5-EF45-493F-A1EB-7677D0BC71FC@ubuntu.com>
- <aW-1d--9syo7F61k@intel.com>
-X-Mailer: Apple Mail (2.3864.400.12)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8498F10E14A;
+ Tue, 20 Jan 2026 17:52:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768931551; x=1800467551;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=XXJWBTrp/5gnHG2VI+qdrvLQhTvBedec/H8dhV/2xuQ=;
+ b=Tj9WSvzv3If/BXcHa4Gy0qH8jMonxQuO5MoFpIBczrTigF1zj7cno8cl
+ R3Lp7b9zqVi4pEhHAC6Dcu+Yxk5cj9TlaaR8k+fvDZpD0z6dm7uk6TsyH
+ DBdzmadrj8coAkeyGypS9hSrCHMVY97nTM0LhuI1hPA5xgeQRhAwuNWGX
+ yI0UgfPeMOojgBbMy9fad+G+cYNsupj/MDmrKQm6EzrKPzWLyxupRzoM1
+ Eb71OmsU/GtTX8r2VWR/iUPOE2KV8BH/Tpu6/ysszTmkDqISUD5pyVG1B
+ A4EcNpy79g0qMrKhCqcKJCjjn3FOhWDgFboiHe3MFkdhIpUxqMdMrNAt8 Q==;
+X-CSE-ConnectionGUID: Y51LqkWKQ4SeJfnjpUxJ7g==
+X-CSE-MsgGUID: /40JR8EiSLqu7mcH3Q/a/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="81257688"
+X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; d="scan'208";a="81257688"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2026 09:52:30 -0800
+X-CSE-ConnectionGUID: 5EXjbW9jRveYJs1jxL9UrA==
+X-CSE-MsgGUID: Y/tNCPV2TPG42uNZwLGW1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; d="scan'208";a="229136361"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.246.70])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2026 09:52:28 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: Krzysztof Karas <krzysztof.karas@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
+ Sebastian Brzezinka <sebastian.brzezinka@intel.com>
+Subject: Re: [PATCH v2] drm/i915/selftests: Prevent userspace mapping
+ invalidation
+Date: Tue, 20 Jan 2026 18:52:25 +0100
+Message-ID: <2469032.yKrmzQ4Hd0@jkrzyszt-mobl2.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <3zztbgcod4nqnh2ywwiembcqngtp7ib52wpv6x6fbb7brf2rv2@dfnmrbjlqsmk>
+References: <5biajlwhi3oaep72si2dj2lhp2xwrpfa2gxqc2l36464uishjo@g26isdq64nv2>
+ <11414299.5MRjnR8RnV@jkrzyszt-mobl2.ger.corp.intel.com>
+ <3zztbgcod4nqnh2ywwiembcqngtp7ib52wpv6x6fbb7brf2rv2@dfnmrbjlqsmk>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,413 +80,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	FROM_DN_EQ_ADDR(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[ubuntu.com,none];
-	R_DKIM_ALLOW(-0.20)[ubuntu.com:s=fe-953a8a3ca9];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	CTE_CASE(0.50)[];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
+	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:jani.nikula@linux.intel.com,m:ville.syrjala@linux.intel.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[jpeisach@ubuntu.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[jpeisach@ubuntu.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[ubuntu.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[janusz.krzysztofik@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	APPLE_MAILER_COMMON(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,ubuntu.com:email,ubuntu.com:dkim,ubuntu.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
-X-Rspamd-Queue-Id: 91D1648D02
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,gitlab.freedesktop.org:url]
+X-Rspamd-Queue-Id: 1FCEA48E2E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+On Tuesday, 20 January 2026 17:21:57 CET Krzysztof Karas wrote:
+> On 2026-01-20 at 16:05:29 +0100, Janusz Krzysztofik wrote:
+> > On Monday, 19 January 2026 15:56:06 CET Krzysztof Karas wrote:
+> > > Hi Janusz,
+> > > 
+> > > > Hi Krzysztof,
+> > > > 
+> > > > On Monday, 19 January 2026 11:16:02 CET Krzysztof Karas wrote:
+> > > > > IGT mmap testing in i915 uses current task's address space to
+> > > > > allocate new userspace mapping, without registering real user
+> > > > > for that address space in mm_struct.
+> > > > > 
+> > > > > It was observed that mm->mm_users would occasionally drop to 0
+> > > > > during tests, which reaped userspace mappings, further leading
+> > > > > to failures upon reading from userland memory.
+> > > > > 
+> > > > > Prevent this by artificially increasing mm_users counter for the
+> > > > > duration of the test.
+> > > > > 
+> > > > > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/
+14204
+> > > > > Signed-off-by: Krzysztof Karas <krzysztof.karas@intel.com>
+> > > > > ---
+> > > > > During testing I also found out that this problem affects
+> > > > > another function, __igt_mmap(), which also utilizes userspace
+> > > > > VMAs.
+> > > > > 
+> > > > > v2:
+> > > > >  * use mmget/mmput() (Jani);
+> > > > >  * include __igt_mmap() in the scope;
+> > > > >  * change comments and commit message;
+> > > > > 
+> > > > >  .../drm/i915/gem/selftests/i915_gem_mman.c    | 24 ++++++++++++++++
++++
+> > > > >  1 file changed, 24 insertions(+)
+> > > > > 
+> > > > > diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/
+drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> > > > > index 0d250d57496a..82ab090f66c8 100644
+> > > > > --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> > > > > +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> > > > > @@ -916,6 +916,13 @@ static int __igt_mmap(struct drm_i915_private 
+*i915,
+> > > > >  	if (err)
+> > > > >  		return err;
+> > > > >  
+> > > > > +	/*
+> > > > > +	 * Get a reference to tasks's mm_struct to artificially 
+increase mm_users
+> > > > > +	 * and ensure the kernel does not try to clean up the 
+userspace mappings
+> > > > > +	 * of the current task during the test.
+> > > > > +	 */
+> > > > > +	mmget_not_zero(current->mm);
+> > > > 
+> > > > What happens if that fails?
+> > > This cannot really fail, it may return false, if no other
+> > > references are currently held, which has its own implication
+> > > that I overlooked:
+> > > if mmget_not_zero() returns false, then we probably should not
+> > > call mmput().
+> > > 
+> > > On the other hand, I observed that the issue does not occur if
+> > > mm_users is 0 since the beginning. The problem only arises when
+> > > we go from mm_users == 1 to mm_users == 0.
+> > 
+> > How can you explain those two different states (mm_users == 0 vs. mm_users 
+> 
+> > 0) possible on test startup?
+> According to Documentation/mm/active_mm.rst:
+> 'To support all that, the "struct mm_struct" now has two
+>  counters: a "mm_users" counter that is how many "real address
+>  space users" there are',
+> and Documentation/mm/process_addrs.rst:
+> 'All VMAs are contained within one and only one virtual address
+>  space, described by a struct mm_struct object which is
+>  referenced by all tasks (that is, threads) which share the
+>  virtual address space. We refer to this as the mm.'
+> mm_users represents how many threads actively use the virtual
+> address space, so for value 0 that would mean nobody uses VMAs.
+> This makes sense, because the test does not perform operations
+> warranting user registration, we just hack the memory a bit to
+> get a mapping. 
 
---Apple-Mail=_0A198576-722A-4463-9131-510A57D06179
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+I'm not sure.  My understanding is that each userspace process gets its real 
+address space and keeps a reference to it throughout its lifetime.  When we 
+start the selftest from a userspace process (i915_selftest), the selftest 
+inherits that process' real address space.  As long as the userspace process 
+is not terminating (waiting for results from the selftest), it still keeps a 
+reference to that real address space, then mm_users should be at least 1.  How 
+is it possible you observed 0?
+
+Thanks,
+Janusz
+
+> The only thing that does not sit right with me is
+> whether we should be running the test with mm_users == 0:
+>  1) if the test breaks due to reaping userland memory, then
+>    that means something had to initialize this memory;
+>  2) if the number of users is 0 from the beginning, does that
+>    mean the test uses some uninitialized or already freed areas?
+> 
+> For the case with mm_users > 0 things work, because there is
+> already active VMA at the start of the test, of which reference
+> is held by another user (thread).
+> 
+> The proposed fix gets rid of those doubtful conditions when
+> mm_users == 0, but I am ready to investigate further to figure
+> out why the test would work without virtual address space setup
+> if there is a need.
+> 
+> 
 
 
 
-> On Jan 20, 2026, at 12:03=E2=80=AFPM, Ville Syrj=C3=A4l=C3=A4 =
-<ville.syrjala@linux.intel.com> wrote:
->=20
-> On Tue, Jan 20, 2026 at 11:37:59AM -0500, jpeisach@ubuntu.com =
-<mailto:jpeisach@ubuntu.com> wrote:
->>=20
->>=20
->>> On Jan 20, 2026, at 10:41=E2=80=AFAM, Ville Syrj=C3=A4l=C3=A4 =
-<ville.syrjala@linux.intel.com> wrote:
->>>=20
->>> On Mon, Jan 19, 2026 at 03:39:12PM +0200, Jani Nikula wrote:
->>>> On Sat, 17 Jan 2026, Joshua Peisach <jpeisach@ubuntu.com> wrote:
->>>>> drm_parse_hdmi_vsdb_video is one of the parsers that still do not =
-use the
->>>>> cea_db struct, and currently passes a u8 pointer.
->>>>>=20
->>>>> Set the correct struct type and update references to the data =
-accordingly.
->>>>> This also makes the same change to drm_parse_hdmi_deep_color_info =
-as
->>>>> necessary.
->>>>>=20
->>>>> Signed-off-by: Joshua Peisach <jpeisach@ubuntu.com>
->>>>> ---
->>>>> drivers/gpu/drm/drm_edid.c | 26 +++++++++++++-------------
->>>>> 1 file changed, 13 insertions(+), 13 deletions(-)
->>>>>=20
->>>>> diff --git a/drivers/gpu/drm/drm_edid.c =
-b/drivers/gpu/drm/drm_edid.c
->>>>> index 26bb7710a..15bd99e65 100644
->>>>> --- a/drivers/gpu/drm/drm_edid.c
->>>>> +++ b/drivers/gpu/drm/drm_edid.c
->>>>> @@ -6290,7 +6290,7 @@ static void drm_parse_hdmi_forum_scds(struct =
-drm_connector *connector,
->>>>> }
->>>>>=20
->>>>> static void drm_parse_hdmi_deep_color_info(struct drm_connector =
-*connector,
->>>>> -					   const u8 *hdmi)
->>>>> +					   const struct cea_db *db)
->>>>> {
->>>>> 	struct drm_display_info *info =3D &connector->display_info;
->>>>> 	unsigned int dc_bpc =3D 0;
->>>>> @@ -6298,24 +6298,24 @@ static void =
-drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
->>>>> 	/* HDMI supports at least 8 bpc */
->>>>> 	info->bpc =3D 8;
->>>>>=20
->>>>> -	if (cea_db_payload_len(hdmi) < 6)
->>>>> +	if (cea_db_payload_len(db) < 6)
->>>>> 		return;
->>>>>=20
->>>>> -	if (hdmi[6] & DRM_EDID_HDMI_DC_30) {
->>>>> +	if (db->data[6] & DRM_EDID_HDMI_DC_30) {
->>>>=20
->>>> That's not the same thing, but off-by-one now. Ditto everywhere =
-that
->>>> changes from u8* to db->data[].
->>>>=20
->>>> The main problem with the change (even with fixed offsets) is that =
-the
->>>> *specs* typically use indexing from the beginning of the data =
-block, not
->>>> from the beginning of payload data.
->>>>=20
->>>> We've discussed this before with Ville (Cc'd) but I'm not sure if =
-we
->>>> reached a conclusion.
->>>=20
->>> I guess we could give up on the index matching the spec byte#.
->>> Looks like the HDMI VSDB parsing is the only place where we
->>> actually have the two match, and everwhere else it's
->>> already inconsistent.
->>>=20
->>> Also maybe we should add something to also exclude the
->>> extended tag from the payload, for the blocks that use
->>> the extended tag...
->>>=20
->>> --=20
->>> Ville Syrj=C3=A4l=C3=A4
->>> Intel
->>=20
->> I personally believe it is important to match the spec for =
-consistency
->> and reference. Unless I am looking at the wrong thing, bit 6 should =
-have
->> the correct index.
->>=20
->> Also I think cea_db in the context of the function calls here are
->> just the data blocks. Unless you mean that by having the struct's =
-first
->> member being the tag_length if offsetting everything, but I don't =
-think
->> it is? Let me know if I'm wrong :)
->=20
-> The tag+length byte is:
-> byte# 1 in the CTA spec
-> byte# 0 in the HDMI spec
->=20
-> There's no super nice way to use the byte# as the index for both.
-> Also the length checks end up looking somewhat confusing when
-> comparing them with the corresponding index.
->=20
-> --=20
-> Ville Syrj=C3=A4l=C3=A4
-> Intel
 
-The name of the functions specifically say HDMI, so I think that's the
-system to use: there are functions that say CTA in the name, like
-parse_cta_y420cmdb - so that is CTA, and these functions follow HDMI.
-
-Maybe in a v2 patch, drop a comment clarifying this? At the top of the=20=
-
-drm_parse_hdmi_vsdb_video function it does say HDMI.
-
--Josh=
-
---Apple-Mail=_0A198576-722A-4463-9131-510A57D06179
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=utf-8
-
-<html aria-label=3D"message body"><head><meta http-equiv=3D"content-type" =
-content=3D"text/html; charset=3Dutf-8"></head><body =
-style=3D"overflow-wrap: break-word; -webkit-nbsp-mode: space; =
-line-break: after-white-space;"><br =
-id=3D"lineBreakAtBeginningOfMessage"><div><br><blockquote =
-type=3D"cite"><div>On Jan 20, 2026, at 12:03=E2=80=AFPM, Ville Syrj=C3=A4l=
-=C3=A4 &lt;ville.syrjala@linux.intel.com&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div><meta charset=3D"UTF-8"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">On Tue, Jan 20, 2026 at 11:37:59AM =
--0500,<span class=3D"Apple-converted-space">&nbsp;</span></span><a =
-href=3D"mailto:jpeisach@ubuntu.com" style=3D"font-family: Helvetica; =
-font-size: 12px; font-style: normal; font-variant-caps: normal; =
-font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; widows: 2; =
-word-spacing: 0px; -webkit-text-stroke-width: =
-0px;">jpeisach@ubuntu.com</a><span style=3D"caret-color: rgb(0, 0, 0); =
-font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;"><span =
-class=3D"Apple-converted-space">&nbsp;</span>wrote:</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: =
-solid;"><blockquote type=3D"cite" style=3D"font-family: Helvetica; =
-font-size: 12px; font-style: normal; font-variant-caps: normal; =
-font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; =
-text-indent: 0px; text-transform: none; white-space: normal; widows: 2; =
-word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-line: =
-none; text-decoration-thickness: auto; text-decoration-style: =
-solid;"><br><br><blockquote type=3D"cite">On Jan 20, 2026, at =
-10:41=E2=80=AFAM, Ville Syrj=C3=A4l=C3=A4 =
-&lt;ville.syrjala@linux.intel.com&gt; wrote:<br><br>On Mon, Jan 19, 2026 =
-at 03:39:12PM +0200, Jani Nikula wrote:<br><blockquote type=3D"cite">On =
-Sat, 17 Jan 2026, Joshua Peisach &lt;jpeisach@ubuntu.com&gt; =
-wrote:<br><blockquote type=3D"cite">drm_parse_hdmi_vsdb_video is one of =
-the parsers that still do not use the<br>cea_db struct, and currently =
-passes a u8 pointer.<br><br>Set the correct struct type and update =
-references to the data accordingly.<br>This also makes the same change =
-to drm_parse_hdmi_deep_color_info as<br>necessary.<br><br>Signed-off-by: =
-Joshua Peisach =
-&lt;jpeisach@ubuntu.com&gt;<br>---<br>drivers/gpu/drm/drm_edid.c | 26 =
-+++++++++++++-------------<br>1 file changed, 13 insertions(+), 13 =
-deletions(-)<br><br>diff --git a/drivers/gpu/drm/drm_edid.c =
-b/drivers/gpu/drm/drm_edid.c<br>index 26bb7710a..15bd99e65 100644<br>--- =
-a/drivers/gpu/drm/drm_edid.c<br>+++ b/drivers/gpu/drm/drm_edid.c<br>@@ =
--6290,7 +6290,7 @@ static void drm_parse_hdmi_forum_scds(struct =
-drm_connector *connector,<br>}<br><br>static void =
-drm_parse_hdmi_deep_color_info(struct drm_connector =
-*connector,<br>-<span class=3D"Apple-tab-span" style=3D"white-space: =
-pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
-pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
-pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
-pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
-pre;">	</span><span =
-class=3D"Apple-converted-space">&nbsp;</span>&nbsp;&nbsp;const u8 =
-*hdmi)<br>+<span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span><span =
-class=3D"Apple-converted-space">&nbsp;</span>&nbsp;&nbsp;const struct =
-cea_db *db)<br>{<br><span class=3D"Apple-tab-span" style=3D"white-space: =
-pre;">	</span>struct drm_display_info *info =3D =
-&amp;connector-&gt;display_info;<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>unsigned int dc_bpc =3D 0;<br>@@ =
--6298,24 +6298,24 @@ static void drm_parse_hdmi_deep_color_info(struct =
-drm_connector *connector,<br><span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>/* HDMI supports at least 8 bpc =
-*/<br><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>info-&gt;bpc =3D 8;<br><br>-<span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>if (cea_db_payload_len(hdmi) &lt; =
-6)<br>+<span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>if (cea_db_payload_len(db) &lt; 6)<br><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
-class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
-</span>return;<br><br>-<span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>if (hdmi[6] &amp; =
-DRM_EDID_HDMI_DC_30) {<br>+<span class=3D"Apple-tab-span" =
-style=3D"white-space: pre;">	</span>if (db-&gt;data[6] &amp; =
-DRM_EDID_HDMI_DC_30) {<br></blockquote><br>That's not the same thing, =
-but off-by-one now. Ditto everywhere that<br>changes from u8* to =
-db-&gt;data[].<br><br>The main problem with the change (even with fixed =
-offsets) is that the<br>*specs* typically use indexing from the =
-beginning of the data block, not<br>from the beginning of payload =
-data.<br><br>We've discussed this before with Ville (Cc'd) but I'm not =
-sure if we<br>reached a conclusion.<br></blockquote><br>I guess we could =
-give up on the index matching the spec byte#.<br>Looks like the HDMI =
-VSDB parsing is the only place where we<br>actually have the two match, =
-and everwhere else it's<br>already inconsistent.<br><br>Also maybe we =
-should add something to also exclude the<br>extended tag from the =
-payload, for the blocks that use<br>the extended tag...<br><br>--<span =
-class=3D"Apple-converted-space">&nbsp;</span><br>Ville =
-Syrj=C3=A4l=C3=A4<br>Intel<br></blockquote><br>I personally believe it =
-is important to match the spec for consistency<br>and reference. Unless =
-I am looking at the wrong thing, bit 6 should have<br>the correct =
-index.<br><br>Also I think cea_db in the context of the function calls =
-here are<br>just the data blocks. Unless you mean that by having the =
-struct's first<br>member being the tag_length if offsetting everything, =
-but I don't think<br>it is? Let me know if I'm wrong =
-:)<br></blockquote><br style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
-normal; font-weight: 400; letter-spacing: normal; orphans: 2; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration-line: none; text-decoration-thickness: auto; =
-text-decoration-style: solid;"><span style=3D"caret-color: rgb(0, 0, 0); =
-font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">The tag+length byte is:</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">byte# 1 in the CTA spec</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">byte# 0 in the HDMI spec</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">There's no super nice way to use the byte# =
-as the index for both.</span><br style=3D"caret-color: rgb(0, 0, 0); =
-font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">Also the length checks end up looking =
-somewhat confusing when</span><br style=3D"caret-color: rgb(0, 0, 0); =
-font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">comparing them with the corresponding =
-index.</span><br style=3D"caret-color: rgb(0, 0, 0); font-family: =
-Helvetica; font-size: 12px; font-style: normal; font-variant-caps: =
-normal; font-weight: 400; letter-spacing: normal; orphans: 2; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration-line: none; text-decoration-thickness: auto; =
-text-decoration-style: solid;"><br style=3D"caret-color: rgb(0, 0, 0); =
-font-family: Helvetica; font-size: 12px; font-style: normal; =
-font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">--<span =
-class=3D"Apple-converted-space">&nbsp;</span></span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline !important;">Ville Syrj=C3=A4l=C3=A4</span><br =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-line: none; =
-text-decoration-thickness: auto; text-decoration-style: solid;"><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: =
-12px; font-style: normal; font-variant-caps: normal; font-weight: 400; =
-letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration: none; float: none; =
-display: inline =
-!important;">Intel</span></div></blockquote></div><br><div>The name of =
-the functions specifically say HDMI, so I think that's =
-the</div><div>system to use: there are functions that say CTA in the =
-name, like</div><div>parse_cta_y420cmdb - so that is CTA, and these =
-functions follow HDMI.</div><div><br></div><div>Maybe in a v2 patch, =
-drop a comment clarifying this? At the top of =
-the&nbsp;</div><div>drm_parse_hdmi_vsdb_video function it does say =
-HDMI.</div><div><br></div><div>-Josh</div></body></html>=
-
---Apple-Mail=_0A198576-722A-4463-9131-510A57D06179--
