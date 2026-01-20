@@ -2,158 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MGI/OHf8b2mUUgAAu9opvQ
+	id sBTnErYCcGmUUgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 23:06:47 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 23:33:26 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96FC34CBB7
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 23:06:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DF684D04F
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 23:33:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC43310E64C;
-	Tue, 20 Jan 2026 22:06:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E366F10E63D;
+	Tue, 20 Jan 2026 22:33:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cbFDpJql";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="N571vX9b";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ORswT+D+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3890210E64C
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 22:06:45 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60KHBi1k314500
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 22:06:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- WB1ECFOLGITva9lWFvjGi9bk/gpXjPSRbqGr6mbr/Us=; b=cbFDpJqlmDkbWwCP
- eEs56Zbq76UflCH06fVQCjvO4z/oNGBxZJ+xK1ra+0OrX3Qzkh7dTMYYsGkruHPp
- AhPaxVlodSuhwfGeAIwbeQHE9rLlDBD32tz031nrZnd/nqrhudLlkMlG7IvCYxG9
- LzBwJNcMEgA/rJwVA8VLMY3PZ823SWU1NdnMZMFLkNzkyW/62vh0FwWZgNOWJNcC
- SVJ9TpFutCKU8PoM9+oonzFXAX/VHsXoA8a8utvoLE57PrDI7Rfyr4Qck79MUpBN
- ETrllYvphODOrB7FwizdEj2gz/RlcLfobF7zkOehfBqPJbKkVWGXnuEcw3L6pY3a
- FteDJg==
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4btdw2906b-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 22:06:44 +0000 (GMT)
-Received: by mail-pf1-f198.google.com with SMTP id
- d2e1a72fcca58-81ed3e6b917so5368961b3a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 14:06:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768946803; x=1769551603;
- darn=lists.freedesktop.org; 
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=WB1ECFOLGITva9lWFvjGi9bk/gpXjPSRbqGr6mbr/Us=;
- b=N571vX9b+9Wp9UiCuedPmolxVRcBBEUq7TUMQKTuc5rKuZwFq4G7zH7AkHo5Jc7Xg8
- mG9B9UO/+lOGkyqkklS60T0Foh44gVUFwA6xqTfaOZpaKrqXRc7ED8XEU1GRpXm/k2Rj
- tnWELuotjN9qZ+UJmOZvyCHrHaF+KiE3B57UcpokMDH9iC1CgnlIpLnujyPNRCr0VDYa
- 3VGJWMxuWoW/7RU4QWLlhxvOI5W1eSRaQkWoRWnLVaGphPT1KuHHDmNjXYwxht8y4eoA
- En3Z6rJmaoykG+iKdMgTl4zVZi8NDN+BX0yIu08GavxHGxRONa5L4tckdr48z8z7BF2a
- BTwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768946803; x=1769551603;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=WB1ECFOLGITva9lWFvjGi9bk/gpXjPSRbqGr6mbr/Us=;
- b=XWEWPw8S/WtTbhppIXmJ9VaW6P+TFTiRCzalokw6lyz5PMcZ6PvkK8Ahki0rbWBUkz
- OUdsz3/pLy7Cu0LTMp5OmqVT4v4e/8h8KVrbyoFyg65Jssfv3CUMEfd9ZKeW7+BA+Rzv
- jOkbwjza1hJXNjWF9YvI0U577Gm12FfSnvrJ8+Nt99yv5ilvgeIxyUVnHVkXNkPKL8K8
- luZxeCaZXzRNVoxAi16Ojn7ClRh2CR9jiDlO7Pfl51ndS9t2t/eJ3bltzDqotz2N1c6K
- a7GZIlRNXIaozHHCxf94qHnKeTWJmUpMrso5IaavOj8D10UgSlccRlMerT1i4LnLVwRk
- Sd4g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX1NR7PhMgl1f/S6pu53WrgUjNWPadpPOxUHh2mKW+A+rlO/WYnszVLqxBlluFoECbajLsydI1IHhQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzmDr7ompnQPzlUGStG3l0OUZPVvZNAV0Oy5oZRSb3dhcVUJwOX
- YfWRoNXFVRHWll3Z3EOVZCEcc+yrOd6Tqv+cDP0C5yMk3tvZPI1P+/t1lVerbgBapJrip/iEMlf
- B7SttkJrpymdDpyR+jn1VlqRVs7m7Byr8ezGtamVY8aUudSoAV+19BQGXuBw4eL2hD+1byq1GN2
- Q9SMs=
-X-Gm-Gg: AZuq6aLPV/1wAiq4IqHqj/szK5ZxxydA6QlMXnCtx3KFhNLAKJXeb3hRSJA4KDIPDNL
- pK+LxuZbODbrxUh9ExeBVjafmtkeMQ8apBsVyF6B95iSi4yPUTynsKYAVuY8j5u8G8YnZ9SM4xi
- 0wcRlddbPHxp9jn9Hs6PIKVPqSvLdGRCsRCAqbtaQ7dwr59FonFK9jDsjwlrQkc49RKPxt29c9n
- +t2Y777axo0DA1iksU8bV9x+Hx+oN9xloSrmbw6FvhnaaY4IkaefPLJV+PPsm9ycb6P05MVl1c1
- A6pr4lTe/7h3k7XUbC9TYNZmsMS349/hvwRXNi/HeyDTaD7R8hjNCKrfO6HfSqf1oMTkmg9aIIh
- G8/KJwMUmctTcpbqKLwMvdoJCdDF2cIUDow==
-X-Received: by 2002:a05:6a00:4b0c:b0:81f:51f5:77f with SMTP id
- d2e1a72fcca58-81f9f4d524cmr12167769b3a.0.1768946802870; 
- Tue, 20 Jan 2026 14:06:42 -0800 (PST)
-X-Received: by 2002:a05:6a00:4b0c:b0:81f:51f5:77f with SMTP id
- d2e1a72fcca58-81f9f4d524cmr12167736b3a.0.1768946802339; 
- Tue, 20 Jan 2026 14:06:42 -0800 (PST)
-Received: from hu-akhilpo-hyd.qualcomm.com ([202.46.23.25])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-81fa12b30f0sm12867088b3a.61.2026.01.20.14.06.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jan 2026 14:06:42 -0800 (PST)
-From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Date: Wed, 21 Jan 2026 03:35:55 +0530
-Subject: [PATCH v7 4/4] arm64: dts: qcom: qcs615-ride: Enable Adreno 612
- GPU
+Received: from BYAPR05CU005.outbound.protection.outlook.com
+ (mail-westusazon11010039.outbound.protection.outlook.com [52.101.85.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B19C010E23A;
+ Tue, 20 Jan 2026 22:33:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y4CJKZrBaENQ3b+vWhl5sDIkSZ6cQvlzItIziByAGzpPWVUdKxGj/2CeW6clwSMo+vvHQqqBIJ3pKqtv8y2qbzOOnKELvkNI0fIcWvYKnWSYzlP/4+LU4WMQiojsyNxgSkxdr5xCnt4Y4cwOvd5R3GFvfOTaUuQFzVUXdPus7jMvgTUwgAnZXoNpbK86shm+NVpxeAK2AR8BwlldGEJpmuPiMFr8H9P0ZEI0Oj1TxD5EBUbLMPQL2m7+WWZOYXAkEW8c+CI0CAC3WReAtdkVOWvU9M28ON+wzs1w61GDCvgpY+e4l0VCezvorlWBtg0NPRb+EbDRI14U74QukSIsSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=S+f2Mph0Q7ufI+tR+hk1pmXX/CxqZ1dJgQcyGG/XPyQ=;
+ b=eamhrtR2VwetVkR6Rw5148MwZmVHFiqcCjeVOmLVXt+85nXgZljcxgazzuZ7yPujhU2VQ56Hht1bZMGPZAqEmqIKsfyK1RsyABFRhukiSKNAicpfxKuxekXW5LmSH85ngVO4qVLVCXv3sG7QIACzlwBoc2nY5yPYu/zlmbGYIPjcaKvcYZBPCg2rktEAXvl5uENKUQbP4tHp8tuPXQCXH7qj1z1n5XTy/tn03tMQuC1KbsB68LQ+q1fq8E26pmSxBkMlZF16Ovjbuy/M/dQ4zniDvEGPCd3UwPyYZ1bNByscNNJzx8SOYoL/n4lVMw7ppIohJW6DZQv2D0iyVyP5Jw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S+f2Mph0Q7ufI+tR+hk1pmXX/CxqZ1dJgQcyGG/XPyQ=;
+ b=ORswT+D+MhaVJvhhEPLqnLiZRXh679STy1ciWmuWpO6KOvsW9gmvi4P6q+vqaW+nyDizXWYuEz4fKh96fEmtIuoO1Mj4aivCxzNIsd1fjHM3bIXVhjPjT5XDPgLw0k3fIkvFLSLKjnQ/wRQXKv0cMfe1WUGpH4i3swCt4Oj814LZHyHMkj1kZRDNBypd4kffbtH7k77WcoyllVfBc+mSoAvZM0WQmFOQs/SHtIh891511HZXo3O9PYAez0nZdsmJjqrj6BHV7oF98ii66ZJF0+kvyfKq1PEoevO0uUbjKBS6RgnUeB/W4jzwSLx1E63lPAc1QWHPQxRnFStldjav8w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB9072.namprd12.prod.outlook.com (2603:10b6:8:be::6) by
+ CY8PR12MB8300.namprd12.prod.outlook.com (2603:10b6:930:7d::16) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9520.13; Tue, 20 Jan 2026 22:33:17 +0000
+Received: from DM4PR12MB9072.namprd12.prod.outlook.com
+ ([fe80::9e49:782:8e98:1ff1]) by DM4PR12MB9072.namprd12.prod.outlook.com
+ ([fe80::9e49:782:8e98:1ff1%5]) with mapi id 15.20.9520.011; Tue, 20 Jan 2026
+ 22:33:17 +0000
+Message-ID: <c9afedc6-f763-410f-b78b-522b98122f06@nvidia.com>
+Date: Wed, 21 Jan 2026 09:33:07 +1100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 11/11] mm: Remove device private pages from the
+ physical address space
+To: Zi Yan <ziy@nvidia.com>
+Cc: linux-mm@kvack.org, balbirs@nvidia.com, matthew.brost@intel.com,
+ akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, david@redhat.com, apopple@nvidia.com,
+ lorenzo.stoakes@oracle.com, lyude@redhat.com, dakr@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, rcampbell@nvidia.com,
+ mpenttil@redhat.com, jgg@nvidia.com, willy@infradead.org,
+ linuxppc-dev@lists.ozlabs.org, intel-xe@lists.freedesktop.org, jgg@ziepe.ca,
+ Felix.Kuehling@amd.com
+References: <20260107091823.68974-1-jniethe@nvidia.com>
+ <20260107091823.68974-12-jniethe@nvidia.com>
+ <36F96303-8FBB-4350-9472-52CC50BAB956@nvidia.com>
+Content-Language: en-US
+From: Jordan Niethe <jniethe@nvidia.com>
+In-Reply-To: <36F96303-8FBB-4350-9472-52CC50BAB956@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BY5PR13CA0001.namprd13.prod.outlook.com
+ (2603:10b6:a03:180::14) To DM4PR12MB9072.namprd12.prod.outlook.com
+ (2603:10b6:8:be::6)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260121-qcs615-spin-2-v7-4-52419b263e92@oss.qualcomm.com>
-References: <20260121-qcs615-spin-2-v7-0-52419b263e92@oss.qualcomm.com>
-In-Reply-To: <20260121-qcs615-spin-2-v7-0-52419b263e92@oss.qualcomm.com>
-To: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Jie Zhang <jie.zhang@oss.qualcomm.com>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Jie Zhang <quic_jiezh@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768946765; l=941;
- i=akhilpo@oss.qualcomm.com; s=20240726; h=from:subject:message-id;
- bh=ZiW6jOez4q4s7UFSzYJiN8BRNzCWh5U/qQxE8K5ykQE=;
- b=QZP3GHh/qNFnuZodCzW+5T/jIbsllVpQCI5AKabL5BYKxofRVvG88hp8Hly8uvAj4sKx0IwqK
- ZPYM3F6ds29DGbWubQlvcedlKMOfvH8VD5YZTxUr3GNtOI9hETIYQSx
-X-Developer-Key: i=akhilpo@oss.qualcomm.com; a=ed25519;
- pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
-X-Proofpoint-ORIG-GUID: kIRohZVs_zoepeTmecKiLB7H09s6pQfB
-X-Proofpoint-GUID: kIRohZVs_zoepeTmecKiLB7H09s6pQfB
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIwMDE4MyBTYWx0ZWRfXy6B1MuM3MS7o
- MIhYF66dnKrBvmvCsilm8wrcHbkS4qb9jtIeuiMFfW0WUkyN7iItaA2CV6esIuXtNrS2awoo2ll
- Lku7nrQDVO9kHamprQ/k1iUX1ClevSt7KLJ592lJ8g8heJlAYDI+dt6yns2WmgktJwV7/IRidpd
- 5AJ/KfPCU4JbK7MjUQTzz6ZjjAm28sz+PMdw2P3O+sab9U1tQY6UN6JAPWxfRJ//VM0Q7Nn/pUH
- UPsa7sBQsEiLCa+CX7Dg83pXGijLp+MUaR2OwHIWWmqsgglZwyWyNVWUtNAW5LIWJHDKP8QDkgL
- fG9qCT+hmjia4IyP9kvPKQjzb3Tnh230RexG2S7M/UNZMt0iLG2rZ+FAQyngGaHRSxH1Qm2aGjN
- ZteQNocNr6KorgzK5ZJ5vhx7RtpEqbW89IgtYNY0XJnUclcAZ0dxZUdH6PUTJazrjivF81Nzgfr
- D1xGnzzNqdQQ/mTP3bQ==
-X-Authority-Analysis: v=2.4 cv=RqzI7SmK c=1 sm=1 tr=0 ts=696ffc74 cx=c_pps
- a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
- a=DDenb0FKNr3EH7qfFfMA:9 a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-20_06,2026-01-20_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 bulkscore=0 suspectscore=0 spamscore=0
- clxscore=1015 impostorscore=0 adultscore=0 lowpriorityscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601200183
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB9072:EE_|CY8PR12MB8300:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4eed00e2-a952-4f19-bc5f-08de5873e802
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZmNWazE3V3Y2V0FTTHE1NndMbytWTmg4d01mUFJGVWhjTGNWQ0t5YzRZUEFr?=
+ =?utf-8?B?dGc4V2NCUDdOaFFWN1BBSWZScWtNb2xIWE44TGI1WlpUMnFiUnRLeXRaMHUw?=
+ =?utf-8?B?cDFpOHJsUldBV0lqbUNPaVhKY3FsYTRTZWw1U1RHSHVvbVN1SGozUUFidnBV?=
+ =?utf-8?B?ZUNWK2xyN1NwbnJHWUJOZTY1VjZNT2x1b0VoRmlTdnRad3B1MWRESENtOGRs?=
+ =?utf-8?B?SlpwMTFDbE5tcUt1c1hQRTNYeWoxN2lwMllPbVI4azZMQXBhdGd1dXlONElE?=
+ =?utf-8?B?dm80bDY0RlRBTDdPejI5QnJKd2ZqQ0VFWE11V3lkVnB1V29qS1AreDRRVi9v?=
+ =?utf-8?B?RGxpdnlrbHowVTk0eWlHbWdsMzQvYVkrOEhUbmpOclBFcDd1RXQ5TE5ZK3k5?=
+ =?utf-8?B?aHB3SVdtZ2E5SlZzTWdMdkFNSUcrMXo2b3lXSXBIbEt1ZU5TblRhU1pEek1h?=
+ =?utf-8?B?WTM0N3hZaEcwRnNzOFk1bDNFMWIvQlVJc2pINTBJUWtsSVJNSUhJZzNqYUZ6?=
+ =?utf-8?B?TlJoQWU3T2VienhXQWJIU2FHNzBYc1lDWTIxNFlOcHZSWUVxMnRTeUQydk9n?=
+ =?utf-8?B?S0dBalZyREMwNEdzZ0tjeXp4VmRlV1NzMU5wU0YzQnVsUmRvZ0RYYkdLWEhr?=
+ =?utf-8?B?RHFtNFVubEN6dzUrenpFWWV0YUY0UlF1cWVhd3A4TVpwUlR1V1dSbGx5V0Ev?=
+ =?utf-8?B?eGMrTHNVTEF0c09FZjRqWnhoYUxTb01yNEJzTkpZQ2gydjlicUY3NWxUZ1pM?=
+ =?utf-8?B?R0J1WFVDY3BiSmpIY2NTSWpLMVM2RmhacVc1QWVtdzcxbTNvakd5OFliQzBo?=
+ =?utf-8?B?M2hydW9Pb09BdXJhejAzdC9xeFlkOVlmY0hNcXZEdzNubmFub0Zla2s3TEd6?=
+ =?utf-8?B?VUJ2Z2hBalVDMXFnc3k5amtMVFBSN2U2V1IrYmVlR2svMEs2ajV6QjNvNnJv?=
+ =?utf-8?B?ZjNIVkJTeFRlLzJ4NjFKWUduWnN3cUhmV0hoanhKRGpnK1lUNC9WWG5RNFN2?=
+ =?utf-8?B?SFVlazhKK0tSSFY5MjVQc0toYVd3TktrQVRNb0owNXFpMHY3ZWdqUnNIL1Nm?=
+ =?utf-8?B?Q25lNnFKT3lOaHdPT1VEanNJd3pqbDFSMTFJc01NbDVsM1hFdmZNNzRHUDRX?=
+ =?utf-8?B?OHMzNWtDSjFUdVhLUU42eFg3bzQ1VUVURlV0YnhnVkd5Z244eDRwOGpIaWpK?=
+ =?utf-8?B?WUZoczNnQjdMZTE4UHc2a3cyTDNMejJRaUFWSkFNQ2Q3UmkyS3o2R0NMVkJB?=
+ =?utf-8?B?QmJrajRSRWF1dXFlTnA1cG1OcnBVcVgxZlN6N0dMdzBPSEJyU0krdGNZTGcz?=
+ =?utf-8?B?UWw1VklILzBRK1RCVk1wU0hHSVdCYy9IelBXUEkwV2ZMc1J0L1FFSzQ5eXV6?=
+ =?utf-8?B?V2F0RnVIWU1VYzNWaWRFQlJKVnNVQnVhWkc1eWpocHFKemNERXlXWFFPeUs1?=
+ =?utf-8?B?NXlqRXFJZFJUN2dZZVFScjF1NW1rc2dFVHBUVGpHQmYwU1l3NEFBZHl6TFNF?=
+ =?utf-8?B?Si96V2s4S2x2eGxjMDNVR3ZJRUVmTmtjU2ZFbXB3QnN1Y1JCZkhxbkN6M2VJ?=
+ =?utf-8?B?c1Y5ZnFMWklXQ0tSdkR5VmFReDJaUHRNTTl0Ynk4NVZiUFc3MEJPOGJkRkZS?=
+ =?utf-8?B?ZVFYNzZJOS9vdkF5TjZjZWZHMm5HUkhWQlpjd0lybXMwOFJiTlRHcGowY2hh?=
+ =?utf-8?B?ZWYxUHNTNzhSTUVqRjY5NXgxMkV5N3k0NWlwU0dZazhJWDgzd0hsYUdxK3p2?=
+ =?utf-8?B?eFRQNlEvOFFpa0dHelpUVnFsRm5YMVNucmVoV2poZG9wQUhkVWZUUkx4b3I4?=
+ =?utf-8?B?WGc2Y0NEdStNSXdjTHdSdG1ZdWM1VWpsbzA4VXhnT1R0SVk5eGN4bHRqbzJI?=
+ =?utf-8?B?Ly9LSjFhSStKZmZkZU0rekZTSUJZc3NzKzNMUnhERmNGTFhWUGhERGtGdHU1?=
+ =?utf-8?B?TUNmRmhsNmlTVUZmRjc2cHcxRzJrQkE1NkRJQ0NSTE4raks0cUZFYUJmNlFY?=
+ =?utf-8?B?UkZBR2ZuYTBHaDhkam1hMCs3ZkhqNjVDMjdkUGJPY05xWDJRSkVscWVmY2dt?=
+ =?utf-8?B?MDNRNkp3WjgzY1NITndOSW84VmxNRlBKZFRlWk41MExsU3JuTmVvK3NyR01m?=
+ =?utf-8?Q?qSqI=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB9072.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z3E2c3gxYWE3aEliZEtaMHlOZmlqSnhYT0c4VTVHTS9vbU9RWldiWitoZXlI?=
+ =?utf-8?B?MlZURVpoVHNYczN4ZDY2YmxZL0RJc0l0SEJvQTFwNVpSUmJmS0tHSzJmZTA3?=
+ =?utf-8?B?bXpPTDE4cEFocUYyazlCN0tlNk5TaFpZa01OdW9iZDJXT2VSSmNoZG5nb2NV?=
+ =?utf-8?B?Y3NHZVlZMWU4TXBibmpjZU5XRVFxbzdnYTU5cDRjaGRhYy9RZjhLZFNjWGpH?=
+ =?utf-8?B?dzlKNWxaUmUzZC9xYWttRjB0Y01yeUU0dEtJejNwa0Q5L1JIaVU2SExocjRP?=
+ =?utf-8?B?MjZuTEJSWnRUckpzL0RvZFVIcHFKdHNlcXZnZUdHWFRkbThvNUl6MmFEcFhB?=
+ =?utf-8?B?czZyRytpRFBkUWVnVWVOb3VlK3ZXTjVkd1hUNUcyY25VaUh6aU1TeENaNzN1?=
+ =?utf-8?B?TllpTFd2ckRJT0Y2VVR1ajJ6OW1ELzdtaXpOYXZVM3JXbExZN2FhM211QWJH?=
+ =?utf-8?B?eXIrdXpxR1hscFk3cGg2N1lEb2ZraSsvcUVadnBsRUVGM0VQZmJHYWF0OFpr?=
+ =?utf-8?B?a1VObWdCNzhmMEhFVGZ5SUE0cHowUUVJdjBxbHVwZVd0REF0RTV5dmRkVDU1?=
+ =?utf-8?B?Rk1DQWs3TEFqVi9JWG4vdEw3amZlQWZKajIxcDZ0c1VOMGRHdWNBRkZ6MGVj?=
+ =?utf-8?B?TFFvSFlBM0xEbFpMa3M1MlpnU0NadTlLSDB3SFJBdXcwdUdiSi9qb3BRdHVl?=
+ =?utf-8?B?ckQySEthRCtMcVU2eGlhU04vOVJ6Q3pIRG1kMUt5QWp3VEp0WGhUT1V2ZGdv?=
+ =?utf-8?B?RlV0Nmo0QVZMUTU0S3IxR1NqQ2lqVDZvOVhyQ0pCTjR3cW5Ib2N3SnNHVmFm?=
+ =?utf-8?B?UExBZnRvMllmSVFXZ0kwNDQxWmdNekFzTzlDZnN5cmF6NGhab3FyNEZtUmJ5?=
+ =?utf-8?B?K09zREszS3plY2R3Um42M245R3ZNeWNUdENROUpad2MrcGpmWFhUOXNFdXdz?=
+ =?utf-8?B?NXpPa242SXlXRWI1K1UzVkRzemtzOFQ0aURDei9nalkzLy9wd0ttTkF1MUgy?=
+ =?utf-8?B?UCtFMzVEc2dBZ2dTaThkaVpWRDFZQ2FMd3k4RWpBbmtmaU9Gc2xXSFhoRzNR?=
+ =?utf-8?B?RGxaMytaeng4amgxVCsydENWd3c3SXlEU2c3a1lpWlB1NnRrUEoySE0wc0lD?=
+ =?utf-8?B?cEduaGtaTnFxaUNIend0OFNoUXBRMDZEaGVrL2Z5a2s2UHY3b2pWQkpZOHBs?=
+ =?utf-8?B?VUM5NXFwa1lXMVJTWTB0Q21rZE5kei9ldWFGT0g3bVpMc1FLZGZqNnFiZWVB?=
+ =?utf-8?B?czhaU3FzQ3Rtd1YrZ1hHdmwxY2JVdm4rZHViV1ZHRisvQ2Vrb3VJei9OYmt0?=
+ =?utf-8?B?KzlaNjM5TU1kNTN1TlRabWt1VTdzYjBxYkRxR2grcDR6L0xnOHg2a21OSmtU?=
+ =?utf-8?B?TWovMGw2Z0d6SEFTRVhFNUtvZEhZY1NsMVowUXhDaUJhNDdaSGVvR2g2QUxh?=
+ =?utf-8?B?b2hBbDU0cWcxRW5oVTVOTjhFRndoYlU5NDVHL09qZmo5cWpDNzRXWHJrWjFE?=
+ =?utf-8?B?NmdHMURWY3I3Mi9hRFBNU2o2b3BDNy9KWnA0cmdTNGVYT00vWFZuRWYvVU1I?=
+ =?utf-8?B?VG1DQ2hUU0xjNnAyWUhxR25nWEN0ME1BTXlweDF6WXlvK1RYcjNhNGNuVTRS?=
+ =?utf-8?B?S0FSeWRwZ3hYNGhWUGd4NFp5V1hWOGFSMXlBTFhKNXpEaWdYYSt6ckNXRDIy?=
+ =?utf-8?B?VWFpYmIyTnl4YWZBSXZnai96TnUyREpacG9EYmlaSzZLbm9oZGc2Z3M1V00y?=
+ =?utf-8?B?OGtzOWtNdE4rc1R4cytRM2ZGN0tEalhxanlTNWdmNFgyWmRkUnBYdlorMUJD?=
+ =?utf-8?B?MWhwRVhRYlBGUUNlVnlVOExFcE1xNHlDeHVGWXVHWkdGY2tuZmxOTmo2VGNi?=
+ =?utf-8?B?MC81UVU3aTNNQUNlMnRMZ2Jib3VOR2pCUDEyVzBxRENTSzlKS2Fnb2hBUldX?=
+ =?utf-8?B?clJNL3lBb01kN0tvVDdmSlY5dTlkSlVKbFFJVjdEYURqSHRWaFJFOTUrTU9L?=
+ =?utf-8?B?Y0czN3dwbXI5ZWh3a2d6RTRpM2tla0dJL09HaXY5enU0bUVPNE1WQzZxQU1p?=
+ =?utf-8?B?dmkvZlBETmVQdWNDdEdMdnRwejdSWjZOakNoVlRKeFRyeXZ5aU01TzB3NXlp?=
+ =?utf-8?B?MkF6YTNiV0lDaW1iRVZZMjVMMEtHSzVYRkRlSUYyMGpZaDFMb0ZGeFp0S0I0?=
+ =?utf-8?B?QklPenMza0V6TmtxZ2UrZlhYK0JqRGZPN0t0dWt5ZEtGbXJuTlp4SnIwRENX?=
+ =?utf-8?B?UCtyV0UzVngrbC9Lelc3NTJaOENjbnNIeS9hdVBMYjhFbnFWV3JYeVhQQVRJ?=
+ =?utf-8?B?Q0pCSnN6SU85dExHRFZBWmc3d0dmVFl0RnBUZGVJWHIrNXpSYjdFQT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4eed00e2-a952-4f19-bc5f-08de5873e802
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB9072.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 22:33:17.2441 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fTNAMznJDrafVBxebFBD2AGZOuQ6/CPKiOl3oSzwXgOWLKrr/OUa8yu63QCTNrmfBF1EApUMMs4cwCMKaAlhAw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8300
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,75 +182,287 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[akhilpo@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:jesszhan0024@gmail.com,m:gaurav.kohli@oss.qualcomm.com,m:dan.carpenter@linaro.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:jie.zhang@oss.qualcomm.com,m:akhilpo@oss.qualcomm.com,m:quic_jiezh@quicinc.com,m:konrad.dybcio@oss.qualcomm.com,m:dmitry.baryshkov@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,poorly.run,kernel.org,linux.dev,somainline.org,gmail.com,ffwll.ch,linux.intel.com,suse.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[akhilpo@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim]
-X-Rspamd-Queue-Id: 96FC34CBB7
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kvack.org,nvidia.com,intel.com,linux-foundation.org,vger.kernel.org,lists.freedesktop.org,redhat.com,oracle.com,kernel.org,gmail.com,ffwll.ch,infradead.org,lists.ozlabs.org,ziepe.ca,amd.com];
+	FROM_NEQ_ENVFROM(0.00)[jniethe@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,nvidia.com:mid,Nvidia.com:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[Nvidia.com:+]
+X-Rspamd-Queue-Id: 9DF684D04F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Jie Zhang <quic_jiezh@quicinc.com>
+On 14/1/26 07:04, Zi Yan wrote:
+> On 7 Jan 2026, at 4:18, Jordan Niethe wrote:
+> 
+>> Currently when creating these device private struct pages, the first
+>> step is to use request_free_mem_region() to get a range of physical
+>> address space large enough to represent the devices memory. This
+>> allocated physical address range is then remapped as device private
+>> memory using memremap_pages().
+>>
+>> Needing allocation of physical address space has some problems:
+>>
+>>    1) There may be insufficient physical address space to represent the
+>>       device memory. KASLR reducing the physical address space and VM
+>>       configurations with limited physical address space increase the
+>>       likelihood of hitting this especially as device memory increases. This
+>>       has been observed to prevent device private from being initialized.
+>>
+>>    2) Attempting to add the device private pages to the linear map at
+>>       addresses beyond the actual physical memory causes issues on
+>>       architectures like aarch64 meaning the feature does not work there.
+>>
+>> Instead of using the physical address space, introduce a device private
+>> address space and allocate devices regions from there to represent the
+>> device private pages.
+>>
+>> Introduce a new interface memremap_device_private_pagemap() that
+>> allocates a requested amount of device private address space and creates
+>> the necessary device private pages.
+>>
+>> To support this new interface, struct dev_pagemap needs some changes:
+>>
+>>    - Add a new dev_pagemap::nr_pages field as an input parameter.
+>>    - Add a new dev_pagemap::pages array to store the device
+>>      private pages.
+>>
+>> When using memremap_device_private_pagemap(), rather then passing in
+>> dev_pagemap::ranges[dev_pagemap::nr_ranges] of physical address space to
+>> be remapped, dev_pagemap::nr_ranges will always be 1, and the device
+>> private range that is reserved is returned in dev_pagemap::range.
+>>
+>> Forbid calling memremap_pages() with dev_pagemap::ranges::type =
+>> MEMORY_DEVICE_PRIVATE.
+>>
+>> Represent this device private address space using a new
+>> device_private_pgmap_tree maple tree. This tree maps a given device
+>> private address to a struct dev_pagemap, where a specific device private
+>> page may then be looked up in that dev_pagemap::pages array.
+>>
+>> Device private address space can be reclaimed and the assoicated device
+>> private pages freed using the corresponding new
+>> memunmap_device_private_pagemap() interface.
+>>
+>> Because the device private pages now live outside the physical address
+>> space, they no longer have a normal PFN. This means that page_to_pfn(),
+>> et al. are no longer meaningful.
+>>
+>> Introduce helpers:
+>>
+>>    - device_private_page_to_offset()
+>>    - device_private_folio_to_offset()
+>>
+>> to take a given device private page / folio and return its offset within
+>> the device private address space.
+>>
+>> Update the places where we previously converted a device private page to
+>> a PFN to use these new helpers. When we encounter a device private
+>> offset, instead of looking up its page within the pagemap use
+>> device_private_offset_to_page() instead.
+>>
+>> Update the existing users:
+>>
+>>   - lib/test_hmm.c
+>>   - ppc ultravisor
+>>   - drm/amd/amdkfd
+>>   - gpu/drm/xe
+>>   - gpu/drm/nouveau
+>>
+>> to use the new memremap_device_private_pagemap() interface.
+>>
+>> Signed-off-by: Jordan Niethe <jniethe@nvidia.com>
+>> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+>>
+>> ---
+>>
+>> NOTE: The updates to the existing drivers have only been compile tested.
+>> I'll need some help in testing these drivers.
+>>
+>> v1:
+>> - Include NUMA node paramater for memremap_device_private_pagemap()
+>> - Add devm_memremap_device_private_pagemap() and friends
+>> - Update existing users of memremap_pages():
+>>      - ppc ultravisor
+>>      - drm/amd/amdkfd
+>>      - gpu/drm/xe
+>>      - gpu/drm/nouveau
+>> - Update for HMM huge page support
+>> - Guard device_private_offset_to_page and friends with CONFIG_ZONE_DEVICE
+>>
+>> v2:
+>> - Make sure last member of struct dev_pagemap remains DECLARE_FLEX_ARRAY(struct range, ranges);
+>> ---
+>>   Documentation/mm/hmm.rst                 |  11 +-
+>>   arch/powerpc/kvm/book3s_hv_uvmem.c       |  41 ++---
+>>   drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  23 +--
+>>   drivers/gpu/drm/nouveau/nouveau_dmem.c   |  35 ++--
+>>   drivers/gpu/drm/xe/xe_svm.c              |  28 +---
+>>   include/linux/hmm.h                      |   3 +
+>>   include/linux/leafops.h                  |  16 +-
+>>   include/linux/memremap.h                 |  64 +++++++-
+>>   include/linux/migrate.h                  |   6 +-
+>>   include/linux/mm.h                       |   2 +
+>>   include/linux/rmap.h                     |   5 +-
+>>   include/linux/swapops.h                  |  10 +-
+>>   lib/test_hmm.c                           |  69 ++++----
+>>   mm/debug.c                               |   9 +-
+>>   mm/memremap.c                            | 193 ++++++++++++++++++-----
+>>   mm/mm_init.c                             |   8 +-
+>>   mm/page_vma_mapped.c                     |  19 ++-
+>>   mm/rmap.c                                |  43 +++--
+>>   mm/util.c                                |   5 +-
+>>   19 files changed, 391 insertions(+), 199 deletions(-)
+>>
+> <snip>
+> 
+>> diff --git a/include/linux/mm.h b/include/linux/mm.h
+>> index e65329e1969f..b36599ab41ba 100644
+>> --- a/include/linux/mm.h
+>> +++ b/include/linux/mm.h
+>> @@ -2038,6 +2038,8 @@ static inline unsigned long memdesc_section(memdesc_flags_t mdf)
+>>    */
+>>   static inline unsigned long folio_pfn(const struct folio *folio)
+>>   {
+>> +	VM_BUG_ON(folio_is_device_private(folio));
+> 
+> Please use VM_WARN_ON instead.
 
-Enable GPU for qcs615-ride platform and provide path for zap
-shader.
+ack.
 
-Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
-Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- arch/arm64/boot/dts/qcom/qcs615-ride.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
+> 
+>> +
+>>   	return page_to_pfn(&folio->page);
+>>   }
+>>
+>> diff --git a/include/linux/rmap.h b/include/linux/rmap.h
+>> index 57c63b6a8f65..c1561a92864f 100644
+>> --- a/include/linux/rmap.h
+>> +++ b/include/linux/rmap.h
+>> @@ -951,7 +951,7 @@ static inline unsigned long page_vma_walk_pfn(unsigned long pfn)
+>>   static inline unsigned long folio_page_vma_walk_pfn(const struct folio *folio)
+>>   {
+>>   	if (folio_is_device_private(folio))
+>> -		return page_vma_walk_pfn(folio_pfn(folio)) |
+>> +		return page_vma_walk_pfn(device_private_folio_to_offset(folio)) |
+>>   		       PVMW_PFN_DEVICE_PRIVATE;
+>>
+>>   	return page_vma_walk_pfn(folio_pfn(folio));
+>> @@ -959,6 +959,9 @@ static inline unsigned long folio_page_vma_walk_pfn(const struct folio *folio)
+>>
+>>   static inline struct page *page_vma_walk_pfn_to_page(unsigned long pvmw_pfn)
+>>   {
+>> +	if (pvmw_pfn & PVMW_PFN_DEVICE_PRIVATE)
+>> +		return device_private_offset_to_page(pvmw_pfn >> PVMW_PFN_SHIFT);
+>> +
+>>   	return pfn_to_page(pvmw_pfn >> PVMW_PFN_SHIFT);
+>>   }
+> 
+> <snip>
+> 
+>> diff --git a/mm/page_vma_mapped.c b/mm/page_vma_mapped.c
+>> index 96c525785d78..141fe5abd33f 100644
+>> --- a/mm/page_vma_mapped.c
+>> +++ b/mm/page_vma_mapped.c
+>> @@ -107,6 +107,7 @@ static bool map_pte(struct page_vma_mapped_walk *pvmw, pmd_t *pmdvalp,
+>>   static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long pte_nr)
+>>   {
+>>   	unsigned long pfn;
+>> +	bool device_private = false;
+>>   	pte_t ptent = ptep_get(pvmw->pte);
+>>
+>>   	if (pvmw->flags & PVMW_MIGRATION) {
+>> @@ -115,6 +116,9 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long pte_nr)
+>>   		if (!softleaf_is_migration(entry))
+>>   			return false;
+>>
+>> +		if (softleaf_is_migration_device_private(entry))
+>> +			device_private = true;
+>> +
+>>   		pfn = softleaf_to_pfn(entry);
+>>   	} else if (pte_present(ptent)) {
+>>   		pfn = pte_pfn(ptent);
+>> @@ -127,8 +131,14 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long pte_nr)
+>>   			return false;
+>>
+>>   		pfn = softleaf_to_pfn(entry);
+>> +
+>> +		if (softleaf_is_device_private(entry))
+>> +			device_private = true;
+>>   	}
+>>
+>> +	if ((device_private) ^ !!(pvmw->pfn & PVMW_PFN_DEVICE_PRIVATE))
+>> +		return false;
+>> +
+>>   	if ((pfn + pte_nr - 1) < (pvmw->pfn >> PVMW_PFN_SHIFT))
+>>   		return false;
+>>   	if (pfn > ((pvmw->pfn >> PVMW_PFN_SHIFT) + pvmw->nr_pages - 1))
+>> @@ -137,8 +147,11 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long pte_nr)
+>>   }
+>>
+>>   /* Returns true if the two ranges overlap.  Careful to not overflow. */
+>> -static bool check_pmd(unsigned long pfn, struct page_vma_mapped_walk *pvmw)
+>> +static bool check_pmd(unsigned long pfn, bool device_private, struct page_vma_mapped_walk *pvmw)
+>>   {
+>> +	if ((device_private) ^ !!(pvmw->pfn & PVMW_PFN_DEVICE_PRIVATE))
+>> +		return false;
+>> +
+>>   	if ((pfn + HPAGE_PMD_NR - 1) < (pvmw->pfn >> PVMW_PFN_SHIFT))
+>>   		return false;
+>>   	if (pfn > (pvmw->pfn >> PVMW_PFN_SHIFT) + pvmw->nr_pages - 1)
+>> @@ -255,6 +268,8 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk *pvmw)
+>>
+>>   				if (!softleaf_is_migration(entry) ||
+>>   				    !check_pmd(softleaf_to_pfn(entry),
+>> +					       softleaf_is_device_private(entry) ||
+>> +					       softleaf_is_migration_device_private(entry),
+>>   					       pvmw))
+>>   					return not_found(pvmw);
+>>   				return true;
+>> @@ -262,7 +277,7 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk *pvmw)
+>>   			if (likely(pmd_trans_huge(pmde))) {
+>>   				if (pvmw->flags & PVMW_MIGRATION)
+>>   					return not_found(pvmw);
+>> -				if (!check_pmd(pmd_pfn(pmde), pvmw))
+>> +				if (!check_pmd(pmd_pfn(pmde), false, pvmw))
+>>   					return not_found(pvmw);
+>>   				return true;
+>>   			}
+> 
+> It seems to me that you can add a new flag like “bool is_device_private” to
+> indicate whether pfn is a device private index instead of pfn without
+> manipulating pvmw->pfn itself.
 
-diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-index 5a24c19c415e3fa92e3b543ed48b2fcd6b20c6ca..599361b7c54acfbe9e5e45eb2bae046e7fbc5715 100644
---- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-+++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-@@ -372,6 +372,14 @@ vreg_l17a: ldo17 {
- 	};
- };
- 
-+&gpu {
-+	status = "okay";
-+};
-+
-+&gpu_zap_shader {
-+	firmware-name = "qcom/qcs615/a612_zap.mbn";
-+};
-+
- &i2c2 {
- 	clock-frequency = <400000>;
- 	status = "okay";
+We could do it like that, however my concern with using a new param was that
+storing this info seperately might make it easier to misuse a device private
+index as a regular pfn.
 
--- 
-2.51.0
+It seemed like it could be easy to overlook both when creating the pvmw and
+then when accessing the pfn.
+
+
+Thanks,
+Jordan.
+
+> 
+> Best Regards,
+> Yan, Zi
 
