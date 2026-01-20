@@ -2,67 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KI91KEuib2mWDgAAu9opvQ
+	id MJhnG1qob2kZEwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 16:42:03 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 17:07:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D4E4466B9
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 16:42:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 052A04719F
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 17:07:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03F208905A;
-	Tue, 20 Jan 2026 15:42:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB72210E16B;
+	Tue, 20 Jan 2026 16:07:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TuLyzKsv";
+	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="kR9gOAj5";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="hcwcLU9t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8C3410E61F
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 15:41:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768923719; x=1800459719;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=UbIwb+qsuP9hP5xMksCk0ZIBQa/zIJyTUx3cEf6bOSk=;
- b=TuLyzKsvkarJ8Z7bBQ/peByFGVpMKpr3o9jee+k+9pdkHrmwVFgDMWhF
- z5JkKgGBxpiKGddnQCZfmVlITtM9TZayxaE8X7INTz+NIU/8uuEWwxDJU
- OEwP7BvTVAwD/vI1EO7doXbEaZRCT0C6HcPL3a3NO0BNTaF+Y/YYHROVX
- JUjdtvRSrJi2zTZBZo3BjCrjSjeHcGZj92bO5qcJ+zJgp0t31/Jdxtkbx
- C6Vg9SAmeQALEtPdc5YJ8hbzyPgmP+moMJie/KQhmtR3gcpiPmE9we64/
- HCGFROqPJPFt9eEyE1sXmlTa1VKsbOJr0epDWjCbJE3I4pIExxiPOyeYP w==;
-X-CSE-ConnectionGUID: NTu0GAzMTzyrHDaxop7eng==
-X-CSE-MsgGUID: JxyZpRgERKK3LJZf4P8kNA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="95608660"
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; d="scan'208";a="95608660"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2026 07:41:58 -0800
-X-CSE-ConnectionGUID: l5I0P0i7Q0y21O/PyArUtw==
-X-CSE-MsgGUID: MAeh0Y8zSpy5iFh5hHXHng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; d="scan'208";a="210641442"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.245.13])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2026 07:41:56 -0800
-Date: Tue, 20 Jan 2026 17:41:52 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joshua Peisach <jpeisach@ubuntu.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/edid: Use struct cea_db when parsing HDMI VSDB
-Message-ID: <aW-iQPICWLQ6Iez7@intel.com>
-References: <20260117205139.13991-1-jpeisach@ubuntu.com>
- <cb276398394bd5de209dfcee5216fcb2f6670974@intel.com>
+X-Greylist: delayed 409 seconds by postgrey-1.36 at gabe;
+ Tue, 20 Jan 2026 16:07:49 UTC
+Received: from flow-b8-smtp.messagingengine.com
+ (flow-b8-smtp.messagingengine.com [202.12.124.143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80C5F10E16B;
+ Tue, 20 Jan 2026 16:07:49 +0000 (UTC)
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+ by mailflow.stl.internal (Postfix) with ESMTP id A7CFA13012B5;
+ Tue, 20 Jan 2026 11:00:57 -0500 (EST)
+Received: from phl-imap-02 ([10.202.2.81])
+ by phl-compute-04.internal (MEProxy); Tue, 20 Jan 2026 11:00:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm2; t=1768924857;
+ x=1768932057; bh=KfkVnVcFie+8lJSMwr+BM1cQg1+WZ1F7itYYKxiYDxA=; b=
+ kR9gOAj5pXn1HlvyIPf1Dn2UnaJAS+jRzIAsaR2XzWmwVU3duRgbE0mh5JHntjXj
+ cuWYepTHKUWzhsOhC73++QR5yvZK4X1S2AwaIcjIrwElOhOnB7qBma9Rt3sk4wEp
+ WApUxciyhayGX/RZcK8fKFz6xIdI+xP0DrR1lTAATkjc8XoS7YDkMHYuYZCNVtBX
+ 4oGFoRnhTrXR+Av/H+nXr31W99ztPY8wV3R2x29p9i/J68icSSg69RfuDb4y8YAC
+ s4LhKb2VHYYXAgITpUrU4ktCyPGwkOI9lIgNBoXcky3A3mVVfmLH/JHxew6hI9Hi
+ veL08yMhuZP0sXK/DL5Ezw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1768924857; x=
+ 1768932057; bh=KfkVnVcFie+8lJSMwr+BM1cQg1+WZ1F7itYYKxiYDxA=; b=h
+ cwcLU9t2Na5NvYNY+HqrNgOlIOAEx2zdTmluSgjajfn4eJ5F+JIB4BRW8ErmbMJb
+ 5ljggxqqdQPdg2SZtb56c1NTdnpBu5weRDSXaiQR+Mg0Ub9iThiAQ79EUDX9yysa
+ If4/Knasx1iPLLZBRyvYpz8FhOYnlESn3fgeQPRrN8KMwKv6jSRpu0DLxO2sSNsb
+ R4TQnDC+MhnR+ow7ZS/sYxRoTgI4V6asIPb1zuVNFs2Fc8BB9RtG2146jooAzX5l
+ vcbjXpebeDkjFdxXkF3/V9TJ8Omw44E5cSge6Qts1idwHBYUlshPhSE1PbPF8M3M
+ EM/yfREYAwG76Llyugm5Q==
+X-ME-Sender: <xms:tqZvabeGsRgVUmYbJYubbEJsMblBOKkMPVUcZJSAcArtFN7R0_JmeQ>
+ <xme:tqZvacCZ4cB2mdxuaWLwjQTUSZDxD3Bf1wqfkWuap9G_bNa-8cI9R9Kjk_UIAoevp
+ 8e2nWPX3vkW-eL_zNn3-aozty1UyyBCIwgt3SJui6DtRU08gGv2zDs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddugedtkeefucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+ rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+ gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+ uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+ hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
+ gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepgeefpdhmohguvgepshhmthhpohhu
+ thdprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehlihhnuhigrdhinhhtvghlrdgtoh
+ hmpdhrtghpthhtohepjhhoohhnrghsrdhlrghhthhinhgvnheslhhinhhugidrihhnthgv
+ lhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuh
+ igrdhinhhtvghlrdgtohhmpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhn
+ uggrthhiohhnrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfh
+ hrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehinhhtvghlqdhgfhigsehlihhs
+ thhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepnhhtfhhsfeeslhhish
+ htshdrlhhinhhugidruggvvhdprhgtphhtthhopehnvhguihhmmheslhhishhtshdrlhhi
+ nhhugidruggvvhdprhgtphhtthhopeguvghvvghlsehlihhsthhsrdhorhgrnhhgvghfsh
+ drohhrgh
+X-ME-Proxy: <xmx:tqZvaWR4-8YE2KZu1y5jvyNQljKoCBlYcV9QkUPtn5Ni7W-NSZMsUw>
+ <xmx:tqZvaRktxaBWwwSZcFROAg2TG6_nap3Qro5Wk-tlRgwqau7F5lM2lA>
+ <xmx:tqZvaZLjBCOSgCLQJimLJKR8KCf21qGLd9xPnpeFgrHRnOQFa7r4YA>
+ <xmx:tqZvacVW_XYjP20S7nkpndFaafpNrDdhIyeeUuIH4hGwRfJO4DQR5A>
+ <xmx:uaZvadqcdmsUnvEM9LNX4jzRraMdQCDjpzpx0jFAVDSf99K8t-JGJM_0>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+ id A67DD70006A; Tue, 20 Jan 2026 11:00:54 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cb276398394bd5de209dfcee5216fcb2f6670974@intel.com>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+X-ThreadId: AWSx1lsrOtaB
+Date: Tue, 20 Jan 2026 17:00:28 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>,
+ "Jason Gunthorpe" <jgg@nvidia.com>
+Cc: "Andrew Morton" <akpm@linux-foundation.org>,
+ "Jarkko Sakkinen" <jarkko@kernel.org>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Dan Williams" <dan.j.williams@intel.com>,
+ "Vishal Verma" <vishal.l.verma@intel.com>,
+ "Dave Jiang" <dave.jiang@intel.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Dave Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Jani Nikula" <jani.nikula@linux.intel.com>,
+ "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>,
+ "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
+ "Tvrtko Ursulin" <tursulin@ursulin.net>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Huang Rui" <ray.huang@amd.com>, "Matthew Auld" <matthew.auld@intel.com>,
+ "Matthew Brost" <matthew.brost@intel.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Benjamin LaHaise" <bcrl@kvack.org>, "Gao Xiang" <xiang@kernel.org>,
+ "Chao Yu" <chao@kernel.org>, "Yue Hu" <zbestahu@gmail.com>,
+ "Jeffle Xu" <jefflexu@linux.alibaba.com>,
+ "Sandeep Dhavale" <dhavale@google.com>,
+ "Hongbo Li" <lihongbo22@huawei.com>, "Chunhai Guo" <guochunhai@vivo.com>,
+ "Theodore Ts'o" <tytso@mit.edu>,
+ "Andreas Dilger" <adilger.kernel@dilger.ca>,
+ "Muchun Song" <muchun.song@linux.dev>,
+ "Oscar Salvador" <osalvador@suse.de>,
+ "David Hildenbrand (Red Hat)" <david@kernel.org>,
+ "Konstantin Komarov" <almaz.alexandrovich@paragon-software.com>,
+ "Mike Marshall" <hubcap@omnibond.com>,
+ "Martin Brandenburg" <martin@omnibond.com>,
+ "Tony Luck" <tony.luck@intel.com>,
+ "Reinette Chatre" <reinette.chatre@intel.com>,
+ "Dave Martin" <Dave.Martin@arm.com>, "James Morse" <james.morse@arm.com>,
+ "Babu Moger" <babu.moger@amd.com>, "Carlos Maiolino" <cem@kernel.org>,
+ "Damien Le Moal" <dlemoal@kernel.org>,
+ "Naohiro Aota" <naohiro.aota@wdc.com>,
+ "Johannes Thumshirn" <jth@kernel.org>,
+ "Matthew Wilcox" <willy@infradead.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ "Vlastimil Babka" <vbabka@suse.cz>, "Mike Rapoport" <rppt@kernel.org>,
+ "Suren Baghdasaryan" <surenb@google.com>,
+ "Michal Hocko" <mhocko@suse.com>, "Hugh Dickins" <hughd@google.com>,
+ "Baolin Wang" <baolin.wang@linux.alibaba.com>, "Zi Yan" <ziy@nvidia.com>,
+ "Nico Pache" <npache@redhat.com>, "Ryan Roberts" <ryan.roberts@arm.com>,
+ "Dev Jain" <dev.jain@arm.com>, "Barry Song" <baohua@kernel.org>,
+ "Lance Yang" <lance.yang@linux.dev>, "Jann Horn" <jannh@google.com>,
+ "Pedro Falcato" <pfalcato@suse.de>, "David Howells" <dhowells@redhat.com>,
+ "Paul Moore" <paul@paul-moore.com>, "James Morris" <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>, "Yury Norov" <yury.norov@gmail.com>,
+ "Rasmus Villemoes" <linux@rasmusvillemoes.dk>, linux-sgx@vger.kernel.org,
+ linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ linux-aio@kvack.org, linux-erofs@lists.ozlabs.org,
+ linux-ext4@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev,
+ devel@lists.orangefs.org, linux-xfs@vger.kernel.org,
+ keyrings@vger.kernel.org, linux-security-module@vger.kernel.org
+Message-Id: <1617ac60-6261-483d-aeb5-13aba5f477af@app.fastmail.com>
+In-Reply-To: <488a0fd8-5d64-4907-873b-60cefee96979@lucifer.local>
+References: <cover.1768857200.git.lorenzo.stoakes@oracle.com>
+ <baac396f309264c6b3ff30465dba0fbd63f8479c.1768857200.git.lorenzo.stoakes@oracle.com>
+ <20260119231403.GS1134360@nvidia.com>
+ <36abc616-471b-4c7b-82f5-db87f324d708@lucifer.local>
+ <20260120133619.GZ1134360@nvidia.com>
+ <488a0fd8-5d64-4907-873b-60cefee96979@lucifer.local>
+Subject: Re: [PATCH RESEND 09/12] mm: make vm_area_desc utilise vma_flags_t
+ only
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,99 +178,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Spamd-Result: default: False [-0.60 / 15.00];
-	R_MIXED_CHARSET(0.71)[subject];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [0.20 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[arndb.de,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_DKIM_ALLOW(-0.20)[arndb.de:s=fm2,messagingengine.com:s=fm2];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:jani.nikula@linux.intel.com,m:jpeisach@ubuntu.com,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[ville.syrjala@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[ville.syrjala@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[arndb.de:+,messagingengine.com:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[arnd@arndb.de,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[linux-foundation.org,kernel.org,linux.intel.com,redhat.com,alien8.de,zytor.com,linuxfoundation.org,intel.com,suse.de,gmail.com,ffwll.ch,ursulin.net,amd.com,zeniv.linux.org.uk,suse.cz,kvack.org,linux.alibaba.com,google.com,huawei.com,vivo.com,mit.edu,dilger.ca,linux.dev,paragon-software.com,omnibond.com,arm.com,wdc.com,infradead.org,oracle.com,suse.com,nvidia.com,paul-moore.com,namei.org,hallyn.com,rasmusvillemoes.dk,vger.kernel.org,lists.linux.dev,lists.freedesktop.org,lists.ozlabs.org,lists.orangefs.org];
+	RCPT_COUNT_GT_50(0.00)[93];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:mid,intel.com:dkim,ubuntu.com:email]
-X-Rspamd-Queue-Id: 3D4E4466B9
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arndb.de:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+X-Rspamd-Queue-Id: 052A04719F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Jan 19, 2026 at 03:39:12PM +0200, Jani Nikula wrote:
-> On Sat, 17 Jan 2026, Joshua Peisach <jpeisach@ubuntu.com> wrote:
-> > drm_parse_hdmi_vsdb_video is one of the parsers that still do not use the
-> > cea_db struct, and currently passes a u8 pointer.
-> >
-> > Set the correct struct type and update references to the data accordingly.
-> > This also makes the same change to drm_parse_hdmi_deep_color_info as
-> > necessary.
-> >
-> > Signed-off-by: Joshua Peisach <jpeisach@ubuntu.com>
-> > ---
-> >  drivers/gpu/drm/drm_edid.c | 26 +++++++++++++-------------
-> >  1 file changed, 13 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> > index 26bb7710a..15bd99e65 100644
-> > --- a/drivers/gpu/drm/drm_edid.c
-> > +++ b/drivers/gpu/drm/drm_edid.c
-> > @@ -6290,7 +6290,7 @@ static void drm_parse_hdmi_forum_scds(struct drm_connector *connector,
-> >  }
-> >  
-> >  static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
-> > -					   const u8 *hdmi)
-> > +					   const struct cea_db *db)
-> >  {
-> >  	struct drm_display_info *info = &connector->display_info;
-> >  	unsigned int dc_bpc = 0;
-> > @@ -6298,24 +6298,24 @@ static void drm_parse_hdmi_deep_color_info(struct drm_connector *connector,
-> >  	/* HDMI supports at least 8 bpc */
-> >  	info->bpc = 8;
-> >  
-> > -	if (cea_db_payload_len(hdmi) < 6)
-> > +	if (cea_db_payload_len(db) < 6)
-> >  		return;
-> >  
-> > -	if (hdmi[6] & DRM_EDID_HDMI_DC_30) {
-> > +	if (db->data[6] & DRM_EDID_HDMI_DC_30) {
-> 
-> That's not the same thing, but off-by-one now. Ditto everywhere that
-> changes from u8* to db->data[].
-> 
-> The main problem with the change (even with fixed offsets) is that the
-> *specs* typically use indexing from the beginning of the data block, not
-> from the beginning of payload data.
-> 
-> We've discussed this before with Ville (Cc'd) but I'm not sure if we
-> reached a conclusion.
+On Tue, Jan 20, 2026, at 16:10, Lorenzo Stoakes wrote:
+> On Tue, Jan 20, 2026 at 09:36:19AM -0400, Jason Gunthorpe wrote:
+>
+> I am not sure about this 'idiomatic kernel style' thing either, it feels rather
+> conjured. Yes you wouldn't ordinarily pass something larger than a register size
+> by-value, but here the intent is for it to be inlined anyway right?
+>
+> It strikes me that the key optimisation here is the inlining, now if the issue
+> is that ye olde compiler might choose not to inline very small functions (seems
+> unlikely) we could always throw in an __always_inline?
 
-I guess we could give up on the index matching the spec byte#.
-Looks like the HDMI VSDB parsing is the only place where we
-actually have the two match, and everwhere else it's
-already inconsistent.
+I can think of three specific things going wrong with structures passed
+by value:
 
-Also maybe we should add something to also exclude the
-extended tag from the payload, for the blocks that use
-the extended tag...
+- functions that cannot be inlined are bound by the ELF ABI, and
+  several of them require structs to be passed on the stack regardless
+  of the size. Most of the popular architectures seem fine here, but
+  mips and powerpc look like they are affected.
 
--- 
-Ville Syrjälä
-Intel
+- The larger the struct is, the more architectures are affected.
+  Parts of the amdgpu driver and the bcachefs file system ran into this
+  with 64-bit structures passed by value on 32-bit architectures
+  causing horrible codegen even with inlining. I think it's
+  usually fine up to a single register size.
+
+- clang's inlining algorithm works the other way round from gcc's:
+  inlining into the root caller first and sometimes leaving tiny
+  leaf function out of line unless you add __always_inline.
+
+      Arnd
