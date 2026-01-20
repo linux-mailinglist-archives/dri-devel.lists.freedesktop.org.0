@@ -2,88 +2,163 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62B72D3BE8A
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 05:51:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0C3BD3BECC
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 06:27:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3936010E183;
-	Tue, 20 Jan 2026 04:51:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9344B10E239;
+	Tue, 20 Jan 2026 05:27:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="STTi1GIF";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ZfwfEeuO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C899610E183
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 04:51:39 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-29f2676bb21so49773145ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 19 Jan 2026 20:51:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768884699; x=1769489499; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CrPpWhLizzqyrVdqRt9DE4t+jE309BmKnkyinv/DH0E=;
- b=STTi1GIFBglUrtyPjdL67HN57MQb/9GyRxUetlIqYMp69ghSVsI3i/D86qi42YaAxz
- dEBYN8sVp+pJxYfM8b8EeFsUrqxaDqSw8BUIYqVDBofpAt+gm1ChXR53BYlCJOh9ztKL
- EwSmtJtj3sz1nuh7E+ld/i0steH1pB9pEDXox0bO73bGjl3OaNTfCBoNDkX4pWFPh7Ux
- lHTs75JcXwY8W532PLVXhJUkait2qFctEwlPcdXwTPvJPHGTr0pkArPgRqUfBbHXiWcf
- K/9tcmzFRRFmmrZKvstkhEuNtJ/ykCEwEdnkPYBkTHxH8vpFB+KS5KRqtJ5D7zXONFD1
- hE3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768884699; x=1769489499;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CrPpWhLizzqyrVdqRt9DE4t+jE309BmKnkyinv/DH0E=;
- b=cIKMddj5yIEVu49NWP6HnhteomnrhW59pin1dRFmslxtpR2vFStI1qVovAIY+QDPa3
- ytWTCbgiEbNIH5baBwvIRb98+TOLDejqIVZqcz2Z1s/ShujmI8cefO80V73KgaHZuACE
- E3Fhvr35UhmVl6/58Y2V+h4amFQTlZaY24c5BRY9EutslpMpcjyOj1NMxojsPlwUBxtI
- wAIaZZGyP/+e4wZu6kogfYacTkRfbiLF9Zzs5H+NnxSaOp0807I1lQy3WYU6jvDcDlAh
- L9OKt4Vkcmt1q/VPiKg3ROavCSiWazveyh9wSnPvn4Fkxcanaw+JxFx7jaF62XhyAh49
- gzUA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXRTJOZR88I9YvqrJ5OKKyylEx+zYj9Pohg3tahAeU/D3a/PCQRKs9qEYI8opGFBWKG8z6//6QBlIo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxbeLpVAm5s5YTRo5+yxafKzJPiyZpj/YLZmIouA5oJMP5qWT07
- szqFz5ynqXJCIjUTriJprKxFOaH9UFtsqocGEcZu08O/VThpXJbNoOf/
-X-Gm-Gg: AZuq6aIvdFpV+oIHE+GpKPLwT8CAzge4sKkT3veYxg93y7IPM79hqYMFrlHTtv8vVbH
- SWeA9WQaGfIsfemuS9OYNRcC2fgAnVhwp3Gwq5vj31DTdsiiFoh5i95jk1PWw9G5iiS7ZHhUq4U
- ZJCsiQQpk90wBbzWLES66lI1fkNHkyLMKafl+Ee3+jQfNQycRLZsRL5apdTqvEQHnNbGJkpy7Hb
- 2QsfkoHN6KdEu6A/YYj1cc4WRM0HNBuHOZt087qJY94cJ1+QkSCKEaDcS8x+eQpizjALSUN68bh
- 4uiwR3u5yGjYFSkvIEFR+CB3twiLnqhN0+i69Tcqz2eFVV5uyg7HzfZ3CKD/1SbPw+tKhHObtnR
- a7IlRRIW5+RmrLqm6TwzfY4RW/7qo42T/27jYBlaWoq+l18beAHCY0oj1QmlwBRr9X2TPjCwSdr
- uwnFNl9JI2Z7mcIHyivq7fmFvdvjFUZSD78Q==
-X-Received: by 2002:a17:902:f788:b0:29e:9387:f2b7 with SMTP id
- d9443c01a7336-2a7188577d1mr133191665ad.11.1768884699087; 
- Mon, 19 Jan 2026 20:51:39 -0800 (PST)
-Received: from [172.16.20.12] ([136.226.253.21])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a7193fd35esm107003535ad.81.2026.01.19.20.51.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Jan 2026 20:51:38 -0800 (PST)
-Message-ID: <ec7b7af7-1343-4988-b783-9ce9b045c8ae@gmail.com>
-Date: Tue, 20 Jan 2026 10:22:02 +0530
-MIME-Version: 1.0
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010006.outbound.protection.outlook.com
+ [40.93.198.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE6D110E239;
+ Tue, 20 Jan 2026 05:27:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kYlzQA4ASqA2HMI3rJ30dmqq/IgE/z7eNUeqK5zEBN0q4l8lAFX84y3lpMRCXcUqYV/n+4/PJ2ffpU3iewZ0vPCZBT+nR4MmA5N8LeL7L2U43+piJx5BZkfMHszOVRWypcQl9kzlBgfJAb6WFq4pBXfNl85Wo91FH2/oTopdpciy7TpS+LgXcVZAMhd7HzUhY4Zb+cB1iSx5FebrPzOvIDeT6EUHc6OPwwSei4iUCnNSgi2eZHmVWnZifogLXWBPu+EboROVOZFfOF0ci9Qxtl58Vo/95/0S+THarW+nWESi/AGPkvJ572W2aLaD+fXVAh1aMu7kzhLOopckcvq6Vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xHetAPF0BggPeSzjqhpgyNI0czEMO9oZ1EBrH1+DU78=;
+ b=nsaC/CE1/pj4Zd8tPtIq4pagpHRB22brqvh2dnZcwS5yivl+0ijuzV7nFIxjp6DG145paJFEvgZHeQU4nYgALuCGhGhWQZHj9CpN5141eXgdBByz2ca2j5zxlXNuTB08VPHkzH8+2At4szldblZ6VO93Cb4mqnCt2CWq6902gUUfErv+8Bl7eQelIbxRcNFotF/R38an0fETJTr45fntNCoHY+2zSul9kiGAokcuOqdMrbIuPqbfW6LfLEbOQXIkeU232zU1cA3xEtAzpZgEZzNbPPdMkT0TSfa4uKaeKQon7qPh6JWUTiSXt64NU/rrlhbU2yv7LmG5zC5YZeRYYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xHetAPF0BggPeSzjqhpgyNI0czEMO9oZ1EBrH1+DU78=;
+ b=ZfwfEeuO9wcRgbvujKl5dfHh7uFJk5264Ex/egHav9OdoCnby2bxNYV5gadLevUnmYZis2zAGpm/x6Y81YRTLQZPc5CWLSIUH8q5P//rDrsHnFqiJD9rYw8bSbD8k5Ynmx6q/Hqkf1+3qFStajC/+FNFQZuEJ10lXen0p17p8Sc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH8PR12MB7301.namprd12.prod.outlook.com (2603:10b6:510:222::12)
+ by SN7PR12MB6911.namprd12.prod.outlook.com (2603:10b6:806:261::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Tue, 20 Jan
+ 2026 05:27:38 +0000
+Received: from PH8PR12MB7301.namprd12.prod.outlook.com
+ ([fe80::8434:dc50:a68d:7bdd]) by PH8PR12MB7301.namprd12.prod.outlook.com
+ ([fe80::8434:dc50:a68d:7bdd%4]) with mapi id 15.20.9520.011; Tue, 20 Jan 2026
+ 05:27:37 +0000
+Message-ID: <3ffbe456-17c1-46b4-83e1-e26792aa5248@amd.com>
+Date: Tue, 20 Jan 2026 10:57:30 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] backlight: gpio: add support for multiple GPIOs
- for backlight control
-To: Daniel Thompson <daniel@riscstar.com>
-Cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
- pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260105085120.230862-1-tessolveupstream@gmail.com>
- <20260105085120.230862-3-tessolveupstream@gmail.com>
- <aVuN7zVUWJ1qsVh8@aspen.lan> <1fedb7d7-3a30-4f0f-961f-09613f2a95d0@gmail.com>
- <aWe-QA_grqNwnE4n@aspen.lan>
+Subject: Re: [RESEND 1/1] drm/buddy: release free_trees array on buddy mm
+ teardown
+To: Matthew Auld <matthew.auld@intel.com>,
+ =?UTF-8?Q?Micha=C5=82_Grzelak?= <michal.grzelak@intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
+ rodrigo.vivi@intel.com, Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20251219193237.1454565-1-michal.grzelak@intel.com>
+ <8c553c8d-2b09-4c2b-a744-dd789e5a1f64@intel.com>
 Content-Language: en-US
-From: tessolveupstream@gmail.com
-In-Reply-To: <aWe-QA_grqNwnE4n@aspen.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
+In-Reply-To: <8c553c8d-2b09-4c2b-a744-dd789e5a1f64@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN4PR01CA0037.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:277::8) To PH8PR12MB7301.namprd12.prod.outlook.com
+ (2603:10b6:510:222::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7301:EE_|SN7PR12MB6911:EE_
+X-MS-Office365-Filtering-Correlation-Id: f1e07b23-e8d1-4f29-2a22-08de57e49f6f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WWdiLzhXb2lnbGVzL0Q5YXhhOFA2WlNpcm9lR1lCMC9ia3pzS0s1R1Rja1J1?=
+ =?utf-8?B?aVdzUHVsb293VFpZUkJHZEk1K20xeEduZjVCYmxSSEJKenFZS0daL2Y2YzFG?=
+ =?utf-8?B?Y2JUWFMxNVdjZjFUVHpZUm1NVGNtczVPZ3VGengxRGV1VWRPVkhHNVBkdGZ1?=
+ =?utf-8?B?Mm4xQWFobXcwTTdpVWg4R1dkWWZhZGxBSldGWTFIWTVtdXB6eFNwWjBuUGVz?=
+ =?utf-8?B?cnJkMHo4dzhiaFdTYzVtWVIrbVVUUGg1T1RIUU9qbkE4V0U2Tll4NG9aZVpW?=
+ =?utf-8?B?UEZ0VERzaXlidzJkNFYvaENBT0UxUG9nbE5KSWp5SUhUOEJ4aVgxd2V5UHE4?=
+ =?utf-8?B?d3VmUDVtNUxUVFFpRm5EWWJORFcySGNFaEk2S0oxajcwSzNJRTVpM2s5MHpz?=
+ =?utf-8?B?R2VmRXJ0NkQ1c0p5OGNMa2hqT2ZMVWliUUhKMDdaRENGL3pyYTFaSXpUT0dD?=
+ =?utf-8?B?QXQrSjErai8yV3d6bXV2ck9aZ0VWanhqWlNzOFl1YThZWkwxb2tKM1VvRmRh?=
+ =?utf-8?B?a29zQ3F0alFNaHV0QmgvcWJRemNXSmJmTVN6VWo1QXozL0ZUczY4eFlEZUFU?=
+ =?utf-8?B?bENvOUFOVjBQUXNOWS9MV1RyYW9oSi9ONjZjYWRxL3BKeS91ODA4dDAyamFC?=
+ =?utf-8?B?SlJRWmoxN3VXQnQwbXc3clM0UjFlT3pLc2haQjA0K3VDR1JudE4vMjZnYm9C?=
+ =?utf-8?B?M0NJYTJmSHo5WVlEd0dYZTJwbFQwaDFmUXRna1hIYUZYb0VmK21yTHhQNEFP?=
+ =?utf-8?B?bjFSSEErSlBrR3JGN1Q2cUpDMUNOQWo5OXIvdS94RGVOWDFXcDlkc25XRm1E?=
+ =?utf-8?B?aXpJaGtvODlORTBYUWN0TmpWWUJ0eHd6UmxvTE5Rd05uSnNBWUxEUGJVdnhF?=
+ =?utf-8?B?N1doTVJ3a25HMUZYbGZPMnR6eEM0YkZuM2RPZSt3VnBaUW9UYy82aG1qS1Jr?=
+ =?utf-8?B?dEkvV3hXU1dYeC9nb08yNkovaUgwTG5SQXh4UVVVUXEwWTZHYmhOWG5TdzBP?=
+ =?utf-8?B?K21KZS9VUUVBRXJ6TGE3a0JXTU42QS91ZGVmZTlrM0NQamtsR3EvSlJPM0pN?=
+ =?utf-8?B?VVlLN1JydTVKQXVPZ0paSnJ4aUI2aElFbHpieDBFelFRUGJYU1crR01SdlJ0?=
+ =?utf-8?B?RDREMHpQWnJ5eDhWVGZxLzAwVmFqWFJ0MEt6MTJhVzJBRTA5NHRXUWpkOCt0?=
+ =?utf-8?B?aVI2UGVqUEVWN3VmN2s3bGFwZFFIcFhnYnRLakdlYVNjVW1GK1NLVDVGODdO?=
+ =?utf-8?B?UHBFMDB4a0RRUHBlQUFFbHlaVEJyeVJtZmxFSS9xSDM4R2k0L25vQ05WVkVa?=
+ =?utf-8?B?UDZNNGV5VllDRnNrOTRodHd6OXVsbU9KdHhLQ3huanFCWTJDL1B4V2NRM0NV?=
+ =?utf-8?B?emlCcTllSFBQVjFvK2dsNTJNVHRzVklqSGJLMXNyQ0FYa1lQeGc0R0Z3dnFK?=
+ =?utf-8?B?REhHNmdaWnhhUU8vQ3JuL1pucVRVYlFoSkZPRnlSV21LUFVqemxidUZ1RHJw?=
+ =?utf-8?B?eVpvRk1tMHJJd0c4WUJlMzd3L0ZrclZhYkxOa0xMQXdXMUxNdERMUkVGY091?=
+ =?utf-8?B?Wm5CNnJFRCtrL0RBL2JrZFF0S3ZrTUROK1ZhK3BQTmRsamdIWmM4bzNzaUZp?=
+ =?utf-8?B?NkdYZlpKa1Rlck5QVnhuZ0J6RUhpbmtCS1I4cmRhWlhONG03ZG5YSEtTQVY4?=
+ =?utf-8?B?N3FldzZFcmVQdnhGL2h3NEp5YzM3U3NvL0pRRGFKemJ4YVlIc1d6c2hPR055?=
+ =?utf-8?B?QW9Pclo0YWJIZTVDUWVHYlpYNE9lNXNmaWYwWm5QQ2VLdk9qQm5QcHl1cVRt?=
+ =?utf-8?B?ekxtejlNRlR5aVZlb3dub3NOTzFLa2pHSEVLMEhXTlZjdTJmTGJrMHVKTnIy?=
+ =?utf-8?B?Wk9IU0I5QkIvQTl1b0NaNHJyZDZzNk9RY3Y5MFUrUmJqek5pYlc4MVpmN0Ir?=
+ =?utf-8?B?bjRuUnA5ZTVIeW9YemVMWXFkdGZhTERkdUYxNVdwYXBkaEhTQnZDSVVQR21R?=
+ =?utf-8?B?SCtqU0d1aFdaUzlUVFZwdDlZbTYyRWRKanFFT3hwUzlPcndBL1ZjWGZGN1F5?=
+ =?utf-8?B?MnRRN0VQVXRPVWpuUHpwWnFPQStvandlb0ZWV2tGQytFVFFaV3RGblhOMHB3?=
+ =?utf-8?Q?yVS8=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH8PR12MB7301.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VUpUeHFYMERwZ0hwOU9qSDNZbU5CSmpMd2lRVzZVeFdJQ0FqRnFnZTdSRDhy?=
+ =?utf-8?B?MnRYeVRLUXBDNmhrL3czQThyVUZpbkgwdWdBb1R2ZGYwbk4zYzB2ZFJxMXBC?=
+ =?utf-8?B?WC9JRkI0d1NQalBhYUlVeXdRV3pzcUc2dVJnd3R0YVNQaXFmaFNVU0hQMFRL?=
+ =?utf-8?B?NTZoSlorelErVjhtbklCQ0NrYWJpQ25NTzBtWTh5bUxCWG1RcWdHeGQ0OFZV?=
+ =?utf-8?B?S3k1dElBZFljamhySTN4dU1scXdIV0V0djNLOFRWZVk2dUdJZG1yLzJLcml6?=
+ =?utf-8?B?c2NiU3NSUHpnUEMrNllyS1pQS1V1SlRBbndOLzNEZkVycEZJT0VzWXN4cUw1?=
+ =?utf-8?B?TXowc1pnZmx5ZktEVmlYNmR3N1lVZmxxNmZGVHc0eGE2UkwydVYzK3k3em1l?=
+ =?utf-8?B?dVVwZ3ZwU3I5RFJuQ3djb3dyQmgzVndZUDFwSmlTazFFY1ZpdEJjTUlhNUJa?=
+ =?utf-8?B?SC94SHFGNWVDN0tDaTRqRDA1U3ZWT0xxVG1vZFdjVldnQTZmWHVHc0FLMWdj?=
+ =?utf-8?B?TUdGOGZNbE1iNXpCOUdQZzdOY2RveUlqUWlkWFJxLzhiQkFoL2w2L25iTHRI?=
+ =?utf-8?B?T01SS29mNGdYY3JtcjY1akxDM0lqMTJ6YkZOWFR4T3JwS3BVWU5jK0swaUhv?=
+ =?utf-8?B?cTF5cG9DMXN2TGRqSzVXWTlMUTRpUHQzajB4VHdWa0FzWE9aWU5vN2FYeW5S?=
+ =?utf-8?B?SHduT2NSVkNxZkQwKzlQSHBuZ0loSUsvbUpIOFd2dElqNnMzaVY3RStIUjVF?=
+ =?utf-8?B?OXFxREJtMDVqUXVlM1A0SWMvK2orMUVEQXJ0QXdNV0pObnNidHRkcmFZOXhN?=
+ =?utf-8?B?WFIwaFU1T2p5ekJzZkJoaVYwb3JvbThKSjZDck5PdjZaVDd4TzhNT3YrdVlu?=
+ =?utf-8?B?M1RRYVk3MllzU0F5UzBWOTVxNXNqdDR1WHdRQzVkaHk4ZVE4Q2ZtdTZxcTA4?=
+ =?utf-8?B?V2oxMlpsMGZlUFRoS3R3SkNLQ2xwdXhoV1crWGZ1UHMzODd1RUxVdDYyMm1P?=
+ =?utf-8?B?bjJrL0Qralc2RzNrb0Vlbjc0SkprZ0FQQVduUU5kSEQvazFFL3NGVDZ5WkRY?=
+ =?utf-8?B?Mk1JN3M1RFozTlVoWXBUN1ZKc0RhQTYzZWFZSHpBOFM1dkIvcEV2a2FnV0U5?=
+ =?utf-8?B?TzlhVnFoTUtQeTlHbUVuaFlvdGM0WUtHM0F6K04yNW5XMUpya0tNMkNER08v?=
+ =?utf-8?B?TFlhTlVOTUQybGRUT1BJMnhvMk1rZ25HQ0hlMzJkZHoydUhmNmlTQUFXdTNm?=
+ =?utf-8?B?Nlc4SE9MaVZ0clcxdkNta2FQaUYzUEpoU2pZSStzWlZHYVdWOGlsQkFuaVNH?=
+ =?utf-8?B?aVM0WkZTemZvWmRXenA4WXF6NGozVEdBSjJ2bjFNYU4wRTRnb2QzNnpsRno2?=
+ =?utf-8?B?aE04V2dBa2t4a255RTZwb013d1FjTzFWWkZHUDkwU29OczQ4K0I1Q2IxTjYz?=
+ =?utf-8?B?NGg1K2RNSHgyU09XTXprZm5NZEFQbFFEWlZmdTgrOE9hL2VUQnoxSEtjM2Fa?=
+ =?utf-8?B?WEpyWUMrWFFKOFNFSW8yaGNlVm5RNklMa0xsRVN2RElaZk5UYURVWm9hZG9Y?=
+ =?utf-8?B?ZmkzeDJYV3pnS2Uvdy9ldFZ3dWRIV3pqU1NUWk9uU0tyMDB2OTU3ajRwQ0pu?=
+ =?utf-8?B?STd4VDlNUDJNR0NrbFdUMCtKOUdoWE9vb3dORTFBRENFTkNXVWh2ditOTDRi?=
+ =?utf-8?B?NG91VWY4WnFCMENVV3piVjNGQk03T1RxMXF5Yk1BeG5pdy9jc2JiWS8xeG43?=
+ =?utf-8?B?NjlhY3R0Y1hTRHpMa29vYlFHSkVYajU2WmJkaXc0Q3oxQlN2UU04Mm13aktj?=
+ =?utf-8?B?VlQ3dWRPeEdVem9xZUVlWVJVczFPQWd0SnFyRE8yVEYxNXg5MHYwem1xOTZW?=
+ =?utf-8?B?S1VGazAvQURISWgzOGh2SEZVVU51Z2Vub3RuM2x4bG81Y3Y0ZUcvUkI4dU9h?=
+ =?utf-8?B?UWt0RzNCbncrK1Boa2NYekU4aXBVZEZFc3U0YVNOelFucURWNEFaWnE1R25K?=
+ =?utf-8?B?ZFFFbXhjL2p3VTYzOE1LUWt5TE8xSTFESVJaWit3cEJYbE5DYnRvYlV6ODNv?=
+ =?utf-8?B?RHpKTEJwUjJ6UTFlUXBXSXIzcU5hN2JibDJSdWswMENMcEZST205UktZQS9y?=
+ =?utf-8?B?bFdhUTEwc1daZzcvMy9xOXY4bHpnQWtIMnYzY1dJQ00xUmdTcElmOUZYMnJE?=
+ =?utf-8?B?THdyQUx4cHppeG5JbU16TkZ4UjBYWGlLaU95V1ZwRWhEQ09KYzR6b2NyTEl0?=
+ =?utf-8?B?cCtDYTYyT0EzZEJpeC9mYncvU3NBUzh6SVg2OVV3aHZNZERhTndRK2ltcVVa?=
+ =?utf-8?B?QnJFMnpvNGZTNDl3ZEc0N0JPOC9qTk9KL1JRWlhIZTR0TXFZTWxBZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f1e07b23-e8d1-4f29-2a22-08de57e49f6f
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7301.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 05:27:37.7400 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4w1ebdkBi3R/fH0bEckje9KdAxAOWufl94lIKd3EGqzenzJMXZ3ZIzn8QmgVgETVQawxAB2psZ8OGu1B+70xdA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6911
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,253 +175,61 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-On 14-01-2026 21:33, Daniel Thompson wrote:
-> On Tue, Jan 13, 2026 at 12:47:26PM +0530, tessolveupstream@gmail.com wrote:
+On 19/01/26 21:55, Matthew Auld wrote:
+> On 19/12/2025 19:32, Michał Grzelak wrote:
+>> During initialization of DRM buddy memory manager at drm_buddy_init,
+>> mm->free_trees array is allocated for both clear and dirty RB trees.
+>> During cleanup happening at drm_buddy_fini it is never freed, leading to
+>> following memory leaks observed on xe module load & unload cycles:
 >>
+>>      kmemleak_alloc+0x4a/0x90
+>>      __kmalloc_cache_noprof+0x488/0x800
+>>      drm_buddy_init+0xc2/0x330 [drm_buddy]
+>>      __xe_ttm_vram_mgr_init+0xc3/0x190 [xe]
+>>      xe_ttm_stolen_mgr_init+0xf5/0x9d0 [xe]
+>>      xe_device_probe+0x326/0x9e0 [xe]
+>>      xe_pci_probe+0x39a/0x610 [xe]
+>>      local_pci_probe+0x47/0xb0
+>>      pci_device_probe+0xf3/0x260
+>>      really_probe+0xf1/0x3c0
+>>      __driver_probe_device+0x8c/0x180
+>>      driver_probe_device+0x24/0xd0
+>>      __driver_attach+0x10f/0x220
+>>      bus_for_each_dev+0x7f/0xe0
+>>      driver_attach+0x1e/0x30
+>>      bus_add_driver+0x151/0x290
 >>
->> On 05-01-2026 15:39, Daniel Thompson wrote:
->>> On Mon, Jan 05, 2026 at 02:21:20PM +0530, Sudarshan Shetty wrote:
->>>> Extend the gpio-backlight driver to handle multiple GPIOs instead of a
->>>> single one. This allows panels that require driving several enable pins
->>>> to be controlled by the backlight framework.
->>>>
->>>> Signed-off-by: Sudarshan Shetty <tessolveupstream@gmail.com>
->>>> ---
->>>>  drivers/video/backlight/gpio_backlight.c | 61 +++++++++++++++++-------
->>>>  1 file changed, 45 insertions(+), 16 deletions(-)
->>>>
->>>> diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
->>>> index 728a546904b0..037e1c111e48 100644
->>>> --- a/drivers/video/backlight/gpio_backlight.c
->>>> +++ b/drivers/video/backlight/gpio_backlight.c
->>>> @@ -17,14 +17,18 @@
->>>>
->>>>  struct gpio_backlight {
->>>>  	struct device *dev;
->>>> -	struct gpio_desc *gpiod;
->>>> +	struct gpio_desc **gpiods;
->>>> +	unsigned int num_gpios;
->>>
->>> Why not use struct gpio_descs for this?
->>>
->>> Once you do that, then most of the gbl->num_gpios loops can be replaced with
->>> calls to the array based accessors.
->>>
+>> Deallocate array for free trees when cleaning up buddy memory manager
+>> in the same way as if going through out_free_tree label.
 >>
->> Based on your feedback, I have updated the implementation to use
->> struct gpio_descs and array-based accessors, as recommended like
->> below:
->>
->> git diff drivers/video/backlight/gpio_backlight.c
->> diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
->> index 037e1c111e48..e99d7a9dc670 100644
->> --- a/drivers/video/backlight/gpio_backlight.c
->> +++ b/drivers/video/backlight/gpio_backlight.c
->> @@ -14,22 +14,37 @@
->>  #include <linux/platform_device.h>
->>  #include <linux/property.h>
->>  #include <linux/slab.h>
->> +#include <linux/bitmap.h>
->>
->>  struct gpio_backlight {
->>         struct device *dev;
->> -       struct gpio_desc **gpiods;
->> +       struct gpio_descs *gpiods;
->>         unsigned int num_gpios;
->>  };
->>
->>  static int gpio_backlight_update_status(struct backlight_device *bl)
->>  {
->>         struct gpio_backlight *gbl = bl_get_data(bl);
->> -       unsigned int i;
->> +       unsigned int n = gbl->num_gpios;
->>         int br = backlight_get_brightness(bl);
->> +       unsigned long *value_bitmap;
->> +       int words = BITS_TO_LONGS(n);
->> +
->> +       value_bitmap = kcalloc(words, sizeof(unsigned long), GFP_KERNEL);
-> 
-> Not sure you need a kcalloc() here. If you want to support more than 32
-> GPIOs then you can pre-allocate space with a devm_kcalloc() in the probe
-> method rather than reallocate every time it is used.
-> 
-> To be honest I don't really mind putting a hard limit on the maximum
-> gpl->num_gpios (so you can just use a local variable) and having no
-> allocation at all.
+>> Fixes: d4cd665c98c1 ("drm/buddy: Separate clear and dirty free block 
+>> trees")
+>> Signed-off-by: Michał Grzelak <michal.grzelak@intel.com>
+>> Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 >
+> Arun/Christian, can you merge this one?
 
-Thanks for the suggestion. I addressed the kcalloc() concern by 
-moving the bitmap allocation to probe using devm_kcalloc() as 
-below:
+Sure, I have merged this patch.
 
-diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
-index 0eb42d8bf1d9..7af5dc4f0315 100644
---- a/drivers/video/backlight/gpio_backlight.c
-+++ b/drivers/video/backlight/gpio_backlight.c
-@@ -19,32 +19,25 @@
- struct gpio_backlight {
-        struct device *dev;
-        struct gpio_descs *gpiods;
--       unsigned int num_gpios;
-+       unsigned long *bitmap;
- };
+Regards,
 
- static int gpio_backlight_update_status(struct backlight_device *bl)
- {
-        struct gpio_backlight *gbl = bl_get_data(bl);
--       unsigned int n = gbl->num_gpios;
-+       unsigned int n = gbl->gpiods->ndescs;
-        int br = backlight_get_brightness(bl);
--       unsigned long *value_bitmap;
--       int words = BITS_TO_LONGS(n);
--
--       value_bitmap = kcalloc(words, sizeof(unsigned long), GFP_KERNEL);
--       if (!value_bitmap)
--               return -ENOMEM;
+Arun.
 
-        if (br)
--               bitmap_fill(value_bitmap, n);
-+               bitmap_fill(gbl->bitmap, n);
-        else
--               bitmap_zero(value_bitmap, n);
-+               bitmap_zero(gbl->bitmap, n);
-
--       gpiod_set_array_value_cansleep(gbl->gpiods->ndescs,
-+       gpiod_set_array_value_cansleep(n,
-                                       gbl->gpiods->desc,
-                                       gbl->gpiods->info,
--                                      value_bitmap);
-+                                      gbl->bitmap);
-
--       kfree(value_bitmap);
-        return 0;
- }
-
-@@ -67,22 +60,25 @@ static int gpio_backlight_probe(struct platform_device *pdev)
-        struct device *dev = &pdev->dev;
-        struct gpio_backlight_platform_data *pdata = dev_get_platdata(dev);
-        struct device_node *of_node = dev->of_node;
--       struct backlight_properties props;
-+       struct backlight_properties props = { };
-        struct backlight_device *bl;
-        struct gpio_backlight *gbl;
--       int ret, init_brightness, def_value;
--       unsigned int i;
-+       bool def_value;
-+       enum gpiod_flags flags;
-+       unsigned int n;
-+       int words;
-
--       gbl = devm_kzalloc(dev, sizeof(*gbl), GFP_KERNEL);
--       if (gbl == NULL)
-+       gbl = devm_kcalloc(dev, 1, sizeof(*gbl), GFP_KERNEL);
-+       if (!gbl)
-                return -ENOMEM;
-
-        if (pdata)
-                gbl->dev = pdata->dev;
-
-        def_value = device_property_read_bool(dev, "default-on");
--
--       gbl->gpiods = devm_gpiod_get_array(dev, NULL, GPIOD_ASIS);
-+       flags = def_value ? GPIOD_OUT_HIGH : GPIOD_OUT_LOW;
-+
-+       gbl->gpiods = devm_gpiod_get_array(dev, NULL, flags);
-        if (IS_ERR(gbl->gpiods)) {
-                if (PTR_ERR(gbl->gpiods) == -ENODEV)
-                        return dev_err_probe(dev, -EINVAL,
-@@ -90,12 +86,17 @@ static int gpio_backlight_probe(struct platform_device *pdev)
-                return PTR_ERR(gbl->gpiods);
-        }
-
--       gbl->num_gpios = gbl->gpiods->ndescs;
--       if (gbl->num_gpios == 0)
-+       n = gbl->gpiods->ndescs;
-+       if (!n)
-                return dev_err_probe(dev, -EINVAL,
--                       "The gpios parameter is missing or invalid\n");
-+                       "No GPIOs provided\n");
-+
-+       words = BITS_TO_LONGS(n);
-+       gbl->bitmap = devm_kcalloc(dev, words, sizeof(unsigned long),
-+                                  GFP_KERNEL);
-+       if (!gbl->bitmap)
-+               return -ENOMEM;
-
--       memset(&props, 0, sizeof(props));
-        props.type = BACKLIGHT_RAW;
-        props.max_brightness = 1;
-        bl = devm_backlight_device_register(dev, dev_name(dev), dev, gbl,
-@@ -106,50 +107,19 @@ static int gpio_backlight_probe(struct platform_device *pdev)
-        }
-
-        /* Set the initial power state */
--       if (!of_node || !of_node->phandle) {
-+       if (!of_node || !of_node->phandle)
-                /* Not booted with device tree or no phandle link to the node */
-                bl->props.power = def_value ? BACKLIGHT_POWER_ON
-                                                    : BACKLIGHT_POWER_OFF;
--       } else {
--               bool all_high = true;
--               unsigned long *value_bitmap;
--               int words = BITS_TO_LONGS(gbl->num_gpios);
--
--               value_bitmap = kcalloc(words, sizeof(unsigned long),
--                                      GFP_KERNEL);
--               if (!value_bitmap)
--                       return -ENOMEM;
--
--               ret = gpiod_get_array_value_cansleep(gbl->gpiods->ndescs,
--                                                    gbl->gpiods->desc,
--                                                    gbl->gpiods->info,
--                                                    value_bitmap);
--               if (ret) {
--                       kfree(value_bitmap);
--                       return dev_err_probe(dev, ret,
--                               "failed to read initial gpio values\n");
--               }
--
--               all_high = bitmap_full(value_bitmap, gbl->num_gpios);
--
--               kfree(value_bitmap);
--               bl->props.power =
--                       all_high ? BACKLIGHT_POWER_ON :  BACKLIGHT_POWER_OFF;
--       }
--
--       bl->props.brightness = 1;
--
--       init_brightness = backlight_get_brightness(bl);
-+       else if (gpiod_get_value_cansleep(gbl->gpiods->desc[0]) == 0)
-+               bl->props.power = BACKLIGHT_POWER_OFF;
-+       else
-+               bl->props.power = BACKLIGHT_POWER_ON;
-
--       for (i = 0; i < gbl->num_gpios; i++) {
--               ret = gpiod_direction_output(gbl->gpiods->desc[i],
--                                            init_brightness);
--               if (ret)
--                       return dev_err_probe(dev, ret,
--                                       "failed to set gpio %u direction\n",
--                                       i);
--       }
-+       bl->props.brightness = def_value ? 1 : 0;
-
-+       gpio_backlight_update_status(bl);
-+
-        platform_set_drvdata(pdev, bl);
-        return 0;
- }
-
-Kindly confirm whether this approach aligns with your 
-expectations.
- 
-> 
->> Could you please share your thoughts on whether this approach
->> aligns with your expectations?
-> 
-> Looks like it is going in the right direction, yes.
-> 
-> 
-> Daniel.
-
+>
+>> ---
+>>   drivers/gpu/drm/drm_buddy.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+>> index 2f279b46bd2c..8308116058cc 100644
+>> --- a/drivers/gpu/drm/drm_buddy.c
+>> +++ b/drivers/gpu/drm/drm_buddy.c
+>> @@ -420,6 +420,7 @@ void drm_buddy_fini(struct drm_buddy *mm)
+>>         for_each_free_tree(i)
+>>           kfree(mm->free_trees[i]);
+>> +    kfree(mm->free_trees);
+>>       kfree(mm->roots);
+>>   }
+>>   EXPORT_SYMBOL(drm_buddy_fini);
+>
