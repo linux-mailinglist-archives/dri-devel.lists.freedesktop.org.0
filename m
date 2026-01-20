@@ -2,94 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6W2RMAKub2lBGgAAu9opvQ
+	id AFeIGy6vb2lBGgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 17:32:02 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 17:37:02 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E75547997
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 17:32:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC3B47B6D
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 17:37:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3862A10E5E3;
-	Tue, 20 Jan 2026 12:53:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A002C10E131;
+	Tue, 20 Jan 2026 13:31:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="k3aSphIC";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dlb4Kl2i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1778910E5E3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 12:53:29 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-2a77c1d5c3bso1761005ad.0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 04:53:29 -0800 (PST)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A96310E131
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 13:31:40 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-47ee3a63300so50849805e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 05:31:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768913608; x=1769518408; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vQA0UiXnoLM7Zoi1HosgUAoRgcMqa5i1Mjp3uZoByh0=;
- b=k3aSphICYp1uLEt0XBu/ER+rNCarH27gGhimAuRnC4gw1whoPMaPY3HHex1C3GLqcg
- H/LN/S0AlrJWEzw7xc3sQZmILoRPhpnfJFA4bByMpO13qqf9XKF/Mv9RT1a1lMFTSHbS
- 0kBA3/alye5dQ85qz6LkOob3QpSR+WMxiIRWb+V33TpeVLgp/Dz899bSLKWk9gRAM1YC
- 1C2ROrh2UGfqkdhmCWfxDKpDqtQrcsvBmN1X1EBzt3TyAivNFbfqctc9LkPCAPHDl4LK
- icYAUHojXcl/4ipzXkXbyou/x2ICyp2A98eiYSfNSnP8MgA5n5Oo/TP+n0+OAaL+ypOp
- 70MA==
+ d=gmail.com; s=20230601; t=1768915899; x=1769520699; darn=lists.freedesktop.org;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WY2MepLOcFBoPotErcBQzrpiz1/ZQWoYp9n17tDmDMQ=;
+ b=dlb4Kl2ihTnJrs62mUnq85g643BVzKgouxoWJtffx34YuP2DjmBawOA3zrJwIo1KFm
+ 78d7KlzUG8bPJEB9+aLki+Bf131OP5jIDKoz/LTLdiUUuH8ooY+RtCmkfJPN6OXLNJVz
+ UjmpXCKa/Ie4Fj6zFLpVIbsCddwkyrQfv2QGWHLLrn8vu6Vo94Rd9CqcnBKH7SrQjVPl
+ A32ShS8KZlzc3axbrMse+zf+aTk8c9qa3uu2Dqga6yrZ7+yhhFnl6iYEl/gLRq5cqLkY
+ ycDqEop33Dtn3ML3VzwZef/YG9cZ2/GDLM/v4cKihiJtuRXwJ4CTXtMd+DoCCqRFsG4t
+ ehcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768913608; x=1769518408;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vQA0UiXnoLM7Zoi1HosgUAoRgcMqa5i1Mjp3uZoByh0=;
- b=ljy3j7xE98B+1PnCfYRLE4rzz45jGf2kv3xbosafDGvsxkbRM17l4TKt9lvO33UO/9
- z9/5Dqt8QPERhlcLJbONbTyWrbZiyikd354RDNj1YsqdXfWQT/463u7xcfJMhODn82Fp
- ScLkcFE5/KfJLsplfKnj+HNcMK0KgbkQa8jEAqASx1wvkIM33THwHgefIugm8CMNZF51
- ePVs4PAYzP+ogQXMUVA4oVnerQ2WaJ7ZdR1YVboa6wgX0/YluuXknnCtyulEQHOngWUh
- hi6qeXm70C3nWrkrCWZ57kfjLAx7Jy/rdOc3XXRHJPzurRtQHwlD8A3U4HB5ihqn/v/9
- GQ0w==
+ d=1e100.net; s=20230601; t=1768915899; x=1769520699;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WY2MepLOcFBoPotErcBQzrpiz1/ZQWoYp9n17tDmDMQ=;
+ b=rz5vqptxYJtoZF+CsIPRx/5WEDM3wpXKB6v9hTsl+zxFvxILK4saNfRac2iak6UOOL
+ KKoYRNbIUsop/w/DJZk9BN/WzR77iwpIG1YtthtkezNkOopeLbFJ8b5P5aU/W7Yu+/yp
+ l8r2x1shLF5rO4CtCQ2LxZqugHcG0LSBxCPhoQJW/t/d4N9VmvThBK/c41BOah2oxm8Y
+ z1nsBpSJAuPyzjrgWsnrHInuuaNJdS2kp/NMQ7ND7bLw8e1ZKL89j+dmRC38rRCYyi0v
+ Plb0OUPzYiwi7kzhjS6y/iQ2jZFj36aUnB/PDP8UeqLLESWe5I3LYfswCRgx0FJt4diq
+ Q2nA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUaqJyiGY6OmqNfSg4w0hMOWBRnoP8MURDxV4EPBMRU7ZBFu+t/jQBPjUAi4EPpL+XMyjkeXJDdX/4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwMWWykuvAOfntgfESGN18LeBe1y8V8SWNUKDacdmAEbtgawE9s
- Y3tdxdPzY2tb28jQ7KGZu0RKVpJqB2RGPFzDIFdsHPzztmKF1FwC7gd+
-X-Gm-Gg: AZuq6aL5f1RFyHL3VK0My7LrBYLZznfinSVNdm87ueEG2coOoWouy4gTC+r+cKEBynx
- 6JLK+osTRFLsb17tU/IlZNi4PIybV8fHxKAfOXswEqIHf6UVfZp7l/vxI4i7uL7YreIMbK6YMIc
- ZWxi39t3KkkTYhP5BHJMuO/Y8KE3rV7Xazq5VMga6V/8sleS5uantIx9uZQ6eASjA0YW57B7IMB
- 8JsbxXe4Js3HabnJealt7v5lqhPAgV8FusZqc8FmEGPHPT3neKSmPrwacUh3GJAYBudGqVtdCoz
- 9yAddDmJ28el6+K2LoXj4Fqpmvsye3Fwe5HySDWc34w5JJF6v2IX79kBMHf0n0evDVFN2SU7I9H
- j/bFarVR8nwtW4e4S27zCYJJPW3syQuzJxqKqVfRkgAT4KJRcuEm4TaziOiI0ED1xtMSRH79VOl
- k412PRniRrTV9IR8ZzF3zy9qycrmx6jrYyag==
-X-Received: by 2002:a17:902:e84a:b0:2a0:c942:8adf with SMTP id
- d9443c01a7336-2a7690523c5mr13664115ad.8.1768913608371; 
- Tue, 20 Jan 2026 04:53:28 -0800 (PST)
-Received: from [172.16.20.12] ([136.226.253.21])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a7190abcf0sm125579405ad.12.2026.01.20.04.53.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Jan 2026 04:53:27 -0800 (PST)
-Message-ID: <c8d539f1-bebd-445b-b0a4-9f3fc62770c0@gmail.com>
-Date: Tue, 20 Jan 2026 18:23:50 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] backlight: gpio: add support for multiple GPIOs
- for backlight control
-To: Daniel Thompson <daniel@riscstar.com>
-Cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
- pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ AJvYcCWLzkP3CqLt5lEm1BlKvL9WJ9h6nhM5psUI+06umKdiZupGM4cpjPmj8CKr6GXlQA6B6J28J3xk66g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwDRQtqPuR3cD/VJfFN+sDzBMfPh6CRLHg8V8TdRLBPu4agmKDP
+ RQrkiIua2IF9WK7zRgv5GlgSjUrKcatjuTrzKIy6e4C6ih76Ki/w2Vd2
+X-Gm-Gg: AY/fxX7rHcOcnVxTUF0EkYCioLJjnkRFI1/McFc3hqlrqb9QleeJ5Moa5wzn5MRysRb
+ cdX5T5HXxSZFLa/dpFyDTlQsgH8YFGRCgdnc5olmEYZJl3A4Qkm6dYN0s8RKE+B20wYb95xfkTp
+ 9baR05kQTpiQY+rkDT6m+RZFlrdRqnHsi0uLkI1pGsMXSfJkB/jMeZw+0W+eEMHNOGsmzPylPsJ
+ jAWZ7C+xDA1NpZcJCsT66/oXPaTFygf6twyOqLk6EoSl4TK8GMUoNlAt3zn4lqy4cQuI4aS5EUE
+ CLBbccUdpz7mTOk424ruckVLFeoKdr1auWpqqkpVVXwzS/OuRD7dsDZcJdVE7wDryRhd/OXetl7
+ +KJ8nAsWP3Pv1+uyy4Y6sJtXaZwzcnFFKs23rRc0sbkOcqAOeg+/aC/zDbA6O9kFQZraGtRVzGP
+ UHRzGBOs+OuGe1fYYvgIkxdkpYgiZ8xYYcC7zoM7HBwrpVqAc/oVQvcSTjzQ6ZBBtHbDR/9AWZg
+ wXf4G2eXU28OLg=
+X-Received: by 2002:a05:600c:620e:b0:47d:73a4:45a7 with SMTP id
+ 5b1f17b1804b1-4803e7e7d75mr25412765e9.24.1768915898715; 
+ Tue, 20 Jan 2026 05:31:38 -0800 (PST)
+Received: from smtpclient.apple (static.253.36.98.91.clients.your-server.de.
+ [91.98.36.253]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4801fdefed9sm109843355e9.3.2026.01.20.05.31.34
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 20 Jan 2026 05:31:38 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
+Subject: Re: [PATCH] drm/bridge: dw-hdmi-qp: fix multi-channel audio output
+From: Christian Hewitt <christianshewitt@gmail.com>
+In-Reply-To: <13d33158-b814-4ac1-b8de-ec30ff16c783@collabora.com>
+Date: Tue, 20 Jan 2026 17:31:22 +0400
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Sugar Zhang <sugar.zhang@rock-chips.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-References: <20260105085120.230862-1-tessolveupstream@gmail.com>
- <20260105085120.230862-3-tessolveupstream@gmail.com>
- <aVuN7zVUWJ1qsVh8@aspen.lan> <1fedb7d7-3a30-4f0f-961f-09613f2a95d0@gmail.com>
- <aWe-QA_grqNwnE4n@aspen.lan> <ec7b7af7-1343-4988-b783-9ce9b045c8ae@gmail.com>
- <aW9NH5GTwSR-m7VQ@aspen.lan>
-Content-Language: en-US
-From: tessolveupstream@gmail.com
-In-Reply-To: <aW9NH5GTwSR-m7VQ@aspen.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <021065E9-53DE-40DC-B6FB-CC0AE272FAAE@gmail.com>
+References: <20251206072718.2039874-1-christianshewitt@gmail.com>
+ <13d33158-b814-4ac1-b8de-ec30ff16c783@collabora.com>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+X-Mailer: Apple Mail (2.3864.300.41.1.7)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,295 +111,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MAILLIST(-0.20)[mailman];
+	MV_CASE(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:daniel@riscstar.com,m:lee@kernel.org,m:danielt@kernel.org,m:jingoohan1@gmail.com,m:deller@gmx.de,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux-fbdev@vger.kernel.org,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dmitry.baryshkov@oss.qualcomm.com,m:detlev.casanova@collabora.com,m:dianders@chromium.org,m:andy.yan@rock-chips.com,m:sugar.zhang@rock-chips.com,m:luca.ceresoli@bootlin.com,m:heiko@sntech.de,m:linux-kernel@vger.kernel.org,m:cristian.ciocaltea@collabora.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[tessolveupstream@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_SENDER(0.00)[christianshewitt@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tessolveupstream@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,gmx.de,lists.freedesktop.org,vger.kernel.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[christianshewitt@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,oss.qualcomm.com,collabora.com,chromium.org,rock-chips.com,bootlin.com,sntech.de,lists.freedesktop.org,vger.kernel.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	FROM_NO_DN(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
-X-Rspamd-Queue-Id: 1E75547997
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,kwiboo.se:email]
+X-Rspamd-Queue-Id: CCC3B47B6D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+> On 20 Jan 2026, at 4:52=E2=80=AFpm, Cristian Ciocaltea =
+<cristian.ciocaltea@collabora.com> wrote:
+>=20
+> Hi Christian,
+>=20
+> On 12/6/25 9:27 AM, Christian Hewitt wrote:
+>> From: Jonas Karlman <jonas@kwiboo.se>
+>>=20
+>> Channel Allocation (PB4) and Level Shift Information (PB5) are
+>> configured with values from PB1 and PB2 due to the wrong offset
+>> being used. This results in missing audio channels or incorrect
+>> speaker placement when playing multi-channel audio.
+>>=20
+>> Use the correct offset to fix multi-channel audio output.
+>>=20
+>> Fixes: fd0141d1a8a2 ("drm/bridge: synopsys: Add audio support for =
+dw-hdmi-qp")
+>> Reported-by: Christian Hewitt <christianshewitt@gmail.com>
+>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
 
+>> ---
+>> buffer is a pointer to u8 while data written to PKT_AUDI_CONTENTS
+>> is u32, so buffer contains audio infoframe header (buffer[0:2]) +
+>> checksum (buffer[3]) + payload byte 1-10 (buffer[4:13]), e.g.
+>>=20
+>> regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS1, &buffer[3], 1)
+>> .. will write PB0-PB3 to AUDI_CONTENTS1
+>>=20
+>> regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS2, &buffer[4], 1)
+>> .. will write PB1-PB4 to AUDI_CONTENTS2, but should be PB4-PB7
+>>=20
+>> &buffer[4] will point to payload byte 4 not payload byte 1, due
+>> to u8/u32 and not considering the size of header+checksum (3+1).
+>> ---
+>> drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 2 +-
+>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c =
+b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+>> index f3a13da488e6..7b8a69383dc4 100644
+>> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+>> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+>> @@ -845,7 +845,7 @@ static int =
+dw_hdmi_qp_config_audio_infoframe(struct dw_hdmi_qp *hdmi,
+>>=20
+>> regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS0, &header_bytes, 1);
+>> regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS1, &buffer[3], 1);
+>> - regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS2, &buffer[4], 1);
+>> + regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS2, &buffer[7], 1);
+>=20
+> Since making use of regmap_bulk_write(), this could be further =
+optimized as:
+>=20
+> -       regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS1, &buffer[3], =
+1);
+> -       regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS2, &buffer[4], =
+1);
+> +       regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS1, &buffer[3], =
+2);
+>=20
+> Regardless,
+>=20
+> Reviewed-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>=20
+> Please note you also need to provide your SoB, check "Sign your work =
+..."
+> section in [1].
 
-On 20-01-2026 15:08, Daniel Thompson wrote:
-> On Tue, Jan 20, 2026 at 10:22:02AM +0530, tessolveupstream@gmail.com wrote:
->>
->>
->> On 14-01-2026 21:33, Daniel Thompson wrote:
->>> On Tue, Jan 13, 2026 at 12:47:26PM +0530, tessolveupstream@gmail.com wrote:
->>>>
->>>>
->>>> On 05-01-2026 15:39, Daniel Thompson wrote:
->>>>> On Mon, Jan 05, 2026 at 02:21:20PM +0530, Sudarshan Shetty wrote:
->>>>>> Extend the gpio-backlight driver to handle multiple GPIOs instead of a
->>>>>> single one. This allows panels that require driving several enable pins
->>>>>> to be controlled by the backlight framework.
->>>>>>
->>>>>> Signed-off-by: Sudarshan Shetty <tessolveupstream@gmail.com>
->>>>>> ---
->>>>>>  drivers/video/backlight/gpio_backlight.c | 61 +++++++++++++++++-------
->>>>>>  1 file changed, 45 insertions(+), 16 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
->>>>>> index 728a546904b0..037e1c111e48 100644
->>>>>> --- a/drivers/video/backlight/gpio_backlight.c
->>>>>> +++ b/drivers/video/backlight/gpio_backlight.c
->>>>>> @@ -17,14 +17,18 @@
->>>>>>
->>>>>>  struct gpio_backlight {
->>>>>>  	struct device *dev;
->>>>>> -	struct gpio_desc *gpiod;
->>>>>> +	struct gpio_desc **gpiods;
->>>>>> +	unsigned int num_gpios;
->>>>>
->>>>> Why not use struct gpio_descs for this?
->>>>>
->>>>> Once you do that, then most of the gbl->num_gpios loops can be replaced with
->>>>> calls to the array based accessors.
->>>>>
->>>>
->>>> Based on your feedback, I have updated the implementation to use
->>>> struct gpio_descs and array-based accessors, as recommended like
->>>> below:
->>>>
->>>> git diff drivers/video/backlight/gpio_backlight.c
->>>> diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
->>>> index 037e1c111e48..e99d7a9dc670 100644
->>>> --- a/drivers/video/backlight/gpio_backlight.c
->>>> +++ b/drivers/video/backlight/gpio_backlight.c
->>>> @@ -14,22 +14,37 @@
->>>>  #include <linux/platform_device.h>
->>>>  #include <linux/property.h>
->>>>  #include <linux/slab.h>
->>>> +#include <linux/bitmap.h>
->>>>
->>>>  struct gpio_backlight {
->>>>         struct device *dev;
->>>> -       struct gpio_desc **gpiods;
->>>> +       struct gpio_descs *gpiods;
->>>>         unsigned int num_gpios;
->>>>  };
->>>>
->>>>  static int gpio_backlight_update_status(struct backlight_device *bl)
->>>>  {
->>>>         struct gpio_backlight *gbl = bl_get_data(bl);
->>>> -       unsigned int i;
->>>> +       unsigned int n = gbl->num_gpios;
->>>>         int br = backlight_get_brightness(bl);
->>>> +       unsigned long *value_bitmap;
->>>> +       int words = BITS_TO_LONGS(n);
->>>> +
->>>> +       value_bitmap = kcalloc(words, sizeof(unsigned long), GFP_KERNEL);
->>>
->>> Not sure you need a kcalloc() here. If you want to support more than 32
->>> GPIOs then you can pre-allocate space with a devm_kcalloc() in the probe
->>> method rather than reallocate every time it is used.
->>>
->>> To be honest I don't really mind putting a hard limit on the maximum
->>> gpl->num_gpios (so you can just use a local variable) and having no
->>> allocation at all.
->>>
->>
->> Thanks for the suggestion. I addressed the kcalloc() concern by
->> moving the bitmap allocation to probe using devm_kcalloc() as
->> below:
->>
->> diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
->> index 0eb42d8bf1d9..7af5dc4f0315 100644
->> --- a/drivers/video/backlight/gpio_backlight.c
->> +++ b/drivers/video/backlight/gpio_backlight.c
->> @@ -19,32 +19,25 @@
->>  struct gpio_backlight {
->>         struct device *dev;
->>         struct gpio_descs *gpiods;
->> -       unsigned int num_gpios;
->> +       unsigned long *bitmap;
->>  };
->>
->>  static int gpio_backlight_update_status(struct backlight_device *bl)
->>  {
->>         struct gpio_backlight *gbl = bl_get_data(bl);
->> -       unsigned int n = gbl->num_gpios;
->> +       unsigned int n = gbl->gpiods->ndescs;
->>         int br = backlight_get_brightness(bl);
->> -       unsigned long *value_bitmap;
->> -       int words = BITS_TO_LONGS(n);
->> -
->> -       value_bitmap = kcalloc(words, sizeof(unsigned long), GFP_KERNEL);
->> -       if (!value_bitmap)
->> -               return -ENOMEM;
->>
->>         if (br)
->> -               bitmap_fill(value_bitmap, n);
->> +               bitmap_fill(gbl->bitmap, n);
->>         else
->> -               bitmap_zero(value_bitmap, n);
->> +               bitmap_zero(gbl->bitmap, n);
->>
->> -       gpiod_set_array_value_cansleep(gbl->gpiods->ndescs,
->> +       gpiod_set_array_value_cansleep(n,
->>                                        gbl->gpiods->desc,
->>                                        gbl->gpiods->info,
->> -                                      value_bitmap);
->> +                                      gbl->bitmap);
->>
->> -       kfree(value_bitmap);
->>         return 0;
->>  }
->>
->> @@ -67,22 +60,25 @@ static int gpio_backlight_probe(struct platform_device *pdev)
->>         struct device *dev = &pdev->dev;
->>         struct gpio_backlight_platform_data *pdata = dev_get_platdata(dev);
->>         struct device_node *of_node = dev->of_node;
->> -       struct backlight_properties props;
->> +       struct backlight_properties props = { };
->>         struct backlight_device *bl;
->>         struct gpio_backlight *gbl;
->> -       int ret, init_brightness, def_value;
->> -       unsigned int i;
->> +       bool def_value;
->> +       enum gpiod_flags flags;
->> +       unsigned int n;
->> +       int words;
->>
->> -       gbl = devm_kzalloc(dev, sizeof(*gbl), GFP_KERNEL);
->> -       if (gbl == NULL)
->> +       gbl = devm_kcalloc(dev, 1, sizeof(*gbl), GFP_KERNEL);
->> +       if (!gbl)
->>                 return -ENOMEM;
->>
->>         if (pdata)
->>                 gbl->dev = pdata->dev;
->>
->>         def_value = device_property_read_bool(dev, "default-on");
->> -
->> -       gbl->gpiods = devm_gpiod_get_array(dev, NULL, GPIOD_ASIS);
->> +       flags = def_value ? GPIOD_OUT_HIGH : GPIOD_OUT_LOW;
->> +
->> +       gbl->gpiods = devm_gpiod_get_array(dev, NULL, flags);
->>         if (IS_ERR(gbl->gpiods)) {
->>                 if (PTR_ERR(gbl->gpiods) == -ENODEV)
->>                         return dev_err_probe(dev, -EINVAL,
->> @@ -90,12 +86,17 @@ static int gpio_backlight_probe(struct platform_device *pdev)
->>                 return PTR_ERR(gbl->gpiods);
->>         }
->>
->> -       gbl->num_gpios = gbl->gpiods->ndescs;
->> -       if (gbl->num_gpios == 0)
->> +       n = gbl->gpiods->ndescs;
->> +       if (!n)
->>                 return dev_err_probe(dev, -EINVAL,
->> -                       "The gpios parameter is missing or invalid\n");
->> +                       "No GPIOs provided\n");
->> +
->> +       words = BITS_TO_LONGS(n);
->> +       gbl->bitmap = devm_kcalloc(dev, words, sizeof(unsigned long),
->> +                                  GFP_KERNEL);
->> +       if (!gbl->bitmap)
->> +               return -ENOMEM;
->>
->> -       memset(&props, 0, sizeof(props));
->>         props.type = BACKLIGHT_RAW;
->>         props.max_brightness = 1;
->>         bl = devm_backlight_device_register(dev, dev_name(dev), dev, gbl,
->> @@ -106,50 +107,19 @@ static int gpio_backlight_probe(struct platform_device *pdev)
->>         }
->>
->>         /* Set the initial power state */
->> -       if (!of_node || !of_node->phandle) {
->> +       if (!of_node || !of_node->phandle)
->>                 /* Not booted with device tree or no phandle link to the node */
->>                 bl->props.power = def_value ? BACKLIGHT_POWER_ON
->>                                                     : BACKLIGHT_POWER_OFF;
->> -       } else {
->> -               bool all_high = true;
->> -               unsigned long *value_bitmap;
->> -               int words = BITS_TO_LONGS(gbl->num_gpios);
->> -
->> -               value_bitmap = kcalloc(words, sizeof(unsigned long),
->> -                                      GFP_KERNEL);
->> -               if (!value_bitmap)
->> -                       return -ENOMEM;
->> -
->> -               ret = gpiod_get_array_value_cansleep(gbl->gpiods->ndescs,
->> -                                                    gbl->gpiods->desc,
->> -                                                    gbl->gpiods->info,
->> -                                                    value_bitmap);
->> -               if (ret) {
->> -                       kfree(value_bitmap);
->> -                       return dev_err_probe(dev, ret,
->> -                               "failed to read initial gpio values\n");
->> -               }
->> -
->> -               all_high = bitmap_full(value_bitmap, gbl->num_gpios);
->> -
->> -               kfree(value_bitmap);
->> -               bl->props.power =
->> -                       all_high ? BACKLIGHT_POWER_ON :  BACKLIGHT_POWER_OFF;
->> -       }
->> -
->> -       bl->props.brightness = 1;
->> -
->> -       init_brightness = backlight_get_brightness(bl);
->> +       else if (gpiod_get_value_cansleep(gbl->gpiods->desc[0]) == 0)
->> +               bl->props.power = BACKLIGHT_POWER_OFF;
->> +       else
->> +               bl->props.power = BACKLIGHT_POWER_ON;
->>
->> -       for (i = 0; i < gbl->num_gpios; i++) {
->> -               ret = gpiod_direction_output(gbl->gpiods->desc[i],
->> -                                            init_brightness);
->> -               if (ret)
->> -                       return dev_err_probe(dev, ret,
->> -                                       "failed to set gpio %u direction\n",
->> -                                       i);
->> -       }
->> +       bl->props.brightness = def_value ? 1 : 0;
->>
->> +       gpio_backlight_update_status(bl);
->> +
->>         platform_set_drvdata(pdev, bl);
->>         return 0;
->>  }
->>
->> Kindly confirm whether this approach aligns with your
->> expectations.
-> 
-> As mentioned yesterday, I'd rather just review a v2 patch than this kind of
-> meta-patch. Please send a v2 patch instead.
->
+Ahh, I was hoping to just forward Jonas=E2=80=99 patch. If it=E2=80=99s =
+possible to
+apply the SoB above when merging, please do. If not I can send a v2
+series (someone let me know).
 
-Got it, will send v2 patch.
- 
-> 
-> Daniel.
+Christian
+
+> Regards,
+> Cristian
+>=20
+> [1] =
+https://www.kernel.org/doc/Documentation/process/submitting-patches.rst
+
 
