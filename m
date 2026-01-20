@@ -2,82 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0KaDBeTwb2m+UQAAu9opvQ
+	id yHAeHFb1b2m+UQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 22:17:24 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 22:36:22 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71F94C18B
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 22:17:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 567A44C5D8
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 22:36:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5EB810E077;
-	Tue, 20 Jan 2026 21:17:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87EB410E09D;
+	Tue, 20 Jan 2026 21:36:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ny+PkBLb";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kFPcCKFE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7D6110E030;
- Tue, 20 Jan 2026 21:17:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768943839; x=1800479839;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Fj5IrTCfWpLuDR/zNUCOc3krpg/zdgIA4C3q0qM4dMc=;
- b=Ny+PkBLbgxBpYqmfnVHq4j3Aw+OXOzqj8wwHncc5hoO7blpYgkkJnLiC
- P9KmAVumFH0yMd7Aw15AKhEFKclRQaFkumeTsp29t5DFQLyuuuan3jBOc
- OGnbBxmcpFbEhWbWfpiYNehUWjxHbZXXnJBXuh1YY1KpUpNSuQmHuqT8u
- fTkzsk9TGzOGjyWlW3c7jsgGnzfI/tWGVa2g65Gdg8LQGeHVnRnnubHkM
- yIgVjyZm4cJmahSXxW7tFxxbj0tdrM4WR/fFpijUxp6HdNLg2aCdO6hdE
- UaEAXHj2Gt71N5pirvo7f1zHeisIw4gxKvKdkJrwoSI8KvVXaoq73mjT6 A==;
-X-CSE-ConnectionGUID: 43vNQtzmR0+8ONKdivYTEw==
-X-CSE-MsgGUID: N39tGP23TN2KyiEgptmMHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="95640192"
-X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; d="scan'208";a="95640192"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2026 13:17:18 -0800
-X-CSE-ConnectionGUID: tP040WK2QYuIhOCZAg670g==
-X-CSE-MsgGUID: aCdpwMz5Rp++XlW7FOCltw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; d="scan'208";a="206575787"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.245.13])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2026 13:17:13 -0800
-Date: Tue, 20 Jan 2026 23:17:10 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Simon Richter <Simon.Richter@hogyros.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- amd-gfx@lists.freedesktop.org, Bjorn Helgaas <bhelgaas@google.com>,
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- linux-pci@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tursulin@ursulin.net>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 06/11] PCI: Fix restoring BARs on BAR resize rollback
- path
-Message-ID: <aW_w1oFQCzUxGYtu@intel.com>
-References: <20251113162628.5946-1-ilpo.jarvinen@linux.intel.com>
- <20251113162628.5946-7-ilpo.jarvinen@linux.intel.com>
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
+ [209.85.219.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFFCB10E229
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 21:36:17 +0000 (UTC)
+Received: by mail-qv1-f51.google.com with SMTP id
+ 6a1803df08f44-88fe44cce7eso60921566d6.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 13:36:17 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768944977; cv=none;
+ d=google.com; s=arc-20240605;
+ b=jtYffJggmNPdcAnmFs7C6OpWGaVfe4uiTNIZoD0hZlORf9hOOwkDUcakepVXiQV1GF
+ JMqD+AmIhEhxHR/HDU5C7mDiFzmFws2c+ft7JbMoyNZR0cO4OeSmfmNFxjIIl9J24pi7
+ kqArH20rcpB06aOz9p74Jwe7ma6w4RiH/5i+e57lDu+gx6XdxldqJPl8K/IDZeI2/oew
+ xQYVogKrelrb2oVx0RUfaSYLOE7Q+RuYqTCfJAa/K8eGCz2FCtBGjNhYwADN62m/SlId
+ zXhOmBNmuo610pYkShRnJAATiMW54H09Kl/J6mBsMXjCKFGYHCSBY+XBfnF5nIy/6IN7
+ SM0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:dkim-signature;
+ bh=5nFujpvEPNRJznN7IV6as1miwfT5Y6L/k2KFAeS/YxM=;
+ fh=d6+PF36woGP+58INXAbTTR9mUXpDjMDHTtJQWIrUROg=;
+ b=JwPDAEEFcaMdmd68zTjzaUBM3U9Kfv9Q7WNy5VzPAn+9lrDAcXNJOy3ljFm9pQ3//h
+ 1YXf9gBRdNAU2/0o1ebTivo1di7CFEA5Y1V16/B18j9TiqMgTyQzWXbLT5uqt52tLABy
+ JkbQJiEPASsNyoDjs4C86YbmyOVK1gQgrX16s/hqIKtlLL4RE5xZkAkqlzyG7RpA+J+y
+ 8KKMQ7JrM7rux3GMhv3CgRQV7/zqLnPTQMa28FW6ay0yiQcF78wvy2IuLQhxlEkz5/DV
+ jSo8C1Es/osRHjZOFmqg9jKVdZhkCG6r3V6Gn3IvtikHqt2X8iARDznM9dov48TnlIR8
+ bBcA==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1768944977; x=1769549777; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=5nFujpvEPNRJznN7IV6as1miwfT5Y6L/k2KFAeS/YxM=;
+ b=kFPcCKFEObsRI90w671a70UaZhCMjdUnQnM14cm6333O7kVPbtTQF8Tp/ttkB49kxz
+ Qy9lvXIoOg1OzwPYy7gCSweEC3STRJ22Ny29PxDGpW9E246bFKRQb5aRe5O2vNpN+FKx
+ noPqipepALChtO8TCc0zfeXm0d9hDlrfjDDgVDQhojwmD9NyXMqIiGz1ba6p4lUCIXlU
+ TUQ/3tmta5nTdYduJpLlZnTY6lpcUfoplUG0vACKNAY5K4ph7CpoJ5JjfBUhYqZYsmFC
+ unGiq4cU/8Tzj9crPBC9BWjECe3KF/qyZZHzcAHxyfUjvPd+JAuIalDAtX11p0x3lgs7
+ 2Bug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768944977; x=1769549777;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5nFujpvEPNRJznN7IV6as1miwfT5Y6L/k2KFAeS/YxM=;
+ b=KqnPocDwbsz/RhTeY8XQEmB/QjVgBDk7qA5zyCfe2wOAu4bnaEO3NMsS1DJ7NlaIsK
+ n9/kxo0froyZKcJGI0XL+JttOlzUOsDnIStAgGTWML5nBdXiMDQ5nfSq79f2VXy8cl2R
+ 7p3ZvaaP0Or1fQ0pl756hux3eM6ogLEpgGwJE7CQ5y3ncmt+7bKAmOVWW2q1EdErklKJ
+ zZo+2eoqn72R1HPLNbrXWAn46TeTYioH5iUnrmZtwgjOLCEYl2LXLPmC5cMSd/y5VNak
+ Wlcfvk9dFG/143giPiLQGOhSTLMJRwyW8bJRuVeghjXP/EYalczXAxi20yckjszXe+32
+ dkkQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWd61WrOEuXH6mAnBM7RMgxcJ5J4oGmfcg3RCpApn1xm8nojAowfKzHqt8szhihrSyU9tuPfkSXkds=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy+/+c8j8zG3GNOPzlmlz9ppGiDpAtJ0SlrI7NRTcmdhQVobOeL
+ DmZXaQ8ZIg0txL03/4i6Qem2uI/mdF5/Q2QIQPFUkRfEM5YCuaHmSHdddMNMzL6cSKbQ2/ZP8XX
+ aV1G3q3FqPSX1LwwHv99VPzes5XAcpJ0=
+X-Gm-Gg: AZuq6aKUJSYYMD92JD+v0JVCSttmdYCXP2oKmA18aOaHh+vv4WfGo1BDngpsXh/RV7E
+ ml9Z5DUZDHPw/zyktb4pBPzjy3s7eCYufLjyY3SsrYhk3Lu+XBqQL/tjADkAFPYMqZCrmo/XM4n
+ KXXxIotWO9rLfgDrYsQOHevpTxcZ+q9Cu/VOf57F2NVD1Altb2ZnFyWbPavtuC0f6fceBNcoVOr
+ u4vMM20J7Atl7bhmerfkqMLYcCulDclDLfiuUxqIq/Ud4FWzXGEsSf6hdvspi5tixMlNdfGQTW3
+ zwVuYYnhjgttkEzufzlJ3I0bj8e+O3rPZV07EyquCsv5btHs2wIDDt4=
+X-Received: by 2002:a05:6214:1cc5:b0:893:886:3816 with SMTP id
+ 6a1803df08f44-8946384ec3bmr42134286d6.6.1768944976692; Tue, 20 Jan 2026
+ 13:36:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251113162628.5946-7-ilpo.jarvinen@linux.intel.com>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20260120121455.142960-1-me@linux.beauty>
+In-Reply-To: <20260120121455.142960-1-me@linux.beauty>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 21 Jan 2026 07:36:05 +1000
+X-Gm-Features: AZwV_QjLXpEQk5YXuxnS3fiq692HSHgxKn8FGedpRxe-Gcn5B8D9KpLEWZ-rRoM
+Message-ID: <CAPM=9tw-Mkw95g=VDgjvqQha8KaTM7e6Qs2b3bvTaNUdz-Q7Kg@mail.gmail.com>
+Subject: Re: [PATCH] nouveau: pci: quiesce GPU on shutdown
+To: Li Chen <me@linux.beauty>
+Cc: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,306 +111,211 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Spamd-Result: default: False [-0.72 / 15.00];
-	R_MIXED_CHARSET(0.59)[subject];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:me@linux.beauty,m:lyude@redhat.com,m:dakr@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:simona@ffwll.ch,m:nouveau@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	FREEMAIL_CC(0.00)[linaro.org,hogyros.de,intel.com,amd.com,lists.freedesktop.org,google.com,gmail.com,linux.intel.com,vger.kernel.org,ffwll.ch,ursulin.net];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ville.syrjala@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim]
-X-Rspamd-Queue-Id: B71F94C18B
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 567A44C5D8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Nov 13, 2025 at 06:26:23PM +0200, Ilpo Järvinen wrote:
-> BAR resize operation is implemented in the pci_resize_resource() and
-> pbus_reassign_bridge_resources() functions. pci_resize_resource() can
-> be called either from __resource_resize_store() from sysfs or directly
-> by the driver for the Endpoint Device.
-> 
-> The pci_resize_resource() requires that caller has released the device
-> resources that share the bridge window with the BAR to be resized as
-> otherwise the bridge window is pinned in place and cannot be changed.
-> 
-> pbus_reassign_bridge_resources() implement rollback of the resources if
-> the resize operation fails, but rollback is performed only for the
-> bridge windows. Because releasing the device resources are done by the
-> caller of the BAR resize interface, these functions performing the BAR
-> resize do not have access to the device resources as they were before
-> the resize.
-> 
-> pbus_reassign_bridge_resources() could try to
-> __pci_bridge_assign_resources() after rolling back the bridge windows
-> as they were, however, it will not guarantee the resource are assigned
-> due to differences how FW and the kernel may want to assign the
-> resources (alignment of the start address and tail).
-> 
-> In order to perform rollback robustly, the BAR resize interface has to
-> be altered to also release the device resources that share the bridge
-> window with the BAR to be resized.
-> 
-> Also, remove restoring from the entries failed list as saved list
-> should now contain both the bridge windows and device resources so
-> the extra restore is duplicated work.
-> 
-> Some drivers (currently only amdgpu) want to prevent releasing some
-> resources. Add exclude_bars param to pci_resize_resource() and make
-> amdgpu to pass its register BAR (BAR 5) which should never be released
-> during resize operation. Normally 64-bit prefetchable resources do not
-> share bridge window with it as the register BAR (32-bit only) but there
-> are various fallbacks in the resource assignment logic which may make
-> the resources to share the bridge window in rare cases.
-> 
-> This change (together with the driver side changes) is to counter the
-> resource releases that had to be done to prevent resource tree
-> corruption in the ("PCI: Release assigned resource before restoring
-> them") change. As such, it likely restores functionality in cases where
-> device resources were released to avoid resource tree conflicts which
-> appeared to be "working" when such conflicts were not correctly
-> detected by the kernel.
-
-This thing completely broke my DG2 + non-reBAR system.  The bisect
-points to commit 4efaa80b3d75 ("drm/i915: Remove driver side BAR
-release before resize") but the real problems seem to be in this
-patch. A had a quick look at the code and spotted a few issues...
-
-<snip>
-> @@ -2468,34 +2466,78 @@ int pbus_reassign_bridge_resources(struct pci_bus *bus, struct resource *res)
->  		free_list(&added);
->  
->  	if (!list_empty(&failed)) {
-> -		if (pci_required_resource_failed(&failed, type)) {
-> +		if (pci_required_resource_failed(&failed, type))
->  			ret = -ENOSPC;
-> -			goto cleanup;
-> -		}
-> -		/* Only resources with unrelated types failed (again) */
->  		free_list(&failed);
-> +		if (ret)
-> +			return ret;
-> +
-> +		/* Only resources with unrelated types failed (again) */
->  	}
->  
-> -	list_for_each_entry(dev_res, &saved, list) {
-> +	list_for_each_entry(dev_res, saved, list) {
->  		struct pci_dev *dev = dev_res->dev;
->  
->  		/* Skip the bridge we just assigned resources for */
->  		if (bridge == dev)
->  			continue;
->  
-> +		if (!dev->subordinate)
-> +			continue;
-> +
->  		pci_setup_bridge(dev->subordinate);
->  	}
->  
-> -	free_list(&saved);
-> -	up_read(&pci_bus_sem);
->  	return 0;
-> +}
->  
-> -cleanup:
-> -	/* Restore size and flags */
-> -	list_for_each_entry(dev_res, &failed, list)
-> -		restore_dev_resource(dev_res);
-> -	free_list(&failed);
-> +int pci_do_resource_release_and_resize(struct pci_dev *pdev, int resno, int size,
-> +				       int exclude_bars)
+On Tue, 20 Jan 2026 at 22:15, Li Chen <me@linux.beauty> wrote:
+>
+> Kexec reboot does not reset PCI devices.
+> Invoking the full DRM/TTM teardown from ->shutdown can trigger WARNs when
+> userspace still holds DRM file descriptors.
+>
+> Quiesce the GPU through the suspend path and then power down the PCI
+> function so the next kernel can re-initialize the device from a consistent
+> state.
+>
+> WARNING: drivers/gpu/drm/drm_mode_config.c:578 at drm_mode_config_cleanup+0x2e7/0x300, CPU#2: kexec/1300
+> Call Trace:
+>  <TASK>
+>  ? srso_return_thunk+0x5/0x5f
+>  ? enable_work+0x3a/0x100
+>  nouveau_display_destroy+0x39/0x70 [nouveau c19e0da7fd83583a023f855c510d9a3903808734]
+>  nouveau_drm_device_fini+0x7b/0x1f0 [nouveau c19e0da7fd83583a023f855c510d9a3903808734]
+>  nouveau_drm_shutdown+0x52/0xc0 [nouveau c19e0da7fd83583a023f855c510d9a3903808734]
+>  pci_device_shutdown+0x35/0x60
+>  device_shutdown+0x11c/0x1b0
+>  kernel_kexec+0x13a/0x160
+>  __do_sys_reboot+0x209/0x240
+>  do_syscall_64+0x81/0x610
+>  ? srso_return_thunk+0x5/0x5f
+>  ? __rtnl_unlock+0x37/0x70
+>  ? srso_return_thunk+0x5/0x5f
+>  ? netdev_run_todo+0x63/0x570
+>  ? netif_change_flags+0x54/0x70
+>  ? srso_return_thunk+0x5/0x5f
+>  ? devinet_ioctl+0x1e5/0x790
+>  ? srso_return_thunk+0x5/0x5f
+>  ? inet_ioctl+0x1e9/0x200
+>  ? srso_return_thunk+0x5/0x5f
+>  ? srso_return_thunk+0x5/0x5f
+>  ? sock_do_ioctl+0x7d/0x130
+>  ? srso_return_thunk+0x5/0x5f
+>  ? __x64_sys_ioctl+0x97/0xe0
+>  ? srso_return_thunk+0x5/0x5f
+>  ? srso_return_thunk+0x5/0x5f
+>  ? do_syscall_64+0x23b/0x610
+>  ? srso_return_thunk+0x5/0x5f
+>  ? put_user_ifreq+0x7a/0x90
+>  ? srso_return_thunk+0x5/0x5f
+>  ? sock_do_ioctl+0x107/0x130
+>  ? srso_return_thunk+0x5/0x5f
+>  ? __x64_sys_ioctl+0x97/0xe0
+>  ? srso_return_thunk+0x5/0x5f
+>  ? do_syscall_64+0x81/0x610
+>  ? srso_return_thunk+0x5/0x5f
+>  ? exc_page_fault+0x7e/0x1a0
+>  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+>
+> nouveau 0000:26:00.0: [drm] drm_WARN_ON(!list_empty(&fb->filp_head))
+> WARNING: drivers/gpu/drm/drm_framebuffer.c:833 at drm_framebuffer_free+0x73/0xa0, CPU#2: kexec/1300
+> Call Trace:
+>  <TASK>
+>  drm_mode_config_cleanup+0x248/0x300
+>  ? __pfx___drm_printfn_dbg+0x10/0x10
+>  ? drm_mode_config_cleanup+0x1dc/0x300
+>  nouveau_display_destroy+0x39/0x70 [nouveau c19e0da7fd83583a023f855c510d9a3903808734]
+>  nouveau_drm_device_fini+0x7b/0x1f0 [nouveau c19e0da7fd83583a023f855c510d9a3903808734]
+>  nouveau_drm_shutdown+0x52/0xc0 [nouveau c19e0da7fd83583a023f855c510d9a3903808734]
+>  pci_device_shutdown+0x35/0x60
+>  device_shutdown+0x11c/0x1b0
+>  kernel_kexec+0x13a/0x160
+>  __do_sys_reboot+0x209/0x240
+>  do_syscall_64+0x81/0x610
+>  ? srso_return_thunk+0x5/0x5f
+>  ? __rtnl_unlock+0x37/0x70
+>  ? srso_return_thunk+0x5/0x5f
+>  ? netdev_run_todo+0x63/0x570
+>  ? netif_change_flags+0x54/0x70
+>  ? srso_return_thunk+0x5/0x5f
+>  ? devinet_ioctl+0x1e5/0x790
+>  ? srso_return_thunk+0x5/0x5f
+>  ? inet_ioctl+0x1e9/0x200
+>  ? srso_return_thunk+0x5/0x5f
+>  ? srso_return_thunk+0x5/0x5f
+>  ? sock_do_ioctl+0x7d/0x130
+>  ? srso_return_thunk+0x5/0x5f
+>  ? __x64_sys_ioctl+0x97/0xe0
+>  ? srso_return_thunk+0x5/0x5f
+>  ? srso_return_thunk+0x5/0x5f
+>  ? do_syscall_64+0x23b/0x610
+>  ? srso_return_thunk+0x5/0x5f
+>  ? put_user_ifreq+0x7a/0x90
+>  ? srso_return_thunk+0x5/0x5f
+>  ? sock_do_ioctl+0x107/0x130
+>  ? srso_return_thunk+0x5/0x5f
+>  ? __x64_sys_ioctl+0x97/0xe0
+>  ? srso_return_thunk+0x5/0x5f
+>  ? do_syscall_64+0x81/0x610
+>  ? srso_return_thunk+0x5/0x5f
+>  ? exc_page_fault+0x7e/0x1a0
+>  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+>
+> WARNING: include/drm/ttm/ttm_resource.h:406 at nouveau_ttm_fini+0x257/0x270 [nouveau], CPU#2: kexec/1300
+> Call Trace:
+>  <TASK>
+>  nouveau_drm_device_fini+0x93/0x1f0 [nouveau c19e0da7fd83583a023f855c510d9a3903808734]
+>  nouveau_drm_shutdown+0x52/0xc0 [nouveau c19e0da7fd83583a023f855c510d9a3903808734]
+>  pci_device_shutdown+0x35/0x60
+>  device_shutdown+0x11c/0x1b0
+>  kernel_kexec+0x13a/0x160
+>  __do_sys_reboot+0x209/0x240
+>  do_syscall_64+0x81/0x610
+>  ? srso_return_thunk+0x5/0x5f
+>  ? __rtnl_unlock+0x37/0x70
+>  ? srso_return_thunk+0x5/0x5f
+>  ? netdev_run_todo+0x63/0x570
+>  ? netif_change_flags+0x54/0x70
+>  ? srso_return_thunk+0x5/0x5f
+>  ? devinet_ioctl+0x1e5/0x790
+>  ? srso_return_thunk+0x5/0x5f
+>  ? inet_ioctl+0x1e9/0x200
+>  ? srso_return_thunk+0x5/0x5f
+>  ? srso_return_thunk+0x5/0x5f
+>  ? sock_do_ioctl+0x7d/0x130
+>  ? srso_return_thunk+0x5/0x5f
+>  ? __x64_sys_ioctl+0x97/0xe0
+>  ? srso_return_thunk+0x5/0x5f
+>  ? srso_return_thunk+0x5/0x5f
+>  ? do_syscall_64+0x23b/0x610
+>  ? srso_return_thunk+0x5/0x5f
+>  ? put_user_ifreq+0x7a/0x90
+>  ? srso_return_thunk+0x5/0x5f
+>  ? sock_do_ioctl+0x107/0x130
+>  ? srso_return_thunk+0x5/0x5f
+>  ? __x64_sys_ioctl+0x97/0xe0
+>  ? srso_return_thunk+0x5/0x5f
+>  ? do_syscall_64+0x81/0x610
+>  ? srso_return_thunk+0x5/0x5f
+>  ? exc_page_fault+0x7e/0x1a0
+>  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+>
+> Signed-off-by: Li Chen <me@linux.beauty>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_drm.c | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> index 1527b801f013..50384462723b 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> @@ -1079,6 +1079,29 @@ nouveau_pmops_resume(struct device *dev)
+>         return ret;
+>  }
+>
+> +static void
+> +nouveau_drm_shutdown(struct pci_dev *pdev)
 > +{
-> +	struct resource *res = pci_resource_n(pdev, resno);
-> +	struct pci_dev_resource *dev_res;
-> +	struct pci_bus *bus = pdev->bus;
-> +	struct resource *b_win, *r;
-> +	LIST_HEAD(saved);
-> +	unsigned int i;
-> +	int ret = 0;
+> +       struct nouveau_drm *drm = pci_get_drvdata(pdev);
+> +       int ret;
 > +
-> +	b_win = pbus_select_window(bus, res);
-> +	if (!b_win)
-> +		return -EINVAL;
+> +       if (!drm)
+> +               return;
 > +
-> +	pci_dev_for_each_resource(pdev, r, i) {
-> +		if (i >= PCI_BRIDGE_RESOURCES)
-> +			break;
+> +       if (drm->dev->switch_power_state == DRM_SWITCH_POWER_OFF ||
+> +           drm->dev->switch_power_state == DRM_SWITCH_POWER_DYNAMIC_OFF)
+> +               return;
 > +
-> +		if (exclude_bars & BIT(i))
-> +			continue;
->  
-> +		if (b_win != pbus_select_window(bus, r))
-> +			continue;
+> +       ret = nouveau_do_suspend(drm, false);
+> +       if (ret)
+> +               NV_ERROR(drm, "shutdown suspend failed with: %d\n", ret);
 > +
-> +		ret = add_to_list(&saved, pdev, r, 0, 0);
-> +		if (ret)
-> +			goto restore;
-> +		pci_release_resource(pdev, i);
-> +	}
-> +
-> +	pci_resize_resource_set_size(pdev, resno, size);
-> +
-> +	if (!bus->self)
-> +		goto out;
-> +
-> +	down_read(&pci_bus_sem);
-> +	ret = pbus_reassign_bridge_resources(bus, res, &saved);
-> +	if (ret)
-> +		goto restore;
-> +
-> +out:
-> +	up_read(&pci_bus_sem);
-> +	free_list(&saved);
-> +	return ret;
-> +
-> +restore:
->  	/* Revert to the old configuration */
->  	list_for_each_entry(dev_res, &saved, list) {
->  		struct resource *res = dev_res->res;
-> @@ -2510,13 +2552,21 @@ int pbus_reassign_bridge_resources(struct pci_bus *bus, struct resource *res)
->  
->  		restore_dev_resource(dev_res);
->  
-> -		pci_claim_resource(dev, i);
-> -		pci_setup_bridge(dev->subordinate);
-> -	}
-> -	up_read(&pci_bus_sem);
-> -	free_list(&saved);
-> +		ret = pci_claim_resource(dev, i);
-> +		if (ret)
-> +			continue;
+> +       pci_save_state(pdev);
+> +       pci_disable_device(pdev);
+> +       pci_set_power_state(pdev, PCI_D3hot);
+> +       usleep_range(200, 400);\
 
-This clobbers 'ret' was supposedly meant to be returned to the
-caller in the end. Thus (at least in my case) the caller always
-sees a return value of 0, and then it forgets to restores the
-reBAR setting back to the original value.
+Why is this needed? it at least needs a comment.
 
->  
-> -	return ret;
-> +		if (i < PCI_BRIDGE_RESOURCES) {
-> +			const char *res_name = pci_resource_name(dev, i);
-> +
-> +			pci_update_resource(dev, i);
-> +			pci_info(dev, "%s %pR: old value restored\n",
-> +				 res_name, res);
-> +		}
-> +		if (dev->subordinate)
-> +			pci_setup_bridge(dev->subordinate);
-> +	}
-> +	goto out;
->  }
->  
->  void pci_assign_unassigned_bus_resources(struct pci_bus *bus)
-> diff --git a/drivers/pci/setup-res.c b/drivers/pci/setup-res.c
-> index 3d0b0b3f60c4..e4486d7030c0 100644
-> --- a/drivers/pci/setup-res.c
-> +++ b/drivers/pci/setup-res.c
-> @@ -444,8 +444,7 @@ static bool pci_resize_is_memory_decoding_enabled(struct pci_dev *dev,
->  	return cmd & PCI_COMMAND_MEMORY;
->  }
->  
-> -static void pci_resize_resource_set_size(struct pci_dev *dev, int resno,
-> -					 int size)
-> +void pci_resize_resource_set_size(struct pci_dev *dev, int resno, int size)
->  {
->  	resource_size_t res_size = pci_rebar_size_to_bytes(size);
->  	struct resource *res = pci_resource_n(dev, resno);
-> @@ -456,9 +455,9 @@ static void pci_resize_resource_set_size(struct pci_dev *dev, int resno,
->  	resource_set_size(res, res_size);
->  }
->  
-> -int pci_resize_resource(struct pci_dev *dev, int resno, int size)
-> +int pci_resize_resource(struct pci_dev *dev, int resno, int size,
-> +			int exclude_bars)
->  {
-> -	struct resource *res = pci_resource_n(dev, resno);
->  	struct pci_host_bridge *host;
->  	int old, ret;
->  	u32 sizes;
-> @@ -468,10 +467,6 @@ int pci_resize_resource(struct pci_dev *dev, int resno, int size)
->  	if (host->preserve_config)
->  		return -ENOTSUPP;
->  
-> -	/* Make sure the resource isn't assigned before resizing it. */
-> -	if (!(res->flags & IORESOURCE_UNSET))
-> -		return -EBUSY;
-> -
->  	if (pci_resize_is_memory_decoding_enabled(dev, resno))
->  		return -EBUSY;
->  
-> @@ -490,19 +485,13 @@ int pci_resize_resource(struct pci_dev *dev, int resno, int size)
->  	if (ret)
->  		return ret;
->  
-> -	pci_resize_resource_set_size(dev, resno, size);
-> -
-> -	/* Check if the new config works by trying to assign everything. */
-> -	if (dev->bus->self) {
-> -		ret = pbus_reassign_bridge_resources(dev->bus, res);
-> -		if (ret)
-> -			goto error_resize;
-> -	}
-> +	ret = pci_do_resource_release_and_resize(dev, resno, size, exclude_bars);
-> +	if (ret)
-> +		goto error_resize;
->  	return 0;
->  
->  error_resize:
->  	pci_rebar_set_size(dev, resno, old);
-> -	pci_resize_resource_set_size(dev, resno, old);
-
-This new order is very broken because the new reBAR setting
-may have turned some of the originally set bits in the BAR
-to read-only. Thus we may not be able to restore the BAR back
-to the original value.
-
-In my case the original settings are 256MiB / 0x4030000000,
-followed by a failed resize to 8GiB, and finally we see a
-failed restore 'BAR 2: error updating (0x3000000c != 0x0000000c)'
-due to the read-only bits.
-
-i915 limps along after the failure but nothing really works,
-and xe just completely explodes.
-
->  	return ret;
->  }
->  EXPORT_SYMBOL(pci_resize_resource);
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index d1fdf81fbe1e..cc58abbd2b20 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -1428,7 +1428,8 @@ static inline int pci_rebar_bytes_to_size(u64 bytes)
->  }
->  
->  u32 pci_rebar_get_possible_sizes(struct pci_dev *pdev, int bar);
-> -int __must_check pci_resize_resource(struct pci_dev *dev, int i, int size);
-> +int __must_check pci_resize_resource(struct pci_dev *dev, int i, int size,
-> +				     int exlucde_bars);
->  int pci_select_bars(struct pci_dev *dev, unsigned long flags);
->  bool pci_device_is_present(struct pci_dev *pdev);
->  void pci_ignore_hotplug(struct pci_dev *dev);
-> -- 
-> 2.39.5
-
--- 
-Ville Syrjälä
-Intel
+Dave.
