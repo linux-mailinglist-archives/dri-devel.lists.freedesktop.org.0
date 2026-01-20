@@ -2,101 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yHAeHFb1b2m+UQAAu9opvQ
+	id eFKOJKr1b2m+UQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 22:36:22 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 22:37:46 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567A44C5D8
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 22:36:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF7414C617
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 22:37:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87EB410E09D;
-	Tue, 20 Jan 2026 21:36:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5761B10E1A7;
+	Tue, 20 Jan 2026 21:37:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kFPcCKFE";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="kkfzDpxN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
- [209.85.219.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFFCB10E229
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 21:36:17 +0000 (UTC)
-Received: by mail-qv1-f51.google.com with SMTP id
- 6a1803df08f44-88fe44cce7eso60921566d6.3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 13:36:17 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768944977; cv=none;
- d=google.com; s=arc-20240605;
- b=jtYffJggmNPdcAnmFs7C6OpWGaVfe4uiTNIZoD0hZlORf9hOOwkDUcakepVXiQV1GF
- JMqD+AmIhEhxHR/HDU5C7mDiFzmFws2c+ft7JbMoyNZR0cO4OeSmfmNFxjIIl9J24pi7
- kqArH20rcpB06aOz9p74Jwe7ma6w4RiH/5i+e57lDu+gx6XdxldqJPl8K/IDZeI2/oew
- xQYVogKrelrb2oVx0RUfaSYLOE7Q+RuYqTCfJAa/K8eGCz2FCtBGjNhYwADN62m/SlId
- zXhOmBNmuo610pYkShRnJAATiMW54H09Kl/J6mBsMXjCKFGYHCSBY+XBfnF5nIy/6IN7
- SM0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:dkim-signature;
- bh=5nFujpvEPNRJznN7IV6as1miwfT5Y6L/k2KFAeS/YxM=;
- fh=d6+PF36woGP+58INXAbTTR9mUXpDjMDHTtJQWIrUROg=;
- b=JwPDAEEFcaMdmd68zTjzaUBM3U9Kfv9Q7WNy5VzPAn+9lrDAcXNJOy3ljFm9pQ3//h
- 1YXf9gBRdNAU2/0o1ebTivo1di7CFEA5Y1V16/B18j9TiqMgTyQzWXbLT5uqt52tLABy
- JkbQJiEPASsNyoDjs4C86YbmyOVK1gQgrX16s/hqIKtlLL4RE5xZkAkqlzyG7RpA+J+y
- 8KKMQ7JrM7rux3GMhv3CgRQV7/zqLnPTQMa28FW6ay0yiQcF78wvy2IuLQhxlEkz5/DV
- jSo8C1Es/osRHjZOFmqg9jKVdZhkCG6r3V6Gn3IvtikHqt2X8iARDznM9dov48TnlIR8
- bBcA==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD5D10E109
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 21:37:43 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-b87dba51442so426843366b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 13:37:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768944977; x=1769549777; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=5nFujpvEPNRJznN7IV6as1miwfT5Y6L/k2KFAeS/YxM=;
- b=kFPcCKFEObsRI90w671a70UaZhCMjdUnQnM14cm6333O7kVPbtTQF8Tp/ttkB49kxz
- Qy9lvXIoOg1OzwPYy7gCSweEC3STRJ22Ny29PxDGpW9E246bFKRQb5aRe5O2vNpN+FKx
- noPqipepALChtO8TCc0zfeXm0d9hDlrfjDDgVDQhojwmD9NyXMqIiGz1ba6p4lUCIXlU
- TUQ/3tmta5nTdYduJpLlZnTY6lpcUfoplUG0vACKNAY5K4ph7CpoJ5JjfBUhYqZYsmFC
- unGiq4cU/8Tzj9crPBC9BWjECe3KF/qyZZHzcAHxyfUjvPd+JAuIalDAtX11p0x3lgs7
- 2Bug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768944977; x=1769549777;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=chromium.org; s=google; t=1768945056; x=1769549856;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5nFujpvEPNRJznN7IV6as1miwfT5Y6L/k2KFAeS/YxM=;
- b=KqnPocDwbsz/RhTeY8XQEmB/QjVgBDk7qA5zyCfe2wOAu4bnaEO3NMsS1DJ7NlaIsK
- n9/kxo0froyZKcJGI0XL+JttOlzUOsDnIStAgGTWML5nBdXiMDQ5nfSq79f2VXy8cl2R
- 7p3ZvaaP0Or1fQ0pl756hux3eM6ogLEpgGwJE7CQ5y3ncmt+7bKAmOVWW2q1EdErklKJ
- zZo+2eoqn72R1HPLNbrXWAn46TeTYioH5iUnrmZtwgjOLCEYl2LXLPmC5cMSd/y5VNak
- Wlcfvk9dFG/143giPiLQGOhSTLMJRwyW8bJRuVeghjXP/EYalczXAxi20yckjszXe+32
- dkkQ==
+ bh=f77R0JQuS4DuPjEO2I2EP1enUnPkpfPM0L3J9mEBbBI=;
+ b=kkfzDpxNRMt94qMt51PNBwujDLsNetVahd1a9IFRBHu31PunPVs9IAfccWz/3kpD9r
+ jMVp3pB+f+F24ZXmTBHhIwCfZUbZOxuVeBDRxiHNvJk88UbtP/AOYRx+I/+8nTEuFOlq
+ P+E0yRfTdMrXPsC8J6WdA+lEycFjIb8DWVfLM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768945056; x=1769549856;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=f77R0JQuS4DuPjEO2I2EP1enUnPkpfPM0L3J9mEBbBI=;
+ b=Y5F1VxXopc75G7m8g58AQjWduhljV0vYe/OCE7ODn+k84/WOo+S3cshnTxVAVHP7qQ
+ V4PaRzkX1MLSSS8I//0P2246o+R2kLQVcLusPS5gVlmXRXG8+YvW8yu59FbZHn4CAoWf
+ 5yqDb9KZwWnB+9s8uprlpsqXdsMpJ7lAjcZDc3h46O+RtafEPOqLs0yfAEpIS6StHej7
+ exrSbQMHPn/4b33LgA7mmiJE7U6iQfjLMCHKCpybNcx3ITR+hkped0MJRVgQr/bGkkPu
+ F1+NSu3eyJdJZiThxxcgN4313NkXvda1LKxyXEFSDZPTqouk2+Z3SqWClBzgyYr9BlI2
+ G4gw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWd61WrOEuXH6mAnBM7RMgxcJ5J4oGmfcg3RCpApn1xm8nojAowfKzHqt8szhihrSyU9tuPfkSXkds=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy+/+c8j8zG3GNOPzlmlz9ppGiDpAtJ0SlrI7NRTcmdhQVobOeL
- DmZXaQ8ZIg0txL03/4i6Qem2uI/mdF5/Q2QIQPFUkRfEM5YCuaHmSHdddMNMzL6cSKbQ2/ZP8XX
- aV1G3q3FqPSX1LwwHv99VPzes5XAcpJ0=
-X-Gm-Gg: AZuq6aKUJSYYMD92JD+v0JVCSttmdYCXP2oKmA18aOaHh+vv4WfGo1BDngpsXh/RV7E
- ml9Z5DUZDHPw/zyktb4pBPzjy3s7eCYufLjyY3SsrYhk3Lu+XBqQL/tjADkAFPYMqZCrmo/XM4n
- KXXxIotWO9rLfgDrYsQOHevpTxcZ+q9Cu/VOf57F2NVD1Altb2ZnFyWbPavtuC0f6fceBNcoVOr
- u4vMM20J7Atl7bhmerfkqMLYcCulDclDLfiuUxqIq/Ud4FWzXGEsSf6hdvspi5tixMlNdfGQTW3
- zwVuYYnhjgttkEzufzlJ3I0bj8e+O3rPZV07EyquCsv5btHs2wIDDt4=
-X-Received: by 2002:a05:6214:1cc5:b0:893:886:3816 with SMTP id
- 6a1803df08f44-8946384ec3bmr42134286d6.6.1768944976692; Tue, 20 Jan 2026
- 13:36:16 -0800 (PST)
+ AJvYcCUoU8rYNnVtEctBPtONis0etyIUh7iUQmghHnE8y7Jpej+uCV291B1i6m4wGLZBq/AQ58Uue5bcdb4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyZfQTrv+XnhS5LRvwiRkSRbQip/FnIkjMSc5PIxg8qEMaWe9PN
+ NyvGv7JU5wsgHTm6CRcd90AXVc/lFY4Akazkv+oSoORTMoVAHVeOErXd8TtiqBF6SEWd+/naoNj
+ FEfsUNdFj
+X-Gm-Gg: AZuq6aLlQDSrT/zR+gcVlIc7QTxG3cCDyK4150xQYewQsRRu2T9JAy/AIivyIxZ9SvW
+ eUr0jWrgvKGgwpAWhHSzgZkDsb1YAhm7yM/2nIxyQIIYvme/boSvVSdVsLaqR3gWftBSa1h+u7P
+ wudVXMXCOvtcraT4KSVddFp9Fb98JI9hMRbXTpgYIZLhlApRsnA98K+wBoNK2ztg12FXbTfvor1
+ JhScCPCPwfvKajxyODs6qKlFvHb31cwVJtVXWnVnsBSA5/PoqwmqSSGVBDFa6oxfSXo/dkPaq69
+ 6hMSrv4g7t/stubJZenYuK+pjoqjWDYfLZuF0aBpTCyqik2EL7+Y2cf5XEymaBTmZnDuwnCM/jk
+ J8h3vhhubwSCqO0ARwJm+wEfFEwE3X91rfGBF7vLGYa6HhkwTvF+3BOQq84af2iEb5h/ja4ml8L
+ Ft5KjdqzLqSPKQ8UwY8mf0KELtEka3dAHmnjbd1NS+a7AKFTWteJREWJtQvJEY
+X-Received: by 2002:a17:907:1ca9:b0:b87:35fc:ae5f with SMTP id
+ a640c23a62f3a-b87930381c7mr1522553366b.52.1768945056381; 
+ Tue, 20 Jan 2026 13:37:36 -0800 (PST)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com.
+ [209.85.128.48]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b87959ca4d6sm1480864466b.39.2026.01.20.13.37.35
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Jan 2026 13:37:35 -0800 (PST)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-47edd6111b4so54016515e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 13:37:35 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUIubAsWvaw2rMAU3lI9dibSUrRgh/IoQ3tnpcZbW9n6zOSgCds5Kl5jxRqbqZd8FqYMhR8vLLlWoY=@lists.freedesktop.org
+X-Received: by 2002:a05:600c:3483:b0:471:1717:411 with SMTP id
+ 5b1f17b1804b1-4801e334248mr212707995e9.24.1768945055035; Tue, 20 Jan 2026
+ 13:37:35 -0800 (PST)
 MIME-Version: 1.0
-References: <20260120121455.142960-1-me@linux.beauty>
-In-Reply-To: <20260120121455.142960-1-me@linux.beauty>
-From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 21 Jan 2026 07:36:05 +1000
-X-Gm-Features: AZwV_QjLXpEQk5YXuxnS3fiq692HSHgxKn8FGedpRxe-Gcn5B8D9KpLEWZ-rRoM
-Message-ID: <CAPM=9tw-Mkw95g=VDgjvqQha8KaTM7e6Qs2b3bvTaNUdz-Q7Kg@mail.gmail.com>
-Subject: Re: [PATCH] nouveau: pci: quiesce GPU on shutdown
-To: Li Chen <me@linux.beauty>
-Cc: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
+References: <20260119033952.9970-1-terry_hsiao@compal.corp-partner.google.com>
+In-Reply-To: <20260119033952.9970-1-terry_hsiao@compal.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 20 Jan 2026 13:37:23 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UVkmUbyU3Et_XFt24tt09LLN68h8WXt+E1f8NLXgW7Qg@mail.gmail.com>
+X-Gm-Features: AZwV_QgaS5yLM1dXgti69oaPpU3LOivS72lqskajLkpob6nqo4v-wY6upektzsI
+Message-ID: <CAD=FV=UVkmUbyU3Et_XFt24tt09LLN68h8WXt+E1f8NLXgW7Qg@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/panel-edp: Add AUO B116XAT04.1 (HW: 1A)
+To: "terry_hsiao@compal.corp-partner.google.com"
+ <terry_hsiao@compal.corp-partner.google.com>
+Cc: linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,211 +108,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:me@linux.beauty,m:lyude@redhat.com,m:dakr@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:simona@ffwll.ch,m:nouveau@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:terry_hsiao@compal.corp-partner.google.com,m:linux-kernel@vger.kernel.org,m:neil.armstrong@linaro.org,m:quic_jesszhan@quicinc.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,linaro.org,quicinc.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[chromium.org:+];
 	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER(0.00)[dianders@chromium.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[dianders@chromium.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	RCPT_COUNT_SEVEN(0.00)[10];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 567A44C5D8
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,chromium.org:dkim]
+X-Rspamd-Queue-Id: EF7414C617
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, 20 Jan 2026 at 22:15, Li Chen <me@linux.beauty> wrote:
+Hi,
+
+On Sun, Jan 18, 2026 at 7:40=E2=80=AFPM
+terry_hsiao@compal.corp-partner.google.com
+<terry_hsiao@compal.corp-partner.google.com> wrote:
 >
-> Kexec reboot does not reset PCI devices.
-> Invoking the full DRM/TTM teardown from ->shutdown can trigger WARNs when
-> userspace still holds DRM file descriptors.
+> Add support for the AUO - B116XAT04.1 (HW: 1A) panel.
+> This panel is used on MT8186 Chromebooks
 >
-> Quiesce the GPU through the suspend path and then power down the PCI
-> function so the next kernel can re-initialize the device from a consistent
-> state.
+> The raw EDID:
+> 00 ff ff ff ff ff ff 00 06 af ba 89 00 00 00 00
+> 0c 23 01 04 95 1a 0e 78 02 9e a5 96 59 58 96 28
+> 1b 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> 01 01 01 01 01 01 ce 1d 56 ea 50 00 1a 30 30 20
+> 46 00 00 90 10 00 00 18 df 13 56 ea 50 00 1a 30
+> 30 20 46 00 00 90 10 00 00 18 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 02
+> 00 10 48 ff 0f 3c 7d 0c 0a 2a 7d 20 20 20 00 21
 >
-> WARNING: drivers/gpu/drm/drm_mode_config.c:578 at drm_mode_config_cleanup+0x2e7/0x300, CPU#2: kexec/1300
-> Call Trace:
->  <TASK>
->  ? srso_return_thunk+0x5/0x5f
->  ? enable_work+0x3a/0x100
->  nouveau_display_destroy+0x39/0x70 [nouveau c19e0da7fd83583a023f855c510d9a3903808734]
->  nouveau_drm_device_fini+0x7b/0x1f0 [nouveau c19e0da7fd83583a023f855c510d9a3903808734]
->  nouveau_drm_shutdown+0x52/0xc0 [nouveau c19e0da7fd83583a023f855c510d9a3903808734]
->  pci_device_shutdown+0x35/0x60
->  device_shutdown+0x11c/0x1b0
->  kernel_kexec+0x13a/0x160
->  __do_sys_reboot+0x209/0x240
->  do_syscall_64+0x81/0x610
->  ? srso_return_thunk+0x5/0x5f
->  ? __rtnl_unlock+0x37/0x70
->  ? srso_return_thunk+0x5/0x5f
->  ? netdev_run_todo+0x63/0x570
->  ? netif_change_flags+0x54/0x70
->  ? srso_return_thunk+0x5/0x5f
->  ? devinet_ioctl+0x1e5/0x790
->  ? srso_return_thunk+0x5/0x5f
->  ? inet_ioctl+0x1e9/0x200
->  ? srso_return_thunk+0x5/0x5f
->  ? srso_return_thunk+0x5/0x5f
->  ? sock_do_ioctl+0x7d/0x130
->  ? srso_return_thunk+0x5/0x5f
->  ? __x64_sys_ioctl+0x97/0xe0
->  ? srso_return_thunk+0x5/0x5f
->  ? srso_return_thunk+0x5/0x5f
->  ? do_syscall_64+0x23b/0x610
->  ? srso_return_thunk+0x5/0x5f
->  ? put_user_ifreq+0x7a/0x90
->  ? srso_return_thunk+0x5/0x5f
->  ? sock_do_ioctl+0x107/0x130
->  ? srso_return_thunk+0x5/0x5f
->  ? __x64_sys_ioctl+0x97/0xe0
->  ? srso_return_thunk+0x5/0x5f
->  ? do_syscall_64+0x81/0x610
->  ? srso_return_thunk+0x5/0x5f
->  ? exc_page_fault+0x7e/0x1a0
->  entry_SYSCALL_64_after_hwframe+0x76/0x7e
->
-> nouveau 0000:26:00.0: [drm] drm_WARN_ON(!list_empty(&fb->filp_head))
-> WARNING: drivers/gpu/drm/drm_framebuffer.c:833 at drm_framebuffer_free+0x73/0xa0, CPU#2: kexec/1300
-> Call Trace:
->  <TASK>
->  drm_mode_config_cleanup+0x248/0x300
->  ? __pfx___drm_printfn_dbg+0x10/0x10
->  ? drm_mode_config_cleanup+0x1dc/0x300
->  nouveau_display_destroy+0x39/0x70 [nouveau c19e0da7fd83583a023f855c510d9a3903808734]
->  nouveau_drm_device_fini+0x7b/0x1f0 [nouveau c19e0da7fd83583a023f855c510d9a3903808734]
->  nouveau_drm_shutdown+0x52/0xc0 [nouveau c19e0da7fd83583a023f855c510d9a3903808734]
->  pci_device_shutdown+0x35/0x60
->  device_shutdown+0x11c/0x1b0
->  kernel_kexec+0x13a/0x160
->  __do_sys_reboot+0x209/0x240
->  do_syscall_64+0x81/0x610
->  ? srso_return_thunk+0x5/0x5f
->  ? __rtnl_unlock+0x37/0x70
->  ? srso_return_thunk+0x5/0x5f
->  ? netdev_run_todo+0x63/0x570
->  ? netif_change_flags+0x54/0x70
->  ? srso_return_thunk+0x5/0x5f
->  ? devinet_ioctl+0x1e5/0x790
->  ? srso_return_thunk+0x5/0x5f
->  ? inet_ioctl+0x1e9/0x200
->  ? srso_return_thunk+0x5/0x5f
->  ? srso_return_thunk+0x5/0x5f
->  ? sock_do_ioctl+0x7d/0x130
->  ? srso_return_thunk+0x5/0x5f
->  ? __x64_sys_ioctl+0x97/0xe0
->  ? srso_return_thunk+0x5/0x5f
->  ? srso_return_thunk+0x5/0x5f
->  ? do_syscall_64+0x23b/0x610
->  ? srso_return_thunk+0x5/0x5f
->  ? put_user_ifreq+0x7a/0x90
->  ? srso_return_thunk+0x5/0x5f
->  ? sock_do_ioctl+0x107/0x130
->  ? srso_return_thunk+0x5/0x5f
->  ? __x64_sys_ioctl+0x97/0xe0
->  ? srso_return_thunk+0x5/0x5f
->  ? do_syscall_64+0x81/0x610
->  ? srso_return_thunk+0x5/0x5f
->  ? exc_page_fault+0x7e/0x1a0
->  entry_SYSCALL_64_after_hwframe+0x76/0x7e
->
-> WARNING: include/drm/ttm/ttm_resource.h:406 at nouveau_ttm_fini+0x257/0x270 [nouveau], CPU#2: kexec/1300
-> Call Trace:
->  <TASK>
->  nouveau_drm_device_fini+0x93/0x1f0 [nouveau c19e0da7fd83583a023f855c510d9a3903808734]
->  nouveau_drm_shutdown+0x52/0xc0 [nouveau c19e0da7fd83583a023f855c510d9a3903808734]
->  pci_device_shutdown+0x35/0x60
->  device_shutdown+0x11c/0x1b0
->  kernel_kexec+0x13a/0x160
->  __do_sys_reboot+0x209/0x240
->  do_syscall_64+0x81/0x610
->  ? srso_return_thunk+0x5/0x5f
->  ? __rtnl_unlock+0x37/0x70
->  ? srso_return_thunk+0x5/0x5f
->  ? netdev_run_todo+0x63/0x570
->  ? netif_change_flags+0x54/0x70
->  ? srso_return_thunk+0x5/0x5f
->  ? devinet_ioctl+0x1e5/0x790
->  ? srso_return_thunk+0x5/0x5f
->  ? inet_ioctl+0x1e9/0x200
->  ? srso_return_thunk+0x5/0x5f
->  ? srso_return_thunk+0x5/0x5f
->  ? sock_do_ioctl+0x7d/0x130
->  ? srso_return_thunk+0x5/0x5f
->  ? __x64_sys_ioctl+0x97/0xe0
->  ? srso_return_thunk+0x5/0x5f
->  ? srso_return_thunk+0x5/0x5f
->  ? do_syscall_64+0x23b/0x610
->  ? srso_return_thunk+0x5/0x5f
->  ? put_user_ifreq+0x7a/0x90
->  ? srso_return_thunk+0x5/0x5f
->  ? sock_do_ioctl+0x107/0x130
->  ? srso_return_thunk+0x5/0x5f
->  ? __x64_sys_ioctl+0x97/0xe0
->  ? srso_return_thunk+0x5/0x5f
->  ? do_syscall_64+0x81/0x610
->  ? srso_return_thunk+0x5/0x5f
->  ? exc_page_fault+0x7e/0x1a0
->  entry_SYSCALL_64_after_hwframe+0x76/0x7e
->
-> Signed-off-by: Li Chen <me@linux.beauty>
 > ---
->  drivers/gpu/drm/nouveau/nouveau_drm.c | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
+>  drivers/gpu/drm/panel/panel-edp.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> index 1527b801f013..50384462723b 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> @@ -1079,6 +1079,29 @@ nouveau_pmops_resume(struct device *dev)
->         return ret;
->  }
->
-> +static void
-> +nouveau_drm_shutdown(struct pci_dev *pdev)
-> +{
-> +       struct nouveau_drm *drm = pci_get_drvdata(pdev);
-> +       int ret;
-> +
-> +       if (!drm)
-> +               return;
-> +
-> +       if (drm->dev->switch_power_state == DRM_SWITCH_POWER_OFF ||
-> +           drm->dev->switch_power_state == DRM_SWITCH_POWER_DYNAMIC_OFF)
-> +               return;
-> +
-> +       ret = nouveau_do_suspend(drm, false);
-> +       if (ret)
-> +               NV_ERROR(drm, "shutdown suspend failed with: %d\n", ret);
-> +
-> +       pci_save_state(pdev);
-> +       pci_disable_device(pdev);
-> +       pci_set_power_state(pdev, PCI_D3hot);
-> +       usleep_range(200, 400);\
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/pa=
+nel-edp.c
+> index 679f4af5246d..108569490ed5 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -1915,6 +1915,7 @@ static const struct edp_panel_entry edp_panels[] =
+=3D {
+>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x723c, &delay_200_500_e50, "B140X=
+TN07.2"),
+>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x73aa, &delay_200_500_e50, "B116X=
+TN02.3"),
+>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x8594, &delay_200_500_e50, "B133U=
+AN01.0"),
+> +       EDP_PANEL_ENTRY('A', 'U', 'O', 0x89ba, &delay_200_500_e50, "B116X=
+AT04.1"),
+>         EDP_PANEL_ENTRY('A', 'U', 'O', 0x8bba, &delay_200_500_e50, "B140U=
+AN08.5"),
+>         EDP_PANEL_ENTRY('A', 'U', 'O', 0xa199, &delay_200_500_e50, "B116X=
+AN06.1"),
+>         EDP_PANEL_ENTRY('A', 'U', 'O', 0xa7b3, &delay_200_500_e50, "B140U=
+AN04.4"),
 
-Why is this needed? it at least needs a comment.
+I was all ready to push it when the tools correctly pointed out that
+you're missing a Signed-off-by. I can't add that for you. Please
+re-post the patch with your Signed-off-by.
 
-Dave.
+-Doug
