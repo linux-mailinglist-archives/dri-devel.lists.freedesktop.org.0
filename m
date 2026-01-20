@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SBLjAwLpb2lhUQAAu9opvQ
+	id sIN4Fwjpb2lhUQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 21:43:46 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 21:43:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9224B849
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 21:43:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4E14B88E
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 21:43:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7D4910E1B1;
-	Tue, 20 Jan 2026 20:43:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF3A410E656;
+	Tue, 20 Jan 2026 20:43:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="sbUStwFZ";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="G4mk6Npi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010011.outbound.protection.outlook.com [52.101.46.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7617889A88;
- Tue, 20 Jan 2026 20:43:40 +0000 (UTC)
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010043.outbound.protection.outlook.com
+ [40.93.198.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 598BC10E221;
+ Tue, 20 Jan 2026 20:43:42 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=c+c2ynfxhxN1wXuNK7Lo9iqWYr/RnGSWNpaASfOpgmbzANgGRLuRSq+n1aWMViCvgPckTRmkGV0F74ptZdVg9/T5ALVjVAubU80lMQWpWAIRmW0ur460SQp83syfDPyI7qOBsnh+D/tmnP7AYBi3aW0p1i7Dd4BBVm2xBpRri2r59g1vjfVTLL/Wo536MmWxcRJUGJvpp4T6/PeOSC3Wt0rOUGG0RSGeB5OQg+kRdauI8x9R2NabUcEmHGVPcQUAxX45opJvZ9re3NU3r8qh77HJC4KZrzp8DqIYJ0fMnjMnyc5W7eckIqZwO0O5iFe49D3DGIgEfyAoT/U/Zu7rZg==
+ b=O9ydnogvx6KZgl0bkPY3h28+J8nTa6JWzZjx+rrm4WHfnqHrTgNyPkd757MPdMxaH3RDo3H/p/EdijnOH8KNE9t1vt2bgpKDnWrlv+5F8rHouZqWHZ+Yft6d3E60fbbZeY4b2htESrZziJDYoS2OxiORTTMezgNhImYcxGL8+tDN4i25dzqSBioHeo/TyI2q2fWQ598QYdMz2aAwbDZu8PPSkaRh4+kktkeaWTv9iGgexCAmrkQ6TwpBwdZuXOJzJT+2Z5b5SNNdhP+UUZlLUIjyeE4NpX1G4fwCh197/sAdtxVzcBJJuwRyS8R/Bj8TNLkeuk9Bq9zPrHNDNciXgg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xtKPhHlXHiR4eFexAEWzJ5B8T9yswuJuyjA8Ay54ViE=;
- b=Cg641JB0ybdNJnzvQ66/GtohpwFKgdNi4Pdl9dhgH+530Bi6Xm93rb/Ba8egtLyVNJxbNJfiwv6GsvsinpcQylHVjfUlOlakBYBT4X8rSufHR7JWRRmosUBBKyhc/xYO/HdpISG1Prz272WxGPDCfcjPcHopxzbpbJC8V6iXhqFh4rYgL6jLAoEv/0NB0VVyDi4iVvX2vm+UxPzA7oqxd0XtzZvUn/yROcuwxnq8tjoE9dU5V7pUDKQQWQLpjQMEalmIs0tP26Mt731ZIey6qK6XKxhMLXefoXa2bmpq++yPzSL4o6aMcLShcunA4vGWBlcF71gOq/jELPwnPK1qpQ==
+ bh=hUBZ6L+/xZVS1Ji2XUB+n8k6WjuNk14WaceTCfHlB9A=;
+ b=GRJYP6QOxP7eEdk8JVYmrJ1IR2RZegfsMCfHNkSurJ782Jhh7lKfokUo+4gw55sx1DVx3dV5A7Y1aVtYTV/DXCt63vaEaIKe2AOTIm744jAo7dSueJge+zTZT8nKBk1dV17SZFghhajQ+Xtqo3eHX7JfG5ZhRPbz5IeEj5NRcQH2z942WeTNn4SW9wnEufUwhKHQLoQzDJGPnjb6Lux3cvCaDp8CAkjlOrp7UB1SvGkC/aFaUF1nQWeYkGxOgy7AOl1bmRwnXzBTe31h7SAuAfvQ+fcqvc+Bi8VF+UX1wPW2dLAYE4cZeGqdPixZW9CMIsenDqUsoaANd6GuY/+cPg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xtKPhHlXHiR4eFexAEWzJ5B8T9yswuJuyjA8Ay54ViE=;
- b=sbUStwFZu8o3SiMDI54IelwsVaaMpknwVwSMVWi3BXPdDwctmW1qDQDb2dHd4RCjBCDP0q+m9EZdKE3jtDMRa67FaU+786aYokwUqOSLYIn9VuUJvW/t2+cP4zYa8cXKYz9eeX1NeJjQmGAVe2w0wEjl7mX+ceojDmFfYS3Z5V551uVKFwyCbV8Trw0UT+xJLQyo7gjsLHjfspLd9ZXv8CHm+vwvEt0NNOMyz+fWrUMTJ3dMRxS1OgFBEdC8WIkOVXbUclRfUTPMEmN+N2bKqjM5MExS3rEwMJigZl5sW7FocqspxMRObs4wjcGqbVE3iR3w7s5skWontSygAjd0nA==
+ bh=hUBZ6L+/xZVS1Ji2XUB+n8k6WjuNk14WaceTCfHlB9A=;
+ b=G4mk6NpiofxK5lDZ+BgWU801jRfwrpj1K6av5d576iGycIyLD5gcAVqUR4g9ODjNm0Tny3hOCt1bjnMtVb3pZIBA/ZdLnm5q7hfONo+HDukWWiuhXjfkOH15WXO84lH/cxMVcz52Nr52RmwYb0hSaNw6G82yN9QIcV1KhaYjpRbOxP0rhoCDZ6TqosQO5kRcL/aHCTGSWaCSGh9E2tfZiif3fhzgNdnY8EE6P1Viop+97pIrOOzRgBS+L/do19SKnHjbTHT1jx8ILCTr1elMgWSrbRLBDq1n4dnNP0BJYLEAGgY4eyVRlkYEXMwAHADXWqGvT9IpD/ZG86Lfa/M2YA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- CY1PR12MB9651.namprd12.prod.outlook.com (2603:10b6:930:104::8) with
+ PH7PR12MB6809.namprd12.prod.outlook.com (2603:10b6:510:1af::9) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9520.13; Tue, 20 Jan 2026 20:43:34 +0000
+ 15.20.9520.12; Tue, 20 Jan 2026 20:43:34 +0000
 Received: from DS0PR12MB6486.namprd12.prod.outlook.com
  ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
  ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9542.008; Tue, 20 Jan 2026
- 20:43:31 +0000
+ 20:43:34 +0000
 From: Joel Fernandes <joelagnelf@nvidia.com>
 To: linux-kernel@vger.kernel.org
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -82,93 +83,96 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  Joel Fernandes <joelagnelf@nvidia.com>
-Subject: [PATCH RFC v6 00/26] nova-core: Memory management infrastructure (v6)
-Date: Tue, 20 Jan 2026 15:42:37 -0500
-Message-Id: <20260120204303.3229303-1-joelagnelf@nvidia.com>
+Subject: [PATCH RFC v6 01/26] rust: clist: Add support to interface with C
+ linked lists
+Date: Tue, 20 Jan 2026 15:42:38 -0500
+Message-Id: <20260120204303.3229303-2-joelagnelf@nvidia.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260120204303.3229303-1-joelagnelf@nvidia.com>
+References: <20260120204303.3229303-1-joelagnelf@nvidia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: MN2PR16CA0051.namprd16.prod.outlook.com
- (2603:10b6:208:234::20) To DS0PR12MB6486.namprd12.prod.outlook.com
+X-ClientProxiedBy: BL1PR13CA0279.namprd13.prod.outlook.com
+ (2603:10b6:208:2bc::14) To DS0PR12MB6486.namprd12.prod.outlook.com
  (2603:10b6:8:c5::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|CY1PR12MB9651:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc78923e-3a70-4834-6e61-08de586492a5
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|PH7PR12MB6809:EE_
+X-MS-Office365-Filtering-Correlation-Id: 59bf7c39-03ab-4bb7-b455-08de5864939b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ev/XrEGlEiHVKAUsq0Pv+BkfEcR5p/rCPCR6vLb+3gYv93MgOAaD5Js9i+e8?=
- =?us-ascii?Q?7X0Ch2SeXKMULOdG/cReyZ5QdQ/yhjvm82mPsSib9+BNhZohU9H9s4hODXaY?=
- =?us-ascii?Q?8wlp9gQuTisyxIasoH7O3tY1UPHUBPOn5oVtd/nmrb/kJHP4iWMKY4XYETos?=
- =?us-ascii?Q?YjoHoStRKDvTEmyzTjpVDwRrhyc5Gia3UBFb/guyKFAVP6xMoFXomfoGWgE3?=
- =?us-ascii?Q?RAHyx9pjdwJ/URoYojoSzywp3lGch6gM74XgfPpCwCvSWAiMI8g0q7j+os3O?=
- =?us-ascii?Q?oHGhiZpaUDXbFjQsq/YMmV3xml17kxpvAzY+5fUg2LhvhFnz42mHLi3l6Uex?=
- =?us-ascii?Q?kr4n4YdkNm+8JkIuu5QRHcnddyCMyc90hkZhammy1+JVL6CgA7um9YouWOUo?=
- =?us-ascii?Q?EKK0Zl6iKtrrOPdgvZkzh1V3BpK40QcZMYPGQtw4tiUlFlPGtriattF27CYE?=
- =?us-ascii?Q?UVj8YuI+CzjPxeVtlUdwCirQ7qn3S2a9UEa34XJU/cjIbx2JQJR0ov61ZOr/?=
- =?us-ascii?Q?uKaU/oh3uf7GQTv7iOB1ZBe7XL7+GxxfexIUUoAYjwxCrLKpNq4YrJwVsHCO?=
- =?us-ascii?Q?dKIYdE1Pin81VOx2Z2fUdlZXrfuzhXqUZ4v3BjC824Hi+4f9SmjdquZSEGUF?=
- =?us-ascii?Q?gAQYTh26337afQw2/nM8HNMsFkuUFT32SI4u+YgkoSxU1QFfgzCNhrioiWwa?=
- =?us-ascii?Q?ao9dKH3g8X0p2Y44c8zV1yFRzWV8wH0uXxYgfaSfc5Gzv21jEqwUa4lgRKlc?=
- =?us-ascii?Q?JqO+1JvGrQyNU5vuomO9l3M4Xcq7SVIfG8KRbtBDH/LuFhXjjnzP4y0TWKSQ?=
- =?us-ascii?Q?1teY2XM0EZrtfzF4K4NGm13gG4cjO9X5XJ97z8ZJrzK84rTjDiuuaS63gJO/?=
- =?us-ascii?Q?9U7DQ92aUZSavDii1gkJ9mYn+ShBK2p0EjCFcVdLJoIM/fvligVlv6UUtgFC?=
- =?us-ascii?Q?U0jrWS6Z8wO8WZqMx06DaRqGRaqXP2kE7i4Kl8Dtqvv/SUhY19uE6/NPnan7?=
- =?us-ascii?Q?Ipa13192z0xWiwNJCI4SXWBAOvF7JGR5DVKxpPA0sZIWc435btkV+5t3ptaR?=
- =?us-ascii?Q?1r6yAF3bVBMYrNDOhlNCbeEhdNniJ8y/ZSxbavyyMisJxr5l06FojGdyyKXl?=
- =?us-ascii?Q?qWw1GJftL9oE3ooqB6AyRZKMl0ls3+SC9pxy9OpTnZk4C5w5m5yUSOgzyR7q?=
- =?us-ascii?Q?kt7DqMyjGSfvRW7HHDogSVMe7gChFp3/Eaj2MArdIEYZI3X/I9flIUVHrZqk?=
- =?us-ascii?Q?nqqedzhJ1s/VZuqI+2uFzWO7Llp843MY7/RgIfVIE6TD7oC8BmaJBetEicBh?=
- =?us-ascii?Q?dUKizezOea0znrtWjoJpth4B+wzLoKnmubA9yeEFAAMvm4uSKfI8h2T5cmoJ?=
- =?us-ascii?Q?jdGSExWpZQgHU3uVeEspgfgMMFMJ7dYGe3jdPHcql6rprrSdEfvNk84PPnUN?=
- =?us-ascii?Q?hqPY2qWhU+SPqrlxT06e7+hPb/HtdiNJ0VB7aPIgIPmXVec5CKq1pXl3kGQW?=
- =?us-ascii?Q?NQEH62n03ao65tUAMg2t8Xl1ABFpFtob8pqdTezbm4B8wfuyL2Pyps/RczUL?=
- =?us-ascii?Q?puUBoFLchyGDLgO84gI=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?zedivzF8LOtonffT6d+08jkNUh9aCZ8lBfNIuVMWMdgZAwShuUJz3mQgluCD?=
+ =?us-ascii?Q?4w+jp1bXUNyNzDhkr/uyGAcKy/1cpb1LL9fDGaqNVP7vsf3WkTiO/SaxWpEH?=
+ =?us-ascii?Q?JXnj1O7BEJsM48gweg0qz7pcNMEsxmAm/upJuZcm4lvqeYgMpEivFIUH+OB6?=
+ =?us-ascii?Q?6Bk8DhYly9mWzprp5PzU+oBmaRk2XE0QXqDTgJLFljjPbwhu4XZPtkfPFnye?=
+ =?us-ascii?Q?iaAUu76wMAyhHHdHiP3OovQ+LibKKp48cCWCw04szBAUiIl4vyAOXPLoRIfd?=
+ =?us-ascii?Q?HKAsJ55CmRb5gMfFEP5hsg4p9CyeTp69dSIhNm/tzIRBU2JDGBsad5LTZcVL?=
+ =?us-ascii?Q?HBSSGPZWf78rgut3L8sHwvDYvY+oVlpy1jA/VjPSyVu36fyCWqyStkIW8/1X?=
+ =?us-ascii?Q?ODqB0KHYtedOoR9gyIDdUgC51Ly0mg52xDaxKZcbhpPscrnRfGXEFCclMUHe?=
+ =?us-ascii?Q?jWtqogArpk2fnTLfLq2OVsQgdnL6WVq9SF1+UzqEFfKtYzoBh4rgror3198U?=
+ =?us-ascii?Q?nO/crLetqYnPbi0WixDRlGUvQWNW4RrstbvyeNrt9t4+Xt1dCkSa6Xlwf4da?=
+ =?us-ascii?Q?KFafbH5P7bF0BfnHEpt0IteYxaUOJ083Um9u3rbffBACtmWWvryxLOwipymU?=
+ =?us-ascii?Q?v+OLNzLqd9I5tZXWf1oT1qFtWP4JGy4YoE+pVUehrtwad2TE0Tpu3hA7aaOU?=
+ =?us-ascii?Q?it5YvdPZYQfnFI9vEk2ehWlsgayhTGFILN0FnlYd7vCUpwKKUTnItM+Dhm0W?=
+ =?us-ascii?Q?NkZB1PsooYTfMWhgU97or0IrobgkpJvcD/yGE5ybiM2Bm5lon6NM6nZczQ3q?=
+ =?us-ascii?Q?iSNuRX/iY91dnor/cKDc5B+STKb4IfyqwacvYJb6ky1EfENXUvR7LCD/1sLc?=
+ =?us-ascii?Q?upD6vqdmsSvhtD050A0j2z+Q3uOxsux5jrUwHnn8wNVS/h3eo5B9jXDjSnwL?=
+ =?us-ascii?Q?n3cvCT/FVaF0HanKlASLtrFsTyPI55g3zTgm1vDL/0fKr0+jX0bOoaJH2IZ4?=
+ =?us-ascii?Q?S/df5BzkZpud3Ga0HKF0SdGJpQQIFKA+khb7MYn96L7l9yVISwG3qjxhAdyg?=
+ =?us-ascii?Q?C6NuVY6s1sB/NdTKdkfAjqIB6mfuWxK1iAqwyrAMEXPAOxXCaKi4cBajxskN?=
+ =?us-ascii?Q?NUfA8oY4WU4bc/U5Vsxbm46CyCXopADdFiupApOx9uhoPkKcBs5fq9oTLiWi?=
+ =?us-ascii?Q?zht7suMNnDwrmqFxqNSKfQy+Yy1yYOyzKbyPukBzcDoTAAo7oIOT+V30RF4p?=
+ =?us-ascii?Q?gWHdI7zgtt06Ro/VykUqiUZlsXX3NLNeowJVEbmTxeCPWte6Yj990whrlKwz?=
+ =?us-ascii?Q?eVFNvdx17XuJQEPSv3FlATntYzWLJRA9ZdlSjS0IqQVlDooVpeKloQfqSfT6?=
+ =?us-ascii?Q?hW0xl9B3iZMxuTdRGKxzC5maeJLdvfaVrzN+JDVozs3wBk3cUyS0C3V/aRbf?=
+ =?us-ascii?Q?Yv2aRnoWKM235P1Vum+eYBkWZhhe8HBD5fNKUqlAgjEsFbWhOJR2HUK45Z4a?=
+ =?us-ascii?Q?M7643SSfxGpHEHdJdFfNtPPdQCONtwTkaLtfZzI/My6/9HrmNur3UEx1bHHA?=
+ =?us-ascii?Q?aix+0hXtDBRySRqR7tM=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DS0PR12MB6486.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8Rd/oEP+Jpg6UfecLKwInF7/58ogpgOyU77WGga5d3X106WTAYjgaJnY64Gx?=
- =?us-ascii?Q?6n/kdL271QVZI8/9lJKQi8gIbX1efK+u2UwD9gKfo4s1dqxFVyqLxVFnpO52?=
- =?us-ascii?Q?TY8mIFAFpZdUQ0H4Pqk+Mlxu3cs/nVEwGDRxkcdi6CJfhiLfZobHqQHrQ0Mf?=
- =?us-ascii?Q?zbABsrKRjl8h+DAMq0zj83rBy6nxz+U6nBXeuW6cC/erHNarWVot4MsiVaXh?=
- =?us-ascii?Q?hFr8tZq9WILSJv7667GuxOaQCZ4hn1PziNqCpvRh+hE7/MoOnTgomMQV4NHw?=
- =?us-ascii?Q?jSdkzq/63U3A2PMmf4lSbhXC7pjVftXeTzEBSy3SuKRkRCHOobe1Vg2S/d/y?=
- =?us-ascii?Q?bGH91J7EPm4F0hU9QRXHG/XqJL/JXa2nEI8bq8ZsG9D0oSRLIgQJaDsseWtW?=
- =?us-ascii?Q?DAa86dmgCT5UrRDNe/Ig5kppFDjLkLPDKlNJFGHVdiWc7TRTXFYwPYI91VCd?=
- =?us-ascii?Q?3aIBwhqaOb55NRzBVlvBYE5VsSzpxH2RUlSRiQsiA4BR5deEgxgNCDZncljq?=
- =?us-ascii?Q?vpEO5H1NmhGvRPBUR4naV16hes+0iOsdoJ01bpJ5hGZgaKlQhEJ1RliUw9sW?=
- =?us-ascii?Q?1mBDSsSxKTx6PaphALdpNE68/dlwGX0oZ+M3Mh3YPC38RHWEStirvdrOCd4N?=
- =?us-ascii?Q?e/7AclMzeamdJT35hxdPziZBWkokqERpt4JEykw0Fxo01hCEgw+M9ETfvQiH?=
- =?us-ascii?Q?u6VLRAAscF8jd6XCMJVs9i73vLWGzwoi8JRED/mnRiHGtzs1wMNQHpMQhn9H?=
- =?us-ascii?Q?C3FKlK2K8IaBinYq3Rs18yNX2R9FGexYa2oZKUVzakunmlVHEvsRcHcf6Zpm?=
- =?us-ascii?Q?LM3RjGPq7SL1InHEkebn3UG/xt9c+VXWGUMHOizZqpRbuIXM1IQsyzsaUuMU?=
- =?us-ascii?Q?pFfm0rDCXcxb0tSMVL54utSzGQaYToatuMtswgRE8Hp9/mUI4l+tUdSh5N3R?=
- =?us-ascii?Q?qTkyQselSDlp5qxYz6ehZVuw/VpGIsPVWOevq42/NZw6RIcTlKcBMAJoN7h7?=
- =?us-ascii?Q?I9qKwCFusYLi4BStBzu9MROzMylI5KhVcxdeCiFITBOZ5CCEsKFKBQogFRZn?=
- =?us-ascii?Q?j9gyV+aRRrK3cWJjPPSVnk2LupVSuBNE5e1y4zcov20AYPncrbnvwMcZMfH/?=
- =?us-ascii?Q?N3P6AWvW2nP8Z2mu2knEnYrUtV9v3EjwwM3Jcn/VfdjhjLGDiI2PCgtZ7mB5?=
- =?us-ascii?Q?8ocPTU4/uWtfe6brynsRHuWKhk+oN4+AuC+8XH/T3KSM38Z7ffOqOW0wvO4A?=
- =?us-ascii?Q?KiwF3lzLqF6YgBMUdSEjIXXtNgykJXh0qXqYkqN0MJ4hs2P5rOOSEyFlxn+Y?=
- =?us-ascii?Q?ru3Imd/g9BTbtLZ+r53952/hrn9WRQVwfMZswOYN3kt6ZTJB8csHsXL9cPT9?=
- =?us-ascii?Q?3KyJla/hO9Y4nlTr1KzmcIqt6Ik0bip2mECJL5GFuovBidFoG8gpVIO6Rsy7?=
- =?us-ascii?Q?i5Zm9tWEMwXk7PTNXZyuW+mVOnGjGz9YUT6IXDavi+QSiC5JvI9WCteDruNa?=
- =?us-ascii?Q?wrDbTVgnPPLfyDWt7KBa04Fd/79eTrjGYmct1pmCswCv+PuPw+3VU2xFNrRR?=
- =?us-ascii?Q?zkj66tht7WQi1XqhUNSZNkWaAQ1FRh3Jhxru9TIVMDTkSeSHqVH3y9sSTGMg?=
- =?us-ascii?Q?n1BHziwlTE+IRDY7/bPJopsSM4fDM/lGLNopJh11t3TX6QDqNk/LAHjFmB/5?=
- =?us-ascii?Q?51oWKr20KlaVcaqswieIP7ODZnkBcUawlIgSwaPOXLe3MYRqkDq5iYKJsovt?=
- =?us-ascii?Q?25Gb/nIaug=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9EvbWrNr8ZKcT4TEP4c6u8dxWeGiKq3TMp7fCuxOLDhaQxeyLe1vY4XHb78+?=
+ =?us-ascii?Q?ZuJtTN7qLcgGbbnXLxZ1Qu0Nq/bRJSG+rn53c8DYC6fwbaqRfbvTDXDUMroD?=
+ =?us-ascii?Q?cVaW86H2LH/U0EfKEp0kzwq+IyNwK475vBUCM8RuO1mHtC++M9nhbhTugrgj?=
+ =?us-ascii?Q?G/2lTNWQYeo8lv/W9A2vTW2yHAp6FbHOp1Kn81/UTjOmFmLaDbuW6kln+hRa?=
+ =?us-ascii?Q?eThECKNd15cMbvAlClmrNboVpQAjYlUwj3N/RpdLwuDEtF9znRY3roz57VKq?=
+ =?us-ascii?Q?ZxDdI64DhoRnkKi57yNzIJpguHQQ1R9Ca6ulD/8Oy9pWBGoPnoPsIL4Dl0sa?=
+ =?us-ascii?Q?klVilPWzK7PfBZLlTf7vEeyp/LEwS4T3XaxFVmlDJC8A7NO1sZXdZ2yTV5w1?=
+ =?us-ascii?Q?9fWy2MfyQfKr1jqsOFBLsjI9RR14M6dqVyxGmXlOtEMfeWuKLnSJbbRZVKKv?=
+ =?us-ascii?Q?p51UKC9sw+tzqP9OjmE37YsxJIsJxVBKMDkdDg/x8QkOEwgL8ZQTIdM8ehCZ?=
+ =?us-ascii?Q?4Fq6cvrbp+hR68nKR2uW1WpolJK1SWNQmcSWGnjZ9QY2eWWLhaNAg1XbnBBt?=
+ =?us-ascii?Q?bMhZcFG0TvSgtwnuVwSPAueBysaMKQ6aPKGsOY1DQQc9t+F9l22QM6ko35mk?=
+ =?us-ascii?Q?c69XkAnw6g2iwGLkX1aF4VtTOd+kXMR0B7zMAAnCiu8LnvHh/ETGr3CJSUVD?=
+ =?us-ascii?Q?Ua99jHY5ton7KVXgdQmnuTh1iORG1bRtT6aCcjeCvj3IlWo82UvRjZAuQ+am?=
+ =?us-ascii?Q?5wmXwH7oP33ZETnMbroysUkEyT6NTtEbJx6n0NILzhunLUgrcUMyQZxhpKOq?=
+ =?us-ascii?Q?md+U0zRi9Jq+M5ZKWy6b9y8OLWNE5l613893xXKwUy4O7G9WrjQ32qkLh+UE?=
+ =?us-ascii?Q?i6W/9K9t+A3mHyn1+9qiE9ICsZkBsDKQgHCNkfwC/gtCuXWcG9IJ6FW9YHIu?=
+ =?us-ascii?Q?O6AcdmwnzyOccB8sCY4hNSqS35/IKMUEzx9agIvkAO+3y6ABPtNEV0CGpt52?=
+ =?us-ascii?Q?1YBg6VJ7PFki2gHbHDPhmbe55zpYD9+dOdHLflJKYjOGt/E5YBIFOnSAkAss?=
+ =?us-ascii?Q?ZB+vCituvcRP1KZq47eXZ4H1Zcxkh68TnvJ1AQ3YIZLcUDRGFUUHB9Kb8KhK?=
+ =?us-ascii?Q?RdxNO0hwTxSTQ69PdXp5NhdtL4iL2tElwI6AVUmluP9phWX3qUKFTNJAI0wQ?=
+ =?us-ascii?Q?xltqsOQS2tKo6y57/j3htXoTSjpGbZnvzC/kdDJ87LfiwlGQBV84oOCN+nlb?=
+ =?us-ascii?Q?+jrJOJS14yTCW3rqaiocEfWxYlqlvnCUYXcUvjwWBUHS7RansHI25fNnIL1S?=
+ =?us-ascii?Q?AN+XStKrYURX3mMUvlpMpdqcEzuC5dX0ROwSzOOzjnS+X0qC8EPMTEomts+X?=
+ =?us-ascii?Q?Y/gOzj0blWdwb6dcN49DHRYcZnZOCz7ODZu93OYb60BfsIiguyFYRkD+VZf9?=
+ =?us-ascii?Q?Ur6Ktq0EjGroeZEXw32FVx5QOmhbU7LpskVpryRn8UoexthiLssDjUE+ATdO?=
+ =?us-ascii?Q?vWzINVrbN512OZRq9X92V3Ej1/HYYU8huypveNiYlkPwp1evLSiMXifj3pwc?=
+ =?us-ascii?Q?gdKc6k1kFUXTde5rApryS00Cri1wRZ0Re6LlxETRYTRH3I16ddBnxTZK8Ap1?=
+ =?us-ascii?Q?ioBwsnYO76ueb8J3+OsJHMln7E5l2D3qqEZf0RoSP/NCZTC8Y9BfHwMYdFWg?=
+ =?us-ascii?Q?6dCiis96pXXC0PQJC+btomS0f4jWhBXoxtXNr18YuEj9GxO3MoQvpxJzwcsC?=
+ =?us-ascii?Q?ygYEird9ZQ=3D=3D?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc78923e-3a70-4834-6e61-08de586492a5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 59bf7c39-03ab-4bb7-b455-08de5864939b
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 20:43:31.6288 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 20:43:33.1205 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /0VO2MA1vLunoUubHBgQeVqFDyn1h743J3RLxLD/RNrkebJkbKyfbTMY6L87fhchUIBFcsUbrB/TBnBoL2bULQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR12MB9651
+X-MS-Exchange-CrossTenant-UserPrincipalName: kQytbN0oYIyUuAMqku4BMl7g0cGoCWn8ODRUFNROZeMisghTo5bI2Kv6ACSCX0XCTqH1k5UwhAMYLApQPEZwBA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6809
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -208,166 +212,451 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	RCPT_COUNT_GT_50(0.00)[52];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,Nvidia.com:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
-X-Rspamd-Queue-Id: AE9224B849
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,nvidia.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,Nvidia.com:dkim]
+X-Rspamd-Queue-Id: 0C4E14B88E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-This series is rebased on drm-rust-kernel/drm-rust-next and provides memory
-management infrastructure for the nova-core GPU driver. It combines several
-previous series and provides a foundation for nova GPU memory management
-including page tables, virtual memory management, and BAR mapping. All these
-are critical nova-core features.
+Add a new module `clist` for working with C's doubly circular linked
+lists. Provide low-level iteration over list nodes.
 
-The series includes:
-- A Rust module (CList) to interface with C circular linked lists, required
-  for iterating over buddy allocator blocks.
-- Movement of the DRM buddy allocator up to drivers/gpu/ level, renamed to GPU buddy.
-- Rust bindings for the GPU buddy allocator.
-- PRAMIN aperture support for direct VRAM access.
-- Page table types for MMU v2 and v3 formats.
-- Virtual Memory Manager (VMM) for GPU virtual address space management.
-- BAR1 user interface for mapping access GPU via virtual memory.
-- Selftests for PRAMIN and BAR1 user interface (disabled by default).
+Typed iteration over actual items is provided with a `clist_create`
+macro to assist in creation of the `Clist` type.
 
-Changes from v5 to v6:
-- Rebased on drm-rust-kernel/drm-rust-next
-- Added page table types and page table walker infrastructure
-- Added Virtual Memory Manager (VMM)
-- Added BAR1 user interface
-- Added TLB flush support
-- Added GpuMm memory manager
-- Extended to 26 patches from 6 (full mm infrastructure now included)
-
-The git tree with all patches can be found at:
-git://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git (tag: nova-mm-v6-20260120)
-
-Link to v5: https://lore.kernel.org/all/20251219203805.1246586-1-joelagnelf@nvidia.com/
-
-Previous series that are combined:
-- v4 (clist + buddy): https://lore.kernel.org/all/20251204215129.2357292-1-joelagnelf@nvidia.com/
-- v3 (clist only): https://lore.kernel.org/all/20251129213056.4021375-1-joelagnelf@nvidia.com/
-- v2 (clist only): https://lore.kernel.org/all/20251111171315.2196103-4-joelagnelf@nvidia.com/
-- clist RFC (original with buddy): https://lore.kernel.org/all/20251030190613.1224287-1-joelagnelf@nvidia.com/
-- DRM buddy move: https://lore.kernel.org/all/20251124234432.1988476-1-joelagnelf@nvidia.com/
-- PRAMIN series: https://lore.kernel.org/all/20251020185539.49986-1-joelagnelf@nvidia.com/
-
-Joel Fernandes (26):
-  rust: clist: Add support to interface with C linked lists
-  gpu: Move DRM buddy allocator one level up
-  rust: gpu: Add GPU buddy allocator bindings
-  nova-core: mm: Select GPU_BUDDY for VRAM allocation
-  nova-core: mm: Add support to use PRAMIN windows to write to VRAM
-  docs: gpu: nova-core: Document the PRAMIN aperture mechanism
-  nova-core: Add BAR1 aperture type and size constant
-  nova-core: gsp: Add BAR1 PDE base accessors
-  nova-core: mm: Add common memory management types
-  nova-core: mm: Add common types for all page table formats
-  nova-core: mm: Add MMU v2 page table types
-  nova-core: mm: Add MMU v3 page table types
-  nova-core: mm: Add unified page table entry wrapper enums
-  nova-core: mm: Add TLB flush support
-  nova-core: mm: Add GpuMm centralized memory manager
-  nova-core: mm: Add page table walker for MMU v2
-  nova-core: mm: Add Virtual Memory Manager
-  nova-core: mm: Add virtual address range tracking to VMM
-  nova-core: mm: Add BAR1 user interface
-  nova-core: gsp: Return GspStaticInfo and FbLayout from boot()
-  nova-core: mm: Add memory management self-tests
-  nova-core: mm: Add PRAMIN aperture self-tests
-  nova-core: gsp: Extract usable FB region from GSP
-  nova-core: fb: Add usable_vram field to FbLayout
-  nova-core: mm: Use usable VRAM region for buddy allocator
-  nova-core: mm: Add BarUser to struct Gpu and create at boot
-
- Documentation/gpu/drm-mm.rst                  |   10 +-
- Documentation/gpu/nova/core/pramin.rst        |  125 ++
- Documentation/gpu/nova/index.rst              |    1 +
- MAINTAINERS                                   |    7 +
- drivers/gpu/Kconfig                           |   13 +
- drivers/gpu/Makefile                          |    2 +
- drivers/gpu/buddy.c                           | 1310 +++++++++++++++++
- drivers/gpu/drm/Kconfig                       |    1 +
- drivers/gpu/drm/Kconfig.debug                 |    4 +-
- drivers/gpu/drm/amd/amdgpu/Kconfig            |    1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c       |    2 +-
- .../gpu/drm/amd/amdgpu/amdgpu_res_cursor.h    |   12 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c  |   80 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h  |   20 +-
- drivers/gpu/drm/drm_buddy.c                   | 1284 +---------------
- drivers/gpu/drm/i915/Kconfig                  |    1 +
- drivers/gpu/drm/i915/i915_scatterlist.c       |   10 +-
- drivers/gpu/drm/i915/i915_ttm_buddy_manager.c |   55 +-
- drivers/gpu/drm/i915/i915_ttm_buddy_manager.h |    6 +-
- .../drm/i915/selftests/intel_memory_region.c  |   20 +-
- drivers/gpu/drm/tests/Makefile                |    1 -
- .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  |    5 +-
- drivers/gpu/drm/ttm/tests/ttm_mock_manager.c  |   18 +-
- drivers/gpu/drm/ttm/tests/ttm_mock_manager.h  |    4 +-
- drivers/gpu/drm/xe/Kconfig                    |    1 +
- drivers/gpu/drm/xe/xe_res_cursor.h            |   34 +-
- drivers/gpu/drm/xe/xe_svm.c                   |   12 +-
- drivers/gpu/drm/xe/xe_ttm_vram_mgr.c          |   73 +-
- drivers/gpu/drm/xe/xe_ttm_vram_mgr_types.h    |    4 +-
- drivers/gpu/nova-core/Kconfig                 |   22 +
- drivers/gpu/nova-core/driver.rs               |    9 +-
- drivers/gpu/nova-core/fb.rs                   |   23 +-
- drivers/gpu/nova-core/gpu.rs                  |  140 +-
- drivers/gpu/nova-core/gsp/boot.rs             |   22 +-
- drivers/gpu/nova-core/gsp/commands.rs         |   18 +-
- drivers/gpu/nova-core/gsp/fw/commands.rs      |   38 +
- drivers/gpu/nova-core/mm/bar_user.rs          |  336 +++++
- drivers/gpu/nova-core/mm/mod.rs               |  209 +++
- drivers/gpu/nova-core/mm/pagetable/mod.rs     |  377 +++++
- drivers/gpu/nova-core/mm/pagetable/ver2.rs    |  184 +++
- drivers/gpu/nova-core/mm/pagetable/ver3.rs    |  286 ++++
- drivers/gpu/nova-core/mm/pagetable/walk.rs    |  285 ++++
- drivers/gpu/nova-core/mm/pramin.rs            |  404 +++++
- drivers/gpu/nova-core/mm/tlb.rs               |   79 +
- drivers/gpu/nova-core/mm/vmm.rs               |  247 ++++
- drivers/gpu/nova-core/nova_core.rs            |    1 +
- drivers/gpu/nova-core/regs.rs                 |   38 +
- drivers/gpu/tests/Makefile                    |    3 +
- .../gpu_buddy_test.c}                         |  390 ++---
- drivers/gpu/tests/gpu_random.c                |   48 +
- drivers/gpu/tests/gpu_random.h                |   28 +
- drivers/video/Kconfig                         |    2 +
- include/drm/drm_buddy.h                       |  163 +-
- include/linux/gpu_buddy.h                     |  177 +++
- rust/bindings/bindings_helper.h               |   11 +
- rust/helpers/gpu.c                            |   23 +
- rust/helpers/helpers.c                        |    2 +
- rust/helpers/list.c                           |   12 +
- rust/kernel/clist.rs                          |  357 +++++
- rust/kernel/gpu/buddy.rs                      |  538 +++++++
- rust/kernel/gpu/mod.rs                        |    5 +
- rust/kernel/lib.rs                            |    3 +
- 62 files changed, 5788 insertions(+), 1808 deletions(-)
- create mode 100644 Documentation/gpu/nova/core/pramin.rst
- create mode 100644 drivers/gpu/Kconfig
- create mode 100644 drivers/gpu/buddy.c
- create mode 100644 drivers/gpu/nova-core/mm/bar_user.rs
- create mode 100644 drivers/gpu/nova-core/mm/mod.rs
- create mode 100644 drivers/gpu/nova-core/mm/pagetable/mod.rs
- create mode 100644 drivers/gpu/nova-core/mm/pagetable/ver2.rs
- create mode 100644 drivers/gpu/nova-core/mm/pagetable/ver3.rs
- create mode 100644 drivers/gpu/nova-core/mm/pagetable/walk.rs
- create mode 100644 drivers/gpu/nova-core/mm/pramin.rs
- create mode 100644 drivers/gpu/nova-core/mm/tlb.rs
- create mode 100644 drivers/gpu/nova-core/mm/vmm.rs
- create mode 100644 drivers/gpu/tests/Makefile
- rename drivers/gpu/{drm/tests/drm_buddy_test.c => tests/gpu_buddy_test.c} (68%)
- create mode 100644 drivers/gpu/tests/gpu_random.c
- create mode 100644 drivers/gpu/tests/gpu_random.h
- create mode 100644 include/linux/gpu_buddy.h
- create mode 100644 rust/helpers/gpu.c
+Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+---
+ MAINTAINERS            |   7 +
+ rust/helpers/helpers.c |   1 +
+ rust/helpers/list.c    |  12 ++
+ rust/kernel/clist.rs   | 357 +++++++++++++++++++++++++++++++++++++++++
+ rust/kernel/lib.rs     |   1 +
+ 5 files changed, 378 insertions(+)
  create mode 100644 rust/helpers/list.c
  create mode 100644 rust/kernel/clist.rs
- create mode 100644 rust/kernel/gpu/buddy.rs
- create mode 100644 rust/kernel/gpu/mod.rs
 
-
-base-commit: 6ea52b6d8f33ae627f4dcf43b12b6e713a8b9331
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0d044a58cbfe..b76988c38045 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -22936,6 +22936,13 @@ F:	rust/kernel/init.rs
+ F:	rust/pin-init/
+ K:	\bpin-init\b|pin_init\b|PinInit
+ 
++RUST TO C LIST INTERFACES
++M:	Joel Fernandes <joelagnelf@nvidia.com>
++M:	Alexandre Courbot <acourbot@nvidia.com>
++L:	rust-for-linux@vger.kernel.org
++S:	Maintained
++F:	rust/kernel/clist.rs
++
+ RXRPC SOCKETS (AF_RXRPC)
+ M:	David Howells <dhowells@redhat.com>
+ M:	Marc Dionne <marc.dionne@auristor.com>
+diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
+index 79c72762ad9c..634fa2386bbb 100644
+--- a/rust/helpers/helpers.c
++++ b/rust/helpers/helpers.c
+@@ -32,6 +32,7 @@
+ #include "io.c"
+ #include "jump_label.c"
+ #include "kunit.c"
++#include "list.c"
+ #include "maple_tree.c"
+ #include "mm.c"
+ #include "mutex.c"
+diff --git a/rust/helpers/list.c b/rust/helpers/list.c
+new file mode 100644
+index 000000000000..6044979c7a2e
+--- /dev/null
++++ b/rust/helpers/list.c
+@@ -0,0 +1,12 @@
++// SPDX-License-Identifier: GPL-2.0
++
++/*
++ * Helpers for C Circular doubly linked list implementation.
++ */
++
++#include <linux/list.h>
++
++void rust_helper_list_add_tail(struct list_head *new, struct list_head *head)
++{
++	list_add_tail(new, head);
++}
+diff --git a/rust/kernel/clist.rs b/rust/kernel/clist.rs
+new file mode 100644
+index 000000000000..91754ae721b9
+--- /dev/null
++++ b/rust/kernel/clist.rs
+@@ -0,0 +1,357 @@
++// SPDX-License-Identifier: GPL-2.0
++
++//! A C doubly circular intrusive linked list interface for rust code.
++//!
++//! # Examples
++//!
++//! ```
++//! use kernel::{
++//!     bindings,
++//!     clist::init_list_head,
++//!     clist_create,
++//!     types::Opaque, //
++//! };
++//! # // Create test list with values (0, 10, 20) - normally done by C code but it is
++//! # // emulated here for doctests using the C bindings.
++//! # use core::mem::MaybeUninit;
++//! #
++//! # /// C struct with embedded `list_head` (typically will be allocated by C code).
++//! # #[repr(C)]
++//! # pub(crate) struct SampleItemC {
++//! #     pub value: i32,
++//! #     pub link: bindings::list_head,
++//! # }
++//! #
++//! # let mut head = MaybeUninit::<bindings::list_head>::uninit();
++//! #
++//! # let head = head.as_mut_ptr();
++//! # // SAFETY: head and all the items are test objects allocated in this scope.
++//! # unsafe { init_list_head(head) };
++//! #
++//! # let mut items = [
++//! #     MaybeUninit::<SampleItemC>::uninit(),
++//! #     MaybeUninit::<SampleItemC>::uninit(),
++//! #     MaybeUninit::<SampleItemC>::uninit(),
++//! # ];
++//! #
++//! # for (i, item) in items.iter_mut().enumerate() {
++//! #     let ptr = item.as_mut_ptr();
++//! #     // SAFETY: pointers are to allocated test objects with a list_head field.
++//! #     unsafe {
++//! #         (*ptr).value = i as i32 * 10;
++//! #         // addr_of_mut!() computes address of link directly as link is uninitialized.
++//! #         init_list_head(core::ptr::addr_of_mut!((*ptr).link));
++//! #         bindings::list_add_tail(&mut (*ptr).link, head);
++//! #     }
++//! # }
++//!
++//! // Rust wrapper for the C struct.
++//! // The list item struct in this example is defined in C code as:
++//! //   struct SampleItemC {
++//! //       int value;
++//! //       struct list_head link;
++//! //   };
++//! //
++//! #[repr(transparent)]
++//! pub(crate) struct Item(Opaque<SampleItemC>);
++//!
++//! impl Item {
++//!     pub(crate) fn value(&self) -> i32 {
++//!         // SAFETY: [`Item`] has same layout as [`SampleItemC`].
++//!         unsafe { (*self.0.get()).value }
++//!     }
++//! }
++//!
++//! // Create typed [`CList`] from sentinel head.
++//! // SAFETY: head is valid, items are [`SampleItemC`] with embedded `link` field.
++//! let list = unsafe { clist_create!(head, Item, SampleItemC, link) };
++//!
++//! // Iterate directly over typed items.
++//! let mut found_0 = false;
++//! let mut found_10 = false;
++//! let mut found_20 = false;
++//!
++//! for item in list.iter() {
++//!     let val = item.value();
++//!     if val == 0 { found_0 = true; }
++//!     if val == 10 { found_10 = true; }
++//!     if val == 20 { found_20 = true; }
++//! }
++//!
++//! assert!(found_0 && found_10 && found_20);
++//! ```
++
++use core::{
++    iter::FusedIterator,
++    marker::PhantomData, //
++};
++
++use crate::{
++    bindings,
++    types::Opaque, //
++};
++
++use pin_init::PinInit;
++
++/// Initialize a `list_head` object to point to itself.
++///
++/// # Safety
++///
++/// `list` must be a valid pointer to a `list_head` object.
++#[inline]
++pub unsafe fn init_list_head(list: *mut bindings::list_head) {
++    // SAFETY: Caller guarantees `list` is a valid pointer to a `list_head`.
++    unsafe {
++        (*list).next = list;
++        (*list).prev = list;
++    }
++}
++
++/// Wraps a `list_head` object for use in intrusive linked lists.
++///
++/// # Invariants
++///
++/// - [`CListHead`] represents an allocated and valid `list_head` structure.
++/// - Once a [`CListHead`] is created in Rust, it will not be modified by non-Rust code.
++/// - All `list_head` for individual items are not modified for the lifetime of [`CListHead`].
++#[repr(transparent)]
++pub struct CListHead(Opaque<bindings::list_head>);
++
++impl CListHead {
++    /// Create a `&CListHead` reference from a raw `list_head` pointer.
++    ///
++    /// # Safety
++    ///
++    /// - `ptr` must be a valid pointer to an allocated and initialized `list_head` structure.
++    /// - `ptr` must remain valid and unmodified for the lifetime `'a`.
++    #[inline]
++    pub unsafe fn from_raw<'a>(ptr: *mut bindings::list_head) -> &'a Self {
++        // SAFETY:
++        // - [`CListHead`] has same layout as `list_head`.
++        // - `ptr` is valid and unmodified for 'a.
++        unsafe { &*ptr.cast() }
++    }
++
++    /// Get the raw `list_head` pointer.
++    #[inline]
++    pub fn as_raw(&self) -> *mut bindings::list_head {
++        self.0.get()
++    }
++
++    /// Get the next [`CListHead`] in the list.
++    #[inline]
++    pub fn next(&self) -> &Self {
++        let raw = self.as_raw();
++        // SAFETY:
++        // - `self.as_raw()` is valid per type invariants.
++        // - The `next` pointer is guaranteed to be non-NULL.
++        unsafe { Self::from_raw((*raw).next) }
++    }
++
++    /// Get the previous [`CListHead`] in the list.
++    #[inline]
++    pub fn prev(&self) -> &Self {
++        let raw = self.as_raw();
++        // SAFETY:
++        // - self.as_raw() is valid per type invariants.
++        // - The `prev` pointer is guaranteed to be non-NULL.
++        unsafe { Self::from_raw((*raw).prev) }
++    }
++
++    /// Check if this node is linked in a list (not isolated).
++    #[inline]
++    pub fn is_linked(&self) -> bool {
++        let raw = self.as_raw();
++        // SAFETY: self.as_raw() is valid per type invariants.
++        unsafe { (*raw).next != raw && (*raw).prev != raw }
++    }
++
++    /// Fallible pin-initializer that initializes and then calls user closure.
++    ///
++    /// Initializes the list head first, then passes `&CListHead` to the closure.
++    /// This hides the raw FFI pointer from the user.
++    pub fn try_init<E>(
++        init_func: impl FnOnce(&CListHead) -> Result<(), E>,
++    ) -> impl PinInit<Self, E> {
++        // SAFETY: init_list_head initializes the list_head to point to itself.
++        // After initialization, we create a reference to pass to the closure.
++        unsafe {
++            pin_init::pin_init_from_closure(move |slot: *mut Self| {
++                init_list_head(slot.cast());
++                // SAFETY: slot is now initialized, safe to create reference.
++                init_func(&*slot)
++            })
++        }
++    }
++}
++
++// SAFETY: [`CListHead`] can be sent to any thread.
++unsafe impl Send for CListHead {}
++
++// SAFETY: [`CListHead`] can be shared among threads as it is not modified
++// by non-Rust code per type invariants.
++unsafe impl Sync for CListHead {}
++
++impl PartialEq for CListHead {
++    fn eq(&self, other: &Self) -> bool {
++        self.as_raw() == other.as_raw()
++    }
++}
++
++impl Eq for CListHead {}
++
++/// Low-level iterator over `list_head` nodes.
++///
++/// An iterator used to iterate over a C intrusive linked list (`list_head`). Caller has to
++/// perform conversion of returned [`CListHead`] to an item (using `container_of` macro or similar).
++///
++/// # Invariants
++///
++/// [`CListHeadIter`] is iterating over an allocated, initialized and valid list.
++struct CListHeadIter<'a> {
++    current_head: &'a CListHead,
++    list_head: &'a CListHead,
++}
++
++impl<'a> Iterator for CListHeadIter<'a> {
++    type Item = &'a CListHead;
++
++    #[inline]
++    fn next(&mut self) -> Option<Self::Item> {
++        // Advance to next node.
++        let next = self.current_head.next();
++
++        // Check if we've circled back to the sentinel head.
++        if next == self.list_head {
++            None
++        } else {
++            self.current_head = next;
++            Some(self.current_head)
++        }
++    }
++}
++
++impl<'a> FusedIterator for CListHeadIter<'a> {}
++
++/// A typed C linked list with a sentinel head.
++///
++/// A sentinel head represents the entire linked list and can be used for
++/// iteration over items of type `T`, it is not associated with a specific item.
++///
++/// The const generic `OFFSET` specifies the byte offset of the `list_head` field within
++/// the struct that `T` wraps.
++///
++/// # Invariants
++///
++/// - `head` is an allocated and valid C `list_head` structure that is the list's sentinel.
++/// - `OFFSET` is the byte offset of the `list_head` field within the struct that `T` wraps.
++/// - All the list's `list_head` nodes are allocated and have valid next/prev pointers.
++/// - The underlying `list_head` (and entire list) is not modified for the lifetime `'a`.
++pub struct CList<'a, T, const OFFSET: usize> {
++    head: &'a CListHead,
++    _phantom: PhantomData<&'a T>,
++}
++
++impl<'a, T, const OFFSET: usize> CList<'a, T, OFFSET> {
++    /// Create a typed [`CList`] from a raw sentinel `list_head` pointer.
++    ///
++    /// # Safety
++    ///
++    /// - `ptr` must be a valid pointer to an allocated and initialized `list_head` structure
++    ///   representing a list sentinel.
++    /// - `ptr` must remain valid and unmodified for the lifetime `'a`.
++    /// - The list must contain items where the `list_head` field is at byte offset `OFFSET`.
++    /// - `T` must be `#[repr(transparent)]` over the C struct.
++    #[inline]
++    pub unsafe fn from_raw(ptr: *mut bindings::list_head) -> Self {
++        Self {
++            // SAFETY: Caller guarantees `ptr` is a valid, sentinel `list_head` object.
++            head: unsafe { CListHead::from_raw(ptr) },
++            _phantom: PhantomData,
++        }
++    }
++
++    /// Get the raw sentinel `list_head` pointer.
++    #[inline]
++    pub fn as_raw(&self) -> *mut bindings::list_head {
++        self.head.as_raw()
++    }
++
++    /// Check if the list is empty.
++    #[inline]
++    pub fn is_empty(&self) -> bool {
++        let raw = self.as_raw();
++        // SAFETY: self.as_raw() is valid per type invariants.
++        unsafe { (*raw).next == raw }
++    }
++
++    /// Create an iterator over typed items.
++    #[inline]
++    pub fn iter(&self) -> CListIter<'a, T, OFFSET> {
++        CListIter {
++            head_iter: CListHeadIter {
++                current_head: self.head,
++                list_head: self.head,
++            },
++            _phantom: PhantomData,
++        }
++    }
++}
++
++/// High-level iterator over typed list items.
++pub struct CListIter<'a, T, const OFFSET: usize> {
++    head_iter: CListHeadIter<'a>,
++    _phantom: PhantomData<&'a T>,
++}
++
++impl<'a, T, const OFFSET: usize> Iterator for CListIter<'a, T, OFFSET> {
++    type Item = &'a T;
++
++    fn next(&mut self) -> Option<Self::Item> {
++        let head = self.head_iter.next()?;
++
++        // Convert to item using OFFSET.
++        // SAFETY: `item_ptr` calculation from `OFFSET` (calculated using offset_of!)
++        // is valid per invariants.
++        Some(unsafe { &*head.as_raw().byte_sub(OFFSET).cast::<T>() })
++    }
++}
++
++impl<'a, T, const OFFSET: usize> FusedIterator for CListIter<'a, T, OFFSET> {}
++
++/// Create a C doubly-circular linked list interface [`CList`] from a raw `list_head` pointer.
++///
++/// This macro creates a [`CList<T, OFFSET>`] that can iterate over items of type `$rust_type`
++/// linked via the `$field` field in the underlying C struct `$c_type`.
++///
++/// # Arguments
++///
++/// - `$head`: Raw pointer to the sentinel `list_head` object (`*mut bindings::list_head`).
++/// - `$rust_type`: Each item's rust wrapper type.
++/// - `$c_type`: Each item's C struct type that contains the embedded `list_head`.
++/// - `$field`: The name of the `list_head` field within the C struct.
++///
++/// # Safety
++///
++/// The caller must ensure:
++/// - `$head` is a valid, initialized sentinel `list_head` pointing to a list that remains
++///   unmodified for the lifetime of the rust [`CList`].
++/// - The list contains items of type `$c_type` linked via an embedded `$field`.
++/// - `$rust_type` is `#[repr(transparent)]` over `$c_type` or has compatible layout.
++/// - The macro is called from an unsafe block.
++///
++/// # Examples
++///
++/// Refer to the examples in the [`crate::clist`] module documentation.
++#[macro_export]
++macro_rules! clist_create {
++    ($head:expr, $rust_type:ty, $c_type:ty, $($field:tt).+) => {{
++        // Compile-time check that field path is a list_head.
++        let _: fn(*const $c_type) -> *const $crate::bindings::list_head =
++            |p| ::core::ptr::addr_of!((*p).$($field).+);
++
++        // Calculate offset and create `CList`.
++        const OFFSET: usize = ::core::mem::offset_of!($c_type, $($field).+);
++        $crate::clist::CList::<$rust_type, OFFSET>::from_raw($head)
++    }};
++}
+diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+index f812cf120042..cd7e6a1055b0 100644
+--- a/rust/kernel/lib.rs
++++ b/rust/kernel/lib.rs
+@@ -75,6 +75,7 @@
+ pub mod bug;
+ #[doc(hidden)]
+ pub mod build_assert;
++pub mod clist;
+ pub mod clk;
+ #[cfg(CONFIG_CONFIGFS_FS)]
+ pub mod configfs;
 -- 
 2.34.1
 
