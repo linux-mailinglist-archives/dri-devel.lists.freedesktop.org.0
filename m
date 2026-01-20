@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WCwQKtesb2nxEwAAu9opvQ
+	id wNhlC9asb2ncEwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 17:27:03 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 17:27:02 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2B7477DB
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 17:27:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BFAC477C2
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 17:27:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C958110E5DF;
-	Tue, 20 Jan 2026 12:50:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E463810E5E0;
+	Tue, 20 Jan 2026 12:50:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YxuaNIGr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EhmJHSDg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6340810E5DE
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 12:50:51 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-2a75a4a140eso4228275ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 04:50:51 -0800 (PST)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0EE510E5DE
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 12:50:57 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-2a0ac29fca1so34059375ad.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 04:50:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768913451; x=1769518251; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1768913457; x=1769518257; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QnR4PJhsaUjZWZn+C6vALPZ6Lj3dxWE4L9BjOpkr0AY=;
- b=YxuaNIGrNDv2BsoAWaEfoKSzMOEGmVrUrWzLU0AH2Ralp0AS//+soeywY6syFw4PN4
- SFEYEZDVQWERRqkv9XwXLDW1W++dn/6jr+V0jT0U6ORiNHlwaG7MauAbGqZxTiTYR7sh
- SX1oCvNAdadI39Za3RkF+DMiNOcos71NnLBZSOeEfxaaoNojK1XKJY0p+Hw+FyrRQsu6
- h7UuaNWrEiWceIyajSvTXpCdVxBh4Alf0doxL8EaQAPN6rJBJDcESWGsdZwnY6m4SHeW
- GSwL3necQ5zaKO5tTIg+SECHXZE7ipT95nCmQCYWxyRkBStYodglu8+NLDveDEgjWmP7
- WWSA==
+ bh=LroXmq9J3VVORG7m8L/kGtxBgy95TWF72WU3KxUKLtI=;
+ b=EhmJHSDg3S/PJrtmDxEH7SsWu+WjqJK431XWYvIZYB7/jtMFK/YScP9l1y1t7dCnLO
+ LnLYTOIrQk4K4SDXvmSnycD4EgDp8wFY8k+qVi6IWAw0knxX9ByL0w0bNtT9s0csvdSr
+ m8ZZXzvZh27i7fvHgCUUWR4Hop1OrQ1GIFFHmMVOuo0qVNRF6mJo3NMdJhUur9eRS1ha
+ mDRIMM7+VH81lNIoL7F0bYKVQQMlngwv0a1TveDeVOcmkaAIXqTqk22r8wXW+lcgfkXt
+ K2FUKYG87yMmF+W/rTuN18I5G9mPpnQfkF5Wr8wlnPXl2ojdv65yujra+fBA+DSoZitB
+ 4PSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768913451; x=1769518251;
+ d=1e100.net; s=20230601; t=1768913457; x=1769518257;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=QnR4PJhsaUjZWZn+C6vALPZ6Lj3dxWE4L9BjOpkr0AY=;
- b=kZo1OKFh7Tlv3egiKfucX8N0mxRwIauONy+XJbut6bljMDRSVdb/1c0TFQ9wZc2oyH
- lFkSSE3kuoZGDXLcA9XpGV/zRp997pMxCgmtS4yMrzKp22o/yTbcj8j+7vQsF+NfPibb
- 0ZEYzrJnwI/9TyZNWjjlX9p3DKwLgSlgArroUx8KUT6bGgm10Ge4xudY7U3C1AE4ndgU
- CLWoBnhxyukYbrkXYV1gM5IR4Mqj2GIekuV6TTP0+swez5KauiLyD/g4LohPcYVD0AgE
- 4hBlTuPVBhgUlIcTEa5aIhu1VYLbKVp6t2OriyYDKbyYsPfSL0SKpnADq5hguUo7PT5a
- ShFA==
+ bh=LroXmq9J3VVORG7m8L/kGtxBgy95TWF72WU3KxUKLtI=;
+ b=e2kNMQ/Tv0DZ+eaIbeVrSo2O6Or1f8Bmu8jX/4wnzQRi0GJDpwMNbnV7KR17CHGP7x
+ ttg8qv3kmn1A4jw7GdVTc0s79jkYn6/frFX2PQqJzxBaO3tSZ/hX1bibzL4Ba10Jql0o
+ OY+I9tJuIviLPDumWgrO4ngWdXbLITZSvQ0G/mDfNAHrK3ryhUi9uTJRCJ4Jm2X4kJ7O
+ B+Jk+ZEo5E8/QlNCAHJFzfmjHuKea+/hr8TfFRovkopkLaz0uS67or2YLJGZ7YVAaCxK
+ AWe49tZrhBmEPj9H7lQcVeLLn+IdbztOoFUnyg2WdpxM57+b+iNXwVAApAhG3OZI9LO3
+ 4z6Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVKgBCqRHSBuHgXvQUl/LjQirP67mCFhA8vVtfLM9u/8rFXQOLX6VZOcXPyq9Tx1JvOItpUYBU/X0A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyc3gecOmkRfn964mZVO99pOT07yqSzM0WDWLC8Fzu4VBkHKjXq
- TZ+xAiqF+eq2xdGJpGWRVlOhpVCwNZGE6EDinGZxI5Ru0CyeaexbjQXO
-X-Gm-Gg: AZuq6aKP/z38jUt4gMyp/5tCNbYMa+XoK93JUWwcHGBjRFU9lufwE6hz87aaS0uSPOq
- ZzfEsKyAXLetzNvE41jttt61VAWNROYm0JV92DbVbFHlaGgC56MrJj+bFy5EpJI807eF3/J1gWj
- n/RNLuIj1KaXpLO3O7hy0mL8rpack3ysOvZ/4YI4HjZpmoQ416Hr+yNjR+gY10RBwlDO/LIxw4D
- ikqeQFSU3H8bkUXn4JL+RNLs6NzKDfBlq/FotoPl1sUrjzWJS4ll/RAgEctBv8k5FbB133zygWf
- QJDgFVRayEWCNy7NeXD272yZNVlf1WAK34qJDZuHJzXAfQl3JtE/LTQQctr3AlW3yjWcyhA5nby
- pJJ5SjIPxvdj4AZDiUNbFylmr12R4Uq1f/y7W9pnNGl/aY3xXWp3352HrLTSKrranzo/cYDpSzJ
- 2d9pN5n71/19+m4rVwdAwEdRNAV/1UAoslJGiN
-X-Received: by 2002:a17:902:e842:b0:2a0:ccef:a5d3 with SMTP id
- d9443c01a7336-2a768b7a68amr16787195ad.3.1768913450709; 
- Tue, 20 Jan 2026 04:50:50 -0800 (PST)
+ AJvYcCUybNvzlfIO0sYfhNTN3da/w3ef3pKX8Q/lKa2ncZdwdbMGnUyOL+7FM5qMaYqWY0XB4hQlKsetoqA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwViDKPv/Trz1ESn0rig8BDoAuGxo8YceFXdoOLdSL2Q8LiMarf
+ I5g7ajzRimkMHg0RXNAXPbKJKeb1ziTyfQ7MArE/JZrdShzRqHG9w2HA
+X-Gm-Gg: AZuq6aKW1G43qUX80MmSFQ7rmHj+RUzAtzudkGYQrEZfP2p4cpToc/FufmLxD/UYpzg
+ dx5l7I5TWmj8LHkLT4PZvHE6IKJOAsHdhh98/hvPgI58y65glcslvIxrF5qKbHsweN5LSwN7LpK
+ 4la79fFLGvG9zXEXPJygBAFxGQ5XaPEAwm0os+w4shZEhdItR8bdX7cMzJcmga7gmvRNAl3W6vL
+ N8Y65L0XewMdPiMxCRCtw7DUU/7UwmYGdCpTcxskmbVUfgCJaCJ2ejLAtXtdN9v+76O2d3FcfbD
+ AhGlKXUO9B+FdzFbxBYyIIMQPl3n14YdS6iM8cPwGLrL0p7uT4p5w/vgLjlskwvCU41oacY6WyF
+ wpLvNHBdb+Ly2lcBVofEtXbPeJDccTjU+yGGmntmMTBRtMPmWamgHrt468+AQVi8nhO9+ovrLCf
+ qztbXz30CERn3/UUfXS3dGVjImoQHFj5M6iQkQ
+X-Received: by 2002:a17:903:2ec5:b0:2a0:8859:3722 with SMTP id
+ d9443c01a7336-2a769ae664fmr16859025ad.25.1768913457332; 
+ Tue, 20 Jan 2026 04:50:57 -0800 (PST)
 Received: from test-HP-Desktop-Pro-G3.. ([103.218.174.23])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a7193dd582sm124973815ad.52.2026.01.20.04.50.47
+ d9443c01a7336-2a7193dd582sm124973815ad.52.2026.01.20.04.50.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jan 2026 04:50:50 -0800 (PST)
+ Tue, 20 Jan 2026 04:50:56 -0800 (PST)
 From: Sudarshan Shetty <tessolveupstream@gmail.com>
 To: lee@kernel.org,
 	danielt@kernel.org,
@@ -76,10 +76,10 @@ Cc: deller@gmx.de, pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
  linux-fbdev@vger.kernel.org, linux-leds@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  Sudarshan Shetty <tessolveupstream@gmail.com>
-Subject: [PATCH v2 1/2] dt-bindings: backlight: gpio-backlight: allow multiple
- GPIOs
-Date: Tue, 20 Jan 2026 18:20:35 +0530
-Message-Id: <20260120125036.2203995-2-tessolveupstream@gmail.com>
+Subject: [PATCH v2 2/2] backlight: gpio: add support for multiple GPIOs for
+ backlight control
+Date: Tue, 20 Jan 2026 18:20:36 +0530
+Message-Id: <20260120125036.2203995-3-tessolveupstream@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260120125036.2203995-1-tessolveupstream@gmail.com>
 References: <20260120125036.2203995-1-tessolveupstream@gmail.com>
@@ -134,58 +134,141 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[tessolveupstream@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
-X-Rspamd-Queue-Id: 5A2B7477DB
+X-Rspamd-Queue-Id: 8BFAC477C2
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Update the gpio-backlight binding to support configurations that require
-more than one GPIO for enabling/disabling the backlight.
+The gpio-backlight driver currently supports only a single GPIO to
+enable or disable a backlight device. Some panels require multiple
+enable GPIOs to be asserted together.
+
+Extend the driver to support an array of GPIOs for a single backlight
+instance. All configured GPIOs are toggled together based on the
+backlight state.
+
+Existing single-GPIO Device Tree users remain unaffected.
 
 Signed-off-by: Sudarshan Shetty <tessolveupstream@gmail.com>
 ---
- .../leds/backlight/gpio-backlight.yaml        | 24 +++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+ drivers/video/backlight/gpio_backlight.c | 66 ++++++++++++++++--------
+ 1 file changed, 45 insertions(+), 21 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
-index 584030b6b0b9..4e4a856cbcd7 100644
---- a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
-+++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
-@@ -16,8 +16,18 @@ properties:
-     const: gpio-backlight
+diff --git a/drivers/video/backlight/gpio_backlight.c b/drivers/video/backlight/gpio_backlight.c
+index 728a546904b0..11d21de82cf5 100644
+--- a/drivers/video/backlight/gpio_backlight.c
++++ b/drivers/video/backlight/gpio_backlight.c
+@@ -14,17 +14,29 @@
+ #include <linux/platform_device.h>
+ #include <linux/property.h>
+ #include <linux/slab.h>
++#include <linux/bitmap.h>
  
-   gpios:
--    description: The gpio that is used for enabling/disabling the backlight.
--    maxItems: 1
-+    description: |
-+      The gpio that is used for enabling/disabling the backlight.
-+      Multiple GPIOs can be specified for panels that require several
-+      enable signals. All GPIOs are controlled together.
-+    type: array
-+    minItems: 1
-+    items:
-+      type: array
-+      minItems: 3
-+      maxItems: 3
-+      items:
-+        type: integer
+ struct gpio_backlight {
+ 	struct device *dev;
+-	struct gpio_desc *gpiod;
++	struct gpio_descs *gpiods;
++	unsigned long *bitmap;
+ };
  
-   default-on:
-     description: enable the backlight at boot.
-@@ -38,4 +48,14 @@ examples:
-         default-on;
-     };
+ static int gpio_backlight_update_status(struct backlight_device *bl)
+ {
+ 	struct gpio_backlight *gbl = bl_get_data(bl);
++	unsigned int n = gbl->gpiods->ndescs;
++	int br = backlight_get_brightness(bl);
  
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    backlight {
-+      compatible = "gpio-backlight";
-+      gpios = <&gpio3 4 GPIO_ACTIVE_HIGH>,
-+              <&gpio3 5 GPIO_ACTIVE_HIGH>,
-+              <&gpio3 6 GPIO_ACTIVE_HIGH>;
-+      default-on;
-+    };
+-	gpiod_set_value_cansleep(gbl->gpiod, backlight_get_brightness(bl));
++	if (br)
++		bitmap_fill(gbl->bitmap, n);
++	else
++		bitmap_zero(gbl->bitmap, n);
 +
- ...
++	gpiod_set_array_value_cansleep(n,
++				       gbl->gpiods->desc,
++				       gbl->gpiods->info,
++				       gbl->bitmap);
+ 
+ 	return 0;
+ }
+@@ -48,26 +60,43 @@ static int gpio_backlight_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct gpio_backlight_platform_data *pdata = dev_get_platdata(dev);
+ 	struct device_node *of_node = dev->of_node;
+-	struct backlight_properties props;
++	struct backlight_properties props = { };
+ 	struct backlight_device *bl;
+ 	struct gpio_backlight *gbl;
+-	int ret, init_brightness, def_value;
++	bool def_value;
++	enum gpiod_flags flags;
++	unsigned int n;
++	int words;
+ 
+-	gbl = devm_kzalloc(dev, sizeof(*gbl), GFP_KERNEL);
+-	if (gbl == NULL)
++	gbl = devm_kcalloc(dev, 1, sizeof(*gbl), GFP_KERNEL);
++	if (!gbl)
+ 		return -ENOMEM;
+ 
+ 	if (pdata)
+ 		gbl->dev = pdata->dev;
+ 
+ 	def_value = device_property_read_bool(dev, "default-on");
++	flags = def_value ? GPIOD_OUT_HIGH : GPIOD_OUT_LOW;
++
++	gbl->gpiods = devm_gpiod_get_array(dev, NULL, flags);
++	if (IS_ERR(gbl->gpiods)) {
++		if (PTR_ERR(gbl->gpiods) == -ENODEV)
++			return dev_err_probe(dev, -EINVAL,
++			"The gpios parameter is missing or invalid\n");
++		return PTR_ERR(gbl->gpiods);
++	}
+ 
+-	gbl->gpiod = devm_gpiod_get(dev, NULL, GPIOD_ASIS);
+-	if (IS_ERR(gbl->gpiod))
+-		return dev_err_probe(dev, PTR_ERR(gbl->gpiod),
+-				     "The gpios parameter is missing or invalid\n");
++	n = gbl->gpiods->ndescs;
++	if (!n)
++		return dev_err_probe(dev, -EINVAL,
++			"No GPIOs provided\n");
++
++	words = BITS_TO_LONGS(n);
++	gbl->bitmap = devm_kcalloc(dev, words, sizeof(unsigned long),
++				   GFP_KERNEL);
++	if (!gbl->bitmap)
++		return -ENOMEM;
+ 
+-	memset(&props, 0, sizeof(props));
+ 	props.type = BACKLIGHT_RAW;
+ 	props.max_brightness = 1;
+ 	bl = devm_backlight_device_register(dev, dev_name(dev), dev, gbl,
+@@ -81,21 +110,16 @@ static int gpio_backlight_probe(struct platform_device *pdev)
+ 	if (!of_node || !of_node->phandle)
+ 		/* Not booted with device tree or no phandle link to the node */
+ 		bl->props.power = def_value ? BACKLIGHT_POWER_ON
+-					    : BACKLIGHT_POWER_OFF;
+-	else if (gpiod_get_value_cansleep(gbl->gpiod) == 0)
++						    : BACKLIGHT_POWER_OFF;
++	else if (gpiod_get_value_cansleep(gbl->gpiods->desc[0]) == 0)
+ 		bl->props.power = BACKLIGHT_POWER_OFF;
+ 	else
+ 		bl->props.power = BACKLIGHT_POWER_ON;
+ 
+-	bl->props.brightness = 1;
+-
+-	init_brightness = backlight_get_brightness(bl);
+-	ret = gpiod_direction_output(gbl->gpiod, init_brightness);
+-	if (ret) {
+-		dev_err(dev, "failed to set initial brightness\n");
+-		return ret;
+-	}
++	bl->props.brightness = def_value ? 1 : 0;
+ 
++	gpio_backlight_update_status(bl);
++
+ 	platform_set_drvdata(pdev, bl);
+ 	return 0;
+ }
 -- 
 2.34.1
 
