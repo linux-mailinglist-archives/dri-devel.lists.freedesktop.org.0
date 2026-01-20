@@ -2,64 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A5EBD3C5B9
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 11:42:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BF63D3C5CB
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 11:43:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E5F110E5B4;
-	Tue, 20 Jan 2026 10:42:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EB6710E5B1;
+	Tue, 20 Jan 2026 10:43:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KdC+YUaa";
+	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="lxZMgDnA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 235AD10E5B1;
- Tue, 20 Jan 2026 10:42:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768905723; x=1800441723;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=0l3VHXyDJw0+QakH6PJ+JROapppkV5FjgLHShJX5VKo=;
- b=KdC+YUaa5N8k392IA+lE+ZykUsiP/2ZG3Flfeyu6cMr6Cea8FAsZ3uJd
- E85Zq1JRkXWZFQYRTqSYH9JB69tvGMyHDBg1mIdWTFl5jzqheX5VB56iS
- 4oRgSUNv3hnriZt1c+Q8gG2bhlabzT2NLO3k8eNJM8ozTNOhmU5gwXlM0
- fMZ/mVQFIQHNNbmFmt4nqp+s+FKmqkfhcOJ9DOsWZmvRMFk/EywaYuF94
- J/IC/dB3o2nDXFtpTHXbl9oMMlERL/kjC3Vw6x3ElILDeDebbNUbppgMh
- /seqCPEfinBpxILa2Sohbk822VLnd0vAZN75K+dIZtZ63BCOofmgiQrkz Q==;
-X-CSE-ConnectionGUID: +yjBrL8vQiCiNZf2OuFO2Q==
-X-CSE-MsgGUID: GxIAIOUGSmerItKUWaOhxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="70164499"
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; d="scan'208";a="70164499"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2026 02:42:03 -0800
-X-CSE-ConnectionGUID: AwXlz7FdQYO8TgQAfjhtbQ==
-X-CSE-MsgGUID: I1f4jfO7Rj+/ZaHDgmWDJA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; d="scan'208";a="205889692"
-Received: from amilburn-desk.amilburn-desk (HELO [10.245.244.235])
- ([10.245.244.235])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2026 02:42:01 -0800
-Message-ID: <654f40ab-8402-4bb1-88ff-742572a1b251@intel.com>
-Date: Tue, 20 Jan 2026 10:41:58 +0000
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F36B910E5B1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 10:43:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+ bh=O2FhviPnC5jz5ZsBAwO6tzGpttxJxSsq9OxCi424fEk=; b=lxZMgDnA7WGotJ0c12IMFqkU7a
+ rwtU+DoqMrphu1iorjPcGFxsr1p0/WtuZXWjU9WIWLzaIIDwgRAjmFpdOQr72wpzlEwBRKSxY1jUA
+ zpKgaOK1KezXk/bc0zdRwF7YZmrCBgt3CfDv/jmR5HEsJVlsQXdkH02mqs4lak3nNBx/pU6YyXQdL
+ W1t7Y+39lfIc1Tmxok2lYKPNC1R9UPgCAimMDW9NEIo2H/i1hxwJBdr+RUtsyVUVsJwuwCeaPrHVM
+ 9QUlDYrhBFOrjOYNZHJM4IMdbqwJz7kzu0vi+vdAwxQXChIf+0jbUeOWnPBcIZNAi5VLurg7Qy9Tg
+ Oqh96xGg==;
+Received: from [192.76.154.238] (helo=phil.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1vi9D4-003N5V-46; Tue, 20 Jan 2026 11:43:42 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: dmitry.baryshkov@oss.qualcomm.com, Andy Yan <andyshrk@163.com>
+Cc: krzk+dt@kernel.org, conor+dt@kernel.org, cristian.ciocaltea@collabora.com, 
+ Laurent.pinchart@ideasonboard.com, mripard@kernel.org, hjc@rock-chips.com, 
+ robh@kernel.org, sebastian.reichel@collabora.com, tzimmermann@suse.de,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH 2/5] drm/bridge: synopsys: dw-dp: Set pixel mode by
+ platform data
+Date: Tue, 20 Jan 2026 11:43:41 +0100
+Message-ID: <4083071.q0ZmV6gNhb@phil>
+In-Reply-To: <20260109080054.228671-3-andyshrk@163.com>
+References: <20260109080054.228671-1-andyshrk@163.com>
+ <20260109080054.228671-3-andyshrk@163.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] drm/buddy: Prevent BUG_ON by validating rounded
- allocation
-To: Sanjay Yadav <sanjay.kumar.yadav@intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: intel-xe@lists.freedesktop.org, stable@vger.kernel.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-References: <20260108113227.2101872-4-sanjay.kumar.yadav@intel.com>
- <20260108113227.2101872-5-sanjay.kumar.yadav@intel.com>
-Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20260108113227.2101872-5-sanjay.kumar.yadav@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,66 +63,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/01/2026 11:32, Sanjay Yadav wrote:
-> When DRM_BUDDY_CONTIGUOUS_ALLOCATION is set, the requested size is
-> rounded up to the next power-of-two via roundup_pow_of_two().
-> Similarly, for non-contiguous allocations with large min_block_size,
-> the size is aligned up via round_up(). Both operations can produce a
-> rounded size that exceeds mm->size, which later triggers
-> BUG_ON(order > mm->max_order).
-> 
-> Example scenarios:
-> - 9G CONTIGUOUS allocation on 10G VRAM memory:
->    roundup_pow_of_two(9G) = 16G > 10G
-> - 9G allocation with 8G min_block_size on 10G VRAM memory:
->    round_up(9G, 8G) = 16G > 10G
-> 
-> Fix this by checking the rounded size against mm->size. For
-> non-contiguous or range allocations where size > mm->size is invalid,
-> return -EINVAL immediately. For contiguous allocations without range
-> restrictions, allow the request to fall through to the existing
-> __alloc_contig_try_harder() fallback.
-> 
-> This ensures invalid user input returns an error or uses the fallback
-> path instead of hitting BUG_ON.
-> 
-> v2: (Matt A)
-> - Add Fixes, Cc stable, and Closes tags for context
-> 
-> Closes: https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/6712
-> Fixes: 0a1844bf0b53 ("drm/buddy: Improve contiguous memory allocation")
-> Cc: <stable@vger.kernel.org> # v6.7+
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-> Suggested-by: Matthew Auld <matthew.auld@intel.com>
-> Signed-off-by: Sanjay Yadav <sanjay.kumar.yadav@intel.com>
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-> Reviewed-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Am Freitag, 9. Januar 2026, 09:00:45 Mitteleurop=C3=A4ische Normalzeit schr=
+ieb Andy Yan:
+> From: Andy Yan <andy.yan@rock-chips.com>
+>=20
+> The DW DisplayPort hardware block can be configured to work in single,
+> dual,quad pixel mode on differnt platforms, so make the pixel mode set
+> by plat_data to support the upcoming rk3576 variant.
+>=20
+> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
 
-Arun/Christian, when you get a chance could you also merge these two please?
+While Dmitry helped a lot with looking at bridge drivers recently,
+I think your recipient list does miss a number of other people
+listed as bridge reviewers/maintainers.
 
-> ---
->   drivers/gpu/drm/drm_buddy.c | 9 +++++++++
->   1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-> index 2f279b46bd2c..5141348fc6c9 100644
-> --- a/drivers/gpu/drm/drm_buddy.c
-> +++ b/drivers/gpu/drm/drm_buddy.c
-> @@ -1155,6 +1155,15 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
->   	order = fls(pages) - 1;
->   	min_order = ilog2(min_block_size) - ilog2(mm->chunk_size);
->   
-> +	if (order > mm->max_order || size > mm->size) {
-> +		if ((flags & DRM_BUDDY_CONTIGUOUS_ALLOCATION) &&
-> +		    !(flags & DRM_BUDDY_RANGE_ALLOCATION))
-> +			return __alloc_contig_try_harder(mm, original_size,
-> +							 original_min_size, blocks);
-> +
-> +		return -EINVAL;
-> +	}
-> +
->   	do {
->   		order = min(order, (unsigned int)fls(pages) - 1);
->   		BUG_ON(order > mm->max_order);
+$ scripts/get_maintainer.pl drivers/gpu/drm/bridge
+Andrzej Hajda <andrzej.hajda@intel.com> (maintainer:DRM DRIVERS FOR BRIDGE =
+CHIPS)
+Neil Armstrong <neil.armstrong@linaro.org> (maintainer:DRM DRIVERS FOR BRID=
+GE CHIPS)
+Robert Foss <rfoss@kernel.org> (maintainer:DRM DRIVERS FOR BRIDGE CHIPS)
+Laurent Pinchart <Laurent.pinchart@ideasonboard.com> (reviewer:DRM DRIVERS =
+=46OR BRIDGE CHIPS)
+Jonas Karlman <jonas@kwiboo.se> (reviewer:DRM DRIVERS FOR BRIDGE CHIPS)
+Jernej Skrabec <jernej.skrabec@gmail.com> (reviewer:DRM DRIVERS FOR BRIDGE =
+CHIPS)
+
+As you'll need to do a v2 for the binding, please add the missing people
+to the recipients.
+
+
+=46or the change itself, can you improve the commit message a bit.
+
+I assume the Single/Dual/Quad-Pixel config is a real hardware-feature
+that is set when the IP is integrated into the soc? Or this a runtime
+setting and a soc can support multiple output variants?
+
+
+Thanks
+Heiko
+
 
