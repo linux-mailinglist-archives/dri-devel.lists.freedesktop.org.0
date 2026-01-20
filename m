@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yP7oJ/Ofb2ktKAAAu9opvQ
+	id mL1kBEqib2mWDgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 16:32:03 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 16:42:02 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A5F0461D6
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 16:32:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B155146699
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 16:42:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08B2A10E612;
-	Tue, 20 Jan 2026 14:54:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 090E010E617;
+	Tue, 20 Jan 2026 15:05:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZK2+AgZE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="azvLzQcb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51C7710E612
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 14:54:29 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3430510E615;
+ Tue, 20 Jan 2026 15:05:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768920869; x=1800456869;
- h=from:to:cc:in-reply-to:references:subject:message-id:
- date:mime-version:content-transfer-encoding;
- bh=F+DWabZl6xIi5iH6LLpOUpaXsGT055xFXlruElhPR/k=;
- b=ZK2+AgZEMJrvcHb7BF2oTSxew1U9DVPlLklhPx7zquxQbAfS988raJ6T
- K4CsJqa/R26RFXHVB+cctv28HdTxZfCrOStmkTg18kHunIY1WRRicKCij
- djkJZoWT0Ax6tsXc8d8jQULmIVk7xJlFdCLFs/AVjQ1YHDPpZUDnCY1PT
- m4/SwoGq55hQcdKG5vY6/eGBqhlAT9vJFfEoSXDwugrt26pdJ8JKTDKDn
- dZz+n6KxuI4XX6X6jIlg8JlxS0ov+kqUJO3vUn2EvMyFeMq6gVUXt6dbS
- 7wzzhjvmX8OOSulq6xYkjyFL45TPLyJ9lVj6aXjhM+IzHc5ABcrDOFoJI Q==;
-X-CSE-ConnectionGUID: cU/4mlAtSjO3tcx2LHKEsg==
-X-CSE-MsgGUID: iWmYAl0fQ9ak3uV5gFqfvQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="80433178"
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; d="scan'208";a="80433178"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2026 06:54:15 -0800
-X-CSE-ConnectionGUID: WckCCuChTvi7AZjytnptag==
-X-CSE-MsgGUID: EchR/NK3Rc+4/Ku4s8C0FA==
+ t=1768921534; x=1800457534;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=yojAahukgi0FBGoY8rT4+taXSPras5XUztQ98rVQffE=;
+ b=azvLzQcbAhdYivkFDQS2slStQvKBTThk67YNp0r9m3GUrScsZ17Dq06s
+ wSvNGwlkzLVbYdQlnm3gkMUi1IIAW63S08HiKkeEAcNuLmWdYxT7z7Bki
+ c3WQhh8OfedZEL3Rh/CWm6oqaj5sbcFwVrTh6KtfMVI2/MKSO5z2xOP9F
+ tmOV0fgEbfWdROEPmFQqOPMm5sOEdAAZwJbcIjkB1ntgy3ebKpQkIzz/P
+ E+Z2q9hxzT8t66fKoHXEj/oeuuG+WercZ+8cPZf5th9kkLeSs/NgI6GgV
+ Kg1/ltEWNlSNHnAv8gqpfEhoUIioSwXNQdkMZtLczBMUjpbBUYnByixVL Q==;
+X-CSE-ConnectionGUID: FsxPSzfWS8WOO30dShiGWg==
+X-CSE-MsgGUID: kQkXc/AVRk+DeNLvxZzcAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="81505309"
+X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; d="scan'208";a="81505309"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2026 07:05:34 -0800
+X-CSE-ConnectionGUID: h8OiwNQ+SRKEBm+FzUV4Fw==
+X-CSE-MsgGUID: PP/mfveIRXCbBQGFENFDcw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; d="scan'208";a="210286819"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.245.10])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2026 06:54:09 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: ogabbay@kernel.org, maciej.falkowski@linux.intel.com, hansg@kernel.org, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Lizhi Hou <lizhi.hou@amd.com>
-Cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- max.zhen@amd.com, sonal.santan@amd.com, mario.limonciello@amd.com, 
- platform-driver-x86@vger.kernel.org, VinitKumar.Shukla@amd.com, 
- Patil Rajesh Reddy <Patil.Reddy@amd.com>
-In-Reply-To: <20260115173448.403826-1-lizhi.hou@amd.com>
-References: <20260115173448.403826-1-lizhi.hou@amd.com>
-Subject: Re: [PATCH V4] platform/x86/amd/pmf: Introduce new interface to
- export NPU metrics
-Message-Id: <176892084537.15580.12089679537024504744.b4-ty@linux.intel.com>
-Date: Tue, 20 Jan 2026 16:54:05 +0200
+X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; d="scan'208";a="206397612"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.246.70])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2026 07:05:32 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: Krzysztof Karas <krzysztof.karas@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
+ Sebastian Brzezinka <sebastian.brzezinka@intel.com>
+Subject: Re: [PATCH v2] drm/i915/selftests: Prevent userspace mapping
+ invalidation
+Date: Tue, 20 Jan 2026 16:05:29 +0100
+Message-ID: <11414299.5MRjnR8RnV@jkrzyszt-mobl2.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <iblv3rpsvbxv5eic6i6nneanqdovuloprnksyxxgvkz5miwmdu@7usprrsui25o>
+References: <5biajlwhi3oaep72si2dj2lhp2xwrpfa2gxqc2l36464uishjo@g26isdq64nv2>
+ <3333011.vfdyTQepKt@jkrzyszt-mobl2.ger.corp.intel.com>
+ <iblv3rpsvbxv5eic6i6nneanqdovuloprnksyxxgvkz5miwmdu@7usprrsui25o>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,62 +80,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 5A5F0461D6
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	CTE_CASE(0.50)[];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[janusz.krzysztofik@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,jkrzyszt-mobl2.ger.corp.intel.com:mid,gitlab.freedesktop.org:url,intel.com:email,intel.com:dkim]
+X-Rspamd-Queue-Id: B155146699
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_GOOD(-0.10)[text/plain];
-	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:ogabbay@kernel.org,m:maciej.falkowski@linux.intel.com,m:hansg@kernel.org,m:jeff.hugo@oss.qualcomm.com,m:lizhi.hou@amd.com,m:Shyam-sundar.S-k@amd.com,m:linux-kernel@vger.kernel.org,m:max.zhen@amd.com,m:sonal.santan@amd.com,m:mario.limonciello@amd.com,m:platform-driver-x86@vger.kernel.org,m:VinitKumar.Shukla@amd.com,m:Patil.Reddy@amd.com,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,linux.intel.com:mid,intel.com:dkim];
-	FORGED_SENDER(0.00)[ilpo.jarvinen@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[131.252.210.177:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ilpo.jarvinen@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DNSWL_BLOCKED(0.00)[131.252.210.177:from,198.175.65.11:received,10.64.159.143:received];
-	DWL_DNSWL_BLOCKED(0.00)[intel.com:dkim];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[198.175.65.11:received];
-	RBL_SENDERSCORE_REPUT_BLOCKED(0.00)[131.252.210.177:from]
 
-On Thu, 15 Jan 2026 09:34:48 -0800, Lizhi Hou wrote:
+On Monday, 19 January 2026 15:56:06 CET Krzysztof Karas wrote:
+> Hi Janusz,
+> 
+> > Hi Krzysztof,
+> > 
+> > On Monday, 19 January 2026 11:16:02 CET Krzysztof Karas wrote:
+> > > IGT mmap testing in i915 uses current task's address space to
+> > > allocate new userspace mapping, without registering real user
+> > > for that address space in mm_struct.
+> > > 
+> > > It was observed that mm->mm_users would occasionally drop to 0
+> > > during tests, which reaped userspace mappings, further leading
+> > > to failures upon reading from userland memory.
+> > > 
+> > > Prevent this by artificially increasing mm_users counter for the
+> > > duration of the test.
+> > > 
+> > > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14204
+> > > Signed-off-by: Krzysztof Karas <krzysztof.karas@intel.com>
+> > > ---
+> > > During testing I also found out that this problem affects
+> > > another function, __igt_mmap(), which also utilizes userspace
+> > > VMAs.
+> > > 
+> > > v2:
+> > >  * use mmget/mmput() (Jani);
+> > >  * include __igt_mmap() in the scope;
+> > >  * change comments and commit message;
+> > > 
+> > >  .../drm/i915/gem/selftests/i915_gem_mman.c    | 24 +++++++++++++++++++
+> > >  1 file changed, 24 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> > > index 0d250d57496a..82ab090f66c8 100644
+> > > --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> > > +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+> > > @@ -916,6 +916,13 @@ static int __igt_mmap(struct drm_i915_private *i915,
+> > >  	if (err)
+> > >  		return err;
+> > >  
+> > > +	/*
+> > > +	 * Get a reference to tasks's mm_struct to artificially increase mm_users
+> > > +	 * and ensure the kernel does not try to clean up the userspace mappings
+> > > +	 * of the current task during the test.
+> > > +	 */
+> > > +	mmget_not_zero(current->mm);
+> > 
+> > What happens if that fails?
+> This cannot really fail, it may return false, if no other
+> references are currently held, which has its own implication
+> that I overlooked:
+> if mmget_not_zero() returns false, then we probably should not
+> call mmput().
+> 
+> On the other hand, I observed that the issue does not occur if
+> mm_users is 0 since the beginning. The problem only arises when
+> we go from mm_users == 1 to mm_users == 0.
 
-> The PMF driver retrieves NPU metrics data from the PMFW. Introduce a new
-> interface to make NPU metrics accessible to other drivers like AMDXDNA
-> driver, which can access and utilize this information as needed.
+How can you explain those two different states (mm_users == 0 vs. mm_users > 
+0) possible on test startup?
+
+Thanks,
+Janusz
+
+> 
+> However, I think it would be better to use unconditional mmget()
+> to better show our intentions and ensure no tampering with
+> userspace takes place (if the test works with mm_users == 0 and
+> with mm_users > 0, as long as the condition remains unchanged
+> throughout the test, then we could force the latter to ensure
+> stable userspace state accross every test run).
+> 
+> This was a bit lenghty, but does it answer your question?
 > 
 > 
 
 
-Thank you for your contribution, it has been applied to my local
-review-ilpo-next branch. Note it will show up in the public
-platform-drivers-x86/review-ilpo-next branch only once I've pushed my
-local branch there, which might take a while.
 
-The list of commits applied:
-[1/1] platform/x86/amd/pmf: Introduce new interface to export NPU metrics
-      commit: 15e19bd95be5c79f2f98b727edda002ba86f8d03
-
---
- i.
 
