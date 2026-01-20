@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oOS6JEHGb2mgMQAAu9opvQ
+	id oBP5B/HGb2mgMQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 19:15:29 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 19:18:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE90B493FA
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 19:15:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E6F7494E9
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 19:18:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABFA310E646;
-	Tue, 20 Jan 2026 18:15:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 802BC10E1DC;
+	Tue, 20 Jan 2026 18:18:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="kl6yMMgc";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="mg19lN11";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
- [209.85.160.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB0D10E646
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 18:15:23 +0000 (UTC)
-Received: by mail-qt1-f173.google.com with SMTP id
- d75a77b69052e-501469b598fso39426181cf.3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 10:15:23 -0800 (PST)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com
+ [209.85.219.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F31CE10E1DC
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 18:18:21 +0000 (UTC)
+Received: by mail-qv1-f46.google.com with SMTP id
+ 6a1803df08f44-8946e32e534so4134426d6.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 10:18:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1768932922; x=1769537722; darn=lists.freedesktop.org; 
+ d=ziepe.ca; s=google; t=1768933101; x=1769537901; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=u+h0EX6bJ4UpFAOqOLmeekiIIdrOYR0BoNDz6Hm/Icw=;
- b=kl6yMMgcKNY4mP1p9s07HMJ4H0SSSIjZRWG4g/jTPUU+qmAZDnTJNk5CrvMEKSVvqC
- x8G7WHX8ugo8D65vUa6z91WlOit5f30oa1V6x0YHzbjgkVD8Z82yA1hpFufut0T85U3G
- +4IK85BsNXOmLOBgLTgVSJ7qG0cKttAG3RO0FpqoXKbeIImak4f0Id3hQ+Eu64ip6EvM
- 37x5Y6HWJC0s315ehCqzCl34vZa4OAr5rKy7/AniAWQC+Al//ULEHphbxqHFwpbRx/64
- hE+meK316ze8D9t7dyiUqd3c4y99Ob/1DbLVENXviGkuvgY/ltmk7xUcjhIvbqKphrz2
- QKqA==
+ bh=UjKhtF6uFrGGz9QpG86rUrUwPRn2VxIJfZmcip97T7s=;
+ b=mg19lN11yEiH9e3SaDW3Ol44YX+4y7uWDvq7kEQq3rX4U05MvIdKR47nrVYLfgbKYx
+ LaARWtPsacqv8q/xRsb1YUU9zcpYcqBqKLTAi9BswTaFOqPR0iTl08wmo56BRge0Axwn
+ jqfl7mCFNi/XgNxsKUvyqwUwsJaEgK9jOltdxNV7/6nORbBzZzOcC77FEl/Exi26+f8M
+ zjvDJ3i1epChFC8DeEgyr3UDS+vV4ZZEpfVyISkkqsR4VGd6gTs9hfQqU6n8LrR7Onu2
+ iFX70Mk/6dP7FW2m1FqTu7u5hgf7RjM4HW2shlCcLjHpeq32xE1sd4T3JRjNDjiES0zX
+ L+jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768932922; x=1769537722;
+ d=1e100.net; s=20230601; t=1768933101; x=1769537901;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=u+h0EX6bJ4UpFAOqOLmeekiIIdrOYR0BoNDz6Hm/Icw=;
- b=L7bbgSjo6+6nQbns6cgWS13a5C75hY70tCFv9grjo+CwwEnrZ09drU/Z+aNhrxMRFY
- dijR1ATYmt7v7/F2Zv+i2mY85QF1ul8Bz2c6BWwVkCm3DuISAHltlq1lyqbrXuZlToNT
- 5LRGK+B1DXULi1HzA5n14soiv+RQdQO22apzx6DC665QeK+irx7ansWCe47QpL8LIHmK
- +wNPMW+fEtXSaMVSeE3wqjsCvrD4uaxe3KoyDaZp92gdZudUXIJLIBgUmBUoQeVvVgA3
- bV22jf/YOre6P9Y0Im7X5x+U770vq5RUISved95CtGgR9TWYXI6fC+Pr8W0c3F1A+b0t
- nrFg==
+ bh=UjKhtF6uFrGGz9QpG86rUrUwPRn2VxIJfZmcip97T7s=;
+ b=I77fJLHG57Ly6ZTO7H+tD+cq34uvq83+o/yXYRtW3xh5SJd449a8DnfS5IreNGplTL
+ jWjCi/sAgSNk+iBLQ49JLKZ2pkBO98YmjTIMTFo3X25rMP9X8X9mV4Qak+cZVEQFFHEw
+ GtCUhOpebSZgeZunqnkIkQDKPheey8IKNbfuPBzNU0ng0bE187khN452+NI2+bFXyS1k
+ aMxinn9ca3EsJAb2sD03XG2pc+Xm1moRLgoCrmd9vBPlqLu2Dsv0+MX0nkaewDiCi0FA
+ +Z4pNfNJkpOiB6Vrhc6/XE+hH0RmQyqAmUJqA8EhuUMvNdNpAEZ2ZezI2LXYuZkvm+Wg
+ yslg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXc4ErOcQEn8lcwPYtPaoeTgkhv/tnDAc5jil9EJ0qvxmZSCgNNMbtOFc5iz8ATW2h9uD189EumbFc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz3bkhgg5fPlInbgPixu0zLOu3KOpprDl32agPBGFdWEBUsnxwt
- 6ctoQIt3rUGClS5pJ4iauV+sEnVzIL2sJw3lKhU2EZm0ZfyOCUpZbXwlmATPDz/Ahgk=
-X-Gm-Gg: AY/fxX5hs/ZyBOe+s6c2T9RLXhXiHt8P3DwtTe3jSQaSXTJXqq/bXKKjHs17Xv4fiB+
- ozHx4agOQiyG29fvzVuY/1Ami559NXzhM3cMKGmvgESAvTc8AO4nu3gkQ1d0QhtLSUgEOd8Ao0J
- utthSKyaKsL/WAksaCKvYgSAZab5OymJB4YYBx4KhZAQ9zOv5cXv1SYpa3TazshWyhhJw76mpD5
- UXZAf7dBJeFqYBvNBpHIxCDFceoTd0Ay85kqsWECZ1dp6kV+zEz1YgVwsMnlI9RIkvKxaBe4DlL
- XAdzHrvNiX4S5UlvYRyLqVpypzSFHNIJMSGumwyvclOSpg+gf46mgCU8adXgDvcfFV3d/kVJqGR
- 8BYZe2TRTelOipXG+W0SuUM0iZ8Ke/srrIU8bhapm3va63mr1LNiszfSVY29RRIEhUty8vrP5w5
- F7NRYY6prNxgnlycy1YsUuJgVbhh3UrnLGTV4sqwlsmjNNcGu6Qm/T
-X-Received: by 2002:a05:622a:1447:b0:501:3ccd:cb3e with SMTP id
- d75a77b69052e-502a1f7105fmr227831511cf.66.1768932921973; 
- Tue, 20 Jan 2026 10:15:21 -0800 (PST)
+ AJvYcCXO5MrpDAy4aUtHYxu8ZCTjwovhulagqtQ9Xu8uJBRZBictLLr+hp2pDtyotf9h8BCwNYTEaJ6C5Po=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx6uggCtwB9nq9j64ytOhYsPAl7qo464+eUE7VmCTK6B0+vlksx
+ bFova9UD+7bCYVAFpdTR5FwGWRk7onrZp5Kcv2pxtQTcbBMVAhJrTvwnQW0wynMe2z0=
+X-Gm-Gg: AZuq6aJIKQ6WNm/yosnnQzTy/p67FOVEQhpZOzOapeJQRScxBG87XG74iHZ8TunIy5u
+ A9eVFn5JxkfR3/OUX30ZHgqmFMwLdJg7FoolkobeWsIWR8iHWu/DbcyvT8tEM2gUWub38OH/zSv
+ /XWPGthNlRISaMZdViGchX4Z6s+E2u/zdR7UmM6f92UqVWWraVQncCwPMRFYZMoAWgWY+mMHPEZ
+ Y0ObmLxokNCxmQ3uK2vgX8vbVL+bmJZ3n2bMrHRwGbIGoUrt/KEQa+nGe0U9APEr5OVmH8T8gq8
+ UbMvKHtjN3KX65MTBZOMO2kXW7vIQLbLbm4fCmXnkA3vrbjcFWLc9HbmA/QJthiNmMDTaFnfaAJ
+ RvDKNiXaAsghZEa8WxUX8nOrTjaGnTAyUaa+IhkHu+3Iy8wbYu6ZR5SW67mHk4kcRIh4jmMTF39
+ 0r2oJ2XnJQANPRevMa89XKpx3xMHE5X6VQgatedyvrp/smTae6Ak8zP9ECOAu2/kABCc0=
+X-Received: by 2002:a05:6214:1301:b0:88e:6db7:f999 with SMTP id
+ 6a1803df08f44-8942e0c342cmr235499176d6.6.1768933100910; 
+ Tue, 20 Jan 2026 10:18:20 -0800 (PST)
 Received: from ziepe.ca
  (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-502a1d6e670sm99756901cf.1.2026.01.20.10.15.21
+ 6a1803df08f44-8942e5e535dsm114108506d6.4.2026.01.20.10.18.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jan 2026 10:15:21 -0800 (PST)
+ Tue, 20 Jan 2026 10:18:20 -0800 (PST)
 Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1viGG8-00000005aY4-3tNU;
- Tue, 20 Jan 2026 14:15:20 -0400
-Date: Tue, 20 Jan 2026 14:15:20 -0400
+ (envelope-from <jgg@ziepe.ca>) id 1viGJ1-00000005aZS-41Vi;
+ Tue, 20 Jan 2026 14:18:19 -0400
+Date: Tue, 20 Jan 2026 14:18:19 -0400
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Edward Srouji <edwards@nvidia.com>
 Cc: Leon Romanovsky <leon@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
@@ -78,15 +78,14 @@ Cc: Leon Romanovsky <leon@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
  linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org, Yishai Hadas <yishaih@nvidia.com>
-Subject: Re: [PATCH rdma-next 1/2] RDMA/uverbs: Add DMABUF object type and
- operations
-Message-ID: <20260120181520.GS961572@ziepe.ca>
+Subject: Re: [PATCH rdma-next 2/2] RDMA/mlx5: Implement DMABUF export ops
+Message-ID: <20260120181819.GT961572@ziepe.ca>
 References: <20260108-dmabuf-export-v1-0-6d47d46580d3@nvidia.com>
- <20260108-dmabuf-export-v1-1-6d47d46580d3@nvidia.com>
+ <20260108-dmabuf-export-v1-2-6d47d46580d3@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260108-dmabuf-export-v1-1-6d47d46580d3@nvidia.com>
+In-Reply-To: <20260108-dmabuf-export-v1-2-6d47d46580d3@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,115 +130,33 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ziepe.ca:mid,ziepe.ca:dkim]
-X-Rspamd-Queue-Id: DE90B493FA
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ziepe.ca:mid,ziepe.ca:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+X-Rspamd-Queue-Id: 7E6F7494E9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Jan 08, 2026 at 01:11:14PM +0200, Edward Srouji wrote:
->  void rdma_user_mmap_entry_remove(struct rdma_user_mmap_entry *entry)
->  {
-> +	struct ib_uverbs_dmabuf_file *uverbs_dmabuf, *tmp;
-> +
->  	if (!entry)
->  		return;
->  
-> +	mutex_lock(&entry->dmabufs_lock);
->  	xa_lock(&entry->ucontext->mmap_xa);
->  	entry->driver_removed = true;
->  	xa_unlock(&entry->ucontext->mmap_xa);
-> +	list_for_each_entry_safe(uverbs_dmabuf, tmp, &entry->dmabufs, dmabufs_elm) {
-> +		dma_resv_lock(uverbs_dmabuf->dmabuf->resv, NULL);
-> +		list_del(&uverbs_dmabuf->dmabufs_elm);
-> +		uverbs_dmabuf->revoked = true;
-> +		dma_buf_move_notify(uverbs_dmabuf->dmabuf);
-> +		dma_resv_unlock(uverbs_dmabuf->dmabuf->resv);
-
-This will need the same wait that Christian pointed out for VFIO..
-
-
-> diff --git a/drivers/infiniband/core/rdma_core.c b/drivers/infiniband/core/rdma_core.c
-> index 18918f463361..3e0a8b9cd288 100644
-> --- a/drivers/infiniband/core/rdma_core.c
-> +++ b/drivers/infiniband/core/rdma_core.c
-> @@ -465,7 +465,7 @@ alloc_begin_fd_uobject(const struct uverbs_api_object *obj,
->  
->  	fd_type =
->  		container_of(obj->type_attrs, struct uverbs_obj_fd_type, type);
-> -	if (WARN_ON(fd_type->fops->release != &uverbs_uobject_fd_release &&
-> +	if (WARN_ON(fd_type->fops && fd_type->fops->release != &uverbs_uobject_fd_release &&
->  		    fd_type->fops->release != &uverbs_async_event_release)) {
->  		ret = ERR_PTR(-EINVAL);
->  		goto err_fd;
-> @@ -477,14 +477,16 @@ alloc_begin_fd_uobject(const struct uverbs_api_object *obj,
->  		goto err_fd;
->  	}
->  
-> -	/* Note that uverbs_uobject_fd_release() is called during abort */
-> -	filp = anon_inode_getfile(fd_type->name, fd_type->fops, NULL,
-> -				  fd_type->flags);
-> -	if (IS_ERR(filp)) {
-> -		ret = ERR_CAST(filp);
-> -		goto err_getfile;
-> +	if (fd_type->fops) {
-> +		/* Note that uverbs_uobject_fd_release() is called during abort */
-> +		filp = anon_inode_getfile(fd_type->name, fd_type->fops, NULL,
-> +					  fd_type->flags);
-> +		if (IS_ERR(filp)) {
-> +			ret = ERR_CAST(filp);
-> +			goto err_getfile;
-> +		}
-> +		uobj->object = filp;
->  	}
-> -	uobj->object = filp;
->  
->  	uobj->id = new_fd;
->  	return uobj;
-> @@ -561,7 +563,9 @@ static void alloc_abort_fd_uobject(struct ib_uobject *uobj)
->  {
->  	struct file *filp = uobj->object;
->  
-> -	fput(filp);
-> +	if (filp)
-> +		fput(filp);
-> +
->  	put_unused_fd(uobj->id);
-
-This stuff changing hw the uobjects work should probably be in its own
-patch with its own explanation about creating a uobject that wrappers
-an externally allocated file descriptor vs this automatic internal
-allocation.
-
-> index 797e2fcc8072..66287e8e7ad7 100644
-> --- a/drivers/infiniband/core/uverbs.h
-> +++ b/drivers/infiniband/core/uverbs.h
-> @@ -133,6 +133,16 @@ struct ib_uverbs_completion_event_file {
->  	struct ib_uverbs_event_queue		ev_queue;
->  };
->  
-> +struct ib_uverbs_dmabuf_file {
-> +	struct ib_uobject uobj;
-> +	struct dma_buf *dmabuf;
-> +	struct list_head dmabufs_elm;
-> +	struct rdma_user_mmap_entry *mmap_entry;
-> +	struct dma_buf_phys_vec phys_vec;
-
-Oh, are we going to have weird merge conflicts with this Leon?
-
-> +static int uverbs_dmabuf_attach(struct dma_buf *dmabuf,
-> +				struct dma_buf_attachment *attachment)
+On Thu, Jan 08, 2026 at 01:11:15PM +0200, Edward Srouji wrote:
+> +static int phys_addr_to_bar(struct pci_dev *pdev, phys_addr_t pa)
 > +{
-> +	struct ib_uverbs_dmabuf_file *priv = dmabuf->priv;
+> +	resource_size_t start, end;
+> +	int bar;
 > +
-> +	if (!attachment->peer2peer)
-> +		return -EOPNOTSUPP;
+> +	for (bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
+> +		/* Skip BARs not present or not memory-mapped */
+> +		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+> +			continue;
 > +
-> +	if (priv->revoked)
-> +		return -ENODEV;
+> +		start = pci_resource_start(pdev, bar);
+> +		end = pci_resource_end(pdev, bar);
+> +
+> +		if (!start || !end)
+> +			continue;
+> +
+> +		if (pa >= start && pa <= end)
+> +			return bar;
+> +	}
 
-This should only be checked in map
-
-This should also eventually call the new revoke testing function Leon
-is adding
+Don't we know which of the two BARs the mmap entry came from based on
+its type? This seems like overkill..
 
 Jason
