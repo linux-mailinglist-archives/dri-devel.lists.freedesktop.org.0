@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AJcNC3ejb2kJDwAAu9opvQ
+	id cEJmFHejb2l7DgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
 	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 16:47:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF097469FB
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BBED469FF
 	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 16:47:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD3610E602;
-	Tue, 20 Jan 2026 14:07:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40A7D10E607;
+	Tue, 20 Jan 2026 14:07:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NBjWhUFV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ijj/wO77";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 351ED10E602;
- Tue, 20 Jan 2026 14:07:37 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A87E10E607;
+ Tue, 20 Jan 2026 14:07:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id A6D676012B;
- Tue, 20 Jan 2026 14:07:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B29C7C2BC86;
- Tue, 20 Jan 2026 14:07:35 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 6D83A440AC;
+ Tue, 20 Jan 2026 14:07:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A92D6C16AAE;
+ Tue, 20 Jan 2026 14:07:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1768918056;
- bh=bf1696+c5PaSfpBeHHGzA+vmhqIVB4390cXN7pOou2E=;
+ s=k20201202; t=1768918064;
+ bh=+j0ekknPQd/d3gRAxiqnNNnfw0hqFAwwAjsZYhI192Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NBjWhUFVYnRzWBwslbwnf3YkcH1nikmzNYEw/PthA0UmL0zyOrClkJko7UTwOtT8v
- +4VBltLl7uM7PsMb7uiam/Xlx8gM8HDQ0Obb2wlKT4rWiUMa43+tbff3bXupMyeJdx
- wDxL36aBPCKbdDA4Qb32vtAkYyS48v4pyulCvKBVUiIvLy2k5uZ24Vztos9slrw8H0
- iSkU4nGBDZZA9AsTpBEVBFMSylMfN1Vu4UliXAOwjpA735qtqBFEb1JOWHBOkDK9cq
- +5TQCt8uFqHSC+68xraxCpD7BjZyd+Vwtdp3IkygP2CS0ghFagzaiIted2cqXXfZnB
- 4HpjhwEhU/B4Q==
+ b=ijj/wO771lycS6FKxtpygkeK/BYUHKt2nUSEqMQc/fe3SpJqqJcZ/BWCkpIQHgiev
+ S+Mf1rPln8yu+F+l0oxZG17ZYhJVhUmOOaXGRiQiIBKGtLNc0IgMJWG2CRJYDmkieP
+ 5a/VPKZauZJfX0w5M94s+0B+uQ1I4TbxB1ftUo/dLav7fV9nfxwwD7OdKnSh9ZF6iI
+ /6dB5AHN3tBpnq0H+i2vDN0zwB0+7FapFUTpuAq/16it37Dv+DIWjBTSnV+vXDMZEJ
+ wa4KiwHpfHeh/NIPj1cnYuRyh73tj+UYbl1afb2guZsXGQRwLqiccEkTVLl9YVBg3w
+ 6Da43ktVUa1LQ==
 From: Leon Romanovsky <leon@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>,
  =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -60,9 +60,9 @@ Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
  intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
  iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: [PATCH v3 6/7] vfio: Wait for dma-buf invalidation to complete
-Date: Tue, 20 Jan 2026 16:07:06 +0200
-Message-ID: <20260120-dmabuf-revoke-v3-6-b7e0b07b8214@nvidia.com>
+Subject: [PATCH v3 7/7] vfio: Validate dma-buf revocation semantics
+Date: Tue, 20 Jan 2026 16:07:07 +0200
+Message-ID: <20260120-dmabuf-revoke-v3-7-b7e0b07b8214@nvidia.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260120-dmabuf-revoke-v3-0-b7e0b07b8214@nvidia.com>
 References: <20260120-dmabuf-revoke-v3-0-b7e0b07b8214@nvidia.com>
@@ -108,44 +108,34 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	DKIM_TRACE(0.00)[kernel.org:+]
-X-Rspamd-Queue-Id: EF097469FB
+X-Rspamd-Queue-Id: 0BBED469FF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-dma-buf invalidation is performed asynchronously by hardware, so VFIO must
-wait until all affected objects have been fully invalidated.
+Use the new dma_buf_attach_revocable() helper to restrict attachments to
+importers that support mapping invalidation.
 
-Fixes: 5d74781ebc86 ("vfio/pci: Add dma-buf export support for MMIO regions")
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/vfio/pci/vfio_pci_dmabuf.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/vfio/pci/vfio_pci_dmabuf.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
-index d4d0f7d08c53..33bc6a1909dd 100644
+index 33bc6a1909dd..0c7782a51912 100644
 --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
 +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
-@@ -321,6 +321,9 @@ void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
- 			dma_resv_lock(priv->dmabuf->resv, NULL);
- 			priv->revoked = revoked;
- 			dma_buf_move_notify(priv->dmabuf);
-+			dma_resv_wait_timeout(priv->dmabuf->resv,
-+					      DMA_RESV_USAGE_KERNEL, false,
-+					      MAX_SCHEDULE_TIMEOUT);
- 			dma_resv_unlock(priv->dmabuf->resv);
- 		}
- 		fput(priv->dmabuf->file);
-@@ -342,6 +345,8 @@ void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
- 		priv->vdev = NULL;
- 		priv->revoked = true;
- 		dma_buf_move_notify(priv->dmabuf);
-+		dma_resv_wait_timeout(priv->dmabuf->resv, DMA_RESV_USAGE_KERNEL,
-+				      false, MAX_SCHEDULE_TIMEOUT);
- 		dma_resv_unlock(priv->dmabuf->resv);
- 		vfio_device_put_registration(&vdev->vdev);
- 		fput(priv->dmabuf->file);
+@@ -31,6 +31,9 @@ static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
+ 	if (priv->revoked)
+ 		return -ENODEV;
+ 
++	if (!dma_buf_attach_revocable(attachment))
++		return -EOPNOTSUPP;
++
+ 	return 0;
+ }
+ 
 
 -- 
 2.52.0
