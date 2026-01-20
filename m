@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3A9D3C646
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 11:57:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A75F9D3C64F
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 11:57:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B9E610E023;
-	Tue, 20 Jan 2026 10:57:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD04610E5BB;
+	Tue, 20 Jan 2026 10:57:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="c2veQLs6";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RwqkzYtW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
  [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39DCB89186
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 10:57:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CDB910E023
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 10:57:01 +0000 (UTC)
 Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-4801c314c84so32739285e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 02:57:00 -0800 (PST)
+ 5b1f17b1804b1-4801d98cf39so23494175e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 02:57:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1768906619; x=1769511419; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=dEORR3284U70dvlcfkxCpvGm9I9oOaxPh+wqNvOupwk=;
- b=c2veQLs66M5qeYH2ZNy3DnXpQVEkRubn+FeKF+41GyvexrwvRiXa16oozlEQXfrWs0
- SsQckcV6ThahALdR5LE3Hk++iYBBIWO1a7KMH9bDjUUHDR7s7s6G1vBVlYiWVoyM/Nyk
- vISkYaKF8XVc3iN0iWwNTruoScRvRNdUZJzugoYwKI6qiMhESu96McQqUuAlAOlwGSVW
- cu8u8kuljblXHzsRS1CoBeP5jLzTwHcFa4GQwJxXPrjjU4kYxskAqcH1ebYoag2Cv4tp
- meHH7lEBf9fPymtbAP8Vw00HvSrjnSmQNVJ/cxXXWDbx0XEfuZJ3T3GzOtcLtYm1O1Ea
- Zd1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768906619; x=1769511419;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1768906620; x=1769511420; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dEORR3284U70dvlcfkxCpvGm9I9oOaxPh+wqNvOupwk=;
- b=WN9SRwz2BbTqFYtggdXRXyQtEgtOefIcza+waTDUC9PckKOQiOJNCCzfNNSfBZYB2b
- GMW3gVQpCSfDjMTWgUd3e4aTt+oOW/zTMunBSF3BzhpSwP94FiuJhvomxl6ORIaKrWlG
- IDTINz7zvYqfPQ8oaxxGx16inNLyrsez2i7BXGdu9pWsVo3X6ViNRAF/DqHHMPdXaAAY
- BZP6b9PI/3mGgW1+YNdpw/A8lC4HyrTOpPnHz70Z+Iitd2QnpucUq3jPmAU8UGDYRIxo
- sEQ3tJpPdpULFaH1jHlrzod4pgpVi/LaBP2ZFCcvTnxp30oPMlqqhHOo6Jh7yLcKhvSa
- +DdA==
-X-Gm-Message-State: AOJu0Yw2kT4/e4Fo4Zcp2ayUCKgEZA7jqsN9REWBMqI2gp1ExLbicKgy
- mUg3xntvm3Au4Y1HE3h1fKyNI3chKI0eL11l9vFRRygObsRN8HVllFC4
-X-Gm-Gg: AY/fxX4pUWXXHSHQYb1Jd+vjVk7esSv4AqQHoq3HPzOSB2wWumtmKVXKMYsMe7SLWwr
- ijoUYEwfwFsLhztCYU98XtystSiUsVIxx6uFqvylevRZtnSGsVWYz9TbI7aVqcLCNODeOfAh57L
- YR5JaM32X8ICv0gqS5tctnbATN2Y1w02NNR0Doy6/qso6pwFwB/RkV4eXBJv5ztT/CYyUTUQD1O
- iOl5jtBZ2dEVJ5KrpcULJenxtSosqd1z4EHL/bZIQxnlv8j5a9Ptj3HomSAb2z150d9symqHCSD
- xYeep5kdeONq9lvSZqJSm7y4gXJJ41NwcOCTd/IOJf9FBwTn1V61kJ07hohce2/rLO+twM/UiGy
- Baf/eR59XkWXUyX0GTMhYQBL9AJHlKQHUPCGmlBNXLwNL0ghIOyX+woNxvYloagvRyur63vkRjO
- ARE6CgiSL7x6jpfoU4wuztAkBF
-X-Received: by 2002:a05:600c:c178:b0:477:a977:b8c5 with SMTP id
- 5b1f17b1804b1-4801e34cd0emr204143915e9.31.1768906618439; 
- Tue, 20 Jan 2026 02:56:58 -0800 (PST)
+ bh=9OP6pHxO3DhbDHIe+WR14LfgMR3whcVGTP3WGhPYzRQ=;
+ b=RwqkzYtWxIdOL5qqcVTJiwH8hprpJx72AVYKBGyJEGjaAQpQxImAqjwu4PtvIPLlKA
+ EznDko8HlowRZ7Qmvm0RHlqHQ41NIUpSTMdUvnq2sj5oqg9McCKPx1CbDqAiNbgeg47c
+ VxSyH+j8mVVbMFgR5ef6eVabBU4sM+rYr6ps7/JO/Y0BfCTPZX/Hz030743aAlpOuNQw
+ qgt+S83yGxqpCiXFmGZPgW89F2Zqn1vrWty5UIVOs2iJsVg71AqQ8VyM9mhEgkcI1oAo
+ jra4SGKS+x52y4MTaQ1BdpVnA2z+DEVCFljLFewlfHBgQx/KsQnCe6+OaHDcgiim7xnG
+ k4qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1768906620; x=1769511420;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=9OP6pHxO3DhbDHIe+WR14LfgMR3whcVGTP3WGhPYzRQ=;
+ b=IrJmFDqtQz8btJdqqUrX8bYKsSplPKXVOvMgN5GE5joRqAnPBYwLM/misc62G1R/5s
+ s9TkmVl74/1+G2j4RS0MSzw+FSKt0FUMEKm8eC1Ud5j9NDyjI8YZ/HTGQmBvD8i6KFW1
+ /M70qCQvvgms5zdmc/vxZiiK1OQD3aY2IMGN3aaPtNotzqUv0oTfXHeMFpfuRsihZOPw
+ bHUDEoHL69LV70JVF/KTcprGnsVG3QFWhQZTkVs18+EReQoTS8vYQlwZ+ftVhzQh2KD2
+ QejOf5eEGj5ewH5xiintvO5b45a0GMwLiRlPpO75vMXTJ+leg7/fxsscOjGgnf5tGnPE
+ Hr7A==
+X-Gm-Message-State: AOJu0YzfGsBRvZlKp5oA4i18VZYyVfqY4Wreieebv33eKGZvNOzfjpK2
+ gs0tttZ94PNrvIkoUdyw+qUm9Xa5nendFaV2GDp97YTe9yA2rTLrRFZx
+X-Gm-Gg: AY/fxX6L33AE/x5tYa5jxsmNMEXDSJHUcHUr4pbSj/3KoegR5xeQM6FlkLMx+7m05Xk
+ ro2SVM/pxqvEY5kBqQsTPv2AoUZrCWsikwBCaOotM4PT+VHxF5YUrA5AHfJ0CzBRjoln8YzATy2
+ iDrfxaIvl8dmOApEbyIJsIGklnbwC/Vol+1GQPqEDMHlk5fR28F/3q8TtvOHEFAM3+os2jIHltf
+ n3tvZeab2UmpdlWdjRvab70UFUaQW+4BIXj0rZ7ihhq37B7RhGvuVpIRRO08vutoAtKw0lVMuFP
+ CqpEVig8+Tehs+rZEW1kIgm6A5GjT+0LDgYaWJh7cPQzvI3zWK68C8Kv9V6bJjaCmryYxsO2ms8
+ qkpaMxXZd+Rt5J9oETumX0yJwdPS5TvTxXwkSk+oNWFlRcCoZyIZNGx+1LzA64g55rZGg40zQiU
+ R7mGOiAKjGYJK40HC1OnOmICBPZllrs/KKWls=
+X-Received: by 2002:a05:600c:8b64:b0:47a:8cce:2940 with SMTP id
+ 5b1f17b1804b1-4801eac0f22mr170263815e9.14.1768906619247; 
+ Tue, 20 Jan 2026 02:56:59 -0800 (PST)
 Received: from able.fritz.box ([2a00:e180:1563:d000:1067:f6c4:3bf8:ea8a])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4801fe67780sm99418105e9.16.2026.01.20.02.56.57
+ 5b1f17b1804b1-4801fe67780sm99418105e9.16.2026.01.20.02.56.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jan 2026 02:56:57 -0800 (PST)
+ Tue, 20 Jan 2026 02:56:58 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -66,11 +67,14 @@ To: phasta@mailbox.org, tursulin@ursulin.net, matthew.brost@intel.com,
  sumit.semwal@linaro.org
 Cc: dri-devel@lists.freedesktop.org,
 	linaro-mm-sig@lists.linaro.org
-Subject: Independence for dma_fences! v6
-Date: Tue, 20 Jan 2026 11:54:39 +0100
-Message-ID: <20260120105655.7134-1-christian.koenig@amd.com>
+Subject: [PATCH 1/9] dma-buf: add dma_fence_was_initialized function v2
+Date: Tue, 20 Jan 2026 11:54:40 +0100
+Message-ID: <20260120105655.7134-2-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260120105655.7134-1-christian.koenig@amd.com>
+References: <20260120105655.7134-1-christian.koenig@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,70 +91,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi everyone,
+Some driver use fence->ops to test if a fence was initialized or not.
+The problem is that this utilizes internal behavior of the dma_fence
+implementation.
 
-dma_fences have ever lived under the tyranny dictated by the module
-lifetime of their issuer, leading to crashes should anybody still holding
-a reference to a dma_fence when the module of the issuer was unloaded.
+So better abstract that into a function.
 
-The basic problem is that when buffer are shared between drivers
-dma_fence objects can leak into external drivers and stay there even
-after they are signaled. The dma_resv object for example only lazy releases
-dma_fences.
+v2: use a flag instead of testing fence->ops, rename the function, move
+    to the beginning of the patch set.
 
-So what happens is that when the module who originally created the dma_fence
-unloads the dma_fence_ops function table becomes unavailable as well and so
-any attempt to release the fence crashes the system.
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/dma-buf/dma-fence.c             |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 13 +++++++------
+ drivers/gpu/drm/qxl/qxl_release.c       |  2 +-
+ include/linux/dma-fence.h               | 15 +++++++++++++++
+ 4 files changed, 24 insertions(+), 8 deletions(-)
 
-Previously various approaches have been discussed, including changing the
-locking semantics of the dma_fence callbacks (by me) as well as using the
-drm scheduler as intermediate layer (by Sima) to disconnect dma_fences
-from their actual users, but none of them are actually solving all problems.
-
-Tvrtko did some really nice prerequisite work by protecting the returned
-strings of the dma_fence_ops by RCU. This way dma_fence creators where
-able to just wait for an RCU grace period after fence signaling before
-they could be save to free those data structures.
-
-Now this patch set here goes a step further and protects the whole
-dma_fence_ops structure by RCU, so that after the fence signals the
-pointer to the dma_fence_ops is set to NULL when there is no wait nor
-release callback given. All functionality which use the dma_fence_ops
-reference are put inside an RCU critical section, except for the
-deprecated issuer specific wait and of course the optional release
-callback.
-
-Additional to the RCU changes the lock protecting the dma_fence state
-previously had to be allocated external. This set here now changes the
-functionality to make that external lock optional and allows dma_fences
-to use an inline lock and be self contained.
-
-v4:
-
-Rebases the whole set on upstream changes, especially the cleanup
-from Philip in patch "drm/amdgpu: independence for the amdkfd_fence!".
-
-Adding two patches which brings the DMA-fence self tests up to date.
-The first selftest changes removes the mock_wait and so actually starts
-testing the default behavior instead of some hacky implementation in the
-test. This one got upstreamed independent of this set.
-The second drops the mock_fence as well and tests the new RCU and inline
-spinlock functionality.
-
-v5:
-
-Rebase on top of drm-misc-next instead of drm-tip, leave out all driver
-changes for now since those should go through the driver specific paths
-anyway.
-
-Address a few more review comments, especially some rebase mess and
-typos. And finally fix one more bug found by AMDs CI system.
-
-v6:
-
-Minor style changes, re-ordered patch #1, dropped the scheduler fence
-change for now
-
-Please review and comment,
-Christian.
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index 21c5c30b4f34..c9a036b0d592 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -1054,7 +1054,7 @@ __dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+ 	fence->lock = lock;
+ 	fence->context = context;
+ 	fence->seqno = seqno;
+-	fence->flags = flags;
++	fence->flags = flags | BIT(DMA_FENCE_FLAG_INITIALIZED_BIT);
+ 	fence->error = 0;
+ 
+ 	trace_dma_fence_init(fence);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+index 0a0dcbf0798d..d1e74d0050c7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+@@ -278,9 +278,10 @@ void amdgpu_job_free_resources(struct amdgpu_job *job)
+ 	unsigned i;
+ 
+ 	/* Check if any fences were initialized */
+-	if (job->base.s_fence && job->base.s_fence->finished.ops)
++	if (job->base.s_fence &&
++	    dma_fence_was_initialized(&job->base.s_fence->finished))
+ 		f = &job->base.s_fence->finished;
+-	else if (job->hw_fence && job->hw_fence->base.ops)
++	else if (dma_fence_was_initialized(&job->hw_fence->base))
+ 		f = &job->hw_fence->base;
+ 	else
+ 		f = NULL;
+@@ -297,11 +298,11 @@ static void amdgpu_job_free_cb(struct drm_sched_job *s_job)
+ 
+ 	amdgpu_sync_free(&job->explicit_sync);
+ 
+-	if (job->hw_fence->base.ops)
++	if (dma_fence_was_initialized(&job->hw_fence->base))
+ 		dma_fence_put(&job->hw_fence->base);
+ 	else
+ 		kfree(job->hw_fence);
+-	if (job->hw_vm_fence->base.ops)
++	if (dma_fence_was_initialized(&job->hw_vm_fence->base))
+ 		dma_fence_put(&job->hw_vm_fence->base);
+ 	else
+ 		kfree(job->hw_vm_fence);
+@@ -335,11 +336,11 @@ void amdgpu_job_free(struct amdgpu_job *job)
+ 	if (job->gang_submit != &job->base.s_fence->scheduled)
+ 		dma_fence_put(job->gang_submit);
+ 
+-	if (job->hw_fence->base.ops)
++	if (dma_fence_was_initialized(&job->hw_fence->base))
+ 		dma_fence_put(&job->hw_fence->base);
+ 	else
+ 		kfree(job->hw_fence);
+-	if (job->hw_vm_fence->base.ops)
++	if (dma_fence_was_initialized(&job->hw_vm_fence->base))
+ 		dma_fence_put(&job->hw_vm_fence->base);
+ 	else
+ 		kfree(job->hw_vm_fence);
+diff --git a/drivers/gpu/drm/qxl/qxl_release.c b/drivers/gpu/drm/qxl/qxl_release.c
+index 7b3c9a6016db..06b0b2aa7953 100644
+--- a/drivers/gpu/drm/qxl/qxl_release.c
++++ b/drivers/gpu/drm/qxl/qxl_release.c
+@@ -146,7 +146,7 @@ qxl_release_free(struct qxl_device *qdev,
+ 	idr_remove(&qdev->release_idr, release->id);
+ 	spin_unlock(&qdev->release_idr_lock);
+ 
+-	if (release->base.ops) {
++	if (dma_fence_was_initialized(&release->base)) {
+ 		WARN_ON(list_empty(&release->bos));
+ 		qxl_release_free_list(release);
+ 
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index d4c92fd35092..9c4d25289239 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -48,6 +48,7 @@ struct seq_file;
+  * atomic ops (bit_*), so taking the spinlock will not be needed most
+  * of the time.
+  *
++ * DMA_FENCE_FLAG_INITIALIZED_BIT - fence was initialized
+  * DMA_FENCE_FLAG_SIGNALED_BIT - fence is already signaled
+  * DMA_FENCE_FLAG_TIMESTAMP_BIT - timestamp recorded for fence signaling
+  * DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT - enable_signaling might have been called
+@@ -98,6 +99,7 @@ struct dma_fence {
+ };
+ 
+ enum dma_fence_flag_bits {
++	DMA_FENCE_FLAG_INITIALIZED_BIT,
+ 	DMA_FENCE_FLAG_SEQNO64_BIT,
+ 	DMA_FENCE_FLAG_SIGNALED_BIT,
+ 	DMA_FENCE_FLAG_TIMESTAMP_BIT,
+@@ -263,6 +265,19 @@ void dma_fence_release(struct kref *kref);
+ void dma_fence_free(struct dma_fence *fence);
+ void dma_fence_describe(struct dma_fence *fence, struct seq_file *seq);
+ 
++/**
++ * dma_fence_was_initialized - test if fence was initialized
++ * @fence: fence to test
++ *
++ * Return: True if fence was ever initialized, false otherwise. Works correctly
++ * only when memory backing the fence structure is zero initialized on
++ * allocation.
++ */
++static inline bool dma_fence_was_initialized(struct dma_fence *fence)
++{
++	return fence && test_bit(DMA_FENCE_FLAG_INITIALIZED_BIT, &fence->flags);
++}
++
+ /**
+  * dma_fence_put - decreases refcount of the fence
+  * @fence: fence to reduce refcount of
+-- 
+2.43.0
 
