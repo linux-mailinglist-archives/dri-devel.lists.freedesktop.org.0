@@ -2,261 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cJnGDHqyb2nHMAAAu9opvQ
+	id WLvMH+u0b2nHMAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 17:51:06 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 18:01:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D211147F80
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 17:51:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3BC648362
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 18:01:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D02C710E635;
-	Tue, 20 Jan 2026 16:51:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC31310E63C;
+	Tue, 20 Jan 2026 17:01:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="NLUjnCFg";
-	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="iOdZUzSO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TgDPhGn8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 511DB10E1F5;
- Tue, 20 Jan 2026 16:51:00 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60K7upR43028845; Tue, 20 Jan 2026 16:50:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
- :content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=corp-2025-04-25; bh=dWPsAKWWNqF0UmUQSy
- aKlT6iCFPV5OdFrD+24wSbB3I=; b=NLUjnCFgoTwIfDqxD70C87YCtG+DWTDTM/
- b4W2ZN8MJG1gorLu0lhpC6bL91gtFJozJutmVmtAylgWn9HTG7GY9WZ2SWq/ZE26
- cYCzYQln5Jy9NQ9/p6CenVU0IHGOMBYKneKVD1UrxtkeenCE2+BXr4xGrtGdKl3/
- MfOU8JRSk6gYEEu/+FLcigIbZTZviNBLwD4qGZ5aKAlDw6o6erP7lwJVVRkRlk7K
- yYtU9QvRaS4QvNS7usIygElYrWh8CYYZ4f3ylGdpS+MrtJZ4WcUFJcVM0ptnVNYc
- iXyzdPJwQ9O1UswbIejjIdtaEBGvRsCEuwJZRYJsEb1DB7VpqEeQ==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4br10vv06c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 20 Jan 2026 16:50:30 +0000 (GMT)
-Received: from pps.filterd
- (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
- with ESMTP id 60KGjHSP039561; Tue, 20 Jan 2026 16:50:30 GMT
-Received: from mw6pr02cu001.outbound.protection.outlook.com
- (mail-westus2azon11012005.outbound.protection.outlook.com [52.101.48.5])
- by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 4br0v9wmym-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 20 Jan 2026 16:50:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GynYXTq7dohvWOlkGi0giYjTrXgBFgb5ekj9O8NqUSaQWeWEXMqHcqs5IigycXSK0oJDhQUygHQBlKrnFg6BmUckNAyqS9Bx5puyLtK0NNr0t193EF88qoQ2Q1KngQihEKgeh3RRbomArFB8VLG+njfsovaS4Czs0t/vyfCrNccLubejkHgbYaKloG1RgespLE05LaIGwE/NQPOJLS4QfTyWhT7J47Db+tA64UAPsvEaIpbJOAAII/POwf+hS5zrEB1LfiPr7uBYDBWPNgcGgREFPE41xdqWsTzCUayA2Os3fFAig8ixCobVB85ZtcvjNiWgdXmVdehLKZz5nAgmgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dWPsAKWWNqF0UmUQSyaKlT6iCFPV5OdFrD+24wSbB3I=;
- b=oXO7W3tYZFN+w1F9b6Fl97lI3FkaLV4XqErxl8+GF9Kj7AfscXHyBYc6TAKVbovoNfmMM5fSEpAWQTPdfQV1g4JxgfOezO3gmPPNESIaHOJ0nv6lVFX9d+x2bb1Cx4RgseSW6KbSXWg0p8Hm0Hy4bYQLyMam6hKuR5o/++hGOFDks9nJY2b1jfkMZ7n/2jl09VU8p9gn4pqgwz9aFRdRvxthMAAOzieAkMUTTb04a/vf6VsphZF0XVwkPQFeG9VS9P4JLn2FBOcRrJXD6OByJvpbL2vPPYZaNN1+qBiDdoBArxkzR6wHkGZb/7acpjhyr5QKNr6H/OfH2v3Wh8UQLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dWPsAKWWNqF0UmUQSyaKlT6iCFPV5OdFrD+24wSbB3I=;
- b=iOdZUzSOWVmzAG1YxnAxdqTDbNDhj6cZ+v3/u6O/pnpHdo0vO3Hbjwd2svLReGabJ9tt7y8x4PcgfxHMZu8GQnVIkKOcnCTmpc3hpmzH/6ICnpEub5vsb0oH8IcAVZjmbRLtYqf6/T4wIHGnyMYa7GLzQ9tU+vJe8DF1ZZZRUw8=
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
- by SA1PR10MB6663.namprd10.prod.outlook.com (2603:10b6:806:2ba::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Tue, 20 Jan
- 2026 16:50:18 +0000
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582%6]) with mapi id 15.20.9520.005; Tue, 20 Jan 2026
- 16:50:18 +0000
-Date: Tue, 20 Jan 2026 16:50:21 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Jason Gunthorpe <jgg@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dan Williams <dan.j.williams@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dave Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Benjamin LaHaise <bcrl@kvack.org>, Gao Xiang <xiang@kernel.org>,
- Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>,
- Jeffle Xu <jefflexu@linux.alibaba.com>,
- Sandeep Dhavale <dhavale@google.com>,
- Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>,
- Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- "David Hildenbrand (Red Hat)" <david@kernel.org>,
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- Mike Marshall <hubcap@omnibond.com>,
- Martin Brandenburg <martin@omnibond.com>, Tony Luck <tony.luck@intel.com>,
- Reinette Chatre <reinette.chatre@intel.com>,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- Babu Moger <babu.moger@amd.com>, Carlos Maiolino <cem@kernel.org>,
- Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>,
- Johannes Thumshirn <jth@kernel.org>, Matthew Wilcox <willy@infradead.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Zi Yan <ziy@nvidia.com>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, David Howells <dhowells@redhat.com>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>, Yury Norov <yury.norov@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-sgx@vger.kernel.org,
- linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
- linux-aio@kvack.org, linux-erofs@lists.ozlabs.org,
- linux-ext4@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev,
- devel@lists.orangefs.org, linux-xfs@vger.kernel.org,
- keyrings@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: Re: [PATCH RESEND 09/12] mm: make vm_area_desc utilise vma_flags_t
- only
-Message-ID: <7ac64213-26f9-470c-bf6a-abd1c0f6c83d@lucifer.local>
-References: <cover.1768857200.git.lorenzo.stoakes@oracle.com>
- <baac396f309264c6b3ff30465dba0fbd63f8479c.1768857200.git.lorenzo.stoakes@oracle.com>
- <20260119231403.GS1134360@nvidia.com>
- <36abc616-471b-4c7b-82f5-db87f324d708@lucifer.local>
- <20260120133619.GZ1134360@nvidia.com>
- <488a0fd8-5d64-4907-873b-60cefee96979@lucifer.local>
- <1617ac60-6261-483d-aeb5-13aba5f477af@app.fastmail.com>
- <44461883-a75c-466b-a278-97c4ab46b461@lucifer.local>
- <9ff58468-a72d-4984-95f4-d0a60554705d@app.fastmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9ff58468-a72d-4984-95f4-d0a60554705d@app.fastmail.com>
-X-ClientProxiedBy: LO6P123CA0051.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:310::7) To BL4PR10MB8229.namprd10.prod.outlook.com
- (2603:10b6:208:4e6::14)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4172A10E639;
+ Tue, 20 Jan 2026 17:01:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1768928487; x=1800464487;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=quYVgLms25UMXypoguFuUusBE7RM1lF9omhxJN62wC8=;
+ b=TgDPhGn8Iy8/RiRD4bSQ46cLXJ1sVh0P03fOQx0c2d7EJvg46E/Sz5Mk
+ 37x8w2IH8s30te+8pBK67dXUQkHk0y7exYdBJs2i0jJRzHWAaJN5ZFt+Y
+ cLd306OyLDA1413YSRfAwX0S/F8ZxoxKn8ce7dXbNfm/RTnC81WYn/nPY
+ PQvTuVByKsHpnKjFXNEHp5ObS6zj6CK+OE+5iwgGJRbV8mAb2m5S29efi
+ XWL43EIpk9KnnXDFkVHafyefoStd537ClVlpRu3Kqi/n+hWAUFD+DmHGq
+ cckqAoXwe7NtpLpZWMqzO42wSTmn6dxi4fHOcfDB2R7OeYQCMGdr8uyEr Q==;
+X-CSE-ConnectionGUID: nVBGsie7QSaTmGiWLwuYUQ==
+X-CSE-MsgGUID: 6gImjYgLRdipJfvVlGX+qQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="70048319"
+X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; d="scan'208";a="70048319"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2026 09:01:26 -0800
+X-CSE-ConnectionGUID: Du/+zgADSwOMsK44lSCSsw==
+X-CSE-MsgGUID: YW3TeZeIQ0ev56DmhyPPQw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; d="scan'208";a="210662382"
+Received: from black.igk.intel.com ([10.91.253.5])
+ by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2026 09:01:23 -0800
+Date: Tue, 20 Jan 2026 18:01:19 +0100
+From: Raag Jadav <raag.jadav@intel.com>
+To: Riana Tauro <riana.tauro@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
+ rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
+ simona.vetter@ffwll.ch, airlied@gmail.com, pratik.bari@intel.com,
+ joshua.santosh.ranjan@intel.com, ashwin.kumar.kulkarni@intel.com,
+ shubham.kumar@intel.com, ravi.kishore.koppuravuri@intel.com
+Subject: Re: [PATCH v4 2/4] drm/xe/xe_drm_ras: Add support for drm ras
+Message-ID: <aW-039yu1OXXSrdz@black.igk.intel.com>
+References: <20260119040023.2821518-6-riana.tauro@intel.com>
+ <20260119040023.2821518-8-riana.tauro@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|SA1PR10MB6663:EE_
-X-MS-Office365-Filtering-Correlation-Id: 599f77b5-bc63-4e25-b92c-08de5843fe65
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?e0JgHC2OyT45OYyD+FXSSGS7riDFC4SWESYimzU8AxBki3MAtKO6/DM/rjc/?=
- =?us-ascii?Q?00bdEhr3vFO0dWj9HgB+4GnK5DB0mkgerJnnxO8W1CVZpUBjhRJn++Zlbyhu?=
- =?us-ascii?Q?YMd5MvEXmOeGfaDnbhB1YLFBECsXrkrMFImh3/zS+xqs1yC4jj1ysVZhe9bs?=
- =?us-ascii?Q?UerQBPnF4lfhjJ3QgaQY9A+sRYbHjlrI5qEBQWDjSw93bWWvn3krWZIr5FNA?=
- =?us-ascii?Q?MUEudHw4ZAIZwU+Cjq+YU6kRfVZUCh4Ir1vrtjWjPgoHF+mD3QPilZ/2Vhhd?=
- =?us-ascii?Q?Vvh/AmbF0nU2ikUX8g1KLuj9yloSkFiVvMh00E0VCzAzM//H/Vgp8ODE0dkf?=
- =?us-ascii?Q?v788oSmL7aSv+oRbmAtI5MUfrkw/xWYnQdWyctvPnFTiky9Y2WEfuKCqqe7z?=
- =?us-ascii?Q?TLswWkV8VwnvtvmR8YBbwRA2C31k/DFCkUJ1vL2y3daJ0ZWsEqFg/7/2B5Nk?=
- =?us-ascii?Q?A2iYi7cVLW1eOxoTO48y/YkGI+xjTnR9dzmuiZMqd8PW5N4N2WF6HZvyyp8A?=
- =?us-ascii?Q?de9Rj3Ov/EAl/B43SftpqMA/aifccxFl3TAPaM9CJj1/eLOOdAOAn6LmXP9U?=
- =?us-ascii?Q?Ms2avF35pTKiZNJbEC2SEI4iu9hTgvNLMX0fIIGbKP0tYMAgdBNdFGHdF5pj?=
- =?us-ascii?Q?FV1oGVZE5YYs8NWJcrTZ9S53dNegwLMXIgEgkDwmr2GPrT+1gO0f024JrlhN?=
- =?us-ascii?Q?viqJfc2DztDSnpnFpc4M5xyrLzkSNzW2qcbjGjNgi9VDAyHu9gqnI44XxsYt?=
- =?us-ascii?Q?7ucsWdO8n0IBw4Xebj0hp1yEvi10MuFxvv/JZqdrtj234+XsT2VbqSnlOVpH?=
- =?us-ascii?Q?u3IyWIW++mwzi2kyyblRMK/Eov75uzYzD7l4Pttgh6psKAqhwcZADLVtG75N?=
- =?us-ascii?Q?8mW/KXwfh2D7d/6AY4t5qwqjiKuTQDoB3wjhjZG58+UkTUuEJrNEcJWG3o0J?=
- =?us-ascii?Q?WLKgfQ1/lh5wA4lIdmI2iQAuCUhMJO5xTjV2RWeWxG14cORDLLS521W4U5p5?=
- =?us-ascii?Q?AcoWGQyQ8Hf7sdQDwgn+WCLO7g67kTIECjvjSU1KS10V+uvW6hEFImhZ+NqE?=
- =?us-ascii?Q?7gHANNxgoZ1Vx5eyBVt9hcnyruHfejlaIBiBntd3yxXueHbPiTLV8Nq0WH3N?=
- =?us-ascii?Q?76NAa+i0SFBszYwT8eAgqZ0LszVlVpabLiWIyQARq6Q2evWN4E6qZS4C71je?=
- =?us-ascii?Q?U/nLKXvjXFSHyUuJbcYG2MlmDapiz6UaZcXG+2uVnQZf4sNAYJc0WLv/dos1?=
- =?us-ascii?Q?U618To41Zgxz8Q30GwikRyO74h5ryLgBNcHlIEqnVOeb1EZz7NShjJwb4Apa?=
- =?us-ascii?Q?YpCHowRlqwGuSrNU6YM8y6v6PojxnJqiiEppFeLIYYfkDfm9Z1CuhaS1g/zW?=
- =?us-ascii?Q?kWRA4a3CzV3HWUKX7AcoFgmSqK+9y66G9i9INAdtJQ6LrVjPqBT+ax+pdx0d?=
- =?us-ascii?Q?zC+gV2UpbzsPJLoRNieL5OQIp75GfMLT//N9CyJpHtKcD0c0MK7yxJBKsp23?=
- =?us-ascii?Q?yGAGQwe32xMxMcCA9/SByp/BgKCW8CSmQ8J6ILk4L/4f18+8240T9nAJIzuC?=
- =?us-ascii?Q?QhNaL8W0AGV1PrLhMjM=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL4PR10MB8229.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(7416014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZrXPCfaeXhU5byniXN+09zmc/WT9fhj+QwXCuyIcVZLxveS8e5j6PXAddEYE?=
- =?us-ascii?Q?QKW0PsZUTqLG9goUjphAdY/tBaMVIX+wJ9J0kzRnMCoOXSe4X7yFZ3Dj52sm?=
- =?us-ascii?Q?QhEcQlI8ohgw2x7YOzHzRk9btjYcOcyuibOAMYRL9QXjQrX/fETXwocFgQne?=
- =?us-ascii?Q?Gyji80AzaBrSiAD2VqZmywtobV2Q+BrXWHGj1f+Y7/mq0JjPuxWYnQaU9Wg8?=
- =?us-ascii?Q?PpOnxQk1TA2H1VJCmLtePriTb5GBuOPPmJRYP1CHur4nZgdRQCc7mKGF2qoG?=
- =?us-ascii?Q?bss/EPNjyKFx2SB/tjKbrebsmIOn/PZoU6JwzbJS5FjUwOyN2btEfXXZ/+7t?=
- =?us-ascii?Q?GFdwEEE+/jYwkthGjIoXIIViyljDpdv9Ko1dvxkYp+ljcm+ydxjdq3ZO+GVk?=
- =?us-ascii?Q?ZzSiF4jWt8yuqZIfSP8AgLqawd4ovTrV+yYuDmVI0Ee9VMob9ZpYZgIPLXXo?=
- =?us-ascii?Q?kikfd+bWM1uUKgfkwgqDv72a6lNqlvtlPykRhjulcealkKil0pf4rmeY8QE6?=
- =?us-ascii?Q?Ey42anuVHKQvQqOuDV4z8jfT1vHL9857Aehtxui3Ks4qQTQ+aU30fJ7hNGu3?=
- =?us-ascii?Q?4y4U5o1vyXHUidpw+Ha0/8N6VmINbZRG/AnCFIaQQFq5XikH3rP24s3r/+/1?=
- =?us-ascii?Q?wNxFHh+zsRdB1LPv1qIpXJbcZksQ2VYyspYKSUkKy7gXSNjajRJ44BHZVmYN?=
- =?us-ascii?Q?2N2FOqHBd8zr7vibbIbFo88TZHffVrNBBeOTvGBo8VjVJRjuKcXeJYArMOWf?=
- =?us-ascii?Q?oEjWajJcrqJajHRXiIv3tTvqBAuyiBcdYdC5Vbk8WkgtjWtge2y7k/tANk4I?=
- =?us-ascii?Q?H5BURgP5VX8J6a3HXQyRTNb8fDyvKFzpk9Aa1zpI97fKEl7cLa8jGLsIFd/x?=
- =?us-ascii?Q?aCS+Ib+HVYaiSOWOx361fxVHC4ORl8FvJ5VORSarvmLRc8WMD5R7EOO2/+kX?=
- =?us-ascii?Q?Qx83mA/dWlfAyYoT+eCGzW6Gf/FLWSus2W+nDJ0rm6u/Gom8NxOlQUZoCvYq?=
- =?us-ascii?Q?RljKOVii75+cNzV3um12baRBngDGM4gVopmDqmXbucwwR/55PG5uWvP8cnnS?=
- =?us-ascii?Q?cTKFEp+uNUlzTD1iUoVQ4fd4NPc9n9aNy7HD4QtkELUyj+R0IHHBOModUlHy?=
- =?us-ascii?Q?pexU4pWAX83os6+817wS7M2ocx7GvicbfCUXkZiL7WJefWmtTVmObrkLkWne?=
- =?us-ascii?Q?9fZXVZ6hmol14NhXcCMGtrmCbQ80AKzwjLJ8ZcM6SgLxj5mHCYm+WOgfBP09?=
- =?us-ascii?Q?ep7JMipcba7evk/tvoAzdu+mUUrzdoKa2OOMvLsAQCQuboOCSwahYPDzyDEy?=
- =?us-ascii?Q?vUmh4IeYY5/YOP8Wje2xCM8dTRXRTFQnMiLjXgzI7N7UkEPUFuEUL5iGxg6F?=
- =?us-ascii?Q?4byEvQ+ovJMG8Io0ni0lDQ1Ize7Pul+f3GAw3MsNwrOz6CBb9K59Mle1kmNJ?=
- =?us-ascii?Q?XBbFY+m7iw3lEy8Q1yEJbP9Zo01eplm5DEFc18Nk8szxNXj7vuHU6g3Wv7gT?=
- =?us-ascii?Q?4/728QHf/0H/KVuk033L+eJv181BUbyU5xRuc+eZbdXUET9mjSy5wzmWU6aH?=
- =?us-ascii?Q?nVQ210owjoHQK1v2RSUk+DW2rBikp2ho/oXXRJxYa54zpjQ8Er9JoMwFyhQ8?=
- =?us-ascii?Q?1+xnJpP3dSpkLngPQFjlMfifxfhMo7wMcwcBGmwlf9zyIEU/VOgXT658ny3z?=
- =?us-ascii?Q?l8TiW9/v6Friz3nOtSZn4JTSc3fFWmffxbB54OPUU7kDYv5rApMorvprOGyk?=
- =?us-ascii?Q?Q2S7fFaPjmgUYlOvigYgUwMHMTCwL4U=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: chOOwHhUu4AZbdz9DlMTarn+aXBnCVKBIfhLiyV7Aeyurn9PM5C9ibp44xavTtaa9GQlV5C7Gr+mq93vPYOqt2q6K8T2wDbjUr4QAdLCLQt1cMWfZ2MOvXpmypKV5j6+Jb7NnQ+1aY/FjcX7bjCApeDwHQP4yWMcFW7TYNk7GGlaeMNzLg2Tk6E7j2t2PLpIZGcxO2xqeNZrNw3ZzhB/cDQPfPRK7lOuS4YRgFPVwm3w1UxJGsQKcXpI+EaPcN6+VjyCZ9AqFmS8NhCBs79QrTewgTsA8Eg0hufpHPOPfKfa4liwJ4s56spnwS0/+Uc7mVr/qnEYQADUV9H4VBprmH7Rz6oglHBjwh5RrKxB0n4pin0v8CFkZwshfEx0VHcHT0ONk047ncRNceEFPMXVEmANrL9NxfsJLkiFv3KINJegtvN3H3YV96clcl2pEV+MiAXjI1T9HUU6oB1tE3JoZ+pq2IYm+pxxzJSUBI5T/1sG9MN/e9n/fPxjDESzK6Jjl+83VVnBob6M0IwHWOcEloXUbmxcEpeay3XCvykW3qAeTpHfoddvJDo3eYC/wyvfpiQmPvKl/6qWVk3LFpvg46fiyslJ/xK+P5tHHeYHvL0=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 599f77b5-bc63-4e25-b92c-08de5843fe65
-X-MS-Exchange-CrossTenant-AuthSource: BL4PR10MB8229.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 16:50:18.8080 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gKFdNKqerOo0hwzGfEp3cX2jdHVPncpMAMD73eY5egQFeCSy6L0sktwc8juQat5YONUKj41onxqITId2tNXTICM/hX/i3D3aQpbgiiBsHMM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB6663
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-20_04,2026-01-20_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- bulkscore=0 phishscore=0
- malwarescore=0 adultscore=0 mlxlogscore=999 suspectscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2601150000
- definitions=main-2601200140
-X-Authority-Analysis: v=2.4 cv=H4nWAuYi c=1 sm=1 tr=0 ts=696fb256 b=1 cx=c_pps
- a=WeWmnZmh0fydH62SvGsd2A==:117
- a=WeWmnZmh0fydH62SvGsd2A==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=90Ukn_98quSV7Lvi1P0A:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: VYQO6K5M5jh5JHmBNwhXW7mvnKN5BzTC
-X-Proofpoint-ORIG-GUID: VYQO6K5M5jh5JHmBNwhXW7mvnKN5BzTC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIwMDE0MCBTYWx0ZWRfX74WuK404jhOp
- gd2cOrrAocNqLKIWCimOzcFCkoyn6sA97wP43VtIZ9D3nmtgdD8GdT0b3kacqF/rh9sKaAvgtFx
- 0bba/vbsi7pp/JTOlrb0hbNnvjjLjSj7MVM5QknuKl+JSeO096lzhOmnlc+/vmsnLFZdEWWfZNa
- oYgb59SBQFKZFoIKjIUq6SNeVP0WvTl6ch6GakemgsF9THqtl5NWA0hlPeh4HgNDhZA6WZNhfsq
- 9en/Jf+ptQ7w2RHAKeD+Qt7+UIaCgsyeZb8pnzFEHMYcxFHEcDasPknVw8G6V0Y67M0TFk+Wh0D
- X0xO/A3Oo8WAtCfzjNn/JnFszI6pi+VfDaj18DdXotSqCnmFQ/vm0uOcZU3A+XgLjIMfSbBB6F+
- ksA8kvM2ORZ0pgvW4787jGDTdLML3gZ+aOr8a+mpYRApz67uYr3wboPg700wXfQd6yBZ1t2yojZ
- Vr833GWhxDH6AsDJRJA==
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260119040023.2821518-8-riana.tauro@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -271,69 +78,402 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[oracle.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[oracle.com:s=corp-2025-04-25,oracle.onmicrosoft.com:s=selector2-oracle-onmicrosoft-com];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[nvidia.com,linux-foundation.org,kernel.org,linux.intel.com,redhat.com,alien8.de,zytor.com,linuxfoundation.org,intel.com,suse.de,gmail.com,ffwll.ch,ursulin.net,amd.com,zeniv.linux.org.uk,suse.cz,kvack.org,linux.alibaba.com,google.com,huawei.com,vivo.com,mit.edu,dilger.ca,linux.dev,paragon-software.com,omnibond.com,arm.com,wdc.com,infradead.org,oracle.com,suse.com,paul-moore.com,namei.org,hallyn.com,rasmusvillemoes.dk,vger.kernel.org,lists.linux.dev,lists.freedesktop.org,lists.ozlabs.org,lists.orangefs.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oracle.com:dkim,oracle.onmicrosoft.com:dkim,lucifer.local:mid];
-	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,linux.intel.com,intel.com,ffwll.ch,gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lorenzo.stoakes@oracle.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[raag.jadav@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[oracle.com:+,oracle.onmicrosoft.com:+];
-	RCPT_COUNT_GT_50(0.00)[93];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[8]
-X-Rspamd-Queue-Id: D211147F80
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,black.igk.intel.com:mid]
+X-Rspamd-Queue-Id: E3BC648362
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Jan 20, 2026 at 05:44:29PM +0100, Arnd Bergmann wrote:
-> On Tue, Jan 20, 2026, at 17:22, Lorenzo Stoakes wrote:
-> > On Tue, Jan 20, 2026 at 05:00:28PM +0100, Arnd Bergmann wrote:
-> >> On Tue, Jan 20, 2026, at 16:10, Lorenzo Stoakes wrote:
-> >> >
-> >> > It strikes me that the key optimisation here is the inlining, now if the issue
-> >> > is that ye olde compiler might choose not to inline very small functions (seems
-> >> > unlikely) we could always throw in an __always_inline?
-> >>
-> >> I can think of three specific things going wrong with structures passed
-> >> by value:
-> >
-> > I mean now you seem to be talking about it _in general_ which, _in theory_,
-> > kills the whole concept of bitmap VMA flags _altogether_ really, or at
-> > least any workable version of them.
->
-> No, what I'm saying is "understand what the pitfalls are", not
-> "don't do it". I think that is what Jason was also getting at.
->
->      Arnd
+On Mon, Jan 19, 2026 at 09:30:24AM +0530, Riana Tauro wrote:
+> Allocate correctable, uncorrectable nodes for every xe device
+> Each node contains error classes, counters and respective
+> query counter functions.
 
-Ack sure and your input is appreciated :) It's important to kick the tyres
-and be aware of possible issues.
+...
 
-Actually I think now I understand where Jason's coming from - the by-value
-cases will be const value for the most part - which should make life MUCH
-easier for the compiler and avoid a lot of the issues you raised.
+> +static int hw_query_error_counter(struct xe_drm_ras_counter *info,
+> +				  u32 error_id, const char **name, u32 *val)
+> +{
+> +	if (error_id < DRM_XE_RAS_ERROR_CLASS_GT || error_id >= DRM_XE_RAS_ERROR_CLASS_MAX)
 
-So _hopefully_ we're mitigated. Again as I said, in cases where we might
-not be, I will take action to figure out workarounds.
+This looks like it can be in_range().
 
-I'm excited by the proposed approach in general (+ again thanks to Jason to
-opening my eyes to the possibility in the first place), so perhaps a
-_little_ defensive, as it allows for a like-for-like replacement generally
-which should HUGELY speed up + simplify the transition :)
+> +		return -EINVAL;
+> +
+> +	if (!info[error_id].name)
+> +		return -ENOENT;
+> +
+> +	*name = info[error_id].name;
+> +	*val = atomic64_read(&info[error_id].counter);
+> +
+> +	return 0;
+> +}
+> +
+> +static int query_uncorrectable_error_counters(struct drm_ras_node *ep,
 
-Cheers, Lorenzo
+This is named as 'counters' but I only see a single call here. What am
+I missing?
+
+> +					      u32 error_id, const char **name,
+> +					      u32 *val)
+
+Can this be less lines?
+
+> +{
+> +	struct xe_device *xe = ep->priv;
+> +	struct xe_drm_ras *ras = &xe->ras;
+> +	struct xe_drm_ras_counter *info = ras->info[DRM_XE_RAS_ERROR_SEVERITY_UNCORRECTABLE];
+> +
+> +	return hw_query_error_counter(info, error_id, name, val);
+> +}
+> +
+> +static int query_correctable_error_counters(struct drm_ras_node *ep,
+
+Same as above.
+
+> +					    u32 error_id, const char **name,
+> +					    u32 *val)
+
+Same as above.
+
+> +{
+> +	struct xe_device *xe = ep->priv;
+> +	struct xe_drm_ras *ras = &xe->ras;
+> +	struct xe_drm_ras_counter *info = ras->info[DRM_XE_RAS_ERROR_SEVERITY_CORRECTABLE];
+> +
+> +	return hw_query_error_counter(info, error_id, name, val);
+> +}
+> +
+> +static struct xe_drm_ras_counter *allocate_and_copy_counters(struct xe_device *xe)
+> +{
+> +	struct xe_drm_ras_counter *counter;
+> +	int i;
+> +
+> +	counter = drmm_kcalloc(&xe->drm, DRM_XE_RAS_ERROR_CLASS_MAX,
+> +			       sizeof(struct xe_drm_ras_counter), GFP_KERNEL);
+
+I'd make this robust against type changes, i.e. sizeof(*counter).
+
+> +	if (!counter)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	for (i = 0; i < DRM_XE_RAS_ERROR_CLASS_MAX; i++) {
+> +		if (!errors[i])
+> +			continue;
+> +
+> +		counter[i].name = errors[i];
+> +		atomic64_set(&counter[i].counter, 0);
+
+Doesn't drmm_kcalloc() already take care of this?
+
+> +	}
+> +
+> +	return counter;
+> +}
+> +
+> +static int assign_node_params(struct xe_device *xe, struct drm_ras_node *node,
+> +			      const enum drm_xe_ras_error_severity severity)
+> +{
+> +	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
+> +	struct xe_drm_ras *ras = &xe->ras;
+> +	const char *device_name;
+> +
+> +	device_name = kasprintf(GFP_KERNEL, "%04x:%02x:%02x.%d",
+> +				pci_domain_nr(pdev->bus), pdev->bus->number,
+> +				PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn));
+> +
+> +	node->device_name = device_name;
+> +	node->node_name = error_severity[severity];
+> +	node->type = DRM_RAS_NODE_TYPE_ERROR_COUNTER;
+> +	node->error_counter_range.first = DRM_XE_RAS_ERROR_CLASS_GT;
+> +	node->error_counter_range.last = DRM_XE_RAS_ERROR_CLASS_MAX - 1;
+> +	node->priv = xe;
+> +
+> +	ras->info[severity] = allocate_and_copy_counters(xe);
+> +	if (IS_ERR(ras->info[severity]))
+> +		return PTR_ERR(ras->info[severity]);
+> +
+> +	if (severity == DRM_XE_RAS_ERROR_SEVERITY_CORRECTABLE)
+> +		node->query_error_counter = query_correctable_error_counters;
+> +	else
+> +		node->query_error_counter = query_uncorrectable_error_counters;
+
+Shouldn't this have explicit severity check, atleast for future proofing?
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int register_nodes(struct xe_device *xe)
+> +{
+> +	struct xe_drm_ras *ras = &xe->ras;
+> +	int i;
+> +
+> +	for_each_error_severity(i) {
+> +		struct drm_ras_node *node = &ras->node[i];
+> +		int ret;
+> +
+> +		ret = assign_node_params(xe, node, i);
+> +		if (ret)
+> +			return ret;
+> +
+> +		ret = drm_ras_node_register(node);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void xe_drm_ras_unregister_nodes(void *arg)
+> +{
+> +	struct xe_device *xe = arg;
+> +	struct xe_drm_ras *ras = &xe->ras;
+> +	int i;
+> +
+> +	for_each_error_severity(i) {
+> +		struct drm_ras_node *node = &ras->node[i];
+> +
+> +		drm_ras_node_unregister(node);
+> +
+> +		if (i == 0)
+> +			kfree(node->device_name);
+
+Aren't we allocating this for each node?
+
+> +	}
+> +}
+> +
+> +/**
+> + * xe_drm_ras_allocate_nodes - Allocate DRM RAS nodes
+> + * @xe: xe device instance
+> + *
+> + * Allocate and register DRM RAS nodes per device
+> + *
+> + * Return: 0 on success, error code on failure
+> + */
+> +int xe_drm_ras_allocate_nodes(struct xe_device *xe)
+> +{
+> +	struct xe_drm_ras *ras = &xe->ras;
+> +	struct drm_ras_node *node;
+> +	int err;
+> +
+> +	node = drmm_kcalloc(&xe->drm, DRM_XE_RAS_ERROR_SEVERITY_MAX, sizeof(struct drm_ras_node),
+
+Ditto for robust against type changes.
+
+> +			    GFP_KERNEL);
+> +	if (!node)
+> +		return -ENOMEM;
+> +
+> +	ras->node = node;
+> +
+> +	err = register_nodes(xe);
+> +	if (err) {
+> +		drm_err(&xe->drm, "Failed to register drm ras node\n");
+> +		return err;
+> +	}
+> +
+> +	err = devm_add_action_or_reset(xe->drm.dev, xe_drm_ras_unregister_nodes, xe);
+> +	if (err) {
+> +		drm_err(&xe->drm, "Failed to add action for xe drm_ras\n");
+> +		return err;
+> +	}
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/gpu/drm/xe/xe_drm_ras.h b/drivers/gpu/drm/xe/xe_drm_ras.h
+> new file mode 100644
+> index 000000000000..2d714342e4e5
+> --- /dev/null
+> +++ b/drivers/gpu/drm/xe/xe_drm_ras.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright © 2026 Intel Corporation
+> + */
+> +#ifndef XE_DRM_RAS_H_
+> +#define XE_DRM_RAS_H_
+> +
+> +struct xe_device;
+> +
+> +#define for_each_error_severity(i)	\
+> +	for (i = 0; i < DRM_XE_RAS_ERROR_SEVERITY_MAX; i++)
+> +
+> +int xe_drm_ras_allocate_nodes(struct xe_device *xe);
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/xe/xe_drm_ras_types.h b/drivers/gpu/drm/xe/xe_drm_ras_types.h
+> new file mode 100644
+> index 000000000000..528c708e57da
+> --- /dev/null
+> +++ b/drivers/gpu/drm/xe/xe_drm_ras_types.h
+> @@ -0,0 +1,49 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright © 2026 Intel Corporation
+> + */
+> +
+> +#ifndef _XE_DRM_RAS_TYPES_H_
+> +#define _XE_DRM_RAS_TYPES_H_
+> +
+> +#include <drm/xe_drm.h>
+> +#include <linux/atomic.h>
+> +
+> +struct drm_ras_node;
+> +
+> +/* Error categories reported by hardware */
+> +enum hardware_error {
+> +	HARDWARE_ERROR_CORRECTABLE = 0,
+> +	HARDWARE_ERROR_NONFATAL = 1,
+> +	HARDWARE_ERROR_FATAL = 2,
+> +	HARDWARE_ERROR_MAX,
+> +};
+> +
+> +/**
+> + * struct xe_drm_ras_counter - XE RAS counter
+> + *
+> + * This structure contains error class and counter information
+> + */
+> +struct xe_drm_ras_counter {
+> +	/** @name: error class name */
+> +	const char *name;
+> +
+> +	/** @counter: count of error */
+> +	atomic64_t counter;
+> +};
+> +
+> +/**
+> + * struct xe_drm_ras - XE DRM RAS structure
+> + *
+> + * This structure has details of error counters
+> + */
+> +struct xe_drm_ras {
+> +	/** @node: DRM RAS node */
+> +	struct drm_ras_node *node;
+> +
+> +	/** @info: info array for all types of errors */
+> +	struct xe_drm_ras_counter *info[DRM_XE_RAS_ERROR_SEVERITY_MAX];
+> +
+
+Nit: Redundant blank line.
+
+> +};
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/xe/xe_hw_error.c b/drivers/gpu/drm/xe/xe_hw_error.c
+> index 8c65291f36fc..b42495d3015a 100644
+> --- a/drivers/gpu/drm/xe/xe_hw_error.c
+> +++ b/drivers/gpu/drm/xe/xe_hw_error.c
+> @@ -10,20 +10,14 @@
+>  #include "regs/xe_irq_regs.h"
+>  
+>  #include "xe_device.h"
+> +#include "xe_drm_ras.h"
+>  #include "xe_hw_error.h"
+>  #include "xe_mmio.h"
+>  #include "xe_survivability_mode.h"
+>  
+>  #define  HEC_UNCORR_FW_ERR_BITS 4
+>  extern struct fault_attr inject_csc_hw_error;
+> -
+> -/* Error categories reported by hardware */
+> -enum hardware_error {
+> -	HARDWARE_ERROR_CORRECTABLE = 0,
+> -	HARDWARE_ERROR_NONFATAL = 1,
+> -	HARDWARE_ERROR_FATAL = 2,
+> -	HARDWARE_ERROR_MAX,
+> -};
+> +static const char * const error_severity[] = DRM_XE_RAS_ERROR_SEVERITY_NAMES;
+
+This is unrelated to uapi changes, shouldn't we split this into a separate
+patch?
+
+...
+
+> +/**
+> + * enum drm_xe_ras_error_severity - DRM RAS error severity.
+> + */
+> +enum drm_xe_ras_error_severity {
+> +	/** @DRM_XE_RAS_ERROR_SEVERITY_CORRECTABLE: Correctable Error */
+> +	DRM_XE_RAS_ERROR_SEVERITY_CORRECTABLE = 0,
+
+DRM_XE_RAS_ERR_SEV_*? (and same for this entire file)
+
+> +	/** @DRM_XE_RAS_ERROR_UNCORRECTABLE: Uncorrectable Error */
+
+Match with actual name.
+
+> +	DRM_XE_RAS_ERROR_SEVERITY_UNCORRECTABLE,
+> +	/** @DRM_XE_RAS_ERROR_SEVERITY_MAX: Max severity */
+> +	DRM_XE_RAS_ERROR_SEVERITY_MAX /* non-ABI */
+> +};
+> +
+> +/**
+> + * enum drm_xe_ras_error_class - DRM RAS error classes.
+> + */
+> +enum drm_xe_ras_error_class {
+> +	/** @DRM_XE_RAS_ERROR_CLASS_GT: GT Error */
+> +	DRM_XE_RAS_ERROR_CLASS_GT = 1,
+> +	/** @DRM_XE_RAS_ERROR_CLASS_SOC: SoC Error */
+> +	DRM_XE_RAS_ERROR_CLASS_SOC,
+> +	/** @DRM_XE_RAS_ERROR_CLASS_MAX: Max Error */
+> +	DRM_XE_RAS_ERROR_CLASS_MAX	/* non-ABI */
+
+I don't find 'CLASS' to be much translatable since it can inherently mean
+anything, but I'm not sure if this to match with spec naming.
+
+PS: I've used 'COMP' for component in my series[1], but upto you.
+Also, please help review it in case I've missed anything.
+
+[1] https://lore.kernel.org/intel-xe/20260116093432.914040-1-raag.jadav@intel.com/
+
+Raag
+
+> +};
+> +
+> +/*
+> + * Error severity to name mapping.
+> + */
+> +#define DRM_XE_RAS_ERROR_SEVERITY_NAMES {					\
+> +	[DRM_XE_RAS_ERROR_SEVERITY_CORRECTABLE] = "correctable-errors",		\
+> +	[DRM_XE_RAS_ERROR_SEVERITY_UNCORRECTABLE] = "uncorrectable-errors",	\
+> +}
+> +
+> +/*
+> + * Error class to name mapping.
+> + */
+> +#define DRM_XE_RAS_ERROR_CLASS_NAMES {					\
+> +	[DRM_XE_RAS_ERROR_CLASS_GT] = "GT",				\
+> +	[DRM_XE_RAS_ERROR_CLASS_SOC] = "SoC"				\
+> +}
+> +
+>  #if defined(__cplusplus)
+>  }
+>  #endif
+> -- 
+> 2.47.1
+> 
