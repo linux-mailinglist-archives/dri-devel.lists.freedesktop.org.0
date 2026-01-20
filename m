@@ -2,102 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KAuoOGn8b2mUUgAAu9opvQ
+	id UGJYNnD8b2mUUgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 23:06:33 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 23:06:40 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D8FF4CB98
-	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 23:06:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7604CBA8
+	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 23:06:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD02510E648;
-	Tue, 20 Jan 2026 22:06:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E391410E257;
+	Tue, 20 Jan 2026 22:06:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="WHfxDql2";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MxeOQFHc";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="b5kE6Mst";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eprQx7D1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3752F10E23A
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 22:06:30 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A85DD10E257
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 22:06:37 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60KHIEce668668
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 22:06:29 GMT
+ 60KHBghJ314349
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 22:06:37 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- O/lhu1OktkMj/fzAYJtzU5CncNhyb4uT2JsMqcD6BKo=; b=WHfxDql27/yZhk0a
- fKDW8uJvn8sE0HE9kwHhHpFx10CrONNNIYFEK2LVjM4CWb54CRDtIroOC2382QKo
- NEgBBGETWN32/V/GgZaV9G6E0KvaBeF2+DPj8Y8u6AXv0vRQM7J3TTkK4mBy/+jc
- e3Pzz6w9q4ea4ETqyTCdmPHqpLoDytm1gF2PgyzUDS4iSg3+6GbtRxcn6qSshm6i
- W78dc0+VW9jBOwzfK/r2zlvE+jSOKzPkaibqm0aC342GAa3ReXXcZBvAoW8U2Drs
- WpxcujNRpGFK+sPalZ+h+n80fNzcH96XgSOAIIoCNkSV3ZBYPp1VLK8CLcxtcLsK
- 6E2vPQ==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bte04rxke-1
+ 5ao5MxgRFD8rkEGcXPs8DuTKugl75L7IlT1qpaV8lLo=; b=b5kE6MstogF+i6ik
+ sCNyL4aWh8+VUWGk2mdkXAmf9W6ZEeTEJresDjFSleS+TPqj8A4PDmMEhUyKxM99
+ pZ/nt60w+0RMla/JaPh83KMqQyLyO5oTMzeunoNa5OcNSQhKaneePaNSbCPRfV8K
+ MPpS9ack+2hrlYm09ieeioGFlU/cuU+y2DJsEITBcKY4Qrx+0CkbOD2chQFlA0UV
+ SnKzh6O3Sl7tRzqyTqsqEVOB4seE4vkXnxXIWEyGZYynoPmqsUFbChv4mVqNS5N9
+ oatwd/7XB84lDq0npniLmvwBqME/W+r438KP+TwrY66RAI5Nq8vcGX8iVjqy0FKA
+ nsukkA==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4btdw2905q-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 22:06:29 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id
- 41be03b00d2f7-c551e6fe4b4so3604239a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 14:06:28 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 22:06:36 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id
+ d2e1a72fcca58-81e6ec1da28so4547154b3a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 20 Jan 2026 14:06:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768946788; x=1769551588;
+ d=oss.qualcomm.com; s=google; t=1768946796; x=1769551596;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=O/lhu1OktkMj/fzAYJtzU5CncNhyb4uT2JsMqcD6BKo=;
- b=MxeOQFHc7MvgQVJVQGzjR6rDW29l2vEySClyDidwqRkYfd3fCMS4YUgq3kZ/zNhE3h
- j2Ohx0fuzijCSSQuq+uYoEM1sxq22fDNWtf2Xkr+bua+HFC3Vlml49p1DQN30lx4zkr3
- aedK1gwIGO6WgGx8Ai71kSQAwxWzvI//KwY1qiu7OnoAkTsTBMbOZHngjpZTS5nViHwy
- A+sJWcuvUxCHBlETfBuxee2QdIYiqFLCZ4gGFHTKJ7p1gU3I4KtvU+nvRubDVu6+6v16
- POfE1N3U+na3Bqf4iD9VwNQdpvfblXd14TGaOZRmNXKn81Y2gnvJSWLWPMkvtBlURMVx
- bi1g==
+ :reply-to; bh=5ao5MxgRFD8rkEGcXPs8DuTKugl75L7IlT1qpaV8lLo=;
+ b=eprQx7D1lz38RH0jZDZ5pZXP/yAKZ6xdxaw8QDP16ewAI7IvlvjbsWXv+yPgw+dEUV
+ L2K4EI+ZTRcUW5AJZorAOdwVbRCa4Q2dGs30CdAj8dVhO1GzVj3IH6ksiKWualpIddop
+ FG7jCYh7I1sSCn0tVFevZX1Nx9VlaBVRkD75NbiOHyS4Mrq3Be23tBdy5yUlrDZs9sLu
+ ylKjI7wofFJTNLIewITpZfTW+ujlIUlVWIxJWdh9zCeoWTiTiIiYh0677VG7ipt/lC+g
+ AK+Yh4JaNEj1ccAeFFDgNb1g5Py/OIjktu7MyJf+JtWCruDafbLo/9gArGrdjMHIb+ke
+ akOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768946788; x=1769551588;
+ d=1e100.net; s=20230601; t=1768946796; x=1769551596;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=O/lhu1OktkMj/fzAYJtzU5CncNhyb4uT2JsMqcD6BKo=;
- b=Aou30nqB7HACYCybyKQ+Oo+e4gnntLT/5sDh2ZhabcIpls/Zy7njLhuGmMRBP2okN6
- aEZZBnMIcgtos9IRkVjbA3sjZwR/5eWjbPLGjKAQpW+9OPFB0K4soRQxrrKXPTe/69s9
- uYhceUosocNcGKiaDFVY8m+EMBbgmWzI65GKkL2RY65J6SBs9nqjsCKdHxcMluIx1xHp
- kVqLLhGapVLsWu36F0GsyAGwwUkjzIXv0DOjKs5YtAlt5QEBZQZqhXR2s6fMGrF29s37
- Vm5uKVXXmHDfiH/rFtauswgJBCiHe9FJaLpAgOhOcciCKcizYOsqE+s/Xw6xjOtL/wyH
- n6cA==
+ bh=5ao5MxgRFD8rkEGcXPs8DuTKugl75L7IlT1qpaV8lLo=;
+ b=sJQJ9okFXt+P/js7d8IpDiA9QZRHqlG+WZjQCSyZXfHR5a5RuI60IQKkSdIZV24yJM
+ CTXFbAJsJtCh9DiEW6V0RBA3Z7Esh2CDT4ovabd/Q7c3Ghg3K/LCqFME3bLMbJSnVm+y
+ hiwpTq0SSkn64x3nrC1we7rlaTqv/SO+l7+rRCeM8RJJZmidfJuvjrXxSqgJtPmGoshe
+ hafNUGKwXRw4IrrC/ggxao6cVUMAphO2iZIg+o50Kh6JVjjoP8pfI75hzAJvk89MIJE6
+ f4t6IFT7po5Hu3+fdGtYjMuLltx4b2oX3JeOEuaVmPiBROZFU1LfCekCyDdq+KTo9pp8
+ S1GA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXskiXRJRRzE9IlaUxlEK5wW0XUTNn2rjjLKOOTIIzICPMxAaT+V8wkdHXAKbjARY9Ph1DBDyfLpOU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyrQJ5vbAmRg06ktxkiZMZ9IWrNWk/2kzhR7QJm6DzJmyqXdhjz
- cV7nmNGSS5B9DVhFUexiAjJKtdf1hDdPwv5+ZiYVHjPFRrL9kDc3d0vSVXJ+qzdCTxdOMJwWqBB
- HrIIablPBI/UiYJBfye1dUOixXYvSeycZmiQ51K3Hkp9qpeMwf7qhb1eQaVqnpTHZZgu4vaYtTP
- 3HjrU=
-X-Gm-Gg: AZuq6aLGse5CkWxGjQE+WrYZDq15bMpfEhgGweqolMy58ynbRPgb7vK1auGY7hDKceT
- wnxhvxNfKKAjiMBhWNFkPtcv61kdroW2RB5lZvsQBVyk+dTdQlvEmPkSlC+crsSAyw89sx/vw8D
- aSvmlAj/3Hc2eLeyTeo4fYw5O9FGCxStd0AS++9cS+IJTBtB8H0UUvI5uM6BH1L1zW12yL7r0bf
- TvKEww5GqWzuhRO1/h/HrIWeakc42UG9UhOkPofYkzb8m5TxNjVdhS16bRe5B5KSYYRoYZXHrj+
- wG5LTHgkb0z7SLupuHKQDkOJOXr6iK7V8oyWrlfAQawa5zHSXpmXYo+1AbQ8nbT6zMIjXQjtZtB
- rJCNtBxkzbFTqz+gOclklVklE970DxwufRg==
-X-Received: by 2002:a05:6a21:7e09:b0:38e:5535:bb4a with SMTP id
- adf61e73a8af0-38e5535bca9mr117273637.11.1768946787851; 
- Tue, 20 Jan 2026 14:06:27 -0800 (PST)
-X-Received: by 2002:a05:6a21:7e09:b0:38e:5535:bb4a with SMTP id
- adf61e73a8af0-38e5535bca9mr117232637.11.1768946787337; 
- Tue, 20 Jan 2026 14:06:27 -0800 (PST)
+ AJvYcCV/F8QRT3k5COY6rpJmYJufkSwWQYNwdPAhkj3l9t5vrs7WlhZ7N/uCvYyKnDn4ZfMCzQzN3pVxGik=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzo9cFgO3w9WafnXheEhLp2dXc2YZp4c5R5XjrRN7TYlGfKZHuP
+ M+dGAC0jCEQM6FcVaMB6Z6Ehx8fxb18PsZiCUUPMyutcMH3m/a5T6UTYXXt6KcUEKbkjGhxGpZR
+ 13imSRACNIBs55DM3zdf3ytAvpo2uCkiPt9WCjqPJEPVzBYoLVAPZFj8FqNkNdYQXB0r7CiCGde
+ es3y4=
+X-Gm-Gg: AZuq6aLaw7WhiUG7DcNUbArb2RyyDSst0VsnnrYiSmhW7SLfT8yndZgj+WUs93XcEkd
+ B4CNQyvtediGEjwyOZLms4UyxXWF6frSYj1YSFrgFVCJ+2Q5CDS2H3EZ77J1LxVGkLwxWOdwlEW
+ yLs7OfkyJjJ4uwdSUQC9DTRkDVb0IaCHGZZJC5Nmupf5abMT2clTjOo5TC2DAdCABS2ZpE8M5tW
+ 3hfFLP5TlKk/P3QA9mMuBJbt6cCI59estJv2uaRIH9an+uasTcK7dYreAvZEYzl1RGL9ZihRWKR
+ uk4LwLUojW1PsIC9lm7XoxrFDHUwxo53pU9IrcGL/ACh1o6MeTOqJPIV4z6MjyadcF4x/7PoM3h
+ REhym1P0mF7/H0u9IzJIzRIlhuRSJppnx6g==
+X-Received: by 2002:a05:6a00:94f2:b0:81f:42ba:2005 with SMTP id
+ d2e1a72fcca58-81fa1780f3dmr15165347b3a.6.1768946795640; 
+ Tue, 20 Jan 2026 14:06:35 -0800 (PST)
+X-Received: by 2002:a05:6a00:94f2:b0:81f:42ba:2005 with SMTP id
+ d2e1a72fcca58-81fa1780f3dmr15165316b3a.6.1768946795141; 
+ Tue, 20 Jan 2026 14:06:35 -0800 (PST)
 Received: from hu-akhilpo-hyd.qualcomm.com ([202.46.23.25])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-81fa12b30f0sm12867088b3a.61.2026.01.20.14.06.20
+ d2e1a72fcca58-81fa12b30f0sm12867088b3a.61.2026.01.20.14.06.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jan 2026 14:06:27 -0800 (PST)
+ Tue, 20 Jan 2026 14:06:34 -0800 (PST)
 From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Date: Wed, 21 Jan 2026 03:35:53 +0530
-Subject: [PATCH v7 2/4] arm64: dts: qcom: talos: Add gpu and rgmu nodes
+Date: Wed, 21 Jan 2026 03:35:54 +0530
+Subject: [PATCH v7 3/4] arm64: dts: qcom: talos: Add GPU cooling
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260121-qcs615-spin-2-v7-2-52419b263e92@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260121-qcs615-spin-2-v7-3-52419b263e92@oss.qualcomm.com>
 References: <20260121-qcs615-spin-2-v7-0-52419b263e92@oss.qualcomm.com>
 In-Reply-To: <20260121-qcs615-spin-2-v7-0-52419b263e92@oss.qualcomm.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
@@ -118,39 +118,37 @@ Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
  Jie Zhang <jie.zhang@oss.qualcomm.com>,
  Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Jie Zhang <quic_jiezh@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768946765; l=3791;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768946765; l=1569;
  i=akhilpo@oss.qualcomm.com; s=20240726; h=from:subject:message-id;
- bh=UiwkofKumZf9SEEVAH7lrQqFwDbHX3J4ezRdExFRo0k=;
- b=may0IiBG/mKqcHReuzu+7gkxMYaE9/ibYfx9MhlMl2kdaPISbiGxg0i3gplrX2vNXQBgHlXMk
- OVnOr9BSTnTAN7EPylm/2NoMQI7VWzOpNjHqOX1njQjJxrxI2XNcArO
+ bh=mm7OH7DhhrPoewx3F6eoJTJC7J5WYhKTe1PwFwcJBsw=;
+ b=5fwB6EOc/g1yYfdTpwYze7kGYW957kHbnrYS3S3ykB/kHpdWwf/o35z39XJb+7D8hbMK6eXey
+ EsiZjW1+ReTBGU6dUXnnQKbIMOBIJZ7EHnSoZUVsiSMd6ujROnZ0zaf
 X-Developer-Key: i=akhilpo@oss.qualcomm.com; a=ed25519;
  pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIwMDE4MyBTYWx0ZWRfX4s8RRg7QC7vp
- NetiADAujwA+/S1X1uPA4sh5fzpBH38kuX+1jE+IIw/6gam8kdSV6Xp7n+5mWz51X/6ybJTodUn
- DpBpjFXW9aN8UwRWflEBtvJ1yuTegKpu1CmCLk3pUJTA5bxqWEWOXldo9DIX75LEDe+qW8Lr9vU
- ZKL0ec+18XycV5J1RE88ikIETg338DxRCBcvrq5BYSdBaNdLkxdIBtGmVEWRMxGrHA/Y/JYFdRq
- WjNtiQh3J5F0TsuTzyalDMczTGFhqmTpX2SPmzA9OVtYSDnS+Ucd1DNmPKbNSuDuWcEAdKdgAEJ
- VWqpz/QkrY32JdWtnOMuQNooQYJGHNrIMJpCSSmTF2edn2gd80veVOTIpDd9sRjJfQ4weTd/Jjk
- +wtpzPK/xHfY3Aw+W0XFU5UUzUPunbRc9iPfKL+1AS8ljd1e7UfddDd4SOgVz+qpthgkbANZpkx
- RWjmiP26TKpQa1TNhwQ==
-X-Authority-Analysis: v=2.4 cv=bZ5mkePB c=1 sm=1 tr=0 ts=696ffc65 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Proofpoint-ORIG-GUID: QNO_L96xg8EKxRVVoCYTAOCF3a33Qis-
+X-Proofpoint-GUID: QNO_L96xg8EKxRVVoCYTAOCF3a33Qis-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIwMDE4MyBTYWx0ZWRfXxVDonX7OkKk8
+ nQeEr50PLEtT9tDIvuODI+B18+5AdxviJqdJrC3ImO+/yG5KVe5Zkg495ehzzOaKvybXIUMF+cg
+ 22cHxrIkWLvq35nQZqnkuT9sM0tTRNOL2vDsRELDy5Wx3dAmbELDWhCbUvyf1gHIhIA6hKyKw2h
+ LNo1JGhHl/NVvOjCIEYmGZ/zpY7PBIHaIBUfx9GWIJikGu3g0XuklZl4M2V3PoZydPgI43U0g8k
+ GI9Zd1qJy/L5Kz3+7e5BAzU4WrZ/+m6bE194sf14vkIIGsWzrWu/X61E9qf0okujUHrkR1hCKCa
+ wpX11cXdtoqivB6EiR+ZxOjAkaN2qkFkE8auXJlI3evUFsvIlQOS1exyvelaMpgh/IQJeYv7AHl
+ mQ37rS02OhK/YFg/LdgETY/rLrDVfKuI3mgJ0RpZOWS453RS6TiAGDrVNMltVhm9Vqpl8frno+9
+ uSGTbeh0aG5fn8G9oaw==
+X-Authority-Analysis: v=2.4 cv=RqzI7SmK c=1 sm=1 tr=0 ts=696ffc6c cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
- a=jWRUczSHPS-Ra7sZ8p8A:9 a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: ZVbKXAHQyaCcsPw5kAfeDKTDoGcGIbw3
-X-Proofpoint-ORIG-GUID: ZVbKXAHQyaCcsPw5kAfeDKTDoGcGIbw3
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=doS3iEISOceegCkkCwMA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
  definitions=2026-01-20_06,2026-01-20_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015
- spamscore=0 bulkscore=0 priorityscore=1501 adultscore=0 suspectscore=0
+ malwarescore=0 priorityscore=1501 bulkscore=0 suspectscore=0 spamscore=0
+ clxscore=1015 impostorscore=0 adultscore=0 lowpriorityscore=0 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601200183
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -177,12 +175,12 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[28];
+	RCPT_COUNT_TWELVE(0.00)[27];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER(0.00)[akhilpo@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:jesszhan0024@gmail.com,m:gaurav.kohli@oss.qualcomm.com,m:dan.carpenter@linaro.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:jie.zhang@oss.qualcomm.com,m:akhilpo@oss.qualcomm.com,m:quic_jiezh@quicinc.com,m:dmitry.baryshkov@oss.qualcomm.com,m:konrad.dybcio@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:jesszhan0024@gmail.com,m:gaurav.kohli@oss.qualcomm.com,m:dan.carpenter@linaro.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:jie.zhang@oss.qualcomm.com,m:akhilpo@oss.qualcomm.com,m:konrad.dybcio@oss.qualcomm.com,m:dmitry.baryshkov@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[oss.qualcomm.com,poorly.run,kernel.org,linux.dev,somainline.org,gmail.com,ffwll.ch,linux.intel.com,suse.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -198,151 +196,64 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
-X-Rspamd-Queue-Id: 8D8FF4CB98
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim]
+X-Rspamd-Queue-Id: 8E7604CBA8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Jie Zhang <quic_jiezh@quicinc.com>
+From: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
 
-Add gpu and rgmu nodes for Talos chipset.
+Unlike the CPU, the GPU does not throttle its speed automatically when it
+reaches high temperatures.
 
-Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Set up GPU cooling by throttling the GPU speed when it reaches 105°C.
+
+Signed-off-by: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
 Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
 ---
- arch/arm64/boot/dts/qcom/talos.dtsi | 110 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 110 insertions(+)
+ arch/arm64/boot/dts/qcom/talos.dtsi | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/talos.dtsi b/arch/arm64/boot/dts/qcom/talos.dtsi
-index 9495514dda1a32e21f53f4afca677dc13fd9cd5e..b51a8f173e1c89e75be2f999ff96fb63247accfc 100644
+index b51a8f173e1c89e75be2f999ff96fb63247accfc..5f66c058555ea12d7c3a12c471aa02764be160ac 100644
 --- a/arch/arm64/boot/dts/qcom/talos.dtsi
 +++ b/arch/arm64/boot/dts/qcom/talos.dtsi
-@@ -651,6 +651,11 @@ rproc_adsp_mem: rproc-adsp@95900000 {
- 			reg = <0x0 0x95900000 0x0 0x1e00000>;
- 			no-map;
- 		};
-+
-+		pil_gpu_mem: pil-gpu@97715000 {
-+			reg = <0x0 0x97715000 0x0 0x2000>;
-+			no-map;
-+		};
- 	};
+@@ -19,6 +19,7 @@
+ #include <dt-bindings/power/qcom-rpmpd.h>
+ #include <dt-bindings/power/qcom,rpmhpd.h>
+ #include <dt-bindings/soc/qcom,rpmh-rsc.h>
++#include <dt-bindings/thermal/thermal.h>
  
- 	soc: soc@0 {
-@@ -1830,6 +1835,111 @@ data-pins {
+ / {
+ 	interrupt-parent = <&intc>;
+@@ -4968,12 +4969,25 @@ gpu-thermal {
+ 			thermal-sensors = <&tsens0 9>;
+ 
+ 			trips {
++				gpu_alert0: trip-point0 {
++					temperature = <105000>;
++					hysteresis = <5000>;
++					type = "passive";
++				};
++
+ 				gpu-critical {
+ 					temperature = <115000>;
+ 					hysteresis = <1000>;
+ 					type = "critical";
+ 				};
  			};
++
++			cooling-maps {
++				map0 {
++					trip = <&gpu_alert0>;
++					cooling-device = <&gpu THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
++				};
++			};
  		};
  
-+		gpu: gpu@5000000 {
-+			compatible = "qcom,adreno-612.0", "qcom,adreno";
-+			reg = <0x0 0x05000000 0x0 0x40000>,
-+			      <0x0 0x0509e000 0x0 0x1000>,
-+			      <0x0 0x05061000 0x0 0x800>;
-+			reg-names = "kgsl_3d0_reg_memory",
-+				    "cx_mem",
-+				    "cx_dbgc";
-+
-+			clocks = <&gpucc GPU_CC_GX_GFX3D_CLK>;
-+			clock-names = "core";
-+
-+			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH 0>;
-+
-+			interconnects = <&gem_noc MASTER_GFX3D QCOM_ICC_TAG_ALWAYS
-+					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
-+			interconnect-names = "gfx-mem";
-+
-+			iommus = <&adreno_smmu 0x0 0x401>;
-+
-+			operating-points-v2 = <&gpu_opp_table>;
-+			power-domains = <&rpmhpd RPMHPD_CX>;
-+
-+			qcom,gmu = <&gmu>;
-+
-+			#cooling-cells = <2>;
-+
-+			status = "disabled";
-+
-+			gpu_zap_shader: zap-shader {
-+				memory-region = <&pil_gpu_mem>;
-+			};
-+
-+			gpu_opp_table: opp-table {
-+				compatible = "operating-points-v2";
-+
-+				opp-845000000 {
-+					opp-hz = /bits/ 64 <845000000>;
-+					required-opps = <&rpmhpd_opp_turbo>;
-+					opp-peak-kBps = <7050000>;
-+				};
-+
-+				opp-745000000 {
-+					opp-hz = /bits/ 64 <745000000>;
-+					required-opps = <&rpmhpd_opp_nom_l1>;
-+					opp-peak-kBps = <6075000>;
-+				};
-+
-+				opp-650000000 {
-+					opp-hz = /bits/ 64 <650000000>;
-+					required-opps = <&rpmhpd_opp_nom>;
-+					opp-peak-kBps = <5287500>;
-+				};
-+
-+				opp-500000000 {
-+					opp-hz = /bits/ 64 <500000000>;
-+					required-opps = <&rpmhpd_opp_svs_l1>;
-+					opp-peak-kBps = <3975000>;
-+				};
-+
-+				opp-435000000 {
-+					opp-hz = /bits/ 64 <435000000>;
-+					required-opps = <&rpmhpd_opp_svs>;
-+					opp-peak-kBps = <3000000>;
-+				};
-+			};
-+		};
-+
-+		gmu: gmu@506a000 {
-+			compatible = "qcom,adreno-rgmu-612.0", "qcom,adreno-rgmu";
-+			reg = <0x0 0x0506d000 0x0 0x2c000>;
-+
-+			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
-+				 <&gpucc GPU_CC_CXO_CLK>,
-+				 <&gcc GCC_DDRSS_GPU_AXI_CLK>,
-+				 <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-+				 <&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>;
-+			clock-names = "gmu",
-+				      "cxo",
-+				      "axi",
-+				      "memnoc",
-+				      "smmu_vote";
-+
-+			power-domains = <&gpucc CX_GDSC>,
-+					<&gpucc GX_GDSC>;
-+			power-domain-names = "cx",
-+					     "gx";
-+
-+			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH 0>,
-+				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH 0>;
-+			interrupt-names = "oob",
-+					  "gmu";
-+
-+			operating-points-v2 = <&gmu_opp_table>;
-+
-+			gmu_opp_table: opp-table {
-+				compatible = "operating-points-v2";
-+
-+				opp-200000000 {
-+					opp-hz = /bits/ 64 <200000000>;
-+					required-opps = <&rpmhpd_opp_low_svs>;
-+				};
-+			};
-+		};
-+
- 		gpucc: clock-controller@5090000 {
- 			compatible = "qcom,qcs615-gpucc";
- 			reg = <0 0x05090000 0 0x9000>;
+ 		q6-hvx-thermal {
 
 -- 
 2.51.0
