@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YSZEN/Ofb2k1KAAAu9opvQ
+	id B96yOPOfb2k2KAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
 	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 16:32:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58700461D3
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB5F461DE
 	for <lists+dri-devel@lfdr.de>; Tue, 20 Jan 2026 16:32:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4490A10E5C6;
-	Tue, 20 Jan 2026 11:33:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FDD310E5C8;
+	Tue, 20 Jan 2026 11:33:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fF+N8SoI";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k9On2HK6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1343610E5C4;
- Tue, 20 Jan 2026 11:33:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FAB810E5C7;
+ Tue, 20 Jan 2026 11:33:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768908831; x=1800444831;
+ t=1768908833; x=1800444833;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=obiA0RdxAzzBdnYWKJjLTKVGGmDVgD8345kRpekIAe8=;
- b=fF+N8SoIi20nrlDw/RdCZAL0sHsLN7PVZOYRrWcpSnoLpO99HKJ1aWim
- 2sBAMH1EETwDQj+Mo2pkF4Osu2ONiVDIiukoVdTopvdJ5epGWZgcJAjNS
- FzJTmEFhUc8V2ZtqpHJpBLbSOKTTUy2LO1OcN1811NYN8QmjmaXaEd1mY
- C633WpaVlqoW1VhufOcRIDblJiwqG3oEVq1GvDdWywAbJMHX2JGR80/e9
- LU7rGDxiVtrLMT8Ls5WvfUj4Lmdgsf78QXmn7yxN5i8AYi3xTc7fB9jQB
- im33lSEq4G1Y/rgLO1yABznCVYbGvMZZ1UCIBSvFBNWDMIj/lM3UnIFZW A==;
-X-CSE-ConnectionGUID: x+ec6O9cSpCqVionnZrPxQ==
-X-CSE-MsgGUID: dkHkj1U4TQWQJasKA0ZOGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="73969540"
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; d="scan'208";a="73969540"
+ bh=Y3LuSw09FFu0hnIG/N4ioU5Rci4nRxk89LHAlAJ7Lbo=;
+ b=k9On2HK6M0ZVvZLt8Xu5ioVLUD7h0rwth5Qoruv2/cT9ZYFqJPOvS7u3
+ IsP+vnNNebJG5Lz3bwlgW8n+3UYEyQINa/XnzFeJ/AptwxGko5Z5xfwX6
+ 4rlfo82KMGhyQR83ny3uJeqvBL1dX/eVqIlRR11o/oyiFDYlTO+KrCmmb
+ jzD0cSvqgkBjh/0OwkgCk544xYfd14xkMZ0rmD1LKR97G1czPQaiMLSx2
+ hEoPDlLonnIr0T0u5TvfaFk9WYi0Gj0CVc7a3sT9GWBphPG4gmGL2pnqi
+ Aye4050dujQrGLZsASmFQmHj7f33tkGaqWslCFiVWFphcw22kT3RnFcGy A==;
+X-CSE-ConnectionGUID: 6WA2oRY8Q2aD9hkR3VE0IQ==
+X-CSE-MsgGUID: YyCyYvCHQxWi7J5ZUQoPFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="73969543"
+X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; d="scan'208";a="73969543"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2026 03:33:51 -0800
-X-CSE-ConnectionGUID: Cg2fbXg7TNiYH0OMXPQozA==
-X-CSE-MsgGUID: SEMddDTXTa2O0MmKSX9Dug==
+ 20 Jan 2026 03:33:53 -0800
+X-CSE-ConnectionGUID: 9goTH4RDQnWSHxuFhzuzrg==
+X-CSE-MsgGUID: usjcfKBDQw6nkspDFMHrEQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; d="scan'208";a="206449910"
+X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; d="scan'208";a="206449914"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO fedora)
  ([10.245.244.250])
  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2026 03:33:48 -0800
+ 20 Jan 2026 03:33:51 -0800
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  Matthew Auld <matthew.auld@intel.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- Dafna Hirschfeld <dafna.hirschfeld@intel.com>,
  Matthew Brost <matthew.brost@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org
-Subject: [PATCH 1/2] drm,
- drm/xe: Fix xe userptr in the absence of CONFIG_DEVICE_PRIVATE
-Date: Tue, 20 Jan 2026 12:33:21 +0100
-Message-ID: <20260120113322.97654-2-thomas.hellstrom@linux.intel.com>
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org
+Subject: [PATCH 2/2] drm/xe: Select CONFIG_DEVICE_PRIVATE when DRM_XE_GPUSVM
+ is selected
+Date: Tue, 20 Jan 2026 12:33:22 +0100
+Message-ID: <20260120113322.97654-3-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260120113322.97654-1-thomas.hellstrom@linux.intel.com>
 References: <20260120113322.97654-1-thomas.hellstrom@linux.intel.com>
@@ -80,7 +77,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Rspamd-Queue-Id: 58700461D3
+X-Rspamd-Queue-Id: 7EB5F461DE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.31 / 15.00];
@@ -94,75 +91,52 @@ X-Spamd-Result: default: False [-0.31 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[131.252.210.177:from];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RBL_SENDERSCORE_REPUT_BLOCKED(0.00)[131.252.210.177:from];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[131.252.210.177:from];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DNSWL_BLOCKED(0.00)[198.175.65.14:received,131.252.210.177:from,10.60.135.150:received];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:email,intel.com:dkim];
+	DKIM_TRACE(0.00)[intel.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DNSWL_BLOCKED(0.00)[10.60.135.150:received,131.252.210.177:from,198.175.65.14:received];
 	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
+	RCPT_COUNT_FIVE(0.00)[6];
 	DWL_DNSWL_BLOCKED(0.00)[intel.com:dkim];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[10.60.135.150:received];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:email,intel.com:dkim]
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[10.60.135.150:received];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RBL_SENDERSCORE_REPUT_BLOCKED(0.00)[131.252.210.177:from]
 
-CONFIG_DEVICE_PRIVATE is not selected by default by some distros,
-for example Fedora, and that leads to a regression in the xe driver
-since userptr support gets compiled out.
+CONFIG_DEVICE_PRIVATE is a prerequisite for DRM_XE_GPUSVM.
+Explicitly select it so that DRM_XE_GPUSVM is not unintentionally
+left out from distro configs not explicitly enabling
+CONFIG_DEVICE_PRIVATE.
 
-It turns out that DRM_GPUSVM, which is needed for xe userptr support
-compiles also without CONFIG_DEVICE_PRIVATE, so remove that
-dependency from CONFIG_DRM_GPUSVM and the xe driver's selection of
-it, re-enabling xe userptr for those configs.
-
-Fixes: 9e9787414882 ("drm/xe/userptr: replace xe_hmm with gpusvm")
 Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Dafna Hirschfeld <dafna.hirschfeld@intel.com>
 Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
 Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.18+
+Cc: <dri-devel@lists.freedesktop.org>
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/Kconfig    | 2 +-
  drivers/gpu/drm/xe/Kconfig | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index a33b90251530..d3d52310c9cc 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -210,7 +210,7 @@ config DRM_GPUVM
- 
- config DRM_GPUSVM
- 	tristate
--	depends on DRM && DEVICE_PRIVATE
-+	depends on DRM
- 	select HMM_MIRROR
- 	select MMU_NOTIFIER
- 	help
 diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
-index 4b288eb3f5b0..c34be1be155b 100644
+index c34be1be155b..c510f47f7a16 100644
 --- a/drivers/gpu/drm/xe/Kconfig
 +++ b/drivers/gpu/drm/xe/Kconfig
-@@ -39,7 +39,7 @@ config DRM_XE
- 	select DRM_TTM
- 	select DRM_TTM_HELPER
- 	select DRM_EXEC
--	select DRM_GPUSVM if !UML && DEVICE_PRIVATE
-+	select DRM_GPUSVM if !UML
- 	select DRM_GPUVM
- 	select DRM_SCHED
- 	select MMU_NOTIFIER
+@@ -80,8 +80,8 @@ config DRM_XE_GPUSVM
+ 	bool "Enable CPU to GPU address mirroring"
+ 	depends on DRM_XE
+ 	depends on !UML
+-	depends on DEVICE_PRIVATE
+ 	default y
++	select DEVICE_PRIVATE
+ 	select DRM_GPUSVM
+ 	help
+ 	  Enable this option if you want support for CPU to GPU address
 -- 
 2.52.0
 
