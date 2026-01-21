@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GGw/I7FecWnLGAAAu9opvQ
+	id AKXCJLJecWnLGAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 00:18:09 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 00:18:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 625625F65A
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 00:18:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B3275F662
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 00:18:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9788210E8B2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id F328810E8B4;
 	Wed, 21 Jan 2026 23:18:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="KDlAI0/N";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WJ6QRgiD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88ED510E0F4
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 23:18:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A5FB10E0F4
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 23:18:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1769037479;
- bh=IOkGky72ycSVKMWdQ5+E2JdTAcFkDJyoVCA3jgsd9d8=;
+ s=mail; t=1769037480;
+ bh=ZGveAJqQ1k88TxxI0g8RwTFg9n7mNfsWZAYPcfS1bz4=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=KDlAI0/N8uL4N6MWF1dSwO221qrr991GSLn0purSrQ6KqqCqLVFzIbU/HSGfe6vXv
- imBMqqa86BOIPsT0b9DeSH3Rb2JNpeqKtzfoxhZPPDnE/GSm0YrQ++L4xmVDYMQFyw
- zBFS45utIT8b5+FRrGWrPW/EHy/Tu976Ddr1MQZlGS9+80Mp564ErDu0Iqo8qAxPF5
- uK3W85kBGm2q2EA8//FTKfalHkdeazprWOtfLtas67khUvX6okCW/56wIa4Glupr9m
- E4V8O1JIPp5UJ1a8KxTHjiMXNo/jR+oHLmdnl/3c6nyrPLX4riRJH+Ss2lNH2iJMMM
- 6xGOvsi9LJGzw==
+ b=WJ6QRgiD8O9UXa2jilKWmox07w8XDr7bvSekiYTHeP+bt5xVeh9xcm/pqxUzf6hqx
+ 5lsDgwfomETZtOcUEO2kQanIXWMJZTaYQgBDaJ5a+eyZH0HM9Nui6BxAxpkffsSdli
+ LY2kv2gqzszW2zjHaKONXaRYBE6RaGW4O/eg3+HSq3WOrRBiwU8QM2qyPyl9IK0v8O
+ avC+yXLgL3/942pQxDvZybKF0t5SjPFyZKuXgdgOC1Gwcjs08XDaJNlTq2DKJ1XrEq
+ +aQWFsZ5BCxbkxpone/rVOPpocxETajnPzL2OeVWhkc6ZeVqo7wI8VsBtXXlE55RON
+ 2t82DV2e1QuoQ==
 Received: from localhost (unknown [82.79.138.145])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 102E717E138B;
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id D3B5517E139F;
  Thu, 22 Jan 2026 00:17:59 +0100 (CET)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Thu, 22 Jan 2026 01:17:35 +0200
-Subject: [PATCH 2/6] drm/rockchip: dw_dp: Switch to drmm_kzalloc()
+Date: Thu, 22 Jan 2026 01:17:36 +0200
+Subject: [PATCH 3/6] drm/rockchip: dw_dp: Fix null-ptr-deref in dw_dp_remove()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260122-drm-rk-fixes-v1-2-3942f185750e@collabora.com>
+Message-Id: <20260122-drm-rk-fixes-v1-3-3942f185750e@collabora.com>
 References: <20260122-drm-rk-fixes-v1-0-3942f185750e@collabora.com>
 In-Reply-To: <20260122-drm-rk-fixes-v1-0-3942f185750e@collabora.com>
 To: Sandy Huang <hjc@rock-chips.com>, 
@@ -105,55 +105,43 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,collabora.com:dkim,collabora.com:mid]
-X-Rspamd-Queue-Id: 625625F65A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,collabora.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 6B3275F662
 X-Rspamd-Action: no action
 
-Driver makes use of drmm_encoder_init() to initialize the encoder and
-automatically handle the cleanup by registering drm_encoder_cleanup()
-with drmm_add_action().
+Attempting to access driver data in the platform driver ->remove()
+callback may lead to a null pointer dereference since there is no
+guaranty that the component ->bind() callback invoking
+platform_set_drvdata() was executed.
 
-However, the internal structure containing the encoder part gets
-allocated with devm_kzalloc(), which happens while component_bind_all()
-is being called from Rockchip DRM driver.  The component framework
-further ensures it is deallocated as part of releasing all the resources
-claimed during bind, which is triggered from component_unbind_all().
+A common scenario is when Rockchip DRM driver didn't manage to run
+component_bind_all() because of an (unrelated) error causing early
+return from rockchip_drm_bind().
 
-When the reference to the DRM device gets eventually dropped via
-drm_dev_put() in rockchip_drm_unbind(), drmm_encoder_alloc_release()
-attempts to access the now released encoder structure, leading to
-use-after-free.
-
-Ensure driver's internal structure is still reachable on encoder cleanup
-by switching from a device-managed allocation to a drm-managed one.
+Drop the unnecessary call to platform_get_drvdata() and, instead,
+reference the target device structure via platform_device.
 
 Fixes: d68ba7bac955 ("drm/rockchip: Add RK3588 DPTX output support")
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/rockchip/dw_dp-rockchip.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/rockchip/dw_dp-rockchip.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/dw_dp-rockchip.c b/drivers/gpu/drm/rockchip/dw_dp-rockchip.c
-index 25ab4e46301e..98d97e0f3cf4 100644
+index 98d97e0f3cf4..6d57e1c74627 100644
 --- a/drivers/gpu/drm/rockchip/dw_dp-rockchip.c
 +++ b/drivers/gpu/drm/rockchip/dw_dp-rockchip.c
-@@ -13,6 +13,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_bridge_connector.h>
-+#include <drm/drm_managed.h>
- #include <drm/drm_of.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
-@@ -82,7 +83,7 @@ static int dw_dp_rockchip_bind(struct device *dev, struct device *master, void *
- 	struct drm_connector *connector;
- 	int ret;
+@@ -130,9 +130,7 @@ static int dw_dp_probe(struct platform_device *pdev)
  
--	dp = devm_kzalloc(dev, sizeof(*dp), GFP_KERNEL);
-+	dp = drmm_kzalloc(drm_dev, sizeof(*dp), GFP_KERNEL);
- 	if (!dp)
- 		return -ENOMEM;
+ static void dw_dp_remove(struct platform_device *pdev)
+ {
+-	struct rockchip_dw_dp *dp = platform_get_drvdata(pdev);
+-
+-	component_del(dp->dev, &dw_dp_rockchip_component_ops);
++	component_del(&pdev->dev, &dw_dp_rockchip_component_ops);
+ }
  
+ static const struct of_device_id dw_dp_of_match[] = {
 
 -- 
 2.52.0
