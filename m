@@ -2,74 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MK83EX+icGlyYgAAu9opvQ
+	id 2NNzIZijcGlyYgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 10:55:11 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 10:59:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E748954C09
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 10:55:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3963B54D05
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 10:59:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F243C10E730;
-	Wed, 21 Jan 2026 09:55:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A336D10E739;
+	Wed, 21 Jan 2026 09:59:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="DM1Fq1jx";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="gTz7XHKu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com
- (mail-centralusazon11010028.outbound.protection.outlook.com [52.101.61.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43CF810E166;
- Wed, 21 Jan 2026 09:55:05 +0000 (UTC)
+Received: from SN4PR0501CU005.outbound.protection.outlook.com
+ (mail-southcentralusazon11011063.outbound.protection.outlook.com
+ [40.93.194.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AF5D10E734;
+ Wed, 21 Jan 2026 09:59:47 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hSh8BgZXfzA1K+hOWPVPtCXknXs2aHe31UwViPGmJNXKMVA0iBjmO21ZfOOKxi1sdmllVXj/UjploiqFJEgt/SluTztictcolIPCCikPzfZmuyvtZO0iEEoBjjJjfXGRJAsk+S4LK9lJcot9j1zuCmd0t7w33ZypxH71/8CNXujBAz7stw8E8JQTcQE3eRwuprRyGBLL15ddpccRJ6rxz1GGLipAk/lHq8ssRxYrGeUXdIPj8rvO+rea9sDUJPpUz9rt5Z4Lbwfm48lmBTyulsuFismEYcJv7Lblmbz3TxuTtWBemB1PVCp2SirIT5TlUqsQ73tYSNa1SZaMI33jJw==
+ b=gHr9bOGGqolEc/TlZ9Jp9vFs6/mLwl4o9EEaKHHpalkoLLaKPCon0AuLkxsyq+6Z7HG7VPCZWwCewkf8J7qEWhJ6dCHoVR7NK7zqbaQstHpKraNmUINCvczSnbi2UW6KxY7VvoW9vt5D2NifdKxq5Lu4LD+Ht4vNXIlj/TDmm9DTVcx24AZHQ4YotuUIE/fi1FwUWaKu1R5zPCnTWBgmRyM/AouJekgl7FnqXf0roEmw2vMXU5ioGPM0Wt8xIE9vUfWSyj9UNczXLTsGvozDwpSPMC3gIR0oZwss42O1ehpgBYuPIMAyL4ZHtxM1WpRG4VZOpCpR8fahYEqGnU8JZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nfjaO8rLX6OnscGNkcc9LBgeJjOZ4fSgjTrxS/oKuHw=;
- b=c7xbIKfsvmte5GloY8NOWIA+wypqVUZTVy0Tp+qf/n5Ln07hVKNLvMGnqQuDF/qCL5byt/atmUm1VCRJ8dT/Rh+YIh0bFsRi2W5J8sqka9oXvAJpZxF4BiHtBR6yFlfn+lI1UaI3j1zv6EXNOOgfyyLiP9L13UaIO6Igoib3Kl1z2o5D7BxTSB3AjU9SrAz6qHtLTMCYIekmy4OUbhwygzGpQAuOH7SUrBFPUSFa5IDvVk3v8XDv/Gra/mtzyxN+ccIuTkgt4xYHPlajG53UufJaMrHpCzlHS257OkFscHun07F0nXlj6RBsI74MRT0MQGzpKb/xOVpau0DzHoCZZA==
+ bh=5BhLejjHzebkpeBB918wFBlMp1KJz6gj6pkiO9mSWBA=;
+ b=ORjMFno5zFs5oCPg0yM8seOe2QFWiO02ROAAtv12FN4PP0p0QFAhwpt5tvhq7n4OdPOmzFqBUCeByTP6XTZV537zhSLb3NvL7ASG1kpSf3CQB1X+hOL/ckUB9ygER07AeE3Q38pdC+/OIltoV1XFOzWzuf1wngSNoAUQhHQHcexo03ZfR3YIvRJYT6JbFpSK7Q+yeRzVEeisMmxNtS/s+fw6iswA5VwELE7RQ+Vqctahz4eHK6AETf4pjNtbBpBVZlslmPJ6PPcjqRZfOHJIC1FDkBmuUxdxz6eJKmoHdCXghSpNuzNqc4sx6bvw8rIkI/WJ+omgc0OQgICswaUP3g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=protonmail.com smtp.mailfrom=nvidia.com;
+ 216.228.117.160) smtp.rcpttodomain=protonmail.com smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nfjaO8rLX6OnscGNkcc9LBgeJjOZ4fSgjTrxS/oKuHw=;
- b=DM1Fq1jxvgX2xfmIwtQPWQk0dTp2rckEUhYwVvw+B1YACffrS/nALeU1GcETff5Uyj4TJnKu8ojV9n5UZpzP8opiezAnAvoqFj2lET8fXc5dRb6UGaOuvrkP7FQQ10mE8p+mwMgimlw78oxTDaibXVYtT9iGWQ4Hm0+Ib80Pz6ds30zQLup3cHSWntGvUUw/9NMObQWhajojlKd4ZwpqR4Czky5j7FzmDxWcRhrhrQCgWOFS3xc99h4QzrAzjjDrzUHSDwdTsl7PVmxFNBoNksmh4QSNmPWmZoiy3LgUrLWJN22XtHgtLLx+gMXLPEQ+c59Z8jZDF6dB2y3zr5ULdQ==
-Received: from SJ0PR03CA0288.namprd03.prod.outlook.com (2603:10b6:a03:39e::23)
- by CH3PR12MB8658.namprd12.prod.outlook.com (2603:10b6:610:175::8)
- with Microsoft SMTP Server (version=TLS1_2,
+ bh=5BhLejjHzebkpeBB918wFBlMp1KJz6gj6pkiO9mSWBA=;
+ b=gTz7XHKud6iu0rN+ZEwTP7Dpj7ViBD+Ef6V+37mX2XmEou72Ns2igUjSjGDJozX0DCOHiC/Y67cuKNqMaDXhicf/wuEOzMoHNux5yn+DwKEfcmnrHeUEPyalXsaKwjr0txZJz5ro9c3mmc42gSshZHlXNY45PeOUBf7FsbSEGYPhD1JLnCJO+A5KY9AwnVLq2Dcjp4BI+DxPziNGnO/9Rj6fMZXJfvds0CIxKmhErLtFOapyDbDQfVW5WdNvbEe7vuk3+1nM1baou17/XmpfaPoFoJQkptKF39RxuJCcaPviT0u2nmeoaA4iCsUCyTbpPyWKiZ722e1G52Rruqsxpw==
+Received: from PH7PR02CA0012.namprd02.prod.outlook.com (2603:10b6:510:33d::12)
+ by DS2PR12MB9775.namprd12.prod.outlook.com (2603:10b6:8:2bb::13) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Wed, 21 Jan
- 2026 09:55:01 +0000
-Received: from MWH0EPF000989E7.namprd02.prod.outlook.com
- (2603:10b6:a03:39e:cafe::62) by SJ0PR03CA0288.outlook.office365.com
- (2603:10b6:a03:39e::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.9 via Frontend Transport; Wed,
- 21 Jan 2026 09:54:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ 2026 09:59:43 +0000
+Received: from SN1PEPF0002BA4E.namprd03.prod.outlook.com
+ (2603:10b6:510:33d:cafe::7e) by PH7PR02CA0012.outlook.office365.com
+ (2603:10b6:510:33d::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.10 via Frontend Transport; Wed,
+ 21 Jan 2026 09:59:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
  smtp.mailfrom=nvidia.com;
  dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- MWH0EPF000989E7.mail.protection.outlook.com (10.167.241.134) with Microsoft
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ SN1PEPF0002BA4E.mail.protection.outlook.com (10.167.242.71) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9542.4 via Frontend Transport; Wed, 21 Jan 2026 09:55:00 +0000
-Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.9542.4 via Frontend Transport; Wed, 21 Jan 2026 09:59:42 +0000
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 21 Jan
- 2026 01:54:47 -0800
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.20; Wed, 21 Jan 2026 01:54:46 -0800
+ 2026 01:59:28 -0800
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail205.nvidia.com
+ (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 21 Jan
+ 2026 01:59:28 -0800
 Received: from inno-thin-client (10.127.8.10) by mail.nvidia.com
- (10.126.190.181) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
- Transport; Wed, 21 Jan 2026 01:54:37 -0800
-Date: Wed, 21 Jan 2026 11:54:36 +0200
+ (10.129.68.10) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Wed, 21 Jan 2026 01:59:18 -0800
+Date: Wed, 21 Jan 2026 11:59:17 +0200
 From: Zhi Wang <zhiw@nvidia.com>
 To: Joel Fernandes <joelagnelf@nvidia.com>
 CC: <linux-kernel@vger.kernel.org>, Maarten Lankhorst
@@ -97,12 +98,11 @@ CC: <linux-kernel@vger.kernel.org>, Maarten Lankhorst
  <linux-doc@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
  <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
  <linux-fbdev@vger.kernel.org>
-Subject: Re: [PATCH RFC v6 13/26] nova-core: mm: Add unified page table
- entry wrapper enums
-Message-ID: <20260121115436.45e174d3.zhiw@nvidia.com>
-In-Reply-To: <20260120204303.3229303-14-joelagnelf@nvidia.com>
+Subject: Re: [PATCH RFC v6 14/26] nova-core: mm: Add TLB flush support
+Message-ID: <20260121115917.73cfcc7f.zhiw@nvidia.com>
+In-Reply-To: <20260120204303.3229303-15-joelagnelf@nvidia.com>
 References: <20260120204303.3229303-1-joelagnelf@nvidia.com>
- <20260120204303.3229303-14-joelagnelf@nvidia.com>
+ <20260120204303.3229303-15-joelagnelf@nvidia.com>
 Organization: NVIDIA
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
@@ -111,55 +111,55 @@ Content-Transfer-Encoding: 7bit
 X-NV-OnPremToCloud: ExternallySecured
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000989E7:EE_|CH3PR12MB8658:EE_
-X-MS-Office365-Filtering-Correlation-Id: 13692daa-06af-4a4b-a34a-08de58d32486
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA4E:EE_|DS2PR12MB9775:EE_
+X-MS-Office365-Filtering-Correlation-Id: fee268b6-aaa7-43e4-d889-08de58d3cc6a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|82310400026|376014|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?BfFD3JixCOQrWeO3dToJjYMBti1Mba6PdFGRHDccfZwBAGCuvTmfC0B6o6E9?=
- =?us-ascii?Q?aLr4CRAXDjQWgJKXlzmPqghHsyAqgz/pH20xzV1NVI8K5K2+rWBoqxOcGfd8?=
- =?us-ascii?Q?BCBLGx/7CA9PEi9cpC39LA7vhkQwVgDl/QgNd4nH27trSuXZkaQ6pNAooNHL?=
- =?us-ascii?Q?iDbjjfUIWBLxb8nNUBuE6c5rRRBqAVlYhjLYduLjE4hiXIJNqzmb9Y4GBUb3?=
- =?us-ascii?Q?boEcNwnFXXm3sKU6yUzWgOI+Zhpy+aHjjiqknPc05ATuDgaodQc38JLZR/KM?=
- =?us-ascii?Q?iGwOpgIUyqjsmhKp8nVvNKsAh9ZxoBSmvn5bxeHsAFu/9b7GFQHf1WiGkcrE?=
- =?us-ascii?Q?CE996EJAg0khnZfBz1nTQeHrygQIixqIRjfJEPyyngI0fYZkAz+hghsfM5pV?=
- =?us-ascii?Q?MHvchPd18bJE9LVx91VJPzK+w2z5pnEbgacIiP+YKI4d9S5ckQO1BPVKfAlm?=
- =?us-ascii?Q?rXlPr0+mZtvGIev263eyoTBEcSmDkjcIANsbEotpA0dDSBXxsk9ecf5zG8ux?=
- =?us-ascii?Q?+A9B4jnF/SlWWNeebTAKlgbV9wcM3RO3ATXte4nI2DEeMKhlu3/o8eG6gpqa?=
- =?us-ascii?Q?izvIKyI6sxCrLZsnjeNsxJEUb9utqQmpa8h7jNXEH57o5XCnWccKvR8oZmHQ?=
- =?us-ascii?Q?lSHuGDVNtOGtB5Lmv9PSJYEtcOGWPyJ6zNWSamm3yt/ASxpmQffQ2SwWc0XI?=
- =?us-ascii?Q?dZAaLXAfni7Wd+FM1pivKysOMX7i9AXYvg6js8wNlYwzMoxFaxMQVzBoo8nW?=
- =?us-ascii?Q?ELM8SUTO/50GIh7RnLJ1vo5LdWVF2opqZtoYi2upOJIKBOO9tKpdmhFj6ccA?=
- =?us-ascii?Q?FLOh/TUEBvYAQzUar+kmaemFgQMTactA5oGsSgwdghnslF2pR8NTaqTTwdVF?=
- =?us-ascii?Q?H3cqqrmSVh0slWTRQB347oGmmbcWEiZloJikmCrBXhMkHV6y40ZFN+f0iUFC?=
- =?us-ascii?Q?rgjRZSgEhSb9dLwLf+8hzGKv7LesCJAObidAe5btUSu1IxRpvCx8hBZ9SMbv?=
- =?us-ascii?Q?LiY8rYmDhAg53DpBgWMlQZyU84RiYHbJT1X9QVxTMYSsTZlViAO/Sf91B3Tz?=
- =?us-ascii?Q?N+mGleW56le7lvWa6k0lGXfstTsCmgHYYlDSqKhPEG6ctGVyrkzQMZ3aMkWl?=
- =?us-ascii?Q?WBp6yyYrnOKKqtqvla0mf07ETkxnkm4FouxWqqwbbHLEbxRw7r4WdAMtWU61?=
- =?us-ascii?Q?Mb5Qqc8FG9dMBZZslyVBmTB4JrCus33ng+lsfu2vFdRcpIC8Pq+S8hN0WE6L?=
- =?us-ascii?Q?b5+hRkJJYxkHMrcDN25z3Bzu4zeUIYeOLyQd2L0QpJ5vFPPfWiAvVM//eJWl?=
- =?us-ascii?Q?t0mahh0a9tijJTH1Hsv3gT3poRjdXMMf1yfvaq9k4M5R7FYc4OzLZp3xXVkM?=
- =?us-ascii?Q?PYU7/H+Of7sC+stbFAV7GVi6I/Gh6fYWeBVFknofB+EF+QsgnHECuiXB1TiP?=
- =?us-ascii?Q?QsfIfVB8UrXtUCxigTbGikiDpp1GDqVgfPzf3XXavCq0IRmIyV7LNOCn40aj?=
- =?us-ascii?Q?hJ+ak9vS180fhD7AqIilrgZiNWJpQcFTiloJvMyokORSW+YBsD7ZA+8zLEKL?=
- =?us-ascii?Q?lMKuECOiDCIV2wVTpzaXFQT7mae04T+J8EwUMQl78TajBOpmGns9Leu1FNdP?=
- =?us-ascii?Q?Cmkfe+4LCFbW2TkRRz85i7GrrEYVdODR9fjRVpnqWcIG/H05GZV+ZOQZyuvj?=
- =?us-ascii?Q?tLF6Mg=3D=3D?=
-X-Forefront-Antispam-Report: CIP:216.228.118.233; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc7edge2.nvidia.com; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(82310400026)(376014)(36860700013); DIR:OUT;
+ ARA:13230040|7416014|376014|36860700013|82310400026|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?vxRT2M8s9l+u73JAASCw8kiQYktLr2/PLsIvrTlM0RLjsFEhMA9JktuUxY+O?=
+ =?us-ascii?Q?uKdX13iCDnd06e0Lhk8Jmqe8zErgn4o8Ey6bNejovc7rTsckaOCvTdinfKri?=
+ =?us-ascii?Q?KozYCPPrnGEZGR5FjoSOTKEKVsHVU2oWmZKWGJ2zmzxI2AoRfVjzsxLH+EK/?=
+ =?us-ascii?Q?nKCUmYg/gq/y75nEJR6QtLjQW4WIZoEamUZD4yB8xLQWo0fSztsoVdkLaE2L?=
+ =?us-ascii?Q?r2phLrkP4izO7c4ss9LuBSgzISwY/jaVnaBDGEwMFhfLb5Df6ghOVYDE3vqI?=
+ =?us-ascii?Q?2yOQ4kfVu54EGhKURuWfwLEoqFUHzkFnhGEbSUqtzHWh2bWn+YaQpalMkRQr?=
+ =?us-ascii?Q?yGman1io6IeBTrrkn6Rw2OPY1XclnuZningACB4zeBvWIGNYdszMitHEkkNo?=
+ =?us-ascii?Q?BFu+ucIKnw8Wx53KyEi1Zqb1VSCtLOc7FNdkSzJIll0XzdwLxONHkJ2jE06N?=
+ =?us-ascii?Q?v6obM/EQJHzo3BZJmkGkxTNKmGhCd6qVwnHpbDA+1Q7+as66OBuEHNYMtCJJ?=
+ =?us-ascii?Q?2K1wCDjW6M6s2VfKTdAyWbADcl1X8FW8L0Crtfi0HEFh1T3lLPGaQA0q77vA?=
+ =?us-ascii?Q?i7dijOJGP2M/9zvUy5kIfnRqv8zWumJQVGQVpTlClS3n32srJfEhAhwhYxh/?=
+ =?us-ascii?Q?ikvwMEgph4Ne+Uo5J4pH0daPouIL5n2n0jZLExJvAUSBKobyINznD3c3HK78?=
+ =?us-ascii?Q?oSShYo8grYtcVjsuz8CPiKAu7tYJvxOGKFfvRGgW/3HGn0A4BwJlN91BF6bp?=
+ =?us-ascii?Q?6y1/S8eIjSDpvO+x39DF+DromnKt/zJHcLFN/EydO8axhusGRMh93zNe+cXz?=
+ =?us-ascii?Q?3Vxa/wGUcu4DMz+Z4kykHwNUI9zWhs5wu1XS2sjvYhcRZ47iyhb0i/z8vltC?=
+ =?us-ascii?Q?/vbhnHSWQWKThvheh2Cv9YWh/kfxLIqYl1X4/QP45OPVfpTdQ2SdwuYheIrH?=
+ =?us-ascii?Q?HOitbiI9vqedoPXQOBNUmKFCyrmlODRESdz+ICfaf3zaL0D+YuA+RGiNs4YN?=
+ =?us-ascii?Q?D34zROGPD7aZJyFsh4xw+Xo+fAJ69ISu/j+m+iVFuDx8JXhJC7nlqT+K8NS7?=
+ =?us-ascii?Q?4rFtumBQl+zICbIkWwZFS95l4olhtM27BTNM9FAliPxheDza6r7/hiynbkjV?=
+ =?us-ascii?Q?AfAPgGtKMgXNbbi6ivxZ6QMJABVsqoIBTHsZkMjm1A30EYX0RncXJEUyUCtI?=
+ =?us-ascii?Q?0NPAlsobzCPZe3iGcJAHaSv2OFs9kkLd4TLxqQn4XyzOAfIDN6mC8WJXDsLA?=
+ =?us-ascii?Q?9/TBpCBGbdRvg2uI57MmSPXns9JBMZk4w9pzzukxE1tAPjIx3gZs4r7rF8++?=
+ =?us-ascii?Q?96GpYjsrESddClZf9ADVLU7mYYS9U+Hq0O8wLvFXfmsAQmHDLDxTOcFbcIhM?=
+ =?us-ascii?Q?dSfcmIf4YKPkOFicTOWBmvVndiL27G1YA+vvTog/WNc0WlrrIpNb4YlrRVTF?=
+ =?us-ascii?Q?/VD8SG+oyB55yZnjVc2Y51bau1IGUVVvKqcwDydnEAR/7506digH6UAjgLbO?=
+ =?us-ascii?Q?JfjpyWfs3N0x+bBdZEPhmkmyA4wg6yrSC1gfgD2J1CoHi5eOHjcIOyUJ4iot?=
+ =?us-ascii?Q?OuFzM1XOPNcRqDLZc4yf9CSer+upWQ5AD8aSvSkgdYy4kknoBO0QBDBVeSnZ?=
+ =?us-ascii?Q?Y+5+duURztvbkJI6zEP03cGDB5XwRdMf9Yf2pEFv8EfO7SeBnQYpbmHyX9qB?=
+ =?us-ascii?Q?k/FCmQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(36860700013)(82310400026)(1800799024); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 09:55:00.6781 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13692daa-06af-4a4b-a34a-08de58d32486
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 09:59:42.3045 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fee268b6-aaa7-43e4-d889-08de58d3cc6a
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.118.233];
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000989E7.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002BA4E.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8658
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9775
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -186,7 +186,7 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,nvidia.com:email,nvidia.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,nvidia.com:email,nvidia.com:mid];
 	MIME_TRACE(0.00)[0:+];
 	HAS_ORG_HEADER(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[44];
@@ -200,76 +200,179 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	RCVD_COUNT_SEVEN(0.00)[8]
-X-Rspamd-Queue-Id: E748954C09
+X-Rspamd-Queue-Id: 3963B54D05
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, 20 Jan 2026 15:42:50 -0500
+On Tue, 20 Jan 2026 15:42:51 -0500
 Joel Fernandes <joelagnelf@nvidia.com> wrote:
-> Add unified Pte, Pde, and DualPde wrapper enums that abstract over
-> MMU v2 and v3 page table entry formats. These enums allow the page
-> table walker and VMM to work with both MMU versions.
+
+> Add TLB (Translation Lookaside Buffer) flush support for GPU MMU.
 > 
 
-snip
+The same concern as in PATCH 5, guess we need to think of concurrency for
+TLB flush.
 
-> +impl DualPde {
-> +    /// Create a [`DualPde`] from raw 128-bit value (two `u64`s) for
-> the given MMU version.
-> +    pub(crate) fn new(version: MmuVersion, big: u64, small: u64) ->
-> Self {
-> +        match version {
-> +            MmuVersion::V2 => Self::V2(ver2::DualPde::new(big, small)),
-> +            MmuVersion::V3 => Self::V3(ver3::DualPde::new(big, small)),
-> +        }
+> After modifying page table entries, the GPU's TLB must be invalidated
+> to ensure the new mappings take effect. The Tlb struct provides flush
+> functionality through BAR0 registers.
+> 
+> The flush operation writes the page directory base address and triggers
+> an invalidation, polling for completion with a 2 second timeout matching
+> the Nouveau driver.
+> 
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+> ---
+>  drivers/gpu/nova-core/mm/mod.rs |  1 +
+>  drivers/gpu/nova-core/mm/tlb.rs | 79 +++++++++++++++++++++++++++++++++
+>  drivers/gpu/nova-core/regs.rs   | 33 ++++++++++++++
+>  3 files changed, 113 insertions(+)
+>  create mode 100644 drivers/gpu/nova-core/mm/tlb.rs
+> 
+> diff --git a/drivers/gpu/nova-core/mm/mod.rs
+> b/drivers/gpu/nova-core/mm/mod.rs index 6015fc8753bc..39635f2d0156 100644
+> --- a/drivers/gpu/nova-core/mm/mod.rs
+> +++ b/drivers/gpu/nova-core/mm/mod.rs
+> @@ -6,6 +6,7 @@
+>  
+>  pub(crate) mod pagetable;
+>  pub(crate) mod pramin;
+> +pub(crate) mod tlb;
+>  
+>  use kernel::sizes::SZ_4K;
+>  
+> diff --git a/drivers/gpu/nova-core/mm/tlb.rs
+> b/drivers/gpu/nova-core/mm/tlb.rs new file mode 100644
+> index 000000000000..8b2ee620da18
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/mm/tlb.rs
+> @@ -0,0 +1,79 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +//! TLB (Translation Lookaside Buffer) flush support for GPU MMU.
+> +//!
+> +//! After modifying page table entries, the GPU's TLB must be flushed to
+> +//! ensure the new mappings take effect. This module provides TLB flush
+> +//! functionality for virtual memory managers.
+> +//!
+> +//! # Example
+> +//!
+> +//! ```ignore
+> +//! use crate::mm::tlb::Tlb;
+> +//!
+> +//! fn page_table_update(tlb: &Tlb, pdb_addr: VramAddress) ->
+> Result<()> { +//!     // ... modify page tables ...
+> +//!
+> +//!     // Flush TLB to make changes visible (polls for completion).
+> +//!     tlb.flush(pdb_addr)?;
+> +//!
+> +//!     Ok(())
+> +//! }
+> +//! ```
+> +
+> +#![allow(dead_code)]
+> +
+> +use kernel::{
+> +    devres::Devres,
+> +    io::poll::read_poll_timeout,
+> +    prelude::*,
+> +    sync::Arc,
+> +    time::Delta, //
+> +};
+> +
+> +use crate::{
+> +    driver::Bar0,
+> +    mm::VramAddress,
+> +    regs, //
+> +};
+> +
+> +/// TLB manager for GPU translation buffer operations.
+> +pub(crate) struct Tlb {
+> +    bar: Arc<Devres<Bar0>>,
+> +}
+> +
+> +impl Tlb {
+> +    /// Create a new TLB manager.
+> +    pub(super) fn new(bar: Arc<Devres<Bar0>>) -> Self {
+> +        Self { bar }
 > +    }
 > +
-> +    /// Create a [`DualPde`] with only the small page table pointer set.
-> +    pub(crate) fn new_small(version: MmuVersion, table_pfn: Pfn) ->
-> Self {
-> +        match version {
-> +            MmuVersion::V2 =>
-> Self::V2(ver2::DualPde::new_small(table_pfn)),
-> +            MmuVersion::V3 =>
-> Self::V3(ver3::DualPde::new_small(table_pfn)),
-> +        }
-> +    }
+> +    /// Flush the GPU TLB for a specific page directory base.
+> +    ///
+> +    /// This invalidates all TLB entries associated with the given PDB
+> address.
+> +    /// Must be called after modifying page table entries to ensure the
+> GPU sees
+> +    /// the updated mappings.
+> +    pub(crate) fn flush(&self, pdb_addr: VramAddress) -> Result {
+> +        let bar = self.bar.try_access().ok_or(ENODEV)?;
 > +
-> +    /// Check if the small page table pointer is valid.
-> +    pub(crate) fn has_small(&self) -> bool {
-> +        match self {
-> +            Self::V2(d) => d.has_small(),
-> +            Self::V3(d) => d.has_small(),
-> +        }
-> +    }
+> +        // Write PDB address.
 > +
-
-Should we also have a has_big here as well?
-
-Z.
-
-> +    /// Get the small page table VRAM address.
-> +    pub(crate) fn small_vram_address(&self) -> VramAddress {
-> +        match self {
-> +            Self::V2(d) => d.small.table_vram_address(),
-> +            Self::V3(d) => d.small.table_vram_address(),
-> +        }
-> +    }
+> regs::NV_TLB_FLUSH_PDB_LO::from_pdb_addr(pdb_addr.raw_u64()).write(&*bar);
 > +
-> +    /// Get the raw `u64` value of the big PDE.
-> +    pub(crate) fn big_raw_u64(&self) -> u64 {
-> +        match self {
-> +            Self::V2(d) => d.big.raw_u64(),
-> +            Self::V3(d) => d.big.raw_u64(),
-> +        }
-> +    }
+> regs::NV_TLB_FLUSH_PDB_HI::from_pdb_addr(pdb_addr.raw_u64()).write(&*bar);
 > +
-> +    /// Get the raw `u64` value of the small PDE.
-> +    pub(crate) fn small_raw_u64(&self) -> u64 {
-> +        match self {
-> +            Self::V2(d) => d.small.raw_u64(),
-> +            Self::V3(d) => d.small.raw_u64(),
-> +        }
+> +        // Trigger flush: invalidate all pages and enable.
+> +        regs::NV_TLB_FLUSH_CTRL::default()
+> +            .set_page_all(true)
+> +            .set_enable(true)
+> +            .write(&*bar);
+> +
+> +        // Poll for completion - enable bit clears when flush is done.
+> +        read_poll_timeout(
+> +            || Ok(regs::NV_TLB_FLUSH_CTRL::read(&*bar)),
+> +            |ctrl| !ctrl.enable(),
+> +            Delta::ZERO,
+> +            Delta::from_secs(2),
+> +        )?;
+> +
+> +        Ok(())
 > +    }
 > +}
+> diff --git a/drivers/gpu/nova-core/regs.rs
+> b/drivers/gpu/nova-core/regs.rs index c8b8fbdcf608..e722ef837e11 100644
+> --- a/drivers/gpu/nova-core/regs.rs
+> +++ b/drivers/gpu/nova-core/regs.rs
+> @@ -414,3 +414,36 @@ pub(crate) mod ga100 {
+>          0:0     display_disabled as bool;
+>      });
+>  }
+> +
+> +// MMU TLB
+> +
+> +register!(NV_TLB_FLUSH_PDB_LO @ 0x00b830a0, "TLB flush register: PDB
+> address bits [39:8]" {
+> +    31:0    pdb_lo as u32, "PDB address bits [39:8]";
+> +});
+> +
+> +impl NV_TLB_FLUSH_PDB_LO {
+> +    /// Create a register value from a PDB address.
+> +    ///
+> +    /// Extracts bits [39:8] of the address and shifts it right by 8
+> bits.
+> +    pub(crate) fn from_pdb_addr(addr: u64) -> Self {
+> +        Self::default().set_pdb_lo(((addr >> 8) & 0xFFFF_FFFF) as u32)
+> +    }
+> +}
+> +
+> +register!(NV_TLB_FLUSH_PDB_HI @ 0x00b830a4, "TLB flush register: PDB
+> address bits [47:40]" {
+> +    7:0     pdb_hi as u8, "PDB address bits [47:40]";
+> +});
+> +
+> +impl NV_TLB_FLUSH_PDB_HI {
+> +    /// Create a register value from a PDB address.
+> +    ///
+> +    /// Extracts bits [47:40] of the address and shifts it right by 40
+> bits.
+> +    pub(crate) fn from_pdb_addr(addr: u64) -> Self {
+> +        Self::default().set_pdb_hi(((addr >> 40) & 0xFF) as u8)
+> +    }
+> +}
+> +
+> +register!(NV_TLB_FLUSH_CTRL @ 0x00b830b0, "TLB flush control register" {
+> +    0:0     page_all as bool, "Invalidate all pages";
+> +    31:31   enable as bool, "Enable/trigger flush (clears when flush
+> completes)"; +});
 
