@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ICUTOe7YcGkOaAAAu9opvQ
+	id AGMiAvzYcGmzaQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 14:47:26 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 14:47:40 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9700E57CFB
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 14:47:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD1CA57D64
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 14:47:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9ABA10E79F;
-	Wed, 21 Jan 2026 13:47:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDBC810E7AE;
+	Wed, 21 Jan 2026 13:47:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="X7Jayk+7";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="TtLJrf6r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A1DA10E796;
- Wed, 21 Jan 2026 13:47:23 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1769003235; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FFFB10E7AA;
+ Wed, 21 Jan 2026 13:47:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1769003243; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=Lu+AsKfKZmyqT55OzrnNWflVtx+7xCzE531r6mi7jdNIinTNPK/7gCE6RU8V2+KyG1cXA/Ywp4VMfY0oW02u+VjDBtunFHQ+KkgH83udhRuw0HwLpzneFAh6Ph6RqgiTUvHkCDqJQRsC07wqkziysYoaDC9QJrq7lsIh0zZIbmY=
+ b=gQFeVGXPu322I8LHIi1pOCe3ad1SJcCenJZUSL46hUjsW5oKuMbw4F20vkxzgEuIh4C98oS8DXv+NDDF4Q1slcF10O5DyN8K3ufh5nQqk9DhBFkJnk9Nh/7/iyL5kvukJd8laomCUhKsjx8vodc9PMlKsxeJzzw0GGFJksfMYF0=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1769003235;
+ s=zohoarc; t=1769003243;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=wtYUwdUZsrNFIDbbFkRufRXGPspOM1ME+M4e+AuGxio=; 
- b=jLvSuIWInc1qA+4cTnjv3mH6SHrfOPuKhGcYrG557K8LkN3TJPAADug9nzedsCUbJn1d6XEBKp8A+BMsb00PWrdn088pvhiQKsgOEIeWOoHbv48Z9qyKlxxCNaqlPlR7FCCMZVprL/6G6PrWrhhngnD+nNiFYLIvIWmMSonmFMc=
+ bh=BVlWFy+uln/7HZGtNZyE3zWD720ugtjkEgr5dYIdu1M=; 
+ b=lINRhoScCHE3KHGvIt1Cd6JIplaBHJYwUnarjGPIuvC5NtTBWC/bssU1m9KtbINH21aovqRAVZapPos5OGzz3+/4F9DbXjPtAhUfC/SeG1OWcEQyJ47BJtuYH0mAWxXM6Pl5+3klFVZ4hsugIk84SPh2bvNFMXndcXiDpEbwte4=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769003235; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769003243; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=wtYUwdUZsrNFIDbbFkRufRXGPspOM1ME+M4e+AuGxio=;
- b=X7Jayk+79NcxtlyliGBJKVpgIl3Z4Nbam64ppzQXFFIeH32uSriJfdiceqiYCrPq
- Jut5sF6Wx+SptURMWTQ4qNWb6tXVLEmdGPBHUkhdog6Fw28jRD9JhPp9vZYKYX9ikG7
- au4cBlAjqmWd8WHxtyLeD3Lc8zvckbFIgyqXWw7s=
-Received: by mx.zohomail.com with SMTPS id 1769003234291138.5859017446502;
- Wed, 21 Jan 2026 05:47:14 -0800 (PST)
+ bh=BVlWFy+uln/7HZGtNZyE3zWD720ugtjkEgr5dYIdu1M=;
+ b=TtLJrf6r7bTGFZ2vhXnSGWhHOkZW+o0licFle6PY0o4uPFUyHqN6A/vcFoKSdedA
+ Rr/Hl0qX7PSzFAP+OnaSy0p00GIh7854Uir94eW2zt9z+E6xoyRElWn1X0tdpc8Bn3o
+ W73372c03tQ/QPkl1X9WIJLDZ6WI34fhnBnaFSlc=
+Received: by mx.zohomail.com with SMTPS id 1769003242285684.1445788059525;
+ Wed, 21 Jan 2026 05:47:22 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Wed, 21 Jan 2026 14:45:36 +0100
-Subject: [PATCH v6 10/21] drm/rockchip: vop2: Fix YUV444 output
+Date: Wed, 21 Jan 2026 14:45:37 +0100
+Subject: [PATCH v6 11/21] drm/rockchip: vop2: Add RK3576 to the RG swap
+ special case
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260121-color-format-v6-10-7b81a771cd0b@collabora.com>
+Message-Id: <20260121-color-format-v6-11-7b81a771cd0b@collabora.com>
 References: <20260121-color-format-v6-0-7b81a771cd0b@collabora.com>
 In-Reply-To: <20260121-color-format-v6-0-7b81a771cd0b@collabora.com>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
@@ -117,100 +118,36 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,collabora.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
-X-Rspamd-Queue-Id: 9700E57CFB
+X-Rspamd-Queue-Id: AD1CA57D64
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-YUV444 (aka YCbCr444) output isn't working quite right on RK3588. The
-resulting image on the display, while identifying itself as YUV444, has
-some components swapped, even after adding the necessary DRM formats to
-the conversion functions.
+Much like RK3588, RK3576 requires an RG swap to be performed for YUV444
+8-bit and YUV444 10-bit bus formats.
 
-Judging by downstream, this is because YUV444 also needs an rb swap
-performed in the AFBC case.
+Add its version to the already existing check for RK3588, so that YUV444
+output is correct on this platform.
 
-Add the DRM formats to the appropriate switch statements, and add a
-function for checking whether an rb swap needs to be performed in the
-AFBC case.
-
-Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
+Fixes: 944757a4cba6 ("drm/rockchip: vop2: Add support for rk3576")
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index ec3b4fde10db..469c63dd97d5 100644
+index 469c63dd97d5..f21efbca42e6 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -176,6 +176,7 @@ static enum vop2_data_format vop2_convert_format(u32 format)
- 	case DRM_FORMAT_ARGB2101010:
- 	case DRM_FORMAT_XBGR2101010:
- 	case DRM_FORMAT_ABGR2101010:
-+	case DRM_FORMAT_VUY101010:
- 		return VOP2_FMT_XRGB101010;
- 	case DRM_FORMAT_XRGB8888:
- 	case DRM_FORMAT_ARGB8888:
-@@ -184,6 +185,7 @@ static enum vop2_data_format vop2_convert_format(u32 format)
- 		return VOP2_FMT_ARGB8888;
- 	case DRM_FORMAT_RGB888:
- 	case DRM_FORMAT_BGR888:
-+	case DRM_FORMAT_VUY888:
- 		return VOP2_FMT_RGB888;
- 	case DRM_FORMAT_RGB565:
- 	case DRM_FORMAT_BGR565:
-@@ -225,6 +227,7 @@ static enum vop2_afbc_format vop2_convert_afbc_format(u32 format)
- 	case DRM_FORMAT_ARGB2101010:
- 	case DRM_FORMAT_XBGR2101010:
- 	case DRM_FORMAT_ABGR2101010:
-+	case DRM_FORMAT_VUY101010:
- 		return VOP2_AFBC_FMT_ARGB2101010;
- 	case DRM_FORMAT_XRGB8888:
- 	case DRM_FORMAT_ARGB8888:
-@@ -233,6 +236,7 @@ static enum vop2_afbc_format vop2_convert_afbc_format(u32 format)
- 		return VOP2_AFBC_FMT_ARGB8888;
- 	case DRM_FORMAT_RGB888:
- 	case DRM_FORMAT_BGR888:
-+	case DRM_FORMAT_VUY888:
- 		return VOP2_AFBC_FMT_RGB888;
- 	case DRM_FORMAT_RGB565:
- 	case DRM_FORMAT_BGR565:
-@@ -270,6 +274,19 @@ static bool vop2_win_rb_swap(u32 format)
- 	}
- }
+@@ -354,7 +354,8 @@ static bool vop2_output_uv_swap(u32 bus_format, u32 output_mode)
  
-+static bool vop2_afbc_rb_swap(u32 format)
-+{
-+	switch (format) {
-+	case DRM_FORMAT_NV24:
-+	case DRM_FORMAT_NV30:
-+	case DRM_FORMAT_VUY888:
-+	case DRM_FORMAT_VUY101010:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
- static bool vop2_afbc_uv_swap(u32 format)
+ static bool vop2_output_rg_swap(struct vop2 *vop2, u32 bus_format)
  {
- 	switch (format) {
-@@ -1291,6 +1308,7 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
- 		 /* It's for head stride, each head size is 16 byte */
- 		stride = ALIGN(stride, block_w) / block_w * 16;
- 
-+		rb_swap = vop2_afbc_rb_swap(fb->format->format);
- 		uv_swap = vop2_afbc_uv_swap(fb->format->format);
- 		/*
- 		 * This is a workaround for crazy IC design, Cluster
-@@ -1308,6 +1326,7 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
- 			vop2_win_write(win, VOP2_WIN_AFBC_ENABLE, 1);
- 		vop2_win_write(win, VOP2_WIN_AFBC_FORMAT, afbc_format);
- 		vop2_win_write(win, VOP2_WIN_AFBC_UV_SWAP, uv_swap);
-+		vop2_win_write(win, VOP2_WIN_AFBC_RB_SWAP, rb_swap);
- 		/*
- 		 * On rk3566/8, this bit is auto gating enable,
- 		 * but this function is not work well so we need
+-	if (vop2->version == VOP_VERSION_RK3588) {
++	if (vop2->version == VOP_VERSION_RK3588 ||
++	    vop2->version == VOP_VERSION_RK3576) {
+ 		if (bus_format == MEDIA_BUS_FMT_YUV8_1X24 ||
+ 		    bus_format == MEDIA_BUS_FMT_YUV10_1X30)
+ 			return true;
 
 -- 
 2.52.0
