@@ -2,69 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cN7mJPVZcWnLGAAAu9opvQ
+	id sHbJN6pecWnLGAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 23:57:57 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 00:18:02 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82B9A5F29B
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 23:57:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7545F63E
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 00:18:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C4BC89E69;
-	Wed, 21 Jan 2026 22:57:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7316B10E03B;
+	Wed, 21 Jan 2026 23:18:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KEAwGzlN";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="itkKlVVp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E55C089E69;
- Wed, 21 Jan 2026 22:57:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id DC8E3600C4;
- Wed, 21 Jan 2026 22:57:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CAA7C4CEF1;
- Wed, 21 Jan 2026 22:57:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769036271;
- bh=3KahvyQMN6m2mGiAUICbKR2JVY49usN2B+c0GR/EYXA=;
- h=From:Date:Subject:To:Cc:From;
- b=KEAwGzlNK0a7nJaSpxWO+kW36H80xvzX1Tsj21H/lbnQ/fq6ZGpR27oA36Sn1YSQC
- dGENScnxxCe10dCx0dA1MMSzm8MiMcDwL5pIWn1WY5YkOjLdowu84MNhrGeNOZks+C
- 4tXO/QuPE3BoVCtqfAgZSvWiDEa0cYf6LizQjC+fqGhzTvlaboQECzL21QScssJTzN
- /MO+KAiuTARekvRVzR9e82a2uDolM+l1hmYb/GKqC8VgsaYrWotVV0TBRdI13uRuNy
- iabftvW3rYO6Q2nciUf92eWkl7X4X8ER6j5uClczqthuMXc2Pm9MJwf6keeQKBm7kt
- c9OZtzaYr6eRg==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Wed, 21 Jan 2026 15:57:35 -0700
-Subject: [PATCH] drm/xe: Move _THIS_IP_ usage from xe_vm_create() to
- dedicated function
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B32910E03B
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 23:17:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1769037477;
+ bh=raKq3vJAy1xYlXJ3j4zfMGnhmo0+q4HQy4gbDp6nNys=;
+ h=From:Subject:Date:To:Cc:From;
+ b=itkKlVVpHbCYaEOsFnSkJA6SJZ5+C3VaDUkgnIYHMxONzdIJVHbyNuKLkN6tgIF0B
+ /J/SHhSIma+OYaxm2XhvKd+62Hw9v9TnSgRiwhh+QpFzKr75fqhS6nipiu1lSLL8tP
+ B4fHlvUBdmiKmtsO3G2jITrBodxwIp2aYkVIfq3Nnby3eQ32T5YxREhNANbmdwyU8S
+ CipZkkPeSgfI/mbBqut/QBxcejCSQC8O4an+3feQSvibClOtCO10yNPiWni2jn57+X
+ Zfag8JjFZnuHUpbHmGvnyp05TJv3QosdV/73CULFGrYzKcDzGiIt1vB0xtkz4DZvw/
+ SEvsWs84CyaQA==
+Received: from localhost (unknown [82.79.138.145])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 5EA3E17E0342;
+ Thu, 22 Jan 2026 00:17:57 +0100 (CET)
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: [PATCH 0/6] Rockchip DRM use-after-free & null-ptr-deref fixes
+Date: Thu, 22 Jan 2026 01:17:33 +0200
+Message-Id: <20260122-drm-rk-fixes-v1-0-3942f185750e@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260121-xe-vm-fix-clang-goto-error-v1-1-7e121d81512e@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBCF4avIrB0wEUL1KuLCxFGnVCMTFUG8e
- 8d2+fMe3wWJhClBnV0gdHDiuGiYPIMwdctIyL022MK6wliDJ+Ex48Anho/uOMYtIolEQW/LUPX
- O+8G9QIFVSH8/vGn/nXb/prA9Itz3F7T1SH5+AAAA
-X-Change-ID: 20260121-xe-vm-fix-clang-goto-error-b23c9d6bbf68
-To: Matthew Brost <matthew.brost@intel.com>, 
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Stuart Summers <stuart.summers@intel.com>, 
- Nirmoy Das <nirmoy.das@intel.com>, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, llvm@lists.linux.dev, 
- patches@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5434; i=nathan@kernel.org;
- h=from:subject:message-id; bh=3KahvyQMN6m2mGiAUICbKR2JVY49usN2B+c0GR/EYXA=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDJmFkW94jticebTHy8qlbvo8Dd3wg3VpXa8PPmXqLLxom
- nKo/lNNRykLgxgXg6yYIkv1Y9XjhoZzzjLeODUJZg4rE8gQBi5OAZhIijbD/6SuFOlt67naN1+t
- 75vHX/M2RWTbutqXn2c2mj+0+Ke13p2R4fy25dorrawPFrdvYEo8oKf1vHm7fkrX0nSBFd4SFyb
- pswEA
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+X-B4-Tracking: v=1; b=H4sIAI1ecWkC/x3LQQqAIBBA0avIrBvIiRK6SrQQm2qILEaIQLx70
+ vLx+RkSq3CC0WRQfiTJFStsYyDsPm6MslQDtTS0lggXPVEPXOXlhN4NRMHZvu8Y6nIr/6Ee01z
+ KB8v24fVeAAAA
+X-Change-ID: 20260122-drm-rk-fixes-a7622c71553e
+To: Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,148 +76,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dmitry.baryshkov@oss.qualcomm.com,m:lumag@kernel.org,m:kernel@collabora.com,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FREEMAIL_CC(0.00)[gmail.com,google.com,intel.com,lists.freedesktop.org,lists.linux.dev,kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_SENDER(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_TO(0.00)[rock-chips.com,sntech.de,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,oss.qualcomm.com];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,lkml];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gnu.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 82B9A5F29B
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,collabora.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 6E7545F63E
 X-Rspamd-Action: no action
 
-After commit a3866ce7b122 ("drm/xe: Add vm to exec queues association"),
-building for an architecture other than x86 (which defines its own
-_THIS_IP_) with clang fails with:
+The first three patches in the series are fixes for use-after-free &
+null-ptr-deref related issues found in dw_dp and inno-hdmi Rockchip DRM
+drivers.
 
-  drivers/gpu/drm/xe/xe_vm.c:1586:3: error: cannot jump from this indirect goto statement to one of its possible targets
-   1586 |                 drm_exec_retry_on_contention(&exec);
-        |                 ^
-  include/drm/drm_exec.h:123:4: note: expanded from macro 'drm_exec_retry_on_contention'
-    123 |                         goto *__drm_exec_retry_ptr;             \
-        |                         ^
-  drivers/gpu/drm/xe/xe_vm.c:1542:3: note: possible target of indirect goto statement
-   1542 |                 might_lock(&vm->exec_queues.lock);
-        |                 ^
-  include/linux/lockdep.h:553:33: note: expanded from macro 'might_lock'
-    553 |         lock_release(&(lock)->dep_map, _THIS_IP_);                      \
-        |                                        ^
-  include/linux/instruction_pointer.h:10:41: note: expanded from macro '_THIS_IP_'
-     10 | #define _THIS_IP_  ({ __label__ __here; __here: (unsigned long)&&__here; })
-        |                                         ^
-  drivers/gpu/drm/xe/xe_vm.c:1583:2: note: jump exits scope of variable with __attribute__((cleanup))
-   1583 |         xe_validation_guard(&ctx, &xe->val, &exec, (struct xe_val_flags) {.interruptible = true},
-        |         ^
-  drivers/gpu/drm/xe/xe_validation.h:189:2: note: expanded from macro 'xe_validation_guard'
-    189 |         scoped_guard(xe_validation, _ctx, _val, _exec, _flags, &_ret) \
-        |         ^
-  include/linux/cleanup.h:442:2: note: expanded from macro 'scoped_guard'
-    442 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
-        |         ^
-  include/linux/cleanup.h:433:20: note: expanded from macro '__scoped_guard'
-    433 |         for (CLASS(_name, scope)(args);                                 \
-        |                           ^
-  drivers/gpu/drm/xe/xe_vm.c:1542:3: note: jump enters a statement expression
-   1542 |                 might_lock(&vm->exec_queues.lock);
-        |                 ^
-  include/linux/lockdep.h:553:33: note: expanded from macro 'might_lock'
-    553 |         lock_release(&(lock)->dep_map, _THIS_IP_);                      \
-        |                                        ^
-  include/linux/instruction_pointer.h:10:20: note: expanded from macro '_THIS_IP_'
-     10 | #define _THIS_IP_  ({ __label__ __here; __here: (unsigned long)&&__here; })
-        |                    ^
+The remaining ones provide a few minor improvements to dw_dp and
+dw_hdmi_qp.
 
-While this is a false positive error because __drm_exec_retry_ptr is
-only ever assigned the label in drm_exec_until_all_locked() (thus it can
-never jump over the cleanup variable), this error is not unreasonable in
-general because the only supported use case for taking the address of a
-label is computed gotos [1]. The kernel's use of the address of a label
-in _THIS_IP_ is considered problematic by both GCC [2][3] and clang [4]
-but they need to provide something equivalent before they can break this
-use case.
-
-Hide the usage of _THIS_IP_ by moving the CONFIG_PROVE_LOCKING if
-statement to its own function, avoiding the error. This is similar to
-commit 187e16f69de2 ("drm/xe: Work around clang multiple goto-label
-error") but with the sources of _THIS_IP_.
-
-Fixes: a3866ce7b122 ("drm/xe: Add vm to exec queues association")
-Link: https://gcc.gnu.org/onlinedocs/gcc/Labels-as-Values.html [1]
-Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=44298 [2]
-Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=120071 [3]
-Link: https://github.com/llvm/llvm-project/issues/138272 [4]
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/xe/xe_vm.c | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+Cristian Ciocaltea (6):
+      drm/rockchip: inno-hdmi: Switch to drmm_kzalloc()
+      drm/rockchip: dw_dp: Switch to drmm_kzalloc()
+      drm/rockchip: dw_dp: Fix null-ptr-deref in dw_dp_remove()
+      drm/rockchip: dw_dp: Simplify error handling
+      drm/rockchip: dw_dp: Drop unnecessary #include
+      drm/rockchip: dw_hdmi_qp: Switch to drmm_encoder_init()
 
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index f7bb21ac1987..293b92ed2fdd 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -1474,6 +1474,20 @@ static void xe_vm_pt_destroy(struct xe_vm *vm)
- 	}
- }
- 
-+static void xe_vm_init_prove_locking(struct xe_device *xe, struct xe_vm *vm)
-+{
-+	if (!IS_ENABLED(CONFIG_PROVE_LOCKING))
-+		return;
-+
-+	fs_reclaim_acquire(GFP_KERNEL);
-+	might_lock(&vm->exec_queues.lock);
-+	fs_reclaim_release(GFP_KERNEL);
-+
-+	down_read(&vm->exec_queues.lock);
-+	might_lock(&xe_root_mmio_gt(xe)->uc.guc.ct.lock);
-+	up_read(&vm->exec_queues.lock);
-+}
-+
- struct xe_vm *xe_vm_create(struct xe_device *xe, u32 flags, struct xe_file *xef)
- {
- 	struct drm_gem_object *vm_resv_obj;
-@@ -1537,15 +1551,7 @@ struct xe_vm *xe_vm_create(struct xe_device *xe, u32 flags, struct xe_file *xef)
- 		vm->preempt.min_run_period_ms = xe->min_run_period_lr_ms;
- 
- 	init_rwsem(&vm->exec_queues.lock);
--	if (IS_ENABLED(CONFIG_PROVE_LOCKING)) {
--		fs_reclaim_acquire(GFP_KERNEL);
--		might_lock(&vm->exec_queues.lock);
--		fs_reclaim_release(GFP_KERNEL);
--
--		down_read(&vm->exec_queues.lock);
--		might_lock(&xe_root_mmio_gt(xe)->uc.guc.ct.lock);
--		up_read(&vm->exec_queues.lock);
--	}
-+	xe_vm_init_prove_locking(xe, vm);
- 
- 	for_each_tile(tile, xe, id)
- 		xe_range_fence_tree_init(&vm->rftree[id]);
-
+ drivers/gpu/drm/rockchip/dw_dp-rockchip.c      | 35 ++++++++++----------------
+ drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 13 +++++-----
+ drivers/gpu/drm/rockchip/inno_hdmi-rockchip.c  |  3 ++-
+ 3 files changed, 21 insertions(+), 30 deletions(-)
 ---
-base-commit: 9dd1048bca4fe2aa67c7a286bafb3947537adedb
-change-id: 20260121-xe-vm-fix-clang-goto-error-b23c9d6bbf68
-
-Best regards,
---  
-Nathan Chancellor <nathan@kernel.org>
+base-commit: 68b271a3a94cfd6c7695a96b6398b52feb89e2c2
+change-id: 20260122-drm-rk-fixes-a7622c71553e
 
