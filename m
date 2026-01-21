@@ -2,155 +2,189 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SL+LOluncGlyYgAAu9opvQ
+	id yCpHJQo7cWnKfQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 11:15:55 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 21:46:02 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E1ED550F8
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 11:15:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDBD35D886
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 21:46:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F135F10E72F;
-	Wed, 21 Jan 2026 10:15:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09FE010E25C;
+	Wed, 21 Jan 2026 20:46:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="J4YBrQ03";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="PBPfZbgQ";
+	dkim=pass (2048-bit key; unprotected) header.d=ginzinger.com header.i=@ginzinger.com header.b="qTT8GCk7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2C6210E72F
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 10:15:52 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60L9ecFb3991392
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 10:15:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- cgTKx4MA7+dif+0LvGOR400AipzpMKmAwQS8fpYwQPg=; b=J4YBrQ03wos/J3dd
- ATJ4V1DVpKNkin+X5TL3AIFE9p15vh8CwAAiv4KnbdY0R4FeGHGLqPAEK124eU0I
- OPbP2Njjx3mq9Zdo3BXj46if6WgdWJ0Y2UNzS9OLd3yEQotQRLupUJEwr8ZXkt1h
- 7wRdffVnoReuPu0s5qrul6v16eVKQdzlYufhQqhVB99+Shz7hcm3AjdR0bVymk32
- ycXBiPwIgZotjNvcA1Vw3ONAI2oFRQq8llWptAAEO2nvSStH+gpkA2FgHqnyapfK
- xzEjDLqHxrRtM9zf0S2rQoDe7z+AYf9XHFOg8pqyL7CMoprOyfop5FrkM7YctvjI
- WadA1A==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4btpm41qjr-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 10:15:52 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-8c5e166fb75so171261285a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 02:15:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1768990551; x=1769595351;
- darn=lists.freedesktop.org; 
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=cgTKx4MA7+dif+0LvGOR400AipzpMKmAwQS8fpYwQPg=;
- b=PBPfZbgQ1pAghTlqEmZgiuTp9/bhxe3cI8TJqIi3SbM0/mwUHQ5ztk2IIu7yR+DuTR
- Yr4D5IRYW8peAmE8sbTyhjbOUOPZdfDT72l3hNnwMp2HslAr0H+pVqSBfl4Kw0Kx61hU
- RpAPYlnygy50fT4XDb4VXrWbPHtFNF6iTMNdGXSCGcDfU4xH9Y0BT1jMl6b9PJCGHxbJ
- TLQ5QLUqah8+TC44Sr328trLRlsAJy5amCCE54L8o3isbBtuD3KQKupFfRhjsBNd//Nk
- sqeWVgwqDd3KB2CUl581ylnWJXGebwY7U6eBpz8amejIQbIytl0LbuNOsG+2YDBoOmKj
- n7Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1768990551; x=1769595351;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=cgTKx4MA7+dif+0LvGOR400AipzpMKmAwQS8fpYwQPg=;
- b=BqEDvp65GmUfgdahQkKecc26qrCmzU+qmybde47IF0pnvJO25hXMf0/OAG/BrKuwAC
- C+PbP/oZ1mqa9p0kgCJVKxewhvK43Ba47D2CffKXmFR+E5TPsC620nmuKqKrBDP4KZSJ
- v5VRJKfgQEH07OqKRduIbmYyGo8RGsrPVFuAJCApB/UeRXu+eBAScZOAQ3rYc1GnyGU7
- i5BxziDzAlbpd7R49jm8CF3MSO96dGWr/RT21eKkkj2zV2KcaeYtJ4sq3b0TReAZYwGT
- VnwJAPF+tB48QJyXgRi4XjAX4cKNtfJ4MJJj3Jdj0ZdN5Km8TP5M5eHrwxo2MgQS417g
- U7sA==
-X-Gm-Message-State: AOJu0Yz0MInvFiCrpkNp5l0Mrv9WUD4vPu2SiMrZ6uxhrW7x8SdhJlRS
- ChdOghAelYXJYceb+Rf5+fckJFbLRBup+sUmUJmu0r6/Y7U5xKC7hT4RFkPFIdLZKPA66e84zhb
- HWS++87ECT9rTWpK426aqzUI9S7DEyyjfoOXzWX22x3LvAVoYtwRJjBJHozmLMqFt7HiF94A=
-X-Gm-Gg: AZuq6aIW/5KnevTIh8M2Kcf2BmRgI1K1y13ARioO6awdD5QzCC6mkdM8yW+JYNupPrt
- 7W8LbruUfM66Iwzqf01ScwwsKQC6jdi+Z6wSdrc4lIAR97xwByl/uDPbdWLxLCkk6V2A1410Gbf
- GLIP23c9ZqZB1ONpfgc1YSCZ2TkW/ObbNKsDTenHoRNKzIxNnFWsyR3wXenlQy6GGyGIUEZGFSQ
- DwumoNYPRqtBPEhSc4uUqrHMMtzqhZs7KSroVBltKEce73eWEW9Z4WRglN1WxhuEn/mgOi9UGn0
- 8kouRsrGMVY2H+ZamUyqt+2k48//IsWXKmsUZoxWurwj6yhVYU2LVARAMBlU76GL/M6wRtSNRFb
- WOM35k6zxHAlGZsbh0CRNz4BApf1YjK4bvfG0tt+PIIJ2EjCnHBC1g1WGhDEOdYF7GORGvLLOIu
- d4CTIZAXjW8Jaa7X1ybbTw3cc=
-X-Received: by 2002:a05:620a:4415:b0:8c5:2b23:bcce with SMTP id
- af79cd13be357-8c6a66d2248mr2329266985a.17.1768990551142; 
- Wed, 21 Jan 2026 02:15:51 -0800 (PST)
-X-Received: by 2002:a05:620a:4415:b0:8c5:2b23:bcce with SMTP id
- af79cd13be357-8c6a66d2248mr2329263985a.17.1768990550619; 
- Wed, 21 Jan 2026 02:15:50 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59baf397785sm4720733e87.51.2026.01.21.02.15.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jan 2026 02:15:49 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Wed, 21 Jan 2026 12:15:47 +0200
-Subject: [PATCH v2 3/3] drm: bridge: anx7625: implement message sending
+Received: from PA4PR04CU001.outbound.protection.outlook.com
+ (mail-francecentralazon11023102.outbound.protection.outlook.com
+ [40.107.162.102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CECD310E744
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 10:26:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=c/8YBVHLAUqQctl2WLOVg7ADW5X/+IDtD3aqvYYP20YwSa0zDuMIDcPBk23L70Ai/+UTrFSuJZSg37Pt7GlkQBexfq4dZyFNRL8sI++hhAfOQawCB8KiAiuORRVR2P18qc7p6OLwc5LYWhT6FcDlFhJeJHcspLp1HZ45s3KIyyVrM9KYMuO0KIlZ+9+rW/fWn7VuW1C2UiSlCh+LOgmF7gvwNsE/YudgVsoib+TZ22euYp7vylccUNELlXp22MMThBhQkvZY1rP/AjzpqTv8y+0tZWNYvF0krFdhpz9VKEGPKx+Kfk1D8gJEPtrjldNLJ50XdDprQaEhsQZ8CvfdVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=H4gljrXkRIxhn457KiPX9YJxb+fVZebUCpbUjHu8fLY=;
+ b=xsJcY+tMTSNgnLZcWIHRl2D2fQ5ChCOL1UgdTg/Masv45MqWYlzths5+4JWdmLO/zADMMSZ2zd5CEAnVDB4S2b520xkG9hVRDRTdWestrgud9k+6C285LiiJJTGPjzYvi5gfCV1kigHGB0awRe1WHBR+I8tMDQ3Po1VToqhbL0r9tlUkvLWvibWddAV3sY1+H0klxB78ZonghSW5C+jJZZAtrm3Ygu5yg0TTFyyKoSvnC9WkOj9GVy7Nir9Rn1eNQMSEeAgAjE1/fGx2S5fVAuDwCB3f+CztxcKtHLP9JTrz/G5Poioo5LVyGuoKc9FyXj0W+2PddyEdTkZvXfn15Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 20.93.157.195) smtp.rcpttodomain=pengutronix.de smtp.mailfrom=ginzinger.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=ginzinger.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ginzinger.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H4gljrXkRIxhn457KiPX9YJxb+fVZebUCpbUjHu8fLY=;
+ b=qTT8GCk7oQsIF9HBzQXXlRYgi99YfuBOzMCIARQ9UUoFrm3tGvsBua90G6vbv7esQrMqLkjETYaQqT1oSMcMvsf9PUxRZNA6mTDn8BQFrIKBBSZBilOhHK4sWaAEMmhB8N4UyWWDUQx+roGk3G5AAgNR+Nj2lhTKjgjXSIULMmdhEC3ull8unQLL0agMviyMVZirgQh8m3/ZuGLBKnpMnLzOx4XsdhN5WS3bjDXhoBO10PDwNIyLkm9pKbILmicMBmOXEPiaa0F1lU77gIV0WCm7InvV70iiCPHSP28Ha7ktAXI6ZTpo5qHiTTDhf29u6Y3y/IlrWvC45TYeKZEtww==
+Received: from DU2P250CA0027.EURP250.PROD.OUTLOOK.COM (2603:10a6:10:231::32)
+ by DU2PR06MB8261.eurprd06.prod.outlook.com (2603:10a6:10:2d0::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Wed, 21 Jan
+ 2026 10:26:22 +0000
+Received: from DB1PEPF000509F8.eurprd02.prod.outlook.com
+ (2603:10a6:10:231:cafe::f0) by DU2P250CA0027.outlook.office365.com
+ (2603:10a6:10:231::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.10 via Frontend Transport; Wed,
+ 21 Jan 2026 10:26:22 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.93.157.195)
+ smtp.mailfrom=ginzinger.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ginzinger.com;
+Received-SPF: Pass (protection.outlook.com: domain of ginzinger.com designates
+ 20.93.157.195 as permitted sender)
+ receiver=protection.outlook.com; 
+ client-ip=20.93.157.195; helo=westeu11-emailsignatures-cloud.codetwo.com;
+ pr=C
+Received: from westeu11-emailsignatures-cloud.codetwo.com (20.93.157.195) by
+ DB1PEPF000509F8.mail.protection.outlook.com (10.167.242.154) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9542.4 via Frontend Transport; Wed, 21 Jan 2026 10:26:21 +0000
+Received: from AS8PR07CU003.outbound.protection.outlook.com (40.93.65.51) by
+ westeu11-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server (TLS12)
+ via SMTP; Wed, 21 Jan 2026 10:26:21 +0000
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ginzinger.com;
+Received: from VI1PR06MB8926.eurprd06.prod.outlook.com (2603:10a6:800:1dd::19)
+ by GV2PR06MB10009.eurprd06.prod.outlook.com (2603:10a6:150:2a2::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Wed, 21 Jan
+ 2026 10:26:17 +0000
+Received: from VI1PR06MB8926.eurprd06.prod.outlook.com
+ ([fe80::972a:41fb:f85d:e1b4]) by VI1PR06MB8926.eurprd06.prod.outlook.com
+ ([fe80::972a:41fb:f85d:e1b4%2]) with mapi id 15.20.9542.008; Wed, 21 Jan 2026
+ 10:26:17 +0000
+From: Martin Kepplinger-Novakovic <martin.kepplinger-novakovic@ginzinger.com>
+To: p.zabel@pengutronix.de, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, shawnguo@kernel.org, s.hauer@pengutronix.de
+CC: kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: [PATCH] drm/imx: parallel-display: add DRM_DISPLAY_HELPER for
+ DRM_IMX_PARALLEL_DISPLAY
+Date: Wed, 21 Jan 2026 11:26:07 +0100
+Message-ID: <20260121102607.4087362-1-martin.kepplinger-novakovic@ginzinger.com>
+X-Mailer: git-send-email 2.47.3
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: VI1PR02CA0064.eurprd02.prod.outlook.com
+ (2603:10a6:802:14::35) To VI1PR06MB8926.eurprd06.prod.outlook.com
+ (2603:10a6:800:1dd::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260121-anx7625-typec-v2-3-d14f31256a17@oss.qualcomm.com>
-References: <20260121-anx7625-typec-v2-0-d14f31256a17@oss.qualcomm.com>
-In-Reply-To: <20260121-anx7625-typec-v2-0-d14f31256a17@oss.qualcomm.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Xin Ji <xji@analogixsemi.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3944;
- i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=zOlSDJjkzETZjT9w08GWmGIzoMmh2Y8jvx1PkRhsows=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpcKdRkXfMCnUJ5mQFeOZtvWsmXjX8XdqS+3tXZ
- 5dY35bP3AyJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaXCnUQAKCRCLPIo+Aiko
- 1aAkB/4zQ+hoYV7IgDRMPJrr3xpFBAPy/xWb57Wq2oOez2MEovA03mIuZQL0cbd2EjEXxWFAsPd
- AyFZetuenlv9UIGyJt5WWuINXmy0L9kRV4stFtJlnECFPx40pG7CX5gBU4OObi0T2RqWWKIVoyY
- CUi1eh36ixtztQeiXq3/vM0NAz4Pll8GxgpYyzWfAqkuDnJGgmgHc8BUja/4zGJsjCG9y1pB7uh
- 5AxSR0tIiF+QNVR3f4S4qqMBzkRqvnaYl5jz9HEwCk/GZ7iy/OkwKLxF7uTwcwaCP3X/nTAIBJ1
- HpQgUKtcRqgWojDjhU8TLPHk0vQshsVnY3wSSfOzhvhwJkjb
-X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Authority-Analysis: v=2.4 cv=Jv38bc4C c=1 sm=1 tr=0 ts=6970a758 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=_5utB2yTlrchjXRSIYoA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-GUID: -fLGQoVr5b11sFJIOvTuQG9rpFOOjeRS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIxMDA4NiBTYWx0ZWRfX0ldYiW+rDE63
- rW80o+cLQvPtjBU2yT9SETMHJ8HLY2qW4Y/9Hb0mdCuK1ppC6j3CuBxLnRTO6vYhtVh4TdQvyYK
- Rx+I0uVUkv937jvIaUWoLvJ4dUF9b+ryKlbZj2+vMrP07rlh7s9x3hqvshmrzpSCAKAayIpIZdd
- 6mRUJ+E4PCkZ425MS9yP94WtHH43rzqK9HUZNvkvP+2PeA+72D88W22pYbB0UTTHgCJaoTkp84t
- GZDOUaOIA/5a4c/SC2dl+gETmqEzSk6xa7WLCF4qB6UR6LzE2RNrvnv4R/wPUGZ4omA3pZf+EP7
- g5LQ+pPig83J3eeIitX9QRuZ7kbbtVRsr2dtc2E0jtDbn4wKk63cuiczIvfizRaTc+xT5jMy0im
- lXNoUNYqwX6HTo7mxb+Zi0h67Dlp1XSL2ZFIIW09HSJgULcyUr5kejuCqyEbAVIILctYwak/DHU
- tobQ+4OqfF6jOjLkotA==
-X-Proofpoint-ORIG-GUID: -fLGQoVr5b11sFJIOvTuQG9rpFOOjeRS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-21_01,2026-01-20_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 clxscore=1015 spamscore=0 lowpriorityscore=0
- suspectscore=0 malwarescore=0 adultscore=0 priorityscore=1501 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601210086
+X-MS-TrafficTypeDiagnostic: VI1PR06MB8926:EE_|GV2PR06MB10009:EE_|DB1PEPF000509F8:EE_|DU2PR06MB8261:EE_
+X-MS-Office365-Filtering-Correlation-Id: 28206424-a535-4d6c-7a55-08de58d785e7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+ ARA:13230040|366016|376014|7416014|52116014|1800799024|38350700014; 
+X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?k9iE/NNSGsvpXNDriz7fduSjq6ukIWZNI9/I6hF303RMXTW4TqJLMWqII7qu?=
+ =?us-ascii?Q?YeLId8g8eWTneNKGC9X/BQQR5R0pLjcmlLkiXP08QLp4+o4CRC3EDQ7kjcpV?=
+ =?us-ascii?Q?DywhPJRdwUecmKRH1oLtBJSw7zmy2CMdtIGjaGVrjLy5g/B1puFyK8x/2fDi?=
+ =?us-ascii?Q?02kCDT2B0CYz3akaJbi1MYGpMZMhBnCOHOXxVuwLBQ3RFXjTizClXS4l6w2V?=
+ =?us-ascii?Q?kJX8STrc5bgm5qyaKEKY3zIjgA0piTSS2dDNXe038w4k1MhrQqVslb0d0xsc?=
+ =?us-ascii?Q?3uEkKyrnk22U3PIHCxRgCLCFuZL5sTE0IZsg7pXXdupMq3+fQMWVEzBFZ+H1?=
+ =?us-ascii?Q?1TEP6uVZIVCQq+J3yFTrvaADln6S4465oF6ub2wDhu0LzxyJc/C2J1JDqS/s?=
+ =?us-ascii?Q?Mv4IYcqonRy8iOG1Lqr5kEnWhwGIMRyu7W/Ef1g7FUyuxIXZU9fx69mD/ZQe?=
+ =?us-ascii?Q?7/T4QBAVcwpUQ/5fFZpbeXZunvz6tKDtj7TWM8P3bitfI9GnIFB7nJ2tWkxB?=
+ =?us-ascii?Q?H0YG2S4bk8/nsk0IIY7bNXFYi4vcmA8r0bJHMqhCkD3GOTtN88EH8jpsWAc6?=
+ =?us-ascii?Q?E3UuqbxgrTm2nFr+CzuQiJdg8lAQENUHNQ0FHjykIUzxNJ0TPs4LyVdSto+t?=
+ =?us-ascii?Q?R6ttP63hf3BM+cGZZlDLuBPxnHeE/sqliR+sCiqhxKMGzizsnleNbx3uGUDV?=
+ =?us-ascii?Q?mWOYOuDPoUuCHikS6l7rUuOhEF/0tX8b8KZmxyCFh1wRHfHzKF8OxSDxzrHL?=
+ =?us-ascii?Q?610rtcQ+4LHBAkcG2easNxNFGdd7+m/PLmGMwT4edxx9l5CqsQMnHzv7W4H6?=
+ =?us-ascii?Q?+viUsfxDJII9H4Raa2mUDrH2Ng0qhHQL8mWjBsgILYt1aQN5TDgnPT6o887M?=
+ =?us-ascii?Q?2wfM0FFy721FRIfvY8X5ssmUVedjB47iRr8h3UqQ9EdlDXEVHKP+0m/TNfeG?=
+ =?us-ascii?Q?FPZ60Jh/FMgrJc8Ox/hpLa5W7APZg9KnVD0gaXbLsOC3nhkedWJTDtibKZNn?=
+ =?us-ascii?Q?0Xc4Rg6KZIgTFiMMIzAd9RYr9UznxuR41lE2yM+yv1XUmdq9c2sDwDk3v0sC?=
+ =?us-ascii?Q?gzlaKRDnF31Jn90a2IbNvwNLWt7a9rw3C4W08VFJfCDbS270iZdbny+dEtex?=
+ =?us-ascii?Q?Oz2n6kJePn4So6hcHTDMGrY2n2GSTLYQBwh4OtfkaPY0BnlihyyvtOlknW/n?=
+ =?us-ascii?Q?HgQXnoLoI3ouiS58UNIEfnRawiVDbkCe0moaPUC3o4YzmsaHeyZG3NzcNoJa?=
+ =?us-ascii?Q?0Q9teggOmMm8snm5SUndnY7u+Hk70EFivmG3TmfdAw/dfnZ/5HeGaL0XfiIX?=
+ =?us-ascii?Q?/0GXUuMmYWX4Q2a5YtGczQFa2OyMuwbIKWhSjaQeVa99bhQF34v9rGGk/XiA?=
+ =?us-ascii?Q?n0kHdHYNxpAh2O/m71qLtFD/LMufVYZiodvIulHWeXd8NPYRzrfBEQX6srAt?=
+ =?us-ascii?Q?7aD+B8iC2OBORcuzyRAi9zdiHeT69eoeMy8Y1LtVIcuCImBRKjK9+zezTeki?=
+ =?us-ascii?Q?zFp80CZjhnQX4RRZ0/LHRSiI2B9Ct6YqXsAdP2KbK/obSRBJQL0oRvj0HMnq?=
+ =?us-ascii?Q?R3GSLXfSrQCQWA8uGlbSjvuK+7k9+xSezScrHML1vu3ZXnxfzGZIOvo6hB+X?=
+ =?us-ascii?Q?t9NHVP7Fr90j6r+6YxTdyj0=3D?=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:VI1PR06MB8926.eurprd06.prod.outlook.com;
+ PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(52116014)(1800799024)(38350700014);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR06MB10009
+X-CodeTwo-MessageID: 2ce84007-45cf-46f2-82fd-0f9771b73eba.20260121102621@westeu11-emailsignatures-cloud.codetwo.com
+X-CodeTwoProcessed: true
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB1PEPF000509F8.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 9cad4bf0-7e8a-4549-0177-08de58d78332
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|35042699022|7416014|14060799003|1800799024|36860700013|82310400026;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?cUi61h1kC/CQTr1gOuygQWlRldg63De+on62yHOaAl65p/n0Wv8MJ8ThaYLB?=
+ =?us-ascii?Q?yC4JXPbpCsMg6COMoHq2M3lHJaGP/hecbeA821KkbCbEXuh+GwDjovoPfTR7?=
+ =?us-ascii?Q?KielU38rMNGr9jQ8AiNpKs4mQ+Y08od/bwBf3awhrZ9/dVoVqnka5VYArQJ1?=
+ =?us-ascii?Q?m/P4EzrGT4L+jRhyYsn3NgFbymvQRluYg2lr+TOwXsi4Cq8UHaf8YwJc/A7M?=
+ =?us-ascii?Q?Lt7tFV8IXhXaj/+S1no19q5AVd9Jd1R8DkJQ6YtuQFN+I1A3SfzK0uZY4XY5?=
+ =?us-ascii?Q?3XozQ6OOljswCrvmNMsq4tab0/4d2wLgT7rNkAw38UvnV2fV3DZm9Ewv4vUF?=
+ =?us-ascii?Q?lMBnpJe7WKjUUbJB7kxqfkCspfEUkk8WNvr4icF3b17UIR5m3MY0dWrhF5bQ?=
+ =?us-ascii?Q?FSlOlqhEAGfYwN7sYDnhtFzFuNVu5Kww/8BAybreP4y1u4SRLRiAA2GTMYPS?=
+ =?us-ascii?Q?XrPpw/AHzH2b2yjK1PVZCtE1/7lsmXWWQdr2xbyPy2F5UY5bvcA+tqgFItgR?=
+ =?us-ascii?Q?bAsJG8lmNOv2vwZw6Y33LPDpHSLMlDR6S0WB4jDXstsi/7ZAqWNEdt2n6SCD?=
+ =?us-ascii?Q?pw2v7vgc56260wG+Be3Ekn0eprp5IepywEJP752Sdvv7CLebCrlZFFJMSSL8?=
+ =?us-ascii?Q?hb2nYtMQ6FiCt6uNJ5/YCyMCGr1CtkDypxanOlXlxkRUAIH/88/Kt/MPEjrl?=
+ =?us-ascii?Q?RBjmY5DDwHF+PjeR6AjtLCPlFwTHnOPyt3ykCpPeRdqbYwAkYS1wM6/opYjn?=
+ =?us-ascii?Q?uOe7mjGRcUmlxP3q/FVISp8fmLzteOyCqKNx350WNcHm6Ht+VtCVs/Gglghu?=
+ =?us-ascii?Q?3FPHEGwsIRF2xZMIgNIZgg6nrBYTRctYpisPC9WAk7KH77es6utHeJ3WBId1?=
+ =?us-ascii?Q?Js2lVmkwQ1Y8yJooJkL61B8s7XCqT7l/xEQTQYvJY6yO4rQ3+eraLuszC4Ye?=
+ =?us-ascii?Q?dJgEO3b08u+eGBI7MVtq+3Zh35c/slD/HlW20ux/IpanuUEAcUrCgQNkjiz6?=
+ =?us-ascii?Q?eGKqJk0pVAwt4Orggih2vuD0ycSEkscEAehaU7H3z1UGb/9uq/xddAixaTqn?=
+ =?us-ascii?Q?gXJZuKzlmxA6k7l1iF/1ac0+7liVq8m8xpif4RplBgUAYSVDPUCQV4JUbNsH?=
+ =?us-ascii?Q?gjy6oopBTYYmUGrK9kvNfnZaZ+rcKsTl8DR3MCmOrGDIqxwdhnKvsdCPG7CY?=
+ =?us-ascii?Q?UZIGVJyRDmtnKMDT+tjhkLRCoLsZhg/PcKgzYH4VHaqH9PMPlsMS2AWBFrwy?=
+ =?us-ascii?Q?ecC9QKl4DsepSf9qmzsGlgzMS38mzcYXUzQq2ljyXNOE8PAZXeGHEeiqQfFg?=
+ =?us-ascii?Q?n+e5A+7hwolbA+m3rHTFGTBUxStbep3WrYh+KliGIJ+FjwTcXPQ99Ni0EMcK?=
+ =?us-ascii?Q?0WA7FNxExO/cy6JJYydbGvW88gOt2mtFNXgtcewwa1M5Q00uaCiArYwPnhc6?=
+ =?us-ascii?Q?R34htf8SgVj4i9kW7K9El+UTmh2ldptkhdm9Fd2djlQS1gTdxX4ITkeAH1W5?=
+ =?us-ascii?Q?BmJYNlV4v/zziAn4bSPzfzPZ0FB/egDKpUAZB+/mRRwk9X2AtdE2myZb8cga?=
+ =?us-ascii?Q?Gh31KZDEKCNy5vlm8JEGLKPPp0EhL7uQUK7J429P9422G7kNTp8v1bQTXDFb?=
+ =?us-ascii?Q?jPDnIS9MaXdBwtR6T/4Gmur1UZ+b538E1qpC7HQcyGJoVsDgQZswBM3u/NhL?=
+ =?us-ascii?Q?CrTXbQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:20.93.157.195; CTRY:NL; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:westeu11-emailsignatures-cloud.codetwo.com;
+ PTR:westeu11-emailsignatures-cloud.codetwo.com; CAT:NONE;
+ SFS:(13230040)(376014)(35042699022)(7416014)(14060799003)(1800799024)(36860700013)(82310400026);
+ DIR:OUT; SFP:1102; 
+X-OriginatorOrg: ginzinger.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 10:26:21.8615 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28206424-a535-4d6c-7a55-08de58d785e7
+X-MS-Exchange-CrossTenant-Id: 198354b3-f56d-4ad5-b1e4-7eb8b115ed44
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=198354b3-f56d-4ad5-b1e4-7eb8b115ed44; Ip=[20.93.157.195];
+ Helo=[westeu11-emailsignatures-cloud.codetwo.com]
+X-MS-Exchange-CrossTenant-AuthSource: DB1PEPF000509F8.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR06MB8261
+X-Mailman-Approved-At: Wed, 21 Jan 2026 20:45:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,176 +199,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[ginzinger.com,none];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[ginzinger.com:s=selector1];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[22];
+	FREEMAIL_TO(0.00)[pengutronix.de,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:xji@analogixsemi.com,m:heikki.krogerus@linux.intel.com,m:gregkh@linuxfoundation.org,m:devicetree@vger.kernel.org,m:linux-usb@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de,analogixsemi.com,linuxfoundation.org];
+	FORGED_RECIPIENTS(0.00)[m:p.zabel@pengutronix.de,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:lkp@intel.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[martin.kepplinger-novakovic@ginzinger.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[martin.kepplinger-novakovic@ginzinger.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[ginzinger.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,intel.com:email];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,qualcomm.com:email,qualcomm.com:dkim]
-X-Rspamd-Queue-Id: 9E1ED550F8
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_SEVEN(0.00)[8]
+X-Rspamd-Queue-Id: EDBD35D886
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Swapping the data role requires sending the message to the other USB-C
-side. Implement sending these messages through the OCM. The code is
-largely based on the anx7411.c USB-C driver.
+When I build for an old imx53 platform I see the same as the test robot
+saw before:
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+arm-buildroot-linux-gnueabihf-ld: drivers/gpu/drm/imx/ipuv3/parallel-displa=
+y.o: in function `imx_pd_bind':
+parallel-display.c:(.text+0xb8): undefined reference to `drm_bridge_connect=
+or_init'
+
+Selecting DRM_DISPLAY_HELPER for DRM_IMX_PARALLEL_DISPLAY fixes the build.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202512241721.jZgcwRfr-lkp@int=
+el.com/
+
+Signed-off-by: Martin Kepplinger-Novakovic <martin.kepplinger-novakovic@gin=
+zinger.com>
 ---
- drivers/gpu/drm/bridge/analogix/anx7625.c | 68 +++++++++++++++++++++++++++++++
- drivers/gpu/drm/bridge/analogix/anx7625.h | 12 ++++++
- 2 files changed, 80 insertions(+)
+ drivers/gpu/drm/imx/ipuv3/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 8dc6e3b16968..c43519097a45 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -1484,6 +1484,73 @@ static void anx7625_start_dp_work(struct anx7625_data *ctx)
- }
- 
- #if IS_REACHABLE(CONFIG_TYPEC)
-+static u8 anx7625_checksum(u8 *buf, u8 len)
-+{
-+	u8 ret = 0;
-+	u8 i;
-+
-+	for (i = 0; i < len; i++)
-+		ret += buf[i];
-+
-+	return ret;
-+}
-+
-+static int anx7625_read_msg_ctrl_status(struct anx7625_data *ctx)
-+{
-+	return anx7625_reg_read(ctx, ctx->i2c.rx_p0_client, CMD_SEND_BUF);
-+}
-+
-+static int anx7625_wait_msg_empty(struct anx7625_data *ctx)
-+{
-+	int val;
-+
-+	return readx_poll_timeout(anx7625_read_msg_ctrl_status, ctx,
-+				  val, (val < 0) || (val == 0),
-+				  2000, 2000 * 150);
-+}
-+
-+static int anx7625_send_msg(struct anx7625_data *ctx, u8 type, u8 *buf, u8 size)
-+{
-+	struct fw_msg *msg = &ctx->send_msg;
-+	u8 crc;
-+	int ret;
-+
-+	size = min_t(u8, size, (u8)MAX_BUF_LEN);
-+	memcpy(msg->buf, buf, size);
-+	msg->msg_type = type;
-+
-+	/* msg len equals buffer length + msg_type */
-+	msg->msg_len = size + 1;
-+
-+	crc = anx7625_checksum((u8 *)msg, size + HEADER_LEN);
-+	msg->buf[size] = 0 - crc;
-+
-+	ret = anx7625_wait_msg_empty(ctx);
-+	if (ret)
-+		return ret;
-+
-+	ret = anx7625_reg_block_write(ctx, ctx->i2c.rx_p0_client,
-+				      CMD_SEND_BUF + 1, size + HEADER_LEN,
-+				      &msg->msg_type);
-+	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client, CMD_SEND_BUF,
-+				 msg->msg_len);
-+	return ret;
-+}
-+
-+static int anx7625_typec_dr_set(struct typec_port *port, enum typec_data_role role)
-+{
-+	struct anx7625_data *ctx = typec_get_drvdata(port);
-+
-+	if (role == ctx->typec_data_role)
-+		return 0;
-+
-+	return anx7625_send_msg(ctx, 0x11, NULL, 0);
-+}
-+
-+static const struct typec_operations anx7625_typec_ops = {
-+	.dr_set = anx7625_typec_dr_set,
-+};
-+
- static void anx7625_typec_set_orientation(struct anx7625_data *ctx)
- {
- 	u32 val = anx7625_reg_read(ctx, ctx->i2c.rx_p0_client, SYSTEM_STSTUS);
-@@ -1542,6 +1609,7 @@ static int anx7625_typec_register(struct anx7625_data *ctx)
- 	typec_cap.orientation_aware = true;
- 
- 	typec_cap.driver_data = ctx;
-+	typec_cap.ops = &anx7625_typec_ops;
- 
- 	ctx->typec_port = typec_register_port(ctx->dev, &typec_cap);
- 	if (IS_ERR(ctx->typec_port))
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-index a18561c213af..957d234ec07c 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-@@ -67,6 +67,9 @@
- #define CC2_RA                  BIT(5)
- #define CC2_RP			(BIT(6) | BIT(7))
- 
-+#define CMD_SEND_BUF		0xC0
-+#define CMD_RECV_BUF		0xE0
-+
- /******** END of I2C Address 0x58 ********/
- 
- /***************************************************************/
-@@ -462,6 +465,14 @@ struct anx7625_i2c_client {
- struct typec_port;
- struct usb_role_switch;
- 
-+#define MAX_BUF_LEN	30
-+struct fw_msg {
-+	u8 msg_len;
-+	u8 msg_type;
-+	u8 buf[MAX_BUF_LEN];
-+} __packed;
-+#define HEADER_LEN		2
-+
- struct anx7625_data {
- 	struct anx7625_platform_data pdata;
- 	struct platform_device *audio_pdev;
-@@ -497,6 +508,7 @@ struct anx7625_data {
- 	struct drm_connector *connector;
- 	struct mipi_dsi_device *dsi;
- 	struct drm_dp_aux aux;
-+	struct fw_msg send_msg;
- };
- 
- #endif  /* __ANX7625_H__ */
-
--- 
+diff --git a/drivers/gpu/drm/imx/ipuv3/Kconfig b/drivers/gpu/drm/imx/ipuv3/=
+Kconfig
+index acaf250890019..b2240998df4f1 100644
+--- a/drivers/gpu/drm/imx/ipuv3/Kconfig
++++ b/drivers/gpu/drm/imx/ipuv3/Kconfig
+@@ -15,6 +15,7 @@ config DRM_IMX_PARALLEL_DISPLAY
+ 	depends on DRM_IMX
+ 	select DRM_BRIDGE
+ 	select DRM_BRIDGE_CONNECTOR
++	select DRM_DISPLAY_HELPER
+ 	select DRM_IMX_LEGACY_BRIDGE
+ 	select DRM_PANEL_BRIDGE
+ 	select VIDEOMODE_HELPERS
+--=20
 2.47.3
 
