@@ -2,80 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qMsoJ671cGmgbAAAu9opvQ
+	id eCfUHYL4cGmgbAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 16:50:06 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 17:02:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0405F59778
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 16:50:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C702599B5
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 17:02:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EB6410E823;
-	Wed, 21 Jan 2026 15:50:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D62C10E23D;
+	Wed, 21 Jan 2026 16:02:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="Fiy3ityz";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="eQZoHiu2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
- [209.85.222.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5873A10E823
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 15:50:02 +0000 (UTC)
-Received: by mail-qk1-f172.google.com with SMTP id
- af79cd13be357-8c52e25e636so942289485a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 07:50:02 -0800 (PST)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
+ [209.85.219.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1138810E824
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 16:02:02 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id
+ 6a1803df08f44-888bd3bd639so12657836d6.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 08:02:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1769010601; x=1769615401; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=q7hXpke/3/yOS39pnZAAHMgYMjm6i7TC9CfciaL4A2Y=;
- b=Fiy3ityzmtR55ry9UXUn7nibRo4qZNtkI8wxLo41VNQXZNkC8kdUI+PqnGbFfWIGIn
- uwuCT8T7zTzqXlEM4nLk4vevBpjo/6lQjFh3jnU2TZZdEZ+t4MXEcQW8acJPbGLVBjIV
- xhvOL0lPpMp/+lQYI6MHXiy91UCQ8ICwXVV86Rgw0mQuupaomqOyu1QUl5i+42AfiXX1
- JcDhvXA1qxtPTzfNjj3J5lkuk4A7KfrOuSKy2Un1y7OdyAcQBNB4s9XU47SGdzt+X9Fu
- kdXC2mUlat78oppJvtjImYuL6mF4u5GbMtwqZ1plt+XO88rSDEbO0JxO96kbxkfIcmPi
- H+4w==
+ d=ziepe.ca; s=google; t=1769011321; x=1769616121; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Xk50a3DJCYgVIrcCVz4YsPwnwCkWAaxm0jVyWa00IrY=;
+ b=eQZoHiu2Q4Ww0a0jkGIOITUUGhm2q/lPsRwQ9OVnzH3K4OMBZwX+5iTv8GQ6gb41uq
+ fkjFTrQ+rh1J3SbpEG6nLXUaEpiVjrY6WYXQaqurA8+aDXKCx9F3B1O2D1FkJHD+PaLT
+ rFZglOOwPDoSh1fqFuezGhvgPFtKG/PyNtYFkcneFZCA5x0yCIN5ED3jth6DkJGOsuNV
+ ml+PyZcaM4ksze651IOcCWDTdWp9bGd3ZDeMP6ENzmNybFNAz/IQnWZ6efG2Ka8h5jY2
+ Rk6EvlEzgrt1Ze7HiYzOBM7IhOe/6nuwMgUuhafD2O9b8wYtKbBNtGQGw3wiIGlh3caU
+ z1Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769010601; x=1769615401;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=q7hXpke/3/yOS39pnZAAHMgYMjm6i7TC9CfciaL4A2Y=;
- b=UxARbo2hTup2mv25KWEgwagMr3sJvKGndjNtc6tJywhdFrfXPTUKUa6kcKdrVLsnD/
- wlOZ7/MOAK3SD7MVb58z6+iTbupBC3+10inuawR0AgMH+ihtg2dC2cUKHSB6+kP2MYoH
- R7V+VIyjmWBvD0D2EdJfzR3vNgJ+aFMChRX5L0T7hCNSb/kF8qFKAf783RcLkK+7qpps
- bstsIrfj0bunNlWEU9kvtaX8pR8W2UaSC9aobswIDJN3ppE/Kq0FdrEFk9VTcElhvNAY
- KGvcWZN9ur5F718L+l+ScmlRLe+2N2MGuw5ZtV8uNPdaBhG3lV3HLvuEBxGqdBzQXiow
- k30w==
+ d=1e100.net; s=20230601; t=1769011321; x=1769616121;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Xk50a3DJCYgVIrcCVz4YsPwnwCkWAaxm0jVyWa00IrY=;
+ b=ovDjU6vwz0xXXtF7IgWtdpRRUZRa+7M4rT75diQoNixdsXH2IGnMctI5wd7v7w6/gh
+ Uq7q7r3oBNW93XK8YekFGGyo7JeYCzVz59YQSFaBBxuT6U+XglDDKrnYFpkzz62fab9v
+ fnMd1mCXiCmO//WaYB5OFuyKNL6UoEd6d4XsmBVcTwfTsNAn+U8qLjeAacxomM4u5p1P
+ nF6a1QNzcHoD1kKij9L79LvTa9QZshVRZH7AtryWyu0KUQWscboN5kzN1BbhtE3BUyZ/
+ 2NvhC2KpohV3MMZKUAowENJYmP35DVI9JvRweJeOPQISVfQsyVkaWldPFTXVxtvzACZo
+ qWFg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUthoKAWzc9+GQGQ3JwC8R4DDyFuZ8EC8RsaesU/MfTDml4KlznNQJl7lF2JhCthRiEmiYFJ6yTNTA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxoYzOsUMiFwdBbxyEoHeTxm6mfjRbraAlGnECBdM5rCB1F2GH7
- 2ar43KZCHyumqS8oNmjt8N3T2HQZ8bhH+G8mLYxbsayhxk1i+da1nAntnRbHvREeV5U=
-X-Gm-Gg: AZuq6aIrKCt8KNi5QjuOHjxvGl6gW9eflXPcoqJN+QJv/4pr6L+uf6NPMgltzxRnOIb
- WUV4o2vZyTbKyQeprxEfGUWIG+ygQaJHFvcp670S8+NcxAUfo8U+4mLQMXo4I8TLjhO6zxAPvUb
- XHcSDlINk24amKhWc3O5+18B+dN0w+dWZZssC3ET5L+znkEwjUAuwqYangdpmtWuQNMiSdTUhYf
- ihs2vBPsxOl5Yd6CmkZpykuOADSJnEf/Ycn8fhaGVF5Yal3s/nNa95C5I1pVYSdy3dLvlHZQ9r+
- PcaHmF9YmChT9mCrUuITmwbX9N7U/71BWuDfpY8hEjDJBITmPiU0GOq4W1Z/tEXWV5xe2HlJ67V
- 6qaNesVHK4qL0PcTa3S3tGUlz3PKpsOQeJcPOfdu8JaFUDNPhGip/QFrXqFJf08ERO/P72L7Eu5
- a09mAQW8DcylYh5GTW8SwxJvKF30Xphf3pQ67r/vUvCd349iWEerI4J+uyYPvGFm1o29dYuKbgo
- 7JIqQ==
-X-Received: by 2002:a05:620a:298a:b0:8b2:7290:27da with SMTP id
- af79cd13be357-8c6a68ec70emr2561552085a.12.1769010601362; 
- Wed, 21 Jan 2026 07:50:01 -0800 (PST)
+ AJvYcCXx/L7ESMkI/IjF+S2fh1v5ly3z69jLJQ83WEX9mSNg+eu1Nw7gMpcpP7Qs6CZIjOlkAIRFlEUsEjA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzmcgkmHHVbsMqEFxE73XCxo2Rh/Fjn0cCX1rtmbYrmrc/vgPO6
+ 9H5zlfF067k8ZFd9HOFGFwqCW85acQfbMO+vEHCbmdZL2LL2hmG9EUtFCi+rijqlhGQ=
+X-Gm-Gg: AZuq6aK6LD8JGJEgdIFMry0rCrOX4dPI5aXfi9wBatfATL1k9YOlWZAzLcV8oTf9BXU
+ NKz9XHiPYUUsGqU2/4wmaKsG/CVJIAYJmHG7YvaPcfw/bt/fIMpKdIv2VLbOrlCy/BvELawIJ4A
+ BF8lpHDnXIgmcMC52Lj4EhOU283y3tOoCPCDyjfM35Jyo9k+Fsyvl6OSesoRHvwWcBYdDZyzpYh
+ ZgmTgiRy+MMVByJRAdum5dan9ALZoS470bZuN0lenkTkMf/ghtShUKsK1ME/YsDZYbKbmq4nnGu
+ bdMl6d+IoGM4kKP9ERQIxsJAOUjzx3SzEaOHyKLTrYQGMt8fuJ/9oXQBDFX++zJ1W2sAzLhskyi
+ 5Yy2YIufmzzV3cYWncQhdNfaO0Wi/otrfgIxJX/O+ui+yX05Np/rE36qV4x8VCf1JEL4scnfcqB
+ lUyjFVUpZcYlKmUWz5xqn2znMLsTih5u+ilTjXD6qrD/z8XuNt4FY2y92h7b5RDBqBsgyEXfub/
+ AGiNg==
+X-Received: by 2002:ad4:5c4d:0:b0:88a:3861:9131 with SMTP id
+ 6a1803df08f44-893982737e8mr294508076d6.34.1769011302558; 
+ Wed, 21 Jan 2026 08:01:42 -0800 (PST)
 Received: from ziepe.ca
  (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-8942e6a9d97sm127467116d6.34.2026.01.21.07.50.00
+ 6a1803df08f44-8946e3aee12sm27692726d6.39.2026.01.21.08.01.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jan 2026 07:50:00 -0800 (PST)
+ Wed, 21 Jan 2026 08:01:41 -0800 (PST)
 Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1viaT2-00000006Emy-0KMB;
- Wed, 21 Jan 2026 11:50:00 -0400
-Date: Wed, 21 Jan 2026 11:50:00 -0400
+ (envelope-from <jgg@ziepe.ca>) id 1viaeK-00000006Es6-2jLq;
+ Wed, 21 Jan 2026 12:01:40 -0400
+Date: Wed, 21 Jan 2026 12:01:40 -0400
 From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Pranjal Shrivastava <praan@google.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Cc: Leon Romanovsky <leon@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Gerd Hoffmann <kraxel@redhat.com>,
@@ -98,16 +98,18 @@ Cc: Leon Romanovsky <leon@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
  amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
  intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
  iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v4 8/8] vfio: Validate dma-buf revocation semantics
-Message-ID: <20260121155000.GE961572@ziepe.ca>
-References: <20260121-dmabuf-revoke-v4-0-d311cbc8633d@nvidia.com>
- <20260121-dmabuf-revoke-v4-8-d311cbc8633d@nvidia.com>
- <20260121134712.GZ961572@ziepe.ca> <aXDhJ89Yru577jeY@google.com>
- <20260121142528.GC13201@unreal> <aXDnAVzTuCSZHxgF@google.com>
+Subject: Re: [PATCH v3 6/7] vfio: Wait for dma-buf invalidation to complete
+Message-ID: <20260121160140.GF961572@ziepe.ca>
+References: <20260120-dmabuf-revoke-v3-0-b7e0b07b8214@nvidia.com>
+ <20260120-dmabuf-revoke-v3-6-b7e0b07b8214@nvidia.com>
+ <b129f0c1-b61e-4efb-9e25-d8cdadaca1b3@amd.com>
+ <20260121133146.GY961572@ziepe.ca>
+ <b88b500c-bacc-483d-9d1a-725d4158302a@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aXDnAVzTuCSZHxgF@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b88b500c-bacc-483d-9d1a-725d4158302a@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,43 +128,118 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	MAILLIST(-0.20)[mailman];
 	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:praan@google.com,m:leon@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:alexander.deucher@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:kraxel@redhat.com,m:dmitry.osipenko@collabora.com,m:gurchetansingh@chromium.org,m:olvaffe@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:lucas.demarchi@intel.com,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,m:kevin.tian@intel.com,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:Felix.Kuehling@amd.com,m:alex@shazbot.org,m:ankita@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:amd-gfx@lists.freedesktop.org,m:virtualization@lists.linux.dev,m:intel-xe@lists.freedesktop.org,m:linux-rdma@vger.kernel.org,m:iommu@lists.linux.dev,m:kvm@vger.kernel.org,s:lists@lfdr.de];
 	DMARC_NA(0.00)[ziepe.ca];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:leon@kernel.org,m:sumit.semwal@linaro.org,m:alexander.deucher@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:kraxel@redhat.com,m:dmitry.osipenko@collabora.com,m:gurchetansingh@chromium.org,m:olvaffe@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:lucas.demarchi@intel.com,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,m:kevin.tian@intel.com,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:Felix.Kuehling@amd.com,m:alex@shazbot.org,m:ankita@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:amd-gfx@lists.freedesktop.org,m:virtualization@lists.linux.dev,m:intel-xe@lists.freedesktop.org,m:linux-rdma@vger.kernel.org,m:iommu@lists.linux.dev,m:kvm@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_SENDER(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[35];
-	FREEMAIL_CC(0.00)[kernel.org,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	DKIM_TRACE(0.00)[ziepe.ca:+];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[ziepe.ca:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RSPAMD_EMAILBL_FAIL(0.00)[christian.koenig.amd.com:query timed out];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ziepe.ca:mid,ziepe.ca:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
-X-Rspamd-Queue-Id: 0405F59778
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,ziepe.ca:mid,ziepe.ca:dkim,amd.com:email]
+X-Rspamd-Queue-Id: 2C702599B5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Jan 21, 2026 at 02:47:29PM +0000, Pranjal Shrivastava wrote:
-> But at the same time, I'd like to discuss if we should think about
-> changing the dmabuf core, NULL op == success feels like relying on a bug
+On Wed, Jan 21, 2026 at 04:28:17PM +0100, Christian König wrote:
+> On 1/21/26 14:31, Jason Gunthorpe wrote:
+> > On Wed, Jan 21, 2026 at 10:20:51AM +0100, Christian König wrote:
+> >> On 1/20/26 15:07, Leon Romanovsky wrote:
+> >>> From: Leon Romanovsky <leonro@nvidia.com>
+> >>>
+> >>> dma-buf invalidation is performed asynchronously by hardware, so VFIO must
+> >>> wait until all affected objects have been fully invalidated.
+> >>>
+> >>> Fixes: 5d74781ebc86 ("vfio/pci: Add dma-buf export support for MMIO regions")
+> >>> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> >>
+> >> Reviewed-by: Christian König <christian.koenig@amd.com>
+> >>
+> >> Please also keep in mind that the while this wait for all fences for
+> >> correctness you also need to keep the mapping valid until
+> >> dma_buf_unmap_attachment() was called.
+> > 
+> > Can you elaborate on this more?
+> > 
+> > I think what we want for dma_buf_attach_revocable() is the strong
+> > guarentee that the importer stops doing all access to the memory once
+> > this sequence is completed and the exporter can rely on it. I don't
+> > think this works any other way.
+> > 
+> > This is already true for dynamic move capable importers, right?
+> 
+> Not quite, no.
 
-Agree, IMHO, it is surprising and counter intuitive in the kernel that
-a NULL op means the feature is supported and default to success.
+:(
+
+It is kind of shocking to hear these APIs work like this with such a
+loose lifetime definition. Leon can you include some of these detail
+in the new comments?
+
+> >> In other words you can only redirect the DMA-addresses previously
+> >> given out into nirvana (or a dummy memory or similar), but you still
+> >> need to avoid re-using them for something else.
+> > 
+> > Does any driver do this? If you unload/reload a GPU driver it is
+> > going to re-use the addresses handed out?
+> 
+> I never fully read through all the source code, but if I'm not
+> completely mistaken that is enforced for all GPU drivers through the
+> DMA-buf and DRM layer lifetime handling and I think even in other in
+> kernel frameworks like V4L, alsa etc...
+
+> What roughly happens is that each DMA-buf mapping through a couple
+> of hoops keeps a reference on the device, so even after a hotplug
+> event the device can only fully go away after all housekeeping
+> structures are destroyed and buffers freed.
+
+A simple reference on the device means nothing for these kinds of
+questions. It does not stop unloading and reloading a driver.
+
+Obviously if the driver is loaded fresh it will reallocate.
+
+To do what you are saying the DRM drivers would have to block during
+driver remove until all unmaps happen.
+
+> Background is that a lot of device still make reads even after you
+> have invalidated a mapping, but then discard the result.
+
+And they also don't insert fences to conclude that?
+
+> So when you don't have same grace period you end up with PCI AER,
+> warnings from IOMMU, random accesses to PCI BARs which just happen
+> to be in the old location of something etc...
+
+Yes, definitely. It is very important to have a definitive point in
+the API where all accesses stop. While "read but discard" seems
+harmless on the surface, there are corner cases where it is not OK.
+
+Am I understanding right that these devices must finish their reads
+before doing unmap?
+
+> I would rather like to keep that semantics even for forcefully
+> shootdowns since it proved to be rather reliable.
+
+We can investigate making unmap the barrier point if this is the case.
 
 Jason
