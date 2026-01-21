@@ -2,116 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gJfgL9nbcGnCaQAAu9opvQ
+	id MLTfIjffcGnCaQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 14:59:53 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 15:14:15 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B205580E4
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 14:59:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC6E558369
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 15:14:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8698110E808;
-	Wed, 21 Jan 2026 13:59:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25E7510E199;
+	Wed, 21 Jan 2026 14:14:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="fvLx6eyK";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="CbFfAUW2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
- [209.85.160.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5631E10E804
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 13:59:50 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id
- d75a77b69052e-501502318b1so52783531cf.3
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 05:59:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1769003989; x=1769608789; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=NrFwAYZYjJdV2hWLBqDeijXZcUvvrfRZB3KhQxPCGpU=;
- b=fvLx6eyKqDTx+NdYcUVM401Knh4Ly59ZGpctk9zvX/1mdfD1b/DNVSjX59whUyVTvG
- AhquZpzdfIeEHSBsEubKtOHBE/L+u0iaCbjCaJsJE2k3Yom44kJdY4SRnPtDufZsMWjR
- QP8pkub6iPaLdXHye6OWUKppOA5RN7+XjMPDuSoJll0ekGe2URr3PgJL7AsaCgTFs4bR
- DKZSLFIIv9yBsrYPFQg/vNwVDQYhlE2GD2v942X5gT8GKTyfddynqtnit3V6LEbZrJu8
- jaeXiVQMYnrY0xIQG3dstPhoQdNnr7/QdHtxJHIVy04KUCLSTC9leMgQixZeCA+kaNKr
- uKZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769003989; x=1769608789;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NrFwAYZYjJdV2hWLBqDeijXZcUvvrfRZB3KhQxPCGpU=;
- b=aTxS6C/yGP8kYJ5hnNMbFClkQBpHuhMsP/uF5jc20l4m+ru7/S6fztXOzdolvxSBUo
- OZIIgjyuY1OIXE5xS8rKgbAtXwJRoEd29E4CaiXOc1z8plIKUvLHWP5oU/H3L+QusdIm
- rg5dkwpmGgufhmT2UDiMtONMPCl2j9w2fsJt/HO0iymnowZ8bniw83Ohuo2pUCj9lp0k
- n6VGjDr1h9TYv5Rs+8EAElINFWeiVh2j5v6KTNeUt+vPXC4qKYiKxa66TrqJnvnv6wgn
- D3DuxFcSi5afTYCFwi123EVu7jpFR5l3ElffsdhNcrGYV5tHYiTBQdQvZg2jcwdfW7CE
- d41A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXvD6JUFcollvcGsiaU9pRadtakSAFQamQCWDo9jX91ELnlkG2Z9CbpgOCdnVBnRCtKf+GbOWb69Oo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxCReC51AFCQjwNY2f1SnPHeY7mtHADmeYRpliUN0VP10vZxJw5
- eGtdrXYstgLPBsF918wlu4SEAwJ5mgvZdAYO3V+E3bia/wCEHpP46bbx6uLcZtUvqNw=
-X-Gm-Gg: AZuq6aJpCjzWjGovh46cVKPwM15Z8jBOEd0v7K7vHa5xt01QCVP/UcfoB0+4E4i0sRY
- kmVO3a7cU91Aak2yA/R2+ds9aJOuYWc/WOP+tujtvj1I3HqtgZJKQgCmjAPwLoZodZ4kvUfUalD
- yyPsqogM6NBcRrwy9BFzgY7H4zswSnBdg+J6fbG8EKy0ojOJNXurqFzi/DQabz0ygNMW11wtn9t
- VtgCQzBnYUaxm9GtHmtDqxMWdPi0DedfVnGKWqd8PEzrHlVcWF+Eta9NCrMS2lHqmLbg4L4s8VO
- e2L2XDuiWDbUEUouOhxmSEtdy0CxSUrvvzuvfZ8ThW4EkiSykaUZi9K7XIjLjU4aOsBUyVgfjEZ
- 0zrrBDC32MBU0aDpl59BgRLM6DqNAL9I6yiq49X0FsfV7aNkZ59bIaPvyQber6SPA28cmob1vZd
- gt898TgQvJ970hVBP9Z77oukqK2LwiJLsfgEIwJiCh0M6Uf7zjac0/K+14WRAS8sfFS5M=
-X-Received: by 2002:ac8:5d14:0:b0:4ff:c5f7:f812 with SMTP id
- d75a77b69052e-502d855fe29mr65972911cf.38.1769003989233; 
- Wed, 21 Jan 2026 05:59:49 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-502a1d9f480sm113423091cf.13.2026.01.21.05.59.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jan 2026 05:59:48 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1viYkO-00000006E8Z-0XjE;
- Wed, 21 Jan 2026 09:59:48 -0400
-Date: Wed, 21 Jan 2026 09:59:48 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Williamson <alex@shazbot.org>, Ankit Agrawal <ankita@nvidia.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
- intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v3 3/7] dma-buf: Document RDMA non-ODP
- invalidate_mapping() special case
-Message-ID: <20260121135948.GB961572@ziepe.ca>
-References: <20260120-dmabuf-revoke-v3-0-b7e0b07b8214@nvidia.com>
- <20260120-dmabuf-revoke-v3-3-b7e0b07b8214@nvidia.com>
- <4fe42e7e-846c-4aae-8274-3e9a5e7f9a6d@amd.com>
- <20260121091423.GY13201@unreal>
- <7cfe0495-f654-4f9d-8194-fa5717eeafff@amd.com>
- <20260121131852.GX961572@ziepe.ca>
- <8a8ba092-6cfa-41d2-8137-e5e9d917e914@amd.com>
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F24D10E199
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 14:14:11 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 865D44E421C5;
+ Wed, 21 Jan 2026 14:14:09 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 557D86070A;
+ Wed, 21 Jan 2026 14:14:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 5D14E119B152E; Wed, 21 Jan 2026 15:13:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1769004847; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=jJAdXppBbAOIvtuneW6gr8WXXxU/lyeSburTzUqxCrI=;
+ b=CbFfAUW26FQeqLMmADKrfn042P8OpRUkcoMywRGcVRQIj4RPFkNsJqohbnCTLqUNRPcShc
+ xrAByGcR11i0cK/s3YHc5Id0v+RBcxzTg/Rt7noXa6pfUp47lVbD0Y73jbQPiBOw/LATgm
+ xQe8+jFuvMqKhOWM9jw1aPohA9PcK3peRIsp4DawVDHQPorffVc0ZkOxet4OUwPBy1JVUw
+ wwnSB9YHi5LBBUEgClaqJyJxhQuaJF15p+qRbGoXGchAJ7DfIcHdZWJMZWQHsYBbX8a/j+
+ jZW5pEi7kHlrdkhP5aWWSwbBod6XxTP32pLCM25qscz8Pee2tDeokCbEFsSaBg==
+Date: Wed, 21 Jan 2026 15:13:56 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
+Cc: Jyri Sarha <jyri.sarha@iki.fi>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Russell
+ King <linux@armlinux.org.uk>, Bartosz Golaszewski <brgl@bgdev.pl>, Tony
+ Lindgren <tony@atomide.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Markus
+ Schneider-Pargmann <msp@baylibre.com>, Bajjuri Praneeth <praneeth@ti.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, Louis Chauvet
+ <louis.chauvet@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, Miguel Gazquez
+ <miguel.gazquez@bootlin.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org
+Subject: Re: [PATCH v4 05/25] drm/tilcdc: Convert legacy panel binding via
+ DT overlay at boot time
+Message-ID: <20260121151356.14d88273@bootlin.com>
+In-Reply-To: <20260116-feature_tilcdc-v4-5-2c1c22143087@bootlin.com>
+References: <20260116-feature_tilcdc-v4-0-2c1c22143087@bootlin.com>
+ <20260116-feature_tilcdc-v4-5-2c1c22143087@bootlin.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8a8ba092-6cfa-41d2-8137-e5e9d917e914@amd.com>
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,75 +84,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:leon@kernel.org,m:sumit.semwal@linaro.org,m:alexander.deucher@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:kraxel@redhat.com,m:dmitry.osipenko@collabora.com,m:gurchetansingh@chromium.org,m:olvaffe@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:lucas.demarchi@intel.com,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,m:kevin.tian@intel.com,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:Felix.Kuehling@amd.com,m:alex@shazbot.org,m:ankita@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:amd-gfx@lists.freedesktop.org,m:virtualization@lists.linux.dev,m:intel-xe@lists.freedesktop.org,m:linux-rdma@vger.kernel.org,m:iommu@lists.linux.dev,m:kvm@vger.kernel.org,s:lists@lfdr.de];
-	DMARC_NA(0.00)[ziepe.ca];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	FREEMAIL_CC(0.00)[kernel.org,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:kory.maincent@bootlin.com,m:jyri.sarha@iki.fi,m:tomi.valkeinen@ideasonboard.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux@armlinux.org.uk,m:brgl@bgdev.pl,m:tony@atomide.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:msp@baylibre.com,m:praneeth@ti.com,m:luca.ceresoli@bootlin.com,m:louis.chauvet@bootlin.com,m:thomas.petazzoni@bootlin.com,m:miguel.gazquez@bootlin.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-omap@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[herve.codina@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[ziepe.ca:+];
-	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[iki.fi,ideasonboard.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,armlinux.org.uk,bgdev.pl,atomide.com,intel.com,linaro.org,kwiboo.se,baylibre.com,ti.com,bootlin.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
+	DKIM_TRACE(0.00)[bootlin.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[herve.codina@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ziepe.ca:mid,ziepe.ca:dkim,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
-X-Rspamd-Queue-Id: 2B205580E4
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:url,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,ideasonboard.com:email]
+X-Rspamd-Queue-Id: EC6E558369
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Jan 21, 2026 at 02:52:53PM +0100, Christian König wrote:
-> On 1/21/26 14:18, Jason Gunthorpe wrote:
-> > On Wed, Jan 21, 2026 at 10:17:16AM +0100, Christian König wrote:
-> >> The whole idea is to make invalidate_mappings truly optional.
-> > 
-> > But it's not really optional! It's absence means we are ignoring UAF
-> > security issues when the exporters do their move_notify() and nothing
-> > happens.
+Hi Kory,
+
+On Fri, 16 Jan 2026 18:02:05 +0100
+"Kory Maincent (TI.com)" <kory.maincent@bootlin.com> wrote:
+
+> To maintain backward compatibility while removing the deprecated
+> tilcdc_panel driver, add a tilcdc_panel_legacy subdriver that converts
+> the legacy "ti,tilcdc,panel" devicetree binding to the standard
+> panel-dpi binding at early boot.
 > 
-> No that is unproblematic.
+> The conversion uses an embedded device tree overlay that is applied and
+> modified during subsys_initcall. The process:
 > 
-> See the invalidate_mappings callback just tells the importer that
-> the mapping in question can't be relied on any more.
+> - Apply embedded overlay to create a tilcdc-panel-dpi node with
+>   port/endpoint connections to the LCDC
+> - Copy all properties from the legacy panel node to the new
+>   tilcdc-panel-dpi node
+> - Copy display-timings from the legacy panel
+> - Convert legacy panel-info properties (invert-pxl-clk, sync-edge) to
+>   standard display timing properties (pixelclk-active, syncclk-active)
+> - Disable the legacy panel by removing its compatible property to
+>   prevent the deprecated driver from binding
 > 
-> But the mapping is truly freed only by the importer calling
-> dma_buf_unmap_attachment().
+> The result is a standard tilcdc-panel-dpi node with proper endpoints and
+> timing properties, allowing the DRM panel infrastructure to work with
+> legacy devicetrees without modification.
 > 
-> In other words the invalidate_mappings give the signal to the
-> importer to disable all operations and the
-> dma_buf_unmap_attachment() is the signal from the importer that the
-> housekeeping structures can be freed and the underlying address
-> space or backing object re-used.
+> Other legacy panel-info properties are not migrated as they consistently
+> use default values across all mainline devicetrees and can be hardcoded
+> in the tilcdc driver.
+> 
+> This feature is optional via CONFIG_DRM_TILCDC_PANEL_LEGACY and should
+> only be enabled for systems with legacy devicetrees containing
+> "ti,tilcdc,panel" nodes.
+> 
+> Suggested-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Link: https://lore.kernel.org/all/1d9a9269-bfda-4d43-938b-2df6b82b9369@ideasonboard.com/
+> Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
+> ---
 
-I see
+Looks good to me.
 
-Can we document this please, I haven't seen this scheme described
-anyhwere.
+Reviewed-by: Herve Codina <herve.codina@bootlin.com>
 
-And let's clarify what I said in my other email that this new revoke
-semantic is not just a signal to maybe someday unmap but a hard
-barrier that it must be done once the fences complete, similar to
-non-pinned importers.
-
-The cover letter should be clarified with this understanding too.
-
-Jason
+Best regards,
+Hervé
