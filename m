@@ -2,172 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eM+/B3UNcWlEcgAAu9opvQ
+	id sIcHB4gNcWlEcgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 18:31:33 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 18:31:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 536F05A8DC
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 18:31:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 448845A8EA
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 18:31:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71B6310E857;
-	Wed, 21 Jan 2026 17:31:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F66410E0A0;
+	Wed, 21 Jan 2026 17:31:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="XPGR8wDy";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="R6VJiYOs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CWXP265CU010.outbound.protection.outlook.com
- (mail-ukwestazon11022114.outbound.protection.outlook.com [52.101.101.114])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7044610E0BF;
- Wed, 21 Jan 2026 17:31:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=u8vyKhBevr4Qmr8ZBYpj+Sjl3+oOCdEOw3SSi+GFGJZsis5vAh01toFku/u+Qqr3zqyNSKl8mM4Ihe4MTzdXYUmhY+ICbCOcHn1UHdpkFClgle3OZQ18Mvf1aRPO6bQik+5Mi6Kugw7MzV5DNcYjeS7BXji1WZLnlKwpt/vEdP6Sle1UM700l3vyZqCuh8YuygefAqziFSRWQeGivP1QDN+nCc9ZjJIC6n+f5f/vsMjMOoQjZtHkKL/hCL+z0RtpoUT5E/o4Bt+vpgBLHCkGMqsAp842+FOPn0uAIh7EuAu5ABqMUN8yBkmVuM6s6b8jOVcLoHfxCcZSgS1E1WtEqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K9P+pqLPSK/Q9brJpDt2S6JHm3SrThmYtk+/fl8qiQw=;
- b=Eh4bjB3WpQuryFLYf8tRLF3Aqwge4Mfi5PA9Bypdi9fZ/V6mHDjOSo62e7XFzTKaiFaygihr6WDGHW6qH8gnJs864ignS5H2vGZ92OHynnehI07Lzmfq/TRN/TM/RWcXj2xXpqRtwrWEFh5NshWCALILqWx9VjazYc3XL3EdYHlsf9xnZYUkHsOeIhF1lRU9Zl1GhzqsOObObMz9DvtCxhjfq2zXJTE6B62g2vyNDkrRfy3advYL/uye8R7rU5Kc9bpvUtsg9JyA4JZ9ujp7sfnOhCwtnTFq2etPXoFFL6ftVIZSm7FmokuRt/aBVtLSwvVDF6//WtHyIwOIOxD6Bw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K9P+pqLPSK/Q9brJpDt2S6JHm3SrThmYtk+/fl8qiQw=;
- b=XPGR8wDyRlzBRsb4VFGviQ3kxQ385ljrlD0xXLPfUbfs8sfMGCSUzdI4+vReHadkizxa+lGCTo2jbmPcyLfBb99wf+cDaFzKBl09hluuJZc7k86X3yuEryEGUqE8Fa+ugqcqG/SATKuAKeobyz8f3CvtZ1CRFURT+q+5+mr8PFA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LOYP265MB2206.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:114::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.10; Wed, 21 Jan
- 2026 17:31:26 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9542.008; Wed, 21 Jan 2026
- 17:31:25 +0000
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 008F010E0A0
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 17:31:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1769016705; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Yy1eI9bWp2X48L9uQyrRW+0kzsIvrK15CDZ/Qa8rkkHJNSgORut9AG4PouIx7/D22FjIr6/C83Zw0rt3qOTFVMEBFSmJMAjlQkcNJlTh4amuTCABZtTUcH15sWeOCwKkQbnW1HTia+uU7IVlDeHUEJ8PgY7Q7cqB38zlfDcysPI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1769016705;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=URdt5KiuBpMRqsnqjYUPR+eoLsDfCQvUnjUE3NGoKCg=; 
+ b=ZlcpXKkIPhKF5a4yUCk6RO2nyCyuRsqOJ9MNax1+KdkMeEfSjNRtQc0HrbCktM7JsXn9D8Yll2isaPiYcuOVjzl70AHZT2FP/Ib+6kT9XIjaPbE+wzpNSFrunyhveK9ZVeFhOCHAJTAwmEGelDLVVurLHgJ8Tltfv5BqXORKNsM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769016704; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=URdt5KiuBpMRqsnqjYUPR+eoLsDfCQvUnjUE3NGoKCg=;
+ b=R6VJiYOs7XTuAh+pSh0B6VgjfspxQ79hHh/YSp/l8HPVo9uUopnMItA4ZWfLJsLF
+ INTKtzOHpsJy7ENv2zDQ5zqMEnSSVlKXYZjB8/OwlZT1RPfOF0CJM1QGQN2qZh46eAw
+ lavfaGpb9AsoNjM519TLMvOU44WmMNYj7SQwNOwM=
+Received: by mx.zohomail.com with SMTPS id 1769016702659351.889045124566;
+ Wed, 21 Jan 2026 09:31:42 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH v3 3/6] rust: gpuvm: add GpuVm::obtain()
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20260121-gpuvm-rust-v3-3-dd95c04aec35@google.com>
+Date: Wed, 21 Jan 2026 14:31:26 -0300
+Cc: Danilo Krummrich <dakr@kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Janne Grunau <j@jannau.net>, Matthew Brost <matthew.brost@intel.com>,
+ =?utf-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>, Asahi Lina <lina+kernel@asahilina.net>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 21 Jan 2026 17:31:25 +0000
-Message-Id: <DFUG2U4PVVTN.1DVPXGJK735F8@garyguo.net>
-Cc: <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH 1/2] rust: drm: add support for driver features
-From: "Gary Guo" <gary@garyguo.net>
-To: "Daniel Almeida" <daniel.almeida@collabora.com>, "Danilo Krummrich"
- <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- "Boris Brezillon" <boris.brezillon@collabora.com>
-X-Mailer: aerc 0.21.0
-References: <20260119-drm-render-v1-0-8326e4d5cb44@collabora.com>
- <20260119-drm-render-v1-1-8326e4d5cb44@collabora.com>
-In-Reply-To: <20260119-drm-render-v1-1-8326e4d5cb44@collabora.com>
-X-ClientProxiedBy: LO2P265CA0229.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:b::25) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LOYP265MB2206:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8d86216a-ce32-4f04-6453-08de5912e747
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|7416014|376014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ODk5YU80NjJPZWNxOWtRS0JBT25DM3AvSDF3VmxrNENWNEFZbThHTytOYWFs?=
- =?utf-8?B?anhsWnBZSTAySHJQd3k1T1ViajRncTNxRzF1bWVDOXQwNnMxbFJOMzhVZnRV?=
- =?utf-8?B?d2lPWU1vTHJxOFZqVEhaRmFOVlJ6VnJ2Zi9aVExBeFRyZGxhRGRHVUdPWEhW?=
- =?utf-8?B?NnlhampVekZpYm9Sb1hET3BPK0VOcjFpZHBJd2RoWEVBVjBkL1BmczhiMnFM?=
- =?utf-8?B?ZkZQTmQ3RGRMWnMybjhKMEtpeFFKQlBETXhGNGcvWUJ3bHZDZ3BUUkZKRUs0?=
- =?utf-8?B?MGFpVzhaMlE5WTNHb1JJWTVIbUpPUVgyVlB1Sk5SR2svSGcxOXVoZnFHREhq?=
- =?utf-8?B?SXJEYnRRRWVPQU1ibnQ2RnZVZmx3bitHa0FwWTJNTTRSdnhyMXhGNDBlbDMz?=
- =?utf-8?B?Mmxidkg0emdXWFh2WkZXa0ltdXlvUk1GU240cnFET1V3Y29ubkw5VHNRRWMz?=
- =?utf-8?B?MVpRd2hzajZWZnI2bitXdzdDdlFtWjExRGY3MExpOWRJUEg5dHdURTQxYzVI?=
- =?utf-8?B?bVhsVTh6UFZzLzMzeDdibFJTQUgzSmZEUHd6aE5obGpzTm4rNHhIaEhRYzhM?=
- =?utf-8?B?MWVHYy82VTFEQnpadzlBM20zQWwyeTJiTU5LL1pMNFptSjNwVXhLbHAvZmJv?=
- =?utf-8?B?dnRKUlNrdEdtWDc0Q3JPMmtxVFB0dFdiTVdyeStHN3NkOG1LWGZGcisxcm1x?=
- =?utf-8?B?WHppazhqU0tGOFhzWHVma2tMeG5wdmNRQlBGQ3NoeVVkNklTbExwYXZBS0Rx?=
- =?utf-8?B?SEIvZGRtelhEMnJ3V3dMRklUNExBQ2pjUElGeEhsZHdNMG1SSE90a1BKbW1M?=
- =?utf-8?B?alAwdTlRVjhxRmpxVmU3RGt0Z0ZqaEJGVmtUM3ZUOWRuNm9FUGRWaXZ6TUNu?=
- =?utf-8?B?cDNTVmE3Rng2c0RlYzlMelM0T0sxdFhjd054Q1orNkxHcitLRmladHVPekp3?=
- =?utf-8?B?cUNWVzNZOGRsZFV0a2JwaDVhd3FPL1lvNTFkelRPZ041QUUrcmhackNuN2Nr?=
- =?utf-8?B?WU03L2lvVEZzSjViaHdiRDB5K2Rvc295Q1htRkhqS0VEYm5WVUo3WEhneUN2?=
- =?utf-8?B?OWVKSCtwbTZKeTZ5ZWhtZ3Z4bytHejV0eDdJZG16OXVHV1JhRlYyRGNDbTJF?=
- =?utf-8?B?NHdaQi82MEdCWkFMNjdCdjNDMUU2TXE3endLK3dQYnlPR3NDWVBSWkZRazQ1?=
- =?utf-8?B?TkF0SlRaRXVJS2RzZmZseGFNRTE4bTM1dWFzaUZPWDdaQlJLNUZZV01mSlNU?=
- =?utf-8?B?cWxPeUdtd1ljY0lqK1hBRlpNMXVLZzZQQ3dRWWJ5SWV6bFJjYVAzRld2c1l5?=
- =?utf-8?B?WlF4OUZib2hvUXFTTlhZSVZCWDZQaGZ1TldTWjIyWU1sbUVsNjM2U3crM2k0?=
- =?utf-8?B?dmZDVGluSFFpeXZBeFZCUStnRXU4dEp2Z1hRb1ExNkdCUFdjRkZzKzRoRTk2?=
- =?utf-8?B?MmlYU3pPQzlNaFIrM3BqN09YMzR4TkRVck1zbXpsSEpZdGhjUXlsWXhJV2xp?=
- =?utf-8?B?Umg3YWE1RTNFTU4xNUdIN2dRRHZYVm1tMkRHZWo0UEJPcWNkOXJtUDhZNE1W?=
- =?utf-8?B?YjJKUEVYRTdHUGJPSmRTY2EwYjkya2dSMk1IeGFmR0pYMi9tSDNQOVF1RWhn?=
- =?utf-8?B?TEk3Nmg5K2xaS1AxbFB0cVNJd1M3YUUwUDZpRWhJdTEzMmYrQzlnUEtBbGdF?=
- =?utf-8?B?aytQWU9xRFdmZ3luNVhmeTd2MFVPRmFaaFhETkVyTUgxRmlLaFpnMi94bXMr?=
- =?utf-8?B?dzlzOTJwM0hIN2M2VllSeFlSSkQ0dnBnQUpqejR0TDNtQ0xhazJKVzJsWkt4?=
- =?utf-8?B?TUV4U2NkR3REd2xzYk0zb0JyNkdVZ09CVVFSRzVWRFFEUlZqcFFDaDhNakls?=
- =?utf-8?B?T1hINDNiODdzcEFJNFdUbnZac1ovUWhuTHR2bmJlUUVtaHdsUVlBS1p4YnhF?=
- =?utf-8?B?Vzd5OTV6QVprSEhWTVJlc1dGUE01WG1Ob3p2MjlVUlhBK09DSEhHSHIwTE9x?=
- =?utf-8?B?VGsxMlBseENmbFJQM2tkZDlmMWVEbHprSTRJdm5aU1hFZjRhZHpWeUNUa2lq?=
- =?utf-8?B?SWtEdURwN0JJdERJUThEZUtGcVZMdEpxRjM1dURlTHlmNlhtUHhLUnE1UEdk?=
- =?utf-8?B?NUxGNmMzTFlJUGVrWDJnSmN4SUxuT2xXRkZqSGRCOW9Ha2FSL0UwSTl1MDcx?=
- =?utf-8?B?OVE9PQ==?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014)(921020); DIR:OUT; SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TU9jVzB2dmlsSHk3QjhCN2FVZ1B6VVpYTmxMeG1TbnlJeWdIeUhtNm96SEZG?=
- =?utf-8?B?TmJMdTRCQk9teEpiSmNsYUpvY0kzL1MvbUx5bEVuRi80Tkl2RHpONUo0aEVr?=
- =?utf-8?B?SWQ1cEpyb25iQ25KQ1NJMDZQRk5yNWhtejFMbUo1R2UwamhKVmJ6TEcySXVB?=
- =?utf-8?B?V2xISEo5dVhkeFNIaWREWFhrNGJCcXVZNjZTdVVuSm5aaTE5enFMZ1d5Wnoz?=
- =?utf-8?B?MDkvV0pSdGJJM3JSMm5FM2xwU2pUcWEzbHNGSmN4dTdHeitOa0E4V1FjeXVH?=
- =?utf-8?B?cnBPTUZnN1U0MmZGSnFDZHI5Vk9sUW1hdnc1TUpVbXBLcVVmL2RFUWFhckF1?=
- =?utf-8?B?OXJpUDJXN1NJWjQ4T3FDWmdWZmIreS84cm1ZYkpPejBSWWl6Z1p1bCtCUmMw?=
- =?utf-8?B?K211OEN3VEcxZzhoRFNxZjZWdjIyVmw4clI4QVI2WWtaL3ZKZ0pNWThEN2Vw?=
- =?utf-8?B?a0RVRWdmNkFFL0JTQUMrckQ2V3Jla2ZTM3Y2STZueUZCOTRtd2lTczZ0Ny80?=
- =?utf-8?B?OGR5eU13bDRESzdaVERHMkhRMEdFRml3dFNyOWxJNGFBRHE4YlVDYjRmUGYz?=
- =?utf-8?B?TkR4TjBOdjk3ZC8wYXU4a29TY1dUUnpiUWRWeThybEkyeVFNOXUzWHU4dm15?=
- =?utf-8?B?MGJRTWZtdW9LTXE1QTh1RTh5OTVXOTB2SkRyc0M0R1VKRTBWWTl0N3BvNjVR?=
- =?utf-8?B?eHpOMGxneG91aVVBcGVJWU9SMGZFVDZUVXpkNlhpcWpWZmN2WXpMSWJuUWVn?=
- =?utf-8?B?TTVYcVVrcU5LcDhybGxwQVc5ako0b2I5ZzVvZlNZUzVtRzI4RlBmbVlqV3Uy?=
- =?utf-8?B?c3RLeGVxdUlzRzZhbkNPQ0Z5anlxU2h1T1cvNWdZaFFLVHdncUVvWlFXMlJK?=
- =?utf-8?B?UFEwWDFkNTZBU2NwQ2VDUEJYak9Ldk5NWVZkeHZndzBEa09Leng2L05GUjkz?=
- =?utf-8?B?K0J4eEVrRWFrK0ZXNWZ2WC9iU0tmam1tUzNyZmoxMVVLYVpZK1Z3bE9QVDBC?=
- =?utf-8?B?TnpqcU1sUk9nYTdFZjFVVUtTUGNtZEdHTlZOWkI0SkNuaGJoLzF5NXdxeHRX?=
- =?utf-8?B?d0hicEZoNVd2V0gwV3RKMmFBWVBzWWYyQ2dPMmNwTHZrMkdBOSt4YUt5Szdj?=
- =?utf-8?B?Si9sa2tITXh3TllDVGxKdXM5QmlBYWJNTnJvRG9rc0RpY2FURTR1amFGd2Y5?=
- =?utf-8?B?a05ZV0JEbW9qbnpmVGIxZ3diUXVGNUpSNzRmdWlpcmRINEFpSGYxVFR4MC9U?=
- =?utf-8?B?MzlSZk5HZmdDdmxVeUcvdVZQV3o0ODdqcG1CNkVUU3ZUdVBHam5KenhEWmti?=
- =?utf-8?B?eEs5bHlIdytVdGlKTG41SUJmVDdiVE9oelA3MGxrbytqM24zS3FhdnVkMGRu?=
- =?utf-8?B?WUttZEQwL2NuNEM1WkRtS2twMk13d3dFTU16eWNCUGxNbnRlNnhtN1krMGxF?=
- =?utf-8?B?UXFCYTRkSytnNjg5U1NJUHBkTjUzeG9kOGRrYnRBNWJvMkRmU0ZBaWlPR1py?=
- =?utf-8?B?d0Y3NHFPNk5VeldTK1RBYjJpanNpdkZLL3AvYTd1eGZ0R21WdURuRTVLOXg3?=
- =?utf-8?B?dWVkMGRXbjFOWUpBbVZraDl5dklmem1PRW52YTBRTTF0eDZOQlhBVU94VUMr?=
- =?utf-8?B?RlQ2M2pOamUvK2VIRE9BejhQaUNCSFkrWHNiU0tab21Pa3ZTZHJHenYzc0Vw?=
- =?utf-8?B?eTZwMWNKOUhtZ0JocDNIZG0ya0lFMWxxbGxJdXNPMEhqK1BPVFJibG1ScGxn?=
- =?utf-8?B?Q0xTWTNKOEgydlNFVExXRUxlV29GRUF4K29KNmp5SWNtaUFkZWQ3VTNpd081?=
- =?utf-8?B?Z0hhMzB1VFN4KzlNTmVIem1rS3JvYTdXeno2U0R4dU14OWF0OStNUG5OY2Nu?=
- =?utf-8?B?cUxhOUZtYk1laHhLZzRES1B1RkI2WnJ4QkNOdUxpNUVpZ0xoVmFaMzUzeEpX?=
- =?utf-8?B?RlBSeWJaRDZJYmNZRWZ2ZjBobThOdlNCcnpaWjd4RlRlMDVlbUUvUVVYeHdj?=
- =?utf-8?B?bnhkcjE5dmxvS3BMa3JCUHRvcDVNK2hDTHl3NjdaUks2WUd1SHRXR3NYNWN6?=
- =?utf-8?B?M0UxUmI1VXRWUHozRWJXdG4wMWtURVZYNEFzUTZkSGxXMzA0czYxcVRyM3pi?=
- =?utf-8?B?M3NWQWxtTEEzUFc4SGdpSVF1MlM5bzEwVC9QWnlRRWg2MzJ0cnJxdmgxbzZw?=
- =?utf-8?B?dXZQN0NuU2V6TERNalliMlNBOWRTMi9FRHExQ3dkNi9malYxbHM2VFkzc292?=
- =?utf-8?B?dERJNGFja2xOdEh4ZmRTMEttalU1dlZ1ZXRUYVgyTUkzanFualQvZ1BQdmV4?=
- =?utf-8?B?Q041NGFIMitzTVZzRENjOWtSeUxxa3c5WTkxL0ZOM2RHcmdPcG0yQT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d86216a-ce32-4f04-6453-08de5912e747
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 17:31:25.8332 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Zm52v0ama9sEkpaj6Dotrr/WVOTA9K3bkJcRIxDrbucsqytMfpNXTCcIEnqf3ST0nOJOzLbod9gVcBV64s8/iQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOYP265MB2206
+Message-Id: <C31C1A08-D626-48D6-8F8C-39209BF94B50@collabora.com>
+References: <20260121-gpuvm-rust-v3-0-dd95c04aec35@google.com>
+ <20260121-gpuvm-rust-v3-3-dd95c04aec35@google.com>
+To: Alice Ryhl <aliceryhl@google.com>
+X-Mailer: Apple Mail (2.3826.700.81)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -184,229 +79,463 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
-	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
-	MAILLIST(-0.20)[mailman];
+	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[collabora.com,kernel.org,google.com,gmail.com,ffwll.ch,garyguo.net,protonmail.com,umich.edu];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[garyguo.net:+];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[daniel.almeida@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:boris.brezillon@collabora.com,m:j@jannau.net,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:lyude@redhat.com,m:lina+kernel@asahilina.net,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:aliceryhl@google.com,m:lina@asahilina.net,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
-X-Rspamd-Queue-Id: 536F05A8DC
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[daniel.almeida@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TAGGED_RCPT(0.00)[dri-devel,kernel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	APPLE_MAILER_COMMON(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,collabora.com:email,collabora.com:dkim,collabora.com:mid]
+X-Rspamd-Queue-Id: 448845A8EA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon Jan 19, 2026 at 11:34 PM GMT, Daniel Almeida wrote:
-> Add initial support for drm driver features via the DriverFeatures trait.
-> This trait is unsafe, requiring the implementer to comply with the safety
-> requirements of each feature individually if the feature is enabled.
+Hi Alice,
 
-I think such unsafe requirement is quite vague and also very non-local.
+This looks good. See a few nits below:
 
-Maybe we can use a single trait (the `ModesetOps` that you described) to do
-this:
+> On 21 Jan 2026, at 08:31, Alice Ryhl <aliceryhl@google.com> wrote:
+>=20
+> This provides a mechanism to create (or look up) VMBO instances, which
+> represent the mapping between GPUVM and GEM objects.
+>=20
+> The GpuVmBoResident<T> type can be considered like ARef<GpuVm<T>>,
+> except that no way to increment the refcount is provided.
 
-Something like:
+So this is like GpuVmCore, right? Since that is an ARef whose refcount =
+cannot
+be incremented.
 
-    pub unsafe trait ModesetOps<D> { ... }
+>=20
+> The GpuVmBoAlloc<T> type is more akin to a pre-allocated GpuVm<T>, so
+> it's not really a GpuVm<T> yet. Its destructor could call
 
-    // Maybe the never type in the future...
-    pub enum NoFeature {}
+Maybe you mean a pre-allocated GpuVmBo?
 
-    impl<D> ModesetOps<D> for NoFeature {
-        fn foo(&self, ...) { unimplemented!() }
-    }
+> drm_gpuvm_bo_destroy_not_in_lists(), but as the type is currently
+> private and never called anywhere, this perf optimization does not =
+need
+> to happen now.
+>=20
+> Pre-allocating and obtaining the gpuvm_bo object is exposed as a =
+single
+> step. This could theoretically be a problem if one wanted to call
+> drm_gpuvm_bo_obtain_prealloc() during the fence signalling critical
+> path, but that's not a possibility because:
+>=20
+> 1. Adding the BO to the extobj list requires the resv lock, so it =
+cannot
+>   happen during the fence signalling critical path.
+> 2. obtain() requires that the BO is not in the extobj list, so =
+obtain()
+>   must be called before adding the BO to the extobj list.
+>=20
+> Thus, drm_gpuvm_bo_obtain_prealloc() cannot be called during the fence
+> signalling critical path. (For extobjs at least.)
 
-    impl Driver {
-        /// Reference the modeset implementation (typically Self),
-        /// or `NoFeature` to indicate that the feature is not implemented.
-        type Modeset: ModesetOps<Self>;
-    }
+What about internal objects? This is merely a sanity check from my side.
 
-When building, you can use `TypeId` to check if it's actually implemented, =
-and
-set bits in the feature flags automatically.
-
-Best,
-Gary
-
->
-> New features can be described by adding separate ZSTs to encode them. The
-> current design assumes two types, for example: FeatureFooSupported and
-> NoFoo. As said above, this will require implementors to observe more safe=
-ty
-> requirements in their DriverFeatures trait implementation.
->
-> A subsequent commit will build on this one to add support for FEAT_RENDER=
-.
-> This is required by Tyr and other drivers.
->
-> Additionally, features can also require additional traits to be implement=
-ed
-> when enabled. These traits can add their own safety requirements.
->
-> This is roughly described below, with some boilerplate omitted:
->
-> pub struct ModesetSupported;
-> pub struct NoModeset;
->
-> pub unsafe trait ModesetOps: Driver {
->     fn set_mode(&self, ...);
-> }
->
-> pub trait ModesetRequirement<F: ModesetFeature> {}
-> impl<T: ModesetOps> ModesetRequirement<ModesetSupported> for T {}
-> impl<T> ModesetRequirement<NoModeset> for T {}
->
-> pub trait Driver:
->     DriverFeatures
->     + ModesetRequirement<Self::Modeset>
-> {
->     // ...
-> }
->
-> // `driver::compute_features` is augmented to include the feature flag.
-> const fn compute_features() -> u32 {
->   if T::Modeset::ENABLED {
->     features |=3D FEAT_MODESET;
->   }
->
->   features
-> }
->
-> // In driver code, `DriverFeatures` can enable the feature via
-> // `ModesetSupported`.
-> unsafe impl DriverFeatures for MyDriver {
->   type Modeset =3D ModesetSupported;
-> }
->
-> // Required because `Modeset =3D ModesetSupported`.
-> unsafe impl ModesetOps for MyDriver {...}
->
-> Feature support will soon be required by upcoming DRM drivers. This
-> extensible model lets us describe them in terms of either additional safe=
-ty
-> requirements and/or traits.
->
-> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+>=20
+> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 > ---
->  drivers/gpu/drm/nova/driver.rs |  5 +++++
->  drivers/gpu/drm/tyr/driver.rs  |  5 +++++
->  rust/kernel/drm/device.rs      |  6 +++++-
->  rust/kernel/drm/driver.rs      | 17 ++++++++++++++++-
->  4 files changed, 31 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/nova/driver.rs b/drivers/gpu/drm/nova/driver=
-.rs
-> index 2246d8e104e0..247a05f7b3a7 100644
-> --- a/drivers/gpu/drm/nova/driver.rs
-> +++ b/drivers/gpu/drm/nova/driver.rs
-> @@ -69,3 +69,8 @@ impl drm::Driver for NovaDriver {
->          (NOVA_GEM_INFO, drm_nova_gem_info, ioctl::AUTH | ioctl::RENDER_A=
-LLOW, File::gem_info),
->      }
->  }
+> rust/kernel/drm/gpuvm/mod.rs   |  32 +++++-
+> rust/kernel/drm/gpuvm/vm_bo.rs | 219 =
++++++++++++++++++++++++++++++++++++++++++
+> 2 files changed, 248 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/rust/kernel/drm/gpuvm/mod.rs =
+b/rust/kernel/drm/gpuvm/mod.rs
+> index =
+81b5e767885d8258c44086444b153c91961ffabc..cb576a7ffa07bc108704e008b7f87de5=
+2a837930 100644
+> --- a/rust/kernel/drm/gpuvm/mod.rs
+> +++ b/rust/kernel/drm/gpuvm/mod.rs
+> @@ -25,13 +25,20 @@
+>=20
+> use core::{
+>     cell::UnsafeCell,
+> +    mem::ManuallyDrop,
+>     ops::{
+>         Deref,
+>         Range, //
+>     },
+> -    ptr::NonNull, //
+> +    ptr::{
+> +        self,
+> +        NonNull, //
+> +    }, //
+> };
+>=20
+> +mod vm_bo;
+> +pub use self::vm_bo::*;
 > +
-> +// SAFETY: This trait requires implementers to observe the safety requir=
-ements
-> +// of each enabled feature. There are no features enabled, so this is sa=
-fe by
-> +// definition.
-> +unsafe impl drm::driver::DriverFeatures for NovaDriver {}
-> diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.r=
-s
-> index 0389c558c036..ec2aa30515a1 100644
-> --- a/drivers/gpu/drm/tyr/driver.rs
-> +++ b/drivers/gpu/drm/tyr/driver.rs
-> @@ -191,6 +191,11 @@ impl drm::Driver for TyrDriver {
->      }
->  }
-> =20
-> +// SAFETY: This trait requires implementers to observe the safety requir=
-ements
-> +// of each enabled feature. There are no features enabled, so this is sa=
-fe by
-> +// definition.
-> +unsafe impl drm::driver::DriverFeatures for TyrDriver {}
-> +
->  #[pin_data]
->  struct Clocks {
->      core: Clk,
-> diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
-> index 3ce8f62a0056..cfc2f34e8cc2 100644
-> --- a/rust/kernel/drm/device.rs
-> +++ b/rust/kernel/drm/device.rs
-> @@ -61,6 +61,10 @@ pub struct Device<T: drm::Driver> {
->  }
-> =20
->  impl<T: drm::Driver> Device<T> {
-> +    const fn compute_features() -> u32 {
-> +        drm::driver::FEAT_GEM
+> /// A DRM GPU VA manager.
+> ///
+> /// This object is refcounted, but the "core" is only accessible using =
+a special unique handle. The
+> @@ -68,8 +75,8 @@ const fn vtable() -> &'static =
+bindings::drm_gpuvm_ops {
+>             vm_free: Some(Self::vm_free),
+>             op_alloc: None,
+>             op_free: None,
+> -            vm_bo_alloc: None,
+> -            vm_bo_free: None,
+> +            vm_bo_alloc: GpuVmBo::<T>::ALLOC_FN,
+> +            vm_bo_free: GpuVmBo::<T>::FREE_FN,
+>             vm_bo_validate: None,
+>             sm_step_map: None,
+>             sm_step_unmap: None,
+> @@ -166,6 +173,16 @@ pub fn va_range(&self) -> Range<u64> {
+>         Range { start, end }
+>     }
+>=20
+> +    /// Get or create the [`GpuVmBo`] for this gem object.
+> +    #[inline]
+> +    pub fn obtain(
+> +        &self,
+> +        obj: &T::Object,
+> +        data: impl PinInit<T::VmBoData>,
+> +    ) -> Result<GpuVmBoResident<T>, AllocError> {
+> +        Ok(GpuVmBoAlloc::new(self, obj, data)?.obtain())
 > +    }
 > +
->      const VTABLE: bindings::drm_driver =3D drm_legacy_fields! {
->          load: None,
->          open: Some(drm::File::<T::File>::open_callback),
-> @@ -86,7 +90,7 @@ impl<T: drm::Driver> Device<T> {
->          name: crate::str::as_char_ptr_in_const_context(T::INFO.name).cas=
-t_mut(),
->          desc: crate::str::as_char_ptr_in_const_context(T::INFO.desc).cas=
-t_mut(),
-> =20
-> -        driver_features: drm::driver::FEAT_GEM,
-> +        driver_features: Self::compute_features(),
->          ioctls: T::IOCTLS.as_ptr(),
->          num_ioctls: T::IOCTLS.len() as i32,
->          fops: &Self::GEM_FOPS,
-> diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
-> index f30ee4c6245c..fdfd083ba2b6 100644
-> --- a/rust/kernel/drm/driver.rs
-> +++ b/rust/kernel/drm/driver.rs
-> @@ -98,7 +98,7 @@ pub trait AllocImpl: super::private::Sealed + drm::gem:=
-:IntoGEMObject {
->  /// This trait must be implemented by drivers in order to create a `stru=
-ct drm_device` and `struct
->  /// drm_driver` to be registered in the DRM subsystem.
->  #[vtable]
-> -pub trait Driver {
-> +pub trait Driver: DriverFeatures {
->      /// Context data associated with the DRM driver
->      type Data: Sync + Send;
-> =20
-> @@ -168,3 +168,18 @@ fn drop(&mut self) {
->          unsafe { bindings::drm_dev_unregister(self.0.as_raw()) };
->      }
->  }
+>     /// Clean up buffer objects that are no longer used.
+>     #[inline]
+>     pub fn deferred_cleanup(&self) {
+> @@ -191,6 +208,12 @@ pub fn is_extobj(&self, obj: &T::Object) -> bool =
+{
+>         // SAFETY: By type invariants we can free it when refcount =
+hits zero.
+>         drop(unsafe { KBox::from_raw(me) })
+>     }
 > +
-> +/// Marker trait for drivers supporting specific features.
+> +    #[inline]
+> +    fn raw_resv_lock(&self) -> *mut bindings::dma_resv {
+> +        // SAFETY: `r_obj` is immutable and valid for duration of =
+GPUVM.
+> +        unsafe { (*(*self.as_raw()).r_obj).resv }
+> +    }
+
+Shouldn=E2=80=99t we call this raw_resv? Adding =E2=80=9Clock=E2=80=9D =
+to a name may incorrectly
+hint that the lock is actually taken.
+
+> }
+>=20
+> /// The manager for a GPUVM.
+> @@ -200,6 +223,9 @@ pub trait DriverGpuVm: Sized {
+>=20
+>     /// The kind of GEM object stored in this GPUVM.
+>     type Object: IntoGEMObject;
+> +
+> +    /// Data stored with each `struct drm_gpuvm_bo`.
+> +    type VmBoData;
+> }
+>=20
+> /// The core of the DRM GPU VA manager.
+> diff --git a/rust/kernel/drm/gpuvm/vm_bo.rs =
+b/rust/kernel/drm/gpuvm/vm_bo.rs
+> new file mode 100644
+> index =
+0000000000000000000000000000000000000000..310fa569b5bd43f0f872ff859b362437=
+7b93d651
+> --- /dev/null
+> +++ b/rust/kernel/drm/gpuvm/vm_bo.rs
+> @@ -0,0 +1,219 @@
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+> +
+> +use super::*;
+> +
+> +/// Represents that a given GEM object has at least one mapping on =
+this [`GpuVm`] instance.
 > +///
-> +/// This trait is unsafe, and each feature might add its own safety
-> +/// requirements. The safety requirements for this trait requires the ca=
-ller to
-> +/// comply with the safety requirements of each supported feature.
+> +/// Does not assume that GEM lock is held.
+> +#[repr(C)]
+> +#[pin_data]
+> +pub struct GpuVmBo<T: DriverGpuVm> {
+> +    #[pin]
+> +    inner: Opaque<bindings::drm_gpuvm_bo>,
+> +    #[pin]
+> +    data: T::VmBoData,
+> +}
+> +
+> +impl<T: DriverGpuVm> GpuVmBo<T> {
+> +    pub(super) const ALLOC_FN: Option<unsafe extern "C" fn() -> *mut =
+bindings::drm_gpuvm_bo> =3D {
+> +        use core::alloc::Layout;
+> +        let base =3D Layout::new::<bindings::drm_gpuvm_bo>();
+> +        let rust =3D Layout::new::<Self>();
+> +        assert!(base.size() <=3D rust.size());
+> +        if base.size() !=3D rust.size() || base.align() !=3D =
+rust.align() {
+> +            Some(Self::vm_bo_alloc)
+> +        } else {
+> +            // This causes GPUVM to allocate a `GpuVmBo<T>` with =
+`kzalloc(sizeof(drm_gpuvm_bo))`.
+> +            None
+> +        }
+> +    };
+> +
+> +    pub(super) const FREE_FN: Option<unsafe extern "C" fn(*mut =
+bindings::drm_gpuvm_bo)> =3D {
+> +        if core::mem::needs_drop::<Self>() {
+> +            Some(Self::vm_bo_free)
+> +        } else {
+> +            // This causes GPUVM to free a `GpuVmBo<T>` with `kfree`.
+> +            None
+> +        }
+> +    };
+> +
+> +    /// Custom function for allocating a `drm_gpuvm_bo`.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// Always safe to call.
+> +    // Unsafe to match function pointer type in C struct.
+
+Is this missing an extra =E2=80=9C/=E2=80=9C token? Also, I think this =
+is a bit hard to parse initially.
+
+> +    unsafe extern "C" fn vm_bo_alloc() -> *mut bindings::drm_gpuvm_bo =
+{
+> +        KBox::<Self>::new_uninit(GFP_KERNEL | __GFP_ZERO)
+> +            .map(KBox::into_raw)
+> +            .unwrap_or(ptr::null_mut())
+> +            .cast()
+> +    }
+> +
+> +    /// Custom function for freeing a `drm_gpuvm_bo`.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// The pointer must have been allocated with =
+[`GpuVmBo::ALLOC_FN`], and must not be used after
+> +    /// this call.
+> +    unsafe extern "C" fn vm_bo_free(ptr: *mut bindings::drm_gpuvm_bo) =
+{
+> +        // SAFETY:
+> +        // * The ptr was allocated from kmalloc with the layout of =
+`GpuVmBo<T>`.
+> +        // * `ptr->inner` has no destructor.
+> +        // * `ptr->data` contains a valid `T::VmBoData` that we can =
+drop.
+> +        drop(unsafe { KBox::<Self>::from_raw(ptr.cast()) });
+> +    }
+> +
+> +    /// Access this [`GpuVmBo`] from a raw pointer.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// For the duration of `'a`, the pointer must reference a valid =
+`drm_gpuvm_bo` associated with
+> +    /// a [`GpuVm<T>`].
+> +    #[inline]
+> +    pub unsafe fn from_raw<'a>(ptr: *mut bindings::drm_gpuvm_bo) -> =
+&'a Self {
+> +        // SAFETY: `drm_gpuvm_bo` is first field and `repr(C)`.
+> +        unsafe { &*ptr.cast() }
+> +    }
+> +
+> +    /// Returns a raw pointer to underlying C value.
+> +    #[inline]
+> +    pub fn as_raw(&self) -> *mut bindings::drm_gpuvm_bo {
+> +        self.inner.get()
+> +    }
+> +
+> +    /// The [`GpuVm`] that this GEM object is mapped in.
+> +    #[inline]
+> +    pub fn gpuvm(&self) -> &GpuVm<T> {
+> +        // SAFETY: The `obj` pointer is guaranteed to be valid.
+> +        unsafe { GpuVm::<T>::from_raw((*self.inner.get()).vm) }
+> +    }
+> +
+> +    /// The [`drm_gem_object`](crate::gem::Object) for these =
+mappings.
+> +    #[inline]
+> +    pub fn obj(&self) -> &T::Object {
+> +        // SAFETY: The `obj` pointer is guaranteed to be valid.
+> +        unsafe { <T::Object as =
+IntoGEMObject>::from_raw((*self.inner.get()).obj) }
+> +    }
+> +
+> +    /// The driver data with this buffer object.
+> +    #[inline]
+> +    pub fn data(&self) -> &T::VmBoData {
+> +        &self.data
+> +    }
+> +}
+> +
+> +/// A pre-allocated [`GpuVmBo`] object.
 > +///
-> +/// Features might also require additional trait implementations to be p=
-resent.
-> +/// These additional traits may also be unsafe.
+> +/// # Invariants
 > +///
-> +/// # Safety
+> +/// Points at a `drm_gpuvm_bo` that contains a valid `T::VmBoData`, =
+has a refcount of one, and is
+> +/// absent from any gem, extobj, or evict lists.
+> +pub(super) struct GpuVmBoAlloc<T: DriverGpuVm>(NonNull<GpuVmBo<T>>);
+> +
+> +impl<T: DriverGpuVm> GpuVmBoAlloc<T> {
+> +    /// Create a new pre-allocated [`GpuVmBo`].
+> +    ///
+> +    /// It's intentional that the initializer is infallible because =
+`drm_gpuvm_bo_put` will call
+> +    /// drop on the data, so we don't have a way to free it when the =
+data is missing.
+> +    #[inline]
+> +    pub(super) fn new(
+> +        gpuvm: &GpuVm<T>,
+> +        gem: &T::Object,
+> +        value: impl PinInit<T::VmBoData>,
+> +    ) -> Result<GpuVmBoAlloc<T>, AllocError> {
+> +        // CAST: `GpuVmBoAlloc::vm_bo_alloc` ensures that this memory =
+was allocated with the layout
+> +        // of `GpuVmBo<T>`. The type is repr(C), so `container_of` is =
+not required.
+> +        // SAFETY: The provided gpuvm and gem ptrs are valid for the =
+duration of this call.
+> +        let raw_ptr =3D unsafe {
+> +            bindings::drm_gpuvm_bo_create(gpuvm.as_raw(), =
+gem.as_raw()).cast::<GpuVmBo<T>>()
+> +        };
+> +        let ptr =3D NonNull::new(raw_ptr).ok_or(AllocError)?;
+> +        // SAFETY: `ptr->data` is a valid pinned location.
+> +        let Ok(()) =3D unsafe { value.__pinned_init(&raw mut =
+(*raw_ptr).data) };
+> +        // INVARIANTS: We just created the vm_bo so it's absent from =
+lists, and the data is valid
+> +        // as we just initialized it.
+> +        Ok(GpuVmBoAlloc(ptr))
+> +    }
+> +
+> +    /// Returns a raw pointer to underlying C value.
+> +    #[inline]
+> +    pub(super) fn as_raw(&self) -> *mut bindings::drm_gpuvm_bo {
+> +        // SAFETY: The pointer references a valid `drm_gpuvm_bo`.
+> +        unsafe { (*self.0.as_ptr()).inner.get() }
+> +    }
+> +
+> +    /// Look up whether there is an existing [`GpuVmBo`] for this gem =
+object.
+> +    #[inline]
+> +    pub(super) fn obtain(self) -> GpuVmBoResident<T> {
+> +        let me =3D ManuallyDrop::new(self);
+> +        // SAFETY: Valid `drm_gpuvm_bo` not already in the lists.
+> +        let ptr =3D unsafe { =
+bindings::drm_gpuvm_bo_obtain_prealloc(me.as_raw()) };
+> +
+> +        // If the vm_bo does not already exist, ensure that it's in =
+the extobj list.
+
+Wording is a bit off. Obviously only external objects should be in the =
+extobj
+list. This is correctly captured by the check below, but the wording =
+above
+makes it sound unconditional.
+
+> +        if ptr::eq(ptr, me.as_raw()) && =
+me.gpuvm().is_extobj(me.obj()) {
+> +            let resv_lock =3D me.gpuvm().raw_resv_lock();
+> +            // SAFETY: The GPUVM is still alive, so its resv lock is =
+too.
+> +            unsafe { bindings::dma_resv_lock(resv_lock, =
+ptr::null_mut()) };
+> +            // SAFETY: We hold the GPUVMs resv lock.
+> +            unsafe { bindings::drm_gpuvm_bo_extobj_add(ptr) };
+> +            // SAFETY: We took the lock, so we can unlock it.
+> +            unsafe { bindings::dma_resv_unlock(resv_lock) };
+> +        }
+> +
+> +        // INVARIANTS: Valid `drm_gpuvm_bo` in the GEM list.
+> +        // SAFETY: `drm_gpuvm_bo_obtain_prealloc` always returns a =
+non-null ptr
+> +        GpuVmBoResident(unsafe { NonNull::new_unchecked(ptr.cast()) =
+})
+> +    }
+> +}
+> +
+> +impl<T: DriverGpuVm> Deref for GpuVmBoAlloc<T> {
+> +    type Target =3D GpuVmBo<T>;
+> +    #[inline]
+> +    fn deref(&self) -> &GpuVmBo<T> {
+> +        // SAFETY: By the type invariants we may deref while `Self` =
+exists.
+> +        unsafe { self.0.as_ref() }
+> +    }
+> +}
+> +
+> +impl<T: DriverGpuVm> Drop for GpuVmBoAlloc<T> {
+> +    #[inline]
+> +    fn drop(&mut self) {
+> +        // TODO: Call drm_gpuvm_bo_destroy_not_in_lists() directly.
+> +        // SAFETY: It's safe to perform a deferred put in any =
+context.
+> +        unsafe { bindings::drm_gpuvm_bo_put_deferred(self.as_raw()) =
+};
+> +    }
+> +}
+> +
+> +/// A [`GpuVmBo`] object in the GEM list.
 > +///
-> +/// Drivers implementing this trait must ensure they comply with the saf=
-ety
-> +/// requirements of each supported feature.
-> +pub unsafe trait DriverFeatures {}
+> +/// # Invariants
+> +///
+> +/// Points at a `drm_gpuvm_bo` that contains a valid `T::VmBoData` =
+and is present in the gem list.
+> +pub struct GpuVmBoResident<T: DriverGpuVm>(NonNull<GpuVmBo<T>>);
+> +
+> +impl<T: DriverGpuVm> GpuVmBoResident<T> {
+> +    /// Returns a raw pointer to underlying C value.
+> +    #[inline]
+> +    pub fn as_raw(&self) -> *mut bindings::drm_gpuvm_bo {
+> +        // SAFETY: The pointer references a valid `drm_gpuvm_bo`.
+> +        unsafe { (*self.0.as_ptr()).inner.get() }
+> +    }
+> +}
+> +
+> +impl<T: DriverGpuVm> Deref for GpuVmBoResident<T> {
+> +    type Target =3D GpuVmBo<T>;
+> +    #[inline]
+> +    fn deref(&self) -> &GpuVmBo<T> {
+> +        // SAFETY: By the type invariants we may deref while `Self` =
+exists.
+> +        unsafe { self.0.as_ref() }
+> +    }
+> +}
+> +
+> +impl<T: DriverGpuVm> Drop for GpuVmBoResident<T> {
+> +    #[inline]
+> +    fn drop(&mut self) {
+> +        // SAFETY: It's safe to perform a deferred put in any =
+context.
+> +        unsafe { bindings::drm_gpuvm_bo_put_deferred(self.as_raw()) =
+};
+> +    }
+> +}
+>=20
+> --=20
+> 2.52.0.457.g6b5491de43-goog
+>=20
+>=20
+
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>=
