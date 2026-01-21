@@ -2,61 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SIRHBXnocGk+awAAu9opvQ
+	id 4ADKLPTtcGk+awAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 15:53:45 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 16:17:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770D658CB0
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 15:53:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3855909B
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 16:17:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEC2210E847;
-	Wed, 21 Jan 2026 14:53:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2067B10E7F3;
+	Wed, 21 Jan 2026 15:17:06 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sLntN/Uz";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com
- [216.40.44.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF73210E847;
- Wed, 21 Jan 2026 14:53:41 +0000 (UTC)
-Received: from omf06.hostedemail.com (a10.router.float.18 [10.200.18.1])
- by unirelay02.hostedemail.com (Postfix) with ESMTP id AF48513B056;
- Wed, 21 Jan 2026 14:53:38 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by
- omf06.hostedemail.com (Postfix) with ESMTPA id 753B320012; 
- Wed, 21 Jan 2026 14:53:33 +0000 (UTC)
-Date: Wed, 21 Jan 2026 09:53:56 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Yury Norov <ynorov@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Christophe Leroy <chleroy@kernel.org>, Randy Dunlap
- <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, David Laight <david.laight@runbox.com>,
- Petr Pavlu <petr.pavlu@suse.com>, Andi Shyti <andi.shyti@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Joel Fernandes
- <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org, "Yury
- Norov (NVIDIA)" <yury.norov@gmail.com>
-Subject: Re: [PATCH v5 0/6] Unload linux/kernel.h
-Message-ID: <20260121095356.5b90b1ad@gandalf.local.home>
-In-Reply-To: <aWpwHbrvQ2MMGgH-@yury>
-References: <20260116042510.241009-1-ynorov@nvidia.com>
- <aWoVRlm1GFux-Z-9@smile.fi.intel.com> <aWpwHbrvQ2MMGgH-@yury>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A41988FB2;
+ Wed, 21 Jan 2026 15:17:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id EC2554379C;
+ Wed, 21 Jan 2026 15:17:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5D41C4CEF1;
+ Wed, 21 Jan 2026 15:17:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1769008623;
+ bh=3NufzOOUpRVgTlGEqPb/RONmrOLyphUBqbKNx+dznU8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=sLntN/UzKRS1L5Yxq76njol0e9ptYEOZv4qvwpfqqB4mLYZB9tu1wiRuRCqSuV4i7
+ eH7260Y7tRhPKig6RYHI1XwvjmAGnfnyD32E6an1yJHUj2uKzQjB5mFbFV5nXghJ1E
+ HiuzdWLPiusGMB7vXcXpQDb+jXZPfU1HVIOiQMYEdNC9k9waRlhJL20yWHXUkg2Is5
+ K2AWvb7T2jUETGsZRWNuyXw3/Wf7s+reRTjxXLvh6EC6+Pcx/FEtCFuCqoTj2QIZ3f
+ dGiZFVgLv0jSMgBeWqBxtz2jZsZt64ycvwzykCe30kcsN+MG113QsgMhRO28+OSg/h
+ Vh+cjnO5IIVNg==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+ (envelope-from <johan@kernel.org>) id 1viZx4-0000000067K-39Ms;
+ Wed, 21 Jan 2026 16:16:59 +0100
+Date: Wed, 21 Jan 2026 16:16:58 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>
+Cc: Konrad Dybcio <konradybcio@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH] drm/msm/a6xx: fix bogus hwcg register updates
+Message-ID: <aXDt6v_iO4EFCqyw@hovoldconsulting.com>
+References: <20251221164552.19990-1-johan@kernel.org>
+ <aWdaLF_A5fghNZhN@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: 7hndaqh4hbjwzuwg6rf9q9e8akwt1g1d
-X-Spam-Status: No, score=1.40
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1+CBSYa8KCvUhwdLmHjFWraz0AOAVFSDEI=
-X-HE-Tag: 1769007213-216120
-X-HE-Meta: U2FsdGVkX1/EE2lFftZ6F21i0EqRoDcSVTjbX2oqW5/7OP38ayT8yTN4YkVkKSQf0zMYGzeBHy8gpS5qYvvt9xlAuOqkBmGcCmTJG7MTudhVj+V2SrKmaaxzuz5NcKCHxlf4JFeEv0BDDHQxUNEisro+vEDfU7EuSiyw+D1AWo+4ZwH877vmvdOCb4/O9u22SXDVzqDAzj2YYfKJsuEdXY/wKY0wMaBevSDCPebyFZbe4tpdledMCmT4+0Sb+1kP/zs7I6IT0gSVEJCU/DrLz1WZbU/FlBWhcLAsHDYNNgVw+/2V3uSuUrS3rt3tr8D4Yw1bNVwqox2qF4QdbVswXbpuSis4mK2ScucIIDTJQELTzYLFMk03sg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aWdaLF_A5fghNZhN@hovoldconsulting.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,43 +73,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Spamd-Result: default: False [0.99 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[goodmis.org : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,gandalf.local.home:mid];
-	FROM_NEQ_ENVFROM(0.00)[rostedt@goodmis.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,efficios.com,infradead.org,runbox.com,suse.com,intel.com,ursulin.net,linuxfoundation.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,gmail.com];
-	R_DKIM_NA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 770D658CB0
+	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,linux.dev,gmail.com,somainline.org,vger.kernel.org,lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[johan@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+X-Rspamd-Queue-Id: 8B3855909B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, 16 Jan 2026 12:06:37 -0500
-Yury Norov <ynorov@nvidia.com> wrote:
-
-> > Thanks! Which tree should it go through?  
+On Wed, Jan 14, 2026 at 09:56:12AM +0100, Johan Hovold wrote:
+> On Sun, Dec 21, 2025 at 05:45:52PM +0100, Johan Hovold wrote:
+> > The hw clock gating register sequence consists of register value pairs
+> > that are written to the GPU during initialisation.
+> > 
+> > The a690 hwcg sequence has two GMU registers in it that used to amount
+> > to random writes in the GPU mapping, but since commit 188db3d7fe66
+> > ("drm/msm/a6xx: Rebase GMU register offsets") they trigger a fault as
+> > the updated offsets now lie outside the mapping. This in turn breaks
+> > boot of machines like the Lenovo ThinkPad X13s.
+> > 
+> > Note that the updates of these GMU registers is already taken care of
+> > properly since commit 40c297eb245b ("drm/msm/a6xx: Set GMU CGC
+> > properties on a6xx too"), but for some reason these two entries were
+> > left in the table.
+> > 
+> > Fixes: 5e7665b5e484 ("drm/msm/adreno: Add Adreno A690 support")
+> > Cc: stable@vger.kernel.org	# 6.5
+> > Cc: Bjorn Andersson <andersson@kernel.org>
+> > Cc: Konrad Dybcio <konradybcio@kernel.org>
+> > Signed-off-by: Johan Hovold <johan@kernel.org>
+> > ---
 > 
-> Andrew or Steven maybe? As a last resort, I can move it myself.
+> This one does not seem to have been applied yet despite fixing a
+> critical regression in 6.19-rc1. I guess I could have highlighted that
+> further by also including:
+> 
+> Fixes: 188db3d7fe66 ("drm/msm/a6xx: Rebase GMU register offsets")
+> 
+> I realise some delays are expected around Christmas, but can you please
+> try to get this fix to Linus now that everyone should be back again?
 
-I think it makes the most sense for Andrew to take it.
+I haven't received any reply so was going to send another reminder, but
+I noticed now that this patch was merged to the msm-next branch last
+week.
 
-Thanks,
+Since it fixes a regression in 6.19-rc1 it needs to go to Linus this
+cycle and I would have assumed it should have be merged to msm-fixes.
 
--- Steve
+(MSM) DRM works in mysterious ways, so can someone please confirm that
+this regression fix is heading into mainline for 6.19-final?
+
+Johan
