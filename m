@@ -2,67 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OL6qGGAlcWl8eQAAu9opvQ
+	id z5tMHNIscWmcfAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 20:13:36 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 20:45:22 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1ED25BE82
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 20:13:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF0145C71F
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 20:45:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB52810E86E;
-	Wed, 21 Jan 2026 19:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 979C210E877;
+	Wed, 21 Jan 2026 19:45:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="aMOcpw2X";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XfF373wv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C308510E86E
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 19:13:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1769022810;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=49OPiVw3AsdRRD7f8ruuY3VOWZX2Ei/vee0/0X9WHUQ=;
- b=aMOcpw2XndHJfCjq7noQNXwQHI9jykaB797/dptu14PvdgiOeWiWoldWhuwyz8uOp1cz00
- iD18jhgKhL7NIcYogk4bm1Xgyl/6uf5h64936ecsk/u5R2ymivoqn0rDW9aPduEBhkvV6L
- EDYY0x8Du+cqqGISWfDqxa57giGByt4=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-675-mD4iWvf3PWi6QrpwgzgEdQ-1; Wed,
- 21 Jan 2026 14:13:26 -0500
-X-MC-Unique: mD4iWvf3PWi6QrpwgzgEdQ-1
-X-Mimecast-MFC-AGG-ID: mD4iWvf3PWi6QrpwgzgEdQ_1769022805
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id A85FC1800451; Wed, 21 Jan 2026 19:13:24 +0000 (UTC)
-Received: from GoldenWind.redhat.com (unknown [10.22.89.232])
- by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id A32CE19560AB; Wed, 21 Jan 2026 19:13:22 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org
-Cc: stable@vger.kernel.org,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Simona Vetter" <simona@ffwll.ch>, "David Airlie" <airlied@gmail.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "Maxime Ripard" <mripard@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
- "Lyude Paul" <lyude@redhat.com>
-Subject: [PATCH] drm/nouveau/disp: Set
- drm_mode_config_funcs.atomic_(check|commit)
-Date: Wed, 21 Jan 2026 14:13:10 -0500
-Message-ID: <20260121191320.210342-1-lyude@redhat.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 013A110E876;
+ Wed, 21 Jan 2026 19:45:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id D4D47600AA;
+ Wed, 21 Jan 2026 19:45:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC137C4CEF1;
+ Wed, 21 Jan 2026 19:45:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1769024716;
+ bh=HVyQFgBfMrcX6zrVZsiDIfHM3nU3cIMX1ciddzliDxg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XfF373wvasaVYywYyQxHoClwiMWz8KrFsYUXRcwzTWFXH8jFxRN6XiMEK/sTFr3Mn
+ 0RFROVxbShCa80gix4sGne/fdv97W8+yFsXmVIxx/HhTzIfo6pd+EqqAFJxax21d14
+ hsRYEjzVVYESAgzWRY+cmOE810Uu7FX/j75AaUmsYFnNYoBxublO4Ix0LrY/exf8xB
+ Uh1bbuO/eo8XNc2/Tz/6CsZaAuTQbajnDXxsZzzFO4Zl4/U/owt1IqABFjQKJqg03K
+ 4z1fXd7fxdfSHEXD0kFJnkGug7nA67PwGWh1Ql0FmCsiVgChnPf47gVSCBSqWlyJMQ
+ oyDq0tZSmVGSA==
+Date: Wed, 21 Jan 2026 21:45:06 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Williamson <alex@shazbot.org>, Ankit Agrawal <ankita@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
+ intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+ iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v3 6/7] vfio: Wait for dma-buf invalidation to complete
+Message-ID: <20260121194506.GI13201@unreal>
+References: <20260120-dmabuf-revoke-v3-0-b7e0b07b8214@nvidia.com>
+ <20260120-dmabuf-revoke-v3-6-b7e0b07b8214@nvidia.com>
+ <b129f0c1-b61e-4efb-9e25-d8cdadaca1b3@amd.com>
+ <20260121133146.GY961572@ziepe.ca>
+ <b88b500c-bacc-483d-9d1a-725d4158302a@amd.com>
+ <20260121160140.GF961572@ziepe.ca>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+In-Reply-To: <20260121160140.GF961572@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,63 +89,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,linux.intel.com,ffwll.ch,gmail.com,suse.de,kernel.org,redhat.com];
 	RCVD_TLS_LAST(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[lyude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	FREEMAIL_CC(0.00)[amd.com,linaro.org,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: E1ED25BE82
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,amd.com:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+X-Rspamd-Queue-Id: CF0145C71F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Apparently we never actually filled these in, despite the fact that we do
-in fact technically support atomic modesetting.
+On Wed, Jan 21, 2026 at 12:01:40PM -0400, Jason Gunthorpe wrote:
+> On Wed, Jan 21, 2026 at 04:28:17PM +0100, Christian König wrote:
+> > On 1/21/26 14:31, Jason Gunthorpe wrote:
+> > > On Wed, Jan 21, 2026 at 10:20:51AM +0100, Christian König wrote:
+> > >> On 1/20/26 15:07, Leon Romanovsky wrote:
+> > >>> From: Leon Romanovsky <leonro@nvidia.com>
+> > >>>
+> > >>> dma-buf invalidation is performed asynchronously by hardware, so VFIO must
+> > >>> wait until all affected objects have been fully invalidated.
+> > >>>
+> > >>> Fixes: 5d74781ebc86 ("vfio/pci: Add dma-buf export support for MMIO regions")
+> > >>> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > >>
+> > >> Reviewed-by: Christian König <christian.koenig@amd.com>
+> > >>
+> > >> Please also keep in mind that the while this wait for all fences for
+> > >> correctness you also need to keep the mapping valid until
+> > >> dma_buf_unmap_attachment() was called.
+> > > 
+> > > Can you elaborate on this more?
+> > > 
+> > > I think what we want for dma_buf_attach_revocable() is the strong
+> > > guarentee that the importer stops doing all access to the memory once
+> > > this sequence is completed and the exporter can rely on it. I don't
+> > > think this works any other way.
+> > > 
+> > > This is already true for dynamic move capable importers, right?
+> > 
+> > Not quite, no.
+> 
+> :(
+> 
+> It is kind of shocking to hear these APIs work like this with such a
+> loose lifetime definition. Leon can you include some of these detail
+> in the new comments?
 
-Since not having these filled in causes us to potentially forget to disable
-fbdev and friends during suspend/resume, let's fix it.
+If we can clarify what needs to be addressed for v5, I will proceed.  
+At the moment, it's still unclear what is missing in v4.
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Cc: stable@vger.kernel.org
----
- drivers/gpu/drm/nouveau/nouveau_display.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
-index 00515623a2cc7..829c2b573971c 100644
---- a/drivers/gpu/drm/nouveau/nouveau_display.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_display.c
-@@ -352,6 +352,8 @@ nouveau_user_framebuffer_create(struct drm_device *dev,
- 
- static const struct drm_mode_config_funcs nouveau_mode_config_funcs = {
- 	.fb_create = nouveau_user_framebuffer_create,
-+	.atomic_commit = drm_atomic_helper_commit,
-+	.atomic_check = drm_atomic_helper_check,
- };
- 
- 
-
-base-commit: 68b271a3a94cfd6c7695a96b6398b52feb89e2c2
--- 
-2.52.0
-
+Thanks
