@@ -2,97 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yKDOJ+0VcWmodQAAu9opvQ
+	id oHxtETAXcWmodQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 19:07:41 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 19:13:04 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E762E5B0A3
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 19:07:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0EB65B1A7
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 19:13:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5AD110E0DA;
-	Wed, 21 Jan 2026 18:07:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B32B610E851;
+	Wed, 21 Jan 2026 18:13:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aiuzAn9A";
+	dkim=pass (1024-bit key; unprotected) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="va3Wo3uc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 108FF10E0DA
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 18:07:38 +0000 (UTC)
-Received: by mail-dl1-f43.google.com with SMTP id
- a92af1059eb24-1244bce2c17so17185c88.1
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 10:07:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769018857; cv=none;
- d=google.com; s=arc-20240605;
- b=JJfsX81DlcNiovR7azyUScn30wWmohSqVOA636UTwJPcIFkjV/n2SxMe/1vyjyOfqN
- 7B2+KwNtNf6y+MXSXoDtqMG59B2QEK4hf72dynSaM7nL+Z0Zuj5Cv3epEvl80n9Fg2b0
- FKMSY29642fvFiMzCD6XfXNg7CfTzqq20RWpZxT5es5pNXJolt1OgAKuEqoeePifFD5k
- rToe4llX3Ey1eI42rVhedPp1xKDLp+u83M6VJ1bzACReWkRK2iT7NL/e5KfKOzqWrjUO
- veWEnDEUAYmg1VJoSz8XfdWOdkrSsb/AHnQm/edn7gqs8x+iCsUWvsHLTpmjJk+E2C9m
- WlKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
- bh=eKOwdG55kf3gC4fatCORW5h39+BPkhbU4hpVpJ0Seow=;
- fh=cIeRAubWJNoD6eytuKjEi4ASQ4mKSV3pBc7wz2OtnGM=;
- b=eYRMsYiuDyxTYFQoQu16NybQ1aIlreVZk97qklZTSIb6iOFVr+mGPigRXAOz2fllGv
- F7oGH1vNzylBcLfmS18G0Ydyp5VDnLEU4LRuvD73038QisMHzRe32TPDcrOeZRlhGA+m
- bgDmY2zSKmWvaCecGFpSHwAWnNTem3btcEiqXaJJATPCbDs7cyO3nIq5+J8gvjeqBfHz
- uuGz48DkxfBdPZCJQHY/E7EfHiVgBcAy9wtaHs6utcD6mPDAJiPbVXP5byiy1Xf8WVFl
- iYofewWX/udUps7ziSh4fz083vQ6h4POiz8CWM+vC7pQ7TiUNaSOg0/7XYbHnzuQ3crQ
- HDCQ==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
+ [209.85.222.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DC2B10E853
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 18:13:00 +0000 (UTC)
+Received: by mail-qk1-f169.google.com with SMTP id
+ af79cd13be357-8c53198a65fso9616885a.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 10:13:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769018857; x=1769623657; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=eKOwdG55kf3gC4fatCORW5h39+BPkhbU4hpVpJ0Seow=;
- b=aiuzAn9ALHRrT3unZZk4clnY+ak7/fh1znqZnDD67KP5rOXmSmynoa3h7ZJuK0x1iQ
- KU1GQdDINcDhf9HoRXHzXkacOd3a74h/S8RDcmY8xXAdBMwn6yI5nDo+XqYaf2/B3+dj
- opxOU00+NliEXTvmuL/0CFu82wWM9Q42JTljj+cUtNKTR86mz5qPmx7bofvFf0RbYxQN
- JoJurmCxGCwhD+46HKVM74PjLCvSexn9QGyojX5YZKuxMhTLUjJ0STG3iCXMsgTumdHY
- xGc9vn+BEz3XQA7qdAoPAZ0Awhr0GvAFDLEUcYyy2rV/zTmBofBynn0No81nFbyANg3H
- DtGg==
+ d=joelfernandes.org; s=google; t=1769019179; x=1769623979;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=odBgMeGleRPkwApB129VpN2tHRH7cELn9wuHglowA3c=;
+ b=va3Wo3uc4PCH9CBrnqiRI4nd8mCaa1V4xh6Eb1Ixahcv/Y1G/cJskLPUutHYMn+LjN
+ D3U9jbUClVAkqVeqTw7xf8y3RS8NPpvKQnmSxRjuzy52kUBb42r6DAyZN8x+1p/gpMAI
+ DCGKqE9S/PRZXdxT1TEd6Rrnr1sA6t7PDxkCI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769018857; x=1769623657;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eKOwdG55kf3gC4fatCORW5h39+BPkhbU4hpVpJ0Seow=;
- b=QmiMZNPvpQ4HwlejOTLMctmKCb6lUIHgqiyCf/5tUNVAg59Sc3aYzg01JTNW7pXeuZ
- 8ZyHjuuKTmxisyXs6u06atufU3LTGM9kReT0NfuiOaHMGBBquWz1vlpA4rIVRrfXs2ob
- 4yGAtSX8WF0aDb2GhCPvPPWnD82MxQbWDCaQIg/2k8U+vxdzNvtltsoFHtkl/Rrv4+Za
- mHAQyiuQZoUcgl8DFfwdoV7p9hT4lsPwpOA9nGreTiNkKKxOww68cYjWEpvNOF0+QZzS
- OJ+Z0j4JIPVqzdHG9yrLJXMRTOYqVLPBfUroelvpjs0EBfuaNs3JuUMJ09ZcftOry1Tf
- 6VeQ==
+ d=1e100.net; s=20230601; t=1769019179; x=1769623979;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=odBgMeGleRPkwApB129VpN2tHRH7cELn9wuHglowA3c=;
+ b=Le8B/SAbwiD/6gKSiTyCsibecYo5yvPWT088D7kj33BHtgQErAvWnYB5gALp/vfWRq
+ /aMzhMKHg5n0ytNDsm7G9K7hDsucf1XXzasfuE8thLw+8E8TpAvNeEEFN7JxA0pI8Q4S
+ Ev3PDt7C+2ar9QzPlBuTWuCTfIullbZi6GXaO3nesUcJrOvFM5a3G5i1KCRfFyRoG0vw
+ X4kWPuJHvS3CAvXDqrHmKc3RoYNnPwYj9SI8kzaMNlXlTicgKPXxJ93W5IUZgNAJbeZe
+ +VCEKA8sp1sucdZFBbh29LYt2ia4adoayUXFeiQRqr+8mDaUtci3nmblRu3NvTudKGBr
+ 92Wg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWE23+cCw1Fa/HRcvXQM0UP/WDpcNXeAHPMkgSazmEP3LRWdV7IAppCwcxWsrHXJ4uMfRtgt59bH5k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxhPNrCBJiw5Lqmd/oYv38DmKTlbVTOJMdiWiR4d9PfImaIPf36
- mqvT9774zQ0EvdjQtUrkboKBr4o+b400nIlPpkrztE6xYgekadsqA7ueXEiInnDtYAUGzV8TKBQ
- pYREmayKpM3dMJZJ4dNkKWZYxWjTIzC4=
-X-Gm-Gg: AZuq6aI1VJPJvbU1u4fyW8ybQvBEviofYvDXelAOMUnxH59vnEFf2dNVBx52olj6eca
- TPHUIyMCCs+cP1sHo3fpLI1ahhFo0r5P0OAJMxFxijTeCF/+tfOaku9RKm+loDCwyA9J+HKdaFW
- THdw1j3f1WauqXYWB8JSc4lvgMrst4rNCrRZ/A5XdgVhKHtpz3VRvPjMobaC9sExv38PpKo6XvW
- Yh8XiLpKXfjzzhabSo3JwAdNwvy9FP7GNRnFcx/BUy4CNGC9+nXACQsOd4DKMzW5xZWzhBe2glX
- VaeB/RL2NjjqtgXQVa92QuKocoxCL3HI2BU/uH7qsanU91TtaEazqKtmOAbFR8PGBsc7896W/LV
- TfNKttlAz2eYe
-X-Received: by 2002:a05:7022:4185:b0:119:e56a:4fff with SMTP id
- a92af1059eb24-1246956d899mr2418057c88.4.1769018857100; Wed, 21 Jan 2026
- 10:07:37 -0800 (PST)
+ AJvYcCUJPx8u3dMS6xvccslNz4OiPf9IOupwtGsX6W3pT0sH2/V+uVaRIFYcKu6WzcfCXWwvTn7YryunAy8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwrlFwmhky2198vNJYmpT+5RK4UnGmExHtOgAe8T2cLSnUEaCnG
+ uyFVFSYULuEKwXwvJDvzXHm0ourZQxKF6hkrECpC72t9YFRM9nCLqh7Um517iiaTWHo=
+X-Gm-Gg: AZuq6aIsJnhA7mkd2545sm5Irj81yifpKS8U7MkBBLTlT9+9tgu5ut0BS4Mb4f8iHnM
+ S6ugW6mNd6b/YcTwmqv9hlxOzypCrW83rXmwB8V+/qyAZP/FntCZ0hQKYyrrguoePEIqKusTj+0
+ +NE0yOANOscOcWOxzsbrzNP/ysexkSBsWIzjFtDe0aEBEsZEsefLELLDW2Q2h8tGO/nhbyIyqo9
+ Ve6tE+yaEqAMDB2fp6pw5IW1Ytd5MXob39jskAVIFDNk2N58nkfdxNF2RxMvz5YWIi2kG7Dfjar
+ +zkNTPdJcc/u58ay0ekbDiEOYf/2wFy2HEctiPRxLTg/AFU9vyXWAijTZNvJP0/r99U8p7ZCI31
+ q+g7L0ZRKV85+llH4CwzEONmPAF782RIzhEfDqlzhgsZCyN0uGV9t2z75WRZ/OObknsP9ByI2QS
+ /usurHGl1RoZVuDnOfIQlYy10EEQ==
+X-Received: by 2002:a05:620a:2d90:b0:8c6:a790:cd09 with SMTP id
+ af79cd13be357-8c6a790cd9cmr1883910285a.40.1769019178697; 
+ Wed, 21 Jan 2026 10:12:58 -0800 (PST)
+Received: from [192.168.0.99] ([71.219.3.177])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-8c6a71ab288sm1356284885a.6.2026.01.21.10.12.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 21 Jan 2026 10:12:58 -0800 (PST)
+Message-ID: <237f94cc-dde6-4d91-b942-4854e62eeebb@joelfernandes.org>
+Date: Wed, 21 Jan 2026 13:12:55 -0500
 MIME-Version: 1.0
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 21 Jan 2026 19:07:22 +0100
-X-Gm-Features: AZwV_QiseqhTeH3EBj1muywLFlNQwQxlxlv0CTHuvPva-Rov9foivcF-QK7usc0
-Message-ID: <CANiq72mRp62foTCstQxYhVBdh6y_W27wEjWSRX9_kqShuueaSQ@mail.gmail.com>
-Subject: panel-ilitek-ili9882t.c:95:16: error: initializer overrides prior
- initialization
-To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Linux-Next Mailing List <linux-next@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v6 01/26] rust: clist: Add support to interface with C
+ linked lists
+To: Zhi Wang <zhiw@nvidia.com>, Joel Fernandes <joelagnelf@nvidia.com>
+Cc: linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Helge Deller <deller@gmx.de>, Danilo Krummrich <dakr@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>, Andrea Righi <arighi@nvidia.com>,
+ Andy Ritger <aritger@nvidia.com>, Alexey Ivanov <alexeyi@nvidia.com>,
+ Balbir Singh <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
+ Elle Rhumsaa <elle@weathered-steel.dev>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ Boqun Feng <boqun.feng@gmail.com>, "Paul E. McKenney" <paulmck@kernel.org>
+References: <20260120204303.3229303-1-joelagnelf@nvidia.com>
+ <20260120204303.3229303-2-joelagnelf@nvidia.com>
+ <20260121092730.3628d290.zhiw@nvidia.com>
+Content-Language: en-US
+From: Joel Fernandes <joel@joelfernandes.org>
+In-Reply-To: <20260121092730.3628d290.zhiw@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,99 +127,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	R_DKIM_ALLOW(-0.20)[joelfernandes.org:s=google];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:yelangyan@huaqin.corp-partner.google.com,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:broonie@kernel.org,m:linux-next@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[huaqin.corp-partner.google.com,linaro.org,gmail.com];
-	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:zhiw@nvidia.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:corbet@lwn.net,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:jani.nikula@linux.intel.com,m:joonas.lahtinen@linux.intel.com,m:rodrigo.vivi@intel.com,m:tursulin@ursulin.net,m:ray.huang@amd.com,m:matthew.auld@intel.com,m:matthew.brost@intel.com,m:lucas.demarchi@intel.com,m:thomas.hellstrom@linux.intel.com,m:deller@gmx.de,m:dakr@kernel.org,m:aliceryhl@google.com,m:ojeda@kernel.org,m:alex.gaynor@gmail.com,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:jhubbard@nvidia.com,m:apopple@nvidia.com,m:ttabi@nvidia.com,m:epeer@nvidia.com,m:acourbot@nvidia.com,m:arighi@nvidia.com,m:aritger@nvidia.com,m:alexeyi@nvidia.com,m:balbirs@nvidia.com,m:phasta@kernel.org,m:elle@weathered-steel.dev,
+ m:daniel.almeida@collabora.com,m:nouveau@lists.freedesktop.org,m:rust-for-linux@vger.kernel.org,m:linux-doc@vger.kernel.org,m:amd-gfx@lists.freedesktop.org,m:intel-gfx@lists.freedesktop.org,m:intel-xe@lists.freedesktop.org,m:linux-fbdev@vger.kernel.org,m:paulmck@kernel.org,m:alexgaynor@gmail.com,m:boqunfeng@gmail.com,s:lists@lfdr.de];
+	DMARC_NA(0.00)[joelfernandes.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[joel@joelfernandes.org,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	TO_DN_ALL(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[joelfernandes.org:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[53];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	TAGGED_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FROM_NEQ_ENVFROM(0.00)[joel@joelfernandes.org,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,google.com,garyguo.net,protonmail.com,umich.edu,nvidia.com,weathered-steel.dev,collabora.com,lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
-X-Rspamd-Queue-Id: E762E5B0A3
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo]
+X-Rspamd-Queue-Id: A0EB65B1A7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi,
 
-With LLVM 21.1.8, I am seeing in an `allmodconfig` for next-20260121:
 
-    drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:95:16: error:
-initializer overrides prior initialization of this subobject
-[-Werror,-Winitializer-overrides]
-       95 |         .vbr_enable = 0,
-          |                       ^
-    drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:90:16: note:
-previous initialization is here
-       90 |         .vbr_enable = false,
-          |                       ^~~~~
-    drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:97:19: error:
-initializer overrides prior initialization of this subobject
-[-Werror,-Winitializer-overrides]
-       97 |         .rc_model_size = DSC_RC_MODEL_SIZE_CONST,
-          |                          ^~~~~~~~~~~~~~~~~~~~~~~
-    ./include/drm/display/drm_dsc.h:22:38: note: expanded from macro
-'DSC_RC_MODEL_SIZE_CONST'
-       22 | #define DSC_RC_MODEL_SIZE_CONST             8192
-          |                                             ^~~~
-    drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:91:19: note:
-previous initialization is here
-       91 |         .rc_model_size = DSC_RC_MODEL_SIZE_CONST,
-          |                          ^~~~~~~~~~~~~~~~~~~~~~~
-    ./include/drm/display/drm_dsc.h:22:38: note: expanded from macro
-'DSC_RC_MODEL_SIZE_CONST'
-       22 | #define DSC_RC_MODEL_SIZE_CONST             8192
-          |                                             ^~~~
-    drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:132:25: error:
-initializer overrides prior initialization of this subobject
-[-Werror,-Winitializer-overrides]
-      132 |         .initial_scale_value = 32,
-          |                                ^~
-    drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:126:25: note:
-previous initialization is here
-      126 |         .initial_scale_value = 32,
-          |                                ^~
-    drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:133:20: error:
-initializer overrides prior initialization of this subobject
-[-Werror,-Winitializer-overrides]
-      133 |         .nfl_bpg_offset = 3511,
-          |                           ^~~~
-    drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:108:20: note:
-previous initialization is here
-      108 |         .nfl_bpg_offset = 1402,
-          |                           ^~~~
+On 1/21/2026 2:27 AM, Zhi Wang wrote:
+> 
+>> +/// Initialize a `list_head` object to point to itself.
+>> +///
+>> +/// # Safety
+>> +///
+>> +/// `list` must be a valid pointer to a `list_head` object.
+>> +#[inline]
+>> +pub unsafe fn init_list_head(list: *mut bindings::list_head) {
+>> +    // SAFETY: Caller guarantees `list` is a valid pointer to a
+>> `list_head`.
+>> +    unsafe {
+>> +        (*list).next = list;
+>> +        (*list).prev = list;
+>> +    }
+>> +}
+>> +
+>
+> Might be better to have a C helper? since INIT_LIST_HEAD() has WRITE_ONCE()
+> for memory ordering. This one seems not equal to it.
 
-It seems that indeed the variables are duplicated -- something seems
-off with commit
+WRITE_ONCE() is not really about CPU memory ordering though, it is about
+compiler optimizations. On the C side, I think it is needed in case of
+list_for_each_entry_rcu(), to avoid the case of invented stores or store fusing,
+but here we are not doing RCU-based iteration.
 
-    65ce1f5834e9 ("drm/panel: ilitek-ili9882t: Switch Tianma
-TL121BVMS07 to DSC 120Hz mode")
+Anyway, if we want to future proof that, I am Ok with adding the helper back
+(which I actually initially had but feedback from past review was to just inline
+it into rust).
 
-Thanks!
+But I am not sure if we have this issue for the Rust compiler, like we do for C.
+Rust does not allow raw pointers to be concurrently read/written using plain
+accesses, so should be already protected due to the borrow checker and compiler
+itself right?
 
-Cheers,
-Miguel
+Adding some interested folks as well to CC for the topic of _ONCE, +Boqun +Paul.
+
+--
+Joel Fernandes
+
