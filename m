@@ -2,167 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UBAIFQeAcGktYAAAu9opvQ
+	id QE47Iv+LcGkEYQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 08:28:07 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 09:19:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0412852C9B
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 08:28:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2F455362B
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 09:19:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 479B710E6D3;
-	Wed, 21 Jan 2026 07:28:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DF9710E17F;
+	Wed, 21 Jan 2026 08:19:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="GpT49npf";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="Jk/K/kpm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com
- (mail-centralusazon11010002.outbound.protection.outlook.com [52.101.61.2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DEF410E6CF;
- Wed, 21 Jan 2026 07:28:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Pmxse42eKMcZ2DE+HeKTz1wgOAdrf3IfGN4L5Luew1/pFcZAvZ/gHpPCeX5pOP41liC/bfMAxH2ShvQsAAz5M9OT1ZAV7s4gDUOgoQtzyeH6+cwbBm7tRIpeafYQaGqWnfNUp28VP82pphI/p0n+6HS69oCgelWW1lA6xoXHvrRxTc3gth6gu7czNYJHq8DYSqGbA0Yryjg0dBDxL5aBoRm1Z2LezI65Rot+upw0GzaFUqE3TUvMEMYbYQZ8dDOTnP2KMGgZKEBWV0Vf4m/BFfwoiHmIoB20DKzr61GFKT86/2/UAux0GZwybhIXBuiT1qz3jtBczJPq9M8Fmh0jLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UU0BnDKm6Jw6VPR+llbTYp8fU2+RJHE7neoydQrNvlY=;
- b=BPeAtDSQ+lO6JjHVSsuZYqFy6fe3I9vPktONGbsnPC07sh0t8zy1oDAQRnGhqGS8R/bTnsUKaUfQnxtAwVm0JtxiFaXDmZqVv0o90lHMThfveNWaYwy07rCBGVvU4SEDiAdiCcvEatImYoIzKu7hA2Zm8MZi20sbngehu9hH/HwuHsyU7qXyFD5uMDTLbX2b1ikjMaB6nlNf+9NEmU9+X0tjZ0sTOUifbibh1ldIh5mGqf1lQhuVQ6whMO55fCmdVA+fm+1+FUn1K9SQAhOU24sj3IhOPl5cgyGD8KT6fUNXbueRDVUum+zaKcIcJnQMxj3gBJO5ZJPM71Bzc2QGtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UU0BnDKm6Jw6VPR+llbTYp8fU2+RJHE7neoydQrNvlY=;
- b=GpT49npfmQNRtqzuf8mAHfgDaXtF8sMxonvUN2+BoxhT0/l1gh0/WUnY5cfMM9Cq2D5al15e0m1yizFLTw28V8CYcaDI56WUbaBQcW4W/ViWhZyHY4wAicawaSE7oHBufJINuWvWiFzYxwVC61AiO5eBwp6LYdZjtvyeu21pIK3ibR57cVRwfYdZI+HiCGxFJ/UYUQVw/UP8i19DybYJ5EIZLIKlZADoinZsvK2+C3teXuSFB6Yjyxze6E6HXkddaUXEMjuN7urB/bOk6L3mGNxsKACZhkw6KVekpCIYTDIVs8JNw1NivCI3uahpTrfmVkglsiNz7Drfh5aZfkjiAg==
-Received: from BY5PR20CA0027.namprd20.prod.outlook.com (2603:10b6:a03:1f4::40)
- by MN2PR12MB4456.namprd12.prod.outlook.com (2603:10b6:208:266::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Wed, 21 Jan
- 2026 07:27:54 +0000
-Received: from SJ1PEPF00002313.namprd03.prod.outlook.com
- (2603:10b6:a03:1f4:cafe::86) by BY5PR20CA0027.outlook.office365.com
- (2603:10b6:a03:1f4::40) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.9 via Frontend Transport; Wed,
- 21 Jan 2026 07:27:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SJ1PEPF00002313.mail.protection.outlook.com (10.167.242.167) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9542.4 via Frontend Transport; Wed, 21 Jan 2026 07:27:54 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 20 Jan
- 2026 23:27:42 -0800
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 20 Jan
- 2026 23:27:41 -0800
-Received: from inno-thin-client (10.127.8.10) by mail.nvidia.com (10.129.68.9)
- with Microsoft SMTP Server id 15.2.2562.20 via Frontend Transport;
- Tue, 20 Jan 2026 23:27:31 -0800
-Date: Wed, 21 Jan 2026 09:27:30 +0200
-From: Zhi Wang <zhiw@nvidia.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-CC: <linux-kernel@vger.kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, "Alex
- Deucher" <alexander.deucher@amd.com>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui
- <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, Matthew Brost
- <matthew.brost@intel.com>, Lucas De Marchi <lucas.demarchi@intel.com>, Thomas
- =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>, Helge Deller
- <deller@gmx.de>, Danilo Krummrich <dakr@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor
- <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
- <gary@garyguo.net>, =?UTF-8?B?QmrDtnJu?= Roy Baron
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, "John
- Hubbard" <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>, "Timur
- Tabi" <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>, Alexandre Courbot
- <acourbot@nvidia.com>, Andrea Righi <arighi@nvidia.com>, Andy Ritger
- <aritger@nvidia.com>, Alexey Ivanov <alexeyi@nvidia.com>, Balbir Singh
- <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>, Elle Rhumsaa
- <elle@weathered-steel.dev>, Daniel Almeida <daniel.almeida@collabora.com>,
- <joel@joelfernandes.org>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <linux-fbdev@vger.kernel.org>
-Subject: Re: [PATCH RFC v6 01/26] rust: clist: Add support to interface with
- C linked lists
-Message-ID: <20260121092730.3628d290.zhiw@nvidia.com>
-In-Reply-To: <20260120204303.3229303-2-joelagnelf@nvidia.com>
-References: <20260120204303.3229303-1-joelagnelf@nvidia.com>
- <20260120204303.3229303-2-joelagnelf@nvidia.com>
-Organization: NVIDIA
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.33; x86_64-pc-linux-gnu)
+X-Greylist: delayed 400 seconds by postgrey-1.36 at gabe;
+ Wed, 21 Jan 2026 07:48:19 UTC
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4220C10E631
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 07:48:19 +0000 (UTC)
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20260121074137epoutp03afceaeadcecd23786bcc3ded800277b4~Mrx4lC9iy0062200622epoutp03g
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 07:41:37 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20260121074137epoutp03afceaeadcecd23786bcc3ded800277b4~Mrx4lC9iy0062200622epoutp03g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1768981297;
+ bh=cCLSnw+7Sw2d8mXGXmlBWX5LFNtQ5J3qbnlxpAfMklg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Jk/K/kpm1DUt4MPqr+7ZSbYYUGx/y7d63dV9JSaX6fDiCNrRMSGqOvbYJyRHg0zPg
+ t6ZdGvEtdSBU5c2vZ1cM8qc0W/XcEJMnOJ6a/FrPm+USF+VgQsGpOspY/3hGHOYSXN
+ S/hrCGEGNVaHhxGLLbl8PiRtdsEoQHvDYvbpDJs8=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+ epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
+ 20260121074137epcas5p161bfa789c85f6b5a0593e02ce69a4f1b~Mrx4MTvvC0369103691epcas5p1B;
+ Wed, 21 Jan 2026 07:41:37 +0000 (GMT)
+Received: from epcas5p1.samsung.com (unknown [182.195.38.95]) by
+ epsnrtp04.localdomain (Postfix) with ESMTP id 4dwx341r3vz6B9m5; Wed, 21 Jan
+ 2026 07:41:36 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20260121074135epcas5p2eeb621d6acc9b4b73e6d45f5a40c078d~Mrx2oy7q42105521055epcas5p2j;
+ Wed, 21 Jan 2026 07:41:35 +0000 (GMT)
+Received: from green245.gost (unknown [107.99.41.245]) by
+ epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20260121074133epsmtip2bc265584191911a9589cfd40524cbe39~Mrx0nhTOy2434124341epsmtip2t;
+ Wed, 21 Jan 2026 07:41:33 +0000 (GMT)
+Date: Wed, 21 Jan 2026 13:07:24 +0530
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: linux-block@vger.kernel.org, io-uring@vger.kernel.org, Keith Busch
+ <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig
+ <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [RFC v2 05/11] block: add infra to handle dmabuf tokens
+Message-ID: <20260121073724.dja6wyqyf5apkdcx@green245.gost>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002313:EE_|MN2PR12MB4456:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4f918599-7069-43f3-6508-08de58be97d4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|1800799024|36860700013|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?fWNZHfQ5YQoeg3Rpod5xCOFgzPyAOqY2+gKEEAQb3Z+oX4gSietvidB0vQnf?=
- =?us-ascii?Q?51vJilMSJymj4LIsjQXpUEwGqzvVCueNkZrqMRJXsf+ekJL/NDeTCW4O8Rc0?=
- =?us-ascii?Q?y/jKXEIKRQmsWIJsh5UH/Z3El7m3/HIP/2raULLBhn0xRlWWit3nuZHAsHYi?=
- =?us-ascii?Q?JCwUlQ8Yhm7QMtFymMeVgKrDUZjV5ikGhi+NUuYJ0or/hAbW/JYdfT/ncVR4?=
- =?us-ascii?Q?DURoY0phWhOlVaiGzDI4h1YQOIucUjZppEaBuifuD4Cnz/LoSr/exzCsSvqq?=
- =?us-ascii?Q?rp1+C7EquOtCpz1XRz1rnkzVuFsFFnz9ipWVUzKQY1f7zast6mhLUL5il0Fc?=
- =?us-ascii?Q?L1elbZW3C5gQfMNdsl1d4Z7A693IcMLAqZ+HU1b/QETZs9ZHrRhopdzFKZCd?=
- =?us-ascii?Q?aBe0mLUEgCW0Izt30c4bN3zXi5K0Z++jKXPLQF/IOfYqcr5PD/yOsoALEsML?=
- =?us-ascii?Q?jVG0TYf7+o1EQiUjRUJTaszNOPfxcxCpsFxzx0xyjqeIzwJnMXskSrNMmzzm?=
- =?us-ascii?Q?QwZipFOjuKzk8oQRjZv2f1YoW8keT+pd/ntm3C7tjk5vut72qst4gl9IPnkD?=
- =?us-ascii?Q?LajYErVHzg+Nyp6ZtiXkFATyS8jme+cl3HvQv+5QuUqeRl2wxZ8gDvh/Nx2D?=
- =?us-ascii?Q?iNWHKX9CWDVH+oOdezv8hgx4bsKDBymVV/r7qxqG/wVpmg3wSU+xcCKLEsLC?=
- =?us-ascii?Q?R9bwek18+nMgVrF34GPDfJw7+bupngKxsYgN4/gqoGeEqKkrgAmKefcVbvj0?=
- =?us-ascii?Q?2LfQ4J6r4SwQWpTq59kaCC8HTiYz0jW58MlB7fl8RbQl19GLRVL8r6Yk2vXu?=
- =?us-ascii?Q?b6azY+pfRMBhKVtOmBFe687OyuYh7EhjtRRbqBizvDqRaCmclTxiiKL2R0L+?=
- =?us-ascii?Q?tc2/1YcyQ6Ku9Ve5grxwZ352/fhjouvYfqBIiR81oVP9Ozje8M9JX6VkyQsG?=
- =?us-ascii?Q?MkFXYO+Va/hdTGPBOyLDQc1WNqDzv1/CYaHcUSj/Xq42sYdMomqsLMLN3h0e?=
- =?us-ascii?Q?LIZDV44LMpzYwXKr8/nW+KbDc29U0UtJL9/znDQSUK/VrHgTly6+tKNGBzK6?=
- =?us-ascii?Q?HILiOnrDYvxarcqB6ki6h9m5pdyGSODhN2UF123SQh3OB8UbnMR9TOp0BGvG?=
- =?us-ascii?Q?rxkblbrfFIccK0DWL6wBexzkQhEkuY7BCxeHalVFcTGJlUmcJE6k0ZlZh8/F?=
- =?us-ascii?Q?f3m0WgbbJanejdAZhig1cchiT5D7ZkoEsbLqn8hd3pNhBCr3sQZVHrNI/BfO?=
- =?us-ascii?Q?hs2dkoJBf9eNCpASRcCiiA8kcDDVYlxIDM3q+bPii8MZiJroFhBOv/vWersQ?=
- =?us-ascii?Q?XluWc8J+HzwZ8U0kmfZptQao/sZMNZMDRzdpYty09IIspOhaIflYFG+dHQkO?=
- =?us-ascii?Q?WBBX+eZJccVTinM2yh31zptEN3r40xvNUuw0/Xrur35bhjjsP26u3SYltFFr?=
- =?us-ascii?Q?cdNC3EZ2uI241aWD4sKkEdLNjcRx74hcIuJBenvYFw3JtF2L/GDVU51buIPM?=
- =?us-ascii?Q?oJSiWwyXNOG8BGV7V3jzZh2XQwcCa2FSKLGSi+x+dVs5Iozy02s0ScJVGg0i?=
- =?us-ascii?Q?yL2Y9Og6Q2AsqAyyB94Q0CRxOAGBvc+eC5fo0CbUWO1LzAULe4t3QceNwYMY?=
- =?us-ascii?Q?73+8lQ42w7EAmHlwjoPD0FQT2111QGaBGfcGcXSNM8RSJqoRPO+vuTD7R3hV?=
- =?us-ascii?Q?xpNJOA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(36860700013)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 07:27:54.6863 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f918599-7069-43f3-6508-08de58be97d4
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00002313.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4456
+In-Reply-To: <51cddd97b31d80ec8842a88b9f3c9881419e8a7b.1763725387.git.asml.silence@gmail.com>
+X-CMS-MailID: 20260121074135epcas5p2eeb621d6acc9b4b73e6d45f5a40c078d
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+ boundary="----dZkOkAIazzHoUX-2rQXwJ8woeHD-_lbejx.E5KOGiu3cq0eS=_113bff_"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260121074135epcas5p2eeb621d6acc9b4b73e6d45f5a40c078d
+References: <cover.1763725387.git.asml.silence@gmail.com>
+ <51cddd97b31d80ec8842a88b9f3c9881419e8a7b.1763725387.git.asml.silence@gmail.com>
+ <CGME20260121074135epcas5p2eeb621d6acc9b4b73e6d45f5a40c078d@epcas5p2.samsung.com>
+X-Mailman-Approved-At: Wed, 21 Jan 2026 08:19:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,345 +90,408 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [1.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	CTYPE_MIXED_BOGUS(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_GOOD(-0.10)[multipart/mixed,text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	ARC_NA(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,nvidia.com:email,nvidia.com:mid];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+,1:+,2:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:asml.silence@gmail.com,m:linux-block@vger.kernel.org,m:io-uring@vger.kernel.org,m:kbusch@kernel.org,m:axboe@kernel.dk,m:hch@lst.de,m:sagi@grimberg.me,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-nvme@lists.infradead.org,m:linux-fsdevel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:asmlsilence@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[nj.shetty@samsung.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[samsung.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo,samsung.com:dkim,green245.gost:mid];
 	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,google.com,garyguo.net,protonmail.com,umich.edu,nvidia.com,weathered-steel.dev,collabora.com,joelfernandes.org,lists.freedesktop.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[zhiw@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[51];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FROM_NEQ_ENVFROM(0.00)[nj.shetty@samsung.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	TAGGED_RCPT(0.00)[dri-devel];
-	RCVD_COUNT_SEVEN(0.00)[8]
-X-Rspamd-Queue-Id: 0412852C9B
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: E2F455362B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, 20 Jan 2026 15:42:38 -0500
-Joel Fernandes <joelagnelf@nvidia.com> wrote:
+------dZkOkAIazzHoUX-2rQXwJ8woeHD-_lbejx.E5KOGiu3cq0eS=_113bff_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-> Add a new module `clist` for working with C's doubly circular linked
-> lists. Provide low-level iteration over list nodes.
-> 
-> Typed iteration over actual items is provided with a `clist_create`
-> macro to assist in creation of the `Clist` type.
-> 
-> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
-> ---
+On 23/11/25 10:51PM, Pavel Begunkov wrote:
+>Add blk-mq infrastructure to handle dmabuf tokens. There are two main
+>objects. The first is struct blk_mq_dma_token, which is an extension of
+>struct dma_token and passed in an iterator. The second is struct
+>blk_mq_dma_map, which keeps the actual mapping and unlike the token, can
+>be ejected (e.g. by move_notify) and recreated.
+>
+>The token keeps an rcu protected pointer to the mapping, so when it
+>resolves a token into a mapping to pass it to a request, it'll do an rcu
+>protected lookup and get a percpu reference to the mapping.
+>
+>If there is no current mapping attached to a token, it'll need to be
+>created by calling the driver (e.g. nvme) via a new callback. It
+>requires waiting, thefore can't be done for nowait requests and couldn't
+>happen deeper in the stack, e.g. during nvme request submission.
+>
+>The structure split is needed because move_notify can request to
+>invalidate the dma mapping at any moment, and we need a way to
+>concurrently remove it and wait for the inflight requests using the
+>previous mapping to complete.
+>
+>Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+>---
+> block/Makefile                   |   1 +
+> block/bdev.c                     |  14 ++
+> block/blk-mq-dma-token.c         | 236 +++++++++++++++++++++++++++++++
+> block/blk-mq.c                   |  20 +++
+> block/fops.c                     |   1 +
+> include/linux/blk-mq-dma-token.h |  60 ++++++++
+> include/linux/blk-mq.h           |  21 +++
+> include/linux/blkdev.h           |   3 +
+> 8 files changed, 356 insertions(+)
+> create mode 100644 block/blk-mq-dma-token.c
+> create mode 100644 include/linux/blk-mq-dma-token.h
+>
+>diff --git a/block/Makefile b/block/Makefile
+>index c65f4da93702..0190e5aa9f00 100644
+>--- a/block/Makefile
+>+++ b/block/Makefile
+>@@ -36,3 +36,4 @@ obj-$(CONFIG_BLK_INLINE_ENCRYPTION)	+= blk-crypto.o blk-crypto-profile.o \
+> 					   blk-crypto-sysfs.o
+> obj-$(CONFIG_BLK_INLINE_ENCRYPTION_FALLBACK)	+= blk-crypto-fallback.o
+> obj-$(CONFIG_BLOCK_HOLDER_DEPRECATED)	+= holder.o
+>+obj-$(CONFIG_DMA_SHARED_BUFFER) += blk-mq-dma-token.o
+>diff --git a/block/bdev.c b/block/bdev.c
+>index 810707cca970..da89d20f33f3 100644
+>--- a/block/bdev.c
+>+++ b/block/bdev.c
+>@@ -28,6 +28,7 @@
+> #include <linux/part_stat.h>
+> #include <linux/uaccess.h>
+> #include <linux/stat.h>
+>+#include <linux/blk-mq-dma-token.h>
+> #include "../fs/internal.h"
+> #include "blk.h"
+>
+>@@ -61,6 +62,19 @@ struct block_device *file_bdev(struct file *bdev_file)
+> }
+> EXPORT_SYMBOL(file_bdev);
+>
+>+struct dma_token *blkdev_dma_map(struct file *file,
+>+				 struct dma_token_params *params)
+>+{
+>+	struct request_queue *q = bdev_get_queue(file_bdev(file));
+>+
+>+	if (!(file->f_flags & O_DIRECT))
+>+		return ERR_PTR(-EINVAL);
+>+	if (!q->mq_ops)
+>+		return ERR_PTR(-EINVAL);
+>+
+>+	return blk_mq_dma_map(q, params);
+>+}
+>+
+> static void bdev_write_inode(struct block_device *bdev)
+> {
+> 	struct inode *inode = BD_INODE(bdev);
+>diff --git a/block/blk-mq-dma-token.c b/block/blk-mq-dma-token.c
+>new file mode 100644
+>index 000000000000..cd62c4d09422
+>--- /dev/null
+>+++ b/block/blk-mq-dma-token.c
+>@@ -0,0 +1,236 @@
+>+#include <linux/blk-mq-dma-token.h>
+>+#include <linux/dma-resv.h>
+>+
+>+struct blk_mq_dma_fence {
+>+	struct dma_fence base;
+>+	spinlock_t lock;
+>+};
+>+
+>+static const char *blk_mq_fence_drv_name(struct dma_fence *fence)
+>+{
+>+	return "blk-mq";
+>+}
+>+
+>+const struct dma_fence_ops blk_mq_dma_fence_ops = {
+>+	.get_driver_name = blk_mq_fence_drv_name,
+>+	.get_timeline_name = blk_mq_fence_drv_name,
+>+};
+>+
+>+static void blk_mq_dma_token_free(struct blk_mq_dma_token *token)
+>+{
+>+	token->q->mq_ops->clean_dma_token(token->q, token);
+>+	dma_buf_put(token->dmabuf);
+>+	kfree(token);
+>+}
+>+
+>+static inline void blk_mq_dma_token_put(struct blk_mq_dma_token *token)
+>+{
+>+	if (refcount_dec_and_test(&token->refs))
+>+		blk_mq_dma_token_free(token);
+>+}
+>+
+>+static void blk_mq_dma_mapping_free(struct blk_mq_dma_map *map)
+>+{
+>+	struct blk_mq_dma_token *token = map->token;
+>+
+>+	if (map->sgt)
+>+		token->q->mq_ops->dma_unmap(token->q, map);
+>+
+>+	dma_fence_put(&map->fence->base);
+>+	percpu_ref_exit(&map->refs);
+>+	kfree(map);
+>+	blk_mq_dma_token_put(token);
+>+}
+>+
+>+static void blk_mq_dma_map_work_free(struct work_struct *work)
+>+{
+>+	struct blk_mq_dma_map *map = container_of(work, struct blk_mq_dma_map,
+>+						free_work);
+>+
+>+	dma_fence_signal(&map->fence->base);
+>+	blk_mq_dma_mapping_free(map);
+>+}
+>+
+>+static void blk_mq_dma_map_refs_free(struct percpu_ref *ref)
+>+{
+>+	struct blk_mq_dma_map *map = container_of(ref, struct blk_mq_dma_map, refs);
+>+
+>+	INIT_WORK(&map->free_work, blk_mq_dma_map_work_free);
+>+	queue_work(system_wq, &map->free_work);
+>+}
+>+
+>+static struct blk_mq_dma_map *blk_mq_alloc_dma_mapping(struct blk_mq_dma_token *token)
+>+{
+>+	struct blk_mq_dma_fence *fence = NULL;
+>+	struct blk_mq_dma_map *map;
+>+	int ret = -ENOMEM;
+>+
+>+	map = kzalloc(sizeof(*map), GFP_KERNEL);
+>+	if (!map)
+>+		return ERR_PTR(-ENOMEM);
+>+
+>+	fence = kzalloc(sizeof(*fence), GFP_KERNEL);
+>+	if (!fence)
+>+		goto err;
+>+
+>+	ret = percpu_ref_init(&map->refs, blk_mq_dma_map_refs_free, 0,
+>+			      GFP_KERNEL);
+>+	if (ret)
+>+		goto err;
+>+
+>+	dma_fence_init(&fence->base, &blk_mq_dma_fence_ops, &fence->lock,
+>+			token->fence_ctx, atomic_inc_return(&token->fence_seq));
+>+	spin_lock_init(&fence->lock);
+>+	map->fence = fence;
+>+	map->token = token;
+>+	refcount_inc(&token->refs);
+>+	return map;
+>+err:
+>+	kfree(map);
+>+	kfree(fence);
+>+	return ERR_PTR(ret);
+>+}
+>+
+>+static inline
+>+struct blk_mq_dma_map *blk_mq_get_token_map(struct blk_mq_dma_token *token)
+>+{
+>+	struct blk_mq_dma_map *map;
+>+
+>+	guard(rcu)();
+>+
+>+	map = rcu_dereference(token->map);
+>+	if (unlikely(!map || !percpu_ref_tryget_live_rcu(&map->refs)))
+>+		return NULL;
+>+	return map;
+>+}
+>+
+>+static struct blk_mq_dma_map *
+>+blk_mq_create_dma_map(struct blk_mq_dma_token *token)
+>+{
+>+	struct dma_buf *dmabuf = token->dmabuf;
+>+	struct blk_mq_dma_map *map;
+>+	long ret;
+>+
+>+	guard(mutex)(&token->mapping_lock);
+>+
+>+	map = blk_mq_get_token_map(token);
+>+	if (map)
+>+		return map;
+>+
+>+	map = blk_mq_alloc_dma_mapping(token);
+>+	if (IS_ERR(map))
+>+		return NULL;
+>+
+>+	dma_resv_lock(dmabuf->resv, NULL);
+>+	ret = dma_resv_wait_timeout(dmabuf->resv, DMA_RESV_USAGE_BOOKKEEP,
+>+				    true, MAX_SCHEDULE_TIMEOUT);
+>+	ret = ret ? ret : -ETIME;
+>+	if (ret > 0)
+>+		ret = token->q->mq_ops->dma_map(token->q, map);
+>+	dma_resv_unlock(dmabuf->resv);
+>+
+>+	if (ret)
+>+		return ERR_PTR(ret);
+>+
+>+	percpu_ref_get(&map->refs);
+>+	rcu_assign_pointer(token->map, map);
+>+	return map;
+>+}
+>+
+>+static void blk_mq_dma_map_remove(struct blk_mq_dma_token *token)
+>+{
+>+	struct dma_buf *dmabuf = token->dmabuf;
+>+	struct blk_mq_dma_map *map;
+>+	int ret;
+>+
+>+	dma_resv_assert_held(dmabuf->resv);
+>+
+>+	ret = dma_resv_reserve_fences(dmabuf->resv, 1);
+>+	if (WARN_ON_ONCE(ret))
+>+		return;
+>+
+>+	map = rcu_dereference_protected(token->map,
+>+					dma_resv_held(dmabuf->resv));
+>+	if (!map)
+>+		return;
+>+	rcu_assign_pointer(token->map, NULL);
+>+
+>+	dma_resv_add_fence(dmabuf->resv, &map->fence->base,
+>+			   DMA_RESV_USAGE_KERNEL);
+>+	percpu_ref_kill(&map->refs);
+>+}
+>+
+>+blk_status_t blk_rq_assign_dma_map(struct request *rq,
+>+				   struct blk_mq_dma_token *token)
+>+{
+>+	struct blk_mq_dma_map *map;
+>+
+>+	map = blk_mq_get_token_map(token);
+>+	if (map)
+>+		goto complete;
+>+
+>+	if (rq->cmd_flags & REQ_NOWAIT)
+>+		return BLK_STS_AGAIN;
+>+
+>+	map = blk_mq_create_dma_map(token);
+>+	if (IS_ERR(map))
+>+		return BLK_STS_RESOURCE;
+>+complete:
+>+	rq->dma_map = map;
+>+	return BLK_STS_OK;
+>+}
+>+
+>+void blk_mq_dma_map_move_notify(struct blk_mq_dma_token *token)
+>+{
+>+	blk_mq_dma_map_remove(token);
+>+}
+>+
+>+static void blk_mq_release_dma_mapping(struct dma_token *base_token)
+>+{
+>+	struct blk_mq_dma_token *token = dma_token_to_blk_mq(base_token);
+>+	struct dma_buf *dmabuf = token->dmabuf;
+>+
+>+	dma_resv_lock(dmabuf->resv, NULL);
+>+	blk_mq_dma_map_remove(token);
+>+	dma_resv_unlock(dmabuf->resv);
+>+
+>+	blk_mq_dma_token_put(token);
+>+}
+>+
+>+struct dma_token *blk_mq_dma_map(struct request_queue *q,
+>+				  struct dma_token_params *params)
+>+{
+>+	struct dma_buf *dmabuf = params->dmabuf;
+>+	struct blk_mq_dma_token *token;
+>+	int ret;
+>+
+>+	if (!q->mq_ops->dma_map || !q->mq_ops->dma_unmap ||
+>+	    !q->mq_ops->init_dma_token || !q->mq_ops->clean_dma_token)
+>+		return ERR_PTR(-EINVAL);
+>+
+>+	token = kzalloc(sizeof(*token), GFP_KERNEL);
+>+	if (!token)
+>+		return ERR_PTR(-ENOMEM);
+>+
+>+	get_dma_buf(dmabuf);
+>+	token->fence_ctx = dma_fence_context_alloc(1);
+>+	token->dmabuf = dmabuf;
+>+	token->dir = params->dir;
+>+	token->base.release = blk_mq_release_dma_mapping;
+>+	token->q = q;
+>+	refcount_set(&token->refs, 1);
+>+	mutex_init(&token->mapping_lock);
+>+
+>+	if (!blk_get_queue(q)) {
+>+		kfree(token);
+>+		return ERR_PTR(-EFAULT);
+>+	}
+>+
+>+	ret = token->q->mq_ops->init_dma_token(token->q, token);
+>+	if (ret) {
+>+		kfree(token);
+>+		blk_put_queue(q);
+>+		return ERR_PTR(ret);
+>+	}
+>+	return &token->base;
+>+}
+>diff --git a/block/blk-mq.c b/block/blk-mq.c
+>index f2650c97a75e..1ff3a7e3191b 100644
+>--- a/block/blk-mq.c
+>+++ b/block/blk-mq.c
+>@@ -29,6 +29,7 @@
+> #include <linux/blk-crypto.h>
+> #include <linux/part_stat.h>
+> #include <linux/sched/isolation.h>
+>+#include <linux/blk-mq-dma-token.h>
+>
+> #include <trace/events/block.h>
+>
+>@@ -439,6 +440,7 @@ static struct request *blk_mq_rq_ctx_init(struct blk_mq_alloc_data *data,
+> 	rq->nr_integrity_segments = 0;
+> 	rq->end_io = NULL;
+> 	rq->end_io_data = NULL;
+>+	rq->dma_map = NULL;
+>
+> 	blk_crypto_rq_set_defaults(rq);
+> 	INIT_LIST_HEAD(&rq->queuelist);
+>@@ -794,6 +796,7 @@ static void __blk_mq_free_request(struct request *rq)
+> 	blk_pm_mark_last_busy(rq);
+> 	rq->mq_hctx = NULL;
+>
+>+	blk_rq_drop_dma_map(rq);
+blk_rq_drop_dma_map(rq), needs to be added in blk_mq_end_request_batch
+as well[1], otherwise I am seeing we leave with increased reference
+count in dma-buf exporter side.
 
-snip
+Thanks,
+Nitesh
 
-> +/// Initialize a `list_head` object to point to itself.
-> +///
-> +/// # Safety
-> +///
-> +/// `list` must be a valid pointer to a `list_head` object.
-> +#[inline]
-> +pub unsafe fn init_list_head(list: *mut bindings::list_head) {
-> +    // SAFETY: Caller guarantees `list` is a valid pointer to a
-> `list_head`.
-> +    unsafe {
-> +        (*list).next = list;
-> +        (*list).prev = list;
-> +    }
-> +}
-> +
+[1]
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -1214,6 +1214,7 @@ void blk_mq_end_request_batch(struct io_comp_batch *iob)
 
-Might be better to have a C helper? since INIT_LIST_HEAD() has WRITE_ONCE()
-for memory ordering. This one seems not equal to it.
+                  blk_crypto_free_request(rq);
+                  blk_pm_mark_last_busy(rq);
++               blk_rq_drop_dma_map(rq);
 
-Z.
+------dZkOkAIazzHoUX-2rQXwJ8woeHD-_lbejx.E5KOGiu3cq0eS=_113bff_
+Content-Type: text/plain; charset="utf-8"
 
-> +/// Wraps a `list_head` object for use in intrusive linked lists.
-> +///
-> +/// # Invariants
-> +///
-> +/// - [`CListHead`] represents an allocated and valid `list_head`
-> structure. +/// - Once a [`CListHead`] is created in Rust, it will not
-> be modified by non-Rust code. +/// - All `list_head` for individual
-> items are not modified for the lifetime of [`CListHead`].
-> +#[repr(transparent)] +pub struct CListHead(Opaque<bindings::list_head>);
-> +
-> +impl CListHead {
-> +    /// Create a `&CListHead` reference from a raw `list_head` pointer.
-> +    ///
-> +    /// # Safety
-> +    ///
-> +    /// - `ptr` must be a valid pointer to an allocated and initialized
-> `list_head` structure.
-> +    /// - `ptr` must remain valid and unmodified for the lifetime `'a`.
-> +    #[inline]
-> +    pub unsafe fn from_raw<'a>(ptr: *mut bindings::list_head) -> &'a
-> Self {
-> +        // SAFETY:
-> +        // - [`CListHead`] has same layout as `list_head`.
-> +        // - `ptr` is valid and unmodified for 'a.
-> +        unsafe { &*ptr.cast() }
-> +    }
-> +
-> +    /// Get the raw `list_head` pointer.
-> +    #[inline]
-> +    pub fn as_raw(&self) -> *mut bindings::list_head {
-> +        self.0.get()
-> +    }
-> +
-> +    /// Get the next [`CListHead`] in the list.
-> +    #[inline]
-> +    pub fn next(&self) -> &Self {
-> +        let raw = self.as_raw();
-> +        // SAFETY:
-> +        // - `self.as_raw()` is valid per type invariants.
-> +        // - The `next` pointer is guaranteed to be non-NULL.
-> +        unsafe { Self::from_raw((*raw).next) }
-> +    }
-> +
-> +    /// Get the previous [`CListHead`] in the list.
-> +    #[inline]
-> +    pub fn prev(&self) -> &Self {
-> +        let raw = self.as_raw();
-> +        // SAFETY:
-> +        // - self.as_raw() is valid per type invariants.
-> +        // - The `prev` pointer is guaranteed to be non-NULL.
-> +        unsafe { Self::from_raw((*raw).prev) }
-> +    }
-> +
-> +    /// Check if this node is linked in a list (not isolated).
-> +    #[inline]
-> +    pub fn is_linked(&self) -> bool {
-> +        let raw = self.as_raw();
-> +        // SAFETY: self.as_raw() is valid per type invariants.
-> +        unsafe { (*raw).next != raw && (*raw).prev != raw }
-> +    }
-> +
-> +    /// Fallible pin-initializer that initializes and then calls user
-> closure.
-> +    ///
-> +    /// Initializes the list head first, then passes `&CListHead` to
-> the closure.
-> +    /// This hides the raw FFI pointer from the user.
-> +    pub fn try_init<E>(
-> +        init_func: impl FnOnce(&CListHead) -> Result<(), E>,
-> +    ) -> impl PinInit<Self, E> {
-> +        // SAFETY: init_list_head initializes the list_head to point to
-> itself.
-> +        // After initialization, we create a reference to pass to the
-> closure.
-> +        unsafe {
-> +            pin_init::pin_init_from_closure(move |slot: *mut Self| {
-> +                init_list_head(slot.cast());
-> +                // SAFETY: slot is now initialized, safe to create
-> reference.
-> +                init_func(&*slot)
-> +            })
-> +        }
-> +    }
-> +}
-> +
-> +// SAFETY: [`CListHead`] can be sent to any thread.
-> +unsafe impl Send for CListHead {}
-> +
-> +// SAFETY: [`CListHead`] can be shared among threads as it is not
-> modified +// by non-Rust code per type invariants.
-> +unsafe impl Sync for CListHead {}
-> +
-> +impl PartialEq for CListHead {
-> +    fn eq(&self, other: &Self) -> bool {
-> +        self.as_raw() == other.as_raw()
-> +    }
-> +}
-> +
-> +impl Eq for CListHead {}
-> +
-> +/// Low-level iterator over `list_head` nodes.
-> +///
-> +/// An iterator used to iterate over a C intrusive linked list
-> (`list_head`). Caller has to +/// perform conversion of returned
-> [`CListHead`] to an item (using `container_of` macro or similar). +///
-> +/// # Invariants
-> +///
-> +/// [`CListHeadIter`] is iterating over an allocated, initialized and
-> valid list. +struct CListHeadIter<'a> {
-> +    current_head: &'a CListHead,
-> +    list_head: &'a CListHead,
-> +}
-> +
-> +impl<'a> Iterator for CListHeadIter<'a> {
-> +    type Item = &'a CListHead;
-> +
-> +    #[inline]
-> +    fn next(&mut self) -> Option<Self::Item> {
-> +        // Advance to next node.
-> +        let next = self.current_head.next();
-> +
-> +        // Check if we've circled back to the sentinel head.
-> +        if next == self.list_head {
-> +            None
-> +        } else {
-> +            self.current_head = next;
-> +            Some(self.current_head)
-> +        }
-> +    }
-> +}
-> +
-> +impl<'a> FusedIterator for CListHeadIter<'a> {}
-> +
-> +/// A typed C linked list with a sentinel head.
-> +///
-> +/// A sentinel head represents the entire linked list and can be used
-> for +/// iteration over items of type `T`, it is not associated with a
-> specific item. +///
-> +/// The const generic `OFFSET` specifies the byte offset of the
-> `list_head` field within +/// the struct that `T` wraps.
-> +///
-> +/// # Invariants
-> +///
-> +/// - `head` is an allocated and valid C `list_head` structure that is
-> the list's sentinel. +/// - `OFFSET` is the byte offset of the
-> `list_head` field within the struct that `T` wraps. +/// - All the
-> list's `list_head` nodes are allocated and have valid next/prev
-> pointers. +/// - The underlying `list_head` (and entire list) is not
-> modified for the lifetime `'a`. +pub struct CList<'a, T, const OFFSET:
-> usize> {
-> +    head: &'a CListHead,
-> +    _phantom: PhantomData<&'a T>,
-> +}
-> +
-> +impl<'a, T, const OFFSET: usize> CList<'a, T, OFFSET> {
-> +    /// Create a typed [`CList`] from a raw sentinel `list_head`
-> pointer.
-> +    ///
-> +    /// # Safety
-> +    ///
-> +    /// - `ptr` must be a valid pointer to an allocated and initialized
-> `list_head` structure
-> +    ///   representing a list sentinel.
-> +    /// - `ptr` must remain valid and unmodified for the lifetime `'a`.
-> +    /// - The list must contain items where the `list_head` field is at
-> byte offset `OFFSET`.
-> +    /// - `T` must be `#[repr(transparent)]` over the C struct.
-> +    #[inline]
-> +    pub unsafe fn from_raw(ptr: *mut bindings::list_head) -> Self {
-> +        Self {
-> +            // SAFETY: Caller guarantees `ptr` is a valid, sentinel
-> `list_head` object.
-> +            head: unsafe { CListHead::from_raw(ptr) },
-> +            _phantom: PhantomData,
-> +        }
-> +    }
-> +
-> +    /// Get the raw sentinel `list_head` pointer.
-> +    #[inline]
-> +    pub fn as_raw(&self) -> *mut bindings::list_head {
-> +        self.head.as_raw()
-> +    }
-> +
-> +    /// Check if the list is empty.
-> +    #[inline]
-> +    pub fn is_empty(&self) -> bool {
-> +        let raw = self.as_raw();
-> +        // SAFETY: self.as_raw() is valid per type invariants.
-> +        unsafe { (*raw).next == raw }
-> +    }
-> +
-> +    /// Create an iterator over typed items.
-> +    #[inline]
-> +    pub fn iter(&self) -> CListIter<'a, T, OFFSET> {
-> +        CListIter {
-> +            head_iter: CListHeadIter {
-> +                current_head: self.head,
-> +                list_head: self.head,
-> +            },
-> +            _phantom: PhantomData,
-> +        }
-> +    }
-> +}
-> +
-> +/// High-level iterator over typed list items.
-> +pub struct CListIter<'a, T, const OFFSET: usize> {
-> +    head_iter: CListHeadIter<'a>,
-> +    _phantom: PhantomData<&'a T>,
-> +}
-> +
-> +impl<'a, T, const OFFSET: usize> Iterator for CListIter<'a, T, OFFSET> {
-> +    type Item = &'a T;
-> +
-> +    fn next(&mut self) -> Option<Self::Item> {
-> +        let head = self.head_iter.next()?;
-> +
-> +        // Convert to item using OFFSET.
-> +        // SAFETY: `item_ptr` calculation from `OFFSET` (calculated
-> using offset_of!)
-> +        // is valid per invariants.
-> +        Some(unsafe { &*head.as_raw().byte_sub(OFFSET).cast::<T>() })
-> +    }
-> +}
-> +
-> +impl<'a, T, const OFFSET: usize> FusedIterator for CListIter<'a, T,
-> OFFSET> {} +
-> +/// Create a C doubly-circular linked list interface [`CList`] from a
-> raw `list_head` pointer. +///
-> +/// This macro creates a [`CList<T, OFFSET>`] that can iterate over
-> items of type `$rust_type` +/// linked via the `$field` field in the
-> underlying C struct `$c_type`. +///
-> +/// # Arguments
-> +///
-> +/// - `$head`: Raw pointer to the sentinel `list_head` object (`*mut
-> bindings::list_head`). +/// - `$rust_type`: Each item's rust wrapper
-> type. +/// - `$c_type`: Each item's C struct type that contains the
-> embedded `list_head`. +/// - `$field`: The name of the `list_head` field
-> within the C struct. +///
-> +/// # Safety
-> +///
-> +/// The caller must ensure:
-> +/// - `$head` is a valid, initialized sentinel `list_head` pointing to
-> a list that remains +///   unmodified for the lifetime of the rust
-> [`CList`]. +/// - The list contains items of type `$c_type` linked via
-> an embedded `$field`. +/// - `$rust_type` is `#[repr(transparent)]` over
-> `$c_type` or has compatible layout. +/// - The macro is called from an
-> unsafe block. +///
-> +/// # Examples
-> +///
-> +/// Refer to the examples in the [`crate::clist`] module documentation.
-> +#[macro_export]
-> +macro_rules! clist_create {
-> +    ($head:expr, $rust_type:ty, $c_type:ty, $($field:tt).+) => {{
-> +        // Compile-time check that field path is a list_head.
-> +        let _: fn(*const $c_type) -> *const $crate::bindings::list_head
-> =
-> +            |p| ::core::ptr::addr_of!((*p).$($field).+);
-> +
-> +        // Calculate offset and create `CList`.
-> +        const OFFSET: usize = ::core::mem::offset_of!($c_type,
-> $($field).+);
-> +        $crate::clist::CList::<$rust_type, OFFSET>::from_raw($head)
-> +    }};
-> +}
-> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-> index f812cf120042..cd7e6a1055b0 100644
-> --- a/rust/kernel/lib.rs
-> +++ b/rust/kernel/lib.rs
-> @@ -75,6 +75,7 @@
->  pub mod bug;
->  #[doc(hidden)]
->  pub mod build_assert;
-> +pub mod clist;
->  pub mod clk;
->  #[cfg(CONFIG_CONFIGFS_FS)]
->  pub mod configfs;
 
+------dZkOkAIazzHoUX-2rQXwJ8woeHD-_lbejx.E5KOGiu3cq0eS=_113bff_--
