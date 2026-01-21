@@ -2,63 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4FUSMDuYcGlyYgAAu9opvQ
+	id KD1UFD2YcGlyYgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 10:11:23 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 10:11:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43B29541D9
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 10:11:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F3BE541E0
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 10:11:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 894F410E71F;
-	Wed, 21 Jan 2026 09:11:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4FE210E728;
+	Wed, 21 Jan 2026 09:11:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FHcqDg6e";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ny33davI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D67410E71B;
- Wed, 21 Jan 2026 09:11:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 275F710E71B;
+ Wed, 21 Jan 2026 09:11:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1768986677; x=1800522677;
+ t=1768986679; x=1800522679;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=CcR8WWhjCXEIGjN5Z77f7XLe7vIqq2ciTdPVJ57DYQE=;
- b=FHcqDg6eDk4Jrg7FlLl91NDHWcSuZ+YN9z0yDNhc9WIkwgP38gkz7UXR
- INZLHiraANXacbYOOPMjM1QFxLD8wrlHRjBKBKGjdwvjV4aEfpuLQdlKM
- 4NQxJCgv+kq47E0Nc3Rlaof+IdFsF4f2NA/4xTGIWc4WU1XSsuBfTyCWK
- Br386epesclSBPlAA0GqqMeJGO5gY5C25q67XSJyUjqSHRYlSqSiCT6vL
- OpQ3gdeBp5NS7LuBVpBmS2+Pj2/3Ovy/N8YtH+5BTpH9TpSINUYw61w8P
- mUq72LMMd/JlHz7a+xAV2NbCjARG3faY9sgJRa/4BEgw+knB/zA17pGCY A==;
-X-CSE-ConnectionGUID: G3Nxj5JyQFSHJ6gHPlrcqA==
-X-CSE-MsgGUID: UWo//7EeR+eFgy8fDeW6Pg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="95682066"
-X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; d="scan'208";a="95682066"
+ bh=UREthQeCI198mcq0lfuPLhq2mZmaPzhXQ3nN7LIeK1k=;
+ b=Ny33davI3mzA/7i8hrHySOSaBXDWCFUS0ccy898TZL1fureUF3WEuMuI
+ U2ciQjhG2J1YW6BkqYGnanzlgUJuFrdz7uU/rThL9cQ3t7nl6F9gPPNcg
+ 8xlTDTUUIPOo3m3sRSIN6Wza4PfV+m97+k3ySKQoh/UOxjBk9R8QEROE5
+ v4zHA2DFNhLUzQVRw0ATSdTHXnNCcSMsrHIvDXKxJPXQ0ughhFJRemWdo
+ KxFmmprWeGLrdyBHMUlQJds5RmOtCKSJC5d1eeBM6oMgn8MSo2OOiak5y
+ JCkFgOnyDjnCT1Un0S94BeIP4I+h1ObQVB0t9O5fCSf/bhmF6Ny//EIgj Q==;
+X-CSE-ConnectionGUID: VkSVITTkRd68p37c12oVjQ==
+X-CSE-MsgGUID: da+TCNslQ06B6E4KSG9l6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="95682070"
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; d="scan'208";a="95682070"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2026 01:11:17 -0800
-X-CSE-ConnectionGUID: fS70S4EFRbicBg1oMRY7aA==
-X-CSE-MsgGUID: OvEVsSkPT0uSmStpALqWKQ==
+ 21 Jan 2026 01:11:19 -0800
+X-CSE-ConnectionGUID: 8pWVPNSdTmixfwEAAuP2ZQ==
+X-CSE-MsgGUID: W1zu2wqWRDa93QgtpUUktw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; d="scan'208";a="210847861"
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; d="scan'208";a="210847870"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO fedora)
  ([10.245.245.107])
  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2026 01:11:15 -0800
+ 21 Jan 2026 01:11:17 -0800
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  Matthew Auld <matthew.auld@intel.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
  Matthew Brost <matthew.brost@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org
-Subject: [PATCH v3 1/2] drm,
- drm/xe: Fix xe userptr in the absence of CONFIG_DEVICE_PRIVATE
-Date: Wed, 21 Jan 2026 10:10:47 +0100
-Message-ID: <20260121091048.41371-2-thomas.hellstrom@linux.intel.com>
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 2/2] drm/xe: Select CONFIG_DEVICE_PRIVATE when
+ DRM_XE_GPUSVM is selected
+Date: Wed, 21 Jan 2026 10:10:48 +0100
+Message-ID: <20260121091048.41371-3-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260121091048.41371-1-thomas.hellstrom@linux.intel.com>
 References: <20260121091048.41371-1-thomas.hellstrom@linux.intel.com>
@@ -82,169 +80,65 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Spamd-Result: default: False [-0.31 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,intel.com:email,intel.com:dkim,lists.freedesktop.org:email,gabe.freedesktop.org:rdns,gabe.freedesktop.org:helo];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[intel.com:+]
-X-Rspamd-Queue-Id: 43B29541D9
+X-Rspamd-Queue-Id: 1F3BE541E0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-CONFIG_DEVICE_PRIVATE is not selected by default by some distros,
-for example Fedora, and that leads to a regression in the xe driver
-since userptr support gets compiled out.
-
-It turns out that DRM_GPUSVM, which is needed for xe userptr support
-compiles also without CONFIG_DEVICE_PRIVATE, but doesn't compile
-without CONFIG_ZONE_DEVICE.
-Exclude the drm_pagemap files from compilation with !CONFIG_ZONE_DEVICE,
-and remove the CONFIG_DEVICE_PRIVATE dependency from CONFIG_DRM_GPUSVM and
-the xe driver's selection of it, re-enabling xe userptr for those configs.
+CONFIG_DEVICE_PRIVATE is a prerequisite for DRM_XE_GPUSVM.
+Explicitly select it so that DRM_XE_GPUSVM is not unintentionally
+left out from distro configs not explicitly enabling
+CONFIG_DEVICE_PRIVATE.
 
 v2:
-- Don't compile the drm_pagemap files unless CONFIG_ZONE_DEVICE is set.
-- Adjust the drm_pagemap.h header accordingly.
+- Select also CONFIG_ZONE_DEVICE since it's needed by
+  CONFIG_DEVICE_PRIVATE.
+v3:
+- Depend on CONFIG_ZONE_DEVICE rather than selecting it.
 
-Fixes: 9e9787414882 ("drm/xe/userptr: replace xe_hmm with gpusvm")
 Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
 Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.18+
+Cc: <dri-devel@lists.freedesktop.org>
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/Kconfig    |  2 +-
- drivers/gpu/drm/Makefile   |  4 +++-
- drivers/gpu/drm/xe/Kconfig |  2 +-
- include/drm/drm_pagemap.h  | 18 ++++++++++++++----
- 4 files changed, 19 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/xe/Kconfig | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index a33b90251530..d3d52310c9cc 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -210,7 +210,7 @@ config DRM_GPUVM
- 
- config DRM_GPUSVM
- 	tristate
--	depends on DRM && DEVICE_PRIVATE
-+	depends on DRM
- 	select HMM_MIRROR
- 	select MMU_NOTIFIER
- 	help
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 0deee72ef935..0c21029c446f 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -108,9 +108,11 @@ obj-$(CONFIG_DRM_EXEC) += drm_exec.o
- obj-$(CONFIG_DRM_GPUVM) += drm_gpuvm.o
- 
- drm_gpusvm_helper-y := \
--	drm_gpusvm.o\
-+	drm_gpusvm.o
-+drm_gpusvm_helper-$(CONFIG_ZONE_DEVICE) += \
- 	drm_pagemap.o\
- 	drm_pagemap_util.o
-+
- obj-$(CONFIG_DRM_GPUSVM) += drm_gpusvm_helper.o
- 
- obj-$(CONFIG_DRM_BUDDY) += drm_buddy.o
 diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
-index 4b288eb3f5b0..c34be1be155b 100644
+index c34be1be155b..4d7dcaff2b91 100644
 --- a/drivers/gpu/drm/xe/Kconfig
 +++ b/drivers/gpu/drm/xe/Kconfig
-@@ -39,7 +39,7 @@ config DRM_XE
- 	select DRM_TTM
- 	select DRM_TTM_HELPER
- 	select DRM_EXEC
--	select DRM_GPUSVM if !UML && DEVICE_PRIVATE
-+	select DRM_GPUSVM if !UML
- 	select DRM_GPUVM
- 	select DRM_SCHED
- 	select MMU_NOTIFIER
-diff --git a/include/drm/drm_pagemap.h b/include/drm/drm_pagemap.h
-index 46e9c58f09e0..2baf0861f78f 100644
---- a/include/drm/drm_pagemap.h
-+++ b/include/drm/drm_pagemap.h
-@@ -243,6 +243,8 @@ struct drm_pagemap_devmem_ops {
- 			   struct dma_fence *pre_migrate_fence);
- };
- 
-+#if IS_ENABLED(CONFIG_ZONE_DEVICE)
-+
- int drm_pagemap_init(struct drm_pagemap *dpagemap,
- 		     struct dev_pagemap *pagemap,
- 		     struct drm_device *drm,
-@@ -252,17 +254,22 @@ struct drm_pagemap *drm_pagemap_create(struct drm_device *drm,
- 				       struct dev_pagemap *pagemap,
- 				       const struct drm_pagemap_ops *ops);
- 
--#if IS_ENABLED(CONFIG_DRM_GPUSVM)
-+struct drm_pagemap *drm_pagemap_page_to_dpagemap(struct page *page);
- 
- void drm_pagemap_put(struct drm_pagemap *dpagemap);
- 
- #else
- 
-+static inline struct drm_pagemap *drm_pagemap_page_to_dpagemap(struct page *page)
-+{
-+	return NULL;
-+}
-+
- static inline void drm_pagemap_put(struct drm_pagemap *dpagemap)
- {
- }
- 
--#endif /* IS_ENABLED(CONFIG_DRM_GPUSVM) */
-+#endif /* IS_ENABLED(CONFIG_ZONE_DEVICE) */
- 
- /**
-  * drm_pagemap_get() - Obtain a reference on a struct drm_pagemap
-@@ -334,6 +341,8 @@ struct drm_pagemap_migrate_details {
- 	u32 source_peer_migrates : 1;
- };
- 
-+#if IS_ENABLED(CONFIG_ZONE_DEVICE)
-+
- int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
- 				  struct mm_struct *mm,
- 				  unsigned long start, unsigned long end,
-@@ -343,8 +352,6 @@ int drm_pagemap_evict_to_ram(struct drm_pagemap_devmem *devmem_allocation);
- 
- const struct dev_pagemap_ops *drm_pagemap_pagemap_ops_get(void);
- 
--struct drm_pagemap *drm_pagemap_page_to_dpagemap(struct page *page);
--
- void drm_pagemap_devmem_init(struct drm_pagemap_devmem *devmem_allocation,
- 			     struct device *dev, struct mm_struct *mm,
- 			     const struct drm_pagemap_devmem_ops *ops,
-@@ -359,4 +366,7 @@ int drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
- void drm_pagemap_destroy(struct drm_pagemap *dpagemap, bool is_atomic_or_reclaim);
- 
- int drm_pagemap_reinit(struct drm_pagemap *dpagemap);
-+
-+#endif /* IS_ENABLED(CONFIG_ZONE_DEVICE) */
-+
- #endif
+@@ -80,8 +80,9 @@ config DRM_XE_GPUSVM
+ 	bool "Enable CPU to GPU address mirroring"
+ 	depends on DRM_XE
+ 	depends on !UML
+-	depends on DEVICE_PRIVATE
++	depends on ZONE_DEVICE
+ 	default y
++	select DEVICE_PRIVATE
+ 	select DRM_GPUSVM
+ 	help
+ 	  Enable this option if you want support for CPU to GPU address
 -- 
 2.52.0
 
