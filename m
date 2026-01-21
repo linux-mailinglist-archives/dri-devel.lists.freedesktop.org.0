@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KHeGEbBecWnLGAAAu9opvQ
+	id OE/RH7NecWnLGAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 00:18:08 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 00:18:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B6355F653
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 00:18:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 550845F669
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 00:18:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82A9410E8AF;
-	Wed, 21 Jan 2026 23:18:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7127810E8BC;
+	Wed, 21 Jan 2026 23:18:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="G474uepk";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WTZOuz5b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3147C10E0F4
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 23:18:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 158D510E0F4
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 23:18:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1769037480;
- bh=k+lpKw/GkEE1qZBAsdHOtmmT4OdP3htD+kdTsbNCAeI=;
+ s=mail; t=1769037481;
+ bh=QD3lawmiWIE2DGClkQ8wGZNCh9NyDdwVlxJuPugz7gY=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=G474uepkcLEufCY9CSLX4eOL43laBwOix+QhdgAKqSD8ocBWQEbDbkZsGp7F/dRhJ
- uO7ZQRSKItQdlFDPEGBtNpKYhpJfa6IJ+Bo6h4Ck0W5qUJRsNbtJvrzzx2lOzKJbnq
- D0qgpealA/utLVFiqyKWv+m1cdKYE2zb7enUe8KQ/6S17oR9efitxFAKYgeSkOMuFk
- T4/O96ZdEn9KDXUCbF+mI0COI0kpe7sUeX2kGWCubCo0Xn5WIVCoyYImL5RORFssvT
- EN6bCwq6H0NYrD8OeVuxXPP8321Qn4nmC97e1lZ7l9oebAggifvxr0CazGwaSggfsi
- ki94oXV8mXgPg==
+ b=WTZOuz5b6VhUwKTYeBHAjlZGq2tS/FaP3hbdiDBDY497r8aUXw7bJgnOuB74Vuk0s
+ WqIhHoNCyB08C0vknYpd2je+er2JMx4z/2gPnwD9xDs4Ts697xm5MqNWNCHkOCSkDv
+ 8EFHat6aaZA4OP2WC76Ml7Hkn8ptlcZ+36KGDnkN7llJS5xlbknzRB6Mwg2A5Xc+GK
+ 49RZ195pUIpmym4DXEedMxEdpELjhyiS78uyuJK29tQOJLl7+hA69pna76KhazuKA0
+ H2SpZ+2e7UF5A5xEXtvV5CrCSRqMJu/Pqz5kgHtgLmj6ikjIE/pBKDcnql6eJfTHNU
+ ThjiiAr+SuFSA==
 Received: from localhost (unknown [82.79.138.145])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id AD83117E13D3;
- Thu, 22 Jan 2026 00:18:00 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 94BA217E1418;
+ Thu, 22 Jan 2026 00:18:01 +0100 (CET)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Thu, 22 Jan 2026 01:17:37 +0200
-Subject: [PATCH 4/6] drm/rockchip: dw_dp: Simplify error handling
+Date: Thu, 22 Jan 2026 01:17:38 +0200
+Subject: [PATCH 5/6] drm/rockchip: dw_dp: Drop unnecessary #include
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260122-drm-rk-fixes-v1-4-3942f185750e@collabora.com>
+Message-Id: <20260122-drm-rk-fixes-v1-5-3942f185750e@collabora.com>
 References: <20260122-drm-rk-fixes-v1-0-3942f185750e@collabora.com>
 In-Reply-To: <20260122-drm-rk-fixes-v1-0-3942f185750e@collabora.com>
 To: Sandy Huang <hjc@rock-chips.com>, 
@@ -105,62 +105,47 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,collabora.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 1B6355F653
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,collabora.com:dkim,collabora.com:mid]
+X-Rspamd-Queue-Id: 550845F669
 X-Rspamd-Action: no action
 
-Make the code a bit more compact by getting rid of the superfluous
-assignments around PTR_ERR().
+Included header "rockchip_drm_vop.h" is not directly used, drop it.
 
-While at it, also drop dev assignment in dw_dp_probe().
+While at it, ensure #include directives are ordered alphabetically.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/rockchip/dw_dp-rockchip.c | 21 +++++++--------------
- 1 file changed, 7 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/rockchip/dw_dp-rockchip.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/dw_dp-rockchip.c b/drivers/gpu/drm/rockchip/dw_dp-rockchip.c
-index 6d57e1c74627..785f9727b4e1 100644
+index 785f9727b4e1..6abad24fa9cd 100644
 --- a/drivers/gpu/drm/rockchip/dw_dp-rockchip.c
 +++ b/drivers/gpu/drm/rockchip/dw_dp-rockchip.c
-@@ -101,20 +101,15 @@ static int dw_dp_rockchip_bind(struct device *dev, struct device *master, void *
- 	drm_encoder_helper_add(encoder, &dw_dp_encoder_helper_funcs);
+@@ -7,8 +7,11 @@
+  */
  
- 	dp->base = dw_dp_bind(dev, encoder, &plat_data);
--	if (IS_ERR(dp->base)) {
--		ret = PTR_ERR(dp->base);
--		return ret;
--	}
-+	if (IS_ERR(dp->base))
-+		return PTR_ERR(dp->base);
+ #include <linux/component.h>
++#include <linux/media-bus-format.h>
+ #include <linux/of_device.h>
+ #include <linux/platform_device.h>
++#include <linux/videodev2.h>
++
+ #include <drm/bridge/dw_dp.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+@@ -19,11 +22,7 @@
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
  
- 	connector = drm_bridge_connector_init(drm_dev, encoder);
--	if (IS_ERR(connector)) {
--		ret = PTR_ERR(connector);
--		return dev_err_probe(dev, ret, "Failed to init bridge connector");
--	}
-+	if (IS_ERR(connector))
-+		return dev_err_probe(dev, PTR_ERR(connector),
-+				     "Failed to init bridge connector");
- 
--	drm_connector_attach_encoder(connector, encoder);
+-#include <linux/media-bus-format.h>
+-#include <linux/videodev2.h>
 -
--	return 0;
-+	return drm_connector_attach_encoder(connector, encoder);
- }
+ #include "rockchip_drm_drv.h"
+-#include "rockchip_drm_vop.h"
  
- static const struct component_ops dw_dp_rockchip_component_ops = {
-@@ -123,9 +118,7 @@ static const struct component_ops dw_dp_rockchip_component_ops = {
- 
- static int dw_dp_probe(struct platform_device *pdev)
- {
--	struct device *dev = &pdev->dev;
--
--	return component_add(dev, &dw_dp_rockchip_component_ops);
-+	return component_add(&pdev->dev, &dw_dp_rockchip_component_ops);
- }
- 
- static void dw_dp_remove(struct platform_device *pdev)
+ struct rockchip_dw_dp {
+ 	struct dw_dp *base;
 
 -- 
 2.52.0
