@@ -2,70 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WLdoFI0jcWl8eQAAu9opvQ
+	id OL6qGGAlcWl8eQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 20:05:49 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 20:13:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9734F5BCD0
-	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 20:05:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1ED25BE82
+	for <lists+dri-devel@lfdr.de>; Wed, 21 Jan 2026 20:13:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1127B10E865;
-	Wed, 21 Jan 2026 19:05:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB52810E86E;
+	Wed, 21 Jan 2026 19:13:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="Q+5iA1dS";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="aMOcpw2X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD17010E865;
- Wed, 21 Jan 2026 19:05:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1769022340; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=FfgGndmamLkoIWDKPYiKhzeLM5DSD0H6fhswkcAKM+lSN6G1xwBi5AGONl4blERew8prIOMgYKH0AwzS26wxIm3EOrosAIA+5VyDUGfeWrDbxzQSvKOENSNLd0XObH1L8AE08mMmAdiWR4wbFmkfR5Dx9o2M40FsUNC7nr63wjg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1769022340;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=GwUrV7Qj4EARXRM+GghZGm9v/6bAFT6QLlVPI91PR80=; 
- b=KXtTDktyyvUFnpGYF9pwo/rpyHkAkeK1v09P8H3t+SkkqpfcP4gBWlOT5c2LuT0WH0FjzdwVo+BSt/Zm9Rg7LGQ/qcxVLz7js9ta8/Yp278QG6DbCuFnCB5CLhW1LHDN9fM1R9aWv2RxrsmTmFmP5aAXlqJIjzYTxmKHcYMZKC4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769022339; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=GwUrV7Qj4EARXRM+GghZGm9v/6bAFT6QLlVPI91PR80=;
- b=Q+5iA1dSt/3flpuK0Bz9f27pEJSWIbb01CBWcMNdoe7E9ljktRj31axsgQ0FyJi9
- 8UI4nlvdyS98qJt26e2z5px3kuiQo4yRl4XirwyOg5A4qsOAIPJpVOLMID2Seny/NfO
- YnbW1Y7QyAW65eECwa/oAnJtczfXak1s4b1Bi3uM=
-Received: by mx.zohomail.com with SMTPS id 1769022338505656.627659142558;
- Wed, 21 Jan 2026 11:05:38 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH 1/2] rust: drm: add support for driver features
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <DFUG2U4PVVTN.1DVPXGJK735F8@garyguo.net>
-Date: Wed, 21 Jan 2026 16:05:22 -0300
-Cc: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <FBB3C949-5568-4F26-95C8-8873F6DF1530@collabora.com>
-References: <20260119-drm-render-v1-0-8326e4d5cb44@collabora.com>
- <20260119-drm-render-v1-1-8326e4d5cb44@collabora.com>
- <DFUG2U4PVVTN.1DVPXGJK735F8@garyguo.net>
-To: Gary Guo <gary@garyguo.net>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C308510E86E
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 19:13:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1769022810;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=49OPiVw3AsdRRD7f8ruuY3VOWZX2Ei/vee0/0X9WHUQ=;
+ b=aMOcpw2XndHJfCjq7noQNXwQHI9jykaB797/dptu14PvdgiOeWiWoldWhuwyz8uOp1cz00
+ iD18jhgKhL7NIcYogk4bm1Xgyl/6uf5h64936ecsk/u5R2ymivoqn0rDW9aPduEBhkvV6L
+ EDYY0x8Du+cqqGISWfDqxa57giGByt4=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-675-mD4iWvf3PWi6QrpwgzgEdQ-1; Wed,
+ 21 Jan 2026 14:13:26 -0500
+X-MC-Unique: mD4iWvf3PWi6QrpwgzgEdQ-1
+X-Mimecast-MFC-AGG-ID: mD4iWvf3PWi6QrpwgzgEdQ_1769022805
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id A85FC1800451; Wed, 21 Jan 2026 19:13:24 +0000 (UTC)
+Received: from GoldenWind.redhat.com (unknown [10.22.89.232])
+ by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id A32CE19560AB; Wed, 21 Jan 2026 19:13:22 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org
+Cc: stable@vger.kernel.org,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "David Airlie" <airlied@gmail.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Maxime Ripard" <mripard@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
+ "Lyude Paul" <lyude@redhat.com>
+Subject: [PATCH] drm/nouveau/disp: Set
+ drm_mode_config_funcs.atomic_(check|commit)
+Date: Wed, 21 Jan 2026 14:13:10 -0500
+Message-ID: <20260121191320.210342-1-lyude@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,86 +77,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,linux.intel.com,ffwll.ch,gmail.com,suse.de,kernel.org,redhat.com];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,google.com,gmail.com,ffwll.ch,protonmail.com,umich.edu,collabora.com,lists.freedesktop.org,vger.kernel.org];
+	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daniel.almeida@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	APPLE_MAILER_COMMON(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[lyude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 9734F5BCD0
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: E1ED25BE82
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Gary,
+Apparently we never actually filled these in, despite the fact that we do
+in fact technically support atomic modesetting.
 
-> On 21 Jan 2026, at 14:31, Gary Guo <gary@garyguo.net> wrote:
->=20
-> On Mon Jan 19, 2026 at 11:34 PM GMT, Daniel Almeida wrote:
->> Add initial support for drm driver features via the DriverFeatures =
-trait.
->> This trait is unsafe, requiring the implementer to comply with the =
-safety
->> requirements of each feature individually if the feature is enabled.
->=20
-> I think such unsafe requirement is quite vague and also very =
-non-local.
->=20
-> Maybe we can use a single trait (the `ModesetOps` that you described) =
-to do
-> this:
->=20
-> Something like:
->=20
->    pub unsafe trait ModesetOps<D> { ... }
->=20
->    // Maybe the never type in the future...
->    pub enum NoFeature {}
->=20
->    impl<D> ModesetOps<D> for NoFeature {
->        fn foo(&self, ...) { unimplemented!() }
->    }
->=20
->    impl Driver {
->        /// Reference the modeset implementation (typically Self),
->        /// or `NoFeature` to indicate that the feature is not =
-implemented.
->        type Modeset: ModesetOps<Self>;
+Since not having these filled in causes us to potentially forget to disable
+fbdev and friends during suspend/resume, let's fix it.
 
-Yeah, this looks better indeed. I assume we can have multiple features =
-by
-having multiple traits, right?
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/gpu/drm/nouveau/nouveau_display.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
->    }
->=20
-> When building, you can use `TypeId` to check if it's actually =
-implemented, and
-> set bits in the feature flags automatically.
->=20
-> Best,
-> Gary
+diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
+index 00515623a2cc7..829c2b573971c 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_display.c
++++ b/drivers/gpu/drm/nouveau/nouveau_display.c
+@@ -352,6 +352,8 @@ nouveau_user_framebuffer_create(struct drm_device *dev,
+ 
+ static const struct drm_mode_config_funcs nouveau_mode_config_funcs = {
+ 	.fb_create = nouveau_user_framebuffer_create,
++	.atomic_commit = drm_atomic_helper_commit,
++	.atomic_check = drm_atomic_helper_check,
+ };
+ 
+ 
 
-I assume we would enable FeatureFoo if typeid(Foo) !=3D =
-typeid(NoFeatureFoo)?
-
-Where Foo is =E2=80=9Ctype Foo: FooOps=E2=80=9D in the Driver trait.
-
+base-commit: 68b271a3a94cfd6c7695a96b6398b52feb89e2c2
+-- 
+2.52.0
 
