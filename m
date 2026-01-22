@@ -2,128 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wCo0GA4ocmmadwAAu9opvQ
+	id GCzfGNcpcmmadwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 14:37:18 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 14:44:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1F0867611
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 14:37:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4EC767761
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 14:44:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06F9210E9A5;
-	Thu, 22 Jan 2026 13:37:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BAAC10E9AE;
+	Thu, 22 Jan 2026 13:44:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yxVaBzFt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MiijZP2P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0571B10E9A5
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 13:37:14 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-4801d24d91bso10433865e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 05:37:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1769089033; x=1769693833; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=eEJn28UsVkdJy0uU3rgrwA+Zjuc5hG2Gw87IADiyNbQ=;
- b=yxVaBzFtq26NaTBYjgVBG0AkZIfDkcMMoiBK9/qcoNaE3efhT7GlJCN0sxJ1vwXOuC
- WGgXTPP8eUN/SPC/k/w7PjAV+JXfg1bue200EounVcH0LXrvVH7W2DRcdPbpCKWkWI25
- Yg3v7Ymxbe8jiYgTIev3h3jcxmviNyRUikrAF/CWPj7jLov8vEC8Oep/rk+pRd3ZGg6q
- R9CrAdReX/2RjYwlHqvXv1/8bmL3tcH37sDv7acsa8+bqJ+X9e9G5K+Cw1jOk92ROREX
- rcaEFMxvctKRksA/MxMQ35vS7sJfWPFO5RV4uXvF4E/LLaY01s7ngruXSOXHshTZ6hlq
- LYwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769089033; x=1769693833;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=eEJn28UsVkdJy0uU3rgrwA+Zjuc5hG2Gw87IADiyNbQ=;
- b=TggIJJgwDo/wJyXPJOezm9PbAkRicpxTK4uGOudlEUSWY7mmlfV5uj9ebkGANoPM+S
- FqE5ib7mu8IZg0V4Sg4ht8KiMQOMY3ndki3xlOmZ3fSiuIgJArWlztQXrpTjJ+qIQeMO
- KoHPjzWwcmB7yeuavZdRJVD3JpBQhtca0y7LaPDuBQbeROiNAPScAxtFAqzIOktf4usa
- 3F4K8to0/NbRLdPRNILofSZaSVHTTToE5/wcdb393FPuTy/QxACM83XXL1OP7wqQn4GS
- QaoT8LBYCKdX4VcrFaOWyGAWPzy3EQIUcD/lqgBcivH9jpp1L2Pipk2zehvGaqrpyzDg
- umbw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWnAAcncTbWksIeOj0G2Bj06ZODcAzEvcnTtgOPBHip31fIdvs4eHVf71A/47mIA7A23sL6S9ORLe8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxb9kPEXvTcMgR6J3BATqsHfBETiOF1TIh40j+tmBF/iTCpz7qS
- tDR3rhm4rR8VM+F9PUCeMAlQSpGoRh7FJcy5YmeymCftXYzXaxdp2vzoJI1rD3OvTTo=
-X-Gm-Gg: AZuq6aKp9cwtht5Bupcj//ASKjnnOST/iwS32ZDokoLmnGBl/kxn/NeR7mzhFhhJ9Gw
- aqQmX+lelIwjkMPLdLLY3AwwvF34u7kq4qduuBwYo7jjOCN6WfmPhxk2wXjO08n+WnLSGGJVzwj
- xOWVttnmJQJgI6KF0n2QPffZD/9233ZSWPtHOeE+nTZQamuqAOHY4B1dgOSSSazAgIScpPOBXHX
- jvFFdVIhbN4gfhNFihSDnmpaBM6MZjPTxnc1GXUVeAvQ4amtkLsS1q9F4l7rF78oySsVLAbzX1V
- +9Z1XmxZR4QfaM8krxEN4pvB+P7nEKWhgIgalb7lvmRKA5ySFzHs+iSm6unsyuIFoob0CmDcGlg
- oZgcyBMzE9arwwNdtkVkqY2PiIrcm6o8nueOthPXbKX+LXyW5ieVxpyFFX4/Hd/ev/Tpa+etToY
- PY70/AXuEnMAhdwo06F8kvGsGK99RqI7TylUXe5nmiRjI5Qpa1jmRyeS08lP89dnQ=
-X-Received: by 2002:a05:600c:8b75:b0:477:9574:d641 with SMTP id
- 5b1f17b1804b1-4803e7e8531mr130800565e9.22.1769089033318; 
- Thu, 22 Jan 2026 05:37:13 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:3d9:2080:9dc7:6955:8850:f258?
- ([2a01:e0a:3d9:2080:9dc7:6955:8850:f258])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4804702876asm75878365e9.1.2026.01.22.05.37.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jan 2026 05:37:12 -0800 (PST)
-Message-ID: <f80a1ecc-d33c-4872-9b9a-466b56877580@linaro.org>
-Date: Thu, 22 Jan 2026 14:37:12 +0100
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4875610E9AE
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 13:44:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 106B141A3D;
+ Thu, 22 Jan 2026 13:44:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C125C116C6;
+ Thu, 22 Jan 2026 13:44:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1769089491;
+ bh=j8JEqlvIFnXt9gGEm0Oheoh75nKbbz8Bdg2iudx4Y8w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MiijZP2PgQ7cWwM/BrL4/aHqDuWgWt7buVDitzOLLgQdCeGQbRri9VRoWsknB6BOs
+ MW4NXW6W74RdY0fAsK6Bdd8gp3rRRx5EUSq74/zd+Y3DQk3JDvoomz7nvfQXW4sYLt
+ 5NK4v3hzZ1ozM6HXvxIyYNRKjNtql6nEd8fORfMN3aJ57Fm0fNPpqIpF07lBZJNEqe
+ bh1lrnUZrr3xfZB+VMQmhgzNd1DvOX4XxCozUKLJsUOQjxjF4TFLjOaa5sReHLH4/Q
+ rdTHw5qscsZCtb4v7dlQUXKGr6CN30WBw/AIPOWvt9r6gzUfBUhamrC89amGEuE/MZ
+ erbPngC11saWw==
+Date: Thu, 22 Jan 2026 14:44:49 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>, 
+ Alice Ryhl <aliceryhl@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Drew Fustini <fustini@kernel.org>,
+ Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ linux-pm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-riscv@lists.infradead.org, 
+ linux-pwm@vger.kernel.org, linux-clk@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] rust: clk: use the type-state pattern
+Message-ID: <20260122-majestic-masterful-jaguarundi-d0abde@houat>
+References: <20260107-clk-type-state-v3-0-77d3e3ee59c2@collabora.com>
+ <20260107-clk-type-state-v3-1-77d3e3ee59c2@collabora.com>
+ <20260108-delectable-fennec-of-sunshine-ffca19@houat>
+ <98CD0BF6-3350-40B9-B8A9-F569AE3E3220@collabora.com>
+ <20260119-thundering-tested-robin-4be817@houat>
+ <aW4lCfUyumOKRRJm@google.com>
+ <518D8B09-B9A1-4DB4-85CD-37A2DD3D5FB1@collabora.com>
+ <DFSLCI9U4NCW.2HI2UPUI7G134@kernel.org>
+ <20260119-weightless-pelican-of-anger-190db0@houat>
+ <DFSN4FDCYHMW.3J3237PEBV2ZP@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 3/3] arm64: dts: qcom: add basic devicetree for Ayaneo
- Pocket S2 gaming console
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Kancy Joe <kancy2333@outlook.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-References: <20260121-topic-sm8650-ayaneo-pocket-s2-base-v1-0-bb3f95f1c085@linaro.org>
- <20260121-topic-sm8650-ayaneo-pocket-s2-base-v1-3-bb3f95f1c085@linaro.org>
- <01de9fc2-f60c-4bc0-af61-c070213df29b@oss.qualcomm.com>
- <53a1370b-89a4-4276-949a-e3ad95dbad2c@linaro.org>
- <SEZPR04MB6873411EA1A8B69AD45B286CA397A@SEZPR04MB6873.apcprd04.prod.outlook.com>
- <687b781c-dee6-4b8e-89b2-e082a860be3a@oss.qualcomm.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <687b781c-dee6-4b8e-89b2-e082a860be3a@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="zgoq7kx6iu4jzgjw"
+Content-Disposition: inline
+In-Reply-To: <DFSN4FDCYHMW.3J3237PEBV2ZP@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,102 +86,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [-1.41 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:konrad.dybcio@oss.qualcomm.com,m:kancy2333@outlook.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[neil.armstrong@linaro.org,dri-devel-bounces@lists.freedesktop.org];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,outlook.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch];
-	RCPT_COUNT_TWELVE(0.00)[20];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:rafael@kernel.org,m:viresh.kumar@linaro.org,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:ukleinek@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:linux-pm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:linux-pwm@vger.kernel.org,m:linux-clk@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[collabora.com,google.com,kernel.org,linaro.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,redhat.com,baylibre.com,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,lists.freedesktop.org,lists.infradead.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[outlook.com:email,linaro.org:dkim,linaro.org:email,linaro.org:replyto,linaro.org:mid];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[29];
 	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	REPLYTO_EQ_FROM(0.00)[]
-X-Rspamd-Queue-Id: D1F0867611
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: D4EC767761
 X-Rspamd-Action: no action
 
-On 1/22/26 13:34, Konrad Dybcio wrote:
-> On 1/22/26 10:34 AM, Kancy Joe wrote:
->>
->> On 1/22/2026 5:25 PM, Neil Armstrong wrote:
->>> On 1/22/26 10:15, Konrad Dybcio wrote:
->>>> On 1/21/26 5:40 PM, Neil Armstrong wrote:
->>>>> From: KancyJoe <kancy2333@outlook.com>
->>>>>
->>>>> Add initial Device Tree for the Ayaneo Pocket S2 gaming console based
->>>>> on the Qualcomm Snapdragon 8 Gen 3 platform.
->>>>>
->>>>> The design is similar to a phone wihout the modem, the game control
->>>>> is handled via a standalone controller connected to a PCIe USB
->>>>> controller.
->>>>>
->>>>> Display support will be added in a second time.
->>>>>
->>>>> Signed-off-by: KancyJoe <kancy2333@outlook.com>
->>>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>>> ---
-> 
-> [...]
-> 
->>>>> +        pinctrl-names = "default",
->>>>> +                "sleep";
->>>>> +
->>>>> +        pwms = <&pm8550_pwm 3 50000>;
->>>>> +
->>>>> +        #cooling-cells = <2>;
->>>>> +        cooling-levels = <0 16 32 45 60 80 105 130 155 180 205 230 255>;
->>>>
->>>> Does this come from a preexisting map?
->>>
->>> Kancy ?
->>
->> No it is not a preexisting map. I add it(and the thermal part) myself to get dynamic fan speed control work. Perhaps you can also use userspace fan control daemon instead of hardcode it here. In android the vendor control the fan speed in userspace too.
->>
->> Following block is what the stock fw defined. I changed the granularity to make fan speed (or noise actually) sounds more "smooth".
->>
->> ```
->>
->> cooling-levels = <0 64 128 255>;
->>
->> ```
-> 
-> FWIW the corresponding pwm-backlight driver has this
-> num-interpolated-steps property which computes a smooth map.. not sure how
-> many cooling levels are resonable for a PWM fan, but then I would intuitively
-> not object to having more as opposed to less..
 
-Good suggestion !
+--zgoq7kx6iu4jzgjw
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 1/3] rust: clk: use the type-state pattern
+MIME-Version: 1.0
 
-Neil
+On Mon, Jan 19, 2026 at 03:37:17PM +0100, Danilo Krummrich wrote:
+> On Mon Jan 19, 2026 at 3:18 PM CET, Maxime Ripard wrote:
+> > On Mon, Jan 19, 2026 at 02:13:48PM +0100, Danilo Krummrich wrote:
+> >> On Mon Jan 19, 2026 at 1:54 PM CET, Daniel Almeida wrote:
+> >> >> On 19 Jan 2026, at 09:35, Alice Ryhl <aliceryhl@google.com> wrote:
+> >> >> I think that if you still want an API where you just call enable/di=
+sable
+> >> >> directly on it with no protection against unbalanced calls, then th=
+at
+> >> >> should be the special API. Probably called RawClk and functions mar=
+ked
+> >> >> unsafe. Unbalanced calls seem really dangerous and use should not be
+> >> >> encouraged.
+> >>=20
+> >> +1; and unless there is a use-case that requires otherwise, it should =
+not even
+> >> be possible to do this at all -- at least for driver code.
+> >
+> > I mean, it's great, it's safe, etc. but it's also suboptimal from a PM
+> > perspective on many platforms. It's totally fine to provide nice, safe,
+> > ergonomic wrappers for the drivers that don't care (or can't, really),
+> > but treating a legitimate optimisation as something we should consider
+> > impossible to do is just weird to me.
+>=20
+> I said that an unsafe API with potentially unbalanced calls is something =
+we
+> should clearly avoid for drivers. This is *not* equivalent to "treating a
+> legitimate optimisation as something we should consider impossible".
+>=20
+> If we discover use-cases where the current API doesn't work well, we can
+> invenstigate further.
 
-> 
-> Konrad
+I'm not sure I'm following what you're saying, sorry. I've pointed out
+such a use-case already.
 
+> >> > I think we should discourage RawClk if at all possible. But if the c=
+onsensus
+> >> > is that we *really* need this easily-abused thing, I can provide a f=
+ollow-up.
+> >>=20
+> >> I think we should only do this if there are use-case with no alternati=
+ve, so far
+> >> there haven't been any AFAIK.
+> >
+> > I don't really care about which alternative we come up with, but look at
+> > devm_regmap_init_mmio_clk for example. It is a valid use-case that
+> > already exists today, and has had for more than a decade at this point.
+>=20
+> I don't see the issue with devm_regmap_init_mmio_clk()? It takes a refere=
+nce
+> count of the clock and prepares it when called and unprepares the clk in =
+drops
+> its reference in regmap_mmio_free_context() called from the devres callba=
+ck.
+>=20
+> That something we can easily do with the current API, no?
+
+The current one, yes. Doing that in the API suggested here would involve
+some boilerplate in all those drivers they don't have right now.
+
+Maxime
+
+--zgoq7kx6iu4jzgjw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaXIp0AAKCRAnX84Zoj2+
+dv/rAX9htC+v4VP6TU5rtpJ5yxn/5pIK0gwosc19iO/daFXAUH7fxYosU1HBuveb
+KxjMgb8BgMuQtaOp2idk6EzXwAecWf/CAQ08Ci5MNA2QR6rNT2nYPbr8TNKaiLWq
+nIzGXz2HvQ==
+=cTWW
+-----END PGP SIGNATURE-----
+
+--zgoq7kx6iu4jzgjw--
