@@ -2,40 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yGKSEItLcmnpfAAAu9opvQ
+	id CHV+LO1LcmnpfAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 17:08:43 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 17:10:21 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF677699F5
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 17:08:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 070AF69A6C
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 17:10:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1C9E10EA0B;
-	Thu, 22 Jan 2026 16:08:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04D8110EA11;
+	Thu, 22 Jan 2026 16:10:19 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gxw0zSYC";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE22910EA1A
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 16:08:39 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A4E910EA11
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 16:10:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 816DC436CE;
- Thu, 22 Jan 2026 16:08:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C68B0C2BCAF;
- Thu, 22 Jan 2026 16:08:36 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Marek Vasut <marek.vasut@mailbox.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] drm/imagination: Convert to dev_pm_domain_{at,de}tach_list()
-Date: Thu, 22 Jan 2026 17:08:32 +0100
-Message-ID: <194465eda54d1f852a9226cf691ddc5aa208e0a3.1769097977.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
+ by tor.source.kernel.org (Postfix) with ESMTP id 6AF6B600C4;
+ Thu, 22 Jan 2026 16:10:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95341C116C6;
+ Thu, 22 Jan 2026 16:10:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1769098216;
+ bh=ha3JA4N/2sbTZoLLt9Hk+/O5tkj/IAzHDfElKjAoOuU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=gxw0zSYCXNJ4FcqwQQa7I3h3D2XukR/5aI8fAthL9DSmSmnm5KNPPfNGJ1op1BP4Y
+ MQ8cVwzVPjLYouTp/7uYsWSzL1ur0vhAi8L6FpMUXjN04ub6UPMiSU3ZiH+XtPFwfk
+ VDdZWO7EoWXGrXVNri26ANlTn29LcOna1OgwmoqrgPHF2Z+DlEJR1wAkHWsZ6kesJv
+ qbLK+3OIqfHgL9efAc72qE3r7O1STboGXJlBPqou0qcXN6QKZkFhWF6pvcrQDPFrx/
+ MqiNydzq8TzcExsRUkFNe+MEx6i7Rghos0E8UwfsefR6oollk4PXYz9/GzaS+tOntT
+ OxAMHTZ4pQ6Hg==
+From: Thierry Reding <thierry.reding@kernel.org>
+To: Thierry Reding <thierry.reding@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Mike Rapoport <rppt@kernel.org>,
+ Sumit Garg <sumit.garg@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org
+Subject: [PATCH v2 00/10] dma-bug: heaps: Add Tegra VPR support
+Date: Thu, 22 Jan 2026 17:09:59 +0100
+Message-ID: <20260122161009.3865888-1-thierry.reding@kernel.org>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -53,209 +70,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.39 / 15.00];
+X-Spamd-Result: default: False [1.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:frank.binns@imgtec.com,m:matt.coster@imgtec.com,m:marek.vasut@mailbox.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-pm@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:geert+renesas@glider.be,m:geert@glider.be,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[glider.be];
-	FREEMAIL_TO(0.00)[imgtec.com,mailbox.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
-	TAGGED_FROM(0.00)[renesas];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[geert@glider.be,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:thierry.reding@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:akpm@linux-foundation.org,m:david@redhat.com,m:rppt@kernel.org,m:sumit.garg@kernel.org,m:devicetree@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-mm@kvack.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[thierry.reding@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,ffwll.ch,linaro.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@glider.be,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[thierry.reding@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,renesas];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,glider.be:mid,glider.be:email]
-X-Rspamd-Queue-Id: BF677699F5
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:email]
+X-Rspamd-Queue-Id: 070AF69A6C
 X-Rspamd-Action: no action
 
-Call the dev_pm_domain_attach_list() and dev_pm_domain_detach_list()
-helpers instead of open-coding multi PM Domain handling.
+From: Thierry Reding <treding@nvidia.com>
 
-This changes behavior slightly:
-  - The new handling is also applied in case of a single PM Domain,
-  - PM Domains are now referred to by index instead of by name, but
-    "make dtbs_check" enforces the actual naming and ordering anyway,
-  - There are no longer device links created between virtual domain
-    devices, only between virtual devices and the parent device.
-None of this should have an actual impact on functionality.
+Hi,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Tested lightly on R-Car M3-W: driver probes and firmware is loaded.
----
- drivers/gpu/drm/imagination/pvr_device.h |  13 +--
- drivers/gpu/drm/imagination/pvr_power.c  | 105 ++---------------------
- 2 files changed, 9 insertions(+), 109 deletions(-)
+This series adds support for the video protection region (VPR) used on
+Tegra SoC devices. It's a special region of memory that is protected
+from accesses by the CPU and used to store DRM protected content (both
+decrypted stream data as well as decoded video frames).
 
-diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
-index 491718fb87a1b608..a823f6f7e0b659c6 100644
---- a/drivers/gpu/drm/imagination/pvr_device.h
-+++ b/drivers/gpu/drm/imagination/pvr_device.h
-@@ -148,19 +148,12 @@ struct pvr_device {
- 	struct clk *mem_clk;
- 
- 	/**
--	 * @power: Optional power domain devices.
-+	 * @pds: Optional power domain devices.
- 	 *
- 	 * On platforms with more than one power domain for the GPU, they are
--	 * stored here in @domain_devs, along with links between them in
--	 * @domain_links. The size of @domain_devs is given by @domain_count,
--	 * while the size of @domain_links is (2 * @domain_count) - 1.
-+	 * stored here, along with links between them.
- 	 */
--	struct pvr_device_power {
--		struct device **domain_devs;
--		struct device_link **domain_links;
--
--		u32 domain_count;
--	} power;
-+	struct dev_pm_domain_list *pds;
- 
- 	/**
- 	 * @reset: Optional reset line.
-diff --git a/drivers/gpu/drm/imagination/pvr_power.c b/drivers/gpu/drm/imagination/pvr_power.c
-index b9f801c63260cb81..cc6efab3c8b015ce 100644
---- a/drivers/gpu/drm/imagination/pvr_power.c
-+++ b/drivers/gpu/drm/imagination/pvr_power.c
-@@ -594,110 +594,17 @@ pvr_watchdog_fini(struct pvr_device *pvr_dev)
- int pvr_power_domains_init(struct pvr_device *pvr_dev)
- {
- 	struct device *dev = from_pvr_device(pvr_dev)->dev;
-+	int ret;
- 
--	struct device_link **domain_links __free(kfree) = NULL;
--	struct device **domain_devs __free(kfree) = NULL;
--	int domain_count;
--	int link_count;
--
--	char dev_name[2] = "a";
--	int err;
--	int i;
--
--	domain_count = of_count_phandle_with_args(dev->of_node, "power-domains",
--						  "#power-domain-cells");
--	if (domain_count < 0)
--		return domain_count;
--
--	if (domain_count <= 1)
--		return 0;
--
--	link_count = domain_count + (domain_count - 1);
--
--	domain_devs = kcalloc(domain_count, sizeof(*domain_devs), GFP_KERNEL);
--	if (!domain_devs)
--		return -ENOMEM;
--
--	domain_links = kcalloc(link_count, sizeof(*domain_links), GFP_KERNEL);
--	if (!domain_links)
--		return -ENOMEM;
--
--	for (i = 0; i < domain_count; i++) {
--		struct device *domain_dev;
--
--		dev_name[0] = 'a' + i;
--		domain_dev = dev_pm_domain_attach_by_name(dev, dev_name);
--		if (IS_ERR_OR_NULL(domain_dev)) {
--			err = domain_dev ? PTR_ERR(domain_dev) : -ENODEV;
--			goto err_detach;
--		}
--
--		domain_devs[i] = domain_dev;
--	}
--
--	for (i = 0; i < domain_count; i++) {
--		struct device_link *link;
--
--		link = device_link_add(dev, domain_devs[i], DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME);
--		if (!link) {
--			err = -ENODEV;
--			goto err_unlink;
--		}
--
--		domain_links[i] = link;
--	}
--
--	for (i = domain_count; i < link_count; i++) {
--		struct device_link *link;
--
--		link = device_link_add(domain_devs[i - domain_count + 1],
--				       domain_devs[i - domain_count],
--				       DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME);
--		if (!link) {
--			err = -ENODEV;
--			goto err_unlink;
--		}
--
--		domain_links[i] = link;
--	}
--
--	pvr_dev->power = (struct pvr_device_power){
--		.domain_devs = no_free_ptr(domain_devs),
--		.domain_links = no_free_ptr(domain_links),
--		.domain_count = domain_count,
--	};
-+	ret = dev_pm_domain_attach_list(dev, NULL, &pvr_dev->pds);
-+	if (ret < 0)
-+		return ret;
- 
- 	return 0;
--
--err_unlink:
--	while (--i >= 0)
--		device_link_del(domain_links[i]);
--
--	i = domain_count;
--
--err_detach:
--	while (--i >= 0)
--		dev_pm_domain_detach(domain_devs[i], true);
--
--	return err;
- }
- 
- void pvr_power_domains_fini(struct pvr_device *pvr_dev)
- {
--	const int domain_count = pvr_dev->power.domain_count;
--
--	int i = domain_count + (domain_count - 1);
--
--	while (--i >= 0)
--		device_link_del(pvr_dev->power.domain_links[i]);
--
--	i = domain_count;
--
--	while (--i >= 0)
--		dev_pm_domain_detach(pvr_dev->power.domain_devs[i], true);
--
--	kfree(pvr_dev->power.domain_links);
--	kfree(pvr_dev->power.domain_devs);
--
--	pvr_dev->power = (struct pvr_device_power){ 0 };
-+	dev_pm_domain_detach_list(pvr_dev->pds);
-+	pvr_dev->pds = NULL;
- }
+Patches 1 and 2 add DT binding documentation for the VPR and add the VPR
+to the list of memory-region items for display and host1x.
+
+Patch 3 adds bitmap_allocate(), which is like bitmap_allocate_region()
+but works on sizes that are not a power of two.
+
+Patch 4 introduces new APIs needed by the Tegra VPR implementation that
+allow CMA areas to be dynamically created at runtime rather than using
+the fixed, system-wide list. This is used in this driver specifically
+because it can use an arbitrary number of these areas (though they are
+currently limited to 4).
+
+Patch 5 adds some infrastructure for DMA heap implementations to provide
+information through debugfs.
+
+The Tegra VPR implementation is added in patch 6. See its commit message
+for more details about the specifics of this implementation.
+
+Finally, patches 7-10 add the VPR placeholder node on Tegra234 and hook
+it up to the host1x and GPU nodes so that they can make use of this
+region.
+
+Changes in v2:
+- Tegra VPR implementation is now more optimized to reduce the number of
+  (very slow) resize operations, and allows cross-chunk allocations
+- dynamic CMA areas are now trackd separately from static ones, but the
+  global number of CMA pages accounts for all areas
+
+Thierry
+
+Thierry Reding (10):
+  dt-bindings: reserved-memory: Document Tegra VPR
+  dt-bindings: display: tegra: Document memory regions
+  bitmap: Add bitmap_allocate() function
+  mm/cma: Allow dynamically creating CMA areas
+  dma-buf: heaps: Add debugfs support
+  dma-buf: heaps: Add support for Tegra VPR
+  arm64: tegra: Add VPR placeholder node on Tegra234
+  arm64: tegra: Add GPU node on Tegra234
+  arm64: tegra: Hook up VPR to host1x
+  arm64: tegra: Hook up VPR to the GPU
+
+ .../display/tegra/nvidia,tegra186-dc.yaml     |   10 +
+ .../display/tegra/nvidia,tegra20-dc.yaml      |   10 +-
+ .../display/tegra/nvidia,tegra20-host1x.yaml  |    7 +
+ .../nvidia,tegra-video-protection-region.yaml |   55 +
+ arch/arm/mm/dma-mapping.c                     |    2 +-
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi      |   60 +
+ arch/s390/mm/init.c                           |    2 +-
+ drivers/dma-buf/dma-heap.c                    |   56 +
+ drivers/dma-buf/heaps/Kconfig                 |    7 +
+ drivers/dma-buf/heaps/Makefile                |    1 +
+ drivers/dma-buf/heaps/cma_heap.c              |    2 +-
+ drivers/dma-buf/heaps/tegra-vpr.c             | 1265 +++++++++++++++++
+ include/linux/bitmap.h                        |   25 +-
+ include/linux/cma.h                           |    7 +-
+ include/linux/dma-heap.h                      |    2 +
+ include/trace/events/tegra_vpr.h              |   57 +
+ mm/cma.c                                      |  187 ++-
+ mm/cma.h                                      |    5 +-
+ 18 files changed, 1713 insertions(+), 47 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/reserved-memory/nvidia,tegra-video-protection-region.yaml
+ create mode 100644 drivers/dma-buf/heaps/tegra-vpr.c
+ create mode 100644 include/trace/events/tegra_vpr.h
+
 -- 
-2.43.0
+2.52.0
 
