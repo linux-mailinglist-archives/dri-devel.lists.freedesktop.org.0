@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SPSRO/JLcmnpfAAAu9opvQ
+	id cOLZLfVLcmnpfAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 17:10:27 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 17:10:29 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 917E869A82
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 17:10:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E6E369A89
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 17:10:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DC5310EA1E;
-	Thu, 22 Jan 2026 16:10:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 726BF10EA1F;
+	Thu, 22 Jan 2026 16:10:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="P643mR3S";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qSJMMtX1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 409D310EA1E
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 16:10:22 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 864FB10EA1F
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 16:10:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 07FDF443A6;
- Thu, 22 Jan 2026 16:10:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B004C19422;
- Thu, 22 Jan 2026 16:10:21 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 062396012B;
+ Thu, 22 Jan 2026 16:10:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33E87C116C6;
+ Thu, 22 Jan 2026 16:10:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769098221;
- bh=2ICIoqHo9Cyhdy3+VtN+IUzW5+JGRQYoDcB2EFnohLY=;
+ s=k20201202; t=1769098224;
+ bh=LmgB3NAOjY2EXb6KKktntFdTHuCI5bomDczMPMk21vQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=P643mR3S+IDJaAPZiWwUtAcaWx//W+DWn1viojKNZ1sAIk/4Gyaq3Esjn9VI+dNkq
- aV34yMJuRdLhfDZBO4jW3OtAeULLLLKNvWDbFEcE/PuxaCU0U0ubuXbPZHVyizqdiB
- SHo1uN2IPS/hDePMAk4HmZ3HRYzPbFUk2NlP3nHnrg7K7h1hyDChhNtPsaeadLRucn
- SXDX1HxtDKyL4zKZOsfkHGkhx7Hir01tr6GE9ICYcRZ3DTSgVVrEUeLxP2YWBkIYe8
- Ul/dOCC0pRWf590X3fPIE3awh+sXtefl6YU48cXLlMKOw4+pDnAiM7U/BV6tafZ34l
- PWGKJHo2bEDHA==
+ b=qSJMMtX17uMId5qnzEFbziYqxYETI2pr51ysG1ENZJyeMwGCFR6aWtyor35a6hgWc
+ mVoKE1PLfg1iqNj5RMwTd2bFk36grxBnFL3n/UH3W3mLyujydUCnh1AipUXW9koOvJ
+ +W2jPRJwvcJ3ttoxIM0ifDKSIp1SMD7ZIDgE+yeiE/2YwprYArt5wBaBa/3ych9p9K
+ YnFlVvo8EJ+W6DWZLfi96vHNYPxnU7SruN3LkQD3J4D+1DKGrN2LHi+PbqyYRQfA7D
+ OEVibrds0rDZaojZuwjLuz5pzbuIGbX/duIVsWXVMWd+HycimpAa4sJmvlp2gUHOnC
+ GxoWgTKQQFPuQ==
 From: Thierry Reding <thierry.reding@kernel.org>
 To: Thierry Reding <thierry.reding@kernel.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -49,9 +49,9 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Sumit Garg <sumit.garg@kernel.org>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org
-Subject: [PATCH v2 02/10] dt-bindings: display: tegra: Document memory regions
-Date: Thu, 22 Jan 2026 17:10:01 +0100
-Message-ID: <20260122161009.3865888-3-thierry.reding@kernel.org>
+Subject: [PATCH v2 03/10] bitmap: Add bitmap_allocate() function
+Date: Thu, 22 Jan 2026 17:10:02 +0100
+Message-ID: <20260122161009.3865888-4-thierry.reding@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260122161009.3865888-1-thierry.reding@kernel.org>
 References: <20260122161009.3865888-1-thierry.reding@kernel.org>
@@ -105,83 +105,74 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:email]
-X-Rspamd-Queue-Id: 917E869A82
+X-Rspamd-Queue-Id: 5E6E369A89
 X-Rspamd-Action: no action
 
 From: Thierry Reding <treding@nvidia.com>
 
-Add the memory-region and memory-region-names properties to the bindings
-for the display controllers and the host1x engine found on various Tegra
-generations. These memory regions are used to access firmware-provided
-framebuffer memory as well as the video protection region.
+This is similar to bitmap_allocate_region() but allows allocation of
+non-power of two pages/bits.
+
+While at it, reimplement bitmap_allocate_region() in terms of this new
+helper to remove a sliver of code duplication.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- .../bindings/display/tegra/nvidia,tegra186-dc.yaml     | 10 ++++++++++
- .../bindings/display/tegra/nvidia,tegra20-dc.yaml      | 10 +++++++++-
- .../bindings/display/tegra/nvidia,tegra20-host1x.yaml  |  7 +++++++
- 3 files changed, 26 insertions(+), 1 deletion(-)
+ include/linux/bitmap.h | 25 ++++++++++++++++++++-----
+ 1 file changed, 20 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dc.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dc.yaml
-index ce4589466a18..881bfbf4764d 100644
---- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dc.yaml
-+++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dc.yaml
-@@ -57,6 +57,16 @@ properties:
-       - const: dma-mem # read-0
-       - const: read-1
+diff --git a/include/linux/bitmap.h b/include/linux/bitmap.h
+index b0395e4ccf90..0fc259908262 100644
+--- a/include/linux/bitmap.h
++++ b/include/linux/bitmap.h
+@@ -673,10 +673,10 @@ void bitmap_release_region(unsigned long *bitmap, unsigned int pos, int order)
+ }
  
-+  memory-region:
-+    minItems: 1
-+    maxItems: 2
-+
-+  memory-region-names:
-+    items:
-+      enum: [ framebuffer, protected ]
-+    minItems: 1
-+    maxItems: 2
-+
-   nvidia,outputs:
-     description: A list of phandles of outputs that this display
-       controller can drive.
-diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
-index 69be95afd562..a012644eeb7d 100644
---- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
-+++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
-@@ -65,7 +65,15 @@ properties:
-     items:
-       - description: phandle to the core power domain
+ /**
+- * bitmap_allocate_region - allocate bitmap region
++ * bitmap_allocate - allocate bitmap region
+  *	@bitmap: array of unsigned longs corresponding to the bitmap
+  *	@pos: beginning of bit region to allocate
+- *	@order: region size (log base 2 of number of bits) to allocate
++ *	@len: number of bits to allocate
+  *
+  * Allocate (set bits in) a specified region of a bitmap.
+  *
+@@ -684,16 +684,31 @@ void bitmap_release_region(unsigned long *bitmap, unsigned int pos, int order)
+  * free (not all bits were zero).
+  */
+ static __always_inline
+-int bitmap_allocate_region(unsigned long *bitmap, unsigned int pos, int order)
++int bitmap_allocate(unsigned long *bitmap, unsigned int pos, unsigned int len)
+ {
+-	unsigned int len = BIT(order);
+-
+ 	if (find_next_bit(bitmap, pos + len, pos) < pos + len)
+ 		return -EBUSY;
+ 	bitmap_set(bitmap, pos, len);
+ 	return 0;
+ }
  
--  memory-region: true
-+  memory-region:
-+    minItems: 1
-+    maxItems: 2
++/**
++ * bitmap_allocate_region - allocate bitmap region
++ *	@bitmap: array of unsigned longs corresponding to the bitmap
++ *	@pos: beginning of bit region to allocate
++ *	@order: region size (log base 2 of number of bits) to allocate
++ *
++ * Allocate (set bits in) a specified region of a bitmap.
++ *
++ * Returns: 0 on success, or %-EBUSY if specified region wasn't
++ * free (not all bits were zero).
++ */
++static __always_inline
++int bitmap_allocate_region(unsigned long *bitmap, unsigned int pos, int order)
++{
++	return bitmap_allocate(bitmap, pos, BIT(order));
++}
 +
-+  memory-region-names:
-+    items:
-+      enum: [ framebuffer, protected ]
-+    minItems: 1
-+    maxitems: 2
- 
-   nvidia,head:
-     $ref: /schemas/types.yaml#/definitions/uint32
-diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
-index 3563378a01af..f45be30835a8 100644
---- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
-+++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
-@@ -96,6 +96,13 @@ properties:
-     items:
-       - description: phandle to the HEG or core power domain
- 
-+  memory-region:
-+    maxItems: 1
-+
-+  memory-region-names:
-+    items:
-+      - const: protected
-+
- required:
-   - compatible
-   - interrupts
+ /**
+  * bitmap_find_free_region - find a contiguous aligned mem region
+  *	@bitmap: array of unsigned longs corresponding to the bitmap
 -- 
 2.52.0
 
