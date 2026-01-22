@@ -2,179 +2,164 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MLteH67CcWmdLwAAu9opvQ
+	id +CEKCW3hcWk+MgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 07:24:46 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 09:35:57 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0ED623BF
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 07:24:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D8BB632A9
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 09:35:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BFC910E07E;
-	Thu, 22 Jan 2026 06:24:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2966F10E90D;
+	Thu, 22 Jan 2026 08:35:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="MVAd7Rv7";
+	dkim=pass (2048-bit key; unprotected) header.d=outlook.com header.i=@outlook.com header.b="eRHjYd0N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH7PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11010023.outbound.protection.outlook.com [52.101.201.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A23110E011;
- Thu, 22 Jan 2026 06:24:41 +0000 (UTC)
+Received: from SEYPR02CU001.outbound.protection.outlook.com
+ (mail-koreacentralazolkn19013081.outbound.protection.outlook.com
+ [52.103.74.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E334110E011;
+ Thu, 22 Jan 2026 06:25:20 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FGq5C2GTx6f4/LXnlBpyXktbEZXa3JZZ0s/Jyg4JCYk0oZrciIhjUWsZSYR4FgXwBnPGDy9ZFQ/yoUglfRSg44kOcvtS+Q3HbOeqVlGXQha4xpaGU9DUUT8QwB8A6nFKJI3jPj7dgQuAnVQ0WcJXUGPw+21oKUFPIwfUI/GOhl3q4YQZf3R9kF4iAHx3ojbNe5x5FP41LAZYV+bSvGYJa+mMvI425F/EET/XnXnLBixFgkgEU8QFFo00u9aEydGoXcfhtywtn7RJGd6Z1e+7YCzm+cpRFv0u35BfHIKI0mipipUSvIOFwffRiyztgBTK6ueN/vK8PiEwHUvEX7mfvQ==
+ b=Vp03DSq7vUZUuoXh5PDD3UeUhfEBSTS3I3Bh7H8JkEAIwENfS8wfzCSmRc2kyT+WLDZBupKldaUO9giqiSZj1BxHkilYdXww2hTbY5AwfpBMdiXggys/zVkfPhkW0418Hl+qE18MZM70jd1Rn/vYKkDc0I0T5sCBlxgEK+H4xaA3kCNUet59AhriXOlXRa62Fh983vagwyr312Fk0ftITJcv7p/ffNt6CcZUybL2I4Pp4szqjZfqdu6MNrm3nIIfsjQiTgHwV0zZFSLbN5hHNvid05Q28JT3JN1G5ljmz/gQQ4QU8uHGYE1gDHMnSGjkzsCPEIm2bXUgn3eg965YvQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PW3rE2bnb6SBXTg9+tmjNgAxJtTGEh3/i/B1on6allA=;
- b=FhxtVYf54B0I4gOptvfx4DzQpNIgVFgjSHMKpxHMaMLPKLLyF6X9FaCeqNEbZgIk4ySYDsKOEnE8xGlRrcTlm9+EEu54BKAcGfJxuGR/Sz0RTqB7ePw0sZ+WnC5WXhZCaFMBvs5Pbo3/xYcZTxq4zJhX00Gp2E5cYXVbnRA645oQj9DPne2xQ5oJHVkuxjtgNvLpIrRpmfkk/HKrCInaDsyL744liXztt0+YwHp6x1JCFdlKL3POnPu/jU77izcToFG5q3pBqYnSsnUCD3kWZoNLO8c4h0v9dEANCfDdvWiKUgEYginXrogStakOYvXGUcUgwYk9pHbZWBk74neOBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=cjUNGv7igRaul/G+BVo2cbuWLiGXmoe1VEXGChMawj4=;
+ b=TO3olM0McpeGxeLVR5L8ndYc27ZbRqLyhnCokLUqumpTJxPUMQFBltmwxlkUV/ZBumA7rVUg10sbnD75e+18vGZyG7BK2vNEShDthwuyYaQ/PhCQ/yBQETl19fqgW3kebc43GMl3UaaFyOKrcPfHku4BivIoaXNa0ZeBr90bp0SHXBFnwuSuOhiuqxly2UeFsvXrDSymSAM4Hr1c/cAA6UgAeeDhEWi7QQ16zIxQlD59Ah1/+BFoW7x5V54wNvzPcfl6xUygAuOzNnwUefZDxT8qMYdDCYrGGrM/6/wDvcr4PDf5889B4IiIGMEnZXg7E9ObMbaOP+Gjt+9WICVIOA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PW3rE2bnb6SBXTg9+tmjNgAxJtTGEh3/i/B1on6allA=;
- b=MVAd7Rv7W1YrdbKjJDZ2oCexRLPbVPP3pC1EUU7jdz82Ff9ywUuZcj7thjtrhhxwJhtBxA3xCs0xGOk34ypq5sfXpWSUTd23xJb150bRH3QPWKJ8cs+LtZYbC16w307XpI74fpvTGR+XJhBhw74QzhVO3lBddeNMLvxT7xDaxRU33cWjZx8ennFCeOyBs0lWt9kIb7QdC1i+O54gvx0bXAxxwXpYzOgkgv4HjKwmcLkCM52sOul5rRRLDiInFsd23Ug0b3tHetwMYUaFoeK4HSLc9ZG0JdvC5L5gWTmpT4O4FERmk6sMtuMbdmNUaIuYhyVxG18ewI/cm70mMFqeKA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB9072.namprd12.prod.outlook.com (2603:10b6:8:be::6) by
- PH0PR12MB8174.namprd12.prod.outlook.com (2603:10b6:510:298::6) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9542.9; Thu, 22 Jan 2026 06:24:35 +0000
-Received: from DM4PR12MB9072.namprd12.prod.outlook.com
- ([fe80::9e49:782:8e98:1ff1]) by DM4PR12MB9072.namprd12.prod.outlook.com
- ([fe80::9e49:782:8e98:1ff1%5]) with mapi id 15.20.9542.009; Thu, 22 Jan 2026
- 06:24:35 +0000
-Message-ID: <428a2aa3-d5b6-4a48-8cc3-34b3a0ccb350@nvidia.com>
-Date: Thu, 22 Jan 2026 17:24:26 +1100
+ bh=cjUNGv7igRaul/G+BVo2cbuWLiGXmoe1VEXGChMawj4=;
+ b=eRHjYd0NA5vioSub007FSnlfIZ72IBiOP7TVKRppgktHLHROG1AP2yVfSgtOk7Mm/jH5xomwGb8SvjBKtDhjMjkrpq25smmk8cFRag+hKRyktn9rLrNWUJkmrbSzFUddv/3UYB+PeBV4i4hng0LXA81HzWhImB2SieSMe2/YpGuvP2BJdzwyACODmOqxfTh4uPCO7bd+LLwRbukjgh9MlfssKTEgAjA6ihXC9s72NpwKdijF73nN+zFDsbl4hJNQNQ3v1FBSfvhEBpITthe/UTUcZAPMwa5TCqMIhQgpFWhLvJU+4ui1DcojWAT2jEAEQFaAa5o/G7lQB8G9IIji4Q==
+Received: from SEZPR04MB6873.apcprd04.prod.outlook.com (2603:1096:101:ee::9)
+ by KUZPR04MB9011.apcprd04.prod.outlook.com (2603:1096:d10:47::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Thu, 22 Jan
+ 2026 06:25:11 +0000
+Received: from SEZPR04MB6873.apcprd04.prod.outlook.com
+ ([fe80::9243:8aaf:c6fc:3d62]) by SEZPR04MB6873.apcprd04.prod.outlook.com
+ ([fe80::9243:8aaf:c6fc:3d62%4]) with mapi id 15.20.9542.009; Thu, 22 Jan 2026
+ 06:25:11 +0000
+Content-Type: multipart/alternative;
+ boundary="------------lA2uZMDc0F0GsDmF5tKx0eSF"
+Message-ID: <SEZPR04MB6873ACB11571FA18D6DC6459A397A@SEZPR04MB6873.apcprd04.prod.outlook.com>
+Date: Thu, 22 Jan 2026 14:25:04 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/11] mm: Remove device private pages from the
- physical address space
-From: Jordan Niethe <jniethe@nvidia.com>
-To: Zi Yan <ziy@nvidia.com>
-Cc: linux-mm@kvack.org, balbirs@nvidia.com, matthew.brost@intel.com,
- akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, david@redhat.com, apopple@nvidia.com,
- lorenzo.stoakes@oracle.com, lyude@redhat.com, dakr@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, rcampbell@nvidia.com,
- mpenttil@redhat.com, jgg@nvidia.com, willy@infradead.org,
- linuxppc-dev@lists.ozlabs.org, intel-xe@lists.freedesktop.org, jgg@ziepe.ca,
- Felix.Kuehling@amd.com
-References: <20260107091823.68974-1-jniethe@nvidia.com>
- <20260107091823.68974-12-jniethe@nvidia.com>
- <36F96303-8FBB-4350-9472-52CC50BAB956@nvidia.com>
- <c9afedc6-f763-410f-b78b-522b98122f06@nvidia.com>
- <6C5F185E-BB12-4B01-8283-F2C956E84AA3@nvidia.com>
- <fd4b6553-3e9e-4829-a12f-51d29a5d7571@nvidia.com>
- <16770FCE-A248-4184-ABFC-94C02C0B30F3@nvidia.com>
- <649cc20c-161c-4343-8263-3712a4f6dccb@nvidia.com>
- <C2A9F124-9EA8-4916-AB86-659BD280390D@nvidia.com>
- <254bd66c-4c0f-44f4-a4a1-87dc44bc5e30@nvidia.com>
-Content-Language: en-US
-In-Reply-To: <254bd66c-4c0f-44f4-a4a1-87dc44bc5e30@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR05CA0096.namprd05.prod.outlook.com
- (2603:10b6:a03:334::11) To DM4PR12MB9072.namprd12.prod.outlook.com
- (2603:10b6:8:be::6)
+Subject: Re: [PATCH 3/3] arm64: dts: qcom: add basic devicetree for Ayaneo
+ Pocket S2 gaming console
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, kancy2333@outlook.com
+References: <20260121-topic-sm8650-ayaneo-pocket-s2-base-v1-0-bb3f95f1c085@linaro.org>
+ <20260121-topic-sm8650-ayaneo-pocket-s2-base-v1-3-bb3f95f1c085@linaro.org>
+ <hmnyvxz7ashufiiil6hf4lg5g435e53zd3xla7qeqcb2styrqg@jkbjl6arm33g>
+From: Kancy Joe <kancy2333@outlook.com>
+In-Reply-To: <hmnyvxz7ashufiiil6hf4lg5g435e53zd3xla7qeqcb2styrqg@jkbjl6arm33g>
+X-ClientProxiedBy: TP0P295CA0045.TWNP295.PROD.OUTLOOK.COM
+ (2603:1096:910:4::16) To SEZPR04MB6873.apcprd04.prod.outlook.com
+ (2603:1096:101:ee::9)
+X-Microsoft-Original-Message-ID: <04f2436c-09a0-4537-922f-faba3d5745dc@outlook.com>
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB9072:EE_|PH0PR12MB8174:EE_
-X-MS-Office365-Filtering-Correlation-Id: 481a356d-04a8-4ecb-45ba-08de597ee95a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MkRNUWpKWHRIY2VINW0rbWZYRVpNVzdQNGdrdXN6Zng2SCs2SlpTSUFpUDlS?=
- =?utf-8?B?UjJyNmpvV21EK3hnR3pxRitUM1ZqMzFtVmpPMVZtMURpWkdRRVNxMEtEVDZV?=
- =?utf-8?B?S1AyRldQcVhjZ3FCVG9uY3ZUWUZJdThBM3hFWjJnWnkrQzAxeTNKWFpFWVV5?=
- =?utf-8?B?M00rK0JiRDBQRDVlVkZwOFVOTkduZVl5SFY0RTFJc0lHZzV5dXQ5ZVVHcTIr?=
- =?utf-8?B?elljRDJ4L2FScUoyL0FmRGF4VXNNT0FrUXNqNWhSNDNLQzBKRGlWNmxBNzIv?=
- =?utf-8?B?eDg3ZlFYSG9MbWM4dUxobDRVN2kyNUhDcDdBWDNWbGtUeEcrMSsxTzBVa2NF?=
- =?utf-8?B?c0VNdnh6TFIycXViNzNYOXdVL0V5ZEp5bXhHU0FsOTRXblNkNWpSazJNVFA3?=
- =?utf-8?B?MXphS0Z5b3V4QWhvZkt4a2ZzNW9PbTU3TjA1aXNnNDBnWHlKYVdTdng1Y1k1?=
- =?utf-8?B?T1MwWmFBMjIxNWYwcXhQamdsMTJDVytrWGN1djQ3M211WmN2UUFiSjVKVHBk?=
- =?utf-8?B?ay9QZStTY0ZKditDZ1AwTm9PdlBTVHRKdTZaNyttM3BidWxDR3NYam03TE94?=
- =?utf-8?B?NXNkSk1JWHYwYXNVcDU5MVRBV1ZFejJNeS9KWDZmbGlDUC9kM0RMYW5HTnhW?=
- =?utf-8?B?bzJEYXpWbXIwTjg1WGxmMU84NDM4RGQxZTVQU2g4cm1USFozRG1Cc2FpOGUx?=
- =?utf-8?B?cmc5ajhEQUxXVW5UQ2d6dU1ra2pqRTZuV3IvMWV5YktTLzR2S0ZiNlNFbXNZ?=
- =?utf-8?B?RENhc08yd3ZvOHhXQ3hoaVE1UERlUWh0dTRkYXZRZll6SGZXRXQ3WlBiNDdx?=
- =?utf-8?B?L3hKUFBGeXBVNGVaS0JTOVA0aUdKd3Y1WWNhajhINVhRWDdUbDBmZmRBK2FW?=
- =?utf-8?B?Z3NqeGtsYWFZNWVPcC9URzNrbXdYbDNuR28raUI5eEk1ZzV4L1FzdTRXdU1q?=
- =?utf-8?B?TmFyTXZQVWZDbkw3OVd1Q0tEdElGUGtXMTJmZGRoMVZqcDVZdDY0MG1ENm4r?=
- =?utf-8?B?WENkNVVqYUQrVER3cHpaMEQwNHFjVS9ZaDg2Q25iK1BUeWFsaUhseHV1K1A3?=
- =?utf-8?B?aEVZNDRkY1gxelk5K05GcUJiS1piMVVlL21KWVlsSTNBVlVCRXBSajNXSnBz?=
- =?utf-8?B?YVhEcElKV3RRM2pWOEYvb1ZBT1Y2WWpMTG1XanozT1JqdmkrSCs1aEtTcU10?=
- =?utf-8?B?bVN0VmF5b04rZ2NVVi9KUHdmbTAxeFhQaWJaRDd3OTBPcTNaMDJ5dy83TTc0?=
- =?utf-8?B?am9EQTdsVHFBZjB4TThhNkg0NHhRVGhiazhHd0F6akQzb1VlbTh3bU5qMXUy?=
- =?utf-8?B?LzhxRU1uQk1nMFR6c0VqT29UN1R6cW5ZTi9qUXJ4VE5MdWZoN0NudkFzUDNq?=
- =?utf-8?B?R0pNSHo4K0kzbFJlZkczcnM2Q2t0M2NTTGowMWUyRUUxWDJWZ3VwTlpHOWky?=
- =?utf-8?B?eFd1YldPN0RpRTNydGhNbmlDZGVGaHB1bmE5VWt2bWJScWJqdllVQ29sSGI0?=
- =?utf-8?B?UEV6V0NJQ3h0NGdDLzFqWnJ0SnF0Y3F0L0FNUGYxckFsbllEUXZ4ejVzeW9Q?=
- =?utf-8?B?N1BkN3RkMk5FcjVYdkYyd3RweXhDU2FaMWdqYjVNczZSb0ltTlJTYjZ4TkEr?=
- =?utf-8?B?b1RkY3N5Q0NYeXJ0SmM5aUxjeWNVQnA5VWRvMUVhZUJ5TUIyb2ZnZzVlZUl5?=
- =?utf-8?B?VDhpNGdZdmxodWE0VGJUU1dnT1JBcVR5bzB3NnJnbG1KWEhGWXhWZm9tbkxl?=
- =?utf-8?B?ODZhTmFsVSs3T0RIWDkyQ2lyWlBHYmMxK0c0dkoxRkErUU4ybVlEUjlHNHZs?=
- =?utf-8?B?QzhVWDg0RHNCbkhzV2ZjV0JpM3lVMEIzWFZKRGhkL214VXY0UzFYcXRrVG1h?=
- =?utf-8?B?S2MrVDRWMFZramFMa3FzMGpSb1BydVc0N2o0V0hZQ2trdlhLUTNpUnpQcGp1?=
- =?utf-8?B?YkpTS0tzbFhESi9UcG9RMjJPVytUSmZHSllJWVNUTndOOUtNakxBU3FXSzJm?=
- =?utf-8?B?c09WVENmWE41UUZ1aSt3K2VyRjBCSnRqVlEzOFhqMzNNbEQxUHZtUExXY0ow?=
- =?utf-8?B?NzFpMzVJVSsydjdGZGRWclhueUhmdkEvSUpaTExYVFp6M1h1dnhhOGJibU9K?=
- =?utf-8?Q?stJg=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB9072.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-TrafficTypeDiagnostic: SEZPR04MB6873:EE_|KUZPR04MB9011:EE_
+X-MS-Office365-Filtering-Correlation-Id: 62e5f57f-fb77-4a85-3b86-08de597efea0
+X-MS-Exchange-SLBlob-MailProps: obhAqMD0nT97+9kgwgO/mqEGtcymhevmDsx7bczaaPpGv+b4/nHJOgetGeRIqou2Bj3P77TMQuXQMPqJCII7izMjramB9AMhvMX16tr9gZBxJyQsxkD+QSWhAvCI4L8my2YhBLz56dcKmMZGHdODOkPaje10GaftJpdRmp1v347A4OZEzI4Rn76RN2tdq5uGn+Fdy9asPZkMiqeIoxQy4Z8VLAKNP71nSsXmGBES/r8wBNpMuu4jgXxofieoqhwaf5tCavsV0gwul0lx8Ghq4P+7TJS4L+0ZFQ462jAVEKIgwvVzRHhw9IAcEpUVNof6AAA5rbUq3Bk+uVRFzHcEg8o3InswfOKpYZtXr/U39iZrWxx0+WhU32A2o33AtOzYPlDDbXV9CvTbQgh8D2C4/588gpkghXWPKI2096uheeu/2RgOZXsenWi8O+Unqap+xAEOO+GvsCSvGL0aC9NkPHT91s0IVL0mc7RPy1JnjzPOPV/G0pqZ2YIcANG9BTLxeU7OlXfnhBEwTd5mfOvAI5oNDk/kwxlDVsrsTgO2+ogLFbmveljU8OtJk0gtT1YY0Az0ODKqoV9uHULhy+ZBBqI86tARFmuTfmBCJ2UqPvaD5oSfrTZTgFHhEfHGm5azUKCOtcm+I2Z3NYVQAaCV5v6cSYxiUVEcO9dPWXMlFnT/01KK5BrtG6yFSp8NYN1g+Z9Z+4ynIUL2kzOARrXh/cCiSW4AlYLH8P/4IRKnuQSpyZm9UA3ajxBkkqgKyZVFo8zOFtw1WAtcaIUYF9rEsAQ3Emz3EyUMHvWoju8Gkjg4ABadM0IRnrBLmUmh/55U
+X-Microsoft-Antispam: BCL:0;
+ ARA:14566002|461199028|15080799012|39105399006|5072599009|41001999006|8060799015|9400799043|19110799012|12050799012|23021999003|12121999013|3412199025|4302099013|440099028|10035399007|41105399003|40105399003|1602099012|1710799026;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?YkU1cGQ3SmRaa1VLUDFvV3hzTXIwSGhrOU1IRisyOTk4QTFvN3FpU3V4ZkNV?=
+ =?utf-8?B?a080WjVqcktBUGFaT3dDMUNaODl0WS9RZjd5WTRzdHVYRnlqRnRmekI5RGRS?=
+ =?utf-8?B?NW1JVVhRUldJRU4vcXFTK1ozazQvZlN6MmJBTnJORXR4L3pzQXNzWHdIY3hD?=
+ =?utf-8?B?TmkrTU5IenRKRjZBTzFLVGhTNmNLVHcvdzRuS1VtSEVBWG9aTytEM21FS1Rn?=
+ =?utf-8?B?RnZJN2lTSzQxNEllSDJSb0J3WWNyVFVlZVlBSkhoRXRJeVIwZ09PaCtyakI4?=
+ =?utf-8?B?dWd6MlcvaSs1OTFCUzRndjVucE4xY1J3aGpEaExQd0cwSVQ2WkY0OFJWRmwr?=
+ =?utf-8?B?Tkh3Y0dCVDdkZWJ1enNyL3huakVyQVBWWlNEMHZ4MDhpWTI1NDJVMHJmWEw5?=
+ =?utf-8?B?anpYNmdnemcvdlZRckhJQlBMVkRXNG81UTBwdGFVZ2psQnArWUtrNElONXhZ?=
+ =?utf-8?B?dG1LR0NQRFU0eHhHSmhidzh0aVZkMGsvckZuTDNYeDcrZDBNME5OeXBrVlla?=
+ =?utf-8?B?UW5GanE4MGlQV2VOTjExWnA1dGIrUTF0WSt6cDd0S2JPaWhkK2lBdXpYSXVM?=
+ =?utf-8?B?RElNdFpWdEhmMXAzUDRmNTN2YWgxOHcvZ2xQMjROTUVTVTZIWDBpME0wUDkz?=
+ =?utf-8?B?Mm5udGlMYzYxUC9qa1ZIaDIyWnVUcEhQSkRVUXdsdVgzSHhUTXBpRWFrekdC?=
+ =?utf-8?B?MUl2VDV2emtGenZTWlBBcW9iaFJrWmNVZFBodHEvUDZmVGUybGdUTUhFWFdo?=
+ =?utf-8?B?WTBhRWJiYU1xc2V4YWRhOFNQbEtHOTJIZEZmRXZ2dndGOXo0bERkNmJRK0Zq?=
+ =?utf-8?B?Sy91d2hZVWRLQkYxM2NNQlkxNVFFU0tVUUxVdUJCSUs0U21wc0c0QXFSN3pN?=
+ =?utf-8?B?YWJNMEMxV2NibC9uUGp0bFN6cko2RVpWUi80K3hiQ0ZyU1pyTituMTB0MnRo?=
+ =?utf-8?B?cFVieHNXYnF1S1I0VlYwUDJDTUxEVjl0T21EbWJjUENjb1lSRGViQXQ3dTMy?=
+ =?utf-8?B?MVE1cEt4U3JtMnpZdnRWa1NlclRoUU9JTXJ5QlZWWXJuL1JvVElGVEZaaith?=
+ =?utf-8?B?NzZJYUh5TXpIRm9TVkhyWGlkak10RFA0Q0lkZTJHbGFhYng2Zkl5QUNrU3pM?=
+ =?utf-8?B?ZnVwYlpDNXU0Z29yQnl1WnE3L3dtRXdERW9YVDlVOEJSYk1yT0lVMVFzcUVV?=
+ =?utf-8?B?ZlZwN0hZaUFRaFU4MVdWdzBwc0xNeloxQkNuSFJEQitpZlo2d28zSCs5TWlS?=
+ =?utf-8?B?YkJmWG1BY3I2N2RVMTYyWUdSTnhaNWhqdk8zWGJSM3QvdmZJT1JOS3pGamF1?=
+ =?utf-8?B?NkY0S0p0N1ZwNTZDeWNiU25zcTR1WitrakpDSDdVdE5zWnJsSHhmWDRXS29W?=
+ =?utf-8?B?SlZVSTIxYXRzMTFxdUFBdkZBSHpwTzgwMXdxQjFDSzU2VWw1UTVNdm15ZkU0?=
+ =?utf-8?B?c0ZQMVdac2hZWFNteElJNm5VZncvc3dWbW96MjJqQkY3OTJTRy9oV2JNbDg0?=
+ =?utf-8?B?am91K1BOYjkxUHNlWk1LZDZmUzVZay80RENCUm8zZWhYc0t4eGJFNk50REF1?=
+ =?utf-8?B?RWI2ZzVwcG9nb1RpMjNTMDhIMU9IWGpTbkpzeWVWYVY1bG9GakFMOU1ia0Nm?=
+ =?utf-8?B?WVlzdnI1dkJxUGtnTVNlRzZWeDVRdmdxK0RKbFdKWXJNVTZ2OHYyNThGYmFr?=
+ =?utf-8?B?SXh5c1VjdWdDWGV6NnFjMmdBQkwrQ2IvTEQ1clZRbHZCbWpaNGxhVFJON08w?=
+ =?utf-8?B?cEw2ZklVaXZYdjlUNUtUY3ZSSXFKSkRJclE4cnhNMkYwam5OSXJxQlhtOTRY?=
+ =?utf-8?B?NVBBaStTUkVFTnlQZ2pyQlk0WUxkcE9WbTJ4WmZUdUI5SWQ1eGZ1REsvRTN2?=
+ =?utf-8?B?Snc1RFhCeHIvYjJndWx6Ulc2ZDMycHpLanF2bHZ5VS8vcTQwWSsySkRGMm9t?=
+ =?utf-8?B?bnRCeE1PbS8rMHBaNXRZZXdkZ0FCcldBejM0bWNrY3V1UlozeHduTC9XVjVU?=
+ =?utf-8?B?R3hyREVPQzhoakxvcFJNeHNoOXVjT0hGcGREU1dWVFE2ZnVISktYNnV1K2d1?=
+ =?utf-8?Q?e41Pcy?=
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cS84TlNyaVFob0N5Sjd1bHFCNldRd0Jrbllkd1VONW9qM2h3eGR2Sy9NVVF0?=
- =?utf-8?B?TkZNZGVxSWM5bW1SdVNsR0c4VUNYS2lKZm8rL3NSalNMWTNOemJMSjFzMjJJ?=
- =?utf-8?B?NnNBeWxJeE0zc3QvVEZJNlVNUHVKcDdiYmthUjVFYVJzK1dFbnVCRzVRdmxT?=
- =?utf-8?B?T2l4UWQrQmpXTk9uRWJjTWhtbG8yK3V1dkFpaU5ZWFhEWWhuMkxiV29xZmR1?=
- =?utf-8?B?VmVOUWp1ODI1Y2JnT2dGUUw2Q2ZzMngwVjRDbWhEdmdCTElBTHcwVTdOTU9H?=
- =?utf-8?B?OGsxM3BJazhGd09QUERVemZ3YzF0K0VVYThMbUN3MENUWFpVdW9kMnBnN2hs?=
- =?utf-8?B?STlMSjBWcEg4NktzcTd0b0xVQXNmRnVjRUxSUGx4bUYxektzV1VER0NzYll4?=
- =?utf-8?B?YllUa0RrVXpMR3JrYmw1SmlLdnVZOVRDdDZ2RTkra3FYdkpaOXBaSkpRU3Fj?=
- =?utf-8?B?QUk2K2dpZmZhOWthcHZScXVPRytKejM0T0w1SktldnE2R0IyQnV2YjlzR1BM?=
- =?utf-8?B?V25RTlBmRk9sMXRFVWFTWUxiSlIwdjJyL0dtSkFHTzVLZHVNRWVqbHhnU09q?=
- =?utf-8?B?eWx2NjNXTlljc1pSQjJvbWw0ZUU1aWpOaFA4dzVYblkxa3VtUWpsY0svVmRq?=
- =?utf-8?B?aWowaG5yL29oSVpDNzd5aW44ZzUzNDR2aVRIdEowUWpOSEEwNlo1d3hWRk0v?=
- =?utf-8?B?MmhmamtNRzF3V1RZc3IyM0VKWXhxRksyNG8yM0M0SHhXdkx3WHUvaE0yNE1E?=
- =?utf-8?B?LzBOWjV0TWNSTWxVQkZwVE1XMkVzUXlCM1p1Sk9jdlhRMm1HWGthTFVDWVVC?=
- =?utf-8?B?ckREaG11WWFhSXVLYy9XNHVYNWdPMFdtQUxxWDExZ0JycTdpelg3NmJOZnFM?=
- =?utf-8?B?MXo0bldxZmFBSm5jaDdhc2dhR3Jncy9xOW5VOHlqMXkzTGlwTVBIZXM2cGs1?=
- =?utf-8?B?VktmanNHWS9McExmQTNLdEYwZUhJNFRzSm1odm8yd1Rwb3JNQkhHTjhrYkha?=
- =?utf-8?B?TTA1TXRLYklBblNvN2lDQWdiTm1mZ3lFbThLeU5TK2Y2dXowNTNWdHdkOFZK?=
- =?utf-8?B?OWM4eUY5QkZxVFQ1SGI1c2VGZURJVVNBS3AvZUordmhqZWt3dlFCV3h4RENW?=
- =?utf-8?B?UGh1VXlzL01lc1ErUGdsS05DSENhd3VEODhaakZIKzlrSVVRNmpTeUZXZU1Z?=
- =?utf-8?B?Vm5LTFcwbVNaM2ZQSnhqQ0tYMXFWdnM4NExPUktYVVZicCtZcEpaWnczOHhQ?=
- =?utf-8?B?QjB0bmNIYjRnTldXbGpmNGpWalVYcHdQcDVvdXYvL2xBZVp4ZnhxZndpWmtQ?=
- =?utf-8?B?UU1MUG1jNGNRWU9QWldnd1lBWnUrVmdoS3NiVXRyclNoWDJYOWpSZ21tMGNW?=
- =?utf-8?B?a1IwYnZQY3dTaERuWmE2c2xrcS9GSGx6dUgzRkc1dmNKRlBuWlpMWHBSdlZu?=
- =?utf-8?B?N25DMXVCUGtxbGN6SEdSMmxuL1FMaTFHNkNIejY1bzBTbXE4SCtCa2UxZjJz?=
- =?utf-8?B?Y1h1SElPc09zZDhsV21ReHhHZW0vcGlzalAxWmVqR0pLSUI3T0tTajB2SVNE?=
- =?utf-8?B?ZkhiemI4dHUyL1dOc0g2R3NZREVjc0FOd3V0N2dmU1dKa2xIOEJNOUdYRE1k?=
- =?utf-8?B?N1FmQ0UzeU9YTFNIYlJoZGVYcTVkYUZCazFOaEJuR3ZKNFo2TklUZ3lZcm8r?=
- =?utf-8?B?SCt1ckwxQ2gzcy9UU3EwUDkxbVRDcFpyeEV3Nlk4M3N4ZTZ0dXpDYmtuWXhV?=
- =?utf-8?B?Qmh4RElvTkw5c0FSbWxyR1N3T1ZXcXk1VytlS05oSnh1Q2I4ZnVoMVROQUFh?=
- =?utf-8?B?OTFNNXRKMEFDMVZlYTUwSW1VbTJMWWZLN3B4ZXZsUHhKRU1ZempYOW1WUGpP?=
- =?utf-8?B?aWJaZk5kbURGZzNxb2o0VFhGeTVhRU4yQW1Gcm9pN1R1c1ZFLzRpZUZWUGVD?=
- =?utf-8?B?MW9IM3hSTHVacGYxSzJBbk5IalpIOXhUaGNyVG50dUNQL2RoM2oxdE1OSkty?=
- =?utf-8?B?Z3ludkxzWEcyUWJrMWFDWVZpb3dMOThHeTVrd0hJQkNjNjh4OXhZeFlleit3?=
- =?utf-8?B?R0FEeFVoWjFqT0w5Zm9qaCtmSHFOeHFQd3dNZ0VuMmhmd2t2UDRDazEyVEZK?=
- =?utf-8?B?RjF5eEpybVZnYVJISTNsd21MeGRyMGJ6T2pUblVKTml4QWNobEhnYzM3WVpk?=
- =?utf-8?B?WDFpYnpnVGx5MVlobEl5YU1YZUxRdzh1cVVYL1dKRStzSDZJUksxUnNQWXho?=
- =?utf-8?B?REVzbkw5Y0JyZlhBNEx1QzZLdXR1MHBBZUwrMkZ1a25BcTJJd2NTL3Nud3o5?=
- =?utf-8?B?Rkd6TWZEK1lydmNpRWgxZHQvQ2tnWEVkczJ1Nm5oa3QydFZlZVlYdz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 481a356d-04a8-4ecb-45ba-08de597ee95a
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB9072.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TGlpRzdKdWNJdW0xK0NkTFpqR2l2K1RVSHNrbDhJbWZpb1dPUGxGeXZiaVp2?=
+ =?utf-8?B?K1FOdmljRnN2V2ZJazRXRFVMa2RweTgrZEZsRGJjSCsyMnZobFFQcnc4NHY2?=
+ =?utf-8?B?TTF3WWI2WTAyVzZ2QmdXYkZ5ZEZraVRuZ1FTY1BxRXBJdlc2dnp1c0Q2VEZs?=
+ =?utf-8?B?aHZUSXhvU1FxdzU3bzZJTGltRThXQVZQVHBQUXN2Y0FSMHJuLzFIK2ZJL2pY?=
+ =?utf-8?B?VFVFWStGMStTazBKVDVMRWoxWElDVlhCNG8vU0dHNDZnSHVSRXRIbmJwQW1m?=
+ =?utf-8?B?cUYraVNDTXprMVpjZVZpWi9uV2ljcXg1a0FVNXpLZ2tpN1JRMWh5enN3Kzhj?=
+ =?utf-8?B?ampoeHNhOWdZMHRHVTU2Q2VtT0U1aVNESHQzVnRpK2dic00vdXdVbDZYb21B?=
+ =?utf-8?B?N1hHUXRXVjVaeWU5U0pQWHF5NVhMLzVWeXoycVBYUUI3Sm81SEM5L1ppSWRz?=
+ =?utf-8?B?dGlpV3VTbHpxVU5oeklya2RjU2VsWGJFeW5kMzVDUm5CdjhUSXErN3dmUGZF?=
+ =?utf-8?B?QVpmZkQwK3ExRG9nMmY3eDh5WDB1Nk9mdzV1dXRmQ2MzVE1kMFp0VnpUZE4w?=
+ =?utf-8?B?NFdnc2xxRFJyQmw4VHRMUHZwN3NlME5TeFc5TW1DaXN5dHpiRkdKd3NhVUFL?=
+ =?utf-8?B?RDEzaFkrVW92YncyLzU2QU1HcW94NVdqNmVZQytLT3ljUE9OV1VYWDFMajZj?=
+ =?utf-8?B?SUs4SEhhdC9YaU9abXFRMFZQZnpsa1hKSE5TU2FvTE40dGJnd1VyMkw0Tjcz?=
+ =?utf-8?B?dExYQjh2Tk1teENnbFpGd3BPWnZ1NDZoMUpSdEZGbjI1K25DNE9vdm1Gclo1?=
+ =?utf-8?B?Vm9qV1RkdzJCNXZ0Y3BjRk9mNUdDK0FkdmdDNUhMWXhQYWxhanFWS3hGczhu?=
+ =?utf-8?B?TS9ENnpVbXV2clAvakdLK1NwV1NuTExJSndyTk5aa1pENjQ4alNWOTFrNzky?=
+ =?utf-8?B?eVROUHFhenJ1cWFvZ0gxWDRmUTlrY29JWVZNakNLeGtZYUlSTVNXN2tKZkox?=
+ =?utf-8?B?UytEWks2T2pBaFVsWUp6eXJndWU4VDRNUWFSRXJJendDa0lSTmtaR3lUb2xz?=
+ =?utf-8?B?bVdzSWcxMmZpUm9tRDVndlhjTHlZZmNYS3dqeUdoRTIzQlFablJjbm5EOVdC?=
+ =?utf-8?B?TlRZM1lXc3lFS0FRbmRnYy9Mb0NhM0JuUDNINlRtaW1zRjZyVFBWMEJibDhD?=
+ =?utf-8?B?WWxZRXhRbmJMc24zeXVQVW16MktLYUIzWGVQSkpXdy9OMmZJNlNHL00yR1NG?=
+ =?utf-8?B?NDBYY1NoNXRra2VvSDVFd09OZFNJWGV5dW9XVFN6UlovUVBNY0FsaXlCZFZ6?=
+ =?utf-8?B?M2dDd3VUSUFoVkRjZ3F4SmxjRUUvT1dzR1djRUhSSklTdUdVRXRpMDdubXl3?=
+ =?utf-8?B?cU51MDA3UXBVMVpoS3IxTnA4bGdqNkRyS0xVRjEweDNGUnN2R2FOd3NnN1Z3?=
+ =?utf-8?B?N0UxTnJySjl1bXEybjM2R3psWWF5Z0tDclRpUWVCMUJJS05sNHFMNDRDYmVL?=
+ =?utf-8?B?VFpoMTdiQlBNdWthTTBmcFJUOE9MaUpyMWZtMnpibFFobXZ4dnBDYmJ0Tnhi?=
+ =?utf-8?B?c3N6cm9RaWV4aEkvdjF3TXh4QlF6N3pJRlhPOFcvOGx6K2VtRnBJeE8wZ2xP?=
+ =?utf-8?B?emFvbUJiUFZZSmw5VVRQRGU2ZHZMelZtOUN6cmRKKzJVUHhaUjF4MnBkaDN5?=
+ =?utf-8?B?NjdHL3hVL0dkNDNJbXNmK3NQS3VsRnhNM1R5UjRiTUxsR0hYN2dPek1ERStM?=
+ =?utf-8?B?ZkhIYUU3ZDZoN3pEczV1RFRQS1VlMFZ5NmdnY1htY1lEMFRtdnVIL010TTJN?=
+ =?utf-8?B?NWp0dnJxczg0azU2NTVxMVlVZUhLNWZaL2owZDdYMkZCN0RjdHZJMFFFWk1H?=
+ =?utf-8?Q?h4m9cQtouNdJs?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62e5f57f-fb77-4a85-3b86-08de597efea0
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR04MB6873.apcprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 06:24:35.1030 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 06:25:11.1630 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: C1dXjxqjdRmaTwByJid/lOE+tM6rQ6YWCBXkBbR1nYjGmwJyqSnLb9bKowWUgK5ttgu59/jdjxsaVi2PxHNM1A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8174
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KUZPR04MB9011
+X-Mailman-Approved-At: Thu, 22 Jan 2026 08:35:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -190,514 +175,483 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	DMARC_POLICY_ALLOW(-0.50)[outlook.com,none];
+	R_DKIM_ALLOW(-0.20)[outlook.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kvack.org,nvidia.com,intel.com,linux-foundation.org,vger.kernel.org,lists.freedesktop.org,redhat.com,oracle.com,kernel.org,gmail.com,ffwll.ch,infradead.org,lists.ozlabs.org,ziepe.ca,amd.com];
-	FROM_NEQ_ENVFROM(0.00)[jniethe@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,nvidia.com:email,Nvidia.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
 	RCVD_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[outlook.com];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,vger.kernel.org,lists.freedesktop.org,outlook.com];
+	FORGED_MUA_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kancy2333@outlook.com,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[Nvidia.com:+]
-X-Rspamd-Queue-Id: DB0ED623BF
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DKIM_TRACE(0.00)[outlook.com:+];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.1:email,linaro.org:email,gitlab.com:url,outlook.com:email,outlook.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,e:email,1c:email,0.0.0.0:email]
+X-Rspamd-Queue-Id: 5D8BB632A9
 X-Rspamd-Action: no action
 
-Hi,
-
-On 21/1/26 15:04, Jordan Niethe wrote:
-> On 21/1/26 13:41, Zi Yan wrote:
->> On 20 Jan 2026, at 18:34, Jordan Niethe wrote:
->>
->>> Hi,
->>>
->>> On 21/1/26 10:06, Zi Yan wrote:
->>>> On 20 Jan 2026, at 18:02, Jordan Niethe wrote:
->>>>
->>>>> Hi,
->>>>>
->>>>> On 21/1/26 09:53, Zi Yan wrote:
->>>>>> On 20 Jan 2026, at 17:33, Jordan Niethe wrote:
->>>>>>
->>>>>>> On 14/1/26 07:04, Zi Yan wrote:
->>>>>>>> On 7 Jan 2026, at 4:18, Jordan Niethe wrote:
->>>>>>>>
->>>>>>>>> Currently when creating these device private struct pages, the first
->>>>>>>>> step is to use request_free_mem_region() to get a range of physical
->>>>>>>>> address space large enough to represent the devices memory. This
->>>>>>>>> allocated physical address range is then remapped as device private
->>>>>>>>> memory using memremap_pages().
->>>>>>>>>
->>>>>>>>> Needing allocation of physical address space has some problems:
->>>>>>>>>
->>>>>>>>>       1) There may be insufficient physical address space to represent the
->>>>>>>>>          device memory. KASLR reducing the physical address space and VM
->>>>>>>>>          configurations with limited physical address space increase the
->>>>>>>>>          likelihood of hitting this especially as device memory increases. This
->>>>>>>>>          has been observed to prevent device private from being initialized.
->>>>>>>>>
->>>>>>>>>       2) Attempting to add the device private pages to the linear map at
->>>>>>>>>          addresses beyond the actual physical memory causes issues on
->>>>>>>>>          architectures like aarch64 meaning the feature does not work there.
->>>>>>>>>
->>>>>>>>> Instead of using the physical address space, introduce a device private
->>>>>>>>> address space and allocate devices regions from there to represent the
->>>>>>>>> device private pages.
->>>>>>>>>
->>>>>>>>> Introduce a new interface memremap_device_private_pagemap() that
->>>>>>>>> allocates a requested amount of device private address space and creates
->>>>>>>>> the necessary device private pages.
->>>>>>>>>
->>>>>>>>> To support this new interface, struct dev_pagemap needs some changes:
->>>>>>>>>
->>>>>>>>>       - Add a new dev_pagemap::nr_pages field as an input parameter.
->>>>>>>>>       - Add a new dev_pagemap::pages array to store the device
->>>>>>>>>         private pages.
->>>>>>>>>
->>>>>>>>> When using memremap_device_private_pagemap(), rather then passing in
->>>>>>>>> dev_pagemap::ranges[dev_pagemap::nr_ranges] of physical address space to
->>>>>>>>> be remapped, dev_pagemap::nr_ranges will always be 1, and the device
->>>>>>>>> private range that is reserved is returned in dev_pagemap::range.
->>>>>>>>>
->>>>>>>>> Forbid calling memremap_pages() with dev_pagemap::ranges::type =
->>>>>>>>> MEMORY_DEVICE_PRIVATE.
->>>>>>>>>
->>>>>>>>> Represent this device private address space using a new
->>>>>>>>> device_private_pgmap_tree maple tree. This tree maps a given device
->>>>>>>>> private address to a struct dev_pagemap, where a specific device private
->>>>>>>>> page may then be looked up in that dev_pagemap::pages array.
->>>>>>>>>
->>>>>>>>> Device private address space can be reclaimed and the assoicated device
->>>>>>>>> private pages freed using the corresponding new
->>>>>>>>> memunmap_device_private_pagemap() interface.
->>>>>>>>>
->>>>>>>>> Because the device private pages now live outside the physical address
->>>>>>>>> space, they no longer have a normal PFN. This means that page_to_pfn(),
->>>>>>>>> et al. are no longer meaningful.
->>>>>>>>>
->>>>>>>>> Introduce helpers:
->>>>>>>>>
->>>>>>>>>       - device_private_page_to_offset()
->>>>>>>>>       - device_private_folio_to_offset()
->>>>>>>>>
->>>>>>>>> to take a given device private page / folio and return its offset within
->>>>>>>>> the device private address space.
->>>>>>>>>
->>>>>>>>> Update the places where we previously converted a device private page to
->>>>>>>>> a PFN to use these new helpers. When we encounter a device private
->>>>>>>>> offset, instead of looking up its page within the pagemap use
->>>>>>>>> device_private_offset_to_page() instead.
->>>>>>>>>
->>>>>>>>> Update the existing users:
->>>>>>>>>
->>>>>>>>>      - lib/test_hmm.c
->>>>>>>>>      - ppc ultravisor
->>>>>>>>>      - drm/amd/amdkfd
->>>>>>>>>      - gpu/drm/xe
->>>>>>>>>      - gpu/drm/nouveau
->>>>>>>>>
->>>>>>>>> to use the new memremap_device_private_pagemap() interface.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Jordan Niethe <jniethe@nvidia.com>
->>>>>>>>> Signed-off-by: Alistair Popple <apopple@nvidia.com>
->>>>>>>>>
->>>>>>>>> ---
->>>>>>>>>
->>>>>>>>> NOTE: The updates to the existing drivers have only been compile tested.
->>>>>>>>> I'll need some help in testing these drivers.
->>>>>>>>>
->>>>>>>>> v1:
->>>>>>>>> - Include NUMA node paramater for memremap_device_private_pagemap()
->>>>>>>>> - Add devm_memremap_device_private_pagemap() and friends
->>>>>>>>> - Update existing users of memremap_pages():
->>>>>>>>>         - ppc ultravisor
->>>>>>>>>         - drm/amd/amdkfd
->>>>>>>>>         - gpu/drm/xe
->>>>>>>>>         - gpu/drm/nouveau
->>>>>>>>> - Update for HMM huge page support
->>>>>>>>> - Guard device_private_offset_to_page and friends with CONFIG_ZONE_DEVICE
->>>>>>>>>
->>>>>>>>> v2:
->>>>>>>>> - Make sure last member of struct dev_pagemap remains DECLARE_FLEX_ARRAY(struct range, ranges);
->>>>>>>>> ---
->>>>>>>>>      Documentation/mm/hmm.rst                 |  11 +-
->>>>>>>>>      arch/powerpc/kvm/book3s_hv_uvmem.c       |  41 ++---
->>>>>>>>>      drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  23 +--
->>>>>>>>>      drivers/gpu/drm/nouveau/nouveau_dmem.c   |  35 ++--
->>>>>>>>>      drivers/gpu/drm/xe/xe_svm.c              |  28 +---
->>>>>>>>>      include/linux/hmm.h                      |   3 +
->>>>>>>>>      include/linux/leafops.h                  |  16 +-
->>>>>>>>>      include/linux/memremap.h                 |  64 +++++++-
->>>>>>>>>      include/linux/migrate.h                  |   6 +-
->>>>>>>>>      include/linux/mm.h                       |   2 +
->>>>>>>>>      include/linux/rmap.h                     |   5 +-
->>>>>>>>>      include/linux/swapops.h                  |  10 +-
->>>>>>>>>      lib/test_hmm.c                           |  69 ++++----
->>>>>>>>>      mm/debug.c                               |   9 +-
->>>>>>>>>      mm/memremap.c                            | 193 ++++++++++++++++++-----
->>>>>>>>>      mm/mm_init.c                             |   8 +-
->>>>>>>>>      mm/page_vma_mapped.c                     |  19 ++-
->>>>>>>>>      mm/rmap.c                                |  43 +++--
->>>>>>>>>      mm/util.c                                |   5 +-
->>>>>>>>>      19 files changed, 391 insertions(+), 199 deletions(-)
->>>>>>>>>
->>>>>>>> <snip>
->>>>>>>>
->>>>>>>>> diff --git a/include/linux/mm.h b/include/linux/mm.h
->>>>>>>>> index e65329e1969f..b36599ab41ba 100644
->>>>>>>>> --- a/include/linux/mm.h
->>>>>>>>> +++ b/include/linux/mm.h
->>>>>>>>> @@ -2038,6 +2038,8 @@ static inline unsigned long memdesc_section(memdesc_flags_t mdf)
->>>>>>>>>       */
->>>>>>>>>      static inline unsigned long folio_pfn(const struct folio *folio)
->>>>>>>>>      {
->>>>>>>>> +    VM_BUG_ON(folio_is_device_private(folio));
->>>>>>>>
->>>>>>>> Please use VM_WARN_ON instead.
->>>>>>>
->>>>>>> ack.
->>>>>>>
->>>>>>>>
->>>>>>>>> +
->>>>>>>>>          return page_to_pfn(&folio->page);
->>>>>>>>>      }
->>>>>>>>>
->>>>>>>>> diff --git a/include/linux/rmap.h b/include/linux/rmap.h
->>>>>>>>> index 57c63b6a8f65..c1561a92864f 100644
->>>>>>>>> --- a/include/linux/rmap.h
->>>>>>>>> +++ b/include/linux/rmap.h
->>>>>>>>> @@ -951,7 +951,7 @@ static inline unsigned long page_vma_walk_pfn(unsigned long pfn)
->>>>>>>>>      static inline unsigned long folio_page_vma_walk_pfn(const struct folio *folio)
->>>>>>>>>      {
->>>>>>>>>          if (folio_is_device_private(folio))
->>>>>>>>> -        return page_vma_walk_pfn(folio_pfn(folio)) |
->>>>>>>>> +        return page_vma_walk_pfn(device_private_folio_to_offset(folio)) |
->>>>>>>>>                     PVMW_PFN_DEVICE_PRIVATE;
->>>>>>>>>
->>>>>>>>>          return page_vma_walk_pfn(folio_pfn(folio));
->>>>>>>>> @@ -959,6 +959,9 @@ static inline unsigned long folio_page_vma_walk_pfn(const struct folio *folio)
->>>>>>>>>
->>>>>>>>>      static inline struct page *page_vma_walk_pfn_to_page(unsigned long pvmw_pfn)
->>>>>>>>>      {
->>>>>>>>> +    if (pvmw_pfn & PVMW_PFN_DEVICE_PRIVATE)
->>>>>>>>> +        return device_private_offset_to_page(pvmw_pfn >> PVMW_PFN_SHIFT);
->>>>>>>>> +
->>>>>>>>>          return pfn_to_page(pvmw_pfn >> PVMW_PFN_SHIFT);
->>>>>>>>>      }
->>>>>>>>
->>>>>>>> <snip>
->>>>>>>>
->>>>>>>>> diff --git a/mm/page_vma_mapped.c b/mm/page_vma_mapped.c
->>>>>>>>> index 96c525785d78..141fe5abd33f 100644
->>>>>>>>> --- a/mm/page_vma_mapped.c
->>>>>>>>> +++ b/mm/page_vma_mapped.c
->>>>>>>>> @@ -107,6 +107,7 @@ static bool map_pte(struct page_vma_mapped_walk *pvmw, pmd_t *pmdvalp,
->>>>>>>>>      static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long pte_nr)
->>>>>>>>>      {
->>>>>>>>>          unsigned long pfn;
->>>>>>>>> +    bool device_private = false;
->>>>>>>>>          pte_t ptent = ptep_get(pvmw->pte);
->>>>>>>>>
->>>>>>>>>          if (pvmw->flags & PVMW_MIGRATION) {
->>>>>>>>> @@ -115,6 +116,9 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long pte_nr)
->>>>>>>>>              if (!softleaf_is_migration(entry))
->>>>>>>>>                  return false;
->>>>>>>>>
->>>>>>>>> +        if (softleaf_is_migration_device_private(entry))
->>>>>>>>> +            device_private = true;
->>>>>>>>> +
->>>>>>>>>              pfn = softleaf_to_pfn(entry);
->>>>>>>>>          } else if (pte_present(ptent)) {
->>>>>>>>>              pfn = pte_pfn(ptent);
->>>>>>>>> @@ -127,8 +131,14 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long pte_nr)
->>>>>>>>>                  return false;
->>>>>>>>>
->>>>>>>>>              pfn = softleaf_to_pfn(entry);
->>>>>>>>> +
->>>>>>>>> +        if (softleaf_is_device_private(entry))
->>>>>>>>> +            device_private = true;
->>>>>>>>>          }
->>>>>>>>>
->>>>>>>>> +    if ((device_private) ^ !!(pvmw->pfn & PVMW_PFN_DEVICE_PRIVATE))
->>>>>>>>> +        return false;
->>>>>>>>> +
->>>>>>>>>          if ((pfn + pte_nr - 1) < (pvmw->pfn >> PVMW_PFN_SHIFT))
->>>>>>>>>              return false;
->>>>>>>>>          if (pfn > ((pvmw->pfn >> PVMW_PFN_SHIFT) + pvmw->nr_pages - 1))
->>>>>>>>> @@ -137,8 +147,11 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long pte_nr)
->>>>>>>>>      }
->>>>>>>>>
->>>>>>>>>      /* Returns true if the two ranges overlap.  Careful to not overflow. */
->>>>>>>>> -static bool check_pmd(unsigned long pfn, struct page_vma_mapped_walk *pvmw)
->>>>>>>>> +static bool check_pmd(unsigned long pfn, bool device_private, struct page_vma_mapped_walk *pvmw)
->>>>>>>>>      {
->>>>>>>>> +    if ((device_private) ^ !!(pvmw->pfn & PVMW_PFN_DEVICE_PRIVATE))
->>>>>>>>> +        return false;
->>>>>>>>> +
->>>>>>>>>          if ((pfn + HPAGE_PMD_NR - 1) < (pvmw->pfn >> PVMW_PFN_SHIFT))
->>>>>>>>>              return false;
->>>>>>>>>          if (pfn > (pvmw->pfn >> PVMW_PFN_SHIFT) + pvmw->nr_pages - 1)
->>>>>>>>> @@ -255,6 +268,8 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk *pvmw)
->>>>>>>>>
->>>>>>>>>                      if (!softleaf_is_migration(entry) ||
->>>>>>>>>                          !check_pmd(softleaf_to_pfn(entry),
->>>>>>>>> +                           softleaf_is_device_private(entry) ||
->>>>>>>>> +                           softleaf_is_migration_device_private(entry),
->>>>>>>>>                                 pvmw))
->>>>>>>>>                          return not_found(pvmw);
->>>>>>>>>                      return true;
->>>>>>>>> @@ -262,7 +277,7 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk *pvmw)
->>>>>>>>>                  if (likely(pmd_trans_huge(pmde))) {
->>>>>>>>>                      if (pvmw->flags & PVMW_MIGRATION)
->>>>>>>>>                          return not_found(pvmw);
->>>>>>>>> -                if (!check_pmd(pmd_pfn(pmde), pvmw))
->>>>>>>>> +                if (!check_pmd(pmd_pfn(pmde), false, pvmw))
->>>>>>>>>                          return not_found(pvmw);
->>>>>>>>>                      return true;
->>>>>>>>>                  }
->>>>>>>>
->>>>>>>> It seems to me that you can add a new flag like “bool is_device_private” to
->>>>>>>> indicate whether pfn is a device private index instead of pfn without
->>>>>>>> manipulating pvmw->pfn itself.
->>>>>>>
->>>>>>> We could do it like that, however my concern with using a new param was that
->>>>>>> storing this info seperately might make it easier to misuse a device private
->>>>>>> index as a regular pfn.
->>>>>>>
->>>>>>> It seemed like it could be easy to overlook both when creating the pvmw and
->>>>>>> then when accessing the pfn.
->>>>>>
->>>>>> That is why I asked for a helper function like page_vma_walk_pfn(pvmw) to
->>>>>> return the converted pfn instead of pvmw->pfn directly. You can add a comment
->>>>>> to ask people to use helper function and even mark pvmw->pfn /* do not use
->>>>>> directly */.
->>>>>
->>>>> Yeah I agree that is a good idea.
->>>>>
->>>>>>
->>>>>> In addition, your patch manipulates pfn by left shifting it by 1. Are you sure
->>>>>> there is no weird arch having pfns with bit 63 being 1? Your change could
->>>>>> break it, right?
->>>>>
->>>>> Currently for migrate pfns we left shift by pfns by MIGRATE_PFN_SHIFT (6), so I
->>>>> thought doing something similiar here should be safe.
->>>>
->>>> Yeah, but that limits to archs supporting HMM. page_vma_mapped_walk is used
->>>> by almost every arch, so it has a broader impact.
->>>
->>> That is a good point.
->>>
->>> I see a few options:
->>>
->>> - On every arch we can assume SWP_PFN_BITS? I could add a sanity check that we
->>>    have an extra bit on top of SWP_PFN_BITS within an unsigned long.
->>
->> Yes, but if there is no extra bit, are you going to disable device private
->> pages?
-> 
-> In this case, migrate PFNs would also be broken (due to MIGRATE_PFN_SHIFT) so we'd have to.
-> 
->>
->>> - We could define PVMW_PFN_SHIFT as 0 if !CONFIG_MIGRATION as the flag is not
->>>    required.
->>
->> Sure, or !CONFIG_DEVICE_MIGRATION
->>
->>> - Instead of modifying pvmw->pfn we could use pvmw->flags but that has the
->>>    issues of separating the offset type and offset.
->>
->> It seems that I was not clear on my proposal. Here is the patch on top of
->> your patchset and it compiles.
-> 
-> Oh I'd interpreted “bool is_device_private” as adding a new field to pvmw.
-> 
->>
->> Basically, pvmw->pfn stores either PFN or device private offset without
->> additional shift. Caller interprets pvmw->pfn based on
->> pvmw->flags & PVMW_DEVICE_PRIVATE. And you can ignore my helper function
->> of pvmw->pfn suggestion, since my patch below can use pvmw->pfn directly.
-> 
-> Thanks, looks reasonable. I'll try it.
-> 
-> Thanks,
-> Jordan.
-> 
->>
->> Let me know if my patch works. Thanks.
-
-We need to be careful now to ensure the PVMW_DEVICE_PRIVATE flag doesn't get
-overwritten:
+--------------lA2uZMDc0F0GsDmF5tKx0eSF
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -1871,7 +1871,7 @@ static bool try_to_unmap_one(struct folio *folio, struct vm_area_struct *vma,
-          * if page table locking is skipped: use TTU_SYNC to wait for that.
-          */
-         if (flags & TTU_SYNC)
--               pvmw.flags = PVMW_SYNC;
-+               pvmw.flags = page_vma_walk_flags(folio, PVMW_SYNC);
-  
-         /*
-          * For THP, we have to assume the worse case ie pmd for invalidation.
-@@ -2304,7 +2304,7 @@ static bool try_to_migrate_one(struct folio *folio, struct vm_area_struct *vma,
-          * if page table locking is skipped: use TTU_SYNC to wait for that.
-          */
-         if (flags & TTU_SYNC)
--               pvmw.flags = PVMW_SYNC;
-+               pvmw.flags = page_vma_walk_flags(folio, PVMW_SYNC);
-  
-         /*
-          * For THP, we have to assume the worse case ie pmd for invalidation.
-
-Other than that tests ok.
-
-Thanks,
-Jordan.
+On 1/22/2026 9:30 AM, Dmitry Baryshkov wrote:
+> On Wed, Jan 21, 2026 at 05:40:28PM +0100, Neil Armstrong wrote:
+>> From: KancyJoe<kancy2333@outlook.com>
 >>
->> diff --git a/include/linux/rmap.h b/include/linux/rmap.h
->> index c1561a92864f..4423f0e886aa 100644
->> --- a/include/linux/rmap.h
->> +++ b/include/linux/rmap.h
->> @@ -921,6 +921,7 @@ struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
->>   #define PVMW_SYNC        (1 << 0)
->>   /* Look for migration entries rather than present PTEs */
->>   #define PVMW_MIGRATION        (1 << 1)
->> +#define PVMW_DEVICE_PRIVATE    (1 << 2)
+>> Add initial Device Tree for the Ayaneo Pocket S2 gaming console based
+>> on the Qualcomm Snapdragon 8 Gen 3 platform.
 >>
->>   /* Result flags */
+>> The design is similar to a phone wihout the modem, the game control
+>> is handled via a standalone controller connected to a PCIe USB
+>> controller.
 >>
->> @@ -943,6 +944,13 @@ struct page_vma_mapped_walk {
->>   #define PVMW_PFN_DEVICE_PRIVATE    (1UL << 0)
->>   #define PVMW_PFN_SHIFT        1
+>> Display support will be added in a second time.
 >>
->> +static inline unsigned long page_vma_walk_flags(struct folio *folio, unsigned long flags)
->> +{
->> +    if (folio_is_device_private(folio))
->> +        return flags | PVMW_DEVICE_PRIVATE;
->> +    return flags;
->> +}
+>> Signed-off-by: KancyJoe<kancy2333@outlook.com>
+>> Signed-off-by: Neil Armstrong<neil.armstrong@linaro.org>
+>> ---
+>>   arch/arm64/boot/dts/qcom/Makefile                  |    1 +
+>>   .../boot/dts/qcom/sm8650-ayaneo-pocket-s2.dts      | 1445 ++++++++++++++++++++
+>>   arch/arm64/boot/dts/qcom/sm8650.dtsi               |    2 +-
+>>   drivers/gpu/drm/msm/dsi/dsi.c                      |    4 +-
+>>   4 files changed, 1449 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
+>> index 6f34d5ed331c..1ba29755e5ba 100644
+>> --- a/arch/arm64/boot/dts/qcom/Makefile
+>> +++ b/arch/arm64/boot/dts/qcom/Makefile
+>> @@ -313,6 +313,7 @@ dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-mtp.dtb
+>>   dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-qrd.dtb
+>>   dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-samsung-q5q.dtb
+>>   dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-sony-xperia-yodo-pdx234.dtb
+>> +dtb-$(CONFIG_ARCH_QCOM)	+= sm8650-ayaneo-pocket-s2.dtb
+>>   
+>>   sm8650-hdk-display-card-dtbs	:= sm8650-hdk.dtb sm8650-hdk-display-card.dtbo
+>>   
+>> diff --git a/arch/arm64/boot/dts/qcom/sm8650-ayaneo-pocket-s2.dts b/arch/arm64/boot/dts/qcom/sm8650-ayaneo-pocket-s2.dts
+>> new file mode 100644
+>> index 000000000000..141d92933957
+>> --- /dev/null
+>> +++ b/arch/arm64/boot/dts/qcom/sm8650-ayaneo-pocket-s2.dts
 >> +
->>   static inline unsigned long page_vma_walk_pfn(unsigned long pfn)
->>   {
->>       return (pfn << PVMW_PFN_SHIFT);
->> @@ -951,23 +959,16 @@ static inline unsigned long page_vma_walk_pfn(unsigned long pfn)
->>   static inline unsigned long folio_page_vma_walk_pfn(const struct folio *folio)
->>   {
->>       if (folio_is_device_private(folio))
->> -        return page_vma_walk_pfn(device_private_folio_to_offset(folio)) |
->> -               PVMW_PFN_DEVICE_PRIVATE;
->> -
->> -    return page_vma_walk_pfn(folio_pfn(folio));
->> -}
->> -
->> -static inline struct page *page_vma_walk_pfn_to_page(unsigned long pvmw_pfn)
->> -{
->> -    if (pvmw_pfn & PVMW_PFN_DEVICE_PRIVATE)
->> -        return device_private_offset_to_page(pvmw_pfn >> PVMW_PFN_SHIFT);
->> +        return device_private_folio_to_offset(folio);
->>
->> -    return pfn_to_page(pvmw_pfn >> PVMW_PFN_SHIFT);
->> +    return (folio_pfn(folio));
->>   }
->>
->> -static inline struct folio *page_vma_walk_pfn_to_folio(unsigned long pvmw_pfn)
->> +static inline struct folio *page_vma_walk_pfn_to_folio(struct page_vma_mapped_walk *pvmw)
->>   {
->> -    return page_folio(page_vma_walk_pfn_to_page(pvmw_pfn));
->> +    if (pvmw->flags & PVMW_DEVICE_PRIVATE)
->> +        return page_folio(device_private_offset_to_page(pvmw->pfn));
->> +    return pfn_folio(pvmw->pfn);
->>   }
->>
->>   #define DEFINE_FOLIO_VMA_WALK(name, _folio, _vma, _address, _flags)    \
->> @@ -977,7 +978,7 @@ static inline struct folio *page_vma_walk_pfn_to_folio(unsigned long pvmw_pfn)
->>           .pgoff = folio_pgoff(_folio),                \
->>           .vma = _vma,                        \
->>           .address = _address,                    \
->> -        .flags = _flags,                    \
->> +        .flags = page_vma_walk_flags(_folio, _flags),        \
->>       }
->>
->>   static inline void page_vma_mapped_walk_done(struct page_vma_mapped_walk *pvmw)
->> diff --git a/mm/page_vma_mapped.c b/mm/page_vma_mapped.c
->> index 141fe5abd33f..e61a0e49a7c9 100644
->> --- a/mm/page_vma_mapped.c
->> +++ b/mm/page_vma_mapped.c
->> @@ -136,12 +136,12 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long pte_nr)
->>               device_private = true;
->>       }
->>
->> -    if ((device_private) ^ !!(pvmw->pfn & PVMW_PFN_DEVICE_PRIVATE))
->> +    if ((device_private) ^ !!(pvmw->flags & PVMW_DEVICE_PRIVATE))
->>           return false;
->>
->> -    if ((pfn + pte_nr - 1) < (pvmw->pfn >> PVMW_PFN_SHIFT))
->> +    if ((pfn + pte_nr - 1) < pvmw->pfn)
->>           return false;
->> -    if (pfn > ((pvmw->pfn >> PVMW_PFN_SHIFT) + pvmw->nr_pages - 1))
->> +    if (pfn > (pvmw->pfn + pvmw->nr_pages - 1))
->>           return false;
->>       return true;
->>   }
->> @@ -149,12 +149,12 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long pte_nr)
->>   /* Returns true if the two ranges overlap.  Careful to not overflow. */
->>   static bool check_pmd(unsigned long pfn, bool device_private, struct page_vma_mapped_walk *pvmw)
->>   {
->> -    if ((device_private) ^ !!(pvmw->pfn & PVMW_PFN_DEVICE_PRIVATE))
->> +    if ((device_private) ^ !!(pvmw->flags & PVMW_DEVICE_PRIVATE))
->>           return false;
->>
->> -    if ((pfn + HPAGE_PMD_NR - 1) < (pvmw->pfn >> PVMW_PFN_SHIFT))
->> +    if ((pfn + HPAGE_PMD_NR - 1) < pvmw->pfn)
->>           return false;
->> -    if (pfn > (pvmw->pfn >> PVMW_PFN_SHIFT) + pvmw->nr_pages - 1)
->> +    if (pfn > pvmw->pfn + pvmw->nr_pages - 1)
->>           return false;
->>       return true;
->>   }
->> @@ -369,7 +369,7 @@ unsigned long page_mapped_in_vma(const struct page *page,
->>           .pfn = folio_page_vma_walk_pfn(folio),
->>           .nr_pages = 1,
->>           .vma = vma,
->> -        .flags = PVMW_SYNC,
->> +        .flags = page_vma_walk_flags(folio, PVMW_SYNC),
->>       };
->>
->>       pvmw.address = vma_address(vma, page_pgoff(folio, page), 1);
->> diff --git a/mm/vmscan.c b/mm/vmscan.c
->> index be5682d345b5..5d81939bf12a 100644
->> --- a/mm/vmscan.c
->> +++ b/mm/vmscan.c
->> @@ -4203,7 +4203,7 @@ bool lru_gen_look_around(struct page_vma_mapped_walk *pvmw)
->>       pte_t *pte = pvmw->pte;
->>       unsigned long addr = pvmw->address;
->>       struct vm_area_struct *vma = pvmw->vma;
->> -    struct folio *folio = page_vma_walk_pfn_to_folio(pvmw->pfn);
->> +    struct folio *folio = page_vma_walk_pfn_to_folio(pvmw);
->>       struct mem_cgroup *memcg = folio_memcg(folio);
->>       struct pglist_data *pgdat = folio_pgdat(folio);
->>       struct lruvec *lruvec = mem_cgroup_lruvec(memcg, pgdat);
->>
->>
->>
->>
->>
->> Best Regards,
->> Yan, Zi
-> 
+>> +&i2c3 {
+> clock-frequency?
+>
+>> +	status = "okay";
+>> +
+>> +	wcd_usbss: typec-mux@e {
+>> +		compatible = "qcom,wcd9395-usbss", "qcom,wcd9390-usbss";
+>> +		reg = <0xe>;
+>> +
+>> +		vdd-supply = <&vreg_l15b_1p8>;
+>> +		reset-gpios = <&tlmm 152 GPIO_ACTIVE_HIGH>;
+>> +
+>> +		mode-switch;
+>> +		orientation-switch;
+>> +
+>> +		ports {
+>> +			#address-cells = <1>;
+>> +			#size-cells = <0>;
+>> +
+>> +			port@0 {
+>> +				reg = <0>;
+>> +
+>> +				wcd_usbss_sbu_mux: endpoint {
+>> +					remote-endpoint = <&pmic_glink_sbu>;
+>> +				};
+>> +			};
+>> +
+>> +			port@1 {
+>> +				reg = <1>;
+>> +
+>> +				wcd_usbss_headset_out: endpoint {
+>> +					remote-endpoint = <&wcd_codec_headset_in>;
+>> +				};
+>> +			};
+>> +		};
+>> +	};
+>> +};
+>> +
+>> +&i2c6 {
+> clock-frequency?
+The clock frequency properties are not defined in the qcom reference 
+devices' devicetrees. The default frequency 100khz works. If they are 
+required we can add them in next patch version.
+>
+>> +	status = "okay";
+>> +
+>> +	typec-mux@1c {
+>> +		compatible = "onnn,nb7vpq904m";
+>> +		reg = <0x1c>;
+>> +
+>> +		vcc-supply = <&vreg_l15b_1p8>;
+>> +
+>> +		retimer-switch;
+>> +		orientation-switch;
+>> +
+>> +		ports {
+>> +			#address-cells = <1>;
+>> +			#size-cells = <0>;
+>> +
+>> +			port@0 {
+>> +				reg = <0>;
+>> +
+>> +				redriver_ss_out: endpoint {
+>> +					remote-endpoint = <&pmic_glink_ss_in>;
+>> +				};
+>> +			};
+>> +
+>> +			port@1 {
+>> +				reg = <1>;
+>> +
+>> +				redriver_ss_in: endpoint {
+>> +					remote-endpoint = <&usb_dp_qmpphy_out>;
+>> +				};
+>> +			};
+>> +		};
+>> +	};
+>> +};
+>> +
+>> +&iris {
+>> +	status = "okay";
+> With the default firmware?
+Yes. The soc in the game console is unfused.
+>> +&remoteproc_adsp {
+>> +	firmware-name = "qcom/sm8650/ayaneo/ps2/adsp.mbn",
+>> +			"qcom/sm8650/ayaneo/ps2/adsp_dtb.mbn";
+>> +
+>> +	status = "okay";
+>> +};
+>> +
+>> +&remoteproc_cdsp {
+>> +	firmware-name = "qcom/sm8650/ayaneo/ps2/cdsp.mbn",
+>> +			"qcom/sm8650/ayaneo/ps2/cdsp_dtb.mbn";
+> Is it fused?
 
+It's unfused. For adsp it contains battery/charging configurations so 
+it's required to be the vendor's one here.
+
+I'm not familiar with cdsp or what cdsp does but for stability i used 
+the fw from vendor. Additionally, the default cdsp/adsp/vpu firmwares 
+are not uploaded to upstream linux-firmware repo so I was not able to 
+test the default fw. (See 
+https://gitlab.com/kernel-firmware/linux-firmware/-/tree/20260110/qcom/sm8650?ref_type=tags). 
+
+
+We will use the default one here instead if cdsp is not device-specific 
+or the default fw works on it.
+
+>
+>> +
+>> +	status = "okay";
+>> +};
+>> +
+>> diff --git a/arch/arm64/boot/dts/qcom/sm8650.dtsi b/arch/arm64/boot/dts/qcom/sm8650.dtsi
+>> index 07ae74851621..fcd5a1a45803 100644
+>> --- a/arch/arm64/boot/dts/qcom/sm8650.dtsi
+>> +++ b/arch/arm64/boot/dts/qcom/sm8650.dtsi
+>> @@ -3917,7 +3917,7 @@ opp-32000000-4 {
+>>   				};
+>>   			};
+>>   
+>> -			pcie@0 {
+>> +			pcieport1: pcie@0 {
+>>   				device_type = "pci";
+>>   				reg = <0x0 0x0 0x0 0x0 0x0>;
+>>   				bus-range = <0x01 0xff>;
+>> diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
+>> index d8bb40ef820e..0781dce7cda2 100644
+>> --- a/drivers/gpu/drm/msm/dsi/dsi.c
+>> +++ b/drivers/gpu/drm/msm/dsi/dsi.c
+> Something stray
+>
+>> @@ -43,12 +43,12 @@ static int dsi_get_phy(struct msm_dsi *msm_dsi)
+>>   	of_node_put(phy_node);
+>>   
+>>   	if (!phy_pdev) {
+>> -		DRM_DEV_ERROR(&pdev->dev, "%s: phy driver is not ready\n", __func__);
+>> +		DRM_DEV_ERROR(&pdev->dev, "%s: 0 phy driver is not ready\n", __func__);
+>>   		return -EPROBE_DEFER;
+>>   	}
+>>   	if (!msm_dsi->phy) {
+>>   		put_device(&phy_pdev->dev);
+>> -		DRM_DEV_ERROR(&pdev->dev, "%s: phy driver is not ready\n", __func__);
+>> +		DRM_DEV_ERROR(&pdev->dev, "%s: 1 phy driver is not ready\n", __func__);
+>>   		return -EPROBE_DEFER;
+>>   	}
+>>   
+>>
+>> -- 
+>> 2.34.1
+>>
+>
+Best regards,
+
+Kancy.
+
+--------------lA2uZMDc0F0GsDmF5tKx0eSF
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 1/22/2026 9:30 AM, Dmitry Baryshkov
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:hmnyvxz7ashufiiil6hf4lg5g435e53zd3xla7qeqcb2styrqg@jkbjl6arm33g">
+      <pre wrap="" class="moz-quote-pre">On Wed, Jan 21, 2026 at 05:40:28PM +0100, Neil Armstrong wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">From: KancyJoe <a class="moz-txt-link-rfc2396E" href="mailto:kancy2333@outlook.com">&lt;kancy2333@outlook.com&gt;</a>
+
+Add initial Device Tree for the Ayaneo Pocket S2 gaming console based
+on the Qualcomm Snapdragon 8 Gen 3 platform.
+
+The design is similar to a phone wihout the modem, the game control
+is handled via a standalone controller connected to a PCIe USB
+controller.
+
+Display support will be added in a second time.
+
+Signed-off-by: KancyJoe <a class="moz-txt-link-rfc2396E" href="mailto:kancy2333@outlook.com">&lt;kancy2333@outlook.com&gt;</a>
+Signed-off-by: Neil Armstrong <a class="moz-txt-link-rfc2396E" href="mailto:neil.armstrong@linaro.org">&lt;neil.armstrong@linaro.org&gt;</a>
+---
+ arch/arm64/boot/dts/qcom/Makefile                  |    1 +
+ .../boot/dts/qcom/sm8650-ayaneo-pocket-s2.dts      | 1445 ++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sm8650.dtsi               |    2 +-
+ drivers/gpu/drm/msm/dsi/dsi.c                      |    4 +-
+ 4 files changed, 1449 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
+index 6f34d5ed331c..1ba29755e5ba 100644
+--- a/arch/arm64/boot/dts/qcom/Makefile
++++ b/arch/arm64/boot/dts/qcom/Makefile
+@@ -313,6 +313,7 @@ dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-mtp.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-qrd.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-samsung-q5q.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= sm8550-sony-xperia-yodo-pdx234.dtb
++dtb-$(CONFIG_ARCH_QCOM)	+= sm8650-ayaneo-pocket-s2.dtb
+ 
+ sm8650-hdk-display-card-dtbs	:= sm8650-hdk.dtb sm8650-hdk-display-card.dtbo
+ 
+diff --git a/arch/arm64/boot/dts/qcom/sm8650-ayaneo-pocket-s2.dts b/arch/arm64/boot/dts/qcom/sm8650-ayaneo-pocket-s2.dts
+new file mode 100644
+index 000000000000..141d92933957
+--- /dev/null
++++ b/arch/arm64/boot/dts/qcom/sm8650-ayaneo-pocket-s2.dts
++
++&amp;i2c3 {
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+clock-frequency?
+
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">+	status = &quot;okay&quot;;
++
++	wcd_usbss: typec-mux@e {
++		compatible = &quot;qcom,wcd9395-usbss&quot;, &quot;qcom,wcd9390-usbss&quot;;
++		reg = &lt;0xe&gt;;
++
++		vdd-supply = &lt;&amp;vreg_l15b_1p8&gt;;
++		reset-gpios = &lt;&amp;tlmm 152 GPIO_ACTIVE_HIGH&gt;;
++
++		mode-switch;
++		orientation-switch;
++
++		ports {
++			#address-cells = &lt;1&gt;;
++			#size-cells = &lt;0&gt;;
++
++			port@0 {
++				reg = &lt;0&gt;;
++
++				wcd_usbss_sbu_mux: endpoint {
++					remote-endpoint = &lt;&amp;pmic_glink_sbu&gt;;
++				};
++			};
++
++			port@1 {
++				reg = &lt;1&gt;;
++
++				wcd_usbss_headset_out: endpoint {
++					remote-endpoint = &lt;&amp;wcd_codec_headset_in&gt;;
++				};
++			};
++		};
++	};
++};
++
++&amp;i2c6 {
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+clock-frequency?</pre>
+    </blockquote>
+    The clock frequency properties are not defined in the qcom reference
+    devices' devicetrees. The default frequency 100khz works. If they
+    are required we can add them in next patch version.
+    <blockquote type="cite" cite="mid:hmnyvxz7ashufiiil6hf4lg5g435e53zd3xla7qeqcb2styrqg@jkbjl6arm33g">
+      <pre wrap="" class="moz-quote-pre">
+
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">+	status = &quot;okay&quot;;
++
++	typec-mux@1c {
++		compatible = &quot;onnn,nb7vpq904m&quot;;
++		reg = &lt;0x1c&gt;;
++
++		vcc-supply = &lt;&amp;vreg_l15b_1p8&gt;;
++
++		retimer-switch;
++		orientation-switch;
++
++		ports {
++			#address-cells = &lt;1&gt;;
++			#size-cells = &lt;0&gt;;
++
++			port@0 {
++				reg = &lt;0&gt;;
++
++				redriver_ss_out: endpoint {
++					remote-endpoint = &lt;&amp;pmic_glink_ss_in&gt;;
++				};
++			};
++
++			port@1 {
++				reg = &lt;1&gt;;
++
++				redriver_ss_in: endpoint {
++					remote-endpoint = &lt;&amp;usb_dp_qmpphy_out&gt;;
++				};
++			};
++		};
++	};
++};
++
++&amp;iris {
++	status = &quot;okay&quot;;
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+With the default firmware?
+</pre>
+    </blockquote>
+    <span data-slate-fragment="JTVCJTdCJTIydHlwZSUyMiUzQSUyMnBhcmFncmFwaCUyMiUyQyUyMmNoaWxkcmVuJTIyJTNBJTVCJTdCJTIydGV4dCUyMiUzQSUyMnNvcnJ5JTIwaSUyMHRob3VnaHQlMjBpdCdzJTIwaGFyZGNvZGVkJTIwaW4lMjBkcml2ZXIlMjIlN0QlNUQlN0QlNUQ=" style="white-space: pre;">Yes. The soc in the game console is unfused.</span>
+    <blockquote type="cite" cite="mid:hmnyvxz7ashufiiil6hf4lg5g435e53zd3xla7qeqcb2styrqg@jkbjl6arm33g">
+      <pre wrap="" class="moz-quote-pre">
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">+&amp;remoteproc_adsp {
++	firmware-name = &quot;qcom/sm8650/ayaneo/ps2/adsp.mbn&quot;,
++			&quot;qcom/sm8650/ayaneo/ps2/adsp_dtb.mbn&quot;;
++
++	status = &quot;okay&quot;;
++};
++
++&amp;remoteproc_cdsp {
++	firmware-name = &quot;qcom/sm8650/ayaneo/ps2/cdsp.mbn&quot;,
++			&quot;qcom/sm8650/ayaneo/ps2/cdsp_dtb.mbn&quot;;
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+Is it fused?</pre>
+    </blockquote>
+    <p>It's unfused. For adsp it contains battery/charging
+      configurations so it's required to be the vendor's one here.</p>
+    <p>I'm not familiar with cdsp or what cdsp does but for stability i
+      used the fw from vendor. Additionally, the default cdsp/adsp/vpu
+      firmwares are not uploaded to upstream linux-firmware repo so I
+      was not able to test the default fw. (See
+<a class="moz-txt-link-freetext" href="https://gitlab.com/kernel-firmware/linux-firmware/-/tree/20260110/qcom/sm8650?ref_type=tags">https://gitlab.com/kernel-firmware/linux-firmware/-/tree/20260110/qcom/sm8650?ref_type=tags</a>).&nbsp;</p>
+    <p>We will use the default one here instead if cdsp is not
+      device-specific or the default fw works on it.</p>
+    <blockquote type="cite" cite="mid:hmnyvxz7ashufiiil6hf4lg5g435e53zd3xla7qeqcb2styrqg@jkbjl6arm33g">
+      <pre wrap="" class="moz-quote-pre">
+
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">+
++	status = &quot;okay&quot;;
++};
++
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">diff --git a/arch/arm64/boot/dts/qcom/sm8650.dtsi b/arch/arm64/boot/dts/qcom/sm8650.dtsi
+index 07ae74851621..fcd5a1a45803 100644
+--- a/arch/arm64/boot/dts/qcom/sm8650.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm8650.dtsi
+@@ -3917,7 +3917,7 @@ opp-32000000-4 {
+ 				};
+ 			};
+ 
+-			pcie@0 {
++			pcieport1: pcie@0 {
+ 				device_type = &quot;pci&quot;;
+ 				reg = &lt;0x0 0x0 0x0 0x0 0x0&gt;;
+ 				bus-range = &lt;0x01 0xff&gt;;
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
+index d8bb40ef820e..0781dce7cda2 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.c
++++ b/drivers/gpu/drm/msm/dsi/dsi.c
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+Something stray
+
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">@@ -43,12 +43,12 @@ static int dsi_get_phy(struct msm_dsi *msm_dsi)
+ 	of_node_put(phy_node);
+ 
+ 	if (!phy_pdev) {
+-		DRM_DEV_ERROR(&amp;pdev-&gt;dev, &quot;%s: phy driver is not ready\n&quot;, __func__);
++		DRM_DEV_ERROR(&amp;pdev-&gt;dev, &quot;%s: 0 phy driver is not ready\n&quot;, __func__);
+ 		return -EPROBE_DEFER;
+ 	}
+ 	if (!msm_dsi-&gt;phy) {
+ 		put_device(&amp;phy_pdev-&gt;dev);
+-		DRM_DEV_ERROR(&amp;pdev-&gt;dev, &quot;%s: phy driver is not ready\n&quot;, __func__);
++		DRM_DEV_ERROR(&amp;pdev-&gt;dev, &quot;%s: 1 phy driver is not ready\n&quot;, __func__);
+ 		return -EPROBE_DEFER;
+ 	}
+ 
+
+-- 
+2.34.1
+
+</pre>
+      </blockquote>
+      <br>
+    </blockquote>
+    <p>Best regards,</p>
+    <p>Kancy.</p>
+  </body>
+</html>
+
+--------------lA2uZMDc0F0GsDmF5tKx0eSF--
