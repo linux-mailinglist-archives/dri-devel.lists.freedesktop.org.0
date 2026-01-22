@@ -2,57 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cNkCHVJtcmlpkwAAu9opvQ
+	id YCv5AiJ1cmlpkwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 19:32:50 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 20:06:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F686C79C
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 19:32:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E4816CE44
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 20:06:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACFA010EA38;
-	Thu, 22 Jan 2026 18:32:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1AD010EA47;
+	Thu, 22 Jan 2026 19:06:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="US9+bYtd";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="kBmVs6np";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 934E810EA38
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 18:32:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
- bh=agslpXLRXlgoIqoXX1b/469dMp/dSJo51gcsUDWxm10=; b=US9+bYtdoESb7Sxo34iTpi/+4d
- jHW0+3yOCh20Q0YUYmGdG2p1EkXJh/705kvbMhICO58eaTB4PPK4ZAuBoN2fK20pVwO4m1CeDEmM4
- 7cdQ5LuhhFOsEZGDaXXcwLK/a6kt1HFnnUFgQ9M4WOAVaOj/R49vI5BHCtGCBL8OtxF3zzVmCTKyV
- Uw4+D1c8BputqR33CfqXIdml8wTUqqm4uvocq2U4iXhIHLLSjRLnkPd0rklNBy/T0aw3AGxjZfcEK
- Oxr9I2drNpjGOhMuw8PEI/Af1ArM5TwqP5BnKQotsEVjqBbm831PaM8P0mpHp2wyaQeQBMeHzvssG
- C12Ndzug==;
-Received: from [192.76.154.238] (helo=phil.dip.tu-dresden.de)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1vizU2-003rA9-Fa; Thu, 22 Jan 2026 19:32:43 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: linux-rockchip@lists.infradead.org, Chris Morgan <macroalpha82@gmail.com>
-Cc: Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, dmitry.torokhov@gmail.com, simona@ffwll.ch,
- airlied@gmail.com, tzimmermann@suse.de, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, jesszhan0024@gmail.com,
- neil.armstrong@linaro.org, jagan@edgeble.ai, conor+dt@kernel.org,
- krzk+dt@kernel.org, robh@kernel.org, aweinzerl13@yahoo.com,
- Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: (subset) [PATCH 0/6] Add Anbernic RG-DS
-Date: Thu, 22 Jan 2026 19:32:39 +0100
-Message-ID: <176910675441.726233.3829281115415341998.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20260113195721.151205-1-macroalpha82@gmail.com>
-References: <20260113195721.151205-1-macroalpha82@gmail.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3BF410EA47
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 19:06:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1769108763; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=g0ptvo0tmmgB9fdAFJoCetNQFCJ6m5F3/MFhZy/fMcOoNeaTncjeX0eGEY/DWZOiPKcqpHPBX1fkSY8zmEbjpY2X8g/QzPfn1ztBg5LIUvcWvtc4W6ViL/HfqTgxuamT4uAmjhmDuumFX4oHGdwR7luP2zti15F1d6z35RDi0Hs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1769108763;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=faRdJUDNrt+iPBKV4ukuA3a4Ha5WPF5TGx+wxawSFO0=; 
+ b=keX6X1e0Cb4i5XUBsxZEELBmbmkqOQCbKmTe/RdJmFgamlrNKkKfAkd8UDIfRV4PkBZl3horT9B8srCu9vQrOD2Iu5tpkIq0knXa2kwx6pp3d9Xo5LCIlsqTfBKgBZpJy85JM/IRii1ajEFnaWfM/NkyeFXYCrt41ye1wuPOh5k=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
+ dmarc=pass header.from=<deborah.brouwer@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769108763; 
+ s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com; 
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+ bh=faRdJUDNrt+iPBKV4ukuA3a4Ha5WPF5TGx+wxawSFO0=;
+ b=kBmVs6npXNcrQe+DcdjW85v+0gfddLLEobVO66xlGJkNIf4j4/YsCQPYxP2OoWgv
+ 142hn7AUjWzzPKkaQeJKZBrGDah7zKymD2Oo9KWMBQZ2MjdUlaL/nRfRupDS3/DAYD/
+ 0DX83P96Sx6IfCm1kL+mTgz+KCJ6/8K3X5j5hFus=
+Received: by mx.zohomail.com with SMTPS id 1769108760674919.727871103422;
+ Thu, 22 Jan 2026 11:06:00 -0800 (PST)
+Date: Thu, 22 Jan 2026 11:05:59 -0800
+From: Deborah Brouwer <deborah.brouwer@collabora.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ daniel.almeida@collabora.com, boris.brezillon@collabora.com,
+ broonie@kernel.org, dakr@kernel.org, miguel.ojeda.sandonis@gmail.com
+Subject: Re: [PATCH] drm/tyr: suppress unread field warnings
+Message-ID: <aXJ1F4e7wdgM83Oo@um790>
+References: <20260122003746.405370-1-deborah.brouwer@collabora.com>
+ <aXHi2jJNptrgUqyj@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <aXHi2jJNptrgUqyj@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,63 +72,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [-0.31 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[sntech.de,none];
+	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[sntech.de:s=gloria202408];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-rockchip@lists.infradead.org,m:macroalpha82@gmail.com,m:heiko@sntech.de,m:devicetree@vger.kernel.org,m:dmitry.torokhov@gmail.com,m:simona@ffwll.ch,m:airlied@gmail.com,m:tzimmermann@suse.de,m:mripard@kernel.org,m:maarten.lankhorst@linux.intel.com,m:jesszhan0024@gmail.com,m:neil.armstrong@linaro.org,m:jagan@edgeble.ai,m:conor+dt@kernel.org,m:krzk+dt@kernel.org,m:robh@kernel.org,m:aweinzerl13@yahoo.com,m:macromorgan@hotmail.com,m:dmitrytorokhov@gmail.com,m:conor@kernel.org,m:krzk@kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[lists.infradead.org,gmail.com];
-	FORGED_SENDER(0.00)[heiko@sntech.de,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:rust-for-linux@vger.kernel.org,m:daniel.almeida@collabora.com,m:boris.brezillon@collabora.com,m:broonie@kernel.org,m:dakr@kernel.org,m:miguel.ojeda.sandonis@gmail.com,m:miguelojedasandonis@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[deborah.brouwer@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[sntech.de,lists.freedesktop.org,vger.kernel.org,gmail.com,ffwll.ch,suse.de,kernel.org,linux.intel.com,linaro.org,edgeble.ai,yahoo.com,hotmail.com];
-	DKIM_TRACE(0.00)[sntech.de:+];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,collabora.com,kernel.org,gmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[heiko@sntech.de,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.560];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[deborah.brouwer@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sntech.de:email,sntech.de:dkim,sntech.de:mid,anbernic.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: D2F686C79C
+	TAGGED_RCPT(0.00)[dri-devel];
+	NEURAL_SPAM(0.00)[0.303];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 3E4816CE44
 X-Rspamd-Action: no action
 
-
-On Tue, 13 Jan 2026 13:57:15 -0600, Chris Morgan wrote:
-> Add support for the Anbernic RG-DS. The Anbernic RG-DS is a dual-screen
-> handheld from Anbernic powered by the Rockchip RK3568 SoC. It has
-> dual DSI displays with touchscreens, multiple face buttons, and is in
-> a foldable clamshell form-factor.
+On Thu, Jan 22, 2026 at 08:42:02AM +0000, Alice Ryhl wrote:
+> On Wed, Jan 21, 2026 at 04:37:46PM -0800, Deborah Brouwer wrote:
+> > Currently these warnings, as errors, are preventing Tyr driver
+> > from building:
+> > 
+> > error: field `device` is never read
+> >   --> drivers/gpu/drm/tyr/driver.rs:37:5
+> >    |
+> > 36 | pub(crate) struct TyrDriver {
+> >    |                   --------- field in this struct
+> > 37 |     device: ARef<TyrDevice>,
+> >    |     ^^^^^^
+> >    |
+> >    = note: `-D dead-code` implied by `-D warnings`
+> >    = help: to override `-D warnings` add `#[allow(dead_code)]`
+> > 
+> > error: fields `mali` and `sram` are never read
+> >    --> drivers/gpu/drm/tyr/driver.rs:196:5
+> >     |
+> > 195 | struct Regulators {
+> >     |        ---------- fields in this struct
+> > 196 |     mali: Regulator<regulator::Enabled>,
+> >     |     ^^^^
+> > 197 |     sram: Regulator<regulator::Enabled>,
+> >     |     ^^^^
+> > 
+> > error: aborting due to 2 previous errors
+> > 
+> > Suppress these errors so that the Tyr driver will build.
+> > 
+> > Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 > 
-> https://anbernic.com/products/rgds
+> I still don't understand why I couldn't reproduce it myself, but
+> assuming it's not just an 1.80.0 issue, below is my review:
+
+I think the problem is not actually the rust compiler version, but commit
+"0242623384c7 rust: driver: let probe() return impl PinInit<Self, Error>"
+
+Tyr probe() used to return a fully initialized Pin<KBox<Self>>, so the
+fields existed in an allocated struct which I suppose counted as
+“reading” the fields. But now Tyr probe() returns just a PinInit
+closure which doesn’t count as reading these fields.
+
 > 
-> [...]
+> >  drivers/gpu/drm/tyr/driver.rs | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+> > index 2a45d0288825..04c865cb4397 100644
+> > --- a/drivers/gpu/drm/tyr/driver.rs
+> > +++ b/drivers/gpu/drm/tyr/driver.rs
+> > @@ -34,6 +34,7 @@
+> >  
+> >  #[pin_data(PinnedDrop)]
+> >  pub(crate) struct TyrDriver {
+> > +    #[allow(dead_code)]
+> >      device: ARef<TyrDevice>,
+> 
+> Let's use #[expect(dead_code)] so we remember to remove this when a user
+> is added.
 
-Applied, thanks!
+Using #[expect(dead_code)] also fails with 'unfulfilled lint expectation'.
+So I could keep #[allow(dead_code)] or maybe just use an underscore
+_driver too with a comment to explain the issue. What do you think?
 
-[4/6] dt-bindings: arm: rockchip: Add Anbernic RG-DS
-      commit: 84f42966b80eaec59349c7b474ebd6b0943731e4
-[5/6] dt-bindings: input: touchscreen: goodix: Add "panel" property
-      commit: 3c8399d31c8eb10aa34bccec1f49b51694e67b00
-[6/6] arm64: dts: rockchip: Add Anbernic RG-DS
-      commit: 9e3f8ae040009f66367b2ba1081b7e313b39aeff
-
-Best regards,
--- 
-Heiko Stuebner <heiko@sntech.de>
+> 
+> >  }
+> >  
+> > @@ -193,6 +194,8 @@ struct Clocks {
+> >  
+> >  #[pin_data]
+> >  struct Regulators {
+> > +    #[allow(dead_code)]
+> >      mali: Regulator<regulator::Enabled>,
+> > +    #[allow(dead_code)]
+> >      sram: Regulator<regulator::Enabled>,
+> 
+> I don't think we intend to ever use these fields - they exist only for
+> their destructor. In that case, please prefix them with an underscore
+> instead:
+> 
+> #[pin_data]
+> struct Regulators {
+>     _mali: Regulator<regulator::Enabled>,
+>     _sram: Regulator<regulator::Enabled>,
+> }
+> 
+> Alice
