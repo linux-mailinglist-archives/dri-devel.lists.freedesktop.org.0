@@ -2,165 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4HTtHJwwcmmadwAAu9opvQ
+	id kMxbKcAxcmmadwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 15:13:48 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 15:18:40 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E6467C26
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 15:13:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFC5D67CD8
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 15:18:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 491B810E9C3;
-	Thu, 22 Jan 2026 14:13:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 717B210E09B;
+	Thu, 22 Jan 2026 14:18:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="gOUJoQFM";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="j84baxiu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010046.outbound.protection.outlook.com [52.101.46.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E24A10E9BE;
- Thu, 22 Jan 2026 14:13:43 +0000 (UTC)
+Received: from BL0PR03CU003.outbound.protection.outlook.com
+ (mail-eastusazon11012025.outbound.protection.outlook.com [52.101.53.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8F2310E09B;
+ Thu, 22 Jan 2026 14:18:36 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yHru42mG3wFX58uxG5ivpTudl3udMNJjvTlG5UpH67rWzv88ms3LSLVmp57vACdxD9Ga3bMU4OjVR4iAtFjKlZWvU8T1FYWj/S6RksDmbmDl4tbkgS1/JsYxo1Y79VQI6+01F3QpospF7znKYpTlSQD0TMD3P74EDI7eKJ6LHC9t3Q1o3l8KqGv/yd3iRDO5RN/xPNAzmlYL8iGL5eZPK3CV7yceW8HQv8tDaqi8CKavS5ewP3X81hjSeP+IdYWciP7u1mVANqtW1lmeK9FopwwAYb+bId/UYPQ1EOzJnKjNKDyHeo8Cl+0PiMBZWjfpjq5cZBgPbXz6q/M4nOwlXw==
+ b=BRN5//29L3Xpl0Zkpv9kzUjsOZRhkpzY3rh1UDku27VqWHWIOXyrX3NlqUM+8naXuIPTB6xzs2tfgbSHxFCoN+b5hAi71VcOSMOBp0D8AZHI7IvUc3rWNr2WT6+n3+lQM+dlxM4aB+/l83fvoQ49/vNa3+AXc5giPh6060boYO3a7USgCSjSY8c0PMGlIITWCB7+QRkWV2hid9n23QDtrbVXfWxGyIrsXJlq6eOnvMvd3UmX9SmmbVkYBuit8da4XycK2tBr3x2xImLLzWlZsY7smGLrwj0JWd0NX/zao9HD+crbjCf+1I6oFybrfwMovCyjOd4r+yIaomMBh0ANTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l2PDoVxoYr28j35pUjHRPBKwACCliBrqfgEYZ1yBhqY=;
- b=ZLpVjaYIzn6L4jdWTAaj9e9o2JNOu6ek4d36U0h1fWZGZusvyhMxlJ0xSV1hSwr+ii28//DEXmU6A2pLWL94BM10HQkY9HLbDjUCANkQeMJHd7+FlAxljUdilgZoEfXTfGyY3vBVS/rDKZGS0UStw6ciWxSwikb9GiZP4snOyqnAnExJO0NsCeWnHnbgDGsoe7Ng/n3SGD6hFbrmBDMkCv9ICD955EXz7PsK55Ebl4VQ80Egh4aEWBatKCqR/fYs/kVoDWOl7DUiOEY9Uw0g1b2WmEA37fP3gTsMnr/6swqVF6voI3cDOaDQ0AImYAJqGKvRs92nv3FdAd1zg8cfyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+ bh=lTk9KVdEYgMjpMy9jj1159KcdfQZCTf9PHlyJVkLJsE=;
+ b=kvR2SrTWBGIZZ2mfs9+i2V9UjUbpMkcIu5qmuqzluzTD68n8cG2c0qoKNToFIRKGk7OiHle10XqqyrnFnVNZVpshPy3sF0gQfR9IN2+axz207ge/OIQJ47X2scBg5xYtqv/MPTMVBN5nXeZVt/sskY1lhsbYs8g5s8AZjPsk4gmdM/4mODUYmzNUMXZ2vcv/Kl2Ma7O5I1mpT4ZjnBoSmE4iI9umtc644gpK9x+11Qu5ITxAkHg4RZF20xGWsL8tsF4d9iwe1IXRAU2LN9+abXCANkZl/nzR3mhB+A5twQJdC+OVKmAOIXYkjdGDWrTzuHAXseci9fHzCvFxxICGDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l2PDoVxoYr28j35pUjHRPBKwACCliBrqfgEYZ1yBhqY=;
- b=gOUJoQFM9EK/OqeaR+AHsKU2Qp3cQvgaQdb9khMICiRVyYABKW2L+8Q+gxrcACQ3eAG+/QXJ7CBlwZ9rbom7qcZWDbg9MIXdEvJmvi+tP0J1qarDE8P9AyybHNJU3Fm9kIl6eeMgX/R1ZUMRRvSLQgEFDmlKaUED5N5qSBdMu5s=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH8PR12MB7301.namprd12.prod.outlook.com (2603:10b6:510:222::12)
- by CH3PR12MB8584.namprd12.prod.outlook.com (2603:10b6:610:164::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.11; Thu, 22 Jan
- 2026 14:13:40 +0000
-Received: from PH8PR12MB7301.namprd12.prod.outlook.com
- ([fe80::8434:dc50:a68d:7bdd]) by PH8PR12MB7301.namprd12.prod.outlook.com
- ([fe80::8434:dc50:a68d:7bdd%4]) with mapi id 15.20.9542.008; Thu, 22 Jan 2026
- 14:13:39 +0000
-Message-ID: <b8640bf9-1c00-47da-a659-ce79a7af67e3@amd.com>
-Date: Thu, 22 Jan 2026 19:43:34 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] drm/buddy: Optimize large alignment handling to avoid
- unnecessary splits
-To: Matthew Auld <matthew.auld@intel.com>, christian.koenig@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Cc: alexander.deucher@amd.com
-References: <20251211122319.2054-1-Arunpravin.PaneerSelvam@amd.com>
- <b2aa28aa-ce9c-4948-9bed-289700f4eb4a@intel.com>
-Content-Language: en-US
-From: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
-In-Reply-To: <b2aa28aa-ce9c-4948-9bed-289700f4eb4a@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA5P287CA0223.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1b4::10) To PH8PR12MB7301.namprd12.prod.outlook.com
- (2603:10b6:510:222::12)
+ bh=lTk9KVdEYgMjpMy9jj1159KcdfQZCTf9PHlyJVkLJsE=;
+ b=j84baxiukBzMJ5WKfP1QFtzuvFj/aPXI6lOWFSU55YByP4sAO0IK1oYVLGgsozkK+8dinZRY8GvTm4wK+GRlIv3BXK6J2/nbonA+82nXx5uA5Y0ENQM7YI8CJ1f0rZ196/MlDVhBdNNWvC+EpqrWWzjkpgwWY2VAMwnMmehK9Uk=
+Received: from SJ0PR03CA0374.namprd03.prod.outlook.com (2603:10b6:a03:3a1::19)
+ by DS0PR12MB8069.namprd12.prod.outlook.com (2603:10b6:8:f0::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9542.10; Thu, 22 Jan 2026 14:18:29 +0000
+Received: from SJ1PEPF00002319.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a1:cafe::56) by SJ0PR03CA0374.outlook.office365.com
+ (2603:10b6:a03:3a1::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.10 via Frontend Transport; Thu,
+ 22 Jan 2026 14:18:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SJ1PEPF00002319.mail.protection.outlook.com (10.167.242.229) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9564.3 via Frontend Transport; Thu, 22 Jan 2026 14:18:29 +0000
+Received: from arun-nv33.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 22 Jan
+ 2026 08:18:26 -0600
+From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+To: <matthew.auld@intel.com>, <christian.koenig@amd.com>,
+ <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
+CC: <alexander.deucher@amd.com>, Arunpravin Paneer Selvam
+ <Arunpravin.PaneerSelvam@amd.com>
+Subject: [PATCH 1/2] drm/buddy: Improve offset-aligned allocation handling
+Date: Thu, 22 Jan 2026 19:48:04 +0530
+Message-ID: <20260122141805.6678-1-Arunpravin.PaneerSelvam@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7301:EE_|CH3PR12MB8584:EE_
-X-MS-Office365-Filtering-Correlation-Id: da269c68-93e9-40cb-901e-08de59c070d6
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00002319:EE_|DS0PR12MB8069:EE_
+X-MS-Office365-Filtering-Correlation-Id: dd1a1a9b-dec1-4c95-e278-08de59c11d86
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?b29EYVlpa05EeVF3M1RhNkxxcWxaQW9JUzNVaHVwMm9Yc3JyZW1Dd3B5eHFv?=
- =?utf-8?B?NWFsRDhWSm5yN2Y3UEcwRHZUWGpUNnR6cmZmWEZJcXVrSThRb2IxN0pFeXps?=
- =?utf-8?B?dkpITDBqZ3ZkalR1RGdMVlJleVBRSkxRSXVCVE1TMmkyakh6aHpVNEp0YkdW?=
- =?utf-8?B?WmZMRTZTd0tGMlova1NVQXpIekNmYnYvUjdhcGFGNitneE00TmdUbGc3cThR?=
- =?utf-8?B?U1l5U25HWkZ0VW9sWE9XYkwxWXN4eFhBOGVBSXBuSTY0eUZORzhHeHVrc0Zv?=
- =?utf-8?B?ZXByWm5QQUdCMDZFZS9yMHNmSHFKZEd2VFZHbmVkN1ZGSXRPOTZmaHBQQ2VZ?=
- =?utf-8?B?TnR2SzlaUDVQLzUzdENMTDZSQmNUZUNvZlQ0MzZpVU90V2dwdzdWZGxTK1A4?=
- =?utf-8?B?OElPOVpDUzdROUlxdTZZOHpRd0lvNjVjeS9MNXI3ZVZjUnFQblg2SU5uRzFv?=
- =?utf-8?B?dVo5RDVhdE1hTCtCWU80ZmErVDJGM3VJMkNrVDJLbm1qTVhCTTJYZ01xM0ZX?=
- =?utf-8?B?WXgvNzJuMlRLY01HWVFrazN2QUNiZG5NMU9RZzNBNjNFdndhU1UxYWdxNVpB?=
- =?utf-8?B?a094WHhoTlZpbzZmcFBZZlVjVXc4WStFTXZXQU1hcXNSNlVhODlEdnZ2UVRH?=
- =?utf-8?B?Y0VRMWNCQXczR3VrUHkzNVBNT2Z3SUtlY0NJZHJ6cnhKelY3Z2x2eGRSY0k2?=
- =?utf-8?B?clFrQU4wUllaaEZsWC9VZ3BJdGRJWFFDUGYrdVRIRkNWaWpjNVNmUjZ1SXFE?=
- =?utf-8?B?ZmY5MS8yMjl2QWpEek9jSUNhZDU1d1RONWJSc09MWWMyaFE4Q2VPTUc2dGNS?=
- =?utf-8?B?Qzc5dVRqcGMwZ2gwNmlXNmR1SFBGU29CTU8wTGkxRnZPLzNRcitJbEc2cjRV?=
- =?utf-8?B?bjNqbzlEYlBKcGFFVmtZTjN1SDNVRHk2a0hMaGN6RGhjVkY3Q0d5NWNQclZH?=
- =?utf-8?B?T1JabDgvbCtZUkRwTWFVUXJSZVUraHdVT3R0aVhXQ0lVTitINmdCUGF4TjhL?=
- =?utf-8?B?azZWUEdkUXI2aHJYOC8yNjdMSHdqNnJacllRZEVKQlhqWjNxNFR1Rm1YZG0x?=
- =?utf-8?B?YTFSdlYzQlRJejR3ckVWQjJQeFVtcitzUzlnWTRQS0J3SGRUdEN6d3ZOVkJW?=
- =?utf-8?B?LzAwSDlyN05QR2huWlBuRGZzUm0zcnRMejJZUHh5VXFyLzdZSldtMlUrV1hr?=
- =?utf-8?B?cXV6aG02K1VZOU1RczZrRXF6dUZQZnJYMjB0cWxGc0JISm0xSFA4YVgrRVkz?=
- =?utf-8?B?UjVwY05wbjFyMXZaTUNmTkVsR3JqRytZdlB3QWQxcXhCSE5qQ0tzblZqU2ho?=
- =?utf-8?B?MFBYVnlZSXV4K2JRSUtuckRXbE80S05nSWpXV3ZhY29SRU1saXYrclY0ZFVk?=
- =?utf-8?B?UGgzQmM4czN2VGdHYzlrcnRoQjdrOFFyL1JVM0FMSy9tZ21WTDNDK3dxOXZq?=
- =?utf-8?B?UVNTZW4wcnppRkNqdWpHV1ZMOFlWbDlwQkxhOHZsam05bENmRkh0SmFza2Jq?=
- =?utf-8?B?WlFHM3Y2UFhBOEs2WTQzb29TRzMzRXBIeE9nT2c3dG9DUERSZHpUc3QrS1pi?=
- =?utf-8?B?S2VRdWJBcGJMSTlOa2hHeUxSZ25OdGlSZXExTTF0b1RTclFPaXR1UEtickZx?=
- =?utf-8?B?cHpGWmkzSTd5WUJ4NnFtOFl2TzVjeVpOUFFvOUNxd1p2NmNyMU4wa0lNWkgv?=
- =?utf-8?B?NHhaZ2U3dGZDNWxxaCthdzFEM21zazNMdXdtRjlSbEVDdjFGNEllWTZ0SDJh?=
- =?utf-8?B?WWoybVFHMkhJck02dS90empBcE1IZWlhYjA1aU4xMWhCTFMvMHdoQ2pOT3d0?=
- =?utf-8?B?QlQxS3RjWTR2c1BpMytBZzRuTnRPYmF5N1haU3A4dHJxUnpPdEY2OEtZMm9q?=
- =?utf-8?B?eHErVTVUeUFJamU3KzZwbUduWlJmWVQ5eEdLY3dQU3N1Zlh4QXRSYzN4M2ZT?=
- =?utf-8?B?MHRmZkZXQ2E0OXRMem8zUXFwNXh0eWFBcGlmNFBjakVGbFl1T3NUNk5hWU9G?=
- =?utf-8?B?cW1wUFkzTitETmtuQUJPb0ZWckl2OUhEVWRvajNJTU9xYlBYandnYkl4R3Jl?=
- =?utf-8?B?Q0xoQXd1cVY5dWM5VlNNU1BUYWpTbVJuNzRYV1FObkZlSHlDTXdsY2ppTmFk?=
- =?utf-8?Q?bYOY=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR12MB7301.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Rm5hTEY4cWliVmFIUXBBanU0eUlHamZrYjNtYVNyWXAvekw2ZVpXa0VUeUd2?=
- =?utf-8?B?Wm9NSHljaFAzZFk2RDc3RzFHS2dNVEFrVmxpWDcwV2RpS2ErSnFMWGlqakZF?=
- =?utf-8?B?MjdMaDFGaW9tVHJOT2xReUc5VVoxeGNwc1ZZQ2ZwdlVzcnBsQlhMaXVIY2g1?=
- =?utf-8?B?U1BBQU4vRWI5dFpEdXZJcGtnRTYyWDFLL2toSExnajQyREt6RXQ5eW1ZMjBP?=
- =?utf-8?B?QzE3c29TUU5RdGdTMGVNRXV5aGErL2orY3NYTlJUMnpqSXBPQmhQTkNXYWh3?=
- =?utf-8?B?eUtkZHNWY3RaSkY1UmEvOG9mUS85NE9ER296U1ppOG1mQTdoeVlyWWVtblVS?=
- =?utf-8?B?RGpPYTVxbWZXN3g5U1NsdWRkc3NmR21EMkpEVzJwYWtSRTRWRWhpRlR1MWtC?=
- =?utf-8?B?VWRTVHp6UHM0UnUrYkJFSWE4OHBoMTVkemk0dTU3ZWhlaDZZMWZWTHRjbXNP?=
- =?utf-8?B?WHlSL2V1RWxSTUp0NktQODROV09XbiszVDBsOVg5c29WUW1JOUdNbDd2cEI3?=
- =?utf-8?B?NnJmS2FRbDFsc0FMK0lqRlZSVzVCZGNSaU5GNkxjaDZQNE1OaFphazB5QzhN?=
- =?utf-8?B?aFZiaHExTHJYY1pnNm1PYmZTcXYvaW1qMmVQeG9yemkxSVl3QmZPSzlzeXla?=
- =?utf-8?B?dzFUWVhRdTJ5ZDZ6L1Q2bHE2cFVnZ21vRmR4Yk4zTll6UUUyM09BWmtwVzBZ?=
- =?utf-8?B?OS9hRGM4QTZ3VVM0UUJISWs4Q01PTTdDVmM3YXFSS0RDWnlaeXZhTVkxMkp4?=
- =?utf-8?B?d1RnYkZmbWpCTEYrYTBvb05UVDUzMzNVZm9ucVY0czdDRFVEb1BtdHdxc0ps?=
- =?utf-8?B?WG9hZFlFZWoxYkllYUd5Z09sVHF0YklMQzRmNi9zbFRSVGxMQmdxTk5ZeDBN?=
- =?utf-8?B?SDZWRmJEaythMXUyKzhaZzRmTXh2cHJXSnBEaVVlVDBUbGs2NUtyNnBaaU5J?=
- =?utf-8?B?YWpXT01DcmZlK1Z6NEVWYWV5MW1TdXppR3RkakRMU1JSWUdEdGRPWS8zRUJl?=
- =?utf-8?B?RGFPN3JtSWw0aEU2eHJHVFR2bHBLQ0pTL2VUUlR1VmFDTzVYSnFsdS8zL3dl?=
- =?utf-8?B?WkZpWDQveEdjSzA4Qmlsem9JUTRubFgvekhOWlhhejVuaUErdzYwZmZVMW9I?=
- =?utf-8?B?eEIzMGVaeFVsbDJMaUMxNS82TUwxWFVBdFdYcHAwZEV5NnY3UUxqZWtDOFF2?=
- =?utf-8?B?Y3EwdFhRRDBBdjNlOStEMzcvblE3alRwd2NuVVJjMTZNa04yTXIxeFoydVpQ?=
- =?utf-8?B?ZzFab1hETkVXVXVNeFRxUG82aXAyRUIvaUZXQnBJbCtJamh1OXJVTEpTWWt4?=
- =?utf-8?B?enBsYXVpdVorS2xIYm1GYWswQk9DdWQ2SUd6V0JBa3lZQUlhMGwvNW55L1FG?=
- =?utf-8?B?OVp4dFN1QVd5SmtIYXVtcXZuR3A3NEJYcjFBK0FGaERISEtnT1FsT1lHcWJJ?=
- =?utf-8?B?Y3dPNWZEU0dWN2Zhc1YzQXdpZWZ6U1N3UUhiMXBWek5mN0QvYzU0bWk1emtF?=
- =?utf-8?B?dytDaWZoY2hsNHBxZHpIZlo4TDA1SGdLMWJSOW1NeDBhS1NtM0NtaWl4azFC?=
- =?utf-8?B?cVFaTnNJVC8xNlRNS2tYRHgvRFVBK2NEZzNiNXY0UzNmUTYxeEVyMU5YSC9q?=
- =?utf-8?B?UkovS1o5Z29UdjQzV1FnYjdMNnh2eFB0bjJaOTY1dWFRamNwUTZCeVRNZnpJ?=
- =?utf-8?B?dG1BSTkyMWxIMTdWMi92UEdOdjE0bytGdVoyWm41bm13S3ljcndicUlNTFdj?=
- =?utf-8?B?dVZvUkRXRzJ1UmFtNkN6VzJIK1Vtc1VHREE1Y0xTcklOSHZPN3RkOCtSdzRx?=
- =?utf-8?B?NW90QUcrbjFaelMzTnJ5ZklsY21hVkl1ck5KdHZ2KzA0VTQzUzRLUVg0Wnh1?=
- =?utf-8?B?MXpLTUNhZk9MWUYxSEMraC9hb2tDb3IrWS9makM4VVcvdlJPZG12V3RESGNQ?=
- =?utf-8?B?UjlDNXJYRDRhWUJ0K0V2dDNZemFhU2ltY1piNkdnV2JjMkF4TXJUN1FSbkNZ?=
- =?utf-8?B?VExDanpodGZPcDMxQ0k1U3huLzN1QS9zUGdzWDJtaVRhdVdIa3ExdmNSM2pL?=
- =?utf-8?B?M1VOdXBMeEtxSC80NXBEZENSSVRjeS9sM2cwOFVkL0ZmM0NCbnFsZ3NDOU1q?=
- =?utf-8?B?RHBDZzJ4d0x5cHh4QXhxR1lFbnZvcU84ZExaRHBzVCt0MHdmdUFKbWl2VWZG?=
- =?utf-8?B?ZVFuY01xaXprelZYV1FVSGpIdzVVQnFVVHlRT0huSTJSKzZvVnprOTd3K2tw?=
- =?utf-8?B?aWJBaHJYd1U0QUpkUURKaGJxbFNtdVVOYU5UdFBjRm1rbjd5L1UwdTNUeGlr?=
- =?utf-8?B?UzN1Y3I2Y2dML1RsWmZ4dlVUWW12WEg0blRpcmtJRW1JcmlQUC9LZz09?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|376014|1800799024|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MGhaOWJuRjJJMnRoKzRYMTllL2EvR1NhcUxGank1ZlFtbUtod1dzUjRRc0F1?=
+ =?utf-8?B?T0daVDZPMHVoV2p2N3VzTURkNVZ2T1oxMW43RTcrZ2t2Mk1oY2EyUk9yQWgr?=
+ =?utf-8?B?eWpJbVNWUlZ1VHQ0ejBXYTVlb0lWdmQ5bDI2TzF3MzV1Tk93dGpoeGlnSWpY?=
+ =?utf-8?B?V2llVm1PN09LeUhkY1FBOGZQU3o4OVE4aGNjRUF6YjhtQ0phMEhhaDI3eW9K?=
+ =?utf-8?B?alRQbHZudU9BS0hwaml1dnhhWVRNcDd4d2FaaktjNldCVWowd3Z1TjQreERs?=
+ =?utf-8?B?M2JXYWh2UWk1U3JUVEl4RXZzM0JoeXVxZnpxVlN0ZFpmakpmc2pldis1M0JI?=
+ =?utf-8?B?b2djOWROQTREMDRHY08zT2tXd1E0SmNmaHF5OVVJenR0Q0tMUEk2T3VKNHFH?=
+ =?utf-8?B?ZnJZZkFsOHFpRlIvcVYvMnIyakZycDFtK0prNktqTmZEUzVtazI4Y2lkMi83?=
+ =?utf-8?B?UWd0Qkp6NXdLeXpjS2VqNVNEWlM4ZzFHUDAreFBweEloZlJNMGZYR2tWTTZ3?=
+ =?utf-8?B?TjV1TTdLbks1NGFxaHprUHVLVWN2aUR0V0tLd0txaEI4SE1VcVM2UnZlUmFv?=
+ =?utf-8?B?blE1eEZNYXpPSjBLUnBXUnIrVlY2S2hWSDh5cjYwWmtZb0dYNWFoQnZpTUhH?=
+ =?utf-8?B?dUVHKzdHN0hndFl2YVhTMzdXeVljV1BzQVVRMzlLdkR1NEJhdU5NVko3VzFB?=
+ =?utf-8?B?NUwvbE9NS2FCY2JDN2grTHcydW1LcnlMWnBkWVU5LzVmNDlYaWo1R2tjUHE0?=
+ =?utf-8?B?bjFubWZab1JhSDZselVWZ3FPcmlYNWtxRGFTcm9VczlLeGxtNGhBRkFZRXE1?=
+ =?utf-8?B?amlrRGFLRndzREVEMWdaZDVjeUQyS0w5TFJtZVA1OTMvY2VMYTNJY1ZUdnN2?=
+ =?utf-8?B?NUdrOTR6L3ZTYzVsRGRqNjFSMUZOd20wR1NEVUlmY1pBYWRVWXdvS0RNZVph?=
+ =?utf-8?B?ZTZ5eDBhK2psS2ZsZ0V3alNrd3dyTzVINU83SjRPVEh5N2p5S1AxZG5PZFZw?=
+ =?utf-8?B?U0NlV2liblRVK0xaZnI3M0k2dkkwbzVVME1mWDJUdDJoMThPM09xVUZsQktP?=
+ =?utf-8?B?ait4L2Y0YU43L2s1OG5MWnB3RVpBY3R2dmJ3SW5CK0hEd05NOVA1WjFhc2JK?=
+ =?utf-8?B?bStwenN6WDhOMTdtQ2x0eHVPOHFSUndnUVhLZzB3VnZRM3Q3OVBXTGcwQ1pw?=
+ =?utf-8?B?OTZ3aFh2SHJIRnlaakErMWQ0d1JQWU5LdlhvWmliNUxFMnZIU2wzNnpZa2t3?=
+ =?utf-8?B?M1hhNlg5NjJIN1k2UEw1T3liaUNHOTdkc01iTXJidFRJMkQwLzMyblJoMG1l?=
+ =?utf-8?B?K05JSHk4a0pqdk1ZRVJ5a3N5OVJPelJ2dWx5SXhuc3ViMWlxR0xEZ24xa0xn?=
+ =?utf-8?B?SVdpSk9DbkJCRHVnVnR0cDJDV09YZkxmc0MwN2xCb212OUJ1ZWxyL3hLOGl1?=
+ =?utf-8?B?VHh1SUtyUlhiRm4xaVIvVXJ5RE9wRTJuZ3IxVVJGNnkzZHJSeEc1MkpJZ2NP?=
+ =?utf-8?B?YVhJMVR2TFZGczFHNUl5QXgyc3JrWFVMdVJxYmpBSkh2dmZwSGdrU2ZIRUJp?=
+ =?utf-8?B?RTIwM0ZSbEorMDZxS3JGczEzckdpa2lmdk4vMFpCeGFEMHpRM1Y0Y3grZzgv?=
+ =?utf-8?B?N3RpUlZ6NGdQTm1EUklIQ3hHWXRoM3AvTG0zQVpTV0RjTFVqYWFiVUdScXYr?=
+ =?utf-8?B?RFQ3SHg2bzhlYnZyd1hiWEVpTlFTYlNvejhLdXlDUWFkcURJdXA5UkZGWGgz?=
+ =?utf-8?B?bTk0aUZBYklwaXlienU1T0dYMmNMRmo3R0VDT0lOMkkybnl1VVBWVEc1VFFS?=
+ =?utf-8?B?aUhvMEhGOHRmUVp0UXZjSlg4SFNJb3ErRkhXbnJyU1RWRzVGSDJyaHFUWlp3?=
+ =?utf-8?B?b3YrYkZMZm9jMEtkTFExbUJSQnRLaGJoTEhLS1FHT3lPQWdzYkF0bG1hNC9l?=
+ =?utf-8?B?bXFPWHRkWEc1UUNrNHFpQ3phcmhwQytGa01OZS9PVmVpbDFmV1d1RlhVYVJQ?=
+ =?utf-8?B?N2pGMG1hRHNZWFFIOFRUaHh5Z0twWEhaeTl3c1ZNbUVrTDUrRXVyTDUweHpO?=
+ =?utf-8?B?N1VCYWc5V1g1eUpDRVN2MTRqclVnNUFubHVqV25DVGxZNThXUGllUUZlTTZP?=
+ =?utf-8?B?ZmplVmNkU3dWQmxyTlVLcWdGemhtdjVMMHFIN1FQVHNSeHplZ1VtSTBuaitj?=
+ =?utf-8?B?aHlQNHdySGpaYU9qZEFsSy9Nd0RST0NGVy8xS2o4N3lvcmkzQ1Q4QWtUYW43?=
+ =?utf-8?B?ME1tV1JVMFd4UGlMTGNEZC9uMmJnPT0=?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(376014)(1800799024)(82310400026); DIR:OUT;
+ SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: da269c68-93e9-40cb-901e-08de59c070d6
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7301.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 14:13:39.6503 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 14:18:29.1024 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd1a1a9b-dec1-4c95-e278-08de59c11d86
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vS7tZCNHzB8L7qJDN5uGXt7sT+olGnCMxf7MI7Iz9TAeghqn+8Vh3KawTAa3+kZPWrhKp5z2txfhfGWgnZWgoA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8584
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00002319.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8069
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -176,366 +151,445 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[arunpravin.paneerselvam@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[Arunpravin.PaneerSelvam@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_FIVE(0.00)[6];
+	HAS_XOIP(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[amd.com:+]
-X-Rspamd-Queue-Id: 14E6467C26
+X-Rspamd-Queue-Id: EFC5D67CD8
 X-Rspamd-Action: no action
 
+Large alignment requests previously forced the buddy allocator to search by
+alignment order, which often caused higher-order free blocks to be split even
+when a suitably aligned smaller region already existed within them. This led
+to excessive fragmentation, especially for workloads requesting small sizes
+with large alignment constraints.
 
-On 09/01/26 22:12, Matthew Auld wrote:
-> On 11/12/2025 12:23, Arunpravin Paneer Selvam wrote:
->> Large alignment requests previously forced the allocator to search by
->> alignment order, causing large free blocks to be split even when a
->> smaller aligned range existed within them. This patch switches the
->> search to prioritize the requested size and uses an augmented RB-tree
->> field (subtree_max_alignment) to efficiently locate blocks that satisfy
->> both size and alignment. This prevents unnecessary block splitting and
->> significantly reduces fragmentation.
->>
->> A practical example is the VKCTS test
->> dEQP-VK.memory.allocation.basic.size_8KiB.reverse.count_4000, which
->> allocates 8 KiB buffers with a 256 KiB alignment. Previously, these
->> requests caused the allocator to split large blocks despite having
->> smaller aligned portions within them that could satisfy the allocation.
->> The new design now identifies and allocates from these portions,
->> avoiding unnecessary splitting.
->>
->> Signed-off-by: Arunpravin Paneer Selvam 
->> <Arunpravin.PaneerSelvam@amd.com>
->> Suggested-by: Christian König <christian.koenig@amd.com>
->> ---
->>   drivers/gpu/drm/drm_buddy.c | 205 +++++++++++++++++++++++++++++++++---
->>   include/drm/drm_buddy.h     |   3 +
->>   2 files changed, 191 insertions(+), 17 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
->> index f2c92902e4a3..f749814bb270 100644
->> --- a/drivers/gpu/drm/drm_buddy.c
->> +++ b/drivers/gpu/drm/drm_buddy.c
->> @@ -23,6 +23,18 @@ static struct kmem_cache *slab_blocks;
->>   #define for_each_free_tree(tree) \
->>       for ((tree) = 0; (tree) < DRM_BUDDY_MAX_FREE_TREES; (tree)++)
->>   +static unsigned int drm_buddy_min_offset_or_size_order(struct 
->> drm_buddy_block *block)
->> +{
->> +    return min_t(unsigned int,
->> +             __ffs(drm_buddy_block_offset(block)),
->> +             drm_buddy_block_order(block));
->
-> Didn't quite get this bit. Why do we pick the min between the order 
-> and "alignment"? Say we have order zero block but is has 256K addr 
-> alignment this just selects zero? What is the idea here?
-Sorry for the confusion. I mixed up two concepts and I have sent the 
-offset alignment only patch. Please have a look.
->
->> +}
->> +
->> +RB_DECLARE_CALLBACKS_MAX(static, drm_buddy_augment_cb,
->> +             struct drm_buddy_block, rb,
->> +             unsigned int, subtree_max_alignment,
->> +             drm_buddy_min_offset_or_size_order);
->> +
->>   static struct drm_buddy_block *drm_block_alloc(struct drm_buddy *mm,
->>                              struct drm_buddy_block *parent,
->>                              unsigned int order,
->> @@ -40,6 +52,9 @@ static struct drm_buddy_block 
->> *drm_block_alloc(struct drm_buddy *mm,
->>       block->header |= order;
->>       block->parent = parent;
->>   +    block->subtree_max_alignment =
->> +        drm_buddy_min_offset_or_size_order(block);
->> +
->>       RB_CLEAR_NODE(&block->rb);
->>         BUG_ON(block->header & DRM_BUDDY_HEADER_UNUSED);
->> @@ -76,26 +91,32 @@ static bool rbtree_is_empty(struct rb_root *root)
->>       return RB_EMPTY_ROOT(root);
->>   }
->>   -static bool drm_buddy_block_offset_less(const struct 
->> drm_buddy_block *block,
->> -                    const struct drm_buddy_block *node)
->> -{
->> -    return drm_buddy_block_offset(block) < 
->> drm_buddy_block_offset(node);
->> -}
->> -
->> -static bool rbtree_block_offset_less(struct rb_node *block,
->> -                     const struct rb_node *node)
->> -{
->> -    return drm_buddy_block_offset_less(rbtree_get_free_block(block),
->> -                       rbtree_get_free_block(node));
->> -}
->> -
->>   static void rbtree_insert(struct drm_buddy *mm,
->>                 struct drm_buddy_block *block,
->>                 enum drm_buddy_free_tree tree)
->>   {
->> -    rb_add(&block->rb,
->> - &mm->free_trees[tree][drm_buddy_block_order(block)],
->> -           rbtree_block_offset_less);
->> +    struct rb_node **link, *parent = NULL;
->> +    struct drm_buddy_block *node;
->> +    struct rb_root *root;
->> +    unsigned int order;
->> +
->> +    order = drm_buddy_block_order(block);
->> +
->> +    root = &mm->free_trees[tree][order];
->> +    link = &root->rb_node;
->> +
->> +    while (*link) {
->> +        parent = *link;
->> +        node = rbtree_get_free_block(parent);
->> +
->> +        if (drm_buddy_block_offset(block) < 
->> drm_buddy_block_offset(node))
->> +            link = &parent->rb_left;
->> +        else
->> +            link = &parent->rb_right;
->
-> Is this correct? From the docs it sounds like we are meant to update 
-> the max alignment for each subtree on the path leading up to the 
-> insertion? It looks like insert_augmentated will only do it if there 
-> is something to be rebalanced.
-AFAIU from the docs, rb_insert_augmented() updates the augmented value 
-(subtree_max_alignment) for all nodes on the insertion path, not only 
-when a rotation happens.
->
->> +    }
->> +
->> +    rb_link_node(&block->rb, parent, link);
->> +    rb_insert_augmented(&block->rb, root, &drm_buddy_augment_cb);
->>   }
->>     static void rbtree_remove(struct drm_buddy *mm,
->> @@ -108,7 +129,7 @@ static void rbtree_remove(struct drm_buddy *mm,
->>       tree = get_block_tree(block);
->>       root = &mm->free_trees[tree][order];
->>   -    rb_erase(&block->rb, root);
->> +    rb_erase_augmented(&block->rb, root, &drm_buddy_augment_cb);
->>       RB_CLEAR_NODE(&block->rb);
->>   }
->>   @@ -596,6 +617,88 @@ static bool block_incompatible(struct 
->> drm_buddy_block *block, unsigned int flags
->>       return needs_clear != drm_buddy_block_is_clear(block);
->>   }
->>   +static bool drm_buddy_subtree_can_satisfy(struct rb_node *node,
->> +                      unsigned int alignment)
->> +{
->> +    struct drm_buddy_block *block;
->> +
->> +    if (!node)
->> +        return false;
->> +
->> +    block = rbtree_get_free_block(node);
->> +    return block->subtree_max_alignment >= alignment;
->> +}
->> +
->> +static struct drm_buddy_block *
->> +drm_buddy_find_block_aligned(struct drm_buddy *mm,
->> +                 enum drm_buddy_free_tree tree,
->> +                 unsigned int order,
->> +                 unsigned int tmp,
->> +                 unsigned int alignment,
->> +                 unsigned long flags)
->> +{
->> +    struct rb_root *root = &mm->free_trees[tree][tmp];
->> +    struct rb_node *rb = root->rb_node;
->> +
->> +    /* Try to find a block of the requested size that is already 
->> aligned */
->> +    while (rb) {
->> +        struct drm_buddy_block *block = rbtree_get_free_block(rb);
->> +        struct rb_node *left_node = rb->rb_left, *right_node = 
->> rb->rb_right;
->> +
->> +        if (left_node) {
->> +            if (drm_buddy_subtree_can_satisfy(left_node, alignment)) {
->> +                rb = left_node;
->> +                continue;
->> +            }
->> +        }
->> +
->> +        if (drm_buddy_block_order(block) >= order &&
->> +            __ffs(drm_buddy_block_offset(block)) >= alignment)
->> +            return block;
->> +
->> +        if (right_node) {
->> +            if (drm_buddy_subtree_can_satisfy(right_node, alignment)) {
->> +                rb = right_node;
->> +                continue;
->> +            }
->> +        }
->> +
->> +        break;
->> +    }
->> +
->> +    if (tmp < max(order, alignment))
->> +        return NULL;
->> +
->> +    /* If none found, look for a larger block that can satisfy the 
->> alignment */
->
-> What is the idea here? IIUC we are looking at some specific order and 
-> we want some min addr alignment, if the above can't find any subtree 
-> with suitable max alignment then we should bail and try the next 
-> order? Why instead do we do the search again with the same alignment 
-> below?
+This change prioritizes the requested allocation size during the search and
+uses an augmented RB-tree field (subtree_max_alignment) to efficiently locate
+free blocks that satisfy both size and offset-alignment requirements. As a
+result, the allocator can directly select an aligned sub-region without
+splitting larger blocks unnecessarily.
 
-Same as above, I mixed up two concepts. Please review v1 of offset 
-aligned allocation patch.
+A practical example is the VKCTS test
+dEQP-VK.memory.allocation.basic.size_8KiB.reverse.count_4000, which repeatedly
+allocates 8 KiB buffers with a 256 KiB alignment. Previously, such allocations
+caused large blocks to be split aggressively, despite smaller aligned regions
+being sufficient. With this change, those aligned regions are reused directly,
+significantly reducing fragmentation.
 
-Regards,
+This improvement is visible in the amdgpu VRAM buddy allocator state
+(/sys/kernel/debug/dri/1/amdgpu_vram_mm). After the change, higher-order blocks
+are preserved and the number of low-order fragments is substantially reduced.
 
-Arun.
+Before:
+  order- 5 free: 1936 MiB, blocks: 15490
+  order- 4 free:  967 MiB, blocks: 15486
+  order- 3 free:  483 MiB, blocks: 15485
+  order- 2 free:  241 MiB, blocks: 15486
+  order- 1 free:  241 MiB, blocks: 30948
 
->
->> +    rb = root->rb_node;
->> +    while (rb) {
->> +        struct drm_buddy_block *block = rbtree_get_free_block(rb);
->> +        struct rb_node *left_node = rb->rb_left, *right_node = 
->> rb->rb_right;
->> +
->> +        if (left_node) {
->> +            if (drm_buddy_subtree_can_satisfy(left_node, alignment)) {
->> +                rb = left_node;
->> +                continue;
->> +            }
->> +        }
->> +
->> +        if (drm_buddy_block_order(block) >= max(order, alignment) &&
->> +            drm_buddy_min_offset_or_size_order(block) >= alignment)
->> +            return block;
->> +
->> +        if (right_node) {
->> +            if (drm_buddy_subtree_can_satisfy(right_node, alignment)) {
->> +                rb = right_node;
->> +                continue;
->> +            }
->> +        }
->> +
->> +        break;
->> +    }
->> +
->> +    return NULL;
->> +}
->> +
->>   static struct drm_buddy_block *
->>   __alloc_range_bias(struct drm_buddy *mm,
->>              u64 start, u64 end,
->> @@ -798,6 +901,69 @@ alloc_from_freetree(struct drm_buddy *mm,
->>       return ERR_PTR(err);
->>   }
->>   +static int drm_buddy_offset_aligned_allocation(struct drm_buddy *mm,
->> +                           u64 size,
->> +                           u64 min_block_size,
->> +                           unsigned long flags,
->> +                           struct list_head *blocks)
->> +{
->> +    struct drm_buddy_block *block = NULL;
->> +    unsigned int order, tmp, alignment;
->> +    enum drm_buddy_free_tree tree;
->> +    unsigned long pages;
->> +
->> +    alignment = ilog2(min_block_size);
->> +    pages = size >> ilog2(mm->chunk_size);
->> +    order = fls(pages) - 1;
->> +
->> +    tree = (flags & DRM_BUDDY_CLEAR_ALLOCATION) ?
->> +        DRM_BUDDY_CLEAR_TREE : DRM_BUDDY_DIRTY_TREE;
->> +
->> +    for (tmp = order; tmp <= mm->max_order; ++tmp) {
->> +        block = drm_buddy_find_block_aligned(mm, tree, order,
->> +                             tmp, alignment, flags);
->> +        if (!block) {
->> +            tree = (tree == DRM_BUDDY_CLEAR_TREE) ?
->> +                DRM_BUDDY_DIRTY_TREE : DRM_BUDDY_CLEAR_TREE;
->> +            block = drm_buddy_find_block_aligned(mm, tree, order,
->> +                                 tmp, alignment, flags);
->> +        }
->> +
->> +        if (block)
->> +            break;
->> +    }
->> +
->> +    if (!block)
->> +        return -ENOSPC;
->> +
->> +    while (drm_buddy_block_order(block) > order) {
->> +        unsigned int child_order = drm_buddy_block_order(block) - 1;
->> +        struct drm_buddy_block *left, *right;
->> +        int r;
->> +
->> +        r = split_block(mm, block);
->> +        if (r)
->> +            return r;
->> +
->> +        left  = block->left;
->> +        right = block->right;
->> +
->> +        if (child_order >= alignment)
->> +            block = right;
->> +        else
->> +            block = left;
->> +    }
->> +
->> +    mark_allocated(mm, block);
->> +    mm->avail -= drm_buddy_block_size(mm, block);
->> +    if (drm_buddy_block_is_clear(block))
->> +        mm->clear_avail -= drm_buddy_block_size(mm, block);
->> +    kmemleak_update_trace(block);
->> +    list_add_tail(&block->link, blocks);
->> +
->> +    return 0;
->> +}
->> +
->>   static int __alloc_range(struct drm_buddy *mm,
->>                struct list_head *dfs,
->>                u64 start, u64 size,
->> @@ -1147,6 +1313,11 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
->>           min_block_size = size;
->>       /* Align size value to min_block_size */
->>       } else if (!IS_ALIGNED(size, min_block_size)) {
->> +        if (min_block_size > size && is_power_of_2(size))
->> +            return drm_buddy_offset_aligned_allocation(mm, size,
->> +                                   min_block_size,
->> +                                   flags,
->> +                                   blocks);
->>           size = round_up(size, min_block_size);
->>       }
->>   diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
->> index d7891d08f67a..da6a40fb4763 100644
->> --- a/include/drm/drm_buddy.h
->> +++ b/include/drm/drm_buddy.h
->> @@ -11,6 +11,7 @@
->>   #include <linux/slab.h>
->>   #include <linux/sched.h>
->>   #include <linux/rbtree.h>
->> +#include <linux/rbtree_augmented.h>
->>     #include <drm/drm_print.h>
->>   @@ -60,6 +61,8 @@ struct drm_buddy_block {
->>       };
->>         struct list_head tmp_link;
->> +
->> +    unsigned int subtree_max_alignment;
->>   };
->>     /* Order-zero must be at least SZ_4K */
->
+After:
+  order- 5 free:  493 MiB, blocks:  3949
+  order- 4 free:  246 MiB, blocks:  3949
+  order- 3 free:  123 MiB, blocks:  3947
+  order- 2 free:   61 MiB, blocks:  3949
+  order- 1 free:   61 MiB, blocks:  7878
+
+By avoiding unnecessary splits, this change improves allocator efficiency and
+helps maintain larger contiguous free regions under heavy offset-aligned
+allocation workloads.
+
+Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Suggested-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/drm_buddy.c | 261 +++++++++++++++++++++++++++++-------
+ include/drm/drm_buddy.h     |   3 +
+ 2 files changed, 219 insertions(+), 45 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+index f2c92902e4a3..285757a151d1 100644
+--- a/drivers/gpu/drm/drm_buddy.c
++++ b/drivers/gpu/drm/drm_buddy.c
+@@ -23,6 +23,16 @@ static struct kmem_cache *slab_blocks;
+ #define for_each_free_tree(tree) \
+ 	for ((tree) = 0; (tree) < DRM_BUDDY_MAX_FREE_TREES; (tree)++)
+ 
++static unsigned int drm_buddy_block_offset_alignment(struct drm_buddy_block *block)
++{
++	return __ffs(drm_buddy_block_offset(block));
++}
++
++RB_DECLARE_CALLBACKS_MAX(static, drm_buddy_augment_cb,
++			 struct drm_buddy_block, rb,
++			 unsigned int, subtree_max_alignment,
++			 drm_buddy_block_offset_alignment);
++
+ static struct drm_buddy_block *drm_block_alloc(struct drm_buddy *mm,
+ 					       struct drm_buddy_block *parent,
+ 					       unsigned int order,
+@@ -40,6 +50,9 @@ static struct drm_buddy_block *drm_block_alloc(struct drm_buddy *mm,
+ 	block->header |= order;
+ 	block->parent = parent;
+ 
++	block->subtree_max_alignment =
++		drm_buddy_block_offset_alignment(block);
++
+ 	RB_CLEAR_NODE(&block->rb);
+ 
+ 	BUG_ON(block->header & DRM_BUDDY_HEADER_UNUSED);
+@@ -76,26 +89,32 @@ static bool rbtree_is_empty(struct rb_root *root)
+ 	return RB_EMPTY_ROOT(root);
+ }
+ 
+-static bool drm_buddy_block_offset_less(const struct drm_buddy_block *block,
+-					const struct drm_buddy_block *node)
+-{
+-	return drm_buddy_block_offset(block) < drm_buddy_block_offset(node);
+-}
+-
+-static bool rbtree_block_offset_less(struct rb_node *block,
+-				     const struct rb_node *node)
+-{
+-	return drm_buddy_block_offset_less(rbtree_get_free_block(block),
+-					   rbtree_get_free_block(node));
+-}
+-
+ static void rbtree_insert(struct drm_buddy *mm,
+ 			  struct drm_buddy_block *block,
+ 			  enum drm_buddy_free_tree tree)
+ {
+-	rb_add(&block->rb,
+-	       &mm->free_trees[tree][drm_buddy_block_order(block)],
+-	       rbtree_block_offset_less);
++	struct rb_node **link, *parent = NULL;
++	struct drm_buddy_block *node;
++	struct rb_root *root;
++	unsigned int order;
++
++	order = drm_buddy_block_order(block);
++
++	root = &mm->free_trees[tree][order];
++	link = &root->rb_node;
++
++	while (*link) {
++		parent = *link;
++		node = rbtree_get_free_block(parent);
++
++		if (drm_buddy_block_offset(block) < drm_buddy_block_offset(node))
++			link = &parent->rb_left;
++		else
++			link = &parent->rb_right;
++	}
++
++	rb_link_node(&block->rb, parent, link);
++	rb_insert_augmented(&block->rb, root, &drm_buddy_augment_cb);
+ }
+ 
+ static void rbtree_remove(struct drm_buddy *mm,
+@@ -108,7 +127,7 @@ static void rbtree_remove(struct drm_buddy *mm,
+ 	tree = get_block_tree(block);
+ 	root = &mm->free_trees[tree][order];
+ 
+-	rb_erase(&block->rb, root);
++	rb_erase_augmented(&block->rb, root, &drm_buddy_augment_cb);
+ 	RB_CLEAR_NODE(&block->rb);
+ }
+ 
+@@ -798,6 +817,132 @@ alloc_from_freetree(struct drm_buddy *mm,
+ 	return ERR_PTR(err);
+ }
+ 
++static bool
++drm_buddy_can_offset_align(u64 size, u64 min_block_size)
++{
++	return size < min_block_size && is_power_of_2(size);
++}
++
++static bool drm_buddy_subtree_can_satisfy(struct rb_node *node,
++					  unsigned int alignment)
++{
++	struct drm_buddy_block *block;
++
++	if (!node)
++		return false;
++
++	block = rbtree_get_free_block(node);
++	return block->subtree_max_alignment >= alignment;
++}
++
++static struct drm_buddy_block *
++drm_buddy_find_block_aligned(struct drm_buddy *mm,
++			     enum drm_buddy_free_tree tree,
++			     unsigned int order,
++			     unsigned int tmp,
++			     unsigned int alignment,
++			     unsigned long flags)
++{
++	struct rb_root *root = &mm->free_trees[tree][tmp];
++	struct rb_node *rb = root->rb_node;
++
++	while (rb) {
++		struct drm_buddy_block *block = rbtree_get_free_block(rb);
++		struct rb_node *left_node = rb->rb_left, *right_node = rb->rb_right;
++
++		if (right_node) {
++			if (drm_buddy_subtree_can_satisfy(right_node, alignment)) {
++				rb = right_node;
++				continue;
++			}
++		}
++
++		if (drm_buddy_block_order(block) >= order &&
++		    __ffs(drm_buddy_block_offset(block)) >= alignment)
++			return block;
++
++		if (left_node) {
++			if (drm_buddy_subtree_can_satisfy(left_node, alignment)) {
++				rb = left_node;
++				continue;
++			}
++		}
++
++		break;
++	}
++
++	return NULL;
++}
++
++static struct drm_buddy_block *
++drm_buddy_offset_aligned_allocation(struct drm_buddy *mm,
++				    u64 size,
++				    u64 min_block_size,
++				    unsigned long flags)
++{
++	struct drm_buddy_block *block = NULL;
++	unsigned int order, tmp, alignment;
++	struct drm_buddy_block *buddy;
++	enum drm_buddy_free_tree tree;
++	unsigned long pages;
++	int err;
++
++	alignment = ilog2(min_block_size);
++	pages = size >> ilog2(mm->chunk_size);
++	order = fls(pages) - 1;
++
++	tree = (flags & DRM_BUDDY_CLEAR_ALLOCATION) ?
++		DRM_BUDDY_CLEAR_TREE : DRM_BUDDY_DIRTY_TREE;
++
++	for (tmp = order; tmp <= mm->max_order; ++tmp) {
++		block = drm_buddy_find_block_aligned(mm, tree, order,
++						     tmp, alignment, flags);
++		if (!block) {
++			tree = (tree == DRM_BUDDY_CLEAR_TREE) ?
++				DRM_BUDDY_DIRTY_TREE : DRM_BUDDY_CLEAR_TREE;
++			block = drm_buddy_find_block_aligned(mm, tree, order,
++							     tmp, alignment, flags);
++		}
++
++		if (block)
++			break;
++	}
++
++	if (!block)
++		return ERR_PTR(-ENOSPC);
++
++	while (drm_buddy_block_order(block) > order) {
++		struct drm_buddy_block *left, *right;
++
++		err = split_block(mm, block);
++		if (unlikely(err))
++			goto err_undo;
++
++		left  = block->left;
++		right = block->right;
++
++		if (__ffs(drm_buddy_block_offset(right)) >= alignment)
++			block = right;
++		else
++			block = left;
++	}
++
++	return block;
++
++err_undo:
++	/*
++	 * We really don't want to leave around a bunch of split blocks, since
++	 * bigger is better, so make sure we merge everything back before we
++	 * free the allocated blocks.
++	 */
++	buddy = __get_buddy(block);
++	if (buddy &&
++	    (drm_buddy_block_is_free(block) &&
++	     drm_buddy_block_is_free(buddy)))
++		__drm_buddy_free(mm, block, false);
++	return ERR_PTR(err);
++}
++
+ static int __alloc_range(struct drm_buddy *mm,
+ 			 struct list_head *dfs,
+ 			 u64 start, u64 size,
+@@ -1067,6 +1212,7 @@ EXPORT_SYMBOL(drm_buddy_block_trim);
+ static struct drm_buddy_block *
+ __drm_buddy_alloc_blocks(struct drm_buddy *mm,
+ 			 u64 start, u64 end,
++			 u64 size, u64 min_block_size,
+ 			 unsigned int order,
+ 			 unsigned long flags)
+ {
+@@ -1074,6 +1220,11 @@ __drm_buddy_alloc_blocks(struct drm_buddy *mm,
+ 		/* Allocate traversing within the range */
+ 		return  __drm_buddy_alloc_range_bias(mm, start, end,
+ 						     order, flags);
++	else if (size < min_block_size)
++		/* Allocate from an offset-aligned region without size rounding */
++		return drm_buddy_offset_aligned_allocation(mm, size,
++							   min_block_size,
++							   flags);
+ 	else
+ 		/* Allocate from freetree */
+ 		return alloc_from_freetree(mm, order, flags);
+@@ -1145,8 +1296,11 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+ 	if (flags & DRM_BUDDY_CONTIGUOUS_ALLOCATION) {
+ 		size = roundup_pow_of_two(size);
+ 		min_block_size = size;
+-	/* Align size value to min_block_size */
+-	} else if (!IS_ALIGNED(size, min_block_size)) {
++	/*
++	 * Normalize the requested size to min_block_size for regular allocations.
++	 * Offset-aligned allocations intentionally skip size rounding.
++	 */
++	} else if (!drm_buddy_can_offset_align(size, min_block_size)) {
+ 		size = round_up(size, min_block_size);
+ 	}
+ 
+@@ -1157,43 +1311,60 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+ 	do {
+ 		order = min(order, (unsigned int)fls(pages) - 1);
+ 		BUG_ON(order > mm->max_order);
+-		BUG_ON(order < min_order);
++		/*
++		 * Regular allocations must not allocate blocks smaller than min_block_size.
++		 * Offset-aligned allocations deliberately bypass this constraint.
++		 */
++		BUG_ON(size >= min_block_size && order < min_order);
+ 
+ 		do {
++			unsigned int fallback_order;
++
+ 			block = __drm_buddy_alloc_blocks(mm, start,
+ 							 end,
++							 size,
++							 min_block_size,
+ 							 order,
+ 							 flags);
+ 			if (!IS_ERR(block))
+ 				break;
+ 
+-			if (order-- == min_order) {
+-				/* Try allocation through force merge method */
+-				if (mm->clear_avail &&
+-				    !__force_merge(mm, start, end, min_order)) {
+-					block = __drm_buddy_alloc_blocks(mm, start,
+-									 end,
+-									 min_order,
+-									 flags);
+-					if (!IS_ERR(block)) {
+-						order = min_order;
+-						break;
+-					}
+-				}
++			if (size < min_block_size) {
++				fallback_order = order;
++			} else if (order == min_order) {
++				fallback_order = min_order;
++			} else {
++				order--;
++				continue;
++			}
+ 
+-				/*
+-				 * Try contiguous block allocation through
+-				 * try harder method.
+-				 */
+-				if (flags & DRM_BUDDY_CONTIGUOUS_ALLOCATION &&
+-				    !(flags & DRM_BUDDY_RANGE_ALLOCATION))
+-					return __alloc_contig_try_harder(mm,
+-									 original_size,
+-									 original_min_size,
+-									 blocks);
+-				err = -ENOSPC;
+-				goto err_free;
++			/* Try allocation through force merge method */
++			if (mm->clear_avail &&
++			    !__force_merge(mm, start, end, fallback_order)) {
++				block = __drm_buddy_alloc_blocks(mm, start,
++								 end,
++								 size,
++								 min_block_size,
++								 fallback_order,
++								 flags);
++				if (!IS_ERR(block)) {
++					order = fallback_order;
++					break;
++				}
+ 			}
++
++			/*
++			 * Try contiguous block allocation through
++			 * try harder method.
++			 */
++			if (flags & DRM_BUDDY_CONTIGUOUS_ALLOCATION &&
++			    !(flags & DRM_BUDDY_RANGE_ALLOCATION))
++				return __alloc_contig_try_harder(mm,
++								 original_size,
++								 original_min_size,
++								 blocks);
++			err = -ENOSPC;
++			goto err_free;
+ 		} while (1);
+ 
+ 		mark_allocated(mm, block);
+diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+index d7891d08f67a..da6a40fb4763 100644
+--- a/include/drm/drm_buddy.h
++++ b/include/drm/drm_buddy.h
+@@ -11,6 +11,7 @@
+ #include <linux/slab.h>
+ #include <linux/sched.h>
+ #include <linux/rbtree.h>
++#include <linux/rbtree_augmented.h>
+ 
+ #include <drm/drm_print.h>
+ 
+@@ -60,6 +61,8 @@ struct drm_buddy_block {
+ 	};
+ 
+ 	struct list_head tmp_link;
++
++	unsigned int subtree_max_alignment;
+ };
+ 
+ /* Order-zero must be at least SZ_4K */
+-- 
+2.34.1
+
