@@ -2,61 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KKebIdk2cmmadwAAu9opvQ
+	id eIulKdc4cmmadwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 15:40:25 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 15:48:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2EC76805F
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 15:40:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB493681D8
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 15:48:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D48C10E9C0;
-	Thu, 22 Jan 2026 14:40:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 933D510E06A;
+	Thu, 22 Jan 2026 14:48:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="c9i+mpTK";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="n6CtIly1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C89E910E9C0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 14:40:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1769092819;
- bh=a8f+nNyUuanYSi1Us3Cp8GLLxXDToBvUg3zFd8jmhzs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=c9i+mpTKloirNa2RapDALhX6hZcoW3FkLDESD7g1C8X589uTeUQFWGY5fhM2N/TH0
- U/XBdE/G8OkcUMmLu200ubv7rdse/gM3wH6fTexyEaGPisn+Ahavwuvn4SEhhiRUP4
- oXUxyjqEScGyOSC+HbcW1hh6mF8D7cWf2tIjw7KLbNCC0zYd0ayPYRuBX4Lt6RFsAB
- /0qBjF+cB+sXUnGb7+zEt0aZ4SYm13X4yXjSPx2C5c9bcVG+OJdxRsohSxxY0Y2UnH
- GDtO/S5s72+uosU+o4R3nC8ibFsiGeXuUeuprbKMoYXZ1GQOrT8dIcq4nrjhvZ5wQP
- 8gVawU3AZCQ9A==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id BD07617E1016;
- Thu, 22 Jan 2026 15:40:18 +0100 (CET)
-Date: Thu, 22 Jan 2026 15:40:13 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chia-I Wu
- <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>,
- kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v10 0/4] Add a few tracepoints to panthor
-Message-ID: <20260122154013.06f6b655@fedora>
-In-Reply-To: <20260116-panthor-tracepoints-v10-0-d925986e3d1b@collabora.com>
-References: <20260116-panthor-tracepoints-v10-0-d925986e3d1b@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95CDA10E06A
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 14:48:51 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id E22CB1A2AAD;
+ Thu, 22 Jan 2026 14:48:49 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id AFB01606B6;
+ Thu, 22 Jan 2026 14:48:49 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 4717D119B80D3; Thu, 22 Jan 2026 15:48:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1769093328; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=j08CZYreWkoiN+l1Th5hMC9vcpfI9DQRPaNd9bd6GEg=;
+ b=n6CtIly1fP5j1hMNuel0x4IJ8soH2Y27mG0LvBri9txYrMg8cZER1vYfcL9yJtxNrKMBg+
+ rhXDMCJe+gffQTTjPsRnAH7GqnCpy+BTRhK4TmLM0H+MioItDgnC/qM8EWsQkjvIqHBxI0
+ lz950Po5n0+lcL1n2z1iy3FS3INpMLlJ0IJbO0YhH4dXKoWEZMSQZNhWNaDdSDtSy8Ll4c
+ foHOGs+RryPdVSdBNpvFEfNqQPMPM8AUk25pQs+GJVPhH8b/mLgSdHbneG40g9D018R6gX
+ MR0icGk6lg1P12qn75OSgYLvo+G9C5LZCF1f/YdytVkqUFWXkVUi94cv/tXShQ==
+Date: Thu, 22 Jan 2026 15:48:40 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Cc: "Jyri Sarha" <jyri.sarha@iki.fi>, "Tomi Valkeinen"
+ <tomi.valkeinen@ideasonboard.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Russell King" <linux@armlinux.org.uk>,
+ "Bartosz Golaszewski" <brgl@bgdev.pl>, "Tony Lindgren" <tony@atomide.com>,
+ "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Markus
+ Schneider-Pargmann" <msp@baylibre.com>, "Bajjuri Praneeth"
+ <praneeth@ti.com>, "Louis Chauvet" <louis.chauvet@bootlin.com>, "Thomas
+ Petazzoni" <thomas.petazzoni@bootlin.com>, "Miguel Gazquez"
+ <miguel.gazquez@bootlin.com>, "Herve Codina" <herve.codina@bootlin.com>,
+ <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-omap@vger.kernel.org>
+Subject: Re: [PATCH v4 18/25] drm/tilcdc: Convert to DRM managed resources
+Message-ID: <20260122154840.5185671a@kmaincent-XPS-13-7390>
+In-Reply-To: <DFSVOBV5UY37.3HTQHOJT3A40N@bootlin.com>
+References: <20260116-feature_tilcdc-v4-0-2c1c22143087@bootlin.com>
+ <20260116-feature_tilcdc-v4-18-2c1c22143087@bootlin.com>
+ <DFSVOBV5UY37.3HTQHOJT3A40N@bootlin.com>
+Organization: bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,199 +86,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:nicolas.frattaroli@collabora.com,m:steven.price@arm.com,m:liviu.dudau@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:olvaffe@gmail.com,m:karunika.choo@arm.com,m:kernel@collabora.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:luca.ceresoli@bootlin.com,m:jyri.sarha@iki.fi,m:tomi.valkeinen@ideasonboard.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux@armlinux.org.uk,m:brgl@bgdev.pl,m:tony@atomide.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:msp@baylibre.com,m:praneeth@ti.com,m:louis.chauvet@bootlin.com,m:thomas.petazzoni@bootlin.com,m:miguel.gazquez@bootlin.com,m:herve.codina@bootlin.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-omap@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[kory.maincent@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[arm.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,collabora.com,vger.kernel.org,lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[kory.maincent@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[iki.fi,ideasonboard.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,armlinux.org.uk,bgdev.pl,atomide.com,intel.com,linaro.org,kwiboo.se,baylibre.com,ti.com,bootlin.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	DKIM_TRACE(0.00)[bootlin.com:+];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	HAS_ORG_HEADER(0.00)[]
-X-Rspamd-Queue-Id: E2EC76805F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:email,bootlin.com:url,bootlin.com:dkim]
+X-Rspamd-Queue-Id: DB493681D8
 X-Rspamd-Action: no action
 
-On Fri, 16 Jan 2026 13:57:29 +0100
-Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
+On Mon, 19 Jan 2026 22:19:26 +0100
+"Luca Ceresoli" <luca.ceresoli@bootlin.com> wrote:
 
-> This series adds two tracepoints to panthor.
-> 
-> The first tracepoint allows for inspecting the power status of the
-> hardware subdivisions, e.g. how many shader cores are powered on. This
-> is done by reading three hardware registers when a certain IRQ fires.
-> 
-> The second tracepoint instruments panthor's job IRQ handler. This is
-> more useful than the generic interrupt tracing functionality, as the
-> tracepoint has the events bit mask included, which indicates which
-> command stream group interfaces triggered the interrupt.
-> 
-> To test the tracepoints, the following can be used:
-> 
->   :~# echo 1 > /sys/kernel/tracing/events/panthor/gpu_power_status/enable
->   :~# echo 1 > /sys/kernel/tracing/events/panthor/gpu_job_irq/enable
->   :~# echo 1 > /sys/kernel/tracing/tracing_on
->   :~# cat /sys/kernel/tracing/trace_pipe
-> 
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> On Fri Jan 16, 2026 at 6:02 PM CET, Kory Maincent (TI.com) wrote:
+> > Convert the tilcdc driver to use DRM managed resources (drmm_* APIs)
+> > to eliminate resource lifetime issues, particularly in probe deferral
+> > scenarios.
+> >
+> > This conversion addresses potential use-after-free bugs by ensuring
+> > proper cleanup ordering through the DRM managed resource framework.
+> > The changes include:
+> > - Replace drm_crtc_init_with_planes() with drmm_crtc_alloc_with_planes()
+> > - Replace drm_universal_plane_init() with drmm_universal_plane_alloc()
+> > - Replace drm_simple_encoder_init() with drmm_simple_encoder_alloc()
+> > - Remove manual cleanup in tilcdc_crtc_destroy() and error paths
+> > - Remove drm_encoder_cleanup() from encoder error handling paths
+> > - Use drmm_add_action_or_reset() for remaining cleanup operations
+> >
+> > This approach is recommended by the DRM subsystem for improved resource
+> > lifetime management and is particularly important for drivers that may
+> > experience probe deferral.
+> >
+> > Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
+> > ---
+> >
+> > Change in v4:
+> > - Newt patch. =20
+>=20
+> Why? Adding patches along the way does not help getting your series merged
+> timely. If there's a good reason for adding a new patch, please mention it
+> here.
 
-Queued to drm-misc-next.
+Thanks for your review.
 
-> ---
-> Changes in v10:
-> - Start processing phase in raw_irq_handler (Boris)
-> - enable/disable_events: Only write mask contents in ACTIVE state
->   (Boris)
-> - Elaborate on what mask_lock protects in comment (Boris)
-> - nb: checkpatch reports unnecessary line continuations in the macros
->   at the end of the comment blocks. These warnings are false-positives,
->   the line continuations are necessary.
-> - Link to v9: https://lore.kernel.org/r/20260115-panthor-tracepoints-v9-0-e13e4f7d01dc@collabora.com
-> 
-> Changes in v9:
-> - Rebase onto drm-tip 2026y-01m-14d-17h-09m-04s
-> - Move the mask to pirq->mask change in the suspended refactor patch to
->   the follow-up patch
-> - Move the INT_MASK restoration changes in the suspended refactor patch
->   to the follow-up patch
-> - Move panthor_irq::mask_lock member right below the mask member
-> - panthor/mmu: Remove the enable_events calls before resume, as they're
->   redundant
-> - panthor/mmu: Rework the AS fault clearing logic. Drop the spurious
->   disable_events in panthor_vm_active, but use
->   disable_events/enable_events in as_disable/as_enable respectively. This
->   requires doing a forward declaration of the panthor_mmu_irq_handler to
->   get a definition of the helpers before it itself is defined. This
->   works out great, because it means I also no longer have to move the
->   entire panthor_vm_active function down some.
-> - Drop an accidentally added redundant empty line
-> - Link to v8: https://lore.kernel.org/r/20260112-panthor-tracepoints-v8-0-63efcb421d22@collabora.com
-> 
-> Changes in v8:
-> - Reorder panthor_irq::state patch to be before the new mask
->   modification helpers. The full set of states was kept (rather than
->   just active/suspended) as they don't hurt and make the follow-up patch
->   more concise in scope.
-> - Also bail out on STATE_SUSPENDING in irq_raw_handler
-> - Job irq: initialize start to 0 and don't emit a tracepoint if it is 0,
->   to fix passing an uninitialised stack variable to userspace if the
->   tracepoint was enabled while the handler was running
-> - Link to v7: https://lore.kernel.org/r/20260108-panthor-tracepoints-v7-0-afeae181f74a@collabora.com
-> 
-> Changes in v7:
-> - Get rid of old resume IRQ helper by reworking code throughout panthor,
->   and make what used to be resume_restore in v6 the new resume.
-> - Rename mask_enable/mask_disable to enable_events/disable_events.
-> - Turn panthor_irq::suspended into a multi-state value, and utilise it
->   in the IRQ helpers as appropriate.
-> - Link to v6: https://lore.kernel.org/r/20251223-panthor-tracepoints-v6-0-d3c998ee9efc@collabora.com
-> 
-> Changes in v6:
-> - Read the mask member into a local while holding the lock in
->   irq_threaded_handler.
-> - Drop the lock before entering the while loop, letting the threaded
->   handler function run without holding a spinlock
-> - Re-acquire the spinlock at the end of irq_threaded_handler, OR'ing the
->   mask register's contents with the mask local ANDed by the member. This
->   avoids stomping over any other modified bits, or restoring ones that
->   have been disabled in the meantime.
-> - Link to v5: https://lore.kernel.org/r/20251221-panthor-tracepoints-v5-0-889ef78165d8@collabora.com
-> 
-> Changes in v5:
-> - Change the panthor IRQ helpers to guard the mask member and register
->   with a spinlock. The rationale behind using a spinlock, rather than
->   some constellation of atomics, is that we have to guarantee mutual
->   exclusion for state beyond just a single value, namely both the register
->   write, and writes to/reads from the mask member, including
->   reads-from-member-writes-to-register. Making the mask atomic does not do
->   anything to avoid concurrency issues in such a case.
-> - Change the IRQ mask member to not get zeroed when suspended. It's
->   possible something outside of the IRQ helpers depends on this
->   behaviour, but I'd argue the code should not access the mask outside
->   of the IRQ helpers, as it'll do so with no lock taken.
-> - Drop the mask_set function, but add mask_enable/mask_disable helpers
->   to enable/disable individual parts of the IRQ mask.
-> - Add a resume_restore IRQ helper that does the same thing as resume,
->   but does not overwrite the mask member. This avoids me having to
->   refactor whatever panthor_mmu.c is doing with that poor mask member.
-> - Link to v4: https://lore.kernel.org/r/20251217-panthor-tracepoints-v4-0-916186cb8d03@collabora.com
-> 
-> Changes in v4:
-> - Include "panthor_hw.h" in panthor_trace.h instead of duplicating the
->   reg/unreg function prototypes.
-> - Link to v3: https://lore.kernel.org/r/20251211-panthor-tracepoints-v3-0-924c9d356a5c@collabora.com
-> 
-> Changes in v3:
-> - Drop PWRFEATURES patch, as this register is no longer needed by this
->   series.
-> - Eliminate the rt_on field from the gpu_power_status register, as per
->   Steven Price's feedback.
-> - Make gpu_power_status tracepoint reg/unreg functions generic across
->   hardware generations by wrapping a hw op in panthor_hw.c.
-> - Reimplement the <= v13 IRQ mask modification functions as the new hw
->   ops functions. v14 can add its own ops in due time.
-> - Link to v2: https://lore.kernel.org/r/20251210-panthor-tracepoints-v2-0-ace2e29bad0f@collabora.com
-> 
-> Changes in v2:
-> - Only enable the GPU_IRQ_POWER_CHANGED_* IRQ mask bits when the
->   tracepoint is enabled. Necessitates the new irq helper patch.
-> - Only enable the GPU_IRQ_POWER_CHANGED_* IRQ mask bits if the hardware
->   architecture is <= v13, as v14 changes things.
-> - Use _READY instead of _PWRACTIVE registers, and rename the tracepoint
->   accordingly.
-> - Also read the status of the ray tracing unit's power. This is a global
->   flag for all shader cores, it seems. Necessitates the new register
->   definition patch.
-> - Move the POWER_CHANGED_* check to earlier in the interrupt handler.
-> - Also listen to POWER_CHANGED, not just POWER_CHANGED_ALL, as this
->   provides useful information with the _READY registers.
-> - Print the device name in both tracepoints, to disambiguate things on
->   systems with multiple Mali GPUs.
-> - Document the gpu_power_status tracepoint, so the meaning of the fields
->   is made clear.
-> - Link to v1: https://lore.kernel.org/r/20251203-panthor-tracepoints-v1-0-871c8917e084@collabora.com
-> 
-> ---
-> Nicolas Frattaroli (4):
->       drm/panthor: Rework panthor_irq::suspended into panthor_irq::state
->       drm/panthor: Extend IRQ helpers for mask modification/restoration
->       drm/panthor: Add tracepoint for hardware utilisation changes
->       drm/panthor: Add gpu_job_irq tracepoint
-> 
->  drivers/gpu/drm/panthor/panthor_device.h | 107 ++++++++++++++++++++++++++-----
->  drivers/gpu/drm/panthor/panthor_fw.c     |  16 ++++-
->  drivers/gpu/drm/panthor/panthor_gpu.c    |  30 ++++++++-
->  drivers/gpu/drm/panthor/panthor_gpu.h    |   2 +
->  drivers/gpu/drm/panthor/panthor_hw.c     |  62 ++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_hw.h     |   8 +++
->  drivers/gpu/drm/panthor/panthor_mmu.c    |  47 +++++++-------
->  drivers/gpu/drm/panthor/panthor_pwr.c    |   2 +-
->  drivers/gpu/drm/panthor/panthor_trace.h  |  86 +++++++++++++++++++++++++
->  9 files changed, 318 insertions(+), 42 deletions(-)
-> ---
-> base-commit: 733664f1edf3c01cc68e6dd0bbdb135158a98a1d
-> change-id: 20251203-panthor-tracepoints-488af09d46e7
-> 
-> Best regards,
+Sorry for that. The reason is that I faced a null pointer dereference koops=
+ if
+for example the panel module is not installed. Then the
+drm_of_find_panel_or_bridge() function return eprobe defer and something go=
+es
+wrong with the DRM resources. Using DRM managed resources solves it.
+I will mention it for the v5.
 
+> > +	tilcdc_crtc =3D drmm_crtc_alloc_with_planes(dev, struct tilcdc_crtc,
+> > base,
+> > +						  &primary->base,
+> > +						  NULL,
+> > +						  &tilcdc_crtc_funcs,
+> > +						  "tilcdc crtc");
+> > +	if (IS_ERR(tilcdc_crtc)) {
+> > +		dev_err(dev->dev, "Failed to init CRTC: %pe\n",
+> > tilcdc_crtc);
+> > +		return PTR_ERR(tilcdc_crtc);
+> > +	}
+> > +
+> > +	tilcdc_crtc->primary =3D primary; =20
+>=20
+> (*) see below
+>=20
+> >
+> >  	init_completion(&tilcdc_crtc->palette_loaded);
+> >  	tilcdc_crtc->palette_base =3D dmam_alloc_coherent(dev->dev,
+> > @@ -978,10 +992,6 @@ int tilcdc_crtc_create(struct drm_device *dev)
+> >
+> >  	crtc =3D &tilcdc_crtc->base;
+> >
+> > -	ret =3D tilcdc_plane_init(dev, &tilcdc_crtc->primary);
+> > -	if (ret < 0)
+> > -		goto fail;
+> > -
+> >  	mutex_init(&tilcdc_crtc->enable_lock);
+> >
+> >  	init_waitqueue_head(&tilcdc_crtc->frame_done_wq);
+> > @@ -989,20 +999,12 @@ int tilcdc_crtc_create(struct drm_device *dev)
+> >  	spin_lock_init(&tilcdc_crtc->irq_lock);
+> >  	INIT_WORK(&tilcdc_crtc->recover_work, tilcdc_crtc_recover_work);
+> >
+> > -	ret =3D drm_crtc_init_with_planes(dev, crtc,
+> > -					&tilcdc_crtc->primary,
+> > -					NULL,
+> > -					&tilcdc_crtc_funcs,
+> > -					"tilcdc crtc");
+> > -	if (ret < 0)
+> > -		goto fail;
+> > -
+> >  	drm_crtc_helper_add(crtc, &tilcdc_crtc_helper_funcs);
+> >
+> > +	ret =3D drmm_add_action_or_reset(dev, tilcdc_crtc_destroy, priv);
+> > +	if (ret)
+> > +		return ret; =20
+>=20
+> Not related to your patch, but if the dmam_alloc_coherent() (not visible =
+in
+> the diff) fails, tilcdc_crtc_destroy() won't be called. Is this intended?
+> At first sight this drmm_add_action_or_reset() should be moved at (*), ju=
+st
+> after the allocation.
+
+You are totally right.
+
+> However being not related to your patch I'd leave this for another series
+> anyway, to avoid making this series a moving target.
+
+I think it is related to this patch.
+Before this patch there was no need for cleanup as the only action before t=
+he
+dmam_alloc_coherent() was a devm_kzalloc().
+Now the plane and the crtc are initialize before the dmam_alloc_coherent() =
+so
+the cleanup need to happen if it fails an error.
+
+> I find this patch hard to read and I think because it is converting
+> multiple things at once. Splitting it in small steps would have been nice,
+> even thought I'm not 100% sure it would have been doable.
+
+Yes, it brought more error when not converting the whole to DRM Managed
+resources in one go.
+
+>=20
+> Nevertheless it looks correct, so:
+>=20
+> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+
+Thanks, but I will remove it due to the small change.=20
+Or maybe it is ok for you if I keep it with only the move of
+drmm_add_action_or_reset().
+
+Regards.
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
