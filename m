@@ -2,78 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GCzfGNcpcmmadwAAu9opvQ
+	id iFSuOMEqcmmadwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 14:44:55 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 14:48:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4EC767761
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 14:44:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34B99677FC
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 14:48:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BAAC10E9AE;
-	Thu, 22 Jan 2026 13:44:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 095D710E051;
+	Thu, 22 Jan 2026 13:48:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MiijZP2P";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Sl2XTA+U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4875610E9AE
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 13:44:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 106B141A3D;
- Thu, 22 Jan 2026 13:44:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C125C116C6;
- Thu, 22 Jan 2026 13:44:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769089491;
- bh=j8JEqlvIFnXt9gGEm0Oheoh75nKbbz8Bdg2iudx4Y8w=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MiijZP2PgQ7cWwM/BrL4/aHqDuWgWt7buVDitzOLLgQdCeGQbRri9VRoWsknB6BOs
- MW4NXW6W74RdY0fAsK6Bdd8gp3rRRx5EUSq74/zd+Y3DQk3JDvoomz7nvfQXW4sYLt
- 5NK4v3hzZ1ozM6HXvxIyYNRKjNtql6nEd8fORfMN3aJ57Fm0fNPpqIpF07lBZJNEqe
- bh1lrnUZrr3xfZB+VMQmhgzNd1DvOX4XxCozUKLJsUOQjxjF4TFLjOaa5sReHLH4/Q
- rdTHw5qscsZCtb4v7dlQUXKGr6CN30WBw/AIPOWvt9r6gzUfBUhamrC89amGEuE/MZ
- erbPngC11saWw==
-Date: Thu, 22 Jan 2026 14:44:49 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Daniel Almeida <daniel.almeida@collabora.com>, 
- Alice Ryhl <aliceryhl@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Drew Fustini <fustini@kernel.org>,
- Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
- linux-pm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-riscv@lists.infradead.org, 
- linux-pwm@vger.kernel.org, linux-clk@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] rust: clk: use the type-state pattern
-Message-ID: <20260122-majestic-masterful-jaguarundi-d0abde@houat>
-References: <20260107-clk-type-state-v3-0-77d3e3ee59c2@collabora.com>
- <20260107-clk-type-state-v3-1-77d3e3ee59c2@collabora.com>
- <20260108-delectable-fennec-of-sunshine-ffca19@houat>
- <98CD0BF6-3350-40B9-B8A9-F569AE3E3220@collabora.com>
- <20260119-thundering-tested-robin-4be817@houat>
- <aW4lCfUyumOKRRJm@google.com>
- <518D8B09-B9A1-4DB4-85CD-37A2DD3D5FB1@collabora.com>
- <DFSLCI9U4NCW.2HI2UPUI7G134@kernel.org>
- <20260119-weightless-pelican-of-anger-190db0@houat>
- <DFSN4FDCYHMW.3J3237PEBV2ZP@kernel.org>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83AA910E051
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 13:48:45 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8A7192DD;
+ Thu, 22 Jan 2026 14:48:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1769089691;
+ bh=Ik3isZg69uy819qCA91x8tXe6oJnuxTiAK4/NmF4g1Y=;
+ h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+ b=Sl2XTA+UElZ9ef4UJoUdLx3lzU+CLfjm8/NBvv/AU0xsmOv2+JWteJQIafdypUJr5
+ cdOtEzkup0Pg7IjQbxaceKTySqiWWS4yg4aFRXK2zxe8xsszu7t1riuT5Ah18BHFX4
+ RBbzuz3UeThEbVkULOdhBrYxIjZSE4fc3sN30s2w=
+Message-ID: <53e73b84-e2e1-42d7-afc9-f9bc04e5db37@ideasonboard.com>
+Date: Thu, 22 Jan 2026 15:48:39 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="zgoq7kx6iu4jzgjw"
-Content-Disposition: inline
-In-Reply-To: <DFSN4FDCYHMW.3J3237PEBV2ZP@kernel.org>
+User-Agent: Mozilla Thunderbird
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v2 0/4] drm: zynqmp: Make the video plane primary
+To: Sean Anderson <sean.anderson@linux.dev>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Cc: Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Michal Simek <michal.simek@amd.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Mike Looijmans <mike.looijmans@topic.nl>
+References: <20260106164247.472544-1-sean.anderson@linux.dev>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20260106164247.472544-1-sean.anderson@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,122 +111,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.41 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:rafael@kernel.org,m:viresh.kumar@linaro.org,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:ukleinek@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:linux-pm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:linux-pwm@vger.kernel.org,m:linux-clk@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:sean.anderson@linux.dev,m:laurent.pinchart@ideasonboard.com,m:simona@ffwll.ch,m:tzimmermann@suse.de,m:linux-kernel@vger.kernel.org,m:mripard@kernel.org,m:airlied@gmail.com,m:linux-arm-kernel@lists.infradead.org,m:michal.simek@amd.com,m:anatoliy.klymenko@amd.com,m:maarten.lankhorst@linux.intel.com,m:mike.looijmans@topic.nl,s:lists@lfdr.de];
+	FREEMAIL_CC(0.00)[ffwll.ch,suse.de,vger.kernel.org,kernel.org,gmail.com,lists.infradead.org,amd.com,linux.intel.com,topic.nl];
 	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[collabora.com,google.com,kernel.org,linaro.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,redhat.com,baylibre.com,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,lists.freedesktop.org,lists.infradead.org];
+	FORGED_SENDER(0.00)[tomi.valkeinen@ideasonboard.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: D4EC767761
+X-Rspamd-Queue-Id: 34B99677FC
 X-Rspamd-Action: no action
 
+Hi,
 
---zgoq7kx6iu4jzgjw
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 1/3] rust: clk: use the type-state pattern
-MIME-Version: 1.0
+On 06/01/2026 18:42, Sean Anderson wrote:
+> The graphics plane does not support XRGB8888, which is the default mode
+> X uses for 24-bit color. Because of this, X must be set to use 16-bit
+> color, which has a measurable performance penalty. Make the video plane
+> the primary plane as it natively supports XRGB8888. An alternative
+> approach to add XRGB8888 to the graphics plane is discussed in [1], as
+> well as in patch 2.
+> 
+> [1] https://lore.kernel.org/dri-devel/20250627145058.6880-1-mike.looijmans@topic.nl/
+> 
+> Changes in v2:
+> - Allow specifying blend mode default
+> - Advertise coverage instead of premulti, since that's what the hardware
+>   supports.
+> - Set default blend mode to none since that's what the default was
+>   before this series.
+> 
+> Sean Anderson (4):
+>   drm/drm_blend: Allow specifying blend mode default
+>   drm: zynqmp: Check property creation status
+>   drm: zynqmp: Make the video plane primary
+>   drm: zynqmp: Add blend mode property to graphics plane
+> 
+>  drivers/gpu/drm/drm_blend.c       | 22 ++++++-------
+>  drivers/gpu/drm/xlnx/zynqmp_kms.c | 53 +++++++++++++++++++++++++------
+>  include/drm/drm_blend.h           | 26 +++++++++++++--
+>  3 files changed, 78 insertions(+), 23 deletions(-)
+> 
 
-On Mon, Jan 19, 2026 at 03:37:17PM +0100, Danilo Krummrich wrote:
-> On Mon Jan 19, 2026 at 3:18 PM CET, Maxime Ripard wrote:
-> > On Mon, Jan 19, 2026 at 02:13:48PM +0100, Danilo Krummrich wrote:
-> >> On Mon Jan 19, 2026 at 1:54 PM CET, Daniel Almeida wrote:
-> >> >> On 19 Jan 2026, at 09:35, Alice Ryhl <aliceryhl@google.com> wrote:
-> >> >> I think that if you still want an API where you just call enable/di=
-sable
-> >> >> directly on it with no protection against unbalanced calls, then th=
-at
-> >> >> should be the special API. Probably called RawClk and functions mar=
-ked
-> >> >> unsafe. Unbalanced calls seem really dangerous and use should not be
-> >> >> encouraged.
-> >>=20
-> >> +1; and unless there is a use-case that requires otherwise, it should =
-not even
-> >> be possible to do this at all -- at least for driver code.
-> >
-> > I mean, it's great, it's safe, etc. but it's also suboptimal from a PM
-> > perspective on many platforms. It's totally fine to provide nice, safe,
-> > ergonomic wrappers for the drivers that don't care (or can't, really),
-> > but treating a legitimate optimisation as something we should consider
-> > impossible to do is just weird to me.
->=20
-> I said that an unsafe API with potentially unbalanced calls is something =
-we
-> should clearly avoid for drivers. This is *not* equivalent to "treating a
-> legitimate optimisation as something we should consider impossible".
->=20
-> If we discover use-cases where the current API doesn't work well, we can
-> invenstigate further.
+I think the series looks fine, but there's still the main question of
+whether making video plane primary is the best choice. I'll summarize my
+understanding of our two options here:
 
-I'm not sure I'm following what you're saying, sorry. I've pointed out
-such a use-case already.
+1) Make video plane primary plane, and thus graphics plane an overlay
+plane. The downside here is that, at least to me, the plane types feel
+like they are the wrong way around, and any existing code that depends
+on the plane type may start to fail. That said, the plane type is
+supposed to be a legacy thing, and a modern userspace should just look
+at the plane properties to decide how to use them (which raises the
+question of why is X/Weston even failing).
 
-> >> > I think we should discourage RawClk if at all possible. But if the c=
-onsensus
-> >> > is that we *really* need this easily-abused thing, I can provide a f=
-ollow-up.
-> >>=20
-> >> I think we should only do this if there are use-case with no alternati=
-ve, so far
-> >> there haven't been any AFAIK.
-> >
-> > I don't really care about which alternative we come up with, but look at
-> > devm_regmap_init_mmio_clk for example. It is a valid use-case that
-> > already exists today, and has had for more than a decade at this point.
->=20
-> I don't see the issue with devm_regmap_init_mmio_clk()? It takes a refere=
-nce
-> count of the clock and prepares it when called and unprepares the clk in =
-drops
-> its reference in regmap_mmio_free_context() called from the devres callba=
-ck.
->=20
-> That something we can easily do with the current API, no?
+2) Add XRGB format to the graphics plane. This should work fine too, as
+long as we make sure using XRGB with per-pixel alpha will fail (i.e.
+only global alpha supported with XRGB). Afaics that could be done with a
+check in atomic_check.
 
-The current one, yes. Doing that in the API suggested here would involve
-some boilerplate in all those drivers they don't have right now.
+Does anyone have strong arguments for either of these options?
 
-Maxime
-
---zgoq7kx6iu4jzgjw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaXIp0AAKCRAnX84Zoj2+
-dv/rAX9htC+v4VP6TU5rtpJ5yxn/5pIK0gwosc19iO/daFXAUH7fxYosU1HBuveb
-KxjMgb8BgMuQtaOp2idk6EzXwAecWf/CAQ08Ci5MNA2QR6rNT2nYPbr8TNKaiLWq
-nIzGXz2HvQ==
-=cTWW
------END PGP SIGNATURE-----
-
---zgoq7kx6iu4jzgjw--
+ Tomi
