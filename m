@@ -2,67 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oJtHEwT8cWmvZwAAu9opvQ
+	id aPSfJnn+cWmvZwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 11:29:24 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 11:39:53 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975E565437
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 11:29:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07972655E7
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 11:39:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA4E010E05D;
-	Thu, 22 Jan 2026 10:29:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F0E810E251;
+	Thu, 22 Jan 2026 10:39:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Fly5p88E";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="qXPGql49";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GSfNplAb";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qXPGql49";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GSfNplAb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43D4C10E035;
- Thu, 22 Jan 2026 10:29:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769077759; x=1800613759;
- h=from:date:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=cblTEV09hHyDFC8jkM6gv28riPyAg/Gct4AQ2WAGjjE=;
- b=Fly5p88ErsxkLYC82LLa3EJNY/4M1FdUz12XS1vRHNcnYIG1P3jITkA8
- IGM5+jUnKTvMl+46EXWIe/wIOyofmeCpaTPkmbTzw/5ij0GL/CtbEar92
- X70Q8gFPGOnd3zudhOi16NNypU+1yNd4WVnQklbinBiNKU1SPMEuDBTUZ
- fK2yHZEOJsvvKUKLzy4CysvEjVdlVcZTKuhphsieIBIImgAdztcPJwHyU
- IFgsukphsbkEY+jtbU/97FL2CoKtZmeZazbMz439I+jvMkCeQpnKvx/md
- h1hxepQB3hgp+UWT25sWW3gqpErg66uoVMTogz/aZwZU3aDwa8cqXfwTF w==;
-X-CSE-ConnectionGUID: hSs0a/5fTbm9A2orbzfZtA==
-X-CSE-MsgGUID: AVPhpzS5TO28b9KPYhszRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="81035162"
-X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; d="scan'208";a="81035162"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2026 02:29:19 -0800
-X-CSE-ConnectionGUID: pnG7EpKfRp6VftNnrFmYgQ==
-X-CSE-MsgGUID: V4m/dzw1SMuDhiEc9UxVtQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; d="scan'208";a="206306411"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.244.15])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2026 02:29:07 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 22 Jan 2026 12:29:04 +0200 (EET)
-To: "David E. Box" <david.e.box@linux.intel.com>
-cc: thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com, 
- irenic.rajneesh@gmail.com, srinivas.pandruvada@linux.intel.com, 
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- xi.pardee@linux.intel.com, Hans de Goede <hansg@kernel.org>, 
- LKML <linux-kernel@vger.kernel.org>, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v3 6/6] platform/x86/intel/vsec: Plumb ACPI PMT discovery
- tables through vsec
-In-Reply-To: <20260122030903.3247167-7-david.e.box@linux.intel.com>
-Message-ID: <a2ad65a0-7c90-45ae-bb13-e4a3e8a58dae@linux.intel.com>
-References: <20260122030903.3247167-1-david.e.box@linux.intel.com>
- <20260122030903.3247167-7-david.e.box@linux.intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DDE810E035
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 10:39:48 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A4A7B33694;
+ Thu, 22 Jan 2026 10:39:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1769078386; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=TkCSPT+9XJZzQ81lfCewAIgnjVdGJHtK1VhI9nX0RPs=;
+ b=qXPGql49k6jMUPBkmWt5dBw5dDiPaLXcnwEIQ/BCHmcSCazbcXSPaEA4bT41n2+h46Zom4
+ cjTrEmwEzYJbvEBe8zJdPn/WS//+bDE+wU7EaCMTC6pnAnWIWxDaEIk0kDnm4lPExresHK
+ avLG2l3FWbN0kH+4uelsFEkRVt+BonY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1769078386;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=TkCSPT+9XJZzQ81lfCewAIgnjVdGJHtK1VhI9nX0RPs=;
+ b=GSfNplAbulgvVQ+YDy9cE22oUUQFtouosS2aiKncIIb8NSdqDMpzwaU+b5rxdy0Ok0tP4Y
+ WAVzNx7jh+jx7nDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1769078386; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=TkCSPT+9XJZzQ81lfCewAIgnjVdGJHtK1VhI9nX0RPs=;
+ b=qXPGql49k6jMUPBkmWt5dBw5dDiPaLXcnwEIQ/BCHmcSCazbcXSPaEA4bT41n2+h46Zom4
+ cjTrEmwEzYJbvEBe8zJdPn/WS//+bDE+wU7EaCMTC6pnAnWIWxDaEIk0kDnm4lPExresHK
+ avLG2l3FWbN0kH+4uelsFEkRVt+BonY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1769078386;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=TkCSPT+9XJZzQ81lfCewAIgnjVdGJHtK1VhI9nX0RPs=;
+ b=GSfNplAbulgvVQ+YDy9cE22oUUQFtouosS2aiKncIIb8NSdqDMpzwaU+b5rxdy0Ok0tP4Y
+ WAVzNx7jh+jx7nDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D1B8E1395E;
+ Thu, 22 Jan 2026 10:39:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id /SzZMXH+cWmxHgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 22 Jan 2026 10:39:45 +0000
+Message-ID: <5fc5439b-ef21-416a-90fe-07f0d21de87d@suse.de>
+Date: Thu, 22 Jan 2026 11:39:45 +0100
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-2132290946-1769077744=:1059"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/9] drm: verisilicon: add a driver for Verisilicon
+ display controllers
+To: Icenowy Zheng <uwu@icenowy.me>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>,
+ Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Michal Wilczynski <m.wilczynski@samsung.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, Han Gao <rabenda.cn@gmail.com>,
+ Yao Zi <ziyao@disroot.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-riscv@lists.infradead.org, Han Gao <gaohan@iscas.ac.cn>
+References: <20260116043746.336328-1-zhengxingda@iscas.ac.cn>
+ <20260116043746.336328-4-zhengxingda@iscas.ac.cn>
+ <56e1974c-0fe6-4bdb-918d-fcf6a8b866c1@suse.de>
+ <0eb4b6ba8ef3b47cd28eb8d652b05eb5a6d1409c.camel@icenowy.me>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <0eb4b6ba8ef3b47cd28eb8d652b05eb5a6d1409c.camel@icenowy.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,216 +150,211 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.19 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	CTYPE_MIXED_BOGUS(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[multipart/mixed,text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:uwu@icenowy.me,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:p.zabel@pengutronix.de,m:lumag@kernel.org,m:m.wilczynski@samsung.com,m:luca.ceresoli@bootlin.com,m:rabenda.cn@gmail.com,m:ziyao@disroot.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:gaohan@iscas.ac.cn,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:rabendacn@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[icenowy.me,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,ffwll.ch,redhat.com];
 	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+];
-	FREEMAIL_CC(0.00)[linux.intel.com,intel.com,gmail.com,lists.freedesktop.org,kernel.org,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[pengutronix.de,kernel.org,samsung.com,bootlin.com,gmail.com,disroot.org,vger.kernel.org,lists.freedesktop.org,lists.infradead.org,iscas.ac.cn];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ilpo.jarvinen@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,intel.com:dkim]
-X-Rspamd-Queue-Id: 975E565437
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:mid,suse.de:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:url]
+X-Rspamd-Queue-Id: 07972655E7
 X-Rspamd-Action: no action
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi
 
---8323328-2132290946-1769077744=:1059
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Am 22.01.26 um 10:23 schrieb Icenowy Zheng:
+> 在 2026-01-21星期三的 13:56 +0100，Thomas Zimmermann写道：
+>
+> =============== 8< ===================
+>>> +
+>>> +       dev_info(dev, "DC%x rev %x customer %x\n", dc-
+>>>> identity.model,
+>>> +                dc->identity.revision, dc->identity.customer_id);
+>> drm_dbg().  Drivers should be quite by default.
+> Well for this kind of identification information I think driver is
+> usually not quiet, at least amdgpu (when doing IP discovery), panfrost
+> and etnaviv (which shares the same set of identification registers with
+> this driver) is reporting it.
 
-On Wed, 21 Jan 2026, David E. Box wrote:
+These drivers only get away with it because many other drivers keep 
+quite. Otherwise the kernel log would be filled with init reports. Your 
+choice, but it's questionable if anyone ever cares except for debugging.
 
-> Some platforms expose PMT discovery via ACPI instead of PCI BARs. Add a
-> generic discovery source flag and carry ACPI discovery entries alongside
-> the existing PCI resource path so PMT clients can consume either.
->=20
-> Changes:
->   - Add enum intel_vsec_disc_source { _PCI, _ACPI }.
->   - Extend intel_vsec_platform_info and intel_vsec_device with source enu=
-m
->     and ACPI discovery table pointer/
->   - When src=3D=3DACPI, skip BAR resource setup and copy the ACPI discove=
-ry
->     entries into the aux device.
->=20
-> No user-visible behavior change yet; this only wires ACPI data through vs=
-ec
-> in preparation for ACPI-enumerated PMT clients.
->=20
-> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
-> ---
->=20
-> v3:
->   - Re-send with all changes intended for v2 which was sent without them
->     being applied.
->=20
-> v2:
->   - Improve comment to clarify BAR resource setup doesn't apply to ACPI
->     discovery
->   - Add missing #include for kmemdup()
->   - Use array_size() for overflow protection
->     (review comments by Ilpo J=C3=A4rvinen)
->=20
->=20
->  drivers/platform/x86/intel/vsec.c | 24 ++++++++++++++++++++++++
->  include/linux/intel_vsec.h        | 20 +++++++++++++++++++-
->  2 files changed, 43 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/platform/x86/intel/vsec.c b/drivers/platform/x86/int=
-el/vsec.c
-> index 4aeb0728b435..b1465e67feef 100644
-> --- a/drivers/platform/x86/intel/vsec.c
-> +++ b/drivers/platform/x86/intel/vsec.c
-> @@ -24,7 +24,9 @@
->  #include <linux/intel_vsec.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
-> +#include <linux/overflow.h>
->  #include <linux/pci.h>
-> +#include <linux/string.h>
->  #include <linux/types.h>
-> =20
->  #define PMT_XA_START=09=09=090
-> @@ -109,6 +111,7 @@ static void intel_vsec_dev_release(struct device *dev=
-)
-> =20
->  =09ida_free(intel_vsec_dev->ida, intel_vsec_dev->auxdev.id);
-> =20
-> +=09kfree(intel_vsec_dev->acpi_disc);
->  =09kfree(intel_vsec_dev->resource);
->  =09kfree(intel_vsec_dev);
->  }
-> @@ -320,6 +323,13 @@ static int intel_vsec_add_dev(struct device *dev, st=
-ruct intel_vsec_header *head
->  =09 * auxiliary device driver.
->  =09 */
->  =09for (i =3D 0, tmp =3D res; i < header->num_entries; i++, tmp++) {
-> +=09=09/*
-> +=09=09 * Skip resource mapping check for ACPI-based discovery
-> +=09=09 * since those tables are read from _DSD, not MMIO.
-> +=09=09 */
-> +=09=09if (info->src =3D=3D INTEL_VSEC_DISC_ACPI)
-> +=09=09=09break;
-> +
->  =09=09tmp->start =3D base_addr + header->offset + i * (header->entry_siz=
-e * sizeof(u32));
->  =09=09tmp->end =3D tmp->start + (header->entry_size * sizeof(u32)) - 1;
->  =09=09tmp->flags =3D IORESOURCE_MEM;
-> @@ -338,6 +348,20 @@ static int intel_vsec_add_dev(struct device *dev, st=
-ruct intel_vsec_header *head
->  =09intel_vsec_dev->base_addr =3D info->base_addr;
->  =09intel_vsec_dev->priv_data =3D info->priv_data;
->  =09intel_vsec_dev->cap_id =3D cap_id;
-> +=09intel_vsec_dev->src =3D info->src;
-> +
-> +=09if (info->src =3D=3D INTEL_VSEC_DISC_ACPI) {
-> +=09=09size_t bytes;
-> +
-> +=09=09bytes =3D array_size(intel_vsec_dev->num_resources,
-> +=09=09=09=09   sizeof(info->acpi_disc[0]));
-> +=09=09if (!bytes)
-> +=09=09=09return -EOVERFLOW;
 
-Is this correct as array_size() is documented to return SIZE_MAX on=20
-overflow?
+>
+>>> +
+>>> +       if (port_count > dc->identity.display_count) {
+>>> +               dev_err(dev, "too many downstream ports than HW
+>>> capability\n");
+>>> +               ret = -EINVAL;
+>>> +               goto err_rst_assert;
+>>> +       }
+>>> +
+> =============== 8< ===================
+>>> +
+>>> +       if (!state->visible || !fb) {
+>>> +               regmap_write(dc->regs, VSDC_FB_CONFIG(output), 0);
+>>> +               regmap_write(dc->regs, VSDC_FB_CONFIG_EX(output),
+>>> 0);
+>>> +               goto commit;
+>>> +       } else {
+>>> +               regmap_set_bits(dc->regs,
+>>> VSDC_FB_CONFIG_EX(output),
+>>> +                               VSDC_FB_CONFIG_EX_FB_EN);
+>>> +       }
+>> Since you handle the plane on/plane off cases here, I'd advise to
+>> implement atomic_enable and atomic_disable for the plane, if the
+>> hardware allows it. (There is hardware were the current pattern makes
+>> sense though.)
+> If atomic_*able is going to be implemented, should atomic_update() keep
+> the plane on/off code?
 
-Other than that, this series looked very straightforward now.
+In this case, atomic_update should only perform an update of the plane's 
+graphics buffer (scanout address, color format). The logic then is
 
---=20
- i.
+enable and mode setting:
 
-> +
-> +=09=09intel_vsec_dev->acpi_disc =3D kmemdup(info->acpi_disc, bytes, GFP_=
-KERNEL);
-> +=09=09if (!intel_vsec_dev->acpi_disc)
-> +=09=09=09return -ENOMEM;
-> +=09}
-> =20
->  =09if (header->id =3D=3D VSEC_ID_SDSI)
->  =09=09intel_vsec_dev->ida =3D &intel_vsec_sdsi_ida;
-> diff --git a/include/linux/intel_vsec.h b/include/linux/intel_vsec.h
-> index 4eecb2a6bac4..1fe5665a9d02 100644
-> --- a/include/linux/intel_vsec.h
-> +++ b/include/linux/intel_vsec.h
-> @@ -33,6 +33,11 @@ struct device;
->  struct pci_dev;
->  struct resource;
-> =20
-> +enum intel_vsec_disc_source {
-> +=09INTEL_VSEC_DISC_PCI,=09/* PCI, default */
-> +=09INTEL_VSEC_DISC_ACPI,=09/* ACPI */
-> +};
-> +
->  enum intel_vsec_id {
->  =09VSEC_ID_TELEMETRY=09=3D 2,
->  =09VSEC_ID_WATCHER=09=09=3D 3,
-> @@ -103,6 +108,10 @@ struct vsec_feature_dependency {
->   * @parent:    parent device in the auxbus chain
->   * @headers:   list of headers to define the PMT client devices to creat=
-e
->   * @deps:      array of feature dependencies
-> + * @acpi_disc: ACPI discovery tables, each entry is two QWORDs
-> + *             in little-endian format as defined by the PMT ACPI spec.
-> + *             Valid only when @provider =3D=3D INTEL_VSEC_DISC_ACPI.
-> + * @src:       source of discovery table data
->   * @priv_data: private data, usable by parent devices, currently a callb=
-ack
->   * @caps:      bitmask of PMT capabilities for the given headers
->   * @quirks:    bitmask of VSEC device quirks
-> @@ -113,6 +122,8 @@ struct intel_vsec_platform_info {
->  =09struct device *parent;
->  =09struct intel_vsec_header **headers;
->  =09const struct vsec_feature_dependency *deps;
-> +=09u32 (*acpi_disc)[4];
-> +=09enum intel_vsec_disc_source src;
->  =09void *priv_data;
->  =09unsigned long caps;
->  =09unsigned long quirks;
-> @@ -124,7 +135,12 @@ struct intel_vsec_platform_info {
->   * struct intel_vsec_device - Auxbus specific device information
->   * @auxdev:        auxbus device struct for auxbus access
->   * @dev:           struct device associated with the device
-> - * @resource:      any resources shared by the parent
-> + * @resource:      PCI discovery resources (BAR windows), one per discov=
-ery
-> + *                 instance. Valid only when @src =3D=3D INTEL_VSEC_DISC=
-_PCI
-> + * @acpi_disc:     ACPI discovery tables, each entry is two QWORDs
-> + *                 in little-endian format as defined by the PMT ACPI sp=
-ec.
-> + *                 Valid only when @src =3D=3D INTEL_VSEC_DISC_ACPI.
-> + * @src:           source of discovery table data
->   * @ida:           id reference
->   * @num_resources: number of resources
->   * @id:            xarray id
-> @@ -138,6 +154,8 @@ struct intel_vsec_device {
->  =09struct auxiliary_device auxdev;
->  =09struct device *dev;
->  =09struct resource *resource;
-> +=09u32 (*acpi_disc)[4];
-> +=09enum intel_vsec_disc_source src;
->  =09struct ida *ida;
->  =09int num_resources;
->  =09int id; /* xa */
->=20
---8323328-2132290946-1769077744=:1059--
+  atomic_update, plus
+  atomic_enable
+
+disable:
+
+  atomic_disable only
+
+page flips:
+
+  atomic_update only
+
+See 
+https://elixir.bootlin.com/linux/v6.18.6/source/drivers/gpu/drm/drm_atomic_helper.c#L3022
+
+That's usually cleaner. But there's hardware where update/enable/disable 
+is connected in such a way that a single atomic_update is better.
+
+
+>
+> BTW it seems that DC8200 has the shadow register capability that could
+> be manually commited but the older DC8000 has no (the
+> VSDC_FB_CONFIG_EX_COMMIT bit written below is a new thing) -- the
+> VSDC_FB_CONFIG register on DC8000 has a write-only bit that when
+> written with 0 the display is put to reset and when written with 1 the
+> display will start to run. This pattern seems to be not able to keep
+> the enabled state while programming (at least part of) new plane
+> configuration, see [1].
+
+I cannot comment on the hardware. But on the DRM side, we always disable 
+the pipeline for we program a new display mode; and then do an enable 
+step to program the new mode. This happens on the CRTC, but it also 
+affects the CRTC's planes accordingly. For pageflips, we only run the 
+plane's atomic_update.
+
+If you you see a page flip, but need a full mode-setting operation, you 
+can manually trigger it by setting drm_crtc_state.mode_changed from the 
+plane's atomic_check. Here's an example: 
+https://elixir.bootlin.com/linux/v6.18.6/source/drivers/gpu/drm/mgag200/mgag200_mode.c#L503
+
+If the DC8000 and DC8200 behave sufficiently differently, my advise is 
+to write multiple _funcs structs with custom helpers and pick the 
+correct one when you initialize the modesetting pipeline.
+
+Best regards
+Thomas
+
+>
+> [1]
+> https://github.com/milkv-megrez/rockos-u-boot/blob/c9221cf2fa77d39c0b241ab4b030c708e7ebe279/drivers/video/eswin/eswin_dc_reg.h#L3579
+>
+>>> +
+>>> +       drm_format_to_vs_format(state->fb->format->format, &fmt);
+>>> +
+>>> +       regmap_update_bits(dc->regs, VSDC_FB_CONFIG(output),
+>>> +                          VSDC_FB_CONFIG_FMT_MASK,
+>>> +                          VSDC_FB_CONFIG_FMT(fmt.color));
+>>> +       regmap_update_bits(dc->regs, VSDC_FB_CONFIG(output),
+>>> +                          VSDC_FB_CONFIG_SWIZZLE_MASK,
+>>> +                          VSDC_FB_CONFIG_SWIZZLE(fmt.swizzle));
+>>> +       regmap_assign_bits(dc->regs, VSDC_FB_CONFIG(output),
+>>> +                          VSDC_FB_CONFIG_UV_SWIZZLE_EN,
+>>> fmt.uv_swizzle);
+>>> +
+>>> +       /* Get the physical address of the buffer in memory */
+>>> +       gem = drm_fb_dma_get_gem_obj(fb, 0);
+>>> +
+>>> +       /* Compute the start of the displayed memory */
+>>> +       bpp = fb->format->cpp[0];
+>>> +       dma_addr = gem->dma_addr + fb->offsets[0];
+>>> +
+>>> +       /* Fixup framebuffer address for src coordinates */
+>>> +       dma_addr += (state->src.x1 >> 16) * bpp;
+>> bpp is deprecated and should be avoided in new code. You can compute
+>> the
+>> offset with drm_format_min_pitch():
+>>
+>> drm_format_min_pitch(fb->format, 0, state->src.x1 >> 16 )
+>>
+>> Best regards
+>> Thomas
+>>
+>>> +       dma_addr += (state->src.y1 >> 16) * fb->pitches[0];
+>>> +
+>>> +       regmap_write(dc->regs, VSDC_FB_ADDRESS(output),
+>>> +                    lower_32_bits(dma_addr));
+>>> +       regmap_write(dc->regs, VSDC_FB_STRIDE(output),
+>>> +                    fb->pitches[0]);
+>>> +
+>>> +       regmap_write(dc->regs, VSDC_FB_TOP_LEFT(output),
+>>> +                    VSDC_MAKE_PLANE_POS(state->crtc_x, state-
+>>>> crtc_y));
+>>> +       regmap_write(dc->regs, VSDC_FB_BOTTOM_RIGHT(output),
+>>> +                    VSDC_MAKE_PLANE_POS(state->crtc_x + state-
+>>>> crtc_w,
+>>> +                                        state->crtc_y + state-
+>>>> crtc_h));
+>>> +       regmap_write(dc->regs, VSDC_FB_SIZE(output),
+>>> +                    VSDC_MAKE_PLANE_SIZE(state->crtc_w, state-
+>>>> crtc_h));
+>>> +
+>>> +       regmap_write(dc->regs, VSDC_FB_BLEND_CONFIG(output),
+>>> +                    VSDC_FB_BLEND_CONFIG_BLEND_DISABLE);
+>>> +commit:
+>>> +       regmap_set_bits(dc->regs, VSDC_FB_CONFIG_EX(output),
+>>> +                       VSDC_FB_CONFIG_EX_COMMIT);
+>>> +}
+>>> +
+> =============== 8< ===================
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
