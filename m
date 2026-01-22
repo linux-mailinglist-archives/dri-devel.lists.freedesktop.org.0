@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WPwFLUyCcWk1IAAAu9opvQ
+	id CIrSE0mCcWk1IAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 02:50:04 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 02:50:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 673E960841
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 02:50:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B729260833
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 02:50:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 869BD10E285;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0820310E278;
 	Thu, 22 Jan 2026 01:49:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cmOp/by/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Mkohk+v5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F36AC10E277;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36B8A10E272;
  Thu, 22 Jan 2026 01:49:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769046598; x=1800582598;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=LW3yUApuoWtfWVu47vyMLiTiq/x590rOGlRdxQt+wmo=;
- b=cmOp/by/CluRTBe4LhRiUDbUjwPyy4ECmq0zGz5yxGsDwPCTxN8hmrOk
- G9c/RZU5E19LarbHAuy/ng3GguK9iV8FpMcM3xrITNRjoyKrjHX+6dwp7
- Uh76VCJWyWT+7MpvgVXAW7V0uWj97qkMWqV+U7R8Jh85MyKFwDNXhlCXH
- lwvIHxzGakzDhBLgOsPli5dgA6F1du6EPuyzHPbfWZXvE1ZpODq0M7Mp1
- C8Ku9GY1PnpAYqkJVhKy/LzasoFaCsqvZc5VhlYSB9RblzoxcH2+GFBC6
- HmiR0NOiSG7U/tLFxFPB+sOs7ElM1kk7y76Hc0dVSUSL7FiigREczr4Cs Q==;
-X-CSE-ConnectionGUID: bbIPQUUJRAWigirq1t81jg==
-X-CSE-MsgGUID: pbclDPWNQIKJdzfZPjU53g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="73910925"
-X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; d="scan'208";a="73910925"
+ t=1769046597; x=1800582597;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=ym9oGfPvjz7Z8WTF9Cp66lX50243R2u/7n029qSwN9I=;
+ b=Mkohk+v5wv5z4WJvDMjQqq6re3OqhgUkmiDsLyybtwDNHDlGeotF5Eu4
+ mUah6lQWamm9ivc5Sv9BK3XJXFJb2YY3eTSr0AyVBqB+7bIBFzOwizIKz
+ uHYoBQnb14iiiEEFGfXdBrfySX6VgmTLS7KpP0vJLX1OTnB6+yMffO9LD
+ 4Bfy/VKUSVxMH95qPbAGs3rZaLGckb7jaEYIa8cdGix5i4frx39PZDbOI
+ 6A8FhPzZSiHk/4tng00+gawcYVyocyC0EIsTaHf2y9N0m3EjyVMEmQmzf
+ Ijzuhd7cOIOYHttWyS+nY3Lx781hHwpbCZi8nhKGAkrMFOBT5CHN83z2Q Q==;
+X-CSE-ConnectionGUID: sPyGicD5QXOplarF/qVZmw==
+X-CSE-MsgGUID: 849onf5vSN6YM10tH4e7TA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="73910929"
+X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; d="scan'208";a="73910929"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Jan 2026 17:49:56 -0800
-X-CSE-ConnectionGUID: OWEAG8HHSz6hDHsN/3WG8A==
-X-CSE-MsgGUID: LMcSqRa4TFmUgY+jTpn1qw==
+X-CSE-ConnectionGUID: 6zRire75Q729ohnbzQSYow==
+X-CSE-MsgGUID: rRHpWbHtQ1Cy0PKOY5krMA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; d="scan'208";a="211616417"
+X-IronPort-AV: E=Sophos;i="6.21,244,1763452800"; d="scan'208";a="211616420"
 Received: from debox1-desk4.jf.intel.com ([10.88.27.138])
  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  21 Jan 2026 17:49:56 -0800
@@ -53,12 +53,13 @@ To: thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
  dri-devel@lists.freedesktop.org, xi.pardee@linux.intel.com
 Cc: "David E. Box" <david.e.box@linux.intel.com>, hansg@kernel.org,
  linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH v2 0/6] platform/x86/intel/vsec: Prep for ACPI PMT discovery
-Date: Wed, 21 Jan 2026 17:49:41 -0800
-Message-ID: <20260122014948.3158069-1-david.e.box@linux.intel.com>
+Subject: [PATCH v2 1/6] platform/x86/intel/vsec: Refactor base_addr handling
+Date: Wed, 21 Jan 2026 17:49:42 -0800
+Message-ID: <20260122014948.3158069-2-david.e.box@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260122014948.3158069-1-david.e.box@linux.intel.com>
+References: <20260122014948.3158069-1-david.e.box@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,88 +76,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.19 / 15.00];
+X-Spamd-Result: default: False [1.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[4];
 	FREEMAIL_TO(0.00)[linux.intel.com,intel.com,gmail.com,lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	ARC_NA(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	FROM_NEQ_ENVFROM(0.00)[david.e.box@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[david.e.box@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linux.intel.com:mid]
-X-Rspamd-Queue-Id: 673E960841
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[header.id:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linux.intel.com:mid,intel.com:email,intel.com:dkim]
+X-Rspamd-Queue-Id: B729260833
 X-Rspamd-Action: no action
 
-This series updates intel_vsec to improve const-correctness, decouple
-helper APIs from PCI, enhance error handling, and plumb ACPI-based Intel
-Platform Monitoring Technology (PMT) discovery through the vsec layer. It
-is preparatory infrastructure for follow-on PMT core/telemetry and
-PMC/SSRAM series that add ACPI discovery and support for new platforms.
+The base_addr field in intel_vsec_platform_info was originally added to
+support devices that emulate PCI VSEC capabilities in MMIO. Previously,
+the code would check at registration time whether base_addr was set,
+falling back to the PCI BAR if not.
 
-The series is organized as follows:
+Refactor this by making base_addr an explicit function parameter. This
+clarifies ownership of the value and removes conditional logic from
+intel_vsec_add_dev(). It also enables making intel_vsec_platform_info
+const in a later patch, since the function no longer needs to write to
+info->base_addr.
 
-Patches 1-2 refactor and improve const-correctness of base_addr handling.
-Patch 1 makes base_addr an explicit parameter throughout the call chain,
-clarifying ownership and removing conditional logic. Patch 2 then makes the
-platform info data structure read-only, preventing unintended modifications
-to shared driver data.
+No functional change intended.
 
-Patches 3-4 decouple the vsec layer from PCI-specific types, updating
-helper APIs and data structures to use generic struct device instead of
-struct pci_dev.  This enables vsec to work with both PCI and ACPI parent
-devices.
+Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+---
 
-Patch 5 enhances error visibility by returning meaningful error codes from
-the registration path instead of collapsing to boolean success/failure.
+v2:
+  - Use pci_resource_start() macro instead of direct pdev->resource array a=
+ccess
+    (suggested by Ilpo)
 
-Patch 6 adds infrastructure for ACPI-based PMT discovery, allowing client
-drivers to consume discovery data from either PCI or ACPI sources.
+ drivers/platform/x86/intel/vsec.c | 23 ++++++++++-------------
+ 1 file changed, 10 insertions(+), 13 deletions(-)
 
-David E. Box (6):
-  platform/x86/intel/vsec: Refactor base_addr handling
-  platform/x86/intel/vsec: Make driver_data info const
-  platform/x86/intel/vsec: Decouple add/link helpers from PCI
-  platform/x86/intel/vsec: Switch exported helpers from pci_dev to
-    device
-  platform/x86/intel/vsec: Return real error codes from registration
-    path
-  platform/x86/intel/vsec: Plumb ACPI PMT discovery tables through vsec
-
- drivers/gpu/drm/xe/xe_debugfs.c               |   2 +-
- drivers/gpu/drm/xe/xe_hwmon.c                 |   2 +-
- drivers/gpu/drm/xe/xe_vsec.c                  |   7 +-
- drivers/gpu/drm/xe/xe_vsec.h                  |   2 +-
- drivers/platform/x86/intel/pmc/core.c         |   4 +-
- .../platform/x86/intel/pmc/ssram_telemetry.c  |   2 +-
- drivers/platform/x86/intel/pmt/class.c        |   8 +-
- drivers/platform/x86/intel/pmt/class.h        |   5 +-
- drivers/platform/x86/intel/pmt/discovery.c    |   4 +-
- drivers/platform/x86/intel/pmt/telemetry.c    |  13 +-
- drivers/platform/x86/intel/pmt/telemetry.h    |  12 +-
- drivers/platform/x86/intel/sdsi.c             |   5 +-
- drivers/platform/x86/intel/vsec.c             | 114 +++++++++++-------
- drivers/platform/x86/intel/vsec_tpmi.c        |  10 +-
- include/linux/intel_vsec.h                    |  39 ++++--
- 15 files changed, 136 insertions(+), 93 deletions(-)
-
-
-base-commit: 0f61b1860cc3f52aef9036d7235ed1f017632193
+diff --git a/drivers/platform/x86/intel/vsec.c b/drivers/platform/x86/intel=
+/vsec.c
+index ecfc7703f201..a10e2c65205c 100644
+--- a/drivers/platform/x86/intel/vsec.c
++++ b/drivers/platform/x86/intel/vsec.c
+@@ -271,14 +271,13 @@ EXPORT_SYMBOL_NS_GPL(intel_vsec_add_aux, "INTEL_VSEC"=
+);
+=20
+ static int intel_vsec_add_dev(struct pci_dev *pdev, struct intel_vsec_head=
+er *header,
+ 			      struct intel_vsec_platform_info *info,
+-			      unsigned long cap_id)
++			      unsigned long cap_id, u64 base_addr)
+ {
+ 	struct intel_vsec_device __free(kfree) *intel_vsec_dev =3D NULL;
+ 	struct resource __free(kfree) *res =3D NULL;
+ 	struct resource *tmp;
+ 	struct device *parent;
+ 	unsigned long quirks =3D info->quirks;
+-	u64 base_addr;
+ 	int i;
+=20
+ 	if (info->parent)
+@@ -310,11 +309,6 @@ static int intel_vsec_add_dev(struct pci_dev *pdev, st=
+ruct intel_vsec_header *he
+ 	if (quirks & VSEC_QUIRK_TABLE_SHIFT)
+ 		header->offset >>=3D TABLE_OFFSET_SHIFT;
+=20
+-	if (info->base_addr)
+-		base_addr =3D info->base_addr;
+-	else
+-		base_addr =3D pdev->resource[header->tbir].start;
+-
+ 	/*
+ 	 * The DVSEC/VSEC contains the starting offset and count for a block of
+ 	 * discovery tables. Create a resource array of these tables to the
+@@ -412,7 +406,8 @@ static int get_cap_id(u32 header_id, unsigned long *cap=
+_id)
+=20
+ static int intel_vsec_register_device(struct pci_dev *pdev,
+ 				      struct intel_vsec_header *header,
+-				      struct intel_vsec_platform_info *info)
++				      struct intel_vsec_platform_info *info,
++				      u64 base_addr)
+ {
+ 	const struct vsec_feature_dependency *consumer_deps;
+ 	struct vsec_priv *priv;
+@@ -428,7 +423,7 @@ static int intel_vsec_register_device(struct pci_dev *p=
+dev,
+ 	 * For others using the exported APIs, add the device directly.
+ 	 */
+ 	if (!pci_match_id(intel_vsec_pci_ids, pdev))
+-		return intel_vsec_add_dev(pdev, header, info, cap_id);
++		return intel_vsec_add_dev(pdev, header, info, cap_id, base_addr);
+=20
+ 	priv =3D pci_get_drvdata(pdev);
+ 	if (priv->state[cap_id] =3D=3D STATE_REGISTERED ||
+@@ -444,7 +439,7 @@ static int intel_vsec_register_device(struct pci_dev *p=
+dev,
+=20
+ 	consumer_deps =3D get_consumer_dependencies(priv, cap_id);
+ 	if (!consumer_deps || suppliers_ready(priv, consumer_deps, cap_id)) {
+-		ret =3D intel_vsec_add_dev(pdev, header, info, cap_id);
++		ret =3D intel_vsec_add_dev(pdev, header, info, cap_id, base_addr);
+ 		if (ret)
+ 			priv->state[cap_id] =3D STATE_SKIP;
+ 		else
+@@ -464,7 +459,7 @@ static bool intel_vsec_walk_header(struct pci_dev *pdev,
+ 	int ret;
+=20
+ 	for ( ; *header; header++) {
+-		ret =3D intel_vsec_register_device(pdev, *header, info);
++		ret =3D intel_vsec_register_device(pdev, *header, info, info->base_addr);
+ 		if (!ret)
+ 			have_devices =3D true;
+ 	}
+@@ -512,7 +507,8 @@ static bool intel_vsec_walk_dvsec(struct pci_dev *pdev,
+ 		pci_read_config_dword(pdev, pos + PCI_DVSEC_HEADER2, &hdr);
+ 		header.id =3D PCI_DVSEC_HEADER2_ID(hdr);
+=20
+-		ret =3D intel_vsec_register_device(pdev, &header, info);
++		ret =3D intel_vsec_register_device(pdev, &header, info,
++						 pci_resource_start(pdev, header.tbir));
+ 		if (ret)
+ 			continue;
+=20
+@@ -557,7 +553,8 @@ static bool intel_vsec_walk_vsec(struct pci_dev *pdev,
+ 		header.tbir =3D INTEL_DVSEC_TABLE_BAR(table);
+ 		header.offset =3D INTEL_DVSEC_TABLE_OFFSET(table);
+=20
+-		ret =3D intel_vsec_register_device(pdev, &header, info);
++		ret =3D intel_vsec_register_device(pdev, &header, info,
++						 pci_resource_start(pdev, header.tbir));
+ 		if (ret)
+ 			continue;
+=20
 --=20
 2.43.0
 
