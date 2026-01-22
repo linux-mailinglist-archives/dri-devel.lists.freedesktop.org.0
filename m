@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CBpbI2eHcWlaIwAAu9opvQ
+	id kKmNMz+McWkLJAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 03:11:51 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 03:32:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F8F060BE0
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 03:11:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E18DD60F6B
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 03:32:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EABC810E272;
-	Thu, 22 Jan 2026 02:11:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0999810E277;
+	Thu, 22 Jan 2026 02:32:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="amcZoNO4";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="I92+oDEg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A94AF10E272
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 02:11:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1769047903; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ncOmHeNwR9WO2RKzfXvT4+ZDddd2LEVJ5qh7R85vtLoP90jYmZ9i0D5PXuSAvQdfmoB/cKSUtUOSro6YAD39XJbIBE3r1JwdD+39z/YTVYvF/y0wZumkoLgRHVkbmgLMLhq6GR8eBpLv7eFw+vYBwLFv/3whsWZiBVqr3oLqpsY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1769047903;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=IZoDNO1tUhowBC/Wb25mkcmJiP2cen+Vd6UQb65epvU=; 
- b=ZiaXm31ar1ZH5jiGwTlSF7hFj1W2iWH9U5aGit9IagxPE5v3tbSYk6La5JigZhUGvkDVYBcacFeX4PGO+QyXKNADIXwQHEhcsYTM+vREpGnQuYsGEdFnX8wzgsrpqYTrZVJqe8nwI0mQeotmIMLabLizVke5J9M/ubmw+3vWVOo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
- dmarc=pass header.from=<deborah.brouwer@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769047903; 
- s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com; 
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
- bh=IZoDNO1tUhowBC/Wb25mkcmJiP2cen+Vd6UQb65epvU=;
- b=amcZoNO4Hrtx0l/ld3w8zFM68PPjnTOprmE0QLxoQeTHSiPuiNVBWqnQ5DcZcYCS
- ghEREg18NsvNyakh2T+NFQpnzEm2D2pcedZ8dUblkNsIuWtzZ5bSwrSOQqM/p9Ubv62
- mEYbOpWlVXFUhyC7VN3xizdfqfhIJKsFnevzcDos=
-Received: by mx.zohomail.com with SMTPS id 1769047901905718.0624885472727;
- Wed, 21 Jan 2026 18:11:41 -0800 (PST)
-Date: Wed, 21 Jan 2026 18:11:40 -0800
-From: Deborah Brouwer <deborah.brouwer@collabora.com>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- daniel.almeida@collabora.com, aliceryhl@google.com,
- boris.brezillon@collabora.com, broonie@kernel.org, dakr@kernel.org
-Subject: Re: [PATCH] drm/tyr: suppress unread field warnings
-Message-ID: <aXGHXEylGKcNsqic@um790>
-References: <20260122003746.405370-1-deborah.brouwer@collabora.com>
- <CANiq72=xNcgg6hahQRkAjfbiKOEGMvdePLSaWvD7cML9qTP2iA@mail.gmail.com>
+X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
+ Thu, 22 Jan 2026 02:32:25 UTC
+Received: from mail-m82213661.xmail.ntesmail.com
+ (mail-m82213661.xmail.ntesmail.com [8.221.36.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B43310E836
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 02:32:25 +0000 (UTC)
+Received: from [127.0.0.1] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 318612bcb;
+ Thu, 22 Jan 2026 10:27:15 +0800 (GMT+08:00)
+Message-ID: <8e770288-f29b-4e72-b5a6-e3cfd77b87fb@rock-chips.com>
+Date: Thu, 22 Jan 2026 10:27:13 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72=xNcgg6hahQRkAjfbiKOEGMvdePLSaWvD7cML9qTP2iA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/6] Rockchip DRM use-after-free & null-ptr-deref fixes
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20260122-drm-rk-fixes-v1-0-3942f185750e@collabora.com>
+Content-Language: en-US
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <20260122-drm-rk-fixes-v1-0-3942f185750e@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-HM-Tid: 0a9be387049103abkunm77d59df1bb420
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGU9OTFZLSRgfSElLGkoaTUlWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+ hVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=I92+oDEgnhBj/xd19A1BnS+A6cqHFKTL38BIABnUxSdl1aNhq9t2J9vngMWKoJfjXkmkjLddbyv9G0fUmx2KjJg6a4Gdgq6zqv9BTh9pD64IuRiGOQ+4TdxbGOH5xX6gEvENNT3Vkulj7X1U8UA/rI4huZzfmJ2gIrurHe946ks=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
+ bh=S49y2L4gD63j6L5j9pyo9jE88T6ardth6Lb6pcKfHeg=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,77 +73,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[rock-chips.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[rock-chips.com:s=default];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:miguel.ojeda.sandonis@gmail.com,m:rust-for-linux@vger.kernel.org,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:boris.brezillon@collabora.com,m:broonie@kernel.org,m:dakr@kernel.org,m:miguelojedasandonis@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[deborah.brouwer@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:cristian.ciocaltea@collabora.com,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dmitry.baryshkov@oss.qualcomm.com,m:lumag@kernel.org,m:kernel@collabora.com,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[chaoyi.chen@rock-chips.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[rock-chips.com,sntech.de,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,oss.qualcomm.com,collabora.com,lists.freedesktop.org,lists.infradead.org,vger.kernel.org];
+	DKIM_TRACE(0.00)[rock-chips.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[deborah.brouwer@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[chaoyi.chen@rock-chips.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MISSING_XM_UA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 1F8F060BE0
+	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: E18DD60F6B
 X-Rspamd-Action: no action
 
-On Thu, Jan 22, 2026 at 01:58:40AM +0100, Miguel Ojeda wrote:
-> On Thu, Jan 22, 2026 at 1:38 AM Deborah Brouwer
-> <deborah.brouwer@collabora.com> wrote:
-> >
-> > Currently these warnings, as errors, are preventing Tyr driver
-> > from building:
-> 
-> From what I understand, this is only reproducible with Rust 1.80.0
-> (unsupported upstream), and was fixed in Rust 1.80.1. Did you
-> reproduce it elsewhere? I asked Mark where his toolchain comes to see
-> what could be done there (e.g. in his distribution).
+Hi Cristian,
 
-Yes, I have the error with 1.91.0
-rustc --version --verbose
-rustc 1.91.0 (f8297e351 2025-10-28)
-binary: rustc
-commit-hash: f8297e351a40c1439a467bbbb6879088047f50b3
-commit-date: 2025-10-28
-host: x86_64-unknown-linux-gnu
-release: 1.91.0
-LLVM version: 21.1.2
+On 1/22/2026 7:17 AM, Cristian Ciocaltea wrote:
+> The first three patches in the series are fixes for use-after-free &
+> null-ptr-deref related issues found in dw_dp and inno-hdmi Rockchip DRM
+> drivers.
+> 
 
-bindgen --version
-bindgen 0.72.1
+Have you tried calling unbind() and bind() multiple times? 
+In this case, can DRM still work properly?
 
+> The remaining ones provide a few minor improvements to dw_dp and
+> dw_hdmi_qp.
 > 
-> If it is just in Rust 1.80.0, and if a distribution still uses that
-> one, and for some reason they don't want to use/backport the fix in
-> 1.80.1, then we could consider something more global, i.e. ignoring
-> that lint altogether for that version, since it also fails for another
-> trait in `bounded.rs` (that is why I knew about this).
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> ---
+> Cristian Ciocaltea (6):
+>       drm/rockchip: inno-hdmi: Switch to drmm_kzalloc()
+>       drm/rockchip: dw_dp: Switch to drmm_kzalloc()
+>       drm/rockchip: dw_dp: Fix null-ptr-deref in dw_dp_remove()
+>       drm/rockchip: dw_dp: Simplify error handling
+>       drm/rockchip: dw_dp: Drop unnecessary #include
+>       drm/rockchip: dw_hdmi_qp: Switch to drmm_encoder_init()
 > 
-> (By the way, in any case, we would need a proper explanation of this
-> full context in the commit message.)
+>  drivers/gpu/drm/rockchip/dw_dp-rockchip.c      | 35 ++++++++++----------------
+>  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 13 +++++-----
+>  drivers/gpu/drm/rockchip/inno_hdmi-rockchip.c  |  3 ++-
+>  3 files changed, 21 insertions(+), 30 deletions(-)
+> ---
+> base-commit: 68b271a3a94cfd6c7695a96b6398b52feb89e2c2
+> change-id: 20260122-drm-rk-fixes-a7622c71553e
 > 
-> Thanks!
 > 
-> Cheers,
-> Miguel
+> 
+> 
+-- 
+Best, 
+Chaoyi
