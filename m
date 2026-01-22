@@ -2,149 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8OerF2QZcmnrbwAAu9opvQ
+	id qElEH7QdcmmPdQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 13:34:44 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 13:53:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98AAD66B22
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 13:34:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D84D66E4A
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 13:53:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1A8A10E997;
-	Thu, 22 Jan 2026 12:34:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40BFC10E9AF;
+	Thu, 22 Jan 2026 12:53:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="LZdHrDWQ";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ar+Jzed1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dMMnaFDW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1966710E997
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 12:34:41 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60M7tN3G4057909
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 12:34:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- OQ9Hp0YXE7x+HtzPq+22mdatg3BzC8x6q18ktloaVtA=; b=LZdHrDWQizJ4LLzp
- vVK1EXsUnbwYu5JNptjC8GrH7eJw5ac5hf1Rr1zwghL/Xzl5StnxgyZXuTQ1Ov8i
- V9yqEapCqIPtX4KmHMfuv4PevxOrnjXtsoi/VP7ytkkwzz1WuWaNTVeH2skQsfb9
- BjW52hRFr86Us8bb7C5NKJ7oqkF+Tcau00T2NtI2mksLtv61C72Ang1CtLmC/dEP
- f+9mLhkXHTW+Y4Xb9ntJFvPHQqFLJ/AcRFujriKdbha3+5olas6h3iV86W+C7WfJ
- MWyQY14hNwlm1Rs7K/UT82kfCpBxYWfWO1hjqVsZyVz51Bo+jP4H1KGwzLGhOnRP
- LBil0g==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bu7nbt8c0-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 12:34:40 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-8c523d611ffso14350785a.2
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 04:34:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1769085279; x=1769690079;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=OQ9Hp0YXE7x+HtzPq+22mdatg3BzC8x6q18ktloaVtA=;
- b=Ar+Jzed1T+D5dGir/BCdNLg2jInG4HosdNCRvh/821GtdAFeBkHABJ8MsDbRMOMd81
- aDzRX4r1R4EYquTTNZBQCnkb/+vQiGaovzW/OrOH7K0z7XzcNs4O0DzBzBtGQ+y2MNlR
- EkkRH+Zceo6ATufEWy2pPfqtI4QGcpwcOQZtMWmLsuBVZsqjQIxY2rzp/95t2EibDrNm
- dpaMUHCFiu8u9x6frqEzUoBdM1PdMY06v3GxsT7n9+NsjkPR7pSadOmZAG2OpoMaiZp0
- 3C+OFIC4OR5atMjYivbljupQyp3gTntfTvy4U1sMf/27nE7XEHMSuCibb9Rhfd+t40Eo
- FpUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769085279; x=1769690079;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OQ9Hp0YXE7x+HtzPq+22mdatg3BzC8x6q18ktloaVtA=;
- b=Y71ejNfMw727Cxj+gMLJUfC4m+T9jXxTQfN7labOiQgOK09RfJ6SY1uIkENt+gHQip
- YJdcQtw7aHGBRh5yUyVSx8o+NaT9KBBWC6/KDtcS/pAFeS4aflKcLuWz/iKMfYpB/jkz
- q1g0Koj00128cnbArSy/AbZ0vaqLVyZX5LwHv/TinegfMTGvQFcUvq5PW3jIhg7LCK8E
- LK8ON50WJ7gihclUbnXvaRsql4YDIYCBkw8XcgkDmDWBL7igUChLryXdKB6er/fcudzk
- 49Wp6H2sDTof2aAiHR30e+tMSAYwbZankQ6HwVsRc5fsTWcNithPhiQy+p6cNKH7dZC1
- y6ZQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUfSnUBehwOIDlCqnPFoAQvl/W1D9BAvZNoTqTKN+CnKvuJoGDOPT6s/CxoQPSMRRQdw+La5mXZlwE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxHcIeQ2vEj8uzeXDxsNPxvBRxh77k8/tY55JbCzr68i4L2eoBT
- qEV8IISiwPPzRXeS/ctO5FRQJ8DKg1q4N8cFiROSG/DtVYztVaHewQEFC92KdlqF/C1xRTb5oQd
- QFiOSwZxnAYc8Qhi46FD7+/1VV/+BAYoIssvXA2IbcxS1HKcbQSpyWTay/yh5PnAVwmN3Tks=
-X-Gm-Gg: AZuq6aIkeCG9bLzpvuF+MVxd4dFkvJNwvSu4uHho7JhU5lPuD0tNbxsLxqjV7qaq7ib
- ERJY0CGXYum0K0pEJoD616IgmCjL5Y0r1FyHYa32f0WEhjAH/748Ls7uEKnQdB99n0VpRpQd9QO
- aUCoXZDKxHYctB2lSUchRdTgGBpWLx3GwbXRmIRJj+Dj6g100ktN/XrLuEwTVeGIL6jPim374qL
- w+B+BGPEXnTyUhzd79Zn7WoxeQeOZzaCUkXCdPu3jXQCAUJgMyDFZUuUk3Yz775aEYjB55ut5B7
- IuBsBEk2I70y+UC72M1USC+1AjG1yIdrG9BN92coQmawuRGaJ3AkDGWpchg8Ird/DlzhSBEQ0sz
- lH9ABqzz9zVQVUMajeuSczrx6UROlRxRbrNv7Bf7RM6aP5vubXgGsebNej4xuQl7wMzs=
-X-Received: by 2002:a05:620a:4492:b0:8be:6733:92b1 with SMTP id
- af79cd13be357-8c6a6606fcamr2126205385a.0.1769085279329; 
- Thu, 22 Jan 2026 04:34:39 -0800 (PST)
-X-Received: by 2002:a05:620a:4492:b0:8be:6733:92b1 with SMTP id
- af79cd13be357-8c6a6606fcamr2126202585a.0.1769085278826; 
- Thu, 22 Jan 2026 04:34:38 -0800 (PST)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b8795a2f1aesm1725477066b.61.2026.01.22.04.34.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Jan 2026 04:34:38 -0800 (PST)
-Message-ID: <687b781c-dee6-4b8e-89b2-e082a860be3a@oss.qualcomm.com>
-Date: Thu, 22 Jan 2026 13:34:35 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4913310E9A1;
+ Thu, 22 Jan 2026 12:53:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1769086382; x=1800622382;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=hcBay3dPMkCCiJCq9GvNU4xj4gjQCZN013RgJaZnFrs=;
+ b=dMMnaFDWoIfv244bI+8xxMG0Otq7QrRvGYI9ExLgdrlZEkD0GMMp19ll
+ B1smebPScTJRBSIadcmC3VPIwRjZzVc0VM9cmvlejO5JsR0Ri9tdcc5Ur
+ NI4YokNy5Q2HLiuZXjW7qorhIZHCkldkw5z5bU9dxJQisg8wclIxAbfAT
+ bh+L4TDAf1pu5sVSEr0KExhnIXHHKe4ashYxyaLR28YL5jh8m1SlWoLSH
+ rgA7Stitqjfy8JcewcMuOqYrWwjEV8xaC4/CUiIPGz/OarAFDFwET11hr
+ Z5uw6xjCKMmeaX14vMXJsVnowf/KLno7KgH3ERmLhGkx8IigaqTUhkSaH Q==;
+X-CSE-ConnectionGUID: iUdQTY4FTI+evGJVOvbctg==
+X-CSE-MsgGUID: hizIt61RR0qYdqvvs0cd4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="87903699"
+X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; d="scan'208";a="87903699"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jan 2026 04:53:02 -0800
+X-CSE-ConnectionGUID: 2PAo5p9bQEeH5bp6td8bqg==
+X-CSE-MsgGUID: rdsAIIX1S3mwutqnStOsFw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; d="scan'208";a="206783086"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO fedora)
+ ([10.245.245.235])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jan 2026 04:52:58 -0800
+Date: Thu, 22 Jan 2026 13:52:25 +0100
+From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-xe-fixes
+Message-ID: <aXIdiXaY-RxoaviV@fedora>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] arm64: dts: qcom: add basic devicetree for Ayaneo
- Pocket S2 gaming console
-To: Kancy Joe <kancy2333@outlook.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-References: <20260121-topic-sm8650-ayaneo-pocket-s2-base-v1-0-bb3f95f1c085@linaro.org>
- <20260121-topic-sm8650-ayaneo-pocket-s2-base-v1-3-bb3f95f1c085@linaro.org>
- <01de9fc2-f60c-4bc0-af61-c070213df29b@oss.qualcomm.com>
- <53a1370b-89a4-4276-949a-e3ad95dbad2c@linaro.org>
- <SEZPR04MB6873411EA1A8B69AD45B286CA397A@SEZPR04MB6873.apcprd04.prod.outlook.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <SEZPR04MB6873411EA1A8B69AD45B286CA397A@SEZPR04MB6873.apcprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: E-EgkUV8W0Wcd-ro7tf20eyz64AhVBTN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIyMDA5MSBTYWx0ZWRfX78ZeNEh6L1nA
- BCU3kUlkwd1gSXLuDn4xkJ5CvDb9d6gOY004PZW1+UgxOsScGOfM0rZpLakQi4yq0ciBCFM6JKL
- tuG+e/9Onh/W4Fl1JURwxt35GpZi0wyip2wxNLL6i0Dma5I8YlFYfTvF8pHNHJBvxNI9YFjJpp4
- /7L3nq01A+cou2TEEp3y65JmIvwx0CRlFswNZjPPOZ2kAM4tLlLHzVbAsOiIbBzNWmBu9m3N0Mh
- 6aw90Z6+3gWtfaAqd6yF5jTr88DP4bGsiKdHDQvJGuI0byXQ5MmkQbN50SyqEdax0hf/0AfeY63
- vp8NOAs9slT0zJift2bpBQIQ5X4J71UvOJIwtEEvPqmXk6SN2I/EZTmTK+mFl6hvIgVsLZyQ0A7
- 0NsO17kndulQ1LYx30ZGMZgeauYs6IZ/RCYEfDWSlHcm0A4dxsEfhcfuVufx8fGzYCXOLTfxocQ
- 6jqakJKw3sNnLDPCmSA==
-X-Authority-Analysis: v=2.4 cv=dZGNHHXe c=1 sm=1 tr=0 ts=69721960 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=UqCG9HQmAAAA:8 a=KKAkSRfTAAAA:8
- a=xRqI7NLVZAYiWIq_3gYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: E-EgkUV8W0Wcd-ro7tf20eyz64AhVBTN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-22_01,2026-01-22_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
- bulkscore=0 clxscore=1015 priorityscore=1501 adultscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601220091
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,88 +83,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:kancy2333@outlook.com,m:neil.armstrong@linaro.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[outlook.com,linaro.org,kernel.org,oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,outlook.com:email,qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 98AAD66B22
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gitlab.freedesktop.org:url,intel.com:dkim]
+X-Rspamd-Queue-Id: 2D84D66E4A
 X-Rspamd-Action: no action
 
-On 1/22/26 10:34 AM, Kancy Joe wrote:
-> 
-> On 1/22/2026 5:25 PM, Neil Armstrong wrote:
->> On 1/22/26 10:15, Konrad Dybcio wrote:
->>> On 1/21/26 5:40 PM, Neil Armstrong wrote:
->>>> From: KancyJoe <kancy2333@outlook.com>
->>>>
->>>> Add initial Device Tree for the Ayaneo Pocket S2 gaming console based
->>>> on the Qualcomm Snapdragon 8 Gen 3 platform.
->>>>
->>>> The design is similar to a phone wihout the modem, the game control
->>>> is handled via a standalone controller connected to a PCIe USB
->>>> controller.
->>>>
->>>> Display support will be added in a second time.
->>>>
->>>> Signed-off-by: KancyJoe <kancy2333@outlook.com>
->>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>> ---
+Hi Dave, Simona
 
-[...]
+The drm-xe-fixes for -rc7.
 
->>>> +        pinctrl-names = "default",
->>>> +                "sleep";
->>>> +
->>>> +        pwms = <&pm8550_pwm 3 50000>;
->>>> +
->>>> +        #cooling-cells = <2>;
->>>> +        cooling-levels = <0 16 32 45 60 80 105 130 155 180 205 230 255>;
->>>
->>> Does this come from a preexisting map?
->>
->> Kancy ?
-> 
-> No it is not a preexisting map. I add it(and the thermal part) myself to get dynamic fan speed control work. Perhaps you can also use userspace fan control daemon instead of hardcode it here. In android the vendor control the fan speed in userspace too.
-> 
-> Following block is what the stock fw defined. I changed the granularity to make fan speed (or noise actually) sounds more "smooth".
-> 
-> ```
-> 
-> cooling-levels = <0 64 128 255>;
-> 
-> ```
+Some notable changes:
+- There is an UAPI fix by Matt Auld that allows us to skip a hairy
+  fix in the driver that probably nobody would want to use anyway.
+- Xe userptr was broken in 6.18 in the absence of CONFIG_DEVICE_PRIVATE.
+  that's a regression that causes problem for people. Fix included,
+  although some backporting had to be done so it conflicts a bit with
+  drm-next. Resolution in drm-rerere.
+- There is a (perhaps somewhat late) to the SVM config logic. It's not
+  CC'd stable to avoid unlikely but possible side-effects from enabling
+  CONFIG_DEVICE_PRIVATE. The purpose is to make the XE SVM choice more
+  visible to increase the likelyhood of getting the code exercised and tested.
 
-FWIW the corresponding pwm-backlight driver has this
-num-interpolated-steps property which computes a smooth map.. not sure how
-many cooling levels are resonable for a PWM fan, but then I would intuitively
-not object to having more as opposed to less..
+Thanks,
+Thomas
 
-Konrad
+drm-xe-fixes-2026-01-22:
+UAPI Changes:
+- Disallow bind-queue sharing across multiple VMs (Matt Auld)
+
+Core Changes:
+- Fix xe userptr in the absence of CONFIG_DEVICE_PRIVATE (Thomas)
+
+Driver Changes:
+- Fix a missed page count update (Matt Brost)
+- Fix a confused argument to alloc_workqueue() (Marco Crivellari)
+- Kernel-doc fixes (Jani)
+- Disable a workaround on VFs (Matt Brost)
+- Fix a job lock assert (Matt Auld)
+- Update wedged.mode only after successful reset policy change (Lukasz)
+- Select CONFIG_DEVICE_PRIVATE when DRM_XE_GPUSVM is selected (Thomas)
+The following changes since commit 9dd1f5f3eb8cb175e2f7fd2a685bdb6b1bd2a726:
+
+  Merge tag 'drm-misc-fixes-2026-01-16' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes (2026-01-16 20:27:21 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2026-01-22
+
+for you to fetch changes up to e27ada4f19e7ffda4c05ce8633daf6daed667eea:
+
+  drm/xe: Select CONFIG_DEVICE_PRIVATE when DRM_XE_GPUSVM is selected (2026-01-22 11:27:25 +0100)
+
+----------------------------------------------------------------
+UAPI Changes:
+- Disallow bind-queue sharing across multiple VMs (Matt Auld)
+
+Core Changes:
+- Fix xe userptr in the absence of CONFIG_DEVICE_PRIVATE (Thomas)
+
+Driver Changes:
+- Fix a missed page count update (Matt Brost)
+- Fix a confused argument to alloc_workqueue() (Marco Crivellari)
+- Kernel-doc fixes (Jani)
+- Disable a workaround on VFs (Matt Brost)
+- Fix a job lock assert (Matt Auld)
+- Update wedged.mode only after successful reset policy change (Lukasz)
+- Select CONFIG_DEVICE_PRIVATE when DRM_XE_GPUSVM is selected (Thomas)
+
+----------------------------------------------------------------
+Jani Nikula (3):
+      drm/xe/vf: fix struct xe_gt_sriov_vf_migration kernel-doc
+      drm/xe/xe_late_bind_fw: fix enum xe_late_bind_fw_id kernel-doc
+      drm/xe/vm: fix xe_vm_validation_exec() kernel-doc
+
+Lukasz Laguna (1):
+      drm/xe: Update wedged.mode only after successful reset policy change
+
+Marco Crivellari (1):
+      drm/xe: fix WQ_MEM_RECLAIM passed as max_active to alloc_workqueue()
+
+Matthew Auld (2):
+      drm/xe/uapi: disallow bind queue sharing
+      drm/xe/migrate: fix job lock assert
+
+Matthew Brost (2):
+      drm/xe: Adjust page count tracepoints in shrinker
+      drm/xe: Disable timestamp WA on VFs
+
+Thomas Hellstr�m (2):
+      drm, drm/xe: Fix xe userptr in the absence of CONFIG_DEVICE_PRIVATE
+      drm/xe: Select CONFIG_DEVICE_PRIVATE when DRM_XE_GPUSVM is selected
+
+ drivers/gpu/drm/Kconfig                    |  2 +-
+ drivers/gpu/drm/Makefile                   |  4 +-
+ drivers/gpu/drm/xe/Kconfig                 |  5 ++-
+ drivers/gpu/drm/xe/xe_bo.c                 |  9 +++-
+ drivers/gpu/drm/xe/xe_debugfs.c            | 72 +++++++++++++++++++++++-------
+ drivers/gpu/drm/xe/xe_device_types.h       | 18 ++++++++
+ drivers/gpu/drm/xe/xe_exec_queue.c         | 32 ++++++++++++-
+ drivers/gpu/drm/xe/xe_exec_queue.h         |  1 +
+ drivers/gpu/drm/xe/xe_exec_queue_types.h   |  6 +++
+ drivers/gpu/drm/xe/xe_ggtt.c               |  2 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_vf_types.h  |  4 +-
+ drivers/gpu/drm/xe/xe_guc_ads.c            | 14 +++---
+ drivers/gpu/drm/xe/xe_guc_ads.h            |  5 ++-
+ drivers/gpu/drm/xe/xe_late_bind_fw_types.h |  4 +-
+ drivers/gpu/drm/xe/xe_lrc.c                |  3 ++
+ drivers/gpu/drm/xe/xe_migrate.c            |  4 +-
+ drivers/gpu/drm/xe/xe_sriov_vf_ccs.c       |  2 +-
+ drivers/gpu/drm/xe/xe_vm.c                 |  7 ++-
+ drivers/gpu/drm/xe/xe_vm.h                 |  2 +-
+ include/drm/drm_pagemap.h                  | 19 +++++++-
+ 20 files changed, 175 insertions(+), 40 deletions(-)
