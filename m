@@ -2,69 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oIvkHJiocmnaoQAAu9opvQ
+	id yBHRJ/OpcmkGogAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 23:45:44 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 23:51:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E99F36E448
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 23:45:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08B866E4D4
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 23:51:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37AC610EB65;
-	Thu, 22 Jan 2026 22:45:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E930010EB4F;
+	Thu, 22 Jan 2026 22:51:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JpvlS44O";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="grDLp8Wv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7048D10EB64
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 22:45:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 8CF3F6001A
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 22:45:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 433FAC116D0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 22:45:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769121940;
- bh=5EPnoz76tAypOriSjMofET0xX3pckgcdTGFq+M8AIhc=;
- h=From:To:Subject:Date:From;
- b=JpvlS44OBfv+KNYxXjmKm5yIVc9u74V12ZA7qJbmD/UnA4N8g+xZM4O+a2fIjm875
- ZIChgsSD/36/k6KMDg9iVG2tEZ3edsjkPDl91KwW5Ok2R64GL1+1dlJPrc4YDtiXhm
- mY1PRLy09Qong7SvdbXvtz2Y26hLp+EjDmLdNk9CePc8uZm8/KMd71smAQkfWN+3EE
- STLSLM122e9LoKn5AzmSYvr8FymF2ODXr9fyPLj4f/LaXuCdYNmaOvpB0jRsvcImsT
- UzAcLcHUHEhTPdkloR7mVJRF6lmBFEJpINJ5fzNnoRIJmQboCRKiSN+A5y0VeYql+5
- s1xZEkCpm9B1Q==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 3B0F5C433E1; Thu, 22 Jan 2026 22:45:40 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 221004] New: After some hours FPS drop to half while gaming
- using amdgpu driver with wayland
-Date: Thu, 22 Jan 2026 22:45:40 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: quanticcpu2100@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-221004-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D80AC10EB3F
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 22:51:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1769122285;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=UCysTo7OMV2/jfbYw2YK22A1cPCErwIaomCVQtYlQaE=;
+ b=grDLp8WvTHawsMClf+mgmJ3pK+EHYrgpMDimJzbAXmq8KI7rVFokoc4U6H5N6vNU7xLKLQ
+ HBGohUmAUzyZjv0eDbNVyGmsLODyzQ0ezRVcgp5EfVq5suQUzHQ5cwIp6PrQIstO32kjo2
+ s5hpJOVattwLkHT97g4kqXIlTCeLeS8=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-591-66iMN1VCOG61fk1WMto-bA-1; Thu,
+ 22 Jan 2026 17:51:21 -0500
+X-MC-Unique: 66iMN1VCOG61fk1WMto-bA-1
+X-Mimecast-MFC-AGG-ID: 66iMN1VCOG61fk1WMto-bA_1769122279
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 6E8C918005B9; Thu, 22 Jan 2026 22:51:19 +0000 (UTC)
+Received: from GoldenWind.redhat.com (unknown [10.22.89.232])
+ by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 7B69A30002D8; Thu, 22 Jan 2026 22:51:16 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
+Cc: nouveau@lists.freedesktop.org, "Miguel Ojeda" <ojeda@kernel.org>,
+ "Simona Vetter" <simona@ffwll.ch>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Shankari Anand" <shankari.ak0208@gmail.com>,
+ "David Airlie" <airlied@gmail.com>, "Benno Lossin" <lossin@kernel.org>,
+ "Asahi Lina" <lina+kernel@asahilina.net>,
+ "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Lyude Paul" <lyude@redhat.com>
+Subject: [PATCH v3 0/3] Introduce DeviceContext
+Date: Thu, 22 Jan 2026 17:46:35 -0500
+Message-ID: <20260122225057.3589500-1-lyude@redhat.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,129 +78,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [1.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	ARC_NA(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_NO_DN(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FROM_NEQ_ENVFROM(0.00)[bugzilla-daemon@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_ONE(0.00)[1];
-	RCVD_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
-	NEURAL_HAM(-0.00)[-0.994];
-	TO_DN_NONE(0.00)[];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,kernel.org,ffwll.ch,google.com,gmail.com,asahilina.net,collabora.com,redhat.com];
 	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:dakr@kernel.org,m:nouveau@lists.freedesktop.org,m:ojeda@kernel.org,m:simona@ffwll.ch,m:aliceryhl@google.com,m:shankari.ak0208@gmail.com,m:airlied@gmail.com,m:lossin@kernel.org,m:lina+kernel@asahilina.net,m:daniel.almeida@collabora.com,m:lyude@redhat.com,m:shankariak0208@gmail.com,m:lina@asahilina.net,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[lyude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+]
-X-Rspamd-Queue-Id: E99F36E448
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lyude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_SPAM(0.00)[0.349];
+	TAGGED_RCPT(0.00)[dri-devel,kernel];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,patchwork.freedesktop.org:url]
+X-Rspamd-Queue-Id: 08B866E4D4
 X-Rspamd-Action: no action
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221004
+Previous version of this patch series:
+  https://patchwork.freedesktop.org/series/160217/#rev1
 
-            Bug ID: 221004
-           Summary: After some hours FPS drop to half while gaming using
-                    amdgpu driver with wayland
-           Product: Drivers
-           Version: 2.5
-          Hardware: AMD
-                OS: Linux
-            Status: NEW
-          Severity: high
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: quanticcpu2100@gmail.com
-        Regression: No
+One of the unsolved issues we still have with the rust DRM bindings is
+the ability to limit certain Device operations to contexts where we can
+guarantee that a Device has been fully initialized and registered with
+userspace, or vice-versa (e.g. must be unregistered).
 
-For some reason, in the Wayland session, after a few hours, the frame rate
-drops by half in all games using the amdgpu driver. It seems that after pla=
-ying
-for a long time, the amdgpu driver changes the GPU clock to the minimum
-profile, and the memory goes into idle or has a low clock speed. I ran the
-command below now when the problem is occurring during the game to help pro=
-vide
-some information related to the problem.
+While the previous solution for this that I had was simply not exposing
+drm::Device at all until the device has been registered with userspace,
+unfortunately this isn't enough since:
 
----
+* As we found out with Tyr, drivers occasionally need to be able to
+  create GEM objects before device registration
+* We would still need to be able to handle KMS callbacks which could be
+  invoked after KMS init but before userspace registration (not handled
+  in this series specifically, but DeviceContext will be required for
+  handling this).
 
-$ sudo cat /sys/kernel/debug/dri/0/amdgpu_pm_info
+This patch series provides a pretty nice solution to this, by
+implementing a very similar solution to kernel::device::DeviceContext:
+introducing our own DeviceContext type state.
 
-GFX Clocks and Power:
-        96 MHz (MCLK)
-        0 MHz (SCLK)
-        1825 MHz (PSTATE_SCLK)
-        1000 MHz (PSTATE_MCLK)
-        6 mV (VDDGFX)
-        13.00 W (average SoC)
+This patch series depends on the two pre-requisite patch series:
 
-GPU Temperature: 31 C
-GPU Load: 0 %
-MEM Load: 5 %
+* https://patchwork.freedesktop.org/series/160523/
+* https://patchwork.freedesktop.org/series/160525/
 
-SMC Feature Mask: 0x00003342a36b6df9
-VCN: Powered down
+                          Series-wide changes
 
-Clock Gating Flags Mask: 0xb8198a0d
-        Graphics Fine Grain Clock Gating: On
-        Graphics Medium Grain Clock Gating: On
-        Graphics Medium Grain memory Light Sleep: Off
-        Graphics Coarse Grain Clock Gating: On
-        Graphics Coarse Grain memory Light Sleep: On
-        Graphics Coarse Grain Tree Shader Clock Gating: Off
-        Graphics Coarse Grain Tree Shader Light Sleep: Off
-        Graphics Command Processor Light Sleep: Off
-        Graphics Run List Controller Light Sleep: Off
-        Graphics 3D Coarse Grain Clock Gating: On
-        Graphics 3D Coarse Grain memory Light Sleep: Off
-        Memory Controller Light Sleep: Off
-        Memory Controller Medium Grain Clock Gating: On
-        System Direct Memory Access Light Sleep: Off
-        System Direct Memory Access Medium Grain Clock Gating: On
-        Bus Interface Medium Grain Clock Gating: On
-        Bus Interface Light Sleep: Off
-        Unified Video Decoder Medium Grain Clock Gating: Off
-        Video Compression Engine Medium Grain Clock Gating: Off
-        Host Data Path Light Sleep: On
-        Host Data Path Medium Grain Clock Gating: On
-        Digital Right Management Medium Grain Clock Gating: Off
-        Digital Right Management Light Sleep: Off
-        Rom Medium Grain Clock Gating: Off
-        Data Fabric Medium Grain Clock Gating: Off
-        VCN Medium Grain Clock Gating: Off
-        Host Data Path Deep Sleep: Off
-        Host Data Path Shutdown: Off
-        Interrupt Handler Clock Gating: On
-        JPEG Medium Grain Clock Gating: Off
-        Repeater Fine Grain Clock Gating: Off
-        Perfmon Clock Gating: Off
-        Address Translation Hub Medium Grain Clock Gating: On
-        Address Translation Hub Light Sleep: On
+V2:
+* s/DeviceCtx/DeviceContext/ for consistency
+* Move private driver-data availability to the Registration
+  DeviceContext
+* s/AnyCtx/Init/
 
----
+More changes described in each patch description.
 
-Operating System: Fedora 43
-KDE Plasma Version: 6.5.5
-KDE Frameworks Version: 6.22.0
-Qt Version: 6.10.1
-Kernel Version: 6.18.6_tkg_eevdf (64-bit)
-Graphics Platform: Wayland
-Processors: 16 =C3=97 AMD Ryzen 7 5700X 8-Core Processor
-Memory: 32 GiB of RAM (31,3 GiB usable)
-Graphics Processor: AMD Radeon RX 6800 XT
-Manufacturer: ASUS
+Lyude Paul (3):
+  rust/drm: Introduce DeviceContext
+  rust/drm: Don't setup private driver data until registration
+  rust/drm/gem: Use DeviceContext with GEM objects
 
---=20
-You may reply to this email to add a comment.
+ drivers/gpu/drm/nova/driver.rs |  10 +-
+ drivers/gpu/drm/nova/gem.rs    |  11 +-
+ drivers/gpu/drm/tyr/driver.rs  |  12 +-
+ drivers/gpu/drm/tyr/gem.rs     |   3 +-
+ rust/kernel/drm/device.rs      | 246 +++++++++++++++++++++++++--------
+ rust/kernel/drm/driver.rs      |  55 ++++++--
+ rust/kernel/drm/gem/mod.rs     |  64 ++++++---
+ rust/kernel/drm/mod.rs         |   4 +
+ 8 files changed, 303 insertions(+), 102 deletions(-)
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+
+base-commit: 6ea52b6d8f33ae627f4dcf43b12b6e713a8b9331
+prerequisite-patch-id: d596b2a5a81fb067cb267fe30b6e2d8fd47fddad
+prerequisite-patch-id: 32f09c643498c714d92a6a87b3de220b5d37b41e
+prerequisite-patch-id: 28f11c925aab9ed9d4fa70dbbf2c4a7accb5c05d
+-- 
+2.52.0
+
