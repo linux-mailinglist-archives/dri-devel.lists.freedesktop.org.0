@@ -2,147 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eGMeEEgEcmmvZwAAu9opvQ
+	id QEvyDugFcmmvZwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 12:04:40 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 12:11:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D422D65B06
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 12:04:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9785B65C2D
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 12:11:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 701BC10E97D;
-	Thu, 22 Jan 2026 11:04:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B040910E982;
+	Thu, 22 Jan 2026 11:11:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="atDu5xow";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Hg6FuhPO";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UfBTlgMT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A534B10E983
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 11:04:35 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60M6rdDW724846
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 11:04:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- t0KlvkM5KQlhi9X1NhLsO3/hA2b2nzw1RRo2lI06OH4=; b=atDu5xowozGMAuUZ
- GzTtRyhJQ2wqIsuDLs7r9ve+/Ed1V5cy9CzphuYN01LXzxL/RVZWp4hu/nDoNk+3
- TCwhJUsz/ORIjI16HRuDW8xFabYsz0DgkWTdvrmUoG3JvWhiPOnKAqDNHq2IyyuJ
- xaSQh2qgg2FJDegmMLs37HqsKzmJSPCHkS7JrjolG/zBbpOUXKFvUch7uQr6m02/
- NAVlITpNvBiNOW8BZKxFktIr8KWt1xipbBpL493HGz7UoLElGipusI/zFLkMACmP
- Ae3W/XJWF+f4gCBe8MKE130TmCtczKSyeknY1copj2+dgEa5R1cdbTkVqLPULtkE
- gG3xgw==
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4buf1bgrs0-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 11:04:34 +0000 (GMT)
-Received: by mail-vk1-f197.google.com with SMTP id
- 71dfb90a1353d-5634817781dso741823e0c.3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 03:04:34 -0800 (PST)
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43D5F10E983
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 11:11:31 +0000 (UTC)
+Received: by mail-dl1-f53.google.com with SMTP id
+ a92af1059eb24-1233608c7e9so120845c88.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 03:11:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769080290; cv=none;
+ d=google.com; s=arc-20240605;
+ b=DiMky9S5kXE2141iVQkV9KlqW5qEBjTlQ9Osc6ohFdD+xxBuRfKIwOjd1ahiMf+ILC
+ +d9XRNTf3esJUiHzw8kxRkk9G1awWPRRjUj9yno+o9ikzPzAtvFFaqTcg0zxqQ5WVn9m
+ 4pAFH3yzrR+clJYcCxMYFMA4gL7ptcqm37qS9XHNA+Qv7S4dxhaiyGgDvdg7Z2h5GmHX
+ qVUObVWGPiqWbN00EK2tDYKcdUx7FISFIbVNZ+5d17wEj2lNYdtRXnQ/77eHG2r5vsSZ
+ 7eLonWcfmUyLqcECtFRmhltmc71fSFvD/7ezawURTRHLlZZgdgjH87nI1tLlF/Ua5ECz
+ cHaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:dkim-signature;
+ bh=iThoWmN+ezF6wgSZVKegq1NN/EVTp1gLlwP5B6Z6Hlg=;
+ fh=1DEBWnGx7f4rUhnT2BxtzuXBub32OAGPmhtMrMaRqAM=;
+ b=CDFK71Cj92n2X2B8U97gIw0MkN/et4N9M0tNioGb4Q3l+2IU831gU5bFRrZArQw0bo
+ cElop6axwLzLTXWrZy7ihK9BGe7Omlp5PPKPZ623lEaRjCsJwGxU3ay+HcM7jx8OZupJ
+ eK9x1NHZb35YJ8Knt7GbFffWjicbtjITR1ULJ4e3373RD7/DXrRr9uMy3D/YzSAGVTK0
+ LnopQ+sTwpNT6NWOcv7snXOFkoP6e+3WJ/sFTRzJA1TnBWaNaG8fQUjZ5KOprkEJXGdQ
+ RzJOLK9oRC7Hb83Wi9goq7BW841kFYFLsuJk6KrZZhTltvDjkmx5jQx5Wk8bGNsyLu4a
+ flxQ==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1769079874; x=1769684674;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=t0KlvkM5KQlhi9X1NhLsO3/hA2b2nzw1RRo2lI06OH4=;
- b=Hg6FuhPOqeDArbdLO4Qk/WAAuPsRccHm2YxtIEe3C4JZhCZKcqqw5BINh9i4CL5wtg
- rEer1cyjLoukN87HbPknU4HsSr3+CEsGMp295ldyuY//FQvvbXdAlJKjNYqbQK/uWQcs
- KjpAqymiAP3xTuMQQAA+wQHmcGe1976cnhQh9ik64vqw9leOD6eiff3Kc8p3Nw4ChLPa
- 9xu+fjIWbb7pUi53mCBXygpO+K1E+m6M/c+74WnKM9/9qCFlRGGTdX7Clzj4N+1MuDhS
- M4f07uNtpXOCPv9YvgAGXObvV1fM2yP5ElufsIMtaWDGIAt+RIEEP73K2MIewKwOo+lT
- Ooiw==
+ d=gmail.com; s=20230601; t=1769080290; x=1769685090; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=iThoWmN+ezF6wgSZVKegq1NN/EVTp1gLlwP5B6Z6Hlg=;
+ b=UfBTlgMTdWaRRNZusa2V7YCsp8Wa02UK0MaWNRzicvCPdX5BT84CHoe2e5Y4IcPSie
+ rmAp6HQ8QW7pFCx6XQtdo56EMfZpdC2OnHiFMhhqbsdltR3XzPB81k0YoZTLd9qc7u9D
+ pcGTuNL5ys17+pYBc392GTbFXuCGpN5whjU2rWoC8u4p6Xxw6L3QxAuUEDNf1jEZhoxY
+ y0xQdnZHcUjGSs0xMz4OhBm0g/tV2+sR3UYMTotfIOGXpAXgppRUAwV+YqUNhFVs7mJ4
+ +N5TaUy4+ZlCzusdFhvZFJczJrnzvCJ5kjtDZJIPI4taRn9dTeJ1pxWTP2qhGQeTOnxL
+ KmSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769079874; x=1769684674;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=t0KlvkM5KQlhi9X1NhLsO3/hA2b2nzw1RRo2lI06OH4=;
- b=tmrB/3d/MQyMKlgIpY9Y9pH6mRTvqw22F3XrI+ibuEB6bKnI1ugKqDO0rtpwnpa6ym
- wHiND+nMHsvjQw0jIFQAdIAvLpDHM4bPPtaW3QPYubpaQz1SH1Tgx1W92h+xTHpZnK9E
- tSJheoqcuMyTraH/NY63VdSVr3O3RNsz5dNUCOfX068kN2oFOC0TLo/dFpFrMbmf48ZP
- YvuL8TFSmjj+rLXIiaIBfzVxUIlQ1Ab160m6K2u2qRA90mW8PGLA+x3RtLndfdn4mFXX
- VgBRozSyFaEeR898mSc57CmqdvgGOvvi5DzIdSZfr0ShW8bQyGgyxlb5C1jr2R30ADfK
- 8AKw==
+ d=1e100.net; s=20230601; t=1769080290; x=1769685090;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iThoWmN+ezF6wgSZVKegq1NN/EVTp1gLlwP5B6Z6Hlg=;
+ b=ByBBFAQ6eU1djJxCkW7ox3E3iZoyNGYyZpVl08qTGmT37qomv1fv/kumOTTHj4UQS9
+ 4FT+EsL1LypW3QlKX0/80RiFiEa2SSDNu6yb1OGqGRhap8KB8C4j3xMqDO4IlRLq88oO
+ JAeP6HDcuVQegkiBJSYxnQISZT+gcMxD7zs3WigDTTsklgJCWo4zkN0XTcUJHC7sWVP/
+ q+5OaqWrbeOnec7n6VuCXlUkYSGwafgj/ugFTTz6x3y9BCzs24a46T48vesXUbENmLeg
+ Vych+JrEVgMzof35js2nCsVM25jlwLsewj8H69BssWrYlGVR57Wrb+Uz/HvcbMp+eDNF
+ 9big==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUxwXED1rUZOh+7z3XLKaohT/FJ+PjMUtqEEchfKkT415+V1Z0Sih98nH2nNEw336+9TmAUuHhpZ40=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxLacpypislKeUhK+YgV0wlg6z7CJccRYgrCay7s/2ngvUrriQr
- yJaWoLlUEblT2HpW2jW1459I7085NzUHft4vKCQp57quiyJKHpBfLEFPcgV2q2R78eeeBrc8SgS
- 8+r5FNxQFpC2NUwBpk79jjcnNMmVxqcwk18gVtTk8meAI8+mepg04g5OG3+v+vm/5jl00ZMY=
-X-Gm-Gg: AZuq6aIkcnqL2E6l9RFsfhRt6HoCZW6nkeCes27LhswExlKeRIdeVAI8WamjUsq1sVu
- 2jX4C0eeauF1ENIQmNWK4/aHP7zDKGwCXRa01gtFBHkuC8Dqku+EvcodmD9Gddkxqy3wTtCL3oc
- qWCUrwis8A/DXzoeN8z9gieLC/n8CC6c4MX0TtIIIJHiVU/yVhw0g/PT0rhv1ramW58z/5guoyx
- G+SAnE7JcFt4F6brPGTyzZBy7FmMB05FKQRTdLqBUL1xLeIWDorgaKdoKmtz2zWgdnqMB/yUQOQ
- odMyKSmbSgLxVA4Q5khXQ/0pUTFLG3DaBXiiSe/KzQndrR7SGqLgCii00HcspYx7XYZWzn7ZDOc
- ++QttcQLlkNkT9ivVCaP2lk5555aqv/YYBlZvUhoE0va+jQesGTWFUSGGHTwsu0M4c5aBa7gSIC
- QpppVLBKk8noeo62gm+r4oerg=
-X-Received: by 2002:a05:6102:6cf:b0:5ee:a2a8:2e73 with SMTP id
- ada2fe7eead31-5f1a551ef9amr6077499137.26.1769079873649; 
- Thu, 22 Jan 2026 03:04:33 -0800 (PST)
-X-Received: by 2002:a05:6102:6cf:b0:5ee:a2a8:2e73 with SMTP id
- ada2fe7eead31-5f1a551ef9amr6077487137.26.1769079873108; 
- Thu, 22 Jan 2026 03:04:33 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59baf3543d2sm5368629e87.43.2026.01.22.03.04.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jan 2026 03:04:32 -0800 (PST)
-Date: Thu, 22 Jan 2026 13:04:30 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-Cc: Nicolas Dufresne <nicolas@ndufresne.ca>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bod@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 0/3] Add support for QC08C format in iris driver
-Message-ID: <sa6y3vjstutglftts3ucoouj6js53p6an4wjcvqhbjsazmmxrf@v35pf2dqvfdh>
-References: <20251008-video-iris-ubwc-enable-v2-0-478ba2d96427@oss.qualcomm.com>
- <s2qjimx4tq2jdnir7b5dljf4onsbcmvb5prxcvc22q76l5cgnz@wrgcqdrl26sb>
- <50137983757d754609d8164dbdfc429b32e3d6b5.camel@ndufresne.ca>
- <qkkjsjvhwovbh7stjc53htkt3wucd34nzcvnkilnbxv4ukbozj@e4ierwjhs7wp>
- <0841b98d-32b3-4e7d-940b-9be204fad7af@oss.qualcomm.com>
+ AJvYcCWMCDSXuuUog4Qyri77/6DO5C7dIA2VYMYURJUfhOeaRFIRlmmhP6B5CWQHCRmBcITLYfVnHZDmeAc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz2pOH3H/b+oDnMQ6R8T/rWiyiTUWtrnDSaI0gT3YScfro4AlcB
+ RfIudFJcrnKJKhB8RDX93o/qmXmNtDkFtBZ9SX2wMUg+Hfk2qAcgtmmUKan2cStAU/+4n4DrGCF
+ U/Umswhj/bf/Klpwt3xqDXbMoJuMOOZ4=
+X-Gm-Gg: AZuq6aJR7KE/6ghjdPiAAJCFhj5Y1v5ajNCcvLYyN50oKMOSOJcZ2VfaQ0B07Lzr5Xd
+ SyAfwOkov94+CT9nDwaPcIo5Smo3z46ROgPeWFJE/0e4klVcwlzybJ/7yfl/LPpSyDn3qgwAbEX
+ ClmwJLouROXYzJoD4C4yPs8rznfU7RLLF4umkkBm/u0nFrmW1PGT5xKAkk1dzmL3vGkmUPgyBzk
+ 70WBEcJ+6SkyV+Qc4WEIiaxKeqiJfO191wt+g/toPdr28s4VnKTeSdamoMamXCn4XBZBXFQECck
+ UQCopO/y3FBuSctEuBbw7haG7pNpFZney1bzd4i06X3VH6kT5NlkF1cFBxyfqH+HVKWPjh/Mzhg
+ DPJXmAPbyfltwHA==
+X-Received: by 2002:a05:7300:cb81:b0:2ae:5bd5:c241 with SMTP id
+ 5a478bee46e88-2b6b40e9b8emr8758758eec.7.1769080290378; Thu, 22 Jan 2026
+ 03:11:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0841b98d-32b3-4e7d-940b-9be204fad7af@oss.qualcomm.com>
-X-Proofpoint-ORIG-GUID: 9SNaVlIQinOMlgo_Ei3z3Vbb2xT6keT9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIyMDA3OSBTYWx0ZWRfXzZRmXHLTqVBC
- IkSRFL9qwt6SV80m+hOo5W+1BJM4XgGrPft1PK95QkR09QDLNDXFcgxLUb4z0FoGOmuj/QArby8
- WQPpyAPnDBPswW4NYOTXciQz5g5XAgWWujL9qIf7utChRo61VNSWvddTQG57Fgi4C7AYvcaXvx0
- X5L/x9nraXLkZNKtFGOPj+Z5ZaysMMvtH+MHwTidiWo0LBFuYOAzb6rIv/Q+62vTFRt5PTBgOBb
- 0Nmvu2Ns1IzYuLQA0eGfvvmWHJU6Q2jN10nR7f5pxAXYZ1bKQ82AX1zX1XGKY0iB2ybcqx4rXg0
- asgNCPSs6hKOImsZsqcTS4sh/9j6CLk/eF+lC9/xd2UbS9z/4TOS0JaXMu/Lk9BVvODHvkHaxn+
- bVHRP22EFalCgH2cKi0JpfB5I7g3XJCusVDed3NPcbYHnL6IlWIYmfRpchT4/JcF6W2qWS+cZ7J
- FwEdD4Z/Bg1JacpuSAQ==
-X-Authority-Analysis: v=2.4 cv=G+0R0tk5 c=1 sm=1 tr=0 ts=69720442 cx=c_pps
- a=JIY1xp/sjQ9K5JH4t62bdg==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=e5mUnYsNAAAA:8 a=nY9ItIvBOz0YvIiU8-8A:9
- a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10 a=tNoRWFLymzeba-QzToBc:22
- a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-GUID: 9SNaVlIQinOMlgo_Ei3z3Vbb2xT6keT9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-22_01,2026-01-20_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 malwarescore=0 phishscore=0 adultscore=0
- spamscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601220079
+References: <20260122-nova-core-cmdq1-v1-0-7f8fe4683f11@nvidia.com>
+ <20260122-nova-core-cmdq1-v1-3-7f8fe4683f11@nvidia.com>
+ <ee459198-04f2-4bae-8e1f-4ec413d92f89@nvidia.com>
+ <DFUUVM5M0MYA.36CL66OCAICDA@nvidia.com>
+In-Reply-To: <DFUUVM5M0MYA.36CL66OCAICDA@nvidia.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 22 Jan 2026 12:11:18 +0100
+X-Gm-Features: AZwV_QjN_wV0Mo2Zkx6MPAEQ8aLumlNjlfFkZ4gsw3rpfI-o6XR2aHStQu6ih-A
+Message-ID: <CANiq72nbfsJF_Ly2vF5OPafUMMKN-OpqHYhKvFVNEGsxs5=q+g@mail.gmail.com>
+Subject: Re: [PATCH 3/4] gpu: nova-core: gsp: fix improper handling of empty
+ slot in cmdq
+To: Eliot Courtney <ecourtney@nvidia.com>, Benno Lossin <lossin@kernel.org>
+Cc: John Hubbard <jhubbard@nvidia.com>, Danilo Krummrich <dakr@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, Alice Ryhl <aliceryhl@google.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Alistair Popple <apopple@nvidia.com>, nouveau@lists.freedesktop.org, 
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, 
+ dri-devel <dri-devel-bounces@lists.freedesktop.org>
+Content-Type: multipart/alternative; boundary="0000000000004987f70648f81a0c"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,186 +117,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:vikash.garodia@oss.qualcomm.com,m:nicolas@ndufresne.ca,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:akhilpo@oss.qualcomm.com,m:jesszhan0024@gmail.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:bod@kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:freedreno@lists.freedesktop.org,s:lists@lfdr.de];
-	FREEMAIL_CC(0.00)[ndufresne.ca,oss.qualcomm.com,poorly.run,gmail.com,linux.dev,kernel.org,vger.kernel.org,lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:ecourtney@nvidia.com,m:lossin@kernel.org,m:jhubbard@nvidia.com,m:dakr@kernel.org,m:acourbot@nvidia.com,m:aliceryhl@google.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:apopple@nvidia.com,m:nouveau@lists.freedesktop.org,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel-bounces@lists.freedesktop.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	TAGGED_FROM(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[nvidia.com,kernel.org,google.com,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,oss.qualcomm.com:dkim,gitlab.freedesktop.org:url]
-X-Rspamd-Queue-Id: D422D65B06
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 9785B65C2D
 X-Rspamd-Action: no action
 
-On Thu, Jan 22, 2026 at 11:29:32AM +0530, Vikash Garodia wrote:
-> 
-> On 1/16/2026 1:16 AM, Dmitry Baryshkov wrote:
-> > I should have added GPU maintainers and ML beforehand. Fixing it now.
-> > 
-> > On Thu, Jan 15, 2026 at 09:02:07AM -0500, Nicolas Dufresne wrote:
-> > > Le jeudi 15 janvier 2026 à 10:08 +0200, Dmitry Baryshkov a écrit :
-> > > > On Wed, Oct 08, 2025 at 03:22:24PM +0530, Dikshita Agarwal wrote:
-> > > > > Add support for the QC08C color format in both the encoder and decoder
-> > > > > paths of the iris driver. The changes include:
-> > > > > 
-> > > > > - Adding QC08C format handling in the driver for both encoding and
-> > > > > decoding.
-> > > > > - Updating format enumeration to properly return supported formats.
-> > > > > - Ensuring the correct HFI format is set for firmware communication.
-> > > > > -Making all related changes required for seamless integration of QC08C
-> > > > > support.
-> > > > > 
-> > > > > The changes have been validated using v4l2-ctl, compliance, and GStreamer
-> > > > > (GST) tests.
-> > > > > Both GST and v4l2-ctl tests were performed using the NV12 format, as
-> > > > > these clients do not support the QCOM-specific QC08C format, and all
-> > > > > tests passed successfully.
-> > > > > 
-> > > > > During v4l2-ctl testing, a regression was observed when using the NV12
-> > > > > color format after adding QC08C support. A fix for this regression has
-> > > > > also been posted [1].
-> > > > > 
-> > > > > [1]:
-> > > > > https://lore.kernel.org/linux-media/20250918103235.4066441-1-dikshita.agarwal@oss.qualcomm.com/T/#u
-> > > > > 
-> > > > > Changes in v2:
-> > > > > - Added separate patch to add support for HFI_PROP_OPB_ENABLE (Bryan)
-> > > > > - Updated commit text to indicate QC08C is NV12 with UBWC compression
-> > > > > (Bryan, Dmitry)
-> > > > > - Renamed IRIS_FMT_UBWC to IRIS_FMT_QC08C (Dmitry)
-> > > > > - Link to v1:
-> > > > > https://lore.kernel.org/r/20250919-video-iris-ubwc-enable-v1-0-000d11edafd8@oss.qualcomm.com
-> > > > > 
-> > > > > Signed-off-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-> > > > > ---
-> > > > > Dikshita Agarwal (3):
-> > > > >        media: iris: Add support for HFI_PROP_OPB_ENABLE to control split mode
-> > > > >        media: iris: Add support for QC08C format for decoder
-> > > > >        media: iris: Add support for QC08C format for encoder
-> > > > > 
-> > > > 
-> > > > Looking at the series again... What is the definition of V4L formats?
-> > > > Are they expected to be self-compatible? Transferable between machines?
-> > > > In DRM world we made a mistake, making use of a single non-parametrized
-> > > > UBWC modifier, and then later we had to introduce OOB values to
-> > > > represent different params of UBWC compressed images.
-> > > > 
-> > > > So, I wanted to ask, is single "UBWC-compressed NV12" enough for V4L2 or
-> > > > should we have different format values (at least for different swizzle
-> > > > and macrotile modes)?
-> > > 
-> > > Our expectation is that the decoder will produce the same format regardless the
-> > > resolution. And that format should be shareable, so that same format coming from
-> > > two drivers means the same thing without out of band data, except that
-> > > resolution and strides are needed oob anyway and can obviously be used as an
-> > > acceptable workaround the issue you describe. It should also have a single
-> > > translation to DRM fourcc + modifier, and hopefully the other way around is
-> > > possible too, otherwise its a bit broken and unusable.
-> > 
-> > Well... As I wrote, we made a certain decision several years go: there
-> > is only one DRM modifier. At that point the decision was made by
-> > open-source people which had a very limited information about hardware
-> > internals. We can probably try deprecating it and shifting towards
-> > multiple entries. On the other side, most of the blocks would only be
-> > able to support only one of very few possible configurations.
-> > 
-> > > 
-> > > So bottom line, since V4L2 does not have modifiers, you have to treat one V4L2
-> > > format as a pair of DRM fourcc + modifier. Decoders typically only support a
-> > > subset, or hardware engineers can generally pick a handful of performant
-> > > configurations that works for all cases (its all 2D with similarly sized
-> > > macroblocks).
-> > 
-> > This is not quite applicable: even if we try to fix all other settings,
-> > the format differs from platform to platform because of the memory
-> > organisation (highest_bank_bit in drivers/soc/qcom/ubwc_config.c).
-> > 
-> > There is a description of swizzling in Mesa ([1])
-> > 
-> > [1] https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/freedreno/fdl/fd6_tiled_memcpy.cc
-> > 
-> > > Since these formats are only usable when consumed by GPU or
-> > > display controllers, its important that all party uses the same convention for
-> > > the limited information available.
-> 
-> Would there be a need for any client, other than GPU/display, to peek into
-> the data OR to validate it, it need to decompress it. For that as well, it
-> would need all the associated info to decompress it.
+--0000000000004987f70648f81a0c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It doesn't really matter. This is uAPI. There might be no such client
-now, but there might be one later. Also, with the tiling format being
-defined, userspace apps can start poking into the meta / color buffers
-(e.g. for the sake of clipping / blitting the part of the image).
+On Thu, 22 Jan 2026 at 06:13, Eliot Courtney <ecourtney@nvidia.com> wrote:
 
-> Again in same SOC, camera can produce compressed YUV with different
-> parameter while VPU different, it would again need the associated info
-> alongwith single "UBWC-compressed NV12" to decompress it.
+> On Thu Jan 22, 2026 at 12:26 PM JST, John Hubbard wrote:
+> > On 1/21/26 6:59 PM, Eliot Courtney wrote:
+> >> +            // The area is contiguous and we leave an empty slot
+> before `rx`.
+> >> +            // PANIC: since `rx > tx` we have `rx - tx - 1 >=3D 0`
+> >> +            // PANIC: since `tx < rx < MSGQ_NUM_PAGES &&
+> after_tx.len() =3D=3D MSGQ_NUM_PAGES - tx`:
+> >> +            //   `rx - 1 <=3D MSGQ_NUM_PAGES` -> `rx - tx - 1 <=3D
+> MSGQ_NUM_PAGES - tx`
+> >> +            //   -> `rx - tx - 1 <=3D after_tx.len()`
+> >
+> > Hi Eliot,
+> >
+> > Documentation nit: the proofs are great, but the above just does
+> > not go into my head easily, because it's a proof, rather than a
+> > sentence.
+> I had a look now and I agree that it looks like plain English is the
+> defacto standard for the PANIC comments, so I will update them.
+>
+> But, I wonder what people think about this. IMO it makes sense to have
+> SAFETY and PANIC comments as rigorous proofs (where practical and
+> possible) to match the level of work the compiler does for us in the
+> infalliable areas of the code - if an issue occurs, unsafe or panicking
+> code is often the root cause IMO. Writing these in plain English is
+> easier to read but also harder to verify that the proof is correct and
+> harder to verify if there are any implicit assumptions.
 
-Yes. It's actually a good point, it clearly shows a need to describe the
-stream rather than stating that it is "just UBWC".
 
-> 
-> > 
-> > Yes, we added UBWC config database in order to have a single source of
-> > information for the kernel.
-> > 
-> > So... On the practical side there can be:
-> >   - UBWC 1.0, 2.0, 3.0, 4.0, etc.
-> > 
-> >   - swizzle 1-2-3, 2-3 and 3, partially depends on UBWC version.
-> > 
-> >   - HBB or 13, 14, 15, 16
-> > 
-> >   - bank spreading (true or false)
-> > 
-> >  From the practical point of view, drivers/soc/qcom/ubwc.c defines the
-> > following formats (currently, I'd like to cross-check some of them):
-> > 
-> > - linear
-> > - 1.0_123_14
-> > - 1.0_123_14_spread
-> > - 1.0_123_15
-> > - 2.0_23_14
-> > - 2.0_23_14_spread
-> > - 2.0_23_15
-> > - 3.0_23_13_spread
-> > - 3.0_23_14_spread
-> > - 3.0_23_15
-> > - 3.0_23_16
-> > - 4.0_23_15_spread
-> > - 4.0_23_16_spread
-> > - 4.0_3_13_spread
-> > - 5.0_23_15_spread
-> > - 5.0_23_16_spread
-> > - 6.0_23_16_spread
-> > 
-> > Would it be benefitable to define separate DRM modifiers (and NV12
-> > compressed variant for V4L2) for each of them?
+I am on the road, apologies for the formatting/HTML. This is something that
+we have discussed back and forth. Please take a look at Benno=E2=80=99s pro=
+posal at:
 
--- 
-With best wishes
-Dmitry
+https://lore.kernel.org/all/20240717221133.459589-1-benno.lossin@proton.me/
+
+(He may have a newer link)
+
+Cheers,
+Miguel
+
+--0000000000004987f70648f81a0c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">On Thu, 22 Jan 2026 at 06:13, Eliot Courtney &lt;<a href=
+=3D"mailto:ecourtney@nvidia.com">ecourtney@nvidia.com</a>&gt; wrote:<br></d=
+iv><div dir=3D"auto"><div class=3D"gmail_quote gmail_quote_container"><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-=
+width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(20=
+4,204,204)">On Thu Jan 22, 2026 at 12:26 PM JST, John Hubbard wrote:<br>
+&gt; On 1/21/26 6:59 PM, Eliot Courtney wrote:<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // The area is contiguo=
+us and we leave an empty slot before `rx`.<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // PANIC: since `rx &gt=
+; tx` we have `rx - tx - 1 &gt;=3D 0`<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // PANIC: since `tx &lt=
+; rx &lt; MSGQ_NUM_PAGES &amp;&amp; after_tx.len() =3D=3D MSGQ_NUM_PAGES - =
+tx`:<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 //=C2=A0 =C2=A0`rx - 1 =
+&lt;=3D MSGQ_NUM_PAGES` -&gt; `rx - tx - 1 &lt;=3D MSGQ_NUM_PAGES - tx`<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 //=C2=A0 =C2=A0-&gt; `r=
+x - tx - 1 &lt;=3D after_tx.len()`<br>
+&gt;<br>
+&gt; Hi Eliot,<br>
+&gt;<br>
+&gt; Documentation nit: the proofs are great, but the above just does<br>
+&gt; not go into my head easily, because it&#39;s a proof, rather than a<br=
+>
+&gt; sentence.<br>
+I had a look now and I agree that it looks like plain English is the<br>
+defacto standard for the PANIC comments, so I will update them.<br>
+<br>
+But, I wonder what people think about this. IMO it makes sense to have<br>
+SAFETY and PANIC comments as rigorous proofs (where practical and<br>
+possible) to match the level of work the compiler does for us in the<br>
+infalliable areas of the code - if an issue occurs, unsafe or panicking<br>
+code is often the root cause IMO. Writing these in plain English is<br>
+easier to read but also harder to verify that the proof is correct and<br>
+harder to verify if there are any implicit assumptions.</blockquote><div di=
+r=3D"auto"><br></div><div dir=3D"auto"><div style=3D"font-size:inherit"><di=
+v dir=3D"auto" style=3D"font-size:inherit;font-style:normal;font-weight:400=
+;letter-spacing:normal;text-indent:0px;text-transform:none;white-space:norm=
+al;word-spacing:0px;background-color:rgba(0,0,0,0);border-color:rgb(0,0,0);=
+color:rgb(0,0,0)">I am on the road, apologies for the formatting/HTML.<span=
+ style=3D"font-size:inherit">=C2=A0This is something that we have discussed=
+ back and forth. Please take a look at Benno=E2=80=99s proposal at:</span><=
+/div><div dir=3D"auto" style=3D"font-size:inherit;font-style:normal;font-we=
+ight:400;letter-spacing:normal;text-indent:0px;text-transform:none;white-sp=
+ace:normal;word-spacing:0px;background-color:rgba(0,0,0,0);border-color:rgb=
+(0,0,0);color:rgb(0,0,0)"><br></div><div dir=3D"auto" style=3D"font-size:in=
+herit;font-style:normal;font-weight:400;letter-spacing:normal;text-indent:0=
+px;text-transform:none;white-space:normal;word-spacing:0px;background-color=
+:rgba(0,0,0,0);border-color:rgb(0,0,0);color:rgb(0,0,0)"><div style=3D"font=
+-size:inherit" dir=3D"auto"><a href=3D"https://lore.kernel.org/all/20240717=
+221133.459589-1-benno.lossin@proton.me/" style=3D"font-size:inherit">https:=
+//lore.kernel.org/all/20240717221133.459589-1-benno.lossin@proton.me/</a></=
+div></div><div dir=3D"auto" style=3D"font-size:inherit;font-style:normal;fo=
+nt-weight:400;letter-spacing:normal;text-indent:0px;text-transform:none;whi=
+te-space:normal;word-spacing:0px;background-color:rgba(0,0,0,0);border-colo=
+r:rgb(0,0,0);color:rgb(0,0,0)"><br></div><div dir=3D"auto" style=3D"font-si=
+ze:inherit;font-style:normal;font-weight:400;letter-spacing:normal;text-ind=
+ent:0px;text-transform:none;white-space:normal;word-spacing:0px;background-=
+color:rgba(0,0,0,0);border-color:rgb(0,0,0);color:rgb(0,0,0)">(He may have =
+a newer link)</div><div dir=3D"auto" style=3D"font-size:inherit;font-style:=
+normal;font-weight:400;letter-spacing:normal;text-indent:0px;text-transform=
+:none;white-space:normal;word-spacing:0px;background-color:rgba(0,0,0,0);bo=
+rder-color:rgb(0,0,0);color:rgb(0,0,0)"><br clear=3D"all"><div dir=3D"auto"=
+ style=3D"background-color:rgba(0,0,0,0);border-color:rgb(0,0,0);color:rgb(=
+0,0,0)"><div dir=3D"ltr" data-smartmail=3D"gmail_signature" style=3D"backgr=
+ound-color:rgba(0,0,0,0);border-color:rgb(0,0,0);color:rgb(0,0,0)"><div dir=
+=3D"ltr" style=3D"background-color:rgba(0,0,0,0);border-color:rgb(0,0,0);co=
+lor:rgb(0,0,0)">Cheers,<br>Miguel</div></div></div></div></div></div></div>=
+</div>
+
+--0000000000004987f70648f81a0c--
