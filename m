@@ -2,67 +2,175 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iINpHMqrcmkkogAAu9opvQ
+	id 8JaHAGKscmkkogAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 23:59:22 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 00:01:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B70456E58A
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 23:59:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B9FE6E5D5
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 00:01:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 825FB10EB7B;
-	Thu, 22 Jan 2026 22:59:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7813B10EB8A;
+	Thu, 22 Jan 2026 23:01:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="YoqgRqia";
+	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="AQH4aKuY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E638510EB7B
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 22:59:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1769122754; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=R2LgV6nO61qyIBRzpT6fvAgaRGTX8pcchNo4cibRB71QoqR2Pn/Nn8UTO61h+CjEGDyVSLfa1AOGUo5TU8fK7oSVRPYf2WgXGR4H0VTKIJ5HmJ4R9fdj/zSmN79SuUzJOqa7y28vrmXdSdSlVZw0DEj7AVds9+1oZ5TtjJ5J++s=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1769122754;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=6NxrSyB17i1u2lohsrtKjXZ/8YsKz352zKNyIofAbZg=; 
- b=Ucra3kxSV2TokKAzkaiJCKczeqGei3IQ+CHf8Xnt21GS9SwLPPFPgYVdry4T4Zpfm7samrB2FC37VeZEw6GVfYUVQhaveE03abjo4BeCeODW0Dm/OOHi4/LGFlXK9Lbvv+RFJS6PhQO+qKgHrXw3Xqk2n6Ij570++XGX3LbJVBg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769122754; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=6NxrSyB17i1u2lohsrtKjXZ/8YsKz352zKNyIofAbZg=;
- b=YoqgRqiaOJ+kpbSKWYgMqoSvI0/iIBAMs2cByfHHy8IKRzUF1jjqbxVplTYZKFGu
- YKVXOD6CedbubiNVGaHu1loqMIrQbiggr0r30QyyL/bZHbKYpIyoB7PHJabPx0W5GhM
- cRl533/rQmTAtDEecnHmCCme3EhsMsszLN3V4ax8=
-Received: by mx.zohomail.com with SMTPS id 1769122751318268.23325911627626;
- Thu, 22 Jan 2026 14:59:11 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH v3 6/6] rust: gpuvm: add GpuVmCore::sm_map()
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20260121-gpuvm-rust-v3-6-dd95c04aec35@google.com>
-Date: Thu, 22 Jan 2026 19:58:34 -0300
-Cc: Danilo Krummrich <dakr@kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Janne Grunau <j@jannau.net>, Matthew Brost <matthew.brost@intel.com>,
- =?utf-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Lyude Paul <lyude@redhat.com>, Asahi Lina <lina+kernel@asahilina.net>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org
+Received: from CWXP265CU009.outbound.protection.outlook.com
+ (mail-ukwestazon11021119.outbound.protection.outlook.com [52.101.100.119])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7DF910EB8A
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 23:01:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Lv9F3nb8r3D51wggpI7+84IwZniS3IyOSEzAnRX+9ywxJUy/cWZUS8TU9E6iE+1Uc5Y+IR0FAMLXsDQ3SZGuX2Q30v9sFT+YktgMl467995kjHq0Hv1gKIj8bTumCnyZiB5aLyLP462e2Q3j+ve9N7oxQVMhUoSqV4GyTcrwqO7Rd5rG1SRIMtzlj4QDtqmGuAP/5hVCVesEVrI8uaKfstcHGHu+1NeM8fdPdEM7CMJ2XW3HYBFj+6UzyBQOMozG54gtKqHJaRZCv/ZPGpXeOrdxqQfvqa7Ze9GIlcrf08jNRcJlS0PRJHsbEDxXVmW15sox9YtEcQdOQ06H0UKv7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rXH9reEeKqkJP/J7ip8psj419yRUCCZEvnA9npDNREc=;
+ b=Py/C6oemjXLzsPnyubBBKSK+XqJ8G87e9IyAg29qjlDMWqCbZtGjJQgXyXMiDMjH8atbdxakplUQxHWyvWZlIxwilHf7tnMGgoF6SPcoSxNLCKY+Na/4MCFeRof57BtClPAdS3RdOZgQ9tNJYv0zNo8wp2b8hvdd/osJju7Sn560EtnfPdgQCQZNS1JfQEe/sf65GQp8hVxHiTRz4Mv+vtCc+RO9q2WhcAL1JezXeMiE9KKAxevJJaA46rrt2csZGUiCphGEGfkdFbOhMisDr0BIiKS9MgbxrL7tGY8l4+bJswlCDtFDmh0OMBarG9Xbjt9Kj9YE28rrjzXi/edZig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rXH9reEeKqkJP/J7ip8psj419yRUCCZEvnA9npDNREc=;
+ b=AQH4aKuYvT2nODg1WamEzIWldYuoJgcDRdOWLz0oyzxypvVCawF6JxoHX4n/h3i9vsjndFSMDJkBrjdOkYpEJsUkSizXCV+jI0yZLaO3ODCDD0/DX2VKVkLApWoIt0uc6Hi+5Bj40oIdrTexSPqvmjBbOkCfpQFQLbZvEEPTCO8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO4P265MB6572.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2f6::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.11; Thu, 22 Jan
+ 2026 23:01:47 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9542.010; Thu, 22 Jan 2026
+ 23:01:47 +0000
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <9C5177DB-CEBA-4DD5-8E93-DB39CB1F2079@collabora.com>
-References: <20260121-gpuvm-rust-v3-0-dd95c04aec35@google.com>
- <20260121-gpuvm-rust-v3-6-dd95c04aec35@google.com>
-To: Alice Ryhl <aliceryhl@google.com>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 22 Jan 2026 23:01:46 +0000
+Message-Id: <DFVHQBHQR2CW.2X27B7EP1WXTO@garyguo.net>
+Cc: "Danilo Krummrich" <dakr@kernel.org>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Simona Vetter" <simona@ffwll.ch>,
+ "Alice Ryhl" <aliceryhl@google.com>, "Shankari Anand"
+ <shankari.ak0208@gmail.com>, "David Airlie" <airlied@gmail.com>, "Asahi
+ Lina" <lina+kernel@asahilina.net>, "Atharv Dubey" <atharvd440@gmail.com>,
+ "Daniel Almeida" <daniel.almeida@collabora.com>
+Subject: Re: [PATCH] rust/drm: Fixup import styles
+From: "Gary Guo" <gary@garyguo.net>
+To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>, <lyude@redhat.com>,
+ "Gary Guo" <gary@garyguo.net>
+X-Mailer: aerc 0.21.0
+References: <20260122202804.3209265-1-lyude@redhat.com>
+ <DFVEI4KHCNFS.2IT595IZJBGGT@kernel.org>
+ <25d3c403781a88019340a47567ff85959b0c03bd.camel@redhat.com>
+ <CANiq72k1b3DLEy_32ruWu1XBFK80oRDVzSer69ANL_232mmv-w@mail.gmail.com>
+In-Reply-To: <CANiq72k1b3DLEy_32ruWu1XBFK80oRDVzSer69ANL_232mmv-w@mail.gmail.com>
+X-ClientProxiedBy: LO4P123CA0419.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18b::10) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO4P265MB6572:EE_
+X-MS-Office365-Filtering-Correlation-Id: 656ef3d4-ec23-4c15-d36e-08de5a0a381b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|10070799003|1800799024|366016|7416014|376014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?a2xGdWxzRHNMcE9FY3lsNTM1VFNPNkFIRSt0djVxMnZoQy9neHM5NFhuZWFW?=
+ =?utf-8?B?VGVleUxoamRpM2FkMlVMOGgyOXJQbDJIQm9xdW1sZG0yZFJUT1NxbGJ0ZzFq?=
+ =?utf-8?B?a24ySGRvS2llY290WTRYdFJOWFQzbzEwODZhSmxEdmV4Q1BaVk9jWU9oY0lm?=
+ =?utf-8?B?Y0k4ZmpmTHRwQjhiek4rTnZrOHcrQUFjZFN5OVhaUTBLQW9OTlZiWWx3emt5?=
+ =?utf-8?B?TlQ4cHFNT1JOZE1ETVNYckFET2E0N2llRVZSanpROWlVY0J1b3pLWTJnMWVt?=
+ =?utf-8?B?Y0YzTnB5ODhZT2VGT1ZJR0l6dzhOb1BEYWdiRmNoK3o0UUp0Z243dTRKN1R3?=
+ =?utf-8?B?QTIxY1Ntd04wQW5XdFBuL1kyS1VySjM5OUNWcGxQVnA2VGp6YytLRWs2U2tq?=
+ =?utf-8?B?azZ3RS9pSDErSk9URzB1NG5lamdpcU03MTJqMzk5WWVITVBEOG1ZNHhjSEk3?=
+ =?utf-8?B?dFkxR21tS2szWTI5SVpOd3ltbDg1RlIwcVlUVDNOT1cwVWdDMTJxeGo1ZDE5?=
+ =?utf-8?B?VmdqYWxmTGZaQWxsdnY3RFRFOGxXdEdxMkhzbnREeHhuemVsR0NVY0hocVVx?=
+ =?utf-8?B?ZDBPTThrdE53WlRPN3BQR3ByaU1vVDQxQnh5Y3VFajdTbm5EU1RldjVpak84?=
+ =?utf-8?B?R0hKbUhtelFiS055dFkyNHBqVHFvZ01yVWNIOXR3QkF2RW1FbS9kbUhpS1VM?=
+ =?utf-8?B?Qis2QUdXdW1pSkw5SnJ5eVlQcEp2Mm9kNzRFSEl3ODI2UkR3c2VFQXJwUTAv?=
+ =?utf-8?B?UWF3c2xvYTREV1dVSk9uUVdMUzB1YjFJbEVDR0lTWXdlSncrL0VkUVZJY2xU?=
+ =?utf-8?B?TGlwKzhPaU9LRldDRlFobWs4SUN6RXh6a09LMHNTNUlXRXowMVZYRGtoOE1E?=
+ =?utf-8?B?NWhLSnY1dG5sZDlmUG5CbXFFTjNSazNyRGI2bzJ2K0lTTGxlWjZoYlJ3T29T?=
+ =?utf-8?B?cGVzblJrZWVMZ3lVSlhwMGxxMDJCYjh0OE5wdE5rZlFpK2UwZ05IZ1NVQ1ND?=
+ =?utf-8?B?NXcvdnFRZFkwL25RK09WbzFySktBS29mbitTTUdKTGpSQTVKcHRJZ3hCSThD?=
+ =?utf-8?B?NFMzVWpwQmpmOEVBc2tucmNuSzhEL0NiTE1WUG9hZGdZUW5CVzZQZFhuUCtJ?=
+ =?utf-8?B?RGFQOTlQT3l2ekpxSUlmeWRQWmFiUGJXb3RlT0x2cUxmcG91K1BZTUJTR09J?=
+ =?utf-8?B?ZmVkdTBvRTdRNjNWSFpsd0FSRmdKRU5kVmNPTUd4QnpxZWttaUNaNFpNajVR?=
+ =?utf-8?B?QjZNWEg1QlQvYVR5UW5LTkFUbTFUOFFCaTZPb2gySHEzakwramVZaXAyVTB6?=
+ =?utf-8?B?bE1yZGJXZFpHcmx1M0hoNk8rUVdSTGtzS0IxdHZwNXJKcFVXWUJVM3RsR014?=
+ =?utf-8?B?OW1QTlhKQXMvMWVmMnNSbzFSK1hCM3N2Yit5WlYxaHpYa25QQW4yNWdqdWZx?=
+ =?utf-8?B?aDJMbzRvZHdZbFVNZlRkUEVhN1VkWFc5Nm4rdjlzV1FSSm1US3BMQll3VlRj?=
+ =?utf-8?B?WHc4dlM3RjR4dGVuUXZHOFk1b0VPYklkSVpESDNoYjRKeG0vOUJIN3A2aUZI?=
+ =?utf-8?B?MDY0SXA0MlBpeHFaZHREaXBxTVErVGNLZDB2VWpIamFkeFczWkFzeVE5RU1J?=
+ =?utf-8?B?RGkwVVpmcDVITUMxZGduNXJ6SnkrUWcxL2hDaUdJbjFMbVhMZWNZOE94cHpW?=
+ =?utf-8?B?VzJzNkY4RG5zdmMwV0ppZ3NZSnpHTldxR3dMb2IySVBpWjJad1pRbXg3dTA3?=
+ =?utf-8?B?WFNSYUhwWjNWRmZOc0FtemRZbzFHWjBmc2hmUThkdzNOREFubHpXRmdVcUZE?=
+ =?utf-8?B?NS9BOHd0Nnp2ZmFKUWFjNHM5R3l5cE1zNlZubGtCQmJwVUJYRUNma0xIb3d6?=
+ =?utf-8?B?K2luQS9KSHVzbG41eU50bFkzNFYzYyt4cDZNK1JwUWFaaUN4RzRBUmRHaEIv?=
+ =?utf-8?B?QnRPK1VPQzJTd1UyVU81ZzlRdENjTWVIaU9YMkNuWElrVGdscEZmYXhwRGNs?=
+ =?utf-8?B?NmdPNXE5UDVxdGcwWEUwQTRoUDMrZm1kN2UvSzU3VDMzSzF2eGZvV1prczQ3?=
+ =?utf-8?B?SkFYb0ZPaGw1YngzVGJSa3ZGVTJlRWlXa1FXK3ZMZnpPdWZyN1VuSXF2VGs4?=
+ =?utf-8?Q?Qjww=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(1800799024)(366016)(7416014)(376014); DIR:OUT;
+ SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmFqVkkrOEI0L1V0K2tTVXRlbGZ6eDlrNkx3REVqOVphYWQzNGkxd013akFZ?=
+ =?utf-8?B?ZjF6bFJ6L0YwTE5GOGlGV21oVWZVcWhHdGhFZ2pTcjlNTy9rNE5VNmFzdHh5?=
+ =?utf-8?B?N2FJTDlvMmJuUWpaQ3lZbzNQeVIxbUY2MVlueVZ3bDNKZXV1WGFRMEFsVHpI?=
+ =?utf-8?B?SXFPbGp3OTBzS1lUdXZoMmtCbksvOFEwd3AxUkhWdmtsd2wyUTdGd1dkYU41?=
+ =?utf-8?B?WDR0Q3MwbEdQeS9hV1FCOW8wVDBjYXZ1Ny9yM2owaTBrcENDWHUwRXdzL2lq?=
+ =?utf-8?B?L0N4RmNsWWwrd1J5ZUxrTHRuaml5cnhVYTlmNWhNclRpYnY2WXBUaE5aNURD?=
+ =?utf-8?B?NVFuSVlOcDZkRWxsaXB0TFM4aUZhU3ZTaEFNWlFpOWJTa1hwQmtVVCtXUTJG?=
+ =?utf-8?B?RTllZlhQOE45WFNITGJ3Zm9oNjkvWkZpYWxOM3RpTG04bzJOUHc4OWZoVWlz?=
+ =?utf-8?B?elRRN2hPYXQvbUcvc2FqK2dySHk0emZwWDNMQ0s0c3ZpNXRic1l2aGVYZ3A0?=
+ =?utf-8?B?cDNCNm5nL1ZyZUp6WEYrUzRTRmNscWxNS0NINzRCeXVZbHY2SUFxdy9PZU1J?=
+ =?utf-8?B?WmxWeVkzenNWMjRMMWhnemhHRWVYbVQ2d214endxOVhJTFdMeURDcGJ0ZWk3?=
+ =?utf-8?B?WWF3MCtscWNLbUlmSUVyRDZTY1hKSUtvV1BtT3pvTzRiVGh5VHJnMHVwLzBt?=
+ =?utf-8?B?OTBpSlZBZ01uOEcyN1hab0pDMURDYTk0U3RIUGxLanBudHR5blNDaVRXbG1a?=
+ =?utf-8?B?ckVzVjdpUC93WmM2eFNoa2RIQ2hBbVJBK0k3b2NJaTFFdU1vUWdJTEt3S0tJ?=
+ =?utf-8?B?THRVSEg3SisvVXNZSFd0ZHJCK2puS0RKYlRZaGh0cGkzSWlZREFUVTBySzhr?=
+ =?utf-8?B?eFJwT2pHTjdVai9wcTNMYU85SFdUQ3dLYmI3MFZLRGlablB2Mk80VGdNRE4z?=
+ =?utf-8?B?OWx6ZVZIcGNkS29HeDFhejNnQTVVTDYxR2QrS0FtRzk4Z0M5NEtobm1laWV1?=
+ =?utf-8?B?emhhT1dMeHVxK3M2UGF1NzJyeHBTYlBiMVhSbTNHS082QzN1cVdDNFgrcU1N?=
+ =?utf-8?B?Z3UwYXo3dVkyWUtEMVpyb0huZzVtZHBqakxGcFc1d3pOY0dIYThab0JEemxB?=
+ =?utf-8?B?ZmxJK0pjc3Z5aUVoSno3cjZ2NkhQVVdoQXVHOVNocVpnT0MxZHc1aXR2a0R3?=
+ =?utf-8?B?d05vN2JSTXhLWEFZSFNXcTJtR1BmN1ZGWk9PMG0xNFZzeCt2NkZpbFF3N1RU?=
+ =?utf-8?B?dEFTc0NIQnZ5cko1Vmdma3AvdkRjNnVxQjlWdld4ZkM0MHFLSTZoV1d2MGgw?=
+ =?utf-8?B?MDN1NUlYbytsRXpxNWE4T0t6Ky9CODNTdmhNU2l3ZzNNQlZmNUd6Zkw2Qm92?=
+ =?utf-8?B?VEJZeENBTnBQcWxvRnNlOGhqQ2NWWUljc1pHMzg5WkRGMVRRVkplUGdBc1BK?=
+ =?utf-8?B?MlFlWUNVanZQOVVXdEx6bVcyTFRmdHR1ekYzSkJkNUVZVUR3Tnh5d3dxSER5?=
+ =?utf-8?B?U1pBd2plMHUzRGlDcFk2WmM5OWVsREM1ZW1ZS2ZpTnU2M2R3ZzFqc2hLYzAw?=
+ =?utf-8?B?V1hkemM2SjYxRDNDVUI3dUcyVHJhcFh1N1hTTWx4RUs2QlF0RThIRjJRaEwr?=
+ =?utf-8?B?Smw1NW5UUUMyWURZK3I1a0xZcGNuVlA3QlVTdmlMVm81MDNNakFTN1E2QXlV?=
+ =?utf-8?B?MnlJbkRSUlIyazk0ZU1nbkphUllHVWhwQTlad0RFQkJVd2Y1bHQ2M0x2QTAx?=
+ =?utf-8?B?Q2RxdUVIWmQxZ3pNU21uU3J2OVc2Qjh2VEkrZHo2bkVvVUttL0g3MUluMnNS?=
+ =?utf-8?B?TWtpQWd0OW9nMW9vSkRuT1BlamtNem53S2NGcC9zRDJjRU41NCs5MU9HUkFH?=
+ =?utf-8?B?UXhoUzBFOTBzeWNNc1dCVHVkYVFhREJTWTJGa1U2SmlEUHlBSjhDSk1kQzFX?=
+ =?utf-8?B?LzduVWJNbU1nc2N4c2tGVWJOSWFuaVdyMnI3U0Z6UUZhcDdzeHQ4Mm1KaDNR?=
+ =?utf-8?B?YmVOUisrcjRmaU5sMUVmYzUzZUdMMHlKc09UOHF2WWhsTGZiY1p5VmZOOC93?=
+ =?utf-8?B?NkhkNE9COUd6RGpjekNjOVM0S0d6Qy9QNGVvaHVMd1YxTTNlZTlSaDZaZi9W?=
+ =?utf-8?B?NVNETUEvaXdlY0ZyZFAyOC85ZVY0U2hGMmd1UWZCZk1qY2xYMUl0Z2lobVhu?=
+ =?utf-8?B?YktYTnhqT3lucDJubHVtNnZIVEhYM3NuSU5MOUhHUmJBd2tNYm1YWC9UUGNr?=
+ =?utf-8?B?Sm9QNnNiVkx4RXB0UTVIeEtJVVpRTE9yYmdjaW92dGdOWVNxNjFpK3NrNlpp?=
+ =?utf-8?B?dE9ub28rQjE3LzlEWEYvMUljQzlQb2ZQT2NyN2dRZWFDaE1JVFhTMzRGLzJv?=
+ =?utf-8?Q?fT4XtUH3/NVJwa197BT2f8l31YiA6Pn2jY5isvUcRYtpw?=
+X-MS-Exchange-AntiSpam-MessageData-1: Zk7aJMllsviLTw==
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 656ef3d4-ec23-4c15-d36e-08de5a0a381b
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 23:01:47.1358 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: G+brnQOS+knrfx+JoWUDztWCKhyfw+zXyd7tE7CVkGJbvwHBCxbgddA8qHHlz5b3Jrtx3tICbZGnO2SG9X4xaA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB6572
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,322 +188,59 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:boris.brezillon@collabora.com,m:j@jannau.net,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:lyude@redhat.com,m:lina+kernel@asahilina.net,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:aliceryhl@google.com,m:lina@asahilina.net,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[daniel.almeida@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com,redhat.com,garyguo.net];
+	FORGED_SENDER(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:ojeda@kernel.org,m:simona@ffwll.ch,m:aliceryhl@google.com,m:shankari.ak0208@gmail.com,m:airlied@gmail.com,m:lina+kernel@asahilina.net,m:atharvd440@gmail.com,m:daniel.almeida@collabora.com,m:miguel.ojeda.sandonis@gmail.com,m:lyude@redhat.com,m:gary@garyguo.net,m:shankariak0208@gmail.com,m:lina@asahilina.net,m:miguelojedasandonis@gmail.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[garyguo.net:+];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.555];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daniel.almeida@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lists.freedesktop.org,ffwll.ch,google.com,gmail.com,asahilina.net,collabora.com];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,kernel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	NEURAL_HAM(-0.00)[-0.931];
-	APPLE_MAILER_COMMON(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,collabora.com:mid,asahilina.net:email]
-X-Rspamd-Queue-Id: B70456E58A
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 6B9FE6E5D5
 X-Rspamd-Action: no action
 
-Hi Alice,
+On Thu Jan 22, 2026 at 9:52 PM GMT, Miguel Ojeda wrote:
+> On Thu, Jan 22, 2026 at 10:34=E2=80=AFPM <lyude@redhat.com> wrote:
+>>
+>> Just a random musing - it would actually be quite nice if we could have
+>> some sort of automated style check for this. I have to assume the linux
+>> kernel probably isn't the only project out there with its own prelude=E2=
+=80=A6
+>
+> Yeah, that would be quite nice indeed -- we have discussed this a few
+> times (most recently a couple weeks ago, including whether Klint could
+> be used for that and for detecting "long import paths", i.e. when we
+> have a re-export we prefer, but that has edge cases; as well as
+> related bits like a `klint::moved` annotation -- Cc'ing Gary).
 
-> On 21 Jan 2026, at 08:31, Alice Ryhl <aliceryhl@google.com> wrote:
->=20
-> Finally also add the operation for creating new mappings. Mapping
-> operations need extra data in the context since they involve a vm_bo
-> coming from the outside.
->=20
-> Co-developed-by: Asahi Lina <lina+kernel@asahilina.net>
-> Signed-off-by: Asahi Lina <lina+kernel@asahilina.net>
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
-> ---
-> rust/kernel/drm/gpuvm/mod.rs    |   9 ++-
-> rust/kernel/drm/gpuvm/sm_ops.rs | 154 =
-++++++++++++++++++++++++++++++++++++++--
-> 2 files changed, 157 insertions(+), 6 deletions(-)
->=20
-> diff --git a/rust/kernel/drm/gpuvm/mod.rs =
-b/rust/kernel/drm/gpuvm/mod.rs
-> index =
-165a25666ccc3d62e59b73483d4eedff044423e9..557c0d629eec912a97fc4ef18495d5bf=
-0807db0a 100644
-> --- a/rust/kernel/drm/gpuvm/mod.rs
-> +++ b/rust/kernel/drm/gpuvm/mod.rs
-> @@ -93,7 +93,7 @@ const fn vtable() -> &'static =
-bindings::drm_gpuvm_ops {
->             vm_bo_alloc: GpuVmBo::<T>::ALLOC_FN,
->             vm_bo_free: GpuVmBo::<T>::FREE_FN,
->             vm_bo_validate: None,
-> -            sm_step_map: None,
-> +            sm_step_map: Some(Self::sm_step_map),
->             sm_step_unmap: Some(Self::sm_step_unmap),
->             sm_step_remap: Some(Self::sm_step_remap),
->         }
-> @@ -248,6 +248,13 @@ pub trait DriverGpuVm: Sized {
->     /// The private data passed to callbacks.
->     type SmContext<'ctx>;
->=20
-> +    /// Indicates that a new mapping should be created.
-> +    fn sm_step_map<'op, 'ctx>(
-> +        &mut self,
-> +        op: OpMap<'op, Self>,
-> +        context: &mut Self::SmContext<'ctx>,
-> +    ) -> Result<OpMapped<'op, Self>, Error>;
-> +
->     /// Indicates that an existing mapping should be removed.
->     fn sm_step_unmap<'op, 'ctx>(
->         &mut self,
-> diff --git a/rust/kernel/drm/gpuvm/sm_ops.rs =
-b/rust/kernel/drm/gpuvm/sm_ops.rs
-> index =
-3c29d10d63f0b0a1976c714a86d486948ba81a15..5f3c5d3918147a6962e5658443c34383=
-5baa10b8 100644
-> --- a/rust/kernel/drm/gpuvm/sm_ops.rs
-> +++ b/rust/kernel/drm/gpuvm/sm_ops.rs
-> @@ -8,6 +8,100 @@ struct SmData<'a, 'ctx, T: DriverGpuVm> {
->     user_context: &'a mut T::SmContext<'ctx>,
-> }
->=20
-> +#[repr(C)]
-> +struct SmMapData<'a, 'ctx, T: DriverGpuVm> {
-> +    sm_data: SmData<'a, 'ctx, T>,
-> +    vm_bo: GpuVmBoResident<T>,
-> +}
-> +
-> +/// The argument for [`GpuVmCore::sm_map`].
-> +pub struct OpMapRequest<'a, 'ctx, T: DriverGpuVm> {
-> +    /// Address in GPU virtual address space.
-> +    pub addr: u64,
-> +    /// Length of mapping to create.
-> +    pub range: u64,
-> +    /// Offset in GEM object.
-> +    pub offset: u64,
+This is tracked in https://github.com/Rust-for-Linux/klint/issues/5.
 
-I=E2=80=99d rename this gem_offset. A bit vague/confusing otherwise.
+Best,
+Gary
 
-> +    /// The GEM object to map.
-> +    pub vm_bo: GpuVmBoResident<T>,
-> +    /// The user-provided context type.
-> +    pub context: &'a mut T::SmContext<'ctx>,
-> +}
-> +
-> +impl<'a, 'ctx, T: DriverGpuVm> OpMapRequest<'a, 'ctx, T> {
-> +    fn raw_request(&self) -> bindings::drm_gpuvm_map_req {
-> +        bindings::drm_gpuvm_map_req {
-> +            map: bindings::drm_gpuva_op_map {
-> +                va: bindings::drm_gpuva_op_map__bindgen_ty_1 {
-> +                    addr: self.addr,
-> +                    range: self.range,
-> +                },
-> +                gem: bindings::drm_gpuva_op_map__bindgen_ty_2 {
-> +                    offset: self.offset,
-> +                    obj: self.vm_bo.obj().as_raw(),
-> +                },
-> +            },
-> +        }
-> +    }
-> +}
-> +
-> +/// Represents an `sm_step_map` operation that has not yet been =
-completed.
-
-> +pub struct OpMap<'op, T: DriverGpuVm> {
-> +    op: &'op bindings::drm_gpuva_op_map,
-> +    // Since these abstractions are designed for immediate mode, the =
-VM BO needs to be
-> +    // pre-allocated, so we always have it available when we reach =
-this point.
-> +    vm_bo: &'op GpuVmBo<T>,
-> +    _invariant: PhantomData<*mut &'op mut T>,
-> +}
-> +
-> +impl<'op, T: DriverGpuVm> OpMap<'op, T> {
-> +    /// The base address of the new mapping.
-> +    pub fn addr(&self) -> u64 {
-> +        self.op.va.addr
-> +    }
-> +
-> +    /// The length of the new mapping.
-> +    pub fn length(&self) -> u64 {
-> +        self.op.va.range
-> +    }
-> +
-> +    /// The offset within the [`drm_gem_object`](crate::gem::Object).
-> +    pub fn gem_offset(&self) -> u64 {
-> +        self.op.gem.offset
-> +    }
-> +
-> +    /// The [`drm_gem_object`](crate::gem::Object) to map.
-> +    pub fn obj(&self) -> &T::Object {
-> +        // SAFETY: The `obj` pointer is guaranteed to be valid.
-> +        unsafe { <T::Object as =
-IntoGEMObject>::from_raw(self.op.gem.obj) }
-> +    }
-> +
-> +    /// The [`GpuVmBo`] that the new VA will be associated with.
-> +    pub fn vm_bo(&self) -> &GpuVmBo<T> {
-> +        self.vm_bo
-> +    }
-> +
-> +    /// Use the pre-allocated VA to carry out this map operation.
-> +    pub fn insert(self, va: GpuVaAlloc<T>, va_data: impl =
-PinInit<T::VaData>) -> OpMapped<'op, T> {
-> +        let va =3D va.prepare(va_data);
-> +        // SAFETY: By the type invariants we may access the interval =
-tree.
-> +        unsafe { bindings::drm_gpuva_map(self.vm_bo.gpuvm().as_raw(), =
-va, self.op) };
-> +
-> +        let _gpuva_guard =3D self.vm_bo().lock_gpuva();
-> +        // SAFETY: The va is prepared for insertion, and we hold the =
-GEM lock.
-> +        unsafe { bindings::drm_gpuva_link(va, self.vm_bo.as_raw()) };
-> +
-> +        OpMapped {
-> +            _invariant: self._invariant,
-> +        }
-> +    }
-> +}
-> +
-> +/// Represents a completed [`OpMap`] operation.
-> +pub struct OpMapped<'op, T> {
-> +    _invariant: PhantomData<*mut &'op mut T>,
-> +}
-> +
-> /// Represents an `sm_step_unmap` operation that has not yet been =
-completed.
-> pub struct OpUnmap<'op, T: DriverGpuVm> {
->     op: &'op bindings::drm_gpuva_op_unmap,
-> @@ -205,6 +299,30 @@ pub struct OpRemapped<'op, T> {
-> }
->=20
-> impl<T: DriverGpuVm> GpuVmCore<T> {
-> +    /// Create a mapping, removing or remapping anything that =
-overlaps.
-> +    ///
-> +    /// Internally calls the [`DriverGpuVm`] callbacks similar to =
-[`Self::sm_unmap`], except that
-> +    /// the [`DriverGpuVm::sm_step_map`] is called once to create the =
-requested mapping.
-> +    #[inline]
-> +    pub fn sm_map(&mut self, req: OpMapRequest<'_, '_, T>) -> Result =
-{
-> +        let gpuvm =3D self.as_raw();
-> +        let raw_req =3D req.raw_request();
-> +        let mut p =3D SmMapData {
-> +            sm_data: SmData {
-> +                gpuvm: self,
-> +                user_context: req.context,
-> +            },
-> +            vm_bo: req.vm_bo,
-> +        };
-> +        // SAFETY:
-> +        // * raw_request() creates a valid request.
-> +        // * The private data is valid to be interpreted as both =
-SmData and SmMapData since the
-> +        //   first field of SmMapData is SmData.
-> +        to_result(unsafe {
-> +            bindings::drm_gpuvm_sm_map(gpuvm, (&raw mut p).cast(), =
-&raw const raw_req)
-> +        })
-> +    }
-> +
->     /// Remove any mappings in the given region.
->     ///
->     /// Internally calls [`DriverGpuVm::sm_step_unmap`] for ranges =
-entirely contained within the
-> @@ -218,19 +336,45 @@ pub fn sm_unmap(&mut self, addr: u64, length: =
-u64, context: &mut T::SmContext<'_
->         };
->         // SAFETY:
->         // * raw_request() creates a valid request.
-> -        // * The private data is valid to be interpreted as SmData.
-> +        // * The private data is a valid SmData.
->         to_result(unsafe { bindings::drm_gpuvm_sm_unmap(gpuvm, (&raw =
-mut p).cast(), addr, length) })
->     }
-> }
->=20
-> impl<T: DriverGpuVm> GpuVm<T> {
->     /// # Safety
-> -    /// Must be called from `sm_unmap` with a pointer to `SmData`.
-> +    /// Must be called from `sm_map` with a pointer to `SmMapData`.
-> +    pub(super) unsafe extern "C" fn sm_step_map(
-> +        op: *mut bindings::drm_gpuva_op,
-> +        p: *mut c_void,
-> +    ) -> c_int {
-> +        // SAFETY: If we reach `sm_step_map` then we were called from =
-`sm_map` which always passes
-> +        // an `SmMapData` as private data.
-> +        let p =3D unsafe { &mut *p.cast::<SmMapData<'_, '_, T>>() };
-> +        let op =3D OpMap {
-> +            // SAFETY: sm_step_map is called with a map operation.
-> +            op: unsafe { &(*op).__bindgen_anon_1.map },
-> +            vm_bo: &p.vm_bo,
-> +            _invariant: PhantomData,
-> +        };
-> +        match p
-> +            .sm_data
-> +            .gpuvm
-> +            .data()
-> +            .sm_step_map(op, p.sm_data.user_context)
-> +        {
-> +            Ok(OpMapped { .. }) =3D> 0,
-> +            Err(err) =3D> err.to_errno(),
-> +        }
-> +    }
-> +
-> +    /// # Safety
-> +    /// Must be called from `sm_map` or `sm_unmap` with a pointer to =
-`SmMapData` or `SmData`.
->     pub(super) unsafe extern "C" fn sm_step_unmap(
->         op: *mut bindings::drm_gpuva_op,
->         p: *mut c_void,
->     ) -> c_int {
-> -        // SAFETY: The caller provides a pointer to `SmData`.
-> +        // SAFETY: The caller provides a pointer that can be treated =
-as `SmData`.
->         let p =3D unsafe { &mut *p.cast::<SmData<'_, '_, T>>() };
->         let op =3D OpUnmap {
->             // SAFETY: sm_step_unmap is called with an unmap =
-operation.
-> @@ -244,12 +388,12 @@ impl<T: DriverGpuVm> GpuVm<T> {
->     }
->=20
->     /// # Safety
-> -    /// Must be called from `sm_unmap` with a pointer to `SmData`.
-> +    /// Must be called from `sm_map` or `sm_unmap` with a pointer to =
-`SmMapData` or `SmData`.
->     pub(super) unsafe extern "C" fn sm_step_remap(
->         op: *mut bindings::drm_gpuva_op,
->         p: *mut c_void,
->     ) -> c_int {
-> -        // SAFETY: The caller provides a pointer to `SmData`.
-> +        // SAFETY: The caller provides a pointer that can be treated =
-as `SmData`.
->         let p =3D unsafe { &mut *p.cast::<SmData<'_, '_, T>>() };
->         let op =3D OpRemap {
->             // SAFETY: sm_step_remap is called with a remap operation.
->=20
-> --=20
-> 2.52.0.457.g6b5491de43-goog
->=20
-
-Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+>
+> Cheers,
+> Miguel
 
