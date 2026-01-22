@@ -2,70 +2,177 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yKAPMmpFcmlCgQAAu9opvQ
+	id 4Ou3On1GcmnpfAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 16:42:34 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 16:47:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2172069159
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 16:42:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4396569233
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 16:47:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03E3110E9DB;
-	Thu, 22 Jan 2026 15:42:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB13410E0C9;
+	Thu, 22 Jan 2026 15:47:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="anQQ0Lfw";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="NeztxjFf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D52710E9DB;
- Thu, 22 Jan 2026 15:42:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769096549; x=1800632549;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=qxJnXYH7CkQdWMctZgubrkG6zIcN8YKKvbgciP9Zb4s=;
- b=anQQ0Lfw8/dYPR7cERCvgcAKLalOQpgswNu3lltG3cyBJqhu6PKdAr+3
- ofmTB/1idfFinQh08cJ7e/dubXR6JM6IIjAGOLu9sbGWpqeVXTiZu/F2t
- jHel7cPhOSXbhH1ocvZ1w2kh7cdKrn5bDhkoiBXQnnBD9E85qwMC+ZxGo
- 4qRyBl6EEWfRk+TKMGAMQoTlWUOIi2/EYHepV6cWisBRdFmHR8ORKv+zc
- fXlW4BOgxOn3NhhRpbTAV9qdHNAWBGgal35Lzqona10vuSv/p4v3IzMwi
- h1FBkVS1GhugylzOP7gdvIBB0ZCpa+PJxgWhkGuVI9jDE8p5iQcHhG79h w==;
-X-CSE-ConnectionGUID: NGxdAt6qQFCTABm0a1qcMw==
-X-CSE-MsgGUID: /TmX95pbQV2O/ES/wk/6sQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="81713810"
-X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; d="scan'208";a="81713810"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2026 07:42:15 -0800
-X-CSE-ConnectionGUID: RnLqXDEFR0KIT8euSM82gw==
-X-CSE-MsgGUID: BckXCKegSxaHUfHWKxkzhQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; d="scan'208";a="237432533"
-Received: from debox1-desk4.jf.intel.com (HELO localhost) ([10.88.27.138])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2026 07:42:15 -0800
-Date: Thu, 22 Jan 2026 07:42:15 -0800
-From: David Box <david.e.box@linux.intel.com>
-To: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
-Cc: thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com, 
- irenic.rajneesh@gmail.com, srinivas.pandruvada@linux.intel.com, 
+Received: from PH7PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11010034.outbound.protection.outlook.com [52.101.201.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87F6110E0C9;
+ Thu, 22 Jan 2026 15:47:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y1hntf+J10Wc+3Hv7poOapR5c8+zLAhhvTiisk8s5Q06AvLBI4+Q+q5xSw0qb+ph5634Y4PP5bnf/ddv6MS+GgxiO5N7/q0wenCky9fmpblNSFiSFaXwARw+f1TKJeKK95u/1qY+UHqiDXt0SHhc3+tnbVSdoUnHYngsULkOUZgLQwYFhUEVRnFo5Gaohf0tOfxh1OCw5zqVvZZQLvLmLLY7ppkcaBgRNImiSj7Dmtdqmk7RXrRcUlEKjEj01LnbHCng0ZMDercma8b3Vda/uJtuSFlBcbXk54D9MCpnObIoEUdQiO9bWI5rhdlIikkTUKPZqh63bSD1sxMRbhOdNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=urLRoIBEUIKjiUtuMX6/RhXFrlQUu0ljUyUgyCTDCgI=;
+ b=zBWm1JAqg/d96H6sksdKd4YBdInKj8eUU6/NSPZ0gtcArmTaDNMpeh7oG8Ue/FcPSJbJo0tOZveibmPfYFlfsIfw5GgJJGPS3WykAVXAZhjer4MppHajUBWf3AfAUJEEBU+90y6LVFYi7HOUmIAFqaqL1Puo8D8I7Vh1leGn1gJ+NTB8cNoGoF6GSi4+5sjlqo8PsU+zT2Tq9pknb5WxbEsyW1CtdZus8fbHLCIePJe+kJxv8f4brkAi9jgaHtavUQ56PUxiEpICihXYX13Wzb94HMBzRl0Lg4QAG7PAxi74fbpoosBduPeQWMceT4dOGWrGtMgltKQYLxVSWTX25w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=urLRoIBEUIKjiUtuMX6/RhXFrlQUu0ljUyUgyCTDCgI=;
+ b=NeztxjFfb/XCKZywgF1ikrJGBwwFfT6XHaov7k8FJ4XH2JOScFhCxjUfVsbdAsXEY1WzQz38Ze9r5020u+EM6FwhDw9Rdcs1S015xHLv4YMgdwdPnj1c9GjTktDPRoIi5oP21+AST9VjoiPoBRvbtCI93yxDur+FNFkveMbVpoxp1FcOGTP3OrOb4Z3zFidocNRyCp8+WOLaOL5EEzDeLywzVMOPW7KkYBdhg2PsP+b5etRuXkvpQBzBgqGkEhvccGtRmGu0QxeDRXKleXIfJ/nXXltmPLi407y9Xba2atb+0Ikj3WQt4XJjXoOo2xlSTIi/5KD7W65sfMhpkf8Dug==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by IA1PR12MB6556.namprd12.prod.outlook.com (2603:10b6:208:3a0::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.2; Thu, 22 Jan
+ 2026 15:46:50 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::1b59:c8a2:4c00:8a2c]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::1b59:c8a2:4c00:8a2c%3]) with mapi id 15.20.9542.010; Thu, 22 Jan 2026
+ 15:46:47 +0000
+Date: Thu, 22 Jan 2026 11:46:46 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Balbir Singh <balbirs@nvidia.com>, Matthew Wilcox <willy@infradead.org>,
+ Alistair Popple <apopple@nvidia.com>,
+ Matthew Brost <matthew.brost@intel.com>, Vlastimil Babka <vbabka@suse.cz>,
+ Francois Dugast <francois.dugast@intel.com>,
  intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- xi.pardee@linux.intel.com, 
- Hans de Goede <hansg@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
- platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v3 6/6] platform/x86/intel/vsec: Plumb ACPI PMT discovery
- tables through vsec
-Message-ID: <tuitjp3fhclpfu4qhf7zz37yqaltqgca45ibsyhycgi7kqtzlx@i7dkq3gjwi4c>
-References: <20260122030903.3247167-1-david.e.box@linux.intel.com>
- <20260122030903.3247167-7-david.e.box@linux.intel.com>
- <a2ad65a0-7c90-45ae-bb13-e4a3e8a58dae@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ adhavan Srinivasan <maddy@linux.ibm.com>,
+ Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Leon Romanovsky <leon@kernel.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, linuxppc-dev@lists.ozlabs.org,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-mm@kvack.org, linux-cxl@vger.kernel.org
+Subject: Re: [PATCH v6 1/5] mm/zone_device: Reinitialize large zone device
+ private folios
+Message-ID: <20260122154646.GQ1134360@nvidia.com>
+References: <eb94d115-18a6-455b-b020-f18f372e283a@nvidia.com>
+ <aWsdv6dX2RgqajFQ@lstrano-desk.jf.intel.com>
+ <4k72r4n5poss2glrof5fsapczkpcrnpokposeikw5wjvtodbto@wpqsxoxzpvy6>
+ <20260119142019.GG1134360@nvidia.com>
+ <96926697-070C-45DE-AD26-559652625859@nvidia.com>
+ <20260119203551.GQ1134360@nvidia.com>
+ <ef6ef1e2-25f1-4f1b-a8d4-98c0d7b4ad0c@nvidia.com>
+ <EE2956E3-CCEA-4EF9-A1A4-A483245091FC@nvidia.com>
+ <20260120135340.GA1134360@nvidia.com>
+ <F7E3DF24-A37B-40A0-A507-CEF4AB76C44D@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a2ad65a0-7c90-45ae-bb13-e4a3e8a58dae@linux.intel.com>
+In-Reply-To: <F7E3DF24-A37B-40A0-A507-CEF4AB76C44D@nvidia.com>
+X-ClientProxiedBy: BL1PR13CA0363.namprd13.prod.outlook.com
+ (2603:10b6:208:2c0::8) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|IA1PR12MB6556:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6619fffa-3efd-4f3b-38fc-08de59cd739e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Ohj6vJhRcoQx0d14rJ+KUVn630uJ0OjyBmRLufFHoNPDUq9wqhGhBsSWCyHs?=
+ =?us-ascii?Q?5YPxYiPGzbTI95G/Tosh/PEWY4YIxyKqM9P0/QFhWN9H+mAkzdX7BMLUzDCH?=
+ =?us-ascii?Q?Wn91BCJnDrMXYm4EUJICmdzS0aQofZS16JC0sAQDjt3qTv2N1wtbBCHiNw8I?=
+ =?us-ascii?Q?vUhWQIIWF8Qiwf13QX48aeQf61Lr0T7AN4a+nofJnV68KFlMU/1H3sp/tVf7?=
+ =?us-ascii?Q?6Uj1NmizFTB6/cO7bWwvKufbN0o64Zi/dul0yyQFl6IZ8hnMBo/nafS5FpZJ?=
+ =?us-ascii?Q?eNzuVqNsk9mIUOLmxZwJICLZBZZ6jmjD3HO2LPkxRt/lsRjmVERA6FLE71FP?=
+ =?us-ascii?Q?WsPStBDbYELQ/N0BdXyKRV29LLI7Ny8/L12N8NJMqUY3gOw6ka3j3UQUgVHF?=
+ =?us-ascii?Q?YHxYfwN8u9zgOznfORp3xh4K/EDQLFIw2qUYuEOwIEdbpNTBkP4xwXw3yzuw?=
+ =?us-ascii?Q?qI0NjfzKRhBQtRStUetRK+QZJjHOgAPtSA6wPc8JH5oEqClCOcstWw4WcWpW?=
+ =?us-ascii?Q?PwmIAogOgXtCUpr2Qp6CP9X0TufJOp+VkIm1uj9PHuFFeU1+0R8Y93g1qIpN?=
+ =?us-ascii?Q?vwbDHpKbKdypgBOD5MHFvFX4JOfc5KHLAVcrcBrIvDi2pOHUNSbPZKKAe0TI?=
+ =?us-ascii?Q?/4h8CXIhFPf7em/wcWgkmMaG0Ig9RlvoIWz1XRm+JfytRqhoiLD4gYIJzXKP?=
+ =?us-ascii?Q?ZsGRoSSt+WAe4lCSy2sbG6rTCZIuIAKRsdDmh5MwHUy5FbQBmJ67RRgAx36+?=
+ =?us-ascii?Q?0j4uuTs7j2ZNJPJbkbDV6b9dFyG4m8Rdm2UL8rbKf+7/wldoB+jStJJ8h9ic?=
+ =?us-ascii?Q?kuIKwaz7Q9ZkUL0ih5rIeFisPLf5vWZ6O7V06+TlbqMD+5oYJZCDxoBf9aam?=
+ =?us-ascii?Q?3FENRWgqoE/vnsMO9aWgfpckUgP3Kar6EDVCY3AjCbFAZVMb2oyqeA9udkyN?=
+ =?us-ascii?Q?m7w2Scy42T4M0KsrKK8Y8XDe5hHecvKaIku5etlKUV4uNiFdw2bULmVVAncB?=
+ =?us-ascii?Q?CPbRGF3S+Cw0jWbeTi3fixQWx559sCNbqikUUBAVmsw8RBKSPI+JVPUV7RwF?=
+ =?us-ascii?Q?pLWJxni5bB3uZGd3a1aiTPnhrFsrKnZvkZoYpNhiJ1NMLBQ85sd67DH53YY5?=
+ =?us-ascii?Q?lB/odiXJhICIDrK0EtAdUy1aCwQsNF8PTI519VIVKDJ+GXZXlDKofSWT0YUd?=
+ =?us-ascii?Q?caerQEosFEqZdm6lJGmJkwPet3yllCN3LyPobXKRrxRpgVq6oc/zkPLu6QCC?=
+ =?us-ascii?Q?vHGm1ZmSd2yUOaN6VIjjcX+l1kzEfSUJCWYH4hue+IhHpbJKQQBMdfEvqtGc?=
+ =?us-ascii?Q?UHlmvKsPF8bHftyzqnCIbTF2UjTAqIoXDw7jEvRWhGFzitJP2y+Tq0v15Gux?=
+ =?us-ascii?Q?YKbjfR6F+ylGNATaeXrun93eJzhM+prGXaa+LX6BxtWaQWgV/K35688NF7l2?=
+ =?us-ascii?Q?gqailK2Dwl6I8WBRCvmNfYjBvQeCAEx0diyWoLUmt8QGMKB7BvxY1CCRSRQX?=
+ =?us-ascii?Q?Ym2O2PVDDKSItKO9pjcjE7WutgsoqKtfGagKU0I/HWLx1s4U0xuQyJmEOue6?=
+ =?us-ascii?Q?ftfkYvUaRqSr/VDgWQA=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV8PR12MB9620.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?E5Fs5KJqLjfrfdCxIzohuRce/HV8FgniJIFkYD4lqISS7ma6j3xVErWMm4CA?=
+ =?us-ascii?Q?ssbKy8+xYyEDheYDEu80czgFZxfyxrCGnOe4YLJiVD3saDbtU3wdoZIfzEJK?=
+ =?us-ascii?Q?asGVYAMLbvgvkVHLwvKGAVcTj+RArzJcSO5Yo+jKmBTRpmI0DMWMVH1H6pjk?=
+ =?us-ascii?Q?aQGXK6fP7MLASzuS2r6OQNYaS7UTM8CR/xppROWd5BfDUYoAGBSo928klec7?=
+ =?us-ascii?Q?sg9Z1LsIhaxCAvEGpcvZc6FEjQnMUJpCBTIZ4Gxj1FDNRX/OgHXHGkkgC6Cp?=
+ =?us-ascii?Q?lt22OYx5eidO7HBBhnNhIapEQh0asyouPbFl/sJ1qtyEszYnEKWtSNSukJNW?=
+ =?us-ascii?Q?btraflU4GZHy1R2uf4IQCd/MyMwCy0YTGOGK3UbjK03wAemqq19PiBR33huS?=
+ =?us-ascii?Q?bll0+Sx0umj5xU4zHM5rc5JdMFMsBvEyTkW6TesZNmYiMGwqFr7riOLCOgx1?=
+ =?us-ascii?Q?j5sFdHv291N95kv/WbpI6jooA6wRHJAS36NE15piwyju3PznC4+OSEQ4lTfc?=
+ =?us-ascii?Q?q9PH01RHNZJNHQhbRzeibQPKyAx6Y3FtyT34VGCL9NmIKBBA//AbHVJsES85?=
+ =?us-ascii?Q?fCEhtl3+D6P1kAS7RjSKqu9WRGaCNtmTydxJKeEOUQn+l5vuX7ePYXBhsaEM?=
+ =?us-ascii?Q?1d4dmhNSOyaPSAkwDbhs6m0VA1Ko4UvhrXJ0FhZe5kW2qX0sU/wD5K+mvAeD?=
+ =?us-ascii?Q?kuB7jBYx84y+NQng2Sx6r2qNMDAqPiAyLnKxZGwjySK7ztDNgBIBNOpeicmn?=
+ =?us-ascii?Q?LBPsd2axGHGIVKY1cQpjIcVU5ubYaefwmdu043WIg6ijffnoyM4BTSzlJSzE?=
+ =?us-ascii?Q?XY8OE+gItu8mNXewXzCtjOIP49xs3i62bmGaHRQRxNB0Uq5A+JzKBS1ARlkG?=
+ =?us-ascii?Q?ogGzN13BMsneyWgQWsfEvnXGedVUeG7Q4exZDQcSXAeD7GmG8aXdBKdNj6+U?=
+ =?us-ascii?Q?q+oqISKb0MS9aJSMPE1WzS24VrlXCgqCHV2CptoOYdWQ6/iSon6dAe0fQl69?=
+ =?us-ascii?Q?RG4Bq0wpjUn6hYYwxWE6VnHiBWQEXOoAZZaXRoY9Z6LZMMRhC4hYAjeJ8lr+?=
+ =?us-ascii?Q?ek/Cn18vYZRORri6SiD85LkClJ46PklsEVu3DURgFXwLa2tfHga5C4XUneoV?=
+ =?us-ascii?Q?y1vcsuK0Cg6CMBzsKTwjbHyc5FyXcsW+KgPZjNzTAkHeJEERtvOxvDlXTMv6?=
+ =?us-ascii?Q?gVsR3469y3KZlcLoTM/661eHBBCkLO6n/sHjqLoSSWorSOEgkCMfSapewc6Q?=
+ =?us-ascii?Q?Xnvc7JHSh6hOgM+Sgs9JcIb6XkLx1soLqWQoZa/GI5tgaMQXRYesLe0/hJfq?=
+ =?us-ascii?Q?1aOk43ByRVAGMl1vxoXr2+3FO4h4hDwF43F0gyEj7UiwLoLOe5vZEhEHwlHy?=
+ =?us-ascii?Q?5rLL/6oxihjaRSog6zrqgBgIKXpui9eerb17ERs5CEgYAIblX34y2dZNAnEC?=
+ =?us-ascii?Q?HSL3iFY3eYBZcXjKflIW1BWVpPYpNht1//WJnyaKMDVqYpolMqwNCFM3YOnc?=
+ =?us-ascii?Q?+Ce9SmKXLd8f+VV7WoYMuSCUMHcs8ZS4iZRmtYNLbn0msHoyavh7EzGsgKA0?=
+ =?us-ascii?Q?pqHgZzRRVm/wJUBb1L/wA7vvQBwEWkkzcv8sG9rjxNx25haKT3hnCQgzMrYD?=
+ =?us-ascii?Q?iOH+A5Z98zU3GUJPipZaNiaaxcex0BAvP9+tB1icCV871OqXSjYUvWY1RRtT?=
+ =?us-ascii?Q?x+blK5vG4fjOVBDIvK445VpbdQrH3qG+obXZwRJ1iuQcXOfIlUtTQyTAhN3T?=
+ =?us-ascii?Q?lUMOZfpMqQ=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6619fffa-3efd-4f3b-38fc-08de59cd739e
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 15:46:47.7886 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 61UuDPbnbQgYaKMW5ue6PUb8TuV9NI6UMg7dVvAEh1C4w7RgdricARs5c63CAC1w
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6556
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,202 +188,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	URIBL_MULTI_FAIL(0.00)[gabe.freedesktop.org:server fail,intel.com:server fail];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FROM_NEQ_ENVFROM(0.00)[david.e.box@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[linux.intel.com,intel.com,gmail.com,lists.freedesktop.org,kernel.org,vger.kernel.org];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCPT_COUNT_TWELVE(0.00)[39];
+	FREEMAIL_CC(0.00)[nvidia.com,infradead.org,intel.com,suse.cz,lists.freedesktop.org,linux.ibm.com,gmail.com,ellerman.id.au,kernel.org,amd.com,ffwll.ch,linux.intel.com,suse.de,redhat.com,linux-foundation.org,oracle.com,google.com,suse.com,lists.ozlabs.org,vger.kernel.org,kvack.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jgg@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	TAGGED_RCPT(0.00)[dri-devel];
 	MISSING_XM_UA(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,intel.com:dkim]
-X-Rspamd-Queue-Id: 2172069159
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,Nvidia.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 4396569233
 X-Rspamd-Action: no action
 
-On Thu, Jan 22, 2026 at 12:29:04PM +0200, Ilpo Järvinen wrote:
-> On Wed, 21 Jan 2026, David E. Box wrote:
+On Tue, Jan 20, 2026 at 10:01:18PM -0500, Zi Yan wrote:
+> On 20 Jan 2026, at 8:53, Jason Gunthorpe wrote:
 > 
-> > Some platforms expose PMT discovery via ACPI instead of PCI BARs. Add a
-> > generic discovery source flag and carry ACPI discovery entries alongside
-> > the existing PCI resource path so PMT clients can consume either.
-> > 
-> > Changes:
-> >   - Add enum intel_vsec_disc_source { _PCI, _ACPI }.
-> >   - Extend intel_vsec_platform_info and intel_vsec_device with source enum
-> >     and ACPI discovery table pointer/
-> >   - When src==ACPI, skip BAR resource setup and copy the ACPI discovery
-> >     entries into the aux device.
-> > 
-> > No user-visible behavior change yet; this only wires ACPI data through vsec
-> > in preparation for ACPI-enumerated PMT clients.
-> > 
-> > Signed-off-by: David E. Box <david.e.box@linux.intel.com>
-> > ---
-> > 
-> > v3:
-> >   - Re-send with all changes intended for v2 which was sent without them
-> >     being applied.
-> > 
-> > v2:
-> >   - Improve comment to clarify BAR resource setup doesn't apply to ACPI
-> >     discovery
-> >   - Add missing #include for kmemdup()
-> >   - Use array_size() for overflow protection
-> >     (review comments by Ilpo Järvinen)
-> > 
-> > 
-> >  drivers/platform/x86/intel/vsec.c | 24 ++++++++++++++++++++++++
-> >  include/linux/intel_vsec.h        | 20 +++++++++++++++++++-
-> >  2 files changed, 43 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/platform/x86/intel/vsec.c b/drivers/platform/x86/intel/vsec.c
-> > index 4aeb0728b435..b1465e67feef 100644
-> > --- a/drivers/platform/x86/intel/vsec.c
-> > +++ b/drivers/platform/x86/intel/vsec.c
-> > @@ -24,7 +24,9 @@
-> >  #include <linux/intel_vsec.h>
-> >  #include <linux/kernel.h>
-> >  #include <linux/module.h>
-> > +#include <linux/overflow.h>
-> >  #include <linux/pci.h>
-> > +#include <linux/string.h>
-> >  #include <linux/types.h>
-> >  
-> >  #define PMT_XA_START			0
-> > @@ -109,6 +111,7 @@ static void intel_vsec_dev_release(struct device *dev)
-> >  
-> >  	ida_free(intel_vsec_dev->ida, intel_vsec_dev->auxdev.id);
-> >  
-> > +	kfree(intel_vsec_dev->acpi_disc);
-> >  	kfree(intel_vsec_dev->resource);
-> >  	kfree(intel_vsec_dev);
-> >  }
-> > @@ -320,6 +323,13 @@ static int intel_vsec_add_dev(struct device *dev, struct intel_vsec_header *head
-> >  	 * auxiliary device driver.
-> >  	 */
-> >  	for (i = 0, tmp = res; i < header->num_entries; i++, tmp++) {
-> > +		/*
-> > +		 * Skip resource mapping check for ACPI-based discovery
-> > +		 * since those tables are read from _DSD, not MMIO.
-> > +		 */
-> > +		if (info->src == INTEL_VSEC_DISC_ACPI)
-> > +			break;
-> > +
-> >  		tmp->start = base_addr + header->offset + i * (header->entry_size * sizeof(u32));
-> >  		tmp->end = tmp->start + (header->entry_size * sizeof(u32)) - 1;
-> >  		tmp->flags = IORESOURCE_MEM;
-> > @@ -338,6 +348,20 @@ static int intel_vsec_add_dev(struct device *dev, struct intel_vsec_header *head
-> >  	intel_vsec_dev->base_addr = info->base_addr;
-> >  	intel_vsec_dev->priv_data = info->priv_data;
-> >  	intel_vsec_dev->cap_id = cap_id;
-> > +	intel_vsec_dev->src = info->src;
-> > +
-> > +	if (info->src == INTEL_VSEC_DISC_ACPI) {
-> > +		size_t bytes;
-> > +
-> > +		bytes = array_size(intel_vsec_dev->num_resources,
-> > +				   sizeof(info->acpi_disc[0]));
-> > +		if (!bytes)
-> > +			return -EOVERFLOW;
+> > On Mon, Jan 19, 2026 at 09:50:16PM -0500, Zi Yan wrote:
+> >>>> I suppose we want some prep_single_page(page) and some reorg to share
+> >>>> code with the other prep function.
+> >>
+> >> This is just an unnecessary need due to lack of knowledge of/do not want
+> >> to investigate core MM page and folio initialization code.
+> >
+> > It will be better to keep this related code together, not spread all
+> > around.
 > 
-> Is this correct as array_size() is documented to return SIZE_MAX on 
-> overflow?
+> Or clarify what code is for preparing pages, which would go away at memdesc
+> time, and what code is for preparing folios, which would stay.
 
-Yep. Went with array_size() but was thinking check_mul_overflow(). Will
-update. Thanks.
+That comes back to the question of 'what are the rules for frozen
+pages'
 
-David
+Now that we have frozen pages where the frozen owner can use some of
+the struct page memory however it likes that memory needs to be reset
+before the page is thawed and converted back to a folio.
 
-> 
-> Other than that, this series looked very straightforward now.
-> 
-> -- 
->  i.
-> 
-> > +
-> > +		intel_vsec_dev->acpi_disc = kmemdup(info->acpi_disc, bytes, GFP_KERNEL);
-> > +		if (!intel_vsec_dev->acpi_disc)
-> > +			return -ENOMEM;
-> > +	}
-> >  
-> >  	if (header->id == VSEC_ID_SDSI)
-> >  		intel_vsec_dev->ida = &intel_vsec_sdsi_ida;
-> > diff --git a/include/linux/intel_vsec.h b/include/linux/intel_vsec.h
-> > index 4eecb2a6bac4..1fe5665a9d02 100644
-> > --- a/include/linux/intel_vsec.h
-> > +++ b/include/linux/intel_vsec.h
-> > @@ -33,6 +33,11 @@ struct device;
-> >  struct pci_dev;
-> >  struct resource;
-> >  
-> > +enum intel_vsec_disc_source {
-> > +	INTEL_VSEC_DISC_PCI,	/* PCI, default */
-> > +	INTEL_VSEC_DISC_ACPI,	/* ACPI */
-> > +};
-> > +
-> >  enum intel_vsec_id {
-> >  	VSEC_ID_TELEMETRY	= 2,
-> >  	VSEC_ID_WATCHER		= 3,
-> > @@ -103,6 +108,10 @@ struct vsec_feature_dependency {
-> >   * @parent:    parent device in the auxbus chain
-> >   * @headers:   list of headers to define the PMT client devices to create
-> >   * @deps:      array of feature dependencies
-> > + * @acpi_disc: ACPI discovery tables, each entry is two QWORDs
-> > + *             in little-endian format as defined by the PMT ACPI spec.
-> > + *             Valid only when @provider == INTEL_VSEC_DISC_ACPI.
-> > + * @src:       source of discovery table data
-> >   * @priv_data: private data, usable by parent devices, currently a callback
-> >   * @caps:      bitmask of PMT capabilities for the given headers
-> >   * @quirks:    bitmask of VSEC device quirks
-> > @@ -113,6 +122,8 @@ struct intel_vsec_platform_info {
-> >  	struct device *parent;
-> >  	struct intel_vsec_header **headers;
-> >  	const struct vsec_feature_dependency *deps;
-> > +	u32 (*acpi_disc)[4];
-> > +	enum intel_vsec_disc_source src;
-> >  	void *priv_data;
-> >  	unsigned long caps;
-> >  	unsigned long quirks;
-> > @@ -124,7 +135,12 @@ struct intel_vsec_platform_info {
-> >   * struct intel_vsec_device - Auxbus specific device information
-> >   * @auxdev:        auxbus device struct for auxbus access
-> >   * @dev:           struct device associated with the device
-> > - * @resource:      any resources shared by the parent
-> > + * @resource:      PCI discovery resources (BAR windows), one per discovery
-> > + *                 instance. Valid only when @src == INTEL_VSEC_DISC_PCI
-> > + * @acpi_disc:     ACPI discovery tables, each entry is two QWORDs
-> > + *                 in little-endian format as defined by the PMT ACPI spec.
-> > + *                 Valid only when @src == INTEL_VSEC_DISC_ACPI.
-> > + * @src:           source of discovery table data
-> >   * @ida:           id reference
-> >   * @num_resources: number of resources
-> >   * @id:            xarray id
-> > @@ -138,6 +154,8 @@ struct intel_vsec_device {
-> >  	struct auxiliary_device auxdev;
-> >  	struct device *dev;
-> >  	struct resource *resource;
-> > +	u32 (*acpi_disc)[4];
-> > +	enum intel_vsec_disc_source src;
-> >  	struct ida *ida;
-> >  	int num_resources;
-> >  	int id; /* xa */
-> > 
+memdesc time is only useful for memory that is not writable by frozen
+owners - basically must be constant forever.
 
+> >
+> >>>> I don't think so. It should do the above job efficiently and iterate
+> >>>> over the page list exactly once.
+> >>
+> >> folio initialization should not iterate over any page list, since folio is
+> >> supposed to be treated as a whole instead of individual pages.
+> >
+> > The tail pages need to have the right data in them or compound_head
+> > won't work.
+> 
+> That is done by set_compound_head() in prep_compound_tail().
+
+Inside a page loop :)
+
+	__SetPageHead(page);
+	for (i = 1; i < nr_pages; i++)
+		prep_compound_tail(page, i);
+
+> Yes. One of the issues is that device private code used to only handles
+> order-0 pages and was converted to use high order folio directly without
+> using high order page (namely compound page) as an intermediate step.
+> This two-step-in-one caused confusion. But the key thing to avoid the
+> confusion is that to form a high order folio, a list of contiguous pages
+> would become a compound page by calling prep_compound_page(), then
+> the compound page becomes a folio by calling folio_set_large_rmappable().
+
+That seems logical to me.
+
+Jason
