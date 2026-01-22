@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uK2XDOL4cWmvZwAAu9opvQ
+	id 8K+DO4D6cWmvZwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 11:16:02 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 11:22:57 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4076B651A6
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 11:16:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6605A652F0
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 11:22:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C307D10E0CD;
-	Thu, 22 Jan 2026 10:15:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6B0A10E1F6;
+	Thu, 22 Jan 2026 10:22:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS8PR02CU002.outbound.protection.outlook.com
- (mail-japanwestazon11022078.outbound.protection.outlook.com [40.107.75.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6992A10E0CD
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 10:15:52 +0000 (UTC)
+Received: from SEYPR02CU001.outbound.protection.outlook.com
+ (mail-koreacentralazon11023120.outbound.protection.outlook.com
+ [40.107.44.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4389510E05D
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 10:22:53 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YyufKJqF38zjivLfEBUu2KJWAEhGgJwgqAEIvq+8tRs+v0JxXuPbrq4OZVDFaPbjk2Q3RpO6VXDE3jqHIATEzX61zF2Cv312j/MlT6MkNowbt6ePsn3ckuNVH+MDpAj1VULVHSBr7yw2fXLA/6/Bl7X7zX5V0NeON3mTt3NJgSuY3eaf3f37I7eskvUiYbMTIAc9R33tXD3H0TfKpwobVb1KEDwpNsbpXtux2oQ8oUXHG+ZHbBSBpoBwFHWBo7zijy5BxJRHAFULpmYAiwDgrakGQS9DtY9bnqS2vYEqyMb/zedpEhk2gv/BLls3KQhurDzNqQN7VNpCcBBbqaUC2A==
+ b=hFYZxw/WjA5t/U8e4atje0viQuE8MYxMKfgZ8w9sRaK9nWLi6ZC3tIkpi1vhkEzFbGepHHY3E7Y0QggGPRfNDvLEJhTmuEIaA7NCp4us+S9OqZ/m0Gb5DK0i04Rno2LxzEc5dT4i5CfR0bpRh8x0qjTQrwXWD5mGyWNFD1kJsQi3vniuC6cMzBOq8Q9ECHDzL692j7n/tax5nEp2Q+uWixOCOwGzZ0P8DPXeINj9RwJDkV9feaYnuxBoKSJ/pIyMqKbWmjvC4726pCZKalrrXEDT8nSsWC8n4kY/O7wjG9gl4yeqyX6N3Ol4gdIov/NlmPTv2pV6eb4nXbVgHdBW6Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=peii8Ggb7SGWOg6fXNcTJAG19niEhzEQI6P42wroAF0=;
- b=TgEPYhVQIW9Wk3N4Ssy3J0uQmbMYRbvfxgVwpYUN7Ub3MaNrTeOl0J53qnVJ2raTQoTZBUvtdszCkqpkPEd3fiGzC6caNF1Y3nyJkboVxBA1VV5Gczb95Rwp+U12TtPs16AJsnSwVx86++OBK2GbkJ8aqMpoQ9CQkAS+i9dZ4CJIdBU8qFXza0wezVQZm6DWLZsgwBS+oI7Cn0DM8sBV1FxbTHlBAMYX+O242ZsmHw76WRNTTb/XXUJbTQWok00OfxtHiaVva6/Lzd9CtSEuDxKNuF8sSFJ+9uTMpnmeReQkE/gHvZqBnSm1Wq+R7ddKFSOFs9uFSoR/r44I5B06uQ==
+ bh=KshWMRaeKt8+Y/udjcsuhr1um7EFjxjytu7mKhSjXro=;
+ b=ARMrBWye7Ph2u5i5OHvwrbeyEl3R/yKcXAv39LM+upn0OO4Q6i74oux/9Vp3PvhaeVxVl0iLPgqkDBMGL403+r7m3dJxNvFeJOmBXL5QCDnEgmC/fhTLbi24HnEbWwLsSmVtFXxuozngGA3YR+I42gmSvgLImkLGZaymoSXiJotHCc9PYYTRtKjVqyqYXvWVGGu+OUeh06LYweWDxTkCOlLxpogefGxaxO+1O4KjqkX28Qoaa94d9H92xCqRjtaDiAtCJT+8sT8Lyn0mWzTI5kwKITRGgtINJYtU2gBrq/JLwp3+H0qWptbu95j1YDbE9WoK/DMpptTTt9Z698wFJg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=linumiz.com; dmarc=pass action=none header.from=linumiz.com;
  dkim=pass header.d=linumiz.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=linumiz.com;
 Received: from TYZPR06MB6935.apcprd06.prod.outlook.com (2603:1096:405:3c::9)
- by SEYPR06MB5790.apcprd06.prod.outlook.com (2603:1096:101:b9::12) with
+ by PUZPR06MB5818.apcprd06.prod.outlook.com (2603:1096:301:f1::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Thu, 22 Jan
- 2026 10:15:47 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.10; Thu, 22 Jan
+ 2026 10:22:49 +0000
 Received: from TYZPR06MB6935.apcprd06.prod.outlook.com
  ([fe80::30b6:5b0d:1b00:5a01]) by TYZPR06MB6935.apcprd06.prod.outlook.com
  ([fe80::30b6:5b0d:1b00:5a01%6]) with mapi id 15.20.9542.008; Thu, 22 Jan 2026
- 10:15:47 +0000
-Message-ID: <8479971d-a0ee-4fb7-8cea-82e5f86d3b8e@linumiz.com>
-Date: Thu, 22 Jan 2026 11:15:39 +0100
+ 10:22:48 +0000
+Message-ID: <6825d5bf-9d99-4872-a61f-1b145bfd2efa@linumiz.com>
+Date: Thu, 22 Jan 2026 11:22:00 +0100
 User-Agent: Mozilla Thunderbird
 Cc: parthiban@linumiz.com, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, linux-arm-kernel@lists.infradead.org,
@@ -48,8 +49,7 @@ Cc: parthiban@linumiz.com, David Airlie <airlied@gmail.com>,
  linux-riscv@lists.infradead.org, linux-phy@lists.infradead.org,
  devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  paulk@sys-base.io
-Subject: Re: [PATCH v3 1/6] phy: allwinner: phy-sun6i-mipi-dphy: Support LVDS
- in combo D-PHY
+Subject: Re: [PATCH v3 3/6] drm/sun4i: Enable LVDS output on sun20i D1s/T113
 To: =?UTF-8?Q?Kuba_Szczodrzy=C5=84ski?= <kuba@szczodrzynski.pl>,
  Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -57,115 +57,114 @@ To: =?UTF-8?Q?Kuba_Szczodrzy=C5=84ski?= <kuba@szczodrzynski.pl>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
 References: <20251116134609.447043-1-kuba@szczodrzynski.pl>
- <20251116134724.447131-1-kuba@szczodrzynski.pl>
+ <20251116134835.447357-1-kuba@szczodrzynski.pl>
 Content-Language: en-US
 From: Parthiban <parthiban@linumiz.com>
 Organization: Linumiz
-In-Reply-To: <20251116134724.447131-1-kuba@szczodrzynski.pl>
+In-Reply-To: <20251116134835.447357-1-kuba@szczodrzynski.pl>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BMXP287CA0009.INDP287.PROD.OUTLOOK.COM
- (2603:1096:b00:2c::15) To TYZPR06MB6935.apcprd06.prod.outlook.com
+X-ClientProxiedBy: BMXP287CA0006.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:b00:2c::18) To TYZPR06MB6935.apcprd06.prod.outlook.com
  (2603:1096:405:3c::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZPR06MB6935:EE_|SEYPR06MB5790:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9d416b34-d450-4a8e-abb3-08de599f359d
+X-MS-TrafficTypeDiagnostic: TYZPR06MB6935:EE_|PUZPR06MB5818:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3419be3b-e288-48af-fac7-08de59a030e6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|366016|1800799024|921020|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?OW0zVkRMSHg0bFNwbUlzaXdXWkdjVzNuY0Q5Vm1YbFhmL2QrWVZWak9vc1lZ?=
- =?utf-8?B?U084cDh5LzRBRjM0NHBLN09kTnBKL29YdTB5Nk02Q0JqRjJTaDBHOEJwMFRI?=
- =?utf-8?B?UVc3UTRZelR3cjhpeWRFN3QrNjAxaTJ4MWxrRElEUVNzaUdQUUtxT2NRM3Rj?=
- =?utf-8?B?aGZEQmNwTE14RFc1dTZVMlhFM2hUVzVqd1FYb3dsVloxTGg0cjNJOURDcS9Y?=
- =?utf-8?B?S0JQYnlJd0JPWUd0SzF2aVZnb3JCcjdMNEtlaVJiTGVhdUliS0gzMlQ1WWJw?=
- =?utf-8?B?Q0liMDl1bEE3K1VzT2JySjRwR2t0MEpYekJ4ekR5RTJlZTNSWXp1NWhsb1Jn?=
- =?utf-8?B?SS9YOS8rcnMyTjUxNnZNU0RHb2pVMnh0eFdXOGFUclJsVCtXVkd6aTRlY3BL?=
- =?utf-8?B?OE52cmk0NmVOdG92NFFQeit1RDFLMkpBNVgxdjNDdGVDak4yRXdwOHZ6akJz?=
- =?utf-8?B?OU5OZ0wrTTBVRDRuUmFCeURhaVUxNmw2bmtKRktiZUNYZnZoeFpQSk1wLzBo?=
- =?utf-8?B?UWNPaTk4bGI2aE4xZ3BQR3Y2b0swYllSWnZDRy8zbU9rZE00MytaZlVMVGtu?=
- =?utf-8?B?NVVLVmJaZGZsYllzZTFwKy9vazlQbVZXVU9IUzJWeE9lY21JYVhqZEhpaVBy?=
- =?utf-8?B?RFVqMWhVeEkzSmMycXdEOWZIdVB4ZDhabXEwU0RrZ0N5akJEaEJSL2pYU3Fr?=
- =?utf-8?B?dmN4WGYzaFg3SGRiblFRZlZEUXp2dndxQXRTakJ3Tllrdktpc3hTUEg3bHpq?=
- =?utf-8?B?eFEvQWFxS1YybEIvZXBUOWVlUXFiRjM5SXc5NFNLVDMvUGNoWERrYmxxdGU1?=
- =?utf-8?B?SGtQVXZYN3VtZ1pLVC85cWtRd3NiVkNlZzRHK1hnYkpQWWN0VDY4Zmd5KzdZ?=
- =?utf-8?B?TjBHdVVJY0IrV0xpeU9RcGhtUHRGbmxYQWNQTnE2cVVuR01IZnMwZ2prcmpp?=
- =?utf-8?B?eVdjeXA3YXV5S1NMOHNobWZQZW5NN2ZsZndUdHFTTWJRek9WWVA5L3VPZGRS?=
- =?utf-8?B?Y1hGcU5idXZVZUgzZUlzN3hiSHd1OEtISG9uZ3oyVG1WZU9wbVVGeklVcWUr?=
- =?utf-8?B?ckJueDhXb005WEFWM3VCVTg5RUMydDZXWHRKMnJHWHVEWUsrRlpyNiswQTdr?=
- =?utf-8?B?TFFKQTJMMUMxTTQ3Q0RwNE15N09DOVVnUlR2Z01nM1Q1a2hzMjRhQnA1eHYx?=
- =?utf-8?B?YVVzYzlDamVPWlpGckNIek4rMmpoVU40b3NTUUVKT2U5S0RCcjhZY05pUDF0?=
- =?utf-8?B?cmNzVXNPeVV4czFLRzY3dENTcnpIK2I2ZmdtUmc1VGFxekl3V2lGNlhMTEVG?=
- =?utf-8?B?MWZDMHFXYWY4eE9tZGk1VVViekl4dUluZEJ6REd2bk5wbnp0S0NObXI2Q2ZZ?=
- =?utf-8?B?ZExlc3hWT093cVRsZjM1cEZiTVU1c01OenB5bXNPdTJ6RzRSQnBHa1hZOUk5?=
- =?utf-8?B?QUswb09IWDBXREU5ZmpaRXNrT3UrSFN3dm5yYVNrZlJWaXRkazVNaXF3b2t4?=
- =?utf-8?B?T2VTZUJaeUpGandVN1lSYzlPa0xEQStxNkt2QS9QRjhuMjkvQkpkQ3NvUEVa?=
- =?utf-8?B?TTFzWk9vOWR5R0lhb01xeFB2UHJVc1l1ZGQ0MkNaM29uajZZY1ZaNGw2SlN1?=
- =?utf-8?B?OXlUSHltZkpaK1NLZ1BmNmFWQTZOc29lTWRRQzNjOUlJZTRwR0EwbHBueTRq?=
- =?utf-8?B?TjVJTmc2RWtXaGRMOHE2WjNUdFNMR3RET29wNmVjZUZhY0FLVEFPbU9Fb25z?=
- =?utf-8?B?dlVFcFRnZnY2TUpDdy9RUTM3aTVXY3BNOWN1MDhJRTlpUG55VjFJeXRNVnVY?=
- =?utf-8?B?dmtGWFYwbTVwc0FWbHdUZXlTUDBLdTlUc3Z2VTVJUU5OMUZsOVNVd1UwRTRJ?=
- =?utf-8?B?aTN2NGt3NEpCUGVrblcrUEJ3MUxDSmYxaklTWUo5K2c4cjhmb1BMRHVqTndt?=
- =?utf-8?B?cTFoZmJCUTBiN3BFczlYRkZNSjAwRmEzWG5aRmVVb1RaWUp3c2t4M3Rud0dj?=
- =?utf-8?B?Zk52RFFMQnlmVktDcFhYQjUwZjRSa3cwK0Y3aytIVWhFQVB1SDlVNUhtd0ta?=
- =?utf-8?B?clE3SmhVV04zc3FseGJlcDBOK1VrQjlvTFRXMTJHd05UZDA0eHlhdlI5cW1r?=
- =?utf-8?B?Yk1Ma1c2Rkc0SC9OSGFpUE42bVBpNStLY0xFM0w1Z2R1bElGaDhJYys1dVdn?=
- =?utf-8?B?WGc9PQ==?=
+ ARA:13230040|1800799024|366016|376014|7416014|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WmxROEU3QmJ3T2gzeGZ3bTJCWjdzMXY3cmZ2eDQ4T0tIWGxmdFpyMU9XbUM4?=
+ =?utf-8?B?bndnOSt2TEE1YU9tZ0RKK3czQzdOTTR0SjExck15cTZuM21mb1hjaS9YckN5?=
+ =?utf-8?B?aWhsekhDMHArSm1heFhUTzJGWmlsM1ZqZ2JXQXlmRnAybkNJTkx6RXJwMTNX?=
+ =?utf-8?B?ajVQdDJxeStCcUQ0RUdNQUhNbGdYK1djUXNBWDlZRTJLb1RZNWd0bGpNNlVs?=
+ =?utf-8?B?NzJ5Y0JmVFE5WEpONXA1dytVSE1zMHVIWVN1NzcydmtkdTlKUFdKNnNTMnN6?=
+ =?utf-8?B?cm1IRXVjU2Rqc3BMVzVPUFlwcm9UUHNIRWROQndkQU5OZzRNVE9yODVYWkpx?=
+ =?utf-8?B?NmJnYy9rLzhmOUc0bjNCclNzbFJCeUtwUXFHeE5aTDdQMk9vRERpeTR4WUYy?=
+ =?utf-8?B?dnk4aCtmOW9VcFJwVkRoZmFpUzF3c29HMnVaUEdQSFNoK2JwT05va3Jlc2wv?=
+ =?utf-8?B?eUZRYzBhS1RleUdKOG10VnBEeFRIMmZoRld0T0Q1MnRycEc0OGlaTTVEOHpJ?=
+ =?utf-8?B?TWdkTENCeWdKT0N2blArdUxBNWMvaUpiYTZnRXhSZWtMMUJ0dVkvV3RNTjgz?=
+ =?utf-8?B?VDNJMkRnZ1JYa1pZZEZGTjF2K2JwUThkTHpLNHJCdGF5YTFMNjRtU1l4WEFO?=
+ =?utf-8?B?aFljTER5aFpHZThqRkJqUGVPdjc4TXBzQWRLVCtQTHdFYmFQQ0pNYjdvSTI3?=
+ =?utf-8?B?NWNFdU5IK2VvSzQ0M001eVRkT0tKenArRGI1b2tEZi9jMnhMMmNzOE03UGNU?=
+ =?utf-8?B?TTdLQ0EzcXBmbk90c1pSbEdVN1h1QUVUd08zZ0NMZ1RZL3RSQTYrR09hMkVE?=
+ =?utf-8?B?SUM4TTVid2VTdUFya2RNWjFsTUpGdWV6NzdISWF6STFwWWZBcnpYZjduTWdj?=
+ =?utf-8?B?VEtBU1NHTVkzSUNHN01nUWljaFdHOU9KTExXODgwU0dxL2ZpOU43a0txNERE?=
+ =?utf-8?B?NU0wWlVrM2dzWDVJK1hFcVc3SWc1REtScFMva2dsZTkyTmpKWnN6eUMrY3Z1?=
+ =?utf-8?B?Z2tRN1QvUjdzbEt4c3dMQXlXN2d0ODdWS2d3cjNWOTZXSFBzTm90QmEzOXlN?=
+ =?utf-8?B?WUs0U0Uwd0VISlVlbEJhajhReVN5alZqcVJIQm9LeVRKVnVERXpLOUdPMSt6?=
+ =?utf-8?B?S25IcHFZTHl3aWRHaHNLbWQxWm81ZmlaTlg0QWRnUzVTMkhydGFwOGg5elBQ?=
+ =?utf-8?B?ZWNZVmVFanlJamhndEJPTTJvZFowRmx2Qzl5ZFlZY0xpcmFYZXBmeUxTWGFE?=
+ =?utf-8?B?TWhlaE9hSmdrZFNaYVNOclkrZWc3RlZkbTB5aEw4STNCYXdCUmNDZHJLb0sx?=
+ =?utf-8?B?ZXRXYW9mc3NqVld1V2lWVE1nVXZDaFpNQ05GTitpNDBFQTQ0TzdSOFcxWGJX?=
+ =?utf-8?B?MmJxc040am9RNnBiZkRpeEQ1SFpaNDNCWUlNNkVhYiszQ0pNQzdITXJ3TG5J?=
+ =?utf-8?B?Q0k4d1ZaSkVPVmpNWUF5Vzk0eC9EL0EyU3hONjVQVmdGa0VYR0NKaG9OYThy?=
+ =?utf-8?B?cmcvZFBYQWpwVU56ZkJtTUtOSWRhS3hMZTlTUjNwRDk5clpzbU45VkxOcmlU?=
+ =?utf-8?B?a0E0RXZVWFcxOEFCN2tDU0lrd0FDZ015RXJrYndBMXF1Y2VTQTR2QTBzdmVP?=
+ =?utf-8?B?TDFhbUVEM1pseVpOa0pyNnBKZkk2VHd4czgzbTNLRlpLM3hoUDduMnJMQTlP?=
+ =?utf-8?B?ZlZtWGtPa2Jic1MzUHpocE1rZVhKUWpXZWhSYTdJR0c3aUhvRllvdy82RHYz?=
+ =?utf-8?B?NWRNQUZYbGJHdEdiVkdmODU1aUxwSUUweG1pZGFhM01Yd2k3MXorUVc0SlZO?=
+ =?utf-8?B?TE9hQmVFNlZVanFHMVNUN2U3MmhJQThaQVM3SDNVa24rQUpRYnZUSUNjcG12?=
+ =?utf-8?B?VTZtaWlDWEtHSFFMTk5CWDd2N04rdGkrRWlXK2J2cjBoTzExWnV1dXJsRmF6?=
+ =?utf-8?B?eE9tV2ZCM3NuTjZUK3pOSVdSSzdkM2ZqbDNDazBrR3dlWGFqemVCWHhib2Iv?=
+ =?utf-8?B?MmJmZW9xUnVyQ1pYRk9DVzdqZXZqV0txT0Q2MnROeUx4SlNNZEtwb2lYZ1Rr?=
+ =?utf-8?B?MU1HT2pzeDNzVHJBTGJXNTJmcXo0SE1nMFBDdVZVVDU2ZEs4cjV3Rkd1aFpJ?=
+ =?utf-8?B?dVBMNElvVjNMMFFuWUhCNlAxdGFkdzlaSEt5MlVBYmc3SHZvSEVHMGdlc2pm?=
+ =?utf-8?B?NGc9PQ==?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:TYZPR06MB6935.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024)(921020)(7053199007);
- DIR:OUT; SFP:1102; 
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014)(921020); DIR:OUT; SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aUpFNGY3Qzh2V1RZa1pDU2k3UzJQL1BrTmlVQkdXSGJxMm9SRjhwWC80ZGZi?=
- =?utf-8?B?VEl2Y2loUDlDZ0lLc1dkQ1dHVkJTSVZ5ZVZpWGpyVmlJd0djZHI4dE5kMnNM?=
- =?utf-8?B?cjVENWJtZ3BJV1FER2RocmUxa25HZ2RhbEhOREord2k4NXM3d1RZWTNNaU5u?=
- =?utf-8?B?aEtLOUhhblRGNW9lZlVvL0orTTE1RWlVU3liWWxjV0tkbEMxUS9WM3hjaGE2?=
- =?utf-8?B?WVozeWlSNk9aMG9hMW53WWx2M1NVZnNpZmgxb3ZYRzRaVHJtSzlHSUNFTW5l?=
- =?utf-8?B?QUUzL2ZqQlFTODlJd0pWMkMxVThlZ1B5bUNwektQZHV3eGRhNUZHYjRmOUR0?=
- =?utf-8?B?dk95OHorOGc3Y0dET05YTGpydkFkTThDcG1kMzZtZzcrOVlCaUtlSldHY2dY?=
- =?utf-8?B?L2FpUnljeko2ZXpmQndNekYyQzRQcloxVDhWYWxIckFJNFFLb0ZHZHFXM2I0?=
- =?utf-8?B?MTBQZStlVHBzOWZOMDhWL2JoZkRTNTNTbmdyV0hHbDRydHY0MnNLZFhYVkVI?=
- =?utf-8?B?LzN3aVFXNEsxOGxyWDJaRXFIcStYVHREbDh4TS9lQWlsVENXR3IzbnZ5T0h4?=
- =?utf-8?B?TTRGWXo3ZGhIVnM3a1VabTdVeUs0bTFVZ2pYcmFYeXFBZGJPaS9PdGdraGlo?=
- =?utf-8?B?a2NGMnVCVG5PS3psUzEycnlZWm9nTHBLN2Zlb3NmZG05Y0Z1dGRwVE1pTkI0?=
- =?utf-8?B?NVUvOXBhNmJyWm90eTdzYlB6cnhFT1hXMklKdS9FN1Zhb2ZRTDA2dktXbHRv?=
- =?utf-8?B?QWtQYzl2NGFsTjlseUI0TU5FVkVoVHR5VWF2RE42TVA5ZjI3a0FLakgrZ2FW?=
- =?utf-8?B?UXUwWE9RZmNXWS83M2tISFBqaWd1YXl4KzRHUUp1R2kyS29iOXRrYlhyMERM?=
- =?utf-8?B?czkzaWVHNnpMSmNGQ3NPdU9tcEtieUNHY2N5RW5vdFpYVHFlOVgyUWxQdXdD?=
- =?utf-8?B?VHN3cjNVcHlEM0dETXVQMGRTNFNaNFB5WGZ6WkFKWE0vWE9qMEk1NjNDbkhS?=
- =?utf-8?B?aStpZ0o2SDA2VE9ScGNoWmdlSE5FL0YrSXNWZ0l5ZGZjR2ZzT0dwQ201ZXcw?=
- =?utf-8?B?ZUUyODBCbWhZYVZJd2Y4TGYrbHdJUXMwV1VURFlFSjRLemRhWFpCVlZ5ZzVB?=
- =?utf-8?B?NTg2ZUhkTThSZHB6WmNsUktYRTkrWmNwQzBxNGhpOFg4R1pEbURGWmo3eFpU?=
- =?utf-8?B?TWw3STdMSWp6N0xkR1hJZlUvQk5nRU92ZGdHZ0NmaWhEV1ZjVk15bGw5VDRY?=
- =?utf-8?B?dzFvY0U3STFOcjlXL0h6RzJhc05hRG5Xa0luallaOGoydDdDWXRBTnpyMVdI?=
- =?utf-8?B?VDZPeHM0c1psWC9oaHFEcGh4SWR1NHN5aW5CK1JSSWNwendlWHRJZ0JWc2lO?=
- =?utf-8?B?UTVsSE4zRmdXSHMxaCtMRlRNK0F6YkJ2Y2hOc0prbHh2VkhlQzlIeHYxTlFO?=
- =?utf-8?B?WFR3R3lyVlRMSm0wTEZvR1VRQXo1dzFQeEZ2dVVDV3VaRnNia1VGOU9zN2do?=
- =?utf-8?B?QU11Rkl2QkNOaVY1WWd6cE1WVld2RENpQ3FIZHdiSEhJd0phUlluaUV5TjlH?=
- =?utf-8?B?b2pHY09YQ1hJd0hrRFNNQWZNTGZ0SzY5Yk0wVUMwWHhIbXVKbjU4WVd4dHJx?=
- =?utf-8?B?TVZzdFkxc1dSYXZQM2NhdUwzWmhZVUdOQ3hwZGdVdVZRako3TG9EN25RU3R3?=
- =?utf-8?B?cGZJeTRJbVEreHF2emR0cFJSRmpIL2hreVA0a2huVi9qUW54ZXMrN0lmVjA0?=
- =?utf-8?B?VHI3ZDFnWnp5SmRHZ0tLeWpMd3NTM05QVlBZTEYvVVJhcnl0dllBYnh1TFFY?=
- =?utf-8?B?V2Rod2tORDU0TUJybUVrSWYrODBacU56OGZMUGttT21yaEVzNWJuS21hSGlz?=
- =?utf-8?B?WU0wOVNGWWFzRVEwU3pJWGxmQU9rbnkxMklyNWRkSGNpejlHdERqMGxHWmx2?=
- =?utf-8?B?WWo2SCtqemxtYnN1aVpXK1FGMDZrdVZYTkNQM0czUU9iTk5xeXl4ckVaQlNN?=
- =?utf-8?B?di9vcUsyVUVLS0VnckFQTzVUa0orQ05PSmlHT2dJL3lzRnJvMmMySmhVL3dp?=
- =?utf-8?B?aHBPWTNmWWJkY0hqTG9DYko1bWZ3czRyRjNYcnpERHg5WU0zaU85MEVSR3Zw?=
- =?utf-8?B?RkZPQjl5b3ZVRG5oUUpiOVdKSTNiMExpR3FxZ0hhWStSeENTR1graU5OQzda?=
- =?utf-8?B?MnhHSHhaREVtVVFlUGl2MnRsUURWenlMVkh2VXEyZHY2NWlrK3RHc0ltTEYv?=
- =?utf-8?B?WjhCUFZCa29oWldDeVNlOWcvcHUrTVV6SWcxaFBCQmVSRXcrRVdXZk9jSUZp?=
- =?utf-8?B?Q29meHBMVFQrcVdYdzBJWVdQZU1XVkx1QzlSVHZjVWtkT2VoK1k4UT09?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bC9vaW04WjY0VVJ2WGJyeDNkN3VTRGFxUjJ5dG9zNk9uTTJucDVOdUlWa1Jm?=
+ =?utf-8?B?SWVLNlRTQ1c2bU1XaUE3MEZ1cjVISVpiRWdVblhYOEh2Q0RxYW9xNmdHSzZ0?=
+ =?utf-8?B?NU94SmlmWHp2SnN4YUxQeG5lSWdWSW1ha092eDcrUTVvNmVNVWdlT0R2aGkz?=
+ =?utf-8?B?M3hPOUVUdE1nMjArMTJIZDBwZEJ3T0lOTm5mcTZMSHhlL2lxRnhxTXY2Z3Zi?=
+ =?utf-8?B?T3ZKemRtcEpnT0ZKM0RpVmhaRHZtc3NWelBLQjBMNjdVZnl1bHJ0bzFXcjJu?=
+ =?utf-8?B?dklBSkx5cHFIQTA4SkhQMWdJMnZzR25yb0dPcXh3blBTZzZrdDk5OGVHaG4r?=
+ =?utf-8?B?QTZTa1JyS1JTZGdLeEZzZjUwcVBYSHNqc0RVVmtLaEcxMEh2aUxzSWtnTTR1?=
+ =?utf-8?B?Z0s1eDViV1lhaUl4UFVlOFNYV2o1SWF1QkRiWXF1NlJ3ei9oWDZudnhvTzFF?=
+ =?utf-8?B?eHVoZ2JZano2V2dvbzI1KzhGR3ZyZ3NFWmNCWld0aTJXWUFtbVNqNi9jaXUx?=
+ =?utf-8?B?a3dOZmJTbUZMS2NiczVFemRKYnRxeFp5L2hHSTI3UHBMbjR6b210dlBTdEhq?=
+ =?utf-8?B?Zit2UWFEWFFoTDJzb0ZWYUR0UDBIczFsQ1VPSVJDeXJmbHc0SFhXZGx1Z3lw?=
+ =?utf-8?B?Unk1Z2JONnNXTThNT3k4UmFEUjBSWlYrL0YrU2JITXdoMCtJb0xlWWdWd25F?=
+ =?utf-8?B?ajhPcmxETG45Y2VEemdnTjJ3RU44eGZxK0Z4SnBmZUJhTVRUTTBpY1NZdUFB?=
+ =?utf-8?B?Mjl1WTF0em54WTZhckNneUYvQ1pkM1NZYnlKSkZlaWhvNXJsODc0L2t4eWlo?=
+ =?utf-8?B?WTd0S0VLaEZSS0hVRUtpNjhpV1ZtWjNpNGJleXh5TGVOYUZVU280QjY5dW9R?=
+ =?utf-8?B?bXBvSE1Nb0JVQ0NlTzQ4TzA0MklLMUdnWEVkUGtiOWdGdHE2S2gwUTdXbHVq?=
+ =?utf-8?B?eUNaWi9naVd6UTBLSjdzTXRDSFFEMGVxTlNGM1ozYW9VdmEyNjNMT240VDUz?=
+ =?utf-8?B?U0o5aGI3T3I5bEFoL3k1TkpkQ25paDdMUVBidXJEU2pYS0c4MWZnTVBad0dz?=
+ =?utf-8?B?a0VlWjZzVEFjeW5YbTBBYnJ3d1Zya2xsVTIzd1lVZGlnT0hYc1VxVFhOdk5B?=
+ =?utf-8?B?dlA1WW9CMEZLMGZHRWt2aDBUOFluTTlOeTN5TFB1Y3NoVElBVUYzUEllZm40?=
+ =?utf-8?B?YWdOMTZEU0FQZ2gyVy92OFpBTnkxbHU2a3llMTNQSzVHSllKT3ArcURuME5p?=
+ =?utf-8?B?MG5JVFh4ZFgwK1RLUGlVT05rVk1XMFN5RlZHbXl0N2RJSWxDNzhQalk3cDdT?=
+ =?utf-8?B?QU9LK3BzdDVFV3E2bE1ybHJyRUNBSGN1QWpWK0xxdExVYml6RUg4WDgzcTh1?=
+ =?utf-8?B?VXVDWmZKbTdWRzA1QUM1UWFhN0Q1bmt0eDg4WUdqN2VaQ3VIeVN5ZmtvSHN5?=
+ =?utf-8?B?SmE1K3dGSytocmVrSkp1Z2s4aTVSL01MZVREMjM5WVk5TDI0S1czVjlsQ0dL?=
+ =?utf-8?B?TkRMS0lCbkc4aVJvZm5kaUE4d1A2bXBDVXBMdk5jNnlUUWEzOHoxQ2lzTCsw?=
+ =?utf-8?B?T1ZQUXRsWjA5MTRURzlyb2lIZFVCdnd1OWhwWHdnVExsWVhBQ1ZtbHZEUzZI?=
+ =?utf-8?B?UkgrbjZ1b2NuV2EzaHZTYmY0cGxPb0xXc0hpK2lKZDhMTDFnQURrN1ZxV2pS?=
+ =?utf-8?B?VitjU2g1OG42UkR3a2hyMk5LRWczR2E4dXF2K1laT2Z1Z255K1U1RTJtOThF?=
+ =?utf-8?B?eUlUNVZYVGtnVWU0SkxaYUJQQXRveFloaDE4YUNSMTV4MGRJSy80V0poM1gv?=
+ =?utf-8?B?bStuVDJPRTVCQXAvWWlNTjl1R1VseGM2bFZBYUlZNXM5eGUyVlhNNG1YUWNO?=
+ =?utf-8?B?aW1OcHRqK2tSYlpwUWlKWnhLanlIT2N5VlhyeTdjYm1EeU1lU1oxRDFjZWU0?=
+ =?utf-8?B?YWY2RXRSOFZzSUYzYTNyZ05odlBxZHlxZzVvSDFqU3hJcDBZZ2JZa3k4OVlz?=
+ =?utf-8?B?NWVYUWU1R25HUVR1SUVub3RkZUFIZEdNbEhxTHFPRWJJUEtyeUw1b2dxSVA3?=
+ =?utf-8?B?VWhWdFU2ZUFLZCt5VmtsMCtVN1d5dmtpV2VXeG94VnR0dTRMUGlaWWluUHZN?=
+ =?utf-8?B?T0U4eXhkUTdtWVdkN2EzYkRzYllLWEoxRG9yQmt0SWNqZ3JjRlQzREVFQnlz?=
+ =?utf-8?B?TTBRUXlGVTY1MGRXaVFqYUhiMWU3ZlloNlRrMmNLSFJHYWNKOUpVUkMyR0Za?=
+ =?utf-8?B?bGl2dVFFcm1ZQk1NODBIa09CZ0pVcTdiQXlIdXJlY1JjN3NwZUxyMFNsUGI0?=
+ =?utf-8?B?SktkOVBleDB0T3lEaG9ZR25NZFAyS2J3c1NqV0tmbXU0WEZORjM2Zz09?=
 X-OriginatorOrg: linumiz.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9d416b34-d450-4a8e-abb3-08de599f359d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3419be3b-e288-48af-fac7-08de59a030e6
 X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB6935.apcprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 10:15:46.9403 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 10:22:48.5002 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 808466aa-232a-41f4-ac23-289e3a6840d4
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xZS28ABboNn50kAevuHRdSUpyY/U5ifRPywiiwarsHjN+2IFpsWT2/dOnZnyCfez5hilToa5u1FC3f4NHY0+5g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB5790
+X-MS-Exchange-CrossTenant-UserPrincipalName: R2T7vThY1pr01On0i0AerlcY4QetCgDh68Fu6X/29sckFhN6OJotHFUBG+GT31gVjzjvJCC/h0iT7/LX32mq4A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR06MB5818
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -212,177 +211,38 @@ X-Spamd-Result: default: False [-0.11 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 4076B651A6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linumiz.com:mid]
+X-Rspamd-Queue-Id: 6605A652F0
 X-Rspamd-Action: no action
 
 Dear Kuba,
 
-On 11/16/25 2:47 PM, Kuba Szczodrzyński wrote:
-> Some Allwinner chips (notably the D1s/T113 and the A100) have a "combo
-> MIPI DSI D-PHY" which is required when using single-link LVDS0.
-> 
-> In this mode, the DSI peripheral is not used and the PHY is not
-> configured for DSI. Instead, the COMBO_PHY_REGx registers are set to
-> enable LVDS operation.
-> 
-> Enable the PHY driver to work in LVDS mode on chips with a combo D-PHY.
-> 
-> Also change the SUN50I_COMBO_PHY_REG1 macro names to reflect the correct
-> register name.
-> 
-> Signed-off-by: Kuba Szczodrzyński <kuba@szczodrzynski.pl>
-> ---
->  drivers/phy/allwinner/phy-sun6i-mipi-dphy.c | 70 ++++++++++++++++++++-
->  1 file changed, 68 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c b/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
-> index 36eab9527..57035b3a4 100644
-> --- a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
-> +++ b/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
-> @@ -166,8 +166,8 @@
->  #define SUN50I_COMBO_PHY_REG0_EN_CP		BIT(0)
->  
->  #define SUN50I_COMBO_PHY_REG1		0x114
-> -#define SUN50I_COMBO_PHY_REG2_REG_VREF1P6(n)	(((n) & 0x7) << 4)
-> -#define SUN50I_COMBO_PHY_REG2_REG_VREF0P8(n)	((n) & 0x7)
-> +#define SUN50I_COMBO_PHY_REG1_REG_VREF1P6(n)	(((n) & 0x7) << 4)
-> +#define SUN50I_COMBO_PHY_REG1_REG_VREF0P8(n)	((n) & 0x7)
->  
->  #define SUN50I_COMBO_PHY_REG2		0x118
->  #define SUN50I_COMBO_PHY_REG2_HS_STOP_DLY(n)	((n) & 0xff)
-> @@ -181,7 +181,9 @@ struct sun6i_dphy;
->  
->  struct sun6i_dphy_variant {
->  	void	(*tx_power_on)(struct sun6i_dphy *dphy);
-> +	void	(*lvds_power_on)(struct sun6i_dphy *dphy);
->  	bool	rx_supported;
-> +	bool	is_combo_dphy;
->  };
->  
->  struct sun6i_dphy {
-> @@ -222,6 +224,18 @@ static int sun6i_dphy_configure(struct phy *phy, union phy_configure_opts *opts)
->  	return 0;
->  }
->  
-> +static int sun6i_dphy_set_mode(struct phy *phy, enum phy_mode mode, int submode)
+On 11/16/25 2:48 PM, Kuba Szczodrzyński wrote:
+> +static void sun20i_tcon_setup_lvds_dphy(struct sun4i_tcon *tcon,
+> +					const struct drm_encoder *encoder)
 > +{
-> +	struct sun6i_dphy *dphy = phy_get_drvdata(phy);
+> +	union phy_configure_opts opts = { };
 > +
-> +	if (mode == PHY_MODE_LVDS && !dphy->variant->is_combo_dphy) {
+> +	if (!tcon->quirks->has_combo_dphy || !tcon->dphy)
+> +		return;
+> +
+> +	if (phy_init(tcon->dphy))
+> +		return;
+> +
+> +	if (phy_set_mode(tcon->dphy, PHY_MODE_LVDS))
 
-At this stage mode will be PHY_MODE_INVALID by default. So the consumer fails with set_mode by
-default.
-
-IMO set_mode shall set 
-+       dphy->mode = mode;
-+       dphy->submode = submode;
-
-in the sun6i_dphy and retain for the next calls like power on.
-
-> +		/* Not a combo D-PHY: LVDS is not supported. */
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static void sun6i_a31_mipi_dphy_tx_power_on(struct sun6i_dphy *dphy)
->  {
->  	u8 lanes_mask = GENMASK(dphy->config.lanes - 1, 0);
-> @@ -329,6 +343,43 @@ static void sun50i_a100_mipi_dphy_tx_power_on(struct sun6i_dphy *dphy)
->  	udelay(1);
->  }
->  
-> +static void sun50i_a100_mipi_dphy_lvds_power_on(struct sun6i_dphy *dphy)
-> +{
-> +	regmap_write(dphy->regs, SUN50I_COMBO_PHY_REG1,
-> +		     SUN50I_COMBO_PHY_REG1_REG_VREF1P6(4) |
-> +		     SUN50I_COMBO_PHY_REG1_REG_VREF0P8(3));
-> +
-> +	regmap_write(dphy->regs, SUN50I_COMBO_PHY_REG0,
-> +		     SUN50I_COMBO_PHY_REG0_EN_CP);
-> +	udelay(5);
-> +
-> +	regmap_update_bits(dphy->regs, SUN50I_COMBO_PHY_REG0,
-> +			   SUN50I_COMBO_PHY_REG0_EN_LVDS,
-> +			   SUN50I_COMBO_PHY_REG0_EN_LVDS);
-> +	udelay(5);
-> +
-> +	regmap_update_bits(dphy->regs, SUN50I_COMBO_PHY_REG0,
-> +			   SUN50I_COMBO_PHY_REG0_EN_COMBOLDO,
-> +			   SUN50I_COMBO_PHY_REG0_EN_COMBOLDO);
-> +	udelay(5);
-> +
-> +	regmap_update_bits(dphy->regs, SUN50I_COMBO_PHY_REG0,
-> +			   SUN50I_COMBO_PHY_REG0_EN_MIPI,
-> +			   SUN50I_COMBO_PHY_REG0_EN_MIPI);
-> +
-> +	regmap_write(dphy->regs, SUN6I_DPHY_ANA4_REG,
-> +		     SUN6I_DPHY_ANA4_REG_EN_MIPI |
-> +		     SUN6I_DPHY_ANA4_REG_IB(2));
-> +
-> +	regmap_write(dphy->regs, SUN6I_DPHY_ANA3_REG,
-> +		     SUN6I_DPHY_ANA3_EN_LDOR |
-> +		     SUN6I_DPHY_ANA3_EN_LDOD);
-> +
-> +	regmap_write(dphy->regs, SUN6I_DPHY_ANA2_REG, 0);
-> +
-> +	regmap_write(dphy->regs, SUN6I_DPHY_ANA1_REG, 0);
-> +}
-> +
->  static int sun6i_dphy_tx_power_on(struct sun6i_dphy *dphy)
->  {
->  	u8 lanes_mask = GENMASK(dphy->config.lanes - 1, 0);
-> @@ -492,6 +543,13 @@ static int sun6i_dphy_power_on(struct phy *phy)
->  {
->  	struct sun6i_dphy *dphy = phy_get_drvdata(phy);
->  
-> +	if (phy->attrs.mode == PHY_MODE_LVDS && dphy->variant->is_combo_dphy) {
-
-+       if (dphy->mode == PHY_MODE_LVDS && dphy->variant->is_combo_dphy) {
-
-compared like this.
+From Documentation/driver-api/phy/phy.rst, set_mode shall be after power_on. But re-order
+will fail to work for our case. Not sure if this is fine.
 
 Thanks,
 Parthiban
 
-> +		if (!dphy->variant->lvds_power_on)
-> +			return -EINVAL;
-> +		dphy->variant->lvds_power_on(dphy);
-> +		return 0;
-> +	}
+> +		return;
 > +
->  	switch (dphy->direction) {
->  	case SUN6I_DPHY_DIRECTION_TX:
->  		return sun6i_dphy_tx_power_on(dphy);
-> @@ -514,6 +572,11 @@ static int sun6i_dphy_power_off(struct phy *phy)
->  	regmap_write(dphy->regs, SUN6I_DPHY_ANA3_REG, 0);
->  	regmap_write(dphy->regs, SUN6I_DPHY_ANA4_REG, 0);
->  
-> +	if (phy->attrs.mode == PHY_MODE_LVDS && dphy->variant->is_combo_dphy) {
-> +		regmap_write(dphy->regs, SUN50I_COMBO_PHY_REG1, 0);
-> +		regmap_write(dphy->regs, SUN50I_COMBO_PHY_REG0, 0);
-> +	}
+> +	if (phy_configure(tcon->dphy, &opts))
+> +		return;
 > +
->  	return 0;
->  }
->  
-> @@ -533,6 +596,7 @@ static const struct phy_ops sun6i_dphy_ops = {
->  	.configure	= sun6i_dphy_configure,
->  	.power_on	= sun6i_dphy_power_on,
->  	.power_off	= sun6i_dphy_power_off,
-> +	.set_mode	= sun6i_dphy_set_mode,
->  	.init		= sun6i_dphy_init,
->  	.exit		= sun6i_dphy_exit,
->  };
-> @@ -619,6 +683,8 @@ static const struct sun6i_dphy_variant sun6i_a31_mipi_dphy_variant = {
->  
->  static const struct sun6i_dphy_variant sun50i_a100_mipi_dphy_variant = {
->  	.tx_power_on	= sun50i_a100_mipi_dphy_tx_power_on,
-> +	.lvds_power_on	= sun50i_a100_mipi_dphy_lvds_power_on,
-> +	.is_combo_dphy	= true,
->  };
->  
->  static const struct of_device_id sun6i_dphy_of_table[] = {
+> +	if (phy_power_on(tcon->dphy))
+> +		return;
+
 
