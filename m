@@ -2,139 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aPSfJnn+cWmvZwAAu9opvQ
+	id eGMeEEgEcmmvZwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 11:39:53 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 12:04:40 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07972655E7
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 11:39:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D422D65B06
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 12:04:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F0E810E251;
-	Thu, 22 Jan 2026 10:39:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 701BC10E97D;
+	Thu, 22 Jan 2026 11:04:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="qXPGql49";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GSfNplAb";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qXPGql49";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GSfNplAb";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="atDu5xow";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Hg6FuhPO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DDE810E035
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 10:39:48 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A4A7B33694;
- Thu, 22 Jan 2026 10:39:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1769078386; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=TkCSPT+9XJZzQ81lfCewAIgnjVdGJHtK1VhI9nX0RPs=;
- b=qXPGql49k6jMUPBkmWt5dBw5dDiPaLXcnwEIQ/BCHmcSCazbcXSPaEA4bT41n2+h46Zom4
- cjTrEmwEzYJbvEBe8zJdPn/WS//+bDE+wU7EaCMTC6pnAnWIWxDaEIk0kDnm4lPExresHK
- avLG2l3FWbN0kH+4uelsFEkRVt+BonY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1769078386;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=TkCSPT+9XJZzQ81lfCewAIgnjVdGJHtK1VhI9nX0RPs=;
- b=GSfNplAbulgvVQ+YDy9cE22oUUQFtouosS2aiKncIIb8NSdqDMpzwaU+b5rxdy0Ok0tP4Y
- WAVzNx7jh+jx7nDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1769078386; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=TkCSPT+9XJZzQ81lfCewAIgnjVdGJHtK1VhI9nX0RPs=;
- b=qXPGql49k6jMUPBkmWt5dBw5dDiPaLXcnwEIQ/BCHmcSCazbcXSPaEA4bT41n2+h46Zom4
- cjTrEmwEzYJbvEBe8zJdPn/WS//+bDE+wU7EaCMTC6pnAnWIWxDaEIk0kDnm4lPExresHK
- avLG2l3FWbN0kH+4uelsFEkRVt+BonY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1769078386;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=TkCSPT+9XJZzQ81lfCewAIgnjVdGJHtK1VhI9nX0RPs=;
- b=GSfNplAbulgvVQ+YDy9cE22oUUQFtouosS2aiKncIIb8NSdqDMpzwaU+b5rxdy0Ok0tP4Y
- WAVzNx7jh+jx7nDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D1B8E1395E;
- Thu, 22 Jan 2026 10:39:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id /SzZMXH+cWmxHgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 22 Jan 2026 10:39:45 +0000
-Message-ID: <5fc5439b-ef21-416a-90fe-07f0d21de87d@suse.de>
-Date: Thu, 22 Jan 2026 11:39:45 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A534B10E983
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 11:04:35 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60M6rdDW724846
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 11:04:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ t0KlvkM5KQlhi9X1NhLsO3/hA2b2nzw1RRo2lI06OH4=; b=atDu5xowozGMAuUZ
+ GzTtRyhJQ2wqIsuDLs7r9ve+/Ed1V5cy9CzphuYN01LXzxL/RVZWp4hu/nDoNk+3
+ TCwhJUsz/ORIjI16HRuDW8xFabYsz0DgkWTdvrmUoG3JvWhiPOnKAqDNHq2IyyuJ
+ xaSQh2qgg2FJDegmMLs37HqsKzmJSPCHkS7JrjolG/zBbpOUXKFvUch7uQr6m02/
+ NAVlITpNvBiNOW8BZKxFktIr8KWt1xipbBpL493HGz7UoLElGipusI/zFLkMACmP
+ Ae3W/XJWF+f4gCBe8MKE130TmCtczKSyeknY1copj2+dgEa5R1cdbTkVqLPULtkE
+ gG3xgw==
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4buf1bgrs0-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 11:04:34 +0000 (GMT)
+Received: by mail-vk1-f197.google.com with SMTP id
+ 71dfb90a1353d-5634817781dso741823e0c.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 03:04:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1769079874; x=1769684674;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=t0KlvkM5KQlhi9X1NhLsO3/hA2b2nzw1RRo2lI06OH4=;
+ b=Hg6FuhPOqeDArbdLO4Qk/WAAuPsRccHm2YxtIEe3C4JZhCZKcqqw5BINh9i4CL5wtg
+ rEer1cyjLoukN87HbPknU4HsSr3+CEsGMp295ldyuY//FQvvbXdAlJKjNYqbQK/uWQcs
+ KjpAqymiAP3xTuMQQAA+wQHmcGe1976cnhQh9ik64vqw9leOD6eiff3Kc8p3Nw4ChLPa
+ 9xu+fjIWbb7pUi53mCBXygpO+K1E+m6M/c+74WnKM9/9qCFlRGGTdX7Clzj4N+1MuDhS
+ M4f07uNtpXOCPv9YvgAGXObvV1fM2yP5ElufsIMtaWDGIAt+RIEEP73K2MIewKwOo+lT
+ Ooiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769079874; x=1769684674;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=t0KlvkM5KQlhi9X1NhLsO3/hA2b2nzw1RRo2lI06OH4=;
+ b=tmrB/3d/MQyMKlgIpY9Y9pH6mRTvqw22F3XrI+ibuEB6bKnI1ugKqDO0rtpwnpa6ym
+ wHiND+nMHsvjQw0jIFQAdIAvLpDHM4bPPtaW3QPYubpaQz1SH1Tgx1W92h+xTHpZnK9E
+ tSJheoqcuMyTraH/NY63VdSVr3O3RNsz5dNUCOfX068kN2oFOC0TLo/dFpFrMbmf48ZP
+ YvuL8TFSmjj+rLXIiaIBfzVxUIlQ1Ab160m6K2u2qRA90mW8PGLA+x3RtLndfdn4mFXX
+ VgBRozSyFaEeR898mSc57CmqdvgGOvvi5DzIdSZfr0ShW8bQyGgyxlb5C1jr2R30ADfK
+ 8AKw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUxwXED1rUZOh+7z3XLKaohT/FJ+PjMUtqEEchfKkT415+V1Z0Sih98nH2nNEw336+9TmAUuHhpZ40=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxLacpypislKeUhK+YgV0wlg6z7CJccRYgrCay7s/2ngvUrriQr
+ yJaWoLlUEblT2HpW2jW1459I7085NzUHft4vKCQp57quiyJKHpBfLEFPcgV2q2R78eeeBrc8SgS
+ 8+r5FNxQFpC2NUwBpk79jjcnNMmVxqcwk18gVtTk8meAI8+mepg04g5OG3+v+vm/5jl00ZMY=
+X-Gm-Gg: AZuq6aIkcnqL2E6l9RFsfhRt6HoCZW6nkeCes27LhswExlKeRIdeVAI8WamjUsq1sVu
+ 2jX4C0eeauF1ENIQmNWK4/aHP7zDKGwCXRa01gtFBHkuC8Dqku+EvcodmD9Gddkxqy3wTtCL3oc
+ qWCUrwis8A/DXzoeN8z9gieLC/n8CC6c4MX0TtIIIJHiVU/yVhw0g/PT0rhv1ramW58z/5guoyx
+ G+SAnE7JcFt4F6brPGTyzZBy7FmMB05FKQRTdLqBUL1xLeIWDorgaKdoKmtz2zWgdnqMB/yUQOQ
+ odMyKSmbSgLxVA4Q5khXQ/0pUTFLG3DaBXiiSe/KzQndrR7SGqLgCii00HcspYx7XYZWzn7ZDOc
+ ++QttcQLlkNkT9ivVCaP2lk5555aqv/YYBlZvUhoE0va+jQesGTWFUSGGHTwsu0M4c5aBa7gSIC
+ QpppVLBKk8noeo62gm+r4oerg=
+X-Received: by 2002:a05:6102:6cf:b0:5ee:a2a8:2e73 with SMTP id
+ ada2fe7eead31-5f1a551ef9amr6077499137.26.1769079873649; 
+ Thu, 22 Jan 2026 03:04:33 -0800 (PST)
+X-Received: by 2002:a05:6102:6cf:b0:5ee:a2a8:2e73 with SMTP id
+ ada2fe7eead31-5f1a551ef9amr6077487137.26.1769079873108; 
+ Thu, 22 Jan 2026 03:04:33 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-59baf3543d2sm5368629e87.43.2026.01.22.03.04.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Jan 2026 03:04:32 -0800 (PST)
+Date: Thu, 22 Jan 2026 13:04:30 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+Cc: Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bod@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 0/3] Add support for QC08C format in iris driver
+Message-ID: <sa6y3vjstutglftts3ucoouj6js53p6an4wjcvqhbjsazmmxrf@v35pf2dqvfdh>
+References: <20251008-video-iris-ubwc-enable-v2-0-478ba2d96427@oss.qualcomm.com>
+ <s2qjimx4tq2jdnir7b5dljf4onsbcmvb5prxcvc22q76l5cgnz@wrgcqdrl26sb>
+ <50137983757d754609d8164dbdfc429b32e3d6b5.camel@ndufresne.ca>
+ <qkkjsjvhwovbh7stjc53htkt3wucd34nzcvnkilnbxv4ukbozj@e4ierwjhs7wp>
+ <0841b98d-32b3-4e7d-940b-9be204fad7af@oss.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/9] drm: verisilicon: add a driver for Verisilicon
- display controllers
-To: Icenowy Zheng <uwu@icenowy.me>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>,
- Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Michal Wilczynski <m.wilczynski@samsung.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Han Gao <rabenda.cn@gmail.com>,
- Yao Zi <ziyao@disroot.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-riscv@lists.infradead.org, Han Gao <gaohan@iscas.ac.cn>
-References: <20260116043746.336328-1-zhengxingda@iscas.ac.cn>
- <20260116043746.336328-4-zhengxingda@iscas.ac.cn>
- <56e1974c-0fe6-4bdb-918d-fcf6a8b866c1@suse.de>
- <0eb4b6ba8ef3b47cd28eb8d652b05eb5a6d1409c.camel@icenowy.me>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <0eb4b6ba8ef3b47cd28eb8d652b05eb5a6d1409c.camel@icenowy.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
+In-Reply-To: <0841b98d-32b3-4e7d-940b-9be204fad7af@oss.qualcomm.com>
+X-Proofpoint-ORIG-GUID: 9SNaVlIQinOMlgo_Ei3z3Vbb2xT6keT9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIyMDA3OSBTYWx0ZWRfXzZRmXHLTqVBC
+ IkSRFL9qwt6SV80m+hOo5W+1BJM4XgGrPft1PK95QkR09QDLNDXFcgxLUb4z0FoGOmuj/QArby8
+ WQPpyAPnDBPswW4NYOTXciQz5g5XAgWWujL9qIf7utChRo61VNSWvddTQG57Fgi4C7AYvcaXvx0
+ X5L/x9nraXLkZNKtFGOPj+Z5ZaysMMvtH+MHwTidiWo0LBFuYOAzb6rIv/Q+62vTFRt5PTBgOBb
+ 0Nmvu2Ns1IzYuLQA0eGfvvmWHJU6Q2jN10nR7f5pxAXYZ1bKQ82AX1zX1XGKY0iB2ybcqx4rXg0
+ asgNCPSs6hKOImsZsqcTS4sh/9j6CLk/eF+lC9/xd2UbS9z/4TOS0JaXMu/Lk9BVvODHvkHaxn+
+ bVHRP22EFalCgH2cKi0JpfB5I7g3XJCusVDed3NPcbYHnL6IlWIYmfRpchT4/JcF6W2qWS+cZ7J
+ FwEdD4Z/Bg1JacpuSAQ==
+X-Authority-Analysis: v=2.4 cv=G+0R0tk5 c=1 sm=1 tr=0 ts=69720442 cx=c_pps
+ a=JIY1xp/sjQ9K5JH4t62bdg==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=e5mUnYsNAAAA:8 a=nY9ItIvBOz0YvIiU8-8A:9
+ a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10 a=tNoRWFLymzeba-QzToBc:22
+ a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-GUID: 9SNaVlIQinOMlgo_Ei3z3Vbb2xT6keT9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-22_01,2026-01-20_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 malwarescore=0 phishscore=0 adultscore=0
+ spamscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601220079
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,211 +158,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[28];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:uwu@icenowy.me,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:p.zabel@pengutronix.de,m:lumag@kernel.org,m:m.wilczynski@samsung.com,m:luca.ceresoli@bootlin.com,m:rabenda.cn@gmail.com,m:ziyao@disroot.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:gaohan@iscas.ac.cn,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:rabendacn@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[icenowy.me,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,ffwll.ch,redhat.com];
+	FORGED_RECIPIENTS(0.00)[m:vikash.garodia@oss.qualcomm.com,m:nicolas@ndufresne.ca,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:akhilpo@oss.qualcomm.com,m:jesszhan0024@gmail.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:bod@kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:freedreno@lists.freedesktop.org,s:lists@lfdr.de];
+	FREEMAIL_CC(0.00)[ndufresne.ca,oss.qualcomm.com,poorly.run,gmail.com,linux.dev,kernel.org,vger.kernel.org,lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[pengutronix.de,kernel.org,samsung.com,bootlin.com,gmail.com,disroot.org,vger.kernel.org,lists.freedesktop.org,lists.infradead.org,iscas.ac.cn];
+	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:mid,suse.de:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:url]
-X-Rspamd-Queue-Id: 07972655E7
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,oss.qualcomm.com:dkim,gitlab.freedesktop.org:url]
+X-Rspamd-Queue-Id: D422D65B06
 X-Rspamd-Action: no action
 
-Hi
+On Thu, Jan 22, 2026 at 11:29:32AM +0530, Vikash Garodia wrote:
+> 
+> On 1/16/2026 1:16 AM, Dmitry Baryshkov wrote:
+> > I should have added GPU maintainers and ML beforehand. Fixing it now.
+> > 
+> > On Thu, Jan 15, 2026 at 09:02:07AM -0500, Nicolas Dufresne wrote:
+> > > Le jeudi 15 janvier 2026 � 10:08 +0200, Dmitry Baryshkov a �crit�:
+> > > > On Wed, Oct 08, 2025 at 03:22:24PM +0530, Dikshita Agarwal wrote:
+> > > > > Add support for the QC08C color format in both the encoder and decoder
+> > > > > paths of the iris driver. The changes include:
+> > > > > 
+> > > > > - Adding QC08C format handling in the driver for both encoding and
+> > > > > decoding.
+> > > > > - Updating format enumeration to properly return supported formats.
+> > > > > - Ensuring the correct HFI format is set for firmware communication.
+> > > > > -Making all related changes required for seamless integration of QC08C
+> > > > > support.
+> > > > > 
+> > > > > The changes have been validated using v4l2-ctl, compliance, and GStreamer
+> > > > > (GST) tests.
+> > > > > Both GST and v4l2-ctl tests were performed using the NV12 format, as
+> > > > > these clients do not support the QCOM-specific QC08C format, and all
+> > > > > tests passed successfully.
+> > > > > 
+> > > > > During v4l2-ctl testing, a regression was observed when using the NV12
+> > > > > color format after adding QC08C support. A fix for this regression has
+> > > > > also been posted [1].
+> > > > > 
+> > > > > [1]:
+> > > > > https://lore.kernel.org/linux-media/20250918103235.4066441-1-dikshita.agarwal@oss.qualcomm.com/T/#u
+> > > > > 
+> > > > > Changes in v2:
+> > > > > - Added separate patch to add support for HFI_PROP_OPB_ENABLE (Bryan)
+> > > > > - Updated commit text to indicate QC08C is NV12 with UBWC compression
+> > > > > (Bryan, Dmitry)
+> > > > > - Renamed IRIS_FMT_UBWC to IRIS_FMT_QC08C (Dmitry)
+> > > > > - Link to v1:
+> > > > > https://lore.kernel.org/r/20250919-video-iris-ubwc-enable-v1-0-000d11edafd8@oss.qualcomm.com
+> > > > > 
+> > > > > Signed-off-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+> > > > > ---
+> > > > > Dikshita Agarwal (3):
+> > > > >  ����� media: iris: Add support for HFI_PROP_OPB_ENABLE to control split mode
+> > > > >  ����� media: iris: Add support for QC08C format for decoder
+> > > > >  ����� media: iris: Add support for QC08C format for encoder
+> > > > > 
+> > > > 
+> > > > Looking at the series again... What is the definition of V4L formats?
+> > > > Are they expected to be self-compatible? Transferable between machines?
+> > > > In DRM world we made a mistake, making use of a single non-parametrized
+> > > > UBWC modifier, and then later we had to introduce OOB values to
+> > > > represent different params of UBWC compressed images.
+> > > > 
+> > > > So, I wanted to ask, is single "UBWC-compressed NV12" enough for V4L2 or
+> > > > should we have different format values (at least for different swizzle
+> > > > and macrotile modes)?
+> > > 
+> > > Our expectation is that the decoder will produce the same format regardless the
+> > > resolution. And that format should be shareable, so that same format coming from
+> > > two drivers means the same thing without out of band data, except that
+> > > resolution and strides are needed oob anyway and can obviously be used as an
+> > > acceptable workaround the issue you describe. It should also have a single
+> > > translation to DRM fourcc + modifier, and hopefully the other way around is
+> > > possible too, otherwise its a bit broken and unusable.
+> > 
+> > Well... As I wrote, we made a certain decision several years go: there
+> > is only one DRM modifier. At that point the decision was made by
+> > open-source people which had a very limited information about hardware
+> > internals. We can probably try deprecating it and shifting towards
+> > multiple entries. On the other side, most of the blocks would only be
+> > able to support only one of very few possible configurations.
+> > 
+> > > 
+> > > So bottom line, since V4L2 does not have modifiers, you have to treat one V4L2
+> > > format as a pair of DRM fourcc + modifier. Decoders typically only support a
+> > > subset, or hardware engineers can generally pick a handful of performant
+> > > configurations that works for all cases (its all 2D with similarly sized
+> > > macroblocks).
+> > 
+> > This is not quite applicable: even if we try to fix all other settings,
+> > the format differs from platform to platform because of the memory
+> > organisation (highest_bank_bit in drivers/soc/qcom/ubwc_config.c).
+> > 
+> > There is a description of swizzling in Mesa ([1])
+> > 
+> > [1] https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/freedreno/fdl/fd6_tiled_memcpy.cc
+> > 
+> > > Since these formats are only usable when consumed by GPU or
+> > > display controllers, its important that all party uses the same convention for
+> > > the limited information available.
+> 
+> Would there be a need for any client, other than GPU/display, to peek into
+> the data OR to validate it, it need to decompress it. For that as well, it
+> would need all the associated info to decompress it.
 
-Am 22.01.26 um 10:23 schrieb Icenowy Zheng:
-> 在 2026-01-21星期三的 13:56 +0100，Thomas Zimmermann写道：
->
-> =============== 8< ===================
->>> +
->>> +       dev_info(dev, "DC%x rev %x customer %x\n", dc-
->>>> identity.model,
->>> +                dc->identity.revision, dc->identity.customer_id);
->> drm_dbg().  Drivers should be quite by default.
-> Well for this kind of identification information I think driver is
-> usually not quiet, at least amdgpu (when doing IP discovery), panfrost
-> and etnaviv (which shares the same set of identification registers with
-> this driver) is reporting it.
+It doesn't really matter. This is uAPI. There might be no such client
+now, but there might be one later. Also, with the tiling format being
+defined, userspace apps can start poking into the meta / color buffers
+(e.g. for the sake of clipping / blitting the part of the image).
 
-These drivers only get away with it because many other drivers keep 
-quite. Otherwise the kernel log would be filled with init reports. Your 
-choice, but it's questionable if anyone ever cares except for debugging.
+> Again in same SOC, camera can produce compressed YUV with different
+> parameter while VPU different, it would again need the associated info
+> alongwith single "UBWC-compressed NV12" to decompress it.
 
+Yes. It's actually a good point, it clearly shows a need to describe the
+stream rather than stating that it is "just UBWC".
 
->
->>> +
->>> +       if (port_count > dc->identity.display_count) {
->>> +               dev_err(dev, "too many downstream ports than HW
->>> capability\n");
->>> +               ret = -EINVAL;
->>> +               goto err_rst_assert;
->>> +       }
->>> +
-> =============== 8< ===================
->>> +
->>> +       if (!state->visible || !fb) {
->>> +               regmap_write(dc->regs, VSDC_FB_CONFIG(output), 0);
->>> +               regmap_write(dc->regs, VSDC_FB_CONFIG_EX(output),
->>> 0);
->>> +               goto commit;
->>> +       } else {
->>> +               regmap_set_bits(dc->regs,
->>> VSDC_FB_CONFIG_EX(output),
->>> +                               VSDC_FB_CONFIG_EX_FB_EN);
->>> +       }
->> Since you handle the plane on/plane off cases here, I'd advise to
->> implement atomic_enable and atomic_disable for the plane, if the
->> hardware allows it. (There is hardware were the current pattern makes
->> sense though.)
-> If atomic_*able is going to be implemented, should atomic_update() keep
-> the plane on/off code?
-
-In this case, atomic_update should only perform an update of the plane's 
-graphics buffer (scanout address, color format). The logic then is
-
-enable and mode setting:
-
-  atomic_update, plus
-  atomic_enable
-
-disable:
-
-  atomic_disable only
-
-page flips:
-
-  atomic_update only
-
-See 
-https://elixir.bootlin.com/linux/v6.18.6/source/drivers/gpu/drm/drm_atomic_helper.c#L3022
-
-That's usually cleaner. But there's hardware where update/enable/disable 
-is connected in such a way that a single atomic_update is better.
-
-
->
-> BTW it seems that DC8200 has the shadow register capability that could
-> be manually commited but the older DC8000 has no (the
-> VSDC_FB_CONFIG_EX_COMMIT bit written below is a new thing) -- the
-> VSDC_FB_CONFIG register on DC8000 has a write-only bit that when
-> written with 0 the display is put to reset and when written with 1 the
-> display will start to run. This pattern seems to be not able to keep
-> the enabled state while programming (at least part of) new plane
-> configuration, see [1].
-
-I cannot comment on the hardware. But on the DRM side, we always disable 
-the pipeline for we program a new display mode; and then do an enable 
-step to program the new mode. This happens on the CRTC, but it also 
-affects the CRTC's planes accordingly. For pageflips, we only run the 
-plane's atomic_update.
-
-If you you see a page flip, but need a full mode-setting operation, you 
-can manually trigger it by setting drm_crtc_state.mode_changed from the 
-plane's atomic_check. Here's an example: 
-https://elixir.bootlin.com/linux/v6.18.6/source/drivers/gpu/drm/mgag200/mgag200_mode.c#L503
-
-If the DC8000 and DC8200 behave sufficiently differently, my advise is 
-to write multiple _funcs structs with custom helpers and pick the 
-correct one when you initialize the modesetting pipeline.
-
-Best regards
-Thomas
-
->
-> [1]
-> https://github.com/milkv-megrez/rockos-u-boot/blob/c9221cf2fa77d39c0b241ab4b030c708e7ebe279/drivers/video/eswin/eswin_dc_reg.h#L3579
->
->>> +
->>> +       drm_format_to_vs_format(state->fb->format->format, &fmt);
->>> +
->>> +       regmap_update_bits(dc->regs, VSDC_FB_CONFIG(output),
->>> +                          VSDC_FB_CONFIG_FMT_MASK,
->>> +                          VSDC_FB_CONFIG_FMT(fmt.color));
->>> +       regmap_update_bits(dc->regs, VSDC_FB_CONFIG(output),
->>> +                          VSDC_FB_CONFIG_SWIZZLE_MASK,
->>> +                          VSDC_FB_CONFIG_SWIZZLE(fmt.swizzle));
->>> +       regmap_assign_bits(dc->regs, VSDC_FB_CONFIG(output),
->>> +                          VSDC_FB_CONFIG_UV_SWIZZLE_EN,
->>> fmt.uv_swizzle);
->>> +
->>> +       /* Get the physical address of the buffer in memory */
->>> +       gem = drm_fb_dma_get_gem_obj(fb, 0);
->>> +
->>> +       /* Compute the start of the displayed memory */
->>> +       bpp = fb->format->cpp[0];
->>> +       dma_addr = gem->dma_addr + fb->offsets[0];
->>> +
->>> +       /* Fixup framebuffer address for src coordinates */
->>> +       dma_addr += (state->src.x1 >> 16) * bpp;
->> bpp is deprecated and should be avoided in new code. You can compute
->> the
->> offset with drm_format_min_pitch():
->>
->> drm_format_min_pitch(fb->format, 0, state->src.x1 >> 16 )
->>
->> Best regards
->> Thomas
->>
->>> +       dma_addr += (state->src.y1 >> 16) * fb->pitches[0];
->>> +
->>> +       regmap_write(dc->regs, VSDC_FB_ADDRESS(output),
->>> +                    lower_32_bits(dma_addr));
->>> +       regmap_write(dc->regs, VSDC_FB_STRIDE(output),
->>> +                    fb->pitches[0]);
->>> +
->>> +       regmap_write(dc->regs, VSDC_FB_TOP_LEFT(output),
->>> +                    VSDC_MAKE_PLANE_POS(state->crtc_x, state-
->>>> crtc_y));
->>> +       regmap_write(dc->regs, VSDC_FB_BOTTOM_RIGHT(output),
->>> +                    VSDC_MAKE_PLANE_POS(state->crtc_x + state-
->>>> crtc_w,
->>> +                                        state->crtc_y + state-
->>>> crtc_h));
->>> +       regmap_write(dc->regs, VSDC_FB_SIZE(output),
->>> +                    VSDC_MAKE_PLANE_SIZE(state->crtc_w, state-
->>>> crtc_h));
->>> +
->>> +       regmap_write(dc->regs, VSDC_FB_BLEND_CONFIG(output),
->>> +                    VSDC_FB_BLEND_CONFIG_BLEND_DISABLE);
->>> +commit:
->>> +       regmap_set_bits(dc->regs, VSDC_FB_CONFIG_EX(output),
->>> +                       VSDC_FB_CONFIG_EX_COMMIT);
->>> +}
->>> +
-> =============== 8< ===================
+> 
+> > 
+> > Yes, we added UBWC config database in order to have a single source of
+> > information for the kernel.
+> > 
+> > So... On the practical side there can be:
+> >   - UBWC 1.0, 2.0, 3.0, 4.0, etc.
+> > 
+> >   - swizzle 1-2-3, 2-3 and 3, partially depends on UBWC version.
+> > 
+> >   - HBB or 13, 14, 15, 16
+> > 
+> >   - bank spreading (true or false)
+> > 
+> >  From the practical point of view, drivers/soc/qcom/ubwc.c defines the
+> > following formats (currently, I'd like to cross-check some of them):
+> > 
+> > - linear
+> > - 1.0_123_14
+> > - 1.0_123_14_spread
+> > - 1.0_123_15
+> > - 2.0_23_14
+> > - 2.0_23_14_spread
+> > - 2.0_23_15
+> > - 3.0_23_13_spread
+> > - 3.0_23_14_spread
+> > - 3.0_23_15
+> > - 3.0_23_16
+> > - 4.0_23_15_spread
+> > - 4.0_23_16_spread
+> > - 4.0_3_13_spread
+> > - 5.0_23_15_spread
+> > - 5.0_23_16_spread
+> > - 6.0_23_16_spread
+> > 
+> > Would it be benefitable to define separate DRM modifiers (and NV12
+> > compressed variant for V4L2) for each of them?
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+With best wishes
+Dmitry
