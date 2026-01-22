@@ -2,86 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cCISFT7ScWk+MgAAu9opvQ
+	id WDD/CZ/ScWk+MgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 08:31:10 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 08:32:47 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB7C6280A
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 08:31:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FDAD62854
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 08:32:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2A7A10E8F6;
-	Thu, 22 Jan 2026 07:31:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2F2510E8F1;
+	Thu, 22 Jan 2026 07:32:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="BKIEXhPB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DSWkRW5B";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KLPH+UJU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="adwSttq3";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="qqqhE860";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m4DpVuIb";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qqqhE860";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m4DpVuIb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E718710E8F3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 07:31:04 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F09B10E8F1
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 07:32:43 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AD4EE5BCC2;
- Thu, 22 Jan 2026 07:31:02 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 37F365BCC7;
+ Thu, 22 Jan 2026 07:32:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1769067063; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1769067162; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Zds7ar7v5g5Zfy6nZu/sZddvRqj3tHHgtYNUyPDMLOY=;
- b=BKIEXhPBNlMqa4KA8MBPHDeo1upbzEK5MlzQVoYAVsP4ZE8VuLcCgfybohU+Akj6f4gXKO
- qTYo7ZDbD7AjcRUL08vstlLQMA4YPv0pgzdozsXUE4LP8VvjENjm3vtmRPmr7+hUE8CwIJ
- Sgw5R6tnHVwFonOvGDoipAzWBb0tfWM=
+ bh=oKS0u/GglQcp/lNyRVwVTZ698khWL/vphTnJ2a9GzKc=;
+ b=qqqhE8601qbJBhz3U8yC4ukHxLcCqB06H2uCNxrbunLdYztcX1xJf5Xoe832ZmvSD9KVlU
+ vDm4Pts7qjapBfx7GIlFoojjiUepB0sH1k+NZZCm42ejXoOuofRatbLcGphHj21SVuAtUA
+ jNz5aKS01hAWoogv5jwqx+bnJ8nS71U=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1769067063;
+ s=susede2_ed25519; t=1769067162;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Zds7ar7v5g5Zfy6nZu/sZddvRqj3tHHgtYNUyPDMLOY=;
- b=DSWkRW5BL/88o66JJrlt/grExPXRl81+3a0vwaFfseFFxrpzKLj8yLP6nb5EjaWkZcwJeN
- JW5XDiaer0mGt+DA==
+ bh=oKS0u/GglQcp/lNyRVwVTZ698khWL/vphTnJ2a9GzKc=;
+ b=m4DpVuIb3SCRdjFd87eCu812CDxXihAn8mm/pXKXgdzEgGV8yysMQS8Tzg+rclQgltDVfa
+ 1l14IJwOB7FhdgCA==
 Authentication-Results: smtp-out2.suse.de;
-	none
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=qqqhE860;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=m4DpVuIb
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1769067062; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1769067162; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Zds7ar7v5g5Zfy6nZu/sZddvRqj3tHHgtYNUyPDMLOY=;
- b=KLPH+UJUTgCGGYf5v3FE0sBLnssT/o1ijNyISC9uSSyEE93Criz1ItQ9fWwYW/u/zcyOqX
- e7JmzlyxvsPaCEXeTcXxNbx0+RpVh3rWl6Cjxf46csAQlfBLCkdPUFDpDaTgtkZt6dV0JN
- 0ZUjABmwFwM+KBdADjSIsp+Jh4oLj6A=
+ bh=oKS0u/GglQcp/lNyRVwVTZ698khWL/vphTnJ2a9GzKc=;
+ b=qqqhE8601qbJBhz3U8yC4ukHxLcCqB06H2uCNxrbunLdYztcX1xJf5Xoe832ZmvSD9KVlU
+ vDm4Pts7qjapBfx7GIlFoojjiUepB0sH1k+NZZCm42ejXoOuofRatbLcGphHj21SVuAtUA
+ jNz5aKS01hAWoogv5jwqx+bnJ8nS71U=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1769067062;
+ s=susede2_ed25519; t=1769067162;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Zds7ar7v5g5Zfy6nZu/sZddvRqj3tHHgtYNUyPDMLOY=;
- b=adwSttq3Z5xu6VHu//dn9CYagj9e0n0IdCPfR+7LUVEYJN83X+fdwqL7+k3jOCMtfBEPm0
- iPWFGXPCPulOHNAQ==
+ bh=oKS0u/GglQcp/lNyRVwVTZ698khWL/vphTnJ2a9GzKc=;
+ b=m4DpVuIb3SCRdjFd87eCu812CDxXihAn8mm/pXKXgdzEgGV8yysMQS8Tzg+rclQgltDVfa
+ 1l14IJwOB7FhdgCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D07563EA63;
- Thu, 22 Jan 2026 07:31:01 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7DD5D3EA63;
+ Thu, 22 Jan 2026 07:32:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id T43fMDXScWnMLwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 22 Jan 2026 07:31:01 +0000
-Message-ID: <f49d5e01-1e01-4393-9ba3-2079006984ae@suse.de>
-Date: Thu, 22 Jan 2026 08:31:01 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id hd5iHZnScWnGMAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 22 Jan 2026 07:32:41 +0000
+Message-ID: <22b8d941-3e02-4526-b5e4-3c6cf4e1b431@suse.de>
+Date: Thu, 22 Jan 2026 08:32:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5 3/9] drm: verisilicon: add a driver for Verisilicon
  display controllers
+From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Icenowy Zheng <uwu@icenowy.me>, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
@@ -103,8 +106,8 @@ References: <20260116043746.336328-1-zhengxingda@iscas.ac.cn>
  <20260116043746.336328-4-zhengxingda@iscas.ac.cn>
  <56e1974c-0fe6-4bdb-918d-fcf6a8b866c1@suse.de>
  <4afa6f3110790c701c5e24901e9e66560cf21ad0.camel@icenowy.me>
+ <f49d5e01-1e01-4393-9ba3-2079006984ae@suse.de>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
  XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
@@ -129,12 +132,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <4afa6f3110790c701c5e24901e9e66560cf21ad0.camel@icenowy.me>
+In-Reply-To: <f49d5e01-1e01-4393-9ba3-2079006984ae@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
+X-Spam-Score: -3.01
 X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,7 +157,7 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
@@ -165,8 +168,8 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS(0.00)[m:uwu@icenowy.me,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:p.zabel@pengutronix.de,m:lumag@kernel.org,m:m.wilczynski@samsung.com,m:luca.ceresoli@bootlin.com,m:rabenda.cn@gmail.com,m:ziyao@disroot.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:gaohan@iscas.ac.cn,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:rabendacn@gmail.com,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[icenowy.me,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,ffwll.ch,redhat.com];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	FREEMAIL_CC(0.00)[pengutronix.de,kernel.org,samsung.com,bootlin.com,gmail.com,disroot.org,vger.kernel.org,lists.freedesktop.org,lists.infradead.org,iscas.ac.cn];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -182,57 +185,64 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,suse.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: AEB7C6280A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,bootlin.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 6FDAD62854
 X-Rspamd-Action: no action
 
 Hi
 
-Am 22.01.26 um 08:06 schrieb Icenowy Zheng:
-> 在 2026-01-21星期三的 13:56 +0100，Thomas Zimmermann写道：
+Am 22.01.26 um 08:31 schrieb Thomas Zimmermann:
+> Hi
 >
-> =============== 8< =================
->>> +
->>> +       if (irqs)
->>> +               pr_warn("Unknown Verisilicon DC interrupt 0x%x
->>> fired!\n", irqs);
->> I'd avoid pr_warn() here. This can fill your logs quickly.
-> Then is pr_warn_once() okay?
-
-Yeah, warn_once should be fine.
-
->
->>> +
->>> +       return IRQ_HANDLED;
->>> +}
-> =============== 8< =================
-
-Maybe consider returning IRQ_NONE if the (irq) tests succeeds.
-
->
->>> +       /* Fixup framebuffer address for src coordinates */
->>> +       dma_addr += (state->src.x1 >> 16) * bpp;
->> bpp is deprecated and should be avoided in new code. You can compute
->> the
->> offset with drm_format_min_pitch():
+> Am 22.01.26 um 08:06 schrieb Icenowy Zheng:
+>> 在 2026-01-21星期三的 13:56 +0100，Thomas Zimmermann写道：
 >>
->> drm_format_min_pitch(fb->format, 0, state->src.x1 >> 16 )
-> Well it seems quite difficult to track what's deprecated in the DRM
-> subsystem, is there anything like a bulletin?
+>> =============== 8< =================
+>>>> +
+>>>> +       if (irqs)
+>>>> +               pr_warn("Unknown Verisilicon DC interrupt 0x%x
+>>>> fired!\n", irqs);
+>>> I'd avoid pr_warn() here. This can fill your logs quickly.
+>> Then is pr_warn_once() okay?
+>
+> Yeah, warn_once should be fine.
 
-No, you either know or find out during the review. :) We also tend to 
-leave comments in the code. [1]
-
-[1] 
-https://elixir.bootlin.com/linux/v6.18.6/source/include/drm/drm_fourcc.h#L82
-
-Best regards
-Thomas
+BTW drm_warn_once() would be preferable over plain pr_warn().
 
 >
+>>
+>>>> +
+>>>> +       return IRQ_HANDLED;
+>>>> +}
+>> =============== 8< =================
 >
-> Thanks,
-> Icenowy
+> Maybe consider returning IRQ_NONE if the (irq) tests succeeds.
+>
+>>
+>>>> +       /* Fixup framebuffer address for src coordinates */
+>>>> +       dma_addr += (state->src.x1 >> 16) * bpp;
+>>> bpp is deprecated and should be avoided in new code. You can compute
+>>> the
+>>> offset with drm_format_min_pitch():
+>>>
+>>> drm_format_min_pitch(fb->format, 0, state->src.x1 >> 16 )
+>> Well it seems quite difficult to track what's deprecated in the DRM
+>> subsystem, is there anything like a bulletin?
+>
+> No, you either know or find out during the review. :) We also tend to 
+> leave comments in the code. [1]
+>
+> [1] 
+> https://elixir.bootlin.com/linux/v6.18.6/source/include/drm/drm_fourcc.h#L82
+>
+> Best regards
+> Thomas
+>
+>>
+>>
+>> Thanks,
+>> Icenowy
+>
 
 -- 
 --
