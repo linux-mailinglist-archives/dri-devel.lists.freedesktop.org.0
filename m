@@ -2,98 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CKa7HVN2cWngHgAAu9opvQ
+	id sIm4IYKCcWk1IAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 01:58:59 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 02:50:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66B660226
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 01:58:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0CE60891
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 02:50:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E00D210E19A;
-	Thu, 22 Jan 2026 00:58:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3674B10E26F;
+	Thu, 22 Jan 2026 01:50:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="l0kQ7dNy";
+	dkim=pass (2048-bit key; unprotected) header.d=ubuntu.com header.i=@ubuntu.com header.b="iicTqBRV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1800910E19A
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 00:58:55 +0000 (UTC)
-Received: by mail-dl1-f47.google.com with SMTP id
- a92af1059eb24-1233985e56aso26322c88.0
- for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 16:58:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769043534; cv=none;
- d=google.com; s=arc-20240605;
- b=Cn9GIh3k90YhHjCs4T1VT4T9oQzoxTPcwzE/t1nE7+IolwxV5aSAQwPthGUsx9bANR
- bLtakjSv4+R4R2blmtpFQyY7qVxtpFHAmUi+s6OBV5cd4nQq11bwh4RGod8wgCytnTt2
- zS3g3GVRf5jXu1vsZX/88F+clEN66UBUp5LNmcVrmt8AoRowxUD7X4ZrsfJUbZYTyHEv
- wQ45t+hQ8lwxgnaoPt2B1n053Fit2CuETezsQfifrIT3K5s0l5B2fL8wLao8Kj9yUCLt
- sFZSygSlmzw5I3dqP09efsk/kg+bhqosJJ9yVr0ann5lWqms/r+YB1fV2rs2j/CX8ase
- Sf0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=ePOS+ru0GKPNPJ/oqMKjbYqjVjULTjEPxdStPXBVmqw=;
- fh=a/EgYQRbFjvOCAVh31N4h/Agzg3cV3cnM6rW77ZdStk=;
- b=FFUmZExjVC4MqIF1QAejr2cTsjWcZFG9mdWZwXJ8pvLQDBfAQo8GHA9I4F+jW24Jnz
- 2BkbwJKnFm/d3B3Zik0s7XYuVnu3m9V/5R8uXwfsEssZPS2gBXzU76u+h5aFGFMeAixn
- O1b8bf8tJ7SMajFczFoJbE9ESn3mOnjkO46S1HWpXLkiQ66Fb46UFZoYI17B7jNF8LSu
- veEmSO79O4ZsVlSaTCF4iZBWvSWJx0fL3G2N+5jLMSO305C5EatLiVaqNnxCfAOuIkj3
- p1Hvlz77/Y9z6OS2t1F0gvXTddRseJPidE+ewIpCeU8k//OVTF6LRAKUAZMh8qDNmmUI
- NL1Q==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769043534; x=1769648334; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ePOS+ru0GKPNPJ/oqMKjbYqjVjULTjEPxdStPXBVmqw=;
- b=l0kQ7dNyUzkU2B9DfHko7deE/PP7jAu4CanX0g9ofs3KCp5UWWLj1hq5EzyVWF/nG2
- hjW5jaqkAsAsIepDLZNvn3hnfBGCgqoMz27BMcMZNVuPse3ofBsC0uVJ2aOWNrNnBqJr
- +AcmYLgiSnAvqs47Zteq8+6XyGnnElUg1vei+UMpMI6HUvapIy+uxP+bxvTdosUwImXj
- jTBeWOFNntG85Vb4Tsed4ttKq3gucylUgUjZhK5PWvz/Rf1hDvQWAEgnultW7hW/qJaU
- rC1H4/NUvEXAuBwkfu1LNKGGniPMMQuavhHCwCqsnLqLfGWSph45efqsbmageL6zMEyT
- Hc9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769043534; x=1769648334;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=ePOS+ru0GKPNPJ/oqMKjbYqjVjULTjEPxdStPXBVmqw=;
- b=N1tBDC5VRzgUd2Ym/pl/vhXkGd+3mZikTdg0YbJH0e78mUbiiKSB8KCqRJbIJUUoQT
- gzLB6d8tyfdbBYlr2hG+0VCGahBEet4FPERc08Kkxp0kgMRqRFOQjRe0ayDLrghk3ZBB
- 0RARTUHlpyCLhiOr/DSsUHBRgARGr3xXvH3OKijMBJmZ8rUkMZz7jkcsuZ8z/0NynvP6
- xg8cVWi1oYIyHJyve4/A/dFtr/KOPqqVlCmzlbr7y27LZmqgIfrWmvDpBfoU2zRf+Gab
- wu49VpwmPZ+wXoDO3eA+I4iwPMe3vc8S4TjlC88BRs6XIbTuRLBcqD/Pusco0fz8+M5u
- jgxA==
-X-Gm-Message-State: AOJu0YwEcuacMmoMBZaN+yZx4hIH2E5xl57vfFGKMLXtOFVYkcStZrvi
- T4KU3LBYWqqKZE4u0RtmZYDbCWjc1dEl0zHTcsBRjUzumT8bViKhKdcofxgn4UXJm1WiCInvGB8
- 56IOIuWmeWDGl2Ge26wafDr/8r2ZIj53fVg==
-X-Gm-Gg: AZuq6aLEC+rHmq/njlHpUXqcQ3hI9yn+CtAbbIMw4VIlgOyAtOC1xVKw4eUwSjRRSe4
- Y5fMGFMwYdu54KHSm0Z2Sn9Hl1L3Iux6wHvZ+WK+tahrKsEirRLXrvVaREXVO2oKSRGDvPNQlNk
- V+o6UwkzdC3uShuoL0vs2InppHyRqMLAx/OnKqboNQS6jk6gzmoSUIcWepQnl+nn8yd1gVQED14
- T2X+VaBGySChQHr4qADXTSBlmFqkyu3YoPu7ZUTNo/fWlQp+3XVx7oUbVn3PPqZ04nB4KQnaldW
- ejZBCl0b/4gaBRhTojDSwm8PAOTR9TN6fCA8kqUcDAfQHyFVt+YuACLrEvqSt9gHFOygVdZKMV0
- pfD8RXEOPeAQR
-X-Received: by 2002:a05:693c:408a:b0:2b7:1008:9f2e with SMTP id
- 5a478bee46e88-2b710089fb4mr1300915eec.7.1769043534133; Wed, 21 Jan 2026
- 16:58:54 -0800 (PST)
-MIME-Version: 1.0
-References: <20260122003746.405370-1-deborah.brouwer@collabora.com>
-In-Reply-To: <20260122003746.405370-1-deborah.brouwer@collabora.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 22 Jan 2026 01:58:40 +0100
-X-Gm-Features: AZwV_QjET6D4LLELM-SXyns7n53A43bBKl3-wihBiJ4nAUEgyGlB4PBhb8I0Qdk
-Message-ID: <CANiq72=xNcgg6hahQRkAjfbiKOEGMvdePLSaWvD7cML9qTP2iA@mail.gmail.com>
-Subject: Re: [PATCH] drm/tyr: suppress unread field warnings
-To: Deborah Brouwer <deborah.brouwer@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
- daniel.almeida@collabora.com, aliceryhl@google.com, 
- boris.brezillon@collabora.com, broonie@kernel.org, dakr@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-Greylist: delayed 872 seconds by postgrey-1.36 at gabe;
+ Thu, 22 Jan 2026 01:50:55 UTC
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E49710E26F
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 01:50:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
+ h=In-Reply-To: References: To: From: Subject: Cc: Message-Id: Date:
+ Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
+ s=fe-953a8a3ca9; t=1769046654;
+ bh=9x9ZEUpWoq8eLlnYr7WSVEerHQ9KPtHlBa0PoVU43QM=;
+ b=iicTqBRVoedz1lIEJWEVi73nhdAlYE+SDkpY7UjKspvV/+QUCZHcvoXYOlB+vJM4QrvTVIxLD
+ yv+eOVXZeRszwpFqaZJFY5wfdGATh8ukavjMK/503rj6lzTmI2dTyo0aVQevvojrLiZeeAO7nk9
+ sUAy4Tdu512AwApHdc4pj4RD7jZEaOIASTEbGWUoC7tq1H7aBtKMQUr2mbv0euWPXTqKaAwo0A9
+ tqsjVa3R5Z6LZh6YKUg2Xz56i3ShSlcOhQsx0hevD8DaMZ3zoIBx/qmr0wAtJ9N62xOu8w5Uzxo
+ XcxaUiOhhuhqfsWpft1LKZQFEAGFFvrELA10WNr/5B7g==
+X-Forward-Email-ID: 69717c8ee635bcbf419e1786
+X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
+ 149.28.215.223
+X-Forward-Email-Version: 2.4.3
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8; format=Flowed
+Date: Wed, 21 Jan 2026 20:25:33 -0500
+Message-Id: <DFUQ5V2HICKQ.1F67J2O6ICMD1@ubuntu.com>
+Cc: "Jani Nikula" <jani.nikula@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/edid: Use struct cea_db when parsing HDMI VSDB
+From: "Joshua Peisach" <jpeisach@ubuntu.com>
+To: =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+X-Mailer: aerc 0.20.0
+References: <20260117205139.13991-1-jpeisach@ubuntu.com>
+ <cb276398394bd5de209dfcee5216fcb2f6670974@intel.com>
+ <aW-iQPICWLQ6Iez7@intel.com>
+ <E4531EA5-EF45-493F-A1EB-7677D0BC71FC@ubuntu.com>
+ <aW-1d--9syo7F61k@intel.com>
+ <F9D0FB5B-2C81-4BC1-B6D4-8E660ABE2D9B@ubuntu.com>
+ <aW_E7bHNsUzDaeC1@intel.com>
+ <253467F5-8BB3-4A96-A2D8-90785999A023@ubuntu.com>
+ <aW_n569MjpPQmCt2@intel.com>
+In-Reply-To: <aW_n569MjpPQmCt2@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,62 +76,192 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[ubuntu.com,none];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[ubuntu.com:s=fe-953a8a3ca9];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:deborah.brouwer@collabora.com,m:rust-for-linux@vger.kernel.org,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:boris.brezillon@collabora.com,m:broonie@kernel.org,m:dakr@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:jani.nikula@linux.intel.com,m:ville.syrjala@linux.intel.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[jpeisach@ubuntu.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_NEQ_ENVFROM(0.00)[jpeisach@ubuntu.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[ubuntu.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: D66B660226
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ubuntu.com:email,ubuntu.com:dkim,ubuntu.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email]
+X-Rspamd-Queue-Id: EC0CE60891
 X-Rspamd-Action: no action
 
-On Thu, Jan 22, 2026 at 1:38=E2=80=AFAM Deborah Brouwer
-<deborah.brouwer@collabora.com> wrote:
+On Tue Jan 20, 2026 at 3:39 PM EST, Ville Syrj=C3=A4l=C3=A4 wrote:
+> On Tue, Jan 20, 2026 at 03:01:14PM -0500, jpeisach@ubuntu.com wrote:
+>>=20
+>>=20
+>> > On Jan 20, 2026, at 1:09=E2=80=AFPM, Ville Syrj=C3=A4l=C3=A4 <ville.sy=
+rjala@linux.intel.com> wrote:
+>> >=20
+>> > On Tue, Jan 20, 2026 at 12:46:59PM -0500, jpeisach@ubuntu.com <mailto:=
+jpeisach@ubuntu.com> wrote:
+>> >>=20
+>> >>=20
+>> >>> On Jan 20, 2026, at 12:03=E2=80=AFPM, Ville Syrj=C3=A4l=C3=A4 <ville=
+.syrjala@linux.intel.com <mailto:ville.syrjala@linux.intel.com>> wrote:
+>> >>>=20
+>> >>> On Tue, Jan 20, 2026 at 11:37:59AM -0500, jpeisach@ubuntu.com <mailt=
+o:jpeisach@ubuntu.com> <mailto:jpeisach@ubuntu.com> wrote:
+>> >>>>=20
+>> >>>>=20
+>> >>>>> On Jan 20, 2026, at 10:41=E2=80=AFAM, Ville Syrj=C3=A4l=C3=A4 <vil=
+le.syrjala@linux.intel.com> wrote:
+>> >>>>>=20
+>> >>>>> On Mon, Jan 19, 2026 at 03:39:12PM +0200, Jani Nikula wrote:
+>> >>>>>> On Sat, 17 Jan 2026, Joshua Peisach <jpeisach@ubuntu.com> wrote:
+>> >>>>>>> drm_parse_hdmi_vsdb_video is one of the parsers that still do no=
+t use the
+>> >>>>>>> cea_db struct, and currently passes a u8 pointer.
+>> >>>>>>>=20
+>> >>>>>>> Set the correct struct type and update references to the data ac=
+cordingly.
+>> >>>>>>> This also makes the same change to drm_parse_hdmi_deep_color_inf=
+o as
+>> >>>>>>> necessary.
+>> >>>>>>>=20
+>> >>>>>>> Signed-off-by: Joshua Peisach <jpeisach@ubuntu.com>
+>> >>>>>>> ---
+>> >>>>>>> drivers/gpu/drm/drm_edid.c | 26 +++++++++++++-------------
+>> >>>>>>> 1 file changed, 13 insertions(+), 13 deletions(-)
+>> >>>>>>>=20
+>> >>>>>>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_ed=
+id.c
+>> >>>>>>> index 26bb7710a..15bd99e65 100644
+>> >>>>>>> --- a/drivers/gpu/drm/drm_edid.c
+>> >>>>>>> +++ b/drivers/gpu/drm/drm_edid.c
+>> >>>>>>> @@ -6290,7 +6290,7 @@ static void drm_parse_hdmi_forum_scds(stru=
+ct drm_connector *connector,
+>> >>>>>>> }
+>> >>>>>>>=20
+>> >>>>>>> static void drm_parse_hdmi_deep_color_info(struct drm_connector =
+*connector,
+>> >>>>>>> -					   const u8 *hdmi)
+>> >>>>>>> +					   const struct cea_db *db)
+>> >>>>>>> {
+>> >>>>>>> 	struct drm_display_info *info =3D &connector->display_info;
+>> >>>>>>> 	unsigned int dc_bpc =3D 0;
+>> >>>>>>> @@ -6298,24 +6298,24 @@ static void drm_parse_hdmi_deep_color_in=
+fo(struct drm_connector *connector,
+>> >>>>>>> 	/* HDMI supports at least 8 bpc */
+>> >>>>>>> 	info->bpc =3D 8;
+>> >>>>>>>=20
+>> >>>>>>> -	if (cea_db_payload_len(hdmi) < 6)
+>> >>>>>>> +	if (cea_db_payload_len(db) < 6)
+>> >>>>>>> 		return;
+>> >>>>>>>=20
+>> >>>>>>> -	if (hdmi[6] & DRM_EDID_HDMI_DC_30) {
+>> >>>>>>> +	if (db->data[6] & DRM_EDID_HDMI_DC_30) {
+>> >>>>>>=20
+>> >>>>>> That's not the same thing, but off-by-one now. Ditto everywhere t=
+hat
+>> >>>>>> changes from u8* to db->data[].
+>> >>>>>>=20
+>> >>>>>> The main problem with the change (even with fixed offsets) is tha=
+t the
+>> >>>>>> *specs* typically use indexing from the beginning of the data blo=
+ck, not
+>> >>>>>> from the beginning of payload data.
+>> >>>>>>=20
+>> >>>>>> We've discussed this before with Ville (Cc'd) but I'm not sure if=
+ we
+>> >>>>>> reached a conclusion.
+>> >>>>>=20
+>> >>>>> I guess we could give up on the index matching the spec byte#.
+>> >>>>> Looks like the HDMI VSDB parsing is the only place where we
+>> >>>>> actually have the two match, and everwhere else it's
+>> >>>>> already inconsistent.
+>> >>>>>=20
+>> >>>>> Also maybe we should add something to also exclude the
+>> >>>>> extended tag from the payload, for the blocks that use
+>> >>>>> the extended tag...
+>> >>>>>=20
+>> >>>>> --=20
+>> >>>>> Ville Syrj=C3=A4l=C3=A4
+>> >>>>> Intel
+>> >>>>=20
+>> >>>> I personally believe it is important to match the spec for consiste=
+ncy
+>> >>>> and reference. Unless I am looking at the wrong thing, bit 6 should=
+ have
+>> >>>> the correct index.
+>> >>>>=20
+>> >>>> Also I think cea_db in the context of the function calls here are
+>> >>>> just the data blocks. Unless you mean that by having the struct's f=
+irst
+>> >>>> member being the tag_length if offsetting everything, but I don't t=
+hink
+>> >>>> it is? Let me know if I'm wrong :)
+>> >>>=20
+>> >>> The tag+length byte is:
+>> >>> byte# 1 in the CTA spec
+>> >>> byte# 0 in the HDMI spec
+>> >>>=20
+>> >>> There's no super nice way to use the byte# as the index for both.
+>> >>> Also the length checks end up looking somewhat confusing when
+>> >>> comparing them with the corresponding index.
+>> >>>=20
+>> >>> --=20
+>> >>> Ville Syrj=C3=A4l=C3=A4
+>> >>> Intel
+>> >>=20
+>> >> The name of the functions specifically say HDMI, so I think that's th=
+e
+>> >> system to use: there are functions that say CTA in the name, like
+>> >> parse_cta_y420cmdb - so that is CTA, and these functions follow HDMI.
+>> >=20
+>> > I'm saying that there is no really sane way to deal with the CTA byte#
+>> > convention. So I think it's probably best to just go for a single
+>> > consistent approach for both CTA and HDMI. That way people at least
+>> > won't get confused by the different convetion between the functions.
+>> > And the length checks wouldn't look incorrect.
+>> >=20
+>>=20
+>> I agree. I can't think of anything though, other than to assume CTA.
+>>=20
+>> The other parsers that already use struct cea_db refer to the data
+>> using the CTA spec (starting at 1). Maybe just go with that?
 >
-> Currently these warnings, as errors, are preventing Tyr driver
-> from building:
+> Nothing is indexed using the CTA byte#. To do that we'd have to
+> do something like 'u8 *db =3D start_of_db - 1'.
+>
+> I can more or less see these variants:
+> 1. relative to the start of the data block
+>    (eg. drm_parse_hdr_metadata_block(), drm_parse_vcdb())
+> 2. relative to the start of the payload
+>    (eg. parse_cta_vdb())
+> 3. relative to the first byte past the extended tag
+>    (y420* stuff)
+>
+> And I'm suggesting that perhaps everything should use either
+> 2 or 3 depending on whether the extended tag is present.
 
-From what I understand, this is only reproducible with Rust 1.80.0
-(unsupported upstream), and was fixed in Rust 1.80.1. Did you
-reproduce it elsewhere? I asked Mark where his toolchain comes to see
-what could be done there (e.g. in his distribution).
+Makes sense to me.
 
-If it is just in Rust 1.80.0, and if a distribution still uses that
-one, and for some reason they don't want to use/backport the fix in
-1.80.1, then we could consider something more global, i.e. ignoring
-that lint altogether for that version, since it also fails for another
-trait in `bounded.rs` (that is why I knew about this).
+However, as for "drm_parse_hdmi_vsdb_video", that is not specific to
+CTA. So I guess keep the function names and just correct the indexes?
 
-(By the way, in any case, we would need a proper explanation of this
-full context in the commit message.)
-
-Thanks!
-
-Cheers,
-Miguel
+--
+Josh
