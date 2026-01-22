@@ -2,65 +2,224 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id xpNTMzfOcWnSMQAAu9opvQ
+	id cKI+GJ7PcWnSMQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 08:13:59 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 08:19:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D5C626CC
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 08:13:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 114566275C
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 08:19:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88BE210E1F3;
-	Thu, 22 Jan 2026 07:13:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FC1B10E295;
+	Thu, 22 Jan 2026 07:19:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="RhxFCv6A";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="m8T4qcKN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0688610E290
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 07:13:53 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4dxXNY07pZz9vKm;
- Thu, 22 Jan 2026 08:13:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1769066029; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aDXkrkSTMN5tqBX4sIhOs7JhMsMImp2LrDhselW0VbA=;
- b=RhxFCv6AlBKuiW4seyhAN2OQfsvMosY7elx6k5p0fTQ4TtyagMZK3BD6fzRsHYcA5AUxmD
- SEPPQVb0GVwRosiu2wBFr3Qlo38s7yb3HQgE1AThfzBbyvlEFz6XU7PP2kyTr+/8VWjB5c
- /wRVHhSBLgDY0+OEXblKbUJ4rh9/KgVbX67UZ/065Ne/l5QbbbjaIGuHhxkb91URToTmpA
- 2h2J0yLoRXe1OQ3daV+Eh2tYs1SSZrUt32gTI0if2js+wtuvXJ+SXhEdAcNvBbb4z/jJJT
- OU8eWduRw950EMUJTQ3saHmRqGzflL73GHsdMd+tbAX76AOQtOe0wUHSNjXIRg==
-Message-ID: <ac46f464eb4a2625596081e1923b01b69f9d43b1.camel@mailbox.org>
-Subject: Re: [RFC PATCH] drm/sched: Add new KUnit test suite for concurrent
- job submission
-From: Philipp Stanner <phasta@mailbox.org>
-To: Marco Pagani <marpagan@redhat.com>, Matthew Brost
- <matthew.brost@intel.com>,  Danilo Krummrich <dakr@kernel.org>, Philipp
- Stanner <phasta@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA4AD10E290;
+ Thu, 22 Jan 2026 07:19:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1769066394; x=1800602394;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=Z4QkvA6YaSEHgRxKpZoqYM/SfzsRr/RZN+7cnihz+mk=;
+ b=m8T4qcKNrfxWkCx6qHehnXsg8YZxf8guVUuS8p80if35tNhEK5+wTY6D
+ rN3DoLCRBfGK4Jpld7yajFd9rguGC1bPUyUsF4kCETITktl2AmPv8cSJE
+ znQZy/u1X80Ti7oSLe/ZEt/g0atIm8DqKBshizR2oc2B89xECsst4NGJd
+ J9sAlmn5qn2ibVkbsMcrqJwqhzDaaJ1zGfegcmKyih15Pw7UQ5wA1Vo/M
+ argOK0ql2z1QYQT7pNOEWU/Wi/m2Jq8KPbPr/38SgvL9pgZgnEW5uvjZH
+ O2+bGb2U3uqM8wInT+6Ic8vpK7YJKbtrAE36T3HLPlmIQNrtSamFR+DEx w==;
+X-CSE-ConnectionGUID: Fj22vepSQWqFLey9RQrjfg==
+X-CSE-MsgGUID: zmkVuLsBQDWz4KpWHuXIOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="70218623"
+X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; d="scan'208";a="70218623"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jan 2026 23:19:53 -0800
+X-CSE-ConnectionGUID: hA7pCq19QASVCx1ifvFYBA==
+X-CSE-MsgGUID: 4FN7r2WrSVKLSM0oDeU4pA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; d="scan'208";a="210814141"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jan 2026 23:19:54 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Wed, 21 Jan 2026 23:19:52 -0800
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35 via Frontend Transport; Wed, 21 Jan 2026 23:19:52 -0800
+Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.29) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Wed, 21 Jan 2026 23:19:51 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=w6JVxiDpp0blTDAC8M7h8LD6Bxm7DZMQylLc+GaVZyevuE2udlAELr8SSeYqS3suJ0Y1lo7ErqK3y+0WMLsT6yHsqzoS+6jmhMoVR6TdUHgoSqZkghaJmB2+vgjkeBI29lBqcevrRZqxAKDGsbWZfmQ9uvhPT1TtDpOpC9fxtlzyIbB7BiiaWmyBgfjAZ28drQ7ZaC43obDWIZZ8GD9yq4Ls64Tb49lJsCcQ+5CDVA7VWmSsfLFPS7vmC0w7QiWEQdkcbNwZRS/smrlMgYs4yzKuvoXMjiT37FR4ureIY7ZvYqrS8Byo40mk5t909FSHd5CwfTUCR9O/FOCLiQjAwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Vpp0BjdYaSjPEGTyUrlUM8/7+7yMaOLnIOsUBtvsURo=;
+ b=dflqETHieaLEt/rm2cu9rFWdrEfrpr1q0QS+UmewTCjDzw4VglCuImX9A07dJ7X8HF2jidfd8GB402+Zpz3XU94uCuUyIkBlSU14jWfExHbQFMVMnjOAeopXYoBpCU4Y5mYpjNaVZ7to0Hsd1eIIrnEM8jpCSxi+5QLAY+gRLSecj5RVQCzyFxSAMZreTJ2WAb6qle19WmF1BNZOCVYbPJyn+HSnfQnKON4WCCRB55gXKwA1Ht5h6KkJc9h0dERcM+pOgB/gEEs+AIilXClwcHJbWdIpMT+A+rTA5dslZ1KBe8DRMDcjOvF2lJ8+4T8nUrJYidx5iC7Fyww3wKJkRw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by MW4PR11MB6982.namprd11.prod.outlook.com (2603:10b6:303:228::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.10; Thu, 22 Jan
+ 2026 07:19:49 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9456.015; Thu, 22 Jan 2026
+ 07:19:49 +0000
+Date: Wed, 21 Jan 2026 23:19:45 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Zi Yan <ziy@nvidia.com>
+CC: Jason Gunthorpe <jgg@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
+ Matthew Wilcox <willy@infradead.org>, Alistair Popple <apopple@nvidia.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Francois Dugast
+ <francois.dugast@intel.com>, <intel-xe@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, adhavan Srinivasan <maddy@linux.ibm.com>,
+ Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Felix Kuehling
+ <Felix.Kuehling@amd.com>, Alex Deucher <alexander.deucher@amd.com>, Christian
+ =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Tvrtko
- Ursulin <tvrtko.ursulin@igalia.com>
-Date: Thu, 22 Jan 2026 08:13:41 +0100
-In-Reply-To: <20260120205236.322086-1-marpagan@redhat.com>
-References: <20260120205236.322086-1-marpagan@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Thomas Zimmermann <tzimmermann@suse.de>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Hildenbrand <david@kernel.org>,
+ Oscar Salvador <osalvador@suse.de>, Andrew Morton
+ <akpm@linux-foundation.org>, Leon Romanovsky <leon@kernel.org>, "Lorenzo
+ Stoakes" <lorenzo.stoakes@oracle.com>, "Liam R . Howlett"
+ <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, "Suren
+ Baghdasaryan" <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ <linuxppc-dev@lists.ozlabs.org>, <kvm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
+ <nouveau@lists.freedesktop.org>, <linux-mm@kvack.org>,
+ <linux-cxl@vger.kernel.org>
+Subject: Re: [PATCH v6 1/5] mm/zone_device: Reinitialize large zone device
+ private folios
+Message-ID: <aXHPkQfwhMHU/oP6@lstrano-desk.jf.intel.com>
+References: <eb94d115-18a6-455b-b020-f18f372e283a@nvidia.com>
+ <aWsdv6dX2RgqajFQ@lstrano-desk.jf.intel.com>
+ <4k72r4n5poss2glrof5fsapczkpcrnpokposeikw5wjvtodbto@wpqsxoxzpvy6>
+ <20260119142019.GG1134360@nvidia.com>
+ <96926697-070C-45DE-AD26-559652625859@nvidia.com>
+ <20260119203551.GQ1134360@nvidia.com>
+ <ef6ef1e2-25f1-4f1b-a8d4-98c0d7b4ad0c@nvidia.com>
+ <EE2956E3-CCEA-4EF9-A1A4-A483245091FC@nvidia.com>
+ <20260120135340.GA1134360@nvidia.com>
+ <F7E3DF24-A37B-40A0-A507-CEF4AB76C44D@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <F7E3DF24-A37B-40A0-A507-CEF4AB76C44D@nvidia.com>
+X-ClientProxiedBy: BYAPR05CA0039.namprd05.prod.outlook.com
+ (2603:10b6:a03:74::16) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-X-MBO-RS-META: 1nr44wexkmtj3dsnjfgunodi7txxqytm
-X-MBO-RS-ID: 572f7511cb09b0f50cf
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|MW4PR11MB6982:EE_
+X-MS-Office365-Filtering-Correlation-Id: e45038de-e53e-4b57-9ca0-08de5986a0f0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?czB4ZjRQd1M3MUxTMkU4Y28yTWJ6djdHa3VaUXkxV05CL2VaS1ZDNVBwQXlw?=
+ =?utf-8?B?RVRXWmtEYW5kTndza21lM2NRcFdpWExxUVNmWThFTW5WWmNYd25VVGdBRC9w?=
+ =?utf-8?B?RDRCZnZoaHJ1RVErbmgwSVd4OWN6ekZGbmlVdzBWV3VRVlZmbW9lWmtRZlZR?=
+ =?utf-8?B?L3JROE9ieitHMnF3dk9FOFk2b3BKQ3ZuTHMyYVRIYjFUMjN1em5NV2x4SHQr?=
+ =?utf-8?B?QmdRRjdJV2lEK04vOXk5ZHIrd3pnV2lLRVJ2MVRKODFLZ1pVdzJLNE9uL00x?=
+ =?utf-8?B?RFF3TVREaHYwQjViV3lWYjNEU2ZwVTJLWGVldCtoVk5JRngzenp5VkE4ZE5y?=
+ =?utf-8?B?b0pOdXoxRE56MC8yemVZUDBpd0ZzbXB0YmoxZGxNa1pKTk8yd2lZZUFYd3hx?=
+ =?utf-8?B?bmZDTmYxYk04aDVTb0d0MXkzZjBHVWhlNXozQmNlekcvYzhWVlF0Q0RwTVlT?=
+ =?utf-8?B?MXUwY1FoaXNNY3BTUzZiaUcwcDgrTnhpR0pJVnJaVTBqL3p2LzVsQjdwOWNK?=
+ =?utf-8?B?LzNWdHpUcERWZURGZ1pUZW56NUpQOUxCTTNFU0NmUVFTZU1BaWhjbllLZDBv?=
+ =?utf-8?B?Z0hFa2NkZVFVNkd3ZlFzdGduMUFaL0thR3ppdjYvbmtiTGxHUHlkUWhEUXZm?=
+ =?utf-8?B?UUZCOTM3MlJLcTR3RGZjNmVzY3B6K3pSd091akNIZFE4RWtIR0VYdmVzU0oz?=
+ =?utf-8?B?czBoWW84eFdVSmE4UlRYYm5KS0p3bFd5OGpCOGpDKzhZV2N4SGlrVG1scENz?=
+ =?utf-8?B?cVZWYkUxdDZuZExyOVRCc25COUIzVkF0N0o3b3IwN084azhPUXdrWW95QUFV?=
+ =?utf-8?B?S2hScFlaOFdpcTVhWnVjVzN3VGpmdlhzRVBlMjNxcDZDV2hBRkJHSTZlTU5l?=
+ =?utf-8?B?TVZyTkdkbHU4MmJMQkpvL3Z3YlNCbENWUWFOK2k5Qmx6dHg4eDV4UFl3OHhT?=
+ =?utf-8?B?a0NrK2F6SkJSd2gxbTROZVpGTjk5TURxTWZoSk50MWZ3RzhENExxbXhxL3FD?=
+ =?utf-8?B?Ny9GUFZEUU9PWFdZMW9oc3g0UXorcWl5eUFOQWxtMWhHN2xxeER4OTdsUy9R?=
+ =?utf-8?B?SitRVjRMenErODN4SVEzdktjekNJZUNsVE5iWWFsL3JEVlcxcFAveDBpdHh4?=
+ =?utf-8?B?QmkreTlLcDhQc1hGczczeFdTWFUvd2FhMkZFSk8vS1BrdFpDQTlOREpRYlZR?=
+ =?utf-8?B?czFuRyt0eEdremQxMUMyRzUvUFJ1UGpVakQ5MHZIRTNaNHQ1cGxhMGhBakgw?=
+ =?utf-8?B?SHBSR1I5d2haMkRkT29YdU5hZ2h5RzRoeElQbHpMSHUxS0ZHNXVvTHhsd3hX?=
+ =?utf-8?B?eWJwNFUrV0VtejJLMURlcjZ1a25qV08yclRLMGlOczBhWmNjNHhjemtzVGNL?=
+ =?utf-8?B?cUh3M3hUQXl6Rm9acmc2OGkyWVB3a1NiZ1c5K2pjRWRQMXlWczBwczN5V2tT?=
+ =?utf-8?B?MStzNlVLbWZKbXN0SUwrRTVwYlc2MlZKUi9DWHQ3Z3VXSkhZTTdubjVjWGtu?=
+ =?utf-8?B?aExNbHJHVXZTNjAxT3R1Tnh0dzNOdmdkc3RNUk12RmtyTHhlemdDUVJxUXVj?=
+ =?utf-8?B?VzRUM252QzNXbC9WRVo1c2ZRSlZRa0VHdG5PcEg3WjU4WFdSbHVVMHJyYjZ1?=
+ =?utf-8?B?UWhYNU9RZjdXeHJLVnJFa0drckhFWmpwMjRtaDdtRkpkaWZVUmRKODVxNUdN?=
+ =?utf-8?B?ZFptcmFEY0VHTDNWdUNrc0ZuYm9hUTNpY3RzN000dCtLTVAxK3B4RWVkUjZW?=
+ =?utf-8?B?d0RNNFJsWDBxV0J1YjRNSm9xU3lBWGd0Z1ZpTXN1Vldyek5NZG9LVmlOL3gx?=
+ =?utf-8?B?OWcrcENrWVAvYUNKL1dRTWdOTEFKS283WHIrMHE3ZGRhVkFVd1p6Mk14bk5C?=
+ =?utf-8?B?b25EbFZhZE5BZWJLc21URklSMjd3VlU4ZlFVRXdocG94QlVpbzVKTGJxY05v?=
+ =?utf-8?B?bXVFUVlLekRpZ2lDUlluRERheG5GQm9MNlhuY0R4Qlc3YVNudXlhUFVjV3hy?=
+ =?utf-8?B?bndERFZHaHVJSVZOVVhFTCtSNW45dlEyci9sOG5xeWRKRXFWL1YxeGNpeEZx?=
+ =?utf-8?B?ckFFR3lvdzB1clJuNWVnalhVeG50V2JBaVFhVUY2ZjZkV3JJVldwMjF2akI2?=
+ =?utf-8?Q?T1QY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZjM5cXJubmhQRStXUzNhRk9HRlZ3TmhMMWM4UXNKd3V2V3hmQWZuSk90UU51?=
+ =?utf-8?B?ZUNVMklXSk8yT1VZU3RRYTJaYndjQ2MzbE8vOUlQbUFvVjdoSmdiN25QQ3Y2?=
+ =?utf-8?B?YWFzRE9FWDRXWmg3aDQ5dkZ0d1ZHY3g2Y2tBTXVqTlFmNFhFemhTMnlXN1pt?=
+ =?utf-8?B?eGE2aGtYbFVpRm5LRThrK2hubmNPREVoK2h4WCtpME1wN0ZRVVdkL0NpdzVu?=
+ =?utf-8?B?VjFSeDY2TWdYZnp1Z1htd3NuSzBpSGV4WWtpdm5XdHJrTWVvSEZRSCswQ1pp?=
+ =?utf-8?B?WDNUck9LcVFOT3NuaXRvZDJzNWpWQVRCcXpxRXFBVE9NKzA3dUxzRWZsWDNC?=
+ =?utf-8?B?Zk05VlRMSDZwR2tJVUhCRHdJQjk2c1FuZ3M2RnNCdTAwRCt0dUF2VXdIZUJz?=
+ =?utf-8?B?d2F1UnFabTdmMHVPVWJCQkFaRFRySEJ2a3NoeEU0TnE0eitnN1NqdjdLeEt4?=
+ =?utf-8?B?VjJXUzA3ZlRsTUFtQVp3NEdOc2hIQ3hsSGVyT2xhQ1UrZDVJKzBhbG1CV2Fr?=
+ =?utf-8?B?TWZrbEVmQ2RqQW1DTUw3VXNKQ3lzcmg1TWZESm5rUGdLZFI3bFlETUZDQjhJ?=
+ =?utf-8?B?UDhaS1BBTG55K3RuZEZ2NmhQNWhsT0d5S3M0K3pkNVZQNXR5WjllaHJPZGk1?=
+ =?utf-8?B?NEZsd2N4bnRldThhb0FXZGtnc3c0S1V6dFpWcnY0dndvU2NQTEc4WFNkTm15?=
+ =?utf-8?B?K2dwVFNGZCtobDRzZ081UzdVdE5wLzh0dEsxYnQrRmltZUxwaWVSUzliZHo4?=
+ =?utf-8?B?MUc1TWFjRHdWcjUzNnBYNURWRTRRYVUrTnk1Q1VuTnR3VFByM3lOWE1KR0pK?=
+ =?utf-8?B?MmJxa0NEbytibmlJU0cvTDNMWGxYK1VhUExjVnAxUlU3djVoL2ROZU9tVzlP?=
+ =?utf-8?B?Y1F1WFNjMHpUY1R5aDBCbXhsZFlkWU14MFlBd1JoMnlNV0RrblNlQ3lkc2J6?=
+ =?utf-8?B?a2pjNFkzaEhFWUhIekdML2dTcTJHaWpUT1J0VTBGMHJXVEJ6aGpBbFk1eHpy?=
+ =?utf-8?B?aDZGdjF2TThMUjY4dENwdVNMdU1QZUdxbW0yOERxbXVTUDVPajZRaU5nNjFo?=
+ =?utf-8?B?Nngwd09IWXY1aEF3c3JWRnVzR0JiRWNTVEdqWW82dG9uQUFmV250b1NJTEJK?=
+ =?utf-8?B?WnZTeGY0SUlMMGFEOVNCclByTkxOZ3ozY3lBcmVUdTVUT0VkVnhteEhIdTE3?=
+ =?utf-8?B?NFBBdnFTc09VWGpKOVlWNUxlVGlYaW5ldW85SlUvRkt0MTl0Zyt4ZVFNeTRv?=
+ =?utf-8?B?TGYxK0xqRlRmZ0dtTWlGMHVZeTdsMzhzWWJkeVJ5RUEzWUZXTDN2cTlhTTFQ?=
+ =?utf-8?B?ZVRoOUZ2RTRaaS81Q1ZEaUVNZlNKVHF6QTY5SG9xdTh2ZXIrWWdwbmsvSDA0?=
+ =?utf-8?B?bVpOd3NLUkRJMW41MS9JaTBZYlh0WVU3bWVXZDZYMjkvdVUxam9LMytVQURq?=
+ =?utf-8?B?NGJtVzJINE9vYm9vQWlvTXhJM0U0ejAzdnNHQ0lFWHM4MGZVakFOeWVKQ1d5?=
+ =?utf-8?B?eE9OSFhUZWdueWdCWlRXaTM3RHNLWXp0NnVwTUJpZE9JdGIrVk5yaS9JSDl4?=
+ =?utf-8?B?dkxwQ3N1QWlyR1ZMYzdXbkkrVWppb0JEZFFwaUk5M2haQ2NjU3JqbXhmSmZD?=
+ =?utf-8?B?cEpSMzErWEN1Q1JsM01wUlgwQk4wWlU4RllTU2NaK2IwK3FPVGlMM21DQTk2?=
+ =?utf-8?B?V1NveDVnTm5Zdk5WVUsrQzJwV3VEM0NGeWduTi9MQ0tuMG55Q3BvNHRCWCtu?=
+ =?utf-8?B?K2lFTXlvUFhJUUVsaWJJdVZFM2U0WHB2eDhpNk9KL2luaVJIRUdLeVdScVdX?=
+ =?utf-8?B?eG13b3gzV2lKL3RtN2s1VUpGZzVjZFFvUVVQalhOWmJCd2lKWlVWZDZpQy9p?=
+ =?utf-8?B?NmJmaTRQRlRJemxuM1F5MUhvN0J3MlBBN3F3ZFptZmNLYVVBN3FEenVCVFVJ?=
+ =?utf-8?B?citnSGNVSXA5TDF3aUU1MitCK0NHeGs0VVZ4VzdWNVh4Q3V6VmM4ZmhXRXVm?=
+ =?utf-8?B?K0VVd1gvR3pZbWZkeGJORGwzQ3JMaFh6VTRCa2NKQjNuaTlGTWNyZkg1VmJ3?=
+ =?utf-8?B?SHp3TTQwV2dKTURSZzJIWk9BQlZaY1h2UENPcVN1SzJHZnZuRkZ3KytaWjUy?=
+ =?utf-8?B?V0tJampJd0lQa21IZ1JrZnhiazRCSWRUZDhWeWVrRTJ5SlhrbGVDQU5LTDl3?=
+ =?utf-8?B?eGZRbGNUeXozRnVrUDUvaFJZQUNKR3hzVVhGVk5Ba3VsWDNPRnI4ZDRhT1Rk?=
+ =?utf-8?B?dTQ3WUg5QVZrMllIcGcwSW1wQ25nakxPekFWS0habVoyVmtzM1I0eVRtTzVO?=
+ =?utf-8?B?Q0RVdGJnUVdXTWcrcy8wODZydkFqU3UzYW9XTG0vMUZVdTFFUmxoUT09?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e45038de-e53e-4b57-9ca0-08de5986a0f0
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 07:19:49.5712 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Cc8SrTJ0ZKI/r8/uxaSMVB0s8p9QOzuIsG9Oy3AH3emxPKc896u89OWizXx2KiCvn2hNWomUJo119STW+5Tawg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6982
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,291 +232,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:marpagan@redhat.com,m:matthew.brost@intel.com,m:dakr@kernel.org,m:phasta@kernel.org,m:ckoenig.leichtzumerken@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:tvrtko.ursulin@igalia.com,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[redhat.com,intel.com,kernel.org,gmail.com,linux.intel.com,suse.de,ffwll.ch];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	HAS_REPLYTO(0.00)[phasta@kernel.org];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	TAGGED_RCPT(0.00)[dri-devel];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[nvidia.com,infradead.org,suse.cz,intel.com,lists.freedesktop.org,linux.ibm.com,gmail.com,ellerman.id.au,kernel.org,amd.com,ffwll.ch,linux.intel.com,suse.de,redhat.com,linux-foundation.org,oracle.com,google.com,suse.com,lists.ozlabs.org,vger.kernel.org,kvack.org];
+	RCPT_COUNT_TWELVE(0.00)[39];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lstrano-desk.jf.intel.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:dkim];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:mid,mailbox.org:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 24D5C626CC
+	RCVD_COUNT_SEVEN(0.00)[9]
+X-Rspamd-Queue-Id: 114566275C
 X-Rspamd-Action: no action
 
-On Tue, 2026-01-20 at 21:52 +0100, Marco Pagani wrote:
-> Add a new test suite to simulate concurrent job submissions from userspac=
-e.
-> The suite includes a basic test case where each worker submits a single
-> job, and a more advanced case involving the submission of multiple jobs.
+On Tue, Jan 20, 2026 at 10:01:18PM -0500, Zi Yan wrote:
+> On 20 Jan 2026, at 8:53, Jason Gunthorpe wrote:
+> 
 
-Hi & thx for the patch!
+This whole thread makes my head hurt, as does core MM.
 
-I think the commit message could detail a bit the motivation behind
-this test, which seems to be that we currently don't really test real
-threaded submission.
+IMO the TL;DR is:
 
-The general idea seems desirable to me. Since this was sent as an RFC,
-I won't do a detailed review yet.
+- Why is Intel the only one proving this stuff works? We can debate all
+  day about what should or should not work — but someone else needs to
+  actually prove it.i, rather than type hypotheticals.
 
-I would, however, like Tvrtko (+Cc) to take a brief look if he's got
-the time to see whether he also agrees with the general idea behind the
-patch.
+- Intel has demonstrated that this works and is still getting blocked.
 
+- This entire thread is about a fixes patch for large device pages.
+  Changing prep_compound_page is completely out of scope for a fixes
+  patch, and honestly so is most of the rest of what’s being proposed.
 
-Thx
-Philipp
+- At a minimum, you must clear every page’s flags in the loop. So why not
+  conservatively clear anything else a folio might have set before calling
+  an existing core-MM function, ensuring the pages are in a known state?
+  This is a fixes patch.
 
->=20
-> Signed-off-by: Marco Pagani <marpagan@redhat.com>
-> ---
-> =C2=A0drivers/gpu/drm/scheduler/tests/tests_basic.c | 175 +++++++++++++++=
-+++
-> =C2=A01 file changed, 175 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/=
-drm/scheduler/tests/tests_basic.c
-> index 82a41a456b0a..7c25bcbbe7c9 100644
-> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
-> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-> @@ -2,6 +2,7 @@
-> =C2=A0/* Copyright (c) 2025 Valve Corporation */
-> =C2=A0
-> =C2=A0#include <linux/delay.h>
-> +#include <linux/completion.h>
-> =C2=A0
-> =C2=A0#include "sched_tests.h"
-> =C2=A0
-> @@ -235,6 +236,179 @@ static void drm_sched_basic_cancel(struct kunit *te=
-st)
-> =C2=A0	KUNIT_ASSERT_EQ(test, job->hw_fence.error, -ECANCELED);
-> =C2=A0}
-> =C2=A0
-> +struct sched_concurrent_test_context {
-> +	struct drm_mock_scheduler *sched;
-> +	struct workqueue_struct *sub_wq;
-> +	struct completion wait_go;
-> +};
-> +
-> +KUNIT_DEFINE_ACTION_WRAPPER(destroy_workqueue_wrap, destroy_workqueue,
-> +			=C2=A0=C2=A0=C2=A0 struct workqueue_struct *);
-> +
-> +KUNIT_DEFINE_ACTION_WRAPPER(drm_mock_sched_fini_wrap, drm_mock_sched_fin=
-i,
-> +			=C2=A0=C2=A0=C2=A0 struct drm_mock_scheduler *);
-> +
-> +KUNIT_DEFINE_ACTION_WRAPPER(drm_mock_sched_entity_free_wrap, drm_mock_sc=
-hed_entity_free,
-> +			=C2=A0=C2=A0=C2=A0 struct drm_mock_sched_entity *);
-> +
-> +static int drm_sched_concurrent_init(struct kunit *test)
-> +{
-> +	struct sched_concurrent_test_context *ctx;
-> +	int ret;
-> +
-> +	ctx =3D kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
-> +
-> +	init_completion(&ctx->wait_go);
-> +
-> +	ctx->sched =3D drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
-> +
-> +	ret =3D kunit_add_action_or_reset(test, drm_mock_sched_fini_wrap, ctx->=
-sched);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	/* Use an unbounded workqueue to maximize job submission concurrency */
-> +	ctx->sub_wq =3D alloc_workqueue("drm-sched-submitters-wq", WQ_UNBOUND,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 WQ_UNBOUND_MAX_ACTIVE);
-> +	KUNIT_ASSERT_NOT_NULL(test, ctx->sub_wq);
-> +
-> +	ret =3D kunit_add_action_or_reset(test, destroy_workqueue_wrap, ctx->su=
-b_wq);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	test->priv =3D ctx;
-> +
-> +	return 0;
-> +}
-> +
-> +struct drm_sched_concurrent_params {
-> +	const char *description;
-> +	unsigned int job_base_us;
-> +	unsigned int num_jobs;
-> +	unsigned int num_subs;
-> +};
-> +
-> +static const struct drm_sched_concurrent_params drm_sched_concurrent_cas=
-es[] =3D {
-> +	{
-> +		.description =3D "Concurrently submit a single job in a single entity"=
-,
-> +		.job_base_us =3D 1000,
-> +		.num_jobs =3D 1,
-> +		.num_subs =3D 32,
-> +	},
-> +	{
-> +		.description =3D "Concurrently submit multiple jobs in a single entity=
-",
-> +		.job_base_us =3D 1000,
-> +		.num_jobs =3D 10,
-> +		.num_subs =3D 64,
-> +	},
-> +};
-> +
-> +static void
-> +drm_sched_concurrent_desc(const struct drm_sched_concurrent_params *para=
-ms, char *desc)
-> +{
-> +	strscpy(desc, params->description, KUNIT_PARAM_DESC_SIZE);
-> +}
-> +
-> +KUNIT_ARRAY_PARAM(drm_sched_concurrent, drm_sched_concurrent_cases, drm_=
-sched_concurrent_desc);
-> +
-> +struct submitter_data {
-> +	struct work_struct work;
-> +	struct sched_concurrent_test_context *ctx;
-> +	struct drm_mock_sched_entity *entity;
-> +	struct drm_mock_sched_job **jobs;
-> +	struct kunit *test;
-> +	unsigned int id;
-> +	bool timedout;
-> +};
-> +
-> +static void drm_sched_submitter_worker(struct work_struct *work)
-> +{
-> +	const struct drm_sched_concurrent_params *params;
-> +	struct sched_concurrent_test_context *ctx;
-> +	struct submitter_data *sub_data;
-> +	unsigned int i, duration_us;
-> +	unsigned long timeout_jiffies;
-> +	bool done;
-> +
-> +	sub_data =3D container_of(work, struct submitter_data, work);
-> +	ctx =3D sub_data->ctx;
-> +	params =3D sub_data->test->param_value;
-> +
-> +	wait_for_completion(&ctx->wait_go);
-> +
-> +	for (i =3D 0; i < params->num_jobs; i++) {
-> +		duration_us =3D params->job_base_us + (sub_data->id * 10);
-> +		drm_mock_sched_job_set_duration_us(sub_data->jobs[i], duration_us);
-> +		drm_mock_sched_job_submit(sub_data->jobs[i]);
-> +	}
-> +
-> +	timeout_jiffies =3D usecs_to_jiffies(params->job_base_us * params->num_=
-subs *
-> +					=C2=A0=C2=A0 params->num_jobs * 10);
-> +	for (i =3D 0; i < params->num_jobs; i++) {
-> +		done =3D drm_mock_sched_job_wait_finished(sub_data->jobs[i],
-> +							timeout_jiffies);
-> +		if (!done)
-> +			sub_data->timedout =3D true;
-> +	}
-> +}
-> +
-> +static void drm_sched_concurrent_submit_test(struct kunit *test)
-> +{
-> +	struct sched_concurrent_test_context *ctx =3D test->priv;
-> +	const struct drm_sched_concurrent_params *params =3D test->param_value;
-> +	struct submitter_data *subs_data;
-> +	unsigned int i, j;
-> +	int ret;
-> +
-> +	subs_data =3D kunit_kcalloc(test, params->num_subs, sizeof(*subs_data),
-> +				=C2=A0 GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, subs_data);
-> +
-> +	/*
-> +	 * Pre-allocate entities and jobs in the main thread to avoid KUnit
-> +	 * assertions in submitters threads
-> +	 */
-> +	for (i =3D 0; i < params->num_subs; i++) {
-> +		subs_data[i].id =3D i;
-> +		subs_data[i].ctx =3D ctx;
-> +		subs_data[i].test =3D test;
-> +		subs_data[i].timedout =3D false;
-> +		subs_data[i].entity =3D drm_mock_sched_entity_new(test,
-> +								DRM_SCHED_PRIORITY_NORMAL,
-> +								ctx->sched);
-> +
-> +		ret =3D kunit_add_action_or_reset(test, drm_mock_sched_entity_free_wra=
-p,
-> +						subs_data[i].entity);
-> +		KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +		subs_data[i].jobs =3D kunit_kcalloc(test, params->num_jobs,
-> +						=C2=A0 sizeof(*subs_data[i].jobs), GFP_KERNEL);
-> +		KUNIT_ASSERT_NOT_NULL(test, subs_data[i].jobs);
-> +
-> +		for (j =3D 0; j < params->num_jobs; j++)
-> +			subs_data[i].jobs[j] =3D drm_mock_sched_job_new(test,
-> +								=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 subs_data[i].entity);
-> +
-> +		INIT_WORK(&subs_data[i].work, drm_sched_submitter_worker);
-> +		queue_work(ctx->sub_wq, &subs_data[i].work);
-> +	}
-> +
-> +	complete_all(&ctx->wait_go);
-> +	flush_workqueue(ctx->sub_wq);
-> +
-> +	for (i =3D 0; i < params->num_subs; i++)
-> +		KUNIT_ASSERT_FALSE_MSG(test, subs_data[i].timedout,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "Job submitter worker %u timedo=
-ut", i);
-> +}
-> +
-> +static struct kunit_case drm_sched_concurrent_tests[] =3D {
-> +	KUNIT_CASE_PARAM(drm_sched_concurrent_submit_test, drm_sched_concurrent=
-_gen_params),
-> +	{}
-> +};
-> +
-> +static struct kunit_suite drm_sched_concurrent =3D {
-> +	.name =3D "drm_sched_concurrent_tests",
-> +	.init =3D drm_sched_concurrent_init,
-> +	.test_cases =3D drm_sched_concurrent_tests,
-> +};
-> +
-> =C2=A0static struct kunit_case drm_sched_cancel_tests[] =3D {
-> =C2=A0	KUNIT_CASE(drm_sched_basic_cancel),
-> =C2=A0	{}
-> @@ -556,6 +730,7 @@ static struct kunit_suite drm_sched_credits =3D {
-> =C2=A0};
-> =C2=A0
-> =C2=A0kunit_test_suites(&drm_sched_basic,
-> +		=C2=A0 &drm_sched_concurrent,
-> =C2=A0		=C2=A0 &drm_sched_timeout,
-> =C2=A0		=C2=A0 &drm_sched_cancel,
-> =C2=A0		=C2=A0 &drm_sched_priority,
+- Given the current state of the discussion, I don’t think large device
+  pages should be in 6.19. And if so, why didn’t the entire device pages
+  series receive this level of scrutiny earlier? It’s my mistake for not
+  saying “no” until the reallocation at different sizes issue was resolved.
 
+@Andrew. - I'd revert large device pages in 6.19 as it doesn't work and
+we seemly cannot close on this.
+
+Matt
+
+> > On Mon, Jan 19, 2026 at 09:50:16PM -0500, Zi Yan wrote:
+> >>>> I suppose we want some prep_single_page(page) and some reorg to share
+> >>>> code with the other prep function.
+> >>
+> >> This is just an unnecessary need due to lack of knowledge of/do not want
+> >> to investigate core MM page and folio initialization code.
+> >
+> > It will be better to keep this related code together, not spread all
+> > around.
+> 
+> Or clarify what code is for preparing pages, which would go away at memdesc
+> time, and what code is for preparing folios, which would stay.
+> 
+> >
+> >>>> I don't think so. It should do the above job efficiently and iterate
+> >>>> over the page list exactly once.
+> >>
+> >> folio initialization should not iterate over any page list, since folio is
+> >> supposed to be treated as a whole instead of individual pages.
+> >
+> > The tail pages need to have the right data in them or compound_head
+> > won't work.
+> 
+> That is done by set_compound_head() in prep_compound_tail().
+> prep_compound_page() take cares of it. As long as it is called, even if
+> the pages in that compound page have random states before, the compound
+> page should function correctly afterwards.
+> 
+> >
+> >> folio->mapping = NULL;
+> >> folio->memcg_data = 0;
+> >> folio->flags.f &= ~PAGE_FLAGS_CHECK_AT_PREP;
+> >>
+> >> should be enough.
+> >
+> > This seems believable to me for setting up an order 0 page.
+> 
+> It works for any folio, regardless of its order. fields used in second
+> or third subpages are all taken care of by prep_compound_page().
+> 
+> >
+> >> if (order)
+> >> 	folio_set_large_rmappable(folio);
+> >
+> > That one is in zone_device_folio_init()
+> 
+> Yes. And the code location looks right to me.
+> 
+> >
+> > And maybe the naming has got really confused if we have both functions
+> > now :\
+> 
+> Yes. One of the issues is that device private code used to only handles
+> order-0 pages and was converted to use high order folio directly without
+> using high order page (namely compound page) as an intermediate step.
+> This two-step-in-one caused confusion. But the key thing to avoid the
+> confusion is that to form a high order folio, a list of contiguous pages
+> would become a compound page by calling prep_compound_page(), then
+> the compound page becomes a folio by calling folio_set_large_rmappable().
+> 
+> BTW, the code in prep_compound_head() after folio_set_order(folio, order)
+> should belong to folio_set_large_rmappable() and they are causing confusion,
+> since they are only applicable to rmappable large folios. I am going to
+> send a patch to fix it.
+> 
+> 
+> Best Regards,
+> Yan, Zi
