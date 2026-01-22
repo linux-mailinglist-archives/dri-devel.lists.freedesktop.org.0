@@ -2,67 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +D/+HuCUcWngJgAAu9opvQ
+	id UMJaM6GWcWngJgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 04:09:20 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 04:16:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF7B61297
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 04:09:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2610A613B6
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 04:16:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CF1710E8CE;
-	Thu, 22 Jan 2026 03:09:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54E6810E8E6;
+	Thu, 22 Jan 2026 03:16:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iMl7A1h+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="T9En1OKq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7547B10E8CD;
- Thu, 22 Jan 2026 03:09:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769051356; x=1800587356;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=n1Cwwmr9V3C+h6eVfi4rilYGDktfff8Gh5kbbJ6IATQ=;
- b=iMl7A1h+zOClUc9GvhuC5U8i/CtbAcG76qwtxA5zyMhT7N14blT7Cq2/
- 924kKgscgRlU94fWaOySeCD8zfDphlzUqDI/JRrZkd6kBP+FpPeeZ8OUf
- CjJYNJYrrpHAXPXw0zoXlPD9fhFzXDdNJ6J42OGbSppfGk4o87xFV0Iqd
- I6rx9pCssjm3l5mLnJ0e9afZuYfXsOsuVwlYMKcYeKzdjORHje4/Rm2z/
- OY1EOTGVB8NophNzYqfh/70hvVaDF9LvgGlubP0VCVNhtMeVCkWZSNtty
- nHKLjfUbH9HNtdDspGVb2jLclSqoMKfMkpoOA/wRYhnPXemrMG7rSgj+Y A==;
-X-CSE-ConnectionGUID: 82dEGShPSWWoTc83Jfq40g==
-X-CSE-MsgGUID: j9OlfPQEQsqTS6S5zRDuBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="81733114"
-X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; d="scan'208";a="81733114"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2026 19:09:16 -0800
-X-CSE-ConnectionGUID: sdTmNE0nQburkC6eywKKFQ==
-X-CSE-MsgGUID: 3EuGZH2OQ6+k95godpkKdA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; d="scan'208";a="211058847"
-Received: from debox1-desk4.jf.intel.com ([10.88.27.138])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2026 19:09:14 -0800
-From: "David E. Box" <david.e.box@linux.intel.com>
-To: thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- irenic.rajneesh@gmail.com, ilpo.jarvinen@linux.intel.com,
- srinivas.pandruvada@linux.intel.com, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, xi.pardee@linux.intel.com
-Cc: "David E. Box" <david.e.box@linux.intel.com>, hansg@kernel.org,
- linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH v3 6/6] platform/x86/intel/vsec: Plumb ACPI PMT discovery
- tables through vsec
-Date: Wed, 21 Jan 2026 19:09:01 -0800
-Message-ID: <20260122030903.3247167-7-david.e.box@linux.intel.com>
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8709F10E8DE
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 03:16:45 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id
+ d9443c01a7336-2a743050256so2954045ad.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 21 Jan 2026 19:16:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1769051805; x=1769656605; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=GfgKMmP8DcncE4pa4cHunaIBJ+0sSublRL5+ZWYWWN8=;
+ b=T9En1OKqrhtkQNcpXz2ygYDsyNuxKxgXMoaZ8qlvNmDD1ANqZ4HLZ46rooRE34mdCh
+ 1QEcOcZtm6u+2KP0asRajBsnHIdEhj68CNtMqS9rErzRLNM6Z+yvMRvOA4o41yVRs0tg
+ OepaV8u52Ruq5D3sYUS6uhi+ZKzcbz68OmR8URSbCTKfkfnw4w8h+j+Xw8ML/njka6+R
+ gXomGX/yJKu/0hfB5Ufb0zIoxp3rd1FXbmv8rdmn6GwlvO32UnLWo4GpKciotRLmh8e8
+ RenytCSZvKmHxISPPITtQXV2ujdt87GVgaHbCITjMmQ0HcdJglOPHDOAuqGDPlarXm7D
+ nvdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769051805; x=1769656605;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GfgKMmP8DcncE4pa4cHunaIBJ+0sSublRL5+ZWYWWN8=;
+ b=uPzx4r/fR5BMzgCTnC4eLEozmWp/Cj8IvKFP0HtOukfI/aLenOncyXMB423GGdH52H
+ 396QR7GBpHaX2phYrpjJN3z5WlvUX8WeWaTlCYpZp3+sktFlG90W1n+Hh6OHljKHKPDj
+ GllAagM4HxB2utxTHu10xVbco1rrvmf3gbWLsohRApDDmz766DyUf1DH8iSzh9n450g8
+ jVb9RIgx4LeRtiYK4f3jpxLTkWHHTNBmxLcukpEsTgwzLlybGNl84wOsctURwSpMhbl7
+ 0580BSrlDiqg+UWyPilVvwyNF9P3vbwuAXdkwhwdRCClXCPk0F12gnomy0LdL76tf62e
+ 8zVA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXHn6xp1H/uK1fGmKAVYMlqFpNdbm03n7YcVx7G9F0bP18aGWm22GIiOMYqOCPiDTjqeJFd+1R3A6M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwpIwaRuUu803rdgxdxDJN6/KRHVLjfQTQcuTW5+w4nDlbOaMYc
+ INo2qGraq3qQ/iCVnEhO0uyRVg0HiURPNiH1jcxkedmKU00yr42RY6LY
+X-Gm-Gg: AZuq6aKh/73PPBToI9lUC03PKiNkSFC63TsElpNqc/vQgt6BO+VUlxKZgW4arZacZoI
+ gvHpdl4O4w//3EsqbXlYeGhuuSxiTLvLJrkuHHTWjns8Jns1GyumjxudBBpK+6rRlwzuJhHKjty
+ dT1v98sfjonfxk1+4KPv0HwtB8IC85j3yn4J4mcI7193dbSnTldhzhX5YNiCD+bBW/NWWj83VDt
+ WrI6ZGP0DRBJlE1KkKV5P86VwfuhL/hFx++q4agUSHPZ7NIsPNSo3FWBclKxaTbjSuiDFAy6mIL
+ GtBGgbp/0JCehmlWSVQjtvENwTw2ygHbhyqFy+YS3iXVuOijKZae/M2OASkkysZlhjPgAM4USce
+ GijIy7XqtWS92oX5q9xZimXoEVc5Odl4WJxLNVLkViRvO0hFXJtpjTzSzwia+VYnwAg7K06q+Dj
+ z5ZGUrGwXUOh0DIRuWSES02oqsXXRhTjOglNbnkGO7oAQ=
+X-Received: by 2002:a17:902:cf41:b0:29e:fd60:2cf9 with SMTP id
+ d9443c01a7336-2a76b169703mr73811165ad.54.1769051804927; 
+ Wed, 21 Jan 2026 19:16:44 -0800 (PST)
+Received: from cmpatel-home.hsd1.or.comcast.net
+ ([2601:1c0:5780:9200:5396:967a:93dd:83bd])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2a719412d38sm155966625ad.87.2026.01.21.19.16.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Jan 2026 19:16:44 -0800 (PST)
+From: Chintan Patel <chintanlike@gmail.com>
+To: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-omap@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, andy@kernel.org, deller@gmx.de,
+ gregkh@linuxfoundation.org, Chintan Patel <chintanlike@gmail.com>,
+ kernel test robot <lkp@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@intel.com>
+Subject: [PATCH v8 1/2] staging: fbtft: Fix build failure when
+ CONFIG_FB_DEVICE=n
+Date: Wed, 21 Jan 2026 19:16:34 -0800
+Message-ID: <20260122031635.11414-1-chintanlike@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260122030903.3247167-1-david.e.box@linux.intel.com>
-References: <20260122030903.3247167-1-david.e.box@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,189 +97,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	MAILLIST(-0.20)[mailman];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[chintanlike@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:linux-fbdev@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-omap@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:tzimmermann@suse.de,m:andy@kernel.org,m:deller@gmx.de,m:gregkh@linuxfoundation.org,m:chintanlike@gmail.com,m:lkp@intel.com,m:andriy.shevchenko@intel.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[linux.intel.com,intel.com,gmail.com,lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	FROM_NEQ_ENVFROM(0.00)[david.e.box@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[chintanlike@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,suse.de,kernel.org,gmx.de,linuxfoundation.org,gmail.com,intel.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim]
-X-Rspamd-Queue-Id: 2EF7B61297
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_SENDER_MAILLIST(0.00)[]
+X-Rspamd-Queue-Id: 2610A613B6
 X-Rspamd-Action: no action
 
-Some platforms expose PMT discovery via ACPI instead of PCI BARs. Add a
-generic discovery source flag and carry ACPI discovery entries alongside
-the existing PCI resource path so PMT clients can consume either.
+When CONFIG_FB_DEVICE is disabled, struct fb_info does
+not provide a valid dev pointer. Direct dereferences of
+fb_info->dev therefore result in build failures.
 
-Changes:
-  - Add enum intel_vsec_disc_source { _PCI, _ACPI }.
-  - Extend intel_vsec_platform_info and intel_vsec_device with source enum
-    and ACPI discovery table pointer/
-  - When src=3D=3DACPI, skip BAR resource setup and copy the ACPI discovery
-    entries into the aux device.
+Fix this by avoiding direct accesses to fb_info->dev and
+switching the affected debug logging to framebuffer helpers
+that do not rely on a device pointer.
 
-No user-visible behavior change yet; this only wires ACPI data through vsec
-in preparation for ACPI-enumerated PMT clients.
+This fixes the following build failure reported by the
+kernel test robot.
 
-Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+Fixes: a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency optional")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202601110740.Y9XK5HtN-lkp@intel.com
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Signed-off-by: Chintan Patel <chintanlike@gmail.com>
+
 ---
+Changes in v8:
+- Add Reviewed-by tag from Andy Shevchenko.
 
-v3:
-  - Re-send with all changes intended for v2 which was sent without them
-    being applied.
+Changes in v7:
+- Split logging cleanups into a separate patch
+- Limit this patch to the CONFIG_FB_DEVICE=n build fix only
 
-v2:
-  - Improve comment to clarify BAR resource setup doesn't apply to ACPI
-    discovery
-  - Add missing #include for kmemdup()
-  - Use array_size() for overflow protection
-    (review comments by Ilpo J=C3=A4rvinen)
+Changes in v6:
+- Switch debug/info logging to fb_dbg() and fb_info()(suggested by Thomas Zimmermann)
+- Drop dev_of_fbinfo() usage in favor of framebuffer helpers that implicitly
+  handle the debug/info context.
+- Drop __func__ usage per review feedback(suggested by greg k-h)
+- Add Fixes tag for a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency optional")
+  (suggested by Andy Shevchenko)
 
+Changes in v5:
+- Initial attempt to replace info->dev accesses using
+  dev_of_fbinfo() helper
 
- drivers/platform/x86/intel/vsec.c | 24 ++++++++++++++++++++++++
- include/linux/intel_vsec.h        | 20 +++++++++++++++++++-
- 2 files changed, 43 insertions(+), 1 deletion(-)
+ drivers/staging/fbtft/fbtft-core.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/platform/x86/intel/vsec.c b/drivers/platform/x86/intel=
-/vsec.c
-index 4aeb0728b435..b1465e67feef 100644
---- a/drivers/platform/x86/intel/vsec.c
-+++ b/drivers/platform/x86/intel/vsec.c
-@@ -24,7 +24,9 @@
- #include <linux/intel_vsec.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/overflow.h>
- #include <linux/pci.h>
-+#include <linux/string.h>
- #include <linux/types.h>
-=20
- #define PMT_XA_START			0
-@@ -109,6 +111,7 @@ static void intel_vsec_dev_release(struct device *dev)
-=20
- 	ida_free(intel_vsec_dev->ida, intel_vsec_dev->auxdev.id);
-=20
-+	kfree(intel_vsec_dev->acpi_disc);
- 	kfree(intel_vsec_dev->resource);
- 	kfree(intel_vsec_dev);
- }
-@@ -320,6 +323,13 @@ static int intel_vsec_add_dev(struct device *dev, stru=
-ct intel_vsec_header *head
- 	 * auxiliary device driver.
- 	 */
- 	for (i =3D 0, tmp =3D res; i < header->num_entries; i++, tmp++) {
-+		/*
-+		 * Skip resource mapping check for ACPI-based discovery
-+		 * since those tables are read from _DSD, not MMIO.
-+		 */
-+		if (info->src =3D=3D INTEL_VSEC_DISC_ACPI)
-+			break;
-+
- 		tmp->start =3D base_addr + header->offset + i * (header->entry_size * si=
-zeof(u32));
- 		tmp->end =3D tmp->start + (header->entry_size * sizeof(u32)) - 1;
- 		tmp->flags =3D IORESOURCE_MEM;
-@@ -338,6 +348,20 @@ static int intel_vsec_add_dev(struct device *dev, stru=
-ct intel_vsec_header *head
- 	intel_vsec_dev->base_addr =3D info->base_addr;
- 	intel_vsec_dev->priv_data =3D info->priv_data;
- 	intel_vsec_dev->cap_id =3D cap_id;
-+	intel_vsec_dev->src =3D info->src;
-+
-+	if (info->src =3D=3D INTEL_VSEC_DISC_ACPI) {
-+		size_t bytes;
-+
-+		bytes =3D array_size(intel_vsec_dev->num_resources,
-+				   sizeof(info->acpi_disc[0]));
-+		if (!bytes)
-+			return -EOVERFLOW;
-+
-+		intel_vsec_dev->acpi_disc =3D kmemdup(info->acpi_disc, bytes, GFP_KERNEL=
-);
-+		if (!intel_vsec_dev->acpi_disc)
-+			return -ENOMEM;
-+	}
-=20
- 	if (header->id =3D=3D VSEC_ID_SDSI)
- 		intel_vsec_dev->ida =3D &intel_vsec_sdsi_ida;
-diff --git a/include/linux/intel_vsec.h b/include/linux/intel_vsec.h
-index 4eecb2a6bac4..1fe5665a9d02 100644
---- a/include/linux/intel_vsec.h
-+++ b/include/linux/intel_vsec.h
-@@ -33,6 +33,11 @@ struct device;
- struct pci_dev;
- struct resource;
-=20
-+enum intel_vsec_disc_source {
-+	INTEL_VSEC_DISC_PCI,	/* PCI, default */
-+	INTEL_VSEC_DISC_ACPI,	/* ACPI */
-+};
-+
- enum intel_vsec_id {
- 	VSEC_ID_TELEMETRY	=3D 2,
- 	VSEC_ID_WATCHER		=3D 3,
-@@ -103,6 +108,10 @@ struct vsec_feature_dependency {
-  * @parent:    parent device in the auxbus chain
-  * @headers:   list of headers to define the PMT client devices to create
-  * @deps:      array of feature dependencies
-+ * @acpi_disc: ACPI discovery tables, each entry is two QWORDs
-+ *             in little-endian format as defined by the PMT ACPI spec.
-+ *             Valid only when @provider =3D=3D INTEL_VSEC_DISC_ACPI.
-+ * @src:       source of discovery table data
-  * @priv_data: private data, usable by parent devices, currently a callback
-  * @caps:      bitmask of PMT capabilities for the given headers
-  * @quirks:    bitmask of VSEC device quirks
-@@ -113,6 +122,8 @@ struct intel_vsec_platform_info {
- 	struct device *parent;
- 	struct intel_vsec_header **headers;
- 	const struct vsec_feature_dependency *deps;
-+	u32 (*acpi_disc)[4];
-+	enum intel_vsec_disc_source src;
- 	void *priv_data;
- 	unsigned long caps;
- 	unsigned long quirks;
-@@ -124,7 +135,12 @@ struct intel_vsec_platform_info {
-  * struct intel_vsec_device - Auxbus specific device information
-  * @auxdev:        auxbus device struct for auxbus access
-  * @dev:           struct device associated with the device
-- * @resource:      any resources shared by the parent
-+ * @resource:      PCI discovery resources (BAR windows), one per discovery
-+ *                 instance. Valid only when @src =3D=3D INTEL_VSEC_DISC_P=
-CI
-+ * @acpi_disc:     ACPI discovery tables, each entry is two QWORDs
-+ *                 in little-endian format as defined by the PMT ACPI spec.
-+ *                 Valid only when @src =3D=3D INTEL_VSEC_DISC_ACPI.
-+ * @src:           source of discovery table data
-  * @ida:           id reference
-  * @num_resources: number of resources
-  * @id:            xarray id
-@@ -138,6 +154,8 @@ struct intel_vsec_device {
- 	struct auxiliary_device auxdev;
- 	struct device *dev;
- 	struct resource *resource;
-+	u32 (*acpi_disc)[4];
-+	enum intel_vsec_disc_source src;
- 	struct ida *ida;
- 	int num_resources;
- 	int id; /* xa */
---=20
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 8a5ccc8ae0a1..1b3b62950205 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -365,9 +365,9 @@ static int fbtft_fb_setcolreg(unsigned int regno, unsigned int red,
+ 	unsigned int val;
+ 	int ret = 1;
+ 
+-	dev_dbg(info->dev,
+-		"%s(regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X)\n",
+-		__func__, regno, red, green, blue, transp);
++	fb_dbg(info,
++	       "regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X\n",
++	       regno, red, green, blue, transp);
+ 
+ 	switch (info->fix.visual) {
+ 	case FB_VISUAL_TRUECOLOR:
+@@ -391,8 +391,7 @@ static int fbtft_fb_blank(int blank, struct fb_info *info)
+ 	struct fbtft_par *par = info->par;
+ 	int ret = -EINVAL;
+ 
+-	dev_dbg(info->dev, "%s(blank=%d)\n",
+-		__func__, blank);
++	fb_dbg(info, "blank=%d\n", blank);
+ 
+ 	if (!par->fbtftops.blank)
+ 		return ret;
+@@ -793,11 +792,11 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
+ 	if (spi)
+ 		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
+ 			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
+-	dev_info(fb_info->dev,
+-		 "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
+-		 fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
+-		 fb_info->fix.smem_len >> 10, text1,
+-		 HZ / fb_info->fbdefio->delay, text2);
++	fb_info(fb_info,
++		"%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
++		fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
++		fb_info->fix.smem_len >> 10, text1,
++		HZ / fb_info->fbdefio->delay, text2);
+ 
+ 	/* Turn on backlight if available */
+ 	if (fb_info->bl_dev) {
+-- 
 2.43.0
 
