@@ -2,98 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SKM+F/OXcmnBmwAAu9opvQ
+	id +BxsH4GZcmnBmwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 22:34:43 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 22:41:21 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C236DCC3
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 22:34:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C24F06DDED
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 22:41:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A61F710EACB;
-	Thu, 22 Jan 2026 21:34:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B30EB10EACE;
+	Thu, 22 Jan 2026 21:41:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RnBF6H4/";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="nbhvWI6F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96A9110EACB
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 21:34:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1769117677;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ze2NWM9t6BzojOpRtlgWdqStZabOs9WJTc/eEI2xyY8=;
- b=RnBF6H4/gUwjdptrwNskRP0Ao+j6LQnsk7lPQEdZ1Gqj9I+75Lk7Pun0/3HIlvZm47t6d6
- t9lTknF5Z6zRu0T6zxT8eMUVtIglBPKBu2Jwm9P/uEMbcq5GfqWV/8JAirw/3rEjV34Oi0
- x9gGMmCUD5DxhNVuzAaOfPAWDp/hDLE=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-446-zHTfEPFvOOeTJqbIGOuS1g-1; Thu, 22 Jan 2026 16:34:36 -0500
-X-MC-Unique: zHTfEPFvOOeTJqbIGOuS1g-1
-X-Mimecast-MFC-AGG-ID: zHTfEPFvOOeTJqbIGOuS1g_1769117676
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-88a2cc5b548so63998966d6.0
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 13:34:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769117675; x=1769722475;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ze2NWM9t6BzojOpRtlgWdqStZabOs9WJTc/eEI2xyY8=;
- b=khVtAln/Hz7k17OYOfKOIT12YG2qVL1IJbJJFTLd3O7F13siN+cAEyKUWpVzcLSX7t
- RqDC4s8db4Wr/QolvZvEomHrPbGoOeov06X17Ad4Iq5SMSYgaiozQpIUahak1yXBk7eF
- bKo5RUHplyJ8doFKs6Ji7hBaXInSFEUdIY/VY0BcnYV0pcfYDV6UffKAX1JOJejgT0A5
- d2GGYXBrj2OdNGv+NloY3uo44+6fs3RwMOjpjVLG6HRWFDIWiaTCX0FOTOU9/VU7aaCN
- vmgcJwjJ76UASIqh2fGS6w1LKxJ5317GUGAH3iv1ZUQycx1plAETM55Ff34H977KUYDm
- plGQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW+Pi4ly1XKQ0VwGnYWoGPXzZPJoI3cWNNHXvqvbxe2YI9/ZmGaj7k4a8KcX3CLeXam4mvDbH/dTmQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxOubWExDHmN06IVJDu+NDOLsWynOSI/PZDmqZCuxXXbsHXqfGv
- zIJ4/UVmnJ/n7dJTOXW0jISjVKVwa21Br/EzB+sd0PZFhIhvrrb03Ykja4OnT99Xg5uzhQ7VCFR
- 2r77tmewEDEW/FQ7jkgd0R+xSIAh8XfrHhHc6sSSXS5/3a9NhWfZ/oYWjn3nyhBBQmbmcsw==
-X-Gm-Gg: AZuq6aJJDnuPeJvZshWmXn+gHlHuSx9sjrVPXhWEM3P1vuzuNVt8SggwTrjprIXIwrs
- B70pCzPqfj6HDqRZa51LBVv/aukm2D4OfpTKaT0+YGYuMiTdh9CeGpmdXPBI3u31G5yLtBF5Ase
- qWP4XLoGQbWcXJHqbQlRg1awraddPFYj0tbSzAbRk3gZXDR06pdqvYAuCbP/3sufBB6tHrXT/et
- RWK13CtGrn/e9Quay17wZmWq3b2NdqPB1vqcDBkuyaCr50SgQ2c443VNRD3UPC1Ha9LDG4u/T/c
- Wv+uZownt1z5lM14G/FpWeC/aCsfyp4zM2PwVF0DQL6GJinz+tjz5Uh8FE+RmqcetIgt3L+UA7U
- CCaxIXQ==
-X-Received: by 2002:a05:6214:19c8:b0:892:66bb:fdbb with SMTP id
- 6a1803df08f44-894904b5044mr12928066d6.23.1769117675652; 
- Thu, 22 Jan 2026 13:34:35 -0800 (PST)
-X-Received: by 2002:a05:6214:19c8:b0:892:66bb:fdbb with SMTP id
- 6a1803df08f44-894904b5044mr12927756d6.23.1769117675299; 
- Thu, 22 Jan 2026 13:34:35 -0800 (PST)
-Received: from [192.168.8.4] ([100.0.180.93]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-89491824d47sm2941886d6.7.2026.01.22.13.34.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Jan 2026 13:34:34 -0800 (PST)
-Message-ID: <25d3c403781a88019340a47567ff85959b0c03bd.camel@redhat.com>
-Subject: Re: [PATCH] rust/drm: Fixup import styles
-From: lyude@redhat.com
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- rust-for-linux@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, Simona
- Vetter	 <simona@ffwll.ch>, Alice Ryhl <aliceryhl@google.com>, Shankari
- Anand	 <shankari.ak0208@gmail.com>, David Airlie <airlied@gmail.com>, Asahi
- Lina	 <lina+kernel@asahilina.net>, Atharv Dubey <atharvd440@gmail.com>,
- Daniel Almeida <daniel.almeida@collabora.com>
-Date: Thu, 22 Jan 2026 16:34:32 -0500
-In-Reply-To: <DFVEI4KHCNFS.2IT595IZJBGGT@kernel.org>
-References: <20260122202804.3209265-1-lyude@redhat.com>
- <DFVEI4KHCNFS.2IT595IZJBGGT@kernel.org>
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43)
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: PM6HU64dxtnbje1aCeEbm9MZ69KhKlieWCTCo_W78JQ_1769117676
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCC2E10EACE;
+ Thu, 22 Jan 2026 21:41:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id AD66160018;
+ Thu, 22 Jan 2026 21:41:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 482E1C116C6;
+ Thu, 22 Jan 2026 21:41:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+ s=korg; t=1769118076;
+ bh=o3gdWNkDSd9Vm/DMgr4/ykIAOvt43+NsJA/Imw15e/A=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=nbhvWI6FsmrV2v6DkoSqN8213V2yIRhOd6eP75LypoUaN54UBoDiDxVp1akq7FG3f
+ CVLIelPV0CkF4x7Juc3HDczRCXMl0AOZY4EUYaiK0pNhQfi7cbwzUhOkV6AnNppJ9U
+ SqiE6hXL+nm2nlnc5o4hmp73evXdLpeOeMX2qi64=
+Date: Thu, 22 Jan 2026 13:41:14 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Balbir Singh <balbirs@nvidia.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Matthew Brost
+ <matthew.brost@intel.com>, Zi Yan <ziy@nvidia.com>, Jason Gunthorpe
+ <jgg@nvidia.com>, Matthew Wilcox <willy@infradead.org>, Alistair Popple
+ <apopple@nvidia.com>, Francois Dugast <francois.dugast@intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, adhavan
+ Srinivasan <maddy@linux.ibm.com>, Nicholas Piggin <npiggin@gmail.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)"
+ <chleroy@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>, Alex Deucher
+ <alexander.deucher@amd.com>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Lyude Paul <lyude@redhat.com>, Danilo Krummrich
+ <dakr@kernel.org>, David Hildenbrand <david@kernel.org>, Oscar Salvador
+ <osalvador@suse.de>, Leon Romanovsky <leon@kernel.org>, Lorenzo Stoakes
+ <lorenzo.stoakes@oracle.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, linuxppc-dev@lists.ozlabs.org,
+ kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-mm@kvack.org, linux-cxl@vger.kernel.org
+Subject: Re: [PATCH v6 1/5] mm/zone_device: Reinitialize large zone device
+ private folios
+Message-Id: <20260122134114.a04ddf4c34a4b926d057032f@linux-foundation.org>
+In-Reply-To: <626c34fc-34df-4629-baf3-fbebc9abafbb@nvidia.com>
+References: <eb94d115-18a6-455b-b020-f18f372e283a@nvidia.com>
+ <aWsdv6dX2RgqajFQ@lstrano-desk.jf.intel.com>
+ <4k72r4n5poss2glrof5fsapczkpcrnpokposeikw5wjvtodbto@wpqsxoxzpvy6>
+ <20260119142019.GG1134360@nvidia.com>
+ <96926697-070C-45DE-AD26-559652625859@nvidia.com>
+ <20260119203551.GQ1134360@nvidia.com>
+ <ef6ef1e2-25f1-4f1b-a8d4-98c0d7b4ad0c@nvidia.com>
+ <EE2956E3-CCEA-4EF9-A1A4-A483245091FC@nvidia.com>
+ <20260120135340.GA1134360@nvidia.com>
+ <F7E3DF24-A37B-40A0-A507-CEF4AB76C44D@nvidia.com>
+ <aXHPkQfwhMHU/oP6@lstrano-desk.jf.intel.com>
+ <9077ab5b-f2c8-4c8d-8441-631e7c2cf384@suse.cz>
+ <626c34fc-34df-4629-baf3-fbebc9abafbb@nvidia.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,55 +92,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MV_CASE(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[linux-foundation.org:s=korg];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,kernel.org,ffwll.ch,google.com,gmail.com,asahilina.net,collabora.com];
-	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[lyude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_NA(0.00)[linux-foundation.org];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:ojeda@kernel.org,m:simona@ffwll.ch,m:aliceryhl@google.com,m:shankari.ak0208@gmail.com,m:airlied@gmail.com,m:lina+kernel@asahilina.net,m:atharvd440@gmail.com,m:daniel.almeida@collabora.com,m:shankariak0208@gmail.com,m:lina@asahilina.net,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	FROM_NO_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lyude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.579];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[39];
+	FREEMAIL_CC(0.00)[suse.cz,intel.com,nvidia.com,infradead.org,lists.freedesktop.org,linux.ibm.com,gmail.com,ellerman.id.au,kernel.org,amd.com,ffwll.ch,linux.intel.com,suse.de,redhat.com,oracle.com,google.com,suse.com,lists.ozlabs.org,vger.kernel.org,kvack.org];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[akpm@linux-foundation.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[linux-foundation.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,kernel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: B4C236DCC3
+	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,nvidia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email]
+X-Rspamd-Queue-Id: C24F06DDED
 X-Rspamd-Action: no action
 
-On Thu, 2026-01-22 at 21:30 +0100, Danilo Krummrich wrote:
-> On Thu Jan 22, 2026 at 9:28 PM CET, Lyude Paul wrote:
-> > This is to match
-> > =C2=A0 https://docs.kernel.org/rust/coding-guidelines.html#imports
-> >=20
-> > There should be no functional changes in this patch.
->=20
-> Thanks! While at it, can you please drop imports that are in prelude
-> and use
-> prelude instead?
+On Thu, 22 Jan 2026 20:10:44 +1100 Balbir Singh <balbirs@nvidia.com> wrote:
 
-Just a random musing - it would actually be quite nice if we could have
-some sort of automated style check for this. I have to assume the linux
-kernel probably isn't the only project out there with its own prelude=E2=80=
-=A6
+> >> - Intel has demonstrated that this works and is still getting blocked.
+> >>
+> >> - This entire thread is about a fixes patch for large device pages.
+> >>   Changing prep_compound_page is completely out of scope for a fixes
+> >>   patch, and honestly so is most of the rest of what’s being proposed.
+> > 
+> > FWIW I'm ok if this lands as a fix patch, and perceived the discussion to be
+> > about how refactor things more properly afterwards, going forward.
+> > 
+> 
+> I've said the same thing and I concur, we can use the patch as-is and
+> change this to set the relevant identified fields after 6.19
 
+So the plan is to add this patch to 6.19-rc and take another look at
+patches [2-5] during next -rc cycle?
+
+I think the plan is to take Matthew's work via the DRM tree?  But if people
+want me to patchbunny this fix then please lmk.
+
+I presently have
+
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Signed-off-by: Francois Dugast <francois.dugast@intel.com>
+Acked-by: Felix Kuehling <felix.kuehling@amd.com>
+Reviewed-by: Balbir Singh <balbirs@nvidia.com>
+
+If people wish to add to this then please do so.
+
+I'll restore this patch into mm.git's hotfix branch (and hence
+linux-next) because testing.
