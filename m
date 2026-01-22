@@ -2,72 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uaTJK5nZcWkaMwAAu9opvQ
+	id SJVkGFvccWk+MgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 09:02:33 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 09:14:19 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D23962D1D
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 09:02:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3554062E2A
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 09:14:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3EE410E907;
-	Thu, 22 Jan 2026 08:02:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA87910E250;
+	Thu, 22 Jan 2026 08:14:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VuNPKZkb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="K2oLUkEX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE26F10E8FF;
- Thu, 22 Jan 2026 08:02:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769068950; x=1800604950;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=j3/obGyZSfY07pSaseTvUrKPQrCLFo8RG9DRrGoS0/Y=;
- b=VuNPKZkb1hOdEStTn5HBMWWARIpRsfiD4gLWiSN5QjmQ3M8H/XubjdF4
- JUWTKgP+1g2Uadf1Nc+KdSROvt4yiJzUnNnEPgqR7mH7ReZOfflr5ecu+
- SmqhG/I2En4dbtImuaUasPAP6drFlhq90pko6UUVCe5iTPifDwqAlY099
- RWMmJQPo6ikB5xJERh/1JamZoLy9BW4kxo5izCGwLOna6cnvOxiuxUCE9
- mvoGNRQtze1h2Ze7fanZHNLDHBh8ETq7MPH48P7KpNvZiN17B8Xhwkf6i
- RjHihuIN7udO3GH4ivHD++o8HKFmtUb/ALvSh3rJ8ieJX3ja93s8eWkZ8 Q==;
-X-CSE-ConnectionGUID: WpRuK8d6TBihnu5GflilgA==
-X-CSE-MsgGUID: cpdhxlPFQK+YiW6qcs2lOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="80930066"
-X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; d="scan'208";a="80930066"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2026 00:02:29 -0800
-X-CSE-ConnectionGUID: 3REEHnnQRgisop9wZjSZIg==
-X-CSE-MsgGUID: O+rtvrNbQqSkGsDgUOUbiQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; d="scan'208";a="206576860"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost)
- ([10.245.245.237])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2026 00:02:25 -0800
-Date: Thu, 22 Jan 2026 10:02:22 +0200
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-intel-next-fixes
-Message-ID: <aXHZjieG9PkFKjZ2@jlahtine-mobl>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5091210E250;
+ Thu, 22 Jan 2026 08:14:15 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 52001600C4;
+ Thu, 22 Jan 2026 08:14:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A24EC116C6;
+ Thu, 22 Jan 2026 08:14:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1769069654;
+ bh=WMoT0mf6Lg2CNc02jIE/68BPu0AshjGraHHEYMvCEk4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=K2oLUkEXULmcMCjAM7ccX3CMcow+rAdlFj99xOjyn+GYeZC3xcVmlp/8dq/cr+9P4
+ BygoREJoqiHHX3Ugv46US6OPGKMht2cbUEl4mu3QaEtB0uqvvFo13KDc00/hS5dgpY
+ uqUnkGuoa/kYzFnZJQaaYTTKslhyHC3key3MNrGV+9ig3Yqt1JsT4cU0b1R1uA5Eh4
+ p7O3PLNsE+DppfiYPwIQnN2XgF/Q2jobKsUi2Mr4nK/QdkvTtwFqtWhHoR+6vJe3XE
+ OpaMtwj5cpn3WXWI1dpv897gfDtZeQyYEjBCqfTCELXucWenXfvg9LpKvfoKhDeCa6
+ 7DN4sUHFrUGaA==
+Date: Thu, 22 Jan 2026 09:14:11 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH 1/3] dt-binding: vendor-prefixes: document the Ayeneo brand
+Message-ID: <20260122-skinny-garnet-pigeon-0eb5cf@quoll>
+References: <20260121-topic-sm8650-ayaneo-pocket-s2-base-v1-0-bb3f95f1c085@linaro.org>
+ <20260121-topic-sm8650-ayaneo-pocket-s2-base-v1-1-bb3f95f1c085@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260121-topic-sm8650-ayaneo-pocket-s2-base-v1-1-bb3f95f1c085@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,66 +71,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[joonas.lahtinen@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gitlab.freedesktop.org:url]
-X-Rspamd-Queue-Id: 7D23962D1D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,ayaneo.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 3554062E2A
 X-Rspamd-Action: no action
 
-Hi Dave & Sima,
+On Wed, Jan 21, 2026 at 05:40:26PM +0100, Neil Armstrong wrote:
+> Document the Ayaneo from the Anyun Intelligent Technology
+> (Hong Kong) Co., Ltd company.
+> Website: https://www.ayaneo.com/product/ayaneobrand.html
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-Here's drm-intel-next-fixes PR towards 6.19-rc7.
+Subject: dt-bindings:
 
-Just one display PSR related fix.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Regards, Joonas
+Best regards,
+Krzysztof
 
-***
-
-drm-intel-next-fixes-2026-01-22:
-
-- Don't enable Panel Replay on sink if globally disabled
-
-The following changes since commit 95adee9a04fa1eaa352e960e9d3387055fa03bb3:
-
-  Merge tag 'drm-intel-gt-next-2026-01-16' of https://gitlab.freedesktop.org/drm/i915/kernel into drm-next (2026-01-19 13:51:10 +1000)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-next-fixes-2026-01-22
-
-for you to fetch changes up to 69f83f167463bad26104af7fbc114ce1f80366b0:
-
-  drm/i915/psr: Don't enable Panel Replay on sink if globally disabled (2026-01-19 11:55:31 +0200)
-
-----------------------------------------------------------------
-- Don't enable Panel Replay on sink if globally disabled
-
-----------------------------------------------------------------
-Jouni Högander (1):
-      drm/i915/psr: Don't enable Panel Replay on sink if globally disabled
-
- drivers/gpu/drm/i915/display/intel_psr.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
