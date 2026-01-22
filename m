@@ -2,201 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4HghMKbpcWkONAAAu9opvQ
+	id eNINL6PqcWl6ZAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 10:11:02 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 10:15:15 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC7E64464
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 10:11:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71C81645EF
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 10:15:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68FD510E95A;
-	Thu, 22 Jan 2026 09:10:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E716C10E963;
+	Thu, 22 Jan 2026 09:15:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="lU64f+Bh";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cC4DZSlI";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="P+GYL8bh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com
- (mail-northcentralusazon11013032.outbound.protection.outlook.com
- [40.107.201.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1AB910E959;
- Thu, 22 Jan 2026 09:10:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KtJmgflt+LRIhEs81tZMQHCVbyzd8ePWUS8/0rom5yvbDcNsO3+c1cq4K/+4czlzwItM6aLvR3f9/uRqaKh3PpDHrZ8dP4A1tGM6d12e9qUrms1mK6CprmTXVpm0srq1AdMYGawnfGrYtXsHvKxQ1aSAIRFCq7OfQkuR6RZRGze0qRkFjmhlFbJ+Jvr3f4xPIyKYDoypEcNjiEA8usjUA8lxuJwnfKLKl6yjdqvBtVvrbeowaexxI0hZQaimMfwAGX5wsEddoiDtxpvkUq9aAo4oGubDjqqpzsenZ/lLfbcaqdiWRCEBM+15R+sxg5n8rEkQYi41EmM9po1YQOM47A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i0hebeOKDRPad9y6i+fih1AebL1/WcupoZ5Ju9S49Nc=;
- b=uE64dix8dFYWzO08G/zOI2Ke2Vxr1lrkHF5IuFNdRx573l282S5xiX2b24gygMVlV/1y4BMBgihnq79qTf2ktK2OtAKf3uayPVA3FaMsb94+IjMiqLksvNoWmSnW4DdScAMonOy9S3E5omxirITNMo4ZxTaZXjHL5Ok4hQqTnn8KUR8P4npEQKCzr3tjTaNzttSRg6HDVhqQwCxTh5yp2pDDv3ZL7mYzhr5L4fEY9eisIH/uH1kePqWSoTLRhXTRCVGRCOm6DLfnVXyL+xMA6qLW4q9dBvWrUCsZW7oTR6nKfYmFJTQ3sd9LFIiCKWqSn7zoVKwzTGm2BI/rvcQvwQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i0hebeOKDRPad9y6i+fih1AebL1/WcupoZ5Ju9S49Nc=;
- b=lU64f+Bh7wsS/EBEzyj+qkKCad8R7S65Tkz9viCE6+CpHj3B9SymnBX56tD8Ngs4DEep/9mUVebdYeFfCOdH7MR7vi5wRDvl40P3nH21NMSG7rsQ0h3g+3d5lgJpUx+wWcZY6wsJI/Q5BIoRvvxnmWwN1FgvFXv0QA3OWWjdphTwF0o4vo8AFoEBi3ScFk1qbwZI7j46fQuteAfLreA8+vOcaxhP8hZ6Bo0wwrDJ30cBHSls5T45wBdyO++GKX5pDqY7N7IJhM8t85ZTFvMDdtdfARZqzEaGB5ruepSaBtLgv2wGZqfye663La0dVk7j4Bz8jf6Zr5J71RHAB5h1hw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
- by SA0PR12MB4429.namprd12.prod.outlook.com (2603:10b6:806:73::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.10; Thu, 22 Jan
- 2026 09:10:55 +0000
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::2920:e6d9:4461:e2b4]) by PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::2920:e6d9:4461:e2b4%5]) with mapi id 15.20.9542.008; Thu, 22 Jan 2026
- 09:10:55 +0000
-Message-ID: <626c34fc-34df-4629-baf3-fbebc9abafbb@nvidia.com>
-Date: Thu, 22 Jan 2026 20:10:44 +1100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DAF610E959
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 09:15:11 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60M8SYIx1407285
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 09:15:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ hG2JmDsNT8t96Xwz5s7F3bBzVMBIxS6BhytG2Bt0OQ0=; b=cC4DZSlI+K+w/Kpn
+ rDghF6SnzjfNcmklfxBJG/MSbuTl+6fTrAqJcc2hnZ5kSs0YdVIcHyR+BaE5vbJK
+ y1hjw76tFBctX0vgr3T56YXH7VB+rYWgtibAvEobOuZwedevuBMFT8O9zRbgPn7q
+ HFXiGIWTEmylsEP+sywf48qVbZACeJLnY68ZDrLFXYqs4ljlXW39/jUO5bBLVB2l
+ 9FfEutYNm+rVlk1+uDPDy8CNUYLpMO8k/yF+s4ZmjG0ocrj/3osLrR8bCliycfcS
+ 3HPqnbt2H170WkXFxGZAbSJPy05oJHAVBCbaSXP4X0neBSc1qZLZ86iiC2QKIIGA
+ VV7kEQ==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bu802sn75-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 09:15:10 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-8c6b137e066so25117485a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 01:15:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1769073310; x=1769678110;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=hG2JmDsNT8t96Xwz5s7F3bBzVMBIxS6BhytG2Bt0OQ0=;
+ b=P+GYL8bhxCdU3dvnWzydIh6htzSryAqmyQbCbW6CXy5C3uj4bYZ4TjYqaKwIkKVdCS
+ A7fCfmiG8c3kwbnvj9tQq6Jx7NpocdNbwauISuUCQM2tIVrIOqo6AwfRCbNMgRrElRx2
+ JbNg1RDiFQJsB/jP/uwCyDVkWLqBE3oa3jngrL6KDRm1Qdjn/XbGXkp3CYc0/O2cAZHX
+ B84QmOsJ8P26XM1f+XioWHMxaeSOOCeFgUM8/s/RaIXXA6JY5VhPiYJa9NwRAftf2WVY
+ sHYOzzL/nDacfemwVHLfwOvPhkJI6/on8RzV6H+mevw4Zmb9qr8UPEXXsRSGbczw8XL4
+ bBXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769073310; x=1769678110;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hG2JmDsNT8t96Xwz5s7F3bBzVMBIxS6BhytG2Bt0OQ0=;
+ b=Seb0AgVB17V9JxmsD9t+N+e/RcaGBQtdh9VSjP6D8BbyQPJTfihpE19gwePkjlTjyV
+ BFCBRHsSXoQhysL2bxf1ErRcOPhBnzyR7mgP2ZOl+G2/Gj838DZg0qdZlq3f2hQL05Bf
+ ecgzzjvV+3s5xQx2CQi+OSBzltzhvvPZH8jdl2tqGkmdMwYZGo1y2P3RUr2OVaMshOyZ
+ kdC/oS0daT3foLI5KHyAR8KB1imdMndvDLREqBfvkQmN/reLTEyoVdqzHItDVCuRurPp
+ PT2XIg4o6oouLOVF7GwtZRpNbQpDwm8bWUym6nsgaHY/2m2hk5FIA8SQQ6GF2G1BMGsW
+ EfJw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUZypNwc5iKOSzo2aPzIheCKUbgckt4v3+aGZueuT8Q+dCL73ge9q8cYOfwLru03FpBCqBfkUH8U0w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyboNACo8fAXGczAH4vlrBV5dwnGfyxyTKGsjxqsiLhJJdTcULW
+ XSGQTqpTRY5MEaP0Yph6Q25UohtaGeT/dVXNFhaPSMqZAStws3dRen+OvURSycdkwIUadmJpFV5
+ DKafMgGJrym3ig/EHE3P856mgjSqd8vwaoJd0Q3vBnP6wbkUm/gpEE+rcROMPyul1zxD9E9U=
+X-Gm-Gg: AZuq6aJiFo0hRt4ICxIdsCR8O+nDS574s4GpSrgZPPzKRi/BIpYrghg5yGncp/e84Nf
+ EeCEa29rfgwqP98GY1ns+Zu7WQYq03LQG5rqI7R5ucXRzY0rN8zJAfnBH1IieEqJ6ETtD3HzPtj
+ K9Tr1kG4UqI/zFKGLAfhEDtxJ3f7ATenguGirVDn3Lhqv2GlqtjBaBj/dRv8T3EeD5Mrz7phBOM
+ gg5+4A3pFM/SarB0SRh6jfX/EJ32oJ5xNuok3UCMZezrRQASqU8D9mBmN06k2YgIwsddGsE+ZYF
+ vUQfbKM9vYAvq96TfDn51eSxqgIrdXWFpCR8B3UxKrZB1vRwvVDw3QYdPsupxPIYdPxIKulZ43O
+ qbDcB/Iasm5PLJ9XfRX6Mkm4/5WlDYw5pUuzvxhfeIzjdqoRc0MnbbcBn6xv0Ov3tRXo=
+X-Received: by 2002:a05:620a:1aa9:b0:8c3:9ae3:1a78 with SMTP id
+ af79cd13be357-8c6a67cc5b2mr2004300785a.11.1769073309683; 
+ Thu, 22 Jan 2026 01:15:09 -0800 (PST)
+X-Received: by 2002:a05:620a:1aa9:b0:8c3:9ae3:1a78 with SMTP id
+ af79cd13be357-8c6a67cc5b2mr2004298785a.11.1769073309034; 
+ Thu, 22 Jan 2026 01:15:09 -0800 (PST)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b8795168b9bsm1693992766b.16.2026.01.22.01.15.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Jan 2026 01:15:08 -0800 (PST)
+Message-ID: <01de9fc2-f60c-4bc0-af61-c070213df29b@oss.qualcomm.com>
+Date: Thu, 22 Jan 2026 10:15:04 +0100
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/5] mm/zone_device: Reinitialize large zone device
- private folios
-To: Vlastimil Babka <vbabka@suse.cz>, Matthew Brost
- <matthew.brost@intel.com>, Zi Yan <ziy@nvidia.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Matthew Wilcox <willy@infradead.org>,
- Alistair Popple <apopple@nvidia.com>,
- Francois Dugast <francois.dugast@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, adhavan Srinivasan <maddy@linux.ibm.com>,
- Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- David Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>,
- Andrew Morton <akpm@linux-foundation.org>, Leon Romanovsky
- <leon@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, linuxppc-dev@lists.ozlabs.org,
- kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-mm@kvack.org, linux-cxl@vger.kernel.org
-References: <eb94d115-18a6-455b-b020-f18f372e283a@nvidia.com>
- <aWsdv6dX2RgqajFQ@lstrano-desk.jf.intel.com>
- <4k72r4n5poss2glrof5fsapczkpcrnpokposeikw5wjvtodbto@wpqsxoxzpvy6>
- <20260119142019.GG1134360@nvidia.com>
- <96926697-070C-45DE-AD26-559652625859@nvidia.com>
- <20260119203551.GQ1134360@nvidia.com>
- <ef6ef1e2-25f1-4f1b-a8d4-98c0d7b4ad0c@nvidia.com>
- <EE2956E3-CCEA-4EF9-A1A4-A483245091FC@nvidia.com>
- <20260120135340.GA1134360@nvidia.com>
- <F7E3DF24-A37B-40A0-A507-CEF4AB76C44D@nvidia.com>
- <aXHPkQfwhMHU/oP6@lstrano-desk.jf.intel.com>
- <9077ab5b-f2c8-4c8d-8441-631e7c2cf384@suse.cz>
+Subject: Re: [PATCH 3/3] arm64: dts: qcom: add basic devicetree for Ayaneo
+ Pocket S2 gaming console
+To: Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, KancyJoe <kancy2333@outlook.com>
+References: <20260121-topic-sm8650-ayaneo-pocket-s2-base-v1-0-bb3f95f1c085@linaro.org>
+ <20260121-topic-sm8650-ayaneo-pocket-s2-base-v1-3-bb3f95f1c085@linaro.org>
 Content-Language: en-US
-From: Balbir Singh <balbirs@nvidia.com>
-In-Reply-To: <9077ab5b-f2c8-4c8d-8441-631e7c2cf384@suse.cz>
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260121-topic-sm8650-ayaneo-pocket-s2-base-v1-3-bb3f95f1c085@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BYAPR01CA0051.prod.exchangelabs.com (2603:10b6:a03:94::28)
- To PH8PR12MB7277.namprd12.prod.outlook.com
- (2603:10b6:510:223::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|SA0PR12MB4429:EE_
-X-MS-Office365-Filtering-Correlation-Id: e46775ea-521f-434e-a33d-08de599625e9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|1800799024|366016|10070799003; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MDJ4c2NmVzRJbGcxTXRCOU9Bd0dGcmwzUW9jWURoTmRFVEd4WVVaaW9IOVhE?=
- =?utf-8?B?Q1ZYMlpvSUxyWW4yMHBjZ3pJUzdCVE1ZNDVoUmMzYVBLWG5hMEtsbGsxZzZo?=
- =?utf-8?B?dGJaZW9TWTY4My9hNmVNZk1KVmhJaEZIWDFhdFNwUUREaHF6Qi8yazgzcUgr?=
- =?utf-8?B?TmlSdG5yVC9wMmQzTTVqODFiQnhRZWdWeUFpalVWLy9FQ3lWTGdKaVAxVVBQ?=
- =?utf-8?B?YUpFTG5oYW1DdHQwR0xEYVZlSC9rQnhFb3RPaXNSWmlPS3hWbHpBbE14VUQ3?=
- =?utf-8?B?dUZhd0hYZEpSamlPc3FaUHVrUGtnMUhlS2VRZmJyVnN1c0h2b2VGZE1yUkxS?=
- =?utf-8?B?ekdiL0cxSVRIR2hSYUxNNmxxRW5mbVBnaTVKRkRsdUdrWk1uR1lydTNxQWJo?=
- =?utf-8?B?RzBIQ1BzTUxSNEFRYVdnbjNvUWhGOGJBS3JJZnY5ai9XbSs0L2svbFRjUW8v?=
- =?utf-8?B?UGU3VGx1YTlCQS82aGtleWlDNDFQdEV4VWMzdFNuSis4OVVnalR3NXdCTElD?=
- =?utf-8?B?Qjl5RUVLYkxERmJCNWsva3JTM2UxL0NCRU9LaTZ3TWtzRHBxVmNUT2tGWE1l?=
- =?utf-8?B?MmlDMVRmT0llb3E1bWJlMUhrTmIvZkozY3g2eUZWbW9EeG9rOUhFR3pPOGg0?=
- =?utf-8?B?YVRuMW9CRHVDU2EwSmluRjNmM2VLNWxkdXdSM0F4VjJOTEdUWlh0dnBYYWkx?=
- =?utf-8?B?TFcwK1ZQdFJ2V05qV29rRnJ1NGUyd2ozN1d4cDFXVmpYREIrMWJQb2M2dFg0?=
- =?utf-8?B?R3IwRjVONVB5SWZXdlIyYlI4ekZCUDllWm1wNmhKYmUrdlhPcDdmM2FENzRI?=
- =?utf-8?B?L093SlFmbGFOdjVReUFBczZhejRvTEpoVGcyNTRYeXRrb0pOUE42OUsrLzdY?=
- =?utf-8?B?dW40T0pKZjg0Z0NDWmxQR080NGxRWGZGcjMxWWpSbDNQSmYyakhud2t5R0ZE?=
- =?utf-8?B?dEJuTjJWNVBpV1AzSUt3Tm9GeUg1Ym5MZWpiOEdWMFhtRjA2TnE3ZHE3T3dD?=
- =?utf-8?B?M1ZCSkxxM3NJaEo2bVV5SHBhbzVxMzZvME82NHpYREpvdUNRRCtmaTJnV3BY?=
- =?utf-8?B?SUNtNzA5cGlWUTQ5NWtiZVV3Tk1EdDJ2Y1JtZW1TVDdCRENyeEpJb01jU0Fw?=
- =?utf-8?B?YWZEM1U5RnozUzJoNUVVb0NhSjhwaHJ0ZnFjYlg1MXJ4Z1p0aWpDVjVOL052?=
- =?utf-8?B?aXpEcU5FKzdsMjV5TUlkMHJpS1pPblZqR1U5bHI5YmY1bGZRUzQvT0QvaVhC?=
- =?utf-8?B?YjVEZHcyMUowaW40Q09YaHpMVjM5Z2tyZGtEOGpJQ1B0UGZVTG1ORzRyMERM?=
- =?utf-8?B?SjFWS25pSEtDRlNjUjdtMldtOXY5b0JZS1FnRkwzekxhSTJJcVpXZTl1eWx0?=
- =?utf-8?B?Z2lZUlJYWEZQcW5qMkNseS9TZ2sxYWgvOTFtdExDZkRkSVN6bU0ra3RvZ2NB?=
- =?utf-8?B?eU02di9yT3JmTTI5a1hqK1JKY3ZjU1h6S0pDU2hMQTRQbDlDUXoreTFGUDV0?=
- =?utf-8?B?WGJNWGlqRm41WHphUm1tQVlnMVA5bSs3cGwwN1p5aVUvVS9UQU1pVnVKNXFW?=
- =?utf-8?B?azNaWk9wRFd4VlVIUk1sa2NmVTAycEpmZThJUG1BaFhla2dzeVVKS3lhWjlH?=
- =?utf-8?B?RmpKYUF4TEZ6anBMK2RwaURuZGhCL0FjRlRaWWpHbzVqRTlMeEk4TE5MbHBT?=
- =?utf-8?B?SElRQ1dQYkNPMWw1UktYd1h2YkhJQnZEVHJxd05MQ2tYK2puakRIRDN6bGt6?=
- =?utf-8?B?dkNSZkJQZjEwZFl0ek04V0N2dngzNzB3aktCTGNHNUtsK0RIN1BsRlIzdmNC?=
- =?utf-8?B?emFaOG81WFk1NGRmNEQ1ZXhyWWtyNmROaTFzSkpTWUdRRisxVXoxb2xNelEv?=
- =?utf-8?B?SkRDRGdnaFhkb1VjZTIrZ1NMbnBPSVFhYnd5bTVrNlFid3J0RStyaVdiMVYw?=
- =?utf-8?B?SHBQMzA2RDVSaDV5bUdsTUs3aUtCZmI4dzkrRUFTL0tVdzRYZytlUnAzUzFW?=
- =?utf-8?B?WWdDL2FxbGVYQUhoWWVUUEl5Q3BaSy9OSXpDUlZPV282SFpkdlVlMExNU0lY?=
- =?utf-8?B?cmpIUkQyeFhheGZnMW03QWM2MU5CZmVKaVd5emF3Wk9hcVRiM1RuejgwejIz?=
- =?utf-8?Q?6GTY=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR12MB7277.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016)(10070799003); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WFZ2WEJJQUVzaDBVOUo3ck5CbFhmMVFaaGMrTUVQOWQvd0JrcmZmc1duSEwz?=
- =?utf-8?B?aFlaSGtYUVd4KzQxZHRzUXZmOGdyaHVWalNrZCt2YnowbGNhblAxMkdFRXBF?=
- =?utf-8?B?WU16TUdnS0s3TGhHK2RKaFo1NU1saStZYlVvMVVEeHArZUprUld3Q3p4Rjc4?=
- =?utf-8?B?T2Q0emJWaHZaam5xWGdBTTZqcDNzaE9YM3p5L0ErVi9qRzdWZDUzTnA5R0pU?=
- =?utf-8?B?YkhPc2xSMytsVWhzZktvS1FzSlRhQ2tqRVNjeElVaWVnRGd4VlBmcnd2dllM?=
- =?utf-8?B?SFRYS1ltSldsL3ZLTDhVV1QxWmY4OGpXWFdUTmlLQzY0VFlSZ2JjVVQxYXd5?=
- =?utf-8?B?WnpxOVFiTkJWN2crZE9Mc2dOdFpiYlgzODluVTg4eGNOS21SbDhlMVFpT1Qr?=
- =?utf-8?B?NkJ4Z2ZsN05Jam9aR1AvQnlsdFRnRDEzbXFJRHZ4TlR1VlZKZXc1UnIxZ1pl?=
- =?utf-8?B?Z2h5UTFBSFFTeFUycTFMQnlpczN2aUtyczZNcXcrTEdEajJLblJSU29tYjdM?=
- =?utf-8?B?UDJUVHREaUp2Mm1FaDlVZHQyeURKOGNIS09DNDAzTTJrdkM2ZG9pTU03TndO?=
- =?utf-8?B?OTR2R3ZzRGltbkJjejZSaWM0ZHZPRmZqNU1zWktNVjJyS0lHQ3BYalRwcnVs?=
- =?utf-8?B?cW1hU1htRHQwcFNReG8reEtuci9XaHVIajZBRzl2NnVIYkZ3LzZGS3l5ZWx1?=
- =?utf-8?B?Y2t0MnVBTTZTbks4SlRtZGE0Wllid0lFU2lPeFBYeXp3Yi9nKzBVazF0SFEy?=
- =?utf-8?B?d0J1aTNxUmdIdWxPMkk5Q0k5Qk5la0J3bFltMzdDeWVLNUxwcmRReFJ3UVVk?=
- =?utf-8?B?ZFJ4SkkvL3hvUG9yWDhZdVgwN05TbDVvcHpvQmoxMlFYb1gwK0F3NFBXemY0?=
- =?utf-8?B?L0hPMUhWclpXUkQwbzhBak1wdERUSHFQY1NnYWtaK29xKzZwbU9vcEVvMmpa?=
- =?utf-8?B?VlBmazlrQmxObnhwM2plb1QxUGlTOCtpSERjN1FlWm1BbnpSNkpOR0ZyWEFR?=
- =?utf-8?B?dHZoTXpENFpITTVSS2pibmZNQlBVMzg1WVBlRVhOMmwvRjlWSUV2c1lUMjRO?=
- =?utf-8?B?MjF6NTYwYUhOYnkwQWdLZUt1VUtyZGNTcFhwWEVhVGl4Yzc3RjQyc1o5c2dG?=
- =?utf-8?B?S092THBybGxJZUVEUnpER0dsWkpuYTBRbytKZjNXTzFHS3BjTFAvNzdUTCtz?=
- =?utf-8?B?ODAzbit2YlJPSmRCalRieis0WUpwNlFNYUtNemgwcHFaZTNoL1MzWjk5c0tt?=
- =?utf-8?B?cU5LbWF2c1ZxSGE1S0Nrak5BaHVFL2tiUzR1Y055czRrbFdWZC81SHpPdE5X?=
- =?utf-8?B?SWJnOW1NZlVoWjJKQUtBK0lqM1g0RFN1TWtiTnhZa1BabEpiNFFPeThrZUIz?=
- =?utf-8?B?RGpWQ2oxL0JOSXJJTHV0eXhkMWlFQjI2ZXAwY0xETWlERXRYT3MzU0RLaGc0?=
- =?utf-8?B?ZS90aU1PTG11bHJNdkZleG0wdHh5VXk4azZJZWpWRGdadjVCR3B3UkNYVVN5?=
- =?utf-8?B?ZXhQOGhETVZQbm9DeEtaNlp0TDhSVEZFMkVCUlkvMzl5OThQakEvYTZkYUdL?=
- =?utf-8?B?TmFPT2RjU0tDU0JiaFZEc3Z1cE1vcXRjKzRTZGhvYUx5RU1Za29XL3JvR3o3?=
- =?utf-8?B?OUUrNEk3ZjltMk5QZUN3SkJLdHVMMGE4Z0c0b09ob0t0YjVXQkhQY01pU0RH?=
- =?utf-8?B?QzhGZEVycjNZQXhRWkQ0aGp0S0pMaDNIYW9ZdDE2MytHdTBzRFJpNVI2WkhU?=
- =?utf-8?B?NnNWMXdSb1FrZ0w3TWtNaEtiV3RRamxZRGlxYnlDZGRaS3FwK1FpamNIN3dy?=
- =?utf-8?B?N2RFWERqNkVFaFVRZ3lmUU9jaUk0MTQ4Y1pmOU9EbGpxdVFGUVJodys1Q1VI?=
- =?utf-8?B?WXROcWVTakFyUkhtc3k2YXd0T0hlMlZSRXpReS9Hc2EwR1loSFo4Qnl4WTJk?=
- =?utf-8?B?cW8wNGFlWUYxSHhpcDR1bUwrNTUwV2k5MXN1Y21qT00yWDk5b29jN1JqenhF?=
- =?utf-8?B?RU5iWjZKeDNKdTAvdXFYZS9ENjZ2L1k5K2loYjNPRWduQlJOYmpkZ0gvQmhS?=
- =?utf-8?B?SmwwdzJnWjhVWDJuejEzQ3IvQmZ3aGV4RjJoRXFJakU4SGYvdTgrL0s5UVN1?=
- =?utf-8?B?S2FDWnRJTXQ4N0FTYkxSOVlSbmMyYU4rYW5tTk5RVDhzVzJFUm11Qjd6Lzli?=
- =?utf-8?B?bjFpSERNOWloWXcwSldOaEwraXJqUnBWQk9aamlQTCtnS0YzRUx2UmhsUG5Y?=
- =?utf-8?B?UnlNM21IOW9xUlFMSjA2cERDYmtUNXN0aGlFaWx6ejA3Ti94bEhleTExZ1B1?=
- =?utf-8?B?SXpEQ2JKd2MrNEhoN0RYZ2NOK1lOZWY4R01YSjMyS2N6a0hQTVZCeTZNNlFE?=
- =?utf-8?Q?QSyQXJSaQLUQuJVnGdpWEzIjJhfH4zALPj42PtZKLKp2n?=
-X-MS-Exchange-AntiSpam-MessageData-1: EHzCNiTJ32GXEQ==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e46775ea-521f-434e-a33d-08de599625e9
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 09:10:55.0938 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HF5GSrur9tdXdSjm8lfxAqBvr9x78S8dWBjAlJHwVElq+qrcpNzmGO/ETnsA2sw15hc2k1sgid3lKnAaovQ8SA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4429
+X-Authority-Analysis: v=2.4 cv=TcWbdBQh c=1 sm=1 tr=0 ts=6971ea9e cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=UqCG9HQmAAAA:8 a=KKAkSRfTAAAA:8
+ a=BfLt2Qf9Yghiec0bZR0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=IoWCM6iH3mJn3m4BftBB:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIyMDA2MiBTYWx0ZWRfX1Ip89nFhN0p8
+ Uu4Om8FJyYWvYqbV0zputyHMEDtO+zxVDQ57mRsZO3HpL30JT57i4ph+8e3reG9dXDIFimKBmC6
+ OKpqXVIf4VeL6NFR+IO92bA5WDGjMJJRzZBd2Std7wR1Mq5rlArcDbX94zQ1PoRmjIrmd3o0CT0
+ HH7wgwmA9c38dDignUUhqMCVl2rutubM5pmGTGkGIFhke3PGNb/H56qd1jkbRLS15wKB9Z/tFrA
+ UmwD0Ijz12WZiYKkcMVMnkMHU7J1+U/+VMoirZhS8ziubesrfldT6/ej2MOyNhjKaHU94c2OB2Z
+ OZuTddPPhs97c/2uYIpKo6OF3m6Ntqj/VGOCb8TIIKncTtHtXTXoWFJnXEIY4Oh23xpHB8S1N9t
+ XIBcVFhsBcmLG/DOVq1bd3eYESj2MhK0uRwfqdMAvCh+YQgm7TpTnRPgza8iytdmkzI1xFIZb1q
+ gAFLms8nc9ms2scfBPg==
+X-Proofpoint-ORIG-GUID: JmWL2VvjLfoQ451L0BSZQVUrWglc96aC
+X-Proofpoint-GUID: JmWL2VvjLfoQ451L0BSZQVUrWglc96aC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-21_04,2026-01-20_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0
+ priorityscore=1501 clxscore=1015 phishscore=0 impostorscore=0 adultscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2601220062
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -212,76 +157,241 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[39];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[balbirs@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_CC(0.00)[nvidia.com,infradead.org,intel.com,lists.freedesktop.org,linux.ibm.com,gmail.com,ellerman.id.au,kernel.org,amd.com,ffwll.ch,linux.intel.com,suse.de,redhat.com,linux-foundation.org,oracle.com,google.com,suse.com,lists.ozlabs.org,vger.kernel.org,kvack.org];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,Nvidia.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
-	DKIM_TRACE(0.00)[Nvidia.com:+]
-X-Rspamd-Queue-Id: 2EC7E64464
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:kancy2333@outlook.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[linaro.org,kernel.org,oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch];
+	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,outlook.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[outlook.com:email,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,0.0.0.0:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:dkim,linaro.org:email]
+X-Rspamd-Queue-Id: 71C81645EF
 X-Rspamd-Action: no action
 
-On 1/22/26 19:00, Vlastimil Babka wrote:
-> On 1/22/26 08:19, Matthew Brost wrote:
->> On Tue, Jan 20, 2026 at 10:01:18PM -0500, Zi Yan wrote:
->>> On 20 Jan 2026, at 8:53, Jason Gunthorpe wrote:
->>>
->>
->> This whole thread makes my head hurt, as does core MM.
->>
->> IMO the TL;DR is:
->>
->> - Why is Intel the only one proving this stuff works? We can debate all
->>   day about what should or should not work — but someone else needs to
->>   actually prove it.i, rather than type hypotheticals.
->>
->> - Intel has demonstrated that this works and is still getting blocked.
->>
->> - This entire thread is about a fixes patch for large device pages.
->>   Changing prep_compound_page is completely out of scope for a fixes
->>   patch, and honestly so is most of the rest of what’s being proposed.
+On 1/21/26 5:40 PM, Neil Armstrong wrote:
+> From: KancyJoe <kancy2333@outlook.com>
 > 
-> FWIW I'm ok if this lands as a fix patch, and perceived the discussion to be
-> about how refactor things more properly afterwards, going forward.
+> Add initial Device Tree for the Ayaneo Pocket S2 gaming console based
+> on the Qualcomm Snapdragon 8 Gen 3 platform.
 > 
+> The design is similar to a phone wihout the modem, the game control
+> is handled via a standalone controller connected to a PCIe USB
+> controller.
+> 
+> Display support will be added in a second time.
+> 
+> Signed-off-by: KancyJoe <kancy2333@outlook.com>
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
 
-I've said the same thing and I concur, we can use the patch as-is and
-change this to set the relevant identified fields after 6.19
+[...]
 
-Balbir
+> +	fan: pwm-fan {
 
->> - At a minimum, you must clear every page’s flags in the loop. So why not
->>   conservatively clear anything else a folio might have set before calling
->>   an existing core-MM function, ensuring the pages are in a known state?
->>   This is a fixes patch.
->>
->> - Given the current state of the discussion, I don’t think large device
->>   pages should be in 6.19. And if so, why didn’t the entire device pages
->>   series receive this level of scrutiny earlier? It’s my mistake for not
->>   saying “no” until the reallocation at different sizes issue was resolved.
->>
->> @Andrew. - I'd revert large device pages in 6.19 as it doesn't work and
->> we seemly cannot close on this.
->>
->> Matt
+I'd call it fan {} but gray/grey
 
+> +		status = "okay";
 
-<snip>
+You can drop this line (nothing disables it)
+
+> +		compatible = "pwm-fan";
+> +
+> +		interrupt-parent = <&tlmm>;
+> +		interrupts = <14 IRQ_TYPE_EDGE_FALLING>;
+
+interrupts-extended looks neater
+
+> +
+> +		pinctrl-0 = <&fan_pwr_active>,
+> +			    <&pwm_fan_ctrl_default>,
+> +			    <&fan_int_active>;
+> +		pinctrl-1 = <&fan_pwr_sleep>;
+
+fan-pwr looks like an EN pin of a GPIO-controlled regulator
+
+> +		pinctrl-names = "default",
+> +				"sleep";
+> +
+> +		pwms = <&pm8550_pwm 3 50000>;
+> +
+> +		#cooling-cells = <2>;
+> +		cooling-levels = <0 16 32 45 60 80 105 130 155 180 205 230 255>;
+
+Does this come from a preexisting map?
+
+> +	};
+> +
+> +	gpio-keys {
+> +		compatible = "gpio-keys";
+> +
+> +		pinctrl-0 = <&volume_up_n>;
+> +		pinctrl-names = "default";
+> +
+> +		key-volume-up {
+> +			label = "Volume Up";
+> +			linux,code = <KEY_VOLUMEUP>;
+> +			gpios = <&pm8550_gpios 6 GPIO_ACTIVE_LOW>;
+> +			debounce-interval = <15>;
+> +			linux,can-disable;
+> +			wakeup-source;
+> +		};
+> +	};
+> +
+> +	pmic-glink {
+> +		compatible = "qcom,sm8650-pmic-glink",
+> +			     "qcom,sm8550-pmic-glink",
+> +			     "qcom,pmic-glink";
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		orientation-gpios = <&tlmm 29 GPIO_ACTIVE_HIGH>;
+> +
+> +		connector@0 {
+> +			compatible = "usb-c-connector";
+> +			reg = <0>;
+> +
+> +			power-role = "dual";
+> +			data-role = "dual";
+> +			self-powered;
+
+Is this property interpreted at all by our setup?
+
+[...]
+
+> +	sound {
+> +		compatible = "qcom,sm8650-sndcard", "qcom,sm8450-sndcard";
+> +		model = "SM8650-APS2";
+> +		audio-routing = "SpkrLeft IN", "WSA_SPK1 OUT",
+> +				"SpkrRight IN", "WSA_SPK2 OUT",
+> +				"IN1_HPHL", "HPHL_OUT",
+> +				"IN2_HPHR", "HPHR_OUT",
+> +				"DMIC1", "MIC BIAS1",
+> +				"DMIC2", "MIC BIAS2",
+> +				"AMIC2", "MIC BIAS2",
+> +				"TX SWR_INPUT1", "ADC2_OUTPUT",
+> +				"TX SWR_INPUT7", "DMIC1_OUTPUT",
+> +				"TX SWR_INPUT8", "DMIC2_OUTPUT";
+> +
+> +		wcd-playback-dai-link {
+> +			link-name = "WCD Playback";
+> +
+> +			cpu {
+> +				sound-dai = <&q6apmbedai RX_CODEC_DMA_RX_0>;
+> +			};
+> +
+> +			codec {
+> +				sound-dai = <&wcd939x 0>,
+> +					    <&swr1 0>,
+> +					    <&lpass_rxmacro 0>;
+> +			};
+
+'co'dec < 'cp'u
+
+[...]
+
+> +	wcd939x: audio-codec {
+
+'a'udio-codec should be way higher
+
+[...]
+
+> +	thermal-zones {
+> +		cpu2-top-thermal {
+> +			trips {
+> +				cpu2_active: cpu2-active {
+> +					temperature = <38000>;
+> +					hysteresis = <2000>;
+> +					type = "active";
+
+This is shaky.. let's perhaps reference each thermal zone that you want
+to extend with a label.. Or maybe a pair of labels for trips/cooling-maps
+per zone?
+
+[...]
+
+> +&pcieport1 {
+> +	pinctrl-0 = <&upd720201_active>;
+
+Is this a regulator?
+
+> +	pinctrl-names = "default";
+> +
+> +	/* Renesas μPD720201 PCIe USB3.0 HOST CONTROLLER */
+
+DON'T SCREAM! :P
+
+> +	usb-controller@0 {
+> +		compatible = "pci1912,0014";
+> +		reg = <0x10000 0x0 0x0 0x0 0x0>;
+> +
+> +		pinctrl-0 = <&gamepad_pwr_en>;
+> +		pinctrl-names = "default";
+
+Is there a hub connected to it? Or does it go directly to the
+aforementioned (game) controller?
+
+[...]
+
+> +&pm8550_pwm {
+> +	status = "okay";
+> +
+> +	multi-led {
+> +		color = <LED_COLOR_ID_RGB>;
+> +		function = LED_FUNCTION_STATUS;
+> +
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+
+Would a label="xyz" be useful here?
+
+[...]
+
+> +&tlmm {
+> +	/* Reserved I/Os for NFC */
+> +	gpio-reserved-ranges = <32 4>,  <36 1>, <38 6>, <74 1>;
+
+double space
+
+Are they all for NFC, are they all required?
+
+[...]
+
+> diff --git a/arch/arm64/boot/dts/qcom/sm8650.dtsi b/arch/arm64/boot/dts/qcom/sm8650.dtsi
+> index 07ae74851621..fcd5a1a45803 100644
+> --- a/arch/arm64/boot/dts/qcom/sm8650.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sm8650.dtsi
+> @@ -3917,7 +3917,7 @@ opp-32000000-4 {
+>  				};
+>  			};
+>  
+> -			pcie@0 {
+> +			pcieport1: pcie@0 {
+
+pcie1_port0, please
+
+Konrad
