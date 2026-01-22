@@ -2,71 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GPwyNkXgcWk+MgAAu9opvQ
+	id uIkrH4rgcWk+MgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 09:31:01 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 09:32:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0191B6319A
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 09:30:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E793631D0
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 09:32:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5576B10E01F;
-	Thu, 22 Jan 2026 08:30:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76F1510E906;
+	Thu, 22 Jan 2026 08:32:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W4CHitSd";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="SQtN+SpG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FDAA10E01F;
- Thu, 22 Jan 2026 08:30:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769070658; x=1800606658;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=bPCCZqVDSzUqSGD0wi9CuxOEWw/A6N1hpTgCoEUXb7A=;
- b=W4CHitSdRGhTuT5Z6zm0eITYvRBFJHqFqP7F/Rh2EiP2+DLPKdG/H9bh
- KbSUIByZmmGWG5LCmdv2H4KjOM8KI/K/DJhEeDctldymbEzTcf+QULvp0
- dQMbHFy07vlcSo+tJOwgDGCda1k0QI4qq45B9gyPrXU9O7uvCzCXWxy8T
- 0enVgQxe42vkKLix/vEjfVjWn1WyPULi3tNAnY4nnqkv29zF8Ih1xWEu6
- VqKlIOxIIvMf5C3J4DZ4n28iIECwLH5aGHF6DUym9rx5V9yh0wx1xEKGw
- QM/HuMJ0c5MtpyCMskwjBQJL2gZaK2RXDXTuQB3pfCwrNAyyBt4+kc4k5 A==;
-X-CSE-ConnectionGUID: qdQf1ZB1RAuWweRpj+uZWg==
-X-CSE-MsgGUID: 52ekwnrsTUW3hhxKjJNTnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="70278760"
-X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; d="scan'208";a="70278760"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2026 00:30:57 -0800
-X-CSE-ConnectionGUID: NE4+lB/2TkmcSZH0ZRcOqw==
-X-CSE-MsgGUID: mPGhGBBBRXGKKwUZ1j8Zig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,245,1763452800"; d="scan'208";a="206488386"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.245.248])
- ([10.245.245.248])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jan 2026 00:30:54 -0800
-Message-ID: <7d2b26f8-f4ec-4139-8056-efb0cb40226e@intel.com>
-Date: Thu, 22 Jan 2026 09:30:52 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] drm, drm/xe: Fix xe userptr in the absence of
- CONFIG_DEVICE_PRIVATE
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org
-Cc: Matthew Auld <matthew.auld@intel.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org
-References: <20260121091048.41371-1-thomas.hellstrom@linux.intel.com>
- <20260121091048.41371-2-thomas.hellstrom@linux.intel.com>
-Content-Language: en-US
-From: Maarten Lankhorst <maarten.lankhorst@intel.com>
-In-Reply-To: <20260121091048.41371-2-thomas.hellstrom@linux.intel.com>
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 426A510E904;
+ Thu, 22 Jan 2026 08:32:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=QNluXzU5ZLXVii/ZpNfflC2JtTB2lituAsOqSh4woUM=; b=S
+ QtN+SpGoedsnVaaCNB37XfJnRywaw7rzwNQJpfwezDRML2l5dPLsY9lGKBQNnipP
+ nNMe/k16r4TzSNmHXWwWQ5PePum2lSx0hS0bNpKwWV0nNBvBMmwlkvQ0XyzPCOVI
+ ggav7e4BDEyVKzYX/edpo7eY7oFRZOZZrbYWZPRE5U=
+Received: from andyshrk$163.com ( [110.83.51.2] ) by
+ ajax-webmail-wmsvr-40-107 (Coremail) ; Thu, 22 Jan 2026 16:31:07 +0800
+ (CST)
+X-Originating-IP: [110.83.51.2]
+Date: Thu, 22 Jan 2026 16:31:07 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Nicolas Frattaroli" <nicolas.frattaroli@collabora.com>
+Cc: "Harry Wentland" <harry.wentland@amd.com>, "Leo Li" <sunpeng.li@amd.com>, 
+ "Rodrigo Siqueira" <siqueira@igalia.com>,
+ "Alex Deucher" <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Andrzej Hajda" <andrzej.hajda@intel.com>,
+ "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>,
+ "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
+ "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Sandy Huang" <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ "Andy Yan" <andy.yan@rock-chips.com>,
+ "Jani Nikula" <jani.nikula@linux.intel.com>,
+ "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
+ "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>,
+ "Tvrtko Ursulin" <tursulin@ursulin.net>,
+ "Dmitry Baryshkov" <lumag@kernel.org>,
+ "Sascha Hauer" <s.hauer@pengutronix.de>,
+ "Rob Herring" <robh@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org
+Subject: Re:[PATCH v7 11/22] drm/rockchip: vop2: Add RK3576 to the RG swap
+ special case
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20251222(83accb85) Copyright (c) 2002-2026 www.mailtech.cn 163com
+In-Reply-To: <20260121-color-format-v7-11-ef790dae780c@collabora.com>
+References: <20260121-color-format-v7-0-ef790dae780c@collabora.com>
+ <20260121-color-format-v7-11-ef790dae780c@collabora.com>
+X-CM-CTRLMSGS: cqZSfXBsdXM9MTc2OTA3MDY2NjU0Ml81N2E2ZjYzM2VlZWJiOTA0MThhMzQwM
+ jhiYjQ5ZTYxZQ==
+X-NTES-SC: AL_Qu2dC/ycv04t4SSeZ+kfmUgWjuw/WsG1v/Ul1YBSP556jCHp1zA+YHtOI0XuzsGkOiqykTu2XSVH2/VTe6Bkepsbmp04n5ya3owmfms/IzFGIw==
+Content-Transfer-Encoding: base64
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Message-ID: <4e851a3d.75f3.19be4d426d0.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: aygvCgDnjxFL4HFpB6tcAA--.14921W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbC7QsBX2lx4EvkPwAA3Q
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,176 +96,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [1.29 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_BASE64_TEXT(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[maarten.lankhorst@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
-	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
+	FREEMAIL_FROM(0.00)[163.com];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[37];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+]
-X-Rspamd-Queue-Id: 0191B6319A
+	FREEMAIL_CC(0.00)[amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,intel.com,linaro.org,ideasonboard.com,kwiboo.se,rock-chips.com,sntech.de,ursulin.net,pengutronix.de,lwn.net,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
+	TO_DN_SOME(0.00)[];
+	HAS_XOIP(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andyshrk@163.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	HAS_X_PRIO_THREE(0.00)[3];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DKIM_TRACE(0.00)[163.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 2E793631D0
 X-Rspamd-Action: no action
 
-Hey,
-
-Den 2026-01-21 kl. 10:10, skrev Thomas Hellström:
-> CONFIG_DEVICE_PRIVATE is not selected by default by some distros,
-> for example Fedora, and that leads to a regression in the xe driver
-> since userptr support gets compiled out.
-> 
-> It turns out that DRM_GPUSVM, which is needed for xe userptr support
-> compiles also without CONFIG_DEVICE_PRIVATE, but doesn't compile
-> without CONFIG_ZONE_DEVICE.
-> Exclude the drm_pagemap files from compilation with !CONFIG_ZONE_DEVICE,
-> and remove the CONFIG_DEVICE_PRIVATE dependency from CONFIG_DRM_GPUSVM and
-> the xe driver's selection of it, re-enabling xe userptr for those configs.
-> 
-> v2:
-> - Don't compile the drm_pagemap files unless CONFIG_ZONE_DEVICE is set.
-> - Adjust the drm_pagemap.h header accordingly.
-> 
-> Fixes: 9e9787414882 ("drm/xe/userptr: replace xe_hmm with gpusvm")
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v6.18+
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
-For merging through drm-xe-fixes:
-
-Acked-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-
->  drivers/gpu/drm/Kconfig    |  2 +-
->  drivers/gpu/drm/Makefile   |  4 +++-
->  drivers/gpu/drm/xe/Kconfig |  2 +-
->  include/drm/drm_pagemap.h  | 18 ++++++++++++++----
->  4 files changed, 19 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index a33b90251530..d3d52310c9cc 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -210,7 +210,7 @@ config DRM_GPUVM
->  
->  config DRM_GPUSVM
->  	tristate
-> -	depends on DRM && DEVICE_PRIVATE
-> +	depends on DRM
->  	select HMM_MIRROR
->  	select MMU_NOTIFIER
->  	help
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 0deee72ef935..0c21029c446f 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -108,9 +108,11 @@ obj-$(CONFIG_DRM_EXEC) += drm_exec.o
->  obj-$(CONFIG_DRM_GPUVM) += drm_gpuvm.o
->  
->  drm_gpusvm_helper-y := \
-> -	drm_gpusvm.o\
-> +	drm_gpusvm.o
-> +drm_gpusvm_helper-$(CONFIG_ZONE_DEVICE) += \
->  	drm_pagemap.o\
->  	drm_pagemap_util.o
-> +
->  obj-$(CONFIG_DRM_GPUSVM) += drm_gpusvm_helper.o
->  
->  obj-$(CONFIG_DRM_BUDDY) += drm_buddy.o
-> diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
-> index 4b288eb3f5b0..c34be1be155b 100644
-> --- a/drivers/gpu/drm/xe/Kconfig
-> +++ b/drivers/gpu/drm/xe/Kconfig
-> @@ -39,7 +39,7 @@ config DRM_XE
->  	select DRM_TTM
->  	select DRM_TTM_HELPER
->  	select DRM_EXEC
-> -	select DRM_GPUSVM if !UML && DEVICE_PRIVATE
-> +	select DRM_GPUSVM if !UML
->  	select DRM_GPUVM
->  	select DRM_SCHED
->  	select MMU_NOTIFIER
-> diff --git a/include/drm/drm_pagemap.h b/include/drm/drm_pagemap.h
-> index 46e9c58f09e0..2baf0861f78f 100644
-> --- a/include/drm/drm_pagemap.h
-> +++ b/include/drm/drm_pagemap.h
-> @@ -243,6 +243,8 @@ struct drm_pagemap_devmem_ops {
->  			   struct dma_fence *pre_migrate_fence);
->  };
->  
-> +#if IS_ENABLED(CONFIG_ZONE_DEVICE)
-> +
->  int drm_pagemap_init(struct drm_pagemap *dpagemap,
->  		     struct dev_pagemap *pagemap,
->  		     struct drm_device *drm,
-> @@ -252,17 +254,22 @@ struct drm_pagemap *drm_pagemap_create(struct drm_device *drm,
->  				       struct dev_pagemap *pagemap,
->  				       const struct drm_pagemap_ops *ops);
->  
-> -#if IS_ENABLED(CONFIG_DRM_GPUSVM)
-> +struct drm_pagemap *drm_pagemap_page_to_dpagemap(struct page *page);
->  
->  void drm_pagemap_put(struct drm_pagemap *dpagemap);
->  
->  #else
->  
-> +static inline struct drm_pagemap *drm_pagemap_page_to_dpagemap(struct page *page)
-> +{
-> +	return NULL;
-> +}
-> +
->  static inline void drm_pagemap_put(struct drm_pagemap *dpagemap)
->  {
->  }
->  
-> -#endif /* IS_ENABLED(CONFIG_DRM_GPUSVM) */
-> +#endif /* IS_ENABLED(CONFIG_ZONE_DEVICE) */
->  
->  /**
->   * drm_pagemap_get() - Obtain a reference on a struct drm_pagemap
-> @@ -334,6 +341,8 @@ struct drm_pagemap_migrate_details {
->  	u32 source_peer_migrates : 1;
->  };
->  
-> +#if IS_ENABLED(CONFIG_ZONE_DEVICE)
-> +
->  int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
->  				  struct mm_struct *mm,
->  				  unsigned long start, unsigned long end,
-> @@ -343,8 +352,6 @@ int drm_pagemap_evict_to_ram(struct drm_pagemap_devmem *devmem_allocation);
->  
->  const struct dev_pagemap_ops *drm_pagemap_pagemap_ops_get(void);
->  
-> -struct drm_pagemap *drm_pagemap_page_to_dpagemap(struct page *page);
-> -
->  void drm_pagemap_devmem_init(struct drm_pagemap_devmem *devmem_allocation,
->  			     struct device *dev, struct mm_struct *mm,
->  			     const struct drm_pagemap_devmem_ops *ops,
-> @@ -359,4 +366,7 @@ int drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
->  void drm_pagemap_destroy(struct drm_pagemap *dpagemap, bool is_atomic_or_reclaim);
->  
->  int drm_pagemap_reinit(struct drm_pagemap *dpagemap);
-> +
-> +#endif /* IS_ENABLED(CONFIG_ZONE_DEVICE) */
-> +
->  #endif
+SGVsbG8gTmljb2xhc++8jAoKQXQgMjAyNi0wMS0yMSAyMjo0NToxOCwgIk5pY29sYXMgRnJhdHRh
+cm9saSIgPG5pY29sYXMuZnJhdHRhcm9saUBjb2xsYWJvcmEuY29tPiB3cm90ZToKPk11Y2ggbGlr
+ZSBSSzM1ODgsIFJLMzU3NiByZXF1aXJlcyBhbiBSRyBzd2FwIHRvIGJlIHBlcmZvcm1lZCBmb3Ig
+WVVWNDQ0Cj44LWJpdCBhbmQgWVVWNDQ0IDEwLWJpdCBidXMgZm9ybWF0cy4KPgo+QWRkIGl0cyB2
+ZXJzaW9uIHRvIHRoZSBhbHJlYWR5IGV4aXN0aW5nIGNoZWNrIGZvciBSSzM1ODgsIHNvIHRoYXQg
+WVVWNDQ0Cj5vdXRwdXQgaXMgY29ycmVjdCBvbiB0aGlzIHBsYXRmb3JtLgo+Cj5GaXhlczogOTQ0
+NzU3YTRjYmE2ICgiZHJtL3JvY2tjaGlwOiB2b3AyOiBBZGQgc3VwcG9ydCBmb3IgcmszNTc2IikK
+PlNpZ25lZC1vZmYtYnk6IE5pY29sYXMgRnJhdHRhcm9saSA8bmljb2xhcy5mcmF0dGFyb2xpQGNv
+bGxhYm9yYS5jb20+CgoKICAgUmV2aWV3ZWQtYnk6IEFuZHkgWWFuIDxhbmR5c2hya0AxNjMuY29t
+PgoKPi0tLQo+IGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wMi5jIHwg
+MyArKy0KPiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4K
+PmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcDIu
+YyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wMi5jCj5pbmRleCA0
+NjljNjNkZDk3ZDUuLmYyMWVmYmNhNDJlNiAxMDA2NDQKPi0tLSBhL2RyaXZlcnMvZ3B1L2RybS9y
+b2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wMi5jCj4rKysgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2No
+aXAvcm9ja2NoaXBfZHJtX3ZvcDIuYwo+QEAgLTM1NCw3ICszNTQsOCBAQCBzdGF0aWMgYm9vbCB2
+b3AyX291dHB1dF91dl9zd2FwKHUzMiBidXNfZm9ybWF0LCB1MzIgb3V0cHV0X21vZGUpCj4gCj4g
+c3RhdGljIGJvb2wgdm9wMl9vdXRwdXRfcmdfc3dhcChzdHJ1Y3Qgdm9wMiAqdm9wMiwgdTMyIGJ1
+c19mb3JtYXQpCj4gewo+LQlpZiAodm9wMi0+dmVyc2lvbiA9PSBWT1BfVkVSU0lPTl9SSzM1ODgp
+IHsKPisJaWYgKHZvcDItPnZlcnNpb24gPT0gVk9QX1ZFUlNJT05fUkszNTg4IHx8Cj4rCSAgICB2
+b3AyLT52ZXJzaW9uID09IFZPUF9WRVJTSU9OX1JLMzU3Nikgewo+IAkJaWYgKGJ1c19mb3JtYXQg
+PT0gTUVESUFfQlVTX0ZNVF9ZVVY4XzFYMjQgfHwKPiAJCSAgICBidXNfZm9ybWF0ID09IE1FRElB
+X0JVU19GTVRfWVVWMTBfMVgzMCkKPiAJCQlyZXR1cm4gdHJ1ZTsKPgo+LS0gCj4yLjUyLjAKPgo=
 
