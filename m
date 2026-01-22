@@ -2,82 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oP2UO2QfcmmPdQAAu9opvQ
+	id sN7eADcicmmPdQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 14:00:21 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 14:12:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C49366F81
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 14:00:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E44E671B7
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 14:12:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 423BB10E9A8;
-	Thu, 22 Jan 2026 13:00:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C8E010E0C1;
+	Thu, 22 Jan 2026 13:12:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="XQ+af+yj";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="aCdKwFCT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="exeNAx9G";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TTb09fP0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PcJ9F+JU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E8E710E9AC;
- Thu, 22 Jan 2026 13:00:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1769086792; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=VKqPDXZqQscCYPdjRAFzVjNUl2wWtTJSvTiRTzEYXbg2KRiiyrzw7Fgd5F4aj/GqLRkPG52NFbg+LSpLjs4GAECVbS01LsWvA9Fz1NjwIAPPjcU/3BNCDvAgEzXUnKfZB2evUSGJlSirmL7GTIXm02Roe2I5pcvUy99ppcqfscg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1769086792;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=uaYzvb2XfnnkbyKx6FP5LwKsEl3/GXRkx9jsqA5CXcg=; 
- b=RJCKftJsR+YMsCXvoJUwTAO3XJ8vrGzxjCCYZQmDVjdkydhhqR4Bgvb/ZHdXIutEzxgIJnul+AxHTbyPdvbqJo6hzUNsBlNrvzLsDYiCWTGUDpqGZqeaDwo+5XzzCEUSynNz4SiSmXQzIFLwIW+bzQeySP1wgm4RvmR24fr4xfU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769086792; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=uaYzvb2XfnnkbyKx6FP5LwKsEl3/GXRkx9jsqA5CXcg=;
- b=XQ+af+yjMhxPFVDC94pM4PlfhBu+gM6eH/bwFiy44r2PfvdSy4/Aodursm5Hdrqi
- VZ1oIeM9xzg5jXHXTAll2xKeZgInWMdf2dKrQIFjeVJqLYGJlLr9PJTsgJ/NoOlwVW6
- ezT5oPGKFoHngWSi9Nrm67krvXYabnOVwbijhWko=
-Received: by mx.zohomail.com with SMTPS id 1769086791692511.35700158955376;
- Thu, 22 Jan 2026 04:59:51 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Andy Yan <andyshrk@163.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, kernel@collabora.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 10/22] drm/rockchip: vop2: Fix YUV444 output
-Date: Thu, 22 Jan 2026 13:59:41 +0100
-Message-ID: <6631107.DvuYhMxLoT@workhorse>
-In-Reply-To: <7ab32c86.7542.19be4d21f69.Coremail.andyshrk@163.com>
-References: <20260121-color-format-v7-0-ef790dae780c@collabora.com>
- <20260121-color-format-v7-10-ef790dae780c@collabora.com>
- <7ab32c86.7542.19be4d21f69.Coremail.andyshrk@163.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33B0510E0C1
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 13:12:18 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id F0D1233717;
+ Thu, 22 Jan 2026 13:12:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1769087537; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=6PLEneN7/qHi7h1Wld0jsWaqgiXUPVpuEcgtslwiTZg=;
+ b=aCdKwFCT1YgsPnmgGLyQNB293aO6RrkffG0BVrPQTP9pESCdSkwEqk6AgGmoMGTrli2ikb
+ yMXGyRJpBVJkmWme1ceYWhPk8B5Hpomn0HcTmbpCOf9oj+NZl0WUYq8X+VgGoIVgK+kDWD
+ PSF6aFS407tAr13u2C2Y6z9D2GMz0tQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1769087537;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=6PLEneN7/qHi7h1Wld0jsWaqgiXUPVpuEcgtslwiTZg=;
+ b=exeNAx9GVdpHsE0jiXNzZ80Pv7q9Q65j+gtgBzV4E2RxNzhhrwZumcdsW8nnxXixvhUXyO
+ hB3whReCY40facCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1769087536; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=6PLEneN7/qHi7h1Wld0jsWaqgiXUPVpuEcgtslwiTZg=;
+ b=TTb09fP0pbh3hjz8FUOZfplY7SOgSNUQvtZyx8el3+ZeooqHceflhxdgV5qJkiDMw8IjlT
+ aTL0xag/l3iJ31/DVg5eOdq9YK1uWjdVEUIumM98mfzt1nHNnNVEC9YauVzh40kqpgIYks
+ MS7MKH5vSvv7HEE8Nkg2KjqoY6tNTUo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1769087536;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=6PLEneN7/qHi7h1Wld0jsWaqgiXUPVpuEcgtslwiTZg=;
+ b=PcJ9F+JUlB5axMf9UcKHFr/cySki4gSCgz8WJ2tFTHpeOQiPvCKkoTov7NX68O6K02x29z
+ ZuCknDBcHmlnz1Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B4E2313533;
+ Thu, 22 Jan 2026 13:12:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id yLrwKjAicmlgMgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 22 Jan 2026 13:12:16 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de,
+	simona@ffwll.ch,
+	jayalk@intworks.biz
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/4] fbdev: defio: Protect against device/module removal
+Date: Thu, 22 Jan 2026 14:08:28 +0100
+Message-ID: <20260122131213.992810-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,172 +98,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[163.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:deller@gmx.de,m:simona@ffwll.ch,m:jayalk@intworks.biz,m:linux-fbdev@vger.kernel.org,m:tzimmermann@suse.de,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmx.de,ffwll.ch,intworks.biz];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,intel.com,linaro.org,ideasonboard.com,kwiboo.se,rock-chips.com,sntech.de,ursulin.net,pengutronix.de,lwn.net,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[suse.de:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,gitlab.freedesktop.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 9C49366F81
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:mid,suse.de:dkim]
+X-Rspamd-Queue-Id: 5E44E671B7
 X-Rspamd-Action: no action
 
-On Thursday, 22 January 2026 09:28:54 Central European Standard Time Andy Y=
-an wrote:
->=20
-> Hello Nicolas=EF=BC=8C
->=20
-> At 2026-01-21 22:45:17, "Nicolas Frattaroli" <nicolas.frattaroli@collabor=
-a.com> wrote:
-> >YUV444 (aka YCbCr444) output isn't working quite right on RK3588. The
-> >resulting image on the display, while identifying itself as YUV444, has
-> >some components swapped, even after adding the necessary DRM formats to
-> >the conversion functions.
-> >
-> >Judging by downstream, this is because YUV444 also needs an rb swap
-> >performed in the AFBC case.
-> >
-> >Add the DRM formats to the appropriate switch statements, and add a
-> >function for checking whether an rb swap needs to be performed in the
-> >AFBC case.
-> >
-> >Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
-> >Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> >---
-> > drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 19 +++++++++++++++++++
-> > 1 file changed, 19 insertions(+)
-> >
-> >diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/=
-drm/rockchip/rockchip_drm_vop2.c
-> >index ec3b4fde10db..469c63dd97d5 100644
-> >--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> >+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> >@@ -176,6 +176,7 @@ static enum vop2_data_format vop2_convert_format(u32=
- format)
-> > 	case DRM_FORMAT_ARGB2101010:
-> > 	case DRM_FORMAT_XBGR2101010:
-> > 	case DRM_FORMAT_ABGR2101010:
-> >+	case DRM_FORMAT_VUY101010:
-> > 		return VOP2_FMT_XRGB101010;
-> > 	case DRM_FORMAT_XRGB8888:
-> > 	case DRM_FORMAT_ARGB8888:
-> >@@ -184,6 +185,7 @@ static enum vop2_data_format vop2_convert_format(u32=
- format)
-> > 		return VOP2_FMT_ARGB8888;
-> > 	case DRM_FORMAT_RGB888:
-> > 	case DRM_FORMAT_BGR888:
-> >+	case DRM_FORMAT_VUY888:
-> > 		return VOP2_FMT_RGB888;
-> > 	case DRM_FORMAT_RGB565:
-> > 	case DRM_FORMAT_BGR565:
-> >@@ -225,6 +227,7 @@ static enum vop2_afbc_format vop2_convert_afbc_forma=
-t(u32 format)
-> > 	case DRM_FORMAT_ARGB2101010:
-> > 	case DRM_FORMAT_XBGR2101010:
-> > 	case DRM_FORMAT_ABGR2101010:
-> >+	case DRM_FORMAT_VUY101010:
-> > 		return VOP2_AFBC_FMT_ARGB2101010;
-> > 	case DRM_FORMAT_XRGB8888:
-> > 	case DRM_FORMAT_ARGB8888:
-> >@@ -233,6 +236,7 @@ static enum vop2_afbc_format vop2_convert_afbc_forma=
-t(u32 format)
-> > 		return VOP2_AFBC_FMT_ARGB8888;
-> > 	case DRM_FORMAT_RGB888:
-> > 	case DRM_FORMAT_BGR888:
-> >+	case DRM_FORMAT_VUY888:
->=20
-> How did you test this format? It seems tools like modetest don=E2=80=99t =
-support testing this pattern.
->=20
+There's a long-standing bug in defio where the framebuffer device or
+module gets removed while mmap'ed areas of the framebuffer memory
+persists in userspace. Page faults in the area then operate on defined
+state.
 
-Hi Andy,
+Patches 1 and 2 fix these problems. Patches 3 and 4 build upon the fix
+and put defio state into the correct places.
 
-using the rest of this series, which implements the "color format"
-DRM property, and the corresponding weston MR that makes use of it[1].
+Thomas Zimmermann (4):
+  fbdev: defio: Disconnect deferred I/O from the lifetime of struct
+    fb_info
+  fbdev: defio: Keep module reference from VMAs
+  fbdev: defio: Move variable state into struct fb_deferred_io_state
+  fbdev: defio: Move pageref array to struct fb_deferred_io_state
 
-I create a ~/.config/weston.ini with the following contents:
-
-    [output]
-    name=3DHDMI-A-1
-    color-format=3Dyuv444
-
-This will make Weston try to set the output format to 10-bit YUV444. To
-limit it to 8-bit, you can add `max-bpc=3D8`. The monitor's EDID needs to
-report YUV444 support, otherwise that Weston version won't let you set
-this property.
-
-Link: https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/1859 [=
-1]
-
-Kind regards,
-Nicolas Frattaroli
-
->=20
->=20
-> > 		return VOP2_AFBC_FMT_RGB888;
-> > 	case DRM_FORMAT_RGB565:
-> > 	case DRM_FORMAT_BGR565:
-> >@@ -270,6 +274,19 @@ static bool vop2_win_rb_swap(u32 format)
-> > 	}
-> > }
-> >=20
-> >+static bool vop2_afbc_rb_swap(u32 format)
-> >+{
-> >+	switch (format) {
-> >+	case DRM_FORMAT_NV24:
-> >+	case DRM_FORMAT_NV30:
-> >+	case DRM_FORMAT_VUY888:
-> >+	case DRM_FORMAT_VUY101010:
-> >+		return true;
-> >+	default:
-> >+		return false;
-> >+	}
-> >+}
-> >+
-> > static bool vop2_afbc_uv_swap(u32 format)
-> > {
-> > 	switch (format) {
-> >@@ -1291,6 +1308,7 @@ static void vop2_plane_atomic_update(struct drm_pl=
-ane *plane,
-> > 		 /* It's for head stride, each head size is 16 byte */
-> > 		stride =3D ALIGN(stride, block_w) / block_w * 16;
-> >=20
-> >+		rb_swap =3D vop2_afbc_rb_swap(fb->format->format);
-> > 		uv_swap =3D vop2_afbc_uv_swap(fb->format->format);
-> > 		/*
-> > 		 * This is a workaround for crazy IC design, Cluster
-> >@@ -1308,6 +1326,7 @@ static void vop2_plane_atomic_update(struct drm_pl=
-ane *plane,
-> > 			vop2_win_write(win, VOP2_WIN_AFBC_ENABLE, 1);
-> > 		vop2_win_write(win, VOP2_WIN_AFBC_FORMAT, afbc_format);
-> > 		vop2_win_write(win, VOP2_WIN_AFBC_UV_SWAP, uv_swap);
-> >+		vop2_win_write(win, VOP2_WIN_AFBC_RB_SWAP, rb_swap);
-> > 		/*
-> > 		 * On rk3566/8, this bit is auto gating enable,
-> > 		 * but this function is not work well so we need
-> >
->=20
+ drivers/video/fbdev/core/fb_defio.c | 266 ++++++++++++++++++++--------
+ include/linux/fb.h                  |   9 +-
+ 2 files changed, 195 insertions(+), 80 deletions(-)
 
 
-
+base-commit: a3ecd278f9a05323fab7471760a7ea10081251d6
+-- 
+2.52.0
 
