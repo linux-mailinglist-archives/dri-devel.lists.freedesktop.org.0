@@ -2,81 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +BxsH4GZcmnBmwAAu9opvQ
+	id oM3HHxCacmnBmwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 22:41:21 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 22:43:44 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24F06DDED
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 22:41:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C958A6DE5E
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 22:43:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B30EB10EACE;
-	Thu, 22 Jan 2026 21:41:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B13410EADA;
+	Thu, 22 Jan 2026 21:43:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="nbhvWI6F";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YAPgleyM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCC2E10EACE;
- Thu, 22 Jan 2026 21:41:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id AD66160018;
- Thu, 22 Jan 2026 21:41:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 482E1C116C6;
- Thu, 22 Jan 2026 21:41:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
- s=korg; t=1769118076;
- bh=o3gdWNkDSd9Vm/DMgr4/ykIAOvt43+NsJA/Imw15e/A=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=nbhvWI6FsmrV2v6DkoSqN8213V2yIRhOd6eP75LypoUaN54UBoDiDxVp1akq7FG3f
- CVLIelPV0CkF4x7Juc3HDczRCXMl0AOZY4EUYaiK0pNhQfi7cbwzUhOkV6AnNppJ9U
- SqiE6hXL+nm2nlnc5o4hmp73evXdLpeOeMX2qi64=
-Date: Thu, 22 Jan 2026 13:41:14 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Balbir Singh <balbirs@nvidia.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>, Matthew Brost
- <matthew.brost@intel.com>, Zi Yan <ziy@nvidia.com>, Jason Gunthorpe
- <jgg@nvidia.com>, Matthew Wilcox <willy@infradead.org>, Alistair Popple
- <apopple@nvidia.com>, Francois Dugast <francois.dugast@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, adhavan
- Srinivasan <maddy@linux.ibm.com>, Nicholas Piggin <npiggin@gmail.com>,
- Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)"
- <chleroy@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, Lyude Paul <lyude@redhat.com>, Danilo Krummrich
- <dakr@kernel.org>, David Hildenbrand <david@kernel.org>, Oscar Salvador
- <osalvador@suse.de>, Leon Romanovsky <leon@kernel.org>, Lorenzo Stoakes
- <lorenzo.stoakes@oracle.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, linuxppc-dev@lists.ozlabs.org,
- kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-mm@kvack.org, linux-cxl@vger.kernel.org
-Subject: Re: [PATCH v6 1/5] mm/zone_device: Reinitialize large zone device
- private folios
-Message-Id: <20260122134114.a04ddf4c34a4b926d057032f@linux-foundation.org>
-In-Reply-To: <626c34fc-34df-4629-baf3-fbebc9abafbb@nvidia.com>
-References: <eb94d115-18a6-455b-b020-f18f372e283a@nvidia.com>
- <aWsdv6dX2RgqajFQ@lstrano-desk.jf.intel.com>
- <4k72r4n5poss2glrof5fsapczkpcrnpokposeikw5wjvtodbto@wpqsxoxzpvy6>
- <20260119142019.GG1134360@nvidia.com>
- <96926697-070C-45DE-AD26-559652625859@nvidia.com>
- <20260119203551.GQ1134360@nvidia.com>
- <ef6ef1e2-25f1-4f1b-a8d4-98c0d7b4ad0c@nvidia.com>
- <EE2956E3-CCEA-4EF9-A1A4-A483245091FC@nvidia.com>
- <20260120135340.GA1134360@nvidia.com>
- <F7E3DF24-A37B-40A0-A507-CEF4AB76C44D@nvidia.com>
- <aXHPkQfwhMHU/oP6@lstrano-desk.jf.intel.com>
- <9077ab5b-f2c8-4c8d-8441-631e7c2cf384@suse.cz>
- <626c34fc-34df-4629-baf3-fbebc9abafbb@nvidia.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EED8310EADA
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 21:43:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1769118220;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XhuRlkDob2hPzlHCVir+5aWWnkLq3gAQWmUuwOeXHF0=;
+ b=YAPgleyMx2T5cetyaIE9zYwWFzWYe0WoSV9QunLrHHGVkNf41BlG/TptvT/lUYwdEqrxF6
+ io3KhuFi4F7oJoOQcuBA6+TDREbVKmVi3WzV8D2Ovtodr+cEhVAu9kegKBXAk0lJJV4mxl
+ PtSAEhKNLalRlCDEDYGajPB9vi2NE6c=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-675-qxMzh-BSPHaYPJoUj2S00w-1; Thu,
+ 22 Jan 2026 16:43:36 -0500
+X-MC-Unique: qxMzh-BSPHaYPJoUj2S00w-1
+X-Mimecast-MFC-AGG-ID: qxMzh-BSPHaYPJoUj2S00w_1769118214
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id B3C3919775A7; Thu, 22 Jan 2026 21:43:33 +0000 (UTC)
+Received: from GoldenWind.redhat.com (unknown [10.22.89.232])
+ by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 3A9DB30002D1; Thu, 22 Jan 2026 21:43:31 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
+Cc: "Ewan Chorynski" <ewan.chorynski@ik.me>, "Miguel Ojeda" <ojeda@kernel.org>,
+ "Alice Ryhl" <aliceryhl@google.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Shankari Anand" <shankari.ak0208@gmail.com>,
+ "David Airlie" <airlied@gmail.com>, "Atharv Dubey" <atharvd440@gmail.com>,
+ "Asahi Lina" <lina+kernel@asahilina.net>,
+ "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Lyude Paul" <lyude@redhat.com>
+Subject: [PATCH v2 1/2] rust/drm: Fixup import styles
+Date: Thu, 22 Jan 2026 16:43:02 -0500
+Message-ID: <20260122214316.3281257-1-lyude@redhat.com>
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,65 +78,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MV_CASE(0.50)[];
+X-Spamd-Result: default: False [1.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[linux-foundation.org:s=korg];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DMARC_NA(0.00)[linux-foundation.org];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[ik.me,kernel.org,google.com,ffwll.ch,gmail.com,asahilina.net,collabora.com,redhat.com];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[39];
-	FREEMAIL_CC(0.00)[suse.cz,intel.com,nvidia.com,infradead.org,lists.freedesktop.org,linux.ibm.com,gmail.com,ellerman.id.au,kernel.org,amd.com,ffwll.ch,linux.intel.com,suse.de,redhat.com,oracle.com,google.com,suse.com,lists.ozlabs.org,vger.kernel.org,kvack.org];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:dakr@kernel.org,m:ewan.chorynski@ik.me,m:ojeda@kernel.org,m:aliceryhl@google.com,m:simona@ffwll.ch,m:shankari.ak0208@gmail.com,m:airlied@gmail.com,m:atharvd440@gmail.com,m:lina+kernel@asahilina.net,m:daniel.almeida@collabora.com,m:lyude@redhat.com,m:shankariak0208@gmail.com,m:lina@asahilina.net,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[lyude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[akpm@linux-foundation.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[linux-foundation.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,nvidia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email]
-X-Rspamd-Queue-Id: C24F06DDED
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lyude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_SPAM(0.00)[0.113];
+	TAGGED_RCPT(0.00)[dri-devel,kernel];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: C958A6DE5E
 X-Rspamd-Action: no action
 
-On Thu, 22 Jan 2026 20:10:44 +1100 Balbir Singh <balbirs@nvidia.com> wrote:
+This is to match
+  https://docs.kernel.org/rust/coding-guidelines.html#imports
 
-> >> - Intel has demonstrated that this works and is still getting blocked.
-> >>
-> >> - This entire thread is about a fixes patch for large device pages.
-> >>   Changing prep_compound_page is completely out of scope for a fixes
-> >>   patch, and honestly so is most of the rest of what’s being proposed.
-> > 
-> > FWIW I'm ok if this lands as a fix patch, and perceived the discussion to be
-> > about how refactor things more properly afterwards, going forward.
-> > 
-> 
-> I've said the same thing and I concur, we can use the patch as-is and
-> change this to set the relevant identified fields after 6.19
+There should be no functional changes in this patch.
 
-So the plan is to add this patch to 6.19-rc and take another look at
-patches [2-5] during next -rc cycle?
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+---
+ rust/kernel/drm/device.rs  | 29 +++++++++++++++++++++++------
+ rust/kernel/drm/driver.rs  | 10 ++++++++--
+ rust/kernel/drm/file.rs    | 14 +++++++++++---
+ rust/kernel/drm/gem/mod.rs | 25 ++++++++++++++++++++-----
+ 4 files changed, 62 insertions(+), 16 deletions(-)
 
-I think the plan is to take Matthew's work via the DRM tree?  But if people
-want me to patchbunny this fix then please lmk.
+diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
+index 3ce8f62a00569..23c457c90a6ab 100644
+--- a/rust/kernel/drm/device.rs
++++ b/rust/kernel/drm/device.rs
+@@ -6,15 +6,32 @@
+ 
+ use crate::{
+     alloc::allocator::Kmalloc,
+-    bindings, device, drm,
+-    drm::driver::AllocImpl,
+-    error::from_err_ptr,
+-    error::Result,
++    bindings,
++    device, //
++    drm::{
++        self,
++        driver::AllocImpl, //
++    },
++    error::{
++        from_err_ptr,
++        Result, //
++    },
+     prelude::*,
+-    sync::aref::{ARef, AlwaysRefCounted},
++    sync::aref::{
++        ARef,
++        AlwaysRefCounted, //
++    },
+     types::Opaque,
+ };
+-use core::{alloc::Layout, mem, ops::Deref, ptr, ptr::NonNull};
++use core::{
++    alloc::Layout,
++    mem,
++    ops::Deref,
++    ptr::{
++        self,
++        NonNull, //
++    },
++};
+ 
+ #[cfg(CONFIG_DRM_LEGACY)]
+ macro_rules! drm_legacy_fields {
+diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
+index f30ee4c6245cd..c8ec5c0819a06 100644
+--- a/rust/kernel/drm/driver.rs
++++ b/rust/kernel/drm/driver.rs
+@@ -5,8 +5,14 @@
+ //! C header: [`include/drm/drm_drv.h`](srctree/include/drm/drm_drv.h)
+ 
+ use crate::{
+-    bindings, device, devres, drm,
+-    error::{to_result, Result},
++    bindings,
++    device,
++    devres,
++    drm, //
++    error::{
++        to_result,
++        Result, //
++    },
+     prelude::*,
+     sync::aref::ARef,
+ };
+diff --git a/rust/kernel/drm/file.rs b/rust/kernel/drm/file.rs
+index 8c46f8d519516..7dade6dfa1ba2 100644
+--- a/rust/kernel/drm/file.rs
++++ b/rust/kernel/drm/file.rs
+@@ -4,9 +4,17 @@
+ //!
+ //! C header: [`include/drm/drm_file.h`](srctree/include/drm/drm_file.h)
+ 
+-use crate::{bindings, drm, error::Result, prelude::*, types::Opaque};
+-use core::marker::PhantomData;
+-use core::pin::Pin;
++use crate::{
++    bindings,
++    drm,
++    error::Result,
++    prelude::*,
++    types::Opaque, //
++};
++use core::{
++    marker::PhantomData,
++    pin::Pin, //
++};
+ 
+ /// Trait that must be implemented by DRM drivers to represent a DRM File (a client instance).
+ pub trait DriverFile {
+diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
+index d49a9ba026356..56b7641b1405e 100644
+--- a/rust/kernel/drm/gem/mod.rs
++++ b/rust/kernel/drm/gem/mod.rs
+@@ -6,14 +6,29 @@
+ 
+ use crate::{
+     alloc::flags::*,
+-    bindings, drm,
+-    drm::driver::{AllocImpl, AllocOps},
+-    error::{to_result, Result},
++    bindings,
++    drm::{
++        self,
++        driver::{
++            AllocImpl,
++            AllocOps, //
++        },
++    },
++    error::{
++        to_result,
++        Result, //
++    },
+     prelude::*,
+-    sync::aref::{ARef, AlwaysRefCounted},
++    sync::aref::{
++        ARef,
++        AlwaysRefCounted, //
++    },
+     types::Opaque,
+ };
+-use core::{ops::Deref, ptr::NonNull};
++use core::{
++    ops::Deref,
++    ptr::NonNull, //
++};
+ 
+ /// A type alias for retrieving a [`Driver`]s [`DriverFile`] implementation from its
+ /// [`DriverObject`] implementation.
 
-I presently have
+base-commit: 6ea52b6d8f33ae627f4dcf43b12b6e713a8b9331
+-- 
+2.52.0
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Signed-off-by: Francois Dugast <francois.dugast@intel.com>
-Acked-by: Felix Kuehling <felix.kuehling@amd.com>
-Reviewed-by: Balbir Singh <balbirs@nvidia.com>
-
-If people wish to add to this then please do so.
-
-I'll restore this patch into mm.git's hotfix branch (and hence
-linux-next) because testing.
