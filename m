@@ -2,62 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kKmNMz+McWkLJAAAu9opvQ
+	id GDMFD2/hcWk+MgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 03:32:31 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 09:35:59 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E18DD60F6B
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 03:32:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E09F632B0
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 09:35:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0999810E277;
-	Thu, 22 Jan 2026 02:32:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2432210E909;
+	Thu, 22 Jan 2026 08:35:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="I92+oDEg";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="T3eJwNJX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
- Thu, 22 Jan 2026 02:32:25 UTC
-Received: from mail-m82213661.xmail.ntesmail.com
- (mail-m82213661.xmail.ntesmail.com [8.221.36.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B43310E836
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 02:32:25 +0000 (UTC)
-Received: from [127.0.0.1] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 318612bcb;
- Thu, 22 Jan 2026 10:27:15 +0800 (GMT+08:00)
-Message-ID: <8e770288-f29b-4e72-b5a6-e3cfd77b87fb@rock-chips.com>
-Date: Thu, 22 Jan 2026 10:27:13 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] Rockchip DRM use-after-free & null-ptr-deref fixes
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20260122-drm-rk-fixes-v1-0-3942f185750e@collabora.com>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <20260122-drm-rk-fixes-v1-0-3942f185750e@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9be387049103abkunm77d59df1bb420
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGU9OTFZLSRgfSElLGkoaTUlWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=I92+oDEgnhBj/xd19A1BnS+A6cqHFKTL38BIABnUxSdl1aNhq9t2J9vngMWKoJfjXkmkjLddbyv9G0fUmx2KjJg6a4Gdgq6zqv9BTh9pD64IuRiGOQ+4TdxbGOH5xX6gEvENNT3Vkulj7X1U8UA/rI4huZzfmJ2gIrurHe946ks=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=S49y2L4gD63j6L5j9pyo9jE88T6ardth6Lb6pcKfHeg=;
- h=date:mime-version:subject:message-id:from;
+X-Greylist: delayed 630 seconds by postgrey-1.36 at gabe;
+ Thu, 22 Jan 2026 02:42:31 UTC
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 396BD10E836
+ for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 02:42:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:To:Subject:Date:Message-Id; bh=HckW+XcKUr0A8G+
+ DPWEvpd+s3/zfSfvl1KJHrkT99QM=; b=T3eJwNJXXYrtytKuPWicYC62ioHxOGF
+ UUfTu9tZyYttN2JHvPjPzvZL5HQOvW7KzleS0bIuh4ygo2g5hhmlrkc8NfG49MyB
+ vuJlpr3sG4qjdOz9xu8VM1sC8eDnuR3EHOr4f6SURejvAOjyKSRdvoNw7J9iXbVt
+ iGH1OoYSVye8=
+Received: from 163.com (unknown [])
+ by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id
+ _____wCHn_5Xi3FpkZzXHg--.1775S2; 
+ Thu, 22 Jan 2026 10:28:40 +0800 (CST)
+From: shu.sansan@163.com
+To: andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org,
+	rfoss@kernel.org
+Cc: laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, guofu wan <lizwan0412@gmail.com>,
+ guofu wan <shu.sansan@163.com>
+Subject: [PATCH] drm:dw-mipi-dsi: avoid invalidating config by removing
+ dw_mipi_dsi_set_mode
+Date: Wed, 21 Jan 2026 18:28:03 -0800
+Message-Id: <20260122022803.6963-1-shu.sansan@163.com>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: _____wCHn_5Xi3FpkZzXHg--.1775S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Kr4UtryDJw1UJw45Zr4xZwb_yoW8GF45pF
+ WUGw18Kry8tFsFqa4xCFW8ZF98Ja9xJayrCrWUG34xZ3Wq9F1jyr1qkFW3Gr9YgFW8Zr1S
+ v393XryfXFn7uF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pizRRtUUUUU=
+X-Originating-IP: [117.147.31.120]
+X-CM-SenderInfo: xvkxh2pdqvt0i6rwjhhfrp/xtbC2xivy2lxi1jIzwAA3r
+X-Mailman-Approved-At: Thu, 22 Jan 2026 08:35:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,74 +70,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[rock-chips.com,none];
+X-Spamd-Result: default: False [1.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[rock-chips.com:s=default];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:cristian.ciocaltea@collabora.com,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dmitry.baryshkov@oss.qualcomm.com,m:lumag@kernel.org,m:kernel@collabora.com,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[chaoyi.chen@rock-chips.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[rock-chips.com,sntech.de,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,oss.qualcomm.com,collabora.com,lists.freedesktop.org,lists.infradead.org,vger.kernel.org];
-	DKIM_TRACE(0.00)[rock-chips.com:+];
+	FREEMAIL_FROM(0.00)[163.com];
+	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:lizwan0412@gmail.com,m:shu.sansan@163.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[shu.sansan@163.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,lists.freedesktop.org,vger.kernel.org,163.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	HAS_XOIP(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[shu.sansan@163.com,dri-devel-bounces@lists.freedesktop.org];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[chaoyi.chen@rock-chips.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: E18DD60F6B
+	FROM_NO_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[163.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 5E09F632B0
 X-Rspamd-Action: no action
 
-Hi Cristian,
+From: guofu wan <lizwan0412@gmail.com>
 
-On 1/22/2026 7:17 AM, Cristian Ciocaltea wrote:
-> The first three patches in the series are fixes for use-after-free &
-> null-ptr-deref related issues found in dw_dp and inno-hdmi Rockchip DRM
-> drivers.
-> 
+The dw_mipi_dsi_set_mode() function performs a DSI power-off operation via
+dsi_write(dsi, DSI_PWR_UP, RESET), which invalidates all previously
+applied configurations.
 
-Have you tried calling unbind() and bind() multiple times? 
-In this case, can DRM still work properly?
+Since the original code already handles the command mode configuration
+within dw_mipi_dsi_command_mode_config(), re-invoking the set_mode
+function is redundant and counterproductive. Removing this call ensures
+that the driver directly executes dsi_write(dsi, DSI_PWR_UP, POWERUP),
+preserving the existing settings.
 
-> The remaining ones provide a few minor improvements to dw_dp and
-> dw_hdmi_qp.
-> 
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
-> Cristian Ciocaltea (6):
->       drm/rockchip: inno-hdmi: Switch to drmm_kzalloc()
->       drm/rockchip: dw_dp: Switch to drmm_kzalloc()
->       drm/rockchip: dw_dp: Fix null-ptr-deref in dw_dp_remove()
->       drm/rockchip: dw_dp: Simplify error handling
->       drm/rockchip: dw_dp: Drop unnecessary #include
->       drm/rockchip: dw_hdmi_qp: Switch to drmm_encoder_init()
-> 
->  drivers/gpu/drm/rockchip/dw_dp-rockchip.c      | 35 ++++++++++----------------
->  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 13 +++++-----
->  drivers/gpu/drm/rockchip/inno_hdmi-rockchip.c  |  3 ++-
->  3 files changed, 21 insertions(+), 30 deletions(-)
-> ---
-> base-commit: 68b271a3a94cfd6c7695a96b6398b52feb89e2c2
-> change-id: 20260122-drm-rk-fixes-a7622c71553e
-> 
-> 
-> 
-> 
+Signed-off-by: guofu wan <shu.sansan@163.com>
+---
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+index 8fc2e282ff11..b02373f16bed 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+@@ -1015,8 +1015,7 @@ static void dw_mipi_dsi_mode_set(struct dw_mipi_dsi *dsi,
+ 
+ 	dw_mipi_dsi_wait_for_two_frames(adjusted_mode);
+ 
+-	/* Switch to cmd mode for panel-bridge pre_enable & panel prepare */
+-	dw_mipi_dsi_set_mode(dsi, 0);
++	dsi_write(dsi, DSI_PWR_UP, POWERUP);
+ 
+ 	if (phy_ops->power_on)
+ 		phy_ops->power_on(dsi->plat_data->priv_data);
 -- 
-Best, 
-Chaoyi
+2.17.1
+
