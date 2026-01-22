@@ -2,75 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OO2CDDw8cmlMfAAAu9opvQ
+	id mGwIIG5AcmnpfAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 16:03:24 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 16:21:18 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D801684AA
-	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 16:03:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E30F68A17
+	for <lists+dri-devel@lfdr.de>; Thu, 22 Jan 2026 16:21:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8097A10E9D3;
-	Thu, 22 Jan 2026 15:03:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7224E10E9D4;
+	Thu, 22 Jan 2026 15:21:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="bT6zFJXH";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="N8ty2CZO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D360010E9D3
- for <dri-devel@lists.freedesktop.org>; Thu, 22 Jan 2026 15:03:20 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 6FB7C4E421F2;
- Thu, 22 Jan 2026 15:03:19 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 37575606B6;
- Thu, 22 Jan 2026 15:03:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 47242119B82C7; Thu, 22 Jan 2026 16:03:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1769094197; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=cNoOeyLdRbrJPSI/I28lkpAsBvsGiM1vvz72sBr9geA=;
- b=bT6zFJXHZg4b/0Yur0HKyDxB7YVrRbw3CMxP+5Ir+R40QcBKAyqf+FJzlDonCEznoyVNhA
- CCIHPkx+8/4GfsBmOyxq6hpQXyXd70tOyjrkZ1mWoKbBcueernf7T74/w7ABXAppVSQiJW
- gDaaxcO7w2GjB17wCIKYfJ9NoXRjJZZRzjuDGxH5yMy0DAUsRJc3+mgmkPcPsf2LgQ9S45
- H0XQkUyNrcZeWp/BK1JoD1rGYKDTSlEW4BU1MHdTqjT6VF1rtFC/yC6cD8knyTdXTEnCjH
- i3JPQ0RGKBnqI0NzKNB/ifdENXRodl2vEY9kS+4LCNKTKV66j0jey1UVBH9f2Q==
-Date: Thu, 22 Jan 2026 16:03:11 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, Jyri Sarha
- <jyri.sarha@iki.fi>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Russell King
- <linux@armlinux.org.uk>, Bartosz Golaszewski <brgl@bgdev.pl>, Tony Lindgren
- <tony@atomide.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Markus
- Schneider-Pargmann <msp@baylibre.com>, Bajjuri Praneeth <praneeth@ti.com>,
- Louis Chauvet <louis.chauvet@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, Miguel Gazquez
- <miguel.gazquez@bootlin.com>, Herve Codina <herve.codina@bootlin.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-omap@vger.kernel.org
-Subject: Re: [PATCH v4 20/25] drm/tilcdc: Use devm_drm_of_get_bridge() helper
-Message-ID: <20260122160311.658cc219@kmaincent-XPS-13-7390>
-In-Reply-To: <20260122-camouflaged-cat-of-sorcery-7af8cf@houat>
-References: <20260116-feature_tilcdc-v4-0-2c1c22143087@bootlin.com>
- <20260116-feature_tilcdc-v4-20-2c1c22143087@bootlin.com>
- <DFSVNE16870S.ABQUMH9BWMDY@bootlin.com>
- <20260122-camouflaged-cat-of-sorcery-7af8cf@houat>
-Organization: bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60B1210E0CB;
+ Thu, 22 Jan 2026 15:21:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=m7WPe6F8DGC50lU0mvCVqA2L8EH/LbaK8/94xDy8uUQ=; b=N8ty2CZOxXAQRr9QXe3tTX1RuE
+ 23NkiIfIz59cntvLyrtOuG/yQjOyqYAgAvKXSzZSby/1sAYvz9gYX82kHDWIDGvPs6f4LDK1xh9R+
+ 03SKfnWDpELmr+ZtQjh/xGSC4TjxsV+7B0cTnzBBxos0JZ69qVTSQ3D4h6PUOAEt8EeUdlyGSXlSW
+ 1Le3yHe8dxI9Hw9Lr/mRpt8rmvrPGjUQFopirQBEVUXvYXZVGjYS1u0N/GOTs30NntDgel8tB+e70
+ 7NOL65ApAdzbsAjivpErJlTc4Hamx5V0N/5HD+7YH2OwIHqgFO6b1uZf4gX9kqWh2+Z6SiypayTGD
+ cKPZvkMw==;
+Received: from [189.89.57.42] (helo=killbill.home)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1viwUb-008V5R-44; Thu, 22 Jan 2026 16:21:05 +0100
+From: Melissa Wen <mwen@igalia.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, siqueira@igalia.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, anthony.koo@amd.com, krunoslav.kovac@amd.com,
+ wayne.lin@amd.com
+Cc: Alex Hung <Alex.Hung@amd.com>, Aurabindo Pillai <Aurabindo.Pillai@amd.com>,
+ Krunoslav Kovac <Krunoslav.Kovac@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+Subject: [PATCH] drm/amd/display: fix wrong color value mapping on MCM shaper
+ LUT
+Date: Thu, 22 Jan 2026 12:20:29 -0300
+Message-ID: <20260122152058.52036-1-mwen@igalia.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,89 +67,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+X-Spamd-Result: default: False [1.99 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:mripard@kernel.org,m:luca.ceresoli@bootlin.com,m:jyri.sarha@iki.fi,m:tomi.valkeinen@ideasonboard.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux@armlinux.org.uk,m:brgl@bgdev.pl,m:tony@atomide.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:msp@baylibre.com,m:praneeth@ti.com,m:louis.chauvet@bootlin.com,m:thomas.petazzoni@bootlin.com,m:miguel.gazquez@bootlin.com,m:herve.codina@bootlin.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-omap@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	ARC_NA(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	FORGED_SENDER(0.00)[kory.maincent@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[bootlin.com,iki.fi,ideasonboard.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,kernel.org,armlinux.org.uk,bgdev.pl,atomide.com,intel.com,linaro.org,kwiboo.se,baylibre.com,ti.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
-	DKIM_TRACE(0.00)[bootlin.com:+];
+	FREEMAIL_TO(0.00)[amd.com,igalia.com,gmail.com,ffwll.ch];
+	DKIM_TRACE(0.00)[igalia.com:-];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[kory.maincent@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[mwen@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,bootlin.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 6D801684AA
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,igalia.com:mid,igalia.com:email]
+X-Rspamd-Queue-Id: 4E30F68A17
 X-Rspamd-Action: no action
 
-On Thu, 22 Jan 2026 15:03:21 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
+Some shimmer/colorful points appears when using the steamOS color
+pipeline for HDR on gaming with DCN32. These points look like black
+values being wrongly mapped to red/blue/green values. It was caused
+because the number of hw points in regular LUTs and in a shaper LUT was
+treated as the same.
 
-> Hi,
->=20
-> On Mon, Jan 19, 2026 at 10:18:12PM +0100, Luca Ceresoli wrote:
-> > Maxime, I'd appreciate your opinion about the topic below.
-> >=20
-> > > -	int ret;
-> > >
-> > > -	ret =3D drm_of_find_panel_or_bridge(ddev->dev->of_node, 0, 0,
-> > > -					  &panel, &bridge);
-> > > -	if (ret =3D=3D -ENODEV)
-> > > +	bridge =3D devm_drm_of_get_bridge(ddev->dev, ddev->dev->of_node,
-> > > 0, 0);
-> > > +	if (PTR_ERR(bridge) =3D=3D -ENODEV) =20
-> >=20
-> > This patch is technically OK in the sense that the code before and after
-> > would be equivalent. However if it were me I would not do this change. =
-The
-> > reason is that both drm_of_find_panel_or_bridge() and *_of_get_bridge()=
- are
-> > problematic when introducing drm_bridge hotplug, which is the long-term
-> > goal I am working for, but *_of_get_bridge() is more problematic than
-> > drm_of_find_panel_or_bridge().
-> >=20
-> > These functions are still there and not deprecated because there is
-> > currently no better replacement (and drm_bridge hotplug is not yet
-> > supported because of this and other things still to be done). To have a
-> > replacement, the panel_bridge lifetime needs to be reworked first and
-> > that's not going to happen overnight. So, all in all, if this patch is =
-not
-> > crucial to your series I'd consider dropping it. But if it is important=
- I'm
-> > fine with applying it, it won't make a huge difference. =20
->=20
-> Eh. I'm fine either way. I understand what you're saying, but this patch
-> doesn't introduce any *new* problem while it cleans up the driver, so I
-> guess we could merge it still. And further clean it up with what you
-> were suggesting later on.
+DCN3+ regular LUTs have 257 bases and implicit deltas (i.e. HW
+calculates them), but shaper LUT is a special case: it has 256 bases and
+256 deltas, as in DCN1-2 regular LUTs, and outputs 14-bit values.
 
-As you want. I will then keep the patch. If anyone has reasons why these
-patch should not be merged, speak now or forever hold your peace! ^^
+Fix that by setting by decreasing in 1 the number of HW points computed
+in the LUT segmentation so that shaper LUT (i.e. fixpoint == true) keeps
+the same DCN10 CM logic and regular LUTs go with `hw_points + 1`.
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+CC: Krunoslav Kovac <Krunoslav.Kovac@amd.com>
+Fixes: 4d5fd3d08ea9 ("drm/amd/display: PQ tail accuracy")
+Signed-off-by: Melissa Wen <mwen@igalia.com>
+---
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
+index 0690c346f2c5..a4f14b16564c 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
+@@ -163,6 +163,11 @@ bool cm3_helper_translate_curve_to_hw_format(
+ 			hw_points += (1 << seg_distr[k]);
+ 	}
+ 
++	// DCN3+ have 257 pts in lieu of no separate slope registers
++	// Prior HW had 256 base+slope pairs
++	// Shaper LUT (i.e. fixpoint == true) is still 256 bases and 256 deltas
++	hw_points = fixpoint ? (hw_points - 1) : hw_points;
++
+ 	j = 0;
+ 	for (k = 0; k < (region_end - region_start); k++) {
+ 		increment = NUMBER_SW_SEGMENTS / (1 << seg_distr[k]);
+@@ -223,8 +228,6 @@ bool cm3_helper_translate_curve_to_hw_format(
+ 	corner_points[1].green.slope = dc_fixpt_zero;
+ 	corner_points[1].blue.slope = dc_fixpt_zero;
+ 
+-	// DCN3+ have 257 pts in lieu of no separate slope registers
+-	// Prior HW had 256 base+slope pairs
+ 	lut_params->hw_points_num = hw_points + 1;
+ 
+ 	k = 0;
+-- 
+2.51.0
+
