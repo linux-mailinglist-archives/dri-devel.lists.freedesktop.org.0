@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eKguAeDPc2kCywAAu9opvQ
+	id 8M8tA+TPc2kCywAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:45:36 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:45:40 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CAB67A42E
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:45:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B06137A435
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:45:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB68C10EBD2;
-	Fri, 23 Jan 2026 19:45:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C1F310EBD3;
+	Fri, 23 Jan 2026 19:45:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="B0ghJ9sX";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="OfGUP//K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B60CA10EBD1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 19:45:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1769197518; cv=none; 
+Received: from sender4-pp-e108.zoho.com (sender4-pp-e108.zoho.com
+ [136.143.188.108])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8540B10EBD2
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 19:45:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1769197522; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=JsFWpU0wQ0VGgUT3qGiqpKYYlUH0HR2iZuLPDAR3YwDjXY1+MYap5x8bBM71BhWMeTQsmRbqhwi8l4hU4QK84M3vA0vZHfd4qS9dh1r6rOw0deoSA0BcKnpNnnrA0n4KHpK+PrXhs0iguUP8VEnEknNgqTY/HFYCrkML2KAvMsc=
+ b=hNNULrcj1AJr1RkfjHxHuEZO+QQYS7r6AkFM3UjljZPaucLq5uTp/M+JnESLRFRE+3A0wJePmL9VXUgfSuH3ub9MIoZQllQso8Woamr+ST9ooCUksjxoLAkrMItR8f/u7mqp630K+91J+Jz/Avm9exD+Y89n0EHNXXiXO8pAPHU=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1769197518;
+ s=zohoarc; t=1769197522;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=GYnkaFMMP6LgjK9TzPtJx+rtche8wwgijXG7e64m8mk=; 
- b=XYbctznHaworXkpgoM3k+9q09/obooRCPacgzzNaVR2d45Wi5F5PhPrhoZrQn/gkJ28MPNNgcJOXdeBgEN0WDehM45FVv3gilcTA8zKscFg6/tqM89CFSTwKBi3mY6ipQJ8Q0vDlKxtMKwrt1XZhx71fVQys3bkkG6j8AiaIvlg=
+ bh=1PEjpErw/3Petkysh+3xd0dhTHn6vG457g9XrkwCPew=; 
+ b=JBwcFI8PuYt+KT8Z/e/pRubo1Bt0cYCNKJSfk61Lpqolw2pJF3WfnM3DfP7DiehjIGXWUwVKYBEFTRER441VZ6zevvybwEjIayNsJqzGyIBv8RErWpkh4YZYqtO7QBQBvPY64UJbS7GNLbxlNzJdenQZCz4XI05svl6o/QnZZqo=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769197518; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769197522; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=GYnkaFMMP6LgjK9TzPtJx+rtche8wwgijXG7e64m8mk=;
- b=B0ghJ9sX6x3rJGn6fydvvuOHUbKO+121Lc6W+fP1ysxzO6v5RpvQ4VFReRBuL4Il
- aow7P37laiNiCOaZNJGhhRBGyBntL9bPyapRSCl2ba/Uxo4rYDNMm2c/+nhDolXyV1O
- EK+WffcyUUsjisUTfGr8UYG3+7n+LsweP5PtSB4Y=
-Received: by mx.zohomail.com with SMTPS id 1769197516720900.6204900005016;
- Fri, 23 Jan 2026 11:45:16 -0800 (PST)
+ bh=1PEjpErw/3Petkysh+3xd0dhTHn6vG457g9XrkwCPew=;
+ b=OfGUP//KU3b0QostuWYDjb8zGjWV6FbzR+OPUIrtomQoOpsDbJPkgmx5u+4XEym7
+ NSE/29W14x7DmjhuEaMvLVHNePUBrPHdjXwnIu/iV49USdNCcUPaovsy7tua5b5htDU
+ 4RkPNP3W2J1ULzTMd3AK8Gzu47IDqflZebFCxepg=
+Received: by mx.zohomail.com with SMTPS id 1769197520992670.7017319382686;
+ Fri, 23 Jan 2026 11:45:20 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Fri, 23 Jan 2026 20:44:04 +0100
-Subject: [PATCH v6 3/4] vkms: Do not send hotplug events for same connector
- status
+Date: Fri, 23 Jan 2026 20:44:05 +0100
+Subject: [PATCH v6 4/4] vkms: Pass the vkms connector as opposed to the
+ device on hotplug
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260123-hot-plug-passup-v6-3-aaaf61d960bb@collabora.com>
+Message-Id: <20260123-hot-plug-passup-v6-4-aaaf61d960bb@collabora.com>
 References: <20260123-hot-plug-passup-v6-0-aaaf61d960bb@collabora.com>
 In-Reply-To: <20260123-hot-plug-passup-v6-0-aaaf61d960bb@collabora.com>
 To: =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
@@ -107,44 +107,74 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.710];
+	NEURAL_HAM(-0.00)[-0.701];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,collabora.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 9CAB67A42E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,collabora.com:dkim,collabora.com:mid]
+X-Rspamd-Queue-Id: B06137A435
 X-Rspamd-Action: no action
 
 From: Marius Vlad <marius.vlad@collabora.com>
 
-Only send a new hotplug event when writing to the connector status
-configfs entry if the connector status changed compared to its
-previous value.
+By passing the connector rather than the device to
+vkms_trigger_connector_hotplug, vkms can trigger connector hotplugging
+events that contain the connector ID.
 
 Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/gpu/drm/vkms/vkms_configfs.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vkms/vkms_configfs.c  | 2 +-
+ drivers/gpu/drm/vkms/vkms_connector.c | 6 +++---
+ drivers/gpu/drm/vkms/vkms_connector.h | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index 506666e21c91..d6e203d59b45 100644
+index d6e203d59b45..63a27f671e6a 100644
 --- a/drivers/gpu/drm/vkms/vkms_configfs.c
 +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -549,9 +549,11 @@ static ssize_t connector_status_store(struct config_item *item,
- 		return -EINVAL;
- 
- 	scoped_guard(mutex, &connector->dev->lock) {
-+		enum drm_connector_status old_status =
-+			vkms_config_connector_get_status(connector->config);
+@@ -554,7 +554,7 @@ static ssize_t connector_status_store(struct config_item *item,
  		vkms_config_connector_set_status(connector->config, status);
  
--		if (connector->dev->enabled)
-+		if (connector->dev->enabled && old_status != status)
- 			vkms_trigger_connector_hotplug(connector->dev->config->dev);
+ 		if (connector->dev->enabled && old_status != status)
+-			vkms_trigger_connector_hotplug(connector->dev->config->dev);
++			vkms_trigger_connector_hotplug(connector->config->connector);
  	}
  
+ 	return (ssize_t)count;
+diff --git a/drivers/gpu/drm/vkms/vkms_connector.c b/drivers/gpu/drm/vkms/vkms_connector.c
+index b0a6b212d3f4..cad64eff72ea 100644
+--- a/drivers/gpu/drm/vkms/vkms_connector.c
++++ b/drivers/gpu/drm/vkms/vkms_connector.c
+@@ -88,9 +88,9 @@ struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev)
+ 	return connector;
+ }
+ 
+-void vkms_trigger_connector_hotplug(struct vkms_device *vkmsdev)
++void vkms_trigger_connector_hotplug(struct vkms_connector *vkms_connector)
+ {
+-	struct drm_device *dev = &vkmsdev->drm;
++	struct drm_connector *connector = &vkms_connector->base;
+ 
+-	drm_kms_helper_hotplug_event(dev);
++	drm_kms_helper_connector_hotplug_event(connector);
+ }
+diff --git a/drivers/gpu/drm/vkms/vkms_connector.h b/drivers/gpu/drm/vkms/vkms_connector.h
+index ed312f4eff3a..7cd76d01b10b 100644
+--- a/drivers/gpu/drm/vkms/vkms_connector.h
++++ b/drivers/gpu/drm/vkms/vkms_connector.h
+@@ -28,8 +28,8 @@ struct vkms_connector *vkms_connector_init(struct vkms_device *vkmsdev);
+ 
+ /**
+  * vkms_trigger_connector_hotplug() - Update the device's connectors status
+- * @vkmsdev: VKMS device to update
++ * @vkms_connector: VKMS connector to update
+  */
+-void vkms_trigger_connector_hotplug(struct vkms_device *vkmsdev);
++void vkms_trigger_connector_hotplug(struct vkms_connector *vkms_connector);
+ 
+ #endif /* _VKMS_CONNECTOR_H_ */
 
 -- 
 2.52.0
