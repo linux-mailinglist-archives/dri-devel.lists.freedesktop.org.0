@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sD0eISiec2lqxgAAu9opvQ
+	id WDohCymec2lqxgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 17:13:28 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 17:13:29 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F75D783B1
+	by mail.lfdr.de (Postfix) with ESMTPS id C8499783B9
 	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 17:13:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CC7E10EB40;
-	Fri, 23 Jan 2026 16:13:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BA9210EB42;
+	Fri, 23 Jan 2026 16:13:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="bMlJHsMn";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="f2U1wUZO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E89B510EB40
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 16:13:20 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC72310EB40
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 16:13:24 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id DCCE71A2A54;
- Fri, 23 Jan 2026 16:13:19 +0000 (UTC)
+ by smtpout-04.galae.net (Postfix) with ESMTPS id 0D101C1F1CA;
+ Fri, 23 Jan 2026 16:13:24 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id B13876070A;
- Fri, 23 Jan 2026 16:13:19 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id B52296070A;
+ Fri, 23 Jan 2026 16:13:23 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id A6537119A87DD; Fri, 23 Jan 2026 17:13:15 +0100 (CET)
+ with ESMTPSA id A7FB2119A87DE; Fri, 23 Jan 2026 17:13:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1769184798; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1769184801; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=xKMRSlk+kSO+I85v8aEyssRs5j3tcpi0RUOAjUjTJUw=;
- b=bMlJHsMnz7RYbTDu2KpVjQQfaNWIJglS9isVIQ1ufAWWXSMAQOSoa7izYi2zBncVf8nEcy
- k8IDE4CezWmZs33+bfA5OjoIdtlnabs/t/17JKDlTNdOlTpUdabSj61qN5d8vZpZw1FYLR
- LXuURxPM5YszK9ulF88rKSElJg7nRKlezBV1Btxgfy7+YoE49uS2MqLi3FnqYGUVkFg3yo
- ckI/7K3wFBnEmc9Gz543jt709wSPVzimg9r1aFi73J/lHmkQHWrbewt3WIqjorXBttG198
- X1MItY4u0OR1G7LdGTAu20ySInC7vnNpp64VzEDg8xXJG6/4EVDm0cn5H6Ekgw==
+ bh=RMUT71HMO3KYXOu/aBIfX6r7PL14BExYu+Hfkz6YzPA=;
+ b=f2U1wUZO9fpA3Ly9M2YhL4Ffg9zxwF48YAA3TNS5/v/Oo0YLEkEVgCR4EnlceRJ7uYhDte
+ zhIxTna1lUtATl/V9q/88nTt5rSXBZ/fQQ0QXLk3n5FokiPmQUVWKpnstoI5Hvi72WDUtm
+ qxun9tVHHaiP9sdzBjHsR9yRJRWugseupUeRnUAK0u9kzj+6IrGl58iKB/i1+404/fsGEo
+ dbPuZQtd5pqvECxBqbf8SHNZLjM87RIkpMefdQE8A8kz+5xq5HG4L/IFBTTo/SYdQjhOvf
+ hv6y8uh3RJvu4zT05bj6TKt2GjjeIVI7F57ODGot4bRODaVFQXRhDowljCiwBQ==
 From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-Date: Fri, 23 Jan 2026 17:12:31 +0100
-Subject: [PATCH v5 13/25] drm/tilcdc: Remove the useless module list
- support
+Date: Fri, 23 Jan 2026 17:12:32 +0100
+Subject: [PATCH v5 14/25] drm/tilcdc: Use drm_module_platform_driver() helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260123-feature_tilcdc-v5-13-5a44d2aa3f6f@bootlin.com>
+Message-Id: <20260123-feature_tilcdc-v5-14-5a44d2aa3f6f@bootlin.com>
 References: <20260123-feature_tilcdc-v5-0-5a44d2aa3f6f@bootlin.com>
 In-Reply-To: <20260123-feature_tilcdc-v5-0-5a44d2aa3f6f@bootlin.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -120,135 +119,61 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,bootlin.com:dkim,bootlin.com:mid,ti.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 1F75D783B1
+X-Rspamd-Queue-Id: C8499783B9
 X-Rspamd-Action: no action
 
-The tilcdc driver previously supported a sub-module system where
-external display drivers (panels, encoders) could register themselves
-through tilcdc_module_init() and be automatically initialized through
-a module list. This infrastructure became unused after the component
-framework support and panel driver was removed.
+Use the drm_module_platform_driver() helper macro to simplify driver
+registration. This macro handles both the platform driver registration
+and the drm_firmware_drivers_only() check, making the custom init/exit
+functions unnecessary.
 
 Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
 ---
 
 Change in v3:
-- Move the removal of module_init/exit in a following patch.
+- New patch split from previous patch of the series.
 ---
- drivers/gpu/drm/tilcdc/tilcdc_drv.c | 29 -----------------------------
- drivers/gpu/drm/tilcdc/tilcdc_drv.h | 27 ---------------------------
- 2 files changed, 56 deletions(-)
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c | 19 ++-----------------
+ 1 file changed, 2 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-index d0503778b5f6f..20f93240b335c 100644
+index 20f93240b335c..97380b623fca3 100644
 --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
 +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-@@ -7,7 +7,6 @@
- /* LCDC DRM driver, based on da8xx-fb */
+@@ -20,6 +20,7 @@
+ #include <drm/drm_gem_dma_helper.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_mm.h>
++#include <drm/drm_module.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_vblank.h>
  
- #include <linux/mod_devicetable.h>
--#include <linux/module.h>
- #include <linux/pinctrl/consumer.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-@@ -34,8 +33,6 @@ enum tilcdc_variant {
- 	DA850_TILCDC,
+@@ -532,23 +533,7 @@ static struct platform_driver tilcdc_platform_driver = {
+ 	},
  };
  
--static LIST_HEAD(module_list);
--
- static const u32 tilcdc_rev1_formats[] = { DRM_FORMAT_RGB565 };
- 
- static const u32 tilcdc_straight_formats[] = { DRM_FORMAT_RGB565,
-@@ -50,20 +47,6 @@ static const u32 tilcdc_legacy_formats[] = { DRM_FORMAT_RGB565,
- 					     DRM_FORMAT_RGB888,
- 					     DRM_FORMAT_XRGB8888 };
- 
--void tilcdc_module_init(struct tilcdc_module *mod, const char *name,
--		const struct tilcdc_module_ops *funcs)
+-static int __init tilcdc_drm_init(void)
 -{
--	mod->name = name;
--	mod->funcs = funcs;
--	INIT_LIST_HEAD(&mod->list);
--	list_add(&mod->list, &module_list);
+-	if (drm_firmware_drivers_only())
+-		return -ENODEV;
+-
+-	DBG("init");
+-	return platform_driver_register(&tilcdc_platform_driver);
 -}
 -
--void tilcdc_module_cleanup(struct tilcdc_module *mod)
+-static void __exit tilcdc_drm_fini(void)
 -{
--	list_del(&mod->list);
+-	DBG("fini");
+-	platform_driver_unregister(&tilcdc_platform_driver);
 -}
 -
- static int tilcdc_atomic_check(struct drm_device *dev,
- 			       struct drm_atomic_state *state)
- {
-@@ -97,12 +80,6 @@ static const struct drm_mode_config_funcs mode_config_funcs = {
- static void modeset_init(struct drm_device *dev)
- {
- 	struct tilcdc_drm_private *priv = dev->dev_private;
--	struct tilcdc_module *mod;
--
--	list_for_each_entry(mod, &module_list, list) {
--		DBG("loading module: %s", mod->name);
--		mod->funcs->modeset_init(mod, dev);
--	}
+-module_init(tilcdc_drm_init);
+-module_exit(tilcdc_drm_fini);
++drm_module_platform_driver(tilcdc_platform_driver);
  
- 	dev->mode_config.min_width = 0;
- 	dev->mode_config.min_height = 0;
-@@ -465,15 +442,9 @@ static struct drm_info_list tilcdc_debugfs_list[] = {
- 
- static void tilcdc_debugfs_init(struct drm_minor *minor)
- {
--	struct tilcdc_module *mod;
--
- 	drm_debugfs_create_files(tilcdc_debugfs_list,
- 				 ARRAY_SIZE(tilcdc_debugfs_list),
- 				 minor->debugfs_root, minor);
--
--	list_for_each_entry(mod, &module_list, list)
--		if (mod->funcs->debugfs_init)
--			mod->funcs->debugfs_init(mod, minor);
- }
- #endif
- 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.h b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-index dafb00908d1d4..60e85e29b1063 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-@@ -81,33 +81,6 @@ struct tilcdc_drm_private {
- 	bool irq_enabled;
- };
- 
--/* Sub-module for display.  Since we don't know at compile time what panels
-- * or display adapter(s) might be present (for ex, off chip dvi/tfp410,
-- * hdmi encoder, various lcd panels), the connector/encoder(s) are split into
-- * separate drivers.  If they are probed and found to be present, they
-- * register themselves with tilcdc_register_module().
-- */
--struct tilcdc_module;
--
--struct tilcdc_module_ops {
--	/* create appropriate encoders/connectors: */
--	int (*modeset_init)(struct tilcdc_module *mod, struct drm_device *dev);
--#ifdef CONFIG_DEBUG_FS
--	/* create debugfs nodes (can be NULL): */
--	int (*debugfs_init)(struct tilcdc_module *mod, struct drm_minor *minor);
--#endif
--};
--
--struct tilcdc_module {
--	const char *name;
--	struct list_head list;
--	const struct tilcdc_module_ops *funcs;
--};
--
--void tilcdc_module_init(struct tilcdc_module *mod, const char *name,
--		const struct tilcdc_module_ops *funcs);
--void tilcdc_module_cleanup(struct tilcdc_module *mod);
--
- #define DBG(fmt, ...) DRM_DEBUG(fmt"\n", ##__VA_ARGS__)
- 
- int tilcdc_crtc_create(struct drm_device *dev);
+ MODULE_AUTHOR("Rob Clark <robdclark@gmail.com");
+ MODULE_DESCRIPTION("TI LCD Controller DRM Driver");
 
 -- 
 2.43.0
