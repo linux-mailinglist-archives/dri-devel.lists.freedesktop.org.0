@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qNpCA/s9c2kztgAAu9opvQ
+	id 0O1oCxo+c2kztgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 10:23:07 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 10:23:38 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ECC27334D
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 10:23:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B81473388
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 10:23:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC17F10E20F;
-	Fri, 23 Jan 2026 09:23:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0506E10EA7F;
+	Fri, 23 Jan 2026 09:23:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="3u+mSfx5";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Qzn3LkIX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com
- [209.85.218.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46AA110E20F
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 09:23:03 +0000 (UTC)
-Received: by mail-ej1-f73.google.com with SMTP id
- a640c23a62f3a-b83c3dd2092so208436066b.1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 01:23:03 -0800 (PST)
+Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com
+ [209.85.208.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A02BC10EA7F
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 09:23:35 +0000 (UTC)
+Received: by mail-ed1-f73.google.com with SMTP id
+ 4fb4d7f45d1cf-64d01707c32so17672a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 01:23:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1769160182; x=1769764982;
+ d=google.com; s=20230601; t=1769160214; x=1769765014;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:from:subject:message-id:references
  :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
- :reply-to; bh=krQTROe4H3NUeXd/bSNRIGoEhdSPybqAT9gUYqiaTP0=;
- b=3u+mSfx5AzQDxd5pE7102FoUkLdPsLBdjPgpFA1FuuIsruWu1ogGrswp+I/hTklhCO
- wJLK77M5HuSAmcaP5CDY6L4DNZIjqd92daoHHLVnzh8KUV8N8I/l6XO1es/37IbkuCJg
- tcN/j61KROUoaBswS31sQjfem2pwVXHF1EvI0Zh3lmBhyjkHJ/H1V5B8rcOYL0kqYvD2
- QUFH5VZCyZ3Qb7Y/VUSfg/bnYvhefHo6dHPNAeC5BjXu5bK/Mav4QDzP4JkT5eHOwoEf
- Y3QyYNW8CbmXxTQifm9rXCBmiB/aIuv/N+aGsbUm1jaeNdpnrXmpt0M5j7HsRhotXPb1
- fMWA==
+ :reply-to; bh=C+T0dti8ZBhNnJy4fxtj+vryGifAMmqjwXPe5o6PeaE=;
+ b=Qzn3LkIXjIwkkTp4Igu5Xmd1CHTUQDGm7UKvLj30zS3eb1YwcW1UgoL2eApGaaxaSk
+ blEh6xSfcd4wo/StEEtDgbh3sG05GHFIUtN+cnKkrq6Vchvnsx/rwPi83VjXHWOH2mAg
+ hhtg9q82GaKDE8ok8usH9jexGuAMLtI3ESRIISgdCQ1hU2EF4OqkS7iDCmOaZnZhw7s7
+ /ba7lu4t6dYziLqd1iFmIoSJH5AL7OFQ2RAFDOLD8qDFrI4o1pIM3cwpGAXa3IYiDihH
+ SNq7EOyVzyadMJha0g7piV+2q8Hp4cm825+qG6SUSLt5blWy1UbiElk15hdMrX9thSZG
+ RcTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769160182; x=1769764982;
+ d=1e100.net; s=20230601; t=1769160214; x=1769765014;
  h=content-transfer-encoding:cc:to:from:subject:message-id:references
  :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=krQTROe4H3NUeXd/bSNRIGoEhdSPybqAT9gUYqiaTP0=;
- b=wK7YA12cnWcMhpYTondc3GmdypdRQwGdeL3Ehy04QjVtlRCCtQjUXsufV5wHke8w1T
- z8VpcJeq9G2u5ziZwVf5bnqhCTlk/YHQM0A3TBo2OrEWr+0OPSfzan91jcjVQ012xVKS
- bCiB0okPhF4N05enm9sl6ywhWendOkmR371AS5S34ivvA+MidtA9K6UG9zo7pMR0XQS2
- zQeCS8HlobQ+GYZpJQZ4FK9PJYR7j0f/UiOCVXxMzlstDRiEkf9ZbfyAIoxZma3pRe/V
- 1oCNthwsj/CIte+PACVn12hO4IalaBwCGgDwH+TSef70qAjonbu0jzS7bYH+mpZH607u
- mWeQ==
+ bh=C+T0dti8ZBhNnJy4fxtj+vryGifAMmqjwXPe5o6PeaE=;
+ b=eqn5MoAyK5dcxORoClLgFzEXWoCCTB37HJYAsZQ1vCt77ctLek0MaI/SuXH/UQhtpO
+ f+BbUO1k1HM5ZDvOuZxwOPt2asFUv4uhtsaF9Qt3vbbFgihAPUBQw/o/Th5LqcesSyen
+ Tseb21G5YLBztZJcqjiAB22v8i0oGWw4Sio4BwpkqMTmPiCec1Hx0B+TWPySQNiWMcFQ
+ yxmHJmwFP5B5aDPLWtGgeyFcZcxhtgadkrB6v2iRwjADhzBRiVY6t4zuqO1kXFGw95VZ
+ XGKe49M+2VU4wlP+2/qQsXziQ+yoJ7IX6agoPRbuXFAoiMhvQQxXy77q0TAx3pdh8zkO
+ 9/dQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUUkwimlR4aAxCwmT6dEqrSN7AvhZ1siPzK4ij14OAQID7FlGyqkrxG9a1z8FtckvLyf+pD1X2rKI8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwLH8WKU4zs9GvCq/NjWYRF3sQXYimi3oDkPa9Y4vqT4rNGMqLo
- ZkZR8CCwJentuSYNvp8vgClaVuJApBf2QaCTTGUKdtpGEFgkwFAPeoSBOU8yGXIb7MGZoi8qYTM
- 7HgIUgJtiDYzuz4FQJw==
-X-Received: from ejrp15.prod.google.com ([2002:a17:906:6a8f:b0:b88:39f3:89d1])
+ AJvYcCUMvF3Aon4FA86Z/9PB78uDfnundySAnLhJyUL2tgw4A9G+wYyUAnE/vxmLzuQJ7DcUR4JPYanJHYs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzugNjUtVyHfxR/uGF4dz2BA1RfUPzzX+mcOVvTL3cGkv6qV2Mc
+ rME04iqjE7tq5YWPMgAPCJijfgUGOJPd5Oo5012m/YJNmfjoEY6brnYcHXZYufT/EDapT9CUYXD
+ DuPu98Pul7mKRGs+oWA==
+X-Received: from edqv18.prod.google.com ([2002:aa7:d812:0:b0:64b:9dfc:134d])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:1c1b:b0:b87:380f:f576 with SMTP id
- a640c23a62f3a-b88673667bamr47886066b.30.1769160181881; 
- Fri, 23 Jan 2026 01:23:01 -0800 (PST)
-Date: Fri, 23 Jan 2026 09:23:00 +0000
-In-Reply-To: <180E0324-383E-4813-8CD0-CA15EC3B3EFB@collabora.com>
+ 2002:a05:6402:524a:b0:658:eca:df89 with SMTP id
+ 4fb4d7f45d1cf-6584876375cmr1714402a12.13.1769160214158; 
+ Fri, 23 Jan 2026 01:23:34 -0800 (PST)
+Date: Fri, 23 Jan 2026 09:23:33 +0000
+In-Reply-To: <9C5177DB-CEBA-4DD5-8E93-DB39CB1F2079@collabora.com>
 Mime-Version: 1.0
 References: <20260121-gpuvm-rust-v3-0-dd95c04aec35@google.com>
- <20260121-gpuvm-rust-v3-5-dd95c04aec35@google.com>
- <180E0324-383E-4813-8CD0-CA15EC3B3EFB@collabora.com>
-Message-ID: <aXM99J8s5ltmZ1hE@google.com>
-Subject: Re: [PATCH v3 5/6] rust: gpuvm: add GpuVmCore::sm_unmap()'
+ <20260121-gpuvm-rust-v3-6-dd95c04aec35@google.com>
+ <9C5177DB-CEBA-4DD5-8E93-DB39CB1F2079@collabora.com>
+Message-ID: <aXM-Fc0NeY6Acdqz@google.com>
+Subject: Re: [PATCH v3 6/6] rust: gpuvm: add GpuVmCore::sm_map()
 From: Alice Ryhl <aliceryhl@google.com>
 To: Daniel Almeida <daniel.almeida@collabora.com>
 Cc: Danilo Krummrich <dakr@kernel.org>,
@@ -123,44 +123,86 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-1.000];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 6ECC27334D
+X-Rspamd-Queue-Id: 9B81473388
 X-Rspamd-Action: no action
 
-On Thu, Jan 22, 2026 at 07:43:11PM -0300, Daniel Almeida wrote:
+On Thu, Jan 22, 2026 at 07:58:34PM -0300, Daniel Almeida wrote:
 > Hi Alice,
 >=20
 > > On 21 Jan 2026, at 08:31, Alice Ryhl <aliceryhl@google.com> wrote:
-> > +/// Represents an `sm_step_unmap` operation that has not yet been comp=
-leted.
-> > +pub struct OpUnmap<'op, T: DriverGpuVm> {
-> > +    op: &'op bindings::drm_gpuva_op_unmap,
-> > +    _invariant: PhantomData<*mut &'op mut T>,
+> >=20
+> > Finally also add the operation for creating new mappings. Mapping
+> > operations need extra data in the context since they involve a vm_bo
+> > coming from the outside.
+> >=20
+> > Co-developed-by: Asahi Lina <lina+kernel@asahilina.net>
+> > Signed-off-by: Asahi Lina <lina+kernel@asahilina.net>
+> > Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+> > ---
+> > rust/kernel/drm/gpuvm/mod.rs    |   9 ++-
+> > rust/kernel/drm/gpuvm/sm_ops.rs | 154 +++++++++++++++++++++++++++++++++=
++++++--
+> > 2 files changed, 157 insertions(+), 6 deletions(-)
+> >=20
+> > diff --git a/rust/kernel/drm/gpuvm/mod.rs b/rust/kernel/drm/gpuvm/mod.r=
+s
+> > index 165a25666ccc3d62e59b73483d4eedff044423e9..557c0d629eec912a97fc4ef=
+18495d5bf0807db0a 100644
+> > --- a/rust/kernel/drm/gpuvm/mod.rs
+> > +++ b/rust/kernel/drm/gpuvm/mod.rs
+> > @@ -93,7 +93,7 @@ const fn vtable() -> &'static bindings::drm_gpuvm_ops=
+ {
+> >             vm_bo_alloc: GpuVmBo::<T>::ALLOC_FN,
+> >             vm_bo_free: GpuVmBo::<T>::FREE_FN,
+> >             vm_bo_validate: None,
+> > -            sm_step_map: None,
+> > +            sm_step_map: Some(Self::sm_step_map),
+> >             sm_step_unmap: Some(Self::sm_step_unmap),
+> >             sm_step_remap: Some(Self::sm_step_remap),
+> >         }
+> > @@ -248,6 +248,13 @@ pub trait DriverGpuVm: Sized {
+> >     /// The private data passed to callbacks.
+> >     type SmContext<'ctx>;
+> >=20
+> > +    /// Indicates that a new mapping should be created.
+> > +    fn sm_step_map<'op, 'ctx>(
+> > +        &mut self,
+> > +        op: OpMap<'op, Self>,
+> > +        context: &mut Self::SmContext<'ctx>,
+> > +    ) -> Result<OpMapped<'op, Self>, Error>;
+> > +
+> >     /// Indicates that an existing mapping should be removed.
+> >     fn sm_step_unmap<'op, 'ctx>(
+> >         &mut self,
+> > diff --git a/rust/kernel/drm/gpuvm/sm_ops.rs b/rust/kernel/drm/gpuvm/sm=
+_ops.rs
+> > index 3c29d10d63f0b0a1976c714a86d486948ba81a15..5f3c5d3918147a6962e5658=
+443c343835baa10b8 100644
+> > --- a/rust/kernel/drm/gpuvm/sm_ops.rs
+> > +++ b/rust/kernel/drm/gpuvm/sm_ops.rs
+> > @@ -8,6 +8,100 @@ struct SmData<'a, 'ctx, T: DriverGpuVm> {
+> >     user_context: &'a mut T::SmContext<'ctx>,
+> > }
+> >=20
+> > +#[repr(C)]
+> > +struct SmMapData<'a, 'ctx, T: DriverGpuVm> {
+> > +    sm_data: SmData<'a, 'ctx, T>,
+> > +    vm_bo: GpuVmBoResident<T>,
+> > +}
+> > +
+> > +/// The argument for [`GpuVmCore::sm_map`].
+> > +pub struct OpMapRequest<'a, 'ctx, T: DriverGpuVm> {
+> > +    /// Address in GPU virtual address space.
+> > +    pub addr: u64,
+> > +    /// Length of mapping to create.
+> > +    pub range: u64,
+> > +    /// Offset in GEM object.
+> > +    pub offset: u64,
 >=20
-> Would have been cool to explain why we have a pointer in this PhantomData=
-.
->=20
-> Same elsewhere, IMHO. Helps with maintainability in the future.
->=20
-> (To be honest, I=E2=80=99m not really sure what=E2=80=99s going on here..=
-)
+> I=E2=80=99d rename this gem_offset. A bit vague/confusing otherwise.
 
-Normally, when you have an OpUnmap<'long, T> Rust will let you convert
-that into an OpUnmap<'short, T>, but I don't want that in this case.
-Making such coercions impossible means that callers of sm_step_unmap()
-cannot return the "wrong" OpUnmapped from the closure because the only
-way to get an OpUnmapped with the right lifetime is to call remove() on
-the OpUnmap you received.
-
-(Otherwise, it may be possible to return an OpUnmapped from one
-sm_step_unmap() call in another sm_step_unmap() call.)
-
-There are various different types one can place in PhantomData to have
-this effect. A mutable pointer is one choice. I could also have used:
-
-	PhantomData<fn(&'op mut T) -> &'op mut T>
-
-or a few other options.
+Sure. I'll rename.
 
 Alice
