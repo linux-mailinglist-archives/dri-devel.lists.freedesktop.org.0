@@ -2,139 +2,183 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qPEJOeW2c2ncyAAAu9opvQ
+	id YB8SFGa3c2ncyAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 18:59:01 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 19:01:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 528BF79461
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 18:59:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F230A794EE
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 19:01:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B18410EB86;
-	Fri, 23 Jan 2026 17:58:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E74010EB92;
+	Fri, 23 Jan 2026 18:01:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="AHjwkHJi";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="N8HL1lgQ";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="zMmfrX+l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA02E10EB86
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 17:58:58 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60NBpZmo3656617
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 17:58:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=ckrbQ0Dcn2KkakWCOeOQyrNO
- RUKM1Yp3djJ4f4UP3gQ=; b=AHjwkHJi0HJBT7HX77vgRFEcbp4HwcTzuDWwQrZ6
- jPFd9HgkEBq4giVK2odCov10T4lU4XXMLxfPH2+gNrdEBuoaV32nw7v7brzq0+We
- s6J2edGaHLdgPsRBwESVyH/y/ANfsmod+Ke6XQCg3NCWqwv0HgDMs7DovOXLNjvZ
- CYmB/irRKFCIUKJyuB7+NaSNEyquYhjYyuRj0SGvJ3YImBCY7G8r4+wcD8+RlLmn
- 6ldGuQOisRJK/FebbZHXuS6NaMNUJAOCBBJamrAox5no4A+re7COv2s4JWxnWwEI
- fvDFTfSvmAN6YURDayqEh3sqFxIs7WR7pIHoUxF9RZabDA==
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bv2hwahff-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 17:58:57 +0000 (GMT)
-Received: by mail-ua1-f72.google.com with SMTP id
- a1e0cc1a2514c-93f57cdeb11so2972765241.0
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 09:58:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1769191137; x=1769795937;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ckrbQ0Dcn2KkakWCOeOQyrNORUKM1Yp3djJ4f4UP3gQ=;
- b=N8HL1lgQxRH4sr2+lTtKwa7F2JUwBG/odq5SQtDY8EAYH9rux/XhUVSZT0LSOsIXNR
- tqiEDyyNMsNm61v1+xBCBlzdNs+eEmNm1ytm2/mM4rdkVlgjYHzCtJakyv83elzR+Ai1
- hKLPzjJJzBOEB9oSlaR0oPRyX1EE4iJlQzzxHUt0sA6SFp4OhwEpAlKHizZKshvRrROc
- Szf1N1iHz0B9q8wzu0XgQOii56ueI2EX3RiuqdE5RqrHlUzsvHTLSYkxv17/mO3WwpIv
- znzqr4g3tctT3DZ78GKOiqCm9sGOoKo8X2BZ8RPvwocxWUhU4JNTJ+7AGN/iRqcCVnYG
- zx8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769191137; x=1769795937;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ckrbQ0Dcn2KkakWCOeOQyrNORUKM1Yp3djJ4f4UP3gQ=;
- b=s9j4AONlwflmuC564FFk4E5i8R7DBQ3ZPiIi+FfHtPjQ0jWd/W730H4XHbOsWScT9k
- 54inNEtNumvOKglJk9XzsyyynO99pllkLJ7ha+7ZeSQqpZXe4TzivRqLwOwnh9utTru/
- 219H/VvZldpwAxHLTuRDVfI0YrW+S4QzibfQgEjMaKsEsVvy/tXqWkupkuJ0psCrKn4n
- CbOgO65jqzJp3Y8PqSeyimQVAnrNCw3RD/nrz5gRxBvEX1kLDNUpjoDSO1lRkc8XyNlQ
- uk3qditp/d1OrWSs3FqP+wGGxsFm7JywVqe3rPS2BPX0IORpnqr/Uykw0TCtk3vlJGvI
- ++eQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWkjXLXn/HcnnRlrtcSE0bgSac4Nz1hY+02jnzkYcseg38TgVDthgrm7Hhki6t0+CrLwkqNknC0/Ms=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwsTisaOG1JAS62sk6XbZGYDaHOlHQu0lETpFHgvGfzlO/3ISsV
- yApf3BCXo+J8UyC5qOP9ZxKgcavsgiJCH4C2vtLfi1O28uvi84r9iS2HQoUPcIiOC7ROJO6Fhay
- 5ZG8zggJFcjW/5LrZVtZLg7N7oOz86jcuKsPslSCgmAXN0TmVq8K3St6WSJ6j9LQr4PUq+qs=
-X-Gm-Gg: AZuq6aJ71TI4eoJPRrApjbvK9R5jZV68lGi0A0tOr55ue/IZLs4NCd0qanFzx0ekK8a
- 7X2IQxSISM4g9AB3IImSUjJGQUPCX7ZE2uRmjT8REEVzMb1anqxwa4s2JJ1tsSPPOSmaHmhZECR
- zMxPnUl2DzQepXcYWs9nkImpTy403AJ+N41QmW13HvxjIPLWuE5mPkbgu3AFjptBVcWYsDvMyfv
- qu6B3f5LwOPo9ofoekwoCSNadD5H4NFl1rcHplDNkByfnIqvSjSfISCDzbnk5QXuVQtmoei2gFI
- 0jB2mEOcUu95v9NrKfaqGeKnGc5+iBuKow7jW2fQ89uo/wSThjNqiS6h/iE78xu/2RLzsgtUuqh
- G/O+4Egb7+pu3LbXkshELUg3T+ORdjm89QZUT8Aabil6B/T3vKTV13iNBGJk8kkgZHhwGEb2XAi
- gAQv7hiD00zaehOeMritSUZvQ=
-X-Received: by 2002:a05:6102:3a06:b0:5db:20ea:2329 with SMTP id
- ada2fe7eead31-5f54bcc0411mr1142226137.35.1769191136973; 
- Fri, 23 Jan 2026 09:58:56 -0800 (PST)
-X-Received: by 2002:a05:6102:3a06:b0:5db:20ea:2329 with SMTP id
- ada2fe7eead31-5f54bcc0411mr1142206137.35.1769191135070; 
- Fri, 23 Jan 2026 09:58:55 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59de48f0259sm801012e87.45.2026.01.23.09.58.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jan 2026 09:58:54 -0800 (PST)
-Date: Fri, 23 Jan 2026 19:58:52 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Felix Gu <ustc.gu@gmail.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+Received: from SN4PR2101CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11012024.outbound.protection.outlook.com
+ [40.93.195.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 592CA10EB89;
+ Fri, 23 Jan 2026 18:01:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZHShlVqufP0EyEGzFvtCjsHsifxQLesLK3nRpFBUW3mi2HeGgC7vIIn9n52tliU/AnmXN31ZVDF4vnNYLZCyT4jwayKlun3GTHHy3M2sWcDGMtWSyQDLrFexOfQ4mS4+2sA+hzsZX8pkL/bcc54s7zvpNU/nmFRs8NZGk5BYRxCDsCWIwycOzLcYIzX4t+YQD1cFHMq5bVzSCKaFIDrLUvSkIweKIY21YEV5p7Q0IsYvpQ73Kszg4kJHef2bA5L3sBHhpCAQv34VGbdggqvNHMZmigdF8qgUkgnv+4L0XkXAdLUjHThZZ13t926R28IHreeZ6WLjxccd5CK1MASBRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pHZQu94wwBqQXz53UineyDsRSVIay85jB/0uNC9nlT8=;
+ b=dkfb/j0g18tV89lWKB6uPv+M5FOmRicr0qTltVBLppoxNy14wnziBla+rVM4pPao7sby2pSLLv6Hlf0ojskJ9i/syUR6XAe5uuR/1NGwGoH2GOWtkYTeKA9R0Df/dNgPQOrYRXmzycsvgZ4t1vhfgJKdPTp0pYhiuK9xIgFc15CiwkUOFf5LTD6t2StTKX6vTP2y7WWgSaNkZCiE5XhsYHwePbuYUQ5ffD7diwnQB9oXomDpQzBAOVa6k5kXha3yfgSo91cnZ2yTYrPSUkV2vNCiz3x+wGUWZtF5wBbtclRnBIQxeTeeQ7IcaG9CDLfbIOx8MD0RVJJJp7QcmRiJaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pHZQu94wwBqQXz53UineyDsRSVIay85jB/0uNC9nlT8=;
+ b=zMmfrX+lGpMidNCdsPURuIj248pHOSWQp504bW56Ht038xHEWNg6GVogXF4X6NBoXON1yO1feC5M6FZ4vOllJqLer/uQi5mioadB/Shz4MhNK7Mb+XmsbNy/qkziSBJyDo3qpUFi6V/XZvfYZQtq/vsVeIcjQzBFOYdl/YJYOnk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH0PR12MB7982.namprd12.prod.outlook.com (2603:10b6:510:28d::5)
+ by SN7PR12MB6790.namprd12.prod.outlook.com (2603:10b6:806:269::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.10; Fri, 23 Jan
+ 2026 18:00:59 +0000
+Received: from PH0PR12MB7982.namprd12.prod.outlook.com
+ ([fe80::4eda:ca5:8634:5b27]) by PH0PR12MB7982.namprd12.prod.outlook.com
+ ([fe80::4eda:ca5:8634:5b27%4]) with mapi id 15.20.9542.008; Fri, 23 Jan 2026
+ 18:00:59 +0000
+Message-ID: <53f4dc0f-4d1d-47d4-80c6-84c3562a0310@amd.com>
+Date: Fri, 23 Jan 2026 10:00:55 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/4] PCI/MSI: Conservatively generalize no_64bit_msi
+ into msi_addr_mask
+To: Vivian Wang <wangruikang@iscas.ac.cn>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/adreno: Fix a reference leak in a6xx_gpu_init()
-Message-ID: <nsw5leex5uwofbhmue52l4zjmwz2wbel7i5tngjysr73ujvgxh@476xtlglkoom>
-References: <20260124-a6xx_gpu-v1-1-fa0c8b2dcfb1@gmail.com>
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: Han Gao <gaohan@iscas.ac.cn>, Thomas Gleixner <tglx@kernel.org>,
+ linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ netdev@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-riscv@lists.infradead.org,
+ sophgo@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
+References: <20260123-pci-msi-addr-mask-v3-0-9f9baa048524@iscas.ac.cn>
+ <20260123-pci-msi-addr-mask-v3-1-9f9baa048524@iscas.ac.cn>
+Content-Language: en-US
+From: "Creeley, Brett" <bcreeley@amd.com>
+In-Reply-To: <20260123-pci-msi-addr-mask-v3-1-9f9baa048524@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BY3PR04CA0013.namprd04.prod.outlook.com
+ (2603:10b6:a03:217::18) To PH0PR12MB7982.namprd12.prod.outlook.com
+ (2603:10b6:510:28d::5)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260124-a6xx_gpu-v1-1-fa0c8b2dcfb1@gmail.com>
-X-Proofpoint-GUID: dZMjL2308bU9r3vWfcOM0gd3qIjfbhUZ
-X-Proofpoint-ORIG-GUID: dZMjL2308bU9r3vWfcOM0gd3qIjfbhUZ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIzMDEzNiBTYWx0ZWRfXyjEVURl9TMfs
- VVicOfcLOkgZM/Tomh6UyuiUujO89fBTrt2cB7IvKVkJBPJqEJ6ccrE4eO5O2Ul3NpfhIHMDHjh
- 22dSsQ845QqVvTSrpB2R9rOLpJkTGGbYlqLtEo0eDz2pjMqcFC9ocvjmC6IlHAz+PWVJzINxLbp
- jZtTyVOkQ3PHMXrBeaISnWMZk0jaqMrSEhy+pbKnCSSNOGrjxksnACuuE5tssIGzMSeXZXt/2vS
- 3Qg84k0t6raetj0khRZKh35AxMo+9DI57plmWjT9j+mKZ72R8gr7e+OxDCW6MWsTTW0GsHMFRLP
- CX6TNCUmS+Toq4n7fM/cClqsIAPmOYwtBY5TN2pjWoaTFxRpc2ki0LImdqDtrXZyBJses4TZRI2
- 3iDnx9Bko04hCq90zNZcSJswKAcXKeGsb6bKRFj+SJx3i0/ayPybe9YE/DTAHtrogCd2O5bAbl/
- f/KvXsz8IIzNg6PnG3g==
-X-Authority-Analysis: v=2.4 cv=A4Rh/qWG c=1 sm=1 tr=0 ts=6973b6e1 cx=c_pps
- a=ULNsgckmlI/WJG3HAyAuOQ==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=pGLkceISAAAA:8 a=mHnloJP8uCFruMiY-FkA:9 a=CjuIK1q_8ugA:10
- a=1WsBpfsz9X-RYQiigVTh:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-23_03,2026-01-22_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0 phishscore=0
- priorityscore=1501 spamscore=0 suspectscore=0 bulkscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601230136
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR12MB7982:EE_|SN7PR12MB6790:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7ef3e18f-7f92-4bcc-9b01-08de5aa95d14
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|376014|7416014|7053199007|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?QXJ2aGtBZ0dOT3kzSDU2RTJ6aVVCelNyWm9scnZxZE8yWkQvZWRSK0tPVU5v?=
+ =?utf-8?B?MkgwOGRhb0dhSVFaeXlHZ3orUjl1YkZHL0xTL1lzYVVoQ0QyUStrVXliZkQ3?=
+ =?utf-8?B?d29lVldpTUd5a3hTZDZORHc1UVRSbVh3ODNWY05teW9McjlQaittWEZkN1Zm?=
+ =?utf-8?B?ODBsK05zR2hxbUR3ZDcvSlQ3ODkwc1BFWEMwZlJBdFdyWThYQ0ViMnlkeDFY?=
+ =?utf-8?B?MTVxMG5VMUNjdm9mREFySnpyN1FDVGI3Mm5ML3Fkd2dqbkVFWkdNNEhRYjBt?=
+ =?utf-8?B?bWdGd1YrbmpCUVFlSDF0ODZIMjJEZWxrZ2FBbTc2UUs0YWpTZmJ0Z3lDelBL?=
+ =?utf-8?B?ZWxiK2U2VFhZdnkvUFBtbDgvQ3V0aWpvU25wbngyaVlBRmlydVZFdGozSW5X?=
+ =?utf-8?B?Nkk0dDZSTVVRRVRzRjhiSmdqSDZFc0x5TVhldk9CZCs1eEdhVGxpcGRYMm9R?=
+ =?utf-8?B?NndGUkJ6K095a2dKdDlVU2MrMTFJNU5Zd0ZTcHFEWUhMYlRlL0JMemwwZXRk?=
+ =?utf-8?B?WGxjcjQzV0Z0cjR1b1lPOGxkdnVzWjJMcFBoRHYwY3BJeFhnQXkrMk52RE5O?=
+ =?utf-8?B?VExicjFBRzdzODNDWkpOUmp6amtYb0JXMUxjRWN5NHV1bzNzYWpZa1Y0QW1E?=
+ =?utf-8?B?cW5zOVNvQ1lWemgzdVZDeDJ2bUlBM2Z5ZnNkSEJXWWtubjhXTXFDOVFuWVM2?=
+ =?utf-8?B?TnZrTnFSVW9UdnJjT0dBRWxDT3ZBUDFsMzd1NGZvKzBCaW5oemYvZ2x1KzRX?=
+ =?utf-8?B?UXdaWXg3c1VYK0lraWw4RzBoUXJmSFkvSUpma0hWSk5rOTNrMHQ1VkVsN3ph?=
+ =?utf-8?B?N3pNVGQ1ZllySE1XRWJuVGFZdUw1TDUyV2pmQnptMWtXaE5LeFBHZUtOZmJ1?=
+ =?utf-8?B?WWx0cjR4dzhYSlFDUktOMjI3MSswTVBWdFVFbFQ5N013ZkUxQmxaNlBnaDVI?=
+ =?utf-8?B?WnBBcTVVU0wxOE9aWTdXcTJiazk1RVNkSlBPUDhBNUVEam9PK3BobkQzODFx?=
+ =?utf-8?B?cUx1Q1VzNWIzUlRnV3NmTXp1UWRrOUVFWm44Y2JWcTk3bVgwV1JTVGtmV2tW?=
+ =?utf-8?B?U1Q3YzVsZDROSlluRy9BYmo4Vk1lRjMySzh3WG9FTHNRNkgvQ0JvVnNqc2Rk?=
+ =?utf-8?B?Zkorbjk2ZFA0QzNYVW1vQjBTeHpSOC9LM25NZE04WndieWxIV25EQ3UycWd2?=
+ =?utf-8?B?YzhOaXVmeHJmUE9KWGJsZ3RjNklCNjZNakxNQyt3cXR1Q2pqbUtmaUR5VEtv?=
+ =?utf-8?B?MDFrbDVTeE1IV3FzbVE1dWlPdmJVeTFFQ0Y5RHFpdUtQQXhlYjBRSlhGODRn?=
+ =?utf-8?B?R0lPRW5tQm1kakYvUm5TNmhGeG1ZNVlnd3FkRkVkTmtES2greWRSNlRBZEFV?=
+ =?utf-8?B?dUJwd3AwSm1EUjZFdk1peTZ2K1ZkaDExMlhmOWpNWVZ0Zld0czJKTGpGOXhQ?=
+ =?utf-8?B?NWZHRE1DaVRsc21WbnBxMkpHak1ocTBUSXBTanFsZkpkQVI2c1Bya0ExVWFZ?=
+ =?utf-8?B?d1h6eFhNUFF3L0JGcUxhdGJKNmUyTlVEL3djSmF3d043R2p0OG1aZWtSaHJC?=
+ =?utf-8?B?OFF5ZkR3UFBwYURQV0VKQXVUd2JTMTNOekgrTlhIWFBnaGxGQ1ErYTJka3kw?=
+ =?utf-8?B?blZ6d0NnS2JvaGNqaWdhNkkydSsyQXMxcFBYUGZRYlBud1lETTJFOHFPazY4?=
+ =?utf-8?B?b3lUanFYY0FHYnNEZUkrM0MrK0V1MUg4clY0eUlmSXhHNHdEV2grbDZ3bERJ?=
+ =?utf-8?B?QnpxbnVMTWZNMFpselRtL3lvL3lGVWxMYnB2SHZRNmhqVFJVNUVoQi9ZK2xW?=
+ =?utf-8?B?MFlxdnM3Mk9oWlM0Ry9mR3BRalNSdG9wVFI1eTVaNU9KdnIrNkxrQUtnYUll?=
+ =?utf-8?B?bTU2OFlya3dnN0tSMDZhKzB1RXJ1b2ZYSVJkMlRnaDNmblRGQVZxOWZJOUhW?=
+ =?utf-8?B?czhtQWVwK3N0OGVPaWhOVlRNZFRLTTV1cWlqaWo2RmJmc0ZIMi9pTFB1ejBr?=
+ =?utf-8?B?d2lxbWdpUk5lNmVuUVluekNxbUl4TStaT1B6L3VmcFlkZjJhVkIzVGFHTW1Z?=
+ =?utf-8?B?aVZ5VXVQUlpTZmFyT1dxSVpIT2Q3SnYyR2NWQStjZWhscDlCWURaOWs5V1lR?=
+ =?utf-8?B?S3IzdlBPQlExM1hxTDJxMkJsbGN4Q2ZNTFU2QzdVUEtySDFDYlR0SElja0hu?=
+ =?utf-8?B?L2c9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR12MB7982.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007)(921020);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dWxwQ01xaGdCRnZ5QVlpbDkwM0pEVjAvamZXR0gzSnNQVDFsUVBSOUdaVzRt?=
+ =?utf-8?B?ZWlBdEwwYjI3TGxuOGlYMGIzNXFmY2NlNXVXTENtSy8rNFVRVGt3RUFnKzNG?=
+ =?utf-8?B?WEhMcGtGQkZ0QTV3MElMMzRGRDljZXdTcFBkTkZuMzl5OTllTTNURGMwaG9p?=
+ =?utf-8?B?c1FsYXloSGMrYXI3blFVNWc2M00vKzM2b2kyN01xdkY0RHJ5WjNYU1hqVStI?=
+ =?utf-8?B?MG1sVXVQTU1yeE9qZG9WRUp5c0lUSlUrTVYyVGlSMGxZMG1UODFaVURtWlY2?=
+ =?utf-8?B?SkJpZnljczR3eVdabEV1M0Q1dysyL2ZGQlhMc3dCVGZ4NUdkeEQrYWpPKzNy?=
+ =?utf-8?B?M3JjT2IrQjlLbWNUbCtURFdHbUN6ZzVodTBVaXBuTnRiRzhBb1BzaUp6dEFJ?=
+ =?utf-8?B?S0hwd3JCNmIxeWZhODFoY3o0bVErWUh4TjA3L2xDL0xJWlNyRGMrRnFERHVi?=
+ =?utf-8?B?TGF3SkJPOEdkaFZjNVk5aVFpaUdYaEtLZzM1MFZVOE1qNHVRNUx2WEtIOWdR?=
+ =?utf-8?B?ZVJzYmEwd1J2eHdTR1A5dDBza09Sd0tHRWIzK05nOE9saytaVXBzMjY3RU55?=
+ =?utf-8?B?djVBSHZqNHYwOHZaTmYzYjNwaXdSTnd1WW10b1Qwcm9hbkRESGRoaVloWFVT?=
+ =?utf-8?B?UmtBZGd1NGZzenpqWHZSejlOVDBnR21BemNGb3F3Q1h3Q0kybW9XbUFlczVv?=
+ =?utf-8?B?dDg1NC82d25zZW9jakt0Smt6Qmx2R2hJeXVRNVd5dExNMVg3VEtkTk9OeTVO?=
+ =?utf-8?B?bXQ0cmhvZHZlbUFOMzhDbXgwUVU5clNQU09IOUpheEV0b0pEVk8zZVNqbGhx?=
+ =?utf-8?B?SHhLOFpJakJQYzkyS0JHNGtaTGYzYXdkL1ZZYUlGZGg2OUh5b0xNeFJMOHFJ?=
+ =?utf-8?B?MGJweTRPR2x5Z3Q1MDNidGZWQTEvd1VMRmdTZXg0UlZ6RnpVL3hNVTMrclBz?=
+ =?utf-8?B?U3B5cElqekFTYkthUTF0MFV2OGt0cHppRUpqWkJjMi9GRjVRcXhzeHR1cXcr?=
+ =?utf-8?B?cFpRVzRtbDQ1QXBsMU83YmY1MkJjTGdBVHVUbEJHa1FSYjZ2UDM0ODd4aVNq?=
+ =?utf-8?B?eElJcjB2L3lkUGRSYldFWkVSSDZTOHIzMlJTRUQ4UzBNclR5VXgxNWhnYzk1?=
+ =?utf-8?B?bUQ3ekxHTEo1dERMTEt6SWFXNmVPMFVqdi9DUDZKeDFCdWtkNW13Tlp0M1Br?=
+ =?utf-8?B?b2xsVTZnaXU2TDkzaDB4S2NlTm84R3JaSno3cnZNalZleS9GbTlvMEdGWlYz?=
+ =?utf-8?B?RVNQdWVlbXdUKzBzaGRpNzBxY3RiZTdpclRyOG5UMFA3YTRFeXV0dEhEOEpG?=
+ =?utf-8?B?UFhpWUZSdzlqbG51aUhXb25jM0Q2eDc4SnJPNE1yRWRyVnA1dldvOG1lL1B2?=
+ =?utf-8?B?WXp6OExUanAraTBsaTRjczEvYi9rMkczeUxEc25weTc3MzZVTllxZGtpWFRl?=
+ =?utf-8?B?U1hsOVRaaUEwc29CejZOTEoySkh0VzV0RDIvL0FXVUxkajA3cEU1azNJTDFp?=
+ =?utf-8?B?L0pLNjJ3MmpMdU5CcmJyay82Qkd0SHFoRWlFdlF6UTVyNW4ybVgvS0tKQ2JU?=
+ =?utf-8?B?bEZ3Z01zUHdHZVM1a1lCd09NWHlyR1dScmhaZm1Xdm1UTEFDY0ZFeU01elFr?=
+ =?utf-8?B?SEY0VnM1NklLSHEvakFrcVUrdGRHelI1VTJxNkJJOTBvdkVrMEc0bStaT3py?=
+ =?utf-8?B?dUFhdjAwSTVuTm02K2tPTCszZHA5OWRab1hhUHhnMFpSU3BvSkN3ZTIxSEsv?=
+ =?utf-8?B?ckNBdDA3ekhUVWVlUDdjZnF1ZzBpdzlKMkRhU2FrZStEWmhNTzduT3I5bnFR?=
+ =?utf-8?B?ZXZtR0l0Zk5DZjdzdkhlTE5WQWNSSG50RUpZQXRITUZlQVRaV2s0djRUU0xj?=
+ =?utf-8?B?UWRGa1FXL1k4czFmN2ZEUG5WMHJKV1lNVUtSZ25WNk9pNVA2ZlpsYlVrRk1l?=
+ =?utf-8?B?cWQrZGNnZmRvUlZBMWNMQ2JvdFdVRloxbVI2NGNrUDhWYitsMy9GVHJqUXg2?=
+ =?utf-8?B?enJLSk1IYUNCR0l0MlhwdElNTzhRSlgzWG5seEJIMjE5K29lcE5Ndm4zRE8z?=
+ =?utf-8?B?ZkFwakpOWFlDVXFOeUN1QWtuMld5djYrSE5CUXNXMldHSEJXRGRkMDRxZ3J6?=
+ =?utf-8?B?a3Y1clY0emFLVzhsOWZZSnFLbk9kdk5jY0RXRVNpSWhRNnRjdTAzakwrTlJi?=
+ =?utf-8?B?L0F4dTVQeENPSlprNUpoUjVtOGRVZ2U1dDZMb0ZWR2o2Nm5XUEsyNVhqVjVU?=
+ =?utf-8?B?QUd6eUtMeVJMSmw5L0JuMDVlZzJXRmlMS1hmRTF2K3FnYWlTMStnTlYrZ2g5?=
+ =?utf-8?B?OG0rOXo4eDJkZW0vRWhoNm5haG4wNnRRUVdibTk0cG5uem5EdkFUZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ef3e18f-7f92-4bcc-9b01-08de5aa95d14
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB7982.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2026 18:00:59.2372 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EmvzPqL3uA1asqBnF15qFhTPIv7yTq6iM+8vBqxaWD3EpIAsFs6y97Rf+TQVcFwNq2NRBkKzDIwJxckqKYPuoQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6790
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,101 +194,240 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MID_RHS_NOT_FQDN(0.50)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:ustc.gu@gmail.com,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:akhilpo@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:ustcgu@gmail.com,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,poorly.run,kernel.org,linux.dev,gmail.com,somainline.org,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_SPAM(0.00)[0.091];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_TO(0.00)[iscas.ac.cn,linux.ibm.com,ellerman.id.au,gmail.com,kernel.org,amd.com,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,perex.cz,suse.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[amd.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	FROM_NEQ_ENVFROM(0.00)[bcreeley@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:dkim]
-X-Rspamd-Queue-Id: 528BF79461
+	TAGGED_RCPT(0.00)[dri-devel,netdev];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,amd.com:dkim,amd.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: F230A794EE
 X-Rspamd-Action: no action
 
-On Sat, Jan 24, 2026 at 12:37:38AM +0800, Felix Gu wrote:
-> In a6xx_gpu_init(), node is obtained via of_parse_phandle().
-> While there was a manual of_node_put() at the end of the
-> common path, several early error returns would bypass this call,
-> resulting in a reference leak.
-> Fix this by using the __free(device_node) cleanup handler to
-> release the reference when the variable goes out of scope.
-> 
-> Fixes: 5a903a44a984 ("drm/msm/a6xx: Introduce GMU wrapper support")
-> Signed-off-by: Felix Gu <ustc.gu@gmail.com>
+
+
+On 1/22/2026 10:07 PM, Vivian Wang wrote:
+> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
+>
+>
+> Some PCI devices have PCI_MSI_FLAGS_64BIT in the MSI capability, but
+> implement less than 64 address bits. This breaks on platforms where such
+> a device is assigned an MSI address higher than what's reachable.
+>
+> Currently, we deal with this with a single no_64bit_msi flag, and
+> (notably on powerpc) forces 32-bit MSI address for these devices.
+> However, on some platforms the MSI doorbell address is above 32-bit but
+> within device ability.
+>
+> As a first step to enabling MSI on those combinations of devices and
+> platforms, conservatively generalize the single-bit flag no_64bit_msi
+> into msi_addr_mask. (The name msi_addr_mask is chosen to avoid confusion
+> with msi_mask.)
+>
+> The translation is essentially:
+>
+> - no_64bit_msi = 1    ->    msi_addr_mask = DMA_BIT_MASK(32)
+> - no_64bit_msi = 0    ->    msi_addr_mask = DMA_BIT_MASK(64)
+> - if (no_64bit_msi)   ->    if (msi_addr_mask < DMA_BIT_MASK(64))
+>
+> Since no values other than DMA_BIT_MASK(32) and DMA_BIT_MASK(64) is
+> used, no functional change is intended. Future patches that make use of
+> intermediate values of msi_addr_mask will follow, allowing devices that
+> cannot use full 64-bit addresses for MSI to work on platforms with MSI
+> doorbell above 32-bit address space.
+>
+> Acked-by: Takashi Iwai <tiwai@suse.de>
+> Signed-off-by: Vivian Wang <wangruikang@iscas.ac.cn>
 > ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index 2129d230a92b..0bc518d9fd65 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -2640,7 +2640,6 @@ static struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
->  	struct msm_drm_private *priv = dev->dev_private;
->  	struct platform_device *pdev = priv->gpu_pdev;
->  	struct adreno_platform_config *config = pdev->dev.platform_data;
-> -	struct device_node *node;
->  	struct a6xx_gpu *a6xx_gpu;
->  	struct adreno_gpu *adreno_gpu;
->  	struct msm_gpu *gpu;
-> @@ -2660,7 +2659,8 @@ static struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
->  	adreno_gpu->registers = NULL;
->  
->  	/* Check if there is a GMU phandle and set it up */
-> -	node = of_parse_phandle(pdev->dev.of_node, "qcom,gmu", 0);
-> +	struct device_node *node __free(device_node) =
-> +		of_parse_phandle(pdev->dev.of_node, "qcom,gmu", 0);
-
-Missing include for cleanup.h.
-
->  	/* FIXME: How do we gracefully handle this? */
->  	BUG_ON(!node);
->  
-> @@ -2702,7 +2702,6 @@ static struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
->  		ret = a6xx_gmu_wrapper_init(a6xx_gpu, node);
->  	else
->  		ret = a6xx_gmu_init(a6xx_gpu, node);
-> -	of_node_put(node);
->  	if (ret) {
->  		a6xx_destroy(&(a6xx_gpu->base.base));
->  		return ERR_PTR(ret);
-> 
+> v3: Add Acked-by, no code changes
+>
+> checkpatch complains about the comment include/linux/pci.h, which I have
+> formatted similarly with other comments in the vicinity.
 > ---
-> base-commit: a0c666c25aeefd16f4b088c6549a6fb6b65a8a1d
-> change-id: 20260123-a6xx_gpu-cbc095dbe423
-> 
-> Best regards,
-> -- 
-> Felix Gu <ustc.gu@gmail.com>
-> 
+>   arch/powerpc/platforms/powernv/pci-ioda.c           | 2 +-
+>   arch/powerpc/platforms/pseries/msi.c                | 4 ++--
+>   drivers/gpu/drm/radeon/radeon_irq_kms.c             | 2 +-
+>   drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c | 2 +-
+>   drivers/pci/msi/msi.c                               | 2 +-
+>   drivers/pci/msi/pcidev_msi.c                        | 2 +-
+>   drivers/pci/probe.c                                 | 7 +++++++
+>   include/linux/pci.h                                 | 8 +++++++-
+>   sound/hda/controllers/intel.c                       | 2 +-
+>   9 files changed, 22 insertions(+), 9 deletions(-)
+>
+> diff --git a/arch/powerpc/platforms/powernv/pci-ioda.c b/arch/powerpc/platforms/powernv/pci-ioda.c
+> index b0c1d9d16fb5..1c78fdfb7b03 100644
+> --- a/arch/powerpc/platforms/powernv/pci-ioda.c
+> +++ b/arch/powerpc/platforms/powernv/pci-ioda.c
+> @@ -1666,7 +1666,7 @@ static int __pnv_pci_ioda_msi_setup(struct pnv_phb *phb, struct pci_dev *dev,
+>                  return -ENXIO;
+>
+>          /* Force 32-bit MSI on some broken devices */
+> -       if (dev->no_64bit_msi)
+> +       if (dev->msi_addr_mask < DMA_BIT_MASK(64))
+>                  is_64 = 0;
+>
+>          /* Assign XIVE to PE */
+> diff --git a/arch/powerpc/platforms/pseries/msi.c b/arch/powerpc/platforms/pseries/msi.c
+> index a82aaa786e9e..7473c7ca1db0 100644
+> --- a/arch/powerpc/platforms/pseries/msi.c
+> +++ b/arch/powerpc/platforms/pseries/msi.c
+> @@ -383,7 +383,7 @@ static int rtas_prepare_msi_irqs(struct pci_dev *pdev, int nvec_in, int type,
+>           */
+>   again:
+>          if (type == PCI_CAP_ID_MSI) {
+> -               if (pdev->no_64bit_msi) {
+> +               if (pdev->msi_addr_mask < DMA_BIT_MASK(64)) {
+>                          rc = rtas_change_msi(pdn, RTAS_CHANGE_32MSI_FN, nvec);
+>                          if (rc < 0) {
+>                                  /*
+> @@ -409,7 +409,7 @@ static int rtas_prepare_msi_irqs(struct pci_dev *pdev, int nvec_in, int type,
+>                  if (use_32bit_msi_hack && rc > 0)
+>                          rtas_hack_32bit_msi_gen2(pdev);
+>          } else {
+> -               if (pdev->no_64bit_msi)
+> +               if (pdev->msi_addr_mask < DMA_BIT_MASK(64))
+>                          rc = rtas_change_msi(pdn, RTAS_CHANGE_32MSIX_FN, nvec);
+>                  else
+>                          rc = rtas_change_msi(pdn, RTAS_CHANGE_MSIX_FN, nvec);
+> diff --git a/drivers/gpu/drm/radeon/radeon_irq_kms.c b/drivers/gpu/drm/radeon/radeon_irq_kms.c
+> index 9961251b44ba..d550554a6f3f 100644
+> --- a/drivers/gpu/drm/radeon/radeon_irq_kms.c
+> +++ b/drivers/gpu/drm/radeon/radeon_irq_kms.c
+> @@ -252,7 +252,7 @@ static bool radeon_msi_ok(struct radeon_device *rdev)
+>           */
+>          if (rdev->family < CHIP_BONAIRE) {
+>                  dev_info(rdev->dev, "radeon: MSI limited to 32-bit\n");
+> -               rdev->pdev->no_64bit_msi = 1;
+> +               rdev->pdev->msi_addr_mask = DMA_BIT_MASK(32);
+>          }
+>
+>          /* force MSI on */
+> diff --git a/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c b/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c
+> index 70d86c5f52fb..0671deae9a28 100644
+> --- a/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c
+> +++ b/drivers/net/ethernet/pensando/ionic/ionic_bus_pci.c
+> @@ -331,7 +331,7 @@ static int ionic_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>
+>   #ifdef CONFIG_PPC64
+>          /* Ensure MSI/MSI-X interrupts lie within addressable physical memory */
+> -       pdev->no_64bit_msi = 1;
+> +       pdev->msi_addr_mask = DMA_BIT_MASK(32);
+>   #endif
 
--- 
-With best wishes
-Dmitry
+This seems like identical behavior compared to pre-patch, so LGTM.
+
+For the ionic part: Reviewed-by: Brett Creeley <brett.creeley@amd.com>
+
+Thanks,
+
+Brett
+>
+>          err = ionic_setup_one(ionic);
+> diff --git a/drivers/pci/msi/msi.c b/drivers/pci/msi/msi.c
+> index 34d664139f48..48f5f03d1479 100644
+> --- a/drivers/pci/msi/msi.c
+> +++ b/drivers/pci/msi/msi.c
+> @@ -322,7 +322,7 @@ static int msi_verify_entries(struct pci_dev *dev)
+>   {
+>          struct msi_desc *entry;
+>
+> -       if (!dev->no_64bit_msi)
+> +       if (dev->msi_addr_mask == DMA_BIT_MASK(64))
+>                  return 0;
+>
+>          msi_for_each_desc(entry, &dev->dev, MSI_DESC_ALL) {
+> diff --git a/drivers/pci/msi/pcidev_msi.c b/drivers/pci/msi/pcidev_msi.c
+> index 5520aff53b56..0b0346813092 100644
+> --- a/drivers/pci/msi/pcidev_msi.c
+> +++ b/drivers/pci/msi/pcidev_msi.c
+> @@ -24,7 +24,7 @@ void pci_msi_init(struct pci_dev *dev)
+>          }
+>
+>          if (!(ctrl & PCI_MSI_FLAGS_64BIT))
+> -               dev->no_64bit_msi = 1;
+> +               dev->msi_addr_mask = DMA_BIT_MASK(32);
+>   }
+>
+>   void pci_msix_init(struct pci_dev *dev)
+> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> index 41183aed8f5d..a2bff57176a3 100644
+> --- a/drivers/pci/probe.c
+> +++ b/drivers/pci/probe.c
+> @@ -2047,6 +2047,13 @@ int pci_setup_device(struct pci_dev *dev)
+>           */
+>          dev->dma_mask = 0xffffffff;
+>
+> +       /*
+> +        * Assume 64-bit addresses for MSI initially. Will be changed to 32-bit
+> +        * if MSI (rather than MSI-X) capability does not have
+> +        * PCI_MSI_FLAGS_64BIT. Can also be overridden by driver.
+> +        */
+> +       dev->msi_addr_mask = DMA_BIT_MASK(64);
+> +
+>          dev_set_name(&dev->dev, "%04x:%02x:%02x.%d", pci_domain_nr(dev->bus),
+>                       dev->bus->number, PCI_SLOT(dev->devfn),
+>                       PCI_FUNC(dev->devfn));
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 864775651c6f..0fe32fef0331 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -377,6 +377,13 @@ struct pci_dev {
+>                                             0xffffffff.  You only need to change
+>                                             this if your device has broken DMA
+>                                             or supports 64-bit transfers.  */
+> +       u64             msi_addr_mask;  /* Mask of the bits of bus address for
+> +                                          MSI that this device implements.
+> +                                          Normally set based on device
+> +                                          capabilities. You only need to
+> +                                          change this if your device claims
+> +                                          to support 64-bit MSI but implements
+> +                                          fewer than 64 address bits. */
+>
+>          struct device_dma_parameters dma_parms;
+>
+> @@ -441,7 +448,6 @@ struct pci_dev {
+>
+>          unsigned int    is_busmaster:1;         /* Is busmaster */
+>          unsigned int    no_msi:1;               /* May not use MSI */
+> -       unsigned int    no_64bit_msi:1;         /* May only use 32-bit MSIs */
+>          unsigned int    block_cfg_access:1;     /* Config space access blocked */
+>          unsigned int    broken_parity_status:1; /* Generates false positive parity */
+>          unsigned int    irq_reroute_variant:2;  /* Needs IRQ rerouting variant */
+> diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
+> index 1e8e3d61291a..c9542ebdf7e2 100644
+> --- a/sound/hda/controllers/intel.c
+> +++ b/sound/hda/controllers/intel.c
+> @@ -1905,7 +1905,7 @@ static int azx_first_init(struct azx *chip)
+>
+>          if (chip->msi && chip->driver_caps & AZX_DCAPS_NO_MSI64) {
+>                  dev_dbg(card->dev, "Disabling 64bit MSI\n");
+> -               pci->no_64bit_msi = true;
+> +               pci->msi_addr_mask = DMA_BIT_MASK(32);
+>          }
+>
+>          pci_set_master(pci);
+>
+> --
+> 2.52.0
+>
+
