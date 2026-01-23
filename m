@@ -2,165 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GIO2Eph7c2kfwAAAu9opvQ
+	id UKczG7p8c2lowwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 14:46:00 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 14:50:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3491A76717
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 14:45:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFC3976761
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 14:50:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B5A510EAE6;
-	Fri, 23 Jan 2026 13:45:56 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="BZ68FXA1";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3566C10E2C5;
+	Fri, 23 Jan 2026 13:50:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY7PR03CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11010040.outbound.protection.outlook.com
- [40.93.198.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C0D510EAE6
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 13:45:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qCnQnqOo2cmbCjUM5YfUW1j6KM2uMyn9gTGmE8Aalm4n8eJ8gDP1zjgCvtkOjhUHbBNxR2xx1ELThuqmZhxN9K3G78ypg6ovXwljJYP3P9q1XRKRhEtuarh0qG1Is50ZeTYLv+AmqPeF1d/Lq3ny0ADrpO5tjH+vmlMaJYPMfvsqQmM8cXE1yUfYc2R56DyOCTdG5yukjhcAC7ogo/s4ynZ4fSr/lBoFsKVDIyG39PBH3LBn8NBF1vxOMpd3vyFBTCy158n/Elu35Za/L+ePqyXKFajjnVN7kxN83sNilv85QG8A0FFOBczc3YoPVHHK7I+jIMJZMBAGCyTjXHnEUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wECDFr8EfZntNKdrdPN2ZU6XPCRH4qqsrHX0TDL33U4=;
- b=tsv6WJk4cpf1lN72zsrSpSSjZySWs9m+i7hV7jzFYDnm1mFq/qUntxPwL11D9RfAdI1Nan4ZC3vNOIPhki+GtRJzWb9vr/AImeVt+FgFJqSCgcIDBbPDW62q3aSb6GsdiGgznTAbhtoJ8FLytrt8iVEvt5bfkDw0ZrUprnsiyGPG7VMJtv87UIK5lL1IgoUgjOprmUG05FjaYjZQ4etq+CfbaObwsCGizRZzVXhe10lb/H6WLE6V/EgVHJroeuqjEHp9ur4A1Y/pAAZSr0fzBj626nAjqtVqdXRQC4bcrWeo2O38lkuxNJrJa/KPn2nOkpf+bas32OpTw8XYdc9ppw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wECDFr8EfZntNKdrdPN2ZU6XPCRH4qqsrHX0TDL33U4=;
- b=BZ68FXA1rjhKsaiQ8QOBq7omnRhDnlN+NwQNdr+s4u/RoyF2v+mRfKvBstTdvsVJSnoLWRALUnHBBPp/ORCGUWCtVTrOGfgJAdgXQJ+r9GSW1OOlnsQmAIKrS0Dw1A4YxunpEIDmPpnoFpvITjoTGOpBDl5Ar4VhL9NvPydTdXQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CYXPR12MB9426.namprd12.prod.outlook.com (2603:10b6:930:e3::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.12; Fri, 23 Jan
- 2026 13:45:48 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9542.009; Fri, 23 Jan 2026
- 13:45:48 +0000
-Message-ID: <9bde8c39-ba4c-49c5-a0bc-4e78338f055a@amd.com>
-Date: Fri, 23 Jan 2026 14:45:42 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: Do not allow userspace to trigger kernel warnings in
- drm_gem_change_handle_ioctl()
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Zhi Wang <wangzhi@stu.xidian.edu.cn>,
- David Francis <David.Francis@amd.com>,
- Felix Kuehling <felix.kuehling@amd.com>, stable@vger.kernel.org
-References: <20260123095415.74260-1-tvrtko.ursulin@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260123095415.74260-1-tvrtko.ursulin@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN9P223CA0029.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:408:10b::34) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com
+ [209.85.221.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D99D610E2C5
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 13:50:45 +0000 (UTC)
+Received: by mail-vk1-f180.google.com with SMTP id
+ 71dfb90a1353d-5664848545fso92899e0c.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 05:50:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769176245; x=1769781045;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=erKWy/OEWmr/yg9KkMYnuhF8IxKQ1EzG0rrpKtHiTIM=;
+ b=ZaRIjQq96QRhgoCimKuHinRmKKNCHb8XCY36mS0EwCOcJ9dqdTwyz7lBJ2oUwgcdSZ
+ Gc/Thy30wcju7pNlBlDlPkCznl/G6seUP9DqJM51T9WetCaaz2jgNP7ShaZM8EpwdOMn
+ FMKuXk9SCJyhUSvwZaSggg+RDW/vaJK2/0HDB7UAYrc8DTawoZicV6o/VaZcD+h7YFRj
+ MKdxcnrcvr2DRXDT+dGsywFuTaYVJx3kQ9k0ie3HxpB9Kcnmnzp50UXR6ThH6cFZuNIh
+ f6Zbnom5rfeegzhxvj7DkidF4o7T8b8fm7ZwMh9kIbRrxYswC85t7eKYfGIcy6PF3ACh
+ DAlQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVUeQ2csVVM/LNFWIIYZmWNLpZ2W6cTt+/mj1NPc8W1F87MtDf1a9IqkYgreQnHo60qMZ6hoDk9Ry4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzyhXsF/ItclaJaGOmHm89ekd3tT5MfVIVsIxTZvE2usl6EW1PG
+ 8UhDGeoW4fkbGVeytaO9Ou2aBSpwCjJbM4AiZl5ARB8oEK+g50qmPMXelhfyD841
+X-Gm-Gg: AZuq6aJMjuxWqzAbPdT7yc6uE5L3nzUJsrWTahxSJ3oUdgw9hg2aiW94WRoeGCnjE6i
+ p+c7IQiA5bPdyrvkOK/JwN9q09JPrg/p8AoZI6CYZ8oV935sH11CadVTDuCsRIOJzMglfugsdf8
+ Zz1d0+TYpa+vTSunBxAi8F9h096UKSFP0YfLWYIEhmbG7TsAlMP/aXywkVMPs5dJJXn43WHOK40
+ j92yMD4eUHKKOmXZSNVXkmMAjPEDw56l048q8hmHrz2PU6IZTX7bikTS0uiTtfPrDQPVdoiQa6a
+ bk+Ja9+Ty6UsxM0TPc4t5DyA+m3Zx9fDGDlVY25NpZlk86E5eYcRgKdKQqHAhpVQKuLWOn52iCB
+ sPcKm6zQnsoYAz3TFd2RoBUxCEzGdv6XHwm4eJjeVpjtx07UiqngEthqa+kiWOo0TpdDn5I1+5k
+ 1hDKAiM4QDi3wmIu0ew/o/mnnZE9lsGIc8UqpuhqrlNCa+XLSj
+X-Received: by 2002:a05:6122:414e:b0:566:3d24:c0b2 with SMTP id
+ 71dfb90a1353d-5663ebed2bamr842974e0c.21.1769176244293; 
+ Fri, 23 Jan 2026 05:50:44 -0800 (PST)
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com.
+ [209.85.217.46]) by smtp.gmail.com with ESMTPSA id
+ 71dfb90a1353d-5663fa632d8sm478142e0c.1.2026.01.23.05.50.43
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Jan 2026 05:50:43 -0800 (PST)
+Received: by mail-vs1-f46.google.com with SMTP id
+ ada2fe7eead31-5f52b0728ccso857912137.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 05:50:43 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVnepcTMyLCEwWfVJXuZU6VQXaCPHs91g5eBWWuytRgcUmfTdsDE3OFmhQqnmANnwaT8A+5rN00B08=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:e07:b0:5ef:b5fc:dd48 with SMTP id
+ ada2fe7eead31-5f54b994197mr835389137.9.1769176242766; Fri, 23 Jan 2026
+ 05:50:42 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CYXPR12MB9426:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9e0f6f3a-fb1f-424c-7ef0-08de5a85b6ec
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?R3FET0lFcm5BZ3oyL2doMWF6Z2x6YnFNUFdwblpFTDdnVmVNRlBFREl5dHdS?=
- =?utf-8?B?TmdaNGY0OTkyWEFYVjl3Wlg4Sll2Um9MckwxaWNGVVlZSEltUEcrclN3Zklm?=
- =?utf-8?B?Z05tZW91NUd1Ty9MOGlibSs5Y0kyME91V0pNSU9ocHVQTm1PQUxtbTV3Z2dw?=
- =?utf-8?B?YkU1aGVJY0ZaaGZieEhrNFA3L1o0cGJiU2Zrd2tVdDJEUmJ6SmhSTXQ5ZS9G?=
- =?utf-8?B?ZzlZdzM4c3RXSkh0NGZaOHllNWpXK3hlYXRxcGlGVlp2Mzh4aHVDcWJ6eUJH?=
- =?utf-8?B?NVFienRPK2J3cktHQlZmUE9TSzhTRUl2MnU0OHRqeDFQcHBOQVJmekZFY2dv?=
- =?utf-8?B?OStmNzBlNGs0MzFqYzkxektoaVh4cGgxSkNHQVdCNzhPSlh0TElnZUYxN3hL?=
- =?utf-8?B?NWF2OHJOeUlkRG9IdDYxS2tjM24yN3lneHJSSzdKdDR5RVdRY080NTAvUEFq?=
- =?utf-8?B?eTlxcGxIZ2xuWjBuMjVGMHJBOVZFcVJ6djR2aU1CV2ExdlBhS1BlWEdjdFU5?=
- =?utf-8?B?NHFqZTJ6R2ppUDZuSWtGRkYzdHZWUDYrN1FxV2M5SmhpWkdDTzZ3L09SS3Ri?=
- =?utf-8?B?TXZVR004VFBqTUNvNTNqZG5XM1FOZWs0Y0t6OE9aZ2g3SjE0cHphVVA0eURQ?=
- =?utf-8?B?Q3A3ZW1OTzRiTkZQSFpTc2hPNnZBTnVsbWo2Nmp1V0dQKzZjNjFSZVdOL0tQ?=
- =?utf-8?B?RXpXc0xLTHlHekFBSmpBSzJ6OU9udFdUR2VaSGh1K2dZWDN4SzhPamhqWndE?=
- =?utf-8?B?UjdIUFh6YlpyT0hMSmsxcUkyWEtnWldiTERlUnJWZzlTblU3Sm84L3FCVTJZ?=
- =?utf-8?B?RmpMaG40VDRhdzd3MXZKWFlITXI0TS9WcEo3QlhWa2VJVGs5N1FIZGU2ZVNj?=
- =?utf-8?B?UWNIRFUwb2VjR3dhMU41d2pRZ25FSnQ3ZVliYXE3T1pzM3hnYkJkSi9DNy93?=
- =?utf-8?B?S0F2Mk9yNXlMSTFQakFpUE5raURjSUwreHFUVitZWnB4WGlZRzR5QkRnRkx2?=
- =?utf-8?B?U1l5ZE5qOTJPeTNqejlGUFh6dXo1VXJ0NkYyR0JFNTBncno0Q1dTMHFMenBx?=
- =?utf-8?B?aURzQjY0Vjgva0Zkc1M2b1A5QXRRM04wSUpKWDlEWStSc3Ruck1kWitZTEI5?=
- =?utf-8?B?QkVWNXJXTnVkUUpjeFJZY3JWUU9hblRycG9FbmdvSTJWa0RNOEJObkRSRzF4?=
- =?utf-8?B?NDlsUjdFbWp2Vy9SODJPZDJacHcwSGkzeENLVDZ5bWFod0pFR2pESmZtRkFr?=
- =?utf-8?B?UnVXRWpsWDJlanhtQlZqeGhUamVTazllMjBkZkRFVHVDVlhaT3JsbDR2UjZ6?=
- =?utf-8?B?b2hsK1A5dExRMElURUhTelNPQVRnWFVpOE1PRlZ1NUZkTThuS0tTcVY0K3By?=
- =?utf-8?B?dE84RytmVTZVZ0l6WDZ6eE4vVjRMczRZY1ZsdHNmcUppcEl4aVJMQTVhMVJj?=
- =?utf-8?B?UXdvSHNyVzUrSzg1MGRCc25VZTJVeUo4Q3duZExDdXNXRzh5bTY0SDRVdzl6?=
- =?utf-8?B?ZDJiTkdISjU1MXJYa3ZEM1ZZb2M0a3U5dW1sYUxIa3lqQ2hhRDZhRW4zWDhh?=
- =?utf-8?B?Q0hrVFFNYWVhV2pteFkwVXg0ajVXK0hpb1dJbEdycDdCUngyQ1dGV0xNVkpB?=
- =?utf-8?B?dFBDU2JvT2k2Yis4MWo3V0FITjFNYU55VFAySmFMWkpuWStNNk12WVhJb25n?=
- =?utf-8?B?dnpjL0c5cGQ1bHBFbng4K0lOQnczOFV1VVhQaW5zbm1pSTRFVGR3ZFlWNEFU?=
- =?utf-8?B?bkhxdTZncFo0TUpxc3RhazFRSGFBcnNXenJuei9YaFNMVDhVbzZRcGNFZmly?=
- =?utf-8?B?Z2MvaU0xREd4WVdJb21lVnUwanYrOWEvMkdQY3cwbEkxejNGb2FLY0JGR29Y?=
- =?utf-8?B?MnlrMTluTVRNUTBHNkphbmR0NGRyL29GUXlKWUw0MS9ydW5IR0gzK1pmMkRC?=
- =?utf-8?B?M3hMcnBaMmUyRDdmbVhnRGlhQjVzWTFGU2dtOVp2YzZBajRuRlViRUtkYzJB?=
- =?utf-8?B?SEZYdGsydW5kY2ZHa3VJV1lZUlFjcWw1NDJZMHVxSFNwU0pDeWh5K21FdDkw?=
- =?utf-8?B?ZDB6R3AxeG56WFdMY2JseVhsa3F1ZU9rakNzRDd0V1Z0VWRsNityREdxMk1X?=
- =?utf-8?Q?PTxQ=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V3VDK0p2MDhhSysrRGY2cXVlUTY2b2lPVGRCSEhTN0hUa2pqZVN2eU51Vk5L?=
- =?utf-8?B?cmkzZU1JU1AwcUxRNkl3djh3YTVsdUFVSEFmZGdNb0FTVm15cTZpQWVJeEFU?=
- =?utf-8?B?bENMamx5a2lxaUY1YnJxUFVFTmpJMUNGdU9najZiYVZUdEI1ZTA4SjNyL21Y?=
- =?utf-8?B?VG5lTTR5NUg1Mkt5ekNQMTZOTk9VUUdGeldmNWhWMFp3dlFXcGwvbjdCK2h2?=
- =?utf-8?B?a29vZkRBSTBKYS9FTk1GalBIVDJ3MGpiRm9SZUJ5eHZKN0N0NjlCQVRyOTFL?=
- =?utf-8?B?SHV2S0hrTlk0ajZZNkt0enpRd2h6ZVNRZW8yK0p6ZHBJc3NxYTc1WGwxYWs4?=
- =?utf-8?B?Nk82eDRWSnM2bGRhcjN3VFNaY0c0VEVIOUJTbW9qNXdUSkMxQ3FpNHJSS0Ni?=
- =?utf-8?B?b3AwWVVJRlYzSVV0ek9tR2ZSMDhMcERLWTRua21PSDRLeTZHMGdFOUdvNDRp?=
- =?utf-8?B?VjVkSFVHWWJRUm9DT1hyRU9jNGIzREtmTDRraitKbmh1MWZUVG5ZSGZBY1cy?=
- =?utf-8?B?bThDOUl3WmhwUmRick4wRHpkc3pHZklhb2RJOHNhY1lpMmsxYXFLWFJPNTZ3?=
- =?utf-8?B?bDF2VEkreTNRNjRGdDYrSEdFMHlJNytRaWZQUFRpRUFRRXNIMVE2SDJWYWRQ?=
- =?utf-8?B?TXRXZU1VUUtSTGFLaU81TFd1ejhPR21VR3JzN0h1Qis5d0JhM2h4RlVMdTFp?=
- =?utf-8?B?L0ZHcUppZ3hqSXJZakhqd3QyMGUwT2pYWjNkUlN0ZEppY0ZvVUdtTENSY09y?=
- =?utf-8?B?Mzl4U2dMa2xQL1lQblgzT2hHMjBoUXAwWlorSjhlaXJ0ZS9VdGlsdFliRUZh?=
- =?utf-8?B?T0NzNEtYMVVZa21kUVhUdVhZbjNpNFpTa2FoWUw0dWJsNFVLMkJkbjFDRVc4?=
- =?utf-8?B?aXdqenkrenVRWUNyanV0VVcrWjUxbnZsa2F0b3JZanZaWGF1bXoyT0FpUGl6?=
- =?utf-8?B?RWRwK3lEZ09EV1NQUXRQR0Uzd3pVOGx5VC9Ga3NDdHhsOTdTNlIwUEpWMDRD?=
- =?utf-8?B?eXFHUHlMVEQrRG0zemdUVzI4ZTNzVktzOExMKzU2OWErQXErV2VJUTgydUE4?=
- =?utf-8?B?eDFCYno3byszTDg5MzBHUHFuSzd6SUkwbnRSNCtqNGtwdkJPKy9JdHBPMTBj?=
- =?utf-8?B?KzRjTVp3UmM0dzBDQXVmSFVLaUgvMzZpUEFJa013VVYvdTRScUs4TGZyUFR3?=
- =?utf-8?B?QnFqVzZLVTlPYUVMYnNlUVg5QnN1WUNrVEZ6ZVcrSG1hOTFZdHpCSWR0N3Za?=
- =?utf-8?B?R25lbU90Tzh6QWpnQVZIaGhNRUVHaGxEblNHaTl4MitQYldwekxiZFlqMXRr?=
- =?utf-8?B?QTBZend5REs1emRGQkM4bTFmZ1FWZ09LQk1US1RzUUs3djQzZ0Yvbkx4TXh5?=
- =?utf-8?B?VFRWZjNWbUIrYy9TNXFsTHpQaTYxZURMSExMYXRuQ3lNOUlhblFEL05WNENV?=
- =?utf-8?B?SE14c1FadHZ6Q3I5UlFGUzU3dEEwTHVCQnZjSHBEZHRoUWlseU9wLzhxNXdm?=
- =?utf-8?B?L1RBNW1SejRINzlGaDM2ZFMwejEya2djN0xkUm9EclBKOWZ1bDBjYkJMdFhK?=
- =?utf-8?B?MnBOMm85dG80Y1BBamUydGVFWmlnd2N3R2VkcFJyOVRCS0VuNmo4bjdxdDR0?=
- =?utf-8?B?ejJDbUxPTU5HQnJpY1FtS1FZMGU3N0JzTHpSNUJNTzhETzl0T0hjdEZZK1NQ?=
- =?utf-8?B?dW5BUFlEWEtXYWNVbWlWZmtaU3pxVDUyTUxaUUpQRXNsRmh5clp4dThkTW5J?=
- =?utf-8?B?bE5hbFBwMFZIS1JRdmZCemRVR1ZIcVBBVU82cmtlbE9Da2JLMTR4d3VwcXA2?=
- =?utf-8?B?MHNOVzVPdGZ2REZYWUJVS0ZKY3VUdUU1WlF6aVdYWFhqUE5EWlZHMFg0bE5L?=
- =?utf-8?B?dzRaaEs5OGtWTU9Tc2JCTVcxTzMwdm9PcDNFSzJaTm1lTk5iRytXYVR4UDk5?=
- =?utf-8?B?RVVVVkg3enhDSVpMaGZPTlc2clF6WWFVRzg0bjVQdVQzeUJIN2d5VGxKUCtE?=
- =?utf-8?B?MTEvcEdjZzdaMEhwOGs1aGhyekN5R3h0V2laR0FFcktmRis5OWxpbE1zUVhI?=
- =?utf-8?B?OXRIalkwbzJuVDkzS2lRaFo4VzMyd0FPUHB1b29jS082YzBCemhTZ0NXUmUr?=
- =?utf-8?B?NW8rVHYyMHlyTS9aSk5hOWEzN0N5WGd2anpmR0dsR1FEVW5EY0dNQXRKc0Jx?=
- =?utf-8?B?aWtjVW84UjVOUUdCNDdrQldoMFQ4ajZKbyt2MEFQaUxGRzh4L2NLSG04ZGxH?=
- =?utf-8?B?RnBzZGxFTTh2Sm5ZaEJKeHBTR1h6MmxwNzRDZVZCVFR2MzAxSVBrYXZUODJH?=
- =?utf-8?Q?pr2HpF3WPm7Zoxw/vo?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e0f6f3a-fb1f-424c-7ef0-08de5a85b6ec
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2026 13:45:48.3398 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kqlmqklJnYebYiiMzZMtu08baxij830WH+zu+yzOwe2qNVQacBwa4zg2yn71crDS
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9426
+References: <194465eda54d1f852a9226cf691ddc5aa208e0a3.1769097977.git.geert+renesas@glider.be>
+ <ffdf3982-e22c-4d01-afa6-5449ed381000@imgtec.com>
+In-Reply-To: <ffdf3982-e22c-4d01-afa6-5449ed381000@imgtec.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 23 Jan 2026 14:50:31 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWMh_oJFg-KtapcTDGvYWZ-hg_ZEJ2=E5Tp1apOEc8tnQ@mail.gmail.com>
+X-Gm-Features: AZwV_QggHEVwIqc1kEtstmdEvFabNWQsOAWxfVgLAyebxcJ0E8lsdThbjxeQnuI
+Message-ID: <CAMuHMdWMh_oJFg-KtapcTDGvYWZ-hg_ZEJ2=E5Tp1apOEc8tnQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/imagination: Convert to dev_pm_domain_{at,
+ de}tach_list()
+To: Matt Coster <Matt.Coster@imgtec.com>
+Cc: Frank Binns <Frank.Binns@imgtec.com>,
+ Brajesh Gupta <Brajesh.Gupta@imgtec.com>, 
+ Alessio Belle <Alessio.Belle@imgtec.com>,
+ Alexandru Dadu <Alexandru.Dadu@imgtec.com>, 
+ Marek Vasut <marek.vasut@mailbox.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, 
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -176,105 +102,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+X-Spamd-Result: default: False [-0.61 / 15.00];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:Matt.Coster@imgtec.com,m:Frank.Binns@imgtec.com,m:Brajesh.Gupta@imgtec.com,m:Alessio.Belle@imgtec.com,m:Alexandru.Dadu@imgtec.com,m:marek.vasut@mailbox.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-pm@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tvrtko.ursulin@igalia.com,m:kernel-dev@igalia.com,m:wangzhi@stu.xidian.edu.cn,m:David.Francis@amd.com,m:felix.kuehling@amd.com,m:stable@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DMARC_NA(0.00)[linux-m68k.org];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[geert@linux-m68k.org,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_CC(0.00)[imgtec.com,mailbox.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.790];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	NEURAL_SPAM(0.00)[0.030];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:email,amd.com:email,amd.com:dkim,amd.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,xidian.edu.cn:email]
-X-Rspamd-Queue-Id: 3491A76717
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imgtec.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid,linux-m68k.org:email]
+X-Rspamd-Queue-Id: CFC3976761
 X-Rspamd-Action: no action
 
-On 1/23/26 10:54, Tvrtko Ursulin wrote:
-> Since GEM bo handles are u32 in the uapi and the internal implementation
-> uses idr_alloc() which uses int ranges, passing a new handle larger than
-> INT_MAX trivially triggers a kernel warning:
-> 
-> idr_alloc():
-> ...
-> 	if (WARN_ON_ONCE(start < 0))
-> 		return -EINVAL;
-> ...
-> 
-> Fix it by rejecting new handles above INT_MAX and at the same time make
-> the end limit calculation more obvious by moving into int domain.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Reported-by: Zhi Wang <wangzhi@stu.xidian.edu.cn>
-> Fixes: 53096728b891 ("drm: Add DRM prime interface to reassign GEM handle")
-> Cc: David Francis <David.Francis@amd.com>
-> Cc: Felix Kuehling <felix.kuehling@amd.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: <stable@vger.kernel.org> # v6.18+
-> ---
-> Compile tested only. Any IGTs for the new functionality?
-> ---
->  drivers/gpu/drm/drm_gem.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 7ff6b7bbeb73..c5d3ecc1f8a8 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -1001,11 +1001,16 @@ int drm_gem_change_handle_ioctl(struct drm_device *dev, void *data,
->  {
->  	struct drm_gem_change_handle *args = data;
->  	struct drm_gem_object *obj;
-> -	int ret;
-> +	int new, ret;
+Hi Matt,
 
-While this works in C99 I suggest using another name for the variable since it is a reserved in C++ for example. Just handle should do.
+On Fri, 23 Jan 2026 at 14:36, Matt Coster <Matt.Coster@imgtec.com> wrote:
+> On 22/01/2026 16:08, Geert Uytterhoeven wrote:
+> > Call the dev_pm_domain_attach_list() and dev_pm_domain_detach_list()
+> > helpers instead of open-coding multi PM Domain handling.
+> >
+> > This changes behavior slightly:
+> >   - The new handling is also applied in case of a single PM Domain,
+> >   - PM Domains are now referred to by index instead of by name, but
+> >     "make dtbs_check" enforces the actual naming and ordering anyway,
+> >   - There are no longer device links created between virtual domain
+> >     devices, only between virtual devices and the parent device.
+>
+> We still need this guarantee, both at start and end of day. In the
+> current implementation dev_pm_domain_attach_list() iterates forwards,
+> but so does dev_pm_domain_detach_list(). Even if we changed that, I'd
+> prefer not to rely on the implementation details when we can declare the
+> dependencies explicitly.
 
->  
->  	if (!drm_core_check_feature(dev, DRIVER_GEM))
->  		return -EOPNOTSUPP;
->  
-> +	if (args->new_handle <= INT_MAX) /* idr_alloc() limitation. */
-> +		new = args->new_handle;
-> +	else
-> +		return -EINVAL;
-> +
+Note that on R-Car, the PM Domains are nested (see e.g. r8a7795_areas[]),
+so they are always (un)powered in the correct order.  But that may not
+be the case in the integration on other SoCs.
 
-Drop the else and just test for correct parameter. And usually the comment above the code looks better.
+> We had/have a patch (attached) kicking around internally to use the
+> *_list() functions but keep the inter-domain links in place; it got held
+> up by discussions as to whether we actually need those dependencies for
+> the hardware to behave correctly. Your patch spurred me to run around
+> the office and nag people a bit, and it seems we really do need to care
+> about the ordering.
 
-Regards,
-Christian.
+OK.
 
->  	obj = drm_gem_object_lookup(file_priv, args->handle);
->  	if (!obj)
->  		return -ENOENT;
-> @@ -1018,8 +1023,7 @@ int drm_gem_change_handle_ioctl(struct drm_device *dev, void *data,
->  	mutex_lock(&file_priv->prime.lock);
->  
->  	spin_lock(&file_priv->table_lock);
-> -	ret = idr_alloc(&file_priv->object_idr, obj,
-> -		args->new_handle, args->new_handle + 1, GFP_NOWAIT);
-> +	ret = idr_alloc(&file_priv->object_idr, obj, new, new + 1, GFP_NOWAIT);
->  	spin_unlock(&file_priv->table_lock);
->  
->  	if (ret < 0)
+> Can you add the links back in for a V2 or I can properly send the
+> attached patch instead, I don't mind either way.
 
+Please move forward with your patch, you are the expert.
+I prefer not to be blamed for any breakage ;-)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
