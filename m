@@ -2,75 +2,177 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WIxIHkaec2lqxgAAu9opvQ
+	id 2cz+Cw+ec2lqxgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 17:13:58 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 17:13:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25D8878402
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 17:13:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C98FA7834A
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 17:13:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B44B10EB50;
-	Fri, 23 Jan 2026 16:13:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F86F10EB38;
+	Fri, 23 Jan 2026 16:13:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="TANzyomH";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="CMV2LkME";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78DEB10EB4D
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 16:13:50 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 5DBD64E42223;
- Fri, 23 Jan 2026 16:13:49 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 3232A6070A;
- Fri, 23 Jan 2026 16:13:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 35463119A87DE; Fri, 23 Jan 2026 17:13:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1769184827; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=Xaxir2BF/2AAPP//cTgqSk8YQ/2vo6kmLft9QcIZP28=;
- b=TANzyomHNU10P4dOgD2CFQtvZPsHzeW+grOAMsldamFmXiTI9bORYMPcp2GSwPDVl6g888
- e+qGmxZU8IXMKupnEoApMXnacRTibmV4R+Q8+SdgP+IUJd5sMoGX+jGcHF1oJK81i4Mqcn
- KU66QKzF2XNOKN/JvG5cIdG0OjzY7MdaoFDD+Sk0/1XbZo34ti8nAuCqhn8hNHe0YXscDo
- tg4PZOMW/IxwtxM1BRhHOr4wnCTfkAiU2pjlgta4MiUDkFvholf+gCzN4PD6nLYZR4YCS1
- tNgTWwR9Wh2EjPrPWUSw9yNJkrsfa0GbpyN6PN9jMY4cZwWzRoZhtqiKKZa0FQ==
-From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-Date: Fri, 23 Jan 2026 17:12:40 +0100
-Subject: [PATCH v5 22/25] drm/bridge: tda998x: Move tda998x_create/destroy
- into probe and remove
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010021.outbound.protection.outlook.com
+ [40.93.198.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0616110EB3E;
+ Fri, 23 Jan 2026 16:12:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IJPX8dg+0pxapsHUAvuKrxxxoJDGVpDVVCoAU1QI1C5SVIELB77zmYeLIbQgH+mcW8Rkzmf3I1Pcomw0Ubq0rWMs87r68cFi3Pn8PFUH7EZt+vrLnupHGYZQ9wwlcQFrVoOCUjYCrh/PmkzhjfD3sbIh1diTzOfcojD9x7eCGdRgp9huCpdWeHF5UTYBuxGx8SEh54UyIrwDo5Vghgf1nRhr1ycxQUNuYWxpo/sSqmt8Cl2kC5ACqSrH8im/2se35H20Y0Txl42GcTtLY6iJtEf3EXk2YV6z6irPeDmsPf6aC61+thlXZFdYJ870PAkGM/STtKcbCdabH8c3D5Evwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wT48aWW/W+f44/Tm48BQ3IXWD/aWUqqtli06mbPdc20=;
+ b=s3+DEv1ymCt0p7JbghY0VKnhcqQlikHcBsRtt0AYhoCwA0IfErT+o884vS3bUVhkPla2ruDX34lu60XDj2yovzauIdrgJTCuT3SIUbTdJrwq9+XOjYik7ZmjgzetGil478y6UItkisJFrnfOUYzSPcNNlVXnbL0EAzQNI3Pm7+4iuQddeL6esQpZtR6FjCIHKzr61zOimzikX+6Xmpe+4zC3BGLQpQHjWiBg62SmR9e4ksXnHhu7eSq+xW4Dq6eHUgAuS03CbPUiyagkUDNb9CyxKEnROOQUYD6giXtdNLFWO/9azeTgUv8ynk8fD8uZUQ43Wx2YHHlTK2v4IMPZWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wT48aWW/W+f44/Tm48BQ3IXWD/aWUqqtli06mbPdc20=;
+ b=CMV2LkMEzO1BpWVAfLQhRScDiwye7h/4fLCW/IlUJ5fFC7BHvP4/zylezaAGnzmrGGQMAy3evTYUD9x20m68f9VR7OJN8Lmb07o6vFyKItwoPWg34LNAOvms8TL1BPpi2GtlUPpdTpDC24cTravwV+EIQRKHEXGNh3cJ19OtKnk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by BY5PR12MB4227.namprd12.prod.outlook.com (2603:10b6:a03:206::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Fri, 23 Jan
+ 2026 16:12:53 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9542.009; Fri, 23 Jan 2026
+ 16:12:53 +0000
+Message-ID: <b9df6f55-3e29-4287-a7cc-4e369b35336d@amd.com>
+Date: Fri, 23 Jan 2026 17:12:41 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm: introduce page_flip_timeout()
+To: Hamza Mahfooz <someguy@effective-light.com>
+Cc: dri-devel@lists.freedesktop.org, Alex Deucher
+ <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sunil Khatri <sunil.khatri@amd.com>, Ce Sun <cesun102@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>, Kenneth Feng <kenneth.feng@amd.com>,
+ Ivan Lipski <ivan.lipski@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ Fangzhi Zuo <Jerry.Zuo@amd.com>, =?UTF-8?Q?Timur_Krist=C3=B3f?=
+ <timur.kristof@gmail.com>, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20260123000537.2450496-1-someguy@effective-light.com>
+ <2de6d428-b997-4ba8-8766-a211e5612e72@amd.com>
+ <aXOJRWALUJLcGWqh@hal-station.localdomain>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <aXOJRWALUJLcGWqh@hal-station.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0079.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9a::19) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260123-feature_tilcdc-v5-22-5a44d2aa3f6f@bootlin.com>
-References: <20260123-feature_tilcdc-v5-0-5a44d2aa3f6f@bootlin.com>
-In-Reply-To: <20260123-feature_tilcdc-v5-0-5a44d2aa3f6f@bootlin.com>
-To: Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Russell King <linux@armlinux.org.uk>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Tony Lindgren <tony@atomide.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Markus Schneider-Pargmann <msp@baylibre.com>, 
- Bajjuri Praneeth <praneeth@ti.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Louis Chauvet <louis.chauvet@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Miguel Gazquez <miguel.gazquez@bootlin.com>, 
- Herve Codina <herve.codina@bootlin.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org, 
- "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-X-Mailer: b4 0.15-dev-47773
-X-Last-TLS-Session-Version: TLSv1.3
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BY5PR12MB4227:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0750159e-36d3-4b43-410a-08de5a9a425b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MnRDZi9NNVF1RzhDK2FWNmZwR0JRTkZ6dDdpRWc3bW9pQ3VsSFZIa2Q1N2Zx?=
+ =?utf-8?B?K1NaZ3hXOHUycW1XMy9DME5tMWdBQ09xbVJFZFdrYmVTRmVBRHNXcGVvMDM1?=
+ =?utf-8?B?cGFxby9vL3k4dmlNT0R5S3kwaTN0c0NNdWpBTVM1cDN2RExMVzV3LzlpVlpz?=
+ =?utf-8?B?cnU3SGRmZm0wdHlpaXg0OENFVkN4Y0l3djlobWljaXozQ0V2ZnhOOTc3WEpQ?=
+ =?utf-8?B?SU9HRjBQQW8yT25wckUyMnMyR0N0TEZOeU1qZWc4YWhFSjJyODlzdFFIVThY?=
+ =?utf-8?B?UG9NN01ScHIrVFFZVXd6NXFjUkRiN05lazd0Z25EWTJJTUFNcEVqMTZKYnRi?=
+ =?utf-8?B?TmdEOU5VVStVQnN6MWthUHlMNkpya09JMmRKRGdRWVdzaExWSjN5dXdjZmFE?=
+ =?utf-8?B?SHBGZE1mQjlMMlhLanZEOUovT0V6WHpndTMxVUk3K1ZvRk4veU9YWHdUL01N?=
+ =?utf-8?B?U1UySkJzb1hyU1FDelJkM3FmUlRGajRMZXRaOUFiMVdHREU4ZGVhclJhb3g5?=
+ =?utf-8?B?MHRXYkJSSGI1SFNTVERaMkJwalFiRzN2eGFKWEl0czljV09CS1pvc2VTL0lL?=
+ =?utf-8?B?a05iNWdGeTJHbXp1RHVWYzRnRXBXdjg1ai9QVk5JR29pL3BZVWhGTWtoUUUz?=
+ =?utf-8?B?MDhXU0tIcDNsWVpteUtYQ2c5VDZWb2o4bEJZUXBUU0gxTGxyWjZqSVM4TzlF?=
+ =?utf-8?B?N2J1ZHNLUEJndGhEZ3ZEZXBORm5KUmo4cG1OM09zSWFERElNQ25idXJ1KzYx?=
+ =?utf-8?B?aDJnalJBS0xOYS9zeDM2amFYQlNWMGJBYkU3U1FwdytqMkhuZ2oxbmZkTms5?=
+ =?utf-8?B?SXJhQjZ0YVdjaGEyS3NaMThSb0kvbGY0dDh6Z1pNVkdDcVJTKzNHWThpVmhL?=
+ =?utf-8?B?RERYajdOWDJKdnVUdVFZMlRGWTVFTlAycU1JcklGcnVQUnQyR042OHpYU0xB?=
+ =?utf-8?B?Nyt5MWRJdlhsTlZUWk5uRXpsL082Vk4rejA5THl6cmIxZmEwalJDYlZvVEN1?=
+ =?utf-8?B?YnJMVllmdXVad3dUMzdBSlFSd05OVlNhdWQwMkFpbE8vT2ptZU5OQ3VlSFR1?=
+ =?utf-8?B?Z1diUFZlaVNoM0R2UmFvVEppejFMYlhJUzdWTFJKSXdnWHNRT1FhYVA5bEI2?=
+ =?utf-8?B?ZDc5MXgzY0twQ1dHc3lFdS91NFVLMU0zallib1dydWFMZWVvNk5Fdi9GOXNi?=
+ =?utf-8?B?QWQ4OUxkOS9Lc0QwUFBVNG9YOFJyUlI3bmRrL05JYTVjYm1mc0FwZzF6NkRY?=
+ =?utf-8?B?VENvbW1ZLzJKN1FBYm1aaFBGVGl3RXRXNDNYdVlteHBBU3VQVEZkWEYxbUIr?=
+ =?utf-8?B?Z3cxVTNoYWZDNkd6eWprL3Jhc1NqSVRyUTN1Mmt5TjgvZWhaZ1ZIVkkvSGRJ?=
+ =?utf-8?B?d2dvT1lkSEUyQnNHaFFPbmF1aWtuQy9QNXUwWDlNTW04VXNrclR6R0h5YWQr?=
+ =?utf-8?B?T0l5bkRlMkNLYjErR0h5TGZHd0pxNXhFVUVBREdQZlJwY1VZWUxOSStnb0dS?=
+ =?utf-8?B?Y3ZDL0dHOG5TdUZ5S3RhQ0dzMmlLZmZ0azV0U1FmT29LbFFOVk95U2ZraE14?=
+ =?utf-8?B?aHpGbHFGWjNPVEVkR3BjeHZjTzN6N0hNK1orZUZrdTBvVjlBcTNMdm53WWx2?=
+ =?utf-8?B?Q1FGNmpUcTcrSHF2UUlhZ215czZ3cWQxdHNQOUZzaTdOTlVyOGFGYmQzVGVF?=
+ =?utf-8?B?VzZ5T3Vqc1VuV3VYaXdLM3R6NXZvSE5hN2ltbytOSFEza3VCeXF5UW5MSVB4?=
+ =?utf-8?B?dDIrdGQ2MldXdTU4NURjY3lOVHpQeCtwazBLVGtxREx2MVUxOXQ4UDRFa3hj?=
+ =?utf-8?B?QjhHbGoxNTZ2eHN1dXZGeFRHOEJnU1gyaWJqSjNLQWxxWG5qenB2bndMbjZL?=
+ =?utf-8?B?cHdpR1hoT3Y3Tis1N3EvNURpYkN3QnpHbGFkVEdqQS9LRXp4RUtNa25PME1S?=
+ =?utf-8?B?UXBOeVNZS0NWL0RjcmtMWlZQc1k3Z1JZQkwybk93Y3htRk12ZDdqdXFHZEtC?=
+ =?utf-8?B?MXJEbmdsVzRuTXFlZ0k5N1A3K0RwQUtOUUpWeGZyNUxDTlpReks4ZkhMSEZE?=
+ =?utf-8?B?T0lqSlNRU1dSY0hRVkFXenVRWUxuUE9hUDlDVHRpclNLMG9rM0RDbTY2MzN5?=
+ =?utf-8?Q?ujDc=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SkFQeGY2S3FNbTVETnVFa3lMd1V5OWU0YW9wTzdvd3ZuZU9sbzU2ZmdSNDV3?=
+ =?utf-8?B?VnVMd3JNM09FbS81NzQ2ZkcxbVBqS29NSW12dlVydnA5dC9SR2dYV3lRMEFz?=
+ =?utf-8?B?WGgwdkcrUUM2MW40UDRaSGdXOHRQV0NxUFp4Z2x6eHQxa09HSmVGVk5veENj?=
+ =?utf-8?B?VGVBRTBKUDhEeWcvNk0zTVVjTnRKYWV1MDVVMUNUNS9mM2Foanh1dDR3bWFJ?=
+ =?utf-8?B?WmJyK1dGLzExK1doUmFvdnlLZWVPc3o1b3pqRXNDVE9Hc3NqVHNkZ0FzMDlG?=
+ =?utf-8?B?cFNvN2pnV1M3YWV6ZFJucUUzZndaT0JvMW02a0o0aGJRZWo3NnJmT0E0dmZ2?=
+ =?utf-8?B?ZktucndFSi82ZHJxSzB4VlFVZWZBOVVZMldMYlVkb25jckROU2J6L1EzODl6?=
+ =?utf-8?B?OXFUMEY5L3NBTW1YTnYrK0pjeGlMY0hLSC9EYUR0bEJqNXdmanBQaUpTdUNr?=
+ =?utf-8?B?eUJERGY3TnFua0E5Nk5LMzRxL1FielRISjY5ejF4ZU4wU0JoazFFZlFIajF3?=
+ =?utf-8?B?V212Q0tvSDkxdjFuSjFKZEd1VjY2VDhaRVBqTkllUnd2Nk1hSWJHQmo1aVdJ?=
+ =?utf-8?B?VGJhZ044bEhaNlF2aXMvcTQ5Nit2ZEptV3BtS0JFK0ZINmMrRmMrbmtmNkNw?=
+ =?utf-8?B?NXlYTDlzbDZHY2VzQnAwRHV0VW4xbDIvdlhUQTRHOHJxL1BnS21ZU0NVdDRP?=
+ =?utf-8?B?ZWJid2pYT0ZVNGF1T0hIR1NhQm9HK0VqQUI4UE1UNXZmd254ak1makZPVFZ5?=
+ =?utf-8?B?YTEvM0ZOdm84Q0E3cklzVWU4YkppdTJhdytNODNDRklIWHhwUHdaT2VpRzFo?=
+ =?utf-8?B?QnlrWGprbDFSSExhWmlQbjZyQnlpSFNUVEFCaVZBLzFiUlBobGdtRi8wb1Y3?=
+ =?utf-8?B?bG9aUk43MzEyNk5adUxDWElsUGFlN3B6dGhPc0dmdHhjWnhnUmxpNlE0eXBV?=
+ =?utf-8?B?clh0MTdFanM3c0dtU2JQRTlUbEZZdVpFOTArNitBaHJCY25BWG43dm4yeTJE?=
+ =?utf-8?B?RHlBV0YybGtGUzQyMk5VY3greW5SZitYd1M4SmduMUc4OHhFUUdKT1J6SEY4?=
+ =?utf-8?B?ei9xOEFkbndmR1BpTExyOXNaRFpGbkErd0xoMm5FVExPSk05aVBIYmlQVUlP?=
+ =?utf-8?B?RXNYdHFHRG5tMkU3YmVKQkV4VWV1N25vbXM2UFpkZEVFMUlnSVJyTzFiR0Zi?=
+ =?utf-8?B?bVVsWWx6eFYzSFlDYlMzaVlsaE9QbVoxTjNFREpiVWJZS1lYSHRhbVlHcWFs?=
+ =?utf-8?B?RFk4YS9rTFFJdzNjSXdrMDdVQ2x0cG1QbEc5YmYyUlBYeVVUeURuZGJicWRk?=
+ =?utf-8?B?MVBLQU45ZTVCZk9EeklhS2dYTFE0V0NYVGY3Z1lySXZkN0JNd0lmRUcyTHYw?=
+ =?utf-8?B?R1l4SFVXaUcyMkcyaXRydC9GcDZGUy9qZUpjUEk3ZG5WOGxQVDNJdmc0TElv?=
+ =?utf-8?B?V1ZzQmR5ZkZRTGNKZ1JiS1YzOEtGSUVGZDMvd3MyWVN0Vi9tVFZ5NDlPR05v?=
+ =?utf-8?B?TXQ5NHJLcGwwYTRYTjdGOXhEQk1Vc2YvcTlibCttRVp0d3lvNXlIYXIwanNq?=
+ =?utf-8?B?NFRka0NMSFBpOERRM1JHRWdEWmFVSFkvbFhRRTh4bUlQT25EOTZydzJGUTFZ?=
+ =?utf-8?B?WEtPMitYSWpTUzZVaGdTSEoxRTVFcEZFbFpYaTNvSlE0WS80NmlmOGsrQ2pW?=
+ =?utf-8?B?bzhjRkpyZDd6aG5CTmZ4UndOc0NUd0hEendYU1NYSVJGa2x6WmFUTmZRcm8z?=
+ =?utf-8?B?ZmhHU2Npdmo3RjlPeTEvT3h4UjJndXl4aHBlNXpyZmFuQzN4WG81eGs0ZTdD?=
+ =?utf-8?B?VEc5eWhEV00yTjRvTG4vak1ZaHFyMHNMZnpucUwzZldyaUxPU0dzQXJUMnFl?=
+ =?utf-8?B?YUdZcVhxVXVoQk5kSjJXSWR5c1NicnVrSGJXMHJ1SzlFYlZQb1J3MHc1UkRz?=
+ =?utf-8?B?ajJMSVlGWklUc1RLYndaYXZMK2s3WlZpM3NGVTlTTTVrWmNUZ3Q3aDVzMGFh?=
+ =?utf-8?B?cWtneVB5aVpjT0UxcHQzZk00UEtjaXJaSmlXcTVNTWd5V2EreDlwaG50Rk1i?=
+ =?utf-8?B?M3poSEo3OEp4a3krQjR5a3BHRmRYWkc0SWplTnFPNUdoU1VWS1piM2IyTHNY?=
+ =?utf-8?B?YXQ5RVlnWUNmcjI0NWZOcEZKSmNCRFJuR0lBTnhiZG5KYXlZOFdLbnNXQTAw?=
+ =?utf-8?B?bHVXb2JyQ1MvYkdwZnJtY0JreHErdmVEUnZpcDBSVWkrSy8zVC9YZ0pmUzlx?=
+ =?utf-8?B?STErVzRERkJUK3MveEppeENIQnNWL3lxdFU2cTYyQWxOOFgycWdWMUh1NWZJ?=
+ =?utf-8?Q?3NtgPoWec+KQKW5npw?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0750159e-36d3-4b43-410a-08de5a9a425b
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2026 16:12:52.7265 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tnZ6zIgYc1NyBbANs1cbtOjX/lfJy85HZmEHw+vBSMoY16eyIHdqHvzB0G7ZUvP/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4227
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,235 +188,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[32];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:jyri.sarha@iki.fi,m:tomi.valkeinen@ideasonboard.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux@armlinux.org.uk,m:brgl@bgdev.pl,m:tony@atomide.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:msp@baylibre.com,m:praneeth@ti.com,m:luca.ceresoli@bootlin.com,m:louis.chauvet@bootlin.com,m:thomas.petazzoni@bootlin.com,m:miguel.gazquez@bootlin.com,m:herve.codina@bootlin.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-omap@vger.kernel.org,m:kory.maincent@bootlin.com,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[iki.fi,ideasonboard.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,armlinux.org.uk,bgdev.pl,atomide.com,intel.com,linaro.org,kwiboo.se];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[kory.maincent@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kory.maincent@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[bootlin.com:+];
-	NEURAL_HAM(-0.00)[-0.984];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DKIM_TRACE(0.00)[amd.com:+];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.982];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,amd.com,gmail.com,ffwll.ch,igalia.com,linux.intel.com,kernel.org,suse.de,redhat.com,vger.kernel.org];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:url,bootlin.com:email,bootlin.com:dkim,bootlin.com:mid]
-X-Rspamd-Queue-Id: 25D8878402
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: C98FA7834A
 X-Rspamd-Action: no action
 
-Now that tda998x_create and tda998x_destroy are called only in the probe
-function, there is no need for separate functions.
-Move the code into the tda998x_probe and tda998x_remove functions.
-Rewrite the cleanup path using goto calls in probe and reorder it in the
-remove function.
+On 1/23/26 15:44, Hamza Mahfooz wrote:
+> On Fri, Jan 23, 2026 at 02:52:44PM +0100, Christian König wrote:
+>> I can only see two reasons why you could run into a timeout:
+>>
+>> 1. A dma_fence never signals.
+>> 	How that should be handled is already well documented and doesn't require any of this.
+>>
+>> 2. A coding error in the vblank or page flip handler leading to waiting forever.
+>> 	In that case calling back into the driver doesn't help either.
+>>
+>> So as far as I can see the whole approach doesn't make any sense at all.
+> 
+> It appears that resetting display firmware is able to put at least a
+> subset of these systems back into a consistent (usable) state. Though, I
+> don't have a reliable way to reproduce the issue that I'm seeing so I
+> can't say for sure what it boils down to.
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
+Well there is no way to only reset the display firmware. So I'm not sure what you are testing here.
 
----
-Change in v3:
-- Move free_irq() call at the right place in the probe error path.
----
- drivers/gpu/drm/bridge/tda998x_drv.c | 99 +++++++++++++++++++-----------------
- 1 file changed, 51 insertions(+), 48 deletions(-)
+What could be is that the DC code has bugs and a normal ASIC reset unblocked some endless loop or similar somehow, but that is absolutely not the right thing TODO.
 
-diff --git a/drivers/gpu/drm/bridge/tda998x_drv.c b/drivers/gpu/drm/bridge/tda998x_drv.c
-index 865285ba2bd8c..e06d8d4c4b875 100644
---- a/drivers/gpu/drm/bridge/tda998x_drv.c
-+++ b/drivers/gpu/drm/bridge/tda998x_drv.c
-@@ -1748,38 +1748,20 @@ static int tda998x_get_audio_ports(struct tda998x_priv *priv,
- 	return 0;
- }
- 
--static void tda998x_destroy(struct device *dev)
--{
--	struct tda998x_priv *priv = dev_get_drvdata(dev);
--
--	drm_bridge_remove(&priv->bridge);
--
--	/* disable all IRQs and free the IRQ handler */
--	cec_write(priv, REG_CEC_RXSHPDINTENA, 0);
--	reg_clear(priv, REG_INT_FLAGS_2, INT_FLAGS_2_EDID_BLK_RD);
--
--	if (priv->audio_pdev)
--		platform_device_unregister(priv->audio_pdev);
--
--	if (priv->hdmi->irq)
--		free_irq(priv->hdmi->irq, priv);
--
--	timer_delete_sync(&priv->edid_delay_timer);
--	cancel_work_sync(&priv->detect_work);
--
--	i2c_unregister_device(priv->cec);
--
--	cec_notifier_conn_unregister(priv->cec_notify);
--}
--
--static int tda998x_create(struct device *dev)
-+static int
-+tda998x_probe(struct i2c_client *client)
- {
--	struct i2c_client *client = to_i2c_client(dev);
- 	struct device_node *np = client->dev.of_node;
-+	struct device *dev = &client->dev;
- 	struct i2c_board_info cec_info;
- 	struct tda998x_priv *priv;
--	u32 video;
- 	int rev_lo, rev_hi, ret;
-+	u32 video;
-+
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-+		dev_warn(&client->dev, "adapter does not support I2C\n");
-+		return -EIO;
-+	}
- 
- 	priv = devm_drm_bridge_alloc(dev, struct tda998x_priv, bridge, &tda998x_bridge_funcs);
- 	if (IS_ERR(priv))
-@@ -1814,13 +1796,15 @@ static int tda998x_create(struct device *dev)
- 	rev_lo = reg_read(priv, REG_VERSION_LSB);
- 	if (rev_lo < 0) {
- 		dev_err(dev, "failed to read version: %d\n", rev_lo);
--		return rev_lo;
-+		ret = rev_lo;
-+		goto cancel_work;
- 	}
- 
- 	rev_hi = reg_read(priv, REG_VERSION_MSB);
- 	if (rev_hi < 0) {
- 		dev_err(dev, "failed to read version: %d\n", rev_hi);
--		return rev_hi;
-+		ret = rev_hi;
-+		goto cancel_work;
- 	}
- 
- 	priv->rev = rev_lo | rev_hi << 8;
-@@ -1843,7 +1827,8 @@ static int tda998x_create(struct device *dev)
- 		break;
- 	default:
- 		dev_err(dev, "found unsupported device: %04x\n", priv->rev);
--		return -ENXIO;
-+		ret = -ENXIO;
-+		goto cancel_work;
- 	}
- 
- 	/* after reset, enable DDC: */
-@@ -1887,7 +1872,7 @@ static int tda998x_create(struct device *dev)
- 		if (ret) {
- 			dev_err(dev, "failed to request IRQ#%u: %d\n",
- 				client->irq, ret);
--			goto err_irq;
-+			goto cancel_work;
- 		}
- 
- 		/* enable HPD irq */
-@@ -1897,7 +1882,7 @@ static int tda998x_create(struct device *dev)
- 	priv->cec_notify = cec_notifier_conn_register(dev, NULL, NULL);
- 	if (!priv->cec_notify) {
- 		ret = -ENOMEM;
--		goto fail;
-+		goto free_irq;
- 	}
- 
- 	priv->cec_glue.parent = dev;
-@@ -1924,7 +1909,7 @@ static int tda998x_create(struct device *dev)
- 	priv->cec = i2c_new_client_device(client->adapter, &cec_info);
- 	if (IS_ERR(priv->cec)) {
- 		ret = PTR_ERR(priv->cec);
--		goto fail;
-+		goto notifier_conn_unregister;
- 	}
- 
- 	/* enable EDID read irq: */
-@@ -1941,7 +1926,7 @@ static int tda998x_create(struct device *dev)
- 
- 		ret = tda998x_get_audio_ports(priv, np);
- 		if (ret)
--			goto fail;
-+			goto unregister_dev;
- 
- 		if (priv->audio_port_enable[AUDIO_ROUTE_I2S] ||
- 		    priv->audio_port_enable[AUDIO_ROUTE_SPDIF])
-@@ -1956,26 +1941,44 @@ static int tda998x_create(struct device *dev)
- 
- 	return 0;
- 
--fail:
--	tda998x_destroy(dev);
--err_irq:
-+unregister_dev:
-+	i2c_unregister_device(priv->cec);
-+notifier_conn_unregister:
-+	cec_notifier_conn_unregister(priv->cec_notify);
-+free_irq:
-+	if (client->irq) {
-+		cec_write(priv, REG_CEC_RXSHPDINTENA, 0);
-+		reg_clear(priv, REG_INT_FLAGS_2, INT_FLAGS_2_EDID_BLK_RD);
-+		free_irq(client->irq, priv);
-+	}
-+cancel_work:
-+	timer_delete_sync(&priv->edid_delay_timer);
-+	cancel_work_sync(&priv->detect_work);
- 	return ret;
- }
- 
--static int
--tda998x_probe(struct i2c_client *client)
-+static void tda998x_remove(struct i2c_client *client)
- {
--	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
--		dev_warn(&client->dev, "adapter does not support I2C\n");
--		return -EIO;
--	}
-+	struct tda998x_priv *priv = dev_get_drvdata(&client->dev);
- 
--	return tda998x_create(&client->dev);
--}
-+	drm_bridge_remove(&priv->bridge);
- 
--static void tda998x_remove(struct i2c_client *client)
--{
--	tda998x_destroy(&client->dev);
-+	if (priv->audio_pdev)
-+		platform_device_unregister(priv->audio_pdev);
-+
-+	i2c_unregister_device(priv->cec);
-+
-+	cec_notifier_conn_unregister(priv->cec_notify);
-+
-+	/* disable all IRQs and free the IRQ handler */
-+	if (client->irq) {
-+		cec_write(priv, REG_CEC_RXSHPDINTENA, 0);
-+		reg_clear(priv, REG_INT_FLAGS_2, INT_FLAGS_2_EDID_BLK_RD);
-+		free_irq(priv->hdmi->irq, priv);
-+	}
-+
-+	timer_delete_sync(&priv->edid_delay_timer);
-+	cancel_work_sync(&priv->detect_work);
- }
- 
- #ifdef CONFIG_OF
-
--- 
-2.43.0
-
+Regards,
+Christian.
