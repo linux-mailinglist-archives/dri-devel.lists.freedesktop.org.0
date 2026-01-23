@@ -2,51 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6EQDFsmzc2liyAAAu9opvQ
+	id kLbjDKS0c2liyAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 18:45:45 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 18:49:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0E2D792A8
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 18:45:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62ACC792E2
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 18:49:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C17310E2D6;
-	Fri, 23 Jan 2026 17:45:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B736A10E1E7;
+	Fri, 23 Jan 2026 17:49:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aiwJBok4";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JCNCm/Nx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54A4B10E2D6
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 17:45:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6376260147;
- Fri, 23 Jan 2026 17:45:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4ED8C4CEF1;
- Fri, 23 Jan 2026 17:45:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769190340;
- bh=On5W4DpasCDZqy0SIpDx69gtPIvdnD3pmryfp09bKPg=;
- h=Date:From:To:Cc:Subject:From;
- b=aiwJBok4Dt5ZV0cMTWceCmYjAw8lFwmn+gVqMUMpizTAW+AiB2R2NS0IagmbdIr8s
- +3ttDY/oD5IHDVaaa7EwP6LRWMO4tLEYYwi2D/zXu9iBUAJ3X7yWEIPkzrYIsbjIzO
- OdZzEnNMXtVS88t8g9Qri4LdSvPO6U4dncACZP07ZYfZwaiPC4yXwfAeSBukm1HbUf
- y+VuD09X/y7CVuzufadfXZNDhE1BlkBw8x0h8Zut+Y1uG36U9WOMgVzGYS6yviGDqD
- Iu/SVFeHyAqsHo/4Nw1htTicX/Y9yqm7fkfiQUl23B8tODpLGrQqr72a0SK1kxsNmk
- Eu6AzKChhjQRQ==
-Date: Fri, 23 Jan 2026 17:45:36 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Dave Airlie <airlied@redhat.com>, DRI <dri-devel@lists.freedesktop.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Subject: linux-next: manual merge of the drm tree with the drm-fixes tree
-Message-ID: <aXOzwL50DYVm570X@sirena.org.uk>
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85DED10E1E7
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 17:49:19 +0000 (UTC)
+Received: by mail-dl1-f47.google.com with SMTP id
+ a92af1059eb24-1244bce2c17so251335c88.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 09:49:19 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769190559; cv=none;
+ d=google.com; s=arc-20240605;
+ b=S4XG70v2bXGnBApC/TkmptOI+lvYvT9giJcYadwwM+3eXhbcWsKYyRK3su5ztYYU0B
+ QROyjPtJMylkfwEdtBN/soWkoWkY8tBQmoLRDg8N14KiL6JFi5DfvonZLxvICmXOT2TS
+ sIRxgCR77striZZKy62acxyWUn45xktdW6Dr+XgSWYKgZoYzoqt7ZA8bnhbnYsZHPuuD
+ oavE5XYNkUNYlqSQw+BH0+H0Oy8TMHuYNINRBID9ibdCkzjrsAY5iVTp92BcOQhLoDcs
+ DmS/z1l7ZPwVeo0Sx9aN55RqyYXPEmbIA0KQrRo1gzNx8rVNN7AiK0SPvAoYw9I1d4Nh
+ AavA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=H4geAyuRV3L2A55ENiOqVPJISTgk75Uun8WE1iNkT/g=;
+ fh=W9yuUQLqLUXgUfllgFRCxqijmbAikA9tzhq7vH22PNA=;
+ b=arp/TlZ/Dv41+Y9UOcFNHFgki2BbMjBg2DWgPy2wbTLnrfALteQWU5a6d7bHMnSGz7
+ wOywNYjj6X5+LZd87bqkC9zHiA2WSuovDEHJLcBaZN0iOfrryjdGqB8hVkBbDH/YwEt7
+ xF29lavKLdWkg2k5ZHBQgWHkBr1dL7zOclNKKUrr/3oiFRNqZO7A9Hy69MQbCwTYcH16
+ JDnJlQesH9+Dm7jDmiPHndWmXAlKMNqPjCBNBuFtTQn6sIAp/EP78zDdiTdIKjj6ZZve
+ 2FsdE0aVAkoERbl2fkik+xA15SPLXSLrL8NaLLfgsgeKXPH+Xb10OWGLNRMWEcDrBRyI
+ uS6A==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1769190559; x=1769795359; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=H4geAyuRV3L2A55ENiOqVPJISTgk75Uun8WE1iNkT/g=;
+ b=JCNCm/NxeU/18ixCwZEUtW4GGhouGz9t0sL9L9/S7VKLORvfOTcFj5bS7jyzoY5TlQ
+ RGhqRMY8EuxmEYhravQYU8X+oc3dRAfA4KrNk6Mt3237CxppXzFS3hw6pEORXk4RbTDN
+ NZq+SjcEcZzLbvTxpNB+p/O8AT8Jfo23g9ueKPmp6eNl6D5x9VIcD2bW61pgDBOK+rSj
+ bOTzeCycCCWPBGQaH2CBz5NIXiD0qAIUyA6vFFFlLiXlfmNUEak0xK4apE/QSS2HfMgf
+ h5t3S9/gF8zDRsubEJ+NwD/bel8MRbBHiIYjok8Vw3cX2YSENbolq8xCTALuJQatX7qf
+ hmmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769190559; x=1769795359;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=H4geAyuRV3L2A55ENiOqVPJISTgk75Uun8WE1iNkT/g=;
+ b=VmSMnMFWQDwRoirbuShxJkPtB7kw8sDdHtdso071o9Ub8WGRsiwbCWgcWcYu2MY1So
+ 5jDvkNhthStybj60lbFQOjm34FgYdGfM0+VmM+z1ZCjJo2wLrv+5DHoE9e0i5ESOMG0M
+ e9K3anz+s3QWIbdpBRAkGevRgyAjS2jZDC2wOEArVwjPxtgermuW4e+5u4veFLBgKMJ5
+ ixjajFl8IQqo6/Q0UX77s+WIWIM8Ji6LMCCkM5s2IuJUiMUdj2pKJr6/qPboVVmcB2Ug
+ ve1gzQTwZfTZvrQk9Jvq2bT9pg2VtxYn4tQ36/9+kmdbwbJID9bEkYChQUmREI1iAb9P
+ Lw5w==
+X-Gm-Message-State: AOJu0Yy5So+Xz22Y6xR5jTTjkNAd1qUNB9qxpUAxgxFosPF4QXI6bWbL
+ kUd/kHL4wYTUTgYI6sSvPk4YI5wNhhjHvIE3aHt/fiNF5PHJwQv7Pu/vchFFhu+aj+6EMLHsRYV
+ x9/MRGfisq9UVjujZX18ROvSR3QKj0P8=
+X-Gm-Gg: AZuq6aKB7U+EoUG6JyitUDrCMtqX0iOxQrbkUPQmSJFXGM1Rr1h4lyAFA51Ct5UuZ6y
+ E5gqF3+MoA9YsMcyp1YyUxYP0MBKOyRYkYFoRKvceqPkQQ0Y66JqXseUHgOcOVQ7/X+b7Y+xQ/z
+ hFW4NV/V9rOZGhcxwtWyeVe/igrgYY4j62a+kbJaWdFddfWZNYhx8y2VGo4bwwxCha/pfqWKwnE
+ GY7MmzPviG0hA1GO2cOLm8TI2hCj82rcTWelUuLXWorAiTeu0uwblzE+/6HuusqEdKxWOyy
+X-Received: by 2002:a05:7022:e08:b0:123:308f:667b with SMTP id
+ a92af1059eb24-1247dbb12bdmr1102484c88.2.1769190558509; Fri, 23 Jan 2026
+ 09:49:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="t7Mo67/N8DZDOQvB"
-Content-Disposition: inline
+References: <20260123000537.2450496-1-someguy@effective-light.com>
+ <20260123000537.2450496-2-someguy@effective-light.com>
+In-Reply-To: <20260123000537.2450496-2-someguy@effective-light.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 23 Jan 2026 12:49:07 -0500
+X-Gm-Features: AZwV_Qgz341wiZBc4dCsfNwGUWjzf2Qg8Y2SqPANEwcuh1YAs3llykUX0i1R1t8
+Message-ID: <CADnq5_O8guOxzHyEUn_x6pjrPG2xm_OgJWTCzvhzDYa-POtnoQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/amdgpu: implement page_flip_timeout() support
+To: Hamza Mahfooz <someguy@effective-light.com>
+Cc: dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Sunil Khatri <sunil.khatri@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
+ Ce Sun <cesun102@amd.com>, 
+ Ivan Lipski <ivan.lipski@amd.com>, Kenneth Feng <kenneth.feng@amd.com>, 
+ Alex Hung <alex.hung@amd.com>, Tom Chung <chiahsuan.chung@amd.com>, 
+ Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>, 
+ Fangzhi Zuo <Jerry.Zuo@amd.com>,
+ =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>, 
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,208 +121,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-3.41 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:airlied@redhat.com,m:linux-kernel@vger.kernel.org,m:linux-next@vger.kernel.org,m:thomas.hellstrom@linux.intel.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_ALL(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[broonie@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:someguy@effective-light.com,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:harry.wentland@amd.com,m:sunpeng.li@amd.com,m:siqueira@igalia.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:sunil.khatri@amd.com,m:lijo.lazar@amd.com,m:cesun102@amd.com,m:ivan.lipski@amd.com,m:kenneth.feng@amd.com,m:alex.hung@amd.com,m:chiahsuan.chung@amd.com,m:mwen@igalia.com,m:mdaenzer@redhat.com,m:Jerry.Zuo@amd.com,m:timur.kristof@gmail.com,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:timurkristof@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.641];
+	NEURAL_HAM(-0.00)[-0.999];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,amd.com,gmail.com,ffwll.ch,igalia.com,linux.intel.com,kernel.org,suse.de,redhat.com,vger.kernel.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sirena.org.uk:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: A0E2D792A8
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 62ACC792E2
 X-Rspamd-Action: no action
 
+On Fri, Jan 23, 2026 at 3:37=E2=80=AFAM Hamza Mahfooz
+<someguy@effective-light.com> wrote:
+>
+> We now have a means to respond to page flip timeouts. So, hook up
+> support for the new page_flip_timeout() callback.
+>
+> Signed-off-by: Hamza Mahfooz <someguy@effective-light.com>
+> ---
+> Hi,
+>
+> I have tested this on 7940HS system and it appears even a MODE2 reset
+> will reset display firmware, so I don't think we need to force a full
+> reset here.
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c      |  2 ++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h      |  1 +
+>  .../drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c | 18 ++++++++++++++++++
+>  3 files changed, 21 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_reset.c
+> index 28c4ad62f50e..bd63f0345984 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
+> @@ -343,6 +343,8 @@ void amdgpu_reset_get_desc(struct amdgpu_reset_contex=
+t *rst_ctxt, char *buf,
+>         case AMDGPU_RESET_SRC_USERQ:
+>                 strscpy(buf, "user queue trigger", len);
+>                 break;
+> +       case AMDGPU_RESET_SRC_DISPLAY:
+> +               strscpy(buf, "display hang", len);
+>         default:
+>                 strscpy(buf, "unknown", len);
+>         }
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_reset.h
+> index 07b4d37f1db6..53b577062b11 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
+> @@ -44,6 +44,7 @@ enum AMDGPU_RESET_SRCS {
+>         AMDGPU_RESET_SRC_HWS,
+>         AMDGPU_RESET_SRC_USER,
+>         AMDGPU_RESET_SRC_USERQ,
+> +       AMDGPU_RESET_SRC_DISPLAY,
+>  };
+>
+>  struct amdgpu_reset_context {
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/dri=
+vers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+> index 697e232acebf..2233e5b3b6a2 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+> @@ -28,6 +28,7 @@
+>
+>  #include "dc.h"
+>  #include "amdgpu.h"
+> +#include "amdgpu_reset.h"
+>  #include "amdgpu_dm_psr.h"
+>  #include "amdgpu_dm_replay.h"
+>  #include "amdgpu_dm_crtc.h"
+> @@ -578,12 +579,29 @@ amdgpu_dm_atomic_crtc_get_property(struct drm_crtc =
+*crtc,
+>  }
+>  #endif
+>
+> +static void amdgpu_dm_crtc_handle_timeout(struct drm_crtc *crtc)
+> +{
+> +       struct amdgpu_device *adev =3D drm_to_adev(crtc->dev);
+> +       struct amdgpu_reset_context reset_context =3D {0};
+> +
+> +       if (amdgpu_device_should_recover_gpu(adev)) {
+> +               memset(&reset_context, 0, sizeof(reset_context));
+> +
+> +               reset_context.method =3D AMD_RESET_METHOD_NONE;
+> +               reset_context.reset_req_dev =3D adev;
+> +               reset_context.src =3D AMDGPU_RESET_SRC_DISPLAY;
+> +
+> +               amdgpu_device_gpu_recover(adev, NULL, &reset_context);
+> +       }
 
---t7Mo67/N8DZDOQvB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Rather than resetting the whole GPU here, does just suspending and
+resuming DC help?  E.g., call dm_suspend() and dm_resume(), but force
+the reset path (the amdgpu_in_reset() case) in those functions.  If
+that works, that should help narrow down where the problem is.
 
-Hi all,
+Alex
 
-Today's linux-next merge of the drm tree got a conflict in:
 
-  include/drm/drm_pagemap.h
-
-between commits:
-
-  754c232384386 ("drm/pagemap, drm/xe: Ensure that the devmem allocation is=
- idle before use")
-  bdcdf968be314 ("drm, drm/xe: Fix xe userptr in the absence of CONFIG_DEVI=
-CE_PRIVATE")
-
-=66rom the drm-fixes tree and commits:
-
-  a599b98607dec ("drm/pagemap, drm/xe: Add refcounting to struct drm_pagema=
-p")
-  75af93b3f5d0a ("drm/pagemap, drm/xe: Support destination migration over i=
-nterconnect")
-  77f14f2f2d73f ("drm/pagemap: Add a drm_pagemap cache and shrinker")
-
-=66rom the drm tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
-diff --cc include/drm/drm_pagemap.h
-index eb29e5309f0ab,46e9c58f09e01..0000000000000
---- a/include/drm/drm_pagemap.h
-+++ b/include/drm/drm_pagemap.h
-@@@ -209,19 -243,56 +243,69 @@@ struct drm_pagemap_devmem_ops=20
-  			   struct dma_fence *pre_migrate_fence);
-  };
- =20
- +#if IS_ENABLED(CONFIG_ZONE_DEVICE)
- +
- +struct drm_pagemap *drm_pagemap_page_to_dpagemap(struct page *page);
- +
- +#else
- +
- +static inline struct drm_pagemap *drm_pagemap_page_to_dpagemap(struct pag=
-e *page)
- +{
- +	return NULL;
- +}
- +
- +#endif /* IS_ENABLED(CONFIG_ZONE_DEVICE) */
- +
-+ int drm_pagemap_init(struct drm_pagemap *dpagemap,
-+ 		     struct dev_pagemap *pagemap,
-+ 		     struct drm_device *drm,
-+ 		     const struct drm_pagemap_ops *ops);
-+=20
-+ struct drm_pagemap *drm_pagemap_create(struct drm_device *drm,
-+ 				       struct dev_pagemap *pagemap,
-+ 				       const struct drm_pagemap_ops *ops);
-+=20
-+ #if IS_ENABLED(CONFIG_DRM_GPUSVM)
-+=20
-+ void drm_pagemap_put(struct drm_pagemap *dpagemap);
-+=20
-+ #else
-+=20
-+ static inline void drm_pagemap_put(struct drm_pagemap *dpagemap)
-+ {
-+ }
-+=20
-+ #endif /* IS_ENABLED(CONFIG_DRM_GPUSVM) */
-+=20
-+ /**
-+  * drm_pagemap_get() - Obtain a reference on a struct drm_pagemap
-+  * @dpagemap: Pointer to the struct drm_pagemap, or NULL.
-+  *
-+  * Return: Pointer to the struct drm_pagemap, or NULL.
-+  */
-+ static inline struct drm_pagemap *
-+ drm_pagemap_get(struct drm_pagemap *dpagemap)
-+ {
-+ 	if (likely(dpagemap))
-+ 		kref_get(&dpagemap->ref);
-+=20
-+ 	return dpagemap;
-+ }
-+=20
-+ /**
-+  * drm_pagemap_get_unless_zero() - Obtain a reference on a struct drm_pag=
-emap
-+  * unless the current reference count is zero.
-+  * @dpagemap: Pointer to the drm_pagemap or NULL.
-+  *
-+  * Return: A pointer to @dpagemap if the reference count was successfully
-+  * incremented. NULL if @dpagemap was NULL, or its refcount was 0.
-+  */
-+ static inline struct drm_pagemap * __must_check
-+ drm_pagemap_get_unless_zero(struct drm_pagemap *dpagemap)
-+ {
-+ 	return (dpagemap && kref_get_unless_zero(&dpagemap->ref)) ? dpagemap : N=
-ULL;
-+ }
-+=20
-  /**
-   * struct drm_pagemap_devmem - Structure representing a GPU SVM device me=
-mory allocation
-   *
-@@@ -246,8 -317,23 +330,25 @@@ struct drm_pagemap_devmem=20
-  	struct dma_fence *pre_migrate_fence;
-  };
- =20
-+ /**
-+  * struct drm_pagemap_migrate_details - Details to govern migration.
-+  * @timeslice_ms: The time requested for the migrated pagemap pages to
-+  * be present in @mm before being allowed to be migrated back.
-+  * @can_migrate_same_pagemap: Whether the copy function as indicated by
-+  * the @source_peer_migrates flag, can migrate device pages within a
-+  * single drm_pagemap.
-+  * @source_peer_migrates: Whether on p2p migration, The source drm_pagemap
-+  * should use the copy_to_ram() callback rather than the destination
-+  * drm_pagemap should use the copy_to_devmem() callback.
-+  */
-+ struct drm_pagemap_migrate_details {
-+ 	unsigned long timeslice_ms;
-+ 	u32 can_migrate_same_pagemap : 1;
-+ 	u32 source_peer_migrates : 1;
-+ };
-+=20
- +#if IS_ENABLED(CONFIG_ZONE_DEVICE)
- +
-  int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_alloc=
-ation,
-  				  struct mm_struct *mm,
-  				  unsigned long start, unsigned long end,
-@@@ -269,6 -356,7 +369,10 @@@ int drm_pagemap_populate_mm(struct drm_
-  			    struct mm_struct *mm,
-  			    unsigned long timeslice_ms);
- =20
- +#endif /* IS_ENABLED(CONFIG_ZONE_DEVICE) */
- +
-+ void drm_pagemap_destroy(struct drm_pagemap *dpagemap, bool is_atomic_or_=
-reclaim);
-+=20
-+ int drm_pagemap_reinit(struct drm_pagemap *dpagemap);
-++
-  #endif
-
---t7Mo67/N8DZDOQvB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmlzs78ACgkQJNaLcl1U
-h9DgFwf/VYWqILaSRQFpmD336OmNc9V1ARzwvyBLXNiGytt9cobc+dKCsHi8Rm0/
-zIKLYcFSdgU2FPkPBWpJQDNcNaFhQyS+gJhIlw+XecMeQTpchlsgHTsPe3Rrfbc/
-ilnEdjx6Fz/Sogf0ck8m3ZPbyTywTR/lGvPYfZSBn8l2GG8xxeRDcacj72slymKC
-1gAvJohLItWvN0C+ymQqV10PQGv2mSG04SFtWm+Lv6ySyQGFmpIhpdCWHiGlx6Vr
-bBCRGI6BYCHMpcpROn4ArD4b4byWWVP/bwWie22bol88o2tYUf7X6pE0WifZCmrn
-rlbfEi4CH5SC9OZwaN/PVUSkPuO13A==
-=PhOR
------END PGP SIGNATURE-----
-
---t7Mo67/N8DZDOQvB--
+> +}
+> +
+>  /* Implemented only the options currently available for the driver */
+>  static const struct drm_crtc_funcs amdgpu_dm_crtc_funcs =3D {
+>         .reset =3D amdgpu_dm_crtc_reset_state,
+>         .destroy =3D amdgpu_dm_crtc_destroy,
+>         .set_config =3D drm_atomic_helper_set_config,
+>         .page_flip =3D drm_atomic_helper_page_flip,
+> +       .page_flip_timeout =3D amdgpu_dm_crtc_handle_timeout,
+>         .atomic_duplicate_state =3D amdgpu_dm_crtc_duplicate_state,
+>         .atomic_destroy_state =3D amdgpu_dm_crtc_destroy_state,
+>         .set_crc_source =3D amdgpu_dm_crtc_set_crc_source,
+> --
+> 2.52.0
+>
