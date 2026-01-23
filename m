@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sKRYEdzPc2kCywAAu9opvQ
+	id eKguAeDPc2kCywAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:45:32 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:45:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBCFE7A427
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:45:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CAB67A42E
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:45:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E41B10EBCF;
-	Fri, 23 Jan 2026 19:45:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB68C10EBD2;
+	Fri, 23 Jan 2026 19:45:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="NrcgTu2L";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="B0ghJ9sX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E87210EBCF
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 19:45:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1769197514; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B60CA10EBD1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 19:45:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1769197518; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=M46UzeG5oxoiCwszLu0Dv9RhzHZr/3x6DcBjxIHm5hr/6b7tp59zxPQMwzYBBkXvGRR7GL/PeC2IRH1Z+Kngl12T2rLH4J9N+3LjylkCoB3gq/mLP2veGACXblQZTaPjZUUXt65a3W5SefUUlW+7/uPKdocnyYIc9tj+Ufbb68w=
+ b=JsFWpU0wQ0VGgUT3qGiqpKYYlUH0HR2iZuLPDAR3YwDjXY1+MYap5x8bBM71BhWMeTQsmRbqhwi8l4hU4QK84M3vA0vZHfd4qS9dh1r6rOw0deoSA0BcKnpNnnrA0n4KHpK+PrXhs0iguUP8VEnEknNgqTY/HFYCrkML2KAvMsc=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1769197514;
+ s=zohoarc; t=1769197518;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=L97jc63KKwlERs1XaD4aOTXye/NUs+d9FajbwfZz7iw=; 
- b=QGF2kDu37lrhZ4muSxUnbOLXRfFBiBUYVYNglghnTjd31g6BZqJbRoP9wu0i5Igg5rCBMa7l+/8JTWCQjgbBfg7DwNbaTM8KXXIJ36q3Fyoebk53YJKzu+8KVF+SERCbLdei1MQge1xokHQ5PmpnaO/29gAQ2lgQG00u5U96jq8=
+ bh=GYnkaFMMP6LgjK9TzPtJx+rtche8wwgijXG7e64m8mk=; 
+ b=XYbctznHaworXkpgoM3k+9q09/obooRCPacgzzNaVR2d45Wi5F5PhPrhoZrQn/gkJ28MPNNgcJOXdeBgEN0WDehM45FVv3gilcTA8zKscFg6/tqM89CFSTwKBi3mY6ipQJ8Q0vDlKxtMKwrt1XZhx71fVQys3bkkG6j8AiaIvlg=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769197514; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769197518; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=L97jc63KKwlERs1XaD4aOTXye/NUs+d9FajbwfZz7iw=;
- b=NrcgTu2Lx5UI8boFu5JaVEuNiyM8vzHLPZjdylwEM5E6ZAg6EcQ/oqZJt+dg2s0f
- 93UIup2OqJsYgLEgVIOW11tWBJIrWE3tdYxjsNMFS0P4oMMOClbkW6ua1rWVzdWUadf
- 5+xCLZQtFWZ5nHS307Kb/gVFgiDs03yaygAq0my4=
-Received: by mx.zohomail.com with SMTPS id 1769197512654833.8088981435692;
- Fri, 23 Jan 2026 11:45:12 -0800 (PST)
+ bh=GYnkaFMMP6LgjK9TzPtJx+rtche8wwgijXG7e64m8mk=;
+ b=B0ghJ9sX6x3rJGn6fydvvuOHUbKO+121Lc6W+fP1ysxzO6v5RpvQ4VFReRBuL4Il
+ aow7P37laiNiCOaZNJGhhRBGyBntL9bPyapRSCl2ba/Uxo4rYDNMm2c/+nhDolXyV1O
+ EK+WffcyUUsjisUTfGr8UYG3+7n+LsweP5PtSB4Y=
+Received: by mx.zohomail.com with SMTPS id 1769197516720900.6204900005016;
+ Fri, 23 Jan 2026 11:45:16 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Fri, 23 Jan 2026 20:44:03 +0100
-Subject: [PATCH v6 2/4] drm: Send per-connector hotplug events
+Date: Fri, 23 Jan 2026 20:44:04 +0100
+Subject: [PATCH v6 3/4] vkms: Do not send hotplug events for same connector
+ status
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260123-hot-plug-passup-v6-2-aaaf61d960bb@collabora.com>
+Message-Id: <20260123-hot-plug-passup-v6-3-aaaf61d960bb@collabora.com>
 References: <20260123-hot-plug-passup-v6-0-aaaf61d960bb@collabora.com>
 In-Reply-To: <20260123-hot-plug-passup-v6-0-aaaf61d960bb@collabora.com>
 To: =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
@@ -106,74 +107,44 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.700];
+	NEURAL_HAM(-0.00)[-0.710];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,collabora.com:dkim,collabora.com:mid]
-X-Rspamd-Queue-Id: EBCFE7A427
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,collabora.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 9CAB67A42E
 X-Rspamd-Action: no action
 
 From: Marius Vlad <marius.vlad@collabora.com>
 
-Use the new pending_hp member of drm_connector to always send
-per-connector hotplug events for those connectors that need it, rather
-than sending a global event, or only an event for one connector.
-
-On the HPD (Hot Plug Detect) path this change notifies all connectors,
-rather than just first changed connector.
-
-The polling path is changed to no longer send a connector-less hotplug
-event, but similarly send a hotplug event for each changed connector.
+Only send a new hotplug event when writing to the connector status
+configfs entry if the connector status changed compared to its
+previous value.
 
 Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/gpu/drm/drm_probe_helper.c | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/vkms/vkms_configfs.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index 91de34a25bf8..b60b1ef39748 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -860,8 +860,14 @@ static void output_poll_execute(struct work_struct *work)
- 	mutex_unlock(&dev->mode_config.mutex);
+diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
+index 506666e21c91..d6e203d59b45 100644
+--- a/drivers/gpu/drm/vkms/vkms_configfs.c
++++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+@@ -549,9 +549,11 @@ static ssize_t connector_status_store(struct config_item *item,
+ 		return -EINVAL;
  
- out:
--	if (changed)
--		drm_kms_helper_hotplug_event(dev);
-+	if (changed) {
-+		drm_connector_list_iter_begin(dev, &conn_iter);
-+		drm_for_each_connector_iter(connector, &conn_iter) {
-+			if (connector->pending_hp)
-+				drm_kms_helper_connector_hotplug_event(connector);
-+		}
-+		drm_connector_list_iter_end(&conn_iter);
-+	}
+ 	scoped_guard(mutex, &connector->dev->lock) {
++		enum drm_connector_status old_status =
++			vkms_config_connector_get_status(connector->config);
+ 		vkms_config_connector_set_status(connector->config, status);
  
- 	if (repoll)
- 		schedule_delayed_work(delayed_work, DRM_OUTPUT_POLL_PERIOD);
-@@ -1124,10 +1130,16 @@ bool drm_helper_hpd_irq_event(struct drm_device *dev)
- 	drm_connector_list_iter_end(&conn_iter);
- 	mutex_unlock(&dev->mode_config.mutex);
+-		if (connector->dev->enabled)
++		if (connector->dev->enabled && old_status != status)
+ 			vkms_trigger_connector_hotplug(connector->dev->config->dev);
+ 	}
  
--	if (changed == 1)
-+	if (changed == 1) {
- 		drm_kms_helper_connector_hotplug_event(first_changed_connector);
--	else if (changed > 0)
--		drm_kms_helper_hotplug_event(dev);
-+	} else if (changed > 0) {
-+		drm_connector_list_iter_begin(dev, &conn_iter);
-+		drm_for_each_connector_iter(connector, &conn_iter) {
-+			if (connector->pending_hp)
-+				drm_kms_helper_connector_hotplug_event(connector);
-+		}
-+		drm_connector_list_iter_end(&conn_iter);
-+	}
- 
- 	if (first_changed_connector)
- 		drm_connector_put(first_changed_connector);
 
 -- 
 2.52.0
