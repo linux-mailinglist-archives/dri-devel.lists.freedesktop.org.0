@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mBIuMTmec2lgxgAAu9opvQ
+	id kG2FNj+ec2lgxgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 17:13:45 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 17:13:51 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 765AD783E5
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 17:13:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78162783F4
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 17:13:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7B2110EB4C;
-	Fri, 23 Jan 2026 16:13:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF86510EB44;
+	Fri, 23 Jan 2026 16:13:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="NUQiVbpo";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="TaOM18VG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8424D10EB4A
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 16:13:41 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9D8B10EB4D
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 16:13:44 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 73B8B1A2A60;
- Fri, 23 Jan 2026 16:13:40 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id AC9634E42225;
+ Fri, 23 Jan 2026 16:13:43 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 478C26070A;
- Fri, 23 Jan 2026 16:13:40 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 7F3A66070A;
+ Fri, 23 Jan 2026 16:13:43 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id BE39E119A87A7; Fri, 23 Jan 2026 17:13:35 +0100 (CET)
+ with ESMTPSA id 4EA9C119A87D8; Fri, 23 Jan 2026 17:13:39 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1769184819; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1769184822; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=TxkazZndhpz4hu0l8MUt2pUIjQAK5dSrvRAmWndU+T8=;
- b=NUQiVbpofkFO0KWVMkV1oxCMOryv/VC4CuxiygddQ4RbGnKazgBt/iWRiWYwqVVT8UWEA7
- xRUoWiqUWRipSeWwwEgrZ6DicI4/CYnRqnRpWO5LwQxdXwCKJgBBoYJFLtlMfCX8Cwrh8L
- EDV+GuJuqGy8pq+GBd/NZxMrV2Vp73vyBcQoJUAC0XuD7oQb/PfAuYJ96i0ZSHaGRc4LU6
- JcDLeGwx2guh+aFztSB+GbUfFV16NobqRUrQlH/H24nHZzmOlfWLWKCNP/hwni5KuXn+Vu
- wvgqp5oVM8mH2jCGUPHtImBXg4VHl0oJHk56hgqmIywH6/y2hrWyfW9lWqf2Lg==
+ bh=KWkTccmCT3nJgrNSLZ1R/jzxD1Y0UvqRHyoXQxdCfEk=;
+ b=TaOM18VGmxTiCUeR/4iMknDf61aN4LVb5MlgCerGYbrjEx75KjIRTpr4yKSyGpD6K1gV3z
+ A1qZHsbcApq1LvfTQS2BL0JTMrs4ipv5LPXczRP13nCDp004KEX51k+53d3/3cCw4+WzJ0
+ IeSZZ3iMofLug0XWuRSC5+jgpxP8Gk5N4oN6S9owAH2wgQdyTE7yFQ7r8xFRaRc8pkbzbn
+ EJyZp/x5m7xnYbc5KCaRDH8o5BMFu6Jry7e0oC8CBNrzjDrewoVtJ+CvdLfMroRz+2yPRl
+ ybb1M5mRTwIDE5By9MPVY38CIu7+8CPOtT25nk87hM0IZZAWKcWnqllICd2TRw==
 From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-Date: Fri, 23 Jan 2026 17:12:37 +0100
-Subject: [PATCH v5 19/25] drm/tilcdc: Convert to drm_device-based logging
- helpers
+Date: Fri, 23 Jan 2026 17:12:38 +0100
+Subject: [PATCH v5 20/25] drm/tilcdc: Use devm_drm_of_get_bridge() helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260123-feature_tilcdc-v5-19-5a44d2aa3f6f@bootlin.com>
+Message-Id: <20260123-feature_tilcdc-v5-20-5a44d2aa3f6f@bootlin.com>
 References: <20260123-feature_tilcdc-v5-0-5a44d2aa3f6f@bootlin.com>
 In-Reply-To: <20260123-feature_tilcdc-v5-0-5a44d2aa3f6f@bootlin.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -113,290 +112,71 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[kory.maincent@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[bootlin.com:+];
-	NEURAL_HAM(-0.00)[-0.986];
+	NEURAL_HAM(-0.00)[-0.983];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,bootlin.com:dkim,bootlin.com:mid,ti.com:url]
-X-Rspamd-Queue-Id: 765AD783E5
+X-Rspamd-Queue-Id: 78162783F4
 X-Rspamd-Action: no action
 
-Replace dev_* logging calls with their DRM equivalents.
-This aligns with the DRM subsystem's logging infrastructure and provides
-better integration with DRM debugging mechanisms. The drm_* helpers
-automatically include device information and integrate with DRM's
-debug category filtering.
+Replace drm_of_find_panel_or_bridge() with the newer
+devm_drm_of_get_bridge() helper which simplifies the code by:
+- Automatically handling both panel and bridge cases internally
+- Managing the panel-to-bridge conversion when needed
+- Using devres for resource management, eliminating manual cleanup
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+This removes the need for explicit panel-to-bridge conversion via
+devm_drm_panel_bridge_add_typed() and the associated error handling path.
+
 Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
 ---
 
 Change in v4:
-- New patch.
+- New patch
 ---
- drivers/gpu/drm/tilcdc/tilcdc_crtc.c    | 26 +++++++++++++-------------
- drivers/gpu/drm/tilcdc/tilcdc_drv.c     | 16 ++++++++--------
- drivers/gpu/drm/tilcdc/tilcdc_encoder.c |  4 ++--
- drivers/gpu/drm/tilcdc/tilcdc_plane.c   |  8 ++++----
- 4 files changed, 27 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/tilcdc/tilcdc_encoder.c | 18 ++++--------------
+ 1 file changed, 4 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-index 2916de3dce91e..4d3b7059cd5b2 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-@@ -125,7 +125,7 @@ static void tilcdc_crtc_load_palette(struct drm_crtc *crtc)
- 	ret = wait_for_completion_timeout(&tilcdc_crtc->palette_loaded,
- 					  msecs_to_jiffies(50));
- 	if (ret == 0)
--		dev_err(dev->dev, "%s: Palette loading timeout", __func__);
-+		drm_err(dev, "%s: Palette loading timeout", __func__);
- 
- 	/* Disable LCDC DMA and DMA Palette Loaded Interrupt. */
- 	tilcdc_clear(dev, LCDC_RASTER_CTRL_REG, LCDC_RASTER_ENABLE);
-@@ -223,7 +223,7 @@ static void tilcdc_crtc_set_clk(struct drm_crtc *crtc)
- 		 */
- 		if (!clk_rate) {
- 			/* Nothing more we can do. Just bail out. */
--			dev_err(dev->dev,
-+			drm_err(dev,
- 				"failed to set the pixel clock - unable to read current lcdc clock rate\n");
- 			return;
- 		}
-@@ -240,7 +240,7 @@ static void tilcdc_crtc_set_clk(struct drm_crtc *crtc)
- 		real_pclk_rate = clk_rate / clkdiv;
- 
- 		if (tilcdc_pclk_diff(pclk_rate, real_pclk_rate) > 5) {
--			dev_warn(dev->dev,
-+			drm_warn(dev,
- 				 "effective pixel clock rate (%luHz) differs from the requested rate (%luHz)\n",
- 				 real_pclk_rate, pclk_rate);
- 		}
-@@ -369,7 +369,7 @@ static void tilcdc_crtc_set_mode(struct drm_crtc *crtc)
- 			reg |= LCDC_V2_TFT_24BPP_MODE;
- 			break;
- 		default:
--			dev_err(dev->dev, "invalid pixel format\n");
-+			drm_err(dev, "invalid pixel format\n");
- 			return;
- 		}
- 	}
-@@ -482,7 +482,7 @@ static void tilcdc_crtc_off(struct drm_crtc *crtc, bool shutdown)
- 				 tilcdc_crtc->frame_done,
- 				 msecs_to_jiffies(500));
- 	if (ret == 0)
--		dev_err(dev->dev, "%s: timeout waiting for framedone\n",
-+		drm_err(dev, "%s: timeout waiting for framedone\n",
- 			__func__);
- 
- 	drm_crtc_vblank_off(crtc);
-@@ -543,7 +543,7 @@ static void tilcdc_crtc_recover_work(struct work_struct *work)
- 		container_of(work, struct tilcdc_crtc, recover_work);
- 	struct drm_crtc *crtc = &tilcdc_crtc->base;
- 
--	dev_info(crtc->dev->dev, "%s: Reset CRTC", __func__);
-+	drm_info(crtc->dev, "%s: Reset CRTC", __func__);
- 
- 	drm_modeset_lock(&crtc->mutex, NULL);
- 
-@@ -575,7 +575,7 @@ int tilcdc_crtc_update_fb(struct drm_crtc *crtc,
- 	struct drm_device *dev = crtc->dev;
- 
- 	if (tilcdc_crtc->event) {
--		dev_err(dev->dev, "already pending page flip!\n");
-+		drm_err(dev, "already pending page flip!\n");
- 		return -EBUSY;
- 	}
- 
-@@ -707,7 +707,7 @@ static void tilcdc_crtc_reset(struct drm_crtc *crtc)
- 					 tilcdc_crtc->frame_done,
- 					 msecs_to_jiffies(500));
- 		if (ret == 0)
--			dev_err(dev->dev, "%s: timeout waiting for framedone\n",
-+			drm_err(dev, "%s: timeout waiting for framedone\n",
- 				__func__);
- 	}
- 	pm_runtime_put_sync(dev->dev);
-@@ -895,7 +895,7 @@ irqreturn_t tilcdc_crtc_irq(struct drm_crtc *crtc)
- 	}
- 
- 	if (stat & LCDC_FIFO_UNDERFLOW)
--		dev_err_ratelimited(dev->dev, "%s(0x%08x): FIFO underflow",
-+		drm_err_ratelimited(dev, "%s(0x%08x): FIFO underflow",
- 				    __func__, stat);
- 
- 	if (stat & LCDC_PL_LOAD_DONE) {
-@@ -909,7 +909,7 @@ irqreturn_t tilcdc_crtc_irq(struct drm_crtc *crtc)
- 	}
- 
- 	if (stat & LCDC_SYNC_LOST) {
--		dev_err_ratelimited(dev->dev, "%s(0x%08x): Sync lost",
-+		drm_err_ratelimited(dev, "%s(0x%08x): Sync lost",
- 				    __func__, stat);
- 		tilcdc_crtc->frame_intact = false;
- 		if (priv->rev == 1) {
-@@ -923,7 +923,7 @@ irqreturn_t tilcdc_crtc_irq(struct drm_crtc *crtc)
- 		} else {
- 			if (tilcdc_crtc->sync_lost_count++ >
- 			    SYNC_LOST_COUNT_LIMIT) {
--				dev_err(dev->dev,
-+				drm_err(dev,
- 					"%s(0x%08x): Sync lost flood detected, recovering",
- 					__func__, stat);
- 				queue_work(system_wq,
-@@ -965,7 +965,7 @@ int tilcdc_crtc_create(struct drm_device *dev)
- 
- 	primary = tilcdc_plane_init(dev);
- 	if (IS_ERR(primary)) {
--		dev_err(dev->dev, "Failed to initialize plane: %pe\n", primary);
-+		drm_err(dev, "Failed to initialize plane: %pe\n", primary);
- 		return PTR_ERR(primary);
- 	}
- 
-@@ -975,7 +975,7 @@ int tilcdc_crtc_create(struct drm_device *dev)
- 						  &tilcdc_crtc_funcs,
- 						  "tilcdc crtc");
- 	if (IS_ERR(tilcdc_crtc)) {
--		dev_err(dev->dev, "Failed to init CRTC: %pe\n", tilcdc_crtc);
-+		drm_err(dev, "Failed to init CRTC: %pe\n", tilcdc_crtc);
- 		return PTR_ERR(tilcdc_crtc);
- 	}
- 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-index 3b11d296a7e91..c877b2be9c2ec 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-@@ -288,14 +288,14 @@ static int tilcdc_pdev_probe(struct platform_device *pdev)
- 
- 	priv->mmio = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(priv->mmio)) {
--		dev_err(dev, "failed to request / ioremap\n");
-+		drm_err(ddev, "failed to request / ioremap\n");
- 		ret = PTR_ERR(priv->mmio);
- 		goto free_wq;
- 	}
- 
- 	priv->clk = clk_get(dev, "fck");
- 	if (IS_ERR(priv->clk)) {
--		dev_err(dev, "failed to get functional clock\n");
-+		drm_err(ddev, "failed to get functional clock\n");
- 		ret = -ENODEV;
- 		goto free_wq;
- 	}
-@@ -313,7 +313,7 @@ static int tilcdc_pdev_probe(struct platform_device *pdev)
- 		priv->rev = 2;
- 		break;
- 	default:
--		dev_warn(dev, "Unknown PID Reg value 0x%08x, "
-+		drm_warn(ddev, "Unknown PID Reg value 0x%08x, "
- 			"defaulting to LCD revision 1\n",
- 			tilcdc_read(ddev, LCDC_PID_REG));
- 		priv->rev = 1;
-@@ -380,7 +380,7 @@ static int tilcdc_pdev_probe(struct platform_device *pdev)
- 
- 	ret = tilcdc_crtc_create(ddev);
- 	if (ret < 0) {
--		dev_err(dev, "failed to create crtc\n");
-+		drm_err(ddev, "failed to create crtc\n");
- 		goto disable_pm;
- 	}
- 	modeset_init(ddev);
-@@ -390,7 +390,7 @@ static int tilcdc_pdev_probe(struct platform_device *pdev)
- 	ret = cpufreq_register_notifier(&priv->freq_transition,
- 			CPUFREQ_TRANSITION_NOTIFIER);
- 	if (ret) {
--		dev_err(dev, "failed to register cpufreq notifier\n");
-+		drm_err(ddev, "failed to register cpufreq notifier\n");
- 		priv->freq_transition.notifier_call = NULL;
- 		goto disable_pm;
- 	}
-@@ -401,14 +401,14 @@ static int tilcdc_pdev_probe(struct platform_device *pdev)
- 		goto unregister_cpufreq_notif;
- 
- 	if (!priv->connector) {
--		dev_err(dev, "no encoders/connectors found\n");
-+		drm_err(ddev, "no encoders/connectors found\n");
- 		ret = -EPROBE_DEFER;
- 		goto unregister_cpufreq_notif;
- 	}
- 
- 	ret = drm_vblank_init(ddev, 1);
- 	if (ret < 0) {
--		dev_err(dev, "failed to initialize vblank\n");
-+		drm_err(ddev, "failed to initialize vblank\n");
- 		goto unregister_cpufreq_notif;
- 	}
- 
-@@ -419,7 +419,7 @@ static int tilcdc_pdev_probe(struct platform_device *pdev)
- 
- 	ret = tilcdc_irq_install(ddev, priv->irq);
- 	if (ret < 0) {
--		dev_err(dev, "failed to install IRQ handler\n");
-+		drm_err(ddev, "failed to install IRQ handler\n");
- 		goto unregister_cpufreq_notif;
- 	}
- 
 diff --git a/drivers/gpu/drm/tilcdc/tilcdc_encoder.c b/drivers/gpu/drm/tilcdc/tilcdc_encoder.c
-index 1ee5761757a8c..a34a10337f6a8 100644
+index a34a10337f6a8..546fe7e6ee815 100644
 --- a/drivers/gpu/drm/tilcdc/tilcdc_encoder.c
 +++ b/drivers/gpu/drm/tilcdc/tilcdc_encoder.c
-@@ -25,7 +25,7 @@ struct drm_connector *tilcdc_encoder_find_connector(struct drm_device *ddev,
- 			return connector;
- 	}
+@@ -55,15 +55,12 @@ int tilcdc_encoder_create(struct drm_device *ddev)
+ 	struct tilcdc_drm_private *priv = ddev_to_tilcdc_priv(ddev);
+ 	struct tilcdc_encoder *encoder;
+ 	struct drm_bridge *bridge;
+-	struct drm_panel *panel;
+-	int ret;
  
--	dev_err(ddev->dev, "No connector found for %s encoder (id %d)\n",
-+	drm_err(ddev, "No connector found for %s encoder (id %d)\n",
- 		encoder->name, encoder->base.id);
+-	ret = drm_of_find_panel_or_bridge(ddev->dev->of_node, 0, 0,
+-					  &panel, &bridge);
+-	if (ret == -ENODEV)
++	bridge = devm_drm_of_get_bridge(ddev->dev, ddev->dev->of_node, 0, 0);
++	if (PTR_ERR(bridge) == -ENODEV)
+ 		return 0;
+-	else if (ret)
+-		return ret;
++	else if (IS_ERR(bridge))
++		return PTR_ERR(bridge);
  
- 	return NULL;
-@@ -68,7 +68,7 @@ int tilcdc_encoder_create(struct drm_device *ddev)
  	encoder = drmm_simple_encoder_alloc(ddev, struct tilcdc_encoder,
  					    base, DRM_MODE_ENCODER_NONE);
- 	if (IS_ERR(encoder)) {
--		dev_err(ddev->dev, "drm_encoder_init() failed %pe\n", encoder);
-+		drm_err(ddev, "drm_encoder_init() failed %pe\n", encoder);
- 		return PTR_ERR(encoder);
+@@ -73,12 +70,5 @@ int tilcdc_encoder_create(struct drm_device *ddev)
  	}
  	priv->encoder = encoder;
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_plane.c b/drivers/gpu/drm/tilcdc/tilcdc_plane.c
-index d98a1ae0e31f8..a9982a9956903 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_plane.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_plane.c
-@@ -36,7 +36,7 @@ static int tilcdc_plane_atomic_check(struct drm_plane *plane,
- 		return -EINVAL;
  
- 	if (new_state->crtc_x || new_state->crtc_y) {
--		dev_err(plane->dev->dev, "%s: crtc position must be zero.",
-+		drm_err(plane->dev, "%s: crtc position must be zero.",
- 			__func__);
- 		return -EINVAL;
- 	}
-@@ -48,7 +48,7 @@ static int tilcdc_plane_atomic_check(struct drm_plane *plane,
- 
- 	if (crtc_state->mode.hdisplay != new_state->crtc_w ||
- 	    crtc_state->mode.vdisplay != new_state->crtc_h) {
--		dev_err(plane->dev->dev,
-+		drm_err(plane->dev,
- 			"%s: Size must match mode (%dx%d == %dx%d)", __func__,
- 			crtc_state->mode.hdisplay, crtc_state->mode.vdisplay,
- 			new_state->crtc_w, new_state->crtc_h);
-@@ -58,13 +58,13 @@ static int tilcdc_plane_atomic_check(struct drm_plane *plane,
- 	pitch = crtc_state->mode.hdisplay *
- 		new_state->fb->format->cpp[0];
- 	if (new_state->fb->pitches[0] != pitch) {
--		dev_err(plane->dev->dev,
-+		drm_err(plane->dev,
- 			"Invalid pitch: fb and crtc widths must be the same");
- 		return -EINVAL;
- 	}
- 
- 	if (old_state->fb && new_state->fb->format != old_state->fb->format) {
--		dev_dbg(plane->dev->dev,
-+		drm_dbg(plane->dev,
- 			"%s(): pixel format change requires mode_change\n",
- 			__func__);
- 		crtc_state->mode_changed = true;
+-	if (panel) {
+-		bridge = devm_drm_panel_bridge_add_typed(ddev->dev, panel,
+-							 DRM_MODE_CONNECTOR_DPI);
+-		if (IS_ERR(bridge))
+-			return PTR_ERR(bridge);
+-	}
+-
+ 	return tilcdc_attach_bridge(ddev, bridge);
+ }
 
 -- 
 2.43.0
