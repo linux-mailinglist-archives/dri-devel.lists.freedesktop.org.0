@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OJEOFInKc2mQygAAu9opvQ
+	id OO1MFY3Kc2mQygAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:22:49 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:22:53 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5817A1EC
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:22:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3117A1F4
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:22:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE0410EBBE;
-	Fri, 23 Jan 2026 19:22:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D54510EBBC;
+	Fri, 23 Jan 2026 19:22:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 97F4710EBBE
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 19:22:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 17F4710EBC0
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 19:22:49 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B980A1515;
- Fri, 23 Jan 2026 11:22:39 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 32F8F1476;
+ Fri, 23 Jan 2026 11:22:42 -0800 (PST)
 Received: from 010265703453.arm.com (unknown [10.57.51.35])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 622F03F632;
- Fri, 23 Jan 2026 11:22:44 -0800 (PST)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B858C3F632;
+ Fri, 23 Jan 2026 11:22:46 -0800 (PST)
 From: Robin Murphy <robin.murphy@arm.com>
 To: heiko@sntech.de, neil.armstrong@linaro.org, dianders@chromium.org,
  thierry.reding@gmail.com, sam@ravnborg.org
 Cc: jesszhan0024@gmail.com, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Dragan Simic <dsimic@manjaro.org>
-Subject: [PATCH v2 3/4] arm64: dts: rockchip: Move RK3399 eDP pinctrl to boards
-Date: Fri, 23 Jan 2026 19:22:22 +0000
-Message-Id: <c7d972d07875241805db8659305b26bd694867d4.1769191673.git.robin.murphy@arm.com>
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 4/4] arm64: dts: rockchip: Add overlay for FriendlyElec
+ HD702E
+Date: Fri, 23 Jan 2026 19:22:23 +0000
+Message-Id: <2bbc2e62ae9b54ac7594355001ce2b15885d3493.1769191673.git.robin.murphy@arm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1769191673.git.robin.murphy@arm.com>
 References: <cover.1769191673.git.robin.murphy@arm.com>
@@ -62,111 +62,174 @@ X-Spamd-Result: default: False [2.49 / 15.00];
 	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:heiko@sntech.de,m:neil.armstrong@linaro.org,m:dianders@chromium.org,m:thierry.reding@gmail.com,m:sam@ravnborg.org,m:jesszhan0024@gmail.com,m:linux-rockchip@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:dsimic@manjaro.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:heiko@sntech.de,m:neil.armstrong@linaro.org,m:dianders@chromium.org,m:thierry.reding@gmail.com,m:sam@ravnborg.org,m:jesszhan0024@gmail.com,m:linux-rockchip@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[gmail.com,lists.freedesktop.org,lists.infradead.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FREEMAIL_TO(0.00)[sntech.de,linaro.org,chromium.org,gmail.com,ravnborg.org];
 	FORGED_SENDER(0.00)[robin.murphy@arm.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[gmail.com,lists.freedesktop.org,lists.infradead.org,manjaro.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_SPAM(0.00)[0.079];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[robin.murphy@arm.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	NEURAL_SPAM(0.00)[0.038];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_NONE(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[robin.murphy@arm.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	R_DKIM_NA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:mid,arm.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,ff970000:email,manjaro.org:email]
-X-Rspamd-Queue-Id: CC5817A1EC
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,arm.com:mid,arm.com:email,friendlyelec.com:url]
+X-Rspamd-Queue-Id: DF3117A1F4
 X-Rspamd-Action: no action
 
-The EDP_HOTPLUG pin is optional, and muxed with other functions (notably
-HDMI CEC), so move its selection from the SoC DTSI to the boards which
-apparently want it, namely those which enable eDP without "force-hpd".
-By the same token we drop it from Pinebook Pro, which already uses
-"force-hpd", and according to the schematics does not have the pin wired
-at all.
+Add an overlay to support FriendlyElec's HD702E 7" eDP LCD touchscreen
+module for the NanoPC-T4 board:
 
-Reviewed-by: Dragan Simic <dsimic@manjaro.org>
+https://www.friendlyelec.com/index.php?route=product/product&path=81&product_id=230
+
 Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 ---
-v2: Add /omit-if-no-ref/ attribute [Dragan]
+v2:
+ - Add pinctrl, tweak some naming [Doug]
+ - Add main 3.3v regulator to tidy up power supplies
 ---
- arch/arm64/boot/dts/rockchip/rk3399-base.dtsi              | 3 +--
- arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi    | 2 ++
- arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts       | 2 --
- arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dts | 2 ++
- 4 files changed, 5 insertions(+), 4 deletions(-)
+ arch/arm64/boot/dts/rockchip/Makefile         |  5 +
+ .../dts/rockchip/rk3399-nanopc-t4-hd702e.dtso | 96 +++++++++++++++++++
+ 2 files changed, 101 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4-hd702e.dtso
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
-index 4dcceb9136b7..49c68fe65de6 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
-@@ -2145,8 +2145,6 @@ edp: dp@ff970000 {
- 		interrupts = <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH 0>;
- 		clocks = <&cru PCLK_EDP>, <&cru PCLK_EDP_CTRL>, <&cru PCLK_VIO_GRF>;
- 		clock-names = "dp", "pclk", "grf";
--		pinctrl-names = "default";
--		pinctrl-0 = <&edp_hpd>;
- 		power-domains = <&power RK3399_PD_EDP>;
- 		resets = <&cru SRST_P_EDP_CTRL>;
- 		reset-names = "dp";
-@@ -2384,6 +2382,7 @@ cif_clkouta: cif-clkouta {
- 		};
+diff --git a/arch/arm64/boot/dts/rockchip/Makefile b/arch/arm64/boot/dts/rockchip/Makefile
+index dbdda9783e93..4ab58a5961aa 100644
+--- a/arch/arm64/boot/dts/rockchip/Makefile
++++ b/arch/arm64/boot/dts/rockchip/Makefile
+@@ -62,6 +62,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-khadas-edge-v.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-kobol-helios64.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-leez-p710.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-nanopc-t4.dtb
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-nanopc-t4-hd702e.dtbo
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-nanopi-m4.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-nanopi-m4b.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-nanopi-neo4.dtb
+@@ -238,6 +239,10 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += px30-ringneck-haikou-haikou-video-demo.dtb
+ px30-ringneck-haikou-haikou-video-demo-dtbs := px30-ringneck-haikou.dtb \
+ 	px30-ringneck-haikou-video-demo.dtbo
  
- 		edp {
-+			/omit-if-no-ref/
- 			edp_hpd: edp-hpd {
- 				rockchip,pins =
- 					<4 RK_PC7 2 &pcfg_pull_none>;
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi
-index 9d07353df52c..3f3cb0eb5809 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-gru-chromebook.dtsi
-@@ -241,6 +241,8 @@ &dmc {
- };
- 
- &edp {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&edp_hpd>;
- 	status = "okay";
- 
- 	/*
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts b/arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts
-index eaaca08a7601..dcab04863d28 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts
-@@ -401,8 +401,6 @@ &cpu_l3 {
- 
- &edp {
- 	force-hpd;
--	pinctrl-names = "default";
--	pinctrl-0 = <&edp_hpd>;
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dts b/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dts
-index a4ceafe6dd7a..80d6ea0eda84 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-sapphire-excavator.dts
-@@ -141,6 +141,8 @@ sdio_pwrseq: sdio-pwrseq {
- };
- 
- &edp {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&edp_hpd>;
- 	status = "okay";
- };
- 
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-nanopc-t4-hd702e.dtb
++rk3399-nanopc-t4-hd702e-dtbs := rk3399-nanopc-t4.dtb \
++	rk3399-nanopc-t4-hd702e.dtbo
++
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-puma-haikou-haikou-video-demo.dtb
+ rk3399-puma-haikou-haikou-video-demo-dtbs := rk3399-puma-haikou.dtb \
+ 	rk3399-puma-haikou-video-demo.dtbo
+diff --git a/arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4-hd702e.dtso b/arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4-hd702e.dtso
+new file mode 100644
+index 000000000000..66ac530392b7
+--- /dev/null
++++ b/arch/arm64/boot/dts/rockchip/rk3399-nanopc-t4-hd702e.dtso
+@@ -0,0 +1,96 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++/*
++ * FriendlyElec HD702E LCD on NanoPC-T4 board
++ */
++
++/dts-v1/;
++/plugin/;
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/interrupt-controller/irq.h>
++#include <dt-bindings/pinctrl/rockchip.h>
++
++&{/} {
++	vdd_3_3v: regulator-vdd_3_3v {
++		compatible = "regulator-fixed";
++		regulator-always-on;
++		regulator-boot-on;
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-name = "vdd_3.3v";
++		vin-supply = <&vcc12v0_sys>;
++	};
++
++	backlight: backlight {
++		compatible = "pwm-backlight";
++		pwms = <&pwm0 0 25000 0>;
++		enable-gpios = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
++		brightness-levels = <0 255>;
++		default-brightness-level = <200>;
++		num-interpolated-steps = <255>;
++		pinctrl-0 = <&bl_en>;
++		pinctrl-names = "default";
++	};
++};
++
++&edp {
++	force-hpd;
++	status = "okay";
++
++	aux-bus {
++		edp-panel {
++			compatible = "friendlyarm,hd702e";
++			backlight = <&backlight>;
++			no-hpd;
++			power-supply = <&vdd_3_3v>;
++
++			port {
++				panel_in_edp: endpoint {
++					remote-endpoint = <&edp_out_panel>;
++				};
++			};
++		};
++	};
++};
++
++&edp_out {
++	edp_out_panel: endpoint {
++		remote-endpoint = <&panel_in_edp>;
++	};
++};
++
++&i2c4 {
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	touchscreen@5d {
++		compatible = "goodix,gt9271";
++		reg = <0x5d>;
++		interrupt-parent = <&gpio1>;
++		interrupts = <RK_PC4 IRQ_TYPE_EDGE_FALLING>;
++		irq-gpios = <&gpio1 RK_PC4 GPIO_ACTIVE_HIGH>;
++		reset-gpios = <&gpio1 RK_PB5 GPIO_ACTIVE_HIGH>;
++		pinctrl-0 = <&touch_int &touch_rst>;
++		pinctrl-names = "default";
++		AVDD28-supply = <&vdd_3_3v>;
++		VDDIO-supply = <&vdd_3_3v>;
++	};
++};
++
++&pinctrl {
++	backlight {
++		bl_en: bl-en {
++			rockchip,pins = <4 RK_PD5 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
++	};
++
++	touchscreen {
++		touch_int: touch-int {
++			rockchip,pins = <1 RK_PC4 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
++
++		touch_rst: touch-rst {
++			rockchip,pins = <1 RK_PB5 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
++	};
++};
 -- 
 2.34.1
 
