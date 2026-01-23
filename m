@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KEMGDHgAdGmz1AAAu9opvQ
+	id iKS6GH8AdGmz1AAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 00:12:56 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 00:13:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D3A7B64D
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 00:12:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 110B27B664
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 00:13:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 330E510EC0D;
-	Fri, 23 Jan 2026 23:12:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5612110EC0E;
+	Fri, 23 Jan 2026 23:13:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RfzatUTo";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YqYKLXMN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B59F210EC14
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 23:12:52 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0772510EC1A
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 23:12:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1769209971;
+ s=mimecast20190719; t=1769209979;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I4xaYhUpLXOBwZoEHLADcBcWiGEAuhBq9dyW2GYPd4M=;
- b=RfzatUTo5uvOQ/Ks6MncMPtGc6l/Vis80n0VL4Q2pUEhpMfa51xTCAQZ4qcQbAMNJ1/Skr
- orrqcs/RO/kYgRzZzRv56UfcpNG7IufH7HB0FrTLR+DqyLHHsevkNJGqGt26omO1GMJpK2
- A5gNzVXkZbCw+mFi8zozW7zdUv80Zgg=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ bh=f+g1RZTyXYuUyYeRZUMLatjKr1duJlfQy9Oc+Brrce8=;
+ b=YqYKLXMNJ6jTGkMaAWeSjMHg7yd1LkUrMPbgaKvj/5zIiBCnxFA3j6YO/2u85RF8g1olfa
+ 36KEDqne8GWQKTwLuV1dXIo1DET5btTK6DrG+I7LlFUnQFRCpbhBp4+IYy84mbu5mbBIdX
+ X5VQJPShh8s1QCPKW5SuRSHB6hkWIJU=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-648-UmEgOjSXNgCZkMAomxi1Ag-1; Fri,
- 23 Jan 2026 18:12:48 -0500
-X-MC-Unique: UmEgOjSXNgCZkMAomxi1Ag-1
-X-Mimecast-MFC-AGG-ID: UmEgOjSXNgCZkMAomxi1Ag_1769209967
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-459-zZK0R8oSMmmQ1oQhjEEtCA-1; Fri,
+ 23 Jan 2026 18:12:54 -0500
+X-MC-Unique: zZK0R8oSMmmQ1oQhjEEtCA-1
+X-Mimecast-MFC-AGG-ID: zZK0R8oSMmmQ1oQhjEEtCA_1769209972
 Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id DAA2E1944F2F; Fri, 23 Jan 2026 23:12:46 +0000 (UTC)
+ by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 0C12F19775A5; Fri, 23 Jan 2026 23:12:52 +0000 (UTC)
 Received: from GoldenWind.redhat.com (unknown [10.22.89.232])
  by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id CA4781958DC5; Fri, 23 Jan 2026 23:12:44 +0000 (UTC)
+ id 1724B1958DC4; Fri, 23 Jan 2026 23:12:49 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  rust-for-linux@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
@@ -58,10 +58,9 @@ Cc: nouveau@lists.freedesktop.org, "Miguel Ojeda" <ojeda@kernel.org>,
  "Asahi Lina" <lina+kernel@asahilina.net>,
  "Daniel Almeida" <daniel.almeida@collabora.com>,
  "Lyude Paul" <lyude@redhat.com>
-Subject: [PATCH v4 2/3] rust/drm: Don't setup private driver data until
- registration
-Date: Fri, 23 Jan 2026 18:10:14 -0500
-Message-ID: <20260123231230.248500-3-lyude@redhat.com>
+Subject: [PATCH v4 3/3] rust/drm/gem: Use DeviceContext with GEM objects
+Date: Fri, 23 Jan 2026 18:10:15 -0500
+Message-ID: <20260123231230.248500-4-lyude@redhat.com>
 In-Reply-To: <20260123231230.248500-1-lyude@redhat.com>
 References: <20260123231230.248500-1-lyude@redhat.com>
 MIME-Version: 1.0
@@ -116,234 +115,368 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: D3D3A7B64D
+X-Rspamd-Queue-Id: 110B27B664
 X-Rspamd-Action: no action
 
-Now that we have a DeviceContext that we can use to represent whether a
-Device is known to have been registered, we can make it so that drivers can
-create their Devices but wait until the registration phase to assign their
-private data to the Device. This is desirable as some drivers need to make
-use of the DRM device early on before finalizing their private driver data.
+Now that we have the ability to represent the context in which a DRM device
+is in at compile-time, we can start carrying around this context with GEM
+object types in order to allow a driver to safely create GEM objects before
+a DRM device has registered with userspace.
 
-As such, this change makes it so that the driver's private data can
-currently only be accessed through Device<T, Registered> types and not
-Device<T, Uninit>.
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+
+---
+V4:
+* Add a comment to explain the Uninit DeviceContext usage in the GEM object
+  vtable (tl;dr: the DeviceContext is meaningless here)
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
-V4:
-* Remove accidental double-aliasing &mut in Device::release()
----
- drivers/gpu/drm/nova/driver.rs |  4 +--
- drivers/gpu/drm/tyr/driver.rs  |  4 +--
- rust/kernel/drm/device.rs      | 64 +++++++++++++++++++++-------------
- rust/kernel/drm/driver.rs      | 19 ++++++++--
- 4 files changed, 59 insertions(+), 32 deletions(-)
+ drivers/gpu/drm/nova/driver.rs |  2 +-
+ drivers/gpu/drm/nova/gem.rs    | 11 +++---
+ drivers/gpu/drm/tyr/driver.rs  |  2 +-
+ drivers/gpu/drm/tyr/gem.rs     |  3 +-
+ rust/kernel/drm/device.rs      | 18 ++++++----
+ rust/kernel/drm/driver.rs      |  2 +-
+ rust/kernel/drm/gem/mod.rs     | 64 +++++++++++++++++++++++-----------
+ 7 files changed, 67 insertions(+), 35 deletions(-)
 
 diff --git a/drivers/gpu/drm/nova/driver.rs b/drivers/gpu/drm/nova/driver.rs
-index 99d6841b69cbc..8cea5f68c3b04 100644
+index 8cea5f68c3b04..2c13261450406 100644
 --- a/drivers/gpu/drm/nova/driver.rs
 +++ b/drivers/gpu/drm/nova/driver.rs
-@@ -56,8 +56,8 @@ impl auxiliary::Driver for NovaDriver {
-     fn probe(adev: &auxiliary::Device<Core>, _info: &Self::IdInfo) -> impl PinInit<Self, Error> {
-         let data = try_pin_init!(NovaData { adev: adev.into() });
+@@ -67,7 +67,7 @@ fn probe(adev: &auxiliary::Device<Core>, _info: &Self::IdInfo) -> impl PinInit<S
+ impl drm::Driver for NovaDriver {
+     type Data = NovaData;
+     type File = File;
+-    type Object = gem::Object<NovaObject>;
++    type Object<Ctx: drm::DeviceContext> = gem::Object<NovaObject, Ctx>;
  
--        let drm = drm::UnregisteredDevice::<Self>::new(adev.as_ref(), data)?;
--        let drm = drm::Registration::new_foreign_owned(drm, adev.as_ref(), 0)?;
-+        let drm = drm::UnregisteredDevice::<Self>::new(adev.as_ref())?;
-+        let drm = drm::Registration::new_foreign_owned(drm, adev.as_ref(), data, 0)?;
+     const INFO: drm::DriverInfo = INFO;
  
-         Ok(Self { drm: drm.into() })
-     }
-diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
-index 0d479b5d7bd62..b574ee1c24587 100644
---- a/drivers/gpu/drm/tyr/driver.rs
-+++ b/drivers/gpu/drm/tyr/driver.rs
-@@ -133,8 +133,8 @@ fn probe(
-                 gpu_info,
-         });
+diff --git a/drivers/gpu/drm/nova/gem.rs b/drivers/gpu/drm/nova/gem.rs
+index 6ccfa5da57617..f6e98b9db58d8 100644
+--- a/drivers/gpu/drm/nova/gem.rs
++++ b/drivers/gpu/drm/nova/gem.rs
+@@ -2,7 +2,7 @@
  
--        let tdev = drm::UnregisteredDevice::<Self>::new(pdev.as_ref(), data)?;
--        let tdev = drm::driver::Registration::new_foreign_owned(tdev, pdev.as_ref(), 0)?;
-+        let tdev = drm::UnregisteredDevice::<Self>::new(pdev.as_ref())?;
-+        let tdev = drm::driver::Registration::new_foreign_owned(tdev, pdev.as_ref(), data, 0)?;
+ use kernel::{
+     drm,
+-    drm::{gem, gem::BaseObject},
++    drm::{gem, gem::BaseObject, DeviceContext},
+     page,
+     prelude::*,
+     sync::aref::ARef,
+@@ -20,20 +20,23 @@ pub(crate) struct NovaObject {}
+ impl gem::DriverObject for NovaObject {
+     type Driver = NovaDriver;
  
-         let driver = TyrDriver {
-             _device: tdev.into(),
-diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
-index 8f1780b8f0196..a1d9b0e92f3fd 100644
---- a/rust/kernel/drm/device.rs
-+++ b/rust/kernel/drm/device.rs
-@@ -26,13 +26,15 @@
- };
- use core::{
-     alloc::Layout,
-+    cell::UnsafeCell,
-     marker::PhantomData,
--    mem,
--    ops::Deref,
--    ptr::{
-+    mem::{
-         self,
--        NonNull, //
-+        MaybeUninit, //
-     },
-+    ops::Deref,
-+    ptr::NonNull,
-+    sync::atomic::*,
- };
- 
- #[cfg(CONFIG_DRM_LEGACY)]
-@@ -141,7 +143,7 @@ impl DeviceContext for Uninit {}
- ///
- /// The device in `self.0` is guaranteed to be a newly created [`Device`] that has not yet been
- /// registered with userspace until this type is dropped.
--pub struct UnregisteredDevice<T: drm::Driver>(ARef<Device<T, Uninit>>, NotThreadSafe);
-+pub struct UnregisteredDevice<T: drm::Driver>(pub(crate) ARef<Device<T, Uninit>>, NotThreadSafe);
- 
- impl<T: drm::Driver> Deref for UnregisteredDevice<T> {
-     type Target = Device<T, Uninit>;
-@@ -188,7 +190,7 @@ impl<T: drm::Driver> UnregisteredDevice<T> {
-     /// Create a new `UnregisteredDevice` for a `drm::Driver`.
-     ///
-     /// This can be used to create a [`Registration`](kernel::drm::Registration).
--    pub fn new(dev: &device::Device, data: impl PinInit<T::Data, Error>) -> Result<Self> {
-+    pub fn new(dev: &device::Device) -> Result<Self> {
-         // `__drm_dev_alloc` uses `kmalloc()` to allocate memory, hence ensure a `kmalloc()`
-         // compatible `Layout`.
-         let layout = Kmalloc::aligned_layout(Layout::new::<Self>());
-@@ -207,22 +209,6 @@ pub fn new(dev: &device::Device, data: impl PinInit<T::Data, Error>) -> Result<S
-         .cast();
-         let raw_drm = NonNull::new(from_err_ptr(raw_drm)?).ok_or(ENOMEM)?;
- 
--        // SAFETY: `raw_drm` is a valid pointer to `Self`.
--        let raw_data = unsafe { ptr::addr_of_mut!((*raw_drm.as_ptr()).data) };
--
--        // SAFETY:
--        // - `raw_data` is a valid pointer to uninitialized memory.
--        // - `raw_data` will not move until it is dropped.
--        unsafe { data.__pinned_init(raw_data) }.inspect_err(|_| {
--            // SAFETY: `raw_drm` is a valid pointer to `Self`, given that `__drm_dev_alloc` was
--            // successful.
--            let drm_dev = unsafe { Device::into_drm_device(raw_drm) };
--
--            // SAFETY: `__drm_dev_alloc()` was successful, hence `drm_dev` must be valid and the
--            // refcount must be non-zero.
--            unsafe { bindings::drm_dev_put(drm_dev) };
--        })?;
--
-         // SAFETY: The reference count is one, and now we take ownership of that reference as a
-         // `drm::Device`.
-         // INVARIANT: We just created the device above, but have yet to call `drm_dev_register`.
-@@ -253,7 +239,15 @@ pub fn new(dev: &device::Device, data: impl PinInit<T::Data, Error>) -> Result<S
- #[repr(C)]
- pub struct Device<T: drm::Driver, C: DeviceContext = Registered> {
-     dev: Opaque<bindings::drm_device>,
--    data: T::Data,
-+
-+    /// Keeps track of whether we've initialized the device data yet.
-+    pub(crate) data_is_init: AtomicBool,
-+
-+    /// The Driver's private data.
-+    ///
-+    /// This must only be written to from [`drm::Registration::new`].
-+    pub(crate) data: UnsafeCell<MaybeUninit<T::Data>>,
-+
-     _ctx: PhantomData<C>,
- }
- 
-@@ -304,6 +298,22 @@ extern "C" fn release(ptr: *mut bindings::drm_device) {
-         // SAFETY: `ptr` is a valid pointer to a `struct drm_device` and embedded in `Self`.
-         let this = unsafe { Self::from_drm_device(ptr) };
- 
-+        // SAFETY:
-+        // - Since we are in release(), we are guaranteed that no one else has access to `this`.
-+        // - We confirmed above that `this` is a valid pointer to an initialized `Self`.
-+        let is_init = unsafe { &*this }.data_is_init.load(Ordering::Relaxed);
-+        if is_init {
-+            // SAFETY:
-+            // - We confirmed we have unique access to this above.
-+            // - We confirmed that `data` is initialized above.
-+            let data_ptr = unsafe { &mut (*this).data };
-+
-+            // SAFETY:
-+            // - We checked that the data is initialized above.
-+            // - We do not use `data` any point after calling this function.
-+            unsafe { data_ptr.get_mut().assume_init_drop() };
-+        }
-+
-         // SAFETY:
-         // - When `release` runs it is guaranteed that there is no further access to `this`.
-         // - `this` is valid for dropping.
-@@ -322,11 +332,15 @@ pub(crate) unsafe fn assume_ctx<NewCtx: DeviceContext>(&self) -> &Device<T, NewC
+-    fn new(_dev: &NovaDevice, _size: usize) -> impl PinInit<Self, Error> {
++    fn new<Ctx: DeviceContext>(_dev: &NovaDevice<Ctx>, _size: usize) -> impl PinInit<Self, Error> {
+         try_pin_init!(NovaObject {})
      }
  }
  
--impl<T: drm::Driver, C: DeviceContext> Deref for Device<T, C> {
-+impl<T: drm::Driver> Deref for Device<T, Registered> {
-     type Target = T::Data;
- 
-     fn deref(&self) -> &Self::Target {
--        &self.data
-+        // SAFETY:
-+        // - `data` is initialized before any `Device`s with the `Registered` context are available
-+        //   to the user.
-+        // - `data` is only written to once in `Registration::new()`, so this read will never race.
-+        unsafe { (&*self.data.get()).assume_init_ref() }
-     }
- }
- 
-diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
-index 55b01ee088548..cfb8884ece700 100644
---- a/rust/kernel/drm/driver.rs
-+++ b/rust/kernel/drm/driver.rs
-@@ -15,7 +15,8 @@
- };
- use core::{
-     mem,
--    ptr::NonNull, //
-+    ptr::NonNull,
-+    sync::atomic::*, //
- };
- 
- /// Driver use the GEM memory manager. This should be set for all modern drivers.
-@@ -127,7 +128,18 @@ pub trait Driver {
- pub struct Registration<T: Driver>(ARef<drm::Device<T>>);
- 
- impl<T: Driver> Registration<T> {
--    fn new(drm: drm::UnregisteredDevice<T>, flags: usize) -> Result<Self> {
-+    fn new(
-+        drm: drm::UnregisteredDevice<T>,
-+        data: impl PinInit<T::Data, Error>,
-+        flags: usize,
-+    ) -> Result<Self> {
-+        // SAFETY:
-+        // - `raw_data` is a valid pointer to uninitialized memory.
-+        // - `raw_data` will not move until it is dropped.
-+        unsafe { data.__pinned_init(drm.0.data.get().cast()) }?;
-+
-+        drm.data_is_init.store(true, Ordering::Relaxed);
-+
-         // SAFETY: `drm.as_raw()` is valid by the invariants of `drm::Device`.
-         to_result(unsafe { bindings::drm_dev_register(drm.as_raw(), flags) })?;
- 
-@@ -150,6 +162,7 @@ fn new(drm: drm::UnregisteredDevice<T>, flags: usize) -> Result<Self> {
-     pub fn new_foreign_owned<'a>(
-         drm: drm::UnregisteredDevice<T>,
-         dev: &'a device::Device<device::Bound>,
-+        data: impl PinInit<T::Data, Error>,
-         flags: usize,
-     ) -> Result<&'a drm::Device<T>>
-     where
-@@ -159,7 +172,7 @@ pub fn new_foreign_owned<'a>(
+ impl NovaObject {
+     /// Create a new DRM GEM object.
+-    pub(crate) fn new(dev: &NovaDevice, size: usize) -> Result<ARef<gem::Object<Self>>> {
++    pub(crate) fn new<Ctx: DeviceContext>(
++        dev: &NovaDevice<Ctx>,
++        size: usize,
++    ) -> Result<ARef<gem::Object<Self, Ctx>>> {
+         if size == 0 {
              return Err(EINVAL);
          }
+         let aligned_size = page::page_align(size).ok_or(EINVAL)?;
  
--        let reg = Registration::<T>::new(drm, flags)?;
-+        let reg = Registration::<T>::new(drm, data, flags)?;
-         let drm = NonNull::from(reg.device());
+-        gem::Object::new(dev, aligned_size)
++        gem::Object::<Self, Ctx>::new(dev, aligned_size)
+     }
  
-         devres::register(dev, reg, GFP_KERNEL)?;
+     /// Look up a GEM object handle for a `File` and return an `ObjectRef` for it.
+diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+index b574ee1c24587..170ffdfd92a18 100644
+--- a/drivers/gpu/drm/tyr/driver.rs
++++ b/drivers/gpu/drm/tyr/driver.rs
+@@ -177,7 +177,7 @@ fn drop(self: Pin<&mut Self>) {
+ impl drm::Driver for TyrDriver {
+     type Data = TyrData;
+     type File = File;
+-    type Object = drm::gem::Object<TyrObject>;
++    type Object<R: drm::DeviceContext> = drm::gem::Object<TyrObject, R>;
+ 
+     const INFO: drm::DriverInfo = INFO;
+ 
+diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
+index 1273bf89dbd5d..00804f8c14bd4 100644
+--- a/drivers/gpu/drm/tyr/gem.rs
++++ b/drivers/gpu/drm/tyr/gem.rs
+@@ -3,6 +3,7 @@
+ use crate::driver::TyrDevice;
+ use crate::driver::TyrDriver;
+ use kernel::drm::gem;
++use kernel::drm::DeviceContext;
+ use kernel::prelude::*;
+ 
+ /// GEM Object inner driver data
+@@ -12,7 +13,7 @@ pub(crate) struct TyrObject {}
+ impl gem::DriverObject for TyrObject {
+     type Driver = TyrDriver;
+ 
+-    fn new(_dev: &TyrDevice, _size: usize) -> impl PinInit<Self, Error> {
++    fn new<Ctx: DeviceContext>(_dev: &TyrDevice<Ctx>, _size: usize) -> impl PinInit<Self, Error> {
+         try_pin_init!(TyrObject {})
+     }
+ }
+diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
+index a1d9b0e92f3fd..8dd1508c51cec 100644
+--- a/rust/kernel/drm/device.rs
++++ b/rust/kernel/drm/device.rs
+@@ -163,13 +163,17 @@ impl<T: drm::Driver> UnregisteredDevice<T> {
+         master_set: None,
+         master_drop: None,
+         debugfs_init: None,
+-        gem_create_object: T::Object::ALLOC_OPS.gem_create_object,
+-        prime_handle_to_fd: T::Object::ALLOC_OPS.prime_handle_to_fd,
+-        prime_fd_to_handle: T::Object::ALLOC_OPS.prime_fd_to_handle,
+-        gem_prime_import: T::Object::ALLOC_OPS.gem_prime_import,
+-        gem_prime_import_sg_table: T::Object::ALLOC_OPS.gem_prime_import_sg_table,
+-        dumb_create: T::Object::ALLOC_OPS.dumb_create,
+-        dumb_map_offset: T::Object::ALLOC_OPS.dumb_map_offset,
++
++        // Ignore the Uninit DeviceContext below. It is only provided because it is required by the
++        // compiler, and it is not actually used by these functions.
++        gem_create_object: T::Object::<Uninit>::ALLOC_OPS.gem_create_object,
++        prime_handle_to_fd: T::Object::<Uninit>::ALLOC_OPS.prime_handle_to_fd,
++        prime_fd_to_handle: T::Object::<Uninit>::ALLOC_OPS.prime_fd_to_handle,
++        gem_prime_import: T::Object::<Uninit>::ALLOC_OPS.gem_prime_import,
++        gem_prime_import_sg_table: T::Object::<Uninit>::ALLOC_OPS.gem_prime_import_sg_table,
++        dumb_create: T::Object::<Uninit>::ALLOC_OPS.dumb_create,
++        dumb_map_offset: T::Object::<Uninit>::ALLOC_OPS.dumb_map_offset,
++
+         show_fdinfo: None,
+         fbdev_probe: None,
+ 
+diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
+index cfb8884ece700..e6893f089733d 100644
+--- a/rust/kernel/drm/driver.rs
++++ b/rust/kernel/drm/driver.rs
+@@ -110,7 +110,7 @@ pub trait Driver {
+     type Data: Sync + Send;
+ 
+     /// The type used to manage memory for this driver.
+-    type Object: AllocImpl;
++    type Object<Ctx: drm::DeviceContext>: AllocImpl;
+ 
+     /// The type used to represent a DRM File (client)
+     type File: drm::file::DriverFile;
+diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
+index b4199945db378..3af9f52f8eda4 100644
+--- a/rust/kernel/drm/gem/mod.rs
++++ b/rust/kernel/drm/gem/mod.rs
+@@ -8,6 +8,10 @@
+     bindings,
+     drm::{
+         self,
++        device::{
++            DeviceContext,
++            Registered, //
++        },
+         driver::{
+             AllocImpl,
+             AllocOps, //
+@@ -22,6 +26,7 @@
+     types::Opaque,
+ };
+ use core::{
++    marker::PhantomData,
+     ops::Deref,
+     ptr::NonNull, //
+ };
+@@ -33,21 +38,30 @@
+ /// [`DriverFile`]: drm::file::DriverFile
+ pub type DriverFile<T> = drm::File<<<T as DriverObject>::Driver as drm::Driver>::File>;
+ 
++/// A type alias for retrieving the current [`AllocImpl`] for a given [`DriverObject`].
++///
++/// [`Driver`]: drm::Driver
++pub type DriverAllocImpl<T, Ctx = Registered> =
++    <<T as DriverObject>::Driver as drm::Driver>::Object<Ctx>;
++
+ /// GEM object functions, which must be implemented by drivers.
+ pub trait DriverObject: Sync + Send + Sized {
+     /// Parent `Driver` for this object.
+     type Driver: drm::Driver;
+ 
+     /// Create a new driver data object for a GEM object of a given size.
+-    fn new(dev: &drm::Device<Self::Driver>, size: usize) -> impl PinInit<Self, Error>;
++    fn new<Ctx: DeviceContext>(
++        dev: &drm::Device<Self::Driver, Ctx>,
++        size: usize,
++    ) -> impl PinInit<Self, Error>;
+ 
+     /// Open a new handle to an existing object, associated with a File.
+-    fn open(_obj: &<Self::Driver as drm::Driver>::Object, _file: &DriverFile<Self>) -> Result {
++    fn open(_obj: &DriverAllocImpl<Self>, _file: &DriverFile<Self>) -> Result {
+         Ok(())
+     }
+ 
+     /// Close a handle to an existing object, associated with a File.
+-    fn close(_obj: &<Self::Driver as drm::Driver>::Object, _file: &DriverFile<Self>) {}
++    fn close(_obj: &DriverAllocImpl<Self>, _file: &DriverFile<Self>) {}
+ }
+ 
+ /// Trait that represents a GEM object subtype
+@@ -73,9 +87,12 @@ extern "C" fn open_callback<T: DriverObject>(
+     // SAFETY: `open_callback` is only ever called with a valid pointer to a `struct drm_file`.
+     let file = unsafe { DriverFile::<T>::from_raw(raw_file) };
+ 
+-    // SAFETY: `open_callback` is specified in the AllocOps structure for `DriverObject<T>`,
+-    // ensuring that `raw_obj` is contained within a `DriverObject<T>`
+-    let obj = unsafe { <<T::Driver as drm::Driver>::Object as IntoGEMObject>::from_raw(raw_obj) };
++    // SAFETY:
++    // * `open_callback` is specified in the AllocOps structure for `DriverObject`, ensuring that
++    //   `raw_obj` is contained within a `DriverAllocImpl<T>`
++    // * It is only possible for `open_callback` to be called after device registration, ensuring
++    //   that the object's device is in the `Registered` state.
++    let obj: &DriverAllocImpl<T> = unsafe { IntoGEMObject::from_raw(raw_obj) };
+ 
+     match T::open(obj, file) {
+         Err(e) => e.to_errno(),
+@@ -92,12 +109,12 @@ extern "C" fn close_callback<T: DriverObject>(
+ 
+     // SAFETY: `close_callback` is specified in the AllocOps structure for `Object<T>`, ensuring
+     // that `raw_obj` is indeed contained within a `Object<T>`.
+-    let obj = unsafe { <<T::Driver as drm::Driver>::Object as IntoGEMObject>::from_raw(raw_obj) };
++    let obj: &DriverAllocImpl<T> = unsafe { IntoGEMObject::from_raw(raw_obj) };
+ 
+     T::close(obj, file);
+ }
+ 
+-impl<T: DriverObject> IntoGEMObject for Object<T> {
++impl<T: DriverObject, Ctx: DeviceContext> IntoGEMObject for Object<T, Ctx> {
+     fn as_raw(&self) -> *mut bindings::drm_gem_object {
+         self.obj.get()
+     }
+@@ -105,7 +122,7 @@ fn as_raw(&self) -> *mut bindings::drm_gem_object {
+     unsafe fn from_raw<'a>(self_ptr: *mut bindings::drm_gem_object) -> &'a Self {
+         // SAFETY: `obj` is guaranteed to be in an `Object<T>` via the safety contract of this
+         // function
+-        unsafe { &*crate::container_of!(Opaque::cast_from(self_ptr), Object<T>, obj) }
++        unsafe { &*crate::container_of!(Opaque::cast_from(self_ptr), Object<T, Ctx>, obj) }
+     }
+ }
+ 
+@@ -122,7 +139,7 @@ fn size(&self) -> usize {
+     fn create_handle<D, F>(&self, file: &drm::File<F>) -> Result<u32>
+     where
+         Self: AllocImpl<Driver = D>,
+-        D: drm::Driver<Object = Self, File = F>,
++        D: drm::Driver<Object<Registered> = Self, File = F>,
+         F: drm::file::DriverFile<Driver = D>,
+     {
+         let mut handle: u32 = 0;
+@@ -137,7 +154,7 @@ fn create_handle<D, F>(&self, file: &drm::File<F>) -> Result<u32>
+     fn lookup_handle<D, F>(file: &drm::File<F>, handle: u32) -> Result<ARef<Self>>
+     where
+         Self: AllocImpl<Driver = D>,
+-        D: drm::Driver<Object = Self, File = F>,
++        D: drm::Driver<Object<Registered> = Self, File = F>,
+         F: drm::file::DriverFile<Driver = D>,
+     {
+         // SAFETY: The arguments are all valid per the type invariants.
+@@ -177,16 +194,18 @@ impl<T: IntoGEMObject> BaseObject for T {}
+ ///
+ /// # Invariants
+ ///
+-/// - `self.obj` is a valid instance of a `struct drm_gem_object`.
++/// * `self.obj` is a valid instance of a `struct drm_gem_object`.
++/// * Any type invariants of `Ctx` apply to the parent DRM device for this GEM object.
+ #[repr(C)]
+ #[pin_data]
+-pub struct Object<T: DriverObject + Send + Sync> {
++pub struct Object<T: DriverObject + Send + Sync, Ctx: DeviceContext = Registered> {
+     obj: Opaque<bindings::drm_gem_object>,
+     #[pin]
+     data: T,
++    _ctx: PhantomData<Ctx>,
+ }
+ 
+-impl<T: DriverObject> Object<T> {
++impl<T: DriverObject, Ctx: DeviceContext> Object<T, Ctx> {
+     const OBJECT_FUNCS: bindings::drm_gem_object_funcs = bindings::drm_gem_object_funcs {
+         free: Some(Self::free_callback),
+         open: Some(open_callback::<T>),
+@@ -206,11 +225,12 @@ impl<T: DriverObject> Object<T> {
+     };
+ 
+     /// Create a new GEM object.
+-    pub fn new(dev: &drm::Device<T::Driver>, size: usize) -> Result<ARef<Self>> {
++    pub fn new(dev: &drm::Device<T::Driver, Ctx>, size: usize) -> Result<ARef<Self>> {
+         let obj: Pin<KBox<Self>> = KBox::pin_init(
+             try_pin_init!(Self {
+                 obj: Opaque::new(bindings::drm_gem_object::default()),
+                 data <- T::new(dev, size),
++                _ctx: PhantomData,
+             }),
+             GFP_KERNEL,
+         )?;
+@@ -219,6 +239,8 @@ pub fn new(dev: &drm::Device<T::Driver>, size: usize) -> Result<ARef<Self>> {
+         unsafe { (*obj.as_raw()).funcs = &Self::OBJECT_FUNCS };
+ 
+         // SAFETY: The arguments are all valid per the type invariants.
++        // INVARIANT: We use `dev` for creating the GEM object, which is known to be in state `Ctx` -
++        // ensuring that the GEM object's pointer to the DRM device is always in the same state.
+         to_result(unsafe { bindings::drm_gem_object_init(dev.as_raw(), obj.obj.get(), size) })?;
+ 
+         // SAFETY: We will never move out of `Self` as `ARef<Self>` is always treated as pinned.
+@@ -232,13 +254,15 @@ pub fn new(dev: &drm::Device<T::Driver>, size: usize) -> Result<ARef<Self>> {
+     }
+ 
+     /// Returns the `Device` that owns this GEM object.
+-    pub fn dev(&self) -> &drm::Device<T::Driver> {
++    pub fn dev(&self) -> &drm::Device<T::Driver, Ctx> {
+         // SAFETY:
+         // - `struct drm_gem_object.dev` is initialized and valid for as long as the GEM
+         //   object lives.
+         // - The device we used for creating the gem object is passed as &drm::Device<T::Driver> to
+         //   Object::<T>::new(), so we know that `T::Driver` is the right generic parameter to use
+         //   here.
++        // - Any type invariants of `Ctx` are upheld by using the same `Ctx` for the `Device` we
++        //   return.
+         unsafe { drm::Device::from_raw((*self.as_raw()).dev) }
+     }
+ 
+@@ -264,7 +288,7 @@ extern "C" fn free_callback(obj: *mut bindings::drm_gem_object) {
+ }
+ 
+ // SAFETY: Instances of `Object<T>` are always reference-counted.
+-unsafe impl<T: DriverObject> crate::sync::aref::AlwaysRefCounted for Object<T> {
++unsafe impl<T: DriverObject, Ctx: DeviceContext> AlwaysRefCounted for Object<T, Ctx> {
+     fn inc_ref(&self) {
+         // SAFETY: The existence of a shared reference guarantees that the refcount is non-zero.
+         unsafe { bindings::drm_gem_object_get(self.as_raw()) };
+@@ -279,9 +303,9 @@ unsafe fn dec_ref(obj: NonNull<Self>) {
+     }
+ }
+ 
+-impl<T: DriverObject> super::private::Sealed for Object<T> {}
++impl<T: DriverObject, Ctx: DeviceContext> super::private::Sealed for Object<T, Ctx> {}
+ 
+-impl<T: DriverObject> Deref for Object<T> {
++impl<T: DriverObject, Ctx: DeviceContext> Deref for Object<T, Ctx> {
+     type Target = T;
+ 
+     fn deref(&self) -> &Self::Target {
+@@ -289,7 +313,7 @@ fn deref(&self) -> &Self::Target {
+     }
+ }
+ 
+-impl<T: DriverObject> AllocImpl for Object<T> {
++impl<T: DriverObject, Ctx: DeviceContext> AllocImpl for Object<T, Ctx> {
+     type Driver = T::Driver;
+ 
+     const ALLOC_OPS: AllocOps = AllocOps {
 -- 
 2.52.0
 
