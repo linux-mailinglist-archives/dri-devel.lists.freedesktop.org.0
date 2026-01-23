@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IIGUGrcBdGkb1QAAu9opvQ
+	id UMFlC44CdGlA1QAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 00:18:15 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 00:21:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDD4B7B6E2
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 00:18:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6717B74F
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 00:21:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B05AC10E0ED;
-	Fri, 23 Jan 2026 23:18:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A76310E2F0;
+	Fri, 23 Jan 2026 23:21:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UzRCEGFd";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="mwa5wJJl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1F6C10E0ED
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 23:18:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A5B910E2F0
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 23:21:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1769210289;
- bh=wHgjORyqTwml6ZZCoMQV+QxMxcgExVvZFnvtJJH7wWc=;
+ s=mail; t=1769210503;
+ bh=DmN8l0gl/0iYG9kIuo80sEYgx6QjhrcS3AqGY7DKOG8=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=UzRCEGFd6JoUn5SpkXKpCxLisafY/Uw8B8paZfqPRJZNOc3txMUBidOy37fDYzp77
- DYV7jyQVhxIFrVCtepVpkmX4csqklhga2049ZH41mnV5UHfMyZvVuKsmo8JrkuG35N
- 0s/fdtaeQln5qR8BC4dn2ojvuGgWlKLyWxGJeZ4PGk2huhk0sJtsQieSooG7HdEG/a
- DubYoCu/IQQ8mlM/gzmHkIoagF7Xpf2lgIbk2R2bdluIGkQ6hiEDcuZ+3Zz4W1/0Yh
- nDwl0YXVHx92LrJIhhRaYTPhTH2cNJvpB/d8OCJWPhfYsgbxsXDNg+sydUpqdS/4Uz
- 8PbZ9aUE4E1ow==
+ b=mwa5wJJlSCaF9EcLQ6psmgAP7n/VlkxVHln0aBD4GIiWdnKpQNUhpCpAviFrk8/Y3
+ bzFEzRrWGbWHI408dvztNFkbUxYyd7fMfdSYWEw3yRtXoUQnH2xe6nkMRzPJZNvOoP
+ A4lFLWF8oqrOmbBzCx4LAWOdgkPCXBUYivxKCTDS0ZUFw9NoubGLyDoh1iIVCnUdzD
+ gPjqHceCFupswl6MrPVfeEy84jn1ZhS8E4uA/T/0QDK4kCFdc9csmpXALR6q3lh0ol
+ SYj+Fu6JQlKi5VIsMwd3w/be4Omfjgcu3U+04cRyYuHBq6DR1MjCe/6rmtWTuAOGSV
+ gPY4JHhYbVSUw==
 Received: from [192.168.1.90] (unknown [82.79.138.145])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id C79E617E0181;
- Sat, 24 Jan 2026 00:18:08 +0100 (CET)
-Message-ID: <8bdb6ea8-9434-4fa6-87ad-4c2f2697a3e5@collabora.com>
-Date: Sat, 24 Jan 2026 01:18:08 +0200
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 50D9C17E0699;
+ Sat, 24 Jan 2026 00:21:43 +0100 (CET)
+Message-ID: <5d775c69-3428-42aa-8517-faa5bd1d9709@collabora.com>
+Date: Sat, 24 Jan 2026 01:21:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 0/6] Rockchip DRM use-after-free & null-ptr-deref fixes
-To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+To: Maxime Ripard <mripard@kernel.org>
 Cc: Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
  <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
  Dmitry Baryshkov <lumag@kernel.org>, kernel@collabora.com,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
 References: <20260122-drm-rk-fixes-v1-0-3942f185750e@collabora.com>
- <8e770288-f29b-4e72-b5a6-e3cfd77b87fb@rock-chips.com>
+ <20260122-classic-impressive-marmoset-f4723a@houat>
 Content-Language: en-US
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <8e770288-f29b-4e72-b5a6-e3cfd77b87fb@rock-chips.com>
+In-Reply-To: <20260122-classic-impressive-marmoset-f4723a@houat>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,11 +84,11 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:chaoyi.chen@rock-chips.com,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dmitry.baryshkov@oss.qualcomm.com,m:lumag@kernel.org,m:kernel@collabora.com,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mripard@kernel.org,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dmitry.baryshkov@oss.qualcomm.com,m:lumag@kernel.org,m:kernel@collabora.com,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FREEMAIL_CC(0.00)[rock-chips.com,sntech.de,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,oss.qualcomm.com,collabora.com,lists.freedesktop.org,lists.infradead.org,vger.kernel.org];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_CC(0.00)[rock-chips.com,sntech.de,linux.intel.com,suse.de,gmail.com,ffwll.ch,oss.qualcomm.com,kernel.org,collabora.com,lists.freedesktop.org,lists.infradead.org,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -105,28 +105,25 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: EDD4B7B6E2
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,collabora.com:dkim,collabora.com:mid]
+X-Rspamd-Queue-Id: AB6717B74F
 X-Rspamd-Action: no action
 
-Hi Chaoyi,
-
-On 1/22/26 4:27 AM, Chaoyi Chen wrote:
-> Hi Cristian,
-> 
-> On 1/22/2026 7:17 AM, Cristian Ciocaltea wrote:
+On 1/22/26 5:21 PM, Maxime Ripard wrote:
+> On Thu, Jan 22, 2026 at 01:17:33AM +0200, Cristian Ciocaltea wrote:
 >> The first three patches in the series are fixes for use-after-free &
 >> null-ptr-deref related issues found in dw_dp and inno-hdmi Rockchip DRM
 >> drivers.
 >>
+>> The remaining ones provide a few minor improvements to dw_dp and
+>> dw_hdmi_qp.
+>>
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 > 
-> Have you tried calling unbind() and bind() multiple times? 
-> In this case, can DRM still work properly?
+> Just FYI, you'll also need to sprinkle the driver with
+> drm_dev_enter/exit to make this actually safe.
 
-Do you have any specific usecase in mind?
+Thanks for the heads up!
 
-The tests performed so far were mostly focused on reloading the rockchipdrm
-module, which is how I actually noticed those issues.
-
-Regards,
 Cristian
+
