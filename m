@@ -2,74 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aNzmBqWcc2nNxQAAu9opvQ
+	id wMDsCvidc2lgxgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 17:07:01 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 17:12:40 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6C478272
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 17:07:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F324782FD
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 17:12:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2906D10EB31;
-	Fri, 23 Jan 2026 16:06:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7B5810EB2A;
+	Fri, 23 Jan 2026 16:12:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="V31Kh61S";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="KL8KaoLE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D259A10EB2E
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 16:06:55 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5626710EB2A
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 16:12:37 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 2B7EC4E42222;
- Fri, 23 Jan 2026 16:06:54 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id EA0851A2A37;
+ Fri, 23 Jan 2026 16:12:35 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id EF04B6070A;
- Fri, 23 Jan 2026 16:06:53 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id B54DE6070A;
+ Fri, 23 Jan 2026 16:12:35 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id E8585119A87D8; Fri, 23 Jan 2026 17:06:42 +0100 (CET)
+ with ESMTPSA id DBF33119A87A7; Fri, 23 Jan 2026 17:12:27 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1769184412; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=vI3kzpZHjcjHFtL3p8Qx+S2TsVWIlODIqyNcUXdrzhU=;
- b=V31Kh61SiJ4UoGViGvd1QA6OuNo9J5Xldz9y000yE1WlWlYr3MvhI6MMiynQPIvr3K8uCo
- zFWne7arjeQjfTIwX7nzcL/m3a0te273RWNXGh4HGND5PgTCtX3XXzPx4vctvkt0elUwxG
- qID7HpSkALXkMmH8PZX6hU5OHSsmlsAdoIxKnUtFkxVEnW9JVjSk7VYNbgzbHU5Jy8XkSy
- txpjBNoDiZ0A2YHfd2PvqOpbf4m9kGiUPApCKhjHuBmCiIscq94G9mPT0ko2QIGX9RqJAb
- djDT///e9tFXC6373e6T9i+Qt+ViNTC/9qTFLOo3MCW23wHjDfI4IXPhHS3f6g==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 23 Jan 2026 17:06:41 +0100
-Message-Id: <DFW3J1ZV9CXE.2JJTGIA40MU5K@bootlin.com>
-Subject: Re: [PATCH v4 18/25] drm/tilcdc: Convert to DRM managed resources
-Cc: "Jyri Sarha" <jyri.sarha@iki.fi>, "Tomi Valkeinen"
- <tomi.valkeinen@ideasonboard.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, "Russell King" <linux@armlinux.org.uk>,
- "Bartosz Golaszewski" <brgl@bgdev.pl>, "Tony Lindgren" <tony@atomide.com>,
- "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Markus
- Schneider-Pargmann" <msp@baylibre.com>, "Bajjuri Praneeth"
- <praneeth@ti.com>, "Louis Chauvet" <louis.chauvet@bootlin.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>, "Miguel Gazquez"
- <miguel.gazquez@bootlin.com>, "Herve Codina" <herve.codina@bootlin.com>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-omap@vger.kernel.org>
-To: "Kory Maincent" <kory.maincent@bootlin.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20260116-feature_tilcdc-v4-0-2c1c22143087@bootlin.com>
- <20260116-feature_tilcdc-v4-18-2c1c22143087@bootlin.com>
- <DFSVOBV5UY37.3HTQHOJT3A40N@bootlin.com>
- <20260122154840.5185671a@kmaincent-XPS-13-7390>
-In-Reply-To: <20260122154840.5185671a@kmaincent-XPS-13-7390>
+ t=1769184754; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding; bh=Zz9tOwE8YXJFkhUKv/SREBAFzg3OcfCRy/XQlSA2sB4=;
+ b=KL8KaoLE2xMoa9LKb2a2KfoWrUhaAGZIwlYs3ScimMu5cQCOliuLaI1oWVcDeTHv76fyJL
+ sZDM2ViCxVI5u+KrEQNqsJhFNQ389EymZ4OgMliui0dE/oeoKPLBuYux2vW177e5CiHloD
+ beewARNzo+YL/hnC2juoePilrEdwV+NKMyQn8pwm3p4kP9tpidqjvszBFdZpcnJ1302m0I
+ U3Von6dFsU/3VSb34q9BxXWyoqOB6W/ZLeJrDjlin8K6KDU7u3BGyW7zx2FOZUBxogR5Rr
+ stwpZLMGolXmkf3tMSObeHV+L9aacFYa3J0UROEqTVkrb6dHughJ46DEbuEoiw==
+From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
+Subject: [PATCH v5 00/25] Clean and update tilcdc driver to support
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR
+Date: Fri, 23 Jan 2026 17:12:18 +0100
+Message-Id: <20260123-feature_tilcdc-v5-0-5a44d2aa3f6f@bootlin.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAOKdc2kC/2XO3UoDMRCG4VspOTaSmUx3G4+8DxFJJhMbqBvJr
+ otS9t5NK+JPDt8P5mHOapaaZVZ3u7OqsuY5l6nF/man+OinZ9E5tlZocA8GSCfxy1uVpyWfOLI
+ eHUdyMowhOdWOXquk/H4FHx5bH/O8lPpx9Ve4rF8U4PCfWkEbTS44SSjWe3MfSllOebrl8qIu2
+ Io/AAJ0ADYg0SF4thytlR6w38BgwPQf2Aa44KNJIyEM1AP0C4AeoAYgAyMCWXMY/wLbtn0COmI
+ RNnEBAAA=
+X-Change-ID: 20251014-feature_tilcdc-79cd49e67bf9
+To: Jyri Sarha <jyri.sarha@iki.fi>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Russell King <linux@armlinux.org.uk>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Tony Lindgren <tony@atomide.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Markus Schneider-Pargmann <msp@baylibre.com>, 
+ Bajjuri Praneeth <praneeth@ti.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Miguel Gazquez <miguel.gazquez@bootlin.com>, 
+ Herve Codina <herve.codina@bootlin.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org, 
+ "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.15-dev-47773
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,184 +90,176 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[33];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:jyri.sarha@iki.fi,m:tomi.valkeinen@ideasonboard.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux@armlinux.org.uk,m:brgl@bgdev.pl,m:tony@atomide.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:msp@baylibre.com,m:praneeth@ti.com,m:luca.ceresoli@bootlin.com,m:louis.chauvet@bootlin.com,m:thomas.petazzoni@bootlin.com,m:miguel.gazquez@bootlin.com,m:herve.codina@bootlin.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-omap@vger.kernel.org,m:kory.maincent@bootlin.com,m:krzysztof.kozlowski@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[iki.fi,ideasonboard.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,armlinux.org.uk,bgdev.pl,atomide.com,intel.com,linaro.org,kwiboo.se];
 	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:jyri.sarha@iki.fi,m:tomi.valkeinen@ideasonboard.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux@armlinux.org.uk,m:brgl@bgdev.pl,m:tony@atomide.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:msp@baylibre.com,m:praneeth@ti.com,m:louis.chauvet@bootlin.com,m:thomas.petazzoni@bootlin.com,m:miguel.gazquez@bootlin.com,m:herve.codina@bootlin.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-omap@vger.kernel.org,m:kory.maincent@bootlin.com,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[iki.fi,ideasonboard.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,armlinux.org.uk,bgdev.pl,atomide.com,intel.com,linaro.org,kwiboo.se,baylibre.com,ti.com,bootlin.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
+	FORGED_SENDER(0.00)[kory.maincent@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[kory.maincent@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[bootlin.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.988];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.995];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:dkim,bootlin.com:email,bootlin.com:url,bootlin.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,ti.com:url]
-X-Rspamd-Queue-Id: 7C6C478272
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:url,bootlin.com:dkim,bootlin.com:email,bootlin.com:url,bootlin.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 9F324782FD
 X-Rspamd-Action: no action
 
-On Thu Jan 22, 2026 at 3:48 PM CET, Kory Maincent wrote:
-> On Mon, 19 Jan 2026 22:19:26 +0100
-> "Luca Ceresoli" <luca.ceresoli@bootlin.com> wrote:
->
->> On Fri Jan 16, 2026 at 6:02 PM CET, Kory Maincent (TI.com) wrote:
->> > Convert the tilcdc driver to use DRM managed resources (drmm_* APIs)
->> > to eliminate resource lifetime issues, particularly in probe deferral
->> > scenarios.
->> >
->> > This conversion addresses potential use-after-free bugs by ensuring
->> > proper cleanup ordering through the DRM managed resource framework.
->> > The changes include:
->> > - Replace drm_crtc_init_with_planes() with drmm_crtc_alloc_with_planes=
-()
->> > - Replace drm_universal_plane_init() with drmm_universal_plane_alloc()
->> > - Replace drm_simple_encoder_init() with drmm_simple_encoder_alloc()
->> > - Remove manual cleanup in tilcdc_crtc_destroy() and error paths
->> > - Remove drm_encoder_cleanup() from encoder error handling paths
->> > - Use drmm_add_action_or_reset() for remaining cleanup operations
->> >
->> > This approach is recommended by the DRM subsystem for improved resourc=
-e
->> > lifetime management and is particularly important for drivers that may
->> > experience probe deferral.
->> >
->> > Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
->> > ---
->> >
->> > Change in v4:
->> > - Newt patch.
->>
->> Why? Adding patches along the way does not help getting your series merg=
-ed
->> timely. If there's a good reason for adding a new patch, please mention =
-it
->> here.
->
-> Thanks for your review.
->
-> Sorry for that. The reason is that I faced a null pointer dereference koo=
-ps if
-> for example the panel module is not installed. Then the
-> drm_of_find_panel_or_bridge() function return eprobe defer and something =
-goes
-> wrong with the DRM resources. Using DRM managed resources solves it.
-> I will mention it for the v5.
->
->> > +	tilcdc_crtc =3D drmm_crtc_alloc_with_planes(dev, struct tilcdc_crtc,
->> > base,
->> > +						  &primary->base,
->> > +						  NULL,
->> > +						  &tilcdc_crtc_funcs,
->> > +						  "tilcdc crtc");
->> > +	if (IS_ERR(tilcdc_crtc)) {
->> > +		dev_err(dev->dev, "Failed to init CRTC: %pe\n",
->> > tilcdc_crtc);
->> > +		return PTR_ERR(tilcdc_crtc);
->> > +	}
->> > +
->> > +	tilcdc_crtc->primary =3D primary;
->>
->> (*) see below
->>
->> >
->> >  	init_completion(&tilcdc_crtc->palette_loaded);
->> >  	tilcdc_crtc->palette_base =3D dmam_alloc_coherent(dev->dev,
->> > @@ -978,10 +992,6 @@ int tilcdc_crtc_create(struct drm_device *dev)
->> >
->> >  	crtc =3D &tilcdc_crtc->base;
->> >
->> > -	ret =3D tilcdc_plane_init(dev, &tilcdc_crtc->primary);
->> > -	if (ret < 0)
->> > -		goto fail;
->> > -
->> >  	mutex_init(&tilcdc_crtc->enable_lock);
->> >
->> >  	init_waitqueue_head(&tilcdc_crtc->frame_done_wq);
->> > @@ -989,20 +999,12 @@ int tilcdc_crtc_create(struct drm_device *dev)
->> >  	spin_lock_init(&tilcdc_crtc->irq_lock);
->> >  	INIT_WORK(&tilcdc_crtc->recover_work, tilcdc_crtc_recover_work);
->> >
->> > -	ret =3D drm_crtc_init_with_planes(dev, crtc,
->> > -					&tilcdc_crtc->primary,
->> > -					NULL,
->> > -					&tilcdc_crtc_funcs,
->> > -					"tilcdc crtc");
->> > -	if (ret < 0)
->> > -		goto fail;
->> > -
->> >  	drm_crtc_helper_add(crtc, &tilcdc_crtc_helper_funcs);
->> >
->> > +	ret =3D drmm_add_action_or_reset(dev, tilcdc_crtc_destroy, priv);
->> > +	if (ret)
->> > +		return ret;
->>
->> Not related to your patch, but if the dmam_alloc_coherent() (not visible=
- in
->> the diff) fails, tilcdc_crtc_destroy() won't be called. Is this intended=
-?
->> At first sight this drmm_add_action_or_reset() should be moved at (*), j=
-ust
->> after the allocation.
->
-> You are totally right.
->
->> However being not related to your patch I'd leave this for another serie=
-s
->> anyway, to avoid making this series a moving target.
->
-> I think it is related to this patch.
-> Before this patch there was no need for cleanup as the only action before=
- the
-> dmam_alloc_coherent() was a devm_kzalloc().
-> Now the plane and the crtc are initialize before the dmam_alloc_coherent(=
-) so
-> the cleanup need to happen if it fails an error.
->
->> I find this patch hard to read and I think because it is converting
->> multiple things at once. Splitting it in small steps would have been nic=
-e,
->> even thought I'm not 100% sure it would have been doable.
->
-> Yes, it brought more error when not converting the whole to DRM Managed
-> resources in one go.
->
->>
->> Nevertheless it looks correct, so:
->>
->> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->
-> Thanks, but I will remove it due to the small change.
-> Or maybe it is ok for you if I keep it with only the move of
-> drmm_add_action_or_reset().
+The starting point for this work was adding support for the HDMI cape:
+https://www.seeedstudio.com/Seeed-Studio-BeagleBone-Green-HDMI-Cape.html
+This will be sent in a later series.
 
-If you only move the drmm_add_action_or_reset() where I suggested you can
-keep it.
+Initially, Miguel proposed modifying the ite-it66121 bridge to support
+the legacy behavior without the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag:
+https://lore.kernel.org/lkml/20250909-it66121-fix-v1-1-bc79ca83df17@bootlin.com/
+This patch was NAK'd as we don't want to add more legacy code. Maxime
+requested that the tilcdc driver be updated to use
+DRM_BRIDGE_ATTACH_NO_CONNECTOR instead.
 
-Luca
+While working on this update, I discovered that the tilcdc driver
+contained significant amounts of legacy code that needed cleaning.
+Since this driver was developed alongside the tda998x driver for
+several AM335x boards, the tda998x driver also required cleanup and
+support for the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
+A new tilcdc_panel_legacy driver replaces the old tilcdc_panel driver.
+It modifies the devicetree at boot time to properly bind the tilcdc driver
+with the standard panel-simple driver.
+
+This series is based on the tilcdc fix sent to mainline:
+https://lore.kernel.org/lkml/20251125090546.137193-1-kory.maincent@bootlin.com/
+
+This series has been tested on:
+- BeagleBone Black (tilcdc + tda998x bridge)
+- BeagleBone Black with LCD cape (tilcdc + ti,tilcdc,panel binding)
+- BeagleBone Green Eco with HDMI cape (tilcdc + it66121 bridge)
+
+The following mainline devicetrees still use ti,tilcdc,panel binding.
+I believe this series maintains compatibility, but I cannot test without
+hardware:
+- da850-evm.dts
+- am335x-guardian.dts
+- am335x-pdu001.dts
+- am335x-pepper.dts
+- am335x-sbc-t335.dts
+- am335x-sl50.dts
+
+Patches 1-2: Convert tilcdc binding to YAML and set the ti,tilcdc,panel
+	     sub-binding as legacy.
+Patches 3-6: Replace tilcdc_panel driver to the new tilcdc_panel_legacy
+	     driver which is tweaking the devicetree at boot time.
+Patches 7-20: Clean up tilcdc driver.
+Patches 21-23: Clean up tda998x driver.
+Patch 24: Add DRM_BRIDGE_ATTACH_NO_CONNECTOR support for tda998x driver.
+Patch 25: Add DRM_BRIDGE_ATTACH_NO_CONNECTOR support for tilcdc driver.
+
+Changes in v5:
+- Fix a missing cleanup path.
+- Link to v4: https://lore.kernel.org/r/20260116-feature_tilcdc-v4-0-2c1c22143087@bootlin.com
+
+Changes in v4:
+- Use device_get_match_data instead of of_match_node.
+- Convert the driver to use DRM managed resources to avoid lifetime
+  resources issue.
+- Add a patch to convert to drm_device-based logging helpers.
+- Replace drm_of_find_panel_or_bridge() with the newer
+  devm_drm_of_get_bridge() helper.
+- Link to v3: https://lore.kernel.org/r/20260106-feature_tilcdc-v3-0-9bad0f742164@bootlin.com
+
+Changes in v3:
+- Split patch 13 and patch 14 into two for better readability and git
+  history clarity.
+- Update patch 5 to use OF changeset and __free() macro. Made also few
+  small improvements as requested by Luca.
+- Rename binding file to ti,am33xx-tilcdc.yaml, use generic node name and
+  drop unused label.
+- Link to v2: https://lore.kernel.org/r/20251211-feature_tilcdc-v2-0-f48bac3cd33e@bootlin.com
+
+Changes in v2:
+- Remove patch 2 that add fifo-threshold property. Use FIFO threshold
+  value from SoC id instead.
+- Remove the part that breaks DTB compatibility.
+- Add tilcdc_panel_legacy to modify the devicetree at boot time to properly
+  bind the tilcdc driver with the standard panel-simple driver.
+- Link to v1: https://lore.kernel.org/r/20251126-feature_tilcdc-v1-0-49b9ef2e3aa0@bootlin.com
+
+Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
+---
+Kory Maincent (TI.com) (25):
+      dt-bindings: display: tilcdc: Convert to DT schema
+      dt-bindings: display: tilcdc: Mark panel binding as deprecated
+      drm/tilcdc: Remove simulate_vesa_sync flag
+      drm/tilcdc: Add support for DRM bus flags and simplify panel config
+      drm/tilcdc: Convert legacy panel binding via DT overlay at boot time
+      drm/tilcdc: Remove tilcdc panel driver
+      drm/tilcdc: Remove component framework support
+      drm/tilcdc: Remove tilcdc_panel_info structure
+      drm/tilcdc: Remove redundant #endif/#ifdef in debugfs code
+      drm/tilcdc: Remove unused encoder and connector tracking arrays
+      drm/tilcdc: Rename external_encoder and external_connector to encoder and connector
+      drm/tilcdc: Rename tilcdc_external to tilcdc_encoder
+      drm/tilcdc: Remove the useless module list support
+      drm/tilcdc: Use drm_module_platform_driver() helper
+      drm/tilcdc: Move tilcdc_init/fini closer to probe/remove
+      drm/tilcdc: Modernize driver initialization and cleanup paths
+      drm/tilcdc: Remove the use of drm_device private_data
+      drm/tilcdc: Convert to DRM managed resources
+      drm/tilcdc: Convert to drm_device-based logging helpers
+      drm/tilcdc: Use devm_drm_of_get_bridge() helper
+      drm/bridge: tda998x: Remove component support
+      drm/bridge: tda998x: Move tda998x_create/destroy into probe and remove
+      drm/bridge: tda998x: Remove useless tda998x_connector_destroy wrapper
+      drm/bridge: tda998x: Add support for DRM_BRIDGE_ATTACH_NO_CONNECTOR
+      drm/tilcdc: Add support for DRM_BRIDGE_ATTACH_NO_CONNECTOR
+
+ .../devicetree/bindings/display/tilcdc/panel.txt   |   1 +
+ .../bindings/display/tilcdc/ti,am33xx-tilcdc.yaml  | 100 +++++
+ .../devicetree/bindings/display/tilcdc/tilcdc.txt  |  82 ----
+ drivers/gpu/drm/bridge/tda998x_drv.c               | 251 +++++------
+ drivers/gpu/drm/tilcdc/Kconfig                     |  18 +
+ drivers/gpu/drm/tilcdc/Makefile                    |   5 +-
+ drivers/gpu/drm/tilcdc/tilcdc_crtc.c               | 192 +++-----
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c                | 486 ++++++++-------------
+ drivers/gpu/drm/tilcdc/tilcdc_drv.h                |  99 +----
+ drivers/gpu/drm/tilcdc/tilcdc_encoder.c            |  69 +++
+ .../tilcdc/{tilcdc_external.h => tilcdc_encoder.h} |   5 +-
+ drivers/gpu/drm/tilcdc/tilcdc_external.c           | 179 --------
+ drivers/gpu/drm/tilcdc/tilcdc_panel.c              | 408 -----------------
+ drivers/gpu/drm/tilcdc/tilcdc_panel.h              |  15 -
+ drivers/gpu/drm/tilcdc/tilcdc_panel_legacy.c       | 185 ++++++++
+ drivers/gpu/drm/tilcdc/tilcdc_panel_legacy.dtso    |  29 ++
+ drivers/gpu/drm/tilcdc/tilcdc_plane.c              |  37 +-
+ drivers/gpu/drm/tilcdc/tilcdc_regs.h               |   8 +-
+ 18 files changed, 812 insertions(+), 1357 deletions(-)
+---
+base-commit: a3158f3710111bbd4bfba3bc0883449efde10a0b
+change-id: 20251014-feature_tilcdc-79cd49e67bf9
+
+Best regards,
+--  
+Köry Maincent, Bootlin
+Embedded Linux and kernel engineering
 https://bootlin.com
+
