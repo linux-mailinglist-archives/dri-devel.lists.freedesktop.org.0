@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KECdJ4M/c2mWtwAAu9opvQ
+	id SMprBIo/c2mWtwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 10:29:39 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 10:29:46 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D8673578
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 10:29:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FED77357F
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 10:29:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C5F610EA83;
-	Fri, 23 Jan 2026 09:29:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91C5810EA85;
+	Fri, 23 Jan 2026 09:29:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EEDA10EA83
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 09:29:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59A3E10EA86
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 09:29:42 +0000 (UTC)
 Received: from edelgard.fodlan.icenowy.me (unknown [112.94.103.171])
- by APP-03 (Coremail) with SMTP id rQCowABXZ85EP3NppX1gBg--.20954S10;
- Fri, 23 Jan 2026 17:29:21 +0800 (CST)
+ by APP-03 (Coremail) with SMTP id rQCowABXZ85EP3NppX1gBg--.20954S11;
+ Fri, 23 Jan 2026 17:29:23 +0800 (CST)
 From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
@@ -40,33 +40,32 @@ Cc: Philipp Zabel <p.zabel@pengutronix.de>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-riscv@lists.infradead.org, Icenowy Zheng <uwu@icenowy.me>,
  Icenowy Zheng <zhengxingda@iscas.ac.cn>
-Subject: [PATCH v6 8/9] MAINTAINERS: assign myself as maintainer for
- verisilicon DC driver
-Date: Fri, 23 Jan 2026 17:28:29 +0800
-Message-ID: <20260123092830.4046009-9-zhengxingda@iscas.ac.cn>
+Subject: [PATCH v6 9/9] mailmap: map all Icenowy Zheng's mail addresses
+Date: Fri, 23 Jan 2026 17:28:30 +0800
+Message-ID: <20260123092830.4046009-10-zhengxingda@iscas.ac.cn>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260123092830.4046009-1-zhengxingda@iscas.ac.cn>
 References: <20260123092830.4046009-1-zhengxingda@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: rQCowABXZ85EP3NppX1gBg--.20954S10
-X-Coremail-Antispam: 1UD129KBjvdXoWrKrW5tFyfCw1kXr18KF4DArb_yoWkXrc_WF
- 4kA34DZw47GFnYk39YyFs0k3yF93y5Jr4ru3Zxtwsay34jyryqg3Wvgw15Cw4UCFWfGF1D
- Za9rJryfGF4a9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbvAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
- IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
- F7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr
- 1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0D
- M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
- v20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
- F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
- IY04v7MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
- 6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
- CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF
- 0xvE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
- CI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsG
- vfC2KfnxnUUI43ZEXa7sRiHUDtUUUUU==
+X-CM-TRANSID: rQCowABXZ85EP3NppX1gBg--.20954S11
+X-Coremail-Antispam: 1UD129KBjvJXoWrKryDWr4ktryDKw4fCFWDXFb_yoW8JrWkpr
+ 4xGr4UKFykAwn29r1qgry5WF1kXa95WF4DGw4Yvw18uFZ3JF1kWrsxJayDXr1UJrWS9rW7
+ JFnFvr93Was7A3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUmS14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
+ kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
+ z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
+ 4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
+ 3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
+ IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
+ M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
+ kIc2xKxwCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
+ bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
+ AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI
+ 42IY6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF
+ 4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBI
+ daVFxhVjvjDU0xZFpf9x0pRQJ5wUUUUU=
 X-Originating-IP: [112.94.103.171]
 X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,51 +114,46 @@ X-Spamd-Result: default: False [2.39 / 15.00];
 	HAS_XOIP(0.00)[];
 	R_DKIM_NA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.928];
+	NEURAL_HAM(-0.00)[-0.913];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,icenowy.me:email,pengutronix.de:email,iscas.ac.cn:mid,iscas.ac.cn:email,armlinux.org.uk:email,lists.freedesktop.org:email]
-X-Rspamd-Queue-Id: 28D8673578
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,iscas.ac.cn:mid,iscas.ac.cn:email,icenowy.me:email,aosc.xyz:email,apana.org.au:email,fieldses.org:email,lemote.com:email,canonical.com:email]
+X-Rspamd-Queue-Id: 2FED77357F
 X-Rspamd-Action: no action
 
 From: Icenowy Zheng <uwu@icenowy.me>
 
-As I am the author of this rewritten driver, it makes sense for me to be
-the maintainer.
+Map all mail addresses Icenowy Zheng had used to the personal mailbox
+prefixed "uwu".
 
-Confirm this in MAINTAINERS file.
+All these mailboxes, except the one of Sipeed (which was only used
+during a summer vacation internship), can accept mails now.
 
 Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 ---
 No changes since v4.
 
-Changes in v3:
-- Switch to my ISCAS mailbox.
+New patch in v3.
 
-No changes in v2.
+ .mailmap | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fc04fc007a054..507ffef26dac1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8658,6 +8658,13 @@ F:	Documentation/devicetree/bindings/display/brcm,bcm2835-*.yaml
- F:	drivers/gpu/drm/vc4/
- F:	include/uapi/drm/vc4_drm.h
- 
-+DRM DRIVERS FOR VERISILICON DISPLAY CONTROLLER IP
-+M:	Icenowy Zheng <zhengxingda@iscas.ac.cn>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/verisilicon,dc.yaml
-+F:	drivers/gpu/drm/verisilicon/
-+
- DRM DRIVERS FOR VIVANTE GPU IP
- M:	Lucas Stach <l.stach@pengutronix.de>
- R:	Russell King <linux+etnaviv@armlinux.org.uk>
+diff --git a/.mailmap b/.mailmap
+index 84309a39d329c..0fc9602ddd9b0 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -316,6 +316,10 @@ Henrik Rydberg <rydberg@bitmath.org>
+ Herbert Xu <herbert@gondor.apana.org.au>
+ Huacai Chen <chenhuacai@kernel.org> <chenhc@lemote.com>
+ Huacai Chen <chenhuacai@kernel.org> <chenhuacai@loongson.cn>
++Icenowy Zheng <uwu@icenowy.me> <zhengxingda@iscas.ac.cn>
++Icenowy Zheng <uwu@icenowy.me> <icenowy@aosc.io>
++Icenowy Zheng <uwu@icenowy.me> <icenowy@aosc.xyz>
++Icenowy Zheng <uwu@icenowy.me> <icenowy@sipeed.com>
+ Ike Panhc <ikepanhc@gmail.com> <ike.pan@canonical.com>
+ J. Bruce Fields <bfields@fieldses.org> <bfields@redhat.com>
+ J. Bruce Fields <bfields@fieldses.org> <bfields@citi.umich.edu>
 -- 
 2.52.0
 
