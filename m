@@ -2,87 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EF0UEDlGc2mHuQAAu9opvQ
+	id mEz3APRJc2mHuQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 10:58:17 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 11:14:12 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F6CD73C80
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 10:58:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3CC874181
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 11:14:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FBC710EA99;
-	Fri, 23 Jan 2026 09:58:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E593D10EA9D;
+	Fri, 23 Jan 2026 10:14:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="FxljXwMM";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="W4QIwRsX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9207210EA98
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 09:58:12 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-42fbbc3df8fso1272457f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 01:58:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1769162291; x=1769767091; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=usTiplZ+HHUhH9M5hJvxEF67Q676YbpDRkINXSQfcYs=;
- b=FxljXwMM11ucGNwGGz2AtXMGB9oKF4M7MxPCDuNTiuTwAKnrMsKbgH2+pxkGKrgqaW
- cLJeL0acvz6sxKjm/acqVSHToEA8Cy0/3IgQLg7mHHXUaFiM7tNuG9PJb2beIOgrqzCl
- vTjsKlXRGN3JGcOXw66KeTSmYJa6HKmdiy4yDvMCF1tSQ1kcAiTDvyLDAGQRUquxm9eA
- lP3xve/adPix7JKlySLmLqHLpNvUFHcmdl4FAef7Jk8+T25svlbKTFHjZ9j17p03GmBY
- keTqpR2fLZZ81iap4IvV1qczcL1Ws4vgnhtZV/AuJxVQemMtO+Z8RVfYiGVzh20fVyIj
- 7X4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769162291; x=1769767091;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=usTiplZ+HHUhH9M5hJvxEF67Q676YbpDRkINXSQfcYs=;
- b=oth/NO5D/VoSyfsjNxD4FJ6YAi3KJPivIK5BsMMndcxr2o4LIcw//hGinSb47ybG6Y
- edOrGUrmUnYXEuYJ0q1c4Pw1WEShWiHdvFhIGkJx/ZMgFJvk4CZBcqLjTFb6Wo3EEaMy
- 9oAsnGabQL5y7u+lX80Q+/g6w5knacrl3Z+Bg2DVobbAEPHSVrK+wRLd36w35fh10S+V
- Rl1PDCU0qEaedJQYwP3miHZEvEkKTzEWcUxzXYJv6zCTagfYNQK7R+1mqcLU2oDO80Dr
- cjSpHJcZ5XlaFRJ1oVlV3RXLgOAtzrduJXIurNP5990FYpvDOEohvD4rQloc48aoRKkn
- KXOg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXWN7hGVjhVlANQKCEX2p1fYeRWqNiCR+gu3bIRKaeMg+P+7Hk86wbHv58BQUDkqk7Kh96HmEcllDU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxNfHgNzCH1GR2s0p50chff/XNjl0mmPVjVrrqGf3watvudDIjX
- iQEtZdpXkxEjudVskUR+N4Hcr5ynbRKk5bnLl9Qu5rYn6hegrBTN4tQBbfjYObBV/Qc=
-X-Gm-Gg: AZuq6aJfHlzmI80ywiCd7ZOa8BvFlPL2Nj2LtzMTtwZmnGWWHVjf99VTIDRHRSH8zlU
- 4yPi5e16A2CyPKyQLt2p90ldVNLRPhX2KD+OV3kXyAfM/Ywv22GxCSClp+vqo4j4WwCxqvs8u0V
- gRp+SitvtwSJ56edvNaj7Hi2u2Xf6+NyvWmdecoXfOiF7yqKPHZ7ReeoIUmPcCCjFYbZqjOw+x4
- RddSIVNKk7rPkE+i99eP5r1qtP3KlcoGAOipX7RJRHNTK12qhTp2y3IvCfwAHBhKk29o3daLz7/
- DQGvvbEDsZ7xA78DbgIFp4qtziLuj+UF1NEn7A+++FGw/loOOy3wH7lWB3b6ZguLYiE1Bhu5Hr3
- qtrkpYWxPCY18xmrPIs6K4N7n80Ywt9RoXewXZi64jEm5dzJgxGbfIgooXvzmJi4Q2FrtJYPu22
- TrFZu4JEA31Buh/QCwZW3bRc7vKj1+GkdDfEg635zS3Zw=
-X-Received: by 2002:a05:6000:420a:b0:432:586f:2a9d with SMTP id
- ffacd0b85a97d-435b162c2f6mr4088138f8f.32.1769162290764; 
- Fri, 23 Jan 2026 01:58:10 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-435b1c24f15sm5579365f8f.18.2026.01.23.01.58.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Jan 2026 01:58:10 -0800 (PST)
-Message-ID: <f0209960-7b71-4cf0-8531-b67d63cec68a@ursulin.net>
-Date: Fri, 23 Jan 2026 09:58:09 +0000
+Received: from DM5PR21CU001.outbound.protection.outlook.com
+ (mail-centralusazon11011028.outbound.protection.outlook.com [52.101.62.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FB7310EA9B;
+ Fri, 23 Jan 2026 10:14:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rIDjrYi3rUTdahj+eBTLUkdNwuqnhXvjJR5rtX9bn/5ywIltTq4VwsJ2XMqrFherAEf9tyF9JBvVZW0VtIlWT4c4spM8bSdjg7owM8/1Zkn7oxhI+Q4ZEtMEAbj1YnHMEEHdhAYbh556pW58NqlXrunTrv17UU5s3ctpjnqvHYfDgPopb0j0QnkvhU//T8AmZNC3Rk6Cw+dWCflEzBvvjiveuy5EZOaiMMAxxGjZThi/5f8eBmae3we1vd63Th4fskekb0eIZVlx9w0p8VXgRgP2yD8Re3pLuvU8cpNtKYvMCxDomGOqbVr3oQgVXzwIP9Gni2mO1Dwwz9/LZg63gQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mReL2HqlLw6k9N55UDV8jQDAy80aTJhXhTqdfjp68Wk=;
+ b=u3Iyau23IchgZO6rzajgc5eK4GP7O3erBsutGqoFbgaTTQ6Iuy48lqIjY822OTRSufPkpo11MVQVZyIc7sDqjc5zHiSnbB8q2+5x78yinipgCZg5A/m2ZhslBc8IXA2TkaMMWkmYbDzd3rSIJ76CbpZRt6G1fhZarBYbaDRZfK9IICxPrfCKtDwqcgMxxg9uIFW2hfkMlNAX6Ffl9qJKiLqzzZyXNJj8qmUwiE+cIN9Aa/K64QyHl0JXiFYmgCaupkSVgSlhW/FFWDMHJNaEzRmss2e4dDws3hLf9lxpoxK6HynYknL/nBRJC3LFnbYvpGPzw0N2QKTLpAgtz9WoQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=garyguo.net smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mReL2HqlLw6k9N55UDV8jQDAy80aTJhXhTqdfjp68Wk=;
+ b=W4QIwRsXKJvFpri3OE5Ur3jy/oCgOFvgMTpTmzUkHMvIHqkR5g0hlqVKOFqcsxRCdW2SXqMgGHTndxj+pJdYY3MbkzqHbCgrCMuQy4Y3Ul5P6JFnDmXZ8TlMELm3OEtHtZXf0+g1y2rpAccndordHgBTJ2zZ6SHvjIAOjFFo/5WbBVuA9tKfFZtHd4OvhffPEXJmB8whfsKDLjqZeCTFunaG8O0FozOOQ3zf7BueQtKFqngdO9b6XNToHa1j+SAMcDN8B5+rgBAQ/HorG5rj+EV6bsXPpLOp+Cqe8j1vVECREqrZ4IB2HWnwmyz85z6EWoEDWPF+UHYN0kY39yX0dQ==
+Received: from DM6PR06CA0047.namprd06.prod.outlook.com (2603:10b6:5:54::24) by
+ DS4PR12MB999075.namprd12.prod.outlook.com (2603:10b6:8:2fc::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.10; Fri, 23 Jan
+ 2026 10:14:04 +0000
+Received: from DS1PEPF00017094.namprd03.prod.outlook.com
+ (2603:10b6:5:54:cafe::e1) by DM6PR06CA0047.outlook.office365.com
+ (2603:10b6:5:54::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.11 via Frontend Transport; Fri,
+ 23 Jan 2026 10:14:02 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ DS1PEPF00017094.mail.protection.outlook.com (10.167.17.137) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9564.3 via Frontend Transport; Fri, 23 Jan 2026 10:14:04 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 23 Jan
+ 2026 02:13:54 -0800
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Fri, 23 Jan 2026 02:13:53 -0800
+Received: from inno-thin-client (10.127.8.10) by mail.nvidia.com
+ (10.126.190.180) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Fri, 23 Jan 2026 02:13:44 -0800
+Date: Fri, 23 Jan 2026 12:13:43 +0200
+From: Zhi Wang <zhiw@nvidia.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+CC: <linux-kernel@vger.kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, "Alex
+ Deucher" <alexander.deucher@amd.com>, Christian Koenig
+ <christian.koenig@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui
+ <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, Matthew Brost
+ <matthew.brost@intel.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ "Thomas Hellstrom" <thomas.hellstrom@linux.intel.com>, Helge Deller
+ <deller@gmx.de>, Danilo Krummrich <dakr@kernel.org>, Alice Ryhl
+ <aliceryhl@google.com>, "Miguel Ojeda" <ojeda@kernel.org>, Alex Gaynor
+ <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
+ <gary@garyguo.net>, Bjorn Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, Trevor Gross
+ <tmgross@umich.edu>, "Alistair Popple" <apopple@nvidia.com>, Alexandre
+ Courbot <acourbot@nvidia.com>, "Andrea Righi" <arighi@nvidia.com>, Alexey
+ Ivanov <alexeyi@nvidia.com>, "Philipp Stanner" <phasta@kernel.org>, Elle
+ Rhumsaa <elle@weathered-steel.dev>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <linux-fbdev@vger.kernel.org>
+Subject: Re: [PATCH RFC v6 05/26] nova-core: mm: Add support to use PRAMIN
+ windows to write to VRAM
+Message-ID: <20260123121343.396bc4cd.zhiw@nvidia.com>
+In-Reply-To: <DS0PR12MB6486717785F6DD14EE1F1C46A397A@DS0PR12MB6486.namprd12.prod.outlook.com>
+References: <20260120204303.3229303-1-joelagnelf@nvidia.com>
+ <20260120204303.3229303-6-joelagnelf@nvidia.com>
+ <20260121100745.2b5a58e5.zhiw@nvidia.com>
+ <e186973c-ce31-405a-8bfa-dc647737a666@nvidia.com>
+ <DS0PR12MB6486717785F6DD14EE1F1C46A397A@DS0PR12MB6486.namprd12.prod.outlook.com>
+Organization: NVIDIA
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [BUG] WARNING in idr_alloc during drm_gem_change_handle_ioctl
-To: =?UTF-8?B?546L5b+X?= <wangzhi_xd@stu.xidian.edu.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <6db3d523.bb3f.19ba843a1f9.Coremail.wangzhi_xd@stu.xidian.edu.cn>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <6db3d523.bb3f.19ba843a1f9.Coremail.wangzhi_xd@stu.xidian.edu.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF00017094:EE_|DS4PR12MB999075:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0e977e9b-bb5f-4136-ef9d-08de5a6822ed
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|1800799024|36860700013|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?8gUNWX/O8eHZBAUr3VJTeDyjNuSbOr+741G7nKhZJQDVJ7sdcQTJfAm70gqp?=
+ =?us-ascii?Q?K6Lx2xUI/SWi6nckOXW5hkZZTXv4bHE6YiFZ1AluMO8BoEqVpfBhrr2rHF+j?=
+ =?us-ascii?Q?vUR20aNwcmo/+rE+8QIHa0/80OM3vmVmBvPypYtA18XSub9eHMEX/kJxLfPT?=
+ =?us-ascii?Q?qlB/Posk/IZ+KFAVgzbV5hhZSh/aOHvOBLrKzVlk8iaBr3FHCf9ajmB++p6x?=
+ =?us-ascii?Q?ktRdsxPH3uI3SHgQsyD4mPZxILqQdnr+fQdiADfXxhXCnYIEX+SWiI+SacPM?=
+ =?us-ascii?Q?6lE1hdNYParyUs7bQJZi6wGdelz5n06Fyk2Y6uouW0CR5aN7zyn4rHedwnd8?=
+ =?us-ascii?Q?ErlTHLnxNjH8I3o4NLW1GqDgXn0i9L26tn6AxIkSY+5hVqjvlf/XcvdBaGst?=
+ =?us-ascii?Q?xk8yTggDO4YWaq/Bl9grT5gXdSpVTARJfaBzi1GjJ1AZSVFWQaBV5SjnwrnF?=
+ =?us-ascii?Q?EwmEMuxhD23C7dnnPpm+lNwmEmIqvpr46X4+4D3T8quRAFz8You8G0NzjjBk?=
+ =?us-ascii?Q?bcEhX0WC7p2mqC4KZEA/Rplyt0g8LANjCbf8VUXlCn4/2mFXCibnLStRzdxB?=
+ =?us-ascii?Q?bXhVpDhnU1GY8RVHRNJsIT957jl+/PW2+Sh8y50wdHfQtI1p6ABPjDrMMmhl?=
+ =?us-ascii?Q?YajnsvULAiMCOTZlOxguQllgJN5jdzCysrgCUnVkYwmp9NbzeJDj2oZFa0ul?=
+ =?us-ascii?Q?LQjUA0Jd3WzXEUjEC1OhJ2OHJhf+Br1QnipPsAZk0K8lDVDxB8Q378M8cXi0?=
+ =?us-ascii?Q?gOK52UiOj76v3NPdlD7ZaiORHFwA2mumZa3UO5GKkWCXrF40KxSzZ1g/SFXt?=
+ =?us-ascii?Q?cn+WwnEuJ/5HlVEuDrIonv+bNmOIh/f2bexUMmzUT2wGKGyzbtln4SN6/jcM?=
+ =?us-ascii?Q?AvMZNWFpXeW6K3ND4ehGfpulI7iEnaz5f9XBk8BqM4uJ4LUNmINP0Aj/s8kH?=
+ =?us-ascii?Q?MO+1ktsIcyvi107CxgqsUbzSKrPDiXEE665yowMRKj7rT6e56NfabeUFcgTC?=
+ =?us-ascii?Q?6mSAWuQvhFzsSKgmgUwCF7e9FZc2F3o76YeWqpqOB5J9Qlqt30kK0MHKsCg+?=
+ =?us-ascii?Q?NcOueIgVf8FqKUFhXgrbB+wJAgF8cUzxCzPeEafBQVnuEQPOU+jPRj9njESQ?=
+ =?us-ascii?Q?UGuBpLQIxQYssC45tRVkIPdj0ayAvC2b7kI1QohAv09TQ92fMgIVfbruRcty?=
+ =?us-ascii?Q?1TuWhpF+KVIhMb9DOyirHzz8ZQBuYgr8jDIbcTfl/h7MOBxh7/dHPQ64wbxa?=
+ =?us-ascii?Q?0z3B2yGggDE/vRIbA3PABq//GL4RIJqe2AjEg19M5XLIGplk6t8ptpeVxaO2?=
+ =?us-ascii?Q?1YKZt8xwYquzmrh4PMsYL7iMDEDbPCUUY/SdsVgf7iv7LsnRGaxq9mUyqe34?=
+ =?us-ascii?Q?TRyIYWTHIB1phhYIGBrd9Y6kBajku1fD3h4u7TuKxe7DNphP8Jndvs8NPIIB?=
+ =?us-ascii?Q?s3JNu/nqmMGcrvLs+70/XVXHA7Jpv874sqS/ZNdx+4ivQ/nIsKwgg7WNlP2g?=
+ =?us-ascii?Q?wKxDqX01kMQq37FtebGNkWEtyUbRur5tL6DEredmGysfTyr9VBzE3zyRBTfv?=
+ =?us-ascii?Q?4ltnESy4ZzsfIyGnBu3CUoo1xh2VPdnUffU8afZqXsdpbssLrE0C6ORvhqsW?=
+ =?us-ascii?Q?HSdIU7yjGy6r1eGhJrUhT+s+mOqZRH/YYsRfXn/1nZ+TRFy1FZAQVtetMm3K?=
+ =?us-ascii?Q?i/9/4Q=3D=3D?=
+X-Forefront-Antispam-Report: CIP:216.228.118.233; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc7edge2.nvidia.com; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(36860700013)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2026 10:14:04.1322 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0e977e9b-bb5f-4136-ef9d-08de5a6822ed
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.118.233];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF00017094.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB999075
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,130 +177,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[ursulin.net:s=google];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:wangzhi_xd@stu.xidian.edu.cn,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	DMARC_NA(0.00)[ursulin.net];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[43];
+	FREEMAIL_CC(0.00)[vger.kernel.org,linux.intel.com,kernel.org,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,google.com,gmail.com,garyguo.net,protonmail.com,umich.edu,nvidia.com,weathered-steel.dev,collabora.com,lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.906];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[ursulin.net:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[zhiw@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	NEURAL_HAM(-0.00)[-0.994];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qq.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,ursulin.net:mid,ursulin.net:dkim]
-X-Rspamd-Queue-Id: 6F6CD73C80
+	RCVD_COUNT_SEVEN(0.00)[8]
+X-Rspamd-Queue-Id: A3CC874181
 X-Rspamd-Action: no action
 
+On Thu, 22 Jan 2026 18:16:00 -0500
+Joel Fernandes <joelagnelf@nvidia.com> wrote:
 
-On 10/01/2026 14:16, 王志 wrote:
-> Dear Maintainers,
-> When using our customized Syzkaller to fuzz the latest Linux kernel, the following crash was triggered.
-> HEAD commit:7d0a66e4bb9081d75c82ec4957c50034cb0ea449
-> git tree: upstream
-> Output:https://github.com/manual0/crash/blob/main/report3.txt
-> Kernel config: https://github.com/manual0/crash/blob/main/config.txt
-> C reproducer:https://github.com/manual0/crash/blob/main/repro3.c
-> Syz reproducer:https://github.com/manual0/crash/blob/main/repro3.syz
+> On Wed, 21 Jan 2026 12:52:10 -0500, Joel Fernandes wrote:
+> > I think we can incrementally build on this series to add support for
+> > the same, it is not something this series directly addresses since I
+> > have spend majority of my time last several months making translation
+> > *work* which is itself no east task. This series is just preliminary
+> > based on work from last several months and to make BAR1 work. For
+> > instance, I kept PRAMIN simple based on feedback that we don't want to
+> > over complicate without fully understanding all the requirements.
+> > There is also additional requirements for locking design that have
+> > implications with DMA fencing etc, for instance.
+> >
+> > Anyway thinking out loud, I am thinking for handling concurrency at
+> > the page table entry level (if we ever need it), we could use per-PT
+> > spinlocks similar to the Linux kernel. But lets plan on how to do this
+> > properly and based on actual requirements.
 > 
-> The kernel triggered a WARNING at lib/idr.c:84 in idr_alloc. This warning is typically triggered when the idr_alloc() function is called with a negative start value or an invalid range that violates the IDR expectations.
+> Thanks for the discussion on concurrency, Zhi.
 > 
-> The call trace indicates that the issue originates from drm_gem_change_handle_ioctl within the DRM subsystem. This function is attempting to allocate or change a GEM handle, and it seems to pass an invalid parameter to the IDR allocator. This could be due to a lack of proper bounds checking on user-supplied values in the DRM_IOCTL_GEM_FLINK or similar handle-related IOCTLs.
+> My plan is to make TLB and PRAMIN use immutable references in their
+> function calls and then implement internal locking. I've already done
+> this for the GPU buddy functions, so it should be doable, and we'll keep
+> it consistent. As a result, we will have finer-grain locking on the
+> memory management objects instead of requiring to globally lock a common
+> GpuMm object. I'll plan on doing this for v7.
 > 
-> If you fix this issue, please add the following tag to the commit:
-
-I have sent a tentative fix for this, and it is a solid bug report, only 
-two things which you could improve:
-
-> Reported-by: Zhi Wang <wangzhi@stu.xidian.edu.cn>, Bin Yu<byu@xidian.edu.cn>, MingYu Wang<w15303746062@163.com>, WenJian Lu<19861702678@163.com>, KeFeng Gao<2401553064@qq.com>
-
-1)
-
-I don't think this is a compliant Reported-by: tag. If you want multiple 
-emails you need multiple tags. I couldn't be bothered and only picked 
-the first reporter.
-
-2)
-
-It would be useful if your scripts would use git blame to find the 
-offending commit and copy the relevant people in the report. That would 
-give it more change someone actually acts on it.
-
-Regards,
-
-Tvrtko
-
+> Also, the PTE allocation race you mentioned is already handled by PRAMIN
+> serialization. Since threads must hold the PRAMIN lock to write page
+> table entries, concurrent writers are not possible:
 > 
-> RBP: 00007fb87fd4f010 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
-> R13: 00007fb881586038 R14: 00007fb881585fa0 R15: 00007fb87fd2f000
->   </TASK>
-> ------------[ cut here ]------------
-> WARNING: CPU: 2 PID: 13371 at lib/idr.c:84 idr_alloc+0x123/0x140 home/linux-6.18/lib/idr.c:84
-> Modules linked in: bochs drm_shmem_helper drm_kms_helper drm ata_generic virtio_pci virtio_pci_legacy_dev i2c_piix4 drm_panel_orientation_quirks pata_acpi virtio_pci_modern_dev i2c_smbus
-> CPU: 2 UID: 0 PID: 13371 Comm: syz.4.4127 Not tainted 6.18.0 #9 PREEMPT(voluntary)
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
-> RIP: 0010:idr_alloc+0x123/0x140 home/linux-6.18/lib/idr.c:84
-> Code: 8b 44 24 58 65 48 2b 05 83 50 c2 03 75 27 48 83 c4 60 44 89 e0 5b 5d 41 5c 41 5d 41 5e 41 5f e9 c3 a9 0b 00 e8 be 6a ba fb 90 <0f> 0b 90 41 bc ea ff ff ff eb b2 e8 4d 0f 09 00 66 66 2e 0f 1f 84
-> RSP: 0018:ffff88811860fb60 EFLAGS: 00010216
-> RAX: 0000000000000091 RBX: 0000000080000001 RCX: ffffc90006008000
-> RDX: 0000000000080000 RSI: ffffffff85bbbfa2 RDI: 0000000000000005
-> RBP: 1ffff110230c1f6c R08: 0000000000002800 R09: ffffed10230c1f71
-> R10: 0000000080000000 R11: 0000000000000000 R12: 0000000080000000
-> R13: ffff888104d29088 R14: ffff88810589f000 R15: 0000000000002800
-> FS:  00007f9ee04cf640(0000) GS:ffff88819133f000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00007f9ee1a459c0 CR3: 000000010626e000 CR4: 00000000000006f0
-> Call Trace:
->   <TASK>
->   drm_gem_change_handle_ioctl+0x2bf/0x4f0 home/linux-6.18/drivers/gpu/drm/drm_gem.c:988 [drm]
->   drm_ioctl_kernel+0x1f2/0x3e0 home/linux-6.18/drivers/gpu/drm/drm_ioctl.c:797 [drm]
->   drm_ioctl+0x580/0xb70 home/linux-6.18/drivers/gpu/drm/drm_ioctl.c:894 [drm]
->   vfs_ioctl home/linux-6.18/fs/ioctl.c:51 [inline]
->   __do_sys_ioctl home/linux-6.18/fs/ioctl.c:597 [inline]
->   __se_sys_ioctl home/linux-6.18/fs/ioctl.c:583 [inline]
->   __x64_sys_ioctl+0x194/0x210 home/linux-6.18/fs/ioctl.c:583
->   do_syscall_x64 home/linux-6.18/arch/x86/entry/syscall_64.c:63 [inline]
->   do_syscall_64+0xc6/0x390 home/linux-6.18/arch/x86/entry/syscall_64.c:94
->   entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> RIP: 0033:0x7f9ee1a9059d
-> Code: 02 b8 ff ff ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007f9ee04cef98 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> RAX: ffffffffffffffda RBX: 00007f9ee1d05fa0 RCX: 00007f9ee1a9059d
-> RDX: 0000200000000380 RSI: 00000000c02064d2 RDI: 0000000000000003
-> RBP: 00007f9ee1b2e078 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-> R13: 00007f9ee1d06038 R14: 00007f9ee1d05fa0 R15: 00007f9ee04af000
->   </TASK>
-> irq event stamp: 1565
-> hardirqs last  enabled at (1575): [<ffffffff8155bd39>] __up_console_sem+0x89/0xa0 home/linux-6.18/kernel/printk/printk.c:345
-> hardirqs last disabled at (1584): [<ffffffff8155bd1e>] __up_console_sem+0x6e/0xa0 home/linux-6.18/kernel/printk/printk.c:343
-> softirqs last  enabled at (1376): [<ffffffff813d2e09>] softirq_handle_end home/linux-6.18/kernel/softirq.c:468 [inline]
-> softirqs last  enabled at (1376): [<ffffffff813d2e09>] handle_softirqs+0x509/0x760 home/linux-6.18/kernel/softirq.c:650
-> softirqs last disabled at (1371): [<ffffffff813d3140>] __do_softirq home/linux-6.18/kernel/softirq.c:656 [inline]
-> softirqs last disabled at (1371): [<ffffffff813d3140>] invoke_softirq home/linux-6.18/kernel/softirq.c:496 [inline]
-> softirqs last disabled at (1371): [<ffffffff813d3140>] __irq_exit_rcu+0xd0/0x100 home/linux-6.18/kernel/softirq.c:723
-> ---[ end trace 0000000000000000 ]---
+>   Thread A: acquire PRAMIN lock
+>   Thread A: read PDE (via PRAMIN) -> NULL
+>   Thread A: alloc PT page, write PDE
+>   Thread A: release PRAMIN lock
 > 
-> Thanks,
-> Zhi Wang
+>   Thread B: acquire PRAMIN lock
+>   Thread B: read PDE (via PRAMIN) -> sees A's pointer
+>   Thread B: uses existing PT page, no allocation needed
+> 
+> No atomic compare-and-swap on VRAM is needed because the PRAMIN lock
+> serializes access. Please let me know if you had a different scenario in
+> mind, but I think this covers it.
+> 
+> Zhi, feel free to use v6 though for any testing you are doing while I
+> rework the locking.
+> 
 
+Hi Joel:
+
+Thanks so much for the work and the discussion. It is super important
+efforts for me to move on for the vGPU work. :)
+
+As we discussed, the concurrency matters most when booting multiple vGPUs.
+At that time, the concurrency happens at:
+
+1) Allocating GPU memory chunks
+2) Reserving GPU channels
+3) Mapping GPU memory to BAR1 page table
+
+We basically need kinda protection there. E.g. Guard/Access on immutable
+references, which is backed by the mutex. I believe there shouldn't be a
+non-sleepible path reaching those. This should be fine.
+
+I can see you are thinking of fine-granularity locking scheme, which I
+think is the right direction to go. I agreed with the above two locks.
+
+For 1), I can recall that you mentioned there is some lock protection
+already there.
+
+For 2), We can think of it when reaching there.
+
+However for 3), We need to have one there as well beside the above two
+locks. Have you already had one in the GPU VA allocator?
+
+If yes, the above two locks should be good enough so far. IMO.
+
+Z.
