@@ -2,58 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iCvcLtPPc2kCywAAu9opvQ
+	id +LatAtjPc2kCywAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:45:23 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:45:28 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26DAF7A419
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:45:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9085D7A420
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:45:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3EF410EBCC;
-	Fri, 23 Jan 2026 19:45:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFC4610EBCD;
+	Fri, 23 Jan 2026 19:45:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="FRQDOQb5";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="VYPsuIma";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-g123.zoho.com (sender4-pp-g123.zoho.com
- [136.143.188.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2F4110EBD1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 19:45:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1769197506; cv=none; 
+Received: from sender4-pp-e108.zoho.com (sender4-pp-e108.zoho.com
+ [136.143.188.108])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C59410EBCD
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 19:45:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1769197510; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=ZZeIUxhHGLLW1TpVMN+2bYNTy5fEaz8QT6hFYTEazw+rlyK+0F4jW8xMzwWs4zey5LSoiS6aohnxZjj/CTNol54Wte4bzmleM4U16WDatRY97u8XdX1mlzbRa483Hft1YaDV3R2dFdUNzVcAq3GI3M9OkBqPSyXpZSfYMNkJ0Tc=
+ b=enAVAkZDmsZx/cxX2A+I7dzwbG8zkdbtKZsssTKEX+WlrvNfcBevuhLzufWpiMcnungbLSVJkQAkb2NgjP5c3/b5I0CeHZ0Y3FB6ZjYwUlcq8aBW6Qc25LJmI5RukQiDzOPR7r7yQBaa1QSDYXi2caWHRsqYRSrUD1Kok0msSeU=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1769197506;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=GixBB0mHLWyff2llQFG2MB6dBljhru2tDrgr7BydCcU=; 
- b=PZ0ykkc2x7/7TmhNC9z3m7GLopk4WkjBzrExRf9TTm1egxQO49DIxE3pulJpk/V2ATZNJuKPp9O6TYRwfBBuXJDxC0Vim8mn5i2c1j7ianHC/08rYur2I9tLUkAjUP9dYlqQF6oYp/h0xVYpUvFesRtD1paqtVFitym2WLxj1mk=
+ s=zohoarc; t=1769197510;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=b5DrjrFd3ths/f83Nvi9aIkbTsYKWmh6t6bRYlmzwEk=; 
+ b=JLWQ7BRYjdYslcEhDvc4/jItdCQSrT7JEPPAxqzorWhamREgnR3e4MiF4y3lm0uP1+LmoIXXXdZcN4FmOf0ys2mwYBJSwoe9N6HyUbe0mGETaKqq9/r5Bqfq3A1KIfISbLnOqKgldfStcWe4F3ppj2eOSFjpw99A8ldTfbJHoDg=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769197506; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769197510; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
- bh=GixBB0mHLWyff2llQFG2MB6dBljhru2tDrgr7BydCcU=;
- b=FRQDOQb567U1nwYyQwbcBaH4Fr7UsyEvL51mykJWX3Atkqw6Bmy0uKWfLA+/hzBc
- KzsuYptmyQL5SkxbWDeQ2uvFYMvE4i0IewFcX9FTZcgY3piVBI8yHE7nFDfFOikVUeu
- Dc+y4MveLDLI9yscH4xPCdngreOFUgR8RARFNKKs=
-Received: by mx.zohomail.com with SMTPS id 1769197504248926.5854579056753;
- Fri, 23 Jan 2026 11:45:04 -0800 (PST)
+ h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
+ bh=b5DrjrFd3ths/f83Nvi9aIkbTsYKWmh6t6bRYlmzwEk=;
+ b=VYPsuImapyFdTYNoUPpHJ3sn2Em9wjNgeaQgLC0jm29aE9hTV1TYe6wOsApzixfj
+ hiH85VcTcIxy9OwTNWgIautuEaQoWJZOUMA4BBFc156MyC0+DYDgeX6TiONMnKMZc51
+ rtQgBnw+rPCvozEKJH5SE+ahlJ7SW1ZL3HNQHWBs=
+Received: by mx.zohomail.com with SMTPS id 1769197508504213.9494803911332;
+ Fri, 23 Jan 2026 11:45:08 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Subject: [PATCH v6 0/4] Pass down hot-plug CONNECTOR ID to user-space
-Date: Fri, 23 Jan 2026 20:44:01 +0100
-Message-Id: <20260123-hot-plug-passup-v6-0-aaaf61d960bb@collabora.com>
+Date: Fri, 23 Jan 2026 20:44:02 +0100
+Subject: [PATCH v6 1/4] drm: Introduce pending_hp to drm_connector
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/zWOwQ6CMAyGX4X0bJENQcPJ9zAcxiiwBNjsGDEhv
- LtTsZfmy99+7Qae2JCHKtmAaTXe2DlCeUpAD2ruCU0bGWQmy0xIgYNd0I2hR6e8Dw67G7VZ3l1
- 1nIC45Zg68/oaH3Xkju2Ey8Ck/p5CfKqUeX5LRSEuAgVOik3w6Tqq9q7tOKrGskq1nQ4l0zPE3
- 5afFxrlCWM6maVKWo4HjDsfHep9fwMwKX6h1wAAAA==
-X-Change-ID: 20260121-hot-plug-passup-f8ed03f7c202
+Message-Id: <20260123-hot-plug-passup-v6-1-aaaf61d960bb@collabora.com>
+References: <20260123-hot-plug-passup-v6-0-aaaf61d960bb@collabora.com>
+In-Reply-To: <20260123-hot-plug-passup-v6-0-aaaf61d960bb@collabora.com>
 To: =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -109,124 +106,123 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.812];
+	NEURAL_HAM(-0.00)[-0.741];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,collabora.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 26DAF7A419
+X-Rspamd-Queue-Id: 9085D7A420
 X-Rspamd-Action: no action
 
-I will be taking over this series from Marius Vlad. 
+From: Marius Vlad <marius.vlad@collabora.com>
 
-This series addresses a shortcoming whereby a hot plug event is sent
-without it being passed the actual connector that caused it. This takes
-into consideration both the polling path and the HPD (Hot Plug Detect)
-path. It also adds support for the vkms driver (using ConfigFS) for
-propagating the connector ID when changing the connector's status.
+Introduce a new boolean variable used to track whether a connector has
+changed its status since the last hotplug event for it was sent to
+userspace. It is used by both the polling and HPD path.
 
-The motivation is that user-space applications such as Weston would
-previously receive non-connector-specific hotplug events, and then have
-to figure out themselves which connector needs to have a modeset
-executed on. This notably did not work when the hotplug events came in
-too fast, resulting in Weston missing an on-off-on transition of a
-connector, seeing that its state was unchanged from "on" so can't be the
-one that was hotplugged, and skipping reinitialising it as it looks
-through the other connectors that could've caused it.
+A subsequent change will make use of this new member to propagate
+per-connector udev hotplug events to userspace, rather than sending a
+global hotplug event.
 
-The real world implication is that on setups with slightly sketchy HDMI
-connections, a brief flicker in the HPD signal could result in video
-output bidding farewell entirely until a manual proper re-plug was
-performed.
-
-By sending connector specific hotplug events, this ambiguity is
-resolved without any change to the user-space API.
-
+Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
-Changes in v6:
-- Rewrote cover letter to explain the motivation for this series more
-  plainly
-- Rename "status_changed" to "pending_hp"
-- Set "pending_hp" in the existing path that would also affect
-  epoch_counter
-- No longer set the boolean in drm_helper_probe_single_connector_modes,
-  as it does not appear to be necessary
-- Reword commits to better justify the changes
-- Link to v5: https://lore.kernel.org/r/20251111162338.15141-1-marius.vlad@collabora.com/
+ drivers/gpu/drm/drm_connector.c    |  1 +
+ drivers/gpu/drm/drm_probe_helper.c | 17 +++++++++++++++++
+ drivers/gpu/drm/drm_sysfs.c        |  2 ++
+ include/drm/drm_connector.h        |  3 +++
+ 4 files changed, 23 insertions(+)
 
-Changes in v5:
-- vkms: add support for sending the CONNECTOR ID when hot-plugging through
-  ConfigFS - as reported by Louis, vkms can now make use of ConfigFS to
-  simulate connector status.
-- vkms: add a small change to ignore previous/old drm connector status
-  when sending out hot-plug uevent.
-- Link to v4: https://lore.kernel.org/r/20251103174558.7709-1-marius.vlad@collabora.com/
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 4f5b27fab475..aa8a187578da 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -274,6 +274,7 @@ static int drm_connector_init_only(struct drm_device *dev,
+ 
+ 	/* provide ddc symlink in sysfs */
+ 	connector->ddc = ddc;
++	connector->pending_hp = false;
+ 
+ 	INIT_LIST_HEAD(&connector->head);
+ 	INIT_LIST_HEAD(&connector->global_connector_list_entry);
+diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+index 09b12c30df69..91de34a25bf8 100644
+--- a/drivers/gpu/drm/drm_probe_helper.c
++++ b/drivers/gpu/drm/drm_probe_helper.c
+@@ -732,6 +732,17 @@ EXPORT_SYMBOL(drm_helper_probe_single_connector_modes);
+  */
+ void drm_kms_helper_hotplug_event(struct drm_device *dev)
+ {
++	struct drm_connector *connector;
++	struct drm_connector_list_iter conn_iter;
++
++	mutex_lock(&dev->mode_config.mutex);
++	drm_connector_list_iter_begin(dev, &conn_iter);
++	drm_for_each_connector_iter(connector, &conn_iter) {
++		connector->pending_hp = false;
++	}
++	drm_connector_list_iter_end(&conn_iter);
++	mutex_unlock(&dev->mode_config.mutex);
++
+ 	drm_sysfs_hotplug_event(dev);
+ 	drm_client_dev_hotplug(dev);
+ }
+@@ -748,6 +759,10 @@ void drm_kms_helper_connector_hotplug_event(struct drm_connector *connector)
+ {
+ 	struct drm_device *dev = connector->dev;
+ 
++	mutex_lock(&dev->mode_config.mutex);
++	connector->pending_hp = false;
++	mutex_unlock(&dev->mode_config.mutex);
++
+ 	drm_sysfs_connector_hotplug_event(connector);
+ 	drm_client_dev_hotplug(dev);
+ }
+@@ -837,6 +852,7 @@ static void output_poll_execute(struct work_struct *work)
+ 				    old_epoch_counter, connector->epoch_counter);
+ 
+ 			changed = true;
++			connector->pending_hp = true;
+ 		}
+ 	}
+ 	drm_connector_list_iter_end(&conn_iter);
+@@ -1101,6 +1117,7 @@ bool drm_helper_hpd_irq_event(struct drm_device *dev)
+ 				first_changed_connector = connector;
+ 			}
+ 
++			connector->pending_hp = true;
+ 			changed++;
+ 		}
+ 	}
+diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+index b01ffa4d6509..53076c2afd12 100644
+--- a/drivers/gpu/drm/drm_sysfs.c
++++ b/drivers/gpu/drm/drm_sysfs.c
+@@ -216,6 +216,8 @@ static ssize_t status_store(struct device *device,
+ 			    connector->base.id, connector->name,
+ 			    old_force, connector->force);
+ 
++		connector->pending_hp = true;
++
+ 		connector->funcs->fill_modes(connector,
+ 					     dev->mode_config.max_width,
+ 					     dev->mode_config.max_height);
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 7eaec37ae1c7..84968b2d967a 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -2191,6 +2191,9 @@ struct drm_connector {
+ 	/** @force: a DRM_FORCE_<foo> state for forced mode sets */
+ 	enum drm_connector_force force;
+ 
++	/** @pending_hp: true if connector changed since last hotplug event */
++	bool pending_hp;
++
+ 	/**
+ 	 * @edid_override: Override EDID set via debugfs.
+ 	 *
 
-Changes in v4:
-- removed the "This patch" bit - Dmitry
-- added a short note when the flag is set and cleared - Dmitry
-- address double dead-locking detected - kbot: https://lore.kernel.org/dri-devel/202509251410.fdfbcac3-lkp@intel.com/
-- virtual connectors do not seem have any kind of hotplug - added
-  polling in vkms - as noted by Ian
-- Link to v3: https://lore.kernel.org/r/20250923083636.4749-1-marius.vlad@collabora.com/
-
-Changes in v3:
-- Address comments from Dmitry:
-  - guard connector status write with mode_config.mutex
-  - avoid setting up the connector status and immediately unset it. Do the
-    unset in drm_kms_helper_hotplug_event/drm_kms_helper_connector_hotplug_event
-- Link to v2: https://lore.kernel.org/r/20250729165708.9947-1-marius.vlad@collabora.com/
-
-Changes in v2:
-- Address comments from Daniel:
-  - split patch into 2, one that introduces a bool to track connector
-    connection status change and a patch that uses that to be able to send
-    hot plug events with the proper CONNECTOR ID to udev and further pass
-    that down to user-space
-  - nuke out mutex when iterating connector list
-  - fix typo
-- Link to v1: https://lore.kernel.org/r/20250627131751.2004-1-marius.vlad@collabora.com/
-
-Marius Vlad (4):
-  drm: Introduce a new connector status
-  drm: Propagate connector status change
-  vkms: Do not send hotplug events for same connector status
-  vkms: Pass the vkms connector as opposed to the vkms device
-
- drivers/gpu/drm/drm_connector.c       |  1 +
- drivers/gpu/drm/drm_probe_helper.c    | 39 +++++++++++++++++++++++----
- drivers/gpu/drm/drm_sysfs.c           |  1 +
- drivers/gpu/drm/vkms/vkms_configfs.c  | 12 +++++++--
- drivers/gpu/drm/vkms/vkms_connector.c |  6 ++---
- drivers/gpu/drm/vkms/vkms_connector.h |  4 +--
- include/drm/drm_connector.h           |  3 +++
- 7 files changed, 54 insertions(+), 12 deletions(-)
-
---
-2.47.2
-
----
-Marius Vlad (4):
-      drm: Introduce pending_hp to drm_connector
-      drm: Send per-connector hotplug events
-      vkms: Do not send hotplug events for same connector status
-      vkms: Pass the vkms connector as opposed to the device on hotplug
-
- drivers/gpu/drm/drm_connector.c       |  1 +
- drivers/gpu/drm/drm_probe_helper.c    | 39 ++++++++++++++++++++++++++++++-----
- drivers/gpu/drm/drm_sysfs.c           |  2 ++
- drivers/gpu/drm/vkms/vkms_configfs.c  |  6 ++++--
- drivers/gpu/drm/vkms/vkms_connector.c |  6 +++---
- drivers/gpu/drm/vkms/vkms_connector.h |  4 ++--
- include/drm/drm_connector.h           |  3 +++
- 7 files changed, 49 insertions(+), 12 deletions(-)
----
-base-commit: ab42b1c3fe4ce1ae5534c51b880d3a97e6bba145
-change-id: 20260121-hot-plug-passup-f8ed03f7c202
-
-Best regards,
 -- 
-Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+2.52.0
 
