@@ -2,251 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eIFDCdBqc2mivQAAu9opvQ
+	id gJLBHBpvc2mnvgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 13:34:24 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 13:52:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8118D75DD0
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 13:34:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C824176049
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 13:52:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1500C10E2B2;
-	Fri, 23 Jan 2026 12:34:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F45010E119;
+	Fri, 23 Jan 2026 12:52:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="FXBFaUhp";
-	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="D0o+6nZ7";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="HeTZ7mn0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CBF110E2B2;
- Fri, 23 Jan 2026 12:34:20 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60NBjsB31674936; Fri, 23 Jan 2026 12:33:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
- :content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=corp-2025-04-25; bh=a3WPNuN/W4/NN95F7V
- zNHcnkNUA1ILUqifETh9hmD2I=; b=FXBFaUhpblbZGSxWVJjHZ/O/gZpZwm48ti
- 6FCmBzAbH+ZIvazR4avb/N6vctLw7GzcfSBokubLP6VsPqbVw91FvvYGf4Jv/Tka
- yCyf5FH3CJvWdR7QiIwwMm36tNt/39JgXbrLjUN+HX3SsfRGNgcK0PhVFBTdevz5
- yr3MyXqQD9J0lW0J8KmF4JbAfQy0vL5SobZv47VT4a3pqYy1H+z1eoyQU7WhUJ/m
- ag903gOQbM1eF4OWFol7SLen/VNUti6yNvCz+cCCY5l/pHaLd27WD5uvMl9mBeVD
- uoG4G8hmAmdcRdDNH1Bzp1Xgit1/ilJoG1ktZ3GnRb1jclhw6SYA==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4br10w29ru-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 23 Jan 2026 12:33:42 +0000 (GMT)
-Received: from pps.filterd
- (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
- with ESMTP id 60N9x34P035863; Fri, 23 Jan 2026 12:33:41 GMT
-Received: from bl2pr02cu003.outbound.protection.outlook.com
- (mail-eastusazon11011025.outbound.protection.outlook.com [52.101.52.25])
- by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 4bux4y53r7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 23 Jan 2026 12:33:41 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=q8z9ZnUH6yPzg7wLCWxBwnNBF2c5MziuRoU5dS4oRQu90Pn3NblAqcE+tNsUrr2GMu0UOKeNHtZZ19aAeUtBBMhj3v7OkfS+sL2sYnS9Zl8paicnIMeSWUamEY/H8Qp5R1nRrpdfBSzmvAv2dHijQZDjDZ49oUbEjuX+2t9vrWBpF3jl9JZoTgBSl/F2yMU4GMdT1zDAo/aN/z332Et/mZqfhgFsarPkARWfAjfiY86KYSTvGxsKEyrGXji+6+ZzwGomqnj8aapERoit5DXsSXRrIHx8/ICedZg+LBRzBDxi9HdKOw+6HzN71OX0TO8OoceM3qS2c3lF0aTcnIXPuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a3WPNuN/W4/NN95F7VzNHcnkNUA1ILUqifETh9hmD2I=;
- b=MOzXFTiFjOJmzBCYNtqLiHcxHi545Ba/63iQvlEHygwfv3Lf9P00mCAHdGV41LCMvyAEr1LL9S2pvLrkWiSllGstDUm0nTm641vmWIF2bWoxHQSzUbQkqfKS0OYy422vi6iT1q/HKxq3wLXddqisrZQB/i6s2keUMv/eSPZ4TO7dMAvZXhd5hOL9GF3F9tW74KzvNa2FFvDuXDsjuZ6NbVvs5ku1WZ6fve8MfnMjKMemOZPvY8EC55XQyGyJlpgnAks/qPDqtqzxK6XvKQ9weRSCkMlaRGJB0ZQeFTMBgnjzrZzD3Zz1TQjaqZE1Qy4UzsWI3Z50bFCdnSqZI6GcqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a3WPNuN/W4/NN95F7VzNHcnkNUA1ILUqifETh9hmD2I=;
- b=D0o+6nZ79HsxCX84pTO8/DbR2bKQSBnpBHo2ZWhhGG22GaJnWrqdiXC+BsHDGx5LNx2S6t3shhiH5sR8mfT5cWuTYPqaVwFhNWKMyu2R0bzMr6fxvRfs/kNl/wq7YEHQJvo9ngCbKEC8Sk91107ZioW3R0bKNqMf7MNzHkA37I0=
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
- by CO1PR10MB4786.namprd10.prod.outlook.com (2603:10b6:303:6d::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.11; Fri, 23 Jan
- 2026 12:33:36 +0000
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582%6]) with mapi id 15.20.9520.005; Fri, 23 Jan 2026
- 12:33:36 +0000
-Date: Fri, 23 Jan 2026 12:33:27 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dan Williams <dan.j.williams@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 970C010E119
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 12:52:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1769172746; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=V0PQmZzWdrEDh99Ne7ZyUy/D9BJeCD5+wsFJeWBYitVX9qZ4ARiX6MicOjeNVqy6E624ixu/ut9hhHmqxGlsc4sv6y7qZ/UDD+Rm3lm/sRU52K9pr2NJws1wJUKlN5WS0mT7l+hmkxCs/izQzWyiH/aMwuysPxrqXw6fmfqD+N0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1769172746;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=WLzWh+kPssdoz1DDdk13Bo5eLnz75ri+s7voPGzm1xI=; 
+ b=Wh6+3XuvTo+rwVpQ654ObzIql4KEmT2gte2vCAGmWW+t7uD2mU9b4axQgQJb2goGkjK6Dj8ca/xfmS6S3hHctmIK8gYE4v5mio5vY2IPNgZu+fZjuBYc3pPeZqphVXIAD6v6gF71+SdyODyrqnWbbPZm/PvSMwfmSxHclniHMp0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769172746; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=WLzWh+kPssdoz1DDdk13Bo5eLnz75ri+s7voPGzm1xI=;
+ b=HeTZ7mn0VtWEypM7/yAnp9JKqKUtUZ5X9zc5IDt9FfGPECVZtmo0F6ay2e7jxswA
+ pbyXUjkY3KIZsGgN5rFbGdBgD9XLhs/e1U8m4ymUT67YaXgWTpBCJn54pWfcLf1wpCC
+ Mc0EuaV5Lg+k4dPlUsdW9GbGGvgAWB7yle3QHlAc=
+Received: by mx.zohomail.com with SMTPS id 1769172745758534.9477985844247;
+ Fri, 23 Jan 2026 04:52:25 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Christian Koenig <christian.koenig@amd.com>,
- Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Benjamin LaHaise <bcrl@kvack.org>, Gao Xiang <xiang@kernel.org>,
- Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>,
- Jeffle Xu <jefflexu@linux.alibaba.com>,
- Sandeep Dhavale <dhavale@google.com>,
- Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>,
- Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- David Hildenbrand <david@kernel.org>,
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- Mike Marshall <hubcap@omnibond.com>,
- Martin Brandenburg <martin@omnibond.com>, Tony Luck <tony.luck@intel.com>,
- Reinette Chatre <reinette.chatre@intel.com>,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- Babu Moger <babu.moger@amd.com>, Carlos Maiolino <cem@kernel.org>,
- Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>,
- Johannes Thumshirn <jth@kernel.org>, Matthew Wilcox <willy@infradead.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Zi Yan <ziy@nvidia.com>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, David Howells <dhowells@redhat.com>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E . Hallyn" <serge@hallyn.com>, Yury Norov <yury.norov@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-sgx@vger.kernel.org,
- linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
- linux-aio@kvack.org, linux-erofs@lists.ozlabs.org,
- linux-ext4@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev,
- linux-xfs@vger.kernel.org, keyrings@vger.kernel.org,
- linux-security-module@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v2 08/13] mm: update shmem_[kernel]_file_*() functions to
- use vma_flags_t
-Message-ID: <d4acd230-562b-4e86-bb25-2410a7d07a33@lucifer.local>
-References: <cover.1769097829.git.lorenzo.stoakes@oracle.com>
- <736febd280eb484d79cef5cf55b8a6f79ad832d2.1769097829.git.lorenzo.stoakes@oracle.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <736febd280eb484d79cef5cf55b8a6f79ad832d2.1769097829.git.lorenzo.stoakes@oracle.com>
-X-ClientProxiedBy: LO6P265CA0007.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:339::6) To CH3PR10MB8215.namprd10.prod.outlook.com
- (2603:10b6:610:1f5::7)
+ Chia-I Wu <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>,
+ kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v10 3/4] drm/panthor: Add tracepoint for hardware
+ utilisation changes
+Date: Fri, 23 Jan 2026 13:52:19 +0100
+Message-ID: <3154579.irdbgypaU6@workhorse>
+In-Reply-To: <aXLyzd6pMmexwWlY@laps>
+References: <20260116-panthor-tracepoints-v10-0-d925986e3d1b@collabora.com>
+ <20260116-panthor-tracepoints-v10-3-d925986e3d1b@collabora.com>
+ <aXLyzd6pMmexwWlY@laps>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|CO1PR10MB4786:EE_
-X-MS-Office365-Filtering-Correlation-Id: e403c11c-8ac9-4fa6-0d23-08de5a7ba088
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?VHEpTUNpdySDS/spXaEpkO1gSs4kXmwIQFhrvWdNgD6gj4conY8W/Qu1E7wd?=
- =?us-ascii?Q?ZtUestVc9guX7JCG9GPtWPdc3P596xKe69MTNzmeeGd1teI+UB/LcyZEy9Om?=
- =?us-ascii?Q?PwlztY7iUFrJq/4buEcGVB2Ivv1O5zsmTmGmbZ5MMqCbkGZFWLlZHPNBcN05?=
- =?us-ascii?Q?yhU7y3RUQqLlIUdvQmJOcxwFoDEmotHjRTscs4QF08F1zjrDKWprIqyrPiTm?=
- =?us-ascii?Q?9BX9MsMs+tGe4brUOEpxMtdg2XDkpPYNHZTBiDeIzTLaIxOV+kfl5rrm2VTl?=
- =?us-ascii?Q?1dZwtXWHvOyC0MH816+O/jt8YOosJ8e796qajrWaBfMo4mSqYyjG0F6joYuk?=
- =?us-ascii?Q?mTkGS6l29T9N6M9Uz3ad9yEkIV+po9UHdN8Q49OLr+wzR/hdmJTjZ4tx4TJF?=
- =?us-ascii?Q?ZE00zoPpcTD/qASiZo/UHVprvQrVGNnhMahDTY/tOvOgpt0z0U/307k0ZQ+C?=
- =?us-ascii?Q?QXf7KUOJtxtw/otKjyMfw7FBJatrBOdD/8hqkZzCF5qN/3IBML7RGI/KkcDm?=
- =?us-ascii?Q?9B7gP8q+ffnQ5rORrP0k1rJ4wpwyt8WaeNxzLgEUBKfwip4ufooyfbwzOqWM?=
- =?us-ascii?Q?U7ZERSLHgiVmT/TzJZNOeflx55SllxxIKJPs1coTrgMjK6ryrhiXPgQEikXc?=
- =?us-ascii?Q?SVLnXd0SGHPCjwnC/B9Ndm2A/96BO69LpJZuLg/NEp8Z8p9z+84pFR7QmuWQ?=
- =?us-ascii?Q?Ac0wiGVnlv/tHEqhTyXgm1WvJKiLcmRvCsGn4k+CojeK7UGouNoHIN1PBRA3?=
- =?us-ascii?Q?tbKdfGp5+QGmXGwx5T2l5hQsMf690iaCrx7YKKixM+yQZkbU+quXx1cHHQz2?=
- =?us-ascii?Q?nLtXx9WcET3Aw+GkEUhSIEEzhdbWCr1lIEdMgAMeihcUvosH5dObnA41ZSYc?=
- =?us-ascii?Q?9QHT3/nurODHCw8pEluWEHcHa2vjjFORRJmhrQi12JgDvBqSZ+jKzhxQOmKH?=
- =?us-ascii?Q?g+mvYNnzpLeSNxht2RGhW8IYu1pmpI/sWIfRgr/UG1B1UtnAzUJ4Cb7GA5Xz?=
- =?us-ascii?Q?ireHW3EjaRvu+e+qf27WptVd7kszZmjt6SxDAW0vujlHao/mxjHY60n0ANFQ?=
- =?us-ascii?Q?1KTKVxHR/x1y9F1BYfuFuX+blc3YG7qVyHVu5Z7UjV1vqNU8ZiAe5PRbnG4V?=
- =?us-ascii?Q?Rp4dDiZlx0VAfMc5sRlibsb2AOZCiiXrobPu0QU5/EWJ/VdbRRJ4FL1/Kh2r?=
- =?us-ascii?Q?lZhrrrJ/qxPfSEwwQUHtRuSJ63dcLIbDEkbyfLv1leHZStx5Q7OdDB6SxjXb?=
- =?us-ascii?Q?gDgB04LjpKhFzABOdULm8R05UvTj8bcZa2pQ5JdKX8eDKkXz9nxO8rIjjBJV?=
- =?us-ascii?Q?VJlgCFcV2dbXe94a1kn7xu0+XCPOesPKmxRY0kT+JS66AevPMvRBInzkq/3W?=
- =?us-ascii?Q?HUxHvQBLXrrVwtJnrzGTHBvCK7vjbPU53x0DgR6+1BjAyUWawEUHMa6pfXr3?=
- =?us-ascii?Q?esOgJV7msstuCcUeMAhpRzplnPqvE+pgnpMfLCeJU5c8HTLkfpg7+Oo1t71C?=
- =?us-ascii?Q?TrfUUiyoHtsFmWo1KHJrIEhA3P5J78NiP/U28aroLY5zDjmgNx8Xazvf1pav?=
- =?us-ascii?Q?4mfZ3iglqLIcm/VuST8=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL4PR10MB8229.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7416014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?VDGehMbKUCZ5UIWR9AB7c2SqdSEh1aMzpGU+BvxiL5MdtoamGnYC+I/c8XXo?=
- =?us-ascii?Q?q4xtRQc+LqDv5aUSmd1ODUAwH9CLGHMLCsHn9Txrg/bEOKKih1z0TC1bCR1Y?=
- =?us-ascii?Q?eEtHq/1GMrI5PvnrB+siM7vBRbF+vYyDbO83mvUfrVbM6QryzSGZPsKiO1Wl?=
- =?us-ascii?Q?spMlOqPkgvfdDrSJM9Tltr7MqVoijDb4XglJSOO64bP2sGOkL3XBmEFt70tf?=
- =?us-ascii?Q?cNrdqS5H9br4zV2bB1+BlCkhXGXvSLKiJ+Z6+Xd+ab6u9tk65V9fbgL73mtB?=
- =?us-ascii?Q?MwcXhGolt02Aln2X72MwbChwKJgJ9cCMDyx+ED1+R/2Yp6yYz1WtRviXQvKS?=
- =?us-ascii?Q?6TQpiTQK6Cjz9vd8f1zqaOknYqVl2nFuJn3P0tyQA/m7ve6rmO+X1bhqixxZ?=
- =?us-ascii?Q?qGfi+QS+OEp0l6jMjE6zbsQCoQxxHkfZ+cAwm+PObpsga2YiiNTiGN8PEuiO?=
- =?us-ascii?Q?V+f5bhXX0+AHZH12LFVMlw7liKVzSAjeTJdYZS2/9aqXphdQ9KNUaEdUKSRt?=
- =?us-ascii?Q?sdd2Kt1o/y5GbltyZ48mg1XsKLqLewR/a1MyTiVnHx6WUkWVzKvxQ2bOeNOF?=
- =?us-ascii?Q?eMBfP5lo1skI6FD7h+KKeaoofE648SJ57PiKXXSYqwwK2SaZ5BFh2Wmzg/cF?=
- =?us-ascii?Q?mxtunbKipCdYz1ffMSRb/4Ua6RnLoMzd8l8QfD40U7bSqktmNWMzZ3idqfi1?=
- =?us-ascii?Q?xaLdseUWGKkXTVZ2fNPF7/PleRJZcwC0QNoJb0O0XFgoHQQNf1WNu52a4iKB?=
- =?us-ascii?Q?28iRf1Lc+0Ir+ICM1NAwbRDLkElYcB/IkUHPR4BBls3D6g8G/nEsBT3+66a6?=
- =?us-ascii?Q?zrFroBr0+tc68pVbFyQRk4Xyz9/KqobZCgZleooGx9zu3dLj5/Czx4V+9Rpb?=
- =?us-ascii?Q?+MA1w/mAfRJ1LeWlyMyneQrRFT+7jol98mBmAQV93tOaI2UBw7xQmBsvIrQv?=
- =?us-ascii?Q?mLljhFMVMTE7jLzVMnF+qp4GQ64rVpgqJKXg6r+TSVrUQ3dxq6j1h4VgQ0yz?=
- =?us-ascii?Q?UwpOT0GNaaVAE9sSMfZp5rzHcSI9YNXajD0xPwNB2IctRr9A6yhNa+LL2uGG?=
- =?us-ascii?Q?dM7JgHoeWz3o7eiwfOPEZj4GFhCoiUWf9xHfn3q8ofqZI1xzsBEEzLDd1oyt?=
- =?us-ascii?Q?3AM/zox9fkSaeBzxW8NsfkDpZq5COG4arrKyYMrsHo7VTqicjVFiwpQndvoq?=
- =?us-ascii?Q?ZuvzGt3bR2FNy2oB6iR8HUL82DfpbeaniH5wzy1+4CQe2FWEykiLWaFwh6JI?=
- =?us-ascii?Q?K0vJKqgrzTT1M7CLk9i+csYDOl5TmIX1wuulez1b8rkBRTXIfupnA7la5anF?=
- =?us-ascii?Q?ZFtLL0iIjRrG92xxmXxtmiG0+pABov6kG6fr+8F6o8MCwwP7cJZ+7cml3XNP?=
- =?us-ascii?Q?goJX+zi+DaI/Fgj8mu6AKDwODXwGoS0YhqujIdorTsjophilPk/RFp2ok5Gw?=
- =?us-ascii?Q?sA4ZFn990lSATMiYidNHcEN/O6/str1Cvpngle7CuDi19cSoLnqEYSKr0bDC?=
- =?us-ascii?Q?B11farmy0n9cDdS/CzXNhHGJmExaveyMD0SMcEfnpSm6xhJL2AJXwdGbX4d4?=
- =?us-ascii?Q?Y0XigQEz9OlzWEg5jVwkiNVFeV0tIPVJ3lSKzxPfg8G8gvySjIzBljwVxzOz?=
- =?us-ascii?Q?DQhF9Mv/GZ6gzhwOBhXdZRNYMhqydfvQDLoOBx9etYcTJcclwdp8QZXFDOAN?=
- =?us-ascii?Q?E4gylV0/XLwKKAMHZL4QeVjdG0VbnsbZs/tIG/skHKEJP6aQ7nXzNqJm5RwM?=
- =?us-ascii?Q?c61zlNRBysCJrc4KjLpUok9kLLXqo6w=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: wTOZWIm/OVuEWWssX5Y6PLDrdltQN/tT5e2xH51FxvH2ncgUf/YHJHYD4GwzpOBi3SagLVfDccRDhHJjikB459jEwwm5twK1LZYcvPf57/0eD5Xdd7ioX0fzY5GlAn/b0Nj+QboKeuoq1Bj+dBTbG5rSOw/BA21xULmVQ2z/PwcZ1A3ocaz5SGMex6W6ILZ7wNQF5xHkmJEm7KRJ63y5N0Kilq1p0pZCvGhhrztZYq8RMPKiDr9RMFiq+vApzzDPy3d4vfHAWoyjkmm97LjlVgwABE8s+kuombQeXQsr95/iWr2JfZE1VHkhkalt14u5ufJJTdEXW8tQldkxQhWset+k+2RIuDEWR0j6AB7QYhXpnKmn377ICE96gmNNhb98QJTG0rLh/cXW7vcmFRnrHN85oYpLgG1Fj2BnfxOPquBN6HTu7UpjuJtw0TAO8BE5J1Ia1WMVxFne2HyzNyF1dU83dlNc4mRutHUyuSV6GzziVpxfgCD9OA9pHB3Mi0C5WF6heIv0fCz/c3qTuFwbk1BKciGufCzAKcAj0XrpJ00rno0wGst9K5CGd/UQULMzUp8E0+5Cck/U5WVBYB+hDhWyB4T1Uk8rqvjs8BSufK0=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e403c11c-8ac9-4fa6-0d23-08de5a7ba088
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB8215.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2026 12:33:36.1911 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AxqmG2UpSIfcMFWJdrLRXTCumJ8TWSW85ZWoVdtV2V9KJq3kfMwC+pG2q7MGRPzE2k4wuvFm/c1HnhHB80bYHC9irrPJj2NZ8w34wecDdXc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4786
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-23_02,2026-01-22_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- adultscore=0 phishscore=0
- bulkscore=0 mlxlogscore=999 suspectscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2601150000
- definitions=main-2601230103
-X-Authority-Analysis: v=2.4 cv=H4nWAuYi c=1 sm=1 tr=0 ts=69736aa6 cx=c_pps
- a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=yPCof4ZbAAAA:8 a=tRyWSp2Ri3fI7cgBtN0A:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: Buur5JNA-k5OSPcLkVEev4xrzfbyG9ic
-X-Proofpoint-ORIG-GUID: Buur5JNA-k5OSPcLkVEev4xrzfbyG9ic
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIzMDEwMyBTYWx0ZWRfX/zIvTqFskhaD
- dJ4mfRF8vPbDEVWI/rdZF2ErIgbaY0GvX9XXVKnXrqkXR2fg6j+h2qmOL20rWle4XStCbZTGbWv
- NvqOI6mJ1uoJL3naCrthRL002WvAcemqAhNKe/tFmL6htau4MeEMGnelD6adIea63eipHq0uUAO
- yLRPQhYVwcOEuXwYC5k/en4/vzIZv9jKpjRLrg6zZKOvgnG51Z6s5skoZvl6oPs/5o9Hij9/50t
- rjMt4DiEssUlJDlKYk5Zsp2xc+gHW2Ymg+s0aAEyi3602adUOtGzgCkMsnyWpvQVOHbRIWoSAiv
- wnuuzSWJEGvHB28yNv8WBzNK8dch1jf5mgPdfcSjzB2ACQbcgEunNDMa476oIxOcdj6SdwOmT8v
- KMUKSqZNBAqt+PC6NsoFm/jvQfZvl80URlVQakmNlZBrL++6NOe6i+nKL2/op5YfuhJgQ7faA9J
- I3zezLepk0l4tAec/qg==
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -262,74 +78,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[oracle.com,reject];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	CTE_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[oracle.com:s=corp-2025-04-25,oracle.onmicrosoft.com:s=selector2-oracle-onmicrosoft-com];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,redhat.com,alien8.de,zytor.com,arndb.de,linuxfoundation.org,intel.com,suse.de,gmail.com,ffwll.ch,ursulin.net,amd.com,zeniv.linux.org.uk,suse.cz,kvack.org,linux.alibaba.com,google.com,huawei.com,vivo.com,mit.edu,dilger.ca,linux.dev,paragon-software.com,omnibond.com,arm.com,wdc.com,infradead.org,oracle.com,suse.com,nvidia.com,paul-moore.com,namei.org,hallyn.com,rasmusvillemoes.dk,vger.kernel.org,lists.linux.dev,lists.freedesktop.org,lists.ozlabs.org];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oracle.onmicrosoft.com:dkim,lucifer.local:mid,oracle.com:email,oracle.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RCVD_COUNT_THREE(0.00)[3];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[oracle.com:+,oracle.onmicrosoft.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lorenzo.stoakes@oracle.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:sashal@kernel.org,m:boris.brezillon@collabora.com,m:steven.price@arm.com,m:liviu.dudau@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:olvaffe@gmail.com,m:karunika.choo@arm.com,m:kernel@collabora.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[nicolas.frattaroli@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[92];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[collabora.com,arm.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
 	TAGGED_RCPT(0.00)[dri-devel];
-	NEURAL_HAM(-0.00)[-0.944];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_COUNT_SEVEN(0.00)[8]
-X-Rspamd-Queue-Id: 8118D75DD0
+	TO_DN_SOME(0.00)[];
+	NEURAL_SPAM(0.00)[0.557];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: C824176049
 X-Rspamd-Action: no action
 
-Hi Andrew,
+On Friday, 23 January 2026 05:02:21 Central European Standard Time Sasha Levin wrote:
+> Hi Nicolas,
+> 
+> On Fri, Jan 16, 2026 at 01:57:32PM +0100, Nicolas Frattaroli wrote:
+> >Mali GPUs have three registers that indicate which parts of the hardware
+> >are powered at any moment. These take the form of bitmaps. In the case
+> >of SHADER_READY for example, a high bit indicates that the shader core
+> >corresponding to that bit index is powered on. These bitmaps aren't
+> >solely contiguous bits, as it's common to have holes in the sequence of
+> >shader core indices, and the actual set of which cores are present is
+> >defined by the "shader present" register.
+> >
+> >When the GPU finishes a power state transition, it fires a
+> >GPU_IRQ_POWER_CHANGED_ALL interrupt. After such an interrupt is
+> >received, the _READY registers will contain new interesting data. During
+> >power transitions, the GPU_IRQ_POWER_CHANGED interrupt will fire, and
+> >the registers will likewise contain potentially changed data.
+> >
+> >This is not to be confused with the PWR_IRQ_POWER_CHANGED_ALL interrupt,
+> >which is something related to Mali v14+'s power control logic. The
+> >_READY registers and corresponding interrupts are already available in
+> >v9 and onwards.
+> >
+> >Expose the data as a tracepoint to userspace. This allows users to debug
+> >various scenarios and gather interesting information, such as: knowing
+> >how much hardware is lit up at any given time, correlating graphics
+> >corruption with a specific powered shader core, measuring when hardware
+> >is allowed to go to a powered off state again, and so on.
+> >
+> >The registration/unregistration functions for the tracepoint go through
+> >a wrapper in panthor_hw.c, so that v14+ can implement the same
+> >tracepoint by adding its hardware specific IRQ on/off callbacks to the
+> >panthor_hw.ops member.
+> >
+> >Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> >---
+> > drivers/gpu/drm/panthor/panthor_gpu.c   | 28 +++++++++++++++
+> > drivers/gpu/drm/panthor/panthor_gpu.h   |  2 ++
+> > drivers/gpu/drm/panthor/panthor_hw.c    | 62 +++++++++++++++++++++++++++++++++
+> > drivers/gpu/drm/panthor/panthor_hw.h    |  8 +++++
+> > drivers/gpu/drm/panthor/panthor_trace.h | 58 ++++++++++++++++++++++++++++++
+> > 5 files changed, 158 insertions(+)
+> >
+> >diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> >index 9304469a711a..2ab444ee8c71 100644
+> >--- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> >+++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> >@@ -22,6 +22,9 @@
+> > #include "panthor_hw.h"
+> > #include "panthor_regs.h"
+> >
+> >+#define CREATE_TRACE_POINTS
+> >+#include "panthor_trace.h"
+> 
+> With this commit, I'm seeing:
+> 
+> In file included from drivers/gpu/drm/panthor/panthor_trace.h:86,
+>                   from drivers/gpu/drm/panthor/panthor_gpu.c:26:
+> ./include/trace/define_trace.h:118:42: fatal error: ./panthor_trace.h: No such file or directory
+>    118 | #include TRACE_INCLUDE(TRACE_INCLUDE_FILE)
+> 
+> I think we need to add in 'CFLAGS_panthor_gpu.o := -I$(src)' to the Makefile
+> too, but I haven't tested that yet.
+> 
+> 
 
-Please apply this fix-patch which addresses some minor issues in the kdoc
-comments for this patch.
+Huh, puzzling that I never ran into this build failure.
 
-Thanks, Lorenzo
+Doing another build right now, I still can't reproduce it even on a clean
+build without ccache. Your fix looks appropriate though judging by the LWM[1]
+series on event tracepoints.
 
-----8<----
-From 0283ddb073248f00bfa9694901fcba25362bdc58 Mon Sep 17 00:00:00 2001
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Date: Fri, 23 Jan 2026 12:30:34 +0000
-Subject: [PATCH] fix
+I'll submit a fix for this.
 
-Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
----
- mm/shmem.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Link: https://lwn.net/Articles/383362/ [1]
 
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 97a8f55c7296..b9ddd38621a0 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -5869,7 +5869,7 @@ static struct file *__shmem_file_setup(struct vfsmount *mnt, const char *name,
-  *	checks are provided at the key or shm level rather than the inode.
-  * @name: name for dentry (to be seen in /proc/<pid>/maps)
-  * @size: size to be set for the file
-- * @vma_flags: VMA_NORESERVE_BIT suppresses pre-accounting of the entire object size
-+ * @flags: VMA_NORESERVE_BIT suppresses pre-accounting of the entire object size
-  */
- struct file *shmem_kernel_file_setup(const char *name, loff_t size,
- 				    vma_flags_t flags)
-@@ -5882,7 +5882,7 @@ EXPORT_SYMBOL_GPL(shmem_kernel_file_setup);
-  * shmem_file_setup - get an unlinked file living in tmpfs
-  * @name: name for dentry (to be seen in /proc/<pid>/maps)
-  * @size: size to be set for the file
-- * @flags: VM_NORESERVE suppresses pre-accounting of the entire object size
-+ * @flags: VMA_NORESERVE_BIT suppresses pre-accounting of the entire object size
-  */
- struct file *shmem_file_setup(const char *name, loff_t size, vma_flags_t flags)
- {
---
-2.52.0
+
