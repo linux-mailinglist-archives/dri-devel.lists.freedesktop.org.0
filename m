@@ -2,112 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ILJSNbOSc2ntxAAAu9opvQ
+	id iBemAIaXc2lgxQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 16:24:35 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 16:45:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EFC877C27
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 16:24:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28FD477EDF
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 16:45:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8787E10EB19;
-	Fri, 23 Jan 2026 15:24:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5A1210E2CB;
+	Fri, 23 Jan 2026 15:45:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cC7jcFeQ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="BPrfNPwX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com
- [74.125.82.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B355010EB19
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 15:24:32 +0000 (UTC)
-Received: by mail-dy1-f169.google.com with SMTP id
- 5a478bee46e88-2b71e7dab12so207536eec.1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 07:24:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769181872; cv=none;
- d=google.com; s=arc-20240605;
- b=X7qauthDyb1rmlS9fgwatcn/3Us6htTfwWGDkR7RQnJ8kgoQIYN2HscEVEBSnEgp3W
- pWpfQFjRg3m+brpIXLkZInmvelXXGXQi1qG30sSaOcRD5wS8K12XsEMGAtDb2wdkvATc
- tWRnnZW5RFOPpp93oI0pVygZm+LRaer4Pr4FN6yvA2JIzTLxOFtmfDV++tQHoby9Q7yj
- woRxXqYz4N8lVRXIYsLSR+m3xjwjPaaDVBaL9keYOIZ4NQNWsFf1dvFv3DR/4pNuJVcP
- WzBuPMjS60NNw+jjbS2OtirRAixG9FxQTEVKA+e2S5JFxrn1Hy6w7tItJa/L8iobV9ai
- YxGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=0C835ZbMmfisFy6hQvPTGQqqPveQCd+DjgKswlFGS8s=;
- fh=RHsu8DqFvf6B3113WPewrixgjpqZaKy+XkgoMLDh52I=;
- b=MtdtQZBe885eWqAxxENoV6ckkUA+IXttqczAQMJs8LK0Z9BWyQ8UBVr/dkuq22EzW9
- D5t54B96f68lEB4K1RAr4MdKWzlFbgzhDo4SH94R50OvwKCXtiPc0uhv73kfxNgrSiyB
- 7rJrX4D2Mz/zIBPZv9AACXEcTSJm+yZZ4cRhcx2dOqL86dA5sj502lvnckfNuvrlJZ9D
- No+OzhGZBk/Lqeg3umUxywa+8TG9KYObwMB5b6lzMkqh1YScOOYHYKEq0/dzx8/hl//B
- xDKiO/vm9x/41+Pd5/7vG1zwY6ua25Nek/C1/9l7ELvdkrlRBNMV4kvkTprQ7RCTRpAg
- OeqA==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769181872; x=1769786672; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0C835ZbMmfisFy6hQvPTGQqqPveQCd+DjgKswlFGS8s=;
- b=cC7jcFeQ8qbYCSiVhXB8xtga1LWFYJTeVpuouWasM1a/qNWFYxIJuFob/ydRix6O3r
- 6m13dw8JokMJKY+PWWK1qt6H1vRjD8FWvvLPbAvp4+NDl3nHwpv0extK9vLZE4gsqBXQ
- TpMV/KuTWQnLJI05X3BTkfhlvWGCty6L1Q9BJ/LEFEfDh4mv9ihKyh6fPgTbgjBtxvD5
- R6ZTJrLj6j73pN0I1NmQ/gv0eqijhjXrkmkEBKG29Khj3UUBhDiOnkLasstFH73ZlxcB
- LDF7DqeS8r8n0z6vNm67SerRkbR3uJwDLK9RA5wWNNORwPg/SOxqF7vKXq/G5hFMH7lk
- Uiow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769181872; x=1769786672;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=0C835ZbMmfisFy6hQvPTGQqqPveQCd+DjgKswlFGS8s=;
- b=k/tH/pHlH87oOqJgoIG2WnS4AuXPDVMvfKce/d1WUMZILkAnOZldkGmz40/26DKHK7
- QCDO+TBhweyXc3Fs7vqmRi1dt/JKxD+OL7mOSYIKtPqQgw+K/g03NOqyLueHPiZwNFol
- sh7rQaIb1gq7lpdx25UVTZ8VUlcrpa2750Zbft7ofqfpz0rA2i9Ws03/Xp7s/Q1L6wdu
- Jj8u26SHXX1PYecOyHixtMprtwNUBEzVo6bZ1HJiDwPi5ms7+JWSSrMVcPFRk0doux1E
- EM6P5dj6gTJXioAHK8Xm6KDom5GqHnRkUz8yhuE6DMy7fxGwJGMJEC8ZW1VR5o4a5K82
- WwBA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU9ZpqZnJLqBoE86xB/ZvJHkgwSbxacnvmvLa99HzW7tzSONDwxAQwRB4M377zQeRdUN1xW3UOSyTs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz23AbPGhfWpMiJ9FA3tUlZUs+k8HMIcBA17J0a1X7XL6vm5eOy
- JGgH7qnzmOy72Ukx1SL+b0TO4DcKkhGpcaAvWQsLPK8L6YGlvVry7X/bMjvVvfYv6b6y4YFlkxs
- O2x5yJmIhpd9ubxvChFoiH6wEtOcQU8A=
-X-Gm-Gg: AZuq6aL1D7cMYPH4VNNGh6uV8IixMRGtPOS+BHofHpa8CzulN3T5suFuUxQsCBCh1Ly
- 1xP55eK9lVs9jhwk1Fovw81WjQMCV0uoHgBWm9UdWIdmzj3sErcx0XNPe+5C2OxuFlH4MMwSL4I
- jO6q7r+i0UlAvX9tQ5VDOz2/kE3mI5thKClekTn6dy97kCI4C3deuGzcydwtbyNZ2nFq3S0Kt+y
- Nug5P91oP105IJ2ubowU7pMAs5LpSRL8/dNGXXgvy4Xg23AMLdzSkh+/z+g5vIZnuzKueTn+L0H
- GD52+ZYX8wyp/o85CGZk2vli971jouDmkq3s8rqJqyjIfI43IDGdgtKzGJhNL06N7ThnYvDkvIT
- 9JU2lWZo2bAD05yGcFvyMBXA=
-X-Received: by 2002:a05:7300:a507:b0:2b0:4f9a:724b with SMTP id
- 5a478bee46e88-2b739bf315fmr909834eec.6.1769181871865; Fri, 23 Jan 2026
- 07:24:31 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26FAF10E2CB
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 15:45:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=EKIZGMQIyFIPLyCGSOYC7IbcvQsfF7qx2cMcNenv5mQ=; b=BPrfNPwXKh4u+9NJJm2EB9fgcd
+ nck8GtTefULPgGdXxo5a9Lst1ph9Oo8oHXlFr2G2L5mlo1B9405o1sHxThT+iHFiCzPNcQ+lybMo0
+ d4IwoyvwsXG0n6s7/RXUbysRpjZOHlL8+sh9OqUNWibJ/EPOACqoJAEZ/SYzSC8Lyr+do5WWGcVKX
+ QbW4E0yUHbJoUZDwqEp0P7566grUPXwUggUYas9QOJ2EkM4CidYQuCITue97mvk+F4v4B7j9btm4S
+ sX2RRIX8U/1ECP+orelcVg8netSV6iTIkyFMvhqoTmvBeM35ZWRIM/BykptDLwRqcuYuiCsNO7xSv
+ slFW2TgA==;
+Received: from [189.89.57.42] (helo=[192.168.18.14])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vjJL3-008xSQ-Vv; Fri, 23 Jan 2026 16:44:46 +0100
+Message-ID: <c74a8884-9322-45c8-a960-a6bb1227f553@igalia.com>
+Date: Fri, 23 Jan 2026 12:44:39 -0300
 MIME-Version: 1.0
-References: <20260122003746.405370-1-deborah.brouwer@collabora.com>
- <CANiq72=xNcgg6hahQRkAjfbiKOEGMvdePLSaWvD7cML9qTP2iA@mail.gmail.com>
- <cccf7d2d-fe7c-4b90-8181-ae4cbfacb63f@sirena.org.uk>
- <DFVDKMMA7KPC.2DN0951H3H55Y@kernel.org>
- <CANiq72m9Nq-Wonw57Nwk480CTCmoaDk-_rTLX-dFrqh_N+eyfg@mail.gmail.com>
- <aXOPVkAQGr0lEfml@google.com>
-In-Reply-To: <aXOPVkAQGr0lEfml@google.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 23 Jan 2026 16:24:19 +0100
-X-Gm-Features: AZwV_QhFUx03nDzWGbtH5yx0sTnESlXNd8pfHxRA1FMqOX70S3PEwkv0l-iFPNE
-Message-ID: <CANiq72nTrdhaz9-9xojcJzLBB=ntFjtdH4xZbQk+A662G6Tt8g@mail.gmail.com>
-Subject: Re: [PATCH] drm/tyr: suppress unread field warnings
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Trevor Gross <tmgross@umich.edu>, Mark Brown <broonie@kernel.org>, 
- Deborah Brouwer <deborah.brouwer@collabora.com>,
- dri-devel@lists.freedesktop.org, 
- rust-for-linux@vger.kernel.org, daniel.almeida@collabora.com, 
- boris.brezillon@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/4] clk: bcm: rpi: Let V3D consumers manage clock rate
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Stefan Wahren <wahrenst@gmx.net>, Maxime Ripard <mripard@kernel.org>,
+ Iago Toral Quiroga <itoral@igalia.com>,
+ Chema Casanova <jmcasanova@igalia.com>, Dom Cobley <popcornmix@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, kernel-dev@igalia.com
+References: <20260116-v3d-power-management-v3-0-4e1874e81dd6@igalia.com>
+ <20260116-v3d-power-management-v3-1-4e1874e81dd6@igalia.com>
+Content-Language: en-US
+From: Melissa Wen <mwen@igalia.com>
+In-Reply-To: <20260116-v3d-power-management-v3-1-4e1874e81dd6@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,58 +77,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [0.49 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:dakr@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:broonie@kernel.org,m:deborah.brouwer@collabora.com,m:rust-for-linux@vger.kernel.org,m:daniel.almeida@collabora.com,m:boris.brezillon@collabora.com,m:boqunfeng@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:mcanal@igalia.com,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:nsaenz@kernel.org,m:florian.fainelli@broadcom.com,m:wahrenst@gmx.net,m:mripard@kernel.org,m:itoral@igalia.com,m:jmcasanova@igalia.com,m:popcornmix@gmail.com,m:dave.stevenson@raspberrypi.com,m:p.zabel@pengutronix.de,m:linux-clk@vger.kernel.org,m:linux-rpi-kernel@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:bcm-kernel-feedback-list@broadcom.com,m:kernel-dev@igalia.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[igalia.com,baylibre.com,kernel.org,broadcom.com,gmx.net,gmail.com,raspberrypi.com,pengutronix.de];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[mwen@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.998];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,umich.edu,collabora.com,lists.freedesktop.org,vger.kernel.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[mwen@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	NEURAL_HAM(-0.00)[-0.143];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 3EFC877C27
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,igalia.com:mid,igalia.com:email]
+X-Rspamd-Queue-Id: 28FD477EDF
 X-Rspamd-Action: no action
 
-On Fri, Jan 23, 2026 at 4:10=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> w=
-rote:
+
+
+On 16/01/2026 17:19, Maíra Canal wrote:
+> Remove the `maximize` infrastructure and don't set `minimize` for the
+> V3D clock, giving consumers full control over its rate.
 >
-> Having a lint that happens on just one random version is inconvenient,
-> so I think we should take at least one of these two actions:
+> On some firmware versions, RPI_FIRMWARE_SET_CLOCK_STATE doesn't
+> actually power off the clock. To achieve meaningful power consumption
+> reduction, consumers need to set the clock rate to minimum before
+> disabling it. Forcing the clock to maximum rate in the clock framework
+> prevents this, as consumers don't have any flexibility over the clock
+> rate.
 >
-> 1. Disable clippy::precedence on 1.85.0 only.
-> 2. Enable the clippy::precedence_bits lint.
+> This change enables the v3d driver to control the clock rate directly
+> in its suspend/resume callbacks.
 
-Yeah, in case it wasn't clear, those are the two options I mentioned.
+Acked-by: Melissa Wen <mwen@igalia.com>
 
-> But I am ok with enabling clippy::precedence_bits.
+>
+> Fixes: 6526402b9bac ("clk: bcm: rpi: Maximize V3D clock")
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> ---
+>   drivers/clk/bcm/clk-raspberrypi.c | 5 -----
+>   1 file changed, 5 deletions(-)
+>
+> diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-raspberrypi.c
+> index 1a9162f0ae31e330c46f6eafdd00350599b0eede..9783385d5859836898683209e320fcc928dfdc71 100644
+> --- a/drivers/clk/bcm/clk-raspberrypi.c
+> +++ b/drivers/clk/bcm/clk-raspberrypi.c
+> @@ -68,7 +68,6 @@ struct raspberrypi_clk_variant {
+>   	char		*clkdev;
+>   	unsigned long	min_rate;
+>   	bool		minimize;
+> -	bool		maximize;
+>   	u32		flags;
+>   };
+>   
+> @@ -136,7 +135,6 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
+>   	},
+>   	[RPI_FIRMWARE_V3D_CLK_ID] = {
+>   		.export = true,
+> -		.maximize = true,
+>   	},
+>   	[RPI_FIRMWARE_PIXEL_CLK_ID] = {
+>   		.export = true,
+> @@ -387,9 +385,6 @@ static struct clk_hw *raspberrypi_clk_register(struct raspberrypi_clk *rpi,
+>   		}
+>   	}
+>   
+> -	if (variant->maximize)
+> -		variant->min_rate = max_rate;
+> -
+>   	if (variant->min_rate) {
+>   		unsigned long rate;
+>   
+>
 
-Great, let's see how others feel about the parenthesis...
-
-Cheers,
-Miguel
