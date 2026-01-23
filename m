@@ -2,177 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gHLkHlmoc2mtxwAAu9opvQ
+	id 6A84IEOpc2nOxwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 17:56:57 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 18:00:51 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC5C478B55
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 17:56:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3604978BC6
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 18:00:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52EEE10EB61;
-	Fri, 23 Jan 2026 16:56:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3A5710EB6B;
+	Fri, 23 Jan 2026 17:00:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="NwMtet04";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="a9KXvr3w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from LO0P265CU003.outbound.protection.outlook.com
- (mail-uksouthazon11022079.outbound.protection.outlook.com [52.101.96.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EB1E10E2C9
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 16:56:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=L71D3C3CoFL93VndoSzsTHZ//Wd2iQ6M74srWNCKeJ7VczEO4vTIYHy+LWPmVrVkFWZqluJNL9hX74L7WtW7h5VZ4LTR86llQrJtkSdFETVm6iq+hED9EYqWxJIAJYKqa7j+HJ4Q4SnZJFXx6qwAOrGSJV8j3l5HooBThUY4W+sRkhB7WN+XQIlWkk0Zh84euqtGfHLiIb/Le7wcKMPiPpM1Yi3ypumH5wgRLEj5U4n/BegTk7IjidLJ/klNjABlNyItwqCfnURmuVGT2wA7UxOY3eZaDLIQDAo8hm3XjaYAxPpLx1DUafI2v77vYNwStuNinhBgx0VjrGQyYk9u5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+Q0JnHn1M8WR5unNTiHwr+FJylcqR2S1COf/zDuUPT4=;
- b=sfm2ZXfcpZrI5G2zL1GGoXMLWCFixZZz7TxrYlmKDIb6QCbDBqoewUpEgxuSv/adYivE0m0M9PGfO1km9hWKIqbfvG9ADvu0AhGGsjDlOT8ecEKMotbi3NeO2hLBDRfZiSfs4CajdXxibhblY+rlJbDKIlx+yBdCnGUwKMjRngV9vMkrFkaexJ+mM7qMXnPDFjRK0wUNwrK/lidXH/bFwY7yxXntGbfu+mfoZKmUJJDAdpPk9OAIpVpTQ3TqfyelugxCJE4tJa9+vqFvhitQoVavdzy5hZizCGxOKBUxG5w4oOLOgs7RuqMxf97AjCXemdcteDg+2qrTOq8cc0S9kg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+Q0JnHn1M8WR5unNTiHwr+FJylcqR2S1COf/zDuUPT4=;
- b=NwMtet04PjqgYWklANrldcwAiBZTqzFQdM0ab7SaZ0G0ZtI4eVKIqqxOxhTv5/aaHtfr9qYiVHEicLsG2cPl1uCe+7nbHjRH78+JeyX4UrDhLXPnZaTxisvbcQHiBWS4eMD0ASSu2M3CeQsnG3LL+npzue+GgNJ4ut7JgctMdQQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CW1P265MB8686.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:27f::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.12; Fri, 23 Jan
- 2026 16:56:47 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9542.010; Fri, 23 Jan 2026
- 16:56:47 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 23 Jan 2026 16:56:47 +0000
-Message-Id: <DFW4LENSQUNN.8EKW6NIQRQU7@garyguo.net>
-Cc: "Danilo Krummrich" <dakr@kernel.org>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Mark Brown" <broonie@kernel.org>, "Deborah
- Brouwer" <deborah.brouwer@collabora.com>,
- <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <daniel.almeida@collabora.com>, <boris.brezillon@collabora.com>
-Subject: Re: [PATCH] drm/tyr: suppress unread field warnings
-From: "Gary Guo" <gary@garyguo.net>
-To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>, "Alice Ryhl"
- <aliceryhl@google.com>
-X-Mailer: aerc 0.21.0
-References: <20260122003746.405370-1-deborah.brouwer@collabora.com>
- <CANiq72=xNcgg6hahQRkAjfbiKOEGMvdePLSaWvD7cML9qTP2iA@mail.gmail.com>
- <cccf7d2d-fe7c-4b90-8181-ae4cbfacb63f@sirena.org.uk>
- <DFVDKMMA7KPC.2DN0951H3H55Y@kernel.org>
- <CANiq72m9Nq-Wonw57Nwk480CTCmoaDk-_rTLX-dFrqh_N+eyfg@mail.gmail.com>
- <aXOPVkAQGr0lEfml@google.com>
- <CANiq72nTrdhaz9-9xojcJzLBB=ntFjtdH4xZbQk+A662G6Tt8g@mail.gmail.com>
-In-Reply-To: <CANiq72nTrdhaz9-9xojcJzLBB=ntFjtdH4xZbQk+A662G6Tt8g@mail.gmail.com>
-X-ClientProxiedBy: LO2P265CA0456.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:e::36) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1B3410EB6B
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 17:00:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1769187646;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oYRZQtOI+KB8tYFyNN3GRXz5SFLWYG0fejboN/bZV20=;
+ b=a9KXvr3wE2NshJFHab11VoEFst7r7IXLuEcCt9Bp+2fRePP1tdL2gWRBkv5gPBJ8i64vJJ
+ E+F0aUqjIN/lalgjYeVSvE/UTRtSkKVXOZK1bWck1yF1exCxLVUJ4MD5KCGg7WKx55LsZJ
+ Q0iKngE8GSiz04Z/Qe8R7grzmfH4tas=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-269-fSYT52XVP76idCB4iZ4pBg-1; Fri, 23 Jan 2026 12:00:45 -0500
+X-MC-Unique: fSYT52XVP76idCB4iZ4pBg-1
+X-Mimecast-MFC-AGG-ID: fSYT52XVP76idCB4iZ4pBg_1769187645
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-8c538971a16so661850285a.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 09:00:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769187645; x=1769792445;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oYRZQtOI+KB8tYFyNN3GRXz5SFLWYG0fejboN/bZV20=;
+ b=tUDRSnWsEVcbWxQGbRm10NqB3EOC0q5EkwlQd3Rqt0uKaP3VU6upBiddMLkyQTtkg+
+ dg9+bUbDHFPq30U2+cl2/p0HjNwJcts25JnEEeVQUt0x67qSaQn4CWLy2oMJWLQB8/Zv
+ pp98W+I76ZNTCw4TI51+MpSjjvPlH/lE8M5tSRCmCWuNWg2tvgXByueD2DOwMwBM4GDP
+ 17qjhYzM8bcbl4YSx1DE1p5PCi51v5D8ZuXX/lQp9kiJSKVVpqAqa09+yd5oRmeNwgOe
+ tZkREoZktrLYe/1hBKXphbuXfpb79XEutsxu4SR+4S3rFOo4lKv3C/KzMshkLaYC/gn3
+ bnTw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUvoHphHODgHsLxIIsIW7hEibCcbtccLy/NLQa0E/Y+kCtDR2o3KFsJmX+sucu75YR0V5TCl8Op54w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YynqN2P4vpJFZpjUxc0LK78MKTwDoa8c5xarr2dY/SO4ZmY7znt
+ KqdQEgRlXbDjpWNsUwwPUnO0BU6ChoN11G0dedYSJmv2cPVyjRTi53W1bvn6C1Dmu3kwJqE/Gpe
+ K6eBFk7CY6tvTEbDPeVV4Ek0zr/PnrVF/Tl6Zipg3D6sePOaiYSIlAzQedRuIVqOLkKXc7Q==
+X-Gm-Gg: AZuq6aKFWQ/Bv26uJtKFdmXn+S2N4DCsf7HGuEnsGIUasuw4o3JqkEUfFA2dFdBymro
+ wS5XQMhypjLf2y/5RDTtlpbdxDH34sz8YUo85Zur1AkVmLoeRh1c1Ln9WV0l1iQLEVuV4Pwp0vw
+ d3GiNjFVtuHB8TQXQ+5MieL+ztolHlUDn2Bz8C4pS5njd4UVa2HV0Az5UPUCzEY5s+xLnt7sU3P
+ 3ZrtuSlyeEXeg4ruBNbuSmEZegY63CBPKeF0HIGMMcJvUEHRcs5qCj7IyyFSZd9ub7Iw08W174l
+ TIfHGl+SFDWtw2mTZiuLFLzY58y53rJ4SeHhe/awIyHd0e056RPWlxkQQkqBv7vkQMwn2bVFG5I
+ lKieArQ==
+X-Received: by 2002:a05:620a:40cd:b0:8c5:38b3:fefa with SMTP id
+ af79cd13be357-8c6e2e4c7cbmr393961285a.79.1769187637961; 
+ Fri, 23 Jan 2026 09:00:37 -0800 (PST)
+X-Received: by 2002:a05:620a:40cd:b0:8c5:38b3:fefa with SMTP id
+ af79cd13be357-8c6e2e4c7cbmr393887885a.79.1769187633428; 
+ Fri, 23 Jan 2026 09:00:33 -0800 (PST)
+Received: from [192.168.8.4] ([100.0.180.93]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-8949193add8sm22302406d6.45.2026.01.23.09.00.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Jan 2026 09:00:31 -0800 (PST)
+Message-ID: <47cbb2bb4462331e5ffa56da488d8ffab9a5fcd7.camel@redhat.com>
+Subject: Re: [PATCH v3 2/3] rust/drm: Don't setup private driver data until
+ registration
+From: lyude@redhat.com
+To: Daniel Almeida <daniel.almeida@collabora.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ rust-for-linux@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>, 
+ nouveau@lists.freedesktop.org, Miguel Ojeda <ojeda@kernel.org>, Simona
+ Vetter	 <simona@ffwll.ch>, Alice Ryhl <aliceryhl@google.com>, Shankari
+ Anand	 <shankari.ak0208@gmail.com>, David Airlie <airlied@gmail.com>, Benno
+ Lossin	 <lossin@kernel.org>, Asahi Lina <lina+kernel@asahilina.net>
+Date: Fri, 23 Jan 2026 12:00:28 -0500
+In-Reply-To: <E3CBBAB1-4EED-4052-B9DC-AAEB58D67265@collabora.com>
+References: <20260122225057.3589500-1-lyude@redhat.com>
+ <20260122225057.3589500-3-lyude@redhat.com>
+ <E3CBBAB1-4EED-4052-B9DC-AAEB58D67265@collabora.com>
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CW1P265MB8686:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe718b14-4ac1-43fa-acf8-08de5aa0657e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|10070799003|7416014|376014; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YUVPNlVPTVUrZkNWNFpVcllybEJGem1peHJzOG92WXBGdHprRVIzUElIU2R3?=
- =?utf-8?B?QjlMbGZKcnRLejgzL0hYU2tNdXpEUjVUWlZWcm95Tnhyckp3SEtNcDlYVHc0?=
- =?utf-8?B?cnJCQm5CUXhHUHRmUWxYZ1BHcGplSGZJcUdTQ1d4aDFBbHZlYTl2VVc3dlNJ?=
- =?utf-8?B?RWhIZ0lMZWwyZndEbDkzeGswcTRGam83Q2l2TWtpR0trdVVRVmxGbUFEckI4?=
- =?utf-8?B?dUc4RndwMm4ycWNydHJPWGJWaWFOMWxDdWNaUmdCNjY3Yk1nQk1PMHJYam83?=
- =?utf-8?B?VGpKcktabjQyQmNDbjhYRXFJVFJyRm53SG1FdnZ3UVhCQzhudFZLSlJsOEpQ?=
- =?utf-8?B?dmxCcnh5Vmp6dDFsU21vajM3QVRRMnI0cE9VUkdVcDNDTVJDK0laNlY3bXNU?=
- =?utf-8?B?ZDhXODkwVWZGVUZ4LzdHc3l5UW1yUU5sSjVQYWFQT29QTHBBeFdrc1Q5aElk?=
- =?utf-8?B?T2FQdUVHc3FJeXJVN3EwSUlialQxNURpNnpwOVhhdGFxUlZuTEdtdVcxdHcr?=
- =?utf-8?B?b3BDUDFmSlROQy9SUlJUa1JQeDNXd3N0bEFVOXpiRzJIWmFUTUY5cmJINkFw?=
- =?utf-8?B?WGtFZnFuYVVVcDVGbVlZSlBRdUdwQTl2bEJJZzZqR1ZqMzFiQi90NDZvazVo?=
- =?utf-8?B?QVpSYjg0TVE5WXBlSElRNVQ5Zlc3T0JDQXNOaWZJRlE4RXJxd3ZwaHFNSXlr?=
- =?utf-8?B?dEJZMm9vK1Z0aWE3NGgyRklIMFplazB0cUkrbzF6alh0azFnbFBkUWdLak9i?=
- =?utf-8?B?QUZLR2p2QUZiUTM0UEV6TFZPRkJFTGsxU3F4R1FBd2x6UjdRSUVqYjZqdVdE?=
- =?utf-8?B?K3BSckRSRUhnR1BQdklGTlloR2dLbmJUZmtSMlhkdzQzQkNOQjVKQ1h1bTgv?=
- =?utf-8?B?RWlVaWhrdVlpM2Rwbjd1WE5YY3hia0tMSzllZGZWS1J3WVJjUENUQUxPdWtF?=
- =?utf-8?B?UitqbU95TFR1ZUxZVGRyeHAzVVNMUlNUYmNmQzN5RnZ4Y1oxL055eVhFZTdT?=
- =?utf-8?B?TnhNbEt6VS8xTDNGZDhwTjJKb0Q2NHRFTjFKc2FrSXpaemhvL05LckFDcFNo?=
- =?utf-8?B?T280VW9hcHZYUkxncXczZkZ2VmlOc3BMbmdCV1JwZ3FPcUJMUExibDJCWUdD?=
- =?utf-8?B?RUJUWDJucEVIQm83c3p6WHN3R2F0d2p1eVZvK2lwOG1NUmxzeXkyZHNCd0pJ?=
- =?utf-8?B?NTF1eVNBQkI5NGhZTy9IZ04vSTZGazVPMG9JTXQ3VTgzc1czMzI5VkNpYnVk?=
- =?utf-8?B?cFhRaDJsSkNJajR6a0Rzc2c5L0Jpb3RsNWYxRGpPc1F1MC9PTFIzKzNZMlRL?=
- =?utf-8?B?MnlkYm95eFV5Q3JpNks3WGJLTlk3L0JZQ2NBQWp4U3p2QWRxTkhBbGo4YUVQ?=
- =?utf-8?B?OHF5MkhzMUgzVmZLOUdsM3JIajl4TzFVQVZzR1NoR1JCazZsdUcrc0JYQ2ly?=
- =?utf-8?B?R1lCd0pka1JYVVdSc2xaN2RMMzVMUjBYbisvSXAxQ3FFZm5lV0tCbDUzRFpj?=
- =?utf-8?B?Y21GVzJ1Y1U2ZW9zOFRObUJQUVJuM1BMS2R5VUxYYisxbTlYUDFIRmRybTJs?=
- =?utf-8?B?WmIyZHE0ZTlpRlY4RHNNYjJBRGhmMldIWlZoV3J5K1BERW4wS1pURHVtV3ow?=
- =?utf-8?B?OXRFc2FTTjY1VlFjdmdpN3JUNVJFTTJONnhsQzgvZ25FcFBPVnJ3MVdYeXdl?=
- =?utf-8?B?aFcwenIzMTJhbUh4dGxMYVJWMFAzazFOR2ZsT0ZzLzdIc2lnYytQSDFiVXRt?=
- =?utf-8?B?VVdQNkJ0dHNtdnA3dlpPa3BxR214M3c2RkIxbmhJU05XdTEwUTAydHlhck5Y?=
- =?utf-8?B?TU1XcWhSZnQ0NXNMdjgxK1UyVjhYeS82WVh1dm9SdXFPako1ZitaWDVIUnZi?=
- =?utf-8?B?SnR2akN6a2dWUy96MitwRmQwZHdOSVJlRm1ka1JNODBKZjRVUGhPS3I2SytF?=
- =?utf-8?B?NysvTWFjVk90Zk40YVRhM3BvOFRtN0pZUnoyUmMxMnpTL3VheVVFNmI2US91?=
- =?utf-8?B?UzBMMFFoRTVUUkQ1dktIUVBYZzE0dlRVTzRUQWpmWG5TWTFLR2NDY0tBc3RN?=
- =?utf-8?B?TGtrSHlGTlhXK24rTTkxNm5HNWQ2NFNZaHNnc3ZSV2luSGRsTTNBOUlmaXNs?=
- =?utf-8?Q?SMaM=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(10070799003)(7416014)(376014); DIR:OUT;
- SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZFdacndBN3pCZ1FIR3F5YnNKMG5mZWhySVR3RzFEbGczaXJINGhpQW85aGlr?=
- =?utf-8?B?NHhHeml3d3hBd0VaSTdES0xud0RLSG8zTmdUTnJKN1RmNUJ6c3VRc1h6K1Zl?=
- =?utf-8?B?dExkYVNMcVRNbnZQWHBSVk12VGVCUDBjUy9qQlJWVlhURUJZRldvNnpQNE5k?=
- =?utf-8?B?aW9jZTdNZW0yS1BPQ2oxNGxMY0RRTmdBRXQ1bVY5dFQzS0pmYWU2czdSYzgr?=
- =?utf-8?B?Sk5nMXd4RjRsWTJLWFNHbjBGb3QyZS9yeHZTTzJ6MU9idlk0dzhic3RZbXBM?=
- =?utf-8?B?MmkxQXd2TE9xUE1IeFlRMHUwMGdKbWtENkJ2N2dNUEhuaWdLa0habU5wY3hq?=
- =?utf-8?B?TVI3cXo4QzU0cFdUdXBvZElyTzZJU3NLOVE5Mk9veTlveEd2RTBjRnc1aE1l?=
- =?utf-8?B?Q1o5LzR1cWlLdXV2ZXRCMmVRbytqY1NEUi92SVl0amF4L1pIY0Nsd1U2ZHBy?=
- =?utf-8?B?MXJOVHdqQ3BLdmtQcHl6V0JzQWpqSXFjUnllYnZWRWI3NGExRU8vVURsZjJa?=
- =?utf-8?B?SEhDdFp0TUNtQjRUNjArclkxMEp5SW9wTkJ6dE0zeXplZ1BWQ0VKUU5OTzJQ?=
- =?utf-8?B?dk9IQVdWSk9kQjRZZStmaEovWm9QMDExMlNueVYxWWQzTTY4RXdKcmhGWExT?=
- =?utf-8?B?L2htM2dmem5aczZOZ1BUUEVUZlpCMVFYU1AyWFpKeWVUT1FiOWZDN0VQSm5T?=
- =?utf-8?B?WXExd0d4RXkxNUMvM1lEN1JDbmdSQ2s3SE4wNWhobTJsRzR6VHo0K0Nma3Q5?=
- =?utf-8?B?RjA4K050blo1d012aHJLSjZzZ0dFWTl6UFVjQTdzZ3dyUHBUV2hndXZKSzJh?=
- =?utf-8?B?d3JDRzVhVm9URkdYcjVpWTJ5UnBRaU5hTWRSRTljcGxPQm13TlFENlFIWnpQ?=
- =?utf-8?B?dmJtaXcvaWVMclozY3hkcGxuNEN6ZGtZT1RMUWZuUElkYXBWcSswK0o3c0Zr?=
- =?utf-8?B?R2hKZkViNEhZYWdCb0tXNE1ZN21yWlZaQVhyMVg2QWx2cTBoY0YvMkFXN0R0?=
- =?utf-8?B?TGdBclcyVk96Qy8vNmlLMXlYT3lpMVhkNXlTS243b3J1RitlSlB5UWhyVjlS?=
- =?utf-8?B?S3VBT1hpTUJieEJmQ2dVSnhaN1I3Z0c3K2JBdStWQzdsbzJ0RHpING9CdHNu?=
- =?utf-8?B?QXBGNlFSbGxWOXlkb05SMWVPTGMxckxEY3ZUUTB0c01HVnFGS0hKdStUZDA3?=
- =?utf-8?B?RVBlRVNoV0E2WlBoem9Qd1dHcjZUd1Y5ZTMrZnI4T3VmK0JJRTUwelVsYmpu?=
- =?utf-8?B?MXJiTllPd2ZQRHRsOUl2alNBd2dGWVVCTTk4SVFxMGU2Um1WQXZabnNhaTR2?=
- =?utf-8?B?NHBiandRVlpYVWN4QU5qYjhnSjI1ZVhBZkZ1STlYVUpxQnk3dGU2N1RmMEpO?=
- =?utf-8?B?M2dLUFB1SVRXdTQzNU04QVNqQWJMY0lCWk5IajRDckNBWDNzRTVreUhHOVBz?=
- =?utf-8?B?R3VZVllpcE9FSDZOUlBmb0hKS2R0MnVLTnlPU24rdHk2T2hVS2h1UGlVNGlY?=
- =?utf-8?B?YlExQVJnek4xeGFsSE1UUnB1a2NROFQ2S1dwUjFVMmswUWlOaUI1NlFXbFZl?=
- =?utf-8?B?blF4K3JZMUUzTzY3blB4dXVLZ3NFVmpMVE85bmJUUTJkWDZzQjNaZnpUSWU3?=
- =?utf-8?B?L0NKUnB1VFEvK0NpV1k2SE12WDQ4VlRRdHNjV09ORnN5OTFYeWFxQlEyajZK?=
- =?utf-8?B?eWVnVmhxMUhBM3Z2QnkrV3JQR1ZhN3A0N0w1WVJXNFF3djZYbHZ5RE45NXU0?=
- =?utf-8?B?dDV4VG1wZlRNL1NYbVozVmJKaVl1S3RHZ3dHZitvMzN2bW1QKzBBMjNEUmti?=
- =?utf-8?B?NnkrRWVrU1V3Z0lXay9TZU9nSm1oem5aWE9HNjZXNVAyR2JHUTlhdSs1TytG?=
- =?utf-8?B?TTVKcVdTOXhFUGJFR0FGVnBFTVFTL09GVFVsSTJSRmJ0Rmw2ekEybEk0NXFs?=
- =?utf-8?B?UDZuWWcyWHJLMU1XQTVFcEc5aXgxUlMyUTlRTVhqc3ZKTCtjdVhacXJXbmZ5?=
- =?utf-8?B?YitkbDhFZ3duYUJ0d2tQS1lHTk9aWkFoRnJpSloxRWIxMmNhaFpkKzBEWFlu?=
- =?utf-8?B?Yi9VclRIQlRVWitINFNxQ2lEcitjb3Mwb0c0QS84VFhEczhMOGNGQVBHK0xv?=
- =?utf-8?B?VXJZaVhtRzFwZ09odHBDanBiMHNMN2o5YlZpK1hFOENkeGJQcEVxd2liODlt?=
- =?utf-8?B?TytqdHZMSW1PczRPVDNQTUwyV0NKdDc5alhUWGpSQXkxQ1IwdkozZ3ErZFdq?=
- =?utf-8?B?Z2pTSlRVTkhSYzVXRWhmRXp5QXZFdnpFU0owL1ZwL3NLc1M0d2pOM2I0V0ox?=
- =?utf-8?B?TzQ1OHRMWExnY01RcjlyOExsU08raW5HT3JadkZodnVIMDErQlhYdz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe718b14-4ac1-43fa-acf8-08de5aa0657e
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2026 16:56:47.7786 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BoHI4noaruhupyJ+Ihc3iAQ5iQ0VgAULVNGw5HLrOnEgNOxytM75aZrczPGwxaAS5JkddHWHihVzxyakOUo9Lw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB8686
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: pBdcIz7nOOyXSiN3FNJboxVOvRPh0RNG1_lqw7L6NRc_1769187645
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -188,63 +111,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
-	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
-	MAILLIST(-0.20)[mailman];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:broonie@kernel.org,m:deborah.brouwer@collabora.com,m:rust-for-linux@vger.kernel.org,m:daniel.almeida@collabora.com,m:boris.brezillon@collabora.com,m:miguel.ojeda.sandonis@gmail.com,m:aliceryhl@google.com,m:boqunfeng@gmail.com,m:miguelojedasandonis@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,google.com];
-	FORGED_SENDER(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[15];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,kernel.org,ffwll.ch,google.com,gmail.com,asahilina.net];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[lyude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:daniel.almeida@collabora.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:dakr@kernel.org,m:nouveau@lists.freedesktop.org,m:ojeda@kernel.org,m:simona@ffwll.ch,m:aliceryhl@google.com,m:shankari.ak0208@gmail.com,m:airlied@gmail.com,m:lossin@kernel.org,m:lina+kernel@asahilina.net,m:shankariak0208@gmail.com,m:lina@asahilina.net,s:lists@lfdr.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[garyguo.net:+];
-	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	FROM_NO_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.305];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,umich.edu,collabora.com,lists.freedesktop.org,vger.kernel.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lyude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.150];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[garyguo.net:mid,garyguo.net:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: DC5C478B55
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,kernel];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 3604978BC6
 X-Rspamd-Action: no action
 
-On Fri Jan 23, 2026 at 3:24 PM GMT, Miguel Ojeda wrote:
-> On Fri, Jan 23, 2026 at 4:10=E2=80=AFPM Alice Ryhl <aliceryhl@google.com>=
- wrote:
->>
->> Having a lint that happens on just one random version is inconvenient,
->> so I think we should take at least one of these two actions:
->>
->> 1. Disable clippy::precedence on 1.85.0 only.
->> 2. Enable the clippy::precedence_bits lint.
->
-> Yeah, in case it wasn't clear, those are the two options I mentioned.
->
->> But I am ok with enabling clippy::precedence_bits.
->
-> Great, let's see how others feel about the parenthesis...
+On Thu, 2026-01-22 at 22:52 -0300, Daniel Almeida wrote:
+> > @@ -254,7 +240,15 @@ pub fn new(dev: &device::Device, data: impl
+> > PinInit<T::Data, Error>) -> Result<S
+> > #[repr(C)]
+> > pub struct Device<T: drm::Driver, C: DeviceContext =3D Registered> {
+> > =C2=A0=C2=A0=C2=A0=C2=A0 dev: Opaque<bindings::drm_device>,
+> > -=C2=A0=C2=A0=C2=A0 data: T::Data,
+> > +
+> > +=C2=A0=C2=A0=C2=A0 /// Keeps track of whether we've initialized the de=
+vice data
+> > yet.
+> > +=C2=A0=C2=A0=C2=A0 pub(crate) data_is_init: AtomicBool,
+>=20
+> Why don=E2=80=99t we make the data a member of the Registered context?
 
-I'd like not to have the parenthesis. I think the fact that Clippy needs to=
- rollback
-the change tells that it's not popular change.
+A couple of different reasons. For one: not having it embedded as part
+of Device would complicate trying to go from the device's private data
+using container_of! to the actual Device struct, which isn't great for
+workqueues.
 
-I think we should just disable the lint for Clippy 1.85.
+The other much more important reason is that Registered isn't going to
+be the only typestate that has access to the driver's private data in
+the future.=C2=A0With KMS, nearly all of the modesetting callbacks for a
+driver can be invoked before userspace registration. E.g. consider a
+modesetting driver that needs to perform a modeset pre-registration so
+that the hardware is in a known good state before being exposed to
+userspace.
 
-Best,
-Gary
+To clarify what this looks like: you'll recall that I made a diagram
+showing a high-level overview of the DRM initialization process for the
+documentation for DeviceContext. The second stage in that diagram,
+which I'm currently calling Init, is the context that we're going to
+need to eventually add a typestate for.
+
+FWIW, this is more or less what the flow will look like with this new
+context. Indenting indicates calling down to a function from within the
+function above
+
+ * UnregisteredDevice::new(d: device::Device) -> UnregisteredDevice<T>
+    - // Creates Crtcs, Connectors, etc.
+      KmsDriver::probe(d: &UninitializedKmsDevice)
+ * // The driver sets stuff up
+ * Registration::new_foreign_owned(
+   =C2=A0 dev: UnregisteredDevice,
+   =C2=A0 data: impl PinInit<T::Data>
+   ):
+    - // Initialize `data`, so driver data is ready at this point
+    - KmsDriver::pre_registration_init(d: &Device<T, Init>)
+    - // Perform actual userspace registration
+
+If it wasn't clear too: this means tyr won't really need to do anything
+when we add the new DeviceContext typestate :)
+
+>=20
+> > +
+> > +=C2=A0=C2=A0=C2=A0 /// The Driver's private data.
+> > +=C2=A0=C2=A0=C2=A0 ///
+> > +=C2=A0=C2=A0=C2=A0 /// This must only be written to from
+> > [`drm::Registration::new`].
+> > +=C2=A0=C2=A0=C2=A0 pub(crate) data: UnsafeCell<MaybeUninit<T::Data>>,
+> > +
+> > =C2=A0=C2=A0=C2=A0=C2=A0 _ctx: PhantomData<C>,
+
