@@ -2,67 +2,176 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GrfIOYXVcmlhpwAAu9opvQ
+	id oAypGNTWcmlhpwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 02:57:25 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 03:03:00 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4470E6F678
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 02:57:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B87B46F6D6
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 03:02:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D8E210EA5B;
-	Fri, 23 Jan 2026 01:57:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A72C10EB9D;
+	Fri, 23 Jan 2026 02:02:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="lSjyXU5T";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="iPEy6hLO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B5F410EA5B;
- Fri, 23 Jan 2026 01:57:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1769133437; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=UbeLMybWTx4401DF+sY8XSt5vBV8tOfzEJKBgf8hrZbU7COnBq07LvhWQaNrQe1E+dia4+0Kz9wI4lt8/oNlobnRSIO0BtNAnkWatGWJ0sLFdQ01aZUTmP3pREmCshsAF2nPJZlczrQeVNav2IBflIUbOs97XYYzXreM9Q5smKI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1769133437;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=FXmR8QwFsxPz7f3VdjxeTlFtxTPHU0hhqHhOkBUPA5E=; 
- b=CJBqBa+npFMoe1HRdNowIfs03cRsGdLbMHjDHZbe3n6zRl4P4R1Xg+kYu3iltKwqRfRk93SkYezixsId/Oc7hHZL2UhTg+rHFt/NpyVAPDSLzlphN+4HcmHeUCOWELuYDjknMuNIGomzMcbrGMfOvtshGUi3QRyNscgCdbMOXao=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769133437; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=FXmR8QwFsxPz7f3VdjxeTlFtxTPHU0hhqHhOkBUPA5E=;
- b=lSjyXU5TQ4Zqpmt0P/XBEkUA5urvcxVk5j5tfVo79ejdGIrZB8nfZdB51DPxjARP
- /F+zrCoITA208B+oV4StvplsjTOKQwgVT5Wi4sMr2gCr/Yp/qPOxVEWFPwWPVjYl6yj
- to4cbcFhBbgBK8uguYcTFaPLda0m646mTLP5UGdA=
-Received: by mx.zohomail.com with SMTPS id 1769133434217459.74454308212034;
- Thu, 22 Jan 2026 17:57:14 -0800 (PST)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH v3 3/3] rust/drm/gem: Use DeviceContext with GEM objects
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20260122225057.3589500-4-lyude@redhat.com>
-Date: Thu, 22 Jan 2026 22:56:43 -0300
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>,
- nouveau@lists.freedesktop.org, Miguel Ojeda <ojeda@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Alice Ryhl <aliceryhl@google.com>,
- Shankari Anand <shankari.ak0208@gmail.com>,
- David Airlie <airlied@gmail.com>, Benno Lossin <lossin@kernel.org>,
- Asahi Lina <lina+kernel@asahilina.net>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <EEE2F67E-7F61-44B3-805B-0794C9BB02F6@collabora.com>
-References: <20260122225057.3589500-1-lyude@redhat.com>
- <20260122225057.3589500-4-lyude@redhat.com>
-To: Lyude Paul <lyude@redhat.com>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+Received: from CH4PR04CU002.outbound.protection.outlook.com
+ (mail-northcentralusazon11013057.outbound.protection.outlook.com
+ [40.107.201.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA4C10EB99;
+ Fri, 23 Jan 2026 02:02:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QFFp4vS2uAG0rSoDZqsQi+gdcLezrxVU/UKykKmHKo1B8nWLaUEMyQJPd+TLfDGpSq06aTN306tdU374NqQp8eOnJCGpjp93VK++EpGpvbdnJyq9yTxGt2SgfkXOskRncVAdSLD0rm0IoXoJ/lMJUDaU3LijRgJTsgqZs/czJzlLghwpPHfwJ4AkqrWDc9X7x2efMYXzicRRmXyTJ9506SXrZr/sLHVv6+YpeOPLxxsyWdsVPd2oN9v3rgOd/UVmCswwILIkI0yavzAG6DyftqAfKYuoPXjHBjqcSOnqaV1IxlOiN9prUDedUy6F8esZGHLLxpwAzRJA87YApkRfug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Z2+gfhpbAKFnoGbDKDGaL4VqP6A6VQbCIUe7wbNIvL4=;
+ b=AhhQtulBeVgduM7hPazvlDXcqDLPHUE3SmxV5S3ru3/Of0F+mDzB6ak0YbVjHZCIGgeV5bktB7U6xivONA7TukqIpGWf1gVmYLjtrwyYHxcdT9XxeYp3L0xij+SwIHBn6M4SnbcZgyy7bBpKTr3QZWwp40zPhDPJcO1ki9UAfQzvNnfFYQXwLPTJYytqvS3KuKbzKyXbuaX5Wuk+0YGiOCM9chv9dJfaIKx2lwecLONxROWwBLD8DVBfwfSUl2iW3ccez8t0re3sXZaY4wLCMdvhq/fuyBXtf1naolkHakporbDILhmUUtu5KHFj8t3+9pY2nS0Wo9VFjcKHrngodw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z2+gfhpbAKFnoGbDKDGaL4VqP6A6VQbCIUe7wbNIvL4=;
+ b=iPEy6hLOeGlIEWlLpyP6Cb37kdZkXZMWoOnwE95kdUb9GtE6UIICM9eUKzJhX5+XJ4mmcQdwsxz/S8TeP/goPIAMaFhdy3lmjnHdryu3VAkBGxbRfWhJnWuSYVEf8Vt22jeAhRvVPTTc2SWtOq4UQKfyqy+uIwND6at8bBkuuglbr7NrKNkY3FGYHw3g7/++eUAAUIZPNypFSXgdGmFp2xIsUNhYh3346NoY/VyhGDT2kk8YfNUoS4Wbqbv/sy2jHTJ/r2aEmO9fH5lIBH4KfJjGTJYeERuNFQW/tDF0Rmlzk5tDdDO+VFjbiW1+Wjz+XkG00NLQv06TEKOwNlyi9g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
+ SA1PR12MB5658.namprd12.prod.outlook.com (2603:10b6:806:235::5) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9542.10; Fri, 23 Jan 2026 02:02:48 +0000
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe%4]) with mapi id 15.20.9542.009; Fri, 23 Jan 2026
+ 02:02:48 +0000
+Date: Fri, 23 Jan 2026 13:02:42 +1100
+From: Alistair Popple <apopple@nvidia.com>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Jordan Niethe <jniethe@nvidia.com>, linux-mm@kvack.org, 
+ balbirs@nvidia.com, matthew.brost@intel.com, akpm@linux-foundation.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, david@redhat.com,
+ lorenzo.stoakes@oracle.com, lyude@redhat.com, dakr@kernel.org,
+ airlied@gmail.com, 
+ simona@ffwll.ch, rcampbell@nvidia.com, mpenttil@redhat.com, jgg@nvidia.com, 
+ willy@infradead.org, linuxppc-dev@lists.ozlabs.org,
+ intel-xe@lists.freedesktop.org, jgg@ziepe.ca, Felix.Kuehling@amd.com
+Subject: Re: [PATCH v2 11/11] mm: Remove device private pages from the
+ physical address space
+Message-ID: <sezye7d27h7pioazf4k3wfrdbradxovmdqyyp5slhljkmcnxf5@ckj3ujikhsnj>
+References: <20260107091823.68974-1-jniethe@nvidia.com>
+ <20260107091823.68974-12-jniethe@nvidia.com>
+ <36F96303-8FBB-4350-9472-52CC50BAB956@nvidia.com>
+ <c9afedc6-f763-410f-b78b-522b98122f06@nvidia.com>
+ <6C5F185E-BB12-4B01-8283-F2C956E84AA3@nvidia.com>
+ <fd4b6553-3e9e-4829-a12f-51d29a5d7571@nvidia.com>
+ <16770FCE-A248-4184-ABFC-94C02C0B30F3@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <16770FCE-A248-4184-ABFC-94C02C0B30F3@nvidia.com>
+X-ClientProxiedBy: SY5P282CA0153.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:10:24a::13) To DS0PR12MB7726.namprd12.prod.outlook.com
+ (2603:10b6:8:130::6)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|SA1PR12MB5658:EE_
+X-MS-Office365-Filtering-Correlation-Id: 07921699-b4ca-47a2-89a8-08de5a238182
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SG81VFFBZ3ZSZFF2UXpKcGZaMnVoWGRObEUralZLRDZTVG9UaW1YZEJnaE5x?=
+ =?utf-8?B?bGpmbStCamRySGtMMzJjTnJKaEliazA4VGdjSCtNUUI1aytKV01CSEYxaXhG?=
+ =?utf-8?B?Q1ZlSS84dVJURzhPYnovaTNwOTVvM1BkUFNzNFNnT01nYSszNzVITkR0VnFt?=
+ =?utf-8?B?RUFSdzNqYzNmVlRBSFBvUmNUNCtJYVcwdHBiMHpGV0gzWG9YV1YzM3h0NWhH?=
+ =?utf-8?B?TjVzcnR6cGZRU0JDd01xckhPRWQxays0cmh1QU1jcmZyMDF6Kyt6VFVQYktn?=
+ =?utf-8?B?Mk0yZ3NSN3ZUallqdUFlSU56Nzd5dGZaNXp3WFduRmRuNzBvby9NWi94cDhD?=
+ =?utf-8?B?NG5Ma0xZVGducExTRFlFZ3VPT3dZSDF5M0RhT3E1WVZQa3hWRFM2OFlVZENs?=
+ =?utf-8?B?SXRJaVJXOWk3UTZBNTJqeDdNOEFuZEpwNXpOaWN1UXVFRUpyWVVjQy9XMkl1?=
+ =?utf-8?B?VHhsbHRTbzhKUlQrRnNqcENmSHJGWE91ZkZ2cjZCTHc4TnkzZFppb2JmTHhk?=
+ =?utf-8?B?TUFpMS9HMkxHZzF1REVjVVZXY3JQV1RLVko3Umo5SUoyTVVnSDdQbEhRVWNG?=
+ =?utf-8?B?YUNYbE1xTmh4UjR5ZWN3eUJ5TGp5ak9wOXUvemhraEVvMS94WW1vRFZYRTVl?=
+ =?utf-8?B?Q0t1SnBUaGIzNUJRWUcrVTdrTVZ3T3ovdmE5bEphSUY5TlptdTVrUHFrTnQ3?=
+ =?utf-8?B?NUh1WUZBS0RYdlJLek9pWGljNmkvNTdObHhKYXVQTFlYTTFMVU9jNE8wd1lD?=
+ =?utf-8?B?bThMYVJIMWdhb2cybVM1QnhBaE5IV1hXMyt2TTRQeXFlSnJDRXhyNzdNYmh4?=
+ =?utf-8?B?c2hDdW5LTVRSaC9oUE4vYXRYc3E5UUNpWG4yVkQ2RU9wMitGay9iYXdYWngx?=
+ =?utf-8?B?TGtBSzYvQ2hsK1dyWHBuNE9uYXFIZzNoNEFEM0w1YXRaMlRBclVYaDlTVWRt?=
+ =?utf-8?B?NFFKeHYrVC9TejNwSkJRMEJPZkYzYmR0SEJKNXpGODZUVlVYK25VbjhxT1Bv?=
+ =?utf-8?B?OFdlbVUxU1BOa0E4MVU0cWxKeTNHSDZwRGRJT2V4NFNrc2w2SUQ5aGg4VFVa?=
+ =?utf-8?B?M2ZkaklTcnlFWFBJUVFhSlZBOERkQ0Y2ajc1dFE1NnhucVZ6Q1l4bFpWbmlH?=
+ =?utf-8?B?QmhwOGdxYkVreWRyUS8vMWRMRkUvQUxpRUM0RGJLMXZoaGJrOUtscWd6TTJR?=
+ =?utf-8?B?bi9va0x5dXRCeTJtSTFDRmVRTlFYc3ZTbXZsczhhT3NNNVQ2c2o5cHcrclE1?=
+ =?utf-8?B?MytKMXFtYXM1czdYdjBwQzY4Snk4TDI0Z3d2eUJLd0Y1MkJqbDljSnRtd2Y1?=
+ =?utf-8?B?d0xieTB5bTFYVTNRSmdQSGhqTEtpb2d5aTV4SXMzN0U2aVE3K1oxMEh6SG9q?=
+ =?utf-8?B?R0hQeGMyWlN4S1MvZ3pJbTFTUnU2dGhWSHplbkN4eElNYytoMk03QWtXV2FD?=
+ =?utf-8?B?OTFrVVdZOG54TjM5Vm4zVXZ4TEF4VEFvWkptcHZ5SmJzMk9yOHRBYjFYbk1X?=
+ =?utf-8?B?Mmh6L1plbE1lL0RVazRwelhHYXRTMzl6T3M4ajJXOWdkdGdKazNRMEdSYmxC?=
+ =?utf-8?B?djZPQUR2d1Jxd0YzOWhpTFhWZEhDRzRPY1k2V25mVnY4NGdzWVhpaDRuTFZZ?=
+ =?utf-8?B?Vy85dnhsaklUMDJ4Wjd2US9hbVZzYUFxcUJkMm1SUEIvejM5ZEY5ZXUvdVVN?=
+ =?utf-8?B?Q1BvcmQvbzJMQ1pXL3ZPREl0WVJqY1phZjRUZy9Ka1djUzR0d08zWVV2aDY1?=
+ =?utf-8?B?cFZlSkdQMXNVNWJsb2k2akFTM3EybGN4cWt1VDg1Zi9iZzRsUHorRG1SS0Rt?=
+ =?utf-8?B?UXErOG1kNGczNWJkK0dUMnlFYVY4eHBCRkd6YVdaM3VaZURrRzF2Q2ZsRkQr?=
+ =?utf-8?B?N05pTjRXSmgwcjJ2UW52VElBanI0S2Y0YXExM1ROUWNqak1QU3ZtNUloU3Nk?=
+ =?utf-8?B?dEsvYU8wdGpYZ1UzbnlRV3RvVFNLQUpwV1EyeVBlUEZkMytGUFpKVGRkUEZs?=
+ =?utf-8?B?N25KRVhsSXpCQ1pLN2F3RGlaN2F5aGNPNk56Vk5ZZjlRTjFnZVVRaDc5NTY1?=
+ =?utf-8?B?d3d4YmN4YnZ3eGNJZEdaRGphOHkveXZXa0dDYzI4UTBQcDV6dTFJTWdEdDdr?=
+ =?utf-8?Q?QoMs=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB7726.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MGxCNkd5OEFvemUrb0EyRGJ2dXFTNGdZRGFWTm5XYndiTVFXRThYSlo2cTY2?=
+ =?utf-8?B?bThCWVlUMmM5Vm9Oc1VzQitxQVBDczFnZjEzQitaWlFDemgxSWpYRkU1SGp6?=
+ =?utf-8?B?SGdrQlRVT1NJWTQ2YVpMdlJ2QTdEM2JVWTJKZ013NkNzSmNEV1NSV0l1a2N5?=
+ =?utf-8?B?OG1CYlFDZGltVUg0UWNPakRZc0xZZmxjRUR2OW5Sb2FsSHBZZVFzZ3Z1S2p6?=
+ =?utf-8?B?YlZVamNobFRtR21uS2htdVJ4K3I3dDlaZEFXelphOE1SKy9kVTVQaDhwRFJq?=
+ =?utf-8?B?REdERHkvSUZud2wwOTV5cW9RdXVCMDVGeXh1T0YwclJua2h0NitHMlQzOFN1?=
+ =?utf-8?B?Si93WXhSOUdUT2JZKzdwbmtxTHFyODBZR3ZXd1ZWWlhHUWJxNEFqTXdWL1Z3?=
+ =?utf-8?B?WThINnVqbmlkcWpSTzNKVWhtbWRSWDJoRzBQSHdtdlF4bDUxbzdGcWllYkZI?=
+ =?utf-8?B?WE9Qd1g1VEtqY0wvNWtoNitjVmdzNlZnWUozMHlva2Mya3VFWFBiaVFtZDha?=
+ =?utf-8?B?RFBwaUhsdEo4eXFac0xWdW80OGFJdUpqT2E4dVVpbHhvOG5vU0tNbXRPVXVH?=
+ =?utf-8?B?YUFJTE9zVEkzQjN1cXZnSDlRZ2w2VUwrRVhrSGFDeXF5YnJmcGJYbnZJb3Q0?=
+ =?utf-8?B?L0ZYa1pFY09nSm9TWW5tMUgvU3ovZGJ2a3JDMDJrdVkzd3NDa1FkR2t3OUt1?=
+ =?utf-8?B?MXJ4Zk10SnJYakRCZHM0ZHZheE9qQVZjckJtWDVpUnk5V2Fvc1U2T3kxLzlF?=
+ =?utf-8?B?b2ZHdXJtbDVQNzYvV3hoMlc0QktjSmVnYmw4RkZtemF3a05BT0NoMWI1YjZL?=
+ =?utf-8?B?Rmd6NkVETTRxdHU2T00zUWt2MGFJeVhTRjFYV25LZFVXWW5nUmlrOGFnS0V1?=
+ =?utf-8?B?K2hRb1ZURzRGT3NlNU8rUlJ2SWs0elNhblhCZUpXVE1GbGxMUjVhdkF6cDdL?=
+ =?utf-8?B?VFNTaEcyb0hiTXE0Q215NHpueGNYN2RSMGx0WnJiZFdzUW83ZkI5ZkdHa1Fs?=
+ =?utf-8?B?cmlQaGpDRFc1RWhFQndZV2xaVmFkczRFV0hEK3pQMHlBMktBNndDLzNiREdP?=
+ =?utf-8?B?eEJNcFN5b3V5OXNNSGtTRElFT2d1S2dDaVVoeVY4a3d1bXEyNkE5UlNCUi96?=
+ =?utf-8?B?eDdWYnZPQldWeS9NeUJ4SEU1QzFKUUVzWlpoOXdTbXhVbVE5Z3QxT3hZZ0V6?=
+ =?utf-8?B?KzJlOFdpcndpSXpic1cyeUl3Mm04dnhZUk1XNzRzYmpqdG1OUFZTUXEvM29l?=
+ =?utf-8?B?emZPb2V4VkxobVJLdFN1TGlTZU1SM1BxVEd0MFN2NkROZm8rYnp1WHlsejJG?=
+ =?utf-8?B?YjJMSWNoUldmcjNHZDVNTmt3L2hGcFpMNGhST2lDMFRLNXpub1c1SDdPb3hR?=
+ =?utf-8?B?VFIrVk5uTlI0WTl1NnVqTlNFcmxOYmFNRlJ0OUpEOXg0NDZkOHl0bSt2bXQ0?=
+ =?utf-8?B?cWpPazZYSXoreXRhSzAyRG83bzNHMXZSc2dya1FBNThvczkwelpPT0p5bTRI?=
+ =?utf-8?B?OTFNcW8rWEs0c0VqaklpOHZXZU1vL09uaUdjcmZYSldzZVEvQzhjNEZ2ZWgz?=
+ =?utf-8?B?R3l6VVNSRnhXZXRiZDAzSlgrRnY4WWVvMUJLdy9qSHBneWNMZGw2TWUvSkJs?=
+ =?utf-8?B?Wll4NXhFeHYwWXU1RG15aWllbFRKVlhXcmQ0amgyVHh3NVdNTHl6RlZvaTBm?=
+ =?utf-8?B?Tm14UHEvV1RNZklhT0lBRlBkR3d2aHlPeHhhYVRlVmUwTkhCbkprM2pHVmNN?=
+ =?utf-8?B?RUNpMW9KekNSakU4Rk5XYnhmTGNBb2gxeHIrbHRkWGQvNGlhRXdmVmVXVGFZ?=
+ =?utf-8?B?a2lRclVhMmovcFdjZHY2SHRqdGtURnBEbWc4aWN4QWFub24yU0hYSE1CTmU4?=
+ =?utf-8?B?RGtURUtEUnZTTHpEeE9oaTVUeUMrL1RWRWs2SklpYXVCY0hXU3VHMU1vbmV4?=
+ =?utf-8?B?YTVXN2IxR2FIM3VLOEhLeEdweXFQY01URmRsZTFQTHBsZkE2UlJJY1ZmMEo3?=
+ =?utf-8?B?elhXUU5ldUdaYXFvcEdhWjljWHV0ZVFoemtybGtPL1U3UG01T2tvRno4eUlo?=
+ =?utf-8?B?amJrTmxmaUtEclZIT3NRVjg5VHp4eFZJOENRRjNHa2htLzVveUQ4MGx5MVMv?=
+ =?utf-8?B?bUZlUjRhK2x5eWRxWnIvREtxQk9uMHJyMGt2VnRrcmJya3NXT2UwMUU1ak56?=
+ =?utf-8?B?cDBSTU5FbVJoRWlEbmwxS0FMVXNLYkJvMEV0SHY0a2NQVjNiS1lOY0wycmds?=
+ =?utf-8?B?V1pZOFdkVXp5VnM3dFluTUN4WWNYVlZGWDVXajRUZFVIallXdEhGaCttYUxx?=
+ =?utf-8?B?TzNrNElibENTZ1JsVm9KL25WR2E4MHZjL1FVM2lkWVdzYWhJR2VQZz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07921699-b4ca-47a2-89a8-08de5a238182
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2026 02:02:48.1858 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kXhScdCwRM2ixBrAiO+M7oKJm7YEYRttB8b/fRcu3IMNo6HEyag7hpZWXoyQ2pd+6MhEKQkWIrppHl/lkIa/hw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB5658
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,467 +187,325 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+X-Spamd-Result: default: False [-1.81 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,kernel.org,ffwll.ch,google.com,gmail.com,asahilina.net];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daniel.almeida@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	NEURAL_HAM(-0.00)[-0.981];
-	TAGGED_RCPT(0.00)[dri-devel,kernel];
-	APPLE_MAILER_COMMON(0.00)[];
+	NEURAL_HAM(-0.00)[-0.932];
+	FROM_NEQ_ENVFROM(0.00)[apopple@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[nvidia.com,kvack.org,intel.com,linux-foundation.org,vger.kernel.org,lists.freedesktop.org,redhat.com,oracle.com,kernel.org,gmail.com,ffwll.ch,infradead.org,lists.ozlabs.org,ziepe.ca,amd.com];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:mid,collabora.com:dkim]
-X-Rspamd-Queue-Id: 4470E6F678
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,nvidia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: B87B46F6D6
 X-Rspamd-Action: no action
 
-Hi Lyude,
+On 2026-01-21 at 10:06 +1100, Zi Yan <ziy@nvidia.com> wrote...
+> On 20 Jan 2026, at 18:02, Jordan Niethe wrote:
+> 
+> > Hi,
+> >
+> > On 21/1/26 09:53, Zi Yan wrote:
+> >> On 20 Jan 2026, at 17:33, Jordan Niethe wrote:
+> >>
+> >>> On 14/1/26 07:04, Zi Yan wrote:
+> >>>> On 7 Jan 2026, at 4:18, Jordan Niethe wrote:
+> >>>>
+> >>>>> Currently when creating these device private struct pages, the first
+> >>>>> step is to use request_free_mem_region() to get a range of physical
+> >>>>> address space large enough to represent the devices memory. This
+> >>>>> allocated physical address range is then remapped as device private
+> >>>>> memory using memremap_pages().
+> >>>>>
+> >>>>> Needing allocation of physical address space has some problems:
+> >>>>>
+> >>>>>     1) There may be insufficient physical address space to represent the
+> >>>>>        device memory. KASLR reducing the physical address space and VM
+> >>>>>        configurations with limited physical address space increase the
+> >>>>>        likelihood of hitting this especially as device memory increases. This
+> >>>>>        has been observed to prevent device private from being initialized.
+> >>>>>
+> >>>>>     2) Attempting to add the device private pages to the linear map at
+> >>>>>        addresses beyond the actual physical memory causes issues on
+> >>>>>        architectures like aarch64 meaning the feature does not work there.
+> >>>>>
+> >>>>> Instead of using the physical address space, introduce a device private
+> >>>>> address space and allocate devices regions from there to represent the
+> >>>>> device private pages.
+> >>>>>
+> >>>>> Introduce a new interface memremap_device_private_pagemap() that
+> >>>>> allocates a requested amount of device private address space and creates
+> >>>>> the necessary device private pages.
+> >>>>>
+> >>>>> To support this new interface, struct dev_pagemap needs some changes:
+> >>>>>
+> >>>>>     - Add a new dev_pagemap::nr_pages field as an input parameter.
+> >>>>>     - Add a new dev_pagemap::pages array to store the device
+> >>>>>       private pages.
+> >>>>>
+> >>>>> When using memremap_device_private_pagemap(), rather then passing in
+> >>>>> dev_pagemap::ranges[dev_pagemap::nr_ranges] of physical address space to
+> >>>>> be remapped, dev_pagemap::nr_ranges will always be 1, and the device
+> >>>>> private range that is reserved is returned in dev_pagemap::range.
+> >>>>>
+> >>>>> Forbid calling memremap_pages() with dev_pagemap::ranges::type =
+> >>>>> MEMORY_DEVICE_PRIVATE.
+> >>>>>
+> >>>>> Represent this device private address space using a new
+> >>>>> device_private_pgmap_tree maple tree. This tree maps a given device
+> >>>>> private address to a struct dev_pagemap, where a specific device private
+> >>>>> page may then be looked up in that dev_pagemap::pages array.
+> >>>>>
+> >>>>> Device private address space can be reclaimed and the assoicated device
+> >>>>> private pages freed using the corresponding new
+> >>>>> memunmap_device_private_pagemap() interface.
+> >>>>>
+> >>>>> Because the device private pages now live outside the physical address
+> >>>>> space, they no longer have a normal PFN. This means that page_to_pfn(),
+> >>>>> et al. are no longer meaningful.
+> >>>>>
+> >>>>> Introduce helpers:
+> >>>>>
+> >>>>>     - device_private_page_to_offset()
+> >>>>>     - device_private_folio_to_offset()
+> >>>>>
+> >>>>> to take a given device private page / folio and return its offset within
+> >>>>> the device private address space.
+> >>>>>
+> >>>>> Update the places where we previously converted a device private page to
+> >>>>> a PFN to use these new helpers. When we encounter a device private
+> >>>>> offset, instead of looking up its page within the pagemap use
+> >>>>> device_private_offset_to_page() instead.
+> >>>>>
+> >>>>> Update the existing users:
+> >>>>>
+> >>>>>    - lib/test_hmm.c
+> >>>>>    - ppc ultravisor
+> >>>>>    - drm/amd/amdkfd
+> >>>>>    - gpu/drm/xe
+> >>>>>    - gpu/drm/nouveau
+> >>>>>
+> >>>>> to use the new memremap_device_private_pagemap() interface.
+> >>>>>
+> >>>>> Signed-off-by: Jordan Niethe <jniethe@nvidia.com>
+> >>>>> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> >>>>>
+> >>>>> ---
+> >>>>>
+> >>>>> NOTE: The updates to the existing drivers have only been compile tested.
+> >>>>> I'll need some help in testing these drivers.
+> >>>>>
+> >>>>> v1:
+> >>>>> - Include NUMA node paramater for memremap_device_private_pagemap()
+> >>>>> - Add devm_memremap_device_private_pagemap() and friends
+> >>>>> - Update existing users of memremap_pages():
+> >>>>>       - ppc ultravisor
+> >>>>>       - drm/amd/amdkfd
+> >>>>>       - gpu/drm/xe
+> >>>>>       - gpu/drm/nouveau
+> >>>>> - Update for HMM huge page support
+> >>>>> - Guard device_private_offset_to_page and friends with CONFIG_ZONE_DEVICE
+> >>>>>
+> >>>>> v2:
+> >>>>> - Make sure last member of struct dev_pagemap remains DECLARE_FLEX_ARRAY(struct range, ranges);
+> >>>>> ---
+> >>>>>    Documentation/mm/hmm.rst                 |  11 +-
+> >>>>>    arch/powerpc/kvm/book3s_hv_uvmem.c       |  41 ++---
+> >>>>>    drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  23 +--
+> >>>>>    drivers/gpu/drm/nouveau/nouveau_dmem.c   |  35 ++--
+> >>>>>    drivers/gpu/drm/xe/xe_svm.c              |  28 +---
+> >>>>>    include/linux/hmm.h                      |   3 +
+> >>>>>    include/linux/leafops.h                  |  16 +-
+> >>>>>    include/linux/memremap.h                 |  64 +++++++-
+> >>>>>    include/linux/migrate.h                  |   6 +-
+> >>>>>    include/linux/mm.h                       |   2 +
+> >>>>>    include/linux/rmap.h                     |   5 +-
+> >>>>>    include/linux/swapops.h                  |  10 +-
+> >>>>>    lib/test_hmm.c                           |  69 ++++----
+> >>>>>    mm/debug.c                               |   9 +-
+> >>>>>    mm/memremap.c                            | 193 ++++++++++++++++++-----
+> >>>>>    mm/mm_init.c                             |   8 +-
+> >>>>>    mm/page_vma_mapped.c                     |  19 ++-
+> >>>>>    mm/rmap.c                                |  43 +++--
+> >>>>>    mm/util.c                                |   5 +-
+> >>>>>    19 files changed, 391 insertions(+), 199 deletions(-)
+> >>>>>
+> >>>> <snip>
+> >>>>
+> >>>>> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> >>>>> index e65329e1969f..b36599ab41ba 100644
+> >>>>> --- a/include/linux/mm.h
+> >>>>> +++ b/include/linux/mm.h
+> >>>>> @@ -2038,6 +2038,8 @@ static inline unsigned long memdesc_section(memdesc_flags_t mdf)
+> >>>>>     */
+> >>>>>    static inline unsigned long folio_pfn(const struct folio *folio)
+> >>>>>    {
+> >>>>> +	VM_BUG_ON(folio_is_device_private(folio));
+> >>>>
+> >>>> Please use VM_WARN_ON instead.
+> >>>
+> >>> ack.
+> >>>
+> >>>>
+> >>>>> +
+> >>>>>    	return page_to_pfn(&folio->page);
+> >>>>>    }
+> >>>>>
+> >>>>> diff --git a/include/linux/rmap.h b/include/linux/rmap.h
+> >>>>> index 57c63b6a8f65..c1561a92864f 100644
+> >>>>> --- a/include/linux/rmap.h
+> >>>>> +++ b/include/linux/rmap.h
+> >>>>> @@ -951,7 +951,7 @@ static inline unsigned long page_vma_walk_pfn(unsigned long pfn)
+> >>>>>    static inline unsigned long folio_page_vma_walk_pfn(const struct folio *folio)
+> >>>>>    {
+> >>>>>    	if (folio_is_device_private(folio))
+> >>>>> -		return page_vma_walk_pfn(folio_pfn(folio)) |
+> >>>>> +		return page_vma_walk_pfn(device_private_folio_to_offset(folio)) |
+> >>>>>    		       PVMW_PFN_DEVICE_PRIVATE;
+> >>>>>
+> >>>>>    	return page_vma_walk_pfn(folio_pfn(folio));
+> >>>>> @@ -959,6 +959,9 @@ static inline unsigned long folio_page_vma_walk_pfn(const struct folio *folio)
+> >>>>>
+> >>>>>    static inline struct page *page_vma_walk_pfn_to_page(unsigned long pvmw_pfn)
+> >>>>>    {
+> >>>>> +	if (pvmw_pfn & PVMW_PFN_DEVICE_PRIVATE)
+> >>>>> +		return device_private_offset_to_page(pvmw_pfn >> PVMW_PFN_SHIFT);
+> >>>>> +
+> >>>>>    	return pfn_to_page(pvmw_pfn >> PVMW_PFN_SHIFT);
+> >>>>>    }
+> >>>>
+> >>>> <snip>
+> >>>>
+> >>>>> diff --git a/mm/page_vma_mapped.c b/mm/page_vma_mapped.c
+> >>>>> index 96c525785d78..141fe5abd33f 100644
+> >>>>> --- a/mm/page_vma_mapped.c
+> >>>>> +++ b/mm/page_vma_mapped.c
+> >>>>> @@ -107,6 +107,7 @@ static bool map_pte(struct page_vma_mapped_walk *pvmw, pmd_t *pmdvalp,
+> >>>>>    static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long pte_nr)
+> >>>>>    {
+> >>>>>    	unsigned long pfn;
+> >>>>> +	bool device_private = false;
+> >>>>>    	pte_t ptent = ptep_get(pvmw->pte);
+> >>>>>
+> >>>>>    	if (pvmw->flags & PVMW_MIGRATION) {
+> >>>>> @@ -115,6 +116,9 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long pte_nr)
+> >>>>>    		if (!softleaf_is_migration(entry))
+> >>>>>    			return false;
+> >>>>>
+> >>>>> +		if (softleaf_is_migration_device_private(entry))
+> >>>>> +			device_private = true;
+> >>>>> +
+> >>>>>    		pfn = softleaf_to_pfn(entry);
+> >>>>>    	} else if (pte_present(ptent)) {
+> >>>>>    		pfn = pte_pfn(ptent);
+> >>>>> @@ -127,8 +131,14 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long pte_nr)
+> >>>>>    			return false;
+> >>>>>
+> >>>>>    		pfn = softleaf_to_pfn(entry);
+> >>>>> +
+> >>>>> +		if (softleaf_is_device_private(entry))
+> >>>>> +			device_private = true;
+> >>>>>    	}
+> >>>>>
+> >>>>> +	if ((device_private) ^ !!(pvmw->pfn & PVMW_PFN_DEVICE_PRIVATE))
+> >>>>> +		return false;
+> >>>>> +
+> >>>>>    	if ((pfn + pte_nr - 1) < (pvmw->pfn >> PVMW_PFN_SHIFT))
+> >>>>>    		return false;
+> >>>>>    	if (pfn > ((pvmw->pfn >> PVMW_PFN_SHIFT) + pvmw->nr_pages - 1))
+> >>>>> @@ -137,8 +147,11 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw, unsigned long pte_nr)
+> >>>>>    }
+> >>>>>
+> >>>>>    /* Returns true if the two ranges overlap.  Careful to not overflow. */
+> >>>>> -static bool check_pmd(unsigned long pfn, struct page_vma_mapped_walk *pvmw)
+> >>>>> +static bool check_pmd(unsigned long pfn, bool device_private, struct page_vma_mapped_walk *pvmw)
+> >>>>>    {
+> >>>>> +	if ((device_private) ^ !!(pvmw->pfn & PVMW_PFN_DEVICE_PRIVATE))
+> >>>>> +		return false;
+> >>>>> +
+> >>>>>    	if ((pfn + HPAGE_PMD_NR - 1) < (pvmw->pfn >> PVMW_PFN_SHIFT))
+> >>>>>    		return false;
+> >>>>>    	if (pfn > (pvmw->pfn >> PVMW_PFN_SHIFT) + pvmw->nr_pages - 1)
+> >>>>> @@ -255,6 +268,8 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk *pvmw)
+> >>>>>
+> >>>>>    				if (!softleaf_is_migration(entry) ||
+> >>>>>    				    !check_pmd(softleaf_to_pfn(entry),
+> >>>>> +					       softleaf_is_device_private(entry) ||
+> >>>>> +					       softleaf_is_migration_device_private(entry),
+> >>>>>    					       pvmw))
+> >>>>>    					return not_found(pvmw);
+> >>>>>    				return true;
+> >>>>> @@ -262,7 +277,7 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk *pvmw)
+> >>>>>    			if (likely(pmd_trans_huge(pmde))) {
+> >>>>>    				if (pvmw->flags & PVMW_MIGRATION)
+> >>>>>    					return not_found(pvmw);
+> >>>>> -				if (!check_pmd(pmd_pfn(pmde), pvmw))
+> >>>>> +				if (!check_pmd(pmd_pfn(pmde), false, pvmw))
+> >>>>>    					return not_found(pvmw);
+> >>>>>    				return true;
+> >>>>>    			}
+> >>>>
+> >>>> It seems to me that you can add a new flag like “bool is_device_private” to
+> >>>> indicate whether pfn is a device private index instead of pfn without
+> >>>> manipulating pvmw->pfn itself.
+> >>>
+> >>> We could do it like that, however my concern with using a new param was that
+> >>> storing this info seperately might make it easier to misuse a device private
+> >>> index as a regular pfn.
+> >>>
+> >>> It seemed like it could be easy to overlook both when creating the pvmw and
+> >>> then when accessing the pfn.
+> >>
+> >> That is why I asked for a helper function like page_vma_walk_pfn(pvmw) to
+> >> return the converted pfn instead of pvmw->pfn directly. You can add a comment
+> >> to ask people to use helper function and even mark pvmw->pfn /* do not use
+> >> directly */.
+> >
+> > Yeah I agree that is a good idea.
+> >
+> >>
+> >> In addition, your patch manipulates pfn by left shifting it by 1. Are you sure
+> >> there is no weird arch having pfns with bit 63 being 1? Your change could
+> >> break it, right?
+> >
+> > Currently for migrate pfns we left shift by pfns by MIGRATE_PFN_SHIFT (6), so I
+> > thought doing something similiar here should be safe.
+> 
+> Yeah, but that limits to archs supporting HMM. page_vma_mapped_walk is used
+> by almost every arch, so it has a broader impact.
 
-> On 22 Jan 2026, at 19:46, Lyude Paul <lyude@redhat.com> wrote:
->=20
-> Now that we have the ability to represent the context in which a DRM =
-device
-> is in at compile-time, we can start carrying around this context with =
-GEM
-> object types in order to allow a driver to safely create GEM objects =
-before
-> a DRM device has registered with userspace.
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> ---
-> drivers/gpu/drm/nova/driver.rs |  2 +-
-> drivers/gpu/drm/nova/gem.rs    | 11 +++---
-> drivers/gpu/drm/tyr/driver.rs  |  2 +-
-> drivers/gpu/drm/tyr/gem.rs     |  3 +-
-> rust/kernel/drm/device.rs      | 14 ++++----
-> rust/kernel/drm/driver.rs      |  2 +-
-> rust/kernel/drm/gem/mod.rs     | 64 +++++++++++++++++++++++-----------
-> 7 files changed, 63 insertions(+), 35 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/nova/driver.rs =
-b/drivers/gpu/drm/nova/driver.rs
-> index 8cea5f68c3b04..2c13261450406 100644
-> --- a/drivers/gpu/drm/nova/driver.rs
-> +++ b/drivers/gpu/drm/nova/driver.rs
-> @@ -67,7 +67,7 @@ fn probe(adev: &auxiliary::Device<Core>, _info: =
-&Self::IdInfo) -> impl PinInit<S
-> impl drm::Driver for NovaDriver {
->     type Data =3D NovaData;
->     type File =3D File;
-> -    type Object =3D gem::Object<NovaObject>;
-> +    type Object<Ctx: drm::DeviceContext> =3D gem::Object<NovaObject, =
-Ctx>;
->=20
->     const INFO: drm::DriverInfo =3D INFO;
->=20
-> diff --git a/drivers/gpu/drm/nova/gem.rs b/drivers/gpu/drm/nova/gem.rs
-> index 6ccfa5da57617..f6e98b9db58d8 100644
-> --- a/drivers/gpu/drm/nova/gem.rs
-> +++ b/drivers/gpu/drm/nova/gem.rs
-> @@ -2,7 +2,7 @@
->=20
-> use kernel::{
->     drm,
-> -    drm::{gem, gem::BaseObject},
-> +    drm::{gem, gem::BaseObject, DeviceContext},
->     page,
->     prelude::*,
->     sync::aref::ARef,
-> @@ -20,20 +20,23 @@ pub(crate) struct NovaObject {}
-> impl gem::DriverObject for NovaObject {
->     type Driver =3D NovaDriver;
->=20
-> -    fn new(_dev: &NovaDevice, _size: usize) -> impl PinInit<Self, =
-Error> {
-> +    fn new<Ctx: DeviceContext>(_dev: &NovaDevice<Ctx>, _size: usize) =
--> impl PinInit<Self, Error> {
->         try_pin_init!(NovaObject {})
->     }
-> }
->=20
-> impl NovaObject {
->     /// Create a new DRM GEM object.
-> -    pub(crate) fn new(dev: &NovaDevice, size: usize) -> =
-Result<ARef<gem::Object<Self>>> {
-> +    pub(crate) fn new<Ctx: DeviceContext>(
-> +        dev: &NovaDevice<Ctx>,
-> +        size: usize,
-> +    ) -> Result<ARef<gem::Object<Self, Ctx>>> {
->         if size =3D=3D 0 {
->             return Err(EINVAL);
->         }
->         let aligned_size =3D page::page_align(size).ok_or(EINVAL)?;
->=20
-> -        gem::Object::new(dev, aligned_size)
-> +        gem::Object::<Self, Ctx>::new(dev, aligned_size)
->     }
->=20
->     /// Look up a GEM object handle for a `File` and return an =
-`ObjectRef` for it.
-> diff --git a/drivers/gpu/drm/tyr/driver.rs =
-b/drivers/gpu/drm/tyr/driver.rs
-> index e73c56659ea75..03e337d95521c 100644
-> --- a/drivers/gpu/drm/tyr/driver.rs
-> +++ b/drivers/gpu/drm/tyr/driver.rs
-> @@ -177,7 +177,7 @@ fn drop(self: Pin<&mut Self>) {
-> impl drm::Driver for TyrDriver {
->     type Data =3D TyrData;
->     type File =3D File;
-> -    type Object =3D drm::gem::Object<TyrObject>;
-> +    type Object<R: drm::DeviceContext> =3D =
-drm::gem::Object<TyrObject, R>;
->=20
->     const INFO: drm::DriverInfo =3D INFO;
->=20
-> diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
-> index 1273bf89dbd5d..00804f8c14bd4 100644
-> --- a/drivers/gpu/drm/tyr/gem.rs
-> +++ b/drivers/gpu/drm/tyr/gem.rs
-> @@ -3,6 +3,7 @@
-> use crate::driver::TyrDevice;
-> use crate::driver::TyrDriver;
-> use kernel::drm::gem;
-> +use kernel::drm::DeviceContext;
-> use kernel::prelude::*;
->=20
-> /// GEM Object inner driver data
-> @@ -12,7 +13,7 @@ pub(crate) struct TyrObject {}
-> impl gem::DriverObject for TyrObject {
->     type Driver =3D TyrDriver;
->=20
-> -    fn new(_dev: &TyrDevice, _size: usize) -> impl PinInit<Self, =
-Error> {
-> +    fn new<Ctx: DeviceContext>(_dev: &TyrDevice<Ctx>, _size: usize) =
--> impl PinInit<Self, Error> {
->         try_pin_init!(TyrObject {})
->     }
-> }
-> diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
-> index 0e81957cf8c28..4c03105e6a817 100644
-> --- a/rust/kernel/drm/device.rs
-> +++ b/rust/kernel/drm/device.rs
-> @@ -163,13 +163,13 @@ impl<T: drm::Driver> UnregisteredDevice<T> {
->         master_set: None,
->         master_drop: None,
->         debugfs_init: None,
-> -        gem_create_object: T::Object::ALLOC_OPS.gem_create_object,
-> -        prime_handle_to_fd: T::Object::ALLOC_OPS.prime_handle_to_fd,
-> -        prime_fd_to_handle: T::Object::ALLOC_OPS.prime_fd_to_handle,
-> -        gem_prime_import: T::Object::ALLOC_OPS.gem_prime_import,
-> -        gem_prime_import_sg_table: =
-T::Object::ALLOC_OPS.gem_prime_import_sg_table,
-> -        dumb_create: T::Object::ALLOC_OPS.dumb_create,
-> -        dumb_map_offset: T::Object::ALLOC_OPS.dumb_map_offset,
-> +        gem_create_object: =
-T::Object::<Uninit>::ALLOC_OPS.gem_create_object,
-> +        prime_handle_to_fd: =
-T::Object::<Uninit>::ALLOC_OPS.prime_handle_to_fd,
-> +        prime_fd_to_handle: =
-T::Object::<Uninit>::ALLOC_OPS.prime_fd_to_handle,
-> +        gem_prime_import: =
-T::Object::<Uninit>::ALLOC_OPS.gem_prime_import,
-> +        gem_prime_import_sg_table: =
-T::Object::<Uninit>::ALLOC_OPS.gem_prime_import_sg_table,
-> +        dumb_create: T::Object::<Uninit>::ALLOC_OPS.dumb_create,
-> +        dumb_map_offset: =
-T::Object::<Uninit>::ALLOC_OPS.dumb_map_offset,
+We need to be a bit careful by what we mean when we say "HMM" in the kernel.
 
-Why are we specifically going with Uninit here?
+Specifically MIGRATE_PFN_SHIFT is used with migrate_vma/migrate_device, which
+is the migration half of "HMM" which does depend on CONFIG_DEVICE_MIGRATION or
+really just CONFIG_ZONE_DEVICE making it somewhat arch specific.
 
->         show_fdinfo: None,
->         fbdev_probe: None,
->=20
-> diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
-> index a16605b407159..94ebaf19ac069 100644
-> --- a/rust/kernel/drm/driver.rs
-> +++ b/rust/kernel/drm/driver.rs
-> @@ -110,7 +110,7 @@ pub trait Driver {
->     type Data: Sync + Send;
->=20
->     /// The type used to manage memory for this driver.
-> -    type Object: AllocImpl;
-> +    type Object<Ctx: drm::DeviceContext>: AllocImpl;
->=20
->     /// The type used to represent a DRM File (client)
->     type File: drm::file::DriverFile;
-> diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
-> index b4199945db378..3af9f52f8eda4 100644
-> --- a/rust/kernel/drm/gem/mod.rs
-> +++ b/rust/kernel/drm/gem/mod.rs
-> @@ -8,6 +8,10 @@
->     bindings,
->     drm::{
->         self,
-> +        device::{
-> +            DeviceContext,
-> +            Registered, //
-> +        },
->         driver::{
->             AllocImpl,
->             AllocOps, //
-> @@ -22,6 +26,7 @@
->     types::Opaque,
-> };
-> use core::{
-> +    marker::PhantomData,
->     ops::Deref,
->     ptr::NonNull, //
-> };
-> @@ -33,21 +38,30 @@
-> /// [`DriverFile`]: drm::file::DriverFile
-> pub type DriverFile<T> =3D drm::File<<<T as DriverObject>::Driver as =
-drm::Driver>::File>;
->=20
-> +/// A type alias for retrieving the current [`AllocImpl`] for a given =
-[`DriverObject`].
-> +///
-> +/// [`Driver`]: drm::Driver
-> +pub type DriverAllocImpl<T, Ctx =3D Registered> =3D
-> +    <<T as DriverObject>::Driver as drm::Driver>::Object<Ctx>;
+However hmm_range_fault() does something similar - see the definition of
+hmm_pfn_flags - it actually steals the top 11 bits of a pfn for flags, and it is
+not architecture specific. It only depends on CONFIG_MMU.
 
-Should this be a follow up patch instead?
+Now I'm not saying this implies it actually works on all architectures as I
+agree the page_vma_mapped_walk code is used much more widely. Rather I'm just
+pointing out if there are issues with some architectures using high PFN bits
+then we likely have a problem here too :-)
 
-> +
-> /// GEM object functions, which must be implemented by drivers.
-> pub trait DriverObject: Sync + Send + Sized {
->     /// Parent `Driver` for this object.
->     type Driver: drm::Driver;
->=20
->     /// Create a new driver data object for a GEM object of a given =
-size.
-> -    fn new(dev: &drm::Device<Self::Driver>, size: usize) -> impl =
-PinInit<Self, Error>;
-> +    fn new<Ctx: DeviceContext>(
-> +        dev: &drm::Device<Self::Driver, Ctx>,
-> +        size: usize,
-> +    ) -> impl PinInit<Self, Error>;
->=20
->     /// Open a new handle to an existing object, associated with a =
-File.
-> -    fn open(_obj: &<Self::Driver as drm::Driver>::Object, _file: =
-&DriverFile<Self>) -> Result {
-> +    fn open(_obj: &DriverAllocImpl<Self>, _file: &DriverFile<Self>) =
--> Result {
->         Ok(())
->     }
->=20
->     /// Close a handle to an existing object, associated with a File.
-> -    fn close(_obj: &<Self::Driver as drm::Driver>::Object, _file: =
-&DriverFile<Self>) {}
-> +    fn close(_obj: &DriverAllocImpl<Self>, _file: &DriverFile<Self>) =
-{}
-> }
->=20
-> /// Trait that represents a GEM object subtype
-> @@ -73,9 +87,12 @@ extern "C" fn open_callback<T: DriverObject>(
->     // SAFETY: `open_callback` is only ever called with a valid =
-pointer to a `struct drm_file`.
->     let file =3D unsafe { DriverFile::<T>::from_raw(raw_file) };
->=20
-> -    // SAFETY: `open_callback` is specified in the AllocOps structure =
-for `DriverObject<T>`,
-> -    // ensuring that `raw_obj` is contained within a =
-`DriverObject<T>`
-> -    let obj =3D unsafe { <<T::Driver as drm::Driver>::Object as =
-IntoGEMObject>::from_raw(raw_obj) };
-> +    // SAFETY:
-> +    // * `open_callback` is specified in the AllocOps structure for =
-`DriverObject`, ensuring that
-> +    //   `raw_obj` is contained within a `DriverAllocImpl<T>`
-> +    // * It is only possible for `open_callback` to be called after =
-device registration, ensuring
-> +    //   that the object's device is in the `Registered` state.
-> +    let obj: &DriverAllocImpl<T> =3D unsafe { =
-IntoGEMObject::from_raw(raw_obj) };
->=20
->     match T::open(obj, file) {
->         Err(e) =3D> e.to_errno(),
-> @@ -92,12 +109,12 @@ extern "C" fn close_callback<T: DriverObject>(
->=20
->     // SAFETY: `close_callback` is specified in the AllocOps structure =
-for `Object<T>`, ensuring
->     // that `raw_obj` is indeed contained within a `Object<T>`.
-> -    let obj =3D unsafe { <<T::Driver as drm::Driver>::Object as =
-IntoGEMObject>::from_raw(raw_obj) };
-> +    let obj: &DriverAllocImpl<T> =3D unsafe { =
-IntoGEMObject::from_raw(raw_obj) };
->=20
->     T::close(obj, file);
-> }
->=20
-> -impl<T: DriverObject> IntoGEMObject for Object<T> {
-> +impl<T: DriverObject, Ctx: DeviceContext> IntoGEMObject for Object<T, =
-Ctx> {
->     fn as_raw(&self) -> *mut bindings::drm_gem_object {
->         self.obj.get()
->     }
-> @@ -105,7 +122,7 @@ fn as_raw(&self) -> *mut bindings::drm_gem_object =
-{
->     unsafe fn from_raw<'a>(self_ptr: *mut bindings::drm_gem_object) -> =
-&'a Self {
->         // SAFETY: `obj` is guaranteed to be in an `Object<T>` via the =
-safety contract of this
->         // function
-> -        unsafe { &*crate::container_of!(Opaque::cast_from(self_ptr), =
-Object<T>, obj) }
-> +        unsafe { &*crate::container_of!(Opaque::cast_from(self_ptr), =
-Object<T, Ctx>, obj) }
->     }
-> }
->=20
-> @@ -122,7 +139,7 @@ fn size(&self) -> usize {
->     fn create_handle<D, F>(&self, file: &drm::File<F>) -> Result<u32>
->     where
->         Self: AllocImpl<Driver =3D D>,
-> -        D: drm::Driver<Object =3D Self, File =3D F>,
-> +        D: drm::Driver<Object<Registered> =3D Self, File =3D F>,
->         F: drm::file::DriverFile<Driver =3D D>,
->     {
->         let mut handle: u32 =3D 0;
-> @@ -137,7 +154,7 @@ fn create_handle<D, F>(&self, file: &drm::File<F>) =
--> Result<u32>
->     fn lookup_handle<D, F>(file: &drm::File<F>, handle: u32) -> =
-Result<ARef<Self>>
->     where
->         Self: AllocImpl<Driver =3D D>,
-> -        D: drm::Driver<Object =3D Self, File =3D F>,
-> +        D: drm::Driver<Object<Registered> =3D Self, File =3D F>,
->         F: drm::file::DriverFile<Driver =3D D>,
->     {
->         // SAFETY: The arguments are all valid per the type =
-invariants.
-> @@ -177,16 +194,18 @@ impl<T: IntoGEMObject> BaseObject for T {}
-> ///
-> /// # Invariants
-> ///
-> -/// - `self.obj` is a valid instance of a `struct drm_gem_object`.
-> +/// * `self.obj` is a valid instance of a `struct drm_gem_object`.
-> +/// * Any type invariants of `Ctx` apply to the parent DRM device for =
-this GEM object.
-> #[repr(C)]
-> #[pin_data]
-> -pub struct Object<T: DriverObject + Send + Sync> {
-> +pub struct Object<T: DriverObject + Send + Sync, Ctx: DeviceContext =3D=
- Registered> {
->     obj: Opaque<bindings::drm_gem_object>,
->     #[pin]
->     data: T,
-> +    _ctx: PhantomData<Ctx>,
-> }
->=20
-> -impl<T: DriverObject> Object<T> {
-> +impl<T: DriverObject, Ctx: DeviceContext> Object<T, Ctx> {
->     const OBJECT_FUNCS: bindings::drm_gem_object_funcs =3D =
-bindings::drm_gem_object_funcs {
->         free: Some(Self::free_callback),
->         open: Some(open_callback::<T>),
-> @@ -206,11 +225,12 @@ impl<T: DriverObject> Object<T> {
->     };
->=20
->     /// Create a new GEM object.
-> -    pub fn new(dev: &drm::Device<T::Driver>, size: usize) -> =
-Result<ARef<Self>> {
-> +    pub fn new(dev: &drm::Device<T::Driver, Ctx>, size: usize) -> =
-Result<ARef<Self>> {
->         let obj: Pin<KBox<Self>> =3D KBox::pin_init(
->             try_pin_init!(Self {
->                 obj: Opaque::new(bindings::drm_gem_object::default()),
->                 data <- T::new(dev, size),
-> +                _ctx: PhantomData,
->             }),
->             GFP_KERNEL,
->         )?;
-> @@ -219,6 +239,8 @@ pub fn new(dev: &drm::Device<T::Driver>, size: =
-usize) -> Result<ARef<Self>> {
->         unsafe { (*obj.as_raw()).funcs =3D &Self::OBJECT_FUNCS };
->=20
->         // SAFETY: The arguments are all valid per the type =
-invariants.
-> +        // INVARIANT: We use `dev` for creating the GEM object, which =
-is known to be in state `Ctx` -
-> +        // ensuring that the GEM object's pointer to the DRM device =
-is always in the same state.
->         to_result(unsafe { bindings::drm_gem_object_init(dev.as_raw(), =
-obj.obj.get(), size) })?;
->=20
->         // SAFETY: We will never move out of `Self` as `ARef<Self>` is =
-always treated as pinned.
-> @@ -232,13 +254,15 @@ pub fn new(dev: &drm::Device<T::Driver>, size: =
-usize) -> Result<ARef<Self>> {
->     }
->=20
->     /// Returns the `Device` that owns this GEM object.
-> -    pub fn dev(&self) -> &drm::Device<T::Driver> {
-> +    pub fn dev(&self) -> &drm::Device<T::Driver, Ctx> {
->         // SAFETY:
->         // - `struct drm_gem_object.dev` is initialized and valid for =
-as long as the GEM
->         //   object lives.
->         // - The device we used for creating the gem object is passed =
-as &drm::Device<T::Driver> to
->         //   Object::<T>::new(), so we know that `T::Driver` is the =
-right generic parameter to use
->         //   here.
-> +        // - Any type invariants of `Ctx` are upheld by using the =
-same `Ctx` for the `Device` we
-> +        //   return.
->         unsafe { drm::Device::from_raw((*self.as_raw()).dev) }
->     }
->=20
-> @@ -264,7 +288,7 @@ extern "C" fn free_callback(obj: *mut =
-bindings::drm_gem_object) {
-> }
->=20
-> // SAFETY: Instances of `Object<T>` are always reference-counted.
-> -unsafe impl<T: DriverObject> crate::sync::aref::AlwaysRefCounted for =
-Object<T> {
-> +unsafe impl<T: DriverObject, Ctx: DeviceContext> AlwaysRefCounted for =
-Object<T, Ctx> {
->     fn inc_ref(&self) {
->         // SAFETY: The existence of a shared reference guarantees that =
-the refcount is non-zero.
->         unsafe { bindings::drm_gem_object_get(self.as_raw()) };
-> @@ -279,9 +303,9 @@ unsafe fn dec_ref(obj: NonNull<Self>) {
->     }
-> }
->=20
-> -impl<T: DriverObject> super::private::Sealed for Object<T> {}
-> +impl<T: DriverObject, Ctx: DeviceContext> super::private::Sealed for =
-Object<T, Ctx> {}
->=20
-> -impl<T: DriverObject> Deref for Object<T> {
-> +impl<T: DriverObject, Ctx: DeviceContext> Deref for Object<T, Ctx> {
->     type Target =3D T;
->=20
->     fn deref(&self) -> &Self::Target {
-> @@ -289,7 +313,7 @@ fn deref(&self) -> &Self::Target {
->     }
-> }
->=20
-> -impl<T: DriverObject> AllocImpl for Object<T> {
-> +impl<T: DriverObject, Ctx: DeviceContext> AllocImpl for Object<T, =
-Ctx> {
->     type Driver =3D T::Driver;
->=20
->     const ALLOC_OPS: AllocOps =3D AllocOps {
-> --=20
-> 2.52.0
->=20
->=20
+ - Alistair
 
+> Best Regards,
+> Yan, Zi
