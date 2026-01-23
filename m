@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MBcUIl8/c2mWtwAAu9opvQ
+	id gPunE2M/c2mWtwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 10:29:03 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 10:29:07 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A94AF73511
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 10:29:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C84F073520
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 10:29:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68E1210EA73;
-	Fri, 23 Jan 2026 09:29:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3067310EA7C;
+	Fri, 23 Jan 2026 09:29:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B460310EA6A
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 09:28:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F6E310EA71
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 09:29:02 +0000 (UTC)
 Received: from edelgard.fodlan.icenowy.me (unknown [112.94.103.171])
- by APP-03 (Coremail) with SMTP id rQCowABXZ85EP3NppX1gBg--.20954S2;
- Fri, 23 Jan 2026 17:28:39 +0800 (CST)
+ by APP-03 (Coremail) with SMTP id rQCowABXZ85EP3NppX1gBg--.20954S3;
+ Fri, 23 Jan 2026 17:28:45 +0800 (CST)
 From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
@@ -40,29 +40,32 @@ Cc: Philipp Zabel <p.zabel@pengutronix.de>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-riscv@lists.infradead.org, Icenowy Zheng <uwu@icenowy.me>,
  Icenowy Zheng <zhengxingda@iscas.ac.cn>
-Subject: [PATCH v6 0/9] Verisilicon DC8200 driver (and adaption to TH1520)
-Date: Fri, 23 Jan 2026 17:28:21 +0800
-Message-ID: <20260123092830.4046009-1-zhengxingda@iscas.ac.cn>
+Subject: [PATCH v6 1/9] dt-bindings: vendor-prefixes: add verisilicon
+Date: Fri, 23 Jan 2026 17:28:22 +0800
+Message-ID: <20260123092830.4046009-2-zhengxingda@iscas.ac.cn>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260123092830.4046009-1-zhengxingda@iscas.ac.cn>
+References: <20260123092830.4046009-1-zhengxingda@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: rQCowABXZ85EP3NppX1gBg--.20954S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Aw18Cw1UArykGr1fGF1Dtrb_yoW7ZFy5pF
- 42yFWFyFyDAa1aqrZ7tF109ay3Aas7XFWfWr47XwnxZwsFyFy5Xr98Ary5JFWDJr17AryI
- vFsYkr42kr12yF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9014x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
- n2kIc2xKxwCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
- kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
- 67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
- CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
- MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
- VFxhVjvjDU0xZFpf9x0pRl_MsUUUUU=
+X-CM-TRANSID: rQCowABXZ85EP3NppX1gBg--.20954S3
+X-Coremail-Antispam: 1UD129KBjvdXoW7GF47WFWrGrW8GrW5tryxZrb_yoWkuwb_WF
+ s7Cr1Dur45tF1Fvw4jyFs3GryUCw1akr48C3Z0qFWqka4xG39xGF92q3y5Zw17WF4fuas5
+ ArnaqrZrXF1xKjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbkxFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUGwA2048vs2IY02
+ 0Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84
+ ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I2
+ 62IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcV
+ AFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG
+ 0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI
+ 1lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_
+ Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
+ CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0
+ I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
+ C2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kfnx
+ nUUI43ZEXa7sRiubytUUUUU==
 X-Originating-IP: [112.94.103.171]
 X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -111,112 +114,47 @@ X-Spamd-Result: default: False [2.39 / 15.00];
 	HAS_XOIP(0.00)[];
 	R_DKIM_NA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.950];
+	NEURAL_HAM(-0.00)[-0.921];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: A94AF73511
+X-Rspamd-Queue-Id: C84F073520
 X-Rspamd-Action: no action
 
-This patchset tries to add a driver for Verisilicon DC8200 driver, and
-demonstrates the driver on T-Head TH1520 with its HDMI output.
+From: Icenowy Zheng <uwu@icenowy.me>
 
-This display controller IP is used on StarFive JH7110 too, but as the
-HDMI controller used there isn't as common as the DesignWare one, I
-choose to use TH1520 in this patchset.
+VeriSilicon is a Silicon IP vendor, which is the current owner of
+Vivante series video-related IPs and Hantro series video codec IPs.
 
-The DC driver is written with other DC-series (mainly DC8000, which is
-known to be used on Eswin EIC7700 SoC) display controllers in mind, and
-uses the identification registers available on all Vivante branded IPs.
-A known exception is DCNano display controller, which is unlikely to be
-supported by this driver because of totally different register map and
-no known identification registers. (P.S. the in-tree loongson DRM driver
-seems to be for some DCNano instances based on the register map.)
+Add a vendor prefix for this company.
 
-The HDMI controller seems to come with some common PHY by Synopsys, the
-DesignWare HDMI TX 2.0 PHY. By searching a few register names from the
-BSP driver of that PHY, that PHY seems to be used by a in-tree dw-hdmi
-glue, rcar_dw_hdmi -- an updated downstream version of rcar_dw_hdmi
-contains all 6 registers set here in the th1520-dw-hdmi driver. Some
-more suprising thing is that RK3288 uses the same PHY too, but the
-in-tree dw_hdmi-rockchip driver writes the configuration data array in a
-weird way to reuse the HDMI 3D TX PHY configuring function. It might be
-valuable to add common configuring function and configuration data
-definition for this HDMI 2.0 PHY too, but the current driver in this
-patchset simply duplicated most configuration logic from rcar_dw_hdmi
-driver (but with 3 extra configuration registers configured, which is
-done by their downstream kernel).
+Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+---
+No changes since v4.
 
-Another point to discuss about the dw-hdmi glue is the placement of the
-driver file -- because of the display controller being generic, the glue
-driver is currently directly placed into drivers/gpu/drm/bridge/ .
+Changes in v3:
+- Add Rob's ACK.
 
-Icenowy Zheng (9):
-  dt-bindings: vendor-prefixes: add verisilicon
-  dt-bindings: display: add verisilicon,dc
-  drm: verisilicon: add a driver for Verisilicon display controllers
-  dt-bindings: display/bridge: add binding for TH1520 HDMI controller
-  drm/bridge: add a driver for T-Head TH1520 HDMI controller
-  riscv: dts: thead: add DPU and HDMI device tree nodes
-  riscv: dts: thead: lichee-pi-4a: enable HDMI
-  MAINTAINERS: assign myself as maintainer for verisilicon DC driver
-  mailmap: map all Icenowy Zheng's mail addresses
+No changes in v2.
 
- .mailmap                                      |   4 +
- .../display/bridge/thead,th1520-dw-hdmi.yaml  | 120 ++++++
- .../bindings/display/verisilicon,dc.yaml      | 122 ++++++
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- MAINTAINERS                                   |   8 +
- .../boot/dts/thead/th1520-lichee-pi-4a.dts    |  25 ++
- arch/riscv/boot/dts/thead/th1520.dtsi         |  66 ++++
- drivers/gpu/drm/Kconfig                       |   2 +
- drivers/gpu/drm/Makefile                      |   1 +
- drivers/gpu/drm/bridge/Kconfig                |  10 +
- drivers/gpu/drm/bridge/Makefile               |   1 +
- drivers/gpu/drm/bridge/th1520-dw-hdmi.c       | 173 ++++++++
- drivers/gpu/drm/verisilicon/Kconfig           |  15 +
- drivers/gpu/drm/verisilicon/Makefile          |   5 +
- drivers/gpu/drm/verisilicon/vs_bridge.c       | 371 ++++++++++++++++++
- drivers/gpu/drm/verisilicon/vs_bridge.h       |  39 ++
- drivers/gpu/drm/verisilicon/vs_bridge_regs.h  |  54 +++
- drivers/gpu/drm/verisilicon/vs_crtc.c         | 191 +++++++++
- drivers/gpu/drm/verisilicon/vs_crtc.h         |  31 ++
- drivers/gpu/drm/verisilicon/vs_crtc_regs.h    |  60 +++
- drivers/gpu/drm/verisilicon/vs_dc.c           | 207 ++++++++++
- drivers/gpu/drm/verisilicon/vs_dc.h           |  38 ++
- drivers/gpu/drm/verisilicon/vs_dc_top_regs.h  |  27 ++
- drivers/gpu/drm/verisilicon/vs_drm.c          | 182 +++++++++
- drivers/gpu/drm/verisilicon/vs_drm.h          |  28 ++
- drivers/gpu/drm/verisilicon/vs_hwdb.c         | 150 +++++++
- drivers/gpu/drm/verisilicon/vs_hwdb.h         |  29 ++
- drivers/gpu/drm/verisilicon/vs_plane.c        | 124 ++++++
- drivers/gpu/drm/verisilicon/vs_plane.h        |  72 ++++
- .../gpu/drm/verisilicon/vs_primary_plane.c    | 173 ++++++++
- .../drm/verisilicon/vs_primary_plane_regs.h   |  53 +++
- 31 files changed, 2383 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/thead,th1520-dw-hdmi.yaml
- create mode 100644 Documentation/devicetree/bindings/display/verisilicon,dc.yaml
- create mode 100644 drivers/gpu/drm/bridge/th1520-dw-hdmi.c
- create mode 100644 drivers/gpu/drm/verisilicon/Kconfig
- create mode 100644 drivers/gpu/drm/verisilicon/Makefile
- create mode 100644 drivers/gpu/drm/verisilicon/vs_bridge.c
- create mode 100644 drivers/gpu/drm/verisilicon/vs_bridge.h
- create mode 100644 drivers/gpu/drm/verisilicon/vs_bridge_regs.h
- create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.c
- create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.h
- create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc_regs.h
- create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.c
- create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.h
- create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_top_regs.h
- create mode 100644 drivers/gpu/drm/verisilicon/vs_drm.c
- create mode 100644 drivers/gpu/drm/verisilicon/vs_drm.h
- create mode 100644 drivers/gpu/drm/verisilicon/vs_hwdb.c
- create mode 100644 drivers/gpu/drm/verisilicon/vs_hwdb.h
- create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.c
- create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.h
- create mode 100644 drivers/gpu/drm/verisilicon/vs_primary_plane.c
- create mode 100644 drivers/gpu/drm/verisilicon/vs_primary_plane_regs.h
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index c7591b2aec2a7..18f931f369198 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1745,6 +1745,8 @@ patternProperties:
+     description: Variscite Ltd.
+   "^vdl,.*":
+     description: Van der Laan b.v.
++  "^verisilicon,.*":
++    description: VeriSilicon Microelectronics (Shanghai) Co., Ltd.
+   "^vertexcom,.*":
+     description: Vertexcom Technologies, Inc.
+   "^via,.*":
 -- 
 2.52.0
 
