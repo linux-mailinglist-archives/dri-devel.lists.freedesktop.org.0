@@ -2,96 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yGDlHopZc2nruwAAu9opvQ
+	id aB31Lx9cc2l3vAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 12:20:42 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 12:31:43 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3015574F00
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 12:20:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D0B750AB
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 12:31:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 725FE10EAC6;
-	Fri, 23 Jan 2026 11:20:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7589010EAE1;
+	Fri, 23 Jan 2026 11:31:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mWrWApMp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gqyGyXMG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB8AA10EAC6
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 11:20:37 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-4801c1ad878so21239545e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 03:20:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769167236; x=1769772036; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+I0tLnCW0GptpxTH+Hd4lO3qhepn+XYRWxHDF8cKq3Y=;
- b=mWrWApMp7RYmxEyHLuOwq1BdpvKOpa3DoCwX6ywU3DlK6UKwFTwfxC5NFCE5mUtPn3
- Kdfwl3SjMNwXrMfOfDC79xE+nAskmbXMmtAptcXz/UTyN3wq1p9gR1ia0ef8fPvJ9gVg
- lh4v95B89YbJlhgXNrvUTyc2ut3OW+JMlWH1e5N96g5kgwdxummCVBQv0ajgxpkb9ScI
- ibegtpXTwdBkK+iKtCnWY9RkzRtUxI6++b9GcHsuc9X10Ln/qqwOmAb3hM/KPmIWXGqJ
- kgsxmgSV/ymlgQ+EHuRwwWtv3YLFDL9PhcVbDTp84MPmrhkVilz5Nj/cbBPcEy6TptTS
- 5vgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769167236; x=1769772036;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=+I0tLnCW0GptpxTH+Hd4lO3qhepn+XYRWxHDF8cKq3Y=;
- b=M+nhiFXhu/F3jLDwe+ngaI3vJjPdPoEoo+Tt0N3JWF8nt898RGIrBaUGU/68sgGc7L
- 53Zbu8rPscq6YPxj7gXM+2r4lDKfe9mmWz2axI1pUd1UD5ZuyreJD8+eFEqEOdMjojjZ
- 4WxhbcGO81NentWqIa4UMbj947t+B39OHPBu+258Axy4tANYa6+0rDUIcnngGWRsrNqP
- SkeA37HihnVSl2zK2BPakHE387jUJ9MmcNBGTsD7mEEEI5RNShUud/CCuu3zMKVfQ8/X
- JkGAw7mh6JEZPiUjwGOxDhc2zgrQVZtBGFeKmTwZq5gKa0DkQui0u/8k5smS3I9M/eKg
- JaTw==
-X-Gm-Message-State: AOJu0YxbcK+jNGZ44VDLTIl08xO/L5Cr+z+iHfAY0OYj/ggQFFQKM135
- 1xhjZJMbXimSeMHMWOE7L4txpPARgmnS3o7j/WWzs1PYQSJvoPfM/7ApQl756Mq7
-X-Gm-Gg: AZuq6aIq37A1Ch9vujNUOvMLux8i2HCZUVMSNiEdQSzSZS1hyQ1BRA23qQuP/MkURQK
- diHKxNMhveJap/amb8kMNscvplJ5U5mp+CwhRnU8x1YH3RQAr7JiFHMijhSwAKnLN6s78RpShHt
- bboOC9O5/jsrk3EvRJDfpjffgAOH7Po9JjThULvY6ppdvkSaxGPmlzwWcqqbwGvDEbB43GEwWWo
- dpf5X1JDEwX+Gjexg3lMXslkGuaqOZJjXzK8/POOt7xUz88AYwPc8VExXeEWot4YqS9uAPsJsRg
- YsCeiwZGDIzKb4EVSXmD6QURIf4vMpsbjWtJ/sLNHzv0Qs15xkwooAzAR6DvWyOZz3xs3kKFV3x
- yGHRWS/rPAo6eSwrEpT+3d1xaQ6r2bj1gqrAn8J8dU8D3T66kGw4BA+OubdAJ0Bccl5X/1dXyOF
- hh1KPMPQHAUT0gcypzMkJY4W5FhZDEJ0X7GCkGDFpAB7mqvwJ23T1Maxb1Hw==
-X-Received: by 2002:a05:600c:40c8:b0:47a:80f8:82ab with SMTP id
- 5b1f17b1804b1-4805067fadcmr16578755e9.24.1769167235975; 
- Fri, 23 Jan 2026 03:20:35 -0800 (PST)
-Received: from timur-hyperion.localnet (54001FF2.dsl.pool.telekom.hu.
- [84.0.31.242]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-48047028928sm191404245e9.2.2026.01.23.03.20.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Jan 2026 03:20:32 -0800 (PST)
-From: Timur =?UTF-8?B?S3Jpc3TDs2Y=?= <timur.kristof@gmail.com>
-To: dri-devel@lists.freedesktop.org,
- Hamza Mahfooz <someguy@effective-light.com>
-Cc: Hamza Mahfooz <someguy@effective-light.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sunil Khatri <sunil.khatri@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
- Ce Sun <cesun102@amd.com>, Ivan Lipski <ivan.lipski@amd.com>,
- Kenneth Feng <kenneth.feng@amd.com>, Alex Hung <alex.hung@amd.com>,
- Tom Chung <chiahsuan.chung@amd.com>, Melissa Wen <mwen@igalia.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <mdaenzer@redhat.com>,
- Fangzhi Zuo <Jerry.Zuo@amd.com>, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] drm/amdgpu: implement page_flip_timeout() support
-Date: Fri, 23 Jan 2026 12:20:30 +0100
-Message-ID: <10030872.eNJFYEL58v@timur-hyperion>
-In-Reply-To: <20260123000537.2450496-2-someguy@effective-light.com>
-References: <20260123000537.2450496-1-someguy@effective-light.com>
- <20260123000537.2450496-2-someguy@effective-light.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A45210EAC7
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 11:31:33 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 7D3106013F;
+ Fri, 23 Jan 2026 11:31:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 448FEC116D0;
+ Fri, 23 Jan 2026 11:31:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1769167892;
+ bh=vEkFV07PEpR5KX9dNGTST448CA5dKUUwl6Jer72c3uY=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=gqyGyXMGtjyFok1bHfL6F2eThk/Son5WCT0vXEJxdWzjAhxbArhade74N0WX2nuTp
+ uRjFMIlyPj988VlmAZ++WP+/1L+HAqKsisuVW0UvniHTupKaO8igcw+8C59Jeb2O1f
+ FIVBdMFYb6b1t6Oodo4FOZM/+9HTOfgic4PznyLcc9vecFu1BeckpWrfo5Lhfxtdlh
+ QqqrWw6wyvhu/RcXVmQjOnTWlNpgzaxowq8fRTD5bCRw6Kop42E1oTOOlVmqykt3sC
+ 46bl18Os40hjHSItfYDR0ByujTpUVbewOXUijER3eDteavLZ4+mcyX0fA2fsbGhdpk
+ YfC/8a65rK4cg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 37A81D7236C;
+ Fri, 23 Jan 2026 11:31:32 +0000 (UTC)
+From: Maud Spierings via B4 Relay
+ <devnull+maudspierings.gocontroll.com@kernel.org>
+Subject: [PATCH v7 0/4] backlight: add new max25014 backlight driver
+Date: Fri, 23 Jan 2026 12:31:29 +0100
+Message-Id: <20260123-max25014-v7-0-15e504b9acc7@gocontroll.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/23OzWrDMAzA8VcpPi9D8nd22nuMHRRHbg1tPJISO
+ krefWoHS2C5Wca/v3xXE4+FJ/V2uKuR5zKVOsgQXg4qnWg4clN6mZUG7cBr31zoJie0jdUQXIu
+ MlJ2S518j53J7pj4+ZT6V6VrH72d5xsftbyRot0ZmbKABjilxK73I78ea6nAd6/n8mupFPUqzX
+ nXEdqO1aJf7QNyhRaZdbVbdIm60Ed2DyZY7MsHt77Z/GgG2u61oT32nCYiMy7varRohbLQT3ZI
+ ncsGA7/a1X7WG7c+96BjZUIqIOv/Xy7L8ALXG0rjbAQAA
+X-Change-ID: 20250626-max25014-4207591e1af5
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, 
+ Maud Spierings <maudspierings@gocontroll.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1769167891; l=5004;
+ i=maudspierings@gocontroll.com; s=20250214; h=from:subject:message-id;
+ bh=vEkFV07PEpR5KX9dNGTST448CA5dKUUwl6Jer72c3uY=;
+ b=s+cmlb1pCiN/IakKQKsOgUXRHfTMAtp7ny2CeiPz3mwdj6Dg/YieSrnYRGPVgMk2wS6zYOTRZ
+ QxSvxYuCQ1HDtSpzxfJ5+37bCHYLcMUhIn+22/PZekKIrv1Xb8bHEEy
+X-Developer-Key: i=maudspierings@gocontroll.com; a=ed25519;
+ pk=7chUb8XpaTQDvWhzTdHC0YPMkTDloELEC7q94tOUyPg=
+X-Endpoint-Received: by B4 Relay for maudspierings@gocontroll.com/20250214
+ with auth_id=341
+X-Original-From: Maud Spierings <maudspierings@gocontroll.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,140 +89,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: maudspierings@gocontroll.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:danielt@kernel.org,m:jingoohan1@gmail.com,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:deller@gmx.de,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:lgirdwood@gmail.com,m:broonie@kernel.org,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-fbdev@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:maudspierings@gocontroll.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[maudspierings.gocontroll.com];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	FREEMAIL_CC(0.00)[effective-light.com,amd.com,gmail.com,ffwll.ch,igalia.com,linux.intel.com,kernel.org,suse.de,redhat.com,lists.freedesktop.org,vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[timurkristof@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[devnull@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,gmx.de,pengutronix.de];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	HAS_REPLYTO(0.00)[maudspierings@gocontroll.com];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.934];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 3015574F00
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,analog.com:url]
+X-Rspamd-Queue-Id: 36D0B750AB
 X-Rspamd-Action: no action
 
-On Friday, January 23, 2026 1:05:28=E2=80=AFAM Central European Standard Ti=
-me Hamza=20
-Mahfooz wrote:
-> We now have a means to respond to page flip timeouts. So, hook up
-> support for the new page_flip_timeout() callback.
->=20
-> Signed-off-by: Hamza Mahfooz <someguy@effective-light.com>
-> ---
-> Hi,
->=20
-> I have tested this on 7940HS system and it appears even a MODE2 reset
-> will reset display firmware, so I don't think we need to force a full
-> reset here.
-> ---
+The Maxim MAX25014 is an automotive grade backlight driver IC. Its
+datasheet can be found at [1].
 
-MODE2 reset _is_ a full reset on APUs, it resets everything but just doesn'=
-t=20
-lose the RAM contents. Also note that MODE2 reset is not supported on=20
-dedicated GPUs, so this will likely trigger a full reset for those.
+With its integrated boost controller, it can power 4 channels (led
+strings) and has a number of different modes using pwm and or i2c.
+Currently implemented is only i2c control.
 
-Can you say how you tested this? I'd be happy to test it myself too.
+link: https://www.analog.com/media/en/technical-documentation/data-sheets/MAX25014.pdf [1]
 
->  drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c      |  2 ++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h      |  1 +
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c | 18 ++++++++++++++++++
->  3 files changed, 21 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
-> b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c index
-> 28c4ad62f50e..bd63f0345984 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.c
-> @@ -343,6 +343,8 @@ void amdgpu_reset_get_desc(struct amdgpu_reset_context
-> *rst_ctxt, char *buf, case AMDGPU_RESET_SRC_USERQ:
->  		strscpy(buf, "user queue trigger", len);
->  		break;
-> +	case AMDGPU_RESET_SRC_DISPLAY:
-> +		strscpy(buf, "display hang", len);
->  	default:
->  		strscpy(buf, "unknown", len);
->  	}
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
-> b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h index
-> 07b4d37f1db6..53b577062b11 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_reset.h
-> @@ -44,6 +44,7 @@ enum AMDGPU_RESET_SRCS {
->  	AMDGPU_RESET_SRC_HWS,
->  	AMDGPU_RESET_SRC_USER,
->  	AMDGPU_RESET_SRC_USERQ,
-> +	AMDGPU_RESET_SRC_DISPLAY,
->  };
->=20
->  struct amdgpu_reset_context {
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c index
-> 697e232acebf..2233e5b3b6a2 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-> @@ -28,6 +28,7 @@
->=20
->  #include "dc.h"
->  #include "amdgpu.h"
-> +#include "amdgpu_reset.h"
->  #include "amdgpu_dm_psr.h"
->  #include "amdgpu_dm_replay.h"
->  #include "amdgpu_dm_crtc.h"
-> @@ -578,12 +579,29 @@ amdgpu_dm_atomic_crtc_get_property(struct drm_crtc
-> *crtc, }
->  #endif
->=20
-> +static void amdgpu_dm_crtc_handle_timeout(struct drm_crtc *crtc)
-> +{
-> +	struct amdgpu_device *adev =3D drm_to_adev(crtc->dev);
-> +	struct amdgpu_reset_context reset_context =3D {0};
-> +
-> +	if (amdgpu_device_should_recover_gpu(adev)) {
-> +		memset(&reset_context, 0, sizeof(reset_context));
-> +
-> +		reset_context.method =3D AMD_RESET_METHOD_NONE;
-> +		reset_context.reset_req_dev =3D adev;
-> +		reset_context.src =3D AMDGPU_RESET_SRC_DISPLAY;
-> +
-> +		amdgpu_device_gpu_recover(adev, NULL, &reset_context);
-> +	}
-> +}
-> +
->  /* Implemented only the options currently available for the driver */
->  static const struct drm_crtc_funcs amdgpu_dm_crtc_funcs =3D {
->  	.reset =3D amdgpu_dm_crtc_reset_state,
->  	.destroy =3D amdgpu_dm_crtc_destroy,
->  	.set_config =3D drm_atomic_helper_set_config,
->  	.page_flip =3D drm_atomic_helper_page_flip,
-> +	.page_flip_timeout =3D amdgpu_dm_crtc_handle_timeout,
->  	.atomic_duplicate_state =3D amdgpu_dm_crtc_duplicate_state,
->  	.atomic_destroy_state =3D amdgpu_dm_crtc_destroy_state,
->  	.set_crc_source =3D amdgpu_dm_crtc_set_crc_source,
+Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
+---
+Changes in v7:
+- remove the led subnodes
+- always enable the regulator by using devm_regulator_get_enable()
+- remove the no longer required gotos and simplify early returns
+- fix the name of the SHORTED_LED error field
+- fix the name of the SHORTGND error field
+- use the proper backlight helper functions for setting/getting
+  brightness
+- Link to v6: https://lore.kernel.org/r/20251201-max25014-v6-0-88e3ac8112ff@gocontroll.com
 
+Changes in v6:
+- fixup changes in v4 where default brightness handling was changed but
+  not noted
+- remove leftover comment about initializing brightness
+- use BIT definitions for fields in the DIAG register
+- apply reverse christmas tree initialization of local variables
+- remove !=0 from checks, just check if (ret)
+- remove > 0 from checks, just check if (val)
+- use dev_err_probe() more
+- set enable gpio high in the get() instead of seperately calling set()
+- change usleep_range() to fsleep()
+- remove null checks when setting gpio value
+- get regular regulator, not optional to avoid further NULL checks in
+  case none is provided
+- introduce max25014_initial_power_state() to check if the bootloader
+  has already initialized the backlight and to correctly set props.power
+- squash max25014_register_control() into max25014_update_status()
+- in max25014_configure() perform extra checking on the DISABLE register
+  now that the state from the bootloader is taken into account
+- Link to v5: https://lore.kernel.org/r/20251107-max25014-v5-0-9a6aa57306bf@gocontroll.com
 
+Changes in v5:
+- moved comment about current functions of the driver to the actual
+  comment section of the commit
+- fixed the led@0 property, regex patternProperty is not needed as of
+  now
+- added extra clarification about the ISET field/register
+- moved #address-cells and #size-cells to the correct location
+- remove leftover default-brightness in backlight nodes
+- Link to v4: https://lore.kernel.org/r/20251009-max25014-v4-0-6adb2a0aa35f@gocontroll.com
+
+Changes in v4:
+- remove setting default brightness, let backlight core take care of it
+- use a led node to describe the backlight
+- use led-sources to enable specific channels
+- also wait 2ms when there is a supply but no enable
+- change dev_warn() to dev_err() in error path in max25014_check_errors()
+- set backlight_properties.scale to BACKLIGHT_SCALE_LINEAR
+- rebase latest next
+- add address-cells and size-cells to i2c4 in av101hdt-a10.dtso
+- Link to v3: https://lore.kernel.org/r/20250911-max25014-v3-0-d03f4eba375e@gocontroll.com
+
+Changes in v3:
+- fixed commit message type intgrated -> integrated
+- added maximum and description to maxim,iset-property
+- dropped unused labels and pinctrl in bindings example
+- put the compatible first in the bindings example and dts
+- removed brackets around defines
+- removed the leftover pdata struct field
+- removed the initial_brightness struct field
+- Link to v2: https://lore.kernel.org/r/20250819-max25014-v2-0-5fd7aeb141ea@gocontroll.com
+
+Changes in v2:
+- Remove leftover unused property from the bindings example
+- Complete the bindings example with all properties
+- Remove some double info from the maxim,iset property
+- Remove platform_data header, fold its data into the max25014 struct
+- Don't force defines to be unsigned
+- Remove stray struct max25014 declaration
+- Remove chipname and device from the max25014 struct
+- Inline the max25014_backlight_register() and strings_mask() functions
+- Remove CONFIG_OF ifdef
+- Link to v1: https://lore.kernel.org/r/20250725-max25014-v1-0-0e8cce92078e@gocontroll.com
+
+---
+Maud Spierings (4):
+      dt-bindings: backlight: Add max25014 support
+      backlight: add max25014atg backlight
+      arm64: dts: freescale: moduline-display-av101hdt-a10: add backlight
+      arm64: dts: freescale: moduline-display-av123z7m-n17: add backlight
+
+ .../bindings/leds/backlight/maxim,max25014.yaml    |  91 +++++
+ MAINTAINERS                                        |   6 +
+ ...x8p-ml81-moduline-display-106-av101hdt-a10.dtso |  26 ++
+ ...x8p-ml81-moduline-display-106-av123z7m-n17.dtso |  21 +-
+ drivers/video/backlight/Kconfig                    |   7 +
+ drivers/video/backlight/Makefile                   |   1 +
+ drivers/video/backlight/max25014.c                 | 377 +++++++++++++++++++++
+ 7 files changed, 528 insertions(+), 1 deletion(-)
+---
+base-commit: a0c666c25aeefd16f4b088c6549a6fb6b65a8a1d
+change-id: 20250626-max25014-4207591e1af5
+
+Best regards,
+-- 
+Maud Spierings <maudspierings@gocontroll.com>
 
 
