@@ -2,85 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SKLtJyXBcmmxpAAAu9opvQ
+	id QPQ2OibPcmnKpgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 01:30:29 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 02:30:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D15516ECA8
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 01:30:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF4C6F150
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 02:30:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5A6C10EBC8;
-	Fri, 23 Jan 2026 00:30:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A84910EBF5;
+	Fri, 23 Jan 2026 01:30:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="JFVN7vr2";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="MVaTSDPr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30CF110EBC8
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 00:30:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1769128221; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=IZX+1LsCpQQ+Rl7KDSFtZgqKtr0PFsWoY/u+das8x/TXSxh+Ln1Hk9x+LvhBnMOhhD04WoVYYpE5cQ7UuNgeA7XlHCsKB5IjjWyZ1BvfungO69wQ/8scKUuKaVt01w89ed8KawoVYjMdgiGCZoTubcf9rarqe8R+8TI2Y8+77dc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1769128221;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=/yeziewaw15H86mUs/MvNCnEniIqbrsf9kqGH0zpSXc=; 
- b=Tt3GOU/H/cyscwd7myazOyzRW77JnO56/aqYeAt/Zkpoe1vOTJYpVVs//RrL8nLiVC50uAxu8dPVbEFPFncY3Zi8ScUHJFG/fTrevf7PE1rmXyegT6LtmAMu7xKcFSitHRUUDmxCOgHUfHdefBNj9kz+/maGAMxgCUlPa0Xryes=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769128221; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=/yeziewaw15H86mUs/MvNCnEniIqbrsf9kqGH0zpSXc=;
- b=JFVN7vr2V3WZMOROff8QAPjioTjWXyMphmAFlpev66SuROF3067M31vA00BA9Qdv
- 9k2102LwLuyRGbUhXPt7+F8xLhnysIan5A9yTTYnFciNuqWiFEWVWPUEbWV9s4yDnMX
- 8Y0Hf0auyWwWFoUrq7zk34PewHnWOptInla8L9JM=
-Received: by mx.zohomail.com with SMTPS id 1769128219741646.6810529308862;
- Thu, 22 Jan 2026 16:30:19 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH v3 1/3] rust: clk: use the type-state pattern
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20260122-majestic-masterful-jaguarundi-d0abde@houat>
-Date: Thu, 22 Jan 2026 21:29:30 -0300
-Cc: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Drew Fustini <fustini@kernel.org>,
- Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
- =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-riscv@lists.infradead.org, linux-pwm@vger.kernel.org,
- linux-clk@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <2F3D3A40-6EF9-46FC-A769-E5A3AAF67E65@collabora.com>
-References: <20260107-clk-type-state-v3-0-77d3e3ee59c2@collabora.com>
- <20260107-clk-type-state-v3-1-77d3e3ee59c2@collabora.com>
- <20260108-delectable-fennec-of-sunshine-ffca19@houat>
- <98CD0BF6-3350-40B9-B8A9-F569AE3E3220@collabora.com>
- <20260119-thundering-tested-robin-4be817@houat> <aW4lCfUyumOKRRJm@google.com>
- <518D8B09-B9A1-4DB4-85CD-37A2DD3D5FB1@collabora.com>
- <DFSLCI9U4NCW.2HI2UPUI7G134@kernel.org>
- <20260119-weightless-pelican-of-anger-190db0@houat>
- <DFSN4FDCYHMW.3J3237PEBV2ZP@kernel.org>
- <20260122-majestic-masterful-jaguarundi-d0abde@houat>
-To: Maxime Ripard <mripard@kernel.org>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD3B310E18B;
+ Fri, 23 Jan 2026 01:30:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=IDmrmzU8GVAsBx6kHbOqrg6J/n9UwtIw2vmbYCZkFc0=; b=M
+ VaTSDPrQkR/we+uXwlBU1ShlJicqfekYMpbp1gn3mqVmFmd0ncRUt+BPM7JGQSF+
+ T0jctEvBSqdNjlKhka/TerLrndvh5njXHO5gnRzE7Q7B1YIuMKItLGYJkz2mJ9Xx
+ LTc0XBbO8H+tYC48szF3tKIzO1nvSy0Hhsf+KX6odc=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-107 (Coremail) ; Fri, 23 Jan 2026 09:29:02 +0800
+ (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Fri, 23 Jan 2026 09:29:02 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Nicolas Frattaroli" <nicolas.frattaroli@collabora.com>
+Cc: "Harry Wentland" <harry.wentland@amd.com>, "Leo Li" <sunpeng.li@amd.com>, 
+ "Rodrigo Siqueira" <siqueira@igalia.com>,
+ "Alex Deucher" <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Andrzej Hajda" <andrzej.hajda@intel.com>,
+ "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>,
+ "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
+ "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Sandy Huang" <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ "Andy Yan" <andy.yan@rock-chips.com>,
+ "Jani Nikula" <jani.nikula@linux.intel.com>,
+ "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
+ "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>,
+ "Tvrtko Ursulin" <tursulin@ursulin.net>,
+ "Dmitry Baryshkov" <lumag@kernel.org>,
+ "Sascha Hauer" <s.hauer@pengutronix.de>,
+ "Rob Herring" <robh@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org
+Subject: Re:Re: [PATCH v7 10/22] drm/rockchip: vop2: Fix YUV444 output
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20251222(83accb85) Copyright (c) 2002-2026 www.mailtech.cn 163com
+In-Reply-To: <6631107.DvuYhMxLoT@workhorse>
+References: <20260121-color-format-v7-0-ef790dae780c@collabora.com>
+ <20260121-color-format-v7-10-ef790dae780c@collabora.com>
+ <7ab32c86.7542.19be4d21f69.Coremail.andyshrk@163.com>
+ <6631107.DvuYhMxLoT@workhorse>
+X-CM-CTRLMSGS: z+OV+nBsdXM9MTc2OTEzMTczOTgxOF80MzRmZWVkYTljZjY4Yzg1OTEzZTE4Y
+ WQ1MmEzMjA4OQ==
+X-NTES-SC: AL_Qu2dC/2Yvk8v5COQZekfmUgWjuw/WsG1v/Ul1YBSP556jCHp1zA+YHtOI0XuzsGkOiqykTu2XSVH2/VTe6Bkepsb0K/+WIoMtVQodWYZZdLbNQ==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Message-ID: <4c9ce287.fbb.19be87814b8.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: aygvCgCHr1LeznJpeANdAA--.16157W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbCxR7hQGlyzt4OBgAA35
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,133 +97,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [1.29 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	MAILLIST(-0.20)[mailman];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
+	MAILLIST(-0.20)[mailman];
+	MIME_BASE64_TEXT(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[daniel.almeida@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:aliceryhl@google.com,m:rafael@kernel.org,m:viresh.kumar@linaro.org,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:ukleinek@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:linux-pm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:linux-pwm@vger.kernel.org,m:linux-clk@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:mripard@kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[37];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_FROM(0.00)[163.com];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,google.com,linaro.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,redhat.com,baylibre.com,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,lists.freedesktop.org,lists.infradead.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daniel.almeida@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	NEURAL_HAM(-0.00)[-0.328];
+	FREEMAIL_CC(0.00)[amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,intel.com,linaro.org,ideasonboard.com,kwiboo.se,rock-chips.com,sntech.de,ursulin.net,pengutronix.de,lwn.net,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
+	HAS_XOIP(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[andyshrk@163.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	HAS_X_PRIO_THREE(0.00)[3];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	APPLE_MAILER_COMMON(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:mid,collabora.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: D15516ECA8
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[163.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,collabora.com:email]
+X-Rspamd-Queue-Id: 9CF4C6F150
 X-Rspamd-Action: no action
 
-
-
-> On 22 Jan 2026, at 10:44, Maxime Ripard <mripard@kernel.org> wrote:
->=20
-> On Mon, Jan 19, 2026 at 03:37:17PM +0100, Danilo Krummrich wrote:
->> On Mon Jan 19, 2026 at 3:18 PM CET, Maxime Ripard wrote:
->>> On Mon, Jan 19, 2026 at 02:13:48PM +0100, Danilo Krummrich wrote:
->>>> On Mon Jan 19, 2026 at 1:54 PM CET, Daniel Almeida wrote:
->>>>>> On 19 Jan 2026, at 09:35, Alice Ryhl <aliceryhl@google.com> =
-wrote:
->>>>>> I think that if you still want an API where you just call =
-enable/disable
->>>>>> directly on it with no protection against unbalanced calls, then =
-that
->>>>>> should be the special API. Probably called RawClk and functions =
-marked
->>>>>> unsafe. Unbalanced calls seem really dangerous and use should not =
-be
->>>>>> encouraged.
->>>>=20
->>>> +1; and unless there is a use-case that requires otherwise, it =
-should not even
->>>> be possible to do this at all -- at least for driver code.
->>>=20
->>> I mean, it's great, it's safe, etc. but it's also suboptimal from a =
-PM
->>> perspective on many platforms. It's totally fine to provide nice, =
-safe,
->>> ergonomic wrappers for the drivers that don't care (or can't, =
-really),
->>> but treating a legitimate optimisation as something we should =
-consider
->>> impossible to do is just weird to me.
->>=20
->> I said that an unsafe API with potentially unbalanced calls is =
-something we
->> should clearly avoid for drivers. This is *not* equivalent to =
-"treating a
->> legitimate optimisation as something we should consider impossible".
->>=20
->> If we discover use-cases where the current API doesn't work well, we =
-can
->> invenstigate further.
->=20
-> I'm not sure I'm following what you're saying, sorry. I've pointed out
-> such a use-case already.
->=20
->>>>> I think we should discourage RawClk if at all possible. But if the =
-consensus
->>>>> is that we *really* need this easily-abused thing, I can provide a =
-follow-up.
->>>>=20
->>>> I think we should only do this if there are use-case with no =
-alternative, so far
->>>> there haven't been any AFAIK.
->>>=20
->>> I don't really care about which alternative we come up with, but =
-look at
->>> devm_regmap_init_mmio_clk for example. It is a valid use-case that
->>> already exists today, and has had for more than a decade at this =
-point.
->>=20
->> I don't see the issue with devm_regmap_init_mmio_clk()? It takes a =
-reference
->> count of the clock and prepares it when called and unprepares the clk =
-in drops
->> its reference in regmap_mmio_free_context() called from the devres =
-callback.
->>=20
->> That something we can easily do with the current API, no?
->=20
-> The current one, yes. Doing that in the API suggested here would =
-involve
-> some boilerplate in all those drivers they don't have right now.
->=20
-> Maxime
-
-Maxime, I know you=E2=80=99ve already pointed out a use-case, but I =
-think the
-confusion stems from why you seem to think that the current solution =
-cannot
-cater to the API you mentioned in a clean way. You seem to imply that =
-there
-will be a lot of boilerplate involved, but we (or I) cannot see this. =
-Perhaps
-it would help if you highlighted how exactly the type state solution =
-would be
-verbose using some pseudocode. I guess that would make your point =
-clearer for
-us.
-
-=E2=80=94 Daniel
-
-
+CgpIZWxsbyBOaWNvbGFzLAoK5ZyoIDIwMjYtMDEtMjIgMjA6NTk6NDHvvIwiTmljb2xhcyBGcmF0
+dGFyb2xpIiA8bmljb2xhcy5mcmF0dGFyb2xpQGNvbGxhYm9yYS5jb20+IOWGmemBk++8mgo+T24g
+VGh1cnNkYXksIDIyIEphbnVhcnkgMjAyNiAwOToyODo1NCBDZW50cmFsIEV1cm9wZWFuIFN0YW5k
+YXJkIFRpbWUgQW5keSBZYW4gd3JvdGU6Cj4+IAo+PiBIZWxsbyBOaWNvbGFz77yMCj4+IAo+PiBB
+dCAyMDI2LTAxLTIxIDIyOjQ1OjE3LCAiTmljb2xhcyBGcmF0dGFyb2xpIiA8bmljb2xhcy5mcmF0
+dGFyb2xpQGNvbGxhYm9yYS5jb20+IHdyb3RlOgo+PiA+WVVWNDQ0IChha2EgWUNiQ3I0NDQpIG91
+dHB1dCBpc24ndCB3b3JraW5nIHF1aXRlIHJpZ2h0IG9uIFJLMzU4OC4gVGhlCj4+ID5yZXN1bHRp
+bmcgaW1hZ2Ugb24gdGhlIGRpc3BsYXksIHdoaWxlIGlkZW50aWZ5aW5nIGl0c2VsZiBhcyBZVVY0
+NDQsIGhhcwo+PiA+c29tZSBjb21wb25lbnRzIHN3YXBwZWQsIGV2ZW4gYWZ0ZXIgYWRkaW5nIHRo
+ZSBuZWNlc3NhcnkgRFJNIGZvcm1hdHMgdG8KPj4gPnRoZSBjb252ZXJzaW9uIGZ1bmN0aW9ucy4K
+Pj4gPgo+PiA+SnVkZ2luZyBieSBkb3duc3RyZWFtLCB0aGlzIGlzIGJlY2F1c2UgWVVWNDQ0IGFs
+c28gbmVlZHMgYW4gcmIgc3dhcAo+PiA+cGVyZm9ybWVkIGluIHRoZSBBRkJDIGNhc2UuCj4+ID4K
+Pj4gPkFkZCB0aGUgRFJNIGZvcm1hdHMgdG8gdGhlIGFwcHJvcHJpYXRlIHN3aXRjaCBzdGF0ZW1l
+bnRzLCBhbmQgYWRkIGEKPj4gPmZ1bmN0aW9uIGZvciBjaGVja2luZyB3aGV0aGVyIGFuIHJiIHN3
+YXAgbmVlZHMgdG8gYmUgcGVyZm9ybWVkIGluIHRoZQo+PiA+QUZCQyBjYXNlLgo+PiA+Cj4+ID5G
+aXhlczogNjA0YmU4NTU0N2NlICgiZHJtL3JvY2tjaGlwOiBBZGQgVk9QMiBkcml2ZXIiKQo+PiA+
+U2lnbmVkLW9mZi1ieTogTmljb2xhcyBGcmF0dGFyb2xpIDxuaWNvbGFzLmZyYXR0YXJvbGlAY29s
+bGFib3JhLmNvbT4KPj4gPi0tLQo+PiA+IGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hp
+cF9kcm1fdm9wMi5jIHwgMTkgKysrKysrKysrKysrKysrKysrKwo+PiA+IDEgZmlsZSBjaGFuZ2Vk
+LCAxOSBpbnNlcnRpb25zKCspCj4+ID4KPj4gPmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+cm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcDIuYyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9y
+b2NrY2hpcF9kcm1fdm9wMi5jCj4+ID5pbmRleCBlYzNiNGZkZTEwZGIuLjQ2OWM2M2RkOTdkNSAx
+MDA2NDQKPj4gPi0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9w
+Mi5jCj4+ID4rKysgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcDIu
+Ywo+PiA+QEAgLTE3Niw2ICsxNzYsNyBAQCBzdGF0aWMgZW51bSB2b3AyX2RhdGFfZm9ybWF0IHZv
+cDJfY29udmVydF9mb3JtYXQodTMyIGZvcm1hdCkKPj4gPiAJY2FzZSBEUk1fRk9STUFUX0FSR0Iy
+MTAxMDEwOgo+PiA+IAljYXNlIERSTV9GT1JNQVRfWEJHUjIxMDEwMTA6Cj4+ID4gCWNhc2UgRFJN
+X0ZPUk1BVF9BQkdSMjEwMTAxMDoKPj4gPisJY2FzZSBEUk1fRk9STUFUX1ZVWTEwMTAxMDoKPj4g
+PiAJCXJldHVybiBWT1AyX0ZNVF9YUkdCMTAxMDEwOwo+PiA+IAljYXNlIERSTV9GT1JNQVRfWFJH
+Qjg4ODg6Cj4+ID4gCWNhc2UgRFJNX0ZPUk1BVF9BUkdCODg4ODoKPj4gPkBAIC0xODQsNiArMTg1
+LDcgQEAgc3RhdGljIGVudW0gdm9wMl9kYXRhX2Zvcm1hdCB2b3AyX2NvbnZlcnRfZm9ybWF0KHUz
+MiBmb3JtYXQpCj4+ID4gCQlyZXR1cm4gVk9QMl9GTVRfQVJHQjg4ODg7Cj4+ID4gCWNhc2UgRFJN
+X0ZPUk1BVF9SR0I4ODg6Cj4+ID4gCWNhc2UgRFJNX0ZPUk1BVF9CR1I4ODg6Cj4+ID4rCWNhc2Ug
+RFJNX0ZPUk1BVF9WVVk4ODg6Cj4+ID4gCQlyZXR1cm4gVk9QMl9GTVRfUkdCODg4Owo+PiA+IAlj
+YXNlIERSTV9GT1JNQVRfUkdCNTY1Ogo+PiA+IAljYXNlIERSTV9GT1JNQVRfQkdSNTY1Ogo+PiA+
+QEAgLTIyNSw2ICsyMjcsNyBAQCBzdGF0aWMgZW51bSB2b3AyX2FmYmNfZm9ybWF0IHZvcDJfY29u
+dmVydF9hZmJjX2Zvcm1hdCh1MzIgZm9ybWF0KQo+PiA+IAljYXNlIERSTV9GT1JNQVRfQVJHQjIx
+MDEwMTA6Cj4+ID4gCWNhc2UgRFJNX0ZPUk1BVF9YQkdSMjEwMTAxMDoKPj4gPiAJY2FzZSBEUk1f
+Rk9STUFUX0FCR1IyMTAxMDEwOgo+PiA+KwljYXNlIERSTV9GT1JNQVRfVlVZMTAxMDEwOgo+PiA+
+IAkJcmV0dXJuIFZPUDJfQUZCQ19GTVRfQVJHQjIxMDEwMTA7Cj4+ID4gCWNhc2UgRFJNX0ZPUk1B
+VF9YUkdCODg4ODoKPj4gPiAJY2FzZSBEUk1fRk9STUFUX0FSR0I4ODg4Ogo+PiA+QEAgLTIzMyw2
+ICsyMzYsNyBAQCBzdGF0aWMgZW51bSB2b3AyX2FmYmNfZm9ybWF0IHZvcDJfY29udmVydF9hZmJj
+X2Zvcm1hdCh1MzIgZm9ybWF0KQo+PiA+IAkJcmV0dXJuIFZPUDJfQUZCQ19GTVRfQVJHQjg4ODg7
+Cj4+ID4gCWNhc2UgRFJNX0ZPUk1BVF9SR0I4ODg6Cj4+ID4gCWNhc2UgRFJNX0ZPUk1BVF9CR1I4
+ODg6Cj4+ID4rCWNhc2UgRFJNX0ZPUk1BVF9WVVk4ODg6Cj4+IAo+PiBIb3cgZGlkIHlvdSB0ZXN0
+IHRoaXMgZm9ybWF0PyBJdCBzZWVtcyB0b29scyBsaWtlIG1vZGV0ZXN0IGRvbuKAmXQgc3VwcG9y
+dCB0ZXN0aW5nIHRoaXMgcGF0dGVybi4KPj4gCj4KPkhpIEFuZHksCj4KPnVzaW5nIHRoZSByZXN0
+IG9mIHRoaXMgc2VyaWVzLCB3aGljaCBpbXBsZW1lbnRzIHRoZSAiY29sb3IgZm9ybWF0Igo+RFJN
+IHByb3BlcnR5LCBhbmQgdGhlIGNvcnJlc3BvbmRpbmcgd2VzdG9uIE1SIHRoYXQgbWFrZXMgdXNl
+IG9mIGl0WzFdLgo+Cj5JIGNyZWF0ZSBhIH4vLmNvbmZpZy93ZXN0b24uaW5pIHdpdGggdGhlIGZv
+bGxvd2luZyBjb250ZW50czoKPgo+ICAgIFtvdXRwdXRdCj4gICAgbmFtZT1IRE1JLUEtMQo+ICAg
+IGNvbG9yLWZvcm1hdD15dXY0NDQKPgo+VGhpcyB3aWxsIG1ha2UgV2VzdG9uIHRyeSB0byBzZXQg
+dGhlIG91dHB1dCBmb3JtYXQgdG8gMTAtYml0IFlVVjQ0NC4gVG8KPmxpbWl0IGl0IHRvIDgtYml0
+LCB5b3UgY2FuIGFkZCBgbWF4LWJwYz04YC4gVGhlIG1vbml0b3IncyBFRElEIG5lZWRzIHRvCj5y
+ZXBvcnQgWVVWNDQ0IHN1cHBvcnQsIG90aGVyd2lzZSB0aGF0IFdlc3RvbiB2ZXJzaW9uIHdvbid0
+IGxldCB5b3Ugc2V0Cj50aGlzIHByb3BlcnR5Lgo+CgoKVGhpcyBsb29rcyBhIGJpdCBzdHJhbmdl
+LiBZb3VyIGNvbW1pdCBtZXNzYWdlIGFuZCB0aGUgV2VzdG9uIGNvbmZpZ3VyYXRpb24gaGVyZSBi
+b3RoIHRhcmdldCB0aGUgb3V0cHV0IGZvcm1hdCwgCmJ1dCB0aGUgcGF0Y2ggbW9kaWZpZXMgdGhl
+IGZ1bmN0aW9ucyB2b3AyX2NvbnZlcnRfZm9ybWF0IGFuZCB2b3AyX2NvbnZlcnRfYWZiY19mb3Jt
+YXQsIHdoaWNoIGFyZSByZXNwb25zaWJsZSBmb3IKY29udmVydGluZyB0aGUgZGF0YSBmb3JtYXRz
+IG9mIHBsYW5lcy9mcmFtZWJ1ZmZlcnMgKGZiKeKAlHRoZXNlIGhhdmUgbm90aGluZyB0byBkbyB3
+aXRoIHRoZSBvdXRwdXQgZm9ybWF0LgoKCj5MaW5rOiBodHRwczovL2dpdGxhYi5mcmVlZGVza3Rv
+cC5vcmcvd2F5bGFuZC93ZXN0b24vLS9tZXJnZV9yZXF1ZXN0cy8xODU5IFsxXQo+Cj5LaW5kIHJl
+Z2FyZHMsCj5OaWNvbGFzIEZyYXR0YXJvbGkKPgo+PiAKPj4gCj4+ID4gCQlyZXR1cm4gVk9QMl9B
+RkJDX0ZNVF9SR0I4ODg7Cj4+ID4gCWNhc2UgRFJNX0ZPUk1BVF9SR0I1NjU6Cj4+ID4gCWNhc2Ug
+RFJNX0ZPUk1BVF9CR1I1NjU6Cj4+ID5AQCAtMjcwLDYgKzI3NCwxOSBAQCBzdGF0aWMgYm9vbCB2
+b3AyX3dpbl9yYl9zd2FwKHUzMiBmb3JtYXQpCj4+ID4gCX0KPj4gPiB9Cj4+ID4gCj4+ID4rc3Rh
+dGljIGJvb2wgdm9wMl9hZmJjX3JiX3N3YXAodTMyIGZvcm1hdCkKPj4gPit7Cj4+ID4rCXN3aXRj
+aCAoZm9ybWF0KSB7Cj4+ID4rCWNhc2UgRFJNX0ZPUk1BVF9OVjI0Ogo+PiA+KwljYXNlIERSTV9G
+T1JNQVRfTlYzMDoKPj4gPisJY2FzZSBEUk1fRk9STUFUX1ZVWTg4ODoKPj4gPisJY2FzZSBEUk1f
+Rk9STUFUX1ZVWTEwMTAxMDoKPj4gPisJCXJldHVybiB0cnVlOwo+PiA+KwlkZWZhdWx0Ogo+PiA+
+KwkJcmV0dXJuIGZhbHNlOwo+PiA+Kwl9Cj4+ID4rfQo+PiA+Kwo+PiA+IHN0YXRpYyBib29sIHZv
+cDJfYWZiY191dl9zd2FwKHUzMiBmb3JtYXQpCj4+ID4gewo+PiA+IAlzd2l0Y2ggKGZvcm1hdCkg
+ewo+PiA+QEAgLTEyOTEsNiArMTMwOCw3IEBAIHN0YXRpYyB2b2lkIHZvcDJfcGxhbmVfYXRvbWlj
+X3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKPj4gPiAJCSAvKiBJdCdzIGZvciBoZWFk
+IHN0cmlkZSwgZWFjaCBoZWFkIHNpemUgaXMgMTYgYnl0ZSAqLwo+PiA+IAkJc3RyaWRlID0gQUxJ
+R04oc3RyaWRlLCBibG9ja193KSAvIGJsb2NrX3cgKiAxNjsKPj4gPiAKPj4gPisJCXJiX3N3YXAg
+PSB2b3AyX2FmYmNfcmJfc3dhcChmYi0+Zm9ybWF0LT5mb3JtYXQpOwo+PiA+IAkJdXZfc3dhcCA9
+IHZvcDJfYWZiY191dl9zd2FwKGZiLT5mb3JtYXQtPmZvcm1hdCk7Cj4+ID4gCQkvKgo+PiA+IAkJ
+ICogVGhpcyBpcyBhIHdvcmthcm91bmQgZm9yIGNyYXp5IElDIGRlc2lnbiwgQ2x1c3Rlcgo+PiA+
+QEAgLTEzMDgsNiArMTMyNiw3IEBAIHN0YXRpYyB2b2lkIHZvcDJfcGxhbmVfYXRvbWljX3VwZGF0
+ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKPj4gPiAJCQl2b3AyX3dpbl93cml0ZSh3aW4sIFZP
+UDJfV0lOX0FGQkNfRU5BQkxFLCAxKTsKPj4gPiAJCXZvcDJfd2luX3dyaXRlKHdpbiwgVk9QMl9X
+SU5fQUZCQ19GT1JNQVQsIGFmYmNfZm9ybWF0KTsKPj4gPiAJCXZvcDJfd2luX3dyaXRlKHdpbiwg
+Vk9QMl9XSU5fQUZCQ19VVl9TV0FQLCB1dl9zd2FwKTsKPj4gPisJCXZvcDJfd2luX3dyaXRlKHdp
+biwgVk9QMl9XSU5fQUZCQ19SQl9TV0FQLCByYl9zd2FwKTsKPj4gPiAJCS8qCj4+ID4gCQkgKiBP
+biByazM1NjYvOCwgdGhpcyBiaXQgaXMgYXV0byBnYXRpbmcgZW5hYmxlLAo+PiA+IAkJICogYnV0
+IHRoaXMgZnVuY3Rpb24gaXMgbm90IHdvcmsgd2VsbCBzbyB3ZSBuZWVkCj4+ID4KPj4gCj4KPgo+
+Cj4K
