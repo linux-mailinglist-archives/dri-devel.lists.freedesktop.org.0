@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iBemAIaXc2lgxQAAu9opvQ
+	id 0BIGFzGYc2lgxQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 16:45:10 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 16:48:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28FD477EDF
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 16:45:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDC3C77F3D
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 16:48:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5A1210E2CB;
-	Fri, 23 Jan 2026 15:45:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 880AF10EB1F;
+	Fri, 23 Jan 2026 15:47:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="BPrfNPwX";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="RDjbljVm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26FAF10E2CB
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 15:45:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF97C10E1F7
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 15:47:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -27,21 +27,22 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=EKIZGMQIyFIPLyCGSOYC7IbcvQsfF7qx2cMcNenv5mQ=; b=BPrfNPwXKh4u+9NJJm2EB9fgcd
- nck8GtTefULPgGdXxo5a9Lst1ph9Oo8oHXlFr2G2L5mlo1B9405o1sHxThT+iHFiCzPNcQ+lybMo0
- d4IwoyvwsXG0n6s7/RXUbysRpjZOHlL8+sh9OqUNWibJ/EPOACqoJAEZ/SYzSC8Lyr+do5WWGcVKX
- QbW4E0yUHbJoUZDwqEp0P7566grUPXwUggUYas9QOJ2EkM4CidYQuCITue97mvk+F4v4B7j9btm4S
- sX2RRIX8U/1ECP+orelcVg8netSV6iTIkyFMvhqoTmvBeM35ZWRIM/BykptDLwRqcuYuiCsNO7xSv
- slFW2TgA==;
+ bh=jInqTd3a74ez3Jl8XPNqyjEQt1VtVc3t2+918HZZw/Y=; b=RDjbljVmDsNB4Eqjcoro9l54TN
+ /qPpOqSBY7odJcj3RLh4U0Q4qt0kHslfIH31K3QqeTsVDn98YPr2/eIQxHQNtaCaytuXLVzUwnwdt
+ gQXKm9YLPH2UZvTcJLL3USdb5hG/gANOHt5zowwJJ8oaSZflhjEP47l2mFkfIivuvaeD3+8Hor4Oe
+ V3vEVk4oR7QqtdljQWdJMDDL7Aome7yy1m8vRkGb4+EpeSUnl9xOKeOeccz2rHD54yF9TsnmQ4Bt+
+ P1hnrIa3IgK8L/QrRF2eyGRsb3YtUiqrdg/1lyrJcHoyiWoRTWjcn/HQi4mtJpwPXt8jgaIYwFsec
+ 7iTDL6iA==;
 Received: from [189.89.57.42] (helo=[192.168.18.14])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vjJL3-008xSQ-Vv; Fri, 23 Jan 2026 16:44:46 +0100
-Message-ID: <c74a8884-9322-45c8-a960-a6bb1227f553@igalia.com>
-Date: Fri, 23 Jan 2026 12:44:39 -0300
+ id 1vjJNw-008xVd-UU; Fri, 23 Jan 2026 16:47:45 +0100
+Message-ID: <3cf75fc2-1a20-40ba-9d7e-f3ef50a95d0c@igalia.com>
+Date: Fri, 23 Jan 2026 12:47:39 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] clk: bcm: rpi: Let V3D consumers manage clock rate
+Subject: Re: [PATCH v3 2/4] clk: bcm: rpi: Mark PIXEL_CLK and HEVC_CLK as
+ CLK_IGNORE_UNUSED
 To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
  Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
  <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
@@ -56,10 +57,10 @@ Cc: linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
  Broadcom internal kernel review list
  <bcm-kernel-feedback-list@broadcom.com>, kernel-dev@igalia.com
 References: <20260116-v3d-power-management-v3-0-4e1874e81dd6@igalia.com>
- <20260116-v3d-power-management-v3-1-4e1874e81dd6@igalia.com>
+ <20260116-v3d-power-management-v3-2-4e1874e81dd6@igalia.com>
 Content-Language: en-US
 From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <20260116-v3d-power-management-v3-1-4e1874e81dd6@igalia.com>
+In-Reply-To: <20260116-v3d-power-management-v3-2-4e1874e81dd6@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,7 +80,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.49 / 15.00];
 	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
 	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
@@ -88,8 +89,8 @@ X-Spamd-Result: default: False [0.49 / 15.00];
 	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_RECIPIENTS(0.00)[m:mcanal@igalia.com,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:nsaenz@kernel.org,m:florian.fainelli@broadcom.com,m:wahrenst@gmx.net,m:mripard@kernel.org,m:itoral@igalia.com,m:jmcasanova@igalia.com,m:popcornmix@gmail.com,m:dave.stevenson@raspberrypi.com,m:p.zabel@pengutronix.de,m:linux-clk@vger.kernel.org,m:linux-rpi-kernel@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:bcm-kernel-feedback-list@broadcom.com,m:kernel-dev@igalia.com,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[igalia.com,baylibre.com,kernel.org,broadcom.com,gmx.net,gmail.com,raspberrypi.com,pengutronix.de];
-	ARC_NA(0.00)[];
 	FORGED_SENDER(0.00)[mwen@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[18];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -102,70 +103,55 @@ X-Spamd-Result: default: False [0.49 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[mwen@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[igalia.com:-];
-	NEURAL_HAM(-0.00)[-0.143];
+	NEURAL_HAM(-0.00)[-0.208];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,igalia.com:mid,igalia.com:email]
-X-Rspamd-Queue-Id: 28FD477EDF
+X-Rspamd-Queue-Id: DDC3C77F3D
 X-Rspamd-Action: no action
 
 
 
 On 16/01/2026 17:19, Maíra Canal wrote:
-> Remove the `maximize` infrastructure and don't set `minimize` for the
-> V3D clock, giving consumers full control over its rate.
+> If PIXEL_CLK or HEVC_CLK is disabled during boot, the firmware will skip
+> HSM initialization, which would result in a bus lockup. However, those
+> clocks are consumed by drivers (vc4 and HEVC decoder drivers,
+> respectively), which means that they can be enabled/disabled by the
+> drivers.
 >
-> On some firmware versions, RPI_FIRMWARE_SET_CLOCK_STATE doesn't
-> actually power off the clock. To achieve meaningful power consumption
-> reduction, consumers need to set the clock rate to minimum before
-> disabling it. Forcing the clock to maximum rate in the clock framework
-> prevents this, as consumers don't have any flexibility over the clock
-> rate.
->
-> This change enables the v3d driver to control the clock rate directly
-> in its suspend/resume callbacks.
-
+> Mark those clocks as CLK_IGNORE_UNUSED to allow them to be disabled by
+> drivers when appropriate.
 Acked-by: Melissa Wen <mwen@igalia.com>
 
+But it'd be better if Stefan or Dave could check if we're missing 
+anything in the firmware perspective.
 >
-> Fixes: 6526402b9bac ("clk: bcm: rpi: Maximize V3D clock")
 > Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
->   drivers/clk/bcm/clk-raspberrypi.c | 5 -----
->   1 file changed, 5 deletions(-)
+>   drivers/clk/bcm/clk-raspberrypi.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 >
 > diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-raspberrypi.c
-> index 1a9162f0ae31e330c46f6eafdd00350599b0eede..9783385d5859836898683209e320fcc928dfdc71 100644
+> index 9783385d5859836898683209e320fcc928dfdc71..41f058bf44e8a5257e4b2a90389b5e9525f2fffb 100644
 > --- a/drivers/clk/bcm/clk-raspberrypi.c
 > +++ b/drivers/clk/bcm/clk-raspberrypi.c
-> @@ -68,7 +68,6 @@ struct raspberrypi_clk_variant {
->   	char		*clkdev;
->   	unsigned long	min_rate;
->   	bool		minimize;
-> -	bool		maximize;
->   	u32		flags;
->   };
->   
-> @@ -136,7 +135,6 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
->   	},
->   	[RPI_FIRMWARE_V3D_CLK_ID] = {
->   		.export = true,
-> -		.maximize = true,
->   	},
+> @@ -139,12 +139,12 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
 >   	[RPI_FIRMWARE_PIXEL_CLK_ID] = {
 >   		.export = true,
-> @@ -387,9 +385,6 @@ static struct clk_hw *raspberrypi_clk_register(struct raspberrypi_clk *rpi,
->   		}
->   	}
->   
-> -	if (variant->maximize)
-> -		variant->min_rate = max_rate;
-> -
->   	if (variant->min_rate) {
->   		unsigned long rate;
->   
+>   		.minimize = true,
+> -		.flags = CLK_IS_CRITICAL,
+> +		.flags = CLK_IGNORE_UNUSED,
+>   	},
+>   	[RPI_FIRMWARE_HEVC_CLK_ID] = {
+>   		.export = true,
+>   		.minimize = true,
+> -		.flags = CLK_IS_CRITICAL,
+> +		.flags = CLK_IGNORE_UNUSED,
+>   	},
+>   	[RPI_FIRMWARE_ISP_CLK_ID] = {
+>   		.export = true,
 >
 
