@@ -2,113 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yLRnB//Oc2kCywAAu9opvQ
+	id iCvcLtPPc2kCywAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:41:51 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:45:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28A67A3BE
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:41:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26DAF7A419
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 20:45:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C750910EBC5;
-	Fri, 23 Jan 2026 19:41:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3EF410EBCC;
+	Fri, 23 Jan 2026 19:45:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Oj/+fGK1";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="FRQDOQb5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2A9910EBC5
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 19:41:47 +0000 (UTC)
-Received: by mail-dl1-f51.google.com with SMTP id
- a92af1059eb24-12336c0ae91so302819c88.2
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 11:41:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769197307; cv=none;
- d=google.com; s=arc-20240605;
- b=a7mo20AVEMkhi/GURVanQqmRBWSW/+PEIUMNFJyMwwtHYSreSoZwr9ru8ovQbd3cc0
- 6LHh4RGDv5gAZ89omWqSfZDErux9Wd632J8I0jHtRvtdWo4N5WHJ4QcL+Ztgy2ik6W2v
- rztO9BNn9haLo/gg5hFxVNZOWKe3W3DpJyV2NSxeTqR5P08QoVzqyAAW6DzxmWrAg/eR
- xQHF1Uq1mAcopDxU1N4dShg8tNCe8CHu04ypmxMdobx6UoI9d/1GlaNteEZBvK/A5i4/
- c+H9KgshqbvIUyaz1KbhG6kffl/ETJdNIBYyVOodyAzqI43/CJXA4GXbfLuU0hz5G96J
- RyCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=fM4V7Qlttc81MqOWGsEEBwKdyqSfdIs8cEOQqgbpEkU=;
- fh=gM4qajZm21eq5z0mGEgypfbKEpy0wp5xgu/2bUSp2jM=;
- b=QCXaZeCpEeWjVQbTHx4Whx6kjaKIfMjqPst1wBI6AlHFz+ckq3SLKkBJaeSDLDVO9E
- RrUN+jBE6z4Lp6VAco/mhD6kAFilLVtCbKjZUn9reeb/DVJi1D7tQDKGorRFNkBdCx+g
- 5B9gXjdI2WyESGX+DGVxCaJhuzinVSFbTyhAJDaPd/6SW9bAdQdEzpzKAJkgbk3PTm6v
- TxTgRztqmPeCSuYIK+rvm/vG8zTllTWQDtjJWo4yf/1tgJTdBzfj/knWRbfrZnqwRYx8
- ZsRJq0ekmfOqEQMogGD1VdDbUswrGC1g+4KORW2Nokh2DIpZsjf6cTRHjjCql6i52NOL
- vrZg==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769197307; x=1769802107; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fM4V7Qlttc81MqOWGsEEBwKdyqSfdIs8cEOQqgbpEkU=;
- b=Oj/+fGK1TCPbVlt+k5gx6yxHaYtBO1bgxGFj+12s1ZHa8kNuC5wbeQC3VQcf571O1M
- kaSpIfgCmVfdh5ohwINbObtCA/7YbozPw4bDdM7qDGUNuMaYaMhdSqoUgp6vV37w/ARc
- IyDl22dnHT0i//TOh1sFX6rWAnUvDMmjh15vnBF5io9xWxxjODz1p6k04ADIEjXUBQOY
- IeKZwZNmXPpO1wfWjzOm5wLsoiFJ0JpmZ4lShHnM5kYt97k5g4F3GpvsrZsRsOv3GhJz
- 1lcH+1dGjwaVrwmxUcOgTGmPJgI8ANrrgE5bKP+igVIIsMKlfZZsMhwW5QWX+n0FaYpc
- wu2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769197307; x=1769802107;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=fM4V7Qlttc81MqOWGsEEBwKdyqSfdIs8cEOQqgbpEkU=;
- b=rwTmvpgrRr9R7WefANYQXSQBObmoUF6I2dOVfoBJa3cy3ecXpgdBlxMljf6Yk7XcUu
- HAAHN54yX4g638WcnuetUqs1XlUQA9zPk9NpgG8lpzpsqYMgSeRdQNMkkveSMu+U5iYl
- luxKK8tjbmdjdHXdmTbRdjdS3KMDQps07vPcE4+T9aQ8fsXpoy4WnD8tcwRMJCOkEog+
- MTepjxSEIpHIIrHY5XmrMWT2L+EPepObv90WFsxSKde30Gfnz7wGw8Y1MRL6Cvm2t+eO
- 1ObYuzZtC/hk2TV8l/T9mhLhEhIB0Dio6ZcC+y6sHDKSQFfFnHqi1WJ510boHnfJtyKL
- CTnw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVa1P0Sk8qFQBGapn4vwOAYhIJ1N35wZHbCgxzAxPcc4RCcPo4evera38v1tu8m1YuQrUP0hv0ibiI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy6EuIy1pdzqy2ROCW9Fe1MwkAoJ+iSGC3QuARf+Oc7reDXbSaV
- xLoMw9l+m3QaWXzydrcK3m69jldjl7XiqGbPekPyXUqyvTmNM2zna9DnYUKNlDDLkQD1oQDUS6d
- 0RhHyYCW9UiehRJqr2g/nQReeaJ8KlHQ=
-X-Gm-Gg: AZuq6aL0CYrv+p6TqJ8UkxdLxvpkZ0GBVgV7j+T1HNvTdF6AGOnHy1DXSp6l5D2hD0c
- /9ukrxreTpfKIxKrpnIf8DD0K2LoADK0Y7+Kl64nhkZIB6PqxaBow6bkskH1S4bGY63m6SqKUYB
- qf03yF+4TXnP1PHupml3d88Jw3Eu+Y4VDiX7MJKXaTn9JaYFktiSASUf1U3pEV6xjMnougJDLSp
- vh++9cCHZcCKnp8k/ObkOv4a8nVxsuFNJtFFzFTKClP3RUbwXH5TrQB50i3gpIByGXQIoQj
-X-Received: by 2002:a05:7022:301:b0:119:e56a:4fff with SMTP id
- a92af1059eb24-1247dbffc9amr1029257c88.4.1769197306543; Fri, 23 Jan 2026
- 11:41:46 -0800 (PST)
+Received: from sender4-pp-g123.zoho.com (sender4-pp-g123.zoho.com
+ [136.143.188.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2F4110EBD1
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 19:45:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1769197506; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=ZZeIUxhHGLLW1TpVMN+2bYNTy5fEaz8QT6hFYTEazw+rlyK+0F4jW8xMzwWs4zey5LSoiS6aohnxZjj/CTNol54Wte4bzmleM4U16WDatRY97u8XdX1mlzbRa483Hft1YaDV3R2dFdUNzVcAq3GI3M9OkBqPSyXpZSfYMNkJ0Tc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1769197506;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=GixBB0mHLWyff2llQFG2MB6dBljhru2tDrgr7BydCcU=; 
+ b=PZ0ykkc2x7/7TmhNC9z3m7GLopk4WkjBzrExRf9TTm1egxQO49DIxE3pulJpk/V2ATZNJuKPp9O6TYRwfBBuXJDxC0Vim8mn5i2c1j7ianHC/08rYur2I9tLUkAjUP9dYlqQF6oYp/h0xVYpUvFesRtD1paqtVFitym2WLxj1mk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769197506; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+ bh=GixBB0mHLWyff2llQFG2MB6dBljhru2tDrgr7BydCcU=;
+ b=FRQDOQb567U1nwYyQwbcBaH4Fr7UsyEvL51mykJWX3Atkqw6Bmy0uKWfLA+/hzBc
+ KzsuYptmyQL5SkxbWDeQ2uvFYMvE4i0IewFcX9FTZcgY3piVBI8yHE7nFDfFOikVUeu
+ Dc+y4MveLDLI9yscH4xPCdngreOFUgR8RARFNKKs=
+Received: by mx.zohomail.com with SMTPS id 1769197504248926.5854579056753;
+ Fri, 23 Jan 2026 11:45:04 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Subject: [PATCH v6 0/4] Pass down hot-plug CONNECTOR ID to user-space
+Date: Fri, 23 Jan 2026 20:44:01 +0100
+Message-Id: <20260123-hot-plug-passup-v6-0-aaaf61d960bb@collabora.com>
 MIME-Version: 1.0
-References: <20260123000537.2450496-1-someguy@effective-light.com>
- <2de6d428-b997-4ba8-8766-a211e5612e72@amd.com>
- <aXOJRWALUJLcGWqh@hal-station.localdomain>
-In-Reply-To: <aXOJRWALUJLcGWqh@hal-station.localdomain>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 23 Jan 2026 14:41:34 -0500
-X-Gm-Features: AZwV_QgIlpADFNOPq37tQrn2l3FRpM0FiOTKdfkPdEEdOybAHxouyd6R1aMoyPI
-Message-ID: <CADnq5_P0QUmKNHyrs5qBkE+EWh1-i5U0+vNRqvwPwqqQPfNqZw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm: introduce page_flip_timeout()
-To: Hamza Mahfooz <someguy@effective-light.com>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/zWOwQ6CMAyGX4X0bJENQcPJ9zAcxiiwBNjsGDEhv
+ LtTsZfmy99+7Qae2JCHKtmAaTXe2DlCeUpAD2ruCU0bGWQmy0xIgYNd0I2hR6e8Dw67G7VZ3l1
+ 1nIC45Zg68/oaH3Xkju2Ey8Ck/p5CfKqUeX5LRSEuAgVOik3w6Tqq9q7tOKrGskq1nQ4l0zPE3
+ 5afFxrlCWM6maVKWo4HjDsfHep9fwMwKX6h1wAAAA==
+X-Change-ID: 20260121-hot-plug-passup-f8ed03f7c202
+To: =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Sunil Khatri <sunil.khatri@amd.com>, Ce Sun <cesun102@amd.com>,
- Lijo Lazar <lijo.lazar@amd.com>, 
- Kenneth Feng <kenneth.feng@amd.com>, Ivan Lipski <ivan.lipski@amd.com>, 
- Alex Hung <alex.hung@amd.com>, Tom Chung <chiahsuan.chung@amd.com>, 
- Melissa Wen <mwen@igalia.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>, 
- Fangzhi Zuo <Jerry.Zuo@amd.com>,
- =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>, 
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ Daniel Stone <daniel.stone@collabora.com>, 
+ Ian Forbes <ian.forbes@broadcom.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ kernel@collabora.com, Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Marius Vlad <marius.vlad@collabora.com>
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,72 +85,148 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MAILLIST(-0.20)[mailman];
+	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:ville.syrjala@linux.intel.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:louis.chauvet@bootlin.com,m:hamohammed.sa@gmail.com,m:melissa.srw@gmail.com,m:daniel.stone@collabora.com,m:ian.forbes@broadcom.com,m:dmitry.baryshkov@oss.qualcomm.com,m:linux-kernel@vger.kernel.org,m:kernel@collabora.com,m:nicolas.frattaroli@collabora.com,m:marius.vlad@collabora.com,m:hamohammedsa@gmail.com,m:melissasrw@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:someguy@effective-light.com,m:christian.koenig@amd.com,m:alexander.deucher@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:harry.wentland@amd.com,m:sunpeng.li@amd.com,m:siqueira@igalia.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:sunil.khatri@amd.com,m:cesun102@amd.com,m:lijo.lazar@amd.com,m:kenneth.feng@amd.com,m:ivan.lipski@amd.com,m:alex.hung@amd.com,m:chiahsuan.chung@amd.com,m:mwen@igalia.com,m:mdaenzer@redhat.com,m:Jerry.Zuo@amd.com,m:timur.kristof@gmail.com,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:timurkristof@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.998];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[amd.com,lists.freedesktop.org,gmail.com,ffwll.ch,igalia.com,linux.intel.com,kernel.org,suse.de,redhat.com,vger.kernel.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,bootlin.com,collabora.com,broadcom.com,oss.qualcomm.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FORGED_SENDER(0.00)[nicolas.frattaroli@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.812];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: C28A67A3BE
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,collabora.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 26DAF7A419
 X-Rspamd-Action: no action
 
-On Fri, Jan 23, 2026 at 9:52=E2=80=AFAM Hamza Mahfooz
-<someguy@effective-light.com> wrote:
->
-> On Fri, Jan 23, 2026 at 02:52:44PM +0100, Christian K=C3=B6nig wrote:
-> > I can only see two reasons why you could run into a timeout:
-> >
-> > 1. A dma_fence never signals.
-> >       How that should be handled is already well documented and doesn't=
- require any of this.
-> >
-> > 2. A coding error in the vblank or page flip handler leading to waiting=
- forever.
-> >       In that case calling back into the driver doesn't help either.
-> >
-> > So as far as I can see the whole approach doesn't make any sense at all=
-.
->
-> It appears that resetting display firmware is able to put at least a
-> subset of these systems back into a consistent (usable) state. Though, I
-> don't have a reliable way to reproduce the issue that I'm seeing so I
-> can't say for sure what it boils down to.
+I will be taking over this series from Marius Vlad. 
 
-I'm not at all an expert on KMS, but I took a quick look at the in and
-out fences in KMS, and I think I know what might be going on.  The out
-fence is signalled by calling drm_crtc_send_vblank_event() from the
-interrupt handler for the vblank/pageflip interrupt.  If that
-interrupt gets missed somehow, that never gets called and userspace
-will wait forever.  As a safety measure, maybe add a worker thread
-that gets scheduled when the atomic commit happens and then in the
-interrupt handler we cancel the worker.  If the interrupt never
-happens, the worker will eventually run and call
-drm_crtc_send_vblank_event() and get things unstuck.
+This series addresses a shortcoming whereby a hot plug event is sent
+without it being passed the actual connector that caused it. This takes
+into consideration both the polling path and the HPD (Hot Plug Detect)
+path. It also adds support for the vkms driver (using ConfigFS) for
+propagating the connector ID when changing the connector's status.
 
-Alex
+The motivation is that user-space applications such as Weston would
+previously receive non-connector-specific hotplug events, and then have
+to figure out themselves which connector needs to have a modeset
+executed on. This notably did not work when the hotplug events came in
+too fast, resulting in Weston missing an on-off-on transition of a
+connector, seeing that its state was unchanged from "on" so can't be the
+one that was hotplugged, and skipping reinitialising it as it looks
+through the other connectors that could've caused it.
+
+The real world implication is that on setups with slightly sketchy HDMI
+connections, a brief flicker in the HPD signal could result in video
+output bidding farewell entirely until a manual proper re-plug was
+performed.
+
+By sending connector specific hotplug events, this ambiguity is
+resolved without any change to the user-space API.
+
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+---
+Changes in v6:
+- Rewrote cover letter to explain the motivation for this series more
+  plainly
+- Rename "status_changed" to "pending_hp"
+- Set "pending_hp" in the existing path that would also affect
+  epoch_counter
+- No longer set the boolean in drm_helper_probe_single_connector_modes,
+  as it does not appear to be necessary
+- Reword commits to better justify the changes
+- Link to v5: https://lore.kernel.org/r/20251111162338.15141-1-marius.vlad@collabora.com/
+
+Changes in v5:
+- vkms: add support for sending the CONNECTOR ID when hot-plugging through
+  ConfigFS - as reported by Louis, vkms can now make use of ConfigFS to
+  simulate connector status.
+- vkms: add a small change to ignore previous/old drm connector status
+  when sending out hot-plug uevent.
+- Link to v4: https://lore.kernel.org/r/20251103174558.7709-1-marius.vlad@collabora.com/
+
+Changes in v4:
+- removed the "This patch" bit - Dmitry
+- added a short note when the flag is set and cleared - Dmitry
+- address double dead-locking detected - kbot: https://lore.kernel.org/dri-devel/202509251410.fdfbcac3-lkp@intel.com/
+- virtual connectors do not seem have any kind of hotplug - added
+  polling in vkms - as noted by Ian
+- Link to v3: https://lore.kernel.org/r/20250923083636.4749-1-marius.vlad@collabora.com/
+
+Changes in v3:
+- Address comments from Dmitry:
+  - guard connector status write with mode_config.mutex
+  - avoid setting up the connector status and immediately unset it. Do the
+    unset in drm_kms_helper_hotplug_event/drm_kms_helper_connector_hotplug_event
+- Link to v2: https://lore.kernel.org/r/20250729165708.9947-1-marius.vlad@collabora.com/
+
+Changes in v2:
+- Address comments from Daniel:
+  - split patch into 2, one that introduces a bool to track connector
+    connection status change and a patch that uses that to be able to send
+    hot plug events with the proper CONNECTOR ID to udev and further pass
+    that down to user-space
+  - nuke out mutex when iterating connector list
+  - fix typo
+- Link to v1: https://lore.kernel.org/r/20250627131751.2004-1-marius.vlad@collabora.com/
+
+Marius Vlad (4):
+  drm: Introduce a new connector status
+  drm: Propagate connector status change
+  vkms: Do not send hotplug events for same connector status
+  vkms: Pass the vkms connector as opposed to the vkms device
+
+ drivers/gpu/drm/drm_connector.c       |  1 +
+ drivers/gpu/drm/drm_probe_helper.c    | 39 +++++++++++++++++++++++----
+ drivers/gpu/drm/drm_sysfs.c           |  1 +
+ drivers/gpu/drm/vkms/vkms_configfs.c  | 12 +++++++--
+ drivers/gpu/drm/vkms/vkms_connector.c |  6 ++---
+ drivers/gpu/drm/vkms/vkms_connector.h |  4 +--
+ include/drm/drm_connector.h           |  3 +++
+ 7 files changed, 54 insertions(+), 12 deletions(-)
+
+--
+2.47.2
+
+---
+Marius Vlad (4):
+      drm: Introduce pending_hp to drm_connector
+      drm: Send per-connector hotplug events
+      vkms: Do not send hotplug events for same connector status
+      vkms: Pass the vkms connector as opposed to the device on hotplug
+
+ drivers/gpu/drm/drm_connector.c       |  1 +
+ drivers/gpu/drm/drm_probe_helper.c    | 39 ++++++++++++++++++++++++++++++-----
+ drivers/gpu/drm/drm_sysfs.c           |  2 ++
+ drivers/gpu/drm/vkms/vkms_configfs.c  |  6 ++++--
+ drivers/gpu/drm/vkms/vkms_connector.c |  6 +++---
+ drivers/gpu/drm/vkms/vkms_connector.h |  4 ++--
+ include/drm/drm_connector.h           |  3 +++
+ 7 files changed, 49 insertions(+), 12 deletions(-)
+---
+base-commit: ab42b1c3fe4ce1ae5534c51b880d3a97e6bba145
+change-id: 20260121-hot-plug-passup-f8ed03f7c202
+
+Best regards,
+-- 
+Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+
