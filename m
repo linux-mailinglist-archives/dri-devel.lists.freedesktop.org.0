@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KIA6Ew63c2ncyAAAu9opvQ
+	id wO1GGhG3c2ncyAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 18:59:42 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 18:59:45 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1637794A8
-	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 18:59:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 217A2794B7
+	for <lists+dri-devel@lfdr.de>; Fri, 23 Jan 2026 18:59:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A31210EB8C;
-	Fri, 23 Jan 2026 17:59:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1866410EB8D;
+	Fri, 23 Jan 2026 17:59:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BKqLz4fo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tWQBJ0hG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDEDD10EB89;
- Fri, 23 Jan 2026 17:59:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9051910EB8D
+ for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 17:59:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 1357660147;
+ by tor.source.kernel.org (Postfix) with ESMTP id 0A2EE601EE;
+ Fri, 23 Jan 2026 17:59:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A981CC19423;
  Fri, 23 Jan 2026 17:59:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7B4AC19421;
- Fri, 23 Jan 2026 17:59:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769191177;
- bh=awIr1K1KTsidvoGcDEzmoe3Uym3Wj1XHUyBNXJs4cG4=;
+ s=k20201202; t=1769191181;
+ bh=abMEdDj1ecT7PEBgeo3Efaftk/vtPUHppJTpuJNaA5A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:Reply-To:From;
- b=BKqLz4foHtsAzkgUHGlowvwRamIK82kyFk3gzw0W4g9l2+sPMyQD01ItudtFyRzaR
- REX3ukTUkyTa7X5BdoeA4FGeWolL6c14ApBQ2mRQ5c8z6Jlbxk3F/ubTvm4E8vqySq
- q4D43w+bJT28SA4y5sClPVHs11qqYSNDXh8FCfXzoWsIdnZm23CFSGCakP4KVK44x8
- m27XAltZIuAFE0VRYCwXHUNp9eJuNYBTB4WECHqh5BOm2INr3moKeiyEeytuZ1DEF7
- sjvC+AvLUabF8rSQC5RGJZjdfxb9JiNOTxFKVIbjUhtWQXfG/i0B247DRQD5CAe5yI
- 2L/EfjLujdZlQ==
+ b=tWQBJ0hGSMfV9MbHmctkF6zXMFWybelZwtXbWKtmlJlLjn0/FWy8JtsC0ocR4fYaB
+ NQalsLm3+3ldC9YFTqhx9k7u8n2nyfcUkMqhzgJD0jZtpaPV1PvP1/IlHhhHM/24ti
+ jJSOa1aY54EX+30u1PfN6k8p61ELtHu0bxiPslCKAWc5U0oD4ho2lwm/Q8oD8awEui
+ OoojRrZYJjC3xGcE3fb8NrJrxW/DRV4r2sPB8ev4aJrMs9a3Gyg0u8hQv0fz1SgaHR
+ ltUZ+yptSxB6Narz21YhGU7tueViDge2yGbMa62qiL3FqoY/pxa1cnNbo2XjMZGLP5
+ 9yQKLbbWmgbNA==
 From: Gary Guo <gary@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  "Rafael J. Wysocki" <rafael@kernel.org>,
@@ -43,19 +43,14 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
  Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Paul Walmsley <pjw@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Alistair Popple <apopple@nvidia.com>,
- Joel Fernandes <joelagnelf@nvidia.com>, Lyude Paul <lyude@redhat.com>,
- John Hubbard <jhubbard@nvidia.com>
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- Timur Tabi <ttabi@nvidia.com>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-riscv@lists.infradead.org
-Subject: [PATCH v2 7/8] gpu: nova-core: remove redundant `.as_ref()` for
- `dev_*` print
-Date: Fri, 23 Jan 2026 17:58:44 +0000
-Message-ID: <20260123175854.176735-7-gary@kernel.org>
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 8/8] gpu: tyr: remove redundant `.as_ref()` for `dev_*`
+ print
+Date: Fri, 23 Jan 2026 17:58:45 +0000
+Message-ID: <20260123175854.176735-8-gary@kernel.org>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20260123175854.176735-1-gary@kernel.org>
 References: <20260123175854.176735-1-gary@kernel.org>
@@ -88,142 +83,91 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[28];
 	RCVD_TLS_LAST(0.00)[];
+	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[gary@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:gregkh@linuxfoundation.org,m:rafael@kernel.org,m:dakr@kernel.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:daniel.almeida@collabora.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[linuxfoundation.org,kernel.org,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,nvidia.com,ffwll.ch,dabbelt.com,eecs.berkeley.edu,ghiti.fr,redhat.com];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FREEMAIL_TO(0.00)[linuxfoundation.org,kernel.org,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,collabora.com,ffwll.ch];
 	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	FROM_NEQ_ENVFROM(0.00)[gary@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	HAS_REPLYTO(0.00)[gary@garyguo.net];
-	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[gary@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	HAS_REPLYTO(0.00)[gary@garyguo.net];
+	NEURAL_HAM(-0.00)[-0.931];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[garyguo.net:replyto,garyguo.net:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: C1637794A8
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,garyguo.net:replyto,garyguo.net:email]
+X-Rspamd-Queue-Id: 217A2794B7
 X-Rspamd-Action: no action
 
 From: Gary Guo <gary@garyguo.net>
 
 This is now handled by the macro itself.
 
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
 Signed-off-by: Gary Guo <gary@garyguo.net>
 ---
- drivers/gpu/nova-core/driver.rs   |  2 +-
- drivers/gpu/nova-core/gpu.rs      |  4 ++--
- drivers/gpu/nova-core/gsp/boot.rs | 32 +++++++------------------------
- 3 files changed, 10 insertions(+), 28 deletions(-)
+ drivers/gpu/drm/tyr/driver.rs | 2 +-
+ drivers/gpu/drm/tyr/gpu.rs    | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/nova-core/driver.rs b/drivers/gpu/nova-core/driver.rs
-index 5a4cc047bcfc..e39885c0d5ca 100644
---- a/drivers/gpu/nova-core/driver.rs
-+++ b/drivers/gpu/nova-core/driver.rs
-@@ -70,7 +70,7 @@ impl pci::Driver for NovaCore {
+diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+index 2a45d0288825..fe991d8cbb4a 100644
+--- a/drivers/gpu/drm/tyr/driver.rs
++++ b/drivers/gpu/drm/tyr/driver.rs
+@@ -140,7 +140,7 @@ fn probe(
  
-     fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) -> impl PinInit<Self, Error> {
-         pin_init::pin_init_scope(move || {
--            dev_dbg!(pdev.as_ref(), "Probe Nova Core GPU driver.\n");
-+            dev_dbg!(pdev, "Probe Nova Core GPU driver.\n");
+         // We need this to be dev_info!() because dev_dbg!() does not work at
+         // all in Rust for now, and we need to see whether probe succeeded.
+-        dev_info!(pdev.as_ref(), "Tyr initialized correctly.\n");
++        dev_info!(pdev, "Tyr initialized correctly.\n");
+         Ok(driver)
+     }
+ }
+diff --git a/drivers/gpu/drm/tyr/gpu.rs b/drivers/gpu/drm/tyr/gpu.rs
+index 6395ffcfdc57..64ca8311d4e8 100644
+--- a/drivers/gpu/drm/tyr/gpu.rs
++++ b/drivers/gpu/drm/tyr/gpu.rs
+@@ -98,7 +98,7 @@ pub(crate) fn log(&self, pdev: &platform::Device) {
+         };
  
-             pdev.enable_device_mem()?;
-             pdev.set_master();
-diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-index 9b042ef1a308..60c85fffaeaf 100644
---- a/drivers/gpu/nova-core/gpu.rs
-+++ b/drivers/gpu/nova-core/gpu.rs
-@@ -262,13 +262,13 @@ pub(crate) fn new<'a>(
-     ) -> impl PinInit<Self, Error> + 'a {
-         try_pin_init!(Self {
-             spec: Spec::new(pdev.as_ref(), bar).inspect(|spec| {
--                dev_info!(pdev.as_ref(),"NVIDIA ({})\n", spec);
-+                dev_info!(pdev,"NVIDIA ({})\n", spec);
-             })?,
- 
-             // We must wait for GFW_BOOT completion before doing any significant setup on the GPU.
-             _: {
-                 gfw::wait_gfw_boot_completion(bar)
--                    .inspect_err(|_| dev_err!(pdev.as_ref(), "GFW boot did not complete\n"))?;
-+                    .inspect_err(|_| dev_err!(pdev, "GFW boot did not complete\n"))?;
-             },
- 
-             sysmem_flush: SysmemFlush::register(pdev.as_ref(), bar, spec.chipset)?,
-diff --git a/drivers/gpu/nova-core/gsp/boot.rs b/drivers/gpu/nova-core/gsp/boot.rs
-index 581b412554dc..1582e1a65274 100644
---- a/drivers/gpu/nova-core/gsp/boot.rs
-+++ b/drivers/gpu/nova-core/gsp/boot.rs
-@@ -170,15 +170,10 @@ pub(crate) fn boot(
-             Some(libos_handle as u32),
-             Some((libos_handle >> 32) as u32),
-         )?;
--        dev_dbg!(
--            pdev.as_ref(),
--            "GSP MBOX0: {:#x}, MBOX1: {:#x}\n",
--            mbox0,
--            mbox1
--        );
-+        dev_dbg!(pdev, "GSP MBOX0: {:#x}, MBOX1: {:#x}\n", mbox0, mbox1);
- 
-         dev_dbg!(
+         dev_info!(
 -            pdev.as_ref(),
 +            pdev,
-             "Using SEC2 to load and run the booter_load firmware...\n"
+             "mali-{} id 0x{:x} major 0x{:x} minor 0x{:x} status 0x{:x}",
+             model_name,
+             self.gpu_id >> 16,
+@@ -108,7 +108,7 @@ pub(crate) fn log(&self, pdev: &platform::Device) {
          );
  
-@@ -190,19 +185,10 @@ pub(crate) fn boot(
-             Some(wpr_handle as u32),
-             Some((wpr_handle >> 32) as u32),
-         )?;
--        dev_dbg!(
+         dev_info!(
 -            pdev.as_ref(),
--            "SEC2 MBOX0: {:#x}, MBOX1{:#x}\n",
--            mbox0,
--            mbox1
--        );
-+        dev_dbg!(pdev, "SEC2 MBOX0: {:#x}, MBOX1{:#x}\n", mbox0, mbox1);
++            pdev,
+             "Features: L2:{:#x} Tiler:{:#x} Mem:{:#x} MMU:{:#x} AS:{:#x}",
+             self.l2_features,
+             self.tiler_features,
+@@ -118,7 +118,7 @@ pub(crate) fn log(&self, pdev: &platform::Device) {
+         );
  
-         if mbox0 != 0 {
--            dev_err!(
--                pdev.as_ref(),
--                "Booter-load failed with error {:#x}\n",
--                mbox0
--            );
-+            dev_err!(pdev, "Booter-load failed with error {:#x}\n", mbox0);
-             return Err(ENODEV);
-         }
- 
-@@ -216,11 +202,7 @@ pub(crate) fn boot(
-             Delta::from_secs(5),
-         )?;
- 
--        dev_dbg!(
+         dev_info!(
 -            pdev.as_ref(),
--            "RISC-V active? {}\n",
--            gsp_falcon.is_riscv_active(bar),
--        );
-+        dev_dbg!(pdev, "RISC-V active? {}\n", gsp_falcon.is_riscv_active(bar),);
- 
-         // Create and run the GSP sequencer.
-         let seq_params = GspSequencerParams {
-@@ -239,8 +221,8 @@ pub(crate) fn boot(
-         // Obtain and display basic GPU information.
-         let info = commands::get_gsp_info(&mut self.cmdq, bar)?;
-         match info.gpu_name() {
--            Ok(name) => dev_info!(pdev.as_ref(), "GPU name: {}\n", name),
--            Err(e) => dev_warn!(pdev.as_ref(), "GPU name unavailable: {:?}\n", e),
-+            Ok(name) => dev_info!(pdev, "GPU name: {}\n", name),
-+            Err(e) => dev_warn!(pdev, "GPU name unavailable: {:?}\n", e),
-         }
- 
-         Ok(())
++            pdev,
+             "shader_present=0x{:016x} l2_present=0x{:016x} tiler_present=0x{:016x}",
+             self.shader_present,
+             self.l2_present,
 -- 
 2.51.2
 
