@@ -2,112 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OB7WI3gpdWmwBQEAu9opvQ
+	id 0P55IBoudWmYBgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 21:20:08 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 21:39:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA6227EDB3
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 21:20:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E347EF08
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 21:39:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 074E610E15D;
-	Sat, 24 Jan 2026 20:20:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4533A10E322;
+	Sat, 24 Jan 2026 20:39:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bWX9z/gf";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="cRZ4icxN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3155C10E15D
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 20:20:04 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id
- ffacd0b85a97d-432755545fcso2367353f8f.1
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 12:20:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769286003; cv=none;
- d=google.com; s=arc-20240605;
- b=Y7LNHe92QDy2Fqp/glhrGicsgA52zBTdxhXgICvsiZMdfBf4eGF30vvedRghRlpRjT
- wr/IuXWYHXHLaj/Nff/uZX93cPvKa6lLT3B6xE4kLWgeMDH0S1JNwTdJmmNzKe2hi7b+
- Tg0lPrfT/oorkg5URpAVbgUVOOeiVN+uoyqARCfLExcUGKVaUuS/DuXwngzk/MZlL0Tk
- lSkPWIsfZCO9UJCwjMwXmpTHmtqU3HnN6o0KmJL9qz+TsmRsSvQLCqnl/4AFx439taai
- fQzTwOHwXUYjOaJluBT8zNvIEqwEtEaOaUXaW4JaqWS2sNcf7Hnpc9UZ1dm1bkq4MMPw
- jNzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=5IvQvVO47AehbyLG9Cg7wRdRPasY+7er+DvV1ut13R4=;
- fh=0iDPRJ4Kd3Oxwgz/3vOmHWBYSouxgZ2IC2M2Tn0Mw1s=;
- b=kxklF3cwP/9HvWDGriIGTLEAG0GHfPjU66ioAX7xKPTZRVgzNNc8wwO1osMnuArwlP
- bJWxGuLRl11meZYyjgUnYUx2CAjjMM3K75OTMZv/ygp3w1Up06tpNPZTpObWbrw9PQKc
- LmapKT2u4KiLXgGLtpBoDRIUsV7ew3SJfPGux8by6Ecdju/qthMgfDahoo4lotmZw1bh
- Bdv23kb4aTuL1s+5nlJR+0sugO8KNKRY64FMzORaPH3kGlDKIlQyjbpQ1HHumlWa+IJ1
- NDQC8LggthjRlmxD4ZOhX58SlAco0ebz5WUta1nA+bfq/QtBuz8i4e11sAZSj43x47sF
- +lzQ==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769286003; x=1769890803; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5IvQvVO47AehbyLG9Cg7wRdRPasY+7er+DvV1ut13R4=;
- b=bWX9z/gfaAtSjBGi7OzfM+3OrNgm65H2kA5Tl5jZsc8kfpDhOI7vRAtE1v7aZp/9V0
- iBQ6l/doL3GlwlgU525oartPCJoxE5C3yAb6rpiuDVoCX9R/kC8uv1XXB0gvcfGdrh07
- qozIsmm3vi02ndNlEuXeVVhUWoYIDFrrjrNP3kh4pDqfzrktAlvIqVW8uSOz05U7XwoS
- wW8r/Ah/3lSK60nPnfJ6Dy0LTsjwS0yhjfGT8JDbeTBwHhR09YWOy7L9pgmHXavJYQS6
- Nd52Dww8LaABxG//9OQ9Hn55R5Eq/MiPu4g7xOsWmKmifV2TZB/rYBivhJUdz3C9B3GD
- +lCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769286003; x=1769890803;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=5IvQvVO47AehbyLG9Cg7wRdRPasY+7er+DvV1ut13R4=;
- b=D9K8VwlIk7t8zmpT989z+XoTVV0Ulwtm5OF1iP2r00kHgeKTTsUsO4JZorXeA8/rIa
- j0JWWJucb4IONJqPNTB0wUcO4OLWez+vHgZ46P0rgyp/a8/Fn3IuGAPpgerijYD3Iiqx
- OAkCAqP4k5VtyKg2hU4wRaH4nlrQEY2X310ZT2GwnOdbknV0bw8c58d1XKpywmomiSRK
- 85pl+efeDJXwaE4jJ1zgY5VCjVTwoZc/p43FSnwwMfcvvI4g4wnDn8pbQ4/pGAE2MHm/
- JOhYHDhpPqx/tUyqoPaiQK2sw4bRECvhO8NnTAWpBWDXxQwxp8uhqnwEZ5AZGugMWaQB
- JaPQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU+DaxPdon9jbEdYH4sZINk+5LLZb348Sl5PFsmf8uTru2WIHCLkA9MCNTd0GJx8kXKGgfbbTh8GrU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywc5curzj3135betKRN4Dx6VnjuCIoOr+H9ISdMFA/S+QN3K8yo
- CFbaKF9bS3S2er8P8FZNuRdtwQ/xAWAcEl8EP7jFj+0Y6aRU9DfQKY+jGfcnu2R4rHlc5y2qEXE
- ZbEv7IfpB8Ds/rfebS0JoS8Xs0HShTdc=
-X-Gm-Gg: AZuq6aLjDkn3QNfyaBVGL5mjT/gSeEObA7FmqCNaW2B6ppdFCXGi6604Inhtsr3yfjb
- 6yXG4tR2+/Hut3C2PbisfzIQT5JHhHTPJZHTImiSNNJ/r32x9fT/OS2HHiPXc32DqOicjPCFy1y
- XnvPkO4rSDU95A9n9jSm/UrG5SN/bKaj4XuoOHiuVU8Ghp8l2oZxnkWsp2RaE7Qd0GQUBD/C4AL
- 6LNa2/G/cFfP8WT2lXNGZe6Cd5plDEAceZkeGAc++XE1/ljEH7HhwLHNN9nqDe21MBMbi+x
-X-Received: by 2002:a05:6000:288e:b0:431:752:672b with SMTP id
- ffacd0b85a97d-435b159556dmr11734663f8f.14.1769286002389; Sat, 24 Jan 2026
- 12:20:02 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9B5910E1BC;
+ Sat, 24 Jan 2026 20:39:43 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60OJvjX91974565; Sat, 24 Jan 2026 20:39:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=DPp7bYmwiI88NuJWeoYgfAzXcE/Q9pS/7oV
+ x6tCiBRM=; b=cRZ4icxNA9XGek+AeDyHuEsRuPbtA7jPnaNMGWGF6IL6CkWujU8
+ ozExpjI12TL6ONKZfx0BcJtH3AFmIQSGWxrDz7EpldS0Sj3aVQcoQZcZa5S+WTeW
+ 0veCLn+WM/KV0pxE5otp4tLNaNfPFrfLb+d7foPaH4/n8UV+BoxWV+KDAOAFISGP
+ d0gv24I0JUsiToZgnNdCEarNaQUvj/hq2/ZcSiAXPwV/eNxIDbyb8Sa0r/RaOFRq
+ xDRrKYQZ8cmAyq3DOwYj//TDGH8H54eS7d9XnKJYWhyz0nDsBARLHlfGTpOwuvXt
+ LFQeWoncRsO8tO3WNyIiVx0V5mJRixeR3mw==
+Received: from apblrppmta02.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bvq9f14k4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 24 Jan 2026 20:39:32 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 60OKdTv7031205; 
+ Sat, 24 Jan 2026 20:39:29 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4bvq5ke8jc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 24 Jan 2026 20:39:29 +0000
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 60OKdSfH031186;
+ Sat, 24 Jan 2026 20:39:29 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-amakhija-hyd.qualcomm.com
+ [10.213.99.91])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 60OKdSWX031183
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 24 Jan 2026 20:39:28 +0000
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4090850)
+ id E672D5C9; Sun, 25 Jan 2026 02:09:27 +0530 (+0530)
+From: Ayushi Makhija <quic_amakhija@quicinc.com>
+To: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Ayushi Makhija <quic_amakhija@quicinc.com>, robdclark@gmail.com,
+ dmitry.baryshkov@oss.qualcomm.com, sean@poorly.run,
+ marijn.suijten@somainline.org, andersson@kernel.org, robh@kernel.org,
+ robh+dt@kernel.org, krzk+dt@kernel.org, konradybcio@kernel.org,
+ conor+dt@kernel.org, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonathan@marek.ca, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, quic_rajeevny@quicinc.com,
+ quic_vproddut@quicinc.com
+Subject: [PATCH v6 0/2] Add DSI display support for QCS8300 target
+Date: Sun, 25 Jan 2026 02:09:23 +0530
+Message-Id: <20260124203925.2614008-1-quic_amakhija@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20251204061703.5579-1-clamor95@gmail.com>
- <20251204061703.5579-3-clamor95@gmail.com>
- <7012249.lOV4Wx5bFT@senjougahara>
- <CAPVz0n3JEHtUOq4qaZbqPu97NXdYxx_=5im4rxoEWi8EbKmKEw@mail.gmail.com>
-In-Reply-To: <CAPVz0n3JEHtUOq4qaZbqPu97NXdYxx_=5im4rxoEWi8EbKmKEw@mail.gmail.com>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Sat, 24 Jan 2026 22:19:51 +0200
-X-Gm-Features: AZwV_QiGF7B_Re4bWRTdgXNS-XzkdDJdBkm2AnW07YovL950WfU-W10tVO3KO9M
-Message-ID: <CAPVz0n2PZRSLyKNBAA+nfH66ujbvmQVQbG=6Ai_5sBe3U_dyPg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4 RESEND] gpu/drm: tegra: dsi: move prepare function
- to the top of encoder enable
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Thierry Reding <treding@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>,
- devicetree@vger.kernel.org, 
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Authority-Analysis: v=2.4 cv=YLGSCBGx c=1 sm=1 tr=0 ts=69752e04 cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
+ a=RHkTxhJYF7RHL4dZ0YsA:9 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: 95wARbYKKHHRpRDj6BnkStHZmBkixMci
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI0MDE2OCBTYWx0ZWRfX9xXk9NZF9nko
+ RvfUWkqlKMnoNBXFgDUxTUm57x7dli+UbhXjp/CpyfMB9lsxC40FFj7zTgTbMdTfxnCTFWjSt7E
+ dgIYjqXVjg1Q9oUm9q+A5C9Etwlr7q8BhSX0R9ORHg5ZJbAWsKiP7AMf0tuMSvUPtg02BVsehGT
+ ZyddntGrw6Y/huyftOFuekHxtuMMWfPGQGCWzNsq/INFWiKdXYNGa1oQRkvEpEAubRS5H0FN7B9
+ +GvDiUwz4qoYXKOH8dQEAsIiFSMJiBBJXuBv7u4TqHvYbgTBZZP1ySuyyL4u0ofh+WAGM96aw+t
+ rTWVoBEgP2qvfDc7U6EGzMi6EKgQWBJgDH8RMpM20VN8kbeztWlcIHDj7gvQhQhrR0MVjloDsG2
+ VVlwxKM9gvp4oVHlAU1zfHbl0qrfpLKcRa0eoDUV6JWa2n019eOwMweuFFtXZTQsCRtl8OkeGX3
+ 0A5PHr30Z3ZlfMpX1Ag==
+X-Proofpoint-ORIG-GUID: 95wARbYKKHHRpRDj6BnkStHZmBkixMci
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-24_03,2026-01-22_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 suspectscore=0 bulkscore=0 lowpriorityscore=0
+ clxscore=1015 impostorscore=0 phishscore=0 spamscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601240168
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,116 +118,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [1.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MAILLIST(-0.20)[mailman];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[quicinc.com,none];
+	R_DKIM_ALLOW(-0.20)[quicinc.com:s=qcppdkim1];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:mperttunen@nvidia.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:thierry.reding@gmail.com,m:treding@nvidia.com,m:jonathanh@nvidia.com,m:pgaikwad@nvidia.com,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:digetx@gmail.com,m:charan.pedumuru@gmail.com,m:devicetree@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-clk@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:thierryreding@gmail.com,m:charanpedumuru@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,nvidia.com,baylibre.com,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
+	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[quicinc.com,gmail.com,oss.qualcomm.com,poorly.run,somainline.org,kernel.org,intel.com,linaro.org,ideasonboard.com,marek.ca,kwiboo.se];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
+	FROM_NEQ_ENVFROM(0.00)[quic_amakhija@quicinc.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[quicinc.com:+];
+	NEURAL_HAM(-0.00)[-0.972];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:email,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: CA6227EDB3
+	RCVD_COUNT_SEVEN(0.00)[9]
+X-Rspamd-Queue-Id: 26E347EF08
 X-Rspamd-Action: no action
 
-=D1=87=D1=82, 15 =D1=81=D1=96=D1=87. 2026=E2=80=AF=D1=80. =D0=BE 09:49 Svya=
-toslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> =D1=87=D1=82, 15 =D1=81=D1=96=D1=87. 2026=E2=80=AF=D1=80. =D0=BE 07:54 Mi=
-kko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> >
-> > On Thursday, December 4, 2025 3:17=E2=80=AFPM Svyatoslav Ryhel wrote:
-> > > The tegra_dsi_prepare function performs hardware setup and should be
-> > > called before any register readings or there will be a risk of device
-> > > hangup on register access. To avoid this situation, tegra_dsi_prepare=
- must
-> > > be called at the beginning of tegra_dsi_encoder_enable.
-> > >
-> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > ---
-> > >  drivers/gpu/drm/tegra/dsi.c | 12 ++++++------
-> > >  1 file changed, 6 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.=
-c
-> > > index 278bf2c85524..8e80c7efe8b4 100644
-> > > --- a/drivers/gpu/drm/tegra/dsi.c
-> > > +++ b/drivers/gpu/drm/tegra/dsi.c
-> > > @@ -914,6 +914,12 @@ static void tegra_dsi_encoder_enable(struct drm_=
-encoder *encoder)
-> > >       u32 value;
-> > >       int err;
-> > >
-> > > +     err =3D tegra_dsi_prepare(dsi);
-> > > +     if (err < 0) {
-> > > +             dev_err(dsi->dev, "failed to prepare: %d\n", err);
-> > > +             return;
-> > > +     }
-> > > +
-> > >       /* If the bootloader enabled DSI it needs to be disabled
-> > >        * in order for the panel initialization commands to be
-> > >        * properly sent.
-> > > @@ -923,12 +929,6 @@ static void tegra_dsi_encoder_enable(struct drm_=
-encoder *encoder)
-> > >       if (value & DSI_POWER_CONTROL_ENABLE)
-> > >               tegra_dsi_disable(dsi);
-> > >
-> > > -     err =3D tegra_dsi_prepare(dsi);
-> > > -     if (err < 0) {
-> > > -             dev_err(dsi->dev, "failed to prepare: %d\n", err);
-> > > -             return;
-> > > -     }
-> > > -
-> > >       state =3D tegra_dsi_get_state(dsi);
-> > >
-> > >       tegra_dsi_set_timeout(dsi, state->bclk, state->vrefresh);
-> > >
-> >
-> > The section of code before the tegra_dsi_prepare call was removed in 'R=
-evert "drm/tegra: dsi: Clear enable register if powered by bootloader"', so=
- this patch should no longer be necessary.
-> >
-> > Mikko
-> >
->
-> You are correct. I have found this when rebasing onto v6.18 which was
-> much later then this series was resent. Obviously, this patch would be
-> dropped on the next resend/v3. Sorry for inconvenience.
->
+This series enables the support for DSI to DP bridge port
+(labeled as DSI0) of the Qualcomm's QCS8300 Ride platform.
 
-Actually, "Revert "drm/tegra: dsi: Clear enable register if powered by
-bootloader"" causes a  regression for me (DSI on Tegra20 device,
-Motorola Atrix 4G). DSI initiated by bootloader will be stuck if not
-disabled pre reconfiguration, Dmitry was right by bringing that
-change, but he did not take into account that if DSI is accessed from
-cold state (not configured by bootloader), device will hang. This
-patch addresses this behavior of Dmitry's patch and prevents
-regression introduced by reverting it.
+QCS8300 SoC has DSI controller v2.5.1 and DSI PHY v4.2.
+The Ride platform is having ANX7625 DSI to DP bridge chip from Analogix.
 
-> >
-> >
+---
+
+Changes in v6: Addressed review comments from Konard
+   - Dt binding patches are merged in v5.
+   - Patch 1: Added new line at few palces and corret the regsiter
+     size.[Konard]
+   - Patch 2: Correct the order of the regulators and added new line.
+   - Link to v5:[konard]
+     https://lore.kernel.org/all/20260104134442.732876-1-quic_amakhija@quicinc.com/
+
+Changes in v5: Addressed review comments from Krzysztof
+   - Patch 1: Updated commit description. [Krzysztof]
+   - Patch 2: Updated commit description.
+   - Patch 3: Added reviewed by tag from Krzysztof. [Krzysztof]
+   - Link to v4:
+     https://lore.kernel.org/all/20251225152134.2577701-1-quic_amakhija@quicinc.com/
+ 
+Changes in v4: Addressed review comments from konard and Krzysztof
+   - Patch 1: Update commit description to clarify PHY compatible string
+              details.[Krzysztof]
+   - Patch 2: Update commit description to clarify CTRL compatible string
+              details.
+   - Patch 4: Added new lines at few places. [konard]
+   - Patch 5: 
+            - Moved regulator always-on and boot-on properties at the end of
+              the node. [konard]
+            - Added new lines at few places. [konard]
+            - Made the tlmm gpios entries sorted based on gpio index
+              number. [Konard]
+            - Drop output-high property. [konard]
+   - Link to v3 :
+     https://lore.kernel.org/all/20251125013302.3835909-1-quic_amakhija@quicinc.com/
+
+Changes in v3: Addressed review comments from konard and Dmitry
+   - Patch 2: Remove qcom,qcs8300-dsi-ctrl from clk details. [Dmitry]
+   - Remove PHY and CTRL driver support. The CTRL and PHY versions for
+     Monaco are the same as LeMans, and Monaco will use the same CTRL
+     and PHY based on the fallback compatible string [Dmitry/Konard]
+   - Patch 5: Rename the regulator used and arrange the compatible, reg,
+     address and size cell for i2cmux in proper order. [Dmitry]
+   - Link to v2:
+     https://lore.kernel.org/all/20251006013924.1114833-1-quic_amakhija@quicinc.com/
+
+Changes in v2: Addressed review comments from Konard and Dmitry
+   - Patch 1: Documented the qcom,qcs8300-dsi-phy-5nm compatible string.
+   - Patch 2: Documented the qcom,qcs8300-dsi-ctrl compatible string.
+   - Patch 3:
+           - Added qcom,qcs8300-dsi-ctrl and qcom,qcs8300-dsi-phy-5nm
+             compatible strings
+             to the Device Tree bindings. [Dmitry/Konard]
+           - Fixed indentation issue. [Dmitry]
+           - Drop the extra empty line. [Dmitry]
+   - Patch 4: Added PHY driver support for qcom,qcs8300-dsi-phy-5nm.
+   - Patch 5: Added CTRL driver support for qcom,qcs8300-dsi-ctrl.
+   - Patch 6: Included qcom,qcs8300-dsi-ctrl and
+     qcom,qcs8300-dsi-phy-5nm compatible strings in the Device Tree. [Dmitry/Konard]
+   - Link to v1:
+     https://lore.kernel.org/all/20250925053602.4105329-1-quic_amakhija@quicinc.com/
+
+Ayushi Makhija (2):
+  arm64: dts: qcom: qcs8300: add Display Serial Interface device nodes
+  arm64: dts: qcom: qcs8300-ride: add anx7625 DSI to DP bridge node
+
+ arch/arm64/boot/dts/qcom/monaco.dtsi      | 105 ++++++++++++-
+ arch/arm64/boot/dts/qcom/qcs8300-ride.dts | 179 ++++++++++++++++++++++
+ 2 files changed, 283 insertions(+), 1 deletion(-)
+
+base-commit: e3b32dcb9f23e3c3927ef3eec6a5842a988fb574 ("next-20260121")
+-- 
+2.34.1
+
