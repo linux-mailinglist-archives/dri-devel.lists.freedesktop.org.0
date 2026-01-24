@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UKHsJsPtdGlA/AAAu9opvQ
+	id sP6LBonudGls/AAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 17:05:23 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 17:08:41 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A647E14E
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 17:05:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E6E57E170
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 17:08:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9E2010E19B;
-	Sat, 24 Jan 2026 16:05:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF4EE10E215;
+	Sat, 24 Jan 2026 16:08:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vA+n3Arz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="loQYuSc9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83BFF10E19B
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 16:05:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E86B410E215
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 16:08:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 0613F60018
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 16:05:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B2F4EC19423
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 16:05:19 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 0E42660018
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 16:08:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B959DC116D0
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 16:08:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769270719;
- bh=7LBkSqjbY1ZYiTmqlhpfB7TA9onMhckoiP4crfOT6Os=;
+ s=k20201202; t=1769270916;
+ bh=DB4z4S+jyYHcrqXZTeJHBFYs/lg1ZTISckKkntXmES4=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=vA+n3Arz8NVIRspZIIBoyWxzoFEyeXLmkEBgQE2YOlJWHXKV60vGTHRVnxUBsqM4t
- ogsZEhrthDnHiNI1HhEIJzry356S/p/Nec3BcXOqr5r40kL4XMQ8v2+N6c9O8Oj2zx
- IYeFhzyTQZKOn77QHX9KzRBxX4Ko4tKNgycNIp/cFKyISRSMHh1whU+DJUmzXh8UZy
- Tf7gaiR1Xos/J548GHeq4HuFQFWLDNcmV36Fyj6ssV3jWPzbOKgCzDid2PnQDKUVzR
- A3q15mZUD6z7v8/ZW4gJbaDr7szUZEy6lUYfhwNo1Pg9YMDV6GCnibmVGD2HghUp/f
- pXjA9uWko7DSg==
+ b=loQYuSc9j4f6KQE8Wa+ARdeRG3L8uNO1TSkMeVVVxvCR0mFiB7gQRBoNTUuh3z6o7
+ tBsjJpAk+onZBvfVp8VED4IqSB9yjG5k675cr+wzObmkXQL1dosO9yRzwkbI/oCMLX
+ 3teG8zK1aIpEG0Z7TSACLuSyVdHqKOJRLtpN1wlQI8eJvy7vKgFkay435YbCBifl8B
+ kcKlQ1beVRv7gHXFg2e7dh4bNCYGPe8uxeIPTner+1duQ4Hs0w2L2z/bvCbzWE4dab
+ zFscNvQ0r3/tJ9f3kjspwelzWVjriC860p7EXJR/6x4+cuTUBEoZOlA8UgctrcSDpe
+ CfciWw3PkrYpQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id ABF73C41612; Sat, 24 Jan 2026 16:05:19 +0000 (UTC)
+ from userid 48) id AFFC4C41612; Sat, 24 Jan 2026 16:08:36 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 221008] amdgpu: Crash with KDE Plasma built from master
-Date: Sat, 24 Jan 2026 16:05:19 +0000
+Subject: [Bug 221008] amdgpu: Crash with KDE Plasma built from master -
+ use-after-free
+Date: Sat, 24 Jan 2026 16:08:36 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -55,8 +56,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: see_also
-Message-ID: <bug-221008-2300-re1sejooV9@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: short_desc
+Message-ID: <bug-221008-2300-V64LYw4bhB@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-221008-2300@https.bugzilla.kernel.org/>
 References: <bug-221008-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -103,7 +104,7 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[kernel.org:+]
-X-Rspamd-Queue-Id: 49A647E14E
+X-Rspamd-Queue-Id: 9E6E57E170
 X-Rspamd-Action: no action
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D221008
@@ -112,8 +113,9 @@ Andreas Schneider (asn@samba.org) changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-           See Also|                            |https://bugs.kde.org/show_b
-                   |                            |ug.cgi?id=3D515017
+            Summary|amdgpu: Crash with KDE      |amdgpu: Crash with KDE
+                   |Plasma built from master    |Plasma built from master -
+                   |                            |use-after-free
 
 --=20
 You may reply to this email to add a comment.
