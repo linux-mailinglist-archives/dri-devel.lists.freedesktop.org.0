@@ -2,90 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gKd0I474dGl8/gAAu9opvQ
+	id WIlSEgv5dGmO/gAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 17:51:26 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 17:53:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E23507E2A2
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 17:51:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAE97E2D8
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 17:53:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B47A310E2C8;
-	Sat, 24 Jan 2026 16:51:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE38E10E338;
+	Sat, 24 Jan 2026 16:53:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SOCsujMl";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="S0zcbbTl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E31C10E2C8
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 16:51:21 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-432d2c7a8b9so3125707f8f.2
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 08:51:21 -0800 (PST)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 497B510E338
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 16:53:28 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-4801bc328easo36776465e9.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 08:53:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769273480; x=1769878280; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1769273607; x=1769878407; darn=lists.freedesktop.org;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:from:to
  :cc:subject:date:message-id:reply-to;
- bh=Hxw/rJFKy3Zi43PPBn0FyNiBOjhYEoSqVsfDen/FFE0=;
- b=SOCsujMlDZGpcKCeaD3xifEt87H2ryQedDFIhz6qBCQI6jQ8nQzW+yBXCxp/zU6oQ1
- Kt/GNbLNGpQ+YOeluMLslcU259hsGzGrW8Eu5iBPX+PZ/m9t1SZhWzVOf8u79O6wFIlp
- dqeUdBk/GTYvn30K72cgED3F1za7jBc9nsRFWGA6H1xFvE8iui5pp1amfv2bxCFbC5aT
- Was+ejzQ7Hgb/gFPDJ76/VCRiIno/KVdaNQLPtWEzvAY9F8pOngXBbQK8xB32LIwG7NJ
- y6tMErc17UHFjiQmRrh2aYDxepC2qJb2FdcP+0dVJ5eNSWQucx4aNeMUkCYbq7+UfHKx
- mvhA==
+ bh=+BQn+P/UOseTbGGqnJNsSGMZHqICVJmpni1h8D5Uppc=;
+ b=S0zcbbTlCXmSBv/DEWW+/dbtRiLN4QjdkCRLZ1B03YXwWrT5p7m717EGGorR2MydXa
+ gsASC5bsvRPJjqp/QA0FYCEA/g1avG2tErmHVoUbUYF+eNCfeqlS41PU26AEA2XoOFPV
+ fx93f5n/OC6iJtZZwpZ0rQzHzFhVrG7SwHFsjJDRwF8DvS9mgQuY3vdZ0B3G1vxlxHyb
+ ULP4s/6l1oKE73H17CBtG1q3QswIBG80CQpUXvy5w/iISUeqqPiKoFftW0hV0SPfHog3
+ D8eOYdhUlHxBKjzW+YD3yXhevbF7mJScsAxV1mt7EVM01z4kzgYBmWDwNg4Ys/82xP9u
+ uvrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769273480; x=1769878280;
+ d=1e100.net; s=20230601; t=1769273607; x=1769878407;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Hxw/rJFKy3Zi43PPBn0FyNiBOjhYEoSqVsfDen/FFE0=;
- b=fPBWhwYsmvJuqQgIG+uifl+zZlYGCX+0Iig3ZLU32ReM2GRTtWIdRx4IbdYGF2qc1c
- uoMEHp4jGhUD8gKVfzBskMvd1DReYAr/0veN8HKmEq2ap7Z0+6ougiPcBC4P8UCNjsvI
- BdwX16bWFV5iQt5SonY2JjRZ5IXEJR2eLfrZZ5M9q/2wHBrfD1c7f/zWgNE7q6vbtUit
- 6knj5/Dk6SfT/k+lEz6Efri1pDQ/KqDzmIu/qLLohjD4Dc6hklOJ7anuSFikly0FIwS6
- w22rV0Z0PR4j8g/MDDI1Gb9mZGvzdxhjK1FAPspdVZROdWylIgpoOyEl2eZUDEv0aHuc
- IJlg==
+ bh=+BQn+P/UOseTbGGqnJNsSGMZHqICVJmpni1h8D5Uppc=;
+ b=Rr3v+eYcbBHmYJSpL35D5L36HwdvRPL7WB4nS4vSfDknmP/cFxMN9onkrAJE9J00rp
+ Aix15+LZNRrs6vadnDJSgcyNdvOD88sxtI5UuQlbloWHi6/U/0nB0tfqO9j2KwClL2W2
+ VB9E5Qrpv4EA21/PHvg3/c2mo16zEJHJn9mNXLSdtSap5wC2P9byT0ak6ioPzCZCe37A
+ P2NLdHp7Rw5/7/J08nwD5cIWIYmk5ZyVJgMLGmdwrnNpWAcuxEPqSIRi2OHUqxcaeluF
+ YoQUsOlOPKpzvGCNvulL1nST1gTZP05f8zLH0HuycrvjNfqmeZ3yUOY547u+fe3tb5+m
+ FpJg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXbXMsNz82nf9kEIuY/mhRmMsLSwWZ9BN55wDJyA4KPx0uD+t2t1XVwxr//rhkeTagzkMVWkw8qrXw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz0XtovUX2cU6GQ4oJCo1Wgo+kdjEib/G7fuAZLDe52fGgYs56f
- yBjTG1FEADM7rQe0q/mP+Yw8Mg30IFrNz6AHcPm6CSihk/Cvdk9W/Qib
-X-Gm-Gg: AZuq6aKJFf0zM39/JBUmQkpP3AyFaZRGAjZRGbnpqWjV2HvUK6lnLnntfBaCEYe9676
- miMH2waBZLwzS0iJIqTFqQhGxTVmbanibnOi4OmevBylpaiVjdrrAP4kl/eV7x6e+FxzB8z2voO
- Pctg8KXy7Dz/xZTe/Hyti/GrNO/Cti9TKBJHOIHtB/OskX8L/8OXm1M3kLSViefxvguZJ5R/5r0
- kMl7ZwEBaFGpb+ZVKglJqB1EuyxlWltwcBeSoaeP7kNgUYWKATZD2w7ETb/rzxr2L6ApTKpjEod
- oVRpy9bjX9WgjRMLHhvNdjKdoIuFSMcAqHbxUavgdsBt1gMwXTBudKZ0uADd/FK7NHCGxlsIcxJ
- +tS1rBVqAJCvjELHvzf4ia5y/3fkfsv6mUKyuyTOUGmrpjQk25mwfsck6yNUU/r39HmlxWla5SN
- hrxNAMo+1FFcNDO0j8RekNSjyhPUo9zMTPO9aNC9bgmvA=
-X-Received: by 2002:a05:6000:2886:b0:435:90a7:8db with SMTP id
- ffacd0b85a97d-435b159cadamr12739865f8f.15.1769273479706; 
- Sat, 24 Jan 2026 08:51:19 -0800 (PST)
+ AJvYcCUmPX6eunJ5oJ4FmgTmA0dg50qF0MLzQNXZIN0zKpKEA+EWB/5j48fVunjF70wTFyqe4JpoGCGJ3oY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwbnV1t2inzi8GaYbqhxtVgyFCTAf5ydmapjGew7yvMgnsog5I0
+ p+DwNtjpNI0fZHHIiDRK+Wdk8sKvLXplwACtLbWrJQpqfklFf2nLMtNE
+X-Gm-Gg: AZuq6aKpGFKwlXK+m9WrmnVB4F2hgS4b6rnZNmziSlvDwlOPysH+aE7MP4zqBtmeKcG
+ Esfv4091ZcuEMZg2Ud4AK2JFrEgu3CSdw6aSbX1L6uwaoNVxoCpiTLARehqlpBUoKIRZU7IzWdG
+ uYFxmTBA8wMI/Ithdf1xoK5XBE0viDz+nNNpnUPSlV6Ru22SfO/DK/8qIZlxl+r5JwsyRKVHrXY
+ O06jINTu2tAu1fF5/t+5YnIPK4gl/p8hkAbtx67qeKCRDJMOWU+mdedYGLtNMim3ibiBnB6dFEa
+ e0R8NiKqC3/ArJe8hI7RP7iTr6F/5+m/TvxGSh2dl0JhBCGDzaxK6vzoKkzkuBFM7odogZQx9OC
+ 8uTOwggF/bXwdY4Hr8NeiEBNQJd/XxFrtUYdzsm1xy3LCKEQZnvtl8TdIs6sQ6ZxETQW/AGL2T2
+ c8MGRO+C6f046MH7CkOzR/TQlmmQRFkY2izccayzs65zQ=
+X-Received: by 2002:a05:600c:4fd6:b0:480:1d16:2538 with SMTP id
+ 5b1f17b1804b1-4804c9b21b0mr112717765e9.23.1769273606608; 
+ Sat, 24 Jan 2026 08:53:26 -0800 (PST)
 Received: from osama ([156.223.77.192]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-435b1f73855sm15431440f8f.29.2026.01.24.08.51.18
+ 5b1f17b1804b1-4804d85d146sm148011875e9.8.2026.01.24.08.53.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Jan 2026 08:51:19 -0800 (PST)
-Date: Sat, 24 Jan 2026 17:51:16 +0100
+ Sat, 24 Jan 2026 08:53:26 -0800 (PST)
+Date: Sat, 24 Jan 2026 17:53:23 +0100
 From: Osama Abdelkader <osama.abdelkader@gmail.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>, Murad Masimov <m.masimov@mt-integration.ru>,
- Quanmin Yan <yanquanmin1@huawei.com>,
- Yongzhen Zhang <zhangyongzhen@kylinos.cn>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- syzbot+55e03490a0175b8dd81d@syzkaller.appspotmail.com
-Subject: Re: [PATCH] fbdev: Fix slab-out-of-bounds read in
- fb_pad_unaligned_buffer
-Message-ID: <aXT4hLBy05W8Spy9@osama>
-References: <20260118134735.11507-1-osama.abdelkader@gmail.com>
- <7d4b95ff-8a94-4d96-8b75-6153baad9fdf@suse.de>
+Cc: Zsolt Kajtar <soci@c64.rulez.org>, Simona Vetter <simona@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ syzbot+7a63ce155648954e749b@syzkaller.appspotmail.com
+Subject: Re: [PATCH] fbdev: sys_fillrect: Add bounds checking to prevent
+ vmalloc-out-of-bounds
+Message-ID: <aXT5A6vBSNIry3os@osama>
+References: <20260118001852.70173-1-osama.abdelkader@gmail.com>
+ <5bc62c51-308c-483f-a92d-29354f2deeac@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7d4b95ff-8a94-4d96-8b75-6153baad9fdf@suse.de>
+In-Reply-To: <5bc62c51-308c-483f-a92d-29354f2deeac@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,12 +112,12 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[osamaabdelkader@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:simona@ffwll.ch,m:deller@gmx.de,m:lee@kernel.org,m:m.masimov@mt-integration.ru,m:yanquanmin1@huawei.com,m:zhangyongzhen@kylinos.cn,m:linux-fbdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:syzbot+55e03490a0175b8dd81d@syzkaller.appspotmail.com,m:syzbot@syzkaller.appspotmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:soci@c64.rulez.org,m:simona@ffwll.ch,m:deller@gmx.de,m:linux-fbdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:syzbot+7a63ce155648954e749b@syzkaller.appspotmail.com,m:syzbot@syzkaller.appspotmail.com,s:lists@lfdr.de];
 	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[osamaabdelkader@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
@@ -128,95 +125,103 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_NEQ_ENVFROM(0.00)[osamaabdelkader@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FREEMAIL_CC(0.00)[ffwll.ch,gmx.de,kernel.org,mt-integration.ru,huawei.com,kylinos.cn,vger.kernel.org,lists.freedesktop.org,syzkaller.appspotmail.com];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	FREEMAIL_CC(0.00)[c64.rulez.org,ffwll.ch,gmx.de,vger.kernel.org,lists.freedesktop.org,syzkaller.appspotmail.com];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[dri-devel,55e03490a0175b8dd81d];
+	TAGGED_RCPT(0.00)[dri-devel,7a63ce155648954e749b];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,syzkaller.appspot.com:url,suse.com:url,bootlin.com:url]
-X-Rspamd-Queue-Id: E23507E2A2
+	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.com:url,syzkaller.appspot.com:url]
+X-Rspamd-Queue-Id: AEAE97E2D8
 X-Rspamd-Action: no action
 
-On Mon, Jan 19, 2026 at 08:45:08AM +0100, Thomas Zimmermann wrote:
-> Hi
+On Mon, Jan 19, 2026 at 08:38:31AM +0100, Thomas Zimmermann wrote:
+> Hi,
 > 
-> Am 18.01.26 um 14:47 schrieb Osama Abdelkader:
-> > The function fb_pad_unaligned_buffer() was reading idx+1 bytes per row
-> > from the source buffer, but when mod == 0 (font width is a multiple of
-> > 8 bits), the source buffer only has idx bytes per row. This caused a
-> > slab-out-of-bounds read when accessing src[idx] after the inner loop.
-> > 
-> > Fix this by only reading the extra byte when mod != 0, ensuring we
-> > never read beyond the source buffer boundaries.
-> > 
-> > This fixes the KASAN slab-out-of-bounds read reported by syzkaller:
-> > https://syzkaller.appspot.com/bug?extid=55e03490a0175b8dd81d
-> > 
-> > Reported-by: syzbot+55e03490a0175b8dd81d@syzkaller.appspotmail.com
-> > Closes: https://syzkaller.appspot.com/bug?extid=55e03490a0175b8dd81d
-> > Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
-> > ---
-> >   drivers/video/fbdev/core/fbmem.c | 18 ++++++++++--------
-> >   1 file changed, 10 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> > index eff757ebbed1..a0c4932a6758 100644
-> > --- a/drivers/video/fbdev/core/fbmem.c
-> > +++ b/drivers/video/fbdev/core/fbmem.c
-> > @@ -113,15 +113,17 @@ void fb_pad_unaligned_buffer(u8 *dst, u32 d_pitch, u8 *src, u32 idx, u32 height,
-> >   			dst[j+1] = tmp;
-> >   			src++;
-> >   		}
-> > -		tmp = dst[idx];
-> > -		tmp &= mask;
-> > -		tmp |= *src >> shift_low;
-> > -		dst[idx] = tmp;
-> > -		if (shift_high < mod) {
-> > -			tmp = *src << shift_high;
-> > -			dst[idx+1] = tmp;
-> > +		if (mod) {
+> thanks for the patch.
 > 
-> How do we end up here if mod equals 0? When I look at the callers of this
-> function, cases with (mod == 0) take an entirely different branch. [1] [2]
+> Am 18.01.26 um 01:18 schrieb Osama Abdelkader:
+> > The sys_fillrect function was missing bounds validation, which could lead
+> > to vmalloc-out-of-bounds writes when the rectangle coordinates extend
+> > beyond the framebuffer's virtual resolution. This was detected by KASAN
+> > and reported by syzkaller.
+> > 
+> > Add validation to:
+> > 1. Check that width and height are non-zero
+> > 2. Verify that dx and dy are within virtual resolution bounds
+> > 3. Clip the rectangle dimensions to fit within virtual resolution if needed
+> 
+> This is rather a problem with the caller of the fillrect helper and affects
+> all drivers and all implementations of fb_fillrect. Clipping should happen
+> in the fbcon functions before invoking ->fb_con.
 > 
 > Best regards
 > Thomas
 > 
-> [1] https://elixir.bootlin.com/linux/v6.18.6/source/drivers/video/fbdev/core/bitblit.c#L208
-> [2] https://elixir.bootlin.com/linux/v6.18.6/source/drivers/video/fbdev/core/fbcon_ud.c#L199
-> 
-> > +			tmp = dst[idx];
-> > +			tmp &= mask;
-> > +			tmp |= *src >> shift_low;
-> > +			dst[idx] = tmp;
-> > +			if (shift_high < mod) {
-> > +				tmp = *src << shift_high;
-> > +				dst[idx+1] = tmp;
-> > +			}
-> > +			src++;
-> >   		}
-> > -		src++;
-> >   		dst += d_pitch;
-> >   	}
+> > 
+> > This follows the same pattern used in other framebuffer drivers like
+> > pm2fb_fillrect.
+> > 
+> > Reported-by: syzbot+7a63ce155648954e749b@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=7a63ce155648954e749b
+> > Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
+> > ---
+> >   drivers/video/fbdev/core/sysfillrect.c | 21 ++++++++++++++++++++-
+> >   1 file changed, 20 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/video/fbdev/core/sysfillrect.c b/drivers/video/fbdev/core/sysfillrect.c
+> > index 12eea3e424bb..73fc322ff8fd 100644
+> > --- a/drivers/video/fbdev/core/sysfillrect.c
+> > +++ b/drivers/video/fbdev/core/sysfillrect.c
+> > @@ -7,6 +7,7 @@
+> >   #include <linux/module.h>
+> >   #include <linux/fb.h>
+> >   #include <linux/bitrev.h>
+> > +#include <linux/string.h>
+> >   #include <asm/types.h>
+> >   #ifdef CONFIG_FB_SYS_REV_PIXELS_IN_BYTE
+> > @@ -18,10 +19,28 @@
+> >   void sys_fillrect(struct fb_info *p, const struct fb_fillrect *rect)
+> >   {
+> > +	struct fb_fillrect modded;
+> > +	int vxres, vyres;
+> > +
+> >   	if (!(p->flags & FBINFO_VIRTFB))
+> >   		fb_warn_once(p, "%s: framebuffer is not in virtual address space.\n", __func__);
+> > -	fb_fillrect(p, rect);
+> > +	vxres = p->var.xres_virtual;
+> > +	vyres = p->var.yres_virtual;
+> > +
+> > +	/* Validate and clip rectangle to virtual resolution */
+> > +	if (!rect->width || !rect->height ||
+> > +	    rect->dx >= vxres || rect->dy >= vyres)
+> > +		return;
+> > +
+> > +	memcpy(&modded, rect, sizeof(struct fb_fillrect));
+> > +
+> > +	if (modded.dx + modded.width > vxres)
+> > +		modded.width = vxres - modded.dx;
+> > +	if (modded.dy + modded.height > vyres)
+> > +		modded.height = vyres - modded.dy;
+> > +
+> > +	fb_fillrect(p, &modded);
 > >   }
+> >   EXPORT_SYMBOL(sys_fillrect);
 > 
 > -- 
 > --
 > Thomas Zimmermann
 > Graphics Driver Developer
 > SUSE Software Solutions Germany GmbH
-> Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-> GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+> Frankenstr. 146, 90461 N�rnberg, Germany, www.suse.com
+> GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG N�rnberg)
 > 
 > 
 
-You’re right that callers should only reach this path when mod != 0.
-The issue isn’t the mod == 0 case itself, but that the final source byte is read
-and consumed even when shift_high >= mod, where no bits are actually used.
-I resent a version that only accesses the extra byte when it contributes data.
+Thanks for the info.
 
 Best regards,
-osama
+Osama
+
