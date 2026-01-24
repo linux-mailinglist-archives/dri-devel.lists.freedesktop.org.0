@@ -2,143 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MHzFGjUcdGn82AAAu9opvQ
+	id MLmhBowedGk32QAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 02:11:17 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 02:21:16 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197467BE40
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 02:11:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6E57BEA7
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 02:21:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ED6710EC1B;
-	Sat, 24 Jan 2026 01:11:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B33910E2F9;
+	Sat, 24 Jan 2026 01:21:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="PqFiAPPo";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="F5hOsuTP";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Cg/NIXzi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB7E010EC1A
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 01:11:13 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60O0KNNO3052634
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 01:11:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:message-id:mime-version:reply-to
- :subject:to; s=qcppdkim1; bh=onPzwbwKPYyNqS7iOfuEHuvzbaXgGWEM63D
- QQGCqs9c=; b=PqFiAPPoZCCB8o2szsfzdXeBjbo09PybAb6dWk+TvJeCrOx3azf
- aCeR/E+AOYmIw/PUGA5emZ5NuDO44SmfznkgmFI9AmfY+U47dlQqb0RPCOGo+7SB
- BOyDHQWRnIlquyKvQjBSZEeBuO5OaLEMzm1HeT2wm4zDPWxEkxxjLKYFMY6pYgEO
- h4syc2XckCxuFmpc/KLC0O0HLHTYza/5ZRXOU9qN+86+3AM6Kld8LRP39Nwtz/Qq
- DJoDGTJhT6oLa46K86m+D+nrtB8v3+Rem/ojFkIa5isSCgO9OlkuQXdBwrc5b3R/
- b98yGTs9H+19Ynj2sqINIkZyClbV4qAQRfg==
-Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com
- [74.125.82.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bvkeng2ws-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 01:11:12 +0000 (GMT)
-Received: by mail-dy1-f200.google.com with SMTP id
- 5a478bee46e88-2b75222e9easo375371eec.1
- for <dri-devel@lists.freedesktop.org>; Fri, 23 Jan 2026 17:11:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769217072; cv=none;
- d=google.com; s=arc-20240605;
- b=S5+qTRuQbaJpRUG8OBdqlYOHzU9liRSZSPWM208wdPmlTkewQ7iSLZSecadhoxXju8
- XPuaPUFgRrmWInBDhEj8zEfgIPqqk1tyvb9EpMVN5JuffOORL651CqKEnFwshH+Rx7cI
- KPM2zogJaTbdlY7ydJnVzUrdsy3gP/wx3Jzjy5l16tFPK7l6uirH1LoVAOBWZB67XlVF
- koI5ViHkpkPEVFmxI31IzIJMirbR7KBci/4k6lIvcyWI8fPXByDVAa2Ue7DLZw7clS0x
- O2H7lu9CW0L+9NvumnPKtjog4LfLPMPWuwvJzhwtiayZoKP05KFFcWgORSVzWTtjHTN8
- ryiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=cc:to:subject:message-id:date:from:reply-to:mime-version
- :dkim-signature;
- bh=onPzwbwKPYyNqS7iOfuEHuvzbaXgGWEM63DQQGCqs9c=;
- fh=jCQ3WxEPINqn3SFNdbn4RXlqIxfEPzGEZ4CCeZdj9zM=;
- b=IQiV4j6k344tpsh1dO3khoqas6mqLsEWydZO/zP0kxRlPjzOW6g57oL4lDfja/1Rmg
- AF/F31UhKDaBznJio880F/iwEs6a1vdzaoxY5wn0S+PoHBTTm0ZUED9T4U12Km49S2nO
- fLDfadBAUUI3noQJ7CLgNGewBim0SSphAMPDV1O0/XXHyhup9LnwRLoAPwwbVAMq75bY
- 5he0P4H/AMAearDBCUKGgOGlrR+8xGV3GGbgaZt/7TNY3z43p1TENr0GqubFTF1IXUH2
- 9BO/GMcS7o+J29uI54p8BfQOGdGUGe9qEuiu2KPCb3N/hRnlJ8s/gV05KbUdhBivMIuo
- qG+g==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1769217072; x=1769821872;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
- :subject:date:message-id:reply-to;
- bh=onPzwbwKPYyNqS7iOfuEHuvzbaXgGWEM63DQQGCqs9c=;
- b=F5hOsuTPaNfVE19wqR5mUTrulJVK760aRIAIJw8zkpi2hrrOU8g5ZTxyQUspGSU/O9
- 3NuXYlyK3szyj5OvIWoitOE+b9PW59dc9Cb3iUInPm71vO/NLjbIUNdnkNdJOFwXYWmV
- oR65lwB4Vj/h9Oy8rzhBCoQOjdccLBEhbbqzOdpwpObcF84rImHUQYLGDL+fS2V+QU5w
- ohGD5XZumzHuh3eV1IvRUTI5DE8ekr7DmlOsw2PICzlbNLfxBJAyNqaOXQqIkBB/ZLUN
- af6sdsTvLcmbl8shRJEWwWCnQVGT1DirIWLZq4/CCn9B91aA88+dPHN02VJ2EVpGW8+m
- yh2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769217072; x=1769821872;
- h=cc:to:subject:message-id:date:from:reply-to:mime-version:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=onPzwbwKPYyNqS7iOfuEHuvzbaXgGWEM63DQQGCqs9c=;
- b=kWLOfQjmbK7vzmfbRNi2AFsJI9JZiLqnKcC7ZWA1JoyloK4imD1sjhD9OahTfMFuN/
- EWMo5UpDGwoQNgmuAtnC2bitWRjRkwONICv+spRwzh+NJCeNpT7FbOCgZzeHnVki4Apk
- MY1URsuzsvXla9uA2fasl9p+TZ8C5LZAg0JhM2sjeGHEqehLlb2nFgJhFkH4rDQfWNMx
- aUEAWlQpsgOq4rpV91iVGT54S8D2CQq3cTyplSyfxkFezS/GNjYxDCX/0pCdR+CNQYJ4
- lPLPtXmu3GpP74wCKkjCnrl0W4fuf5g4E6XC7grgWBuvyGp5jn65d7NdN1QZED9qsAaC
- xWbQ==
-X-Gm-Message-State: AOJu0YyBH84Hw20JkYMnJM1DSj73S93HcvSRzoxof0t6rJmgswpVAO4Y
- SwsLgJeIVymJvW4uFHmbQjx5mn7LNjPEWMTdxxwr0PauONuxDNPQ4PDU95jkXZm1c6OC6Jofk+G
- JcgeAmHGycAJ6lJFKG3NfcQEmxHiRB88Ix4BtbjCkzKwCJG6BHJ9KatJ3xWzo+zbT029RTgxuOU
- 8q27/KjePa0bfnUxKhTYK+IsgTLGxhgloZjI7ZgWZcIVl66w==
-X-Gm-Gg: AZuq6aL/X0IwRqzh7xz9Tl1GgKdjNBpxjZ5Azy29rLuAKiQgEf0VVLAOYfVhDtPNTh9
- 4LoPZDXrj5XKphatqTMkH5B4BLNRBGrr8GYXEZG94hdlT8j7zSg2fqkFlAqN8RQHqago5g9UXIS
- 9utCfxLi3HsZ93xI86Ckqqhu+0YT3/xn8mldNp4xkwN9MXmTKZVArQ+cyZp+pkH+PrMxVXjPHEu
- Q1D0GRECfxb1KI48KFzSWxexg==
-X-Received: by 2002:a05:7022:112:b0:11b:7f9a:9f00 with SMTP id
- a92af1059eb24-1247dbaf59amr2586257c88.4.1769217071826; 
- Fri, 23 Jan 2026 17:11:11 -0800 (PST)
-X-Received: by 2002:a05:7022:112:b0:11b:7f9a:9f00 with SMTP id
- a92af1059eb24-1247dbaf59amr2586243c88.4.1769217071308; Fri, 23 Jan 2026
- 17:11:11 -0800 (PST)
+Received: from CH5PR02CU005.outbound.protection.outlook.com
+ (mail-northcentralusazon11012053.outbound.protection.outlook.com
+ [40.107.200.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4035910E2F9
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 01:21:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TuWgFd8X2qp5+DFYpPYObPr570FE653Fca3B4xOZye4top7akxNcIPzwvXdsY2v7mYwC0LxWRe0MHypX6ucT+mr1zQX6aK3K9JeGq3D74hg6YdHJgalxH3c766eQget7AJD9GvHfX/bZbJBg3PbILp+zs87WaCJpcM+zp/uzq/sUWf1hmfLvOuWog+oFNtRcyb6KVWLGwRft91iT5+nHTpjuHbGMbZcXasOiOdYpE5PEWFoi7CWhw/6P6w5hJ7tPJPf+E+O8cp9+kGpDNKZjCIEI4oZOUrKmlM8mmwfD/rCkZOekblawsHyvNj+Ma+mRRzgqVJrqU7Ba9YZRsnCPbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tbEroxk3TESTQ19B/RMXcQ/Apk9mA/Dk2NEkzutTw9o=;
+ b=imP4pSYDrNOJNfbmtYWevdurRd36d18J6VtkX4q95UgPSQaN+b0u89TptltrCfQzjLqPGnHZ1rxp/+JE5HlXRmTVFeovZ88tV3Oa2tsLGTEAHBRTZ9C639QO3+NcaFNOulRYIu5Ku/3tTJzBE5CfqoBUxjnSYxqg2Hpy5hPAMxhDbv3sVp5EB04sNVCq9di4e7qbU3gJZJcK1UpHIEZkJR0qKTww+UwNW+Q76+Ov/zw02SXmKeOD9lp4hJ15auK79ddD5Cf5YrBl3VLmSSBGOu9Wf3+MVaX7g34mkMqDUWHFemwosID4RuhZg3rswRzrWI9DRjhqmykuUqdfACjC6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tbEroxk3TESTQ19B/RMXcQ/Apk9mA/Dk2NEkzutTw9o=;
+ b=Cg/NIXziYg45pm4jAs+kYfIYZ/+s0KvXYDM8yHwvESS9JfEk/8peQajOiq0/9A5X6MYW6BE3IG4/uUBmdQ456nwNkrMnu4KEIkE9j+Lj0Q7t0/1OArUuwpJDm8z95MaNGyWsBaJnIG1XbOMEZZ//yi83gJEJJjevBbnIizviEKqCOPbmujY3lSw913UlR7tYjlyTWawTyZvUHD9SheMnOcikD3q0IDdvGxNNCZt3h4dwgi/VnZVKAsrucNDXlarAEliCtnHcq54PdXJADZ4sVfcTQp7J30SJ17V00GJwX69hxQGjvdYKWklya9gzQHpXec3Nb2TLKMOycYVrRprqNA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ2PR12MB9161.namprd12.prod.outlook.com (2603:10b6:a03:566::20)
+ by CH3PR12MB7617.namprd12.prod.outlook.com (2603:10b6:610:140::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.11; Sat, 24 Jan
+ 2026 01:21:06 +0000
+Received: from SJ2PR12MB9161.namprd12.prod.outlook.com
+ ([fe80::1f16:244a:2a9d:2c93]) by SJ2PR12MB9161.namprd12.prod.outlook.com
+ ([fe80::1f16:244a:2a9d:2c93%3]) with mapi id 15.20.9499.002; Sat, 24 Jan 2026
+ 01:21:06 +0000
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ simona@ffwll.ch, airlied@gmail.com, thierry.reding@gmail.com,
+ Ben Dooks <ben.dooks@codethink.co.uk>
+Cc: linux-kernel@vger.kernel.org, Ben Dooks <ben.dooks@codethink.co.uk>
+Subject: Re: [PATCH v2] gpu: host1x: fix missing
+ 'host1x_context_device_bus_type'
+Date: Sat, 24 Jan 2026 10:20:55 +0900
+Message-ID: <49374358.fMDQidcC6G@senjougahara>
+In-Reply-To: <20260123140512.609167-1-ben.dooks@codethink.co.uk>
+References: <20260123140512.609167-1-ben.dooks@codethink.co.uk>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ClientProxiedBy: TYCP286CA0097.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:2b4::11) To SJ2PR12MB9161.namprd12.prod.outlook.com
+ (2603:10b6:a03:566::20)
 MIME-Version: 1.0
-From: Rob Clark <rob.clark@oss.qualcomm.com>
-Date: Fri, 23 Jan 2026 17:10:59 -0800
-X-Gm-Features: AZwV_QiAi8xrARX87HtwGvXJ3KtnTfbMYZbjGy5OdRX7_e-hsYCRCJbIWRy83PA
-Message-ID: <CACSVV03A-GE5mNG1OLF3s9UCenQk4x3jO71Hmvr9j+vCF2hc7g@mail.gmail.com>
-Subject: [pull] drm/msm: drm-msm-fixes-2026-01-23 for v6.19-rc7
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: "open list:DRM DRIVER for Qualcomm Adreno GPUs"
- <dri-devel@lists.freedesktop.org>, 
- "open list:DRM DRIVER for Qualcomm Adreno GPUs"
- <freedreno@lists.freedesktop.org>, 
- "open list:DRM DRIVER for Qualcomm Adreno GPUs"
- <linux-arm-msm@vger.kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Authority-Analysis: v=2.4 cv=S+zUAYsP c=1 sm=1 tr=0 ts=69741c30 cx=c_pps
- a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=e5mUnYsNAAAA:8
- a=5xzA7AtM9dvb3DZk53oA:9 a=QEXdDO2ut3YA:10 a=6Ab_bkdmUrQuMsNx7PHu:22
- a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-GUID: epSvXmweTLGnIzRxVnmq5C0m-mPWP1SH
-X-Proofpoint-ORIG-GUID: epSvXmweTLGnIzRxVnmq5C0m-mPWP1SH
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI0MDAwNyBTYWx0ZWRfX7JS2CuHcqZIM
- ANAVfYl7m98+Zqk6+ekIg8rLmoGWz/vv8I2JnQN8FQpdCJwsKkBlUv9QT7JdXUcAimIW7DViTSu
- xCad4foTau+tYkBfvwtyVamVrYdJlrmX3gqvFeB+EAgnz8xyxHM6Yn8f3g4EtDRWme5l7i1uMrI
- kCBc1PR0IM2dtejSFIgAv04/55EI4ECgh9IB8uVIe7zfw35Lirk56+g9yzk812DBa3234EQcQ7s
- 1oTxUnLTf/x0262aXcgh5SZOzPVlVhnAZPanJKzwimRlJnz6RdegKueFXqBnglaQNPvMrsQRxsr
- y2RoBvvsQmzgQt5CgdrW3GAlzTRhLxrGA2MQtoOYMfNCGQdhsNqxykDTc59M4Yo1+r8ZA8PQZAn
- oxaqc6Zy85aHdH7AewWHrtz50F62kLfIUzdqkUvafV4Uz7bZ3vwMJvZhAlzZ//fJ1myhivLwZy+
- dq077h1CDt6nqxu45Pw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-23_04,2026-01-22_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0 priorityscore=1501 bulkscore=0 clxscore=1015
- phishscore=0 lowpriorityscore=0 suspectscore=0 spamscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601240007
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR12MB9161:EE_|CH3PR12MB7617:EE_
+X-MS-Office365-Filtering-Correlation-Id: e95373f3-f37d-4646-ea30-08de5ae6d8b7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0; ARA:13230040|10070799003|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?N1hSNkR5THRIYUNhb21TSmJCN05lWEp5ZEtRdlNNT2JIcER3Wi9xQU1xNnF2?=
+ =?utf-8?B?eFhIaC9PZWRIYVRkek5xbEVpZnFqbUxXdDFqdlBIa2xoSDM3azVSMnZzeGUy?=
+ =?utf-8?B?bC9uV3hDa3hyZ1AzaW1nV0JhckllcFBOeTMwWHNVL3E0RGh1cG44MXZUSEVo?=
+ =?utf-8?B?NjdoYVc3dm1PN2FKVnp2QmI1b1gwVytUeHRpVEF5SkdUMm05ZlpRTmhMQWpx?=
+ =?utf-8?B?dzNTbUN1UTNuMjdCSWVWQStKaEoweHRYT3FCNFBqdFFEbmVoNU9LQjRhWnBE?=
+ =?utf-8?B?S0U5WVc5U0lmZnJMdXBOakptZTFTU0pHT1ZaZHRJN1Z2L3Z4OC8yazUrU0xT?=
+ =?utf-8?B?NVpWWUlvR29ONlFiaTQrcFdhb0JDbDF3UHJ6N1crSTJOaE9yc1BlZlNpZlBU?=
+ =?utf-8?B?OHM4aFdJRllSeWNRajhrL2JnMmV1V0U5eVVHRFRMSG9oMTcwSnpKMlpQM1ox?=
+ =?utf-8?B?TTFLS2ZBYTUxUjRtM0Z4ZnFGMkVRaXNLVm44V2NsQlYyajc3Z2ZwckpzK3F6?=
+ =?utf-8?B?akJaL0d4aWgyRDlRMjBqRWMyT1Y5MFprOGg1ZW1oNmk2VzAvQ3RCeHJ1VW4v?=
+ =?utf-8?B?T2Z3a3grNTVtd2pyc3JHd05ENDJjTWZkbXhaYWJMZWd1VTZtck0xUlczeE5o?=
+ =?utf-8?B?dmlxTjhvZXJ6Z04wNWo0QS93WkpzaG4rL0hmOW5LTCtnUDhnZlhqOGhZQUV1?=
+ =?utf-8?B?azg1VW42RjJxR21SWlRpdWhZeEl6RHNiaEYrYVNQOW5oWXU4MmhSQmprNm5T?=
+ =?utf-8?B?MVcrZExtQTBOYmlUeTREZUtEQ3VQdHQrVm1LZmFmeElaOGJQd0FJYlBVWjly?=
+ =?utf-8?B?emxzMDd3U2dkQzcvWFV5TE9NRVp1WjNtei92Z0s2S0RXWWM3L0xuNkVpcUdm?=
+ =?utf-8?B?QTZBWXptS2xEc3lqM3FXSFFKdDJlVFBSSUY1Mk1BT29KSUp4blZ3Qk5EQjBl?=
+ =?utf-8?B?NUUrSXJ3MXMweFI4eEk5TEsrUFBlaG5sZHVZOS9WeitlenMrMGxQUDZuaVZx?=
+ =?utf-8?B?ZW41Z1FPRjF2L0p2WDI2Tml3emdGWUtkcTVsTURJQWVvWnE3TVJLUlJhcHdP?=
+ =?utf-8?B?NzlWNUJlTTh1MHNWcmxka0xLNDFOZThuYnBNL1pHaDA2alVqVVE2Y1AvdDJX?=
+ =?utf-8?B?YVRpTkRBNUpiRXF6Yi9paUdiSHBGR2MxditCMThmTStMMGxKb0Irc3BQQkQ5?=
+ =?utf-8?B?RUkvMFJVbnZzNVZrR0FqY3NtK28vSXhjdDkrT3FzZDM4Nlp2ZDdpQ2JyUGl4?=
+ =?utf-8?B?MDVzY0JnR28vU2ovNGtoREpIUWw2c085SHk1K3ZhN3RaTWhmTkNCaHZpYlNt?=
+ =?utf-8?B?YUJUVldGNWZkYzh3NVhIQTRyK2VhbDZudkRSYTRLUHRmM1BVeUJldUhNRDR0?=
+ =?utf-8?B?clRBMFpBb0xlS09CTC9IYnZKYkhNcWJaU05IQzhYcUM3VzF1b3UyVTRncC8r?=
+ =?utf-8?B?aFRObjgwaUlIMlhIVFNtdWVHQVRzWS8vMlFsRFAwNEx3K0JjZDkwc0ZsaGZF?=
+ =?utf-8?B?eGJTN0UreTRBMGxwUlhLUkd2blUwT3NNRGpHVnpFaDUwRXlFNER4Y0NzTFdH?=
+ =?utf-8?B?eGVxY2VUZ3k4N2tQU2JYRmRXdXQvam5MUHJnbndWU3hHYU9tM2liNzB1TEZD?=
+ =?utf-8?B?MC9nUGs1MnVmaUFUVVBqY29qTHpxTUpUbWxSdHJlWVRUZ25MNFFjaVg1dVBI?=
+ =?utf-8?B?dW1XcWNqbUpVUEdSZTUveWJwQU52RzhSRENBMjVhbzJXYWtVOHFGVGptV0Na?=
+ =?utf-8?B?THlxek9jSml6b0N3SndGcENJVTA1MGRlS2ZuWlkvTHZYNjRPNnRmMHdmZFlP?=
+ =?utf-8?B?Q3Fqb1dXbFo0N0Z5eTVJM3FleE9IRVN0dGpGb0lDeThwNE9pSEJncUJNTXhh?=
+ =?utf-8?B?TDZWSC9RTm5mSUNKRUNyaFpSSWNNWXlOUkdYbko5N2NVWmhWcHRNdGVqWXlY?=
+ =?utf-8?B?YmJBaXE0b0VsZTZOL1lpM1hKczNxWWJXUHkrQ2IxUENwWnNOU0hOTVdpQm9Q?=
+ =?utf-8?B?azIzNnMrVWNVQ1lkUTRYNWV3b08yRzB5MitpT0JMMHQwOFpmQXk3SVgwRlh1?=
+ =?utf-8?B?QVZBcDNDbEpBNEIwczN0K0krZWgxeTk2VWUybDV6R3dNMnhEVlNhQmVINTNT?=
+ =?utf-8?Q?0w1s=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ2PR12MB9161.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R2VYUldFTGM3ME9sWjZhTUkyY1JuZ04wR1BYUUQ3dEQyY2YxbE02K1hoNXJQ?=
+ =?utf-8?B?dDVrSHlzenp1SUxOd2hYV0hPWXFYWnFJQkJWOHY5MHF6Ly9BejhyWWFqQTBY?=
+ =?utf-8?B?dTQvNUtpL3NOWG1COXJnRFFSbXd0bTU1Z3d2MlowdnkxUU43QysyVXVDK2U0?=
+ =?utf-8?B?NTVBcEwzWEY2UVJKQWYreE1YUXQyOUtuYWZScHF6R1NjZ3UvU1dEbGZCMzhF?=
+ =?utf-8?B?ZWNHK1pWYU9RaDRXcHoyUG0rd29IU01jaW9WVXVmUDY0V3RqVitrbHV1alZH?=
+ =?utf-8?B?dk9yK3FITjk4WEFldTlQYnA5eFg3MlN2RHJYOGc2bHc3OXZzQzB6UTRsd3I5?=
+ =?utf-8?B?Y0RMcERjUVNWclE4Z3dESEpob1habGpFL0YrMlpUMVdoTU1iQ3FIQTNTd243?=
+ =?utf-8?B?c0F2Rlc5WWQvdjhYOHFPMFJBanRNU29KSTNjMmh2MkVwa2hDOEd0b1NUNE9W?=
+ =?utf-8?B?VncyQnI5N3hodUR6a1IvbHBYVG92SHhPMDVad3g3UFpaSW9NbWtqNGhjV1N1?=
+ =?utf-8?B?NnlUVXJnVGV2Wm83Y0w4TDRvdzEwSWpoVElLSnRxMStyanRtT2N2WXcwaWtB?=
+ =?utf-8?B?WFI4OEJnVUJWUmlCMlRsdVFVWXpma3h4MHMvVUU5cGQzM3o1TGxqR0lHci9C?=
+ =?utf-8?B?WEIvMkFmT1VoK1RTdFo3WXZMb2UzRys0OER5enlZL0dyZEJNaEM1VkVubWR6?=
+ =?utf-8?B?dWRvNk5ScERyUlVQSU0yRzdOb3pPWGJaMGFGclFVRG5VQ0h1b0JLWGl2VlIy?=
+ =?utf-8?B?T2dHeTY3ZHR0L2tjb0Y2QmduRnk3bzdKSGpoemt1SjVDdkdMNFRtSXBMQ2pn?=
+ =?utf-8?B?S1R6Y0NsZXZXSVlmRVFHd2h2L2V2ZVQ1cFkvc1BXVHBZclBBR05wK201eDVr?=
+ =?utf-8?B?bW55bisvbWtOSDk2cUY3WXVsU3dPbFhnYmZaaTcxSHhMUkY5UWF0T0FPQm5h?=
+ =?utf-8?B?Qk5VMlNxNENha2JwMUVVVlppOWpnZUZxNXI2V0kxTXdCb2xmeXViSDZKWXE4?=
+ =?utf-8?B?Y3psWkFGcU1xWkh6c1RlcU5KcUVTMjB4bnFtVGZWZEtZakpuanhISVRNNHA0?=
+ =?utf-8?B?cGhuUUdqQUNxV1FMY1doN3A4SkcyK0ZDcEZQNlhNZlQyZ0k0TXhIUHdueGpB?=
+ =?utf-8?B?Y09nbFlUUk5yUWo4Qlh2NEl1RVZya3V6eXlQM092R3pWaGhwT2E1bWZ2aWpC?=
+ =?utf-8?B?N3o1WWZjZWxRMnlmNUl1KzEvTzE0dngrWFVmWmZENE80bXJNOTJ1RUtLRi9m?=
+ =?utf-8?B?eFVtdC8yZHF1b1RtdHRVUXhpUXdHTm4zdzl6SFpqNGFjL0V2Y0dqTjFJR0RW?=
+ =?utf-8?B?ZkxJejFYc0NMN2p5RjRZdVp6TWNpZk5tWnlrMHFFd2hoRkdJNnlVVlI3bXI1?=
+ =?utf-8?B?NFJPMHRNNEUyN0hscjdwZkpWdVpabUVzWTljQmk4czA4cW03cnZLQmtyS0I2?=
+ =?utf-8?B?MFNXQ1RzV3NyckZNMitKTHViQU9VYWpuZHFDQzFlTjl6Nlg5SjBsZFJtTTJp?=
+ =?utf-8?B?Tk0rbit2U08ybE9kTUQzS1FabEtxbzVCVWFUT2o3TEptZ3ZuQnJNcEhHMVZG?=
+ =?utf-8?B?U1FjUFFrUWRLeURTNVlhMkRCQnc4ZUhGY0gxUjZhOW9qQkNIUmZWY2NCb05q?=
+ =?utf-8?B?VVB2NmdTdFMzNW9vR2xpL3NqSVppRHdXcFdHZ2k5Z2xITGJlVzNkaUhUUk5E?=
+ =?utf-8?B?bk9GTmNFcExtaVcyWk1qSytyRlAwT05yRDdFTVdMZEw1ZWFqRjh2V1VHUXdx?=
+ =?utf-8?B?elpKL0c0ZUV6bFFTcmdvWEFHcHpTa3M1V0x0OWx1NXFjWHhOWFFCTEwzVFM5?=
+ =?utf-8?B?Vi9GUzRpWXo2eXk2elcxQ0VTbWVZQ3o0YnBtSWcxRWJEdjFzUldsYXFkVEZO?=
+ =?utf-8?B?MU9KM0R3dVlSc3oxK2xOYUtBN2FVay9TaWw4RzNURjFjNmpvemczT3FsUU9j?=
+ =?utf-8?B?NmpmMVZnblc3Q1piYTFDTDNETVVPR0FrODhMOFRQbysxcEEyVC9URkwrUGkv?=
+ =?utf-8?B?dXQ2a2J4bDFQTm51UTFVU1g2bi9Od2FkOHNiNXNVSTBERVp4Nkd5UnArbXZt?=
+ =?utf-8?B?MHhCQUdlWno5eFYyZGxBK3pRQWVnTFZ1NFRpajV5SVpCa2NDcWpDd1lqTjBP?=
+ =?utf-8?B?T1J2eEZtMk1ncmh3NXNsRmpTa1RjY2QzajdEMm9LMytSUjNmMHVtMVB0d3dP?=
+ =?utf-8?B?Rldwc0w4bHIxQjhpc3A2ZkZTOTQrT2tJdlNZMnB4amsyYXpZZ3dlNUJBdmRy?=
+ =?utf-8?B?czhOZGVYTXRLQVJkWVRrY2ZSR09RMHFNTk1wNE9CYmUzNi9yR2J5N0c0M2lG?=
+ =?utf-8?B?b1hzaFdqaXN4MXNRbDVyeHlIcUo0M0VtQ1hHMXFwUVBlRTlPZzByZWlsSmpl?=
+ =?utf-8?Q?otuGNpcfkTrf+DIa6r4JNfbt7fbPGyS2tDkTJpTrkmxyj?=
+X-MS-Exchange-AntiSpam-MessageData-1: tQh319tF04jlyA==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e95373f3-f37d-4646-ea30-08de5ae6d8b7
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB9161.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2026 01:21:05.9494 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PiO2Su1oQ/Pi22MVZCSG4sOzya8ccgts4fbDIcJ/cQB3hm1etTMGXtreDdJGtd1NEfC9qsfSs6rti/5jBg9jig==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7617
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,73 +174,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:airlied@gmail.com,m:simona@ffwll.ch,m:freedreno@lists.freedesktop.org,m:linux-arm-msm@vger.kernel.org,m:lumag@kernel.org,m:akhilpo@oss.qualcomm.com,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
+	FREEMAIL_TO(0.00)[vger.kernel.org,lists.freedesktop.org,ffwll.ch,gmail.com,codethink.co.uk];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[rob.clark@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	HAS_REPLYTO(0.00)[rob.clark@oss.qualcomm.com];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rob.clark@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[mperttunen@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:linux-tegra@vger.kernel.org,m:simona@ffwll.ch,m:airlied@gmail.com,m:thierry.reding@gmail.com,m:ben.dooks@codethink.co.uk,m:linux-kernel@vger.kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mperttunen@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:dkim,oss.qualcomm.com:replyto,oss.qualcomm.com:dkim]
-X-Rspamd-Queue-Id: 197467BE40
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 6D6E57BEA7
 X-Rspamd-Action: no action
 
-Hi Dave, Simona,
+On Friday, January 23, 2026 11:05=E2=80=AFPM Ben Dooks wrote:
+> The drivers/gpu/host1x/context_bus.c does not include
+> any declaration of host1x_context_device_bus_type, and
+> after including "context.h" it also showed that there
+> are two definitons in the kernel, so fix those two
+>=20
+> Fix by removing the definition in context.h and include
+> <linux/host1x_context_bus.h> in context_bus.c
+>=20
+> Fixes the following sparse warning:
+> drivers/gpu/host1x/context_bus.c:9:23: warning: symbol 'host1x_context_de=
+vice_bus_type' was not declared. Should it be static?
+>=20
+> Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
+> --
+> v2:
+>   - removed fixes line
+>   - changed to include into the c files directly
+> ---
+>  drivers/gpu/host1x/context.c     | 1 +
+>  drivers/gpu/host1x/context.h     | 2 --
+>  drivers/gpu/host1x/context_bus.c | 1 +
+>  3 files changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/host1x/context.c b/drivers/gpu/host1x/context.c
+> index a6f6779662a3..476e8c5e1297 100644
+> --- a/drivers/gpu/host1x/context.c
+> +++ b/drivers/gpu/host1x/context.c
+> @@ -12,6 +12,7 @@
+> =20
+>  #include "context.h"
+>  #include "dev.h"
+> +#include <linux/host1x_context_bus.h>
 
-A late fix for v6.19-rc7.  Fixes a crash on A690.
+Both this and the #include below are sorted incorrectly (should be within t=
+he linux/ block of includes and alphabetically sorted). Otherwise looks goo=
+d.
 
-The following changes since commit 66691e272e40c91305f1704695e0cb340cd162ff:
+Mikko
 
-  drm/msm: Replace unsafe snprintf usage with scnprintf (2025-12-24
-17:55:29 +0200)
+> =20
+>  static void host1x_memory_context_release(struct device *dev)
+>  {
+> diff --git a/drivers/gpu/host1x/context.h b/drivers/gpu/host1x/context.h
+> index 3e03bc1d3bac..78bcf08cc90a 100644
+> --- a/drivers/gpu/host1x/context.h
+> +++ b/drivers/gpu/host1x/context.h
+> @@ -13,8 +13,6 @@
+> =20
+>  struct host1x;
+> =20
+> -extern struct bus_type host1x_context_device_bus_type;
+> -
+>  struct host1x_memory_context_list {
+>  	struct mutex lock;
+>  	struct host1x_memory_context *devs;
+> diff --git a/drivers/gpu/host1x/context_bus.c b/drivers/gpu/host1x/contex=
+t_bus.c
+> index 7cd0e1a5edd1..c0ba0433c686 100644
+> --- a/drivers/gpu/host1x/context_bus.c
+> +++ b/drivers/gpu/host1x/context_bus.c
+> @@ -5,6 +5,7 @@
+> =20
+>  #include <linux/device.h>
+>  #include <linux/of.h>
+> +#include <linux/host1x_context_bus.h>
+> =20
+>  const struct bus_type host1x_context_device_bus_type =3D {
+>  	.name =3D "host1x-context",
+>=20
 
-are available in the Git repository at:
 
-  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2026-01-23
 
-for you to fetch changes up to dedb897f11c5d7e32c0e0a0eff7cec23a8047167:
 
-  drm/msm/a6xx: fix bogus hwcg register updates (2026-01-23 16:51:44 -0800)
-
-----------------------------------------------------------------
-Late fix for v6.19:
-
-GPU:
-- Fix bogus hwcg register update for a690
-
-----------------------------------------------------------------
-Johan Hovold (1):
-      drm/msm/a6xx: fix bogus hwcg register updates
-
- drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 2 --
- 1 file changed, 2 deletions(-)
