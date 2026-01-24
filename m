@@ -2,91 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YHWXMzbddGkV+gAAu9opvQ
+	id iGMyLa3rdGng+wAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 15:54:46 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 16:56:29 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79FD77DFA9
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 15:54:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68A187E105
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 16:56:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1A8510E335;
-	Sat, 24 Jan 2026 14:54:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74C4310E12A;
+	Sat, 24 Jan 2026 15:56:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="I8wHhZ1v";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="EPWJPsnu";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="QzYmNhN2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0D7010E339
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 14:54:38 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-432d2c96215so2788114f8f.3
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 06:54:38 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA91710E172
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 15:56:25 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60OC951b1256961
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 15:56:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=kFuOXEbgChpXVrko/J+lG6Z+
+ AySCv/eG/jHBiZiGWJs=; b=EPWJPsnuGVi3JfCfKaQXs7DtuTIRP8NUQMCLtIYF
+ wyOUHWvDEkBl2DXR9F9aidKnRU7fO8QY5wzJKshwp+RAEmuJXjg34mVAnjrQyZox
+ wH/W8c59J1vOQQVpqc6W6ZW8CAtvl7wnQHlmRL44faVbk1OHtchuUuJddMIAF3zv
+ iMUk+XK9YKhWaW8vJj612itE5muD97bYjvODyX4cZz1vx6Bj5BPIfjBa6dNt5jyW
+ ZHE6RCdGOYKO3Pa/3EbfDhKythGY/CfCCUz8hbpc+u0x02E9NHlu14TAd+0oTEfE
+ +gNrivex5p9AY0yGeiGIPxlPD0i6gXfTbt7ce74oUqNP4w==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bvwty8881-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 15:56:25 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-8c52dcf85b2so1202861685a.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 07:56:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1769266477; x=1769871277; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LHc4Ub/6LqQBr/dlSGg55syvwKsNbB8vfiClU/RuIFk=;
- b=I8wHhZ1vFk6bZvULKD6DEtv8CalgXadwi1o86Jhar4i48zW8WtXceGHvZeXf5+Il8F
- 8mJC0kE9+aoFR1C8q+ZKQuyxa3hza1dP/vx7F8uGwnR/iKChSvp5HzjuJpZ+k2PX20Vo
- soNiUxDOT16w3gpwpR4e7Nj7ecxL3dzzKZtDWBVrjL4sBQiaBA5nFCdPbdABdPwk1vig
- AkpsY/6THlu4El5jo+1sQHSLoOEnwOcpexQpFHvhlxzh3pRnY8lb4MY1tIxSLk/TVzq7
- JgHzmh6fifULM+5RrtjD2HAVLFJLRuGqAUPY3bOB12f3Jblo68pTMEx8l/gSVEufMzJY
- efxg==
+ d=oss.qualcomm.com; s=google; t=1769270184; x=1769874984;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=kFuOXEbgChpXVrko/J+lG6Z+AySCv/eG/jHBiZiGWJs=;
+ b=QzYmNhN2fEgOcsFplGJslePGDNI7Qm4vhTl4TYiLEq6JoIGyBldkiSQ6xsA7r1f0Nz
+ FxVfMrG33JY9+8uO2hpeYD3X5AD54u/GHGXDRNTi8VRBasQMAK5axZw65t1Vo+ZjHG0M
+ 5V8qlF7bGK3Ns4YrSgTJx9+BaD+wLUFG7hz5VedlzAgI7g2Z5BsAJoN4uJxecPnk5vJS
+ F+NZPdCGOJU4I7q0SOrFf3Y/tQD4Vs4S1rJVrEajKyChsLAV/11sGBAdIHJDQ8z8+fYv
+ 1DHuYh3X0DATcbFxsw0n3PgKSSjPI1jsJ0kl+8RzFMBShBEUQ9wxn6u+xleX0jMl6Whx
+ ytHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769266477; x=1769871277;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=LHc4Ub/6LqQBr/dlSGg55syvwKsNbB8vfiClU/RuIFk=;
- b=inOrcl4YdsdOD+RdlyoAeyBRGhokmz1/lFQ3FTvRXaNQSzhs/eCeIS0Fixe5JvBS37
- vOxUqio0gj5FlFuTa1hAshcc6dYPgkRufEdoW8KEEv3Afmn4RLMBN9N76tVhqsh38FYE
- PBZ3avMtzMfs2HZdtaA5MdcieB8gTGTAhrLoFW99uQWf46hMsgo6fZ6eLcCDaJx+GdGu
- ilBWnzO+0FylV/rdEUTeV0marBNZXjYz5jpKYfz+sb+Pt5k/dFtWksPc0zn3hrkbX9YV
- YkXZ6FUWS8figyDXQMU5WSJC0FwmguiyahQXeGaMlgZAkf5co2riY/nVLsFldSx23QKM
- DIDw==
+ d=1e100.net; s=20230601; t=1769270184; x=1769874984;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kFuOXEbgChpXVrko/J+lG6Z+AySCv/eG/jHBiZiGWJs=;
+ b=FK7Uo4w7H8Mi6lOXxnpu6+qheGyjbpfSfDzW28uHSX7MwRV/p97S7q446WpO4GvcFm
+ ZZJp3sEFMczlUFQilC8H43ywcbORbpqbZzLWbs/FASoBzDIPUYavcdKQVGQPFXCytKJQ
+ YQT6NndUs3Oe3Fi68q5AvdyIO73w3NQ7x9WGPDyVrQluYbl1+O7vB6mQ9TbWSluPMSBx
+ qKDjaZjFFVKx7FlzPd2j8rdu//zhGXa0K/GgoNEGX6D3jfO13XLzXCBAOrdHLB2OsH8e
+ 2SIYKINq+r+bFyRJ28CMZ79F9CdHnw7wWcq8qCMZOLdegD86wxqJrv1stWpdtneg+NUw
+ h9IQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWWtjXJfMk1rshlx0yvTl6HjH3UKFrihxAzzFg9JRF0TWlB2+hpH6IboK6F8RDVF++cG1m017oIAMA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwdnxdEqdYZfAeIbiCE9LqhL7Cox4SWZVWxJw+wJXI1sFvOVe2L
- rIJ7rsgFbD27d5ymBpDobk7qTAT8oToDUxYBhLjKGL0L74lLViECJYFLfpRXPb6QTD4=
-X-Gm-Gg: AZuq6aIrmyOaYoV8pSfDo9FpSZl08TycT3CffpTphVz8fxzPGqb471CHlVskSmewXvW
- NfFY8DtcGNAcAB0S1lSLW5Jdxseutw9aisCxFXotNjHGvAta8eQ1+nZphlojpPZsgrBiUlp0dN7
- SJpi+JxDjBbUj+E7kOiI6niZ8gtd13Fa4gUfZXMxFdzFenHnFbqun0YPp2fwTycNTFUj6ZlkZx+
- 4ANzjyugLw6fUXTm0NJIWqdrBDc5G1SAu69c7SwhFuVQSZpaVuRzR+doVro5tFx61I9oO5xmCQ2
- rV2fwZXqbKX7KQMWM+Mlom+O0ykEmLaNsbY9fpEscVlur0MhbaG3HnKLeKtGQq0Uumef/67D5ZQ
- uBlchmUcdrIDj6NLTsTIDKum0q05tFQZrGNNCz/b0EbQdVWNh/MjZzQIyiGsFe+OhPB1XaZL+5Y
- WJXD9C18AnTWSa9g==
-X-Received: by 2002:a05:6000:144a:b0:431:1ae:a3ca with SMTP id
- ffacd0b85a97d-435b1587d00mr12343074f8f.11.1769266477265; 
- Sat, 24 Jan 2026 06:54:37 -0800 (PST)
-Received: from linux ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
+ AJvYcCX+rYdDWiYBUl4qnnfD61C+71iS9aVTk0gWLgvl9kzLqG7rCNIk5pxm0bUN4iLNIfNekLl6yZU+YY0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxGvInWFt4rW6HaOmTL/Pnz/2s7dx8ghVdB1mv4+Cz49T5u6vNM
+ ZcOikPitargk7Xve8vIxjssnMCN2mgXXq1jo+GWIp8hziAA8Xy90WesUofhdjtpD07zCw73AVWv
+ A4P8UmoEQ3TWKa2vEPbvEGpAX5K1MkUb58FLAXgEwbUKsej4qzALZ0fHyh4Ri8otVUrrTmWc=
+X-Gm-Gg: AZuq6aK+59h95Yb0wu6Nj63ttNdFSTRmXm7BvkqpGNNPWpX5xGTLJeTRgf/MlXuVRDM
+ g8DOYqGGkxU5Z5vze9w41EiDJTJICwo/TPJVrbirYS+5mu6LoTIjET0VS/unDuLJ7MdDFB3mC/v
+ A6hioklcmRlRfzAWBxPcgl7jKJbLLrRPUhPdtwmK3tQxHossnFQD9q8In+cVVN9+im25yNSFlqU
+ V2sNZciQwjxHehVHw9QH/QFRr9dEMnTTjoOGy8AOFeLbHeBaAhc1jqLH/a5y/2p1Jk9sNBR5gfm
+ JVyy4XMNaG8q4udYvtktMTPT2wSiIRahCYeODYypCzvfnwbfUKvNdO0YumUo7wB9aW4lgA12Zwc
+ sEMBTw0gr0lTmmE86gMB9jQbJYXRIXY2f/mbmvERopkqHj28O/7zYHTbMq5VqjNHUmnDLb65AZe
+ 6WN+mg3UwNEQqvG39eanCqcxY=
+X-Received: by 2002:a05:620a:3727:b0:8b2:ef2d:f74b with SMTP id
+ af79cd13be357-8c6e2d93ff5mr814468485a.29.1769270183993; 
+ Sat, 24 Jan 2026 07:56:23 -0800 (PST)
+X-Received: by 2002:a05:620a:3727:b0:8b2:ef2d:f74b with SMTP id
+ af79cd13be357-8c6e2d93ff5mr814464785a.29.1769270183501; 
+ Sat, 24 Jan 2026 07:56:23 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-435b1f73855sm14846241f8f.29.2026.01.24.06.54.36
+ 38308e7fff4ca-385da1fda63sm12775071fa.49.2026.01.24.07.56.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Jan 2026 06:54:36 -0800 (PST)
-From: Marco Crivellari <marco.crivellari@suse.com>
-To: linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Frederic Weisbecker <frederic@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Marco Crivellari <marco.crivellari@suse.com>,
- Michal Hocko <mhocko@suse.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH v3 2/2] drm/xe: add WQ_PERCPU to alloc_workqueue users
-Date: Sat, 24 Jan 2026 15:54:01 +0100
-Message-ID: <20260124145401.44992-3-marco.crivellari@suse.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260124145401.44992-1-marco.crivellari@suse.com>
-References: <20260124145401.44992-1-marco.crivellari@suse.com>
+ Sat, 24 Jan 2026 07:56:22 -0800 (PST)
+Date: Sat, 24 Jan 2026 17:56:20 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Felix Gu <ustc.gu@gmail.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/msm/adreno: Fix a reference leak in a6xx_gpu_init()
+Message-ID: <7k3szb7kxuhyhir6t52aqwkfxah4ah4pa7vzbnqdl5sovatxqd@vbx33srndwso>
+References: <20260124-a6xx_gpu-v2-1-86a1dcf85e13@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260124-a6xx_gpu-v2-1-86a1dcf85e13@gmail.com>
+X-Proofpoint-GUID: QMdqMnknt4F9-Df67WD3QeWvYefNS0PX
+X-Authority-Analysis: v=2.4 cv=BteQAIX5 c=1 sm=1 tr=0 ts=6974eba9 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=OED-BgaD9Yn4RF6Et8QA:9
+ a=CjuIK1q_8ugA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-ORIG-GUID: QMdqMnknt4F9-Df67WD3QeWvYefNS0PX
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI0MDEyOCBTYWx0ZWRfX9vymbWh+VBKQ
+ ifgyC+/+GhGCllzTAj4KCdVRQyo28Tx4Lxn45ueeHrl5VuPpCnzf4EIbvr0cCBeLUfOpPxxi6JL
+ 7r5HOv9AvszC4tcmMx0U7tPu0dFvLSUMYpDGFzT00HNGmbCJ/0CUbddKyN4clBSe+wCV8c/psVw
+ 5p7BWoYBynr8kQ/rtS7F5K54NVumkMaAUdM7bkNnAb5ztvBhKy2mDN7q567tps9cHMKAN5RA6sc
+ 8Ye8yE3WD9LgT1MGNWtEyL+xgwI7Gz0XyNt5gkOQjQUWiuf35kDVAlSjI53YkB3pBgiXs2UEHIo
+ KbGwV3xvGEr+EUuN5jgLbBD19s25nVOFJ819ks6gDjW34FJbmFDMkCru9UZMQPm5YdJKTqbUwVC
+ ArDznndWummlOpN1UKVuI5e98GUOeeGPErgaGAZPrRa8bs5GePPJX9ngZfa4nV3eDx+F/n7dDfl
+ KBhkLb3LkD1Qb5XZfdw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-24_02,2026-01-22_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 priorityscore=1501 suspectscore=0 clxscore=1015 phishscore=0
+ lowpriorityscore=0 adultscore=0 spamscore=0 bulkscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601240128
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,122 +150,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linutronix.de,suse.com,linux.intel.com,intel.com,ffwll.ch];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[marco.crivellari@suse.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:ustc.gu@gmail.com,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:akhilpo@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:ustcgu@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:intel-xe@lists.freedesktop.org,m:tj@kernel.org,m:jiangshanlai@gmail.com,m:frederic@kernel.org,m:bigeasy@linutronix.de,m:marco.crivellari@suse.com,m:mhocko@suse.com,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,m:airlied@gmail.com,m:simona@ffwll.ch,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[suse.com:+];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,poorly.run,kernel.org,linux.dev,gmail.com,somainline.org,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[marco.crivellari@suse.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[dri-devel];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.com:dkim,suse.com:mid]
-X-Rspamd-Queue-Id: 79FD77DFA9
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 68A187E105
 X-Rspamd-Action: no action
 
-This continues the effort to refactor workqueue APIs, which began with
-the introduction of new workqueues and a new alloc_workqueue flag in:
+On Sat, Jan 24, 2026 at 03:34:23AM +0800, Felix Gu wrote:
+> In a6xx_gpu_init(), node is obtained via of_parse_phandle().
+> While there was a manual of_node_put() at the end of the
+> common path, several early error returns would bypass this call,
+> resulting in a reference leak.
+> Fix this by using the __free(device_node) cleanup handler to
+> release the reference when the variable goes out of scope.
+> 
+> Fixes: 5a903a44a984 ("drm/msm/a6xx: Introduce GMU wrapper support")
+> Signed-off-by: Felix Gu <ustc.gu@gmail.com>
+> ---
+> Changes in v2:
+> - Explicitly add header file.
+> - Link to v1: https://lore.kernel.org/r/20260124-a6xx_gpu-v1-1-fa0c8b2dcfb1@gmail.com
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
 
-   commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
-   commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-The refactoring is going to alter the default behavior of
-alloc_workqueue() to be unbound by default.
 
-With the introduction of the WQ_PERCPU flag (equivalent to !WQ_UNBOUND),
-any alloc_workqueue() caller that doesn’t explicitly specify WQ_UNBOUND
-must now use WQ_PERCPU. For more details see the Link tag below.
-
-In order to keep alloc_workqueue() behavior identical, explicitly request
-WQ_PERCPU.
-
-Link: https://lore.kernel.org/all/20250221112
-Suggested-by: Tejun Heo <tj@kernel.org>
-Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
----
- drivers/gpu/drm/xe/xe_device.c          | 4 ++--
- drivers/gpu/drm/xe/xe_ggtt.c            | 2 +-
- drivers/gpu/drm/xe/xe_hw_engine_group.c | 3 ++-
- drivers/gpu/drm/xe/xe_sriov.c           | 2 +-
- 4 files changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-index cf29e259861f..1b20ea03a938 100644
---- a/drivers/gpu/drm/xe/xe_device.c
-+++ b/drivers/gpu/drm/xe/xe_device.c
-@@ -488,8 +488,8 @@ struct xe_device *xe_device_create(struct pci_dev *pdev,
- 	xe->preempt_fence_wq = alloc_ordered_workqueue("xe-preempt-fence-wq",
- 						       WQ_MEM_RECLAIM);
- 	xe->ordered_wq = alloc_ordered_workqueue("xe-ordered-wq", 0);
--	xe->unordered_wq = alloc_workqueue("xe-unordered-wq", 0, 0);
--	xe->destroy_wq = alloc_workqueue("xe-destroy-wq", 0, 0);
-+	xe->unordered_wq = alloc_workqueue("xe-unordered-wq", WQ_PERCPU, 0);
-+	xe->destroy_wq = alloc_workqueue("xe-destroy-wq", WQ_PERCPU, 0);
- 	if (!xe->ordered_wq || !xe->unordered_wq ||
- 	    !xe->preempt_fence_wq || !xe->destroy_wq) {
- 		/*
-diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
-index 793d7324a395..0849917b16c7 100644
---- a/drivers/gpu/drm/xe/xe_ggtt.c
-+++ b/drivers/gpu/drm/xe/xe_ggtt.c
-@@ -322,7 +322,7 @@ int xe_ggtt_init_early(struct xe_ggtt *ggtt)
- 	else
- 		ggtt->pt_ops = &xelp_pt_ops;
- 
--	ggtt->wq = alloc_workqueue("xe-ggtt-wq", WQ_MEM_RECLAIM, 0);
-+	ggtt->wq = alloc_workqueue("xe-ggtt-wq", WQ_MEM_RECLAIM | WQ_PERCPU, 0);
- 	if (!ggtt->wq)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/xe/xe_hw_engine_group.c b/drivers/gpu/drm/xe/xe_hw_engine_group.c
-index fa4db5f23342..8526addcdf42 100644
---- a/drivers/gpu/drm/xe/xe_hw_engine_group.c
-+++ b/drivers/gpu/drm/xe/xe_hw_engine_group.c
-@@ -48,7 +48,8 @@ hw_engine_group_alloc(struct xe_device *xe)
- 	if (!group)
- 		return ERR_PTR(-ENOMEM);
- 
--	group->resume_wq = alloc_workqueue("xe-resume-lr-jobs-wq", 0, 0);
-+	group->resume_wq = alloc_workqueue("xe-resume-lr-jobs-wq", WQ_PERCPU,
-+					   0);
- 	if (!group->resume_wq)
- 		return ERR_PTR(-ENOMEM);
- 
-diff --git a/drivers/gpu/drm/xe/xe_sriov.c b/drivers/gpu/drm/xe/xe_sriov.c
-index ea411944609b..f3835867fce5 100644
---- a/drivers/gpu/drm/xe/xe_sriov.c
-+++ b/drivers/gpu/drm/xe/xe_sriov.c
-@@ -120,7 +120,7 @@ int xe_sriov_init(struct xe_device *xe)
- 		xe_sriov_vf_init_early(xe);
- 
- 	xe_assert(xe, !xe->sriov.wq);
--	xe->sriov.wq = alloc_workqueue("xe-sriov-wq", 0, 0);
-+	xe->sriov.wq = alloc_workqueue("xe-sriov-wq", WQ_PERCPU, 0);
- 	if (!xe->sriov.wq)
- 		return -ENOMEM;
- 
 -- 
-2.52.0
-
+With best wishes
+Dmitry
