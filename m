@@ -2,99 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uA5zDHBJdWm8DQEAu9opvQ
+	id Mb9kNFdNdWmRDgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 23:36:32 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 23:53:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B0AD7F228
-	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 23:36:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FAE87F2B4
+	for <lists+dri-devel@lfdr.de>; Sat, 24 Jan 2026 23:53:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B1CA10E0F0;
-	Sat, 24 Jan 2026 22:36:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5E0410E300;
+	Sat, 24 Jan 2026 22:53:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Tts8IKtG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Q/dMYALc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3709A10E0F0
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 22:36:26 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-435a517be33so2006923f8f.0
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 14:36:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769294184; cv=none;
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com
+ [74.125.82.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC50D10E300
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 22:53:07 +0000 (UTC)
+Received: by mail-dy1-f182.google.com with SMTP id
+ 5a478bee46e88-2b71a4fdb86so94585eec.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 14:53:07 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769295187; cv=none;
  d=google.com; s=arc-20240605;
- b=D8NbThYiM1EBJWiwvu3Wo0BuehlfTmHftXXLnwG+MZ8LQp996SxRavjnJxnOne8h2Z
- 0barW3x8DbjPXkZv70+2yATO72Gb9RTQN377I8RpMiDU6F3kCxwANkWVhwxexsVaiytL
- PwLcaTXrqwlVNxdpFxoP6VCUBHysLLj077IrDTrqPNBZWGCJUnpO+rLxblfYKOyIOtyk
- JKI36M5D9yfiWLZi5+77wnLjQj8sv8i3PzagruwcM1vr+FTQX84wFeYe/XrwpKKtfgff
- XsXSEpVarqSu36RCoOTWDNsjKh4JDQViCi7waluGzEkCKCI69UQEdti7oK/SkiOfAlR9
- zCuw==
+ b=fwkZM+k3i3wKmh/mdJiDRr4d9ZHDQxcBE0ybbJ7W+T/XmXc+0U0QegfF/yn8FHlhqk
+ q/sj0bWki3D4ME3ld90Byc6NuhEjIAmDH12YyBe/s31xpiV2EOWGxXfbu6yuoUOZwROP
+ Uicug9Ckr0FOr1MoRHhyDTXaJk5eDykYp4mbuzZ90rzLGX6sKt2EV5dGw4PXoVL8zbPn
+ ITxnAG24QdloNK6SIJjW83uLzS8uLUKaESZVVcvQDFesJfnxkFDIGvpdrM7/sdjLp4H1
+ ftFzGK5/gJ2IPSGrQT8V/sPAL/t6lT9vCdXHZVzgdR8lHGqXIIFwU2x8iHPQ82pFA+mK
+ 4pPg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
  s=arc-20240605; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:dkim-signature;
- bh=8GmRSJGgMQjWndTIp/YQNxJh3VQ1FIOSVbF43GphX20=;
- fh=cJSGUYO4i1vsuThOc9EMRvLRoJ7O7eSasXPBcI91WeA=;
- b=gtvNfdU1/0cSftUW4PXkTl2+RuaRMC7wEqUqXKOu7oxGA3v6g9VB1JEn3YTwX1s8S6
- 6f5mCpTyqotfbFnqIZokkhJBw8WbkNj1AUvUVm+mbnpx1XEYFqr3R9znVLn8K4bpZyFl
- 4opMa0WNLoJCRUTgdz/f2yrKDUes21jubE0qSCq4whvY0hiCtzw8g1imObiiSfGAjVxO
- lpB03DRExw9qMVBqsWGttikmgXS33dIVql8CEE+F8bn1G431nxZvTUcsYGEzSInBooGv
- wjsO1zMBQvNS9knklqcOXjBrYkeOkI7VCQL1VbJa7iICPtM/2FGH1fJNsEFU8isdxn2U
- HCnw==; darn=lists.freedesktop.org
+ bh=WtZeA9Un4H6oAqMkypPzlOlC8tL1PBEaHDWHQD1Au2o=;
+ fh=bxr8ga34mJkHNR9uEyUCPMjUUigkNK4IuxAhSiTYz9k=;
+ b=TrJWXIJ6v0xBXVYP7udC7dZua+LzvmNBdIazw4Luu158BjPRDgfbDZdIaRJQ0cDiq9
+ /bk0RdGKun8fuxZE9xklGwGAxDAykIgGJvx9v9g93mrXN2/9xpMDe/gPv9KNQ07lOHZR
+ QZc6/hooCfNc+IGPq7C+OIHymhkbjBfj/YPokGVREOG4DKP/LlIo+7NrwUgCSNmmBihj
+ giy6z+KdmhF1RLV9EDKKrRSp13Qht8Lq0xG5GZ6mXjtlsnt2RWw53K1ClQtFV3P45Jxq
+ ZxeHgH+s0wTZeG8Sl5N5sJ8mWePe+FPaS6Y+DKwOYWRSndhMrFFOjdtCZ7YQwte5fxio
+ 9kpA==; darn=lists.freedesktop.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1769294184; x=1769898984;
- darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1769295187; x=1769899987; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8GmRSJGgMQjWndTIp/YQNxJh3VQ1FIOSVbF43GphX20=;
- b=Tts8IKtGlu4BKVREVOcHHz1++jKhduwkAB+SNL70oXURiuhupv3V2x4Od71yXm/N02
- rR9YZEJ2ICkw0TazwMr9R4+BlAJNWzAnX42puqeg7DNTxPMAnBwtWyCYOmIe4aIrDGqS
- VPSMPfKuNNk/3dFzmFcssiA0Uzhq2hGV8Nyuh0bTdh/GFghUeKg2sPWVVKPRyWYli0ok
- 7dOr8I+JAM1dD3lO9fHkU3i9BEiy+cMzHga+T+pSeOqBOLUAlMGfzFeD5Ean28hNN0Kx
- gqG5jy/AaAdOB4noBYVLH7rWsLNoiVdTeYVn6j5HOZyhJkBwWPwchRhNG2WY5O1vmQwu
- QtVA==
+ bh=WtZeA9Un4H6oAqMkypPzlOlC8tL1PBEaHDWHQD1Au2o=;
+ b=Q/dMYALcZAiFrR33TrhO1Ib+BXR8PworUf5ljc9uKO+2EQZQvmExaZZSz2wFflvNd6
+ 7YsDpyuww1mC+Cjok2RmF2nX2nLMdIE+KjsOPY9/lsKvXIzDucOw2jk3R5j8kEe7aMS3
+ ebzsczbUwF6DWVktJY9LWuQ5bRQOBMQoJVavYB7kBslZfgRk1u9Yff3wnNGNjrkC6XBb
+ ITeZ8FGGsMhoe9+geIHYEwYwLsmTyHTDWEHtYVmRgPujpNFzN0AXNC5sI/A/+2ncpqhb
+ pCCD6REPlBaxvWrBtV3aZJOjmNxVNc1tpy1FDHh7JW1fR7JNw+fSG+eEwhaO4z5DRF3I
+ 7y+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769294184; x=1769898984;
+ d=1e100.net; s=20230601; t=1769295187; x=1769899987;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=8GmRSJGgMQjWndTIp/YQNxJh3VQ1FIOSVbF43GphX20=;
- b=BY2K+RJSZWum7AFoDJgkCaO0UPQJnUXinyOW4FxENjqXsFeDmjFwRF1xJi81VHQx3w
- QMvsaIUyfQwPOMxoUdxY965985Upe1jbs/LCBArgGfrBh8XRHqmBfsOqXegaqD1cAl6F
- 1EWRFxkHETJQK+7b0lg9v0RvhkU8vYgeh3XyxHepXXjMZC00q7sfiI4Wb/opmLtqS7R7
- WS6FjjY49HVyJGk4PT6XpbwalesS0jUum+O4qyudaZtDeDu8W+oBl7TcnTtR6bEfIdDa
- 9ModHeLM2H5Xxr4GfBfFXn3BZ6rApKvu/yWx0y4zDi5UKJVg5C2Wpn+Q4yz3btu4dZ8r
- CygA==
+ bh=WtZeA9Un4H6oAqMkypPzlOlC8tL1PBEaHDWHQD1Au2o=;
+ b=ERXQEjtzxShYkOcjYQLvUTwIjxfotBQxiLJ2CVViFDs7SSzkd3LVfiZWgpaU2HLdZ7
+ QB0IKFFF3t0bq5LBfnzfNfMjVfvDmq0sd9kWHKV6nRe3Y7fFOf66dGqTIap0XfzGoGiU
+ ogXoOOAYP5U1f3VVKn0juTzk/ICAfTQ5S0BtGkD4WfPocqPgh5rgIvJsk0WF5qdiXbjq
+ qKP/IDcj1Yii6RUR1k2moTpBvlCYZROLdrO1owRMbPhLxVY8cDKLcCpFQL0BRQqZigIA
+ +vkeRcebt6fs+OuRr84Iq/Kk3M7HYoP7RehkrNR1vyhUqgqNh8rn/PPkxZuJJpsNg74U
+ o+bg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU6qXYQsxP4tl/fiQmroZEpaX4Y6T7cFFWpRBluK1FSiXYGk3ipaqpne6Ob6VXxtK3LDslL1cJ5qJo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzavUZur2oXlsurf6CoVAqjRjFuxipazzo01MhRu7MbMtIohkz5
- mr2Nn+Rbxw6SYLwq/4JWan13ymvd43POsH7TgGDpEpclV7EzHyzqvQ2nyTFVfqgd4iPSidhXOcB
- VY57OEFrIfWgw/kCsjf9JgBviCjWsiz9r5tFM7cpo
-X-Gm-Gg: AZuq6aLy+B1wa0CUNWfsFKvKwfIV9b3Iwnc9rGH35EGy5HKuMAYSkUX19Xgju8jcX+2
- CPRO+zsUX6YZl7N5RYmu+YrCKikIt0VSzKgGLJIdPcchruZ2Lk+VtX955mRKdteE4vPdXK5O3Rn
- brM763E2NjL9oQHIPR/SzHNanZFgBCXBhcqjfD7qNylLLVJ63WBxfHcMcbravGfhecVN5joqFKg
- DJo3TSrDb1+/y4d34Fw8gbIxbDnzmztnheyYtcI+2tIDOi8O55GCHBbcgOfitPuvBOlvPDnV8z+
- au8jiuik8MyDexyJjoRSA1YbdQ==
-X-Received: by 2002:a05:6000:2285:b0:435:9abb:2e16 with SMTP id
- ffacd0b85a97d-435ca198a84mr6427f8f.45.1769294184410; Sat, 24 Jan 2026
- 14:36:24 -0800 (PST)
+ AJvYcCVb2xqo68wFP1wvhjdvWuX9SkgYlrKvFO+muLEjuNTJTujSwXxEVj5nfW9lhFcvspe+b+tcQ3S89EA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzQNMu1FMSD1HnmV92m655JgUQyB9DE2Iyj74lgU4jiviYL+/1r
+ p9T3uLETJN8A36/zQLnQqBO5ldcvO2jRU20qLdxuxE2BUDjAfRsFB7mpC0vWdCp8aPAnR0aCN0G
+ 4LtP0RR0yrS8GqHUWO/bIdYxPhrX+BkY=
+X-Gm-Gg: AZuq6aJlECEXweUnkglckae6luRRjhmoDjb3Pz48gXPvyEKFuY04sgfihdhoZ1AFDvc
+ Po0pZWu86QEc+b/0kgfStFXn7PvfOgPjurPgNp5aEfWezzyNXDzFU0NjmhTNdpI0nMJW9o56iO5
+ T1fTstHyxISndBnI/G229hISKF5hbqJKaaXnSRFGI7TciOhCJ+y9SAn6HvlpjhxqfPfay+zGQAm
+ WzElpLTUeijIf1OBPvzcrAztRD8v4/ru2CZDQrL9aZJ2DRG5r40vmsSmPV+9T6Y054JqxhzNb3u
+ zh++s2Uh2pF+VpKW3FsOw6PpCnk+doG8k5Uk37RyIqjLdByQBrhAYTmak8fEUl+ee/vVRcrhXpF
+ ASmBwTEdf8zi7
+X-Received: by 2002:a05:7301:3d1a:b0:2b6:f142:44ce with SMTP id
+ 5a478bee46e88-2b76433995amr12810eec.2.1769295186994; Sat, 24 Jan 2026
+ 14:53:06 -0800 (PST)
 MIME-Version: 1.0
 References: <20260124160948.67508-1-ojeda@kernel.org>
-In-Reply-To: <20260124160948.67508-1-ojeda@kernel.org>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Sat, 24 Jan 2026 23:36:12 +0100
-X-Gm-Features: AZwV_Qg9RXX0-BW1n_ujo5ycjvRSxyutcP-OISjietqPr7ZWjFo28f7XnyPFETc
-Message-ID: <CAH5fLggeH68Z+C2XFf4ONzRBu9HYcvJptz3UM1zUKd90v1g1cg@mail.gmail.com>
+ <CAH5fLggeH68Z+C2XFf4ONzRBu9HYcvJptz3UM1zUKd90v1g1cg@mail.gmail.com>
+In-Reply-To: <CAH5fLggeH68Z+C2XFf4ONzRBu9HYcvJptz3UM1zUKd90v1g1cg@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 24 Jan 2026 23:52:54 +0100
+X-Gm-Features: AZwV_QhbOY663oaEwGftoI_YIydlVPcnVC_kpewQ58UFuYVtmlpOaxNK2BSzUNM
+Message-ID: <CANiq72m3eJSTFzHYe5=H1AWtLQ4SgLOE52tPBy63hsZHPAdM_Q@mail.gmail.com>
 Subject: Re: [PATCH] drm/tyr: depend on `COMMON_CLK` to fix build error
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Daniel Almeida <daniel.almeida@collabora.com>,
- dri-devel@lists.freedesktop.org, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ dri-devel@lists.freedesktop.org, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>,
  =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
  Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
  Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
@@ -119,66 +121,55 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:ojeda@kernel.org,m:daniel.almeida@collabora.com,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:dakr@kernel.org,m:rust-for-linux@vger.kernel.org,m:stable@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:ojeda@kernel.org,m:daniel.almeida@collabora.com,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:dakr@kernel.org,m:rust-for-linux@vger.kernel.org,m:stable@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[google.com:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[collabora.com,lists.freedesktop.org,gmail.com,garyguo.net,protonmail.com,kernel.org,umich.edu,vger.kernel.org];
 	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,collabora.com,lists.freedesktop.org,gmail.com,garyguo.net,protonmail.com,umich.edu,vger.kernel.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 3B0AD7F228
+X-Rspamd-Queue-Id: 2FAE87F2B4
 X-Rspamd-Action: no action
 
-On Sat, Jan 24, 2026 at 5:13=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wro=
-te:
+On Sat, Jan 24, 2026 at 11:36=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> =
+wrote:
 >
-> Tyr needs `CONFIG_COMMON_CLK` to build:
+> Thanks Miguel. Since the drm fixes PR for this week was already sent I
+> think we can just include this in drm-rust-next.
 >
->     error[E0432]: unresolved import `kernel::clk::Clk`
->      --> drivers/gpu/drm/tyr/driver.rs:3:5
->       |
->     3 | use kernel::clk::Clk;
->       |     ^^^^^^^^^^^^^^^^ no `Clk` in `clk`
->
->     error[E0432]: unresolved import `kernel::clk::OptionalClk`
->      --> drivers/gpu/drm/tyr/driver.rs:4:5
->       |
->     4 | use kernel::clk::OptionalClk;
->       |     ^^^^^^^^^^^^^^^^^^^^^^^^ no `OptionalClk` in `clk`
->
-> Thus add the dependency to fix it.
->
-> Fixes: cf4fd52e3236 ("rust: drm: Introduce the Tyr driver for Arm Mali GP=
-Us")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> Though, if you plan a fixes PR for this cycle, you're also welcome to
+> include this patch with my ack.
+> Acked-by: Alice Ryhl <aliceryhl@google.com>
 
-Thanks Miguel. Since the drm fixes PR for this week was already sent I
-think we can just include this in drm-rust-next.
+You're welcome!
 
-Though, if you plan a fixes PR for this cycle, you're also welcome to
-include this patch with my ack.
-Acked-by: Alice Ryhl <aliceryhl@google.com>
+Yeah, I am sending the fixes PR in a few days, so I can pick it up if
+it is easier for you. Either way, it is not very urgent.
 
-Alice
+Cheers,
+Miguel
