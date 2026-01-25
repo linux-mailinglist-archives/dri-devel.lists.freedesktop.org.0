@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iB5lHIpjdmmVQAEAu9opvQ
+	id 6HQXO3tjdmmVQAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 19:40:10 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 19:39:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2132881C0A
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 19:40:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 800C281BEC
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 19:39:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 513E610E37E;
-	Sun, 25 Jan 2026 18:40:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB92C10E37D;
+	Sun, 25 Jan 2026 18:39:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LWZS2rBg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="igEBpoCq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 223A310E371
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 18:39:40 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-b8719f5a2b5so50779466b.3
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 10:39:40 -0800 (PST)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+ [209.85.218.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 560BA10E378
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 18:39:41 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id
+ a640c23a62f3a-b8845a47e39so63022266b.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 10:39:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769366379; x=1769971179; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1769366380; x=1769971180; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ecPuaGgfpB06f+q+wYbBx7hNGw3dVlBz9Vc5r6vMzJA=;
- b=LWZS2rBgSGjRIk0F6u/ESybPtyJnADL6iJCS5fuin0Ezyq20XlHO0LS2DBcy6sWwWS
- rYxhbqPE7g+PYRf0NUI4h5NFSvI8J3HL7iJQ8KvKkEmC5zUNBrs6acz39iKQjLLKUBuk
- DZR3vc+bcfd94cQZPI+z+CBxk05BN/Y3A3OEsg3vlP9RL5RB8mbq/EBYsDX1DrP9ECIi
- fMjm6NKRnSYhzFpmMZilZ6IxI7mwAMONjIoe7jXWQHeUEPkvY3gaMvNElDSzhC4mrWLF
- lasK8I128S1BDWfymEFn2ltMM4S2j2PPTgv25cotQRpemJqiatKUcn1K+4GeslFjsPtR
- Nn9Q==
+ bh=UcnraORJPqzLaNna/Rh/WEL5R0qkbZJXIJKvYu5IS4o=;
+ b=igEBpoCqlBu1AdTRhZKLKH3rVHP0qSbWz2pIMyAA0+QYxJJIKx+WsuyC+8h0Xi49YA
+ FWS6kn+na6dx19j9EjZ0vrJyqDzYiWOPYskC9XD2XneT682VNy7QWpRV7g4ujqfCiEyi
+ dQJo+xs6g4WDbFA/MNaIGYT7ZwJFrapP5ZiUA1A9ePyuzx/Sxgyrhb2h9aoj1fjYh/9O
+ 8OCsRAWIe7ixyJULyteDLUEaiS0z/Gsr1YG3nbvVzSTlIFXVrjPm5IR2F+puFr1INOoN
+ c24KhOV9BvMkKvLOvLWFRLhAFSaZg9TGgbtSA0wDO99Ox2eM3xgRx2cbiu3rHRwEVlYX
+ FmPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769366379; x=1769971179;
+ d=1e100.net; s=20230601; t=1769366380; x=1769971180;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=ecPuaGgfpB06f+q+wYbBx7hNGw3dVlBz9Vc5r6vMzJA=;
- b=cHxpd5glagc0tGVeb/Ydq+f07YfMLAXJ6FQQOaVqytwlJR6kH+bGRdsD8KhHnyN4HJ
- YVAYNvnuqFQQ+DPNooYps4JAQ6WARbxNuPxHwFLLz6H0agL49PQl13Q01qSAZ/akhBrW
- 2LQ3JwhcJdJiGgg3hql/h7CYw56pjzMJvXL8jVZ3H+ubt9E0UUh4MfjRSuo5xuUQiQ31
- uQLTFeuILiSG4N9pUkuMeowjYgV55bwpl/6mRxK6hncMEXSUSAPlFRFI4Rz9c6aklz33
- JEeBuSiNRcfLRI2I6N3M/zTUy0ul/eV0FrXy3AUvK3bZKcH9HN2UhXsc9jig6o2IrVAV
- A7MQ==
+ bh=UcnraORJPqzLaNna/Rh/WEL5R0qkbZJXIJKvYu5IS4o=;
+ b=qD7lVoP9v7ggvQW/0OEWSmZzQLXpWTx7ivtpiF6fmZ3q1yrj7Rt2X1DeK0TCOoikOQ
+ zy1iYqaJUOLsTaT2cEdbdgM58GObLZnp+Qt9tUjDXgzKIQssju7kwlkmEMI/mNvtAONL
+ lMZBwmOSNnmAoAsgMqsdkT1Qt5Rp/oxV0U99JrDgt7YettIsm9x+t6Rn0ZOxqZsRVE7H
+ n0fUcju3dPH/h8BHQfA7i1vib/QES3Y/rriPGRQq5hYLsgbySTRziJi1+kKWYsO1dAW5
+ CiJzDGEY5oMen8RYNRcqRajhdrWbh4ifYkvPWeziIO4oyjrViMJsg7ROC0EQpI2Lig40
+ yxhw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCURhDHpSqD+Cr5h9rl+r+Cb3xWeVoy20cG9zdqBmAKrBs9sYMIVbZ3uqvzgC1CJfo2NeyF2rJvLJfo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwBtgisV93WI21lKWVZhVYgnUUYIVf1/juhYKiEMCl/Lde7l8v6
- bbncweeJ+5UR2aU+epHiW9dPo7qzl81I0tOZJrKfNyLX7z7i9Fr51d+6oE3uGw==
-X-Gm-Gg: AZuq6aKjdiRRtH6epud9snDVAUSNGE4tOw6TtU9nFhjN8uhNPguOdJbNagd9SiwlDrj
- nyhQKtbDobF56yDcW+ZZTP/TKlST4BYnYj1JgYrltD9t1CcTUYL0sDhOhm/HOnraNgcf/kNwoR+
- smnTc31MHMYMPONNhNF6Jeyosrt2wAIkNl7sc0BaAjrWYcHb0JTB8H8Mi4EOB9kyIvRQfBcvJ1I
- ccmxSK2zu1pti02LdULHX8hQYt2M7Lj80YQPoBR0ncjXl4uKS89qJDjs3qd5sQqRc467Amwgfz/
- KTBLnxQ9HrLguxF0I/H53CaEFIryBmRI8dlkkFSZlwBxobeHK3R1m+r43KbGYm6Ks7f3sVtfkc6
- 2wiEGDybwDY4igdqduL7JjpelT/DCvnrKCyX1wTl75c8CwsZVf9TRPmfS2za0tOaVwOGZpBXiqL
- wd/CtGi7bqttw3simq4l7vWD+lAHvDIXbp43sCKUnItt+PpU/CPUqbvywbX4r8D8l8
-X-Received: by 2002:a17:907:c28:b0:b87:106c:88eb with SMTP id
- a640c23a62f3a-b8d20d64cdcmr80438666b.0.1769366378380; 
- Sun, 25 Jan 2026 10:39:38 -0800 (PST)
+ AJvYcCWZyh3SrLfSf3+Mztb/PksBODKYhSRrB07qX38OG9TFnCVEl9WuW2UabfdZw4ooeZ7tgGPwmjzJRbk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw1FPFvgeTzN1nSKaszjH0JWvw5ua+bXOcD5mIhJtndz68TJ3bU
+ OAoJxaUkDVkn+Uu2rB8u323TxUaQK0q4z//2CPnjNmU6rtbPJtQ5d87I
+X-Gm-Gg: AZuq6aLnOUxBmPHujW0yJdzF59pkB2xy7dKE5MCocNL1UeLw/n1LmY8Fp4oCUXtgHY0
+ 82/oTv9g/43j3lvvlC1hvshBqYld8/tqoNGkisRxcC7fcBl7BbWohHIS9OKUf1ntj4m59JmwPV8
+ HXutq7MkURSfPNUdgLUHEGbc1EpU+wq1O9K+3rz6jEX4nfkfCHUIx3nBoeXvP9r6XUivnFGZ+wO
+ UYL2871SSi/X1XbOritVTnNwsgr1Fg+ajYpXfuaptvr5nnF+IZQNLYFrQLr9yGDtEQO4w5sT34Z
+ bGftV8ehvvsWnpruM87F5eIET3+YupWuoHm6dU6ue3X32od+bZXSLoIBji5hWVuyve371bcnNRc
+ YV0qqDinLXEspdMt7eB1yVwt7XS2sYoioxQqjpsu6s4RjQ9kJlVbnWLNm7I+5JKgSsUqtm/+beQ
+ FTF/T5JkPBoc8sV7QuVVXNSf3O1BnSjcaS9eVEIbp7FPXqGl6uxCdbdeR7csJBMWmL
+X-Received: by 2002:a17:907:3e1d:b0:b7d:3c0d:96ef with SMTP id
+ a640c23a62f3a-b8d4f8369b9mr93097066b.7.1769366379622; 
+ Sun, 25 Jan 2026 10:39:39 -0800 (PST)
 Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b885b3dad3asm499133766b.12.2026.01.25.10.39.37
+ a640c23a62f3a-b885b3dad3asm499133766b.12.2026.01.25.10.39.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Jan 2026 10:39:38 -0800 (PST)
+ Sun, 25 Jan 2026 10:39:39 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: alexander.deucher@amd.com,
 	harry.wentland@amd.com,
@@ -76,10 +76,9 @@ Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, tomasz.pakula.oficjalny@gmail.com,
  bernhard.berger@gmail.com, michel.daenzer@mailbox.org, daniel@fooishbar.org
-Subject: [PATCH v2 16/19] drm/amd/display: Add parameter to control ALLM
- behavior
-Date: Sun, 25 Jan 2026 19:39:11 +0100
-Message-ID: <20260125183914.459228-17-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v2 17/19] drm/amd/display: Reintroduce VTEM info frame
+Date: Sun, 25 Jan 2026 19:39:12 +0100
+Message-ID: <20260125183914.459228-18-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260125183914.459228-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20260125183914.459228-1-tomasz.pakula.oficjalny@gmail.com>
@@ -134,198 +133,254 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 2132881C0A
+X-Rspamd-Queue-Id: 800C281BEC
 X-Rspamd-Action: no action
 
 [Why]
-Some users prefer to always manually control ALLM/Gaming mode while
-others might want it permanently forced on.
+VTEM info fram building was removed back in: commit a9f54ce3c603
+("drm/amd/display: Refactoring VTEM"), but it's needed to support
+HDMI VRR signalling.
 
 [How]
-Since there isn't yet an API to control this, expose module paramter
+Build completely new and more robust functions to build out the VTEM
+infopacket. Many values are defined but could have added logic in the
+future, that's shy they are not static values but already value + bit
+position in it's byte.
+
+Reduced blanking detection was previously missing. Use possible hblank
+periods defined for RB1 (from CVT 1.2), RB2 and RB3 (from CVT 2.1).
 
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu.h           |  1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       | 14 ++++++-
- .../gpu/drm/amd/display/dc/core/dc_resource.c |  7 +---
- .../amd/display/modules/inc/mod_info_packet.h |  1 +
- .../display/modules/info_packet/info_packet.c | 42 +++++++++++++++----
- 5 files changed, 52 insertions(+), 13 deletions(-)
+ .../amd/display/modules/inc/mod_info_packet.h |   4 +
+ .../display/modules/info_packet/info_packet.c | 178 ++++++++++++------
+ 2 files changed, 121 insertions(+), 61 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index 9c11535c44c6..c9eab44ad5b3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -268,6 +268,7 @@ extern int amdgpu_rebar;
- 
- extern int amdgpu_wbrf;
- extern int amdgpu_user_queue;
-+extern int amdgpu_allm_mode;
- 
- extern uint amdgpu_hdmi_hpd_debounce_delay_ms;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 771c89c84608..3bdbb46e4d69 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -248,6 +248,7 @@ int amdgpu_umsch_mm_fwlog;
- int amdgpu_rebar = -1; /* auto */
- int amdgpu_user_queue = -1;
- uint amdgpu_hdmi_hpd_debounce_delay_ms;
-+int amdgpu_allm_mode = 1;
- 
- DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
- 			"DRM_UT_CORE",
-@@ -1124,7 +1125,7 @@ module_param_named(rebar, amdgpu_rebar, int, 0444);
- MODULE_PARM_DESC(user_queue, "Enable user queues (-1 = auto (default), 0 = disable, 1 = enable, 2 = enable UQs and disable KQs)");
- module_param_named(user_queue, amdgpu_user_queue, int, 0444);
- 
--/*
-+/** */
-  * DOC: hdmi_hpd_debounce_delay_ms (uint)
-  * HDMI HPD disconnect debounce delay in milliseconds.
-  *
-@@ -1134,6 +1135,17 @@ module_param_named(user_queue, amdgpu_user_queue, int, 0444);
- MODULE_PARM_DESC(hdmi_hpd_debounce_delay_ms, "HDMI HPD disconnect debounce delay in milliseconds (0 to disable (by default), 1500 is common)");
- module_param_named(hdmi_hpd_debounce_delay_ms, amdgpu_hdmi_hpd_debounce_delay_ms, uint, 0644);
- 
-+/**
-+ * DOC: allm_mode (int)
-+ * Changes ALLM triggering mode (if sink supports ALLM). Possible values:
-+ *
-+ * -  0 = ALLM disabled
-+ * -  1 = ALLM dynamically triggered based on VRR state / Game Content Type Hint
-+ * -  2 = ALLM forced always on
-+ */
-+MODULE_PARM_DESC(allm_mode, "Changes ALLM trigger mode (0 = disable, 1 = enable (default), 2 = force enable)");
-+module_param_named(allm_mode, amdgpu_allm_mode, int, 0644);
-+
- /* These devices are not supported by amdgpu.
-  * They are supported by the mach64, r128, radeon drivers
-  */
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-index 4a7c9f810e35..b779aac28dfa 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-@@ -44,6 +44,7 @@
- #include "clk_mgr.h"
- #include "dc_state_priv.h"
- #include "dc_stream_priv.h"
-+#include "modules/inc/mod_info_packet.h"
- 
- #include "virtual/virtual_link_hwss.h"
- #include "link/hwss/link_hwss_dio.h"
-@@ -4503,8 +4504,6 @@ static void set_avi_info_frame(
- 	unsigned int vic = pipe_ctx->stream->timing.vic;
- 	unsigned int rid = pipe_ctx->stream->timing.rid;
- 	unsigned int fr_ind = pipe_ctx->stream->timing.fr_index;
--	enum dc_timing_3d_format format;
--	bool allm;
- 
- 	if (stream->avi_infopacket.valid) {
- 		*info_packet = stream->avi_infopacket;
-@@ -4658,10 +4657,8 @@ static void set_avi_info_frame(
- 	///VIC
- 	if (pipe_ctx->stream->timing.hdmi_vic != 0)
- 		vic = 0;
--	format = stream->timing.timing_3d_format;
--	allm = stream->link->local_sink->edid_caps.allm;
- 	/*todo, add 3DStereo support*/
--	if ((format != TIMING_3D_FORMAT_NONE) || allm) {
-+	if (!is_hdmi_vic_mode(pipe_ctx->stream)) {
- 		// Based on HDMI specs hdmi vic needs to be converted to cea vic when 3D is enabled
- 		switch (pipe_ctx->stream->timing.hdmi_vic) {
- 		case 1:
 diff --git a/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h b/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
-index 306eb7355c25..9ec123ecc7c4 100644
+index 9ec123ecc7c4..07e86b16ef77 100644
 --- a/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
 +++ b/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
-@@ -41,6 +41,7 @@ void set_vsc_packet_colorimetry_data(
- 		enum dc_color_space cs,
- 		enum color_transfer_func tf);
+@@ -50,6 +50,10 @@ void mod_build_vsc_infopacket(const struct dc_stream_state *stream,
+ void mod_build_hf_vsif_infopacket(const struct dc_stream_state *stream,
+ 		struct dc_info_packet *info_packet);
  
-+bool is_hdmi_vic_mode(const struct dc_stream_state *stream);
- void mod_build_vsc_infopacket(const struct dc_stream_state *stream,
- 		struct dc_info_packet *info_packet,
- 		enum dc_color_space cs,
++void mod_build_vtem_infopacket(const struct dc_stream_state *stream,
++		const struct mod_vrr_params *vrr,
++		struct dc_info_packet *infopacket);
++
+ enum adaptive_sync_type {
+ 	ADAPTIVE_SYNC_TYPE_NONE             = 0,
+ 	ADAPTIVE_SYNC_TYPE_DP               = 1,
 diff --git a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
-index 0db2db7a197f..7516ab9a7554 100644
+index 7516ab9a7554..5e245a053267 100644
 --- a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
 +++ b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
-@@ -23,12 +23,13 @@
-  *
-  */
+@@ -49,6 +49,7 @@ enum vsc_packet_revision {
+ 	vsc_packet_rev7 = 7,
+ };
  
--#include "mod_info_packet.h"
-+#include "amdgpu.h"
- #include "core_types.h"
--#include "dc_types.h"
--#include "mod_shared.h"
--#include "mod_freesync.h"
- #include "dc.h"
-+#include "dc_types.h"
-+#include "mod_freesync.h"
-+#include "mod_info_packet.h"
-+#include "mod_shared.h"
++#define HDMI_INFOFRAME_TYPE_EMP    0x7F
+ #define HDMI_INFOFRAME_TYPE_VENDOR 0x81
+ #define HDMI_INFOFRAME_LENGTH_MASK 0x1F
+ #define HF_VSIF_VERSION  1
+@@ -61,74 +62,52 @@ enum allm_trigger_mode {
+ 	ALLM_MODE_ENABLED_FORCED  = 2,
+ };
  
- enum vsc_packet_revision {
- 	vsc_packet_undefined = 0,
-@@ -54,6 +55,12 @@ enum vsc_packet_revision {
- #define HF_VSIF_3D_BIT   0
- #define HF_VSIF_ALLM_BIT 1
+-// VTEM Byte Offset
+-#define VTEM_PB0		0
+-#define VTEM_PB1		1
+-#define VTEM_PB2		2
+-#define VTEM_PB3		3
+-#define VTEM_PB4		4
+-#define VTEM_PB5		5
+-#define VTEM_PB6		6
++#define VTEM_ORG_ID          1
++#define VTEM_DATA_SET_TAG    1
++#define VTEM_DATA_SET_LENGTH 4
  
-+enum allm_trigger_mode {
-+	ALLM_MODE_DISABLED        = 0,
-+	ALLM_MODE_ENABLED_DYNAMIC = 1,
-+	ALLM_MODE_ENABLED_FORCED  = 2,
-+};
-+
- // VTEM Byte Offset
- #define VTEM_PB0		0
- #define VTEM_PB1		1
-@@ -499,9 +506,30 @@ void mod_build_vsc_infopacket(const struct dc_stream_state *stream,
- 	}
+-#define VTEM_MD0		7
+-#define VTEM_MD1		8
+-#define VTEM_MD2		9
+-#define VTEM_MD3		10
++#define VTEM_M_CONST    0
++#define VTEM_FVA_FACTOR 0
+ 
++#define VTEM_BRR_MASK_UPPER 0x03
++#define VTEM_BRR_MASK_LOWER 0xFF
+ 
+-// VTEM Byte Masks
+-//PB0
+-#define MASK_VTEM_PB0__RESERVED0  0x01
+-#define MASK_VTEM_PB0__SYNC       0x02
+-#define MASK_VTEM_PB0__VFR        0x04
+-#define MASK_VTEM_PB0__AFR        0x08
+-#define MASK_VTEM_PB0__DS_TYPE    0x30
+-	//0: Periodic pseudo-static EM Data Set
+-	//1: Periodic dynamic EM Data Set
+-	//2: Unique EM Data Set
+-	//3: Reserved
+-#define MASK_VTEM_PB0__END        0x40
+-#define MASK_VTEM_PB0__NEW        0x80
++/* VTEM Byte Offset */
++#define VTEM_PB0 0
++#define VTEM_PB1 1
++#define VTEM_PB2 2
++#define VTEM_PB3 3
++#define VTEM_PB4 4
++#define VTEM_PB5 5
++#define VTEM_PB6 6
+ 
+-//PB1
+-#define MASK_VTEM_PB1__RESERVED1 0xFF
++#define VTEM_MD0 7
++#define VTEM_MD1 8
++#define VTEM_MD2 9
++#define VTEM_MD3 10
+ 
+-//PB2
+-#define MASK_VTEM_PB2__ORGANIZATION_ID 0xFF
+-	//0: This is a Vendor Specific EM Data Set
+-	//1: This EM Data Set is defined by This Specification (HDMI 2.1 r102.clean)
+-	//2: This EM Data Set is defined by CTA-861-G
+-	//3: This EM Data Set is defined by VESA
+-//PB3
+-#define MASK_VTEM_PB3__DATA_SET_TAG_MSB    0xFF
+-//PB4
+-#define MASK_VTEM_PB4__DATA_SET_TAG_LSB    0xFF
+-//PB5
+-#define MASK_VTEM_PB5__DATA_SET_LENGTH_MSB 0xFF
+-//PB6
+-#define MASK_VTEM_PB6__DATA_SET_LENGTH_LSB 0xFF
++/* Extended Metadata Packet */
++/* Header */
++#define EMP_LAST_BIT  6
++#define EMP_FIRST_BIT 7
++/* PB0 */
++#define EMP_SNC_BIT 1
++#define EMP_VFR_BIT 2
++#define EMP_AFR_BIT 3
++#define EMP_DST_BIT 4
++#define EMP_END_BIT 6
++#define EMP_NEW_BIT 7
++/* PB7 = MD0 */
++#define VTEM_VRR_BIT     0
++#define VTEM_M_CONST_BIT 1
++#define VTEM_FVA_BIT     4
++/* MD1 Base_Vfront */
++/* MD2 */
++#define VTEM_BRR_UPPER_BIT 0
++#define VTEM_RB_BIT        2
++/* MD3 BRR Lower */
+ 
+ 
+-
+-//PB7-27 (20 bytes):
+-//PB7 = MD0
+-#define MASK_VTEM_MD0__VRR_EN         0x01
+-#define MASK_VTEM_MD0__M_CONST        0x02
+-#define MASK_VTEM_MD0__QMS_EN         0x04
+-#define MASK_VTEM_MD0__RESERVED2      0x08
+-#define MASK_VTEM_MD0__FVA_FACTOR_M1  0xF0
+-
+-//MD1
+-#define MASK_VTEM_MD1__BASE_VFRONT    0xFF
+-
+-//MD2
+-#define MASK_VTEM_MD2__BASE_REFRESH_RATE_98  0x03
+-#define MASK_VTEM_MD2__RB                    0x04
+-#define MASK_VTEM_MD2__NEXT_TFR              0xF8
+-
+-//MD3
+-#define MASK_VTEM_MD3__BASE_REFRESH_RATE_07  0xFF
+-
+ enum ColorimetryRGBDP {
+ 	ColorimetryRGB_DP_sRGB               = 0,
+ 	ColorimetryRGB_DP_AdobeRGB           = 3,
+@@ -639,6 +618,83 @@ void mod_build_hf_vsif_infopacket(const struct dc_stream_state *stream,
+ 		info_packet->valid = true;
  }
  
--static bool is_hdmi_vic_mode(const struct dc_stream_state *stream)
-+static bool is_hdmi_allm_mode(const struct dc_stream_state *stream)
- {
--	bool allm = stream->link->local_sink->edid_caps.allm;
-+	/* Sink doesn't expose ALLM support in edid */
-+	if (!stream->link->local_sink->edid_caps.allm)
-+		return false;
++static void build_vtem_infopacket_header(struct dc_info_packet *infopacket)
++{
++	uint8_t pb0 = 0;
 +
-+	switch (amdgpu_allm_mode) {
-+	case ALLM_MODE_DISABLED:
-+		return false;
++	/* might need logic in the future */
++	pb0 |= 0 << EMP_SNC_BIT;
++	pb0 |= 1 << EMP_VFR_BIT;
++	pb0 |= 0 << EMP_AFR_BIT;
++	pb0 |= 0 << EMP_DST_BIT;
++	pb0 |= 0 << EMP_END_BIT;
++	pb0 |= 1 << EMP_NEW_BIT;
 +
-+	case ALLM_MODE_ENABLED_DYNAMIC:
-+		break;
++	infopacket->hb0 = HDMI_INFOFRAME_TYPE_EMP;
++	infopacket->hb1 = (1 << EMP_FIRST_BIT) | (1 << EMP_LAST_BIT);
++	infopacket->hb2 = 0; // sequence
 +
-+	case ALLM_MODE_ENABLED_FORCED:
-+		return true;
-+	}
-+
-+	return stream->content_type == DISPLAY_CONTENT_TYPE_GAME ||
-+	       stream->vrr_active_variable;
++	infopacket->sb[VTEM_PB0] = pb0;
++	infopacket->sb[VTEM_PB2] = VTEM_ORG_ID;
++	infopacket->sb[VTEM_PB4] = VTEM_DATA_SET_TAG;
++	infopacket->sb[VTEM_PB6] = VTEM_DATA_SET_LENGTH;
 +}
 +
-+bool is_hdmi_vic_mode(const struct dc_stream_state *stream)
++static void build_vtem_infopacket_data(const struct dc_stream_state *stream,
++		const struct mod_vrr_params *vrr,
++		struct dc_info_packet *infopacket)
 +{
-+	bool allm = is_hdmi_allm_mode(stream);
- 	bool stereo = stream->view_format != VIEW_3D_FORMAT_NONE;
- 
- 	if (stream->timing.hdmi_vic == 0)
-@@ -540,7 +568,7 @@ void mod_build_hf_vsif_infopacket(const struct dc_stream_state *stream,
- 
- 		info_packet->valid = false;
- 
--		allm = stream->link->local_sink->edid_caps.allm;
-+		allm = is_hdmi_allm_mode(stream);
- 		format = stream->view_format == VIEW_3D_FORMAT_NONE ?
- 			 TIMING_3D_FORMAT_NONE :
- 			 stream->timing.timing_3d_format;
++	unsigned int hblank = 0;
++	unsigned int brr = 0;
++	bool hdmi_vic_mode = false;
++	bool vrr_active = false;
++	bool rb = false;
++
++	hdmi_vic_mode = is_hdmi_vic_mode(stream);
++	vrr_active = vrr->state == VRR_STATE_ACTIVE_VARIABLE ||
++		     vrr->state == VRR_STATE_ACTIVE_FIXED;
++
++	infopacket->sb[VTEM_MD0] = VTEM_M_CONST << VTEM_M_CONST_BIT;
++	infopacket->sb[VTEM_MD0] |= VTEM_FVA_FACTOR << VTEM_FVA_BIT;
++	infopacket->sb[VTEM_MD0] |= vrr_active << VTEM_VRR_BIT;
++
++	infopacket->sb[VTEM_MD1] = 0;
++	infopacket->sb[VTEM_MD2] = 0;
++	infopacket->sb[VTEM_MD3] = 0;
++
++	if (hdmi_vic_mode || !vrr_active)
++		return;
++	/*
++	 * In accordance with CVT 1.2 and CVT 2.1:
++	 * Reduced Blanking standard defines a fixed value of
++	 * 160 for hblank, further reduced to 80 in RB2. RB3 uses
++	 * fixed hblank of 80 pixels + up to 120 additional pixels
++	 * in 8-pixel steps.
++	 */
++	hblank = stream->timing.h_total - stream->timing.h_addressable;
++	rb = (hblank >= 80 && hblank <= 200 && hblank % 8 == 0);
++	brr = mod_freesync_calc_nominal_field_rate(stream) / 1000000;
++
++	if (brr > VTEM_BRR_MAX) {
++		infopacket->valid = false;
++		return;
++	}
++
++	infopacket->sb[VTEM_MD1] = (uint8_t) stream->timing.v_front_porch;
++	infopacket->sb[VTEM_MD2] = rb << VTEM_RB_BIT;
++	infopacket->sb[VTEM_MD2] |= (brr & VTEM_BRR_MASK_UPPER) >> 8;
++	infopacket->sb[VTEM_MD3] = brr & VTEM_BRR_MASK_LOWER;
++}
++
++void mod_build_vtem_infopacket(const struct dc_stream_state *stream,
++		const struct mod_vrr_params *vrr,
++		struct dc_info_packet *infopacket)
++{
++	infopacket->valid = true;
++	build_vtem_infopacket_header(infopacket);
++	build_vtem_infopacket_data(stream, vrr, infopacket);
++}
++
+ void mod_build_adaptive_sync_infopacket(const struct dc_stream_state *stream,
+ 		enum adaptive_sync_type asType,
+ 		const struct AS_Df_params *param,
 -- 
 2.52.0
 
