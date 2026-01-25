@@ -2,104 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mK2hHdH+dWmMKQEAu9opvQ
+	id 8MmSHNf+dWmMKQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 12:30:25 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 12:30:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1FD8034B
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 12:30:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2404A80368
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 12:30:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42AC610E35C;
-	Sun, 25 Jan 2026 11:30:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 809B510E361;
+	Sun, 25 Jan 2026 11:30:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CE8xiR7T";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Uf8zTUq/";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="XaUMeMpR";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Oa6Hci1Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5889C10E359
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 11:30:21 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C003810E361
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 11:30:23 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60PBRtph3063722
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 11:30:21 GMT
+ 60P7hTso3057008
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 11:30:23 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- bra7g2q0HW951sIO8bL8XJstduNpKmclsTNcEgSH384=; b=CE8xiR7TaaJDqZ4J
- ziv47uJOJ+TaOcmRJTU72saCxNT0x8JkgfqazW82hByDYo+4cGiCiFDmOEjs+qB/
- Cq905Lreky86WoHJhiz6/LA9FT4RZ7vfI4keZxwpERwZDtXbQurpUxjEaTFTvfy/
- Ly4SLD5xb6LmADuiMAkm0ej40mEYH2ZN5RpctpnOieVl8eNthUgv5YVifrbc1G5J
- 0SxLILSQgbKY30vjsnJtaoQX3WizIKJpUgSvR6wxx3rp58IUCraFXrwcq2w5SMEs
- As9RLFa5icUple2qirTiEjsYFD5pBMw9YWLMsqyvx8ptwElEk2pQ2ia3bQw11raQ
- XyLPeg==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bvw4wsh5v-1
+ JXzLPzKJmMMfBleWuh+IFIAqE4Ffe4ls9p1aUztqIUU=; b=XaUMeMpR90SZTHdW
+ kiMEOE7kQ6uiI+6u9E/sOXjbeFSoV807stnOdr3EbZbr1sFWnPF3U/Zbh8xVwtLc
+ iJgCkhH/9HoeGW/zncbR9HxX3An4EHOWgDNSe8mS5PXHkMQJVFKAUOpmOtdXblgZ
+ 5ymmMkiMsq3RtSH5JzVf1xuToVHThDqprVVVTrE7uij+Tbi5QTSk9vcTXaVqDlR9
+ e8gSrKHXQl1ooYTEZh7GL6Y3zByf7N75ZAvmXByuuqNPTNenryAAG5FyWiuvp5i2
+ Hw+/cx88GB+8eXTBOPbHIlTp/R+G84ftDWETgfW0e1s36G+nMwefozTsi2ZHVn1F
+ fmdN1A==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bvq9qj0uv-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 11:30:20 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-89467edcd21so198338626d6.0
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 03:30:20 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 11:30:22 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-8c6ae763d03so375642185a.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 03:30:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1769340620; x=1769945420;
+ d=oss.qualcomm.com; s=google; t=1769340622; x=1769945422;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=bra7g2q0HW951sIO8bL8XJstduNpKmclsTNcEgSH384=;
- b=Uf8zTUq/m9vhFLPEGZaY9OwMGZjCso955Kvyct5x6mbirZDYBnGectJWb/2k3V1f4R
- OrcVGTMjzz8IBHKLz/2MpJsu/fJ5InJDOu9Yh1qXdurD08kvBYk+ml2jdJBP8CCi1G6t
- ANRjuL9JQWccFdnx+ZIXPwCjjQbUIHr//YY5DaJ7OfIfRRp24tE9bwzc8+a0PwlsJqtr
- NTpYjNxrJGv2JIDPcUQ9YwFgBy83B9bxC1HB3QA1TxFlrbYSyOELZ+HAUPchkCTngm+e
- 6y3jGidY5ypTg9n/UEbSOJ6C/OR/spG+7myyWQp7DoAFzLawdyWtYws8I/CzEd5zdC81
- VA8g==
+ :reply-to; bh=JXzLPzKJmMMfBleWuh+IFIAqE4Ffe4ls9p1aUztqIUU=;
+ b=Oa6Hci1ZrDeRH3Zvk/zd+xCmCvhip3cvAIrGXWHr6n+vQpeOHr/mCi6dR42jAvqad0
+ QxO1fW2U/cFTVxz3pWKGbf9UlBmfogR6CgoiFjshqYZSsHrowTNdSpuX8DG6nqkv2C99
+ gA45Fcb6UfmglCssPa2RmhQNqmh2CXSmsqR5s9tFK1T8Ii7yKWxe6gOhShRMEi9BhdMd
+ 3LmSNBeoUCFfKVviJbv0s8TfvX2l2RbV7a3cugVN8288+siwxLTSCZ7zlpxIjNhTgor6
+ RCmYBk77YEnrAk7lZWJqhf9jeRKh30VrAW77mEDgxQyOWpmFv4W2T0ekq1a9M8CqMSoj
+ Yqbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769340620; x=1769945420;
+ d=1e100.net; s=20230601; t=1769340622; x=1769945422;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=bra7g2q0HW951sIO8bL8XJstduNpKmclsTNcEgSH384=;
- b=RI2Glz9hZUoayXAIiMKmQ0nQoBN12x0BtvEJZ/Y50f9IvSDtLXCX49Mx9RSSpB7x9b
- e/ZsQaDg37ke1F74OaPkJb9wSgpEt1TFW4RpG3cccaE3tAmMRtjjGltTyahgMDTmLYKg
- qFc4HnwAsPjWJ3iChC2ZMFtMnv5u1dzXrTYogDqmgtncmaUYskSSRYhZboGqC+gwaqKN
- 3QV+4STdnofziEnWzKievMOcst1qI6BXEfGmH1fgLGhKo82ZE7Z05c5M+MswzddaivVf
- KtHUt6m0cmaUPAlFcKd/xJvsQUzV5weu+iLekiLNwGUJpl7Cs3TW+lhyFFDHYI75rmZb
- VGTA==
+ bh=JXzLPzKJmMMfBleWuh+IFIAqE4Ffe4ls9p1aUztqIUU=;
+ b=SP4l+hPOnGtw3bPfj73jkkiGPpebtgX9IVokk22dZYsb9kmAddmeqF9p3mM6wTItGx
+ HLg+8cmvvJnuZiwnMlzH2qY0BD7YFqDa0uBvyfcmB19z/FV2KSnNpN5SxMGUQ3cXoavq
+ eIVD9thx7uQNzoEZmH5/VtkAsvRr+u8aWv76Pg5IcOETPZnSzbRlfPR3eG6SkaxPkVYh
+ RCZgWoUMq+tN3/Nr6BjhsDRkSmMVTb1gcT5DUWvPAk1FBIWUUfZjG39/RP2zQvq0KpQT
+ eh8gkrfxBQA/I2QyfgdYJeBSUifZLL2nU7l7gvXjW13Zs9dj47eRPj4wpYsolNmrTPgY
+ fQAA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWST+ibYRplWPigOlVNDD3UI2JZeY6CKFepG0AuBrT6PCKwfN2HFAbSPmZmnTO8rNg+wlnNAIqO2xU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzq6qglrpfljysbglNY1HiltHvXkslegn5vK9s+8PNVY5JQ2jFx
- 9U9ac5MKK+1raxB4EOFLTSS7bwTR76yqUo9UXKL2a5plk39ww87xGJOMP5zCEeFO97jBvQyOnl+
- Yv3Xi/6FLnCF7+/vtyS56ynuEX+CLmHtS+cMHtWlMkm/TSitPTs4TEdpT5U1dMJqCmysbwAw=
-X-Gm-Gg: AZuq6aLT16eqEWS+5Swnc970zz7C0xJXsw6oqynHkawS5mQSuVMGU2pUo/3BjU/Yh57
- mgUjvgVGtA5Ng45lr78v/X3nlwmNcCY/4ttC7dzUZVESo1zQTL7NA1c/m23wq9Gi37HPS3QIdOo
- ZWjU0ryiC0sb39LERByMBT5zCWCxN+tx/s81qaXsauWCRZ8o+a4X/v0yh+3YiMaVkBplxb84PTC
- LEHCViLMbBpCkrNBhs2lUPW77pptzgOqqY3+XtbRrDfKDnssaY8M0ySlItij+R3NrP0GdRB9wbz
- 4Lb2AYi8PQ26/17+PXqT0zreJOBgzdzqWePt1v23H+RCen2WOCRTpESxXqoZ1j/QUcbt1hYreZg
- Rw2WcUAaE7ddWcc8z7bZu2bxc81nmirGXBYNOlrGcz/AOFRlibeeZ2xXPduWGhARoUyV7BOBD/4
- Btk1CVW7t/DPyLDo/pGaW1oCU=
-X-Received: by 2002:a05:6214:2a4f:b0:894:6cb7:da9b with SMTP id
- 6a1803df08f44-894b0704cfcmr15283746d6.26.1769340619800; 
- Sun, 25 Jan 2026 03:30:19 -0800 (PST)
-X-Received: by 2002:a05:6214:2a4f:b0:894:6cb7:da9b with SMTP id
- 6a1803df08f44-894b0704cfcmr15283496d6.26.1769340619379; 
- Sun, 25 Jan 2026 03:30:19 -0800 (PST)
+ AJvYcCVW53g8IxS4GOgC100BZtoC1Vu48FQPGoYrS27SrTd3ryWksKM7Nv2VQrqe94GtLVIMsAyd9P0PYF4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxZUJriskZA425P6SGQavJXdiJm55ntVLKLk+tt22gwiDWcaYE6
+ TSgWxiDweKQyHV5iBmsi74jb/O9geYTD4+b0Ld9Sd6fL5BLMZLuRiR62nSPLUt+6WuIWUH/BWPT
+ sLJF5WtNT9F1IR0R8VEmBOufUfnTgh+FYCBme3l7dbPXNsnHQ+EBEkps95zpkjYXcVBzC1nA=
+X-Gm-Gg: AZuq6aJ5/CNiPwPV5bF3z90EpLPGEiW7gwN2wftgK7mx8VP4ikWaXus4URRAXbgyCSJ
+ IrkRrOMFgwEtzP92+WjwdNPQBnftu8nbBjv0DQLySkIs2yJEhGh9HQEZARMGSTuSEF8ri2JkCzA
+ IowqgIctw9u80E52AC3OKi0aLQKxCaa7KlcxIZS4Cr6dgSDEiXEKJzMHjoSkA9PU/XrUAsIn/u0
+ aeJB+GxTg793Z0tu/S3C8x7t2RcUvDpxExVxJuN4Uf6WIJgf3aATIMx67m9FI+5JwJmQLt3q3bX
+ xv1ZwFbreAg2T68sEFxwdwRvqLM6sofNWxRUPELhxXqw4ZQ9PqJDTHbBgKFw4+xBMNqC5j36H75
+ ntMA17HPQZbTNGA866jDwIdh8JJ6FXVfIJfAon9oZEB6IS3hf/VPn6i1EtttXJsjggXxr9GsxDH
+ 7jzZZuB3ynrojDXE+AOKtQSP0=
+X-Received: by 2002:a05:620a:469e:b0:8c6:db7f:d4f8 with SMTP id
+ af79cd13be357-8c6f9565e95mr156279685a.18.1769340622140; 
+ Sun, 25 Jan 2026 03:30:22 -0800 (PST)
+X-Received: by 2002:a05:620a:469e:b0:8c6:db7f:d4f8 with SMTP id
+ af79cd13be357-8c6f9565e95mr156276685a.18.1769340621720; 
+ Sun, 25 Jan 2026 03:30:21 -0800 (PST)
 Received: from umbar.lan
  (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-385d9fec3c9sm18583451fa.15.2026.01.25.03.30.15
+ 38308e7fff4ca-385d9fec3c9sm18583451fa.15.2026.01.25.03.30.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Jan 2026 03:30:17 -0800 (PST)
+ Sun, 25 Jan 2026 03:30:21 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Sun, 25 Jan 2026 13:30:05 +0200
-Subject: [PATCH v4 3/9] media: iris: retrieve UBWC platform configuration
+Date: Sun, 25 Jan 2026 13:30:06 +0200
+Subject: [PATCH v4 4/9] media: iris: don't specify min_acc_length in the
+ source code
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260125-iris-ubwc-v4-3-1ff30644ac81@oss.qualcomm.com>
+Message-Id: <20260125-iris-ubwc-v4-4-1ff30644ac81@oss.qualcomm.com>
 References: <20260125-iris-ubwc-v4-0-1ff30644ac81@oss.qualcomm.com>
 In-Reply-To: <20260125-iris-ubwc-v4-0-1ff30644ac81@oss.qualcomm.com>
 To: Bjorn Andersson <andersson@kernel.org>,
@@ -121,42 +122,41 @@ Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
  linux-media@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
  Wangao Wang <wangao.wang@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3331;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3117;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=mcq8fy61nNX/KrrW1JUbvq89CB28wRxCq24uyk1o/ls=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpdf6+lbMPCjA0QH1RNMgeHfzcM/XGXqeAn260Y
- tAEM3hEHoeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaXX+vgAKCRCLPIo+Aiko
- 1TzZCACNnMq7tmHBTPGuLTSr3885KQC3fdu23yrk8T2C0MRvdzQlP/1sk18N9Sd6NP0KzbVAAX1
- WCPn3s+1hDD4NQY32nuicuw8Kf6oIQ8XkNO0CQ25h7XccnNG0sLtw2M9mdZU3v+ecPFnYCPg8Vs
- UY4AoKkPk8Pr1a6sSGFDtK420ZuNFi7m1b/FtQmOWWLH/VySBCZSVaJkTj2e+hV0svQ4eboHe3z
- tR9wsMsp79LydD5l0hAjweJQb2I7IbeY52ULkS+VGJHTeyJ19XGAkdMr+hfz6U1YDNUvycoNFKr
- khUeQ98rp1pR4KawE37qqBNcIxxbPOvs6txmbcR1mOASjFwD
+ bh=vCjp6Otef/xE5vbuvwNoduQVTq2eHsexFqb6kzgabfE=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpdf6/dUSxAP7UblvRb8kGWVJzqs8Ocmet1os/n
+ 4l7WYzjvrGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaXX+vwAKCRCLPIo+Aiko
+ 1UQhB/0SdagutS0t8C4HAwNbbEbmfVRmSBvi7KeOdANOhfifoGEYcJhf0NCoVJ0o7Zpq+QCcfwT
+ RqNqFHyNatMyikz7X+AbeH2PZWC1mcQ+zDMrH+4kiEpcERHEsIhWkay2vihuYye4hjmEL1Y9Jbi
+ +hC7FB1FwdAa5RltdrpCu4e0fMQf3sQOoy9iuXRqZbvc6umprPFNCFRHSuc3vz/j7w/EZ7O1xcj
+ lZY6Sh8U9Ppuq2w81+JiuLNPCFuBtAh/ot1/wzFQ2yuf8wCs5KbVr0Wo2C4WlUhY82NItnRROky
+ uKYbzA46dT4TKAb0Xs5vhyK8a0EaoTDkyWl+EMjZjjEPuL02
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-GUID: yph1cbArWUi7evBw8pJoLJxbu0HHq9ms
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI1MDA5NSBTYWx0ZWRfXwQzI8WGTTCOH
- GGE+fhzMTvgbinahEOvGJL5ulLB+vr7Czhp4q2aPiWvMVlvsJWPGbEaAhFUZIqbsurgYHQI3wLK
- q9TpZBYKyClUMVK1KzUdHS37vAYFznI8bg+cemC6GHY3qTKVgMpWRLIvQh3o4FcYlOL6sw4yeMy
- Lw+MsMFDrsBcrXEGbfWWisRfJ3gt8yUULZHDHnzR8X/Iq47qXTx8uHQTB/abzlzQQvHwpvmjTHr
- s88OUJUuowLwSxGLusVvQUzHlYyo5zcOwcAsbj+WpdZzhoBOTKaLyW7XrjAVDwCpgYpawBL2QZk
- Oi05HxktmuIkCkXWr++tCRfHyLYJQnmRRNv9/NVYCdSh6zC0FaRSHCwwNIDW7PrLl/yg1dqRL1l
- 3+6QPxtQ7KQVyJ0lPPPP1RlztnlymRDV52axca9K9vh2ETmwqc9RNM01foj+n7Gw8MPO2Eqkqnp
- kM6z2r8QFnV6FnmkUGg==
-X-Proofpoint-ORIG-GUID: yph1cbArWUi7evBw8pJoLJxbu0HHq9ms
-X-Authority-Analysis: v=2.4 cv=POgCOPqC c=1 sm=1 tr=0 ts=6975fecc cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Proofpoint-ORIG-GUID: mC45jb14YZjqu0RrNcTe89gEKbySgnFu
+X-Proofpoint-GUID: mC45jb14YZjqu0RrNcTe89gEKbySgnFu
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI1MDA5NSBTYWx0ZWRfX4/TOmzr3EuCY
+ u+L8JggGf24Jq4laRU1NRRPOds0BlMJyc6csxWUUNcdZB6C43bwf/y14tqWYShuuOe8V6h1UG9M
+ 3dj62p83oV1c8IvYgKAkMH1mKItvuwdbdQIhwUw/pWs0Y5JpLVQM3zkhSbQcGE3KgU6jRAy2IKb
+ 3kFbZRrmglR7NXhw2PA6WTMfRpfAwT/jX5vIOcNyRf1knvfcixaKUzVQXe9dR1SI4YLHZUqU5Jn
+ L5cCRp+f135nP6Y9s7vBgxHltN94FfOS8RDWm4lOWMj/AGJUSaD2IE90XK5tc8ubgphQjrkSLJd
+ ZZuOVfdZg9Q4L1WL0G4JlJ9GvKQu1JuwjtsoUleEri45ZAR6foO9C15Es6QsKFRroS8QkNrXMlO
+ lCE4Bd9pDo8PRlv0cp7C8pX0mgp1QzmwH1+RV0DNmQA1g00rY2m2JMpjnnNMQsRHP1z466wz6OG
+ NvtpBOfNBn82fn/Hi/g==
+X-Authority-Analysis: v=2.4 cv=TsTrRTXh c=1 sm=1 tr=0 ts=6975fece cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=KZIT3C-7-F78qrtZtU8A:9 a=QEXdDO2ut3YA:10
- a=iYH6xdkBrDN1Jqds4HTS:22 a=cvBusfyB2V15izCimMoJ:22
+ a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=qS6nuPEoivtXufaKKhMA:9 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
  definitions=2026-01-25_02,2026-01-22_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 impostorscore=0
- spamscore=0 bulkscore=0 adultscore=0 suspectscore=0 malwarescore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2601250095
+ impostorscore=0 clxscore=1015 phishscore=0 adultscore=0 lowpriorityscore=0
+ bulkscore=0 spamscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601250095
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -202,13 +202,14 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim]
-X-Rspamd-Queue-Id: 2A1FD8034B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:email,qualcomm.com:dkim]
+X-Rspamd-Queue-Id: 2404A80368
 X-Rspamd-Action: no action
 
-Specifying UBWC data in each driver doesn't scale and is prone to
-errors. Request UBWC data from the central database in preparation to
-using it through the rest of the driver.
+The min_acc length can be calculated from the platform UBWC
+configuration. Use the freshly introduced helper and calculate min_acc
+length based on the platform UBWC configuration instead of specifying it
+directly in the source.
 
 Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
@@ -216,75 +217,66 @@ Reviewed-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
 Tested-by: Wangao Wang <wangao.wang@oss.qualcomm.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/media/platform/qcom/iris/Kconfig      | 1 +
- drivers/media/platform/qcom/iris/iris_core.h  | 4 ++++
- drivers/media/platform/qcom/iris/iris_probe.c | 5 +++++
- 3 files changed, 10 insertions(+)
+ drivers/media/platform/qcom/iris/iris_hfi_gen2_packet.c | 6 +++++-
+ drivers/media/platform/qcom/iris/iris_platform_common.h | 1 -
+ drivers/media/platform/qcom/iris/iris_platform_gen2.c   | 1 -
+ 3 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/iris/Kconfig b/drivers/media/platform/qcom/iris/Kconfig
-index 3c803a05305a..39b06de6c3e6 100644
---- a/drivers/media/platform/qcom/iris/Kconfig
-+++ b/drivers/media/platform/qcom/iris/Kconfig
-@@ -5,6 +5,7 @@ config VIDEO_QCOM_IRIS
-         select V4L2_MEM2MEM_DEV
-         select QCOM_MDT_LOADER if ARCH_QCOM
-         select QCOM_SCM
-+        select QCOM_UBWC_CONFIG
-         select VIDEOBUF2_DMA_CONTIG
-         help
-           This is a V4L2 driver for Qualcomm iris video accelerator
-diff --git a/drivers/media/platform/qcom/iris/iris_core.h b/drivers/media/platform/qcom/iris/iris_core.h
-index fb194c967ad4..d10a03aa5685 100644
---- a/drivers/media/platform/qcom/iris/iris_core.h
-+++ b/drivers/media/platform/qcom/iris/iris_core.h
-@@ -30,6 +30,8 @@ enum domain_type {
- 	DECODER	= BIT(1),
- };
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_packet.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_packet.c
+index d77fa29f44fc..aa4520b27739 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_packet.c
++++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_packet.c
+@@ -3,6 +3,9 @@
+  * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+  */
  
-+struct qcom_ubwc_cfg_data;
-+
- /**
-  * struct iris_core - holds core parameters valid for all instances
-  *
-@@ -52,6 +54,7 @@ enum domain_type {
-  * @resets: table of iris reset clocks
-  * @controller_resets: table of controller reset clocks
-  * @iris_platform_data: a structure for platform data
-+ * @ubwc_cfg: UBWC configuration for the platform
-  * @state: current state of core
-  * @iface_q_table_daddr: device address for interface queue table memory
-  * @sfr_daddr: device address for SFR (Sub System Failure Reason) register memory
-@@ -95,6 +98,7 @@ struct iris_core {
- 	struct reset_control_bulk_data		*resets;
- 	struct reset_control_bulk_data		*controller_resets;
- 	const struct iris_platform_data		*iris_platform_data;
-+	const struct qcom_ubwc_cfg_data		*ubwc_cfg;
- 	enum iris_core_state			state;
- 	dma_addr_t				iface_q_table_daddr;
- 	dma_addr_t				sfr_daddr;
-diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
-index ddaacda523ec..492f85f518eb 100644
---- a/drivers/media/platform/qcom/iris/iris_probe.c
-+++ b/drivers/media/platform/qcom/iris/iris_probe.c
-@@ -10,6 +10,7 @@
- #include <linux/pm_opp.h>
- #include <linux/pm_runtime.h>
- #include <linux/reset.h>
++#include <linux/printk.h>
 +#include <linux/soc/qcom/ubwc.h>
- 
- #include "iris_core.h"
- #include "iris_ctrls.h"
-@@ -244,6 +245,10 @@ static int iris_probe(struct platform_device *pdev)
- 
- 	core->iris_platform_data = of_device_get_match_data(core->dev);
- 
-+	core->ubwc_cfg = qcom_ubwc_config_get_data();
-+	if (IS_ERR(core->ubwc_cfg))
-+		return PTR_ERR(core->ubwc_cfg);
 +
- 	ret = devm_request_threaded_irq(core->dev, core->irq, iris_hfi_isr,
- 					iris_hfi_isr_handler, IRQF_TRIGGER_HIGH, "iris", core);
- 	if (ret)
+ #include "iris_hfi_common.h"
+ #include "iris_hfi_gen2.h"
+ #include "iris_hfi_gen2_packet.h"
+@@ -120,6 +123,7 @@ static void iris_hfi_gen2_create_packet(struct iris_hfi_header *hdr, u32 pkt_typ
+ 
+ void iris_hfi_gen2_packet_sys_init(struct iris_core *core, struct iris_hfi_header *hdr)
+ {
++	const struct qcom_ubwc_cfg_data *ubwc = core->ubwc_cfg;
+ 	u32 payload = 0;
+ 
+ 	iris_hfi_gen2_create_header(hdr, 0, core->header_id++);
+@@ -146,7 +150,7 @@ void iris_hfi_gen2_packet_sys_init(struct iris_core *core, struct iris_hfi_heade
+ 				    &payload,
+ 				    sizeof(u32));
+ 
+-	payload = core->iris_platform_data->ubwc_config->mal_length;
++	payload = qcom_ubwc_min_acc_length_64b(ubwc) ? 64 : 32;
+ 	iris_hfi_gen2_create_packet(hdr,
+ 				    HFI_PROP_UBWC_MAL_LENGTH,
+ 				    HFI_HOST_FLAGS_NONE,
+diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+index 5a489917580e..08a9529e599b 100644
+--- a/drivers/media/platform/qcom/iris/iris_platform_common.h
++++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+@@ -77,7 +77,6 @@ struct tz_cp_config {
+ 
+ struct ubwc_config_data {
+ 	u32	max_channels;
+-	u32	mal_length;
+ 	u32	highest_bank_bit;
+ 	u32	bank_swzl_level;
+ 	u32	bank_swz2_level;
+diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+index 5da90d47f9c6..01c6ffa7e084 100644
+--- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
++++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+@@ -792,7 +792,6 @@ static const char * const sm8550_opp_clk_table[] = {
+ 
+ static struct ubwc_config_data ubwc_config_sm8550 = {
+ 	.max_channels = 8,
+-	.mal_length = 32,
+ 	.highest_bank_bit = 16,
+ 	.bank_swzl_level = 0,
+ 	.bank_swz2_level = 1,
 
 -- 
 2.47.3
