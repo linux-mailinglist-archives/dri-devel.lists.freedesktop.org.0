@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eAq9M3NjdmmVQAEAu9opvQ
+	id GA+fIHxjdmmVQAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 19:39:47 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 19:39:56 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E6D781BC1
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 19:39:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D0381BF3
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 19:39:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0F9F10E371;
-	Sun, 25 Jan 2026 18:39:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C76210E37F;
+	Sun, 25 Jan 2026 18:39:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="d/BGM2kh";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QSCVCMZk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
- [209.85.208.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E41710E207
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 18:39:33 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id
- 4fb4d7f45d1cf-64b686e7d04so672506a12.3
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 10:39:33 -0800 (PST)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3F4A10E379
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 18:39:34 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id
+ a640c23a62f3a-b8845a47e39so63020466b.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 10:39:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769366372; x=1769971172; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1769366373; x=1769971173; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=03JVoj5pQZnfXuN1Dsu194SUGxgQv5HQ+1Go+Oa8Fms=;
- b=d/BGM2khFP6XDIkkB27qvJM6B7FUk+mtJhGcjuQgPntBffFrvcAyjaYnWRRF51oBRD
- z8leSWL9FY+keOqEvGuwvF0ysukIC2M725kIlQ48XcthFkPxnLO3kRUMfybY+nNA9dUy
- wzxY22dLXYXL2NHonHRV30336MARPgq9TphnjqmskFfvJzud4jByEQR8qxElg9AWdBAF
- fNDYWwPesveGD0VVrBSVhjHR+9nxlJogj5cATSczfnalfKtu7rJbe9q5mOngFrqtIsc3
- bLuTxSsHkVyWSjAQVvgHgIMlRXQyfbg6si7Rl8xMqD/svj2j0S5akyIylAPPOm4U53HL
- IjJw==
+ bh=B4XqZpkGSkEnuKP0+cVaiZq40DDr/xmS7/WCMvlfxBE=;
+ b=QSCVCMZkeGcNDrIpcmU5qkXvbb16gQahT1i3LfZIib3psfC5Xyxvjt0CaLUlPuMhRe
+ +Efd0O0rdHIfsz8sWWODeBqzh8+HEPBj+rQz80FjZ0pbPAqOupRR9if1hm5rZLBjLyFs
+ Bkuzm8WPjsaPh6ulasFDClW+KFr+F9G8Un4m5ueHSwGexKvSCHgjJKIyh7UzLLaYMHkj
+ BCm9QG1EyH8a63hobAoT8d0Y4redGCot1carsMBtSViRP1T4eheIGPya/hsl+GU8i5ll
+ qnQreRjfETJC1i5/oaQsRJWtscukwh5MpOo52dBnpQfNHVRrkUAeHp86rEeG+94m2vul
+ Ttww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769366372; x=1769971172;
+ d=1e100.net; s=20230601; t=1769366373; x=1769971173;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=03JVoj5pQZnfXuN1Dsu194SUGxgQv5HQ+1Go+Oa8Fms=;
- b=ArVkI4aziGt02bsvwyUJ0u4wZwbG7nUFQS7zkbCw0Hg8rRLJI/VEBfL/GoFmjb7Eiu
- QP9bRdVvtEZCOg/OPM3TuyTjZW8511g7grgbQizmIyRm9Zn/KUpUQMVFFUdEmERkdWeb
- SnE039oaw4v/1G6fV5UdlGpr9V6skHj9+KbxfVBRTIub4X+Bvw8tIkICmFvsDH+xyh3M
- RkNtrIfipSF4BQJq79B2k+lIsRpOBc63T4Yc3pGG//aVkVGJ+prBb6HMQncSe9BTZc+y
- wOxloN4ygUS8fnF1LdKwNmiMttL461BnHCskZsy3s1ssXlZdZ/SHAuoIzU4aGVTdBE/y
- yt9A==
+ bh=B4XqZpkGSkEnuKP0+cVaiZq40DDr/xmS7/WCMvlfxBE=;
+ b=WBVEcKgC2TyOcUvut4qOgksk0Zfe4nU07XD97FQsrbgeWNTIByBRCZx0AXA27N4ntZ
+ hv9s9hJ2RoMJiDFy1ykVGmCvNWxiVW+JRx/XIB/4t4+ccWuOmI0l+Wgg2f9le/vhczQH
+ xa8B95utn3/23ILop3EZSK88L8fhw2tz9IpQGdFRj2Ew1uWJPkVncvMUHmWmiw3RF0h9
+ pnHaY7xGU80jC/TUJ1yNdUXOIAikPFyonMMsl1Spi1ZP5Kd7VfbEl5bq4+0jFKWIc9os
+ FwAbz1G+tMgS9PLKekikTQqi3YLLeEWg+sHm1dXojh4jXims32OFa/L/MG3Ren7gB7jg
+ XhSw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW7lrAlEKlzTLEP6VB4RXCl0fM6tJMaQtxYm3TdtodTgvM46emYBN7EZZR+baaO98llU89GO//V9hM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxBnjwPVDiVi8FLpZ3M4rcnEyLiW9ZYD6A9WE0JfGe0WL47WbE0
- 0gDgCiekBaeXMFiK+TLadgVsFH1WGgqEf3j5tygrALHqOfSeL7G9ffhp
-X-Gm-Gg: AZuq6aKcioN//ww+DUfoelvlB9Cz4LChODss1eZmsqnII8lWp9qoDBwwoqOYQ6mnZAw
- UpxCWQq4kl50Ql4mLovxY64AunIR/q/QKJDiUaVnCiznryMQjplu0CA2osCQ3XDTH2MTElJ8/H8
- TLcUZyrZfyljcZaoQ/YO/YxILZWAoZDXr0aor97hQ6/GKh+akLAcDilSfDNBWuX/E40B+I7I6eb
- Fe6HbfuXKHg+2VmfDkhJUHzQHLXY+ZuuQQafbVfqjyX2ifP1FIKHr34m5VHLq+C0KqBrKqg/lzh
- wm+a0jZDqndYdIOiWwm5EvNccPcFo9JLUbBTR64WFO0R9fGjInCE+/GWeeMN+WcJhWnuDM32oek
- Y9jjv2FYRaIXaIjb8gJ7dNn4/He4+AUyniruU5iguWWbuw3wOyM1U3A7ztT4BKESbFJq3BSp4Vq
- tPnLrBL0O6xwfRt7ShSoXKPn1eK+7n5sqwV4HQS9pYsFgzmUJ/M3tEPDUC/DjX5DR1
-X-Received: by 2002:a17:906:c104:b0:b87:3087:54f0 with SMTP id
- a640c23a62f3a-b8d3fa9d567mr110192266b.3.1769366371750; 
- Sun, 25 Jan 2026 10:39:31 -0800 (PST)
+ AJvYcCV3RTlzAE44E1D7sjKI6LmyWROGPF7gaq8uBH9zbBVdhzU63x1d3XLfLBCHxi/vB4W3FJ+Hni5HZGo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz1NE8tVgS8zKAA6kpns4FBIdYQc0k2n/9hg7iM+r+2J///Dg2i
+ QckMtbLFKMVR7wasXK8Z5+cjg1blC88IXu2oJTmG41kYzMZJvPbwoq/vmd7Cgw==
+X-Gm-Gg: AZuq6aKFclRgohDnBEt2jCElgXzq7BHis/dtlM/e+q5xjp6lopQuB1qUZGgzHHpAzVL
+ q1O8P8bzRY3a+TF7wWvuXKe6CPHgcCDL+/tQvkGAmjDRZdQKk2OmYjEowsIF/aBwQMfJV+c7Ons
+ SpVwxsFt3XdeCi91L/jMu7LDtei4M/QX5pHNOv9PMeN0jdgNLwpKgMxig9+btEg4TH7Uul8DaRn
+ FHP5YQVXByQe0XhLOuT3DvnioIF296rHBRY0RfNGobJxnosP5uShfzSeGFaGUyDCxVhyBGgHjwJ
+ Q7f0kO4fWx5eIkmCt5/eVt5S7r3+MzEUR/QaKpQO+y6cAJakTUEVFw/vfrO9Zt9EkZ0kchXiV4L
+ mB7GPIgdEqNWPlrHxJKDDJi5Z+CR+mmSudjpkE3uvcosp9ILmoUz4rxwtiN0pZbamu9z9IH3+yo
+ 06GBJvvIzvIO1l7NFmsWfuXJnjgLa0dP+acvtBu03ptDk4ptOk4xBbCpVU547uzppG
+X-Received: by 2002:a17:906:d54e:b0:b87:1c20:7c5a with SMTP id
+ a640c23a62f3a-b8d4f85435amr104144566b.8.1769366372975; 
+ Sun, 25 Jan 2026 10:39:32 -0800 (PST)
 Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b885b3dad3asm499133766b.12.2026.01.25.10.39.30
+ a640c23a62f3a-b885b3dad3asm499133766b.12.2026.01.25.10.39.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Jan 2026 10:39:31 -0800 (PST)
+ Sun, 25 Jan 2026 10:39:32 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: alexander.deucher@amd.com,
 	harry.wentland@amd.com,
@@ -76,9 +76,9 @@ Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, tomasz.pakula.oficjalny@gmail.com,
  bernhard.berger@gmail.com, michel.daenzer@mailbox.org, daniel@fooishbar.org
-Subject: [PATCH v2 11/19] drm/amd/display: Support HDMI VRRmax=0
-Date: Sun, 25 Jan 2026 19:39:06 +0100
-Message-ID: <20260125183914.459228-12-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v2 12/19] drm/amd/display: Build HDMI vsif in correct slot
+Date: Sun, 25 Jan 2026 19:39:07 +0100
+Message-ID: <20260125183914.459228-13-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260125183914.459228-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20260125183914.459228-1-tomasz.pakula.oficjalny@gmail.com>
@@ -133,86 +133,33 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 6E6D781BC1
+X-Rspamd-Queue-Id: 26D0381BF3
 X-Rspamd-Action: no action
 
 [Why]
-VRRmax=0 is a valid value and means that the upper bound is guared by
-the selected video mode.
+HDMI vsif was assigned to vsp_infopacket (FreeSync) field
 
 [How]
-In this context, saved vrr max is the max possible refresh rate ever.
-Try getting upper VRR bound from AMD vsdbif it exists or rely on the
-limitations of BRR in VTEM info frames.
-
-I found through testing, that TVs seem to reject VTEM when BRR is set
-to over 1023 Hz. Use this as the last resort VRRmax.
-
-v2:
-- Update max BRR value to 1023
+Build HDMI vsif in the correct hfvsif_infopacket field
 
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 19 +++++++++++++++----
- .../amd/display/modules/inc/mod_info_packet.h |  2 ++
- 2 files changed, 17 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index d3464705ab7f..b93ba14d87d1 100644
+index b93ba14d87d1..f95e8a739303 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -13215,14 +13215,25 @@ static void monitor_range_from_vsdb(struct drm_connector *conn,
-  * try getting upper bound from AMD vsdb (if passed).
-  *
-  * @conn: drm_connector with HDMI VRR info
-+ * @vsdb: AMD vsdb from CAE. Can be NULL if not found.
-  */
--static void monitor_range_from_hdmi(struct drm_connector *conn)
-+static void monitor_range_from_hdmi(struct drm_connector *conn,
-+				    const struct amdgpu_hdmi_vsdb_info *vsdb)
- {
- 	struct drm_monitor_range_info *range = &conn->display_info.monitor_range;
- 	struct drm_hdmi_vrr_cap *caps = &conn->display_info.hdmi.vrr_cap;
-+	u16 vrr_max = caps->vrr_max;
-+
-+	/* Try getting upper vrr bound from AMD vsdb */
-+	if (vrr_max == 0 && vsdb)
-+		vrr_max = vsdb->max_refresh_rate_hz;
-+
-+	/* Use max possible BRR value as a last resort */
-+	if (vrr_max == 0)
-+		vrr_max = VTEM_BRR_MAX;
+@@ -7362,7 +7362,7 @@ create_stream_for_sink(struct drm_connector *connector,
+ 	update_stream_signal(stream, sink);
  
- 	range->min_vfreq = caps->vrr_min;
--	range->max_vfreq = caps->vrr_max;
-+	range->max_vfreq = vrr_max;
- }
+ 	if (stream->signal == SIGNAL_TYPE_HDMI_TYPE_A)
+-		mod_build_hf_vsif_infopacket(stream, &stream->vsp_infopacket);
++		mod_build_hf_vsif_infopacket(stream, &stream->hfvsif_infopacket);
  
- /*
-@@ -13360,8 +13371,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 	/* DP -> HDMI PCON */
- 	} else if (pcon_allowed) {
- 		/* Prefer HDMI VRR */
--		if (hdmi_vrr->supported && hdmi_vrr->vrr_max > 0)
--			monitor_range_from_hdmi(connector);
-+		if (hdmi_vrr->supported)
-+			monitor_range_from_hdmi(connector, valid_vsdb_cea ? &vsdb_info : NULL);
- 		else if (vsdb_freesync) {
- 			amdgpu_dm_connector->vsdb_info = vsdb_info;
- 			monitor_range_from_vsdb(connector, &vsdb_info);
-diff --git a/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h b/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
-index 5de8a6918e6a..306eb7355c25 100644
---- a/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
-+++ b/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
-@@ -33,6 +33,8 @@ struct dc_stream_state;
- struct dc_info_packet;
- struct mod_vrr_params;
- 
-+#define VTEM_BRR_MAX 1023
-+
- void set_vsc_packet_colorimetry_data(
- 		const struct dc_stream_state *stream,
- 		struct dc_info_packet *info_packet,
+ 	if (stream->signal == SIGNAL_TYPE_DISPLAY_PORT ||
+ 	    stream->signal == SIGNAL_TYPE_DISPLAY_PORT_MST ||
 -- 
 2.52.0
 
