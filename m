@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8H4xD+o/dmm6OAEAu9opvQ
+	id MA2CCfM/dmm6OAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 17:08:10 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 17:08:19 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF68815BE
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 17:08:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E876815DC
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 17:08:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A66AE10E36A;
-	Sun, 25 Jan 2026 16:08:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1E1910E36B;
+	Sun, 25 Jan 2026 16:08:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="AFqWfYuQ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="COJ4TWGp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69BD310E36A
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 16:08:06 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1F4D10E36B
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 16:08:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1769357285;
+ s=mimecast20190719; t=1769357295;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to; bh=HrD77nnUD5+g3lYcCoxySqlUnDsJXTXJVFnNYlfN8DQ=;
- b=AFqWfYuQQsJZwxVnxK6CM4Bb5IQVvHrgWSV8dwTzHry/GCjDg1upBvrVI6XmtwIH/WSbkZ
- Diw/jDBh4vsYS2LxUDaJe/ZBS6kBtPZFWOCEkfnGqvzzcmdxcLFcA/i9aZHxXu9UKcWgLh
- c0ee0g6wKBLIxD7MPWo4na/US0NqN04=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ in-reply-to:in-reply-to; bh=vBKRDP8bqkordujGp7qy48QcPV4IJTrct7fsioyRbjk=;
+ b=COJ4TWGpjwKOzzdk674d5ZbUVayawWWBR4Aje4ml28X3Qr7ofx+XyaT0Zr+xJB+dg1WSCe
+ 4QJim5jAS5LfK5ke99hKmB6Tn/hSlVaVDgMlJmIu53Bgr1BGggAtVRQJUCDKF30vukf0RP
+ mC9fo8Lw9cYT3OYWlw8TuKuXSL6+IyE=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-389-LWAytPJHP9aniaYx8R5iLA-1; Sun,
- 25 Jan 2026 11:08:01 -0500
-X-MC-Unique: LWAytPJHP9aniaYx8R5iLA-1
-X-Mimecast-MFC-AGG-ID: LWAytPJHP9aniaYx8R5iLA_1769357279
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-272-flqaROaMMQSqWeM4JnXa7g-1; Sun,
+ 25 Jan 2026 11:08:09 -0500
+X-MC-Unique: flqaROaMMQSqWeM4JnXa7g-1
+X-Mimecast-MFC-AGG-ID: flqaROaMMQSqWeM4JnXa7g_1769357287
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id ACB5C1955D84; Sun, 25 Jan 2026 16:07:59 +0000 (UTC)
+ by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 452B71956089; Sun, 25 Jan 2026 16:08:07 +0000 (UTC)
 Received: from fedora (unknown [10.45.224.8])
- by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP
- id CE9F51956053; Sun, 25 Jan 2026 16:07:53 +0000 (UTC)
+ by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP
+ id 89E9F180049F; Sun, 25 Jan 2026 16:08:01 +0000 (UTC)
 Received: by fedora (nbSMTP-1.00) for uid 1000
- oleg@redhat.com; Sun, 25 Jan 2026 17:07:59 +0100 (CET)
-Date: Sun, 25 Jan 2026 17:07:52 +0100
+ oleg@redhat.com; Sun, 25 Jan 2026 17:08:06 +0100 (CET)
+Date: Sun, 25 Jan 2026 17:08:00 +0100
 From: Oleg Nesterov <oleg@redhat.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Alice Ryhl <aliceryhl@google.com>,
@@ -62,13 +62,14 @@ Cc: Alice Ryhl <aliceryhl@google.com>,
  Simon Horman <horms@kernel.org>, linux-kernel@vger.kernel.org,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-rdma@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH v2 6/7] RDMA/umem: don't abuse current->group_leader
-Message-ID: <aXY_2JIhCeGAYC0r@redhat.com>
+Subject: [PATCH v2 7/7] netclassid: use thread_group_leader(p) in
+ update_classid_task()
+Message-ID: <aXY_4NSP094-Cf-2@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <aXY_h8i78n6yD9JY@redhat.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,41 +114,29 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 7BF68815BE
+X-Rspamd-Queue-Id: 8E876815DC
 X-Rspamd-Action: no action
 
 Cleanup and preparation to simplify the next changes.
 
-Use current->tgid instead of current->group_leader->pid.
-
 Signed-off-by: Oleg Nesterov <oleg@redhat.com>
-Acked-by: Leon Romanovsky <leon@kernel.org>
 ---
- drivers/infiniband/core/umem_odp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ net/core/netclassid_cgroup.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/infiniband/core/umem_odp.c b/drivers/infiniband/core/umem_odp.c
-index 572a91a62a7b..32267258a19c 100644
---- a/drivers/infiniband/core/umem_odp.c
-+++ b/drivers/infiniband/core/umem_odp.c
-@@ -149,7 +149,7 @@ struct ib_umem_odp *ib_umem_odp_alloc_implicit(struct ib_device *device,
- 	umem->owning_mm = current->mm;
- 	umem_odp->page_shift = PAGE_SHIFT;
+diff --git a/net/core/netclassid_cgroup.c b/net/core/netclassid_cgroup.c
+index dff66d8fb325..db9a5354f9de 100644
+--- a/net/core/netclassid_cgroup.c
++++ b/net/core/netclassid_cgroup.c
+@@ -93,7 +93,7 @@ static void update_classid_task(struct task_struct *p, u32 classid)
+ 	/* Only update the leader task, when many threads in this task,
+ 	 * so it can avoid the useless traversal.
+ 	 */
+-	if (p != p->group_leader)
++	if (!thread_group_leader(p))
+ 		return;
  
--	umem_odp->tgid = get_task_pid(current->group_leader, PIDTYPE_PID);
-+	umem_odp->tgid = get_task_pid(current, PIDTYPE_TGID);
- 	ib_init_umem_implicit_odp(umem_odp);
- 	return umem_odp;
- }
-@@ -258,7 +258,7 @@ struct ib_umem_odp *ib_umem_odp_get(struct ib_device *device,
- 		umem_odp->page_shift = HPAGE_SHIFT;
- #endif
- 
--	umem_odp->tgid = get_task_pid(current->group_leader, PIDTYPE_PID);
-+	umem_odp->tgid = get_task_pid(current, PIDTYPE_TGID);
- 	ret = ib_init_umem_odp(umem_odp, ops);
- 	if (ret)
- 		goto err_put_pid;
+ 	do {
 -- 
 2.52.0
 
