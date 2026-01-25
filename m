@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QISvImQYdmnXLgEAu9opvQ
+	id kKBKNGYYdmnXLgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 14:19:32 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 14:19:34 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BF380A1D
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 14:19:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E2F080A24
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 14:19:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E082710E146;
-	Sun, 25 Jan 2026 13:19:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2D3D10E133;
+	Sun, 25 Jan 2026 13:19:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fP201eax";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BGbg+0HO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FA0B10E100
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 13:19:27 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-47d59da3d81so29571015e9.0
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 05:19:27 -0800 (PST)
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+ [209.85.128.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADC0D10E100
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 13:19:28 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id
+ 5b1f17b1804b1-47ee4539adfso40151045e9.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 05:19:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769347166; x=1769951966; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=AEzeKAAF3T2ngmqtGe3pjZXly3mcFht3AgWOWb36VhE=;
- b=fP201eax7kdTaKPW4voGh98AY70+uBIUJ32WmtuSxVd/CBVPcq2f0AoYG8uKRyVHQH
- ZffDVKNrNtW6g+IxrtEQtQu772rAU+fm9L7vaP20XlWGVWRdxEKK+1jiKvltpeTqiHj+
- 1nITEYf9z3cTYJMmgcltIsJjLJPP1NoPUc4xdqqpvZs67hNFBoBWosgC0bAMk9ru2fPq
- jR2Dxmmd0M74ojg2bgchy/eGJukdSFL5SPdnM3kXYBloXFAqSNsHAg/r64s8nKGa+afC
- m4BK9lOkJIxOMd6Gub9SyGO1n5CzMHUaAfPbfg5GxgnNI4o4MNhYx0/i7DgN0c/sH9ys
- oxTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769347166; x=1769951966;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1769347167; x=1769951967; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AEzeKAAF3T2ngmqtGe3pjZXly3mcFht3AgWOWb36VhE=;
- b=m4+RJh/xxGIfcp6eTrVKUspFudSpIVchFYr9Yn+cXnh+TYHHTQ5gxSxTZFCdINhsIH
- BWMoPtVp7bty8tOoqUYyD8QX8PKrthXscPaNG4+GwW7JkisHNHgfebF7+0am/0oyQKm9
- CPWYbY6/Rltf/RM/fNEVg5P/U5XDbhEISqSBARlqYmDJYC3M1ylmsuKNJNsxqJvkqvEF
- YfdVt7Wmt9Ym3EYFHrI2qT0okUN2yMo/36sca+t6WA/mI5CFXZYZEWHyxxeGqgpPOq73
- mqdRCVXv6Que4+hyogypIt8YDdI9mWseWfITQavAcGy9FRnXFii868Yi6uy2LZa0xtmD
- dWEg==
-X-Gm-Message-State: AOJu0YxY7MdcURByHSaD1XzcpCZurDyKWSo797PnaNf39IfTCIxJQfyv
- 8nlnP8l1cbVjDjTzWzE8SVhxE+QOELGuUXXbp9H7xswIIkXY6eXcqTD3oXjPvA==
-X-Gm-Gg: AZuq6aI6JLWhQW+lIwZ52sUB0exvUbnq2so24H84xrgBObi0lboUNi28MFRwn8HPHVs
- 1rF1CCLY+n4FxX3k+MxuhD3ZHySDLygDnzH7R/4d9NIOJj2UG5IOS1tcFl51HxXZHbWHW2ODWg/
- RmZEKYGqQ7wGqquk9xVT36HLWlE4CAtibPNVe9iti0wkMPYNJF7gJzhfPHsN1JqHqa9owaMRSej
- WszirCZp4DJgTBEOONBADYWkmNAd1kPw/8qn+Y1wFF7zDnkv+x/pH1+PwwbLJDLE44nQWD254Nb
- 0MNih9C+uc4J/1W4r8pBXIX4DqI7+pqJ0/fSm8Akx7a0x7qpP/Q/8lzdvkxfrFSv59aFVuxUZJl
- r6zHzCBd+JcUgYpuAyktJkVOxdZ46CftrNcsPR8DsQuXcyz/cJzHk4/mI/WD8SNdTpDumyBW5vh
- u7FxIsbTwhPHk=
-X-Received: by 2002:a05:600c:c6:b0:47e:e38b:a83 with SMTP id
- 5b1f17b1804b1-4805cd1c150mr18318095e9.7.1769347166112; 
- Sun, 25 Jan 2026 05:19:26 -0800 (PST)
+ bh=R5Zfr1fBtqgJrfSd/g+IV1kLhhHTpd7Gc0DhUBdILk8=;
+ b=BGbg+0HOoJEMZzhKjb0PwYJUgrA6xEiuWdL7QZYWo+moSZ/dYa5rCZj2pAY0W80AIU
+ biiNRWMpX+BHRebKVP5LKZ1u1Ba64pDk12XqPFHgm1VCkTj6S5T4Pal+ciHmlkvhSVmm
+ DeJ0MJHNTY7CXsMdY0mbZqtk0e+qBzl2hKA39vc0YSRYgBTZ6Ry1x5W+jjNChPavu09f
+ 66qIfS6e/gTuU3dGx2LGyi/v5kYaWJ7r9/66wTIZwzRGdCJgZ6ODWJbeeH044nGA2DKe
+ sfI/gHMT4Q1nAB1bgwN4Joqx0XiCkjEV3DkL7ibbO7DHKMQ5GkIW/lLzF5OXqiS4RQ+F
+ mHiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769347167; x=1769951967;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=R5Zfr1fBtqgJrfSd/g+IV1kLhhHTpd7Gc0DhUBdILk8=;
+ b=FD738ObFAmHc6/GVuLD/LZmN8oi1BHqD+8QUa2f5dap7dYfMq4BKuNAg/DuqtxH+Q6
+ IMghoU0MkQH9oYHCxv92L6aMp0kp4DDsW2opMUhowBg4bW95LAQq0F2RrloS2xB61kK5
+ 0TeYpY5c9gujzlnxBfCReEspOppJBlSF9NbCXQWN+varAlzTeaDoqm81Hk6Vszw78Pzh
+ vucIG0XAYv0tMQ+nsouIJvoAf9ady8Bafna1npppr8Yy7VgiJL0gwOLvjTjBc1y+2Hix
+ luuH7nIMdOPM2TbcI0Q+MRVoo+YNUxjsImUZyOfCSknVlh+Ye/24pqe8wm73BLOO70TK
+ yapQ==
+X-Gm-Message-State: AOJu0Yy3Q4CpxC65rm1+ZcHrin2mZuKwhJmyzBzgKjCci4mqQs/ucu0k
+ E4zrgWGtVqTQ0YlqCYUSN6AR/YzWzG3fl9EfAnrVE0GkPkS8KI0nKpfx
+X-Gm-Gg: AZuq6aL1CRKRyWwVtKwV7b/gpkO4e5Q48aQdI/KN19sO+BmuzDtxRmhXMZIaAXwEi4q
+ prM4zdXe7A+c201LEfFD3l/YDHZRneJ2oeq/Hl5Xh0O/gnGcjaXdklFfj9xPvNqeJSMNvNrIQt1
+ xbZT6GvfNr5Z68dOSHX6FIHDU3HGluze2k9MZFbuarBjoCHcnW/tgRmvFBQC/XwZvODv/QVgb7T
+ f7Su8Bo8FkP6+pwTAC3ru91MEoQp2zm7mrVM7ELsPYTAbIA5oQ+o5SuUdqa0rNwCfOeYQChDQn9
+ /u6go/u/QN/VIsr6PsziTDodXKbxqRIT290Xi6hL5caQ+vwYyX6JMoQdOZB8E0ysYU83Rem7gyM
+ GTeqTvVOO7DwGF59SrmCDxZtJdUuiCbORsTiJfQ2D2fajLsV/skLVJ8Wme6E/mBH/lswVu2KW52
+ zW
+X-Received: by 2002:a05:600c:3f18:b0:477:7c7d:d9b2 with SMTP id
+ 5b1f17b1804b1-4805d06ae8dmr25854955e9.32.1769347167119; 
+ Sun, 25 Jan 2026 05:19:27 -0800 (PST)
 Received: from xeon ([188.163.112.49]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-48047028928sm382382215e9.2.2026.01.25.05.19.25
+ 5b1f17b1804b1-48047028928sm382382215e9.2.2026.01.25.05.19.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Jan 2026 05:19:25 -0800 (PST)
+ Sun, 25 Jan 2026 05:19:26 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
@@ -74,11 +75,13 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v1 0/2] gpu/drm: panel: add support for DSI panel used in
- Motorola Atrix 4G and Droid X2
-Date: Sun, 25 Jan 2026 15:19:02 +0200
-Message-ID: <20260125131904.45372-1-clamor95@gmail.com>
+Subject: [PATCH v1 1/2] dt-bindings: display: panel: document Atrix 4G and
+ Droid X2 DSI panel
+Date: Sun, 25 Jan 2026 15:19:03 +0200
+Message-ID: <20260125131904.45372-2-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260125131904.45372-1-clamor95@gmail.com>
+References: <20260125131904.45372-1-clamor95@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -129,28 +132,94 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: E2BF380A1D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,devicetree.org:url]
+X-Rspamd-Queue-Id: 0E2F080A24
 X-Rspamd-Action: no action
 
-Add support for the DSI LCD panel module found in Motorola Atrix 4G or
-Droid X2 smartphones. Exact panel vendor and model are unknown hence panel
-uses generic compatible based on board where it is used. The panel has a
-540x960 resolution with 24 bit RGB per pixel.
+Atrix 4G and Droid X2 use the same 540x960 DSI video mode panel. Exact
+panel vendor and model are unknown hence generic compatible is used based
+on board name it is used with.
 
-Svyatoslav Ryhel (2):
-  dt-bindings: display: panel: document Atrix 4G and Droid X2 DSI panel
-  gpu/drm: panel: add support for DSI panel used in Motorola Atrix 4G
-    and Droid X2
-
- .../display/panel/motorola,mot-panel.yaml     |  68 +++++
- drivers/gpu/drm/panel/Kconfig                 |  12 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- drivers/gpu/drm/panel/panel-motorola-mot.c    | 244 ++++++++++++++++++
- 4 files changed, 325 insertions(+)
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+---
+ .../display/panel/motorola,mot-panel.yaml     | 68 +++++++++++++++++++
+ 1 file changed, 68 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/panel/motorola,mot-panel.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-motorola-mot.c
 
+diff --git a/Documentation/devicetree/bindings/display/panel/motorola,mot-panel.yaml b/Documentation/devicetree/bindings/display/panel/motorola,mot-panel.yaml
+new file mode 100644
+index 000000000000..2326a83bc405
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/motorola,mot-panel.yaml
+@@ -0,0 +1,68 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/motorola,mot-panel.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Atrix 4G and Droid X2 DSI Display Panel
++
++maintainers:
++  - Svyatoslav Ryhel <clamor95@gmail.com>
++
++description:
++  Atrix 4G and Droid X2 use the same 540x960 DSI video mode panel. Exact
++  panel vendor and model are unknown hence generic compatible is used.
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - const: motorola,mot-panel
++
++  reg:
++    maxItems: 1
++
++  vdd-supply:
++    description: Regulator for main power supply.
++
++  vddio-supply:
++    description: Regulator for 1.8V IO power supply.
++
++  backlight: true
++  reset-gpios: true
++  port: true
++
++required:
++  - compatible
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "motorola,mot-panel";
++            reg = <0>;
++
++            reset-gpios = <&gpio 35 GPIO_ACTIVE_LOW>;
++
++            vdd-supply = <&vdd_5v0_panel>;
++            vddio-supply = <&vdd_1v8_vio>;
++
++            backlight = <&backlight>;
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&dsi_out>;
++                };
++            };
++        };
++    };
++...
 -- 
 2.51.0
 
