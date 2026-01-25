@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wHi7KQsXdml1LgEAu9opvQ
+	id SOPaFw4Xdml1LgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 14:13:47 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 14:13:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0641980984
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 14:13:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6DCC80993
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 14:13:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 473F810E05E;
-	Sun, 25 Jan 2026 13:13:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CD5010E0B7;
+	Sun, 25 Jan 2026 13:13:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QvXp3zKc";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ll9bsqPw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6404910E05E
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 13:13:43 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-432d2c7a8b9so3612129f8f.2
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 05:13:43 -0800 (PST)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98F8E10E0B7
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 13:13:44 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-4801d98cf39so26684755e9.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 05:13:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769346822; x=1769951622; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=c4KsQRxljgKgvfvUj483+iZhYfCZNJIcI9LKEpzOIXw=;
- b=QvXp3zKcuyAgCfYPQFo6+VEwCvr0sWnQ2OG+1i6MQ/ZrxjmhSH73tAje49xEQt2e/w
- 8Zz3c1fnf3E83GtHhufqlHHfdJpHp0J6OWd0K3i2414D4RqpR5MLIFJQY2G339RpahEZ
- 5zE0jTYgZUik/jW4TIutbD/FnEZ4JX1PjNOZRS5ASqfPUPH+9sSGbjxUn7kjY4KVBX54
- ncyZo3P2SfuZy4KM6BiLPwWDVab8P1MdsP+TmYA0Qcs0dqqwuZ7eLXVG45OYxls8V4h3
- ZtN7hUnzWjsH7I2c4dIRa9OldjCKqLODKGjfriWHsPghFi2u8HPoQ/kU3XVdxmSCgrow
- 4rrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769346822; x=1769951622;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1769346823; x=1769951623; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=c4KsQRxljgKgvfvUj483+iZhYfCZNJIcI9LKEpzOIXw=;
- b=ft0v38WzUfjxrREPdnhO2ODZcvuYZR8LZhlcRb8GDS9yYy0uBC8Prft0EtkJgF4T0U
- M1HuEon/HT1qa2sF2K9KsuDwo60FNpLuffyzAYjCaqtAtjxTM2LKn1wdQcmsf5pgxPkj
- QekaAE+qpDQ+AqyHcLhvFQuzwItYXRB3JL/60VDUQkOwKsO2q2unDeUSkUjwn+FFBLXf
- v4PizYGiXBnLHx5H+sftfiNeDWpQtFoh1IOU+ZV6oRtdGedLNLp2/OZeaYGXX4fciwUI
- 95hOM7IZNWG0Piks3W/iAqV224LImade0iMxi89BaPM+yFf/ujRSB2lRUwcZs+IPpqQD
- LYLg==
-X-Gm-Message-State: AOJu0YzIv0WTj0HSJ9sPfo4YXaB/q+Ea0iT8qkgqo0ucVKeyBJZyZF15
- nxx2vIU1yxGcYi/8JI+jHG9kHPwbKhQTMLo90LbtfyEPjcozIUVX5PRR
-X-Gm-Gg: AZuq6aL/QpP1SJhpj8mTvpEP5MsHEX8omwJza8dIkmOqgN5Znx5p6R9hPEy0Tih4z7e
- BCBV81SFAWMfo75yJBUx2f91cUWTpz9KlisOZbKmyS3nIIwqKYuIuJCAr/qv5/u+QcojdXpbukc
- F4h+qcK00zoGwBx5pUzwSRPZTVwAAzvFkunMEteXlu03mp9JS/57qYfMrgm0Wnj1Co+ZGlwJarv
- TuOyk0XMk8TQcdLOFATTmUfCh4qav9AvW3mvGD54BNiIK5VQmtmUTsNsAKFjUyWGdIlVYkV+j2d
- jP8JJ0FHxDfByohchOlhrA3IfqXLkXeSaiDtU4KK0FyGi01ucguSeNmp+Pr7+5ISFmD4K6n7EUY
- Jgv7S6rkri7zLY0IwG7Reb/qDRRupt3TuKKI1xcmCrKBNLwQP93norqgIM0LJ6qgjub9OnEthZO
- N7
-X-Received: by 2002:a05:6000:2886:b0:430:ff81:2961 with SMTP id
- ffacd0b85a97d-435ca39ba81mr2485783f8f.51.1769346821609; 
- Sun, 25 Jan 2026 05:13:41 -0800 (PST)
+ bh=QfXKY9PTCCCTBgICRlrtseHychldH64Yu72dfRqtlTk=;
+ b=ll9bsqPwUNBWIXh9tuOgRnbkT3WA8yYrFu5+26H9166K1Pveihqy3+cS4/lrU4F6C2
+ EkOapNfwkui0t+x5EjIvRjBDwyTtL/McYfJ/BGIn4uwYjpPLpTmj/UnzvkIF3abxHMrb
+ zOc0tjsAudZkFOrop8ErOJ0UFxh/yjjBUXa4J3KWK2WD3J4yiPi2Jh0WzT6KbByt8j3J
+ kXCn08Ce3OicAHvH8jKv+uOeQJeGmD21oCrfWx32oXYALLd6t7LZ/H4jqZb02pyacUP7
+ 8bKGCrXhv+b0uW1XvL9LJ/4w6NLB90BcVkrx2LEl0BkItXSwaXRoWCRIZVlEKuem96Ub
+ 0tSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769346823; x=1769951623;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=QfXKY9PTCCCTBgICRlrtseHychldH64Yu72dfRqtlTk=;
+ b=m+S2rebTF19pOUC28174FaIEqoyOuMn1dWrvQfSAy4LOUDaHFxUxelIrP5SsrTxIuQ
+ KSZMlkc15vTz1IE80kE9C6tqR9hm3dwyZB8w/9JFMbhJ0gMsFoMXTwIodNTWhLbldpix
+ S3rU730zPId1EKyBwbkGsaCGJ9yVQwU7KBk7sC6qBbJ57P3Wnwbw80Dqg6ZsM++n//Te
+ EwjJwn9n9gMrfRoPnf6OBHyTjbLtJNIF/rMD9vKQsaslZmihQejEW5vjovCdhoyOd2Cc
+ Gu8TDqaKASFldnwp2x7t8mPmIRqfNtCojRv1IcGZ4n/ON/xqkRRriG9OYfDSf84R1eAN
+ ORQg==
+X-Gm-Message-State: AOJu0Yxzue69Y3VBDi+VNbNnNW3B7/CX4QvBn/EZUKAvXmy+JB0Ujbvk
+ g+PM6O7UhtV7yHXmoWq6UlEq6aJSmxEnqr0S862gyZWaTqMpEYpVZ0jh
+X-Gm-Gg: AZuq6aJkdh0BMg2IfqRKCQCW+jqKzjEiYZFYyj1ozwsHiR05btZUwkeKm5Khy37ghTQ
+ EmQJ5TnRk1d5OGz8TIcarljki/K3qAeEmFqTBAt1FJq4oYTN65MDPkKZP2UGOKehfo9CrVVyvT4
+ 1dK5sxAoIFe+m0OocnbsWOvhvkqIgzVN1+IciRoNvmAwyLYbI3onWe2RKy4UVZvYsueWNk4PJ3Y
+ WKTaIfLzraztRwVfiRlzYRc9GrVAE5QOF/KI9tWM6jZc8dJJRZ0Lbr7ugXqJY6V6OwayuNtYv0U
+ jzyYgFr8WO5CFwVEIjgpi9uapWVilxjD9KeeaKcRjlO0S7X9jFCLh40Zhu9OOx2KOG6U4vJznJ4
+ Daujy7vGptKHk7B44DDzs6645JzydnjEjDh6Sz1fjjw1HDC+p9zA37C5G8t7UenX54FOTUrtafB
+ 2o
+X-Received: by 2002:a05:600c:4f4b:b0:47e:e78a:c834 with SMTP id
+ 5b1f17b1804b1-4805d06685fmr27861035e9.34.1769346822505; 
+ Sun, 25 Jan 2026 05:13:42 -0800 (PST)
 Received: from xeon ([188.163.112.49]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-435b1c24a8asm21958244f8f.12.2026.01.25.05.13.40
+ ffacd0b85a97d-435b1c24a8asm21958244f8f.12.2026.01.25.05.13.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Jan 2026 05:13:41 -0800 (PST)
+ Sun, 25 Jan 2026 05:13:42 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
@@ -71,10 +72,12 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/2] gpu/drm: tegra: add DSI support for Tegra20/Tegra30
-Date: Sun, 25 Jan 2026 15:13:21 +0200
-Message-ID: <20260125131323.45108-1-clamor95@gmail.com>
+Subject: [PATCH v3 1/2] gpu/drm: tegra: dsi: add support for Tegra20/Tegra30
+Date: Sun, 25 Jan 2026 15:13:22 +0200
+Message-ID: <20260125131323.45108-2-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260125131323.45108-1-clamor95@gmail.com>
+References: <20260125131323.45108-1-clamor95@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -99,15 +102,15 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_TO(0.00)[gmail.com,nvidia.com,ffwll.ch,tecnico.ulisboa.pt];
 	FORGED_RECIPIENTS(0.00)[m:thierry.reding@gmail.com,m:mperttunen@nvidia.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:jonathanh@nvidia.com,m:diogo.ivo@tecnico.ulisboa.pt,m:clamor95@gmail.com,m:linux-tegra@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FREEMAIL_FROM(0.00)[gmail.com];
@@ -126,47 +129,230 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 0641980984
+X-Rspamd-Queue-Id: B6DCC80993
 X-Rspamd-Action: no action
 
-Tegra20/Tegra30 DSI is quite similar to Tegra114+ apart MIPI calibration
-logic and clocks. With a few minor tweaks, existing tegra DSI driver
-should work on Tegra20/Tegra30 devices just fine. Tested on
-Motorola Atrix 4G (T20) and ASUS VivoTab RT TF600T (T30).
+Tegra20 and Tegra30 are fully compatible with existing Tegra DSI driver
+apart from clock configuration and pad calibration which are addressed by
+this patch.
 
-This patchset depends on Tegra20/Tegra30 CSI bringup since both share
-MIPI calibration logic. Ideally these patches should be picked after
-CSI bringup but they will not break anything even if picked before
-CSI patches.
-
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
-Changes in v2:
-- removed all MIPI calibration, it is handled within CSI bringup
-- added per-soc structures into of_match
-- added fix for hang caused by register access with uninited hw
-
-Changes in v3:
-- switched from version DSI to boolean flags
-- added comment regarding Tegra30 clock configuration
-- commits were picked:
-  "clk: tegra20: reparent dsi clock to pll_d_out0"
-  "ARM: tegra: adjust DSI nodes for Tegra20/Tegra30"
-- commit adapted to recent DSI changes:
-  "gpu/drm: tegra: dsi: move prepare function at the top of encoder
-    enable" > "gpu/drm: tegra: dsi: re-add clear enable register if
-    DSI was powered by bootloader"
----
-
-Svyatoslav Ryhel (2):
-  gpu/drm: tegra: dsi: add support for Tegra20/Tegra30
-  gpu/drm: tegra: dsi: re-add clear enable register if DSI was powered
-    by bootloader
-
  drivers/gpu/drm/tegra/drm.c |   2 +
- drivers/gpu/drm/tegra/dsi.c | 116 ++++++++++++++++++++++++++----------
+ drivers/gpu/drm/tegra/dsi.c | 107 +++++++++++++++++++++++++-----------
  drivers/gpu/drm/tegra/dsi.h |  10 ++++
- 3 files changed, 97 insertions(+), 31 deletions(-)
+ 3 files changed, 88 insertions(+), 31 deletions(-)
 
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index 4596073fe28f..5d64cd57e764 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -1359,10 +1359,12 @@ static SIMPLE_DEV_PM_OPS(host1x_drm_pm_ops, host1x_drm_suspend,
+ 
+ static const struct of_device_id host1x_drm_subdevs[] = {
+ 	{ .compatible = "nvidia,tegra20-dc", },
++	{ .compatible = "nvidia,tegra20-dsi", },
+ 	{ .compatible = "nvidia,tegra20-hdmi", },
+ 	{ .compatible = "nvidia,tegra20-gr2d", },
+ 	{ .compatible = "nvidia,tegra20-gr3d", },
+ 	{ .compatible = "nvidia,tegra30-dc", },
++	{ .compatible = "nvidia,tegra30-dsi", },
+ 	{ .compatible = "nvidia,tegra30-hdmi", },
+ 	{ .compatible = "nvidia,tegra30-gr2d", },
+ 	{ .compatible = "nvidia,tegra30-gr3d", },
+diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+index 02a661d86751..ebc78dceaee6 100644
+--- a/drivers/gpu/drm/tegra/dsi.c
++++ b/drivers/gpu/drm/tegra/dsi.c
+@@ -53,6 +53,11 @@ to_dsi_state(struct drm_connector_state *state)
+ 	return container_of(state, struct tegra_dsi_state, base);
+ }
+ 
++struct tegra_dsi_config {
++	bool has_multiple_pad_controls;
++	bool has_mux_parent_clk;
++};
++
+ struct tegra_dsi {
+ 	struct host1x_client client;
+ 	struct tegra_output output;
+@@ -82,6 +87,8 @@ struct tegra_dsi {
+ 	/* for ganged-mode support */
+ 	struct tegra_dsi *master;
+ 	struct tegra_dsi *slave;
++
++	const struct tegra_dsi_config *config;
+ };
+ 
+ static inline struct tegra_dsi *
+@@ -663,39 +670,46 @@ static int tegra_dsi_pad_enable(struct tegra_dsi *dsi)
+ {
+ 	u32 value;
+ 
+-	value = DSI_PAD_CONTROL_VS1_PULLDN(0) | DSI_PAD_CONTROL_VS1_PDIO(0);
+-	tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
++	if (dsi->config->has_multiple_pad_controls) {
++		/*
++		 * XXX Is this still needed? The module reset is deasserted right
++		 * before this function is called.
++		 */
++		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_0);
++		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_1);
++		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_2);
++		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_3);
++		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_4);
++
++		value = DSI_PAD_CONTROL_VS1_PULLDN(0) | DSI_PAD_CONTROL_VS1_PDIO(0);
++		tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
++
++		value = DSI_PAD_SLEW_UP(0x7) | DSI_PAD_SLEW_DN(0x7) |
++			DSI_PAD_LP_UP(0x1) | DSI_PAD_LP_DN(0x1) |
++			DSI_PAD_OUT_CLK(0x0);
++		tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_2);
++
++		value = DSI_PAD_PREEMP_PD_CLK(0x3) | DSI_PAD_PREEMP_PU_CLK(0x3) |
++			DSI_PAD_PREEMP_PD(0x03) | DSI_PAD_PREEMP_PU(0x3);
++		tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_3);
++	} else {
++		value = DSI_PAD_CONTROL_LPUPADJ(0x1) | DSI_PAD_CONTROL_LPDNADJ(0x1) |
++			DSI_PAD_CONTROL_PREEMP_EN(0x1) | DSI_PAD_CONTROL_SLEWDNADJ(0x6) |
++			DSI_PAD_CONTROL_SLEWUPADJ(0x6) | DSI_PAD_CONTROL_PDIO(0) |
++			DSI_PAD_CONTROL_PDIO_CLK(0) | DSI_PAD_CONTROL_PULLDN_ENAB(0);
++		tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
++	}
+ 
+ 	return 0;
+ }
+ 
+ static int tegra_dsi_pad_calibrate(struct tegra_dsi *dsi)
+ {
+-	u32 value;
+ 	int err;
+ 
+-	/*
+-	 * XXX Is this still needed? The module reset is deasserted right
+-	 * before this function is called.
+-	 */
+-	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_0);
+-	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_1);
+-	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_2);
+-	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_3);
+-	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_4);
+-
+ 	/* start calibration */
+ 	tegra_dsi_pad_enable(dsi);
+ 
+-	value = DSI_PAD_SLEW_UP(0x7) | DSI_PAD_SLEW_DN(0x7) |
+-		DSI_PAD_LP_UP(0x1) | DSI_PAD_LP_DN(0x1) |
+-		DSI_PAD_OUT_CLK(0x0);
+-	tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_2);
+-
+-	value = DSI_PAD_PREEMP_PD_CLK(0x3) | DSI_PAD_PREEMP_PU_CLK(0x3) |
+-		DSI_PAD_PREEMP_PD(0x03) | DSI_PAD_PREEMP_PU(0x3);
+-	tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_3);
+-
+ 	err = tegra_mipi_start_calibration(dsi->mipi);
+ 	if (err < 0)
+ 		return err;
+@@ -1568,6 +1582,7 @@ static int tegra_dsi_probe(struct platform_device *pdev)
+ 	if (!dsi)
+ 		return -ENOMEM;
+ 
++	dsi->config = of_device_get_match_data(&pdev->dev);
+ 	dsi->output.dev = dsi->dev = &pdev->dev;
+ 	dsi->video_fifo_depth = 1920;
+ 	dsi->host_fifo_depth = 64;
+@@ -1606,7 +1621,7 @@ static int tegra_dsi_probe(struct platform_device *pdev)
+ 		goto remove;
+ 	}
+ 
+-	dsi->clk_lp = devm_clk_get(&pdev->dev, "lp");
++	dsi->clk_lp = devm_clk_get_optional(&pdev->dev, "lp");
+ 	if (IS_ERR(dsi->clk_lp)) {
+ 		err = dev_err_probe(&pdev->dev, PTR_ERR(dsi->clk_lp),
+ 				    "cannot get low-power clock\n");
+@@ -1627,10 +1642,12 @@ static int tegra_dsi_probe(struct platform_device *pdev)
+ 		goto remove;
+ 	}
+ 
+-	err = tegra_dsi_setup_clocks(dsi);
+-	if (err < 0) {
+-		dev_err(&pdev->dev, "cannot setup clocks\n");
+-		goto remove;
++	if (dsi->config->has_mux_parent_clk) {
++		err = tegra_dsi_setup_clocks(dsi);
++		if (err < 0) {
++			dev_err(&pdev->dev, "cannot setup clocks\n");
++			goto remove;
++		}
+ 	}
+ 
+ 	dsi->regs = devm_platform_ioremap_resource(pdev, 0);
+@@ -1694,11 +1711,39 @@ static void tegra_dsi_remove(struct platform_device *pdev)
+ 	tegra_mipi_free(dsi->mipi);
+ }
+ 
++static const struct tegra_dsi_config tegra20_dsi_config = {
++	.has_multiple_pad_controls = false,
++	.has_mux_parent_clk = false,
++};
++
++/*
++ * Tegra30 allows DSIA/DSIB to be muxed to either PLL_D or PLL_D2; this is
++ * simply not modeled in the clock driver yet. If this functionality is
++ * required, the has_mux_parent_clk flag can be set to true once the clock
++ * driver is patched.
++ */
++static const struct tegra_dsi_config tegra30_dsi_config = {
++	.has_multiple_pad_controls = false,
++	.has_mux_parent_clk = false,
++};
++
++static const struct tegra_dsi_config tegra114_dsi_config = {
++	.has_multiple_pad_controls = true,
++	.has_mux_parent_clk = true,
++};
++
++static const struct tegra_dsi_config tegra124_dsi_config = {
++	.has_multiple_pad_controls = true,
++	.has_mux_parent_clk = false,
++};
++
+ static const struct of_device_id tegra_dsi_of_match[] = {
+-	{ .compatible = "nvidia,tegra210-dsi", },
+-	{ .compatible = "nvidia,tegra132-dsi", },
+-	{ .compatible = "nvidia,tegra124-dsi", },
+-	{ .compatible = "nvidia,tegra114-dsi", },
++	{ .compatible = "nvidia,tegra210-dsi", .data = &tegra124_dsi_config },
++	{ .compatible = "nvidia,tegra132-dsi", .data = &tegra124_dsi_config },
++	{ .compatible = "nvidia,tegra124-dsi", .data = &tegra124_dsi_config },
++	{ .compatible = "nvidia,tegra114-dsi", .data = &tegra114_dsi_config },
++	{ .compatible = "nvidia,tegra30-dsi", .data = &tegra30_dsi_config },
++	{ .compatible = "nvidia,tegra20-dsi", .data = &tegra20_dsi_config },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, tegra_dsi_of_match);
+diff --git a/drivers/gpu/drm/tegra/dsi.h b/drivers/gpu/drm/tegra/dsi.h
+index f39594e65e97..d834ac0c47ab 100644
+--- a/drivers/gpu/drm/tegra/dsi.h
++++ b/drivers/gpu/drm/tegra/dsi.h
+@@ -95,6 +95,16 @@
+ #define DSI_TALLY_LRX(x)		(((x) & 0xff) <<  8)
+ #define DSI_TALLY_HTX(x)		(((x) & 0xff) <<  0)
+ #define DSI_PAD_CONTROL_0		0x4b
++/* Tegra20/Tegra30 */
++#define DSI_PAD_CONTROL_PULLDN_ENAB(x)	(((x) & 0x1) << 28)
++#define DSI_PAD_CONTROL_SLEWUPADJ(x)	(((x) & 0x7) << 24)
++#define DSI_PAD_CONTROL_SLEWDNADJ(x)	(((x) & 0x7) << 20)
++#define DSI_PAD_CONTROL_PREEMP_EN(x)	(((x) & 0x1) << 19)
++#define DSI_PAD_CONTROL_PDIO_CLK(x)	(((x) & 0x1) << 18)
++#define DSI_PAD_CONTROL_PDIO(x)		(((x) & 0x3) << 16)
++#define DSI_PAD_CONTROL_LPUPADJ(x)	(((x) & 0x3) << 14)
++#define DSI_PAD_CONTROL_LPDNADJ(x)	(((x) & 0x3) << 12)
++/* Tegra114+ */
+ #define DSI_PAD_CONTROL_VS1_PDIO(x)	(((x) & 0xf) <<  0)
+ #define DSI_PAD_CONTROL_VS1_PDIO_CLK	(1 <<  8)
+ #define DSI_PAD_CONTROL_VS1_PULLDN(x)	(((x) & 0xf) << 16)
 -- 
 2.51.0
 
