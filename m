@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YKC3KXZidWl+EwEAu9opvQ
+	id wLEHO3didWl+EwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 01:23:18 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 01:23:19 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5788A7F5B6
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 01:23:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F837F5BD
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 01:23:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EBBE10E34F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7027610E350;
 	Sun, 25 Jan 2026 00:23:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="frFEKuGo";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="n2xnIsLv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDF1C10E0BA
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 00:23:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FC3610E34F
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 00:23:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1769300591;
- bh=8wqL/j4IJaRId1cc1OMklQAuagooBA7lFvGgZ3lacX8=;
+ s=mail; t=1769300592;
+ bh=Dkt7XUKoNz8No9f4w1DysgLslYRIpWby92iVG0WPp94=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=frFEKuGokJ0COs1C06/4drGybqj+WfBIdgKTIXNgv6FZFFmcKIg79ENI62cf5r/Dl
- 9IakN36H7UPg9kN247/Fr/BPLSvqL8hsbTwoWEe2s+h22Ir++ne8mrQzjHA7h7/Jia
- teWhm666YmzAg3OZcBaV8hGJCDouNp8qK8ZwzWgqjsT/UHspHvvzbCH0J9+lI036Yi
- 9vLq40BndVRcdVgtjem9rj+fmd2YTrUpyx5rpv0Y1FbesA9Jh3FEMRFW9Zm6pxfBOh
- a1BxUi8z44Oh3ibjCh904dWMcnU6NwL3E+NGvgBi3nyV8wJDzIxJ+NiJ5GnBtj0t2I
- pQixPbjWrXSSA==
+ b=n2xnIsLvoAXpHGT1vyM/+GloI6ddHidFoauO6ef8vRAkL6h+OPdCZ0mQOJwraB5Jf
+ QAg5JKOQLvDPtlJG6/lpCRufCrBT4G9y/Z40KyK/akll9Bz+5dAV2fLP9s4txlfl0O
+ qRyksU8vpPuSmtZUlR5/c7Ze6sdD9wfvoIKdw6Njsk7SulGzSdgSZCEzfwBZ9hJ2Kz
+ 6mGxLFDnh2HXaZnXaoFabxOUbiq36fp9xCXfUJhvrwu/iuSDGAYxXTOoxBW63EHwy3
+ UGShZSSBYLS129EIVnt83E+BLjAqtzdWbBXR5BsEc1kVNP9/CBDCzvnTdrhy+nogXr
+ R16wlowXewLpg==
 Received: from localhost (unknown [82.79.138.145])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 291F117E141C;
- Sun, 25 Jan 2026 01:23:11 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 0B8F117E1427;
+ Sun, 25 Jan 2026 01:23:12 +0100 (CET)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Sun, 25 Jan 2026 02:23:00 +0200
-Subject: [PATCH 2/5] drm/bridge: dw-hdmi-qp: Provide SPD InfoFrame
+Date: Sun, 25 Jan 2026 02:23:01 +0200
+Subject: [PATCH 3/5] drm/bridge: dw-hdmi-qp: Rework AVI InfoFrame handler
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260125-dw-hdmi-qp-iframe-v1-2-e0f7649ecc4b@collabora.com>
+Message-Id: <20260125-dw-hdmi-qp-iframe-v1-3-e0f7649ecc4b@collabora.com>
 References: <20260125-dw-hdmi-qp-iframe-v1-0-e0f7649ecc4b@collabora.com>
 In-Reply-To: <20260125-dw-hdmi-qp-iframe-v1-0-e0f7649ecc4b@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -105,98 +105,97 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,collabora.com:mid]
-X-Rspamd-Queue-Id: 5788A7F5B6
+X-Rspamd-Queue-Id: A2F837F5BD
 X-Rspamd-Action: no action
 
-The hardware is capable of sending Source Product Description (SPD)
-InfoFrames, hence enable the missing support.
+Make use of the recently introduced dw_hdmi_qp_write_pkt() helper to
+simplify the writing of the Auxiliary Video InfoFrame (AVI) packet
+header and body registers.
+
+Moreover, since now having dedicated callbacks per InfoFrame type, move
+the implementation to dw_hdmi_qp_bridge_write_avi_infoframe() and drop
+dw_hdmi_qp_config_avi_infoframe().
+
+While at it, also discard the superfluous infoframe size verification.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 36 +++++++++++++++++++++++++++-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h |  1 +
- 2 files changed, 36 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 52 ++++++++--------------------
+ 1 file changed, 14 insertions(+), 38 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-index b37af6a7e194..429736486d85 100644
+index 429736486d85..ff856f8bd53b 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-@@ -986,6 +986,15 @@ static int dw_hdmi_qp_bridge_clear_hdr_drm_infoframe(struct drm_bridge *bridge)
- 	return 0;
+@@ -748,43 +748,6 @@ static struct i2c_adapter *dw_hdmi_qp_i2c_adapter(struct dw_hdmi_qp *hdmi)
+ 	return adap;
  }
  
-+static int dw_hdmi_qp_bridge_clear_spd_infoframe(struct drm_bridge *bridge)
-+{
-+	struct dw_hdmi_qp *hdmi = bridge->driver_private;
-+
-+	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_SPDI_TX_EN, PKTSCHED_PKT_EN);
-+
-+	return 0;
-+}
-+
- static int dw_hdmi_qp_bridge_clear_audio_infoframe(struct drm_bridge *bridge)
+-static int dw_hdmi_qp_config_avi_infoframe(struct dw_hdmi_qp *hdmi,
+-					   const u8 *buffer, size_t len)
+-{
+-	u32 val, i, j;
+-
+-	if (len != HDMI_INFOFRAME_SIZE(AVI)) {
+-		dev_err(hdmi->dev, "failed to configure avi infoframe\n");
+-		return -EINVAL;
+-	}
+-
+-	/*
+-	 * DW HDMI QP IP uses a different byte format from standard AVI info
+-	 * frames, though generally the bits are in the correct bytes.
+-	 */
+-	val = buffer[1] << 8 | buffer[2] << 16;
+-	dw_hdmi_qp_write(hdmi, val, PKT_AVI_CONTENTS0);
+-
+-	for (i = 0; i < 4; i++) {
+-		for (j = 0; j < 4; j++) {
+-			if (i * 4 + j >= 14)
+-				break;
+-			if (!j)
+-				val = buffer[i * 4 + j + 3];
+-			val |= buffer[i * 4 + j + 3] << (8 * j);
+-		}
+-
+-		dw_hdmi_qp_write(hdmi, val, PKT_AVI_CONTENTS1 + i * 4);
+-	}
+-
+-	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_AVI_FIELDRATE, PKTSCHED_PKT_CONFIG1);
+-
+-	dw_hdmi_qp_mod(hdmi, PKTSCHED_AVI_TX_EN | PKTSCHED_GCP_TX_EN,
+-		       PKTSCHED_AVI_TX_EN | PKTSCHED_GCP_TX_EN, PKTSCHED_PKT_EN);
+-
+-	return 0;
+-}
+-
+ static int dw_hdmi_qp_config_drm_infoframe(struct dw_hdmi_qp *hdmi,
+ 					   const u8 *buffer, size_t len)
+ {
+@@ -1024,10 +987,23 @@ static int dw_hdmi_qp_bridge_write_avi_infoframe(struct drm_bridge *bridge,
+ 						 const u8 *buffer, size_t len)
  {
  	struct dw_hdmi_qp *hdmi = bridge->driver_private;
-@@ -1054,6 +1063,28 @@ static int dw_hdmi_qp_bridge_write_hdr_drm_infoframe(struct drm_bridge *bridge,
- 	return dw_hdmi_qp_config_drm_infoframe(hdmi, buffer, len);
- }
- 
-+static int dw_hdmi_qp_bridge_write_spd_infoframe(struct drm_bridge *bridge,
-+						 const u8 *buffer, size_t len)
-+{
-+	struct dw_hdmi_qp *hdmi = bridge->driver_private;
 +	size_t i;
+ 
+ 	dw_hdmi_qp_bridge_clear_avi_infoframe(bridge);
+ 
+-	return dw_hdmi_qp_config_avi_infoframe(hdmi, buffer, len);
++	/* AVI packet header */
++	dw_hdmi_qp_write_pkt(hdmi, buffer, 1, 2, PKT_AVI_CONTENTS0);
 +
-+	dw_hdmi_qp_bridge_clear_spd_infoframe(bridge);
-+
-+	/* SPD packet header */
-+	dw_hdmi_qp_write_pkt(hdmi, buffer, 1, 2, PKT_SPDI_CONTENTS0);
-+
-+	/* SPD packet body */
++	/* AVI packet body */
 +	for (i = 0; i < len - 3; i += 4)
 +		dw_hdmi_qp_write_pkt(hdmi, buffer + 3, i, min(len - i - 3, 4),
-+				     PKT_SPDI_CONTENTS1 + i);
++				     PKT_AVI_CONTENTS1 + i);
 +
-+	dw_hdmi_qp_mod(hdmi, PKTSCHED_SPDI_TX_EN, PKTSCHED_SPDI_TX_EN,
-+		       PKTSCHED_PKT_EN);
++	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_AVI_FIELDRATE, PKTSCHED_PKT_CONFIG1);
++	dw_hdmi_qp_mod(hdmi, PKTSCHED_AVI_TX_EN | PKTSCHED_GCP_TX_EN,
++		       PKTSCHED_AVI_TX_EN | PKTSCHED_GCP_TX_EN, PKTSCHED_PKT_EN);
 +
 +	return 0;
-+}
-+
- static int dw_hdmi_qp_bridge_write_audio_infoframe(struct drm_bridge *bridge,
- 						   const u8 *buffer, size_t len)
- {
-@@ -1252,6 +1283,8 @@ static const struct drm_bridge_funcs dw_hdmi_qp_bridge_funcs = {
- 	.hdmi_write_hdmi_infoframe = dw_hdmi_qp_bridge_write_hdmi_infoframe,
- 	.hdmi_clear_hdr_drm_infoframe = dw_hdmi_qp_bridge_clear_hdr_drm_infoframe,
- 	.hdmi_write_hdr_drm_infoframe = dw_hdmi_qp_bridge_write_hdr_drm_infoframe,
-+	.hdmi_clear_spd_infoframe = dw_hdmi_qp_bridge_clear_spd_infoframe,
-+	.hdmi_write_spd_infoframe = dw_hdmi_qp_bridge_write_spd_infoframe,
- 	.hdmi_clear_audio_infoframe = dw_hdmi_qp_bridge_clear_audio_infoframe,
- 	.hdmi_write_audio_infoframe = dw_hdmi_qp_bridge_write_audio_infoframe,
- 	.hdmi_audio_startup = dw_hdmi_qp_audio_enable,
-@@ -1368,7 +1401,8 @@ struct dw_hdmi_qp *dw_hdmi_qp_bind(struct platform_device *pdev,
- 			   DRM_BRIDGE_OP_EDID |
- 			   DRM_BRIDGE_OP_HDMI |
- 			   DRM_BRIDGE_OP_HDMI_AUDIO |
--			   DRM_BRIDGE_OP_HDMI_HDR_DRM_INFOFRAME;
-+			   DRM_BRIDGE_OP_HDMI_HDR_DRM_INFOFRAME |
-+			   DRM_BRIDGE_OP_HDMI_SPD_INFOFRAME;
- 	if (!hdmi->no_hpd)
- 		hdmi->bridge.ops |= DRM_BRIDGE_OP_HPD;
- 	hdmi->bridge.of_node = pdev->dev.of_node;
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h
-index 53688eae8dba..c07847e8d7dd 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h
-@@ -206,6 +206,7 @@
- #define PKTSCHED_PKT_EN					0xaa8
- #define PKTSCHED_DRMI_TX_EN				BIT(17)
- #define PKTSCHED_AUDI_TX_EN				BIT(15)
-+#define PKTSCHED_SPDI_TX_EN				BIT(14)
- #define PKTSCHED_AVI_TX_EN				BIT(13)
- #define PKTSCHED_VSI_TX_EN				BIT(12)
- #define PKTSCHED_EMP_CVTEM_TX_EN			BIT(10)
+ }
+ 
+ static int dw_hdmi_qp_bridge_write_hdmi_infoframe(struct drm_bridge *bridge,
 
 -- 
 2.52.0
