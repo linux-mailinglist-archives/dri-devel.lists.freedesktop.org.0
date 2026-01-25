@@ -2,83 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SG55IBAXdml1LgEAu9opvQ
+	id QISvImQYdmnXLgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 14:13:52 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 14:19:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32EB78099C
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 14:13:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2BF380A1D
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 14:19:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7913910E0D6;
-	Sun, 25 Jan 2026 13:13:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E082710E146;
+	Sun, 25 Jan 2026 13:19:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MA5Nm2kY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fP201eax";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
  [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4915910E0B7
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 13:13:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FA0B10E100
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 13:19:27 +0000 (UTC)
 Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-47ee76e8656so53479445e9.0
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 05:13:45 -0800 (PST)
+ 5b1f17b1804b1-47d59da3d81so29571015e9.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 05:19:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769346824; x=1769951624; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wk9/KUnsa8pc3YOrwEPZ2UDRNz9c/Z03foaMd/NJjKQ=;
- b=MA5Nm2kYF7rWtZsdwQS/roU8pL+HNXqYrjYzVYOW34WWNuPIIa1jgonquw8bE1CR1C
- kiIUzHg4JDyqTsR5nSZ4pT7AONAAM/76dyrJEzB2M17xJgoWkE63nrrfghkhaF2okbBm
- LWCxVOY1YrPwbmXMyi8JoWSQw4taCgZRpXNEbXbqg7XjOBG+yie0+6zCXW8sEtJBCrpj
- Jv3bSseGVPAouv+56dDDR9cazH52kOFvIcx50oWpBCmgNU4H9CBlStrcWmiPyW0YzP2S
- jzTmBFC/x/rQIhWEiq720/Z10Am0g9brpFSzOsoj8rUEqCRVynzxYxJnOScchEC9+7i0
- eo4Q==
+ d=gmail.com; s=20230601; t=1769347166; x=1769951966; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=AEzeKAAF3T2ngmqtGe3pjZXly3mcFht3AgWOWb36VhE=;
+ b=fP201eax7kdTaKPW4voGh98AY70+uBIUJ32WmtuSxVd/CBVPcq2f0AoYG8uKRyVHQH
+ ZffDVKNrNtW6g+IxrtEQtQu772rAU+fm9L7vaP20XlWGVWRdxEKK+1jiKvltpeTqiHj+
+ 1nITEYf9z3cTYJMmgcltIsJjLJPP1NoPUc4xdqqpvZs67hNFBoBWosgC0bAMk9ru2fPq
+ jR2Dxmmd0M74ojg2bgchy/eGJukdSFL5SPdnM3kXYBloXFAqSNsHAg/r64s8nKGa+afC
+ m4BK9lOkJIxOMd6Gub9SyGO1n5CzMHUaAfPbfg5GxgnNI4o4MNhYx0/i7DgN0c/sH9ys
+ oxTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769346824; x=1769951624;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=wk9/KUnsa8pc3YOrwEPZ2UDRNz9c/Z03foaMd/NJjKQ=;
- b=M6/LAzXFjLcWJKNlxwaU5Ednj2y58pnSx2hezSW4A+3V8kHfm+FC9gb3XtoBw/SFSH
- rC81DJtv2o8up3y+/rbw04VVDLj4lSLyFFzp/Bp5Mk+QXEMMBm+2KFmLU2eTA5no5eA+
- mehth3C/xAFd0fL7GALSFyfRY7TzgpWQP/akhgVs5D1gk3qKxf8QtTXoRXw4Gowl/ih8
- Ulo8s9GddnfWsCGBUMtxU0u4v/3r/Uxd8z997xN3VgCWbb4PdopFytR/Ble66fGq/iD+
- ipUYzw1yTK+eeLjqXXXW3zwm5RJoKOXDDKGrr+H4DefIhtFMPZNSbOLUT8RAOjoIeAC3
- sHVg==
-X-Gm-Message-State: AOJu0YyGNvBhsk+P6hbmMZmm2wnVRUkTNUwlLphO9guefOrrizBDPRHh
- FE5QxRWLtmYwpoYyZbJebQR5e9OLp8ILnr7OtT28SPYc8vtlwxDqTdvU
-X-Gm-Gg: AZuq6aKa1WC8WwPCAQoJdjnuNIbbm7CTSqz49sSFRupP09PUxOfQtWUDtHK00SDrHIK
- kmEAZTZZDNl9xKqLA3AL0ggFIW7lwZujXFFzB0ZfY9OwftOQDyoccgAkeuJrH3/sST2bI3/ZPEn
- /XIXYPR0J1PAPXIoCgIduF8fwRLoWz+FqIeI3bWCRdVL1Icmv/ejAsJnenET/6OYLfs48dZ1Vp4
- 2ZvMqSAIWOYSaQOtbkRR/GPbgbR23n+2FJIpuYcLpJ3iwCApxqnRMFb2FACcJBlaee5IndW5y7P
- KBPT7VZFZPfcMMw58Z3v/vub3tAbkV8O9emE22Yc79e2wFsUazLxrNeAqsH1qsC6X28rFFkjvI5
- l00Dp77lSzS7MrmsmX8WZVBNnjTA12K6AUMQpy+YdBBgNfZ6nZKYGWbvmwOQmwvaxJKhA2HMH4M
- 5e
-X-Received: by 2002:a05:6000:240b:b0:432:da3b:5949 with SMTP id
- ffacd0b85a97d-435ca0704fdmr2320057f8f.21.1769346823610; 
- Sun, 25 Jan 2026 05:13:43 -0800 (PST)
+ d=1e100.net; s=20230601; t=1769347166; x=1769951966;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=AEzeKAAF3T2ngmqtGe3pjZXly3mcFht3AgWOWb36VhE=;
+ b=m4+RJh/xxGIfcp6eTrVKUspFudSpIVchFYr9Yn+cXnh+TYHHTQ5gxSxTZFCdINhsIH
+ BWMoPtVp7bty8tOoqUYyD8QX8PKrthXscPaNG4+GwW7JkisHNHgfebF7+0am/0oyQKm9
+ CPWYbY6/Rltf/RM/fNEVg5P/U5XDbhEISqSBARlqYmDJYC3M1ylmsuKNJNsxqJvkqvEF
+ YfdVt7Wmt9Ym3EYFHrI2qT0okUN2yMo/36sca+t6WA/mI5CFXZYZEWHyxxeGqgpPOq73
+ mqdRCVXv6Que4+hyogypIt8YDdI9mWseWfITQavAcGy9FRnXFii868Yi6uy2LZa0xtmD
+ dWEg==
+X-Gm-Message-State: AOJu0YxY7MdcURByHSaD1XzcpCZurDyKWSo797PnaNf39IfTCIxJQfyv
+ 8nlnP8l1cbVjDjTzWzE8SVhxE+QOELGuUXXbp9H7xswIIkXY6eXcqTD3oXjPvA==
+X-Gm-Gg: AZuq6aI6JLWhQW+lIwZ52sUB0exvUbnq2so24H84xrgBObi0lboUNi28MFRwn8HPHVs
+ 1rF1CCLY+n4FxX3k+MxuhD3ZHySDLygDnzH7R/4d9NIOJj2UG5IOS1tcFl51HxXZHbWHW2ODWg/
+ RmZEKYGqQ7wGqquk9xVT36HLWlE4CAtibPNVe9iti0wkMPYNJF7gJzhfPHsN1JqHqa9owaMRSej
+ WszirCZp4DJgTBEOONBADYWkmNAd1kPw/8qn+Y1wFF7zDnkv+x/pH1+PwwbLJDLE44nQWD254Nb
+ 0MNih9C+uc4J/1W4r8pBXIX4DqI7+pqJ0/fSm8Akx7a0x7qpP/Q/8lzdvkxfrFSv59aFVuxUZJl
+ r6zHzCBd+JcUgYpuAyktJkVOxdZ46CftrNcsPR8DsQuXcyz/cJzHk4/mI/WD8SNdTpDumyBW5vh
+ u7FxIsbTwhPHk=
+X-Received: by 2002:a05:600c:c6:b0:47e:e38b:a83 with SMTP id
+ 5b1f17b1804b1-4805cd1c150mr18318095e9.7.1769347166112; 
+ Sun, 25 Jan 2026 05:19:26 -0800 (PST)
 Received: from xeon ([188.163.112.49]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-435b1c24a8asm21958244f8f.12.2026.01.25.05.13.42
+ 5b1f17b1804b1-48047028928sm382382215e9.2.2026.01.25.05.19.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Jan 2026 05:13:43 -0800 (PST)
+ Sun, 25 Jan 2026 05:19:25 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>,
- Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
- Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/2] gpu/drm: tegra: dsi: re-add clear enable register if
- DSI was powered by bootloader
-Date: Sun, 25 Jan 2026 15:13:23 +0200
-Message-ID: <20260125131323.45108-3-clamor95@gmail.com>
+Subject: [PATCH v1 0/2] gpu/drm: panel: add support for DSI panel used in
+ Motorola Atrix 4G and Droid X2
+Date: Sun, 25 Jan 2026 15:19:02 +0200
+Message-ID: <20260125131904.45372-1-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260125131323.45108-1-clamor95@gmail.com>
-References: <20260125131323.45108-1-clamor95@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,87 +101,56 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MAILLIST(-0.20)[mailman];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com,nvidia.com,ffwll.ch,tecnico.ulisboa.pt];
-	FORGED_RECIPIENTS(0.00)[m:thierry.reding@gmail.com,m:mperttunen@nvidia.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:jonathanh@nvidia.com,m:diogo.ivo@tecnico.ulisboa.pt,m:clamor95@gmail.com,m:linux-tegra@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[linaro.org,oss.qualcomm.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
+	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:jessica.zhang@oss.qualcomm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:clamor95@gmail.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
 	NEURAL_HAM(-0.00)[-1.000];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 32EB78099C
+X-Rspamd-Queue-Id: E2BF380A1D
 X-Rspamd-Action: no action
 
-Original commit b22fd0b9639e ("drm/tegra: dsi: Clear enable register if
-powered by bootloader") was added to address the issue of DSI being in an
-unknown state after the bootloader, ensuring correct panel configuration.
-This worked fairly well under the assumption that the bootloader had set
-up DSI; however, in cases where it did not, the device would hang because
-a DSI read was called before the DSI hardware was ready.
+Add support for the DSI LCD panel module found in Motorola Atrix 4G or
+Droid X2 smartphones. Exact panel vendor and model are unknown hence panel
+uses generic compatible based on board where it is used. The panel has a
+540x960 resolution with 24 bit RGB per pixel.
 
-Removing this workaround results in the issue described in the original
-fix: the panel initialization sequence fails and the panel gets stuck in
-an undefined state. This is especially noticeable with command mode panels
+Svyatoslav Ryhel (2):
+  dt-bindings: display: panel: document Atrix 4G and Droid X2 DSI panel
+  gpu/drm: panel: add support for DSI panel used in Motorola Atrix 4G
+    and Droid X2
 
-In order to properly address this issue, the original workaround is
-restored and placed after the DSI hardware is prepared for R/W operations.
-This fixes behavior for both cases: where DSI is set by the bootloader and
-where DSI is untouched.
+ .../display/panel/motorola,mot-panel.yaml     |  68 +++++
+ drivers/gpu/drm/panel/Kconfig                 |  12 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-motorola-mot.c    | 244 ++++++++++++++++++
+ 4 files changed, 325 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/motorola,mot-panel.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-motorola-mot.c
 
-I have tested this change on Tegra20 (Motorola Atrix 4G),
-Tegra114 (NVIDIA Tegra Note 7 and ASUS Transformer Pad TF701T), and
-Tegra124 (Xiaomi Mi Pad) with U-Boot, using both bootloader-initialized
-DSI and untouched DSI.
-
-Fixes: b22fd0b9639e ("drm/tegra: dsi: Clear enable register if powered by bootloader")
-Fixes: 660b299bed2a ("Revert "drm/tegra: dsi: Clear enable register if powered by bootloader"")
-
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- drivers/gpu/drm/tegra/dsi.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
-index ebc78dceaee6..e499822b6030 100644
---- a/drivers/gpu/drm/tegra/dsi.c
-+++ b/drivers/gpu/drm/tegra/dsi.c
-@@ -934,6 +934,15 @@ static void tegra_dsi_encoder_enable(struct drm_encoder *encoder)
- 		return;
- 	}
- 
-+	/* If the bootloader enabled DSI it needs to be disabled
-+	 * in order for the panel initialization commands to be
-+	 * properly sent.
-+	 */
-+	value = tegra_dsi_readl(dsi, DSI_POWER_CONTROL);
-+
-+	if (value & DSI_POWER_CONTROL_ENABLE)
-+		tegra_dsi_disable(dsi);
-+
- 	state = tegra_dsi_get_state(dsi);
- 
- 	tegra_dsi_set_timeout(dsi, state->bclk, state->vrefresh);
 -- 
 2.51.0
 
