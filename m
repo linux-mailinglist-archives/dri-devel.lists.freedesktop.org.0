@@ -2,90 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wDleG0kfdmlaMAEAu9opvQ
+	id +L/2AHlidWl+EwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 14:48:57 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 01:23:21 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B84C580D4A
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 14:48:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA03A7F5C4
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 01:23:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1BBA10E09F;
-	Sun, 25 Jan 2026 13:48:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83BD610E352;
+	Sun, 25 Jan 2026 00:23:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CRzTbWsA";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PY83B9r4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4AF710E34D
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 00:12:16 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-82311f4070cso1354063b3a.0
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 16:12:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769299936; x=1769904736; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iR/kjqFsPEWOeJ8atT4KIIDdY2v61pRn+hE1X2EyFVo=;
- b=CRzTbWsACR5WzeGVD8vOY6a8eKgQ8bAKu+e2z2csuK7Cj1uHSfRdjBuwFQCnz2Ix5F
- L3ai/L8HYsGp7lSSmDEa7afqM2vlY79QezwSP5ZjXDzulg37X1M6UpsjEJiPTm4wDfiQ
- UkhSpzSCtu+UFRlIK1fRpAwP1LzWTT0pP8H3Lm+7/OptIYt0L0miCqZtgWrNUk/0410i
- rYN68M3vS/2AS458f+oE5I/jhss1x6WwVCzdHqkrXk2CjoCmycEvuxAUd5KUhaoIeFVG
- /JIQul2Om9HjVLQ2n+AM88vXswGI3gOId9Y3vhwkLGC7dj8kU5gp1v0YbxPeUx4stwbu
- kvvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769299936; x=1769904736;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=iR/kjqFsPEWOeJ8atT4KIIDdY2v61pRn+hE1X2EyFVo=;
- b=IFOix2P64hCAM5i/Ysq9A4NQp2zDDE3PVAOd0v4NXSLeGyFcUigzJiB/fHz+NyR+uz
- 8UAej9d53wEuxJyLnGbXQyTCIL2slETckyJRUweqxFDSotfcnb1FDKsp1tYLNkxGvJV2
- GqAPsEo8dlyTTVgVO1wO7LDctHvrd2A8JuOuI4hjqiKDzX5xQuVDxFhU9mNZjghw8uOL
- ClnCXEvGbNQ8R+bwAYhMttfD0674qF7zvvDCApV8llTeQZQMQTKBr/H30aqAKU9gAXGO
- IUWmUI++9cIifqMwW+klbQn38+Ex0Fgwg3jlwpSxYlbDMBHHDxly51sd8co8/yC7Tpux
- WRAA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXt3RLmXyA8aTFRq/pLtsYPWo0Qj/cKeG3X9WvwVIG+xxKrzKOct+/EfeoIOb9GYHrqpm8+pOdrXfg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzkxrg//hBMY4zbFLDcj1Bv/mTUNJSHWwJjYthU548IKbbyJfO1
- l0722brMh/RM2q2fEXPz+wgvNOTritu9iKWsq70+rZBaIZi6cmhSNWM=
-X-Gm-Gg: AZuq6aIeP1aPNVC3266S18JsTU0lw7IBDLdxavdrgJxgWKZwmIgBk/EiYa5he8leFNs
- /f5azqmMyethXR48Jw8Izdc8RZ9T/kO2yACOKj6Kt/aan7jH5Gq5tWA33mFwFkhkLUEqdfheHCl
- o8z6IvIoXYvdmkNro3EyyzRTA4KmSiD/YP8EPIMPpdackD0pnOO54eqnS3MryX/0YeANffa/d6m
- VbCkqRZ/6Q1fomTEW/tV6Cl2V55TZNSHVOt4f/3LLpGM9Jd0QdrJokU4tTUe8xrxzU0mgYbe1ls
- KEVUrl6lBBH9oktXbFeNZpp8FFONnvWGeVrr/O2ePLVOlB0VCqS0/yM1LRlJC3NWZQUD6mM0NiH
- /wUmiHhwmqyZ4CnlV/SrVU3LEi7HPmTEQn6f2c/F/8EZS1X9PzWz5vAWBn0ABENCkVF3Ox2KunD
- GKw2g2KU/0lpI0cwA=
-X-Received: by 2002:a05:6a00:7702:b0:7ab:2c18:34eb with SMTP id
- d2e1a72fcca58-823411db9d4mr224890b3a.12.1769299936136; 
- Sat, 24 Jan 2026 16:12:16 -0800 (PST)
-Received: from at.. ([171.61.161.234]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-8231876e5d0sm5608273b3a.61.2026.01.24.16.12.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Jan 2026 16:12:15 -0800 (PST)
-From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-To: 
-Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] drm/i915/display: Disable display for iMac's
-Date: Sun, 25 Jan 2026 00:11:01 +0000
-Message-ID: <20260125001111.1269-3-atharvatiwarilinuxdev@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260125001111.1269-1-atharvatiwarilinuxdev@gmail.com>
-References: <20260125001111.1269-1-atharvatiwarilinuxdev@gmail.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AB1B10E0BA
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 00:23:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1769300589;
+ bh=61a/xXLH/MfXCWDs29dssZLNdRSXxubVmLLmNkYSvyc=;
+ h=From:Subject:Date:To:Cc:From;
+ b=PY83B9r4lZry6De6E/tVN38W3Nkeo3vv9w+uLsGY7vIQ9ZiO81l50KdtI0az6+E2m
+ wrZuGdBWJ9KuwXhDRUuxuSyoPASBANIN/QCvO0/GimhLN5EI4Q/qyj7dh65+cnKSR6
+ 0ozUrVvtK4e9TcM0v++ij4w5JO+8mx+Vb9CLxKjay4T4YhObJYCRoca4s44zBCfBk2
+ WPPIhuiCGPQagFYGQIl5/3DCP1zws4CYGNaOWLVSb3dvs+Q0NtVUt28C7a/uwAlxGZ
+ I/AAXyRKl/5ay1x5MjvWpCAd3i66Jx8UB2fAwy4wPvCUkdZPE2daRSghB82QvPCl2T
+ AUQHXA7CqfEBA==
+Received: from localhost (unknown [82.79.138.145])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 6BA5417E01E7;
+ Sun, 25 Jan 2026 01:23:09 +0100 (CET)
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: [PATCH 0/5] Provide HDMI VSI & SPD InfoFrames to DW HDMI QP TX
+Date: Sun, 25 Jan 2026 02:22:58 +0200
+Message-Id: <20260125-dw-hdmi-qp-iframe-v1-0-e0f7649ecc4b@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 25 Jan 2026 13:48:52 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGJidWkC/x3MQQqAIBBA0avIrBtIwciuEi0kx5qFZgoVSHdPW
+ r7F/xUKZaYCk6iQ6eLCR2yQnYB1t3EjZNcMqldDL5VGd+PuAuOZkH22gdCsepQ0GO8dQetSJs/
+ P/5yX9/0AsdBtL2MAAAA=
+X-Change-ID: 20260125-dw-hdmi-qp-iframe-9c581e69ffde
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,83 +74,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:atharvatiwarilinuxdev@gmail.com,m:jani.nikula@linux.intel.com,m:rodrigo.vivi@intel.com,m:joonas.lahtinen@linux.intel.com,m:tursulin@ursulin.net,m:airlied@gmail.com,m:simona@ffwll.ch,m:intel-gfx@lists.freedesktop.org,m:intel-xe@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[atharvatiwarilinuxdev@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,intel.com,ursulin.net,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[atharvatiwarilinuxdev@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_COUNT_THREE(0.00)[3];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:kernel@collabora.com,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch];
+	FORGED_SENDER(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: B84C580D4A
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,collabora.com:mid]
+X-Rspamd-Queue-Id: CA03A7F5C4
 X-Rspamd-Action: no action
 
-Disable display on iMacs, as they can't do link training
-on the internal display.
+This patch series provides the missing support for sending HDMI
+Vendor-Specific Infoframes and Source Product Description InfoFrames in
+dw-hdmi-qp library.
 
-(tested on iMac20,1)
+Additionally, it improves the existing AVI, DRM and Audio infoframes
+handling by getting rid of some boilerplate and/or redundant code.
 
-Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/i915/display/intel_display_device.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Cristian Ciocaltea (5):
+      drm/bridge: dw-hdmi-qp: Provide HDMI Vendor Specific InfoFrame
+      drm/bridge: dw-hdmi-qp: Provide SPD InfoFrame
+      drm/bridge: dw-hdmi-qp: Rework AVI InfoFrame handler
+      drm/bridge: dw-hdmi-qp: Rework DRM InfoFrame handler
+      drm/bridge: dw-hdmi-qp: Rework Audio InfoFrame handler
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_device.c b/drivers/gpu/drm/i915/display/intel_display_device.c
-index 1170afaa8680..3fb47232e7a4 100644
---- a/drivers/gpu/drm/i915/display/intel_display_device.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_device.c
-@@ -3,6 +3,7 @@
-  * Copyright © 2023 Intel Corporation
-  */
- 
-+#include <linux/dmi.h>
- #include <linux/pci.h>
- 
- #include <drm/drm_color_mgmt.h>
-@@ -1657,6 +1658,7 @@ struct intel_display *intel_display_device_probe(struct pci_dev *pdev,
- 	const struct platform_desc *desc;
- 	const struct subplatform_desc *subdesc;
- 	enum intel_step step;
-+	const char *product_name = dmi_get_system_info(DMI_PRODUCT_NAME);
- 
- 	display = kzalloc(sizeof(*display), GFP_KERNEL);
- 	if (!display)
-@@ -1674,6 +1676,11 @@ struct intel_display *intel_display_device_probe(struct pci_dev *pdev,
- 		goto no_display;
- 	}
- 
-+	if (dmi_match(DMI_BOARD_VENDOR, "Apple Inc.") && !strncmp(product_name, "iMac", 4)) {
-+		drm_dbg_kms(display->drm, "iMac Detected, Disabling display\n");
-+		goto no_display;
-+	}
-+
- 	desc = find_platform_desc(pdev);
- 	if (!desc) {
- 		drm_dbg_kms(display->drm,
--- 
-2.43.0
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 247 ++++++++++++++-------------
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h |   3 +
+ 2 files changed, 129 insertions(+), 121 deletions(-)
+---
+base-commit: 2cb217301e0df17f7107a1b0941b28d4053eae8b
+change-id: 20260125-dw-hdmi-qp-iframe-9c581e69ffde
 
