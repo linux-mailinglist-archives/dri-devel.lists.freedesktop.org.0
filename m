@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oHGtGHVjdmmVQAEAu9opvQ
+	id yBgWBHZjdmmVQAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 19:39:49 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 19:39:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1307A81BD6
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AA981BDD
 	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 19:39:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25EEB10E379;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5211A10E37B;
 	Sun, 25 Jan 2026 18:39:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ngSo/3/X";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Up4456Vq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
- [209.85.218.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71A5010E378
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 18:39:42 +0000 (UTC)
-Received: by mail-ej1-f68.google.com with SMTP id
- a640c23a62f3a-b87266fdf56so62813466b.2
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 10:39:42 -0800 (PST)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D862510E371
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 18:39:43 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id
+ 4fb4d7f45d1cf-64ce9d80429so603988a12.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 10:39:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769366381; x=1769971181; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1769366382; x=1769971182; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hdLeMslJpmP5aqg3skjNgOL1QWmOegbJOT5yvSqo4kw=;
- b=ngSo/3/XqfS8cX9nLV7P7rGuNZtWcvffoP9nHjK5Kk9nxt8RoCRiC3adNFmHi/eVCF
- pI2h33yCPQGuhWvC50tG1R4v6gd5Vw0xarR6bvd/LoO/UnizHllkuAHEsmz/tIJP0wTi
- qpil+3yczYpU9Aw1BqLML2pdKGc7YVoS1wj8p4pkhEJXuSV+k6zlyjvUgI72D+HfhEwl
- z7C+0a99qCoKJ7VrozJJq/vd4fkaIFV/lg7C+2qA+/3CRl0oqFRoUxCeNYhzSwgKpbe+
- aMLcXTfUHTpMHLU8ZJ9IAQviuE++zreRXULdkLmgn2RsfHggY4A37x/iQqVtM6EBeDr/
- 0O7w==
+ bh=pzpJ4RJ7cNME7CVFy7TynUsF3JEY3Q9X0Du26C0ArzQ=;
+ b=Up4456Vq/+Fvb2dYeEnivJYQIFTCxZhVPSlgMkcxH5ed3g1aVk9lFBZ5Q+1U/+8A4v
+ Vaha3iUUn/4qI8H4YURBAn71kyuCt2Vlu4NGJipt0CwA6SdFLucD6fx9epmsZIjFeDuO
+ JzmXcJ1Ucv0dXLWhk/csXJTiBNgGYnKPKchQUPfYPtuGsIEEuWC+fVyi5gRZmN2+1cnw
+ sKvOcJmkYAH+2w+KzoaNKqf0pY/lxGgG+7FeDUwYXj04++NAL14uSKuZg3NS1iOntyoJ
+ YAV6O0+Y7xq3p0Jp1zrjCfAfe6uDX3QxGysleSYdBYCh8MNUSlDS6/nESLgaMgjvdo+x
+ JZnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769366381; x=1769971181;
+ d=1e100.net; s=20230601; t=1769366382; x=1769971182;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=hdLeMslJpmP5aqg3skjNgOL1QWmOegbJOT5yvSqo4kw=;
- b=Pw4dhWJqoc8FlD+dOXVrLf4R1Q5t1YXinJY0nwr8eBRjuiGfjFaQoSflzBljFZpZ1h
- 4Hd3J3+evAesb0mUOAtqpQbnt3I1NJwZC496KXOl/P0b/HrL7zxhgBUKFUfD4KyOquLJ
- JlFJTx4r2lCXjFzsW1LIbcMTwVyrvjJi/SIZR/lra0bRWwm53Gqo4a/obbeuDB4UAoWe
- 8QCf7ATBpyJWJIDXXF/mVDqYJR1M+XPd6npA1EDpn2Ewo2ts0+/dkv/anYhJBtG0dBib
- jVl79xcXY5Nn4V5Qvw3lzjPFoV6HXhdxL5GtxBjpVuRY4Nz/VIWLhFbZQr8/TF+wo2lc
- sPwQ==
+ bh=pzpJ4RJ7cNME7CVFy7TynUsF3JEY3Q9X0Du26C0ArzQ=;
+ b=ZdtrcIgAj03Y6+5R9IFxJBA2OSlK9rglM6oG1jxUPx01UkXb0QzQ8mY47FapCf56vX
+ nvLunQi/MbScG4mrP5D6N+La59OCDphECJ7w5O5GWkZbJmJu6cM/TZoWo5lvWz/WFEn1
+ nT4MlJPJZST7NC5IjNL3tsO32Luq4Mmg/1lPEBrobnkxF8K/0L5NEZovdAAMTlZpWYOH
+ YElll9Cq3x5bbRICDnip7ZWAwdthbijjBMB2W1BqohimV0FXLTZCnCFRlqS0HJ0QAH8+
+ lkbUKwpiVPXB8fbHm1JA8iX6DfkIc11KJRgkvWOrhI7aPgkgXTfkw01KJsRzM8x8Vc3G
+ 8eNg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWoi4zlI5zzZpF2mL50bDnsjG4GNbNKhYS9LVN3TOuHKJ/46vDfNOpNfeH/ND9+G1PTfQ6aYh7gy8c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxFdpZgN7D+GJOiTgvn0OEGgS51M2TBYHRFRMSiOXfypYACVrlH
- ou6yymTubYZOHJvasv/nQE7qx3Cd6BCC59WmLL/+wf50fVI1Dh1IWip0
-X-Gm-Gg: AZuq6aK21fOqXSRHXjYWj+uHjbBREYWC4dbk5+kbzYkQJZNe+U5XbvPP05dXc8f28ZI
- niZabfYXcEdz4Ld1HQrZPTVnKP/a5wMFaoHd2Mbbp8qClmemXnrSJ0J9flNvZQOErcFUXADbyc5
- gRETV2Cs6PZN7an45xPteLzvbnNtmfbNp9OcbdXSIsnhUxxZk7uZqiG2nlfcUwi2x7fyvFeff3q
- L4bsgezi6LfFvZ3jmqQRR7R9UFBZp023TMl0x+X3EfdqKc3EOblImg7g+mGzIuaOL8UpixDiecI
- PtjUv3Nre3a2y/3Beyfb8XBFZ+GC/A0I627w0RLtODocHPcfTzKDNQFVGQj1afvYpXQx74FlXO5
- sYeUmvc8CnQieacEk9XhBOaxH4REgEGf3JP2T+UpLMxT/vsMw84k4wK5LxxBDWTm3a2/9KwQP6O
- CtljVpHfgRigz/Q9sab985OkeIwc/jnfPOcCj6pykiATnatfEZeY+li5MbII5SxNYo
-X-Received: by 2002:a17:907:6ea2:b0:b73:99f7:8130 with SMTP id
- a640c23a62f3a-b8d3fbe920fmr79276666b.6.1769366380901; 
- Sun, 25 Jan 2026 10:39:40 -0800 (PST)
+ AJvYcCXNmJIGyK5v3vCKQ8B2EZbzteQyzXjX5CKGHqSxM9oLFzfUWPvtTysc/Br8OEtBeOb2heUYL841kj0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyRezUApgzMW/P/yivFoet3gaADUTs7OF9eQguWIGvidBpdDokl
+ i2ysEiGopkE6dJEC7GrOHwG6q7dUyzWNH9n2gTIKdyl8jRC8JFmkaY2Y
+X-Gm-Gg: AZuq6aJBrn1Oh2K3yzlum4o/g9Wi/uuP4An6QwMU0IMyuAEB9TzLKz61KAvuT7HdpAp
+ hq/LT8h1aY2RESRvoiQdcPeLBei0SdwOfTJP3BhS8NUDLpmCd//pi2II4g/GbEhlIruUZNV1lg3
+ UcI5ZsfbKTTarLfcOXe7r9E+WWJF+1y1Ks8Xi4XELpTFz5yO1+g44ahXn1J5puYMRotShSPZJKx
+ E7HA7A7ENXZjAFkKNg+lbtvItcxr8tpSwND2gOxbQutrZAdZdsbZrZJVnjAk8qpaFTuuBvyiz7L
+ XGsIwg209HQ5v9DrbvEHXw02jtPAYwHdH+FDOm/KjIMdx91Hgm0q0v9zcVkoUjXwQt/lQ8yGWn3
+ qmfHC83a5PGAzVxFmdfsWhb//TiAuASKptLZFvbuk1MeGW3osm1B3SrHnyBcoo7rrg/cIJxpnQs
+ VertfkExFMe99o41idlsg9ObNdCvkM/X1n4sxqiR587ccA/d6XAeyjtlBM696HBGIL
+X-Received: by 2002:a17:906:c104:b0:b87:3087:54f0 with SMTP id
+ a640c23a62f3a-b8d3fa9d567mr110207266b.3.1769366382183; 
+ Sun, 25 Jan 2026 10:39:42 -0800 (PST)
 Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b885b3dad3asm499133766b.12.2026.01.25.10.39.39
+ a640c23a62f3a-b885b3dad3asm499133766b.12.2026.01.25.10.39.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Jan 2026 10:39:40 -0800 (PST)
+ Sun, 25 Jan 2026 10:39:41 -0800 (PST)
 From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
 To: alexander.deucher@amd.com,
 	harry.wentland@amd.com,
@@ -76,9 +76,9 @@ Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, tomasz.pakula.oficjalny@gmail.com,
  bernhard.berger@gmail.com, michel.daenzer@mailbox.org, daniel@fooishbar.org
-Subject: [PATCH v2 18/19] drm/amd/display: Enable HDMI VRR
-Date: Sun, 25 Jan 2026 19:39:13 +0100
-Message-ID: <20260125183914.459228-19-tomasz.pakula.oficjalny@gmail.com>
+Subject: [PATCH v2 19/19] drm/amd/display: Add HDMI VRR desktop mode
+Date: Sun, 25 Jan 2026 19:39:14 +0100
+Message-ID: <20260125183914.459228-20-tomasz.pakula.oficjalny@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260125183914.459228-1-tomasz.pakula.oficjalny@gmail.com>
 References: <20260125183914.459228-1-tomasz.pakula.oficjalny@gmail.com>
@@ -133,102 +133,94 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 1307A81BD6
+X-Rspamd-Queue-Id: B1AA981BDD
 X-Rspamd-Action: no action
 
 [Why]
-We'd like to expose VRR functionality to end user if HDMI sink is
-advertising it's support.
+Many TVs and other HDMI sinks suffer from blanking and possibly other
+glitches when VRR is toggled. With FreeSync present on such sinks, they
+behave like the signal is always variable, even in fixed refresh rate
+situations.
 
 [How]
-VTEM info frame is used to signal HDMI sink that VRR is active.
-Use VTEM info packet as vrr_infopacket
+Keep HDMI VRR toggled if it's supported and not explicitly disabled.
+Additionnally, add module parameter which allows users to configure HDMI
+VRR triggering to only happen when the signal is truly asking for
+variable state. This is useful if end user has a TV that automatically
+toggles ALLM/Game mode when VRR is active and such user doesn't want
+gaming mode in normal desktop usage.
 
 Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c   | 13 +++++++++++--
- .../gpu/drm/amd/display/modules/freesync/freesync.c |  4 ++++
- .../drm/amd/display/modules/inc/mod_info_packet.h   |  1 +
- .../amd/display/modules/info_packet/info_packet.c   |  1 +
- 4 files changed, 17 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h                 |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c             | 13 +++++++++++++
+ .../amd/display/modules/info_packet/info_packet.c   | 10 ++++++++--
+ 3 files changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index f95e8a739303..7ebac7b610e7 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -9614,6 +9614,9 @@ static void update_freesync_state_on_stream(
- 					&new_stream->adaptive_sync_infopacket);
- 	}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+index c9eab44ad5b3..dddd8ed361a0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -269,6 +269,7 @@ extern int amdgpu_rebar;
+ extern int amdgpu_wbrf;
+ extern int amdgpu_user_queue;
+ extern int amdgpu_allm_mode;
++extern bool amdgpu_hdmi_vrr_desktop_mode;
  
-+	if (aconn && aconn->as_type == ADAPTIVE_SYNC_TYPE_HDMI)
-+		packet_type = PACKET_TYPE_VTEM;
+ extern uint amdgpu_hdmi_hpd_debounce_delay_ms;
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index 3bdbb46e4d69..f4551450bf31 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -249,6 +249,7 @@ int amdgpu_rebar = -1; /* auto */
+ int amdgpu_user_queue = -1;
+ uint amdgpu_hdmi_hpd_debounce_delay_ms;
+ int amdgpu_allm_mode = 1;
++bool amdgpu_hdmi_vrr_desktop_mode = true;
+ 
+ DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+ 			"DRM_UT_CORE",
+@@ -1146,6 +1147,18 @@ module_param_named(hdmi_hpd_debounce_delay_ms, amdgpu_hdmi_hpd_debounce_delay_ms
+ MODULE_PARM_DESC(allm_mode, "Changes ALLM trigger mode (0 = disable, 1 = enable (default), 2 = force enable)");
+ module_param_named(allm_mode, amdgpu_allm_mode, int, 0644);
+ 
++/**
++ * DOC: hdmi_vrr_on_dekstop (bool)
++ * Enables FreeSync behavior mimicking by keeping HDMI VRR signalling active in
++ * fixed refresh rate conditions like normal desktop work/web browsing.
++ * Possible values:
++ *
++ * -  false = HDMI VRR is only enabled if refresh rate is truly variable
++ * -  true  = Mimics FreeSync behavior and keeps HDMI VRR always active
++ */
++MODULE_PARM_DESC(hdmi_vrr_desktop_mode, "Changes HDMI VRR desktop mode (false = disable, true = enable (default))");
++module_param_named(hdmi_vrr_desktop_mode, amdgpu_hdmi_vrr_desktop_mode, bool, 0644);
 +
- 	mod_freesync_build_vrr_infopacket(
- 		dm->freesync_module,
- 		new_stream,
-@@ -13364,8 +13367,14 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 		}
- 
- 	/* HDMI */
--	} else if (sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A && vsdb_freesync) {
--		monitor_range_from_vsdb(connector, &vsdb_info);
-+	} else if (sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A) {
-+		/* Prefer HDMI VRR */
-+		if (hdmi_vrr->supported) {
-+			amdgpu_dm_connector->as_type = ADAPTIVE_SYNC_TYPE_HDMI;
-+			monitor_range_from_hdmi(connector, valid_vsdb_cea ? &vsdb_info : NULL);
-+		} else if (vsdb_freesync)
-+			monitor_range_from_vsdb(connector, &vsdb_info);
-+
- 		freesync_capable = copy_range_to_amdgpu_connector(connector);
- 
- 	/* DP -> HDMI PCON */
-diff --git a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-index 1aae46d703ba..db197cf048e1 100644
---- a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-+++ b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-@@ -27,6 +27,7 @@
- #include "dc.h"
- #include "mod_freesync.h"
- #include "core_types.h"
-+#include "mod_info_packet.h"
- 
- #define MOD_FREESYNC_MAX_CONCURRENT_STREAMS  32
- 
-@@ -955,6 +956,9 @@ void mod_freesync_build_vrr_infopacket(struct mod_freesync *mod_freesync,
- 		return;
- 
- 	switch (packet_type) {
-+	case PACKET_TYPE_VTEM:
-+		mod_build_vtem_infopacket(stream, vrr, infopacket);
-+		break;
- 	case PACKET_TYPE_FS_V3:
- 		build_vrr_infopacket_v3(stream->signal, vrr, app_tf, infopacket, stream->freesync_on_desktop);
- 		break;
-diff --git a/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h b/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
-index 07e86b16ef77..ca7c5542620d 100644
---- a/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
-+++ b/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
-@@ -60,6 +60,7 @@ enum adaptive_sync_type {
- 	ADAPTIVE_SYNC_TYPE_PCON_ALLOWED     = 2,
- 	ADAPTIVE_SYNC_TYPE_PCON_NOT_ALLOWED = 3,
- 	ADAPTIVE_SYNC_TYPE_EDP              = 4,
-+	ADAPTIVE_SYNC_TYPE_HDMI             = 5,
- };
- 
- enum adaptive_sync_sdp_version {
+ /* These devices are not supported by amdgpu.
+  * They are supported by the mach64, r128, radeon drivers
+  */
 diff --git a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
-index 5e245a053267..38056b2d37b2 100644
+index 38056b2d37b2..c61bbf912a8b 100644
 --- a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
 +++ b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
-@@ -719,6 +719,7 @@ void mod_build_adaptive_sync_infopacket(const struct dc_stream_state *stream,
- 		break;
- 	case ADAPTIVE_SYNC_TYPE_NONE:
- 	case ADAPTIVE_SYNC_TYPE_PCON_NOT_ALLOWED:
-+	case ADAPTIVE_SYNC_TYPE_HDMI:
- 	default:
- 		break;
- 	}
+@@ -651,8 +651,14 @@ static void build_vtem_infopacket_data(const struct dc_stream_state *stream,
+ 	bool rb = false;
+ 
+ 	hdmi_vic_mode = is_hdmi_vic_mode(stream);
+-	vrr_active = vrr->state == VRR_STATE_ACTIVE_VARIABLE ||
+-		     vrr->state == VRR_STATE_ACTIVE_FIXED;
++
++	if (amdgpu_hdmi_vrr_desktop_mode) {
++		vrr_active = vrr->state != VRR_STATE_UNSUPPORTED &&
++			     vrr->state != VRR_STATE_DISABLED;
++	} else {
++		vrr_active = vrr->state == VRR_STATE_ACTIVE_VARIABLE ||
++			     vrr->state == VRR_STATE_ACTIVE_FIXED;
++	}
+ 
+ 	infopacket->sb[VTEM_MD0] = VTEM_M_CONST << VTEM_M_CONST_BIT;
+ 	infopacket->sb[VTEM_MD0] |= VTEM_FVA_FACTOR << VTEM_FVA_BIT;
 -- 
 2.52.0
 
