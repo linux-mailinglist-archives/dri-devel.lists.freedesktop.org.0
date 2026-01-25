@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id lIMwGHVidWl+EwEAu9opvQ
+	id YKC3KXZidWl+EwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 01:23:17 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 01:23:18 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 680AD7F5AE
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 01:23:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5788A7F5B6
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 01:23:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58D5D10E0BA;
-	Sun, 25 Jan 2026 00:23:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EBBE10E34F;
+	Sun, 25 Jan 2026 00:23:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Nqpk9nG4";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="frFEKuGo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1D0E10E0BA
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 00:23:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDF1C10E0BA
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 00:23:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1769300590;
- bh=PS8RAj9emcxdAPA8GEJARM/pErd4GWL1kB8KR+loG88=;
+ s=mail; t=1769300591;
+ bh=8wqL/j4IJaRId1cc1OMklQAuagooBA7lFvGgZ3lacX8=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Nqpk9nG41NrMo+JN00pL6gmKhTiT++Wi47waFYn7U6p4vRkAk46kF3de6QNJHjj1y
- vl+ltYeoXAkK8tr4udoinjWR16/+DU/r+lijIs7ABhmhle29oIErhBeS1i+ky6TQhA
- WDOwMS/yXpPOLaWBXgKGoTiipnm+F/kkcoXFG7C8OUs/WysmtohfnUS1zO2pJh8fr5
- 5QV28yY5LyuaprLHlBlYsdMlzHI1xQR5dcQ12biX5f53YEK7HUWy7ZxrLMFK283YXY
- t2mL4vWAFuuonvBH9P2XCN6g9u9PiHfW7rkYop6tv+F98AduvTlEx9QWZqpVLyx3kK
- HzygJmQvjh86Q==
+ b=frFEKuGokJ0COs1C06/4drGybqj+WfBIdgKTIXNgv6FZFFmcKIg79ENI62cf5r/Dl
+ 9IakN36H7UPg9kN247/Fr/BPLSvqL8hsbTwoWEe2s+h22Ir++ne8mrQzjHA7h7/Jia
+ teWhm666YmzAg3OZcBaV8hGJCDouNp8qK8ZwzWgqjsT/UHspHvvzbCH0J9+lI036Yi
+ 9vLq40BndVRcdVgtjem9rj+fmd2YTrUpyx5rpv0Y1FbesA9Jh3FEMRFW9Zm6pxfBOh
+ a1BxUi8z44Oh3ibjCh904dWMcnU6NwL3E+NGvgBi3nyV8wJDzIxJ+NiJ5GnBtj0t2I
+ pQixPbjWrXSSA==
 Received: from localhost (unknown [82.79.138.145])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 5177B17E139A;
- Sun, 25 Jan 2026 01:23:10 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 291F117E141C;
+ Sun, 25 Jan 2026 01:23:11 +0100 (CET)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Sun, 25 Jan 2026 02:22:59 +0200
-Subject: [PATCH 1/5] drm/bridge: dw-hdmi-qp: Provide HDMI Vendor Specific
- InfoFrame
+Date: Sun, 25 Jan 2026 02:23:00 +0200
+Subject: [PATCH 2/5] drm/bridge: dw-hdmi-qp: Provide SPD InfoFrame
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260125-dw-hdmi-qp-iframe-v1-1-e0f7649ecc4b@collabora.com>
+Message-Id: <20260125-dw-hdmi-qp-iframe-v1-2-e0f7649ecc4b@collabora.com>
 References: <20260125-dw-hdmi-qp-iframe-v1-0-e0f7649ecc4b@collabora.com>
 In-Reply-To: <20260125-dw-hdmi-qp-iframe-v1-0-e0f7649ecc4b@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -76,8 +75,8 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
@@ -87,9 +86,9 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:kernel@collabora.com,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
 	FORGED_SENDER(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
@@ -106,113 +105,98 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,collabora.com:mid]
-X-Rspamd-Queue-Id: 680AD7F5AE
+X-Rspamd-Queue-Id: 5788A7F5B6
 X-Rspamd-Action: no action
 
-Since commit b626b1a1c9cc ("drm/bridge: refactor HDMI InfoFrame
-callbacks"), the following warning is generated:
-
-  [   13.654149] rockchip-drm display-subsystem: [drm] HDMI VSI not supported
-
-Add the missing support for sending HDMI Vendor-Specific Infoframes.
-
-Additionally, introduce the dw_hdmi_qp_write_pkt() utility function, as
-a prerequisite to rework the *_write_*_infoframe() callbacks and get rid
-of some boilerplate code.
+The hardware is capable of sending Source Product Description (SPD)
+InfoFrames, hence enable the missing support.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 32 +++++++++++++++++++++++++---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h |  2 ++
- 2 files changed, 31 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 36 +++++++++++++++++++++++++++-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h |  1 +
+ 2 files changed, 36 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-index 036316e2b60d..b37af6a7e194 100644
+index b37af6a7e194..429736486d85 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-@@ -11,6 +11,7 @@
- #include <linux/export.h>
- #include <linux/i2c.h>
- #include <linux/irq.h>
-+#include <linux/minmax.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/of.h>
-@@ -969,9 +970,9 @@ static int dw_hdmi_qp_bridge_clear_avi_infoframe(struct drm_bridge *bridge)
- 
- static int dw_hdmi_qp_bridge_clear_hdmi_infoframe(struct drm_bridge *bridge)
- {
--	/* FIXME: add support for this InfoFrame */
-+	struct dw_hdmi_qp *hdmi = bridge->driver_private;
- 
--	drm_warn_once(bridge->encoder->dev, "HDMI VSI not supported\n");
-+	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_VSI_TX_EN, PKTSCHED_PKT_EN);
- 
- 	return 0;
- }
-@@ -998,6 +999,18 @@ static int dw_hdmi_qp_bridge_clear_audio_infoframe(struct drm_bridge *bridge)
+@@ -986,6 +986,15 @@ static int dw_hdmi_qp_bridge_clear_hdr_drm_infoframe(struct drm_bridge *bridge)
  	return 0;
  }
  
-+static void dw_hdmi_qp_write_pkt(struct dw_hdmi_qp *hdmi, const u8 *buffer,
-+				 size_t start, size_t len, unsigned int reg)
++static int dw_hdmi_qp_bridge_clear_spd_infoframe(struct drm_bridge *bridge)
 +{
-+	u32 val = 0;
-+	size_t i;
++	struct dw_hdmi_qp *hdmi = bridge->driver_private;
 +
-+	for (i = start; i < start + len; i++)
-+		val |= buffer[i] << ((i % 4) * 8);
++	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_SPDI_TX_EN, PKTSCHED_PKT_EN);
 +
-+	dw_hdmi_qp_write(hdmi, val, reg);
++	return 0;
 +}
 +
- static int dw_hdmi_qp_bridge_write_avi_infoframe(struct drm_bridge *bridge,
- 						 const u8 *buffer, size_t len)
+ static int dw_hdmi_qp_bridge_clear_audio_infoframe(struct drm_bridge *bridge)
  {
-@@ -1011,9 +1024,22 @@ static int dw_hdmi_qp_bridge_write_avi_infoframe(struct drm_bridge *bridge,
- static int dw_hdmi_qp_bridge_write_hdmi_infoframe(struct drm_bridge *bridge,
- 						  const u8 *buffer, size_t len)
- {
+ 	struct dw_hdmi_qp *hdmi = bridge->driver_private;
+@@ -1054,6 +1063,28 @@ static int dw_hdmi_qp_bridge_write_hdr_drm_infoframe(struct drm_bridge *bridge,
+ 	return dw_hdmi_qp_config_drm_infoframe(hdmi, buffer, len);
+ }
+ 
++static int dw_hdmi_qp_bridge_write_spd_infoframe(struct drm_bridge *bridge,
++						 const u8 *buffer, size_t len)
++{
 +	struct dw_hdmi_qp *hdmi = bridge->driver_private;
 +	size_t i;
 +
- 	dw_hdmi_qp_bridge_clear_hdmi_infoframe(bridge);
- 
--	/* FIXME: add support for the HDMI VSI */
-+	/* VSI packet header */
-+	dw_hdmi_qp_write_pkt(hdmi, buffer, 1, 2, PKT_VSI_CONTENTS0);
++	dw_hdmi_qp_bridge_clear_spd_infoframe(bridge);
 +
-+	/* VSI packet body */
++	/* SPD packet header */
++	dw_hdmi_qp_write_pkt(hdmi, buffer, 1, 2, PKT_SPDI_CONTENTS0);
++
++	/* SPD packet body */
 +	for (i = 0; i < len - 3; i += 4)
 +		dw_hdmi_qp_write_pkt(hdmi, buffer + 3, i, min(len - i - 3, 4),
-+				     PKT_VSI_CONTENTS1 + i);
++				     PKT_SPDI_CONTENTS1 + i);
 +
-+	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_VSI_FIELDRATE, PKTSCHED_PKT_CONFIG1);
-+	dw_hdmi_qp_mod(hdmi, PKTSCHED_VSI_TX_EN, PKTSCHED_VSI_TX_EN,
++	dw_hdmi_qp_mod(hdmi, PKTSCHED_SPDI_TX_EN, PKTSCHED_SPDI_TX_EN,
 +		       PKTSCHED_PKT_EN);
- 
- 	return 0;
- }
++
++	return 0;
++}
++
+ static int dw_hdmi_qp_bridge_write_audio_infoframe(struct drm_bridge *bridge,
+ 						   const u8 *buffer, size_t len)
+ {
+@@ -1252,6 +1283,8 @@ static const struct drm_bridge_funcs dw_hdmi_qp_bridge_funcs = {
+ 	.hdmi_write_hdmi_infoframe = dw_hdmi_qp_bridge_write_hdmi_infoframe,
+ 	.hdmi_clear_hdr_drm_infoframe = dw_hdmi_qp_bridge_clear_hdr_drm_infoframe,
+ 	.hdmi_write_hdr_drm_infoframe = dw_hdmi_qp_bridge_write_hdr_drm_infoframe,
++	.hdmi_clear_spd_infoframe = dw_hdmi_qp_bridge_clear_spd_infoframe,
++	.hdmi_write_spd_infoframe = dw_hdmi_qp_bridge_write_spd_infoframe,
+ 	.hdmi_clear_audio_infoframe = dw_hdmi_qp_bridge_clear_audio_infoframe,
+ 	.hdmi_write_audio_infoframe = dw_hdmi_qp_bridge_write_audio_infoframe,
+ 	.hdmi_audio_startup = dw_hdmi_qp_audio_enable,
+@@ -1368,7 +1401,8 @@ struct dw_hdmi_qp *dw_hdmi_qp_bind(struct platform_device *pdev,
+ 			   DRM_BRIDGE_OP_EDID |
+ 			   DRM_BRIDGE_OP_HDMI |
+ 			   DRM_BRIDGE_OP_HDMI_AUDIO |
+-			   DRM_BRIDGE_OP_HDMI_HDR_DRM_INFOFRAME;
++			   DRM_BRIDGE_OP_HDMI_HDR_DRM_INFOFRAME |
++			   DRM_BRIDGE_OP_HDMI_SPD_INFOFRAME;
+ 	if (!hdmi->no_hpd)
+ 		hdmi->bridge.ops |= DRM_BRIDGE_OP_HPD;
+ 	hdmi->bridge.of_node = pdev->dev.of_node;
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h
-index 91a15f82e32a..53688eae8dba 100644
+index 53688eae8dba..c07847e8d7dd 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.h
-@@ -198,6 +198,7 @@
- #define PKTSCHED_PRQUEUE2_CONFIG2			0xa94
- #define PKTSCHED_PKT_CONFIG0				0xa98
- #define PKTSCHED_PKT_CONFIG1				0xa9c
-+#define PKTSCHED_VSI_FIELDRATE				BIT(14)
- #define PKTSCHED_DRMI_FIELDRATE				BIT(13)
- #define PKTSCHED_AVI_FIELDRATE				BIT(12)
- #define PKTSCHED_PKT_CONFIG2				0xaa0
-@@ -206,6 +207,7 @@
+@@ -206,6 +206,7 @@
+ #define PKTSCHED_PKT_EN					0xaa8
  #define PKTSCHED_DRMI_TX_EN				BIT(17)
  #define PKTSCHED_AUDI_TX_EN				BIT(15)
++#define PKTSCHED_SPDI_TX_EN				BIT(14)
  #define PKTSCHED_AVI_TX_EN				BIT(13)
-+#define PKTSCHED_VSI_TX_EN				BIT(12)
+ #define PKTSCHED_VSI_TX_EN				BIT(12)
  #define PKTSCHED_EMP_CVTEM_TX_EN			BIT(10)
- #define PKTSCHED_AMD_TX_EN				BIT(8)
- #define PKTSCHED_GCP_TX_EN				BIT(3)
 
 -- 
 2.52.0
