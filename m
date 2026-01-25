@@ -2,103 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GPrUIpqHdWn0FwEAu9opvQ
+	id WrtKNMjddWkvJQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 04:01:46 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 10:09:28 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD5177F8E7
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 04:01:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 220E0800D8
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 10:09:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A35F10E07F;
-	Sun, 25 Jan 2026 03:01:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4AE010E066;
+	Sun, 25 Jan 2026 09:09:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Fim4JMsZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RbuF955C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
- [209.85.221.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B488D10E07F
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 03:01:40 +0000 (UTC)
-Received: by mail-vk1-f178.google.com with SMTP id
- 71dfb90a1353d-5635f3eff8aso717015e0c.1
- for <dri-devel@lists.freedesktop.org>; Sat, 24 Jan 2026 19:01:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769310099; cv=none;
- d=google.com; s=arc-20240605;
- b=EdcMHePbGOztSeD8xbtBMumS/vzatXMhG/Fcuxt2hy5NYD1H9bkhvcfIslr1Efumy9
- gDuV/yqPOCztzZDWCnla29N6XMgONEojX0SqymWgTbv40WzfucbGAhPowW8fcJc1bdLX
- vMYmr7HbsQ9xvpfKVrjMHFJuqX6nvKE6Z2MTfbFw2mK6jo3gLPB2bNs9q+e/zLt0W8pO
- imoh1Pjf0X2dIY66uir7dT4A7qjinbjyIl8IDGko8xDWVNU8u3G6yPBgWdGfWljvEyu9
- ktyXcYX/62hu/xFppF5iC3jDfl1OMlYrUw7kZ8haDnzwrTtR0hFl8LmHoO7GDYPMsqEQ
- kZ3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:dkim-signature;
- bh=hcWFM/HB6nnN5K2qLYIAW1J7U+avCqDxkAOsieUzDRA=;
- fh=OZsejbfnw1WyJ7qxml4/eoqApuoBuTjguQKsWOqRwEo=;
- b=HkIcjOipWebloRIMyHu1fJjg6V1WFoggRoYaxnwDsU0aWckL7OeDXsGdOybvuHw/wd
- WQiSb7bx38yj3s+PtP7k+5rgUyxfV5yPNkPjBb/hmnB1raR433nIJAFidqxaHp0ABRGD
- OxfRppQFlISfGux3buqpmFcHqvgyImqrrhgJfccJ1xDDXqO/1SEX6d8SntGoKubpV2Yv
- sJIgdi2vBi+SE/kYnlE2oVw7be6jQnDZGw8fGgz0ZHi3TXz1KrbtejUh6KoMwjYr4YeN
- oBpMoqG2bVKAY4c7ubF3al3tqCJlqQo6ZFWdIZSKI9NZha6rXpZxr2952z0AZZRU7Ajz
- 1A+g==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2516210E066
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 09:09:24 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-4327555464cso2333819f8f.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 01:09:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769310099; x=1769914899; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=hcWFM/HB6nnN5K2qLYIAW1J7U+avCqDxkAOsieUzDRA=;
- b=Fim4JMsZOSB/h+GPbLFiB8KsQIC7MdbQkFI0mM5ouuc2AqU4zPTADKBSdYuebzASIL
- li18fSzWkn/vG4sWHes0zP9MLsZeITWkECjFQp0oCDjtjlepaeIYU2PzS9hJ2zZ6vBp5
- GRKtONpHUioZfPU01vEu02trT0+PSoXahVF58hFMRXB/DLNShBa+rNDnxgfm53UOwNPl
- rdk+XLPE28U3CWiMEVxmQwsoQ/oVXbjyDZeaoXyzs0Jvq7a7KH2ch+7eOMQrvEIErAkM
- Y38mOdxNGk2qoodjvT6iRKZxQnE4lyAEWsPASEo0I67rIxBlqpEmucrPnm/5/6sOmo6p
- Vtyg==
+ d=gmail.com; s=20230601; t=1769332162; x=1769936962; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=31O2eYXcVuLapO5Zw/zgNNvFpdLcpA1gw2dP7RI+fXE=;
+ b=RbuF955CanD0TYKKjC+hXyjJekWDNhMIocquOIzKYpvh1whyF/+RIdfr13H9Nh5vPH
+ v8jlgBRn4kgyNHJBP3GSrNpOkauPq3+fu5gizVU6gPqK0lsI6gO2UfBC0nNit2RrzuRS
+ Z1B4k7JNf+DP6ReEIxYE5xVM9+zg36wTCuhg7yUcBK+3Jj1f/VWNiEw9jxi53ebIaiZr
+ IJNfWeBsmzTunEdWvqjwJtH31V5e6l6DSd1OFaM7Dpx1ntfbtHewDsRuSCdhgJ0TOH4v
+ xvOCUyFSC060cQeLs7l+iYyn4AlaLxiCddt7oOg5x+21Ji9f7L+hw8pz1lgodlHTjbTr
+ FUkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769310099; x=1769914899;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hcWFM/HB6nnN5K2qLYIAW1J7U+avCqDxkAOsieUzDRA=;
- b=hWl1306hdao5bVXCGKCMB6L1wEz+7pDyPNUjsQ86danycXhZYy0o2ufPCyPU39QJRH
- 7LK2/SZddBb73+wuo1nR8Ih5o75mWXPP8nIMdpGSaxQHKu7fcV8XMZewSFxOezpmBHqE
- avpJ9m59xphP/CLWaMUdHxhMx8XOvL03WjJgWtcsw5g+O0wIRARsxJtSgVoeQV3YgmDH
- 6d4Yf9POIUdQToRe1lWBRtvP4FF4gDaGvBDb2YItByV+MiBWJAouUJY6chg02jwL0SZP
- UDfVBk1aSQdByYDnwzCRfqqV1KLeM1PXUzbFS+pxTfsZarTWyQy04QEh7+imu9mpXFPk
- 6Vsg==
+ d=1e100.net; s=20230601; t=1769332162; x=1769936962;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=31O2eYXcVuLapO5Zw/zgNNvFpdLcpA1gw2dP7RI+fXE=;
+ b=o37QlUbd5dOnk7sKcUi9swGhm7wnawkU99qWXIduHDf8w5JdqgiTv4PuLdyHs749aX
+ 0+RdkwnRFT8TQsQL99svABBZtFFYelAPH5G6I/ITbfE2WDHbRGZWwInVNVdg0JAj3dM8
+ ME86Cjl7U4ABpjmIj3QF+wlQ6p16gAr4KNh6oMycQqSDdnBH3sdKs7rdx1w4yVuyhfsk
+ ADxpnPPyDENvOdw3ijG11Q8y6D8SAjkhfFXkqpPNdz8B8Jbh2oSZHSbct2ynZrwjyGhQ
+ 3ve5+C1s4UetKyFGTx1+J/p+1yylpXmcvpiVCY/M+5JBT9B5XXj6145P8KqwSeUhN9q4
+ lvGg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVeXexIPKBrEXpivw8E5lGOUbGKpSYQDm9iZnLvqBg5v1HRX60r77C2WMZl5x6MvIg4frl0NIuMels=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxohG9gjM7RZLAbPtLSihqhNjbJyMxmFt+EPB1xd81CUM2Qwgt3
- pwYmy1+DbPuGO1sE3mMNqs+6yrwrZ7VPDrN1TexvAmMq7WaOtVGwBJUvKCTZhnL/4zG3ZeY+Fze
- H0qMI9qzxwzZEMTHpzOf4SehuDhkaGj0=
-X-Gm-Gg: AZuq6aKiHYNcCfBIApW2/vjiUkoC8cxRiCgQTYBl/T+6cPn8uTZiDMpvKNe3C9DoG03
- px1LcrGYYGJz3My42oQmdfUBdaMI6LdJAG7YyWecNwGOwCewlkj0yb8zp0P16/60lLMBDQfu7TU
- 6Br3FHTNBcU0CC2ZzQjpF3eWaNYeKl8RbDfepG+IU8rXKT8zAw/GoTOPII3Y+OMwkEu3kzDp1+a
- cwi2g5/y0D7Nlf18FPpFbZ+bkpAxMpBdvVqkBMzrOmvjTVjOsaxtkA8ao2qbVjliuR5WA==
-X-Received: by 2002:a05:6122:180c:b0:566:23dd:19b9 with SMTP id
- 71dfb90a1353d-5665c95a387mr205074e0c.3.1769310099141; Sat, 24 Jan 2026
- 19:01:39 -0800 (PST)
+ AJvYcCWjyX2axgaI7JDEMcgX4is4AuzDkyoO/mFf3qN7rXx35ZeiAjPSiUDyeF1Xr0OkE0Q7BH36H0POSAs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx7rcrYOnqICFbU/Y05IOpTCPZEjFqcjUbcr+r4IWTrisbT70TJ
+ XzQdmUwypq5sLLqWq7GIu+1YZ8TdGeAo1i5CihTpS9MCEzpHT3Ob+Z6c
+X-Gm-Gg: AZuq6aJ6avJHRoqr16P4nlLvPZHR+Abyq1UJjuACTgSshBEbTrjp/H2NlZA6+5+V3Yq
+ b5XA49pslettlW1Uqm1T70NSz4aw88lFX3+NEABYfmfnXfknQFHxvJp2WE+zkhlOjx4KE2cWMGj
+ D/HwiJZPR6X+IWs8HXR/q1PM3TAlUsuguouBJot27KFwv73pUS38Uu5EN45BCqtEd1pWLIIZJ6T
+ 4HbK7r55x+J+dEDQ76WpdNzcohZsy4w8IabZJVmnGYXa0Zxbpv20DB1FPfwRHqfpUUNCc4JEH3p
+ 2csP+CJUEXzgU6zA9x7vzG2fvVulJK8rq7YLfbTzqoNVru6fewU+eTeM9Ywi5B0cRQUt2hlDZJE
+ 8WJlHwc6MbKfbaSeZgW9lRH+0lmrbxvTBarMNUX0nc1aCWszHb/FnAAKcjt0CYli8HGOR3j2iyV
+ rmnDd+3RF1TNZ4YU9+O/yllZM5W7B1fr8vsg/EBTigaDZg8RNk6Ul9hDx6jw1P4mbtANp1LJSNl
+ y6NZJSM8wZ5+4dqAMh4ycOhfRE9RBsjh40M/CiQimc=
+X-Received: by 2002:a05:600c:c04b:10b0:46e:4e6d:79f4 with SMTP id
+ 5b1f17b1804b1-4805dd3722bmr10472735e9.15.1769332162004; 
+ Sun, 25 Jan 2026 01:09:22 -0800 (PST)
+Received: from ?IPV6:2003:df:bf2d:e300:e4b8:a0ef:f9fc:d01?
+ (p200300dfbf2de300e4b8a0eff9fc0d01.dip0.t-ipconnect.de.
+ [2003:df:bf2d:e300:e4b8:a0ef:f9fc:d01])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-48046fba46dsm263939945e9.0.2026.01.25.01.09.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 25 Jan 2026 01:09:21 -0800 (PST)
+Message-ID: <8d930ac7-11b1-437b-be18-7a785f20a72f@gmail.com>
+Date: Sun, 25 Jan 2026 10:09:19 +0100
 MIME-Version: 1.0
-References: <20260119082553.195181-1-aha310510@gmail.com>
-In-Reply-To: <20260119082553.195181-1-aha310510@gmail.com>
-From: Inki Dae <daeinki@gmail.com>
-Date: Sun, 25 Jan 2026 12:01:28 +0900
-X-Gm-Features: AZwV_QilnwXmpNb4vsxKVjfib332OJwT0DkZJ_FMU5FrX5DjvtcP1yPCVewW67g
-Message-ID: <CAAQKjZMHSQrowPWnWaO88Wynub00YjGLPnSNCg4n4CyNwgYtTQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3 RESEND] drm/exynos: vidi: fix various memory
- corruption bugs
-To: Jeongjun Park <aha310510@gmail.com>
-Cc: Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org
-Content-Type: multipart/alternative; boundary="000000000000f4f85106492d9bc6"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/5] gpu: nova-core: use checked arithmetic in FWSEC
+ firmware parsing
+To: Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
+ Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
+ Alice Ryhl <aliceryhl@google.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>, 
+ Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>,
+ Zhi Wang <zhiw@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
+References: <20260124231830.3088323-1-joelagnelf@nvidia.com>
+ <20260124231830.3088323-2-joelagnelf@nvidia.com>
+Content-Language: de-AT-frami, en-US
+From: Dirk Behme <dirk.behme@gmail.com>
+In-Reply-To: <20260124231830.3088323-2-joelagnelf@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,108 +112,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:aha310510@gmail.com,m:sw0312.kim@samsung.com,m:kyungmin.park@samsung.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:krzk@kernel.org,m:alim.akhtar@samsung.com,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[daeinki@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:dakr@kernel.org,m:acourbot@nvidia.com,m:aliceryhl@google.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:jhubbard@nvidia.com,m:apopple@nvidia.com,m:ttabi@nvidia.com,m:epeer@nvidia.com,m:zhiw@nvidia.com,m:bhelgaas@google.com,m:ojeda@kernel.org,m:alex.gaynor@gmail.com,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:nouveau@lists.freedesktop.org,m:rust-for-linux@vger.kernel.org,m:alexgaynor@gmail.com,m:boqunfeng@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[nvidia.com,vger.kernel.org,kernel.org,google.com,gmail.com,ffwll.ch];
+	TAGGED_FROM(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[dirkbehme@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daeinki@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[samsung.com,gmail.com,ffwll.ch,kernel.org,lists.freedesktop.org,lists.infradead.org,vger.kernel.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dirkbehme@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[nvidia.com,google.com,kernel.org,gmail.com,garyguo.net,protonmail.com,umich.edu,lists.freedesktop.org,vger.kernel.org];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: AD5177F8E7
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 220E0800D8
 X-Rspamd-Action: no action
 
---000000000000f4f85106492d9bc6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Joel,
 
-Hello Mr Park,
+On 25.01.26 00:18, Joel Fernandes wrote:
+> Use checked_add() and checked_mul() when computing offsets from
+> firmware-provided values in new_fwsec().
+> 
+> Without checked arithmetic, corrupt firmware could cause integer overflow. The
+> danger is not just wrapping to a huge value, but potentially wrapping to a
+> small plausible offset that passes validation yet accesses entirely wrong data,
+> causing silent corruption or security issues.
+> 
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+> ---
+>  drivers/gpu/nova-core/firmware/fwsec.rs | 60 ++++++++++++++-----------
+>  1 file changed, 35 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/gpu/nova-core/firmware/fwsec.rs b/drivers/gpu/nova-core/firmware/fwsec.rs
+> index a8ec08a500ac..1a91bbbce3d5 100644
+> --- a/drivers/gpu/nova-core/firmware/fwsec.rs
+> +++ b/drivers/gpu/nova-core/firmware/fwsec.rs
+> @@ -46,10 +46,7 @@
+...
+> @@ -356,8 +362,12 @@ pub(crate) fn new(
+>          // Patch signature if needed.
+>          let desc = bios.fwsec_image().header()?;
+>          let ucode_signed = if desc.signature_count() != 0 {
+> -            let sig_base_img =
+> -                usize::from_safe_cast(desc.imem_load_size() + desc.pkc_data_offset());
+> +            // Compute sig_base_img = desc.imem_load_size + desc.pkc_data_offset.
 
-I'm sorry for being late. I forgot to review the patch you had posted
-before. I will proceed with the review soon.
+Nit: Drop `desc.` to make it consistent with the other comments.
 
-Thanks,
-Inki Dae
+Best regards
 
-
-2026=EB=85=84 1=EC=9B=94 19=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 5:26, J=
-eongjun Park <aha310510@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
-
-> This is a series of patches that address several memory bugs that occur
-> in the Exynos Virtual Display driver.
->
-> Jeongjun Park (3):
->   drm/exynos: vidi: use priv->vidi_dev for ctx lookup in
-> vidi_connection_ioctl()
->   drm/exynos: vidi: fix to avoid directly dereferencing user pointer
->   drm/exynos: vidi: use ctx->lock to protect struct vidi_context member
-> variables related to memory alloc/free
->
->  drivers/gpu/drm/exynos/exynos_drm_drv.h  |  1 +
->  drivers/gpu/drm/exynos/exynos_drm_vidi.c | 74
-> +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----------=
--
->  2 files changed, 64 insertions(+), 11 deletions(-)
->
->
-
---000000000000f4f85106492d9bc6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Hello Mr Park,<div dir=3D"auto"><br></div><div dir=3D"aut=
-o">I&#39;m sorry for being late. I forgot to review the patch you had poste=
-d before. I will proceed with the review soon.=C2=A0</div><div dir=3D"auto"=
-><br></div><div dir=3D"auto">Thanks,</div><div dir=3D"auto">Inki Dae<br><di=
-v dir=3D"auto"><div dir=3D"auto"><div dir=3D"auto"><div dir=3D"auto"><div d=
-ir=3D"auto"><div dir=3D"auto"><div dir=3D"auto"><br></div></div></div></div=
-></div></div></div></div></div><br><div class=3D"gmail_quote gmail_quote_co=
-ntainer"><div dir=3D"ltr" class=3D"gmail_attr">2026=EB=85=84 1=EC=9B=94 19=
-=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 5:26, Jeongjun Park &lt;<a href=3D=
-"mailto:aha310510@gmail.com">aha310510@gmail.com</a>&gt;=EB=8B=98=EC=9D=B4 =
-=EC=9E=91=EC=84=B1:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">This is a serie=
-s of patches that address several memory bugs that occur<br>
-in the Exynos Virtual Display driver.<br>
-<br>
-Jeongjun Park (3):<br>
-=C2=A0 drm/exynos: vidi: use priv-&gt;vidi_dev for ctx lookup in vidi_conne=
-ction_ioctl()<br>
-=C2=A0 drm/exynos: vidi: fix to avoid directly dereferencing user pointer<b=
-r>
-=C2=A0 drm/exynos: vidi: use ctx-&gt;lock to protect struct vidi_context me=
-mber variables related to memory alloc/free<br>
-<br>
-=C2=A0drivers/gpu/drm/exynos/exynos_drm_drv.h=C2=A0 |=C2=A0 1 +<br>
-=C2=A0drivers/gpu/drm/exynos/exynos_drm_vidi.c | 74 +++++++++++++++++++++++=
-++++++++++++++++++++++++++++++++++++++++-----------<br>
-=C2=A02 files changed, 64 insertions(+), 11 deletions(-)<br>
-<br>
-</blockquote></div>
-
---000000000000f4f85106492d9bc6--
+Dirk
