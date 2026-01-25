@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AKxHIMs/dmm6OAEAu9opvQ
+	id uOQZHNU/dmm6OAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 17:07:39 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 17:07:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432698158C
-	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 17:07:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3A908159A
+	for <lists+dri-devel@lfdr.de>; Sun, 25 Jan 2026 17:07:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6376A10E195;
-	Sun, 25 Jan 2026 16:07:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFA4610E364;
+	Sun, 25 Jan 2026 16:07:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="L4KnWdRu";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="blmME2YS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25B8210E195
- for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 16:07:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25D4D10E369
+ for <dri-devel@lists.freedesktop.org>; Sun, 25 Jan 2026 16:07:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1769357255;
+ s=mimecast20190719; t=1769357264;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to; bh=UzFafadD/xFA5DaIbLPJfWcnaK2KSCnXdhRnlT6y1nw=;
- b=L4KnWdRuO84cHRYVGidZvhns9F1gi+n+VHp4/Fgb80j2F3xW6g84B0nG04QE2kLCYi3iks
- ILcYmh4E7JJCqMknI4YiSOYiZ2oCPp8BuVPE/j198OVXUv9id/MXGESvzimMs7YhGESyv2
- IlnEbr3i58lERx1M+b46qfXQeWy4aEM=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ in-reply-to:in-reply-to; bh=aojbJJ5FzMzE2HJE4QEerULCpiKv5AGEyOIjsVq7b3Q=;
+ b=blmME2YSCesXheu1WA4XK4UGDLnaKXv/1lt4lw7AR+fgMBCzAFlqGdR2usi2qAlxuzS+/C
+ HDtLcJADDEcwzB+puSdncFJu+FPsshCEy+A/IdXwDEG8xrYU/OzOLUCe3bxAEm9J/JjXd9
+ 3S6QqwJxs44/MHhsqgnAXMthJHVFkV4=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-544-3eIJo3prPQijK62EceRZWA-1; Sun,
- 25 Jan 2026 11:07:30 -0500
-X-MC-Unique: 3eIJo3prPQijK62EceRZWA-1
-X-Mimecast-MFC-AGG-ID: 3eIJo3prPQijK62EceRZWA_1769357247
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-632-m897L2klPTqHE3h_lcyBAg-1; Sun,
+ 25 Jan 2026 11:07:38 -0500
+X-MC-Unique: m897L2klPTqHE3h_lcyBAg-1
+X-Mimecast-MFC-AGG-ID: m897L2klPTqHE3h_lcyBAg_1769357256
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id CFB261800342; Sun, 25 Jan 2026 16:07:27 +0000 (UTC)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id E58761800451; Sun, 25 Jan 2026 16:07:35 +0000 (UTC)
 Received: from fedora (unknown [10.45.224.8])
- by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP
- id 0EC9930001A7; Sun, 25 Jan 2026 16:07:21 +0000 (UTC)
+ by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP
+ id D7B8A1958DC4; Sun, 25 Jan 2026 16:07:29 +0000 (UTC)
 Received: by fedora (nbSMTP-1.00) for uid 1000
- oleg@redhat.com; Sun, 25 Jan 2026 17:07:27 +0100 (CET)
-Date: Sun, 25 Jan 2026 17:07:20 +0100
+ oleg@redhat.com; Sun, 25 Jan 2026 17:07:35 +0100 (CET)
+Date: Sun, 25 Jan 2026 17:07:28 +0100
 From: Oleg Nesterov <oleg@redhat.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Alice Ryhl <aliceryhl@google.com>,
@@ -62,14 +62,13 @@ Cc: Alice Ryhl <aliceryhl@google.com>,
  Simon Horman <horms@kernel.org>, linux-kernel@vger.kernel.org,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-rdma@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH v2 2/7] android/binder: use same_thread_group(proc->tsk,
- current) in binder_mmap()
-Message-ID: <aXY_uPYyUg4rwNOg@redhat.com>
+Subject: [PATCH v2 3/7] drm/amdgpu: don't abuse current->group_leader
+Message-ID: <aXY_wKewzV5lCa5I@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <aXY_h8i78n6yD9JY@redhat.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,32 +113,49 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 432698158C
+X-Rspamd-Queue-Id: A3A908159A
 X-Rspamd-Action: no action
 
-With or without this change the checked condition can be falsely true
-if proc->tsk execs, but this is fine: binder_alloc_mmap_handler() checks
-vma->vm_mm == alloc->mm.
+Cleanup and preparation to simplify the next changes.
+
+- Use current->tgid instead of current->group_leader->pid
+
+- Use get_task_pid(current, PIDTYPE_TGID) instead of
+  get_task_pid(current->group_leader, PIDTYPE_PID)
 
 Signed-off-by: Oleg Nesterov <oleg@redhat.com>
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Acked-by: Felix Kuehling <felix.kuehling@amd.com>
 ---
- drivers/android/binder.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c           | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/android/binder.c b/drivers/android/binder.c
-index dea701daabb0..b3b73303f84d 100644
---- a/drivers/android/binder.c
-+++ b/drivers/android/binder.c
-@@ -6015,7 +6015,7 @@ static int binder_mmap(struct file *filp, struct vm_area_struct *vma)
- {
- 	struct binder_proc *proc = filp->private_data;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+index b1c24c8fa686..df22b54ba346 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+@@ -1421,7 +1421,7 @@ static int init_kfd_vm(struct amdgpu_vm *vm, void **process_info,
+ 			goto create_evict_fence_fail;
+ 		}
  
--	if (proc->tsk != current->group_leader)
-+	if (!same_thread_group(proc->tsk, current))
- 		return -EINVAL;
+-		info->pid = get_task_pid(current->group_leader, PIDTYPE_PID);
++		info->pid = get_task_pid(current, PIDTYPE_TGID);
+ 		INIT_DELAYED_WORK(&info->restore_userptr_work,
+ 				  amdgpu_amdkfd_restore_userptr_worker);
  
- 	binder_debug(BINDER_DEBUG_OPEN_CLOSE,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index a67285118c37..a0f8ba382b9e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -2554,7 +2554,7 @@ void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
+ 	if (current->group_leader->mm != current->mm)
+ 		return;
+ 
+-	vm->task_info->tgid = current->group_leader->pid;
++	vm->task_info->tgid = current->tgid;
+ 	get_task_comm(vm->task_info->process_name, current->group_leader);
+ }
+ 
 -- 
 2.52.0
 
