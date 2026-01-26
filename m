@@ -2,60 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GO5IEABVd2nMeAEAu9opvQ
+	id 0NmhCYxXd2lkeQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 12:50:24 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 13:01:16 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9419987D53
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 12:50:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C907387EE3
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 13:01:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8C1D10E1CD;
-	Mon, 26 Jan 2026 11:50:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1204010E40C;
+	Mon, 26 Jan 2026 12:01:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="b9J9SHkj";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WXmJho0s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBE8910E1CD
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 11:50:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=fNdXdx3qpgtP8W7eHWimmJlGqGjPkF4bLSPE3qsDDxw=; b=b9J9SHkjo7vDS8rVgQb9Ekv8XW
- ZtJu4j7xsdILnMAyjAO9GiewSYRe3AqXcUtC3oNZkFLsu+cFwKW+b2KrW0JRCeIx7hPqu0Quj7Fef
- yWC58z14q3GHqX8XonMeb6IojX98lIgHoguoCfhj7NaaurZjqcELugQSshlb34/e/DhkPZjbqsg2c
- ETBYK4Pi6fqz0FEX4RzXxufJ2WzZ6b+tzoOesfO5OTo6YgRXqHGOrUGCK7s2gnExgeiJVl6cjc4Gf
- KwijCChSx+WQ/b1yfPzQUPmbXeZRRkHOao3cFmUlEraxiugChA+jE4qwuI5mqEG8glI/F1PQ1kA3G
- j6DQYMSw==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vkL6j-00A1TM-Hn; Mon, 26 Jan 2026 12:50:13 +0100
-Message-ID: <03cd76ac-7cb9-4493-8695-3d2d60358709@igalia.com>
-Date: Mon, 26 Jan 2026 11:50:12 +0000
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
+ [209.85.128.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E2F410E40C
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 12:01:12 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-7945838691aso12032797b3.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 04:01:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769428871; cv=none;
+ d=google.com; s=arc-20240605;
+ b=PLKIU50MWg+hUVTRMiv8kivwDf+0ABoCaH6n7yNmAaQ85ZobNUBMcg22gfYadjufR3
+ UIXJ4wqVnSSUql+VBoQLKX4OccZSKMeTln65oqZ5I44fvMByK644fakVasSWo9gG/z23
+ 6ZeZS1ohHthjQOjMkYOwWC2pLZFRfzMd1YFKNRalnNTreOs5zhrjBLyXMvGTq0pjGZ5I
+ GU15WdCKgymuKJhl5FWlXuRnAZbFNmbYy3A03+MGvqYDK2ng7kDeqGdCeXI5/kfLjyuD
+ d6nmdV5EBzrwhJnMsUidwEENwyhsoDQdHUSR2vZL+sDXItsUKm1ULRrEt0UqKnNGtupf
+ TN0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=Mw4KTn7OReF9P8qDWL30dcxwGr9P25yZho6xXb2IBG8=;
+ fh=SDI48nR5MNzRllcX7FU/09vqJ8Zl51LPVOcEmOgkmW0=;
+ b=Xolhs7OOJa5CalMXmGfL/sQFPRB5edP0Hi9DZxn4JX4Rq9Tn67s5EV+a0WtLP1ox7X
+ wtybumnA/3OIjQzLl8Du+SeSG3Za46HpIN2UZYs78WrFq563lJVVD6IXa/XlgdAOh9p7
+ NCDurU4iLze0cIMG9Q0pwYBkxWJqHK/PgnohQg1o0xKnTTFnsiNIz6o+fR6NZTwrRs9U
+ jN+jmF4FowbO6AfKFNrM8KD75X6k4kCJmuw76FcYxiQe4xHX1PwB/oCXJkfXzG6kMiz5
+ Gj4rkbnF05OX16tKPIjpBk5M5f4tMo33blApbR+EQsIGlUadALaipX96K3t4+6OTFNdn
+ NpOQ==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1769428871; x=1770033671; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Mw4KTn7OReF9P8qDWL30dcxwGr9P25yZho6xXb2IBG8=;
+ b=WXmJho0szDCGybM3aRh2m3GamKGOu9hlMCBZb3CadpTWy0CbXm0ZQw5RqVpr6sVG0z
+ YmVyTsraGKupI7RgqRtcuaxWZZ+MhO15KZOY0v87V5vhVMKTrMLViD+0n7EOuOd0AAYh
+ D5ylT61YAOewwkzHloDgxwMwRPui+J1hteCVuJKoRh/nk2icWOQvcPTjrswCA9HsmUvU
+ 6lT5kOaAGSoPTfGkgSdJJzad/LW3IBjJIZgSwYmGoB3ZnwBacvMuC6xHfyoTUkxhkA0z
+ BrxdXJuofUlCNBytEDRabuVbrDyUNkLBUDj8TOumKIm6KYPtg+8fPQFNBKokpLfvQv5O
+ Nwwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769428871; x=1770033671;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=Mw4KTn7OReF9P8qDWL30dcxwGr9P25yZho6xXb2IBG8=;
+ b=pRgNQ2bjCwl7ZmvxZKMxJ9oNXmUJhLBzn8AjvAON97LFbc2o8IPICDZkjrb+D0va9r
+ nH3OhDOUieFyzHD5jPDFYu/vURcIImbO6vjo4eBNreCmcSu0Bae9EMdw94dy7pwTvwVz
+ HlCqlFFmmYKHcR9y+4lF30srpAITlpLhSjmn6AR9FeeLsYvrjuKxqYCrFdDk8nOCTIlL
+ hMD+SaFdCnURFCRh9Aexl9SgxKW4WDK3A+ItS2k6YYMF3ZjnqaB8XWjYFu0/KA7abR2W
+ UQpyNTPUoCGkLrE5NLRr/aZMMePaECQ5GfipmnLERJoY4s3/v7HTO1DXfzzuX0NN41WE
+ jC4g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXP7cVJ4jOvoJaXuO8Ver02YZbNY7sdAMTWflnkHs9NjA2e31wp+pj2cRQ11/r6qdRwGsE+YxIRMco=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxzSowYhH+PUk2rhw+wVh5QO7piSm1kSqGEVlkLCb6DW4Sv67dV
+ 2NaTwPCtVdCszVLWIHCbv1HvYTwuFpANSNa2muhkoYngf4skosmBGKjSPL2+dgHiBUPAAbkTxeC
+ mq19bnkMwGLWK3R6NJVgkoddS9XtrJ0D6FI0/0z7n6w==
+X-Gm-Gg: AZuq6aIto6/Ha6maPuutqKfZ12ZVPlv6d/uzabABD3Thdlz1KkYYomvXx/vcWuUwXJm
+ nygn3BYV/QyofwYGAFm4D/w5zsj6A80eKW707yMssZT2J3ugHGop4VRRKDLdFnyuB7K+DgpnhTt
+ i+wd0715r8naVlUDpUAuhEv5jRJ4MXwIWrTQd2wyvOZSWq7orbXv28BxuTsxGbWbfoeQA6d5ROV
+ zr0ubaZz3vDvCMUU8JVH3jMgjLpyt/YQIqxB5i4bKj1hShsB3GOHRuEPVvuKJAR0dfA7YiWfDOU
+ RiPrNg==
+X-Received: by 2002:a05:690e:d85:b0:649:60a9:bd84 with SMTP id
+ 956f58d0204a3-6497146c00emr2614295d50.43.1769428871187; Mon, 26 Jan 2026
+ 04:01:11 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm: Do not allow userspace to trigger kernel warnings
- in drm_gem_change_handle_ioctl()
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Zhi Wang <wangzhi@stu.xidian.edu.cn>,
- David Francis <David.Francis@amd.com>,
- Felix Kuehling <felix.kuehling@amd.com>, stable@vger.kernel.org
-References: <9bde8c39-ba4c-49c5-a0bc-4e78338f055a@amd.com>
- <20260123141540.76540-1-tvrtko.ursulin@igalia.com>
- <9e5f8140-d197-46f2-8324-bd705a889ecf@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <9e5f8140-d197-46f2-8324-bd705a889ecf@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260121-msm-next-quad-pipe-split-v17-0-6eb6d8675ca2@linaro.org>
+ <20260121-msm-next-quad-pipe-split-v17-2-6eb6d8675ca2@linaro.org>
+ <6kzd2g4hgffqz5ipaqbourgiefuxxh3njj44n35blo37z6hhhj@us7lzlgmjuld>
+ <CABymUCMf8LxX6VWUuzNJP+G1y3Xi5-CVYhaqLR7F=kU6ZgdcgA@mail.gmail.com>
+ <c56e4ylgwcqni23btaxegdbfg3tbkyp2vtjtboeb3kbvcfk27u@vrlh276djtfr>
+ <CABymUCP6ZDGtEJeQSZ48x8TZyJ4gKVDC+JzJRz-tZ0ksCUCqsA@mail.gmail.com>
+ <91d590de-fa00-4df3-923f-b49ad00cd9da@oss.qualcomm.com>
+ <CABymUCOqxtYS7BaDMHeN2npn=4+Y-6kxLDOS6oskiiH58epR5w@mail.gmail.com>
+ <bbd8e584-4398-40da-9759-0c27f34214d3@oss.qualcomm.com>
+In-Reply-To: <bbd8e584-4398-40da-9759-0c27f34214d3@oss.qualcomm.com>
+From: Jun Nie <jun.nie@linaro.org>
+Date: Mon, 26 Jan 2026 20:01:00 +0800
+X-Gm-Features: AZwV_Qjj_g2I7w5tIIriV_jOh7_nPwC9Miffd_hKixfAlcPtTCAzZn6knZ1J8uU
+Message-ID: <CABymUCMivNJt4fikx8XJ8KFZB-y4zc2RaqjBksxWrQFD9foEkg@mail.gmail.com>
+Subject: Re: [PATCH v17 2/4] drm/msm/dpu: Defer SSPP allocation until CRTC
+ check
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,135 +125,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:kernel-dev@igalia.com,m:wangzhi@stu.xidian.edu.cn,m:David.Francis@amd.com,m:felix.kuehling@amd.com,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:lumag@kernel.org,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:robin.clark@oss.qualcomm.com,m:neil.armstrong@linaro.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	URIBL_MULTI_FAIL(0.00)[igalia.com:server fail,amd.com:server fail,xidian.edu.cn:server fail,gabe.freedesktop.org:server fail];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[jun.nie@linaro.org,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[linux.dev,kernel.org,poorly.run,somainline.org,gmail.com,ffwll.ch,oss.qualcomm.com,linaro.org,vger.kernel.org,lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.995];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[igalia.com:-];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jun.nie@linaro.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,igalia.com:mid,igalia.com:email]
-X-Rspamd-Queue-Id: 9419987D53
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,linaro.org:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: C907387EE3
 X-Rspamd-Action: no action
 
+Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2026=E5=B9=B4=
+1=E6=9C=8826=E6=97=A5=E5=91=A8=E4=B8=80 18:49=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On 26/01/2026 12:29, Jun Nie wrote:
+> > Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2026=E5=
+=B9=B41=E6=9C=8826=E6=97=A5=E5=91=A8=E4=B8=80 18:13=E5=86=99=E9=81=93=EF=BC=
+=9A
+> >>
+> >> On 26/01/2026 12:06, Jun Nie wrote:
+> >>> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2026=E5=
+=B9=B41=E6=9C=8822=E6=97=A5=E5=91=A8=E5=9B=9B 18:22=E5=86=99=E9=81=93=EF=BC=
+=9A
+> >>>>
+> >>>> On Thu, Jan 22, 2026 at 02:03:25PM +0800, Jun Nie wrote:
+> >>>>> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2026=
+=E5=B9=B41=E6=9C=8821=E6=97=A5=E5=91=A8=E4=B8=89 17:30=E5=86=99=E9=81=93=EF=
+=BC=9A
+> >>>>>>
+> >>>>>> On Wed, Jan 21, 2026 at 04:01:51PM +0800, Jun Nie wrote:
+> >>>>>>> Currently, plane splitting and SSPP allocation occur during the p=
+lane
+> >>>>>>> check phase. Defer these operations until dpu_assign_plane_resour=
+ces()
+> >>>>>>> is called from the CRTC side to ensure the topology information f=
+rom
+> >>>>>>> the CRTC check is available.
+> >>>>>>
+> >>>>>> Why is it important? What is broken otherwise?
+> >>>>>
+> >>>>> I see. Thanks! Will add below lines in next version.
+> >>>>>
+> >>>>> By default, the plane check occurs before the CRTC check.
+> >>>>> Without topology information from the CRTC, plane splitting
+> >>>>> cannot be properly executed. Consequently, the SSPP
+> >>>>> engine starts without a valid memory address, which triggers
+> >>>>> an IOMMU warning.
+> >>>>
+> >>>> What is plane splitting? Write commit message for somebody who doesn=
+'t
+> >>>> exactly know what is going on.
+> >>>
+> >>> Thanks for the suggestion! Any more revise is needed?
+> >>
+> >> Sadly enough the text below is not a significant improvement.
+> >>
+> >>>
+> >>> Currently, splitting plane into SSPP rectangles the allocation occur
+> >>> during the plane check phase, so that a plane can be supported by
+> >>> multiple hardware pipe.
+> >>
+> >> What does this mean? Without virtual planes in place, there are no
+> >> multiple hardware pipes.
+> >>
+> >>> While pipe topology is decided in CRTC check.
+> >>
+> >> ?? What does it mean here?
+> >>
+> >>> By default, the plane check occurs before the CRTC check in DRM
+> >>> framework. Without topology information from the CRTC, plane splittin=
+g
+> >>> cannot be properly executed.
+> >>
+> >> What does 'properly' mean here? How is it executed? What happens?
+> >>
+> >>> Consequently, the SSPP engine starts
+> >>> without a valid memory address, which triggers IOMMU warning.
+> >>
+> >> IOMMU faults. There are no "warnings".
+> >>
+> >>>
+> >>> Defer above plane operations until dpu_assign_plane_resources()
+> >>> is called from the CRTC side to ensure the topology information from
+> >>> the CRTC check is available.
+> >>
+> >>
+> > Thanks for the patience!
+> >
+> >
+> > Currently, splitting plane into SSPP rectangles and allocation occur
+> > during the plane check phase. When virtual plane is enabled to support
+> > quad-pipe topology later, 2 SSPPs with 4 rect will be needed, so that
+> > a plane can be supported by 4 hardware pipes. And pipe number is
+>
+> number of pipes
+>
+> > decided in CRTC check per interface number, resolution and hardware
+> > feature.
+>
+> Okay, but IOMMU errors were reported with virtual planes being disabled.
+> So how is it relevant?
 
-On 26/01/2026 09:02, Christian König wrote:
-> 
-> 
-> On 1/23/26 15:15, Tvrtko Ursulin wrote:
->> Since GEM bo handles are u32 in the uapi and the internal implementation
->> uses idr_alloc() which uses int ranges, passing a new handle larger than
->> INT_MAX trivially triggers a kernel warning:
->>
->> idr_alloc():
->> ...
->> 	if (WARN_ON_ONCE(start < 0))
->> 		return -EINVAL;
->> ...
->>
->> Fix it by rejecting new handles above INT_MAX and at the same time make
->> the end limit calculation more obvious by moving into int domain.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Reported-by: Zhi Wang <wangzhi@stu.xidian.edu.cn>
->> Fixes: 53096728b891 ("drm: Add DRM prime interface to reassign GEM handle")
->> Cc: David Francis <David.Francis@amd.com>
->> Cc: Felix Kuehling <felix.kuehling@amd.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: <stable@vger.kernel.org> # v6.18+
-> 
-> Reviewed-by: Christian König <christian.koenig@amd.com>
+After revise of splitting plane into pipes, the number of pipes will be dec=
+ided
+by CRTC check for both virtual plane and non-virtual plane case to unify th=
+e
+plane handling,  instead of assumption of 2 pipes at most.
+>
+> >
+> > By default, the plane check occurs before the CRTC check in DRM
+> > framework. Without topology information from the CRTC, plane splitting
+>
+> WHat is plane splitting?
 
-Pushed to drm-misc-fixes, thank you!
+How about: s/plane splitting/splitting plane into pipes ?
 
-Regards,
-
-Tvrtko
-
-> 
->> ---
->> v2:
->>   * Rename local variable, re-position comment, drop the else block. (Christian)
->>   * Use local at more places.
->> ---
->>   drivers/gpu/drm/drm_gem.c | 18 ++++++++++++------
->>   1 file changed, 12 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
->> index 7ff6b7bbeb73..ffa7852c8f6c 100644
->> --- a/drivers/gpu/drm/drm_gem.c
->> +++ b/drivers/gpu/drm/drm_gem.c
->> @@ -1001,16 +1001,21 @@ int drm_gem_change_handle_ioctl(struct drm_device *dev, void *data,
->>   {
->>   	struct drm_gem_change_handle *args = data;
->>   	struct drm_gem_object *obj;
->> -	int ret;
->> +	int handle, ret;
->>   
->>   	if (!drm_core_check_feature(dev, DRIVER_GEM))
->>   		return -EOPNOTSUPP;
->>   
->> +	/* idr_alloc() limitation. */
->> +	if (args->new_handle > INT_MAX)
->> +		return -EINVAL;
->> +	handle = args->new_handle;
->> +
->>   	obj = drm_gem_object_lookup(file_priv, args->handle);
->>   	if (!obj)
->>   		return -ENOENT;
->>   
->> -	if (args->handle == args->new_handle) {
->> +	if (args->handle == handle) {
->>   		ret = 0;
->>   		goto out;
->>   	}
->> @@ -1018,18 +1023,19 @@ int drm_gem_change_handle_ioctl(struct drm_device *dev, void *data,
->>   	mutex_lock(&file_priv->prime.lock);
->>   
->>   	spin_lock(&file_priv->table_lock);
->> -	ret = idr_alloc(&file_priv->object_idr, obj,
->> -		args->new_handle, args->new_handle + 1, GFP_NOWAIT);
->> +	ret = idr_alloc(&file_priv->object_idr, obj, handle, handle + 1,
->> +			GFP_NOWAIT);
->>   	spin_unlock(&file_priv->table_lock);
->>   
->>   	if (ret < 0)
->>   		goto out_unlock;
->>   
->>   	if (obj->dma_buf) {
->> -		ret = drm_prime_add_buf_handle(&file_priv->prime, obj->dma_buf, args->new_handle);
->> +		ret = drm_prime_add_buf_handle(&file_priv->prime, obj->dma_buf,
->> +					       handle);
->>   		if (ret < 0) {
->>   			spin_lock(&file_priv->table_lock);
->> -			idr_remove(&file_priv->object_idr, args->new_handle);
->> +			idr_remove(&file_priv->object_idr, handle);
->>   			spin_unlock(&file_priv->table_lock);
->>   			goto out_unlock;
->>   		}
-> 
-
+>
+> > will be skipped for the first time as pipe number is 0. Consequently,
+> > the SSPP engine starts without a valid memory address, which triggers
+> > IOMMU fault.
+> >
+> > Defer above plane related operations until dpu_assign_plane_resources()
+> > is called from the CRTC side to ensure the topology information from
+> > the CRTC check is available.
+> >
+> > Regards,
+> > Jun
+> >>
+> >> --
+> >> With best wishes
+> >> Dmitry
+>
+>
+> --
+> With best wishes
+> Dmitry
