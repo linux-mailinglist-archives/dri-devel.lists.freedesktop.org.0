@@ -2,80 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QNKVORjrd2nSmQEAu9opvQ
+	id 4E0ZNlPyd2mSmgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 23:30:48 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 00:01:39 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 472F68DF03
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 23:30:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E21E8E1F5
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 00:01:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D20B10E021;
-	Mon, 26 Jan 2026 22:30:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7E9710E1D4;
+	Mon, 26 Jan 2026 23:01:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kwWVieaK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZwMjmS2d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5953D10E021
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 22:30:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769466643; x=1801002643;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=SDlHPRbnJB1XeB8p7QDzp8qp4nlasKsGSTn2yj84yhk=;
- b=kwWVieaK6oIDinCVoON3WUCf1HQdLmN29sH8f+W870VeoHxuspHzIzMU
- RIOfuodu0XPTlp2XNWYF1VN9tPd1E80hu6cNQg5V+gX5bPq05YKJbddpb
- lUpsIFDyXP9GBYve8SMvSmHsuRissY3zdlPM7myreYwv4Tp1KvobmHq4C
- hEcsab4pcOP729pne2zriSqY3ixgGG8Lkg+ovOrWdUu9D6zmoIjWlpa2C
- 3QU6L5VFVBboL7oOvjy1y99hkDz9yX66lWOfd7UU19r1mArREqmZA7/Fi
- +dcAiwMsSSJOlfrRlTn5AH05abkUok8XujlcuEfPiasZEqxHpYxnxH2PC g==;
-X-CSE-ConnectionGUID: qZCbYBVMQq2sE6+CaqonyA==
-X-CSE-MsgGUID: u9UOGeDwQZmeyg+xYlJkVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="82021429"
-X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; d="scan'208";a="82021429"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2026 14:30:42 -0800
-X-CSE-ConnectionGUID: Kg8CKuQ1QIO3ci8zzJ95cA==
-X-CSE-MsgGUID: /mOcDF+HSoStiLCAx97Guw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; d="scan'208";a="245407170"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
- by orviesa001.jf.intel.com with ESMTP; 26 Jan 2026 14:30:37 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vkV6P-00000000XkE-3Sha;
- Mon, 26 Jan 2026 22:30:33 +0000
-Date: Tue, 27 Jan 2026 06:29:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: pengfuyuan <pengfuyuan@kylinos.cn>, Danilo Krummrich <dakr@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Miguel Ojeda <ojeda@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Helge Deller <deller@gmx.de>, Hans de Goede <hansg@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Lee Jones <lee@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, Zsolt Kajtar <soci@c64.rulez.org>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- pengfuyuan <pengfuyuan@kylinos.cn>
-Subject: Re: [PATCH v1 v1 3/4] rust: fb: add framebuffer driver support
-Message-ID: <202601270630.FHzCSbVv-lkp@intel.com>
-References: <20260126081744.781392-4-pengfuyuan@kylinos.cn>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260126081744.781392-4-pengfuyuan@kylinos.cn>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAB1910E1D4;
+ Mon, 26 Jan 2026 23:01:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 4400660051;
+ Mon, 26 Jan 2026 22:53:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ECCDC116C6;
+ Mon, 26 Jan 2026 22:53:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1769467994;
+ bh=DbyBvcFlup54F2ZWHzs85SXCKgEo0Qe21z8LMojTQaU=;
+ h=Date:Subject:Cc:To:From:From;
+ b=ZwMjmS2dJnSHCfvWwqZtPzbjsv9N/Cdd0fd39rjAiQHJ33SmSp8h5hAq3Em31/y4r
+ +E/mvGg8SiDJNn8iAPJ2SFg/sOeypWR+ZP0Pt1oc9xsOPHaUIMeflZTxoxD2jQYmWd
+ UqgShk6KfOrFFbsE8PThARL0OaSOSIoUq5Jz1YlPkqTbe5Od4lPPXz5h4UDWNlwplo
+ NoA19apOOwCGFp8URlZVanKjgvf+DuSgL/9VxAQqPBZG/9nLlh31wzxykBhUIEADgJ
+ wwBuBf3qHN6Q1VfSQrjjHaqsPH60hBHHcYbQXJk495ujeUAO65oUVHV9ELKfLOhRnm
+ rbO+7AynzJmVw==
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 26 Jan 2026 23:53:10 +0100
+Message-Id: <DFYW1WV6DUCG.3K8V2DAVD1Q4A@kernel.org>
+Subject: [GIT PULL] DRM Rust changes for v7.0-rc1
+Cc: "Alice Ryhl" <aliceryhl@google.com>, "Alexandre Courbot"
+ <acourbot@nvidia.com>, "Daniel Almeida" <daniel.almeida@collabora.com>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+To: "Dave Airlie" <airlied@gmail.com>, "Simona Vetter" <simona.vetter@ffwll.ch>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: aerc 0.21.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,148 +63,214 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MV_CASE(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[lists.linux.dev,gmail.com,garyguo.net,protonmail.com,kernel.org,umich.edu,linuxfoundation.org,ffwll.ch,gmx.de,suse.de,ravnborg.org,c64.rulez.org,linux.intel.com,vger.kernel.org,lists.freedesktop.org,kylinos.cn];
-	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:pengfuyuan@kylinos.cn,m:dakr@kernel.org,m:aliceryhl@google.com,m:daniel.almeida@collabora.com,m:ojeda@kernel.org,m:llvm@lists.linux.dev,m:oe-kbuild-all@lists.linux.dev,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:gregkh@linuxfoundation.org,m:rafael@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:deller@gmx.de,m:hansg@kernel.org,m:tzimmermann@suse.de,m:lee@kernel.org,m:sam@ravnborg.org,m:soci@c64.rulez.org,m:ville.syrjala@linux.intel.com,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-fbdev@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[git-scm.com:url,01.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 472F68DF03
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[util.rs:url,gitlab.freedesktop.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 3E21E8E1F5
 X-Rspamd-Action: no action
 
-Hi pengfuyuan,
+Hi Dave and Sima,
 
-kernel test robot noticed the following build errors:
+Please pull these DRM Rust changes.
 
-[auto build test ERROR on rust/rust-next]
-[also build test ERROR on driver-core/driver-core-linus linus/master v6.19-rc7]
-[cannot apply to driver-core/driver-core-testing driver-core/driver-core-next next-20260123]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Most changes have been in -next for a couple of rounds; there's one minor
+conflict with the drm-misc tree [1] due to a Panthor/Tyr UAPI change.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/pengfuyuan/rust-io-mem-add-ioremap_wc-support/20260126-162117
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/20260126081744.781392-4-pengfuyuan%40kylinos.cn
-patch subject: [PATCH v1 v1 3/4] rust: fb: add framebuffer driver support
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260127/202601270630.FHzCSbVv-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601270630.FHzCSbVv-lkp@intel.com/reproduce)
+In general, there are not a lot of changes this cycle, the biggest thing is=
+ the
+preparation work for Turing support, but even this is rather small.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601270630.FHzCSbVv-lkp@intel.com/
+Expect quite a bit more for the next cycle, e.g. GPUVM, DRM buddy, DeviceCo=
+ntext
+for DRM devices and Hopper/Blackwell support plus some MM stuff on the nova=
+-core
+side.
 
-All errors (new ones prefixed by >>):
+- Danilo
 
->> error[E0308]: mismatched types
-   --> rust/kernel/fb/device.rs:307:23
-   |
-   307 |         fb_read: Some(Self::read_callback),
-   |                  ---- ^^^^^^^^^^^^^^^^^^^ expected fn pointer, found fn item
-   |                  |
-   |                  arguments to this enum variant are incorrect
-   |
-   = note: expected fn pointer `unsafe extern "C" fn(_, *mut u8, _, _) -> _`
-   found fn item `extern "C" fn(_, *mut i8, _, _) -> _ {fb::device::Device::<T>::read_callback}`
-   help: the type constructed contains `extern "C" fn(*mut fb_info, *mut i8, usize, *mut i64) -> isize {fb::device::Device::<T>::read_callback}` due to the type of the argument passed
-   --> rust/kernel/fb/device.rs:307:18
-   |
-   307 |         fb_read: Some(Self::read_callback),
-   |                  ^^^^^-------------------^
-   |                       |
-   |                       this argument influences the type of `Some`
-   note: tuple variant defined here
-   --> /opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:597:5
-   |
-   597 |     Some(#[stable(feature = "rust1", since = "1.0.0")] T),
-   |     ^^^^
+[1] https://lore.kernel.org/all/aXEF-ESjd5ouyXRq@sirena.org.uk/
+
+The following changes since commit 0f61b1860cc3f52aef9036d7235ed1f017632193=
+:
+
+  Linux 6.19-rc5 (2026-01-11 17:03:14 -1000)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/rust/kernel.git tags/drm-rust-next-202=
+6-01-26
+
+for you to fetch changes up to cea7b66a80412e2a5b74627b89ae25f1d0110a4b:
+
+  Documentation: nova: update pending tasks (2026-01-26 18:16:14 +0100)
+
+----------------------------------------------------------------
+DRM Rust changes for v7.0-rc1
+
+DRM:
+  - Fix documentation for Registration constructors.
+  - Use pin_init::zeroed() for fops initialization.
+  - Annotate DRM helpers with __rust_helper.
+  - Improve safety documentation for gem::Object::new().
+  - Update AlwaysRefCounted imports.
+
+MM:
+  - Prevent integer overflow in page_align().
+
+Nova (Core):
+  - Prepare for Turing support. This includes parsing and handling
+    Turing-specific firmware headers and sections as well as a Turing
+    Falcon HAL implementation.
+  - Get rid of the Result<impl PinInit<T, E>> anti-pattern.
+  - Relocate initializer-specific code into the appropriate initializer.
+  - Use CStr::from_bytes_until_nul() to remove custom helpers.
+  - Improve handling of unexpected firmware values.
+  - Clean up redundant debug prints.
+  - Replace c_str!() with native Rust C-string literals.
+  - Update nova-core task list.
+
+Nova (DRM):
+  - Align GEM object size to system page size.
+
+Tyr:
+  - Use generated uAPI bindings for GpuInfo.
+  - Replace manual sleeps with read_poll_timeout().
+  - Replace c_str!() with native Rust C-string literals.
+  - Suppress warnings for unread fields.
+  - Fix incorrect register name in print statement.
+
+----------------------------------------------------------------
+Alexandre Courbot (1):
+      gpu: nova-core: align LibosMemoryRegionInitArgument size to page size
+
+Alice Ryhl (1):
+      rust: drm: add __rust_helper to helpers
+
+Atharv Dubey (1):
+      rust: drm: use `pin_init::zeroed()` for file operations initializatio=
+n
+
+Brendan Shephard (2):
+      rust: Return Option from page_align and ensure no usize overflow
+      drm/nova: Align GEM memory allocation to system page size
+
+Danilo Krummrich (7):
+      gpu: nova-core: fw: get rid of redundant Result in GspFirmware::new()
+      gpu: nova-core: fw: move appropriate code into pin initializer
+      gpu: nova-core: gsp: get rid of redundant Result in Gsp::new()
+      gpu: nova-core: gsp: move appropriate code into pin initializer
+      Merge tag 'v6.19-rc5' into drm-rust-next
+      Documentation: nova: remove completed tasks
+      Documentation: nova: update pending tasks
+
+Deborah Brouwer (3):
+      drm/tyr: use generated bindings for GpuInfo
+      drm/tyr: use read_poll_timeout
+      drm/tyr: suppress unread field warnings
+
+Dirk Behme (1):
+      drm/tyr: fix register name in error print
+
+Ewan Chorynski (1):
+      rust: drm: Improve safety comment when using `Pin::into_inner_uncheck=
+ed`
+
+John Hubbard (4):
+      gpu: nova-core: use CStr::from_bytes_until_nul() and remove util.rs
+      gpu: nova-core: use CStr::from_bytes_until_nul() in elf64_section()
+      gpu: nova-core: preserve error information in gpu_name()
+      gpu: nova-core: don't print raw PMU table entries
+
+Lyude Paul (1):
+      rust/drm: Fix Registration::{new,new_foreign_owned}() docs
+
+Shankari Anand (2):
+      drivers: gpu: Update ARef imports from sync::aref
+      rust: drm: Update AlwaysRefCounted imports to use sync::aref
+
+Tamir Duberstein (2):
+      gpu: nova: replace `kernel::c_str!` with C-Strings
+      drm: tyr: replace `kernel::c_str!` with C-Strings
+
+Timur Tabi (12):
+      gpu: nova-core: check for overflow to DMATRFBASE1
+      gpu: nova-core: add missing newlines to several print strings
+      gpu: nova-core: rename Imem to ImemSecure
+      gpu: nova-core: add ImemNonSecure section infrastructure
+      gpu: nova-core: support header parsing on Turing/GA100
+      gpu: nova-core: add support for Turing/GA100 fwsignature
+      gpu: nova-core: add NV_PFALCON_FALCON_DMATRFCMD::with_falcon_mem()
+      gpu: nova-core: move some functions into the HAL
+      gpu: nova-core: Add basic Turing HAL
+      gpu: nova-core: add NV_PFALCON_FALCON_ENGINE::reset_engine()
+      gpu: nova-core: add Falcon HAL method load_method()
+      gpu: nova-core: add FalconUCodeDescV2 support
+
+ Documentation/gpu/nova/core/todo.rst      |  59 +++++++++-----------------=
+------
+ drivers/gpu/drm/nova/driver.rs            |  18 +++++++---
+ drivers/gpu/drm/nova/gem.rs               |   6 ++--
+ drivers/gpu/drm/tyr/driver.rs             |  55 +++++++++++++-------------=
+----
+ drivers/gpu/drm/tyr/gpu.rs                |  66 ++++++++++++++++++--------=
+----------
+ drivers/gpu/nova-core/driver.rs           |   5 ++-
+ drivers/gpu/nova-core/falcon.rs           | 107 ++++++++++++++++++++++++++=
++-------------------------------
+ drivers/gpu/nova-core/falcon/hal.rs       |  26 ++++++++++++++
+ drivers/gpu/nova-core/falcon/hal/ga102.rs |  43 ++++++++++++++++++++++--
+ drivers/gpu/nova-core/falcon/hal/tu102.rs |  77 ++++++++++++++++++++++++++=
+++++++++++++++++
+ drivers/gpu/nova-core/fb.rs               |   2 +-
+ drivers/gpu/nova-core/firmware.rs         | 203 ++++++++++++++++++++++++++=
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
+++++++---
+ drivers/gpu/nova-core/firmware/booter.rs  |  43 ++++++++++++++++++++----
+ drivers/gpu/nova-core/firmware/fwsec.rs   |  51 +++++++++++++-------------=
 --
->> error[E0308]: mismatched types
-   --> rust/kernel/fb/device.rs:308:24
-   |
-   308 |         fb_write: Some(Self::write_callback),
-   |                   ---- ^^^^^^^^^^^^^^^^^^^^ expected fn pointer, found fn item
-   |                   |
-   |                   arguments to this enum variant are incorrect
-   |
-   = note: expected fn pointer `unsafe extern "C" fn(_, *const u8, _, _) -> _`
-   found fn item `extern "C" fn(_, *const i8, _, _) -> _ {fb::device::Device::<T>::write_callback}`
-   help: the type constructed contains `extern "C" fn(*mut fb_info, *const i8, usize, *mut i64) -> isize {fb::device::Device::<T>::write_callback}` due to the type of the argument passed
-   --> rust/kernel/fb/device.rs:308:19
-   |
-   308 |         fb_write: Some(Self::write_callback),
-   |                   ^^^^^--------------------^
-   |                        |
-   |                        this argument influences the type of `Some`
-   note: tuple variant defined here
-   --> /opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:597:5
-   |
-   597 |     Some(#[stable(feature = "rust1", since = "1.0.0")] T),
-   |     ^^^^
---
->> error[E0308]: mismatched types
-   --> rust/kernel/fb/io.rs:32:13
-   |
-   30     |         bindings::fb_io_read(
-   |         -------------------- arguments to this function are incorrect
-   31     |             device.as_raw(),
-   32     |             buf.as_mut_ptr() as *mut core::ffi::c_char,
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `*mut u8`, found `*mut i8`
-   |
-   = note: expected raw pointer `*mut u8`
-   found raw pointer `*mut i8`
-   note: function defined here
-   --> rust/bindings/bindings_generated.rs:123562:12
-   |
-   123562 |     pub fn fb_io_read(
-   |            ^^^^^^^^^^
---
->> error[E0308]: mismatched types
-   --> rust/kernel/fb/io.rs:58:13
-   |
-   56     |         bindings::fb_io_write(
-   |         --------------------- arguments to this function are incorrect
-   57     |             device.as_raw(),
-   58     |             buf.as_ptr() as *const core::ffi::c_char,
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `*const u8`, found `*const i8`
-   |
-   = note: expected raw pointer `*const u8`
-   found raw pointer `*const i8`
-   note: function defined here
-   --> rust/bindings/bindings_generated.rs:123570:12
-   |
-   123570 |     pub fn fb_io_write(
-   |            ^^^^^^^^^^^
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ drivers/gpu/nova-core/firmware/gsp.rs     | 146 ++++++++++++++++++++++++++=
++++++++++++++++--------------------------------------
+ drivers/gpu/nova-core/gpu.rs              |   4 +--
+ drivers/gpu/nova-core/gsp.rs              |  77 ++++++++++++++++++++------=
+----------------
+ drivers/gpu/nova-core/gsp/boot.rs         |  18 ++++------
+ drivers/gpu/nova-core/gsp/cmdq.rs         |   2 +-
+ drivers/gpu/nova-core/gsp/commands.rs     |  29 ++++++++++++----
+ drivers/gpu/nova-core/gsp/fw.rs           |  14 +++++++-
+ drivers/gpu/nova-core/gsp/sequencer.rs    |  14 ++++----
+ drivers/gpu/nova-core/nova_core.rs        |   1 -
+ drivers/gpu/nova-core/regs.rs             |  42 ++++++++++++++++++++++-
+ drivers/gpu/nova-core/util.rs             |  16 ---------
+ drivers/gpu/nova-core/vbios.rs            |  73 ++++++++++++++++++--------=
+--------------
+ rust/helpers/drm.c                        |   7 ++--
+ rust/kernel/drm/driver.rs                 |   6 ++--
+ rust/kernel/drm/gem/mod.rs                |   8 ++---
+ rust/kernel/page.rs                       |  36 ++++++++++++++++----
+ 30 files changed, 823 insertions(+), 431 deletions(-)
+ create mode 100644 drivers/gpu/nova-core/falcon/hal/tu102.rs
+ delete mode 100644 drivers/gpu/nova-core/util.rs
