@@ -2,63 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SFrQGdKJd2m9hgEAu9opvQ
+	id 0DMINQCOd2m9hgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 16:35:46 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 16:53:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB2B68A339
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 16:35:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C31A8A586
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 16:53:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D88A10E211;
-	Mon, 26 Jan 2026 15:35:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B050810E231;
+	Mon, 26 Jan 2026 15:53:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WEyJc2xN";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="FS4vX71h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A69D310E211
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 15:35:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1769441740;
- bh=Zsj5GV2Wx59l0SS2ck0KTf647N++hXpV2gQqB1R2r34=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=WEyJc2xNIDS1rc69lK2hGe+0nUtvu9VR4xim8dthi8gOgnyRID1GyJQ6ss/4UHlux
- PxTrZWSuCYNp/ao1NHKvjDXNJzr6uBOKQrEXUTYcnYseQGg6Eq9l7ndlLEfXQHz2Yl
- ImCB093+G7/Vqy4TAhD5r/43a+j66ATpnMtWtKkoLCGzylOa29QzElgvXr87y61J8t
- 1aw0YZFFYe408K/lhflrM1hu4TyqxU+jT6FouPUpETA9x0n13rqRWzyrrO7n+pAQbF
- jXiFoMufibJDkjTFY06obHbAy9Xbjwk62duG0Vi/IZquv9WPkbvNOGhSP/FWlNeYXk
- 5qFBFr1/9VTwg==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id AD26817E0E6C;
- Mon, 26 Jan 2026 16:35:39 +0100 (CET)
-Date: Mon, 26 Jan 2026 16:35:37 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Daniel Almeida
- <daniel.almeida@collabora.com>, Janne Grunau <j@jannau.net>, Matthew Brost
- <matthew.brost@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
- <thomas.hellstrom@linux.intel.com>, Lyude Paul <lyude@redhat.com>, Asahi
- Lina <lina+kernel@asahilina.net>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v3 3/6] rust: gpuvm: add GpuVm::obtain()
-Message-ID: <20260126163537.0ca199cf@fedora>
-In-Reply-To: <CAH5fLggFzHSB-iassPmwkP74h6qN6V6hYaCfjT0_JEvGoDecBQ@mail.gmail.com>
-References: <20260121-gpuvm-rust-v3-0-dd95c04aec35@google.com>
- <20260121-gpuvm-rust-v3-3-dd95c04aec35@google.com>
- <20260126160036.2b2c66a7@fedora>
- <CAH5fLggFzHSB-iassPmwkP74h6qN6V6hYaCfjT0_JEvGoDecBQ@mail.gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B577B10E1CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 15:53:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=TQzki6V6Wc6dWw2C1daHHNLgkz+vy7+xcpAnIH6Bttc=; b=FS4vX71h/fQjIcaqU7cvPsmlHV
+ wmEAlP/ZL/dqm//aWtMi9DNozlpIKf0my2g/ktf/+S82Tw17EJCgTFOz88ts7Yd961ZKaKiuVDkB/
+ OqCsZPa7GLDJsUs32ISQwTCPr0dGLX7GRHFzZGf8Qfk3lC87/SzuDJa0cO+jlztQwuCN/p/pgbjGU
+ cgjkyJct80O4te4pi5pTyOXJSUX09Own5h32cRYz/ClRuUGefaGgxmWkjpp33rrWFyfgXqECrMRKm
+ Qi81KyrEEk8f8tvBqpYmrihXgxni4xe0SrDWwxtwAtA6yMp8v0eiMbz3F/5s1ek94k3j/eK+r9/LO
+ k2s1Gfcw==;
+Received: from [90.240.106.137] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vkOu4-00A6u4-QI; Mon, 26 Jan 2026 16:53:24 +0100
+Message-ID: <c7f78d19-ab62-4f74-bc60-b779d1596725@igalia.com>
+Date: Mon, 26 Jan 2026 15:53:23 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/v3d: Replace IDR with XArray for perfmon tracking
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20260115150903.92163-2-mcanal@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20260115150903.92163-2-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,67 +69,217 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
+X-Spamd-Result: default: False [0.49 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:dakr@kernel.org,m:daniel.almeida@collabora.com,m:j@jannau.net,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:lyude@redhat.com,m:lina+kernel@asahilina.net,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:lina@asahilina.net,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:mcanal@igalia.com,m:mwen@igalia.com,m:itoral@igalia.com,m:mripard@kernel.org,m:dave.stevenson@raspberrypi.com,m:kernel-list@raspberrypi.com,m:kernel-dev@igalia.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,kernel];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	DKIM_TRACE(0.00)[igalia.com:-];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.995];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: DB2B68A339
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,igalia.com:mid,igalia.com:email]
+X-Rspamd-Queue-Id: 1C31A8A586
 X-Rspamd-Action: no action
 
-On Mon, 26 Jan 2026 16:07:30 +0100
-Alice Ryhl <aliceryhl@google.com> wrote:
 
-> On Mon, Jan 26, 2026 at 4:00=E2=80=AFPM Boris Brezillon
-> <boris.brezillon@collabora.com> wrote:
-> >
-> > On Wed, 21 Jan 2026 11:31:19 +0000
-> > Alice Ryhl <aliceryhl@google.com> wrote:
-> > =20
-> > > +/// A [`GpuVmBo`] object in the GEM list.
-> > > +///
-> > > +/// # Invariants
-> > > +///
-> > > +/// Points at a `drm_gpuvm_bo` that contains a valid `T::VmBoData` a=
-nd is present in the gem list.
-> > > +pub struct GpuVmBoResident<T: DriverGpuVm>(NonNull<GpuVmBo<T>>); =20
-> >
-> > I find the name a bit confusing: BO residency is often used to refer to
-> > memory backing the buffer object, and in this case, you can end up with
-> > a GpuVmBoResident being returned for a BO that has been evicted (one
-> > that's no longer resident). =20
->=20
-> Good point. I meant it as "present in list" but I guess there are
-> other things a gpuvm may be present in.
->=20
-> Any naming suggestions?
+On 15/01/2026 15:05, Maíra Canal wrote:
+> The IDR interface is deprecated and the XArray API is the recommended
+> replacement. Replace the per-file IDR used to track perfmons with an
+> XArray. This allows us to remove the external mutex that protects the
+> IDR.
+> 
+> While here, introduce the v3d_perfmon_delete() helper to consolidate
+> the perfmon cleanup logic used by both v3d_perfmon_close_file() and
+> v3d_perfmon_destroy_ioctl().
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> ---
+>   drivers/gpu/drm/v3d/v3d_drv.h     |  5 +--
+>   drivers/gpu/drm/v3d/v3d_perfmon.c | 55 +++++++++++--------------------
+>   2 files changed, 21 insertions(+), 39 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+> index 99a39329bb85..314213c26710 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+> @@ -220,10 +220,7 @@ v3d_has_csd(struct v3d_dev *v3d)
+>   struct v3d_file_priv {
+>   	struct v3d_dev *v3d;
+>   
+> -	struct {
+> -		struct idr idr;
+> -		struct mutex lock;
+> -	} perfmon;
+> +	struct xarray perfmons;
+>   
+>   	struct drm_sched_entity sched_entity[V3D_MAX_QUEUES];
+>   
+> diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c b/drivers/gpu/drm/v3d/v3d_perfmon.c
+> index 9a3fe5255874..41325ffc7f43 100644
+> --- a/drivers/gpu/drm/v3d/v3d_perfmon.c
+> +++ b/drivers/gpu/drm/v3d/v3d_perfmon.c
+> @@ -290,24 +290,23 @@ struct v3d_perfmon *v3d_perfmon_find(struct v3d_file_priv *v3d_priv, int id)
+>   {
+>   	struct v3d_perfmon *perfmon;
+>   
+> -	mutex_lock(&v3d_priv->perfmon.lock);
+> -	perfmon = idr_find(&v3d_priv->perfmon.idr, id);
+> +	xa_lock(&v3d_priv->perfmons);
+> +	perfmon = xa_load(&v3d_priv->perfmons, id);
+>   	v3d_perfmon_get(perfmon);
+> -	mutex_unlock(&v3d_priv->perfmon.lock);
+> +	xa_unlock(&v3d_priv->perfmons);
+>   
+>   	return perfmon;
+>   }
+>   
+>   void v3d_perfmon_open_file(struct v3d_file_priv *v3d_priv)
+>   {
+> -	mutex_init(&v3d_priv->perfmon.lock);
+> -	idr_init_base(&v3d_priv->perfmon.idr, 1);
+> +	xa_init_flags(&v3d_priv->perfmons, XA_FLAGS_ALLOC1);
+>   }
+>   
+> -static int v3d_perfmon_idr_del(int id, void *elem, void *data)
+> +static void v3d_perfmon_delete(struct v3d_file_priv *v3d_priv,
+> +			       struct v3d_perfmon *perfmon)
+>   {
+> -	struct v3d_perfmon *perfmon = elem;
+> -	struct v3d_dev *v3d = (struct v3d_dev *)data;
+> +	struct v3d_dev *v3d = v3d_priv->v3d;
+>   
+>   	/* If the active perfmon is being destroyed, stop it first */
+>   	if (perfmon == v3d->active_perfmon)
+> @@ -317,19 +316,17 @@ static int v3d_perfmon_idr_del(int id, void *elem, void *data)
+>   	cmpxchg(&v3d->global_perfmon, perfmon, NULL);
+>   
+>   	v3d_perfmon_put(perfmon);
+> -
+> -	return 0;
+>   }
+>   
+>   void v3d_perfmon_close_file(struct v3d_file_priv *v3d_priv)
+>   {
+> -	struct v3d_dev *v3d = v3d_priv->v3d;
+> +	struct v3d_perfmon *perfmon;
+> +	unsigned long id;
+>   
+> -	mutex_lock(&v3d_priv->perfmon.lock);
+> -	idr_for_each(&v3d_priv->perfmon.idr, v3d_perfmon_idr_del, v3d);
+> -	idr_destroy(&v3d_priv->perfmon.idr);
+> -	mutex_unlock(&v3d_priv->perfmon.lock);
+> -	mutex_destroy(&v3d_priv->perfmon.lock);
+> +	xa_for_each(&v3d_priv->perfmons, id, perfmon)
+> +		v3d_perfmon_delete(v3d_priv, perfmon);
 
-Valid, Bound, Present, Active?
+Looking outside the XArray conversion the situation with 
+v3d->active_perfmon caught my eye. It doesn't look that driver global 
+field is protected by any lock, right? So if one client would be 
+exiting, is there enough serialisation between that and perhaps 
+v3d_switch_perfmon() (from run_job()) could see a stale 
+v3d->active_perfmon pointer and attempt to double put it? I am not sure, 
+but gain, that seem outside the scope of this conversion.
+
+> +
+> +	xa_destroy(&v3d_priv->perfmons);
+>   }
+>   
+>   int v3d_perfmon_create_ioctl(struct drm_device *dev, void *data,
+> @@ -341,6 +338,7 @@ int v3d_perfmon_create_ioctl(struct drm_device *dev, void *data,
+>   	struct v3d_perfmon *perfmon;
+>   	unsigned int i;
+>   	int ret;
+> +	u32 id;
+>   
+>   	/* Number of monitored counters cannot exceed HW limits. */
+>   	if (req->ncounters > DRM_V3D_MAX_PERF_COUNTERS ||
+> @@ -366,18 +364,16 @@ int v3d_perfmon_create_ioctl(struct drm_device *dev, void *data,
+>   	refcount_set(&perfmon->refcnt, 1);
+>   	mutex_init(&perfmon->lock);
+>   
+> -	mutex_lock(&v3d_priv->perfmon.lock);
+> -	ret = idr_alloc(&v3d_priv->perfmon.idr, perfmon, V3D_PERFMONID_MIN,
+> -			V3D_PERFMONID_MAX, GFP_KERNEL);
+
+Hm it seems V3D_PERFMONID_MAX being U32_MAX used to overflow the end 
+argument of idr_alloc.
+
+> -	mutex_unlock(&v3d_priv->perfmon.lock);
+> -
+> +	ret = xa_alloc(&v3d_priv->perfmons, &id, perfmon,
+> +		       XA_LIMIT(V3D_PERFMONID_MIN, V3D_PERFMONID_MAX),
+
+Could perheps even lose the V3D_PERFMON_MIN/MAX defines and just use 
+xa_limit_32b.
+
+> +		       GFP_KERNEL);
+>   	if (ret < 0) {
+>   		mutex_destroy(&perfmon->lock);
+>   		kfree(perfmon);
+>   		return ret;
+>   	}
+>   
+> -	req->id = ret;
+> +	req->id = id;
+>   
+>   	return 0;
+>   }
+> @@ -387,24 +383,13 @@ int v3d_perfmon_destroy_ioctl(struct drm_device *dev, void *data,
+>   {
+>   	struct v3d_file_priv *v3d_priv = file_priv->driver_priv;
+>   	struct drm_v3d_perfmon_destroy *req = data;
+> -	struct v3d_dev *v3d = v3d_priv->v3d;
+>   	struct v3d_perfmon *perfmon;
+>   
+> -	mutex_lock(&v3d_priv->perfmon.lock);
+> -	perfmon = idr_remove(&v3d_priv->perfmon.idr, req->id);
+> -	mutex_unlock(&v3d_priv->perfmon.lock);
+> -
+> +	perfmon = xa_erase(&v3d_priv->perfmons, req->id);
+>   	if (!perfmon)
+>   		return -EINVAL;
+>   
+> -	/* If the active perfmon is being destroyed, stop it first */
+> -	if (perfmon == v3d->active_perfmon)
+> -		v3d_perfmon_stop(v3d, perfmon, false);
+> -
+> -	/* If the global perfmon is being destroyed, set it to NULL */
+> -	cmpxchg(&v3d->global_perfmon, perfmon, NULL);
+> -
+> -	v3d_perfmon_put(perfmon);
+> +	v3d_perfmon_delete(v3d_priv, perfmon);
+
+Nice consolidation.
+
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+
+Regards,
+
+Tvrtko
+
+>   
+>   	return 0;
+>   }
+
