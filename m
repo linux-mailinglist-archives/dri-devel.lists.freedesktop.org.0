@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gKnRMWnAd2m+kgEAu9opvQ
+	id sPw3G2XAd2m+kgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 20:28:41 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 20:28:37 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ADC58C8D3
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 20:28:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D8118C8BE
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 20:28:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89BFA10E474;
-	Mon, 26 Jan 2026 19:28:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8343610E473;
+	Mon, 26 Jan 2026 19:28:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="NmjRpFWo";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="aLp66i9s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BN1PR04CU002.outbound.protection.outlook.com
- (mail-eastus2azon11010059.outbound.protection.outlook.com [52.101.56.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C45F10E474
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 19:28:36 +0000 (UTC)
+Received: from MW6PR02CU001.outbound.protection.outlook.com
+ (mail-westus2azon11012035.outbound.protection.outlook.com [52.101.48.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B440510E473
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 19:28:32 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ag0WQDxyrKSPD1y1j0nwdpsa/AnlT6J8+0ByJg51IuLl5pwDkiQwt2dbs8PBsc+9oNYT2F9Mz8s6I1AC1MG8CyP46hSEF9P3SnWWkx+UBCIYlRp6Y6/d+StTWgbRStpLAzPzXnD3s9MUWDJGcA9PdguwHL1YjCYiZrLe0R+LxWJhrZfxKoDZzYM5ABrLiqKmxcFnOntwK2hluY9MZ/mLuZdArJZtonEVbFgMzDzapr5KbQ5Bt8mHE0Rij9Vuo/KDs2BXOGCcf2K0XvmYScKhd/jhSoyUHYNA9SY9xS9dJDSux7xRnXIEACBS0e54hNoGFbnLzg3TTgcUy1dv6IPH1w==
+ b=glYHpj0/QG38/iHsDbbgUp4dMy2vYVgbpJauhdonkD621OzrRUfq3D3iVuX0dAIDhCp6fiVqeMZlB5Ld30fAwm3jW79E26W/LGdG01o6GDZHrqmBF1kJNlx+IAbnwNL9Ixf14QPb5/sZpPeZZfDpXStAfhIAcNdEVqzLpW2Kt15FBJb2d2mi3b9nM5nVvBtVR4Khtr5FTime8x61zULNRDgDbqocZZ00izP7Eb7fLuyJnTY8KWlxWHvFiED8K3FGbG4CYNZTKJShQKb1v2a/CrMXmHfgxFCWQJpKXTnOG1YdfCydnHNn1nPSt5h34OgulC2Gdmo9A9OHr1H0UZx9oA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3VJPLQUi7csC26ppEbottIPkqMXLTl8vNpmKiOK3pYk=;
- b=eLZWalCiMwejw21xF1FwwYpbgbY5s6KcJjeJi0X3IzTRZVdHh2QAuapl/PVrwADUGdOtueKJk4TM/HXRwvXgPYnEBhutoTAYLFNHOiuaRtdB+xiVAg92peCt2GulvoROnv7xy67y8vAk6SZOcuG/eSVWDEl4Rwq7MLoCVzDEaOEISrFes28Q7NrJogQX9E2SKONxSvdZRKWowDkchte+AEIOjLraJA8KaS+6kxQss+MHfqd1PvcYDbN8lz+A0FM+zLjkvGRZ7R078BOHAUVgrb5kSD8J8Zehk6NLpljwjyqt6yDFY/9hFGyfCcRTgKC0JtoTe6K0B50CeOFjw5Wvew==
+ bh=w1QFkkImaolvsdX5EJRjaov+4nRfKO71oyXi2s3hQYM=;
+ b=fyRcH2y0dNmZEa8P3LCdv/lyhzHefNysz0PcnZRdOqq08NnvJ0gs8IrO9ByZNtLrZhhCm6azXKGShAJioTwW1Qxcs2ATeHt3NtB9Rwi6BIDHLO2uWhZwbPLnDqyY4QAdtTcN2zwzOo7gKdyo6MuGVg6bLEK303MlpsVRz75W2XKBfs9+Rw1ZZ4L7rvYacuY0XrxgCou3l+jR6LyG8cj/RaPU3pcCteuGkNeYJ65jk22EnwMs9IimSskEeodT3Ql5wRlEl1F4YjuQc0qowjae5g6hdg7I1sCURD5luPkcRUMum/WmEXLf713aWZkOYKj02yts1+h2SxtCuKI9/b/UOA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3VJPLQUi7csC26ppEbottIPkqMXLTl8vNpmKiOK3pYk=;
- b=NmjRpFWoAqlkQvm7iLh4aSDqmT7XjGQoXxAAVJkLm+JLPy5Bq03TJLLvpzv7pDVu28R+E+XWqAmr5cT60vGQgbMdzWB1poCp5XL/o4cu+Wfh6IBTGZ3JVnacCcUHfMMi5/FM9ZePa6Jpn7vwqfMyPrlO5/qex+k/9vtrvWtAnzM=
-Received: from BL1PR13CA0168.namprd13.prod.outlook.com (2603:10b6:208:2bd::23)
- by SA3PR12MB9160.namprd12.prod.outlook.com (2603:10b6:806:399::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.11; Mon, 26 Jan
+ bh=w1QFkkImaolvsdX5EJRjaov+4nRfKO71oyXi2s3hQYM=;
+ b=aLp66i9s1S6Dfv4sFRrSG5T5aGVrnEgwExcnhwQeWw+BajzjUtUOnb+zI2j4II8OgMiZKU9SB0OjPchqtN79m6OAQxMTk3O/7Jkb0lOGpLQZKtcFv45soNUCO/fderpkWVVCVFCSGKKKJwJVpFqlkV806iGknQIt8j8b9F3T4Dk=
+Received: from MN0PR03CA0011.namprd03.prod.outlook.com (2603:10b6:208:52f::13)
+ by DS2PR12MB9592.namprd12.prod.outlook.com (2603:10b6:8:27c::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Mon, 26 Jan
  2026 19:28:22 +0000
-Received: from MN1PEPF0000F0E1.namprd04.prod.outlook.com
- (2603:10b6:208:2bd:cafe::e9) by BL1PR13CA0168.outlook.office365.com
- (2603:10b6:208:2bd::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.7 via Frontend Transport; Mon,
- 26 Jan 2026 19:28:14 +0000
+Received: from MN1PEPF0000F0E3.namprd04.prod.outlook.com
+ (2603:10b6:208:52f:cafe::90) by MN0PR03CA0011.outlook.office365.com
+ (2603:10b6:208:52f::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.16 via Frontend Transport; Mon,
+ 26 Jan 2026 19:28:11 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -53,26 +53,25 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
 Received: from satlexmb08.amd.com (165.204.84.17) by
- MN1PEPF0000F0E1.mail.protection.outlook.com (10.167.242.39) with Microsoft
+ MN1PEPF0000F0E3.mail.protection.outlook.com (10.167.242.41) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.3 via Frontend Transport; Mon, 26 Jan 2026 19:28:21 +0000
+ 15.20.9564.3 via Frontend Transport; Mon, 26 Jan 2026 19:28:22 +0000
 Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
  (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 26 Jan
- 2026 13:28:02 -0600
+ 2026 13:28:03 -0600
 Received: from xsjdavidzha51.xilinx.com (10.180.168.240) by satlexmb08.amd.com
  (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via
- Frontend Transport; Mon, 26 Jan 2026 13:28:02 -0600
+ Frontend Transport; Mon, 26 Jan 2026 13:28:03 -0600
 From: David Zhang <yidong.zhang@amd.com>
 To: <yidong.zhang@amd.com>, <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
  <maciej.falkowski@linux.intel.com>, <dri-devel@lists.freedesktop.org>
 CC: <linux-kernel@vger.kernel.org>, <sonal.santan@amd.com>,
  <mario.limonciello@amd.com>, <lizhi.hou@amd.com>, Nishad Saraf
  <nishads@amd.com>
-Subject: [PATCH V2 4/5] accel/amd_vpci: Add Remote Management (RM) queue
- service APIs
-Date: Mon, 26 Jan 2026 11:27:31 -0800
-Message-ID: <20260126192732.1507084-5-yidong.zhang@amd.com>
+Subject: [PATCH V2 5/5] accel/amd_vpci: Add communication channel service
+Date: Mon, 26 Jan 2026 11:27:32 -0800
+Message-ID: <20260126192732.1507084-6-yidong.zhang@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260126192732.1507084-1-yidong.zhang@amd.com>
 References: <yidong.zhang@amd.com>
@@ -82,55 +81,55 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0E1:EE_|SA3PR12MB9160:EE_
-X-MS-Office365-Filtering-Correlation-Id: ff7e5a65-c82c-4c76-e62f-08de5d1110ee
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0E3:EE_|DS2PR12MB9592:EE_
+X-MS-Office365-Filtering-Correlation-Id: 088c4a54-a3e4-4d56-9154-08de5d1111a0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|36860700013|1800799024|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?PA47OLVZdk430wVxk9kh8Ub2aXPW80TlWHgUDo6iyIL0n71jDH1Wi2YzUYSj?=
- =?us-ascii?Q?tgQZLAaCFT6jK0d8f7GaqQJ72KG4D/hGvvF5E75XG0uSaQNiMlWMfcoi5Hhp?=
- =?us-ascii?Q?90SlKAxl6Px9XCTDEY+3gdWaYgEI9nctYz765DYDmGa63N+Kc3jnNtvSXJks?=
- =?us-ascii?Q?K6oblROul8qBZHKDRp2lw2DRPdWjnC+kOVXCPjG4YYnI6BVNdNlHqfqVnUgA?=
- =?us-ascii?Q?o3T5dVn1azSmj/TvzeqtcRmhQNt5koG+odS+ha1K1Pug0K7g3vZGOXpOwUFr?=
- =?us-ascii?Q?0S7xvHJaST8aBSjr8oakZZvLKEqBjY4QfgVJG30iHKOmKObW1ltPHb0qoixx?=
- =?us-ascii?Q?Ls0XBpU0EAUHjK/Y0i+I2FD2nF5CfqlDNhYdzPTC+AcgS6nxzalGyEsE2NoT?=
- =?us-ascii?Q?utpnS9b7NzKoFwyG8cYCZgXt5P+MewExoQFwURERA7ulC1uJ3scesr3R8qRl?=
- =?us-ascii?Q?hp1dAS/wWyyGMyHIBWtMkrBDgohidEpqjepqPBxR2GHpRgKFbYS8LgeLtR0+?=
- =?us-ascii?Q?HDlwIuT/pfHNm2TYtYZwnXN1KhsXwy75UrckJ39DuCyLZba5Vh4wXFmWTKbW?=
- =?us-ascii?Q?YCpbERSCZGVrTaaSsfAWMqsRj2fw6w08IALf2h9uTcGPuJ6qwfMgGREQ1oVT?=
- =?us-ascii?Q?Hyds8EYq9hFbKncJjWoHifiCx4OJ8d+suRLa/HNYO4wZAlqLQtyAWFlCMc6T?=
- =?us-ascii?Q?73CHzuMfbkwuhLE2JH/zr1GUC7a/Um9NX3FOcNJQTjOSVoPc274AKlWIhCRF?=
- =?us-ascii?Q?lOrUNd55WinP2yzQPV75/63vtPN+JVZ78aUH+EKw1DTq9WZ4QbfAyzTD2EkA?=
- =?us-ascii?Q?YOSPoYGYdA41rArDr4JulYTtzcAM/LEojO19bWwXMzm+coraRZ1mdOH6Xvbz?=
- =?us-ascii?Q?1i8braBLeOuk2KDtAsmriuQDemPYMs8OnYi+JEAJ512dER7MUiqlIYsfm1C6?=
- =?us-ascii?Q?sl+RRJVYzEMlUPrB60i1pmIpaTyCoCUoZauMSktMjh41xCU8Rw9/Lh2YKddR?=
- =?us-ascii?Q?fiXr/bkrinqVQqcMdPSVQMRL8cZCZAd4aWPSlEyYE6E+irG6DQXF/7Fzhy+Q?=
- =?us-ascii?Q?Imd0caxo6MqwyMa7CSexVf6GZMApsDKouDlSgD0hmJJw+DKjPMkXymEQ0xMF?=
- =?us-ascii?Q?PNa4LP4lmIlJWzm94flqziuCnoAURkDKtbUFTccWfDuCLbnhlqlUtpe+gfPE?=
- =?us-ascii?Q?A0l+mi9w+lKS8Tvdfd7JedPNyp8XYLGEPXHKT44ANp3Uy2c5vnrLMVIsPvtN?=
- =?us-ascii?Q?6IPGOTrcywGJlq5gxGPoNPD/TJ/Tpj8ohw8cmFxS3OjCPgFlHPwRMxEirI38?=
- =?us-ascii?Q?eF1/XNUc3l677F26TIZGA2krOOLEy21ss9Yebzf4pWkFbnviBcRpTdL6he8o?=
- =?us-ascii?Q?fmbf//TAOe8/iyo84PmPn0F66NMANh2uzp761wqLNSwyfR9HkqeunZ0+Q7bw?=
- =?us-ascii?Q?PlZzoHuwmkwa1PtQcsOW4hQdDi2CHqNdNku1X12tCKzI7/Fw7H80O3sIhs5/?=
- =?us-ascii?Q?LZqrzuKCjrJGMiwZ1Zgs+2kyejMf29nylbZzfupp6H3kEj0mHHlA0cQYUYKk?=
- =?us-ascii?Q?FYeehAruqf4eSQ0RsZMZPTqcxjdMJ5V8ErC4Ip3C6shwdT2fV3uaG3R/6XV8?=
- =?us-ascii?Q?aAhJbruXnUGBThiXm2/cWfTy72ptuGU7xAwKDezNBJXS/mM1e+nQEfKAJJSK?=
- =?us-ascii?Q?cwf1ng=3D=3D?=
+ ARA:13230040|36860700013|1800799024|376014|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?cFpHbQR4RpI7qHWxEDnHCbsfL/+Cz6LiyHCiGo3FgNvgFoHdA//k/b9fpU+l?=
+ =?us-ascii?Q?lUB/Qf1LQZ1Nwg07VUAhQGRY4yh2W8islpve4U+fpwxIH0btmlbWUkQ4RrT/?=
+ =?us-ascii?Q?c6p8SCqw711ApDjY0lmuLTV3IhLMPed9gHlVamdkDsJw61ITqzQDML3iml8C?=
+ =?us-ascii?Q?OebjarZWK1BoSS9dpb57yelTYkX1Yj+bdAPS8LCRWp9xz5+oOrmzvDmNI8qU?=
+ =?us-ascii?Q?5jJx8lG3UsQYRM/J3ee+2tgkSBJBfr388zshI6/dX4X8Er8MBo3w41hjHD1S?=
+ =?us-ascii?Q?TyO81qSuw1SsCfMai5ZDEoOUGj6Xt5zOp+gHcEFLaUUh9Rfji224PzgretQu?=
+ =?us-ascii?Q?abP1Wq4nNAYovel8Vya1iqTdWO+Osn5Bk9tPKG8p7l0vwoGH0j2oPcPHPqDA?=
+ =?us-ascii?Q?DRtWbwuV7UWagJmtmQpWCdkCc0VkA8qAtuIxvyUN8Bi0t6o4QjZGAWC6T7W7?=
+ =?us-ascii?Q?pRPReXQtg5MmAxVZmiJrPCkGKgOWqB8YCuL4EB3nTCE5bonugDoPjwurmScG?=
+ =?us-ascii?Q?bzEdSHDBW+p++0/KNXWVjxNZ4iCBv3WtxVbdoKuyjtT9r2ixli6MsNNTZSfZ?=
+ =?us-ascii?Q?41jniDlQGYGGtp9fMveAd0NwSi6uzuPApN6jydbObgGVl3RrZVJ39yvkzURc?=
+ =?us-ascii?Q?1rtI8A2Z5tjDDSG8pZFzaxLKXaBGooLDM9DYrIWQMkkz9sBXs6q/J3OdluiF?=
+ =?us-ascii?Q?3ULPpsbcoMIGn25xGyfFcEd37lDBOEM6hdkCtJwqsjTGbmJWuAJ9qzVIJsY0?=
+ =?us-ascii?Q?dAW7KiTGR7P7MBGPNoOZYQWZJr5Mz7CaAfwCVGykqXdZ4ELxrRXkTFeee1Rd?=
+ =?us-ascii?Q?qhyJoBqawA6c2TxgcXeLFlnHbIHdeoJzwZh9gxY17ciOufoqaZI1A4NuNIfG?=
+ =?us-ascii?Q?5DCCcq3Jo31P9KA2LHh5gdDWpOP2LjJF7i+a3QOHzc9YT9j6GF6M83RaohaE?=
+ =?us-ascii?Q?VMs//tZdXuOxM7UyZ0rsXnZqX45uuR9ZijIz8JVCwZVXthXwMpYiEjgSVHay?=
+ =?us-ascii?Q?6bMujA5acILpQbjzzJwN3uu8WlfDOOu0Nf/rbh+n2CKFIawMfp6VopAqYRx+?=
+ =?us-ascii?Q?LkNBuhpyqwGExCr1RaPM6t/Sap2MbBabjIPOrR/9G6KbWqR8Z5c2CG5JJyAD?=
+ =?us-ascii?Q?M3g2mNrUMorkyUXsywvQa3mY5GO7LoIKOrkN4hah/ysIxFWgpc4cxMq3BIcr?=
+ =?us-ascii?Q?AFxKBd1RUGEv+1Th09l9M/PfjodfU+xalooPQY+eMczRIO5V/ynkvAz/KsUw?=
+ =?us-ascii?Q?q/70Ay22Det2xmZbzU/t59DvX+jDd/mpKQg1Xtl/clNdIGB2I193FucDsMVp?=
+ =?us-ascii?Q?7gogmwyctKGicZ1LbnTxytJH17y+5fY+nBwwr+wIT+NkkpmBieOrK/UI7ANl?=
+ =?us-ascii?Q?IbzbivSjF9jbss+MFoOa07TTTy0X5pRu/DcE5/ugindPHJIha/TARjimIkRP?=
+ =?us-ascii?Q?3MB+1VFNkQPpWNrsqIYpZou8nGOui2YOYX1tr8X9AClmlgswHhf3OitgGI0F?=
+ =?us-ascii?Q?47xKbYTxv2AS8eIbO2DDklP1J5ncS9wl61rwknAAdJnBptG4P99ZCrPA/fp8?=
+ =?us-ascii?Q?g1UgTkx0F//SrlrMbaI/v0jnb3F1dt7MmtevGC8Ug1U4S71U98Sy0lColSFc?=
+ =?us-ascii?Q?ExnvAK7d1WYvyHnDWY7az9BdzIJ8od3Q4I1E4JXuvdgho9quhWbk4medRizn?=
+ =?us-ascii?Q?UKGLIA=3D=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026); DIR:OUT;
+ SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2026 19:28:21.2750 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ff7e5a65-c82c-4c76-e62f-08de5d1110ee
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2026 19:28:22.4394 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 088c4a54-a3e4-4d56-9154-08de5d1111a0
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: MN1PEPF0000F0E1.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: MN1PEPF0000F0E3.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9160
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9592
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,7 +158,7 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:yidong.zhang@amd.com,m:ogabbay@kernel.org,m:quic_jhugo@quicinc.com,m:maciej.falkowski@linux.intel.com,m:linux-kernel@vger.kernel.org,m:sonal.santan@amd.com,m:mario.limonciello@amd.com,m:lizhi.hou@amd.com,m:nishads@amd.com,s:lists@lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,amd.com:dkim,amd.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email,amd.com:dkim,amd.com:mid];
 	FORGED_SENDER(0.00)[yidong.zhang@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -177,196 +176,55 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 4ADC58C8D3
+X-Rspamd-Queue-Id: 1D8118C8BE
 X-Rspamd-Action: no action
 
-This patch introduces a set of APIs for allowing the PCIe driver submit
-commands, transfer binary payloads and retrieve firmware metadata.
+This patch introduces the communication channel (comm_chan) service, which
+enables communication between the management PF driver and the user PF
+driver.
 
-Key features:
-- RM queue command APIs:
-  - create and destroy RM queue commands
-  - Initialized command data payloads
-  - Send and poll for command completion
-- Service-level operations:
-  - Retrieve firmware ID
-  - Program accelerator and APU firmware images
-  - Periodic health monitoring
+The comm_chan service provides a shared-memory-based command channel
+located in a BAR-mapped region. The user PF driver issues requests by
+writing command messages into this region. The management PF driver
+periodically polls the region and process any pending requests.
+
+Supported operations include firmware (xclbin) reloads, where the
+management PF invokes 'versal_pci_load_xclbin' to reprogram the embedded
+firmware through the remote management queue service.
+
+This service provides the foundation for dynamic firmware updates and other
+management requests from the user PFs.
 
 Co-developed-by: Nishad Saraf <nishads@amd.com>
 Signed-off-by: Nishad Saraf <nishads@amd.com>
 Signed-off-by: David Zhang <yidong.zhang@amd.com>
 ---
  drivers/accel/amd_vpci/Makefile               |   3 +-
- drivers/accel/amd_vpci/versal-pci-main.c      |  43 +-
- drivers/accel/amd_vpci/versal-pci-rm-queue.c  |  14 +-
- .../accel/amd_vpci/versal-pci-rm-service.c    | 497 ++++++++++++++++++
- .../accel/amd_vpci/versal-pci-rm-service.h    |  20 +
- drivers/accel/amd_vpci/versal-pci.h           |   1 +
- 6 files changed, 567 insertions(+), 11 deletions(-)
- create mode 100644 drivers/accel/amd_vpci/versal-pci-rm-service.c
+ drivers/accel/amd_vpci/versal-pci-comm-chan.c | 295 ++++++++++++++++++
+ drivers/accel/amd_vpci/versal-pci-comm-chan.h |  14 +
+ drivers/accel/amd_vpci/versal-pci-main.c      |  82 ++++-
+ drivers/accel/amd_vpci/versal-pci.h           |   6 +
+ 5 files changed, 396 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/accel/amd_vpci/versal-pci-comm-chan.c
+ create mode 100644 drivers/accel/amd_vpci/versal-pci-comm-chan.h
 
 diff --git a/drivers/accel/amd_vpci/Makefile b/drivers/accel/amd_vpci/Makefile
-index 9e4e56ac2dee..bacd305783dd 100644
+index bacd305783dd..8adfde3490fd 100644
 --- a/drivers/accel/amd_vpci/Makefile
 +++ b/drivers/accel/amd_vpci/Makefile
-@@ -4,4 +4,5 @@ obj-$(CONFIG_DRM_ACCEL_AMD_VPCI) := versal-pci.o
- 
+@@ -5,4 +5,5 @@ obj-$(CONFIG_DRM_ACCEL_AMD_VPCI) := versal-pci.o
  versal-pci-y := \
  	versal-pci-main.o \
--	versal-pci-rm-queue.o
-+	versal-pci-rm-queue.o \
-+	versal-pci-rm-service.o
-diff --git a/drivers/accel/amd_vpci/versal-pci-main.c b/drivers/accel/amd_vpci/versal-pci-main.c
-index 36f88d5aee95..f8d32f9c0e0c 100644
---- a/drivers/accel/amd_vpci/versal-pci-main.c
-+++ b/drivers/accel/amd_vpci/versal-pci-main.c
-@@ -8,6 +8,8 @@
- #include <linux/pci.h>
- 
- #include "versal-pci.h"
-+#include "versal-pci-rm-service.h"
-+#include "versal-pci-rm-queue.h"
- 
- #define DRV_NAME			"amd-versal-pci"
- 
-@@ -21,6 +23,29 @@ static inline u32 versal_pci_devid(struct versal_pci_device *vdev)
- 		PCI_DEVID(vdev->pdev->bus->number, vdev->pdev->devfn));
- }
- 
-+static int versal_pci_upload_fw(struct versal_pci_device *vdev,
-+				enum rm_queue_opcode opcode,
-+				const char *data,
-+				size_t size)
-+{
-+	struct rm_cmd *cmd;
-+	int ret;
-+
-+	ret = rm_queue_create_cmd(vdev->rdev, opcode, &cmd);
-+	if (ret)
-+		return ret;
-+
-+	ret = rm_queue_data_init(cmd, data, size);
-+	if (ret)
-+		goto done;
-+
-+	ret = rm_queue_send_cmd(cmd, RM_CMD_WAIT_DOWNLOAD_TIMEOUT);
-+
-+done:
-+	rm_queue_destroy_cmd(cmd);
-+	return ret;
-+}
-+
- static int versal_pci_load_shell(struct versal_pci_device *vdev, char *fw_name)
- {
- 	const struct firmware *fw;
-@@ -57,7 +82,8 @@ static int versal_pci_load_shell(struct versal_pci_device *vdev, char *fw_name)
- 		goto release_firmware;
- 	}
- 
--	/* TODO upload fw to card */
-+	ret = versal_pci_upload_fw(vdev, RM_QUEUE_OP_LOAD_FW,
-+				   (char *)xsabin, xsabin->header.length);
- 	if (ret) {
- 		vdev_err(vdev, "failed to load xsabin %s : %d", fw_name, ret);
- 		goto release_firmware;
-@@ -159,6 +185,7 @@ static void versal_pci_device_teardown(struct versal_pci_device *vdev)
- {
- 	versal_pci_cfs_fini(&vdev->cfs_subsys);
- 	versal_pci_fw_fini(vdev);
-+	versal_pci_rm_fini(vdev->rdev);
- }
- 
- static int versal_pci_uuid_parse(struct versal_pci_device *vdev, uuid_t *uuid)
-@@ -187,7 +214,11 @@ static int versal_pci_fw_init(struct versal_pci_device *vdev)
- {
- 	int ret;
- 
--	/* TODO request compatible fw_id from card */
-+	ret = rm_queue_get_fw_id(vdev->rdev);
-+	if (ret) {
-+		vdev_warn(vdev, "Failed to get fw_id");
-+		return -EINVAL;
-+	}
- 
- 	ret = versal_pci_uuid_parse(vdev, &vdev->intf_uuid);
- 
-@@ -198,6 +229,13 @@ static int versal_pci_device_setup(struct versal_pci_device *vdev)
- {
- 	int ret;
- 
-+	vdev->rdev = versal_pci_rm_init(vdev);
-+	if (IS_ERR(vdev->rdev)) {
-+		ret = PTR_ERR(vdev->rdev);
-+		vdev_err(vdev, "Failed to init remote queue, err %d", ret);
-+		return ret;
-+	}
-+
- 	ret = versal_pci_fw_init(vdev);
- 	if (ret) {
- 		vdev_err(vdev, "Failed to init fw, err %d", ret);
-@@ -213,6 +251,7 @@ static int versal_pci_device_setup(struct versal_pci_device *vdev)
- 	return 0;
- 
- comm_chan_fini:
-+	versal_pci_rm_fini(vdev->rdev);
- 	versal_pci_fw_fini(vdev);
- 
- 	return ret;
-diff --git a/drivers/accel/amd_vpci/versal-pci-rm-queue.c b/drivers/accel/amd_vpci/versal-pci-rm-queue.c
-index eeda07065487..97e5911f18ed 100644
---- a/drivers/accel/amd_vpci/versal-pci-rm-queue.c
-+++ b/drivers/accel/amd_vpci/versal-pci-rm-queue.c
-@@ -23,37 +23,35 @@ static inline struct rm_device *to_rdev_msg_timer(struct timer_list *t)
- 
- static inline u32 rm_io_read(struct rm_device *rdev, u32 offset)
- {
--	/* TODO */
--	return 0;
-+	return rm_reg_read(rdev, RM_PCI_IO_BAR_OFF + offset);
- }
- 
- static inline int rm_io_write(struct rm_device *rdev, u32 offset, u32 value)
- {
--	/* TODO */
-+	rm_reg_write(rdev, RM_PCI_IO_BAR_OFF + offset, value);
- 	return 0;
- }
- 
- static inline u32 rm_queue_read(struct rm_device *rdev, u32 offset)
- {
--	/* TODO */
--	return 0;
-+	return rm_reg_read(rdev, RM_PCI_SHMEM_BAR_OFF + rdev->queue_base + offset);
- }
- 
- static inline void rm_queue_write(struct rm_device *rdev, u32 offset, u32 value)
- {
--	/* TODO */
-+	rm_reg_write(rdev, RM_PCI_SHMEM_BAR_OFF + rdev->queue_base + offset, value);
- }
- 
- static inline void rm_queue_bulk_read(struct rm_device *rdev, u32 offset,
- 				      u32 *value, u32 size)
- {
--	/* TODO */
-+	rm_bulk_reg_read(rdev, RM_PCI_SHMEM_BAR_OFF + rdev->queue_base + offset, value, size);
- }
- 
- static inline void rm_queue_bulk_write(struct rm_device *rdev, u32 offset,
- 				       u32 *value, u32 size)
- {
--	/* TODO */
-+	rm_bulk_reg_write(rdev, RM_PCI_SHMEM_BAR_OFF + rdev->queue_base + offset, value, size);
- }
- 
- static inline u32 rm_queue_get_cidx(struct rm_device *rdev, enum rm_queue_type type)
-diff --git a/drivers/accel/amd_vpci/versal-pci-rm-service.c b/drivers/accel/amd_vpci/versal-pci-rm-service.c
+ 	versal-pci-rm-queue.o \
+-	versal-pci-rm-service.o
++	versal-pci-rm-service.o \
++	versal-pci-comm-chan.o
+diff --git a/drivers/accel/amd_vpci/versal-pci-comm-chan.c b/drivers/accel/amd_vpci/versal-pci-comm-chan.c
 new file mode 100644
-index 000000000000..974e5ed3a80e
+index 000000000000..fef6fff4e501
 --- /dev/null
-+++ b/drivers/accel/amd_vpci/versal-pci-rm-service.c
-@@ -0,0 +1,497 @@
++++ b/drivers/accel/amd_vpci/versal-pci-comm-chan.c
+@@ -0,0 +1,295 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Driver for Versal PCIe device
@@ -376,535 +234,472 @@ index 000000000000..974e5ed3a80e
 +
 +#include <linux/bitfield.h>
 +#include <linux/pci.h>
-+#include <linux/vmalloc.h>
 +
 +#include "versal-pci.h"
-+#include "versal-pci-rm-service.h"
-+#include "versal-pci-rm-queue.h"
++#include "versal-pci-comm-chan.h"
 +
-+static DEFINE_IDA(rm_cmd_ids);
++#define COMM_CHAN_PROTOCOL_VERSION		1
++#define COMM_CHAN_PCI_BAR_OFF			0x2000000
++#define COMM_CHAN_TIMER				(HZ / 10)
++#define COMM_CHAN_DATA_LEN			16
++#define COMM_CHAN_DATA_TYPE_MASK		GENMASK(7, 0)
++#define COMM_CHAN_DATA_EOM_MASK			BIT(31)
++#define COMM_CHAN_MSG_END			BIT(31)
 +
-+static void rm_uninstall_health_monitor(struct rm_device *rdev);
++#define COMM_CHAN_REG_WRDATA_OFF		0x0
++#define COMM_CHAN_REG_RDDATA_OFF		0x8
++#define COMM_CHAN_REG_STATUS_OFF		0x10
++#define COMM_CHAN_REG_ERROR_OFF			0x14
++#define COMM_CHAN_REG_RIT_OFF			0x1C
++#define COMM_CHAN_REG_IS_OFF			0x20
++#define COMM_CHAN_REG_IE_OFF			0x24
++#define COMM_CHAN_REG_CTRL_OFF			0x2C
++#define COMM_CHAN_REGS_SIZE			SZ_4K
 +
-+static inline struct rm_device *to_rdev_health_monitor(struct work_struct *w)
++#define COMM_CHAN_IRQ_DISABLE_ALL		0
++#define COMM_CHAN_IRQ_RECEIVE_ENABLE		BIT(1)
++#define COMM_CHAN_IRQ_CLEAR_ALL			GENMASK(2, 0)
++#define COMM_CHAN_CLEAR_FIFO			GENMASK(1, 0)
++#define COMM_CHAN_RECEIVE_THRESHOLD		15
++
++enum comm_chan_req_ops {
++	COMM_CHAN_REQ_OPS_UNKNOWN		= 0,
++	COMM_CHAN_REQ_OPS_HOT_RESET		= 5,
++	COMM_CHAN_REQ_OPS_GET_PROTOCOL_VERSION	= 19,
++	COMM_CHAN_REQ_OPS_LOAD_XCLBIN_UUID	= 20,
++	COMM_CHAN_REQ_OPS_MAX,
++};
++
++enum comm_chan_msg_type {
++	COMM_CHAN_MSG_INVALID			= 0,
++	COMM_CHAN_MSG_START			= 2,
++	COMM_CHAN_MSG_BODY			= 3,
++};
++
++enum comm_chan_msg_service_type {
++	COMM_CHAN_MSG_SRV_RESPONSE		= BIT(0),
++	COMM_CHAN_MSG_SRV_REQUEST		= BIT(1),
++};
++
++struct comm_chan_hw_msg {
++	struct {
++		__u32		type;
++		__u32		payload_size;
++	} header;
++	struct {
++		__u64		id;
++		__u32		flags;
++		__u32		size;
++		__u32		payload[COMM_CHAN_DATA_LEN - 6];
++	} body;
++} __packed;
++
++struct comm_chan_srv_req {
++	__u64			flags;
++	__u32			opcode;
++	__u32			data[];
++};
++
++struct comm_chan_srv_ver_resp {
++	__u32			version;
++};
++
++struct comm_chan_srv_uuid_resp {
++	__u32			ret;
++};
++
++struct comm_chan_msg {
++	__u64			id;
++	__u32			flags;
++	__u32			len;
++	__u32			bytes_read;
++	__u32			data[10];
++};
++
++struct comm_chan_device {
++	struct versal_pci_device	*vdev;
++	struct timer_list		timer;
++	struct work_struct		work;
++};
++
++static inline struct comm_chan_device *to_ccdev_work(struct work_struct *w)
 +{
-+	return container_of(w, struct rm_device, health_monitor);
++	return container_of(w, struct comm_chan_device, work);
 +}
 +
-+static inline struct rm_device *to_rdev_health_timer(struct timer_list *t)
++static inline struct comm_chan_device *to_ccdev_timer(struct timer_list *t)
 +{
-+	return container_of(t, struct rm_device, health_timer);
++	return container_of(t, struct comm_chan_device, timer);
 +}
 +
-+u32 rm_reg_read(struct rm_device *rdev, u32 offset)
++static inline u32 comm_chan_read(struct comm_chan_device *cdev, u32 offset)
 +{
-+	return readl(rdev->vdev->io_regs + offset);
++	return readl(cdev->vdev->io_regs + COMM_CHAN_PCI_BAR_OFF + offset);
 +}
 +
-+void rm_reg_write(struct rm_device *rdev, u32 offset, const u32 value)
++static inline void comm_chan_write(struct comm_chan_device *cdev, u32 offset, const u32 value)
 +{
-+	writel(value, rdev->vdev->io_regs + offset);
++	writel(value, cdev->vdev->io_regs + COMM_CHAN_PCI_BAR_OFF + offset);
 +}
 +
-+void rm_bulk_reg_read(struct rm_device *rdev, u32 offset, u32 *value, size_t size)
++static u32 comm_chan_set_uuid_resp(void *payload, int ret)
 +{
-+	void __iomem *src = rdev->vdev->io_regs + offset;
-+	void *dst = (void *)value;
++	struct comm_chan_srv_uuid_resp *resp = (struct comm_chan_srv_uuid_resp *)payload;
++	u32 resp_len = sizeof(*resp);
 +
-+	memcpy_fromio(dst, src, size);
-+	/* Barrier after reading data from device */
-+	rmb();
++	resp->ret = (u32)ret;
++
++	return resp_len;
 +}
 +
-+void rm_bulk_reg_write(struct rm_device *rdev, u32 offset, const void *value, size_t size)
++static u32 comm_chan_set_protocol_resp(void *payload)
 +{
-+	void __iomem *dst = rdev->vdev->io_regs + offset;
++	struct comm_chan_srv_ver_resp *resp = (struct comm_chan_srv_ver_resp *)payload;
++	u32 resp_len = sizeof(*resp);
 +
-+	memcpy_toio(dst, value, size);
-+	/* Barrier after writing data to device */
-+	wmb();
++	resp->version = COMM_CHAN_PROTOCOL_VERSION;
++
++	return resp_len;
 +}
 +
-+static inline u32 rm_shmem_read(struct rm_device *rdev, u32 offset)
++static void comm_chan_write_response(struct comm_chan_device *ccdev,
++				     struct comm_chan_hw_msg *response,
++				     u64 msg_id, u32 size)
 +{
-+	return rm_reg_read(rdev, RM_PCI_SHMEM_BAR_OFF + offset);
++	response->header.type = COMM_CHAN_MSG_START | COMM_CHAN_MSG_END;
++	response->header.payload_size = size;
++
++	response->body.flags = COMM_CHAN_MSG_SRV_RESPONSE;
++	response->body.size = size;
++	response->body.id = msg_id;
++
++	for (int i = 0; i < COMM_CHAN_DATA_LEN; i++)
++		comm_chan_write(ccdev, COMM_CHAN_REG_WRDATA_OFF, ((u32 *)response)[i]);
 +}
 +
-+static inline void rm_shmem_bulk_read(struct rm_device *rdev, u32 offset,
-+				      u32 *value, u32 size)
++static void comm_chan_send_response(struct comm_chan_device *ccdev, u64 msg_id, int ret)
 +{
-+	rm_bulk_reg_read(rdev, RM_PCI_SHMEM_BAR_OFF + offset, value, size);
++	struct versal_pci_device *vdev = ccdev->vdev;
++	struct comm_chan_hw_msg response = {0};
++	u32 size;
++
++	vdev_err(vdev, "return response ret: %d", ret);
++	size = comm_chan_set_uuid_resp(response.body.payload, ret);
++
++	comm_chan_write_response(ccdev, &response, msg_id, size);
 +}
 +
-+static inline void rm_shmem_bulk_write(struct rm_device *rdev, u32 offset,
-+				       const void *value, u32 size)
++static void comm_chan_opcode_response(struct comm_chan_device *ccdev, u64 msg_id, void *payload)
 +{
-+	rm_bulk_reg_write(rdev, RM_PCI_SHMEM_BAR_OFF + offset, value, size);
++	struct comm_chan_srv_req *req = (struct comm_chan_srv_req *)payload;
++	struct versal_pci_device *vdev = ccdev->vdev;
++	struct comm_chan_hw_msg response = {0};
++	u32 size;
++	int ret;
++
++	switch (req->opcode) {
++	case COMM_CHAN_REQ_OPS_GET_PROTOCOL_VERSION:
++		size = comm_chan_set_protocol_resp(response.body.payload);
++		break;
++	case COMM_CHAN_REQ_OPS_LOAD_XCLBIN_UUID:
++		ret = versal_pci_load_xclbin(vdev, (uuid_t *)req->data);
++		size = comm_chan_set_uuid_resp(response.body.payload, ret);
++		break;
++	default:
++		vdev_err(vdev, "Unsupported request opcode: %d", req->opcode);
++		size = comm_chan_set_uuid_resp(response.body.payload, -EOPNOTSUPP);
++		break;
++	}
++
++	vdev_dbg(vdev, "Response opcode: %d", req->opcode);
++	comm_chan_write_response(ccdev, &response, msg_id, size);
 +}
 +
-+void rm_queue_destroy_cmd(struct rm_cmd *cmd)
++#define STATUS_IS_READY(status) ((status) & BIT(1))
++#define STATUS_IS_ERROR(status) ((status) & BIT(2))
++
++static void comm_chan_check_request(struct work_struct *w)
 +{
-+	ida_free(&rm_cmd_ids, cmd->sq_msg.hdr.id);
-+	kfree(cmd);
++	struct comm_chan_device *ccdev = to_ccdev_work(w);
++	u32 status = 0, request[COMM_CHAN_DATA_LEN] = {0};
++	struct comm_chan_hw_msg *hw_msg;
++	u8 type, eom;
++	int i;
++
++	status = comm_chan_read(ccdev, COMM_CHAN_REG_IS_OFF);
++	if (!STATUS_IS_READY(status))
++		return;
++	if (STATUS_IS_ERROR(status)) {
++		vdev_err(ccdev->vdev, "An error has occurred with comms");
++		return;
++	}
++
++	/* ACK status */
++	comm_chan_write(ccdev, COMM_CHAN_REG_IS_OFF, status);
++
++	for (i = 0; i < COMM_CHAN_DATA_LEN; i++)
++		request[i] = comm_chan_read(ccdev, COMM_CHAN_REG_RDDATA_OFF);
++
++	hw_msg = (struct comm_chan_hw_msg *)request;
++	type = FIELD_GET(COMM_CHAN_DATA_TYPE_MASK, hw_msg->header.type);
++	eom = FIELD_GET(COMM_CHAN_DATA_EOM_MASK, hw_msg->header.type);
++
++	/*
++	 * Only support fixed size 64B messages, therefor every msg should
++	 * have EndOfMsg(eom) as 1. Ignore invalid messages.
++	 */
++	if (!eom || type != COMM_CHAN_MSG_START) {
++		vdev_err(ccdev->vdev, "Unsupported eom 0x%x but type 0x%x", eom, type);
++		goto enotsupp;
++	}
++
++	if (hw_msg->body.flags != COMM_CHAN_MSG_SRV_REQUEST) {
++		vdev_err(ccdev->vdev, "Unsupported service request");
++		goto enotsupp;
++	}
++
++	if (hw_msg->body.size > sizeof(hw_msg->body.payload)) {
++		vdev_err(ccdev->vdev, "msg is too big: %d", hw_msg->body.size);
++		goto enotsupp;
++	}
++
++	/* Now decode and respond appropriately */
++	comm_chan_opcode_response(ccdev, hw_msg->body.id, hw_msg->body.payload);
++	return;
++
++enotsupp:
++	comm_chan_send_response(ccdev, hw_msg->body.id, -EOPNOTSUPP);
 +}
 +
-+static int rm_queue_copy_response(struct rm_cmd *cmd, void *buffer, ssize_t len)
++static void comm_chan_sched_work(struct timer_list *t)
 +{
-+	struct rm_cmd_cq_log_page *result = &cmd->cq_msg.data.page;
-+	u64 off = cmd->sq_msg.data.page.address;
++	struct comm_chan_device *ccdev = to_ccdev_timer(t);
 +
-+	if (!result->len || len < result->len) {
-+		vdev_err(cmd->rdev->vdev, "Invalid response or buffer size");
++	/* Schedule a work in the general workqueue */
++	schedule_work(&ccdev->work);
++	/* Periodic timer */
++	mod_timer(&ccdev->timer, jiffies + COMM_CHAN_TIMER);
++}
++
++static void comm_chan_config(struct comm_chan_device *ccdev)
++{
++	/* Disable interrupts */
++	comm_chan_write(ccdev, COMM_CHAN_REG_IE_OFF, COMM_CHAN_IRQ_DISABLE_ALL);
++	/* Clear request and response FIFOs */
++	comm_chan_write(ccdev, COMM_CHAN_REG_CTRL_OFF, COMM_CHAN_CLEAR_FIFO);
++	/* Clear interrupts */
++	comm_chan_write(ccdev, COMM_CHAN_REG_IS_OFF, COMM_CHAN_IRQ_CLEAR_ALL);
++	/* Setup RIT reg */
++	comm_chan_write(ccdev, COMM_CHAN_REG_RIT_OFF, COMM_CHAN_RECEIVE_THRESHOLD);
++	/* Enable RIT interrupt */
++	comm_chan_write(ccdev, COMM_CHAN_REG_IE_OFF, COMM_CHAN_IRQ_RECEIVE_ENABLE);
++
++	/* Create and schedule timer to do recurring work */
++	INIT_WORK(&ccdev->work, &comm_chan_check_request);
++	timer_setup(&ccdev->timer, &comm_chan_sched_work, 0);
++	mod_timer(&ccdev->timer, jiffies + COMM_CHAN_TIMER);
++}
++
++void versal_pci_comm_chan_fini(struct comm_chan_device *ccdev)
++{
++	/* First stop scheduling new work then cancel work */
++	timer_delete_sync(&ccdev->timer);
++	cancel_work_sync(&ccdev->work);
++}
++
++struct comm_chan_device *versal_pci_comm_chan_init(struct versal_pci_device *vdev)
++{
++	struct comm_chan_device *ccdev;
++
++	ccdev = devm_kzalloc(&vdev->pdev->dev, sizeof(*ccdev), GFP_KERNEL);
++	if (!ccdev)
++		return ERR_PTR(-ENOMEM);
++
++	ccdev->vdev = vdev;
++
++	comm_chan_config(ccdev);
++	return ccdev;
++}
+diff --git a/drivers/accel/amd_vpci/versal-pci-comm-chan.h b/drivers/accel/amd_vpci/versal-pci-comm-chan.h
+new file mode 100644
+index 000000000000..a6ad3228c3ff
+--- /dev/null
++++ b/drivers/accel/amd_vpci/versal-pci-comm-chan.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Driver for Versal PCIe device
++ *
++ * Copyright (C) 2026 Advanced Micro Devices, Inc. All rights reserved.
++ */
++
++#ifndef __VERSAL_PCI_COMM_CHAN_H
++#define __VERSAL_PCI_COMM_CHAN_H
++
++struct comm_chan_device *versal_pci_comm_chan_init(struct versal_pci_device *vdev);
++void versal_pci_comm_chan_fini(struct comm_chan_device *ccdev);
++
++#endif	/* __VERSAL_PCI_COMM_CHAN_H */
+diff --git a/drivers/accel/amd_vpci/versal-pci-main.c b/drivers/accel/amd_vpci/versal-pci-main.c
+index f8d32f9c0e0c..ad3f4645cd5e 100644
+--- a/drivers/accel/amd_vpci/versal-pci-main.c
++++ b/drivers/accel/amd_vpci/versal-pci-main.c
+@@ -8,6 +8,7 @@
+ #include <linux/pci.h>
+ 
+ #include "versal-pci.h"
++#include "versal-pci-comm-chan.h"
+ #include "versal-pci-rm-service.h"
+ #include "versal-pci-rm-queue.h"
+ 
+@@ -98,6 +99,67 @@ static int versal_pci_load_shell(struct versal_pci_device *vdev, char *fw_name)
+ 	return ret;
+ }
+ 
++int versal_pci_load_xclbin(struct versal_pci_device *vdev, uuid_t *xuuid)
++{
++	const char *xclbin_location = "xilinx/xclbins";
++	char fw_name[128];
++	const struct firmware *fw;
++	struct axlf *xclbin;
++	int ret;
++
++	ret = snprintf(fw_name, sizeof(fw_name), "%s/%pUb_%s.xclbin",
++		       xclbin_location, xuuid, vdev->fw_id);
++	if (ret >= sizeof(fw_name)) {
++		vdev_err(vdev, "uuid is too long");
 +		return -EINVAL;
 +	}
 +
-+	rm_shmem_bulk_read(cmd->rdev, off, (u32 *)buffer, result->len);
-+	return 0;
-+}
-+
-+static void rm_queue_payload_fini(struct rm_cmd *cmd)
-+{
-+	up(&cmd->rdev->cq.data_lock);
-+}
-+
-+static int rm_queue_payload_init(struct rm_cmd *cmd,
-+				 enum rm_cmd_log_page_type type)
-+{
-+	struct rm_device *rdev = cmd->rdev;
-+	int ret;
-+
-+	ret = down_interruptible(&rdev->cq.data_lock);
-+	if (ret)
++	vdev_info(vdev, "trying to load %s", fw_name);
++	ret = request_firmware(&fw, fw_name, &vdev->pdev->dev);
++	if (ret) {
++		vdev_warn(vdev, "request xclbin fw %s failed %d", fw_name, ret);
 +		return ret;
-+
-+	cmd->sq_msg.data.page.address = rdev->cq.data_offset;
-+	cmd->sq_msg.data.page.size = rdev->cq.data_size;
-+	cmd->sq_msg.data.page.reserved1 = 0;
-+	cmd->sq_msg.data.page.type = FIELD_PREP(RM_CMD_LOG_PAGE_TYPE_MASK,
-+						type);
-+	return 0;
-+}
-+
-+void rm_queue_data_fini(struct rm_cmd *cmd)
-+{
-+	up(&cmd->rdev->sq.data_lock);
-+}
-+
-+int rm_queue_data_init(struct rm_cmd *cmd, const char *buffer, ssize_t size)
-+{
-+	struct rm_device *rdev = cmd->rdev;
-+	int ret;
-+
-+	if (!size || size > rdev->sq.data_size) {
-+		vdev_err(rdev->vdev, "Unsupported file size");
-+		return -ENOMEM;
 +	}
 +
-+	ret = down_interruptible(&rdev->sq.data_lock);
-+	if (ret)
-+		return ret;
-+
-+	rm_shmem_bulk_write(cmd->rdev, rdev->sq.data_offset, buffer, size);
-+
-+	cmd->sq_msg.data.bin.address = rdev->sq.data_offset;
-+	cmd->sq_msg.data.bin.size = size;
-+	return 0;
-+}
-+
-+int rm_queue_create_cmd(struct rm_device *rdev, enum rm_queue_opcode opcode,
-+			struct rm_cmd **cmd_ptr)
-+{
-+	struct rm_cmd *cmd = NULL;
-+	int ret, id;
-+	u16 size;
-+
-+	if (rdev->firewall_tripped)
-+		return -ENODEV;
-+
-+	cmd = kzalloc(sizeof(*cmd), GFP_KERNEL);
-+	if (!cmd)
-+		return -ENOMEM;
-+	cmd->rdev = rdev;
-+
-+	switch (opcode) {
-+	case RM_QUEUE_OP_LOAD_XCLBIN:
-+		fallthrough;
-+	case RM_QUEUE_OP_LOAD_FW:
-+		fallthrough;
-+	case RM_QUEUE_OP_LOAD_APU_FW:
-+		size = sizeof(struct rm_cmd_sq_bin);
-+		break;
-+	case RM_QUEUE_OP_GET_LOG_PAGE:
-+		size = sizeof(struct rm_cmd_sq_log_page);
-+		break;
-+	case RM_QUEUE_OP_IDENTIFY:
-+		size = 0;
-+		break;
-+	case RM_QUEUE_OP_VMR_CONTROL:
-+		size = sizeof(struct rm_cmd_sq_ctrl);
-+		break;
-+	default:
-+		vdev_err(rdev->vdev, "Invalid cmd opcode %d", opcode);
++	xclbin = (struct axlf *)fw->data;
++	if (memcmp(xclbin->magic, VERSAL_XCLBIN_MAGIC_ID, sizeof(VERSAL_XCLBIN_MAGIC_ID))) {
++		vdev_err(vdev, "Invalid fpga firmware");
 +		ret = -EINVAL;
-+		goto error;
++		goto release_firmware;
 +	}
 +
-+	cmd->opcode = opcode;
-+	cmd->sq_msg.hdr.opcode = FIELD_PREP(RM_CMD_SQ_HDR_OPS_MSK, opcode);
-+	cmd->sq_msg.hdr.msg_size = FIELD_PREP(RM_CMD_SQ_HDR_SIZE_MSK, size);
-+
-+	id = ida_alloc_range(&rm_cmd_ids, RM_CMD_ID_MIN, RM_CMD_ID_MAX, GFP_KERNEL);
-+	if (id < 0) {
-+		vdev_err(rdev->vdev, "Failed to alloc cmd ID: %d", id);
-+		ret = id;
-+		goto error;
-+	}
-+	cmd->sq_msg.hdr.id = id;
-+
-+	init_completion(&cmd->executed);
-+
-+	*cmd_ptr = cmd;
-+	return 0;
-+error:
-+	kfree(cmd);
-+	return ret;
-+}
-+
-+static int rm_queue_verify(struct rm_device *rdev)
-+{
-+	struct versal_pci_device *vdev = rdev->vdev;
-+	struct rm_cmd_cq_identify *result;
-+	struct rm_cmd *cmd;
-+	u32 major, minor;
-+	int ret;
-+
-+	ret = rm_queue_create_cmd(rdev, RM_QUEUE_OP_IDENTIFY, &cmd);
-+	if (ret)
-+		return ret;
-+
-+	ret = rm_queue_send_cmd(cmd, RM_CMD_WAIT_CONFIG_TIMEOUT);
-+	if (ret)
-+		goto error;
-+
-+	result = &cmd->cq_msg.data.identify;
-+	major = result->major;
-+	minor = result->minor;
-+	vdev_dbg(vdev, "VMR version %d.%d", major, minor);
-+	if (!major) {
-+		vdev_err(vdev, "VMR version is unsupported");
-+		ret = -EOPNOTSUPP;
++	if (!fw->size ||
++	    fw->size != xclbin->header.length ||
++	    fw->size < sizeof(*xclbin)) {
++		vdev_err(vdev, "Invalid xclbin size %zu", fw->size);
++		ret = -EINVAL;
++		goto release_firmware;
 +	}
 +
-+error:
-+	rm_queue_destroy_cmd(cmd);
-+	return ret;
-+}
++	if (!uuid_equal(&vdev->intf_uuid, &xclbin->header.rom_uuid)) {
++		vdev_err(vdev, "base shell doesn't match uuid %pUb", &xclbin->header.uuid);
++		ret = -EINVAL;
++		goto release_firmware;
++	}
 +
-+static int rm_check_apu_status(struct rm_device *rdev, bool *status)
-+{
-+	struct rm_cmd_cq_control *result;
-+	struct rm_cmd *cmd;
-+	int ret;
-+
-+	ret = rm_queue_create_cmd(rdev, RM_QUEUE_OP_VMR_CONTROL, &cmd);
-+	if (ret)
-+		return ret;
-+
-+	ret = rm_queue_send_cmd(cmd, RM_CMD_WAIT_CONFIG_TIMEOUT);
-+	if (ret)
-+		goto error;
-+
-+	result = &cmd->cq_msg.data.ctrl;
-+	*status = FIELD_GET(RM_CMD_VMR_CONTROL_PS_MASK, result->status);
-+
-+	rm_queue_destroy_cmd(cmd);
-+	return 0;
-+
-+error:
-+	rm_queue_destroy_cmd(cmd);
-+	return ret;
-+}
-+
-+static int rm_download_apu_fw(struct rm_device *rdev, char *data, ssize_t size)
-+{
-+	struct rm_cmd *cmd;
-+	int ret;
-+
-+	ret = rm_queue_create_cmd(rdev, RM_QUEUE_OP_LOAD_APU_FW, &cmd);
-+	if (ret)
-+		return ret;
-+
-+	ret = rm_queue_data_init(cmd, data, size);
-+	if (ret)
-+		goto destroy_cmd;
-+
-+	ret = rm_queue_send_cmd(cmd, RM_CMD_WAIT_DOWNLOAD_TIMEOUT);
-+
-+destroy_cmd:
-+	rm_queue_destroy_cmd(cmd);
-+	return ret;
-+}
-+
-+int rm_queue_boot_apu(struct rm_device *rdev)
-+{
-+	char *bin = "xilinx/xrt-versal-apu.xsabin";
-+	const struct firmware *fw = NULL;
-+	bool status;
-+	int ret;
-+
-+	ret = rm_check_apu_status(rdev, &status);
++	ret = versal_pci_upload_fw(vdev, RM_QUEUE_OP_LOAD_XCLBIN,
++				   (char *)xclbin, xclbin->header.length);
 +	if (ret) {
-+		vdev_err(rdev->vdev, "Failed to get APU status");
-+		return ret;
++		vdev_err(vdev, "failed to load xclbin %s : %d", fw_name, ret);
++		goto release_firmware;
 +	}
 +
-+	if (status) {
-+		vdev_dbg(rdev->vdev, "APU online. Skipping APU firmware download");
-+		return 0;
-+	}
++	vdev_info(vdev, "Downloaded xclbin %pUb of size %lld Bytes",
++		  &xclbin->header.uuid, xclbin->header.length);
 +
-+	ret = request_firmware(&fw, bin, &rdev->vdev->pdev->dev);
-+	if (ret) {
-+		vdev_warn(rdev->vdev, "Request APU firmware %s failed %d", bin, ret);
-+		return ret;
-+	}
++	uuid_copy(&vdev->xclbin_uuid, &xclbin->header.uuid);
 +
-+	vdev_dbg(rdev->vdev, "Starting... APU firmware download");
-+	ret = rm_download_apu_fw(rdev, (char *)fw->data, fw->size);
-+	vdev_dbg(rdev->vdev, "Finished... APU firmware download %d", ret);
-+
-+	if (ret)
-+		vdev_err(rdev->vdev, "Failed to download APU firmware, ret:%d", ret);
-+
++release_firmware:
 +	release_firmware(fw);
 +
 +	return ret;
 +}
 +
-+static void rm_check_health(struct work_struct *w)
-+{
-+	struct rm_device *rdev = to_rdev_health_monitor(w);
-+	u32 max_len = PAGE_SIZE;
-+	struct rm_cmd *cmd;
-+	int ret;
+ static inline struct versal_pci_device *item_to_vdev(struct config_item *item)
+ {
+ 	return container_of(to_configfs_subsystem(to_config_group(item)),
+@@ -160,10 +222,13 @@ static const struct config_item_type versal_pci_cfs_table = {
+ static int versal_pci_cfs_init(struct versal_pci_device *vdev)
+ {
+ 	struct configfs_subsystem *subsys = &vdev->cfs_subsys;
++	char dev_name[64];
 +
-+	ret = rm_queue_create_cmd(rdev, RM_QUEUE_OP_GET_LOG_PAGE, &cmd);
-+	if (ret)
-+		return;
-+
-+	ret = rm_queue_payload_init(cmd, RM_CMD_LOG_PAGE_AXI_TRIP_STATUS);
-+	if (ret)
-+		goto destroy_cmd;
-+
-+	ret = rm_queue_send_cmd(cmd, RM_CMD_WAIT_CONFIG_TIMEOUT);
-+	if (ret == -ETIME || ret == -EINVAL)
-+		goto payload_fini;
-+
-+	if (ret) {
-+		u32 log_len = cmd->cq_msg.data.page.len;
-+
-+		if (log_len > max_len) {
-+			vdev_warn(rdev->vdev, "msg size %d is greater than requested %d",
-+				  log_len, max_len);
-+			log_len = max_len;
-+		}
-+
-+		if (log_len) {
-+			char *buffer = vzalloc(log_len);
-+
-+			if (!buffer)
-+				goto payload_fini;
-+
-+			ret = rm_queue_copy_response(cmd, buffer, log_len);
-+			if (ret) {
-+				vfree(buffer);
-+				goto payload_fini;
-+			}
-+
-+			vdev_warn(rdev->vdev, "%s", buffer);
-+			vfree(buffer);
-+
-+		} else {
-+			vdev_err(rdev->vdev, "firewall check ret%d", ret);
-+		}
-+
-+		rdev->firewall_tripped = 1;
-+	}
-+
-+payload_fini:
-+	rm_queue_payload_fini(cmd);
-+destroy_cmd:
-+	rm_queue_destroy_cmd(cmd);
-+
-+	vdev_dbg(rdev->vdev, "check result: %d", ret);
-+}
-+
-+static void rm_sched_health_check(struct timer_list *t)
-+{
-+	struct rm_device *rdev = to_rdev_health_timer(t);
-+
-+	if (rdev->firewall_tripped) {
-+		vdev_err(rdev->vdev, "Firewall tripped, health check paused. Please reset card");
-+		return;
-+	}
-+	/* Schedule a work in the general workqueue */
-+	schedule_work(&rdev->health_monitor);
-+	/* Periodic timer */
-+	mod_timer(&rdev->health_timer, jiffies + RM_HEALTH_CHECK_TIMER);
-+}
-+
-+static void rm_uninstall_health_monitor(struct rm_device *rdev)
-+{
-+	timer_delete_sync(&rdev->health_timer);
-+	cancel_work_sync(&rdev->health_monitor);
-+}
-+
-+static void rm_install_health_monitor(struct rm_device *rdev)
-+{
-+	INIT_WORK(&rdev->health_monitor, &rm_check_health);
-+	timer_setup(&rdev->health_timer, &rm_sched_health_check, 0);
-+	mod_timer(&rdev->health_timer, jiffies + RM_HEALTH_CHECK_TIMER);
-+}
-+
-+void versal_pci_rm_fini(struct rm_device *rdev)
-+{
-+	rm_uninstall_health_monitor(rdev);
-+	rm_queue_fini(rdev);
-+}
-+
-+struct rm_device *versal_pci_rm_init(struct versal_pci_device *vdev)
-+{
-+	struct rm_header *header;
-+	struct rm_device *rdev;
-+	u32 status;
-+	int ret;
-+
-+	rdev = devm_kzalloc(&vdev->pdev->dev, sizeof(*rdev), GFP_KERNEL);
-+	if (!rdev)
-+		return ERR_PTR(-ENOMEM);
-+
-+	rdev->vdev = vdev;
-+	header = &rdev->rm_metadata;
-+
-+	rm_shmem_bulk_read(rdev, RM_HDR_OFF, (u32 *)header, sizeof(*header));
-+	if (header->magic != RM_HDR_MAGIC_NUM) {
-+		vdev_err(vdev, "Invalid RM header 0x%x", header->magic);
-+		ret = -ENODEV;
-+		goto err;
-+	}
-+
-+	status = rm_shmem_read(rdev, header->status_off);
-+	if (!status) {
-+		vdev_err(vdev, "RM status is not ready");
-+		ret = -ENODEV;
-+		goto err;
-+	}
-+
-+	rdev->queue_buffer_size = header->data_end - header->data_start + 1;
-+	rdev->queue_buffer_start = header->data_start;
-+	rdev->queue_base = header->queue_base;
-+
-+	ret = rm_queue_init(rdev);
-+	if (ret) {
-+		vdev_err(vdev, "Failed to init cmd queue, ret %d", ret);
-+		ret = -ENODEV;
-+		goto err;
-+	}
-+
-+	ret = rm_queue_verify(rdev);
-+	if (ret) {
-+		vdev_err(vdev, "Failed to verify cmd queue, ret %d", ret);
-+		ret = -ENODEV;
-+		goto queue_fini;
-+	}
-+
-+	ret = rm_queue_boot_apu(rdev);
-+	if (ret) {
-+		vdev_err(vdev, "Failed to bringup APU, ret %d", ret);
-+		ret = -ENODEV;
-+		goto queue_fini;
-+	}
-+
-+	rm_install_health_monitor(rdev);
-+
-+	return rdev;
-+queue_fini:
-+	rm_queue_fini(rdev);
-+err:
-+	return ERR_PTR(ret);
-+}
-+
-+int rm_queue_get_fw_id(struct rm_device *rdev)
-+{
-+	struct rm_cmd *cmd;
-+	int ret;
-+
-+	ret = rm_queue_create_cmd(rdev, RM_QUEUE_OP_GET_LOG_PAGE, &cmd);
-+	if (ret)
-+		return ret;
-+
-+	ret = rm_queue_payload_init(cmd, RM_CMD_LOG_PAGE_FW_ID);
-+	if (ret)
-+		goto destroy_cmd;
-+
-+	ret = rm_queue_send_cmd(cmd, RM_CMD_WAIT_CONFIG_TIMEOUT);
-+	if (ret)
-+		goto payload_fini;
-+
-+	ret = rm_queue_copy_response(cmd, rdev->vdev->fw_id, sizeof(rdev->vdev->fw_id));
-+	if (ret)
-+		goto payload_fini;
-+
-+	vdev_info(rdev->vdev, "fw_id %s", rdev->vdev->fw_id);
-+
-+payload_fini:
-+	rm_queue_payload_fini(cmd);
-+destroy_cmd:
-+	rm_queue_destroy_cmd(cmd);
-+
-+	return ret;
-+}
-diff --git a/drivers/accel/amd_vpci/versal-pci-rm-service.h b/drivers/accel/amd_vpci/versal-pci-rm-service.h
-index a16198944e17..487c7ae2a4bc 100644
---- a/drivers/accel/amd_vpci/versal-pci-rm-service.h
-+++ b/drivers/accel/amd_vpci/versal-pci-rm-service.h
-@@ -206,4 +206,24 @@ struct rm_device {
- 	__u32			firewall_tripped;
- };
++	snprintf(dev_name, sizeof(dev_name), "%s%x", DRV_NAME, versal_pci_devid(vdev));
  
-+/* rm service init api */
-+struct rm_device *versal_pci_rm_init(struct versal_pci_device *vdev);
-+void versal_pci_rm_fini(struct rm_device *rdev);
+-	snprintf(subsys->su_group.cg_item.ci_namebuf,
+-		 sizeof(subsys->su_group.cg_item.ci_namebuf),
+-		 "%s%x", DRV_NAME, versal_pci_devid(vdev));
++	scnprintf(subsys->su_group.cg_item.ci_namebuf,
++		  sizeof(subsys->su_group.cg_item.ci_namebuf),
++		  "%s", dev_name);
+ 
+ 	subsys->su_group.cg_item.ci_type = &versal_pci_cfs_table;
+ 
+@@ -185,6 +250,7 @@ static void versal_pci_device_teardown(struct versal_pci_device *vdev)
+ {
+ 	versal_pci_cfs_fini(&vdev->cfs_subsys);
+ 	versal_pci_fw_fini(vdev);
++	versal_pci_comm_chan_fini(vdev->ccdev);
+ 	versal_pci_rm_fini(vdev->rdev);
+ }
+ 
+@@ -236,6 +302,13 @@ static int versal_pci_device_setup(struct versal_pci_device *vdev)
+ 		return ret;
+ 	}
+ 
++	vdev->ccdev = versal_pci_comm_chan_init(vdev);
++	if (IS_ERR(vdev->ccdev)) {
++		ret = PTR_ERR(vdev->ccdev);
++		vdev_err(vdev, "Failed to init comm channel, err %d", ret);
++		goto rm_fini;
++	}
 +
-+/* rm services APIs */
-+int rm_queue_create_cmd(struct rm_device *rdev, enum rm_queue_opcode opcode,
-+			struct rm_cmd **cmd_ptr);
-+void rm_queue_destroy_cmd(struct rm_cmd *cmd);
+ 	ret = versal_pci_fw_init(vdev);
+ 	if (ret) {
+ 		vdev_err(vdev, "Failed to init fw, err %d", ret);
+@@ -251,6 +324,9 @@ static int versal_pci_device_setup(struct versal_pci_device *vdev)
+ 	return 0;
+ 
+ comm_chan_fini:
++	versal_pci_comm_chan_fini(vdev->ccdev);
 +
-+int rm_queue_data_init(struct rm_cmd *cmd, const char *buffer, ssize_t size);
-+void rm_queue_data_fini(struct rm_cmd *cmd);
-+int rm_queue_get_fw_id(struct rm_device *rdev);
-+int rm_queue_boot_apu(struct rm_device *rdev);
-+
-+/* rm bar register operation APIs */
-+u32 rm_reg_read(struct rm_device *rdev, u32 offset);
-+void rm_reg_write(struct rm_device *rdev, u32 offset, const u32 value);
-+void rm_bulk_reg_read(struct rm_device *rdev, u32 offset, u32 *value, size_t size);
-+void rm_bulk_reg_write(struct rm_device *rdev, u32 offset, const void *value, size_t size);
-+
- #endif	/* __RM_SERVICE_H */
++rm_fini:
+ 	versal_pci_rm_fini(vdev->rdev);
+ 	versal_pci_fw_fini(vdev);
+ 
 diff --git a/drivers/accel/amd_vpci/versal-pci.h b/drivers/accel/amd_vpci/versal-pci.h
-index be69dda8da73..092cac6afa26 100644
+index 092cac6afa26..ef02cefd8f48 100644
 --- a/drivers/accel/amd_vpci/versal-pci.h
 +++ b/drivers/accel/amd_vpci/versal-pci.h
-@@ -51,6 +51,7 @@ struct fw_info {
- struct versal_pci_device {
+@@ -26,6 +26,7 @@
+ 	dev_dbg(&(vdev)->pdev->dev, fmt, ##args)
+ 
+ struct versal_pci_device;
++struct comm_chan_device;
+ struct rm_cmd;
+ 
+ struct axlf_header {
+@@ -52,13 +53,18 @@ struct versal_pci_device {
  	struct pci_dev			*pdev;
  
-+	struct rm_device		*rdev;
+ 	struct rm_device		*rdev;
++	struct comm_chan_device         *ccdev;
  	struct fw_info			fw;
  
  	void __iomem			*io_regs;
++	uuid_t				xclbin_uuid;
+ 	uuid_t				intf_uuid;
+ 	__u8				fw_id[UUID_STRING_LEN + 1];
+ 
+ 	struct configfs_subsystem	cfs_subsys;
+ };
+ 
++/* versal pci driver APIs */
++int versal_pci_load_xclbin(struct versal_pci_device *vdev, uuid_t *xclbin_uuid);
++
+ #endif	/* __VERSAL_PCI_H */
 -- 
 2.34.1
 
