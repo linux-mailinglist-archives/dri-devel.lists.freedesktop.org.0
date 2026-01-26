@@ -2,117 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wEe1GjNUd2nMeAEAu9opvQ
+	id GO5IEABVd2nMeAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 12:46:59 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 12:50:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB8E87CBD
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 12:46:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9419987D53
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 12:50:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B86210E1B9;
-	Mon, 26 Jan 2026 11:46:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8C1D10E1CD;
+	Mon, 26 Jan 2026 11:50:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OqfLVoL7";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="b9J9SHkj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com
- [74.125.82.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BACA510E1B9
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 11:46:55 +0000 (UTC)
-Received: by mail-dy1-f179.google.com with SMTP id
- 5a478bee46e88-2b7063004daso238591eec.0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 03:46:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769428015; cv=none;
- d=google.com; s=arc-20240605;
- b=ZAMgG8MhyDI3uq56gO8nnJ6Du+7UOCP84PZ2Pn5So98EPYSbTDD0w2JRUn2HRXOq44
- jDfpVS9yw8bOLPymgC1iZxmK/dHf9mp6sfGJy/YCp/xySkCeX9Z16AkjDSjTXWBNGumc
- mSrj2n8NjWIQyby/P41CGlU8yduAlBn3Y/drg6QQlkPRyrlEs2NIPJ8+XuiMyEmqAGVk
- GHkOzjwc2trf4BZY8Lh8fSMcsBpoBTd+oZ72hMsfzO/JhDD3oQLZTyUL1P7bL8p/MQZr
- OqdUE/clw73isedzzcWUYRBZ+Ssof9Eo8LnjyCz+wUXQ5yRdWLqDIAj3IVU02P5ZhMh7
- /QDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=o3x62Qf9dAWX541AJwNkvWxUTiuyvytUehddtIPb4VY=;
- fh=K1OLU32kYsB6la9e0VjFDk61e7Av2ZyCXoFmi8ShFF4=;
- b=KzhcJTcS5o38BdmzdfF4+8ynWXdulZ9x/Cs/A1F2oUR8V4vCBA3ocVi2t4Lxq67iM/
- MHELWAY7erleDhGlX8Sog1MtFedaZwQ0HTBOUoqOJJtKLV/Z4YW23wm2xbPez8vCCj+n
- rnqVrupirQymBB1EfGPoV9wM59b5i/826HOWEViNFYON2TBt3y3ikO6P5CnTnNRobvMM
- qA99oN1oQwK/kiwyfJI+y1Y9LJhpf3Es8Hl5Op1fMCTWOQUYnTHK+P4rUHhNF4tb8HLz
- d6sjnrqTCnEL6yExfx6cz25nfxBYpbAwe9FiIaM6apN8e7acqwjJOdH7T7ov+D9kdcvV
- QaBw==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769428015; x=1770032815; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=o3x62Qf9dAWX541AJwNkvWxUTiuyvytUehddtIPb4VY=;
- b=OqfLVoL7QngRAarDv7fQzlgIQtHpOZjDfoK2y4qnbzskuReJsaCoXl6dJcwVBnbnPd
- mmhppaWv2Tk/d6/47VqTHDizMq76YI3rss3xZeLgqjkVRzn3GYnPaHuBtM8BsE/7wt0C
- sw7T0LXAJ3p7UZFMuMagxtzSlbzJBoBp9JRLNEcYkMoQq0MkHo5q+BoLXbs+fDVSrApA
- RiTCg6/zNi++Hg3vUElC4zSyu1/oo0IGWjoLfQlf6BSsoOoB3I5FxUd5A6Qqm534tmg7
- xRoTuCs93oiFLRQLVSZbP4nS6DyCvfCzEzeo7t3cPXRf5hjJF16yKdz8PVB99ddGLgXn
- rnIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769428015; x=1770032815;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=o3x62Qf9dAWX541AJwNkvWxUTiuyvytUehddtIPb4VY=;
- b=PlqlBgc2mRyyWQz3ig1KDx/2NoaXG3tylkBDiwtLdJLBkNf7tV3DDczbolAtwaqzGZ
- 1swCaeKSmIzBJB+PddmfhsRF0XSlmJrzkDLJPfbkwDHs0nXRqrJfQ34GXFsEp1Wo7++z
- UwKduTm+L2Pyk+rjAAhu+SGxvDSEU/pi9xWomvsCXyBZih3G2Tn1qb6Wxzc6nklY9Nhi
- oEwzsVwXb+WhOi28PpnSfuVKeeFuj9A5789VOHWV7YlJakEJOZHV+HES1M94Km3+vzc9
- 9OB8JjLZ0CM+Zf8ZYN4K69aATsYpSTczLIsZRjxs5FhlUyEjeVuVOhah28gWB669sWgw
- Dqfw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWk4JrN1lwg7ukae7FoPtj+8rBUNInV66c4EKT0E27powMSRNqZtpNZ1TiCtQtX/ecUJhA7XIK1p+k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyKJ7Q0dLi8g/V2T/2P68pJ1GQL5hxp5Tyu0is+QTpJBuENoliF
- HIYJkGiJpv1yPZE9s/t6r5T6b0p34tojoMK6iI0A+O/oGUs8vOKweSPE3Rl59cAiTOblo0BldDI
- 4/fxUwUolPuRJBK5Q15fvX0KgXKY8xnk=
-X-Gm-Gg: AZuq6aJQyzqRGJd74Nmn7OS+7w0we8AEj5JJtNWOLPftJk3uyeMVVi9tFqjkNiYDqcv
- RWe4/OLj3nN45nqPnm9pf7cBXqWRotCGR72zhIg7nQ02S2PzuMsNx8iDH3Mn5sDg2aziBVOf+6w
- 5qJ5AJJ8J0eRXtDcn+rv5RFtDIdw0eOLiTPMmiIxBLrwv+yj2V8xA9v3diRT/o4muhxm1Mvi0QW
- wOwi9PV+zGGjHTlwmrQv8gdj02gYEFat91uSHo7U/6kGZ1xexkKzM2RTF/L9aaJ36HpKiJ7sQTN
- 3yr/f1nhq8p0qrCEREE2c1w/z6XcMMX9D2uTnplOGLjG2krYK247i6hqktJ5Gsr2z/RWxGCNbnv
- GbyZbGJRKxHCZEjFdWLRMte0=
-X-Received: by 2002:a05:7301:1f14:b0:2b7:3835:21f0 with SMTP id
- 5a478bee46e88-2b76420a89amr1152037eec.2.1769428014494; Mon, 26 Jan 2026
- 03:46:54 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBE8910E1CD
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 11:50:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=fNdXdx3qpgtP8W7eHWimmJlGqGjPkF4bLSPE3qsDDxw=; b=b9J9SHkjo7vDS8rVgQb9Ekv8XW
+ ZtJu4j7xsdILnMAyjAO9GiewSYRe3AqXcUtC3oNZkFLsu+cFwKW+b2KrW0JRCeIx7hPqu0Quj7Fef
+ yWC58z14q3GHqX8XonMeb6IojX98lIgHoguoCfhj7NaaurZjqcELugQSshlb34/e/DhkPZjbqsg2c
+ ETBYK4Pi6fqz0FEX4RzXxufJ2WzZ6b+tzoOesfO5OTo6YgRXqHGOrUGCK7s2gnExgeiJVl6cjc4Gf
+ KwijCChSx+WQ/b1yfPzQUPmbXeZRRkHOao3cFmUlEraxiugChA+jE4qwuI5mqEG8glI/F1PQ1kA3G
+ j6DQYMSw==;
+Received: from [90.240.106.137] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vkL6j-00A1TM-Hn; Mon, 26 Jan 2026 12:50:13 +0100
+Message-ID: <03cd76ac-7cb9-4493-8695-3d2d60358709@igalia.com>
+Date: Mon, 26 Jan 2026 11:50:12 +0000
 MIME-Version: 1.0
-References: <20260126081744.781392-1-pengfuyuan@kylinos.cn>
- <ed48e82a-cb94-477f-83c4-b2d87ae3cde6@suse.de>
- <DFYG7MT5JINY.1T8ZZ4ASIWXU@nvidia.com>
-In-Reply-To: <DFYG7MT5JINY.1T8ZZ4ASIWXU@nvidia.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 26 Jan 2026 12:46:41 +0100
-X-Gm-Features: AZwV_QiVehF8RRi7itklBIsdJdhL1p075lkEaX9CIFh4ljGe-kX6fmrMO2Whn90
-Message-ID: <CANiq72kRhkLKcc279CacJ8CnQ18JEZ4A9-vkcg_k4Jw88O4EDw@mail.gmail.com>
-Subject: Re: [PATCH v1 v1 0/4] [RUST] Framebuffer driver support
-To: Alexandre Courbot <acourbot@nvidia.com>, pengfuyuan <pengfuyuan@kylinos.cn>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Danilo Krummrich <dakr@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>,
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Trevor Gross <tmgross@umich.edu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J . Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Helge Deller <deller@gmx.de>, Hans de Goede <hansg@kernel.org>,
- Lee Jones <lee@kernel.org>, 
- Sam Ravnborg <sam@ravnborg.org>, Zsolt Kajtar <soci@c64.rulez.org>, 
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm: Do not allow userspace to trigger kernel warnings
+ in drm_gem_change_handle_ioctl()
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Zhi Wang <wangzhi@stu.xidian.edu.cn>,
+ David Francis <David.Francis@amd.com>,
+ Felix Kuehling <felix.kuehling@amd.com>, stable@vger.kernel.org
+References: <9bde8c39-ba4c-49c5-a0bc-4e78338f055a@amd.com>
+ <20260123141540.76540-1-tvrtko.ursulin@igalia.com>
+ <9e5f8140-d197-46f2-8324-bd705a889ecf@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <9e5f8140-d197-46f2-8324-bd705a889ecf@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,55 +71,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [0.49 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:kernel-dev@igalia.com,m:wangzhi@stu.xidian.edu.cn,m:David.Francis@amd.com,m:felix.kuehling@amd.com,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:acourbot@nvidia.com,m:pengfuyuan@kylinos.cn,m:tzimmermann@suse.de,m:dakr@kernel.org,m:aliceryhl@google.com,m:daniel.almeida@collabora.com,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:gregkh@linuxfoundation.org,m:rafael@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:deller@gmx.de,m:hansg@kernel.org,m:lee@kernel.org,m:sam@ravnborg.org,m:soci@c64.rulez.org,m:ville.syrjala@linux.intel.com,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-fbdev@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[suse.de,kernel.org,google.com,collabora.com,gmail.com,garyguo.net,protonmail.com,umich.edu,linuxfoundation.org,ffwll.ch,gmx.de,ravnborg.org,c64.rulez.org,linux.intel.com,vger.kernel.org,lists.freedesktop.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	URIBL_MULTI_FAIL(0.00)[igalia.com:server fail,amd.com:server fail,xidian.edu.cn:server fail,gabe.freedesktop.org:server fail];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.995];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:email,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: CEB8E87CBD
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,igalia.com:mid,igalia.com:email]
+X-Rspamd-Queue-Id: 9419987D53
 X-Rspamd-Action: no action
 
-On Mon, Jan 26, 2026 at 11:28=E2=80=AFAM Alexandre Courbot <acourbot@nvidia=
-.com> wrote:
->
-> This, and the patchset is also obviously AI-generated.
 
-pengfuyuan: the generated content guidelines I mentioned earlier this
-month in another of your patches have been merged now, please read:
+On 26/01/2026 09:02, Christian König wrote:
+> 
+> 
+> On 1/23/26 15:15, Tvrtko Ursulin wrote:
+>> Since GEM bo handles are u32 in the uapi and the internal implementation
+>> uses idr_alloc() which uses int ranges, passing a new handle larger than
+>> INT_MAX trivially triggers a kernel warning:
+>>
+>> idr_alloc():
+>> ...
+>> 	if (WARN_ON_ONCE(start < 0))
+>> 		return -EINVAL;
+>> ...
+>>
+>> Fix it by rejecting new handles above INT_MAX and at the same time make
+>> the end limit calculation more obvious by moving into int domain.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Reported-by: Zhi Wang <wangzhi@stu.xidian.edu.cn>
+>> Fixes: 53096728b891 ("drm: Add DRM prime interface to reassign GEM handle")
+>> Cc: David Francis <David.Francis@amd.com>
+>> Cc: Felix Kuehling <felix.kuehling@amd.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: <stable@vger.kernel.org> # v6.18+
+> 
+> Reviewed-by: Christian König <christian.koenig@amd.com>
 
-    https://docs.kernel.org/next/process/generated-content.html
+Pushed to drm-misc-fixes, thank you!
 
-Thanks!
+Regards,
 
-Cheers,
-Miguel
+Tvrtko
+
+> 
+>> ---
+>> v2:
+>>   * Rename local variable, re-position comment, drop the else block. (Christian)
+>>   * Use local at more places.
+>> ---
+>>   drivers/gpu/drm/drm_gem.c | 18 ++++++++++++------
+>>   1 file changed, 12 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>> index 7ff6b7bbeb73..ffa7852c8f6c 100644
+>> --- a/drivers/gpu/drm/drm_gem.c
+>> +++ b/drivers/gpu/drm/drm_gem.c
+>> @@ -1001,16 +1001,21 @@ int drm_gem_change_handle_ioctl(struct drm_device *dev, void *data,
+>>   {
+>>   	struct drm_gem_change_handle *args = data;
+>>   	struct drm_gem_object *obj;
+>> -	int ret;
+>> +	int handle, ret;
+>>   
+>>   	if (!drm_core_check_feature(dev, DRIVER_GEM))
+>>   		return -EOPNOTSUPP;
+>>   
+>> +	/* idr_alloc() limitation. */
+>> +	if (args->new_handle > INT_MAX)
+>> +		return -EINVAL;
+>> +	handle = args->new_handle;
+>> +
+>>   	obj = drm_gem_object_lookup(file_priv, args->handle);
+>>   	if (!obj)
+>>   		return -ENOENT;
+>>   
+>> -	if (args->handle == args->new_handle) {
+>> +	if (args->handle == handle) {
+>>   		ret = 0;
+>>   		goto out;
+>>   	}
+>> @@ -1018,18 +1023,19 @@ int drm_gem_change_handle_ioctl(struct drm_device *dev, void *data,
+>>   	mutex_lock(&file_priv->prime.lock);
+>>   
+>>   	spin_lock(&file_priv->table_lock);
+>> -	ret = idr_alloc(&file_priv->object_idr, obj,
+>> -		args->new_handle, args->new_handle + 1, GFP_NOWAIT);
+>> +	ret = idr_alloc(&file_priv->object_idr, obj, handle, handle + 1,
+>> +			GFP_NOWAIT);
+>>   	spin_unlock(&file_priv->table_lock);
+>>   
+>>   	if (ret < 0)
+>>   		goto out_unlock;
+>>   
+>>   	if (obj->dma_buf) {
+>> -		ret = drm_prime_add_buf_handle(&file_priv->prime, obj->dma_buf, args->new_handle);
+>> +		ret = drm_prime_add_buf_handle(&file_priv->prime, obj->dma_buf,
+>> +					       handle);
+>>   		if (ret < 0) {
+>>   			spin_lock(&file_priv->table_lock);
+>> -			idr_remove(&file_priv->object_idr, args->new_handle);
+>> +			idr_remove(&file_priv->object_idr, handle);
+>>   			spin_unlock(&file_priv->table_lock);
+>>   			goto out_unlock;
+>>   		}
+> 
+
