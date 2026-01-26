@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QDkeHfF0eGnEpwEAu9opvQ
+	id oIwuIu90eGnEpwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 09:18:57 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 09:18:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2813391008
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 09:18:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE4090FF8
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 09:18:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6E4610E4D8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C28E810E4D7;
 	Tue, 27 Jan 2026 08:18:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XIUmmtt3";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EI/Y7pG8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 430D710E3D4
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 08:59:16 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id
- 98e67ed59e1d1-352e2c59264so2992106a91.0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 00:59:16 -0800 (PST)
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
+ [209.85.215.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 030D210E3EA
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 08:59:18 +0000 (UTC)
+Received: by mail-pg1-f174.google.com with SMTP id
+ 41be03b00d2f7-c636487ccaeso870704a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 00:59:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769417956; x=1770022756; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=oQ9aFobDUemcPRrLlp/PuTWIeXOZx5LQW0AdEMjMZ8c=;
- b=XIUmmtt3JNkGO2YXLEg8bUEPHW2OJVbiEQXiZgNBYbqX1htWXdFV2zhqchP3CguPio
- SDCxin2/PXlXwtDaOi2SrUuQNam13xfI+0jzXKWftTC/aZXXvEclBUotCrxxD+O938ve
- WwHo1//W25vEPgR2IbEvyyHTyDbA9YZEPmBdD01b8IUAwfdKh8TblaITJVmtD7mtcfHo
- zNDgHZNfiS7P16ZT2Q2fbCiYIVOmMnIZz2xdgEj/pt/43ONRnAd0uk8Ik9hqWlgv9OX7
- Ei1GhqtQ9vp1gM0wOV0wZDJQp5cGBrGK1mwP21BpPpVvmwBVTNOIXqsRiim/QoUFM/Qa
- nE/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769417956; x=1770022756;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1769417958; x=1770022758; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=oQ9aFobDUemcPRrLlp/PuTWIeXOZx5LQW0AdEMjMZ8c=;
- b=jfU9x6TJ0JXmewcCJYNnx2PHNug/n/kCPod6R0fkgyiJrolNWq72O3GsuQbniizOsP
- e2Dj2xw65sYRoJevo1kd2E/ouwBCP43WoHqxSWyZb4EIAzYBWx1RZhBgo44ga7e6n9Xv
- rHp8iFeGKPCpds0XlKi1hnEYO2EWmLNVdzkNElB+3oPnb9K3da5XrV9vppJnYMj3wk/L
- vbg0BO9fl6EG7fS4W9R8cmcXCAg66ZOUnZimGI3OSjD3jjx2JmdBNC9AWb3X6dZ02shQ
- onUkDI4S4OqBalMcDKuYIDWMXhGSNIT56gBXdIVZyL7RLnwSdqpgWSOHCYqEo1Avix5B
- Q2Aw==
+ bh=xhETkR8BTNErY7rf9frMZHrNNt0dwrD/s7H9/3Vpz5E=;
+ b=EI/Y7pG8w/pRXW7s2p5AKlhXeI1Aw0a/OLgEXHm4ltUHhQQfnxu/WCl8yuBvWMFHZo
+ ukr9lD0O1r8KDAmWbAYuyUhLkAFjCBVv7En4YN1jXGPPgBfNypiY7EPuZJyVvCEacghL
+ 3dnW2AfAlVwraF+IZz6KXYYNeyJwzkfzzIgLgDKB0XTxiE4ObzADeAtcjfZJgsZPus/n
+ /SVC3FiODt/nAfUAGeA4rxeBmCGIqopCFkPNSK1yQCm5g/ANxFziGeGq4pg/WSfqvvgg
+ YmHbIsUkhE/ht1tLjopktuesQ8hngDbjtpYZFDwln1IBss1pcB3ZoBNgpts2u5xUo64w
+ E2JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769417958; x=1770022758;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=xhETkR8BTNErY7rf9frMZHrNNt0dwrD/s7H9/3Vpz5E=;
+ b=lDGOo0erRYAOmg7ah9R+LS9gaBPfisP+hzMZdrk4ol4K3wNW/Vf7teNKroMtPimKhA
+ ElRJBXNYw4InneOhAcoCMM0gE7HNaMLr1H5CU0assYf8dGRnKaYxIoC4554t7O8Q3QZQ
+ BXa0OV6d2RxKEiTOxXEbpaCQsxtQ6Du0bUOtnbG12ykXTL34oumt4uclXtzXM8VtNay2
+ m+JdOS5KhPojO1fUwC2yLqCONEEQzcJQOq/7P1OnT6NZAWgI0H/tFkImxc2+CpPdACuv
+ 3A1/HR1DyCpN95I46Oy+LmDpzlNWD4/SHbVkVhcdjPEDapV7CKDnamHUrGlNwH6Dz6OG
+ edgw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXtaSp/iHGjqpHwOFwBgjBy/sl5xoQ5nnMnP8hP1Wp5Uie5I599X1W3LSfYFTpmMYu2zPS/3hcjoZ0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzR0F8Z72Dv3n1Ini04999/+I/t4PiV/Jo0TVRiswmARyHmeS90
- l3uhq/1K851Rak7ZIVpP5T77czDdsLn4r1R7vRv1nZIe+cQiSPk9TN0m
-X-Gm-Gg: AZuq6aLbo7x2qLYiJKTWbr2TShbHQrAooHq+nCiDrieBgp3eU4kd67Y6G9jhI38hq2W
- iyXLS2V/eNLmTio7c/XtT/BCRqooxDdVnZzpZ/kvNTXUPAQq3+LDWau8D7ZT92fFKF9VyUSOvP0
- CfaPBIUcrc2wGCYH4S6bDemJ0Sfl2tnwp4HHQRc9oLqSqpOhcIkCOJsf7INC8goH+Kl8DJBCnq1
- K5nXit2PrJrZiP28qkat5jsGxhL81YyCvQcRxzOMDez/jRe/tgubCAE4ZXDsQtyx2K+uIwej+e9
- yF/80h45ce3H7WPQHzOpzPxOxgmmqyvgvqaizb+kN+rdfLOj3A1YQRo81QtZ6mG6xnBi7bdeUWy
- iSl5s+9b9AMitXJ6lf8AYI506jvOE0II09n4vKePgP8stAJcJQVSbq8v9Z50zxH5QsvzzXndWNk
- kL1yo3xTN6NgPwm+zylRMmbFsjupDOXS245mDy8DehSR9+U1C3vjfAL+VKNWOmHFhy64F2lRCn
-X-Received: by 2002:a17:90b:4a11:b0:349:2154:eef4 with SMTP id
- 98e67ed59e1d1-353c40b84dfmr2930111a91.5.1769417955671; 
- Mon, 26 Jan 2026 00:59:15 -0800 (PST)
+ AJvYcCUCuyOjyxURnPnvMVChtrynFSwMz2qLr0IFGDjKadTr13ahtSwa61Cc/gA8kgtvjBUFIZJKroTvyv8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YymsOjYlVyLW3Km/qTneYL76tUfRWSxTR9FdXJKomBLXAwwW3Ji
+ PeE2bEX5URkktYgQuD+Zt0hBP16J51OQm6H05hEcMpB9tMAsFg28IZfM
+X-Gm-Gg: AZuq6aKfmMDooOupzhVXoLXYNPm3XuFQ9uHkQB22kOpHwg8uCL7iUPs1Ulxt5DUl+tM
+ v9No3zyqtB2sCjmtLl/jgFP/VIGXlz1OI3knjIAGbnzCZ4pS/tbZ4GhwZbul5BlsTKqTrcsBjU6
+ OtIXk5kQHhT9cize3kf1k+ZOVLrpSHr4eFROjxuBXhJUMuFNvh86sojEABpYV4geyfQA8u1Q6qZ
+ W/UHCD4+0fi3B/r3ZyzVT3VOxDK2ipCWi0nkTLkEvsVV3uwPZp6zKxwnEXALfMKui/o1nN+kjPC
+ VMU53OftadciISbnp+03F3KZPaBVk46h/4g81DO4SABnn8nwlqYnsJ4rSQSPXcXjZkNS9qkVcXv
+ 4DjbHRSim/MJyBIXDiAVyNpd8QiKhnzZclXgBD/To8L9D1aZveZNO6Ia959/zGQIoOiV3Qt46n3
+ BOVqB/6BlDnG+ZWaI9OqhnlBbvg02B/sFke+xNV+SzjUGrHNQTd6dVsYZ6NwrF3Uz2CE8V6TaX
+X-Received: by 2002:a17:90b:2cc6:b0:352:e3d1:8d69 with SMTP id
+ 98e67ed59e1d1-353c40b9e8bmr2572049a91.1.1769417958446; 
+ Mon, 26 Jan 2026 00:59:18 -0800 (PST)
 Received: from localhost.localdomain (60-250-196-139.hinet-ip.hinet.net.
  [60.250.196.139]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-3536dc3e0ecsm8251798a91.10.2026.01.26.00.59.13
+ 98e67ed59e1d1-3536dc3e0ecsm8251798a91.10.2026.01.26.00.59.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jan 2026 00:59:15 -0800 (PST)
+ Mon, 26 Jan 2026 00:59:18 -0800 (PST)
 From: Joey Lu <a0987203069@gmail.com>
 To: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
@@ -74,10 +75,12 @@ Cc: ychuang3@nuvoton.com, schung@nuvoton.com, yclu4@nuvoton.com,
  a0987203069@gmail.com, linux-arm-kernel@lists.infradead.org,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 0/3] drm: nuvoton: Add MA35D1 display controller support
-Date: Mon, 26 Jan 2026 16:57:24 +0800
-Message-ID: <20260126085727.2568958-1-a0987203069@gmail.com>
+Subject: [PATCH 1/3] dt-bindings: display: nuvoton: add MA35D1 DCU binding
+Date: Mon, 26 Jan 2026 16:57:25 +0800
+Message-ID: <20260126085727.2568958-2-a0987203069@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260126085727.2568958-1-a0987203069@gmail.com>
+References: <20260126085727.2568958-1-a0987203069@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 27 Jan 2026 08:18:47 +0000
@@ -131,68 +134,102 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 2813391008
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,2.102.81.160:email]
+X-Rspamd-Queue-Id: EFE4090FF8
 X-Rspamd-Action: no action
 
-Hi all,
+Add Device Tree binding documentation for the Display Control
+Unit (DCU) found in Nuvoton MA35D1 SoCs.
 
-This series adds DRM support for the Display Control Unit (DCU)
-found in Nuvoton MA35D1 SoCs.
+The DCU is a DPI-based display controller supporting RGB output
+with optional external bridges or panels.
 
-The DCU is a DPI-based display controller intended to be used with
-external panels or bridges. The driver integrates with the DRM
-bridge framework and supports atomic modesetting.
-
-The series consists of three patches:
-
-Add Device Tree binding documentation for the MA35D1 DCU
-
-Enable the display controller in the MA35D1 SoC dtsi and SOM dts
-
-Add the DRM driver for the MA35D1 display controller
-
-This has been tested using modetest with a DPI panel and verified
-to expose modes and perform atomic modesetting correctly.
-
-Best regards,
-Joey Lu
-
-Joey Lu (3):
-  dt-bindings: display: nuvoton: add MA35D1 DCU binding
-  arm64: dts: nuvoton: ma35d1: add display controller support
-  drm/nuvoton: add MA35D1 display controller driver
-
- .../bindings/display/nuvoton,ma35d1-dcu.yaml  |  74 ++
- .../boot/dts/nuvoton/ma35d1-som-256m.dts      |  42 +
- arch/arm64/boot/dts/nuvoton/ma35d1.dtsi       |  26 +
- drivers/gpu/drm/Kconfig                       |   1 +
- drivers/gpu/drm/Makefile                      |   1 +
- drivers/gpu/drm/nuvoton/Kconfig               |  21 +
- drivers/gpu/drm/nuvoton/Makefile              |   7 +
- drivers/gpu/drm/nuvoton/ma35_crtc.c           | 445 +++++++++
- drivers/gpu/drm/nuvoton/ma35_crtc.h           |  78 ++
- drivers/gpu/drm/nuvoton/ma35_drm.c            | 389 ++++++++
- drivers/gpu/drm/nuvoton/ma35_drm.h            |  48 +
- drivers/gpu/drm/nuvoton/ma35_interface.c      | 192 ++++
- drivers/gpu/drm/nuvoton/ma35_interface.h      |  30 +
- drivers/gpu/drm/nuvoton/ma35_plane.c          | 904 ++++++++++++++++++
- drivers/gpu/drm/nuvoton/ma35_plane.h          | 226 +++++
- drivers/gpu/drm/nuvoton/ma35_regs.h           |  88 ++
- 16 files changed, 2572 insertions(+)
+Signed-off-by: Joey Lu <a0987203069@gmail.com>
+---
+ .../bindings/display/nuvoton,ma35d1-dcu.yaml  | 74 +++++++++++++++++++
+ 1 file changed, 74 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/nuvoton,ma35d1-dcu.yaml
- create mode 100644 drivers/gpu/drm/nuvoton/Kconfig
- create mode 100644 drivers/gpu/drm/nuvoton/Makefile
- create mode 100644 drivers/gpu/drm/nuvoton/ma35_crtc.c
- create mode 100644 drivers/gpu/drm/nuvoton/ma35_crtc.h
- create mode 100644 drivers/gpu/drm/nuvoton/ma35_drm.c
- create mode 100644 drivers/gpu/drm/nuvoton/ma35_drm.h
- create mode 100644 drivers/gpu/drm/nuvoton/ma35_interface.c
- create mode 100644 drivers/gpu/drm/nuvoton/ma35_interface.h
- create mode 100644 drivers/gpu/drm/nuvoton/ma35_plane.c
- create mode 100644 drivers/gpu/drm/nuvoton/ma35_plane.h
- create mode 100644 drivers/gpu/drm/nuvoton/ma35_regs.h
 
+diff --git a/Documentation/devicetree/bindings/display/nuvoton,ma35d1-dcu.yaml b/Documentation/devicetree/bindings/display/nuvoton,ma35d1-dcu.yaml
+new file mode 100644
+index 000000000000..e3b79b5b7dbd
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/nuvoton,ma35d1-dcu.yaml
+@@ -0,0 +1,74 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/nuvoton,ma35d1-dcu.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Nuvoton MA35D1 Display Controller Unit (DCU)
++
++maintainers:
++  - Joey Lu <a0987203069@gmail.com>
++
++description:
++  The Nuvoton MA35D1 Display Controller Unit (DCU) supports multiple
++  layers of composition, blending, and output to parallel RGB (DPI)
++  interfaces.
++
++properties:
++  compatible:
++    const: nuvoton,ma35d1-dcu
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: DCU Gate clock for register access
++      - description: DCU Pixel clock for display timing
++
++  clock-names:
++    items:
++      - const: dcu_gate
++      - const: dcup_div
++
++  resets:
++    maxItems: 1
++
++  port:
++    $ref: /schemas/graph.yaml#/properties/port
++    description: Video output port
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - resets
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/nuvoton,ma35d1-clk.h>
++    #include <dt-bindings/reset/nuvoton,ma35d1-reset.h>
++
++    display@40260000 {
++        compatible = "nuvoton,ma35d1-drm";
++        reg = <0x40260000 0x2000>;
++        interrupts = <GIC_SPI 20 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&clk DCU_GATE>, <&clk DCUP_DIV>;
++        clock-names = "dcu_gate", "dcup_div";
++        resets = <&sys MA35D1_RESET_DISP>;
++
++        port {
++            dpi_out: endpoint {
++                remote-endpoint = <&panel_in>;
++            };
++        };
++    };
 -- 
 2.43.0
 
