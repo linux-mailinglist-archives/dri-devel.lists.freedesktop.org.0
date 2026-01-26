@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iC8lAGZCd2mMdQEAu9opvQ
+	id 6FIqHfpEd2kddwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 11:31:02 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 11:42:02 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 815A186F3C
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 11:31:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD2887238
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 11:42:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF3D510E3FC;
-	Mon, 26 Jan 2026 10:30:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0BD410E3F4;
+	Mon, 26 Jan 2026 10:32:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HKmY1k3M";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iFQUz3AN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C0BF10E3F8
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 10:30:58 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 819AF10E3F4
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 10:32:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C58DD60007;
- Mon, 26 Jan 2026 10:30:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61B8AC19421;
- Mon, 26 Jan 2026 10:30:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769423457;
- bh=y8YlnBBYdukWkLM4gI4CeIjxBlYWDFXvVo4EZdvNX/w=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=HKmY1k3MJihWWPe6EOHqv0VHZKWuHc8NR7drsAPmiVG7wW9FtIMMVtU9M6LRVaRCU
- 14zoiljY30Ynrg//ohr8DUocHiyaCL4blvI1BWec0uPmjNeMK/tXlhR65kyx/2Btus
- Z89yNcyZ2scUAgBTaoB+UwloBP/mMFloIeGonn/FG0GNg87FSZAl9S29XTyOdwHWO4
- 2fxJ3bWaF/64oqIU94r1y0IQ/2Lc9fYgb1u2zxgLCGdop7tMLIE/VGWQYAbG3oybNI
- +lACoMAC4W3RwH3VhRbp0+EeFk3LPoSUyqZl1xF+IhLlZb3RRZFW/Aj4ciS0DPq3oy
- mYOO2f2Y1b5Vg==
-Date: Mon, 26 Jan 2026 04:30:56 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+ by sea.source.kernel.org (Postfix) with ESMTP id 35EFA43933;
+ Mon, 26 Jan 2026 10:32:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C355C116C6;
+ Mon, 26 Jan 2026 10:32:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1769423563;
+ bh=q3eFrdTHRAZUDsD1pmQSSgbtZhJ5tZlUAY2ThF5SSgc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iFQUz3AND1wnojc7Zyao0oIDpQ1W97D/N5g92EEJMSMCZF+B61q7D714UnUp63lG5
+ 0YB94xOkQ/Ii1i/XfgpI0nWOXp7nL8sSvsZCqgz9+4d97PFbvwv+7y6LNkhegQheBJ
+ uw9SQCDTTQKTRX15diztjuAFXnFGa+xBs95+mhug=
+Date: Mon, 26 Jan 2026 11:32:40 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: pengfuyuan <pengfuyuan@kylinos.cn>
+Cc: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Hans de Goede <hansg@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Lee Jones <lee@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Zsolt Kajtar <soci@c64.rulez.org>,
+ Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v1 v1 0/4] [RUST] Framebuffer driver support
+Message-ID: <2026012627-uncut-plaything-759e@gregkh>
+References: <20260126081744.781392-1-pengfuyuan@kylinos.cn>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-kernel@vger.kernel.org, schung@nuvoton.com, tzimmermann@suse.de, 
- devicetree@vger.kernel.org, conor+dt@kernel.org, ychuang3@nuvoton.com, 
- linux-arm-kernel@lists.infradead.org, maarten.lankhorst@linux.intel.com, 
- yclu4@nuvoton.com, airlied@gmail.com, dri-devel@lists.freedesktop.org, 
- mripard@kernel.org, simona@ffwll.ch, krzk+dt@kernel.org
-To: Joey Lu <a0987203069@gmail.com>
-In-Reply-To: <20260126085727.2568958-2-a0987203069@gmail.com>
-References: <20260126085727.2568958-1-a0987203069@gmail.com>
- <20260126085727.2568958-2-a0987203069@gmail.com>
-Message-Id: <176942345650.1493690.6680592088886642042.robh@kernel.org>
-Subject: Re: [PATCH 1/3] dt-bindings: display: nuvoton: add MA35D1 DCU binding
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260126081744.781392-1-pengfuyuan@kylinos.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,81 +71,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.19 / 15.00];
+X-Spamd-Result: default: False [4.69 / 15.00];
+	MID_END_EQ_FROM_USER_PART(4.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:pengfuyuan@kylinos.cn,m:dakr@kernel.org,m:aliceryhl@google.com,m:daniel.almeida@collabora.com,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:rafael@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:deller@gmx.de,m:hansg@kernel.org,m:tzimmermann@suse.de,m:lee@kernel.org,m:sam@ravnborg.org,m:soci@c64.rulez.org,m:ville.syrjala@linux.intel.com,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-fbdev@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[vger.kernel.org,nuvoton.com,suse.de,kernel.org,lists.infradead.org,linux.intel.com,gmail.com,lists.freedesktop.org,ffwll.ch];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[robh@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:schung@nuvoton.com,m:tzimmermann@suse.de,m:devicetree@vger.kernel.org,m:conor+dt@kernel.org,m:ychuang3@nuvoton.com,m:linux-arm-kernel@lists.infradead.org,m:maarten.lankhorst@linux.intel.com,m:yclu4@nuvoton.com,m:airlied@gmail.com,m:mripard@kernel.org,m:simona@ffwll.ch,m:krzk+dt@kernel.org,m:a0987203069@gmail.com,m:conor@kernel.org,m:krzk@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[gregkh@linuxfoundation.org,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	GREYLIST(0.00)[pass,body];
+	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[linuxfoundation.org:+];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	DBL_PROHIBIT(0.00)[2.102.81.160:email];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	MISSING_XM_UA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,google.com,collabora.com,gmail.com,garyguo.net,protonmail.com,umich.edu,ffwll.ch,gmx.de,suse.de,ravnborg.org,c64.rulez.org,linux.intel.com,vger.kernel.org,lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 815A186F3C
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: EBD2887238
 X-Rspamd-Action: no action
 
+On Mon, Jan 26, 2026 at 04:17:40PM +0800, pengfuyuan wrote:
+> This series has been tested on:
+> - ARM64 platforms with various display configurations
+> - AMD RX550 graphics card
+> - Moore Threads S30 graphics card
+> - Multiple other graphics cards
 
-On Mon, 26 Jan 2026 16:57:25 +0800, Joey Lu wrote:
-> Add Device Tree binding documentation for the Display Control
-> Unit (DCU) found in Nuvoton MA35D1 SoCs.
-> 
-> The DCU is a DPI-based display controller supporting RGB output
-> with optional external bridges or panels.
-> 
-> Signed-off-by: Joey Lu <a0987203069@gmail.com>
-> ---
->  .../bindings/display/nuvoton,ma35d1-dcu.yaml  | 74 +++++++++++++++++++
->  1 file changed, 74 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/nuvoton,ma35d1-dcu.yaml
-> 
+How?  If there is no rust framebuffer drivers for those hardware
+platforms, how exactly were these new codepaths tested?
 
-My bot found errors running 'make dt_binding_check' on your patch:
+> All tested configurations show normal display functionality with proper
+> framebuffer initialization, rendering operations (including I/O, color register
+> management, and blitting), memory mapping, and resource cleanup. The simplefb
+> test driver successfully demonstrates the usage of all framebuffer framework
+> APIs and validates the abstraction's correctness.
 
-yamllint warnings/errors:
+Really?  Where are the drivers for this?  Or did simplefb really work
+for all of them?
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/display/nuvoton,ma35d1-dcu.example.dtb: /example-0/display@40260000: failed to match any schema with compatible: ['nuvoton,ma35d1-drm']
+confused,
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.kernel.org/project/devicetree/patch/20260126085727.2568958-2-a0987203069@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+greg k-h
