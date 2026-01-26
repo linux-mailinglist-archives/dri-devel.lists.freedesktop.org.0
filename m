@@ -2,112 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AGUrOK91d2n7ggEAu9opvQ
+	id KCtuJVh4d2n7ggEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 15:09:51 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 15:21:12 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D9E89554
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 15:09:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 477DD8966A
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 15:21:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75DBB10E20D;
-	Mon, 26 Jan 2026 14:09:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68F6E10E174;
+	Mon, 26 Jan 2026 14:21:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EnxGl1Oi";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="W3FIVHHI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
- [209.85.128.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EF1A10E20D
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 14:09:48 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id
- 5b1f17b1804b1-4801d21c411so23846085e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 06:09:48 -0800 (PST)
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com
+ [74.125.82.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 090D410E439
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 14:21:08 +0000 (UTC)
+Received: by mail-dy1-f173.google.com with SMTP id
+ 5a478bee46e88-2b7063004daso254519eec.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 06:21:08 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769437267; cv=none;
+ d=google.com; s=arc-20240605;
+ b=bFId+7Xn9i9Y0JSJzwHjCHVd7t4e29RsDYbj0JZsfWjmDpH9g4PnPskGX7vPFuFwTq
+ Bk0lAATs8Tx9KrnxiK/J6t1q1nqHpe6LKbfoAveKe/kYxBpfCMXFhShd3XOS5adKljGF
+ raRmYiJNz0jaROBoOunS+j9bwEHvnBW2epf6WKHl3+tl6jHXGLmixUtzMBEHx/mkgK5p
+ eYBgzUa6z4C37QJJhFAoEzLM78+sMGZc1ujcClJLRHDvq/+9dnQKncEGca2cEU2LMGcb
+ EGQFJ9OQeYs4W4RkdllxW9/eGBLTB9K09EPZFwY8yTYc2DbwE8VJV/axPeBgWPGRie4x
+ D8Qw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=Tto4FmdVik1l4FkS8WldjHtZI0UABPRursXto4Nd10I=;
+ fh=wasdHFkIwBV0z2gx1iNEue1R1+9ald9z0JYHP4N6rEw=;
+ b=liXTG+nbh5q93s04kzGg4XoT1nCbVQhFcQBkQZqPcdTj3XLshArpFhRC//qWLSthZH
+ cYYel6iStiCr4qkPvgkKUvqPk9AZhl15NiUQm+S28Kw81DXmn1PQDaBawhSuhCgd1ebi
+ joHhlO8yshg39zmsty7UOsEZFsoyAshe+iLYwDzFX9c+WGk/wuT1sk37vYfbvBCoMWkw
+ N+DsBvTw+CPcmo0PdStUiCJjI9F49oOGfjhos3it045iJ1yjHM0sb9SvqPorq2rFfTyM
+ +RCemPmPbliAQQlfKHBbNVTf4B0K7ftkamo1VlrBariEx6qSbrv3ww11lnVCXGOEyOEo
+ L/7Q==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1769436586; x=1770041386; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=C9vu6bE9q6orOwXoWfL89owzc4Jw2YFHpo+78NsJwYk=;
- b=EnxGl1OiTVLoZqc48C35nWvdWOHCt8ch5C1GRtvbSnkcCUuaReTakYIH9N2n98Dq94
- xHcCPyQ14VqC6vKFkS7sjWghWiJiYr0RazBz0Id6k/YG29hFu1ZTWcEP57ZfrARUrCEC
- seG10NJZs0lqlsPKhPdLHLOk2lxgVDDbh8XkA6DCfa9PZOiIyhCMctl4VB46HyQg4mxE
- wk429RvC0HQZKabcv2FfXF7r52OHe9gNpOW6mWWB1VpSLgdnv/GBWS8Zma95NziQpF9m
- eQhvv/t9lq8gIAMqeIcN50Ezv0k0NK18xl3lLQfVbqZzbsIMW9rBwEjkyHmtAMvn1Urq
- 8vBA==
+ d=gmail.com; s=20230601; t=1769437267; x=1770042067; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Tto4FmdVik1l4FkS8WldjHtZI0UABPRursXto4Nd10I=;
+ b=W3FIVHHI6rzgwplR7Rm8R6Y1VPey3Zg3XdBsVm5beyq8Y2yO2PKPax2wthZz15Qkey
+ YFKh88WVxkA0AokVaQnHmmiBRBl7s2RsXPf/jp0HjC0Rqah/DSEX8HjoDPSI68+v1hR7
+ /4o4Kw3PsYiz1VC6gUnS8ijCaM763PI4i8j/mz4cSVjB0D+IPOxMWE/eh2Hi8U4khVES
+ 0Qi+Hu8n1GGyKoLQ7Ey0MdJWc4zawbtI5gxkCU7AoWuRkz+QYAET02vKu0jUTByJgDtm
+ Yy0sEnnld69DkECZRpSoEtwH1hcdDn8h2h4qCuFdsse3yZo7IGq0M/EA+u0rP3SV2fFC
+ YG9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769436586; x=1770041386;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=C9vu6bE9q6orOwXoWfL89owzc4Jw2YFHpo+78NsJwYk=;
- b=UnhiPNbyra0/caEvCko2F8rYIQIrsD2GJKuYfxuFDLPBe6/eWtibK54xdOBTpTFzx3
- Fj9+XqbGOhhmgS7nDxJ7zw4UObEeb/I/sy+1g+8QzeyVVkc90KEdMc8KCJnHYeoawlAg
- SVn4IvoCqHS5SIoE5j6mVzZPekTuCQAK/vI63CfaqV4Is8vD+aqjt/aZ+N128sefOEhq
- hyTQdS5HIXwLnJO7kW/Gsrsg5gDzzLPeRj4hgx/eIflRH/KDEbiVb+qzmDlvNpRBVHJx
- 3z5uADL4K3pBeIrxHS26xDLoKGo6W/gbCuAKt9ra6QsTlxPCiXP8PIlv/veKp0LdOp0O
- Ob4A==
-X-Gm-Message-State: AOJu0YyRS8dnmkwh/FsJiZpsYBj5ZbqnfXv3SJDymp6I5bwjARE5qcoe
- ehzhu3qWbbImXMC23EwFPHqxqm4ShOF5ur4dRwFcsLO1dcnwAk/tazucbR6BLFUzsTU=
-X-Gm-Gg: AZuq6aIlL4jXN7Pj8HlE3PVlf7586dGNIOUaqJtdkesz6CZrals86a2mGNUC7VRvpkY
- kZMEa+90v1kcK/OKMqU6lcxO1q0LFWbcl56Sj5XUARtFO8Zkd3UDvcU2ri6msGCqNZHu9HdJSyv
- tWK05r+87a9eRpl9IrHKzkNL3liiYsgfGwyJ3k4ECHvn0XDTd2MTWXQbm6TpKTbpa+T5Izjoax/
- 1m1RRCx+U90Gq5ycNJRLqWgz74+ctshhKLPnpRAkMI6iNguOu3vz6pu1MjI9Q0sv1JtC+kKyT/6
- C4pd94JsfAQjaEWr4FF2qINMacjOkA4JDVzdBwBrEJzQ4nhXrUxK/0ZZexptjiILRC/dv3GnjXx
- LAVQrb1x7aI/4QbW03cSqzICeb360JUw/ZmZkW+Qkctv1auMYT+LlNwJxA9nYqu24u8xQB0UyDK
- Wsx6m7210kMzAtJDJq39EFFhbHxNypgk/qr8R8CF3bLIAX+wyt85cXGvTDhEGwXf8=
-X-Received: by 2002:a05:600c:3e0e:b0:477:afc5:fb02 with SMTP id
- 5b1f17b1804b1-4805ce67d58mr75381445e9.21.1769436586441; 
- Mon, 26 Jan 2026 06:09:46 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:3d9:2080:9836:4e25:3927:bcad?
- ([2a01:e0a:3d9:2080:9836:4e25:3927:bcad])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4804d8a5c32sm338674595e9.11.2026.01.26.06.09.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Jan 2026 06:09:46 -0800 (PST)
-Message-ID: <df078563-b831-4058-805f-5d1c1bff1780@linaro.org>
-Date: Mon, 26 Jan 2026 15:09:45 +0100
+ d=1e100.net; s=20230601; t=1769437267; x=1770042067;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=Tto4FmdVik1l4FkS8WldjHtZI0UABPRursXto4Nd10I=;
+ b=o1a3trGpFm7XKqYpsdbiJ3913QDss9YmbqbbutMjlrqYdIw5qRRfEGfWnng9gV7/NV
+ mBcxzEpO+ZrZsQ/aeCXKXjFKG+Abz2WVuq9T7gjVXiuu5lJpkaE3lxY4gX4EFiewApPx
+ PlYZjkHBJiaweRXH7e8yN7r9OOKya6lTLnh9BIXW7z1c3CJ5IBS14GOVPL7G7dPN6z6U
+ zJd+3dBk4GV2W/r0Z/9mVIUl59JKaP3ccwuEkTplBFEJ7goEWGlQlX91oOPCVnPb2dQr
+ CecxwEWuZKkzX/QQZPnKGiqyQMIbGWpcSUsajm4qDsseyPG1S/GrHxa/ZhsqoVWUlVEW
+ ovxw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUIa/qg5LZw8qgxuRD5z6U//BA4Ou02ZXD3JIlxKVxDkLGFL9K0sWbjIN2i0Md+/jkW/dRafI95938=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw+/WTmg8KUoN3Dn+UoCAG9nfxjDCJze4WGDMvrKyyxd7vYx4wX
+ 3peePouDH/5FsS6jCojruJBkpAbVlKz49etGuo1AzdAruucih353gGC8a9BNwS3Rp2om+4h5hbq
+ OCsROVcy/zG60ITKtGTellNlKPQQht6I=
+X-Gm-Gg: AZuq6aI+M2y/9Ru4U2osiXJwYDWTrLHD3GYeBZSzIht6xmlPKFXERH1wbtp2MEftYwB
+ LKxKJDNSfSQp5TTTrLQdTYV6YjYQNa4W5KPSHeTGNFtOcSHYYR3p+JxQDDzfyXbw5v7zhYK31z7
+ oGrb38+c5Yk2zUQw+STz3CI6Tlql+6Y0rPZkpCrN9w+bfObNbHO1d+so8H/o9tOIoFgH1MU0a58
+ U72ocdhp/isvdZ7G70KC1m1J2K1deho40Mw/K8BL8E+Fy9OL+BO9mzH2WxMg+6qnBc/TCNZ
+X-Received: by 2002:a05:7022:4394:b0:119:e56b:46b7 with SMTP id
+ a92af1059eb24-1248ebc8ad8mr1289343c88.1.1769437267030; Mon, 26 Jan 2026
+ 06:21:07 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/panel: ilitek-ili9882t: Select DRM_DISPLAY_DSC_HELPER
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20260115125136.64866-1-mcanal@igalia.com>
- <176943134904.488301.12365695309428276734.b4-ty@igalia.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <176943134904.488301.12365695309428276734.b4-ty@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260123000537.2450496-1-someguy@effective-light.com>
+ <2de6d428-b997-4ba8-8766-a211e5612e72@amd.com>
+ <2349754.vFx2qVVIhK@timur-hyperion>
+ <a8b972be-7265-492f-9855-cdec94a0e0dc@amd.com>
+ <aXUQKSJGkz7nzHJ4@hal-station.localdomain>
+In-Reply-To: <aXUQKSJGkz7nzHJ4@hal-station.localdomain>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 26 Jan 2026 09:20:55 -0500
+X-Gm-Features: AZwV_QijZbfDm80LvfOz2KOV1eORQnBB63BRHrSGLChaoas2MT3UbMiWqTiW85s
+Message-ID: <CADnq5_Ob8yiivco+szanSiXuRwdAu4xHMe=8OQSk+Ufqykgobg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm: introduce page_flip_timeout()
+To: Hamza Mahfooz <someguy@effective-light.com>
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>, 
+ dri-devel@lists.freedesktop.org, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Sunil Khatri <sunil.khatri@amd.com>, Ce Sun <cesun102@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>, 
+ Kenneth Feng <kenneth.feng@amd.com>, Ivan Lipski <ivan.lipski@amd.com>, 
+ Alex Hung <alex.hung@amd.com>, Tom Chung <chiahsuan.chung@amd.com>, 
+ Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>, 
+ Fangzhi Zuo <Jerry.Zuo@amd.com>, amd-gfx@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,73 +125,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:mcanal@igalia.com,m:jesszhan0024@gmail.com,m:yelangyan@huaqin.corp-partner.google.com,m:kernel-dev@igalia.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:replyto,linaro.org:dkim,linaro.org:mid];
-	FORGED_SENDER(0.00)[neil.armstrong@linaro.org,dri-devel-bounces@lists.freedesktop.org];
-	HAS_ORG_HEADER(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[igalia.com,gmail.com,huaqin.corp-partner.google.com];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:someguy@effective-light.com,m:mario.limonciello@amd.com,m:timur.kristof@gmail.com,m:christian.koenig@amd.com,m:alexander.deucher@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:harry.wentland@amd.com,m:sunpeng.li@amd.com,m:siqueira@igalia.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:sunil.khatri@amd.com,m:cesun102@amd.com,m:lijo.lazar@amd.com,m:kenneth.feng@amd.com,m:ivan.lipski@amd.com,m:alex.hung@amd.com,m:chiahsuan.chung@amd.com,m:mwen@igalia.com,m:mdaenzer@redhat.com,m:Jerry.Zuo@amd.com,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:timurkristof@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_FIVE(0.00)[5];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[amd.com,gmail.com,lists.freedesktop.org,ffwll.ch,igalia.com,linux.intel.com,kernel.org,suse.de,redhat.com,vger.kernel.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	REPLYTO_EQ_FROM(0.00)[]
-X-Rspamd-Queue-Id: 55D9E89554
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 477DD8966A
 X-Rspamd-Action: no action
 
-Hi,
+On Mon, Jan 26, 2026 at 3:09=E2=80=AFAM Hamza Mahfooz
+<someguy@effective-light.com> wrote:
+>
+> On Fri, Jan 23, 2026 at 04:30:12PM -0600, Mario Limonciello wrote:
+> > Hamza - since you seem to have a "workload" that can run overnight and =
+this
+> > series recovers, can you try what Alex said and do a dc_suspend() and
+> > dc_resume() for failure?
+> >
+> > Make sure you log a message so you can know it worked.
+>
+> Sure, I'll try something along the lines of:
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/dri=
+vers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+> index 492457c86393..bc7abd00f5f4 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+> @@ -579,11 +579,28 @@ amdgpu_dm_atomic_crtc_get_property(struct drm_crtc =
+*crtc,
+>  }
+>  #endif
+>
+> -static void amdgpu_dm_crtc_handle_timeout(struct drm_crtc *crtc)
+> +static void amdgpu_dm_crtc_handle_timeout(struct drm_crtc *crtc,
+> +                                         struct drm_crtc_commit *commit)
+>  {
+>         struct amdgpu_device *adev =3D drm_to_adev(crtc->dev);
+>         struct amdgpu_reset_context reset_ctx;
+> +       struct amdgpu_ip_block *ip_block;
+>
+> +       ip_block =3D amdgpu_device_ip_get_ip_block(adev, AMD_IP_BLOCK_TYP=
+E_DCE);
+> +       if (!ip_block)
+> +               goto full_reset;
+> +
+> +       ip_block->version->funcs->suspend(ip_block);
+> +       ip_block->version->funcs->resume(ip_block);
+> +
 
-On 1/26/26 13:42, Maíra Canal wrote:
-> 
-> On Thu, 15 Jan 2026 09:50:48 -0300, Maíra Canal wrote:
->> The panel-ilitek-ili9882t driver uses drm_dsc_pps_payload_pack() which
->> is provided by the DRM_DISPLAY_DSC_HELPER. Add the missing Kconfig
->> select to fix the following build error:
->>
->>    ERROR: modpost: "drm_dsc_pps_payload_pack" [drivers/gpu/drm/panel/panel-ilitek-ili9882t.ko] undefined!
->>
->>
->> [...]
-> 
-> Applied, thanks!
-> 
-> [1/1] drm/panel: ilitek-ili9882t: Select DRM_DISPLAY_DSC_HELPER
->        commit: 68e28facbc8ab3e701e1814323d397a75b400865
+I suspect just calling drm_crtc_send_vblank_event() here on the
+relevant crtcs would be enough.
 
+Alex
 
-You applied to the wrong branch, it's supposed to be applied to drm-misc-next-fixes after rc6
-
-Neil
-
-> 
-> Best regards,
-> - Maíra
-
+> +       if (drm_crtc_commit_wait(commit)) {
+> +               drm_err(crtc->dev, "suspend-resume failed!\n");
+> +               goto full_reset;
+> +       }
+> +
+> +       return;
+> +
+> +full_reset:
+>         if (amdgpu_device_should_recover_gpu(adev)) {
+>                 memset(&reset_ctx, 0, sizeof(reset_ctx));
+>
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_at=
+omic_helper.c
+> index 7175294ccb57..b38c4ee2fc95 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -1961,7 +1961,7 @@ void drm_atomic_helper_wait_for_flip_done(struct dr=
+m_device *dev,
+>                                 crtc->base.id, crtc->name);
+>
+>                         if (crtc->funcs->page_flip_timeout)
+> -                               crtc->funcs->page_flip_timeout(crtc);
+> +                               crtc->funcs->page_flip_timeout(crtc, comm=
+it);
+>                 }
+>         }
+>
+> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+> index 45dc5a76e915..47a34a05f6de 100644
+> --- a/include/drm/drm_crtc.h
+> +++ b/include/drm/drm_crtc.h
+> @@ -616,7 +616,8 @@ struct drm_crtc_funcs {
+>          * and can be used by drivers to attempt to recover from a page f=
+lip
+>          * timeout.
+>          */
+> -       void (*page_flip_timeout)(struct drm_crtc *crtc);
+> +       void (*page_flip_timeout)(struct drm_crtc *crtc,
+> +                                 struct drm_crtc_commit *commit);
+>
+>         /**
+>          * @set_property:
