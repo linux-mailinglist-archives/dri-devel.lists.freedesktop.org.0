@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GM+1F0Yjd2mZcgEAu9opvQ
+	id SB8XNjsjd2mZcgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:18:14 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:18:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB5B085649
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:18:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 401DC8562C
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:18:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4186510E3ED;
-	Mon, 26 Jan 2026 08:18:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EF3F10E3A2;
+	Mon, 26 Jan 2026 08:17:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17B7910E08B
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 08:17:57 +0000 (UTC)
-X-UUID: 8101bf5afa8f11f0b0f03b4cfa9209d1-20260126
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4171E10E08B
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 08:17:56 +0000 (UTC)
+X-UUID: 8188a0bafa8f11f0b0f03b4cfa9209d1-20260126
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6, REQID:4c867925-cbf2-4a73-8ad2-5840bbaa4f08, IP:0,
+X-CID-O-INFO: VERSION:1.3.6, REQID:78f6bce7-3d6d-4587-97b0-bb8a8bcc2e7c, IP:0,
  UR
  L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
  elease,TS:0
-X-CID-META: VersionHash:a9d874c, CLOUDID:b4d84fc8c8820325b51a1020498ae6b6,
+X-CID-META: VersionHash:a9d874c, CLOUDID:7dd1a0f44c416b562926e4f76c62e185,
  BulkI
  D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850|898,TC:nil,Content:0|15|50
- ,EDM:-3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:
- 0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+ ,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,O
+ SA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
+X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 8101bf5afa8f11f0b0f03b4cfa9209d1-20260126
+X-UUID: 8188a0bafa8f11f0b0f03b4cfa9209d1-20260126
 X-User: pengfuyuan@kylinos.cn
 Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
  (envelope-from <pengfuyuan@kylinos.cn>)
  (Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
- with ESMTP id 546111531; Mon, 26 Jan 2026 16:17:50 +0800
+ with ESMTP id 227464752; Mon, 26 Jan 2026 16:17:50 +0800
 From: pengfuyuan <pengfuyuan@kylinos.cn>
 To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
  Daniel Almeida <daniel.almeida@collabora.com>,
@@ -56,9 +56,9 @@ Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
  rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  pengfuyuan <pengfuyuan@kylinos.cn>
-Subject: [PATCH v1 v1 1/4] rust: io: mem: add ioremap_wc support
-Date: Mon, 26 Jan 2026 16:17:41 +0800
-Message-Id: <20260126081744.781392-2-pengfuyuan@kylinos.cn>
+Subject: [PATCH v1 v1 2/4] rust: device: add platdata accessors
+Date: Mon, 26 Jan 2026 16:17:42 +0800
+Message-Id: <20260126081744.781392-3-pengfuyuan@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260126081744.781392-1-pengfuyuan@kylinos.cn>
 References: <20260126081744.781392-1-pengfuyuan@kylinos.cn>
@@ -107,151 +107,91 @@ X-Spamd-Result: default: False [2.39 / 15.00];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.845];
+	NEURAL_HAM(-0.00)[-0.657];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: EB5B085649
+X-Rspamd-Queue-Id: 401DC8562C
 X-Rspamd-Action: no action
 
-Add write-combining memory mapping support to the Rust iomem abstraction.
-This extends the existing IoMem and IoRequest abstractions to support
-write-combining cache policy, which is essential for framebuffer memory
-and other memory regions that benefit from write-combining semantics.
+Implement generic accessors for the platform data of a device.
 
-The implementation follows the same pattern as the existing ioremap and
-ioremap_np support:
-- Add rust_helper_ioremap_wc() in rust/helpers/io.c to wrap the C API
-- Add IoMem::ioremap_wc() to perform the actual mapping with write-combining
-- Add IoMem::new_wc() to create IoMem instances with write-combining policy
-- Add IoRequest::iomap_wc_sized() and IoRequest::iomap_wc() methods
-  for compile-time and runtime-sized mappings respectively
+Platform data is typically set by platform code when creating the device (e.g.
+via `platform_device_add_data()`). Drivers may use it to obtain per-device,
+platform-provided configuration.
 
-This enables Rust drivers, such as framebuffer drivers, to properly map
-memory regions with write-combining semantics.
+The accessor is `unsafe` because the caller must ensure that the chosen `T`
+matches the actual object referenced by `platform_data`.
 
-The API design is consistent with the existing iomap() methods, providing
-both sized and unsized variants to match the pattern established by the
-generic iomem abstraction.
+Platform data is generally a C type, so the method returns `&Opaque<T>` to
+avoid creating a Rust reference to potentially uninitialised or otherwise
+invalid C data. Drivers can then perform the FFI dereference behind an explicit
+`unsafe` block.
+
+The method is implemented for `Device<Ctx>` so it is available in all device
+states. If no platform data is present, `-ENOENT` is returned.
 
 Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
 ---
- rust/helpers/io.c     |  5 +++
- rust/kernel/io/mem.rs | 71 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 76 insertions(+)
+ rust/helpers/device.c |  5 +++++
+ rust/kernel/device.rs | 31 +++++++++++++++++++++++++++++++
+ 2 files changed, 36 insertions(+)
 
-diff --git a/rust/helpers/io.c b/rust/helpers/io.c
-index c475913c69e6..6c9edf7f2233 100644
---- a/rust/helpers/io.c
-+++ b/rust/helpers/io.c
-@@ -13,6 +13,11 @@ void __iomem *rust_helper_ioremap_np(phys_addr_t offset, size_t size)
- 	return ioremap_np(offset, size);
- }
- 
-+void __iomem *rust_helper_ioremap_wc(phys_addr_t offset, size_t size)
-+{
-+	return ioremap_wc(offset, size);
-+}
-+
- void rust_helper_iounmap(void __iomem *addr)
+diff --git a/rust/helpers/device.c b/rust/helpers/device.c
+index 9a4316bafedf..4819eaf8c9f1 100644
+--- a/rust/helpers/device.c
++++ b/rust/helpers/device.c
+@@ -25,3 +25,8 @@ void rust_helper_dev_set_drvdata(struct device *dev, void *data)
  {
- 	iounmap(addr);
-diff --git a/rust/kernel/io/mem.rs b/rust/kernel/io/mem.rs
-index b03b82cd531b..94403d899bbd 100644
---- a/rust/kernel/io/mem.rs
-+++ b/rust/kernel/io/mem.rs
-@@ -149,6 +149,41 @@ pub fn iomap(self) -> impl PinInit<Devres<IoMem<0>>, Error> + 'a {
-     pub fn iomap_exclusive(self) -> impl PinInit<Devres<ExclusiveIoMem<0>>, Error> + 'a {
-         Self::iomap_exclusive_sized::<0>(self)
-     }
-+
-+    /// Maps an [`IoRequest`] with write-combining cache policy where the size
-+    /// is known at compile time.
-+    ///
-+    /// This uses the [`ioremap_wc()`] C API, which provides write-combining
-+    /// semantics. This is useful for framebuffer memory and other memory
-+    /// regions that benefit from write-combining, where multiple writes can
-+    /// be combined and reordered for better performance.
-+    ///
-+    /// Unlike [`Self::iomap`], this method explicitly uses write-combining
-+    /// mapping, which is typically needed for video framebuffers.
-+    ///
-+    /// [`ioremap_wc()`]: https://docs.kernel.org/driver-api/device-io.html#getting-access-to-the-device
-+    pub fn iomap_wc_sized<const SIZE: usize>(
-+        self,
-+    ) -> impl PinInit<Devres<IoMem<SIZE>>, Error> + 'a {
-+        IoMem::new_wc(self)
-+    }
-+
-+    /// Maps an [`IoRequest`] with write-combining cache policy where the size
-+    /// is not known at compile time.
-+    ///
-+    /// This uses the [`ioremap_wc()`] C API, which provides write-combining
-+    /// semantics. This is useful for framebuffer memory and other memory
-+    /// regions that benefit from write-combining.
-+    ///
-+    /// Unlike [`Self::iomap_wc_sized`], here the size of the memory region
-+    /// is not known at compile time, so only the `try_read*` and `try_write*`
-+    /// family of functions should be used, leading to runtime checks on every
-+    /// access.
-+    ///
-+    /// [`ioremap_wc()`]: https://docs.kernel.org/driver-api/device-io.html#getting-access-to-the-device
-+    pub fn iomap_wc(self) -> impl PinInit<Devres<IoMem<0>>, Error> + 'a {
-+        Self::iomap_wc_sized::<0>(self)
-+    }
+ 	dev_set_drvdata(dev, data);
  }
- 
- /// An exclusive memory-mapped IO region.
-@@ -261,6 +296,33 @@ fn ioremap(resource: &Resource) -> Result<Self> {
-         Ok(io)
-     }
- 
-+    fn ioremap_wc(resource: &Resource) -> Result<Self> {
-+        // Note: Some ioremap() implementations use types that depend on the CPU
-+        // word width rather than the bus address width.
-+        //
-+        // TODO: Properly address this in the C code to avoid this `try_into`.
-+        let size = resource.size().try_into()?;
-+        if size == 0 {
-+            return Err(EINVAL);
-+        }
 +
-+        let res_start = resource.start();
++void *rust_helper_dev_get_platdata(const struct device *dev)
++{
++	return dev_get_platdata(dev);
++}
+diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
+index 71b200df0f40..9221141b31ae 100644
+--- a/rust/kernel/device.rs
++++ b/rust/kernel/device.rs
+@@ -482,6 +482,37 @@ pub fn fwnode(&self) -> Option<&property::FwNode> {
+         // defined as a `#[repr(transparent)]` wrapper around `fwnode_handle`.
+         Some(unsafe { &*fwnode_handle.cast() })
+     }
++
++    /// Access the platform data for this device.
++    ///
++    /// Platform data is typically set by platform code when creating the device and is expected
++    /// to remain valid while the device is alive.
++    ///
++    /// Returns a reference to the opaque platform data, or [`ENOENT`] if no platform data
++    /// is set.
++    ///
++    /// # Safety
++    ///
++    /// Callers must ensure that:
++    /// - If platform data is set (i.e., `platform_data` is not null), the pointer points to valid,
++    ///   properly aligned storage for `T` and remains valid for the lifetime of the returned
++    ///   reference.
++    /// - The type `T` matches the type of the platform data structure set by platform code.
++    pub unsafe fn platdata<T>(&self) -> Result<&Opaque<T>> {
++        // SAFETY: By the type invariants, `self.as_raw()` is a valid pointer to a `struct device`.
++        let ptr = unsafe { bindings::dev_get_platdata(self.as_raw()) };
++
++        if ptr.is_null() {
++            return Err(ENOENT);
++        }
 +
 +        // SAFETY:
-+        // - `res_start` and `size` are read from a presumably valid `struct resource`.
-+        // - `size` is known not to be zero at this point.
-+        let addr = unsafe { bindings::ioremap_wc(res_start, size) };
-+
-+        if addr.is_null() {
-+            return Err(ENOMEM);
-+        }
-+
-+        let io = IoRaw::new(addr as usize, size)?;
-+        let io = IoMem { io };
-+
-+        Ok(io)
-+    }
-+
-     /// Creates a new `IoMem` instance from a previously acquired [`IoRequest`].
-     pub fn new<'a>(io_request: IoRequest<'a>) -> impl PinInit<Devres<Self>, Error> + 'a {
-         let dev = io_request.device;
-@@ -268,6 +330,15 @@ pub fn new<'a>(io_request: IoRequest<'a>) -> impl PinInit<Devres<Self>, Error> +
- 
-         Devres::new(dev, Self::ioremap(res))
-     }
-+
-+    /// Creates a new `IoMem` instance with write-combining cache policy from
-+    /// a previously acquired [`IoRequest`].
-+    pub fn new_wc<'a>(io_request: IoRequest<'a>) -> impl PinInit<Devres<Self>, Error> + 'a {
-+        let dev = io_request.device;
-+        let res = io_request.resource;
-+
-+        Devres::new(dev, Self::ioremap_wc(res))
++        // - `ptr` is not null (checked above).
++        // - By the safety requirements of this function, `ptr` points to valid, properly aligned
++        //   storage for `T` and remains valid for the lifetime of the returned reference.
++        // - `Opaque<T>` allows any bit pattern, so we can safely create a reference to it.
++        Ok(unsafe { &*ptr.cast::<Opaque<T>>() })
 +    }
  }
  
- impl<const SIZE: usize> Drop for IoMem<SIZE> {
+ // SAFETY: `Device` is a transparent wrapper of a type that doesn't depend on `Device`'s generic
 -- 
 2.25.1
 
