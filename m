@@ -2,134 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sPw3G2XAd2m+kgEAu9opvQ
+	id KCKQKtDAd2nKkgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 20:28:37 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 20:30:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D8118C8BE
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 20:28:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D368C8FC
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 20:30:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8343610E473;
-	Mon, 26 Jan 2026 19:28:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FC8110E476;
+	Mon, 26 Jan 2026 19:30:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="aLp66i9s";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Yma5zMFW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from MW6PR02CU001.outbound.protection.outlook.com
- (mail-westus2azon11012035.outbound.protection.outlook.com [52.101.48.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B440510E473
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 19:28:32 +0000 (UTC)
+Received: from SA9PR02CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11013027.outbound.protection.outlook.com
+ [40.93.196.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAF5710E476
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 19:30:20 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=glYHpj0/QG38/iHsDbbgUp4dMy2vYVgbpJauhdonkD621OzrRUfq3D3iVuX0dAIDhCp6fiVqeMZlB5Ld30fAwm3jW79E26W/LGdG01o6GDZHrqmBF1kJNlx+IAbnwNL9Ixf14QPb5/sZpPeZZfDpXStAfhIAcNdEVqzLpW2Kt15FBJb2d2mi3b9nM5nVvBtVR4Khtr5FTime8x61zULNRDgDbqocZZ00izP7Eb7fLuyJnTY8KWlxWHvFiED8K3FGbG4CYNZTKJShQKb1v2a/CrMXmHfgxFCWQJpKXTnOG1YdfCydnHNn1nPSt5h34OgulC2Gdmo9A9OHr1H0UZx9oA==
+ b=NGwKY+ItUSjTyJaTc9jbUiCPhaUYPT5HCeRXYmDodI4lVXPbiLJ5sUlHPYXU+uaCxG5ciiRUCq8F2dXzvx4xeOhsHhNji5U8XfYulBxSCMnqrjsiuU0P+ThZyuEm2g+APQlIfA8zYem7wx3LAoSzoioA+yxBci0VOR1KdSMxft/fUE4all4twk1DP/aIdrgC15JNDTZMI2lpiLOlOWlc83aqmnuUp6Be4cq05EX8rgBgM4xciBUd7+1ga1MvOd3kL6c6zd68kAscjZd8tTsOOMB/jQjOF17RZgMl7XSYlldWBgSSoLtRzUspe3ODO04waDglVIBrEseiK+G54MzF2A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w1QFkkImaolvsdX5EJRjaov+4nRfKO71oyXi2s3hQYM=;
- b=fyRcH2y0dNmZEa8P3LCdv/lyhzHefNysz0PcnZRdOqq08NnvJ0gs8IrO9ByZNtLrZhhCm6azXKGShAJioTwW1Qxcs2ATeHt3NtB9Rwi6BIDHLO2uWhZwbPLnDqyY4QAdtTcN2zwzOo7gKdyo6MuGVg6bLEK303MlpsVRz75W2XKBfs9+Rw1ZZ4L7rvYacuY0XrxgCou3l+jR6LyG8cj/RaPU3pcCteuGkNeYJ65jk22EnwMs9IimSskEeodT3Ql5wRlEl1F4YjuQc0qowjae5g6hdg7I1sCURD5luPkcRUMum/WmEXLf713aWZkOYKj02yts1+h2SxtCuKI9/b/UOA==
+ bh=RySQ3NMfikOsk+UgnZhpjW/KPCZCP73p+H/rDWWGVDU=;
+ b=qO6FnqUFvoz6Q1IOAm07aUs1PYilxNJhnwMfvHcpZx+ct6NBaYoCfLMngtsFUY0cWKjM+SVoS4Eii4MDoSo8jBaoM7dpK/yEuidjLnCygRnnlbQzEbVbuQ7L605PfOtZsfYJdQ/7qWZZWzApOHUX9KlObCP5735mlLor0ZaZbBg386cwDd6e7B0LCApChDzMlkmwUMfk8XYRD+5PfYlM5Qb5x3u56Hyl+U1M6z0oq01qXVJ3TFrrMv3HfZ++yuTSCv+JxW5XSYeswd3RbuRool1o8OCxn1OPJHyFaceVqxKrCHsGedBsThyFUtFRsmh1s0sg7dNKf/P4fw05uO/7Sw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w1QFkkImaolvsdX5EJRjaov+4nRfKO71oyXi2s3hQYM=;
- b=aLp66i9s1S6Dfv4sFRrSG5T5aGVrnEgwExcnhwQeWw+BajzjUtUOnb+zI2j4II8OgMiZKU9SB0OjPchqtN79m6OAQxMTk3O/7Jkb0lOGpLQZKtcFv45soNUCO/fderpkWVVCVFCSGKKKJwJVpFqlkV806iGknQIt8j8b9F3T4Dk=
-Received: from MN0PR03CA0011.namprd03.prod.outlook.com (2603:10b6:208:52f::13)
- by DS2PR12MB9592.namprd12.prod.outlook.com (2603:10b6:8:27c::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Mon, 26 Jan
- 2026 19:28:22 +0000
-Received: from MN1PEPF0000F0E3.namprd04.prod.outlook.com
- (2603:10b6:208:52f:cafe::90) by MN0PR03CA0011.outlook.office365.com
- (2603:10b6:208:52f::13) with Microsoft SMTP Server (version=TLS1_3,
+ bh=RySQ3NMfikOsk+UgnZhpjW/KPCZCP73p+H/rDWWGVDU=;
+ b=Yma5zMFWil/eEKjb7OOcDT9gj/4K5ygzEnpTVpc28q05InCGXhoK7K+6+eZCX0Li/9vI3LfdTUHTRzAM+P1iqy41lneSlZ0TRYxJQE5K7Yx4ZICYK4dLmic3E2dN/Nh2TKnHKoWdWp/UZLvfJMW/w2+rtVUgAK6DyvfA6n3cQ/0=
+Received: from CH2PR03CA0006.namprd03.prod.outlook.com (2603:10b6:610:59::16)
+ by MN6PR12MB8513.namprd12.prod.outlook.com (2603:10b6:208:472::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.16; Mon, 26 Jan
+ 2026 19:30:12 +0000
+Received: from CH3PEPF0000000E.namprd04.prod.outlook.com
+ (2603:10b6:610:59:cafe::2f) by CH2PR03CA0006.outlook.office365.com
+ (2603:10b6:610:59::16) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.16 via Frontend Transport; Mon,
- 26 Jan 2026 19:28:11 +0000
+ 26 Jan 2026 19:30:11 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- MN1PEPF0000F0E3.mail.protection.outlook.com (10.167.242.41) with Microsoft
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ CH3PEPF0000000E.mail.protection.outlook.com (10.167.244.42) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.3 via Frontend Transport; Mon, 26 Jan 2026 19:28:22 +0000
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.9564.3 via Frontend Transport; Mon, 26 Jan 2026 19:30:11 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 26 Jan
- 2026 13:28:03 -0600
-Received: from xsjdavidzha51.xilinx.com (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via
- Frontend Transport; Mon, 26 Jan 2026 13:28:03 -0600
-From: David Zhang <yidong.zhang@amd.com>
-To: <yidong.zhang@amd.com>, <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
- <maciej.falkowski@linux.intel.com>, <dri-devel@lists.freedesktop.org>
-CC: <linux-kernel@vger.kernel.org>, <sonal.santan@amd.com>,
- <mario.limonciello@amd.com>, <lizhi.hou@amd.com>, Nishad Saraf
- <nishads@amd.com>
-Subject: [PATCH V2 5/5] accel/amd_vpci: Add communication channel service
-Date: Mon, 26 Jan 2026 11:27:32 -0800
-Message-ID: <20260126192732.1507084-6-yidong.zhang@amd.com>
+ 2026 13:30:03 -0600
+Received: from xsjlizhih51.xilinx.com (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Mon, 26 Jan 2026 13:30:03 -0600
+From: Lizhi Hou <lizhi.hou@amd.com>
+To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>, <maciej.falkowski@linux.intel.com>
+CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
+ <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>
+Subject: [PATCH V2] accel/amdxdna: Allow forcing IOVA-based DMA via module
+ parameter
+Date: Mon, 26 Jan 2026 11:30:01 -0800
+Message-ID: <20260126193001.1400545-1-lizhi.hou@amd.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260126192732.1507084-1-yidong.zhang@amd.com>
-References: <yidong.zhang@amd.com>
- <20260126192732.1507084-1-yidong.zhang@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0E3:EE_|DS2PR12MB9592:EE_
-X-MS-Office365-Filtering-Correlation-Id: 088c4a54-a3e4-4d56-9154-08de5d1111a0
+X-MS-TrafficTypeDiagnostic: CH3PEPF0000000E:EE_|MN6PR12MB8513:EE_
+X-MS-Office365-Filtering-Correlation-Id: a978830d-6bf8-4db9-89eb-08de5d1152e1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|1800799024|376014|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?cFpHbQR4RpI7qHWxEDnHCbsfL/+Cz6LiyHCiGo3FgNvgFoHdA//k/b9fpU+l?=
- =?us-ascii?Q?lUB/Qf1LQZ1Nwg07VUAhQGRY4yh2W8islpve4U+fpwxIH0btmlbWUkQ4RrT/?=
- =?us-ascii?Q?c6p8SCqw711ApDjY0lmuLTV3IhLMPed9gHlVamdkDsJw61ITqzQDML3iml8C?=
- =?us-ascii?Q?OebjarZWK1BoSS9dpb57yelTYkX1Yj+bdAPS8LCRWp9xz5+oOrmzvDmNI8qU?=
- =?us-ascii?Q?5jJx8lG3UsQYRM/J3ee+2tgkSBJBfr388zshI6/dX4X8Er8MBo3w41hjHD1S?=
- =?us-ascii?Q?TyO81qSuw1SsCfMai5ZDEoOUGj6Xt5zOp+gHcEFLaUUh9Rfji224PzgretQu?=
- =?us-ascii?Q?abP1Wq4nNAYovel8Vya1iqTdWO+Osn5Bk9tPKG8p7l0vwoGH0j2oPcPHPqDA?=
- =?us-ascii?Q?DRtWbwuV7UWagJmtmQpWCdkCc0VkA8qAtuIxvyUN8Bi0t6o4QjZGAWC6T7W7?=
- =?us-ascii?Q?pRPReXQtg5MmAxVZmiJrPCkGKgOWqB8YCuL4EB3nTCE5bonugDoPjwurmScG?=
- =?us-ascii?Q?bzEdSHDBW+p++0/KNXWVjxNZ4iCBv3WtxVbdoKuyjtT9r2ixli6MsNNTZSfZ?=
- =?us-ascii?Q?41jniDlQGYGGtp9fMveAd0NwSi6uzuPApN6jydbObgGVl3RrZVJ39yvkzURc?=
- =?us-ascii?Q?1rtI8A2Z5tjDDSG8pZFzaxLKXaBGooLDM9DYrIWQMkkz9sBXs6q/J3OdluiF?=
- =?us-ascii?Q?3ULPpsbcoMIGn25xGyfFcEd37lDBOEM6hdkCtJwqsjTGbmJWuAJ9qzVIJsY0?=
- =?us-ascii?Q?dAW7KiTGR7P7MBGPNoOZYQWZJr5Mz7CaAfwCVGykqXdZ4ELxrRXkTFeee1Rd?=
- =?us-ascii?Q?qhyJoBqawA6c2TxgcXeLFlnHbIHdeoJzwZh9gxY17ciOufoqaZI1A4NuNIfG?=
- =?us-ascii?Q?5DCCcq3Jo31P9KA2LHh5gdDWpOP2LjJF7i+a3QOHzc9YT9j6GF6M83RaohaE?=
- =?us-ascii?Q?VMs//tZdXuOxM7UyZ0rsXnZqX45uuR9ZijIz8JVCwZVXthXwMpYiEjgSVHay?=
- =?us-ascii?Q?6bMujA5acILpQbjzzJwN3uu8WlfDOOu0Nf/rbh+n2CKFIawMfp6VopAqYRx+?=
- =?us-ascii?Q?LkNBuhpyqwGExCr1RaPM6t/Sap2MbBabjIPOrR/9G6KbWqR8Z5c2CG5JJyAD?=
- =?us-ascii?Q?M3g2mNrUMorkyUXsywvQa3mY5GO7LoIKOrkN4hah/ysIxFWgpc4cxMq3BIcr?=
- =?us-ascii?Q?AFxKBd1RUGEv+1Th09l9M/PfjodfU+xalooPQY+eMczRIO5V/ynkvAz/KsUw?=
- =?us-ascii?Q?q/70Ay22Det2xmZbzU/t59DvX+jDd/mpKQg1Xtl/clNdIGB2I193FucDsMVp?=
- =?us-ascii?Q?7gogmwyctKGicZ1LbnTxytJH17y+5fY+nBwwr+wIT+NkkpmBieOrK/UI7ANl?=
- =?us-ascii?Q?IbzbivSjF9jbss+MFoOa07TTTy0X5pRu/DcE5/ugindPHJIha/TARjimIkRP?=
- =?us-ascii?Q?3MB+1VFNkQPpWNrsqIYpZou8nGOui2YOYX1tr8X9AClmlgswHhf3OitgGI0F?=
- =?us-ascii?Q?47xKbYTxv2AS8eIbO2DDklP1J5ncS9wl61rwknAAdJnBptG4P99ZCrPA/fp8?=
- =?us-ascii?Q?g1UgTkx0F//SrlrMbaI/v0jnb3F1dt7MmtevGC8Ug1U4S71U98Sy0lColSFc?=
- =?us-ascii?Q?ExnvAK7d1WYvyHnDWY7az9BdzIJ8od3Q4I1E4JXuvdgho9quhWbk4medRizn?=
- =?us-ascii?Q?UKGLIA=3D=3D?=
+ ARA:13230040|36860700013|376014|1800799024|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?LDqaaFV7AKoeDRn1nLnl1FztaSp2R77hnWIYD548s288nFG7TYEQ1PzQSHZk?=
+ =?us-ascii?Q?K3IH3xJCD1nzxQTR6ibjlxf1UwDgvGM1nBewOThLWm3W/gONFT1DQU7muehq?=
+ =?us-ascii?Q?6ZSJ4ACuJwdAHOE75o3UyqN0Guw5bqjud1B/mQVmz2i+5OvizMhpotyDrlXe?=
+ =?us-ascii?Q?O0d8VWGnMmh6boFYDJTAMn6fyZw0/OHn8KzvX7BB6yyfiVr0jwPt2k/RlM+0?=
+ =?us-ascii?Q?T03/NC+bkERUvXp+7hDODs+SUe1/a/iNqjUp4QYRN2WAv8KtRwksonv8Zede?=
+ =?us-ascii?Q?F5Qof3DyR0RVX87U8WVdzqT+ciKIriGKj/Xr+KJIpfjuxBdfSyf4aKUOAYTl?=
+ =?us-ascii?Q?n30mzuE8VopKHgHNJNGbKCTutfSp6dmdzDF8GpjmfACajgB89wYKwM6/7EmN?=
+ =?us-ascii?Q?+BeFxuMKzT063qlpjHXhAjZ+qI+/ESfJUrnCOHv/vycMWGw4pldaUdrjiS7R?=
+ =?us-ascii?Q?YMDWSkhv37iWApMjilXcGhoG5fOGQFKNcp4ucLYl/wteQDjUwUzNLmPWSjMh?=
+ =?us-ascii?Q?FWSTPjhwRSANJQhEfeyGN/6Q2euVEea79RPX2WDBHIUlPNnpoS+6BHI1F3t5?=
+ =?us-ascii?Q?lDtZItTPdOkS6WTuHl1+2mgaqtM92VIv7sYWMkkfcYBbJ7wkPSRf85vYqwD/?=
+ =?us-ascii?Q?mDqLqYAoACS4rrdBzbOXdCgRQmaTuueGjEXxoNulFa5N1NzxKJ7KSFEVT1lJ?=
+ =?us-ascii?Q?28pDt3b0rpb88ljpE66sua7uWc5IyP6EBsWxD12he9BmQdDZdrYkamSmhnPg?=
+ =?us-ascii?Q?MVEbALk7qNmgJ8Y2mDeCsy/P/xwJwywezIzd04YzbqVXBiDAubYKw4vdfzoQ?=
+ =?us-ascii?Q?xMZOYuAylGLo8SCoitscuvq+co+Ge31wSU5lzyPgzJAmG0GuZG7FM4reNx9A?=
+ =?us-ascii?Q?9LYjLbWhbjZC6YdqhMXGJ4vKc9+gLL/yUfKbr/Bhls1GtH52/hpPSqNLhw81?=
+ =?us-ascii?Q?u8LiawZ0uwhrBRzbJaSVXz0dXwb3s5ZLJDAUx+ldf8tsAul4TJbN6nRphA9p?=
+ =?us-ascii?Q?j7Z579F//sUYfERN7JO3b6KPyz4Q/EUWIsw9XF+EiROINK3LKqKmzUn+sl/I?=
+ =?us-ascii?Q?3nnDrT1FoRHR75wQ52yM0CnujRM5wToLxCEq8h+qPLRknsmkfR43VHxd/Nlv?=
+ =?us-ascii?Q?iKTLjRgSJAlgp+mx7Qc7KJIap+2/xrvTIn/DXQCzsklqKSuSD+YV/JJc9qKy?=
+ =?us-ascii?Q?sPMa0Iufd5AubtHUgE2a7DkzRqC5bL0zYXURLxI/LM6lPYPYgZdxkjTNw9CX?=
+ =?us-ascii?Q?2NK6V/kkq7m6BmNdHE8CZxwqfb7H3bqfNBTHYXJgL1gMpjkypE3nAXdrEsSg?=
+ =?us-ascii?Q?k+J5kz1UVA7/VFt0jKU++CLBJ/4f9NHUfJuvnVaj7Ud3pzLM6pLf7HcJZJdX?=
+ =?us-ascii?Q?n5idOp+g+iXFwT8+kvSmkIW6YiZNhH+I0troN00UoluHVsPOKGtzKW/GfpB6?=
+ =?us-ascii?Q?JPV/juoi3yDT9tYtF1apDIXWtnDW96Z4GCD3TfHSNbHn+1E74DN/wuP/c/zR?=
+ =?us-ascii?Q?BQXVHuWZr3NBUhrjhHwNvvrUHHPCYavMt9nO25iSjddiW12wYtNxbjH14eZm?=
+ =?us-ascii?Q?5mn+usc0aSo6eTBoP+xQLjzdL2kpwhj+krnFEssjnAcAW2wwl2YL4oruwmmn?=
+ =?us-ascii?Q?OD++taB3XU2pOknSkQvssxTSrJgD93YXAo6Nvdl5Z4hZKtLt2Y7VwFWJKQkq?=
+ =?us-ascii?Q?uqAIQg=3D=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026); DIR:OUT;
+ IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(376014)(1800799024)(82310400026); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2026 19:28:22.4394 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 088c4a54-a3e4-4d56-9154-08de5d1111a0
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2026 19:30:11.9219 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a978830d-6bf8-4db9-89eb-08de5d1152e1
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: MN1PEPF0000F0E3.namprd04.prod.outlook.com
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH3PEPF0000000E.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9592
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8513
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,549 +155,645 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:yidong.zhang@amd.com,m:ogabbay@kernel.org,m:quic_jhugo@quicinc.com,m:maciej.falkowski@linux.intel.com,m:linux-kernel@vger.kernel.org,m:sonal.santan@amd.com,m:mario.limonciello@amd.com,m:lizhi.hou@amd.com,m:nishads@amd.com,s:lists@lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email,amd.com:dkim,amd.com:mid];
-	FORGED_SENDER(0.00)[yidong.zhang@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:ogabbay@kernel.org,m:quic_jhugo@quicinc.com,m:maciej.falkowski@linux.intel.com,m:lizhi.hou@amd.com,m:linux-kernel@vger.kernel.org,m:max.zhen@amd.com,m:sonal.santan@amd.com,m:mario.limonciello@amd.com,s:lists@lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,amd.com:dkim,amd.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
+	FORGED_SENDER(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[yidong.zhang@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[amd.com:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 1D8118C8BE
+X-Rspamd-Queue-Id: 19D368C8FC
 X-Rspamd-Action: no action
 
-This patch introduces the communication channel (comm_chan) service, which
-enables communication between the management PF driver and the user PF
-driver.
+The amdxdna driver normally performs DMA using userspace virtual address
+plus PASID. For debugging and validation purposes, add a module parameter,
+force_iova, to force DMA to go through IOMMU IOVA mapping.
 
-The comm_chan service provides a shared-memory-based command channel
-located in a BAR-mapped region. The user PF driver issues requests by
-writing command messages into this region. The management PF driver
-periodically polls the region and process any pending requests.
+When force_iova=1 is set, the driver will allocate and map DMA buffers
+using IOVA.
 
-Supported operations include firmware (xclbin) reloads, where the
-management PF invokes 'versal_pci_load_xclbin' to reprogram the embedded
-firmware through the remote management queue service.
-
-This service provides the foundation for dynamic firmware updates and other
-management requests from the user PFs.
-
-Co-developed-by: Nishad Saraf <nishads@amd.com>
-Signed-off-by: Nishad Saraf <nishads@amd.com>
-Signed-off-by: David Zhang <yidong.zhang@amd.com>
+Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
 ---
- drivers/accel/amd_vpci/Makefile               |   3 +-
- drivers/accel/amd_vpci/versal-pci-comm-chan.c | 295 ++++++++++++++++++
- drivers/accel/amd_vpci/versal-pci-comm-chan.h |  14 +
- drivers/accel/amd_vpci/versal-pci-main.c      |  82 ++++-
- drivers/accel/amd_vpci/versal-pci.h           |   6 +
- 5 files changed, 396 insertions(+), 4 deletions(-)
- create mode 100644 drivers/accel/amd_vpci/versal-pci-comm-chan.c
- create mode 100644 drivers/accel/amd_vpci/versal-pci-comm-chan.h
+v2:
+  Add lock for abo->ref
+  Add warning when force_iova is on
 
-diff --git a/drivers/accel/amd_vpci/Makefile b/drivers/accel/amd_vpci/Makefile
-index bacd305783dd..8adfde3490fd 100644
---- a/drivers/accel/amd_vpci/Makefile
-+++ b/drivers/accel/amd_vpci/Makefile
-@@ -5,4 +5,5 @@ obj-$(CONFIG_DRM_ACCEL_AMD_VPCI) := versal-pci.o
- versal-pci-y := \
- 	versal-pci-main.o \
- 	versal-pci-rm-queue.o \
--	versal-pci-rm-service.o
-+	versal-pci-rm-service.o \
-+	versal-pci-comm-chan.o
-diff --git a/drivers/accel/amd_vpci/versal-pci-comm-chan.c b/drivers/accel/amd_vpci/versal-pci-comm-chan.c
-new file mode 100644
-index 000000000000..fef6fff4e501
---- /dev/null
-+++ b/drivers/accel/amd_vpci/versal-pci-comm-chan.c
-@@ -0,0 +1,295 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Driver for Versal PCIe device
-+ *
-+ * Copyright (C) 2026 Advanced Micro Devices, Inc. All rights reserved.
-+ */
+ drivers/accel/amdxdna/Makefile          |   1 +
+ drivers/accel/amdxdna/aie2_ctx.c        |   6 +-
+ drivers/accel/amdxdna/aie2_error.c      |   5 +-
+ drivers/accel/amdxdna/aie2_message.c    |  30 +++-
+ drivers/accel/amdxdna/aie2_pci.h        |   5 +-
+ drivers/accel/amdxdna/amdxdna_gem.c     |  45 +++++-
+ drivers/accel/amdxdna/amdxdna_gem.h     |  10 ++
+ drivers/accel/amdxdna/amdxdna_iommu.c   | 184 ++++++++++++++++++++++++
+ drivers/accel/amdxdna/amdxdna_pci_drv.c |  47 +++---
+ drivers/accel/amdxdna/amdxdna_pci_drv.h |  24 ++++
+ 10 files changed, 325 insertions(+), 32 deletions(-)
+ create mode 100644 drivers/accel/amdxdna/amdxdna_iommu.c
+
+diff --git a/drivers/accel/amdxdna/Makefile b/drivers/accel/amdxdna/Makefile
+index 3fa0e74fd8f5..cf9bf19dedb9 100644
+--- a/drivers/accel/amdxdna/Makefile
++++ b/drivers/accel/amdxdna/Makefile
+@@ -11,6 +11,7 @@ amdxdna-y := \
+ 	aie2_solver.o \
+ 	amdxdna_ctx.o \
+ 	amdxdna_gem.o \
++	amdxdna_iommu.o \
+ 	amdxdna_mailbox.o \
+ 	amdxdna_mailbox_helper.o \
+ 	amdxdna_pci_drv.o \
+diff --git a/drivers/accel/amdxdna/aie2_ctx.c b/drivers/accel/amdxdna/aie2_ctx.c
+index 5511ab2ef242..3c1173eca43a 100644
+--- a/drivers/accel/amdxdna/aie2_ctx.c
++++ b/drivers/accel/amdxdna/aie2_ctx.c
+@@ -78,7 +78,8 @@ static int aie2_hwctx_restart(struct amdxdna_dev *xdna, struct amdxdna_hwctx *hw
+ 	}
+ 
+ 	ret = aie2_map_host_buf(xdna->dev_handle, hwctx->fw_ctx_id,
+-				heap->mem.userptr, heap->mem.size);
++				amdxdna_obj_dma_addr(hwctx->client, heap),
++				heap->mem.size);
+ 	if (ret) {
+ 		XDNA_ERR(xdna, "Map host buf failed, ret %d", ret);
+ 		goto out;
+@@ -650,7 +651,8 @@ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx)
+ 	}
+ 
+ 	ret = aie2_map_host_buf(xdna->dev_handle, hwctx->fw_ctx_id,
+-				heap->mem.userptr, heap->mem.size);
++				amdxdna_obj_dma_addr(hwctx->client, heap),
++				heap->mem.size);
+ 	if (ret) {
+ 		XDNA_ERR(xdna, "Map host buffer failed, ret %d", ret);
+ 		goto release_resource;
+diff --git a/drivers/accel/amdxdna/aie2_error.c b/drivers/accel/amdxdna/aie2_error.c
+index 5e82df2b7cf6..2966b7e34a96 100644
+--- a/drivers/accel/amdxdna/aie2_error.c
++++ b/drivers/accel/amdxdna/aie2_error.c
+@@ -355,9 +355,8 @@ int aie2_error_async_events_alloc(struct amdxdna_dev_hdl *ndev)
+ 		return -ENOMEM;
+ 
+ 	events->buf = aie2_alloc_msg_buffer(ndev, &total_size, &events->addr);
+-
+-	if (!events->buf) {
+-		ret = -ENOMEM;
++	if (IS_ERR(events->buf)) {
++		ret = PTR_ERR(events->buf);
+ 		goto free_events;
+ 	}
+ 	events->size = total_size;
+diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
+index 99215328505e..a590b3ed4d80 100644
+--- a/drivers/accel/amdxdna/aie2_message.c
++++ b/drivers/accel/amdxdna/aie2_message.c
+@@ -64,11 +64,27 @@ void *aie2_alloc_msg_buffer(struct amdxdna_dev_hdl *ndev, u32 *size,
+ 	*size = max(*size, SZ_8K);
+ 	order = get_order(*size);
+ 	if (order > MAX_PAGE_ORDER)
+-		return NULL;
++		return ERR_PTR(-EINVAL);
+ 	*size = PAGE_SIZE << order;
+ 
++	if (amdxdna_iova_on(xdna))
++		return amdxdna_iommu_alloc(xdna, *size, dma_addr);
 +
-+#include <linux/bitfield.h>
-+#include <linux/pci.h>
-+
-+#include "versal-pci.h"
-+#include "versal-pci-comm-chan.h"
-+
-+#define COMM_CHAN_PROTOCOL_VERSION		1
-+#define COMM_CHAN_PCI_BAR_OFF			0x2000000
-+#define COMM_CHAN_TIMER				(HZ / 10)
-+#define COMM_CHAN_DATA_LEN			16
-+#define COMM_CHAN_DATA_TYPE_MASK		GENMASK(7, 0)
-+#define COMM_CHAN_DATA_EOM_MASK			BIT(31)
-+#define COMM_CHAN_MSG_END			BIT(31)
-+
-+#define COMM_CHAN_REG_WRDATA_OFF		0x0
-+#define COMM_CHAN_REG_RDDATA_OFF		0x8
-+#define COMM_CHAN_REG_STATUS_OFF		0x10
-+#define COMM_CHAN_REG_ERROR_OFF			0x14
-+#define COMM_CHAN_REG_RIT_OFF			0x1C
-+#define COMM_CHAN_REG_IS_OFF			0x20
-+#define COMM_CHAN_REG_IE_OFF			0x24
-+#define COMM_CHAN_REG_CTRL_OFF			0x2C
-+#define COMM_CHAN_REGS_SIZE			SZ_4K
-+
-+#define COMM_CHAN_IRQ_DISABLE_ALL		0
-+#define COMM_CHAN_IRQ_RECEIVE_ENABLE		BIT(1)
-+#define COMM_CHAN_IRQ_CLEAR_ALL			GENMASK(2, 0)
-+#define COMM_CHAN_CLEAR_FIFO			GENMASK(1, 0)
-+#define COMM_CHAN_RECEIVE_THRESHOLD		15
-+
-+enum comm_chan_req_ops {
-+	COMM_CHAN_REQ_OPS_UNKNOWN		= 0,
-+	COMM_CHAN_REQ_OPS_HOT_RESET		= 5,
-+	COMM_CHAN_REQ_OPS_GET_PROTOCOL_VERSION	= 19,
-+	COMM_CHAN_REQ_OPS_LOAD_XCLBIN_UUID	= 20,
-+	COMM_CHAN_REQ_OPS_MAX,
-+};
-+
-+enum comm_chan_msg_type {
-+	COMM_CHAN_MSG_INVALID			= 0,
-+	COMM_CHAN_MSG_START			= 2,
-+	COMM_CHAN_MSG_BODY			= 3,
-+};
-+
-+enum comm_chan_msg_service_type {
-+	COMM_CHAN_MSG_SRV_RESPONSE		= BIT(0),
-+	COMM_CHAN_MSG_SRV_REQUEST		= BIT(1),
-+};
-+
-+struct comm_chan_hw_msg {
-+	struct {
-+		__u32		type;
-+		__u32		payload_size;
-+	} header;
-+	struct {
-+		__u64		id;
-+		__u32		flags;
-+		__u32		size;
-+		__u32		payload[COMM_CHAN_DATA_LEN - 6];
-+	} body;
-+} __packed;
-+
-+struct comm_chan_srv_req {
-+	__u64			flags;
-+	__u32			opcode;
-+	__u32			data[];
-+};
-+
-+struct comm_chan_srv_ver_resp {
-+	__u32			version;
-+};
-+
-+struct comm_chan_srv_uuid_resp {
-+	__u32			ret;
-+};
-+
-+struct comm_chan_msg {
-+	__u64			id;
-+	__u32			flags;
-+	__u32			len;
-+	__u32			bytes_read;
-+	__u32			data[10];
-+};
-+
-+struct comm_chan_device {
-+	struct versal_pci_device	*vdev;
-+	struct timer_list		timer;
-+	struct work_struct		work;
-+};
-+
-+static inline struct comm_chan_device *to_ccdev_work(struct work_struct *w)
-+{
-+	return container_of(w, struct comm_chan_device, work);
+ 	return dma_alloc_noncoherent(xdna->ddev.dev, *size, dma_addr,
+-				     DMA_FROM_DEVICE, GFP_KERNEL);
++				      DMA_FROM_DEVICE, GFP_KERNEL);
 +}
 +
-+static inline struct comm_chan_device *to_ccdev_timer(struct timer_list *t)
++void aie2_free_msg_buffer(struct amdxdna_dev_hdl *ndev, size_t size,
++			  void *cpu_addr, dma_addr_t dma_addr)
 +{
-+	return container_of(t, struct comm_chan_device, timer);
-+}
++	struct amdxdna_dev *xdna = ndev->xdna;
 +
-+static inline u32 comm_chan_read(struct comm_chan_device *cdev, u32 offset)
-+{
-+	return readl(cdev->vdev->io_regs + COMM_CHAN_PCI_BAR_OFF + offset);
-+}
-+
-+static inline void comm_chan_write(struct comm_chan_device *cdev, u32 offset, const u32 value)
-+{
-+	writel(value, cdev->vdev->io_regs + COMM_CHAN_PCI_BAR_OFF + offset);
-+}
-+
-+static u32 comm_chan_set_uuid_resp(void *payload, int ret)
-+{
-+	struct comm_chan_srv_uuid_resp *resp = (struct comm_chan_srv_uuid_resp *)payload;
-+	u32 resp_len = sizeof(*resp);
-+
-+	resp->ret = (u32)ret;
-+
-+	return resp_len;
-+}
-+
-+static u32 comm_chan_set_protocol_resp(void *payload)
-+{
-+	struct comm_chan_srv_ver_resp *resp = (struct comm_chan_srv_ver_resp *)payload;
-+	u32 resp_len = sizeof(*resp);
-+
-+	resp->version = COMM_CHAN_PROTOCOL_VERSION;
-+
-+	return resp_len;
-+}
-+
-+static void comm_chan_write_response(struct comm_chan_device *ccdev,
-+				     struct comm_chan_hw_msg *response,
-+				     u64 msg_id, u32 size)
-+{
-+	response->header.type = COMM_CHAN_MSG_START | COMM_CHAN_MSG_END;
-+	response->header.payload_size = size;
-+
-+	response->body.flags = COMM_CHAN_MSG_SRV_RESPONSE;
-+	response->body.size = size;
-+	response->body.id = msg_id;
-+
-+	for (int i = 0; i < COMM_CHAN_DATA_LEN; i++)
-+		comm_chan_write(ccdev, COMM_CHAN_REG_WRDATA_OFF, ((u32 *)response)[i]);
-+}
-+
-+static void comm_chan_send_response(struct comm_chan_device *ccdev, u64 msg_id, int ret)
-+{
-+	struct versal_pci_device *vdev = ccdev->vdev;
-+	struct comm_chan_hw_msg response = {0};
-+	u32 size;
-+
-+	vdev_err(vdev, "return response ret: %d", ret);
-+	size = comm_chan_set_uuid_resp(response.body.payload, ret);
-+
-+	comm_chan_write_response(ccdev, &response, msg_id, size);
-+}
-+
-+static void comm_chan_opcode_response(struct comm_chan_device *ccdev, u64 msg_id, void *payload)
-+{
-+	struct comm_chan_srv_req *req = (struct comm_chan_srv_req *)payload;
-+	struct versal_pci_device *vdev = ccdev->vdev;
-+	struct comm_chan_hw_msg response = {0};
-+	u32 size;
-+	int ret;
-+
-+	switch (req->opcode) {
-+	case COMM_CHAN_REQ_OPS_GET_PROTOCOL_VERSION:
-+		size = comm_chan_set_protocol_resp(response.body.payload);
-+		break;
-+	case COMM_CHAN_REQ_OPS_LOAD_XCLBIN_UUID:
-+		ret = versal_pci_load_xclbin(vdev, (uuid_t *)req->data);
-+		size = comm_chan_set_uuid_resp(response.body.payload, ret);
-+		break;
-+	default:
-+		vdev_err(vdev, "Unsupported request opcode: %d", req->opcode);
-+		size = comm_chan_set_uuid_resp(response.body.payload, -EOPNOTSUPP);
-+		break;
-+	}
-+
-+	vdev_dbg(vdev, "Response opcode: %d", req->opcode);
-+	comm_chan_write_response(ccdev, &response, msg_id, size);
-+}
-+
-+#define STATUS_IS_READY(status) ((status) & BIT(1))
-+#define STATUS_IS_ERROR(status) ((status) & BIT(2))
-+
-+static void comm_chan_check_request(struct work_struct *w)
-+{
-+	struct comm_chan_device *ccdev = to_ccdev_work(w);
-+	u32 status = 0, request[COMM_CHAN_DATA_LEN] = {0};
-+	struct comm_chan_hw_msg *hw_msg;
-+	u8 type, eom;
-+	int i;
-+
-+	status = comm_chan_read(ccdev, COMM_CHAN_REG_IS_OFF);
-+	if (!STATUS_IS_READY(status))
-+		return;
-+	if (STATUS_IS_ERROR(status)) {
-+		vdev_err(ccdev->vdev, "An error has occurred with comms");
++	if (amdxdna_iova_on(xdna)) {
++		amdxdna_iommu_free(xdna, size, cpu_addr, dma_addr);
 +		return;
 +	}
 +
-+	/* ACK status */
-+	comm_chan_write(ccdev, COMM_CHAN_REG_IS_OFF, status);
-+
-+	for (i = 0; i < COMM_CHAN_DATA_LEN; i++)
-+		request[i] = comm_chan_read(ccdev, COMM_CHAN_REG_RDDATA_OFF);
-+
-+	hw_msg = (struct comm_chan_hw_msg *)request;
-+	type = FIELD_GET(COMM_CHAN_DATA_TYPE_MASK, hw_msg->header.type);
-+	eom = FIELD_GET(COMM_CHAN_DATA_EOM_MASK, hw_msg->header.type);
-+
-+	/*
-+	 * Only support fixed size 64B messages, therefor every msg should
-+	 * have EndOfMsg(eom) as 1. Ignore invalid messages.
-+	 */
-+	if (!eom || type != COMM_CHAN_MSG_START) {
-+		vdev_err(ccdev->vdev, "Unsupported eom 0x%x but type 0x%x", eom, type);
-+		goto enotsupp;
-+	}
-+
-+	if (hw_msg->body.flags != COMM_CHAN_MSG_SRV_REQUEST) {
-+		vdev_err(ccdev->vdev, "Unsupported service request");
-+		goto enotsupp;
-+	}
-+
-+	if (hw_msg->body.size > sizeof(hw_msg->body.payload)) {
-+		vdev_err(ccdev->vdev, "msg is too big: %d", hw_msg->body.size);
-+		goto enotsupp;
-+	}
-+
-+	/* Now decode and respond appropriately */
-+	comm_chan_opcode_response(ccdev, hw_msg->body.id, hw_msg->body.payload);
-+	return;
-+
-+enotsupp:
-+	comm_chan_send_response(ccdev, hw_msg->body.id, -EOPNOTSUPP);
-+}
-+
-+static void comm_chan_sched_work(struct timer_list *t)
-+{
-+	struct comm_chan_device *ccdev = to_ccdev_timer(t);
-+
-+	/* Schedule a work in the general workqueue */
-+	schedule_work(&ccdev->work);
-+	/* Periodic timer */
-+	mod_timer(&ccdev->timer, jiffies + COMM_CHAN_TIMER);
-+}
-+
-+static void comm_chan_config(struct comm_chan_device *ccdev)
-+{
-+	/* Disable interrupts */
-+	comm_chan_write(ccdev, COMM_CHAN_REG_IE_OFF, COMM_CHAN_IRQ_DISABLE_ALL);
-+	/* Clear request and response FIFOs */
-+	comm_chan_write(ccdev, COMM_CHAN_REG_CTRL_OFF, COMM_CHAN_CLEAR_FIFO);
-+	/* Clear interrupts */
-+	comm_chan_write(ccdev, COMM_CHAN_REG_IS_OFF, COMM_CHAN_IRQ_CLEAR_ALL);
-+	/* Setup RIT reg */
-+	comm_chan_write(ccdev, COMM_CHAN_REG_RIT_OFF, COMM_CHAN_RECEIVE_THRESHOLD);
-+	/* Enable RIT interrupt */
-+	comm_chan_write(ccdev, COMM_CHAN_REG_IE_OFF, COMM_CHAN_IRQ_RECEIVE_ENABLE);
-+
-+	/* Create and schedule timer to do recurring work */
-+	INIT_WORK(&ccdev->work, &comm_chan_check_request);
-+	timer_setup(&ccdev->timer, &comm_chan_sched_work, 0);
-+	mod_timer(&ccdev->timer, jiffies + COMM_CHAN_TIMER);
-+}
-+
-+void versal_pci_comm_chan_fini(struct comm_chan_device *ccdev)
-+{
-+	/* First stop scheduling new work then cancel work */
-+	timer_delete_sync(&ccdev->timer);
-+	cancel_work_sync(&ccdev->work);
-+}
-+
-+struct comm_chan_device *versal_pci_comm_chan_init(struct versal_pci_device *vdev)
-+{
-+	struct comm_chan_device *ccdev;
-+
-+	ccdev = devm_kzalloc(&vdev->pdev->dev, sizeof(*ccdev), GFP_KERNEL);
-+	if (!ccdev)
-+		return ERR_PTR(-ENOMEM);
-+
-+	ccdev->vdev = vdev;
-+
-+	comm_chan_config(ccdev);
-+	return ccdev;
-+}
-diff --git a/drivers/accel/amd_vpci/versal-pci-comm-chan.h b/drivers/accel/amd_vpci/versal-pci-comm-chan.h
-new file mode 100644
-index 000000000000..a6ad3228c3ff
---- /dev/null
-+++ b/drivers/accel/amd_vpci/versal-pci-comm-chan.h
-@@ -0,0 +1,14 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Driver for Versal PCIe device
-+ *
-+ * Copyright (C) 2026 Advanced Micro Devices, Inc. All rights reserved.
-+ */
-+
-+#ifndef __VERSAL_PCI_COMM_CHAN_H
-+#define __VERSAL_PCI_COMM_CHAN_H
-+
-+struct comm_chan_device *versal_pci_comm_chan_init(struct versal_pci_device *vdev);
-+void versal_pci_comm_chan_fini(struct comm_chan_device *ccdev);
-+
-+#endif	/* __VERSAL_PCI_COMM_CHAN_H */
-diff --git a/drivers/accel/amd_vpci/versal-pci-main.c b/drivers/accel/amd_vpci/versal-pci-main.c
-index f8d32f9c0e0c..ad3f4645cd5e 100644
---- a/drivers/accel/amd_vpci/versal-pci-main.c
-+++ b/drivers/accel/amd_vpci/versal-pci-main.c
-@@ -8,6 +8,7 @@
- #include <linux/pci.h>
- 
- #include "versal-pci.h"
-+#include "versal-pci-comm-chan.h"
- #include "versal-pci-rm-service.h"
- #include "versal-pci-rm-queue.h"
- 
-@@ -98,6 +99,67 @@ static int versal_pci_load_shell(struct versal_pci_device *vdev, char *fw_name)
- 	return ret;
++	dma_free_noncoherent(xdna->ddev.dev, size, cpu_addr, dma_addr, DMA_FROM_DEVICE);
  }
  
-+int versal_pci_load_xclbin(struct versal_pci_device *vdev, uuid_t *xuuid)
+ int aie2_suspend_fw(struct amdxdna_dev_hdl *ndev)
+@@ -257,7 +273,7 @@ int aie2_create_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwct
+ 	req.num_col = hwctx->num_col;
+ 	req.num_unused_col = hwctx->num_unused_col;
+ 	req.num_cq_pairs_requested = 1;
+-	req.pasid = hwctx->client->pasid;
++	req.pasid = amdxdna_pasid_on(hwctx->client) ? hwctx->client->pasid : 0;
+ 	req.context_priority = aie2_get_context_priority(ndev, hwctx);
+ 
+ 	ret = aie2_send_mgmt_msg_wait(ndev, &msg);
+@@ -369,8 +385,8 @@ int aie2_query_status(struct amdxdna_dev_hdl *ndev, char __user *buf,
+ 	int ret;
+ 
+ 	buff_addr = aie2_alloc_msg_buffer(ndev, &buf_sz, &dma_addr);
+-	if (!buff_addr)
+-		return -ENOMEM;
++	if (IS_ERR(buff_addr))
++		return PTR_ERR(buff_addr);
+ 
+ 	/* Go through each hardware context and mark the AIE columns that are active */
+ 	list_for_each_entry(client, &xdna->client_list, node)
+@@ -425,8 +441,8 @@ int aie2_query_telemetry(struct amdxdna_dev_hdl *ndev,
+ 		return -EINVAL;
+ 
+ 	addr = aie2_alloc_msg_buffer(ndev, &buf_sz, &dma_addr);
+-	if (!addr)
+-		return -ENOMEM;
++	if (IS_ERR(addr))
++		return PTR_ERR(addr);
+ 
+ 	req.buf_addr = dma_addr;
+ 	req.buf_size = buf_sz;
+diff --git a/drivers/accel/amdxdna/aie2_pci.h b/drivers/accel/amdxdna/aie2_pci.h
+index b20a3661078c..18c252690d9c 100644
+--- a/drivers/accel/amdxdna/aie2_pci.h
++++ b/drivers/accel/amdxdna/aie2_pci.h
+@@ -337,9 +337,8 @@ int aie2_config_debug_bo(struct amdxdna_hwctx *hwctx, struct amdxdna_sched_job *
+ 			 int (*notify_cb)(void *, void __iomem *, size_t));
+ void *aie2_alloc_msg_buffer(struct amdxdna_dev_hdl *ndev, u32 *size,
+ 			    dma_addr_t *dma_addr);
+-#define aie2_free_msg_buffer(ndev, size, buff_addr, dma_addr)		\
+-	dma_free_noncoherent((ndev)->xdna->ddev.dev, size, buff_addr,	\
+-			     dma_addr, DMA_FROM_DEVICE)
++void aie2_free_msg_buffer(struct amdxdna_dev_hdl *ndev, size_t size,
++			  void *cpu_addr, dma_addr_t dma_addr);
+ 
+ /* aie2_hwctx.c */
+ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx);
+diff --git a/drivers/accel/amdxdna/amdxdna_gem.c b/drivers/accel/amdxdna/amdxdna_gem.c
+index dfa916eeb2d9..36eaf0ae5841 100644
+--- a/drivers/accel/amdxdna/amdxdna_gem.c
++++ b/drivers/accel/amdxdna/amdxdna_gem.c
+@@ -477,12 +477,50 @@ static void amdxdna_gem_obj_free(struct drm_gem_object *gobj)
+ 	drm_gem_shmem_free(&abo->base);
+ }
+ 
++static int amdxdna_gem_obj_open(struct drm_gem_object *gobj, struct drm_file *filp)
 +{
-+	const char *xclbin_location = "xilinx/xclbins";
-+	char fw_name[128];
-+	const struct firmware *fw;
-+	struct axlf *xclbin;
++	struct amdxdna_dev *xdna = to_xdna_dev(gobj->dev);
++	struct amdxdna_gem_obj *abo = to_xdna_obj(gobj);
 +	int ret;
 +
-+	ret = snprintf(fw_name, sizeof(fw_name), "%s/%pUb_%s.xclbin",
-+		       xclbin_location, xuuid, vdev->fw_id);
-+	if (ret >= sizeof(fw_name)) {
-+		vdev_err(vdev, "uuid is too long");
-+		return -EINVAL;
++	guard(mutex)(&abo->lock);
++	if (abo->ref) {
++		abo->ref++;
++		return 0;
 +	}
 +
-+	vdev_info(vdev, "trying to load %s", fw_name);
-+	ret = request_firmware(&fw, fw_name, &vdev->pdev->dev);
-+	if (ret) {
-+		vdev_warn(vdev, "request xclbin fw %s failed %d", fw_name, ret);
-+		return ret;
++	if (amdxdna_iova_on(xdna)) {
++		ret = amdxdna_iommu_map_bo(xdna, abo);
++		if (ret)
++			return ret;
++	}
++	abo->ref++;
++
++	return 0;
++}
++
++static void amdxdna_gem_obj_close(struct drm_gem_object *gobj, struct drm_file *filp)
++{
++	struct amdxdna_dev *xdna = to_xdna_dev(gobj->dev);
++	struct amdxdna_gem_obj *abo = to_xdna_obj(gobj);
++
++	guard(mutex)(&abo->lock);
++	abo->ref--;
++	if (abo->ref)
++		return;
++
++	if (amdxdna_iova_on(xdna))
++		amdxdna_iommu_unmap_bo(xdna, abo);
++}
++
+ static const struct drm_gem_object_funcs amdxdna_gem_dev_obj_funcs = {
+ 	.free = amdxdna_gem_dev_obj_free,
+ };
+ 
+ static const struct drm_gem_object_funcs amdxdna_gem_shmem_funcs = {
+ 	.free = amdxdna_gem_obj_free,
++	.open = amdxdna_gem_obj_open,
++	.close = amdxdna_gem_obj_close,
+ 	.print_info = drm_gem_shmem_object_print_info,
+ 	.pin = drm_gem_shmem_object_pin,
+ 	.unpin = drm_gem_shmem_object_unpin,
+@@ -509,6 +547,7 @@ amdxdna_gem_create_obj(struct drm_device *dev, size_t size)
+ 
+ 	abo->mem.userptr = AMDXDNA_INVALID_ADDR;
+ 	abo->mem.dev_addr = AMDXDNA_INVALID_ADDR;
++	abo->mem.dma_addr = AMDXDNA_INVALID_ADDR;
+ 	abo->mem.size = size;
+ 	INIT_LIST_HEAD(&abo->mem.umap_list);
+ 
+@@ -624,6 +663,7 @@ amdxdna_gem_prime_import(struct drm_device *dev, struct dma_buf *dma_buf)
+ 	abo = to_xdna_obj(gobj);
+ 	abo->attach = attach;
+ 	abo->dma_buf = dma_buf;
++	abo->type = AMDXDNA_BO_SHMEM;
+ 
+ 	return gobj;
+ 
+@@ -906,7 +946,10 @@ int amdxdna_drm_get_bo_info_ioctl(struct drm_device *dev, void *data, struct drm
+ 
+ 	abo = to_xdna_obj(gobj);
+ 	args->vaddr = abo->mem.userptr;
+-	args->xdna_addr = abo->mem.dev_addr;
++	if (abo->mem.dev_addr != AMDXDNA_INVALID_ADDR)
++		args->xdna_addr = abo->mem.dev_addr;
++	else
++		args->xdna_addr = abo->mem.dma_addr;
+ 
+ 	if (abo->type != AMDXDNA_BO_DEV)
+ 		args->map_offset = drm_vma_node_offset_addr(&gobj->vma_node);
+diff --git a/drivers/accel/amdxdna/amdxdna_gem.h b/drivers/accel/amdxdna/amdxdna_gem.h
+index f79fc7f3c93b..fbeb622e7cf9 100644
+--- a/drivers/accel/amdxdna/amdxdna_gem.h
++++ b/drivers/accel/amdxdna/amdxdna_gem.h
+@@ -6,7 +6,9 @@
+ #ifndef _AMDXDNA_GEM_H_
+ #define _AMDXDNA_GEM_H_
+ 
++#include <drm/drm_gem_shmem_helper.h>
+ #include <linux/hmm.h>
++#include <linux/iova.h>
+ #include "amdxdna_pci_drv.h"
+ 
+ struct amdxdna_umap {
+@@ -25,6 +27,7 @@ struct amdxdna_mem {
+ 	u64				userptr;
+ 	void				*kva;
+ 	u64				dev_addr;
++	u64				dma_addr;
+ 	size_t				size;
+ 	struct page			**pages;
+ 	u32				nr_pages;
+@@ -39,6 +42,7 @@ struct amdxdna_gem_obj {
+ 	bool				pinned;
+ 	struct mutex			lock; /* Protects: pinned */
+ 	struct amdxdna_mem		mem;
++	u32				ref;
+ 
+ 	/* Below members is uninitialized when needed */
+ 	struct drm_mm			mm; /* For AMDXDNA_BO_DEV_HEAP */
+@@ -68,6 +72,12 @@ static inline u64 amdxdna_dev_bo_offset(struct amdxdna_gem_obj *abo)
+ 	return abo->mem.dev_addr - abo->client->dev_heap->mem.dev_addr;
+ }
+ 
++static inline u64 amdxdna_obj_dma_addr(struct amdxdna_client *client,
++				       struct amdxdna_gem_obj *abo)
++{
++	return amdxdna_pasid_on(client) ? abo->mem.userptr : abo->mem.dma_addr;
++}
++
+ void amdxdna_umap_put(struct amdxdna_umap *mapp);
+ 
+ struct drm_gem_object *
+diff --git a/drivers/accel/amdxdna/amdxdna_iommu.c b/drivers/accel/amdxdna/amdxdna_iommu.c
+new file mode 100644
+index 000000000000..4626434d4180
+--- /dev/null
++++ b/drivers/accel/amdxdna/amdxdna_iommu.c
+@@ -0,0 +1,184 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2025, Advanced Micro Devices, Inc.
++ */
++
++#include <drm/amdxdna_accel.h>
++#include <linux/iommu.h>
++#include <linux/iova.h>
++
++#include "amdxdna_gem.h"
++#include "amdxdna_pci_drv.h"
++
++static bool force_iova;
++module_param(force_iova, bool, 0600);
++MODULE_PARM_DESC(force_iova, "Force use IOVA (Default false)");
++
++static struct iova *amdxdna_iommu_alloc_iova(struct amdxdna_dev *xdna,
++					     size_t size,
++					     dma_addr_t *dma_addr,
++					     bool size_aligned)
++{
++	unsigned long shift, end;
++	struct iova *iova;
++
++	end = xdna->domain->geometry.aperture_end;
++	shift = iova_shift(&xdna->iovad);
++	size = iova_align(&xdna->iovad, size);
++
++	iova = alloc_iova(&xdna->iovad, size >> shift, end >> shift, size_aligned);
++	if (!iova)
++		return ERR_PTR(-ENOMEM);
++
++	*dma_addr = iova_dma_addr(&xdna->iovad, iova);
++
++	return iova;
++}
++
++int amdxdna_iommu_map_bo(struct amdxdna_dev *xdna, struct amdxdna_gem_obj *abo)
++{
++	struct sg_table *sgt;
++	dma_addr_t dma_addr;
++	struct iova *iova;
++	size_t size;
++
++	if (abo->type != AMDXDNA_BO_DEV_HEAP && abo->type != AMDXDNA_BO_SHMEM)
++		return 0;
++
++	sgt = drm_gem_shmem_get_pages_sgt(&abo->base);
++	if (IS_ERR(sgt)) {
++		XDNA_ERR(xdna, "Get sgt failed, ret %ld", PTR_ERR(sgt));
++		return PTR_ERR(sgt);
 +	}
 +
-+	xclbin = (struct axlf *)fw->data;
-+	if (memcmp(xclbin->magic, VERSAL_XCLBIN_MAGIC_ID, sizeof(VERSAL_XCLBIN_MAGIC_ID))) {
-+		vdev_err(vdev, "Invalid fpga firmware");
-+		ret = -EINVAL;
-+		goto release_firmware;
++	if (!sgt->orig_nents || !sg_page(sgt->sgl)) {
++		XDNA_ERR(xdna, "sgl is zero length or not page backed");
++		return -EOPNOTSUPP;
 +	}
 +
-+	if (!fw->size ||
-+	    fw->size != xclbin->header.length ||
-+	    fw->size < sizeof(*xclbin)) {
-+		vdev_err(vdev, "Invalid xclbin size %zu", fw->size);
-+		ret = -EINVAL;
-+		goto release_firmware;
++	iova = amdxdna_iommu_alloc_iova(xdna, abo->mem.size, &dma_addr,
++					(abo->type == AMDXDNA_BO_DEV_HEAP));
++	if (IS_ERR(iova)) {
++		XDNA_ERR(xdna, "Alloc iova failed, ret %ld", PTR_ERR(iova));
++		return PTR_ERR(iova);
 +	}
 +
-+	if (!uuid_equal(&vdev->intf_uuid, &xclbin->header.rom_uuid)) {
-+		vdev_err(vdev, "base shell doesn't match uuid %pUb", &xclbin->header.uuid);
-+		ret = -EINVAL;
-+		goto release_firmware;
++	size = iommu_map_sgtable(xdna->domain, dma_addr, sgt,
++				 IOMMU_READ | IOMMU_WRITE);
++	if (size < abo->mem.size) {
++		__free_iova(&xdna->iovad, iova);
++		return -ENXIO;
 +	}
 +
-+	ret = versal_pci_upload_fw(vdev, RM_QUEUE_OP_LOAD_XCLBIN,
-+				   (char *)xclbin, xclbin->header.length);
-+	if (ret) {
-+		vdev_err(vdev, "failed to load xclbin %s : %d", fw_name, ret);
-+		goto release_firmware;
++	abo->mem.dma_addr = dma_addr;
++
++	return 0;
++}
++
++void amdxdna_iommu_unmap_bo(struct amdxdna_dev *xdna, struct amdxdna_gem_obj *abo)
++{
++	size_t size;
++
++	if (abo->mem.dma_addr == AMDXDNA_INVALID_ADDR)
++		return;
++
++	size = iova_align(&xdna->iovad, abo->mem.size);
++	iommu_unmap(xdna->domain, abo->mem.dma_addr, size);
++	free_iova(&xdna->iovad, iova_pfn(&xdna->iovad, abo->mem.dma_addr));
++	abo->mem.dma_addr = AMDXDNA_INVALID_ADDR;
++}
++
++void *amdxdna_iommu_alloc(struct amdxdna_dev *xdna, size_t size, dma_addr_t *dma_addr)
++{
++	struct iova *iova;
++	void *cpu_addr;
++	int ret;
++
++	iova = amdxdna_iommu_alloc_iova(xdna, size, dma_addr, true);
++	if (IS_ERR(iova)) {
++		XDNA_ERR(xdna, "Alloc iova failed, ret %ld", PTR_ERR(iova));
++		return iova;
 +	}
 +
-+	vdev_info(vdev, "Downloaded xclbin %pUb of size %lld Bytes",
-+		  &xclbin->header.uuid, xclbin->header.length);
++	cpu_addr = (void *)__get_free_pages(GFP_KERNEL, get_order(size));
++	if (!cpu_addr) {
++		ret = -ENOMEM;
++		goto free_iova;
++	}
 +
-+	uuid_copy(&vdev->xclbin_uuid, &xclbin->header.uuid);
++	ret = iommu_map(xdna->domain, *dma_addr, virt_to_phys(cpu_addr),
++			iova_align(&xdna->iovad, size),
++			IOMMU_READ | IOMMU_WRITE, GFP_KERNEL);
++	if (ret)
++		goto free_iova;
 +
-+release_firmware:
-+	release_firmware(fw);
++	return cpu_addr;
++
++free_iova:
++	__free_iova(&xdna->iovad, iova);
++	return ERR_PTR(ret);
++}
++
++void amdxdna_iommu_free(struct amdxdna_dev *xdna, size_t size,
++			void *cpu_addr, dma_addr_t dma_addr)
++{
++	iommu_unmap(xdna->domain, dma_addr, iova_align(&xdna->iovad, size));
++	free_iova(&xdna->iovad, iova_pfn(&xdna->iovad, dma_addr));
++	free_pages((unsigned long)cpu_addr, get_order(size));
++}
++
++int amdxdna_iommu_init(struct amdxdna_dev *xdna)
++{
++	unsigned long order;
++	int ret;
++
++	xdna->group = iommu_group_get(xdna->ddev.dev);
++	if (!xdna->group || !force_iova)
++		return 0;
++
++	XDNA_WARN(xdna, "Enabled force_iova mode.");
++	xdna->domain = iommu_paging_domain_alloc_flags(xdna->ddev.dev,
++						       IOMMU_HWPT_ALLOC_PASID);
++	if (IS_ERR(xdna->domain)) {
++		XDNA_ERR(xdna, "Failed to alloc iommu domain");
++		ret = PTR_ERR(xdna->domain);
++		goto put_group;
++	}
++
++	ret = iova_cache_get();
++	if (ret)
++		goto free_domain;
++
++	order = __ffs(xdna->domain->pgsize_bitmap);
++	init_iova_domain(&xdna->iovad, 1UL << order, 0);
++
++	ret = iommu_attach_group(xdna->domain, xdna->group);
++	if (ret)
++		goto put_iova;
++
++	return 0;
++
++put_iova:
++	put_iova_domain(&xdna->iovad);
++	iova_cache_put();
++free_domain:
++	iommu_domain_free(xdna->domain);
++put_group:
++	iommu_group_put(xdna->group);
++	xdna->domain = NULL;
 +
 +	return ret;
 +}
 +
- static inline struct versal_pci_device *item_to_vdev(struct config_item *item)
- {
- 	return container_of(to_configfs_subsystem(to_config_group(item)),
-@@ -160,10 +222,13 @@ static const struct config_item_type versal_pci_cfs_table = {
- static int versal_pci_cfs_init(struct versal_pci_device *vdev)
- {
- 	struct configfs_subsystem *subsys = &vdev->cfs_subsys;
-+	char dev_name[64];
-+
-+	snprintf(dev_name, sizeof(dev_name), "%s%x", DRV_NAME, versal_pci_devid(vdev));
- 
--	snprintf(subsys->su_group.cg_item.ci_namebuf,
--		 sizeof(subsys->su_group.cg_item.ci_namebuf),
--		 "%s%x", DRV_NAME, versal_pci_devid(vdev));
-+	scnprintf(subsys->su_group.cg_item.ci_namebuf,
-+		  sizeof(subsys->su_group.cg_item.ci_namebuf),
-+		  "%s", dev_name);
- 
- 	subsys->su_group.cg_item.ci_type = &versal_pci_cfs_table;
- 
-@@ -185,6 +250,7 @@ static void versal_pci_device_teardown(struct versal_pci_device *vdev)
- {
- 	versal_pci_cfs_fini(&vdev->cfs_subsys);
- 	versal_pci_fw_fini(vdev);
-+	versal_pci_comm_chan_fini(vdev->ccdev);
- 	versal_pci_rm_fini(vdev->rdev);
- }
- 
-@@ -236,6 +302,13 @@ static int versal_pci_device_setup(struct versal_pci_device *vdev)
- 		return ret;
- 	}
- 
-+	vdev->ccdev = versal_pci_comm_chan_init(vdev);
-+	if (IS_ERR(vdev->ccdev)) {
-+		ret = PTR_ERR(vdev->ccdev);
-+		vdev_err(vdev, "Failed to init comm channel, err %d", ret);
-+		goto rm_fini;
++void amdxdna_iommu_fini(struct amdxdna_dev *xdna)
++{
++	if (xdna->domain) {
++		iommu_detach_group(xdna->domain, xdna->group);
++		put_iova_domain(&xdna->iovad);
++		iova_cache_put();
++		iommu_domain_free(xdna->domain);
 +	}
 +
- 	ret = versal_pci_fw_init(vdev);
- 	if (ret) {
- 		vdev_err(vdev, "Failed to init fw, err %d", ret);
-@@ -251,6 +324,9 @@ static int versal_pci_device_setup(struct versal_pci_device *vdev)
++	if (xdna->group)
++		iommu_group_put(xdna->group);
++}
+diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+index 45f5c12fc67f..ed5fe643293d 100644
+--- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
++++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+@@ -69,18 +69,21 @@ static int amdxdna_drm_open(struct drm_device *ddev, struct drm_file *filp)
+ 
+ 	client->pid = pid_nr(rcu_access_pointer(filp->pid));
+ 	client->xdna = xdna;
+-
+-	client->sva = iommu_sva_bind_device(xdna->ddev.dev, current->mm);
+-	if (IS_ERR(client->sva)) {
+-		ret = PTR_ERR(client->sva);
+-		XDNA_ERR(xdna, "SVA bind device failed, ret %d", ret);
+-		goto failed;
+-	}
+-	client->pasid = iommu_sva_get_pasid(client->sva);
+-	if (client->pasid == IOMMU_PASID_INVALID) {
+-		XDNA_ERR(xdna, "SVA get pasid failed");
+-		ret = -ENODEV;
+-		goto unbind_sva;
++	client->pasid = IOMMU_PASID_INVALID;
++
++	if (!amdxdna_iova_on(xdna)) {
++		client->sva = iommu_sva_bind_device(xdna->ddev.dev, current->mm);
++		if (IS_ERR(client->sva)) {
++			ret = PTR_ERR(client->sva);
++			XDNA_ERR(xdna, "SVA bind device failed, ret %d", ret);
++			goto failed;
++		}
++		client->pasid = iommu_sva_get_pasid(client->sva);
++		if (client->pasid == IOMMU_PASID_INVALID) {
++			XDNA_ERR(xdna, "SVA get pasid failed");
++			ret = -ENODEV;
++			goto unbind_sva;
++		}
+ 	}
+ 	init_srcu_struct(&client->hwctx_srcu);
+ 	xa_init_flags(&client->hwctx_xa, XA_FLAGS_ALLOC);
+@@ -97,7 +100,8 @@ static int amdxdna_drm_open(struct drm_device *ddev, struct drm_file *filp)
  	return 0;
  
- comm_chan_fini:
-+	versal_pci_comm_chan_fini(vdev->ccdev);
+ unbind_sva:
+-	iommu_sva_unbind_device(client->sva);
++	if (!IS_ERR_OR_NULL(client->sva))
++		iommu_sva_unbind_device(client->sva);
+ failed:
+ 	kfree(client);
+ 
+@@ -115,7 +119,8 @@ static void amdxdna_client_cleanup(struct amdxdna_client *client)
+ 	if (client->dev_heap)
+ 		drm_gem_object_put(to_gobj(client->dev_heap));
+ 
+-	iommu_sva_unbind_device(client->sva);
++	if (!IS_ERR_OR_NULL(client->sva))
++		iommu_sva_unbind_device(client->sva);
+ 
+ 	kfree(client);
+ }
+@@ -275,9 +280,15 @@ static int amdxdna_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 		fs_reclaim_release(GFP_KERNEL);
+ 	}
+ 
++	ret = amdxdna_iommu_init(xdna);
++	if (ret)
++		return ret;
 +
-+rm_fini:
- 	versal_pci_rm_fini(vdev->rdev);
- 	versal_pci_fw_fini(vdev);
+ 	xdna->notifier_wq = alloc_ordered_workqueue("notifier_wq", WQ_MEM_RECLAIM);
+-	if (!xdna->notifier_wq)
+-		return -ENOMEM;
++	if (!xdna->notifier_wq) {
++		ret = -ENOMEM;
++		goto iommu_fini;
++	}
  
-diff --git a/drivers/accel/amd_vpci/versal-pci.h b/drivers/accel/amd_vpci/versal-pci.h
-index 092cac6afa26..ef02cefd8f48 100644
---- a/drivers/accel/amd_vpci/versal-pci.h
-+++ b/drivers/accel/amd_vpci/versal-pci.h
-@@ -26,6 +26,7 @@
- 	dev_dbg(&(vdev)->pdev->dev, fmt, ##args)
+ 	mutex_lock(&xdna->dev_lock);
+ 	ret = xdna->dev_info->ops->init(xdna);
+@@ -309,6 +320,8 @@ static int amdxdna_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	mutex_unlock(&xdna->dev_lock);
+ destroy_notifier_wq:
+ 	destroy_workqueue(xdna->notifier_wq);
++iommu_fini:
++	amdxdna_iommu_fini(xdna);
+ 	return ret;
+ }
  
- struct versal_pci_device;
-+struct comm_chan_device;
- struct rm_cmd;
+@@ -334,6 +347,8 @@ static void amdxdna_remove(struct pci_dev *pdev)
  
- struct axlf_header {
-@@ -52,13 +53,18 @@ struct versal_pci_device {
- 	struct pci_dev			*pdev;
+ 	xdna->dev_info->ops->fini(xdna);
+ 	mutex_unlock(&xdna->dev_lock);
++
++	amdxdna_iommu_fini(xdna);
+ }
  
- 	struct rm_device		*rdev;
-+	struct comm_chan_device         *ccdev;
- 	struct fw_info			fw;
+ static const struct dev_pm_ops amdxdna_pm_ops = {
+diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.h b/drivers/accel/amdxdna/amdxdna_pci_drv.h
+index 6580cb5ec7e2..231f8c127781 100644
+--- a/drivers/accel/amdxdna/amdxdna_pci_drv.h
++++ b/drivers/accel/amdxdna/amdxdna_pci_drv.h
+@@ -6,7 +6,10 @@
+ #ifndef _AMDXDNA_PCI_DRV_H_
+ #define _AMDXDNA_PCI_DRV_H_
  
- 	void __iomem			*io_regs;
-+	uuid_t				xclbin_uuid;
- 	uuid_t				intf_uuid;
- 	__u8				fw_id[UUID_STRING_LEN + 1];
++#include <drm/amdxdna_accel.h>
+ #include <drm/drm_print.h>
++#include <linux/iommu.h>
++#include <linux/iova.h>
+ #include <linux/workqueue.h>
+ #include <linux/xarray.h>
  
- 	struct configfs_subsystem	cfs_subsys;
+@@ -101,6 +104,10 @@ struct amdxdna_dev {
+ 	struct amdxdna_fw_ver		fw_ver;
+ 	struct rw_semaphore		notifier_lock; /* for mmu notifier*/
+ 	struct workqueue_struct		*notifier_wq;
++
++	struct iommu_group		*group;
++	struct iommu_domain		*domain;
++	struct iova_domain		iovad;
  };
  
-+/* versal pci driver APIs */
-+int versal_pci_load_xclbin(struct versal_pci_device *vdev, uuid_t *xclbin_uuid);
+ /*
+@@ -144,4 +151,21 @@ extern const struct amdxdna_dev_info dev_npu6_info;
+ int amdxdna_sysfs_init(struct amdxdna_dev *xdna);
+ void amdxdna_sysfs_fini(struct amdxdna_dev *xdna);
+ 
++int amdxdna_iommu_init(struct amdxdna_dev *xdna);
++void amdxdna_iommu_fini(struct amdxdna_dev *xdna);
++int amdxdna_iommu_map_bo(struct amdxdna_dev *xdna, struct amdxdna_gem_obj *abo);
++void amdxdna_iommu_unmap_bo(struct amdxdna_dev *xdna, struct amdxdna_gem_obj *abo);
++void *amdxdna_iommu_alloc(struct amdxdna_dev *xdna, size_t size, dma_addr_t *dma_addr);
++void amdxdna_iommu_free(struct amdxdna_dev *xdna, size_t size,
++			void *cpu_addr, dma_addr_t dma_addr);
 +
- #endif	/* __VERSAL_PCI_H */
++static inline bool amdxdna_iova_on(struct amdxdna_dev *xdna)
++{
++	return !!xdna->domain;
++}
++
++static inline bool amdxdna_pasid_on(struct amdxdna_client *client)
++{
++	return client->pasid != IOMMU_PASID_INVALID;
++}
+ #endif /* _AMDXDNA_PCI_DRV_H_ */
 -- 
 2.34.1
 
