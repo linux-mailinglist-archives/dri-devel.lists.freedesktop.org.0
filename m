@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YBsdNUrAd2m+kgEAu9opvQ
+	id GM4LIk7Ad2m+kgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 20:28:10 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 20:28:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 419708C88F
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 20:28:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0C9E8C896
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 20:28:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A84B10E46F;
-	Mon, 26 Jan 2026 19:28:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BD2B10E470;
+	Mon, 26 Jan 2026 19:28:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="GxeZt5pp";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="sNTt0mSt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BL0PR03CU003.outbound.protection.outlook.com
- (mail-eastusazon11012042.outbound.protection.outlook.com [52.101.53.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FAF210E46F
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 19:28:07 +0000 (UTC)
+Received: from PH7PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11010011.outbound.protection.outlook.com [52.101.201.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 629FB10E470
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 19:28:09 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TFo2OFlxaRbbo1GAGvCHfh0FLSajwd5MeDqaLeolcU/2Cj0T/eglWrCUz6oN8ZGgiqr2Wxtcq3tkvElOB7FKFf5+en1tFgETWKrHWaibrobvqYPhMJFsPX9oSLW07518ZSR5F0QTk4qI7HNorlT9jk6Tlw3uaJXYKwVurubPLAZYbf67BfSuen6a3ffcc4DYIjQMF/slaJrQSa74My1NCAEYRdEeb4lnFiH7OQ4AVaF4JKoVEFrRyDVsUHEELZOJbE09Dha6kqlns8iuc7CUwIw5aJVudaeFbE1PTMN5bx8FMzX4iWcHsSqGZJ5COD6NDhmlMENxeOhaEjCdgQEs7w==
+ b=Lh9uUMXaOV5bjNjlcL3/iOWxa2snLwkYPWZE3PBROekKB8q+Yi4wc5RTn0mgjz9G18MDfCdez003DQDcAIb7AAKSRdkSNJAECP//Gx2dM4lBtXz13s886JY16G6Rtb8pLyu1PnA5VH0vLQ8URnfGGSsCF52YlMeQ16LDsn37wItCpRXtdo+w9t3y5RG+f39W0FxB7RRgHChTi/U0aQ6DktFJmWKDpsmw8JQ2ZR/rp1lPWMeQTDCIze4CflgsLemESrdCZSMSIqAVIsW7IgwF5qUf0b8rrdT/NSx1xAHCPMGciHziYOl9RyFxZPhJJP600cRyGDNtPIhx+AIKA9PX8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iQEYlidCtI1wVTcHd1WyDKumG9s53wzp8cbnh8COyI8=;
- b=E3IxtWxx2Qcw5S7PBnrpQJrrltwa2CdIuyPIjpT1olE6Xt94DsdqjXby5EVjJRrXzm/m5tG3ITsKzZq03u4HqwkundJydgbYii9qk2YHX764k/CApm3Qw+i85OZ1zyADrZ8Ann5qzyF6J5L39KlNqI03R/n/O4OaRQYsDWBd41WH26reWs1dhbe2CeKlhEjv2DjccS/4ZQ97fISZlmr9VtgrGMNf/hJDe5qppm7X1xnqXBsZqiulRJcV0z81904uFFIJYbQGdSCYNgyPJQdzNWslOnOZsw2NOhVmfGajPI7MQ75gykNrWhYy2RGyBYMUnWVSjxoHxAe3OQBOiqVNCg==
+ bh=UOdbvLQbAiqRqFGMqm7pr+Z38uLzt1pKc5PPb8cs294=;
+ b=Y+RdZqdNjI6ovV7M8aVyPJgOxJJcYyd7ACoU4upLsxEe/mB8D8fOGQXjQ8zcDG1kQm5fGqRLVCAgEsDbvG7yfM00i0Aj5U19TiluldutBLWKIJhQaKZjwB+icl0RKLs1gj/TcnYYBOjsZWpbMBLzSGe3JUrTaBhbHJYFNb17kDlZ1aG5UNZ6+aH/d0xXbvW3B0PWwfdcEuz4xYp9UBat2r3QbzUv5+SCY4orUXLibsgENmKJyHdrKhPRzVEnDNuCnuu/2k0zFJgoNshWrMKsSVJJv7v4BftLbzM9sWGEMPZOAy8cSRx/rkjZxVJ9FSfH/KBdoY+NpHNFgjx7DhM8Xw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iQEYlidCtI1wVTcHd1WyDKumG9s53wzp8cbnh8COyI8=;
- b=GxeZt5ppdTxSzpAFmjk5SYCGng92FzhwSlpMHuIfwJ1GIMrjb0lmt5AWFbTfYeHwow+/I3tW4LRPvcw5JhID54weN1wLWg5OKGDFIFlqBk3J5OP2Q8ZbTr0xnK1NkoGZJra/+O78qs58AAlNQ9ayWDdG8BICxXh1aT97F6jEMS8=
-Received: from IA1P220CA0015.NAMP220.PROD.OUTLOOK.COM (2603:10b6:208:464::15)
- by LV5PR12MB9755.namprd12.prod.outlook.com (2603:10b6:408:307::18)
+ bh=UOdbvLQbAiqRqFGMqm7pr+Z38uLzt1pKc5PPb8cs294=;
+ b=sNTt0mStpjnidqD01iqV4nnbPsUu9luensW1iped+7X7xNfdjgLjhhw5PmQfqeufV1ZHamb51goqQRj41W8n3YHqckQkdi6VbUwZLJiV4X5xldFM+NxZj3IX/XLn+nPvJHN+tIwQoQgOLMbqLyr90/6LckDlHLDAEmH4GfO0WiY=
+Received: from IA1P220CA0022.NAMP220.PROD.OUTLOOK.COM (2603:10b6:208:464::11)
+ by CH2PR12MB4278.namprd12.prod.outlook.com (2603:10b6:610:ab::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Mon, 26 Jan
- 2026 19:28:02 +0000
+ 2026 19:28:04 +0000
 Received: from MN1PEPF0000F0DF.namprd04.prod.outlook.com
- (2603:10b6:208:464:cafe::5b) by IA1P220CA0015.outlook.office365.com
- (2603:10b6:208:464::15) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:10b6:208:464:cafe::d6) by IA1P220CA0022.outlook.office365.com
+ (2603:10b6:208:464::11) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.16 via Frontend Transport; Mon,
- 26 Jan 2026 19:28:03 +0000
+ 26 Jan 2026 19:28:06 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -55,78 +55,81 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from satlexmb08.amd.com (165.204.84.17) by
  MN1PEPF0000F0DF.mail.protection.outlook.com (10.167.242.37) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.3 via Frontend Transport; Mon, 26 Jan 2026 19:28:00 +0000
+ 15.20.9564.3 via Frontend Transport; Mon, 26 Jan 2026 19:28:03 +0000
 Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
  (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 26 Jan
- 2026 13:27:59 -0600
+ 2026 13:28:00 -0600
 Received: from xsjdavidzha51.xilinx.com (10.180.168.240) by satlexmb08.amd.com
  (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via
- Frontend Transport; Mon, 26 Jan 2026 13:27:58 -0600
+ Frontend Transport; Mon, 26 Jan 2026 13:27:59 -0600
 From: David Zhang <yidong.zhang@amd.com>
 To: <yidong.zhang@amd.com>, <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
  <maciej.falkowski@linux.intel.com>, <dri-devel@lists.freedesktop.org>
 CC: <linux-kernel@vger.kernel.org>, <sonal.santan@amd.com>,
  <mario.limonciello@amd.com>, <lizhi.hou@amd.com>
-Subject: [PATCH V2 0/5] accel/amd_vpci: Add new driver for AMD Versal PCI
-Date: Mon, 26 Jan 2026 11:27:27 -0800
-Message-ID: <20260126192732.1507084-1-yidong.zhang@amd.com>
+Subject: [PATCH V2 1/5] accel/amd_vpci: Add documentation for AMD Versal PCI
+ accelerator management
+Date: Mon, 26 Jan 2026 11:27:28 -0800
+Message-ID: <20260126192732.1507084-2-yidong.zhang@amd.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <yidong.zhang@amd.com>
+In-Reply-To: <20260126192732.1507084-1-yidong.zhang@amd.com>
 References: <yidong.zhang@amd.com>
+ <20260126192732.1507084-1-yidong.zhang@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0DF:EE_|LV5PR12MB9755:EE_
-X-MS-Office365-Filtering-Correlation-Id: 75c570f1-71e8-4a3e-ea80-08de5d1104a5
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0DF:EE_|CH2PR12MB4278:EE_
+X-MS-Office365-Filtering-Correlation-Id: 593b6b33-721a-43a6-e9e5-08de5d110698
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|1800799024|376014|36860700013|13003099007; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?/pTSHlKFqjiExi0aUGyEWen49nEzOyOaWEmutNW9OZ4ePlTOGh/cfnsQ9gDg?=
- =?us-ascii?Q?lNC6KmQQNMKbbzFKAhxkcInfA8QB+AcLpCxXCr4e9zt6rVc9BMTgXlENjrTj?=
- =?us-ascii?Q?qcmqs0uIEDR8xKT3Wid0q5jXp3xNz8N7+CwASTUwxGges1/oHZQ4CFgwJhg8?=
- =?us-ascii?Q?7mCiJSggHKWI0j7Z42OEnaLfIbu7wvhgrp8HO9eWF7u11QNGBTFo7aI3ltEd?=
- =?us-ascii?Q?/P3CGB7SBsc8+kpJkaYAL1HCfzcXtRDh7UOzIwV6SbUtn8Gut/iZWJolUl7p?=
- =?us-ascii?Q?JWFx96c9qyi/NfaVmFB2KhPO33/wanN3vZqxp//HkAsVlvCHdxOxc4d6hshr?=
- =?us-ascii?Q?Ewnq6G9JOSohqYwjGJtPlX6rV0gB2mDhFLdVVQ9xDQoGRErxXDywUt1BD9YV?=
- =?us-ascii?Q?qekS2+y0U+7sdJoL4TBFLSD5vCk+eidILYdnQqdm7Q5Pk2mxUFykOXrULLhB?=
- =?us-ascii?Q?hLKmSwC54Sijn8Z8RFUotBwhk9I98E05Vg1l4s7z+zywxNZUavgwn2zDu928?=
- =?us-ascii?Q?8rnsPPWl4B/gtoLdXmpBWTn7MUtExKWynYg7XyVb2qzp0rADfiJRmPCOD3xv?=
- =?us-ascii?Q?NTWFbs7oMqI0Lo79NUFFPzpGcKtqnpI3Dg+6bSH02UMdYjTbpInxftNFDKGn?=
- =?us-ascii?Q?V2qoVGuJjUDTnsphOqqTNMFDFlyauHLJDs0uYCYzEW6ixx7uovO1sTOsw7yU?=
- =?us-ascii?Q?UxpEtExBGOawd8V/bS6bjr5sRmVYCQS/5ZnKqnGHcjPdj4hcg35C7Nchdn2T?=
- =?us-ascii?Q?1NscmheamK5CVoqrLKH3DKkaZR3vDmtgCPPbx5Tato2cZPNFbKwcNmupPYkO?=
- =?us-ascii?Q?tnHzDQv1C68MVMUUBS0hfLZdtQGDPY2geOQ+2a7ZnuqqdW+pnFpgxLDcTb7Y?=
- =?us-ascii?Q?Pot7RHQk8zo5UsCdRufLWEhkSRR5LGGTTN/35IfoHQj7LOgqkF4tVCwrWD3i?=
- =?us-ascii?Q?CIp5mgg/CHZGzHOd1bwkR8MrjWeBYzPlsf656AiHixzRtPh6fbQOUnCXtmPr?=
- =?us-ascii?Q?vcdS5ZFahoZaTLkr8OJ2Ct3KyvmU0lxtwohfnHNUsR9wM67V7qnXys1NTIEf?=
- =?us-ascii?Q?r3kgjwbrtiQChBDXbPfA33Db5uOTK5RVW5UmSLwFqFzp1yINd2fZbrkkdwt0?=
- =?us-ascii?Q?KuQ34H1jJUfDlqhAvNuDjQGBDbSnC7RB6uprAzF6mVtFJvo1Jg/ih+l/JzsI?=
- =?us-ascii?Q?RoVX9chC947HOeq97e2Tv8Vhham63anrNJBzqcJcl8bkYd/7pDSZWgvriGeR?=
- =?us-ascii?Q?l+IbdlDWQvFpujm1Va1QG0XcIwxCYFdleOH7cBW82V7iwi0KjrJA2jR3LMZM?=
- =?us-ascii?Q?GwyMsmWG+DuQpdqyGWnj0jgok5h00Xnd2/TtAVX0uTAg8FqNI2GkhLC+ZMb5?=
- =?us-ascii?Q?WomN9gvPmSKCoW8OWgQFgYzbQ1EHAlS/8fXGi76fzBWQPjotpz4nWY2hzUwB?=
- =?us-ascii?Q?RrNdF2/VP0yOzYWZOQf+UaWY5cBKsGIu5wUHN4lh4umKsLFSHT3sWxAZPop0?=
- =?us-ascii?Q?vbooYOJcjDilHaTKnVefQkqXjuPeGFbr/ues5NHDx0eNbnlbf7QR7PyDn4vC?=
- =?us-ascii?Q?s6YQxgp0MV6TbnOnBS+iEdWg1lvrY0UV0pgO5XpHuLJdiUkDR93eWPZKBiNt?=
- =?us-ascii?Q?+Z0RtfBXMPioXgLu3A03X/E=3D?=
+ ARA:13230040|82310400026|36860700013|376014|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?pXf+KFqDDZ8Je0ESv2A3c0zWvVoZlDqumCn317ubWbF3OAL/V8wAlYTVEa3n?=
+ =?us-ascii?Q?7F3gGE5n+3RCkZqit9HXI0BkBD7r0Tzw9fT2C58ZVvRAreXvyVovVDcKut0C?=
+ =?us-ascii?Q?buy7sg0h9aYU55KlAYmXWtU1W8oj6hzE+yVY625F/2ZP0UV9YLnssO9A9gzM?=
+ =?us-ascii?Q?E9UJio/5BvagFpif/lL+LxJ4+ZhspzuTL1ZoJQxDTlTb9pcsPBJv2e/3yLix?=
+ =?us-ascii?Q?yzyaEhRSt27ptwxANEKDzlGJyAe4OWZQWNLjzv+SgZB6EUuUEZe5y/Dm/1Eb?=
+ =?us-ascii?Q?08Xsuob5E1tg7aHbpkjqwmcaN61IInxs3wN+qNzJ8glxyff9lu1e6iKslZCd?=
+ =?us-ascii?Q?Jj6HrGWab38EdkaCMTwkE/ArHTaYuDxumgOQt7Xs7OLtze9ZalSnHtWp2OYM?=
+ =?us-ascii?Q?oysZtO6A+O4sevyOQRRLq1PzfdrbsyolK+kvVA6xjFaJJQRhhEcxo4pezySs?=
+ =?us-ascii?Q?7iybo/15gnJHdndS6yIOyM6V69R51s5tq9DIhIJqKvVVew18L9TfLOp+vNAl?=
+ =?us-ascii?Q?GfRySZ6q5IGW4AsWRaMKg146io+159DpabgF3BtR0jeEvXWy3SaG/n+nKoHK?=
+ =?us-ascii?Q?gAJKNR/gh3Rov+G1Jii6uKQTa7caYl0Lrf8cFIkJ8N4/RCdPKtg6gVcapLi7?=
+ =?us-ascii?Q?ghoZEyqf4ymV98B7a6hYl6GaY0GA85KlUaR125OsErdftH4vauJaLfqHCwt4?=
+ =?us-ascii?Q?ij/1ari4Erl3sm8POZzNcsEN5Wd9rRPFaaclmmZF3/qP3GzVN5H1+Jd5vD5R?=
+ =?us-ascii?Q?4Bxhg1YJbO930eFYl5EegrsayASaByOuiPIaU7Tps1eahYtYt/B0NtJYTpYK?=
+ =?us-ascii?Q?JlNOB/QlSKwA9yUKsFjcTGuz0oPZyiT6zsf87dCSeagqNEamcFF/tSwMWS9i?=
+ =?us-ascii?Q?7xMIQmcWWheNIRAe6b4HbC7c3r6P8oD5xYuSWHM6jfnHkPOu0S2Vthc5Jqer?=
+ =?us-ascii?Q?0dKLmGUt3+nheGF07FGifeaI8H36KMX6oHq7kUSM7bX8v7MYjy5mrGM8zUvw?=
+ =?us-ascii?Q?4m6xXvgrt2Vp6N4+T88iTBsw9fg9p5GWS0c3DiiSDEbIi4F3KXd/wGLSVYKb?=
+ =?us-ascii?Q?RJanVhxEm8P3RXlsIwb+r4QNSG20qcawvIAWrXuEPKxacJJKvIWDnKhtPNfa?=
+ =?us-ascii?Q?vGF41Q5fbypbK0Zx9l8fFLfo93inYlDGNSowDEqo9LqSiZhm5wuz/JSiqF57?=
+ =?us-ascii?Q?sNTIPz6Ury+9luURoUpymk1QefZLwiktTzSUEVRfYmihgZsNYJ8rrbWRDapv?=
+ =?us-ascii?Q?CMr11OZBfHF7tzSVvDsub9tp1XD+3iD7+74bBFAuXpIPmcashCjkHXsv+dIt?=
+ =?us-ascii?Q?LAfgixfDMH6UwIyyKire+fqDJHTMwx72L1KzUFo9SMjMb8wfLM14sdeqmWU7?=
+ =?us-ascii?Q?39DHvGImZYS5hogEBXJ42ZM10xPHomsZ65f90TnEEFm35+HvIyQHGPDBhQKo?=
+ =?us-ascii?Q?L1WsGANyIPJ8XtLyzY+wCLW4/D5FqsJaAVNqdHGRBI3bAHAYdMfSQ0CqDAKa?=
+ =?us-ascii?Q?PWQBw9kfxAWRCkVTrz4iYKejPdDFKhFJ+49YfVJozj4OxNTxu2m4g2HVljOI?=
+ =?us-ascii?Q?pbeTEzNg7vrvvATr8uc+wOQ3q1QdU2enoP9WT4agNOs3QSQs2UTYlJESr5Mm?=
+ =?us-ascii?Q?tefXflXduWGIMI6vZFSXW4H1hGbXfbYHlf1tNqBWUszKFpecacYnyetNCOXI?=
+ =?us-ascii?Q?oq93XQ=3D=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(1800799024)(376014)(36860700013)(13003099007);
- DIR:OUT; SFP:1101; 
+ SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024); DIR:OUT;
+ SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2026 19:28:00.6561 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75c570f1-71e8-4a3e-ea80-08de5d1104a5
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2026 19:28:03.9263 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 593b6b33-721a-43a6-e9e5-08de5d110698
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[satlexmb08.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: MN1PEPF0000F0DF.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV5PR12MB9755
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4278
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,75 +176,184 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 419708C88F
+X-Rspamd-Queue-Id: E0C9E8C896
 X-Rspamd-Action: no action
 
-This patchset introduces a new Linux Kernel Driver, *versal-pci*,  for AMD
-Embedded+ platform.
+This patch introduces documentation for the AMD Versal PCI accelerator
+management driver. The driver runs on the host and manages the AMD Versal
+AI Edge SoC on the AMD Embedded+ platform. It handles management-plane
+operations including firmware image loading, reset, and health monitoring.
+This documentation also describes the firmware interface (VMR) and overall
+platform architecture.
 
-The AMD Embedded+ platform integrates AMD Ryzen Embedded processors with
-AMD Versal AI Edge adaptive SoCs on a single PCB [1]. The AMD Ryzen
-Embedded processor is connected to the Versal AI Edge adaptive SoC via PCIe
-enabling a tightly coupled heterogeneous compute platform. AMD Embedded+
-platform is used for sensor fusion, AI inferencing, industrial networking,
-control, and visualization.
-
-AMD Versal PCI driver, versal-pci, is a host-side PCIe driver for AMD
-Embedded+ platform running on AMD Ryzen Embedded processor.
-
-The versal-pci driver is responsible for the management-plane operations
-for the AMD Versal AI Edge adaptive SoC, including:
-
- - Loading accelerator firmware images
- - Reset and recovery
- - Health monitoring
-
-The driver is licensed under GPL-2.0.
-
-The firmwares are distributed as closed binaries. Please see [1] for more
-information. Please see [2] for software architecture.
-
-[1] https://www.amd.com/en/products/embedded/embedded-plus.html
-[2] https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/3011838141/AMD+Embedded+Platforms
-
-David Zhang (5):
-  accel/amd_vpci: Add documentation for AMD Versal PCI accelerator
-    management
-  accel/amd_vpci: Add new driver for AMD Versal PCI accelerator
-  accel/amd_vpci: Add Remote Management(RM) queue infrastructure
-  accel/amd_vpci: Add Remote Management (RM) queue service APIs
-  accel/amd_vpci: Add communication channel service
-
- Documentation/accel/amd_vpci/amd_vpci.rst     | 122 +++++
- Documentation/accel/amd_vpci/index.rst        |  11 +
- Documentation/accel/index.rst                 |   1 +
- MAINTAINERS                                   |   5 +
- drivers/accel/Kconfig                         |   1 +
- drivers/accel/Makefile                        |   3 +-
- drivers/accel/amd_vpci/Kconfig                |  15 +
- drivers/accel/amd_vpci/Makefile               |   9 +
- drivers/accel/amd_vpci/versal-pci-comm-chan.c | 295 +++++++++++
- drivers/accel/amd_vpci/versal-pci-comm-chan.h |  14 +
- drivers/accel/amd_vpci/versal-pci-main.c      | 395 ++++++++++++++
- drivers/accel/amd_vpci/versal-pci-rm-queue.c  | 314 +++++++++++
- drivers/accel/amd_vpci/versal-pci-rm-queue.h  |  21 +
- .../accel/amd_vpci/versal-pci-rm-service.c    | 497 ++++++++++++++++++
- .../accel/amd_vpci/versal-pci-rm-service.h    | 229 ++++++++
- drivers/accel/amd_vpci/versal-pci.h           |  70 +++
- 16 files changed, 2001 insertions(+), 1 deletion(-)
+Co-developed-by: Sonal Santan <sonal.santan@amd.com>
+Signed-off-by: Sonal Santan <sonal.santan@amd.com>
+Signed-off-by: David Zhang <yidong.zhang@amd.com>
+---
+ Documentation/accel/amd_vpci/amd_vpci.rst | 122 ++++++++++++++++++++++
+ Documentation/accel/amd_vpci/index.rst    |  11 ++
+ Documentation/accel/index.rst             |   1 +
+ 3 files changed, 134 insertions(+)
  create mode 100644 Documentation/accel/amd_vpci/amd_vpci.rst
  create mode 100644 Documentation/accel/amd_vpci/index.rst
- create mode 100644 drivers/accel/amd_vpci/Kconfig
- create mode 100644 drivers/accel/amd_vpci/Makefile
- create mode 100644 drivers/accel/amd_vpci/versal-pci-comm-chan.c
- create mode 100644 drivers/accel/amd_vpci/versal-pci-comm-chan.h
- create mode 100644 drivers/accel/amd_vpci/versal-pci-main.c
- create mode 100644 drivers/accel/amd_vpci/versal-pci-rm-queue.c
- create mode 100644 drivers/accel/amd_vpci/versal-pci-rm-queue.h
- create mode 100644 drivers/accel/amd_vpci/versal-pci-rm-service.c
- create mode 100644 drivers/accel/amd_vpci/versal-pci-rm-service.h
- create mode 100644 drivers/accel/amd_vpci/versal-pci.h
 
+diff --git a/Documentation/accel/amd_vpci/amd_vpci.rst b/Documentation/accel/amd_vpci/amd_vpci.rst
+new file mode 100644
+index 000000000000..7638e9107ff6
+--- /dev/null
++++ b/Documentation/accel/amd_vpci/amd_vpci.rst
+@@ -0,0 +1,122 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++
++.. include:: <isonum.txt>
++
++===============
++ AMD Versal PCI
++===============
++
++:Copyright: |copy| 2026 Advanced Micro Devices, Inc.
++:Authors: - Sonal Santan <sonal.santan@amd.com>
++	  - Yidong (David) Zhang <yidong.zhang@amd.com>
++
++Overview
++========
++
++The AMD Embedded+ platform integrates AMD Ryzen Embedded processors with
++AMD Versal AI Edge adaptive System-on-Chip (SoC) on a single PCB. The AMD
++Ryzen Embedded processor is connected to the Versal AI Edge adaptive SoC
++via PCIe enabling a tightly coupled heterogeneous compute platform. AMD
++Embedded+ platform is commonly used for sensor fusion, AI inferencing,
++industrial networking, control, and visualization.
++
++AMD Versal PCI driver, versal-pci, is a host-side PCIe driver for AMD
++Embedded+ platform running on AMD Ryzen Embedded processor. The versal-pci
++driver is responsible for the **management-plane** operations for the AMD
++Versal AI Edge adaptive SoC, including:
++
++* Loading accelerator firmware images
++* Reset and recovery
++* Health monitoring
++
++Please note that the versal-pci driver does *not* participate in workload
++execution.
++
++Hardware Description
++====================
++
++AMD Versal AI SoCs boot from a dedicated flash device and presents two
++PCIe physical functions to the AMD Ryzen Embedded processor which acts as
++PCIe host.
++
++* Physical function 0 (PF0) is used for the management-plane to interact
++  with versal-pci driver.
++* Physical function 1 (PF1) is used for the execution-plane. In some cases
++  PF1 can be attached to a VM.
++
++Versal Management Runtime (VMR) Firmware
++----------------------------------------
++
++AMD Versal AI SoC runs Versal Management Runtime (VMR) firmware on a
++microcontroller. VMR is responsible for:
++
++* Low-level management of the AMD Versal AI SoC.
++* Loading accelerator images into a dedicated partition on the AMD Versal
++  AI SoC.
++
++The VMR communicates with the versal-pci driver via:
++
++* A command queue mapped to PCIe PF0 BAR.
++* A shared memory region in the PCIe PF0 BAR.
++
++Accelerator Image
++-----------------
++
++An AMD Embedded+ platform may store multiple *accelerator images*, each
++identified by a UUID in a secure location on the AMD Ryzen host file
++system. Each image enables a specific application like sensor fusion, AI
++inferencing, etc. A chosen accelerator image is sent to the VMR by the
++versal-pci driver. Once loaded, the accelerator image running in the
++dedicated partition of AMD Versal AI SoC interfaces with the AMD Ryzen host
++via PCIe PF1.
++
++Accelerator Image Loading Workflow
++----------------------------------
++
++1. A user application requests an image load by sending the UUID of the
++   desired image to the user driver attached to PF1.
++2. The user driver forwards the UUID to the versal-pci driver via a mailbox
++   channel which connects PF1 to PF0.
++3. The versal-pci driver on PF0 receives the UUID via the mailbox channel.
++4. The versal-pci driver on PF0 then requests the accelerator image change
++   by sending a message to the VMR.
++5. The versal-pci driver copies the accelerator image to the shared memory
++   region on the PF0 PCIe BAR. It then sends a message to the VMR via the
++   command queue.
++6. Upon receiving the request from versal-pci, the VMR programs dedicated
++   hardware in the AMD Versal AI SoC to perform image loading.
++7. The image is loaded over the dedicated partition which then starts
++   running.  The VMR sends success response to the versal-pci driver.
++8. The versal-pci driver then responds to the user PF driver over the
++   communication channel.
++9. The versal-pci driver begins monitoring the health of the AMD Versal
++   SoC.
++
++
++The Driver Architecture
++=======================
++
++.. code-block:: bash
++
++                          +------------+
++                          |            |
++                          |     VM     |
++       +------------+     |            |
++       | versal-pci |     |            |
++   +---+----o-------+-----+-----o------+-----+
++   |        |       Linux       |            |  AMD Ryzen Host
++   +--------|-------------------|------------+
++           PF0                 PF1
++            |                   |
++   +--------v--------+----------v------------+
++   |                 .                       |
++   |       VMR       .   Accelerator Image   | AMD Versal AI SoC
++   |                 .                       |
++   +-----------------+-----------------------+
++
++
++References
++==========
++
++* `AMD Embedded Plus <https://www.amd.com/en/products/embedded/embedded-plus.html>`_
++* `AMD Embedded Platform Architecture <https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/3011838141/AMD+Embedded+Platforms>`_
+diff --git a/Documentation/accel/amd_vpci/index.rst b/Documentation/accel/amd_vpci/index.rst
+new file mode 100644
+index 000000000000..3ed4ab9e1332
+--- /dev/null
++++ b/Documentation/accel/amd_vpci/index.rst
+@@ -0,0 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++
++===========================================
++ accel/amd_vpci Versal Embedded Plus driver
++===========================================
++
++The accel/amd_vpci driver supports the AMD Versal Embedded Plus accelerator
++
++.. toctree::
++
++   amd_vpci
+diff --git a/Documentation/accel/index.rst b/Documentation/accel/index.rst
+index d8fa332d60a8..30fed42e1686 100644
+--- a/Documentation/accel/index.rst
++++ b/Documentation/accel/index.rst
+@@ -9,6 +9,7 @@ Compute Accelerators
+ 
+    introduction
+    amdxdna/index
++   amd_vpci/index
+    qaic/index
+    rocket/index
+ 
 -- 
 2.34.1
 
