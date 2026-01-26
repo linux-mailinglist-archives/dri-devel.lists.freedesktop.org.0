@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eJzJJhtBd2mMdQEAu9opvQ
+	id OA8jIilBd2mMdQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 11:25:31 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 11:25:45 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DBBB86D87
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 11:25:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4234586DAF
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 11:25:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 943BA10E3F1;
-	Mon, 26 Jan 2026 10:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 949D610E3F5;
+	Mon, 26 Jan 2026 10:25:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tvv/5shH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SfBmE2fG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F33C110E3F2
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 10:25:28 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 125E210E3F2
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 10:25:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id DB4AA436C6;
- Mon, 26 Jan 2026 10:25:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24A5BC19422;
- Mon, 26 Jan 2026 10:25:27 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 1401E600C3;
+ Mon, 26 Jan 2026 10:25:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10A1FC116C6;
+ Mon, 26 Jan 2026 10:25:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769423128;
- bh=k4BEYmlrJjPzcSm3s4NR5SWjHIJkO61F9VNbirwpf/8=;
+ s=k20201202; t=1769423140;
+ bh=H2gCYA0i3pdcG0Z7QlUteTKchAelo+ySaGCzZiiS5yQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tvv/5shHuumZ/dj/d0agLeHzI640BR3/h6H9idK91IxGKaR16nMdihZFpUFkBkJxz
- Ddpxx9MY4Q5xJpvBCA4G7tdsR6qulnT+YihbUistwFaBrlOGyRGUBH0uVDE2r3uIsy
- bM3ingp6iVgp9u+KBeJrz8qbPEX6RGhBwJSU3wwUsFZGsfn6bzH9N9naGSxjJmXdWk
- yyS/tS1+5xGOQPauRW3gLxeQGDtyxxwVK65hlcoaHsh2u0Vmxot1pCo7RnrhGkOOpm
- towMH3RFEp96g68+zKROaARZ23h7pKBVfRB+37J6fE17IsC9Kb1719T8osPPAHsYy1
- 9G3MoHC9/y/jw==
-Date: Mon, 26 Jan 2026 10:25:25 +0000
+ b=SfBmE2fG/h7nd5mxjQEUx8YN5GuGZgAxiUAPI/x/DteceA4PI5ACdaLZG+Hh+H3Af
+ RaZ2XqZEmOjjT6/Bgqq887E5kB61TkD57j2CXA5ILIr0wOQuxkXWyNX/TTM7I1G2rH
+ JAm7z8ffxWDJeBErxyiAAeVa3le7YR0jHErIjp/1exaEw7yd4iZf3Rs1dMV7UhtiWn
+ qTUBhl7nPMxEWXeFspbbVUtMHgJFsGgfNBnp0qUxCpeoLCAOw8cRPRvoElomzhyb57
+ DDz6K2QoTqTlZ+HL9TwvMOZii9DMmjm0O1qjo+DBbxxLB9DLFM9ICO+mf3T8nQcr3R
+ 3AxFEfWOzIAVQ==
+Date: Mon, 26 Jan 2026 10:25:37 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: briannorris@chromium.org, jwerner@chromium.org, javierm@redhat.com,
  samuel@sholland.org, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
  chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 07/12] firmware: google: Clean up include statements
- in coreboot_table.h
-Message-ID: <aXdBFdl3TUxP_cVG@google.com>
+Subject: Re: [PATCH v2 08/12] firmware: google: Export coreboot table entries
+Message-ID: <aXdBIZJYQ9L_M5Tq@google.com>
 References: <20260115082128.12460-1-tzimmermann@suse.de>
- <20260115082128.12460-8-tzimmermann@suse.de>
+ <20260115082128.12460-9-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260115082128.12460-8-tzimmermann@suse.de>
+In-Reply-To: <20260115082128.12460-9-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,15 +96,14 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 4DBBB86D87
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:email]
+X-Rspamd-Queue-Id: 4234586DAF
 X-Rspamd-Action: no action
 
-On Thu, Jan 15, 2026 at 08:57:17AM +0100, Thomas Zimmermann wrote:
-> Include <linux/mod_devicetable.h> from source files and only forward-
-> declare struct coreboot_device_id in coreboot_table.h.
+On Thu, Jan 15, 2026 at 08:57:18AM +0100, Thomas Zimmermann wrote:
+> Move types for coreboot table entries to <linux/coreboot.h>. Allows
+> drivers in other subsystems to use these structures.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
