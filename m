@@ -2,77 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WL+VLyeAd2m9hgEAu9opvQ
+	id qKp/D6KBd2m9hgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 15:54:31 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 16:00:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644D489C62
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 15:54:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB5189DC9
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 16:00:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B584210E452;
-	Mon, 26 Jan 2026 14:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F25710E448;
+	Mon, 26 Jan 2026 15:00:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="latfrhts";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="aY1KVLeN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6770E10E467
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 14:54:25 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20260126145423euoutp020e778fc6eeeee58fc42de0fcf64f6784~OT6Kn0YJh2157621576euoutp02X
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 14:54:23 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20260126145423euoutp020e778fc6eeeee58fc42de0fcf64f6784~OT6Kn0YJh2157621576euoutp02X
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1769439263;
- bh=FJ6dndNVnr43t5sh/dPsANRRiyWCeTFjxztR0Zx4Cp0=;
- h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
- b=latfrhtsmG8RtRz6JSigyMYSADZ/lFu31gIaRZXGoM25xpFM4HGx1IOuvYmKN1tVi
- 4sUcfPGg12Uh96uCRj+XIOl41w0DhSrap4g8zmAdpw5cd90hIFkCoUbnyZzvvTOpe9
- xdDk4RRnYRMWithrPUfQAQa3VFcYmsfAwG6Bib6g=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20260126145422eucas1p243889bf4ac456996ce7ed05111331d67~OT6KA7zOj1143511435eucas1p2B;
- Mon, 26 Jan 2026 14:54:22 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20260126145422eusmtip2d1a656619f59b16d7baae0d47ee79283~OT6JQxXP51987919879eusmtip2T;
- Mon, 26 Jan 2026 14:54:22 +0000 (GMT)
-Message-ID: <ac1832c1-e63b-45ba-9c57-83e56b34ed6d@samsung.com>
-Date: Mon, 26 Jan 2026 15:54:21 +0100
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EEDE10E448
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 15:00:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1769439642;
+ bh=vw6z8ZGo6PgeHs5Ehjr4OdzYvmwTaU+5mdR6XfWOOkE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=aY1KVLeNR/TDZRb5voHD+pg0P5OcXsDAy+sLEx+stAEjihoxKSMIGRCmWzv3ZueyM
+ KMBsji9ak9z0FwEWmgy50bZeh58PnpSznWq3KRWYOhAEdsgiF+Jtv6ULJsP9htCfpq
+ OXrDHYmlKWdKfB+CMXmTSxqG8kgrbv8uIC8C96yE7OPtVt+kCy3oh1MpR2HvGyLo/g
+ n/kj+BDqzMzvh08jhaPy/0LY1xcwDB7gV28DSglamilOPqmMsBYXoHhBlkE2xN/T0L
+ zs5m1F3hmR0jx8e0lydvoHaan99m2c0sDLbXr4OmkqMWny4Alg/mCN6IU4CqkF4Cvv
+ CRjS6NWPuCTyQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 7DAD517E0342;
+ Mon, 26 Jan 2026 16:00:42 +0100 (CET)
+Date: Mon, 26 Jan 2026 16:00:36 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Daniel Almeida
+ <daniel.almeida@collabora.com>, Janne Grunau <j@jannau.net>, Matthew Brost
+ <matthew.brost@intel.com>, "Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?="
+ <thomas.hellstrom@linux.intel.com>, Lyude Paul <lyude@redhat.com>, Asahi
+ Lina <lina+kernel@asahilina.net>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v3 3/6] rust: gpuvm: add GpuVm::obtain()
+Message-ID: <20260126160036.2b2c66a7@fedora>
+In-Reply-To: <20260121-gpuvm-rust-v3-3-dd95c04aec35@google.com>
+References: <20260121-gpuvm-rust-v3-0-dd95c04aec35@google.com>
+ <20260121-gpuvm-rust-v3-3-dd95c04aec35@google.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH 1/3] drm/bridge: samsung-dsim: move bridge init sequence
- to atomic_enable
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: Kaustabh Chakraborty <kauschluss@disroot.org>, Inki Dae
- <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, Andrzej
- Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Content-Language: en-US
-In-Reply-To: <1db5ffdf-924b-49cb-a057-802a1bfe6073@samsung.com>
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260126145422eucas1p243889bf4ac456996ce7ed05111331d67
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20260124172136eucas1p1e7a2da65c3fca268ea68f12506c6c19e
-X-EPHeader: CA
-X-CMS-RootMailID: 20260124172136eucas1p1e7a2da65c3fca268ea68f12506c6c19e
-References: <20260124-exynos-dsim-fixes-v1-0-122d047a23d1@disroot.org>
- <CGME20260124172136eucas1p1e7a2da65c3fca268ea68f12506c6c19e@eucas1p1.samsung.com>
- <20260124-exynos-dsim-fixes-v1-1-122d047a23d1@disroot.org>
- <1db5ffdf-924b-49cb-a057-802a1bfe6073@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,68 +72,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.20 / 15.00];
+X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
-	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:kauschluss@disroot.org,m:inki.dae@samsung.com,m:jagan@amarulasolutions.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[disroot.org,samsung.com,amarulasolutions.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:dakr@kernel.org,m:daniel.almeida@collabora.com,m:j@jannau.net,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:lyude@redhat.com,m:lina+kernel@asahilina.net,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:lina@asahilina.net,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[m.szyprowski@samsung.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[m.szyprowski@samsung.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[samsung.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	HAS_ORG_HEADER(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,kernel];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,samsung.com:mid,samsung.com:dkim,disroot.org:email]
-X-Rspamd-Queue-Id: 644D489C62
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: BFB5189DC9
 X-Rspamd-Action: no action
 
-On 26.01.2026 09:57, Marek Szyprowski wrote:
-> On 24.01.2026 18:20, Kaustabh Chakraborty wrote:
->> Since commit c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain
->> pre-enable and post-disable"), pre-enable sequence is called before the
->> CRTC is enabled.
->>
->> This causes unintended side-effects (abberation among potentially other
->> things) in the display when samsung_dsim_init() is called in the
->> pre-enable part of the sequence. Call it in samsung_dsim_atomic_enable()
->> instead.
->>
->> Cc: stable@vger.kernel.org # v6.17 and later
->> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
->
-> I'm not sure if this will be needed:
->
-> https://lore.kernel.org/all/20251205-drm-seq-fix-v1-0-fda68fa1b3de@ideasonboard.com/ 
->
+On Wed, 21 Jan 2026 11:31:19 +0000
+Alice Ryhl <aliceryhl@google.com> wrote:
 
-Even more, there is a pending similar patch:
+> +/// A [`GpuVmBo`] object in the GEM list.
+> +///
+> +/// # Invariants
+> +///
+> +/// Points at a `drm_gpuvm_bo` that contains a valid `T::VmBoData` and is present in the gem list.
+> +pub struct GpuVmBoResident<T: DriverGpuVm>(NonNull<GpuVmBo<T>>);
 
-https://lore.kernel.org/all/20250619-samsung-dsim-fix-v1-1-6b5de68fb115@ideasonboard.com/
+I find the name a bit confusing: BO residency is often used to refer to
+memory backing the buffer object, and in this case, you can end up with
+a GpuVmBoResident being returned for a BO that has been evicted (one
+that's no longer resident).
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+> +
+> +impl<T: DriverGpuVm> GpuVmBoResident<T> {
+> +    /// Returns a raw pointer to underlying C value.
+> +    #[inline]
+> +    pub fn as_raw(&self) -> *mut bindings::drm_gpuvm_bo {
+> +        // SAFETY: The pointer references a valid `drm_gpuvm_bo`.
+> +        unsafe { (*self.0.as_ptr()).inner.get() }
+> +    }
+> +}
