@@ -2,87 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uGZLLMHQd2mxlQEAu9opvQ
+	id aN5oFOLQd2mxlQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 21:38:25 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 21:38:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 009018D24D
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 21:38:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B675C8D25C
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 21:38:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4044410E490;
-	Mon, 26 Jan 2026 20:38:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 041EB10E492;
+	Mon, 26 Jan 2026 20:38:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OdhGN+3o";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="xZP3e+wm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DECF10E490
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 20:38:19 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-4801eb2c0a5so49246365e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 12:38:19 -0800 (PST)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69DD210E492
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 20:38:54 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-2a76b39587aso2635ad.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 12:38:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769459898; x=1770064698; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=O6z4xoEpihhro/o4qh/O8qRrlctdYIYONRKVUWA7Hps=;
- b=OdhGN+3oPRIW9Xt/YjDbbXtPIpiwCsjwe5xm7A5NiFYIHqt9HAu/FpRn9K6en2geX2
- qZlXMdh0ByZT4+QTWjqQYgOqf0ATLZYHixxxoYt51dnDY0t3XaMcOgIon9+VZi3aRTO2
- OTVXBkr0tXJ4o6OLE9+Ql4yMcMTve9bB9y8kNg0Qxt4AggCvwgyoZYaD8U3VYOPjqcNv
- +AdZuK9mbbfdmxKOtmqnSzstnIR0cnRo7oGhtdNKtMoVEiYhvreJ46yjxNJypCaQwC3I
- QspPt5Knakw4O1haHZWN2A8hDSto8OyWIeflLWj4An1XlwzMXn+js1jqnQYI+rKchbGf
- NidQ==
+ d=google.com; s=20230601; t=1769459934; x=1770064734;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=heQW4XXGxVNpbsMWtr+Uf/Qjg2mRHLgzAq6EBq5z5Gc=;
+ b=xZP3e+wmixcfFD5RDGDndGp+GB2Qjl+1xoLC6Ifz0Vin6LY5oSJLBSZ06UvHnKP30V
+ 4fNIC9PVJ00OKGbcGBmEyx0VshrKFfhW/ZInrnwrTjMSPIUs0PPWxFORcRNBMyckLmiQ
+ weCs6sNlW3W3YwIGyNA9vhRAGxMZeZHbXZGxHjT/q/lA8Qc66Yc8tw1cunWgK9YEavg+
+ lIUvZCyrEF4NDvrKeIDBQRhtoPZ7IT/EoBoNUow61zFkZ2fcVc5zELpgMbDLDQ0tP6Cf
+ 1WbHI0A2JE4ks6asuZFoyUWYUk3tzHz33ak+1ll6bnj8dPcIys2xAynkS+PAqbFZ1cGu
+ rjjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769459898; x=1770064698;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=O6z4xoEpihhro/o4qh/O8qRrlctdYIYONRKVUWA7Hps=;
- b=cIQTHSjI4mlu1fLc4AiOTIxSPuPrTCNAxWdB9ZB8ZrCGm9Pe2heS8CdBO1ayg0I+tx
- YuQKjEJ1ldktjnRem5yqrItRgsp8wCzgpfJEeJwqRRKrXrhpx8IeX2ocxwaYYYt/nwxG
- NCKRfmtzUsHAbBgBGmDWBRJ6ntFNfOyiZ4i2H/qqb3cEKylqgKymu+EuXbFA1NwQUZWM
- gWsFfiYGEkAi2aWBMvjIA2N8vyLUhfnSHNo7bwqke5kMAKCWGoqxkX+LwaxJ9axF5cud
- V5pVw/As8t6XWlKIOl2yzVuXym84MJ1xtnVChBq+NO2B92jKvBkY3nF1Pbq/HkAU7gd9
- SHXQ==
+ d=1e100.net; s=20230601; t=1769459934; x=1770064734;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=heQW4XXGxVNpbsMWtr+Uf/Qjg2mRHLgzAq6EBq5z5Gc=;
+ b=iAsGOVTTQRQjGGoRWekawjZA05my/x+SR/Vb5urpk/spkdEqIJw1UaxSsX6qICd9QH
+ /7r/pVWm08qx7Xcgf0sd8zjcF5h3qer190DR1DUiuF49i5df0NrocxgA9I2wizn+Hemy
+ 6aw9yk+FgbClhEWGjupVmSAZWhvzSPpKdO/KHSWveQVEckh3hFfEIQRuIE59EruFhj5N
+ oc8d5fXCdvjO4vpFZdyh5Tmt3MF/jpE6ACbmpPoxE7n8YFqn+YC3wWxaMNOWun0yiM9Q
+ ceprWhgOwXatPsfbnaAIhXZE00hUVYykllB29+QiNrU20BKNOEisZbVw1J9NCoCC1Mwk
+ ob3Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUvh+tcqW+8IYOn7+2qhd2M7F5mLUM9GCzRqb+G5QQD1hwfY3u5azB9KLbs4FUAVO/U9Vq02C4h3Uk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyrWQ0m5k/iHnpHVHowOvVX1hMxPtO0wvEVTw6W/21/ihuKNaWE
- 1vLnzclkOmX0TCrVjz42JBMhtEaV6qi00crP+usGb2ThRJCVn5d8H3xT
-X-Gm-Gg: AZuq6aL763f1eeKqyQd0Hxd9d8Iq7ZGFi1oKJLTGhoeDAo5c9S9MBZQFjwm5tU+Sk/a
- FBacAojGJ/U7vjngGbFggglGy0vRkP9p//OaNCSnbx86Hn05c/+GSt/NeF4lMWMcYuGGZWps6cy
- aUXi2egd/7RyrKltKDrwUZRjrHwdbTCcS3h3Pz3GBqUwiSgIE59DdHovFryena6a+vYdCHvF7hY
- P9vvAQtI1MtxvY5qscFwb2o62qUMJWbwhzpZKYhXdwdfrPAErHJjYEIDVxvFTMMv+P1t3zVBQwq
- 6m7FSbcA5zqYPFuJYjg8sVlfgUkDz+pF77NF41x1X4M6K0cPIQPqTEOMxG3OWssSgdquTzETsLH
- 6vetJGoVJFU6e3aCvpWQ8iCUXzd+oKMJB4Gb0vNT3CJB9crHHRNQAFqRP1tDIW6++SpfGvxsu0S
- +KvPjJgIC5VGSRRs99SCoOMl23wHV3cDB3PzSdWg==
-X-Received: by 2002:a05:6000:288c:b0:430:fbad:687a with SMTP id
- ffacd0b85a97d-435ca0e291fmr8983071f8f.13.1769459897573; 
- Mon, 26 Jan 2026 12:38:17 -0800 (PST)
-Received: from ionutnechita-arz2022.local
- ([2a02:2f0e:c30b:500:c472:222f:bc60:d893])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-435b1e716b6sm32591742f8f.27.2026.01.26.12.38.16
+ AJvYcCXcf4Sr+vpmqC7G9lLBXNEqdoFZtMkPRASzJ/fe68HtGvifIO2mpnkNmrmeFxYfUFHywkqfkHlDhrY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyN2mW8jx225nkuSWadx74d6Zto+/QYiokPhFMbrOTL2f6i17wi
+ Rgkw3cYxT4YHOHRLuUkGrwPK4e+VwgUikYPqg9CXdWB/dmeXVojPHG8xlRscFVav2A==
+X-Gm-Gg: AZuq6aJ6P47EGfNMIIpFaz4ufUhpt4/hHinEcwTobvptLCq45tD0xbGn5SgQU4BATPW
+ Ci06GTdBfrXiTIVFrOnKfDmXNADk57/oucK6Jmh4ov9GknlUYgh2jKqmQn6ftBzn7lA7dPQnI3W
+ xhL1WxSgOoeXGZMcKIclwtSTDRp8IUJEFvHa0tMA10NmWqcMQ1GNgK0ujX52RW9qImYC+MJcrAU
+ IJKA5YCnGrvvNWwrfY4ksrqHNM1qn5BrJQ6S0+zyUJaaqSU/dA2FI6JfKqB67OVmk7Bbo8z2we6
+ kH8Tipe+0l/j/pd/I2x28Z89edkD4F6on/kS+JfW2WmgcJZb5M32tf66MWvvp0pAH1whtRtiaAM
+ jbSMhEV0Lam5yfRjxh0HzZyaMCmNbQXuaB1J3P+G1xelp9kI3Bz33ugsDw5oHgZ8HPGoM/LrfSf
+ Alqr6P/XnStOHr/Q4+Yzz4GBSHEmHX5Jga8SL8fPRYHWmSwDQ/
+X-Received: by 2002:a17:903:32d2:b0:2a7:7f07:340e with SMTP id
+ d9443c01a7336-2a844901809mr3288195ad.4.1769459933510; 
+ Mon, 26 Jan 2026 12:38:53 -0800 (PST)
+Received: from google.com (222.245.187.35.bc.googleusercontent.com.
+ [35.187.245.222]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2a802fdce1fsm94536115ad.101.2026.01.26.12.38.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jan 2026 12:38:17 -0800 (PST)
-From: "Ionut Nechita (Sunlight Linux)" <sunlightlinux@gmail.com>
-To: alexdeucher@gmail.com
-Cc: alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
- ionut_n2001@yahoo.com, linux-kernel@vger.kernel.org,
- sunlightlinux@gmail.com, superm1@kernel.org
-Subject: Re: [PATCH 1/1] drm/amdgpu: Fix TLB flush failures after hibernation
- resume
-Date: Mon, 26 Jan 2026 22:37:50 +0200
-Message-ID: <20260126203749.16389-2-sunlightlinux@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <CADnq5_MSvWLVqhgkdaYn6bjPC2L2=jf5v=h3n1cx=ZYgnXLQPQ@mail.gmail.com>
-References: <CADnq5_MSvWLVqhgkdaYn6bjPC2L2=jf5v=h3n1cx=ZYgnXLQPQ@mail.gmail.com>
+ Mon, 26 Jan 2026 12:38:53 -0800 (PST)
+Date: Mon, 26 Jan 2026 20:38:44 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Williamson <alex@shazbot.org>, Ankit Agrawal <ankita@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
+ intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+ iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v5 6/8] dma-buf: Add dma_buf_attach_revocable()
+Message-ID: <aXfQ1LFNDUrfeuHf@google.com>
+References: <20260124-dmabuf-revoke-v5-0-f98fca917e96@nvidia.com>
+ <20260124-dmabuf-revoke-v5-6-f98fca917e96@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260124-dmabuf-revoke-v5-6-f98fca917e96@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,61 +118,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[amd.com,lists.freedesktop.org,yahoo.com,vger.kernel.org,gmail.com,kernel.org];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[sunlightlinux@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:alexdeucher@gmail.com,m:alexander.deucher@amd.com,m:amd-gfx@lists.freedesktop.org,m:christian.koenig@amd.com,m:ionut_n2001@yahoo.com,m:linux-kernel@vger.kernel.org,m:sunlightlinux@gmail.com,m:superm1@kernel.org,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,ziepe.ca,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[praan@google.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[35];
+	FORGED_RECIPIENTS(0.00)[m:leon@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:alexander.deucher@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:kraxel@redhat.com,m:dmitry.osipenko@collabora.com,m:gurchetansingh@chromium.org,m:olvaffe@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:lucas.demarchi@intel.com,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,m:jgg@ziepe.ca,m:kevin.tian@intel.com,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:Felix.Kuehling@amd.com,m:alex@shazbot.org,m:ankita@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:amd-gfx@lists.freedesktop.org,m:virtualization@lists.linux.dev,m:intel-xe@lists.freedesktop.org,m:linux-rdma@vger.kernel.org,m:iommu@lists.linux.dev,m:kvm@vger.kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[praan@google.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sunlightlinux@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 009018D24D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: B675C8D25C
 X-Rspamd-Action: no action
 
-Hi Alex,
+Hi Leon,
 
-Thank you for the feedback and for taking the time to review this issue.
+On Sat, Jan 24, 2026 at 09:14:18PM +0200, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
+> 
+> Some exporters need a flow to synchronously revoke access to the DMA-buf
+> by importers. Once revoke is completed the importer is not permitted to
+> touch the memory otherwise they may get IOMMU faults, AERs, or worse.
+> 
+> DMA-buf today defines a revoke flow, for both pinned and dynamic
+> importers, which is broadly:
+> 
+> 	dma_resv_lock(dmabuf->resv, NULL);
+> 	// Prevent new mappings from being established
+> 	priv->revoked = true;
+> 
+> 	// Tell all importers to eventually unmap
+> 	dma_buf_invalidate_mappings(dmabuf);
+> 
+> 	// Wait for any inprogress fences on the old mapping
+> 	dma_resv_wait_timeout(dmabuf->resv,
+> 			      DMA_RESV_USAGE_BOOKKEEP, false,
+> 			      MAX_SCHEDULE_TIMEOUT);
+> 	dma_resv_unlock(dmabuf->resv, NULL);
+> 
+> 	// Wait for all importers to complete unmap
+> 	wait_for_completion(&priv->unmapped_comp);
+> 
+> This works well, and an importer that continues to access the DMA-buf
+> after unmapping it is very buggy.
+> 
+> However, the final wait for unmap is effectively unbounded. Several
+> importers do not support invalidate_mappings() at all and won't unmap
+> until userspace triggers it.
+> 
+> This unbounded wait is not suitable for exporters like VFIO and RDMA tha
+> need to issue revoke as part of their normal operations.
+> 
+> Add dma_buf_attach_revocable() to allow exporters to determine the
+> difference between importers that can complete the above in bounded time,
+> and those that can't. It can be called inside the exporter's attach op to
+> reject incompatible importers.
+> 
+> Document these details about how dma_buf_invalidate_mappings() works and
+> what the required sequence is to achieve a full revocation.
+> 
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+>  drivers/dma-buf/dma-buf.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++-
+>  include/linux/dma-buf.h   |  9 +++------
+>  2 files changed, 50 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 1629312d364a..f0e05227bda8 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -1242,13 +1242,59 @@ void dma_buf_unmap_attachment_unlocked(struct dma_buf_attachment *attach,
+>  }
+>  EXPORT_SYMBOL_NS_GPL(dma_buf_unmap_attachment_unlocked, "DMA_BUF");
+>  
+> +/**
+> + * dma_buf_attach_revocable - check if a DMA-buf importer implements
+> + * revoke semantics.
+> + * @attach: the DMA-buf attachment to check
+> + *
+> + * Returns true if the DMA-buf importer can support the revoke sequence
+> + * explained in dma_buf_invalidate_mappings() within bounded time. Meaning the
+> + * importer implements invalidate_mappings() and ensures that unmap is called as
+> + * a result.
+> + */
+> +bool dma_buf_attach_revocable(struct dma_buf_attachment *attach)
+> +{
+> +	return attach->importer_ops &&
+> +	       attach->importer_ops->invalidate_mappings;
+> +}
+> +EXPORT_SYMBOL_NS_GPL(dma_buf_attach_revocable, "DMA_BUF");
+> +
 
-I'll add debug code to capture the full stack trace when the TLB flush
-failures occur. I'll test this on my AMD Cezanne system over the next
-few days when I have more time available, and will send you the complete
-call chain information.
+I noticed that Patch 5 removes the invalidate_mappings stub from 
+umem_dmabuf.c, effectively making the callback NULL for an RDMA 
+importer. Consequently, dma_buf_attach_revocable() (introduced here)
+will return false for these importers.
 
-Regarding the hibernation limitations you mentioned - I understand the
-challenges with secure boot compatibility and VRAM eviction. In my case,
-I'm not using secure boot, and my system has sufficient RAM and swap
-space to handle the VRAM backup, so those particular issues shouldn't
-affect my setup.
+Since the cover letter mentions that VFIO will use
+dma_buf_attach_revocable() to prevent unbounded waits, this appears to
+effectively block paths like the VFIO-export -> RDMA-import path..
 
-I'll follow up with the stack traces and additional debugging information
-in the next few days.
+Given that RDMA is a significant consumer of dma-bufs, are there plans
+to implement proper revocation support in the IB/RDMA core (umem_dmabuf)? 
 
-Thanks again,
-Ionut
+It would be good to know if there's a plan for bringing such importers
+into compliance with the new revocation semantics so they can interop
+with VFIO OR are we completely ruling out users like RDMA / IB importing
+any DMABUFs exported by VFIO?
+
+Thanks,
+Praan
