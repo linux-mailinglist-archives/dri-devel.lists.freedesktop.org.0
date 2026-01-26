@@ -2,54 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OA2zEXggd2ntcQEAu9opvQ
+	id KEBDNncKd2lebAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:06:16 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 07:32:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA7AC8543A
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:06:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 669DB848CA
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 07:32:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA32610E3BB;
-	Mon, 26 Jan 2026 08:06:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 098D510E073;
+	Mon, 26 Jan 2026 06:32:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="WzW/9mti";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HkI14Fkh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44CAE10E02C
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 05:41:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=T6
- M+i8G5FO9BitDKM2HpYZ0oxaWgxj0CM7vxZAx1Bmw=; b=WzW/9mtiG7nrIzhVdv
- GnaSZdzjV1GRDApBGHiROyv4VavG08svzF7AQX/XYglYRc4jSVzNEwcEUvgNeTwt
- aRpKWLYz/Yok84UxktU0ky/83xPGksSSzzUcwlvfHLvEJre8Z9eMwodkaOpheAdH
- iv6X3DPP09LyrzznZ0l8rOq8M=
-Received: from localhost.localdomain (unknown [])
- by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id
- _____wBXlNqD_nZp0usLIg--.5567S2; 
- Mon, 26 Jan 2026 13:41:24 +0800 (CST)
-From: luyuantao01 <luyuantao01@163.com>
-To: jfalempe@redhat.com,
-	javierm@redhat.com
-Cc: dri-devel@lists.freedesktop.org,
-	luyuantao <luyuantao@kylinos.cn>
-Subject: [PATCH] drm/panic: Fix the potential loop that causes kmsg to not
- display correctly
-Date: Mon, 26 Jan 2026 13:40:59 +0800
-Message-Id: <20260126054059.295-1-luyuantao01@163.com>
-X-Mailer: git-send-email 2.37.2.windows.2
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05A7410E073
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 06:32:20 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id B786543EF5
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 06:32:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9CEE6C19425
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 06:32:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1769409139;
+ bh=HCp4xTU6IiDnTmYTRV0Shdw2Bn4QaqjakfJl4Wynr70=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=HkI14FkhbiXoCa6kAic3cDnyrOy0+IofxTcc7/B1D7hUX1m7/oLCHZwtI099JcRu+
+ 3PMke4V3ZJHYkFGHYX9UzfXoAICcSF+KNNojSqaNOVoMYcjHmZtORGzHA+nKcvPz0q
+ PUIfBOtkrBya6YoV+bLRaeVtfXdE9EaZ8N6PeA1pmefbBgSHFMOyw08tPuSbibE8O6
+ L8+cCxyilMdKFZAlKs9ug15aSrPkYyYQ1DLnD7WR6/KccBPvvMsyfwAtA5GsEHK8nj
+ PdKjA7aoo92PIT77A61xPnKntZVtEQlklZoWYM5ql4TPrtIx+MYxr9OYiKgeaBydWE
+ G7AI7MdUco3nA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 8D44DC41614; Mon, 26 Jan 2026 06:32:19 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 221008] amdgpu: Crash with KDE Plasma built from master -
+ use-after-free
+Date: Mon, 26 Jan 2026 06:32:19 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: aros@gmx.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-221008-2300-c1wOmX4lW2@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221008-2300@https.bugzilla.kernel.org/>
+References: <bug-221008-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wBXlNqD_nZp0usLIg--.5567S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7XrW5Zw1fArWDJFW7Xw1rCrg_yoWfArb_CF
- WDX3s7Xw45Ca4DWF17Ar13Jry2ka15ZFW09a48tay5ZrnFya43Z3srXF15Zr1jgFW7tF9x
- A3ZrXFyFyFs3ujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUnYii7UUUUU==
-X-Originating-IP: [221.238.56.49]
-X-CM-SenderInfo: 5ox13tpqwd0iqr6rljoofrz/xtbC0gTYX2l2-oSxWgAA3f
-X-Mailman-Approved-At: Mon, 26 Jan 2026 08:06:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,71 +80,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:jfalempe@redhat.com,m:javierm@redhat.com,m:luyuantao@kylinos.cn,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[luyuantao01@163.com,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[163.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luyuantao01@163.com,dri-devel-bounces@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	HAS_XOIP(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_THREE(0.00)[4];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MISSING_XM_UA(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[163.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,kylinos.cn:email]
-X-Rspamd-Queue-Id: AA7AC8543A
+	MIME_TRACE(0.00)[0:+];
+	FROM_NO_DN(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FROM_NEQ_ENVFROM(0.00)[bugzilla-daemon@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_ONE(0.00)[1];
+	RCVD_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.com:email,gitlab.freedesktop.org:url];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+]
+X-Rspamd-Queue-Id: 669DB848CA
 X-Rspamd-Action: no action
 
-From: luyuantao <luyuantao@kylinos.cn>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221008
 
-When kmsg_buf completes drawing the screen and yoffset is less than 0,
-kmsg_dump_get_buffer continues to obtain the buffer. This potential loop may
-cause panic_flush not to be executed immediately or even not to be executed
-at all, resulting in a garbled screen display instead of normal logs
+Artem S. Tashkinov (aros@gmx.com) changed:
 
-So, the loop should be exited immediately after drawing kmsg_buf
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |ANSWERED
 
-Signed-off-by: luyuantao <luyuantao@kylinos.cn>
----
- drivers/gpu/drm/drm_panic.c | 3 +++
- 1 file changed, 3 insertions(+)
+--- Comment #2 from Artem S. Tashkinov (aros@gmx.com) ---
+Report here: https://gitlab.freedesktop.org/drm/amd/-/issues
 
-diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-index d4b6ea42db0f..4b44011b4be1 100644
---- a/drivers/gpu/drm/drm_panic.c
-+++ b/drivers/gpu/drm/drm_panic.c
-@@ -592,6 +592,9 @@ static void draw_panic_static_kmsg(struct drm_scanout_buffer *sb)
- 			end = start;
- 			start--;
- 		}
-+
-+		if (yoffset < 0)
-+			break;
- 	}
- }
- 
--- 
-2.27.0
+--=20
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
