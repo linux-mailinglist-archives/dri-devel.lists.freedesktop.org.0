@@ -2,69 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4JdgNjArd2nacwEAu9opvQ
+	id yGAVF1wrd2nacwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:52:00 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:52:44 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 479AC859CF
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:52:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7E3F85A0D
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:52:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91FA610E10F;
-	Mon, 26 Jan 2026 08:51:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F006710E1A8;
+	Mon, 26 Jan 2026 08:52:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="QedPXVXD";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="HEdx1wUs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0643F10E3C2
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 08:51:58 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id D39E3C225BF;
- Mon, 26 Jan 2026 08:51:57 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 45F5960717;
- Mon, 26 Jan 2026 08:51:56 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id C0EF6119A80E2; Mon, 26 Jan 2026 09:51:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1769417515; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=YoimUg/B3WMdwPjCRvv8ClMn1Rr3hFGXgkVjA9JOOIg=;
- b=QedPXVXDwD6tu/9yJqyZ7TIZOoQUoEcFq8esUex1XnWQ/7sm1bFOA2z39idJnnow/kk7jh
- 4bX3+4Bql4HHg0wqoLaFx8rcPJlzoP4Ec7NI8I1sc3nY7unHATPwtp81uuyUwggtYUNuVF
- I11hqr3BcWARPJ5sA2i+jelLE8m0w/eeN3y3bC4ZDSuxCIlAw/aivEBPr+4u20+WMlshVO
- qfnQreqggUqpQoXr5MSEXcPPNYDOPot6IY7nWQSIqHWMNv8qoIQB16jWyOB9bin6jWH+x+
- jXD8zr35RSom94S4/PC3dmjDMKQYOvxdKgb5Wjd4Lu4JkspNxzPyBAQyrPRTmg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 26 Jan 2026 09:51:49 +0100
-Message-Id: <DFYE5QDGOF28.2S7XJ1IFZIMX0@bootlin.com>
-Cc: <dri-devel@lists.freedesktop.org>, <imx@lists.linux.dev>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-To: "Liu Ying" <victor.liu@nxp.com>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Shawn Guo"
- <shawnguo@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>,
- "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam"
- <festevam@gmail.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH 3/3] drm/bridge: imx8qxp-pixel-combiner: Fix bailout for
- imx8qxp_pc_bridge_probe()
-X-Mailer: aerc 0.20.1
-References: <20260123-imx8qxp-drm-bridge-fixes-v1-0-8bb85ada5866@nxp.com>
- <20260123-imx8qxp-drm-bridge-fixes-v1-3-8bb85ada5866@nxp.com>
- <DFYDRSZBQBND.QSY119QND1GE@bootlin.com>
- <42f86084-5200-4dc0-86a7-4719d7d19cf7@nxp.com>
-In-Reply-To: <42f86084-5200-4dc0-86a7-4719d7d19cf7@nxp.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B67DF89209
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 08:52:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=9yDDnUML34EwSFqiYGW4g3jjzJ4Wv78SXcUZkWPmfWU=; b=HEdx1wUs6/lvT9QvUo1ZcNOwGq
+ SIH3A7kRq7i2//VtipfXTTLxceHYGGKm3gDYf1cjU8Sme0ty38pL9gGmDEuf/cko5UbN8vZaUIjS8
+ BltKjeOmkMkPuRfeuq28O8EGFBlm7ODvMCTiSCOdTfHDSmeWO585xxXkpKD4aWHiNkXzPSTEe1IqZ
+ gMF3njwDfODgmOvZANlQU1ltJ8JxRVrrBOQAt7QhWxXJlOa65Lt26U/yFUsgn0e9pX+JAep/5Cu0j
+ yBx+yz2vu7Hrqyvh0+4r70ofYHDEbbXo1iG9blSVjgkl4BKXVLfz26tcnEchAaZFi4gxzJ7+XzGgI
+ O9b+juIA==;
+Received: from [90.240.106.137] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vkIKo-009xBx-Ak; Mon, 26 Jan 2026 09:52:34 +0100
+Message-ID: <1db24d1e-113e-4bbf-8785-b608f725afb5@igalia.com>
+Date: Mon, 26 Jan 2026 08:52:33 +0000
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm: Do not allow userspace to trigger kernel warnings
+ in drm_gem_change_handle_ioctl()
+To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Zhi Wang <wangzhi@stu.xidian.edu.cn>,
+ David Francis <David.Francis@amd.com>,
+ Felix Kuehling <felix.kuehling@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ stable@vger.kernel.org
+References: <9bde8c39-ba4c-49c5-a0bc-4e78338f055a@amd.com>
+ <20260123141540.76540-1-tvrtko.ursulin@igalia.com>
+ <0286a6fa-d767-41d3-8c61-c0b34e9a9b47@oracle.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <0286a6fa-d767-41d3-8c61-c0b34e9a9b47@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,82 +73,169 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	MV_CASE(0.50)[];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
+X-Spamd-Result: default: False [0.49 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[nxp.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,pengutronix.de];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[bootlin.com:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:harshit.m.mogalapalli@oracle.com,m:kernel-dev@igalia.com,m:wangzhi@stu.xidian.edu.cn,m:David.Francis@amd.com,m:felix.kuehling@amd.com,m:christian.koenig@amd.com,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
+	NEURAL_HAM(-0.00)[-0.995];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 479AC859CF
+	FORGED_SENDER_MAILLIST(0.00)[]
+X-Rspamd-Queue-Id: A7E3F85A0D
 X-Rspamd-Action: no action
 
-On Mon Jan 26, 2026 at 9:47 AM CET, Liu Ying wrote:
->
->
-> On Mon, Jan 26, 2026 at 09:33:38AM +0100, Luca Ceresoli wrote:
->> On Fri Jan 23, 2026 at 10:22 AM CET, Liu Ying wrote:
->>> In case the channel0 is unavailable and bailing out from free_child is
->>> needed when we fail to add a DRM bridge for the available channel1,
->>> pointer pc->ch[0] in the bailout path would be NULL and it would be
->>> dereferenced as pc->ch[0]->bridge.next_bridge.  Fix this by checking
->>> pc->ch[0] before dereferencing it.
+
+On 23/01/2026 23:42, Harshit Mogalapalli wrote:
+> Hi,
+> 
+> On 23/01/26 19:45, Tvrtko Ursulin wrote:
+>> Since GEM bo handles are u32 in the uapi and the internal implementation
+>> uses idr_alloc() which uses int ranges, passing a new handle larger than
+>> INT_MAX trivially triggers a kernel warning:
 >>
->> Thanks for checking this code and providing fixes! These drivers have a
->> complex code path so I had a hard time in following the logic without ne=
-ing
->> able to test on hardware. Apologies for the issues emerged.
->
-> Thanks for your quick review and hard work!
->
+>> idr_alloc():
+>> ...
+>>     if (WARN_ON_ONCE(start < 0))
+>>         return -EINVAL;
+>> ...
 >>
->>> Fixes: ae754f049ce1 ("drm/bridge: imx8qxp-pixel-combiner: get/put the n=
-ext bridge")
->>> Fixes: 99764593528f ("drm/bridge: imx8qxp-pixel-combiner: convert to de=
-vm_drm_bridge_alloc() API")
+>> Fix it by rejecting new handles above INT_MAX and at the same time make
+>> the end limit calculation more obvious by moving into int domain.
 >>
->> The bug was introduced by 99764593528f, while ae754f049ce1 is not changi=
-ng
->> the bug, so for the sake of precision we can remove the first 'Fixes:'
->> line.
->
-> I added Fixes tag for ae754f049ce1 because it is the first commit which
-> this commit could be applied upon properly.  Maybe this helps some tools
-> apply this commit or maybe tools are smart enough to find ae754f049ce1
-> automatically?
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Reported-by: Zhi Wang <wangzhi@stu.xidian.edu.cn>
+>> Fixes: 53096728b891 ("drm: Add DRM prime interface to reassign GEM 
+>> handle")
+>> Cc: David Francis <David.Francis@amd.com>
+>> Cc: Felix Kuehling <felix.kuehling@amd.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: <stable@vger.kernel.org> # v6.18+
+> 
+> 
+> Thanks,
+> 
+> I have seen this WARN_ON as well and I have tested the reproducer 
+> against your patch and it works.
+> 
+> So:
+> 
+> Tested-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
 
-Uhm, good point, maybe it can be a useful reference for the stable team to
-backport the fix... Well, let's leave both lines then:
+Thank you! May I ask what test cases are you using to exercise it?
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> 
+> A question below:
+> 
+>> ---
+>> v2:
+>>   * Rename local variable, re-position comment, drop the else block. 
+>> (Christian)
+>>   * Use local at more places.
+>> ---
+>>   drivers/gpu/drm/drm_gem.c | 18 ++++++++++++------
+>>   1 file changed, 12 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>> index 7ff6b7bbeb73..ffa7852c8f6c 100644
+>> --- a/drivers/gpu/drm/drm_gem.c
+>> +++ b/drivers/gpu/drm/drm_gem.c
+>> @@ -1001,16 +1001,21 @@ int drm_gem_change_handle_ioctl(struct 
+>> drm_device *dev, void *data,
+>>   {
+>>       struct drm_gem_change_handle *args = data;
+>>       struct drm_gem_object *obj;
+>> -    int ret;
+>> +    int handle, ret;
+>>       if (!drm_core_check_feature(dev, DRIVER_GEM))
+>>           return -EOPNOTSUPP;
+>> +    /* idr_alloc() limitation. */
+>> +    if (args->new_handle > INT_MAX)
+>> +        return -EINVAL;
+> 
+> INT_MAX is allowed.
+> 
+>> +    handle = args->new_handle;
+>> +
+>>       obj = drm_gem_object_lookup(file_priv, args->handle);
+>>       if (!obj)
+>>           return -ENOENT;
+>> -    if (args->handle == args->new_handle) {
+>> +    if (args->handle == handle) {
+>>           ret = 0;
+>>           goto out;
+>>       }
+>> @@ -1018,18 +1023,19 @@ int drm_gem_change_handle_ioctl(struct 
+>> drm_device *dev, void *data,
+>>       mutex_lock(&file_priv->prime.lock);
+>>       spin_lock(&file_priv->table_lock);
+>> -    ret = idr_alloc(&file_priv->object_idr, obj,
+>> -        args->new_handle, args->new_handle + 1, GFP_NOWAIT);
+>> +    ret = idr_alloc(&file_priv->object_idr, obj, handle, handle + 1,
+> 
+> handle + 1 here would cause a signed integer overflow ?
 
-I'm applying this series perhaps tomorrow (if no one does it before).
+For the kernel it is fine due -fno-strict-overflow and idr_alloc() 
+explicitly handles it:
 
-Luca
+...
+  * Allocates an unused ID in the range specified by @start and @end.  If
+  * @end is <= 0, it is treated as one larger than %INT_MAX.  This allows
+  * callers to use @start + N as @end as long as N is within integer range.
+...
+	ret = idr_alloc_u32(idr, ptr, &id, end > 0 ? end - 1 : INT_MAX, gfp);
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+So for start == INT_MAX it ends up passing end == INT_MAX to 
+idr_alloc_u32, which, contrary to idr_alloc(), has it's end range 
+parameter _inclusive_.
+
+Simple huh? :))
+
+Regards,
+
+Tvrtko
+
+> 
+> 
+> 
+> Thanks,
+> Harshit
+>> +            GFP_NOWAIT);
+>>       spin_unlock(&file_priv->table_lock);
+>>       if (ret < 0)
+>>           goto out_unlock;
+>>       if (obj->dma_buf) {
+>> -        ret = drm_prime_add_buf_handle(&file_priv->prime, obj- 
+>> >dma_buf, args->new_handle);
+>> +        ret = drm_prime_add_buf_handle(&file_priv->prime, obj->dma_buf,
+>> +                           handle);
+>>           if (ret < 0) {
+>>               spin_lock(&file_priv->table_lock);
+>> -            idr_remove(&file_priv->object_idr, args->new_handle);
+>> +            idr_remove(&file_priv->object_idr, handle);
+>>               spin_unlock(&file_priv->table_lock);
+>>               goto out_unlock;
+>>           }
+> 
+
