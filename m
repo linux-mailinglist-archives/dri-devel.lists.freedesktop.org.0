@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KBQLCQOkd2k9jwEAu9opvQ
+	id OGprEAmkd2k9jwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 18:27:31 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 18:27:37 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACBE78B731
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 18:27:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B14C98B747
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 18:27:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05A9A10E453;
-	Mon, 26 Jan 2026 17:27:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1069310E458;
+	Mon, 26 Jan 2026 17:27:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="qvJJ4MVc";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Aa+srdh1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 413BF10E453
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 17:27:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D0BF10E457
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 17:27:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
  Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=B7kyYc7RhFlSmWPDvngvLP1/s4eswS0lTVZC8IrSTyE=; b=qvJJ4MVcEyhY4Hz5bWLduca16T
- FHExZwQYJDSuh366xM9FBqNQZx+Er1GeBWpFNXDlW0AkO8nE3M8T1E8iULvP9JAqCTWoRfOmLkqjF
- QmZWS+cgJyuCB92ZR5PWmdP2Zs1GjNaRgFhELGHikIGsBzE2gbRjRUGgdTmxBxSls8qdntDKnS1Jr
- wQOC3Upsc1HxQDS7Hn0a4qLFNzXPsc8e6KtLPp6lJhcJ6b4yiPA9Vojgp/xIMjFxItla7FkKQ8cxK
- exYyW2Jmn/zT8MaWLPGZt7pkaz6k2nGaulTFmw5uOcEMQ6ojrxGPcEw2qEOwrJudOZB5L1Bw3ILsn
- BF0L0Idg==;
+ bh=Z3TQkix31nSO3DE+TASdwKeJFfjpLtAJyrBSqcWBFOg=; b=Aa+srdh1hxQq5hUuV3Z70tR4O5
+ uyPG6itTrpsTZyeQjkd8OwA9YtXmXclt4+kgcH/I/oPZLwiMNgzk3lruk+dTuNWDrGX2L5bmd2oD0
+ aGXA9IwyOnOjqODiWsCGfAxpSnuN/0TV1jP0hxfKtxiXgs9W4/TXyRE9/rZnOf4ZzAPVhgAU0vfv9
+ pKUCat7+igu99bQllzX9H1cP47m0q9jB1KE3e1Q55J3s/S+56RRIXNk+jISNvKFzJijgKdzpbNU2K
+ Xri4lmre3qcu80BiSpXV+euB6S9gIkzbcD/KpVEFf9NIDobQePj1fQn9Uqe9aKrCfTK4ACANrbbjc
+ mFzeH3kg==;
 Received: from [187.36.210.68]
  (helo=1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vkQMw-00A8mi-Uq; Mon, 26 Jan 2026 18:27:19 +0100
+ id 1vkQN2-00A8mi-Sz; Mon, 26 Jan 2026 18:27:25 +0100
 From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Mon, 26 Jan 2026 14:26:39 -0300
-Subject: [PATCH v4 3/6] clk: bcm: rpi: Mark PIXEL_CLK and HEVC_CLK as
- CLK_IGNORE_UNUSED
+Date: Mon, 26 Jan 2026 14:26:40 -0300
+Subject: [PATCH v4 4/6] drm/v3d: Use
+ devm_reset_control_get_optional_exclusive()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260126-v3d-power-management-v4-3-caf2df16d4e2@igalia.com>
+Message-Id: <20260126-v3d-power-management-v4-4-caf2df16d4e2@igalia.com>
 References: <20260126-v3d-power-management-v4-0-caf2df16d4e2@igalia.com>
 In-Reply-To: <20260126-v3d-power-management-v4-0-caf2df16d4e2@igalia.com>
 To: Michael Turquette <mturquette@baylibre.com>, 
@@ -60,15 +60,15 @@ Cc: linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
  kernel-dev@igalia.com, =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1280; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=HBxi3kNHRo5O0aV4BChTV5TSpsgJgBHlM1/y8UtvZUU=;
- b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBpd6Petkfs2R/SjKZbtviysA/KE4naLldxth79M
- /ns9oJIilOJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaXej3gAKCRA/8w6Kdoj6
- qnT5B/4iTveg3MOxV/mK6PzIE/f/V7lpidYicTlaFqDyX3AHMPSIg47NwmFSLKZApyXWvGGE0Xk
- vBGPfxKF21KOz6C6wS2KHSdjekGH2Xp8x9taXcxoTC6SGr9nrNvJHqfjh1QtM+2pNs4LVZmILi5
- scl1BxYhRDkF70CalFAggAOvAAyC6aSdAuHN+pI4q+zseHpdzvsqMvCF5hjAtxWCSKwXclKUvP8
- JcK4+/HUbvvp6iXTnS2SG/W0lyt47USHR2gD4K/GVuOP8BFk/fYBT8NHJhDHuRqC3TtEBCBJrBt
- tUUwDAkOLOqnt9QNp8d39aRAglz5sr+bwZXnjmJHaD1ZTWGw
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1291; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=wdK6PGLiRnlpa9+cq1grUo29qiGFO0rt0+G3UR3/sk4=;
+ b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBpd6PezTPMnqdJN2J08Aj4g5y1GTm7DwuJHX4G4
+ 7YuZWZ6vHaJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaXej3gAKCRA/8w6Kdoj6
+ qtR3B/9DPxAiVF5m7sS05+ODHmpXzitYZMdondUUjtluNCaVIXKkf4/q+IH/L13y2iQKe008u//
+ l/2zAUGK2tWAdx3ZaZ1pEuAzwwUl8zD2u7MX/hMYxWI5dWnGMVFecm21/qJy0Wcy3uk/xyhBABU
+ iALOf0do9iDzAPiPfaVIBRPrsVh3H+tKr2k3pIbip89Ff9GwtUoq3Fsdhn0gH/2NRtTilBGQQMu
+ VCATK/GEXJe4+tUrdDEeJaj18cmIewwF0N4oKpROD1xv093GBLhfW5UolaDUfGhAAj2kpx1el5U
+ 4g4Co1ltElcyBhzaPX3wuf+LE93RkBaOs1eima4vVMk7OY79
 X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
  fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,44 +117,48 @@ X-Spamd-Result: default: False [0.49 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,igalia.com:mid,igalia.com:email]
-X-Rspamd-Queue-Id: ACBE78B731
+	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:mid,igalia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: B14C98B747
 X-Rspamd-Action: no action
 
-If PIXEL_CLK or HEVC_CLK is disabled during boot, the firmware will skip
-HSM initialization, which would result in a bus lockup. However, those
-clocks are consumed by drivers (vc4 and HEVC decoder drivers,
-respectively), which means that they can be enabled/disabled by the
-drivers.
+Simplify optional reset handling by using the function
+devm_reset_control_get_optional_exclusive().
 
-Mark those clocks as CLK_IGNORE_UNUSED to allow them to be disabled by
-drivers when appropriate.
-
-Acked-by: Melissa Wen <mwen@igalia.com>
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/clk/bcm/clk-raspberrypi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/v3d/v3d_drv.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-raspberrypi.c
-index 2e63121af0900ac9b4874b666cf6d02baa8be11c..b9f2a4dc1510ff162c84d67aa0ddd7f435156398 100644
---- a/drivers/clk/bcm/clk-raspberrypi.c
-+++ b/drivers/clk/bcm/clk-raspberrypi.c
-@@ -139,12 +139,12 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
- 	[RPI_FIRMWARE_PIXEL_CLK_ID] = {
- 		.export = true,
- 		.minimize = true,
--		.flags = CLK_IS_CRITICAL,
-+		.flags = CLK_IGNORE_UNUSED,
- 	},
- 	[RPI_FIRMWARE_HEVC_CLK_ID] = {
- 		.export = true,
- 		.minimize = true,
--		.flags = CLK_IS_CRITICAL,
-+		.flags = CLK_IGNORE_UNUSED,
- 	},
- 	[RPI_FIRMWARE_ISP_CLK_ID] = {
- 		.export = true,
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+index 8de4f151a5c02cbf970e72933d1a275968088357..257f2fefbdb6f8736411de8965919f1728844a6a 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.c
++++ b/drivers/gpu/drm/v3d/v3d_drv.c
+@@ -398,18 +398,17 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
+ 
+ 	v3d_perfmon_init(v3d);
+ 
+-	v3d->reset = devm_reset_control_get_exclusive(dev, NULL);
++	v3d->reset = devm_reset_control_get_optional_exclusive(dev, NULL);
+ 	if (IS_ERR(v3d->reset)) {
+-		ret = PTR_ERR(v3d->reset);
++		ret = dev_err_probe(dev, PTR_ERR(v3d->reset),
++				    "Failed to get reset control\n");
++		goto clk_disable;
++	}
+ 
+-		if (ret == -EPROBE_DEFER)
+-			goto clk_disable;
+-
+-		v3d->reset = NULL;
++	if (!v3d->reset) {
+ 		ret = map_regs(v3d, &v3d->bridge_regs, "bridge");
+ 		if (ret) {
+-			dev_err(dev,
+-				"Failed to get reset control or bridge regs\n");
++			dev_err(dev, "Failed to get bridge registers\n");
+ 			goto clk_disable;
+ 		}
+ 	}
 
 -- 
 2.52.0
