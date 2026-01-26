@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SOEoEgRBd2mMdQEAu9opvQ
+	id sEulGA1Bd2mMdQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 11:25:08 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 11:25:17 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A38E986D37
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 11:25:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFD6986D47
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 11:25:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BBC010E3F0;
-	Mon, 26 Jan 2026 10:25:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 392CA10E3F3;
+	Mon, 26 Jan 2026 10:25:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ClnnYjdZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Wmcy2gK3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA0B510E3F0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 10:25:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9ADB10E3F3
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 10:25:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7B844436C6;
- Mon, 26 Jan 2026 10:25:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A694BC116C6;
- Mon, 26 Jan 2026 10:25:00 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id AB7954040B;
+ Mon, 26 Jan 2026 10:25:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC2DAC19421;
+ Mon, 26 Jan 2026 10:25:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769423102;
- bh=rag0QuEAtuEgPaG+JU7H/3uGkGlRj/rw6uQhP+G00Jg=;
+ s=k20201202; t=1769423114;
+ bh=1Rl/NJhMTYCsDeKJhDknpfhqitogEoQQWuJfyg+0UsM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ClnnYjdZiPfzewpDG4iVTzI9R5rw3yPpVgh09IPQcIhR5BZTjQgHA/10Ev4jyoPOT
- +5gO+SIQY6H3yXB8wUa09MYkrrinW4xEWJ8tzxdExB8yaJApLYthQgCFxMj1I7NNEW
- TK2hQA1OMSY3ymWLjB23myEMj5T/oaKLI21Yc/1jJwxq164mUrAVpHHv8cEtCQU3F7
- z4o5Gj2t7JoVD1gV2ZABAtLNFtYjDzMTAHg3PRdK0w/e0tdXYXzFF5J7Od4SFRQdpP
- LPOLhe5GoZ2BQ6uXes+vM3qpdSWs6dx/La63lJ3hldFZdCXcSssK1FBQ7C83lHortw
- Oe6BnC9uxHnEA==
-Date: Mon, 26 Jan 2026 10:24:58 +0000
+ b=Wmcy2gK3gzl5rqmDjmIUi1KlqXc9G5SvIix+BvfRQuiZWPCm8dzQ7qoOmDD7u/dt2
+ qb9GCHkoZmLfNH7E9jcv6dytfIpW9+6ELA5UC/+APDrV2vitourfMnYepwn+Bb5VsE
+ 8y78zia0ZXtWBtsyTp0Q99v9pIv/EXSu1A5Cwpr3QRXUgYY97Ebo5gXoXRgiTJyq6O
+ CN2feiXdgvdpTcYuUZrVAmpm5m88o6TrvbaqWtbzsMEn1eVwEPMq/MBuslE1/L70wr
+ YlEARsn+8DmRx7VaaOCu6YRyQqVnBEPoA0/imxGyXLqGFnoxti76/OPyC1QTUl7Jwi
+ vTZe1pllR2Sbw==
+Date: Mon, 26 Jan 2026 10:25:11 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: briannorris@chromium.org, jwerner@chromium.org, javierm@redhat.com,
  samuel@sholland.org, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
  chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 05/12] firmware: google: framebuffer: Fix dependencies
-Message-ID: <aXdA-h7DICJ4syLT@google.com>
+Subject: Re: [PATCH v2 06/12] firmware: google: Init coreboot bus with
+ subsys_initcall()
+Message-ID: <aXdBB89WR-DVxDHi@google.com>
 References: <20260115082128.12460-1-tzimmermann@suse.de>
- <20260115082128.12460-6-tzimmermann@suse.de>
+ <20260115082128.12460-7-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260115082128.12460-6-tzimmermann@suse.de>
+In-Reply-To: <20260115082128.12460-7-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,19 +96,21 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: A38E986D37
+X-Rspamd-Queue-Id: CFD6986D47
 X-Rspamd-Action: no action
 
-On Thu, Jan 15, 2026 at 08:57:15AM +0100, Thomas Zimmermann wrote:
-> The framebuffer on the coreboot bus represents an entry in the
-> coreboot payload table; not the actual device. [1] Hence it must
-> not depend on any other driver setting.
+On Thu, Jan 15, 2026 at 08:57:16AM +0100, Thomas Zimmermann wrote:
+> Using module_init()/device_initcall() is too late to initialize
+> the coreboot bus, as there might already be drivers that depend
+> on it.
+> 
+> So far this hasn't been a problem, as coreboot controls all device
+> creation. Initializing the coreboot bus earlier in subsys_initcall()
+> will allow for external coreboot drivers to register themselves
+> with device_initcall(). Prepares coreboot to support additional
+> coreboot drivers from other subsystems.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Link: https://lore.kernel.org/dri-devel/CAODwPW9_ym3E4za3yoUAs0+1sQfaKTDOau4Oh9Zm8+2uvYVgFQ@mail.gmail.com/ # [1]
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-The driver has no build-time dependencies to neither FB_SIMPLE nor
-DRM_SIMPLEDRM.
-
-The patch makes sense to me,
 Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
