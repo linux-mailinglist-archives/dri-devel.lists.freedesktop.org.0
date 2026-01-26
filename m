@@ -2,134 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2AcXNow7d2mMdQEAu9opvQ
+	id gKKzEM87d2mMdQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 11:01:48 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 11:02:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19843865B1
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 11:01:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D88865F4
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 11:02:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90AAD10E045;
-	Mon, 26 Jan 2026 10:01:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41AC510E3D9;
+	Mon, 26 Jan 2026 10:02:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="cljO8j/8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5zfe0Vri";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cljO8j/8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5zfe0Vri";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="gckajqXL";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fhrvg8a0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7093B10E045
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 10:01:43 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 364995BD33;
- Mon, 26 Jan 2026 10:01:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1769421702; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MCTdo2kIuXkq/O+r27x3Hh0LuKAl+WTC23OqrDgITkw=;
- b=cljO8j/8EFltCww+6LA4PQioVmV1kZ24qISLcMlQ1R4+oKVIs6u2ZmxsGNZxm0wbrnWmJc
- /0xHbb0rUdRMJP23432mzG+TsljCjO2mhmgZYhIy27riu+XbLiG/2HpwbUWxRYlIwY+lJO
- Lat3/RIqVnJ9gCwstEY1lQB4FUopFbY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1769421702;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MCTdo2kIuXkq/O+r27x3Hh0LuKAl+WTC23OqrDgITkw=;
- b=5zfe0Vrivp1KUobBZc8loxmLM8CZbDcNlCtgNxVSIEkj3G0A0X+r52dpv+gHd7aACx9RiA
- bGLwZTnUn5xrBbAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1769421702; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MCTdo2kIuXkq/O+r27x3Hh0LuKAl+WTC23OqrDgITkw=;
- b=cljO8j/8EFltCww+6LA4PQioVmV1kZ24qISLcMlQ1R4+oKVIs6u2ZmxsGNZxm0wbrnWmJc
- /0xHbb0rUdRMJP23432mzG+TsljCjO2mhmgZYhIy27riu+XbLiG/2HpwbUWxRYlIwY+lJO
- Lat3/RIqVnJ9gCwstEY1lQB4FUopFbY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1769421702;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=MCTdo2kIuXkq/O+r27x3Hh0LuKAl+WTC23OqrDgITkw=;
- b=5zfe0Vrivp1KUobBZc8loxmLM8CZbDcNlCtgNxVSIEkj3G0A0X+r52dpv+gHd7aACx9RiA
- bGLwZTnUn5xrBbAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5FB7C139F0;
- Mon, 26 Jan 2026 10:01:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id gWo8FIU7d2k1fQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 26 Jan 2026 10:01:41 +0000
-Message-ID: <ed48e82a-cb94-477f-83c4-b2d87ae3cde6@suse.de>
-Date: Mon, 26 Jan 2026 11:01:40 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90C4F10E3D9
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 10:02:52 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60Q5UKN81019099
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 10:02:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ QJ8n/rnroMmSRj+BA1mzSL3+xFr/ialXAh2Tf9HBPZM=; b=gckajqXLiuRnM+t1
+ ASQNSqNfr9LdLD2E/c0A1Qy+JOZ5ZnvglyE6cIq9ocnhIu5FoyzX9gLtvRKbL7LQ
+ cfW0h/IFZ5N8xJ5MMyEAAkBSzV/SIgyCsSZDk7tWA4k5OIMHqzjIV7TnUy2/EpGg
+ b+rJ+j5tiT6cTmRjXMJYGCVvdYuDtT1GLNqEXPhErDUjhNeX6hR6ZMnHEXh6fEaD
+ cz5WlSM483CPp1PaRhMfxuZ+AmN7qhHh3UDS2BVVn9QXgab9TDLJkYqs1EFr3Hra
+ 7AapljJSpnJJPfmtSddfF+hN8xtqeWVgKyDmJtatLN7qtWuwgHxtGsdVxWJlQt/F
+ fkaLDw==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bx2680n5f-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 10:02:52 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-8c6de73fab8so133917585a.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 02:02:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1769421771; x=1770026571;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=QJ8n/rnroMmSRj+BA1mzSL3+xFr/ialXAh2Tf9HBPZM=;
+ b=fhrvg8a0QUl/tbp1Mxqvsmsj+5VfIplxjtaWGWFDXM60uOmypmJFNWt1C01JcsV52m
+ XwJwXzBhGI8IzzQWEootHUQ5WT9tKX+BB5c6mVN46d8IgWsLdaVv9gLHo07PCiTv5g8u
+ cesMZm5V8tna/jWtlFc/fQy8tPqMdcRcaI6L4KMQjqWNMCJN+Es6vioZSHoOuOqJtZ0c
+ c4x3gGrXXpVTbotsHrbgqAeAMfnWg5qg1CGZHVA2Ocf6HwvBQDeJM+qJEbXeppvrDZA9
+ qAMdi6lamNvADZ33DBl+r2APaMgaBZtkNhtkCzciu18uwvk3Ch2myIuCQOuhsi8Rj06x
+ id4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769421771; x=1770026571;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QJ8n/rnroMmSRj+BA1mzSL3+xFr/ialXAh2Tf9HBPZM=;
+ b=BmGASrDO8bCpGEKardeMaMLmt1+RV/UkSPUNO/o7lSrDiWKUm2/L0stYc4zGiHOGsU
+ gC2kkLHodJGiyM0vaS2Gc3ncTGu1/hFxnjfFsSoqDCTvojc0mqNxobGEI5yCU63JmEJX
+ blYz4yQqTdRx4ymWLxSMvuHOuZog3VQStqpT2PvF5L52T6Mnp2tvPWW77vUMYzLnCIt6
+ HKgx8MFdzZS+SDeA678/1ieqG/0r7WqnPaRXPkXUYV4CxI4qokcDCC5zhyapGk/o0J1x
+ PqlWzhX8Xe7pR4KK5lcRV2pk04yNXiHD+zgXmEYU81H9v/1OkQALoHuVzdYU6YStNvYc
+ tzMg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX4Ik4nD/dhkwuEww8jkdH7R5/PI0WELJ0N27NTJNMkeEH8vXKQkoZ2nUjQwTAp2m+TsklQN7f1gok=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz35BhQMK4KoLwNMRJLhIo4sBa0dTRReyd+nJ7JbYSNIfrVUiN3
+ jrfQfjoMfu13FdwM5jBY8Kw8zAqbYobMhocDmG8oQHJTpxkRvlB9ONGcMPnrYtVflfrSDhYCW0w
+ r+VX+BkB0uSOC0/oJsfc7TNVQNQYIYENKjXAGVJXAJ2IJiNJiGQYBOZ9Io3nJ9xf2Xb+FDwk=
+X-Gm-Gg: AZuq6aIJliS5gC1N1/cXCPpcwWBBYDgd/+XqhWg3BuqSqI3Z8Ge/cNhEVEfTPjlPSws
+ ho/C0bjaJbnhnQOZPcRsW8AIqP9iFZu0b2L79bWWbpTfUaOxInJuHgwsIz8h6bY443Tp3VLQHYc
+ bLWGkbf7pc2WlmIe08beWjkB9xHMHTwUhYm0AVeXnme0rSfVU7G2vkxiZ7dX/zYlWAfdmKSqj/k
+ 0FCqF9qah5wnrK9K4a65fJdHZBkmeZeBm7bjraMWl95ttdVxm12BKmTCCGSbrh6lZWu3+2S3rxG
+ SGFuhw5NCw+v5D5iMCxJmOXzF2HAkZe3gZVNn4/ZV7PWTKh9+suGwmGNOrAN1PTG7RVA6YufVqR
+ bPmhWNp+ko2WULSizs5L5xHiDFQQ0EzKUaSh5NaFt5eDEJdjvJCsNgVvG/5xEL0kqGss=
+X-Received: by 2002:a05:620a:6a84:b0:8c6:f997:d6d1 with SMTP id
+ af79cd13be357-8c6f997d6f4mr264582885a.8.1769421771183; 
+ Mon, 26 Jan 2026 02:02:51 -0800 (PST)
+X-Received: by 2002:a05:620a:6a84:b0:8c6:f997:d6d1 with SMTP id
+ af79cd13be357-8c6f997d6f4mr264578385a.8.1769421770666; 
+ Mon, 26 Jan 2026 02:02:50 -0800 (PST)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b88693ee59dsm563948166b.4.2026.01.26.02.02.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Jan 2026 02:02:50 -0800 (PST)
+Message-ID: <3e996da8-fab0-4a50-bb95-75a339b01547@oss.qualcomm.com>
+Date: Mon, 26 Jan 2026 11:02:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 v1 0/4] [RUST] Framebuffer driver support
-To: pengfuyuan <pengfuyuan@kylinos.cn>, Danilo Krummrich <dakr@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Miguel Ojeda <ojeda@kernel.org>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, Zsolt Kajtar <soci@c64.rulez.org>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-References: <20260126081744.781392-1-pengfuyuan@kylinos.cn>
+Subject: Re: [PATCH v4 2/9] soc: qcom: ubwc: add helpers to get programmable
+ values
+To: Connor Abbott <cwabbott0@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Bryan O'Donoghue <bod@kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-media@vger.kernel.org, Wangao Wang <wangao.wang@oss.qualcomm.com>
+References: <20260125-iris-ubwc-v4-0-1ff30644ac81@oss.qualcomm.com>
+ <20260125-iris-ubwc-v4-2-1ff30644ac81@oss.qualcomm.com>
+ <CACu1E7Gpzgg0WKT9EyFO+uJsGCVAcEUG1OkTdhXLpGThTrd=Ww@mail.gmail.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260126081744.781392-1-pengfuyuan@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <CACu1E7Gpzgg0WKT9EyFO+uJsGCVAcEUG1OkTdhXLpGThTrd=Ww@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+X-Authority-Analysis: v=2.4 cv=bIEb4f+Z c=1 sm=1 tr=0 ts=69773bcc cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=DqWAgVkgPjLbLUnWXkwA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI2MDA4NiBTYWx0ZWRfX9xCSx0ocFKs7
+ hhlxTh6pOq+DJMFRcNwryUxoAsH27J/arLraq0G5t7+x5d++9nT1z5DyaJZLO+QANUCDeG7ZKGe
+ nw+67yRJG70St5LK2J/Th2d1kQRePfagXzo/oYVTSzj8ECEFT4b3OKj162A+zZusmflZFRBpFxY
+ HRHOCZ285tAK5YVHk1arPTpVayDmdslqyAZN1b2gMLqU6qrDiKincPBYe0Cxyfcq0UCug8/Nhre
+ +u0y6kBi8f10JzrZx8AjBH9j+eLvXRkqifpFBckmTEAAnmrQOeIb1BNDXJSgGnmyIvOHaoQA1yz
+ b+5M2ueb7FYOQjknDn9N/zlDz4BGNdlLRiF1szVWxlEOp7q5pKGgiUvxZHYbMUAdu102c2KYfY9
+ Wb9BV+kOdu15scbOV186Wim/eyWhYo6q422w5GJUgIXh9eSEkeaiOPmrqeqYop5rIrEhr7zHZMb
+ LUTDzwJwZ+B7vSr3EPg==
+X-Proofpoint-ORIG-GUID: YlW3Iyc7A3NnJl3dTITFjJYK4Z4bb8fa
+X-Proofpoint-GUID: YlW3Iyc7A3NnJl3dTITFjJYK4Z4bb8fa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-26_02,2026-01-22_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
+ clxscore=1015 spamscore=0 impostorscore=0 suspectscore=0 adultscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2601260086
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,30 +162,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,garyguo.net,protonmail.com,kernel.org,umich.edu,linuxfoundation.org,ffwll.ch,gmx.de,ravnborg.org,c64.rulez.org,linux.intel.com,vger.kernel.org,lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:cwabbott0@gmail.com,m:dmitry.baryshkov@oss.qualcomm.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:akhilpo@oss.qualcomm.com,m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:bod@kernel.org,m:mchehab@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:wangao.wang@oss.qualcomm.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:pengfuyuan@kylinos.cn,m:dakr@kernel.org,m:aliceryhl@google.com,m:daniel.almeida@collabora.com,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:gregkh@linuxfoundation.org,m:rafael@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:deller@gmx.de,m:hansg@kernel.org,m:lee@kernel.org,m:sam@ravnborg.org,m:soci@c64.rulez.org,m:ville.syrjala@linux.intel.com,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-fbdev@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	FREEMAIL_TO(0.00)[gmail.com,oss.qualcomm.com];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[suse.de:+];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
@@ -177,112 +194,23 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:mid,suse.de:dkim,suse.com:url]
-X-Rspamd-Queue-Id: 19843865B1
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: E7D88865F4
 X-Rspamd-Action: no action
 
-Hi
+On 1/25/26 6:16 PM, Connor Abbott wrote:
+> On Sun, Jan 25, 2026 at 6:37 AM Dmitry Baryshkov
+> <dmitry.baryshkov@oss.qualcomm.com> wrote:
+>>
+>> Currently the database stores macrotile_mode in the data. However it
+>> can be derived from the rest of the data: it should be used for UBWC
+>> encoding >= 3.0 except for several corner cases (SM8150 and SC8180X).
+> 
+> FWIW, there is a UBWC version 3.1 not currently reflected in the code
+> which adds the 8-channel macrotile mode. If we just added that and
+> made SM8150 and SC8180X be 3.1 then we could derive it from the
+> version.
 
-Am 26.01.26 um 09:17 schrieb pengfuyuan:
-> This patch series adds Rust bindings and safe abstractions for the Linux
-> framebuffer subsystem, enabling framebuffer drivers to be implemented in Rust.
+I see 3.0 in docs for both
 
-The framebuffer subsystem is obsolete and has been deprecated for a 
-decade. No new drivers accepted. Anything that really wants fbdev 
-already has a driver. Can we please let it die?
-
-Best regards
-Thomas
-
->
-> The series consists of 4 patches:
->
-> 1. rust: io: mem: add ioremap_wc support
->     Adds write-combining memory mapping support to the Rust iomem abstraction,
->     which is essential for framebuffer memory regions that benefit from
->     write-combining semantics.
->
-> 2. rust: device: add platdata accessors
->     Implements generic accessors for platform data, enabling drivers to access
->     platform-provided configuration. This is needed for framebuffer drivers
->     that use platform data for configuration.
->
-> 3. rust: fb: add framebuffer driver support
->     Adds the core framebuffer framework abstraction, including:
->     - Device abstraction (`fb::Device`) with reference counting via `AlwaysRefCounted`
->     - Driver and Operations traits (`fb::Driver`, `fb::Operations`)
->     - Screen information wrappers (`fb::FixScreenInfo`, `fb::VarScreenInfo`)
->     - I/O operation helpers (`fb_io_read`, `fb_io_write`, `fb_io_mmap`)
->     - Blit operation helpers (`cfb_fillrect`, `cfb_copyarea`, `cfb_imageblit`)
->
-> 4. rust: fb: add simplefb test driver
->     Adds a test driver that validates the framebuffer framework by porting
->     the C simplefb driver to Rust. This driver serves as both a validation
->     tool and a reference implementation for future Rust framebuffer drivers.
->
-> The implementation follows the same patterns established in the DRM subsystem
-> and maintains full compatibility with the existing C framebuffer subsystem.
-> All C callbacks are properly bridged to Rust trait methods via the `Operations`
-> trait, memory safety is ensured through proper use of `Opaque<fb_info>`, `ARef`,
-> and `AlwaysRefCounted` for reference counting, type invariants are documented
-> and enforced through the type system, and resource cleanup is handled via RAII
-> with proper cleanup order.
->
-> Testing:
-> --------
-> This series has been tested on:
-> - ARM64 platforms with various display configurations
-> - AMD RX550 graphics card
-> - Moore Threads S30 graphics card
-> - Multiple other graphics cards
->
-> All tested configurations show normal display functionality with proper
-> framebuffer initialization, rendering operations (including I/O, color register
-> management, and blitting), memory mapping, and resource cleanup. The simplefb
-> test driver successfully demonstrates the usage of all framebuffer framework
-> APIs and validates the abstraction's correctness.
->
-> The simplefb test driver serves as both a validation tool and a reference
-> implementation for future Rust framebuffer drivers.
->
->
-> pengfuyuan (4):
->    rust: io: mem: add ioremap_wc support
->    rust: device: add platdata accessors
->    rust: fb: add framebuffer driver support
->    rust: fb: add simplefb test driver
->
->   drivers/video/fbdev/Kconfig          |  21 +
->   drivers/video/fbdev/Makefile         |   1 +
->   drivers/video/fbdev/simplefb_rust.rs | 653 +++++++++++++++++++++++++++
->   rust/bindings/bindings_helper.h      |   2 +
->   rust/helpers/device.c                |   5 +
->   rust/helpers/io.c                    |   5 +
->   rust/kernel/device.rs                |  31 ++
->   rust/kernel/fb/blit.rs               | 106 +++++
->   rust/kernel/fb/device.rs             | 463 +++++++++++++++++++
->   rust/kernel/fb/driver.rs             | 169 +++++++
->   rust/kernel/fb/io.rs                 |  76 ++++
->   rust/kernel/fb/mod.rs                |  23 +
->   rust/kernel/fb/screeninfo.rs         | 318 +++++++++++++
->   rust/kernel/io/mem.rs                |  71 +++
->   rust/kernel/lib.rs                   |   2 +
->   15 files changed, 1946 insertions(+)
->   create mode 100644 drivers/video/fbdev/simplefb_rust.rs
->   create mode 100644 rust/kernel/fb/blit.rs
->   create mode 100644 rust/kernel/fb/device.rs
->   create mode 100644 rust/kernel/fb/driver.rs
->   create mode 100644 rust/kernel/fb/io.rs
->   create mode 100644 rust/kernel/fb/mod.rs
->   create mode 100644 rust/kernel/fb/screeninfo.rs
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+Konrad
