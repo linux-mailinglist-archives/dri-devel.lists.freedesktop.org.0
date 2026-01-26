@@ -2,61 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2EaTKnDSd2mFlwEAu9opvQ
+	id YFZlFgHTd2mFlwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 21:45:36 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 21:48:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3BEC8D3CC
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 21:45:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D11878D43C
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 21:48:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 496FD10E493;
-	Mon, 26 Jan 2026 20:45:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1490610E135;
+	Mon, 26 Jan 2026 20:47:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AJRURO6S";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EyRuREVb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BA6010E493
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 20:45:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 98E8743D45;
- Mon, 26 Jan 2026 20:45:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D800FC116C6;
- Mon, 26 Jan 2026 20:45:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769460330;
- bh=JwQdQNdNJV/HaQFrrnZMThrwdtFA2E+1dlPwru2wF4Y=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AJRURO6SoU2+sHBJMNfvcn7oK0AmVW8DfHWWmTLcFqDSs9lYho8ZmNzH/5itsmS2U
- ZP2dzYHhGsQ84wHVq1Ful51YLZmSSvKLXbMrGHY6bNPJ/kWnH67nSOg5N45ps4D8kD
- cP5N+/6k+/YyXci95UdEb25+obCKMsi+UP/qlSVMVq9JBbnONvbDKeof/jUBBICfH9
- KtpyfBYiGA4ImavQ79ppYmqYFyKA5DBDNSnVXkHHRMxeyo47c/3XuCOKj8vyHi8Xzj
- 2LFz3x1Pt4XrBVWN/BqJM16NmK5dpvh54y/VVj14n4rWtf907jYRLV3Juwld2I3n/H
- Cv3Y8eBDm9dRA==
-Date: Mon, 26 Jan 2026 20:45:25 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] dt-bindings: display: panel: document Atrix 4G
- and Droid X2 DSI panel
-Message-ID: <20260126-patchwork-cofounder-8b7bb715556a@spud>
-References: <20260125131904.45372-1-clamor95@gmail.com>
- <20260125131904.45372-2-clamor95@gmail.com>
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 617E810E498
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 20:47:58 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-47edffe5540so56267635e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 12:47:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1769460477; x=1770065277; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pLh/0068cEe1jqjjDyTpmEQKYSn3p5Mvjg19MdpSAs0=;
+ b=EyRuREVbsl2J4BccLpl7FpNWZVhejTh9Mu8fP7Z+UmIEOfYEyftgN6KD9ojSQfWx6r
+ BaZRbLSJJkKNsFZWCfn2WseQLgPHLdzolTKuWv5xPbb9Lk9CQrU5/Fd16YZKUXVK2z+p
+ 1/SgFsfdpKwsvzXYYeLgA4AcVvUYNMXsGmAW1FFBqor1RFNTui40JKgctV88tBaP/6s7
+ v1Edp8taBg+PTaVrk/NZ8A93u4n78Sbuq9+ETHcOx7iPWsVuanPCdRHMcWfMCRt/T2Pw
+ dqLNuukrVmuDx1PBhyj1Dkr+ZTdRJGgc5/zdz5hwmaLT/pVmm2Um/12PT9GTNqJ6LTun
+ uUuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769460477; x=1770065277;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=pLh/0068cEe1jqjjDyTpmEQKYSn3p5Mvjg19MdpSAs0=;
+ b=QeqmA9w7SaWbrY7x3qD3XC81qx1UD8GGl5Ul2f8qcVYxdCq9qSbllGod8ViSp8UXUs
+ TuujHw7dSQlEnDwka+sIxfFcaEhfUpJEJFBIBW3qADDUuyZoRSxBvhD3OZjbdavrXzJE
+ /fF4Te4QT6JFR7f/SNBmgqSoDxbVoN+r6FePt18/4Dkj7t4sSI/v2v0RjXFYra1koaB2
+ kkeFLWjy3kapbwdEUWbCmAQtF5DNupClFYtDmg7rHWD+EorzoS+kg+1MT6ZzqPylJl40
+ nr8o8jpF/ecFQaIwHblW9VMaLActS2MfIb9WvRSbUjPW93xxSlrWgqhQ6Vrx0bILdyEd
+ o6oQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUIR1N6YmSuv3qmnZQnYfinFh4/mip4XGFAR5MeilTO6nogxT36MxVdvbLsuo3muyk2n+UJCJNBgYE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxtfiH5ehSDVnqPTCT9GjG9KzqdF3pVev4Q6O+/BoCkMcPsodi3
+ qQedCFfB6IJ6bOngSaty09lSI+jawQIuas2Y1/NwM/38G25/lUSa8WrQ
+X-Gm-Gg: AZuq6aI5K94mDgl5cjV3voyKyQU/7VXAuA3JGWT2LIx7XC9padsDCTH9cKaxQ1HXeh0
+ OZ68qt5zmmpOepz9GA/IqnHAy70xW6CO9r6SwTG5Qsonx6Mc/3gubyIYPprEG3y8ngGRAcNI0uN
+ 8OTy9thUKGsVsvgSST8ODCIu793QwNlxWfWkm3nrA6g+a6XjU8y6qr7w7gtHuRz1EY5dfaRKhJT
+ WidrHpaZowWj7ueuVChAeO+YA4LIMu9UV+zALl6GOc6iWn/TKjFOQVccloylp4m+PBXJi2lGVmN
+ xv6K4solELme0A0YjCeE/sLuiKTtC77yehCOiedeHlqz/TloYWz/tSODH/B5u1PPlpzSz7JbSp4
+ 5hGa6dPYnzvBzoM7o496tbkwYm+oZfwK47K9lAzy9xmB97dCpCCMGbLuLZg3IRw27mQJ9G5jEXt
+ jWS+oF4EaLPw/imxNdwjKD9nkxiW9sj2tNsN94RQ==
+X-Received: by 2002:a05:600c:314f:b0:480:3b4e:41ba with SMTP id
+ 5b1f17b1804b1-4805cf669b2mr78025315e9.18.1769460476713; 
+ Mon, 26 Jan 2026 12:47:56 -0800 (PST)
+Received: from ionutnechita-arz2022.local
+ ([2a02:2f0e:c30b:500:c472:222f:bc60:d893])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-48066c42895sm13275975e9.14.2026.01.26.12.47.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Jan 2026 12:47:56 -0800 (PST)
+From: "Ionut Nechita (Sunlight Linux)" <sunlightlinux@gmail.com>
+To: superm1@kernel.org
+Cc: alexander.deucher@amd.com, alexdeucher@gmail.com,
+ amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org, ionut_n2001@yahoo.com,
+ linux-kernel@vger.kernel.org, sunlightlinux@gmail.com
+Subject: Re: [PATCH 1/1] drm/amdgpu: Fix TLB flush failures after hibernation
+ resume
+Date: Mon, 26 Jan 2026 22:46:04 +0200
+Message-ID: <20260126204603.18124-2-sunlightlinux@gmail.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <ad3e0556-385b-471e-bb1c-43bd043ecf47@kernel.org>
+References: <ad3e0556-385b-471e-bb1c-43bd043ecf47@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="vuJvPvavnR/jWTI2"
-Content-Disposition: inline
-In-Reply-To: <20260125131904.45372-2-clamor95@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,161 +98,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.41 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[amd.com,gmail.com,lists.freedesktop.org,yahoo.com,vger.kernel.org];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[conor@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_RECIPIENTS(0.00)[m:clamor95@gmail.com,m:neil.armstrong@linaro.org,m:jessica.zhang@oss.qualcomm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_RECIPIENTS(0.00)[m:superm1@kernel.org,m:alexander.deucher@amd.com,m:alexdeucher@gmail.com,m:amd-gfx@lists.freedesktop.org,m:christian.koenig@amd.com,m:ionut_n2001@yahoo.com,m:linux-kernel@vger.kernel.org,m:sunlightlinux@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[sunlightlinux@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[linaro.org,oss.qualcomm.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_NONE(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	DBL_PROHIBIT(0.00)[0.0.0.0:email];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	MISSING_XM_UA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sunlightlinux@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: C3BEC8D3CC
+X-Rspamd-Queue-Id: D11878D43C
 X-Rspamd-Action: no action
 
+Hi Mario,
 
---vuJvPvavnR/jWTI2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for the additional context about /sys/power/image_size and the
+GitLab issue reference.
 
-On Sun, Jan 25, 2026 at 03:19:03PM +0200, Svyatoslav Ryhel wrote:
-> Atrix 4G and Droid X2 use the same 540x960 DSI video mode panel. Exact
-> panel vendor and model are unknown hence generic compatible is used based
-> on board name it is used with.
->=20
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->  .../display/panel/motorola,mot-panel.yaml     | 68 +++++++++++++++++++
->  1 file changed, 68 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/motor=
-ola,mot-panel.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/display/panel/motorola,mot=
--panel.yaml b/Documentation/devicetree/bindings/display/panel/motorola,mot-=
-panel.yaml
-> new file mode 100644
-> index 000000000000..2326a83bc405
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/motorola,mot-panel.=
-yaml
-> @@ -0,0 +1,68 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/motorola,mot-panel.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Atrix 4G and Droid X2 DSI Display Panel
-> +
-> +maintainers:
-> +  - Svyatoslav Ryhel <clamor95@gmail.com>
-> +
-> +description:
-> +  Atrix 4G and Droid X2 use the same 540x960 DSI video mode panel. Exact
-> +  panel vendor and model are unknown hence generic compatible is used.
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: motorola,mot-panel
+My platform configuration appears to be well set up for hibernation:
 
-What's a "mot" panel? If that's short for motorola, wouldn't it be
-better to conjure up something at least more specific to these
-particular users? The commit message has some info, but I still dunno
-where "mot" comes from.
-Seems okay otherwise..
+  - 30 GB RAM / 30 GB swap available
+  - /sys/power/image_size: ~12 GB (13033648128 bytes)
+  - Not using secure boot
+  - Swap partition is adequately sized for VRAM eviction
 
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  vdd-supply:
-> +    description: Regulator for main power supply.
-> +
-> +  vddio-supply:
-> +    description: Regulator for 1.8V IO power supply.
-> +
-> +  backlight: true
-> +  reset-gpios: true
-> +  port: true
-> +
-> +required:
-> +  - compatible
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    dsi {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        panel@0 {
-> +            compatible =3D "motorola,mot-panel";
-> +            reg =3D <0>;
-> +
-> +            reset-gpios =3D <&gpio 35 GPIO_ACTIVE_LOW>;
-> +
-> +            vdd-supply =3D <&vdd_5v0_panel>;
-> +            vddio-supply =3D <&vdd_1v8_vio>;
-> +
-> +            backlight =3D <&backlight>;
-> +
-> +            port {
-> +                panel_in: endpoint {
-> +                    remote-endpoint =3D <&dsi_out>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
-> --=20
-> 2.51.0
->=20
+Based on the GitLab discussion you referenced, my image_size should be
+sufficient. So the known hibernation limitations shouldn't be blocking
+factors on my system - the TLB flush failure appears to be the main
+remaining issue.
 
---vuJvPvavnR/jWTI2
-Content-Type: application/pgp-signature; name="signature.asc"
+I'll capture stack traces as Alex requested and follow up with the
+debugging information in the next few days.
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaXfSZQAKCRB4tDGHoIJi
-0tSfAQDyy1EKaJ2Dsy+RRBrGRX2fB0H7nv5dH6KfrKaTNuIqIwD9Eei/dAnityuS
-7Ezm8EnxLsIT4lVVXzFwtuCus8nA0g8=
-=He5Z
------END PGP SIGNATURE-----
-
---vuJvPvavnR/jWTI2--
+Thanks,
+Ionut
