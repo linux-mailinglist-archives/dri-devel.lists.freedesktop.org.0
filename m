@@ -2,62 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yGAVF1wrd2nacwEAu9opvQ
+	id UChENGgsd2nacwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:52:44 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:57:12 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E3F85A0D
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:52:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A6B85AB1
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:57:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F006710E1A8;
-	Mon, 26 Jan 2026 08:52:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF33F10E3C2;
+	Mon, 26 Jan 2026 08:57:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="HEdx1wUs";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="XJ1Kyd/j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B67DF89209
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 08:52:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=9yDDnUML34EwSFqiYGW4g3jjzJ4Wv78SXcUZkWPmfWU=; b=HEdx1wUs6/lvT9QvUo1ZcNOwGq
- SIH3A7kRq7i2//VtipfXTTLxceHYGGKm3gDYf1cjU8Sme0ty38pL9gGmDEuf/cko5UbN8vZaUIjS8
- BltKjeOmkMkPuRfeuq28O8EGFBlm7ODvMCTiSCOdTfHDSmeWO585xxXkpKD4aWHiNkXzPSTEe1IqZ
- gMF3njwDfODgmOvZANlQU1ltJ8JxRVrrBOQAt7QhWxXJlOa65Lt26U/yFUsgn0e9pX+JAep/5Cu0j
- yBx+yz2vu7Hrqyvh0+4r70ofYHDEbbXo1iG9blSVjgkl4BKXVLfz26tcnEchAaZFi4gxzJ7+XzGgI
- O9b+juIA==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vkIKo-009xBx-Ak; Mon, 26 Jan 2026 09:52:34 +0100
-Message-ID: <1db24d1e-113e-4bbf-8785-b608f725afb5@igalia.com>
-Date: Mon, 26 Jan 2026 08:52:33 +0000
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87C9E10E3B3
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 08:57:06 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20260126085703euoutp024696b934ca68c76c3ee29ecba0049ebb~OPCK-kz1z2750727507euoutp02Z
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 08:57:03 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20260126085703euoutp024696b934ca68c76c3ee29ecba0049ebb~OPCK-kz1z2750727507euoutp02Z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1769417823;
+ bh=PWcnq9fS5szFbjeETPL6IVSHfuuHn9KkLDU267P2J7s=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=XJ1Kyd/jacBLckjoc9q6J+PjMcGS98Ycr1zUlH0t8Zc1c1FHEOhgAMZB27d0fppp/
+ 6wIF20UUhOo8cNSkR78SP6ZTumJN7SQiuspM+BOQcu2A9/yPxw39/cYReBwagn3ZxM
+ 314hRMlZUIUHMp/KScTzc7pms+qnMgCzpQ4Qrmx8=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20260126085703eucas1p1b2e7523f2f899396b9bc5eed64d63a7b~OPCKptgbw1601316013eucas1p1t;
+ Mon, 26 Jan 2026 08:57:03 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20260126085702eusmtip28f556c7e1168f5170037948f35863cd0~OPCJ279El0256102561eusmtip2k;
+ Mon, 26 Jan 2026 08:57:02 +0000 (GMT)
+Message-ID: <1db5ffdf-924b-49cb-a057-802a1bfe6073@samsung.com>
+Date: Mon, 26 Jan 2026 09:57:01 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm: Do not allow userspace to trigger kernel warnings
- in drm_gem_change_handle_ioctl()
-To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Zhi Wang <wangzhi@stu.xidian.edu.cn>,
- David Francis <David.Francis@amd.com>,
- Felix Kuehling <felix.kuehling@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH 1/3] drm/bridge: samsung-dsim: move bridge init sequence
+ to atomic_enable
+To: Kaustabh Chakraborty <kauschluss@disroot.org>, Inki Dae
+ <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, Andrzej
+ Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  stable@vger.kernel.org
-References: <9bde8c39-ba4c-49c5-a0bc-4e78338f055a@amd.com>
- <20260123141540.76540-1-tvrtko.ursulin@igalia.com>
- <0286a6fa-d767-41d3-8c61-c0b34e9a9b47@oracle.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <0286a6fa-d767-41d3-8c61-c0b34e9a9b47@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20260124-exynos-dsim-fixes-v1-1-122d047a23d1@disroot.org>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260126085703eucas1p1b2e7523f2f899396b9bc5eed64d63a7b
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260124172136eucas1p1e7a2da65c3fca268ea68f12506c6c19e
+X-EPHeader: CA
+X-CMS-RootMailID: 20260124172136eucas1p1e7a2da65c3fca268ea68f12506c6c19e
+References: <20260124-exynos-dsim-fixes-v1-0-122d047a23d1@disroot.org>
+ <CGME20260124172136eucas1p1e7a2da65c3fca268ea68f12506c6c19e@eucas1p1.samsung.com>
+ <20260124-exynos-dsim-fixes-v1-1-122d047a23d1@disroot.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,169 +87,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+X-Spamd-Result: default: False [0.20 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
+	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:harshit.m.mogalapalli@oracle.com,m:kernel-dev@igalia.com,m:wangzhi@stu.xidian.edu.cn,m:David.Francis@amd.com,m:felix.kuehling@amd.com,m:christian.koenig@amd.com,m:stable@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	XM_UA_NO_VERSION(0.01)[];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[igalia.com:-];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.995];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:kauschluss@disroot.org,m:inki.dae@samsung.com,m:jagan@amarulasolutions.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[m.szyprowski@samsung.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[disroot.org,samsung.com,amarulasolutions.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[m.szyprowski@samsung.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[samsung.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: A7E3F85A0D
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 99A6B85AB1
 X-Rspamd-Action: no action
 
+On 24.01.2026 18:20, Kaustabh Chakraborty wrote:
+> Since commit c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain
+> pre-enable and post-disable"), pre-enable sequence is called before the
+> CRTC is enabled.
+>
+> This causes unintended side-effects (abberation among potentially other
+> things) in the display when samsung_dsim_init() is called in the
+> pre-enable part of the sequence. Call it in samsung_dsim_atomic_enable()
+> instead.
+>
+> Cc: stable@vger.kernel.org # v6.17 and later
+> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 
-On 23/01/2026 23:42, Harshit Mogalapalli wrote:
-> Hi,
-> 
-> On 23/01/26 19:45, Tvrtko Ursulin wrote:
->> Since GEM bo handles are u32 in the uapi and the internal implementation
->> uses idr_alloc() which uses int ranges, passing a new handle larger than
->> INT_MAX trivially triggers a kernel warning:
->>
->> idr_alloc():
->> ...
->>     if (WARN_ON_ONCE(start < 0))
->>         return -EINVAL;
->> ...
->>
->> Fix it by rejecting new handles above INT_MAX and at the same time make
->> the end limit calculation more obvious by moving into int domain.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Reported-by: Zhi Wang <wangzhi@stu.xidian.edu.cn>
->> Fixes: 53096728b891 ("drm: Add DRM prime interface to reassign GEM 
->> handle")
->> Cc: David Francis <David.Francis@amd.com>
->> Cc: Felix Kuehling <felix.kuehling@amd.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: <stable@vger.kernel.org> # v6.18+
-> 
-> 
-> Thanks,
-> 
-> I have seen this WARN_ON as well and I have tested the reproducer 
-> against your patch and it works.
-> 
-> So:
-> 
-> Tested-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+I'm not sure if this will be needed:
 
-Thank you! May I ask what test cases are you using to exercise it?
+https://lore.kernel.org/all/20251205-drm-seq-fix-v1-0-fda68fa1b3de@ideasonboard.com/
 
-> 
-> A question below:
-> 
->> ---
->> v2:
->>   * Rename local variable, re-position comment, drop the else block. 
->> (Christian)
->>   * Use local at more places.
->> ---
->>   drivers/gpu/drm/drm_gem.c | 18 ++++++++++++------
->>   1 file changed, 12 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
->> index 7ff6b7bbeb73..ffa7852c8f6c 100644
->> --- a/drivers/gpu/drm/drm_gem.c
->> +++ b/drivers/gpu/drm/drm_gem.c
->> @@ -1001,16 +1001,21 @@ int drm_gem_change_handle_ioctl(struct 
->> drm_device *dev, void *data,
->>   {
->>       struct drm_gem_change_handle *args = data;
->>       struct drm_gem_object *obj;
->> -    int ret;
->> +    int handle, ret;
->>       if (!drm_core_check_feature(dev, DRIVER_GEM))
->>           return -EOPNOTSUPP;
->> +    /* idr_alloc() limitation. */
->> +    if (args->new_handle > INT_MAX)
->> +        return -EINVAL;
-> 
-> INT_MAX is allowed.
-> 
->> +    handle = args->new_handle;
->> +
->>       obj = drm_gem_object_lookup(file_priv, args->handle);
->>       if (!obj)
->>           return -ENOENT;
->> -    if (args->handle == args->new_handle) {
->> +    if (args->handle == handle) {
->>           ret = 0;
->>           goto out;
->>       }
->> @@ -1018,18 +1023,19 @@ int drm_gem_change_handle_ioctl(struct 
->> drm_device *dev, void *data,
->>       mutex_lock(&file_priv->prime.lock);
->>       spin_lock(&file_priv->table_lock);
->> -    ret = idr_alloc(&file_priv->object_idr, obj,
->> -        args->new_handle, args->new_handle + 1, GFP_NOWAIT);
->> +    ret = idr_alloc(&file_priv->object_idr, obj, handle, handle + 1,
-> 
-> handle + 1 here would cause a signed integer overflow ?
 
-For the kernel it is fine due -fno-strict-overflow and idr_alloc() 
-explicitly handles it:
-
-...
-  * Allocates an unused ID in the range specified by @start and @end.  If
-  * @end is <= 0, it is treated as one larger than %INT_MAX.  This allows
-  * callers to use @start + N as @end as long as N is within integer range.
-...
-	ret = idr_alloc_u32(idr, ptr, &id, end > 0 ? end - 1 : INT_MAX, gfp);
-
-So for start == INT_MAX it ends up passing end == INT_MAX to 
-idr_alloc_u32, which, contrary to idr_alloc(), has it's end range 
-parameter _inclusive_.
-
-Simple huh? :))
-
-Regards,
-
-Tvrtko
-
-> 
-> 
-> 
-> Thanks,
-> Harshit
->> +            GFP_NOWAIT);
->>       spin_unlock(&file_priv->table_lock);
->>       if (ret < 0)
->>           goto out_unlock;
->>       if (obj->dma_buf) {
->> -        ret = drm_prime_add_buf_handle(&file_priv->prime, obj- 
->> >dma_buf, args->new_handle);
->> +        ret = drm_prime_add_buf_handle(&file_priv->prime, obj->dma_buf,
->> +                           handle);
->>           if (ret < 0) {
->>               spin_lock(&file_priv->table_lock);
->> -            idr_remove(&file_priv->object_idr, args->new_handle);
->> +            idr_remove(&file_priv->object_idr, handle);
->>               spin_unlock(&file_priv->table_lock);
->>               goto out_unlock;
->>           }
-> 
+> ---
+>   drivers/gpu/drm/bridge/samsung-dsim.c | 13 +++++++------
+>   1 file changed, 7 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+> index 1d85e706c74b9..975f8b50ae660 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -1655,6 +1655,13 @@ static void samsung_dsim_atomic_pre_enable(struct drm_bridge *bridge,
+>   	}
+>   
+>   	dsi->state |= DSIM_STATE_ENABLED;
+> +}
+> +
+> +static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
+> +				       struct drm_atomic_state *state)
+> +{
+> +	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
+> +	int ret;
+>   
+>   	/*
+>   	 * For Exynos-DSIM the downstream bridge, or panel are expecting
+> @@ -1665,12 +1672,6 @@ static void samsung_dsim_atomic_pre_enable(struct drm_bridge *bridge,
+>   		if (ret)
+>   			return;
+>   	}
+> -}
+> -
+> -static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
+> -				       struct drm_atomic_state *state)
+> -{
+> -	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
+>   
+>   	samsung_dsim_set_display_mode(dsi);
+>   	samsung_dsim_set_display_enable(dsi, true);
+>
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
