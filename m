@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kBuxKgwmd2kUcwEAu9opvQ
+	id KOGGFRkmd2kUcwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:30:04 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:30:17 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44F985762
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:30:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1414285771
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:30:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4532E10E3AD;
-	Mon, 26 Jan 2026 08:30:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75ED910E3B7;
+	Mon, 26 Jan 2026 08:30:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="UEQQKtzQ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="om7p5rE3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 267C010E3AD
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 08:29:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4482510E3EA
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 08:30:14 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 8EC531A2A4D;
- Mon, 26 Jan 2026 08:29:57 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 30A161A2A4D;
+ Mon, 26 Jan 2026 08:30:13 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 602AB60717;
- Mon, 26 Jan 2026 08:29:57 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 0368160717;
+ Mon, 26 Jan 2026 08:30:13 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 2FE10119A80E2; Mon, 26 Jan 2026 09:29:49 +0100 (CET)
+ with ESMTPSA id B5AE2119A80E2; Mon, 26 Jan 2026 09:30:09 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1769416196; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1769416212; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=Zd247lnTgm//7Mot/s4CRwgKu7aTLB1vlg6ipR1BxPA=;
- b=UEQQKtzQX01kRC0KKp+1QBwdn9M6lmlbMCMssM4G8Hf6XyfFJioF600O7pn9UJkYhjELzo
- PeYldsasnd9253Eei/kPGALVXExNCMJ40I5Eknal3AvJf2qN2H/IQSmIfMeQWLHqujfsdt
- wXo78MpRUy5kXspvqj+qTpqyUTlCQ0d6A8/sRzHYn/lyZb33aSV/98LRPRJj3T6Fb+CNg0
- 30EnB6+7fojKyX+9tZn2DRRgfRfKMWV+v7/4cLscAlA+b0GeIVhdgtk56+/oQmXBVSFL/g
- pcXKF4M1xvyw5bdZvA+iSZ0P06cdzO8GVAaNHxMxoy4lBl+Xu32odfbM58bKlg==
+ bh=RL12cC9qRX/ILoBDTmW2NvbjM3xBeSvvr6O9KVeZoZg=;
+ b=om7p5rE3iiSwBy9bPPxolkQYErQW/3CDgztw9hO1NsSOzcCt3Au/qjDso2nw8w+QNQWbUk
+ UkEzPTb9UlKqYKAvpL9GsVOaEJmKX2fEFmk+4Ee3r8C+8TIZEGPOtwQUjQCU5IUuIMxRJn
+ z6LJUNbgR9DXE2ijEVLiBnIy0QbeaKf0++EC+uEC2SyurJMh42AV9e19mKvUjmD8jYiJu+
+ +Q+RIwCS/Ip57PyXQdLH/RRv5vnsFKJciIh9RqI4MJYsAnXAeMe5kl8E5oUOUyopCRJ0M4
+ /b2bLgC1Qg7JGb+y/8Fu4jrnUwmNHgxUTudw3edMKm+7ysEjJO71Xx6dKBOslg==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 26 Jan 2026 09:29:49 +0100
-Message-Id: <DFYDOVQ1DOQE.1NDH5JC5M90KV@bootlin.com>
-Subject: Re: [PATCH 1/3] drm/bridge: imx8qxp-ldb: Fix NULL pointer
- dereference in imx8qxp_ldb_bridge_destroy()
+Date: Mon, 26 Jan 2026 09:30:09 +0100
+Message-Id: <DFYDP4W448IT.144L31296M4LG@bootlin.com>
+Subject: Re: [PATCH 2/3] drm/bridge: imx8qxp-pxl2dpi: Fix NULL pointer
+ dereference in imx8qxp_pxl2dpi_bridge_destroy()
 Cc: <dri-devel@lists.freedesktop.org>, <imx@lists.linux.dev>,
  <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
 To: "Liu Ying" <victor.liu@nxp.com>, "Andrzej Hajda"
@@ -60,8 +60,8 @@ To: "Liu Ying" <victor.liu@nxp.com>, "Andrzej Hajda"
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
 X-Mailer: aerc 0.20.1
 References: <20260123-imx8qxp-drm-bridge-fixes-v1-0-8bb85ada5866@nxp.com>
- <20260123-imx8qxp-drm-bridge-fixes-v1-1-8bb85ada5866@nxp.com>
-In-Reply-To: <20260123-imx8qxp-drm-bridge-fixes-v1-1-8bb85ada5866@nxp.com>
+ <20260123-imx8qxp-drm-bridge-fixes-v1-2-8bb85ada5866@nxp.com>
+In-Reply-To: <20260123-imx8qxp-drm-bridge-fixes-v1-2-8bb85ada5866@nxp.com>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -107,21 +107,20 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,bootlin.com:dkim,bootlin.com:email,bootlin.com:url,bootlin.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: E44F985762
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:dkim,bootlin.com:email,bootlin.com:url,bootlin.com:mid,nxp.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 1414285771
 X-Rspamd-Action: no action
 
 On Fri Jan 23, 2026 at 10:22 AM CET, Liu Ying wrote:
-> Pointer bridge->driver_private in imx8qxp_ldb_bridge_destroy() is NULL
-> when a LDB channel is unavailable or imx8qxp_ldb_probe() returns error,
-> because ldb_add_bridge_helper() is the last function called from
-> imx8qxp_ldb_probe() and it doesn't initialize bridge->driver_private if
-> a LDB channel is unavailable.  The NULL pointer would be set to pointer
-> ldb_ch and then NULL pointer ldb_ch would be dereferenced.  Fix this
-> by returning early from imx8qxp_ldb_bridge_destroy() if !ldb_ch is true.
+> Pointer bridge->driver_private in imx8qxp_pxl2dpi_bridge_destroy()
+> is NULL when imx8qxp_pxl2dpi_bridge_probe() returns error, because
+> the pointer is initialized only when imx8qxp_pxl2dpi_bridge_probe()
+> returns 0.  The NULL pointer would be set to pointer p2d and then
+> NULL pointer p2d would be dereferenced.  Fix this by returning early
+> from imx8qxp_pxl2dpi_bridge_destroy() if !p2d is true.
 >
-> Fixes: 32529d384cea ("drm/bridge: imx8qxp-ldb: convert to of_drm_find_and=
-_get_bridge()")
+> Fixes: 900699ba830f ("drm/bridge: imx8qxp-pxl2dpi: get/put the companion =
+bridge")
 > Signed-off-by: Liu Ying <victor.liu@nxp.com>
 
 Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
