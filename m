@@ -2,107 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aN5oFOLQd2mxlQEAu9opvQ
+	id 2EaTKnDSd2mFlwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 21:38:58 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 21:45:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B675C8D25C
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 21:38:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3BEC8D3CC
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 21:45:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 041EB10E492;
-	Mon, 26 Jan 2026 20:38:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 496FD10E493;
+	Mon, 26 Jan 2026 20:45:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="xZP3e+wm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AJRURO6S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69DD210E492
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 20:38:54 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-2a76b39587aso2635ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 12:38:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1769459934; x=1770064734;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=heQW4XXGxVNpbsMWtr+Uf/Qjg2mRHLgzAq6EBq5z5Gc=;
- b=xZP3e+wmixcfFD5RDGDndGp+GB2Qjl+1xoLC6Ifz0Vin6LY5oSJLBSZ06UvHnKP30V
- 4fNIC9PVJ00OKGbcGBmEyx0VshrKFfhW/ZInrnwrTjMSPIUs0PPWxFORcRNBMyckLmiQ
- weCs6sNlW3W3YwIGyNA9vhRAGxMZeZHbXZGxHjT/q/lA8Qc66Yc8tw1cunWgK9YEavg+
- lIUvZCyrEF4NDvrKeIDBQRhtoPZ7IT/EoBoNUow61zFkZ2fcVc5zELpgMbDLDQ0tP6Cf
- 1WbHI0A2JE4ks6asuZFoyUWYUk3tzHz33ak+1ll6bnj8dPcIys2xAynkS+PAqbFZ1cGu
- rjjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769459934; x=1770064734;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=heQW4XXGxVNpbsMWtr+Uf/Qjg2mRHLgzAq6EBq5z5Gc=;
- b=iAsGOVTTQRQjGGoRWekawjZA05my/x+SR/Vb5urpk/spkdEqIJw1UaxSsX6qICd9QH
- /7r/pVWm08qx7Xcgf0sd8zjcF5h3qer190DR1DUiuF49i5df0NrocxgA9I2wizn+Hemy
- 6aw9yk+FgbClhEWGjupVmSAZWhvzSPpKdO/KHSWveQVEckh3hFfEIQRuIE59EruFhj5N
- oc8d5fXCdvjO4vpFZdyh5Tmt3MF/jpE6ACbmpPoxE7n8YFqn+YC3wWxaMNOWun0yiM9Q
- ceprWhgOwXatPsfbnaAIhXZE00hUVYykllB29+QiNrU20BKNOEisZbVw1J9NCoCC1Mwk
- ob3Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXcf4Sr+vpmqC7G9lLBXNEqdoFZtMkPRASzJ/fe68HtGvifIO2mpnkNmrmeFxYfUFHywkqfkHlDhrY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyN2mW8jx225nkuSWadx74d6Zto+/QYiokPhFMbrOTL2f6i17wi
- Rgkw3cYxT4YHOHRLuUkGrwPK4e+VwgUikYPqg9CXdWB/dmeXVojPHG8xlRscFVav2A==
-X-Gm-Gg: AZuq6aJ6P47EGfNMIIpFaz4ufUhpt4/hHinEcwTobvptLCq45tD0xbGn5SgQU4BATPW
- Ci06GTdBfrXiTIVFrOnKfDmXNADk57/oucK6Jmh4ov9GknlUYgh2jKqmQn6ftBzn7lA7dPQnI3W
- xhL1WxSgOoeXGZMcKIclwtSTDRp8IUJEFvHa0tMA10NmWqcMQ1GNgK0ujX52RW9qImYC+MJcrAU
- IJKA5YCnGrvvNWwrfY4ksrqHNM1qn5BrJQ6S0+zyUJaaqSU/dA2FI6JfKqB67OVmk7Bbo8z2we6
- kH8Tipe+0l/j/pd/I2x28Z89edkD4F6on/kS+JfW2WmgcJZb5M32tf66MWvvp0pAH1whtRtiaAM
- jbSMhEV0Lam5yfRjxh0HzZyaMCmNbQXuaB1J3P+G1xelp9kI3Bz33ugsDw5oHgZ8HPGoM/LrfSf
- Alqr6P/XnStOHr/Q4+Yzz4GBSHEmHX5Jga8SL8fPRYHWmSwDQ/
-X-Received: by 2002:a17:903:32d2:b0:2a7:7f07:340e with SMTP id
- d9443c01a7336-2a844901809mr3288195ad.4.1769459933510; 
- Mon, 26 Jan 2026 12:38:53 -0800 (PST)
-Received: from google.com (222.245.187.35.bc.googleusercontent.com.
- [35.187.245.222]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a802fdce1fsm94536115ad.101.2026.01.26.12.38.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jan 2026 12:38:53 -0800 (PST)
-Date: Mon, 26 Jan 2026 20:38:44 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>,
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BA6010E493
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 20:45:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 98E8743D45;
+ Mon, 26 Jan 2026 20:45:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D800FC116C6;
+ Mon, 26 Jan 2026 20:45:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1769460330;
+ bh=JwQdQNdNJV/HaQFrrnZMThrwdtFA2E+1dlPwru2wF4Y=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=AJRURO6SoU2+sHBJMNfvcn7oK0AmVW8DfHWWmTLcFqDSs9lYho8ZmNzH/5itsmS2U
+ ZP2dzYHhGsQ84wHVq1Ful51YLZmSSvKLXbMrGHY6bNPJ/kWnH67nSOg5N45ps4D8kD
+ cP5N+/6k+/YyXci95UdEb25+obCKMsi+UP/qlSVMVq9JBbnONvbDKeof/jUBBICfH9
+ KtpyfBYiGA4ImavQ79ppYmqYFyKA5DBDNSnVXkHHRMxeyo47c/3XuCOKj8vyHi8Xzj
+ 2LFz3x1Pt4XrBVWN/BqJM16NmK5dpvh54y/VVj14n4rWtf907jYRLV3Juwld2I3n/H
+ Cv3Y8eBDm9dRA==
+Date: Mon, 26 Jan 2026 20:45:25 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Williamson <alex@shazbot.org>, Ankit Agrawal <ankita@nvidia.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
- intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v5 6/8] dma-buf: Add dma_buf_attach_revocable()
-Message-ID: <aXfQ1LFNDUrfeuHf@google.com>
-References: <20260124-dmabuf-revoke-v5-0-f98fca917e96@nvidia.com>
- <20260124-dmabuf-revoke-v5-6-f98fca917e96@nvidia.com>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] dt-bindings: display: panel: document Atrix 4G
+ and Droid X2 DSI panel
+Message-ID: <20260126-patchwork-cofounder-8b7bb715556a@spud>
+References: <20260125131904.45372-1-clamor95@gmail.com>
+ <20260125131904.45372-2-clamor95@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="vuJvPvavnR/jWTI2"
 Content-Disposition: inline
-In-Reply-To: <20260124-dmabuf-revoke-v5-6-f98fca917e96@nvidia.com>
+In-Reply-To: <20260125131904.45372-2-clamor95@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,136 +72,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-1.41 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,ziepe.ca,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[conor@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_RECIPIENTS(0.00)[m:clamor95@gmail.com,m:neil.armstrong@linaro.org,m:jessica.zhang@oss.qualcomm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[praan@google.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[35];
-	FORGED_RECIPIENTS(0.00)[m:leon@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:alexander.deucher@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:kraxel@redhat.com,m:dmitry.osipenko@collabora.com,m:gurchetansingh@chromium.org,m:olvaffe@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:lucas.demarchi@intel.com,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,m:jgg@ziepe.ca,m:kevin.tian@intel.com,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:Felix.Kuehling@amd.com,m:alex@shazbot.org,m:ankita@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:amd-gfx@lists.freedesktop.org,m:virtualization@lists.linux.dev,m:intel-xe@lists.freedesktop.org,m:linux-rdma@vger.kernel.org,m:iommu@lists.linux.dev,m:kvm@vger.kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[praan@google.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linaro.org,oss.qualcomm.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	DBL_PROHIBIT(0.00)[0.0.0.0:email];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: B675C8D25C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: C3BEC8D3CC
 X-Rspamd-Action: no action
 
-Hi Leon,
 
-On Sat, Jan 24, 2026 at 09:14:18PM +0200, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
-> 
-> Some exporters need a flow to synchronously revoke access to the DMA-buf
-> by importers. Once revoke is completed the importer is not permitted to
-> touch the memory otherwise they may get IOMMU faults, AERs, or worse.
-> 
-> DMA-buf today defines a revoke flow, for both pinned and dynamic
-> importers, which is broadly:
-> 
-> 	dma_resv_lock(dmabuf->resv, NULL);
-> 	// Prevent new mappings from being established
-> 	priv->revoked = true;
-> 
-> 	// Tell all importers to eventually unmap
-> 	dma_buf_invalidate_mappings(dmabuf);
-> 
-> 	// Wait for any inprogress fences on the old mapping
-> 	dma_resv_wait_timeout(dmabuf->resv,
-> 			      DMA_RESV_USAGE_BOOKKEEP, false,
-> 			      MAX_SCHEDULE_TIMEOUT);
-> 	dma_resv_unlock(dmabuf->resv, NULL);
-> 
-> 	// Wait for all importers to complete unmap
-> 	wait_for_completion(&priv->unmapped_comp);
-> 
-> This works well, and an importer that continues to access the DMA-buf
-> after unmapping it is very buggy.
-> 
-> However, the final wait for unmap is effectively unbounded. Several
-> importers do not support invalidate_mappings() at all and won't unmap
-> until userspace triggers it.
-> 
-> This unbounded wait is not suitable for exporters like VFIO and RDMA tha
-> need to issue revoke as part of their normal operations.
-> 
-> Add dma_buf_attach_revocable() to allow exporters to determine the
-> difference between importers that can complete the above in bounded time,
-> and those that can't. It can be called inside the exporter's attach op to
-> reject incompatible importers.
-> 
-> Document these details about how dma_buf_invalidate_mappings() works and
-> what the required sequence is to achieve a full revocation.
-> 
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+--vuJvPvavnR/jWTI2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, Jan 25, 2026 at 03:19:03PM +0200, Svyatoslav Ryhel wrote:
+> Atrix 4G and Droid X2 use the same 540x960 DSI video mode panel. Exact
+> panel vendor and model are unknown hence generic compatible is used based
+> on board name it is used with.
+>=20
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 > ---
->  drivers/dma-buf/dma-buf.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++-
->  include/linux/dma-buf.h   |  9 +++------
->  2 files changed, 50 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 1629312d364a..f0e05227bda8 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -1242,13 +1242,59 @@ void dma_buf_unmap_attachment_unlocked(struct dma_buf_attachment *attach,
->  }
->  EXPORT_SYMBOL_NS_GPL(dma_buf_unmap_attachment_unlocked, "DMA_BUF");
->  
-> +/**
-> + * dma_buf_attach_revocable - check if a DMA-buf importer implements
-> + * revoke semantics.
-> + * @attach: the DMA-buf attachment to check
-> + *
-> + * Returns true if the DMA-buf importer can support the revoke sequence
-> + * explained in dma_buf_invalidate_mappings() within bounded time. Meaning the
-> + * importer implements invalidate_mappings() and ensures that unmap is called as
-> + * a result.
-> + */
-> +bool dma_buf_attach_revocable(struct dma_buf_attachment *attach)
-> +{
-> +	return attach->importer_ops &&
-> +	       attach->importer_ops->invalidate_mappings;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(dma_buf_attach_revocable, "DMA_BUF");
+>  .../display/panel/motorola,mot-panel.yaml     | 68 +++++++++++++++++++
+>  1 file changed, 68 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/motor=
+ola,mot-panel.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/panel/motorola,mot=
+-panel.yaml b/Documentation/devicetree/bindings/display/panel/motorola,mot-=
+panel.yaml
+> new file mode 100644
+> index 000000000000..2326a83bc405
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/motorola,mot-panel.=
+yaml
+> @@ -0,0 +1,68 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/motorola,mot-panel.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
+> +title: Atrix 4G and Droid X2 DSI Display Panel
+> +
+> +maintainers:
+> +  - Svyatoslav Ryhel <clamor95@gmail.com>
+> +
+> +description:
+> +  Atrix 4G and Droid X2 use the same 540x960 DSI video mode panel. Exact
+> +  panel vendor and model are unknown hence generic compatible is used.
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: motorola,mot-panel
 
-I noticed that Patch 5 removes the invalidate_mappings stub from 
-umem_dmabuf.c, effectively making the callback NULL for an RDMA 
-importer. Consequently, dma_buf_attach_revocable() (introduced here)
-will return false for these importers.
+What's a "mot" panel? If that's short for motorola, wouldn't it be
+better to conjure up something at least more specific to these
+particular users? The commit message has some info, but I still dunno
+where "mot" comes from.
+Seems okay otherwise..
 
-Since the cover letter mentions that VFIO will use
-dma_buf_attach_revocable() to prevent unbounded waits, this appears to
-effectively block paths like the VFIO-export -> RDMA-import path..
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  vdd-supply:
+> +    description: Regulator for main power supply.
+> +
+> +  vddio-supply:
+> +    description: Regulator for 1.8V IO power supply.
+> +
+> +  backlight: true
+> +  reset-gpios: true
+> +  port: true
+> +
+> +required:
+> +  - compatible
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    dsi {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        panel@0 {
+> +            compatible =3D "motorola,mot-panel";
+> +            reg =3D <0>;
+> +
+> +            reset-gpios =3D <&gpio 35 GPIO_ACTIVE_LOW>;
+> +
+> +            vdd-supply =3D <&vdd_5v0_panel>;
+> +            vddio-supply =3D <&vdd_1v8_vio>;
+> +
+> +            backlight =3D <&backlight>;
+> +
+> +            port {
+> +                panel_in: endpoint {
+> +                    remote-endpoint =3D <&dsi_out>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +...
+> --=20
+> 2.51.0
+>=20
 
-Given that RDMA is a significant consumer of dma-bufs, are there plans
-to implement proper revocation support in the IB/RDMA core (umem_dmabuf)? 
+--vuJvPvavnR/jWTI2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-It would be good to know if there's a plan for bringing such importers
-into compliance with the new revocation semantics so they can interop
-with VFIO OR are we completely ruling out users like RDMA / IB importing
-any DMABUFs exported by VFIO?
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-Praan
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaXfSZQAKCRB4tDGHoIJi
+0tSfAQDyy1EKaJ2Dsy+RRBrGRX2fB0H7nv5dH6KfrKaTNuIqIwD9Eei/dAnityuS
+7Ezm8EnxLsIT4lVVXzFwtuCus8nA0g8=
+=He5Z
+-----END PGP SIGNATURE-----
+
+--vuJvPvavnR/jWTI2--
