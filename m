@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WKc0Kz8jd2mZcgEAu9opvQ
+	id aHUeBEMjd2mZcgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:18:07 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:18:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0FA785633
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:18:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 719CB8563A
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:18:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35CD510E3EE;
-	Mon, 26 Jan 2026 08:18:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC51110E0EE;
+	Mon, 26 Jan 2026 08:18:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16C8410E0EE
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 08:17:58 +0000 (UTC)
-X-UUID: 820eee04fa8f11f0b0f03b4cfa9209d1-20260126
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 117C310E3A4
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 08:17:59 +0000 (UTC)
+X-UUID: 82a4e0a8fa8f11f0b0f03b4cfa9209d1-20260126
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6, REQID:428aca61-9cdf-4562-98cc-f49a3323049a, IP:0,
+X-CID-O-INFO: VERSION:1.3.6, REQID:0fc6e020-5c27-4c21-9c7e-d2adb7a656ec, IP:0,
  UR
- L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:-5
-X-CID-META: VersionHash:a9d874c, CLOUDID:64da72c85922e324a961fe177d2a7718,
+ L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+ elease,TS:0
+X-CID-META: VersionHash:a9d874c, CLOUDID:54299885b1c0cba1e5f1244a431e6257,
  BulkI
  D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850|898,TC:nil,Content:0|15|50
  ,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,O
@@ -32,12 +32,12 @@ X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 820eee04fa8f11f0b0f03b4cfa9209d1-20260126
+X-UUID: 82a4e0a8fa8f11f0b0f03b4cfa9209d1-20260126
 X-User: pengfuyuan@kylinos.cn
 Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
  (envelope-from <pengfuyuan@kylinos.cn>)
  (Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
- with ESMTP id 831919726; Mon, 26 Jan 2026 16:17:51 +0800
+ with ESMTP id 199018728; Mon, 26 Jan 2026 16:17:52 +0800
 From: pengfuyuan <pengfuyuan@kylinos.cn>
 To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
  Daniel Almeida <daniel.almeida@collabora.com>,
@@ -56,9 +56,9 @@ Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
  rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  pengfuyuan <pengfuyuan@kylinos.cn>
-Subject: [PATCH v1 v1 3/4] rust: fb: add framebuffer driver support
-Date: Mon, 26 Jan 2026 16:17:43 +0800
-Message-Id: <20260126081744.781392-4-pengfuyuan@kylinos.cn>
+Subject: [PATCH v1 v1 4/4] rust: fb: add simplefb test driver
+Date: Mon, 26 Jan 2026 16:17:44 +0800
+Message-Id: <20260126081744.781392-5-pengfuyuan@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260126081744.781392-1-pengfuyuan@kylinos.cn>
 References: <20260126081744.781392-1-pengfuyuan@kylinos.cn>
@@ -107,1308 +107,776 @@ X-Spamd-Result: default: False [2.39 / 15.00];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.813];
+	NEURAL_HAM(-0.00)[-0.759];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,0.red:url,0.blue:url]
-X-Rspamd-Queue-Id: D0FA785633
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,self.green:url,self.red:url]
+X-Rspamd-Queue-Id: 719CB8563A
 X-Rspamd-Action: no action
 
-Add Rust bindings and safe abstractions for the Linux framebuffer subsystem.
+Add a test driver for the Rust framebuffer framework abstraction. This
+driver is a Rust port of the C simplefb driver (`drivers/video/fbdev/simplefb.c`)
+and serves as a validation and testing tool for the Rust framebuffer API
+implementation.
 
-This implementation provides Rust abstractions for the framebuffer subsystem,
-following the same patterns established in the DRM subsystem. The abstraction
-wraps the existing C framebuffer infrastructure (`struct fb_info`, `struct
-fb_ops`) with type-safe Rust interfaces, allowing drivers to be implemented
-in Rust while maintaining full compatibility with the existing C framebuffer
-subsystem.
+The driver implements a minimal framebuffer driver that assumes the display
+hardware has been initialized before the kernel boots, and the kernel simply
+renders to the pre-allocated framebuffer surface. Configuration regarding
+surface address, size, and format must be provided through device tree or
+platform data.
 
-The implementation includes:
+Key features:
+- Supports 11 pixel formats (RGB565, RGBA5551, XRGB1555, ARGB1555, RGB888,
+  XRGB8888, ARGB8888, XBGR8888, ABGR8888, XRGB2101010, ARGB2101010)
+- Implements all required framebuffer operations via the `fb::Operations` trait:
+  - I/O operations (`read`, `write`) using generic helpers
+  - Color register management (`setcolreg`) with pseudo-palette support
+  - Blitting operations (`fillrect`, `copyarea`, `imageblit`) using software
+    implementations
+  - Memory mapping (`mmap`) using generic helpers
+- Supports both device tree and platform data configuration
+- Uses RAII for resource management (memory regions, I/O mappings)
+- Integrates with devres for automatic resource cleanup
 
-- Device abstraction (`device.rs`): Provides a typed `fb::Device` wrapper
-  around `struct fb_info` with reference counting via `AlwaysRefCounted`. The
-  device abstraction provides safe access to screen information (`var()`,
-  `fix()`), memory mappings (`screen_base()`, `screen_size()`), and
-  driver-specific data (via `data()` or direct dereference). Device lifecycle
-  is managed through `ARef` and the `destroy_callback` which properly cleans
-  up driver resources.
+**WARNING**: This driver is for testing purposes only and should not be used
+in production systems. It has incomplete functionality compared to the C
+simplefb driver (no clock management, power management, regulator management,
+kernel parameter parsing, or aperture acquisition support). For production
+use, please use FB_SIMPLE instead.
 
-- Driver abstractions (`driver.rs`): Defines the `Driver` trait (which
-  specifies driver metadata via `DriverInfo` and associates an `Operations`
-  implementation) and the `Operations` trait (corresponding to `struct fb_ops`).
-  The `Operations` trait provides methods for reading, writing, color register
-  management (`setcolreg`), blitting operations (`fillrect`, `copyarea`,
-  `imageblit`), memory mapping (`mmap`), and resource cleanup (`destroy`).
-  The `Registration` type manages device registration and unregistration with
-  the framebuffer subsystem.
-
-- Screen information (`screeninfo.rs`): Safe wrappers for `fb_var_screeninfo`
-  and `fb_fix_screeninfo` structures. Provides accessors for screen parameters
-  (resolution, color depth, memory layout) and color component bitfields
-  (`red()`, `green()`, `blue()`, `transp()`). Also includes related constants
-  for framebuffer types, visual modes, acceleration, activation, and video
-  modes.
-
-- I/O operations (`io.rs`): Safe wrappers for the generic framebuffer I/O
-  helpers (`fb_io_read`, `fb_io_write`, `fb_io_mmap`). These functions provide
-  generic implementations for reading from, writing to, and memory-mapping
-  framebuffer devices, which can be used by drivers that don't implement
-  custom I/O operations.
-
-- Blit operations (`blit.rs`): Safe wrappers for framebuffer blit operation
-  structures (`FillRect` for `fb_fillrect`, `CopyArea` for `fb_copyarea`,
-  `Image` for `fb_image`) and software implementation functions
-  (`cfb_fillrect`, `cfb_copyarea`, `cfb_imageblit`). These software functions
-  provide generic implementations for rectangle filling, area copying, and
-  image blitting, which can be used by drivers that don't implement hardware
-  acceleration.
-
-The implementation follows Rust for Linux safety guidelines:
-- C callbacks (`read_callback`, `write_callback`, `setcolreg_callback`, etc.)
-  are properly bridged to Rust trait methods via the `Operations` trait
-- Memory safety is ensured through proper use of `Opaque<fb_info>`, `ARef`,
-  and `AlwaysRefCounted` for reference counting
-- Type invariants are documented (e.g., `Device` invariants) and enforced
-  through the type system
-- Resource cleanup is handled via RAII: `Registration` uses `Drop` for
-  unregistration, and `destroy_callback` ensures proper cleanup order
-  (driver resources via `T::Ops::destroy`, driver data via `drop_in_place`,
-  then `fb_info` structure via `framebuffer_release`)
+The driver demonstrates the usage of the Rust framebuffer framework:
+- `fb::Device` for framebuffer device lifecycle management
+- `fb::Driver` and `fb::Operations` traits for driver implementation
+- `fb::Registration` for device registration with devres integration
+- `fb::FixScreenInfo` and `fb::VarScreenInfo` for screen configuration
+- `fb::Bitfield` for color component bitfield manipulation
+- Generic I/O helpers (`fb_io_read`, `fb_io_write`, `fb_io_mmap`)
+- Software blitting functions (`cfb_fillrect`, `cfb_copyarea`, `cfb_imageblit`)
 
 Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
 ---
- rust/bindings/bindings_helper.h |   1 +
- rust/kernel/fb/blit.rs          | 106 ++++++++
- rust/kernel/fb/device.rs        | 463 ++++++++++++++++++++++++++++++++
- rust/kernel/fb/driver.rs        | 169 ++++++++++++
- rust/kernel/fb/io.rs            |  76 ++++++
- rust/kernel/fb/mod.rs           |  23 ++
- rust/kernel/fb/screeninfo.rs    | 318 ++++++++++++++++++++++
- rust/kernel/lib.rs              |   2 +
- 8 files changed, 1158 insertions(+)
- create mode 100644 rust/kernel/fb/blit.rs
- create mode 100644 rust/kernel/fb/device.rs
- create mode 100644 rust/kernel/fb/driver.rs
- create mode 100644 rust/kernel/fb/io.rs
- create mode 100644 rust/kernel/fb/mod.rs
- create mode 100644 rust/kernel/fb/screeninfo.rs
+ drivers/video/fbdev/Kconfig          |  21 +
+ drivers/video/fbdev/Makefile         |   1 +
+ drivers/video/fbdev/simplefb_rust.rs | 653 +++++++++++++++++++++++++++
+ rust/bindings/bindings_helper.h      |   1 +
+ 4 files changed, 676 insertions(+)
+ create mode 100644 drivers/video/fbdev/simplefb_rust.rs
 
-diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-index a067038b4b42..bc47806eb365 100644
---- a/rust/bindings/bindings_helper.h
-+++ b/rust/bindings/bindings_helper.h
-@@ -53,6 +53,7 @@
- #include <linux/dma-mapping.h>
- #include <linux/errname.h>
- #include <linux/ethtool.h>
-+#include <linux/fb.h>
- #include <linux/fdtable.h>
- #include <linux/file.h>
- #include <linux/firmware.h>
-diff --git a/rust/kernel/fb/blit.rs b/rust/kernel/fb/blit.rs
+diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+index a733f90eca55..0b615c85ef6c 100644
+--- a/drivers/video/fbdev/Kconfig
++++ b/drivers/video/fbdev/Kconfig
+@@ -1797,6 +1797,27 @@ config FB_SIMPLE
+ 	  Configuration re: surface address, size, and format must be provided
+ 	  through device tree, or plain old platform data.
+ 
++config FB_SIMPLE_RUST
++	tristate "Simple framebuffer support (Rust) [TEST ONLY]"
++	depends on FB && RUST
++	depends on !DRM_SIMPLEDRM
++	depends on !FB_SIMPLE
++	select APERTURE_HELPERS
++	select FB_IOMEM_HELPERS
++	help
++	  WARNING: This driver is for testing purposes only and should not be
++	  used in production systems.
++
++	  This is a test driver for the Rust framebuffer framework abstraction.
++	  It is used to validate and test the Rust framebuffer API implementation.
++	  The driver has incomplete functionality and is not suitable for real-world
++	  use. For production use, please use FB_SIMPLE instead.
++
++	  This driver assumes that the display hardware has been initialized before
++	  the kernel boots, and the kernel will simply render to the pre-allocated
++	  frame buffer surface. Configuration re: surface address, size, and format
++	  must be provided through device tree, or plain old platform data.
++
+ config FB_SSD1307
+ 	tristate "Solomon SSD1307 framebuffer support"
+ 	depends on FB && I2C
+diff --git a/drivers/video/fbdev/Makefile b/drivers/video/fbdev/Makefile
+index b3d12f977c06..58dff87966ed 100644
+--- a/drivers/video/fbdev/Makefile
++++ b/drivers/video/fbdev/Makefile
+@@ -123,6 +123,7 @@ obj-$(CONFIG_FB_VGA16)            += vga16fb.o
+ obj-$(CONFIG_FB_OF)               += offb.o
+ obj-$(CONFIG_FB_SSD1307)	  += ssd1307fb.o
+ obj-$(CONFIG_FB_SIMPLE)           += simplefb.o
++obj-$(CONFIG_FB_SIMPLE_RUST)      += simplefb_rust.o
+ 
+ # the test framebuffer is last
+ obj-$(CONFIG_FB_VIRTUAL)          += vfb.o
+diff --git a/drivers/video/fbdev/simplefb_rust.rs b/drivers/video/fbdev/simplefb_rust.rs
 new file mode 100644
-index 000000000000..b5378694d88d
+index 000000000000..9806cc2daa3e
 --- /dev/null
-+++ b/rust/kernel/fb/blit.rs
-@@ -0,0 +1,106 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/drivers/video/fbdev/simplefb_rust.rs
+@@ -0,0 +1,653 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +
-+//! Framebuffer blit operations.
++//! Simple framebuffer driver in Rust (TEST ONLY)
 +//!
-+//! This module provides safe wrappers for framebuffer blit operation structures and functions.
++//! **WARNING**: This driver is for testing purposes only and should not be used in production systems.
 +//!
-+//! C header: [`include/linux/fb.h`](srctree/include/linux/fb.h)
-+
-+use crate::{bindings, fb};
-+
-+/// Wrapper for `fb_fillrect` with safe accessors.
-+///
-+/// Describes a filled rectangle operation for framebuffer devices.
-+#[repr(transparent)]
-+#[derive(Clone, Copy)]
-+pub struct FillRect(bindings::fb_fillrect);
-+
-+impl FillRect {
-+    /// Create a new `FillRect` from the raw C structure.
-+    ///
-+    /// `fb_fillrect` is a POD type, so any bit pattern is valid.
-+    pub const fn from_raw(raw: bindings::fb_fillrect) -> Self {
-+        Self(raw)
-+    }
-+
-+    /// Returns a reference to the underlying C `fb_fillrect` structure.
-+    #[inline]
-+    fn as_raw(&self) -> &bindings::fb_fillrect {
-+        &self.0
-+    }
-+}
-+
-+/// Wrapper for `fb_copyarea` with safe accessors.
-+///
-+/// Describes a copy area operation for framebuffer devices.
-+#[repr(transparent)]
-+#[derive(Clone, Copy)]
-+pub struct CopyArea(bindings::fb_copyarea);
-+
-+impl CopyArea {
-+    /// Create a new `CopyArea` from the raw C structure.
-+    ///
-+    /// `fb_copyarea` is a POD type, so any bit pattern is valid.
-+    pub const fn from_raw(raw: bindings::fb_copyarea) -> Self {
-+        Self(raw)
-+    }
-+
-+    /// Returns a reference to the underlying C `fb_copyarea` structure.
-+    #[inline]
-+    fn as_raw(&self) -> &bindings::fb_copyarea {
-+        &self.0
-+    }
-+}
-+
-+/// Wrapper for `fb_image` with safe accessors.
-+///
-+/// Describes an image blit operation for framebuffer devices.
-+#[repr(transparent)]
-+pub struct Image(bindings::fb_image);
-+
-+impl Image {
-+    /// Create a new `Image` from the raw C structure.
-+    ///
-+    /// # Safety
-+    ///
-+    /// The caller must ensure that `raw` is properly initialized.
-+    pub const unsafe fn from_raw(raw: bindings::fb_image) -> Self {
-+        Self(raw)
-+    }
-+
-+    /// Returns a reference to the underlying C `fb_image` structure.
-+    #[inline]
-+    fn as_raw(&self) -> &bindings::fb_image {
-+        &self.0
-+    }
-+}
-+
-+/// Software rectangle fill operation.
-+///
-+/// Invokes the generic `cfb_fillrect` helper.
-+pub fn cfb_fillrect<T: fb::Driver>(device: &fb::Device<T>, rect: &FillRect) {
-+    // SAFETY: Both `device.as_raw()` and `rect.as_raw()` return valid pointers by type invariants.
-+    unsafe {
-+        bindings::cfb_fillrect(device.as_raw(), rect.as_raw());
-+    }
-+}
-+
-+/// Software area copy operation.
-+///
-+/// Invokes the generic `cfb_copyarea` helper.
-+pub fn cfb_copyarea<T: fb::Driver>(device: &fb::Device<T>, area: &CopyArea) {
-+    // SAFETY: Both `device.as_raw()` and `area.as_raw()` return valid pointers by type invariants.
-+    unsafe {
-+        bindings::cfb_copyarea(device.as_raw(), area.as_raw());
-+    }
-+}
-+
-+/// Software image blit operation.
-+///
-+/// Invokes the generic `cfb_imageblit` helper.
-+pub fn cfb_imageblit<T: fb::Driver>(device: &fb::Device<T>, image: &Image) {
-+    // SAFETY: Both `device.as_raw()` and `image.as_raw()` return valid pointers by type invariants.
-+    unsafe {
-+        bindings::cfb_imageblit(device.as_raw(), image.as_raw());
-+    }
-+}
-diff --git a/rust/kernel/fb/device.rs b/rust/kernel/fb/device.rs
-new file mode 100644
-index 000000000000..7e7f36e5e4b8
---- /dev/null
-+++ b/rust/kernel/fb/device.rs
-@@ -0,0 +1,463 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Framebuffer device.
++//! This is a test driver for the Rust framebuffer framework abstraction. It is used to validate
++//! and test the Rust framebuffer API implementation. The driver has incomplete functionality and
++//! is not suitable for real-world use. For production use, please use FB_SIMPLE instead.
 +//!
-+//! This module provides the core abstractions for framebuffer device management.
++//! **Limitations**:
++//! - No clock management support
++//! - No power management support
++//! - No regulator management support
++//! - No kernel parameter parsing support
++//! - No `devm_aperture_acquire_for_platform_device` support
 +//!
-+//! C header: [`include/linux/fb.h`]
++//! This driver assumes that the display hardware has been initialized before the kernel boots,
++//! and the kernel will simply render to the pre-allocated frame buffer surface. Configuration
++//! regarding surface address, size, and format must be provided through device tree or platform data.
 +
-+use crate::{
-+    bindings, device,
-+    error::from_err_ptr,
++use kernel::{
++    bindings, c_str,
++    device::Core,
++    devres::Devres,
 +    fb,
-+    fb::driver::Operations,
-+    fs::file,
-+    mm,
-+    prelude::*,
-+    sync::{
-+        aref::{ARef, AlwaysRefCounted},
-+        Refcount,
++    io::{
++        mem::IoMem,
++        resource::{Flags, Region, Resource},
++        PhysAddr, ResourceSize,
 +    },
-+    types::Opaque,
-+};
-+use core::{
-+    ffi::{c_int, c_uint},
-+    marker::PhantomData,
-+    mem,
-+    ops::Deref,
-+    ptr,
-+    ptr::NonNull,
-+};
-+
-+/// A typed framebuffer device with a specific `fb::Driver` implementation.
-+///
-+/// # Invariants
-+///
-+/// A [`Device`] instance represents a valid `struct fb_info` created by the C portion of the kernel.
-+///
-+/// - `self.0` is a valid pointer to a `struct fb_info`.
-+/// - The `fb_info.par` field points to a valid `T::Data` instance.
-+/// - The `fb_info.fbops` field always points to `Self::FBOPS` and is never null.
-+///
-+/// Instances of this type are always reference-counted.
-+#[repr(transparent)]
-+pub struct Device<T: fb::Driver>(Opaque<bindings::fb_info>, PhantomData<T>);
-+
-+impl<T: fb::Driver> Device<T> {
-+    /// Returns a reference to the underlying C `struct fb_info`.
-+    #[inline]
-+    fn as_ref(&self) -> &bindings::fb_info {
-+        // SAFETY: By the type invariant, the pointer stored in `self` is valid.
-+        unsafe { &*self.as_raw() }
-+    }
-+
-+    /// Returns the variable screen info.
-+    pub fn var(&self) -> &fb::VarScreenInfo {
-+        // SAFETY: `var` is a valid field of `fb_info` and remains valid for the lifetime of `self`.
-+        unsafe { fb::VarScreenInfo::from_raw(&self.as_ref().var) }
-+    }
-+
-+    /// Returns the fixed screen info.
-+    pub fn fix(&self) -> &fb::FixScreenInfo {
-+        // SAFETY: `fix` is a valid field of `fb_info` and remains valid for the lifetime of `self`.
-+        unsafe { fb::FixScreenInfo::from_raw(&self.as_ref().fix) }
-+    }
-+
-+    /// Returns the screen base address.
-+    pub fn screen_base(&self) -> *mut u8 {
-+        // SAFETY: `screen_base` is a union field accessed via the generated union.
-+        unsafe { self.as_ref().__bindgen_anon_1.screen_base as *mut u8 }
-+    }
-+
-+    /// Returns the screen size.
-+    pub fn screen_size(&self) -> usize {
-+        self.as_ref().screen_size as usize
-+    }
-+
-+    /// Returns the pseudo palette pointer.
-+    pub fn pseudo_palette(&self) -> *mut core::ffi::c_void {
-+        self.as_ref().pseudo_palette
-+    }
-+
-+    /// Returns the framebuffer device node number.
-+    ///
-+    /// This is the device node identifier assigned by the framebuffer subsystem
-+    /// when the device is registered (e.g., 0 for /dev/fb0, 1 for /dev/fb1, etc.).
-+    pub fn node(&self) -> i32 {
-+        self.as_ref().node
-+    }
-+
-+    /// Configures the fixed screen information.
-+    ///
-+    /// # Safety
-+    ///
-+    /// The caller must ensure that:
-+    /// - The device is not yet registered with the framebuffer subsystem
-+    /// - The provided configuration is valid for this device
-+    pub unsafe fn configure_fix<F>(&self, f: F)
-+    where
-+        F: FnOnce(&mut bindings::fb_fix_screeninfo),
-+    {
-+        // SAFETY: By the safety requirements, we have exclusive access to the device during
-+        // initialization, before registration.
-+        let info_ptr = self.as_raw();
-+        unsafe {
-+            f(&mut (*info_ptr).fix);
-+        }
-+    }
-+
-+    /// Configures the variable screen information.
-+    ///
-+    /// # Safety
-+    ///
-+    /// The caller must ensure that:
-+    /// - The device is not yet registered with the framebuffer subsystem
-+    /// - The provided configuration is valid for this device
-+    pub unsafe fn configure_var<F>(&self, f: F)
-+    where
-+        F: FnOnce(&mut bindings::fb_var_screeninfo),
-+    {
-+        // SAFETY: By the safety requirements, we have exclusive access to the device during
-+        // initialization, before registration.
-+        let info_ptr = self.as_raw();
-+        unsafe {
-+            f(&mut (*info_ptr).var);
-+        }
-+    }
-+
-+    /// Sets the screen base address.
-+    ///
-+    /// # Safety
-+    ///
-+    /// The caller must ensure that:
-+    /// - The device is not yet registered with the framebuffer subsystem
-+    /// - The address points to valid, mapped framebuffer memory
-+    /// - The memory remains valid for the lifetime of the device
-+    pub unsafe fn set_screen_base(&self, addr: *mut u8) {
-+        // SAFETY: By the safety requirements, we have exclusive access during initialization.
-+        let info_ptr = self.as_raw();
-+        unsafe {
-+            (*info_ptr).__bindgen_anon_1.screen_base = addr;
-+        }
-+    }
-+
-+    /// Sets the pseudo palette pointer.
-+    ///
-+    /// # Safety
-+    ///
-+    /// The caller must ensure that:
-+    /// - The device is not yet registered with the framebuffer subsystem
-+    /// - The pointer points to valid memory with sufficient size
-+    /// - The memory remains valid for the lifetime of the device
-+    pub unsafe fn set_pseudo_palette(&self, palette: *mut core::ffi::c_void) {
-+        // SAFETY: By the safety requirements, we have exclusive access during initialization.
-+        let info_ptr = self.as_raw();
-+        unsafe {
-+            (*info_ptr).pseudo_palette = palette;
-+        }
-+    }
-+
-+    /// Callback for reading from framebuffers with non-linear layouts.
-+    extern "C" fn read_callback(
-+        info: *mut bindings::fb_info,
-+        buf: *mut core::ffi::c_char,
-+        count: usize,
-+        ppos: *mut bindings::loff_t,
-+    ) -> isize {
-+        let device = unsafe { Self::from_raw(info) };
-+        // SAFETY: C code ensures `buf` and `ppos` are valid. `buf` is a valid buffer pointer with
-+        // `count` bytes, and `ppos` is a valid `file::Offset` pointer with exclusive access.
-+        let pos: &mut file::Offset = unsafe { &mut *ppos };
-+        let result = T::Ops::read(
-+            &device,
-+            unsafe { core::slice::from_raw_parts_mut(buf as *mut u8, count) },
-+            pos,
-+        );
-+        match result {
-+            Ok(n) => n as isize,
-+            Err(e) => -(e.to_errno() as isize),
-+        }
-+    }
-+
-+    /// Callback for writing to framebuffers with non-linear layouts.
-+    extern "C" fn write_callback(
-+        info: *mut bindings::fb_info,
-+        buf: *const core::ffi::c_char,
-+        count: usize,
-+        ppos: *mut bindings::loff_t,
-+    ) -> isize {
-+        let device = unsafe { Self::from_raw(info) };
-+        // SAFETY: C code ensures `buf` and `ppos` are valid. `buf` is a valid buffer pointer with
-+        // `count` bytes, and `ppos` is a valid `file::Offset` pointer with exclusive access.
-+        let pos: &mut file::Offset = unsafe { &mut *ppos };
-+        let result = T::Ops::write(
-+            &device,
-+            unsafe { core::slice::from_raw_parts(buf as *const u8, count) },
-+            pos,
-+        );
-+        match result {
-+            Ok(n) => n as isize,
-+            Err(e) => -(e.to_errno() as isize),
-+        }
-+    }
-+
-+    /// Callback for setting color registers.
-+    extern "C" fn setcolreg_callback(
-+        regno: c_uint,
-+        red: c_uint,
-+        green: c_uint,
-+        blue: c_uint,
-+        transp: c_uint,
-+        info: *mut bindings::fb_info,
-+    ) -> c_int {
-+        let device = unsafe { Self::from_raw(info) };
-+        let result = T::Ops::setcolreg(&device, regno, red, green, blue, transp);
-+        match result {
-+            Ok(()) => 0,
-+            Err(e) => e.to_errno() as c_int,
-+        }
-+    }
-+
-+    /// Callback for filling a rectangle.
-+    extern "C" fn fillrect_callback(
-+        info: *mut bindings::fb_info,
-+        rect: *const bindings::fb_fillrect,
-+    ) {
-+        let device = unsafe { Self::from_raw(info) };
-+        // SAFETY: C code ensures `rect` is valid and points to a properly initialized `fb_fillrect`.
-+        let rect = unsafe { fb::FillRect::from_raw(*rect) };
-+        T::Ops::fillrect(&device, &rect);
-+    }
-+
-+    /// Callback for copying an area.
-+    extern "C" fn copyarea_callback(
-+        info: *mut bindings::fb_info,
-+        area: *const bindings::fb_copyarea,
-+    ) {
-+        let device = unsafe { Self::from_raw(info) };
-+        // SAFETY: C code ensures `area` is valid and points to a properly initialized `fb_copyarea`.
-+        let area = unsafe { fb::CopyArea::from_raw(*area) };
-+        T::Ops::copyarea(&device, &area);
-+    }
-+
-+    /// Callback for blitting an image.
-+    extern "C" fn imageblit_callback(
-+        info: *mut bindings::fb_info,
-+        image: *const bindings::fb_image,
-+    ) {
-+        let device = unsafe { Self::from_raw(info) };
-+        // SAFETY: C code ensures `image` is valid and points to a properly initialized `fb_image`.
-+        let image = unsafe { fb::Image::from_raw(*image) };
-+        T::Ops::imageblit(&device, &image);
-+    }
-+
-+    /// Callback for memory mapping the framebuffer.
-+    extern "C" fn mmap_callback(
-+        info: *mut bindings::fb_info,
-+        vma: *mut bindings::vm_area_struct,
-+    ) -> c_int {
-+        let device = unsafe { Self::from_raw(info) };
-+        // SAFETY: The caller provides a `vma` that is undergoing initial VMA setup.
-+        let area = unsafe { mm::virt::VmaNew::from_raw(vma) };
-+        let result = T::Ops::mmap(&device, area);
-+        match result {
-+            Ok(()) => 0,
-+            Err(e) => e.to_errno() as c_int,
-+        }
-+    }
-+
-+    /// Callback for destroying the framebuffer device.
-+    ///
-+    /// Performs cleanup in the correct order: driver resources, driver data, and finally
-+    /// the fb_info structure itself.
-+    extern "C" fn destroy_callback(info: *mut bindings::fb_info) {
-+        let device = unsafe { Self::from_raw(info) };
-+
-+        // First, let the driver clean up its own resources (iounmap, release_mem_region, etc.)
-+        T::Ops::destroy(&device);
-+
-+        // Get the pointer to the driver data (stored in `info->par`).
-+        // SAFETY: `info` is valid and was allocated by `framebuffer_alloc` in `Device::new()`.
-+        let par_ptr = unsafe { (*info).par };
-+        if !par_ptr.is_null() {
-+            // Manually call `Drop` for the driver data before `framebuffer_release`, since
-+            // `framebuffer_release` will `kfree` the entire `fb_info` structure (including `par`),
-+            // and `kfree` doesn't call Rust's `Drop`.
-+            // SAFETY: `par_ptr` points to a valid `T::Data` instance that was initialized in
-+            // `Device::new()`. This is the last access to the data before it's freed.
-+            unsafe {
-+                core::ptr::drop_in_place(par_ptr.cast::<T::Data>());
-+            }
-+        }
-+
-+        // Release the `fb_info` structure that was allocated by `framebuffer_alloc`.
-+        // SAFETY: `info` is valid and was allocated by `framebuffer_alloc` in `Device::new()`.
-+        unsafe {
-+            bindings::framebuffer_release(info);
-+        }
-+    }
-+
-+    /// Static `fb_ops` table for this driver type.
-+    ///
-+    /// This table is shared by all instances of this driver type.
-+    const FBOPS: bindings::fb_ops = bindings::fb_ops {
-+        owner: core::ptr::null_mut(),
-+        fb_open: None,
-+        fb_release: None,
-+        fb_read: Some(Self::read_callback),
-+        fb_write: Some(Self::write_callback),
-+        fb_check_var: None,
-+        fb_set_par: None,
-+        fb_setcolreg: Some(Self::setcolreg_callback),
-+        fb_setcmap: None,
-+        fb_blank: None,
-+        fb_pan_display: None,
-+        fb_fillrect: Some(Self::fillrect_callback),
-+        fb_copyarea: Some(Self::copyarea_callback),
-+        fb_imageblit: Some(Self::imageblit_callback),
-+        fb_cursor: None,
-+        fb_sync: None,
-+        fb_ioctl: None,
-+        fb_compat_ioctl: None,
-+        fb_mmap: Some(Self::mmap_callback),
-+        fb_get_caps: None,
-+        fb_destroy: Some(Self::destroy_callback),
-+        fb_debug_enter: None,
-+        fb_debug_leave: None,
-+    };
-+
-+    /// Creates a new `fb::Device` for a `fb::Driver`.
-+    ///
-+    /// The C `framebuffer_alloc` function allocates memory as:
-+    /// `[fb_info][padding][driver_data]`
-+    ///
-+    /// `Device<T>` is `#[repr(transparent)]` around `Opaque<fb_info>`, so a `Device<T>` pointer
-+    /// is actually just an `fb_info` pointer. The driver data `T::Data` is stored in `info->par`.
-+    pub fn new(dev: &device::Device, data: impl PinInit<T::Data, Error>) -> Result<ARef<Self>> {
-+        let data_size = mem::size_of::<T::Data>();
-+
-+        // SAFETY: `dev.as_raw()` is valid by its type invariants.
-+        let raw_info = unsafe { bindings::framebuffer_alloc(data_size, dev.as_raw()) };
-+
-+        let raw_info = NonNull::new(from_err_ptr(raw_info)?).ok_or(ENOMEM)?;
-+
-+        // SAFETY: `raw_info` is valid and non-null.
-+        let par_ptr = unsafe { (*raw_info.as_ptr()).par };
-+        if par_ptr.is_null() && data_size > 0 {
-+            // SAFETY: We just allocated this, so it's safe to free.
-+            unsafe { bindings::framebuffer_release(raw_info.as_ptr()) };
-+            return Err(ENOMEM);
-+        }
-+
-+        // Cast `par` to our data type pointer.
-+        // SAFETY: `framebuffer_alloc` allocated enough space for `T::Data`.
-+        let data_ptr = par_ptr.cast::<T::Data>();
-+
-+        // Initialize the data.
-+        // SAFETY: `data_ptr` is a valid pointer to uninitialized memory of the correct size, and
-+        // will not move until it is dropped.
-+        if let Err(e) = unsafe { data.__pinned_init(data_ptr) } {
-+            // SAFETY: We just allocated this, so it's safe to free.
-+            unsafe { bindings::framebuffer_release(raw_info.as_ptr()) };
-+            return Err(e);
-+        }
-+
-+        // Set up `fb_ops`.
-+        // SAFETY: `raw_info` is valid.
-+        unsafe {
-+            (*raw_info.as_ptr()).fbops = &Self::FBOPS;
-+        }
-+
-+        // Initialize refcount to 1 for the `ARef` we're about to return.
-+        // SAFETY: `raw_info` is valid and points to a properly allocated `fb_info`.
-+        let device_ref = unsafe { &*raw_info.cast::<Self>().as_ptr() };
-+        // SAFETY: `device_ref` is valid and points to a properly allocated `fb_info`.
-+        unsafe {
-+            device_ref.refcount().set(1);
-+        }
-+
-+        // SAFETY: We've initialized the refcount to 1, and we're taking ownership of it.
-+        // `Device<T>` is `#[repr(transparent)]` around `Opaque<fb_info>`, so this cast is valid.
-+        Ok(unsafe { ARef::from_raw(raw_info.cast::<Self>()) })
-+    }
-+
-+    pub(crate) fn as_raw(&self) -> *mut bindings::fb_info {
-+        self.0.get()
-+    }
-+
-+    /// Returns a reference to the refcount field of the `fb_info`.
-+    ///
-+    /// # Safety
-+    ///
-+    /// The caller must ensure that `self.as_raw()` is valid.
-+    unsafe fn refcount(&self) -> &Refcount {
-+        // SAFETY: `Refcount` is a transparent wrapper around `refcount_t`, and `count` is the
-+        // first field of `fb_info`. By the safety requirements, `self.as_raw()` is valid.
-+        unsafe {
-+            let count_ptr = ptr::addr_of_mut!((*self.as_raw()).count);
-+            &*count_ptr.cast::<Refcount>()
-+        }
-+    }
-+
-+    /// Creates a reference from a raw `fb_info` pointer.
-+    ///
-+    /// # Safety
-+    ///
-+    /// Callers must ensure that `ptr` is valid, non-null, and points to an `fb_info`
-+    /// that was created by `Device::<T>::new()`.
-+    pub(crate) unsafe fn from_raw<'a>(ptr: *const bindings::fb_info) -> &'a Self {
-+        // SAFETY: `Device<T>` is a transparent wrapper around `Opaque<fb_info>`.
-+        unsafe { &*ptr.cast::<Self>() }
-+    }
-+
-+    /// Returns a reference to the driver data stored in `fb_info.par`.
-+    pub fn data(&self) -> &T::Data {
-+        // SAFETY: By the type invariant, `info->par` points to a valid `T::Data` instance.
-+        unsafe {
-+            let par = (*self.as_raw()).par;
-+            &*par.cast::<T::Data>()
-+        }
-+    }
-+}
-+
-+impl<T: fb::Driver> Deref for Device<T> {
-+    type Target = T::Data;
-+
-+    fn deref(&self) -> &Self::Target {
-+        self.data()
-+    }
-+}
-+
-+// SAFETY: Framebuffer device objects are always reference counted and the get/put functions
-+// satisfy the requirements.
-+unsafe impl<T: fb::Driver> AlwaysRefCounted for Device<T> {
-+    fn inc_ref(&self) {
-+        // SAFETY: The existence of a shared reference guarantees that the refcount is non-zero.
-+        unsafe { self.refcount().inc() };
-+    }
-+
-+    unsafe fn dec_ref(obj: NonNull<Self>) {
-+        // SAFETY: By the safety requirements, `obj` is valid.
-+        let device = unsafe { &*obj.as_ptr() };
-+
-+        // SAFETY: The safety requirements guarantee that the refcount is non-zero.
-+        if unsafe { device.refcount().dec_and_test() } {
-+            Self::destroy_callback(device.as_raw());
-+        }
-+    }
-+}
-+
-+impl<T: fb::Driver> AsRef<device::Device> for Device<T> {
-+    fn as_ref(&self) -> &device::Device {
-+        // SAFETY: `fb_info::device` is valid as long as the `fb_info` itself is valid, which is
-+        // guaranteed by the type invariant.
-+        unsafe { device::Device::from_raw((*self.as_raw()).device) }
-+    }
-+}
-+
-+// SAFETY: `Device<T>` can be sent to any thread.
-+unsafe impl<T: fb::Driver> Send for Device<T> {}
-+
-+// SAFETY: `Device<T>` can be shared among threads because all immutable methods are protected by
-+// the synchronization in `struct fb_info`.
-+unsafe impl<T: fb::Driver> Sync for Device<T> {}
-diff --git a/rust/kernel/fb/driver.rs b/rust/kernel/fb/driver.rs
-new file mode 100644
-index 000000000000..fa06a613c909
---- /dev/null
-+++ b/rust/kernel/fb/driver.rs
-@@ -0,0 +1,169 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Framebuffer driver core.
-+//!
-+//! This module provides the core abstractions for implementing framebuffer drivers.
-+//!
-+//! C header: [`include/linux/fb.h`]
-+
-+use crate::{
-+    bindings, device, devres, error::to_result, fb, fs::file, mm, prelude::*, sync::aref::ARef,
-+};
-+use macros::vtable;
-+
-+/// Framebuffer driver information.
-+pub struct DriverInfo {
-+    /// Driver name.
-+    pub name: &'static CStr,
-+    /// Driver description.
-+    pub desc: &'static CStr,
-+}
-+
-+/// Framebuffer operations trait.
-+///
-+/// This trait defines the operations that a framebuffer driver must or can implement.
-+/// It corresponds to `struct fb_ops` in C.
-+///
-+/// All methods receive a `device` parameter that provides access to both driver-specific data
-+/// (via `device.data()` or direct dereference) and generic framebuffer info (via `device.var()`,
-+/// `device.fix()`, etc.).
-+#[vtable]
-+pub trait Operations {
-+    /// Driver-specific data type for operations context.
-+    type Data: Sync + Send;
-+
-+    /// Read from framebuffer device.
-+    ///
-+    /// For framebuffers with strange non-linear layouts or that do not work with normal memory
-+    /// mapped access.
-+    fn read(
-+        _device: &fb::Device<impl Driver<Data = Self::Data>>,
-+        _buf: &mut [u8],
-+        _ppos: &mut file::Offset,
-+    ) -> Result<usize> {
-+        Err(EINVAL)
-+    }
-+
-+    /// Write to framebuffer device.
-+    ///
-+    /// For framebuffers with strange non-linear layouts or that do not work with normal memory
-+    /// mapped access.
-+    fn write(
-+        _device: &fb::Device<impl Driver<Data = Self::Data>>,
-+        _buf: &[u8],
-+        _ppos: &mut file::Offset,
-+    ) -> Result<usize> {
-+        Err(EINVAL)
-+    }
-+
-+    /// Set a color register.
-+    fn setcolreg(
-+        _device: &fb::Device<impl Driver<Data = Self::Data>>,
-+        _regno: u32,
-+        _red: u32,
-+        _green: u32,
-+        _blue: u32,
-+        _transp: u32,
-+    ) -> Result {
-+        Ok(())
-+    }
-+
-+    /// Draws a rectangle.
-+    fn fillrect(_device: &fb::Device<impl Driver<Data = Self::Data>>, _rect: &fb::FillRect) {
-+        // Default: no-op (driver may rely on software fallback or macro)
-+    }
-+
-+    /// Copy data from area to another.
-+    fn copyarea(_device: &fb::Device<impl Driver<Data = Self::Data>>, _area: &fb::CopyArea) {
-+        // Default: no-op (driver may rely on software fallback or macro)
-+    }
-+
-+    /// Draws an image to the display.
-+    fn imageblit(_device: &fb::Device<impl Driver<Data = Self::Data>>, _image: &fb::Image) {
-+        // Default: no-op (driver may rely on software fallback or macro)
-+    }
-+
-+    /// Perform framebuffer-specific mmap.
-+    fn mmap(
-+        _device: &fb::Device<impl Driver<Data = Self::Data>>,
-+        _vma: &mm::virt::VmaNew,
-+    ) -> Result {
-+        Err(EINVAL)
-+    }
-+
-+    /// Teardown any resources to do with this framebuffer.
-+    ///
-+    /// Called when the last reference to the framebuffer is dropped. Use this to clean up
-+    /// driver-specific resources.
-+    ///
-+    /// Note: The framework automatically calls `framebuffer_release()` after this method
-+    /// returns, so drivers should *not* call `framebuffer_release()` themselves. This follows
-+    /// RAII principles: since `Device::new()` calls `framebuffer_alloc()`, the framework is
-+    /// responsible for calling `framebuffer_release()`.
-+    fn destroy(_device: &fb::Device<impl Driver<Data = Self::Data>>) {}
-+}
-+
-+/// Trait for framebuffer drivers.
-+#[vtable]
-+pub trait Driver {
-+    /// Driver-specific context data.
-+    type Data: Sync + Send;
-+
-+    /// Operations implementation for this driver.
-+    type Ops: Operations<Data = Self::Data>;
-+
-+    /// Driver metadata.
-+    const INFO: DriverInfo;
-+}
-+
-+/// Registration for a framebuffer device.
-+///
-+/// The device is unregistered when this structure is dropped.
-+pub struct Registration<T: Driver>(ARef<fb::Device<T>>);
-+
-+impl<T: Driver> Registration<T> {
-+    /// Creates a new [`Registration`] and registers the framebuffer device.
-+    fn new(fb: &fb::Device<T>) -> Result<Self> {
-+        // SAFETY: `fb.as_raw()` is valid by the invariants of `fb::Device`.
-+        to_result(unsafe { bindings::register_framebuffer(fb::Device::as_raw(fb)) })?;
-+
-+        Ok(Self(ARef::from(fb)))
-+    }
-+
-+    /// Creates a new [`Registration`] and transfers ownership to devres.
-+    pub fn new_foreign_owned(fb: &fb::Device<T>, dev: &device::Device<device::Bound>) -> Result
-+    where
-+        T: 'static,
-+    {
-+        // Verify that the device in fb_info matches the provided device
-+        let fb_device = <fb::Device<T> as AsRef<device::Device>>::as_ref(fb);
-+        if fb_device.as_raw() != dev.as_raw() {
-+            return Err(EINVAL);
-+        }
-+
-+        let reg = Registration::<T>::new(fb)?;
-+
-+        devres::register(dev, reg, GFP_KERNEL)
-+    }
-+
-+    /// Returns a reference to the registered framebuffer device.
-+    pub fn device(&self) -> &fb::Device<T> {
-+        &self.0
-+    }
-+}
-+
-+// SAFETY: All `&self` methods on this type are thread-safe. `ARef<fb::Device<T>>` and
-+// `fb::Device<T>` are `Sync`, so it is safe to share `Registration` between threads.
-+unsafe impl<T: Driver> Sync for Registration<T> {}
-+
-+// SAFETY: Registration and unregistration from the framebuffer subsystem can happen from any
-+// thread.
-+unsafe impl<T: Driver> Send for Registration<T> {}
-+
-+impl<T: Driver> Drop for Registration<T> {
-+    fn drop(&mut self) {
-+        // SAFETY: `self.0` is guaranteed to be valid for the lifetime of `Registration`. The
-+        // existence of this `Registration` guarantees that the device is registered.
-+        unsafe { bindings::unregister_framebuffer(fb::Device::as_raw(&self.0)) };
-+    }
-+}
-diff --git a/rust/kernel/fb/io.rs b/rust/kernel/fb/io.rs
-new file mode 100644
-index 000000000000..fde7d9eab7b7
---- /dev/null
-+++ b/rust/kernel/fb/io.rs
-@@ -0,0 +1,76 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Framebuffer I/O helpers.
-+//!
-+//! This module provides safe wrappers for the C `fb_io_*` helpers.
-+//!
-+//! C header: [`include/linux/fb.h`](srctree/include/linux/fb.h)
-+
-+use crate::{
-+    bindings,
-+    error::{to_result, Result},
-+    fb,
-+    fs::file,
-+    mm,
++    macros::vtable,
++    of, platform,
 +    prelude::*,
++    str::CStr,
++    sync::aref::ARef,
 +};
 +
-+/// Generic framebuffer read helper.
-+///
-+/// Calls the C `fb_io_read` helper.
-+pub fn fb_io_read<T: fb::Driver>(
-+    device: &fb::Device<T>,
-+    buf: &mut [u8],
-+    ppos: &mut file::Offset,
-+) -> Result<usize> {
-+    // SAFETY: Both `device.as_raw()` and `ppos` are valid by type invariants, and `buf` is a valid
-+    // mutable slice. The C helper treats the buffer pointer as `__user` and will return `-EFAULT`
-+    // if it is not a valid user pointer.
-+    let result = unsafe {
-+        bindings::fb_io_read(
-+            device.as_raw(),
-+            buf.as_mut_ptr() as *mut core::ffi::c_char,
-+            buf.len(),
-+            ppos as *mut file::Offset as *mut bindings::loff_t,
-+        )
-+    };
-+    if result < 0 {
-+        Err(Error::from_errno(result as i32))
-+    } else {
-+        Ok(result as usize)
++/// Pseudo palette size for framebuffer
++const PSEUDO_PALETTE_SIZE: usize = 16;
++
++/// Number of supported framebuffer formats
++const SIMPLEFB_FORMAT_COUNT: usize = 11;
++
++/// Initialize fixed screen information template
++fn init_simplefb_fix() -> fb::FixScreenInfo {
++    let mut fix = fb::FixScreenInfo::new_zeroed();
++
++    // Set the initial values
++    fix.set_id(c_str!("simplefb-rust"));
++    fix.set_type(fb::types::FB_TYPE_PACKED_PIXELS);
++    fix.set_visual(fb::visual::FB_VISUAL_TRUECOLOR);
++    fix.set_accel(fb::accel::FB_ACCEL_NONE);
++
++    fix
++}
++
++/// Initialize variable screen information template
++fn init_simplefb_var() -> fb::VarScreenInfo {
++    let mut var = fb::VarScreenInfo::new_zeroed();
++
++    // Set the initial values
++    var.set_height(u32::MAX);
++    var.set_width(u32::MAX);
++    var.set_activate(fb::activate::FB_ACTIVATE_NOW);
++    var.set_vmode(fb::vmode::FB_VMODE_NONINTERLACED);
++
++    var
++}
++
++/// Framebuffer pixel format descriptor.
++struct SimplefbFormat {
++    name: &'static CStr,
++    bits_per_pixel: u32,
++    red: fb::Bitfield,
++    green: fb::Bitfield,
++    blue: fb::Bitfield,
++    transp: fb::Bitfield,
++    fourcc: u32,
++}
++
++impl SimplefbFormat {
++    const fn new(
++        name: &'static CStr,
++        bits_per_pixel: u32,
++        red: fb::Bitfield,
++        green: fb::Bitfield,
++        blue: fb::Bitfield,
++        transp: fb::Bitfield,
++        fourcc: u32,
++    ) -> Self {
++        Self {
++            name,
++            bits_per_pixel,
++            red,
++            green,
++            blue,
++            transp,
++            fourcc,
++        }
++    }
++
++    const fn name(&self) -> &'static CStr {
++        self.name
++    }
++
++    const fn bits_per_pixel(&self) -> u32 {
++        self.bits_per_pixel
++    }
++
++    const fn red(&self) -> fb::Bitfield {
++        self.red
++    }
++
++    const fn green(&self) -> fb::Bitfield {
++        self.green
++    }
++
++    const fn blue(&self) -> fb::Bitfield {
++        self.blue
++    }
++
++    const fn transp(&self) -> fb::Bitfield {
++        self.transp
++    }
++
++    #[allow(dead_code)]
++    const fn fourcc(&self) -> u32 {
++        self.fourcc
 +    }
 +}
 +
-+/// Generic framebuffer write helper.
++/// Supported framebuffer formats.
 +///
-+/// Calls the C `fb_io_write` helper.
-+pub fn fb_io_write<T: fb::Driver>(
-+    device: &fb::Device<T>,
-+    buf: &[u8],
-+    ppos: &mut file::Offset,
-+) -> Result<usize> {
-+    // SAFETY: Both `device.as_raw()` and `ppos` are valid by type invariants, and `buf` is a valid
-+    // slice. The C helper treats the buffer pointer as `__user` and will return `-EFAULT` if it is
-+    // not a valid user pointer.
-+    let result = unsafe {
-+        bindings::fb_io_write(
-+            device.as_raw(),
-+            buf.as_ptr() as *const core::ffi::c_char,
-+            buf.len(),
-+            ppos as *mut file::Offset as *mut bindings::loff_t,
-+        )
-+    };
-+    if result < 0 {
-+        Err(Error::from_errno(result as i32))
-+    } else {
-+        Ok(result as usize)
-+    }
++/// This matches the format array from `include/linux/platform_data/simplefb.h`.
++const SIMPLEFB_FORMATS: [SimplefbFormat; SIMPLEFB_FORMAT_COUNT] = [
++    SimplefbFormat::new(
++        c_str!("r5g6b5"),
++        16,
++        fb::Bitfield::new(11, 5, 0),
++        fb::Bitfield::new(5, 6, 0),
++        fb::Bitfield::new(0, 5, 0),
++        fb::Bitfield::new(0, 0, 0),
++        0x36314752, // DRM_FORMAT_RGB565 = fourcc_code('R', 'G', '1', '6')
++    ),
++    SimplefbFormat::new(
++        c_str!("r5g5b5a1"),
++        16,
++        fb::Bitfield::new(11, 5, 0),
++        fb::Bitfield::new(6, 5, 0),
++        fb::Bitfield::new(1, 5, 0),
++        fb::Bitfield::new(0, 1, 0),
++        0x31354152, // DRM_FORMAT_RGBA5551 = fourcc_code('R', 'A', '1', '5')
++    ),
++    SimplefbFormat::new(
++        c_str!("x1r5g5b5"),
++        16,
++        fb::Bitfield::new(10, 5, 0),
++        fb::Bitfield::new(5, 5, 0),
++        fb::Bitfield::new(0, 5, 0),
++        fb::Bitfield::new(0, 0, 0),
++        0x35315258, // DRM_FORMAT_XRGB1555 = fourcc_code('X', 'R', '1', '5')
++    ),
++    SimplefbFormat::new(
++        c_str!("a1r5g5b5"),
++        16,
++        fb::Bitfield::new(10, 5, 0),
++        fb::Bitfield::new(5, 5, 0),
++        fb::Bitfield::new(0, 5, 0),
++        fb::Bitfield::new(15, 1, 0),
++        0x35315241, // DRM_FORMAT_ARGB1555 = fourcc_code('A', 'R', '1', '5')
++    ),
++    SimplefbFormat::new(
++        c_str!("r8g8b8"),
++        24,
++        fb::Bitfield::new(16, 8, 0),
++        fb::Bitfield::new(8, 8, 0),
++        fb::Bitfield::new(0, 8, 0),
++        fb::Bitfield::new(0, 0, 0),
++        0x34324752, // DRM_FORMAT_RGB888 = fourcc_code('R', 'G', '2', '4')
++    ),
++    SimplefbFormat::new(
++        c_str!("x8r8g8b8"),
++        32,
++        fb::Bitfield::new(16, 8, 0),
++        fb::Bitfield::new(8, 8, 0),
++        fb::Bitfield::new(0, 8, 0),
++        fb::Bitfield::new(0, 0, 0),
++        0x34325258, // DRM_FORMAT_XRGB8888 = fourcc_code('X', 'R', '2', '4')
++    ),
++    SimplefbFormat::new(
++        c_str!("a8r8g8b8"),
++        32,
++        fb::Bitfield::new(16, 8, 0),
++        fb::Bitfield::new(8, 8, 0),
++        fb::Bitfield::new(0, 8, 0),
++        fb::Bitfield::new(24, 8, 0),
++        0x34325241, // DRM_FORMAT_ARGB8888 = fourcc_code('A', 'R', '2', '4')
++    ),
++    SimplefbFormat::new(
++        c_str!("x8b8g8r8"),
++        32,
++        fb::Bitfield::new(0, 8, 0),
++        fb::Bitfield::new(8, 8, 0),
++        fb::Bitfield::new(16, 8, 0),
++        fb::Bitfield::new(0, 0, 0),
++        0x34324258, // DRM_FORMAT_XBGR8888 = fourcc_code('X', 'B', '2', '4')
++    ),
++    SimplefbFormat::new(
++        c_str!("a8b8g8r8"),
++        32,
++        fb::Bitfield::new(0, 8, 0),
++        fb::Bitfield::new(8, 8, 0),
++        fb::Bitfield::new(16, 8, 0),
++        fb::Bitfield::new(24, 8, 0),
++        0x34324241, // DRM_FORMAT_ABGR8888 = fourcc_code('A', 'B', '2', '4')
++    ),
++    SimplefbFormat::new(
++        c_str!("x2r10g10b10"),
++        32,
++        fb::Bitfield::new(20, 10, 0),
++        fb::Bitfield::new(10, 10, 0),
++        fb::Bitfield::new(0, 10, 0),
++        fb::Bitfield::new(0, 0, 0),
++        0x30335258, // DRM_FORMAT_XRGB2101010 = fourcc_code('X', 'R', '3', '0')
++    ),
++    SimplefbFormat::new(
++        c_str!("a2r10g10b10"),
++        32,
++        fb::Bitfield::new(20, 10, 0),
++        fb::Bitfield::new(10, 10, 0),
++        fb::Bitfield::new(0, 10, 0),
++        fb::Bitfield::new(30, 2, 0),
++        0x30335241, // DRM_FORMAT_ARGB2101010 = fourcc_code('A', 'R', '3', '0')
++    ),
++];
++
++/// Find a format by name.
++fn find_format(name: &CStr) -> Option<&'static SimplefbFormat> {
++    SIMPLEFB_FORMATS
++        .iter()
++        .find(|format| format.name().to_bytes() == name.to_bytes())
 +}
 +
-+/// Generic framebuffer mmap helper.
-+///
-+/// Calls the C `fb_io_mmap` helper.
-+pub fn fb_io_mmap<T: fb::Driver>(device: &fb::Device<T>, vma: &mm::virt::VmaNew) -> Result {
-+    // SAFETY: Both `device.as_raw()` and `vma.as_ptr()` are valid by type invariants.
-+    unsafe { to_result(bindings::fb_io_mmap(device.as_raw(), vma.as_ptr())) }
-+}
-diff --git a/rust/kernel/fb/mod.rs b/rust/kernel/fb/mod.rs
-new file mode 100644
-index 000000000000..d9a40488a4bd
---- /dev/null
-+++ b/rust/kernel/fb/mod.rs
-@@ -0,0 +1,23 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Framebuffer subsystem.
-+//!
-+//! This module provides abstractions for the Linux framebuffer subsystem,
-+//! allowing drivers to be written in Rust.
-+//!
-+//! C headers:
-+//! - [`include/linux/fb.h`](srctree/include/linux/fb.h)
-+
-+pub mod blit;
-+pub mod device;
-+pub mod driver;
-+pub mod io;
-+pub mod screeninfo;
-+
-+pub use blit::{cfb_copyarea, cfb_fillrect, cfb_imageblit, CopyArea, FillRect, Image};
-+pub use device::Device;
-+pub use driver::{Driver, DriverInfo, Operations, Registration};
-+pub use io::{fb_io_mmap, fb_io_read, fb_io_write};
-+pub use screeninfo::{
-+    accel, activate, types, visual, vmode, Bitfield, FixScreenInfo, VarScreenInfo,
-+};
-diff --git a/rust/kernel/fb/screeninfo.rs b/rust/kernel/fb/screeninfo.rs
-new file mode 100644
-index 000000000000..41315131b53f
---- /dev/null
-+++ b/rust/kernel/fb/screeninfo.rs
-@@ -0,0 +1,318 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Framebuffer screen information types.
-+//!
-+//! This module provides safe wrappers for framebuffer screen information structures and
-+//! related constants.
-+//!
-+//! C header: [`include/linux/fb.h`](srctree/include/linux/fb.h)
-+
-+use crate::{bindings, ffi, prelude::*};
-+
-+/// Framebuffer type constants.
-+pub mod types {
-+    /// Packed pixels.
-+    pub const FB_TYPE_PACKED_PIXELS: u32 = crate::bindings::FB_TYPE_PACKED_PIXELS;
++/// Platform data for simple framebuffer devices.
++struct SimplefbPlatformData {
++    width: u32,
++    height: u32,
++    stride: u32,
++    format: &'static CStr,
 +}
 +
-+/// Framebuffer visual constants.
-+pub mod visual {
-+    /// True color.
-+    pub const FB_VISUAL_TRUECOLOR: u32 = crate::bindings::FB_VISUAL_TRUECOLOR;
-+}
++impl SimplefbPlatformData {
++    /// Extract platform data from a device.
++    ///
++    /// # Safety
++    ///
++    /// * The platform data type must be `simplefb_platform_data`.
++    /// * The platform data structure must be properly initialized.
++    unsafe fn from_device(pdev: &platform::Device<Core>) -> Result<Self> {
++        let dev = pdev.as_ref();
++        // SAFETY: The caller guarantees the platform data type matches.
++        let pd_opaque = unsafe { dev.platdata::<bindings::simplefb_platform_data>()? };
++        // SAFETY: The caller guarantees the platform data structure is properly initialized.
++        let pd_raw = unsafe { &*pd_opaque.get() };
 +
-+/// Framebuffer acceleration constants.
-+pub mod accel {
-+    /// No hardware accelerator.
-+    pub const FB_ACCEL_NONE: u32 = crate::bindings::FB_ACCEL_NONE;
-+}
++        let format_cstr = if pd_raw.format.is_null() {
++            return Err(ENODEV);
++        } else {
++            // SAFETY: `format` is not null (checked above) and points to a valid C string.
++            unsafe { CStr::from_char_ptr(pd_raw.format) }
++        };
 +
-+/// Framebuffer activation constants.
-+pub mod activate {
-+    /// Set values immediately (or at vblank).
-+    pub const FB_ACTIVATE_NOW: u32 = crate::bindings::FB_ACTIVATE_NOW;
-+}
-+
-+/// Framebuffer video mode constants.
-+pub mod vmode {
-+    /// Non-interlaced.
-+    pub const FB_VMODE_NONINTERLACED: u32 = crate::bindings::FB_VMODE_NONINTERLACED;
-+}
-+
-+/// Wrapper for `fb_bitfield`.
-+///
-+/// Describes a bitfield within a pixel, typically used for color components.
-+#[repr(transparent)]
-+#[derive(Clone, Copy)]
-+pub struct Bitfield(bindings::fb_bitfield);
-+
-+impl Bitfield {
-+    /// Create a new `Bitfield`.
-+    pub const fn new(offset: u32, length: u32, msb_right: u32) -> Self {
-+        Self(bindings::fb_bitfield {
-+            offset,
-+            length,
-+            msb_right,
++        Ok(Self {
++            width: pd_raw.width,
++            height: pd_raw.height,
++            stride: pd_raw.stride,
++            format: format_cstr,
 +        })
 +    }
 +
-+    /// Create a new `Bitfield` from the raw C structure.
-+    ///
-+    /// `fb_bitfield` is a POD type, so any bit pattern is valid.
-+    pub(crate) const fn from_raw(raw: bindings::fb_bitfield) -> Self {
-+        Self(raw)
++    const fn width(&self) -> u32 {
++        self.width
 +    }
 +
-+    /// Returns the wrapped C structure.
-+    pub(crate) const fn into_raw(self) -> bindings::fb_bitfield {
-+        self.0
++    const fn height(&self) -> u32 {
++        self.height
 +    }
 +
-+    /// Bit offset within the pixel.
-+    pub const fn offset(&self) -> u32 {
-+        self.0.offset
++    const fn stride(&self) -> u32 {
++        self.stride
 +    }
 +
-+    /// Bitfield length in bits.
-+    pub const fn length(&self) -> u32 {
-+        self.0.length
++    const fn format(&self) -> &'static CStr {
++        self.format
 +    }
 +}
 +
-+/// Wrapper for `fb_var_screeninfo`.
-+///
-+/// Describes variable screen parameters that can be changed by the user or driver
-+/// (e.g., resolution, color depth).
-+#[repr(transparent)]
-+pub struct VarScreenInfo(bindings::fb_var_screeninfo);
-+
-+impl VarScreenInfo {
-+    /// Create a zeroed `VarScreenInfo`.
-+    ///
-+    /// Most fields will need to be set by the driver.
-+    ///
-+    /// `fb_var_screeninfo` is a POD type, so the all-zero bit pattern is valid.
-+    pub const fn new_zeroed() -> Self {
-+        Self(unsafe { core::mem::zeroed() })
-+    }
-+
-+    /// Create a reference from a raw C structure pointer.
-+    ///
-+    /// # Safety
-+    ///
-+    /// The caller must ensure that `ptr` is valid for reading and remains valid for the lifetime
-+    /// of the returned reference.
-+    #[inline]
-+    pub unsafe fn from_raw<'a>(ptr: *const bindings::fb_var_screeninfo) -> &'a Self {
-+        // SAFETY: `VarScreenInfo` is a transparent wrapper around `bindings::fb_var_screeninfo`.
-+        unsafe { &*ptr.cast() }
-+    }
-+
-+    /// Returns the wrapped C structure.
-+    pub fn into_raw(self) -> bindings::fb_var_screeninfo {
-+        self.0
-+    }
-+
-+    /// Visible resolution (horizontal).
-+    #[inline]
-+    pub fn xres(&self) -> u32 {
-+        self.0.xres
-+    }
-+
-+    /// Visible resolution (vertical).
-+    #[inline]
-+    pub fn yres(&self) -> u32 {
-+        self.0.yres
-+    }
-+
-+    /// Bits per pixel.
-+    pub fn bits_per_pixel(&self) -> u32 {
-+        self.0.bits_per_pixel
-+    }
-+
-+    /// Red color bitfield.
-+    pub fn red(&self) -> Bitfield {
-+        Bitfield::from_raw(self.0.red)
-+    }
-+
-+    /// Green color bitfield.
-+    pub fn green(&self) -> Bitfield {
-+        Bitfield::from_raw(self.0.green)
-+    }
-+
-+    /// Blue color bitfield.
-+    pub fn blue(&self) -> Bitfield {
-+        Bitfield::from_raw(self.0.blue)
-+    }
-+
-+    /// Transparency/alpha color bitfield.
-+    pub fn transp(&self) -> Bitfield {
-+        Bitfield::from_raw(self.0.transp)
-+    }
-+
-+    /// Set the visible resolution (horizontal).
-+    pub fn set_xres(&mut self, xres: u32) {
-+        self.0.xres = xres;
-+    }
-+
-+    /// Set the visible resolution (vertical).
-+    pub fn set_yres(&mut self, yres: u32) {
-+        self.0.yres = yres;
-+    }
-+
-+    /// Set the virtual resolution (horizontal).
-+    pub fn set_xres_virtual(&mut self, xres_virtual: u32) {
-+        self.0.xres_virtual = xres_virtual;
-+    }
-+
-+    /// Set the virtual resolution (vertical).
-+    pub fn set_yres_virtual(&mut self, yres_virtual: u32) {
-+        self.0.yres_virtual = yres_virtual;
-+    }
-+
-+    /// Set bits per pixel.
-+    pub fn set_bits_per_pixel(&mut self, bits_per_pixel: u32) {
-+        self.0.bits_per_pixel = bits_per_pixel;
-+    }
-+
-+    /// Set the red color bitfield.
-+    pub fn set_red(&mut self, red: Bitfield) {
-+        self.0.red = red.into_raw();
-+    }
-+
-+    /// Set the green color bitfield.
-+    pub fn set_green(&mut self, green: Bitfield) {
-+        self.0.green = green.into_raw();
-+    }
-+
-+    /// Set the blue color bitfield.
-+    pub fn set_blue(&mut self, blue: Bitfield) {
-+        self.0.blue = blue.into_raw();
-+    }
-+
-+    /// Set the transparency (alpha) color bitfield.
-+    pub fn set_transp(&mut self, transp: Bitfield) {
-+        self.0.transp = transp.into_raw();
-+    }
-+
-+    /// Set the activation flags.
-+    pub fn set_activate(&mut self, activate: u32) {
-+        self.0.activate = activate;
-+    }
-+
-+    /// Set the video mode flags.
-+    pub fn set_vmode(&mut self, vmode: u32) {
-+        self.0.vmode = vmode;
-+    }
-+
-+    /// Set the width (for compatibility, typically same as xres).
-+    pub fn set_width(&mut self, width: u32) {
-+        self.0.width = width;
-+    }
-+
-+    /// Set the height (for compatibility, typically same as yres).
-+    pub fn set_height(&mut self, height: u32) {
-+        self.0.height = height;
-+    }
++/// Parsed framebuffer parameters.
++struct SimplefbParams {
++    width: u32,
++    height: u32,
++    stride: u32,
++    format: &'static SimplefbFormat,
 +}
 +
-+/// Wrapper for `fb_fix_screeninfo`.
-+///
-+/// Describes fixed screen parameters that cannot be changed by the user
-+/// (e.g., framebuffer memory address, type).
-+#[repr(transparent)]
-+pub struct FixScreenInfo(bindings::fb_fix_screeninfo);
++/// Driver-specific data for the simple framebuffer.
++#[pin_data]
++struct SimplefbData {
++    palette: [u32; PSEUDO_PALETTE_SIZE],
++    #[allow(dead_code)] // Reserved for future devm_aperture_acquire_for_platform_device support
++    base: PhysAddr,
++    #[allow(dead_code)] // Reserved for future devm_aperture_acquire_for_platform_device support
++    size: ResourceSize,
++    #[allow(dead_code)] // Used via Drop trait for automatic resource cleanup
++    mem: Option<Region>,
++    #[pin]
++    #[allow(dead_code)]
++    // I/O memory mapping; ensures iounmap happens before release_mem_region via drop order
++    _iomem: Pin<KBox<Devres<IoMem<0>>>>,
++}
 +
-+impl FixScreenInfo {
-+    /// Create a zeroed `FixScreenInfo`.
-+    ///
-+    /// Most fields will need to be set by the driver.
-+    ///
-+    /// `fb_fix_screeninfo` is a POD type, so the all-zero bit pattern is valid.
-+    pub const fn new_zeroed() -> Self {
-+        Self(unsafe { core::mem::zeroed() })
++/// Simple framebuffer operations implementation
++struct SimplefbOps;
++
++#[vtable]
++impl fb::Operations for SimplefbOps {
++    type Data = SimplefbData;
++
++    fn read(
++        device: &fb::Device<impl fb::Driver<Data = Self::Data>>,
++        buf: &mut [u8],
++        ppos: &mut kernel::fs::file::Offset,
++    ) -> Result<usize> {
++        fb::fb_io_read(device, buf, ppos)
 +    }
 +
-+    /// Create a reference from a raw C structure pointer.
-+    ///
-+    /// # Safety
-+    ///
-+    /// The caller must ensure that `ptr` is valid for reading and remains valid for the lifetime
-+    /// of the returned reference.
-+    #[inline]
-+    pub unsafe fn from_raw<'a>(ptr: *const bindings::fb_fix_screeninfo) -> &'a Self {
-+        // SAFETY: `FixScreenInfo` is a transparent wrapper around `bindings::fb_fix_screeninfo`.
-+        unsafe { &*ptr.cast() }
++    fn write(
++        device: &fb::Device<impl fb::Driver<Data = Self::Data>>,
++        buf: &[u8],
++        ppos: &mut kernel::fs::file::Offset,
++    ) -> Result<usize> {
++        fb::fb_io_write(device, buf, ppos)
 +    }
 +
-+    /// Returns the wrapped C structure.
-+    pub fn into_raw(self) -> bindings::fb_fix_screeninfo {
-+        self.0
-+    }
-+
-+    /// Framebuffer memory start (physical address).
-+    #[inline]
-+    pub fn smem_start(&self) -> usize {
-+        self.0.smem_start as usize
-+    }
-+
-+    /// Length of framebuffer memory in bytes.
-+    #[inline]
-+    pub fn smem_len(&self) -> u32 {
-+        self.0.smem_len
-+    }
-+
-+    /// Length of a line in bytes.
-+    #[inline]
-+    pub fn line_length(&self) -> u32 {
-+        self.0.line_length
-+    }
-+
-+    /// Set the framebuffer identification string.
-+    ///
-+    /// The string (including NUL terminator) is truncated to 16 bytes if it exceeds that length.
-+    pub fn set_id(&mut self, id: &'static CStr) {
-+        const FB_ID_LEN: usize = 16;
-+        let src = id.to_bytes_with_nul();
-+
-+        // Copy the string into the id array
-+        let len = core::cmp::min(src.len(), FB_ID_LEN);
-+        for (i, &byte) in src.iter().take(len).enumerate() {
-+            self.0.id[i] = byte as ffi::c_char;
++    fn setcolreg(
++        device: &fb::Device<impl fb::Driver<Data = Self::Data>>,
++        regno: u32,
++        red: u32,
++        green: u32,
++        blue: u32,
++        _transp: u32,
++    ) -> Result {
++        if regno >= PSEUDO_PALETTE_SIZE as u32 {
++            return Err(EINVAL);
 +        }
-+        // Zero out the rest of the array if the string is shorter
-+        for i in len..FB_ID_LEN {
-+            self.0.id[i] = 0;
++
++        let var = device.var();
++        let red_len = var.red().length();
++        let green_len = var.green().length();
++        let blue_len = var.blue().length();
++        let red_offset = var.red().offset();
++        let green_offset = var.green().offset();
++        let blue_offset = var.blue().offset();
++
++        let cr = red >> (16 - red_len);
++        let cg = green >> (16 - green_len);
++        let cb = blue >> (16 - blue_len);
++
++        let mut value = (cr << red_offset) | (cg << green_offset) | (cb << blue_offset);
++
++        let transp_len = var.transp().length();
++        if transp_len > 0 {
++            let transp_offset = var.transp().offset();
++            let mask = ((1u32 << transp_len) - 1) << transp_offset;
++            value |= mask;
 +        }
++
++        // Access the palette through the driver data
++        // SAFETY: device.pseudo_palette() returns a valid pointer to the palette array
++        unsafe {
++            let palette = device.pseudo_palette() as *mut u32;
++            *palette.add(regno as usize) = value;
++        }
++
++        Ok(())
 +    }
 +
-+    /// Set the framebuffer type.
-+    pub fn set_type(&mut self, type_: u32) {
-+        self.0.type_ = type_;
++    fn fillrect(device: &fb::Device<impl fb::Driver<Data = Self::Data>>, rect: &fb::FillRect) {
++        fb::cfb_fillrect(device, rect);
 +    }
 +
-+    /// Set the visual type.
-+    pub fn set_visual(&mut self, visual: u32) {
-+        self.0.visual = visual;
++    fn copyarea(device: &fb::Device<impl fb::Driver<Data = Self::Data>>, area: &fb::CopyArea) {
++        fb::cfb_copyarea(device, area);
 +    }
 +
-+    /// Set the acceleration type.
-+    pub fn set_accel(&mut self, accel: u32) {
-+        self.0.accel = accel;
++    fn imageblit(device: &fb::Device<impl fb::Driver<Data = Self::Data>>, image: &fb::Image) {
++        fb::cfb_imageblit(device, image);
 +    }
 +
-+    /// Set the physical address of framebuffer memory start.
-+    pub fn set_smem_start(&mut self, start: usize) {
-+        self.0.smem_start = start;
-+    }
-+
-+    /// Set the length of framebuffer memory in bytes.
-+    pub fn set_smem_len(&mut self, len: u32) {
-+        self.0.smem_len = len;
-+    }
-+
-+    /// Set the length of a line in bytes.
-+    pub fn set_line_length(&mut self, length: u32) {
-+        self.0.line_length = length;
++    fn mmap(
++        device: &fb::Device<impl fb::Driver<Data = Self::Data>>,
++        vma: &kernel::mm::virt::VmaNew,
++    ) -> Result {
++        fb::fb_io_mmap(device, vma)
 +    }
 +}
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index f812cf120042..feebfe3aa032 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -93,6 +93,8 @@
- pub mod drm;
- pub mod error;
- pub mod faux;
-+#[cfg(CONFIG_FB)]
-+pub mod fb;
- #[cfg(CONFIG_RUST_FW_LOADER_ABSTRACTIONS)]
- pub mod firmware;
- pub mod fmt;
++
++/// Framebuffer driver type.
++struct SimplefbDriverImpl;
++
++#[vtable]
++impl fb::Driver for SimplefbDriverImpl {
++    type Data = SimplefbData;
++    type Ops = SimplefbOps;
++
++    const INFO: fb::DriverInfo = fb::DriverInfo {
++        name: c_str!("simplefb-rust"),
++        desc: c_str!("Simple framebuffer driver"),
++    };
++}
++
++/// Platform driver data.
++struct SimplefbDriver {
++    _pdev: ARef<platform::Device>,
++}
++
++impl SimplefbDriver {
++    /// Map framebuffer memory with write-combining cache policy.
++    ///
++    /// Returns a tuple of the IoMem handle and the virtual address (screen_base).
++    fn map_framebuffer_memory(
++        pdev: &platform::Device<Core>,
++    ) -> Result<(Pin<KBox<Devres<IoMem<0>>>>, *mut u8)> {
++        let dev = pdev.as_ref();
++
++        let io_request = pdev.io_request_by_index(0).ok_or_else(|| {
++            dev_err!(dev, "[rust] No memory resource for framebuffer\n");
++            ENODEV
++        })?;
++
++        // Map with write-combining. The Devres must remain at a fixed address for the devres
++        // callback to work correctly, so we keep it in KBox.
++        let iomem_init = io_request.iomap_wc();
++        let iomem_kbox = KBox::pin_init(iomem_init, GFP_KERNEL)?;
++
++        let screen_base = {
++            let io = iomem_kbox.access(dev)?;
++            io.addr() as *mut u8
++        };
++
++        Ok((iomem_kbox, screen_base))
++    }
++
++    /// Parse platform data.
++    fn parse_pd(pdev: &platform::Device<Core>) -> Result<SimplefbParams> {
++        let dev = pdev.as_ref();
++
++        // SAFETY: The platform data type matches simplefb_platform_data for this device.
++        let pd = unsafe { SimplefbPlatformData::from_device(pdev)? };
++
++        let width = pd.width();
++        let height = pd.height();
++        let stride = pd.stride();
++        let format_cstr = pd.format();
++
++        let format = find_format(format_cstr).ok_or_else(|| {
++            dev_err!(dev, "[rust] Invalid format value\n");
++            EINVAL
++        })?;
++
++        Ok(SimplefbParams {
++            width,
++            height,
++            stride,
++            format,
++        })
++    }
++
++    /// Parse device tree properties.
++    fn parse_dt(pdev: &platform::Device<Core>) -> Result<SimplefbParams> {
++        let dev = pdev.as_ref();
++        let fwnode = dev.fwnode().ok_or(ENODEV)?;
++
++        let width: u32 = fwnode.property_read(c_str!("width")).required_by(dev)?;
++        let height: u32 = fwnode.property_read(c_str!("height")).required_by(dev)?;
++        let stride: u32 = fwnode.property_read(c_str!("stride")).required_by(dev)?;
++
++        let format_name = fwnode
++            .property_read::<kernel::str::CString>(c_str!("format"))
++            .required_by(dev)?;
++
++        let format = find_format(&format_name).ok_or_else(|| {
++            dev_err!(dev, "[rust] Invalid format value\n");
++            EINVAL
++        })?;
++
++        Ok(SimplefbParams {
++            width,
++            height,
++            stride,
++            format,
++        })
++    }
++
++    /// Probe the framebuffer device.
++    fn probe_internal(pdev: &platform::Device<Core>) -> Result {
++        let dev = pdev.as_ref();
++
++        let params = Self::parse_pd(pdev).or_else(|_| {
++            if dev.fwnode().is_some() {
++                Self::parse_dt(pdev)
++            } else {
++                Err(ENODEV)
++            }
++        })?;
++
++        let resource = pdev.resource_by_index(0).ok_or_else(|| {
++            dev_err!(dev, "[rust] No memory resource\n");
++            EINVAL
++        })?;
++
++        let mem_region = resource.request_region(
++            resource.start(),
++            resource.size(),
++            c_str!("simplefb").to_cstring()?,
++            Flags::IORESOURCE_MEM,
++        );
++
++        let mem: &Resource = match &mem_region {
++            Some(region) => region as &Resource,
++            None => {
++                dev_warn!(
++                    dev,
++                    "[rust] simplefb: cannot reserve video memory at 0x{:x}-0x{:x}\n",
++                    resource.start(),
++                    resource.start() + resource.size() - 1
++                );
++                resource
++            }
++        };
++
++        let memory_start = mem.start();
++        let memory_size = mem.size();
++
++        let (iomem_kbox, screen_base) = Self::map_framebuffer_memory(pdev)?;
++
++        let fb_device = fb::Device::<SimplefbDriverImpl>::new(
++            dev,
++            try_pin_init!(SimplefbData {
++                palette: [0u32; PSEUDO_PALETTE_SIZE],
++                base: memory_start,
++                size: memory_size,
++                mem: mem_region,
++                _iomem: iomem_kbox,
++            }),
++        )?;
++
++        let mut fix_template = init_simplefb_fix();
++        let fmt = params.format;
++        let mut var_template = init_simplefb_var();
++
++        fix_template.set_smem_start(memory_start as usize);
++        fix_template.set_smem_len(memory_size as u32);
++        fix_template.set_line_length(params.stride);
++
++        var_template.set_xres(params.width);
++        var_template.set_yres(params.height);
++        var_template.set_xres_virtual(params.width);
++        var_template.set_yres_virtual(params.height);
++        var_template.set_bits_per_pixel(fmt.bits_per_pixel());
++        var_template.set_red(fmt.red());
++        var_template.set_green(fmt.green());
++        var_template.set_blue(fmt.blue());
++        var_template.set_transp(fmt.transp());
++
++        // SAFETY: We have exclusive access to the fb_device during initialization,
++        // before it is registered with the framebuffer subsystem.
++        unsafe {
++            fb_device.configure_fix(|fix| {
++                *fix = fix_template.into_raw();
++            });
++
++            fb_device.configure_var(|var| {
++                *var = var_template.into_raw();
++            });
++
++            fb_device.set_screen_base(screen_base);
++            fb_device.set_pseudo_palette(fb_device.data().palette.as_ptr() as *mut _);
++        }
++
++        dev_info!(
++            dev,
++            "[rust] framebuffer at 0x{:x}, 0x{:x} bytes\n",
++            fb_device.fix().smem_start(),
++            fb_device.fix().smem_len()
++        );
++
++        dev_info!(
++            dev,
++            "[rust] format={}, mode={}x{}x{}, linelength={}\n",
++            params.format.name(),
++            fb_device.var().xres(),
++            fb_device.var().yres(),
++            fb_device.var().bits_per_pixel(),
++            fb_device.fix().line_length()
++        );
++
++        // TODO: Implement devm_aperture_acquire_for_platform_device to manage framebuffer
++        // memory ownership and prevent conflicts with dedicated drivers (e.g., DRM).
++
++        if let Err(err) = fb::Registration::new_foreign_owned(&fb_device, pdev.as_ref()) {
++            dev_err!(
++                dev,
++                "[rust] Unable to register simplefb: {}\n",
++                err.to_errno()
++            );
++            return Err(err);
++        }
++
++        dev_info!(dev, "[rust] fb{}: simplefb registered!\n", fb_device.node());
++
++        Ok(())
++    }
++}
++
++kernel::of_device_table!(
++    OF_TABLE,
++    MODULE_OF_TABLE,
++    <SimplefbDriver as platform::Driver>::IdInfo,
++    [(of::DeviceId::new(c_str!("simple-framebuffer")), ())]
++);
++
++impl platform::Driver for SimplefbDriver {
++    type IdInfo = ();
++    const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> = Some(&OF_TABLE);
++
++    fn probe(
++        pdev: &platform::Device<Core>,
++        _id_info: Option<&Self::IdInfo>,
++    ) -> impl PinInit<Self, Error> {
++        Self::probe_internal(pdev)?;
++        Ok(Self { _pdev: pdev.into() })
++    }
++}
++
++kernel::module_platform_driver! {
++    type: SimplefbDriver,
++    name: "simple-framebuffer",
++    authors: ["pengfuyuan <pengfuyuan@kylinos.cn>", "Rust port"],
++    description: "Simple framebuffer driver (Rust)",
++    license: "GPL v2",
++}
+diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+index bc47806eb365..01eda020e7e6 100644
+--- a/rust/bindings/bindings_helper.h
++++ b/rust/bindings/bindings_helper.h
+@@ -70,6 +70,7 @@
+ #include <linux/pci.h>
+ #include <linux/phy.h>
+ #include <linux/pid_namespace.h>
++#include <linux/platform_data/simplefb.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_opp.h>
+ #include <linux/poll.h>
 -- 
 2.25.1
 
