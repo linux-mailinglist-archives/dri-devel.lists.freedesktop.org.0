@@ -2,169 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iIWROMisd2kZkAEAu9opvQ
+	id CMbCFGSvd2kbkQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 19:04:56 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 19:16:04 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC908BE48
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 19:04:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C4CC8C043
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 19:16:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DFDB10E0BF;
-	Mon, 26 Jan 2026 18:04:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 570F110E1FC;
+	Mon, 26 Jan 2026 18:16:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="PFn7k2dv";
+	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="zA71ZuEe";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ixutS52Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CWXP265CU009.outbound.protection.outlook.com
- (mail-ukwestazon11021110.outbound.protection.outlook.com [52.101.100.110])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4849210E0BF;
- Mon, 26 Jan 2026 18:04:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VtUAHSkRKWtqYVrsN/KMz3Wrr2RgizX4rzyYn/AL97YNOdx1/5feBx/6li7am9gSbc3YbwT+a6bMJnuBeGd97/wWPIO2mDrtiBQ7qpc0hx+PcqfonD1baJktKjDoEpycrvc/cGWenILr5zkXDYhukjsDttush31/QSFsgFArjVf7CMIFkWr3SsHJj34b/NFVjB3IwfxZ8geeeSntK4j9fcZsVlAq7DZvTUCE6iVqbldrq6jJen7r0sDfU49cE3yJCpPJbn2s+1t0v5QEbLoqWa7zr7I18aIgAX9bz0f/wdRwWGHZ/DTf5lTzAIFWElLO3zS//WfwqbULqnDj3Q0//g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l1VVKOqvQBLHgR38vU6NIlhrcs1HZIdZuVl7xhdqK9U=;
- b=yQkvLMhcqInwVGQAk3Q8Y3FC8/CfJ0tvVLK2N5RIzf4AXevQlZge/POFE2LcDG/3RztWjrL8aOXLduPs3C9tfkmt/jXs7knmpMQm6/77y90adBQiIdU7Rc3PtVR+cUjsvmaC4UbFFuSTxK0pxbAgc2zqHnSkvNZonwHYMcg2Kj6GE2/cZk6jvErd/5rbMbXBt3kix0FQDFkjWz6P2AlnqbE2V6PYUmUgPYlJTVFSDRVaLkmo76Re6giGb27rE0yDwLAScZZTo67KJurdu2tZP8KEV7LXR6Gkf8LRRIlum08oBXfE+1mpOuFtLcIUCwhL0POmiNlYiaeohrUEOYAipA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l1VVKOqvQBLHgR38vU6NIlhrcs1HZIdZuVl7xhdqK9U=;
- b=PFn7k2dvnd5/ehvbppNNovBsfee4Y8PbEvgN1KL5SnYXTIBrr0dFGy5flc7MoHpCCCyZmbA3bQ4f7L8SzGKCRGeKOHB7QbBxRLZ25gW4668uGTSH/KyMqhSuy8+D6hDjO2Xue6osq1tysRZyjV6JAyj+8pKnFOUD3pibyjOPEJE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from CW1P265MB8877.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:27c::13)
- by LOYP265MB2093.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:11c::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.12; Mon, 26 Jan
- 2026 18:04:48 +0000
-Received: from CW1P265MB8877.GBRP265.PROD.OUTLOOK.COM
- ([fe80::6c9e:93c8:10db:e995]) by CW1P265MB8877.GBRP265.PROD.OUTLOOK.COM
- ([fe80::6c9e:93c8:10db:e995%6]) with mapi id 15.20.9542.010; Mon, 26 Jan 2026
- 18:04:48 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 26 Jan 2026 18:04:47 +0000
-Message-Id: <DFYPX3TNI3Y2.38MQUIWHHR9Z1@garyguo.net>
-Cc: <nouveau@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/4] gpu: nova-core: gsp: clarify comments about
- invariants and pointer roles
-From: "Gary Guo" <gary@garyguo.net>
-To: "Eliot Courtney" <ecourtney@nvidia.com>, "Danilo Krummrich"
- <dakr@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>, "Alice Ryhl"
- <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Alistair Popple" <apopple@nvidia.com>
-X-Mailer: aerc 0.21.0
-References: <20260123-nova-core-cmdq1-v2-0-e797ec1b714c@nvidia.com>
- <20260123-nova-core-cmdq1-v2-2-e797ec1b714c@nvidia.com>
-In-Reply-To: <20260123-nova-core-cmdq1-v2-2-e797ec1b714c@nvidia.com>
-X-ClientProxiedBy: LO2P265CA0006.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:62::18) To CW1P265MB8877.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:400:27c::13)
+X-Greylist: delayed 438 seconds by postgrey-1.36 at gabe;
+ Mon, 26 Jan 2026 18:15:58 UTC
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95D2010E1FC
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 18:15:58 +0000 (UTC)
+Date: Mon, 26 Jan 2026 19:08:36 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1769450918;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=n25mEkYQU/glokJCvaiTwx52pP8eauU0AvEm85TLH8I=;
+ b=zA71ZuEewFBi4MT7lBql2Gddc58rxd16xkRREuW8LoYi9IKPBrocQiXvXzP1tu67DM96+2
+ uwycgmoTK7l0P/C99zd8qDMFtgCUaT9iqkMWoskgqt8aryA/L/O0+bmWUTjX/WLPVp/K6y
+ U4dGaW4wW5Fi/zTUu/QxXkuHs4ZEjMLXQVFo2PISmS2ypzjgLA9wjb+IjRgMfy30jFHLd+
+ NVHaBfbVD+09jDgxBYSk0Z7Rt9YL9Xjj7mi3dKfvgTPRcECkuld4JH4p6iUmluU2qWeE0M
+ 3UG1QQ3ngGUQD4k+jMXGIB5BUrRpj08LfIqH+ntOgfgRsWJhw87Cx+jVVPEeJw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1769450918;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=n25mEkYQU/glokJCvaiTwx52pP8eauU0AvEm85TLH8I=;
+ b=ixutS52YHuUN8cAazK53op9LSVXKYj+L7tTcuTfX0ZgExwcqBlUynQDi28APWYREAjSiEV
+ cUFDysE+f9Wo9ECA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-rt-devel@lists.linux.dev
+Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ John Ogness <john.ogness@linutronix.de>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Helge Deller <deller@gmx.de>
+Subject: [PATCH] printk, vt, fbcon: Remove console_conditional_schedule()
+Message-ID: <20260126180836.SNCdMW2f@linutronix.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CW1P265MB8877:EE_|LOYP265MB2093:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0cee1817-446a-4562-4648-08de5d056492
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|366016|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?elZNYU9vNDMwYVM2aGVsU0NYMXJXSVdvemdYdWJINHJaVHgxaE92eUZKbXB4?=
- =?utf-8?B?SGk1WnZYTldJWnlueGZuSTk2WVdvZmJYMjRIeTQ2ZTYwam1IOHE0dm53WGUr?=
- =?utf-8?B?aEtMQ2FrWGdNWFZsZFhqZ0owaTdsdkM1Rkh1eWRsVndVcitOTXgzTElUSFJh?=
- =?utf-8?B?ckI2L2ZCSUJQdTZva2Njb0EwVTRkQmVFRlB4ZVNZZXJmeHpYMk1pTzlEQXBK?=
- =?utf-8?B?WHV2b2VYTUZOMWNCYW45bzdjRlZtNW5uaFY5b1JrNCttYmRITHZ0eDRvWmNG?=
- =?utf-8?B?YUIrK0FhUFM3akhnNEFzMlJUZEI0TmNXN3EvVSs3UTg4TW5JWkVJdE40UzVn?=
- =?utf-8?B?Wks5bXU3Tkd4TTdDYUp1a3ZtSjN0VXZiT0tZYksvWjVsOWg2TjNPbmFzKzdB?=
- =?utf-8?B?Q3Blek1WT3VKb2hGclFZWjR4RkEzNEVsTDVHOFUzeGFGcGdNRUczd2I0a2dP?=
- =?utf-8?B?NUJlZEVmNVYzRHFIanQranRzd04ydzdMSUhOczliNXFOWDFmbE9yVElSMXVk?=
- =?utf-8?B?M3FCV3VCa2pqSkFkM0tieEhNVTJLdmJRY254bVl1bG9nS1JKTzBKS0pqREJz?=
- =?utf-8?B?MTNtYkY2dmNSQVpqY1E3RDRnOHhBcjBmWFhpMkZwNDBQdXBUeUExQ0trNzVF?=
- =?utf-8?B?VW94SHprNWttWENWS1VaVHpYeGN0L0x4bXN4U0UyRHE0bERnZGdoWk9wcmll?=
- =?utf-8?B?UUpXYVkwcnRXclhBd3ZnUGF4L1VRLzNsWjdxNEtaVWFFYkZ3N01vZGR3TGxU?=
- =?utf-8?B?YnJKaGxnUjFzeXM1bE41OFBleklPQUVNRFdkSnF6K0cxNFBDcStaQUhFR05K?=
- =?utf-8?B?bW82bDQrQXRDMjNkQXRqQ3VoUSt1bWRSVUVXdlYvdk5zTFU1WlY5TDA0WUx1?=
- =?utf-8?B?Kzh4NDNscmtXR1RuTWczeHZlVUJYczNwQlFaV25LYjVvZGE1L3hSNWduVjJa?=
- =?utf-8?B?T2VzeWNheklLZ0tZOFpWSzhaem1Sb1BNUFpvNDBWL2IrZHpjVWtSV1l3QUtp?=
- =?utf-8?B?RE9GRlZpTVhZU0Yxb1pkcUxPQjAzallmOUVqRnU1c3E1UkZZVnpZaExyWWpk?=
- =?utf-8?B?ZnpOZG9hSlFYTkdJZXg2cW1FSkEzejZXKyswWnVTSFNaUUM2a3MrVFI3MWF3?=
- =?utf-8?B?UndQa2FHYzVqd2Y4R3kwdURQcDA1L1hSRTRzMktGMzdTTWx4ZGo3cjMxVjlU?=
- =?utf-8?B?WS9zQ1hBNEFKNFQyaXJHdEwvaFRCMW5uaHBqcGc1bWJaR0lydnZwVW05azlI?=
- =?utf-8?B?d2lyWHNtUDFMNU15Q3pZWVNuM0RhOWg0ZEFFTjJjNGs4alhYOGI5dWtFSERy?=
- =?utf-8?B?Q0I2Qm9GNHRqYmZ2YmVzRVBETFd3TFhtYmMzalR0dlFSTmY3STJrOUVXU1FD?=
- =?utf-8?B?MnhzQVZuQ1pXU0J3Q3FhZTRUTVprSVZQaTVmNGRYeHp1dGxZNDJPQ2c0bkx3?=
- =?utf-8?B?NXFXOVEwOVpsWmhJU3dkVnk1QXRCNUFQaXhVdHYzQTFxQVdSUFExcGYwRkk4?=
- =?utf-8?B?cmt5TnZOUGV2cHlZRjF4a0ZTYTBwSkpTQUl1S2IxMzNCT1JTK1FKRy9hak0y?=
- =?utf-8?B?QnlXa0tWdkdUMy9kYWFsR1h5RnJhTXBDZHlRR21jQUp3WmFhTUVNZ3Q3QmRC?=
- =?utf-8?B?Y3p2a1VGdlFXc29hdkp6M2RtUHlsRkRobGNDcnpxNDlzajE2TGFBK1JJUHQ3?=
- =?utf-8?B?OFRNbE5JNlhSZmRCM2pWTlM0U2RhMEdMK3dqL1BQekxkdVVkT1o3dEozUkpy?=
- =?utf-8?B?d1VmcmhuQmthdE8yYm5Zc0pVOTc4V0xGNXRNSHZhUFduR2lzTDZYVVJHVFNu?=
- =?utf-8?B?MjBFcmVXTm44RTZxbURhaUo1MjRlYjFpSkRtbzl2cFZKRDhYVDFYZXpWWUhD?=
- =?utf-8?B?QXlVamNmVGxQaDZRUEEwenZsdXU2aFRGOXNwUGxqZm1tSTJrcmpEOVZmZGc5?=
- =?utf-8?B?cHdaY2JKU08rRTc4RVgxbm50YlFVVGwyMUhrU3RKSHdTRnloeU9VYVVVOFEv?=
- =?utf-8?B?WEo4TU1IWEY0MFFxZTFyU01qUkhnamdVcHpLMkxScWdBRnV0ZmhxS3BBbkIy?=
- =?utf-8?B?M04vTkg2aVJ4YThUODhHbDc0QWdqWVdBV1VSWk5IWGFqQUtUb3hJRWcxbFpy?=
- =?utf-8?Q?uVuk=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CW1P265MB8877.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007); DIR:OUT;
- SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UkMwSTd5dHk0SGRLOTEyaXd2ZHhuL2dQNi96RlRER3JZWks0TU1TVGlSOGtk?=
- =?utf-8?B?M3hvYU9tVHhYQkNURUFrOXhwQnJQQlVHbytKcDBFcG9qSjhXbTFxM2d5Slc3?=
- =?utf-8?B?TW5NT3htUTUwaDVoNjNTbmJ0WUN1L2dodGJHTkRsSTVBUWtCNFc3T0R4c05n?=
- =?utf-8?B?NXNCbEVVTXE0UmJlMXR2eUU3VTJnUDdBSVM2WlR2cHdLZFZsSVJDRXhCSTg1?=
- =?utf-8?B?K0R0RnRvTndoMjhMZTk1VTlqUXkrUTFpY0IwMVlxaW1KRjNaRzJObmpGck5W?=
- =?utf-8?B?ZEZHWklkTlB2MjcrYmQrRkN4akdTclc0RDZzdEtPTmNJV0tUSjhqc3FRRU0y?=
- =?utf-8?B?d08vYzVabnEzdmRyYWlHT0R5ZlRtVVI5OUt0Y2VJdWtCVjlkdnh6ZEZQT3VF?=
- =?utf-8?B?UnlMZ1FHMFM1azVQL1c1WnJzSTVVUEtnYkhPWDFCWENzMzRCVTVmeTQ2SXR6?=
- =?utf-8?B?N1ZqcXBha0VxQTBpNlRlNFEzV2k0WjUvMVRUVll4d3VVR3VQeExyWThJSVVM?=
- =?utf-8?B?Q2ZiaDdaV1NCQjFTZCsyOHBYM2VLM2RPME12RmJBczVjWFB1cGRtdENFTmlv?=
- =?utf-8?B?YnNwY3dqMUZ2UTNDWUlQSFFaVlJDTmVQWVIrL3FxakFmTmIxaDArV2ZCNFp2?=
- =?utf-8?B?SUJOeVB3NENFUmpIN2NsbkM1NzhnTmtlK1Nvb2xwYnVuOVBLOXZyN21KelRq?=
- =?utf-8?B?TWJQcUk0emFGK3R3bDAxYXFiTDYxWVNVU2ZOdVI5YTdsNW8vZXdCNThxcWZr?=
- =?utf-8?B?aEpJdHAzNXJzTGhFKzdaNm54Wk9hRXZvb3luNE9lU3BlUTNHdXovZ0FjQTVJ?=
- =?utf-8?B?eVRwNDlBOUM0ZnZ0WnFReXgwSmIwTTF1OTRGVjlPVzg1ZVdBangvN3d2NFNB?=
- =?utf-8?B?UDA0dXRhU0xvT0VnR1BaUE5hWVhPc2g4RFdoRm5SL1p0R20yT2QrcVkrbWRB?=
- =?utf-8?B?RSt0WC8yZEE0Q2VKVitOTDdjWmlqY3l6cC9EeUNva2h0T0FPc0dYbVhtdlMw?=
- =?utf-8?B?cm5LejFqbnlEeFlkMjFoaW9oMHFyUUNSWkpJd2ZWMExQVWtzb21tNHQrM3FY?=
- =?utf-8?B?UzB4SjFUWFVuRHVLOU81aTlZYVRXVWZVaUM2OGZ0eTZPc0R3YkJOVXkzbTh0?=
- =?utf-8?B?cWk4WXBJTGhrbGtGbVAwa3piMkFJZUdNUGZTamFKbWNzOWV4MEY1UEdSMnVa?=
- =?utf-8?B?cUxHRkxUTVJTajNpa0VySThGNkpkdkxIejNnZDI0cFlZSmNZQ2R5YnZyeTcw?=
- =?utf-8?B?dklwOFRUZ2xNRjBXVGl3VFVDTHo2aDZtQkZWRUhhd1B3OFpreDVFaW1sMWoz?=
- =?utf-8?B?MmdjSXR5ZWlnRWlDYmR0Y3ZERXpNWHZyUFdaV29HWVFTRDRjZitweEthWStJ?=
- =?utf-8?B?T2Z3UnNpKytRS1hGdFFOY2w2enhOYTkzaTArYlV5S0Q1L09DOEo3anJBY0tH?=
- =?utf-8?B?V0FBd3E3dFBUVHZyV2xNK08wR2VGOS9VSmlxTUhhdFB2b1FjZjI1emIvZzNt?=
- =?utf-8?B?UkNobUU2bDBRVE5rUlUwMjUvazZ1QS9TL2ZBN2NXSFR0Z3diZ2RtRUR0TFpY?=
- =?utf-8?B?bGRzbFpzdUV1NEROdHFNZ1NyYUFscUpXL0JhUnVOTHFKdEYwK21VVUFuUXB5?=
- =?utf-8?B?TjZ2WFlMUWNCems0QnJ0ZGluUEI2bDFrQ2ljQ0Z2MS80V1dkcXZyK1J4WTJl?=
- =?utf-8?B?eFkwbldHN1VtMXdJOXVET3A0NUd1ZFpWUyswNGxiN0xDWDZURGV5ZlJuaUh4?=
- =?utf-8?B?VzdxZHh1dUhSQmg3eDBCUmZzKzNGT2pqbnZlNDUxc0gydXJja3JUbmRxaGtp?=
- =?utf-8?B?QnRJc2sxN1BoT2gzeGl4ekNQN1QrRi9MdXcxNVpNZmx1T29KTm5nM2t4endL?=
- =?utf-8?B?bFhPR0FJUzdkSzRuRTUvVmVRdWJFMHdyWmxMZ1VRcFlISnJJdHdwT1NNcU5V?=
- =?utf-8?B?NUkrd3dKNWRCOUFsNVdtZDk0RndETzdIU3g0ZVE4VDNSREE4bTI4R3Y4Vkw1?=
- =?utf-8?B?bzIzSWJvOEdybnNYbzN0Q3F5RjBmVzNFM3VzeTZuTEEzQThpQTl4T3lQUHFq?=
- =?utf-8?B?TERUWWFqRjMzS1htMmJkRXQ0TU9iak1DblZvY1pOQ0xIY2JtSFg2TEJKRGRz?=
- =?utf-8?B?SHRpOHdhYlhMSnFIMm9ZR0hocnJpWmdvK3k2NTJOdDlmUlpLTS9UbnRXUlRV?=
- =?utf-8?B?TkY3VFM4ZlU3Q0QralVWVlZ4em93dWdIZnJ4TWVVcU5WcENIMEk3UFdINVhN?=
- =?utf-8?B?ZDJnajNXeGNyZ1ExcGNVYnRHU1dwbGZVSlhCQzZ6SEU5dkVYeTBoeFpvQitO?=
- =?utf-8?B?Y2ZVM0hCbWNuOTNzSnZLNUQrV0pqemNTTktwTmtpQmlJTGVoV2pFZz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0cee1817-446a-4562-4648-08de5d056492
-X-MS-Exchange-CrossTenant-AuthSource: CW1P265MB8877.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2026 18:04:47.9373 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0velT8b0CyjZf9QEWcI1WEPuPO8fQWOa3ktxfo27Md7fHlTH+Dmq7Xh3h9BDUyBx2ITedCbfpffPnR8FwuW3qw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOYP265MB2093
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,147 +71,205 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[linutronix.de,none];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
+	R_DKIM_ALLOW(-0.20)[linutronix.de:s=2020,linutronix.de:s=2020e];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[nvidia.com,kernel.org,google.com,gmail.com,ffwll.ch];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,garyguo.net:mid,garyguo.net:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:linux-serial@vger.kernel.org,m:linux-fbdev@vger.kernel.org,m:linux-rt-devel@lists.linux.dev,m:pmladek@suse.com,m:rostedt@goodmis.org,m:john.ogness@linutronix.de,m:senozhatsky@chromium.org,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:simona@ffwll.ch,m:deller@gmx.de,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[garyguo.net:+]
-X-Rspamd-Queue-Id: 3FC908BE48
+	FREEMAIL_CC(0.00)[suse.com,goodmis.org,linutronix.de,chromium.org,linuxfoundation.org,kernel.org,ffwll.ch,gmx.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_SENDER(0.00)[bigeasy@linutronix.de,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[linutronix.de:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bigeasy@linutronix.de,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:email,ffwll.ch:email,linutronix.de:email,linutronix.de:dkim,linutronix.de:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 2C4CC8C043
 X-Rspamd-Action: no action
 
-On Fri Jan 23, 2026 at 12:12 PM GMT, Eliot Courtney wrote:
-> Disambiguate a few things in comments in cmdq.rs.
->
-> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
-> ---
->  drivers/gpu/nova-core/gsp/cmdq.rs | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gs=
-p/cmdq.rs
-> index f139aad7af3f..09c28eeb6f12 100644
-> --- a/drivers/gpu/nova-core/gsp/cmdq.rs
-> +++ b/drivers/gpu/nova-core/gsp/cmdq.rs
-> @@ -161,12 +161,14 @@ struct GspMem {
->      /// Self-mapping page table entries.
->      ptes: PteArray<{ GSP_PAGE_SIZE / size_of::<u64>() }>,
->      /// CPU queue: the driver writes commands here, and the GSP reads th=
-em. It also contains the
-> -    /// write and read pointers that the CPU updates.
-> +    /// write and read pointers that the CPU updates. This means that th=
-e read pointer here is an
-> +    /// index into the GSP queue.
->      ///
->      /// This member is read-only for the GSP.
->      cpuq: Msgq,
->      /// GSP queue: the GSP writes messages here, and the driver reads th=
-em. It also contains the
-> -    /// write and read pointers that the GSP updates.
-> +    /// write and read pointers that the GSP updates. This means that th=
-e read pointer here is an
-> +    /// index into the CPU queue.
->      ///
->      /// This member is read-only for the driver.
->      gspq: Msgq,
-> @@ -222,7 +224,7 @@ fn new(dev: &device::Device<device::Bound>) -> Result=
-<Self> {
->          // - We will only access the driver-owned part of the shared mem=
-ory.
->          // - Per the safety statement of the function, no concurrent acc=
-ess will be performed.
->          let gsp_mem =3D &mut unsafe { self.0.as_slice_mut(0, 1) }.unwrap=
-()[0];
-> -        // PANIC: per the invariant of `cpu_write_ptr`, `tx` is `<=3D MS=
-GQ_NUM_PAGES`.
-> +        // PANIC: per the invariant of `cpu_write_ptr`, `tx` is `< MSGQ_=
-NUM_PAGES`.
+do_con_write(), fbcon_redraw.*() invoke console_conditional_schedule()
+which is a conditional scheduling point based on printk's internal
+variables console_may_schedule. It may only be used if the console lock
+is acquired for instance via console_lock() or console_trylock().
 
-Can this just be `tx < MSGQ_NUM_PAGES`?
+Prinkt sets the internal variable to 1 (and allows to schedule)
+if the console lock has been acquired via console_lock(). The trylock
+does not allow it.
 
->          let (before_tx, after_tx) =3D gsp_mem.cpuq.msgq.data.split_at_mu=
-t(tx);
-> =20
->          if rx <=3D tx {
-> @@ -257,7 +259,7 @@ fn new(dev: &device::Device<device::Bound>) -> Result=
-<Self> {
->          // - We will only access the driver-owned part of the shared mem=
-ory.
->          // - Per the safety statement of the function, no concurrent acc=
-ess will be performed.
->          let gsp_mem =3D &unsafe { self.0.as_slice(0, 1) }.unwrap()[0];
-> -        // PANIC: per the invariant of `cpu_read_ptr`, `xx` is `<=3D MSG=
-Q_NUM_PAGES`.
-> +        // PANIC: per the invariant of `cpu_read_ptr`, `rx` is `< MSGQ_N=
-UM_PAGES`.
->          let (before_rx, after_rx) =3D gsp_mem.gspq.msgq.data.split_at(rx=
-);
-> =20
->          match tx.cmp(&rx) {
-> @@ -315,7 +317,7 @@ fn allocate_command(&mut self, size: usize) -> Result=
-<GspCommand<'_>> {
->      //
->      // # Invariants
->      //
-> -    // - The returned value is between `0` and `MSGQ_NUM_PAGES`.
-> +    // - The returned value is between `0` and `MSGQ_NUM_PAGES - 1`, inc=
-lusive.
+The console_conditional_schedule() invocation in do_con_write() is
+invoked shortly before console_unlock().
+The console_conditional_schedule() invocation in fbcon_redraw.*()
+original from fbcon_scroll() / vt's con_scroll() which originate from a
+line feed.
 
-I wonder if this can be `is within 0..MSGQ_NUM_PAGES`. What do others think=
-?
+In console_unlock() the variable is set to 0 (forbids to schedule) and
+it tries to schedule while making progress printing. This is brand new
+compared to when console_conditional_schedule() was added in v2.4.9.11.
 
-Best,
-Gary
+In v2.6.38-rc3, console_unlock() (started its existence) iterated over
+all consoles and flushed them with disabled interrupts. A scheduling
+attempt here was not possible, it relied that a long print scheduled
+before console_unlock().
 
->      fn gsp_write_ptr(&self) -> u32 {
->          let gsp_mem =3D self.0.start_ptr();
-> =20
-> @@ -329,7 +331,7 @@ fn gsp_write_ptr(&self) -> u32 {
->      //
->      // # Invariants
->      //
-> -    // - The returned value is between `0` and `MSGQ_NUM_PAGES`.
-> +    // - The returned value is between `0` and `MSGQ_NUM_PAGES - 1`, inc=
-lusive.
->      fn gsp_read_ptr(&self) -> u32 {
->          let gsp_mem =3D self.0.start_ptr();
-> =20
-> @@ -343,7 +345,7 @@ fn gsp_read_ptr(&self) -> u32 {
->      //
->      // # Invariants
->      //
-> -    // - The returned value is between `0` and `MSGQ_NUM_PAGES`.
-> +    // - The returned value is between `0` and `MSGQ_NUM_PAGES - 1`, inc=
-lusive.
->      fn cpu_read_ptr(&self) -> u32 {
->          let gsp_mem =3D self.0.start_ptr();
-> =20
-> @@ -372,7 +374,7 @@ fn advance_cpu_read_ptr(&mut self, elem_count: u32) {
->      //
->      // # Invariants
->      //
-> -    // - The returned value is between `0` and `MSGQ_NUM_PAGES`.
-> +    // - The returned value is between `0` and `MSGQ_NUM_PAGES - 1`, inc=
-lusive.
->      fn cpu_write_ptr(&self) -> u32 {
->          let gsp_mem =3D self.0.start_ptr();
-> =20
+Since commit 8d91f8b15361d ("printk: do cond_resched() between lines
+while outputting to consoles"), which appeared in v4.5-rc1,
+console_unlock() attempts to schedule if it was allowed to schedule
+while during console_lock(). Each record is idealy one line so after
+every line feed.
+
+This console_conditional_schedule() is also only relevant on
+PREEMPT_NONE and PREEMPT_VOLUNTARY builds. In other configurations
+cond_resched() becomes a nop and has no impact.
+
+I'm bringing this all up just proof that it is not required anymore. It
+becomes a problem on a PREEMPT_RT build with debug code enabled because
+that might_sleep() in cond_resched() remains and triggers a warnings.
+This is due to
+
+ legacy_kthread_func-> console_flush_one_record ->  vt_console_print-> lf
+   -> con_scroll -> fbcon_scroll
+
+and vt_console_print() acquires a spinlock_t which does not allow a
+voluntary schedule. There is no need to fb_scroll() to schedule since
+console_flush_one_record() attempts to schedule after each line.
+!PREEMPT_RT is not affected because the legacy printing thread is only
+enabled on PREEMPT_RT builds.
+
+Therefore I suggest to remove console_conditional_schedule().
+
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Fixes: 5f53ca3ff83b4 ("printk: Implement legacy printer kthread for PREEMPT_RT")
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+
+A follow-up to
+	https://lore.kernel.org/all/20260114145955.d924Z-zu@linutronix.de/
+
+ drivers/tty/vt/vt.c              |  1 -
+ drivers/video/fbdev/core/fbcon.c |  6 ------
+ include/linux/console.h          |  1 -
+ kernel/printk/printk.c           | 16 ----------------
+ 4 files changed, 24 deletions(-)
+
+diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
+index 59b4b5e126ba1..53daf7614b1af 100644
+--- a/drivers/tty/vt/vt.c
++++ b/drivers/tty/vt/vt.c
+@@ -3236,7 +3236,6 @@ static int do_con_write(struct tty_struct *tty, const u8 *buf, int count)
+ 			goto rescan_last_byte;
+ 	}
+ 	con_flush(vc, &draw);
+-	console_conditional_schedule();
+ 	notify_update(vc);
+ 
+ 	return n;
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 7be9e865325d9..36dd9d4a46ae0 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -1607,12 +1607,10 @@ static void fbcon_redraw_move(struct vc_data *vc, struct fbcon_display *p,
+ 					start = s;
+ 				}
+ 			}
+-			console_conditional_schedule();
+ 			s++;
+ 		} while (s < le);
+ 		if (s > start)
+ 			fbcon_putcs(vc, start, s - start, dy, x);
+-		console_conditional_schedule();
+ 		dy++;
+ 	}
+ }
+@@ -1648,14 +1646,12 @@ static void fbcon_redraw_blit(struct vc_data *vc, struct fb_info *info,
+ 			}
+ 
+ 			scr_writew(c, d);
+-			console_conditional_schedule();
+ 			s++;
+ 			d++;
+ 		} while (s < le);
+ 		if (s > start)
+ 			par->bitops->bmove(vc, info, line + ycount, x, line, x, 1,
+ 					     s - start);
+-		console_conditional_schedule();
+ 		if (ycount > 0)
+ 			line++;
+ 		else {
+@@ -1703,13 +1699,11 @@ static void fbcon_redraw(struct vc_data *vc, int line, int count, int offset)
+ 				}
+ 			}
+ 			scr_writew(c, d);
+-			console_conditional_schedule();
+ 			s++;
+ 			d++;
+ 		} while (s < le);
+ 		if (s > start)
+ 			fbcon_putcs(vc, start, s - start, line, x);
+-		console_conditional_schedule();
+ 		if (offset > 0)
+ 			line++;
+ 		else {
+diff --git a/include/linux/console.h b/include/linux/console.h
+index fc9f5c5c1b04c..ec506d3501965 100644
+--- a/include/linux/console.h
++++ b/include/linux/console.h
+@@ -697,7 +697,6 @@ extern int unregister_console(struct console *);
+ extern void console_lock(void);
+ extern int console_trylock(void);
+ extern void console_unlock(void);
+-extern void console_conditional_schedule(void);
+ extern void console_unblank(void);
+ extern void console_flush_on_panic(enum con_flush_mode mode);
+ extern struct tty_driver *console_device(int *);
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index 1d765ad242b82..9296bf41aa49d 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -3362,22 +3362,6 @@ void console_unlock(void)
+ }
+ EXPORT_SYMBOL(console_unlock);
+ 
+-/**
+- * console_conditional_schedule - yield the CPU if required
+- *
+- * If the console code is currently allowed to sleep, and
+- * if this CPU should yield the CPU to another task, do
+- * so here.
+- *
+- * Must be called within console_lock();.
+- */
+-void __sched console_conditional_schedule(void)
+-{
+-	if (console_may_schedule)
+-		cond_resched();
+-}
+-EXPORT_SYMBOL(console_conditional_schedule);
+-
+ void console_unblank(void)
+ {
+ 	bool found_unblank = false;
+-- 
+2.51.0
 
