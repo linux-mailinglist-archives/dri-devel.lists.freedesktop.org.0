@@ -2,66 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mPeWAf3Td2mFlwEAu9opvQ
+	id eJkIJ2HUd2mFlwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 21:52:13 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 21:53:53 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E7B08D4FF
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 21:52:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 066BD8D565
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 21:53:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45F9310E494;
-	Mon, 26 Jan 2026 20:52:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51EE010E4A2;
+	Mon, 26 Jan 2026 20:53:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="Y8EIJNOQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AJ91L7hK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F112810E16A;
- Mon, 26 Jan 2026 20:52:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1769460724; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=aOWNmqHI0cSjGLHm+y4IvVLF/4YJLWB0zo4lhon7+FpCMYil/lFbTCKiQ+fuzR76evoPHzATFQXQk3Ux6LlttaL8Wy6TLgfyqvb2nO2xTepqGjgAIuaHFhjLMiaOsmMPNDZvQ1one6KK/f5csZ3VuLri5lAjttCQTtNDn0i9D0s=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1769460724;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=rEHkKpBcmkOspe2hK05VCnHAt4UqLafts8UPtI4RO7A=; 
- b=Id+rb4XoeYpfNBzlQfMBB7nKN1xBTtUmXyBaX3EtkdzjJDAxatIjBGgipsldscZwtpGT5WlEti2IYy1N9ZjYM5M4toqQDyIjUF0pdDkNWj3VpN+Kwz/RKxF7TCE2gbpH5g/8UzqU91deNakSSvKYs1Opfb09goQ+rRXdlRKPyz8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769460724; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=rEHkKpBcmkOspe2hK05VCnHAt4UqLafts8UPtI4RO7A=;
- b=Y8EIJNOQIwYw0TiQ0WIJKtdg3ymohxI+YzA8n891zeE2pUX5jhjvsAVWJDralPHO
- NyuHibCeI5Yw0/FXbtwAxylTxJWkemin4uUOIXuak4HYJw1GSnLmbcuvsmzhvQbr8Rs
- zJSZ2CM5gOSXwUufqXv1st7TYWF2Q43wPDBCfYJo=
-Received: by mx.zohomail.com with SMTPS id 176946072310858.48046846843215;
- Mon, 26 Jan 2026 12:52:03 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH v4 0/3] Introduce DeviceContext
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20260123231230.248500-1-lyude@redhat.com>
-Date: Mon, 26 Jan 2026 21:51:46 +0100
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>,
- nouveau@lists.freedesktop.org, Miguel Ojeda <ojeda@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Alice Ryhl <aliceryhl@google.com>,
- Shankari Anand <shankari.ak0208@gmail.com>,
- David Airlie <airlied@gmail.com>, Benno Lossin <lossin@kernel.org>,
- Asahi Lina <lina+kernel@asahilina.net>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <E1EA1F0E-0A78-4F6A-B67F-03E5CB8F0135@collabora.com>
-References: <20260123231230.248500-1-lyude@redhat.com>
-To: Lyude Paul <lyude@redhat.com>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6FD710E49F
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 20:53:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 2186960097;
+ Mon, 26 Jan 2026 20:53:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 164C3C116C6;
+ Mon, 26 Jan 2026 20:53:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1769460828;
+ bh=VbDvg+iF4L8GTqFSLo0GAIgHzGx992VNi1dZiuUC5aE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=AJ91L7hKUUd2cE5X13ZfzzQKRqrhjoivO2yi4F1dchC3srI0NPnC2/r0Ut8AIRqh7
+ O2dtsWsOvDqoSO5lB/ehqshIuiGdFxJ4Rgkhvv1lIK9N/k6uiy5QXNV6VwFxAmQYU8
+ imqihzpmrELEgjF93AWFFhr+HrKw2FSpuiPbO7DvIbw8SAYfFJy4x0PnCB+HmLBxUz
+ +F/4bVV4s2ziWcnXFVgWa3GFLiywWezwX5LtC4oXkJaFU9M5KfL7OA53yJkDLquaJm
+ S/icY9VDHFSg64mjshU+LN3Fu9JhbnlO2E5MbUe81xk/s8iOjd0nInyIj50Rq8eJCS
+ /aL8pBsqXheqQ==
+Date: Mon, 26 Jan 2026 14:53:46 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Xingjing Deng <micro6947@gmail.com>, srini@kernel.org, 
+ amahesh@qti.qualcomm.com, arnd@arndb.de, dri-devel@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Xingjing Deng <xjdeng@buaa.edu.cn>, stable@vger.kernel.org
+Subject: Re: [PATCH v5] misc: fastrpc: check qcom_scm_assign_mem() return in
+ rpmsg_probe
+Message-ID: <qbuccwnfljpnxvpp7vl4weoecx6ujg3cy2lwwgoz42b3ux5o3k@mi5fxhplgrt7>
+References: <20260117140351.875511-1-xjdeng@buaa.edu.cn>
+ <2026012631-suffice-enforcer-8553@gregkh>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026012631-suffice-enforcer-8553@gregkh>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,88 +67,115 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,kernel.org,ffwll.ch,google.com,gmail.com,asahilina.net];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:gregkh@linuxfoundation.org,m:micro6947@gmail.com,m:srini@kernel.org,m:amahesh@qti.qualcomm.com,m:arnd@arndb.de,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:xjdeng@buaa.edu.cn,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[andersson@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daniel.almeida@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[dri-devel,kernel];
-	APPLE_MAILER_COMMON(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,qti.qualcomm.com,arndb.de,lists.freedesktop.org,vger.kernel.org,buaa.edu.cn];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andersson@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:mid,collabora.com:dkim]
-X-Rspamd-Queue-Id: 4E7B08D4FF
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,buaa.edu.cn:email]
+X-Rspamd-Queue-Id: 066BD8D565
 X-Rspamd-Action: no action
 
-Hi Lyude,
+On Mon, Jan 26, 2026 at 04:24:55PM +0100, Greg KH wrote:
+> On Sat, Jan 17, 2026 at 10:03:51PM +0800, Xingjing Deng wrote:
+> > In the SDSP probe path, qcom_scm_assign_mem() is used to assign the
+> > reserved memory to the configured VMIDs, but its return value was not
+> > checked.
+> > 
+> > Fail the probe if the SCM call fails to avoid continuing with an
+> > unexpected/incorrect memory permission configuration.
+> > 
+> > The file has passed the check of checkpatch.
+> > 
+> > Fixes: c3c0363bc72d4 ("misc: fastrpc: support complete DMA pool access to the DSP")
+> > Cc: stable@vger.kernel.org # 6.11-rc1
+> > Signed-off-by: Xingjing Deng <xjdeng@buaa.edu.cn>
+> > ---
+> > v5:
+> > - Squash the functional change and indentation fix into a single patch.
+> > - Link to v4: https://lore.kernel.org/linux-arm-msm/2026011637-statute-showy-2c3f@gregkh/T/#t
+> > 
+> > v4:
+> > - Format the indentation
+> > - Link to v3: https://lore.kernel.org/linux-arm-msm/20260113084352.72itrloj5w7qb5o3@hu-mojha-hyd.qualcomm.com/T/#t
+> > 
+> > v3:
+> > - Add missing linux-kernel@vger.kernel.org to cc list.
+> > - Standarlize changelog placement/format.
+> > - Link to v2: https://lore.kernel.org/linux-arm-msm/20260113063618.e2ke47gy3hnfi67e@hu-mojha-hyd.qualcomm.com/T/#t
+> > 
+> > v2:
+> > - Add Fixes: and Cc: stable tags.
+> > - Link to v1: https://lore.kernel.org/linux-arm-msm/20260113022550.4029635-1-xjdeng@buaa.edu.cn/T/#u
+> > ---
+> >  drivers/misc/fastrpc.c | 9 +++++++--
+> >  1 file changed, 7 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> > index fb3b54e05928..d9650efa443f 100644
+> > --- a/drivers/misc/fastrpc.c
+> > +++ b/drivers/misc/fastrpc.c
+> > @@ -2338,8 +2338,13 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+> >  		if (!err) {
+> >  			src_perms = BIT(QCOM_SCM_VMID_HLOS);
+> >  
+> > -			qcom_scm_assign_mem(res.start, resource_size(&res), &src_perms,
+> > -				    data->vmperms, data->vmcount);
+> > +			err = qcom_scm_assign_mem(res.start, resource_size(&res), &src_perms,
+> > +					data->vmperms, data->vmcount);
+> > +			if (err) {
+> > +				dev_err(rdev, "Failed to assign memory phys 0x%llx size 0x%llx err %d",
+> > +				    res.start, resource_size(&res), err);
+> 
+> Shouldn't the caller function report the error?
+> 
 
-> On 24 Jan 2026, at 00:10, Lyude Paul <lyude@redhat.com> wrote:
->=20
-> Previous version of this patch series:
->  https://patchwork.freedesktop.org/series/160217/#rev2
->=20
-> One of the unsolved issues we still have with the rust DRM bindings is
-> the ability to limit certain Device operations to contexts where we =
-can
-> guarantee that a Device has been fully initialized and registered with
-> userspace, or vice-versa (e.g. must be unregistered).
->=20
-> While the previous solution for this that I had was simply not =
-exposing
-> drm::Device at all until the device has been registered with =
-userspace,
-> unfortunately this isn't enough since:
->=20
-> * As we found out with Tyr, drivers occasionally need to be able to
->  create GEM objects before device registration
-> * We would still need to be able to handle KMS callbacks which could =
-be
->  invoked after KMS init but before userspace registration (not handled
->  in this series specifically, but DeviceContext will be required for
->  handling this).
->=20
-> This patch series provides a pretty nice solution to this, by
-> implementing a very similar solution to kernel::device::DeviceContext:
-> introducing our own DeviceContext type state.
->=20
-> This patch series depends on the two pre-requisite patch series:
->=20
-> * https://patchwork.freedesktop.org/series/160523/
->=20
->                          Series-wide changes
->=20
-> V2:
-> * s/DeviceCtx/DeviceContext/ for consistency
-> * Move private driver-data availability to the Registration
->  DeviceContext
-> * s/AnyCtx/Init/
->=20
+That is correct, all codepaths through qcom_scm_assign_mem() will either
+be -ENOMEM or print an error message, so we shouldn't print yet another
+message in the log here.
 
-Did you forget the changelog for v3 and v4?
+(The usefulness of the error message in qcom_scm_assign_mem() could
+certainly be improved, but that's a separate matter/patch).
 
+> How as this found and tested?
+> 
 
-> More changes described in each patch description.
+Looking forward to Xingjing's answer here.
 
-Seems to be the case for the individual patches as well.
+But failing to handle errors here means that we're ignoring the failure
+to map memory to the DSP, which will fail us later. So, that part is
+correct. Exiting through err_free_data looks good as well.
 
-Anyways, I will do a second round of reviews here; please
-wait a bit before potentially merging a new iteration.
+Regards,
+Bjorn
 
-
-=E2=80=94 Daniel=
+> thanks,
+> 
+> greg k-h
+> 
