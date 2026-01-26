@@ -2,151 +2,165 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yERbGjy7d2lGkgEAu9opvQ
+	id 4CSONRG8d2lGkgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 20:06:36 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 20:10:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16ABD8C54D
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 20:06:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BEED8C5F5
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 20:10:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55ABC10E477;
-	Mon, 26 Jan 2026 19:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82A1110E10E;
+	Mon, 26 Jan 2026 19:10:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BNgabcq6";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="if7fUs8B";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="umJt4VCJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F217010E472
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 19:06:31 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60QIBHjc762743
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 19:06:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- K5Q/4zJ0owH3B9S+STbgEe6iJzJedmnk8hr33vBbkos=; b=BNgabcq6SW2ytwfo
- 4uTgF7dvX05saxO/C7YR+sA3rimUP/8WizBD7V1nrMJmPr7s+Jdx4jN/8IDKi5pr
- bujtO0yQ0jjkGnfCAPPRsBIO0ujzOp1LUKIaPKkvWq/52pQsV97GV27BAhpPUjm4
- iVg57RuM6u3SQ46WBqbDUNdIr1qDTR4nbMVdAXtPkISQepps5TCrls3DblZ5Bbm5
- QnGhUZPPM+O2tNhbxjyptgkNxyekw3eQ6MOXJgcfVRox4zbYwtSc21oJ2+92iBk+
- EV+LeZc+slStHTDNlk8oCfsR60P1RgF77NpJwXYXJaVkN85+etyfR3m4wffJ0EGZ
- ShO7tQ==
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bvq9f5m9k-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 19:06:31 +0000 (GMT)
-Received: by mail-vs1-f70.google.com with SMTP id
- ada2fe7eead31-5f52597aca4so5404914137.3
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 11:06:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1769454390; x=1770059190;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=K5Q/4zJ0owH3B9S+STbgEe6iJzJedmnk8hr33vBbkos=;
- b=if7fUs8BnQqB3Fcu4N0Xf7SRmXarXJnuQRj9LwEw/Qw63KAvwCOMJ9psovK2/eAjee
- 5/0WOAonDlg4DH1YMCDKAexR7MMtEClKePjvpBdZxdiYrkuZthZk8QC3vrDNLD3dTw6y
- 0Loehh5tCn8hsyBC1SZmyFp68iemzO/v27oEgWKYbCdBzlrTHvBwvlB0hXTYj8FezECy
- 20OCzbuGDab1N9VCNNJIX4XchXUW6Mm2Dt/KRkhhOf80GvI3RQvMyrHvk+ZNvXjUWjeM
- yQLmw9mobgDL3fOpe0ekjDm8XrT4w0xn2tZsgMCbIiNSPNrJBA+QKr3Mph3a+LA5yBeY
- DmDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769454390; x=1770059190;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=K5Q/4zJ0owH3B9S+STbgEe6iJzJedmnk8hr33vBbkos=;
- b=wccsCsPurmsISuZ+RgDTRFUKrbqf+KjEEyCCS5wiRUnmvLhm1HBpgRXg5DrxkdEONW
- yW5yqaAx5SKTThH/e0HQoabrM9TsGmjmmm2d9Xgyz9tM0G8XP7+Gxq/20zZ+MpH+NnlY
- puAajkEkzZJpLcGMjSdPv1SXOlla+mlpM8ttmUAUEMjAxfjxfCZu2ug9Z4Pg3nbhDpLF
- gQR4EvH/JHRNkp4pso0M1k+qbc5nTQg38E3eBIz5oUFuGvB7Cy7o1YeZh8RgDKMG3Dol
- Hy1mhnbbbHfUjjJvNgM0Cl9botEOpQIy4ES8QMPGttUSXwvCpKItLpiVHZZkMSbsZDTU
- 7SFA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVwo1nrNxK2fjEHNuIrlRyhfKbYKWSU8nG3ZkWnYJaXWYiPNaFEhF7yyfGnILof7vsUmyxgDA4xI/o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzMe0GwU+pvmOna+uD2KflFYOWZqXImqobElpy3K1jfDGbe25cO
- Fpiut9WlderVBGzfoqNBcPK0ONZIbFbgY87KuQOcFKNSitRgY1xqfPtbJ4tX/yH60I5eMo4aO+T
- 0szpaK8vNqJipcP8lRcBp9te+a9bbbKC7y1sf0VQ1GaR7iHack1El3C/6qHJqnQrmIHghGksgUP
- fxzZk=
-X-Gm-Gg: AZuq6aJ0Kmdp/ymNb5VBYRa8i9V3ZIWZ0gUmAZ8vWeVFCO23NO1DVYNUOIpHcoFQ1XZ
- BNEHOm0mUarLyTDXyrlyKSPnFcKNe8SOrAldD59cOt4XMY8zfb48yoef4uJdxU1Wm/bnKZwNx4t
- aLv6nhTmSnMZlbruuLNHVaYUz1f4SLj6E4HBMDrhd/szy9N7UzzJMObxtrgRFHuZVlDOTI/ARSc
- d59XSRW4oWEUIk+QvT5enZO2H+5h8xEg/SEul+uJAlrwYU/vuPXdEQ/AkgnTBt3CLfOSNUQDcHG
- YzjoubeyM8GfVRaVW8aQapipb/dGnuJcP31wtdBuk97tpnmNIlvqR7JsCjUrOvtKPMCxx2ArH5+
- Tj/Y+58UmAM8m1F1WvOEObhcua8Pprty7zDMcOA5ZX6pQ1+QEwReGdl4B62IFSO/U4KPY2dYHVl
- KY5ILAbYCc1o3U3AQADx6d7Lc=
-X-Received: by 2002:a05:6102:d86:b0:5f5:3c38:c4bc with SMTP id
- ada2fe7eead31-5f72379c561mr45483137.23.1769454389109; 
- Mon, 26 Jan 2026 11:06:29 -0800 (PST)
-X-Received: by 2002:a05:6102:d86:b0:5f5:3c38:c4bc with SMTP id
- ada2fe7eead31-5f72379c561mr45465137.23.1769454388494; 
- Mon, 26 Jan 2026 11:06:28 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59de48df5b3sm2898858e87.6.2026.01.26.11.06.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Jan 2026 11:06:27 -0800 (PST)
-Date: Mon, 26 Jan 2026 21:06:25 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jun Nie <jun.nie@linaro.org>
-Cc: Abhinav Kumar <abhinav.kumar@linux.dev>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v17 2/4] drm/msm/dpu: Defer SSPP allocation until CRTC
- check
-Message-ID: <g2kzzrfmcsmzs6wz7alzjjycytpuebxwbehkco7yimdg2jam5a@uqsrt7mov7la>
-References: <6kzd2g4hgffqz5ipaqbourgiefuxxh3njj44n35blo37z6hhhj@us7lzlgmjuld>
- <CABymUCMf8LxX6VWUuzNJP+G1y3Xi5-CVYhaqLR7F=kU6ZgdcgA@mail.gmail.com>
- <c56e4ylgwcqni23btaxegdbfg3tbkyp2vtjtboeb3kbvcfk27u@vrlh276djtfr>
- <CABymUCP6ZDGtEJeQSZ48x8TZyJ4gKVDC+JzJRz-tZ0ksCUCqsA@mail.gmail.com>
- <91d590de-fa00-4df3-923f-b49ad00cd9da@oss.qualcomm.com>
- <CABymUCOqxtYS7BaDMHeN2npn=4+Y-6kxLDOS6oskiiH58epR5w@mail.gmail.com>
- <bbd8e584-4398-40da-9759-0c27f34214d3@oss.qualcomm.com>
- <CABymUCMivNJt4fikx8XJ8KFZB-y4zc2RaqjBksxWrQFD9foEkg@mail.gmail.com>
- <7c3yxfkadtkd6xs6aiupcamykx75c2tieakc7n4a2jyymz6kzz@4gflcto2nbkj>
- <CABymUCMeS7cWgEProyWnMUJ1fF1rfba3dy4VB0mwTmPbpTvanA@mail.gmail.com>
+Received: from CO1PR03CU002.outbound.protection.outlook.com
+ (mail-westus2azon11010048.outbound.protection.outlook.com [52.101.46.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF4CE10E10E;
+ Mon, 26 Jan 2026 19:10:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kRBlh+GT8JNQxMGUio3rY4lNCIxbfkfbjQ6/9ecrmcwWolyxd/iHOB+C6ZDsg6MHLvnyTpEETv/MNd+V7EQ1a2y2e73JvgAgGDNceKWckhY12RU/PEetQfPdH9FkpllR/0qcG8qqzm8ey54u4EANQEJVwTRI8zMZjy9nyk1AOX1aaCig1/AwLKXiHA06hdWLcCfd9r9ZLO2/0ZHOrti+O/L7EFFKSmfQcHcaJRc76+IeleIfTWoSWj0puqiqAPdVMo4izFPWux7pdaRlLUB5jpD0C7fRmDHsR1LKUV9bkQN+eLMR039PiwMfWaZMs6CHJBsrRXd0S8fkOjaGFueTIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=S8Vz9syslvnma5MwWPu9wLv0ung1FdUXLfkaARdkfHQ=;
+ b=RTG41GqX/uhs741cpNsiOBqvSEyeVyR/UqJmXmINV1n0CCqPRbrU+qmUKbHsaxMv14ttaIlW/GEAxJNpA9xMdkkqZ5DQFzooj4DDRNfi1m2J8OtC4ymG6T9nXEIJ/xGwmya5BGNuJULo06OCxTtj+B2On1w4JoIGggo+7zBeYEq53N+LEoKn+OhhiJYL1zXXeRnMJrWo50dxKsyxSJC4sotwl/GMKZP+Yd1MLzNufelgMeNy/GjE6tSC25wyt+I7qPTdQk0ORWIgSr72Y4810MwWq8zxoriZxwNUHlEfklaPtebxUlGGJAGCxpndZW7z1/QOhn5YYHhGkmNz+LIFEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S8Vz9syslvnma5MwWPu9wLv0ung1FdUXLfkaARdkfHQ=;
+ b=umJt4VCJB9pP6HrIAItYMAhJgShf4mAu0cNsdCTY9vwaY70ohO4PzsR5yQd2j4BFCt1a3A5PJRfVhOk2E0+95HUXf1PmUFb5VGzFI8xRJwTzeZMxgVo4QdxeKivIeku20AwCCiuwUKvbs+Cu1ZnurHuhNuGyatvRJwTUPF+kRUo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY8PR12MB7563.namprd12.prod.outlook.com (2603:10b6:930:96::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Mon, 26 Jan
+ 2026 19:09:59 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9542.009; Mon, 26 Jan 2026
+ 19:09:59 +0000
+Message-ID: <94ac5458-4f2d-4646-8e22-7ea7a3fa9b82@amd.com>
+Date: Mon, 26 Jan 2026 20:09:54 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 04/11] amdgpu/vce: use amdgpu_gtt_mgr_alloc_entries
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20260126133518.2486-1-pierre-eric.pelloux-prayer@amd.com>
+ <20260126133518.2486-5-pierre-eric.pelloux-prayer@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260126133518.2486-5-pierre-eric.pelloux-prayer@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0350.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f4::12) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABymUCMeS7cWgEProyWnMUJ1fF1rfba3dy4VB0mwTmPbpTvanA@mail.gmail.com>
-X-Authority-Analysis: v=2.4 cv=YLGSCBGx c=1 sm=1 tr=0 ts=6977bb37 cx=c_pps
- a=N1BjEkVkxJi3uNfLdpvX3g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=K78EwcQ-zvPrcKlDjY0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=crWF4MFLhNY0qMRaF8an:22
-X-Proofpoint-GUID: nd-OBFrAiOEIp154kgz8OONzDoL9qrAE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI2MDE2MyBTYWx0ZWRfXxraLDHSV2Ek4
- gvYW0TELjBj5Ac1YbNd5cNhczy8altSstnMLbJCgLVkbzgAKiJrbm/lPaSiN0d9GWiKhdVaPByC
- gMB3hAk2W0RPx+RxmO/8sqWQj7CsKZfDYoR1FAqs/7UHviq4zfQ5qAxFgkG6zTfNKBKxJOM9JZS
- w7Kvl/fZFmoTUz7Aj0OSj9vMZI3ip/XyFHdGxCclipaN7CLZUrYWkqciQCDd68mwO2gtqgktZfD
- 1x4FKEBMl6Ekl6fjSQizcOU+NZW8E/4NHmwK2Y2OLzeTYbasMsUqxblLYfcdGS+29tUPejOFgLL
- pqnLp08/UBS3kO2o0BF469kKOKwVWgK8YlsgXJ/vHmPH9I/TG2pyvsKH2Y5YoDjBiqQmiceWokb
- ONmf1kzm38eeWar5LSCb938jtLbNEp23RsCaD6rXCYdJQOZ6Mad+/qIx7kFdI7rUZthV/ZYPQbl
- QM2gTZMZxRhoWkx+BRg==
-X-Proofpoint-ORIG-GUID: nd-OBFrAiOEIp154kgz8OONzDoL9qrAE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-26_04,2026-01-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 priorityscore=1501 suspectscore=0 bulkscore=0 lowpriorityscore=0
- clxscore=1015 impostorscore=0 phishscore=0 spamscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601260163
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB7563:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9f16fed4-7154-4674-54d9-08de5d0e7fdc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RHlHdEZLa2ZJVzFtTjNrOFNPcUlqSlZKelBtd0NNeVB0WklpejNSODgrSUJY?=
+ =?utf-8?B?RXk0L2dIYkpYRGIwUk9UcFkydi9EQ2ptd0t1S0E2VUE5d04zTzU2K2VCengz?=
+ =?utf-8?B?dGgraHdzS29lQ2FwSzJVZUdLcEJwdXRZNzRhQlNpNlJ2Tm9SMmhLUWREWjBm?=
+ =?utf-8?B?OHZwK25mOHU0ampMRUEwTktBeEw5WmVPRUxqWFB2aHMwL3R6MmpoMkl4V2hO?=
+ =?utf-8?B?WmtTN0U1UTZGK3JBeG42Q2pjUWxOTXd6WHQ3c045WmtIT2ZyNk54ZUVMT1BW?=
+ =?utf-8?B?a2dnMExleTBrZXZTYXhIUHNKbkc2MElheVVFcDNnT2hqazhrbEs0MHpaMzF5?=
+ =?utf-8?B?S0p4RkpkK0diMnFFaXNhSXB0N0tIZVhHYkVORUNTcWJ6UjNLbjdUUUlXcExV?=
+ =?utf-8?B?TCtjQ1pmOWh2bkZtcmtDbTdCRHR6b2JHUnpVVCs5eEFXMXFYa3V2RVQwWW9z?=
+ =?utf-8?B?aE16OVNKTUd0NnN2NTE4L1NzY0hxWkpQbGpDRlRteHFSYmNVWS9WZ3RIeHIz?=
+ =?utf-8?B?ejdjUWtjcTVSY1ZsRkd1c3pmWm5iNENmaVVCRDlTQVhSY1d1SUJYcXFmR01F?=
+ =?utf-8?B?WWgySDZrRVQ2MWtFSzI2czBwRk4zeEIweWZKM0FZZ3pXT2lua1RISTRGMW1U?=
+ =?utf-8?B?N3V4KzZhQ0Y1TGpIRDZtaHUzL2trdmc3bmVKa0F6Z0M5bFc5ZkRkREJ2VU04?=
+ =?utf-8?B?eHBDd29JN2Z5V1FWck9hWXZwOW0yQk1EZ2xpYTM2QjdsSDRWS2JBSzI5QmIr?=
+ =?utf-8?B?ZVI5dk8wMzNyM0tPSTJFMmVhOVNrY2RhVlRidEpPL3I4ZGtEekJCQ1BaUkZr?=
+ =?utf-8?B?MCttVXRiT1RsTFpIcTYvbWJRZHFIM1dHY0RSUkVGb3plZmc3WVVzelNEZWcr?=
+ =?utf-8?B?eXdaR01KeHp1OTNrL3BMcCtQODdZVDNKZ0JUZktCQmorUkF0Z0Noa2F2N0Zj?=
+ =?utf-8?B?Z0thWFBkYy83L2FpbEZmS1ZwbmZwSTZDQzJXUVRZb3RkRzJxSkl2RDJEeWpq?=
+ =?utf-8?B?b0lTMml2V1RGdnFJMWNzNHBYckRiM2lNalg5YkY0TXBMd2VsYXNYa0FJR0hJ?=
+ =?utf-8?B?RXFCZzRKWVlWeEJoT0JXaDRSOTI3aGVvTUhLQS9rcFJFNVd0UGo0TnVOOG9J?=
+ =?utf-8?B?d2c5L09CQk5sNDVqMTdxMmhtZjhVVlNOSHRGVFBmUEZJaHZCY2ErUmVNbVE5?=
+ =?utf-8?B?MmxjWm9pQlZ2NEEyZ2srYW14R2FoMHZwaWRHa0o5YXNFUStWWVJ3aWkwMWZU?=
+ =?utf-8?B?bHBLRVBnN1M1WGpTSlZZN1pVMjlZWE0vWTFXMlE3a0RhQVMwSDl0dkhSWURi?=
+ =?utf-8?B?WVB1Ni9XdDBxRVB2TnNhMU1Qdlc1dmVrdUY5THUxMTByNGtHL3h3MVNFRU56?=
+ =?utf-8?B?MWU4VEo4d1pjZGExY3dEU3dWeU5sdmcvbnNmZFhiUkhCWUtqRFVSbEo0Z3NC?=
+ =?utf-8?B?MStOblVOOTRoV1hZaW1TNDlxODJoZTJidEtpTWpRSmpBSnpmUWM4UWZERmFC?=
+ =?utf-8?B?aHBaRjBOUHBocDhaN3hpWEMrUmtkbVRVVGErUXBlcHFOUmNOU3M3dW1JZGZs?=
+ =?utf-8?B?N3JLYkQ1WjlSclNuSzJIUk1wQWdWYVZ6b3dHZDNsUUY5UFRLTU4rQW9lRWp0?=
+ =?utf-8?B?MkJlZ0VZbXgxSGFWS1ZsUlJLRklsYWRaOXR4SENoN29kbDBrY09pb3IxOEpo?=
+ =?utf-8?B?VExLL3VqVHZ3akllWkVhWGFKYk1nK21iYTF4ZUFBU0JGVEdCYlhqdEFBRUdm?=
+ =?utf-8?B?WWczVDJrQ1pCTVpwSThmTm1XempqaXZIT0NTUVlnNDZ2VjNjK1BUWTQzNTJI?=
+ =?utf-8?B?OXFhVENPUHJTN0ZZekRlNmp6dXVRQStPNVhkTzArUGhpbjBXMVI1akp5L01w?=
+ =?utf-8?B?ZU5iRk1zK2t3MXJNT08rVGRFOThlVzR4TmVtczdtS3Z2UDdXUWhFVGUwclMw?=
+ =?utf-8?B?Tnora1l4czY3MWpWQk5hbmh5U1Q4bER6NGhxOE1aSG1DcGp2aDZIdWNLRW1D?=
+ =?utf-8?B?KzVYOFhFMUdBOUtDMDcvZjBkL1cwS0ZrVndDNUJ4VW1xQmJ4aXBvUVpoSFho?=
+ =?utf-8?B?K0pzS2VpNWhZT08vR3hObmNVVDFlMUE1UHFrRGYwWEVyYzhGY3JUV3BQNUV5?=
+ =?utf-8?Q?RhnY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bXdGTUU1WjU2ZDEvaWROTzdPcVM2ZkJ3ZHJBUG52MlV5Skh4R2FTNE9WalF3?=
+ =?utf-8?B?WVNqSUZvTHoyMnhEY2xKSmJ4WURhdC8xNjNTWHdOM0hKRnA5eXhYS2RCTlM3?=
+ =?utf-8?B?YXd3cmlnQ2lOMlpONEg0YzAvS1VmcjBYZkNDY2xXTkN0RnlaQlV4dHMwT293?=
+ =?utf-8?B?NjEwZ3VPSVFMeXVVaVpiV21YanJndGk5MXJDbERRNnA3NVozajdHVHBoWWNN?=
+ =?utf-8?B?NlBOS2JJZHdpRUx1eEM2Y3hIM1hJejN3VXpXSmlscXI4Nm1FVmk2eHozVlEr?=
+ =?utf-8?B?Yk1zc2Qwc2Z0WGNydmRtcHY3aGRxZDZIaXcyWnV2V3pRQWdxWXFWY1VzZmpy?=
+ =?utf-8?B?dHVUSTBTbUk0V1cySnNiYWVNMktseHVsMnMwTGY2SWo5d21ZdjNYY282dUI0?=
+ =?utf-8?B?VU9MOHB5ekhxOWNWVlRqdTZnYndYTlVjQkVvaFp5MlFrSGNiTitYcFhPZVNS?=
+ =?utf-8?B?YmRZNVgwZ1hYUTJUNjgxN1dUZG9BVEdQbml1SEhvVkhaOE4yKytGdncxZktt?=
+ =?utf-8?B?aXB4M3VhRHJPRTBIWllBK0VNUU54MTBkbG03cjVwK2FKMVVEdlJCRnNVRDll?=
+ =?utf-8?B?Q2lhVXNvYjNWcWhuRkJCYW43bG9DR2wzRmdlcjlxRzJKNEtYdGJETTlFR1ho?=
+ =?utf-8?B?MUtLS2hYaDVrellra2FEUkVmTzREaU1aVDFGUEJEU3B2V3FtdjJ3UmVFRHlI?=
+ =?utf-8?B?ekxrZ0Z3bGU4RDFDTVhCc2E2VzJaNVhEVDhjZlB3YXorbm1FbG1zUVlJUUxR?=
+ =?utf-8?B?azdHQTFSVUlSbE1qRlpsWjdhV0I2K2RrTWh3VlI2L2ptblNHNnFicCtldzND?=
+ =?utf-8?B?SEFkQzgwOEFYZVJ4UnFkM3JDLzVaOXYrYWtkOE92TE1IRFN1dGhMbS9PMk04?=
+ =?utf-8?B?bW10SXJ6RTVDblhTY09XMFBkVlNuRFZLMWkxczBmS3RyMk5jUy9McDV3SGlE?=
+ =?utf-8?B?L1doZitTaEw5ZmNJR1ZKcG5WWTlFU2ppSmVMNVhCcSsweXhjTUh0MFJZcVNi?=
+ =?utf-8?B?QStIYXBPU1dMWHFsN2JSTVBER3UrcS8xNGhveTNUR2JSN093WW1ldmhxbTM3?=
+ =?utf-8?B?UzRZb2lyNThpc2NyenVFajU4bzBOYkR4cGhQaWIyb2Vmb0xaemd3eFlnTVQ0?=
+ =?utf-8?B?d0tGRG5SRkFpU09YUVpkeHZIWmQzOHZxSjFLcWR1SjREbkE1UFFPOHZCZFBj?=
+ =?utf-8?B?TnZjOEMvaEhjNlJnR0pXNkZkSExHb2tnSjZ2VEVhbDFBS0FZZnUrRXRqRWR1?=
+ =?utf-8?B?UkMwd2FIZEV2S2RMdXdoMDBxaXd4a2ZCWTUxK0tCWTgwWjFJL2FYeGdEQS9O?=
+ =?utf-8?B?S1AwRTEyN0dwTzhkSHJuaUNiZ3lnbEhuWjBHWmd5bmZ1ZisrRnpoNXorSGVw?=
+ =?utf-8?B?MFcvVXFDdGQvNHN0Ym0yMlIvS1czaHVnbzF4YWZzNHYwMTl5d1JYNmp4U2F4?=
+ =?utf-8?B?YWVhSC9kMmZFZ3V6NWEzM2svQW9zZTRvdlkwcW5GNU15dDcwQmtxSFFkajdu?=
+ =?utf-8?B?bDQ0bFFQV1F3Um1JT0k4NjlycjRJVHhaTFRuZlRpMjczczBrNzh5c2c0MXEx?=
+ =?utf-8?B?aTgySktuOVlrSTdrUDdPZXJsMFhiejlkbllMalB4VWsva0pJcnVuQi9tMFpW?=
+ =?utf-8?B?MUJNZWJ4YStPek1ENEdINzNoTWlSV0ZEa0RRN0o2ckM2R29CdTdYUVhuSHRz?=
+ =?utf-8?B?ZVg0bVpOVXUrNW9zVmFvb0JVM2hZYy8xVmo5SnFtZG1DTGVzRkVVOXlFSTZ5?=
+ =?utf-8?B?eHJmZS9hOGxzLzIwamZpZmExcm1kcmdwbkR0TURTZDlibjRQMW5SOXlkTlhP?=
+ =?utf-8?B?SDk4UmxXMGxXN09mTVhFSDU1U21Jb0ZBaGsrWGM1RElvc0FNdGhBdGFWYkNz?=
+ =?utf-8?B?ZWZFMUpGZ2xhR25uR0thZEpzV3hweWJ5S1Y4a0dKb0ZGLzdmL29xSGlVbms2?=
+ =?utf-8?B?TmNtV2x4SnIxOVVlL0FFc0tpMlNRWG5IMFFEQ002SUM2alFWcVJjTGJpK0ty?=
+ =?utf-8?B?YlMrUllxdHhVWmtpK1JZdmxiYW51Y3c1WDYrSnJkcTVhdTBFV21DWm1zWkpE?=
+ =?utf-8?B?YVhpUk1BdXMvcWkyd3VmYnRLWEJlbFIzWmR2R0hjMC9tcHlVVWN1eHNiaGJB?=
+ =?utf-8?B?UXJiOHV1T3JaV1k4MzF2Y2NpU1NIbDkvN0JkdGdWTE1LTC8rd3Q1TTdZbnox?=
+ =?utf-8?B?dVFyczV1LzF4aUdKN1VMZS9kMXFxYUdPMkJiZVdqMGRSZWNieXdsUDA3Zjkr?=
+ =?utf-8?B?VVJtVHAzanhOaTE1R0wzcDZOOWpkNG1qWWlBb2thNXZkZkdvbTJzbys1Z0tV?=
+ =?utf-8?Q?RqfVCOBSbdyIziPGFk?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f16fed4-7154-4674-54d9-08de5d0e7fdc
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2026 19:09:59.2244 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aLz1lYnu6ZN0JdwzB2rnTwZimyGvhQmRHF+AvpuZgTp9WZQFM3oCKEMQv0h04bHh
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7563
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,190 +176,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[linux.dev,kernel.org,poorly.run,somainline.org,gmail.com,ffwll.ch,oss.qualcomm.com,linaro.org,vger.kernel.org,lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:jun.nie@linaro.org,m:abhinav.kumar@linux.dev,m:lumag@kernel.org,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:robin.clark@oss.qualcomm.com,m:neil.armstrong@linaro.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[amd.com,gmail.com,ffwll.ch];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[amd.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,oss.qualcomm.com:dkim]
-X-Rspamd-Queue-Id: 16ABD8C54D
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,amd.com:dkim,amd.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 9BEED8C5F5
 X-Rspamd-Action: no action
 
-On Mon, Jan 26, 2026 at 09:29:44PM +0800, Jun Nie wrote:
-> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> 于2026年1月26日周一 20:31写道：
-> >
-> > On Mon, Jan 26, 2026 at 08:01:00PM +0800, Jun Nie wrote:
-> > > Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> 于2026年1月26日周一 18:49写道：
-> > > >
-> > > > On 26/01/2026 12:29, Jun Nie wrote:
-> > > > > Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> 于2026年1月26日周一 18:13写道：
-> > > > >>
-> > > > >> On 26/01/2026 12:06, Jun Nie wrote:
-> > > > >>> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> 于2026年1月22日周四 18:22写道：
-> > > > >>>>
-> > > > >>>> On Thu, Jan 22, 2026 at 02:03:25PM +0800, Jun Nie wrote:
-> > > > >>>>> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> 于2026年1月21日周三 17:30写道：
-> > > > >>>>>>
-> > > > >>>>>> On Wed, Jan 21, 2026 at 04:01:51PM +0800, Jun Nie wrote:
-> > > > >>>>>>> Currently, plane splitting and SSPP allocation occur during the plane
-> > > > >>>>>>> check phase. Defer these operations until dpu_assign_plane_resources()
-> > > > >>>>>>> is called from the CRTC side to ensure the topology information from
-> > > > >>>>>>> the CRTC check is available.
-> > > > >>>>>>
-> > > > >>>>>> Why is it important? What is broken otherwise?
-> > > > >>>>>
-> > > > >>>>> I see. Thanks! Will add below lines in next version.
-> > > > >>>>>
-> > > > >>>>> By default, the plane check occurs before the CRTC check.
-> > > > >>>>> Without topology information from the CRTC, plane splitting
-> > > > >>>>> cannot be properly executed. Consequently, the SSPP
-> > > > >>>>> engine starts without a valid memory address, which triggers
-> > > > >>>>> an IOMMU warning.
-> > > > >>>>
-> > > > >>>> What is plane splitting? Write commit message for somebody who doesn't
-> > > > >>>> exactly know what is going on.
-> > > > >>>
-> > > > >>> Thanks for the suggestion! Any more revise is needed?
-> > > > >>
-> > > > >> Sadly enough the text below is not a significant improvement.
-> > > > >>
-> > > > >>>
-> > > > >>> Currently, splitting plane into SSPP rectangles the allocation occur
-> > > > >>> during the plane check phase, so that a plane can be supported by
-> > > > >>> multiple hardware pipe.
-> > > > >>
-> > > > >> What does this mean? Without virtual planes in place, there are no
-> > > > >> multiple hardware pipes.
-> > > > >>
-> > > > >>> While pipe topology is decided in CRTC check.
-> > > > >>
-> > > > >> ?? What does it mean here?
-> > > > >>
-> > > > >>> By default, the plane check occurs before the CRTC check in DRM
-> > > > >>> framework. Without topology information from the CRTC, plane splitting
-> > > > >>> cannot be properly executed.
-> > > > >>
-> > > > >> What does 'properly' mean here? How is it executed? What happens?
-> > > > >>
-> > > > >>> Consequently, the SSPP engine starts
-> > > > >>> without a valid memory address, which triggers IOMMU warning.
-> > > > >>
-> > > > >> IOMMU faults. There are no "warnings".
-> > > > >>
-> > > > >>>
-> > > > >>> Defer above plane operations until dpu_assign_plane_resources()
-> > > > >>> is called from the CRTC side to ensure the topology information from
-> > > > >>> the CRTC check is available.
-> > > > >>
-> > > > >>
-> > > > > Thanks for the patience!
-> > > > >
-> > > > >
-> > > > > Currently, splitting plane into SSPP rectangles and allocation occur
-> > > > > during the plane check phase. When virtual plane is enabled to support
-> > > > > quad-pipe topology later, 2 SSPPs with 4 rect will be needed, so that
-> > > > > a plane can be supported by 4 hardware pipes. And pipe number is
-> > > >
-> > > > number of pipes
-> > > >
-> > > > > decided in CRTC check per interface number, resolution and hardware
-> > > > > feature.
-> > > >
-> > > > Okay, but IOMMU errors were reported with virtual planes being disabled.
-> > > > So how is it relevant?
-> > >
-> > > After revise of splitting plane into pipes, the number of pipes will be decided
-> > > by CRTC check for both virtual plane and non-virtual plane case to unify the
-> > > plane handling,  instead of assumption of 2 pipes at most.
-> >
-> > This needs to be explicitly written.
-> >
-> > > >
-> > > > >
-> > > > > By default, the plane check occurs before the CRTC check in DRM
-> > > > > framework. Without topology information from the CRTC, plane splitting
-> > > >
-> > > > WHat is plane splitting?
-> > >
-> > > How about: s/plane splitting/splitting plane into pipes ?
-> >
-> > This plane is not being split into anything. It's being mapped onto hw
-> > pipes. But before that, the number of necessary hw pipes is being determined
-> > based on foo, bar an baz,
+On 1/26/26 14:34, Pierre-Eric Pelloux-Prayer wrote:
+> Instead of reserving a number of GTT pages for VCE 1.0 this
+> commit now uses amdgpu_gtt_mgr_alloc_entries to allocate
+> the pages when initializing vce 1.0.
 > 
-> Thanks for the correction!
+> While at it remove the "does the VCPU BO already have a
+> 32-bit address" check as suggested by Timur.
 > 
-> Currently, plane is mapped onto at most 2 hardware pipes and 1 SSPP
-> allocation occur during the plane check phase. When virtual plane is
-> enabled to support quad-pipe topology later, 2 SSPPs with 4 rect will
-> be needed, so that a plane can be supported by 4 hardware pipes.
+> This decouples vce init from gtt init.
 > 
-> After revise of quad-pipe, the number of pipes is decided in CRTC
-> check per number of interfaces, resolution, clock rate constrain,
-
-Where?
-
-> hardware feature and virtual plane enablement. The decidsion of
-
-decision
-
-> number of pipes will happen in CRTC check for both virtual plane and
-> non-virtual plane case to unify the plane handling. Before that, the
-
-will? Do you mean, after this patch? If so, please use imperative
-language. See Documentation/process/submitting-patches.rst
-
-> the number of necessary hw pipes is being determined based on
-> resolution and clock rate constrain.
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c |  1 -
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c     | 18 ------------
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vce.h     |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/vce_v1_0.c       | 32 +++++++++++----------
+>  4 files changed, 18 insertions(+), 35 deletions(-)
 > 
-> By default, the plane check occurs before the CRTC check in DRM
-> framework. Without topology information from the CRTC, plane mapping
-> will be skipped for the first time as number of pipe is 0.
-> Consequently, the SSPP engine starts without a valid memory address,
-> which triggers IOMMU fault.
-> 
-> Defer above plane related operations until dpu_assign_plane_resources()
-> is called from the CRTC side to ensure the topology information from
-> the CRTC check is available.
-> 
-> >
-> > >
-> > > >
-> > > > > will be skipped for the first time as pipe number is 0. Consequently,
-> > > > > the SSPP engine starts without a valid memory address, which triggers
-> > > > > IOMMU fault.
-> > > > >
-> > > > > Defer above plane related operations until dpu_assign_plane_resources()
-> > > > > is called from the CRTC side to ensure the topology information from
-> > > > > the CRTC check is available.
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> index dd9b845d5783..f2e89fb4b666 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> @@ -332,7 +332,6 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
+>  	ttm_resource_manager_init(man, &adev->mman.bdev, gtt_size);
+>  
+>  	start = AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS;
+> -	start += amdgpu_vce_required_gart_pages(adev);
+>  	size = (adev->gmc.gart_size >> PAGE_SHIFT) - start;
+>  	drm_mm_init(&mgr->mm, start, size);
+>  	spin_lock_init(&mgr->lock);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
+> index a7d8f1ce6ac2..eb4a15db2ef2 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
+> @@ -450,24 +450,6 @@ void amdgpu_vce_free_handles(struct amdgpu_device *adev, struct drm_file *filp)
+>  	}
+>  }
+>  
+> -/**
+> - * amdgpu_vce_required_gart_pages() - gets number of GART pages required by VCE
+> - *
+> - * @adev: amdgpu_device pointer
+> - *
+> - * Returns how many GART pages we need before GTT for the VCE IP block.
+> - * For VCE1, see vce_v1_0_ensure_vcpu_bo_32bit_addr for details.
+> - * For VCE2+, this is not needed so return zero.
+> - */
+> -u32 amdgpu_vce_required_gart_pages(struct amdgpu_device *adev)
+> -{
+> -	/* VCE IP block not added yet, so can't use amdgpu_ip_version */
+> -	if (adev->family == AMDGPU_FAMILY_SI)
+> -		return 512;
+> -
+> -	return 0;
+> -}
+> -
+>  /**
+>   * amdgpu_vce_get_create_msg - generate a VCE create msg
+>   *
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.h
+> index 1c3464ce5037..a59d87e09004 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.h
+> @@ -52,6 +52,7 @@ struct amdgpu_vce {
+>  	uint32_t                srbm_soft_reset;
+>  	unsigned		num_rings;
+>  	uint32_t		keyselect;
+> +	struct drm_mm_node	node;
 
--- 
-With best wishes
-Dmitry
+Maybe name that gart_node.
+
+>  };
+>  
+>  int amdgpu_vce_early_init(struct amdgpu_device *adev);
+> @@ -61,7 +62,6 @@ int amdgpu_vce_entity_init(struct amdgpu_device *adev, struct amdgpu_ring *ring)
+>  int amdgpu_vce_suspend(struct amdgpu_device *adev);
+>  int amdgpu_vce_resume(struct amdgpu_device *adev);
+>  void amdgpu_vce_free_handles(struct amdgpu_device *adev, struct drm_file *filp);
+> -u32 amdgpu_vce_required_gart_pages(struct amdgpu_device *adev);
+>  int amdgpu_vce_ring_parse_cs(struct amdgpu_cs_parser *p, struct amdgpu_job *job,
+>  			     struct amdgpu_ib *ib);
+>  int amdgpu_vce_ring_parse_cs_vm(struct amdgpu_cs_parser *p,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/vce_v1_0.c b/drivers/gpu/drm/amd/amdgpu/vce_v1_0.c
+> index 9ae424618556..bca34a30dbf3 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/vce_v1_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/vce_v1_0.c
+> @@ -47,11 +47,6 @@
+>  #define VCE_V1_0_DATA_SIZE	(7808 * (AMDGPU_MAX_VCE_HANDLES + 1))
+>  #define VCE_STATUS_VCPU_REPORT_FW_LOADED_MASK	0x02
+>  
+> -#define VCE_V1_0_GART_PAGE_START \
+> -	(AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS)
+> -#define VCE_V1_0_GART_ADDR_START \
+> -	(VCE_V1_0_GART_PAGE_START * AMDGPU_GPU_PAGE_SIZE)
+> -
+>  static void vce_v1_0_set_ring_funcs(struct amdgpu_device *adev);
+>  static void vce_v1_0_set_irq_funcs(struct amdgpu_device *adev);
+>  
+> @@ -541,21 +536,24 @@ static int vce_v1_0_ensure_vcpu_bo_32bit_addr(struct amdgpu_device *adev)
+>  	u64 num_pages = ALIGN(bo_size, AMDGPU_GPU_PAGE_SIZE) / AMDGPU_GPU_PAGE_SIZE;
+>  	u64 pa = amdgpu_gmc_vram_pa(adev, adev->vce.vcpu_bo);
+>  	u64 flags = AMDGPU_PTE_READABLE | AMDGPU_PTE_WRITEABLE | AMDGPU_PTE_VALID;
+> +	u64 vce_gart_start;
+
+Maybe name that vce_gart_offs. The GART start in MC address space is something different.
+
+> +	int r;
+>  
+> -	/*
+> -	 * Check if the VCPU BO already has a 32-bit address.
+> -	 * Eg. if MC is configured to put VRAM in the low address range.
+> -	 */
+> -	if (gpu_addr <= max_vcpu_bo_addr)
+> -		return 0;
+> +	r = amdgpu_gtt_mgr_alloc_entries(&adev->mman.gtt_mgr,
+> +					 &adev->vce.node, num_pages,
+> +					 DRM_MM_INSERT_LOW);
+> +	if (r)
+> +		return r;
+> +
+> +	vce_gart_start = adev->vce.node.start * AMDGPU_GPU_PAGE_SIZE;
+
+IIRC that should only be PAGE_SIZE and not AMDGPU_GPU_PAGE_SIZE.
+
+Apart from that looks good to me,
+Christian.
+
+>  
+>  	/* Check if we can map the VCPU BO in GART to a 32-bit address. */
+> -	if (adev->gmc.gart_start + VCE_V1_0_GART_ADDR_START > max_vcpu_bo_addr)
+> +	if (adev->gmc.gart_start + vce_gart_start > max_vcpu_bo_addr)
+>  		return -EINVAL;
+>  
+> -	amdgpu_gart_map_vram_range(adev, pa, VCE_V1_0_GART_PAGE_START,
+> +	amdgpu_gart_map_vram_range(adev, pa, adev->vce.node.start,
+>  				   num_pages, flags, adev->gart.ptr);
+> -	adev->vce.gpu_addr = adev->gmc.gart_start + VCE_V1_0_GART_ADDR_START;
+> +	adev->vce.gpu_addr = adev->gmc.gart_start + vce_gart_start;
+>  	if (adev->vce.gpu_addr > max_vcpu_bo_addr)
+>  		return -EINVAL;
+>  
+> @@ -610,7 +608,11 @@ static int vce_v1_0_sw_fini(struct amdgpu_ip_block *ip_block)
+>  	if (r)
+>  		return r;
+>  
+> -	return amdgpu_vce_sw_fini(adev);
+> +	r = amdgpu_vce_sw_fini(adev);
+> +
+> +	amdgpu_gtt_mgr_free_entries(&adev->mman.gtt_mgr, &adev->vce.node);
+> +
+> +	return r;
+>  }
+>  
+>  /**
+
