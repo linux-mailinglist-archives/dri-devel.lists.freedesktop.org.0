@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sL0CMMYld2kUcwEAu9opvQ
+	id 0BmREdYld2kUcwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:28:54 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:29:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 654AF85722
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:28:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC5CB85737
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:29:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B283010E3A9;
-	Mon, 26 Jan 2026 08:28:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41A9810E3AB;
+	Mon, 26 Jan 2026 08:29:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KD3PBLjM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="R+QAmRBq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1388A10E3A9
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 08:28:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B11610E3AB
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 08:29:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 88E9960127;
- Mon, 26 Jan 2026 08:28:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E1D7C19421;
- Mon, 26 Jan 2026 08:28:48 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 0A8C6600C3;
+ Mon, 26 Jan 2026 08:29:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07773C116C6;
+ Mon, 26 Jan 2026 08:29:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769416130;
- bh=i0L0U5tLgBAptErn/4aun1UYAA4iP6N9USbirT82Ink=;
+ s=k20201202; t=1769416145;
+ bh=duv63FSna/7UJJZ/FsHnyQa6lqZbbd1PPZS3QmcNnrc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KD3PBLjMJ9sIxP/zV/qBGzjf6J5eWHPEWWpaSIzmSilD8K5eMXJ6MUXvSQ2IYtZWg
- g2z/41S1QCjX3daNqyPSKPX6GDsC6ZMoyrBmGMX0af0JJQw7wfNczcxZxuhGH45Rt0
- ZMXXBe5YjjWdCQZV26dAtc/vC5oYbGkO8lvjrWXN7xCgvUIYHj0sNmghJLk2unbVPg
- smdAXUiunsxniW+M/pdzAJwsz86WhUIcWDRlV4N9Z3wnm34Df2KdfBDNt4k0dnLX2X
- e+DaxhBFf5PSwXaHM5l6mE+epv27qc8k13tyViY+VyZh5nNV2Rne/GVQLnL5FiU0zG
- mW52icb+IROOA==
-Date: Mon, 26 Jan 2026 08:28:46 +0000
+ b=R+QAmRBqjxBgW1zExN8CFs4irRmp9XHTWSdmyaACeX+KIVQ+agtMRIakolZn8cy4s
+ lDx9Uxng0aegOT6V2/OgTfsFy2eg0A/cQ5WtrOsI+LrTTJiLiMfc+fMj19Em/VHL9/
+ 4j+hT9kHLxHb7ZKnnHxKyY9sEhIBjKAhB5w/BLkU9F7mfJqyED3uOT5KGfloHbDoY8
+ +nrJDKGgJrqoTOBRU0+jJOSS8uiE4p/V6VhM4hT2NaflpoCe0t8FHWh3FoiZ0WYwSb
+ H4qmjBn1rLB+ZfLjBz9EcOs6Wiq1yGl2+JSYI+VIFPx1aRskOKHoaSiw7i7pjX5HVc
+ cnQl76LzmhPkw==
+Date: Mon, 26 Jan 2026 08:29:02 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: briannorris@chromium.org, jwerner@chromium.org, javierm@redhat.com,
  samuel@sholland.org, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
  chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 03/12] firmware: google: framebuffer: Init memory
- resource with helper macro
-Message-ID: <aXclvkVeqHTJ7xJX@google.com>
+Subject: Re: [PATCH v2 04/12] firmware: google: framebuffer: Tie platform
+ device to PCI hardware
+Message-ID: <aXclzjXprwN8HMQr@google.com>
 References: <20260115082128.12460-1-tzimmermann@suse.de>
- <20260115082128.12460-4-tzimmermann@suse.de>
+ <20260115082128.12460-5-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260115082128.12460-4-tzimmermann@suse.de>
+In-Reply-To: <20260115082128.12460-5-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,19 +98,35 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:email]
-X-Rspamd-Queue-Id: 654AF85722
+X-Rspamd-Queue-Id: EC5CB85737
 X-Rspamd-Action: no action
 
-On Thu, Jan 15, 2026 at 08:57:13AM +0100, Thomas Zimmermann wrote:
-> Initialize framebuffer memory resource with DEFINE_RES_MEM() instead
-> of open-coding the setup.
+On Thu, Jan 15, 2026 at 08:57:14AM +0100, Thomas Zimmermann wrote:
+> Use the PCI device as parent of the system-framebuffer device instead
+> of the coreboot device. Prevents SIGBUS or SIGSEG after hot-unplug of
+> the PCI device while the framebuffer is active.
 > 
-> While at it, drop the resource name to make the kernel use the device
-> name of the simple-framebuffer device for the resource. The latter
-> includes a device number. While the meaning of the resource name is
-> somewhat fuzzy and varies across entries in /proc/iomem, showing the
-> device name seems more helpful than showing a fixed name.
+> The simple-framebuffer device depends on the PCI hardware, so this
+> device needs to be its parent. The current coreboot parent is no
+> longer needed after the system-framebuffer evice has been created.
+                                            ^ d?
+> 
+> On systems without PCI or if no PCI parent device could be found,
+> the platform device hangs on the platform bus directly.
+> 
+> The fix here is similar to code in sysfb, which contained that same
+> bug.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
+With some minor comments,
 Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
+
+> +	if (parent)
+> +		put_device(parent);
+> +
+> +	return 0;
+
+Or maybe just:
+
+  ret = 0;
