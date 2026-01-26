@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KOGGFRkmd2kUcwEAu9opvQ
+	id QLYZCe0md2kUcwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:30:17 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:33:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1414285771
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:30:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A74E2857EA
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 09:33:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75ED910E3B7;
-	Mon, 26 Jan 2026 08:30:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79DDD10E3A4;
+	Mon, 26 Jan 2026 08:33:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="om7p5rE3";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Fsb1J3qv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4482510E3EA
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 08:30:14 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27A9E10E3A4
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 08:33:46 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 30A161A2A4D;
- Mon, 26 Jan 2026 08:30:13 +0000 (UTC)
+ by smtpout-04.galae.net (Postfix) with ESMTPS id C3303C225BA;
+ Mon, 26 Jan 2026 08:33:45 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 0368160717;
- Mon, 26 Jan 2026 08:30:13 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 38E5160717;
+ Mon, 26 Jan 2026 08:33:44 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id B5AE2119A80E2; Mon, 26 Jan 2026 09:30:09 +0100 (CET)
+ with ESMTPSA id 03EA9119A8627; Mon, 26 Jan 2026 09:33:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1769416212; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1769416423; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=RL12cC9qRX/ILoBDTmW2NvbjM3xBeSvvr6O9KVeZoZg=;
- b=om7p5rE3iiSwBy9bPPxolkQYErQW/3CDgztw9hO1NsSOzcCt3Au/qjDso2nw8w+QNQWbUk
- UkEzPTb9UlKqYKAvpL9GsVOaEJmKX2fEFmk+4Ee3r8C+8TIZEGPOtwQUjQCU5IUuIMxRJn
- z6LJUNbgR9DXE2ijEVLiBnIy0QbeaKf0++EC+uEC2SyurJMh42AV9e19mKvUjmD8jYiJu+
- +Q+RIwCS/Ip57PyXQdLH/RRv5vnsFKJciIh9RqI4MJYsAnXAeMe5kl8E5oUOUyopCRJ0M4
- /b2bLgC1Qg7JGb+y/8Fu4jrnUwmNHgxUTudw3edMKm+7ysEjJO71Xx6dKBOslg==
+ bh=RJK7fOiDsEdgNBqnNoS+yYdJDypAt+EMWhvumKttT4E=;
+ b=Fsb1J3qvjFPYKpqKT4SHNAESEhf7nPztjLnFyLagSKCwsa1713E4v1ETHBP6De6EQjhfBz
+ bTDB6V2ZzGu07c8qC4A/3bV2FhiefVDVHd5DXwNGsaRaoqE3tcbD6wyio42eoySeaEfgbC
+ PYUrlI3WItjj4OmIpsZnN/kyTCWXRQMnixXi6x+eDcAH3ekZcme+Sb3u/4C1WYTEl5gLiZ
+ HufcOTboaCfYDAMo5lXEQ5ORz/XzGPObLonHwdYe493pLtPX5skKDm1Dh18fTteGFD07A0
+ bMGrGjxg5nBiP1da2oaXmGsgpMzUBO0vOXrqhIFNcgWUfO8efTCK37RZC1iHNA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 26 Jan 2026 09:30:09 +0100
-Message-Id: <DFYDP4W448IT.144L31296M4LG@bootlin.com>
-Subject: Re: [PATCH 2/3] drm/bridge: imx8qxp-pxl2dpi: Fix NULL pointer
- dereference in imx8qxp_pxl2dpi_bridge_destroy()
+Date: Mon, 26 Jan 2026 09:33:38 +0100
+Message-Id: <DFYDRSZBQBND.QSY119QND1GE@bootlin.com>
+Subject: Re: [PATCH 3/3] drm/bridge: imx8qxp-pixel-combiner: Fix bailout for
+ imx8qxp_pc_bridge_probe()
 Cc: <dri-devel@lists.freedesktop.org>, <imx@lists.linux.dev>,
  <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
 To: "Liu Ying" <victor.liu@nxp.com>, "Andrzej Hajda"
@@ -60,8 +60,8 @@ To: "Liu Ying" <victor.liu@nxp.com>, "Andrzej Hajda"
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
 X-Mailer: aerc 0.20.1
 References: <20260123-imx8qxp-drm-bridge-fixes-v1-0-8bb85ada5866@nxp.com>
- <20260123-imx8qxp-drm-bridge-fixes-v1-2-8bb85ada5866@nxp.com>
-In-Reply-To: <20260123-imx8qxp-drm-bridge-fixes-v1-2-8bb85ada5866@nxp.com>
+ <20260123-imx8qxp-drm-bridge-fixes-v1-3-8bb85ada5866@nxp.com>
+In-Reply-To: <20260123-imx8qxp-drm-bridge-fixes-v1-3-8bb85ada5866@nxp.com>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -107,23 +107,32 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:dkim,bootlin.com:email,bootlin.com:url,bootlin.com:mid,nxp.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 1414285771
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:dkim,bootlin.com:email,bootlin.com:url,bootlin.com:mid]
+X-Rspamd-Queue-Id: A74E2857EA
 X-Rspamd-Action: no action
 
 On Fri Jan 23, 2026 at 10:22 AM CET, Liu Ying wrote:
-> Pointer bridge->driver_private in imx8qxp_pxl2dpi_bridge_destroy()
-> is NULL when imx8qxp_pxl2dpi_bridge_probe() returns error, because
-> the pointer is initialized only when imx8qxp_pxl2dpi_bridge_probe()
-> returns 0.  The NULL pointer would be set to pointer p2d and then
-> NULL pointer p2d would be dereferenced.  Fix this by returning early
-> from imx8qxp_pxl2dpi_bridge_destroy() if !p2d is true.
->
-> Fixes: 900699ba830f ("drm/bridge: imx8qxp-pxl2dpi: get/put the companion =
-bridge")
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> In case the channel0 is unavailable and bailing out from free_child is
+> needed when we fail to add a DRM bridge for the available channel1,
+> pointer pc->ch[0] in the bailout path would be NULL and it would be
+> dereferenced as pc->ch[0]->bridge.next_bridge.  Fix this by checking
+> pc->ch[0] before dereferencing it.
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Thanks for checking this code and providing fixes! These drivers have a
+complex code path so I had a hard time in following the logic without neing
+able to test on hardware. Apologies for the issues emerged.
+
+> Fixes: ae754f049ce1 ("drm/bridge: imx8qxp-pixel-combiner: get/put the nex=
+t bridge")
+> Fixes: 99764593528f ("drm/bridge: imx8qxp-pixel-combiner: convert to devm=
+_drm_bridge_alloc() API")
+
+The bug was introduced by 99764593528f, while ae754f049ce1 is not changing
+the bug, so for the sake of precision we can remove the first 'Fixes:'
+line.
+
+With that:
+ Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 --
 Luca Ceresoli, Bootlin
