@@ -2,116 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sBDPJFlsd2nCfQEAu9opvQ
+	id aAnDKipvd2m8gAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 14:30:01 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 14:42:02 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B8B188D5E
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 14:30:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0D1A8901C
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 14:42:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D2AE10E418;
-	Mon, 26 Jan 2026 13:29:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73F5C10E427;
+	Mon, 26 Jan 2026 13:41:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="CfBPjVFw";
+	dkim=pass (2048-bit key; secure) header.d=mess.org header.i=@mess.org header.b="YYN2UlTm";
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="M77FrCGv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
- [209.85.128.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB3F410E418
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 13:29:57 +0000 (UTC)
-Received: by mail-yw1-f174.google.com with SMTP id
- 00721157ae682-78fc3572431so43092277b3.0
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 05:29:57 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769434196; cv=none;
- d=google.com; s=arc-20240605;
- b=kTfwM1eJGGr9wdwEKSvmr2R4XwA8sx/dwC3WVu54+WIaf6Sr1D2y38R8DcsSjRHsau
- huxmeGG33gwnPYavTQjEXypxv/P85FtGrVZPcsPqa/noFaRJNzQkUdfddBQeu2e+XpnN
- 2dnLH/UVcQd/uFhCNlqHpQ8fm44XphMWcqPfU9P1WNNyi//iH4R2+E6Br2ETs9AMsz9T
- PNXrqhuhwcc/BxdOK98SfDRU+iwtiFjaxfIbcaTRNaaY/RtOJ8xz30mPk9TuoRSgqoCL
- pWaR5KYm9UU1lgkX249CHQy4G5enaVyiOoj2g+u5leoE7MsaTAFbOOtu7hrVYrgLzAaW
- JG5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=ajOlSiOtNMWfjsoQse/ifbqmB3q8/dPWLyWb9EMEP9E=;
- fh=oCRyJewTfWWqzsbgfG6fNBtWWW9XqXQXpjNB0YAHtPE=;
- b=Y1x4oHxiqX9LaW4pogdjeWEZ9NaYD0a3lnPm7vdTcizifr2plDOeuhliJY+V3xgE7T
- O16aNJcLmuiURitpf9A3HGBFqwhFCNL8pyo/EqQRLc8NNtUJstz2ggpmhtcvurb5nsYB
- 6fKcjL/W706HlMNDVAPqLZbEMVyIs1GS9G9X9n8Gt8JPU13n7J9T+QClmB7iu9MWgBqX
- JQPkyMnU6ialYEJpEelvH8o1Gdsz52HbiLV2fB1HOnoB7YRC6zUoD6R/AnlqkN6ZGZL1
- 40ZBMP48fZt1Xfz1GYR4t0wzs0EXnlrg3VzhP2jfU/dWgzx9LO6XZ4l2chZqtbc2oDTi
- z6vw==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1769434196; x=1770038996; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ajOlSiOtNMWfjsoQse/ifbqmB3q8/dPWLyWb9EMEP9E=;
- b=CfBPjVFw4F2p6tW2XFfqk31RrXuvg3dQDz8vs85QHqYl00EmZBYhoMmVxtRC0sSXQ1
- 3qP3eK9e+buXO+krpGAdoDmHB1k81KPGKoY2XfOwDVdItd465R2gOhAi2wWrtH0QwfQu
- MRl5ugOVuCuTe+Zeya5TafDGeEfhnLOUpBoctB4UwQniQ348TwLR7BhfHVxkVkD2lwlX
- ths3LSZCsL+bfldT8QvmIMW41LRKv88oOqf1RLxOlM1gitekqAdOUYG0QuQrzb+7kOe7
- mkGWB4tBpbf80Lkj1pFuDOJHjXPsxUDniLQ+rU0Xiu7IhsNn7TrZ9MdyNVq5zNd0Ede/
- 1stg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769434196; x=1770038996;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=ajOlSiOtNMWfjsoQse/ifbqmB3q8/dPWLyWb9EMEP9E=;
- b=Wrf7+CPWpyzXMau2riXl71GHoTnAxiFTo/aqy7YA6oJsORijoHps9yB3u8zaRq5Rqx
- E9Qr14amyCS8xqvlgwuzww2/CfeQh4SAQ+l5HqAWseBNbAvoaeDai1WHOe8D2/Ys42eA
- fkqlDnmC4K/Qg7qjc33ha5FTqj94IZSdPxFUK7jdr/XW0N0qENHWZmbmQMdWaHUKinei
- pAmbXh6TmHxmhVWYMYikfjXL2TkGswfCaBtBl0PHqJohQ5Sa32sNAI3IDyU02xaubkYZ
- 1uujFbP9CegoQs0/81pxVCaFd6ozQxgGpPNJZw9Jw8+OgEJWXCcGMxdIIKkmoGiZXTFx
- 4J5w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWq+g3LsW/J18ceQYXDoIVRC19+t4uefX2VwbCJ2rng0MOoQ1NQeXJwndUw8c6hzu9VbG4mVvYy8kE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzBHp5aak3oWLvuEpaHSf2xt5Rtn00tTNtT+4UgiS8zYORSOQAW
- RodfKPwAdcP2O93hki1JVHYUiGHDXFwYJ+XuPdIPL53r5e/xDAIJlso39TvaJpAjpYObb8VQtpu
- op5E2G6I9Ek8RATKE8VdprFFWEeODCUgtrHTOags00Q==
-X-Gm-Gg: AZuq6aIwrCJNHgGCfcpgwF0/2Xc3fLd4t098ujuiQ7vOYlbMTOT0zwI/vWc8a9h7xVT
- tOApNGZi62gE3CEw7YQhK8oE5nhhRxBQKRUQB7HY8QbXMf8kfXNvyxAgEoekA/kmhY23pOETUK3
- 1zUJzxJnJUX246ceHIh9WfemSfKP4mVKYEsbpmbRwg5ysT3qJClAmDIbz4akAc86Y1loIQ4bybJ
- bM9VbxNjdZTZDnCMbXdMzojME6pZjufPoxWzddkU+VBL6gt2oguh9+63SiQUFiWqHiy6yLBb/SS
- 2E5Zthl2n7kLMvBP
-X-Received: by 2002:a53:ac89:0:b0:649:6074:9d3c with SMTP id
- 956f58d0204a3-64970c9fdf9mr3532659d50.54.1769434196536; Mon, 26 Jan 2026
- 05:29:56 -0800 (PST)
+X-Greylist: delayed 570 seconds by postgrey-1.36 at gabe;
+ Mon, 26 Jan 2026 13:41:56 UTC
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C93610E427
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 13:41:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+ t=1769434344; bh=Brlmuq6wc8RI377XGNDHTfGDUw/9y1EM5gj9pOKesHU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=YYN2UlTm55Mj9BVaxSipZWF2qGB1GFFP1zqfnfQoqwc00jiTY4vkf5qynx/jg2h98
+ vXa7x3qxgjYx/s4pZPdLfkvAhEVi/QeqZqFJLmpmQjV6UOCPhdzgCTQzKj7cy2iiKN
+ 96C8M1G5zIFQMZkIKcAAps4P2GE3zhwTnCdIh9w43A/MsVRZQ3iD90dZ/57sLOTGXi
+ Y5B0BcUGFmCE7AwdDJhJOn8So7R0wO3agv542JVRUzi3jJ3DJgJb+Tzrb4CKpZ1pmK
+ rxVM7jeoxDyi1vxfpE/ov1fs8UWESvZHI3D5V9oXK0pu0zePNCE9KAlppkWqOgycyh
+ pg3iSGrcpQKSw==
+Received: by gofer.mess.org (Postfix, from userid 501)
+ id BC9D61003C6; Mon, 26 Jan 2026 13:32:24 +0000 (GMT)
+X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on gofer.mess.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-3.0 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+ DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU autolearn=unavailable
+ autolearn_force=no version=4.0.1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+ t=1769434328; bh=Brlmuq6wc8RI377XGNDHTfGDUw/9y1EM5gj9pOKesHU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=M77FrCGvsonvfN8yLCMjDJskwrhWcEspzWv9oa+pOV25niZ3LB4fRk8yLI/aSm7f5
+ Vr112Y3imLzMd4nVli0Vo2+Em0vrfrWw2zmz00iHZHlRWaykdom3k+87Cin5CY9e3A
+ 9tcAA8lbBeYHHt/x/MDnb4y02BGo/kcvIbA5zslgZS+zXrNwlYSOebBv+KgQMRUWaE
+ WSWjLt/abNF+NTOfrgrva4GPG/G5mFBnwMLZEiCUePZ5A5aSsyP0ASN4OWmmbhjXJu
+ pqBYVT0SDgMM2JPMEAh6odM+HCR36z5IHipFqFgt5TMwix5F3EAy67DqDTw3MxOIMi
+ Q0uGEW92n9MPA==
+Received: from bigcore.mess.org (unknown
+ [IPv6:2a02:8011:d000:212:18e9:4540:7989:d247])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by gofer.mess.org (Postfix) with ESMTPSA id B4CBD10006C;
+ Mon, 26 Jan 2026 13:32:08 +0000 (GMT)
+From: Sean Young <sean@mess.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ =?UTF-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
+ Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxim Levitsky <maximlevitsky@gmail.com>,
+ Patrice Chotard <patrice.chotard@foss.st.com>,
+ Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ =?UTF-8?q?David=20H=C3=A4rdeman?= <david@hardeman.nu>,
+ Benjamin Valentin <benpicco@googlemail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Haotian Zhang <vulab@iscas.ac.cn>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-staging@lists.linux.dev
+Subject: [PATCH v2] media: rc: fix race between unregister and urb/irq
+ callbacks
+Date: Mon, 26 Jan 2026 13:31:29 +0000
+Message-ID: <20260126133137.19260-1-sean@mess.org>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-References: <20260121-msm-next-quad-pipe-split-v17-0-6eb6d8675ca2@linaro.org>
- <20260121-msm-next-quad-pipe-split-v17-2-6eb6d8675ca2@linaro.org>
- <6kzd2g4hgffqz5ipaqbourgiefuxxh3njj44n35blo37z6hhhj@us7lzlgmjuld>
- <CABymUCMf8LxX6VWUuzNJP+G1y3Xi5-CVYhaqLR7F=kU6ZgdcgA@mail.gmail.com>
- <c56e4ylgwcqni23btaxegdbfg3tbkyp2vtjtboeb3kbvcfk27u@vrlh276djtfr>
- <CABymUCP6ZDGtEJeQSZ48x8TZyJ4gKVDC+JzJRz-tZ0ksCUCqsA@mail.gmail.com>
- <91d590de-fa00-4df3-923f-b49ad00cd9da@oss.qualcomm.com>
- <CABymUCOqxtYS7BaDMHeN2npn=4+Y-6kxLDOS6oskiiH58epR5w@mail.gmail.com>
- <bbd8e584-4398-40da-9759-0c27f34214d3@oss.qualcomm.com>
- <CABymUCMivNJt4fikx8XJ8KFZB-y4zc2RaqjBksxWrQFD9foEkg@mail.gmail.com>
- <7c3yxfkadtkd6xs6aiupcamykx75c2tieakc7n4a2jyymz6kzz@4gflcto2nbkj>
-In-Reply-To: <7c3yxfkadtkd6xs6aiupcamykx75c2tieakc7n4a2jyymz6kzz@4gflcto2nbkj>
-From: Jun Nie <jun.nie@linaro.org>
-Date: Mon, 26 Jan 2026 21:29:44 +0800
-X-Gm-Features: AZwV_QhrhzX3QFcHeAIEwxeWZf4Y6oIwMBcL2-B9HiItZYabjyPzZqC41KwRdrs
-Message-ID: <CABymUCMeS7cWgEProyWnMUJ1fF1rfba3dy4VB0mwTmPbpTvanA@mail.gmail.com>
-Subject: Re: [PATCH v17 2/4] drm/msm/dpu: Defer SSPP allocation until CRTC
- check
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Abhinav Kumar <abhinav.kumar@linux.dev>,
- Dmitry Baryshkov <lumag@kernel.org>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,217 +100,787 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+X-Spamd-Result: default: False [1.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[mess.org,none];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[mess.org:s=2020];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:lumag@kernel.org,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:robin.clark@oss.qualcomm.com,m:neil.armstrong@linaro.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[sean@mess.org,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[31];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[jun.nie@linaro.org,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:bonbons@linux-vserver.org,m:jikos@kernel.org,m:bentiss@kernel.org,m:hverkuil@kernel.org,m:mchehab@kernel.org,m:maximlevitsky@gmail.com,m:patrice.chotard@foss.st.com,m:wens@kernel.org,m:samuel@sholland.org,m:david@hardeman.nu,m:benpicco@googlemail.com,m:gregkh@linuxfoundation.org,m:vulab@iscas.ac.cn,m:linux-kernel@vger.kernel.org,m:linux-input@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-sunxi@lists.linux.dev,m:linux-staging@lists.linux.dev,m:jernejskrabec@gmail.com,m:benpicco@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[linux.dev,kernel.org,poorly.run,somainline.org,gmail.com,ffwll.ch,oss.qualcomm.com,linaro.org,vger.kernel.org,lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,linux-vserver.org,foss.st.com,sholland.org,hardeman.nu,googlemail.com,linuxfoundation.org];
+	DKIM_TRACE(0.00)[mess.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sean@mess.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jun.nie@linaro.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:email,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 3B8B188D5E
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gmx.de:email,convergence.de:email,st.com:email,iscas.ac.cn:email]
+X-Rspamd-Queue-Id: E0D1A8901C
 X-Rspamd-Action: no action
 
-Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2026=E5=B9=B4=
-1=E6=9C=8826=E6=97=A5=E5=91=A8=E4=B8=80 20:31=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Mon, Jan 26, 2026 at 08:01:00PM +0800, Jun Nie wrote:
-> > Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2026=E5=
-=B9=B41=E6=9C=8826=E6=97=A5=E5=91=A8=E4=B8=80 18:49=E5=86=99=E9=81=93=EF=BC=
-=9A
-> > >
-> > > On 26/01/2026 12:29, Jun Nie wrote:
-> > > > Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2026=
-=E5=B9=B41=E6=9C=8826=E6=97=A5=E5=91=A8=E4=B8=80 18:13=E5=86=99=E9=81=93=EF=
-=BC=9A
-> > > >>
-> > > >> On 26/01/2026 12:06, Jun Nie wrote:
-> > > >>> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E202=
-6=E5=B9=B41=E6=9C=8822=E6=97=A5=E5=91=A8=E5=9B=9B 18:22=E5=86=99=E9=81=93=
-=EF=BC=9A
-> > > >>>>
-> > > >>>> On Thu, Jan 22, 2026 at 02:03:25PM +0800, Jun Nie wrote:
-> > > >>>>> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2=
-026=E5=B9=B41=E6=9C=8821=E6=97=A5=E5=91=A8=E4=B8=89 17:30=E5=86=99=E9=81=93=
-=EF=BC=9A
-> > > >>>>>>
-> > > >>>>>> On Wed, Jan 21, 2026 at 04:01:51PM +0800, Jun Nie wrote:
-> > > >>>>>>> Currently, plane splitting and SSPP allocation occur during t=
-he plane
-> > > >>>>>>> check phase. Defer these operations until dpu_assign_plane_re=
-sources()
-> > > >>>>>>> is called from the CRTC side to ensure the topology informati=
-on from
-> > > >>>>>>> the CRTC check is available.
-> > > >>>>>>
-> > > >>>>>> Why is it important? What is broken otherwise?
-> > > >>>>>
-> > > >>>>> I see. Thanks! Will add below lines in next version.
-> > > >>>>>
-> > > >>>>> By default, the plane check occurs before the CRTC check.
-> > > >>>>> Without topology information from the CRTC, plane splitting
-> > > >>>>> cannot be properly executed. Consequently, the SSPP
-> > > >>>>> engine starts without a valid memory address, which triggers
-> > > >>>>> an IOMMU warning.
-> > > >>>>
-> > > >>>> What is plane splitting? Write commit message for somebody who d=
-oesn't
-> > > >>>> exactly know what is going on.
-> > > >>>
-> > > >>> Thanks for the suggestion! Any more revise is needed?
-> > > >>
-> > > >> Sadly enough the text below is not a significant improvement.
-> > > >>
-> > > >>>
-> > > >>> Currently, splitting plane into SSPP rectangles the allocation oc=
-cur
-> > > >>> during the plane check phase, so that a plane can be supported by
-> > > >>> multiple hardware pipe.
-> > > >>
-> > > >> What does this mean? Without virtual planes in place, there are no
-> > > >> multiple hardware pipes.
-> > > >>
-> > > >>> While pipe topology is decided in CRTC check.
-> > > >>
-> > > >> ?? What does it mean here?
-> > > >>
-> > > >>> By default, the plane check occurs before the CRTC check in DRM
-> > > >>> framework. Without topology information from the CRTC, plane spli=
-tting
-> > > >>> cannot be properly executed.
-> > > >>
-> > > >> What does 'properly' mean here? How is it executed? What happens?
-> > > >>
-> > > >>> Consequently, the SSPP engine starts
-> > > >>> without a valid memory address, which triggers IOMMU warning.
-> > > >>
-> > > >> IOMMU faults. There are no "warnings".
-> > > >>
-> > > >>>
-> > > >>> Defer above plane operations until dpu_assign_plane_resources()
-> > > >>> is called from the CRTC side to ensure the topology information f=
-rom
-> > > >>> the CRTC check is available.
-> > > >>
-> > > >>
-> > > > Thanks for the patience!
-> > > >
-> > > >
-> > > > Currently, splitting plane into SSPP rectangles and allocation occu=
-r
-> > > > during the plane check phase. When virtual plane is enabled to supp=
-ort
-> > > > quad-pipe topology later, 2 SSPPs with 4 rect will be needed, so th=
-at
-> > > > a plane can be supported by 4 hardware pipes. And pipe number is
-> > >
-> > > number of pipes
-> > >
-> > > > decided in CRTC check per interface number, resolution and hardware
-> > > > feature.
-> > >
-> > > Okay, but IOMMU errors were reported with virtual planes being disabl=
-ed.
-> > > So how is it relevant?
-> >
-> > After revise of splitting plane into pipes, the number of pipes will be=
- decided
-> > by CRTC check for both virtual plane and non-virtual plane case to unif=
-y the
-> > plane handling,  instead of assumption of 2 pipes at most.
->
-> This needs to be explicitly written.
->
-> > >
-> > > >
-> > > > By default, the plane check occurs before the CRTC check in DRM
-> > > > framework. Without topology information from the CRTC, plane splitt=
-ing
-> > >
-> > > WHat is plane splitting?
-> >
-> > How about: s/plane splitting/splitting plane into pipes ?
->
-> This plane is not being split into anything. It's being mapped onto hw
-> pipes. But before that, the number of necessary hw pipes is being determi=
-ned
-> based on foo, bar an baz,
+Some rc device drivers have a race condition between rc_unregister_device()
+and irq or urb callbacks. This is because rc_unregister_device() does two
+things, it marks the device as unregistered so no new commands can be
+issued and then it calls rc_free_device(). This means the driver has no
+chance to cancel any pending urb callbacks or interrupts after the device
+has been marked as unregistered. Those callbacks may access struct rc_dev
+or its members (e.g. struct ir_raw_event_ctrl), which have been freed by
+rc_free_device().
 
-Thanks for the correction!
+This change removes the implicit call to rc_free_device() from
+rc_unregister_device(). This means that device drivers can call
+rc_unregister_device() in their remove or disconnect function, then cancel
+all the urbs and interrupts before explicitly calling rc_free_device().
 
-Currently, plane is mapped onto at most 2 hardware pipes and 1 SSPP
-allocation occur during the plane check phase. When virtual plane is
-enabled to support quad-pipe topology later, 2 SSPPs with 4 rect will
-be needed, so that a plane can be supported by 4 hardware pipes.
+Note this is an alternative fix for an issue found by Haotian Zhang, see
+the Closes: tags.
 
-After revise of quad-pipe, the number of pipes is decided in CRTC
-check per number of interfaces, resolution, clock rate constrain,
-hardware feature and virtual plane enablement. The decidsion of
-number of pipes will happen in CRTC check for both virtual plane and
-non-virtual plane case to unify the plane handling. Before that, the
-the number of necessary hw pipes is being determined based on
-resolution and clock rate constrain.
+Reported-by: Haotian Zhang <vulab@iscas.ac.cn>
+Closes: https://lore.kernel.org/linux-media/20251114101432.2566-1-vulab@iscas.ac.cn/
+Closes: https://lore.kernel.org/linux-media/20251114101418.2548-1-vulab@iscas.ac.cn/
+Closes: https://lore.kernel.org/linux-media/20251114101346.2530-1-vulab@iscas.ac.cn/
+Closes: https://lore.kernel.org/linux-media/20251114090605.2413-1-vulab@iscas.ac.cn/
+Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ drivers/gpu/drm/bridge/sil-sii8620.c        | 1 +
+ drivers/hid/hid-picolcd_cir.c               | 1 +
+ drivers/media/cec/core/cec-core.c           | 2 +-
+ drivers/media/common/siano/smsir.c          | 1 +
+ drivers/media/i2c/ir-kbd-i2c.c              | 2 ++
+ drivers/media/pci/bt8xx/bttv-input.c        | 3 ++-
+ drivers/media/pci/cx23885/cx23885-input.c   | 1 +
+ drivers/media/pci/cx88/cx88-input.c         | 3 ++-
+ drivers/media/pci/dm1105/dm1105.c           | 1 +
+ drivers/media/pci/mantis/mantis_input.c     | 1 +
+ drivers/media/pci/saa7134/saa7134-input.c   | 1 +
+ drivers/media/pci/smipcie/smipcie-ir.c      | 1 +
+ drivers/media/pci/ttpci/budget-ci.c         | 1 +
+ drivers/media/rc/ati_remote.c               | 6 +++---
+ drivers/media/rc/ene_ir.c                   | 2 +-
+ drivers/media/rc/fintek-cir.c               | 3 ++-
+ drivers/media/rc/igorplugusb.c              | 1 +
+ drivers/media/rc/iguanair.c                 | 1 +
+ drivers/media/rc/img-ir/img-ir-hw.c         | 3 ++-
+ drivers/media/rc/img-ir/img-ir-raw.c        | 3 ++-
+ drivers/media/rc/imon.c                     | 3 ++-
+ drivers/media/rc/ir-hix5hd2.c               | 2 +-
+ drivers/media/rc/ir_toy.c                   | 1 +
+ drivers/media/rc/ite-cir.c                  | 2 +-
+ drivers/media/rc/mceusb.c                   | 1 +
+ drivers/media/rc/rc-ir-raw.c                | 5 -----
+ drivers/media/rc/rc-loopback.c              | 1 +
+ drivers/media/rc/rc-main.c                  | 6 +-----
+ drivers/media/rc/redrat3.c                  | 4 +++-
+ drivers/media/rc/st_rc.c                    | 2 +-
+ drivers/media/rc/streamzap.c                | 7 ++++---
+ drivers/media/rc/sunxi-cir.c                | 1 +
+ drivers/media/rc/ttusbir.c                  | 2 +-
+ drivers/media/rc/winbond-cir.c              | 2 +-
+ drivers/media/rc/xbox_remote.c              | 5 +++--
+ drivers/media/usb/au0828/au0828-input.c     | 1 +
+ drivers/media/usb/dvb-usb-v2/dvb_usb_core.c | 1 +
+ drivers/media/usb/dvb-usb/dvb-usb-remote.c  | 6 ++++--
+ drivers/media/usb/em28xx/em28xx-input.c     | 1 +
+ drivers/staging/media/av7110/av7110_ir.c    | 1 +
+ include/media/rc-core.h                     | 2 --
+ 41 files changed, 58 insertions(+), 36 deletions(-)
 
-By default, the plane check occurs before the CRTC check in DRM
-framework. Without topology information from the CRTC, plane mapping
-will be skipped for the first time as number of pipe is 0.
-Consequently, the SSPP engine starts without a valid memory address,
-which triggers IOMMU fault.
+diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c b/drivers/gpu/drm/bridge/sil-sii8620.c
+index 9e48ad39e1cc9..923e2ed30624b 100644
+--- a/drivers/gpu/drm/bridge/sil-sii8620.c
++++ b/drivers/gpu/drm/bridge/sil-sii8620.c
+@@ -2221,6 +2221,7 @@ static void sii8620_detach(struct drm_bridge *bridge)
+ 		return;
+ 
+ 	rc_unregister_device(ctx->rc_dev);
++	rc_free_device(ctx->rc_dev);
+ }
+ 
+ static int sii8620_is_packing_required(struct sii8620 *ctx,
+diff --git a/drivers/hid/hid-picolcd_cir.c b/drivers/hid/hid-picolcd_cir.c
+index d6faa0e00f95a..6d4c636e1c9f7 100644
+--- a/drivers/hid/hid-picolcd_cir.c
++++ b/drivers/hid/hid-picolcd_cir.c
+@@ -134,5 +134,6 @@ void picolcd_exit_cir(struct picolcd_data *data)
+ 
+ 	data->rc_dev = NULL;
+ 	rc_unregister_device(rdev);
++	rc_free_device(rdev);
+ }
+ 
+diff --git a/drivers/media/cec/core/cec-core.c b/drivers/media/cec/core/cec-core.c
+index dd6e24a0899bd..1b8a33c05b3c9 100644
+--- a/drivers/media/cec/core/cec-core.c
++++ b/drivers/media/cec/core/cec-core.c
+@@ -338,8 +338,8 @@ int cec_register_adapter(struct cec_adapter *adap,
+ 	res = cec_devnode_register(&adap->devnode, adap->owner);
+ 	if (res) {
+ #ifdef CONFIG_MEDIA_CEC_RC
+-		/* Note: rc_unregister also calls rc_free */
+ 		rc_unregister_device(adap->rc);
++		rc_free_device(adap->rc);
+ 		adap->rc = NULL;
+ #endif
+ 		return res;
+diff --git a/drivers/media/common/siano/smsir.c b/drivers/media/common/siano/smsir.c
+index af07fed21ae12..283770d583d56 100644
+--- a/drivers/media/common/siano/smsir.c
++++ b/drivers/media/common/siano/smsir.c
+@@ -92,6 +92,7 @@ int sms_ir_init(struct smscore_device_t *coredev)
+ void sms_ir_exit(struct smscore_device_t *coredev)
+ {
+ 	rc_unregister_device(coredev->ir.dev);
++	rc_free_device(coredev->ir.dev);
+ 
+ 	pr_debug("\n");
+ }
+diff --git a/drivers/media/i2c/ir-kbd-i2c.c b/drivers/media/i2c/ir-kbd-i2c.c
+index 5588cdd7ec20d..6047453170043 100644
+--- a/drivers/media/i2c/ir-kbd-i2c.c
++++ b/drivers/media/i2c/ir-kbd-i2c.c
+@@ -355,6 +355,7 @@ static void ir_work(struct work_struct *work)
+ 		mutex_unlock(&ir->lock);
+ 		if (rc == -ENODEV) {
+ 			rc_unregister_device(ir->rc);
++			rc_free_device(ir->rc);
+ 			ir->rc = NULL;
+ 			return;
+ 		}
+@@ -972,6 +973,7 @@ static void ir_remove(struct i2c_client *client)
+ 	i2c_unregister_device(ir->tx_c);
+ 
+ 	rc_unregister_device(ir->rc);
++	rc_free_device(ir->rc);
+ }
+ 
+ static const struct i2c_device_id ir_kbd_id[] = {
+diff --git a/drivers/media/pci/bt8xx/bttv-input.c b/drivers/media/pci/bt8xx/bttv-input.c
+index 84aa269248fd3..f84fcf96eca98 100644
+--- a/drivers/media/pci/bt8xx/bttv-input.c
++++ b/drivers/media/pci/bt8xx/bttv-input.c
+@@ -572,8 +572,9 @@ void bttv_input_fini(struct bttv *btv)
+ 	if (btv->remote == NULL)
+ 		return;
+ 
+-	bttv_ir_stop(btv);
+ 	rc_unregister_device(btv->remote->dev);
++	bttv_ir_stop(btv);
++	rc_free_device(btv->remote->dev);
+ 	kfree(btv->remote);
+ 	btv->remote = NULL;
+ }
+diff --git a/drivers/media/pci/cx23885/cx23885-input.c b/drivers/media/pci/cx23885/cx23885-input.c
+index d2e84c6457e0a..722329ef3fd2c 100644
+--- a/drivers/media/pci/cx23885/cx23885-input.c
++++ b/drivers/media/pci/cx23885/cx23885-input.c
+@@ -402,6 +402,7 @@ void cx23885_input_fini(struct cx23885_dev *dev)
+ 	if (dev->kernel_ir == NULL)
+ 		return;
+ 	rc_unregister_device(dev->kernel_ir->rc);
++	rc_free_device(dev->kernel_ir->rc);
+ 	kfree(dev->kernel_ir->phys);
+ 	kfree(dev->kernel_ir->name);
+ 	kfree(dev->kernel_ir);
+diff --git a/drivers/media/pci/cx88/cx88-input.c b/drivers/media/pci/cx88/cx88-input.c
+index b9f2c14d62b40..4757787c3f593 100644
+--- a/drivers/media/pci/cx88/cx88-input.c
++++ b/drivers/media/pci/cx88/cx88-input.c
+@@ -509,8 +509,9 @@ int cx88_ir_fini(struct cx88_core *core)
+ 	if (!ir)
+ 		return 0;
+ 
+-	cx88_ir_stop(core);
+ 	rc_unregister_device(ir->dev);
++	cx88_ir_stop(core);
++	rc_free_device(ir->dev);
+ 	kfree(ir);
+ 
+ 	/* done */
+diff --git a/drivers/media/pci/dm1105/dm1105.c b/drivers/media/pci/dm1105/dm1105.c
+index 9e9c7c071accc..e1185aa669f48 100644
+--- a/drivers/media/pci/dm1105/dm1105.c
++++ b/drivers/media/pci/dm1105/dm1105.c
+@@ -763,6 +763,7 @@ static int dm1105_ir_init(struct dm1105_dev *dm1105)
+ static void dm1105_ir_exit(struct dm1105_dev *dm1105)
+ {
+ 	rc_unregister_device(dm1105->ir.dev);
++	rc_free_device(dm1105->ir.dev);
+ }
+ 
+ static int dm1105_hw_init(struct dm1105_dev *dev)
+diff --git a/drivers/media/pci/mantis/mantis_input.c b/drivers/media/pci/mantis/mantis_input.c
+index 34c0d979240fd..edb4cacf55d22 100644
+--- a/drivers/media/pci/mantis/mantis_input.c
++++ b/drivers/media/pci/mantis/mantis_input.c
+@@ -72,5 +72,6 @@ EXPORT_SYMBOL_GPL(mantis_input_init);
+ void mantis_input_exit(struct mantis_pci *mantis)
+ {
+ 	rc_unregister_device(mantis->rc);
++	rc_free_device(mantis->rc);
+ }
+ EXPORT_SYMBOL_GPL(mantis_input_exit);
+diff --git a/drivers/media/pci/saa7134/saa7134-input.c b/drivers/media/pci/saa7134/saa7134-input.c
+index 468dbe8d552f8..d39537c95d9d3 100644
+--- a/drivers/media/pci/saa7134/saa7134-input.c
++++ b/drivers/media/pci/saa7134/saa7134-input.c
+@@ -834,6 +834,7 @@ void saa7134_input_fini(struct saa7134_dev *dev)
+ 		return;
+ 
+ 	rc_unregister_device(dev->remote->dev);
++	rc_free_device(dev->remote->dev);
+ 	kfree(dev->remote);
+ 	dev->remote = NULL;
+ }
+diff --git a/drivers/media/pci/smipcie/smipcie-ir.c b/drivers/media/pci/smipcie/smipcie-ir.c
+index c0604d9c70119..0bbe4fa2d5a84 100644
+--- a/drivers/media/pci/smipcie/smipcie-ir.c
++++ b/drivers/media/pci/smipcie/smipcie-ir.c
+@@ -181,5 +181,6 @@ void smi_ir_exit(struct smi_dev *dev)
+ 
+ 	rc_unregister_device(rc_dev);
+ 	smi_ir_stop(ir);
++	rc_free_device(rc_dev);
+ 	ir->rc_dev = NULL;
+ }
+diff --git a/drivers/media/pci/ttpci/budget-ci.c b/drivers/media/pci/ttpci/budget-ci.c
+index 33f08adf4feb1..16973ac8e6a92 100644
+--- a/drivers/media/pci/ttpci/budget-ci.c
++++ b/drivers/media/pci/ttpci/budget-ci.c
+@@ -249,6 +249,7 @@ static void msp430_ir_deinit(struct budget_ci *budget_ci)
+ 	cancel_work_sync(&budget_ci->ir.msp430_irq_bh_work);
+ 
+ 	rc_unregister_device(budget_ci->ir.dev);
++	rc_free_device(budget_ci->ir.dev);
+ }
+ 
+ static int ciintf_read_attribute_mem(struct dvb_ca_en50221 *ca, int slot, int address)
+diff --git a/drivers/media/rc/ati_remote.c b/drivers/media/rc/ati_remote.c
+index a733914a25742..f1fd4765651ca 100644
+--- a/drivers/media/rc/ati_remote.c
++++ b/drivers/media/rc/ati_remote.c
+@@ -921,7 +921,6 @@ static int ati_remote_probe(struct usb_interface *interface,
+ 	input_free_device(input_dev);
+  exit_unregister_device:
+ 	rc_unregister_device(rc_dev);
+-	rc_dev = NULL;
+  exit_kill_urbs:
+ 	usb_kill_urb(ati_remote->irq_urb);
+ 	usb_kill_urb(ati_remote->out_urb);
+@@ -941,18 +940,19 @@ static void ati_remote_disconnect(struct usb_interface *interface)
+ 	struct ati_remote *ati_remote;
+ 
+ 	ati_remote = usb_get_intfdata(interface);
+-	usb_set_intfdata(interface, NULL);
+ 	if (!ati_remote) {
+ 		dev_warn(&interface->dev, "%s - null device?\n", __func__);
+ 		return;
+ 	}
+ 
++	rc_unregister_device(ati_remote->rdev);
++	usb_set_intfdata(interface, NULL);
+ 	usb_kill_urb(ati_remote->irq_urb);
+ 	usb_kill_urb(ati_remote->out_urb);
+ 	if (ati_remote->idev)
+ 		input_unregister_device(ati_remote->idev);
+-	rc_unregister_device(ati_remote->rdev);
+ 	ati_remote_free_buffers(ati_remote);
++	rc_free_device(ati_remote->rdev);
+ 	kfree(ati_remote);
+ }
+ 
+diff --git a/drivers/media/rc/ene_ir.c b/drivers/media/rc/ene_ir.c
+index d6c54a3bccc26..136fc4192265d 100644
+--- a/drivers/media/rc/ene_ir.c
++++ b/drivers/media/rc/ene_ir.c
+@@ -1090,7 +1090,6 @@ static int ene_probe(struct pnp_dev *pnp_dev, const struct pnp_device_id *id)
+ 	release_region(dev->hw_io, ENE_IO_SIZE);
+ exit_unregister_device:
+ 	rc_unregister_device(rdev);
+-	rdev = NULL;
+ exit_free_dev_rdev:
+ 	rc_free_device(rdev);
+ 	kfree(dev);
+@@ -1110,6 +1109,7 @@ static void ene_remove(struct pnp_dev *pnp_dev)
+ 	ene_rx_restore_hw_buffer(dev);
+ 	spin_unlock_irqrestore(&dev->hw_lock, flags);
+ 
++	rc_free_device(dev->rdev);
+ 	free_irq(dev->irq, dev);
+ 	release_region(dev->hw_io, ENE_IO_SIZE);
+ 	kfree(dev);
+diff --git a/drivers/media/rc/fintek-cir.c b/drivers/media/rc/fintek-cir.c
+index 3fb0968efd57d..9b789097cdd4c 100644
+--- a/drivers/media/rc/fintek-cir.c
++++ b/drivers/media/rc/fintek-cir.c
+@@ -568,6 +568,7 @@ static void fintek_remove(struct pnp_dev *pdev)
+ 	struct fintek_dev *fintek = pnp_get_drvdata(pdev);
+ 	unsigned long flags;
+ 
++	rc_unregister_device(fintek->rdev);
+ 	spin_lock_irqsave(&fintek->fintek_lock, flags);
+ 	/* disable CIR */
+ 	fintek_disable_cir(fintek);
+@@ -580,7 +581,7 @@ static void fintek_remove(struct pnp_dev *pdev)
+ 	free_irq(fintek->cir_irq, fintek);
+ 	release_region(fintek->cir_addr, fintek->cir_port_len);
+ 
+-	rc_unregister_device(fintek->rdev);
++	rc_free_device(fintek->rdev);
+ 
+ 	kfree(fintek);
+ }
+diff --git a/drivers/media/rc/igorplugusb.c b/drivers/media/rc/igorplugusb.c
+index e034c93d57cf0..5ceb5ca44e235 100644
+--- a/drivers/media/rc/igorplugusb.c
++++ b/drivers/media/rc/igorplugusb.c
+@@ -242,6 +242,7 @@ static void igorplugusb_disconnect(struct usb_interface *intf)
+ 	usb_set_intfdata(intf, NULL);
+ 	usb_unpoison_urb(ir->urb);
+ 	usb_free_urb(ir->urb);
++	rc_free_device(ir->rc);
+ 	kfree(ir->buf_in);
+ }
+ 
+diff --git a/drivers/media/rc/iguanair.c b/drivers/media/rc/iguanair.c
+index 8af94246e5916..7bd6dd7254157 100644
+--- a/drivers/media/rc/iguanair.c
++++ b/drivers/media/rc/iguanair.c
+@@ -500,6 +500,7 @@ static void iguanair_disconnect(struct usb_interface *intf)
+ 	usb_set_intfdata(intf, NULL);
+ 	usb_kill_urb(ir->urb_in);
+ 	usb_kill_urb(ir->urb_out);
++	rc_free_device(ir->rc);
+ 	usb_free_urb(ir->urb_in);
+ 	usb_free_urb(ir->urb_out);
+ 	usb_free_coherent(ir->udev, MAX_IN_PACKET, ir->buf_in, ir->dma_in);
+diff --git a/drivers/media/rc/img-ir/img-ir-hw.c b/drivers/media/rc/img-ir/img-ir-hw.c
+index 63f6f5b36838d..f30adf4d8444d 100644
+--- a/drivers/media/rc/img-ir/img-ir-hw.c
++++ b/drivers/media/rc/img-ir/img-ir-hw.c
+@@ -1118,9 +1118,10 @@ void img_ir_remove_hw(struct img_ir_priv *priv)
+ 	struct rc_dev *rdev = hw->rdev;
+ 	if (!rdev)
+ 		return;
++	rc_unregister_device(rdev);
+ 	img_ir_set_decoder(priv, NULL, 0);
+ 	hw->rdev = NULL;
+-	rc_unregister_device(rdev);
++	rc_free_device(rdev);
+ #ifdef CONFIG_COMMON_CLK
+ 	if (!IS_ERR(priv->clk))
+ 		clk_notifier_unregister(priv->clk, &hw->clk_nb);
+diff --git a/drivers/media/rc/img-ir/img-ir-raw.c b/drivers/media/rc/img-ir/img-ir-raw.c
+index 92fb7b555a0f6..f1460d4acf3e8 100644
+--- a/drivers/media/rc/img-ir/img-ir-raw.c
++++ b/drivers/media/rc/img-ir/img-ir-raw.c
+@@ -136,6 +136,7 @@ void img_ir_remove_raw(struct img_ir_priv *priv)
+ 	if (!rdev)
+ 		return;
+ 
++	rc_unregister_device(rdev);
+ 	/* switch off and disable raw (edge) interrupts */
+ 	spin_lock_irq(&priv->lock);
+ 	raw->rdev = NULL;
+@@ -145,7 +146,7 @@ void img_ir_remove_raw(struct img_ir_priv *priv)
+ 	img_ir_write(priv, IMG_IR_IRQ_CLEAR, IMG_IR_IRQ_EDGE);
+ 	spin_unlock_irq(&priv->lock);
+ 
+-	rc_unregister_device(rdev);
++	rc_free_device(rdev);
+ 
+ 	timer_delete_sync(&raw->timer);
+ }
+diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
+index 35b9e07003d88..48534bb52e4d0 100644
+--- a/drivers/media/rc/imon.c
++++ b/drivers/media/rc/imon.c
+@@ -2541,9 +2541,10 @@ static void imon_disconnect(struct usb_interface *interface)
+ 
+ 	if (ifnum == 0) {
+ 		ictx->dev_present_intf0 = false;
++		rc_unregister_device(ictx->rdev);
+ 		usb_kill_urb(ictx->rx_urb_intf0);
+ 		input_unregister_device(ictx->idev);
+-		rc_unregister_device(ictx->rdev);
++		rc_free_device(ictx->rdev);
+ 		if (ictx->display_supported) {
+ 			if (ictx->display_type == IMON_DISPLAY_TYPE_LCD)
+ 				usb_deregister_dev(interface, &imon_lcd_class);
+diff --git a/drivers/media/rc/ir-hix5hd2.c b/drivers/media/rc/ir-hix5hd2.c
+index edc46828509c8..1b061e4a3dcfa 100644
+--- a/drivers/media/rc/ir-hix5hd2.c
++++ b/drivers/media/rc/ir-hix5hd2.c
+@@ -331,7 +331,6 @@ static int hix5hd2_ir_probe(struct platform_device *pdev)
+ 
+ regerr:
+ 	rc_unregister_device(rdev);
+-	rdev = NULL;
+ clkerr:
+ 	clk_disable_unprepare(priv->clock);
+ err:
+@@ -346,6 +345,7 @@ static void hix5hd2_ir_remove(struct platform_device *pdev)
+ 
+ 	clk_disable_unprepare(priv->clock);
+ 	rc_unregister_device(priv->rdev);
++	rc_free_device(priv->rdev);
+ }
+ 
+ #ifdef CONFIG_PM_SLEEP
+diff --git a/drivers/media/rc/ir_toy.c b/drivers/media/rc/ir_toy.c
+index 533faa1175174..e79de56997a42 100644
+--- a/drivers/media/rc/ir_toy.c
++++ b/drivers/media/rc/ir_toy.c
+@@ -536,6 +536,7 @@ static void irtoy_disconnect(struct usb_interface *intf)
+ 	usb_free_urb(ir->urb_out);
+ 	usb_kill_urb(ir->urb_in);
+ 	usb_free_urb(ir->urb_in);
++	rc_free_device(ir->rc);
+ 	kfree(ir->in);
+ 	kfree(ir->out);
+ 	kfree(ir);
+diff --git a/drivers/media/rc/ite-cir.c b/drivers/media/rc/ite-cir.c
+index 2bacecb022623..23afbafb55748 100644
+--- a/drivers/media/rc/ite-cir.c
++++ b/drivers/media/rc/ite-cir.c
+@@ -1414,7 +1414,6 @@ static int ite_probe(struct pnp_dev *pdev, const struct pnp_device_id
+ 	release_region(itdev->cir_addr, itdev->params->io_region_size);
+ exit_unregister_device:
+ 	rc_unregister_device(rdev);
+-	rdev = NULL;
+ exit_free_dev_rdev:
+ 	rc_free_device(rdev);
+ 	kfree(itdev);
+@@ -1439,6 +1438,7 @@ static void ite_remove(struct pnp_dev *pdev)
+ 	release_region(dev->cir_addr, dev->params->io_region_size);
+ 
+ 	rc_unregister_device(dev->rdev);
++	rc_free_device(dev->rdev);
+ 
+ 	kfree(dev);
+ }
+diff --git a/drivers/media/rc/mceusb.c b/drivers/media/rc/mceusb.c
+index 044767eb3a38c..a4c94fdf767ca 100644
+--- a/drivers/media/rc/mceusb.c
++++ b/drivers/media/rc/mceusb.c
+@@ -1850,6 +1850,7 @@ static void mceusb_dev_disconnect(struct usb_interface *intf)
+ 	usb_free_urb(ir->urb_in);
+ 	usb_free_coherent(dev, ir->len_in, ir->buf_in, ir->dma_in);
+ 	usb_put_dev(dev);
++	rc_free_device(ir->rc);
+ 
+ 	kfree(ir);
+ }
+diff --git a/drivers/media/rc/rc-ir-raw.c b/drivers/media/rc/rc-ir-raw.c
+index 5dafe11f61c6b..76c3d1307f9f1 100644
+--- a/drivers/media/rc/rc-ir-raw.c
++++ b/drivers/media/rc/rc-ir-raw.c
+@@ -648,9 +648,6 @@ int ir_raw_event_register(struct rc_dev *dev)
+ 
+ void ir_raw_event_free(struct rc_dev *dev)
+ {
+-	if (!dev)
+-		return;
+-
+ 	kfree(dev->raw);
+ 	dev->raw = NULL;
+ }
+@@ -674,8 +671,6 @@ void ir_raw_event_unregister(struct rc_dev *dev)
+ 
+ 	lirc_bpf_free(dev);
+ 
+-	ir_raw_event_free(dev);
+-
+ 	/*
+ 	 * A user can be calling bpf(BPF_PROG_{QUERY|ATTACH|DETACH}), so
+ 	 * ensure that the raw member is null on unlock; this is how
+diff --git a/drivers/media/rc/rc-loopback.c b/drivers/media/rc/rc-loopback.c
+index 8288366f891fc..a108b057b5fd5 100644
+--- a/drivers/media/rc/rc-loopback.c
++++ b/drivers/media/rc/rc-loopback.c
+@@ -263,6 +263,7 @@ static int __init loop_init(void)
+ static void __exit loop_exit(void)
+ {
+ 	rc_unregister_device(loopdev.dev);
++	rc_free_device(loopdev.dev);
+ }
+ 
+ module_init(loop_init);
+diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
+index b9bf5cdcde4ae..6bdf32cb4a17d 100644
+--- a/drivers/media/rc/rc-main.c
++++ b/drivers/media/rc/rc-main.c
+@@ -1611,6 +1611,7 @@ static void rc_dev_release(struct device *device)
+ {
+ 	struct rc_dev *dev = to_rc_dev(device);
+ 
++	ir_raw_event_free(dev);
+ 	kfree(dev);
+ }
+ 
+@@ -1773,7 +1774,6 @@ struct rc_dev *devm_rc_allocate_device(struct device *dev,
+ 	}
+ 
+ 	rc->dev.parent = dev;
+-	rc->managed_alloc = true;
+ 	*dr = rc;
+ 	devres_add(dev, dr);
+ 
+@@ -2042,11 +2042,7 @@ void rc_unregister_device(struct rc_dev *dev)
+ 	device_del(&dev->dev);
+ 
+ 	ida_free(&rc_ida, dev->minor);
+-
+-	if (!dev->managed_alloc)
+-		rc_free_device(dev);
+ }
+-
+ EXPORT_SYMBOL_GPL(rc_unregister_device);
+ 
+ /*
+diff --git a/drivers/media/rc/redrat3.c b/drivers/media/rc/redrat3.c
+index a49173f54a4d0..b8289327f6a20 100644
+--- a/drivers/media/rc/redrat3.c
++++ b/drivers/media/rc/redrat3.c
+@@ -1133,11 +1133,13 @@ static void redrat3_dev_disconnect(struct usb_interface *intf)
+ {
+ 	struct usb_device *udev = interface_to_usbdev(intf);
+ 	struct redrat3_dev *rr3 = usb_get_intfdata(intf);
++	struct rc_dev *rc = rr3->rc;
+ 
+ 	usb_set_intfdata(intf, NULL);
+-	rc_unregister_device(rr3->rc);
++	rc_unregister_device(rc);
+ 	led_classdev_unregister(&rr3->led);
+ 	redrat3_delete(rr3, udev);
++	rc_free_device(rc);
+ }
+ 
+ static int redrat3_dev_suspend(struct usb_interface *intf, pm_message_t message)
+diff --git a/drivers/media/rc/st_rc.c b/drivers/media/rc/st_rc.c
+index 6b70bac5f45d6..0ba06bfc9e14b 100644
+--- a/drivers/media/rc/st_rc.c
++++ b/drivers/media/rc/st_rc.c
+@@ -203,6 +203,7 @@ static void st_rc_remove(struct platform_device *pdev)
+ 	device_init_wakeup(&pdev->dev, false);
+ 	clk_disable_unprepare(rc_dev->sys_clock);
+ 	rc_unregister_device(rc_dev->rdev);
++	rc_free_device(rc_dev->rdev);
+ }
+ 
+ static int st_rc_open(struct rc_dev *rdev)
+@@ -334,7 +335,6 @@ static int st_rc_probe(struct platform_device *pdev)
+ 	return ret;
+ rcerr:
+ 	rc_unregister_device(rdev);
+-	rdev = NULL;
+ clkerr:
+ 	clk_disable_unprepare(rc_dev->sys_clock);
+ err:
+diff --git a/drivers/media/rc/streamzap.c b/drivers/media/rc/streamzap.c
+index d3b48a0dd1f47..421bc655f8af4 100644
+--- a/drivers/media/rc/streamzap.c
++++ b/drivers/media/rc/streamzap.c
+@@ -388,15 +388,16 @@ static void streamzap_disconnect(struct usb_interface *interface)
+ 	struct streamzap_ir *sz = usb_get_intfdata(interface);
+ 	struct usb_device *usbdev = interface_to_usbdev(interface);
+ 
+-	usb_set_intfdata(interface, NULL);
+-
+ 	if (!sz)
+ 		return;
+ 
+-	usb_kill_urb(sz->urb_in);
+ 	rc_unregister_device(sz->rdev);
++	usb_set_intfdata(interface, NULL);
++
++	usb_kill_urb(sz->urb_in);
+ 	usb_free_urb(sz->urb_in);
+ 	usb_free_coherent(usbdev, sz->buf_in_len, sz->buf_in, sz->dma_in);
++	rc_free_device(sz->rdev);
+ 
+ 	kfree(sz);
+ }
+diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
+index 92ef4e7c6f69f..cb4c56bf0752a 100644
+--- a/drivers/media/rc/sunxi-cir.c
++++ b/drivers/media/rc/sunxi-cir.c
+@@ -371,6 +371,7 @@ static void sunxi_ir_remove(struct platform_device *pdev)
+ 	struct sunxi_ir *ir = platform_get_drvdata(pdev);
+ 
+ 	rc_unregister_device(ir->rc);
++	rc_free_device(ir->rc);
+ 	sunxi_ir_hw_exit(&pdev->dev);
+ }
+ 
+diff --git a/drivers/media/rc/ttusbir.c b/drivers/media/rc/ttusbir.c
+index 560a26f3965cf..5234c1e9a58ea 100644
+--- a/drivers/media/rc/ttusbir.c
++++ b/drivers/media/rc/ttusbir.c
+@@ -333,7 +333,6 @@ static int ttusbir_probe(struct usb_interface *intf,
+ 	return 0;
+ out3:
+ 	rc_unregister_device(rc);
+-	rc = NULL;
+ out2:
+ 	led_classdev_unregister(&tt->led);
+ out:
+@@ -373,6 +372,7 @@ static void ttusbir_disconnect(struct usb_interface *intf)
+ 	}
+ 	usb_kill_urb(tt->bulk_urb);
+ 	usb_free_urb(tt->bulk_urb);
++	rc_free_device(tt->rc);
+ 	usb_set_intfdata(intf, NULL);
+ 	kfree(tt);
+ }
+diff --git a/drivers/media/rc/winbond-cir.c b/drivers/media/rc/winbond-cir.c
+index 25884a79985c8..14d8b58e28398 100644
+--- a/drivers/media/rc/winbond-cir.c
++++ b/drivers/media/rc/winbond-cir.c
+@@ -1132,7 +1132,6 @@ wbcir_probe(struct pnp_dev *device, const struct pnp_device_id *dev_id)
+ 	release_region(data->wbase, WAKEUP_IOMEM_LEN);
+ exit_unregister_device:
+ 	rc_unregister_device(data->dev);
+-	data->dev = NULL;
+ exit_free_rc:
+ 	rc_free_device(data->dev);
+ exit_unregister_led:
+@@ -1163,6 +1162,7 @@ wbcir_remove(struct pnp_dev *device)
+ 	wbcir_set_bits(data->wbase + WBCIR_REG_WCEIR_EV_EN, 0x00, 0x07);
+ 
+ 	rc_unregister_device(data->dev);
++	rc_free_device(data->dev);
+ 
+ 	led_classdev_unregister(&data->led);
+ 
+diff --git a/drivers/media/rc/xbox_remote.c b/drivers/media/rc/xbox_remote.c
+index a1572381d0971..05e3c6db54ee6 100644
+--- a/drivers/media/rc/xbox_remote.c
++++ b/drivers/media/rc/xbox_remote.c
+@@ -277,14 +277,15 @@ static void xbox_remote_disconnect(struct usb_interface *interface)
+ 	struct xbox_remote *xbox_remote;
+ 
+ 	xbox_remote = usb_get_intfdata(interface);
+-	usb_set_intfdata(interface, NULL);
+ 	if (!xbox_remote) {
+ 		dev_warn(&interface->dev, "%s - null device?\n", __func__);
+ 		return;
+ 	}
+ 
+-	usb_kill_urb(xbox_remote->irq_urb);
+ 	rc_unregister_device(xbox_remote->rdev);
++	usb_set_intfdata(interface, NULL);
++	usb_kill_urb(xbox_remote->irq_urb);
++	rc_free_device(xbox_remote->rdev);
+ 	usb_free_urb(xbox_remote->irq_urb);
+ 	kfree(xbox_remote);
+ }
+diff --git a/drivers/media/usb/au0828/au0828-input.c b/drivers/media/usb/au0828/au0828-input.c
+index 3d3368202cd01..283ad2c6288cd 100644
+--- a/drivers/media/usb/au0828/au0828-input.c
++++ b/drivers/media/usb/au0828/au0828-input.c
+@@ -357,6 +357,7 @@ void au0828_rc_unregister(struct au0828_dev *dev)
+ 		return;
+ 
+ 	rc_unregister_device(ir->rc);
++	rc_free_device(ir->rc);
+ 
+ 	/* done */
+ 	kfree(ir);
+diff --git a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
+index f1c79f351ec8d..17e8961179d14 100644
+--- a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
++++ b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
+@@ -187,6 +187,7 @@ static int dvb_usbv2_remote_exit(struct dvb_usb_device *d)
+ 	if (d->rc_dev) {
+ 		cancel_delayed_work_sync(&d->rc_query_work);
+ 		rc_unregister_device(d->rc_dev);
++		rc_free_device(d->rc_dev);
+ 		d->rc_dev = NULL;
+ 	}
+ 
+diff --git a/drivers/media/usb/dvb-usb/dvb-usb-remote.c b/drivers/media/usb/dvb-usb/dvb-usb-remote.c
+index 65e2c9e2cdc99..6dc11718dfb98 100644
+--- a/drivers/media/usb/dvb-usb/dvb-usb-remote.c
++++ b/drivers/media/usb/dvb-usb/dvb-usb-remote.c
+@@ -347,10 +347,12 @@ int dvb_usb_remote_exit(struct dvb_usb_device *d)
+ {
+ 	if (d->state & DVB_USB_STATE_REMOTE) {
+ 		cancel_delayed_work_sync(&d->rc_query_work);
+-		if (d->props.rc.mode == DVB_RC_LEGACY)
++		if (d->props.rc.mode == DVB_RC_LEGACY) {
+ 			input_unregister_device(d->input_dev);
+-		else
++		} else {
+ 			rc_unregister_device(d->rc_dev);
++			rc_free_device(d->rc_dev);
++		}
+ 	}
+ 	d->state &= ~DVB_USB_STATE_REMOTE;
+ 	return 0;
+diff --git a/drivers/media/usb/em28xx/em28xx-input.c b/drivers/media/usb/em28xx/em28xx-input.c
+index 5f3b00869bdbc..26f333b5be732 100644
+--- a/drivers/media/usb/em28xx/em28xx-input.c
++++ b/drivers/media/usb/em28xx/em28xx-input.c
+@@ -853,6 +853,7 @@ static int em28xx_ir_fini(struct em28xx *dev)
+ 		goto ref_put;
+ 
+ 	rc_unregister_device(ir->rc);
++	rc_free_device(ir->rc);
+ 
+ 	kfree(ir->i2c_client);
+ 
+diff --git a/drivers/staging/media/av7110/av7110_ir.c b/drivers/staging/media/av7110/av7110_ir.c
+index 68b3979ba5f20..fdae467fd7ab8 100644
+--- a/drivers/staging/media/av7110/av7110_ir.c
++++ b/drivers/staging/media/av7110/av7110_ir.c
+@@ -151,6 +151,7 @@ int av7110_ir_init(struct av7110 *av7110)
+ void av7110_ir_exit(struct av7110 *av7110)
+ {
+ 	rc_unregister_device(av7110->ir.rcdev);
++	rc_free_device(av7110->ir.rcdev);
+ }
+ 
+ //MODULE_AUTHOR("Holger Waechtler <holger@convergence.de>, Oliver Endriss <o.endriss@gmx.de>");
+diff --git a/include/media/rc-core.h b/include/media/rc-core.h
+index 35c7a0546f02e..7c964b5ad7926 100644
+--- a/include/media/rc-core.h
++++ b/include/media/rc-core.h
+@@ -81,7 +81,6 @@ struct lirc_fh {
+ /**
+  * struct rc_dev - represents a remote control device
+  * @dev: driver model's view of this device
+- * @managed_alloc: devm_rc_allocate_device was used to create rc_dev
+  * @registered: set to true by rc_register_device(), false by
+  *	rc_unregister_device
+  * @idle: used to keep track of RX state
+@@ -156,7 +155,6 @@ struct lirc_fh {
+  */
+ struct rc_dev {
+ 	struct device			dev;
+-	bool				managed_alloc;
+ 	bool				registered;
+ 	bool				idle;
+ 	bool				encode_wakeup;
+-- 
+2.52.0
 
-Defer above plane related operations until dpu_assign_plane_resources()
-is called from the CRTC side to ensure the topology information from
-the CRTC check is available.
-
->
-> >
-> > >
-> > > > will be skipped for the first time as pipe number is 0. Consequentl=
-y,
-> > > > the SSPP engine starts without a valid memory address, which trigge=
-rs
-> > > > IOMMU fault.
-> > > >
-> > > > Defer above plane related operations until dpu_assign_plane_resourc=
-es()
-> > > > is called from the CRTC side to ensure the topology information fro=
-m
-> > > > the CRTC check is available.
-> > > >
-> > > > Regards,
-> > > > Jun
-> > > >>
-> > > >> --
-> > > >> With best wishes
-> > > >> Dmitry
-> > >
-> > >
-> > > --
-> > > With best wishes
-> > > Dmitry
->
-> --
-> With best wishes
-> Dmitry
