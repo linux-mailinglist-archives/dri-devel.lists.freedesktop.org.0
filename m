@@ -2,66 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YIyFJF9pd2nCfQEAu9opvQ
+	id kHgVN3Nsd2nCfQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 14:17:19 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 14:30:27 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E716A88B40
-	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 14:17:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5F088D70
+	for <lists+dri-devel@lfdr.de>; Mon, 26 Jan 2026 14:30:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99A5789317;
-	Mon, 26 Jan 2026 13:17:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 807C410E11B;
+	Mon, 26 Jan 2026 13:30:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="HAxPnanM";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KmDi45Pl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B80289317
- for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 13:17:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=fYrUYIeJEVFmy4FEXHExmtEjO6PJiqjGBDlTX9sDdOs=; b=HAxPnanMsVzMHwD5o/QRbwd1oh
- uCzXTDKzKFFRhBYFV/mAzkkPDpTuCTjnogk9nULIBGtTg5l58IINHvbnh3JkeAKRzdwFGt/739h8e
- b6MSB+PxL3fW4LlzNr9SLOpdbJ/DDa2adfbqmCqvS5pLX4QOvsrs0imEPsLGuWw/HY+3PysWIN81s
- pUB2Y6ACMqufhR38bqqMeMQrzKJn4WhhLJXJED9Z4MKzvYOLD0CW4SD9XBwG9AvShimYlMjOH9yIT
- YK6VJOPJwR16trm5fCDDwsS5jlCuBRYlBP1eg6CPNpwAKiqZmR3IBIuZ5ic2TcRSzcmv5tH2UroVs
- 4DHroAZw==;
-Received: from [189.89.57.42] (helo=[192.168.18.14])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vkMSX-00A3Rn-DM; Mon, 26 Jan 2026 14:16:49 +0100
-Message-ID: <c9cbf372-3ca6-4fd3-b5ec-3c97a31e096e@igalia.com>
-Date: Mon, 26 Jan 2026 10:16:41 -0300
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D1F210E11B
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 13:30:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id C3A2843E3C;
+ Mon, 26 Jan 2026 13:30:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E3B5C116C6;
+ Mon, 26 Jan 2026 13:30:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1769434222;
+ bh=tFPN/HZWJM+duLC/+VHomdgpmmIuWdt01i1MV76oRs0=;
+ h=Subject:To:Cc:From:Date:From;
+ b=KmDi45Pl7DNUrUUwN9hnPgMolXgqry15OxXbbGv/62CV1ITsmhSyZ/w/1ZAP8Bw8O
+ YIMxJNklg12ucJT3ELqX9o6upiy3npOzuOII0cGHbt6+ZiDknfxhSuotHXuehHOei8
+ 6G7mnaeEnoAV61jPr2fY26dG9QqKSZlpJXnI+Jl0=
+Subject: Patch "drm,
+ drm/xe: Fix xe userptr in the absence of CONFIG_DEVICE_PRIVATE" has
+ been added to the 6.18-stable tree
+To: dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ himal.prasad.ghimiray@intel.com, maarten.lankhorst@linux.intel.com,
+ matthew.auld@intel.com, matthew.brost@intel.com, rodrigo.vivi@intel.com,
+ thomas.hellstrom@linux.intel.com
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 26 Jan 2026 14:29:32 +0100
+Message-ID: <2026012632-curing-citation-2805@gregkh>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] drm/v3d: Introduce Runtime Power Management
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Stefan Wahren <wahrenst@gmx.net>, Maxime Ripard <mripard@kernel.org>,
- Iago Toral Quiroga <itoral@igalia.com>,
- Chema Casanova <jmcasanova@igalia.com>, Dom Cobley <popcornmix@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, kernel-dev@igalia.com
-References: <20260116-v3d-power-management-v3-0-4e1874e81dd6@igalia.com>
- <20260116-v3d-power-management-v3-4-4e1874e81dd6@igalia.com>
-Content-Language: en-US
-From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <20260116-v3d-power-management-v3-4-4e1874e81dd6@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,629 +63,189 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+X-Spamd-Result: default: False [4.99 / 15.00];
+	MID_END_EQ_FROM_USER_PART(4.00)[];
+	R_DKIM_REJECT(1.00)[linuxfoundation.org:s=korg];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[linuxfoundation.org : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:mcanal@igalia.com,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:nsaenz@kernel.org,m:florian.fainelli@broadcom.com,m:wahrenst@gmx.net,m:mripard@kernel.org,m:itoral@igalia.com,m:jmcasanova@igalia.com,m:popcornmix@gmail.com,m:dave.stevenson@raspberrypi.com,m:p.zabel@pengutronix.de,m:linux-clk@vger.kernel.org,m:linux-rpi-kernel@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:bcm-kernel-feedback-list@broadcom.com,m:kernel-dev@igalia.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[igalia.com,baylibre.com,kernel.org,broadcom.com,gmx.net,gmail.com,raspberrypi.com,pengutronix.de];
-	FORGED_SENDER(0.00)[mwen@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,dri-devel-bounces@lists.freedesktop.org];
+	GREYLIST(0.00)[pass,meta];
 	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[igalia.com:-];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[mwen@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[linuxfoundation.org:-];
+	FROM_NO_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	TO_DN_NONE(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: E716A88B40
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,msgid.link:url,intel.com:email,lists.freedesktop.org:email]
+X-Rspamd-Queue-Id: 2F5F088D70
 X-Rspamd-Action: no action
 
 
+This is a note to let you know that I've just added the patch titled
 
-On 16/01/2026 17:19, Maíra Canal wrote:
-> Commit 90a64adb0876 ("drm/v3d: Get rid of pm code") removed the last
-> bits of power management code that V3D had, which were actually never
-> hooked. Therefore, currently, the GPU clock is enabled during probe
-> and only disabled when removing the driver.
->
-> Implement proper power management using the kernel's Runtime PM
-> framework.
-Hi Maíra,
+    drm, drm/xe: Fix xe userptr in the absence of CONFIG_DEVICE_PRIVATE
 
-Overall LGTM. It's a very nice work, thanks for taking this forward!
+to the 6.18-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
-I have a vague recollection that there was some MMU warnings/instability 
-in the
-previous attempt to add PM runtime support. But looking at your series, 
-I guess
-it might be addressed by your previous patch moving resource allocation.
+The filename of the patch is:
+     drm-drm-xe-fix-xe-userptr-in-the-absence-of-config_device_private.patch
+and it can be found in the queue-6.18 subdirectory.
 
-Please, find some comments inline.
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
-Nit: this patch can't be applied to drm-misc-next anymore due to minor 
-conflicts with:
-- f5520a1a84434 ("drm/v3d: Convert v3d logging to device-based DRM helpers")
 
->
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
-> ---
->   drivers/gpu/drm/v3d/Makefile      |  3 +-
->   drivers/gpu/drm/v3d/v3d_debugfs.c | 23 +++++++++-
->   drivers/gpu/drm/v3d/v3d_drv.c     | 86 +++++++++++++++++------------------
->   drivers/gpu/drm/v3d/v3d_drv.h     | 20 ++++++++
->   drivers/gpu/drm/v3d/v3d_gem.c     |  9 +++-
->   drivers/gpu/drm/v3d/v3d_mmu.c     | 12 ++++-
->   drivers/gpu/drm/v3d/v3d_power.c   | 96 +++++++++++++++++++++++++++++++++++++++
->   drivers/gpu/drm/v3d/v3d_submit.c  | 19 ++++++--
->   8 files changed, 213 insertions(+), 55 deletions(-)
->
-> diff --git a/drivers/gpu/drm/v3d/Makefile b/drivers/gpu/drm/v3d/Makefile
-> index b7d673f1153bef16db3800e50b2bfaf36bf8871b..9cb1fd4e4091dbb56e6a73e2b8a51fa0d242698b 100644
-> --- a/drivers/gpu/drm/v3d/Makefile
-> +++ b/drivers/gpu/drm/v3d/Makefile
-> @@ -13,7 +13,8 @@ v3d-y := \
->   	v3d_trace_points.o \
->   	v3d_sched.o \
->   	v3d_sysfs.o \
-> -	v3d_submit.o
-> +	v3d_submit.o \
-> +	v3d_power.o
->   
->   v3d-$(CONFIG_DEBUG_FS) += v3d_debugfs.o
->   
-> diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c b/drivers/gpu/drm/v3d/v3d_debugfs.c
-> index 89f24eec62a74ec49b28f0b22dbf626ba7a35206..634cc796ba2324dc497694c070f2cfffcc4424c9 100644
-> --- a/drivers/gpu/drm/v3d/v3d_debugfs.c
-> +++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
-> @@ -97,7 +97,11 @@ static int v3d_v3d_debugfs_regs(struct seq_file *m, void *unused)
->   	struct drm_debugfs_entry *entry = m->private;
->   	struct drm_device *dev = entry->dev;
->   	struct v3d_dev *v3d = to_v3d_dev(dev);
-> -	int i, core;
-> +	int i, core, ret;
-> +
-> +	ret = v3d_pm_runtime_get(v3d);
-> +	if (ret)
-> +		return ret;
->   
->   	for (i = 0; i < ARRAY_SIZE(v3d_hub_reg_defs); i++) {
->   		const struct v3d_reg_def *def = &v3d_hub_reg_defs[i];
-> @@ -139,6 +143,8 @@ static int v3d_v3d_debugfs_regs(struct seq_file *m, void *unused)
->   		}
->   	}
->   
-> +	v3d_pm_runtime_put(v3d);
-> +
->   	return 0;
->   }
->   
-> @@ -148,7 +154,11 @@ static int v3d_v3d_debugfs_ident(struct seq_file *m, void *unused)
->   	struct drm_device *dev = entry->dev;
->   	struct v3d_dev *v3d = to_v3d_dev(dev);
->   	u32 ident0, ident1, ident2, ident3, cores;
-> -	int core;
-> +	int core, ret;
-> +
-> +	ret = v3d_pm_runtime_get(v3d);
-> +	if (ret)
-> +		return ret;
->   
->   	ident0 = V3D_READ(V3D_HUB_IDENT0);
->   	ident1 = V3D_READ(V3D_HUB_IDENT1);
-> @@ -207,6 +217,8 @@ static int v3d_v3d_debugfs_ident(struct seq_file *m, void *unused)
->   		}
->   	}
->   
-> +	v3d_pm_runtime_put(v3d);
-> +
->   	return 0;
->   }
->   
-> @@ -234,6 +246,11 @@ static int v3d_measure_clock(struct seq_file *m, void *unused)
->   	uint32_t cycles;
->   	int core = 0;
->   	int measure_ms = 1000;
-> +	int ret;
-> +
-> +	ret = v3d_pm_runtime_get(v3d);
-> +	if (ret)
-> +		return ret;
->   
->   	if (v3d->ver >= V3D_GEN_41) {
->   		int cycle_count_reg = V3D_PCTR_CYCLE_COUNT(v3d->ver);
-> @@ -253,6 +270,8 @@ static int v3d_measure_clock(struct seq_file *m, void *unused)
->   	msleep(measure_ms);
->   	cycles = V3D_CORE_READ(core, V3D_PCTR_0_PCTR0);
->   
-> +	v3d_pm_runtime_put(v3d);
-> +
->   	seq_printf(m, "cycles: %d (%d.%d Mhz)\n",
->   		   cycles,
->   		   cycles / (measure_ms * 1000),
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-> index cb12d17cce2bf9e49432e3d3dddef1afdc4d93a0..022fbdff4ab973c60c29e2aa6c4e449da0cfaaf3 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.c
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
-> @@ -59,6 +59,7 @@ static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
->   		[DRM_V3D_PARAM_V3D_CORE0_IDENT1] = V3D_CTL_IDENT1,
->   		[DRM_V3D_PARAM_V3D_CORE0_IDENT2] = V3D_CTL_IDENT2,
->   	};
-> +	int ret;
->   
->   	if (args->pad != 0)
->   		return -EINVAL;
-> @@ -75,12 +76,19 @@ static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
->   		if (args->value != 0)
->   			return -EINVAL;
->   
-> +		ret = v3d_pm_runtime_get(v3d);
-> +		if (ret)
-> +			return ret;
-> +
->   		if (args->param >= DRM_V3D_PARAM_V3D_CORE0_IDENT0 &&
->   		    args->param <= DRM_V3D_PARAM_V3D_CORE0_IDENT2) {
->   			args->value = V3D_CORE_READ(0, offset);
->   		} else {
->   			args->value = V3D_READ(offset);
->   		}
-> +
-> +		v3d_pm_runtime_put(v3d);
-> +
->   		return 0;
->   	}
->   
-> @@ -287,36 +295,6 @@ static const struct of_device_id v3d_of_match[] = {
->   };
->   MODULE_DEVICE_TABLE(of, v3d_of_match);
->   
-> -static void
-> -v3d_idle_sms(struct v3d_dev *v3d)
-> -{
-> -	if (v3d->ver < V3D_GEN_71)
-> -		return;
-> -
-> -	V3D_SMS_WRITE(V3D_SMS_TEE_CS, V3D_SMS_CLEAR_POWER_OFF);
-> -
-> -	if (wait_for((V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_TEE_CS),
-> -				    V3D_SMS_STATE) == V3D_SMS_IDLE), 100)) {
-> -		DRM_ERROR("Failed to power up SMS\n");
-> -	}
-> -
-> -	v3d_reset_sms(v3d);
-> -}
-> -
-> -static void
-> -v3d_power_off_sms(struct v3d_dev *v3d)
-> -{
-> -	if (v3d->ver < V3D_GEN_71)
-> -		return;
-> -
-> -	V3D_SMS_WRITE(V3D_SMS_TEE_CS, V3D_SMS_POWER_OFF);
-> -
-> -	if (wait_for((V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_TEE_CS),
-> -				    V3D_SMS_STATE) == V3D_SMS_POWER_OFF_STATE), 100)) {
-> -		DRM_ERROR("Failed to power off SMS\n");
-> -	}
-> -}
-> -
->   static int
->   map_regs(struct v3d_dev *v3d, void __iomem **regs, const char *name)
->   {
-> @@ -383,6 +361,9 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
->   	if (IS_ERR(v3d->clk))
->   		return dev_err_probe(dev, PTR_ERR(v3d->clk), "Failed to get V3D clock\n");
->   
-> +	if (v3d->clk)
-> +		v3d->max_clk_rate = clk_round_rate(v3d->clk, ULONG_MAX);
-> +
->   	ret = v3d_irq_init(v3d);
->   	if (ret)
->   		return ret;
-> @@ -400,19 +381,26 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
->   	if (ret)
->   		goto dma_free;
->   
-> -	ret = clk_prepare_enable(v3d->clk);
-> -	if (ret) {
-> -		dev_err(&pdev->dev, "Couldn't enable the V3D clock\n");
-> +	ret = devm_pm_runtime_enable(dev);
-> +	if (ret)
->   		goto gem_destroy;
-> -	}
->   
-> -	v3d_idle_sms(v3d);
-> +	ret = pm_runtime_resume_and_get(dev);
-> +	if (ret)
-> +		goto gem_destroy;
-> +
-> +	/* If PM is disabled, we need to call v3d_power_resume() manually. */
-> +	if (!IS_ENABLED(CONFIG_PM)) {
-> +		ret = v3d_power_resume(dev);
-> +		if (ret)
-> +			goto gem_destroy;
-> +	}
+From bdcdf968be314b6fc8835b99fb4519e7619671e6 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Date: Wed, 21 Jan 2026 10:10:47 +0100
+Subject: drm, drm/xe: Fix xe userptr in the absence of CONFIG_DEVICE_PRIVATE
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Curious, I expected that previous pm_runtime attempts to enable and 
-resume would trigger a -ENOSYS if no CONFIG_PM.
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
->   
->   	mmu_debug = V3D_READ(V3D_MMU_DEBUG_INFO);
->   	mask = DMA_BIT_MASK(30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_PA_WIDTH));
->   	ret = dma_set_mask_and_coherent(dev, mask);
->   	if (ret)
-> -		goto clk_disable;
-> +		goto runtime_pm_put;
->   
->   	dma_set_max_seg_size(&pdev->dev, UINT_MAX);
->   
-> @@ -433,25 +421,27 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
->   	v3d->rev = V3D_GET_FIELD(ident3, V3D_HUB_IDENT3_IPREV);
->   
->   	v3d_gem_init(drm);
-> -	v3d_irq_enable(v3d);
-> +
-> +	pm_runtime_set_autosuspend_delay(dev, 50);
-> +	pm_runtime_use_autosuspend(dev);
->   
->   	ret = drm_dev_register(drm, 0);
->   	if (ret)
-> -		goto irq_disable;
-> +		goto runtime_pm_put;
->   
->   	ret = v3d_sysfs_init(dev);
->   	if (ret)
->   		goto drm_unregister;
->   
-> +	pm_runtime_mark_last_busy(dev);
-> +	pm_runtime_put_autosuspend(dev);
-> +
->   	return 0;
->   
->   drm_unregister:
->   	drm_dev_unregister(drm);
-> -irq_disable:
-> -	v3d_irq_disable(v3d);
-> -clk_disable:
-> -	v3d_power_off_sms(v3d);
-> -	clk_disable_unprepare(v3d->clk);
-> +runtime_pm_put:
-> +	pm_runtime_put_sync_suspend(dev);
->   gem_destroy:
->   	v3d_gem_destroy(drm);
->   dma_free:
-> @@ -469,21 +459,27 @@ static void v3d_platform_drm_remove(struct platform_device *pdev)
->   
->   	drm_dev_unregister(drm);
->   
-> -	v3d_power_off_sms(v3d);
-> +	pm_runtime_suspend(dev);
->   
-> -	clk_disable_unprepare(v3d->clk);
-> +	/* If PM is disabled, we need to call v3d_power_suspend() manually. */
-> +	if (!IS_ENABLED(CONFIG_PM))
-> +		v3d_power_suspend(dev);
->   
->   	v3d_gem_destroy(drm);
->   
->   	dma_free_wc(dev, 4096, v3d->mmu_scratch, v3d->mmu_scratch_paddr);
->   }
->   
-> +static DEFINE_RUNTIME_DEV_PM_OPS(v3d_pm_ops, v3d_power_suspend,
-> +				 v3d_power_resume, NULL);
-> +
->   static struct platform_driver v3d_platform_driver = {
->   	.probe		= v3d_platform_drm_probe,
->   	.remove		= v3d_platform_drm_remove,
->   	.driver		= {
->   		.name	= "v3d",
->   		.of_match_table = v3d_of_match,
-> +		.pm = pm_ptr(&v3d_pm_ops),
->   	},
->   };
->   
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-> index 738a09351c306db33078db1e053cd133d55d2138..32835b83caf0309a9e316d6882f63685f58bb6e3 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.h
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
-> @@ -3,6 +3,7 @@
->   
->   #include <linux/delay.h>
->   #include <linux/mutex.h>
-> +#include <linux/pm_runtime.h>
->   #include <linux/spinlock_types.h>
->   #include <linux/workqueue.h>
->   
-> @@ -134,6 +135,8 @@ struct v3d_dev {
->   	void __iomem *gca_regs;
->   	void __iomem *sms_regs;
->   	struct clk *clk;
-> +	unsigned long max_clk_rate;
-> +
->   	struct reset_control *reset;
->   
->   	/* Virtual and DMA addresses of the single shared page table. */
-> @@ -324,6 +327,8 @@ struct v3d_job {
->   
->   	/* Callback for the freeing of the job on refcount going to 0. */
->   	void (*free)(struct kref *ref);
-> +
-> +	bool has_pm_ref;
->   };
->   
->   struct v3d_bin_job {
-> @@ -597,6 +602,21 @@ int v3d_mmu_set_page_table(struct v3d_dev *v3d);
->   void v3d_mmu_insert_ptes(struct v3d_bo *bo);
->   void v3d_mmu_remove_ptes(struct v3d_bo *bo);
->   
-> +/* v3d_power.c */
-> +int v3d_power_suspend(struct device *dev);
-> +int v3d_power_resume(struct device *dev);
-> +
-> +static __always_inline int v3d_pm_runtime_get(struct v3d_dev *v3d)
-> +{
-> +	return pm_runtime_resume_and_get(v3d->drm.dev);
-> +}
-> +
-> +static __always_inline int v3d_pm_runtime_put(struct v3d_dev *v3d)
-> +{
-> +	pm_runtime_mark_last_busy(v3d->drm.dev);
-> +	return pm_runtime_put_autosuspend(v3d->drm.dev);
-> +}
-> +
->   /* v3d_sched.c */
->   void v3d_timestamp_query_info_free(struct v3d_timestamp_query_info *query_info,
->   				   unsigned int count);
-> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-> index 1f532030c3883257810877c75da38636bf25f58e..70e488180c4684db3415201f19586099914afb15 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -125,10 +125,16 @@ void
->   v3d_reset(struct v3d_dev *v3d)
->   {
->   	struct drm_device *dev = &v3d->drm;
-> +	int ret;
-> +
-> +	ret = v3d_pm_runtime_get(v3d);
-> +	if (ret)
-> +		return;
->   
->   	DRM_DEV_ERROR(dev->dev, "Resetting GPU for hang.\n");
->   	DRM_DEV_ERROR(dev->dev, "V3D_ERR_STAT: 0x%08x\n",
->   		      V3D_CORE_READ(0, V3D_ERR_STAT));
-> +
->   	trace_v3d_reset_begin(dev);
->   
->   	/* XXX: only needed for safe powerdown, not reset. */
-> @@ -147,6 +153,8 @@ v3d_reset(struct v3d_dev *v3d)
->   	v3d_perfmon_stop(v3d, v3d->active_perfmon, false);
->   
->   	trace_v3d_reset_end(dev);
-> +
-> +	v3d_pm_runtime_put(v3d);
->   }
->   
->   static void
-> @@ -344,7 +352,6 @@ v3d_gem_init(struct drm_device *dev)
->   	struct v3d_dev *v3d = to_v3d_dev(dev);
->   
->   	v3d_init_hw_state(v3d);
-> -	v3d_mmu_set_page_table(v3d);
+commit bdcdf968be314b6fc8835b99fb4519e7619671e6 upstream.
 
-Do we still need v3d_gem_init() only wrapping v3d_init_hw_state() ?
+CONFIG_DEVICE_PRIVATE is not selected by default by some distros,
+for example Fedora, and that leads to a regression in the xe driver
+since userptr support gets compiled out.
 
->   }
->   
->   void
-> diff --git a/drivers/gpu/drm/v3d/v3d_mmu.c b/drivers/gpu/drm/v3d/v3d_mmu.c
-> index a25d25a8ae617bf68e133e1793cd0bb930bb07f6..1699819756aadfc40f7d41ff19847d42ddf10dce 100644
-> --- a/drivers/gpu/drm/v3d/v3d_mmu.c
-> +++ b/drivers/gpu/drm/v3d/v3d_mmu.c
-> @@ -37,7 +37,13 @@ static bool v3d_mmu_is_aligned(u32 page, u32 page_address, size_t alignment)
->   
->   int v3d_mmu_flush_all(struct v3d_dev *v3d)
->   {
-> -	int ret;
-> +	int ret = 0;
-> +
-> +	pm_runtime_get_noresume(v3d->drm.dev);
-> +
-> +	/* Flush the PTs only if we're already awake */
-> +	if (!pm_runtime_active(v3d->drm.dev))
-> +		goto pm_put;
->   
->   	V3D_WRITE(V3D_MMUC_CONTROL, V3D_MMUC_CONTROL_FLUSH |
->   		  V3D_MMUC_CONTROL_ENABLE);
-> @@ -46,7 +52,7 @@ int v3d_mmu_flush_all(struct v3d_dev *v3d)
->   			 V3D_MMUC_CONTROL_FLUSHING), 100);
->   	if (ret) {
->   		dev_err(v3d->drm.dev, "MMUC flush wait idle failed\n");
-> -		return ret;
-> +		goto pm_put;
->   	}
->   
->   	V3D_WRITE(V3D_MMU_CTL, V3D_READ(V3D_MMU_CTL) |
-> @@ -57,6 +63,8 @@ int v3d_mmu_flush_all(struct v3d_dev *v3d)
->   	if (ret)
->   		dev_err(v3d->drm.dev, "MMU TLB clear wait idle failed\n");
->   
-> +pm_put:
-> +	pm_runtime_put_autosuspend(v3d->drm.dev);
->   	return ret;
->   }
->   
-> diff --git a/drivers/gpu/drm/v3d/v3d_power.c b/drivers/gpu/drm/v3d/v3d_power.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..285f56acf544bbfd3d9848253e788a138aacf2af
-> --- /dev/null
-> +++ b/drivers/gpu/drm/v3d/v3d_power.c
-> @@ -0,0 +1,96 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/* Copyright (C) 2026 Raspberry Pi */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/reset.h>
-> +
-> +#include <drm/drm_print.h>
-> +
-> +#include "v3d_drv.h"
-> +#include "v3d_regs.h"
-> +
-> +static void
-> +v3d_resume_sms(struct v3d_dev *v3d)
-> +{
-> +	if (v3d->ver < V3D_GEN_71)
-> +		return;
-> +
-> +	V3D_SMS_WRITE(V3D_SMS_TEE_CS, V3D_SMS_CLEAR_POWER_OFF);
-> +
-> +	if (wait_for((V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_TEE_CS),
-> +				    V3D_SMS_STATE) == V3D_SMS_IDLE), 100)) {
-> +		drm_err(&v3d->drm, "Failed to power up SMS\n");
-> +	}
-> +
-> +	v3d_reset_sms(v3d);
-> +}
-> +
-> +static void
-> +v3d_suspend_sms(struct v3d_dev *v3d)
-> +{
-> +	if (v3d->ver < V3D_GEN_71)
-> +		return;
-> +
-> +	V3D_SMS_WRITE(V3D_SMS_TEE_CS, V3D_SMS_POWER_OFF);
-> +
-> +	if (wait_for((V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_TEE_CS),
-> +				    V3D_SMS_STATE) == V3D_SMS_POWER_OFF_STATE), 100)) {
-> +		drm_err(&v3d->drm, "Failed to power off SMS\n");
-> +	}
-> +}
-> +
-> +int v3d_power_suspend(struct device *dev)
-> +{
-> +	struct drm_device *drm = dev_get_drvdata(dev);
-> +	struct v3d_dev *v3d = to_v3d_dev(drm);
-> +
-> +	v3d_irq_disable(v3d);
-> +	v3d_suspend_sms(v3d);
-> +
-> +	if (v3d->reset)
-> +		reset_control_assert(v3d->reset);
-> +
-> +	/* Some firmware versions might not actually power off the clock
-> +	 * when we set the clock state to off. Therefore, set the clock
-> +	 * rate to 0 to ensure it is running in the minimum rate.
-> +	 */
-> +	if (v3d->clk)
-> +		clk_set_rate(v3d->clk, 0);
-> +
-> +	clk_disable_unprepare(v3d->clk);
-> +
-> +	return 0;
-> +}
-> +
-> +int v3d_power_resume(struct device *dev)
-> +{
-> +	struct drm_device *drm = dev_get_drvdata(dev);
-> +	struct v3d_dev *v3d = to_v3d_dev(drm);
-> +	int ret;
-> +
-> +	ret = clk_prepare_enable(v3d->clk);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Set the clock to the maximum rate and let the firmware decide
-> +	 * if we can actually keep it.
-> +	 */
-> +	if (v3d->clk)
-> +		clk_set_rate(v3d->clk, v3d->max_clk_rate);
-> +
-> +	if (v3d->reset) {
-> +		ret = reset_control_deassert(v3d->reset);
-> +		if (ret)
-> +			goto clk_disable;
-> +	}
-> +
-> +	v3d_resume_sms(v3d);
-> +	v3d_mmu_set_page_table(v3d);
-> +	v3d_irq_enable(v3d);
-> +
-> +	return 0;
-> +
-> +clk_disable:
-> +	clk_disable_unprepare(v3d->clk);
-> +	return ret;
-> +}
-> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-> index 7de5a95ee7ca92d480af1f2996c12f2cefa56f34..7487aff499f4587b2887a886c366d735952cee95 100644
-> --- a/drivers/gpu/drm/v3d/v3d_submit.c
-> +++ b/drivers/gpu/drm/v3d/v3d_submit.c
-> @@ -103,6 +103,9 @@ v3d_job_free(struct kref *ref)
->   	if (job->perfmon)
->   		v3d_perfmon_put(job->perfmon);
->   
-> +	if (job->has_pm_ref)
-> +		v3d_pm_runtime_put(job->v3d);
-> +
->   	kfree(job);
->   }
->   
-> @@ -184,13 +187,13 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
->   				if (copy_from_user(&in, handle++, sizeof(in))) {
->   					ret = -EFAULT;
->   					DRM_DEBUG("Failed to copy wait dep handle.\n");
-> -					goto fail_deps;
-> +					goto fail_job_init;
->   				}
->   				ret = drm_sched_job_add_syncobj_dependency(&job->base, file_priv, in.handle, 0);
->   
->   				// TODO: Investigate why this was filtered out for the IOCTL.
->   				if (ret && ret != -ENOENT)
-> -					goto fail_deps;
-> +					goto fail_job_init;
->   			}
->   		}
->   	} else {
-> @@ -198,14 +201,22 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
->   
->   		// TODO: Investigate why this was filtered out for the IOCTL.
->   		if (ret && ret != -ENOENT)
-> -			goto fail_deps;
-> +			goto fail_job_init;
-> +	}
-> +
-> +	/* CPU jobs don't require hardware resources */
-> +	if (queue != V3D_CPU) {
-> +		ret = v3d_pm_runtime_get(v3d);
-> +		if (ret)
-> +			goto fail_job_init;
-> +		job->has_pm_ref = true;
->   	}
->   
->   	kref_init(&job->refcount);
->   
->   	return 0;
->   
-> -fail_deps:
-> +fail_job_init:
->   	drm_sched_job_cleanup(&job->base);
->   	return ret;
->   }
->
+It turns out that DRM_GPUSVM, which is needed for xe userptr support
+compiles also without CONFIG_DEVICE_PRIVATE, but doesn't compile
+without CONFIG_ZONE_DEVICE.
+Exclude the drm_pagemap files from compilation with !CONFIG_ZONE_DEVICE,
+and remove the CONFIG_DEVICE_PRIVATE dependency from CONFIG_DRM_GPUSVM and
+the xe driver's selection of it, re-enabling xe userptr for those configs.
 
+v2:
+- Don't compile the drm_pagemap files unless CONFIG_ZONE_DEVICE is set.
+- Adjust the drm_pagemap.h header accordingly.
+
+Fixes: 9e9787414882 ("drm/xe/userptr: replace xe_hmm with gpusvm")
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v6.18+
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Acked-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Link: https://patch.msgid.link/20260121091048.41371-2-thomas.hellstrom@linux.intel.com
+(cherry picked from commit 1e372b246199ca7a35f930177fea91b557dac16e)
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/Kconfig    |    2 +-
+ drivers/gpu/drm/Makefile   |    4 +++-
+ drivers/gpu/drm/xe/Kconfig |    2 +-
+ include/drm/drm_pagemap.h  |   19 +++++++++++++++++--
+ 4 files changed, 22 insertions(+), 5 deletions(-)
+
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -210,7 +210,7 @@ config DRM_GPUVM
+ 
+ config DRM_GPUSVM
+ 	tristate
+-	depends on DRM && DEVICE_PRIVATE
++	depends on DRM
+ 	select HMM_MIRROR
+ 	select MMU_NOTIFIER
+ 	help
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -106,8 +106,10 @@ obj-$(CONFIG_DRM_EXEC) += drm_exec.o
+ obj-$(CONFIG_DRM_GPUVM) += drm_gpuvm.o
+ 
+ drm_gpusvm_helper-y := \
+-	drm_gpusvm.o\
++	drm_gpusvm.o
++drm_gpusvm_helper-$(CONFIG_ZONE_DEVICE) += \
+ 	drm_pagemap.o
++
+ obj-$(CONFIG_DRM_GPUSVM) += drm_gpusvm_helper.o
+ 
+ obj-$(CONFIG_DRM_BUDDY) += drm_buddy.o
+--- a/drivers/gpu/drm/xe/Kconfig
++++ b/drivers/gpu/drm/xe/Kconfig
+@@ -39,7 +39,7 @@ config DRM_XE
+ 	select DRM_TTM
+ 	select DRM_TTM_HELPER
+ 	select DRM_EXEC
+-	select DRM_GPUSVM if !UML && DEVICE_PRIVATE
++	select DRM_GPUSVM if !UML
+ 	select DRM_GPUVM
+ 	select DRM_SCHED
+ 	select MMU_NOTIFIER
+--- a/include/drm/drm_pagemap.h
++++ b/include/drm/drm_pagemap.h
+@@ -209,6 +209,19 @@ struct drm_pagemap_devmem_ops {
+ 			   struct dma_fence *pre_migrate_fence);
+ };
+ 
++#if IS_ENABLED(CONFIG_ZONE_DEVICE)
++
++struct drm_pagemap *drm_pagemap_page_to_dpagemap(struct page *page);
++
++#else
++
++static inline struct drm_pagemap *drm_pagemap_page_to_dpagemap(struct page *page)
++{
++	return NULL;
++}
++
++#endif /* IS_ENABLED(CONFIG_ZONE_DEVICE) */
++
+ /**
+  * struct drm_pagemap_devmem - Structure representing a GPU SVM device memory allocation
+  *
+@@ -233,6 +246,8 @@ struct drm_pagemap_devmem {
+ 	struct dma_fence *pre_migrate_fence;
+ };
+ 
++#if IS_ENABLED(CONFIG_ZONE_DEVICE)
++
+ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
+ 				  struct mm_struct *mm,
+ 				  unsigned long start, unsigned long end,
+@@ -243,8 +258,6 @@ int drm_pagemap_evict_to_ram(struct drm_
+ 
+ const struct dev_pagemap_ops *drm_pagemap_pagemap_ops_get(void);
+ 
+-struct drm_pagemap *drm_pagemap_page_to_dpagemap(struct page *page);
+-
+ void drm_pagemap_devmem_init(struct drm_pagemap_devmem *devmem_allocation,
+ 			     struct device *dev, struct mm_struct *mm,
+ 			     const struct drm_pagemap_devmem_ops *ops,
+@@ -256,4 +269,6 @@ int drm_pagemap_populate_mm(struct drm_p
+ 			    struct mm_struct *mm,
+ 			    unsigned long timeslice_ms);
+ 
++#endif /* IS_ENABLED(CONFIG_ZONE_DEVICE) */
++
+ #endif
+
+
+Patches currently in stable-queue which might be from thomas.hellstrom@linux.intel.com are
+
+queue-6.18/drm-drm-xe-fix-xe-userptr-in-the-absence-of-config_device_private.patch
