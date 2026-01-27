@@ -2,59 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aA2HJoPPeGmNtQEAu9opvQ
+	id aG0BEJbPeGmNtQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 15:45:23 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 15:45:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00EC695EEF
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 15:45:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 653A895F07
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 15:45:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 804D810E0B9;
-	Tue, 27 Jan 2026 14:45:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C00B810E588;
+	Tue, 27 Jan 2026 14:45:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PBsVC6sE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="b0aFPsLv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 115A210E0B9
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 14:45:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1769525117;
- bh=t4KCn5AVvj1rVtR81P9mAeQidZIfz5aUPhgtLJ6zXvs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=PBsVC6sEXH+SbnMLH2IJ5M7Wj/ZkkJugxUmVjUgiIFeib4qz4FNcyPA92uoQ3ajSZ
- 3Euln0XLHJYw7BibSC/+Ar+jArLoJW4pNQBNaXkHOjfE3xbOI10lW+Qm4LMPesljc3
- k/DqO4TgiXTL2/+5CvGdMCsk6KH7CVvRMSqVuzozY9LP85K8b+ogc2izUSk3qvuH5K
- xy1Tc7gvhawgH3rV63/lNiPTNrfp3yOlNMl0kksWhba7fIpux8fx+3oS9Mx8Yfg8iT
- HUyi5F01xUzfl5wilK1Ite8lN7VI0OXDNDz5/6WsEcYYiIbakKSBOQoP8I7+CgS58o
- ie4Lm3IEF+uOw==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 15E1617E0182;
- Tue, 27 Jan 2026 15:45:17 +0100 (CET)
-Date: Tue, 27 Jan 2026 15:45:11 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: loic.molinari@collabora.com, willy@infradead.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, frank.binns@imgtec.com, matt.coster@imgtec.com,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org
-Subject: Re: [PATCH 1/3] drm/gem-shmem: Map pages in mmap fault handler
-Message-ID: <20260127154511.6e2b9008@fedora>
-In-Reply-To: <20260127132938.429288-2-tzimmermann@suse.de>
-References: <20260127132938.429288-1-tzimmermann@suse.de>
- <20260127132938.429288-2-tzimmermann@suse.de>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 325F610E588
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 14:45:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1769525138; x=1801061138;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=e1sWwSv80OatEESHNX0DybuhSsd7eY41H0DFmX4oGeo=;
+ b=b0aFPsLvasahFv0P+yfMS8BXfDoQ40MFoJ+L8H7Ef3P7ymAI5FzViqRh
+ Oyz04i9094dbyg2SMAcFgkl5I3Gj08Ci7QCgOFVJ7GaoK1rfdm5hfKITQ
+ 1vQm0rWvCNR1CdXvmFffq5x6LG1Nu4/6JzWfmGYTNpEvj86oKOQdYulax
+ s8IZAiNe3AWHvpFORfmihfkDCzJuFAsSp7S7qTGf4leAH5vow7fX78zFx
+ oFFucxwyeGPmvfcuc3gxYIfh+AxRYQpkOhXAaKWzZReGLx5bu1dgcQRlZ
+ OCkpGVk5SrAt/yD4O4VpGWSLhZyed0fxQJndjVys+KldoNL1VoRd8ADiA g==;
+X-CSE-ConnectionGUID: DUqy6W7LQiarkVxBCv4q1w==
+X-CSE-MsgGUID: AWqdUn0QRSK0CPoiPSlIIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="69920670"
+X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; d="scan'208";a="69920670"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jan 2026 06:45:37 -0800
+X-CSE-ConnectionGUID: J6ERCFuqSGG9Zp1yKjVwXg==
+X-CSE-MsgGUID: 4JRLfM6FRGK/0g5JZKD6kQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; d="scan'208";a="230944425"
+Received: from black.igk.intel.com ([10.91.253.5])
+ by fmviesa002.fm.intel.com with ESMTP; 27 Jan 2026 06:45:34 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+ id D20FC98; Tue, 27 Jan 2026 15:45:32 +0100 (CET)
+Date: Tue, 27 Jan 2026 15:45:32 +0100
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Louis Chauvet <louis.chauvet@bootlin.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Robert Mader <robert.mader@collabora.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ Diederik de Haas <diederik@cknow-tech.com>
+Subject: Re: [PATCH v5 4/4] drm/rockchip: vop2: Support setting custom
+ background color
+Message-ID: <aXjPjNWl3oVOVYxV@black.igk.intel.com>
+References: <20260127-rk3588-bgcolor-v5-0-b25aa8613211@collabora.com>
+ <20260127-rk3588-bgcolor-v5-4-b25aa8613211@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260127-rk3588-bgcolor-v5-4-b25aa8613211@collabora.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,166 +89,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:loic.molinari@collabora.com,m:willy@infradead.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:frank.binns@imgtec.com,m:matt.coster@imgtec.com,m:linux-mm@kvack.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,rock-chips.com,sntech.de,bootlin.com,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org,cknow-tech.com];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	FORGED_RECIPIENTS(0.00)[m:cristian.ciocaltea@collabora.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:louis.chauvet@bootlin.com,m:hamohammed.sa@gmail.com,m:melissa.srw@gmail.com,m:robert.mader@collabora.com,m:kernel@collabora.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:diederik@cknow-tech.com,m:hamohammedsa@gmail.com,m:melissasrw@gmail.com,s:lists@lfdr.de];
+	ARC_NA(0.00)[];
 	HAS_ORG_HEADER(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FORGED_SENDER(0.00)[andriy.shevchenko@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.998];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[collabora.com,infradead.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch,imgtec.com,lists.freedesktop.org,kvack.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,collabora.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 00EC695EEF
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 653A895F07
 X-Rspamd-Action: no action
 
-Hello Thomas,
-
-On Tue, 27 Jan 2026 14:16:36 +0100
-Thomas Zimmermann <tzimmermann@suse.de> wrote:
-
-> Gem-shmem operates on pages instead of I/O memory ranges, so use them
-> for mmap. This will allow for tracking page dirty/accessed flags. If
-> hugepage support is available, insert the page's folio if possible.
-> Otherwise fall back to mapping individual pages.
+On Tue, Jan 27, 2026 at 10:45:36AM +0200, Cristian Ciocaltea wrote:
+> The Rockchip VOP2 display controller allows configuring the background
+> color of each video output port.
 > 
-> As the PFN is no longer required for hugepage mappings, simplify the
-> related code and make it depend on CONFIG_TRANSPARENT_HUGEPAGE. Prepare
-> for tracking folio status.
+> Since a previous patch introduced the BACKGROUND_COLOR CRTC property,
+> which defaults to solid black, make use of it when programming the
+> hardware.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 58 ++++++++++++++++----------
->  1 file changed, 35 insertions(+), 23 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index 3871a6d92f77..b6ddabbfcc52 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -553,17 +553,18 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_dumb_create);
->  static bool drm_gem_shmem_try_map_pmd(struct vm_fault *vmf, unsigned long addr,
->  				      struct page *page)
->  {
-> -#ifdef CONFIG_ARCH_SUPPORTS_PMD_PFNMAP
-> -	unsigned long pfn = page_to_pfn(page);
-> -	unsigned long paddr = pfn << PAGE_SHIFT;
-> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> +	phys_addr_t paddr = page_to_phys(page);
->  	bool aligned = (addr & ~PMD_MASK) == (paddr & ~PMD_MASK);
->  
-> -	if (aligned &&
-> -	    pmd_none(*vmf->pmd) &&
-> -	    folio_test_pmd_mappable(page_folio(page))) {
-> -		pfn &= PMD_MASK >> PAGE_SHIFT;
-> -		if (vmf_insert_pfn_pmd(vmf, pfn, false) == VM_FAULT_NOPAGE)
-> -			return true;
-> +	if (aligned && pmd_none(*vmf->pmd)) {
-> +		struct folio *folio = page_folio(page);
-> +
-> +		if (folio_test_pmd_mappable(folio)) {
-> +			/* Read-only mapping; split upon write fault */
-> +			if (vmf_insert_folio_pmd(vmf, folio, false) == VM_FAULT_NOPAGE)
-> +				return true;
-> +		}
->  	}
->  #endif
->  
-> @@ -576,13 +577,10 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
->  	struct drm_gem_object *obj = vma->vm_private_data;
->  	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
->  	loff_t num_pages = obj->size >> PAGE_SHIFT;
-> -	vm_fault_t ret;
->  	struct page **pages = shmem->pages;
-> -	pgoff_t page_offset;
-> -	unsigned long pfn;
-> -
-> -	/* Offset to faulty address in the VMA. */
-> -	page_offset = vmf->pgoff - vma->vm_pgoff;
-> +	pgoff_t page_offset = vmf->pgoff - vma->vm_pgoff; /* page offset within VMA */
-> +	struct page *page = pages[page_offset];
-> +	vm_fault_t ret;
->  
->  	dma_resv_lock(shmem->base.resv, NULL);
->  
-> @@ -590,21 +588,35 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
->  	    drm_WARN_ON_ONCE(obj->dev, !shmem->pages) ||
->  	    shmem->madv < 0) {
->  		ret = VM_FAULT_SIGBUS;
-> -		goto out;
-> +		goto err_dma_resv_unlock;
->  	}
->  
-> -	if (drm_gem_shmem_try_map_pmd(vmf, vmf->address, pages[page_offset])) {
-> -		ret = VM_FAULT_NOPAGE;
-> -		goto out;
-> +	page = pages[page_offset];
-> +	if (!page) {
-> +		ret = VM_FAULT_SIGBUS;
-> +		goto err_dma_resv_unlock;
->  	}
->  
-> -	pfn = page_to_pfn(pages[page_offset]);
-> -	ret = vmf_insert_pfn(vma, vmf->address, pfn);
-> +	if (drm_gem_shmem_try_map_pmd(vmf, vmf->address, page)) {
-> +		ret = VM_FAULT_NOPAGE;
-> +	} else {
-> +		struct folio *folio = page_folio(page);
-> +
-> +		get_page(page);
-> +
-> +		folio_lock(folio);
-> +
-> +		vmf->page = page;
-> +		ret = VM_FAULT_LOCKED;
-> +	}
->  
-> - out:
->  	dma_resv_unlock(shmem->base.resv);
->  
->  	return ret;
-> +
-> +err_dma_resv_unlock:
-> +	dma_resv_unlock(shmem->base.resv);
-> +	return ret;
+> Note the maximum precision allowed by the display controller is 10bpc,
+> while the alpha component is not supported, hence ignored.
 
-Why do we need an error path that's exactly the same as the success
-path?
+...
 
->  }
->  
->  static void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
-> @@ -691,7 +703,7 @@ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct
->  	if (ret)
->  		return ret;
->  
-> -	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
-> +	vm_flags_mod(vma, VM_DONTEXPAND | VM_DONTDUMP, VM_PFNMAP);
->  	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
->  	if (shmem->map_wc)
->  		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
+> +	/*
+> +	 * Background color is programmed with 10 bits of precision.
+> +	 * Since performance is more important than accuracy here,
+> +	 * do *not* make use of the DRM_ARGB64_GET*_BPC() helpers.
+> +	 */
+> +	val = FIELD_PREP(RK3568_VP_DSP_BG__DSP_BG_RED, DRM_ARGB64_GETR(bgcolor) >> 6);
+> +	val |= FIELD_PREP(RK3568_VP_DSP_BG__DSP_BG_GREEN, DRM_ARGB64_GETG(bgcolor) >> 6);
+> +	val |= FIELD_PREP(RK3568_VP_DSP_BG__DSP_BG_BLUE, DRM_ARGB64_GETB(bgcolor) >> 6);
 
-The rest looks reasonable, if everyone is happy with the less
-restrictive aspect that !PFNMAP implies, as mentioned by Matthew.
+There is FIELD_MODIFY() for a few cycles already.
+But here it probably makes no much difference.
+
+...
+
+> +	seq_printf(s, "\tbackground color (10bpc): r=0x%x g=0x%x b=0x%x\n",
+> +		   DRM_ARGB64_GETR(cstate->background_color) >> 6,
+> +		   DRM_ARGB64_GETG(cstate->background_color) >> 6,
+> +		   DRM_ARGB64_GETB(cstate->background_color) >> 6);
+
+Probably you want to have the alternative to the DRM_ARGB64_GETx() macros which
+incorporates a right-shift. But it all in regard to DRM style and preferences.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
