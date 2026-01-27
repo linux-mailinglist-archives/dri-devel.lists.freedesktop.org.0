@@ -2,71 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WLB9KXiaeGk9rQEAu9opvQ
+	id cLh1KruaeGk9rQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:59:04 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 12:00:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 593CE9342F
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:59:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7973293474
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 12:00:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 185D110E0D2;
-	Tue, 27 Jan 2026 10:59:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C49C210E530;
+	Tue, 27 Jan 2026 11:00:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ngkREVgu";
+	dkim=pass (2048-bit key; unprotected) header.d=packett.cool header.i=@packett.cool header.b="fBgcHO1V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9539E10E51A;
- Tue, 27 Jan 2026 10:59:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 445D5407D0;
- Tue, 27 Jan 2026 10:59:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4E71C116C6;
- Tue, 27 Jan 2026 10:58:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769511540;
- bh=0i2nH7Z+Jm/vbR+qFCnPX1IGIFt8Sm49hrVD9er0bwQ=;
- h=From:Date:Subject:To:Cc:From;
- b=ngkREVguznNQxpEPFD7I0KcA64CARW4APVYOrDA020nRlXk/HW0az/2EPEQqWDEux
- d5C0cAwJIyDDDr7YJa27ybtyal57cyJ4oKbNQD0n2sW7ryYEUc81TiCN9O4eCW7ME2
- C0XkBjgQSKBcyUrjBeytEo/tMX1sIE6KyMxx6zR6E4OUnfhmSRvY73tjUo736SWZsN
- SXeGFpu6ju723AnyxQLhZfap4I1fTTo2+tSv951LiR58jBNPgjvWWjRBUGbhIKT3/9
- vlqtZW1BkZDwkzt6vUXfd6BKqi0uB2tc8w/4OfXqlpgfIxURIIBVRejho6szKir08e
- mqRziSvZOiCOw==
-From: Konrad Dybcio <konradybcio@kernel.org>
-Date: Tue, 27 Jan 2026 11:58:49 +0100
-Subject: [PATCH] drm/msm/dpu: Fix LM size on a number of platforms
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com
+ [91.218.175.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32C5610E539
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 11:00:09 +0000 (UTC)
+Message-ID: <ff0c70f3-62aa-43f5-a437-62aae5b84e9c@packett.cool>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
+ s=key1; t=1769511597;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lhlzQCmgNkMJSHlIA4zS8Ozat5WOiAUqTpQUdu6tdPg=;
+ b=fBgcHO1V1BXCKJAg1hwxThPkBmXKxdbZOYWnPjpE0ilDfaAEz2l5Q6Cs/heMeMadL0apc+
+ iPDIWcbIDaKX4tO7aGa88vFTYAd2uaJwxLAQAz3yiGw1NulmJt+sjanoLiHoi7cpC+s1nh
+ wS0oZs0wUp8+7+NYfdebj+SC88RpzQc9rxDTJDQi9s/kV7TcxjsYPi5gjkHxlxzVWIuuaf
+ q4tCRy6YWLmxljpeDeJiXlQJB96QGuxo9EfC8NFcZ72PkWY/4Q3oi6hPl/f2lQKUumV1i/
+ BA9iC3gfLQF1M5cMrknXqcWQV8i40AtQpOtyiTj6nUoH6iVA5Je2Plj3FFbeHA==
+Date: Tue, 27 Jan 2026 07:59:34 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260127-topic-lm_size_fix-v1-1-25f88d014dfd@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MWwqAIBAAryL7naB+2OMqEVK61UJZaEQk3j3pc
- wZmEkQMhBE6liDgTZEOX0BWDOw6+gU5ucKghNJCqppfx0mWb7uJ9KKZ6eFOo1VCT41zLZTuDFj
- 0/+yHnD8UlASrYwAAAA==
-X-Change-ID: 20260127-topic-lm_size_fix-d6ec206b8dd9
-To: Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Abel Vesa <abelvesa@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Kuogee Hsieh <quic_khsieh@quicinc.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Vinod Koul <vkoul@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1769511535; l=11008;
- i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
- bh=XB73+kA+RbsS6hWgZGE1XQzO2Ccd74+TrD3sPEdK+pQ=;
- b=oJ9UZ6Twim06vzNiQ8eGdESflArxxuxfEv69tO04jYL6MZM+QAdbKPLi4JTsmhJEyqNr5erBl
- sgqgLmIiHS+ARHk1KgXmLsSAoRFwKw5hBSqsaQ7CVIJTjg5qq2Te8SB
-X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Val Packett <val@packett.cool>
+Subject: Re: [PATCH 2/2] drm/msm/dpu: try reserving the DSPP-less LM first
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20260115-dpu-fix-dspp-v1-0-b73152c147b3@oss.qualcomm.com>
+ <20260115-dpu-fix-dspp-v1-2-b73152c147b3@oss.qualcomm.com>
+ <33424a9d-10a6-4479-bba6-12f8ce60da1a@packett.cool>
+ <whko2yur7tgutr4qhlbqfrvpcdg7hkyw66koicqvpvfhk55c7z@saj2uxrduv4z>
+Content-Language: en-US
+In-Reply-To: <whko2yur7tgutr4qhlbqfrvpcdg7hkyw66koicqvpvfhk55c7z@saj2uxrduv4z>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,347 +72,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_RHS_MATCH_TO(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[packett.cool,quarantine];
+	R_DKIM_ALLOW(-0.20)[packett.cool:s=key1];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,quicinc.com,linaro.org];
-	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[konradybcio@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,vger.kernel.org,lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:robin.clark@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[val@packett.cool,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[packett.cool:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_NEQ_ENVFROM(0.00)[val@packett.cool,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,oss.qualcomm.com:mid]
-X-Rspamd-Queue-Id: 593CE9342F
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[packett.cool:mid,packett.cool:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 7973293474
 X-Rspamd-Action: no action
 
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-The register space has grown with what seems to be DPU8.
-Bump up the .len to match.
+On 1/27/26 7:34 AM, Dmitry Baryshkov wrote:
+> On Tue, Jan 27, 2026 at 06:43:32AM -0300, Val Packett wrote:
+>> this has massively broken things on my x1e device (latitude-7455):
+>> [..]
+>> Reverted only this commit and it's back to normal, so I'm pretty sure it's
+>> this.
+> Interesting. Could you please capture the dri-state (only the last part,
+> resource mapping) with the external monitor attached and with this
+> commit reverted?
 
-Fixes: e3b1f369db5a ("drm/msm/dpu: Add X1E80100 support")
-Fixes: 4a352c2fc15a ("drm/msm/dpu: Introduce SC8280XP")
-Fixes: efcd0107727c ("drm/msm/dpu: add support for SM8550")
-Fixes: 100d7ef6995d ("drm/msm/dpu: add support for SM8450")
-Fixes: 178575173472 ("drm/msm/dpu: add catalog entry for SAR2130P")
-Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
----
-compile-tested only
----
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 12 ++++++------
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   | 12 ++++++------
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   | 12 ++++++------
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h | 12 ++++++------
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h | 12 ++++++------
- 5 files changed, 30 insertions(+), 30 deletions(-)
+Just reverted:
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-index 303d33dc7783..9f2bceca1789 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-@@ -133,7 +133,7 @@ static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
- static const struct dpu_lm_cfg sc8280xp_lm[] = {
- 	{
- 		.name = "lm_0", .id = LM_0,
--		.base = 0x44000, .len = 0x320,
-+		.base = 0x44000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_1,
-@@ -141,7 +141,7 @@ static const struct dpu_lm_cfg sc8280xp_lm[] = {
- 		.dspp = DSPP_0,
- 	}, {
- 		.name = "lm_1", .id = LM_1,
--		.base = 0x45000, .len = 0x320,
-+		.base = 0x45000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_0,
-@@ -149,7 +149,7 @@ static const struct dpu_lm_cfg sc8280xp_lm[] = {
- 		.dspp = DSPP_1,
- 	}, {
- 		.name = "lm_2", .id = LM_2,
--		.base = 0x46000, .len = 0x320,
-+		.base = 0x46000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_3,
-@@ -157,7 +157,7 @@ static const struct dpu_lm_cfg sc8280xp_lm[] = {
- 		.dspp = DSPP_2,
- 	}, {
- 		.name = "lm_3", .id = LM_3,
--		.base = 0x47000, .len = 0x320,
-+		.base = 0x47000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_2,
-@@ -165,14 +165,14 @@ static const struct dpu_lm_cfg sc8280xp_lm[] = {
- 		.dspp = DSPP_3,
- 	}, {
- 		.name = "lm_4", .id = LM_4,
--		.base = 0x48000, .len = 0x320,
-+		.base = 0x48000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_5,
- 		.pingpong = PINGPONG_4,
- 	}, {
- 		.name = "lm_5", .id = LM_5,
--		.base = 0x49000, .len = 0x320,
-+		.base = 0x49000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_4,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-index b09a6af4c474..04b22167f93d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
-@@ -134,7 +134,7 @@ static const struct dpu_sspp_cfg sm8450_sspp[] = {
- static const struct dpu_lm_cfg sm8450_lm[] = {
- 	{
- 		.name = "lm_0", .id = LM_0,
--		.base = 0x44000, .len = 0x320,
-+		.base = 0x44000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_1,
-@@ -142,7 +142,7 @@ static const struct dpu_lm_cfg sm8450_lm[] = {
- 		.dspp = DSPP_0,
- 	}, {
- 		.name = "lm_1", .id = LM_1,
--		.base = 0x45000, .len = 0x320,
-+		.base = 0x45000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_0,
-@@ -150,7 +150,7 @@ static const struct dpu_lm_cfg sm8450_lm[] = {
- 		.dspp = DSPP_1,
- 	}, {
- 		.name = "lm_2", .id = LM_2,
--		.base = 0x46000, .len = 0x320,
-+		.base = 0x46000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_3,
-@@ -158,7 +158,7 @@ static const struct dpu_lm_cfg sm8450_lm[] = {
- 		.dspp = DSPP_2,
- 	}, {
- 		.name = "lm_3", .id = LM_3,
--		.base = 0x47000, .len = 0x320,
-+		.base = 0x47000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_2,
-@@ -166,14 +166,14 @@ static const struct dpu_lm_cfg sm8450_lm[] = {
- 		.dspp = DSPP_3,
- 	}, {
- 		.name = "lm_4", .id = LM_4,
--		.base = 0x48000, .len = 0x320,
-+		.base = 0x48000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_5,
- 		.pingpong = PINGPONG_4,
- 	}, {
- 		.name = "lm_5", .id = LM_5,
--		.base = 0x49000, .len = 0x320,
-+		.base = 0x49000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_4,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-index 465b6460f875..4c7eb55d474c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
-@@ -131,7 +131,7 @@ static const struct dpu_sspp_cfg sm8550_sspp[] = {
- static const struct dpu_lm_cfg sm8550_lm[] = {
- 	{
- 		.name = "lm_0", .id = LM_0,
--		.base = 0x44000, .len = 0x320,
-+		.base = 0x44000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_1,
-@@ -139,7 +139,7 @@ static const struct dpu_lm_cfg sm8550_lm[] = {
- 		.dspp = DSPP_0,
- 	}, {
- 		.name = "lm_1", .id = LM_1,
--		.base = 0x45000, .len = 0x320,
-+		.base = 0x45000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_0,
-@@ -147,7 +147,7 @@ static const struct dpu_lm_cfg sm8550_lm[] = {
- 		.dspp = DSPP_1,
- 	}, {
- 		.name = "lm_2", .id = LM_2,
--		.base = 0x46000, .len = 0x320,
-+		.base = 0x46000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_3,
-@@ -155,7 +155,7 @@ static const struct dpu_lm_cfg sm8550_lm[] = {
- 		.dspp = DSPP_2,
- 	}, {
- 		.name = "lm_3", .id = LM_3,
--		.base = 0x47000, .len = 0x320,
-+		.base = 0x47000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_2,
-@@ -163,14 +163,14 @@ static const struct dpu_lm_cfg sm8550_lm[] = {
- 		.dspp = DSPP_3,
- 	}, {
- 		.name = "lm_4", .id = LM_4,
--		.base = 0x48000, .len = 0x320,
-+		.base = 0x48000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_5,
- 		.pingpong = PINGPONG_4,
- 	}, {
- 		.name = "lm_5", .id = LM_5,
--		.base = 0x49000, .len = 0x320,
-+		.base = 0x49000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_4,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h
-index 6caa7d40f368..dec83ea8167d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h
-@@ -131,7 +131,7 @@ static const struct dpu_sspp_cfg sar2130p_sspp[] = {
- static const struct dpu_lm_cfg sar2130p_lm[] = {
- 	{
- 		.name = "lm_0", .id = LM_0,
--		.base = 0x44000, .len = 0x320,
-+		.base = 0x44000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_1,
-@@ -139,7 +139,7 @@ static const struct dpu_lm_cfg sar2130p_lm[] = {
- 		.dspp = DSPP_0,
- 	}, {
- 		.name = "lm_1", .id = LM_1,
--		.base = 0x45000, .len = 0x320,
-+		.base = 0x45000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_0,
-@@ -147,7 +147,7 @@ static const struct dpu_lm_cfg sar2130p_lm[] = {
- 		.dspp = DSPP_1,
- 	}, {
- 		.name = "lm_2", .id = LM_2,
--		.base = 0x46000, .len = 0x320,
-+		.base = 0x46000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_3,
-@@ -155,7 +155,7 @@ static const struct dpu_lm_cfg sar2130p_lm[] = {
- 		.dspp = DSPP_2,
- 	}, {
- 		.name = "lm_3", .id = LM_3,
--		.base = 0x47000, .len = 0x320,
-+		.base = 0x47000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_2,
-@@ -163,14 +163,14 @@ static const struct dpu_lm_cfg sar2130p_lm[] = {
- 		.dspp = DSPP_3,
- 	}, {
- 		.name = "lm_4", .id = LM_4,
--		.base = 0x48000, .len = 0x320,
-+		.base = 0x48000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_5,
- 		.pingpong = PINGPONG_4,
- 	}, {
- 		.name = "lm_5", .id = LM_5,
--		.base = 0x49000, .len = 0x320,
-+		.base = 0x49000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_4,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
-index 7243eebb85f3..52ff4baa668a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
-@@ -130,7 +130,7 @@ static const struct dpu_sspp_cfg x1e80100_sspp[] = {
- static const struct dpu_lm_cfg x1e80100_lm[] = {
- 	{
- 		.name = "lm_0", .id = LM_0,
--		.base = 0x44000, .len = 0x320,
-+		.base = 0x44000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_1,
-@@ -138,7 +138,7 @@ static const struct dpu_lm_cfg x1e80100_lm[] = {
- 		.dspp = DSPP_0,
- 	}, {
- 		.name = "lm_1", .id = LM_1,
--		.base = 0x45000, .len = 0x320,
-+		.base = 0x45000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_0,
-@@ -146,7 +146,7 @@ static const struct dpu_lm_cfg x1e80100_lm[] = {
- 		.dspp = DSPP_1,
- 	}, {
- 		.name = "lm_2", .id = LM_2,
--		.base = 0x46000, .len = 0x320,
-+		.base = 0x46000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_3,
-@@ -154,7 +154,7 @@ static const struct dpu_lm_cfg x1e80100_lm[] = {
- 		.dspp = DSPP_2,
- 	}, {
- 		.name = "lm_3", .id = LM_3,
--		.base = 0x47000, .len = 0x320,
-+		.base = 0x47000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_2,
-@@ -162,14 +162,14 @@ static const struct dpu_lm_cfg x1e80100_lm[] = {
- 		.dspp = DSPP_3,
- 	}, {
- 		.name = "lm_4", .id = LM_4,
--		.base = 0x48000, .len = 0x320,
-+		.base = 0x48000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_5,
- 		.pingpong = PINGPONG_4,
- 	}, {
- 		.name = "lm_5", .id = LM_5,
--		.base = 0x49000, .len = 0x320,
-+		.base = 0x49000, .len = 0x400,
- 		.features = MIXER_MSM8998_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_4,
+crtc[106]: crtc-0 [..]
+         mode: "2560x1600": 60 280710 2560 2608 2640 2720 1600 1603 1609 
+1720 0x48 0x9
+         lm[0]=0
+         ctl[0]=0
+         dspp[0]=0
+         lm[1]=1
+         ctl[1]=0
+         dspp[1]=1
+crtc[107]: crtc-1 [..]
+         mode: "3840x2560": 60 631750 3840 3888 3920 4000 2560 2563 2573 
+2633 0x48 0x9
+         lm[0]=2
+         ctl[0]=1
+         lm[1]=3
+         ctl[1]=1
+resource mapping: pingpong=106 106 107 107 # # - - # # - - - mixer=106 
+106 107 107 # # - - ctl=106 107 # # # # - - dspp=# # # # - - - - dsc=# # 
+# # - - - - cdm=# sspp=# # # # - - - - # # # # # # - - cwb=- - - -
 
----
-base-commit: 615aad0f61e0c7a898184a394dc895c610100d4f
-change-id: 20260127-topic-lm_size_fix-d6ec206b8dd9
+> Also, could you please run another check:
+>   - revert this commit
+>   - comment out LM_2, LM_3 in the catalog
+>   - try the resulting kernel with the external monitor
 
-Best regards,
--- 
-Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Commented out:
+
+crtc[106]: crtc-0 [..]
+         mode: "2560x1600": 60 280710 2560 2608 2640 2720 1600 1603 1609 
+1720 0x48 0x9
+         lm[0]=0
+         ctl[0]=0
+         dspp[0]=0
+         lm[1]=1
+         ctl[1]=0
+         dspp[1]=1
+crtc[107]: crtc-1 [..]
+         mode: "3840x2560": 60 631750 3840 3888 3920 4000 2560 2563 2573 
+2633 0x48 0x9
+         lm[0]=4
+         ctl[0]=1
+         lm[1]=5
+         ctl[1]=1
+resource mapping:
+         pingpong=106 106 # # 107 107 - - # # - - -
+         mixer=106 106 - - 107 107 - -
+         ctl=106 107 # # # # - -
+         dspp=# # # # - - - -
+         dsc=# # # # - - - -
+         cdm=#
+         sspp=# # # # - - - - # # # # # # - -
+         cwb=- - - -
+
+Not sure why the dspp= line in resource mapping doesn't show any numbers 
+when a crtc has dspp[0]= and dspp[1]= o.0
+
+But with LM 4+5, gamma control doesn't affect the external monitor.
+
+
+~val
 
