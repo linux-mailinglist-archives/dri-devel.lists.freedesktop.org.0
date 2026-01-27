@@ -2,192 +2,203 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6EVsAXx0eGnEpwEAu9opvQ
+	id QE5+AnF3eGljqAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 09:17:00 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 09:29:37 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21E3B90FC5
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 09:16:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E26ED91111
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 09:29:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7AE110E4CF;
-	Tue, 27 Jan 2026 08:16:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0B8810E040;
+	Tue, 27 Jan 2026 08:29:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="BsUqOQ6B";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bdYTBGNZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0C2810E4CF
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 08:16:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1769501806; x=1770106606; i=deller@gmx.de;
- bh=t3xEStzE0KDcLKbL4GTxGQ8BQMuutDQmhKrNhNjqOv8=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=BsUqOQ6B8ZAy7/MPhX+WFiy+1JfG70QaS9/8JO8OB+a0FZfcPQz1xkl3UZSU19wh
- yXFDmR3OvK15zD/YBrv0WW7pPA4EUNllDFzE4VjjyyCL5pC09Cby4jQBXjJIX8g8B
- E8vXZsamRKiRy8SjOpoHcqUlYEfpVm+UQKjFl1Vje6il9dqc9vBNrktGZfmYk6TBR
- ZfwpBhljqBl3adwmanCBdqqo6YPW+jL8HI9MW45J9XowZ2vOw5kJjgMBdz+OuwAaw
- fi81jMYe65y8gH11RjMrLnu2XdnWtIEnYOegzPTuSWKRFK1KaXj75VeuxsjJ9bRrM
- Id4qqgKd7I2AQNKRhg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.50.214]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MtfNf-1w234k40GF-00sWPf; Tue, 27
- Jan 2026 09:16:46 +0100
-Message-ID: <578209b5-6d22-4255-a2e6-256d3f5afa72@gmx.de>
-Date: Tue, 27 Jan 2026 09:16:35 +0100
-MIME-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A21C710E040;
+ Tue, 27 Jan 2026 08:29:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1769502571; x=1801038571;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=/PMfoDx7SLhruFoWrAH7qTY1fizLTodl6OBwKQfZijY=;
+ b=bdYTBGNZiRZDASidlSYy5/D2e+ZqZIzd7/0BL3oNm+izzCbuYnwWNubn
+ YH9hgP8D4BBMj7YvoN1qlI5QMK01T3fuxMBP4y1GRWZUhl9HOYNrPbFRl
+ 9RNi3muwUDWsJ8SBsRUJrP1yql1GWQW0Dd3fbAhBsMpINxi7MUy6GQd0a
+ UQyAE0EXcbuILmrAVrNLnK2AaUAs4/BFmTFvL2a1CHGLC1Ev29cJlvXTw
+ q39WJZ/jFTiElxEeGz/sgMZrPMlNst6eSwbfvU0StygsfS1EKzNWawOCi
+ veDWjCITFQB4H4BGzXKW8zLwNIQ1t++YfTFEJEWdvkf7vdggi3aBY62LI Q==;
+X-CSE-ConnectionGUID: E6928v5YSG64vry4B7cmLw==
+X-CSE-MsgGUID: KF3HVHV7TOCamoZlcg223w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70593238"
+X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; d="scan'208";a="70593238"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jan 2026 00:29:31 -0800
+X-CSE-ConnectionGUID: bxiKCPi7RdCPY8+2lEmUZQ==
+X-CSE-MsgGUID: UoUEngopR4uL+Cgjzk6u7A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; d="scan'208";a="245521627"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+ by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jan 2026 00:29:31 -0800
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Tue, 27 Jan 2026 00:29:30 -0800
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35 via Frontend Transport; Tue, 27 Jan 2026 00:29:30 -0800
+Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.59) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Tue, 27 Jan 2026 00:29:29 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jSYl/y4V7dMfmTywyDN7zbtQTrM8nSSEyDLYLQPyZpxVuW6Pplbs42DyziS0w3iSDuE3jH5z8ZW5KHrbPXqA+bgwDR9R6Ku9O+C3h4zaapnrT4cGLq9sfgWBLX3KRYT4tcYYZnJOpb2BZil7xZ+BezaGLTzE+V2ZK3uLO06CkYVwretP/WkqduJQeAAdvc1kn7o9CwoXNWql+zy4z99HlAPGlSVHR1oNQfkfL+uE2XKvwu4bTbjX6tKoNLD0PJ+rRVD5EvfA5N8IgOexwPVNpg6yqcMKugQB1A4m8S1v8oqI95KpkuWHcQE0XgQmN5GSLMcPqhZVWO4nxfu/B+gNnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7BxZJXHKsMaC1HtVxYGB/0cSJyPiNgoXwnXPQ9bkSmw=;
+ b=leDsjBqU3i+UBA6bbmIS2O78EudBjYJ+DbhQJZJbgoTdlYNqA2vP+ZXkkjxVf8ZG+R6CIfo4v4miYD7lPa0LVT+yryMCmiuxR7baeNvCkzxyBuisQLFCD4ClLKzcnk8jM1oul1+n3n32swuRPa88hpn/4vf8dguQLD4HUAg5J83su5K6uVP+zEMYsmxd5F/lwR6vEh6q7k9qMe+Wuft8AU0fpmmVWCzN8jjmZDHnYM9NsGOBDqfY/clBKJXtt63UMHZUXtq9CdtrQNNGODRpoc1Q2UW20QNT6xgMl8l/qZon8Qy3oSXFBYZp/1CYLImF9a4p/KF0tcfVvHiee5lsYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB7958.namprd11.prod.outlook.com (2603:10b6:8:f9::19) by
+ LV3PR11MB8507.namprd11.prod.outlook.com (2603:10b6:408:1b0::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.16; Tue, 27 Jan
+ 2026 08:29:23 +0000
+Received: from DS0PR11MB7958.namprd11.prod.outlook.com
+ ([fe80::d3ba:63fc:10be:dfca]) by DS0PR11MB7958.namprd11.prod.outlook.com
+ ([fe80::d3ba:63fc:10be:dfca%3]) with mapi id 15.20.9542.010; Tue, 27 Jan 2026
+ 08:29:23 +0000
+Message-ID: <cc9d924c-4da9-4651-b9fe-01e06bce5c2f@intel.com>
+Date: Tue, 27 Jan 2026 13:59:12 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 v1 0/4] [RUST] Framebuffer driver support
-To: pengfuyuan <pengfuyuan@kylinos.cn>, Alexandre Courbot <acourbot@nvidia.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Hans de Goede <hansg@kernel.org>,
- Lee Jones <lee@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Zsolt Kajtar <soci@c64.rulez.org>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-References: <20260126081744.781392-1-pengfuyuan@kylinos.cn>
- <ed48e82a-cb94-477f-83c4-b2d87ae3cde6@suse.de>
- <DFYG7MT5JINY.1T8ZZ4ASIWXU@nvidia.com> <20260127080419.GA965382@peng>
+Subject: Re: [PATCH v4 3/4] drm/xe/xe_hw_error: Add support for GT hardware
+ errors
+To: Raag Jadav <raag.jadav@intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <aravind.iddamsetty@linux.intel.com>, <anshuman.gupta@intel.com>,
+ <rodrigo.vivi@intel.com>, <joonas.lahtinen@linux.intel.com>,
+ <simona.vetter@ffwll.ch>, <airlied@gmail.com>, <pratik.bari@intel.com>,
+ <joshua.santosh.ranjan@intel.com>, <ashwin.kumar.kulkarni@intel.com>,
+ <shubham.kumar@intel.com>, <ravi.kishore.koppuravuri@intel.com>, "Himal
+ Prasad Ghimiray" <himal.prasad.ghimiray@intel.com>
+References: <20260119040023.2821518-6-riana.tauro@intel.com>
+ <20260119040023.2821518-9-riana.tauro@intel.com>
+ <aXB7rXem6U5Fzw7D@black.igk.intel.com>
 Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20260127080419.GA965382@peng>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:72JYuftO3cKHjhfTFUOFcAaSFo1REZhebbnA9N/0fGBYXEamCIK
- 71I5zulWae1JpBdunCWTVewbwu/TfsGyXuNLZvNgWSUhco7O5l2czYnYkTMsbhmDLSR4vaj
- M5vRxHPrwGEf+fUIUuOcpz9oVH9T7rnZ4LNBANXowb0UDVITyxJWr5xHAw4mkb9H8L3U3+k
- 14aOc17h7TNAGP0tm2S4Q==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:1ih1TJGAzUo=;t1Bm7o3pg8YriNo1D5OslcdAcdR
- +qGxOx80oK9/Z3uSewZYBaOEHg4qao5XM9AA4Sit9fVGKlnJ1hO05Iw3cN01EtHaYEDhNlBeA
- BD+XTfS7qmTqgWzU0SaBT7aGKz4PQIIRcCnTrVulXG+IX5Gh8WK7cOt8D9/ajDxZ0TzxS0dnB
- jCThqGd7VdhUZ1eaYjXeR09qJ9XXAtMZpTv5VK46fD7u2x5XqFqrv8Phb8w6AP/jPtjr0WNvz
- DvfmMXVhR91yybmaa9U0Y2pXNK8A13oCB8PfIHC5zQokzWItlrjGAMoH3yXElAzLkKZg8pQQo
- 0wLox02lD02bSaXE98HtF9MGBhzq02CjxFUZb4nhyZU0h6d8GjO6ypCC5VBmeJPPBEblq+AZ1
- mGQ/h5Xy5wi5/ihDA+S718Y3P6NlHEVieTNGWYgjr5pJ0qZA32xIXduEhUSvHvATqsGAMUkFc
- ZxYA3LW7yVz2hDKsjZH6ouEY70eqvKX+pY23QxEvOAShuiAM94PllZE8AKLqL6aP00osdWerM
- C2DlR0LVN2igAxrEg4A7zBJ/tjOZBo2GYHMZVASaK4udLSa7ymhfOuxfiX8su+2f/0q7f0YxK
- 8I6WTKuQ9FEYuNcSflEA97s69IwG9Q1QLT/5qu9QLQbGQvqZ8wiBe2iiNfg+kY1WdZodAtq6b
- ZZY0Sw/Fh8OV+yKvrYyctU5iFz5Ptw4xqiOb5JgHJwZe2zFTeJFGt0Masd+yVcffKc82Gfn1e
- NFx5YrX1xkmVTXCpXgoCBNxFmQbuXgFPkQn5Hr6TmlH/99TduodcqpAG2m1N1Q6bdibZ4vAn8
- 6Pm4T1eGOw4g8hyucHhC/O2/mRfx/j8BuTqf++S78V7eGRSzo/FDcgW6yOpU5bC8m6OWq2y1w
- +5l0BV090Cs0FZ5+2Lo8EL5XVmkt2Jnzuj60mlFiFJ5Hol3fVLiIw48vLpeIU8ovYFCHBRpYL
- ZzXXAelO7Im3pzMoZbFKQgiPCmnKBSVn3FF31wmsqdfGL58H4+yZREtaVmP2YVvWDs5DB+fV1
- YTPqjuX3DqhOEPrF561B0A1oai4qHOx8waiwM/X8wO+ilcjShuuwnblj3PIaC3mjnPHKhcyX1
- BquxpptAIfUi9HMT/5mfxrZMse6GFT92h1EJSldScKCXJU25pNqmM/93umQajpWxkfXNLP1/r
- VBpF+C4oFFjseKo+i8InCJp3B8FSU+yjxwrVqvIfbtK/O6s4zAYs4lgeM2iGUz2P6L6E7NzPz
- vXIzlJmA1483e+7POJZcgQA2PTXIuDi4WtbQL4dXk2lI5rb2BoNMzbn3hLZrNoQuVRTSbH30x
- Ig8x/xY54vobVrRfw8TJ7t8iZ7XMEJ1MoA8HPcjs9bPaVDC+2docvRMfZIIwSq3JvPwYekuG8
- dY2R/vxIBm/bIbJ0/kVPonyLytMZ1CXz6uQT+cosV2QeXbkrM5vUXs+lb712xEE2IXBRTmSbg
- BCa+oakxpISzIFe5ov4scHFF+6Ul7j+YV6+XXqsbo563lqUuQH8ISRPU0me271glPxbfVQTCf
- /1SsKzgHpzAVaGqxQRxRsNa7vz3cGCwLzGZmWSPWbk2l8PNThG2KN1sKMAO9AMY7hbHHsYfpm
- RXq8H1MMhZotI44LB5r2qdmHHKoVdDKXluwvlqbee3wt8YsvGYKtZVtwS5C25NMX/eR7uZKKB
- kvd1IVjDG/8NnfVggzV4DfqNfqTApyudv+CkDzKhfznN4CystxUupTton33w27CeYMgWG6DZ1
- aMYiuqY3viUt51gFX7IFgH7hZsxkJafkWMinWyJo7EKWYOz58AvHfLAatWf8W5sPkv8vcfoDy
- MP2GpPg30n9ql7oYpUWLoYFv9SmRkycajNArQ0c9INDwy/FYSZ/4s3m+yQNm5n0SYrZ7beTPE
- sfdB67i4w/vGSKlOOSKqPKn8peqe2JR1OCGGrida26pIbnjRVO+FqDogh1kZKMyI6LhKClg8W
- MaiuXbwFeXAiVegN0hRmbzIqPg/+bv6NrCsgUnIbW6l0joNAeeAXjWywsWoNY2X+MPkNQio+z
- RBJ9QDo604h4Apxl2k91X8LmyKF3OHTrnyy64QYBrd3BuQSPDNIPS76f1pHaXwxDAQI4nu6pA
- 69RF+7WnPF3J8gqlQDWyL2yaFk7MMezfbY8awy698cxPvr1B5WDi/khsJ3SGG8vdllxLfcp54
- usPuC11D3iaZeqyf60lC0bYZaEYR7sNs7CKMfkAe7AuyfHI4SXt/5U6yoU8AMyJ+re4rgFbn2
- GBs+CaoHdeYkHCeEk/HrQ1kvg0svgcV1hoWFRon3ZN+Be2pW5Dg8romzgd7RsDf0l0czwvQhq
- dg/dcd6XUXNi723d32jvMZGaw7L/3HZSq23JVWlS25To1j3iiqfC3hc2/tDywW+SfjRaKCadp
- 0Oy8SbQ5hrb/G7L8d4iw2T8IhbMFWCwAn566EADClMoMa1qkUE3tXTyFSsXhAge4+lHXJUX/P
- DgG0bqU/r3mktjgCYGxDaxSne2UJxOlqWd6Dg8jJiEhZgiBfBQ251oDTF2knMwzC0nYhtf5B2
- kQrYJmdiI5LOS3TWMB4FYuRS3QYThbu9hrslB3BGLpLMZ9npMcD7E1g6xSVP2fg/Or8sMYaDL
- udM/8L+HQWirV32IWVJrrJ5FiZVuBbIRRBkj19bRaMSHMzJJ9IXNJopwk9w9HsyTbubC8qRNY
- IzMbClpWP3t4yuJpAf5ZAE7SIWYLCMmsAtZ3smgt25HbI+nDJ7fLKsTyy4UUjZtBqE9dUKkdG
- LWJAGaeubv7ocYkt1dZXJ4hCg2xFgiIx8rGUbAQT6oBH/V24z48V3zv5pfigu+P14PTprRg79
- 9xehweyA8kqiobRdVz+NWj5zic7U1F1HVNVQTJIveTUXJvMPSZIKHG9JTsWcef/ovSSWVFk8W
- e5ohPf2Kni3GjBaWHxaB0sWDTnLxTnBKS0sKe8roc86KvF2pyiBiszix1ul0xP2rtA2VwwldW
- iALT0q3nshor8oVsiDPIReuCFIFYP9mZe7QhMAwTMkhd/f+IsilCvLYve8e0dQhW7JBmmQy7h
- xo5Vx8HaSe/+vX5sNI3DWFyBCQJMPQbwR1YQcosA4XbwjAVOM9sErWDFn6339vEXcEjZSSiNX
- Y/U/0uht2VLFM6W5loQIJSgVTZz0ilQtdbO4DAJ60VRltaLfcopl/jgx+l3LONRvVKqjrAvFr
- jkH2C2AzJYfGdXMxAradKMENHD14V+ESXtSgDxe4qQYwBdw/aNmufyREAiykkViEVSoQxJCxP
- T1iSVPENCDY1pGPHWmYY1LimYvMXiyRam/bOQY3V8IBpXlT6RYMRnY7foAcnV5m8zxH9DEXjN
- oU+AOVKorW5NHco4GYJERbzDRu+XHSWzKU70QuAVqSDgyGoWlvN6SMTigtnlFq9EtHwNMB4rt
- Eok48UvQklrOTUT+VxZx9LGDL9qGE+t8Z6enenqs6PrC1omIZbMz4V6y9nz7cNTBq6fkIkIPu
- R+0HuQ2gsnFp0IGo/45dadyR6H4GUt3L4CjtJp+74xZPsWJEtHtlpS0l1buDJF0DMiTk/FZwI
- P+Armqd5m/i0uNBz+6ZhEqywMdNF6/jCWsrEOBXp4e2hoqTpi50uhvqMqh+Rsl7R2xDwUIr2A
- tcaOQAAksC/QczRt3z6lO/y4eLKRh1LIXNRgn9WDnnmr0h/njORRWjsCZez7YuFFMsQ6E1Dt4
- 5iKyl0Qrtwxu0haP/8KGYwGOPDhqF6+TGu/r3G/o82PrfHEy0Q+i9gcVcy8SV0D0rA2cD2703
- XzD5TmI017VHPKcDmn+bw542aJqZ1RFBCokw2pkcvNHBHm/lNQt7/3dwemNjVC84J1OAj5HSR
- 6LdFbdXGuXO95eyTiEp+pUlqovEewNFLr3VAiTwdLCSdXI4KVGtWR96QtB1eDNcpIigWuu17Y
- q5M9br9jakcMk0kg6zKOgWhF47ChTpiBByOboydHuueO80X9ujSbbIVUREYtkI4rPcaMvAPQ/
- GYHbxsrILrIGRBPq8fOkzonrOzvuznyjZNAJk2rVi5mlJ/hg4dTqmtQopjSZg5LdON7Wqf3Ih
- G6f9fcwUJqC2Zg85bEd7p0VB/uGHCx1kOJ0FY+njZZMG1/MovJcIbHtLoSgzmhwx4Xy3sHStL
- nSjXjdVO2NRdF8m7ZHzH1suqP350eCd8unGHLfA5y5Dwj15NNF3/xFvQkJQg11tweni5WAaXD
- dPCWyY//KOMYD24b+7OlxLeg1Kjb2HPxe6kr/R4yeCgaAt/8I25HeXF1TpJ4Rtc4VfBcZGAo9
- 1XEM8wGHdT2IH8tiWxtHr5sesb83WCHyW5zGdNpEGhAfBwE8FdvRTkTRVIMmdGTq704BWc1uu
- dAA2biA/67HdiV722Ua+gIs0I7fzGzzNiWX0soHZJuII1MAdIgWdWql0XmSiV/s+bQ8Bc7dgr
- KtyFbsfREIcpt59ke0EqNrGgSjmbtp5Kn44Kz2lHIrBNpJeZYhNzkZ67LumsOsMabvpzB6VtF
- vS01k/AT/PVmzEoH11di1sUJ0bJIEzuM/FRALZzwSYY0ktnces3YJH3/PKDhGgQJ1mxmmrg12
- 6XOsYyN04OTdmaqRfyIlgk7oash5vMkLWei0hHtNYf+kzdi5VTgd5pQk7Y3N8MguLey1GcbVm
- xbClA6d3AnkvmA/vWN3qo7jhZhGypIbXDJ/Uk2cRpWC10GH5vf0cfLXk1JE6J+FHp6cPw8i8i
- qDniImfhgGIF9d0urX0f0Mf9zRoKNUSy9NnaY802rpppNlu/XaMD9YcUkA5LoBDhZPEM+DWMY
- G37tHYddbwEIzMzCZN9XO2yYdIpTEEC8fMXzndMuaPQtZgTxNBb3dOgt4MXuTy/fJhrq4Fnlo
- DxjQXPPhUxR//vEPs9ZflWwR90BHj9CdWbu+iYmt5i0bUo3s5900UagdWz0Eka5BHBJaV3WTX
- PMmW7zAS4Q7IFKZpK0l3X7cOeVKRGTIcbSVM6KnbVtP4iMPrT3nonm3AwqXjBhl4FwsH1DJw3
- 13dQB8xTx35lTIjdz1j0UAxnZewFhch5Znm9cuHc0gdseZO7ty/ce/Rq3vT052WVXlm2VS1z6
- b8WrATMGbz/+eewrNIP3TFp9KKONaaEE/KsHZ6zH+dxuOr5CjLCVtg7NsR+yebAwJfTkZ5rNg
- 2T0TLcPF3rRxNKYjJ2VWq8oe2XK/n6uhFB1r/4Zi7tLI1A71sYNOgi+5jyyQ==
+From: Riana Tauro <riana.tauro@intel.com>
+In-Reply-To: <aXB7rXem6U5Fzw7D@black.igk.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA5P287CA0175.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1af::6) To DS0PR11MB7958.namprd11.prod.outlook.com
+ (2603:10b6:8:f9::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7958:EE_|LV3PR11MB8507:EE_
+X-MS-Office365-Filtering-Correlation-Id: e38d50b2-85e9-4a83-f757-08de5d7e2c64
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?bjhDbWluelNEYm5jVldod2k5ayt0cHNCUWJpdXNSQ1h1aWJGa3F2MFhvODNS?=
+ =?utf-8?B?S054aVFrWHFXN2huaUhHOW5HUjFHRVVwYmxhblY1dThDY0pYTVE0ci9vOEVy?=
+ =?utf-8?B?eTAreDA4cE9rM0RHY3dEamVVcjd1VkU3cVlXbXBKTTJwbGgyUWRCZVpSWmZr?=
+ =?utf-8?B?b1pmYmVEQVQ1VkxJcUY1L3pjQm81WmlUMm1NQWFTVCt2WmlUL1l2V1JPQzQw?=
+ =?utf-8?B?WGt1MmROakNtV1ljc28wdy82SThEK2ZmNG9ZMWR2NC9KWmFTRWxGUWdvQ3oy?=
+ =?utf-8?B?STVod28zWjNiRnpqNnEvZ2JoWVZPSGoydHdRbGNidlptN0dSb0hVVzc5NWVn?=
+ =?utf-8?B?eDJ6dmJHV3l2djBKZjhxOGxBQmNhMERVOGNTdkdCcDQyT0M0VWZpYzRzTHhh?=
+ =?utf-8?B?TU9lZ25nUDB5SndRamlaQUlDNkJSSXZtL3E4TG5uMDJTN0RmcXI0bHlPdWdp?=
+ =?utf-8?B?ekdQV1lHNkJITElsejYxOHRsUktFSCt0QUxMSmJHT2xNN3VuNktMeHYydzE0?=
+ =?utf-8?B?bnNQSnVORlJ6L01TTVFVdmVUeWZkT1h5VlFlOUlVOEJpOW9aVDhqQWI3SkQx?=
+ =?utf-8?B?SXY1cTlIOWJmOFNGdzIyM0FYZEtnTHY1LzhOQWxTWGJ4VDVVLzUxalNYVDEv?=
+ =?utf-8?B?WGxWWmdOSEwxUzU3S2h4SDNrOW1SSkJHVEcrWWNONDlpTlBia1FkRFcydGhh?=
+ =?utf-8?B?MG1qb3I4MzJXVFFFbE1XMHJwMkF4L1J5VnlDY3dvQzhGRFRqcW9PbHRhUXdL?=
+ =?utf-8?B?cEVuaFEwbjdLN2h1TFZCTGpEVnZFNzJ6Qkc0aDlCMHVFRnFDcnkzZDJJQ2Ir?=
+ =?utf-8?B?Q0VVOVM0bkpsbm8zTVVFS2hUdU9iYytJTWVrb0c4UDY3UEZtQ3RiejRHa0Nk?=
+ =?utf-8?B?VGZja1YyR01HUE5JNUFrSjBBdE92T1YybVRaME1EdDJ4UWI1dnFaYXFWYUJ3?=
+ =?utf-8?B?ZU1lSVJmN3UwZFhDUDdlUExvdCt6TzdwN24vUjhpN2ZPMHdaRnlqNEk4c0U5?=
+ =?utf-8?B?STlSVm1xS2pJSG5waDZOQ1NPY1R4SzdRdTgwRzF4bUlkOWpXUGNHTjFKY0VD?=
+ =?utf-8?B?K1pjdFN5Rm12SjRKUmN4NUVCU2RmYmxKVVh3R0pXVWJPSjJlQWl0TzNwYVM3?=
+ =?utf-8?B?b05CbTZTWXFsYTVnVHUxYWxyRUNhcVpCQ1pLWVAzSUpWOGdBbnJub3VoNzNM?=
+ =?utf-8?B?ZXJjb1NsVmNxd01WYnRZNnZ5b1NSM00zbVZyVHlRY0JpSm5hZXN5OHhBN3VM?=
+ =?utf-8?B?WG1DYm1ieW5HRjhzdVdtOElJcWpUb2JydUpVckRTTDB5NVh2WVBIdUtCbGhX?=
+ =?utf-8?B?eFlCZnNheTNYL2lCOXl4dFFXSUZ3c24yUjFvTFpsUVplR0xSRS9nZkljY0o0?=
+ =?utf-8?B?UExlcC9iSkZXQmpvM2xlUWpFV2tUK05Xd0NidzhNVnBoZy9aNXlnamhzcU5S?=
+ =?utf-8?B?dDZQUmlWa2s5a21KNzJuL2Nua3lLR1dkN3BGMUtBV2RrRkMrYVI0b2ZIK2ZF?=
+ =?utf-8?B?Y25Zd1BmOTRMUVNZREdqTE1iSU4xZDc0SGZzUzVtQVJDMFVIZGJjNTFZV2I0?=
+ =?utf-8?B?UDJHRE10ZWxYOENQQlUreEVLdnJ3NVNCVy9yak5PTFg1U2g5bitXYmR6cERr?=
+ =?utf-8?B?ZjNFa0p5ZjhCdmpCUjZaRzk0QWlIOXVjZ3hKWkhxR3lQbmFyLzNiSlM4UGVa?=
+ =?utf-8?B?aGN3UUgxVmtlQkJTSEdKRS9adENJNVkyb0phb1ZuOVQ3ZE1VTDdEc2dxbENE?=
+ =?utf-8?B?Y1JJTmdlRHFHQUphZ3VJV090OXZGWTh6OFJaWXM2VnBrZFlPN1R0U3lBSHE0?=
+ =?utf-8?B?dEFabklCSCtyTjdYK3dVaEtUVXV4SnJ3V25acGlYUTk4UDBmZ0pxLzkremNt?=
+ =?utf-8?B?ejBhQm5CMGRiNk9odVJlNnE0MkJZaTFWZGlIS1FhNG5xdDNMdUI3RGZpcnRB?=
+ =?utf-8?B?RXZaRGxzclhVOUg0eG0vYlM3RkpxZHRVUjZoRFpRRUlrSkF6QWRHYzIrd0d5?=
+ =?utf-8?B?TW4yOHMyRGd3T0FkWW11OGloUkZmendUZjBEWkk0dS83VUswMmhXQzVLQkwr?=
+ =?utf-8?B?ZTRhb2hwbkhvVXcyV1dGSTh6MTBkblRWYk9hZ25yU0FkZjQwQ2xKc1NwM3dO?=
+ =?utf-8?Q?u1vw=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB7958.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VWlac2pxaWtJS0ZSSVRGdkJSWGQ0S2YxMDBPYjYzSUlTcnNNZ3NpcC9mNU9C?=
+ =?utf-8?B?eEtpUi8yMWUxUDFCOTJXMEM2cWRhVTl6M0ViSkt2VWw2eEcyc1VCZTBHT3ds?=
+ =?utf-8?B?cWZxZWpMdTYydk0zU2pZV2s3ei95Nm1lcEZ2YXBjNTlRVTNhZDZlSjlFOUcz?=
+ =?utf-8?B?MW1kUUpGY0RDaWw2QndYRGRoNWQrSTNROTRWTWpENHBUb1RUZGlEWjdMSjMx?=
+ =?utf-8?B?RGxDQU9ieFRGZFA1SUV0a3hxN1lEZGtyTk5UNmZDTyt2OTFYYWhsMlhzOEht?=
+ =?utf-8?B?ZUVyaFVlcXJBZ050SWhyMWRuZVJIZ3VPSVBxMUJBc1c5SEZtbDRPMnNFdkVJ?=
+ =?utf-8?B?U3hobjB4N2RBOURtL01SRm9XeURyY204S1RtNW9LamhEaHcxZ3V4Mit1N0Vv?=
+ =?utf-8?B?VHc1YzVZNjh3c0tlSy8wUGNjL0lDaGJReHVSdExmNENrbmM5TGpHNTdENGxG?=
+ =?utf-8?B?K3V2QVRPWHVaM3dDdXZGR0xFb0libWkxTkhibnRWa1hkZkNTb0t6amorN1FW?=
+ =?utf-8?B?a1Fpbkh3WEV5dUJsMU9OSEdkU1ZGbGJ6dTlPTjlxQjNGVHFjakdEMlFrdVJT?=
+ =?utf-8?B?MXcwMEFndWNuTDRhbXBmcFB6VnBRUm43V2VHYWFrdk56Vk9kMUtJVVBGNG9m?=
+ =?utf-8?B?TGVFM3F4TlRQcGpCVEZMcnJUWUFNMDVaRHVDVm5PRGlIUVpDZjhRV1pEYmY1?=
+ =?utf-8?B?S2cwSTNGdGYrY0t6N2tPOGJ3akdSRVdVQk1sa2dIYXVDL1VBc2R6allJTTVL?=
+ =?utf-8?B?d25nVXZvNHYwdFNMN202K3RaRTBzUUFmSGVMSnY3VHF3RnhxeVh6aTVEQWZy?=
+ =?utf-8?B?YWpGdHdybnpEZU5UdGJOc2VScXFDNzRGWDFYejlYbFBrK2kydGwzQ1NQc2FP?=
+ =?utf-8?B?WVBjRnlSVkU0NktuVG1WVW5DV0RoVFoyRTIvWXZCQk5PWGZkNEVhK1N5R3px?=
+ =?utf-8?B?cDVyUEd5US9MMk9MYzVDeFQrTk45blNhVk9PbXNGcjBteEoydjArMzd1ak42?=
+ =?utf-8?B?dXVIUlpMQlhvNkMzUWlVQ0dRQ0w3Q0FsTndXU05UeEtzaG1BRVZBbC9RcVFj?=
+ =?utf-8?B?UG83WHdSNXRJeXZjTkZLZ0tnWjVzUVd0MUc4ajBYbDMya2VYbHhOd3BJK1RO?=
+ =?utf-8?B?SmorbnZ4OCt4QjRZNmZEUFBUelRzUFBmTE9IMXFhd1dwNHo3dHBTcVdrTTUv?=
+ =?utf-8?B?dTdLWHRLRkZvaGZJdGhsRUdIcUg2R3lpN0hpbVNYSzl3eW1NR2ZVbkNxZkZ3?=
+ =?utf-8?B?N0dWaXJEYW9Ga2djaW5TOWxERThQZ3NZdHYyNlBFWHREeXg3QWRCMGYza0dD?=
+ =?utf-8?B?U0JnUjIrQVlNOFhPMHBaaTZVOGR1OUVuRWpPaUpRby80YXJyN3RvaHRuNmMy?=
+ =?utf-8?B?bzV4QWF2SFZlRTNHcnZXc05IUk1VY2FWV2hZemFxQW56eTIxZXQ0WW1jN1Jk?=
+ =?utf-8?B?LzBxd0lGUUVnNTR6MjdLVUxYQWlPU1hMMmJ4c2dYZU01djBMam9ab29YWG1n?=
+ =?utf-8?B?UkZlayt3RGM1Yk1XazhyRndQL2h4SFRidkNHVWpPbE9iVWFnMTFVZm55KzBC?=
+ =?utf-8?B?cUVYV2RlZVBwTWloNWljay9TWXNNZHc0RGx5cmJyUXV2OGZPTTZ2YWtCT3RI?=
+ =?utf-8?B?TzQ5ZHR6eUE4di9uaUQ3OWg3Z0R1c0h6bWdkOHM0aWtsVk9yZ3o5ODE4RGtJ?=
+ =?utf-8?B?UVh0dHFtNWtRRk1hbjlUOEcwcVdsdWNOMEM4VTJYeWVwc0pWd1UyN3JGcWZx?=
+ =?utf-8?B?TGdMQklxeFlDWGdMQzYwczhQRlRwbWJZbnJ1N2tRRUFpWDcxU2o5RDQ1MWNr?=
+ =?utf-8?B?QXBzVTAvU0M1RVBEeFRPYjlQem1jaHV1OFN6dE10Myt5OEtLSnRZa2wvK3d1?=
+ =?utf-8?B?RXlKM3FhK0hRbEhrc1luUFBOcERWZ3cwd01vYVhML3lqdUh4dnZMTU9IZmdE?=
+ =?utf-8?B?WlBCc0hyVEFxOFM5UUtRL3JuditRRVArVEFoc0pTN1ZjOWw5d1k4QmtIMnV0?=
+ =?utf-8?B?RGlURUxMMUdWWThhRVpGalcyNmh2bVNIdmpCWGVZS3YwYzRWT2ViZ29ZTUdN?=
+ =?utf-8?B?dG5SNi9GY3dQeXU4ZU1MT2t3L0hPUkQ5VTkva2VBRUl3UXJ6TnJ0VFZoTEht?=
+ =?utf-8?B?V1h2c3NSbVJiRkJRcW1xNFptRDVUdnI3VllBbm8wQlU3c2V6RnlnS2F2S25v?=
+ =?utf-8?B?eno2c1d5ZDZpeWdXTWtpY25tODBtTmYrMlZnV3hZMEdhd21raUVFL05YT2J5?=
+ =?utf-8?B?VGZaRlB0aGg2a0RPdTRNbUpSeGJMbzBrSTRYajdudFUxdy8vcm0vMkFUTTUw?=
+ =?utf-8?B?OGROeWNiOVRuYlk5NU1mMlMzcXRyR0loeFVHdERjWk5BYUJkREdRZz09?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e38d50b2-85e9-4a83-f757-08de5d7e2c64
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7958.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 08:29:22.9565 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0qZCpC2tJCpu/+m+xm0Tl0l8eOomEcWQIDBdlAKgcwQmGWP8aZZxRRAMaGbdMaf6+TtHMk/TQ3pcN34TCAeOxA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8507
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -203,86 +214,472 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmx.de,quarantine];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmx.de:s=s31663417];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:pengfuyuan@kylinos.cn,m:acourbot@nvidia.com,m:tzimmermann@suse.de,m:dakr@kernel.org,m:aliceryhl@google.com,m:daniel.almeida@collabora.com,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:gregkh@linuxfoundation.org,m:rafael@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:hansg@kernel.org,m:lee@kernel.org,m:sam@ravnborg.org,m:soci@c64.rulez.org,m:ville.syrjala@linux.intel.com,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-fbdev@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[deller@gmx.de,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmx.de];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[suse.de,kernel.org,google.com,collabora.com,gmail.com,garyguo.net,protonmail.com,umich.edu,linuxfoundation.org,ffwll.ch,ravnborg.org,c64.rulez.org,linux.intel.com,vger.kernel.org,lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmx.de:+];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,linux.intel.com,intel.com,ffwll.ch,gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[deller@gmx.de,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[riana.tauro@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	NEURAL_HAM(-0.00)[-0.997];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gmx.de:mid,gmx.de:dkim]
-X-Rspamd-Queue-Id: 21E3B90FC5
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_COUNT_SEVEN(0.00)[9]
+X-Rspamd-Queue-Id: E26ED91111
 X-Rspamd-Action: no action
 
-On 1/27/26 09:04, pengfuyuan wrote:
-> On Mon, Jan 26, 2026 at 07:28:21PM +0900, Alexandre Courbot wrote:
->> On Mon Jan 26, 2026 at 7:01 PM JST, Thomas Zimmermann wrote:
->>> Hi
->>>
->>> Am 26.01.26 um 09:17 schrieb pengfuyuan:
->>>> This patch series adds Rust bindings and safe abstractions for the Li=
-nux
->>>> framebuffer subsystem, enabling framebuffer drivers to be implemented=
- in Rust.
->>>
->>> The framebuffer subsystem is obsolete and has been deprecated for a
->>> decade. No new drivers accepted. Anything that really wants fbdev
->>> already has a driver. Can we please let it die?
+Hi Raag
+
+On 1/21/2026 12:39 PM, Raag Jadav wrote:
+> On Mon, Jan 19, 2026 at 09:30:25AM +0530, Riana Tauro wrote:
+>> PVC supports GT error reporting via vector registers along with
+>> error status register. Add support to report these errors and
+>> update respective counters. Incase of Subslice error reported
+>> by vector register, process the error status register
+>> for applicable bits.
 >>
->> This, and the patchset is also obviously AI-generated.
->=20
-> Hi,
-> Thank you for the feedback.
-> I=E2=80=99d like to be clear about how I used AI in this work:
->=20
-> 1.Cover letter =E2=80=93 Yes, I used AI to help summarize and phrase the=
- cover letter.
-> 2.Comments in the code =E2=80=93 Some comments were written or refined w=
-ith AI assistance.
-> 3.Learning the codebase =E2=80=93 When reading and understanding existin=
-g Rust-for-Linux code (including DRM and other abstractions), I used AI as=
- a helper to analyze and explain structure and patterns.
-> 4.Writing the code =E2=80=93 The implementation was not fully generated =
-by AI.  I wrote the code myself and used AI mainly to look up existing abs=
-tractions, traits, and APIs (e.g. =E2=80=9Chow does X work? =E2=80=9D, =E2=
-=80=9Cwhat=E2=80=99s the right trait for Y?=E2=80=9D)  while I was coding.
->=20
-> So: AI was used for summaries, comments, learning, and looking
-> things up;  the logic and structure of the code are mine, and I take
-> responsibility for them.
-> If you have concerns about specific parts (e.g. wording, style, or
-> design), I=E2=80=99m happy to rework those patches or to adjust how I
-> describe tool use in future submissions.
+>> Incorporate the counter inside the driver itself and start
+>> using the drm_ras generic netlink to report them.
+>>
+>> Co-developed-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+>> Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+>> Signed-off-by: Riana Tauro <riana.tauro@intel.com>
+>> ---
+>> v2: Add ID's and names as uAPI (Rodrigo)
+>>
+>> v3: use REG_BIT
+>>      do not use _ffs
+>>      use a single function for GT errors
+>>      remove redundant errors from logs (Raag)
+>>      use only correctable/uncorrectable error severity (Pratik/Aravind)
+>> ---
+>>   drivers/gpu/drm/xe/regs/xe_hw_error_regs.h |  53 +++++-
+>>   drivers/gpu/drm/xe/xe_hw_error.c           | 182 +++++++++++++++++++--
+>>   2 files changed, 220 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h b/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
+>> index c146b9ef44eb..5eeb0be27300 100644
+>> --- a/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
+>> +++ b/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
+>> @@ -6,15 +6,60 @@
+>>   #ifndef _XE_HW_ERROR_REGS_H_
+>>   #define _XE_HW_ERROR_REGS_H_
+>>   
+>> -#define HEC_UNCORR_ERR_STATUS(base)                    XE_REG((base) + 0x118)
+>> -#define    UNCORR_FW_REPORTED_ERR                      BIT(6)
+>> +#define HEC_UNCORR_ERR_STATUS(base)		XE_REG((base) + 0x118)
+>> +#define   UNCORR_FW_REPORTED_ERR		REG_BIT(6)
+>>   
+>> -#define HEC_UNCORR_FW_ERR_DW0(base)                    XE_REG((base) + 0x124)
+>> +#define HEC_UNCORR_FW_ERR_DW0(base)		XE_REG((base) + 0x124)
+>> +
+>> +#define ERR_STAT_GT_COR				0x100160
+>> +#define   EU_GRF_COR_ERR			REG_BIT(15)
+>> +#define   EU_IC_COR_ERR				REG_BIT(14)
+>> +#define   SLM_COR_ERR				REG_BIT(13)
+>> +#define   GUC_COR_ERR				REG_BIT(1)
+>> +
+>> +#define ERR_STAT_GT_NONFATAL			0x100164
+>> +#define ERR_STAT_GT_FATAL			0x100168
+>> +#define   EU_GRF_FAT_ERR			REG_BIT(15)
+>> +#define   SLM_FAT_ERR				REG_BIT(13)
+>> +#define   GUC_FAT_ERR				REG_BIT(6)
+>> +#define   FPU_FAT_ERR				REG_BIT(3)
+>> +
+>> +#define ERR_STAT_GT_REG(x)			XE_REG(_PICK_EVEN((x), \
+>> +								  ERR_STAT_GT_COR, \
+>> +								  ERR_STAT_GT_NONFATAL))
+> 
+> Shouldn't this be FATAL?
 
-No.
-Please don't resend any patches for the fbdev layer.
-There is no need to provide rust bindings for fbdev, as new
-graphics drivers should use DRM.
+No it is correct
 
-Helge
+#define _PICK_EVEN(__index, __a, __b) ((__a) + (__index) * ((__b) - (__a)))
+
+index=0	val=0x100160
+index=1 val=0x100164
+index=2 val=0x100168
+
+> 
+>> +#define PVC_COR_ERR_MASK			(GUC_COR_ERR | SLM_COR_ERR | EU_IC_COR_ERR | \
+>> +						 EU_GRF_COR_ERR)
+>> +
+>> +#define PVC_FAT_ERR_MASK			(FPU_FAT_ERR | GUC_FAT_ERR | EU_GRF_FAT_ERR | \
+>> +						 SLM_FAT_ERR)
+>>   
+>>   #define DEV_ERR_STAT_NONFATAL			0x100178
+>>   #define DEV_ERR_STAT_CORRECTABLE		0x10017c
+>>   #define DEV_ERR_STAT_REG(x)			XE_REG(_PICK_EVEN((x), \
+>>   								  DEV_ERR_STAT_CORRECTABLE, \
+>>   								  DEV_ERR_STAT_NONFATAL))
+>> -#define   XE_CSC_ERROR				BIT(17)
+>> +
+>> +#define   XE_CSC_ERROR				17
+>> +#define   XE_GT_ERROR				0
+>> +
+>> +#define ERR_STAT_GT_FATAL_VECTOR_0		0x100260
+>> +#define ERR_STAT_GT_FATAL_VECTOR_1		0x100264
+>> +
+>> +#define ERR_STAT_GT_FATAL_VECTOR_REG(x)		XE_REG(_PICK_EVEN((x), \
+>> +								  ERR_STAT_GT_FATAL_VECTOR_0, \
+>> +								  ERR_STAT_GT_FATAL_VECTOR_1))
+>> +
+>> +#define ERR_STAT_GT_COR_VECTOR_0		0x1002a0
+>> +#define ERR_STAT_GT_COR_VECTOR_1		0x1002a4
+>> +
+>> +#define ERR_STAT_GT_COR_VECTOR_REG(x)		XE_REG(_PICK_EVEN((x), \
+>> +								  ERR_STAT_GT_COR_VECTOR_0, \
+>> +								  ERR_STAT_GT_COR_VECTOR_1))
+>> +#define ERR_STAT_GT_COR_VECTOR_LEN		4
+> 
+> Now this makes me question about FATAL_VECTOR_LEN, perhaps we should add
+> it? Since we already have enums for it, I'm wondering if we should reuse
+> them here instead of having separate raw values?
+
+Hmm let me check.
+
+> 
+>> +#define ERR_STAT_GT_VECTOR_REG(hw_err, x)	(hw_err == HARDWARE_ERROR_CORRECTABLE ? \
+>> +						ERR_STAT_GT_COR_VECTOR_REG(x) : \
+>> +						ERR_STAT_GT_FATAL_VECTOR_REG(x))
+>> +
+>>   #endif
+>> diff --git a/drivers/gpu/drm/xe/xe_hw_error.c b/drivers/gpu/drm/xe/xe_hw_error.c
+>> index b42495d3015a..bd0cf61741ca 100644
+>> --- a/drivers/gpu/drm/xe/xe_hw_error.c
+>> +++ b/drivers/gpu/drm/xe/xe_hw_error.c
+>> @@ -3,6 +3,7 @@
+>>    * Copyright © 2025 Intel Corporation
+>>    */
+>>   
+>> +#include <linux/bitmap.h>
+>>   #include <linux/fault-inject.h>
+>>   
+>>   #include "regs/xe_gsc_regs.h"
+>> @@ -15,7 +16,10 @@
+>>   #include "xe_mmio.h"
+>>   #include "xe_survivability_mode.h"
+>>   
+>> -#define  HEC_UNCORR_FW_ERR_BITS 4
+>> +#define  GT_HW_ERROR_MAX_ERR_BITS	16
+>> +#define  HEC_UNCORR_FW_ERR_BITS 	4
+>> +#define  XE_RAS_REG_SIZE		32
+> 
+> This looks like it can be BITS_PER_TYPE(). Also, why do we need a separate
+> macro?
+
+The reason i kept a separate macro is that for_each_set_bit requires a 
+unsigned long, but the register size is 32.
+
+
+> 
+>>   extern struct fault_attr inject_csc_hw_error;
+>>   static const char * const error_severity[] = DRM_XE_RAS_ERROR_SEVERITY_NAMES;
+>>   
+>> @@ -26,10 +30,21 @@ static const char * const hec_uncorrected_fw_errors[] = {
+>>   	"Data Corruption"
+>>   };
+>>   
+>> -static bool fault_inject_csc_hw_error(void)
+>> -{
+>> -	return IS_ENABLED(CONFIG_DEBUG_FS) && should_fail(&inject_csc_hw_error, 1);
+>> -}
+>> +static const unsigned long xe_hw_error_map[] = {
+>> +	[XE_GT_ERROR] = DRM_XE_RAS_ERROR_CLASS_GT,
+>> +};
+>> +
+>> +enum gt_vector_regs {
+>> +	ERR_STAT_GT_VECTOR0 = 0,
+>> +	ERR_STAT_GT_VECTOR1,
+>> +	ERR_STAT_GT_VECTOR2,
+>> +	ERR_STAT_GT_VECTOR3,
+>> +	ERR_STAT_GT_VECTOR4,
+>> +	ERR_STAT_GT_VECTOR5,
+>> +	ERR_STAT_GT_VECTOR6,
+>> +	ERR_STAT_GT_VECTOR7,
+>> +	ERR_STAT_GT_VECTOR_MAX,
+> 
+> This is guaranteed last member, so redundant comma.
+
+will fix
+
+> 
+>> +};
+>>   
+>>   static enum drm_xe_ras_error_severity hw_err_to_severity(enum hardware_error hw_err)
+>>   {
+>> @@ -39,6 +54,11 @@ static enum drm_xe_ras_error_severity hw_err_to_severity(enum hardware_error hw_
+>>   	return DRM_XE_RAS_ERROR_SEVERITY_UNCORRECTABLE;
+>>   }
+>>   
+>> +static bool fault_inject_csc_hw_error(void)
+>> +{
+>> +	return IS_ENABLED(CONFIG_DEBUG_FS) && should_fail(&inject_csc_hw_error, 1);
+>> +}
+>> +
+>>   static void csc_hw_error_work(struct work_struct *work)
+>>   {
+>>   	struct xe_tile *tile = container_of(work, typeof(*tile), csc_hw_error_work);
+>> @@ -86,15 +106,121 @@ static void csc_hw_error_handler(struct xe_tile *tile, const enum hardware_error
+>>   	xe_mmio_write32(mmio, HEC_UNCORR_ERR_STATUS(base), err_src);
+>>   }
+>>   
+>> +static void log_hw_error(struct xe_tile *tile, const char *name,
+>> +			 const enum drm_xe_ras_error_severity severity)
+>> +{
+>> +	const char *severity_str = error_severity[severity];
+>> +	struct xe_device *xe = tile_to_xe(tile);
+>> +
+>> +	if (severity == DRM_XE_RAS_ERROR_SEVERITY_UNCORRECTABLE)
+> 
+> If we have FATAL case in the future, should we come back refactoring this?
+> Perhaps the reverse logic would be a bit more future proof.
+
+
+There will be only two severity levels correctable and uncorrectable and 
+that is confirmed for XE KMD
+
+sure i can reverse it.
+
+> 
+>> +		drm_err_ratelimited(&xe->drm, "%s %s detected\n", name, severity_str);
+>> +	else
+>> +		drm_warn(&xe->drm, "%s %s detected\n", name, severity_str);
+>> +}
+>> +
+>> +static void log_gt_err(struct xe_tile *tile, const char *name, int i, u32 err,
+>> +		       const enum drm_xe_ras_error_severity severity)
+>> +{
+>> +	const char *severity_str = error_severity[severity];
+>> +	struct xe_device *xe = tile_to_xe(tile);
+>> +
+>> +	if (severity == DRM_XE_RAS_ERROR_SEVERITY_UNCORRECTABLE)
+> 
+> Ditto.
+> 
+>> +		drm_err_ratelimited(&xe->drm, "%s %s detected, ERROR_STAT_GT_VECTOR%d:0x%08x\n",
+>> +				    name, severity_str, i, err);
+>> +	else
+>> +		drm_warn(&xe->drm, "%s %s detected, ERROR_STAT_GT_VECTOR%d:0x%08x\n",
+>> +			 name, severity_str, i, err);
+>> +}
+>> +
+>> +static void gt_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err,
+>> +				u32 error_id)
+>> +{
+>> +	const enum drm_xe_ras_error_severity severity = hw_err_to_severity(hw_err);
+>> +	struct xe_device *xe = tile_to_xe(tile);
+>> +	struct xe_drm_ras *ras = &xe->ras;
+>> +	struct xe_drm_ras_counter *info = ras->info[severity];
+>> +	struct xe_mmio *mmio = &tile->mmio;
+>> +	unsigned long err_stat = 0;
+>> +	int i, len;
+>> +
+>> +	if (xe->info.platform != XE_PVC)
+>> +		return;
+>> +
+>> +	if (hw_err == HARDWARE_ERROR_NONFATAL) {
+>> +		atomic64_inc(&info[error_id].counter);
+>> +		log_hw_error(tile, info[error_id].name, severity);
+>> +		return;
+>> +	}
+>> +
+>> +	len = (hw_err == HARDWARE_ERROR_CORRECTABLE) ? ERR_STAT_GT_COR_VECTOR_LEN
+>> +						     : ERR_STAT_GT_VECTOR_MAX;
+>> +
+>> +	for (i = 0; i < len; i++) {
+>> +		u32 vector, val;
+>> +
+>> +		vector = xe_mmio_read32(mmio, ERR_STAT_GT_VECTOR_REG(hw_err, i));
+>> +		if (!vector)
+>> +			continue;
+>> +
+>> +		switch (i) {
+>> +		case ERR_STAT_GT_VECTOR0:
+>> +		case ERR_STAT_GT_VECTOR1:
+>> +			u32 errbit;
+> 
+> With this I think you'll need braces to make the compiler happy, so either
+> add them or move this to the top.
+ > >> +			val = hweight32(vector);
+>> +			atomic64_add(val, &info[error_id].counter);
+>> +			log_gt_err(tile, "Subslice", i, vector, severity);
+>> +
+>> +			/* Read Error Status Register once */
+> 
+> Why? Can you please elaborate?
+
+The register will be populated only once. Even though there are multiple 
+vectors reported, the causes for the subslice error will be read and 
+cleared once.
+
+Will add it in comment.
+
+> 
+>> +			if (err_stat)
+>> +				break;
+>> +
+>> +			err_stat = xe_mmio_read32(mmio, ERR_STAT_GT_REG(hw_err));
+>> +			for_each_set_bit(errbit, &err_stat, GT_HW_ERROR_MAX_ERR_BITS) {
+>> +				if (hw_err == HARDWARE_ERROR_CORRECTABLE &&
+>> +				    (BIT(errbit) & PVC_COR_ERR_MASK))
+> 
+> I'm wondering if this can be a (hw_err ? x) macro for this? Perhaps it'll
+> help remove the duplication.
+
+It is used once. Will check
+
+> 
+>> +					atomic64_inc(&info[error_id].counter);
+>> +				if (hw_err == HARDWARE_ERROR_FATAL &&
+>> +				    (BIT(errbit) & PVC_FAT_ERR_MASK))
+>> +					atomic64_inc(&info[error_id].counter);
+>> +			}
+>> +			if (err_stat)
+>> +				xe_mmio_write32(mmio, ERR_STAT_GT_REG(hw_err), err_stat);
+>> +			break;
+>> +		case ERR_STAT_GT_VECTOR2:
+>> +		case ERR_STAT_GT_VECTOR3:
+>> +			val = hweight32(vector);
+>> +			atomic64_add(val, &info[error_id].counter);
+>> +			log_gt_err(tile, "L3 BANK", i, vector, severity);
+>> +			break;
+>> +		case ERR_STAT_GT_VECTOR6:
+>> +			val = hweight32(vector);
+>> +			atomic64_add(val, &info[error_id].counter);
+>> +			log_gt_err(tile, "TLB", i, vector, severity);
+>> +			break;
+>> +		case ERR_STAT_GT_VECTOR7:
+>> +			val = hweight32(vector);
+>> +			atomic64_add(val, &info[error_id].counter);
+>> +			break;
+>> +		default:
+>> +			log_gt_err(tile, "Undefined", i, vector, severity);
+>> +		}
+>> +
+>> +		xe_mmio_write32(mmio, ERR_STAT_GT_VECTOR_REG(hw_err, i), vector);
+>> +	}
+>> +}
+>> +
+>>   static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_error hw_err)
+>>   {
+>>   	const enum drm_xe_ras_error_severity severity = hw_err_to_severity(hw_err);
+>>   	const char *severity_str = error_severity[severity];
+>>   	struct xe_device *xe = tile_to_xe(tile);
+>> -	unsigned long flags;
+>> -	u32 err_src;
+>> +	struct xe_drm_ras *ras = &xe->ras;
+>> +	struct xe_drm_ras_counter *info = ras->info[severity];
+>> +	unsigned long flags, err_src;
+>> +	u32 err_bit;
+>>   
+>> -	if (xe->info.platform != XE_BATTLEMAGE)
+>> +	if (!IS_DGFX(xe))
+>>   		return;
+>>   
+>>   	spin_lock_irqsave(&xe->irq.lock, flags);
+> 
+> I'm wondering if we really need this? We're already inside irq handler so
+> what are we protecting here?
+
+This is not related to the series. Will have to check
+> 
+>> @@ -105,11 +231,44 @@ static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_er
+>>   		goto unlock;
+>>   	}
+>>   
+>> -	if (err_src & XE_CSC_ERROR)
+>> +	/*
+>> +	 * On encountering CSC firmware errors, the graphics device is non-recoverable.
+> 
+> ... "so bail immediately."
+
+The code is quite intutive but will add it for additional clarity.
+
+> 
+>> +	 * The only way to recover from these errors is firmware flash. The device will
+>> +	 * enter Runtime Survivability mode when such errors are detected.
+>> +	 */
+>> +	if (err_src & XE_CSC_ERROR) {
+>>   		csc_hw_error_handler(tile, hw_err);
+>> +		goto clear_reg;
+>> +	}
+>>   
+>> -	xe_mmio_write32(&tile->mmio, DEV_ERR_STAT_REG(hw_err), err_src);
+>> +	if (!info) {
+>> +		drm_err_ratelimited(&xe->drm, HW_ERR "Errors undefined\n");
+>> +		goto clear_reg;
+>> +	}
+>> +
+>> +	for_each_set_bit(err_bit, &err_src, XE_RAS_REG_SIZE) {
+>> +		u32 error_id = xe_hw_error_map[err_bit];
+> 
+> Does this need bounds checking against ARRAY_SIZE()?
+> 
+>> +		const char *name;
+>> +
+>> +		name = info[error_id].name;
+>> +		if (!name)
+>> +			goto clear_reg;
+> 
+> Shouldn't we atleast give the next id a try?
+
+yeah makes sense. will add it.
+
+Thanks
+Riana
+
+> 
+>> +		if (severity == DRM_XE_RAS_ERROR_SEVERITY_UNCORRECTABLE) {
+> 
+> Ditto for logging per severity.
+> 
+> Raag
+> 
+>> +			drm_err_ratelimited(&xe->drm, HW_ERR
+>> +					    "TILE%d reported %s %s, bit[%d] is set\n",
+>> +					    tile->id, name, severity_str, err_bit);
+>> +		} else {
+>> +			drm_warn(&xe->drm, HW_ERR
+>> +				 "TILE%d reported %s %s, bit[%d] is set\n",
+>> +				 tile->id, name, severity_str, err_bit);
+>> +		}
+>> +		if (err_bit == XE_GT_ERROR)
+>> +			gt_hw_error_handler(tile, hw_err, error_id);
+>> +	}
+>> +
+>> +clear_reg:
+>> +	xe_mmio_write32(&tile->mmio, DEV_ERR_STAT_REG(hw_err), err_src);
+>>   unlock:
+>>   	spin_unlock_irqrestore(&xe->irq.lock, flags);
+>>   }
+>> @@ -131,9 +290,10 @@ void xe_hw_error_irq_handler(struct xe_tile *tile, const u32 master_ctl)
+>>   	if (fault_inject_csc_hw_error())
+>>   		schedule_work(&tile->csc_hw_error_work);
+>>   
+>> -	for (hw_err = 0; hw_err < HARDWARE_ERROR_MAX; hw_err++)
+>> +	for (hw_err = 0; hw_err < HARDWARE_ERROR_MAX; hw_err++) {
+>>   		if (master_ctl & ERROR_IRQ(hw_err))
+>>   			hw_error_source_handler(tile, hw_err);
+>> +	}
+>>   }
+>>   
+>>   static int hw_error_info_init(struct xe_device *xe)
+>> -- 
+>> 2.47.1
+>>
+
