@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +UyPFBlueGl2pwEAu9opvQ
+	id qC/cNyFueGl2pwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 08:49:45 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 08:49:53 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7D9590D67
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 08:49:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D3090D6E
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 08:49:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EECE10E295;
-	Tue, 27 Jan 2026 07:49:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BF6610E4C9;
+	Tue, 27 Jan 2026 07:49:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="H4We9BXl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qQQ9e4TL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB6F810E295
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 07:49:41 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3B8510E4C6
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 07:49:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 0A3A960097;
- Tue, 27 Jan 2026 07:49:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2BEAC116C6;
- Tue, 27 Jan 2026 07:49:38 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 8351E40BCF;
+ Tue, 27 Jan 2026 07:49:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5B6FC116C6;
+ Tue, 27 Jan 2026 07:49:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769500180;
- bh=qrQ87QTrbaOrbHIVv8WS9zmzzginkYNK7xoiselLuZ0=;
+ s=k20201202; t=1769500190;
+ bh=hIQjKfwqD6iueffzFaX/iK+4wHuIaRycJj0c9qB8dXI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=H4We9BXlHjcJEqo3Ujp+UHLo75poXn8hJg7br0K4cxXJCJy7yCF/haDDSuNRi2Yc8
- OmjUBPC+dB3S/iWMoNopK2h3ENprZFA86NrlgMNmDv8TnRiFmgYG+Pe50lKerFXKM9
- DM5mU41EOqd4sDxX2phrf3e7und166sdD0LpSMTClvKF7ogWN0yegIxU+XjRuhI3qW
- R2oDI941Y5fytgzVV9V1I7qvLwzsrhcM77F5WVdnQGJlPWQFf6JZYOPHbVn1/g0Owo
- IuLpbL75T08I/+Hba/I3Et7xnzg6Za7KuiUXkVSTlXkOmkllWe7BiwsCMZQp60ONAT
- QjMr/D3Y2wJFg==
-Date: Tue, 27 Jan 2026 07:49:36 +0000
+ b=qQQ9e4TLL6lXBE3KikiTVxvZgT99i2VNqcT96wbUu/sl3qWat++dUHP/NQHVVKUWv
+ RiCdx/DWNvRhlNzcBUcT2rCAGN5X7jPUd9B4mjbkg+b7W3NpzQpkTGhK0+fTdJRbNz
+ 0fF4v1pXBIDhK8L3eUq4oMKodlaxyfmYnV8ao67G37Sm2D216q36057BBw/rpX/kk8
+ CEIoWoypB1I2K9EsPNjc9H85Hk3vTAECFwNbV0d6RijwAsOLpDuEVCYXkDPAYBZSH9
+ vQBBnwU4Gwb4u6M6DsrK3JZ66f4Ud9QbMsYltxSzvyi8JHV0tWrUB6Ob1PEwREutX8
+ /AuzsVNxJOEtg==
+Date: Tue, 27 Jan 2026 07:49:46 +0000
 From: Tzung-Bi Shih <tzungbi@kernel.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: briannorris@chromium.org, jwerner@chromium.org, javierm@redhat.com,
  samuel@sholland.org, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
  chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 11/12] drm/sysfb: corebootdrm: Add DRM driver for
- coreboot framebuffers
-Message-ID: <aXhuENnpeevg7vpw@google.com>
+Subject: Re: [PATCH v2 12/12] drm/corebotdrm: Support panel orientation
+Message-ID: <aXhuGnUlM500G6Ht@google.com>
 References: <20260115082128.12460-1-tzimmermann@suse.de>
- <20260115082128.12460-12-tzimmermann@suse.de>
+ <20260115082128.12460-13-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260115082128.12460-12-tzimmermann@suse.de>
+In-Reply-To: <20260115082128.12460-13-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,41 +97,26 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: C7D9590D67
+X-Rspamd-Queue-Id: B7D3090D6E
 X-Rspamd-Action: no action
 
-On Thu, Jan 15, 2026 at 08:57:21AM +0100, Thomas Zimmermann wrote:
-> Add corebotdrm, a DRM driver for coreboot framebuffers. The driver
-           ^ oo
-
+On Thu, Jan 15, 2026 at 08:57:22AM +0100, Thomas Zimmermann wrote:
 > diff --git a/include/linux/coreboot.h b/include/linux/coreboot.h
-> index 514c95f9d0e3..e81ee5746e2b 100644
-> --- a/include/linux/coreboot.h
-> +++ b/include/linux/coreboot.h
-> @@ -14,6 +14,7 @@
->  
->  #include <linux/compiler_attributes.h>
->  #include <linux/types.h>
-> +#include <linux/stddef.h>
->  
->  /* List of coreboot entry structures that is used */
->  
-> @@ -64,4 +65,7 @@ struct lb_framebuffer {
+> [...]
+> @@ -63,9 +68,13 @@ struct lb_framebuffer {
+>  	u8  blue_mask_size;
+>  	u8  reserved_mask_pos;
 >  	u8  reserved_mask_size;
+> +	u8  orientation;
 >  } __packed;
 >  
-> +#define LB_FRAMEBUFFER_HAS_LFB(__fb) \
-> +	((__fb)->size >= offsetofend(struct lb_framebuffer, reserved_mask_size))
-> +
+>  #define LB_FRAMEBUFFER_HAS_LFB(__fb) \
+>  	((__fb)->size >= offsetofend(struct lb_framebuffer, reserved_mask_size))
+>  
+> +#define LB_FRAMEBUFFER_HAS_ORIENTATION(__fb) \
+> +	((__fb)->size >= offsetofend(struct lb_framebuffer, orientation))
 
-Does LFB stand for "Linear Frame Buffer"?
-
-I supposed the LFB follows the struct lb_framebuffer in memory.  If yes, I'm
-wondering does LB_FRAMEBUFFER_HAS_LFB() work?  As the struct lb_framebuffer
-definition is different from [1].
-
-`offsetofend(struct lb_framebuffer, reserved_mask_size)` is 37 in the kernel
-but the tailing data (i.e., LFB in the context) might start from offset 40 in
-coreboot.
-
-[1] https://github.com/coreboot/coreboot/blob/main/payloads/libpayload/include/coreboot_tables.h#L232
+Wouldn't the new field in struct lb_framebuffer break LB_FRAMEBUFFER_HAS_LFB()?
+E.g., fb->size == offsetofend(struct lb_framebuffer, reserved_mask_size)
+   -> LB_FRAMEBUFFER_HAS_LFB(fb) == true
+   -> LB_FRAMEBUFFER_HAS_ORIENTATION(fb) == false?
