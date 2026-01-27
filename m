@@ -2,166 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cO3tGC+SeGmxrAEAu9opvQ
+	id 6MrgJV+UeGncrAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:23:43 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:33:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0637592B8B
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:23:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD33592D87
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:33:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5073D10E099;
-	Tue, 27 Jan 2026 10:23:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03D1E10E0CD;
+	Tue, 27 Jan 2026 10:33:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="lf1SOx9+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RaCVGb1w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BN1PR04CU002.outbound.protection.outlook.com
- (mail-eastus2azon11010003.outbound.protection.outlook.com [52.101.56.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEAC510E099;
- Tue, 27 Jan 2026 10:23:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ugF+oKvbuAO+A4toLM6YWw7JpWf/8GE8CqExbx1lCekM26wEkrD0R3eZB/pwLE2qY+ggXlA0t/XxVjONBi11OdCi3HkSLkc8OAaCFdJsUl/pKfhUoDsomrmRYuBZuPdiZFlNZl0ooT/0er39juklriJyt7ABg1zLwWlF4ZP9qqR2zy83sGGIvwN1jHM4BOnSVTc92fvci5RzDRW3o8HEjzh2Z/9NruftqB/TGcRe/u2+fFeObMWO93+3AxfufGnTjrpFYDggu5LWaHlCM8UqQs3wgrEz9pMzFiiK27oY4kd0fyBZOxfQvUkZfT8oTk+7KXebag5ieEzctTTcMUPTrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/jr/imSRBdv9D+PnH0+U1oLscYXljCY6/IUKmrp4dYs=;
- b=ncQ8u704+W5IwgbRN3gBRZyMIT2Rc7aSj3rAUcWO/a9NtZTOhylkCDxMAipt7QGJBI0sJfS4tPH35G6eoFuaC5x4qQPW1R8NvoBOcwI2jD6YNRVXyQbB3440/QdX2thCvmcuAjmlPt4qaHZ42sgvlVG1Dv2j5c8gUupTbFrRJxBZTtQxvteAkFHdOKPuu2h+PSmQquO9ycOGQHnbk2FfhxplR3F4TQXYT5iz0gv036z4bTIJ1XEFlAkrF4+HCXGLssweCj7OW4Un8UErsatBDBs/pUoSaslDPsMkk94KbqppZnqsFANwlU4Fr438TwoVkOSKrH03p6YWgoXCgZvxVA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/jr/imSRBdv9D+PnH0+U1oLscYXljCY6/IUKmrp4dYs=;
- b=lf1SOx9+/pFIFk/Q2yKIk4knoW7cdbaTz5koNE1wlUD+XzS3PgU44zYVWJlIVhHvFzxZGbMs05kDsHH8vHEuhj6PhAS8o1JB/IIKudJ6OXGnxnShlZWXYMDdEjgSOlHVmzcoY+Skmn0BJ8mef0EOOfrQO1QGRLf/OXl5SAmcMz8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by IA0PR12MB9009.namprd12.prod.outlook.com (2603:10b6:208:48f::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.16; Tue, 27 Jan
- 2026 10:23:36 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9542.009; Tue, 27 Jan 2026
- 10:23:36 +0000
-Message-ID: <c9bd8587-aafe-447f-a603-d4fd0da2b567@amd.com>
-Date: Tue, 27 Jan 2026 11:23:31 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 11/11] drm/amdgpu: move sched status check inside
- amdgpu_ttm_set_buffer_funcs_status
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20260126133518.2486-1-pierre-eric.pelloux-prayer@amd.com>
- <20260126133518.2486-12-pierre-eric.pelloux-prayer@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260126133518.2486-12-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN9PR03CA0298.namprd03.prod.outlook.com
- (2603:10b6:408:f5::33) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32E6210E0CD
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 10:33:00 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 66F61600AA;
+ Tue, 27 Jan 2026 10:32:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA170C116C6;
+ Tue, 27 Jan 2026 10:32:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1769509979;
+ bh=upyzIdX6sc+F9yKHqn/z6MJzFeFxUfq9aLCsXCMxv4E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RaCVGb1wMOEGpU58u34kxHjibgOqFQeYFGZ1kRvowtT37vPWybnwGOBd+CuNUbUAV
+ DhMnTMS66u/V7/1MBu1xh0VkBEOYYbR2QADskSJy7/iweNyPzsQmV2JHf2/tVEdq/f
+ 6uFRWkpNVa5DKPzIjGlqNf/ZgOcvNXLERc+fcdYuQNUjxAJPyjxi63BbtNHuVlrZBx
+ M3q2S4iNbdXVsZgFjux+wRpftz8A1fK5Vg2l2T63jnnyaiw3/zGMPQ4GcIkshAIbLa
+ IvsogM3geHENQH8l35EP72wIIgnB/XF/8DWAOu1WfhCMPbnqF7IIT0qU0BADTUp70C
+ PPAC/Ip/rppFA==
+Date: Tue, 27 Jan 2026 11:32:56 +0100
+From: Thierry Reding <thierry.reding@kernel.org>
+To: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Aaron Kling <webgeek1234@gmail.com>, Kurt Kiefer <kekiefer@gmail.com>, 
+ Jasper Korten <jja2000@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/tegra: Enable cmu for Tegra186 and Tegra194
+Message-ID: <aXiSMlP-UKmrFKL7@orome>
+References: <20251101-tegra-drm-cmu-v1-1-211799755ab8@gmail.com>
+ <CALHNRZ9b98Su9qAqXRSTCStoUPtC_u3+MG0cr4SQ-g3aVJD7LQ@mail.gmail.com>
+ <8615742F-EE35-4B37-BA0A-D62FFD5424B4@gmail.com>
+ <4318175.BddDVKsqQX@senjougahara>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA0PR12MB9009:EE_
-X-MS-Office365-Filtering-Correlation-Id: b9896580-b96a-4ff8-ba19-08de5d8e2165
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TnNGaksxUXVZSW0xM3RMZmVyTnBWZnlpdU1HUExEQ1hKeFZNUlVoTjUwOFky?=
- =?utf-8?B?ZHpPbENRZ3REZXZLektzYTB5OFpmMzNCQmRaeWVYSXJtUFQ3aUZjOGNaVXVF?=
- =?utf-8?B?d0ZXMjZLOVRYUUk5cDZYdFFIZEZMYjlYazJlMksvcWhoNnlOL3BuZmVxbFIz?=
- =?utf-8?B?QXFGaUlPa3BHTkxram91WWRmb00yNUhSQjhvWW9ocGhYanRCc1B4L3p3QUJx?=
- =?utf-8?B?VjE0dGtrVWJCZDhHNlZabDB0ZWcvckdVUGVwNzY1UTJpTitWUXRwR29DdG9u?=
- =?utf-8?B?NXdnNDBzSDhCV0JuYVFQRjh6eVRxdzcxc1ltWHpmdTJnR3lQemFDTWM0RmJH?=
- =?utf-8?B?YzVwYnBxUC91N09RZXEyMFIyZ09GYi9oaVltdzY5d1A4empDMzlJaXk3YXZs?=
- =?utf-8?B?VGpYWDNsakZEMld1dDdnbGhsbnBuSWU4ZVVBZW85TDcva1FEM0ZyNmdxNWZ4?=
- =?utf-8?B?SHdQYnNBNGlpcFp5S0wvS2Q4NnV0R1RIejZ6Z0hqQnJvVEJMOWtEV3pneXNK?=
- =?utf-8?B?a3U5QmladEFLZzYzY2Z3RVZBdjJTRUpKL21mSFpRNHdoTzdIWUt5UzJ1Sk4x?=
- =?utf-8?B?R0hHZ244U2Q2dGt5cWp0MFpYNkpPSDZyMjIvdkFreEorUmY5SmdLelFkcDds?=
- =?utf-8?B?TmJnS09wSVViMmZ1QVpmQXZnNHV2QUljRE1YMXp6ZHZOcTE3YVhiZkJrUm5p?=
- =?utf-8?B?MHFFd2tlbVQrYnF5RDR1OWdRNUNsOWFvdVl1YXI4RlJmRWk2Q1p1SzlHTDBv?=
- =?utf-8?B?d2lrSnQ5WWYrWXRhbnFDVU9IdEVORkhnY2UwYmJUVEYxTVBCN0xOU1FaV05G?=
- =?utf-8?B?TG5FeHBQd0x2NGNWZWYwV1hWeG4xelM5UVlHaE54clFOeDk0Sk5GdWRoalVL?=
- =?utf-8?B?MVFPb0ZydGlERHlKd2p3dlhkUi9CNWswaG1XaWQwaE0vemdHY3hZU0lCNnNk?=
- =?utf-8?B?RkZEM3JabTZnT21XdU04L2g2NktCV0huVzUwd0s0OGdZVDNJQzFKRklXOUtO?=
- =?utf-8?B?NG1mcmVPL2xQUUlLQkJSWnI4SFRYcndQTWZDVURpWkNJYkkwZkZxQXdyVTAy?=
- =?utf-8?B?V2NCVWswNFg1NVBuazg3b0o5UHQ0TmJOZFM0c3BhU0h1K2xQVVk5TVlNL2U2?=
- =?utf-8?B?ZEF1UStrSzdRRTZ0NDEwQzJYMTcxSTlEZjdoclJ5RzFJMlNFZGJ4QzJ6Rkp5?=
- =?utf-8?B?WlBERVVWMkJGcWNkZUVqQ3dtZDhEakdYd0NkQlE3Yyt6QkR2em1CWHo5cFhO?=
- =?utf-8?B?ZE9YS29sRUJKN25YTVcrRTlDam9uUGtRa1ErUlV4L1c5WXVYMytIb21ORjZo?=
- =?utf-8?B?dmpHWW1LN0pTL0hPOTMzNjMxa1o4KzhXRkgyUlB6eVFFM3A3R0Y1K3lNQ1E0?=
- =?utf-8?B?V2V5aEIwZllGSGdrSnlXWHB5bXNvdHYxeE16QnkxRXdmUk1kTGU3YjJUK1R5?=
- =?utf-8?B?VjQ3aDRXdlVFME1OQzJqa1ZlQzJGRWU3L2VXeWo5TlhFdGNTbjd2a1JSWnJk?=
- =?utf-8?B?NnhQeW9tSjFQR01wdnRYaEsyelJ5eFBlZGM2Uk1sNndiN2dHU25icDA0V2dZ?=
- =?utf-8?B?Z09IcU5kcWxqekN3Yjh4akFmTlJhUEFkOGpIV2YyNmxDM25WYjFyc2NrTTlN?=
- =?utf-8?B?ak1nUktyODNUUDZwN3AzNWR0dTNoaGMrQm1GRWx2RDRuU2tDdEZ5bHBaRHZD?=
- =?utf-8?B?dEtlVGtuSEpuek5jSGFqRVQxRkVPdnlpc0IwRnY1cXl2ckg5RzZyVVgwZUl5?=
- =?utf-8?B?RERoeGVPbjRlUktUUUxxa3M0TTBTQUFWaTFTaDhrWHRUWVlrMXNpWTNUb2dU?=
- =?utf-8?B?YmlpY2x3VnVDbFF4VlJuUVJIWkxYTEgrOGN0cWRqMUtTMW1ybGZTL3A5Q3FE?=
- =?utf-8?B?ODdQbHN5RXM0UjB4KzllNTRCTWVJbTVCQzNrZnd6aUVRL1NJb0RSQVF2YnQv?=
- =?utf-8?B?WDZCa1dDUHZrTEkyd0ZNeW5wTnR6U3FrejN5MWdEbEZEcUI1b2J5UEtMSVM0?=
- =?utf-8?B?TUgzR2FHeTdHQTE2WkxFZTMyZFMxbThTckMySGlQN0dXRVQvemVuRlM3WTRV?=
- =?utf-8?B?dVdmWmJvVlFUcnRRaVM0K29XbS9FazhvRzhmU09hLzhNaE5xZFZUZlpEV3d2?=
- =?utf-8?Q?kPNw=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b3B6YnFrME9WZThEaE10dkZhT3J6cUtZN0xQd084Q2ZHQVRDSUhRYm9yNW5T?=
- =?utf-8?B?OFlkUTA4MzlGbUNmdkQwa1dwaEVCa1Q0UDB1bTZ5VTlRU2FOV3IxUDJjZlpO?=
- =?utf-8?B?eEtld3IxbzRDZTNBRERCdGs5b1ByVnpEbUhKWWlPcW4zUjFlOURPbURMSjBU?=
- =?utf-8?B?N04ydWY0RjUzUDVuRk9PVlZ1SHdHNlZUNk4rb2FrMmRkVDVaWDFidVN5Qllp?=
- =?utf-8?B?bE1ZOEhzVEtmMWFGRGJ4TjljZncyNHpxbzRpdEtTRW9yZldyVFRVZWo4RVIv?=
- =?utf-8?B?Yk15aVE0M2tYTUd0eENyZ2I4YjJ0VHFUbGNFU215YnRNSzNFeHM3MmpnTTI4?=
- =?utf-8?B?bkQzT3huRCtDWUNYWGdUVTc1OTgwOThReVZlUWxKWVNVSkpwVXpXOUhGNHZW?=
- =?utf-8?B?Snc2cThKYlpzUEtoSHZCSVJ3WGtNMWpTMEs1YTBWckt2S3pyRDEvK3luYlNt?=
- =?utf-8?B?SEQrSzVKZU8vWGpLUExZdDFoNjNkb2MyVGdKbnNBbGZ4eEZ2Mzk0dDA4dldZ?=
- =?utf-8?B?d0c0SCtQQmRiTUtBQ0NYRHRMbFZsYnVDSTNYc2VHS09nNFk5YnJuNEtKYVd0?=
- =?utf-8?B?R2t4VmJlWVRzdWZmT05BUjZuWDJ5UFZOTjcrclJyOG5JOU9zbEFQVEN2MU1C?=
- =?utf-8?B?d1U0WW1EK1pNUHFmOTAwSnI4aXVISmRTaUxVTnRQYm9udkt0WVBYZXc0SnpM?=
- =?utf-8?B?WmJwZ3A5K2haSXJGUzhDeDBnSHVZWEcrWVlpR3RmRFhqWGNLS05sYW1oN1BP?=
- =?utf-8?B?TTJpNTRkQ09aR1NzbVVLWmwzOTF5YzhnOUtWMkFUQzhpdDZqVW1OY1Z2Qm1E?=
- =?utf-8?B?ZFE5MnR1SUV0UWQxQnN1VDJlQkF5d0tGNXRTMDdkUEE5NkN0RGI3Z2I1aXBI?=
- =?utf-8?B?Q3RNYWZBOXg5QlFXWWEzMHNLSkFtbHRDaHdFVllmajJFMlIrMlVleGdPWlVw?=
- =?utf-8?B?cWxkVDFodFZPaHlOZlNKVzNEaTJEdzNiL3FWS2VrOVNjVHRJSitIUlMrMklv?=
- =?utf-8?B?NWFkOFNXMjlHTEdSeUN2bWlVZVVscjdaV1RXTE04dGZiRFVtdStVWnFHMkQ5?=
- =?utf-8?B?WFYybFJ2dW0vYzlIMWdBdFl3L2R4eHlsK1pqYnZzcmlqVUdjWEtaWG9kZURV?=
- =?utf-8?B?RUZDMk1WcWpIUFYyMVNOVFhFZ1JKdTJ2QUhoekRYdEY3UXJCSzNlZnI4NnRT?=
- =?utf-8?B?V1V0MGg5KzFXditEL0MzTk0vcUJzUTNJTSt6Qk1NWVVLck9ZU3lpTGEwb0lt?=
- =?utf-8?B?K3ZFanRsU21JSDVmcmdCQm5WMnAxVmhnZ0xYazE5Qk1zaVhCaFdhNkRHSitW?=
- =?utf-8?B?dk5ZVGhqYWVnR25mTEE0alBzNXFRQndhWktLOHZuMWMvVitNb3pMNlRvUkxN?=
- =?utf-8?B?UzdhV1JNZURTam1WOHFXMFppK3MzcGVRc044WDJpQmMxTmpvYXIybjZ1aE9t?=
- =?utf-8?B?OGZxbjhUamVFdXM1cVBJdWMvQlYzeEUvcDFQdVV2WG5HVGI5d1lyUnZrVjdN?=
- =?utf-8?B?UVV0dWVqTksySHlXUTM4V2ZMZzV2blhhNVZXUWpJdkc2THNtQW1kSXg5QjV6?=
- =?utf-8?B?SHhLYzh3UERSYlNkNSttVWNDdzl6TkFKMXB5UlZBbVBEWVdwbXhDWk9tNno3?=
- =?utf-8?B?UXVKMU53Nk5qdmlwRVlZVVZsdGkrdzg3VE5sQUFKaEUvMkdYWTRnRkhqdUxH?=
- =?utf-8?B?TitjWXF0dGx3ZFZ5d2p1dTFhRWpzVEtiTE1MUUFrKzUxRWpnUnZsVkdoYW5j?=
- =?utf-8?B?WGJpNGFhRWIvRXlnYk93cGp0NXZkME8rT09VZEl4eWxZLy9POXRJQ3lRcVZR?=
- =?utf-8?B?S3Y4QUkyVU0xRTRxaHl2RkJwSzArSm8ycllWK0JFV2tFK3RUU3JxcC85R1Nx?=
- =?utf-8?B?Z0NhMHYvWXRQQ2V3UzdvUDh1R0RPR245bmtGVU5lN3hRb0o5YTgvMTdyckdI?=
- =?utf-8?B?R0I0azJRd1RIQStXZXhEVnIyMnU3dEl4dWhlcy9jT1d3Sm8weVl1VXpWVDNP?=
- =?utf-8?B?eXdCSld1OFhoYzYvSTM1RzBCVEtnSkZ6WVNSaTBnYnUwa1JMQ1I5Y1pQYWhD?=
- =?utf-8?B?eldEdVdXckYzb3ZMdWVrZFFmcksvcmZZS2N4bC91V1FRQzdQRi9tTDF5Ym8v?=
- =?utf-8?B?QWZ0TWVDY3k3RVNES3VKWTFvQVBQOU9BRVp1MnlUQ21DYmVkSC90YWJwZXJC?=
- =?utf-8?B?TWRaeHVMc3NGVEZ1MFZDdEVocUpwWTVRWEFrQWhxdmxLZUNqWVhoak04b05y?=
- =?utf-8?B?VzFNSE1ob1huOVpDamNNTXhJS1ZKTFBYL0Z6dTZxalUxNGpzTUYzSzBxaTBT?=
- =?utf-8?Q?55Mof2gxbvm2w7Ad1/?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9896580-b96a-4ff8-ba19-08de5d8e2165
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 10:23:36.4237 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vyTqm1bBfuaThfVoM40LZGLglJ9WWglJNlvgxxQjlcDBBrSrPcS8ShYjPoAmutgw
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB9009
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="fue3hpucru44eqpn"
+Content-Disposition: inline
+In-Reply-To: <4318175.BddDVKsqQX@senjougahara>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,109 +69,241 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+X-Spamd-Result: default: False [-1.41 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[amd.com,gmail.com,ffwll.ch];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[amd.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	FORGED_SENDER(0.00)[thierry.reding@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,amd.com:dkim,amd.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 0637592B8B
+	FORGED_RECIPIENTS(0.00)[m:mperttunen@nvidia.com,m:webgeek1234@gmail.com,m:kekiefer@gmail.com,m:jja2000@gmail.com,m:thierry.reding@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:jonathanh@nvidia.com,m:linux-tegra@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,nvidia.com,lists.freedesktop.org,vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[thierry.reding@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: DD33592D87
 X-Rspamd-Action: no action
 
-On 1/26/26 14:35, Pierre-Eric Pelloux-Prayer wrote:
-> It avoids duplicated code and allows to output a warning.
-> 
-> ---
-> v4: move check inside the existing if (enable) test
-> ---
-> 
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+--fue3hpucru44eqpn
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] drm/tegra: Enable cmu for Tegra186 and Tegra194
+MIME-Version: 1.0
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 13 ++++---------
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  5 +++++
->  2 files changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index 362ab2b34498..98aead91b98b 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -3158,9 +3158,7 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
->  	if (r)
->  		goto init_failed;
->  
-> -	if (adev->mman.buffer_funcs_ring &&
-> -	    adev->mman.buffer_funcs_ring->sched.ready)
-> -		amdgpu_ttm_set_buffer_funcs_status(adev, true);
-> +	amdgpu_ttm_set_buffer_funcs_status(adev, true);
->  
->  	/* Don't init kfd if whole hive need to be reset during init */
->  	if (adev->init_lvl->level != AMDGPU_INIT_LEVEL_MINIMAL_XGMI) {
-> @@ -4052,8 +4050,7 @@ static int amdgpu_device_ip_resume(struct amdgpu_device *adev)
->  
->  	r = amdgpu_device_ip_resume_phase2(adev);
->  
-> -	if (adev->mman.buffer_funcs_ring->sched.ready)
-> -		amdgpu_ttm_set_buffer_funcs_status(adev, true);
-> +	amdgpu_ttm_set_buffer_funcs_status(adev, true);
->  
->  	if (r)
->  		return r;
-> @@ -5199,8 +5196,7 @@ int amdgpu_device_suspend(struct drm_device *dev, bool notify_clients)
->  	return 0;
->  
->  unwind_evict:
-> -	if (adev->mman.buffer_funcs_ring->sched.ready)
-> -		amdgpu_ttm_set_buffer_funcs_status(adev, true);
-> +	amdgpu_ttm_set_buffer_funcs_status(adev, true);
->  	amdgpu_fence_driver_hw_init(adev);
->  
->  unwind_userq:
-> @@ -5931,8 +5927,7 @@ int amdgpu_device_reinit_after_reset(struct amdgpu_reset_context *reset_context)
->  				if (r)
->  					goto out;
->  
-> -				if (tmp_adev->mman.buffer_funcs_ring->sched.ready)
-> -					amdgpu_ttm_set_buffer_funcs_status(tmp_adev, true);
-> +				amdgpu_ttm_set_buffer_funcs_status(tmp_adev, true);
->  
->  				r = amdgpu_device_ip_resume_phase3(tmp_adev);
->  				if (r)
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> index e149092da8f1..1929a03daf18 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -2354,6 +2354,11 @@ void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
->  		struct amdgpu_ring *ring;
->  		struct drm_gpu_scheduler *sched;
->  
-> +		if (!adev->mman.buffer_funcs_ring || !adev->mman.buffer_funcs_ring->sched.ready) {
-> +			dev_warn(adev->dev, "Not enabling DMA transfers for in kernel use");
-> +			return;
-> +		}
-> +
->  		ring = adev->mman.buffer_funcs_ring;
->  		sched = &ring->sched;
->  		r = amdgpu_ttm_buffer_entity_init(&adev->mman.gtt_mgr,
+On Tue, Jan 27, 2026 at 01:12:54PM +0900, Mikko Perttunen wrote:
+> On Thursday, January 22, 2026 2:08=E2=80=AFAM Kurt Kiefer wrote:
+> >=20
+> > > On Dec 8, 2025, at 8:23=E2=80=AFPM, Aaron Kling <webgeek1234@gmail.co=
+m> wrote:
+> > >=20
+> > > On Wed, Nov 5, 2025 at 3:28=E2=80=AFPM Jasper Korten <jja2000@gmail.c=
+om> wrote:
+> > >>=20
+> > >> Hi all,
+> > >>=20
+> > >> On 11/4/25 19:12, Aaron Kling wrote:
+> > >>> On Tue, Nov 4, 2025 at 3:14=E2=80=AFAM Thierry Reding <thierry.redi=
+ng@gmail.com> wrote:
+> > >>>> On Mon, Nov 03, 2025 at 12:39:57PM -0600, Aaron Kling wrote:
+> > >>>>> On Mon, Nov 3, 2025 at 5:54=E2=80=AFAM Thierry Reding <thierry.re=
+ding@gmail.com> wrote:
+> > >>>>>> On Sat, Nov 01, 2025 at 06:15:17PM -0500, Aaron Kling via B4 Rel=
+ay wrote:
+> > >>>>>>> From: Aaron Kling <webgeek1234@gmail.com>
+> > >>>>>>>=20
+> > >>>>>>> Without the cmu, nvdisplay will display colors that are notably=
+ darker
+> > >>>>>>> than intended. The vendor bootloader and the downstream display=
+ driver
+> > >>>>>>> enable the cmu and sets a sRGB table. Loading that table here r=
+esults in
+> > >>>>>>> the intended colors.
+> > >>>>>>>=20
+> > >>>>>>> Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
+> > >>>>>>> ---
+> > >>>>>>>  drivers/gpu/drm/tegra/dc.h  |  13 +++
+> > >>>>>>>  drivers/gpu/drm/tegra/sor.c | 206 ++++++++++++++++++++++++++++=
+++++++++++++++++
+> > >>>>>>>  2 files changed, 219 insertions(+)
+> > >>>>>> What does "darker than intended" mean? Who defines the intention=
+? How do
+> > >>>>>> we know what the intention is? What this patch ultimately seems =
+to be
+> > >>>>>> doing is define sRGB to be the default colorspace. Is that alway=
+s the
+> > >>>>>> right default choice? What if people want to specify a different
+> > >>>>>> colorspace?
+> > >>>>> I reported this issue almost a month ago. See kernel lore [0] and
+> > >>>>> freedesktop issue [1]. The pictures in the latter show what nvdis=
+play
+> > >>>>> looks like right now. It's nigh unusably dark. When booted into
+> > >>>>> Android with a tv launcher that has a black background, as is def=
+ault
+> > >>>>> for LineageOS, it is really hard to read anything. Is it correct =
+as a
+> > >>>>> default? Well, cboot hardcodes this, so... presumably? It would be
+> > >>>>> more ideal to expose this and csc to userspace, but I'm not sure =
+if
+> > >>>>> drm has a standardized interface for that or if tegra would have =
+to
+> > >>>>> make something vendor specific. I think that would be a separate
+> > >>>>> change concept compared to setting this default, though.
+> > >>>> The reason I'm asking is because I don't recall ever seeing "broke=
+n"
+> > >>>> colors like you do. So I suspect that this may also be related to =
+what
+> > >>>> display is connected, or the mode that we're setting.
+> > >> I have tried it on both a MacroSilicon HDMI capture card and an Arzo=
+pa
+> > >> Z1FC 1080p portable monitor and run into the same darker colors. Both
+> > >> have in common that they use HDMI which seems to line up with what A=
+aron
+> > >> is reporting. I do not have an eDP display to test or another carrier
+> > >> board with a different display out to test.
+> > >>>> It could perhaps
+> > >>>> also be related to what infoframes we're sending and how these are
+> > >>>> supported/interpreted by the attached display.
+> > >>>>=20
+> > >>>> All of that is to say that maybe this looks broken on the particul=
+ar
+> > >>>> setup that you have but may works fine on other setups. Changing t=
+he
+> > >>>> default may fix your setup and break others.
+> > >>> Do you have a device set up so you can check? Or does the regression
+> > >>> test bench have a display that can be forwarded?
+> > >>>=20
+> > >>> My current setup is a rack of units plugged via hdmi to a kvm which=
+ is
+> > >>> then plugged to a pikvm. I also observed this issue before I had th=
+is
+> > >>> setup, plugged directly to a 1080p monitor. I have not checked
+> > >>> displayport. I can cycle through a couple other displays without th=
+is
+> > >>> patch to see if I get any other result. I am fairly certain I have
+> > >>> consistently seen this issue since I started trying to work with
+> > >>> tegra-drm on kernel 6.1 or maybe even 5.15. I've never seen it work=
+ to
+> > >>> allow for a bisect.
+> > >>>=20
+> > >>> I am in contact with one other person with a tx2 devkit, who
+> > >>> replicated the issue when I asked. Who plans to reply to this thread
+> > >>> with setup info later.
+> > >>=20
+> > >> For reference, I am said person. I have a Jetson TX2 Devkit that uses
+> > >> the P2771 Device Tree. I'm running a Fedora distrokernel with no
+> > >> additional patches applied by myself. I have personally noticed the
+> > >> issue to at least be present on 6.14.5 and 6.17.4.
+> > >>=20
+> > >>=20
+> > >> I'm currently not at home to take screenshots with and without the
+> > >> submitted patch, but will be able to do it tomorrownight or friday.
+> > >=20
+> > > Any further thoughts from the maintainers on this patch? As far as I
+> > > know, this is an issue for all users, at the very least on hdmi.
+> > >=20
+> > > Aaron
+> > >=20
+> >=20
+> > I can confirm that I have the same issue on a DisplayPort output of t19=
+4.
+> > IMO, this patch will need to be reworked a bit to enable the CMU for th=
+is
+> > output as well. I hacked this change in for DisplayPort, and then it
+> > functioned as intended there as well.
+> >=20
+> > I've traced back to the reason this is necessary. The DC hub driver is
+> > applying an sRGB degamma for every RGB plane (presumably for blending),
+> > and then nothing reapplies the EOTF later on. Without gamma correction
+> > in places where it is expected, images are going to look "too dark".
+> >=20
+> > Which does raise the point that there is an alternative implementation
+> > where we do not degamma RGB planes in the first place. But this may have
+> > unintended consequences when it comes to composition.
+> >=20
+> > The SOR does not appear to handle YCbCr outputs at this time, so enabli=
+ng
+> > the CMU assuming an sRGB EOTF seems like a reasonable path here, to me.
+> >=20
+> > Kurt
+>=20
+> I tested this patch locally and did some investigation. Can confirm
+> that on my Jetson AGX Xavier, this patch (or disabling degamma) fixes
+> the color output.
+>=20
+> The colorspace the display expects from the incoming data is specified
+> in the AVI infoframe. This is generated in
+> tegra_sor_hdmi_setup_avi_infoframe, which calls into
+> drm_hdmi_avi_infoframe_from_display_mode, which leaves a lot of fields
+> set at the default.
+>=20
+> Currently we're advertising:
+> * colorimetry =3D no data -> for HD resolutions, use Rec. 709 primaries.
+> These are the same as sRGB.
+> * itc =3D false -> NOT IT content.
+>=20
+> My understanding (based on some LLM research and otherwise) is that
+> this is likely to result in the display expecting Rec. 709 colors with
+> Rec. 709 gamma. sRGB gamma is slightly different, and setting itc =3D
+> true would hint the display towards using sRGB gamma.
+>=20
+> However, what seems clear to me is that the display would be expecting
+> nonlinear data, so enabling gamma conversion at the output LUT seems
+> correct to me. So this patch would be a clear improvement (with the
+> fixes already discussed).
 
+I think ideally we want to hook this up to the DRM color management
+facilities, so that it can both be properly reported and configured
+at runtime.
+
+Obviously we also want to make sure that the output pixels match what
+is advertised via the AVI infoframe. Looks like there's concensus that
+enabling the output LUT is the correct way to do that.
+
+Thierry
+
+--fue3hpucru44eqpn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAml4lFUACgkQ3SOs138+
+s6GqRQ/9Gty05JE6EKz66N98sGLJL+SU2hd4EiSyJ69JkUn682UhsMBkZj4GnaRj
+FrxDBDnjjjDhdzinX5I/7Z/dEYeH2f+j8d7lT/oUhO/7YUpXylLoWByLBmIb52yp
+/YaeipNrSfXRdN81+d8lw7Un1OST8N+vVq4WmZUWj5kI5TvzfmRcT8m6JmNpv58b
+cOFZMuplp0V7UUs+2UzCKW9B5QskhkQCVd2X5Itut87DaNOkIkTwhYR6Y4oYnL1o
+e+CyE0i7FxsdZ1pACzW3yWIOl4Ym+kJ9o9Lm0GsPcWboZv2N6qWI35DbQQNe6FUO
+8CHQGuFYqmJxTiiXls6vCM8wxNocNcf0fpd78eNdSgTdjy1cis9P4z+aSI0C0K/q
+sdxsIZv4azcfztg+AhZyZGpHdSaZ4YbHcH8Bez9tr50ar/FP0/XJap35csiLYjfZ
+rg9OQS+BVOxxeXAyq6SOjnNqZz4Cr6eIQtYSjDVh479I9VuEl5lMplgxyBThwdQu
+JJvPkbxzX4NdVFNPIm/N4YewIyDxt3lIOIfYmpFbYrZap8SechQ6iK30pzhizDcp
+nGhY8fWz7y8khwOLldOzpHOtlpB0i5pvDGQhYiAEIEw9qpYdPkzGON3PIrvgKUNv
+hH3/+A2/mJe9Kv/TmIvCzYDGInP3jyCWCYseVKCprHz1agpQjus=
+=o1Nu
+-----END PGP SIGNATURE-----
+
+--fue3hpucru44eqpn--
