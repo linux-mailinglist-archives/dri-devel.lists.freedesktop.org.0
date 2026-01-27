@@ -2,139 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UVbgOsKUeGnmrAEAu9opvQ
+	id 4C/FLwmXeGnmrAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:34:42 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:44:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C96692DE3
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:34:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9B893075
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:44:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E89E910E518;
-	Tue, 27 Jan 2026 10:34:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D832710E0C8;
+	Tue, 27 Jan 2026 10:44:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="KDiQp0N5";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OCsUWCWV";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZmuuAy4X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 346FA10E51D
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 10:34:39 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 60RAD5gt1268825
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 10:34:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=pSe6m9bpQlKGAyhQeVQfwUOr
- nWUJ9Hu2tKR1AdBPD6I=; b=KDiQp0N5T5oo4vxAdnjXwTA9yxewWrg/BwPHIizi
- WtoZRo4fhTiF6BrPcuoImB3rE7bXgwSrMLBirk8662FK86+UlkMAMU9CZGLSHGBS
- iPiviSG7ijibW3Uj8VbxLEoOVKK7bxGZbuOM24SdeOtQVERgvoAVtU7v9KLCjHMF
- wIy4k2l7+rvXQryz0XYpC20DMcAnhCSUEqrKzHRJeYpfeaKwntxonGQkB+7xGaeR
- P8pcKSL/G6geZCAITJ//T+/aR+wyZa/i3fQdEYKMOOTRufDbLrZB/22S6F2d6IBY
- RnuVABbDh569TfLh5S3Iw3qMTLawRuJXqY43N5gM3Ma5rQ==
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
- [209.85.217.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bxnyasb2y-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 10:34:38 +0000 (GMT)
-Received: by mail-vs1-f71.google.com with SMTP id
- ada2fe7eead31-5f52597aca4so6084955137.3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 02:34:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1769510078; x=1770114878;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=pSe6m9bpQlKGAyhQeVQfwUOrnWUJ9Hu2tKR1AdBPD6I=;
- b=OCsUWCWV3a/SXKOJ5rcAaUaQljwzDjq/8AqzkcMXbVbaK00ZN9CmG1u/8tsqKprSmI
- A8vACiZRMfpDmMvch2EI8dv4Qm6AKemuXY9gZqkMhk4mA8STMrWOQd8174YO36Kgbl+0
- O556cH8yIGhYN4rPccoNjiRx+W7YzUNejO3vDnkHb5xVGKRwVGKk7aPrB7pex9aNKPuO
- ifeIENq3noGXfDVwRawod13ewcJgPdVQqTnCHE+ugdSo8wvqwgMGVzWKJtuJACI2a52R
- PIcqqFTEUZSdutY1PMGBsCoCOvCbYftWHdil5JTVTOMm96VBVVHs5JKy4C7uHmUx1C92
- 7g7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769510078; x=1770114878;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pSe6m9bpQlKGAyhQeVQfwUOrnWUJ9Hu2tKR1AdBPD6I=;
- b=B1v2Y5S1aAB8N4KMweaZAs/Cdfss/gAhA6vaOwRQ75wdg+qPuEBvzf+eUkjdY7lhnZ
- 6x+sjzsht5rit2HedK52QwfGEZzdYrX5NIzwk0Qcl7hOMU1mvV5bpIjTXz8pTu/nQVIK
- VKaUjHCLi7NwB3ZVAKZRA7iHHKCgHInTl4UXj1BIb92MhJ+d6I1CxoXmURbZ9aDQG4dG
- UsBfwV+21+z1WTg/F9hqd20EEkQgh8oZ07GZtqqafjESbHVDlTG+FsLMAwR/J6nKPkhk
- NwkTtnCzCmrUo4TjyzblBP8MGqcVzqyQ1tbl5tlkfZLA35P9HxYvNRb6qChooQrC2lrt
- WdpQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUrkkhIreJbkzyvAk5BrCmsbkzgkCGVXEfswfdoigSUCx0BoU8dFXoB2gLJfcwc6r5PiPNa6gDGR0Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyVmdaCeSQ3uXY+6Tg+PVlH6wWJbI+djilvpny8A5oBNKnMvHcG
- gC7S7BHPqouaturhuzjkdQUCaLnQjI0KS2vp1qUiDrDpKdHVvkboB7kc6CudcD+X2R3OUN4C9Sx
- PYrpJH38PYM14d9IVBzaSEo9WrZSlArJpS7de0HVmrbIzEJ5mOQog/DfzD6BymgDs/j9sKac=
-X-Gm-Gg: AZuq6aJXEagyHdJw8D2Qh/JCPc/3ORL97Z7TArZmAvY0CKrIowmQIP/OllYBZPdAprV
- kJZ5d4AoKxSt5UuFJdHOdnFTpgDZz8TlYvbNg17jRKUpIuve2tmHiSwYTMBMHJSyDh47zUVPJpV
- 1UnOQcVgI25tumIZdNm0gafkUEENzvZtCxeubHG8Ma/2HDyRYUls/MqxIPJlKVQ06drRMIFq08N
- zMk1e+52Ou1fBuE33eKZJyxv2kS2+2Ca1lslBZ8kF9PKb/90RyyDjaFlu/JrXFxdl40xJTApo9/
- OCm0OJ5gWlhwgAoTmGpSX1W72zIx/ILpMcK33eEYMnPtldrp/3iMaQan1IQIV69UaK+kkOpdfpF
- 0vJ/bvZMGXNmN8eV306VwFd5mR+HjYP82rGHOriGdrvq5U+Fa+kq3BHLjc4nm9oB8eounMsRgws
- T/ExqhjlUTYJ/UsNCfnGPs8Ds=
-X-Received: by 2002:a05:6102:3052:b0:5db:3111:9330 with SMTP id
- ada2fe7eead31-5f72379c46dmr540402137.27.1769510077589; 
- Tue, 27 Jan 2026 02:34:37 -0800 (PST)
-X-Received: by 2002:a05:6102:3052:b0:5db:3111:9330 with SMTP id
- ada2fe7eead31-5f72379c46dmr540394137.27.1769510077057; 
- Tue, 27 Jan 2026 02:34:37 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59de48df625sm3295728e87.4.2026.01.27.02.34.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jan 2026 02:34:36 -0800 (PST)
-Date: Tue, 27 Jan 2026 12:34:33 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Val Packett <val@packett.cool>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70CBB10E083;
+ Tue, 27 Jan 2026 10:44:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1769510657;
+ bh=vrKMHfK+jZccgVy53jFWZbkRm0Iff0NWCOMHyQbgupU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ZmuuAy4XR4xaY64h4v0IoNHx3qlVSJHc6IQ2HmPWCtZ5uokj9ZEtgbZeXr3HSTIGU
+ wvumhyLr5qTbPe2EQptpgA6/07ZQNScRK56xJT1QYkgOZ2BX5pNb03zFPKkVKQP8yU
+ j5Owl5XlBW2W3a8UmIWoko3YsRQQ9+1hGK6NJhRX+9ulZ4pCcNo0mkYCSZV2JxqjZP
+ BiB7EmQ3LfMune35mElYW349RfnXJ36qDciWzPzS5zQ2ZJi3VVbchoxUXya6tgtZqX
+ X9QeJJ/9Sx+2fdsMlJjAvkODK7FBFhcy3Eqe4MwYvOwaNXC2PEKwTiRIQu1DNbzTIc
+ 12EjiAcHvjEFA==
+Received: from vignesh-thinkpad.. (unknown [171.76.81.211])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 99DE217E00AC;
+ Tue, 27 Jan 2026 11:44:13 +0100 (CET)
+From: Vignesh Raman <vignesh.raman@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Cc: daniels@collabora.com, helen.fornazier@gmail.com, airlied@gmail.com,
+ simona.vetter@ffwll.ch, dmitry.baryshkov@oss.qualcomm.com,
+ lumag@kernel.org, robdclark@gmail.com, robin.clark@oss.qualcomm.com,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ valentine.burley@collabora.com, linux-mediatek@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] drm/msm/dpu: try reserving the DSPP-less LM first
-Message-ID: <whko2yur7tgutr4qhlbqfrvpcdg7hkyw66koicqvpvfhk55c7z@saj2uxrduv4z>
-References: <20260115-dpu-fix-dspp-v1-0-b73152c147b3@oss.qualcomm.com>
- <20260115-dpu-fix-dspp-v1-2-b73152c147b3@oss.qualcomm.com>
- <33424a9d-10a6-4479-bba6-12f8ce60da1a@packett.cool>
+Subject: [PATCH v1 0/7] drm/ci: add new jobs, uprev IGT and mesa
+Date: Tue, 27 Jan 2026 16:13:55 +0530
+Message-ID: <20260127104406.200505-1-vignesh.raman@collabora.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <33424a9d-10a6-4479-bba6-12f8ce60da1a@packett.cool>
-X-Proofpoint-GUID: ysa-kDtIdIJktv_Mw0SMiGqVZs0WAKGz
-X-Authority-Analysis: v=2.4 cv=JZqxbEKV c=1 sm=1 tr=0 ts=697894be cx=c_pps
- a=P2rfLEam3zuxRRdjJWA2cw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=KlTdY6ZzAAAA:8 a=EUspDBNiAAAA:8 a=Vj5JY3D4L5YBHjkz5HIA:9 a=CjuIK1q_8ugA:10
- a=ODZdjJIeia2B_SHc_B0f:22 a=7M2I9cFuLl8dRdVq5wb9:22
-X-Proofpoint-ORIG-GUID: ysa-kDtIdIJktv_Mw0SMiGqVZs0WAKGz
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI3MDA4NiBTYWx0ZWRfX/b4C/OEYcs7b
- /0Dz+lTNbYIhJLzsq6EFJmaXVmItuhjkiyS/GnKJ9yZOKLSA68/pfcg6ZlS/Q5CyJ/87x9h0Ior
- PIO88+z2P+MRmZJdx0je4YPIndFu+PQYPpqO517dhO4Wzsw9WLxN0Lahz1ZjLHiQpfPHuHprKpz
- LC59TdFUic3OkV3V3Dj410RF7Eb1VdIvaYqPSM+8gddj4M8EakbodnfxDpef7dGkB3yoLvrQjzq
- QK9LMriKBsIZ1FnMaU9d5nrP/q1Q5Jg6es29B2iAaTYdaCM+4ERCbyl8RkUW2v7Vc9Iv7tNZlB+
- flr45G73nC6tUW0BySV3qi8CukbqkoKSU69k9fNHLgE+XkGshsOoRJrk8l2/jIxRN9QMY31uXf8
- O5EhVd+2KEfOmbad6UdmWgwfftv7n6FaThk8PHHRomuOg0AJA78YnI9NXT3tSjnYDqjgjpdEIH4
- v0ic5HnnbsRKJ49uvaQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-27_02,2026-01-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 suspectscore=0 lowpriorityscore=0
- malwarescore=0 spamscore=0 adultscore=0 clxscore=1015 phishscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2601270086
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,91 +70,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+X-Spamd-Result: default: False [1.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,vger.kernel.org,lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:val@packett.cool,m:robin.clark@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[collabora.com,gmail.com,ffwll.ch,oss.qualcomm.com,kernel.org,lists.infradead.org,lists.freedesktop.org,vger.kernel.org,lists.linux.dev];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_NONE(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vignesh.raman@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.993];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim]
-X-Rspamd-Queue-Id: 8C96692DE3
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 6E9B893075
 X-Rspamd-Action: no action
 
-On Tue, Jan 27, 2026 at 06:43:32AM -0300, Val Packett wrote:
-> Hi,
-> 
-> On 1/15/26 5:05 PM, Dmitry Baryshkov wrote:
-> > On most of the platforms only some mixers have connected DSPP blocks.
-> > If DSPP is not required for the CRTC, try looking for the LM with no
-> > DSSP block, leaving DSPP-enabled LMs to CRTCs which actually require
-> > those.
-> > 
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > ---
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 52 +++++++++++++++++++++++++---------
-> >   1 file changed, 38 insertions(+), 14 deletions(-)
-> 
-> 
-> this has massively broken things on my x1e device (latitude-7455):
-> 
-> - upon booting into gdm, the internal display is all dark blue
-> - suspend-resume makes gdm appear fine, then logging in results in another
-> blue screen, again bypassed by suspend-resume (vt switching back to gdm
-> makes it appear fine but switching back to the session, it's still blue)
-> - OR blindly logging in on the blue gdm makes the session appear
-> - plugging in an external display makes the blue screen flash constantly
-> over the contents, there is also a flashing vertical gap between 2 halves of
-> the internal screen (amazing effect) and the external display doesn't
-> actually refresh the contents under the blue
-> (https://owo.packett.cool/dbg/dspp-lm-boom.webm)
-> 
-> Consistently across 3 reboots.
-> 
-> Reverted only this commit and it's back to normal, so I'm pretty sure it's
-> this.
+This series introduces new job to drm-ci for testing the following
+devices:
+- rk3588-rock-5b
 
-Interesting. Could you please capture the dri-state (only the last part,
-resource mapping) with the external monitor attached and with this
-commit reverted?
+Other updates include:
+- Uprev IGT and updating test expectations accordingly.
+- Adapting to recent changes in Mesa CI, such as:
+   - LAVA overlay-based firmware handling
+   - Container/job rule separation
+   - Removal of the python-artifacts job
+   - Use of the Alpine container for LAVA jobs
+   - Various other CI improvements
+- Move bare-metal jobs for apq8016 and apq8096 to LAVA, as these devices
+  are migrated to Collabora LAVA farm.
+- Updating the runner tag for i915: cml (switching from hatch to puff)
+  to improve device availability.
+- Adjusting parallelism in jobs (sm8350-hdk, amly) to better utilize
+  test resources.
+- Fix issues with rebase with external fixes branch.
 
-Also, could you please run another check:
- - revert this commit
- - comment out LM_2, LM_3 in the catalog
- - try the resulting kernel with the external monitor
+Pipeline: https://gitlab.freedesktop.org/vigneshraman/msm/-/pipelines/1591806
+MR: https://gitlab.freedesktop.org/drm/msm/-/merge_requests/213
 
-> 
-> /sys/kernel/debug/dri..: https://owo.packett.cool/dbg/bluewtf.dri
-> 
-> 
-> ~val
-> 
+mediatek:mt8183 fails and it is reported upstream - https://lore.kernel.org/linux-mediatek/CAAq5pW9o3itC0G16LnJO7KMAQ_XoqXUpB=cuJ_7e3-H11zKd5Q@mail.gmail.com/#r
+Few intel jobs fails, this will be investigated and a seperate patch to update xfails will be sent.
+
+Link to v1: https://lore.kernel.org/dri-devel/20251114030056.1139570-1-vignesh.raman@collabora.com/
+
+Vignesh Raman (7):
+  drm/ci: uprev mesa
+  drm/ci: move qualcomm baremetal jobs to lava
+  drm/ci: reduce sm8350-hdk parallel jobs from 4 to 2
+  drm/ci: i915: cml: update runner tag
+  drm/ci: add rk3588-rock-5b
+  drm/ci: uprev IGT
+  drm/ci: disable rebase when pulling *-external-fixes
+
+ MAINTAINERS                                   |   1 +
+ drivers/gpu/drm/ci/arm64.config               |   6 +
+ drivers/gpu/drm/ci/build.sh                   |  13 +-
+ drivers/gpu/drm/ci/build.yml                  |  22 +--
+ drivers/gpu/drm/ci/container.yml              |  28 +++-
+ drivers/gpu/drm/ci/gitlab-ci.yml              |  98 ++++++++++---
+ drivers/gpu/drm/ci/igt_runner.sh              |   6 +-
+ drivers/gpu/drm/ci/image-tags.yml             |  22 +--
+ drivers/gpu/drm/ci/lava-submit.sh             | 101 +++++++-------
+ drivers/gpu/drm/ci/static-checks.yml          |   1 +
+ drivers/gpu/drm/ci/test.yml                   | 119 ++++++++--------
+ .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |  16 ++-
+ .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |   7 +
+ drivers/gpu/drm/ci/xfails/i915-amly-fails.txt |  32 +----
+ drivers/gpu/drm/ci/xfails/i915-amly-skips.txt |  65 +++++++++
+ drivers/gpu/drm/ci/xfails/i915-apl-fails.txt  |  24 +---
+ drivers/gpu/drm/ci/xfails/i915-cml-fails.txt  |  29 +---
+ drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt |   7 +
+ drivers/gpu/drm/ci/xfails/i915-glk-fails.txt  |  35 +----
+ drivers/gpu/drm/ci/xfails/i915-glk-skips.txt  | 131 ++++++++++++++++++
+ drivers/gpu/drm/ci/xfails/i915-jsl-fails.txt  |  37 +----
+ drivers/gpu/drm/ci/xfails/i915-jsl-skips.txt  |  50 +++++++
+ drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt  |   4 +
+ drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt  |   5 +-
+ drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt |   6 +
+ drivers/gpu/drm/ci/xfails/i915-whl-fails.txt  |  16 +--
+ .../drm/ci/xfails/mediatek-mt8173-fails.txt   |  13 +-
+ .../drm/ci/xfails/mediatek-mt8173-flakes.txt  | 119 ++++++++++++++++
+ .../drm/ci/xfails/mediatek-mt8183-fails.txt   |   7 +-
+ .../gpu/drm/ci/xfails/meson-g12b-fails.txt    |   1 +
+ .../gpu/drm/ci/xfails/msm-apq8016-fails.txt   |   4 +
+ .../gpu/drm/ci/xfails/msm-apq8096-fails.txt   |   2 +
+ .../msm-sc7180-trogdor-kingoftown-fails.txt   |   1 +
+ ...sm-sc7180-trogdor-lazor-limozeen-fails.txt |   1 +
+ .../drm/ci/xfails/msm-sm8350-hdk-fails.txt    |   1 +
+ .../drm/ci/xfails/panfrost-mt8183-fails.txt   |   1 +
+ .../drm/ci/xfails/panfrost-rk3288-fails.txt   |   1 +
+ .../drm/ci/xfails/panfrost-rk3399-fails.txt   |   1 +
+ .../drm/ci/xfails/panthor-rk3588-fails.txt    |   5 +
+ .../drm/ci/xfails/panthor-rk3588-skips.txt    |  20 +++
+ .../drm/ci/xfails/rockchip-rk3288-fails.txt   |  14 +-
+ .../drm/ci/xfails/rockchip-rk3288-flakes.txt  |  21 +++
+ .../drm/ci/xfails/rockchip-rk3399-fails.txt   |  12 +-
+ .../drm/ci/xfails/rockchip-rk3399-flakes.txt  |  35 +++++
+ .../drm/ci/xfails/rockchip-rk3588-fails.txt   |  10 ++
+ .../drm/ci/xfails/rockchip-rk3588-skips.txt   |  14 ++
+ .../drm/ci/xfails/virtio_gpu-none-fails.txt   |  50 -------
+ drivers/gpu/drm/ci/xfails/vkms-none-fails.txt |   2 +
+ drivers/gpu/drm/ci/xfails/vkms-none-skips.txt |   3 +
+ 49 files changed, 835 insertions(+), 384 deletions(-)
+ create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/panthor-rk3588-fails.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/panthor-rk3588-skips.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3588-fails.txt
+ create mode 100644 drivers/gpu/drm/ci/xfails/rockchip-rk3588-skips.txt
 
 -- 
-With best wishes
-Dmitry
+2.47.3
+
