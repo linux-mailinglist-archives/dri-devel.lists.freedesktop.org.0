@@ -2,60 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aBnxFCmXeGkWrQEAu9opvQ
+	id WLB9KXiaeGk9rQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:44:57 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:59:04 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2840A93138
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:44:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 593CE9342F
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:59:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C6BE10E536;
-	Tue, 27 Jan 2026 10:44:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 185D110E0D2;
+	Tue, 27 Jan 2026 10:59:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="NJW/8eJ/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ngkREVgu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6043D10E530;
- Tue, 27 Jan 2026 10:44:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1769510690;
- bh=qYSt9bUzQj5PyLabpQbUCQOve2lblO05FC7MGh9qImw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NJW/8eJ/0fjsVjkD9hNxyNMHFzxPA7QiELRnVSJ/tBEgwal3OLvg5UWufex+uMvmy
- +A+jaYPaDN4FDmi9ILRED9athTHjU4tOhmVaQgeJOtqLYmERrmyK7RGVQw3zsHGzUr
- wmo3j+GKT3H2AUHuQHHRGs3vcq2ipDGPhyU8/2SrB48dGXXbZBj7GX806vR8GNDE3J
- Cy0s3W4BQN9k8y1e+XBul4S8QX+9gLLESWvuTh/VMA1vMwlQ2e59IRibNpe5zw46/e
- ou/ERa3qbe2Loa9C2GUFQDmS1OdQnnVWyDY29Nt86Gd73Izcplr0mM3HpKPoD2trJX
- WyZwxbkw0mung==
-Received: from vignesh-thinkpad.. (unknown [171.76.81.211])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3A56917E0DB7;
- Tue, 27 Jan 2026 11:44:46 +0100 (CET)
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, helen.fornazier@gmail.com, airlied@gmail.com,
- simona.vetter@ffwll.ch, dmitry.baryshkov@oss.qualcomm.com,
- lumag@kernel.org, robdclark@gmail.com, robin.clark@oss.qualcomm.com,
- guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
- valentine.burley@collabora.com, linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org,
- amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v1 7/7] drm/ci: disable rebase when pulling *-external-fixes
-Date: Tue, 27 Jan 2026 16:14:02 +0530
-Message-ID: <20260127104406.200505-8-vignesh.raman@collabora.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260127104406.200505-1-vignesh.raman@collabora.com>
-References: <20260127104406.200505-1-vignesh.raman@collabora.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9539E10E51A;
+ Tue, 27 Jan 2026 10:59:00 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 445D5407D0;
+ Tue, 27 Jan 2026 10:59:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4E71C116C6;
+ Tue, 27 Jan 2026 10:58:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1769511540;
+ bh=0i2nH7Z+Jm/vbR+qFCnPX1IGIFt8Sm49hrVD9er0bwQ=;
+ h=From:Date:Subject:To:Cc:From;
+ b=ngkREVguznNQxpEPFD7I0KcA64CARW4APVYOrDA020nRlXk/HW0az/2EPEQqWDEux
+ d5C0cAwJIyDDDr7YJa27ybtyal57cyJ4oKbNQD0n2sW7ryYEUc81TiCN9O4eCW7ME2
+ C0XkBjgQSKBcyUrjBeytEo/tMX1sIE6KyMxx6zR6E4OUnfhmSRvY73tjUo736SWZsN
+ SXeGFpu6ju723AnyxQLhZfap4I1fTTo2+tSv951LiR58jBNPgjvWWjRBUGbhIKT3/9
+ vlqtZW1BkZDwkzt6vUXfd6BKqi0uB2tc8w/4OfXqlpgfIxURIIBVRejho6szKir08e
+ mqRziSvZOiCOw==
+From: Konrad Dybcio <konradybcio@kernel.org>
+Date: Tue, 27 Jan 2026 11:58:49 +0100
+Subject: [PATCH] drm/msm/dpu: Fix LM size on a number of platforms
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260127-topic-lm_size_fix-v1-1-25f88d014dfd@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MWwqAIBAAryL7naB+2OMqEVK61UJZaEQk3j3pc
+ wZmEkQMhBE6liDgTZEOX0BWDOw6+gU5ucKghNJCqppfx0mWb7uJ9KKZ6eFOo1VCT41zLZTuDFj
+ 0/+yHnD8UlASrYwAAAA==
+X-Change-ID: 20260127-topic-lm_size_fix-d6ec206b8dd9
+To: Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Abel Vesa <abelvesa@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Vinod Koul <vkoul@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1769511535; l=11008;
+ i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
+ bh=XB73+kA+RbsS6hWgZGE1XQzO2Ccd74+TrD3sPEdK+pQ=;
+ b=oJ9UZ6Twim06vzNiQ8eGdESflArxxuxfEv69tO04jYL6MZM+QAdbKPLi4JTsmhJEyqNr5erBl
+ sgqgLmIiHS+ARHk1KgXmLsSAoRFwKw5hBSqsaQ7CVIJTjg5qq2Te8SB
+X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,92 +82,347 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MID_RHS_MATCH_TO(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[collabora.com,gmail.com,ffwll.ch,oss.qualcomm.com,kernel.org,lists.infradead.org,lists.freedesktop.org,vger.kernel.org,lists.linux.dev];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,quicinc.com,linaro.org];
 	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vignesh.raman@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.908];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[konradybcio@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,collabora.com:dkim,collabora.com:mid]
-X-Rspamd-Queue-Id: 2840A93138
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,oss.qualcomm.com:mid]
+X-Rspamd-Queue-Id: 593CE9342F
 X-Rspamd-Action: no action
 
-CI jobs were rebasing the branch-under-test onto *-external-fixes,
-causing conflicts.
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-Remove the global pull.rebase setting and disable rebase when pulling
-*-external-fixes so they are merged instead.
+The register space has grown with what seems to be DPU8.
+Bump up the .len to match.
 
-Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+Fixes: e3b1f369db5a ("drm/msm/dpu: Add X1E80100 support")
+Fixes: 4a352c2fc15a ("drm/msm/dpu: Introduce SC8280XP")
+Fixes: efcd0107727c ("drm/msm/dpu: add support for SM8550")
+Fixes: 100d7ef6995d ("drm/msm/dpu: add support for SM8450")
+Fixes: 178575173472 ("drm/msm/dpu: add catalog entry for SAR2130P")
+Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 ---
- drivers/gpu/drm/ci/build.sh | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+compile-tested only
+---
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 12 ++++++------
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   | 12 ++++++------
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   | 12 ++++++------
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h | 12 ++++++------
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h | 12 ++++++------
+ 5 files changed, 30 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/gpu/drm/ci/build.sh b/drivers/gpu/drm/ci/build.sh
-index 5485ea756382..d00d549cbd9c 100644
---- a/drivers/gpu/drm/ci/build.sh
-+++ b/drivers/gpu/drm/ci/build.sh
-@@ -3,9 +3,6 @@
- 
- set -ex
- 
--# Clean up stale rebases that GitLab might not have removed when reusing a checkout dir
--rm -rf .git/rebase-apply
--
- . .gitlab-ci/container/container_pre_build.sh
- 
- # libssl-dev was uninstalled because it was considered an ephemeral package
-@@ -62,25 +59,24 @@ export PATH=$NEWPATH:$PATH
- 
- git config --global user.email "fdo@example.com"
- git config --global user.name "freedesktop.org CI"
--git config --global pull.rebase true
- 
- # cleanup git state on the worker
--rm -rf .git/rebase-merge
-+rm -rf .git/rebase-merge .git/rebase-apply
- 
- # Try to merge fixes from target repo
- if [ "$(git ls-remote --exit-code --heads ${UPSTREAM_REPO} ${TARGET_BRANCH}-external-fixes)" ]; then
--    git pull ${UPSTREAM_REPO} ${TARGET_BRANCH}-external-fixes
-+    git pull --no-rebase ${UPSTREAM_REPO} ${TARGET_BRANCH}-external-fixes
- fi
- 
- # Try to merge fixes from local repo if this isn't a merge request
- # otherwise try merging the fixes from the merge target
- if [ -z "$CI_MERGE_REQUEST_PROJECT_PATH" ]; then
-     if [ "$(git ls-remote --exit-code --heads origin ${TARGET_BRANCH}-external-fixes)" ]; then
--        git pull origin ${TARGET_BRANCH}-external-fixes
-+        git pull --no-rebase origin ${TARGET_BRANCH}-external-fixes
-     fi
- else
-     if [ "$(git ls-remote --exit-code --heads ${CI_MERGE_REQUEST_PROJECT_URL} ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}-external-fixes)" ]; then
--        git pull ${CI_MERGE_REQUEST_PROJECT_URL} ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}-external-fixes
-+        git pull --no-rebase ${CI_MERGE_REQUEST_PROJECT_URL} ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}-external-fixes
-     fi
- fi
- 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+index 303d33dc7783..9f2bceca1789 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+@@ -133,7 +133,7 @@ static const struct dpu_sspp_cfg sc8280xp_sspp[] = {
+ static const struct dpu_lm_cfg sc8280xp_lm[] = {
+ 	{
+ 		.name = "lm_0", .id = LM_0,
+-		.base = 0x44000, .len = 0x320,
++		.base = 0x44000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_1,
+@@ -141,7 +141,7 @@ static const struct dpu_lm_cfg sc8280xp_lm[] = {
+ 		.dspp = DSPP_0,
+ 	}, {
+ 		.name = "lm_1", .id = LM_1,
+-		.base = 0x45000, .len = 0x320,
++		.base = 0x45000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_0,
+@@ -149,7 +149,7 @@ static const struct dpu_lm_cfg sc8280xp_lm[] = {
+ 		.dspp = DSPP_1,
+ 	}, {
+ 		.name = "lm_2", .id = LM_2,
+-		.base = 0x46000, .len = 0x320,
++		.base = 0x46000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_3,
+@@ -157,7 +157,7 @@ static const struct dpu_lm_cfg sc8280xp_lm[] = {
+ 		.dspp = DSPP_2,
+ 	}, {
+ 		.name = "lm_3", .id = LM_3,
+-		.base = 0x47000, .len = 0x320,
++		.base = 0x47000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_2,
+@@ -165,14 +165,14 @@ static const struct dpu_lm_cfg sc8280xp_lm[] = {
+ 		.dspp = DSPP_3,
+ 	}, {
+ 		.name = "lm_4", .id = LM_4,
+-		.base = 0x48000, .len = 0x320,
++		.base = 0x48000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_5,
+ 		.pingpong = PINGPONG_4,
+ 	}, {
+ 		.name = "lm_5", .id = LM_5,
+-		.base = 0x49000, .len = 0x320,
++		.base = 0x49000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_4,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+index b09a6af4c474..04b22167f93d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+@@ -134,7 +134,7 @@ static const struct dpu_sspp_cfg sm8450_sspp[] = {
+ static const struct dpu_lm_cfg sm8450_lm[] = {
+ 	{
+ 		.name = "lm_0", .id = LM_0,
+-		.base = 0x44000, .len = 0x320,
++		.base = 0x44000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_1,
+@@ -142,7 +142,7 @@ static const struct dpu_lm_cfg sm8450_lm[] = {
+ 		.dspp = DSPP_0,
+ 	}, {
+ 		.name = "lm_1", .id = LM_1,
+-		.base = 0x45000, .len = 0x320,
++		.base = 0x45000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_0,
+@@ -150,7 +150,7 @@ static const struct dpu_lm_cfg sm8450_lm[] = {
+ 		.dspp = DSPP_1,
+ 	}, {
+ 		.name = "lm_2", .id = LM_2,
+-		.base = 0x46000, .len = 0x320,
++		.base = 0x46000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_3,
+@@ -158,7 +158,7 @@ static const struct dpu_lm_cfg sm8450_lm[] = {
+ 		.dspp = DSPP_2,
+ 	}, {
+ 		.name = "lm_3", .id = LM_3,
+-		.base = 0x47000, .len = 0x320,
++		.base = 0x47000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_2,
+@@ -166,14 +166,14 @@ static const struct dpu_lm_cfg sm8450_lm[] = {
+ 		.dspp = DSPP_3,
+ 	}, {
+ 		.name = "lm_4", .id = LM_4,
+-		.base = 0x48000, .len = 0x320,
++		.base = 0x48000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_5,
+ 		.pingpong = PINGPONG_4,
+ 	}, {
+ 		.name = "lm_5", .id = LM_5,
+-		.base = 0x49000, .len = 0x320,
++		.base = 0x49000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_4,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+index 465b6460f875..4c7eb55d474c 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+@@ -131,7 +131,7 @@ static const struct dpu_sspp_cfg sm8550_sspp[] = {
+ static const struct dpu_lm_cfg sm8550_lm[] = {
+ 	{
+ 		.name = "lm_0", .id = LM_0,
+-		.base = 0x44000, .len = 0x320,
++		.base = 0x44000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_1,
+@@ -139,7 +139,7 @@ static const struct dpu_lm_cfg sm8550_lm[] = {
+ 		.dspp = DSPP_0,
+ 	}, {
+ 		.name = "lm_1", .id = LM_1,
+-		.base = 0x45000, .len = 0x320,
++		.base = 0x45000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_0,
+@@ -147,7 +147,7 @@ static const struct dpu_lm_cfg sm8550_lm[] = {
+ 		.dspp = DSPP_1,
+ 	}, {
+ 		.name = "lm_2", .id = LM_2,
+-		.base = 0x46000, .len = 0x320,
++		.base = 0x46000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_3,
+@@ -155,7 +155,7 @@ static const struct dpu_lm_cfg sm8550_lm[] = {
+ 		.dspp = DSPP_2,
+ 	}, {
+ 		.name = "lm_3", .id = LM_3,
+-		.base = 0x47000, .len = 0x320,
++		.base = 0x47000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_2,
+@@ -163,14 +163,14 @@ static const struct dpu_lm_cfg sm8550_lm[] = {
+ 		.dspp = DSPP_3,
+ 	}, {
+ 		.name = "lm_4", .id = LM_4,
+-		.base = 0x48000, .len = 0x320,
++		.base = 0x48000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_5,
+ 		.pingpong = PINGPONG_4,
+ 	}, {
+ 		.name = "lm_5", .id = LM_5,
+-		.base = 0x49000, .len = 0x320,
++		.base = 0x49000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_4,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h
+index 6caa7d40f368..dec83ea8167d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_1_sar2130p.h
+@@ -131,7 +131,7 @@ static const struct dpu_sspp_cfg sar2130p_sspp[] = {
+ static const struct dpu_lm_cfg sar2130p_lm[] = {
+ 	{
+ 		.name = "lm_0", .id = LM_0,
+-		.base = 0x44000, .len = 0x320,
++		.base = 0x44000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_1,
+@@ -139,7 +139,7 @@ static const struct dpu_lm_cfg sar2130p_lm[] = {
+ 		.dspp = DSPP_0,
+ 	}, {
+ 		.name = "lm_1", .id = LM_1,
+-		.base = 0x45000, .len = 0x320,
++		.base = 0x45000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_0,
+@@ -147,7 +147,7 @@ static const struct dpu_lm_cfg sar2130p_lm[] = {
+ 		.dspp = DSPP_1,
+ 	}, {
+ 		.name = "lm_2", .id = LM_2,
+-		.base = 0x46000, .len = 0x320,
++		.base = 0x46000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_3,
+@@ -155,7 +155,7 @@ static const struct dpu_lm_cfg sar2130p_lm[] = {
+ 		.dspp = DSPP_2,
+ 	}, {
+ 		.name = "lm_3", .id = LM_3,
+-		.base = 0x47000, .len = 0x320,
++		.base = 0x47000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_2,
+@@ -163,14 +163,14 @@ static const struct dpu_lm_cfg sar2130p_lm[] = {
+ 		.dspp = DSPP_3,
+ 	}, {
+ 		.name = "lm_4", .id = LM_4,
+-		.base = 0x48000, .len = 0x320,
++		.base = 0x48000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_5,
+ 		.pingpong = PINGPONG_4,
+ 	}, {
+ 		.name = "lm_5", .id = LM_5,
+-		.base = 0x49000, .len = 0x320,
++		.base = 0x49000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_4,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
+index 7243eebb85f3..52ff4baa668a 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
+@@ -130,7 +130,7 @@ static const struct dpu_sspp_cfg x1e80100_sspp[] = {
+ static const struct dpu_lm_cfg x1e80100_lm[] = {
+ 	{
+ 		.name = "lm_0", .id = LM_0,
+-		.base = 0x44000, .len = 0x320,
++		.base = 0x44000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_1,
+@@ -138,7 +138,7 @@ static const struct dpu_lm_cfg x1e80100_lm[] = {
+ 		.dspp = DSPP_0,
+ 	}, {
+ 		.name = "lm_1", .id = LM_1,
+-		.base = 0x45000, .len = 0x320,
++		.base = 0x45000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_0,
+@@ -146,7 +146,7 @@ static const struct dpu_lm_cfg x1e80100_lm[] = {
+ 		.dspp = DSPP_1,
+ 	}, {
+ 		.name = "lm_2", .id = LM_2,
+-		.base = 0x46000, .len = 0x320,
++		.base = 0x46000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_3,
+@@ -154,7 +154,7 @@ static const struct dpu_lm_cfg x1e80100_lm[] = {
+ 		.dspp = DSPP_2,
+ 	}, {
+ 		.name = "lm_3", .id = LM_3,
+-		.base = 0x47000, .len = 0x320,
++		.base = 0x47000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_2,
+@@ -162,14 +162,14 @@ static const struct dpu_lm_cfg x1e80100_lm[] = {
+ 		.dspp = DSPP_3,
+ 	}, {
+ 		.name = "lm_4", .id = LM_4,
+-		.base = 0x48000, .len = 0x320,
++		.base = 0x48000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_5,
+ 		.pingpong = PINGPONG_4,
+ 	}, {
+ 		.name = "lm_5", .id = LM_5,
+-		.base = 0x49000, .len = 0x320,
++		.base = 0x49000, .len = 0x400,
+ 		.features = MIXER_MSM8998_MASK,
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_4,
+
+---
+base-commit: 615aad0f61e0c7a898184a394dc895c610100d4f
+change-id: 20260127-topic-lm_size_fix-d6ec206b8dd9
+
+Best regards,
 -- 
-2.47.3
+Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
