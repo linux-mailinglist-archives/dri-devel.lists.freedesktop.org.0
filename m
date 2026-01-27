@@ -2,65 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qGYfEwjWeGmNtQEAu9opvQ
+	id qLBwO3vceGnbtgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 16:13:12 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 16:40:43 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C729966C0
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 16:13:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 314B496EAB
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 16:40:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4859910E06A;
-	Tue, 27 Jan 2026 15:13:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B45BC10E06E;
+	Tue, 27 Jan 2026 15:40:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ohP/Ycbh";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Y7YPzRTA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C49D10E06A
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 15:13:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=YKT+iclIkSdV8c83ayGvWA3kBucltRdTlZe/rREsEHU=; b=ohP/YcbhZlaXjUOdIKusH5/749
- BUSEOC+y9mXd9+qYms4ENrSUy33ONfAxB1JM+bRRDYpCFrQuF15e6FbcgjPOZHHDmev4FLDdi5C+b
- C+zV02RVLkK8T8CnNom7bLyUn+VFE/CxhzO1eIxPgkNE/vOG6pbhcdbrjIU3Sa1P9B0AV4X02dwBt
- 7XrMskavy3jhcrolfvOSpGFOtJTlZrFGwpwJ00XsbZC6n3go8LhIuoclGaB1nKzH2tTXPycyY1Ed8
- X+dlACmr8lNv+E7+eZynuvI0brbbJhOP62X+KexrTEt6wIBnJmrm3wBsiOi9h3pR+E1lccR0SzcB6
- lMblik8A==;
-Received: from [189.89.57.42] (helo=[192.168.18.14])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vkkk9-00AW7o-Gv; Tue, 27 Jan 2026 16:12:37 +0100
-Message-ID: <53fce710-8b0f-490a-b48d-9c5a17802533@igalia.com>
-Date: Tue, 27 Jan 2026 12:12:31 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B743A10E06E
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 15:40:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1769528440; x=1801064440;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=XhBC5KV+PtVVZ/Z9sK8gsPhmkVrcEIqlnIPPBjBhYdM=;
+ b=Y7YPzRTApFepT3xt9yjjHUWv/KgZtbneSfzC5Ayba9TrLH7B/lz0CyLo
+ fhrmgKmXrLByI9Y6wnsraSmtjrKNfGrJofKBT+c5dKjZ77V9ta49KcjEJ
+ 6JK3MPTRY8x8DjifD2ei8v3PIqLh8A4gOPdLt6+S5uu0rG1md5zErDG9X
+ mUc5nwe4wPAyIt7n394B+1q0zLb13mU0/g5Bz8I7nEvDbui/wxXqEMkXN
+ /1khU51AOsnthcqwLcweNDk3lzL7lett3r7fRO5kDchjGvEY5Bi/Rabvk
+ 5ixB+UwuO6C30K8OivSkUoS1rE86/wHncfxI7K2UJZC1aTGwK/g87TCSd Q==;
+X-CSE-ConnectionGUID: tQnsDlU7QaScuVIUgLeLzw==
+X-CSE-MsgGUID: 1nRpu0r/S3C/AronDCUrFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="70816142"
+X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; d="scan'208";a="70816142"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jan 2026 07:40:39 -0800
+X-CSE-ConnectionGUID: YkjinVAERv2ujCwRoSLWag==
+X-CSE-MsgGUID: XSHPA9EtQ96q7JmKxOnzAA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; d="scan'208";a="208058802"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+ by orviesa007.jf.intel.com with ESMTP; 27 Jan 2026 07:40:35 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vklB9-00000000YcG-3qcQ;
+ Tue, 27 Jan 2026 15:40:31 +0000
+Date: Tue, 27 Jan 2026 23:39:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Joey Lu <a0987203069@gmail.com>, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ ychuang3@nuvoton.com, schung@nuvoton.com, yclu4@nuvoton.com,
+ a0987203069@gmail.com, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] drm/nuvoton: add MA35D1 display controller driver
+Message-ID: <202601272315.09SFioVt-lkp@intel.com>
+References: <20260126085727.2568958-4-a0987203069@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/6] Power Management for Raspberry Pi V3D GPU
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Stefan Wahren <wahrenst@gmx.net>, Maxime Ripard <mripard@kernel.org>,
- Iago Toral Quiroga <itoral@igalia.com>,
- Chema Casanova <jmcasanova@igalia.com>, Dom Cobley <popcornmix@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, kernel-dev@igalia.com
-References: <20260126-v3d-power-management-v4-0-caf2df16d4e2@igalia.com>
-Content-Language: en-US
-From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <20260126-v3d-power-management-v4-0-caf2df16d4e2@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260126085727.2568958-4-a0987203069@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,147 +81,180 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [1.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:mcanal@igalia.com,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:nsaenz@kernel.org,m:florian.fainelli@broadcom.com,m:wahrenst@gmx.net,m:mripard@kernel.org,m:itoral@igalia.com,m:jmcasanova@igalia.com,m:popcornmix@gmail.com,m:dave.stevenson@raspberrypi.com,m:p.zabel@pengutronix.de,m:linux-clk@vger.kernel.org,m:linux-rpi-kernel@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:bcm-kernel-feedback-list@broadcom.com,m:kernel-dev@igalia.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[igalia.com,baylibre.com,kernel.org,broadcom.com,gmx.net,gmail.com,raspberrypi.com,pengutronix.de];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[mwen@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[18];
+	FREEMAIL_CC(0.00)[lists.linux.dev,nuvoton.com,gmail.com,lists.infradead.org,lists.freedesktop.org,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:a0987203069@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:llvm@lists.linux.dev,m:oe-kbuild-all@lists.linux.dev,m:ychuang3@nuvoton.com,m:schung@nuvoton.com,m:yclu4@nuvoton.com,m:linux-arm-kernel@lists.infradead.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[mwen@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[igalia.com:-];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 9C729966C0
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,intel.com:email,intel.com:dkim,intel.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 314B496EAB
 X-Rspamd-Action: no action
 
+Hi Joey,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next]
+[cannot apply to robh/for-next linus/master v6.19-rc7 next-20260126]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joey-Lu/dt-bindings-display-nuvoton-add-MA35D1-DCU-binding/20260126-170258
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260126085727.2568958-4-a0987203069%40gmail.com
+patch subject: [PATCH 3/3] drm/nuvoton: add MA35D1 display controller driver
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260127/202601272315.09SFioVt-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601272315.09SFioVt-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601272315.09SFioVt-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/nuvoton/ma35_plane.c:177:10: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     177 |                 *reg = MA35_BLEND_MODE_SRC;
+         |                        ^
+   drivers/gpu/drm/nuvoton/ma35_plane.h:141:2: note: expanded from macro 'MA35_BLEND_MODE_SRC'
+     141 |         FIELD_PREP(MA35_SRC_BLENDING_MODE, MA35_ALPHA_BLEND_ONE)
+         |         ^
+   drivers/gpu/drm/nuvoton/ma35_plane.c:337:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     337 |         reg = FIELD_PREP(MA35_OVERLAY_POSITION_X_MASK, x) |
+         |               ^
+   drivers/gpu/drm/nuvoton/ma35_plane.c:360:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     360 |                 reg = FIELD_PREP(MA35_PRIMARY_FORMAT_MASK, format) |
+         |                       ^
+   drivers/gpu/drm/nuvoton/ma35_plane.c:384:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     384 |                 reg = FIELD_PREP(MA35_OVERLAY_FORMAT_MASK, format) |
+         |                       ^
+   drivers/gpu/drm/nuvoton/ma35_plane.c:441:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     441 |         reg = FIELD_PREP(MA35_CURSOR_X_MASK, x) |
+         |               ^
+   drivers/gpu/drm/nuvoton/ma35_plane.c:483:4: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     483 |                         FIELD_PREP(MA35_CURSOR_HOTSPOT_X_MASK, new_state->hotspot_x) |
+         |                         ^
+   drivers/gpu/drm/nuvoton/ma35_plane.c:537:4: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     537 |                         FIELD_PREP(MA35_CURSOR_HOTSPOT_X_MASK, new_state->hotspot_x) |
+         |                         ^
+   7 errors generated.
+--
+>> drivers/gpu/drm/nuvoton/ma35_crtc.c:97:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      97 |         reg = FIELD_PREP(MA35_DISPLAY_TOTAL_MASK, mode->htotal) |
+         |               ^
+>> drivers/gpu/drm/nuvoton/ma35_crtc.c:228:10: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     228 |         *hpos = FIELD_GET(MA35_DISPLAY_CURRENT_X, reg);
+         |                 ^
+   drivers/gpu/drm/nuvoton/ma35_crtc.c:284:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     284 |                 reg = FIELD_PREP(MA35_GAMMA_RED_MASK, r[i]) |
+         |                       ^
+   3 errors generated.
+--
+>> drivers/gpu/drm/nuvoton/ma35_interface.c:150:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     150 |         if (!interface) {
+         |             ^~~~~~~~~~
+   drivers/gpu/drm/nuvoton/ma35_interface.c:191:9: note: uninitialized use occurs here
+     191 |         return ret;
+         |                ^~~
+   drivers/gpu/drm/nuvoton/ma35_interface.c:150:2: note: remove the 'if' if its condition is always false
+     150 |         if (!interface) {
+         |         ^~~~~~~~~~~~~~~~~
+     151 |                 drm_err(drm_dev, "Failed to initialize encoder\n");
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     152 |                 goto error_early;
+         |                 ~~~~~~~~~~~~~~~~~
+     153 |         }
+         |         ~
+   drivers/gpu/drm/nuvoton/ma35_interface.c:145:9: note: initialize the variable 'ret' to silence this warning
+     145 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
 
-On 26/01/2026 14:26, Maíra Canal wrote:
-> This series introduces Runtime Power Management (PM) support for the
-> Raspberry Pi V3D GPU.
->
-> Currently, the V3D clock remains enabled for the entire system uptime,
-> even when the GPU is idle. With the introduction of Runtime PM, the
-> clock can now be disabled during idle periods. For example, with this
-> series applied on a Raspberry Pi 5, if we check `vcgencmd measure_clock
-> v3d`, we get:
->
-> (idle)
->
-> $ vcgencmd measure_clock v3d
-> frequency(0)=0
->
-> (running glmark2)
->
-> $ vcgencmd measure_clock v3d
-> frequency(0)=960016128
->
-> One particular change was required in v3 to ensure a meaningful
-> reduction in idle power consumption: the V3D clock rate must be
-> explicitly set to the minimum rate during suspend. As explained in an
-> inline comment, this is needed as some firmware versions may not fully
-> power off the clock when its state is set to off. This issue can be
-> mitigated by setting the clock rate to 0 during suspend. For this same
-> reason, PATCH 1/6 has been added in v3.
->
-> Apart from that, the v3d patches are mostly identical to v2, but rebased
-> on top of drm-misc-next.
->
-> To ease testing in Raspberry Pi 4 and 5, I prepared a downstream branch
-> backporting this series to rpi-6.18.y [1].
->
-> [1] https://github.com/mairacanal/linux-rpi/tree/v3d/downstream/power-management-6.18
+vim +/FIELD_PREP +177 drivers/gpu/drm/nuvoton/ma35_plane.c
 
-The whole series is:
+   167	
+   168	static int ma35_layer_blend_mode_select(u32 mode, u32 *reg)
+   169	{
+   170		u32 ret = 0;
+   171	
+   172		switch (mode) {
+   173		case MA35_ALPHA_CLEAR:
+   174			*reg = MA35_BLEND_MODE_CLEAR;
+   175			break;
+   176		case MA35_ALPHA_SRC:
+ > 177			*reg = MA35_BLEND_MODE_SRC;
+   178			break;
+   179		case MA35_ALPHA_DST:
+   180			*reg = MA35_BLEND_MODE_DST;
+   181			break;
+   182		case MA35_ALPHA_SRC_OVER:
+   183			*reg = MA35_BLEND_MODE_SRC_OVER;
+   184			break;
+   185		case MA35_ALPHA_DST_OVER:
+   186			*reg = MA35_BLEND_MODE_DST_OVER;
+   187			break;
+   188		case MA35_ALPHA_SRC_IN:
+   189			*reg = MA35_BLEND_MODE_SRC_IN;
+   190			break;
+   191		case MA35_ALPHA_DST_IN:
+   192			*reg = MA35_BLEND_MODE_DST_IN;
+   193			break;
+   194		case MA35_ALPHA_SRC_OUT:
+   195			*reg = MA35_BLEND_MODE_SRC_OUT;
+   196			break;
+   197		case MA35_ALPHA_DST_OUT:
+   198			*reg = MA35_BLEND_MODE_DST_OUT;
+   199			break;
+   200		case MA35_ALPHA_SRC_ATOP:
+   201			*reg = MA35_BLEND_MODE_SRC_ATOP;
+   202			break;
+   203		case MA35_ALPHA_DST_ATOP:
+   204			*reg = MA35_BLEND_MODE_DST_ATOP;
+   205			break;
+   206		case MA35_ALPHA_XOR:
+   207			*reg = MA35_BLEND_MODE_XOR;
+   208			break;
+   209		default:
+   210			ret = -EINVAL;
+   211		}
+   212	
+   213		return ret;
+   214	}
+   215	
 
-Reviewed-by: Melissa Wen <mwen@igalia.com>
-
->
-> Best regards,
-> - Maíra
->
-> ---
-> v1 -> v2: https://lore.kernel.org/r/20250728-v3d-power-management-v1-0-780f922b1048@igalia.com
->
-> - [1/5] NEW PATCH: "clk: bcm: rpi: Add missing logs if firmware fails" (Stefan Wahren)
-> - [2/5] Remove the "Fixes:" tag (Stefan Wahren)
-> - [2/5] dev_err_ratelimited() instead of dev_err() (Stefan Wahren)
-> - [2/5] Instead of logging the clock ID, use clk_hw_get_name(hw) to log the name (Stefan Wahren)
-> - [2/5] Add a newline character at the end of the log message (Stefan Wahren)
-> - [2/5] Use CLK_IS_CRITICAL for all clocks that can't be disabled (Maxime Ripard)
-> - [3/5] NEW PATCH: "clk: bcm: rpi: Maximize V3D clock"
-> - [4/5] Use devm_reset_control_get_optional_exclusive() (Philipp Zabel)
-> - [4/5] Make sure that resource are cleaned in the inverse order of allocation (Philipp Zabel)
->
-> v2 -> v3: https://lore.kernel.org/r/20250731-v3d-power-management-v2-0-032d56b01964@igalia.com
->
-> - Rebased on top of drm-misc-next
-> - Patches "[PATCH v2 1/5] clk: bcm: rpi: Add missing logs if firmware
->    fails", "[PATCH v2 2/5] clk: bcm: rpi: Turn firmware clock on/off when
->    preparing/unpreparing", and "[PATCH v2 3/5] clk: bcm: rpi: Maximize
->    V3D clock" were applied to clk-next.
-> - [1/4] NEW PATCH: "clk: bcm: rpi: Let V3D consumers manage clock rate"
-> - [2/4] NEW PATCH: "clk: bcm: rpi: Mark PIXEL_CLK and HEVC_CLK as CLK_IGNORE_UNUSED"
-> - [3/4] Added Philipp's R-b (Philipp Zabel)
-> - [4/4] s/drm_err/DRM_ERROR
-> - [4/4] Set the clock rate to 0 during suspend and to the maximum rate
->    during resume
->
-> v3 -> v4: https://lore.kernel.org/r/20260116-v3d-power-management-v3-0-4e1874e81dd6@igalia.com
->
-> - Rebased on top of drm-misc-next
-> - [1/6, 3/6] Add Melissa's A-b (Melissa Wen)
-> - [2/6] NEW PATCH: "clk: bcm: rpi: Add a comment about RPI_FIRMWARE_SET_CLOCK_STATE
->    behavior" (Stefan Wahren)
-> - [4/6] NEW PATCH: "drm/v3d: Use devm_reset_control_get_optional_exclusive()" (Melissa Wen)
-> - [5/6] Include more context to the commit message (Melissa Wen)
-> - [5/6, 6/6] Instead of creating the function v3d_gem_allocate(), use v3d_gem_init()
->    and move HW initialization out of it (Melissa Wen)
->
-> ---
-> Maíra Canal (6):
->        clk: bcm: rpi: Let V3D consumers manage clock rate
->        clk: bcm: rpi: Add a comment about RPI_FIRMWARE_SET_CLOCK_STATE behavior
->        clk: bcm: rpi: Mark PIXEL_CLK and HEVC_CLK as CLK_IGNORE_UNUSED
->        drm/v3d: Use devm_reset_control_get_optional_exclusive()
->        drm/v3d: Allocate all resources before enabling the clock
->        drm/v3d: Introduce Runtime Power Management
->
->   drivers/clk/bcm/clk-raspberrypi.c |  15 ++--
->   drivers/gpu/drm/v3d/Makefile      |   3 +-
->   drivers/gpu/drm/v3d/v3d_debugfs.c |  23 +++++-
->   drivers/gpu/drm/v3d/v3d_drv.c     | 163 ++++++++++++++++++--------------------
->   drivers/gpu/drm/v3d/v3d_drv.h     |  21 +++++
->   drivers/gpu/drm/v3d/v3d_gem.c     |  25 +++---
->   drivers/gpu/drm/v3d/v3d_irq.c     |  15 ++--
->   drivers/gpu/drm/v3d/v3d_mmu.c     |  12 ++-
->   drivers/gpu/drm/v3d/v3d_power.c   |  96 ++++++++++++++++++++++
->   drivers/gpu/drm/v3d/v3d_submit.c  |  19 ++++-
->   10 files changed, 273 insertions(+), 119 deletions(-)
-> ---
-> base-commit: 68e28facbc8ab3e701e1814323d397a75b400865
-> change-id: 20250728-v3d-power-management-eebb2024dc96
->
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
