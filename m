@@ -2,180 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kNdiK8zteGk6uAEAu9opvQ
+	id +KFAND3weGkCuAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 17:54:36 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 18:05:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16BF29806A
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 17:54:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A7598263
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 18:05:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A38210E5A0;
-	Tue, 27 Jan 2026 16:54:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B50A10E5A3;
+	Tue, 27 Jan 2026 17:04:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OLDxdxpW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EXj9+9tF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CBB410E0DB;
- Tue, 27 Jan 2026 16:54:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769532871; x=1801068871;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=br76kLN2ZwTDzcr7VAyOWKesTysi6O/9P1fHjGjXWcg=;
- b=OLDxdxpWM3v6C2F6LZSfNNlTWAmtAJL+EEH8VK5+uOQzieOZv9gp9a3e
- K2hZltJL8KBPMBxp6ihMAb3xwkbcAuMrOlpYp4UNbyZKW9ksa0fbpkjId
- CUz7cDS7X2LOeugz52kts0KkJZQqb5ZLSgUlX0ni6g3kPaRCLsNkGKMCH
- DKON+wMCNIbsiYEZLZzoyKrW+Z9eOUd7lEVlKI2taH85CtqMoRwAReH2I
- eWlD0+pOiujEFH58S1e7FhohrGvpfNUWGmwWgG+SI66dlx9xZFU0M8RH0
- +oTtpsVN9xvi1MJS4KDG3yRLFjFokUHbC+oWiohdt3xMK0nimvuJQ+dC7 Q==;
-X-CSE-ConnectionGUID: nr7fmuqtR+Wb+tI+zxuZpw==
-X-CSE-MsgGUID: eKQRKCMbSZCbKkr13B3kWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="93392395"
-X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; d="scan'208";a="93392395"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2026 08:54:30 -0800
-X-CSE-ConnectionGUID: tw813gwwQZCSDi858k9iLg==
-X-CSE-MsgGUID: RzaW74G5STe/AjjpQSq53g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; d="scan'208";a="207265274"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2026 08:54:30 -0800
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Tue, 27 Jan 2026 08:54:30 -0800
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35 via Frontend Transport; Tue, 27 Jan 2026 08:54:30 -0800
-Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.61) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Tue, 27 Jan 2026 08:54:29 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Yor4xErRHa+wOfyAaNZBtwDMgh10y1EGCO50hyW+QPThrPbZAE56EVMVJW6QmS72JWPM5I90MA9sPEln66ioEqMyrZPK5e/pJrhI3CQqGxYG6e3MCiNe1tVaNYWJybJIl5RQ87W05gtfrZCzz2+XoRnD2aKJ1sd9SF31hxKEprvatrEPplkRor2hSf6qLEn/DnkB85HSECgw3IeCAKZfVbsT7/DXvYjxLhtHsRtTfxitWtqsMS+ove15CnkScYNuHz2r3NOh19fe63F5UZ3Q/m0+D0gYGGURRHVDUfZ6K7W7KL4QP1LhU7gI6X3D9GXQBHb5lgg0BXOaexdAxtB70w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0s9KL45LLFVsGScnJpeKxMec9ZYCLMZvUt0k/MshBLs=;
- b=d0e8egXGLDLaj+fYi3m4hI1//RKKawrtjcMV5xvU+Y5OvWQLCeP2iRF7DgWcw4VY2jh8MGNysdjNoUD5fFYjsnq5jNkYGp6dHbDsydKgFoZy7XzrZr1FDECYd5roF7z27ZeIUnH5QFz3+ZLW7ae7qLeeMUjrBOPibXILOWnnx014yuuLRBE5989uCVJ8ZA3h7rSqw3TixKMTqlkVcU5RkKsEdDc2Wa2txfuAfLQe6qaIcBTM0xI76HeRcQRvE7VvkuOd/IGWnGI4EOixpNX2BRGiaBqiYRO4G3ZRSPs2uzTJiIXHPsxkAyzJMPfhOdPtx2RBsIY2pGZ+FZtfsdwFaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by IA4PR11MB9372.namprd11.prod.outlook.com (2603:10b6:208:568::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Tue, 27 Jan
- 2026 16:54:25 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::e0c5:6cd8:6e67:dc0c]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::e0c5:6cd8:6e67:dc0c%6]) with mapi id 15.20.9542.010; Tue, 27 Jan 2026
- 16:54:25 +0000
-Date: Tue, 27 Jan 2026 08:54:22 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <leonro@nvidia.com>, <francois.dugast@intel.com>,
- <thomas.hellstrom@linux.intel.com>, <himal.prasad.ghimiray@intel.com>
-Subject: Re: [RFC PATCH v2 0/3] Use new dma-map IOVA alloc, link, and sync
- API in GPU SVM and DRM pagemap
-Message-ID: <aXjtvj/2AZxY1MwO@lstrano-desk.jf.intel.com>
-References: <20260123215907.1643088-1-matthew.brost@intel.com>
- <20260123224146.GB1641016@ziepe.ca>
- <aXP8B/tAuJO1hfx1@lstrano-desk.jf.intel.com>
- <20260124002610.GC1641016@ziepe.ca>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260124002610.GC1641016@ziepe.ca>
-X-ClientProxiedBy: MW4PR04CA0165.namprd04.prod.outlook.com
- (2603:10b6:303:85::20) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1061410E5A1;
+ Tue, 27 Jan 2026 17:04:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 973B6444E5;
+ Tue, 27 Jan 2026 17:04:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CD6BC116C6;
+ Tue, 27 Jan 2026 17:04:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1769533496;
+ bh=poCPnd4zFMjtSit8xD03/GV5rPSvHmcbMOzBQ9KlptE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=EXj9+9tFbUrcdXOg/gNZ0xtF0AANmEMZn7gE9OmsDvKPWFilOXbzhgganOOqg0a5h
+ QxlN29XF4sYATOJ+A72JrE4WEjRMG+yw01F0oZNDKW53UG86h7zKvwkJBiU7ezZ7+w
+ NfjFs7sUmjmzJ4YJprHnkc3Q5Ktdj8tsQql5XfJKIMtRI0SywIyKabPZFe78+eWd5W
+ DGSSoMZtSGXB7TPPZUoln5ulzw3FTd1anFe6dEDFiphujvDfDFq512lX4TDir6fsk8
+ myWqw96UvNR6VrKwSLL1zpJJH+3BkoXmA3i/l6GZwlyrb8d4zv9hHMnncTL43nb8BC
+ gDheOQS+ka2UQ==
+Date: Tue, 27 Jan 2026 11:04:55 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Bartosz Golaszewski <brgl@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-pci@vger.kernel.org
+Subject: Re: [PATCH v2 2/7] pci: pwrctrl: add PCI pwrctrl driver for the
+ UPD720201/UPD720202 USB 3.0 xHCI Host Controller
+Message-ID: <20260127170455.GA364177@bhelgaas>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|IA4PR11MB9372:EE_
-X-MS-Office365-Filtering-Correlation-Id: aded4913-9a56-446f-9259-08de5dc4ba23
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?CiQXfmlHVEGiX26nBmIyvbbBjGPj6H7O9NHU/VnDR47JQCnWiTMmDvv5T6ee?=
- =?us-ascii?Q?vLQ8lY9LiXZQ2eUN3s50fwdAyHYRkyHhw9tkEklvYCy/ChoL1vngZBkpIB2h?=
- =?us-ascii?Q?NKe8nk3dPzPvV4fYpx0+oH586ZdV5xJFpwngz4hLPyVevj1Jic4GM11Xi/oV?=
- =?us-ascii?Q?GWHSgO4WoK7brPo64druXHmXe/LJi3ZSu5qbCWQaUVpjy83QAIH+8WiSyUtQ?=
- =?us-ascii?Q?HMY7Bv8ualcriKXjRuHymzSXs+sSIATYC1VLRVSQFzmPVK/xC5VwcG7Zl1Wr?=
- =?us-ascii?Q?Ao0JJWup7S1y3JJzvzxFZYHFUnNiPEgX3JKE4kYgcjmijzDCyrnxruL/P0u0?=
- =?us-ascii?Q?b2gpCYezJ6r+3N5xdws9oAxUVeTaBxu0Ju+9D2hQngH0WFH/00YGjRqc5jgT?=
- =?us-ascii?Q?YbJyX0075ElGIzjZdhr+CfZ0yRiO8zmR3KxftIf9SCxvVOdJo2mxQ1FQn53N?=
- =?us-ascii?Q?svp4OZQ32YbNnMHmnxZv8Tklfd86Y8MIN9Fy0cUJwvK+W8FzF8ttZI33oozd?=
- =?us-ascii?Q?CWunEO816vTUH12mBW7F3BSo5zPR0jEzf6N2crogoW2rTA4Jlq/+CmXEI3kL?=
- =?us-ascii?Q?AMn8r3vFmovVHhTh7qlhHe5/4/7EoZWqjPqSAAU74Sli9jCip5zy3vT+CJuw?=
- =?us-ascii?Q?B58jmvXdAhUvKRq5n0Tb6MKbL0+0GEY5gRMgxatsFDQUzRPBy7MLW/ZiQCfP?=
- =?us-ascii?Q?ig3Njf7u1D6v5dZVBa7AfeDMPkHy3S3sfbGOmgJoHTEHRcgPfiNPhDg6yhKK?=
- =?us-ascii?Q?p6vh7aMmUlTRYAMnXMOvFlwI6YwzbKlseL5DjLmeV1/aVhwwCcl7U0QvfN9g?=
- =?us-ascii?Q?yxUUQceKvde9qUK9khNysIQ1BpV52bWeoTO10oxBYZXN9IMT4RnnMpUP7TUz?=
- =?us-ascii?Q?VoAvipNOnrE7orRcsPSdSfPEE9Uyk0676T9ul2Bv5+nZ3SHbxm9d0zkdbrgU?=
- =?us-ascii?Q?/YNNZsVNFiurx422Ao58HSFKHl0AqDwJM5ZYU62BxuFHmkp5KCbXZ5sgYxu8?=
- =?us-ascii?Q?V02A00ynyhjxns09yAX0uHFEE9IKh0NeaUHNgRq2J0CLdPugMC/wMRUh/ayt?=
- =?us-ascii?Q?wrbD4PazhS0JUgxzIkA7nou/xbFpthu3jutUV3fveqg/cQFULMOwDpMt9kZc?=
- =?us-ascii?Q?Q1uYvIrTK+xHUrRMOUUDHwmFx+Giewqevp8sJpYfk1Ux4Y2nrfMqeXMAG8hI?=
- =?us-ascii?Q?tL7Iypwk734r+uN1iv+d7LUxdNqxlGouqguOAtMiP5XEDVaTwrjp5Dcx9GsN?=
- =?us-ascii?Q?vJn0PZIOd95si+UH7YhytDW4bBuZfIg324BmxIBHoW6ZlArmxO1BJ0+HzXGK?=
- =?us-ascii?Q?bTNDGhoaCLc8ojddFKwWT/Um3ltP6lgXsP15d2JiMvkkUXnJTX0uwwd3l0/+?=
- =?us-ascii?Q?pmxjaMUj4KrmdZ6v+YuNrDvF3CnuVE0lMh2bio7ug3yh8g4OnvovOK3Lx8XQ?=
- =?us-ascii?Q?DUAS5Ga3N6uC/Pky6BBQjXUINZHO6KFW4xjicY9Iu676L42N0uRBJX8PkKa6?=
- =?us-ascii?Q?4P7aROznx0WwtyM3uDYWEIH4S5yQs1Huj/3GXdNGL6C7h3PrO/BID6IdBtH6?=
- =?us-ascii?Q?by1U8cOUgHFmRENH99U=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GCPfOaoXs6bmn3Q4g/axdQlrhIqotH2zhkaqfHtfeWL32fLrR8NutEhnkBGX?=
- =?us-ascii?Q?o4hlkOBh+oJezC10QwjlUrxOiZ4lU2f926vvw+RCE6MOQJZ+HEAmWfGtRiIW?=
- =?us-ascii?Q?ljSm1a1QlSLHDFT2n8eDDAlwo6xuny1gRSx6bk4SIepiqpWwA1i7svpsBJyu?=
- =?us-ascii?Q?ErU8GeU+ah7Zg/hX9mKIzaRx277nj/rHoFru00QkpWE5GXeaapmfj+yqRvcj?=
- =?us-ascii?Q?uTGYLaqlf3EGhzFtsK34HXZE6zS3Cjh1QglTrFsbYfNwdC1uvfu//mYccug7?=
- =?us-ascii?Q?b3mg8fJxszThX2YsFIV/uXczWV+50qZ+kJROHFhlHsdBV4LnFJJ+ZH5mRY83?=
- =?us-ascii?Q?s28CmzwZaFt242yQZ4xObzDz1uHnkLp5VE7psxTM0hiuDrw+dBnbnXErHhOm?=
- =?us-ascii?Q?5fPiOq41Q1NYAuVZFbMmwc1gw2mzJ+M0ZRrMSJyKtPNhEodHJ8oh3kXMA/sn?=
- =?us-ascii?Q?Vq1b9CbJ8tQuIJI5nWbporMYylGKY+o6vxzAtc4WObUMjtSP9b3mUyFl3xkR?=
- =?us-ascii?Q?euFF6scV67ZIytiHeOoc3561lWsC4gyWfA/UJsLOKzisxo5KEg16RJ92xHe2?=
- =?us-ascii?Q?1/BuFLgdy07yRTzIqjSRt/mTNJVjlhjbG5iOav4CnO9brym/0nI13213RLKi?=
- =?us-ascii?Q?nze3ULhgmW9dcjqz3ptkKdmt/0NtZh827O0k1MkWHOJiV8MRry6mJaGqOqAi?=
- =?us-ascii?Q?DxHs/kXmFq33Dz67srTiGCvS45xTiGTSOQOzWZas4oAtiaAHaUtd/bcUGQ98?=
- =?us-ascii?Q?ih478S1IcP79EQfDriJCUhhkakBvo9N0jguwjxfhpJgCwKNz1BsytJzLuYl+?=
- =?us-ascii?Q?iRRqpBmFnaIQYwTuYnODxw3wTgXVfE6D6wLdng0p7imdhM0PrBvitxvtSFFD?=
- =?us-ascii?Q?IGYYzCPe0QP9e7AgR3AXtUOVjzZukjnpVVXyA3pVgbWrNiWUi7Tz1UKnhTaw?=
- =?us-ascii?Q?QL1PQsU/ykA5CwtUAralCXcKHQkdCuEv13Vj0CQDq9ufGrs9fchA5bP+4oeW?=
- =?us-ascii?Q?OUKqJ+Uqnb44ZCLKgsB2fXAUWVYG/UMClVDt6NLpZeVVFiSolP+5Nfo0oiyK?=
- =?us-ascii?Q?JdkjF0xRuPPHwyt6MVoPGS8aYckDYRYQeEPoNpctAqfJ0rmZLSv2F9840QbR?=
- =?us-ascii?Q?xE2ctoEEUbkcv/wk3E+e/HfADOm/+6kzl2NWInceXd3usxjRH8jpPS7HDwRl?=
- =?us-ascii?Q?k8yeFUoGDSst/ujWvRacIU0FqzdGmFT1vXlcc/f4tH9DXiUi76AjrPPoetqO?=
- =?us-ascii?Q?NG52ffZRVkGoyMp35ha40VyBw8WzuWZt2KyUfwxDrknenMdGuOyEbtki1MO5?=
- =?us-ascii?Q?67r9rDVp6deV4P+r1Z8gvYvj78DLlujoblCInbFLcIrrfGtRxguO7uAOZS89?=
- =?us-ascii?Q?rOCEMfJCfdoytrPpUHDVff5AvqqaIL/zc5r8uuJdPdN89MdToRoDq5FWmjtv?=
- =?us-ascii?Q?Lqe8iebld5wjhJvQ1kyv6HC03jp/en9oX66fHyTvLilx3BiTgUPBUxDJ+JwE?=
- =?us-ascii?Q?D2oSrN3/QcNVq9/ztjJbtZf3OVyZj3yvY5iY/jTO8LIiG7lEZ8NHoEU/h78u?=
- =?us-ascii?Q?6UgUM5On3UO20FyvMRwzva9DIdOwiFwx3v5Bv5USJ4qSRuQdmrh2SXZuuVeg?=
- =?us-ascii?Q?iuIcrginvg0WEQJHDkRcaT3wsvfVhFnIyraagyBwIe0LyJHoFfbTu2t566Dg?=
- =?us-ascii?Q?e6YJ+evWgNHgK/G519Nczav+zx5vEnJz/dfpZRJIafEe8Lkfv5PZIRZhXa2n?=
- =?us-ascii?Q?uWVYLprhvw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: aded4913-9a56-446f-9259-08de5dc4ba23
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 16:54:25.3676 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rJcnW9i11WbMDN4aRhozR0PFuUyUdhUIwkxS2dL+OwoYpEL9zp0CEYThEYIDR2QqArYuM8ixEtuE2mSNo9xwVg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9372
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-2-c55ec1b5d8bf@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -191,120 +78,212 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:dkim];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[28];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linuxfoundation.org,glider.be,google.com,vger.kernel.org,lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: 16BF29806A
+	FROM_NEQ_ENVFROM(0.00)[helgaas@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email]
+X-Rspamd-Queue-Id: 83A7598263
 X-Rspamd-Action: no action
 
-On Fri, Jan 23, 2026 at 08:26:10PM -0400, Jason Gunthorpe wrote:
-> On Fri, Jan 23, 2026 at 02:53:59PM -0800, Matthew Brost wrote:
-> > > Thats a 2x improvement in overall full operation? Wow!
-> > > 
-> > > Did you look at how non-iommu cases perform too?
-> > > 
-> > 
-> > Like intel_iommu=off kerenl command line? I haven't checked that but can.
-> 
-> iommu.passthrough=1
-> 
-> This is generally what we recommend everyone who cares about
-> performance more than iommu protection should use by default. It
+On Tue, Jan 27, 2026 at 10:57:29AM +0100, Neil Armstrong wrote:
+> Add support fo the Renesas UPD720201/UPD720202 USB 3.0 xHCI Host Controller
+> power control which connects over PCIe and requires specific power supplies
+> to start up.
 
-Yes, worked in HPC for a long time and we always set the IOMMU to
-passthrough.
+s/fo /for /
 
-> leaves the iommu HW turned on, which x86 requires for other reasons,
-> but eliminates the performance cost to DMA.
-> 
+In subject, "PCI/pwrctrl: Add ..." to match history (see
+"git log --oneline drivers/pci/pwrctrl/")
 
-iommu.passthrough=1 brings the 2M case to roughly 130us for 2M - this
-stat includes migrate_vma_* functions btw, also for reference this time
-drops to ~10us in any scenario with 2M device pages.
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  drivers/pci/pwrctrl/Kconfig                 | 10 ++++
+>  drivers/pci/pwrctrl/Makefile                |  2 +
+>  drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c | 88 +++++++++++++++++++++++++++++
+>  3 files changed, 100 insertions(+)
+> 
+> diff --git a/drivers/pci/pwrctrl/Kconfig b/drivers/pci/pwrctrl/Kconfig
+> index e0f999f299bb..5a94e60d0d3e 100644
+> --- a/drivers/pci/pwrctrl/Kconfig
+> +++ b/drivers/pci/pwrctrl/Kconfig
+> @@ -11,6 +11,16 @@ config PCI_PWRCTRL_PWRSEQ
+>  	select POWER_SEQUENCING
+>  	select PCI_PWRCTRL
+>  
+> +config PCI_PWRCTRL_UPD720201
+> +	tristate "PCI Power Control driver for the UPD720201 USB3 Host Controller"
+> +	select PCI_PWRCTRL
+> +	help
+> +	  Say Y here to enable the PCI Power Control driver of the UPD720201
+> +	  USB3 Host Controller.
+> +
+> +	  The voltage regulators powering the rails of the PCI slots
+> +	  are expected to be defined in the devicetree node of the PCI device.
 
-> > > I think we can do better still for the non-cached platforms as I have
-> > > a way in mind to batch up lines and flush the line instead of flushing
-> > > for every 8 byte IOPTE written. Some ARM folks have been talking about
-> > > this problem too..
-> > 
-> > Yes, prior to the IOMMU changes I believe the basline was ~330us so
-> > dma-map/unmap are still way slower than before and if this affect
-> > platforms other than Intel x86 there will be complaints everyone until
-> > the entire kernel moves to the IOVA alloc model.
-> 
-> I have managed to get a test showing that when cache flushing is
-> turned on the new code is 50% slower. I'm investigating this..
-> 
-> map_pages
->    pgsz  ,avg new,old ns, min new,old ns  , min % (+ve is better)
->      2^12,    331,249   ,     289,214     , -35.35
->      2^21,    335,243   ,     306,222     , -37.37
->      2^30,    226,238   ,     205,215     ,   4.04
->     # test_map_unmap_benchmark:
-> unmap_pages
->    pgsz  ,avg new,old ns, min new,old ns  , min % (+ve is better)
->      2^12,    389,272   ,     347,237     , -46.46
->      2^21,    321,261   ,     297,239     , -24.24
->      2^30,    237,251   ,     214,228     ,   6.06
-> 
-> So it looks to me like this is isolated to Intel GPU for the moment
-> because it is the only device that would use the cache flushing flow
-> until we convert ARM.
-> 
-> FWIW, on my system enabling cache flushing goes from 60ns to 250ns, it
-> has a huge, huge cost to these flows.
+I assume this is a function of the platform design, not an intrinsic
+feature of UPD720201?  I.e., my guess is that this driver is not
+required for every platform that includes a UPD720201 device?
 
-I see that you have fixed this one, we verfieid it, thanks!.
+Maybe this is just another way of asking Mani's question about using
+pwrctrl-slot.  *Every* device requires specific power supplies to
+start up (re patch 1/7), and this driver doesn't appear to depend on
+anything unique about UPD720201.
 
-> 
-> > Also another question does IOVA alloc support modes similar to
-> > dma_map_resource between per device? We also do that and I haven't
-> > modified that code or check that for perf regressions.
-> 
-> Yes, and no.. The API does, but Christoph doesn't want to let arbitary
-> drivers use it. So you need to figure out some way to get there.
-> 
+>  config PCI_PWRCTRL_SLOT
+>  	tristate "PCI Power Control driver for PCI slots"
+>  	select PCI_PWRCTRL
+> diff --git a/drivers/pci/pwrctrl/Makefile b/drivers/pci/pwrctrl/Makefile
+> index 13b02282106c..a99f85de8a3d 100644
+> --- a/drivers/pci/pwrctrl/Makefile
+> +++ b/drivers/pci/pwrctrl/Makefile
+> @@ -5,6 +5,8 @@ pci-pwrctrl-core-y			:= core.o
+>  
+>  obj-$(CONFIG_PCI_PWRCTRL_PWRSEQ)	+= pci-pwrctrl-pwrseq.o
+>  
+> +obj-$(CONFIG_PCI_PWRCTRL_UPD720201)	+= pci-pwrctrl-upd720201.o
+> +
+>  obj-$(CONFIG_PCI_PWRCTRL_SLOT)		+= pci-pwrctrl-slot.o
+>  pci-pwrctrl-slot-y			:= slot.o
+>  
+> diff --git a/drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c b/drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c
+> new file mode 100644
+> index 000000000000..db96bbb69c21
+> --- /dev/null
+> +++ b/drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c
+> @@ -0,0 +1,88 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Based on upd720201.c:
+> + * Copyright (C) 2024 Linaro Ltd.
+> + * Author: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> + */
+> +
+> +#include <linux/device.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include <linux/pci-pwrctrl.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/slab.h>
+> +
+> +struct pci_pwrctrl_upd720201_data {
+> +	struct pci_pwrctrl ctx;
+> +	struct regulator_bulk_data *supplies;
+> +	int num_supplies;
+> +};
 
-Yes, I see that API allows this and it seems to work too.
+To match recent rework of nearby drivers:
 
-> For reference Leon added dma_buf_phys_vec_to_sgt() which shows this
-> flow to create a sg_table.
+s/pci_pwrctrl_upd720201_data/upd720201_pwrctrl/
+s/ctx/pwrctrl/
+
+> +static void devm_pci_pwrctrl_upd720201_power_off(void *data)
+
+and:
+
+s/devm_pci_pwrctrl_upd720201_power_off/devm_upd720201_release/
+s/pci_pwrctrl_upd720201_probe/upd720201_pwrctrl_probe/
+
+Might be more opportunities to be more similar to slot.c and
+pci-pwrctrl-tc9563.c, e.g., adding:
+
+  upd720201->pwrctrl.power_on = ...;
+  upd720201->pwrctrl.power_off = ...;
+
+(would have to be based on pci/pwrctrl branch, which is where this
+patch would be applied)
+
+> +{
+> +	struct pci_pwrctrl_upd720201_data *upd720201 = data;
+> +
+> +	regulator_bulk_disable(upd720201->num_supplies, upd720201->supplies);
+> +	regulator_bulk_free(upd720201->num_supplies, upd720201->supplies);
+> +}
+> +
+> +static int pci_pwrctrl_upd720201_probe(struct platform_device *pdev)
+> +{
+> +	struct pci_pwrctrl_upd720201_data *upd720201;
+> +	struct device *dev = &pdev->dev;
+> +	int ret;
+> +
+> +	upd720201 = devm_kzalloc(dev, sizeof(*upd720201), GFP_KERNEL);
+> +	if (!upd720201)
+> +		return -ENOMEM;
+> +
+> +	ret = of_regulator_bulk_get_all(dev, dev_of_node(dev),
+> +					&upd720201->supplies);
+> +	if (ret < 0) {
+> +		dev_err_probe(dev, ret, "Failed to get upd720201 regulators\n");
+> +		return ret;
+> +	}
+> +
+> +	upd720201->num_supplies = ret;
+> +	ret = regulator_bulk_enable(upd720201->num_supplies, upd720201->supplies);
+> +	if (ret < 0) {
+> +		dev_err_probe(dev, ret, "Failed to enable upd720201 regulators\n");
+> +		regulator_bulk_free(upd720201->num_supplies, upd720201->supplies);
+> +		return ret;
+> +	}
+> +
+> +	ret = devm_add_action_or_reset(dev, devm_pci_pwrctrl_upd720201_power_off,
+> +				       upd720201);
+> +	if (ret)
+> +		return ret;
+> +
+> +	pci_pwrctrl_init(&upd720201->ctx, dev);
+> +
+> +	ret = devm_pci_pwrctrl_device_set_ready(dev, &upd720201->ctx);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to register pwrctrl driver\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id pci_pwrctrl_upd720201_of_match[] = {
+> +	{
+> +		.compatible = "pci1912,0014",
+> +	},
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, pci_pwrctrl_upd720201_of_match);
+> +
+> +static struct platform_driver pci_pwrctrl_upd720201_driver = {
+> +	.driver = {
+> +		.name = "pci-pwrctrl-upd720201",
+> +		.of_match_table = pci_pwrctrl_upd720201_of_match,
+> +	},
+> +	.probe = pci_pwrctrl_upd720201_probe,
+> +};
+> +module_platform_driver(pci_pwrctrl_upd720201_driver);
+> +
+> +MODULE_AUTHOR("Neil Armstrong <neil.armstrong@linaro.org>");
+> +MODULE_DESCRIPTION("PCI Power Control driver for UPD720201 USB3 Host Controller");
+> +MODULE_LICENSE("GPL");
 > 
-
-That will likely work for dma-buf, let me see if I can convert our
-dma-buf flows to use this helper. But it won't work for things like SVM,
-so it would be desirable to figure out to have an API drivers can use to
-iova alloc/link/sync/unlink/free for multi-device or just agree we trust
-drivers enough to use the existing API.
-
-Matt
-
-> There are also hmm helpers for the mapping too if this is in a hmm
-> context.
+> -- 
+> 2.34.1
 > 
-> A PCI device calling map_resource is incorrect usage of the DMA API,
-> but it was the only option till now.
-> 
-> Jason
