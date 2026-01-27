@@ -2,64 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gBTPMh+jeGmGrgEAu9opvQ
+	id 2BqzGHCjeGmGrgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 12:35:59 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 12:37:20 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AE6693AA6
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 12:35:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7A0393AE0
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 12:37:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE16710E54F;
-	Tue, 27 Jan 2026 11:35:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17CB710E035;
+	Tue, 27 Jan 2026 11:37:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="1YGgGIVy";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="J9iQD0mM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F81710E54F
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 11:35:57 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 80E854E422CF;
- Tue, 27 Jan 2026 11:35:55 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 4AE3E606F5;
- Tue, 27 Jan 2026 11:35:55 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id C7B54119A8686; Tue, 27 Jan 2026 12:35:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1769513754; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=bBLN7ENPe3Q9NBmrjF+3h0cFLO9t/L5okE+X/cur5CI=;
- b=1YGgGIVycHcNeIQP0SC0IRTGBJ+nm3jJhZ3zuBT2cFmsQxZvyd3yxFSsgJXBxgDS6pbqdj
- /j4JLGOCRCFwvfGP0LYt5CdAZ9JCUEVQMr4XVfbEZ3g9iyTNalkXsQPUZDbV7fYaRN1BTo
- cy4k5FG0hcRLzE6cR7RRq5Ih1JZX1/avtOXN5JHIjEEdRdG4zolP2S8Crx5muhuwZ68zbJ
- LmjQrsbdAtPAJ3CO0229JDVuKEfUWYXsHSXKlGMKA6JIxHEoWoykM/dO6WLxnhb/lq57Ns
- 2HwT9QSG43Kj/jVUvu5ezQM3XUaSL/FGApUQ9div0BX1BHyuN63gNiqlqFTFKw==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Liu Ying <victor.liu@nxp.com>
-Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260123-imx8qxp-drm-bridge-fixes-v1-0-8bb85ada5866@nxp.com>
-References: <20260123-imx8qxp-drm-bridge-fixes-v1-0-8bb85ada5866@nxp.com>
-Subject: Re: (subset) [PATCH 0/3] drm/bridge: imx: A few fixes
-Message-Id: <176951374753.94588.10653964166300906894.b4-ty@bootlin.com>
-Date: Tue, 27 Jan 2026 12:35:47 +0100
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6D6510E035
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 11:37:16 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-59dcdf60427so6576154e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 03:37:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769513835; cv=none;
+ d=google.com; s=arc-20240605;
+ b=Bl/qJJ//tkJhPy545M3Hc/bpquD8QmhHjyR4y7LS9W/7sXvA7TGRHTkmlgCwljID4z
+ cTcWW34ApJI07xmRFfKh2rPDHEFEeYmSrtBqOMrMfeWLvGIg2V3mgwQUhtTktW7CPAt+
+ uL08r92cJQY2OMQ85mgHWvVMB6M+3igZAcxcjtW1UCP4GwQ7q1owVNd5V7xl77kMtO50
+ qbEBSmbkxeXTnqwXpBVmO1ZYGYFfNheseRikv+mxoSg7vevxwWRvKP5VM6R2D4jJE2pY
+ jSDVWjc13mcgkrT6X9OgollQ9NwPTdvB/S1/x23IPRYiDM40mg/XWxqy7WAFPh2rAEev
+ yJvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=Y98e89eykfl1m2pRlpPtKzy7ToW8zTQ9myJCqaoYz4M=;
+ fh=sHpHDxycUVrqJCl/OBkGWXtX4CZL4z0rYyXZI+1fCaA=;
+ b=MSbCcR7kqJEiEG0aQqcWu2fcZB9M4RWGogMDZPm79J/UfOJq+/8fZIFL9dg+xXv7jh
+ pYPxK2MmD9VOu0UzuMf/WxPbr3OH1CnM2DS0YdCreYeHizAr8MDyj3P12vjbms07ekk2
+ 6nYLwqQm3PJAOg1b7ZYIR5JHs73iMzan2Qq2C1pmgcwJADXuNeuBlAID6bnB3W7bVyoj
+ 8gC+0APZcwE1mAoH7XoxoVPjIikUaZ1Qwbqg94qU6mG7NkbuhassA6av9jC9Gag0kDYr
+ ASzJdAI2cbf6WSFCRt6xNKykp3fUHwnyt3s20rCWZsGuYarSzYNVuL+mj47u9SQYsmRq
+ rDKw==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1769513835; x=1770118635; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Y98e89eykfl1m2pRlpPtKzy7ToW8zTQ9myJCqaoYz4M=;
+ b=J9iQD0mMQH3WXSc7S4gnzX1be3t0tRm/wL2NXWhuf9PbYjM/kHZ1vxhz+CVYmgr/x0
+ q5j+dfjGWYETsJwOlJyOgNs9I/LOKF0/dmxA3njLPpvGOqqe6O0bCbPCGbFyvVWQPUwQ
+ 2Cnam2kCoWV2qAj1r+VRbrnfI3SGJLpxcIfDja1nvp25o+Af06sf2jV9mXOA/jib8sD1
+ yCc91Vju8UpSILtEn2Alo7TJwFGC2BxT3pVJWAKGWpuiL+zXG5UDM1Sxe/zGkN6n23yo
+ 7K0gMzXDesfBxSmaalWFE9kmPlrNLucFTRP5y4Dqt8WrgaYBnLoW98A8pjiLAjxKG+YW
+ fItQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769513835; x=1770118635;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=Y98e89eykfl1m2pRlpPtKzy7ToW8zTQ9myJCqaoYz4M=;
+ b=sN7Vg/YcjnYu7AYIagdVb/+4t3d6gzfHfBFg8x21PME9Z/85xs4JfVlP90xPUJHLvT
+ canRs1esbTF/gVOlf6f9k20jcR7TXXU0GuW0xwGaBRjbsMC6bYQR97y2ly1MPKnGlylj
+ F6/I3hgRQ+ZXEQM34fOewuRZsGHEYm+Oo/aw5EM1v4cLifXbBiuOTfV9LaL3MxSBJtvZ
+ XpzogIE6cNBV14NcCcgxGlp8I+lAqXwjc1NIDLLyGjjf4hVmn9PhUk9BGqv07txLnCSz
+ lmmeerHG8AX4zoWT4nmbknM8iFX30wILR5tAWncixwbGzHKqhp0iT/buGkiw7Fk3SzsQ
+ i/Xg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUEWvxztsecEeJ/RwMBGs7xcIX6Ij8R3CpWqMPtwJCkFXSRkbLE+twb2E4mhmm+ptmEmZutFJr04ys=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzPLeFJk8wW0+KZGXE5uagFMRpYcgsG9jwAWvgHo2xzt/1fvUtd
+ 2rRs55pHblIdxvxjwBz/MAKTG0aHGBm2fWGcuvDa3FMEK+fUACpZKkBMx9L4urGKGjVUmvKbieO
+ XRVICsrC2O0z1nleX4L7ED6GrgKSz4U0=
+X-Gm-Gg: AZuq6aJttTtM/bdLK1+fGB7B0+yEBk6vyuj4FWnPfSRXuhbGSw95wYpcdAg8IU4jRAn
+ e1KxpfkKXN3QDmqW/A5DaArIbqL/dBSaDvqO/2Tc8/9DPjqXJX6/SyWR///9BQDbpWMMjxFgobZ
+ tSKXjP5iN3K/WgxtI+51rU0iPvQ3wQx1oXjV0nCQJOunlu2PhJff5qXwAoDVmUCCS0OKmCYnAbt
+ bLys9F7sXx0vZtBqJ/mVFkb7Qt8rMCALAiXay5uu7/722BCQSQYWDWJwuusjBpUhgHsi3/NaRBx
+ eIeXyBpCHQOVF2fXM+ecs/Txxg==
+X-Received: by 2002:ac2:4f13:0:b0:59d:d65a:7440 with SMTP id
+ 2adb3069b0e04-59e040263e9mr499024e87.29.1769513834658; Tue, 27 Jan 2026
+ 03:37:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20260120231930.2782444-1-festevam@gmail.com>
+ <20260120231930.2782444-2-festevam@gmail.com>
+ <e6ea0b8b-5f6a-4b37-83d5-3f3aa3e37e19@nxp.com>
+In-Reply-To: <e6ea0b8b-5f6a-4b37-83d5-3f3aa3e37e19@nxp.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Tue, 27 Jan 2026 08:37:03 -0300
+X-Gm-Features: AZwV_QjMRjUSDkLInDgdbVI2L4zjwU6c5dvSG7txEB7SHk3CLLCM17eLXHkk390
+Message-ID: <CAOMZO5BePW+k2gKOsCbnHQ_xEKVMzZSj8gRzF9TPYRVUcbo+Hg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/bridge: fsl-ldb: Allow the termination
+ resistor to be enabled
+To: Liu Ying <victor.liu@nxp.com>
+Cc: marek.vasut@mailbox.org, neil.armstrong@linaro.org, robh@kernel.org, 
+ krzk+dt@kernel.org, conor+dt@kernel.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, frank.li@nxp.com, 
+ Fabio Estevam <festevam@nabladev.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,58 +115,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[20];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:victor.liu@nxp.com,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,pengutronix.de,nxp.com];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:victor.liu@nxp.com,m:marek.vasut@mailbox.org,m:neil.armstrong@linaro.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:frank.li@nxp.com,m:festevam@nabladev.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[festevam@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[bootlin.com:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[festevam@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:email,bootlin.com:dkim,bootlin.com:mid]
-X-Rspamd-Queue-Id: 6AE6693AA6
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid,nxp.com:email]
+X-Rspamd-Queue-Id: C7A0393AE0
 X-Rspamd-Action: no action
 
+Hi Liu Ying,
 
-On Fri, 23 Jan 2026 17:22:14 +0800, Liu Ying wrote:
-> This patch series contains 3 bug fixes for i.MX8QXP DRM bridges.
-> Each patch fixes a NULL pointer dereference issue and stands alone.
-> 
-> 
+On Wed, Jan 21, 2026 at 5:23=E2=80=AFAM Liu Ying <victor.liu@nxp.com> wrote=
+:
+>
+>
+>
+> On Tue, Jan 20, 2026 at 08:19:30PM -0300, Fabio Estevam wrote:
+> > From: Fabio Estevam <festevam@nabladev.com>
+> >
+> > The LVDS Control Register (LVDS_CTRL) register has an HS_EN bit that al=
+lows
+> > the 100 Ohm termination resistor in the chip to be enabled.
+> >
+> > Add support to setting the HS_EN bit when the optional property
+> > "nxp,enable-termination-resistor" is present.
+> >
+> > The motivation for introducing this property was a custom i.MX8MP board
+> > that was showing visual artifacts. After enabling the 100 Ohm terminati=
+on
+> > resistor the LVDS signal quality improved causing the artifacts to
+> > disappear.
+> >
+> > Signed-off-by: Fabio Estevam <festevam@nabladev.com>
+> > ---
+> > Changes since v2:
+> > - Rename variable to 'use_termination_resistor'. (Liu Ying)
+> > - Remove clearing the LVDS_CTRL_HS_EN bit. (Liu Ying)
+> > - Use dev->of_node. (Liu Ying)
+> >
+> >  drivers/gpu/drm/bridge/fsl-ldb.c | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+>
+> Reviewed-by: Liu Ying <victor.liu@nxp.com>
 
-Applied, thanks!
-
-[1/3] drm/bridge: imx8qxp-ldb: Fix NULL pointer dereference in imx8qxp_ldb_bridge_destroy()
-      commit: 852c68bf42965ee38b465d2d6f7b965eb0b5dc1d
-[2/3] drm/bridge: imx8qxp-pxl2dpi: Fix NULL pointer dereference in imx8qxp_pxl2dpi_bridge_destroy()
-      commit: db7e7ea838c916ee4cdf26bee126fd36f58295dc
-
-Best regards,
--- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
-
+Could you please help apply this series?
