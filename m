@@ -2,197 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4GJmClJVeGn+pQEAu9opvQ
+	id OAarFqtaeGkupgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 07:04:02 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 07:26:51 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2429038E
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 07:04:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB1090612
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 07:26:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 322BD10E4C1;
-	Tue, 27 Jan 2026 06:03:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C5B610E06C;
+	Tue, 27 Jan 2026 06:26:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DCht6LTN";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JV9oOkOV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB89910E4BD;
- Tue, 27 Jan 2026 06:03:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769493837; x=1801029837;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=i0ivp9oEqDDj940ahqY0QQlMcyhQbf18QE+cG3c7H3Q=;
- b=DCht6LTNwVMDeaHl6qFkBAY0turIjPHvKfcVidwGmsH9OUNCMIaspP/h
- K4oPuIj8aBOS61+bC3fkvBYBrFbwwRWjwB0n4jyAmjvXUtUJPMBWslJZy
- OyY7FyzrZKfjwjOjhjNke7bTPFDMm15/ubZElC4lYQEV1TW5angLOvuPm
- RpmpWSODXpTusReOb6NHUx/zu2cgUWCEX97jgRi2k7lHfCjynecLTKXQy
- 0PvEOvjrj+ObyhETPa5bNo+6Y6W/9JKbZNAEj8fofDsrhV9PxPRQJuy1G
- yZl4eF29hmBbvvjYMV+KktIEHkR4sD3uZpt68xTjbf8N2JuhVLpmKhd/3 g==;
-X-CSE-ConnectionGUID: DtM3AnlmRUitCblI70CaRw==
-X-CSE-MsgGUID: eb0PH9P1TmOFj1ht2IT76Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70582263"
-X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; d="scan'208";a="70582263"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2026 22:03:57 -0800
-X-CSE-ConnectionGUID: WmNMHBLuQIC0gqLA4+/XrA==
-X-CSE-MsgGUID: L4COUfupTKC4V8M1ZLQhfg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; d="scan'208";a="207119481"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
- by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2026 22:03:56 -0800
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Mon, 26 Jan 2026 22:03:55 -0800
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35 via Frontend Transport; Mon, 26 Jan 2026 22:03:55 -0800
-Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.10) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Mon, 26 Jan 2026 22:03:54 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cueBADZK8Y7RUzsu6V0eGsvTu2D3vQAyhY35xTvogdYLlSU+/opQC+EUkJV/stZXDIV5KQmq6Tp46jWAY1CUbWHy1PG2mMxzmFm3cu4agkfUK8NQ/9dLyPNKT5ksf+k0MDfJ++tJ8zRQq1WWtWOGKMtrQU5RUbGn3f1UGQfaa9oeUkh8zeIyXw2tnxhLiAF3hnWsQCDaZ9PNE0aYruIbBH8n3QDH76QNIm6JcMz42C5Z6S7EpEqdUvbXyIj82ILNUk4+pOS0j/bTbS8YAVERZ565Tv3Se3xxm/J3rK3qU2kwzL5uQztO9yEZdV3oyZ/ecSUZxTqZKqvL6vT3eJNXAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BJZeYEP0mo5OcvPE7AuZlH/yDn+SET/V5lvZWu5sP7g=;
- b=vYVs6LlqjTcMb3zq4iVmMAnJhRim//M4sERFuAYK9q4p++GV1NPOpH1+ZFV8k+okXXxvN7Miykhzp56Avx7ce3XZmCcyR1iv3xabicm5blir6cOlIdljBF7a50AftjmcbEZ6JokRuT3PZThzgOELzot+A48dk84SW0wrw1bPqG1dMs0A7WlfMmIwcrwiclMAIYnJ/IaJhTgdFwpvwXdyoJFp3FXRG/kIaNmEX1oEAJqkzGCYGrjw1gYuDQG0l3BDZPTUM+GLFu9YrDq7Ue3oNbIr2p5LtNzR6wNfwjv9tKvP7I+i36yzOZKDWO+dWsrjPrzeY4NfYDnNK6VzG/GIVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
- by DM3PPFAB693A2AC.namprd11.prod.outlook.com (2603:10b6:f:fc00::f43)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.14; Tue, 27 Jan
- 2026 06:03:50 +0000
-Received: from IA0PR11MB7185.namprd11.prod.outlook.com
- ([fe80::9f37:cb81:5463:300e]) by IA0PR11MB7185.namprd11.prod.outlook.com
- ([fe80::9f37:cb81:5463:300e%5]) with mapi id 15.20.9564.006; Tue, 27 Jan 2026
- 06:03:50 +0000
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Leon Romanovsky <leonro@nvidia.com>, Christian Koenig
- <christian.koenig@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?iso-8859-1?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, "Brost, Matthew"
- <matthew.brost@intel.com>, "Kim, Dongwon" <dongwon.kim@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>
-Subject: RE: [RFC v2 0/8] dma-buf: Add support for mapping dmabufs via
- interconnects
-Thread-Topic: [RFC v2 0/8] dma-buf: Add support for mapping dmabufs via
- interconnects
-Thread-Index: AQHcRvz4E9hXyspRBUGk9qxvPpLsUbTYR6AAgAFminCAAQoeAIAAh4hggIWnr4CAAfJrYA==
-Date: Tue, 27 Jan 2026 06:03:50 +0000
-Message-ID: <IA0PR11MB71850C389E26BC1AE7453552F890A@IA0PR11MB7185.namprd11.prod.outlook.com>
-References: <20251027044712.1676175-1-vivek.kasireddy@intel.com>
- <20251029002726.GA1092494@nvidia.com>
- <IA0PR11MB7185E85E1CFAA04485768E30F8FBA@IA0PR11MB7185.namprd11.prod.outlook.com>
- <20251030134310.GR1018328@nvidia.com>
- <CH3PR11MB71772DF7DC3776F838AA8CC8F8F8A@CH3PR11MB7177.namprd11.prod.outlook.com>
- <20260123225057.GH1134360@nvidia.com>
-In-Reply-To: <20260123225057.GH1134360@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|DM3PPFAB693A2AC:EE_
-x-ms-office365-filtering-correlation-id: 248d0f0f-e997-45c5-3efb-08de5d69d7d8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|376014|7416014|366016|1800799024|38070700021; 
-x-microsoft-antispam-message-info: =?iso-8859-1?Q?u1GjatsDieemRWnP/1yG2QlE1mdXDZOxRVqXB2VulALoytmGwQUrfeBQe3?=
- =?iso-8859-1?Q?RMRHDPP3rRlNz0CWae1KTPqA1PWfeAmPjSxnYEtVlm+hpIrj+J4WE2jsOC?=
- =?iso-8859-1?Q?36H1TO6Wa4maDA/w+SCj3CWoH465aWYzPdRjmxxC5CUB2C7SjiWPz/bzHz?=
- =?iso-8859-1?Q?SsvT0BXBmaqcEycRKEEBfr6u8d8xsxUtVGowFCFXTWYOkQ66+J/mr00Yxk?=
- =?iso-8859-1?Q?5QRUucviFoSzRPGYPlwzGvpX1WNAdWQtcEN7WkU8KVfbXqdxRyehVwxEVb?=
- =?iso-8859-1?Q?dOaHNSJtdCP66uqj+razLv1XZVhQvDvfpYnsBYZL5bpacLsMspd2UMVZ/t?=
- =?iso-8859-1?Q?UbJYK80SoxjFbTl/Z6nBXrB8eTmw8PYdiEn/6beUwwoiUb2Yj05TerBTLI?=
- =?iso-8859-1?Q?8i2s7xi2kr+fHAKT98APP3PilFGjETtVGmHD5/d/06MNXCos/3oCjZb/fy?=
- =?iso-8859-1?Q?ZpFIGgUjyN5IU5I2yg96QSL2gNot+ndGqvBy//MZHtktGXQCK1K+0YhwcT?=
- =?iso-8859-1?Q?IGoIHFqujuEl+Y0zk1lDv+S7uE6J7rtuXZfl9FaktF+nGJXgJiaUhwrHU7?=
- =?iso-8859-1?Q?ymMmMmkflavaJHcvvOdMGlYlAV7xyVn5VoK6B9U9Gyxx+0UHSquXJJXaXv?=
- =?iso-8859-1?Q?szaO38tVROuKkkprc+yTDTafg9MLOcqSvusgX4L/XZ611FG+EJ/xEGZ725?=
- =?iso-8859-1?Q?04gvykyMVdiXW8cYLsE6m+hu9aDqxPGpKl2zQcytgJlEwT1op/8zjF8KQs?=
- =?iso-8859-1?Q?IOs8i13zWHerCW4Xp93gXVP/I5aLZhZHfV+rEDhBSTFJH64BJAAwDnIdIs?=
- =?iso-8859-1?Q?cSWR0Zip/6t26JHDkDvi2hzYQMz/rtnlsOaeM6IXdLckFkjNvh7sdzCYjC?=
- =?iso-8859-1?Q?OtIKB/uGZAd7Oma1owKrdnMlDgXmyC2isZCNrgMWsEcSsjg1V+LMg3rkbw?=
- =?iso-8859-1?Q?oLwxpqF5uSDbh24a1l0K91wzLSRxV7yggsHSrMlaMuc/kATh2H7a5M8Aga?=
- =?iso-8859-1?Q?XxZIYD0uh3DcP2q+iciGN31yVbc4LCdIo074egWZ3BYU6IazuSnqwSGJg3?=
- =?iso-8859-1?Q?HV77LspyDrbSWIzbUs5T5XY+Ud7HU4XdOCU9UuxKHWdqgFqRV4+8h6NVeb?=
- =?iso-8859-1?Q?Iwe5veTNiT8zJpqjGomXOlwokGNXLFHfyuL1uYoOI4YZoGsmkG3RZLpsIf?=
- =?iso-8859-1?Q?9CbtxsHeKr7GpeIDQZ1zqrtaJfJKxr5PuyskFPa1cBqrTdmyYQS87DSZDT?=
- =?iso-8859-1?Q?+g5TLSOEAOrIxL7z2qd5dMvxndx8TTzAc7R12VCU7Sgf+EQeyBCyHYp/GL?=
- =?iso-8859-1?Q?bqpQHCIKH9PYdy6gr1mAwjnXBBCzscF789EI5lvs4XhB7dy7PEt9BXC1oi?=
- =?iso-8859-1?Q?F/M7tXLYhdpObIuf6iXMHi8bPbKbGaRm+u468IGoRnEkxWbYDLoATwXd8G?=
- =?iso-8859-1?Q?c/yfR++JYEhSjp6JgkQKJ5ExCkVgwO/wpjRtOi6AfN7g1el2VIV8a1NtCg?=
- =?iso-8859-1?Q?r9Z4HZJQVgrAlIiwm9R6RftGlbMkIEiSv/hgjQMqOzI+p8sSNB7recyULb?=
- =?iso-8859-1?Q?VFZ3g8BOJSMgwrgp7GDiwMT7WyadHnPTM3MXQ7P1ClDYa+lpO6aFkpQRW6?=
- =?iso-8859-1?Q?JiHcpcaGx10f+fR5/t8tqSjLzvQDiqyj3V7YXjACbMdh5c7UmCdTZ+x8Zq?=
- =?iso-8859-1?Q?0eOqxWYLoUgU+HX+AfE=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA0PR11MB7185.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700021); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?dNiYG1yRBrh1L/m0zijnt7qndHzBcPDT+XnGCRqtdUjIkAyAvFVPaiqMWt?=
- =?iso-8859-1?Q?tbRR/Fc3eoZU5wDvMfzADk3lcnJ19qotufykGy6WJqN25J7ffshoxAG1G4?=
- =?iso-8859-1?Q?qgD1Pdpy63aUBTr5ogOU0oUBHhxoM5A1sAHpsvsN144ywW32CGvK+h8+lH?=
- =?iso-8859-1?Q?RFYDmiDK62MiQp1/vGd1/iMf59EasF6kJW70RxstPtbsZ3rYyhW1HXvbZ0?=
- =?iso-8859-1?Q?SElZ3SUCD8j/pm2AeyaD/a7tSTB2C8zHSv9aF9vJyTeoUhode7OqgxTf5A?=
- =?iso-8859-1?Q?8hRwS85nY6/L2XAtwZCa5t0AliUDBWVn4y/+ijD8N3zmdUsRkSwla9wnrv?=
- =?iso-8859-1?Q?vzZkTdJR+DXYd96KTJURYLKWgxsSXQ/GMMi7GbaRZosUaUJN3IHFXuWOrh?=
- =?iso-8859-1?Q?qMwhEHW1gsaoQvGhT4cYiZyUZ8o2BzBax5/wDXTwniiwLqV9sWss3gE2TR?=
- =?iso-8859-1?Q?LEqkntd9K2JMW71gcjey8NRWP0WXjt9X2dEFx5y4qgMJWLWMnqiXifkmxu?=
- =?iso-8859-1?Q?Q9yegMuYyi+/9QJoyO+RosDhHCJQ2nxJDnYzoVBONZMjz+dHI+dqsPHgUZ?=
- =?iso-8859-1?Q?ezfSRUaSgCf5JiyjS5BborGFM3IC3xrCXs/fnva4AmIKPc0luCvVxHGYDy?=
- =?iso-8859-1?Q?Amk9nJ45NqQT5gnG2jaCbyIxajpn4gZXLzfmR200v4Vk9x8t0Q2WTCSjiq?=
- =?iso-8859-1?Q?AMYe//yyE7yrq9CkOG8e2L58zzEt18ZjIO4yHh9R6rS2ZeUcS7llUOKumm?=
- =?iso-8859-1?Q?BEPVZ8RsZQnDUVSGKA2auO3W/v45COZ3U88kPf1MlkBervPw4B+CWmuldT?=
- =?iso-8859-1?Q?9C8uFUa80sp+kJ4b8HP8MC847HTdlJqW3snr83GvJnV5ia2bW57UMF79Mn?=
- =?iso-8859-1?Q?831ij7u8qRE3vJe93ya9dX70pwtntUVVfmHr1ekqCfvvQifXspX3pYjMfa?=
- =?iso-8859-1?Q?7rRqO9/TdcDH7eaisxdu2iI5Mb0u5syS1L62SAXcpeC3ke0Xh/aVYqbeP0?=
- =?iso-8859-1?Q?/xTl5DsagFgew7zoJ1Jy2psfW7F8W8wzmG3umYkLjuOuJvvxh+DpBhgAW7?=
- =?iso-8859-1?Q?dFIuSK4I3YW/DmbLm+u7i7qU6/WYymgvegObIkKMcut+WFF4IF/JuYQvSR?=
- =?iso-8859-1?Q?xS1ZHCc5KHrR0b+jRy3Fqvay4nav0v66N2yOWNSJ2yvXztdaedgSmy01RC?=
- =?iso-8859-1?Q?abBm4JC8B9pvXQlI9Y6u2omAo80OO8mLyH/94k779r52ciN0SwxQYj5WZR?=
- =?iso-8859-1?Q?bkaCLcm6+z9kIUwsv1noMF4A3B6K2WDkNwaCH0jyuVi4NQNJeHqor8kVdl?=
- =?iso-8859-1?Q?lY9PdnzupwXHa3SSriR0PCdzhZJFOQjuD68Jok6+1ThQhzNVwecNKJ0pi7?=
- =?iso-8859-1?Q?lYsiNRnEHQNdZa+ERxL6NkzpvoRMTahELe1KX8oz5isCn+MBUHrhDj5iXf?=
- =?iso-8859-1?Q?lJS77/7R++wtkg7qpYq87xF8DvWCOPLkBLJynwkuvanpoFesTFcRbQo+EC?=
- =?iso-8859-1?Q?lG40Mky5niliCxTk8rqPyegrLoD+8aPdT9yRg5Yk+SjNeNRTq3NopJRhgS?=
- =?iso-8859-1?Q?Ug69GarrUamkrThBcqFdDW60ug3vE2pX50PJl3S0ILF4fhHUVs4ISXXB+2?=
- =?iso-8859-1?Q?VoOi6EbsK8JJEubvALBhKtxZIAZrhx8fa0R5gqjUN1SXjagwI6NZxsYk1p?=
- =?iso-8859-1?Q?bOa0lggB5U/5RJ/Io3ZErQf7rd0oESsV2aXmVaK4NDFB4NQf5tPwTZ2Uf+?=
- =?iso-8859-1?Q?CFLI970OCcxIPXgmvO6OUBIMBHqkpOrB3j8K6mpvuwZexY0NWhJVmMZ9lJ?=
- =?iso-8859-1?Q?04ia4Wnfag=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C22210E06C
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 06:26:45 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-4359108fd24so3082732f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 22:26:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769495204; cv=none;
+ d=google.com; s=arc-20240605;
+ b=jmSGQJadR26pCz7eNONdXFRHPxX/Wpd2UrMvLoZ4Kq4llKd7iuHgNFhDdUQs3oUeW8
+ hG+zZmqD0Pb8bcRN0P26t6LnpK82oNb0KJOCh+/18KKfgOww2iyxbal4ejolXp3wn6Nu
+ itlzq7PKD+Ur2ihDw+Rv4ARsyt6mw16YSKKxXpg5O8PJzpBzjbYl+kRk84w2A6Tq9wUc
+ B5uvrhnA2Yd8O73o93FYc1jkzjx4Y7Ainwiqc+GaJhuZjog3Ax7HJexVS5QSyI/4VAzL
+ eZppmIn4GlwCM0cjsxsaEn02wYcaTbqmmeUyN08hNi9qOx7jIImTsAaH2LBo1VG8Hum2
+ W90w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=Hcz4oTZY5DQbaUy98BTp/plZEQsZkc9Qo/oLKWh3nDM=;
+ fh=aONf+LyY1TeYk9j0Coam18JQ8w0Cqpr7DP1gtGpmpBE=;
+ b=anocYYP4KX09mVTVBtvPgJP/6YQrHgO9fx8Ofe39Q486JY4N6Vg/zUDMl0Vnf6/wGd
+ j7Tz0FW01AelXgByewK0UYz3+wYb8ckoUYWTt5IU3GhzlFM2DGmCsrpv/VVX+YM1bsA2
+ Mg+VjJy7hKQXZyHZfvjKPY87Tqd0mzJREyDS2Nh2zlOMdqJ5ekbbwyWhdJ+7vCnT0OQc
+ 0Ipagz8XKiPJeva1Xm9IRvZ541OmZCF6CmSNCytI1JnQwQ3QMW6PX74iRIOvlrpmCePY
+ eaP2w4b3O+xfHIdPzBBC2ogH8WjFC8fWUjuT5DiCD4F9yKhclYv93RwMYBC/LWbS5IRS
+ BvBA==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1769495204; x=1770100004; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Hcz4oTZY5DQbaUy98BTp/plZEQsZkc9Qo/oLKWh3nDM=;
+ b=JV9oOkOVOgghfidcQTzp8COTy4OwtvZyZbUNOC97092dRMeAJLc7O5Sko72MgsWw6o
+ 4kEUbRJkOY1raY7Nrq0lczvOTQo6FtO2LQZJAmIoefBd5da7Lw+aYGOYHVFTP3gGFhfu
+ yI+r/BcRJT2708fPFKwpzsfllyHH5WE3jhU8FhXRfS/p2kiDTjNSw2vBF0xqgY9E9whm
+ V0J7tBhrU7V6ytY0lHH3mknLK037emIWQQAlxbdaaicM3DrDBVQiA3gc0I5rPfOYj0ot
+ MBBGdDmOVYA6V/PObP5u+UZvYpWefqyTVBsktSyC/7W7A85F/duceLU8zVDl2zIZp5+D
+ o7jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769495204; x=1770100004;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=Hcz4oTZY5DQbaUy98BTp/plZEQsZkc9Qo/oLKWh3nDM=;
+ b=mvXHfFjiTetglibEhfhvDbeCcgttFZfoLtw0/ROgX7Dc6VCCBAGSvt4c6L9ilvZmnp
+ +oybZH975nHAWWUO88cME13xleYyU1RQ1NlaaxXgd87ydgxyBIkRKC0UMxXuQ9XX/dBU
+ wKzDm6mAVjnNMA6hSQTFN6AoA1lHn1Gm/YeHdv0j3QFvSVHqfxrmHbzMyCnVFsgoko/N
+ ACbZigE4yetk/AroKsMxmZtZK9HZMI5Q68hfQRrw8+CjGuw/pUQnBEl2Fhq0H7TvxDPy
+ LhAoy+FUctIfa4+JGRtnW77RyW0SyM5xchyKj074u737MEuh9Jc9IbOulMA6QRSh8xSB
+ Xz5g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUutwpNA2QQjcMM9mTdDot1uUt/qZPd3VRhhHIoe9WbBNEP618jfPlAP3+QeC7Cbty6ilJLQMKi7cQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzSgfpNGnzXC8QXLWCUcHwaSCdeEK2pk/8ZJXakQRpZqbfPrK8q
+ YHoNFH4+sAPDOY+8mNLZbPTeaO2QsfhZEDxL4b91IDbSgBkhUS7qNfk4g/X889N82UQkRtx/yNZ
+ syiv6k6nJ6zNJXumtRYEyznXNtk+lVJ0=
+X-Gm-Gg: AZuq6aJuz87n8jHO1MZVi9N8G/0yHMI4/qrtg6rS1sKaQ/R2P/rnnLQbJb+Am67km9u
+ hAkdjwTJr4d51NupSZoxsCE55QSStiXGEgoMy3+XJ7Axvc8vLaFpZntQtjyZqBOv4/1nvL/Awuz
+ 8DhXQfcnmOGDuUohiO+8JaCKh7S5XHOkIuTudAP269EuD2FWC+R8919Za+zIslCcwKhCaeelq81
+ Xw3IICwi59zUIwsea4nMzGIKmMMzVAe2d576uX4SBbZi3vXf50bETExxtPEqA3Znz8olN/E
+X-Received: by 2002:adf:f842:0:b0:435:dd81:4f4b with SMTP id
+ ffacd0b85a97d-435dd8150b0mr354677f8f.22.1769495203600; Mon, 26 Jan 2026
+ 22:26:43 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 248d0f0f-e997-45c5-3efb-08de5d69d7d8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jan 2026 06:03:50.7273 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 33sa4yXnXDPTed/z2FKky5OF4WQI9eGMeHMJ2tSeuG+h9APsri0cg3uQwrcgcyxHSc5b55kTCS1UzoGxTRRSuAnosbZvAPUh6f9yWGSgtCk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPFAB693A2AC
-X-OriginatorOrg: intel.com
+References: <20260125131904.45372-1-clamor95@gmail.com>
+ <20260125131904.45372-2-clamor95@gmail.com>
+ <20260126-patchwork-cofounder-8b7bb715556a@spud>
+In-Reply-To: <20260126-patchwork-cofounder-8b7bb715556a@spud>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Tue, 27 Jan 2026 08:26:32 +0200
+X-Gm-Features: AZwV_Qh8Okkp0ZKwUp_Q1LdogBWpv0JfM08wTd5rb20Zn0_7R87Omepl7HoCeOY
+Message-ID: <CAPVz0n1hBof7_eB6D39zZd5EfC2dL5-Ngf0ja7+kkcwQnnr7Mg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] dt-bindings: display: panel: document Atrix 4G and
+ Droid X2 DSI panel
+To: Conor Dooley <conor@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -208,69 +120,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,IA0PR11MB7185.namprd11.prod.outlook.com:mid];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vivek.kasireddy@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:conor@kernel.org,m:neil.armstrong@linaro.org,m:jessica.zhang@oss.qualcomm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[linaro.org,oss.qualcomm.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: 6D2429038E
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	DBL_PROHIBIT(0.00)[0.0.0.0:email];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[devicetree.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: BCB1090612
 X-Rspamd-Action: no action
 
-> Subject: Re: [RFC v2 0/8] dma-buf: Add support for mapping dmabufs via
-> interconnects
->=20
-> On Fri, Oct 31, 2025 at 05:15:32AM +0000, Kasireddy, Vivek wrote:
-> > > So the next steps would be to make all the exporters directly declare
-> > > a SGT and then remove the SGT related ops from dma_ops itself and
-> > > remove the compat sgt in the attach logic. This is not hard, it is al=
-l
-> > > simple mechanical work.
->=20
-> > IMO, this SGT compatibility stuff should ideally be a separate follow-o=
-n
-> > effort (and patch series) that would also probably include updates to
-> > various drivers to add the SGT mapping type.
->=20
-> I've beeen working on this idea and have updated my github here:
->=20
->  https://github.com/jgunthorpe/linux/commits/dmabuf_map_type/
->=20
-> I still need to run it through what testing I can do here, but it goes
-> all the way and converts everything into SGT mapping type, all
-> drivers. I think this shows the idea works.
->=20
-> I'm hoping to post it next week if the revoke thing settles down and I
-> can complete some more checking.
->=20
-> We can discuss how to break it up along with get feedback if people
-> are happy with the idea.
->=20
-> It looks like it turns out fairly well, I didn't find anything
-> surprising along the way at least.
-Great! Looking forward to the patches!
+=D0=BF=D0=BD, 26 =D1=81=D1=96=D1=87. 2026=E2=80=AF=D1=80. =D0=BE 22:45 Cono=
+r Dooley <conor@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Sun, Jan 25, 2026 at 03:19:03PM +0200, Svyatoslav Ryhel wrote:
+> > Atrix 4G and Droid X2 use the same 540x960 DSI video mode panel. Exact
+> > panel vendor and model are unknown hence generic compatible is used bas=
+ed
+> > on board name it is used with.
+> >
+> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > ---
+> >  .../display/panel/motorola,mot-panel.yaml     | 68 +++++++++++++++++++
+> >  1 file changed, 68 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/panel/mot=
+orola,mot-panel.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/panel/motorola,m=
+ot-panel.yaml b/Documentation/devicetree/bindings/display/panel/motorola,mo=
+t-panel.yaml
+> > new file mode 100644
+> > index 000000000000..2326a83bc405
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/panel/motorola,mot-pane=
+l.yaml
+> > @@ -0,0 +1,68 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/panel/motorola,mot-panel.ya=
+ml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Atrix 4G and Droid X2 DSI Display Panel
+> > +
+> > +maintainers:
+> > +  - Svyatoslav Ryhel <clamor95@gmail.com>
+> > +
+> > +description:
+> > +  Atrix 4G and Droid X2 use the same 540x960 DSI video mode panel. Exa=
+ct
+> > +  panel vendor and model are unknown hence generic compatible is used.
+> > +
+> > +allOf:
+> > +  - $ref: panel-common.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - const: motorola,mot-panel
+>
+> What's a "mot" panel? If that's short for motorola, wouldn't it be
+> better to conjure up something at least more specific to these
+> particular users? The commit message has some info, but I still dunno
+> where "mot" comes from.
+> Seems okay otherwise..
+>
 
-Thanks,
-Vivek
->=20
-> Thanks,
-> Jason
+"Mot" is how motorola called tegra20 board files which were base for
+Atrix 4G and Droid X2 in their downstream sources, specifically
+board-mot-panel.c. Since both devices use the same panel I used board
+name. Hopefully, at come point I will be able to name it properly.
+
+I have device trees for both devices prepared and I will submit them shortl=
+y.
+
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  vdd-supply:
+> > +    description: Regulator for main power supply.
+> > +
+> > +  vddio-supply:
+> > +    description: Regulator for 1.8V IO power supply.
+> > +
+> > +  backlight: true
+> > +  reset-gpios: true
+> > +  port: true
+> > +
+> > +required:
+> > +  - compatible
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    dsi {
+> > +        #address-cells =3D <1>;
+> > +        #size-cells =3D <0>;
+> > +
+> > +        panel@0 {
+> > +            compatible =3D "motorola,mot-panel";
+> > +            reg =3D <0>;
+> > +
+> > +            reset-gpios =3D <&gpio 35 GPIO_ACTIVE_LOW>;
+> > +
+> > +            vdd-supply =3D <&vdd_5v0_panel>;
+> > +            vddio-supply =3D <&vdd_1v8_vio>;
+> > +
+> > +            backlight =3D <&backlight>;
+> > +
+> > +            port {
+> > +                panel_in: endpoint {
+> > +                    remote-endpoint =3D <&dsi_out>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +...
+> > --
+> > 2.51.0
+> >
