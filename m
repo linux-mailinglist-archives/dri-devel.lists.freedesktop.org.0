@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eMHNDAyXeGkWrQEAu9opvQ
+	id 8PkmAxGXeGkWrQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:44:28 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:44:33 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83F9C9308D
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:44:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADACB930B5
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:44:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FF1F10E50D;
-	Tue, 27 Jan 2026 10:44:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE19510E51C;
+	Tue, 27 Jan 2026 10:44:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="i1CT3CGE";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ovdPJImi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D26310E50D;
- Tue, 27 Jan 2026 10:44:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7743710E51E;
+ Tue, 27 Jan 2026 10:44:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1769510662;
- bh=fVG7ChTFNsC+Rl70hMTzSBRuHgGf1NEq66v0cQKD7TY=;
+ s=mail; t=1769510667;
+ bh=8k1knDjmTySyw7ZGPkl+PripTkXl+ZQ0RVPekZtLf28=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=i1CT3CGEAv7/+zv3eozXpLQnwch+NKIELzqWRxMO2ktBRmCBLImbefzqUcSJGyC8g
- ZdRKkxJCxpiALeBVlS8awQU1IYwiGb7aF19vlrKSXPFU0hczC/OA9mrwgUy+/4yvIB
- UDKDpI3+y7VPc/l3wrP2hBIel+/KgcX14vC6DCHv0vhPy7WidJ63OYD1iXanYul2TW
- 2iLx0ss8S6i7H15neKmm+R4wtC/bq6hVcijZGjZA2ps66M3eNW7VTy3utOj/1sCGFm
- JaF8j7ncZKo+xPvKZPE7qHRlkM1VKUzs1HABE17qP9dyLOLNIBllqe70ZJMxXJ0Kal
- pz4MnCgrCF1uw==
+ b=ovdPJImiDu34OGf0iZGBId/tNMCq2xrdk6D5or+cjMUx6afma9RK2n6bM/SvFBXyI
+ +N1/JWv2Nmf4Jl7IC6bOLcEmrKT5ssCBLVYvSBmY9ZlgIEuTFey/Be1+/Tx70KY2If
+ SdlFsAoUG1uBFeAEpu/0MyiUteaK0v4XVL2oaRguhlG4ZI/iWdbK9jgw3l0TejCnVz
+ up+otSBFooml21DrmPxnQkhx4JpC7QKLiRe9PAXVgHzfOCt3eM6lSgqcDBiMl3gYzL
+ YNEMDCaA3Q9P76QR1l3SqldotHEOpyDBRuiSzKMMHafD5lUZ21GxjlYliAKUK+z72V
+ BH7HxHkUcu3PA==
 Received: from vignesh-thinkpad.. (unknown [171.76.81.211])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 5C18717E0117;
- Tue, 27 Jan 2026 11:44:18 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 3120C17E0DB7;
+ Tue, 27 Jan 2026 11:44:23 +0100 (CET)
 From: Vignesh Raman <vignesh.raman@collabora.com>
 To: dri-devel@lists.freedesktop.org
 Cc: daniels@collabora.com, helen.fornazier@gmail.com, airlied@gmail.com,
@@ -48,9 +48,9 @@ Cc: daniels@collabora.com, helen.fornazier@gmail.com, airlied@gmail.com,
  amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v1 1/7] drm/ci: uprev mesa
-Date: Tue, 27 Jan 2026 16:13:56 +0530
-Message-ID: <20260127104406.200505-2-vignesh.raman@collabora.com>
+Subject: [PATCH v1 2/7] drm/ci: move qualcomm baremetal jobs to lava
+Date: Tue, 27 Jan 2026 16:13:57 +0530
+Message-ID: <20260127104406.200505-3-vignesh.raman@collabora.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260127104406.200505-1-vignesh.raman@collabora.com>
 References: <20260127104406.200505-1-vignesh.raman@collabora.com>
@@ -94,687 +94,154 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[vignesh.raman@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.918];
+	NEURAL_HAM(-0.00)[-0.865];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lava-submit.sh:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:email]
-X-Rspamd-Queue-Id: 83F9C9308D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[inject-4k:email,memptrs:email,force-edid:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,ring:email,qualcomm.com:email,forked-move:email]
+X-Rspamd-Queue-Id: ADACB930B5
 X-Rspamd-Action: no action
 
-Uprev mesa to adapt to the latest changes in Mesa CI, including support
-for firmware via LAVA overlays, removal of the python-artifacts job,
-split container and build rules, use lava-job-submitter container,
-and various misc fixes.
+Qualcomm apq8016 and apq8096 DUTS are moved to Collabora lava
+farm. So enable these jobs to use lava and update expectation
+files.
 
 Co-developed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
 ---
- drivers/gpu/drm/ci/build.yml         |  22 +++---
- drivers/gpu/drm/ci/container.yml     |  28 ++++++--
- drivers/gpu/drm/ci/gitlab-ci.yml     |  95 ++++++++++++++++++++-----
- drivers/gpu/drm/ci/igt_runner.sh     |   4 +-
- drivers/gpu/drm/ci/image-tags.yml    |  22 +++---
- drivers/gpu/drm/ci/lava-submit.sh    | 101 +++++++++++++--------------
- drivers/gpu/drm/ci/static-checks.yml |   1 +
- drivers/gpu/drm/ci/test.yml          |  19 +++--
- 8 files changed, 187 insertions(+), 105 deletions(-)
+ drivers/gpu/drm/ci/arm64.config               |  1 +
+ drivers/gpu/drm/ci/test.yml                   | 62 ++++++-------------
+ .../gpu/drm/ci/xfails/msm-apq8016-fails.txt   |  4 ++
+ .../gpu/drm/ci/xfails/msm-apq8096-fails.txt   |  2 +
+ 4 files changed, 27 insertions(+), 42 deletions(-)
 
-diff --git a/drivers/gpu/drm/ci/build.yml b/drivers/gpu/drm/ci/build.yml
-index af27ff5de369..efbcaae49807 100644
---- a/drivers/gpu/drm/ci/build.yml
-+++ b/drivers/gpu/drm/ci/build.yml
-@@ -1,6 +1,6 @@
- .build:
-   extends:
--    - .container+build-rules
-+    - .build-rules
-   stage: build-only
-   artifacts:
-     paths:
-@@ -133,6 +133,10 @@ debian-arm32-asan:
-   rules:
-     - when: never
- 
-+debian-x86_64-msan:
-+  rules:
-+    - when: never
-+
- debian-arm64:
-   rules:
-     - when: never
-@@ -153,7 +157,7 @@ debian-arm64-ubsan:
-   rules:
-     - when: never
- 
--debian-build-testing:
-+debian-build-x86_64:
-   rules:
-     - when: never
- 
-@@ -177,31 +181,31 @@ debian-release:
-   rules:
-     - when: never
- 
--debian-s390x:
-+debian-riscv64:
-   rules:
-     - when: never
- 
--debian-testing:
-+debian-s390x:
-   rules:
-     - when: never
- 
--debian-testing-asan:
-+debian-vulkan:
-   rules:
-     - when: never
- 
--debian-testing-msan:
-+debian-x86_32:
-   rules:
-     - when: never
- 
--debian-testing-ubsan:
-+debian-x86_64:
-   rules:
-     - when: never
- 
--debian-vulkan:
-+debian-x86_64-asan:
-   rules:
-     - when: never
- 
--debian-x86_32:
-+debian-x86_64-ubsan:
-   rules:
-     - when: never
- 
-diff --git a/drivers/gpu/drm/ci/container.yml b/drivers/gpu/drm/ci/container.yml
-index 5f90508578a3..ce6007a45a07 100644
---- a/drivers/gpu/drm/ci/container.yml
-+++ b/drivers/gpu/drm/ci/container.yml
-@@ -5,21 +5,29 @@
- 
- debian/x86_64_build-base:
-   variables:
--    EXTRA_LOCAL_PACKAGES: "libcairo-dev libdw-dev libjson-c-dev libkmod2 libkmod-dev libpciaccess-dev libproc2-dev libudev-dev libunwind-dev python3-docutils bc python3-ply libssl-dev bc"
-+    EXTRA_LOCAL_PACKAGES: "libcairo-dev libdw-dev libjson-c-dev libkmod-dev libpciaccess-dev libproc2-dev libudev-dev libunwind-dev python3-docutils bc python3-ply libssl-dev bc"
-+
-+debian/arm64_build:
-+  variables:
-+    EXTRA_LOCAL_PACKAGES: "libcairo-dev libdw-dev libjson-c-dev libproc2-dev libkmod-dev libpciaccess-dev libudev-dev libunwind-dev python3-docutils libssl-dev crossbuild-essential-armhf libkmod-dev:armhf libproc2-dev:armhf libunwind-dev:armhf libdw-dev:armhf libpixman-1-dev:armhf libcairo-dev:armhf libudev-dev:armhf libjson-c-dev:armhf"
- 
- debian/x86_64_test-gl:
-   variables:
--    EXTRA_LOCAL_PACKAGES: "jq libasound2 libcairo2 libdw1 libglib2.0-0 libjson-c5 libkmod-dev libkmod2 libgles2 libproc2-dev"
-+    EXTRA_LOCAL_PACKAGES: "jq libasound2t64 libcairo2 libdw1t64 libglib2.0-0t64 libjson-c5 libkmod2 libgles2 libdrm-nouveau2 libdrm-amdgpu1"
- 
--debian/arm64_build:
-+debian/arm64_test-gl:
-   variables:
--    EXTRA_LOCAL_PACKAGES: "libcairo-dev libdw-dev libjson-c-dev libproc2-dev libkmod2 libkmod-dev libpciaccess-dev libudev-dev libunwind-dev python3-docutils libssl-dev crossbuild-essential-armhf libkmod-dev:armhf libproc2-dev:armhf libunwind-dev:armhf libdw-dev:armhf libpixman-1-dev:armhf libcairo-dev:armhf libudev-dev:armhf libjson-c-dev:armhf"
-+    EXTRA_LOCAL_PACKAGES: "jq libasound2t64 libcairo2 libdw1t64 libglib2.0-0t64 libjson-c5 libkmod2 libgles2 libdrm-nouveau2 libdrm-amdgpu1"
- 
--.kernel+rootfs:
-+debian/arm32_test-gl:
-   variables:
--    EXTRA_LOCAL_PACKAGES: "jq libasound2 libcairo2 libdw1 libglib2.0-0 libjson-c5"
-+    EXTRA_LOCAL_PACKAGES: "jq libasound2t64 libcairo2 libdw1t64 libglib2.0-0t64 libjson-c5 libkmod2 libgles2 libdrm-nouveau2 libdrm-amdgpu1 libunwind8"
- 
- # Disable container jobs that we won't use
-+alpine/x86_64_build:
-+  rules:
-+    - when: never
-+
- debian/arm64_test-vk:
-   rules:
-     - when: never
-@@ -28,6 +36,10 @@ debian/baremetal_arm32_test-gl:
-   rules:
-     - when: never
- 
-+debian/baremetal_arm64_test-gl:
-+  rules:
-+    - when: never
-+
- debian/baremetal_arm64_test-vk:
-   rules:
-     - when: never
-@@ -36,6 +48,10 @@ debian/ppc64el_build:
-   rules:
-     - when: never
- 
-+debian/riscv64_build:
-+  rules:
-+    - when: never
-+
- debian/s390x_build:
-   rules:
-     - when: never
-diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml
-index 56638814bb28..20e8cbdc39e9 100644
---- a/drivers/gpu/drm/ci/gitlab-ci.yml
-+++ b/drivers/gpu/drm/ci/gitlab-ci.yml
-@@ -1,6 +1,6 @@
- variables:
-   DRM_CI_PROJECT_PATH: &drm-ci-project-path mesa/mesa
--  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha 02337aec715c25dae7ff2479d986f831c77fe536
-+  DRM_CI_COMMIT_SHA: &drm-ci-commit-sha 25881c701a56233dd8fc7f92db6884a73949d63d
- 
-   UPSTREAM_REPO: https://gitlab.freedesktop.org/drm/kernel.git
-   TARGET_BRANCH: drm-next
-@@ -11,7 +11,7 @@ variables:
-   DEQP_RUNNER_GIT_TAG: v0.20.0
- 
-   FDO_UPSTREAM_REPO: helen.fornazier/linux   # The repo where the git-archive daily runs
--  MESA_TEMPLATES_COMMIT: &ci-templates-commit c6aeb16f86e32525fa630fb99c66c4f3e62fc3cb
-+  MESA_TEMPLATES_COMMIT: &ci-templates-commit aec7a6ce7bb38902c70641526f6611e27141784a
-   DRM_CI_PROJECT_URL: https://gitlab.freedesktop.org/${DRM_CI_PROJECT_PATH}
-   CI_PRE_CLONE_SCRIPT: |-
-           set -o xtrace
-@@ -30,6 +30,8 @@ variables:
-   S3_GITCACHE_BUCKET: git-cache
-   # Bucket for the pipeline artifacts pushed to S3
-   S3_ARTIFACTS_BUCKET: artifacts
-+  # Base path used for various artifacts
-+  S3_BASE_PATH: "${S3_HOST}/${S3_KERNEL_BUCKET}"
-   # per-pipeline artifact storage on MinIO
-   PIPELINE_ARTIFACTS_BASE: ${S3_HOST}/${S3_ARTIFACTS_BUCKET}/${CI_PROJECT_PATH}/${CI_PIPELINE_ID}
-   # per-job artifact storage on MinIO
-@@ -44,6 +46,8 @@ variables:
-   ARTIFACTS_BASE_URL: https://${CI_PROJECT_ROOT_NAMESPACE}.${CI_PAGES_DOMAIN}/-/${CI_PROJECT_NAME}/-/jobs/${CI_JOB_ID}/artifacts
-   # Python scripts for structured logger
-   PYTHONPATH: "$PYTHONPATH:$CI_PROJECT_DIR/install"
-+  # Mesa-specific variables that shouldn't be forwarded to DUTs and crosvm
-+  CI_EXCLUDE_ENV_VAR_REGEX: 'SCRIPTS_DIR|RESULTS_DIR'
- 
- 
- default:
-@@ -84,10 +88,11 @@ include:
-   - project: *drm-ci-project-path
-     ref: *drm-ci-commit-sha
-     file:
-+      - '/.gitlab-ci/bare-metal/gitlab-ci.yml'
-       - '/.gitlab-ci/build/gitlab-ci.yml'
-       - '/.gitlab-ci/container/gitlab-ci.yml'
-       - '/.gitlab-ci/farm-rules.yml'
--      - '/.gitlab-ci/lava/lava-gitlab-ci.yml'
-+      - '/.gitlab-ci/lava/gitlab-ci.yml'
-       - '/.gitlab-ci/test-source-dep.yml'
-       - '/.gitlab-ci/test/gitlab-ci.yml'
-       - '/src/amd/ci/gitlab-ci-inc.yml'
-@@ -147,10 +152,10 @@ stages:
-     - if: &is-merge-attempt $GITLAB_USER_LOGIN == "marge-bot" && $CI_PIPELINE_SOURCE == "merge_request_event"
-     # post-merge pipeline
-     - if: &is-post-merge $GITLAB_USER_LOGIN == "marge-bot" && $CI_PIPELINE_SOURCE == "push"
--    # Pre-merge pipeline
--    - if: &is-pre-merge $CI_PIPELINE_SOURCE == "merge_request_event"
-+    # Pre-merge pipeline (because merge pipelines are already caught above)
-+    - if: &is-merge-request $CI_PIPELINE_SOURCE == "merge_request_event"
-     # Push to a branch on a fork
--    - if: &is-fork-push $CI_PIPELINE_SOURCE == "push"
-+    - if: &is-push-to-fork $CI_PIPELINE_SOURCE == "push"
-     # nightly pipeline
-     - if: &is-scheduled-pipeline $CI_PIPELINE_SOURCE == "schedule"
-     # pipeline for direct pushes that bypassed the CI
-@@ -160,17 +165,59 @@ stages:
- # Rules applied to every job in the pipeline
- .common-rules:
-   rules:
--    - if: *is-fork-push
-+    - if: *is-push-to-fork
-       when: manual
- 
--
- .never-post-merge-rules:
-   rules:
-     - if: *is-post-merge
-       when: never
- 
- 
--.container+build-rules:
-+# Note: make sure the branches in this list are the same as in
-+# `.build-only-delayed-rules` below.
-+.container-rules:
-+  rules:
-+    - !reference [.common-rules, rules]
-+    # Run when re-enabling a disabled farm, but not when disabling it
-+    - !reference [.disable-farm-mr-rules, rules]
-+    # Never run immediately after merging, as we just ran everything
-+    - !reference [.never-post-merge-rules, rules]
-+    # Only rebuild containers in merge pipelines if any tags have been
-+    # changed, else we'll just use the already-built containers
-+    - if: *is-merge-attempt
-+      changes: &image_tags_path
-+        - drivers/gpu/drm/ci/image-tags.yml
-+      when: on_success
-+    # Skip everything for pre-merge and merge pipelines which don't change
-+    # anything in the build; we only do this for marge-bot and not user
-+    # pipelines in a MR, because we might still need to run it to copy the
-+    # container into the user's namespace.
-+    - if: *is-merge-attempt
-+      when: never
-+    # Any MR pipeline which changes image-tags.yml needs to be able to
-+    # rebuild the containers
-+    - if: *is-merge-request
-+      changes: *image_tags_path
-+      when: manual
-+    # ... however for MRs running inside the user namespace, we may need to
-+    # run these jobs to copy the container images from upstream
-+    - if: *is-merge-request
-+      when: manual
-+    # Build everything after someone bypassed the CI
-+    - if: *is-direct-push
-+      when: manual
-+    # Scheduled pipelines reuse already-built containers
-+    - if: *is-scheduled-pipeline
-+      when: never
-+    # Allow building everything in fork pipelines, but build nothing unless
-+    # manually triggered
-+    - when: manual
-+
-+
-+# Note: make sure the branches in this list are the same as in
-+# `.build-only-delayed-rules` below.
-+.build-rules:
-   rules:
-     - !reference [.common-rules, rules]
-     # Run when re-enabling a disabled farm, but not when disabling it
-@@ -181,7 +228,7 @@ stages:
-     - if: *is-merge-attempt
-       when: on_success
-     # Same as above, but for pre-merge pipelines
--    - if: *is-pre-merge
-+    - if: *is-merge-request
-       when: manual
-     # Build everything after someone bypassed the CI
-     - if: *is-direct-push
-@@ -197,7 +244,7 @@ stages:
- # Repeat of the above but with `when: on_success` replaced with
- # `when: delayed` + `start_in:`, for build-only jobs.
- # Note: make sure the branches in this list are the same as in
--# `.container+build-rules` above.
-+# `.build-rules` above.
- .build-only-delayed-rules:
-   rules:
-     - !reference [.common-rules, rules]
-@@ -210,7 +257,7 @@ stages:
-       when: delayed
-       start_in: &build-delay 5 minutes
-     # Same as above, but for pre-merge pipelines
--    - if: *is-pre-merge
-+    - if: *is-merge-request
-       when: manual
-     # Build everything after someone bypassed the CI
-     - if: *is-direct-push
-@@ -237,11 +284,6 @@ stages:
-       - _build/meson-logs/strace
- 
- 
--python-artifacts:
--  variables:
--    GIT_DEPTH: 10
--
--
- # Git archive
- make-git-archive:
-   extends:
-@@ -273,7 +315,7 @@ sanity:
-   tags:
-     - $FDO_RUNNER_JOB_PRIORITY_TAG_X86_64
-   rules:
--    - if: *is-pre-merge
-+    - if: *is-merge-request
-       when: on_success
-     - when: never
-   variables:
-@@ -284,7 +326,6 @@ sanity:
-     - |
-       set -eu
-       image_tags=(
--        ALPINE_X86_64_LAVA_SSH_TAG
-         CONTAINER_TAG
-         DEBIAN_BASE_TAG
-         DEBIAN_BUILD_TAG
-@@ -347,3 +388,19 @@ linkcheck-docs:
- test-docs:
-    rules:
-     - when: never
-+
-+.ci-tron-x86_64-test-vk:
-+   rules:
-+    - when: never
-+
-+.ci-tron-x86_64-test-gl-manual:
-+   rules:
-+    - when: never
-+
-+.ci-tron-arm64-test-gl:
-+   rules:
-+    - when: never
-+
-+.ci-tron-x86_64-test-gl:
-+   rules:
-+    - when: never
-diff --git a/drivers/gpu/drm/ci/igt_runner.sh b/drivers/gpu/drm/ci/igt_runner.sh
-index b24d4bc53cda..1c01bda52237 100755
---- a/drivers/gpu/drm/ci/igt_runner.sh
-+++ b/drivers/gpu/drm/ci/igt_runner.sh
-@@ -1,6 +1,8 @@
--#!/bin/sh
-+#!/usr/bin/env bash
- # SPDX-License-Identifier: MIT
- 
-+. "${SCRIPTS_DIR}/setup-test-env.sh"
-+
- set -ex
- 
- export IGT_FORCE_DRIVER=${DRIVER_NAME}
-diff --git a/drivers/gpu/drm/ci/image-tags.yml b/drivers/gpu/drm/ci/image-tags.yml
-index 7acc2e2a8eaa..7c43ae22bfd3 100644
---- a/drivers/gpu/drm/ci/image-tags.yml
-+++ b/drivers/gpu/drm/ci/image-tags.yml
-@@ -1,18 +1,22 @@
- variables:
--   CONTAINER_TAG: "20250502-mesa-uprev"
--   DEBIAN_BASE_TAG: "${CONTAINER_TAG}"
-+   CONTAINER_TAG: "20260108-mesa-igt"
-+
-+   DEBIAN_BUILD_BASE_TAG: "${CONTAINER_TAG}"
-    DEBIAN_BUILD_TAG: "${CONTAINER_TAG}"
-+   DEBIAN_TEST_BASE_TAG: "${CONTAINER_TAG}"
- 
-    DEBIAN_TEST_GL_TAG: "${CONTAINER_TAG}"
-    # default kernel for rootfs before injecting the current kernel tree
--   KERNEL_TAG: "v6.14-mesa-0bdd"
-+   KERNEL_TAG: "v6.16-mesa-9d85"
-    KERNEL_REPO: "gfx-ci/linux"
--   PKG_REPO_REV: "95bf62c"
--
--   DEBIAN_PYUTILS_TAG: "${CONTAINER_TAG}"
-+   PKG_REPO_REV: "0d2527f6"
-+   FIRMWARE_TAG: "8fc31b97"
-+   FIRMWARE_REPO: "gfx-ci/firmware"
- 
-    ALPINE_X86_64_BUILD_TAG: "${CONTAINER_TAG}"
--   ALPINE_X86_64_LAVA_SSH_TAG: "${CONTAINER_TAG}"
- 
--   CONDITIONAL_BUILD_ANGLE_TAG: 384145a4023315dae658259bee07c43a
--   CONDITIONAL_BUILD_PIGLIT_TAG: a19e424b8a3f020dbf1b9dd29f220a4f
-+   CONDITIONAL_BUILD_ANGLE_TAG: efd57e99d51361944f87b9466356b0ce
-+   CONDITIONAL_BUILD_CROSVM_TAG: 4079babd375b09761d59eacb25a0598a
-+   CONDITIONAL_BUILD_PIGLIT_TAG: 21ab2c66f54777163dd038dc4cfcfde6
-+
-+   CROSVM_TAG: ${CONDITIONAL_BUILD_CROSVM_TAG}
-diff --git a/drivers/gpu/drm/ci/lava-submit.sh b/drivers/gpu/drm/ci/lava-submit.sh
-index a295102c3468..405055aa9cc4 100755
---- a/drivers/gpu/drm/ci/lava-submit.sh
-+++ b/drivers/gpu/drm/ci/lava-submit.sh
-@@ -3,27 +3,18 @@
- # shellcheck disable=SC2086 # we want word splitting
- # shellcheck disable=SC1091 # paths only become valid at runtime
- 
--# If we run in the fork (not from mesa or Marge-bot), reuse mainline kernel and rootfs, if exist.
--_check_artifact_path() {
--	_url="https://${1}/${2}"
--	if curl -s -o /dev/null -I -L -f --retry 4 --retry-delay 15 "${_url}"; then
--		echo -n "${_url}"
--	fi
--}
-+# shellcheck disable=SC1090
-+source "${FDO_CI_BASH_HELPERS}"
- 
--get_path_to_artifact() {
--	_mainline_artifact="$(_check_artifact_path ${BASE_SYSTEM_MAINLINE_HOST_PATH} ${1})"
--	if [ -n "${_mainline_artifact}" ]; then
--		echo -n "${_mainline_artifact}"
--		return
--	fi
--	_fork_artifact="$(_check_artifact_path ${BASE_SYSTEM_FORK_HOST_PATH} ${1})"
--	if [ -n "${_fork_artifact}" ]; then
--		echo -n "${_fork_artifact}"
--		return
--	fi
-+fdo_log_section_start_collapsed prepare_rootfs "Preparing root filesystem"
-+
-+set -ex
-+
-+# If we run in the fork (not from mesa or Marge-bot), reuse mainline kernel and rootfs, if exist.
-+ROOTFS_URL="$(fdo_find_s3_path "$LAVA_ROOTFS_PATH")" ||
-+{
- 	set +x
--	error "Sorry, I couldn't find a viable built path for ${1} in either mainline or a fork." >&2
-+	fdo_log_section_error "Sorry, I couldn't find a viable built path for ${LAVA_ROOTFS_PATH} in either mainline or a fork." >&2
- 	echo "" >&2
- 	echo "If you're working on CI, this probably means that you're missing a dependency:" >&2
- 	echo "this job ran ahead of the job which was supposed to upload that artifact." >&2
-@@ -35,38 +26,51 @@ get_path_to_artifact() {
- 	exit 1
- }
- 
--. "${SCRIPTS_DIR}/setup-test-env.sh"
--
--section_start prepare_rootfs "Preparing root filesystem"
--
--set -ex
--
--ROOTFS_URL="$(get_path_to_artifact lava-rootfs.tar.zst)"
--[ $? != 1 ] || exit 1
--
- rm -rf results
--mkdir -p results/job-rootfs-overlay/
-+mkdir results
- 
--artifacts/ci-common/export-gitlab-job-env-for-dut.sh \
--    > results/job-rootfs-overlay/set-job-env-vars.sh
--cp artifacts/ci-common/init-*.sh results/job-rootfs-overlay/
--cp "$SCRIPTS_DIR"/setup-test-env.sh results/job-rootfs-overlay/
-+fdo_filter_env_vars > dut-env-vars.sh
-+# Set SCRIPTS_DIR to point to the Mesa install we download for the DUT
-+echo "export SCRIPTS_DIR='$CI_PROJECT_DIR/install'" >> dut-env-vars.sh
- 
--tar zcf job-rootfs-overlay.tar.gz -C results/job-rootfs-overlay/ .
--ci-fairy s3cp --token-file "${S3_JWT_FILE}" job-rootfs-overlay.tar.gz "https://${JOB_ROOTFS_OVERLAY_PATH}"
-+fdo_log_section_end prepare_rootfs
- 
- # Prepare env vars for upload.
--section_switch variables "Environment variables passed through to device:"
--cat results/job-rootfs-overlay/set-job-env-vars.sh
-+fdo_log_section_start_collapsed variables "Environment variables passed through to device:"
-+cat dut-env-vars.sh
-+fdo_log_section_end variables
- 
--section_switch lava_submit "Submitting job for scheduling"
-+fdo_log_section_start_collapsed lava_submit "Submitting job for scheduling"
- 
- touch results/lava.log
- tail -f results/lava.log &
- # Ensure that we are printing the commands that are being executed,
- # making it easier to debug the job in case it fails.
- set -x
--PYTHONPATH=artifacts/ artifacts/lava/lava_job_submitter.py \
-+
-+# List of optional overlays
-+LAVA_EXTRA_OVERLAYS=()
-+if [ -n "${LAVA_FIRMWARE:-}" ]; then
-+    for fw in $LAVA_FIRMWARE; do
-+        LAVA_EXTRA_OVERLAYS+=(
-+            - append-overlay
-+              --name=linux-firmware
-+              --url="https://${S3_BASE_PATH}/${FIRMWARE_REPO}/${fw}-${FIRMWARE_TAG}.tar"
-+              --path="/"
-+              --format=tar
-+        )
-+    done
-+fi
-+LAVA_EXTRA_OVERLAYS+=(
-+    - append-overlay \
-+      --name=kernel-build \
-+      --url="${FDO_HTTP_CACHE_URI:-}https://${PIPELINE_ARTIFACTS_BASE}/${DEBIAN_ARCH}/kernel-files.tar.zst" \
-+      --compression=zstd \
-+      --path="${CI_PROJECT_DIR}" \
-+      --format=tar \
-+)
-+
-+lava-job-submitter \
- 	--farm "${FARM}" \
- 	--device-type "${DEVICE_TYPE}" \
- 	--boot-method "${BOOT_METHOD}" \
-@@ -75,9 +79,8 @@ PYTHONPATH=artifacts/ artifacts/lava/lava_job_submitter.py \
- 	--pipeline-info "$CI_JOB_NAME: $CI_PIPELINE_URL on $CI_COMMIT_REF_NAME ${CI_NODE_INDEX}/${CI_NODE_TOTAL}" \
- 	--rootfs-url "${ROOTFS_URL}" \
- 	--kernel-url-prefix "https://${PIPELINE_ARTIFACTS_BASE}/${DEBIAN_ARCH}" \
--	--kernel-external "${EXTERNAL_KERNEL_TAG}" \
--	--first-stage-init artifacts/ci-common/init-stage1.sh \
- 	--dtb-filename "${DTB}" \
-+	--env-file dut-env-vars.sh \
- 	--jwt-file "${S3_JWT_FILE}" \
- 	--kernel-image-name "${KERNEL_IMAGE_NAME}" \
- 	--kernel-image-type "${KERNEL_IMAGE_TYPE}" \
-@@ -86,20 +89,10 @@ PYTHONPATH=artifacts/ artifacts/lava/lava_job_submitter.py \
- 	--mesa-job-name "$CI_JOB_NAME" \
- 	--structured-log-file "results/lava_job_detail.json" \
- 	--ssh-client-image "${LAVA_SSH_CLIENT_IMAGE}" \
-+	--project-dir "${CI_PROJECT_DIR}" \
- 	--project-name "${CI_PROJECT_NAME}" \
--	--starting-section "${CURRENT_SECTION}" \
-+	--starting-section lava_submit \
- 	--job-submitted-at "${CI_JOB_STARTED_AT}" \
--	- append-overlay \
--		--name=kernel-build \
--		--url="${FDO_HTTP_CACHE_URI:-}https://${PIPELINE_ARTIFACTS_BASE}/${DEBIAN_ARCH}/kernel-files.tar.zst" \
--		--compression=zstd \
--		--path="${CI_PROJECT_DIR}" \
--		--format=tar \
--	- append-overlay \
--		--name=job-overlay \
--		--url="https://${JOB_ROOTFS_OVERLAY_PATH}" \
--		--compression=gz \
--		--path="/" \
--		--format=tar \
-+	"${LAVA_EXTRA_OVERLAYS[@]}" \
- 	- submit \
- 	>> results/lava.log
-diff --git a/drivers/gpu/drm/ci/static-checks.yml b/drivers/gpu/drm/ci/static-checks.yml
-index 13ffa827b7fa..712d3efe99c6 100644
---- a/drivers/gpu/drm/ci/static-checks.yml
-+++ b/drivers/gpu/drm/ci/static-checks.yml
-@@ -1,4 +1,5 @@
- check-patch:
-+  stage: static-checks
-   extends:
-     - .build
-     - .use-debian/x86_64_build
+diff --git a/drivers/gpu/drm/ci/arm64.config b/drivers/gpu/drm/ci/arm64.config
+index fddfbd4d2493..b850b88787ad 100644
+--- a/drivers/gpu/drm/ci/arm64.config
++++ b/drivers/gpu/drm/ci/arm64.config
+@@ -83,6 +83,7 @@ CONFIG_SC_DISPCC_7180=y
+ CONFIG_SC_GPUCC_7180=y
+ CONFIG_SM_GPUCC_8350=y
+ CONFIG_QCOM_SPMI_ADC5=y
++CONFIG_QCOM_SPMI_VADC=y
+ CONFIG_DRM_PARADE_PS8640=y
+ CONFIG_DRM_LONTIUM_LT9611UXC=y
+ CONFIG_PHY_QCOM_USB_HS=y
 diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-index 81147e86bfd0..754db71049f0 100644
+index 754db71049f0..84153aa2ad68 100644
 --- a/drivers/gpu/drm/ci/test.yml
 +++ b/drivers/gpu/drm/ci/test.yml
-@@ -7,13 +7,16 @@
- 
- .lava-test:
-   extends:
--    - .container+build-rules
-+    - .build-rules
-     - .allow_failure_lockdep
-   timeout: "1h30m"
-   rules:
-     - !reference [.scheduled_pipeline-rules, rules]
-     - !reference [.collabora-farm-rules, rules]
-     - when: on_success
-+  before_script:
-+    #  lava-submit.sh is a part of the archive, unlike Mesa CI
-+    - eval "$S3_JWT_FILE_SCRIPT"
-   script:
-     # Note: Build dir (and thus install) may be dirty due to GIT_STRATEGY
-     - rm -rf install
-@@ -32,9 +35,7 @@
-   dependencies:
-     - testing:arm32
-   needs:
--    - alpine/x86_64_lava_ssh_client
-     - debian/arm32_test-gl
--    - python-artifacts
-     - testing:arm32
-     - igt:arm32
- 
-@@ -48,9 +49,7 @@
-   dependencies:
-     - testing:arm64
-   needs:
--    - alpine/x86_64_lava_ssh_client
-     - debian/arm64_test-gl
--    - python-artifacts
-     - testing:arm64
-     - igt:arm64
- 
-@@ -64,9 +63,7 @@
-   dependencies:
-     - testing:x86_64
-   needs:
--    - alpine/x86_64_lava_ssh_client
-     - debian/x86_64_test-gl
--    - python-artifacts
+@@ -67,31 +67,6 @@
      - testing:x86_64
      - igt:x86_64
  
-@@ -110,6 +107,7 @@
-     - !reference [default, before_script]
-     - rm -rf install
-     - tar -xf artifacts/install.tar
-+    - mkdir -p /kernel
-   script:
-     - ln -sf $CI_PROJECT_DIR/install /install
-     - mv install/bzImage /kernel/bzImage
-@@ -127,6 +125,7 @@
-     DRIVER_NAME: msm
-     BOOT_METHOD: depthcharge
-     KERNEL_IMAGE_TYPE: ""
-+    LAVA_FIRMWARE: qcom-lava
- 
- msm:sc7180-trogdor-lazor-limozeen:
+-.baremetal-igt-arm64:
+-  extends:
+-    - .baremetal-test-arm64-gl
+-    - .use-debian/baremetal_arm64_test-gl
+-    - .allow_failure_lockdep
+-  timeout: "1h30m"
+-  rules:
+-    - !reference [.scheduled_pipeline-rules, rules]
+-    - !reference [.google-freedreno-farm-rules, rules]
+-    - when: on_success
+-  variables:
+-    FDO_CI_CONCURRENT: 10
+-    HWCI_TEST_SCRIPT: "/install/igt_runner.sh"
+-    S3_ARTIFACT_NAME: "arm64/kernel-files"
+-    BM_KERNEL: https://${PIPELINE_ARTIFACTS_BASE}/arm64/Image.gz
+-    BM_CMDLINE: "ip=dhcp console=ttyMSM0,115200n8 $BM_KERNEL_EXTRA_ARGS root=/dev/nfs rw nfsrootdebug nfsroot=,tcp,nfsvers=4.2 init=/init $BM_KERNELARGS"
+-    FARM: google
+-  needs:
+-    - debian/baremetal_arm64_test-gl
+-    - job: testing:arm64
+-      artifacts: false
+-    - igt:arm64
+-  tags:
+-    - $RUNNER_TAG
+-
+ .software-driver:
+   stage: software-driver
    extends:
-@@ -194,11 +193,14 @@ msm:sm8350-hdk:
-     KERNEL_IMAGE_NAME: "Image.gz"
-     KERNEL_IMAGE_TYPE: ""
-     RUNNER_TAG: mesa-ci-x86-64-lava-sm8350-hdk
-+    LAVA_FIRMWARE: qcom-lava
-+    LAVA_FASTBOOT_CMD: "set_active a"
+@@ -149,34 +124,37 @@ msm:sc7180-trogdor-kingoftown:
  
- .rockchip-device:
+ msm:apq8016:
+   extends:
+-    - .baremetal-igt-arm64
++    - .lava-igt:arm64
+   stage: msm
++  parallel: 3
    variables:
-     DTB: ${DEVICE_TYPE}
-     BOOT_METHOD: depthcharge
-+    LAVA_FIRMWARE: arm
+-    DEVICE_TYPE: apq8016-sbc-usb-host
++    BOOT_METHOD: fastboot
++    DEVICE_TYPE: dragonboard-410c
+     DRIVER_NAME: msm
+-    BM_DTB: https://${PIPELINE_ARTIFACTS_BASE}/arm64/${DEVICE_TYPE}.dtb
++    DTB: apq8016-sbc-usb-host
++    FARM: collabora
+     GPU_VERSION: apq8016
+-    # disabling unused clocks congests with the MDSS runtime PM trying to
+-    # disable those clocks and causes boot to fail.
+-    # Reproducer: DRM_MSM=y, DRM_I2C_ADV7511=m
+-    BM_KERNEL_EXTRA_ARGS: clk_ignore_unused
+-    RUNNER_TAG: google-freedreno-db410c
+-  script:
+-    - ./install/bare-metal/fastboot.sh || exit $?
++    KERNEL_IMAGE_NAME: "Image.gz"
++    KERNEL_IMAGE_TYPE: ""
++    RUNNER_TAG: mesa-ci-x86-64-lava-dragonboard-410c
++    LAVA_FIRMWARE: qcom-lava
  
- .rockchip-display:
-   stage: rockchip
-@@ -255,6 +257,7 @@ panfrost:rk3399:
-     DTB: ""
-     BOOT_METHOD: depthcharge
-     KERNEL_IMAGE_TYPE: ""
-+    LAVA_FIRMWARE: i915
- 
- i915:apl:
+ msm:apq8096:
    extends:
-@@ -337,6 +340,7 @@ i915:jsl:
-     DTB: ""
-     BOOT_METHOD: depthcharge
-     KERNEL_IMAGE_TYPE: ""
-+    LAVA_FIRMWARE: amdgpu-lava
+-    - .baremetal-igt-arm64
++    - .lava-igt:arm64
+   stage: msm
++  parallel: 3
+   variables:
+-    DEVICE_TYPE: apq8096-db820c
++    BOOT_METHOD: fastboot
++    DEVICE_TYPE: dragonboard-820c
+     DRIVER_NAME: msm
+-    BM_KERNEL_EXTRA_ARGS: maxcpus=2
+-    BM_DTB: https://${PIPELINE_ARTIFACTS_BASE}/arm64/${DEVICE_TYPE}.dtb
++    DTB: apq8096-db820c
++    FARM: collabora
+     GPU_VERSION: apq8096
+-    RUNNER_TAG: google-freedreno-db820c
+-  script:
+-    - ./install/bare-metal/fastboot.sh || exit $?
++    KERNEL_IMAGE_NAME: "Image.gz"
++    KERNEL_IMAGE_TYPE: ""
++    RUNNER_TAG: mesa-ci-x86-64-lava-dragonboard-820c
++    LAVA_FIRMWARE: qcom-lava
  
- amdgpu:stoney:
+ msm:sm8350-hdk:
    extends:
-@@ -355,6 +359,7 @@ amdgpu:stoney:
-     DTB: ${DEVICE_TYPE}
-     BOOT_METHOD: depthcharge
-     KERNEL_IMAGE_TYPE: ""
-+    LAVA_FIRMWARE: arm
- 
- .mediatek-display:
-   stage: mediatek
+diff --git a/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt b/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
+index 72c469021b66..4546363447ff 100644
+--- a/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
++++ b/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
+@@ -1,5 +1,9 @@
++core_setmaster@master-drop-set-user,Fail
+ kms_3d,Fail
++kms_cursor_legacy@forked-move,Fail
++kms_cursor_legacy@single-bo,Fail
+ kms_force_connector_basic@force-edid,Fail
+ kms_hdmi_inject@inject-4k,Fail
+ kms_lease@lease-uevent,Fail
++msm/msm_mapping@memptrs,Fail
+ msm/msm_mapping@ring,Fail
+diff --git a/drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt b/drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt
+index 2893f98a6b97..0d5cb2a87e67 100644
+--- a/drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt
++++ b/drivers/gpu/drm/ci/xfails/msm-apq8096-fails.txt
+@@ -1,2 +1,4 @@
++core_setmaster@master-drop-set-user,Fail
+ kms_3d,Fail
+ kms_lease@lease-uevent,Fail
++msm/msm_mapping@memptrs,Fail
 -- 
 2.47.3
 
