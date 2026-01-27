@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cF0pE9a9eGn6sgEAu9opvQ
+	id ULYEGNm9eGn6sgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 14:29:58 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 14:30:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012C994E9E
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 14:29:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1126D94EA5
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 14:30:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58AD910E572;
-	Tue, 27 Jan 2026 13:29:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 614B410E574;
+	Tue, 27 Jan 2026 13:29:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 356E210E572
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 13:29:52 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2008510E572
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 13:29:53 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6139A5BCE4;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B4458337B6;
  Tue, 27 Jan 2026 13:29:48 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
+Authentication-Results: smtp-out1.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E8F323EA62;
- Tue, 27 Jan 2026 13:29:47 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5D4963EA61;
+ Tue, 27 Jan 2026 13:29:48 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 0LPDNcu9eGmeDAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 27 Jan 2026 13:29:47 +0000
+ by imap1.dmz-prg2.suse.org with ESMTPSA id MGVVFcy9eGmeDAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 27 Jan 2026 13:29:48 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: boris.brezillon@collabora.com, loic.molinari@collabora.com,
  willy@infradead.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
@@ -42,9 +42,9 @@ To: boris.brezillon@collabora.com, loic.molinari@collabora.com,
  matt.coster@imgtec.com
 Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 2/3] drm/gem-shmem: Track folio accessed/dirty status in mmap
-Date: Tue, 27 Jan 2026 14:16:37 +0100
-Message-ID: <20260127132938.429288-3-tzimmermann@suse.de>
+Subject: [PATCH 3/3] drm/gem-shmem: Track folio accessed/dirty status in vmap
+Date: Tue, 27 Jan 2026 14:16:38 +0100
+Message-ID: <20260127132938.429288-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260127132938.429288-1-tzimmermann@suse.de>
 References: <20260127132938.429288-1-tzimmermann@suse.de>
@@ -52,11 +52,11 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Pre-Result: action=no action; module=replies;
  Message is reply to one we originated
-X-Spam-Flag: NO
 X-Spam-Score: -4.00
 X-Rspamd-Pre-Result: action=no action; module=replies;
  Message is reply to one we originated
 X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,75 +104,77 @@ X-Spamd-Result: default: False [0.99 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
-X-Rspamd-Queue-Id: 012C994E9E
+X-Rspamd-Queue-Id: 1126D94EA5
 X-Rspamd-Action: no action
 
-Invoke folio_mark_accessed() in mmap page faults to add the folio to
-the memory manager's LRU list. Userspace invokes mmap to get the memory
-for software rendering. Later compositors will do the same to create the
-final on-screen image, so keeping the pages in LRU makes sense. Avoids
-paging out graphics buffers when under memory pressure.
+On successful vmap, set the page_mark_accessed_on_put and _dirty_on_put
+flags in the gem-shmem object. Signals that the contained pages require
+LRU and dirty tracking when they are being released back to SHMEM. Clear
+these flags on put, so that buffer remains quiet until the next call to
+vmap. There's no means of handling dirty status in vmap as there's no
+write-only mapping available.
 
-In page_mkwrite, further invoke the folio_mark_dirty() to add the folio
-for writeback, should the underlying file be paged out from system memory.
-This rarely happens in practice, yet it would corrupt the buffer content.
+Both flags, _accessed_on_put and _dirty_on_put, have always been part of
+the gem-shmem object, but never used much. So most drivers did not track
+the page status correctly.
 
-This has little effect on a system's hardware-accelerated rendering, which
-only mmaps for an initial setup of textures, meshes, shaders, etc.
+Only the v3d and imagination drivers make limited use of _dirty_on_put. In
+the case of imagination, move the flag setting from init to cleanup. This
+ensures writeback of modified pages but does not interfere with the
+internal vmap/vunmap calls. V3d already implements this behaviour.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++++
+ drivers/gpu/drm/imagination/pvr_gem.c  | 6 ++++--
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index b6ddabbfcc52..30cd34d3a111 100644
+index 30cd34d3a111..8c07a8f81322 100644
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -562,8 +562,10 @@ static bool drm_gem_shmem_try_map_pmd(struct vm_fault *vmf, unsigned long addr,
- 
- 		if (folio_test_pmd_mappable(folio)) {
- 			/* Read-only mapping; split upon write fault */
--			if (vmf_insert_folio_pmd(vmf, folio, false) == VM_FAULT_NOPAGE)
-+			if (vmf_insert_folio_pmd(vmf, folio, false) == VM_FAULT_NOPAGE) {
-+				folio_mark_accessed(folio);
- 				return true;
-+			}
+@@ -265,6 +265,8 @@ void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
+ 				  shmem->pages_mark_dirty_on_put,
+ 				  shmem->pages_mark_accessed_on_put);
+ 		shmem->pages = NULL;
++		shmem->pages_mark_accessed_on_put = false;
++		shmem->pages_mark_dirty_on_put = false;
+ 	}
+ }
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_put_pages_locked);
+@@ -397,6 +399,8 @@ int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
+ 		} else {
+ 			iosys_map_set_vaddr(map, shmem->vaddr);
+ 			refcount_set(&shmem->vmap_use_count, 1);
++			shmem->pages_mark_accessed_on_put = true;
++			shmem->pages_mark_dirty_on_put = true;
  		}
  	}
- #endif
-@@ -605,6 +607,7 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
- 		get_page(page);
  
- 		folio_lock(folio);
-+		folio_mark_accessed(folio);
+diff --git a/drivers/gpu/drm/imagination/pvr_gem.c b/drivers/gpu/drm/imagination/pvr_gem.c
+index c07c9a915190..307b02c916d4 100644
+--- a/drivers/gpu/drm/imagination/pvr_gem.c
++++ b/drivers/gpu/drm/imagination/pvr_gem.c
+@@ -25,7 +25,10 @@
  
- 		vmf->page = page;
- 		ret = VM_FAULT_LOCKED;
-@@ -653,10 +656,23 @@ static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
- 	drm_gem_vm_close(vma);
+ static void pvr_gem_object_free(struct drm_gem_object *obj)
+ {
+-	drm_gem_shmem_object_free(obj);
++	struct drm_gem_shmem_object *shmem_obj = to_drm_gem_shmem_obj(obj);
++
++	shmem_obj->pages_mark_dirty_on_put = true;
++	drm_gem_shmem_free(shmem_obj);
  }
  
-+static vm_fault_t drm_gem_shmem_page_mkwrite(struct vm_fault *vmf)
-+{
-+	struct folio *folio = page_folio(vmf->page);
-+
-+	file_update_time(vmf->vma->vm_file);
-+
-+	folio_lock(folio);
-+	folio_mark_dirty(folio);
-+
-+	return VM_FAULT_LOCKED;
-+}
-+
- const struct vm_operations_struct drm_gem_shmem_vm_ops = {
- 	.fault = drm_gem_shmem_fault,
- 	.open = drm_gem_shmem_vm_open,
- 	.close = drm_gem_shmem_vm_close,
-+	.page_mkwrite = drm_gem_shmem_page_mkwrite,
- };
- EXPORT_SYMBOL_GPL(drm_gem_shmem_vm_ops);
+ static struct dma_buf *pvr_gem_export(struct drm_gem_object *obj, int flags)
+@@ -363,7 +366,6 @@ pvr_gem_object_create(struct pvr_device *pvr_dev, size_t size, u64 flags)
+ 	if (IS_ERR(shmem_obj))
+ 		return ERR_CAST(shmem_obj);
  
+-	shmem_obj->pages_mark_dirty_on_put = true;
+ 	shmem_obj->map_wc = !(flags & PVR_BO_CPU_CACHED);
+ 	pvr_obj = shmem_gem_to_pvr_gem(shmem_obj);
+ 	pvr_obj->flags = flags;
 -- 
 2.52.0
 
