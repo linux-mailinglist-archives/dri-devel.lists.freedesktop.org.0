@@ -2,171 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cOEdO/wGeGnFnQEAu9opvQ
+	id iKJmAMsgeGk/oQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 01:29:48 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 03:19:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D3C8E7C9
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 01:29:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E48B8EF4C
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 03:19:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E642310E009;
-	Tue, 27 Jan 2026 00:29:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E580110E090;
+	Tue, 27 Jan 2026 02:19:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="PBlfIdIU";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cTTUrqUJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazon11012043.outbound.protection.outlook.com [52.101.43.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D58010E009;
- Tue, 27 Jan 2026 00:29:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zCrU7PiKsuL0cc6Rm2bI9dMtX1L9FZFl2CW/6WnKUZyju+yzg7bvHni7aNlornB2SrSLWjZ+pjVR5HSa0112phAxTSdcdiX8yeYaNmqFJ96GG4d+A3NTpTnsnSQiX3NRU2wWDgTRLqcoUkEd6fjaDOLZr5mDqdOk56w2RZAUC+ohGWhhT1LMvmEUV2FrDB7uQGFiaUc9Zhr42XGEW/nOc/e7EfWWMk4SrEheUsSvgYAWUvILLSDIbl1fIsy6ct4opWEQcI+/6slTKYox2i+mNSmHaLugnzprVTx1ZzdOz7XbMn/5bQ7LM7V37G3uJGC6CWswHD9QHbIwo5eRItHUZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6uIBMm6tW15nT7uZEYoMvvV0I2V5C9SX5PBIm8Eay2Y=;
- b=Kt76KJ0jIXuQnbMbTKNR/nEMLUlpCOtvQSfoD2TMeFzi268ZrnkKyNaEcCUfn/jOd1MeVkwmRAylJq3cmClPTA759d54jbOvjZisyZUZOmkED9N2KX23SQyXIEZ1B/I1ZIntorJPOiH1vRtd7YINKQt6Xn2eJczUmqeIBJ+UmzrKwMQwPausTR9q47UKLBYumWrWFNAqLAanTQb5OEuSCnHWp6IbXIWHyz9yRCZ5Pn1Bzq0lV9DV+pKXCh9rocJ/T9avZyipgLq+a7KXXGfN/MJpUwr2UScAtvI7/47CZX4Ie4wVXQu984jBOv4FCUJhuPXazfisbORD0MByZ3vTrQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6uIBMm6tW15nT7uZEYoMvvV0I2V5C9SX5PBIm8Eay2Y=;
- b=PBlfIdIU8wPHbH9WcaHD62yP5Y5OXBy/xd+YiD8UwVeNFSANChitj4ThFbwGzPmLgPiJcIhYymfHmp1c8XKpm576zF5qe6lgG4RNAYsqbDiMNHrpdjc5LYP4mjruWZg8XdeYv3LnNIjrngw10QPNCYdkyPzBYFt9s7BvW+JXemvZRtqQjs+Wq9DhvU+VZelv9ACA9q4NBjGdvLgMwFFmzesavZweYPcDSn53qzIPpYrjBaYgxL0qrFj98Z5u/tN0p1Mq/K4kvEPium6f2wznvxglQUu/9O1k4Zyw3duUXY1vyEjOkpWfdtOTakcUzS/EegYYMO/T7eefR9Huh/ZsHg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB9072.namprd12.prod.outlook.com (2603:10b6:8:be::6) by
- BY5PR12MB4116.namprd12.prod.outlook.com (2603:10b6:a03:210::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Tue, 27 Jan
- 2026 00:29:39 +0000
-Received: from DM4PR12MB9072.namprd12.prod.outlook.com
- ([fe80::9e49:782:8e98:1ff1]) by DM4PR12MB9072.namprd12.prod.outlook.com
- ([fe80::9e49:782:8e98:1ff1%5]) with mapi id 15.20.9542.010; Tue, 27 Jan 2026
- 00:29:39 +0000
-Message-ID: <413d265f-9ffc-499b-8dbc-26f92bdff6d8@nvidia.com>
-Date: Tue, 27 Jan 2026 11:29:30 +1100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 13/13] mm: Remove device private pages from the
- physical address space
-To: linux-mm@kvack.org
-Cc: balbirs@nvidia.com, matthew.brost@intel.com, akpm@linux-foundation.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- david@redhat.com, ziy@nvidia.com, apopple@nvidia.com,
- lorenzo.stoakes@oracle.com, lyude@redhat.com, dakr@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, rcampbell@nvidia.com,
- mpenttil@redhat.com, jgg@nvidia.com, willy@infradead.org,
- linuxppc-dev@lists.ozlabs.org, intel-xe@lists.freedesktop.org, jgg@ziepe.ca,
- Felix.Kuehling@amd.com, jhubbard@nvidia.com
-References: <20260123062309.23090-1-jniethe@nvidia.com>
- <20260123062309.23090-14-jniethe@nvidia.com>
-Content-Language: en-US
-From: Jordan Niethe <jniethe@nvidia.com>
-In-Reply-To: <20260123062309.23090-14-jniethe@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY5PR03CA0026.namprd03.prod.outlook.com
- (2603:10b6:a03:1e0::36) To DM4PR12MB9072.namprd12.prod.outlook.com
- (2603:10b6:8:be::6)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09B4010E090
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 02:19:49 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id
+ 98e67ed59e1d1-35334ea1f98so2335998a91.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 26 Jan 2026 18:19:49 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769480388; cv=none;
+ d=google.com; s=arc-20240605;
+ b=EPvycLGz2PYFHjJEQDWTgFIJtq6Un09e5ArGKLXy6Szt28EaFV/socpZiYtF4fYqE+
+ 97LLhhbTDGAgKmaCnZ/igLdpN0WMXsF0hyxLL1zJDJLZ3Zk99+GQJbjO+lld/E+DNrjO
+ wy8ay8xRX/a6Lk8RXlbsm0LaxuobeRNc7CX4Osq3qwSf5GrZ6yZHmrltP4ewl5u/NFtx
+ 3v/NWtyPAhq9o9r12aXJrVO2gv0EPucqz755x6eLMylcfjEelVTvRhzPlBlvqMQjHQAX
+ aGk7RVA0Dg4C+HlaUtrEERUPhpSvftvwC8oTPQ4qRLpNanLm4TPAiZ7oTTaEzpnsCgcY
+ D+ZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:dkim-signature;
+ bh=7AuGSERLo4VW5sSrWHTOA9xALg2QwcEpABcfv80mNKA=;
+ fh=MBjrIypxrf1Bce/HoCBqrdC4tX61HFCM/gtRVr1JqOM=;
+ b=HiAkybYZ2ptMjUsH+wsvXU4O1VhL3/Ot8ZFor5UyIGeIdc6UPye7D3ID/hES83khdp
+ 9Ly1CdKn86PSb8NeJjVLo5fvQbno7Opmh6Sm9s/QgZiuAGRFFnppUKe885MGqJP+iUL3
+ 5IY6/BIjqhU+w19tnByXLlIFQGt9BV4uhwb5j2IpfZbfrnCDMawkaccCm2BD2pI11SyC
+ 0dZy/MuGhglbpa/yp0785Iv7OkO8Q9ubT8FEQ0OKTe4DsHHTffqlruGYSpzoo+1Yhbkj
+ 6qrlphsv/fNQxYeF+ZcUkqUf5JdZl9zLg0FNZKZ/L2NDvsRu9zqvtu9KKuP/OrAisFLV
+ TzOw==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1769480388; x=1770085188; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=7AuGSERLo4VW5sSrWHTOA9xALg2QwcEpABcfv80mNKA=;
+ b=cTTUrqUJUK0cVndNPa2lRFG2cdc7h6e/Z6R8WW612+UIrJjn6zO+bvT5HXplgW0iz6
+ +LkhnyUMS1kDVutU5EWeUtsRyc9rYfugKSG/ndezQh2HbZvaZfkhTlG9ATmVmMN4rW8b
+ V9NoIiYhb53dJ4RnTKuUGIMg3UZFIvKrcbNJ+RvP+okLvJu4NulzvQminULeCZiViPHB
+ ai1jYjbu3FrviJYqHngFuroPfoecJe58C6CYutI9Ow5757hH43l3YHSm/PD3nlA+Pf5O
+ mxz1F6ByOuSmXC8VD0CDrPC4I6RDlxO8OMKSG+eE8dj1ZH2NIYx4Bknhe/hjttB6u0ng
+ EumA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769480388; x=1770085188;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7AuGSERLo4VW5sSrWHTOA9xALg2QwcEpABcfv80mNKA=;
+ b=eSsTqeTMLYGUkDeUQQz72Y9RR3T1jWh5SWDrrB6u0JXdWxzeVGG2rxi+FMuQVrYbe3
+ YImWfn4BvXz6RLNmSOYyI0X284x3DCo1GUsW33Gr5SHeRLQGMRUEqVAP5GRaSuJOD4q1
+ USbPJuLJLzWKhh0dKaLGl+it5wPuPZo1RWgBaJkoJF9/OwBWWZBeswwiAt8hrbgKXn2X
+ uUtZiyp+3xBSwhkLNer7S5YZsNWz9MpLBaIGTnyKCvGnQ2KjS2/nMnOT712orAKG2UUs
+ SHikqs4rwMQKpR1f1Bo+CksXdMAD6ifoqItepsK7A+wZFYa5JGkilMn9BDTJnNzqfrw7
+ P2MA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWMZ+LA0X3gOn5PhkygEf460s13/byuweN/SKpAjU3cGokZx7aNHNVzqf/m8y8woMFQ2SKIRyqTTX0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw+HI8fK60pf8cuDFEuZ0ma4sl9vyO+anIjYuh+rEBJeVgQR21j
+ dHAMCSagYDmZmo4cDUNMMEcBRQr8imyj9nUmGstQoBCruYJOtW18OkSrFzbzhhuTrHu/q0Ii7e8
+ Ann4lrOx1eRXbgub6j4sW1CQQlvf+O4o=
+X-Gm-Gg: AZuq6aK7LbBY/HHCQ7JR+IjCgttBar4LtS2hb68+WwYtIWcQ58QOBh0jSwb83hmoP8M
+ Ytq4mJOA7/i3HQE9YwpIRm/XUS7i7VOR5TsQ9xehvkF7pp7B6yqQ9oWeumzfY7KvWNTGrAsCfeY
+ B1Wy2U0Fe3I31Q8MyfemyVgKW1dVYLq8+h7ImofPrPnp8FEYHgwxPLJbv4Sh5dsDZPI/uMv0eJX
+ RlxieuJXJAbrN1UFcFFO/aSVwa+1+xq3NnDKKfSq0Hky6+cixbHhSRbnMNWShFLLrrK0R0o07I7
+ U/ks
+X-Received: by 2002:a17:90b:35c4:b0:341:8ad7:5f7a with SMTP id
+ 98e67ed59e1d1-353fed74b59mr262004a91.18.1769480388288; Mon, 26 Jan 2026
+ 18:19:48 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB9072:EE_|BY5PR12MB4116:EE_
-X-MS-Office365-Filtering-Correlation-Id: 427dbc75-b2de-4896-3e35-08de5d3b2818
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MlZsWis2dnJ6YitlcWFrVzY4TCt3bmNHQ09UTlpMS0pVT29EaGlUMG4wQWFu?=
- =?utf-8?B?Qk9JOU9OUExxSHlzTTdhMDhiU2NrWUNrWERmU2g0dDZId3VpOTVEaWVpN0xD?=
- =?utf-8?B?REd5OXR0ZVNTZVVPZy9nQ1BtNjhzZ2svTmdPa2tNdVArWXVJUks4b3RZbkVV?=
- =?utf-8?B?enpXdm4xMERnZjY1VjdlM2tYdXE2Y0h4Z2I1UGFESTY1VGVaMmZZOGp2dUF5?=
- =?utf-8?B?Q2RBSG1yeTB6TkNBdDBCbUZjTEN4MG1GcFdWbkNxWFNOQ0diaFlpNEFEK3Zv?=
- =?utf-8?B?MHY4OXBxMGYrNVdKa1ZZdVl3eEpCWmRzSmtnWlRNOGpDczBWL1hPTkduaHJy?=
- =?utf-8?B?Y1hnZ0VTZm9aY2hmdlhaYWwza3NmVE1yOGt2dVY5VTJ5bnNtRGljTndGT3Fo?=
- =?utf-8?B?MXByby9EdTQxQXQzeGRQbEQ2UUtJYTZrRUJsV3pRUGdSWGpNSDRZd3p5Q2oy?=
- =?utf-8?B?RWVGaTl2RVUzaFBISExRc3JHV0pzclhSMWlhSzFjaWEyZ1dmcG85NUpHUVlv?=
- =?utf-8?B?REJKV0k3NXVPV1lMTzFRWFNETWhWSmJxQ0NST2FKMzkzTHZhY1hIdXRPNkEr?=
- =?utf-8?B?TXpTNnBhUHE3aUpWNlhvcUhCL3dWM3VQK1B4U2pkMlNGeDVKZkFjTmd0UFBP?=
- =?utf-8?B?bXh1STYrQzAzSFFZam9TMkgwMWsvSURtaG9hcEVHT2dKR0xSZTVEUUs1cURt?=
- =?utf-8?B?MXlsdzZsSng0NENPcGFFZVZGWG1UdU9rQWZMbFYycXRTZ01BemhrQmxqQlQ2?=
- =?utf-8?B?c3pKWS9jUTFyZy9nOFk2SEFIV0JLY2hnZkpycHpwczYwckNLb3RQM3EzQWs2?=
- =?utf-8?B?WUlhQ29OZWF3NjdSQ3VTSVkxdkJ2MHY4N01HUWs2a3FKL2xFdkZzVTlMbDdx?=
- =?utf-8?B?ZUJzYmdLTlBDVlZNS1Eva3pnclpMdE50VzJPcmFPRU11alpEcjArOUZDSXVs?=
- =?utf-8?B?TjBEVHVGRGJtcWZkOG9sbkJyVmRYRXNQMzZpZ0E1SFp4ckFlY0dKT2lDM1FT?=
- =?utf-8?B?cDRNMWtuckJoc3NPYnRYNVVDMnA5SVltRjQ5MDhuejFyU0JXMGxHUTFEQ3ZL?=
- =?utf-8?B?MExja0RHa0E5MlhPZTlkRnV3dk4xZGNCUlpnQ2ExNFhUak1KYTM3OFRmazla?=
- =?utf-8?B?cHdpVVRXZVdIaWNXTkZVQ1E3UDk4TzNaTmJ5UE9NcmY2UFFLSy85cm01cGU2?=
- =?utf-8?B?T1FhRG5CMlNzdVl0TkQwbDRoMGxVV24xVnoyM283dS9BQ1QzenNVV1A1WTZM?=
- =?utf-8?B?YkQxeFIrdGpoTUJHbFBDSXRZRFVMc01xcVo3ZHEzSytDUlE1dlk1SVVMY0FQ?=
- =?utf-8?B?b0U2NHJFVG9VUkNmaXdsbC9TUnFwTlFkajdZTlk3dE9wWG1SYkNYNUVrVFlH?=
- =?utf-8?B?SW9BTmN3SkpFSVpCQWlTNmlibnFlNTV5MmpsVUg2M2JwUmcvU0YwMGxxcGtY?=
- =?utf-8?B?aHF3NDFBVnVwbXROOWgrNXBXeXpReDEwd3dQZDFLK2dWajFSbFd3a0ZmWG1i?=
- =?utf-8?B?d0lvVTcrRVBIL21zcXZvRmRGd0c3c0ZmR2lZcWJBU3hRZ1pWQmhzdE5Kb2Vz?=
- =?utf-8?B?Qk5SdmNKM0RKNGl1NVoyN21ZeE02bDFYVUt6VG9MZ0ZMQi9FdHl2cDVwKzJQ?=
- =?utf-8?B?cG5iWkhxY2cvOE0waTJGUWRScUUxNGNNK1ltaC9oOVdHOXMwOERTcHBZaWtS?=
- =?utf-8?B?a0wxamZSYm1FV0cvRkF3d2Zkb2Eyd05rRCtzZHhjRFAxYTVvbW50RW8vNlFn?=
- =?utf-8?B?TDRHNVlRNFozVU1kb04yRUNrNC9FM0hHVU9RalVJN3FnTHAyM09PdndOek45?=
- =?utf-8?B?Qk5hbXVDQ2JURFhJeVFoaFZLS2E5ZXpyZ0pLZG11SW5teWcwOWdWQklndk1h?=
- =?utf-8?B?MGxUY2RlOHY3eURHQUhVWlE2ZjlNVlhSSzl3S0g2dEJvTHpJaHc2UW1CVnFa?=
- =?utf-8?B?K0hhb0Y5RVREYnFMK1NuV0d6OE9zQ295b0xGZUwxZTlsSGxPVXd4Z01GUkov?=
- =?utf-8?B?TlpJVmx2WUVTbExQZThpdmlIdFBCN2xBa01rUVd3NU1nY1FsRkJ2UzYyaEtm?=
- =?utf-8?B?cndveWVZb2d3Nzl3ZUlPSzdHSXptTFQ5ckdRM1FBNlVYK3VLNkI2VFVBcFNy?=
- =?utf-8?Q?CLeiWCMWVpqeMlUK3RGk05rhF?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB9072.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aWhOLy9lNkEyWVBDZTBHZGRRZXNQaHRYUGVrZGJhalQvY2wxQU5yMjJjTWtj?=
- =?utf-8?B?SEVnZWM1NmFTNURSbzEyVS90WXRGWU1odjFSVnVhUVNGM3pYRWVJQy9weEVq?=
- =?utf-8?B?aGdGSWx5UEx5bHo2TXFMZGQ3dU5JanlKbzZsUnZDYjNndmYrcU9KdGNTS1c5?=
- =?utf-8?B?KzFuMnBDU3lUbUJlRFZ3SURlYlNYakI0V2xUTXRObWppODFZMWxLYy9lT1o3?=
- =?utf-8?B?TzV5UGtTN2xqSDRZQnJFUHlwcGFQVzg2TGorRXFZRG1FN2kzTTJjQzlScHVC?=
- =?utf-8?B?MmtlUm45dWdEMURFZVdlUThGKzZqNm5zYTJHM0RLRDMvZ1Roc3pJejFmOEJV?=
- =?utf-8?B?ak5Xc2hrUHBmOFVyMWs0QVpSTkl1dTllUCtlWnNDekorRGcwMEllcjV6SFYv?=
- =?utf-8?B?bWlGT01jelJFNHN2YlY3N2hLZmw0R3JwbjFRSVhyZHF2T0tzRkFkOUJ6bjBx?=
- =?utf-8?B?a1lrTkg2SCtKbGZIUXRmdVNmK3NKT1YwNTRXT1RoR3R3cGI2MzdBakF2anZn?=
- =?utf-8?B?WlZGM3FpTkpmdUxscVhHSUh0MkVPYThyckFnUW40QUJIZFhBa2xGZE9kbHQz?=
- =?utf-8?B?VFZhUGhZNWdFSW5EbEdFR3JOUEtjTWhWMnk2YUJoQ2tuUXdPK1JrSGlnMUFj?=
- =?utf-8?B?ZmtzUFo0c2FoelNMaEFJNHVNZ0F3MWNlSzNDOWhYNXkvUm1sQ1NXd09ZU2Y4?=
- =?utf-8?B?ZTJXN1lOU2RIRXhDcFBLQ2ppS2NWUm1YcXpzSmZWL2l2SVNBc2hvMEVUOFRC?=
- =?utf-8?B?Q3UySnQzRVhpaHI3NGFQalhkQU55U2JERDVpUTlqUnV4dnJzL2E0ZnBzZytY?=
- =?utf-8?B?M0p0bzdDOXJRNlVCdk9XcXowbUJrVzl2SFlLZXIvU09sZnJpTFdmRHRHSDJ2?=
- =?utf-8?B?c0dSOGFOanlTU1B3R05uYk52U1ZMVldjc1JOZDVYZzFwTU5QWG5wbnpkSFJZ?=
- =?utf-8?B?NnNVQlUyRFZRVFU3SDlxSE9ZVWlrRGtLeHhhRVF1TXB1SUZ5cnQ0MTdvWGZV?=
- =?utf-8?B?SFlFMWxRSWkrRlAwb3BmNGFsWVMrRVBEWFNjcXlkd2VIT1htekR5cGE2WFJT?=
- =?utf-8?B?NGJuK21Rayt1Rml4cmc5RzlWRUlXc0o2b0NIZlo2MjBUQWg0QjBXTzU5TUE0?=
- =?utf-8?B?dk9YYkpsSVNmcjNndVE4T1NNdWVHWDhiZDg1SU56akEybnZ3UkRycGgwbEpv?=
- =?utf-8?B?S0MwSnU1a3hJOFNUWUxFNFRENjRDVXphWnc0aThPWk5IbWJCNzZ1UTd5L0tR?=
- =?utf-8?B?bDQ3bFRzaXdDbytNSG5BOE1SN2h2cmtMd0xaOWlkbzZDQzVad3ByYjBQZVhs?=
- =?utf-8?B?U3hBMTZmb1g3clQydDM5dFBDMzlpRlRlN3M5RXEyV08yQnFqdTJ1djdMRmFr?=
- =?utf-8?B?SElya3R1VkFJaFhGMUpNWkwxNkN3ejFZY0I3L1RvandKcEJJS1k3UzczRDBm?=
- =?utf-8?B?YkoycW91NTRZMW9sYlozRnFGK2JmeThhaWdydmtVekJiYzRJYkdxTzVkRUgr?=
- =?utf-8?B?Tkluc21rY2twVnFFamZXRmFrbVNHZlo1VS9tczdsb2toLzJ2R2J1NXJDZ1h2?=
- =?utf-8?B?QlhvTmpKN0MzSGNBcDRML2U2M08xZ1FlQ3h2SU5hRThMS0wrNTZjNzVpTDE3?=
- =?utf-8?B?dE4ybWEvb1RXSml6M3RxVTVLcUNkdnlNZ081dDltNml6WGRENXJnNEJGUGRX?=
- =?utf-8?B?S1BabFl0VmFMZ0QrU004ajZEZ21rYUtTKy81MFNmdXdKSFFXZnBGVEtGT2RR?=
- =?utf-8?B?ZS9CaGE4UERNdkR4RHp0KzJER0ZNZnZqbjY4ZEVabWtINU1OTlhIa1NWMk1u?=
- =?utf-8?B?V1A4dCtua3hNU3h1VmtqSkZzaVRkYWc4MXI0YjVyQWlWNjMzZjdrb2NHODAv?=
- =?utf-8?B?Ynhlc0NERU1ZaEEzWU92K0o5NzZBbUx5QXZ3dEpRMWhIN1Z1bUs0UDFoZU1y?=
- =?utf-8?B?VWZaVmVDWVd0eEpSdHdUWXhYc2s4S1BsY2o2MHNzbG1CWUV6WjdzcThITTQr?=
- =?utf-8?B?THVybDRycmJwRmlYc3ZoTTJKaUVERmJGV0o4dlpuZnRRTnQxTXl3RUc4Tyt3?=
- =?utf-8?B?TGRhYnNCanRwQUV0Nlc2bFk2NC9WR3V6RGE2L2ZmZU1JaTc1cnZKUnU0WnRu?=
- =?utf-8?B?MUdnd05vOUxQUWxZQlo3a2dBcFNGWHhpdENwaVlIZDRRbnBtSlE4V2RLSUE4?=
- =?utf-8?B?WDdoM3VuV1dJd3hGWm9qZFNtMVZFaFYvbjN6RS9uNnRoallTa29yTFN1Z1Av?=
- =?utf-8?B?Q0Zyc0lYMGN0dE1EQlgzVURjYXVTZDJiWHdHY1k3WEIrN0tqUjQ1UVpoWkND?=
- =?utf-8?B?alB3TkdiOUNsOWdhbTl3eTd6NjJmVVlWUlBSZXBFNm9zb0ppTXBuZz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 427dbc75-b2de-4896-3e35-08de5d3b2818
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB9072.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 00:29:39.3008 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: d9Z//NPYROGfbnjXZtInvdGDxWkf/My7w9XAlvjcHqRHT56nfne141jx1yFvYi1PoTUNPvjY9uUVBBmo/ywIMg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4116
+References: <20260117140351.875511-1-xjdeng@buaa.edu.cn>
+ <2026012631-suffice-enforcer-8553@gregkh>
+ <qbuccwnfljpnxvpp7vl4weoecx6ujg3cy2lwwgoz42b3ux5o3k@mi5fxhplgrt7>
+In-Reply-To: <qbuccwnfljpnxvpp7vl4weoecx6ujg3cy2lwwgoz42b3ux5o3k@mi5fxhplgrt7>
+From: Xingjing Deng <micro6947@gmail.com>
+Date: Tue, 27 Jan 2026 10:18:38 +0800
+X-Gm-Features: AZwV_Qgc7eQOJipl3o8vcuglbFoKSmgdRMS1oOVCwrdajZx_HYCkl-uUukOkTHc
+Message-ID: <CAK+ZN9r+oCbSNjSf=yKQHGT9=Cqfw02J+TS3eZaUgrd=PfV7tA@mail.gmail.com>
+Subject: Re: [PATCH v5] misc: fastrpc: check qcom_scm_assign_mem() return in
+ rpmsg_probe
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: Greg KH <gregkh@linuxfoundation.org>, srini@kernel.org,
+ amahesh@qti.qualcomm.com, 
+ arnd@arndb.de, dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Xingjing Deng <xjdeng@buaa.edu.cn>,
+ stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -179,135 +113,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: micro6947@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[nvidia.com,intel.com,linux-foundation.org,vger.kernel.org,lists.freedesktop.org,redhat.com,oracle.com,kernel.org,gmail.com,ffwll.ch,infradead.org,lists.ozlabs.org,ziepe.ca,amd.com];
+	FORGED_RECIPIENTS(0.00)[m:andersson@kernel.org,m:gregkh@linuxfoundation.org,m:srini@kernel.org,m:amahesh@qti.qualcomm.com,m:arnd@arndb.de,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:xjdeng@buaa.edu.cn,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_COUNT_THREE(0.00)[3];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_REPLYTO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[micro6947@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jniethe@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
+	HAS_REPLYTO(0.00)[micro6947@gmail.com];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[micro6947@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,Nvidia.com:dkim,nvidia.com:mid,patchwork.freedesktop.org:url]
-X-Rspamd-Queue-Id: 09D3C8E7C9
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 4E48B8EF4C
 X-Rspamd-Action: no action
 
-Hi,
+I identified this issue through static program analysis. All other
+callers of this function validate its return value, so I believe a
+validation check should also be added here.
 
-On 23/1/26 17:23, Jordan Niethe wrote:
-
-> diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-> index a8aad9e0b1fb..ac3da24b2aac 100644
-> --- a/drivers/gpu/drm/xe/xe_svm.c
-> +++ b/drivers/gpu/drm/xe/xe_svm.c
-> @@ -452,7 +452,7 @@ static u64 xe_page_to_dpa(struct page *page)
->   	struct xe_pagemap *xpagemap = xe_page_to_pagemap(page);
->   	struct xe_vram_region *vr = xe_pagemap_to_vr(xpagemap);
->   	u64 hpa_base = xpagemap->hpa_base;
-> -	u64 pfn = page_to_pfn(page);
-> +	u64 pfn = device_private_page_to_offset(page);
->   	u64 offset;
->   	u64 dpa;
->   
-> @@ -1700,8 +1700,6 @@ static void xe_pagemap_destroy_work(struct work_struct *work)
->   	 */
->   	if (drm_dev_enter(drm, &idx)) {
->   		devm_memunmap_pages(drm->dev, pagemap);
-> -		devm_release_mem_region(drm->dev, pagemap->range.start,
-> -					pagemap->range.end - pagemap->range.start + 1);
->   		drm_dev_exit(idx);
->   	}
-
-There's some new failures on the intel-xe CI run: https://patchwork.freedesktop.org/series/159738/#rev5
-Looks like the issue is a missing update to call devm_memunmap_device_private_pagemap():
-
-diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index ac3da24b2aac..aadc73b6f951 100644
---- a/drivers/gpu/drm/xe/xe_svm.c
-+++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -1699,7 +1699,7 @@ static void xe_pagemap_destroy_work(struct work_struct *work)
-          * will do shortly.
-          */
-         if (drm_dev_enter(drm, &idx)) {
--               devm_memunmap_pages(drm->dev, pagemap);
-+               devm_memunmap_device_private_pagemap(drm->dev, pagemap);
-                 drm_dev_exit(idx);
-         }
-  
-
-
-Thanks,
-Jordan.
-
->   
-> @@ -1745,8 +1743,6 @@ static struct xe_pagemap *xe_pagemap_create(struct xe_device *xe, struct xe_vram
->   	struct xe_pagemap *xpagemap;
->   	struct dev_pagemap *pagemap;
->   	struct drm_pagemap *dpagemap;
-> -	struct resource *res;
-> -	void *addr;
->   	int err;
->   
->   	xpagemap = kzalloc(sizeof(*xpagemap), GFP_KERNEL);
-> @@ -1763,36 +1759,24 @@ static struct xe_pagemap *xe_pagemap_create(struct xe_device *xe, struct xe_vram
->   	if (err)
->   		goto out_no_dpagemap;
->   
-> -	res = devm_request_free_mem_region(dev, &iomem_resource,
-> -					   vr->usable_size);
-> -	if (IS_ERR(res)) {
-> -		err = PTR_ERR(res);
-> -		goto out_err;
-> -	}
-> -
->   	err = drm_pagemap_acquire_owner(&xpagemap->peer, &xe_owner_list,
->   					xe_has_interconnect);
->   	if (err)
-> -		goto out_no_owner;
-> +		goto out_err;
->   
->   	pagemap->type = MEMORY_DEVICE_PRIVATE;
-> -	pagemap->range.start = res->start;
-> -	pagemap->range.end = res->end;
->   	pagemap->nr_range = 1;
-> +	pagemap->nr_pages = vr->usable_size / PAGE_SIZE;
->   	pagemap->owner = xpagemap->peer.owner;
->   	pagemap->ops = drm_pagemap_pagemap_ops_get();
-> -	addr = devm_memremap_pages(dev, pagemap);
-> -	if (IS_ERR(addr)) {
-> -		err = PTR_ERR(addr);
-> +	err = devm_memremap_device_private_pagemap(dev, pagemap);
-> +	if (err)
->   		goto out_no_pages;
-> -	}
-> -	xpagemap->hpa_base = res->start;
-> +	xpagemap->hpa_base = pagemap->range.start;
->   	return xpagemap;
->   
->   out_no_pages:
->   	drm_pagemap_release_owner(&xpagemap->peer);
-> -out_no_owner:
-> -	devm_release_mem_region(dev, res->start, res->end - res->start + 1);
->   out_err:
->   	drm_pagemap_put(dpagemap);
->   	return ERR_PTR(err);
-> diff --git a/include/linux/hmm.h b/include/linux/hmm.h
-> index d8756c341620..25bb4df298f7 100644
+Bjorn Andersson <andersson@kernel.org> =E4=BA=8E2026=E5=B9=B41=E6=9C=8827=
+=E6=97=A5=E5=91=A8=E4=BA=8C 04:53=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Mon, Jan 26, 2026 at 04:24:55PM +0100, Greg KH wrote:
+> > On Sat, Jan 17, 2026 at 10:03:51PM +0800, Xingjing Deng wrote:
+> > > In the SDSP probe path, qcom_scm_assign_mem() is used to assign the
+> > > reserved memory to the configured VMIDs, but its return value was not
+> > > checked.
+> > >
+> > > Fail the probe if the SCM call fails to avoid continuing with an
+> > > unexpected/incorrect memory permission configuration.
+> > >
+> > > The file has passed the check of checkpatch.
+> > >
+> > > Fixes: c3c0363bc72d4 ("misc: fastrpc: support complete DMA pool acces=
+s to the DSP")
+> > > Cc: stable@vger.kernel.org # 6.11-rc1
+> > > Signed-off-by: Xingjing Deng <xjdeng@buaa.edu.cn>
+> > > ---
+> > > v5:
+> > > - Squash the functional change and indentation fix into a single patc=
+h.
+> > > - Link to v4: https://lore.kernel.org/linux-arm-msm/2026011637-statut=
+e-showy-2c3f@gregkh/T/#t
+> > >
+> > > v4:
+> > > - Format the indentation
+> > > - Link to v3: https://lore.kernel.org/linux-arm-msm/20260113084352.72=
+itrloj5w7qb5o3@hu-mojha-hyd.qualcomm.com/T/#t
+> > >
+> > > v3:
+> > > - Add missing linux-kernel@vger.kernel.org to cc list.
+> > > - Standarlize changelog placement/format.
+> > > - Link to v2: https://lore.kernel.org/linux-arm-msm/20260113063618.e2=
+ke47gy3hnfi67e@hu-mojha-hyd.qualcomm.com/T/#t
+> > >
+> > > v2:
+> > > - Add Fixes: and Cc: stable tags.
+> > > - Link to v1: https://lore.kernel.org/linux-arm-msm/20260113022550.40=
+29635-1-xjdeng@buaa.edu.cn/T/#u
+> > > ---
+> > >  drivers/misc/fastrpc.c | 9 +++++++--
+> > >  1 file changed, 7 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> > > index fb3b54e05928..d9650efa443f 100644
+> > > --- a/drivers/misc/fastrpc.c
+> > > +++ b/drivers/misc/fastrpc.c
+> > > @@ -2338,8 +2338,13 @@ static int fastrpc_rpmsg_probe(struct rpmsg_de=
+vice *rpdev)
+> > >             if (!err) {
+> > >                     src_perms =3D BIT(QCOM_SCM_VMID_HLOS);
+> > >
+> > > -                   qcom_scm_assign_mem(res.start, resource_size(&res=
+), &src_perms,
+> > > -                               data->vmperms, data->vmcount);
+> > > +                   err =3D qcom_scm_assign_mem(res.start, resource_s=
+ize(&res), &src_perms,
+> > > +                                   data->vmperms, data->vmcount);
+> > > +                   if (err) {
+> > > +                           dev_err(rdev, "Failed to assign memory ph=
+ys 0x%llx size 0x%llx err %d",
+> > > +                               res.start, resource_size(&res), err);
+> >
+> > Shouldn't the caller function report the error?
+> >
+>
+> That is correct, all codepaths through qcom_scm_assign_mem() will either
+> be -ENOMEM or print an error message, so we shouldn't print yet another
+> message in the log here.
+>
+> (The usefulness of the error message in qcom_scm_assign_mem() could
+> certainly be improved, but that's a separate matter/patch).
+>
+> > How as this found and tested?
+> >
+>
+> Looking forward to Xingjing's answer here.
+>
+> But failing to handle errors here means that we're ignoring the failure
+> to map memory to the DSP, which will fail us later. So, that part is
+> correct. Exiting through err_free_data looks good as well.
+>
+> Regards,
+> Bjorn
+>
+> > thanks,
+> >
+> > greg k-h
+> >
