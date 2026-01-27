@@ -2,68 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wFg/B3vfeGkGtwEAu9opvQ
+	id mGl2LUvgeGkGtwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 16:53:31 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 16:56:59 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2CDC9724D
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 16:53:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22355973A9
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 16:56:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B40310E596;
-	Tue, 27 Jan 2026 15:53:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33AEC10E593;
+	Tue, 27 Jan 2026 15:56:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MVfiQz6C";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="hOX1JPJp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 816C810E593;
- Tue, 27 Jan 2026 15:53:27 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 7C6F460132;
- Tue, 27 Jan 2026 15:53:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 977EFC116C6;
- Tue, 27 Jan 2026 15:53:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769529206;
- bh=C3gromy2eb16W2gWD5WJsKh1zrKRXY062g+k/w1mXxg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MVfiQz6CBax7gqQIZxr7fEty1JrtQDbm28ZBkAjyTU+MlEwhQMUCTZarNP6XI7IU9
- MqKJukvU9AhPg+iwzJNAHgxFJcBOeG1cBjcclmpePUXSPMxhG08Aa7C/me/2tJWtn7
- 2Hx8iLibQXZWCtDYaBojyhLdO7hQDYkEgR4Nyh92yXHXSVqtGuEmsjiZZc1fBH1osU
- 6Iusk+Uu6DJXDrM1m9phJ/xheLy2c3qQrJc4Bvdek3tjOdD4IWk9JWKksqf0lLySbJ
- JUl/oEPdDYUQ9okzzQIuDi2+uAaCIMkqg/kPTTHfOd51V9a2kK4zofeStJXvT9G58X
- hCPgOc43ZEdwg==
-Date: Tue, 27 Jan 2026 21:23:14 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Bartosz Golaszewski <brgl@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-pci@vger.kernel.org
-Subject: Re: [PATCH v2 2/7] pci: pwrctrl: add PCI pwrctrl driver for the
- UPD720201/UPD720202 USB 3.0 xHCI Host Controller
-Message-ID: <llbnkm72mgcsrucnp7pdkwbgyzenvhe4kudxkdixplgaoirdem@3q3me34o5drf>
-References: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-0-c55ec1b5d8bf@linaro.org>
- <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-2-c55ec1b5d8bf@linaro.org>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72A5510E593
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 15:56:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1769529412;
+ bh=1jKQDBenEWaJ7TFf0WrfzC1mycbwa8UujGQlMExWCaQ=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=hOX1JPJpzCqCWc7TlXWIgZRV5N7gH7GITOjU48pflKseDKzQWDlLvhkcIDpMd9MuT
+ wQE9nwUxuXdtHzPz3OsVckwsUq3BFIoU9I5lS0fZbs0yaxht2/h2mKGJmmR+5ZkyFp
+ xRxNVZ5xRq5RVzEV8ny8LeRWDZDKG05bZQUEVASixaR9CZw/xafnzpcaINuKXlb0Sy
+ PzrnZzNVWYdiTBcA9JI4keBfODhf2PsR9RpaVXmvRv7n7G8zcxRJRDDAO2ukDZXEmI
+ ZvLR3Ur4tCTjoS/hW8DOVaH5yTPvJO6uMifpzmNPxPVgICZ3cWSfOIPlGv1jkH9PqU
+ bMru0xzfY/JHA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 7070217E12E4;
+ Tue, 27 Jan 2026 16:56:52 +0100 (CET)
+Date: Tue, 27 Jan 2026 16:56:48 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: loic.molinari@collabora.com, willy@infradead.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, frank.binns@imgtec.com, matt.coster@imgtec.com,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org
+Subject: Re: [PATCH 3/3] drm/gem-shmem: Track folio accessed/dirty status in
+ vmap
+Message-ID: <20260127165648.4fc27c4b@fedora>
+In-Reply-To: <20260127132938.429288-4-tzimmermann@suse.de>
+References: <20260127132938.429288-1-tzimmermann@suse.de>
+ <20260127132938.429288-4-tzimmermann@suse.de>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-2-c55ec1b5d8bf@linaro.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,187 +71,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linuxfoundation.org,glider.be,google.com,vger.kernel.org,lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:loic.molinari@collabora.com,m:willy@infradead.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:frank.binns@imgtec.com,m:matt.coster@imgtec.com,m:linux-mm@kvack.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	HAS_ORG_HEADER(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.998];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[collabora.com,infradead.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch,imgtec.com,lists.freedesktop.org,kvack.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: C2CDC9724D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,suse.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 22355973A9
 X-Rspamd-Action: no action
 
-On Tue, Jan 27, 2026 at 10:57:29AM +0100, Neil Armstrong wrote:
-> Add support fo the Renesas UPD720201/UPD720202 USB 3.0 xHCI Host Controller
-> power control which connects over PCIe and requires specific power supplies
-> to start up.
+On Tue, 27 Jan 2026 14:16:38 +0100
+Thomas Zimmermann <tzimmermann@suse.de> wrote:
+
+> On successful vmap, set the page_mark_accessed_on_put and _dirty_on_put
+> flags in the gem-shmem object. Signals that the contained pages require
+> LRU and dirty tracking when they are being released back to SHMEM. Clear
+> these flags on put, so that buffer remains quiet until the next call to
+> vmap. There's no means of handling dirty status in vmap as there's no
+> write-only mapping available.
 > 
+> Both flags, _accessed_on_put and _dirty_on_put, have always been part of
+> the gem-shmem object, but never used much. So most drivers did not track
+> the page status correctly.
+> 
+> Only the v3d and imagination drivers make limited use of _dirty_on_put. In
+> the case of imagination, move the flag setting from init to cleanup. This
+> ensures writeback of modified pages but does not interfere with the
+> internal vmap/vunmap calls. V3d already implements this behaviour.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-This driver only handles the supplies. So why can't you use the existing
-pwrctrl-slot driver as a fallback?
+The gem-shmem changes are
 
-- Mani
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 > ---
->  drivers/pci/pwrctrl/Kconfig                 | 10 ++++
->  drivers/pci/pwrctrl/Makefile                |  2 +
->  drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c | 88 +++++++++++++++++++++++++++++
->  3 files changed, 100 insertions(+)
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++++
+>  drivers/gpu/drm/imagination/pvr_gem.c  | 6 ++++--
+>  2 files changed, 8 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/pci/pwrctrl/Kconfig b/drivers/pci/pwrctrl/Kconfig
-> index e0f999f299bb..5a94e60d0d3e 100644
-> --- a/drivers/pci/pwrctrl/Kconfig
-> +++ b/drivers/pci/pwrctrl/Kconfig
-> @@ -11,6 +11,16 @@ config PCI_PWRCTRL_PWRSEQ
->  	select POWER_SEQUENCING
->  	select PCI_PWRCTRL
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index 30cd34d3a111..8c07a8f81322 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -265,6 +265,8 @@ void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
+>  				  shmem->pages_mark_dirty_on_put,
+>  				  shmem->pages_mark_accessed_on_put);
+>  		shmem->pages = NULL;
+> +		shmem->pages_mark_accessed_on_put = false;
+> +		shmem->pages_mark_dirty_on_put = false;
+>  	}
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_put_pages_locked);
+> @@ -397,6 +399,8 @@ int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
+>  		} else {
+>  			iosys_map_set_vaddr(map, shmem->vaddr);
+>  			refcount_set(&shmem->vmap_use_count, 1);
+> +			shmem->pages_mark_accessed_on_put = true;
+> +			shmem->pages_mark_dirty_on_put = true;
+>  		}
+>  	}
 >  
-> +config PCI_PWRCTRL_UPD720201
-> +	tristate "PCI Power Control driver for the UPD720201 USB3 Host Controller"
-> +	select PCI_PWRCTRL
-> +	help
-> +	  Say Y here to enable the PCI Power Control driver of the UPD720201
-> +	  USB3 Host Controller.
-> +
-> +	  The voltage regulators powering the rails of the PCI slots
-> +	  are expected to be defined in the devicetree node of the PCI device.
-> +
->  config PCI_PWRCTRL_SLOT
->  	tristate "PCI Power Control driver for PCI slots"
->  	select PCI_PWRCTRL
-> diff --git a/drivers/pci/pwrctrl/Makefile b/drivers/pci/pwrctrl/Makefile
-> index 13b02282106c..a99f85de8a3d 100644
-> --- a/drivers/pci/pwrctrl/Makefile
-> +++ b/drivers/pci/pwrctrl/Makefile
-> @@ -5,6 +5,8 @@ pci-pwrctrl-core-y			:= core.o
+> diff --git a/drivers/gpu/drm/imagination/pvr_gem.c b/drivers/gpu/drm/imagination/pvr_gem.c
+> index c07c9a915190..307b02c916d4 100644
+> --- a/drivers/gpu/drm/imagination/pvr_gem.c
+> +++ b/drivers/gpu/drm/imagination/pvr_gem.c
+> @@ -25,7 +25,10 @@
 >  
->  obj-$(CONFIG_PCI_PWRCTRL_PWRSEQ)	+= pci-pwrctrl-pwrseq.o
+>  static void pvr_gem_object_free(struct drm_gem_object *obj)
+>  {
+> -	drm_gem_shmem_object_free(obj);
+> +	struct drm_gem_shmem_object *shmem_obj = to_drm_gem_shmem_obj(obj);
+> +
+> +	shmem_obj->pages_mark_dirty_on_put = true;
+> +	drm_gem_shmem_free(shmem_obj);
+>  }
 >  
-> +obj-$(CONFIG_PCI_PWRCTRL_UPD720201)	+= pci-pwrctrl-upd720201.o
-> +
->  obj-$(CONFIG_PCI_PWRCTRL_SLOT)		+= pci-pwrctrl-slot.o
->  pci-pwrctrl-slot-y			:= slot.o
+>  static struct dma_buf *pvr_gem_export(struct drm_gem_object *obj, int flags)
+> @@ -363,7 +366,6 @@ pvr_gem_object_create(struct pvr_device *pvr_dev, size_t size, u64 flags)
+>  	if (IS_ERR(shmem_obj))
+>  		return ERR_CAST(shmem_obj);
 >  
-> diff --git a/drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c b/drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c
-> new file mode 100644
-> index 000000000000..db96bbb69c21
-> --- /dev/null
-> +++ b/drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c
-> @@ -0,0 +1,88 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Based on upd720201.c:
-> + * Copyright (C) 2024 Linaro Ltd.
-> + * Author: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> + */
-> +
-> +#include <linux/device.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/pci-pwrctrl.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/slab.h>
-> +
-> +struct pci_pwrctrl_upd720201_data {
-> +	struct pci_pwrctrl ctx;
-> +	struct regulator_bulk_data *supplies;
-> +	int num_supplies;
-> +};
-> +
-> +static void devm_pci_pwrctrl_upd720201_power_off(void *data)
-> +{
-> +	struct pci_pwrctrl_upd720201_data *upd720201 = data;
-> +
-> +	regulator_bulk_disable(upd720201->num_supplies, upd720201->supplies);
-> +	regulator_bulk_free(upd720201->num_supplies, upd720201->supplies);
-> +}
-> +
-> +static int pci_pwrctrl_upd720201_probe(struct platform_device *pdev)
-> +{
-> +	struct pci_pwrctrl_upd720201_data *upd720201;
-> +	struct device *dev = &pdev->dev;
-> +	int ret;
-> +
-> +	upd720201 = devm_kzalloc(dev, sizeof(*upd720201), GFP_KERNEL);
-> +	if (!upd720201)
-> +		return -ENOMEM;
-> +
-> +	ret = of_regulator_bulk_get_all(dev, dev_of_node(dev),
-> +					&upd720201->supplies);
-> +	if (ret < 0) {
-> +		dev_err_probe(dev, ret, "Failed to get upd720201 regulators\n");
-> +		return ret;
-> +	}
-> +
-> +	upd720201->num_supplies = ret;
-> +	ret = regulator_bulk_enable(upd720201->num_supplies, upd720201->supplies);
-> +	if (ret < 0) {
-> +		dev_err_probe(dev, ret, "Failed to enable upd720201 regulators\n");
-> +		regulator_bulk_free(upd720201->num_supplies, upd720201->supplies);
-> +		return ret;
-> +	}
-> +
-> +	ret = devm_add_action_or_reset(dev, devm_pci_pwrctrl_upd720201_power_off,
-> +				       upd720201);
-> +	if (ret)
-> +		return ret;
-> +
-> +	pci_pwrctrl_init(&upd720201->ctx, dev);
-> +
-> +	ret = devm_pci_pwrctrl_device_set_ready(dev, &upd720201->ctx);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to register pwrctrl driver\n");
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id pci_pwrctrl_upd720201_of_match[] = {
-> +	{
-> +		.compatible = "pci1912,0014",
-> +	},
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, pci_pwrctrl_upd720201_of_match);
-> +
-> +static struct platform_driver pci_pwrctrl_upd720201_driver = {
-> +	.driver = {
-> +		.name = "pci-pwrctrl-upd720201",
-> +		.of_match_table = pci_pwrctrl_upd720201_of_match,
-> +	},
-> +	.probe = pci_pwrctrl_upd720201_probe,
-> +};
-> +module_platform_driver(pci_pwrctrl_upd720201_driver);
-> +
-> +MODULE_AUTHOR("Neil Armstrong <neil.armstrong@linaro.org>");
-> +MODULE_DESCRIPTION("PCI Power Control driver for UPD720201 USB3 Host Controller");
-> +MODULE_LICENSE("GPL");
-> 
-> -- 
-> 2.34.1
-> 
+> -	shmem_obj->pages_mark_dirty_on_put = true;
+>  	shmem_obj->map_wc = !(flags & PVR_BO_CPU_CACHED);
+>  	pvr_obj = shmem_gem_to_pvr_gem(shmem_obj);
+>  	pvr_obj->flags = flags;
 
--- 
-மணிவண்ணன் சதாசிவம்
