@@ -2,131 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uLwPAxMVeWl3vAEAu9opvQ
+	id kO+bDBEVeWl3vAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 20:42:11 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 20:42:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0A9B9A149
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 20:42:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D48339A13A
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 20:42:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A10F10E5BD;
-	Tue, 27 Jan 2026 19:42:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E3AF10E5B9;
+	Tue, 27 Jan 2026 19:42:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="xzTtqtki";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="cdiuVJk9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SA9PR02CU001.outbound.protection.outlook.com
- (mail-southcentralusazon11013005.outbound.protection.outlook.com
- [40.93.196.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A468110E5BD;
- Tue, 27 Jan 2026 19:42:06 +0000 (UTC)
+Received: from CH4PR04CU002.outbound.protection.outlook.com
+ (mail-northcentralusazon11013070.outbound.protection.outlook.com
+ [40.107.201.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B84EE10E5B7;
+ Tue, 27 Jan 2026 19:42:04 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Blp37Z9744NyRcj481/r2SixPW5zc3ls7MJRn/frwZoij0fcCeFeVtRg4mXwKobcYvjzetVdwH6Uhm0N3lt31rNlumvNlqfxeQvJ+DagDCmwq5AyZl+yOHc8bCRF2gTHNmAZHScdibBcM9CUJr7yAhopKNuNDjiKURpAAj121uNL/32cJrTSzBbTET6Lnu5XfBS9U7LcGGTMUvOpBsog4r5oHIcnRexq15v4it359/zib3QIu6DNZC8ZEAj8HsRTADDQK3Zb3kbl4QbDIzdRO4FLSkTivW5HUMKL9DwFLkmwl/gtItJwuaVw06xi9mmZ0ehsYNeWWTKvOmPS4yPfZA==
+ b=YvAJ5w6C9ksNGMcFflsYZF5T27xTKyZGkmafawpbMXAGw73rQjXoE/FkGuDE6wFvzUP8D1PYawfjb4r1I3L3PerDavG6uGzm9tal0TR4c+K2XRv7qXc2ixbprblQFnYeHXFRFiykaglHgs0OgII8B+IeJ9UBLyuVTHIJkyQ1F5hPw83xd/AIBhuljwc0Bea1h3vvDk0/H7bn0tg6gM6AGtjXV9SE9BrKz3zZGzcOGXfIQevrJz63JdHG2kwLs7W381AB7daw35QGnunsj3TIKQBwQWlsdp6ai5DlJApeoEIdITp1qqLeV+/6pggMybw9WN4CY73rleVQv+Jvv1Aibw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3KZsZPsItMYRPSSuWkUToOQ+EOlJO4V9lxdQsdKVkkU=;
- b=Y0vGDe/NpVr2l3m3Z/61ERdoqGI9mEvspwASUwd/Kz5CgxKulYjcb6DsPvOWWxrY2i7cPpb9ZNOyCZirWjeza3sfz98jgJFk74O6bpmalJ+8afcwTAroDw19a0Z+ciiIszobPfgbDgB71Z8UxrdzAjX+T9HycMhYlEgRB8nEvRdaUUkKhKHDcAeXiayI4PcESvtT9qB0yVYaggnYyoVdQMbsREOSm94dUmkDjNx0558gt99+RQbZcFC8zhS0fHKmH0sZPGLOWMj/IDqwv4SLF4knNvXubxnBWb9b7QrzOox+EhPND1iclS1A9yitHXY92yIm5LMV9ETfu6OUeuGYzQ==
+ bh=40SLbjF+RPVGdgFwDBzsWRwTOEHNuZlMoumMXJoP/BY=;
+ b=o+ikintOtnqsPvo4OxbhfGEvTcqUYR3+K4MO+1wilINi5N2CKjNOXUqyKqpaJL0eWesEfW4zmrHhgqI1ZDDgh/60rHr3PQPUGd8Zc/uyXH0Bt5jbFfeUPftylCnXZs+5WlHAHfwoH10oVtVFij/cGR1wOonHJygCTO95ZZ71U0uKAKhENbWomrd4qvDmaZcrcrWqSY1hoBY5ZG6guClo3g7Tlff/B/1PX8wVI9RVYf0+oK1zUwL0VEwmF+3MJb1Km+O/WHZcSD9Bgs3PfusQ8uunvAmYvNDb6+WO0K0pHKSEMzdEmLZ0Zid06BUTQ3CDtf4dF+t7h7V0I0SLB9S6cw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3KZsZPsItMYRPSSuWkUToOQ+EOlJO4V9lxdQsdKVkkU=;
- b=xzTtqtkiTREQxGBfcvF1gIabAVXyAzt3WO1Ico9ZZ/g9Q++xAbtKpFj5tQXsJQlww9ReuPLxnxX4XF6Gy9K6IZ1hQ2kx1Fm0DEXCrjk8WCjS+Nnbw8i3TjTTswN5RaQeAyuB54/IsGcxa06gDwuU4SEHmIVRe7o7Iz9iTpocNNE=
-Received: from MN2PR12CA0014.namprd12.prod.outlook.com (2603:10b6:208:a8::27)
- by MW5PR12MB5624.namprd12.prod.outlook.com (2603:10b6:303:19d::19)
- with Microsoft SMTP Server (version=TLS1_2,
+ bh=40SLbjF+RPVGdgFwDBzsWRwTOEHNuZlMoumMXJoP/BY=;
+ b=cdiuVJk9YJUCYGGL9COHpzfqjMDlSjyaa2+gdA+wB2yfHrpiET4usZ/+F+lnGlOCRO1T5PNBeKWmOkiIkc2BP/D8liZ4k9gZ1XBlh6T46zjAs7W7JQ600Sk0Emhr8TQm6Y/o2bRwOnscNmqGTTW951gm7BZRN35+Mcfuf3bLMlQ=
+Received: from IA4P220CA0008.NAMP220.PROD.OUTLOOK.COM (2603:10b6:208:558::6)
+ by SJ1PR12MB6268.namprd12.prod.outlook.com (2603:10b6:a03:455::15) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Tue, 27 Jan
- 2026 19:41:56 +0000
-Received: from BL6PEPF00020E64.namprd04.prod.outlook.com
- (2603:10b6:208:a8:cafe::d4) by MN2PR12CA0014.outlook.office365.com
- (2603:10b6:208:a8::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.16 via Frontend Transport; Tue,
- 27 Jan 2026 19:41:56 +0000
+ 2026 19:41:58 +0000
+Received: from BL02EPF00029927.namprd02.prod.outlook.com
+ (2603:10b6:208:558:cafe::f7) by IA4P220CA0008.outlook.office365.com
+ (2603:10b6:208:558::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.7 via Frontend Transport; Tue,
+ 27 Jan 2026 19:42:00 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- BL6PEPF00020E64.mail.protection.outlook.com (10.167.249.25) with Microsoft
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BL02EPF00029927.mail.protection.outlook.com (10.167.249.52) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.3 via Frontend Transport; Tue, 27 Jan 2026 19:41:56 +0000
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.9564.3 via Frontend Transport; Tue, 27 Jan 2026 19:41:57 +0000
+Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 27 Jan
- 2026 13:41:55 -0600
+ 2026 13:41:57 -0600
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb09.amd.com
+ (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 27 Jan
+ 2026 11:41:57 -0800
 Received: from thonkpad (10.180.168.240) by satlexmb07.amd.com (10.181.42.216)
  with Microsoft SMTP Server id 15.2.2562.17 via Frontend Transport;
- Tue, 27 Jan 2026 11:41:55 -0800
+ Tue, 27 Jan 2026 11:41:56 -0800
 From: <sunpeng.li@amd.com>
 To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
 CC: <Harry.Wentland@amd.com>, <simona@ffwll.ch>, <airlied@gmail.com>,
  <jani.nikula@linux.intel.com>, <ville.syrjala@linux.intel.com>,
  <superm1@kernel.org>, Leo Li <sunpeng.li@amd.com>
-Subject: [PATCH v4 1/2] drm: Introduce drm_crtc_vblank_prepare()
-Date: Tue, 27 Jan 2026 14:41:42 -0500
-Message-ID: <20260127194143.176248-1-sunpeng.li@amd.com>
+Subject: [PATCH v4 2/2] drm/amd/display: Implement prepare_vblank_enable
+ callback
+Date: Tue, 27 Jan 2026 14:41:43 -0500
+Message-ID: <20260127194143.176248-2-sunpeng.li@amd.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260127194143.176248-1-sunpeng.li@amd.com>
+References: <20260127194143.176248-1-sunpeng.li@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF00020E64:EE_|MW5PR12MB5624:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0f8a56a9-bca7-47d6-f3e2-08de5ddc2102
+X-MS-TrafficTypeDiagnostic: BL02EPF00029927:EE_|SJ1PR12MB6268:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5737f9c3-729b-4303-821b-08de5ddc21fb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|82310400026|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?78fldIZRHJMFM//DK6GRfAlz8VAifwzNO9ZQucwgFxQbOTyVSEcbx7NmWuO4?=
- =?us-ascii?Q?MHsnK8JaBNXGOK/eG8M1KLIFwf/RuAYi91lLnCI0f8ntQIbbMbxIsnzSwDly?=
- =?us-ascii?Q?pEthCDkW85VlX6MPkCPxfhl+OBfDcfbS3rhsj8UgxkzCAtN5tmv62zdemzwe?=
- =?us-ascii?Q?rSPMjKmgtg/rm04i8dMwGECN0D1Se/tu+m6AZG+xjxKkj828v3MRzzhFUxim?=
- =?us-ascii?Q?FApKgutk2eGlJY3dZevy0MRldm34dXEHMDuFKeYeQWO6Y0LeGW+w90aGVTeD?=
- =?us-ascii?Q?IPGds1NLo9a7z3TNy0AyoXQtwaCV2VGtisuD/th9iAyS04RI3Wx9aCuIhggQ?=
- =?us-ascii?Q?L5CF9ISsEJMXnkUkB4qfHyqmgW5PGxsNRpeXquQhKaiN9rBnxV9S9rMILEIG?=
- =?us-ascii?Q?GBzw6+hxSSMjgrMZU5PxYh/YbZGAXiwt5kuSuLs8cRsgU3LMsDIW8S4FHaWm?=
- =?us-ascii?Q?P/Fpy3mC3tFRik+syHyAQQIclSrEFn7iKVFY1IjDshNhHrkj9O3wLN6/hkDP?=
- =?us-ascii?Q?G6LhuagsCP41t/8sXFHlPpGnftC+MNd7v+jhCKH1nKfUZ82a7r9r/c4C2PPJ?=
- =?us-ascii?Q?ZJBZZ+MgwG2U/7UPIGIaM94Zy3VLAD6ppviMT+cYBHwPg1ZuxpmOsBBJF5iq?=
- =?us-ascii?Q?vWOiZplTuwgRVPoZ4kdoTzYOTIMVly0FHJt7tT1PdLtAeGalYx0Au5pvGjbr?=
- =?us-ascii?Q?Bfk5bNIqosK7lpeVn00vBv4uIsMr8R8cAUhQHyLc0uENOZCxPJHtCl/cYq/N?=
- =?us-ascii?Q?xM5tBonBOFpPt9ZXD9sP0Mol3cgVQ0g0RmtnG5/RqA+4LCsBfw/TAzEJD4+k?=
- =?us-ascii?Q?nm1izn2FB9ymtaUyW0ZA2NFOZxoXA0e3kwjjve0A3C7F/gmSClFaVgSO1omc?=
- =?us-ascii?Q?WifZMBX6Ut3OQGSrNmZswUVcBp81wrO34Xi5IF9djy2F3//WrckT275YCrML?=
- =?us-ascii?Q?HK4DbmQR6L0aUMtjlbuDdhZR48p8NfLRk6Ivxvfa1fF0dbAIs+yEPFEjlJSS?=
- =?us-ascii?Q?BbOUyDpchOD4gDRv5YvPfmB3STUQme3x7PPhzA4mTlCFiYYHkDFvl02eC/Oy?=
- =?us-ascii?Q?8BJWI5ySh3YdfcAV3HGY79dpLDMQN478+N4rhWUTXCkV+tFG8N4q0R56uCQM?=
- =?us-ascii?Q?+bQqoQ2lR3Z5So2jDQo35Ng3qIuRhLEpOzsYLDY6lX5K2gIHdorOi598OG6V?=
- =?us-ascii?Q?Kp36/L2OUs4Dj6bMuQdz1P6wVwURemauULtRaQZfw4ApPkxywnS7jsqLpsly?=
- =?us-ascii?Q?FucGF/rC6+YMnYVIgWXl63iIxJGR1zm/mtaIpScOr44lotolp/1aSWHbCyJI?=
- =?us-ascii?Q?FiUZB0Hy2tVCsNv6KOT82cl9D3UE10s00OA8Pw7RmuG4Ig9HN+4bSyzzPVpT?=
- =?us-ascii?Q?Z06ps57Uqm3u9+AUyr+VZhmrhBRimvj06UOmqVCC6L7ScFzPSCGrD7lSzFT5?=
- =?us-ascii?Q?ZoadNWJno5xiww0y/fiyiZ1bZjP4QEomDLC6D/fH5/9CwHI8EZV6NB2Jv8qK?=
- =?us-ascii?Q?eXqfj2XChL8myv66BuOr4la79ItZy2ArD2pT3kFLHsBAlHWcwq4bvKrs9Qy3?=
- =?us-ascii?Q?O4jV6X5QGGoeDR5j6QIPqrRO4kC8Z525NOphrgfZfRdwqherBta7Q8y5IYqw?=
- =?us-ascii?Q?3uHCSVYZ3WzNFm9Un0+28wtIkVS4QfOH4+2g9VGblEw4eh0Jr5eF5fIfB+O5?=
- =?us-ascii?Q?qOWeJA=3D=3D?=
+ ARA:13230040|36860700013|376014|1800799024|82310400026|13003099007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?kb9JTkoJXS1xESxZLSLFlqCCm3WC7C5F6z0qL34X79RcghLBL3UKQL0kQaWq?=
+ =?us-ascii?Q?LF2COu05tSNHxtqH15DWnNLowriUJR/gqV8hRrl3JUnKq8z5ECbpU9saZcdo?=
+ =?us-ascii?Q?KsZYLB6HWskWXDo8vn5ZL+ceZbjQ1Rw+PBxXRylBRhP++sW31OxAR5IR094o?=
+ =?us-ascii?Q?OkJz4nt2yTlYHg2TODC7bR1B5q11YiAFLjsVgK/VYjQsivdgCKW9xcqtLWAz?=
+ =?us-ascii?Q?k1C0zAs+JjC7n63Ije2FxpXHUryHn7+nFsq3nr0p6mTD81NsqWFaDscZ6OXl?=
+ =?us-ascii?Q?pGrghF+zo/ZQqFl3Gc82kiW5bjpZRznfiEplWTygR0Yqi4mXGZEpIffMQqg4?=
+ =?us-ascii?Q?O/PwPpbE8vNEUUj9rjeHWc4kno0PeWNzSdR1sw1nRseh/26ashiIxf6QzLJ4?=
+ =?us-ascii?Q?FPauGnHDHCZ/cMx1ETz9kiwiqzVIn/HPpfTJFqaJNE6JG2mETRriz4mHinxp?=
+ =?us-ascii?Q?bBcJCpEgRTLuiRgrEPEyp2tXZIMsxleUP3mCXjTuOXHCl7gSXygYtNunvWpU?=
+ =?us-ascii?Q?wBvH1PXBP/rwt4hL4esTWfmY8E4PqedpdwTz/nVprTHunJa2YN+vhAPxHEPt?=
+ =?us-ascii?Q?7tOCPCEEdl5Fx8hZ50RtVbckRGzGNqAY/fzaDSKNcQzRdG0LennnP4ude4Yh?=
+ =?us-ascii?Q?zJvXO85JsZOJYpMfVsOfYnujbQZfjwy5y6zY3It9gMXByxIe9+SQMDiG27Wt?=
+ =?us-ascii?Q?NvRkcApKcd6XhQ/UfUebbUOBz1iTnPLSbmLv4VD3xbldLNQYqO2VV4dbOU9l?=
+ =?us-ascii?Q?k4CTUK/lOrDkQPxkmwZsk82iPaLAGF21DG+3x7A4BhQRwD7YwQI1xK1Mvl7B?=
+ =?us-ascii?Q?FBs1BZFJriwOWctI58qn8/g6bACztiqROZmi6ZHKgnd5lIU4rtElcXKYBR9K?=
+ =?us-ascii?Q?6W1TRHsUelouZU+tdNKkVjNq3M3iRw26g1RlR/8FI9Gt+Pn2ExXeuFmJaCbc?=
+ =?us-ascii?Q?A9pWnW2+EiYQ9uHAmzKgT6yWF5erpV73ZlSAPwYoUs+cur+OavLOQeiDvmrY?=
+ =?us-ascii?Q?LOjEUumG3YZ3yi7Tmv0Zoijgeif1uSFxdVxYoiqblZMPNHDDM57POzVY1z8z?=
+ =?us-ascii?Q?6SvbKxNgq1TfNqLzD9mi7Q7v8mVNHY56vr7Y6ReKfAHVsw/YT8xcUFdcKeDk?=
+ =?us-ascii?Q?sf06f/zJXN1bfVa+XzuNmcdBN8RhfF9C5WwtIj/wz5dtb8Pyfock5Enrx68Z?=
+ =?us-ascii?Q?cBrrxeJEfHN0eRl42OIfHQ2Bjl6L1BaCx9m0P7S5jS7S8jqUwxljGi0d4CfR?=
+ =?us-ascii?Q?m8E/lqnuDuAKiMlPJyS9XoUT0OXlODdGbfbgP2ubkzocyrySNGfLKflM6Zfx?=
+ =?us-ascii?Q?WbGKy5oS6albXaayb5DDLNfSlgjHI27X5mqi3hyY8rHV43i1H0fEXxI6vsTX?=
+ =?us-ascii?Q?O+sD/ljLIDv/TyIx6/LCklHmoeZYR+Pj/8O93WV5A6TrIL2vSWlPm6lZZUTn?=
+ =?us-ascii?Q?nuDEe2btE8j5082KTlKkAaBt5rf/gtehP34H4YuNOC/Xrj5PdrJUZJHesYLo?=
+ =?us-ascii?Q?RtcVlOsw2l+r6rpy16mGGD1sK/3B4VB4YtUcShcGVkYyDvGLa6yONY/nW0Eb?=
+ =?us-ascii?Q?sbIFQOstEegRUX0a7eRksb+JvPYWLzsOo1J1L6Ailk9MDX+qST9kkADlK1p9?=
+ =?us-ascii?Q?dA=3D=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013); DIR:OUT;
- SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(376014)(1800799024)(82310400026)(13003099007);
+ DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 19:41:56.0785 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f8a56a9-bca7-47d6-f3e2-08de5ddc2102
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 19:41:57.7075 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5737f9c3-729b-4303-821b-08de5ddc21fb
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF00020E64.namprd04.prod.outlook.com
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF00029927.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5624
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6268
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,308 +165,282 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_NO_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.968];
+	NEURAL_HAM(-0.00)[-0.991];
 	FROM_NEQ_ENVFROM(0.00)[sunpeng.li@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[amd.com:+];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: B0A9B9A149
+	RCVD_COUNT_SEVEN(0.00)[8]
+X-Rspamd-Queue-Id: D48339A13A
 X-Rspamd-Action: no action
 
 From: Leo Li <sunpeng.li@amd.com>
 
-Some drivers need to perform sleepable operations prior to enabling
-vblank interrupts. A display hardware spin-up from a low-power state
-that requires synchronization with the rest of the driver, for example.
+[Why]
 
-To support this, introduce a DRM-internal drm_crtc_vblank_prepare()
-helper that calls back into the driver -- if implemented -- for DRM to
-do such preparation work before enabling vblank.
+APU DCN generations since DCN3.5 have the capability to power down
+almost all of the DCN hw block during idle periods. This is referred to
+as  IPS -- idle power states. In combination with a panel remote-buffer
+feature (like PSR or Panel Replay), IPS can save additional power.
 
-v3:
-* Unexport drm_crtc_vblank_prepare() and make it DRM internal
-* Drop warnings in drm core for vblank_prepare(), drivers can do so in
-  their implementations
-* Drop unnecessary crtc null checks
-* Check for drm_dev_has_vblank()
-* Rebase on latest drm-misc-next
+Once DCN is in an IPS, no register access can occur. This includes
+control registers for vblank interrupts; IPS must first be exited.
 
-v4:
-* EXPORT function to fix build error on DRM_KMS_HELPER=m
+Transitioning in or out of IPS requires synchronization with the rest of
+DC, as it powers up or down DCN, and may communicate with other MCUs on
+the SOC to do so. This is done via the dc_lock mutex.
+
+While calling enable_vblank, the DRM vblank core holds spinlocks that
+prevent blocking operations. Yet acquiring the dc_lock mutex is
+blocking. Thus, IPS can not be exited piror to programming vblank
+interrupt registers from within enable_vblank. At least not in a
+race-free way.
+
+Prior to this change, amdgpu_dm was exiting IPS(*) without holding the
+dc_lock, opening the door for races:
+https://gitlab.freedesktop.org/drm/amd/-/issues/5233
+
+(*) From touching the interrupt registers. All register reads today have
+an implicit IPS exit, see dm_read_reg_func()
+
+To solve this, the prepare_vblank_enable callback can be implemented to
+exit IPS, as it is called from process context.
+
+[How]
+
+Implement the prepare_vblank_enable callback for amdgpu_dm. In it,
+the dc_lock mutex is acquired, and IPS is exited.
+
+Note that the only place that should unconditionally IPS allow is the
+vblank disable path. All other paths shall check whether IPS was
+previously allowed. If so, they can re-allow after all programming is
+complete. They also need to hold the dc_lock for the duration of the IPS
+disallow to re-allow. (This is not the for all of amdgpu_dm today,
+cleanup will come in future patches.)
+
+v2: Add missing semicolon, add docstring for prepare_vbl_disallow_idle
+v3: Do prepare work (IPS exit) directly, instead of routing through DRM
+v4: Fix build error on CONFIG_DRM_AMD_SECURE_DISPLAY not set
 
 Signed-off-by: Leo Li <sunpeng.li@amd.com>
 ---
- drivers/gpu/drm/drm_atomic_helper.c  |  9 +++++
- drivers/gpu/drm/drm_client_modeset.c |  4 +++
- drivers/gpu/drm/drm_internal.h       |  1 +
- drivers/gpu/drm/drm_plane.c          |  5 +++
- drivers/gpu/drm/drm_vblank.c         | 49 ++++++++++++++++++++++++++++
- drivers/gpu/drm/drm_vblank_helper.c  |  5 ++-
- drivers/gpu/drm/drm_vblank_work.c    |  8 +++++
- include/drm/drm_crtc.h               | 21 ++++++++++++
- 8 files changed, 101 insertions(+), 1 deletion(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 37 ++++++++++++------
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  9 +++++
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c |  8 ++--
+ .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    | 38 +++++++++++++++++--
+ 4 files changed, 75 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 5840e9cc6f666..2b9fa4aa48a1a 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -48,6 +48,7 @@
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 740711ac1037c..d0c412260be0c 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -9681,7 +9681,8 @@ static void update_stream_irq_parameters(
+ 	spin_unlock_irqrestore(&adev_to_drm(adev)->event_lock, flags);
+ }
  
- #include "drm_crtc_helper_internal.h"
- #include "drm_crtc_internal.h"
-+#include "drm_internal.h"
- 
- /**
-  * DOC: overview
-@@ -1268,6 +1269,10 @@ crtc_disable(struct drm_device *dev, struct drm_atomic_state *state)
- 		if (!drm_dev_has_vblank(dev))
- 			continue;
- 
-+		ret = drm_crtc_vblank_prepare(crtc);
-+		if (ret)
-+			continue;
+-static void amdgpu_dm_handle_vrr_transition(struct dm_crtc_state *old_state,
++static void amdgpu_dm_handle_vrr_transition(struct amdgpu_display_manager *dm,
++					    struct dm_crtc_state *old_state,
+ 					    struct dm_crtc_state *new_state)
+ {
+ 	bool old_vrr_active = amdgpu_dm_crtc_vrr_active(old_state);
+@@ -9696,8 +9697,11 @@ static void amdgpu_dm_handle_vrr_transition(struct dm_crtc_state *old_state,
+ 		 * We also need vupdate irq for the actual core vblank handling
+ 		 * at end of vblank.
+ 		 */
+-		WARN_ON(amdgpu_dm_crtc_set_vupdate_irq(new_state->base.crtc, true) != 0);
+-		WARN_ON(drm_crtc_vblank_get(new_state->base.crtc) != 0);
++		scoped_guard(mutex, &dm->dc_lock) {
++			dc_exit_ips_for_hw_access(dm->dc);
++			WARN_ON(amdgpu_dm_crtc_set_vupdate_irq(new_state->base.crtc, true) != 0);
++			WARN_ON(drm_crtc_vblank_get(new_state->base.crtc) != 0);
++		}
+ 		drm_dbg_driver(new_state->base.crtc->dev, "%s: crtc=%u VRR off->on: Get vblank ref\n",
+ 				 __func__, new_state->base.crtc->base.id);
+ 	} else if (old_vrr_active && !new_vrr_active) {
+@@ -10122,7 +10126,11 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 		 */
+ 		if (acrtc_attach->base.state->event &&
+ 		    acrtc_state->active_planes > 0) {
+-			drm_crtc_vblank_get(pcrtc);
 +
- 		ret = drm_crtc_vblank_get(crtc);
- 		/*
- 		 * Self-refresh is not a true "disable"; ensure vblank remains
-@@ -1823,6 +1828,10 @@ drm_atomic_helper_wait_for_vblanks(struct drm_device *dev,
- 		if (!new_crtc_state->active)
- 			continue;
++			scoped_guard(mutex, &dm->dc_lock) {
++				dc_exit_ips_for_hw_access(dm->dc);
++				drm_crtc_vblank_get(pcrtc);
++			}
  
-+		ret = drm_crtc_vblank_prepare(crtc);
-+		if (ret != 0)
-+			continue;
+ 			spin_lock_irqsave(&pcrtc->dev->event_lock, flags);
+ 
+@@ -10138,13 +10146,19 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 					&acrtc_state->stream->vrr_infopacket;
+ 		}
+ 	} else if (cursor_update && acrtc_state->active_planes > 0) {
+-		spin_lock_irqsave(&pcrtc->dev->event_lock, flags);
+-		if (acrtc_attach->base.state->event) {
+-			drm_crtc_vblank_get(pcrtc);
+-			acrtc_attach->event = acrtc_attach->base.state->event;
+-			acrtc_attach->base.state->event = NULL;
 +
- 		ret = drm_crtc_vblank_get(crtc);
- 		if (ret != 0)
- 			continue;
-diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-index fc4caf7da5fcd..6ccbde921dde4 100644
---- a/drivers/gpu/drm/drm_client_modeset.c
-+++ b/drivers/gpu/drm/drm_client_modeset.c
-@@ -1325,6 +1325,10 @@ int drm_client_modeset_wait_for_vblank(struct drm_client_dev *client, unsigned i
- 	 * Only wait for a vblank event if the CRTC is enabled, otherwise
- 	 * just don't do anything, not even report an error.
++		scoped_guard(mutex, &dm->dc_lock) {
++			dc_exit_ips_for_hw_access(dm->dc);
++
++			spin_lock_irqsave(&pcrtc->dev->event_lock, flags);
++			if (acrtc_attach->base.state->event) {
++				drm_crtc_vblank_get(pcrtc);
++				acrtc_attach->event =
++					acrtc_attach->base.state->event;
++				acrtc_attach->base.state->event = NULL;
++			}
++			spin_unlock_irqrestore(&pcrtc->dev->event_lock, flags);
+ 		}
+-		spin_unlock_irqrestore(&pcrtc->dev->event_lock, flags);
+ 	}
+ 
+ 	/* Update the planes if changed or disable if we don't have any. */
+@@ -10976,7 +10990,8 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+ 			manage_dm_interrupts(adev, acrtc, dm_new_crtc_state);
+ 		}
+ 		/* Handle vrr on->off / off->on transitions */
+-		amdgpu_dm_handle_vrr_transition(dm_old_crtc_state, dm_new_crtc_state);
++		amdgpu_dm_handle_vrr_transition(dm, dm_old_crtc_state,
++						dm_new_crtc_state);
+ 
+ #ifdef CONFIG_DEBUG_FS
+ 		if (new_crtc_state->active &&
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+index bd0403005f370..b2fbdaa7c5c9c 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+@@ -585,6 +585,15 @@ struct amdgpu_display_manager {
  	 */
-+	ret = drm_crtc_vblank_prepare(crtc);
-+	if (ret)
-+		return ret;
+ 	uint32_t active_vblank_irq_count;
+ 
++	/**
++	 * @prepare_vbl_disallow_idle:
++	 *
++	 * Set to true when idle has been disallowed. Set to false when vblank
++	 * interrupts have been enabled. i.e. idle re-allow on vblank disable is
++	 * blocked if this is true.
++	 */
++	bool prepare_vbl_disallow_idle;
 +
- 	ret = drm_crtc_vblank_get(crtc);
- 	if (!ret) {
- 		drm_crtc_wait_one_vblank(crtc);
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index f893b1e3a596e..8e3e21d734075 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -112,6 +112,7 @@ static inline bool drm_vblank_passed(u64 seq, u64 ref)
+ #if defined(CONFIG_DRM_AMD_SECURE_DISPLAY)
+ 	/**
+ 	 * @secure_display_ctx:
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
+index e20aa74380665..2d2eda804735a 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
+@@ -547,10 +547,8 @@ int amdgpu_dm_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
+ 	struct drm_crtc_commit *commit;
+ 	struct dm_crtc_state *crtc_state;
+ 	struct drm_device *drm_dev = crtc->dev;
+-#if defined(CONFIG_DRM_AMD_SECURE_DISPLAY)
+ 	struct amdgpu_device *adev = drm_to_adev(drm_dev);
+ 	struct amdgpu_display_manager *dm = &adev->dm;
+-#endif
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+ 	struct drm_dp_aux *aux = NULL;
+ 	bool enable = false;
+@@ -656,7 +654,11 @@ int amdgpu_dm_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
+ 	 */
+ 	enabled = amdgpu_dm_is_valid_crc_source(cur_crc_src);
+ 	if (!enabled && enable) {
+-		ret = drm_crtc_vblank_get(crtc);
++		scoped_guard(mutex, &dm->dc_lock) {
++			dc_exit_ips_for_hw_access(dm->dc);
++			ret = drm_crtc_vblank_get(crtc);
++		}
++
+ 		if (ret)
+ 			goto cleanup;
+ 	}
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+index 697e232acebfb..5edc035ec152a 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+@@ -258,8 +258,8 @@ static void amdgpu_dm_crtc_vblank_control_worker(struct work_struct *work)
+ 	else if (dm->active_vblank_irq_count)
+ 		dm->active_vblank_irq_count--;
+ 
+-	if (dm->active_vblank_irq_count > 0)
+-		dc_allow_idle_optimizations(dm->dc, false);
++	/* prepare_vblank_enable must disallow idle first */
++	ASSERT(dm->dc->idle_optimizations_allowed == false);
+ 
+ 	/*
+ 	 * Control PSR based on vblank requirements from OS
+@@ -277,7 +277,13 @@ static void amdgpu_dm_crtc_vblank_control_worker(struct work_struct *work)
+ 			vblank_work->acrtc->dm_irq_params.allow_sr_entry);
+ 	}
+ 
+-	if (dm->active_vblank_irq_count == 0) {
++	/*
++	 * If this worker runs disable between prepare_vblank and enable_vblank,
++	 * we need to block idle re-allow. Leave it to the next vblank disable
++	 * to re-allow idle.
++	 */
++	if (dm->active_vblank_irq_count == 0 &&
++	    !READ_ONCE(dm->prepare_vbl_disallow_idle)) {
+ 		dc_post_update_surfaces_to_stream(dm->dc);
+ 
+ 		r = amdgpu_dpm_pause_power_profile(adev, true);
+@@ -308,6 +314,8 @@ static inline int amdgpu_dm_crtc_set_vblank(struct drm_crtc *crtc, bool enable)
+ 	int irq_type;
+ 	int rc = 0;
+ 
++	ASSERT(dm->dc->idle_optimizations_allowed == false);
++
+ 	if (enable && !acrtc->base.enabled) {
+ 		drm_dbg_vbl(crtc->dev,
+ 				"Reject vblank enable on unconfigured CRTC %d (enabled=%d)\n",
+@@ -399,6 +407,9 @@ static inline int amdgpu_dm_crtc_set_vblank(struct drm_crtc *crtc, bool enable)
+ 	}
+ #endif
+ 
++	/* Ensure compiler emits the write before worker is queued */
++	WRITE_ONCE(dm->prepare_vbl_disallow_idle, false);
++
+ 	if (amdgpu_in_reset(adev))
+ 		return 0;
+ 
+@@ -423,6 +434,26 @@ static inline int amdgpu_dm_crtc_set_vblank(struct drm_crtc *crtc, bool enable)
+ 	return 0;
  }
  
- void drm_vblank_disable_and_save(struct drm_device *dev, unsigned int pipe);
-+int drm_crtc_vblank_prepare(struct drm_crtc *crtc);
- int drm_vblank_get(struct drm_device *dev, unsigned int pipe);
- void drm_vblank_put(struct drm_device *dev, unsigned int pipe);
- u64 drm_vblank_count(struct drm_device *dev, unsigned int pipe);
-diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-index bed2562bf911b..41681a3d96b15 100644
---- a/drivers/gpu/drm/drm_plane.c
-+++ b/drivers/gpu/drm/drm_plane.c
-@@ -35,6 +35,7 @@
- #include <drm/drm_vblank.h>
- 
- #include "drm_crtc_internal.h"
-+#include "drm_internal.h"
- 
- /**
-  * DOC: overview
-@@ -1421,6 +1422,10 @@ int drm_mode_page_flip_ioctl(struct drm_device *dev,
- 		u32 current_vblank;
- 		int r;
- 
-+		r = drm_crtc_vblank_prepare(crtc);
-+		if (r)
-+			return r;
-+
- 		r = drm_crtc_vblank_get(crtc);
- 		if (r)
- 			return r;
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index 42fe11cc139b9..f57de47438f0c 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -1208,6 +1208,33 @@ static int drm_vblank_enable(struct drm_device *dev, unsigned int pipe)
- 	return ret;
- }
- 
-+/**
-+ * drm_crtc_vblank_prepare - prepare to enable vblank interrupts
-+ *
-+ * @crtc: which CRTC to prepare
-+ *
-+ * Some drivers may need to spin-up hardware from a low power state before
-+ * enabling vblank interrupts. This function calls the prepare_enable_vblank
-+ * callback, if available, to allow drivers to do that.
-+ *
-+ * This is a DRM-internal function, and is a thin wrapper around a driver
-+ * callback. Drivers are expected to sequence their own prepare work internally.
-+ *
-+ * The spin-up may call sleeping functions, such as mutex_lock(). Therefore,
-+ * this must be called from process context, where sleeping is allowed.
-+ */
-+int drm_crtc_vblank_prepare(struct drm_crtc *crtc)
++static int amdgpu_prepare_enable_vblank(struct drm_crtc *crtc)
 +{
-+	if (!drm_dev_has_vblank(crtc->dev))
-+		return -EINVAL;
++	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
++	struct amdgpu_display_manager *dm = &adev->dm;
 +
-+	if (crtc->funcs->prepare_enable_vblank)
-+		return crtc->funcs->prepare_enable_vblank(crtc);
++	guard(mutex)(&adev->dm.dc_lock);
++
++	if (dm->dc->idle_optimizations_allowed) {
++		/*
++		 * Prevent the disable worker from re-allowing idle until
++		 * interrupts are enabled. Ensure compiler emits the write
++		 * before disallowing idle.
++		 */
++		WRITE_ONCE(dm->prepare_vbl_disallow_idle, true);
++		dc_exit_ips_for_hw_access(dm->dc);
++	}
 +
 +	return 0;
 +}
-+EXPORT_SYMBOL(drm_crtc_vblank_prepare);
 +
- int drm_vblank_get(struct drm_device *dev, unsigned int pipe)
+ int amdgpu_dm_crtc_enable_vblank(struct drm_crtc *crtc)
  {
- 	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
-@@ -1306,6 +1333,10 @@ int drm_crtc_wait_one_vblank(struct drm_crtc *crtc)
- 	int ret;
- 	u64 last;
- 
-+	ret = drm_crtc_vblank_prepare(crtc);
-+	if (ret)
-+		return ret;
-+
- 	ret = drm_vblank_get(dev, pipe);
- 	if (drm_WARN(dev, ret, "vblank not available on crtc %i, ret=%i\n",
- 		     pipe, ret))
-@@ -1489,6 +1520,9 @@ void drm_crtc_vblank_on_config(struct drm_crtc *crtc,
- 	if (drm_WARN_ON(dev, pipe >= dev->num_crtcs))
- 		return;
- 
-+	if (drm_crtc_vblank_prepare(crtc))
-+		return;
-+
- 	spin_lock_irq(&dev->vbl_lock);
- 	drm_dbg_vbl(dev, "crtc %d, vblank enabled %d, inmodeset %d\n",
- 		    pipe, vblank->enabled, vblank->inmodeset);
-@@ -1796,6 +1830,13 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
- 		return 0;
- 	}
- 
-+	crtc = drm_crtc_from_index(dev, vblank->pipe);
-+	if (crtc) {
-+		ret = drm_crtc_vblank_prepare(crtc);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	ret = drm_vblank_get(dev, pipe);
- 	if (ret) {
- 		drm_dbg_core(dev,
-@@ -2031,6 +2072,10 @@ int drm_crtc_get_sequence_ioctl(struct drm_device *dev, void *data,
- 		READ_ONCE(vblank->enabled);
- 
- 	if (!vblank_enabled) {
-+		ret = drm_crtc_vblank_prepare(crtc);
-+		if (ret)
-+			return ret;
-+
- 		ret = drm_crtc_vblank_get(crtc);
- 		if (ret) {
- 			drm_dbg_core(dev,
-@@ -2098,6 +2143,10 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device *dev, void *data,
- 	if (e == NULL)
- 		return -ENOMEM;
- 
-+	ret = drm_crtc_vblank_prepare(crtc);
-+	if (ret)
-+		return ret;
-+
- 	ret = drm_crtc_vblank_get(crtc);
- 	if (ret) {
- 		drm_dbg_core(dev,
-diff --git a/drivers/gpu/drm/drm_vblank_helper.c b/drivers/gpu/drm/drm_vblank_helper.c
-index a04a6ba1b0ca0..fc5915acfa7f3 100644
---- a/drivers/gpu/drm/drm_vblank_helper.c
-+++ b/drivers/gpu/drm/drm_vblank_helper.c
-@@ -8,6 +8,8 @@
- #include <drm/drm_vblank.h>
- #include <drm/drm_vblank_helper.h>
- 
-+#include "drm_internal.h"
-+
- /**
-  * DOC: overview
-  *
-@@ -61,7 +63,8 @@ void drm_crtc_vblank_atomic_flush(struct drm_crtc *crtc,
- 	crtc_state->event = NULL;
- 
- 	if (event) {
--		if (drm_crtc_vblank_get(crtc) == 0)
-+		if (drm_crtc_vblank_prepare(crtc) == 0 &&
-+		    drm_crtc_vblank_get(crtc) == 0)
- 			drm_crtc_arm_vblank_event(crtc, event);
- 		else
- 			drm_crtc_send_vblank_event(crtc, event);
-diff --git a/drivers/gpu/drm/drm_vblank_work.c b/drivers/gpu/drm/drm_vblank_work.c
-index 70f0199251ea0..252f60007781b 100644
---- a/drivers/gpu/drm/drm_vblank_work.c
-+++ b/drivers/gpu/drm/drm_vblank_work.c
-@@ -113,11 +113,19 @@ int drm_vblank_work_schedule(struct drm_vblank_work *work,
- {
- 	struct drm_vblank_crtc *vblank = work->vblank;
- 	struct drm_device *dev = vblank->dev;
-+	struct drm_crtc *crtc;
- 	u64 cur_vbl;
- 	unsigned long irqflags;
- 	bool passed, inmodeset, rescheduling = false, wake = false;
- 	int ret = 0;
- 
-+	crtc = drm_crtc_from_index(dev, vblank->pipe);
-+	if (crtc) {
-+		ret = drm_crtc_vblank_prepare(crtc);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	spin_lock_irqsave(&dev->event_lock, irqflags);
- 	if (work->cancelling)
- 		goto out;
-diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-index 66278ffeebd68..e5cf232d604c9 100644
---- a/include/drm/drm_crtc.h
-+++ b/include/drm/drm_crtc.h
-@@ -871,6 +871,27 @@ struct drm_crtc_funcs {
- 	 */
- 	u32 (*get_vblank_counter)(struct drm_crtc *crtc);
- 
-+	/**
-+	 * @prepare_enable_vblank:
-+	 *
-+	 * An optional callback to prepare driver for enabling of vblank
-+	 * interrupts. It allows drivers to perform any blocking operations for
-+	 * hardware setup that might be needed, and thus is called before any
-+	 * vblank spinlocks are acquired. It is called unconditionally,
-+	 * regardless of whether vblank interrupts are already enabled or not.
-+	 *
-+	 * Consequently, this callback is not synchronized with the rest of
-+	 * vblank management. Drivers should not access spinlock protected
-+	 * states here.
-+	 *
-+	 * This callback is optional. If not set, no preparation is performed.
-+	 *
-+	 * Returns:
-+	 *
-+	 * Zero on success, negative errno on failure.
-+	 */
-+	int (*prepare_enable_vblank)(struct drm_crtc *crtc);
-+
- 	/**
- 	 * @enable_vblank:
- 	 *
+ 	return amdgpu_dm_crtc_set_vblank(crtc, true);
+@@ -590,6 +621,7 @@ static const struct drm_crtc_funcs amdgpu_dm_crtc_funcs = {
+ 	.verify_crc_source = amdgpu_dm_crtc_verify_crc_source,
+ 	.get_crc_sources = amdgpu_dm_crtc_get_crc_sources,
+ 	.get_vblank_counter = amdgpu_get_vblank_counter_kms,
++	.prepare_enable_vblank = amdgpu_prepare_enable_vblank,
+ 	.enable_vblank = amdgpu_dm_crtc_enable_vblank,
+ 	.disable_vblank = amdgpu_dm_crtc_disable_vblank,
+ 	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
 -- 
 2.52.0
 
