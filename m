@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2H4MOCeMeGmqqwEAu9opvQ
+	id 0FBUKyiMeGmqqwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 10:57:59 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 10:58:00 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 946AB92372
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 10:57:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 631A79237A
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 10:58:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC70D10E505;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0E8010E50B;
 	Tue, 27 Jan 2026 09:57:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SVbIa1nd";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MBo49mck";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
  [209.85.128.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DC9A10E505
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 09:57:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 573EC10E509
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 09:57:49 +0000 (UTC)
 Received: by mail-wm1-f66.google.com with SMTP id
- 5b1f17b1804b1-4801d24d91bso55668995e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 01:57:48 -0800 (PST)
+ 5b1f17b1804b1-47f3b7ef761so39290355e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 01:57:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1769507867; x=1770112667; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1769507868; x=1770112668; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=mro/HVDsckTjaIY+Cj9g2EfEbDMs6DWKlUVvgKAipvA=;
- b=SVbIa1ndZ7IEtgtsfYavyQrNHbEeCnVgSdfKepGEiD3SFLm8CYlhY8T5TL3PIu5GRx
- 8hTT3um63HB65dX7E1pR72DGEkG6IgwoKEraor9JJbGCaw8hTn0guPCnKlzHUDmHbIfa
- ZzO7Jyo9tvJyUoMMqhG41qJjinGNrZZRka8blp3qKywI1c/MDu0lp2z7Rby/cqaEWMoh
- eB78clnc3OIY+M78W2qaZn24anekHgjtDECYn68rb+LKHGM0CyiFW0fwhPFy0r5IZLb1
- cvAdaEXaEpHmWpOdrpM3rdk41qJhKglAfw33T696sKIZxC8hqOfsW+1PW6TKHuo2QBLV
- ldKQ==
+ :reply-to; bh=/72d5PFTHkT60QbelpzW/GReN1mxIpLMWRlkdIN95Hk=;
+ b=MBo49mckmblMKjQgHMIBhWNB6cWZm8PHuvmHXJGRj/BWnP8k1tJ8KLAaEmaOYV9XuN
+ V6C2Z40K5cwgkkjxhFl9+pLRbEP9uzKcLwuhSNIkCM9Q8GPD7BGIcoXsbHrcdSUcn3vI
+ ZJorLDYq0gEkfmXL9vDFbQ7nwGFLWKokNOdjci9Nzrdk+4iTIkO4uECCGGejqtdMuoNl
+ wt7e1wkIeP+5475CNfo1wl8UFBwjOdY1ZGbW4rdgXkOVhNZglRVkg3kJ4Q2PVOb6yhbd
+ vR0qWOXeosy2bdjvpVoatDrGb3JcI19KDONrh4063jxdXmPEXvKUESZlHlmPJU6hKouE
+ kqyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769507867; x=1770112667;
+ d=1e100.net; s=20230601; t=1769507868; x=1770112668;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=mro/HVDsckTjaIY+Cj9g2EfEbDMs6DWKlUVvgKAipvA=;
- b=m695HUigHet1DSIWSoPgCbVRh82mFxwYEtfaHrnBm7OEaUS1eJ8/MNhmEElrc6ZBQw
- 2NX/6gK3rtftNIffgMAaE+scCV4ks0UdRe2DZyt7lGSuBXA6rXdpW29hwLtTC4q/aTsA
- izw196vZhNO8vWSh+q7EEohMnOLfnFFTVNn2CoBUu/EdGaTceMaE3JjOV5IDszVA0Cst
- iinwX5HGcacx4AFscmdb2I/Fqn5Ycci+khMghyEf4wcVlp29ljhtrJcHyaUtRLKEFE3I
- /yRBJKynsPCi9yHpjZwni/BTZGJWSBGJPN5gydD/wZbtekhmvhST1VRJ/bEpLZggh8y0
- dYKw==
+ bh=/72d5PFTHkT60QbelpzW/GReN1mxIpLMWRlkdIN95Hk=;
+ b=XB1BzaBHIyQl98H5j+hV0GcYAQWxzIl+zCTjBwksO1Dv6tZ2OiO/q0aLcRm8yy2BEA
+ ek9cvUS2SrDQguB4x/l38iU051Yy5EfH9lriqw5HJpVRpDEXrbZ18Gfj5uPecSa5Ck9t
+ xVjF7DsyMJ+KdickIvu5+R+tHiavJHEqaXERmAjpia3gqN5VF7u2IeXCxGRbkFt/Ak7L
+ wJWmF1BwVRS4qveDKm7q5LF5V3PpOkBY26PqVU0BYa0YVmvcWhyT4kjzCw10xFFQRx4d
+ avt52q03qSC45apm26CE5civacJB82Kvs6aBY8oTGO6V7kv60RPgNf7kOfKcaZhi9pF5
+ 3Uwg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUqDI6ritkhWKaf43i8RRWUt0+uC44cN2S0OPJdjcLe2wsBMg+A2ayYs2EYJlfcS4Aoh1OKjqwoeIo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzK2QQc8AW1sHTnZBm+lQiyjQxA6ha2J//mEayZBdlXMHkkt1eV
- KUcgJQwnXLHZ7UVBIrFy6rD4PqS1EdC7mq7Y6RhbrrDMvY2gUfHGn6FL8gBi/NUOAdc=
-X-Gm-Gg: AZuq6aKz1OAH7kyGwo1U9YbXyrhwCeSAlGVdl42lIbrGAWk2ICL6j8uXt40vlIIMuip
- KUEMKcs83T5PfJwfl4NYp9CR87we6gnFW50yZA3Cp68/Hp/RUCUWfqKwZx8bH01R262jcrYcqqi
- u/2i++NVGLvMdk/uxZJqwEbh6jNFQhSZgZjCVfHKMj5WWZjJmnhAhrGlTK6URWIHOp6p/sG0gnp
- aD6+d9cy116C+u2fJ2N7dWuOv++hnO99UAEGt44gWEdG0RuQc2z3UlOCvftp0+H37xH3k5jQrG9
- EGnD0uUKQKqIgn9BA7+EXGaAA1FfbV+rVBAS2Q5ikmampalzmR1A4OWjSJzWQgP6zHfQaI6nWp+
- oaBdmfMKJj0avQvahCQaJoE5Og+pXnTnPMkx00t7y28LEyeIdnFIihc9bNNLYDqbBpOC5JcUnEM
- aG1ipF5S4TOTHO4IArQAo5DXWV5ucH6tE=
-X-Received: by 2002:a05:600c:4fd4:b0:480:4a90:1b06 with SMTP id
- 5b1f17b1804b1-48069c98e19mr11551965e9.34.1769507866543; 
- Tue, 27 Jan 2026 01:57:46 -0800 (PST)
+ AJvYcCVV9pRkfp/bIhvRQs9wOavL6l6qCIQIX5van0AAmkaFmnQamm/rkd3x0FvZLQ9ovx/2tO/VxlOImAo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzD4AzEOutVMPf/d5OSXGUrfEwOcmN3vPvTM6JslE83DTzs/hQA
+ y8DZAmTBk7tOl6nZiP9KRXi6KTTQMt6RMLRvSve+DlpwFUY2+Z4+RxdcSNAw4IW7hFc=
+X-Gm-Gg: AZuq6aJcKXxv63lhabnKOD053aC8T4ZCcr9vpevfCYaau8nUZWxtPDF++gqR2AiVn/l
+ CzL7jlsChWTp0suhCb4qJhCmOb9otj98R1Qaosv2b2ecoDUh6BpwpwIpJB3EI0qvx+o6nhMpsM8
+ 5ww/xTNdnTSCuknL8JfgzU/NTwxLMqwA2s35j4i0srfDe75qDEjfdNx7LR7ozJOfeODmyycJVqo
+ VEX/FLGnpLVwSTJQAyk0tr6e5XG4cGMyGHB0T2j0+Yz77HyZrzGSK3qN65QP3VWsW0J+RFPst/S
+ msMXx8WzUFCbJOaIepaG8iEl+DEMIdFrmcbdGPN/yoKfo9Tk2xfAuUMpvPz8nJw6So0MjWJwrCy
+ qSP1e/oQ1QUPNuSp6/yqIsTnv+41cb+U2jmiUnUbtw6DVsarllZVPgCGmea4wAmW+wQ77ZOKqv9
+ 5/ojCnRNn8uB4uJTlz5xnonJRt2ZSy8nF3izPfLLPDaA==
+X-Received: by 2002:a05:600c:34d0:b0:480:683f:76e8 with SMTP id
+ 5b1f17b1804b1-48069c7c265mr12611895e9.26.1769507867692; 
+ Tue, 27 Jan 2026 01:57:47 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-48066bf93cesm49056225e9.9.2026.01.27.01.57.45
+ 5b1f17b1804b1-48066bf93cesm49056225e9.9.2026.01.27.01.57.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jan 2026 01:57:46 -0800 (PST)
+ Tue, 27 Jan 2026 01:57:47 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Tue, 27 Jan 2026 10:57:31 +0100
-Subject: [PATCH v2 4/7] dt-binding: vendor-prefixes: document the Ayaneo brand
+Date: Tue, 27 Jan 2026 10:57:32 +0100
+Subject: [PATCH v2 5/7] dt-bindings: arm: qcom: document the Ayaneo Pocket S2
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-4-c55ec1b5d8bf@linaro.org>
+Message-Id: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-5-c55ec1b5d8bf@linaro.org>
 References: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-0-c55ec1b5d8bf@linaro.org>
 In-Reply-To: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-0-c55ec1b5d8bf@linaro.org>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -93,23 +93,22 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-usb@vger.kernel.org, 
  linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+ Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=985;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=716;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=fcj1K5xSZY2CMfrsTNN0Bq9cIxFPL5cWnSbqgyt59Gg=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBpeIwTy1WJEkWNVBZZ8GsnLPMgeoTuWCtSL4q9ZjBA
- vBm3YM+JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaXiMEwAKCRB33NvayMhJ0YdaEA
- Chfx3yxxt8m0b/7ToR+hIGbpDEVi7dVvk6HKyCCaysmFwc2cME9eEAVY1DDLbe0Sp15ZqVcAig2Ely
- ueoQa+X/k7gq72oejejmwrUHBpFATZOTgbrz3LR/V8lQLvDhfAv1qiDCYgg8u6G6rkFFTjMSUSxzdP
- 3ZuRxvVH+Vtcio7JnzBXwwKr81foFIYPmO6JKZb9aj+cJERy/L9s3TJFKClo2oo02X7QLnm3EdRChk
- q1E327z7zx69Bi7fB2LKQwFZtedEPfx6JpN5ozzrJcefNAu54VP0msYBiOx1F3WLx36f3gwa3VvT0d
- oA2xRTNH+kOKLKEEpAywczEpr4ZierR+1aHP+VdsUlkng2IoagqYEbXzA19LkvHKwLjiLmtBlNLkFZ
- 6dUoaVzya+MF0iLBlW4zAT+xTidSVe0j5htwHAg2qo7OaUBf57OFty+TjcvKK5JcrCikSDQpHV9DYr
- 8LX5fn21nozGZqcOS1BKfFTE7yx9CqqMRPnfFuSBZMWB8x442MjvnTVQAQKf+li85BD/fRD79eThwb
- +9vyeYty8GKTfgIr2HfUNKYl5FHVWa0v2Af0wkQgtaQhdMQd8ygTDtTspYpj+uEC9y6dTZ+YosqxLu
- CZQfK9wFEx1ZCyq4bdFewiGlK38T2VvDZfRGHWC1+ayaebc0iciFDCy2xzTA==
+ bh=pirzvUMS8i50SX74B9DHasjEK/A+JFKmccu8rvH6JXg=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBpeIwTWMafMrwJi/UrUblmDswBaoYuUWQ2fwrzpDVA
+ O9HMxsmJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaXiMEwAKCRB33NvayMhJ0UFBEA
+ DPXxue632XoOKUO20a+YCsKF2UAhWuEgIA/+CWcQ8AAkzX0mKU7Ada7O5tgYC+2C6JOx2B2DQX43te
+ +5aBc/dnZY90jLZ3DsrXJS2l5r3LPEBqFYiU8u0M+pLDYuDucZBdExoCYmTVshHoXtkJ9LSKSo6nnD
+ gqQ0rEjVHTYrjcLYTIxxrgyNitSAFvzcgsm572Gu4urrwcWKJPKHg+PGxRimxRLB53vR1LXsM4m9Eq
+ 3I/aPsGIlOU4qsl+NSziBRL0bQrh8FLncxI33/Yq+ApgJtf9GIFw5omCPOdmxRT2H87qAV5D4sbJYO
+ iw7Ewf9u7IoCJgr9dhpmee043Nnnj9HipdhsM83tbrjn2mJPoSIgufB9qjTvP46AlXiEYtz+rDvilE
+ iXYM+wcORtdDgiJgLxqX9LkYxY2s8syHgTWBQBm25ZuTUDuXoW1Ze5IVTFbnJzOY2klsyaFf+2V0Y4
+ Ipxpetfml5c9XHYicXC1Kc31vpoAToQckxTjybcua6AmKRLOqqQiRbb0RoQgLEqWbw0QUeEXu97Do1
+ fUEazfXdUSif4MYm7YFXrQuMnegrrN039OGFUJXegyNxbBjUSgsvyDGO4woBlxzYT6LmqCIThzJrIF
+ gQq3gUt21+BhhuVP8g6tOCoqo602mIWnf7znRDzCQeo3vM7RmUPLTXT1z3jQ==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -136,12 +135,12 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:gregkh@linuxfoundation.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:brgl@kernel.org,m:mani@kernel.org,m:bhelgaas@google.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-usb@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-pci@vger.kernel.org,m:neil.armstrong@linaro.org,m:krzysztof.kozlowski@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:gregkh@linuxfoundation.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:brgl@kernel.org,m:mani@kernel.org,m:bhelgaas@google.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-usb@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-pci@vger.kernel.org,m:neil.armstrong@linaro.org,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[neil.armstrong@linaro.org,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
+	RCPT_COUNT_TWELVE(0.00)[28];
 	FREEMAIL_TO(0.00)[kernel.org,oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linuxfoundation.org,glider.be,google.com];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
@@ -159,33 +158,29 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ayaneo.com:url,linaro.org:email,linaro.org:dkim,linaro.org:mid,qualcomm.com:email]
-X-Rspamd-Queue-Id: 946AB92372
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,linaro.org:dkim,linaro.org:mid]
+X-Rspamd-Queue-Id: 631A79237A
 X-Rspamd-Action: no action
 
-Document the Ayaneo from the Anyun Intelligent Technology
-(Hong Kong) Co., Ltd company.
-Website: https://www.ayaneo.com/product/ayaneobrand.html
+Document the Qualcomm SM8650 based Ayaneo Pocket S2 gaming console.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/arm/qcom.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index c7591b2aec2a..1f83979e0d09 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -216,6 +216,8 @@ patternProperties:
-   "^axiado,.*":
-     description: Axiado Corporation
-   "^axis,.*":
-+    description: Anyun Intelligent Technology (Hong Kong) Co., Ltd
-+  "^ayaneo,.*":
-     description: Axis Communications AB
-   "^azoteq,.*":
-     description: Azoteq (Pty) Ltd
+diff --git a/Documentation/devicetree/bindings/arm/qcom.yaml b/Documentation/devicetree/bindings/arm/qcom.yaml
+index d84bd3bca201..351cc2eff14a 100644
+--- a/Documentation/devicetree/bindings/arm/qcom.yaml
++++ b/Documentation/devicetree/bindings/arm/qcom.yaml
+@@ -1042,6 +1042,7 @@ properties:
+ 
+       - items:
+           - enum:
++              - ayaneo,pocket-s2
+               - qcom,sm8650-hdk
+               - qcom,sm8650-mtp
+               - qcom,sm8650-qrd
 
 -- 
 2.34.1
