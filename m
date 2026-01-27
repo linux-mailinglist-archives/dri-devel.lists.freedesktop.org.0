@@ -2,52 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ICevGCadeGm/rQEAu9opvQ
+	id yOA6ME2deGm/rQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 12:10:30 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 12:11:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C64593691
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 12:10:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F257936CB
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 12:11:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E0DE10E0C5;
-	Tue, 27 Jan 2026 11:10:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DD7910E53C;
+	Tue, 27 Jan 2026 11:11:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IvFxtKx4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ivFRglPt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE01E10E53C;
- Tue, 27 Jan 2026 11:10:25 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C71310E53C
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 11:11:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 19FA76014F;
- Tue, 27 Jan 2026 11:10:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DB17C116C6;
- Tue, 27 Jan 2026 11:10:23 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E882740DFA
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 11:11:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C9999C16AAE
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 11:11:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769512224;
- bh=ghE0PV6MgbDOIunX4C/dCjhWcjwFHGSYSnXY9jCVIxs=;
- h=Date:From:To:Cc:Subject:From;
- b=IvFxtKx4VCQ9+taAJzXnxvFpREBvVfvq9lmsSfEjV9Qf1hWM8vHfdU5hs1bdHvUMH
- OVxZ+YCrfoYlajmSckilv6ldTopjyg5ymuWcL4rWW/xeZAs0zIu4sniAXcQ3RjttqD
- N7O2Lql6lxl5l47UqgsKPTmAhKyX8zRuV4PXzuhjrpKko+oq7nCwMLUdz3oxEzQJI9
- 5ov6T6Vlkav/JXYKXcriClkv6sTZiK0eq3gTsGb7A6dgmYY3VmUMvipsjuA/eYS+Fk
- kUsVlJwTJX3fjXrBmsDdktJi5e+4vEz8O9qQV6WH321If2TfYsV1FFod/2wO4eRpS3
- kqy0pQjZffvNA==
-Date: Tue, 27 Jan 2026 11:10:20 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Simona Vetter <simona.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>
-Cc: linux-next@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Fixes tags could use some work in the drm-misc tree
-Message-ID: <2951a9c1-3a6a-4f96-96b6-8cd49b5c0eb9@sirena.org.uk>
+ s=k20201202; t=1769512266;
+ bh=9eicyrdkNMRnuos/o/i6JMamGSyQV6IlJUpiHmaDoMg=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=ivFRglPtk3td+9Jzr+zFU0xtsbtHPnJYiKu153U6YCgwJTjfn1NpsKzMXmsO91deL
+ A1M1uLbLfju/3gxR9+wrq5GVyAY3x6TGII1Xpe9FaFzxYs+Uc6PvR5JlnjAx0Rnczy
+ L/kow9jdNGJ9kmGcO7O/mCpYM7Po4KT2H5WvV+1HOD9k7JiuHNmm+ssF4i0KVjxb+4
+ Cxvk+w8uvx6gWhn18A41K0oscKy0oUEqo4nyZWKwCUayNxS4FS1wPEyH0LuBmH1oQf
+ OzI9kRqPORiI5aiK+ZeRZcowmY2oeN0BTKABCen4YWFkJ/5M9tpj3nOBpC5xEnZYI/
+ fn54SRtO3pjaQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id BFBE7C433E1; Tue, 27 Jan 2026 11:11:06 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 221012] GPU page fault on AMD RX 7600 XT after commit
+ bf2084a7b1d75d093b6a79df4c10142d49fbaa0e
+Date: Tue, 27 Jan 2026 11:11:06 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Linux
+X-Bugzilla-Component: Kernel
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: geschw@pm.me
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: component version product
+Message-ID: <bug-221012-2300-jnNRLbXey7@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221012-2300@https.bugzilla.kernel.org/>
+References: <bug-221012-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="noIxOaML5XedF8uY"
-Content-Disposition: inline
-X-Cookie: I brake for chezlogs!
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,65 +80,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-3.41 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-1.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,sirena.org.uk:mid]
-X-Rspamd-Queue-Id: 3C64593691
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NO_DN(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FROM_NEQ_ENVFROM(0.00)[bugzilla-daemon@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_ONE(0.00)[1];
+	RCVD_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,pm.me:email];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+]
+X-Rspamd-Queue-Id: 5F257936CB
 X-Rspamd-Action: no action
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221012
 
---noIxOaML5XedF8uY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Gerhard Schwanzer (geschw@pm.me) changed:
 
-In commit
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+          Component|Video(DRI - non Intel)      |Kernel
+            Version|2.5                         |unspecified
+            Product|Drivers                     |Linux
 
-  6ef93f62533e4 ("drm/amd/ras: Reduce stack usage in amdgpu_virt_ras_get_cper_records()")
+--=20
+You may reply to this email to add a comment.
 
-Fixes tag
-
-  Fixes:
-
-has these problem(s):
-
-  - No SHA1 recognised
-
---noIxOaML5XedF8uY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAml4nRsACgkQJNaLcl1U
-h9CXLwf9G0dTFjqQFNplLJkaEoyt/k67OYGOYLOCGjOBNcgxNVSU4bc/j0+QKTrS
-zoWh8WGAwDFv4b09PfnXfzVZ2t0gK7Ls/0Fg9/ZdBRFWKUI2wzOluIp6m46cSBzs
-3tIx1Uqra8uFqKARThB13s6/as8+UtMt/Jhp5rN+p5/9PWO6aWZ/5MlfA5JM8C8N
-iCBkObJIv3y3DM7BnRYRDC9vIm91QQgJaUNGVj+OI7aLW5qqn7l3Wv2dOUS2TiwN
-cCydaksJy08Ia5eJUhC9dkZfqB/4UeUTUOJurknr5xzXfd2DymkM7jab6qU1tncS
-eRywKtKosxvdFKJMe/iP3mFlIc2kCg==
-=pmUD
------END PGP SIGNATURE-----
-
---noIxOaML5XedF8uY--
+You are receiving this mail because:
+You are watching the assignee of the bug.=
