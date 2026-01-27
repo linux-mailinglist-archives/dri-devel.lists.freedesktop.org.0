@@ -2,95 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AGRsB1ateGlasAEAu9opvQ
+	id WMmgH92ReGmirAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 13:19:34 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:22:21 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85E589433A
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 13:19:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3001492B2A
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:22:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA66E10E553;
-	Tue, 27 Jan 2026 12:19:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 879FA10E080;
+	Tue, 27 Jan 2026 10:22:18 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="d0/LRjG0";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
- [209.85.160.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADCA710E553
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 12:19:30 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id
- d75a77b69052e-502a2370e4fso44484131cf.3
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 04:19:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769516370; x=1770121170;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=h95kKSGuxlIi6DsiBy3i3OTVnWNnI1FQj5Fv8XU8C14=;
- b=VsC8DpJ/GquOSahMoiTO7f704+HrRv4N8YydzyR4DJcpTMT8bLIs84yqpetHrowvSA
- FzFHpAVpKfjo/lJs4UljO4Wrd6q/o7AgSWKag8vo+PKbe+ziDNEUWc8ZoaVsR33tKlgd
- Za8iCDSk+5BMf0svwO0HtZdS7E7K7Pnv8C0bRDJnvusxWj1NCEIKVmyid7SupuBEQQ85
- 0nXob27HyWmwg+Lv69Qd6pZI/ZSc8P1YuPQYU94J8IpjNnlR4aOWVk8Qr58ZAixY/uDY
- 0Sx5FHuVI4vRcYPJpe3Xuwv1qT7KSGJTF781p/H8dmSjTYtRaqfCEcELy+pavoUaK+B0
- 5Plg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU36CaT/c+YuCMq93fCcjFpqqNbamlE1S9gb0tedepcNJXwnUfTE5HnGJ9quHTg+grq4RZ8WSj8NuU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzU943G7zH5BFVi60iGuPutGJK4e3kJHiUl+ARDUY2gAQuX1hf7
- U+T78KWJRW8wv6TX1hYytPmbMA1OHm3TMrm++kkIdAAFPs8yUEkbf8PtykEglY0Wnuo=
-X-Gm-Gg: AZuq6aLDGiB5Nkff5PgmPx/2Tk5+onOpp7dGE7f8V2FdG674S6ltIWOX6zaLS0boyYx
- CGLrI6254wNIJUdfretS4TJY/ru+6f0UvFV/aDR2pk6kVSDVFRGcF1qqRQri9TLNyF0Ojw30XTa
- cxUrgjo51XUI3tJspdET5Sf5lJu67m+kGecdAr/KVAUktiCsA3PpOM6v8cUSQUM2GDtM2vDtFQO
- LbizHKSmy3b4ZVd6o+Ni5Gs6WHcT6u1NJJUf+/UXdJ91u36Gb/MNLp+GQg15q9qMz/7pRG8Ivyk
- AOonG4Q05XPW9YS7UkIpseizqNlhWhX+pKr10OXVYUfnARqq8lcsiMU/BsNQ0BpXQ6+otggYpcD
- 9EbOlflsqmzi/coufTYzaQu4SC70wXuAiQQQj+xntrRoqkyGFD6AqorReKb/ETK9mWvO66mjNZJ
- Yv+SvtaPWsCiUILPTu8Zh9x3phH5sLhMVNwNOH6FcPPHDDP8Je
-X-Received: by 2002:ad4:5f0e:0:b0:894:707d:d1e9 with SMTP id
- 6a1803df08f44-894cc8d16d8mr13565296d6.44.1769509662544; 
- Tue, 27 Jan 2026 02:27:42 -0800 (PST)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com.
- [209.85.219.53]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-89491970046sm115940626d6.57.2026.01.27.02.27.42
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Jan 2026 02:27:42 -0800 (PST)
-Received: by mail-qv1-f53.google.com with SMTP id
- 6a1803df08f44-894676e6863so61674126d6.2
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 02:27:42 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXnD/wSCVt1h7XoE7ZZBdMNodO+ILqLUVwjxA7IdlHfIoibn1941LKFszaz3Y5AWlGTKq/jWlobgpw=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:32c4:b0:5db:ca9e:b57d with SMTP id
- ada2fe7eead31-5f72368a7cbmr661077137.19.1769509270640; Tue, 27 Jan 2026
- 02:21:10 -0800 (PST)
+Received: from BL0PR03CU003.outbound.protection.outlook.com
+ (mail-eastusazon11012010.outbound.protection.outlook.com [52.101.53.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51A4710E072;
+ Tue, 27 Jan 2026 10:22:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SzsZAXgRchWlqfFiyXm3bilhJD0tzIq/6y99YHywCVBjQtsIi36uo+A7DaS+hyQeaEks0YoUFKVKuCngC78Q6y4TlFOTLDbPUtsDToWbVCG+OiHudCUEQnkSBGRpsk5xV6V9Da2+q7IFfdHfI/45Y05sOGjbg/Of9sE60aWbkmxY3nWFQz3dhC0CoOIWZSIaDxePlwJrXmXskuMSOUIiBDeaDl9GCIB1VvnsvS8oWxR/N0J9b7keDrJl2PCuGCsDMZer45GGueIDLGPEfq2mt+hjtB2HprFg+udpWWEPzZdVVGy0NpMZhIGXhzlKJI8StEjGdW7FROiC7j+1AwDChA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j0caF7ya4vTe7qlYWWyDZcgVKKyeXA06gk7eXkAWazY=;
+ b=Jqb3/f7LdxJ87de0qXCgjOTAvkRXXqx93FsLyZ0+UW/gaMdebVJFQ0HauhkQtYLIWzLBnqVRwtLT+8Z+nZfdd8Geq50g2gUy2XVRIgz/h02MADfh43ZG9bkc9JrG2pgCHieL7bm6/xS8wG1TX/vS1sjljqN2HoqeFvZYEPUidVhjDEKXT8zpICTZ2rhCOMIK1NvgN7/GsgFK6tI0XmtOHh0D2LgPbvptSqmUpUWOjka2YSYB8YBocWc6k2fgavm9nvTH6gXH+YmNuMOdNWPrL9FRk0PJ2zeDMBxBzvxB9Wrtk4ZDOSS/QPNBQw4K8rudZI011BPLZbi/lrUehfVcBw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j0caF7ya4vTe7qlYWWyDZcgVKKyeXA06gk7eXkAWazY=;
+ b=d0/LRjG0t5PqfzDSA+Kc/NAXXjtqlBPWZC1FpukN3FGn7A8KfBtepO5CiyJgPRMPxW1hv54il72KW5ri5XY49War9tVTxgYUB/xEpUxNAsSPI+VG6/bgbJcB72E15a7HjaW+lgumFr2RpV3I/FjpEidhcAhju7akKzORj2UtW5E=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DM6PR12MB4313.namprd12.prod.outlook.com (2603:10b6:5:21e::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Tue, 27 Jan
+ 2026 10:22:13 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9542.009; Tue, 27 Jan 2026
+ 10:22:13 +0000
+Message-ID: <1884d44f-6ffa-4974-8603-488f3979f4e8@amd.com>
+Date: Tue, 27 Jan 2026 11:22:09 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 06/11] amdgpu/gtt: remove
+ AMDGPU_GTT_NUM_TRANSFER_WINDOWS
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20260126133518.2486-1-pierre-eric.pelloux-prayer@amd.com>
+ <20260126133518.2486-7-pierre-eric.pelloux-prayer@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260126133518.2486-7-pierre-eric.pelloux-prayer@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BN9PR03CA0295.namprd03.prod.outlook.com
+ (2603:10b6:408:f5::30) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-References: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-0-c55ec1b5d8bf@linaro.org>
- <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-1-c55ec1b5d8bf@linaro.org>
-In-Reply-To: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-1-c55ec1b5d8bf@linaro.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 27 Jan 2026 11:20:59 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU9HcK3xX=itqe2di1HS1SJvV6=ySqKyrtj7Yr1yXyuqQ@mail.gmail.com>
-X-Gm-Features: AZwV_QgWv7FB_90Ca_fAZmW1VQjnUFaVdHL_S5QmJWKKvUrnnNh7whB0F4bfOtQ
-Message-ID: <CAMuHMdU9HcK3xX=itqe2di1HS1SJvV6=ySqKyrtj7Yr1yXyuqQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/7] dt-bindings: usb: document the Renesas
- UPD720201/UPD720202 USB 3.0 xHCI Host Controller
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Bartosz Golaszewski <brgl@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-usb@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM6PR12MB4313:EE_
+X-MS-Office365-Filtering-Correlation-Id: 47d642f7-edee-40e4-f6b5-08de5d8df016
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Y2xRT0VPYWVZNEQ0V1NGejVBeXVjUHg5eEZ4c252UGJuRzhrbFU2Q24vNjEr?=
+ =?utf-8?B?LzdTMXcwSktmZnNmZ3cwRWNWZE5OSDg3UHdUd0RORlJPYnBBS09nelN2WWhL?=
+ =?utf-8?B?elYvb3hyOUJyRW5UaHg0enZEYzQ2OEdyNFVZYmtNbENQVS8wbWZUL0RFS0Nt?=
+ =?utf-8?B?Um5GZFNqdlovL3B0RlVURzMrTi9ZTGtQUk5EUlNLaUtoVndNb2V5OTMySnNS?=
+ =?utf-8?B?SFFUMVo5YUVEeUVUYml4SGo3UjhVZEdld3I1dVVvSTFhbURoeFJ1RDNyRHhF?=
+ =?utf-8?B?aFZBam91M1pySVBoUi9raEJuUURCRTIrSzFEZ3BOdWxWd09qMHZGYUkvNWtD?=
+ =?utf-8?B?cEt3Tmh1MVhaMEl0OXZ0YWhEWjEweEZyUmQxWmZmTVE4WlpJS254dk9wLzBS?=
+ =?utf-8?B?R295WURLTnlzaWNIVW41cVc1MWRwZFlUbm5kNWRHNUdyQ2x0SGdPRjFBaGFM?=
+ =?utf-8?B?R0I0MnQzRjFSZ0Jpa1ZHQkRGcHg1Ym5KVmxhM1Z4UjcwRlZmWGZaUng5SmVo?=
+ =?utf-8?B?aFZpOHlLcExjdDZVcFZPWklTK1RMa1Y0TE9Ya2NxYmF0NnJ6aitRSi82VDg5?=
+ =?utf-8?B?Wk1KV3NCSVAzK0ZmdXdiQVVPbjBvYXdlUFUyLzJOQk9lMDlRUkJLNFphOW0x?=
+ =?utf-8?B?cHVVZDNwU0NuNnhXQnRkcmNsWVhvMEtXZmhLWU1oejIwZ1VXOUIyS2FmVysw?=
+ =?utf-8?B?bE1Sb05KNHhCeFBVU0theG0yeGs1L25RcEtpWFN6enhrM1dkN29MUktPK2ZT?=
+ =?utf-8?B?OWZkRnR6QjNlV2F3WGRmc25KN1FsL2xzTzBtUHRQcVFPaXpmdEY2RXVGdkhx?=
+ =?utf-8?B?Z2xpODhsK2pEeWtRb0hPZ1Y3MWZTdzR0eStvNDA5MWQzUUc3bGZ1NUkxcWxE?=
+ =?utf-8?B?WGh5ZllUVS9mTmxjZVh5UXJacjNpbUdXNVZ6dTZaTXRMK2tLOCtxZnJvL25K?=
+ =?utf-8?B?aXBraXdONWpHZW0zQjJCUDF1aWtnK3hUQTJpTzRDdUp2NUp4YmJOYnVUR2FS?=
+ =?utf-8?B?YWlYMGZZZjI0NjQyVm15cUwwZVJXVVoxbGhES0FtUVdIZ04rdFJwdFRwVmNQ?=
+ =?utf-8?B?ZFBFRk5yT3FXT1R4enh3aWtjWDVvS2Nsbi9sM1g2UUlzYnNhQVBFSDVhUXBo?=
+ =?utf-8?B?T245ejFEK1R6c3JyMENqeGJlTFppVXQvenR0cXVuRnFuQkJCUGhnZ2Vad0ZZ?=
+ =?utf-8?B?MFVFa1p4RWJNWnZybWhDbEtwUU1xRXZFSG5Jb3J0OERPZ0s4Z3FiZXovcGZ5?=
+ =?utf-8?B?Z1VtYW5RVmlzU0RVaDlNQXJXbVlCMEI4MGZOM1hQSFNrR2IvWGkyQzdzbEQ5?=
+ =?utf-8?B?enNGcno4NHV4RUNxdE5nTjlyTnVvTHlIc2pkZnVyaUlldGdNeTRCWm03SkNM?=
+ =?utf-8?B?YnV6UGw0TVN6UzhuY25JTkRNdzE4aWY3bnJ1MmkwWXBldnQzL1RzcXlIbWpv?=
+ =?utf-8?B?cDZhYU1sbWdnam1OMjVhYW9rVFVFVkJOSnB3NUkzT2NDU2tWMGxOdTJYQVpL?=
+ =?utf-8?B?c3pBY21aY0tEWk92S2ptMkY4NGYrZzNmd2JJTzE1ZVd0MmZxSmhmdkVCYUxu?=
+ =?utf-8?B?UkR1dDVuRUVKM3p4V2NmZjBhSmMzcWc0bU9YUjIzdkoyaFdOckZsSENFZkpv?=
+ =?utf-8?B?MVpVUVAvMjlTT0ZYS3ZlQ05vZU9JZ3RyS2pxVW1KZUNMZUJCSWtlQnA3aXRR?=
+ =?utf-8?B?M2JGUEtSRFlna2kyMnpZcXRoMFlaRmdydWJValFNdXp5L0ZrS0tVc0FmTHF4?=
+ =?utf-8?B?Wmp3SWZTOWY3OXVDWUJmQ3hsdzRiOWRMOTRQSTJjVWExMjcxQ3hmb2JhYmlo?=
+ =?utf-8?B?MnpKVWhnR0I3MUhQNDEvODQ5azFmTzJXTDh5T1Vrdm9wU3F1dno5RXBETlpj?=
+ =?utf-8?B?aVBFTkZjakVzdWhzZmEzVW1HUWVmdFBrdkR4Q0lQTFFGL2pKdVFvSkMwZDZF?=
+ =?utf-8?B?dnlxekpOTG94eEtJRVZpUXcwVFhhaGZDRkt0MEhJd1dLeTRjTzdJQVBuMVox?=
+ =?utf-8?B?ditJYXVEaXNLbVZtU281K3g0bzdFTUk2TEdTYTU4L0wxb21hbW4yWXhObTc4?=
+ =?utf-8?B?Tnh3L0VSeVFMQnRIU0lMNG9TL0RSbjBVdXlMdlJuZUN2bFRoWmVEVEJ2MTFq?=
+ =?utf-8?Q?3N6o=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RWVIdlQ1WThlZDFkWWxxdzE1MnluZmNaUDJGNzVmc211cDVCZ0ZzU2FGc2xV?=
+ =?utf-8?B?Q2N3YlBJd28yeGZJcTRkZmNqUkNHVFFTZDlPUzc3YS9sRy9hRXdzMnRabU5U?=
+ =?utf-8?B?bHlyRVFIMmJ2RVdWQ0s2M3RUODJLNzhEM3UrejFOUC9IMDZpRXA1VEhnVlh6?=
+ =?utf-8?B?ZCtjTGt3Y1BKRGYrRmZwcGl1ODd1TWgwSGFmU0hDTTNGNGFUV1o4UVhpa0lJ?=
+ =?utf-8?B?a1NMTllPSEk1VjVOUE0yNTloZzdOVXQ4bCtxdk1HeGQrVmtNNWFXQWs2TXdz?=
+ =?utf-8?B?dlZqdHRVTHpDSm15alczMXVEeDZvYVp5S0VFSTYrYTFySnJOY0hKcW4wZHpn?=
+ =?utf-8?B?QWFNaDFkTE95T3gxVFlPcnBHZ0dEeHZrNVp1Zy9rNUNOQzdJTU1WSjM2cFNy?=
+ =?utf-8?B?NU9sSCtHZFZ3SjlNNnRZR1pnaGtzb2hkNlVidElLUnpFazdITnFEZkJqaHF5?=
+ =?utf-8?B?NW4xb2JrVFM1Vk1ZZkJhM3dZQlQzbmozeHlPK242L092OWxoN3VNN04wa2JF?=
+ =?utf-8?B?em5mQzJhU2pkb0N5dVg0aEVvTGFkRFpqOXlVcW9LS3kzaU1ZRThpU0xTUFV2?=
+ =?utf-8?B?V085MzlVRkg4YzYrYzlnU3IrcDBEbjZ0ZDJrUEhiVWZRaDMvR0djTjJtdTU3?=
+ =?utf-8?B?c3gxYWs5NGJoUnVoSGx1bUdsb1h4OFVtVWkzaHhKVTBRd3krbXA3WUZuVWdZ?=
+ =?utf-8?B?NUF5bE0vN2FYMTVNeFdTd3Bwbm5QajZ2UUhEYVIyNkdUQ2JpcWxDRWZ0R0FY?=
+ =?utf-8?B?bHJJbDhXT3ZlN2tQRjhHUDYybjlVYnB4MzA5TTJ1aHdPVmFVcUNDbVROWjBY?=
+ =?utf-8?B?UWpnQTgzU05YcENHSnFzSFlwaTlGQnpvakxoZy9tWmxka1g3Ylh0eTRrOXA0?=
+ =?utf-8?B?dTBuV0lqWVllelVmSVUxVGdKd0I2d3JhZlpXZXVMYUpGZWZ0cm9sUmFGRmE0?=
+ =?utf-8?B?Q2RQQmVaQWlBVVpncU82M2VwUi9JYVpmUTJqUGxVYzJPdnQ0d1Jxb0NhZ3Nm?=
+ =?utf-8?B?TFpIbUVLQ2k0ejl3d0N5ZW5RQ3VTWlI0K0VVYjZjM2g0aHluRTZZVTlydC8z?=
+ =?utf-8?B?R0hqZW9SNDh5VkZuZXozQnZwOXlINU11akVxczdMNUhjaUU2cmJFR0lhb1J6?=
+ =?utf-8?B?dkNsM3FrYVF0Q0QwNDdNRnNrb2J2akk3QUFHeVVOZTVzM0FYUTZWeDEzQTJE?=
+ =?utf-8?B?QVREcUwwZ0U0U3cvWFZkeHprR1hGUWRScTQ0N0Jwc01FVHZCUzRaUDFtenM0?=
+ =?utf-8?B?a0t3M0lDZEJld2FhRmRyWlBCTHRzZ2E2NWN5NDAvcVJIRlliVFV3akZuL2Jl?=
+ =?utf-8?B?SjU5RzJwZ0FUZkE5YXlsSEYwSWdWVW9xNVl3Tk9sZmdiejFnYXFwNkliTU9u?=
+ =?utf-8?B?d3VIZ0dnY3VWZVRNcElLTy9KampObDlIRTErMjJaRGtLUFdxbnMvWDQxa3Mv?=
+ =?utf-8?B?LzZJRkRHTEh4NzBqOTBBV1ZRODNoT1dLNkp6YWJqTnkySVFSUCtSSUl1c1ZN?=
+ =?utf-8?B?ZEpLcW1uRk1qNnVWTi85Wk9QWlJoNzBzWGxuc3lqLzAyUlNxWS9pb3ZsM25o?=
+ =?utf-8?B?MEU4ekxBNHVaQ3BBN244MjNoWHVpYTh3ZEpNcFBrdk53NGEzWThtTnYrMXNw?=
+ =?utf-8?B?N1JybEN6bWZCT0hwTE41c3ZYVStLWUNhNzUxT2Rxdm1zc2xiLzM2d3FwcFhB?=
+ =?utf-8?B?QUJtWmpBTjdPZm44ZzIzdnlOeVhvWlE4amt2ZzJ1cGc4eW1yREZCREZFZ2Zm?=
+ =?utf-8?B?V0VQT2RvNnFsZnMwVDViaGtxeDhHek9FNDlNYVA1MW9MeElOY3p4RE9pU09l?=
+ =?utf-8?B?NkFYMEpEZDQxb0JyTkFMMGNIbmFpdzJPZzZuNE5TM25aekh5dGdFNzRBb3Zv?=
+ =?utf-8?B?Sml1a2dFN2J2YjYwWVVxLzFtVTJFMURZMGVrTzgxSGZ5azBuZ1lsaHozcTJS?=
+ =?utf-8?B?R01xMlp2ZTl5M0JYcCt5STZlRS9uL294R2plT1Y0czB6S1lUODdPeTV6RER0?=
+ =?utf-8?B?LzFrK01MZ0lYazMzS3ZCeFhxRER2bXFxczRMZ0d5c1BOdUR3VUdsOUVIWDNs?=
+ =?utf-8?B?RVZqUTNBZjRGNW9IcklkbHJIaVZnZXZ2WHVudmhidDdHbWd4NTdvY2FQYzBt?=
+ =?utf-8?B?Nlk5MDBRRFNUYWxGN2RJLysvcGF5WlRJRFhGNHlBK1lRcDZ0NWtIdmRCOWVU?=
+ =?utf-8?B?WTV3MGI3TDM3azU0Q0JzMVRGZjltcnFTTkxYNW4vNDQvSUxIVFRyZGoxcVFT?=
+ =?utf-8?B?YVpsWWRBVUJUWWF4YkNiQVQrMzVMVTJIbWpjVXliaXc5QXlzemtiU0JmSE9N?=
+ =?utf-8?Q?X+NQvC/30hwWHAm2zm?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 47d642f7-edee-40e4-f6b5-08de5d8df016
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 10:22:13.4513 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Wbst0MIp3RBElwG0bXzJhL7xB8k93jPc3chAJN3oXNjNFJrvWt+U+RoZfOjpTXMX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4313
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,144 +177,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.89 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:gregkh@linuxfoundation.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:brgl@kernel.org,m:mani@kernel.org,m:bhelgaas@google.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-usb@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-pci@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
-	DMARC_NA(0.00)[linux-m68k.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[amd.com,gmail.com,ffwll.ch];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[geert@linux-m68k.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linuxfoundation.org,glider.be,google.com,vger.kernel.org,lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	R_DKIM_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-0.996];
-	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,devicetree.org:url,0.0.0.0:email,linaro.org:email,linux-m68k.org:email]
-X-Rspamd-Queue-Id: 85E589433A
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[amd.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email,amd.com:dkim,amd.com:mid]
+X-Rspamd-Queue-Id: 3001492B2A
 X-Rspamd-Action: no action
 
-Hi Neil,
+On 1/26/26 14:35, Pierre-Eric Pelloux-Prayer wrote:
+> It's not needed anymore.
+> 
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 
-On Tue, 27 Jan 2026 at 10:57, Neil Armstrong <neil.armstrong@linaro.org> wrote:
-> Document the Renesas UPD720201/UPD720202 USB 3.0 xHCI Host Controller,
-> which connects over PCIe and requires specific power supplies to
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-Here: "requires"...
-
-> start up.
->
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 > ---
->  .../bindings/usb/renesas,upd720201-pci.yaml        | 55 ++++++++++++++++++++++
->  1 file changed, 55 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/usb/renesas,upd720201-pci.yaml b/Documentation/devicetree/bindings/usb/renesas,upd720201-pci.yaml
-> new file mode 100644
-> index 000000000000..df3cdcf44747
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/renesas,upd720201-pci.yaml
-> @@ -0,0 +1,55 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/usb/renesas,upd720201-pci.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: UPD720201/UPD720202 USB 3.0 xHCI Host Controller (PCIe)
-> +
-> +maintainers:
-> +  - Neil Armstrong <neil.armstrong@linaro.org>
-> +
-> +description:
-> +  UPD720201 USB 3.0 xHCI Host Controller via PCIe x1 Gen2 interface.
-> +  The UPD720202 up to two downstream ports, while UPD720201 supports up to
-> +  four downstream USB 3.0 rev1.0 ports.
-> +
-> +properties:
-> +  compatible:
-> +    const: pci1912,0014
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c | 5 +----
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h     | 1 -
+>  2 files changed, 1 insertion(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> index f2e89fb4b666..9b0bcf6aca44 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> @@ -324,16 +324,13 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
+>  {
+>  	struct amdgpu_gtt_mgr *mgr = &adev->mman.gtt_mgr;
+>  	struct ttm_resource_manager *man = &mgr->manager;
+> -	uint64_t start, size;
+>  
+>  	man->use_tt = true;
+>  	man->func = &amdgpu_gtt_mgr_func;
+>  
+>  	ttm_resource_manager_init(man, &adev->mman.bdev, gtt_size);
+>  
+> -	start = AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS;
+> -	size = (adev->gmc.gart_size >> PAGE_SHIFT) - start;
+> -	drm_mm_init(&mgr->mm, start, size);
+> +	drm_mm_init(&mgr->mm, 0, adev->gmc.gart_size >> PAGE_SHIFT);
+>  	spin_lock_init(&mgr->lock);
+>  
+>  	ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_TT, &mgr->manager);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+> index 5419344d60fb..c8284cb2d22c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+> @@ -40,7 +40,6 @@
+>  #define __AMDGPU_PL_NUM	(TTM_PL_PRIV + 6)
+>  
+>  #define AMDGPU_GTT_MAX_TRANSFER_SIZE	512
+> -#define AMDGPU_GTT_NUM_TRANSFER_WINDOWS	3
+>  
+>  extern const struct attribute_group amdgpu_vram_mgr_attr_group;
+>  extern const struct attribute_group amdgpu_gtt_mgr_attr_group;
 
-Just wondering: how does having a new driver
-drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c matching against this
-compatible play well with normal PCI discovery and probing of
-drivers/usb/host/xhci-pci-renesas.c?
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  avdd33-supply:
-> +    description: +3.3 V power supply for analog circuit
-> +
-> +  vdd10-supply:
-> +    description: +1.05 V power supply
-> +
-> +  vdd33-supply:
-> +    description: +3.3 V power supply
-> +
-> +required:
-> +  - compatible
-> +  - reg
-
-... but no power supplies are listed here? ...
-
-> +
-> +allOf:
-> +  - $ref: usb-xhci.yaml
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    pcie@0 {
-> +        reg = <0x0 0x1000>;
-> +        ranges = <0x02000000 0x0 0x100000 0x10000000 0x0 0x0>;
-> +        #address-cells = <3>;
-> +        #size-cells = <2>;
-> +        device_type = "pci";
-> +
-> +        usb@0 {
-
-The actual DTS uses "usb-controller".
-
-> +            compatible = "pci1912,0014";
-> +            reg = <0x0 0x0 0x0 0x0 0x0>;
-
-... also not in the example?
-
-> +        };
-> +    };
->
-> --
-> 2.34.1
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
