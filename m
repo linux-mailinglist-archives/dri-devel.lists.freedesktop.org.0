@@ -2,66 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eJVGAUl7eGkFqQEAu9opvQ
+	id 8IbbKnfleGlwtwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 09:46:01 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 17:19:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F5CD913B9
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 09:46:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CFED979FC
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 17:19:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC34110E4ED;
-	Tue, 27 Jan 2026 08:45:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E575D89954;
+	Tue, 27 Jan 2026 16:18:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="XRrMrRh1";
+	dkim=pass (1024-bit key; unprotected) header.d=thundersoft.com header.i=@thundersoft.com header.b="mlk+gWDN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68B7110E4EA
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 08:45:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1769503546;
- bh=9sBLQ6+LxN6NlEfzBjeADkyRzQDg9hdQyBWFSep6TOE=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=XRrMrRh16i5c6ebN2vLjKyOiyCaS5SH+ShrEFbgY6ir48W+LPn2O6dbUUtGR5OxBW
- Fl3w8BMUJbCtrzfUko/YB87t8ZoOQijOAR0j4dAdFwe2By7PJF4BZRbRukTbTIi9A3
- 4OZNfAikhXE4aStrUyGNCwXPfLq5lW3e7tdny9vx58juIeh0ncIf9lVxmPAmXgODHJ
- EZMh5MfbN/+cQnMllYa4aQ8bJ/W2bD4fnwHtnusHFT/7wnti2U/CqN3pbfFQkWTpz7
- cD/Y9hH8YteNB5AwtOGjjnYOI6ZuTz8yKmh8IFQJ0UvlSCbfx/kAqAUe9XMi0TRIVs
- 48/A9ThNOSkEw==
-Received: from localhost (unknown [82.79.138.145])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id D6D5517E1513;
- Tue, 27 Jan 2026 09:45:45 +0100 (CET)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 27 Jan 2026 10:45:36 +0200
-Subject: [PATCH v5 4/4] drm/rockchip: vop2: Support setting custom
- background color
+Received: from mail-m3275.qiye.163.com (mail-m3275.qiye.163.com
+ [220.197.32.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83C1810E4EF
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 08:49:13 +0000 (UTC)
+Received: from tsdl-HP-EliteDesk-880-G6-Tower-PC.. (unknown [36.129.139.90])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 321e5e450;
+ Tue, 27 Jan 2026 16:49:06 +0800 (GMT+08:00)
+From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+To: neil.armstrong@linaro.org
+Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com, andersson@kernel.org,
+ andrzej.hajda@intel.com, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hongyang.zhao@thundersoft.com,
+ jernej.skrabec@gmail.com, jonas@kwiboo.se, konradybcio@kernel.org,
+ krzk+dt@kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, rfoss@kernel.org, robh@kernel.org, rosh@debian.org,
+ simona@ffwll.ch, tzimmermann@suse.de, vkoul@kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: display: lt9611: Add dsi-port-b property
+Date: Tue, 27 Jan 2026 16:48:54 +0800
+Message-ID: <20260127084854.1714905-1-hongyang.zhao@thundersoft.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <7d9041a3-9d2b-469a-9fa7-89d53bbd2a1f@linaro.org>
+References: <7d9041a3-9d2b-469a-9fa7-89d53bbd2a1f@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260127-rk3588-bgcolor-v5-4-b25aa8613211@collabora.com>
-References: <20260127-rk3588-bgcolor-v5-0-b25aa8613211@collabora.com>
-In-Reply-To: <20260127-rk3588-bgcolor-v5-0-b25aa8613211@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Louis Chauvet <louis.chauvet@bootlin.com>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>, 
- Melissa Wen <melissa.srw@gmail.com>
-Cc: Robert Mader <robert.mader@collabora.com>, kernel@collabora.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- Diederik de Haas <diederik@cknow-tech.com>
-X-Mailer: b4 0.14.3
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9bfea4675109d5kunmba5438e79bdb8
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDTRlMVkpCQ0NMGEtOHh1DSVYVFAkWGhdVEwETFh
+ oSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
+ VKQktLWQY+
+DKIM-Signature: a=rsa-sha256;
+ b=mlk+gWDNP+RqWapm0pGEHyn+VNIojWyCvX7Gej8QBEvR0UOoYJrKDabGcSKBLqY7RWJzGheg4L4DEAE7iMcn2Sq8TuXZ8sPDWLjuleu+66t6roxCp3BwwnvVSxy16FIb8Sk+pUecX58R/gJKyAZy7sLyDxQbE21vr5hkZ9met2A=;
+ c=relaxed/relaxed; s=default; d=thundersoft.com; v=1; 
+ bh=ReKCnW0AuE/9mtifNT8wvXgnWudkFHiGhNf2b73WgFA=;
+ h=date:mime-version:subject:message-id:from;
+X-Mailman-Approved-At: Tue, 27 Jan 2026 16:18:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,125 +69,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [1.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[thundersoft.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[thundersoft.com:s=default];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:louis.chauvet@bootlin.com,m:hamohammed.sa@gmail.com,m:melissa.srw@gmail.com,m:robert.mader@collabora.com,m:kernel@collabora.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:diederik@cknow-tech.com,m:hamohammedsa@gmail.com,m:melissasrw@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,rock-chips.com,sntech.de,bootlin.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FORGED_SENDER(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	FORGED_SENDER(0.00)[hongyang.zhao@thundersoft.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:Laurent.pinchart@ideasonboard.com,m:airlied@gmail.com,m:andersson@kernel.org,m:andrzej.hajda@intel.com,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:hongyang.zhao@thundersoft.com,m:jernej.skrabec@gmail.com,m:jonas@kwiboo.se,m:konradybcio@kernel.org,m:krzk+dt@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:rfoss@kernel.org,m:robh@kernel.org,m:rosh@debian.org,m:simona@ffwll.ch,m:tzimmermann@suse.de,m:vkoul@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_CC(0.00)[ideasonboard.com,gmail.com,kernel.org,intel.com,vger.kernel.org,lists.freedesktop.org,thundersoft.com,kwiboo.se,linux.intel.com,debian.org,ffwll.ch,suse.de];
+	DKIM_TRACE(0.00)[thundersoft.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_NONE(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hongyang.zhao@thundersoft.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	NEURAL_HAM(-0.00)[-0.985];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,collabora.com:mid,cknow-tech.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 8F5CD913B9
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.1:email,thundersoft.com:email,thundersoft.com:dkim,thundersoft.com:mid,0.0.0.0:email]
+X-Rspamd-Queue-Id: 2CFED979FC
 X-Rspamd-Action: no action
 
-The Rockchip VOP2 display controller allows configuring the background
-color of each video output port.
+> On 1/27/26 07:58, Hongyang Zhao wrote:
+> > Document the lontium,dsi-port-b property for selecting DSI Port B as
+> > the input source instead of the default Port A.
+> >
+> > Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+> > Reviewed-by: Roger Shimizu <rosh@debian.org>
+> > ---
+> >   .../devicetree/bindings/display/bridge/lontium,lt9611.yaml          | 6 ++++++
+> >   1 file changed, 6 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
+> > index 655db8cfdc25..9b7dba4e114c 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
+> > @@ -37,6 +37,12 @@ properties:
+> >     vcc-supply:
+> >       description: Regulator for 3.3V IO power.
+> >
+> > +  lontium,dsi-port-b:
+> > +    type: boolean
+> > +    description:
+> > +      Use DSI Port B as the input source instead of Port A or Port A + B.
+> > +      Required when the DSI is physically connected to Port B.
+>
+> This is not how this should be solved, the ports links are here for this exact purpose.
+>
+> port@0 represents port A, port@1 represent port B, so you need to describe the HW correctly
+> in the first place.
+>
+> Populate only port1 and in the driver check which ports are population and change the
+> configuration.
+>
+> Neil
+>
+> > +
+> >     ports:
+> >       $ref: /schemas/graph.yaml#/properties/ports
+> >
+> >
 
-Since a previous patch introduced the BACKGROUND_COLOR CRTC property,
-which defaults to solid black, make use of it when programming the
-hardware.
+Hi Neil,
 
-Note the maximum precision allowed by the display controller is 10bpc,
-while the alpha component is not supported, hence ignored.
+Thanks for the review. You're right - I'll use the ports to describe the
+physical connection properly.
 
-Tested-by: Diederik de Haas <diederik@cknow-tech.com>
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 17 ++++++++++++++++-
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  4 ++++
- 2 files changed, 20 insertions(+), 1 deletion(-)
+I'll update the patches to:
+1. Make port@0 optional in the binding (require at least one of port@0 or port@1)
+2. Update port descriptions to clarify port@0 = Port A, port@1 = Port B
+3. Modify the driver to detect which port is populated and configure accordingly
+4. Use port@1 in the RubikPi3 DTS since the DSI is physically connected to Port B
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index ec3b4fde10db..1cfd5e83e4da 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -1552,6 +1552,7 @@ static void vop2_post_config(struct drm_crtc *crtc)
- 	struct vop2_video_port *vp = to_vop2_video_port(crtc);
- 	struct vop2 *vop2 = vp->vop2;
- 	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
-+	u64 bgcolor = crtc->state->background_color;
- 	u16 vtotal = mode->crtc_vtotal;
- 	u16 hdisplay = mode->crtc_hdisplay;
- 	u16 hact_st = mode->crtc_htotal - mode->crtc_hsync_start;
-@@ -1597,7 +1598,15 @@ static void vop2_post_config(struct drm_crtc *crtc)
- 		vop2_vp_write(vp, RK3568_VP_POST_DSP_VACT_INFO_F1, val);
- 	}
- 
--	vop2_vp_write(vp, RK3568_VP_DSP_BG, 0);
-+	/*
-+	 * Background color is programmed with 10 bits of precision.
-+	 * Since performance is more important than accuracy here,
-+	 * do *not* make use of the DRM_ARGB64_GET*_BPC() helpers.
-+	 */
-+	val = FIELD_PREP(RK3568_VP_DSP_BG__DSP_BG_RED, DRM_ARGB64_GETR(bgcolor) >> 6);
-+	val |= FIELD_PREP(RK3568_VP_DSP_BG__DSP_BG_GREEN, DRM_ARGB64_GETG(bgcolor) >> 6);
-+	val |= FIELD_PREP(RK3568_VP_DSP_BG__DSP_BG_BLUE, DRM_ARGB64_GETB(bgcolor) >> 6);
-+	vop2_vp_write(vp, RK3568_VP_DSP_BG, val);
- }
- 
- static int us_to_vertical_line(struct drm_display_mode *mode, int us)
-@@ -1983,6 +1992,10 @@ static int vop2_crtc_state_dump(struct drm_crtc *crtc, struct seq_file *s)
- 		   drm_get_bus_format_name(vcstate->bus_format));
- 	seq_printf(s, "\toutput_mode[%x]", vcstate->output_mode);
- 	seq_printf(s, " color_space[%d]\n", vcstate->color_space);
-+	seq_printf(s, "\tbackground color (10bpc): r=0x%x g=0x%x b=0x%x\n",
-+		   DRM_ARGB64_GETR(cstate->background_color) >> 6,
-+		   DRM_ARGB64_GETG(cstate->background_color) >> 6,
-+		   DRM_ARGB64_GETB(cstate->background_color) >> 6);
- 	seq_printf(s, "    Display mode: %dx%d%s%d\n",
- 		   mode->hdisplay, mode->vdisplay, interlaced ? "i" : "p",
- 		   drm_mode_vrefresh(mode));
-@@ -2472,6 +2485,8 @@ static int vop2_create_crtcs(struct vop2 *vop2)
- 			return dev_err_probe(drm->dev, ret,
- 					     "crtc init for video_port%d failed\n", i);
- 
-+		drm_crtc_attach_background_color_property(&vp->crtc);
-+
- 		drm_crtc_helper_add(&vp->crtc, &vop2_crtc_helper_funcs);
- 		if (vop2->lut_regs) {
- 			const struct vop2_video_port_data *vp_data = &vop2_data->vp[vp->id];
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-index 9124191899ba..37722652844a 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-@@ -658,6 +658,10 @@ enum dst_factor_mode {
- #define RK3588_VP_CLK_CTRL__DCLK_OUT_DIV		GENMASK(3, 2)
- #define RK3588_VP_CLK_CTRL__DCLK_CORE_DIV		GENMASK(1, 0)
- 
-+#define RK3568_VP_DSP_BG__DSP_BG_RED			GENMASK(29, 20)
-+#define RK3568_VP_DSP_BG__DSP_BG_GREEN			GENMASK(19, 10)
-+#define RK3568_VP_DSP_BG__DSP_BG_BLUE			GENMASK(9, 0)
-+
- #define RK3568_VP_POST_SCL_CTRL__VSCALEDOWN		BIT(1)
- #define RK3568_VP_POST_SCL_CTRL__HSCALEDOWN		BIT(0)
- 
+Will send v2 shortly.
 
--- 
-2.52.0
-
+Thanks,
+Hongyang
