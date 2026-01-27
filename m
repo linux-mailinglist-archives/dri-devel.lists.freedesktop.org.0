@@ -2,70 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qLBwO3vceGnbtgEAu9opvQ
+	id iKrKKlLfeGkGtwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 16:40:43 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 16:52:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314B496EAB
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 16:40:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A22897202
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 16:52:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B45BC10E06E;
-	Tue, 27 Jan 2026 15:40:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A29EB10E592;
+	Tue, 27 Jan 2026 15:52:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Y7YPzRTA";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Q/qL2+gL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B743A10E06E
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 15:40:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769528440; x=1801064440;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=XhBC5KV+PtVVZ/Z9sK8gsPhmkVrcEIqlnIPPBjBhYdM=;
- b=Y7YPzRTApFepT3xt9yjjHUWv/KgZtbneSfzC5Ayba9TrLH7B/lz0CyLo
- fhrmgKmXrLByI9Y6wnsraSmtjrKNfGrJofKBT+c5dKjZ77V9ta49KcjEJ
- 6JK3MPTRY8x8DjifD2ei8v3PIqLh8A4gOPdLt6+S5uu0rG1md5zErDG9X
- mUc5nwe4wPAyIt7n394B+1q0zLb13mU0/g5Bz8I7nEvDbui/wxXqEMkXN
- /1khU51AOsnthcqwLcweNDk3lzL7lett3r7fRO5kDchjGvEY5Bi/Rabvk
- 5ixB+UwuO6C30K8OivSkUoS1rE86/wHncfxI7K2UJZC1aTGwK/g87TCSd Q==;
-X-CSE-ConnectionGUID: tQnsDlU7QaScuVIUgLeLzw==
-X-CSE-MsgGUID: 1nRpu0r/S3C/AronDCUrFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="70816142"
-X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; d="scan'208";a="70816142"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2026 07:40:39 -0800
-X-CSE-ConnectionGUID: YkjinVAERv2ujCwRoSLWag==
-X-CSE-MsgGUID: XSHPA9EtQ96q7JmKxOnzAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; d="scan'208";a="208058802"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
- by orviesa007.jf.intel.com with ESMTP; 27 Jan 2026 07:40:35 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vklB9-00000000YcG-3qcQ;
- Tue, 27 Jan 2026 15:40:31 +0000
-Date: Tue, 27 Jan 2026 23:39:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Joey Lu <a0987203069@gmail.com>, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- ychuang3@nuvoton.com, schung@nuvoton.com, yclu4@nuvoton.com,
- a0987203069@gmail.com, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] drm/nuvoton: add MA35D1 display controller driver
-Message-ID: <202601272315.09SFioVt-lkp@intel.com>
-References: <20260126085727.2568958-4-a0987203069@gmail.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09F5310E592
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 15:52:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1769529164;
+ bh=Ma9DUQK/UE5KKiJVITo3EgKsfU16YIafflssOe2kpFk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Q/qL2+gLej/GQpukA/veuC+5qzdUsML/gqM+1q8cw8b+dcy1RhJb6HbGJumTlmiw4
+ fWyvYjHkwS2hNODt1/xc4m1QGf2BN441uY3RDzIQp3c2/oPL/y+imFySjWNiXORJXF
+ 32gsNg3wa3d/M8jGCmmU4W+wbOIzehGzxclt9IG2YmJ4sF18nECXULAicvq4E3kv36
+ myQ5kilkTToaX13twmBXrfSFaVYtVQgcJjKMk24FzheJgd0u3zg88M0gd5aUDYPFPk
+ 95E5ssq/GWaAlad4AVoOKV0tSr/T+S3/7iUv9grTzTVjmu17xOFYNDFArFk7TEVoz6
+ J5IBpGjDh5SqQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 0B0D717E012E;
+ Tue, 27 Jan 2026 16:52:44 +0100 (CET)
+Date: Tue, 27 Jan 2026 16:52:39 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: loic.molinari@collabora.com, willy@infradead.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, frank.binns@imgtec.com, matt.coster@imgtec.com,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org
+Subject: Re: [PATCH 2/3] drm/gem-shmem: Track folio accessed/dirty status in
+ mmap
+Message-ID: <20260127165239.78f3dde6@fedora>
+In-Reply-To: <20260127132938.429288-3-tzimmermann@suse.de>
+References: <20260127132938.429288-1-tzimmermann@suse.de>
+ <20260127132938.429288-3-tzimmermann@suse.de>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260126085727.2568958-4-a0987203069@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,180 +71,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[lists.linux.dev,nuvoton.com,gmail.com,lists.infradead.org,lists.freedesktop.org,vger.kernel.org];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:a0987203069@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:llvm@lists.linux.dev,m:oe-kbuild-all@lists.linux.dev,m:ychuang3@nuvoton.com,m:schung@nuvoton.com,m:yclu4@nuvoton.com,m:linux-arm-kernel@lists.infradead.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:loic.molinari@collabora.com,m:willy@infradead.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:frank.binns@imgtec.com,m:matt.coster@imgtec.com,m:linux-mm@kvack.org,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	HAS_ORG_HEADER(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.999];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[collabora.com,infradead.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch,imgtec.com,lists.freedesktop.org,kvack.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,intel.com:email,intel.com:dkim,intel.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 314B496EAB
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,collabora.com:dkim]
+X-Rspamd-Queue-Id: 1A22897202
 X-Rspamd-Action: no action
 
-Hi Joey,
+On Tue, 27 Jan 2026 14:16:37 +0100
+Thomas Zimmermann <tzimmermann@suse.de> wrote:
 
-kernel test robot noticed the following build errors:
+> Invoke folio_mark_accessed() in mmap page faults to add the folio to
+> the memory manager's LRU list. Userspace invokes mmap to get the memory
+> for software rendering. Later compositors will do the same to create the
+> final on-screen image, so keeping the pages in LRU makes sense. Avoids
+> paging out graphics buffers when under memory pressure.
+> 
+> In page_mkwrite, further invoke the folio_mark_dirty() to add the folio
+> for writeback, should the underlying file be paged out from system memory.
+> This rarely happens in practice, yet it would corrupt the buffer content.
+> 
+> This has little effect on a system's hardware-accelerated rendering, which
+> only mmaps for an initial setup of textures, meshes, shaders, etc.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next]
-[cannot apply to robh/for-next linus/master v6.19-rc7 next-20260126]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joey-Lu/dt-bindings-display-nuvoton-add-MA35D1-DCU-binding/20260126-170258
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260126085727.2568958-4-a0987203069%40gmail.com
-patch subject: [PATCH 3/3] drm/nuvoton: add MA35D1 display controller driver
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260127/202601272315.09SFioVt-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260127/202601272315.09SFioVt-lkp@intel.com/reproduce)
+> ---
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 18 +++++++++++++++++-
+>  1 file changed, 17 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index b6ddabbfcc52..30cd34d3a111 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -562,8 +562,10 @@ static bool drm_gem_shmem_try_map_pmd(struct vm_fault *vmf, unsigned long addr,
+>  
+>  		if (folio_test_pmd_mappable(folio)) {
+>  			/* Read-only mapping; split upon write fault */
+> -			if (vmf_insert_folio_pmd(vmf, folio, false) == VM_FAULT_NOPAGE)
+> +			if (vmf_insert_folio_pmd(vmf, folio, false) == VM_FAULT_NOPAGE) {
+> +				folio_mark_accessed(folio);
+>  				return true;
+> +			}
+>  		}
+>  	}
+>  #endif
+> @@ -605,6 +607,7 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+>  		get_page(page);
+>  
+>  		folio_lock(folio);
+> +		folio_mark_accessed(folio);
+>  
+>  		vmf->page = page;
+>  		ret = VM_FAULT_LOCKED;
+> @@ -653,10 +656,23 @@ static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
+>  	drm_gem_vm_close(vma);
+>  }
+>  
+> +static vm_fault_t drm_gem_shmem_page_mkwrite(struct vm_fault *vmf)
+> +{
+> +	struct folio *folio = page_folio(vmf->page);
+> +
+> +	file_update_time(vmf->vma->vm_file);
+> +
+> +	folio_lock(folio);
+> +	folio_mark_dirty(folio);
+> +
+> +	return VM_FAULT_LOCKED;
+> +}
+> +
+>  const struct vm_operations_struct drm_gem_shmem_vm_ops = {
+>  	.fault = drm_gem_shmem_fault,
+>  	.open = drm_gem_shmem_vm_open,
+>  	.close = drm_gem_shmem_vm_close,
+> +	.page_mkwrite = drm_gem_shmem_page_mkwrite,
+>  };
+>  EXPORT_SYMBOL_GPL(drm_gem_shmem_vm_ops);
+>  
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601272315.09SFioVt-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/nuvoton/ma35_plane.c:177:10: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     177 |                 *reg = MA35_BLEND_MODE_SRC;
-         |                        ^
-   drivers/gpu/drm/nuvoton/ma35_plane.h:141:2: note: expanded from macro 'MA35_BLEND_MODE_SRC'
-     141 |         FIELD_PREP(MA35_SRC_BLENDING_MODE, MA35_ALPHA_BLEND_ONE)
-         |         ^
-   drivers/gpu/drm/nuvoton/ma35_plane.c:337:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     337 |         reg = FIELD_PREP(MA35_OVERLAY_POSITION_X_MASK, x) |
-         |               ^
-   drivers/gpu/drm/nuvoton/ma35_plane.c:360:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     360 |                 reg = FIELD_PREP(MA35_PRIMARY_FORMAT_MASK, format) |
-         |                       ^
-   drivers/gpu/drm/nuvoton/ma35_plane.c:384:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     384 |                 reg = FIELD_PREP(MA35_OVERLAY_FORMAT_MASK, format) |
-         |                       ^
-   drivers/gpu/drm/nuvoton/ma35_plane.c:441:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     441 |         reg = FIELD_PREP(MA35_CURSOR_X_MASK, x) |
-         |               ^
-   drivers/gpu/drm/nuvoton/ma35_plane.c:483:4: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     483 |                         FIELD_PREP(MA35_CURSOR_HOTSPOT_X_MASK, new_state->hotspot_x) |
-         |                         ^
-   drivers/gpu/drm/nuvoton/ma35_plane.c:537:4: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     537 |                         FIELD_PREP(MA35_CURSOR_HOTSPOT_X_MASK, new_state->hotspot_x) |
-         |                         ^
-   7 errors generated.
---
->> drivers/gpu/drm/nuvoton/ma35_crtc.c:97:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      97 |         reg = FIELD_PREP(MA35_DISPLAY_TOTAL_MASK, mode->htotal) |
-         |               ^
->> drivers/gpu/drm/nuvoton/ma35_crtc.c:228:10: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     228 |         *hpos = FIELD_GET(MA35_DISPLAY_CURRENT_X, reg);
-         |                 ^
-   drivers/gpu/drm/nuvoton/ma35_crtc.c:284:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     284 |                 reg = FIELD_PREP(MA35_GAMMA_RED_MASK, r[i]) |
-         |                       ^
-   3 errors generated.
---
->> drivers/gpu/drm/nuvoton/ma35_interface.c:150:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     150 |         if (!interface) {
-         |             ^~~~~~~~~~
-   drivers/gpu/drm/nuvoton/ma35_interface.c:191:9: note: uninitialized use occurs here
-     191 |         return ret;
-         |                ^~~
-   drivers/gpu/drm/nuvoton/ma35_interface.c:150:2: note: remove the 'if' if its condition is always false
-     150 |         if (!interface) {
-         |         ^~~~~~~~~~~~~~~~~
-     151 |                 drm_err(drm_dev, "Failed to initialize encoder\n");
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     152 |                 goto error_early;
-         |                 ~~~~~~~~~~~~~~~~~
-     153 |         }
-         |         ~
-   drivers/gpu/drm/nuvoton/ma35_interface.c:145:9: note: initialize the variable 'ret' to silence this warning
-     145 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
-
-
-vim +/FIELD_PREP +177 drivers/gpu/drm/nuvoton/ma35_plane.c
-
-   167	
-   168	static int ma35_layer_blend_mode_select(u32 mode, u32 *reg)
-   169	{
-   170		u32 ret = 0;
-   171	
-   172		switch (mode) {
-   173		case MA35_ALPHA_CLEAR:
-   174			*reg = MA35_BLEND_MODE_CLEAR;
-   175			break;
-   176		case MA35_ALPHA_SRC:
- > 177			*reg = MA35_BLEND_MODE_SRC;
-   178			break;
-   179		case MA35_ALPHA_DST:
-   180			*reg = MA35_BLEND_MODE_DST;
-   181			break;
-   182		case MA35_ALPHA_SRC_OVER:
-   183			*reg = MA35_BLEND_MODE_SRC_OVER;
-   184			break;
-   185		case MA35_ALPHA_DST_OVER:
-   186			*reg = MA35_BLEND_MODE_DST_OVER;
-   187			break;
-   188		case MA35_ALPHA_SRC_IN:
-   189			*reg = MA35_BLEND_MODE_SRC_IN;
-   190			break;
-   191		case MA35_ALPHA_DST_IN:
-   192			*reg = MA35_BLEND_MODE_DST_IN;
-   193			break;
-   194		case MA35_ALPHA_SRC_OUT:
-   195			*reg = MA35_BLEND_MODE_SRC_OUT;
-   196			break;
-   197		case MA35_ALPHA_DST_OUT:
-   198			*reg = MA35_BLEND_MODE_DST_OUT;
-   199			break;
-   200		case MA35_ALPHA_SRC_ATOP:
-   201			*reg = MA35_BLEND_MODE_SRC_ATOP;
-   202			break;
-   203		case MA35_ALPHA_DST_ATOP:
-   204			*reg = MA35_BLEND_MODE_DST_ATOP;
-   205			break;
-   206		case MA35_ALPHA_XOR:
-   207			*reg = MA35_BLEND_MODE_XOR;
-   208			break;
-   209		default:
-   210			ret = -EINVAL;
-   211		}
-   212	
-   213		return ret;
-   214	}
-   215	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
