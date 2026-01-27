@@ -2,70 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GAlMLrWleGnVrgEAu9opvQ
+	id EHZUFneoeGl9rwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 12:47:01 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 12:58:47 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DCF693D7A
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 12:47:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0206193ED6
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 12:58:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C07610E54D;
-	Tue, 27 Jan 2026 11:46:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A1C610E552;
+	Tue, 27 Jan 2026 11:58:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bJkpA0VB";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="RB2Svl8v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88CE610E54D
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 11:46:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769514419; x=1801050419;
- h=from:date:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=Kk8a9FSr9F/qQGlMehCmUulagEZX/jAtBNaQNoWW9FA=;
- b=bJkpA0VBkfB7gTEjYi8LE2PDRXy0pVVLwBmUmj2/llACnUTdvU8QDJUF
- nZWlzjWeojBnaL0gRK3ZwjqRw4cIPZmgbxC15ylN+PnO9XMiQfxyhj/Ph
- zqDdiZVNEIucGEx+/Ge+mwlhwot8HmsdR9J1y41uTX6YxU+qeLUQ+/+tv
- i37Kd3uT9FHb+xpBBZj7P/+HbdvLJVbwmVNmIv2SmoCI/qhzmlIiYs0O8
- 4sCRiOl1m2jAgKIZbF6w7Vl4P1FdsJ8OQtsrypwtgZ7IbAlKiOoe86KMl
- 3GO8kwBjHevl2aayTyFX0Ty7pFZf+qTq9+nxqNn/HV1dEsToVFEZed7I1 w==;
-X-CSE-ConnectionGUID: 9RcCsmowTwaXg3Yr4g63lg==
-X-CSE-MsgGUID: 0yM1HZNYSPe5LnSM4seZUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="81814173"
-X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; d="scan'208";a="81814173"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2026 03:46:58 -0800
-X-CSE-ConnectionGUID: 91wVuJPvTzOOj3KaB+Kf9w==
-X-CSE-MsgGUID: tyueqwKnQKu20ZRQDgBrAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; d="scan'208";a="207081415"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.244.67])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2026 03:46:53 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 27 Jan 2026 13:46:49 +0200 (EET)
-To: Mario Limonciello <mario.limonciello@amd.com>
-cc: ogabbay@kernel.org, maciej.falkowski@linux.intel.com, 
- Hans de Goede <hansg@kernel.org>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- Lizhi Hou <lizhi.hou@amd.com>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>, 
- max.zhen@amd.com, sonal.santan@amd.com, 
- platform-driver-x86@vger.kernel.org, VinitKumar.Shukla@amd.com, 
- Patil Rajesh Reddy <Patil.Reddy@amd.com>
-Subject: Re: [PATCH V4] platform/x86/amd/pmf: Introduce new interface to
- export NPU metrics
-In-Reply-To: <6467de90-7a03-4e15-a549-bc882b29d579@amd.com>
-Message-ID: <ce45da68-9ef1-9391-95ee-8bcb614b0b51@linux.intel.com>
-References: <20260115173448.403826-1-lizhi.hou@amd.com>
- <176892084537.15580.12089679537024504744.b4-ty@linux.intel.com>
- <6467de90-7a03-4e15-a549-bc882b29d579@amd.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B51B10E54C
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 11:58:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=N+3ju3E6FPu2JD1Nsb68VmJVlbR8fpECigyHMAVRuT8=; b=RB2Svl8vmti9/gzR6GVzpBYo4F
+ PTiisgUx+yPUCO1bNRKJvgCVBEviZ5QzXFdLpksfKVcCFyjwfvUZCT6qkdA9jwdrihDTNo2/bq32e
+ iY7Q8In50jkqkaT/1iL/2GLC9huyVlylbej/kRjB6DSfY1RmnArALi4SzOZ/s6hi9N8rmQRzitIB6
+ Y/NtJ6rA4gwbIFup+gOB2/tfmtmUJI57Dpp5OPAKAbIe4rybtH4fndL+KkGjiXGRm8alU+VZu6uk/
+ 5uPU5JZcfCy6Kn+0RC4QyVaCZNG50QfYWWBoxmnxtJuN4PtvbHxMsZfgFvxJbpAS7EGUAlmLksYYq
+ UH9lZiJw==;
+Received: from [187.36.210.68] (helo=localhost.localdomain)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA512__CHACHA20_POLY1305:256)
+ (Exim) id 1vkhiK-00AS8A-Bl; Tue, 27 Jan 2026 12:58:32 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Subject: [PATCH v2 1/2] drm/v3d: Replace IDR with XArray for perfmon tracking
+Date: Tue, 27 Jan 2026 08:56:59 -0300
+Message-ID: <20260127115822.64401-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1908535892-1769514409=:1055"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,101 +67,209 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	CTYPE_MIXED_BOGUS(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [1.49 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[multipart/mixed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:mwen@igalia.com,m:itoral@igalia.com,m:mripard@kernel.org,m:dave.stevenson@raspberrypi.com,m:kernel-list@raspberrypi.com,m:kernel-dev@igalia.com,m:mcanal@igalia.com,m:tvrtko.ursulin@igalia.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:mario.limonciello@amd.com,m:ogabbay@kernel.org,m:maciej.falkowski@linux.intel.com,m:hansg@kernel.org,m:jeff.hugo@oss.qualcomm.com,m:lizhi.hou@amd.com,m:Shyam-sundar.S-k@amd.com,m:linux-kernel@vger.kernel.org,m:max.zhen@amd.com,m:sonal.santan@amd.com,m:platform-driver-x86@vger.kernel.org,m:VinitKumar.Shukla@amd.com,m:Patil.Reddy@amd.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[ilpo.jarvinen@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+,1:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[ilpo.jarvinen@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.998];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[igalia.com:-];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linux.intel.com:mid]
-X-Rspamd-Queue-Id: 3DCF693D7A
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:mid,igalia.com:email]
+X-Rspamd-Queue-Id: 0206193ED6
 X-Rspamd-Action: no action
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+The IDR interface is deprecated and the XArray API is the recommended
+replacement. Replace the per-file IDR used to track perfmons with an
+XArray. This allows us to remove the external mutex that protects the
+IDR.
 
---8323328-1908535892-1769514409=:1055
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+While here, introduce the v3d_perfmon_delete() helper to consolidate
+the perfmon cleanup logic used by both v3d_perfmon_close_file() and
+v3d_perfmon_destroy_ioctl().
 
-On Mon, 26 Jan 2026, Mario Limonciello wrote:
+Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+---
 
->=20
->=20
-> On 1/20/2026 8:54 AM, Ilpo J=C3=A4rvinen wrote:
-> > On Thu, 15 Jan 2026 09:34:48 -0800, Lizhi Hou wrote:
-> >=20
-> > > The PMF driver retrieves NPU metrics data from the PMFW. Introduce a =
-new
-> > > interface to make NPU metrics accessible to other drivers like AMDXDN=
-A
-> > > driver, which can access and utilize this information as needed.
-> > >=20
-> > >=20
-> >=20
-> >=20
-> > Thank you for your contribution, it has been applied to my local
-> > review-ilpo-next branch. Note it will show up in the public
-> > platform-drivers-x86/review-ilpo-next branch only once I've pushed my
-> > local branch there, which might take a while.
-> >=20
-> > The list of commits applied:
-> > [1/1] platform/x86/amd/pmf: Introduce new interface to export NPU metri=
-cs
-> >        commit: 15e19bd95be5c79f2f98b727edda002ba86f8d03
-> >=20
-> > --
-> >   i.
-> >=20
->=20
-> Lizhi,
->=20
-> One clarification.  What about the XDNA driver side of this change, are y=
-ou
-> still going to do it this cycle?
->=20
-> If so; this either needs an immutable branch from Ilpo or that side of th=
-e
-> change needs to go through pdx86 as well.
+v1 -> v2: https://lore.kernel.org/dri-devel/20260115150903.92163-2-mcanal@igalia.com/
 
-Hi Mario,
+- Replace XA_LIMIT(V3D_PERFMONID_MIN, V3D_PERFMONID_MAX) with
+  xa_limit_32b (Tvrtko Ursulin)
 
-I was told to me by Lizhi the xdna side patch not going to pursued in=20
-this cycle [1] so I went with that and changing that now is not realistic=
-=20
-because of merges I've performed to for-next (I could have easily done=20
-IB for the change back when applying the patch which would have been the=20
-default but given that mention, I didn't bother).
+---
+ drivers/gpu/drm/v3d/v3d_drv.h     |  5 +--
+ drivers/gpu/drm/v3d/v3d_perfmon.c | 57 +++++++++++--------------------
+ 2 files changed, 20 insertions(+), 42 deletions(-)
 
-[1] https://lore.kernel.org/all/93210832-aa75-7639-c9d2-99ec802d88e4@amd.co=
-m/
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+index 99a39329bb85..314213c26710 100644
+--- a/drivers/gpu/drm/v3d/v3d_drv.h
++++ b/drivers/gpu/drm/v3d/v3d_drv.h
+@@ -220,10 +220,7 @@ v3d_has_csd(struct v3d_dev *v3d)
+ struct v3d_file_priv {
+ 	struct v3d_dev *v3d;
+ 
+-	struct {
+-		struct idr idr;
+-		struct mutex lock;
+-	} perfmon;
++	struct xarray perfmons;
+ 
+ 	struct drm_sched_entity sched_entity[V3D_MAX_QUEUES];
+ 
+diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c b/drivers/gpu/drm/v3d/v3d_perfmon.c
+index 9a3fe5255874..c090fc30ba4b 100644
+--- a/drivers/gpu/drm/v3d/v3d_perfmon.c
++++ b/drivers/gpu/drm/v3d/v3d_perfmon.c
+@@ -6,9 +6,6 @@
+ #include "v3d_drv.h"
+ #include "v3d_regs.h"
+ 
+-#define V3D_PERFMONID_MIN	1
+-#define V3D_PERFMONID_MAX	U32_MAX
+-
+ static const struct v3d_perf_counter_desc v3d_v42_performance_counters[] = {
+ 	{"FEP", "FEP-valid-primitives-no-rendered-pixels", "[FEP] Valid primitives that result in no rendered pixels, for all rendered tiles"},
+ 	{"FEP", "FEP-valid-primitives-rendered-pixels", "[FEP] Valid primitives for all rendered tiles (primitives may be counted in more than one tile)"},
+@@ -290,24 +287,23 @@ struct v3d_perfmon *v3d_perfmon_find(struct v3d_file_priv *v3d_priv, int id)
+ {
+ 	struct v3d_perfmon *perfmon;
+ 
+-	mutex_lock(&v3d_priv->perfmon.lock);
+-	perfmon = idr_find(&v3d_priv->perfmon.idr, id);
++	xa_lock(&v3d_priv->perfmons);
++	perfmon = xa_load(&v3d_priv->perfmons, id);
+ 	v3d_perfmon_get(perfmon);
+-	mutex_unlock(&v3d_priv->perfmon.lock);
++	xa_unlock(&v3d_priv->perfmons);
+ 
+ 	return perfmon;
+ }
+ 
+ void v3d_perfmon_open_file(struct v3d_file_priv *v3d_priv)
+ {
+-	mutex_init(&v3d_priv->perfmon.lock);
+-	idr_init_base(&v3d_priv->perfmon.idr, 1);
++	xa_init_flags(&v3d_priv->perfmons, XA_FLAGS_ALLOC1);
+ }
+ 
+-static int v3d_perfmon_idr_del(int id, void *elem, void *data)
++static void v3d_perfmon_delete(struct v3d_file_priv *v3d_priv,
++			       struct v3d_perfmon *perfmon)
+ {
+-	struct v3d_perfmon *perfmon = elem;
+-	struct v3d_dev *v3d = (struct v3d_dev *)data;
++	struct v3d_dev *v3d = v3d_priv->v3d;
+ 
+ 	/* If the active perfmon is being destroyed, stop it first */
+ 	if (perfmon == v3d->active_perfmon)
+@@ -317,19 +313,17 @@ static int v3d_perfmon_idr_del(int id, void *elem, void *data)
+ 	cmpxchg(&v3d->global_perfmon, perfmon, NULL);
+ 
+ 	v3d_perfmon_put(perfmon);
+-
+-	return 0;
+ }
+ 
+ void v3d_perfmon_close_file(struct v3d_file_priv *v3d_priv)
+ {
+-	struct v3d_dev *v3d = v3d_priv->v3d;
++	struct v3d_perfmon *perfmon;
++	unsigned long id;
+ 
+-	mutex_lock(&v3d_priv->perfmon.lock);
+-	idr_for_each(&v3d_priv->perfmon.idr, v3d_perfmon_idr_del, v3d);
+-	idr_destroy(&v3d_priv->perfmon.idr);
+-	mutex_unlock(&v3d_priv->perfmon.lock);
+-	mutex_destroy(&v3d_priv->perfmon.lock);
++	xa_for_each(&v3d_priv->perfmons, id, perfmon)
++		v3d_perfmon_delete(v3d_priv, perfmon);
++
++	xa_destroy(&v3d_priv->perfmons);
+ }
+ 
+ int v3d_perfmon_create_ioctl(struct drm_device *dev, void *data,
+@@ -341,6 +335,7 @@ int v3d_perfmon_create_ioctl(struct drm_device *dev, void *data,
+ 	struct v3d_perfmon *perfmon;
+ 	unsigned int i;
+ 	int ret;
++	u32 id;
+ 
+ 	/* Number of monitored counters cannot exceed HW limits. */
+ 	if (req->ncounters > DRM_V3D_MAX_PERF_COUNTERS ||
+@@ -366,18 +361,15 @@ int v3d_perfmon_create_ioctl(struct drm_device *dev, void *data,
+ 	refcount_set(&perfmon->refcnt, 1);
+ 	mutex_init(&perfmon->lock);
+ 
+-	mutex_lock(&v3d_priv->perfmon.lock);
+-	ret = idr_alloc(&v3d_priv->perfmon.idr, perfmon, V3D_PERFMONID_MIN,
+-			V3D_PERFMONID_MAX, GFP_KERNEL);
+-	mutex_unlock(&v3d_priv->perfmon.lock);
+-
++	ret = xa_alloc(&v3d_priv->perfmons, &id, perfmon, xa_limit_32b,
++		       GFP_KERNEL);
+ 	if (ret < 0) {
+ 		mutex_destroy(&perfmon->lock);
+ 		kfree(perfmon);
+ 		return ret;
+ 	}
+ 
+-	req->id = ret;
++	req->id = id;
+ 
+ 	return 0;
+ }
+@@ -387,24 +379,13 @@ int v3d_perfmon_destroy_ioctl(struct drm_device *dev, void *data,
+ {
+ 	struct v3d_file_priv *v3d_priv = file_priv->driver_priv;
+ 	struct drm_v3d_perfmon_destroy *req = data;
+-	struct v3d_dev *v3d = v3d_priv->v3d;
+ 	struct v3d_perfmon *perfmon;
+ 
+-	mutex_lock(&v3d_priv->perfmon.lock);
+-	perfmon = idr_remove(&v3d_priv->perfmon.idr, req->id);
+-	mutex_unlock(&v3d_priv->perfmon.lock);
+-
++	perfmon = xa_erase(&v3d_priv->perfmons, req->id);
+ 	if (!perfmon)
+ 		return -EINVAL;
+ 
+-	/* If the active perfmon is being destroyed, stop it first */
+-	if (perfmon == v3d->active_perfmon)
+-		v3d_perfmon_stop(v3d, perfmon, false);
+-
+-	/* If the global perfmon is being destroyed, set it to NULL */
+-	cmpxchg(&v3d->global_perfmon, perfmon, NULL);
+-
+-	v3d_perfmon_put(perfmon);
++	v3d_perfmon_delete(v3d_priv, perfmon);
+ 
+ 	return 0;
+ }
+-- 
+2.52.0
 
---=20
- i.
-
---8323328-1908535892-1769514409=:1055--
