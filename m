@@ -2,58 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6MrgJV+UeGncrAEAu9opvQ
+	id UVbgOsKUeGnmrAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:33:03 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:34:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD33592D87
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:33:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C96692DE3
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:34:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03D1E10E0CD;
-	Tue, 27 Jan 2026 10:33:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E89E910E518;
+	Tue, 27 Jan 2026 10:34:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RaCVGb1w";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="KDiQp0N5";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OCsUWCWV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32E6210E0CD
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 10:33:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 66F61600AA;
- Tue, 27 Jan 2026 10:32:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA170C116C6;
- Tue, 27 Jan 2026 10:32:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769509979;
- bh=upyzIdX6sc+F9yKHqn/z6MJzFeFxUfq9aLCsXCMxv4E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RaCVGb1wMOEGpU58u34kxHjibgOqFQeYFGZ1kRvowtT37vPWybnwGOBd+CuNUbUAV
- DhMnTMS66u/V7/1MBu1xh0VkBEOYYbR2QADskSJy7/iweNyPzsQmV2JHf2/tVEdq/f
- 6uFRWkpNVa5DKPzIjGlqNf/ZgOcvNXLERc+fcdYuQNUjxAJPyjxi63BbtNHuVlrZBx
- M3q2S4iNbdXVsZgFjux+wRpftz8A1fK5Vg2l2T63jnnyaiw3/zGMPQ4GcIkshAIbLa
- IvsogM3geHENQH8l35EP72wIIgnB/XF/8DWAOu1WfhCMPbnqF7IIT0qU0BADTUp70C
- PPAC/Ip/rppFA==
-Date: Tue, 27 Jan 2026 11:32:56 +0100
-From: Thierry Reding <thierry.reding@kernel.org>
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: Aaron Kling <webgeek1234@gmail.com>, Kurt Kiefer <kekiefer@gmail.com>, 
- Jasper Korten <jja2000@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Hunter <jonathanh@nvidia.com>, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/tegra: Enable cmu for Tegra186 and Tegra194
-Message-ID: <aXiSMlP-UKmrFKL7@orome>
-References: <20251101-tegra-drm-cmu-v1-1-211799755ab8@gmail.com>
- <CALHNRZ9b98Su9qAqXRSTCStoUPtC_u3+MG0cr4SQ-g3aVJD7LQ@mail.gmail.com>
- <8615742F-EE35-4B37-BA0A-D62FFD5424B4@gmail.com>
- <4318175.BddDVKsqQX@senjougahara>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 346FA10E51D
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 10:34:39 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60RAD5gt1268825
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 10:34:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=pSe6m9bpQlKGAyhQeVQfwUOr
+ nWUJ9Hu2tKR1AdBPD6I=; b=KDiQp0N5T5oo4vxAdnjXwTA9yxewWrg/BwPHIizi
+ WtoZRo4fhTiF6BrPcuoImB3rE7bXgwSrMLBirk8662FK86+UlkMAMU9CZGLSHGBS
+ iPiviSG7ijibW3Uj8VbxLEoOVKK7bxGZbuOM24SdeOtQVERgvoAVtU7v9KLCjHMF
+ wIy4k2l7+rvXQryz0XYpC20DMcAnhCSUEqrKzHRJeYpfeaKwntxonGQkB+7xGaeR
+ P8pcKSL/G6geZCAITJ//T+/aR+wyZa/i3fQdEYKMOOTRufDbLrZB/22S6F2d6IBY
+ RnuVABbDh569TfLh5S3Iw3qMTLawRuJXqY43N5gM3Ma5rQ==
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
+ [209.85.217.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bxnyasb2y-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 10:34:38 +0000 (GMT)
+Received: by mail-vs1-f71.google.com with SMTP id
+ ada2fe7eead31-5f52597aca4so6084955137.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 02:34:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1769510078; x=1770114878;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=pSe6m9bpQlKGAyhQeVQfwUOrnWUJ9Hu2tKR1AdBPD6I=;
+ b=OCsUWCWV3a/SXKOJ5rcAaUaQljwzDjq/8AqzkcMXbVbaK00ZN9CmG1u/8tsqKprSmI
+ A8vACiZRMfpDmMvch2EI8dv4Qm6AKemuXY9gZqkMhk4mA8STMrWOQd8174YO36Kgbl+0
+ O556cH8yIGhYN4rPccoNjiRx+W7YzUNejO3vDnkHb5xVGKRwVGKk7aPrB7pex9aNKPuO
+ ifeIENq3noGXfDVwRawod13ewcJgPdVQqTnCHE+ugdSo8wvqwgMGVzWKJtuJACI2a52R
+ PIcqqFTEUZSdutY1PMGBsCoCOvCbYftWHdil5JTVTOMm96VBVVHs5JKy4C7uHmUx1C92
+ 7g7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769510078; x=1770114878;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pSe6m9bpQlKGAyhQeVQfwUOrnWUJ9Hu2tKR1AdBPD6I=;
+ b=B1v2Y5S1aAB8N4KMweaZAs/Cdfss/gAhA6vaOwRQ75wdg+qPuEBvzf+eUkjdY7lhnZ
+ 6x+sjzsht5rit2HedK52QwfGEZzdYrX5NIzwk0Qcl7hOMU1mvV5bpIjTXz8pTu/nQVIK
+ VKaUjHCLi7NwB3ZVAKZRA7iHHKCgHInTl4UXj1BIb92MhJ+d6I1CxoXmURbZ9aDQG4dG
+ UsBfwV+21+z1WTg/F9hqd20EEkQgh8oZ07GZtqqafjESbHVDlTG+FsLMAwR/J6nKPkhk
+ NwkTtnCzCmrUo4TjyzblBP8MGqcVzqyQ1tbl5tlkfZLA35P9HxYvNRb6qChooQrC2lrt
+ WdpQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUrkkhIreJbkzyvAk5BrCmsbkzgkCGVXEfswfdoigSUCx0BoU8dFXoB2gLJfcwc6r5PiPNa6gDGR0Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyVmdaCeSQ3uXY+6Tg+PVlH6wWJbI+djilvpny8A5oBNKnMvHcG
+ gC7S7BHPqouaturhuzjkdQUCaLnQjI0KS2vp1qUiDrDpKdHVvkboB7kc6CudcD+X2R3OUN4C9Sx
+ PYrpJH38PYM14d9IVBzaSEo9WrZSlArJpS7de0HVmrbIzEJ5mOQog/DfzD6BymgDs/j9sKac=
+X-Gm-Gg: AZuq6aJXEagyHdJw8D2Qh/JCPc/3ORL97Z7TArZmAvY0CKrIowmQIP/OllYBZPdAprV
+ kJZ5d4AoKxSt5UuFJdHOdnFTpgDZz8TlYvbNg17jRKUpIuve2tmHiSwYTMBMHJSyDh47zUVPJpV
+ 1UnOQcVgI25tumIZdNm0gafkUEENzvZtCxeubHG8Ma/2HDyRYUls/MqxIPJlKVQ06drRMIFq08N
+ zMk1e+52Ou1fBuE33eKZJyxv2kS2+2Ca1lslBZ8kF9PKb/90RyyDjaFlu/JrXFxdl40xJTApo9/
+ OCm0OJ5gWlhwgAoTmGpSX1W72zIx/ILpMcK33eEYMnPtldrp/3iMaQan1IQIV69UaK+kkOpdfpF
+ 0vJ/bvZMGXNmN8eV306VwFd5mR+HjYP82rGHOriGdrvq5U+Fa+kq3BHLjc4nm9oB8eounMsRgws
+ T/ExqhjlUTYJ/UsNCfnGPs8Ds=
+X-Received: by 2002:a05:6102:3052:b0:5db:3111:9330 with SMTP id
+ ada2fe7eead31-5f72379c46dmr540402137.27.1769510077589; 
+ Tue, 27 Jan 2026 02:34:37 -0800 (PST)
+X-Received: by 2002:a05:6102:3052:b0:5db:3111:9330 with SMTP id
+ ada2fe7eead31-5f72379c46dmr540394137.27.1769510077057; 
+ Tue, 27 Jan 2026 02:34:37 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-59de48df625sm3295728e87.4.2026.01.27.02.34.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Jan 2026 02:34:36 -0800 (PST)
+Date: Tue, 27 Jan 2026 12:34:33 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Val Packett <val@packett.cool>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] drm/msm/dpu: try reserving the DSPP-less LM first
+Message-ID: <whko2yur7tgutr4qhlbqfrvpcdg7hkyw66koicqvpvfhk55c7z@saj2uxrduv4z>
+References: <20260115-dpu-fix-dspp-v1-0-b73152c147b3@oss.qualcomm.com>
+ <20260115-dpu-fix-dspp-v1-2-b73152c147b3@oss.qualcomm.com>
+ <33424a9d-10a6-4479-bba6-12f8ce60da1a@packett.cool>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="fue3hpucru44eqpn"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4318175.BddDVKsqQX@senjougahara>
+In-Reply-To: <33424a9d-10a6-4479-bba6-12f8ce60da1a@packett.cool>
+X-Proofpoint-GUID: ysa-kDtIdIJktv_Mw0SMiGqVZs0WAKGz
+X-Authority-Analysis: v=2.4 cv=JZqxbEKV c=1 sm=1 tr=0 ts=697894be cx=c_pps
+ a=P2rfLEam3zuxRRdjJWA2cw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=KlTdY6ZzAAAA:8 a=EUspDBNiAAAA:8 a=Vj5JY3D4L5YBHjkz5HIA:9 a=CjuIK1q_8ugA:10
+ a=ODZdjJIeia2B_SHc_B0f:22 a=7M2I9cFuLl8dRdVq5wb9:22
+X-Proofpoint-ORIG-GUID: ysa-kDtIdIJktv_Mw0SMiGqVZs0WAKGz
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI3MDA4NiBTYWx0ZWRfX/b4C/OEYcs7b
+ /0Dz+lTNbYIhJLzsq6EFJmaXVmItuhjkiyS/GnKJ9yZOKLSA68/pfcg6ZlS/Q5CyJ/87x9h0Ior
+ PIO88+z2P+MRmZJdx0je4YPIndFu+PQYPpqO517dhO4Wzsw9WLxN0Lahz1ZjLHiQpfPHuHprKpz
+ LC59TdFUic3OkV3V3Dj410RF7Eb1VdIvaYqPSM+8gddj4M8EakbodnfxDpef7dGkB3yoLvrQjzq
+ QK9LMriKBsIZ1FnMaU9d5nrP/q1Q5Jg6es29B2iAaTYdaCM+4ERCbyl8RkUW2v7Vc9Iv7tNZlB+
+ flr45G73nC6tUW0BySV3qi8CukbqkoKSU69k9fNHLgE+XkGshsOoRJrk8l2/jIxRN9QMY31uXf8
+ O5EhVd+2KEfOmbad6UdmWgwfftv7n6FaThk8PHHRomuOg0AJA78YnI9NXT3tSjnYDqjgjpdEIH4
+ v0ic5HnnbsRKJ49uvaQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-27_02,2026-01-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 suspectscore=0 lowpriorityscore=0
+ malwarescore=0 spamscore=0 adultscore=0 clxscore=1015 phishscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2601270086
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,241 +150,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.41 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,vger.kernel.org,lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[thierry.reding@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:mperttunen@nvidia.com,m:webgeek1234@gmail.com,m:kekiefer@gmail.com,m:jja2000@gmail.com,m:thierry.reding@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:jonathanh@nvidia.com,m:linux-tegra@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_RECIPIENTS(0.00)[m:val@packett.cool,m:robin.clark@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,nvidia.com,lists.freedesktop.org,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[thierry.reding@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: DD33592D87
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim]
+X-Rspamd-Queue-Id: 8C96692DE3
 X-Rspamd-Action: no action
 
+On Tue, Jan 27, 2026 at 06:43:32AM -0300, Val Packett wrote:
+> Hi,
+> 
+> On 1/15/26 5:05 PM, Dmitry Baryshkov wrote:
+> > On most of the platforms only some mixers have connected DSPP blocks.
+> > If DSPP is not required for the CRTC, try looking for the LM with no
+> > DSSP block, leaving DSPP-enabled LMs to CRTCs which actually require
+> > those.
+> > 
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > ---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 52 +++++++++++++++++++++++++---------
+> >   1 file changed, 38 insertions(+), 14 deletions(-)
+> 
+> 
+> this has massively broken things on my x1e device (latitude-7455):
+> 
+> - upon booting into gdm, the internal display is all dark blue
+> - suspend-resume makes gdm appear fine, then logging in results in another
+> blue screen, again bypassed by suspend-resume (vt switching back to gdm
+> makes it appear fine but switching back to the session, it's still blue)
+> - OR blindly logging in on the blue gdm makes the session appear
+> - plugging in an external display makes the blue screen flash constantly
+> over the contents, there is also a flashing vertical gap between 2 halves of
+> the internal screen (amazing effect) and the external display doesn't
+> actually refresh the contents under the blue
+> (https://owo.packett.cool/dbg/dspp-lm-boom.webm)
+> 
+> Consistently across 3 reboots.
+> 
+> Reverted only this commit and it's back to normal, so I'm pretty sure it's
+> this.
 
---fue3hpucru44eqpn
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] drm/tegra: Enable cmu for Tegra186 and Tegra194
-MIME-Version: 1.0
+Interesting. Could you please capture the dri-state (only the last part,
+resource mapping) with the external monitor attached and with this
+commit reverted?
 
-On Tue, Jan 27, 2026 at 01:12:54PM +0900, Mikko Perttunen wrote:
-> On Thursday, January 22, 2026 2:08=E2=80=AFAM Kurt Kiefer wrote:
-> >=20
-> > > On Dec 8, 2025, at 8:23=E2=80=AFPM, Aaron Kling <webgeek1234@gmail.co=
-m> wrote:
-> > >=20
-> > > On Wed, Nov 5, 2025 at 3:28=E2=80=AFPM Jasper Korten <jja2000@gmail.c=
-om> wrote:
-> > >>=20
-> > >> Hi all,
-> > >>=20
-> > >> On 11/4/25 19:12, Aaron Kling wrote:
-> > >>> On Tue, Nov 4, 2025 at 3:14=E2=80=AFAM Thierry Reding <thierry.redi=
-ng@gmail.com> wrote:
-> > >>>> On Mon, Nov 03, 2025 at 12:39:57PM -0600, Aaron Kling wrote:
-> > >>>>> On Mon, Nov 3, 2025 at 5:54=E2=80=AFAM Thierry Reding <thierry.re=
-ding@gmail.com> wrote:
-> > >>>>>> On Sat, Nov 01, 2025 at 06:15:17PM -0500, Aaron Kling via B4 Rel=
-ay wrote:
-> > >>>>>>> From: Aaron Kling <webgeek1234@gmail.com>
-> > >>>>>>>=20
-> > >>>>>>> Without the cmu, nvdisplay will display colors that are notably=
- darker
-> > >>>>>>> than intended. The vendor bootloader and the downstream display=
- driver
-> > >>>>>>> enable the cmu and sets a sRGB table. Loading that table here r=
-esults in
-> > >>>>>>> the intended colors.
-> > >>>>>>>=20
-> > >>>>>>> Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
-> > >>>>>>> ---
-> > >>>>>>>  drivers/gpu/drm/tegra/dc.h  |  13 +++
-> > >>>>>>>  drivers/gpu/drm/tegra/sor.c | 206 ++++++++++++++++++++++++++++=
-++++++++++++++++
-> > >>>>>>>  2 files changed, 219 insertions(+)
-> > >>>>>> What does "darker than intended" mean? Who defines the intention=
-? How do
-> > >>>>>> we know what the intention is? What this patch ultimately seems =
-to be
-> > >>>>>> doing is define sRGB to be the default colorspace. Is that alway=
-s the
-> > >>>>>> right default choice? What if people want to specify a different
-> > >>>>>> colorspace?
-> > >>>>> I reported this issue almost a month ago. See kernel lore [0] and
-> > >>>>> freedesktop issue [1]. The pictures in the latter show what nvdis=
-play
-> > >>>>> looks like right now. It's nigh unusably dark. When booted into
-> > >>>>> Android with a tv launcher that has a black background, as is def=
-ault
-> > >>>>> for LineageOS, it is really hard to read anything. Is it correct =
-as a
-> > >>>>> default? Well, cboot hardcodes this, so... presumably? It would be
-> > >>>>> more ideal to expose this and csc to userspace, but I'm not sure =
-if
-> > >>>>> drm has a standardized interface for that or if tegra would have =
-to
-> > >>>>> make something vendor specific. I think that would be a separate
-> > >>>>> change concept compared to setting this default, though.
-> > >>>> The reason I'm asking is because I don't recall ever seeing "broke=
-n"
-> > >>>> colors like you do. So I suspect that this may also be related to =
-what
-> > >>>> display is connected, or the mode that we're setting.
-> > >> I have tried it on both a MacroSilicon HDMI capture card and an Arzo=
-pa
-> > >> Z1FC 1080p portable monitor and run into the same darker colors. Both
-> > >> have in common that they use HDMI which seems to line up with what A=
-aron
-> > >> is reporting. I do not have an eDP display to test or another carrier
-> > >> board with a different display out to test.
-> > >>>> It could perhaps
-> > >>>> also be related to what infoframes we're sending and how these are
-> > >>>> supported/interpreted by the attached display.
-> > >>>>=20
-> > >>>> All of that is to say that maybe this looks broken on the particul=
-ar
-> > >>>> setup that you have but may works fine on other setups. Changing t=
-he
-> > >>>> default may fix your setup and break others.
-> > >>> Do you have a device set up so you can check? Or does the regression
-> > >>> test bench have a display that can be forwarded?
-> > >>>=20
-> > >>> My current setup is a rack of units plugged via hdmi to a kvm which=
- is
-> > >>> then plugged to a pikvm. I also observed this issue before I had th=
-is
-> > >>> setup, plugged directly to a 1080p monitor. I have not checked
-> > >>> displayport. I can cycle through a couple other displays without th=
-is
-> > >>> patch to see if I get any other result. I am fairly certain I have
-> > >>> consistently seen this issue since I started trying to work with
-> > >>> tegra-drm on kernel 6.1 or maybe even 5.15. I've never seen it work=
- to
-> > >>> allow for a bisect.
-> > >>>=20
-> > >>> I am in contact with one other person with a tx2 devkit, who
-> > >>> replicated the issue when I asked. Who plans to reply to this thread
-> > >>> with setup info later.
-> > >>=20
-> > >> For reference, I am said person. I have a Jetson TX2 Devkit that uses
-> > >> the P2771 Device Tree. I'm running a Fedora distrokernel with no
-> > >> additional patches applied by myself. I have personally noticed the
-> > >> issue to at least be present on 6.14.5 and 6.17.4.
-> > >>=20
-> > >>=20
-> > >> I'm currently not at home to take screenshots with and without the
-> > >> submitted patch, but will be able to do it tomorrownight or friday.
-> > >=20
-> > > Any further thoughts from the maintainers on this patch? As far as I
-> > > know, this is an issue for all users, at the very least on hdmi.
-> > >=20
-> > > Aaron
-> > >=20
-> >=20
-> > I can confirm that I have the same issue on a DisplayPort output of t19=
-4.
-> > IMO, this patch will need to be reworked a bit to enable the CMU for th=
-is
-> > output as well. I hacked this change in for DisplayPort, and then it
-> > functioned as intended there as well.
-> >=20
-> > I've traced back to the reason this is necessary. The DC hub driver is
-> > applying an sRGB degamma for every RGB plane (presumably for blending),
-> > and then nothing reapplies the EOTF later on. Without gamma correction
-> > in places where it is expected, images are going to look "too dark".
-> >=20
-> > Which does raise the point that there is an alternative implementation
-> > where we do not degamma RGB planes in the first place. But this may have
-> > unintended consequences when it comes to composition.
-> >=20
-> > The SOR does not appear to handle YCbCr outputs at this time, so enabli=
-ng
-> > the CMU assuming an sRGB EOTF seems like a reasonable path here, to me.
-> >=20
-> > Kurt
->=20
-> I tested this patch locally and did some investigation. Can confirm
-> that on my Jetson AGX Xavier, this patch (or disabling degamma) fixes
-> the color output.
->=20
-> The colorspace the display expects from the incoming data is specified
-> in the AVI infoframe. This is generated in
-> tegra_sor_hdmi_setup_avi_infoframe, which calls into
-> drm_hdmi_avi_infoframe_from_display_mode, which leaves a lot of fields
-> set at the default.
->=20
-> Currently we're advertising:
-> * colorimetry =3D no data -> for HD resolutions, use Rec. 709 primaries.
-> These are the same as sRGB.
-> * itc =3D false -> NOT IT content.
->=20
-> My understanding (based on some LLM research and otherwise) is that
-> this is likely to result in the display expecting Rec. 709 colors with
-> Rec. 709 gamma. sRGB gamma is slightly different, and setting itc =3D
-> true would hint the display towards using sRGB gamma.
->=20
-> However, what seems clear to me is that the display would be expecting
-> nonlinear data, so enabling gamma conversion at the output LUT seems
-> correct to me. So this patch would be a clear improvement (with the
-> fixes already discussed).
+Also, could you please run another check:
+ - revert this commit
+ - comment out LM_2, LM_3 in the catalog
+ - try the resulting kernel with the external monitor
 
-I think ideally we want to hook this up to the DRM color management
-facilities, so that it can both be properly reported and configured
-at runtime.
+> 
+> /sys/kernel/debug/dri..: https://owo.packett.cool/dbg/bluewtf.dri
+> 
+> 
+> ~val
+> 
 
-Obviously we also want to make sure that the output pixels match what
-is advertised via the AVI infoframe. Looks like there's concensus that
-enabling the output LUT is the correct way to do that.
-
-Thierry
-
---fue3hpucru44eqpn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAml4lFUACgkQ3SOs138+
-s6GqRQ/9Gty05JE6EKz66N98sGLJL+SU2hd4EiSyJ69JkUn682UhsMBkZj4GnaRj
-FrxDBDnjjjDhdzinX5I/7Z/dEYeH2f+j8d7lT/oUhO/7YUpXylLoWByLBmIb52yp
-/YaeipNrSfXRdN81+d8lw7Un1OST8N+vVq4WmZUWj5kI5TvzfmRcT8m6JmNpv58b
-cOFZMuplp0V7UUs+2UzCKW9B5QskhkQCVd2X5Itut87DaNOkIkTwhYR6Y4oYnL1o
-e+CyE0i7FxsdZ1pACzW3yWIOl4Ym+kJ9o9Lm0GsPcWboZv2N6qWI35DbQQNe6FUO
-8CHQGuFYqmJxTiiXls6vCM8wxNocNcf0fpd78eNdSgTdjy1cis9P4z+aSI0C0K/q
-sdxsIZv4azcfztg+AhZyZGpHdSaZ4YbHcH8Bez9tr50ar/FP0/XJap35csiLYjfZ
-rg9OQS+BVOxxeXAyq6SOjnNqZz4Cr6eIQtYSjDVh479I9VuEl5lMplgxyBThwdQu
-JJvPkbxzX4NdVFNPIm/N4YewIyDxt3lIOIfYmpFbYrZap8SechQ6iK30pzhizDcp
-nGhY8fWz7y8khwOLldOzpHOtlpB0i5pvDGQhYiAEIEw9qpYdPkzGON3PIrvgKUNv
-hH3/+A2/mJe9Kv/TmIvCzYDGInP3jyCWCYseVKCprHz1agpQjus=
-=o1Nu
------END PGP SIGNATURE-----
-
---fue3hpucru44eqpn--
+-- 
+With best wishes
+Dmitry
