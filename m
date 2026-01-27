@@ -2,71 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +L6CArKPeGmarAEAu9opvQ
+	id 4ALdDemQeGmirAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:13:06 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:18:17 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0522E92889
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:13:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE82492A04
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 11:18:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2508010E513;
-	Tue, 27 Jan 2026 10:13:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39E5010E529;
+	Tue, 27 Jan 2026 10:18:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dJdULQ+O";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="03ntHC/Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3A7B10E046;
- Tue, 27 Jan 2026 10:13:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769508781; x=1801044781;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=8uR/YSf1+we+KGERqsDgc+u73/syPI+Cf46HuA/MbgQ=;
- b=dJdULQ+ORxXCb+i8MTvR7l+p8e8SbUJkE53YbQRWfBm4PZyssc4ULcW5
- qQC9nfhAiQ3cHP07jVQBPjjSX5xSyGPeS74LBI5hNwTBGU3UmdOlaKrKx
- GSu41U2iAClrbs3L1f0PJtrkzGiRvoQxYmnBLxq8M8Zp6RLYLxzSi20ff
- 1RnVauSOh/auHRMN+hQ6REN3lCuU4MHpQwR9RO0luGID96R3JlA8kwZ0J
- 50i4Fm8fGw2t4DhHQGxR+1JGgUKF+rYklaqAbhOsoOlimCGDIDphkiRVb
- p0id7jK0odGLrWqniEpB+vbzDZTIK6DhDEsOx+oA/ixu5RXsqOR5OUaBn Q==;
-X-CSE-ConnectionGUID: G6cBbvbwSRSaKBAdUC+7eg==
-X-CSE-MsgGUID: Bapm+NCpRJWCnfCmYIPkXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="73286601"
-X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; d="scan'208";a="73286601"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2026 02:13:00 -0800
-X-CSE-ConnectionGUID: mZ6CgTlTT9SgFtsp0wPMoA==
-X-CSE-MsgGUID: NrO0x8vKSYOu5e9cprTtrg==
-X-ExtLoop1: 1
-Received: from black.igk.intel.com ([10.91.253.5])
- by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2026 02:12:57 -0800
-Date: Tue, 27 Jan 2026 11:12:54 +0100
-From: Raag Jadav <raag.jadav@intel.com>
-To: Riana Tauro <riana.tauro@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
- rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
- simona.vetter@ffwll.ch, airlied@gmail.com, pratik.bari@intel.com,
- joshua.santosh.ranjan@intel.com, ashwin.kumar.kulkarni@intel.com,
- shubham.kumar@intel.com, ravi.kishore.koppuravuri@intel.com,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Subject: Re: [PATCH v4 3/4] drm/xe/xe_hw_error: Add support for GT hardware
- errors
-Message-ID: <aXiPpiSJi-0PPzSH@black.igk.intel.com>
-References: <20260119040023.2821518-6-riana.tauro@intel.com>
- <20260119040023.2821518-9-riana.tauro@intel.com>
- <aXB7rXem6U5Fzw7D@black.igk.intel.com>
- <cc9d924c-4da9-4651-b9fe-01e06bce5c2f@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Received: from CH5PR02CU005.outbound.protection.outlook.com
+ (mail-northcentralusazon11012014.outbound.protection.outlook.com
+ [40.107.200.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BCC510E080;
+ Tue, 27 Jan 2026 10:18:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CTCcb0w0BiyPjwBAP/drw6BVYhh2Y9BRV73vq4/z43ulPf6ycsS84EE4roJ2dqTIFvitPulLmyFpASIvl5xrBpATVKilsjHOXYFmFlVrTb+COg9cLcQ5dzue8m1cc8RkMKzCwo8vOnU4c0UgXlJcHdXD6RtZVnBzKnlSfeCaEMvZnfU0uBHGIHkBH2+WAPDmRiNkj975nqdHIOrURD9wgrdLIMpByiyZ/ADJZPoXWmCeBcAOO35YpIR2HgQiGIPFojk8hmgZx+AxgS5KPDZkZNZ56vf8Hutg+89h/hcuUEivoQ2QSfjZwWlS1W9j0ah6M1GcLE4DIvrkW5xwLv48nQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j0caF7ya4vTe7qlYWWyDZcgVKKyeXA06gk7eXkAWazY=;
+ b=cjR/gHBwslRY2Wls4HGzjlCZVrRUk00uLSIYQJqRHOSP4oqSLAZrzSBn0duqMxYF4RuW8YRAC1bikB4oN82kaRJBnKjQluUHHXSDqkz3e0DXI2C+U6ahClGdt60/POVi639ZhTtzIVr0lhULtJFtnHE7fFB8jjNreGcFwOQphkWET9vNqRp2LhBMoFcwxQbe6+OAguz0yujPCcX6xa/oC+uin6i4o9J/dII4TRmvzL98VTipG44dUQYYRw+UAh0eLvh8IM4Orw/5suT1Dpn+cg+laAX5hy1MD020kfGJY8W6jSxkXVpa6HvDH1qr1EwQGqnCSRVzvjoYR+eqRLMt8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j0caF7ya4vTe7qlYWWyDZcgVKKyeXA06gk7eXkAWazY=;
+ b=03ntHC/Y6b9hrXvjOsty1wPFcSZYaTqVG9lJe7a4JWrQYegvzUrSe2PiylZOKQf1vP8VrrBkNwHMdVPO44PlbMxoLb5qu/fq2jio/s9zUppqTYMWn5Hhc8ses83ogSSkh1ZtOSxQAgxFMX2u+9lSewFxW4FwanuymNj9yuctc44=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by IA0PR12MB9009.namprd12.prod.outlook.com (2603:10b6:208:48f::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.16; Tue, 27 Jan
+ 2026 10:18:12 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9542.009; Tue, 27 Jan 2026
+ 10:18:11 +0000
+Message-ID: <d6ed05ae-71ae-4872-8612-69f503717304@amd.com>
+Date: Tue, 27 Jan 2026 11:18:07 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 06/11] amdgpu/gtt: remove
+ AMDGPU_GTT_NUM_TRANSFER_WINDOWS
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20260126133518.2486-1-pierre-eric.pelloux-prayer@amd.com>
+ <20260126133518.2486-7-pierre-eric.pelloux-prayer@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260126133518.2486-7-pierre-eric.pelloux-prayer@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cc9d924c-4da9-4651-b9fe-01e06bce5c2f@intel.com>
+X-ClientProxiedBy: BN9PR03CA0934.namprd03.prod.outlook.com
+ (2603:10b6:408:108::9) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA0PR12MB9009:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8ca2bd89-5c2e-4ab9-98ef-08de5d8d600d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?eDlwZ1dTOGR2VUFzYTJHbG9YRHlZS0hXY3M4ZllhaWlZbXJhT0xOMGQxZkMx?=
+ =?utf-8?B?RFh6WWkyV0tBaDNFdGlBYVFET1d1bFpTTW96aFEwdGx3M0lRSUExTUM3bFEw?=
+ =?utf-8?B?UHJnYktiaGp4enMxU2xBNnZRZXNGTGJSYXlSMkhFSmtYOGpBbnk4akpYNEpH?=
+ =?utf-8?B?RFN0djRUQUNlMFRVWjljUXdhajREbFl1TFI2VysyZG5ndk5KbHVzM2cxMVNX?=
+ =?utf-8?B?Mk51YzFOaGdRbkZmaTN6U0R4Unh3d1JNQW9xS0VhN3ZpMGo0cGVvVXFXQU5v?=
+ =?utf-8?B?OFN5ZlpqZmRaLzh3bGFGaEZiNzRTTUJpaHNMeDB5VjVZMkgxalpzL25naTVw?=
+ =?utf-8?B?VEZjbmdxNEl3QWd1SzkwWGs1YkZHZFpUaWkrNldHRjhTNkFCMHdDWHErU0RR?=
+ =?utf-8?B?TC9aVC92ZlZQcXFHS0N2bEtOaGxHQUhlUXZ0NVpPaG9pdjZORFVvNDl5WjIr?=
+ =?utf-8?B?SkRLVEhDNnd5SldheXR0NzNkU25RUVp5eEdma21zRWg5ZEpNRk5sOTV2d2Vs?=
+ =?utf-8?B?aTY2cVJvejBsRFVhTDE1aEFnTnFtUkw2ZjgyZHAySjFreVkwK0JkNHdhUUYy?=
+ =?utf-8?B?dDR6SXlqQTBlZjhUSmRNTkRvVUNMbnkyZWo1cDJMVE5PcDNqUWxJU3orVjBh?=
+ =?utf-8?B?M1c4YW1MWC9hTTFpaWpjMDZWSTFyYlNWQ1huMXoxMnlrdkh1U2dsT0dhaU1w?=
+ =?utf-8?B?QThkSjVaL0Q4UUdhZlpwd0tTVlNMbFhXcllWVldiaWJHZndJb295aEpUTnE1?=
+ =?utf-8?B?U1V0Nk00aDMzVGt6a0hFdU5CbEFreVBKVXJwSldSYTRtR2VoZW1oUlRhVFBr?=
+ =?utf-8?B?Mm5heG0wQ2Q3b3U4Wkl0T29FUUNKamwzMWtmaE1TcXhvZ3NBdTNCWmtCRXV4?=
+ =?utf-8?B?M0RQWVhKYXhIYjc3VkdGeXRmTzFSL1JJOVBBY1k4bVFNQ1M0aWhpdHN6STZr?=
+ =?utf-8?B?d0pNZXVPUk5ldFlnV3Z4YXNVV2JCbnZJS1pnemVMdjNGMmVlaGhzY1kwbHB6?=
+ =?utf-8?B?amk2WjVacmV5NStqQW1uQlFKbXprQTV1Y3BGUTVjZkc4TGhZVE5FMEpxSkNk?=
+ =?utf-8?B?V3RzbDMzVllsTExyd0I2eVZYeFpXajNSV0N6bjRVZkVVNHJ4bWRUUCt4Y3VJ?=
+ =?utf-8?B?TnZOWTBWK3UvVk5ZYmxvcUM1emNTMHo5aENtQXI1S3pUKzFFWEt3QXRWelVC?=
+ =?utf-8?B?UnVDM1JkWDEzR0RkbWFLWVlvelJBUk9TSDhiUFFITldBQWFYWVBaWHN6azNP?=
+ =?utf-8?B?UVhXWVJ2NGpYWFd1S0dQSkF4Q1JtdmpwRG5VdEdPLzE2QTJOYm9LSUxhSHZ3?=
+ =?utf-8?B?R3dUbGt1UFpxZ3lGQjRBcXYrbExLZ1I4UWJZa1pGbkZWSmM0TUFaZ1hFY0tm?=
+ =?utf-8?B?QURhcHM2SWQxcmlQOVRHUnVlNVZ4Rm1HM0E1RkowekZLWmxKems5Qkp1aE44?=
+ =?utf-8?B?dUZIcVBlbWcxSVErQnQ5WDhjVVUrUzhQM1JkdE5EQXFIYld1STRJVE44ZlNT?=
+ =?utf-8?B?WDltYmVkTU8yc3F0eXgzaTJEcFJRR2w0bFNtcGIyM01LMXIrRGZFcGpibkpa?=
+ =?utf-8?B?czNMRVJLbi9wSTRwT2FHaVJLZTBDaWVXTStOZklZMm1wODMrZUE1bFdxNVA1?=
+ =?utf-8?B?TWI2dUovUEZ6Y3ArTDRMb2grSnJGMVVvdEJHNHVsMTZqUjNqVzVOZ2ZUdjd0?=
+ =?utf-8?B?a25FbUNoeXZyUXlyVGlHOWl4TExQOEVXb2pZUndSajRRekpYT0M1elREQThn?=
+ =?utf-8?B?bnU2MVRZeGRtdlJqOXZuVUZDRDdoSXRKM2piOEtvRGl1L2dSWVN0b2dFNDVM?=
+ =?utf-8?B?ayt1ZE5BeTRWYklIa0cxd0lmb2NkUkZhZDJmVzhzakdYdXRQYkl4VW11dEJ5?=
+ =?utf-8?B?TnNkdktpUHFtKytGUE9qZEZKaE9mRkRlYjVBY3NSNFRISE02cWRLelRBV21B?=
+ =?utf-8?B?Nm1NT0FuYVdKMUFmT2Y5WmxvbXN3MkNoK1ozMmtzaXIrN2hoYWpjcUtVdWQ1?=
+ =?utf-8?B?R0FrZmZlSWFkbkFGWXJ5RXpOcmM2c1YxbjdMMDNISVMwQk9IMzBsanlkZU1Z?=
+ =?utf-8?B?RmlNS2ZMTnVveDMxWlQ3Qk1aS3dNd2VHUGlNenpBQTdIam1SSzhjc3g2VlpY?=
+ =?utf-8?Q?Yruo=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TGxjRnl2ekliTGF5WjJuSmoxOFRZV2t0c3ZsZEgraHA1T1MvR0dKUUZ1NkRz?=
+ =?utf-8?B?ZkdTQlZFamFUdEt0bFRtT01JWGUxSkJzWWJId1h1WVZUaEdyWmN4dGo5dEtV?=
+ =?utf-8?B?Zm1yaVJOam9TYmdWRE8rQmY2YUo3b1ZaQ1ZvZUNYVkFKeFpEU0l3SkVWcUE0?=
+ =?utf-8?B?b3BUSTJERmlzV1FsR3NEeEk4V1k4dDV0cFhjb05oNmZENnRpTWRBT1ExY1Ar?=
+ =?utf-8?B?dGlnbmRVUnFDM0lFa3pxcU92dTA0b3hibzk4RHU3TVd2a0k3MGZ3ZzJSVnoz?=
+ =?utf-8?B?b0M4UXdpZVFFMUUwRUcreWlMSHJ5TnBubGw1QWhUSWlOSmJKRjQrNkxQR2pu?=
+ =?utf-8?B?alBaUnlSK2RVby9Dd0QrRTJVYmlvRm1Yb1Bka010czRwSi9vZWp5T0x1dVl1?=
+ =?utf-8?B?SEdyTXpaVGdlM2QrQStydHd1aUJLR0tOT1p4SmZyYkoxWVZPTWlCQlFja05P?=
+ =?utf-8?B?d3lMSlR2Qll3MFdZNW9BT0w4ZWl0YnFSM1VyeldlRkFWTllwVFNZUmI0QkxG?=
+ =?utf-8?B?Wm5MUVljSWpyRzE4VkVFZURiZXgvMTA1dTlHY0p0c0ZlOURma0h0ZGpCUllT?=
+ =?utf-8?B?TTkwRi9qQ1MwYjF5UlY4OTMwbFpURms1SUJOZjNPNUNvQ1JXQ3RBanczNXcx?=
+ =?utf-8?B?UXlzVmpScVIzaDhlR2YrNUJKdFNJWkpoRHByYk5LTDlsK3dQdlprT3pITk9W?=
+ =?utf-8?B?c1doSW5mdDFURm82Rk4zSkI1MTNkeXA1cFd2S3drdk9kNGVNeERUQ3k1VEdU?=
+ =?utf-8?B?UXc0SlpUT280bmlhL2cvUWx4ZE1BekZIUjgrU1FyKzFjUm1jNlRrZlFrYXdS?=
+ =?utf-8?B?b056ZXVmU2t2Sm03V2VDb3p4NjNFMTFDZVhXVWJFYU1PUVA2TmdBVXF6UGFI?=
+ =?utf-8?B?a1RFSThqSEpPM2IvWU9DV1hFekdkY0tQL25GdzI3cWRDTWFoNHN0WVNEbXJx?=
+ =?utf-8?B?YWZEaGVyQ3VwN2JVYk5HSElWcHI2ZGZPRlo3dlRoOVF4K2VEaEtHSHhTSGxF?=
+ =?utf-8?B?dlNLc3JTdUxrd25pRmxKUTcxYWNEemlnRTB6ZzJZbmIwdGs2aXNKWVR5NXB6?=
+ =?utf-8?B?U1ppYnVjRDdjS3BsRzRDTEppclJBMmxzbTJRM1h6TEJxQ2VGMVZQd0doMWNE?=
+ =?utf-8?B?VU95M0xOYzBYZWVZQ2hnWGloemVTd0lsUTBSK0w2RkJoWTlJUkhsbmFtRHZz?=
+ =?utf-8?B?S3l4UlBXTUk1NTVTTHRsbDZrK0dwV3pPTVpidERHSW91OEpHdVNsYXRvQyt4?=
+ =?utf-8?B?N0lERVkrTEZIRVI2MU9BcWpZajhLUWxIdWM4OGdwV2RiN0Z1eGc4V2tYRUk2?=
+ =?utf-8?B?Y0gybFZTWXhjZW5aY2FLa2pwZm5qVUR3Wld6ejcvNi83dC8wWXowTlZmcW9h?=
+ =?utf-8?B?OGtya2ZjcEZ3UkRKMHJZQlQwNmh3bWVIblNZeGE2TkNRTnRsYlZYZjh2Y2tm?=
+ =?utf-8?B?QXdtRGlBdFZ4c0JPUG1HQzNKeGtWNmNUd05MWVQ0N21BWlZsdFpuMFRLQkhk?=
+ =?utf-8?B?MS9YNFp1L1ROTDFidmJNMnE5Z2ZSVzJPMEY4UFBZNC9lYVlvNTk2MXlvTFR2?=
+ =?utf-8?B?eFNVMERjNUNySW81bHh1TlZ5N3BQTkFVUlJFeE9ZbUdKVkZCa3ZWYXh6Ymk1?=
+ =?utf-8?B?ajh4d21NS0VDVkZQUFdHY2R4Q2hraVpWY250NUxzc1B0V2tWL1YxdXBlMndK?=
+ =?utf-8?B?TjFtRFZUVWUvLy9ucEEyOVpHa1NuM1hMdHUySHpNTzNwcjIrMHlwUGZhck1k?=
+ =?utf-8?B?TGlrRlhINDZhYWYzdk1iN3lYR3JNakg5TW1TSExKT1RLcmx0RlFGSm9MM3lL?=
+ =?utf-8?B?Tm15UFYydGZ5MTN4ci82ZFpGMEtadDZ6cFJjTW1ISFNkL1BUYzhSc2gxUmo5?=
+ =?utf-8?B?c2VPZ2JWeEg0anlKdTZLeHNaVEhuakFDT0w5aWtXdjRoUkJLV21LM2JsY1Rw?=
+ =?utf-8?B?aldXTG1wSWMrRDIwWGVnblFZNk00bHphb01pRzUxcmlZemwvL0Q2OUhla0Na?=
+ =?utf-8?B?UTJXbTc0clFpa08rTjFyVDh5MVg4ZzVWWno2OEtrWFNtY1VRRTRKZUNvNWV0?=
+ =?utf-8?B?OHhYbTU1Yk53SEowenFOdU5MUjV4L2kveEFkMm9JeVllL0tGMGhTUXN3c0NI?=
+ =?utf-8?B?NTdTcy9iUnd5WGF1NTFoMnZISFc5K3VqRGVndVNqY3ZSWVkzaUhoTW1pdHla?=
+ =?utf-8?B?VnEvOE90WWc5QlNhM2prVUJTQkRMU0R1TDNQYTNUOUNvb3JYOTVjUzFsOExv?=
+ =?utf-8?B?Q1JFdjNJeURGN2lpdm03NkJXZm9iK2RyYWRvU1liRytuZndDYVptYk05WFFv?=
+ =?utf-8?Q?RXeCVImpD6hK9X6/8S?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ca2bd89-5c2e-4ab9-98ef-08de5d8d600d
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 10:18:11.8481 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: t74jynXsy4o/uyzb48daSrWFgkMI3sjkSYljHkXnsPF0Vq0+YjNVzXAiSY1xcib4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB9009
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,484 +178,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,linux.intel.com,intel.com,ffwll.ch,gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_TO(0.00)[amd.com,gmail.com,ffwll.ch];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	FROM_NEQ_ENVFROM(0.00)[raag.jadav@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[amd.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim]
-X-Rspamd-Queue-Id: 0522E92889
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,amd.com:dkim,amd.com:mid]
+X-Rspamd-Queue-Id: DE82492A04
 X-Rspamd-Action: no action
 
-On Tue, Jan 27, 2026 at 01:59:12PM +0530, Riana Tauro wrote:
-> On 1/21/2026 12:39 PM, Raag Jadav wrote:
-> > On Mon, Jan 19, 2026 at 09:30:25AM +0530, Riana Tauro wrote:
-> > > PVC supports GT error reporting via vector registers along with
-> > > error status register. Add support to report these errors and
-> > > update respective counters. Incase of Subslice error reported
-> > > by vector register, process the error status register
-> > > for applicable bits.
-> > > 
-> > > Incorporate the counter inside the driver itself and start
-> > > using the drm_ras generic netlink to report them.
-> > > 
-> > > Co-developed-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-> > > Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-> > > Signed-off-by: Riana Tauro <riana.tauro@intel.com>
-> > > ---
-> > > v2: Add ID's and names as uAPI (Rodrigo)
-> > > 
-> > > v3: use REG_BIT
-> > >      do not use _ffs
-> > >      use a single function for GT errors
-> > >      remove redundant errors from logs (Raag)
-> > >      use only correctable/uncorrectable error severity (Pratik/Aravind)
-> > > ---
-> > >   drivers/gpu/drm/xe/regs/xe_hw_error_regs.h |  53 +++++-
-> > >   drivers/gpu/drm/xe/xe_hw_error.c           | 182 +++++++++++++++++++--
-> > >   2 files changed, 220 insertions(+), 15 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h b/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
-> > > index c146b9ef44eb..5eeb0be27300 100644
-> > > --- a/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
-> > > +++ b/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
-> > > @@ -6,15 +6,60 @@
-> > >   #ifndef _XE_HW_ERROR_REGS_H_
-> > >   #define _XE_HW_ERROR_REGS_H_
-> > > -#define HEC_UNCORR_ERR_STATUS(base)                    XE_REG((base) + 0x118)
-> > > -#define    UNCORR_FW_REPORTED_ERR                      BIT(6)
-> > > +#define HEC_UNCORR_ERR_STATUS(base)		XE_REG((base) + 0x118)
-> > > +#define   UNCORR_FW_REPORTED_ERR		REG_BIT(6)
-> > > -#define HEC_UNCORR_FW_ERR_DW0(base)                    XE_REG((base) + 0x124)
-> > > +#define HEC_UNCORR_FW_ERR_DW0(base)		XE_REG((base) + 0x124)
-> > > +
-> > > +#define ERR_STAT_GT_COR				0x100160
-> > > +#define   EU_GRF_COR_ERR			REG_BIT(15)
-> > > +#define   EU_IC_COR_ERR				REG_BIT(14)
-> > > +#define   SLM_COR_ERR				REG_BIT(13)
-> > > +#define   GUC_COR_ERR				REG_BIT(1)
-> > > +
-> > > +#define ERR_STAT_GT_NONFATAL			0x100164
-> > > +#define ERR_STAT_GT_FATAL			0x100168
-> > > +#define   EU_GRF_FAT_ERR			REG_BIT(15)
-> > > +#define   SLM_FAT_ERR				REG_BIT(13)
-> > > +#define   GUC_FAT_ERR				REG_BIT(6)
-> > > +#define   FPU_FAT_ERR				REG_BIT(3)
-> > > +
-> > > +#define ERR_STAT_GT_REG(x)			XE_REG(_PICK_EVEN((x), \
-> > > +								  ERR_STAT_GT_COR, \
-> > > +								  ERR_STAT_GT_NONFATAL))
-> > 
-> > Shouldn't this be FATAL?
+On 1/26/26 14:35, Pierre-Eric Pelloux-Prayer wrote:
+> It's not needed anymore.
 > 
-> No it is correct
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+
+Reviewed-by: Christian KÃ¶nig <christian.koenig@amd.com>
+
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c | 5 +----
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h     | 1 -
+>  2 files changed, 1 insertion(+), 5 deletions(-)
 > 
-> #define _PICK_EVEN(__index, __a, __b) ((__a) + (__index) * ((__b) - (__a)))
-> 
-> index=0	val=0x100160
-> index=1 val=0x100164
-> index=2 val=0x100168
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> index f2e89fb4b666..9b0bcf6aca44 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+> @@ -324,16 +324,13 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
+>  {
+>  	struct amdgpu_gtt_mgr *mgr = &adev->mman.gtt_mgr;
+>  	struct ttm_resource_manager *man = &mgr->manager;
+> -	uint64_t start, size;
+>  
+>  	man->use_tt = true;
+>  	man->func = &amdgpu_gtt_mgr_func;
+>  
+>  	ttm_resource_manager_init(man, &adev->mman.bdev, gtt_size);
+>  
+> -	start = AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS;
+> -	size = (adev->gmc.gart_size >> PAGE_SHIFT) - start;
+> -	drm_mm_init(&mgr->mm, start, size);
+> +	drm_mm_init(&mgr->mm, 0, adev->gmc.gart_size >> PAGE_SHIFT);
+>  	spin_lock_init(&mgr->lock);
+>  
+>  	ttm_set_driver_manager(&adev->mman.bdev, TTM_PL_TT, &mgr->manager);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+> index 5419344d60fb..c8284cb2d22c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+> @@ -40,7 +40,6 @@
+>  #define __AMDGPU_PL_NUM	(TTM_PL_PRIV + 6)
+>  
+>  #define AMDGPU_GTT_MAX_TRANSFER_SIZE	512
+> -#define AMDGPU_GTT_NUM_TRANSFER_WINDOWS	3
+>  
+>  extern const struct attribute_group amdgpu_vram_mgr_attr_group;
+>  extern const struct attribute_group amdgpu_gtt_mgr_attr_group;
 
-Yep, I confused this with our lack of NONFATAL_VECTOR, or perhaps
-I missed the coffee last time around :D
-
-> > > +#define PVC_COR_ERR_MASK			(GUC_COR_ERR | SLM_COR_ERR | EU_IC_COR_ERR | \
-> > > +						 EU_GRF_COR_ERR)
-> > > +
-> > > +#define PVC_FAT_ERR_MASK			(FPU_FAT_ERR | GUC_FAT_ERR | EU_GRF_FAT_ERR | \
-> > > +						 SLM_FAT_ERR)
-> > >   #define DEV_ERR_STAT_NONFATAL			0x100178
-> > >   #define DEV_ERR_STAT_CORRECTABLE		0x10017c
-> > >   #define DEV_ERR_STAT_REG(x)			XE_REG(_PICK_EVEN((x), \
-> > >   								  DEV_ERR_STAT_CORRECTABLE, \
-> > >   								  DEV_ERR_STAT_NONFATAL))
-> > > -#define   XE_CSC_ERROR				BIT(17)
-> > > +
-> > > +#define   XE_CSC_ERROR				17
-> > > +#define   XE_GT_ERROR				0
-> > > +
-> > > +#define ERR_STAT_GT_FATAL_VECTOR_0		0x100260
-> > > +#define ERR_STAT_GT_FATAL_VECTOR_1		0x100264
-> > > +
-> > > +#define ERR_STAT_GT_FATAL_VECTOR_REG(x)		XE_REG(_PICK_EVEN((x), \
-> > > +								  ERR_STAT_GT_FATAL_VECTOR_0, \
-> > > +								  ERR_STAT_GT_FATAL_VECTOR_1))
-> > > +
-> > > +#define ERR_STAT_GT_COR_VECTOR_0		0x1002a0
-> > > +#define ERR_STAT_GT_COR_VECTOR_1		0x1002a4
-> > > +
-> > > +#define ERR_STAT_GT_COR_VECTOR_REG(x)		XE_REG(_PICK_EVEN((x), \
-> > > +								  ERR_STAT_GT_COR_VECTOR_0, \
-> > > +								  ERR_STAT_GT_COR_VECTOR_1))
-> > > +#define ERR_STAT_GT_COR_VECTOR_LEN		4
-> > 
-> > Now this makes me question about FATAL_VECTOR_LEN, perhaps we should add
-> > it? Since we already have enums for it, I'm wondering if we should reuse
-> > them here instead of having separate raw values?
-> 
-> Hmm let me check.
-
-Also, they look like vector indexes and are unrelated to register defs.
-So perhaps move them to xe_hw_error.c where the enums are? Perhaps it'll
-make the enum reuse easier.
-
-> > > +#define ERR_STAT_GT_VECTOR_REG(hw_err, x)	(hw_err == HARDWARE_ERROR_CORRECTABLE ? \
-> > > +						ERR_STAT_GT_COR_VECTOR_REG(x) : \
-> > > +						ERR_STAT_GT_FATAL_VECTOR_REG(x))
-> > > +
-> > >   #endif
-> > > diff --git a/drivers/gpu/drm/xe/xe_hw_error.c b/drivers/gpu/drm/xe/xe_hw_error.c
-> > > index b42495d3015a..bd0cf61741ca 100644
-> > > --- a/drivers/gpu/drm/xe/xe_hw_error.c
-> > > +++ b/drivers/gpu/drm/xe/xe_hw_error.c
-> > > @@ -3,6 +3,7 @@
-> > >    * Copyright © 2025 Intel Corporation
-> > >    */
-> > > +#include <linux/bitmap.h>
-> > >   #include <linux/fault-inject.h>
-> > >   #include "regs/xe_gsc_regs.h"
-> > > @@ -15,7 +16,10 @@
-> > >   #include "xe_mmio.h"
-> > >   #include "xe_survivability_mode.h"
-> > > -#define  HEC_UNCORR_FW_ERR_BITS 4
-> > > +#define  GT_HW_ERROR_MAX_ERR_BITS	16
-> > > +#define  HEC_UNCORR_FW_ERR_BITS 	4
-> > > +#define  XE_RAS_REG_SIZE		32
-> > 
-> > This looks like it can be BITS_PER_TYPE(). Also, why do we need a separate
-> > macro?
-> 
-> The reason i kept a separate macro is that for_each_set_bit requires a
-> unsigned long, but the register size is 32.
-
-Would something like this work?
-
-	for_each_set_bit(err_bit, &err_src, BITS_PER_TYPE(err_src)) {
-		...
-	}
-
-> > >   extern struct fault_attr inject_csc_hw_error;
-> > >   static const char * const error_severity[] = DRM_XE_RAS_ERROR_SEVERITY_NAMES;
-> > > @@ -26,10 +30,21 @@ static const char * const hec_uncorrected_fw_errors[] = {
-> > >   	"Data Corruption"
-> > >   };
-> > > -static bool fault_inject_csc_hw_error(void)
-> > > -{
-> > > -	return IS_ENABLED(CONFIG_DEBUG_FS) && should_fail(&inject_csc_hw_error, 1);
-> > > -}
-> > > +static const unsigned long xe_hw_error_map[] = {
-> > > +	[XE_GT_ERROR] = DRM_XE_RAS_ERROR_CLASS_GT,
-> > > +};
-> > > +
-> > > +enum gt_vector_regs {
-> > > +	ERR_STAT_GT_VECTOR0 = 0,
-> > > +	ERR_STAT_GT_VECTOR1,
-> > > +	ERR_STAT_GT_VECTOR2,
-> > > +	ERR_STAT_GT_VECTOR3,
-> > > +	ERR_STAT_GT_VECTOR4,
-> > > +	ERR_STAT_GT_VECTOR5,
-> > > +	ERR_STAT_GT_VECTOR6,
-> > > +	ERR_STAT_GT_VECTOR7,
-> > > +	ERR_STAT_GT_VECTOR_MAX,
-> > 
-> > This is guaranteed last member, so redundant comma.
-> 
-> will fix
-> 
-> > 
-> > > +};
-> > >   static enum drm_xe_ras_error_severity hw_err_to_severity(enum hardware_error hw_err)
-> > >   {
-> > > @@ -39,6 +54,11 @@ static enum drm_xe_ras_error_severity hw_err_to_severity(enum hardware_error hw_
-> > >   	return DRM_XE_RAS_ERROR_SEVERITY_UNCORRECTABLE;
-> > >   }
-> > > +static bool fault_inject_csc_hw_error(void)
-> > > +{
-> > > +	return IS_ENABLED(CONFIG_DEBUG_FS) && should_fail(&inject_csc_hw_error, 1);
-> > > +}
-> > > +
-> > >   static void csc_hw_error_work(struct work_struct *work)
-> > >   {
-> > >   	struct xe_tile *tile = container_of(work, typeof(*tile), csc_hw_error_work);
-> > > @@ -86,15 +106,121 @@ static void csc_hw_error_handler(struct xe_tile *tile, const enum hardware_error
-> > >   	xe_mmio_write32(mmio, HEC_UNCORR_ERR_STATUS(base), err_src);
-> > >   }
-> > > +static void log_hw_error(struct xe_tile *tile, const char *name,
-> > > +			 const enum drm_xe_ras_error_severity severity)
-> > > +{
-> > > +	const char *severity_str = error_severity[severity];
-> > > +	struct xe_device *xe = tile_to_xe(tile);
-> > > +
-> > > +	if (severity == DRM_XE_RAS_ERROR_SEVERITY_UNCORRECTABLE)
-> > 
-> > If we have FATAL case in the future, should we come back refactoring this?
-> > Perhaps the reverse logic would be a bit more future proof.
-> 
-> 
-> There will be only two severity levels correctable and uncorrectable and
-> that is confirmed for XE KMD
-
-For now, yes.
-
-> sure i can reverse it.
-
-I had something like this in mind
-
-	if (severity == CORRECTABLE)
-		drm_warn();
-	else
-		drm_err();
-
-so we don't have to come back refactoring for FATAL case in the future,
-but upto you.
-
-> > > +		drm_err_ratelimited(&xe->drm, "%s %s detected\n", name, severity_str);
-> > > +	else
-> > > +		drm_warn(&xe->drm, "%s %s detected\n", name, severity_str);
-> > > +}
-> > > +
-> > > +static void log_gt_err(struct xe_tile *tile, const char *name, int i, u32 err,
-> > > +		       const enum drm_xe_ras_error_severity severity)
-> > > +{
-> > > +	const char *severity_str = error_severity[severity];
-> > > +	struct xe_device *xe = tile_to_xe(tile);
-> > > +
-> > > +	if (severity == DRM_XE_RAS_ERROR_SEVERITY_UNCORRECTABLE)
-> > 
-> > Ditto.
-> > 
-> > > +		drm_err_ratelimited(&xe->drm, "%s %s detected, ERROR_STAT_GT_VECTOR%d:0x%08x\n",
-> > > +				    name, severity_str, i, err);
-> > > +	else
-> > > +		drm_warn(&xe->drm, "%s %s detected, ERROR_STAT_GT_VECTOR%d:0x%08x\n",
-> > > +			 name, severity_str, i, err);
-> > > +}
-> > > +
-> > > +static void gt_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err,
-> > > +				u32 error_id)
-> > > +{
-> > > +	const enum drm_xe_ras_error_severity severity = hw_err_to_severity(hw_err);
-> > > +	struct xe_device *xe = tile_to_xe(tile);
-> > > +	struct xe_drm_ras *ras = &xe->ras;
-> > > +	struct xe_drm_ras_counter *info = ras->info[severity];
-> > > +	struct xe_mmio *mmio = &tile->mmio;
-> > > +	unsigned long err_stat = 0;
-> > > +	int i, len;
-> > > +
-> > > +	if (xe->info.platform != XE_PVC)
-> > > +		return;
-> > > +
-> > > +	if (hw_err == HARDWARE_ERROR_NONFATAL) {
-> > > +		atomic64_inc(&info[error_id].counter);
-> > > +		log_hw_error(tile, info[error_id].name, severity);
-> > > +		return;
-> > > +	}
-> > > +
-> > > +	len = (hw_err == HARDWARE_ERROR_CORRECTABLE) ? ERR_STAT_GT_COR_VECTOR_LEN
-> > > +						     : ERR_STAT_GT_VECTOR_MAX;
-> > > +
-> > > +	for (i = 0; i < len; i++) {
-> > > +		u32 vector, val;
-> > > +
-> > > +		vector = xe_mmio_read32(mmio, ERR_STAT_GT_VECTOR_REG(hw_err, i));
-> > > +		if (!vector)
-> > > +			continue;
-> > > +
-> > > +		switch (i) {
-> > > +		case ERR_STAT_GT_VECTOR0:
-> > > +		case ERR_STAT_GT_VECTOR1:
-> > > +			u32 errbit;
-> > 
-> > With this I think you'll need braces to make the compiler happy, so either
-> > add them or move this to the top.
-> > >> +			val = hweight32(vector);
-> > > +			atomic64_add(val, &info[error_id].counter);
-> > > +			log_gt_err(tile, "Subslice", i, vector, severity);
-> > > +
-> > > +			/* Read Error Status Register once */
-> > 
-> > Why? Can you please elaborate?
-> 
-> The register will be populated only once. Even though there are multiple
-> vectors reported, the causes for the subslice error will be read and cleared
-> once.
-> 
-> Will add it in comment.
-
-Yes please!
-
-> > > +			if (err_stat)
-> > > +				break;
-> > > +
-> > > +			err_stat = xe_mmio_read32(mmio, ERR_STAT_GT_REG(hw_err));
-> > > +			for_each_set_bit(errbit, &err_stat, GT_HW_ERROR_MAX_ERR_BITS) {
-> > > +				if (hw_err == HARDWARE_ERROR_CORRECTABLE &&
-> > > +				    (BIT(errbit) & PVC_COR_ERR_MASK))
-> > 
-> > I'm wondering if this can be a (hw_err ? x) macro for this? Perhaps it'll
-> > help remove the duplication.
-> 
-> It is used once. Will check
-
-Sure, I don't mind but perhaps it'll help abstract the rather busier
-logic here.
-
-> > > +					atomic64_inc(&info[error_id].counter);
-> > > +				if (hw_err == HARDWARE_ERROR_FATAL &&
-> > > +				    (BIT(errbit) & PVC_FAT_ERR_MASK))
-> > > +					atomic64_inc(&info[error_id].counter);
-> > > +			}
-> > > +			if (err_stat)
-> > > +				xe_mmio_write32(mmio, ERR_STAT_GT_REG(hw_err), err_stat);
-> > > +			break;
-> > > +		case ERR_STAT_GT_VECTOR2:
-> > > +		case ERR_STAT_GT_VECTOR3:
-> > > +			val = hweight32(vector);
-> > > +			atomic64_add(val, &info[error_id].counter);
-> > > +			log_gt_err(tile, "L3 BANK", i, vector, severity);
-> > > +			break;
-> > > +		case ERR_STAT_GT_VECTOR6:
-> > > +			val = hweight32(vector);
-> > > +			atomic64_add(val, &info[error_id].counter);
-> > > +			log_gt_err(tile, "TLB", i, vector, severity);
-> > > +			break;
-> > > +		case ERR_STAT_GT_VECTOR7:
-> > > +			val = hweight32(vector);
-> > > +			atomic64_add(val, &info[error_id].counter);
-> > > +			break;
-> > > +		default:
-> > > +			log_gt_err(tile, "Undefined", i, vector, severity);
-> > > +		}
-> > > +
-> > > +		xe_mmio_write32(mmio, ERR_STAT_GT_VECTOR_REG(hw_err, i), vector);
-> > > +	}
-> > > +}
-> > > +
-> > >   static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_error hw_err)
-> > >   {
-> > >   	const enum drm_xe_ras_error_severity severity = hw_err_to_severity(hw_err);
-> > >   	const char *severity_str = error_severity[severity];
-> > >   	struct xe_device *xe = tile_to_xe(tile);
-> > > -	unsigned long flags;
-> > > -	u32 err_src;
-> > > +	struct xe_drm_ras *ras = &xe->ras;
-> > > +	struct xe_drm_ras_counter *info = ras->info[severity];
-> > > +	unsigned long flags, err_src;
-> > > +	u32 err_bit;
-> > > -	if (xe->info.platform != XE_BATTLEMAGE)
-> > > +	if (!IS_DGFX(xe))
-> > >   		return;
-> > >   	spin_lock_irqsave(&xe->irq.lock, flags);
-> > 
-> > I'm wondering if we really need this? We're already inside irq handler so
-> > what are we protecting here?
-> 
-> This is not related to the series. Will have to check
-
-Then let's address it separately. Perhaps a standalone fix?
-
-> > > @@ -105,11 +231,44 @@ static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_er
-> > >   		goto unlock;
-> > >   	}
-> > > -	if (err_src & XE_CSC_ERROR)
-> > > +	/*
-> > > +	 * On encountering CSC firmware errors, the graphics device is non-recoverable.
-> > 
-> > ... "so bail immediately."
-> 
-> The code is quite intutive but will add it for additional clarity.
-
-Thank you! We always assume the lack of coffee ;)
-Also, nit: s/non-recoverable/unrecoverable
-
-Raag
-
-> > > +	 * The only way to recover from these errors is firmware flash. The device will
-> > > +	 * enter Runtime Survivability mode when such errors are detected.
-> > > +	 */
-> > > +	if (err_src & XE_CSC_ERROR) {
-> > >   		csc_hw_error_handler(tile, hw_err);
-> > > +		goto clear_reg;
-> > > +	}
-> > > -	xe_mmio_write32(&tile->mmio, DEV_ERR_STAT_REG(hw_err), err_src);
-> > > +	if (!info) {
-> > > +		drm_err_ratelimited(&xe->drm, HW_ERR "Errors undefined\n");
-> > > +		goto clear_reg;
-> > > +	}
-> > > +
-> > > +	for_each_set_bit(err_bit, &err_src, XE_RAS_REG_SIZE) {
-> > > +		u32 error_id = xe_hw_error_map[err_bit];
-> > 
-> > Does this need bounds checking against ARRAY_SIZE()?
-> > 
-> > > +		const char *name;
-> > > +
-> > > +		name = info[error_id].name;
-> > > +		if (!name)
-> > > +			goto clear_reg;
-> > 
-> > Shouldn't we atleast give the next id a try?
-> 
-> yeah makes sense. will add it.
-> 
-> Thanks
-> Riana
-> 
-> > 
-> > > +		if (severity == DRM_XE_RAS_ERROR_SEVERITY_UNCORRECTABLE) {
-> > 
-> > Ditto for logging per severity.
-> > 
-> > Raag
-> > 
-> > > +			drm_err_ratelimited(&xe->drm, HW_ERR
-> > > +					    "TILE%d reported %s %s, bit[%d] is set\n",
-> > > +					    tile->id, name, severity_str, err_bit);
-> > > +		} else {
-> > > +			drm_warn(&xe->drm, HW_ERR
-> > > +				 "TILE%d reported %s %s, bit[%d] is set\n",
-> > > +				 tile->id, name, severity_str, err_bit);
-> > > +		}
-> > > +		if (err_bit == XE_GT_ERROR)
-> > > +			gt_hw_error_handler(tile, hw_err, error_id);
-> > > +	}
-> > > +
-> > > +clear_reg:
-> > > +	xe_mmio_write32(&tile->mmio, DEV_ERR_STAT_REG(hw_err), err_src);
-> > >   unlock:
-> > >   	spin_unlock_irqrestore(&xe->irq.lock, flags);
-> > >   }
-> > > @@ -131,9 +290,10 @@ void xe_hw_error_irq_handler(struct xe_tile *tile, const u32 master_ctl)
-> > >   	if (fault_inject_csc_hw_error())
-> > >   		schedule_work(&tile->csc_hw_error_work);
-> > > -	for (hw_err = 0; hw_err < HARDWARE_ERROR_MAX; hw_err++)
-> > > +	for (hw_err = 0; hw_err < HARDWARE_ERROR_MAX; hw_err++) {
-> > >   		if (master_ctl & ERROR_IRQ(hw_err))
-> > >   			hw_error_source_handler(tile, hw_err);
-> > > +	}
-> > >   }
-> > >   static int hw_error_info_init(struct xe_device *xe)
-> > > -- 
-> > > 2.47.1
-> > > 
-> 
