@@ -2,74 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yPmUCO50eGnEpwEAu9opvQ
+	id iMEFJPpkeGnTpgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 09:18:54 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 08:10:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD87A90FF1
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 09:18:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C0D909F2
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 08:10:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3166E10E4D3;
-	Tue, 27 Jan 2026 08:18:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1791E10E1D3;
+	Tue, 27 Jan 2026 07:10:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=thundersoft.com header.i=@thundersoft.com header.b="FvIG/ctt";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EZASAtY2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
- Tue, 27 Jan 2026 07:03:54 UTC
-Received: from mail-m3271.qiye.163.com (mail-m3271.qiye.163.com
- [220.197.32.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3381810E149
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 07:03:53 +0000 (UTC)
-Received: from [127.0.1.1] (unknown [36.129.139.90])
- by smtp.qiye.163.com (Hmail) with ESMTP id 3219cb6b6;
- Tue, 27 Jan 2026 14:58:48 +0800 (GMT+08:00)
-From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-Date: Tue, 27 Jan 2026 14:58:13 +0800
-Subject: [PATCH 3/3] arm64: dts: qcom: qcs6490-rubikpi3: Use DSI port B
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6226610E1D3
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 07:10:44 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id AB43340C4E;
+ Tue, 27 Jan 2026 07:10:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 332FDC116C6;
+ Tue, 27 Jan 2026 07:10:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1769497844;
+ bh=yTkcis505tVmLiRq0eQhz1yZqVct1c05x3BfbdMPMeA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EZASAtY2j1BEMUjViKbzK+agy09tHmk64JmlX7MlcecYkT/jWFGdM+R/cvZ/6xRO+
+ zI4WiYuUhTsrTeQSfrlSIYziE+/1IBua0YueqeO9iPhCG/NgktBbuevZ8PsjfB9N9g
+ 6H2N7ogpAuh+hGWdpi/5j5LMgg0pFnfbEXpVX7Yk=
+Date: Tue, 27 Jan 2026 08:10:41 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Xingjing Deng <micro6947@gmail.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, srini@kernel.org,
+ amahesh@qti.qualcomm.com, arnd@arndb.de,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Xingjing Deng <xjdeng@buaa.edu.cn>,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v5] misc: fastrpc: check qcom_scm_assign_mem() return in
+ rpmsg_probe
+Message-ID: <2026012758-sacred-slouchy-45ca@gregkh>
+References: <20260117140351.875511-1-xjdeng@buaa.edu.cn>
+ <2026012631-suffice-enforcer-8553@gregkh>
+ <qbuccwnfljpnxvpp7vl4weoecx6ujg3cy2lwwgoz42b3ux5o3k@mi5fxhplgrt7>
+ <CAK+ZN9r+oCbSNjSf=yKQHGT9=Cqfw02J+TS3eZaUgrd=PfV7tA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260127-rubikpi-next-20260116-v1-3-0286c75150c5@thundersoft.com>
-References: <20260127-rubikpi-next-20260116-v1-0-0286c75150c5@thundersoft.com>
-In-Reply-To: <20260127-rubikpi-next-20260116-v1-0-0286c75150c5@thundersoft.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Hongyang Zhao <hongyang.zhao@thundersoft.com>, 
- Roger Shimizu <rosh@debian.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1769497120; l=874;
- i=hongyang.zhao@thundersoft.com; s=20260127; h=from:subject:message-id;
- bh=iQeFSl9uFu9SYuWhe7ZE7oDkxvwKxI56/SIHXX7NCS4=;
- b=ozw6cgKjPRMaM15YTqNlVX9fhXev9DaKUhHTwkof7jfprQP79CWQ/ZxLzlz5WNeRgxXvug3aO
- n5W2t2jqgiEBbneHqb2wKoJ0un3WiUYnnl1/UOB/PZlqqNuhi63LZk7
-X-Developer-Key: i=hongyang.zhao@thundersoft.com; a=ed25519;
- pk=D9yL5W9Zj0lPBDAq9gzY++1849VlXuTWAkROzZ88J/4=
-X-HM-Tid: 0a9bfe3f6c9109d5kunm45ebbc0d840bb
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCThkZVk5JTx1LSx9IGExMH1YVFAkWGhdVEwETFh
- oSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
- VKQktLWQY+
-DKIM-Signature: a=rsa-sha256;
- b=FvIG/cttWrhzrnN1h3yTjMFKzMlmKLQem1GXwjpJQVWydLGZLxztQW1MD8ZJIVuaNhYG6TLQUgRAQjlZOT1tKpVnCX5v1YuGE79YYqykSXgVAuAN7+ActZnxYTb4DlKc1Tsv/DCPmY9frQMWb5nFP7nzLSOWK+JebyD47qpEreA=;
- c=relaxed/relaxed; s=default; d=thundersoft.com; v=1; 
- bh=hHtMcV8iObgzkyDHvyhdHK0yD4OWru5iEfX7HVh66Uk=;
- h=date:mime-version:subject:message-id:from;
-X-Mailman-Approved-At: Tue, 27 Jan 2026 08:18:47 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK+ZN9r+oCbSNjSf=yKQHGT9=Cqfw02J+TS3eZaUgrd=PfV7tA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,64 +66,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[thundersoft.com,none];
+X-Spamd-Result: default: False [3.19 / 15.00];
+	MID_END_EQ_FROM_USER_PART(4.00)[];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[thundersoft.com:s=default];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:vkoul@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:hongyang.zhao@thundersoft.com,m:rosh@debian.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[hongyang.zhao@thundersoft.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:micro6947@gmail.com,m:andersson@kernel.org,m:srini@kernel.org,m:amahesh@qti.qualcomm.com,m:arnd@arndb.de,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:xjdeng@buaa.edu.cn,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[thundersoft.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[hongyang.zhao@thundersoft.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[gregkh@linuxfoundation.org,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[linuxfoundation.org:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[thundersoft.com:email,thundersoft.com:dkim,thundersoft.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,0.0.0.39:email]
-X-Rspamd-Queue-Id: AD87A90FF1
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 20C0D909F2
 X-Rspamd-Action: no action
 
-The LT9611 HDMI bridge on RubikPi3 is connected to DSI port B. Add
-lontium,dsi-port-b property to configure the correct input port.
+On Tue, Jan 27, 2026 at 10:18:38AM +0800, Xingjing Deng wrote:
+> I identified this issue through static program analysis. All other
+> callers of this function validate its return value, so I believe a
+> validation check should also be added here.
 
-Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-Reviewed-by: Roger Shimizu <rosh@debian.org>
----
- arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts | 2 ++
- 1 file changed, 2 insertions(+)
+Please don't top-post :(
 
-diff --git a/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts b/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts
-index 0b64a0b91202..0b27c5343271 100644
---- a/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts
-+++ b/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts
-@@ -751,6 +751,8 @@ lt9611_codec: hdmi-bridge@39 {
- 			    <&lt9611_rst_pin>;
- 		pinctrl-names = "default";
- 
-+		lontium,dsi-port-b;
-+
- 		ports {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
+Anyway, you MUST properly document the tools used to find issues like
+this in your changelog text, as our rules require.  Please do so.
 
--- 
-2.43.0
+thanks,
 
+greg k-h
