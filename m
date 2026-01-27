@@ -2,181 +2,160 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mGsAEH4beWmPvQEAu9opvQ
+	id KJdEKZofeWkQvgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 21:09:34 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 21:27:06 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 966AF9A3C1
-	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 21:09:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F259A5AA
+	for <lists+dri-devel@lfdr.de>; Tue, 27 Jan 2026 21:27:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83AF410E5C2;
-	Tue, 27 Jan 2026 20:09:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6395010E5BE;
+	Tue, 27 Jan 2026 20:27:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YliAEsvF";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="OlEJLz9J";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="RoIKToce";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5085610E5BE;
- Tue, 27 Jan 2026 20:09:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769544569; x=1801080569;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=ZoJIUf8tDglB5Ot4+VSrUKg6dngWDSKWGHrDXXEH928=;
- b=YliAEsvFJfzP7bWZ54I3cYCAxzm5Q69kh/lu7ZaC0aEvCOJQxttubG9L
- 7oKuJe6KEu2qUEqLLvoCgz1VJGEw7MV9KEJTNQxAd5k06CVUBX5+fJhp8
- UEe4oKJXcWvogBDAIdfHTFp8VgcGfeg/7etDvzksvkZT1woPq853BipMj
- eNQTnTPZtcXkI/AZs8wnRHTIKhT2JtU7ZZnV+S+UW4RcY8lZTpA+kid+1
- IeQ7Lzx9lSfFIJxBEKbQUOH/B+SyPycSCOm4WC/rDfhfetXO0X4Edbd0y
- PyqJY7zDQL/VwT40826gLjiNOkBA0xfxQKcuD/HhKPCYV/4GJP8c8qhw/ w==;
-X-CSE-ConnectionGUID: uvqeCl+RRYmXvl+kSqEgfA==
-X-CSE-MsgGUID: k622GShrS6SgQvjb04jr0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="70653437"
-X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; d="scan'208";a="70653437"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2026 12:09:29 -0800
-X-CSE-ConnectionGUID: RgNEIauUS1ePR/HB7zX9MQ==
-X-CSE-MsgGUID: 8zdzHhVRTvyIqTKw/LvTYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; d="scan'208";a="207859584"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2026 12:09:29 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Tue, 27 Jan 2026 12:09:28 -0800
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35 via Frontend Transport; Tue, 27 Jan 2026 12:09:28 -0800
-Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.21) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Tue, 27 Jan 2026 12:09:27 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FgG9inUC8Q1vB3Q0XM/BXUO5QzguGwrPcwQ1wdIT8Lwjzckd/WlNWCvsT4ZMFD1xV5+KRg5qahsM2VHCj2iAIVHRDT+Lahp4KQsB/YIy9o8PzNSwaT87lzXn0vf0fu37DmQuJhGIlDivjKTUrCflvlGDDqVLC/+iwkdjXBWiWuqt45dLWuDip9YARySjh8uxvfd/vfuqIDPTGBXjOR1yODjzebapCrNeFwMO1sFuAMx7UsmdbsQuUOGI0JywtJx1J75aKmrQcDJNfJ0akZ8JdIsZxopPsN7U/2IHuqwQyONztcORZD0N8iR1pL9OFZIgT5tNNsxoj5BI5EK26R3sVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ft9NtF6Nw2rfHz5cgI4a5TkTw5Y+mlda9yz0az1o81M=;
- b=q4K6BOU4DDda7qv409jDjuFYgUjuz27CEAAvqAwQzX04NkVYjrNwqt0KNn/29aCxXdJvUD1IW6kjqQjK6uLqj9CjS1OzfewNIJkh94NXUnOBS7y4SBTQMUFTEL+1uzrOrNc4iuBIswWCyNtV/pm7xa43a1uTvg/Mk8oRBx8LtlPH2+RanA1PE3TKlWQnvDLJ0HJKkXywU0FQNpzQDl9xR2jdBAxJqmW0GLa13s9T/nk0fZZOATzf/labMQlJr0e0yON40MAJEg2JWSyUlHzxPwmRTLrBIwluKDHQLmUz01/H8Af/OERqs+pI8j+R97Q2AOW22cV60dXXrOkEN7hQiA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by DM4PR11MB6019.namprd11.prod.outlook.com (2603:10b6:8:60::5) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9542.16; Tue, 27 Jan 2026 20:09:20 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::e0c5:6cd8:6e67:dc0c]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::e0c5:6cd8:6e67:dc0c%6]) with mapi id 15.20.9542.010; Tue, 27 Jan 2026
- 20:09:20 +0000
-Date: Tue, 27 Jan 2026 12:09:17 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Nathan Chancellor <nathan@kernel.org>
-CC: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Nick Desaulniers
- <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, "Justin
- Stitt" <justinstitt@google.com>, Stuart Summers <stuart.summers@intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>, <intel-xe@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <llvm@lists.linux.dev>,
- <patches@lists.linux.dev>
-Subject: Re: [PATCH] drm/xe: Move _THIS_IP_ usage from xe_vm_create() to
- dedicated function
-Message-ID: <aXkbbQID+1xJ0KwT@lstrano-desk.jf.intel.com>
-References: <20260121-xe-vm-fix-clang-goto-error-v1-1-7e121d81512e@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260121-xe-vm-fix-clang-goto-error-v1-1-7e121d81512e@kernel.org>
-X-ClientProxiedBy: MW4PR03CA0178.namprd03.prod.outlook.com
- (2603:10b6:303:8d::33) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D357010E5BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 20:27:01 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60RH1xXQ1334303
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 20:27:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=R7u/+GzEYAjioDYmkQxOY6xs
+ Cw+YDBbFVfBMYmE+PTU=; b=OlEJLz9Jts4JCKDA2sUywDbOlEwV13u5StSD37uO
+ 3jZ2LqLmnkOlj3tENXxxrto0rqSvazhIxACvFa3vg9Lr0LTfmIGoBSKKWVw7oxiA
+ Ygi6pAvHAHWzb6RO4xH6d0S62SdvBx5ZYlidlKngSSWsM9rethdRC2pSYUcDiBTF
+ T5FQSQLRcDQhV7oEF8GYAH9Gbn9OVoQhUGC0n7DrBSDA+jXZdZ2uyp0KnpDgA8Sm
+ dROwvv75q9PROWNOhczfWpFsK3gmh3eR87eCfuCL8Yc6qCOcag0QIWk8bnEMl7E3
+ 7ZVSIDQJjUzuMcn7KtzSEzu5NNF2rO7f5YkXeibASpI4Sw==
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
+ [209.85.217.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4by1dfrpc3-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 20:27:00 +0000 (GMT)
+Received: by mail-vs1-f71.google.com with SMTP id
+ ada2fe7eead31-5f5256bfd3cso6146265137.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 12:27:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1769545620; x=1770150420;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=R7u/+GzEYAjioDYmkQxOY6xsCw+YDBbFVfBMYmE+PTU=;
+ b=RoIKToceNTuio33AFoyNvNvGWqerUMkmSFPfh7y0TPALBBul6mtH/JMzdLevzKlVul
+ me+bN23CAbwe/dcTysd59V4kP7H3UpMbs7Nv07WkVQdDdtAv3SjdBuOG/cVnErc7Q7Ry
+ who438IlyjsLHlhw8SZ2VPi+4FGhJhnF5wks4S44Clv1wW9DU4KAkVhKGPr9V3lvPi5f
+ 2mRFPlIuLXawSHJVMxL272HoV7CvJUWw3uf3Q1alQrPERv07WaL+x6drd6JOj4B9n2df
+ 0I38yfXF4bXc/9HXU2HQVjq3TVl3CIJmVBnedZEsV4wb/vH8C9vQvoLaIxAcxUIe+0ue
+ 0TuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769545620; x=1770150420;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=R7u/+GzEYAjioDYmkQxOY6xsCw+YDBbFVfBMYmE+PTU=;
+ b=F3OPbdgjYYAdJWxMscZb2ZFg0YXCVgKkfbjHTvJsCCMHCg3vRsKAfjFQRH/FqdLzjV
+ K96MV0oDrYmSx+e50QJU1IP1uTKA88n8tKiL8aHvvTy/w23nLm1gBiC7SW+f2+bUIbQl
+ YOGkPqmu0KgsGeMstnUvUF4aUHwVzGNRldkQ/icUuwIKuT9qU18zU2b2Hz4scAMM3RO6
+ 5A4/HuSvIt8goj+mdU8BctDv2NMRa7rs0bBMBjIFVhrsw/e9ePI8zFbv4HaLE295YaNt
+ InWJxyoh/0r+XsIwMwOJfR2PCPo977ZQeSSCmYMeKCavn0PPVrkomVxnmnlmX1lFc9BW
+ 7dVw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWV6FbUDgqQjFGioIf68Mf6CHXPUdLk4b6C9HE5J+7faFgco8rP1YnxOPI1slh8UsGygwOLfIXsQfI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YypEAfee0NoXzgg1Zpch/LMrz4uVZa/ZF3h7j7fhMgy2C71MreD
+ xHGOSRAOoOlkdhiiN23XfGN5tPsVqjJ65+H60/PwspPCwLuBYqIGjQllkMfq5Xq+mTtQUBOAEbd
+ erIUgBrVfozsNUnyxLWIULd76ooGIhF4seeiwjLDAkka+6kL2RR9PmwkCecUhd8cNseqeOqU=
+X-Gm-Gg: AZuq6aLKQgLSSqV3v+xTeFZjmJw/T44aKGGx1KeuN7exFRdEpH2yRb3xzg0lKqt4HxK
+ FXJ8z1CKu2FXaaoJz35f4N8EOoVQQCC1bxMIKyvSFjYzPtZqAv6FbRG4/Z1/MGKl7Fg0uAhhdY/
+ RhAOhXcyJe2gFceU1b1r2rxCN+3r6R1VLCmaiuXXoHqsEzEbcYf25KXT8FjG/t9SoOCY5q7VUHs
+ tQ+UDer+FaRP63lrfQqqNi2Buk7/0u7w7qK7Y3cR7lLBLQfSkldW8+zHpsZsEV/iOGOJwPIH+sO
+ yzy4bpCF3hFlq+Z3GyNhFX/WMsO8Elqi3oyTgSo1ehGhJ2jD0XxgY5zUkf2Z8FZlyIGeM62YHRZ
+ /QCBgd9Alkyq5vrZ7AUmiwwBARFJ7HXKARNaiPQRNfMihvstzQIsnX529/rDib9aSROyssNNVtL
+ CCfqgB9ZFlw5531QwIbg9S8QA=
+X-Received: by 2002:a05:6102:290e:b0:5ef:5387:ca85 with SMTP id
+ ada2fe7eead31-5f7237d2386mr962078137.39.1769545619928; 
+ Tue, 27 Jan 2026 12:26:59 -0800 (PST)
+X-Received: by 2002:a05:6102:290e:b0:5ef:5387:ca85 with SMTP id
+ ada2fe7eead31-5f7237d2386mr962042137.39.1769545619368; 
+ Tue, 27 Jan 2026 12:26:59 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-59e07481b72sm147447e87.11.2026.01.27.12.26.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Jan 2026 12:26:58 -0800 (PST)
+Date: Tue, 27 Jan 2026 22:26:56 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, Aishwarya.TCV@arm.com
+Subject: Re: [PATCH v4 05/10] drm/bridge: refactor HDMI InfoFrame callbacks
+Message-ID: <6p52srrxddazxiwqfqmjpef7k4bbpzojxqiy57zmhqcpqa2bum@gv555pvqrige>
+References: <20260107-limit-infoframes-2-v4-0-213d0d3bd490@oss.qualcomm.com>
+ <20260107-limit-infoframes-2-v4-5-213d0d3bd490@oss.qualcomm.com>
+ <47619a02-c667-4fd0-afa9-f6cf7aba8dd4@sirena.org.uk>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DM4PR11MB6019:EE_
-X-MS-Office365-Filtering-Correlation-Id: 592daa59-baa1-44d7-d077-08de5ddff4fc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?BaKXWK39ka0h6QhHWrna88VUcLKpu1fljX/DRzKaNIqcJfyiRdl26qRxlCIq?=
- =?us-ascii?Q?KKadZurY1U87yqYfcuCq+aSBPntkJMZAIAL2miAWLdqmJ97aEA0Z7PMZDI0g?=
- =?us-ascii?Q?rpPZyPsrJXkgR1g69xHbLkh7kdZhbe1Ve1e3Jn0XcvKssf0FwxTTJA+lvghM?=
- =?us-ascii?Q?rsWetmge1yKK/DPmSnaZr8FepeG5K3f7NdSJQejkuu6xRs6rxWnT/c4QV4WI?=
- =?us-ascii?Q?7YVyLooxVEtLHUoPeCU9e5rDBGRZRsdRYTA+8q0KSuEwep/iblsgO7nRd2tR?=
- =?us-ascii?Q?8NToDtb1Ww3xfyLUvAcON7UQx9gsop9BItMrMYne9MOjhzev3vfj2FF+j/sq?=
- =?us-ascii?Q?Ng1qoyaXg57DChIDTjxq137Fjy5rrXugjLIf1y/cxVQjd8SkKFk8xY3JmNg8?=
- =?us-ascii?Q?ppYK53C/c8ehM3r19NkPddhc+WHSf33FaBr4EihPLzBXGy/+QCLfxJYMA3Mb?=
- =?us-ascii?Q?1YqvobFcOXmMrBV35Qx1kKe9ZNF0Lj8vXgT8RUBFsCEK6nCNn6ynRrl+5pBW?=
- =?us-ascii?Q?oBC8s3jPxaQErhef68oRv6FXgHyQby5wibw+Gjb8inljPFxOQfAjP+o2ME4v?=
- =?us-ascii?Q?/mE/HbRSq322wetXxNm3/KOZJyS7LGf2Tf8QG1UPjjqasKXWBuToiNhul+u3?=
- =?us-ascii?Q?wDteCDDIa82gi77DyxVOxoOhZCMKJdg8E3fxaDYE4QMMS+ue/4mP9doMDkTk?=
- =?us-ascii?Q?BI0JCPXKO5RKEgOaPDctc3jEyExiyg1pCn7wk9sscQZDbVueNdIIZOqmCoia?=
- =?us-ascii?Q?ptvkVaSBfzoA4Lv2E2mDFzSqRCtOJmvoOTcXWJQzi/ubfhDBlaWDDFFfrzd+?=
- =?us-ascii?Q?znDnH0FC3aeAeOySADeVTGzQELCSVfoFamIz1VU5yNaEnMAOwmQHEjvJyeRN?=
- =?us-ascii?Q?CW21vHQDLDnRcf54VSh3sNgF045Yt4EbOtcVCwBSp0ZXjADftHASP2HWm/iW?=
- =?us-ascii?Q?0LXMt5ov2Wp3l+5YazrKvEgTwh5F2RGkzyQVq+o51BCoBdkzATHUvfagmr7O?=
- =?us-ascii?Q?QXWb+3V0292SBwhgYxU4u/U+yNiKrQHgxCySptGjp7vyS/Q2Lptw6/AGlGc6?=
- =?us-ascii?Q?q63YH4xQArJucFoJticEAuU7MOGotc8IBWNU67LfztPOP5aUDTQ/MzDfsjE3?=
- =?us-ascii?Q?/LqGGlY+dfhPm/Z2wL7pT1bVCpOCdO5WvWL3c/syR/reFMUVKfwOk2zk4dII?=
- =?us-ascii?Q?tT7t5cadXcLGwTAWE0oA+QwG/F0dKp3+o4xV7/y5obiE7ZQry4GG/dlAFmfg?=
- =?us-ascii?Q?VC44e1cipQcBrqsq8rTQMyHEBCEilajg3RueNUGnmuez5KYyGYJQ47Q72EcM?=
- =?us-ascii?Q?oV7I/3bH6u82XOLqNykjmlQGiqT/kCe8vt8FL09vsCDe82tJE3CKfCwKKdyw?=
- =?us-ascii?Q?qS06G/LgTnmraSVanGbRaWSedp5I5KT/6F9fsKEsj0NQTsE/lTM/vAfEuyD1?=
- =?us-ascii?Q?3yHf+NjJyXgNyF7JyfC5xJUeGd5onIeI5xq+C7Qua/8J/u021ihoES6vf9aC?=
- =?us-ascii?Q?PfJ4wir0ZKX99cNTTX42MJv0DaRh2MbWrVkUSCbcBFQz1KK67TQtKR0OO50i?=
- =?us-ascii?Q?qUXHIBgU/uSIdaEcVtEQ78o+B9jw8ruxv2kxvJS7?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JgltB7M6MxW0M/xghPcCs4Ru7f+LdfW8BmU6malSQVI5vxoTbMniHLK73wDy?=
- =?us-ascii?Q?rx4fETIOzNh31uAVPrx6dK05Sa1yEJ5rVrhlLineOiBZjRTJQ60M7W3khSwL?=
- =?us-ascii?Q?ZpoelRrMEENa4QoEMqUgohZTDgnOx8f5Az6JB1czLDPVSRpUBE3QmWjYjMZ0?=
- =?us-ascii?Q?bk4+Fjk9JBzj/PSAz0GbQMpU5EPJpTgppPJmFYm70Nn/pe72jt4UOlX9cSCc?=
- =?us-ascii?Q?MYQn14dp/g1dQwJxHyRtqMSdSuW6ziOSMxWS9PP26xTpMhWhF6fh4V0sZiVn?=
- =?us-ascii?Q?AMWtucOE0/rYe4dGPbCLuZq0mCfz6yWlvrMiAgkKIWkQ7l8ALYgZt/7uaocH?=
- =?us-ascii?Q?Eqzg2MdgA9nHU171NZ9bL229xsLZxQfp39ZIFEp4s+2MyJEbkzZkBePZ/k52?=
- =?us-ascii?Q?O/alDoABlT7BPte/PfGd42y8o4g9bw6bheQa2aEhqJVYrU9C6xGVbqO6OYU8?=
- =?us-ascii?Q?MsGX9Gqy2NQ9dF7OhVWJJ2Dv5u0EjJJ7lRYpit4goayC6WjDEzRzzVdRkZDz?=
- =?us-ascii?Q?+I1KrU98QRRr0t0pDwR5tu39iY1YUvtRuIIy5FHQOy1Ks1kygCJOiiHI/+vB?=
- =?us-ascii?Q?ClTFJ41YLgx8euuDP2PXcoDCGclGGbLFVTTX9tqA/FHW3PfrE2AMG/BW7+jp?=
- =?us-ascii?Q?1V7phWyfYgcZTvJp4hBEsduVvl3HmGfuEilVz2bNn/rSkA2ObUUzDnktkE9S?=
- =?us-ascii?Q?p1QugUU0svAfB+Xm94YMYx3QEpwdb2LgkiNi1OCbmlVM0/pvac/hsn4I0aMD?=
- =?us-ascii?Q?046Nyi2UBzjBAlsY9FpKAAsY451LKvfHoXDznI1sgcEs1xYA1/9JypOEUGG8?=
- =?us-ascii?Q?mOcQFU6qnRa/Npv/+LRQvwP2pUurBO6zcRZajL7ZOOhY679qnazLF2wvj/YJ?=
- =?us-ascii?Q?lb+0JbvP6HY4F4JQSMk99KuL6RX7dww9P4tq5thwCbjC3BhQLtoPGbDXtxRr?=
- =?us-ascii?Q?Jb7lXP8nyd8uKKI+2YlXumH+9nEWiJkwmW0twOFxANbMzJ+PQ1Q6zuCswTAj?=
- =?us-ascii?Q?Xe2+GeF7Z6B6/WhWiOqHBY/vA2GoJhQJPbIprcC7u/n7sKO/7Sv2avkBSuzf?=
- =?us-ascii?Q?7amaOAu4N2Od+uMUaf3fFChRtb6W1Z8BkdZeGlrWPf/vPTBPFxnCbXb1zaSe?=
- =?us-ascii?Q?I3+wz26Tuh65nLAUUyRszHngyvouGKj49D8g9cw0nIFX7x6AiIAZNw6QsQDN?=
- =?us-ascii?Q?94BBLChzcJlaqwh05ZQgS2Q/i1gxdSsNEWG1slSf4UVbqxzqVaeA6WkDgYEk?=
- =?us-ascii?Q?eCyb9QkIJ1T74if+8upCgnrQZQj+YdRjT2jAdLVb5jMj3bVOIDG0kGiOv4hx?=
- =?us-ascii?Q?4/W9M4BVeQI9loSTwg2khVvGd7kwSoxp0F6GMt86E1OavjYDKBT/EGqMydG/?=
- =?us-ascii?Q?DUN7xreP9/p0ND7jFHGEOITrzjU4Cxx54q9jj7hA/V9xqrbaPHabBCrv5Feg?=
- =?us-ascii?Q?Yf7TMMh9zRUuqH9VJi1SicvDxOZ/d+8XSyR1lFGmcLUZTytIkGEPqRfFwUMZ?=
- =?us-ascii?Q?VTBGecquRz+scLgN1qItkwqpCjKU7V3GnoOQ2GiG2ahJSg9kaaGMrTuVKpGA?=
- =?us-ascii?Q?CXn7ftDrb7YscBhqRWhnmkULsKVLqxwZvNEjjHclcbT2PiX0/apOtsvaC3/M?=
- =?us-ascii?Q?uNATDQFBBLThEfKN55ii/qIt3RN0rNGueK5stkZtqDlUtJaxnMwRpM/a0gxK?=
- =?us-ascii?Q?H4ffG+wo1juxJKL+yneUqQtfh5vyGyWK5JsAdQ4Vj/nOtGAJ7VenIkqUs1Fd?=
- =?us-ascii?Q?I7XvC07njIGSednVtziOukAdyuVTcg8=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 592daa59-baa1-44d7-d077-08de5ddff4fc
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 20:09:20.4138 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9Bn8hPY2aiyjoZ1KTtgenvQ5WLQqu4ETPrmJqKZA9YB0/YUZk1X3PwLBEgM6v34pg9+0l6xn7520IiKcotMN5A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6019
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <47619a02-c667-4fd0-afa9-f6cf7aba8dd4@sirena.org.uk>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI3MDE2NiBTYWx0ZWRfX8vGZ5GPflFCM
+ 2ExdDb7EujdTojVajMHmFtSqS5LaEtHCXsLTURlZzxvP/WHkS5XmsmuMpXoFyNi/R9yKzcL3NZR
+ sLajUBhM+Q6DA7erx8pcgQ9SBv0U3FhHNAl5KUndT38k2ZwYB2L9gEBD/htGyqihgtm8guTTHma
+ xzyd2ZRkb5+LQsvd5T7C9h4getCyqHvZBfCGv0vTt0sYjsmunvSg3Tbo6p7LHvOFwyb9+3nBSfp
+ TiRUiq4LK1OoB1EmXENYxOtDSNUtQ7/nafJAg++ptpAqW5UJetsvQItTnsObBZJeiTC1sdHSOVr
+ 4Qk6SfRlviT/2Bdgu4K+Gqqw4uJ/wSSNE5+I7P/b3FIqb6J+GuXU9AWap9IkKCo/QV3gSWSJHzm
+ gdMQrBKvFAd3qoDaXJ+YufGCkv7wz3oglJxK+VgbILaUNOtMrF/sWf7zuxbk8UMkTn3vg8X3TI0
+ yB3apL4LblmJwdKEOog==
+X-Proofpoint-GUID: gDQVz-2141vI8aZq9Xub86OuZB6KX1YZ
+X-Proofpoint-ORIG-GUID: gDQVz-2141vI8aZq9Xub86OuZB6KX1YZ
+X-Authority-Analysis: v=2.4 cv=YeuwJgRf c=1 sm=1 tr=0 ts=69791f94 cx=c_pps
+ a=P2rfLEam3zuxRRdjJWA2cw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=QCwxOkPKupwELJ-03vgA:9 a=CjuIK1q_8ugA:10
+ a=ODZdjJIeia2B_SHc_B0f:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-01-27_04,2026-01-27_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0 bulkscore=0 adultscore=0 priorityscore=1501
+ suspectscore=0 phishscore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601270166
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -192,152 +171,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.19 / 15.00];
+X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,raspberrypi.com,igalia.com,sholland.org,intel.com,linaro.org,ideasonboard.com,kwiboo.se,nxp.com,pengutronix.de,collabora.com,oss.qualcomm.com,linux.dev,poorly.run,somainline.org,rock-chips.com,sntech.de,lists.freedesktop.org,vger.kernel.org,lists.infradead.org,lists.linux.dev,arm.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_CC(0.00)[linux.intel.com,intel.com,gmail.com,google.com,lists.freedesktop.org,lists.linux.dev];
-	DKIM_TRACE(0.00)[intel.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel,lkml];
+	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:broonie@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dave.stevenson@raspberrypi.com,m:mcanal@igalia.com,m:kernel-list@raspberrypi.com,m:wens@kernel.org,m:jernej.skrabec@gmail.com,m:samuel@sholland.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:victor.liu@nxp.com,m:chunkuang.hu@kernel.org,m:p.zabel@pengutronix.de,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-sunxi@lists.linux.dev,m:linux-mediatek@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,
+ m:linux-rockchip@lists.infradead.org,m:Aishwarya.TCV@arm.com,m:jernejskrabec@gmail.com,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: 966AF9A3C1
+	RCPT_COUNT_TWELVE(0.00)[40];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 57F259A5AA
 X-Rspamd-Action: no action
 
-On Wed, Jan 21, 2026 at 03:57:35PM -0700, Nathan Chancellor wrote:
-> After commit a3866ce7b122 ("drm/xe: Add vm to exec queues association"),
-> building for an architecture other than x86 (which defines its own
-> _THIS_IP_) with clang fails with:
+On Tue, Jan 27, 2026 at 07:50:25PM +0000, Mark Brown wrote:
+> On Wed, Jan 07, 2026 at 08:15:02PM +0200, Dmitry Baryshkov wrote:
+> > Having only a single set of callbacks, hdmi_clear_infoframe and
+> > hdmi_write_infoframe, bridge drivers don't have an easy way to signal to
+> > the DRM framework, which InfoFrames are actually supported by the
+> > hardware and by the driver and which are not. Also, it makes it
 > 
->   drivers/gpu/drm/xe/xe_vm.c:1586:3: error: cannot jump from this indirect goto statement to one of its possible targets
->    1586 |                 drm_exec_retry_on_contention(&exec);
->         |                 ^
->   include/drm/drm_exec.h:123:4: note: expanded from macro 'drm_exec_retry_on_contention'
->     123 |                         goto *__drm_exec_retry_ptr;             \
->         |                         ^
->   drivers/gpu/drm/xe/xe_vm.c:1542:3: note: possible target of indirect goto statement
->    1542 |                 might_lock(&vm->exec_queues.lock);
->         |                 ^
->   include/linux/lockdep.h:553:33: note: expanded from macro 'might_lock'
->     553 |         lock_release(&(lock)->dep_map, _THIS_IP_);                      \
->         |                                        ^
->   include/linux/instruction_pointer.h:10:41: note: expanded from macro '_THIS_IP_'
->      10 | #define _THIS_IP_  ({ __label__ __here; __here: (unsigned long)&&__here; })
->         |                                         ^
->   drivers/gpu/drm/xe/xe_vm.c:1583:2: note: jump exits scope of variable with __attribute__((cleanup))
->    1583 |         xe_validation_guard(&ctx, &xe->val, &exec, (struct xe_val_flags) {.interruptible = true},
->         |         ^
->   drivers/gpu/drm/xe/xe_validation.h:189:2: note: expanded from macro 'xe_validation_guard'
->     189 |         scoped_guard(xe_validation, _ctx, _val, _exec, _flags, &_ret) \
->         |         ^
->   include/linux/cleanup.h:442:2: note: expanded from macro 'scoped_guard'
->     442 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
->         |         ^
->   include/linux/cleanup.h:433:20: note: expanded from macro '__scoped_guard'
->     433 |         for (CLASS(_name, scope)(args);                                 \
->         |                           ^
->   drivers/gpu/drm/xe/xe_vm.c:1542:3: note: jump enters a statement expression
->    1542 |                 might_lock(&vm->exec_queues.lock);
->         |                 ^
->   include/linux/lockdep.h:553:33: note: expanded from macro 'might_lock'
->     553 |         lock_release(&(lock)->dep_map, _THIS_IP_);                      \
->         |                                        ^
->   include/linux/instruction_pointer.h:10:20: note: expanded from macro '_THIS_IP_'
->      10 | #define _THIS_IP_  ({ __label__ __here; __here: (unsigned long)&&__here; })
->         |                    ^
-> 
-> While this is a false positive error because __drm_exec_retry_ptr is
-> only ever assigned the label in drm_exec_until_all_locked() (thus it can
-> never jump over the cleanup variable), this error is not unreasonable in
-> general because the only supported use case for taking the address of a
-> label is computed gotos [1]. The kernel's use of the address of a label
-> in _THIS_IP_ is considered problematic by both GCC [2][3] and clang [4]
-> but they need to provide something equivalent before they can break this
-> use case.
-> 
-> Hide the usage of _THIS_IP_ by moving the CONFIG_PROVE_LOCKING if
-> statement to its own function, avoiding the error. This is similar to
-> commit 187e16f69de2 ("drm/xe: Work around clang multiple goto-label
-> error") but with the sources of _THIS_IP_.
-> 
-> Fixes: a3866ce7b122 ("drm/xe: Add vm to exec queues association")
-> Link: https://gcc.gnu.org/onlinedocs/gcc/Labels-as-Values.html [1]
-> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=44298 [2]
-> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=120071 [3]
-> Link: https://github.com/llvm/llvm-project/issues/138272 [4]
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> We're seeing oopses on Qualcomm RB5 platforms in -next which bisect to
+> this patch.  Looking at the patch I'm not immediately seeing what it
+> might be getting wrong, though I do note that the board uses a LT9611
 
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+LT9611UXC, yes. Fixed with [1], fix committed to drm-misc-next-fixes.
 
-> ---
->  drivers/gpu/drm/xe/xe_vm.c | 24 +++++++++++++++---------
->  1 file changed, 15 insertions(+), 9 deletions(-)
+[1] https://lore.kernel.org/dri-devel/176945413960.1492466.3261759749688865592.b4-ty@oss.qualcomm.com/T/#t
+
+> which is updated by the patch.
 > 
-> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-> index f7bb21ac1987..293b92ed2fdd 100644
-> --- a/drivers/gpu/drm/xe/xe_vm.c
-> +++ b/drivers/gpu/drm/xe/xe_vm.c
-> @@ -1474,6 +1474,20 @@ static void xe_vm_pt_destroy(struct xe_vm *vm)
->  	}
->  }
->  
-> +static void xe_vm_init_prove_locking(struct xe_device *xe, struct xe_vm *vm)
-> +{
-> +	if (!IS_ENABLED(CONFIG_PROVE_LOCKING))
-> +		return;
-> +
-> +	fs_reclaim_acquire(GFP_KERNEL);
-> +	might_lock(&vm->exec_queues.lock);
-> +	fs_reclaim_release(GFP_KERNEL);
-> +
-> +	down_read(&vm->exec_queues.lock);
-> +	might_lock(&xe_root_mmio_gt(xe)->uc.guc.ct.lock);
-> +	up_read(&vm->exec_queues.lock);
-> +}
-> +
->  struct xe_vm *xe_vm_create(struct xe_device *xe, u32 flags, struct xe_file *xef)
->  {
->  	struct drm_gem_object *vm_resv_obj;
-> @@ -1537,15 +1551,7 @@ struct xe_vm *xe_vm_create(struct xe_device *xe, u32 flags, struct xe_file *xef)
->  		vm->preempt.min_run_period_ms = xe->min_run_period_lr_ms;
->  
->  	init_rwsem(&vm->exec_queues.lock);
-> -	if (IS_ENABLED(CONFIG_PROVE_LOCKING)) {
-> -		fs_reclaim_acquire(GFP_KERNEL);
-> -		might_lock(&vm->exec_queues.lock);
-> -		fs_reclaim_release(GFP_KERNEL);
-> -
-> -		down_read(&vm->exec_queues.lock);
-> -		might_lock(&xe_root_mmio_gt(xe)->uc.guc.ct.lock);
-> -		up_read(&vm->exec_queues.lock);
-> -	}
-> +	xe_vm_init_prove_locking(xe, vm);
->  
->  	for_each_tile(tile, xe, id)
->  		xe_range_fence_tree_init(&vm->rftree[id]);
-> 
-> ---
-> base-commit: 9dd1048bca4fe2aa67c7a286bafb3947537adedb
-> change-id: 20260121-xe-vm-fix-clang-goto-error-b23c9d6bbf68
-> 
-> Best regards,
-> --  
-> Nathan Chancellor <nathan@kernel.org>
-> 
+
+-- 
+With best wishes
+Dmitry
