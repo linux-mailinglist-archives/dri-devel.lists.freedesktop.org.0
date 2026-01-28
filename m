@@ -2,63 +2,256 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4O29Mm0zeml+4gEAu9opvQ
+	id oG0fFMMzeml+4gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 17:03:57 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 17:05:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F2D8A4FFE
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 17:03:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E364A50AC
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 17:05:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F45610E729;
-	Wed, 28 Jan 2026 16:03:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B34910E73A;
+	Wed, 28 Jan 2026 16:05:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jWz80wZk";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="WKFkVpqj";
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="urAbJMJD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 082E410E729
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 16:03:55 +0000 (UTC)
-Received: from killaraus.ideasonboard.com
- (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7C7F5E70;
- Wed, 28 Jan 2026 17:03:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1769616196;
- bh=/l+fkLzjrklFZ0i1RoapoDTSccNdAgCq1C9onxCXPUI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jWz80wZkVyVjcMVDFtb72599YGWJ8D+DhKWIr5StTFcghYxGBAq1DwCR0z1BZp+us
- M0auBayLlpkiPA6lx8+n0sTn8PPPJ/7ESlZJIu4JmsfNr6KwAey3LATBAZZtWpl9Sg
- yOcvXahdHw+bSjr10akskxjqaXuKfTe+LNmSWR0c=
-Date: Wed, 28 Jan 2026 18:03:52 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Vishal Sagar <vishal.sagar@amd.com>,
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25B7510E738;
+ Wed, 28 Jan 2026 16:05:18 +0000 (UTC)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60S4C6bv1337603; Wed, 28 Jan 2026 16:04:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=corp-2025-04-25; bh=p8KP71cCfF3CusO9lA
+ zU+eVyfNdqFS8cD+lbN2c2o0w=; b=WKFkVpqj/kLJdc2fakrSFNwxvATmbxuYpv
+ cA2x4yLzxI9s0OTpTPr9ITgKess5XDPVzC/EYa6WPf1fzE4ZRq35KZhx+w0E6/e2
+ xV1Q2CVUMTkgXA8APWXHQr/0uYsE5dnorD45V/UHP8l5IFxapy32kS1tBZvau+Qe
+ 2b5hH8icq8dLG0sSLf4xufCAajIOwtQ+LntNKyxGS56Ywwa8Bb/vjXGFhTT+MMfs
+ qT9bhLdZ3HVGxJ2mshFl8qQQZ9jIpOMnDv++l2sJm1qvWZxgfY/i1qVbZjw29HKY
+ jwW9Aau0p0TZbhTOmyTwwa3Do2pSa/5ESDfoH2zIe/JfUj393qfA==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bxx09j907-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 28 Jan 2026 16:04:47 +0000 (GMT)
+Received: from pps.filterd
+ (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 60SFW11L012456; Wed, 28 Jan 2026 16:04:46 GMT
+Received: from cy7pr03cu001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010060.outbound.protection.outlook.com
+ [40.93.198.60])
+ by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 4bvmhb3tdb-2
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 28 Jan 2026 16:04:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uvQjv+NnPi/xnMkFIPlPFEV+2yfv6baC7VEUW93/YosE4EFB52HLhKqy2E+vAqcK2D+ED2A1HYMxTYZSLn22N8PpX6F6SoGOL9R1714Y339pzX1JmdmQHig24RmZtbA/TA7dnK5fhoiHGPFsWnAMxiqTc7FcHlALtBbFGY+wxoiMVe7sCXJ3xuUlIUTPL4V1mKCRa3Ht2D7F4cirRtr1TwwPJO8j6S25JSV96sSVYZwkbIn6g1mT+2Rj7JdytYaGF8YYJaUHLyxut+1oR3/uJllMGQIunlC+ApDg7wu/IeEjKhWWP8c5sfcXXMpfWDq8USlAZj/pZ3a3rftYJmbUWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p8KP71cCfF3CusO9lAzU+eVyfNdqFS8cD+lbN2c2o0w=;
+ b=k5Iy8/zJtqXDX08WqqE3IeRW1wIIi8AOY8zYLr3JE5qilcYFFdhy1k380sBdvGd/8pv4mDqA1JbXKv4LewgEb6vDkK1nld/ij8i4TzORPYQnS656+LWVeu+BL5h+YXaSpWEDA5BSSFgrvXN7VkF63M5h7NQXhevRP852LKQGJfeQ7GzkNa7U2VEJQXv1woF0A6TTCqo1IOvRR7hkZCkXyXur8QuoAbjLmd3Q2aORkkYOAttuQzMn/OOvwgSFtzGS5d0MaUlRob3MZC5HliYEfQVctlWN+UF912qiFPIRyDIW5GxWZdkET7fNoduDGmEJErVnKrXdrkW2oqKI93WVMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p8KP71cCfF3CusO9lAzU+eVyfNdqFS8cD+lbN2c2o0w=;
+ b=urAbJMJDGQuynfxt82qntYodzhwDSIxtQTQh/kV/pmg98ehF6Ruv0SIpgxeATgK6GGtG+doGRzISCnxW6xjtMFfgMEZ4FGzEkEWxctHf58x1iYq59exE3hwzMxHnzFjGpvKI2jVW4D+1MmFliMtOZLP6tPvNADQBEYq299hfOSc=
+Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
+ by DS4PPF26D9E501B.namprd10.prod.outlook.com (2603:10b6:f:fc00::d11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.8; Wed, 28 Jan
+ 2026 16:04:39 +0000
+Received: from BL4PR10MB8229.namprd10.prod.outlook.com
+ ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
+ ([fe80::552b:16d2:af:c582%6]) with mapi id 15.20.9520.005; Wed, 28 Jan 2026
+ 16:04:38 +0000
+Date: Wed, 28 Jan 2026 16:04:36 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Chris Mason <clm@meta.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Jarkko Sakkinen <jarkko@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Michal Simek <michal.simek@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Pekka Paalanen <ppaalanen@gmail.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Dmitry Baryshkov <lumag@kernel.org>
-Subject: Re: [PATCH v7 03/11] drm/fourcc: Add DRM_FORMAT_Y8
-Message-ID: <20260128160352.GA3225981@killaraus>
-References: <20251201-xilinx-formats-v7-0-1e1558adfefc@ideasonboard.com>
- <20251201-xilinx-formats-v7-3-1e1558adfefc@ideasonboard.com>
- <20260128114941.GF2558360@killaraus>
- <116b508e-0853-4b0b-966e-47d84167d4be@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Benjamin LaHaise <bcrl@kvack.org>, Gao Xiang <xiang@kernel.org>,
+ Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>,
+ Jeffle Xu <jefflexu@linux.alibaba.com>,
+ Sandeep Dhavale <dhavale@google.com>,
+ Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>,
+ Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ David Hildenbrand <david@kernel.org>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Mike Marshall <hubcap@omnibond.com>,
+ Martin Brandenburg <martin@omnibond.com>, Tony Luck <tony.luck@intel.com>,
+ Reinette Chatre <reinette.chatre@intel.com>,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ Babu Moger <babu.moger@amd.com>, Carlos Maiolino <cem@kernel.org>,
+ Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>,
+ Johannes Thumshirn <jth@kernel.org>, Matthew Wilcox <willy@infradead.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Zi Yan <ziy@nvidia.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, David Howells <dhowells@redhat.com>,
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+ "Serge E . Hallyn" <serge@hallyn.com>, Yury Norov <yury.norov@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-sgx@vger.kernel.org,
+ linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ linux-aio@kvack.org, linux-erofs@lists.ozlabs.org,
+ linux-ext4@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev,
+ devel@lists.orangefs.org, linux-xfs@vger.kernel.org,
+ keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v2 07/13] mm: update secretmem to use VMA flags on
+ mmap_prepare
+Message-ID: <f25eead4-50fd-4141-9f9b-5a17b17d982f@lucifer.local>
+References: <cover.1769097829.git.lorenzo.stoakes@oracle.com>
+ <a243a09b0a5d0581e963d696de1735f61f5b2075.1769097829.git.lorenzo.stoakes@oracle.com>
+ <20260128121200.283932-1-clm@meta.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <116b508e-0853-4b0b-966e-47d84167d4be@ideasonboard.com>
+In-Reply-To: <20260128121200.283932-1-clm@meta.com>
+X-ClientProxiedBy: LO6P123CA0029.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:313::14) To BL4PR10MB8229.namprd10.prod.outlook.com
+ (2603:10b6:208:4e6::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|DS4PPF26D9E501B:EE_
+X-MS-Office365-Filtering-Correlation-Id: be94509f-0a5d-4c61-559c-08de5e86f08a
+X-LD-Processed: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?G+RXqzy55yJATF20HJ0SPeS1Uw/NcEL6dWy3Dvi0ISXBSGJCn0f9o5H0UDw8?=
+ =?us-ascii?Q?BC4a9Jnbd+d+nqbAgwGlOCTdIKiv4qMJS4ya9PL5NQ0NkNUpYv3wHO4JnHyd?=
+ =?us-ascii?Q?6qx5N+ZNNyxzCeCVdNTYXYegXrdr05LqL0MAsvsx9mfoQyZZScREhTYCIA2X?=
+ =?us-ascii?Q?tg1yQK43b8MxX4Z4DDpBklF8De+ONr0xBuHk4lXf39FgIMm0EskeNxIJeXlS?=
+ =?us-ascii?Q?XwIYibrBAamE2S3Lva8eKDlnKUeNZtLzRUYqFYbzxhpSUp1fVCY7snoJpudh?=
+ =?us-ascii?Q?rmz6uurb78aZ+K4G6ze1/FR11G9GTxFTdLBMnM0spSWuYKVS4QlelL+IPe9K?=
+ =?us-ascii?Q?yeyu6Qb+yGj8U2LMBeDadse94yNLHscNzobWqLHFaKb7LvAO1GKtVfKJxphl?=
+ =?us-ascii?Q?NI7K5wmWvjMGRJJXLxKGAEeOFqHI3r+5yhgaDdV5QzDZ/nGU/3LVdfCsOMfa?=
+ =?us-ascii?Q?v7vDrENdRgRTx34bSTNCNJC2i8/3o3WPVy5b5Ys12daOeL5SqyJ6Ov4VsEdN?=
+ =?us-ascii?Q?ovCB928RP1DZpitllzAH440lnpfkHruSIyxEUPA4dZ5NwROeFxWJdpi1QjOw?=
+ =?us-ascii?Q?7AhlSD8GhVJmgDRZdy2P8EPxRzSEup8fSKZhoAO5YQLf889mJghF2vymIKp5?=
+ =?us-ascii?Q?hS2IFWUNom4KZx6LV6ifZe/8Xi8C8/cGxn3u8A3jzmIcx6y8d1CS3Bu04SwJ?=
+ =?us-ascii?Q?VoSLMCPVt2SKJFLh5Q4htFp2ywMQ3W61u5Xwl3of1x35qFRB3GK+ZGfykQmF?=
+ =?us-ascii?Q?rxoEtOoqQ5NV/DExky45T7PWVWzKe7MwrlzIkc9C7Hzd3p4+xu7HAyKAgeEx?=
+ =?us-ascii?Q?EFtAJVhfjUJnFXmQ+hGrc7GN3vD04d4IO0GEjKDp947TZ5LI89Rk6q6iYtAd?=
+ =?us-ascii?Q?dtAtjlFWNOsanr8XylgHJAjYrKays34T0XjoEUgoUvOj1Aah73gIdJ7YQNlw?=
+ =?us-ascii?Q?3jf0aZIeTHCSR1D+E0lfGQ2Sb0Jd5RG/xwuej2h7U+DmnR11ewAvdxL9Xg0v?=
+ =?us-ascii?Q?uiQ+6U2Zbzq4/OvCOt+TWKzST1uEzuJi+PvucwgRocoS5yjWD0h1iHucbSxX?=
+ =?us-ascii?Q?wZSCT+sKfw+8V77YkBl4/qGE+fhK8NZyDzdiwsXIkPMfqijywHbEe74oPfk+?=
+ =?us-ascii?Q?naqAFrIOwrt8NHk1FAE5+tvUBs7V61w9LDsbtvz4fMjllaB2r85yH66A5+w4?=
+ =?us-ascii?Q?CIu5GRGXF6mBBtzC3K80C1kqFD4RMf0EjwVtVkzVQ4QPJPYs5AoBoy8TP0qg?=
+ =?us-ascii?Q?Js5mBqmKb/zU3WS2Rn1gKvAExUOPe2wHkaIkfM7kh0TXgDgrvhZu2a5lC+Qu?=
+ =?us-ascii?Q?J2DpHw7ZbYQLWjaRLMEKNjfksY2kHsRRN9KRg5GHZp72kZAQKQQgmYr0/Ldh?=
+ =?us-ascii?Q?VlC2xqrMsIWZYkingev9hYlECUb1RsTsl39nO6G5JNwtA+/5yAWbxe05Lmax?=
+ =?us-ascii?Q?hXqS0Pg7bV6+vFoqQMv04lLFEDxuhzik9oEe80ajs4NQyZd/C5tp03iAjR3E?=
+ =?us-ascii?Q?wiSym4pckVHpcfkVfOU5Jk4fMxCqKRiiGNdup8IIm4ys60APLIQscgSSOEHj?=
+ =?us-ascii?Q?LPPKK4zijYM1tOLLT50=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL4PR10MB8229.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(7416014)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?v/rdEZUiXtIwK+4wkADAZL9WT54iSxY4C3xJn90zQHkBMCKvOjPtylMWv1kL?=
+ =?us-ascii?Q?WRu5mPAxPsiel+GRqgqQAwIYtQNf8wyIeIYpnQScNhjwcyLJJIWtwhlbQh4x?=
+ =?us-ascii?Q?GMEOdGy2QHGm/XexUx851hsqobylni87bHoI7mice608DiKBoLJBlP5KioaJ?=
+ =?us-ascii?Q?1WHwg8cTULEsYcj4CL9pOOhA/AS0hbqPHxlvQ0R9P6/+RrsVft1a9B+kNGMj?=
+ =?us-ascii?Q?YSSRIU6pZfdc3xfWylrI1yg9+PmI9R/u7BfpFOZrxkJMqAxKdbf8G/Bd2k5V?=
+ =?us-ascii?Q?iTgSWlgCwWZdcBQh2a3ipH0rWNQ+tjWZQj2TqP6bt8PLTskoutpYCcSqMxWT?=
+ =?us-ascii?Q?B0hXrxXhygSYGsTaD+7AzNDcLPsu6wiQsqWInXb/W92UUm3Ol8I6h6Uq0Bou?=
+ =?us-ascii?Q?TzWVx6MlhRKWt+Kgef17QGU92wry3X6yHiqHzz5y0oRF+Jj2OFz06CXIraBv?=
+ =?us-ascii?Q?CFlfsRypTeuNe4/MNbBDVgVuiEtMw6XJmrVrpN6pRBpDg6MJKCrbDJwpeBG4?=
+ =?us-ascii?Q?dU2PE1hHiKcKl+/exp3zlCjSnoAePEvdOCD33uAzwxMZ5Docxa0vvOKV72WG?=
+ =?us-ascii?Q?Q161eVqimoyE5i73tUYq0hlC220Ikz+JPZUAitgONtswpnMADnkajhBGWtYL?=
+ =?us-ascii?Q?Z5tmdlOOkMrbshGTpNFzExvJ9k2hGSziYhCdKjXqrT+YRFsbG9fSFrWvy6N0?=
+ =?us-ascii?Q?hBCiLWsEaXNR2afmG3KNYqAVTe+B5EkmOYfoRbMYmDgVC8h5rL4doEei5GfC?=
+ =?us-ascii?Q?AeQaFJLS2NCzAkMAMWXiaS5wbaZJsNxX4853tBGWmJiRcv7kQ4mY3IJvXAV2?=
+ =?us-ascii?Q?nM0QS9HskBbFaR6Od9MKmhWU4Rg+62ih3avU2I0wUPq56FN3Txeybbux01VC?=
+ =?us-ascii?Q?H6obSo8yzgWEztkqezRmvnDvvasM8PglvbKeJ03UW6Kqwi8i12e6mmdgoHZN?=
+ =?us-ascii?Q?2OqloI9I6AIQv5eHc+CpiAYtl5g7c8rQmJvBpx9BAPf8RbWrmAiyE7uy9q0r?=
+ =?us-ascii?Q?J1/PDpvgsdhzTU6QhL0StDpIyNIIVHWyDMNBzCw1n9+33gWQt9hi15/3mb+R?=
+ =?us-ascii?Q?DNDI2BnanKClZa48Px6KqL1VC6MI+ly82mgSCuRjXxI9QrV1sYgkmN9CFu1T?=
+ =?us-ascii?Q?FIth6Q+Vi4Q2YT1wwB7Gh58jy3FXHwNAzEHDwBL/0wqTb048fWQO90E1aas8?=
+ =?us-ascii?Q?oFPHQXy/I0KCGStN4q/EtUVaR/G3+JZSXvI8tiA2KQVT4dlfSAlSudfOqga1?=
+ =?us-ascii?Q?OGCDxEC2nZ5yvKus+dherJMvXHVog9xoJAFHbe4Ve20+g7ETuhTqhrXI4cS6?=
+ =?us-ascii?Q?sVh1hILfDEZXkn+XZsUeuyGEvubbPJUrs30vTXCjnnP9pPKzT1ZYg42ZhpI4?=
+ =?us-ascii?Q?pnUy0956pNZXKzzbLSuglayXi7UOvpRPVxD1YtDSFJTHNJhBtCFUZxVrjXAr?=
+ =?us-ascii?Q?zbPW1uvkjxp3uqX0T4dk0R64946ysExVyRnCsHLHUVJ6ICCeBNMek3CLhrrJ?=
+ =?us-ascii?Q?tFJpBU4HxGCGlBiZikHo0TArU/Cnr0Kew6pdQBCODvIbRjgKcDhHezd79dfg?=
+ =?us-ascii?Q?4XGrTHnpc5TiQJJTllVrxY1HIhN0+3dyTxC3wmC/ZoBX5RE0aV0IkUoFX6E4?=
+ =?us-ascii?Q?nNUlEnc1cEpiNAgAoQzG77mavg0wL4I5P+sFNCTJzDeo3hyEZ3+SZiZlwnTy?=
+ =?us-ascii?Q?n8+9xQuoGPQ9Jeg6d/u37cZ8puExJsoyYXn1XgdTIHqB1XuHB8/gMfn78Diy?=
+ =?us-ascii?Q?cmW8gEvh+kvEs3r7iYlgz3TcJwZiw9U=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: lYPQcD0CpcvDjqlbscS0HZZByRslpRx8X6TdRudIt32HW+joaW1+lM3R9XJsZgSW2YoLIsbrtLJcoBkKILCwMR0JaO8zXAHBpSgXphdye1pXm5AuW5nA2KJIT4hpaWwFBLcszLNfv9a3TGYqRYJkJFsE2Ns1wMfL3ZimYdCOH0VU3/zwdHCc0CxBOWw/ph4OFj6QAkMv85CZXc2ANbA0lunp90r/OUYBbDpyKzJy/KtZ5FAJQsyd3EZzSz4Wo14SQd9udo1WnYMsb/oTwZ/1NSkiGNJO2r5M8NFGESY/AGIhn+c8MHXn2g5uPKzz0xs6l13Pjhiky1HXfrxBjHrl0mOt4UraSxIShyW8o2pTN4x9glDErEiXQRu+PjHY5gZIbFb2E6hYcDmVydTJ1fNq+HYfKQwWItBEhlsLOniCpCWAQEZck6Z1lCHQR7IPQfXXUz6lMZE6uwJQR1IC+9tIXsZt5Sx8QIcmy3JgxbRN4+uLh/weYAV2YyASkCzMD4hl6qvIPB+Yk9oPkUwIPLZ4cfJHpRvph+dPpdf9vbJElCdPolRSdnh5mb9fipx2myZEoHim2BHY6EVpSHCDv+51UYlmozTgE5oHbx2DlrT/t+g=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: be94509f-0a5d-4c61-559c-08de5e86f08a
+X-MS-Exchange-CrossTenant-AuthSource: BL4PR10MB8229.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 16:04:38.8489 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wyKFwT6kpMAsa4QhRYiguua1XNaUrIFpiNYVHw4UiH4lq3Z3Fxdvn7KsuP1ZNJnNafGuIILt2evGiy9GR0YBUymkPeSDlzj3bjCe/Hp3aJs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF26D9E501B
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-01-28_03,2026-01-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ mlxlogscore=999
+ bulkscore=0 mlxscore=0 spamscore=0 phishscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2601150000 definitions=main-2601280132
+X-Proofpoint-ORIG-GUID: R0yPT06-mM7lZhmd8Kq5UpU3touBdlEe
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI4MDEzMiBTYWx0ZWRfX4wFhqg2trpVU
+ GAgEI+XVil3DTAQYw/M+ydEssATve3MC6YY/CzIhwith0Ig4gPKc+cDgNw4cefAZEy9xRp0uBUB
+ D17cSbDBziWEjK4xTNJQsQmszmQAnwrujUmRiUa7zB0FuHkQd1ZuaKS+w453OT73AzELssn81GP
+ 4s7Oz6IyJwsOlsCvTyjn87yLaGjxTt7YHm2LIhiJhH0IxXGY3WQ1vAGGK87llImgXOlz4/hets9
+ WI6NfQ4rzjzu3bZ8fX85acgv7BAEsvB7eDJs0y+qO/euoXwn4/UH9N80749OoQXGs483UjlAHo7
+ Uov7H7hu4jOTK5GpE4XxoSevHfNDxOig27Jr8X3KiMvk5+tDWQodV/dK4wGwGPzYJtDol6WoRPT
+ RbWYsEKbtz5XgFTfUl2NhA7og20qQMMStl2GdfLhVCHBNvBwr7gTEs5ZYb9K7YyovDxAd8sWiEc
+ o3cmlrbxQjck6/NpDwQ==
+X-Authority-Analysis: v=2.4 cv=Qe5rf8bv c=1 sm=1 tr=0 ts=697a339f cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=yPCof4ZbAAAA:8 a=YyBMxp4TV8mTImdZ7IcA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-GUID: R0yPT06-mM7lZhmd8Kq5UpU3touBdlEe
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,109 +268,108 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[oracle.com,reject];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[oracle.com:s=corp-2025-04-25,oracle.onmicrosoft.com:s=selector2-oracle-onmicrosoft-com];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[linux-foundation.org,kernel.org,linux.intel.com,redhat.com,alien8.de,zytor.com,arndb.de,linuxfoundation.org,intel.com,suse.de,gmail.com,ffwll.ch,ursulin.net,amd.com,zeniv.linux.org.uk,suse.cz,kvack.org,linux.alibaba.com,google.com,huawei.com,vivo.com,mit.edu,dilger.ca,linux.dev,paragon-software.com,omnibond.com,arm.com,wdc.com,infradead.org,oracle.com,suse.com,nvidia.com,paul-moore.com,namei.org,hallyn.com,rasmusvillemoes.dk,vger.kernel.org,lists.linux.dev,lists.freedesktop.org,lists.ozlabs.org,lists.orangefs.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oracle.com:email,oracle.com:dkim,oracle.onmicrosoft.com:dkim,lucifer.local:mid];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tomi.valkeinen@ideasonboard.com,m:vishal.sagar@amd.com,m:anatoliy.klymenko@amd.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:michal.simek@amd.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:geert@linux-m68k.org,m:dmitry.baryshkov@oss.qualcomm.com,m:ppaalanen@gmail.com,m:pekka.paalanen@collabora.com,m:lumag@kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_CC(0.00)[amd.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,lists.infradead.org,linux-m68k.org,oss.qualcomm.com,collabora.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DKIM_TRACE(0.00)[oracle.com:+,oracle.onmicrosoft.com:+];
 	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lorenzo.stoakes@oracle.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[94];
+	TAGGED_RCPT(0.00)[dri-devel];
+	NEURAL_HAM(-0.00)[-1.000];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 4F2D8A4FFE
+	RCVD_COUNT_SEVEN(0.00)[8]
+X-Rspamd-Queue-Id: 8E364A50AC
 X-Rspamd-Action: no action
 
-On Wed, Jan 28, 2026 at 05:38:11PM +0200, Tomi Valkeinen wrote:
-> On 28/01/2026 13:49, Laurent Pinchart wrote:
-> > On Mon, Dec 01, 2025 at 02:18:45PM +0200, Tomi Valkeinen wrote:
-> >> Add greyscale Y8 format.
-> > 
-> > I would explain here why we need a new format and can't just use
-> > DRM_FORMAT_R8. You don't need to convince me, but I think it's important
-> > to summarize the rationale should someone later wonder why we introduced
-> > this.
-> > 
-> >> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >> Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> >> Reviewed-by: Vishal Sagar <vishal.sagar@amd.com>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> >> ---
-> >>  drivers/gpu/drm/drm_fourcc.c  |  1 +
-> >>  include/uapi/drm/drm_fourcc.h | 10 ++++++++++
-> >>  2 files changed, 11 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
-> >> index b22ef86428a1..a39b9d7a5b62 100644
-> >> --- a/drivers/gpu/drm/drm_fourcc.c
-> >> +++ b/drivers/gpu/drm/drm_fourcc.c
-> >> @@ -275,6 +275,7 @@ const struct drm_format_info *__drm_format_info(u32 format)
-> >>  		{ .format = DRM_FORMAT_YVU422,		.depth = 0,  .num_planes = 3, .cpp = { 1, 1, 1 }, .hsub = 2, .vsub = 1, .is_yuv = true },
-> >>  		{ .format = DRM_FORMAT_YUV444,		.depth = 0,  .num_planes = 3, .cpp = { 1, 1, 1 }, .hsub = 1, .vsub = 1, .is_yuv = true },
-> >>  		{ .format = DRM_FORMAT_YVU444,		.depth = 0,  .num_planes = 3, .cpp = { 1, 1, 1 }, .hsub = 1, .vsub = 1, .is_yuv = true },
-> >> +		{ .format = DRM_FORMAT_Y8,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1, .is_yuv = true },
-> >>  		{ .format = DRM_FORMAT_NV12,		.depth = 0,  .num_planes = 2, .cpp = { 1, 2, 0 }, .hsub = 2, .vsub = 2, .is_yuv = true },
-> >>  		{ .format = DRM_FORMAT_NV21,		.depth = 0,  .num_planes = 2, .cpp = { 1, 2, 0 }, .hsub = 2, .vsub = 2, .is_yuv = true },
-> >>  		{ .format = DRM_FORMAT_NV16,		.depth = 0,  .num_planes = 2, .cpp = { 1, 2, 0 }, .hsub = 2, .vsub = 1, .is_yuv = true },
-> >> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> >> index 6c786701238e..5cfc188c4e72 100644
-> >> --- a/include/uapi/drm/drm_fourcc.h
-> >> +++ b/include/uapi/drm/drm_fourcc.h
-> >> @@ -459,6 +459,16 @@ extern "C" {
-> >>  #define DRM_FORMAT_YUV444	fourcc_code('Y', 'U', '2', '4') /* non-subsampled Cb (1) and Cr (2) planes */
-> >>  #define DRM_FORMAT_YVU444	fourcc_code('Y', 'V', '2', '4') /* non-subsampled Cr (1) and Cb (2) planes */
-> >>  
-> >> +/*
-> >> + * Y-only (greyscale) formats
-> >> + *
-> >> + * The Y-only formats are handled similarly to the YCbCr formats in the display
-> >> + * pipeline, with the Cb and Cr implicitly neutral (0.0 in nominal values). This
-> >> + * also means that COLOR_RANGE property applies to the Y-only formats.
-> >> + *
-> > 
-> > Extra blank line.
-> 
-> I'll drop.
-> 
-> >> + */
-> >> +
-> >> +#define DRM_FORMAT_Y8		fourcc_code('G', 'R', 'E', 'Y')  /* 8-bit Y-only */
-> > 
-> > I would have gone for 'Y', '8', ' ', ' '
+On Wed, Jan 28, 2026 at 04:08:36AM -0800, Chris Mason wrote:
+> Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
+> > This patch updates secretmem to use the new vma_flags_t type which will
+> > soon supersede vm_flags_t altogether.
+> >
+> > In order to make this change we also have to update mlock_future_ok(), we
+> > replace the vm_flags_t parameter with a simple boolean is_vma_locked one,
+> > which also simplifies the invocation here.
+> >
+> > This is laying the groundwork for eliminating the vm_flags_t in
+> > vm_area_desc and more broadly throughout the kernel.
+> >
 >
-> Missed these comments earlier...
-> 
-> Yes, "Y8  " makes sense. But I was trying to be nice, as there are
-> already users for Y8 ("GREY") with BSP kernels, and changing the fourcc
-> code would break their userspace...
+> Hi everyone,
+>
+> Running mm-new through AI review flagged this one:
+>
+> > diff --git a/mm/mmap.c b/mm/mmap.c
+> > --- a/mm/mmap.c
+> > +++ b/mm/mmap.c
+> > @@ -225,12 +225,12 @@ static inline unsigned long round_hint_to_min(unsigned long hint)
+> >  	return hint;
+> >  }
+> >
+> > -bool mlock_future_ok(const struct mm_struct *mm, vm_flags_t vm_flags,
+> > -			unsigned long bytes)
+> > +bool mlock_future_ok(const struct mm_struct *mm, bool is_vma_locked,
+> > +		     unsigned long bytes)
+> >  {
+> >  	unsigned long locked_pages, limit_pages;
+> >
+> > -	if (!(vm_flags & VM_LOCKED) || capable(CAP_IPC_LOCK))
+> > +	if (!is_vma_locked || capable(CAP_IPC_LOCK))
+> >  		return true;
+>
+> [ ... ]
+>
+> > @@ -416,7 +416,7 @@
+> >  		if (!can_do_mlock())
+> >  			return -EPERM;
+> >
+> > -	if (!mlock_future_ok(mm, vm_flags, len))
+> > +	if (!mlock_future_ok(mm, vm_flags & VM_LOCKED, len))
+> >  		return -EAGAIN;
+>
+> This looks correct - do_mmap() now extracts the VM_LOCKED bit from
+> vm_flags and passes that to mlock_future_ok().
+>
+> However, it appears check_brk_limits() was not updated when
+> mlock_future_ok() changed its signature. The function at mm/mmap.c:111
+> still passes the raw def_flags value:
+>
+>     return mlock_future_ok(current->mm, current->mm->def_flags, len)
+>         ? 0 : -EAGAIN;
 
-That's a more compeling argument than matching the V4L2 4CC. I have a
-slight preference for 'Y8  ' for how it would appear in debug messages,
-but I'm also fine being nice :-)
+Ack, the C 'type system' strikes again :) will send a fix-patch.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> When def_flags has any bit set, this converts to true, incorrectly
+> triggering mlock limit checks even when VM_LOCKED is not set. Should
+> this be passing (current->mm->def_flags & VM_LOCKED) instead?
+>
+> [ ... ]
+>
+> Additionally, the test stub at tools/testing/vma/vma_internal.h:1627
+> still has the old signature (mm, vm_flags_t vm_flags, bytes) while the
+> production code now uses (mm, bool is_vma_locked, bytes). This could
+> cause compilation issues or mask bugs in the test suite.
 
--- 
-Regards,
+Ack, I can fix that later. The VMA test headers have been split and it's too
+much merge pain to address at this point given the tests aren't impacted by this
+yet. Is on todo!
 
-Laurent Pinchart
+>
+>
+
+Cheers, Lorenzo
