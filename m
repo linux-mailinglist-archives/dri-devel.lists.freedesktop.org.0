@@ -2,82 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id v0wqG+2DeWnGxQEAu9opvQ
+	id QDyMFRiFeWnGxQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 04:35:09 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 04:40:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5C2D9CBB8
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 04:35:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAE649CC8D
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 04:40:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1613210E1DA;
-	Wed, 28 Jan 2026 03:35:05 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M2ARrs5V";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0357710E611;
+	Wed, 28 Jan 2026 03:40:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
- [209.85.210.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A996A10E1DA
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 03:35:03 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id
- d2e1a72fcca58-82311f4070cso257545b3a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 19:35:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769571303; x=1770176103; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=vHsef8Eavky6gF12HHQo8VAwR8PkAm6f6g30n7mS7sU=;
- b=M2ARrs5Vso/uIq/PxKdeaiE/x8ltk1TmI0tg8whrmzB+iv0kTfanJsTO/AYkUFBhmq
- rG52LXu5xfd1wqDehgVqFKbgqQMj66EHvDtIRvFKQhFh2TTDxdWjUJ+VFIXAsi742TQW
- U4+fQWZ0Cvg3rsYougBF+NtWZzbmJR8a3j+c23ongaF47t7Q04KVA9FcZ04UZgtsI388
- Wlh/brNbrlHxH09QZW+MC8wlyF8BsaLGArrmorDk7txXu1wSyZNrIqSp974h5YSgZXFJ
- z8r5UEJNSHD4xmnCLbkjdNFTJhYwUc9jZBiDgYuhjOViVxLr42uJNebKaSZDytXdzPVy
- CT4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769571303; x=1770176103;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vHsef8Eavky6gF12HHQo8VAwR8PkAm6f6g30n7mS7sU=;
- b=tlR5J8z2IcGb0EiqvrWLURrxDf85ScCy6qOf0WM+pCJqUotc3lgYgXm0e3nQKkaRRT
- vlLTo5mVkgkLhJJRvyVUaNr3u/ZontyTj5ADsZIcWrlY+OJpeNDgLEHizJNtDHqi+1ev
- qQfNRmnchCMRex6kpuJofecYuRCgDB0Qw6Dme5p38kcOSIgcohFEbznJKYl9qM37XBKu
- jGYiOdYzQGmcqJ+SLpxGTopfNGeIBviqwB8WblzD6Bpu6NOjFF3rIRCEluWROj4D0V6o
- Zg6wceNzqorna2zR3MbYkauYE5et2DseIMdQ8K+1SzyuLb7FPC8jBJ1r1ucdDHK0QTHE
- yFTg==
-X-Gm-Message-State: AOJu0YyC2A647jO/1gJeJu/oBhP8fa7Rw1mJ0qxQQylSKXdROzRAZJ73
- r5mY8I6gnWaY/RInAEbGCeOXq0TgrOFqgB6GwhpmiNLepKbP7mPXy5IV
-X-Gm-Gg: AZuq6aKrFUuGwop8Mkm1BK1b6kiuSGEA28jOrLUeWCWoiiv4QB1sJ96mJ9XltcxCy7L
- ulK+cLN97DjzN2ogPSuu5WM6p+aq37T2S5yar6V5cJa7kBAmfjh8X775Ffx+ezxfQLgmGDshYwI
- yvkfX105Ww6APIfiPUJg8gvy0Cy9qPUjYxxdwlpZo57ec1O2eL3s8B9VW/hlGy0l0EkTLeK5XTD
- bNa4fY+CI3lXN9lU/Mwkw2/CRSp4UfRzrRVtbg74kS6RSlMWduE5rM/e1t4/uOAYLpuWsE6rYDw
- ctkOUx2bXaobb/rqxjtE67YjAdte6gEe5XC657lmc3kfhYvEdBSjNbKQZJeD6eUMtnrdkjLwMHi
- SueKbGBB+PZV69r1EmZictaVWe2O4VMizAa8iIrA6lH7D7o4860fnJliO898UDZKARe6wkIm6Ln
- QUdNz40UZCsPyWS1s5RMiPbhs5QPLKhBg=
-X-Received: by 2002:a05:6a00:886:b0:81f:535f:b48a with SMTP id
- d2e1a72fcca58-8236a14b4a7mr3625497b3a.7.1769571302990; 
- Tue, 27 Jan 2026 19:35:02 -0800 (PST)
-Received: from localhost.localdomain ([1.203.169.108])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-82379c226afsm948671b3a.49.2026.01.27.19.34.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Jan 2026 19:35:02 -0800 (PST)
-From: Xingjing Deng <micro6947@gmail.com>
-X-Google-Original-From: Xingjing Deng <xjdeng@buaa.edu.cn>
-To: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
- gregkh@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Xingjing Deng <xjdeng@buaa.edu.cn>,
- stable@vger.kernel.org
-Subject: [PATCH v6] misc: fastrpc: check qcom_scm_assign_mem() return in
- rpmsg_probe
-Date: Wed, 28 Jan 2026 11:34:54 +0800
-Message-Id: <20260128033454.2614886-1-xjdeng@buaa.edu.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C62B710E611;
+ Wed, 28 Jan 2026 03:40:02 +0000 (UTC)
+Received: from [192.168.0.109] (unknown [123.118.222.47])
+ by APP-01 (Coremail) with SMTP id qwCowADHcW0DhXlpfl6GBg--.10567S2;
+ Wed, 28 Jan 2026 11:39:47 +0800 (CST)
+Message-ID: <91bf33e2-4588-419f-aedc-1f1b4e99fc56@iscas.ac.cn>
+Date: Wed, 28 Jan 2026 11:39:47 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] PCI/MSI: Check msi_addr_mask in
+ msi_verify_entries()
+To: Thomas Gleixner <tglx@kernel.org>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "Creeley, Brett" <bcreeley@amd.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: Han Gao <gaohan@iscas.ac.cn>, linuxppc-dev@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-riscv@lists.infradead.org, sophgo@lists.linux.dev
+References: <20260123-pci-msi-addr-mask-v3-0-9f9baa048524@iscas.ac.cn>
+ <20260123-pci-msi-addr-mask-v3-2-9f9baa048524@iscas.ac.cn>
+ <87jyx3be1t.ffs@tglx>
+Content-Language: en-US
+From: Vivian Wang <wangruikang@iscas.ac.cn>
+In-Reply-To: <87jyx3be1t.ffs@tglx>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: qwCowADHcW0DhXlpfl6GBg--.10567S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+ VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYk7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E
+ 6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
+ kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8I
+ cVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2js
+ IEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE
+ 5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeV
+ CFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxG
+ xcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij64vIr41l4c8EcI0Ec7CjxVAaw2AFwI0_GF
+ v_Wryl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8G
+ jcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2I
+ x0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK
+ 8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
+ 0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUojjgUUUUU
+X-Originating-IP: [123.118.222.47]
+X-CM-SenderInfo: pzdqw2pxlnt03j6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,95 +83,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [0.89 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:srini@kernel.org,m:amahesh@qti.qualcomm.com,m:arnd@arndb.de,m:gregkh@linuxfoundation.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:xjdeng@buaa.edu.cn,m:stable@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,linux.ibm.com,ellerman.id.au,gmail.com,amd.com,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,perex.cz,suse.com];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
 	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[micro6947@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[micro6947@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[iscas.ac.cn];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,buaa.edu.cn:mid,buaa.edu.cn:email]
-X-Rspamd-Queue-Id: A5C2D9CBB8
+	HAS_XOIP(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wangruikang@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,netdev];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: CAE649CC8D
 X-Rspamd-Action: no action
 
-In the SDSP probe path, qcom_scm_assign_mem() is used to assign the
-reserved memory to the configured VMIDs, but its return value was not checked.
+Hi Thomas,
 
-Fail the probe if the SCM call fails to avoid continuing with an
-unexpected/incorrect memory permission configuration.
+On 1/27/26 17:27, Thomas Gleixner wrote:
+> [...]
+>
+> Other than those nits:
+>
+> Reviewed-by: Thomas Gleixner <tglx@kernel.org>
 
-This issue was detected by a private static analysis tool.
-No actual hardware testing was performed as the issue is purely
-code-level and verified via static analysis.
+I will fix these and patch 1 as well in v4. Thanks for your review.
 
-Fixes: c3c0363bc72d4 ("misc: fastrpc: support complete DMA pool access to the DSP")
-Cc: stable@vger.kernel.org # 6.11-rc1
-Signed-off-by: Xingjing Deng <xjdeng@buaa.edu.cn>
----
-v6:
-- Add description of the detection tool.
-- Link to v5: https://lore.kernel.org/linux-arm-msm/20260117140351.875511-1-xjdeng@buaa.edu.cn/T/#u
-
-v5:
-- Squash the functional change and indentation fix into a single patch.
-- Link to v4: https://lore.kernel.org/linux-arm-msm/2026011637-statute-showy-2c3f@gregkh/T/#t
-
-v4:
-- Format the indentation
-- Link to v3: https://lore.kernel.org/linux-arm-msm/20260113084352.72itrloj5w7qb5o3@hu-mojha-hyd.qualcomm.com/T/#t
-
-v3:
-- Add missing linux-kernel@vger.kernel.org to cc list.
-- Standarlize changelog placement/format.
-- Link to v2: https://lore.kernel.org/linux-arm-msm/20260113063618.e2ke47gy3hnfi67e@hu-mojha-hyd.qualcomm.com/T/#t
-
-v2:
-- Add Fixes: and Cc: stable tags.
-- Link to v1: https://lore.kernel.org/linux-arm-msm/20260113022550.4029635-1-xjdeng@buaa.edu.cn/T/#u
----
- drivers/misc/fastrpc.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index ee652ef01534..8bac2216cb20 100644
---- a/drivers/misc/fastrpc.c
-+++ b/drivers/misc/fastrpc.c
-@@ -2337,8 +2337,11 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
- 		if (!err) {
- 			src_perms = BIT(QCOM_SCM_VMID_HLOS);
- 
--			qcom_scm_assign_mem(res.start, resource_size(&res), &src_perms,
-+			err = qcom_scm_assign_mem(res.start, resource_size(&res), &src_perms,
- 				    data->vmperms, data->vmcount);
-+			if (err) {
-+				goto err_free_data;
-+			}
- 		}
- 
- 	}
--- 
-2.25.1
+Vivian "dramforever" Wang
 
