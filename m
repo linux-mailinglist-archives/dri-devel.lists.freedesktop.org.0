@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8HQIJLBGemkp5AEAu9opvQ
+	id 8Dg7MrNGemkp5AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:26:08 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:26:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1407EA6D4C
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:26:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61338A6D5B
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:26:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E029C10E740;
-	Wed, 28 Jan 2026 17:26:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A35F510E745;
+	Wed, 28 Jan 2026 17:26:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="l/RCeaDC";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BbozAYva";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82AA610E2B9
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 17:26:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3525910E2B9
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 17:26:03 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 71BE518CB;
- Wed, 28 Jan 2026 18:25:23 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D9AB1F37;
+ Wed, 28 Jan 2026 18:25:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1769621124;
- bh=0+4PliZFZn2ZEL7NwkuBYPphIbKpznlW8ky3nnE+a14=;
+ s=mail; t=1769621125;
+ bh=zo3E+kZdWqIorpMyEBd9Er+LXVGU2QxSaPw3bUA8z9g=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=l/RCeaDCETgXlyJvTBp6P54B2jqhi/sPvgWMbKhDWJ7QNTDJa5IbfBmHyba4CwGsj
- SCrfOMcMsBAk4VqdCWpdh4iEVkJ4cq0iaPzK6XQ11niEK3wp6fn0F3nis4Jq/P5+j/
- jQCCYZo3wg2Zg/Kdd59BK26zi5Au7LDWD1UcuAts=
+ b=BbozAYvaDCYltBtMTqJkOQ5d88nFHAuDH0wbASfPtawlQjjk4AWBc5xMzl215pk41
+ C/Ww6oNju4kE1u3VxoMLa1/lCCs9umAvCjiPPA7LbqsKw/TPLBCVA4cMeUDdrt7UCu
+ C3Xteq+61djcLTGR+dqxNA9XVIgUfxj/PkIb8kJg=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 28 Jan 2026 19:25:26 +0200
-Subject: [PATCH v8 01/11] drm/fourcc: Add warning for bad bpp
+Date: Wed, 28 Jan 2026 19:25:27 +0200
+Subject: [PATCH v8 02/11] drm/fourcc: Add DRM_FORMAT_XV15/XV20
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260128-xilinx-formats-v8-1-9ea8adb70269@ideasonboard.com>
+Message-Id: <20260128-xilinx-formats-v8-2-9ea8adb70269@ideasonboard.com>
 References: <20260128-xilinx-formats-v8-0-9ea8adb70269@ideasonboard.com>
 In-Reply-To: <20260128-xilinx-formats-v8-0-9ea8adb70269@ideasonboard.com>
 To: Vishal Sagar <vishal.sagar@amd.com>, 
@@ -53,23 +53,24 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Geert Uytterhoeven <geert@linux-m68k.org>, 
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
  Pekka Paalanen <ppaalanen@gmail.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>
 X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1814;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2318;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=0+4PliZFZn2ZEL7NwkuBYPphIbKpznlW8ky3nnE+a14=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBpekail7GEf7ieuqRv7uv/kDEZDvLK0RPAIbNz4
- fljyBlDrbGJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaXpGogAKCRD6PaqMvJYe
- 9VVQEACK6YFdQ9mnuV4a123HQG6WR3MxNCgB64Sp+5lubNNkrnPG9nuYR6k8H14+BL346x4IWPP
- 0wW+FIROeLXY06xL++3w4bHku/b9/J0I/24FBqVtdHVKlWs7ctHJk56YPMi8WYpQ66Vr7I2+uT0
- h/SaGBgbu7ReHsKLUTuwibe/ckuDev0P+ENXxrmtowiAeIbyUdKQdl/XbNHFuEev06X5dGmkppp
- 3va2vtW/HBRbTMJAWQaTwwAmu6k1FZ/WKtj5N81qRwKXsF1vUy37m8rwBgmyJQOYAfLOUYXPxXK
- 2nzbo1pPgOOKiIccCDl5H2qLoAmM6/OTcia1nJ8wFQarPCYxCPIxzBW8kg3N4pfcFW5nRE80hDg
- ZoRfMbS8u4VDJD/9i8fytnaeu2VYGwaJefBHrrXkC509EAh5HXyIN16y7Gru0Z5lzsESuKU2CiY
- ceCHgNs+vVrQmEcXgv5XpNIXfcvkf7B6PiLEwLpwEAN8SZaO5y/jwwUDrPpZfw9PnTKPDaoEFQG
- RlBMz8EJ9XlnOp7JJqXDsVsKAW8Vy3yDVpT4fXbPoKoD6QeId9tyxTnWhfQRYWyLNeiBz0Wc+FM
- 31vZhnlCDyM3VLlKWFFOhwKiFLSr3r2JdqIsDUFNTs2xmNfltx07EoSawe3cAs/smJl3d60cnVz
- cUgNe3nw/v4vkdw==
+ bh=zo3E+kZdWqIorpMyEBd9Er+LXVGU2QxSaPw3bUA8z9g=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBpekajx8Vv7DIfy5TM8alkWA1fG2Rtp5f13EG0w
+ 63Cp72K3ROJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaXpGowAKCRD6PaqMvJYe
+ 9ZzWD/9/cmtvts0zs40zA8R1KXnDT9IU61ZO+T2iZn9fDjKPRjGlBsmUZndVgK3FyzeYePPcorH
+ Q8NzUohiS4LiddqRTNTZD8Jf04T4WRSB6xZ5S4SMWt88Y19BNJ7dhwfFGaB4vXeQqgGe0d93XtX
+ 5sUM9LXBp8wvWewzxIluyKgHIKLAM0rDp5srO7zjnRPOzZk5PDbh+S7bt+JJObjsADf7hxeMeDl
+ 6DDvjiFnhbnsMyLpPefM8eTZVbdq9FcqsDhJrGpv172o1UUGD8iDYRhf7ldWcTUiZdjmNMmikwn
+ L2ncVG36MfJGzf3y2UA5UljT9RQA9aYaTmwZudWxqPMRs/F6Lq8wPIA3zFbRDhBlyyc5+FP9Ge8
+ V2GHYSplVB6WwK/OJqHmKVpm4fVaDDEYBgLqdtfEaDsHnLfDXwQ2Ts++lhyh+KFNoIVwnihncNS
+ 45ZaD9BFK1lPRQMnmOkxcgRHFc/Fa1HqTxzTNsl4e1RIgqX2wQKROP29p+zEU5o1lZw0CFQg4bq
+ Q0uu8YSGRV6gwNiyM+v20yEAGQPVMLJVA2I3yGt6brhrwqI9VqdPJA+Hf7ezk9wbq41z/0Zv1uM
+ uQ9Eavja1ByVKhh9fBjZ3SYX/LbIT5Xhx75Z3UpuizOjIXnTNxFy0T8TuoFcGlF3CHrwb80rtTj
+ xlSf/zNMNxrRm1A==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,12 +96,12 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:vishal.sagar@amd.com,m:anatoliy.klymenko@amd.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:laurent.pinchart@ideasonboard.com,m:michal.simek@amd.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:geert@linux-m68k.org,m:dmitry.baryshkov@oss.qualcomm.com,m:ppaalanen@gmail.com,m:tomi.valkeinen@ideasonboard.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:vishal.sagar@amd.com,m:anatoliy.klymenko@amd.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:laurent.pinchart@ideasonboard.com,m:michal.simek@amd.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:geert@linux-m68k.org,m:dmitry.baryshkov@oss.qualcomm.com,m:ppaalanen@gmail.com,m:tomi.valkeinen@ideasonboard.com,m:lumag@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER(0.00)[tomi.valkeinen@ideasonboard.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,lists.infradead.org,linux-m68k.org,oss.qualcomm.com,gmail.com,ideasonboard.com];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,lists.infradead.org,linux-m68k.org,oss.qualcomm.com,gmail.com,ideasonboard.com,kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	FREEMAIL_TO(0.00)[amd.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,ideasonboard.com];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
@@ -119,57 +120,63 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 1407EA6D4C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email]
+X-Rspamd-Queue-Id: 61338A6D5B
 X-Rspamd-Action: no action
 
-drm_format_info_bpp() cannot be used for formats which do not have an
-integer bits-per-pixel in a pixel block.
+Add two new pixel formats:
 
-E.g. DRM_FORMAT_XV15's (not yet in upstream) plane 0 has three 10-bit
-pixels (Y components), and two padding bits, in a 4 byte block. That is
-10.666... bits per pixel when considering the whole 4 byte block, which
-is what drm_format_info_bpp() does. Thus a driver that supports such
-formats cannot use drm_format_info_bpp(),
+DRM_FORMAT_XV15 ("XV15")
+DRM_FORMAT_XV20 ("XV20")
 
-It is a driver bug if this happens, but so handle wrong calls by
-printing a warning and returning 0.
+The formats are 2 plane 10 bit per component YCbCr, with the XV15 2x2
+subsampled whereas XV20 is 2x1 subsampled.
 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Vishal Sagar <vishal.sagar@amd.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/drm_fourcc.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_fourcc.c  | 6 ++++++
+ include/uapi/drm/drm_fourcc.h | 8 ++++++++
+ 2 files changed, 14 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
-index e0d533611040..e662aea9d105 100644
+index e662aea9d105..b22ef86428a1 100644
 --- a/drivers/gpu/drm/drm_fourcc.c
 +++ b/drivers/gpu/drm/drm_fourcc.c
-@@ -491,12 +491,20 @@ EXPORT_SYMBOL(drm_format_info_block_height);
-  */
- unsigned int drm_format_info_bpp(const struct drm_format_info *info, int plane)
- {
-+	unsigned int block_size;
-+
- 	if (!info || plane < 0 || plane >= info->num_planes)
- 		return 0;
+@@ -381,6 +381,12 @@ const struct drm_format_info *__drm_format_info(u32 format)
+ 		{ .format = DRM_FORMAT_S416,            .depth = 0,  .num_planes = 3,
+ 		  .char_per_block = { 2, 2, 2 }, .block_w = { 1, 1, 1 }, .block_h = { 1, 1, 1 },
+ 		  .hsub = 1, .vsub = 1, .is_yuv = true},
++		{ .format = DRM_FORMAT_XV15,		.depth = 0,  .num_planes = 2,
++		  .char_per_block = { 4, 8, 0 }, .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 },
++		  .hsub = 2, .vsub = 2, .is_yuv = true },
++		{ .format = DRM_FORMAT_XV20,		.depth = 0,  .num_planes = 2,
++		  .char_per_block = { 4, 8, 0 }, .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 },
++		  .hsub = 2, .vsub = 1, .is_yuv = true },
+ 	};
  
--	return info->char_per_block[plane] * 8 /
--	       (drm_format_info_block_width(info, plane) *
--		drm_format_info_block_height(info, plane));
-+	block_size = drm_format_info_block_width(info, plane) *
-+		     drm_format_info_block_height(info, plane);
-+
-+	if (info->char_per_block[plane] * 8 % block_size) {
-+		pr_warn("unable to return an integer bpp\n");
-+		return 0;
-+	}
-+
-+	return info->char_per_block[plane] * 8 / block_size;
- }
- EXPORT_SYMBOL(drm_format_info_bpp);
+ 	unsigned int i;
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index e527b24bd824..6c786701238e 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -322,6 +322,14 @@ extern "C" {
+ #define DRM_FORMAT_RGB565_A8	fourcc_code('R', '5', 'A', '8')
+ #define DRM_FORMAT_BGR565_A8	fourcc_code('B', '5', 'A', '8')
  
++/*
++ * 2 plane 10 bit per component YCrCb
++ * index 0 = Y plane, [31:0] x:Y2:Y1:Y0 2:10:10:10 little endian
++ * index 1 = Cb:Cr plane, [63:0] x:Cr2:Cb2:Cr1:x:Cb1:Cr0:Cb0 2:10:10:10:2:10:10:10 little endian
++ */
++#define DRM_FORMAT_XV15		fourcc_code('X', 'V', '1', '5') /* 2x2 subsampled Cr:Cb plane 2:10:10:10 */
++#define DRM_FORMAT_XV20		fourcc_code('X', 'V', '2', '0') /* 2x1 subsampled Cr:Cb plane 2:10:10:10 */
++
+ /*
+  * 2 plane YCbCr
+  * index 0 = Y plane, [7:0] Y
 
 -- 
 2.43.0
