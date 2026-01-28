@@ -2,80 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id II17CTstemnd3gEAu9opvQ
+	id qGi6B2wtemnd3gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:37:31 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:38:20 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAEA0A4174
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:37:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63CEFA41B0
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:38:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0980910E722;
-	Wed, 28 Jan 2026 15:37:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84BFB10E193;
+	Wed, 28 Jan 2026 15:38:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YVnu31vF";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pl/Mpwn3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A26B10E193;
- Wed, 28 Jan 2026 15:37:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769614646; x=1801150646;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=0wyoV90WmYlDsdIojZFY1AdPgbfCyPWW+8y/M6SlHE4=;
- b=YVnu31vFQzt7TQVlmmMc4IEbz4CDfPqGipBCN+bomJ0BV4u1Jv9R42fE
- JziIsH33RRFh5ZMWTqVAyK6Q73U0EzkwwhS/UxAkD2qCmvnFsdXP/7Mu8
- /uLhKpaE6GXBGdIpACkZTyFadnV9Kver0yw0j322qZEQxE1XYXHKrh4c2
- kihwx13jShoGLNgk1vB0FskX7QwGhJFJZzj3TkpXOZpdQDLY4Q2e/9EMU
- 54pqafakpp46GIr0lraF1fztVmpNUAnoK8+yF9GQbdfWyTIiB9sejaQxL
- yGvDta00JWpsbXznXiKjuBWNHNmL2HV5XA639Em+Wc/3NQrXDVBLliM2Q Q==;
-X-CSE-ConnectionGUID: wuNfWE8gSiyYn411D7UlAA==
-X-CSE-MsgGUID: iACIfWaqQAip+yct40NZ+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="73423407"
-X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; d="scan'208";a="73423407"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2026 07:37:25 -0800
-X-CSE-ConnectionGUID: KTQ67kAaSbu8bA5Ll5fKQg==
-X-CSE-MsgGUID: QZTVq2c0S8Gv4W9Dfv9tAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; d="scan'208";a="208673485"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost)
- ([10.245.245.54])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2026 07:37:21 -0800
-Date: Wed, 28 Jan 2026 17:37:18 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
- Ard Biesheuvel <ardb@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "Borislav Petkov (AMD)" <bp@alien8.de>,
- Lenny Szubowicz <lszubowi@redhat.com>,
- Francesco Pompo <francescopompo2@gmail.com>,
- linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 2/2] drm/i915/display: Disable display for iMac's
-Message-ID: <aXotLnGvZu4Ib0Vx@intel.com>
-References: <20260128145855.1071-1-atharvatiwarilinuxdev@gmail.com>
- <20260128145855.1071-3-atharvatiwarilinuxdev@gmail.com>
- <26c4e0b7f9c25f405401288d13fc7e5097e9c7f5@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F400810E193
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 15:38:16 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A8176581;
+ Wed, 28 Jan 2026 16:37:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1769614658;
+ bh=A6uNF3pGbxHXRgksiH1d6qGq/WlSIjKiTxUk3hZZqXQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=pl/Mpwn3PX2QZTZfwl+foSltm6Rl8saFpbtkTA2sPon3qE7jZotj1VOZjXgqTUtTT
+ VD/qAV0PDHAzxRJiY5rrvOVsINvCpwyFIpiDLauw0vBM7nGJeAti/iGukAmhr2JKc+
+ T4+yqXDfyg9i81V/74Hn0xkNs4Yib4zDFxgaoUXI=
+Message-ID: <116b508e-0853-4b0b-966e-47d84167d4be@ideasonboard.com>
+Date: Wed, 28 Jan 2026 17:38:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <26c4e0b7f9c25f405401288d13fc7e5097e9c7f5@intel.com>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 03/11] drm/fourcc: Add DRM_FORMAT_Y8
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Vishal Sagar <vishal.sagar@amd.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Pekka Paalanen <ppaalanen@gmail.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Dmitry Baryshkov <lumag@kernel.org>
+References: <20251201-xilinx-formats-v7-0-1e1558adfefc@ideasonboard.com>
+ <20251201-xilinx-formats-v7-3-1e1558adfefc@ideasonboard.com>
+ <20260128114941.GF2558360@killaraus>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20260128114941.GF2558360@killaraus>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,103 +116,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.64 / 15.00];
-	R_MIXED_CHARSET(0.67)[subject];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:vishal.sagar@amd.com,m:anatoliy.klymenko@amd.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:michal.simek@amd.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:geert@linux-m68k.org,m:dmitry.baryshkov@oss.qualcomm.com,m:ppaalanen@gmail.com,m:pekka.paalanen@collabora.com,m:lumag@kernel.org,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,intel.com,linux.intel.com,ursulin.net,ffwll.ch,suse.de,redhat.com,alien8.de,vger.kernel.org,lists.freedesktop.org];
+	FORGED_SENDER(0.00)[tomi.valkeinen@ideasonboard.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FREEMAIL_CC(0.00)[amd.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,lists.infradead.org,linux-m68k.org,oss.qualcomm.com,collabora.com];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ville.syrjala@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	NEURAL_HAM(-0.00)[-0.992];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: CAEA0A4174
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,ideasonboard.com:email,ideasonboard.com:dkim,ideasonboard.com:mid,collabora.com:email]
+X-Rspamd-Queue-Id: 63CEFA41B0
 X-Rspamd-Action: no action
 
-On Wed, Jan 28, 2026 at 05:23:51PM +0200, Jani Nikula wrote:
-> On Wed, 28 Jan 2026, Atharva Tiwari <atharvatiwarilinuxdev@gmail.com> wrote:
-> > Disable display on iMacs, as they can't do link training
-> > on the internal display.
-> 
-> I'd expand on that a bit, based on the previous discussion.
-> 
-> >
-> > (tested on iMac20,1)
-> >
-> > Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-> 
-> I can't test this, but if nobody chimes in to oppose, I'll take it.
+Hi,
 
-I guess the main problem with a hack like this is that you won't
-be able to get deep pkgC states due to the display hardware not
-going into DC5/6.
+On 28/01/2026 13:49, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Dec 01, 2025 at 02:18:45PM +0200, Tomi Valkeinen wrote:
+>> Add greyscale Y8 format.
+> 
+> I would explain here why we need a new format and can't just use
+> DRM_FORMAT_R8. You don't need to convince me, but I think it's important
+> to summarize the rationale should someone later wonder why we introduced
+> this.
+> 
+>> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+>> Reviewed-by: Vishal Sagar <vishal.sagar@amd.com>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>  drivers/gpu/drm/drm_fourcc.c  |  1 +
+>>  include/uapi/drm/drm_fourcc.h | 10 ++++++++++
+>>  2 files changed, 11 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+>> index b22ef86428a1..a39b9d7a5b62 100644
+>> --- a/drivers/gpu/drm/drm_fourcc.c
+>> +++ b/drivers/gpu/drm/drm_fourcc.c
+>> @@ -275,6 +275,7 @@ const struct drm_format_info *__drm_format_info(u32 format)
+>>  		{ .format = DRM_FORMAT_YVU422,		.depth = 0,  .num_planes = 3, .cpp = { 1, 1, 1 }, .hsub = 2, .vsub = 1, .is_yuv = true },
+>>  		{ .format = DRM_FORMAT_YUV444,		.depth = 0,  .num_planes = 3, .cpp = { 1, 1, 1 }, .hsub = 1, .vsub = 1, .is_yuv = true },
+>>  		{ .format = DRM_FORMAT_YVU444,		.depth = 0,  .num_planes = 3, .cpp = { 1, 1, 1 }, .hsub = 1, .vsub = 1, .is_yuv = true },
+>> +		{ .format = DRM_FORMAT_Y8,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1, .is_yuv = true },
+>>  		{ .format = DRM_FORMAT_NV12,		.depth = 0,  .num_planes = 2, .cpp = { 1, 2, 0 }, .hsub = 2, .vsub = 2, .is_yuv = true },
+>>  		{ .format = DRM_FORMAT_NV21,		.depth = 0,  .num_planes = 2, .cpp = { 1, 2, 0 }, .hsub = 2, .vsub = 2, .is_yuv = true },
+>>  		{ .format = DRM_FORMAT_NV16,		.depth = 0,  .num_planes = 2, .cpp = { 1, 2, 0 }, .hsub = 2, .vsub = 1, .is_yuv = true },
+>> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+>> index 6c786701238e..5cfc188c4e72 100644
+>> --- a/include/uapi/drm/drm_fourcc.h
+>> +++ b/include/uapi/drm/drm_fourcc.h
+>> @@ -459,6 +459,16 @@ extern "C" {
+>>  #define DRM_FORMAT_YUV444	fourcc_code('Y', 'U', '2', '4') /* non-subsampled Cb (1) and Cr (2) planes */
+>>  #define DRM_FORMAT_YVU444	fourcc_code('Y', 'V', '2', '4') /* non-subsampled Cr (1) and Cb (2) planes */
+>>  
+>> +/*
+>> + * Y-only (greyscale) formats
+>> + *
+>> + * The Y-only formats are handled similarly to the YCbCr formats in the display
+>> + * pipeline, with the Cb and Cr implicitly neutral (0.0 in nominal values). This
+>> + * also means that COLOR_RANGE property applies to the Y-only formats.
+>> + *
+> 
+> Extra blank line.
 
-But I can't immediately think of other issues due this being an
-iGPU, so eg. runtime PCI D3 doesn't really do anything meaningful
-and thus the display hardware remaining powered on shouldn't
-matter that much (apart from the increased power usage).
+I'll drop.
 
+>> + */
+>> +
+>> +#define DRM_FORMAT_Y8		fourcc_code('G', 'R', 'E', 'Y')  /* 8-bit Y-only */
 > 
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-> 
-> 
-> > ---
-> >  .../gpu/drm/i915/display/intel_display_device.c    | 14 +++++++++++++-
-> >  1 file changed, 13 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/display/intel_display_device.c b/drivers/gpu/drm/i915/display/intel_display_device.c
-> > index 1170afaa8680..b1fec1018d7e 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_display_device.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_display_device.c
-> > @@ -3,6 +3,7 @@
-> >   * Copyright © 2023 Intel Corporation
-> >   */
-> >  
-> > +#include <linux/dmi.h>
-> >  #include <linux/pci.h>
-> >  
-> >  #include <drm/drm_color_mgmt.h>
-> > @@ -1435,7 +1436,18 @@ static bool has_no_display(struct pci_dev *pdev)
-> >  		{}
-> >  	};
-> >  
-> > -	return pci_match_id(ids, pdev);
-> > +	static const struct dmi_system_id dmi_ids[] = {
-> > +		{
-> > +			.ident = "Apple Inc. iMac",
-> > +			.matches = {
-> > +				DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Apple Inc."),
-> > +				DMI_MATCH(DMI_PRODUCT_NAME, "iMac"),
-> > +			}
-> > +		},
-> > +		{}
-> > +	};
-> > +
-> > +	return pci_match_id(ids, pdev) || dmi_check_system(dmi_ids);
-> >  }
-> >  
-> >  #define INTEL_DISPLAY_DEVICE(_id, _desc) { .devid = (_id), .desc = (_desc) }
-> 
-> -- 
-> Jani Nikula, Intel
+> I would have gone for 'Y', '8', ' ', ' '
+Missed these comments earlier...
 
--- 
-Ville Syrjälä
-Intel
+Yes, "Y8  " makes sense. But I was trying to be nice, as there are
+already users for Y8 ("GREY") with BSP kernels, and changing the fourcc
+code would break their userspace...
+
+ Tomi
+
