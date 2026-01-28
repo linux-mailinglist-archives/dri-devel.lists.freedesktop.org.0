@@ -2,93 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SLwBHfRkemmB5gEAu9opvQ
+	id MIltELBlemmB5gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 20:35:16 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 20:38:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76C8A8324
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 20:35:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E071A834E
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 20:38:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CA6910E6E7;
-	Wed, 28 Jan 2026 19:35:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CB3510E137;
+	Wed, 28 Jan 2026 19:38:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="Ix43RPUO";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="HbXPTb7S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
- [209.85.222.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1607110E137
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 19:35:11 +0000 (UTC)
-Received: by mail-qk1-f169.google.com with SMTP id
- af79cd13be357-8c6a822068eso32331985a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 11:35:11 -0800 (PST)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
+ [209.85.219.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A24A410E2E4
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 19:38:20 +0000 (UTC)
+Received: by mail-qv1-f44.google.com with SMTP id
+ 6a1803df08f44-88fcc71dbf4so1590406d6.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 11:38:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1769628911; x=1770233711; darn=lists.freedesktop.org; 
+ d=ziepe.ca; s=google; t=1769629100; x=1770233900; darn=lists.freedesktop.org; 
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:from:to
  :cc:subject:date:message-id:reply-to;
- bh=2KAAnJwvwGpmfNKzRTwry18X9/kL9abH5dLZSH1R12Q=;
- b=Ix43RPUOwGR8MYGLloDXubUqM37sijelFfi0jWOIaAhfJIiiAnexJgNo2qsh+WGOpm
- kxqck/LYmiEKAY/GNBVbPCCgdgkIsmvkWljJpKo6pvYB+3fsKeOO7HndpJfhwPTRWpai
- M/e21fNT6FtRTMGNmWnY+1j/o7ehgGgRpaaBOsYEL5kInGW3E3QeOA9wHG9GOVgifxRd
- mh6ZWJIVlbTMjGsRy4cL5DWYIXIpAoWghQtgbW8SZz9qeg7wHCdYxr/VNP+hRPhhTpFH
- xq646Mw+YT/7K8PyqHGTOt+PGzHWz2vUyNALfqSiXFRIE0GIILCYC0rIiPrJnxawQWTF
- YScQ==
+ bh=17Cv3S1HQz/Jxts2xw1h3I9H5dK5rRMEY+NE/bNEfIg=;
+ b=HbXPTb7SlmUdi2GU+If6UindomA0OyihWt4yFLTEaxYgfnDseCRa9J/gY49wcA60Ek
+ xuQCvq3irnLuxcWK42mUI70KS0TCshD3B7CBmtY2P7CZqk3d/f8fnaLMfQdXovjJQBgs
+ MgEwjVRRRtsodti6goZLm5MrVdxazvU46M6+WNEnl/ypdUGCi8zCyRYTVfVFRTTtBzCT
+ 72Eb+2FatXxgxYUC7mgely5BLugA8Opop3dpGsOl/XKho8TbNzkLnYfo8PivLsWaJHLV
+ MNXE54ygXBp+uk5QFVHVlq3HXom9Ftdu/+dj5EdpMr5aY5PCNXGBQ6XKcQF9aDzvXMnO
+ gY+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769628911; x=1770233711;
+ d=1e100.net; s=20230601; t=1769629100; x=1770233900;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2KAAnJwvwGpmfNKzRTwry18X9/kL9abH5dLZSH1R12Q=;
- b=fmp3I4lEkbdLEuVHYN0wvu2glwnOVGRZE/t08yYpgoM29ho6X7Ol5GHJC3rTAkZe4u
- i0qw8HSHJWqstbQjFNXo7yYuiVIhBiaJLSqLCatJpTH+7zpn/e1HPPvMyhtbhVkKbFui
- wJje0bphSLRFI4M9pSAfrrklVvKZwCCp3zT8jlRt8kErnZQoJYfiA8MXg5QHo+pu6ccH
- HnejctRh/zhg6nMzqd9IEIo0uc9j2VyngpbMH3GTKUX8aPIRiVq9sTEymy2ANrJBC2zh
- 7mzUc2MsD4cFL3jv0Scbe724+7UDKJ8eIucDKfkafF4QQVUDL09IssPDk1VvYmSncY67
- xzgg==
+ bh=17Cv3S1HQz/Jxts2xw1h3I9H5dK5rRMEY+NE/bNEfIg=;
+ b=sgj7HhisQ4SzET7XevgkwtxIvJBnwbHQgNSyHdvEh4wlMXaCFoof9UnyrCnf9k9mKp
+ Q1kI8fM1myMpZfIOPbTKWmoiGtguz1GK/8cATFGH73LF/Pndqf0LFTu0mXagvQvhSA/K
+ SZunEULs6ALqJYCoCEqyuQPWsqlHZkh+dMh95OoRmbiKAKGxD+7x53UU1Z2QZU2Hd7Bz
+ nMPmLC/x1rl9PIf8Fa0yksTH8Ngx1bWVxqVXZTlt6j/IsgWGoMWsEGdcrSSvCTpRlNkm
+ GTCaDVnYpQcAdD0nqPItCGCC1vRT9z0uhCbwjRFBGg20TCUzWaU1JCwmbSjLAkaRd68U
+ qWrA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVu+HzdUxUFGQmscM1HCQRRsxmg0gxXkwhGrFuqno0NRQAFcp6IeERADlntv+JzPlzf5H+Dxit7GVM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyjzPWKArl56Eup1hw5TCkkGF+h37Kaqga6IbHZUfPPs0uu+MdX
- cFTqvFLKAoilThUu9czsfWE0DvvpU91yspS3LU/ztXs8yiXHi54GMAdH8AOC2Athwps=
-X-Gm-Gg: AZuq6aJ1yDe57MORUItqPEervuiV6gwDCgpxJOcDA97U7JMF1+yGSIl6VtFsSag2YiG
- eL5hPjkK5On2hmMDzCom7uLFO4WSW+J6sMTbtsZKpaTqLlFd+1R58YJ7lvJpZ6OnyP0WBWAfZ5O
- QvTLSM4Ru+lqqFzRQ8NF7es9BFDqNJm5Rns4+0hu+iotjm8obHkLgl4bOqOG6wu0vtkFiSOMkT4
- 67t5qDMFqL3lMquvIZ9nYuwF2bNeXEgXcOuiAljKOtM3n9z30Pf1QkFtxrDjdTvCL8x9GYU2jGO
- RLqKeXolCJ7tJeh8QN4W1btADKJ4LbL9kb15Km4PE9nrRfmcRMdT2ZnM95R5lHQc65CV2jwNWEl
- 0yjOqsMXnxosnR9gjYbiwxInbj3zSXy6GgRGDtXvsgK7fi7ZtpRSJtI6DrIdi+O/DlQKJvI7cGW
- JGDudaqvidFQRLr1MnHZ2wM6G+mXOXKqE7+V6vU/JS1pxJPSV5nqnNfGKnRibdo5bryTk=
-X-Received: by 2002:a05:620a:254c:b0:8c7:6d9:4ff5 with SMTP id
- af79cd13be357-8c70b860ecbmr814561585a.26.1769628910790; 
- Wed, 28 Jan 2026 11:35:10 -0800 (PST)
+ AJvYcCVpn/UZ/LXfhbxn4lgdsCyMH8nGWQ6govcrDYEpeIsC/YaGkOGG2KCf00JOy1AV8mGmZaGdhgaNm/I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxcH4CD7zm/J/TOBzF/XU1kTUZFV+RF7Pim/3r0GbUjazmRMPkP
+ Tw7+fIp8tlLbVYQg5pSC3MSMSJoFkyRVoYNYYTAAPa8cMQ8yO2jwXN90XUzjDp8zZvo=
+X-Gm-Gg: AZuq6aIb4csk+NP2WGRylh68qHr44KnOX31X7hgm5EMnpaSqQNUPBVadq60fI+V4nAD
+ Fe6mVvUdMvplBxE0hUY+781Xv35j/se7sT57t0HneVNJ4RRItEBlOVdG2KmnEnhnAMRVgbgBQyL
+ EEsRUtDdLbI2rWjOCXd4fs8b4VfLSspQ6iJmlu8ZOFt5/KqfCEBoE7UexDSeY8JZWW4kSS0kiIO
+ 2IRoFPKzVjX2tjHh2RMJRK7Pi7Do4A0s1eHWzrSmXTGhd5Po3R8jeW1UPK/Mh/W/xA9crLXgssJ
+ 2mw8geBLlr808Cdv7LIpVjpeE7LpD5s6qiHY5h4Lc5/dxhLk9KbzTnubntj84T4kKXBvwKQzFPD
+ YdK2jFQbFFRX5ENLOZFpkkXCHwajl8QVN7WuZP98WBWFFemDWwVOTHyRsyPeFMPvzzv6jqutLFV
+ GG/JXZm8sKSIqyUvTwJMDcQXx6cic8HzXdMKH2Iz1WlYq0LdufQpP17Rez90bYl0Dbz5pFmV7we
+ CiWnw==
+X-Received: by 2002:a05:6214:21ac:b0:88a:2f90:b6f9 with SMTP id
+ 6a1803df08f44-894cc8175b6mr94833626d6.20.1769629099681; 
+ Wed, 28 Jan 2026 11:38:19 -0800 (PST)
 Received: from ziepe.ca
  (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-8c711d48940sm251405885a.44.2026.01.28.11.35.10
+ 6a1803df08f44-894d375b640sm23482726d6.39.2026.01.28.11.38.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jan 2026 11:35:10 -0800 (PST)
+ Wed, 28 Jan 2026 11:38:19 -0800 (PST)
 Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1vlBJl-00000009avc-2ZEI;
- Wed, 28 Jan 2026 15:35:09 -0400
-Date: Wed, 28 Jan 2026 15:35:09 -0400
+ (envelope-from <jgg@ziepe.ca>) id 1vlBMo-00000009awu-2skA;
+ Wed, 28 Jan 2026 15:38:18 -0400
+Date: Wed, 28 Jan 2026 15:38:18 -0400
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Matthew Brost <matthew.brost@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- leonro@nvidia.com, francois.dugast@intel.com,
+Cc: Leon Romanovsky <leonro@nvidia.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, francois.dugast@intel.com,
  thomas.hellstrom@linux.intel.com, himal.prasad.ghimiray@intel.com
-Subject: Re: [RFC PATCH v3 06/11] drm/pagemap: Add IOVA interface to DRM
- pagemap
-Message-ID: <20260128193509.GU1641016@ziepe.ca>
+Subject: Re: [RFC PATCH v3 04/11] drm/pagemap: Use dma-map IOVA alloc, link,
+ and sync API for DRM pagemap
+Message-ID: <20260128193818.GV1641016@ziepe.ca>
 References: <20260128004841.2436896-1-matthew.brost@intel.com>
- <20260128004841.2436896-7-matthew.brost@intel.com>
- <20260128151458.GJ1641016@ziepe.ca>
- <aXpYrfUmEaaOsse8@lstrano-desk.jf.intel.com>
+ <20260128004841.2436896-5-matthew.brost@intel.com>
+ <20260128142853.GH40916@unreal>
+ <aXpLhN08jVbltQC0@lstrano-desk.jf.intel.com>
+ <20260128175531.GR1641016@ziepe.ca>
+ <aXpjk5sAgOzE3OcR@lstrano-desk.jf.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aXpYrfUmEaaOsse8@lstrano-desk.jf.intel.com>
+In-Reply-To: <aXpjk5sAgOzE3OcR@lstrano-desk.jf.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,12 +114,12 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:matthew.brost@intel.com,m:intel-xe@lists.freedesktop.org,m:leonro@nvidia.com,m:francois.dugast@intel.com,m:thomas.hellstrom@linux.intel.com,m:himal.prasad.ghimiray@intel.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:matthew.brost@intel.com,m:leonro@nvidia.com,m:intel-xe@lists.freedesktop.org,m:francois.dugast@intel.com,m:thomas.hellstrom@linux.intel.com,m:himal.prasad.ghimiray@intel.com,s:lists@lfdr.de];
 	DMARC_NA(0.00)[ziepe.ca];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[ziepe.ca:+];
 	MIME_TRACE(0.00)[0:+];
@@ -135,44 +138,44 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ziepe.ca:mid,ziepe.ca:dkim]
-X-Rspamd-Queue-Id: D76C8A8324
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ziepe.ca:mid,ziepe.ca:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 9E071A834E
 X-Rspamd-Action: no action
 
-On Wed, Jan 28, 2026 at 10:42:53AM -0800, Matthew Brost wrote:
-> Yes, this is exactly what I envision here. First, let me explain the
-> possible addressing modes on the UAL fabric:
+On Wed, Jan 28, 2026 at 11:29:23AM -0800, Matthew Brost wrote:
+> On Wed, Jan 28, 2026 at 01:55:31PM -0400, Jason Gunthorpe wrote:
+> > On Wed, Jan 28, 2026 at 09:46:44AM -0800, Matthew Brost wrote:
+> > 
+> > > It is intended to fill holes. The input pages come from the
+> > > migrate_vma_* functions, which can return a sparsely populated array of
+> > > pages for a region (e.g., it scans a 2M range but only finds several of
+> > > the 512 pages eligible for migration). As a result, if (!page) is true
+> > > for many entries.
+> > 
+> > This is migration?? So something is DMA'ing from A -> B - why put
+> > holes in the first place? Can you tightly pack the pages in the IOVA?
+> > 
 > 
->  - Physical (akin to IOMMU passthrough)
->  - Virtual (akin to IOMMU enabled)
+> This could probably could be made to work. I think it would be an
+> initial pass to figure out the IOVA size then tightly pack.
+
+You don't need to so carefully determine the IOVA size, just allocate
+the maximum you need which you already have and then tight pack the
+pages and remember where it ended for the unmap.
+
+It should be easier than dummy pages I think, you just have to use a
+little different math to compute the IOVA.
+
+> > This is a possible option to teach things to detect the holes and
+> > ignore them..
 > 
-> Physical mode is straightforward — resolve the PFN to a cross-device
-> physical address, then install it into the initiator’s page tables along
-> with a bit indicating routing over the network. In this mode, the vfuncs
-> here are basically NOPs.
+> Another option — and IMO probably the best one — as it makes potential
+> usages with holes the simplest at the driver level. Let me look at this
+> too.
 
-Ugh of course they would invent something so complicated.
-
-I'm not convinced this should be hidden inside DRM. The DMA API is the
-place to make things mappable and for an open standard like UALink it
-would make sense that the DMA API is the broker to connect things as
-it will be more than just one GPU driver talking to itself.
-
-There is a journey to get there, but I don't think it is too
-complicated. It also probably ties in fairly nicely with the ideas
-coming for multi path PCIe fabrics.
-
-> So, if it isn’t clear — these vfuncs hide whether PCIe P2P is being used
-> (IOMMU in passthrough or enabled) or UAL is being used (physical or
-> virtual) for DRM common layer. They manage the resources for the
-> connection and provide the information needed to program the initiator
-> PTEs (address + “use interconnect” vs. “use PCIe P2P bit”).
-
-This looks like it is taking the DMA API and sticking drm_ in front of
-it :( I don't think this is a good direction for the kernel, DRM
-should not be internally building such key infrastructure.
-
-I'm confident we will see NICs and storage wired up to these fabrics
-as well.
+It is fairly hard as all the iommu page table implementations work
+this way. We can add some kind of flag to ignore holes for the new
+iommupt stuff, but the old stuff doesn't have a fast way to emulate
+it.
 
 Jason
