@@ -2,128 +2,230 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OIUoEGo3eml+4gEAu9opvQ
+	id 6FNQKAQ5eml+4gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 17:20:58 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 17:27:48 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A384EA574D
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 17:20:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11A1CA5A78
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 17:27:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37B5E10E728;
-	Wed, 28 Jan 2026 16:20:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E38410E1F7;
+	Wed, 28 Jan 2026 16:27:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="MnphS5im";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="P+JTEKD7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MnphS5im";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="P+JTEKD7";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="gH1rhDAU";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="gH1rhDAU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1861C10E728
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 16:20:54 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id BDF5933C6C;
- Wed, 28 Jan 2026 16:20:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1769617252; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UkhAKw21e14ck+yiPbEElRHWqryoXiTILmk1J+Ijs5o=;
- b=MnphS5imE0LTpnEhAQ6PIgwBv93oOkhP9fiyFPg6OrO6RHpPE06DNOI6O3qn9y0qeBcqYd
- U1v/ZuPfTz7hWxgL8am9pMp0OjMjXamvSJvp/lr1oXOtssGAK/i8HQzx9neyWJdo9k7Dw5
- pZ4iOuXbQ8MRjdCL9Oa+nJ0QHCW8M0Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1769617252;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UkhAKw21e14ck+yiPbEElRHWqryoXiTILmk1J+Ijs5o=;
- b=P+JTEKD7lmbdb3TuiyfEspF7U2rPWoHTECuQVXhzV/i1/TgfyOm9VJrNxRl0InouQTOIiD
- /FDuyJmkZMiY6nAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1769617252; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UkhAKw21e14ck+yiPbEElRHWqryoXiTILmk1J+Ijs5o=;
- b=MnphS5imE0LTpnEhAQ6PIgwBv93oOkhP9fiyFPg6OrO6RHpPE06DNOI6O3qn9y0qeBcqYd
- U1v/ZuPfTz7hWxgL8am9pMp0OjMjXamvSJvp/lr1oXOtssGAK/i8HQzx9neyWJdo9k7Dw5
- pZ4iOuXbQ8MRjdCL9Oa+nJ0QHCW8M0Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1769617252;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=UkhAKw21e14ck+yiPbEElRHWqryoXiTILmk1J+Ijs5o=;
- b=P+JTEKD7lmbdb3TuiyfEspF7U2rPWoHTECuQVXhzV/i1/TgfyOm9VJrNxRl0InouQTOIiD
- /FDuyJmkZMiY6nAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 237733EA61;
- Wed, 28 Jan 2026 16:20:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id k9NwB2M3emm5bwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 28 Jan 2026 16:20:51 +0000
-Message-ID: <0eb5c509-2724-4c57-87ad-74e4270d5a5a@suse.de>
-Date: Wed, 28 Jan 2026 17:20:50 +0100
-MIME-Version: 1.0
+Received: from DU2PR03CU002.outbound.protection.outlook.com
+ (mail-northeuropeazon11011070.outbound.protection.outlook.com [52.101.65.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7BC310E1F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 16:27:44 +0000 (UTC)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=LbT+06xSBR3jV1k7kTUMooXuWqpGJeit52qM5lGB+8NPFGZdxUXKNw5jOd1hOkRHRrHSstnch0eHp7LJ6Hbz9PoIX5eH3155biGDz5iSUanAaxLWaqQq75hLN/cqrL1nIMnmphfYt2bjuOMD9KyKuDbowDz+2tNQywIQgxIi17Ur3oGYYkzvLSPp3FveawD3dpAD1btumzXDkIzSUpexF4xujwH8fVXv1UpZHKDLVITDG0E0Svbml+bG1H6X0iiobrJZ2SNm8m0lZwokUqXh+79fGSVKqcy3pYZidMBQiwL0vzAYKOqGFQL3qmMX0kqhbKZLN7Av3rwJN6KIw8Un2g==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DZjr17Tub7DB7Nj+8KtKDNR+rudAU+o48ANZMCTOlpg=;
+ b=o0ycAw+5md1jJh3hQbEb3DJ503nihxaDDzeuYINMU0UBb1YuPlEXulvljp47AnHSS8YOYj9OhpmhnPCj82CJ0Mul5cmncj/9gEvOWmAmUC9XOEPqpglAmUmonYExXgqth4BMOgDF49BtTu/M71rpcRvKDAqjwVcze7T13ueAGy6U5Ghky18oY1szsY6ob7s8cOiNy5RIQt4vt+OZ2KVaHQEDruvIIebyy9W9Em53etyoj1G5iXNrbN91n17F+xDZ371agiPB4UQnmYxuQIwtWTXHChFR+fZ/pdUjKT0qRSYzxhyAT2Zt09llzbldSuIbQLm8uXHpg4QF2a6PmI8NcQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=collabora.com smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DZjr17Tub7DB7Nj+8KtKDNR+rudAU+o48ANZMCTOlpg=;
+ b=gH1rhDAUUFnUeDCFDWSIR4QLwTCqbkaSrJU4feMVEhoW4bmRMJWBcUVchh+3UKSbeFfEBZornGdXfZmwZbk5aLi6ABs4w4Aq+le7iDt63LkcOYVW2zVi8LwedRIOWCBQXh8oRnB1WE0Cs2JVQL3/MxrES5GltTid7Ijm2ixaNPM=
+Received: from AS9PR0301CA0029.eurprd03.prod.outlook.com
+ (2603:10a6:20b:468::10) by DB9PR08MB8291.eurprd08.prod.outlook.com
+ (2603:10a6:10:3dd::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.10; Wed, 28 Jan
+ 2026 16:27:39 +0000
+Received: from AM2PEPF0001C70A.eurprd05.prod.outlook.com
+ (2603:10a6:20b:468:cafe::98) by AS9PR0301CA0029.outlook.office365.com
+ (2603:10a6:20b:468::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.7 via Frontend Transport; Wed,
+ 28 Jan 2026 16:27:38 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AM2PEPF0001C70A.mail.protection.outlook.com (10.167.16.198) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.3
+ via Frontend Transport; Wed, 28 Jan 2026 16:27:39 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GFLX08gPLHwglj7NQVeSIscaB27CUEJ50EQaKB38uicgaft+n7W8vXfS2xuHggp24aToGLHHl1JnlH4TDBjoVXqCe/BK7kboWu6AR/faBSwv1y3VyONyByEJ8C7GhMM3Nyi97KPpvQMXmVTVVpOyFdqMDvo9SoIaTzg/XLHwZp5tcgjaMqOKpW6qB3ygRBbjEhhFvGTe6JagLiHjZ6jixNz2gQBaQR0LLj29QFcV/3VWF7XPVQmNjN4NjUsyhTJUBh3dmWuDJi6Edia/39xGgI5qtWrLt+Z4zJCuWTMZ8WB6QkjPX5L5dAK57Ud7xbqhLZD0g5aD0rCjNHnSjhAspA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DZjr17Tub7DB7Nj+8KtKDNR+rudAU+o48ANZMCTOlpg=;
+ b=xo3OL/3MPdMY1IURlIw28KyVGIkO9R+iGbzteQ4Qqv2OJmPPcU21OILcy7xQBkE5AY2HixOv0yPVD6lkfa2yG99FKHU7F3ErcI+vkXn8tLcY8J882RJDrIyveGF9dDa5AmHm5P1E4gYODGXOyxh/oha8/jhIPPYIX7MSsve8blpsRikc9y39Kq8UHx1mga96Hyst8xF/k4alYv/BRsJUpfFwAOamwtXuoL4Z06XEqPtH0m0ph7tXdkZwpkKt9nQf9rTIR+rsKDEFIcg8y9ipvtcffcOrhnKwTUJfXrgkAoeFTJ9ewiZO2BFOkUDoDsX3IsiKLNYM2jeyZy9JXou33Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DZjr17Tub7DB7Nj+8KtKDNR+rudAU+o48ANZMCTOlpg=;
+ b=gH1rhDAUUFnUeDCFDWSIR4QLwTCqbkaSrJU4feMVEhoW4bmRMJWBcUVchh+3UKSbeFfEBZornGdXfZmwZbk5aLi6ABs4w4Aq+le7iDt63LkcOYVW2zVi8LwedRIOWCBQXh8oRnB1WE0Cs2JVQL3/MxrES5GltTid7Ijm2ixaNPM=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from AM9PR08MB6982.eurprd08.prod.outlook.com (2603:10a6:20b:415::16)
+ by GV2PR08MB11817.eurprd08.prod.outlook.com (2603:10a6:150:302::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.8; Wed, 28 Jan
+ 2026 16:26:35 +0000
+Received: from AM9PR08MB6982.eurprd08.prod.outlook.com
+ ([fe80::65b:44e2:e002:6499]) by AM9PR08MB6982.eurprd08.prod.outlook.com
+ ([fe80::65b:44e2:e002:6499%4]) with mapi id 15.20.9564.006; Wed, 28 Jan 2026
+ 16:26:34 +0000
+Message-ID: <015ec400-7234-4926-a679-6d2085bb17bf@arm.com>
+Date: Wed, 28 Jan 2026 16:26:31 +0000
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 drm-dp 9/9] drm/hisilicon/hibmc: Add vga connector
- detect functions
-To: Yongbang Shi <shiyongbang@huawei.com>, xinliang.liu@linaro.org,
- tiantao6@hisilicon.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
- kong.kongxinwei@hisilicon.com
-Cc: liangjian010@huawei.com, chenjianmin@huawei.com, lidongming5@huawei.com,
- libaihan@huawei.com, shenjian15@huawei.com, shaojijie@huawei.com,
- jani.nikula@linux.intel.com, dmitry.baryshkov@oss.qualcomm.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250331074212.3370287-1-shiyongbang@huawei.com>
- <20250331074212.3370287-10-shiyongbang@huawei.com>
+Subject: Re: [PATCH v1 9/9] drm/panthor: Add a GEM shrinker
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Clark <robin.clark@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Chris Diamand <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Alice Ryhl <aliceryhl@google.com>, kernel@collabora.com, nd@arm.com
+References: <20260109130801.1239558-1-boris.brezillon@collabora.com>
+ <20260109130801.1239558-10-boris.brezillon@collabora.com>
+ <714d2b72-67df-4590-9943-6289886c0a89@arm.com>
+ <20260121155238.2a6c0274@fedora>
+ <77dec915-da6d-4ff5-b949-a883288f2672@arm.com>
+ <20260128165214.248ef333@fedora>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250331074212.3370287-10-shiyongbang@huawei.com>
+From: Akash Goel <akash.goel@arm.com>
+In-Reply-To: <20260128165214.248ef333@fedora>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P265CA0049.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2ac::12) To AM9PR08MB6982.eurprd08.prod.outlook.com
+ (2603:10a6:20b:415::16)
+MIME-Version: 1.0
+X-MS-TrafficTypeDiagnostic: AM9PR08MB6982:EE_|GV2PR08MB11817:EE_|AM2PEPF0001C70A:EE_|DB9PR08MB8291:EE_
+X-MS-Office365-Filtering-Correlation-Id: d1d77294-6e6d-4f9b-1a3d-08de5e8a276a
+X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+ ARA:13230040|1800799024|376014|7416014|366016; 
+X-Microsoft-Antispam-Message-Info-Original: =?utf-8?B?QWFBWTg3ejd4dkpHWlg3Mjh6Z3pXVXFHbE10SnlZRmhIN2xwT2NwbGFzNnk5?=
+ =?utf-8?B?TlFZR1dESlk1VFQzOTFmQjV4WWJSSmluRzYvQWxzMHJ0dy9nVVd6bWZSOWtW?=
+ =?utf-8?B?bVZQdjgvRWJ0dFdaOU1NcTkxRWpBb3owMkRudU1aWndWWVpDUTZoS2hXdGVn?=
+ =?utf-8?B?ZGdiKzZZcWZmRWR6L21yNzNpR05GSDlYS3ZESm9tb05WLytEQTZEaUhHb2ZY?=
+ =?utf-8?B?TjZJdmFETWNKUEIyaWJveE12QmpaMXZLcEkzNXhxWkVYdlk4L3NCTkIvbERY?=
+ =?utf-8?B?czhLOVBIWU00ek9idnJ1aEp3Y2Z0MmZrZnYrSG1HRVhQbDRwOVFNcXJteDAy?=
+ =?utf-8?B?UkNlcS9kRzFwRHFTYk5PSDBmdDJXNFgzRUgwKy9rcDZNV21NUGFUQjRZcFp0?=
+ =?utf-8?B?QUE0eU1IZ3prZFhQTTErNnNGSXVkeFE2VFg1VCtVbkY1VUNPMHhpZHd3UGhM?=
+ =?utf-8?B?YjNmWmhhdFFDaHBPKzRGcEJLMFQ5ZDVBT1Q3aXIrSHcxdzhZcjI5K29kQ2l1?=
+ =?utf-8?B?QWxQeEl6eHBvT1J4V2NuOXZqWExLZ1ZSc1Z2ZElFT3llZFpDc2QyNWd6T3ZI?=
+ =?utf-8?B?aE4yR3ZDbnVaWXJ4NWRkM0o0R2VxdmFnblp1TGkrVEIvcERhVTN3Ynd1bUh3?=
+ =?utf-8?B?V3JJSjBYa1BxWDZQM2JYeEwySWFMdE52ZXJNakZIYlZtOXVCazUwcVBoOHg4?=
+ =?utf-8?B?Kzg5aTNpWTZReVlwUGdxNHpTMy9JZTdCU1lDa1dSZmtyMDJZTWhVNjlSakdM?=
+ =?utf-8?B?N2NPQkdnaDJxd0pvRnFxbHZYUjJZeS9TWGo1b2p0U3krNWcvY3lKMFZDSm1x?=
+ =?utf-8?B?c2VUeGM1YXNldE5ycmJlQkZDdUl2K3hiRWdlbG9EaVI0anZmN3M5SnlodWRi?=
+ =?utf-8?B?KytLZEtPZUc4Z0xEbnpFTDRvTk53aXYzc2NPeXJCM1BTTk0xM0NmZXdVekpB?=
+ =?utf-8?B?S0RQWEU1dzNSQkhXZWlacVZXZzRUZCtJdDJtL29hNGdDWE14ZnpKNmRkWWRm?=
+ =?utf-8?B?aFNyRjdScTAwL3RuVGR2dHNYS2hxM0VwMGRvOFpONGF0Z3poWHBuaVB0VXFI?=
+ =?utf-8?B?N2IvYmNSZTNvY3FYTFpHbnU5QmljNDIxYXJoY1FFUW9Oc0pqTTg4eFFzeWFO?=
+ =?utf-8?B?RjFhYkpYRVd1T3RPUzBGWmRUYVZER2ExZFE0MXkxc3J1aXF0QkYrZ25aOCtI?=
+ =?utf-8?B?NjZkL1NUclFoZE5peGtPUTZqbXNRelJoTkVhYzM4eFRhT3JLeXp1SDNnYWli?=
+ =?utf-8?B?N3luWmNZS1loL2F6UmdMWk1ZdS9vZ2FNZ2dHUU0vbzlUQ2ZQZk9SY0NZYVF6?=
+ =?utf-8?B?cGhyMnkyT0o5MmhHdkZyclpqR3NPRUNzb0h3RWsyVG1iRktRY252QnNUY2xY?=
+ =?utf-8?B?RDNrTVpXNlJhc2dlRkdmTHFNcXFmUVArZ2lmUzBiT003WGJFN3FsY1pUOUxY?=
+ =?utf-8?B?VEl5WGc2QzRYQmpMcnRQUWN6VTZUWmRNUU84dm5HcXpjaTI2a2NuVWhXV2la?=
+ =?utf-8?B?c09yL3BJSnIzNkh4bEZYYnNQb093ZDN6R3VrMysrTjNGbUgvRFM0UURDOE5U?=
+ =?utf-8?B?Y3RodmpLMjBxMmFiYWNTQVc5RkI4T1JBQm41RGI4dWVyUisxTm9TaXFMa1Rs?=
+ =?utf-8?B?VXdmUnk5RDAyZW9Gdll2eGtmZW5aKzVMM0NsdlpzWHRMb1hUUTVwQlI0dXh6?=
+ =?utf-8?B?WG01RUw5OUNFYVp6aUJmWTQ4MXRxT01Md1V3RjdwQlVqd3VvemViZUNKOEcz?=
+ =?utf-8?B?MUFpMlVIZGNjQTcwUEhyejVEcmZLbUhybG4rQXRCWU1FRGdsVWdOWWhnOXpC?=
+ =?utf-8?B?Y3FMT1RVS1pRcXY0UHF4NXlLRnhETTMrUWhxRlEwSW01UWgvR2VDMWdDQXlO?=
+ =?utf-8?B?OG8xR0wxZHNDSGxYc25pYU03MHcxU1VSc3Y3TzJyVDBMM092RHBqUGwwRDZB?=
+ =?utf-8?B?bXNtaG1zZU5vRllGZUpUdWVyY29WRExkSnNqUStVVUhUNlA1WkVjaitHbzhl?=
+ =?utf-8?B?R2wyRVNybVNmVFYvZm0wZ3lscDVpODRobFJZSE44T2UzNk1Pa2w5ZnFJZURO?=
+ =?utf-8?B?VEJBMjhYc0pnTkxkNEE3NFprNkJrQVBPUldiWWdGMDZMV3lWa1pIbkdSYW5O?=
+ =?utf-8?Q?fvh0=3D?=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM9PR08MB6982.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE; SFS:(13230040)(1800799024)(376014)(7416014)(366016); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB11817
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM2PEPF0001C70A.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 24c05686-bf4f-4bd9-f439-08de5e8a003f
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|36860700013|35042699022|376014|82310400026|14060799003|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UUZERVFzYXFneFQ5eWp4ZEhGVFZMd0pqTFNrUWtXUUp5dytrbFlGNWpTemxQ?=
+ =?utf-8?B?R2pkaHA3T2ZyaHlQa3RJTEF6aDRYMjg2Yjh3cjB3dmtTV0tuUlVCOTg3U0dn?=
+ =?utf-8?B?cVU5Rk01ODlSZktCc2kvb04yQ3pBcTNCeGFkNGFQZXlTUjEzRWhZRnREQkRz?=
+ =?utf-8?B?d3Y0NmkxRTFVTlhRNDdvcU4zTUZQV3pxL1RiUHV4QXZ1V1llYlhqaHlvUVkw?=
+ =?utf-8?B?Q0c1QmV2cE5Rb3ptazZlMHllb3MvV2ZyQ3Fwd1B0WFpLNWxyeFJtNU10dEVG?=
+ =?utf-8?B?YkJZV2pBUndWQXhBMi9rdlg2OVhpejV4WEJVWkRkWEhhL0RvckkwSSt1Y1Y1?=
+ =?utf-8?B?Q09GZktSZHZmZk10d3lxcXQrRU9kd3krakhKN0lxVkZ6dS9tblJSVXNHRk4v?=
+ =?utf-8?B?WUJSdllBWGRpZ2kyWWRPRVJpQVlwTGxMMENKbTE2QzBjb0xlUmNyUmNXdTlw?=
+ =?utf-8?B?dm42NmkzYmR3YkcrdkZ1NDhpR2NWVk9pKzRNZFQwQ3N3WVBRUkFsZDV2S0dO?=
+ =?utf-8?B?elhaMXF1Qm92bmlMODFuaXZxc0xTODJETmhyeFRNREw2S1RUdGViaTk2aGNZ?=
+ =?utf-8?B?T2tJR2R2Y1R5TThTSVI4ZlA0RGlkOWtmV0c2eGt4Smh6QnJFQUg0a1dsdzRs?=
+ =?utf-8?B?ZFJoaWxXYlk0TSsyRk9LOEplU1lDaUxsbTF6UUV0Wi9saC8rdThPQjc3bVli?=
+ =?utf-8?B?RVlTeU51TTNwNWJLbXp0Z3RxSnQrcndQTmVVTWpqL2tYQmFsUXN5UEhXNG14?=
+ =?utf-8?B?eGo3Z2RaZExhcHFqbGNoVGhycnFENDVHMUtIa0tNZHVpZjh5alBsTGV3dXlp?=
+ =?utf-8?B?TmVGSjBwUmVuaXlMVnBEd0cxU3djZXRjNld1YjRjaHNKSHhSY0Q1OEx6S1dr?=
+ =?utf-8?B?OUpOMzNmUjI2OEpwVjg1Wmo0MGhITk9NZ3E5UUMrSnlDbm9aK0Z0QlNoQlpu?=
+ =?utf-8?B?VUlhUkJNcjhWMVdTVGl6dEVvRzJZbUdFMmZpT3pwQWFFRmhRNjVuZnZObjky?=
+ =?utf-8?B?azRNSVIyU1FWbS9oTXA4K0NXNnBTRDgrL3l6c0hydStycW1qMHlFUlkzWVh6?=
+ =?utf-8?B?MGVQNW9qbE5CaEdzM3RoME02STA1cENqSUd3bmkvYjdsQ2p5a255RVpFNDlK?=
+ =?utf-8?B?WjV4STgwaGVKK2U1MFJ1ay92ckFpM2RJelM5QTdqTEZFV3NOUnAydzZqeHdt?=
+ =?utf-8?B?ckdrUGVxVUZ5WjZtTHUrMXlCRHJIVzZVRE9jWXpOWFBDMHp4dnFNVFBxV0FC?=
+ =?utf-8?B?cjdKendtM0NiSVFweGxyanV6WVpYOWNydzN6Nm9MdHc3YmJiVFhHb3R4VnVN?=
+ =?utf-8?B?TjFST3d2dmJGdlllZDlRbTNqNHpjTU9sZXVPY0RJaDJHSXBybkJ0aG5pNm9m?=
+ =?utf-8?B?alI3US9XZGJ5U3d4djI1QXY0MjZobkNVU2t3MzBLT2VsV2lyS0M2NVV2cFVD?=
+ =?utf-8?B?Mmx6M0Y0ZVN2THdsSEY3Q0VhMjB3Y3hiOEV1anRGMWpTbjQrcTVkdzZBMGdz?=
+ =?utf-8?B?c3JUaUpmM0FxeVQvS1RwVG9MbTV0UVQzZnJrem5xc29pUmo3TER6N0NobXFS?=
+ =?utf-8?B?VXYwTkRUL3h0SUF2K0tWR3AzRnl5bmtLdEFpOHdMRkhTZTh2SXZBeEYyU2c2?=
+ =?utf-8?B?R3U3KzVUZ2RMK0sxSjdCRlAxY3BLbE1Kbk1ZWEJBR0xtdkxKQUh5OC85TVpN?=
+ =?utf-8?B?M0lBYUpzY21FR0VmcmU4LzZMMHUwaTlRaDBQZmdmTHJ3cis3cHFyQ1dtYktp?=
+ =?utf-8?B?RWRHOUE1UkppZkNVZEtTSitUS2YyMTdvWjNmazgxY2x4d21vZlN3cWQ3V1V0?=
+ =?utf-8?B?Tnc3RVdRc1dGdGZORW5hSzc5ek91VmFzckxhbm9NRXFhRmovQlVmUjF2djRI?=
+ =?utf-8?B?cklCcTQvTUc3bDY1OGVCa2xvRVhOYjhTMEd4QmNqeEpkS3IybFMvSFh3U2JV?=
+ =?utf-8?B?eXQ2OTR4Vjk1Q1NUQUF0Y0NZdElhckUwZ04vZ0xFL1R6VUpYSWNqWGh3TlRO?=
+ =?utf-8?B?NVg0S1JkMWMyOWd1SzkyR1NEYm51RmlEWnEwQXUzL1FEbU9UY2JEdUErSWRu?=
+ =?utf-8?B?d0FpR29RMHZIc0p4VmFJVFdzUVV0Rk00bkVGTWhSaWZKSmVHaHVKTlZFR2Jm?=
+ =?utf-8?B?bHFpalk1SVRNMHdvWnBtV0pRdXc3TmNzTDRRcWFTcmFVOG1zdkxTazZtaGMx?=
+ =?utf-8?B?elFad0NITnhXcmN4YVVrdmMzSFBraXdpUlExRUI1NE9LN2w0T0hlTE1iWU4y?=
+ =?utf-8?B?OW9tbXlFaWt4Q1huczRra0cveThBPT0=?=
+X-Forefront-Antispam-Report: CIP:4.158.2.129; CTRY:GB; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:outbound-uk1.az.dlp.m.darktrace.com;
+ PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(36860700013)(35042699022)(376014)(82310400026)(14060799003)(7416014);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 16:27:39.2058 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1d77294-6e6d-4f9b-1a3d-08de5e8a276a
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[4.158.2.129];
+ Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM2PEPF0001C70A.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB8291
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,105 +241,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[arm.com,none];
+	R_DKIM_ALLOW(-0.20)[arm.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:shiyongbang@huawei.com,m:xinliang.liu@linaro.org,m:tiantao6@hisilicon.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:daniel@ffwll.ch,m:kong.kongxinwei@hisilicon.com,m:liangjian010@huawei.com,m:chenjianmin@huawei.com,m:lidongming5@huawei.com,m:libaihan@huawei.com,m:shenjian15@huawei.com,m:shaojijie@huawei.com,m:jani.nikula@linux.intel.com,m:dmitry.baryshkov@oss.qualcomm.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:steven.price@arm.com,m:liviu.dudau@arm.com,m:adrian.larumbe@collabora.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:akhilpo@oss.qualcomm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:dmitry.osipenko@collabora.com,m:chris.diamand@arm.com,m:dakr@kernel.org,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:aliceryhl@google.com,m:kernel@collabora.com,m:nd@arm.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[huawei.com,linaro.org,hisilicon.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	FORGED_SENDER(0.00)[akash.goel@arm.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	FREEMAIL_CC(0.00)[arm.com,collabora.com,lists.freedesktop.org,gmail.com,ffwll.ch,oss.qualcomm.com,poorly.run,kernel.org,linux.intel.com,suse.de,intel.com,google.com];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,arm.com:dkim,arm.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FROM_NEQ_ENVFROM(0.00)[akash.goel@arm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[arm.com:+];
+	NEURAL_HAM(-0.00)[-0.999];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:url,linaro.org:email,suse.com:url,huawei.com:email]
-X-Rspamd-Queue-Id: A384EA574D
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 11A1CA5A78
 X-Rspamd-Action: no action
 
-Hi
+Hi Boris,
 
-Am 31.03.25 um 09:42 schrieb Yongbang Shi:
-> From: Baihan Li <libaihan@huawei.com>
->
-> Because the connected VGA connector would make driver can't get the
-> userspace call, adding detect_ctx in vga connector to make HPD active
-> userspace.
->
-> Signed-off-by: Baihan Li <libaihan@huawei.com>
-> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 3 +++
->   1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-> index 05e19ea4c9f9..e8a527ede854 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-> @@ -60,6 +60,7 @@ static void hibmc_connector_destroy(struct drm_connector *connector)
->   static const struct drm_connector_helper_funcs
->   	hibmc_connector_helper_funcs = {
->   	.get_modes = hibmc_connector_get_modes,
-> +	.detect_ctx = drm_connector_helper_detect_from_ddc,
+On 1/28/26 15:52, Boris Brezillon wrote:
+> Hi Akash,
+> 
+> On Wed, 28 Jan 2026 11:21:43 +0000
+> Akash Goel <akash.goel@arm.com> wrote:
+> 
+>> Sorry I have a doubt.
+>>
+>> Should we update the panthor_gem_sync() function to ensure pages can't
+>> get reclaimed whlilst they are being synced ?.
+>>
+>> panthor_ioctl_bo_sync() takes a reference on the BO before calling
+>> panthor_gem_sync(). But I think due to this patch, the backking pages
+>> can get released in the middle of sync loop.
+>>
+>> 	sgt = panthor_gem_get_dev_sgt(bo);
+>> 	if (IS_ERR(sgt))
+>> 		return PTR_ERR(sgt);
+>> 	for_each_sgtable_dma_sg(sgt, sgl, count) {
+>> 		dma_addr_t paddr = sg_dma_address(sgl);
+>> 		size_t len = sg_dma_len(sgl);
+>>
+>> 		dma_sync_single_for_device();
+>> 		dma_sync_single_for_cpu();
+>> 	}
+>>
+>>
+>> Please can you confirm.
+> 
+> I think you're right. We either need to pin/unpin around a sync
+> operation, or we need to take the resv lock to make sure the GEM is not
+> reclaimed while we do that. It probably makes sense to do the latter,
 
-This change exposed a bug in the hibmc DDC support.
+Fully agree with you. The latter option is better.
 
-Calling drm_connector_helper_detect_from_ddc() does not work correctly. 
-The i2c transfer never receives the monitor's EDID because of an 
-internal error. It fails with -ENXIO.  The error originates at [1]. Th 
-values of ret and nak_ok are both 0 when that happens.
 
-As a result, the VGA connector is always marked as disconnected.
+> since we don't want to prematurely pull back the data from the swap
+> just to synchronize CPU accesses (the
+> dma_unmap_sgtable() in panthor_gem_dev_map_cleanup_locked() should have
+> synchronized things for us on a swapout).
+> 
 
-To fix this, maybe something else has to be enabled first. There seems 
-quite a bit of power management in hibmc_crtc_atomic_enable(). Maybe 
-some of that has to be done before the i2c transfer as well?
+Right, the sync would happen inside dma_unmap_sgtable() on swapout.
+
+I think we may hit the following warning, inside 
+panthor_gem_dev_map_get_sgt_locked(), if BO_SYNC ioctl is invoked for an 
+evicted BO.
+
+	if (drm_WARN_ON_ONCE(bo->base.dev, !bo->backing.pages))
+		return ERR_PTR(-EINVAL);
+
+So we would need to take resv lock inside panthor_gem_sync() and also 
+return early if bo->backing.pages is NULL.
+
+
+> I'll fix that before posting a v2.
+> 
+
+Thank you.
 
 Best regards
-Thomas
+Akash
 
 
-[1] 
-https://elixir.bootlin.com/linux/v6.19-rc5/source/drivers/i2c/algos/i2c-algo-bit.c#L514
-
->   };
->   
->   static const struct drm_connector_funcs hibmc_connector_funcs = {
-> @@ -127,5 +128,7 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)
->   
->   	drm_connector_attach_encoder(connector, encoder);
->   
-> +	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
-> +
->   	return 0;
->   }
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+> Thanks,
+> 
+> Boris
