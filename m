@@ -2,136 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wO8VMCtXeWlIwgEAu9opvQ
+	id qMM2F/hceWnXwgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 01:24:11 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 01:48:56 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E5AA9BA37
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 01:24:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D4599BB9D
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 01:48:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3221E10E0EB;
-	Wed, 28 Jan 2026 00:24:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7683110E5E0;
+	Wed, 28 Jan 2026 00:48:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="maVcucA8";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kACxfDVm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY7PR03CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11010022.outbound.protection.outlook.com
- [40.93.198.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0CC610E0EB
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 00:24:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=b56PqMsj9se3lCWmPk0VqNJWR9KH8H6Z3wndRMiOch8oC3MEXHMdxHPxKSYZJRuE2V6rOVkeqH08lwSso0bgIdQm92ucjGZXJFZCohnxDvo/0N9FeOYGPs4sNZR5D6MvgBFxWlPMUfVwGmcMF8EAOUa6cYG2CJHRWrScfliSyT50khdwaESCsqmF3XH3hs3PJsNe2ymHwCwDNkpDhfk1GfRlr12EFYPC7xbmNLGegsnK0N8Y263XZUKPgn8n6/ivGwh36DyrMuYXTSOCURQ62M37TzCn6ijaMut/HUeJyF0Vuj3/4gx5FUo16LOhu4vnetY5907t2+08nL/XzbxQcw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=37gDY//ploPVJ43mOdncxSIlqX4Uy+5EVZcvFX70XUE=;
- b=Rn9Tz/uYeipbCyafQCyo/xdxIjNJRrFHbHg/QmC5p2Zlh9G954hGTReiDtXeh00Z7BfqxukJ6pEBkNUtKc1QrPfJauQ1lwWEqQq97e6KfdVlOQ/C2EpQUHAgMOFSf92x3/zuZa3uJQn3tXmeFWK9BSq9jD5ePRZrG85t4uN2WOg7qHuRyv3/4uF/TEvzmG7C3R3pW8Gn02TrctMLEnbMgAQ8h8Zc/r+J0KfYiIUEh45BkcMFHwTG01c9VaVLR/8V0Xsj3XkfyG4Cm77vUkfxGXUjeqbN+WQ4x0LJh1AUVtAJ+RF/GSbBT/bvc+/BkPTAR09dsSm6nT6NJ+h40DZaXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=37gDY//ploPVJ43mOdncxSIlqX4Uy+5EVZcvFX70XUE=;
- b=maVcucA82LWuawGBOa/Y5S60USfmr41a3hGW34DUEtW7uw+E5gQNcwA6wJR8VU04X0f3cN8uqxsXAPuL2z+o4xoghEQ877mK6iX/GtA7gMtV6Ta+t/ShFcpCZrHkxIsUnmZGlSkZwodCYnmlv4bia7bvyAl7O9/il5yrxghQ6ms=
-Received: from DS7PR06CA0021.namprd06.prod.outlook.com (2603:10b6:8:2a::23) by
- IA0PPFF4B476A86.namprd12.prod.outlook.com (2603:10b6:20f:fc04::bea)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.16; Wed, 28 Jan
- 2026 00:23:59 +0000
-Received: from CH3PEPF00000016.namprd21.prod.outlook.com
- (2603:10b6:8:2a:cafe::2e) by DS7PR06CA0021.outlook.office365.com
- (2603:10b6:8:2a::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.8 via Frontend Transport; Wed,
- 28 Jan 2026 00:23:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CH3PEPF00000016.mail.protection.outlook.com (10.167.244.121) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9587.0 via Frontend Transport; Wed, 28 Jan 2026 00:23:59 +0000
-Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 27 Jan
- 2026 18:23:59 -0600
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb10.amd.com
- (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 27 Jan
- 2026 18:23:59 -0600
-Received: from xsjlizhih51.xilinx.com (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Tue, 27 Jan 2026 18:23:58 -0600
-From: Lizhi Hou <lizhi.hou@amd.com>
-To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <maciej.falkowski@linux.intel.com>
-CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
- <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>
-Subject: [PATCH V1] accel/amdxdna: Hold mm structure across
- iommu_sva_unbind_device()
-Date: Tue, 27 Jan 2026 16:23:56 -0800
-Message-ID: <20260128002356.1858122-1-lizhi.hou@amd.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 999FF10E5DA;
+ Wed, 28 Jan 2026 00:48:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1769561328; x=1801097328;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=GSmVERaQj0ngdCVZ2PIvfqkVQNDMvY5d6l/2GaPSKBc=;
+ b=kACxfDVmJ4VFq2rIZd5TRnu4fR9oUmLBW6mkthCyNTKvbOOA1VPxZsvn
+ qEY7QsGBj+QymThveaYaBVF23UfC+axLGpzQVBN1w7t7GENlWU7PRhY/b
+ 3syL/OFghMqkKxi75Zlyc/YloNDY9zkJczMtAk+BsnvYqddEbo/i/azcI
+ thUZP7DKYMD0o0AAZA/sd3c45wwsvZW67v9yx0Fkky5V0iBQrh6fLmsor
+ WF/22gP2oLoIPbT2xNW5Nfoa6cLhtrVL8DyKCuev8Aj2+5uTYKxz8W6Ka
+ 5MrG7LWlJpxFfZtrUX95MZcT/idByObhscnRNvd9r3UGEwuH1avX6Z67q Q==;
+X-CSE-ConnectionGUID: YQSSHTvES9ugnES4D5DncA==
+X-CSE-MsgGUID: XjkzWqGxTBKOLc1OiOfJIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="93427502"
+X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; d="scan'208";a="93427502"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jan 2026 16:48:47 -0800
+X-CSE-ConnectionGUID: b8pYwTrJQqy+JV+KQ2xdDw==
+X-CSE-MsgGUID: jOwupUI1SMCOzDcZHkq0Xw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; d="scan'208";a="238822634"
+Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jan 2026 16:48:48 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: leonro@nvidia.com, francois.dugast@intel.com,
+ thomas.hellstrom@linux.intel.com, himal.prasad.ghimiray@intel.com,
+ jgg@ziepe.ca
+Subject: [RFC PATCH v3 00/11] Use new dma-map IOVA alloc, link,
+ and sync API in GPU SVM and DRM pagemap
+Date: Tue, 27 Jan 2026 16:48:30 -0800
+Message-Id: <20260128004841.2436896-1-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF00000016:EE_|IA0PPFF4B476A86:EE_
-X-MS-Office365-Filtering-Correlation-Id: 391d42d9-cc52-4b1f-29ca-08de5e038839
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|82310400026|376014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?wuEM61dWEc1BuxDBVqQcVvG5RmM6pDmk/Tdi0wzkOudkq4xMmofl7lBdL7kU?=
- =?us-ascii?Q?WMOwD/vsd6JDNlvea+cTXjvhzDLy49m99hYwzQelA6HK/ceYxhxjOOaH5KrZ?=
- =?us-ascii?Q?cFX+pLR/t0xxDT7E+B88fwMcsqtfZxEUIU9F42TBmkesRCxMEb2gO3PeXxP9?=
- =?us-ascii?Q?MuSCX7rnyKDVL3P9PYuqgEPvuKIjMMq0P7zG65Av1xHp/1hr191Gnhk/5PWz?=
- =?us-ascii?Q?a3tSJ6O7O2u5Nd4DsODbsIQJuxaemOFCioNifuL6owPvZt+S8PvTxsYe6sQF?=
- =?us-ascii?Q?9SKGEsPY8Yy1Jrr5ZVhSb6Gyavy46HB9oZDiGh0ifaI0T8UW/rRi59ltjl87?=
- =?us-ascii?Q?erFhJfWN/MFCdlwMORuh6e5C5lhnj+wb0tn36osPVNfbswi7SgSRMawgTLEl?=
- =?us-ascii?Q?n6FRv+DQ5qTorpV3da2iHsJ33dMZU/8okRlHAWEmL8u1SWwB0cEEds3KJCbs?=
- =?us-ascii?Q?3t0HlPZsG1pK/n4684dauVVCxcyb1n4kI7ufb8y+aTDmaBx7/i5wyvAfeWuf?=
- =?us-ascii?Q?iKStzwqpnUc3/9hFf2bELIILQWFsIkge9qo6nzNuKy0fiz498QlkOOy/+rwp?=
- =?us-ascii?Q?+fmgmD/WKc+PjuYdLGCcp5R/k43riSzIXWv6KdUjdFtZfvPJuG4wii9092de?=
- =?us-ascii?Q?D7nW/BQ9Z+2wXR3QOPh5f2pXxlJlhHwToEQvUiiiPbxQoaDQYAUVW/EoFPaq?=
- =?us-ascii?Q?YZzFIBpP101nznwAlm/8Ns0ymcpSBQ6cyJU/swMyyUyXFhco8fjBttTRQ1Vg?=
- =?us-ascii?Q?vFz4oxQhmNDVV7dxLIis/ERrO6DbEKPJgvUbSF6+AWgjFEvejeDum7mc6REU?=
- =?us-ascii?Q?l8wKuoxU8orYx31RKgz4Zn+gCVEwCcMFiDxcCm5ONOSLGdROsiuhyOqZ6oXl?=
- =?us-ascii?Q?t/L+yFP8Tdk8f3PJytES+1bIqk/IcBKW5k0v2RyjbTMq9LbD+wSjFEnIhOni?=
- =?us-ascii?Q?wYjawEO4FF9EkNX9EiBkPkY5WYk19eyZFU1Jhn3ZOA/3oT+VZipFTMvzfJgc?=
- =?us-ascii?Q?C/G5j1KmYEhEV3SImO5MPGPAJttdmv72DuUFmYWdVpEyVHzcy+iG+5VtdOin?=
- =?us-ascii?Q?EiA9yIty+bN6qSOL0o06KKJVcHYV5W1kjoi5v0UdRd8gk9omymGj6LdmfUrt?=
- =?us-ascii?Q?wpoYLf+apWs8zwaMSJRvp9MMmMuHEcnw3zUsvr8V0HvnQK9dJsclLXlCpUjM?=
- =?us-ascii?Q?VhuoXMXRJzgNJqDV4i5YZfN0FcioQUij8wtG1DEjUyy0nnJ9wt28+BiEwFBM?=
- =?us-ascii?Q?+po4RNF7mDT9N2xfx/MglYqFIqpn+n/b2qluseG4g4Zo0vG7Xc1JAhxG+DZS?=
- =?us-ascii?Q?iy1IkW2gE6Rbr1oMv5TgHRMP3/xcLFN8o1IJ8kGcPaMyOq4fcjFNtPbj97G+?=
- =?us-ascii?Q?AONNOF/aYQWOdvws9ow+cVRkzkc6Zl5K3ZGE+5fCwIkJbs2I0+/nkPg91STH?=
- =?us-ascii?Q?l+LIGxZRAr1kjNEuUJn891IaNgL8BKmX3XLd16SXNqK8oVOq4r4ReFrG6yfd?=
- =?us-ascii?Q?9MvLmFvjSd1XeQDwLPlzcDqQxYnuBtVVc/AdVG696/aL1fDiJ+zYbxxl3BnP?=
- =?us-ascii?Q?TxaR3dv3bKcbOFfDQZel7YzQXmEZFh2n20/wO4UysRtcP/ex4H/JUWVohX/f?=
- =?us-ascii?Q?ehO2AAcWRhNkc7yfjtqZpYodSZltPaH4PFIl2Ws+g4Js87f6F5Luy4oW6z/1?=
- =?us-ascii?Q?wv7Leg=3D=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 00:23:59.5996 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 391d42d9-cc52-4b1f-29ca-08de5e038839
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CH3PEPF00000016.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PPFF4B476A86
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,88 +74,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:ogabbay@kernel.org,m:quic_jhugo@quicinc.com,m:maciej.falkowski@linux.intel.com,m:lizhi.hou@amd.com,m:linux-kernel@vger.kernel.org,m:max.zhen@amd.com,m:sonal.santan@amd.com,m:mario.limonciello@amd.com,s:lists@lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:mid,intel.com:dkim];
 	TAGGED_RCPT(0.00)[dri-devel];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_THREE(0.00)[4];
+	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_NONE(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[8]
-X-Rspamd-Queue-Id: 0E5AA9BA37
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+]
+X-Rspamd-Queue-Id: 0D4599BB9D
 X-Rspamd-Action: no action
 
-Some tests trigger a crash in iommu_sva_unbind_device() due to
-accessing iommu_mm after the associated mm structure has been
-freed.
+The dma-map IOVA alloc, link, and sync APIs perform significantly better
+than dma-map / dma-unmap, as they avoid costly IOMMU synchronizations.
+This difference is especially noticeable when mapping a 2MB region in
+4KB pages.
 
-Fix this by taking an explicit reference to the mm structure
-after successfully binding the device, and releasing it only
-after the device is unbound. This ensures the mm remains valid
-for the entire SVA bind/unbind lifetime.
+Use dma-map IOVA alloc, link, and sync APIs for GPU SVM and DRM page,
+which mappings between the CPU and GPU.
 
-Fixes: be462c97b7df ("accel/amdxdna: Add hardware context")
-Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
----
- drivers/accel/amdxdna/amdxdna_pci_drv.c | 3 +++
- drivers/accel/amdxdna/amdxdna_pci_drv.h | 1 +
- 2 files changed, 4 insertions(+)
+Initial results are promising.
 
-diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c b/drivers/accel/amdxdna/amdxdna_pci_drv.c
-index 45f5c12fc67f..fdefd9ec2066 100644
---- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
-+++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
-@@ -82,6 +82,8 @@ static int amdxdna_drm_open(struct drm_device *ddev, struct drm_file *filp)
- 		ret = -ENODEV;
- 		goto unbind_sva;
- 	}
-+	client->mm = current->mm;
-+	mmgrab(client->mm);
- 	init_srcu_struct(&client->hwctx_srcu);
- 	xa_init_flags(&client->hwctx_xa, XA_FLAGS_ALLOC);
- 	mutex_init(&client->mm_lock);
-@@ -116,6 +118,7 @@ static void amdxdna_client_cleanup(struct amdxdna_client *client)
- 		drm_gem_object_put(to_gobj(client->dev_heap));
- 
- 	iommu_sva_unbind_device(client->sva);
-+	mmdrop(client->mm);
- 
- 	kfree(client);
- }
-diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.h b/drivers/accel/amdxdna/amdxdna_pci_drv.h
-index 6580cb5ec7e2..f08406b8fdf9 100644
---- a/drivers/accel/amdxdna/amdxdna_pci_drv.h
-+++ b/drivers/accel/amdxdna/amdxdna_pci_drv.h
-@@ -130,6 +130,7 @@ struct amdxdna_client {
- 
- 	struct iommu_sva		*sva;
- 	int				pasid;
-+	struct mm_struct		*mm;
- };
- 
- #define amdxdna_for_each_hwctx(client, hwctx_id, entry)		\
+Baseline CPU time during 2M / 64K fault with a migration:
+Average migrate 2M cpu time (us, percentage): 552.36049107142857142857, .71943789893868318799
+Average migrate 64K cpu time (us, percentage): 24.97767857142857142857, .34789908128526791960
+
+After patch 4 in this series CPU time during 2M / 64K fault with a migration:
+Average migrate 2M cpu time (us, percentage): 224.81808035714285714286, .51412827364772602557
+Average migrate 64K cpu time (us, percentage): 14.65625000000000000000, .25659463050529524405
+
+After patch 5 in this series CPU time during 2M / 64K fault with a migration:
+Average migrate 2M cpu time (us, percentage): 158.52901785714285714286, .42740093699505625280
+Average migrate 64K cpu time (us, percentage): 14.00000000000000000000, .23276613905846987437
+
+- Patches 2-4 implement dma-map IOVA API for system pages
+
+- Patch 5 optimizes this a bit but questionable if we need if this
+  needed if 2M pages are enabled
+
+- Patches 6-11 implement a IOVA API for multi-GPU PoC. I'm told drivers
+  shouldn't call dma-map IOVA API for multi-device but including it as
+  reference for a design we'd like to get to with high-speed fabrics in
+  mind.
+
+Still an RFC as patches 6-11 may not be able to merged in there current
+form, the series can be split if needed to merge eariler patches.
+
+Matt
+
+v2:
+ - Include missing basline patch for CI
+v3:
+ - Fix memory corruption
+ - PoC IOVA alloc for multi-GPU
+
+Francois Dugast (1):
+  drm/pagemap: Add helper to access zone_device_data
+
+Matthew Brost (10):
+  drm/gpusvm: Use dma-map IOVA alloc, link, and sync API in GPU SVM
+  drm/pagemap: Split drm_pagemap_migrate_map_pages into device / system
+  drm/pagemap: Use dma-map IOVA alloc, link, and sync API for DRM
+    pagemap
+  drm/pagemap: Reduce number of IOVA link calls
+  drm/pagemap: Add IOVA interface to DRM pagemap
+  drm/xe: Stub out DRM pagemap IOVA alloc implementation
+  drm/pagemap: Use device-to-device IOVA alloc, link, and sync API for
+    DRM pagemap
+  drm/xe: Drop BO dma-resv lock during SVM migrate-to-device
+  drm/xe: Implement DRM pagemap IOVA vfuncs
+  drm/gpusvm: Use device-to-device IOVA alloc, link, and sync API in GPU
+    SVM
+
+ drivers/gpu/drm/drm_gpusvm.c  | 196 ++++++++++++++++---
+ drivers/gpu/drm/drm_pagemap.c | 351 +++++++++++++++++++++++++++-------
+ drivers/gpu/drm/xe/xe_svm.c   | 143 +++++++++++++-
+ include/drm/drm_gpusvm.h      |   5 +
+ include/drm/drm_pagemap.h     | 101 ++++++++++
+ 5 files changed, 693 insertions(+), 103 deletions(-)
+
 -- 
 2.34.1
 
