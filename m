@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gOQCAiNRemnk5AEAu9opvQ
+	id gBLvCjxRemnk5AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 19:10:43 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 19:11:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1EBDA788E
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 19:10:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4D7A78B3
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 19:11:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2C8010E751;
-	Wed, 28 Jan 2026 18:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1683610E754;
+	Wed, 28 Jan 2026 18:11:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tmLPDZoi";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qcq7Fqk8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D298810E751
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 18:10:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FCAA10E754
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 18:11:04 +0000 (UTC)
 Received: from killaraus.ideasonboard.com
  (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 64752581;
- Wed, 28 Jan 2026 19:10:00 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5BD2C581;
+ Wed, 28 Jan 2026 19:10:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1769623800;
- bh=DJDOdIFvJ35ng6Ss7jpNp+I4hfOTBmI0yhLVXDrDUf0=;
+ s=mail; t=1769623826;
+ bh=EMvDSrhLuJYUdTt6x5YZzNaZ5Ae30vVVs3RJ1+GHQ7M=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tmLPDZoivpwL2F0XqQHJRCtr8n4D1+fGg86jSBoMivWlq19+STaTEKZdQGJbYhc2F
- gDYdHbPUgZ2wj/C9YZeKYZba44cbDMt07v88KUd6yzUG22f+VnK9AOEa1L+Sdg/en4
- CRBcGy0btV1ewfO5neFeai+bprFxdIHpIAt7oNik=
-Date: Wed, 28 Jan 2026 20:10:35 +0200
+ b=qcq7Fqk8tFogFaa1gePWNLDgONDKPHtXc8LhrdeHuIYcKDJ0uGyg6M/PdJ4doFD/W
+ FcXymOgG3nC9wZV5D1agQgOpocVMQARjvte5dR71hBImv/hMGmkAfFV/lTKkcvhkz5
+ XxNvyvFpPV7BQV3PQppY65gm2PoVHzjt4z+VzXiY=
+Date: Wed, 28 Jan 2026 20:11:01 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc: Vishal Sagar <vishal.sagar@amd.com>,
@@ -46,17 +46,15 @@ Cc: Vishal Sagar <vishal.sagar@amd.com>,
  linux-arm-kernel@lists.infradead.org,
  Geert Uytterhoeven <geert@linux-m68k.org>,
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Pekka Paalanen <ppaalanen@gmail.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Dmitry Baryshkov <lumag@kernel.org>
-Subject: Re: [PATCH v8 03/11] drm/fourcc: Add DRM_FORMAT_Y8
-Message-ID: <20260128181035.GD3225981@killaraus>
+ Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [PATCH v8 09/11] drm: xlnx: zynqmp: Add support for Y8 and Y10_P32
+Message-ID: <20260128181101.GE3225981@killaraus>
 References: <20260128-xilinx-formats-v8-0-9ea8adb70269@ideasonboard.com>
- <20260128-xilinx-formats-v8-3-9ea8adb70269@ideasonboard.com>
+ <20260128-xilinx-formats-v8-9-9ea8adb70269@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260128-xilinx-formats-v8-3-9ea8adb70269@ideasonboard.com>
+In-Reply-To: <20260128-xilinx-formats-v8-9-9ea8adb70269@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,82 +84,91 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tomi.valkeinen@ideasonboard.com,m:vishal.sagar@amd.com,m:anatoliy.klymenko@amd.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:michal.simek@amd.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:geert@linux-m68k.org,m:dmitry.baryshkov@oss.qualcomm.com,m:ppaalanen@gmail.com,m:pekka.paalanen@collabora.com,m:lumag@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:tomi.valkeinen@ideasonboard.com,m:vishal.sagar@amd.com,m:anatoliy.klymenko@amd.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:michal.simek@amd.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:geert@linux-m68k.org,m:dmitry.baryshkov@oss.qualcomm.com,m:ppaalanen@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_CC(0.00)[amd.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,lists.infradead.org,linux-m68k.org,oss.qualcomm.com,collabora.com];
+	FREEMAIL_CC(0.00)[amd.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,lists.infradead.org,linux-m68k.org,oss.qualcomm.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: A1EBDA788E
+X-Rspamd-Queue-Id: BA4D7A78B3
 X-Rspamd-Action: no action
 
-On Wed, Jan 28, 2026 at 07:25:28PM +0200, Tomi Valkeinen wrote:
-> Add greyscale Y8 format.
+On Wed, Jan 28, 2026 at 07:25:34PM +0200, Tomi Valkeinen wrote:
+> Add support for Y8 and Y10_P32 formats. We also need to add new csc
+> matrices for the y-only formats.
 > 
-> The 8-bit greyscale format has been discussed before, and the earlier
-> guidance was to use DRM_FORMAT_R8, as a single-channel 8-bit pixel.
-> 
-> However, adding DRM_FORMAT_Y8 makes sense, we can mark it as 'is_yuv' in
-> the drm_format_info, and this can help the drivers handle e.g.
-> full/limited range. This will distinguish two single-channel formats:
-> R8, which is a RGB format with the same value for all components, and
-> Y8, which is a Y-only YCbCr format, with Cb and Cr being neutral.
-> 
-> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 > Reviewed-by: Vishal Sagar <vishal.sagar@amd.com>
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/gpu/drm/drm_fourcc.c  | 1 +
->  include/uapi/drm/drm_fourcc.h | 9 +++++++++
->  2 files changed, 10 insertions(+)
+>  drivers/gpu/drm/xlnx/zynqmp_disp.c | 27 ++++++++++++++++++++++++++-
+>  1 file changed, 26 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
-> index b22ef86428a1..a39b9d7a5b62 100644
-> --- a/drivers/gpu/drm/drm_fourcc.c
-> +++ b/drivers/gpu/drm/drm_fourcc.c
-> @@ -275,6 +275,7 @@ const struct drm_format_info *__drm_format_info(u32 format)
->  		{ .format = DRM_FORMAT_YVU422,		.depth = 0,  .num_planes = 3, .cpp = { 1, 1, 1 }, .hsub = 2, .vsub = 1, .is_yuv = true },
->  		{ .format = DRM_FORMAT_YUV444,		.depth = 0,  .num_planes = 3, .cpp = { 1, 1, 1 }, .hsub = 1, .vsub = 1, .is_yuv = true },
->  		{ .format = DRM_FORMAT_YVU444,		.depth = 0,  .num_planes = 3, .cpp = { 1, 1, 1 }, .hsub = 1, .vsub = 1, .is_yuv = true },
-> +		{ .format = DRM_FORMAT_Y8,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1, .is_yuv = true },
->  		{ .format = DRM_FORMAT_NV12,		.depth = 0,  .num_planes = 2, .cpp = { 1, 2, 0 }, .hsub = 2, .vsub = 2, .is_yuv = true },
->  		{ .format = DRM_FORMAT_NV21,		.depth = 0,  .num_planes = 2, .cpp = { 1, 2, 0 }, .hsub = 2, .vsub = 2, .is_yuv = true },
->  		{ .format = DRM_FORMAT_NV16,		.depth = 0,  .num_planes = 2, .cpp = { 1, 2, 0 }, .hsub = 2, .vsub = 1, .is_yuv = true },
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> index 6c786701238e..e4451668499a 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -459,6 +459,15 @@ extern "C" {
->  #define DRM_FORMAT_YUV444	fourcc_code('Y', 'U', '2', '4') /* non-subsampled Cb (1) and Cr (2) planes */
->  #define DRM_FORMAT_YVU444	fourcc_code('Y', 'V', '2', '4') /* non-subsampled Cr (1) and Cb (2) planes */
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> index 1dc77f2e4262..57bb6d1dd10a 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> @@ -307,6 +307,16 @@ static const struct zynqmp_disp_format avbuf_vid_fmts[] = {
+>  		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YV16CI_10,
+>  		.swap		= false,
+>  		.sf		= scaling_factors_101010,
+> +	}, {
+> +		.drm_fmt	= DRM_FORMAT_Y8,
+> +		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_MONO,
+> +		.swap		= false,
+> +		.sf		= scaling_factors_888,
+> +	}, {
+> +		.drm_fmt	= DRM_FORMAT_Y10_P32,
+> +		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YONLY_10,
+> +		.swap		= false,
+> +		.sf		= scaling_factors_101010,
+>  	},
+>  };
 >  
-> +/*
-> + * Y-only (greyscale) formats
-> + *
-> + * The Y-only formats are handled similarly to the YCbCr formats in the display
-> + * pipeline, with the Cb and Cr implicitly neutral (0.0 in nominal values). This
-> + * also means that COLOR_RANGE property applies to the Y-only formats.
-> + */
+> @@ -697,6 +707,17 @@ static const u32 csc_sdtv_to_rgb_offsets[] = {
+>  	0x0, 0x1800, 0x1800
+>  };
+>  
+> +/* In Y-only mode the single Y channel is on the third column  */
+> +static const u16 csc_sdtv_to_rgb_yonly_matrix[] = {
+> +	0x0, 0x0, 0x1000,
+> +	0x0, 0x0, 0x1000,
+> +	0x0, 0x0, 0x1000,
+> +};
 > +
-> +#define DRM_FORMAT_Y8		fourcc_code('G', 'R', 'E', 'Y')  /* 8-bit Y-only */
+> +static const u32 csc_sdtv_to_rgb_yonly_offsets[] = {
+> +	0x0, 0x0, 0x0
+> +};
+> +
+>  /**
+>   * zynqmp_disp_blend_set_output_format - Set the output format of the blender
+>   * @disp: Display controller
+> @@ -846,7 +867,11 @@ static void zynqmp_disp_blend_layer_enable(struct zynqmp_disp *disp,
+>  				ZYNQMP_DISP_V_BLEND_LAYER_CONTROL(layer->id),
+>  				val);
 >  
->  /*
->   * Format Modifiers:
+> -	if (layer->drm_fmt->is_yuv) {
+> +	if (layer->drm_fmt->format == DRM_FORMAT_Y8 ||
+> +	    layer->drm_fmt->format == DRM_FORMAT_Y10_P32) {
+> +		coeffs = csc_sdtv_to_rgb_yonly_matrix;
+> +		offsets = csc_sdtv_to_rgb_yonly_offsets;
+> +	} else if (layer->drm_fmt->is_yuv) {
+>  		coeffs = csc_sdtv_to_rgb_matrix;
+>  		offsets = csc_sdtv_to_rgb_offsets;
+>  	} else {
 
 -- 
 Regards,
