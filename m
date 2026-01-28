@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aJueOudyemme6gEAu9opvQ
+	id oOlQOQ9zemng6gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 21:34:47 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 21:35:27 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52DF4A8A0C
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 21:34:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE45A8A5D
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 21:35:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03F1A10E768;
-	Wed, 28 Jan 2026 20:34:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D892010E769;
+	Wed, 28 Jan 2026 20:35:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uP/54hZc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JzJGyY69";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D76EE10E768
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 20:34:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D76A010E769
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 20:35:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7CDF44417A;
- Wed, 28 Jan 2026 20:34:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 020BEC4CEF1;
- Wed, 28 Jan 2026 20:34:42 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id BBFAE4199B;
+ Wed, 28 Jan 2026 20:35:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E219C116C6;
+ Wed, 28 Jan 2026 20:35:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769632483;
- bh=cmYuQlBDDUjfKDQHbd81D0K9u1pyvJ63sJDqKouExlY=;
+ s=k20201202; t=1769632524;
+ bh=yrnUUci/5Ahsz40PLPK7R0htusSkB8akdUK58N6WXS8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uP/54hZc1216Iwwh9RQoZqekZgMZLdWPW1e0kXKk2wMfgd7UGFS7UTo6gFKTcMMQn
- hZIByhYDwDTZKiNUkTcaeu3AXmBh7E7DObifFV/GO8vor6Xf42Ib3tvYYZmkMzgh0B
- 4yuJ3G0qTBbJ7QHytZ0AHY4oPZAZG8q1sf+a7mdP1SuDzarczYkBHhaDNFOKQMpCbB
- lkSH6g05s2a14Q94vY52y8nTSsW15W9hunxjTihKGo8co3PFO37cYEhsj87LkWNqaK
- Uhoa/P+4EI6HX4/zA5GM8M3ScKYehbcMuvWJgBsW89f8PmUF4UgEG7CcTPfVbozhfE
- S4oHDYLC5vCsg==
-Date: Wed, 28 Jan 2026 12:34:41 -0800
+ b=JzJGyY690ZAhQVx+8Kmt2Sq//jhKMTPY7GWMxEIJHsuuL2XHLceWHtDPedYsO2H0B
+ p6HpsgEy4ovTugw+gd6Y6RJXeprchF/38ic2lABzQc5zdWHu2QtxdAhILsIC2r9zcT
+ 8z7w5FzXoVPLV/ikIuCCUK+w1eAzZPlL/9ATO2dNOLrf4fNpybQU29HhpQ7eVzpEXg
+ cJtGIMmB5peUC2JfQx+9amd4rBUpLFVafc3tbcfr4b1ZZYE0tF2hk4lv8wigP/ayMi
+ KAnHC0P92ltnk0XYtkGO08rbyd0sCxaZK40RRWaM7tj7md+qsOARKJTrMfAz3H3Xd1
+ klvlqdXTbM8kg==
+Date: Wed, 28 Jan 2026 12:35:23 -0800
 From: Drew Fustini <fustini@kernel.org>
 To: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -55,15 +55,17 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Han Gao <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
- Icenowy Zheng <uwu@icenowy.me>
-Subject: Re: [PATCH v6 2/9] dt-bindings: display: add verisilicon,dc
-Message-ID: <aXpy4f9G9QKRh3Ts@x1>
+ Icenowy Zheng <uwu@icenowy.me>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v6 4/9] dt-bindings: display/bridge: add binding for
+ TH1520 HDMI controller
+Message-ID: <aXpzC8MnShvc0tJv@x1>
 References: <20260123092830.4046009-1-zhengxingda@iscas.ac.cn>
- <20260123092830.4046009-3-zhengxingda@iscas.ac.cn>
+ <20260123092830.4046009-5-zhengxingda@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260123092830.4046009-3-zhengxingda@iscas.ac.cn>
+In-Reply-To: <20260123092830.4046009-5-zhengxingda@iscas.ac.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,8 +95,8 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_SENDER(0.00)[fustini@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FORGED_RECIPIENTS(0.00)[m:zhengxingda@iscas.ac.cn,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:p.zabel@pengutronix.de,m:lumag@kernel.org,m:m.wilczynski@samsung.com,m:luca.ceresoli@bootlin.com,m:rabenda.cn@gmail.com,m:ziyao@disroot.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:uwu@icenowy.me,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:rabendacn@gmail.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	FORGED_RECIPIENTS(0.00)[m:zhengxingda@iscas.ac.cn,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:p.zabel@pengutronix.de,m:lumag@kernel.org,m:m.wilczynski@samsung.com,m:luca.ceresoli@bootlin.com,m:rabenda.cn@gmail.com,m:ziyao@disroot.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:uwu@icenowy.me,m:krzysztof.kozlowski@linaro.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:rabendacn@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
@@ -112,51 +114,32 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,icenowy.me:email,0.0.0.0:email]
-X-Rspamd-Queue-Id: 52DF4A8A0C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,icenowy.me:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 8EE45A8A5D
 X-Rspamd-Action: no action
 
-On Fri, Jan 23, 2026 at 05:28:23PM +0800, Icenowy Zheng wrote:
+On Fri, Jan 23, 2026 at 05:28:25PM +0800, Icenowy Zheng wrote:
 > From: Icenowy Zheng <uwu@icenowy.me>
 > 
-> Verisilicon has a series of display controllers prefixed with DC and
-> with self-identification facility like their GC series GPUs.
+> T-Head TH1520 SoC contains a Synopsys DesignWare HDMI controller paired
+> with DesignWare HDMI PHY, with an extra clock gate for HDMI pixel clock
+> and two reset controls.
 > 
-> Add a device tree binding for it.
-> 
-> Depends on the specific DC model, it can have either one or two display
-> outputs, and each display output could be set to DPI signal or "DP"
-> signal (which seems to be some plain parallel bus to HDMI controllers).
+> Add a device tree binding to it.
 > 
 > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
-> Changes in v6:
-> - Added Rob's R-b.
-> 
-> Changes in v5:
-> - Dropped the requirement of port@0.
-> - Dropped the if clause for TH1520, which seems to be not needed because
->   of implicit DT binding rules.
-> 
-> Changes in v4:
-> - Added a comment for "verisilicon,dc" that says the ID/revision is
->   discoverable via registers.
-> - Removed clock minItems constraint w/o specific compatible strings.
-> 
-> Changes in v3:
-> - Added SoC-specific compatible string, and arm the binding with clock /
->   port checking for the specific SoC (with a 2-output DC).
+> No changes since v3.
 > 
 > Changes in v2:
-> - Fixed misspelt "versilicon" in title.
-> - Moved minItems in clock properties to be earlier than items.
-> - Re-aligned multi-line clocks and resets in example.
+> - Re-aligned multi-line clocks/resets in example.
+> - Added Krzysztof's R-b.
 > 
->  .../bindings/display/verisilicon,dc.yaml      | 122 ++++++++++++++++++
->  1 file changed, 122 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/verisilicon,dc.yaml
+>  .../display/bridge/thead,th1520-dw-hdmi.yaml  | 120 ++++++++++++++++++
+>  1 file changed, 120 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/thead,th1520-dw-hdmi.yaml
 
 I've applied the bindings patches (1, 2, 4) to thead-dt-for-next as well
 so that 'make W=1 dtbs_check' won't break for the next release of
