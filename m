@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8MU4ObZGemkp5AEAu9opvQ
+	id ABPEBcFGemkp5AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:26:14 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:26:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCBD2A6D77
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:26:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD73A6D97
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:26:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE08710E748;
-	Wed, 28 Jan 2026 17:26:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C265610E74B;
+	Wed, 28 Jan 2026 17:26:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TzI/TV5a";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="S1gXkUyI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7E5510E742
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 17:26:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE10810E747
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 17:26:09 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 336EE22F;
- Wed, 28 Jan 2026 18:25:30 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 233972821;
+ Wed, 28 Jan 2026 18:25:31 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1769621130;
- bh=BqlrzuF9SVJTOtBOmexpRoqMva+a0mHR+U4P2a9DVlo=;
+ s=mail; t=1769621131;
+ bh=AYlKWiDpPbO73UzlfaqmMIQSIX1hoio3H6459eEfPvw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=TzI/TV5aC+5mgOgQSfeXsBzS912kMomIeNJf0i7b30M5jAAzt1LMtc3MB9Cicr7Kq
- +jwytMAtGmbohty5kCklPi3N7o00G5k4sXc5V6yOH1MSiOGzP6AzZZkt1u+XO0suUW
- 8EClE1+k2Nj4BOTD3b0x79ZecjS8FqnLybkRvSZY=
+ b=S1gXkUyIVy4n3nrZEQkEbWmz+CJSUbuPCU46WncjNZsZNN2dTC8sX7i/ygzb1s62n
+ 6/afdC+eUk8oMxvoGwOUDZRLklNsD8WuJJdcBS/tZ1Mj2KqzezQb4z+YbiQyYqeT7t
+ xXFBKbdTpHvNes2xH1sD60m8d7ZWXBy0fNKWo3YY=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 28 Jan 2026 19:25:33 +0200
-Subject: [PATCH v8 08/11] drm: xlnx: zynqmp: Add support for XV15 & XV20
+Date: Wed, 28 Jan 2026 19:25:34 +0200
+Subject: [PATCH v8 09/11] drm: xlnx: zynqmp: Add support for Y8 and Y10_P32
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260128-xilinx-formats-v8-8-9ea8adb70269@ideasonboard.com>
+Message-Id: <20260128-xilinx-formats-v8-9-9ea8adb70269@ideasonboard.com>
 References: <20260128-xilinx-formats-v8-0-9ea8adb70269@ideasonboard.com>
 In-Reply-To: <20260128-xilinx-formats-v8-0-9ea8adb70269@ideasonboard.com>
 To: Vishal Sagar <vishal.sagar@amd.com>, 
@@ -55,21 +55,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Pekka Paalanen <ppaalanen@gmail.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1053;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2076;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=BqlrzuF9SVJTOtBOmexpRoqMva+a0mHR+U4P2a9DVlo=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBpekalk3XawtNNQQn7Vkgy4d0yJXcvtzib3wKKG
- M6Awk222xuJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaXpGpQAKCRD6PaqMvJYe
- 9cgwD/4qXSnU2x+2lPDVinRQ+NEZhIy89lxXqpMcMAogA/kqbAhoY0VsPKMuKcvyFulZioAfzTN
- Nn21uQBJViiQb2ZJynb2XXM7MvEHH7SccJX3CiHtBlXlrrnLsnJUfwPsjokJZQ+sXMOu9s9qvBW
- WQG89rYIuSOeW5r+txZ2Ov2Cc774jGYPRNev4FTviOoFl5GIhipeBBvxUX5WNy5WQDTTtxTNwr0
- Mf0Y6fUA3hqOuTDtmG0hne5o8oAAG868lANlChdmwsIsmGLB2hkKD5lcQeKMDfhG7mVXedBhDQZ
- Lfe+YLuz4N0vNEMrX+RgV/p+1fppYBNLSWuKfbsOi4oej+1CsMCUSnOXaZsssK6VW5cAqE4wKE1
- EC1qP1jpuNWIn8rqPbZu8V1SFEG2NECNIvXflieqoB0N84sEBTUP/b+peHhUvITC+R7oYjeFIVT
- JeZdlt3Nv9d7mPzC2mNViSyWrCMmUe+rfHSUstpPFzlvErZvaHtgd1zYMmy3OVqRTmhkelUMtJ7
- s+2lx5zAMberDFSQxSsN3jWJP0vgr/i8o66kjltNbXYBRlu7bbhKrc60+tRzRMMu+LV8LvhleEU
- gC/xd2W5TFgxqQbrfn2Oy+twHiaXZHcWv9ZpaL2WKY7l13V411FCkx3xxKCZkYtHKHsV/ijsink
- 0gtVVmtmLVzqy7Q==
+ bh=AYlKWiDpPbO73UzlfaqmMIQSIX1hoio3H6459eEfPvw=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBpekaljaQNA/MLeOCdWogjGdrvn7IfdWtYDIuuu
+ ZDgACJXhFyJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaXpGpQAKCRD6PaqMvJYe
+ 9UM+D/9bOXUaigE21y4xhb69TmgQ3Nd2zk/Y2EFmtky/Geh0GhEYw+pVIjCl9vhpH8UHpmTITQt
+ HXopMyOIlJhv8qrFu81cC9Y3WAjDsD453vUCYef3G1GUuYKPaZaOdtMWnUj9/gyvaABhKp47jk3
+ JOUwvOWaWyJ8QeyB8uCfH+dRrd+yyPQzA9DikjT1uIHICi4GOo81jDqtT2MAlc6I9pmaOqO//Rl
+ CxkKyEOxzzIaPmQ2cx7KEa7Sukrk//JhAdqfVwlDSBYTgBZfAlRC19Ojh1rjMLcFaokjDSRpk/x
+ C4IUJ7OxXkiKIfL5jrOVGQu6I4foLps+cHUH/uXIXjpu8F1THoP7tzuz6xBeAt5jXSynW33ZGCr
+ fm7fR0v1E6c8DvnzEVj3kjSoAezQ2KK3eYp5HhfXHQJ4v0uru/ILbTQ3JWc2Bw1AkCfvFVjgNsr
+ XkwhAKgHR7w8Dtv5/n63o8HyOCtkmAh9NMxzyjrfIl1PLXilSpVMMVNt4AbZRuwq7s60/HS5Qmh
+ 6NvQpOIez4Vuss5QDJvH2tp8sqxIrdt8lxUlsjKn6bsTNeiRBIrjThzqNGegIPzBXmdgdJ3VDSH
+ MKn9oFwlg3jZehwzJWEXarA4GhXn5HLq4zo6+SyprFEMfHXg2O9nFDDYUsSvdu3cow5GKWCOhz8
+ irYXP7beBuaMVPQ==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -120,39 +120,70 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email]
-X-Rspamd-Queue-Id: BCBD2A6D77
+X-Rspamd-Queue-Id: BBD73A6D97
 X-Rspamd-Action: no action
 
-Add support for XV15 & XV20 formats.
+Add support for Y8 and Y10_P32 formats. We also need to add new csc
+matrices for the y-only formats.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Vishal Sagar <vishal.sagar@amd.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/xlnx/zynqmp_disp.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/gpu/drm/xlnx/zynqmp_disp.c | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-index b9883ea2d03e..1dc77f2e4262 100644
+index 1dc77f2e4262..57bb6d1dd10a 100644
 --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
 +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-@@ -297,6 +297,16 @@ static const struct zynqmp_disp_format avbuf_vid_fmts[] = {
- 		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YV16CI_420,
- 		.swap		= true,
- 		.sf		= scaling_factors_888,
+@@ -307,6 +307,16 @@ static const struct zynqmp_disp_format avbuf_vid_fmts[] = {
+ 		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YV16CI_10,
+ 		.swap		= false,
+ 		.sf		= scaling_factors_101010,
 +	}, {
-+		.drm_fmt	= DRM_FORMAT_XV15,
-+		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YV16CI_420_10,
++		.drm_fmt	= DRM_FORMAT_Y8,
++		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_MONO,
 +		.swap		= false,
-+		.sf		= scaling_factors_101010,
++		.sf		= scaling_factors_888,
 +	}, {
-+		.drm_fmt	= DRM_FORMAT_XV20,
-+		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YV16CI_10,
++		.drm_fmt	= DRM_FORMAT_Y10_P32,
++		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YONLY_10,
 +		.swap		= false,
 +		.sf		= scaling_factors_101010,
  	},
  };
  
+@@ -697,6 +707,17 @@ static const u32 csc_sdtv_to_rgb_offsets[] = {
+ 	0x0, 0x1800, 0x1800
+ };
+ 
++/* In Y-only mode the single Y channel is on the third column  */
++static const u16 csc_sdtv_to_rgb_yonly_matrix[] = {
++	0x0, 0x0, 0x1000,
++	0x0, 0x0, 0x1000,
++	0x0, 0x0, 0x1000,
++};
++
++static const u32 csc_sdtv_to_rgb_yonly_offsets[] = {
++	0x0, 0x0, 0x0
++};
++
+ /**
+  * zynqmp_disp_blend_set_output_format - Set the output format of the blender
+  * @disp: Display controller
+@@ -846,7 +867,11 @@ static void zynqmp_disp_blend_layer_enable(struct zynqmp_disp *disp,
+ 				ZYNQMP_DISP_V_BLEND_LAYER_CONTROL(layer->id),
+ 				val);
+ 
+-	if (layer->drm_fmt->is_yuv) {
++	if (layer->drm_fmt->format == DRM_FORMAT_Y8 ||
++	    layer->drm_fmt->format == DRM_FORMAT_Y10_P32) {
++		coeffs = csc_sdtv_to_rgb_yonly_matrix;
++		offsets = csc_sdtv_to_rgb_yonly_offsets;
++	} else if (layer->drm_fmt->is_yuv) {
+ 		coeffs = csc_sdtv_to_rgb_matrix;
+ 		offsets = csc_sdtv_to_rgb_offsets;
+ 	} else {
 
 -- 
 2.43.0
