@@ -2,62 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wA9qL482eml+4gEAu9opvQ
+	id OIUoEGo3eml+4gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 17:17:19 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 17:20:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B2FA561E
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 17:17:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A384EA574D
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 17:20:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 842D710E2CF;
-	Wed, 28 Jan 2026 16:17:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37B5E10E728;
+	Wed, 28 Jan 2026 16:20:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="A0o0F4R9";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="MnphS5im";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="P+JTEKD7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MnphS5im";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="P+JTEKD7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29C2710E2CF
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 16:17:14 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1861C10E728
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 16:20:54 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4f1S8j5q5nz9tKs;
- Wed, 28 Jan 2026 17:17:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1769617029; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ by smtp-out1.suse.de (Postfix) with ESMTPS id BDF5933C6C;
+ Wed, 28 Jan 2026 16:20:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1769617252; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CSo596uqBiOiCySpIY/QudAnnVaLDbLMxOzpWC62Rcs=;
- b=A0o0F4R96a3fKTZSFrGP5gg6Ad281maFJFtl3yHkgeips03Rqr7U5AodP4gusU+y3ETmP3
- NMIai4po+kiZW80x9VpMMMofuXQAXkn2qBFNT+4WwrMYeXaW6zS9B0klFr6yv4eRa01PW3
- ObgOApVecBaLW3x4OEwiWnY/rP/ykVy0fUJ5c7Cz8BYBkfN3ImKODJ21PLvRv/OcY2vzCl
- e/iUd8uWQY89OtgEaTch0rDmwQcauR5kxO81VlAwL5pq9gTvIvMj+g7mFP8fYMWBcFDkG2
- B6TTTvIdY8QatRZjDDJMKRKR5bedLkIbXt1sHzpz5pByOFckYM652eZc/70haA==
-Message-ID: <3cdc7fda0ee4c777d7e20504503522844f0124ea.camel@mailbox.org>
-Subject: Re: [RFC PATCH] drm/sched: Add new KUnit test suite for concurrent
- job submission
-From: Philipp Stanner <phasta@mailbox.org>
-To: Marco Pagani <marco.pagani@linux.dev>, tursulin@ursulin.net
-Cc: airlied@gmail.com, ckoenig.leichtzumerken@gmail.com, dakr@kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- maarten.lankhorst@linux.intel.com, marpagan@redhat.com,
- matthew.brost@intel.com,  mripard@kernel.org, phasta@kernel.org,
- simona@ffwll.ch, tzimmermann@suse.de
-Date: Wed, 28 Jan 2026 17:17:02 +0100
-In-Reply-To: <90cdb121-7ff2-43a5-9327-2898b5e65609@linux.dev>
-References: <79cf2013-da6b-4653-aaa8-3e29a7d1ee3a@ursulin.net>
- <90cdb121-7ff2-43a5-9327-2898b5e65609@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=UkhAKw21e14ck+yiPbEElRHWqryoXiTILmk1J+Ijs5o=;
+ b=MnphS5imE0LTpnEhAQ6PIgwBv93oOkhP9fiyFPg6OrO6RHpPE06DNOI6O3qn9y0qeBcqYd
+ U1v/ZuPfTz7hWxgL8am9pMp0OjMjXamvSJvp/lr1oXOtssGAK/i8HQzx9neyWJdo9k7Dw5
+ pZ4iOuXbQ8MRjdCL9Oa+nJ0QHCW8M0Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1769617252;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=UkhAKw21e14ck+yiPbEElRHWqryoXiTILmk1J+Ijs5o=;
+ b=P+JTEKD7lmbdb3TuiyfEspF7U2rPWoHTECuQVXhzV/i1/TgfyOm9VJrNxRl0InouQTOIiD
+ /FDuyJmkZMiY6nAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1769617252; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=UkhAKw21e14ck+yiPbEElRHWqryoXiTILmk1J+Ijs5o=;
+ b=MnphS5imE0LTpnEhAQ6PIgwBv93oOkhP9fiyFPg6OrO6RHpPE06DNOI6O3qn9y0qeBcqYd
+ U1v/ZuPfTz7hWxgL8am9pMp0OjMjXamvSJvp/lr1oXOtssGAK/i8HQzx9neyWJdo9k7Dw5
+ pZ4iOuXbQ8MRjdCL9Oa+nJ0QHCW8M0Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1769617252;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=UkhAKw21e14ck+yiPbEElRHWqryoXiTILmk1J+Ijs5o=;
+ b=P+JTEKD7lmbdb3TuiyfEspF7U2rPWoHTECuQVXhzV/i1/TgfyOm9VJrNxRl0InouQTOIiD
+ /FDuyJmkZMiY6nAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 237733EA61;
+ Wed, 28 Jan 2026 16:20:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id k9NwB2M3emm5bwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 28 Jan 2026 16:20:51 +0000
+Message-ID: <0eb5c509-2724-4c57-87ad-74e4270d5a5a@suse.de>
+Date: Wed, 28 Jan 2026 17:20:50 +0100
 MIME-Version: 1.0
-X-MBO-RS-ID: 8cdac362e0f64ce7025
-X-MBO-RS-META: fzb5hb6g76h8415x1wmumqbxr99s7gnb
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 drm-dp 9/9] drm/hisilicon/hibmc: Add vga connector
+ detect functions
+To: Yongbang Shi <shiyongbang@huawei.com>, xinliang.liu@linaro.org,
+ tiantao6@hisilicon.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
+ kong.kongxinwei@hisilicon.com
+Cc: liangjian010@huawei.com, chenjianmin@huawei.com, lidongming5@huawei.com,
+ libaihan@huawei.com, shenjian15@huawei.com, shaojijie@huawei.com,
+ jani.nikula@linux.intel.com, dmitry.baryshkov@oss.qualcomm.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250331074212.3370287-1-shiyongbang@huawei.com>
+ <20250331074212.3370287-10-shiyongbang@huawei.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250331074212.3370287-10-shiyongbang@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,382 +136,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:shiyongbang@huawei.com,m:xinliang.liu@linaro.org,m:tiantao6@hisilicon.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:daniel@ffwll.ch,m:kong.kongxinwei@hisilicon.com,m:liangjian010@huawei.com,m:chenjianmin@huawei.com,m:lidongming5@huawei.com,m:libaihan@huawei.com,m:shenjian15@huawei.com,m:shaojijie@huawei.com,m:jani.nikula@linux.intel.com,m:dmitry.baryshkov@oss.qualcomm.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:marco.pagani@linux.dev,m:tursulin@ursulin.net,m:airlied@gmail.com,m:ckoenig.leichtzumerken@gmail.com,m:dakr@kernel.org,m:linux-kernel@vger.kernel.org,m:maarten.lankhorst@linux.intel.com,m:marpagan@redhat.com,m:matthew.brost@intel.com,m:mripard@kernel.org,m:phasta@kernel.org,m:simona@ffwll.ch,m:tzimmermann@suse.de,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[huawei.com,linaro.org,hisilicon.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	HAS_REPLYTO(0.00)[phasta@kernel.org];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,lists.freedesktop.org,vger.kernel.org,linux.intel.com,redhat.com,intel.com,ffwll.ch,suse.de];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.de:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:mid,mailbox.org:dkim]
-X-Rspamd-Queue-Id: 14B2FA561E
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:url,linaro.org:email,suse.com:url,huawei.com:email]
+X-Rspamd-Queue-Id: A384EA574D
 X-Rspamd-Action: no action
 
-On Wed, 2026-01-28 at 12:39 +0100, Marco Pagani wrote:
->=20
-> On 22/01/2026 10:51, Tvrtko Ursulin wrote:
-> >=20
-> > On 20/01/2026 20:52, Marco Pagani wrote:
-> > > Add a new test suite to simulate concurrent job submissions from user=
-space.
-> > > The suite includes a basic test case where each worker submits a sing=
-le
-> > > job, and a more advanced case involving the submission of multiple jo=
-bs.
-> >=20
-> > New test coverage is welcome!
->=20
-> Hi Tvrtko, Philip, and thank you.
->=20
-> > But as Philipp has said some more context would be beneficial. Like are=
-=20
-> > you trying to hit a bug, or extend later with something which will hit =
-a=20
-> > bug and then you will propose improvements? Or simply improving the
-> > coverage?
->=20
-> Sure, I'll extend the commit message to be more descriptive in the next
-> version.
-> =C2=A0
-> > If it is about some race I would maybe consider putting this into a new=
-=20
-> > tests_races.c. I actually have this file locally and some unfinished=
-=20
-> > test cases already, although it is unclear when I will be happy with=
-=20
-> > them to post. But if the test is simply about adding coverage it is fin=
-e=20
-> > to live in tests_basic.c.
->=20
-> The general idea is to extend the suite with some initial tests that stre=
-ss
-> concurrency to spot race conditions. Having these initial tests grouped t=
-ogether
-> with future ones in a new tests_races.c file makes perfect sense to me.
+Hi
+
+Am 31.03.25 um 09:42 schrieb Yongbang Shi:
+> From: Baihan Li <libaihan@huawei.com>
+>
+> Because the connected VGA connector would make driver can't get the
+> userspace call, adding detect_ctx in vga connector to make HPD active
+> userspace.
+>
+> Signed-off-by: Baihan Li <libaihan@huawei.com>
+> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 3 +++
+>   1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> index 05e19ea4c9f9..e8a527ede854 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> @@ -60,6 +60,7 @@ static void hibmc_connector_destroy(struct drm_connector *connector)
+>   static const struct drm_connector_helper_funcs
+>   	hibmc_connector_helper_funcs = {
+>   	.get_modes = hibmc_connector_get_modes,
+> +	.detect_ctx = drm_connector_helper_detect_from_ddc,
+
+This change exposed a bug in the hibmc DDC support.
+
+Calling drm_connector_helper_detect_from_ddc() does not work correctly. 
+The i2c transfer never receives the monitor's EDID because of an 
+internal error. It fails with -ENXIO.  The error originates at [1]. Th 
+values of ret and nak_ok are both 0 when that happens.
+
+As a result, the VGA connector is always marked as disconnected.
+
+To fix this, maybe something else has to be enabled first. There seems 
+quite a bit of power management in hibmc_crtc_atomic_enable(). Maybe 
+some of that has to be done before the i2c transfer as well?
+
+Best regards
+Thomas
 
 
-I am not so convinced of a separate file.
+[1] 
+https://elixir.bootlin.com/linux/v6.19-rc5/source/drivers/i2c/algos/i2c-algo-bit.c#L514
 
-All the drm_sched tests are there to ensure the soundness and
-robustness of the scheduler. How is a race special? What would
-tests_basic.c be for =E2=80=93 checking for bugs that are not races? And
-races.c would be full of tests that are threaded?
-(questions more directed at Tvrtko)
+>   };
+>   
+>   static const struct drm_connector_funcs hibmc_connector_funcs = {
+> @@ -127,5 +128,7 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)
+>   
+>   	drm_connector_attach_encoder(connector, encoder);
+>   
+> +	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
+> +
+>   	return 0;
+>   }
 
-From my POV having this little test in tests_basic.c is perfectly fine.
-Having multiple entities per scheduler, associated with multiple task,
-*is* basic functionality of the scheduler.
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
 
-
->=20
-> > > Signed-off-by: Marco Pagani <marpagan@redhat.com>
-> > > ---
-> > > =C2=A0 drivers/gpu/drm/scheduler/tests/tests_basic.c | 175 ++++++++++=
-++++++++
-> > > =C2=A0 1 file changed, 175 insertions(+)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/=
-gpu/drm/scheduler/tests/tests_basic.c
-> > > index 82a41a456b0a..7c25bcbbe7c9 100644
-> > > --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
-> > > +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-> > > @@ -2,6 +2,7 @@
-> > > =C2=A0 /* Copyright (c) 2025 Valve Corporation */
-> > > =C2=A0=20
-> > > =C2=A0 #include <linux/delay.h>
-> > > +#include <linux/completion.h>
-> > > =C2=A0=20
-> > > =C2=A0 #include "sched_tests.h"
-> > > =C2=A0=20
-> > > @@ -235,6 +236,179 @@ static void drm_sched_basic_cancel(struct kunit=
- *test)
-> > > =C2=A0=C2=A0	KUNIT_ASSERT_EQ(test, job->hw_fence.error, -ECANCELED);
-> > > =C2=A0 }
-> > > =C2=A0=20
-> > > +struct sched_concurrent_test_context {
-> > > +	struct drm_mock_scheduler *sched;
-> > > +	struct workqueue_struct *sub_wq;
-> > > +	struct completion wait_go;
-> > > +};
-> > > +
-> > > +KUNIT_DEFINE_ACTION_WRAPPER(destroy_workqueue_wrap, destroy_workqueu=
-e,
-> > > +			=C2=A0=C2=A0=C2=A0 struct workqueue_struct *);
-> > > +
-> > > +KUNIT_DEFINE_ACTION_WRAPPER(drm_mock_sched_fini_wrap, drm_mock_sched=
-_fini,
-> > > +			=C2=A0=C2=A0=C2=A0 struct drm_mock_scheduler *);
-> > > +
-> > > +KUNIT_DEFINE_ACTION_WRAPPER(drm_mock_sched_entity_free_wrap, drm_moc=
-k_sched_entity_free,
-> > > +			=C2=A0=C2=A0=C2=A0 struct drm_mock_sched_entity *);
-> > > +
-> > > +static int drm_sched_concurrent_init(struct kunit *test)
-> > > +{
-> > > +	struct sched_concurrent_test_context *ctx;
-> > > +	int ret;
-> > > +
-> > > +	ctx =3D kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
-> > > +
-> > > +	init_completion(&ctx->wait_go);
-> > > +
-> > > +	ctx->sched =3D drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
-> > > +
-> > > +	ret =3D kunit_add_action_or_reset(test, drm_mock_sched_fini_wrap, c=
-tx->sched);
-> > > +	KUNIT_ASSERT_EQ(test, ret, 0);
-> > > +
-> > > +	/* Use an unbounded workqueue to maximize job submission concurrenc=
-y */
-> > > +	ctx->sub_wq =3D alloc_workqueue("drm-sched-submitters-wq", WQ_UNBOU=
-ND,
-> > > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 WQ_UNBOUND_MAX_ACTIVE);
-> > > +	KUNIT_ASSERT_NOT_NULL(test, ctx->sub_wq);
-> > > +
-> > > +	ret =3D kunit_add_action_or_reset(test, destroy_workqueue_wrap, ctx=
-->sub_wq);
-> > > +	KUNIT_ASSERT_EQ(test, ret, 0);
-> > > +
-> > > +	test->priv =3D ctx;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +struct drm_sched_concurrent_params {
-> > > +	const char *description;
-> > > +	unsigned int job_base_us;
-> > > +	unsigned int num_jobs;
-> > > +	unsigned int num_subs;
-> > > +};
-> > > +
-> > > +static const struct drm_sched_concurrent_params drm_sched_concurrent=
-_cases[] =3D {
-> > > +	{
-> > > +		.description =3D "Concurrently submit a single job in a single ent=
-ity",
-> > > +		.job_base_us =3D 1000,
-> > > +		.num_jobs =3D 1,
-> > > +		.num_subs =3D 32,
-> > > +	},
-> >=20
-> > Why is submission from a single thread interesting if it is already cov=
-ered?
->=20
-> These two initial parameter sets cover only concurrent submission:
-> multiple submitters, single job / multiple submitters, multiple jobs.
->=20
-> > > +	{
-> > > +		.description =3D "Concurrently submit multiple jobs in a single en=
-tity",
-> > > +		.job_base_us =3D 1000,
-> > > +		.num_jobs =3D 10,
-> > > +		.num_subs =3D 64,
-> > > +	},
-> > > +};
-> > > +
-> > > +static void
-> > > +drm_sched_concurrent_desc(const struct drm_sched_concurrent_params *=
-params, char *desc)
-> > > +{
-> > > +	strscpy(desc, params->description, KUNIT_PARAM_DESC_SIZE);
-> > > +}
-> > > +
-> > > +KUNIT_ARRAY_PARAM(drm_sched_concurrent, drm_sched_concurrent_cases, =
-drm_sched_concurrent_desc);
-> > > +
-> > > +struct submitter_data {
-> > > +	struct work_struct work;
-> > > +	struct sched_concurrent_test_context *ctx;
-> > > +	struct drm_mock_sched_entity *entity;
-> > > +	struct drm_mock_sched_job **jobs;
-> > > +	struct kunit *test;
-> > > +	unsigned int id;
-> > > +	bool timedout;
-> > > +};
-> > > +
-> > > +static void drm_sched_submitter_worker(struct work_struct *work)
-> > > +{
-> > > +	const struct drm_sched_concurrent_params *params;
-> > > +	struct sched_concurrent_test_context *ctx;
-> > > +	struct submitter_data *sub_data;
-> > > +	unsigned int i, duration_us;
-> > > +	unsigned long timeout_jiffies;
-> > > +	bool done;
-> > > +
-> > > +	sub_data =3D container_of(work, struct submitter_data, work);
-> > > +	ctx =3D sub_data->ctx;
-> > > +	params =3D sub_data->test->param_value;
-> > > +
-> > > +	wait_for_completion(&ctx->wait_go);
-> > > +
-> > > +	for (i =3D 0; i < params->num_jobs; i++) {
-> > > +		duration_us =3D params->job_base_us + (sub_data->id * 10);
-> >=20
-> > Why is job duration dependent by the submitter id?
->=20
-> Just a simple way to have a deterministic distribution of durations.
-> I can change it if it doesn't fit.
->=20
-> > Would it be feasiable to not use auto-completing jobs and instead=20
-> > advance the timeline manually? Given how the premise of the test seems=
-=20
-> > to be about concurrent submission it sounds plausible that what happens=
-=20
-> > after submission maybe isn't very relevant.
->=20
-> Good idea! I'll run some experiments and see if it works.
->=20
-> > > +		drm_mock_sched_job_set_duration_us(sub_data->jobs[i], duration_us)=
-;
-> > > +		drm_mock_sched_job_submit(sub_data->jobs[i]);
-> >=20
-> > On a related note, one interesting thing to add coverage for later is=
-=20
-> > multi-threaded submit of multiple jobs against a single entity. But it=
-=20
-> > is not an immediate need. Just mentioning it as something interesting.
->=20
-> Currently, the test configures each submitter to submit multiple jobs
-> against its own dedicated entity. I considered adding a test case for
-> submitting multiple jobs against multiple entities, but I decided to
-> leave it for the future.
->=20
-> > It would mean open coding drm_mock_sched_job_submit() as=20
-> > drm_sched_job_arm() and drm_sched_entity_push_job() and sticking some=
-=20
-> > delay in between so two threads have the chance to interleave. Mock
-> > scheduler does not handle it today, neither does the scheduler itself=
-=20
-> > who punts responsibility to callers. So adding a test and making the=
-=20
-> > mock scheduler handle that properly would serve as an example on how=
-=20
-> > scheduler must be used. Or what can go bad if it isn't.
->=20
-> Do you mean having multiple (k)threads submitting against the same entity=
-?
-> Would that be used to model a multithread application that uses multiple =
-queues?
-
-Submitters to entities must always ensure their own synchronization
-before pushing to it. And afterwards it's the scheduler's parallelism
-that counts.
-I don't see how multiple threads on an entity are worthwhile testing.
-It's beyond our scope.
-
-
-Thx.
-P.
-
-
->=20
-> > > +	}
-> > > +
-> > > +	timeout_jiffies =3D usecs_to_jiffies(params->job_base_us * params->=
-num_subs *
-> > > +					=C2=A0=C2=A0 params->num_jobs * 10);
-> >=20
-> > The timeout calculation could use a comment. You are using num_subs * 1=
-0=20
-> > to match the duratiot_us above being id * 10? With logic of calculating=
-=20
-> > a pessimistic timeout?
-> >=20
-> > Have you tried it with qemu to check if it is pessimistic enough?
->=20
-> I'll double check on that.
-> =C2=A0
-> > > +	for (i =3D 0; i < params->num_jobs; i++) {
-> > > +		done =3D drm_mock_sched_job_wait_finished(sub_data->jobs[i],
-> > > +							timeout_jiffies);
-> > > +		if (!done)
-> > > +			sub_data->timedout =3D true;
-> > > +	}
-> >=20
-> > Technically you only need to wait on the last job but it is passable=
-=20
-> > like this too.
-> >=20
-> > Also, is it important for the worker to wait for completion or the main=
-=20
-> > thread could simply wait for everything? Maybe that would simplify thin=
-gs.
->=20
-> I would say they serve different purposes. The completion is used to paus=
-e
-> all worker threads until they are all created to ensure they start submit=
-ting
-> jobs together to maximize concurrency.
-> =C2=A0
-> > Manual timeline advance and this combined would mean the workers only=
-=20
-> > submit jobs, while the main thread simply does=20
-> > drm_mock_sched_advance(sched, num_subs * num_jobs) and waits for last=
-=20
-> > job from each submitter to finish.
-> >=20
-> > Again, auto-completion and timeout reporting is something I do not=20
-> > immediate see is relevant for multi-threaded submission testing.
-> >=20
-> > Maybe if you want to test the mock scheduler itself it could be, but=
-=20
-> > then I would add it as separate entry in drm_sched_concurrent_cases[].=
-=20
-> > Like maybe have a flag/boolean "auto-complete jobs". So one without and=
-=20
-> > one with that set.
->=20
-> I think it's a good idea and I'll experiment to see if it works.
-> =C2=A0
-> > Other than that it looks tidy and was easy to follow. Only thing which=
-=20
-> > slightly got me was the term "subs" since I don't intuitively associate=
-=20
-> > it with a submitter but, well, a sub entity of some kind. Might be wort=
-h=20
-> > renaming that to submitter(s), or even dropping the prefix in some case=
-s=20
-> > might be feasible (like sub(s)_data).
->=20
-> Agreed. I'll rename "subs" for better clarity.
->=20
-> > Regards,
-> >=20
-> > Tvrtko
-> >=20
->=20
-> Cheers,
-> Marco
 
