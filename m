@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mBXwG9tNemkp5AEAu9opvQ
+	id MN7jNf1Nemkp5AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:56:43 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:57:17 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00EB3A754B
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:56:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E9AFA7588
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:57:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49C1410E2D5;
-	Wed, 28 Jan 2026 17:56:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C611D10E2C9;
+	Wed, 28 Jan 2026 17:57:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="yN+4QHWX";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="PlQx1TSU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FCCD10E2D5
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 17:56:39 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B30510E2C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 17:57:14 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 15E574E42303;
- Wed, 28 Jan 2026 17:56:38 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 27BAC1A2AD0;
+ Wed, 28 Jan 2026 17:57:13 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id C8C2F6071F;
- Wed, 28 Jan 2026 17:56:37 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id EE6CB6071F;
+ Wed, 28 Jan 2026 17:57:12 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id C5B70119A8687; Wed, 28 Jan 2026 18:56:02 +0100 (CET)
+ with ESMTPSA id 6398D119A882A; Wed, 28 Jan 2026 18:56:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1769622996; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding; bh=hVKMA1mgA2HarFubchDZxxQcSE3jYQpdUJ9TpOSCc5s=;
- b=yN+4QHWXe6CnQTP+XwB3m49VFo6G76tnT/zYzEvY0lAX5ySVppGySpmZRZiiSi2ZZE+Vn5
- CLKx4KldLsoahjIf+rb7Iaceu5zbtk33Lw786p6PjC80o7afcQ/cEJAlxo6CSukA3vd5GL
- 4p9/OSkfM3a5hmXddf/RtJ84O2WXIuEcxUB3GF17hNGvt2RJn1aJfuoZR7yfCztF3Ppyzf
- pKkcEeX24bfhs3bU6NZINsoxexD7j37xjNt013w/Ml8Jne+jOVCQBqCqWEelIk/R0nzL7q
- bu7TAZTJ8HTbvwUdmy2Ko2qMCHS0UYp5Cmk69GUp3/mDrwNl6+yjZ2/uQPeakQ==
+ t=1769623031; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=bnS713poB+YyzdGgaOoZvVbr5bFa2FQ/LZh7487hWGA=;
+ b=PlQx1TSUk3qeikxBysclRPfrjPgUrXm4+lnXTdPPLZL0wh9H8L/gYbILXGdnr/76CI3Ihs
+ CzviA3VASMkPEXbwjd32K65yDf0RKncEcqY9ZFPHR0UGNh7+yOaJeFpMclc42jw3SSLRzH
+ OuYzDgnLx3i0Vhn4r7uk15VKjrZPeOViH1SqT19qG17kLJbjLkA8BKh4wnqCxyAGD58597
+ ORdbzzNJJIAK3Q5WD1VsKXV2uusYLCarkBQPN8kZMV5l3BYihk6qaYjUz39KZRazkIp1C7
+ bMsoqzgEv289SAdRg2oLNkZ+8QsLR5G9FKd8uo3IqGCFsgcsOUKX7DpsMbky/w==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: [PATCH for drm-misc-fixes] drm/bridge: imx: A few fixes - backport
-Date: Wed, 28 Jan 2026 18:55:08 +0100
-Message-Id: <20260128-drm-bridge-fix-imx8qxp-pixel-combiner-null-deref-v1-0-2138d0933cf1@bootlin.com>
+Date: Wed, 28 Jan 2026 18:55:09 +0100
+Subject: [PATCH for drm-misc-fixes] drm/bridge: imx8qxp-pixel-combiner: Fix
+ bailout for imx8qxp_pc_bridge_probe()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAHxNemkC/yWN2wrCMBBEfyXsswttqiX6K9IHm2x0ITc3KIHSf
- zfFxzkznNmgkjBVuKkNhL5cOacexpMC+3qkJyG7nkEPeh5GbdBJxFXY9cZzQ47NvFvBwo0C2hx
- XTiSYPiGgIyGP3pyvfp4mN100dG3psI+Pyzv4LOowRq4W/3jZ9x9fgUswlgAAAA==
-X-Change-ID: 20260128-drm-bridge-fix-imx8qxp-pixel-combiner-null-deref-f849f633d352
+Message-Id: <20260128-drm-bridge-fix-imx8qxp-pixel-combiner-null-deref-v1-1-2138d0933cf1@bootlin.com>
+References: <20260128-drm-bridge-fix-imx8qxp-pixel-combiner-null-deref-v1-0-2138d0933cf1@bootlin.com>
+In-Reply-To: <20260128-drm-bridge-fix-imx8qxp-pixel-combiner-null-deref-v1-0-2138d0933cf1@bootlin.com>
 To: Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -112,30 +112,38 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 00EB3A754B
+X-Rspamd-Queue-Id: 7E9AFA7588
 X-Rspamd-Action: no action
 
-A series was sent with 3 fixes for drm-misc [0]. Patch 3 of that series
-should be on drm-misc-fixes (the bug is in current master since v6.17) but
-does not apply there due to conflicts.
+In case the channel0 is unavailable and bailing out from free_child is
+needed when we fail to add a DRM bridge for the available channel1,
+pointer pc->ch[0] in the bailout path would be NULL and it would be
+dereferenced as pc->ch[0]->bridge.next_bridge.  Fix this by checking
+pc->ch[0] before dereferencing it.
 
-This 1-patch series has a backport of that fix for drm-misc-fixes, so that
-master can be fixed ASAP.
-
-[0] https://lore.kernel.org/lkml/DG0BSWR9XRZS.29D743F5RWI8N@bootlin.com/
-
+Fixes: 99764593528f ("drm/bridge: imx8qxp-pixel-combiner: convert to devm_drm_bridge_alloc() API")
+Reported-by: Liu Ying <victor.liu@nxp.com>
+Closes: https://lore.kernel.org/lkml/20260123-imx8qxp-drm-bridge-fixes-v1-3-8bb85ada5866@nxp.com/
+[Luca: backported on drm-misc-fixes where the original commit conflicts]
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
-Luca Ceresoli (1):
-      drm/bridge: imx8qxp-pixel-combiner: Fix bailout for imx8qxp_pc_bridge_probe()
-
  drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
----
-base-commit: e535c23513c63f02f67e3e09e0787907029efeaf
-change-id: 20260128-drm-bridge-fix-imx8qxp-pixel-combiner-null-deref-f849f633d352
 
-Best regards,
---  
-Luca Ceresoli <luca.ceresoli@bootlin.com>
+diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
+index 8517b1c953d4..dc1cb094afd0 100644
+--- a/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
++++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c
+@@ -349,7 +349,7 @@ static int imx8qxp_pc_bridge_probe(struct platform_device *pdev)
+ free_child:
+ 	of_node_put(child);
+ 
+-	if (i == 1 && pc->ch[0]->next_bridge)
++	if (i == 1 && pc->ch[0] && pc->ch[0]->next_bridge)
+ 		drm_bridge_remove(&pc->ch[0]->bridge);
+ 
+ 	pm_runtime_disable(dev);
+
+-- 
+2.52.0
 
