@@ -2,141 +2,180 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oN6NApPCeWl0zAEAu9opvQ
+	id sDYREvjDeWl0zAEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 09:02:27 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 09:08:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43F329DFC6
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 09:02:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE3D9E0A6
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 09:08:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 607AC10E623;
-	Wed, 28 Jan 2026 08:02:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EB0210E28C;
+	Wed, 28 Jan 2026 08:08:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="AzfytbL1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9mseFebz";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AzfytbL1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9mseFebz";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="cc7Ezula";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A47610E623
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 08:02:22 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 39DC133A89;
- Wed, 28 Jan 2026 08:02:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1769587341; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HdX0f2dML8sWbRIWYSdyI0DECX0mAgXwtUGagydlIRI=;
- b=AzfytbL1lVWXPoxtrRuFz1PEKLfUfEZm31NnZqciYlo29uMnXNz4s+ZJ6DNCP3ZoHp0I9v
- ugWKtUgcxg6Su5Ymt3v2+TAVFF8YEs+1TWfywccwBnSLccRhSvrcFDLyl/jRUx/HHJJhLe
- J7N22aQcwqLxRFiNWxTgDrV11VIrbto=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1769587341;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HdX0f2dML8sWbRIWYSdyI0DECX0mAgXwtUGagydlIRI=;
- b=9mseFebzzCyJbVAkX7gPTvcYQ1hVNzAA6tt6B2EAvC6K+ktzMtGwza4RrDYVriAj6spV63
- ooFUhzr6tVN9RaAQ==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=AzfytbL1;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9mseFebz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1769587341; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HdX0f2dML8sWbRIWYSdyI0DECX0mAgXwtUGagydlIRI=;
- b=AzfytbL1lVWXPoxtrRuFz1PEKLfUfEZm31NnZqciYlo29uMnXNz4s+ZJ6DNCP3ZoHp0I9v
- ugWKtUgcxg6Su5Ymt3v2+TAVFF8YEs+1TWfywccwBnSLccRhSvrcFDLyl/jRUx/HHJJhLe
- J7N22aQcwqLxRFiNWxTgDrV11VIrbto=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1769587341;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HdX0f2dML8sWbRIWYSdyI0DECX0mAgXwtUGagydlIRI=;
- b=9mseFebzzCyJbVAkX7gPTvcYQ1hVNzAA6tt6B2EAvC6K+ktzMtGwza4RrDYVriAj6spV63
- ooFUhzr6tVN9RaAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5CD8B3EA61;
- Wed, 28 Jan 2026 08:02:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 2Jo0FYzCeWmwBwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 28 Jan 2026 08:02:20 +0000
-Message-ID: <d83b2c28-c666-4dff-9a1d-59d4c5b2e284@suse.de>
-Date: Wed, 28 Jan 2026 09:02:20 +0100
+Received: from CH5PR02CU005.outbound.protection.outlook.com
+ (mail-northcentralusazon11012032.outbound.protection.outlook.com
+ [40.107.200.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31E4F10E28C;
+ Wed, 28 Jan 2026 08:08:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=M24MIAm+rRMz82Ju0dM6YtnRiWohp7hbraTpI6cEG6P6S1DWKYX008GNG1ZMidaolzNw1s0ou0UcCj1Z1mpEwUsKraKgoDfr3g7K9mfn0nnQotqQ0CfCR/Z8ctxxwmltR/7XW9jv+2oXi+FmVMnZBO6JU08la3eoP9HeC7rNs1rT+Y/VrJti2PORKGfgE7AF/fB+pNhL5BuBN+wBw78DyPDfNbr+metWLxjhaOc++Y2G9+VxM2bLgPs9iohexhWHzaoLsWxBGWPmIvk0kGNxGynFvOEVgsKk7ef3Jvh6i2kNVnkKc4zMEPM8TKuBahhNpAoluzGqf6KRdc+ATwzVgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Js4KTF1W87ZFWZRsw396SAlOLHXeCsOJHhyqHYvKWW0=;
+ b=KLgeKz2YV8vPQR3lPEKgJgnfWkCZs5g97KMfRc30/DQlLNcG24Q6vm0lTjOlx2fifY7SVbR78j05qjGuS5tNmRY4im7wU4LMqxN5RxU9WcrSSxX6fig9iYUq1QJXix/tF6j6ZN0aN9zMM/TWR/r8io84JWb95WVNFOzHk4fc84RFfyToHTA7DYJgJh4OgSaEFZjw7I9U44IJmYgf0hKnUnMOFcbxMoUN4lMXN4dp4MtBMPzuQfcpsiE8p67n4ETRwakHFhFsLEYLoNtQEXRM9oM6BYKEWpW0LR5jyNk5FoE4tHPPH0AFGB5hv+MWPREczGKZuxCj/jrfBHa15qMd/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Js4KTF1W87ZFWZRsw396SAlOLHXeCsOJHhyqHYvKWW0=;
+ b=cc7EzulaHwebbp7LxGTBg4bG/SZRtcPB5nuy7vHmdFmp8z7Z2qrgO69tPi+OFkgRRnI/IeTOG/mYRSKV+HWp57E+7pWDS6OZZKEyyyRhG74703WDNo5hJeL7hxvFvzomPXRAofplJ0d7LcjQr/SxsRz2ZZayLijmC574FNVmu3Lx0K/Pu9+0vwkeJUFwQ8bnnpOvbY1KqnTo1PcqlnrsgBrCPCaX7yUqt2HG/CHJlrdz9gyqYGqQGod//ogzZrER9kiV7uEZbQ0iWbkhCf8FlyHcUcWdboJ7Eda3W61ERFI1F30mgqkJNQ28bubR7TYcu6+jMU+d39ueD3Nb2X1IVg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by DS5PPF8B1E59479.namprd12.prod.outlook.com (2603:10b6:f:fc00::659)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Wed, 28 Jan
+ 2026 08:08:14 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9542.010; Wed, 28 Jan 2026
+ 08:08:14 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 28 Jan 2026 17:08:10 +0900
+Message-Id: <DG02HED94PLY.EZY2AUCW4LOL@nvidia.com>
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Joel Fernandes" <joelagnelf@nvidia.com>
+Cc: <linux-kernel@vger.kernel.org>, "Paul Walmsley" <pjw@kernel.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Alexandre Ghiti" <alex@ghiti.fr>, "Miguel Ojeda" <ojeda@kernel.org>,
+ "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Danilo
+ Krummrich" <dakr@kernel.org>, "Alistair Popple" <apopple@nvidia.com>, "Zhi
+ Wang" <zhiw@nvidia.com>, "Simona Vetter" <simona@ffwll.ch>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Dirk Behme"
+ <dirk.behme@gmail.com>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-riscv@lists.infradead.org>
+Subject: Re: [PATCH v2 1/5] gpu: nova-core: use checked arithmetic in FWSEC
+ firmware parsing
+References: <20260126202305.2526618-1-joelagnelf@nvidia.com>
+ <20260126202305.2526618-2-joelagnelf@nvidia.com>
+ <DG02AC8I2XUA.2UM92327TQKAL@nvidia.com>
+In-Reply-To: <DG02AC8I2XUA.2UM92327TQKAL@nvidia.com>
+X-ClientProxiedBy: OSTPR01CA0053.jpnprd01.prod.outlook.com
+ (2603:1096:604:222::18) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 5/9] drm/bridge: add a driver for T-Head TH1520 HDMI
- controller
-To: Icenowy Zheng <zhengxingda@iscas.ac.cn>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>,
- Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Michal Wilczynski <m.wilczynski@samsung.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Han Gao <rabenda.cn@gmail.com>,
- Yao Zi <ziyao@disroot.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-riscv@lists.infradead.org, Icenowy Zheng <uwu@icenowy.me>,
- Han Gao <gaohan@iscas.ac.cn>
-References: <20260123092830.4046009-1-zhengxingda@iscas.ac.cn>
- <20260123092830.4046009-6-zhengxingda@iscas.ac.cn>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260123092830.4046009-6-zhengxingda@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Spam-Flag: NO
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DS5PPF8B1E59479:EE_
+X-MS-Office365-Filtering-Correlation-Id: f5838c2c-87fd-471a-0bfa-08de5e4462d1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|10070799003|7416014|366016|376014|1800799024|13003099007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?bTh1S3RmWVNYdWNWRkh4UzJROU4vZ0JNelVCTm5FU1R5RzZQdmtkRENWTlJv?=
+ =?utf-8?B?OWhNN1JxWjRkblAwRDVGR1VWZFNBd3N2T1FzMnpUdVBQT1l4bXJJeXh4bFUy?=
+ =?utf-8?B?S2ZLdzZDNk5aWVhVVWNoMExuSkpWYkpNMVQ0dWpuUUp2OXFtdmFxMjFEajIz?=
+ =?utf-8?B?dUlCQitBeVBLeGhPc2JtMG1WN2NxeHdFZUZCNFQxYVlqMEdVTjF0YWxscTZX?=
+ =?utf-8?B?emNWaS9DNkEwZHNxMjRaZmIzZVh4dmtrTTRIbENCN2RVZUFXK29oVFBITllw?=
+ =?utf-8?B?ZjBrREdsRm5SY3FFTWxJY3dHWjZRU2pFYmxub2FVSC81dVRPY1gyMmFGWTVQ?=
+ =?utf-8?B?QWQ1ZXltUWYyQ0lpMlFFVVJScUY5WjhBQWtJeVNKMWd0MWlDZ1FsR0I4ZVNC?=
+ =?utf-8?B?SUZWT2U3b0JPZ3k4NVFZQXVjN1VPZTNhY09nVzE0SzBOcHpMVW4rQk1KSTlB?=
+ =?utf-8?B?WTY5bTZLU2RsdXFwRktlRnFWcU53dFBicjZPL24yWDJveEMxVXE5eTJ3bERy?=
+ =?utf-8?B?bngzczVQS2ZRS1JyQUlZMGtqRy8wenBSSGhOWXI2UUJNNjR6eEFyeHE3S3Az?=
+ =?utf-8?B?akVJV2h0VTRNSmw4MnNxV0lwZlY1TlA2Mk8wL2M5SGN3Z3gxdzNwb2Z4cGNN?=
+ =?utf-8?B?Rk16aU5lemFJSGxZOFovRXRWckFqNnpiZWhrS3M0eCtib1lLZ2ZKMXJudTRl?=
+ =?utf-8?B?UEQwVldmK0RBMGdlVndmZ21FaExTTHZtY0JVNXJJK2k3bG9GWXpST0ZwWFVw?=
+ =?utf-8?B?TTcwdkJRSUR3bitoL1pyU21qMW0vdkZIWlFlMFZYWU8vVkVFWW0zd09sMU1Q?=
+ =?utf-8?B?UDB6MEdxZ3hReVNEOU9ZZzlYQ1ZUWW1wNS96ZzlHVExkKzdRcVJNVG5NSnRG?=
+ =?utf-8?B?bHB6NHA3UFhMNmZqTDBZZHJKSUQwZk1kUlYrbU5jVXdjdFNXc0p5MGFHYzlr?=
+ =?utf-8?B?MUliUXkza05IR1R5L3ZlRmRPbDRzN2lxVVBleW14N0xicUJ1U2V1NkpMWjhR?=
+ =?utf-8?B?QzF2Rkx3MTBLUnFNOHpzaWtxbjhlRFJsWW13SjRSeHFlZ3JrQXhmZkZSSE44?=
+ =?utf-8?B?aUcydzVpVXZXMHlUVUhqUWdwaDh2TVljUVlqeTNZVS9iV05iN1ZSUXY5UzF1?=
+ =?utf-8?B?a3RWbnQ2SHJSZmpsaVJtWUpaNDI4aDJLcTBGcXNFN1JGVklQQ1ZEWHBuMDR5?=
+ =?utf-8?B?cTdFdTJZNEVPRlE3RDhDMFBRSFNnWVBaUExMQVpKL2NiWXU5RFFWMEVDZ0dY?=
+ =?utf-8?B?MmxwMXp4NzNCWGVSeHJRcDhsMzlueGZGOGRXbUVDYk1sZ3BqeGVQL1NNeTYr?=
+ =?utf-8?B?N3d2aVowN1MwQUUyb1R3Mk9Pb1h2TmVibGh0b3JrZk1mMlhVcVpBYVVmSmJL?=
+ =?utf-8?B?bEswUThXTnYrdlp4eVhWckVzRGljdWpXenA3RE5aTHd1YU11TXNCdndJelYw?=
+ =?utf-8?B?eFBGa2ZOQ1lJaWV2RElrdFUrMXM3K296enhYeHNlS09rdXhKZGNHVjA1NlUy?=
+ =?utf-8?B?UmkzclRudUtMWTVPNjd1YWhZMFlYYmhOSFprS0E2ekVyY2p5MXR1MmRsaVA3?=
+ =?utf-8?B?bDFrNjJtM0R0bHhrMk1HeXNEdE5jYnh6am1kZDBCOWt1dG53MFV0M3UvVStQ?=
+ =?utf-8?B?ZXp1NkRlN3YwUUx6andqQ3c2Z2tzaGFFTVgvQjB6VnJJTGFsUTdHRVl3YTRo?=
+ =?utf-8?B?Z3VLQ1R5RERMeFRwcXlXdDB2VS85U0E5Z2hWRnlFYTRTRDFOeVJJRE9BS2xD?=
+ =?utf-8?B?ZTdiNlYyUXpzRVl2ZmpzY2ozRWxRdXY4WjhrV05tRUpRRG12b0MwVnpTbVNM?=
+ =?utf-8?B?Nm9KVk55NURMWjNqVzNkWGxiblJyQkRXTVpLYzd1ejJFQnVPWGZmOUNqMWZy?=
+ =?utf-8?B?WCtkTmlXRVcyUlVCN3N3WWV6L1pOZmJHS3kvVEMzTlFITWhDOVpsU1NDOHBV?=
+ =?utf-8?B?a1FXM2JGYUZuUDkvVS8vUklWN1d0Rm83WGc2Slg5TlFlL1BqZVhqdEs3OEky?=
+ =?utf-8?B?aldHYWpwYW90YnpIc2QzQVNQVWVrbmZwSHN4UTRldTFtVnN6WFpTK0d5Tkh2?=
+ =?utf-8?B?Nm9zemtreHFxckQ3QXBCNHJKNDNheVoyeTh0bDZlN3MwUSttQThnTlV5QVdq?=
+ =?utf-8?Q?C0rY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(7416014)(366016)(376014)(1800799024)(13003099007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZUlyb3FwNDFFVUIzVmlKanRldDFlcXZxZjdCZ0F6KzNQM0hsOG02UTFwcEtM?=
+ =?utf-8?B?OFluMFpmbmhZbVBJRjNZUGtQRGRRYjFZUlV3Y1kxbDZOejllem44QU92R1JB?=
+ =?utf-8?B?TnBIenNUcDNFL2tzajIrSWtYN09HenJsKzlVZWs3VERad0ZvR2FRdkNPT0ln?=
+ =?utf-8?B?RGR1NVdRMzRqQ2lENUkzYzJmRWxtK0xyaWpLRUYvMEx3SHVMQzJzTzhlcG1X?=
+ =?utf-8?B?LzQwQ1ZlYmlSaFJHdzBxOE1raGtTTERjY2svMzEzRk5xbXlSR1JVYytBQVVq?=
+ =?utf-8?B?UFlLNmFNUGhUREhUUGd4dUM3U2twQXF2dDV1bWVhNUVIdUQwMEN5WStZY3hu?=
+ =?utf-8?B?TlQrK25XYjNiTHVvTWhHMHpqYkh0QkFHN3lQc2NkR09JaHc4azdrVERRMFhV?=
+ =?utf-8?B?clRyNFFwRElDYVFxK0x1d2E1eGU3S3dHT2N2VnBRbDN2cUZIY3VlY1lVcDBa?=
+ =?utf-8?B?Rzd0ekZxRFV2TS8xek9hWEhaR3A3UE12bGl0eFNIMmR3NXNLZy9lYVd2dVZI?=
+ =?utf-8?B?T3VFNkFXUGRtTFV5Z3BCMFpZdzVsRzBEaU1VSlVHU1JDc1dHRE1zeUhubTFL?=
+ =?utf-8?B?aktGdTkvN0FuR0R4U3N5V3JFNmlXVzlsNnhpWFBWcWd1L3FBQ2VwVlRlZTl2?=
+ =?utf-8?B?ZGllVFYwS21neHpBbktyK3BZdlNtckpGalJZb2MyWHZWSUFXVVVpbDk5bVQ3?=
+ =?utf-8?B?K2xVU0ppVER3Z2hrR2xtVnJES2dubUNXei95NEFqaldWejI5NjFSU2xNSlBm?=
+ =?utf-8?B?RGJSRkl0eGVrd3pobWZnTjlHY2FWUEFqUGlpQUNDZ1BpOGhMa0c2QUtmR3Fp?=
+ =?utf-8?B?c1NLbXBuTlJYUXlSQ1YrVUdQK29yVkJaQVowRmFydHZ2S2tyaXhlK040SDlU?=
+ =?utf-8?B?OGxaZ0NBeVAvcHdvSGVicTVoOE94RWZ4ZGo5OXB0Wm44ZlF1UkFFTmtza2x5?=
+ =?utf-8?B?U2NMTHlsdUtndWsvMjVEOE5VaGVYaFhlMVFjY05sOTV1eC91MFEvb0pJTE12?=
+ =?utf-8?B?Z2tXYmxxYnkra28yZDNqTDhNZWU5L2c1QVJmYVlLWmdtOUV2eGhXNDF1cVVh?=
+ =?utf-8?B?NHNKV3FCMThiZ1FSUHp6MndHRVZ2b0FCK1RKMy9EQUxXTjRXTk1YVERoeGov?=
+ =?utf-8?B?UGVVdENuWndIVlVKdEpHRG51ak5kVVpVNFBxT2M2MGMrTmpLNFQ5azhOWE9s?=
+ =?utf-8?B?L0J2NW8zcVMvdG5TN3JDbFFhekl4ZHRrbnYrejFhY1N4dHhVYzZyOGRmcEt6?=
+ =?utf-8?B?T3F4ZDZBRGFoZTNFenppWUU1VHp2WjBoZnJDMDcxV1V6K3V4NjlueU95Ympw?=
+ =?utf-8?B?R0g3MHdrTWx5WlorYmc4ZFdsaGQ2aXFWeFV2dmZEUSs3eE84OXI2dnhaVUQ1?=
+ =?utf-8?B?bjZROGhGdVF6Z3Vqb0t3UWxybWpvMFdMUjhXM2JyOUJyWUhJRVZDdEFCamVE?=
+ =?utf-8?B?K2tZZDlVVGNvL2ZXenlUdXVhMGwyeUJDUWdpUHpuRGt1Z2NkV0F3OHVoOTg3?=
+ =?utf-8?B?V3g4bjhRVlMrb0QyRmJCU1VqNzc5VEtzZDBqQ3Q1eWQrSkZjUTRiMFZYYmNZ?=
+ =?utf-8?B?a1NESndqR1UwMHNsNGM2dU05eU9DeTRsQzlNOUFleVRnbzAzVzdadmR3NXla?=
+ =?utf-8?B?R1lnSlMvWGRzcmw4QXF6WExrV0owblFra2tjQ1NMS0tDdGJxNTlkbE1sL1E2?=
+ =?utf-8?B?OGpWYVNid3pTZXNuMm4wS2gvQ1NiMGxFYjZCbGtTbC83ZVVZa2p3eGhPdVMx?=
+ =?utf-8?B?VWY4by9yQ2UwWXZJUTFCbWJLczg5N2ZyRmFNeDFPRUs5Q29velU1UGR0M2Zj?=
+ =?utf-8?B?TWZIeU1IMlR1M2JRUTlrZGNtSzVpOFBmd0JiSzNrUnlNWGhzSjR6ckF1ZUFl?=
+ =?utf-8?B?Z2lpTGQ5aFdobmVMWThuaWF5UzVMa3J5a0FYYUlrV1pHZU02bWhEWGMwMlBu?=
+ =?utf-8?B?Ung4MFhqU3dLNDZsanZyWHBSbWxrQ051YmlEYnNjN1UvMGdEMUlxdGNENWNC?=
+ =?utf-8?B?T3RtekZPVzUvOVN6Ryt3ZFpuZ0FrckN6ZWJNRTVwdThOb1U3ZktpTy9SQUxN?=
+ =?utf-8?B?U3RxZmFPMVNUZjc2VS9sUjhUU0RxWnBZZjdXb2NDY2JkWUZDZWMwWnV3Z3dU?=
+ =?utf-8?B?Q1pIVEptbk5ONmV1eHpuNHZKeEJwSjZpUFJxMUFsVEdSVDJUbVJJOGIvTU83?=
+ =?utf-8?B?T0dkZ2hYNllTZG91bGhSWERwNDRwNlhSc2hvZXhhWTJ1a3BMdzdFRjh0S3Fz?=
+ =?utf-8?B?c0p5REZZWlpIdSttbGM4OHRjNEVIU3hLNGJaY29ycjBRTEtpQ20rUFYvV3RC?=
+ =?utf-8?B?NXVCQVJZcHN2QXZTUWwzcWtwQlhraUs4ZUErNmN0VThJUHFGazBKaTZ6dVFQ?=
+ =?utf-8?Q?05H1eavxtf2GB5m3XJXXHyGEDXtt4YvUm4DHjmCAjdhjJ?=
+X-MS-Exchange-AntiSpam-MessageData-1: 18nPMhCJ05ThUg==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f5838c2c-87fd-471a-0bfa-08de5e4462d1
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 08:08:14.4799 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: K7LlKR8lXuq/bi6kCFDgBptJ3FBHaiSbc98qZbe8FXw6hgKVeTbvLUfsFeJ2/d2U/KnLjr/RJSZV80Ps5dmPZQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPF8B1E59479
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,306 +191,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:zhengxingda@iscas.ac.cn,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:p.zabel@pengutronix.de,m:lumag@kernel.org,m:m.wilczynski@samsung.com,m:luca.ceresoli@bootlin.com,m:rabenda.cn@gmail.com,m:ziyao@disroot.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:uwu@icenowy.me,m:gaohan@iscas.ac.cn,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:rabendacn@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[iscas.ac.cn,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,ffwll.ch,redhat.com];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[pengutronix.de,kernel.org,samsung.com,bootlin.com,gmail.com,disroot.org,vger.kernel.org,lists.freedesktop.org,lists.infradead.org,icenowy.me,iscas.ac.cn];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,dabbelt.com,eecs.berkeley.edu,ghiti.fr,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,nvidia.com,ffwll.ch,lists.freedesktop.org,lists.infradead.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.com:url,iscas.ac.cn:email,suse.de:email,suse.de:dkim,suse.de:mid,icenowy.me:email,pengutronix.de:email,samsung.com:email]
-X-Rspamd-Queue-Id: 43F329DFC6
+	FROM_NEQ_ENVFROM(0.00)[acourbot@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 9CE3D9E0A6
 X-Rspamd-Action: no action
 
-Hi
-
-Am 23.01.26 um 10:28 schrieb Icenowy Zheng:
-> From: Icenowy Zheng <uwu@icenowy.me>
+On Wed Jan 28, 2026 at 4:58 PM JST, Alexandre Courbot wrote:
+> On Tue Jan 27, 2026 at 5:23 AM JST, Joel Fernandes wrote:
+>> Use checked_add() and checked_mul() when computing offsets from
+>> firmware-provided values in new_fwsec().
+>>
+>> Without checked arithmetic, corrupt firmware could cause integer overflo=
+w. The
+>> danger is not just wrapping to a huge value, but potentially wrapping to=
+ a
+>> small plausible offset that passes validation yet accesses entirely wron=
+g data,
+>> causing silent corruption or security issues.
+>>
+>> Reviewed-by: Zhi Wang <zhiw@nvidia.com>
+>> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+>> ---
+>>  drivers/gpu/nova-core/firmware/fwsec.rs | 60 ++++++++++++++-----------
+>>  1 file changed, 35 insertions(+), 25 deletions(-)
+>>
+>> diff --git a/drivers/gpu/nova-core/firmware/fwsec.rs b/drivers/gpu/nova-=
+core/firmware/fwsec.rs
+>> index a8ec08a500ac..71541b1f07d7 100644
+>> --- a/drivers/gpu/nova-core/firmware/fwsec.rs
+>> +++ b/drivers/gpu/nova-core/firmware/fwsec.rs
+>> @@ -46,10 +46,7 @@
+>>          Signed,
+>>          Unsigned, //
+>>      },
+>> -    num::{
+>> -        FromSafeCast,
+>> -        IntoSafeCast, //
+>> -    },
+>> +    num::FromSafeCast,
+>>      vbios::Vbios,
+>>  };
+>> =20
+>> @@ -267,7 +264,12 @@ fn new_fwsec(dev: &Device<device::Bound>, bios: &Vb=
+ios, cmd: FwsecCommand) -> Re
+>>          let ucode =3D bios.fwsec_image().ucode(&desc)?;
+>>          let mut dma_object =3D DmaObject::from_data(dev, ucode)?;
+>> =20
+>> -        let hdr_offset =3D usize::from_safe_cast(desc.imem_load_size() =
++ desc.interface_offset());
+>> +        // Compute hdr_offset =3D imem_load_size + interface_offset.
+>> +        let hdr_offset =3D desc
+>> +            .imem_load_size()
+>> +            .checked_add(desc.interface_offset())
+>> +            .map(usize::from_safe_cast)
+>> +            .ok_or(EINVAL)?;
+>>          // SAFETY: we have exclusive access to `dma_object`.
 >
-> T-Head TH1520 SoC contains a Synopsys DesignWare HDMI controller (paired
-> with DesignWare HDMI TX PHY Gen2) that takes the "DP" output from the
-> display controller.
+> Missing empty line before the SAFETY comment (also in other places).
 >
-> Add a driver for this controller utilizing the common DesignWare HDMI
-> code in the kernel.
->
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-> Tested-by: Han Gao <gaohan@iscas.ac.cn>
-> Tested-by: Michal Wilczynski <m.wilczynski@samsung.com>
+> I will fix when applying, no need to resend.
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+I also got this clippy warning when building:
 
-> ---
-> No changes since v3.
->
-> Changes in v2:
-> - Created a new function to set PHY parameters and refactored the
->    control flow of the configure_phy callback.
->
->   MAINTAINERS                             |   1 +
->   drivers/gpu/drm/bridge/Kconfig          |  10 ++
->   drivers/gpu/drm/bridge/Makefile         |   1 +
->   drivers/gpu/drm/bridge/th1520-dw-hdmi.c | 173 ++++++++++++++++++++++++
->   4 files changed, 185 insertions(+)
->   create mode 100644 drivers/gpu/drm/bridge/th1520-dw-hdmi.c
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5b11839cba9de..fc04fc007a054 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -22556,6 +22556,7 @@ F:	Documentation/devicetree/bindings/reset/thead,th1520-reset.yaml
->   F:	arch/riscv/boot/dts/thead/
->   F:	drivers/clk/thead/clk-th1520-ap.c
->   F:	drivers/firmware/thead,th1520-aon.c
-> +F:	drivers/gpu/drm/bridge/th1520-dw-hdmi.c
->   F:	drivers/mailbox/mailbox-th1520.c
->   F:	drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c
->   F:	drivers/pinctrl/pinctrl-th1520.c
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index a250afd8d6622..8e19f5fb9ad7c 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -335,6 +335,16 @@ config DRM_THINE_THC63LVD1024
->   	help
->   	  Thine THC63LVD1024 LVDS/parallel converter driver.
->   
-> +config DRM_THEAD_TH1520_DW_HDMI
-> +	tristate "T-Head TH1520 DesignWare HDMI bridge"
-> +	depends on OF
-> +	depends on COMMON_CLK
-> +	depends on ARCH_THEAD || COMPILE_TEST
-> +	select DRM_DW_HDMI
-> +	help
-> +	  Choose this to enable support for the internal HDMI bridge found
-> +	  on the T-Head TH1520 SoC.
-> +
->   config DRM_TOSHIBA_TC358762
->   	tristate "TC358762 DSI/DPI bridge"
->   	depends on OF
-> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> index c7dc03182e592..085b5db45d6fd 100644
-> --- a/drivers/gpu/drm/bridge/Makefile
-> +++ b/drivers/gpu/drm/bridge/Makefile
-> @@ -28,6 +28,7 @@ obj-$(CONFIG_DRM_SII902X) += sii902x.o
->   obj-$(CONFIG_DRM_SII9234) += sii9234.o
->   obj-$(CONFIG_DRM_SIMPLE_BRIDGE) += simple-bridge.o
->   obj-$(CONFIG_DRM_SOLOMON_SSD2825) += ssd2825.o
-> +obj-$(CONFIG_DRM_THEAD_TH1520_DW_HDMI) += th1520-dw-hdmi.o
->   obj-$(CONFIG_DRM_THINE_THC63LVD1024) += thc63lvd1024.o
->   obj-$(CONFIG_DRM_TOSHIBA_TC358762) += tc358762.o
->   obj-$(CONFIG_DRM_TOSHIBA_TC358764) += tc358764.o
-> diff --git a/drivers/gpu/drm/bridge/th1520-dw-hdmi.c b/drivers/gpu/drm/bridge/th1520-dw-hdmi.c
-> new file mode 100644
-> index 0000000000000..389eead5f1c45
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/th1520-dw-hdmi.c
-> @@ -0,0 +1,173 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> + *
-> + * Based on rcar_dw_hdmi.c, which is:
-> + *   Copyright (C) 2016 Renesas Electronics Corporation
-> + * Based on imx8mp-hdmi-tx.c, which is:
-> + *   Copyright (C) 2022 Pengutronix, Lucas Stach <kernel@pengutronix.de>
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/reset.h>
-> +
-> +#include <drm/bridge/dw_hdmi.h>
-> +#include <drm/drm_modes.h>
-> +
-> +#define TH1520_HDMI_PHY_OPMODE_PLLCFG	0x06	/* Mode of operation and PLL dividers */
-> +#define TH1520_HDMI_PHY_CKSYMTXCTRL	0x09	/* Clock Symbol and Transmitter Control Register */
-> +#define TH1520_HDMI_PHY_VLEVCTRL	0x0e	/* Voltage Level Control Register */
-> +#define TH1520_HDMI_PHY_PLLCURRGMPCTRL	0x10	/* PLL current and Gmp (conductance) */
-> +#define TH1520_HDMI_PHY_PLLDIVCTRL	0x11	/* PLL dividers */
-> +#define TH1520_HDMI_PHY_TXTERM		0x19	/* Transmission Termination Register */
-> +
-> +struct th1520_hdmi_phy_params {
-> +	unsigned long mpixelclock;
-> +	u16 opmode_pllcfg;
-> +	u16 pllcurrgmpctrl;
-> +	u16 plldivctrl;
-> +	u16 cksymtxctrl;
-> +	u16 vlevctrl;
-> +	u16 txterm;
-> +};
-> +
-> +static const struct th1520_hdmi_phy_params th1520_hdmi_phy_params[] = {
-> +	{ 35500000,  0x0003, 0x0283, 0x0628, 0x8088, 0x01a0, 0x0007 },
-> +	{ 44900000,  0x0003, 0x0285, 0x0228, 0x8088, 0x01a0, 0x0007 },
-> +	{ 71000000,  0x0002, 0x1183, 0x0614, 0x8088, 0x01a0, 0x0007 },
-> +	{ 90000000,  0x0002, 0x1142, 0x0214, 0x8088, 0x01a0, 0x0007 },
-> +	{ 121750000, 0x0001, 0x20c0, 0x060a, 0x8088, 0x01a0, 0x0007 },
-> +	{ 165000000, 0x0001, 0x2080, 0x020a, 0x8088, 0x01a0, 0x0007 },
-> +	{ 198000000, 0x0000, 0x3040, 0x0605, 0x83c8, 0x0120, 0x0004 },
-> +	{ 297000000, 0x0000, 0x3041, 0x0205, 0x81dc, 0x0200, 0x0005 },
-> +	{ 371250000, 0x0640, 0x3041, 0x0205, 0x80f6, 0x0140, 0x0000 },
-> +	{ 495000000, 0x0640, 0x3080, 0x0005, 0x80f6, 0x0140, 0x0000 },
-> +	{ 594000000, 0x0640, 0x3080, 0x0005, 0x80fa, 0x01e0, 0x0004 },
-> +};
-> +
-> +struct th1520_hdmi {
-> +	struct dw_hdmi_plat_data plat_data;
-> +	struct dw_hdmi *dw_hdmi;
-> +	struct clk *pixclk;
-> +	struct reset_control *mainrst, *prst;
-> +};
-> +
-> +static enum drm_mode_status
-> +th1520_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
-> +		       const struct drm_display_info *info,
-> +		       const struct drm_display_mode *mode)
-> +{
-> +	/*
-> +	 * The maximum supported clock frequency is 594 MHz, as shown in the PHY
-> +	 * parameters table.
-> +	 */
-> +	if (mode->clock > 594000)
-> +		return MODE_CLOCK_HIGH;
-> +
-> +	return MODE_OK;
-> +}
-> +
-> +static void th1520_hdmi_phy_set_params(struct dw_hdmi *hdmi,
-> +				const struct th1520_hdmi_phy_params *params)
-> +{
-> +	dw_hdmi_phy_i2c_write(hdmi, params->opmode_pllcfg,
-> +			      TH1520_HDMI_PHY_OPMODE_PLLCFG);
-> +	dw_hdmi_phy_i2c_write(hdmi, params->pllcurrgmpctrl,
-> +			      TH1520_HDMI_PHY_PLLCURRGMPCTRL);
-> +	dw_hdmi_phy_i2c_write(hdmi, params->plldivctrl,
-> +			      TH1520_HDMI_PHY_PLLDIVCTRL);
-> +	dw_hdmi_phy_i2c_write(hdmi, params->vlevctrl,
-> +			      TH1520_HDMI_PHY_VLEVCTRL);
-> +	dw_hdmi_phy_i2c_write(hdmi, params->cksymtxctrl,
-> +			      TH1520_HDMI_PHY_CKSYMTXCTRL);
-> +	dw_hdmi_phy_i2c_write(hdmi, params->txterm,
-> +			      TH1520_HDMI_PHY_TXTERM);
-> +}
-> +
-> +static int th1520_hdmi_phy_configure(struct dw_hdmi *hdmi, void *data,
-> +				     unsigned long mpixelclock)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(th1520_hdmi_phy_params); i++) {
-> +		if (mpixelclock <= th1520_hdmi_phy_params[i].mpixelclock) {
-> +			th1520_hdmi_phy_set_params(hdmi,
-> +						   &th1520_hdmi_phy_params[i]);
-> +			return 0;
-> +		}
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-> +
-> +static int th1520_dw_hdmi_probe(struct platform_device *pdev)
-> +{
-> +	struct th1520_hdmi *hdmi;
-> +	struct dw_hdmi_plat_data *plat_data;
-> +	struct device *dev = &pdev->dev;
-> +
-> +	hdmi = devm_kzalloc(dev, sizeof(*hdmi), GFP_KERNEL);
-> +	if (!hdmi)
-> +		return -ENOMEM;
-> +
-> +	plat_data = &hdmi->plat_data;
-> +
-> +	hdmi->pixclk = devm_clk_get_enabled(dev, "pix");
-> +	if (IS_ERR(hdmi->pixclk))
-> +		return dev_err_probe(dev, PTR_ERR(hdmi->pixclk),
-> +				     "Unable to get pixel clock\n");
-> +
-> +	hdmi->mainrst = devm_reset_control_get_exclusive_deasserted(dev, "main");
-> +	if (IS_ERR(hdmi->mainrst))
-> +		return dev_err_probe(dev, PTR_ERR(hdmi->mainrst),
-> +				     "Unable to get main reset\n");
-> +
-> +	hdmi->prst = devm_reset_control_get_exclusive_deasserted(dev, "apb");
-> +	if (IS_ERR(hdmi->prst))
-> +		return dev_err_probe(dev, PTR_ERR(hdmi->prst),
-> +				     "Unable to get apb reset\n");
-> +
-> +	plat_data->output_port = 1;
-> +	plat_data->mode_valid = th1520_hdmi_mode_valid;
-> +	plat_data->configure_phy = th1520_hdmi_phy_configure;
-> +	plat_data->priv_data = hdmi;
-> +
-> +	hdmi->dw_hdmi = dw_hdmi_probe(pdev, plat_data);
-> +	if (IS_ERR(hdmi))
-> +		return PTR_ERR(hdmi);
-> +
-> +	platform_set_drvdata(pdev, hdmi);
-> +
-> +	return 0;
-> +}
-> +
-> +static void th1520_dw_hdmi_remove(struct platform_device *pdev)
-> +{
-> +	struct dw_hdmi *hdmi = platform_get_drvdata(pdev);
-> +
-> +	dw_hdmi_remove(hdmi);
-> +}
-> +
-> +static const struct of_device_id th1520_dw_hdmi_of_table[] = {
-> +	{ .compatible = "thead,th1520-dw-hdmi" },
-> +	{ /* Sentinel */ },
-> +};
-> +MODULE_DEVICE_TABLE(of, th1520_dw_hdmi_of_table);
-> +
-> +static struct platform_driver th1520_dw_hdmi_platform_driver = {
-> +	.probe		= th1520_dw_hdmi_probe,
-> +	.remove		= th1520_dw_hdmi_remove,
-> +	.driver		= {
-> +		.name	= "th1520-dw-hdmi",
-> +		.of_match_table = th1520_dw_hdmi_of_table,
-> +	},
-> +};
-> +
-> +module_platform_driver(th1520_dw_hdmi_platform_driver);
-> +
-> +MODULE_AUTHOR("Icenowy Zheng <uwu@icenowy.me>");
-> +MODULE_DESCRIPTION("T-Head TH1520 HDMI Encoder Driver");
-> +MODULE_LICENSE("GPL");
+		warning: unsafe block missing a safety comment
+			--> ../drivers/gpu/nova-core/firmware/fwsec.rs:303:17
+				|
+		303 |                 unsafe { transmute_mut(&mut dma_object, dmem_mapper=
+_offset) }?;
+				|                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^
+				|
+				=3D help: consider adding a safety comment on the preceding line
+				=3D help: for further information visit https://rust-lang.github.io/rus=
+t-clippy/master/index.html#undocumented_unsafe_blocks
+				=3D note: requested on the command line with `-W clippy::undocumented-u=
+nsafe-blocks`
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+		warning: unsafe block missing a safety comment
+			--> ../drivers/gpu/nova-core/firmware/fwsec.rs:319:17
+				|
+		319 |                 unsafe { transmute_mut(&mut dma_object, frts_cmd_of=
+fset) }?;
+				|                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^
+				|
+				=3D help: consider adding a safety comment on the preceding line
+				=3D help: for further information visit https://rust-lang.github.io/rus=
+t-clippy/master/index.html#undocumented_unsafe_blocks
 
+		warning: 2 warnings emitted
 
+Since the `unsafe` keyword has moved to a new line, its SAFETY comment need=
+ed
+to be moved right above it, despite it still being part of the same stateme=
+nt.
+I'll fix this as well.
