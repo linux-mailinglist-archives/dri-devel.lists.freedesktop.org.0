@@ -2,84 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WEF7IiDNeWmOzgEAu9opvQ
+	id EGLlLyfOeWnEzgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 09:47:28 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 09:51:51 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB8A9E59D
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 09:47:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75C249E739
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 09:51:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52AD410E2D0;
-	Wed, 28 Jan 2026 08:47:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D60D010E28E;
+	Wed, 28 Jan 2026 08:51:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aAV7Gp9z";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QtYy3W/h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 803D410E2D0
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 08:47:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 7F69E6012B
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 08:47:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FD1EC19421
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 08:47:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769590043;
- bh=khrPDqCGTN5tnjPlkTiyZMZqvVOJ9sgSO4C4yr0b8Jo=;
- h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
- b=aAV7Gp9zgZdRc7KJh8R8OOeLontofODPP9Ox37X1U4RRytrMXtyFwpHI2uCafsA6O
- N4M8SxdUBGEB6GG6wq9mldtPbeI3mWQ5Xhs5LSn4NPXoBCiQuI+RRzQ33rHJwB7ZJ9
- mG4MR1ghW1OsEQjStQ9BdK9fclJC7XbBn5Txfz8ZbZwRzM5jv+29aGAdeRRy68ORsq
- x22q+CT4ibKqsnVx4xg+c4tPQ/QgrPb4BYkxFqRLxsmkiF8rrDxZcNpUpZM9jwkGXe
- IlOgm6h98tLMgRQTmXJUJkYGOrC9P3V5At5uPhTMiH878BkQMhVSuBuu7c+scobBaC
- dDFw0NJqx1RVA==
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-59b6c13b68dso590944e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 00:47:23 -0800 (PST)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B51610E625
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 08:51:47 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-4806d23e9f1so7049475e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 00:51:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1769590306; x=1770195106; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=KkssKX9UZLI3a5TYO9ENZYAnlkONRgQSKBvfWG/TLA4=;
+ b=QtYy3W/hBciQGOI8MXGoLhMefOObyBc+RJJbgXEvcn0sXgkQ6w2furN39NoFwHSZEW
+ /u2RQV/bOf6Zor5N0gZkNZXN684W5lhrda0Ea2Hc08fSUGm9Us/fuhl5PImDOY30K2gS
+ o8U8ZA5YpIARezk4Q/qt+fkO3zp8MVyOzzs2psrsTx0h/oxvCfQbzUVLNv9Xj49WlWQQ
+ lBSFjhnI8tZOIWu4Ra09f3GKxL0qj7phSjzz4RZmXGExHPvRsYRjpIfFtKMNDPLPkF+i
+ TbgRE1OSucEivGx84N257L1hIKTS4ckUWxknVUBnRY73W7n35Uk271/QxOCuxWY949Nm
+ V2Pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769590306; x=1770195106;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KkssKX9UZLI3a5TYO9ENZYAnlkONRgQSKBvfWG/TLA4=;
+ b=tIlydGEvDC8LKPqmgtZ8o1IxLvf4ZcXUjNpWT2QoTjUXBQmTVd3gS0JN9jkQGE9Qhb
+ /La61EUHvpzUxnW2pQ+edxKzvBVfQCDd9rrp2SKcIX/9Mh8rOJzpXGFn9lvpKjBTraKM
+ u5ZTdy4nR5jav81X+z8DxaDV0tZnsxS+STAOfrQPaHxEr7uzWC9RJKiwtmWzirz8E6Bp
+ 3xZfhvA3q7TCKpnCjP5kcPmjXh5SyYte6YZxvFlj+iBCOG7IA7q750OcXIbUqluuRu4y
+ 9Ljb5eI5qR6IluGyyvlfoj/e37fHE4dLKz3yHTgrdVHnzE3tooXOamkztCRJZUqd2Xer
+ 7o5A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUDsYy4OCvWoOx1YxF2gxl7c89tz/mRrj62FH7unhKk0v4cDzjSA9MTaPtcCxSc3iKAYTAQS/OKPDI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyjIeIoeULhPtTzCAbzxNPgZfevToQOfANOKXl8xWjern+rxaey
- 1qpDlnlQYTFeOrG4TFPgt3jXp1Qk99eWAGvJPK3rsIkIMmOAZ2JRj4MG4BsZTg/MZA8xwLkjhXf
- 7QPPYvSLz9AAeETq2+tMyvbN+kUhGRJ6CUEZ8J1N11Q==
-X-Received: by 2002:ac2:464c:0:b0:59e:6f4:d224 with SMTP id
- 2adb3069b0e04-59e06f4d2demr780740e87.26.1769590041709; Wed, 28 Jan 2026
- 00:47:21 -0800 (PST)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 28 Jan 2026 00:47:19 -0800
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 28 Jan 2026 00:47:19 -0800
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-2-c55ec1b5d8bf@linaro.org>
+ AJvYcCXFewRFqFMaB7thFMlUCBodTpf9Pu3r/BMd9p5rIf2ZDQ8CyvcVkR4wF6mJvrdLtrlGCEYljl3ti/w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyjhL0YX1uib8BBqBrCHY4WiLvQ/TIH3KoyRBNyxD8sCg9QraZM
+ 65Z4sbF8KCaJko3K3Xq482VN6wj6kNSbNRPYQLWMiaiQkr7MmNsLuJjeb7ItS++7pL4=
+X-Gm-Gg: AZuq6aLLvILGPyjHZn+0v3O70AKDDZfAwNQmfq9b61cT4ydsv9+vttGi0X0vT7VUZB+
+ NZlu/a3ry1Xm06z2oZ/MLMER7Jy9346zoQ9o6ETa9ey+nhI4sYaKx39HFHOlV51aYBwFmqyR71e
+ O9FOZf3BauT69siKVfCNImGZUx8dff66FLt9J/7gVm2JqTs0azNpODacnGWMzeVkY/teZ1uPVkV
+ 0nEVsRl2PMRN4k/HG3GUHgvTnOgiUsF7izdtb5tWeG+nMGf+DIx3Xtw5QhCUDPmL0IX0TPWLUiG
+ fDHMRw/AX8JLk25IxAkPyZxSecE1nZKMUtqRgttJJ1e5d1wdzxMJ7oKzUzhCJmlgC7OMvP/1Ayy
+ TiwVU1BKRsMBjpzhzckUuzGJxYQ7sokTzMtYPakPQ0JQ18FB1xXa4VcyGM8rl5fDgCCuoudhXLe
+ ssu3OPJfaPrpBkYaaZDwSpnwv/0Lc8F8qPlBmx69dLeTbuWTif3K1YpbFNPYn0Qfg=
+X-Received: by 2002:a05:600c:4592:b0:477:1af2:f40a with SMTP id
+ 5b1f17b1804b1-48069c5b97cmr56776605e9.17.1769590305903; 
+ Wed, 28 Jan 2026 00:51:45 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:3d9:2080:7745:d752:5f0b:2b68?
+ ([2a01:e0a:3d9:2080:7745:d752:5f0b:2b68])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4806cddffe9sm66744915e9.4.2026.01.28.00.51.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Jan 2026 00:51:45 -0800 (PST)
+Message-ID: <c3b678ea-fca2-47ff-bc39-72ad498c8641@linaro.org>
+Date: Wed, 28 Jan 2026 09:51:44 +0100
 MIME-Version: 1.0
-References: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-0-c55ec1b5d8bf@linaro.org>
- <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-2-c55ec1b5d8bf@linaro.org>
-Date: Wed, 28 Jan 2026 00:47:19 -0800
-X-Gmail-Original-Message-ID: <CAMRc=MfOjd0RzAma+NgCVZvvaar+Wwe+jH6dYxzJ02h4GEBJdw@mail.gmail.com>
-X-Gm-Features: AZwV_QhXUdGdxJQ8EWE3IEaSkM8UzBdAeGOMqY6dnujEk2icHg1EteXYkrLHpqM
-Message-ID: <CAMRc=MfOjd0RzAma+NgCVZvvaar+Wwe+jH6dYxzJ02h4GEBJdw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
 Subject: Re: [PATCH v2 2/7] pci: pwrctrl: add PCI pwrctrl driver for the
  UPD720201/UPD720202 USB 3.0 xHCI Host Controller
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+To: Manivannan Sadhasivam <mani@kernel.org>,
+ Shawn Lin <shawn.lin@rock-chips.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Bartosz Golaszewski <brgl@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-usb@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ Magnus Damm <magnus.damm@gmail.com>, Bartosz Golaszewski <brgl@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-pci@vger.kernel.org
+References: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-0-c55ec1b5d8bf@linaro.org>
+ <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-2-c55ec1b5d8bf@linaro.org>
+ <llbnkm72mgcsrucnp7pdkwbgyzenvhe4kudxkdixplgaoirdem@3q3me34o5drf>
+ <0104896e-44d0-485a-a44e-694864c819b7@linaro.org>
+ <33bbb3ec-5659-4d50-a5ff-dafa44e291dd@rock-chips.com>
+ <ppe6w2h32vx2jh73bcv7ip7ubr2wgwjsz4ooruplpx7gx5s4rv@qfasjbocku4r>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <ppe6w2h32vx2jh73bcv7ip7ubr2wgwjsz4ooruplpx7gx5s4rv@qfasjbocku4r>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,199 +141,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:mani@kernel.org,m:shawn.lin@rock-chips.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:gregkh@linuxfoundation.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:brgl@kernel.org,m:bhelgaas@google.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-usb@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-pci@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[neil.armstrong@linaro.org,dri-devel-bounces@lists.freedesktop.org];
 	RCPT_COUNT_TWELVE(0.00)[28];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:gregkh@linuxfoundation.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:brgl@kernel.org,m:mani@kernel.org,m:bhelgaas@google.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-usb@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-pci@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linuxfoundation.org,glider.be,google.com,vger.kernel.org,lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[brgl@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:email];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linaro.org:replyto,linaro.org:dkim,linaro.org:mid];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[brgl@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linuxfoundation.org,glider.be,google.com,vger.kernel.org,lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 3AB8A9E59D
+	REPLYTO_EQ_FROM(0.00)[]
+X-Rspamd-Queue-Id: 75C249E739
 X-Rspamd-Action: no action
 
-On Tue, 27 Jan 2026 10:57:29 +0100, Neil Armstrong
-<neil.armstrong@linaro.org> said:
-> Add support fo the Renesas UPD720201/UPD720202 USB 3.0 xHCI Host Controller
-> power control which connects over PCIe and requires specific power supplies
-> to start up.
->
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  drivers/pci/pwrctrl/Kconfig                 | 10 ++++
->  drivers/pci/pwrctrl/Makefile                |  2 +
->  drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c | 88 +++++++++++++++++++++++++++++
->  3 files changed, 100 insertions(+)
->
-> diff --git a/drivers/pci/pwrctrl/Kconfig b/drivers/pci/pwrctrl/Kconfig
-> index e0f999f299bb..5a94e60d0d3e 100644
-> --- a/drivers/pci/pwrctrl/Kconfig
-> +++ b/drivers/pci/pwrctrl/Kconfig
-> @@ -11,6 +11,16 @@ config PCI_PWRCTRL_PWRSEQ
->  	select POWER_SEQUENCING
->  	select PCI_PWRCTRL
->
-> +config PCI_PWRCTRL_UPD720201
-> +	tristate "PCI Power Control driver for the UPD720201 USB3 Host Controller"
-> +	select PCI_PWRCTRL
-> +	help
-> +	  Say Y here to enable the PCI Power Control driver of the UPD720201
-> +	  USB3 Host Controller.
-> +
-> +	  The voltage regulators powering the rails of the PCI slots
-> +	  are expected to be defined in the devicetree node of the PCI device.
-> +
->  config PCI_PWRCTRL_SLOT
->  	tristate "PCI Power Control driver for PCI slots"
->  	select PCI_PWRCTRL
-> diff --git a/drivers/pci/pwrctrl/Makefile b/drivers/pci/pwrctrl/Makefile
-> index 13b02282106c..a99f85de8a3d 100644
-> --- a/drivers/pci/pwrctrl/Makefile
-> +++ b/drivers/pci/pwrctrl/Makefile
-> @@ -5,6 +5,8 @@ pci-pwrctrl-core-y			:= core.o
->
->  obj-$(CONFIG_PCI_PWRCTRL_PWRSEQ)	+= pci-pwrctrl-pwrseq.o
->
-> +obj-$(CONFIG_PCI_PWRCTRL_UPD720201)	+= pci-pwrctrl-upd720201.o
-> +
->  obj-$(CONFIG_PCI_PWRCTRL_SLOT)		+= pci-pwrctrl-slot.o
->  pci-pwrctrl-slot-y			:= slot.o
->
-> diff --git a/drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c b/drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c
-> new file mode 100644
-> index 000000000000..db96bbb69c21
-> --- /dev/null
-> +++ b/drivers/pci/pwrctrl/pci-pwrctrl-upd720201.c
-> @@ -0,0 +1,88 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Based on upd720201.c:
-> + * Copyright (C) 2024 Linaro Ltd.
-> + * Author: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> + */
-> +
-> +#include <linux/device.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/pci-pwrctrl.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/slab.h>
-> +
-> +struct pci_pwrctrl_upd720201_data {
-> +	struct pci_pwrctrl ctx;
-> +	struct regulator_bulk_data *supplies;
-> +	int num_supplies;
-> +};
-> +
-> +static void devm_pci_pwrctrl_upd720201_power_off(void *data)
-> +{
-> +	struct pci_pwrctrl_upd720201_data *upd720201 = data;
-> +
-> +	regulator_bulk_disable(upd720201->num_supplies, upd720201->supplies);
-> +	regulator_bulk_free(upd720201->num_supplies, upd720201->supplies);
-> +}
-> +
-> +static int pci_pwrctrl_upd720201_probe(struct platform_device *pdev)
-> +{
-> +	struct pci_pwrctrl_upd720201_data *upd720201;
-> +	struct device *dev = &pdev->dev;
-> +	int ret;
-> +
-> +	upd720201 = devm_kzalloc(dev, sizeof(*upd720201), GFP_KERNEL);
-> +	if (!upd720201)
-> +		return -ENOMEM;
-> +
-> +	ret = of_regulator_bulk_get_all(dev, dev_of_node(dev),
-> +					&upd720201->supplies);
-> +	if (ret < 0) {
-> +		dev_err_probe(dev, ret, "Failed to get upd720201 regulators\n");
+On 1/28/26 08:57, Manivannan Sadhasivam wrote:
+> On Wed, Jan 28, 2026 at 02:22:50PM +0800, Shawn Lin wrote:
+>> 在 2026/01/28 星期三 5:53, Neil Armstrong 写道:
+>>> On 1/27/26 16:53, Manivannan Sadhasivam wrote:
+>>>> On Tue, Jan 27, 2026 at 10:57:29AM +0100, Neil Armstrong wrote:
+>>>>> Add support fo the Renesas UPD720201/UPD720202 USB 3.0 xHCI Host
+>>>>> Controller
+>>>>> power control which connects over PCIe and requires specific
+>>>>> power supplies
+>>>>> to start up.
+>>>>>
+>>>>
+>>>> This driver only handles the supplies. So why can't you use the existing
+>>>> pwrctrl-slot driver as a fallback?
+>>>
+>>> It would fit with no change, but the name "slot" doesn't match the goal
+>>> here,
+>>> it's not a slot at all, it's an actual pcie IC.
+>>>
+>>
+>> How about renaming slot.cto something like pci-pwrctrl-simple.c, especially
+>> if most power sequences fit into this category? This would follow the naming
+>> example seen in other subsystems, such as drivers/mmc/core/pwrseq_simple.c.
+>>
+> 
+> Yes. There is no point in duplicating the drivers just for a different name.
+> Slot driver is relatively new. So I don't think there would be issues in
+> renaming the module name.
+> 
+> I'd prefer for 'pci-pwrctrl-generic.ko' for module name and 'generic.c' for
+> driver name.
 
-dev_err_probe()?
+Will do
 
-> +		return ret;
-> +	}
-> +
-> +	upd720201->num_supplies = ret;
-> +	ret = regulator_bulk_enable(upd720201->num_supplies, upd720201->supplies);
-> +	if (ret < 0) {
-> +		dev_err_probe(dev, ret, "Failed to enable upd720201 regulators\n");
-> +		regulator_bulk_free(upd720201->num_supplies, upd720201->supplies);
-> +		return ret;
+Thanks,
+Neil
 
-Save a line by returning dev_err_probe() here?
+> 
+> - Mani
+> 
 
-> +	}
-> +
-> +	ret = devm_add_action_or_reset(dev, devm_pci_pwrctrl_upd720201_power_off,
-> +				       upd720201);
-> +	if (ret)
-> +		return ret;
-> +
-> +	pci_pwrctrl_init(&upd720201->ctx, dev);
-> +
-> +	ret = devm_pci_pwrctrl_device_set_ready(dev, &upd720201->ctx);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to register pwrctrl driver\n");
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id pci_pwrctrl_upd720201_of_match[] = {
-> +	{
-> +		.compatible = "pci1912,0014",
-> +	},
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, pci_pwrctrl_upd720201_of_match);
-> +
-> +static struct platform_driver pci_pwrctrl_upd720201_driver = {
-> +	.driver = {
-> +		.name = "pci-pwrctrl-upd720201",
-> +		.of_match_table = pci_pwrctrl_upd720201_of_match,
-> +	},
-> +	.probe = pci_pwrctrl_upd720201_probe,
-> +};
-> +module_platform_driver(pci_pwrctrl_upd720201_driver);
-> +
-> +MODULE_AUTHOR("Neil Armstrong <neil.armstrong@linaro.org>");
-> +MODULE_DESCRIPTION("PCI Power Control driver for UPD720201 USB3 Host Controller");
-> +MODULE_LICENSE("GPL");
->
-> --
-> 2.34.1
->
->
-
-Just nits with dev_err_probe(). With these LGTM.
-
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-
-Bartosz
