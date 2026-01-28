@@ -2,57 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UDaiHfL2eWkE1QEAu9opvQ
+	id YKiMKYP1eWnT1AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:45:54 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:39:47 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B22A0C11
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:45:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1418A0A0F
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:39:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A855110E6C4;
-	Wed, 28 Jan 2026 11:45:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26B6A10E2A0;
+	Wed, 28 Jan 2026 11:39:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="rb0VuctP";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="avEzv+uv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 352 seconds by postgrey-1.36 at gabe;
- Wed, 28 Jan 2026 11:45:47 UTC
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com
- [95.215.58.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9DC410E6AA
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 11:45:47 +0000 (UTC)
-Message-ID: <90cdb121-7ff2-43a5-9327-2898b5e65609@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1769600393;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TUj+LxOscCxO1tjkKWfveVt0YFR86/lmCAD7hl+ohbA=;
- b=rb0VuctPr/HYJbS7r/J714GyU/qHK0KfeQt8cHG9WYGJMwjbmR1ND6BH33cPeq0L0k1cJ4
- +XG3WMjpy55+Boty8BlssUJUZFDPBMjLGiLeBM0fpHGGDnjSuI7K0ZqNLDyrrnbdUJrP+W
- T1RkuhzwBa9olV+hQM1OUBxh/jdB/sE=
-Date: Wed, 28 Jan 2026 12:39:13 +0100
-MIME-Version: 1.0
-To: tursulin@ursulin.net
-Cc: airlied@gmail.com, ckoenig.leichtzumerken@gmail.com, dakr@kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, marpagan@redhat.com,
- matthew.brost@intel.com, mripard@kernel.org, phasta@kernel.org,
- simona@ffwll.ch, tzimmermann@suse.de
-References: <79cf2013-da6b-4653-aaa8-3e29a7d1ee3a@ursulin.net>
-Subject: Re: [RFC PATCH] drm/sched: Add new KUnit test suite for concurrent
- job submission
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Marco Pagani <marco.pagani@linux.dev>
-In-Reply-To: <79cf2013-da6b-4653-aaa8-3e29a7d1ee3a@ursulin.net>
+Received: from CO1PR03CU002.outbound.protection.outlook.com
+ (mail-westus2azon11010046.outbound.protection.outlook.com [52.101.46.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52E4A10E2A0;
+ Wed, 28 Jan 2026 11:39:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MmbOHeeNboxR4AmG3UEzHGfVjx5sn1E5xiGCD0XNMbadgya2MtbI86I3kfUxW6PCvdVkWX30SD4zVEfjtJoJ997OQTGYiMO2B/gn5R5ZgrqRN3GRiD7gg5aIT5tBZwF0ke0oHOrdx3ckluvWF/h3cN0keT6+2GNcsX/WEoJsVrUZoUkeuO4Khe8Knk3WjjudykcKGr5/icdHbt0HWwa5b0LJojWjeJZKGt6AwkMn6OmWbu5kRMrFP2s091JZ9jJu/fLV+nPncFHeTxoRVaKC3R89jrtYkWOtOmGoOd9Xyeb1xxZhJefSoAm5Mh4aCOSUOgzt0kKG1ebVl1VzZlKqBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D5/sKBKGaBl2cZQQtop/qjqumAYrkYiCd5wCc3fMyQo=;
+ b=xqLd4rrBLF9LNiqPYEj4kBBeQ6ybmTSZ1ovPraWtUgAPbt9Nb1G1FhMDpFXvRKpOyCrwBT7Uo5+0EmheQBNVagP/iUnBq/+07WMkjmydTF8JgxTF8IJuKv9zAnsJXJp7yngKvQJKgZZAjxivgOnDHeYfTGa0+F+I/yve1DI0quJzXPWe1qSXEs3FrZaCvaF9prbFIu4EsiwS4aKUkM7zyG0uHqEca4QNKjSBepip7dICKK+dHv8e2/IYOeEMLBepCQj71J+NSetML03uJKm/QCLbWC+kwHhIdgvz2TFJc7O4/JpgT3CAJjDbhDkcnesK3Ki1PAkXI1dvOagtuNNInQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D5/sKBKGaBl2cZQQtop/qjqumAYrkYiCd5wCc3fMyQo=;
+ b=avEzv+uvpfhUDbVhJYshOwxiji/jJFNLr+bQ1dY3gP13fsh70x+Xub8C4QG3cEUNqMRd7TqBX+OZmFSt4HGG8HwIptF7ryS/H1HkJ44z4IYjiBm4pZRK094pGawalHfvIOEM1ghnpUj+3WIKJGUrKccGboeTfRa0H3mvFjAsLx4ixM93UpuTKQs54wO+X/DXcfLbo+unQJHdgdcrQEY5n+FKvH6x+moTZPX2XV/j6pxcsBaSK+ApUMK/Ox8QimNhkdYYxUwNCqehdAZx1t1xix00dYWu6UtRdAG1MkaO+Hadujf+xKOuFloRFyyKpFvD7dMvptb8qbB4EAe3QLzVdg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by CY8PR12MB7563.namprd12.prod.outlook.com (2603:10b6:930:96::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Wed, 28 Jan
+ 2026 11:39:39 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9542.010; Wed, 28 Jan 2026
+ 11:39:39 +0000
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Date: Wed, 28 Jan 2026 20:39:35 +0900
+Message-Id: <DG06Z9TJYYWD.1NAOGF6GCNFZS@nvidia.com>
+Cc: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
+ <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Alistair Popple" <apopple@nvidia.com>,
+ <nouveau@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 3/4] gpu: nova-core: gsp: fix improper handling of
+ empty slot in cmdq
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Eliot Courtney" <ecourtney@nvidia.com>
+References: <20260123-nova-core-cmdq1-v2-0-e797ec1b714c@nvidia.com>
+ <20260123-nova-core-cmdq1-v2-3-e797ec1b714c@nvidia.com>
+In-Reply-To: <20260123-nova-core-cmdq1-v2-3-e797ec1b714c@nvidia.com>
+X-ClientProxiedBy: TYCP286CA0068.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:31a::8) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CY8PR12MB7563:EE_
+X-MS-Office365-Filtering-Correlation-Id: 02336e5c-1a5c-460e-c209-08de5e61eba2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0; ARA:13230040|10070799003|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dkw1dDdrT0VzTkppTXNieFV3U25TOHJ0SU85bEZBamNxVFR4VExYUjJWTlYz?=
+ =?utf-8?B?UVBJNnhZQTVjejNjWXYwQ0pwR3ZDUzcxK3c0dk1yOGRJdUVWcUprQkVPYTlW?=
+ =?utf-8?B?NWVFV0poS1Y0WG5wUXVMZ0tvcHBzelZWWmxFZHRVNFJwY3hHbDFWUzk0UmpS?=
+ =?utf-8?B?VjBCUzZCS0l1bkI5RFZNMHo2eTh2THdPMkdjM21rYU91ZmR5bFVUcTNQZEFj?=
+ =?utf-8?B?TDB1Ym5uSm5nOTVlMU8rRm9XSGRJb2RsOSszRmVEL2hreWVZN0J2anpwc1JT?=
+ =?utf-8?B?Mm4xcDFIcDlPNGZpTk05RWVTTnROSnVqZGcyOUdpZWJuM3Vkbk5GRUNscjIr?=
+ =?utf-8?B?TE5OSkxpT3c0SjhGRzVITVQ3bEJzYkw2ZGd3VEJPRmNxRjRCRmVHSnlNcVJV?=
+ =?utf-8?B?ZDNJWDdyaGx0VUk2UVl4dDVjMG1aUStCSkVmZXhITEg5WVEzbVRlcVVwZCtj?=
+ =?utf-8?B?YlBKV2JCMkFaTFp0bW94VFNyUUllQmdvWHk4cVNGUWkzK2RkUXIySit4dzZn?=
+ =?utf-8?B?Z01ENnNjajU5ZFJhQ2dSV1dhbWRUWDgzSXo5VEpqTEhJRm0xZlJRakJGWnl4?=
+ =?utf-8?B?d1FtYUJPUEIxWWpDUXQ3TnBwVjVqczZHdCtJc21aYjlTTFpiQktTbzVZZVdU?=
+ =?utf-8?B?RXFmMGdFWFAxNzdkdGd1c3FEbnJnQVBMTGN6QVFJazlxWnNpMXRsNHA4Zmlp?=
+ =?utf-8?B?dnQ5YjVUcmVFOFBzaVpFajROMHRuYXNwWWtKTFQ4dVI3SVpqK0g2bVFvVkVy?=
+ =?utf-8?B?Um5XbjAzNzJlQmxKa1J3VXFha24yTFQwWERBQ2JSRGlQTVlCeGNJaGJreSto?=
+ =?utf-8?B?R0ZnZmpzMWMzcDR0WkgyNkJBOGlzdmZIWmVLRmtvWW5LalZHTFlJRTUwdlIv?=
+ =?utf-8?B?Q3k0OGpyMTMrL3VoV1h0SUJkNHQ3M1dTVkpLQlRBVXM4cUZRUHgrS0VRRFJP?=
+ =?utf-8?B?YXB0NFd6NFZCdm5PUHRKL0JBSVBLeE42T2o0OHQ1VGI3YjA0OXRZWkNVWlg1?=
+ =?utf-8?B?eS81dHRvOHpzSE5vTE0zK2FHS3ZsUktTZXo0SHdTUXpKcWFKZXo0cDdIMytq?=
+ =?utf-8?B?VUhZbnhrRkZDOGxUSkoxVzVaano0dVRkNmErRTJDcVRQSGFnUEY5aEV4bG1T?=
+ =?utf-8?B?Z2VlbTFkZzQ1SDRPaWt0Si9RQTYvR2w3L3BZaXBNN0NTRTlvQUZ3bWlvRUFp?=
+ =?utf-8?B?UWw2VWxUZGNmMjhUS1pmc2h6WXVyeGsyejFtMWdDUjNDYlNXaE40SFVkS2U3?=
+ =?utf-8?B?Mkdudk14Y283VGJVakhjcUU1NFRZRnBvZGRTdXlDL0RxOXpYd2RjbFdqR0tm?=
+ =?utf-8?B?SkgvZEpVaFdZU2RyeCs2bHB4RWxpdzUwTG4zOUU1dXlqVUlzd1drTDlSUzBa?=
+ =?utf-8?B?R3FVcGVFTFUrQzcwYm81R0dXcU1UT2hSS05rUE5SeW1SV3hmQXBLeWc0dVhC?=
+ =?utf-8?B?R3hFTzBxdmJ3cDFxRWFIUHJyaDcyWWJ0TEtKajc3djUzZTRxS0xISGpqem5W?=
+ =?utf-8?B?Q0swVzNEdzVyd3p6UjEwUExDMjBibzQ5a0JENnVBVFJSZ1k4NVdmTG80cEc1?=
+ =?utf-8?B?OFNBL05MQlhuTjI4aE01RmtyU3VHRlU3bFd4ektFNGpjMGhieUVIRTBkdjB6?=
+ =?utf-8?B?Slc2NXUyd3VvVkJyNEI0OXA5K3lXMytrRXdaOHdBSGV2N04xVkV0Wjd1TXpP?=
+ =?utf-8?B?bXg5cXFVZWxYdFNQUXplTk80bXBBOWdhOTZZWENZQ1pSdTk2WG11S1AzKzU0?=
+ =?utf-8?B?WW51QkRZamd3cFowSUdjeTNwSnNPZFp3TW92Yk5DbDhmb2ZrQWpPQW14elVo?=
+ =?utf-8?B?UnZqVTRXb3dKNFZtb29RWEtoVE1LUVU4MHQzWEF1QjNIcFhiR2hoYXhDOVkv?=
+ =?utf-8?B?L2dpdkd1eExzeFUrWUlma2ZYMFIwak1jU1ZVNUZZWm9iWk0xdlo4KytEcHF1?=
+ =?utf-8?B?WEl1N3hhYU5MMENiTGdsRExhSDA4SzY5SHBzemptYndrT3ZBNnNLQ3ovTm52?=
+ =?utf-8?B?cWtpbEYvT0JmYUlxYnpZbVE5QXdTUE94VC8wdHN4Sys0cU13a1c3OUovOHhm?=
+ =?utf-8?B?OGxvUXZDK2VTODhHREs2VzE4dmNIVDFzU1JhaURFQm15RlVsdTZVQVVLNjcw?=
+ =?utf-8?Q?kaHg=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ekJTS3VVNEFrMlBUT28yMmdzcWxocVN6S3JXMG03TndIMFFFUzJSeDlKK0Vv?=
+ =?utf-8?B?NzZBT2N6dlJwZlFyQXB5VmgxbWFkdC95QlpzSVFpMEV3K05zNFNNK2RnWFJL?=
+ =?utf-8?B?UlE2M3BTSVprUWpObFhRVkg4dlJ5akw5M1hrWi9JV1BwSEZ5YnJzUEVVSXV3?=
+ =?utf-8?B?VGFsV29WN2FYb3UrRVJsVGdWQWZEWG85dE1kRlNRYTRiMkZlaCtyUC9EUXZW?=
+ =?utf-8?B?T00wdnIrN0ZFQ2xpYnN0Q2tQb0NTVkdSRm91eGxORUIrY0ladWRpTFVzL2p6?=
+ =?utf-8?B?ZE9rSWx1dmhZNFlxcUhzWnAwSEZ5QkczNGhkT3hEc2c2ajdFWUhyRjJySTRk?=
+ =?utf-8?B?VllpeGhja1FpeGpNZjBLckVURFZsVVRXc2podkN5UXZ3Rk52VzJpdGFaRGxG?=
+ =?utf-8?B?UVRFakRESm9pK3JtSUNWbmQvM0hjWmMybjBDY2xLeHdWVk1EME0xRGd2bGxU?=
+ =?utf-8?B?OHNxYlZJUmhPYmRxaTlvU3FNTTJhWjBxelpWcDZEaU1tMmxRVUwvYVNha3p1?=
+ =?utf-8?B?QTdlbkltRzh6S3dyZEt5TCtrWk1JbnJUVFdmbjMxYlVHS3M4Z0sxVTRtOGFj?=
+ =?utf-8?B?ZG9KbzFmNXRvUHNVTzlBc29lYUt6TmduQkxocE1QNlZvWkpqUDNhZHo5VnJL?=
+ =?utf-8?B?TVhMbHFoU1dXR2R1Q3BJTHZsVklSSlRtV3UxN3g1Rml6TXpXdGF2dUNuVVJ3?=
+ =?utf-8?B?N2ZERHRReldBTjZoamMvbGJBeDZnNlQ0OS9oVDM1OWRUQ1NMUEZpcXJlTUtN?=
+ =?utf-8?B?UkZ5YnozY1hHbStvL2xDMnBnWEw4bjFic1NmSytWdUlkQzNzODRTR29SM3hj?=
+ =?utf-8?B?MFRXY2VyNXNrOUduME96V0lnbjBNL0wwOEx3QTJzV3dTUHVYZm9VNCtoamxq?=
+ =?utf-8?B?T0hkS3N4ZzliWis2bGFJS2N5aFNrZGE3V1R2SzNPbGd3Q290MUpwanR2TnNX?=
+ =?utf-8?B?cFZ1clVEVFJST0JYVGI5Y01PTTlwRENhaGpIWUgxbTFkNWdTeUx1Y24zM3dZ?=
+ =?utf-8?B?Y0xXQkd2d2l2V1BIaWMzYXh2L04yNkRZdjZkWk1kQVF1bXBrQzgyQ1pUZDg2?=
+ =?utf-8?B?NWVqL3dxQmlFbDlJVExWS0lTbHhmbUFsNFY4SElPU0FlUWxmUm9hMFN4Q3VL?=
+ =?utf-8?B?Mm4rUVdZQzZjTHVIMGxNT0d6dXIrak51b0VVN1BXMi9WR3VkbExKTnZVTjJv?=
+ =?utf-8?B?MEpWY3BsSWlJWTJ4Yy9xdlFJSytaVWlWRnNoQTc4T2pjTmFvOG9OZXRVTjRE?=
+ =?utf-8?B?c01aVmRsVmVENzVoMTcwUVNMK2NqRUZQZWVFdVlPeTZpY3YvYWFnYlNYK0Nt?=
+ =?utf-8?B?Qk5jM1JsQXJVdlhlbnRPeHZHRkhudWZaZlNBNFBveXg1TjBDN0s4aDI2cVRl?=
+ =?utf-8?B?dVhnbUhkREQyOGc4SUs1ZS9HdXRzOFJhYWg4aUVadUNrWC9NZlBFTjVpcU5I?=
+ =?utf-8?B?TGpaSGtMSm1kZVZOZ0h5WUgybG1mY2swZmpFdVY2alJxSGdwZWpTR2dPM2ls?=
+ =?utf-8?B?NnJYMnlHb3NxOXFrdkF6aU1qK25sNFJjMnVCTytHR3BQWEJndVZXbTU1YTdq?=
+ =?utf-8?B?VUVnbjhWdXlEV3g2OU5GOGpvci9ZTm0xODRGcEMrRnVHb1gzU3Z4OVhXdWlF?=
+ =?utf-8?B?QkRhaStQdnBZMEhBeVhlcnZOMFFYRmRVUFQ5bHFzVUVyOWw5K1JqY053cU1F?=
+ =?utf-8?B?d1VWOWtIMDg1Y1h3QWZuL29ieVQ0R0xhWUVzbEFmVWFKUVkvSkdKQzFOZCsv?=
+ =?utf-8?B?RSsxU1FCWFFWV2hsTHVCVXJTcC9xRGdwZFBFY3JBREhya2ptR1h1ZVJ4U0JM?=
+ =?utf-8?B?Q09BcUZtQk5mb0NWNmQxK1dvd3FEMnpxZzBFbEpKa2hTV0RadXN1eE1YN0hO?=
+ =?utf-8?B?QlpEdWtvRGhaQW5GQkxEbG1ZUEd2bk1jdDRqUWN3YjFud2hQbzc4NWJLQTZL?=
+ =?utf-8?B?VnllTVUvNlRtK3B0dmVPRWFHQ1l3NGZTaUsyTWVtMllRRUQvN1kyZmFqQk0x?=
+ =?utf-8?B?VDBTSVpBZDJHUXZGbXcrdTdhSzVTYmRWUHViaXNjQm1wVnhsT2NZSEVnbzRz?=
+ =?utf-8?B?aW9XQ0dPNFU0L1FnOXpLZlJyRHBneFRPV0hFL3EvVDVEY1ZveEJZVmJtQ1FB?=
+ =?utf-8?B?djBYZ2d6U2o3YXV2Qnc4SW5nK1F5MXhacHgrOFFkRTkydFhtUnpJTnQ0VTgv?=
+ =?utf-8?B?d3lTZWVKcDR4SDFRN1Y2ckhJWWpPMW1TT0k0cE5GaythWUY5N3ZMVC9kTmwz?=
+ =?utf-8?B?anN3SVlCR0RycTJUbHhoT2JUU3k1ZGJQbDl1ekl0MHl6MnNobG5WbzdRcSt3?=
+ =?utf-8?B?SXRONEM3SmFjenYzRVNHdmdtWlRmdGlHYlNBdG1jbGhHNFZwSElUb1dIZzNx?=
+ =?utf-8?Q?So6/sO7qITLMw+yZFMjRXDao4UhTH90PURNuuc6ZPnCeB?=
+X-MS-Exchange-AntiSpam-MessageData-1: 7SOSvGPK/3bi5A==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02336e5c-1a5c-460e-c209-08de5e61eba2
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 11:39:39.2966 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lGD5RGTB/vyMImhurjX3CbvpQLRkTiFZt4BF/Hx/oZd2TMOAvmtdWy7GyQw+vJL5R4rrD1n9rG4AWiSZC9baUA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7563
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,290 +179,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:tursulin@ursulin.net,m:airlied@gmail.com,m:ckoenig.leichtzumerken@gmail.com,m:dakr@kernel.org,m:linux-kernel@vger.kernel.org,m:maarten.lankhorst@linux.intel.com,m:marpagan@redhat.com,m:matthew.brost@intel.com,m:mripard@kernel.org,m:phasta@kernel.org,m:simona@ffwll.ch,m:tzimmermann@suse.de,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[marco.pagani@linux.dev,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,lists.freedesktop.org,vger.kernel.org,linux.intel.com,redhat.com,intel.com,ffwll.ch,suse.de];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,google.com,gmail.com,ffwll.ch,nvidia.com,lists.freedesktop.org,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_NEQ_ENVFROM(0.00)[marco.pagani@linux.dev,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[linux.dev:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[acourbot@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linux.dev:mid,linux.dev:dkim]
-X-Rspamd-Queue-Id: A3B22A0C11
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,Nvidia.com:dkim,nvidia.com:mid,nvidia.com:email]
+X-Rspamd-Queue-Id: F1418A0A0F
 X-Rspamd-Action: no action
 
-
-On 22/01/2026 10:51, Tvrtko Ursulin wrote:
-> 
-> On 20/01/2026 20:52, Marco Pagani wrote:
->> Add a new test suite to simulate concurrent job submissions from userspace.
->> The suite includes a basic test case where each worker submits a single
->> job, and a more advanced case involving the submission of multiple jobs.
-> 
-> New test coverage is welcome!
-
-Hi Tvrtko, Philip, and thank you.
-
-> But as Philipp has said some more context would be beneficial. Like are 
-> you trying to hit a bug, or extend later with something which will hit a 
-> bug and then you will propose improvements? Or simply improving the 
-> coverage?
-
-Sure, I'll extend the commit message to be more descriptive in the next
-version.
- 
-> If it is about some race I would maybe consider putting this into a new 
-> tests_races.c. I actually have this file locally and some unfinished 
-> test cases already, although it is unclear when I will be happy with 
-> them to post. But if the test is simply about adding coverage it is fine 
-> to live in tests_basic.c.
-
-The general idea is to extend the suite with some initial tests that stress
-concurrency to spot race conditions. Having these initial tests grouped together
-with future ones in a new tests_races.c file makes perfect sense to me.
-
->> Signed-off-by: Marco Pagani <marpagan@redhat.com>
->> ---
->>   drivers/gpu/drm/scheduler/tests/tests_basic.c | 175 ++++++++++++++++++
->>   1 file changed, 175 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
->> index 82a41a456b0a..7c25bcbbe7c9 100644
->> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
->> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
->> @@ -2,6 +2,7 @@
->>   /* Copyright (c) 2025 Valve Corporation */
->>   
->>   #include <linux/delay.h>
->> +#include <linux/completion.h>
->>   
->>   #include "sched_tests.h"
->>   
->> @@ -235,6 +236,179 @@ static void drm_sched_basic_cancel(struct kunit *test)
->>   	KUNIT_ASSERT_EQ(test, job->hw_fence.error, -ECANCELED);
->>   }
->>   
->> +struct sched_concurrent_test_context {
->> +	struct drm_mock_scheduler *sched;
->> +	struct workqueue_struct *sub_wq;
->> +	struct completion wait_go;
->> +};
->> +
->> +KUNIT_DEFINE_ACTION_WRAPPER(destroy_workqueue_wrap, destroy_workqueue,
->> +			    struct workqueue_struct *);
->> +
->> +KUNIT_DEFINE_ACTION_WRAPPER(drm_mock_sched_fini_wrap, drm_mock_sched_fini,
->> +			    struct drm_mock_scheduler *);
->> +
->> +KUNIT_DEFINE_ACTION_WRAPPER(drm_mock_sched_entity_free_wrap, drm_mock_sched_entity_free,
->> +			    struct drm_mock_sched_entity *);
->> +
->> +static int drm_sched_concurrent_init(struct kunit *test)
->> +{
->> +	struct sched_concurrent_test_context *ctx;
->> +	int ret;
->> +
->> +	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
->> +
->> +	init_completion(&ctx->wait_go);
->> +
->> +	ctx->sched = drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
->> +
->> +	ret = kunit_add_action_or_reset(test, drm_mock_sched_fini_wrap, ctx->sched);
->> +	KUNIT_ASSERT_EQ(test, ret, 0);
->> +
->> +	/* Use an unbounded workqueue to maximize job submission concurrency */
->> +	ctx->sub_wq = alloc_workqueue("drm-sched-submitters-wq", WQ_UNBOUND,
->> +				      WQ_UNBOUND_MAX_ACTIVE);
->> +	KUNIT_ASSERT_NOT_NULL(test, ctx->sub_wq);
->> +
->> +	ret = kunit_add_action_or_reset(test, destroy_workqueue_wrap, ctx->sub_wq);
->> +	KUNIT_ASSERT_EQ(test, ret, 0);
->> +
->> +	test->priv = ctx;
->> +
->> +	return 0;
->> +}
->> +
->> +struct drm_sched_concurrent_params {
->> +	const char *description;
->> +	unsigned int job_base_us;
->> +	unsigned int num_jobs;
->> +	unsigned int num_subs;
->> +};
->> +
->> +static const struct drm_sched_concurrent_params drm_sched_concurrent_cases[] = {
->> +	{
->> +		.description = "Concurrently submit a single job in a single entity",
->> +		.job_base_us = 1000,
->> +		.num_jobs = 1,
->> +		.num_subs = 32,
->> +	},
-> 
-> Why is submission from a single thread interesting if it is already covered?
-
-These two initial parameter sets cover only concurrent submission:
-multiple submitters, single job / multiple submitters, multiple jobs.
-
->> +	{
->> +		.description = "Concurrently submit multiple jobs in a single entity",
->> +		.job_base_us = 1000,
->> +		.num_jobs = 10,
->> +		.num_subs = 64,
->> +	},
->> +};
->> +
->> +static void
->> +drm_sched_concurrent_desc(const struct drm_sched_concurrent_params *params, char *desc)
->> +{
->> +	strscpy(desc, params->description, KUNIT_PARAM_DESC_SIZE);
->> +}
->> +
->> +KUNIT_ARRAY_PARAM(drm_sched_concurrent, drm_sched_concurrent_cases, drm_sched_concurrent_desc);
->> +
->> +struct submitter_data {
->> +	struct work_struct work;
->> +	struct sched_concurrent_test_context *ctx;
->> +	struct drm_mock_sched_entity *entity;
->> +	struct drm_mock_sched_job **jobs;
->> +	struct kunit *test;
->> +	unsigned int id;
->> +	bool timedout;
->> +};
->> +
->> +static void drm_sched_submitter_worker(struct work_struct *work)
->> +{
->> +	const struct drm_sched_concurrent_params *params;
->> +	struct sched_concurrent_test_context *ctx;
->> +	struct submitter_data *sub_data;
->> +	unsigned int i, duration_us;
->> +	unsigned long timeout_jiffies;
->> +	bool done;
->> +
->> +	sub_data = container_of(work, struct submitter_data, work);
->> +	ctx = sub_data->ctx;
->> +	params = sub_data->test->param_value;
->> +
->> +	wait_for_completion(&ctx->wait_go);
->> +
->> +	for (i = 0; i < params->num_jobs; i++) {
->> +		duration_us = params->job_base_us + (sub_data->id * 10);
-> 
-> Why is job duration dependent by the submitter id?
-
-Just a simple way to have a deterministic distribution of durations.
-I can change it if it doesn't fit.
-
-> Would it be feasiable to not use auto-completing jobs and instead 
-> advance the timeline manually? Given how the premise of the test seems 
-> to be about concurrent submission it sounds plausible that what happens 
-> after submission maybe isn't very relevant.
-
-Good idea! I'll run some experiments and see if it works.
-
->> +		drm_mock_sched_job_set_duration_us(sub_data->jobs[i], duration_us);
->> +		drm_mock_sched_job_submit(sub_data->jobs[i]);
-> 
-> On a related note, one interesting thing to add coverage for later is 
-> multi-threaded submit of multiple jobs against a single entity. But it 
-> is not an immediate need. Just mentioning it as something interesting.
-
-Currently, the test configures each submitter to submit multiple jobs
-against its own dedicated entity. I considered adding a test case for
-submitting multiple jobs against multiple entities, but I decided to
-leave it for the future.
-
-> It would mean open coding drm_mock_sched_job_submit() as 
-> drm_sched_job_arm() and drm_sched_entity_push_job() and sticking some 
-> delay in between so two threads have the chance to interleave. Mock 
-> scheduler does not handle it today, neither does the scheduler itself 
-> who punts responsibility to callers. So adding a test and making the 
-> mock scheduler handle that properly would serve as an example on how 
-> scheduler must be used. Or what can go bad if it isn't.
-
-Do you mean having multiple (k)threads submitting against the same entity?
-Would that be used to model a multithread application that uses multiple queues?
-
->> +	}
->> +
->> +	timeout_jiffies = usecs_to_jiffies(params->job_base_us * params->num_subs *
->> +					   params->num_jobs * 10);
-> 
-> The timeout calculation could use a comment. You are using num_subs * 10 
-> to match the duratiot_us above being id * 10? With logic of calculating 
-> a pessimistic timeout?
-> 
-> Have you tried it with qemu to check if it is pessimistic enough?
-
-I'll double check on that.
- 
->> +	for (i = 0; i < params->num_jobs; i++) {
->> +		done = drm_mock_sched_job_wait_finished(sub_data->jobs[i],
->> +							timeout_jiffies);
->> +		if (!done)
->> +			sub_data->timedout = true;
->> +	}
-> 
-> Technically you only need to wait on the last job but it is passable 
-> like this too.
-> 
-> Also, is it important for the worker to wait for completion or the main 
-> thread could simply wait for everything? Maybe that would simplify things.
-
-I would say they serve different purposes. The completion is used to pause
-all worker threads until they are all created to ensure they start submitting
-jobs together to maximize concurrency.
- 
-> Manual timeline advance and this combined would mean the workers only 
-> submit jobs, while the main thread simply does 
-> drm_mock_sched_advance(sched, num_subs * num_jobs) and waits for last 
-> job from each submitter to finish.
-> 
-> Again, auto-completion and timeout reporting is something I do not 
-> immediate see is relevant for multi-threaded submission testing.
+On Fri Jan 23, 2026 at 9:12 PM JST, Eliot Courtney wrote:
+> The current code hands out buffers that go all the way up to and
+> including `rx - 1`, but we need to maintain an empty slot to prevent the
+> ring buffer from wrapping around into having 'tx =3D=3D rx', which means
+> empty.
 >
-> Maybe if you want to test the mock scheduler itself it could be, but 
-> then I would add it as separate entry in drm_sched_concurrent_cases[]. 
-> Like maybe have a flag/boolean "auto-complete jobs". So one without and 
-> one with that set.
+> Also add more rigorous no-panic proofs.
+>
+> Fixes: 75f6b1de8133 ("gpu: nova-core: gsp: Add GSP command queue bindings=
+ and handling")
+> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
+> ---
+>  drivers/gpu/nova-core/gsp/cmdq.rs | 33 +++++++++++++++++++--------------
+>  1 file changed, 19 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gs=
+p/cmdq.rs
+> index 09c28eeb6f12..aa8758fc7723 100644
+> --- a/drivers/gpu/nova-core/gsp/cmdq.rs
+> +++ b/drivers/gpu/nova-core/gsp/cmdq.rs
+> @@ -227,21 +227,26 @@ fn new(dev: &device::Device<device::Bound>) -> Resu=
+lt<Self> {
+>          // PANIC: per the invariant of `cpu_write_ptr`, `tx` is `< MSGQ_=
+NUM_PAGES`.
+>          let (before_tx, after_tx) =3D gsp_mem.cpuq.msgq.data.split_at_mu=
+t(tx);
+> =20
+> -        if rx <=3D tx {
+> -            // The area from `tx` up to the end of the ring, and from th=
+e beginning of the ring up
+> -            // to `rx`, minus one unit, belongs to the driver.
+> -            if rx =3D=3D 0 {
+> -                let last =3D after_tx.len() - 1;
+> -                (&mut after_tx[..last], &mut before_tx[0..0])
+> -            } else {
+> -                (after_tx, &mut before_tx[..rx])
 
-I think it's a good idea and I'll experiment to see if it works.
- 
-> Other than that it looks tidy and was easy to follow. Only thing which 
-> slightly got me was the term "subs" since I don't intuitively associate 
-> it with a submitter but, well, a sub entity of some kind. Might be worth 
-> renaming that to submitter(s), or even dropping the prefix in some cases 
-> might be feasible (like sub(s)_data).
+Indeed, the comment clearly states "minus one unit" but the second
+branch (and the one below) ignores that. >_<
 
-Agreed. I'll rename "subs" for better clarity.
+> -            }
+> +        // The area starting at `tx` and ending at `rx - 2` modulo MSGQ_=
+NUM_PAGES, inclusive,
+> +        // belongs to the driver for writing.
 
-> Regards,
-> 
-> Tvrtko
-> 
+I have trouble parsing this comment - it says `rx - 2` but nowhere does
+that expression appear in the code. It's particularly confusing because
+it apparently applies to all 3 blocks, but the position suggests it is
+only the first.  I'd add a blank line after it to signal that it is
+relevant to the rest of the method.
 
-Cheers,
-Marco
+> +        if rx =3D=3D 0 {
+> +            // Since `rx` is zero, leave an empty slot at end of the buf=
+fer.
+> +            let last =3D after_tx.len() - 1;
+> +            (&mut after_tx[..last], &mut before_tx[0..0])
+> +        } else if rx > tx {
+
+In the original code, the `rx < tx` case appears first. Can we preserve
+this order so the corresponding diffs also appear next to one another?
+
+> +            // The area is contiguous and we leave an empty slot before =
+`rx`.
+> +            // PANIC:
+> +            // - The index `rx - tx - 1` is non-negative because `rx > t=
+x` in this branch.
+> +            // - The index does not exceed `after_tx.len()` (which is `M=
+SGQ_NUM_PAGES - tx`)
+> +            //   because `rx < MSGQ_NUM_PAGES` by the `gsp_read_ptr` inv=
+ariant.
+> +            (&mut after_tx[..(rx - tx - 1)], &mut before_tx[0..0])
+>          } else {
+> -            // The area from `tx` to `rx`, minus one unit, belongs to th=
+e driver.
+> -            //
+> -            // PANIC: per the invariants of `cpu_write_ptr` and `gsp_rea=
+d_ptr`, `rx` and `tx` are
+> -            // `<=3D MSGQ_NUM_PAGES`, and the test above ensured that `r=
+x > tx`.
+> -            (after_tx.split_at_mut(rx - tx).0, &mut before_tx[0..0])
+> +            // The area is discontiguous and we leave an empty slot befo=
+re `rx`.
+> +            // PANIC:
+> +            // - The index `rx - 1` is non-negative because `rx !=3D 0` =
+in this branch.
+> +            // - The index does not exceed `before_tx.len()` (which equa=
+ls `tx`) because
+> +            //   `rx <=3D tx` in this branch.
+> +            (after_tx, &mut before_tx[..(rx - 1)])
+
+In any case, nice catch! This would have bitten us sooner or later.
