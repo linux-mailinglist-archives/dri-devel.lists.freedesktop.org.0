@@ -2,74 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CKIhGxkqemmi3gEAu9opvQ
+	id QPEKN7Iqemmi3gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:24:09 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:26:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93069A3B7D
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:24:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9C1BA3C0A
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:26:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 285FC10E6E0;
-	Wed, 28 Jan 2026 15:24:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3F0E10E6ED;
+	Wed, 28 Jan 2026 15:26:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Y41BOaKW";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ZBrv5OTs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 702D510E2C7;
- Wed, 28 Jan 2026 15:24:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769613840; x=1801149840;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=xA/cLH3p3j7UsPePj5u+LBkikGeRVEePxWLy+SJODAk=;
- b=Y41BOaKWmU4BIUpi5icRnKLFLptBL9OVf19EQfRcYLpBqtyQ6dPk9Bj9
- foN4axb86lqUfING3+VyEMs8IlQt3HKLvJosZ9nIGSS+EsKC5vqeUROR9
- PODMLtVFaP2eN5rZ500cXNiKAS+LWEU4j8+qPKXjsFHy5FkDeXyHikF8k
- 6Vfqv0Pod103RH2UYXfHc49s5X+2SgUJXlb80dYPsSCCUrXw2XrWZ0vgD
- 9omHmbSZoHovu3c86TAkEcXePDRPMcZeJIg2Wj7pE9VV0IdWtfNyqmuHM
- V5fg2az6zm+5qYTCNYAAKRZos0VPOy6tX/yWG4iJTdo2zyMCPDDFyH9ST g==;
-X-CSE-ConnectionGUID: WEHcH+XESvqaWRpImfUD9g==
-X-CSE-MsgGUID: HSJJvIsoSMes0evomPCH3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="70546742"
-X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; d="scan'208";a="70546742"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2026 07:24:00 -0800
-X-CSE-ConnectionGUID: ujyiKXTLQoWwg/FzKCQVMA==
-X-CSE-MsgGUID: a4l5P1gKQ8yqjSCXIm0q0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; d="scan'208";a="212780268"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.207])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2026 07:23:54 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>, Ard Biesheuvel
- <ardb@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Thomas
- Zimmermann <tzimmermann@suse.de>, Javier Martinez Canillas
- <javierm@redhat.com>, "Borislav Petkov (AMD)" <bp@alien8.de>, Lenny
- Szubowicz <lszubowi@redhat.com>, Francesco Pompo
- <francescopompo2@gmail.com>, linux-efi@vger.kernel.org,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 2/2] drm/i915/display: Disable display for iMac's
-In-Reply-To: <20260128145855.1071-3-atharvatiwarilinuxdev@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <20260128145855.1071-1-atharvatiwarilinuxdev@gmail.com>
- <20260128145855.1071-3-atharvatiwarilinuxdev@gmail.com>
-Date: Wed, 28 Jan 2026 17:23:51 +0200
-Message-ID: <26c4e0b7f9c25f405401288d13fc7e5097e9c7f5@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D845610E6ED
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 15:26:32 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-04.galae.net (Postfix) with ESMTPS id 95FCCC211E8;
+ Wed, 28 Jan 2026 15:26:33 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id D8D176071F;
+ Wed, 28 Jan 2026 15:26:30 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 09B66119A86D4; Wed, 28 Jan 2026 16:26:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1769613989; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=ifdIKBALmrDtlGji95Dn4uLjAd1QzXtIVq+J3SL2uiM=;
+ b=ZBrv5OTsxnvC31C9xB5u3t92JpXYvSfGTBtbzpE1nwuHruAK57TjVcGMS3APCHv4l9SF/E
+ wnqAQ55EFsg6Uj8+Ym01dWq/BJk9kjEcjm3JoqkQjhOyiTejWsxXKc9iZ6Utsubt6Y4bzq
+ cqdqoHfypaQthCvQtpBCwD5UR+Mrs/C+MyqWvVgQ8NfmSW0KnRnaztVhOs2s/Pk6EGyLqc
+ +qNIkWAByljlRPA9ZsxpbMXwdVOfJA1pNsG5HdTOzd4POa95lQpTLenMXpI2+eS7+mdf9W
+ v03OkG2M3vHFVTUlnyDCCl7Ch2B+i2I0bsHAaRRmhM5ozz4ujvb/gEq/asKfVQ==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 28 Jan 2026 16:26:22 +0100
+Message-Id: <DG0BSWR9XRZS.29D743F5RWI8N@bootlin.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: (subset) [PATCH 0/3] drm/bridge: imx: A few fixes
+Cc: <dri-devel@lists.freedesktop.org>, <imx@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+To: "Liu Ying" <victor.liu@nxp.com>, "Andrzej Hajda"
+ <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
+ <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Shawn Guo"
+ <shawnguo@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>,
+ "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam"
+ <festevam@gmail.com>
+X-Mailer: aerc 0.20.1
+References: <20260123-imx8qxp-drm-bridge-fixes-v1-0-8bb85ada5866@nxp.com>
+ <176951374753.94588.10653964166300906894.b4-ty@bootlin.com>
+ <f11d4407-9951-40a3-bde5-583ca1ca5bc5@nxp.com>
+In-Reply-To: <f11d4407-9951-40a3-bde5-583ca1ca5bc5@nxp.com>
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,90 +78,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MV_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jani.nikula@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,intel.com,linux.intel.com,ursulin.net,ffwll.ch,suse.de,redhat.com,alien8.de,vger.kernel.org,lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	MISSING_XM_UA(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[nxp.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,pengutronix.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,intel.com:dkim,intel.com:mid]
-X-Rspamd-Queue-Id: 93069A3B7D
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[bootlin.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: E9C1BA3C0A
 X-Rspamd-Action: no action
 
-On Wed, 28 Jan 2026, Atharva Tiwari <atharvatiwarilinuxdev@gmail.com> wrote:
-> Disable display on iMacs, as they can't do link training
-> on the internal display.
+Hello Liu,
 
-I'd expand on that a bit, based on the previous discussion.
-
+On Wed Jan 28, 2026 at 2:50 AM CET, Liu Ying wrote:
+> Hi Luca,
 >
-> (tested on iMac20,1)
+> On Tue, Jan 27, 2026 at 12:35:47PM +0100, Luca Ceresoli wrote:
+>>
+>> On Fri, 23 Jan 2026 17:22:14 +0800, Liu Ying wrote:
+>>> This patch series contains 3 bug fixes for i.MX8QXP DRM bridges.
+>>> Each patch fixes a NULL pointer dereference issue and stands alone.
+>>>
+>>>
+>>
+>> Applied, thanks!
+>>
+>> [1/3] drm/bridge: imx8qxp-ldb: Fix NULL pointer dereference in imx8qxp_l=
+db_bridge_destroy()
+>>       commit: 852c68bf42965ee38b465d2d6f7b965eb0b5dc1d
+>> [2/3] drm/bridge: imx8qxp-pxl2dpi: Fix NULL pointer dereference in imx8q=
+xp_pxl2dpi_bridge_destroy()
+>>       commit: db7e7ea838c916ee4cdf26bee126fd36f58295dc
 >
-> Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+> Any reason why patch 3/3 is not applied?
 
-I can't test this, but if nobody chimes in to oppose, I'll take it.
+Yes, the reason is there's a patch conflict and I still have to find out
+how to handle it.
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Patch 3 by the rules [0] should go to drm-misc-fixes because the bug (added
+by [1]) is already on Linus' master tree (since v6.17), but it does not
+apply there due to a conflict with an unrelated change [2] currently on
+drm-misc-next.
 
+Note that [1] and [2] are the two commits mentioned in your 'Fixes: 'tags.
 
-> ---
->  .../gpu/drm/i915/display/intel_display_device.c    | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_device.c b/driver=
-s/gpu/drm/i915/display/intel_display_device.c
-> index 1170afaa8680..b1fec1018d7e 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_device.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display_device.c
-> @@ -3,6 +3,7 @@
->   * Copyright =C2=A9 2023 Intel Corporation
->   */
->=20=20
-> +#include <linux/dmi.h>
->  #include <linux/pci.h>
->=20=20
->  #include <drm/drm_color_mgmt.h>
-> @@ -1435,7 +1436,18 @@ static bool has_no_display(struct pci_dev *pdev)
->  		{}
->  	};
->=20=20
-> -	return pci_match_id(ids, pdev);
-> +	static const struct dmi_system_id dmi_ids[] =3D {
-> +		{
-> +			.ident =3D "Apple Inc. iMac",
-> +			.matches =3D {
-> +				DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Apple Inc."),
-> +				DMI_MATCH(DMI_PRODUCT_NAME, "iMac"),
-> +			}
-> +		},
-> +		{}
-> +	};
-> +
-> +	return pci_match_id(ids, pdev) || dmi_check_system(dmi_ids);
->  }
->=20=20
->  #define INTEL_DISPLAY_DEVICE(_id, _desc) { .devid =3D (_id), .desc =3D (=
-_desc) }
+I had a chat with Maxime on #dir-devel about how to handle this situation
+but still haven't got a final answer.
 
---=20
-Jani Nikula, Intel
+I guess the correct way is:
+
+ 1. apply patch 3 on drm-misc-next, where it applies cleanly
+ 2. send a modified patch for drm-misc-fixes, to fix ASAP the master branch
+
+Would you send the patch as in item 2, so it can be applied to
+drm-misc-fixes and have master fixed ASAP? Note iit should not mention [2]
+in the Fixes: tag because [2] is not yet on master. I can send it of course
+but you can test on hardware so that would be the best option (and I'm a
+bit overloaded at the moment).
+
+[0] https://drm.pages.freedesktop.org/maintainer-tools/committer/committer-=
+drm-misc.html
+[1] commit 99764593528f ("drm/bridge: imx8qxp-pixel-combiner: convert to de=
+vm_drm_bridge_alloc() API")
+[2] commit ae754f049ce1 ("drm/bridge: imx8qxp-pixel-combiner: get/put the n=
+ext bridge")
+
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
