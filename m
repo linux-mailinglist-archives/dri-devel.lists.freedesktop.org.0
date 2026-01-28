@@ -2,82 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QF+DGVMzeml+4gEAu9opvQ
+	id MGQoICA1eml+4gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 17:03:31 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 17:11:12 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0168DA4FC3
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 17:03:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49916A53CE
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 17:11:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EB1710E73F;
-	Wed, 28 Jan 2026 16:03:23 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="OU8kDing";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9497710E74A;
+	Wed, 28 Jan 2026 16:11:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
- [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3286F10E72D
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 16:03:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1769616197; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=KsUYL+x6XTGumAPf4LHWK80bbs53+d3HPLm90Go7sYCj+RwcKPpm0XoDs3KVIhMbGueVtgK5yxNH1I1iE792LJEI11yBVi4jiCxHnP7Za3KWzkomy9Gt+Z9AqyM7o38M69Q+B5db44qgbNWETcsO3S29Smv+0i2D0xuOr4h19cA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1769616197;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=fncxXrnvzx+rBXB1A07QCoO0pcakz1qEXgNvB3GhOfM=; 
- b=YDoKEXNSB+QWXuMLMvX1pzHoEXlEo4jWynRjagZQnYsv6fsWJOdn3v2y2vc9bOCVVNl9MeKoGDkFd21jojWZLh+UuVFhUG1fZVNTWjoB247Cyz4UCiPvKRCIPTLCtD0tSirsG21NpM/Kz3PVlSontwDKJ+jIn+B9Ipgc9U02pYY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=icenowy.me;
- spf=pass  smtp.mailfrom=uwu@icenowy.me;
- dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769616197; 
- s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=fncxXrnvzx+rBXB1A07QCoO0pcakz1qEXgNvB3GhOfM=;
- b=OU8kDingy9lLvJ8GxvS478sS/qda/34ammNsRz8DnZB/ohesi3vunzYMUII5r+25
- ZBdt0mFwVXtXj1NhrVrsO4G51gvWz+AXUFS3lsAofulogbsgcXbjEZZdGHwRQzgx5EU
- yFHfzaOSEuHJDabRp7JX1y1ejXwlOBvs1WZSUP8iYGqaKSD+t7+jf3wpBGuUHblEp8f
- ApBzPwJ3tUG+ERH3B0OlP6feb7LAJXKascYy0fiaa5+ghlld8tCxaFMmJpYU/y8j6OS
- /g53PtJ0FOnZJWTSDAUxbuRqXhNir0lKsWpPQ5pDuVrFf7/o1of600i4m0XCYbCOzmP
- Yx6+DIuuIw==
-Received: by mx.zohomail.com with SMTPS id 1769616195122188.38127945886322;
- Wed, 28 Jan 2026 08:03:15 -0800 (PST)
-Message-ID: <4e340eb246e4e725754ed2097260c1a1acd8fe71.camel@icenowy.me>
-Subject: Re: [PATCH v6 3/9] drm: verisilicon: add a driver for Verisilicon
- display controllers
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob
- Herring <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>, Guo Ren
- <guoren@kernel.org>, Fu Wei <wefu@redhat.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, Dmitry Baryshkov
- <lumag@kernel.org>,  Michal Wilczynski <m.wilczynski@samsung.com>, Luca
- Ceresoli <luca.ceresoli@bootlin.com>, Han Gao <rabenda.cn@gmail.com>,  Yao
- Zi <ziyao@disroot.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  devicetree@vger.kernel.org,
- linux-riscv@lists.infradead.org, Han Gao <gaohan@iscas.ac.cn>
-Date: Thu, 29 Jan 2026 00:03:01 +0800
-In-Reply-To: <064dd2b7-415b-4794-8867-73bdd7ac17df@suse.de>
-References: <20260123092830.4046009-1-zhengxingda@iscas.ac.cn>
- <20260123092830.4046009-4-zhengxingda@iscas.ac.cn>
- <6ea016d6-42a4-4d83-89fd-eee918a834ef@suse.de>
- <7301d5f80c7f247d4a2f82c242b3d8b8ad69f5e1.camel@icenowy.me>
- <064dd2b7-415b-4794-8867-73bdd7ac17df@suse.de>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+X-Greylist: delayed 483 seconds by postgrey-1.36 at gabe;
+ Wed, 28 Jan 2026 16:11:08 UTC
+Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net
+ [83.223.95.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 872B610E73B;
+ Wed, 28 Jan 2026 16:11:08 +0000 (UTC)
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (secp384r1) server-digest SHA384
+ client-signature ECDSA (secp384r1) client-digest SHA384)
+ (Client CN "*.hostsharing.net",
+ Issuer "GlobalSign GCC R6 AlphaSSL CA 2025" (verified OK))
+ by bmailout1.hostsharing.net (Postfix) with ESMTPS id 0299E2C0781D;
+ Wed, 28 Jan 2026 17:03:04 +0100 (CET)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+ id ED2A733097; Wed, 28 Jan 2026 17:03:03 +0100 (CET)
+Date: Wed, 28 Jan 2026 17:03:03 +0100
+From: Lukas Wunner <lukas@wunner.de>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
+ Ard Biesheuvel <ardb@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "Borislav Petkov (AMD)" <bp@alien8.de>,
+ Lenny Szubowicz <lszubowi@redhat.com>,
+ Francesco Pompo <francescopompo2@gmail.com>,
+ linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 2/2] drm/i915/display: Disable display for iMac's
+Message-ID: <aXozN_-GCw4bLjmE@wunner.de>
+References: <20260128145855.1071-1-atharvatiwarilinuxdev@gmail.com>
+ <20260128145855.1071-3-atharvatiwarilinuxdev@gmail.com>
+ <26c4e0b7f9c25f405401288d13fc7e5097e9c7f5@intel.com>
+ <aXotLnGvZu4Ib0Vx@intel.com>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aXotLnGvZu4Ib0Vx@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,301 +73,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[icenowy.me,none];
+X-Spamd-Result: default: False [-0.61 / 15.00];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[icenowy.me:s=zmail2];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:p.zabel@pengutronix.de,m:lumag@kernel.org,m:m.wilczynski@samsung.com,m:luca.ceresoli@bootlin.com,m:rabenda.cn@gmail.com,m:ziyao@disroot.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:gaohan@iscas.ac.cn,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:rabendacn@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[suse.de,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,ffwll.ch,redhat.com];
-	FORGED_SENDER(0.00)[uwu@icenowy.me,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	RSPAMD_URIBL_FAIL(0.00)[iscas.ac.cn:query timed out,samsung.com:query timed out,suse.de:query timed out,icenowy.me:query timed out];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[icenowy.me:+];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[uwu@icenowy.me,dri-devel-bounces@lists.freedesktop.org];
+	DMARC_NA(0.00)[wunner.de: no valid DMARC record];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[pengutronix.de,kernel.org,samsung.com,bootlin.com,gmail.com,disroot.org,vger.kernel.org,lists.freedesktop.org,lists.infradead.org,iscas.ac.cn];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[linux.intel.com,gmail.com,kernel.org,intel.com,ursulin.net,ffwll.ch,suse.de,redhat.com,alien8.de,vger.kernel.org,lists.freedesktop.org];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.871];
+	FROM_NEQ_ENVFROM(0.00)[lukas@wunner.de,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 0168DA4FC3
+	DBL_BLOCKED_OPENRESOLVER(0.00)[wunner.de:mid]
+X-Rspamd-Queue-Id: 49916A53CE
 X-Rspamd-Action: no action
 
-=E5=9C=A8 2026-01-28=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 09:54 +0100=EF=BC=
-=8CThomas Zimmermann=E5=86=99=E9=81=93=EF=BC=9A
-> Hi
->=20
-> Am 28.01.26 um 09:39 schrieb Icenowy Zheng:
-> > =E5=9C=A8 2026-01-28=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 08:58 +0100=EF=
-=BC=8CThomas Zimmermann=E5=86=99=E9=81=93=EF=BC=9A
-> > > Hi
-> > >=20
-> > > Am 23.01.26 um 10:28 schrieb Icenowy Zheng:
-> > > > From: Icenowy Zheng <uwu@icenowy.me>
-> > > >=20
-> > > > This is a from-scratch driver targeting Verisilicon DC-series
-> > > > display
-> > > > controllers, which feature self-identification functionality
-> > > > like
-> > > > their
-> > > > GC-series GPUs.
-> > > >=20
-> > > > Only DC8200 is being supported now, and only the main
-> > > > framebuffer
-> > > > is set
-> > > > up (as the DRM primary plane). Support for more DC models and
-> > > > more
-> > > > features is my further targets.
-> > > >=20
-> > > > As the display controller is delivered to SoC vendors as a
-> > > > whole
-> > > > part,
-> > > > this driver does not use component framework and extra bridges
-> > > > inside a
-> > > > SoC is expected to be implemented as dedicated bridges (this
-> > > > driver
-> > > > properly supports bridge chaining).
-> > > >=20
-> > > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> > > > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-> > > > Tested-by: Han Gao <gaohan@iscas.ac.cn>
-> > > > Tested-by: Michal Wilczynski <m.wilczynski@samsung.com>
-> > > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > >=20
-> > > I only briefly looked over this revision, as v5 already seemed
-> > > quite
-> > > good. If you want to do a follow-up patch, see my other reply to
-> > > v5
-> > > on
-> > > storing hardware formats in the plane state.
-> > Well the kernel test robot found a small Kconfig problem in this
-> > revision -- DRM_DISPLAY_HELPER should be selected.
-> >=20
-> > Maybe I'm going to send a v7 to address this.
-> >=20
-> > Should I also make derived plane state a change in v7, or leave it
-> > as a
-> > follow-up?
->=20
-> That would require another round of review, I guess. Better leave it
-> for=20
-> a separate series.
->=20
-> >=20
-> > By the way, I think PATCH 1-5 should go through drm-misc tree, am I
-> > right? Who's going to pick it if going through drm-misc?
->=20
-> I can do that. In v7, you can merge patch 8 (MAINTAINERS) into patch
-> 3,=20
-> so that it goes in as well.
+On Wed, Jan 28, 2026 at 05:37:18PM +0200, Ville Syrjälä wrote:
+> On Wed, Jan 28, 2026 at 05:23:51PM +0200, Jani Nikula wrote:
+> > On Wed, 28 Jan 2026, Atharva Tiwari <atharvatiwarilinuxdev@gmail.com> wrote:
+> > > Disable display on iMacs, as they can't do link training
+> > > on the internal display.
+> > >
+> > > (tested on iMac20,1)
+> 
+> I guess the main problem with a hack like this is that you won't
+> be able to get deep pkgC states due to the display hardware not
+> going into DC5/6.
 
-Well then who should pick patch 9, the mailmap change?
+If patch [1/2] in this series results in a power regression,
+I'd say it needs to be reworked.  Either exclude iMacs from
+the set_os protocol or find a way to power down the iGPU again
+once the kernel has assumed control.
 
-I remember there is some tree for this kind of "trivial changes", but I
-forgot any detail about this.
-
->=20
-> Patches 6 and 7 are small, so I can also take them into drm-misc if
-> they=20
-> riscv maintainers are OK with that.
-
-Well, I think there might be other TH1520 DT bits merged by Drew
-Fustini in this cycle?
-
-Drew, can you read this? (I heard from Han Gao that his mail failed to
-get delivered to Drew). If you can read this, could you confirm that
-whether you want to merge DT patches?
+I wonder what macOS does.  If the iGPU is exposed by set_os,
+surely macOS must be able to power down the iGPU again,
+so we should be doing the same.
 
 Thanks,
-Icenowy
 
->=20
-> Best regards
-> Thomas
->=20
-> >=20
-> > > Best regards
-> > > Thomas
-> > >=20
-> > > > ---
-> > > > Changes in v6:
-> > > > - Sorted Kconfig dependency.
-> > > > - Get rid of obsolete uppercase DRM_* printk marcos.
-> > > > - Optimization to printk messages (unknown IRQ message is only
-> > > > printed
-> > > > =C2=A0=C2=A0=C2=A0 once, device recognition message has "Found" add=
-ed,
-> > > > "Skipping
-> > > > output"
-> > > > =C2=A0=C2=A0=C2=A0 message priority lowered to debug).
-> > > > - Splitted most bridge functions for DPI/DP output.
-> > > > - Get rid of custom CRTC atomic_flush, which doesn't do
-> > > > anything
-> > > > =C2=A0=C2=A0=C2=A0 device-specific.
-> > > > - Adapted macro HZ_PER_KHZ and VSDC_DISP_TIMING_VALUE_MAX.
-> > > > - Switched to use drm_mode_size_dumb() to align dumb buffer
-> > > > pitch.
-> > > > - Reordered some function calls in vs_drm_initialize() (
-> > > > =C2=A0=C2=A0=C2=A0 aperture_remove_all_conflicting_devices() is now=
- called
-> > > > earlier
-> > > > and
-> > > > =C2=A0=C2=A0=C2=A0 drm_mode_config_reset() is now called later).
-> > > > - Splitted out vs_fb_get_dma_addr() and switched to use
-> > > > =C2=A0=C2=A0=C2=A0 drm_format_info_min_pitch() to calculate the src=
- X offset
-> > > > to the
-> > > > =C2=A0=C2=A0=C2=A0 framebuffer address.
-> > > > - Splitted out atomic_{en,dis}able for primary plane.
-> > > > - Removed an unused pm_runtime.h inclusion because the driver
-> > > > now
-> > > > does
-> > > > =C2=A0=C2=A0=C2=A0 not do runpm.
-> > > >=20
-> > > > Changes in v5:
-> > > > - Switching to drm_atomic_get_new_bridge_state, which seems to
-> > > > let
-> > > > the
-> > > > =C2=A0=C2=A0=C2=A0 driver get rid of the hack of saving bus format =
-itself.
-> > > > - Add the internal bridge before attaching it.
-> > > > - Adapted next_bridge struct field name suggested by Luca
-> > > > Ceresoli.
-> > > > - Refactored the probe code to not use port count, to allow
-> > > > port@0
-> > > > being
-> > > > =C2=A0=C2=A0=C2=A0 missing.
-> > > >=20
-> > > > Changes in v4:
-> > > > - Switch to drm_* logger when we're handling with struct
-> > > > drm_device.
-> > > >=20
-> > > > Changes in v3:
-> > > > - Get rid of drm_atomic_get_existing_crtc_state() which is
-> > > > marked
-> > > > =C2=A0=C2=A0=C2=A0 deprecated.
-> > > >=20
-> > > > Changes in v2:
-> > > > - Changed some Control flows according to previous reviews.
-> > > > - Added missing of_node_put when checking of endpoints for
-> > > > output
-> > > > type.
-> > > > - Switched all userspace-visible modeset objects to be managed
-> > > > by
-> > > > drmm
-> > > > =C2=A0=C2=A0=C2=A0 instead of devm.
-> > > > - Utilize devm_drm_bridge_alloc() in internal bridge.
-> > > > - Prevented the usage of simple encoder helpers by passing a
-> > > > NULL
-> > > > funcs pointer.
-> > > > - Let devm enable clocks when getting them.
-> > > > - Removed explicit `.cache_type =3D REGCACHE_NONE` in regmap
-> > > > config.
-> > > > - Fixed a debug print using a variable before initialization.
-> > > > - Fixed a wrong index when using bulk to handle resets.
-> > > > - Added missing configuration for DPI format (currently fixed
-> > > > RGB888).
-> > > >=20
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/Kconfig=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 15 +
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/Makefile=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 5 +
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_bridge.c=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 371
-> > > > ++++++++++++++++++
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_bridge.h=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 39 ++
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_bridge_regs.h=C2=A0 |=
-=C2=A0 54 +++
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_crtc.c=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 191
-> > > > +++++++++
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_crtc.h=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 31 ++
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_crtc_regs.h=C2=A0=C2=A0=
-=C2=A0 |=C2=A0 60 +++
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_dc.c=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 207
-> > > > ++++++++++
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_dc.h=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 38 ++
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_dc_top_regs.h=C2=A0 |=
-=C2=A0 27 ++
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_drm.c=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 182
-> > > > +++++++++
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_drm.h=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 28 ++
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_hwdb.c=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 150 +++++++
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_hwdb.h=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 29 ++
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_plane.c=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 124 ++++++
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_plane.h=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 72 ++++
-> > > > =C2=A0=C2=A0 .../gpu/drm/verisilicon/vs_primary_plane.c=C2=A0=C2=A0=
-=C2=A0 | 173 ++++++++
-> > > > =C2=A0=C2=A0 .../drm/verisilicon/vs_primary_plane_regs.h=C2=A0=C2=
-=A0 |=C2=A0 53 +++
-> > > > =C2=A0=C2=A0 21 files changed, 1852 insertions(+)
-> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/Kconfig
-> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/Makefil=
-e
-> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_brid=
-ge.c
-> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_brid=
-ge.h
-> > > > =C2=A0=C2=A0 create mode 100644
-> > > > drivers/gpu/drm/verisilicon/vs_bridge_regs.h
-> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc=
-.c
-> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc=
-.h
-> > > > =C2=A0=C2=A0 create mode 100644
-> > > > drivers/gpu/drm/verisilicon/vs_crtc_regs.h
-> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.c
-> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.h
-> > > > =C2=A0=C2=A0 create mode 100644
-> > > > drivers/gpu/drm/verisilicon/vs_dc_top_regs.h
-> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_drm.=
-c
-> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_drm.=
-h
-> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_hwdb=
-.c
-> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_hwdb=
-.h
-> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_plan=
-e.c
-> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_plan=
-e.h
-> > > > =C2=A0=C2=A0 create mode 100644
-> > > > drivers/gpu/drm/verisilicon/vs_primary_plane.c
-> > > > =C2=A0=C2=A0 create mode 100644
-> > > > drivers/gpu/drm/verisilicon/vs_primary_plane_regs.h
->=20
-
+Lukas
