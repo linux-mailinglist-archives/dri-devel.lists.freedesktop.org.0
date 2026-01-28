@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4HuVJ6MEemlg1gEAu9opvQ
+	id EFdiGKgEemlE1gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 13:44:19 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 13:44:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 513E4A16B8
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 13:44:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 089B3A16D4
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 13:44:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BFE110E6C7;
-	Wed, 28 Jan 2026 12:44:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2927F10E6C8;
+	Wed, 28 Jan 2026 12:44:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="K3vnME2f";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fHcnj7Du";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8BB210E6C6
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 12:44:13 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 121D310E6C7
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 12:44:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A0826402D9;
- Wed, 28 Jan 2026 12:44:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B851C4CEF1;
- Wed, 28 Jan 2026 12:44:13 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 859146011F;
+ Wed, 28 Jan 2026 12:44:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDFF7C4CEF1;
+ Wed, 28 Jan 2026 12:44:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769604253;
- bh=l9Vv9UBt4DIr2XrHGDWSfE1pmvfjHpd7sHx5Mz8Kf1g=;
+ s=k20201202; t=1769604256;
+ bh=nPXNh+/jQ+1khkJDgH6q/bdPZsIWc4qjK7HqZs+R4h0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=K3vnME2ftkw0nS1upKKBeKbXVCAwlfz6LTOVzDxhlUINc7JsbKJwpDskoOBuYUGqS
- HJP5VYAMyEY8+ebrt+JyGp8dt2YrZ6GpWpUVhhA4Tu64q7ZJyZbA6Xj9u5pKQHkBGx
- GDsyf5QgmsYrR6OCdkIM7bSc9LunijOKuW/+6UXe0/wyyfRmUqA9MdaQDDLxZVY+xc
- ikk2RPhhI+YftVmpquls0S90NF65kxxph8ZcPJlacu7bn6vm39EdF+IRYDC9xXAlQ2
- Ekq5BkaidRXJYoEQIdUJ0c4UOW5QAz9VEl89JRHCavaKsCYAzAExE5Gr7WB9ziN28J
- n5bUWj4e/aVDg==
+ b=fHcnj7DuGcL2+ZAK8E61xXnMiMC+JsnjvykT0Qhms6Ovli0GpXS5wi4XdfEgzLPNe
+ Bsj5O2/wh84bdExtNv0VLkz4tTZUW5FUKAXYEsdo3YzarfqGVk9hPLIcjW+58suj4c
+ z/M7PLTTuAPirKU1VRamS7QLRgp7q7x87Nohkd+vCirjO+uLrWvOxbIEVrolrgpPji
+ A0HfZ5Sp4D2ENzkKHSKKJ76uTrVWy6x5cCtGt/yt7hAPkUZKLRzSkzi97aJFYTNRGt
+ g0ecBY52zYiR7ESIweHE5Ojf0KUk5/hUmLTuSq3pAhUcio2SO2VVrvEExGGIblfhaO
+ tAbN9wtB4Zs1w==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 28 Jan 2026 13:43:49 +0100
-Subject: [PATCH v4 05/15] drm/dp_mst: Switch private_obj initialization to
- atomic_create_state
+Date: Wed, 28 Jan 2026 13:43:50 +0100
+Subject: [PATCH v4 06/15] drm/dp_tunnel: Switch private_obj initialization
+ to atomic_create_state
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260128-drm-private-obj-reset-v4-5-90891fa3d3b0@redhat.com>
+Message-Id: <20260128-drm-private-obj-reset-v4-6-90891fa3d3b0@redhat.com>
 References: <20260128-drm-private-obj-reset-v4-0-90891fa3d3b0@redhat.com>
 In-Reply-To: <20260128-drm-private-obj-reset-v4-0-90891fa3d3b0@redhat.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -51,12 +51,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3520; i=mripard@redhat.com;
- h=from:subject:message-id; bh=l9Vv9UBt4DIr2XrHGDWSfE1pmvfjHpd7sHx5Mz8Kf1g=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJlVLO03z6fnH/NO3VOT9ZB5MdPbbcEFrC1nj17pncr3w
- n3/FSWfjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjARrkeMDXOeKc9yPjmB8e/q
- xO5NlR0i4pPifxdtebfJhddWZP6lT9emml7nOvlzZk/jxs1uZ2pXlzDWmS9ctvXt9lUWC4Mefz7
- RtEJXQJxHNIpdRis0SGrWaofNyvUrpu3yXPM4bl+o0qrjre3rAQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2565; i=mripard@redhat.com;
+ h=from:subject:message-id; bh=nPXNh+/jQ+1khkJDgH6q/bdPZsIWc4qjK7HqZs+R4h0=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJlVLO3KyrPFpaKuBh/eo51+avoV6xmrNtiJK/GVOUcs8
+ ZbNqT3dMZWFQZiTQVZMkeWJTNjp5e2LqxzsV/6AmcPKBDKEgYtTACYivIqxYZdKyhTuZ6Klr5/X
+ HJu9p/zlhtp9GsIyn073C6hJen0551+fO9dtX7nkJvuujVXOH57sYGz4ktErfOb9zuZW9iPvV1z
+ ufTiLv/O1S7Rw9DShF6/0DN4W/2r4aPTEwiT+fNQD9m2t3D0A
 X-Developer-Key: i=mripard@redhat.com; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,10 +104,10 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 513E4A16B8
+X-Rspamd-Queue-Id: 089B3A16D4
 X-Rspamd-Action: no action
 
-The DP MST implementation relies on a drm_private_obj, that is
+The DP tunnel implementation relies on a drm_private_obj, that is
 initialized by allocating and initializing a state, and then passing it
 to drm_private_obj_init.
 
@@ -118,95 +118,65 @@ migrate this instance to the new pattern.
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 37 +++++++++++++++++----------
- 1 file changed, 24 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/display/drm_dp_tunnel.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index be749dcad3b585d475730c4246b0eb9f2759dd27..1ab0233a2a18f784d8c43e61b94e40a06bd4baf6 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -5182,10 +5182,32 @@ static void drm_dp_mst_destroy_state(struct drm_private_obj *obj,
- 
- 	kfree(mst_state->commit_deps);
- 	kfree(mst_state);
+diff --git a/drivers/gpu/drm/display/drm_dp_tunnel.c b/drivers/gpu/drm/display/drm_dp_tunnel.c
+index 43f13a7c79b931beb230f8afe20afa0ebcf5ed8d..2abd714efd19f27697770813b38194e384be87ce 100644
+--- a/drivers/gpu/drm/display/drm_dp_tunnel.c
++++ b/drivers/gpu/drm/display/drm_dp_tunnel.c
+@@ -1495,11 +1495,26 @@ tunnel_group_duplicate_state(struct drm_private_obj *obj)
+ static void tunnel_group_destroy_state(struct drm_private_obj *obj, struct drm_private_state *state)
+ {
+ 	free_group_state(to_group_state(state));
  }
  
-+static struct drm_private_state *
-+drm_dp_mst_atomic_create_state(struct drm_private_obj *obj)
++static struct drm_private_state * tunnel_group_atomic_create_state(struct drm_private_obj *obj)
 +{
-+	struct drm_dp_mst_topology_mgr *mgr =
-+		to_dp_mst_topology_mgr(obj);
-+	struct drm_dp_mst_topology_state *mst_state;
++	struct drm_dp_tunnel_group_state *group_state;
 +
-+	mst_state = kzalloc(sizeof(*mst_state), GFP_KERNEL);
-+	if (!mst_state)
++	group_state = kzalloc(sizeof(*group_state), GFP_KERNEL);
++	if (!group_state)
 +		return ERR_PTR(-ENOMEM);
 +
-+	__drm_atomic_helper_private_obj_create_state(obj, &mst_state->base);
++	__drm_atomic_helper_private_obj_create_state(obj, &group_state->base);
++	INIT_LIST_HEAD(&group_state->tunnel_states);
 +
-+	mst_state->total_avail_slots = 63;
-+	mst_state->start_slot = 1;
-+
-+	mst_state->mgr = mgr;
-+	INIT_LIST_HEAD(&mst_state->payloads);
-+
-+	return &mst_state->base;
++	return &group_state->base;
 +}
 +
- static bool drm_dp_mst_port_downstream_of_branch(struct drm_dp_mst_port *port,
- 						 struct drm_dp_mst_branch *branch)
- {
- 	while (port->parent) {
- 		if (port->parent == branch)
-@@ -5618,10 +5640,11 @@ int drm_dp_mst_atomic_check(struct drm_atomic_state *state)
- 	return ret;
- }
- EXPORT_SYMBOL(drm_dp_mst_atomic_check);
- 
- const struct drm_private_state_funcs drm_dp_mst_topology_state_funcs = {
-+	.atomic_create_state = drm_dp_mst_atomic_create_state,
- 	.atomic_duplicate_state = drm_dp_mst_duplicate_state,
- 	.atomic_destroy_state = drm_dp_mst_destroy_state,
+ static const struct drm_private_state_funcs tunnel_group_funcs = {
++	.atomic_create_state = tunnel_group_atomic_create_state,
+ 	.atomic_duplicate_state = tunnel_group_duplicate_state,
+ 	.atomic_destroy_state = tunnel_group_destroy_state,
  };
- EXPORT_SYMBOL(drm_dp_mst_topology_state_funcs);
  
-@@ -5706,12 +5729,10 @@ EXPORT_SYMBOL(drm_atomic_get_new_mst_topology_state);
- int drm_dp_mst_topology_mgr_init(struct drm_dp_mst_topology_mgr *mgr,
- 				 struct drm_device *dev, struct drm_dp_aux *aux,
- 				 int max_dpcd_transaction_bytes, int max_payloads,
- 				 int conn_base_id)
- {
--	struct drm_dp_mst_topology_state *mst_state;
--
- 	mutex_init(&mgr->lock);
- 	mutex_init(&mgr->qlock);
- 	mutex_init(&mgr->delayed_destroy_lock);
- 	mutex_init(&mgr->up_req_lock);
- 	mutex_init(&mgr->probe_lock);
-@@ -5741,22 +5762,12 @@ int drm_dp_mst_topology_mgr_init(struct drm_dp_mst_topology_mgr *mgr,
- 	mgr->aux = aux;
- 	mgr->max_dpcd_transaction_bytes = max_dpcd_transaction_bytes;
- 	mgr->max_payloads = max_payloads;
- 	mgr->conn_base_id = conn_base_id;
- 
--	mst_state = kzalloc(sizeof(*mst_state), GFP_KERNEL);
--	if (mst_state == NULL)
--		return -ENOMEM;
--
--	mst_state->total_avail_slots = 63;
--	mst_state->start_slot = 1;
--
--	mst_state->mgr = mgr;
--	INIT_LIST_HEAD(&mst_state->payloads);
--
- 	drm_atomic_private_obj_init(dev, &mgr->base,
--				    &mst_state->base,
-+				    NULL,
- 				    &drm_dp_mst_topology_state_funcs);
- 
- 	return 0;
+ /**
+@@ -1579,23 +1594,15 @@ drm_dp_tunnel_atomic_get_new_state(struct drm_atomic_state *state,
  }
- EXPORT_SYMBOL(drm_dp_mst_topology_mgr_init);
+ EXPORT_SYMBOL(drm_dp_tunnel_atomic_get_new_state);
+ 
+ static bool init_group(struct drm_dp_tunnel_mgr *mgr, struct drm_dp_tunnel_group *group)
+ {
+-	struct drm_dp_tunnel_group_state *group_state;
+-
+-	group_state = kzalloc(sizeof(*group_state), GFP_KERNEL);
+-	if (!group_state)
+-		return false;
+-
+-	INIT_LIST_HEAD(&group_state->tunnel_states);
+-
+ 	group->mgr = mgr;
+ 	group->available_bw = -1;
+ 	INIT_LIST_HEAD(&group->tunnels);
+ 
+-	drm_atomic_private_obj_init(mgr->dev, &group->base, &group_state->base,
++	drm_atomic_private_obj_init(mgr->dev, &group->base, NULL,
+ 				    &tunnel_group_funcs);
+ 
+ 	return true;
+ }
+ 
 
 -- 
 2.52.0
