@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OJlVAbVGemkp5AEAu9opvQ
+	id IKgBJ8ZGemk+5AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:26:13 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:26:30 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8826A6D62
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:26:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2EDA6DC8
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:26:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA5D410E746;
-	Wed, 28 Jan 2026 17:26:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6150810E74C;
+	Wed, 28 Jan 2026 17:26:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ddY3mdJN";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="U8HhN0an";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E80010E742
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 17:26:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1223E10E742
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 17:26:07 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 602B427F9;
- Wed, 28 Jan 2026 18:25:27 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 510422813;
+ Wed, 28 Jan 2026 18:25:28 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1769621128;
- bh=4yQvF7uGMOBAlizxTtjnxyb7djV1HGOZ3S+Pd6CULxY=;
+ s=mail; t=1769621129;
+ bh=UdDzA52TKl45mei5bdLdm5Kee90d3cZZUGKd3QBEtME=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=ddY3mdJNw4pP5lYM7SeehpGLwPYy3mclypui8UGy4RyGkrWgZC21ptYpk2NkRAqXP
- WWvo2kkDViXrBMMnNTWpwNodziszLVMjvUX0DdtQSvV2Wt21/qys2/qS/S+N/N84tA
- vBBNwF5KFxpfsu2XEtyTPmDYdv8avE4gSzzew/yo=
+ b=U8HhN0anf3MeQckAjmiF+Op+8Mi7j/5uKQpdJjEHkKm/xlfF0AkCUlk+9aEXbb6rF
+ 5KpaTcX85LLOTaPitjSp6T7tklqLGfKdFPIKRoGjtUmUhRjyiHYEFXQndBIZ5KQFoa
+ 07KRCpRFG+keIZhP1x9G7HKxqYrzTBTdRWzOFv/8=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 28 Jan 2026 19:25:30 +0200
-Subject: [PATCH v8 05/11] drm/fourcc: Add DRM_FORMAT_X403
+Date: Wed, 28 Jan 2026 19:25:31 +0200
+Subject: [PATCH v8 06/11] drm/fourcc: Add DRM_FORMAT_XVUY2101010
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260128-xilinx-formats-v8-5-9ea8adb70269@ideasonboard.com>
+Message-Id: <20260128-xilinx-formats-v8-6-9ea8adb70269@ideasonboard.com>
 References: <20260128-xilinx-formats-v8-0-9ea8adb70269@ideasonboard.com>
 In-Reply-To: <20260128-xilinx-formats-v8-0-9ea8adb70269@ideasonboard.com>
 To: Vishal Sagar <vishal.sagar@amd.com>, 
@@ -55,21 +55,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Pekka Paalanen <ppaalanen@gmail.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1965;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2347;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=4yQvF7uGMOBAlizxTtjnxyb7djV1HGOZ3S+Pd6CULxY=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBpekakVNnWz8BZNnetpQ0zxeE17pBoi5m2o8q/p
- aBsmfEthgOJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaXpGpAAKCRD6PaqMvJYe
- 9Z33D/4+aI2aB6PBj+zdrJX4wrm2xfiC8XRUnsb/Or+AGJH7LvDXHrTwqn92QGdjFlbuDqcE0Fh
- kf3nyASI/z+9jD5AV3kEY0dsOyXK9V1zVpJfLDLayfYXOozXyoCGvkauADPkuyUr4WyrkpO9FRz
- pHjTnf91ZlOgpNAThr6gUMI9iri/3/3J+QICyWFi2eULHi16wq86AcLoqcCCgidf1W3HXGW0FQl
- j28f2t7WgEYmxaqgRZHdAREE8L6BYMF85TEHSj9iZior3yQqE1jyJ1/5Mlmc1kMrhw5Uxq8Tf8V
- lVr2TrLxjf0cD+F038I8zCOxRgCr9V3kRPkf0zs7bHGsNg+19OIMvPeKt0Sy4UN1mMqndwc4t39
- 09W7MB57eVnSifn3oHC//+r09vMQEsI5gqP984tbwlz5C+EMGyTduTtarK4j+64N4laTxOXxu36
- U64ON0r0QigLB/ZmpEg7XsAMRdoODkeP2meA46olxHnlGw5iv1oLD7e/xJQgcd4D4ChYc2PhqqY
- mX+ObewVEsia0mtkLBdOAbwx3Sb6BJwxYFaJFmwtPTIb9RRI6WDrA6aju1olEgdMWtuZZBOIljF
- 2PYSiLkx20TzhfRLs2dgXozXImH269/7pL+lDV7Q36XVORhDTUPBoKCvGH5oEAb5Wi01w8hJFvE
- bn1uo8eDVdr2CdA==
+ bh=UdDzA52TKl45mei5bdLdm5Kee90d3cZZUGKd3QBEtME=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBpekakGLx5O67vHi3+kVGDNTWlVeg7//CZPVia+
+ byCJzEfog6JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaXpGpAAKCRD6PaqMvJYe
+ 9enBD/4uoedvPCXL7DrVHTtZU/bEt5cI98bIySQVvairB77KkqCGinlPSC6bUkjtEsw5KD4Sqk3
+ PmDvHNUoMPtxK2dgOb3ZSxzbd3KaX55sKubKuBSsn1Hmhc+A0kDPWqrLZhyMe/XPFFNh8wmcN1n
+ uLjYsnWJvfGFql5YENX7/Xbv3rk1NxI07SgrVazxT57lViR7IqWLGTZvGuaeeASr03Sc7tJ0kEy
+ Q7CogivhqhbWGJB96Fwg4IUY19ianyotT6sIJ6B4+piobRrxdoZKBAcqpDCBMqykUDR/t1IDBU8
+ NJX+dZdIKiAzyj0FZ5gaYQrC5L9LdtSJysXCSexrz9bx7+cRBB9BfXSgyJ7nT0VdsqPY1Rjoa63
+ q9mHNNzv1vXf9rV/OvES+XiRrfGwOSI71JnXZQrXYYTbtpfMNzb6aLSICKFwm3hNwXOkDWyFWHi
+ qY55wYZP2t5SBqttc+S1CXpK+W17JaLWuHt5/6bSGz8qmBQVRDyTN2dXXMd9aK8XJlHK4+lOPea
+ 1Rc6OSXrtQ/UTPE/wwZvGywJZQh+L6QOYQCs5OHCADShtFIlQ5gtuG9biQGUGrQQmc0pXN65LUV
+ i3+mGhEi+Y1iMsA70UM4fol9u6r57GE0RYYy+kbU7DcpWABokvmi3rIvMg0lFQglJi5WJYf4+1N
+ n439CT2cWDLOd7Q==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -120,54 +120,44 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: A8826A6D62
+X-Rspamd-Queue-Id: 4F2EDA6DC8
 X-Rspamd-Action: no action
 
-Add X403, a 3 plane 10 bits per component non-subsampled YCbCr format.
+Add XVUY2101010, a 10 bits per component YCbCr format in a 32 bit
+container.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Reviewed-by: Vishal Sagar <vishal.sagar@amd.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Vishal Sagar <vishal.sagar@amd.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/drm_fourcc.c  | 3 +++
- include/uapi/drm/drm_fourcc.h | 9 +++++++++
- 2 files changed, 12 insertions(+)
+ drivers/gpu/drm/drm_fourcc.c  | 1 +
+ include/uapi/drm/drm_fourcc.h | 1 +
+ 2 files changed, 2 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
-index 0d222f6c1a30..ab643dedd6d4 100644
+index ab643dedd6d4..a736df2de3fc 100644
 --- a/drivers/gpu/drm/drm_fourcc.c
 +++ b/drivers/gpu/drm/drm_fourcc.c
-@@ -391,6 +391,9 @@ const struct drm_format_info *__drm_format_info(u32 format)
- 		{ .format = DRM_FORMAT_Y10_P32,		.depth = 0,  .num_planes = 1,
- 		  .char_per_block = { 4, 0, 0 }, .block_w = { 3, 0, 0 }, .block_h = { 1, 0, 0 },
- 		  .hsub = 1, .vsub = 1, .is_yuv = true },
-+		{ .format = DRM_FORMAT_X403,		.depth = 0,  .num_planes = 3,
-+		  .char_per_block = { 4, 4, 4 }, .block_w = { 3, 3, 3 }, .block_h = { 1, 1, 1 },
-+		  .hsub = 1, .vsub = 1, .is_yuv = true },
- 	};
- 
- 	unsigned int i;
+@@ -288,6 +288,7 @@ const struct drm_format_info *__drm_format_info(u32 format)
+ 		{ .format = DRM_FORMAT_VYUY,		.depth = 0,  .num_planes = 1, .cpp = { 2, 0, 0 }, .hsub = 2, .vsub = 1, .is_yuv = true },
+ 		{ .format = DRM_FORMAT_XYUV8888,	.depth = 0,  .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .is_yuv = true },
+ 		{ .format = DRM_FORMAT_VUY888,          .depth = 0,  .num_planes = 1, .cpp = { 3, 0, 0 }, .hsub = 1, .vsub = 1, .is_yuv = true },
++		{ .format = DRM_FORMAT_XVUY2101010,     .depth = 0,  .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .is_yuv = true },
+ 		{ .format = DRM_FORMAT_AYUV,		.depth = 0,  .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 1, .vsub = 1, .has_alpha = true, .is_yuv = true },
+ 		{ .format = DRM_FORMAT_Y210,            .depth = 0,  .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 2, .vsub = 1, .is_yuv = true },
+ 		{ .format = DRM_FORMAT_Y212,            .depth = 0,  .num_planes = 1, .cpp = { 4, 0, 0 }, .hsub = 2, .vsub = 1, .is_yuv = true },
 diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index bf6a41462af5..0128398b7936 100644
+index 0128398b7936..13e3c57046be 100644
 --- a/include/uapi/drm/drm_fourcc.h
 +++ b/include/uapi/drm/drm_fourcc.h
-@@ -403,6 +403,15 @@ extern "C" {
-  */
- #define DRM_FORMAT_Q401		fourcc_code('Q', '4', '0', '1')
+@@ -264,6 +264,7 @@ extern "C" {
+ #define DRM_FORMAT_XVUY8888	fourcc_code('X', 'V', 'U', 'Y') /* [31:0] X:Cr:Cb:Y 8:8:8:8 little endian */
+ #define DRM_FORMAT_VUY888	fourcc_code('V', 'U', '2', '4') /* [23:0] Cr:Cb:Y 8:8:8 little endian */
+ #define DRM_FORMAT_VUY101010	fourcc_code('V', 'U', '3', '0') /* Y followed by U then V, 10:10:10. Non-linear modifier only */
++#define DRM_FORMAT_XVUY2101010	fourcc_code('X', 'Y', '3', '0') /* [31:0] x:Cr:Cb:Y 2:10:10:10 little endian */
  
-+/*
-+ * 3 plane non-subsampled (444) YCbCr
-+ * 10 bpc, 30 bits per sample image data in a single contiguous buffer.
-+ * index 0: Y plane,  [31:0] x:Y2:Y1:Y0    [2:10:10:10] little endian
-+ * index 1: Cb plane, [31:0] x:Cb2:Cb1:Cb0 [2:10:10:10] little endian
-+ * index 2: Cr plane, [31:0] x:Cr2:Cr1:Cr0 [2:10:10:10] little endian
-+ */
-+#define DRM_FORMAT_X403		fourcc_code('X', '4', '0', '3')
-+
  /*
-  * 3 plane YCbCr LSB aligned
-  * In order to use these formats in a similar fashion to MSB aligned ones
+  * packed Y2xx indicate for each component, xx valid data occupy msb
 
 -- 
 2.43.0
