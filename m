@@ -2,65 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WKSpIioHemlE1gEAu9opvQ
+	id dKGGEMMkemlk3QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 13:55:06 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:01:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D53FA1A51
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 13:55:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3380A36CF
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:01:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 604E510E2B2;
-	Wed, 28 Jan 2026 12:55:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 046BB10E719;
+	Wed, 28 Jan 2026 15:01:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="XTEgHLXp";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KxNd6xw+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A23410E2B2
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 12:55:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1769604899;
- bh=cuw9kNGE9m4JDDerWO2dwAOCNF8vbiPqhzbNFs+GZXg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=XTEgHLXpn5MFUgjBeyLRA9uh0Hs8mJ4h2BCQX7E3E76FopbiWuH9aU4YF/cQSzl3/
- drsU+JRtUTev5CH1LBVI56pJRk5mBlNi3lm+jZbd8ptvdqOMJjrLSy2HvyP9iAgOZD
- OAu+DxqulL5EQCrglGzFTpIvmPZWL8cleQ8xpMYxsDsgyHxp08gzI4wxzCbIft/DhN
- KF30wZiEFvE9yVGR8um+49rLW8eb9IaEXr6N4sGZbI3PfoFyYL9tJRH1H3vJ+Pw4ra
- 5caKF3WTHHnVIVd7nMqnJizOfdkyNGu5eEWPjrQouXDNE6HT/w1+2npnWlr/JtnElH
- 2Lba6hThaU+8Q==
-Received: from [192.168.1.90] (unknown [82.79.138.145])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 448E717E0E3F;
- Wed, 28 Jan 2026 13:54:59 +0100 (CET)
-Message-ID: <fa0d29dc-126c-42fe-8020-3785557bdce2@collabora.com>
-Date: Wed, 28 Jan 2026 14:54:58 +0200
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EEB910E6CF
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 13:05:18 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id
+ d2e1a72fcca58-8230c839409so5549621b3a.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 05:05:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1769605517; x=1770210317; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=60aBumMe56xZXRD8vE8OZN2hvZkCH80+CQWsk/u8eek=;
+ b=KxNd6xw+cpkQER5g1k0lfK33x2V910f62ib5T6MeIawXzMPdljVapS960FQuFHRnsj
+ ZsJ60uWYYr9sg/E1v+UwZGc9+VBF5sViZueibfB1fkHaWhaf/bvyWdvmIf32Gag0yqgs
+ LqYB1lu8epynFXGLlmjE44fSnqEdHCcoNb/7E9YPWTEIKA63P+aZKupvaL/39Q009F/g
+ OAC1SlodRCdCXnyUiA/f1rJClMNXmJQAe/X7l1k9n4sbBhd+QxVQgbei5Bjlc7/RTaEY
+ TKurY/10M+PL0Dg2N62+C/my/3tQWpWovZfiUfd/UjGKKfgJbCxL0BrLs4pbqlFabaRl
+ gGWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769605517; x=1770210317;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=60aBumMe56xZXRD8vE8OZN2hvZkCH80+CQWsk/u8eek=;
+ b=QVAmmjj0PGR+B8PAQ1fN+EnK1+aa3I1u//O5dv+2kBCBuGA07IeXA7+WxwaRUIq317
+ 9J+cz8ttNxDoWSg7M0d7xFMmQeFC9cwjP8mZVTqYJh2jx2vksd2bGklT9zRiZ7VFMiQK
+ V8gLgR5vGDAeR7iit8i29pJ+l7sFE2METSsXLSHixFReVts98/cjktwdKFjND6LVS7kK
+ JRDWmFVhAlZnKgBgAI5XkOwAdSOt4HOi43Gymho6Xz+5Xr5WniZhcg9eSbtVZy/20qVg
+ W++jWgd362JiC042sU205AVwPyBRYr4Aj26I2KhCredQKRc3o2ucLZnG4EF3bqIk4TJe
+ +hEg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX7120cfokAUiCuoVkOpx7C5TNItqKjOrbXtkVOIBnOFKxoj4Pt+uQ8ogqFz6na629+J8MSEHVICjg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz5nc0oZNh2K0THzBcI0VrvgRCI5vLs9aKdUh7EwQHmL6rKV8jU
+ psvgkc25S6Ske2secVm2TBtkvlif/vIvxl9r+k7OMKxD5ptKFDZjmFG2
+X-Gm-Gg: AZuq6aKIFLat3Tt02mbMQ3/bDqgXnCLmDLMUh6u36lvtwfmJWYwK+6QTfNRGvWBU2dK
+ rl7iFt8Z4S/UVnMaWjCrR6oOe6chwnf1JR/er3cJQqqBjY5sqlmw5C4/lPn6uFAcqoz/NSV+yGZ
+ CkveKciBvCMdhQz/s2YbW7gRjXDD3D+c+B3MeX5+jfI86Smcb20Zf01punBNQlviIODLd9hMRDd
+ n0sNRBvH6AxXHtu//uRPWU3Ywsd5ZTwbwzTYpIcQ7eT1jeNOEnJPrpWsGHQgxVwdUIq+EBlwDba
+ N5eMXFEr12iXFrHUG7TTHwRoeCWym9kv6RFT9GnCqw20IV9ITJvsDyyVSRrTsJeiAhqyOIZTTKz
+ UZcNfVX2j+qVoG29ZhHHEuuOIfxXToJHQ1vuVcCOqoKPMcP98tgG0ggTk1zl3HDJaARkyMCpnPL
+ GuOauBQBQF8KHiwW/j/vj77ClBQg==
+X-Received: by 2002:a05:6a00:9506:b0:81f:ac80:499a with SMTP id
+ d2e1a72fcca58-82369199b5amr4580614b3a.20.1769605517452; 
+ Wed, 28 Jan 2026 05:05:17 -0800 (PST)
+Received: from localhost.localdomain ([58.231.102.222])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-82379c50fccsm2569978b3a.60.2026.01.28.05.05.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Jan 2026 05:05:17 -0800 (PST)
+From: ChanSoo Shin <csshin9928@gmail.com>
+To: andy@kernel.org
+Cc: gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ ChanSoo Shin <csshin9928@gmail.com>
+Subject: [PATCH] fbtft: Improve damage_range to mark only changed rows
+Date: Wed, 28 Jan 2026 22:05:03 +0900
+Message-ID: <20260128130503.868466-1-csshin9928@gmail.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] drm/bridge: dw-hdmi-qp: Provide HDMI Vendor Specific
- InfoFrame
-To: Daniel Stone <daniel@fooishbar.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20260125-dw-hdmi-qp-iframe-v1-0-e0f7649ecc4b@collabora.com>
- <20260125-dw-hdmi-qp-iframe-v1-1-e0f7649ecc4b@collabora.com>
- <CAPj87rMx9eG7TiXgYd0OU9pJ2ndxbHTpR3KRNTg8qxEE918UCg@mail.gmail.com>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <CAPj87rMx9eG7TiXgYd0OU9pJ2ndxbHTpR3KRNTg8qxEE918UCg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 28 Jan 2026 15:01:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,62 +94,68 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[csshin9928@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FORGED_RECIPIENTS(0.00)[m:daniel@fooishbar.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:kernel@collabora.com,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:andy@kernel.org,m:gregkh@linuxfoundation.org,m:linux-fbdev@vger.kernel.org,m:linux-staging@lists.linux.dev,m:csshin9928@gmail.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,collabora.com,lists.freedesktop.org,vger.kernel.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FREEMAIL_CC(0.00)[linuxfoundation.org,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,gmail.com];
+	FROM_NEQ_ENVFROM(0.00)[csshin9928@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,collabora.com:dkim,collabora.com:mid]
-X-Rspamd-Queue-Id: 0D53FA1A51
+	NEURAL_HAM(-0.00)[-1.000];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: A3380A36CF
 X-Rspamd-Action: no action
 
-Hi Daniel,
+Instead of marking the entire display as dirty, calculate
+start_row and end_row based on off/len and mark only those rows.
+This improves performance for partial framebuffer updates.
 
-On 1/28/26 2:11 PM, Daniel Stone wrote:
-> Hi Cristian,
-> 
-> On Sun, 25 Jan 2026 at 00:23, Cristian Ciocaltea
-> <cristian.ciocaltea@collabora.com> wrote:
->> +       /* VSI packet body */
->> +       for (i = 0; i < len - 3; i += 4)
->> +               dw_hdmi_qp_write_pkt(hdmi, buffer + 3, i, min(len - i - 3, 4),
->> +                                    PKT_VSI_CONTENTS1 + i);
-> 
-> Given that this for loop occurs in all the users (other than when len
-> < 4 where it's not required), why not move it into the
-> dw_hdmi_qp_write_pkt() helper itself, such that the calls for each
-> infoframe could be dw_hdmi_qp_write_pkt(hdmi, buffer + 3, len,
-> PKT_VSI_CONTENTS1 /* base reg, incremented by helper */)?
+Signed-off-by: ChanSoo Shin <csshin9928@gmail.com>
+---
+ drivers/staging/fbtft/fbtft-core.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Yeah, initially planned to keep the helper simple and allow more flexibility in
-the callbacks.  Probably now it makes sense to also write the packet header via
-the helper, not just the body, since this is also handled similarly in all
-cases.
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 8a5ccc8ae0a1..0fbdfdaaa94d 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -415,8 +415,11 @@ static void fbtft_ops_damage_range(struct fb_info *info, off_t off, size_t len)
+ {
+ 	struct fbtft_par *par = info->par;
+ 
+-	/* TODO: only mark changed area update all for now */
+-	par->fbtftops.mkdirty(info, -1, 0);
++	__u32 width = info->var.xres;
++	__u32 start_row = off / width;
++	__u32 end_row = (off + len - 1) / width;
++
++	par->fbtftops.mkdirty(info, start_row, end_row);
+ }
+ 
+ static void fbtft_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u32 height)
+-- 
+2.52.0
 
-Thanks,
-Cristian
