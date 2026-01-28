@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sK4zCe9aemm35QEAu9opvQ
+	id UMH4MQtbemm35QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 19:52:31 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 19:52:59 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A337EA7E88
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 19:52:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BEABA7EB3
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 19:52:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DE2410E2DC;
-	Wed, 28 Jan 2026 18:52:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C219010E2E0;
+	Wed, 28 Jan 2026 18:52:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m6Sy7bRi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mbFpiGD3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61FA610E2DC
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 18:52:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E858510E2E0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 18:52:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 270F260054;
- Wed, 28 Jan 2026 18:52:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70F36C4CEF1;
- Wed, 28 Jan 2026 18:52:24 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 6682C60126;
+ Wed, 28 Jan 2026 18:52:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA408C4CEF7;
+ Wed, 28 Jan 2026 18:52:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769626344;
- bh=qYdsLkJmWzAx8CeoVe1L2Nyi34pxrjLE9TJYh/PLc9U=;
+ s=k20201202; t=1769626376;
+ bh=FpN2GeKkLPq5QvKft5Ke2BDw8HtI7yEWOSKliy0KiDQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=m6Sy7bRi1PjtYcGumDDu+ZFsu9cvXZkn5cbnagcm+s134rYQCRM4sWBgA6yWPwfjN
- DnSXv0tcmoAeYrFAVDu83qUl0CySZDIbhanLKEZX/1xoK0tzMk7/zClwitfi5VI7vE
- uVzCrgKVVLAscJwFvEzURcuZXFXebhbOh/6AZa4G1sbaVLolxuQTuFbG425yUGV9NP
- yBify23EksWp/ucSpEniP7M1M+r4tOA+WZ+j7s6zgznAhDSC9X9IWcUnSsczLJ6Dz1
- uHe6y2g+mP0PjsVIrkBKvbGlFZVbPvGRTBmiHKGRtDdKzMSg7vBuZXp6s2lKvFklMs
- Y0MyfJgBBMvlg==
-Date: Wed, 28 Jan 2026 10:52:23 -0800
+ b=mbFpiGD35Co3WMyUN29gQyYQImVUpu7KXjh6ycwH0vxJlov/y5hOT4UHHD0ck0C1I
+ Dk619LyJIgRJMAkjESGDtQzmah2HRfd5uNuXwCbZkSm2yaY/D9P6DH+DSc4eueZ2Hw
+ NTt0kNlKP7NOInx0F92fANjwhf4OY1+/OTn2EYixTYUY78Qq4kY/QyEJJRwRvADSjL
+ RwUJDDvBGHhQTDJhUrcf/Pmhxl6QP/jupCnxkpZ9jtrNrRRhb58+NKT25eNLI5yRBI
+ Ca+q1OJXLjP0fE75ad2CSpMEQ5quN5OcFYXrib22DcXCVooyT+Rigy5mq430eqN7Oq
+ 5mm40+SU49Zog==
+Date: Wed, 28 Jan 2026 10:52:54 -0800
 From: Drew Fustini <fustini@kernel.org>
 To: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -56,15 +56,14 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
  Icenowy Zheng <uwu@icenowy.me>, Han Gao <gaohan@iscas.ac.cn>
-Subject: Re: [PATCH v6 6/9] riscv: dts: thead: add DPU and HDMI device tree
- nodes
-Message-ID: <aXpa5zPWNOM1oP/C@x1>
+Subject: Re: [PATCH v6 7/9] riscv: dts: thead: lichee-pi-4a: enable HDMI
+Message-ID: <aXpbBq3TwuiP9Qry@x1>
 References: <20260123092830.4046009-1-zhengxingda@iscas.ac.cn>
- <20260123092830.4046009-7-zhengxingda@iscas.ac.cn>
+ <20260123092830.4046009-8-zhengxingda@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260123092830.4046009-7-zhengxingda@iscas.ac.cn>
+In-Reply-To: <20260123092830.4046009-8-zhengxingda@iscas.ac.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,31 +112,30 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,iscas.ac.cn:email]
-X-Rspamd-Queue-Id: A337EA7E88
+	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:email,samsung.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 6BEABA7EB3
 X-Rspamd-Action: no action
 
-On Fri, Jan 23, 2026 at 05:28:27PM +0800, Icenowy Zheng wrote:
-> From: Icenowy Zheng <uwu@icenowy.me>
+On Fri, Jan 23, 2026 at 05:28:28PM +0800, Icenowy Zheng wrote:
+> Lichee Pi 4A board features a HDMI Type-A connector connected to the
+> HDMI TX controller of TH1520 SoC.
 > 
-> T-Head TH1520 SoC contains a Verisilicon DC8200 display controller
-> (called DPU in manual) and a Synopsys DesignWare HDMI TX controller.
-> 
-> Add device tree nodes to them.
+> Add a device tree node describing the connector, connect it to the HDMI
+> controller, and enable everything on this display pipeline.
 > 
 > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 > Tested-by: Han Gao <gaohan@iscas.ac.cn>
 > Tested-by: Michal Wilczynski <m.wilczynski@samsung.com>
 > ---
-> No changes since v4.
+> No changes in v5.
 > 
-> Changes in v3:
-> - Adapting to the changed binding.
+> Changes in v4:
+> - Rebased on top of v6.19-rc1.
 > 
-> No changes in v2.
+> No changes in v2, v3.
 > 
->  arch/riscv/boot/dts/thead/th1520.dtsi | 66 +++++++++++++++++++++++++++
->  1 file changed, 66 insertions(+)
+>  .../boot/dts/thead/th1520-lichee-pi-4a.dts    | 25 +++++++++++++++++++
+>  1 file changed, 25 insertions(+)
 
 Reviewed-by: Drew Fustini <fustini@kernel.org>
