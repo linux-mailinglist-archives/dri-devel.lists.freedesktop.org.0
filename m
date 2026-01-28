@@ -2,63 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SAD8KaQKemk82AEAu9opvQ
+	id 8MfHL2sNemmS2AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 14:09:56 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 14:21:47 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BB54A1DA0
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 14:09:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A42A20D7
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 14:21:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20AB210E6BC;
-	Wed, 28 Jan 2026 13:09:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04E8310E6EB;
+	Wed, 28 Jan 2026 13:21:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="d0JE3igs";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NjkLZO9G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50E9910E6BC
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 13:09:51 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id BC45F3A2;
- Wed, 28 Jan 2026 14:09:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1769605752;
- bh=eoWm0ODiCGoFxKKdpMxGg0dhmOyGV9mLi7ccTk7hYhI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=d0JE3igs1aAkx8tTKYunUcwa5HGRUqwAaegZobA8/4BagIN//NM+JKH9b33RrPVW7
- rhHcGFUSMesbBA/XaYoXFoeYsSHV1NeokLyZnK6WtzOV/2kmZshRhZp0p1NLNloOyy
- OtGCMGgxXwEivE0yu+soTAVK7M+SkWfFHZNkbaCw=
-Date: Wed, 28 Jan 2026 15:09:48 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Vishal Sagar <vishal.sagar@amd.com>,
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Michal Simek <michal.simek@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Pekka Paalanen <ppaalanen@gmail.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Dmitry Baryshkov <lumag@kernel.org>
-Subject: Re: [PATCH v7 03/11] drm/fourcc: Add DRM_FORMAT_Y8
-Message-ID: <20260128130948.GA3210848@killaraus>
-References: <20251201-xilinx-formats-v7-0-1e1558adfefc@ideasonboard.com>
- <20251201-xilinx-formats-v7-3-1e1558adfefc@ideasonboard.com>
- <20260128114941.GF2558360@killaraus>
- <6bf4347b-ce70-4325-965f-40f81b24a0d1@ideasonboard.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0463210E2BA;
+ Wed, 28 Jan 2026 13:21:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1769606502; x=1801142502;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=IBtvxcFQH17EFb7APUsEEaA1PasU3giQo88bh1kk8LI=;
+ b=NjkLZO9GspLJfyjyO5NT2rQhzX7VNhUwuSpByVG/VETQGcKf92fFTroH
+ hIcZeGXN1t3y54rOIYHMrtVaa/IupCXGW4JeTJz0CEX+Zxfn5kiL5tbUe
+ b78Lf17aY4E3Da8pydy+vy6ww1KKlHzo25F6L7cRQ7tCbZcCm+3MJmPfB
+ FQ/kCo3+5uQXq1cRUy6+iOXmmZrD7ucqkksJQ6VvM0r6ORWMfoXvT+pLv
+ 8X4IvyaGn1rp7CEHp3KX73CNrHiv95TNHAlK24xZLUOUjLy9RfXI0lN8V
+ bmdAEPwbQsZCy27W/IDx5nL9KXIo/+3tsV8LcmcMc+wRQAN8i1Bx1Yp7m w==;
+X-CSE-ConnectionGUID: uwf9DEhXTaKqf3IJIzI3Dg==
+X-CSE-MsgGUID: EhP3RTplQ7i56Yt1asqJmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="82184141"
+X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; d="scan'208";a="82184141"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2026 05:21:42 -0800
+X-CSE-ConnectionGUID: UOTjtR7UQHO3E0a1uQjRoQ==
+X-CSE-MsgGUID: f7tU4Gj4QDShAnjUhX6aFg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; d="scan'208";a="208280486"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+ by orviesa008.jf.intel.com with ESMTP; 28 Jan 2026 05:21:39 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vl5UG-00000000ZhM-1Cs0;
+ Wed, 28 Jan 2026 13:21:36 +0000
+Date: Wed, 28 Jan 2026 21:21:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 04/11] amdgpu/vce: use amdgpu_gtt_mgr_alloc_entries
+Message-ID: <202601282153.4kuaeoS5-lkp@intel.com>
+References: <20260126133518.2486-5-pierre-eric.pelloux-prayer@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <6bf4347b-ce70-4325-965f-40f81b24a0d1@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260126133518.2486-5-pierre-eric.pelloux-prayer@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,139 +81,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:tomi.valkeinen@ideasonboard.com,m:vishal.sagar@amd.com,m:anatoliy.klymenko@amd.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:michal.simek@amd.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:geert@linux-m68k.org,m:dmitry.baryshkov@oss.qualcomm.com,m:ppaalanen@gmail.com,m:pekka.paalanen@collabora.com,m:lumag@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[amd.com,gmail.com,ffwll.ch];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[amd.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,lists.infradead.org,linux-m68k.org,oss.qualcomm.com,collabora.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,linaro.org:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,ideasonboard.com:email,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: 0BB54A1DA0
+	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,intel.com:dkim,intel.com:mid,git-scm.com:url]
+X-Rspamd-Queue-Id: 71A42A20D7
 X-Rspamd-Action: no action
 
-On Wed, Jan 28, 2026 at 02:31:57PM +0200, Tomi Valkeinen wrote:
-> On 28/01/2026 13:49, Laurent Pinchart wrote:
-> > On Mon, Dec 01, 2025 at 02:18:45PM +0200, Tomi Valkeinen wrote:
-> >> Add greyscale Y8 format.
-> > 
-> > I would explain here why we need a new format and can't just use
-> > DRM_FORMAT_R8. You don't need to convince me, but I think it's important
-> > to summarize the rationale should someone later wonder why we introduced
-> > this.
-> 
-> Good point. I can take the text from the cover letter to this commit's
-> description.
-> 
-> Would this be fine:
-> 
-> ==
-> 
-> Add greyscale Y8 format.
-> 
-> The 8-bit greyscale format has been discussed before, and the
-> earlier guidance was to use DRM_FORMAT_R8, as a single-channel 8-bit pixel.
-> 
-> However, adding DRM_FORMAT_Y8 makes sense, as:
-> 
-> 1) We can mark it as 'is_yuv' in the drm_format_info, and this can help
->    the drivers handle e.g. full/limited range. Probably some hardware
->    handles grayscale as a value used for all RGB components, in which case
->    R8 makes sense, but when the hardware handles the Y-only pixels as YCbCr,
->    where Cb and Cr are "neutral", it makes more sense to consider the
->    format as an YUV format rather than RGB.
-> 
-> 2) We can have the same fourcc as in v4l2. While not strictly necessary,
->    it's a constant source of confusion when the fourccs differ.
+Hi Pierre-Eric,
 
-I wouldn't consider that as a goal (see my comment below about the 4CC
-value). V4L2 and DRM 4CCs differ, and applications must handle them
-separately. Implying we can take shortcuts for a subset of formats will
-in my opinion generate more harm than good.
+kernel test robot noticed the following build warnings:
 
-> 3) It (possibly) makes more sense for the user to use Y8/GREY format
->    instead of R8, as, in my experience, the documentation usually refers
->    to gray(scale) format or Y-only format.
-> 
-> 4) We have other Y-only formats, like the Y10_P32 added in the following
->    patches, with "Y" in the fourcc name.
+[auto build test WARNING on next-20260123]
+[cannot apply to drm-misc/drm-misc-next v6.19-rc7 v6.19-rc6 v6.19-rc5 linus/master v6.19-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-If those two were the only reasons, I'd tell you to use R8 :-) I would
-drop 2-4 and only document 1, that's the real reason.
+url:    https://github.com/intel-lab-lkp/linux/commits/Pierre-Eric-Pelloux-Prayer/drm-amdgpu-remove-gart_window_lock-usage-from-gmc-v12_1/20260126-214013
+base:   next-20260123
+patch link:    https://lore.kernel.org/r/20260126133518.2486-5-pierre-eric.pelloux-prayer%40amd.com
+patch subject: [PATCH v6 04/11] amdgpu/vce: use amdgpu_gtt_mgr_alloc_entries
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260128/202601282153.4kuaeoS5-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601282153.4kuaeoS5-lkp@intel.com/reproduce)
 
-> >> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >> Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> >> Reviewed-by: Vishal Sagar <vishal.sagar@amd.com>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> >> ---
-> >>  drivers/gpu/drm/drm_fourcc.c  |  1 +
-> >>  include/uapi/drm/drm_fourcc.h | 10 ++++++++++
-> >>  2 files changed, 11 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
-> >> index b22ef86428a1..a39b9d7a5b62 100644
-> >> --- a/drivers/gpu/drm/drm_fourcc.c
-> >> +++ b/drivers/gpu/drm/drm_fourcc.c
-> >> @@ -275,6 +275,7 @@ const struct drm_format_info *__drm_format_info(u32 format)
-> >>  		{ .format = DRM_FORMAT_YVU422,		.depth = 0,  .num_planes = 3, .cpp = { 1, 1, 1 }, .hsub = 2, .vsub = 1, .is_yuv = true },
-> >>  		{ .format = DRM_FORMAT_YUV444,		.depth = 0,  .num_planes = 3, .cpp = { 1, 1, 1 }, .hsub = 1, .vsub = 1, .is_yuv = true },
-> >>  		{ .format = DRM_FORMAT_YVU444,		.depth = 0,  .num_planes = 3, .cpp = { 1, 1, 1 }, .hsub = 1, .vsub = 1, .is_yuv = true },
-> >> +		{ .format = DRM_FORMAT_Y8,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1, .is_yuv = true },
-> >>  		{ .format = DRM_FORMAT_NV12,		.depth = 0,  .num_planes = 2, .cpp = { 1, 2, 0 }, .hsub = 2, .vsub = 2, .is_yuv = true },
-> >>  		{ .format = DRM_FORMAT_NV21,		.depth = 0,  .num_planes = 2, .cpp = { 1, 2, 0 }, .hsub = 2, .vsub = 2, .is_yuv = true },
-> >>  		{ .format = DRM_FORMAT_NV16,		.depth = 0,  .num_planes = 2, .cpp = { 1, 2, 0 }, .hsub = 2, .vsub = 1, .is_yuv = true },
-> >> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> >> index 6c786701238e..5cfc188c4e72 100644
-> >> --- a/include/uapi/drm/drm_fourcc.h
-> >> +++ b/include/uapi/drm/drm_fourcc.h
-> >> @@ -459,6 +459,16 @@ extern "C" {
-> >>  #define DRM_FORMAT_YUV444	fourcc_code('Y', 'U', '2', '4') /* non-subsampled Cb (1) and Cr (2) planes */
-> >>  #define DRM_FORMAT_YVU444	fourcc_code('Y', 'V', '2', '4') /* non-subsampled Cr (1) and Cb (2) planes */
-> >>  
-> >> +/*
-> >> + * Y-only (greyscale) formats
-> >> + *
-> >> + * The Y-only formats are handled similarly to the YCbCr formats in the display
-> >> + * pipeline, with the Cb and Cr implicitly neutral (0.0 in nominal values). This
-> >> + * also means that COLOR_RANGE property applies to the Y-only formats.
-> >> + *
-> > 
-> > Extra blank line.
-> > 
-> >> + */
-> >> +
-> >> +#define DRM_FORMAT_Y8		fourcc_code('G', 'R', 'E', 'Y')  /* 8-bit Y-only */
-> > 
-> > I would have gone for 'Y', '8', ' ', ' '
-> > 
-> >>  
-> >>  /*
-> >>   * Format Modifiers:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601282153.4kuaeoS5-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/amd/amdgpu/vce_v1_0.c: In function 'vce_v1_0_ensure_vcpu_bo_32bit_addr':
+>> drivers/gpu/drm/amd/amdgpu/vce_v1_0.c:533:13: warning: unused variable 'gpu_addr' [-Wunused-variable]
+     533 |         u64 gpu_addr = amdgpu_bo_gpu_offset(adev->vce.vcpu_bo);
+         |             ^~~~~~~~
+
+
+vim +/gpu_addr +533 drivers/gpu/drm/amd/amdgpu/vce_v1_0.c
+
+d4a640d4b9f34a Timur Kristóf              2025-11-07  516  
+221cadb9c6bc2e Timur Kristóf              2025-11-07  517  /**
+221cadb9c6bc2e Timur Kristóf              2025-11-07  518   * vce_v1_0_ensure_vcpu_bo_32bit_addr() - ensure the VCPU BO has a 32-bit address
+221cadb9c6bc2e Timur Kristóf              2025-11-07  519   *
+221cadb9c6bc2e Timur Kristóf              2025-11-07  520   * @adev: amdgpu_device pointer
+221cadb9c6bc2e Timur Kristóf              2025-11-07  521   *
+221cadb9c6bc2e Timur Kristóf              2025-11-07  522   * Due to various hardware limitations, the VCE1 requires
+221cadb9c6bc2e Timur Kristóf              2025-11-07  523   * the VCPU BO to be in the low 32 bit address range.
+221cadb9c6bc2e Timur Kristóf              2025-11-07  524   * Ensure that the VCPU BO has a 32-bit GPU address,
+221cadb9c6bc2e Timur Kristóf              2025-11-07  525   * or return an error code when that isn't possible.
+221cadb9c6bc2e Timur Kristóf              2025-11-07  526   *
+221cadb9c6bc2e Timur Kristóf              2025-11-07  527   * To accomodate that, we put GART to the LOW address range
+221cadb9c6bc2e Timur Kristóf              2025-11-07  528   * and reserve some GART pages where we map the VCPU BO,
+221cadb9c6bc2e Timur Kristóf              2025-11-07  529   * so that it gets a 32-bit address.
+221cadb9c6bc2e Timur Kristóf              2025-11-07  530   */
+221cadb9c6bc2e Timur Kristóf              2025-11-07  531  static int vce_v1_0_ensure_vcpu_bo_32bit_addr(struct amdgpu_device *adev)
+221cadb9c6bc2e Timur Kristóf              2025-11-07  532  {
+221cadb9c6bc2e Timur Kristóf              2025-11-07 @533  	u64 gpu_addr = amdgpu_bo_gpu_offset(adev->vce.vcpu_bo);
+221cadb9c6bc2e Timur Kristóf              2025-11-07  534  	u64 bo_size = amdgpu_bo_size(adev->vce.vcpu_bo);
+221cadb9c6bc2e Timur Kristóf              2025-11-07  535  	u64 max_vcpu_bo_addr = 0xffffffff - bo_size;
+221cadb9c6bc2e Timur Kristóf              2025-11-07  536  	u64 num_pages = ALIGN(bo_size, AMDGPU_GPU_PAGE_SIZE) / AMDGPU_GPU_PAGE_SIZE;
+221cadb9c6bc2e Timur Kristóf              2025-11-07  537  	u64 pa = amdgpu_gmc_vram_pa(adev, adev->vce.vcpu_bo);
+221cadb9c6bc2e Timur Kristóf              2025-11-07  538  	u64 flags = AMDGPU_PTE_READABLE | AMDGPU_PTE_WRITEABLE | AMDGPU_PTE_VALID;
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  539  	u64 vce_gart_start;
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  540  	int r;
+221cadb9c6bc2e Timur Kristóf              2025-11-07  541  
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  542  	r = amdgpu_gtt_mgr_alloc_entries(&adev->mman.gtt_mgr,
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  543  					 &adev->vce.node, num_pages,
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  544  					 DRM_MM_INSERT_LOW);
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  545  	if (r)
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  546  		return r;
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  547  
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  548  	vce_gart_start = adev->vce.node.start * AMDGPU_GPU_PAGE_SIZE;
+221cadb9c6bc2e Timur Kristóf              2025-11-07  549  
+221cadb9c6bc2e Timur Kristóf              2025-11-07  550  	/* Check if we can map the VCPU BO in GART to a 32-bit address. */
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  551  	if (adev->gmc.gart_start + vce_gart_start > max_vcpu_bo_addr)
+221cadb9c6bc2e Timur Kristóf              2025-11-07  552  		return -EINVAL;
+221cadb9c6bc2e Timur Kristóf              2025-11-07  553  
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  554  	amdgpu_gart_map_vram_range(adev, pa, adev->vce.node.start,
+221cadb9c6bc2e Timur Kristóf              2025-11-07  555  				   num_pages, flags, adev->gart.ptr);
+6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  556  	adev->vce.gpu_addr = adev->gmc.gart_start + vce_gart_start;
+221cadb9c6bc2e Timur Kristóf              2025-11-07  557  	if (adev->vce.gpu_addr > max_vcpu_bo_addr)
+221cadb9c6bc2e Timur Kristóf              2025-11-07  558  		return -EINVAL;
+221cadb9c6bc2e Timur Kristóf              2025-11-07  559  
+221cadb9c6bc2e Timur Kristóf              2025-11-07  560  	return 0;
+221cadb9c6bc2e Timur Kristóf              2025-11-07  561  }
+221cadb9c6bc2e Timur Kristóf              2025-11-07  562  
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
