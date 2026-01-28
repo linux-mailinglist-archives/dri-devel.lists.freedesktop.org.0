@@ -2,52 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mJgOAvV4eWkSxQEAu9opvQ
+	id v0wqG+2DeWnGxQEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 03:48:21 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 04:35:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 297E79C681
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 03:48:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5C2D9CBB8
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 04:35:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84BA410E157;
-	Wed, 28 Jan 2026 02:48:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1613210E1DA;
+	Wed, 28 Jan 2026 03:35:05 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M2ARrs5V";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D667D10E157
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 02:48:16 +0000 (UTC)
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-218-fKUhcpUtMIOmTGIFkHMx2A-1; Tue,
- 27 Jan 2026 21:48:12 -0500
-X-MC-Unique: fKUhcpUtMIOmTGIFkHMx2A-1
-X-Mimecast-MFC-AGG-ID: fKUhcpUtMIOmTGIFkHMx2A_1769568491
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 5C30D1800473; Wed, 28 Jan 2026 02:48:11 +0000 (UTC)
-Received: from dreadlord.redhat.com (unknown [10.67.32.75])
- by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 554C930001A2; Wed, 28 Jan 2026 02:48:08 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
-Subject: [PATCH] nouveau/vmm: start tracking if the LPT PTE is valid. (v2)
-Date: Wed, 28 Jan 2026 12:48:06 +1000
-Message-ID: <20260128024806.1534662-1-airlied@gmail.com>
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A996A10E1DA
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 03:35:03 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id
+ d2e1a72fcca58-82311f4070cso257545b3a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 27 Jan 2026 19:35:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1769571303; x=1770176103; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=vHsef8Eavky6gF12HHQo8VAwR8PkAm6f6g30n7mS7sU=;
+ b=M2ARrs5Vso/uIq/PxKdeaiE/x8ltk1TmI0tg8whrmzB+iv0kTfanJsTO/AYkUFBhmq
+ rG52LXu5xfd1wqDehgVqFKbgqQMj66EHvDtIRvFKQhFh2TTDxdWjUJ+VFIXAsi742TQW
+ U4+fQWZ0Cvg3rsYougBF+NtWZzbmJR8a3j+c23ongaF47t7Q04KVA9FcZ04UZgtsI388
+ Wlh/brNbrlHxH09QZW+MC8wlyF8BsaLGArrmorDk7txXu1wSyZNrIqSp974h5YSgZXFJ
+ z8r5UEJNSHD4xmnCLbkjdNFTJhYwUc9jZBiDgYuhjOViVxLr42uJNebKaSZDytXdzPVy
+ CT4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769571303; x=1770176103;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vHsef8Eavky6gF12HHQo8VAwR8PkAm6f6g30n7mS7sU=;
+ b=tlR5J8z2IcGb0EiqvrWLURrxDf85ScCy6qOf0WM+pCJqUotc3lgYgXm0e3nQKkaRRT
+ vlLTo5mVkgkLhJJRvyVUaNr3u/ZontyTj5ADsZIcWrlY+OJpeNDgLEHizJNtDHqi+1ev
+ qQfNRmnchCMRex6kpuJofecYuRCgDB0Qw6Dme5p38kcOSIgcohFEbznJKYl9qM37XBKu
+ jGYiOdYzQGmcqJ+SLpxGTopfNGeIBviqwB8WblzD6Bpu6NOjFF3rIRCEluWROj4D0V6o
+ Zg6wceNzqorna2zR3MbYkauYE5et2DseIMdQ8K+1SzyuLb7FPC8jBJ1r1ucdDHK0QTHE
+ yFTg==
+X-Gm-Message-State: AOJu0YyC2A647jO/1gJeJu/oBhP8fa7Rw1mJ0qxQQylSKXdROzRAZJ73
+ r5mY8I6gnWaY/RInAEbGCeOXq0TgrOFqgB6GwhpmiNLepKbP7mPXy5IV
+X-Gm-Gg: AZuq6aKrFUuGwop8Mkm1BK1b6kiuSGEA28jOrLUeWCWoiiv4QB1sJ96mJ9XltcxCy7L
+ ulK+cLN97DjzN2ogPSuu5WM6p+aq37T2S5yar6V5cJa7kBAmfjh8X775Ffx+ezxfQLgmGDshYwI
+ yvkfX105Ww6APIfiPUJg8gvy0Cy9qPUjYxxdwlpZo57ec1O2eL3s8B9VW/hlGy0l0EkTLeK5XTD
+ bNa4fY+CI3lXN9lU/Mwkw2/CRSp4UfRzrRVtbg74kS6RSlMWduE5rM/e1t4/uOAYLpuWsE6rYDw
+ ctkOUx2bXaobb/rqxjtE67YjAdte6gEe5XC657lmc3kfhYvEdBSjNbKQZJeD6eUMtnrdkjLwMHi
+ SueKbGBB+PZV69r1EmZictaVWe2O4VMizAa8iIrA6lH7D7o4860fnJliO898UDZKARe6wkIm6Ln
+ QUdNz40UZCsPyWS1s5RMiPbhs5QPLKhBg=
+X-Received: by 2002:a05:6a00:886:b0:81f:535f:b48a with SMTP id
+ d2e1a72fcca58-8236a14b4a7mr3625497b3a.7.1769571302990; 
+ Tue, 27 Jan 2026 19:35:02 -0800 (PST)
+Received: from localhost.localdomain ([1.203.169.108])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-82379c226afsm948671b3a.49.2026.01.27.19.34.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Jan 2026 19:35:02 -0800 (PST)
+From: Xingjing Deng <micro6947@gmail.com>
+X-Google-Original-From: Xingjing Deng <xjdeng@buaa.edu.cn>
+To: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
+ gregkh@linuxfoundation.org
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Xingjing Deng <xjdeng@buaa.edu.cn>,
+ stable@vger.kernel.org
+Subject: [PATCH v6] misc: fastrpc: check qcom_scm_assign_mem() return in
+ rpmsg_probe
+Date: Wed, 28 Jan 2026 11:34:54 +0800
+Message-Id: <20260128033454.2614886-1-xjdeng@buaa.edu.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: L8pCvG4bk2cXAkTyooZkL3OPHF08bCw6rgZdkOqtTIc_1769568491
-X-Mimecast-Originator: gmail.com
-Content-Transfer-Encoding: quoted-printable
-content-type: text/plain; charset=WINDOWS-1252; x-default=true
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,197 +93,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
-	DMARC_POLICY_SOFTFAIL(0.10)[gmail.com : SPF not aligned (relaxed), No valid DKIM,none];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:srini@kernel.org,m:amahesh@qti.qualcomm.com,m:arnd@arndb.de,m:gregkh@linuxfoundation.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:xjdeng@buaa.edu.cn,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_SOME(0.00)[];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[micro6947@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	R_DKIM_NA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[micro6947@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gitlab.freedesktop.org:url]
-X-Rspamd-Queue-Id: 297E79C681
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,buaa.edu.cn:mid,buaa.edu.cn:email]
+X-Rspamd-Queue-Id: A5C2D9CBB8
 X-Rspamd-Action: no action
 
-From: Dave Airlie <airlied@redhat.com>
+In the SDSP probe path, qcom_scm_assign_mem() is used to assign the
+reserved memory to the configured VMIDs, but its return value was not checked.
 
-When NVK enabled large pages userspace tests were seeing fault
-reports at a valid address.
+Fail the probe if the SCM call fails to avoid continuing with an
+unexpected/incorrect memory permission configuration.
 
-There was a case where an address moving from 64k page to 4k pages
-could expose a race between unmapping the 4k page, mapping the 64k
-page and unref the 4k pages.
+This issue was detected by a private static analysis tool.
+No actual hardware testing was performed as the issue is purely
+code-level and verified via static analysis.
 
-Unref 4k pages would cause the dual-page table handling to always
-set the LPTE entry to SPARSE or INVALID, but if we'd mapped a valid
-LPTE in the meantime, it would get trashed. Keep track of when
-a valid LPTE has been referenced, and don't reset in that case.
-
-This increase the tracking to 32-bit, because it turns out if
-unref can get delayed, you can get a lot of these outstanding
-and this can cause strange behaviours.
-
-Cc: stable@vger.kernel.org
-Link: https://gitlab.freedesktop.org/mesa/mesa/-/issues/14610
-Signed-off-by: Dave Airlie <airlied@redhat.com>
-
---
-v2: move to 32-bit from 8-bit tracker
-fix some more flag changes.
+Fixes: c3c0363bc72d4 ("misc: fastrpc: support complete DMA pool access to the DSP")
+Cc: stable@vger.kernel.org # 6.11-rc1
+Signed-off-by: Xingjing Deng <xjdeng@buaa.edu.cn>
 ---
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c | 43 +++++++++++++------
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |  9 ++--
- 2 files changed, 36 insertions(+), 16 deletions(-)
+v6:
+- Add description of the detection tool.
+- Link to v5: https://lore.kernel.org/linux-arm-msm/20260117140351.875511-1-xjdeng@buaa.edu.cn/T/#u
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c b/drivers/gpu/dr=
-m/nouveau/nvkm/subdev/mmu/vmm.c
-index f95c58b67633..304aaed9767d 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
-@@ -53,7 +53,7 @@ nvkm_vmm_pt_new(const struct nvkm_vmm_desc *desc, bool sp=
-arse,
- =09=09}
- =09}
-=20
--=09if (!(pgt =3D kzalloc(sizeof(*pgt) + lpte, GFP_KERNEL)))
-+=09if (!(pgt =3D kzalloc(sizeof(*pgt) + (sizeof(pgt->pte[0]) * lpte), GFP_=
-KERNEL)))
- =09=09return NULL;
- =09pgt->page =3D page ? page->shift : 0;
- =09pgt->sparse =3D sparse;
-@@ -242,14 +242,17 @@ nvkm_vmm_unref_sptes(struct nvkm_vmm_iter *it, struct=
- nvkm_vmm_pt *pgt,
- =09=09if (pgt->pte[pteb] & NVKM_VMM_PTE_SPARSE) {
- =09=09=09TRA(it, "LPTE %05x: U -> S %d PTEs", pteb, ptes);
- =09=09=09pair->func->sparse(vmm, pgt->pt[0], pteb, ptes);
--=09=09} else
--=09=09if (pair->func->invalid) {
--=09=09=09/* If the MMU supports it, restore the LPTE to the
--=09=09=09 * INVALID state to tell the MMU there is no point
--=09=09=09 * trying to fetch the corresponding SPTEs.
--=09=09=09 */
--=09=09=09TRA(it, "LPTE %05x: U -> I %d PTEs", pteb, ptes);
--=09=09=09pair->func->invalid(vmm, pgt->pt[0], pteb, ptes);
-+=09=09} else if (!(pgt->pte[pteb] & NVKM_VMM_PTE_BIG_VALID)) {
-+=09=09=09if (pair->func->invalid) {
-+=09=09=09=09/* If the MMU supports it, restore the LPTE to the
-+=09=09=09=09 * INVALID state to tell the MMU there is no point
-+=09=09=09=09 * trying to fetch the corresponding SPTEs.
-+=09=09=09=09 */
-+=09=09=09=09TRA(it, "LPTE %05x: U -> I %d PTEs", pteb, ptes);
-+=09=09=09=09pair->func->invalid(vmm, pgt->pt[0], pteb, ptes);
-+=09=09=09}
-+=09=09} else {
-+=09=09=09TRA(it, "LPTE %05x: V %d PTEs", pteb, ptes);
- =09=09}
- =09}
- }
-@@ -280,6 +283,13 @@ nvkm_vmm_unref_ptes(struct nvkm_vmm_iter *it, bool pfn=
-, u32 ptei, u32 ptes)
- =09if (desc->type =3D=3D SPT && (pgt->refs[0] || pgt->refs[1]))
- =09=09nvkm_vmm_unref_sptes(it, pgt, desc, ptei, ptes);
-=20
-+=09if (desc->type =3D=3D LPT && (pgt->refs[0] || pgt->refs[1])) {
-+=09=09for (u32 lpti =3D ptei; ptes; lpti++) {
-+=09=09=09pgt->pte[lpti] &=3D ~NVKM_VMM_PTE_BIG_VALID;
-+=09=09=09ptes--;
-+=09=09}
-+=09}
-+
- =09/* PT no longer needed? Destroy it. */
- =09if (!pgt->refs[type]) {
- =09=09it->lvl++;
-@@ -336,6 +346,7 @@ nvkm_vmm_ref_sptes(struct nvkm_vmm_iter *it, struct nvk=
-m_vmm_pt *pgt,
- =09=09=09if (pgt->pte[ptei] & NVKM_VMM_PTE_VALID)
- =09=09=09=09break;
- =09=09=09pgt->pte[ptei] |=3D NVKM_VMM_PTE_VALID;
-+=09=09=09pgt->pte[ptei] &=3D ~NVKM_VMM_PTE_BIG_VALID;
- =09=09}
-=20
- =09=09if (pgt->pte[pteb] & NVKM_VMM_PTE_SPARSE) {
-@@ -374,6 +385,14 @@ nvkm_vmm_ref_ptes(struct nvkm_vmm_iter *it, bool pfn, =
-u32 ptei, u32 ptes)
- =09if (desc->type =3D=3D SPT)
- =09=09nvkm_vmm_ref_sptes(it, pgt, desc, ptei, ptes);
-=20
-+=09if (desc->type =3D=3D LPT) {
-+=09=09for (u32 lpti =3D ptei; ptes; lpti++) {
-+=09=09=09pgt->pte[lpti] &=3D ~NVKM_VMM_PTE_VALID;
-+=09=09=09pgt->pte[lpti] |=3D NVKM_VMM_PTE_BIG_VALID;
-+=09=09=09ptes--;
-+=09=09}
-+=09}
-+
- =09return true;
- }
-=20
-@@ -386,7 +405,7 @@ nvkm_vmm_sparse_ptes(const struct nvkm_vmm_desc *desc,
- =09=09=09pgt->pde[ptei++] =3D NVKM_VMM_PDE_SPARSE;
- =09} else
- =09if (desc->type =3D=3D LPT) {
--=09=09memset(&pgt->pte[ptei], NVKM_VMM_PTE_SPARSE, ptes);
-+=09=09memset32(&pgt->pte[ptei], NVKM_VMM_PTE_SPARSE, ptes);
- =09}
- }
-=20
-@@ -398,7 +417,7 @@ nvkm_vmm_sparse_unref_ptes(struct nvkm_vmm_iter *it, bo=
-ol pfn, u32 ptei, u32 pte
- =09=09memset(&pt->pde[ptei], 0x00, sizeof(pt->pde[0]) * ptes);
- =09else
- =09if (it->desc->type =3D=3D LPT)
--=09=09memset(&pt->pte[ptei], 0x00, sizeof(pt->pte[0]) * ptes);
-+=09=09memset32(&pt->pte[ptei], 0x00, ptes);
- =09return nvkm_vmm_unref_ptes(it, pfn, ptei, ptes);
- }
-=20
-@@ -457,7 +476,7 @@ nvkm_vmm_ref_hwpt(struct nvkm_vmm_iter *it, struct nvkm=
-_vmm_pt *pgd, u32 pdei)
- =09=09=09=09=09desc->func->sparse(vmm, pt, pteb, ptes);
- =09=09=09=09else
- =09=09=09=09=09desc->func->invalid(vmm, pt, pteb, ptes);
--=09=09=09=09memset(&pgt->pte[pteb], 0x00, ptes);
-+=09=09=09=09memset32(&pgt->pte[pteb], 0x00, ptes);
- =09=09=09} else {
- =09=09=09=09desc->func->unmap(vmm, pt, pteb, ptes);
- =09=09=09=09while (ptes--)
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h b/drivers/gpu/dr=
-m/nouveau/nvkm/subdev/mmu/vmm.h
-index 4586a425dbe4..3720579f4bf7 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
-@@ -44,10 +44,11 @@ struct nvkm_vmm_pt {
- =09 *
- =09 * This information is used to manage LPTE state transitions.
- =09 */
--#define NVKM_VMM_PTE_SPARSE 0x80
--#define NVKM_VMM_PTE_VALID  0x40
--#define NVKM_VMM_PTE_SPTES  0x3f
--=09u8 pte[];
-+#define NVKM_VMM_PTE_SPARSE    0x80000000
-+#define NVKM_VMM_PTE_VALID     0x40000000
-+#define NVKM_VMM_PTE_BIG_VALID 0x20000000
-+#define NVKM_VMM_PTE_SPTES     0x1fffffff
-+=09u32 pte[];
- };
-=20
- typedef void (*nvkm_vmm_pxe_func)(struct nvkm_vmm *,
---=20
-2.52.0
+v5:
+- Squash the functional change and indentation fix into a single patch.
+- Link to v4: https://lore.kernel.org/linux-arm-msm/2026011637-statute-showy-2c3f@gregkh/T/#t
+
+v4:
+- Format the indentation
+- Link to v3: https://lore.kernel.org/linux-arm-msm/20260113084352.72itrloj5w7qb5o3@hu-mojha-hyd.qualcomm.com/T/#t
+
+v3:
+- Add missing linux-kernel@vger.kernel.org to cc list.
+- Standarlize changelog placement/format.
+- Link to v2: https://lore.kernel.org/linux-arm-msm/20260113063618.e2ke47gy3hnfi67e@hu-mojha-hyd.qualcomm.com/T/#t
+
+v2:
+- Add Fixes: and Cc: stable tags.
+- Link to v1: https://lore.kernel.org/linux-arm-msm/20260113022550.4029635-1-xjdeng@buaa.edu.cn/T/#u
+---
+ drivers/misc/fastrpc.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+index ee652ef01534..8bac2216cb20 100644
+--- a/drivers/misc/fastrpc.c
++++ b/drivers/misc/fastrpc.c
+@@ -2337,8 +2337,11 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+ 		if (!err) {
+ 			src_perms = BIT(QCOM_SCM_VMID_HLOS);
+ 
+-			qcom_scm_assign_mem(res.start, resource_size(&res), &src_perms,
++			err = qcom_scm_assign_mem(res.start, resource_size(&res), &src_perms,
+ 				    data->vmperms, data->vmcount);
++			if (err) {
++				goto err_free_data;
++			}
+ 		}
+ 
+ 	}
+-- 
+2.25.1
 
