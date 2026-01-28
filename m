@@ -2,58 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cC26EUTueWkF1AEAu9opvQ:T2
+	id QKzeIJvueWm41AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:08:52 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:10:19 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9601FA00DD
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:08:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3575DA016C
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:10:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92F7E10E68E;
-	Wed, 28 Jan 2026 11:08:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 706E310E670;
+	Wed, 28 Jan 2026 11:10:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="mbFEqtMI";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="e7TIY0mV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CC5910E686;
- Wed, 28 Jan 2026 11:08:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=XyQbPx4NyqvVfGhQbWsK0ZPD+RUNlqviLfN4Hpb1lKc=; b=mbFEqtMInXN4qmLb7Sjn9m4+2X
- PmqG35gI/oEBiErH7YrcSLKg6s4urnqyviI9djHNaRC8TNyIjVkAVQ7Lt08ihHmeN6+I7Wjr+x23B
- aoQSXuDhpecocummjF+JP1kejazdk7zOgp557tMuNQerwtz9obLf+cTSxVV8d72jUDdsm9eVo9BWU
- E+7FUPj4EHpAecmEAfh/guknBENNbmBLRR4lB3M1aC+CZQvLYKfLxkLTPKERdwbHIAcwtNSpyfrOz
- yWEppPldycWikzXXj9Eg0Zn/9u0Q6qw4ukCfs6LCCVHEkJmAGwC7hqg//sayqhR8Gc0oINXHkd7uA
- VWcsIWaQ==;
-Received: from [90.240.106.137] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vl3PT-00Aqgw-QF; Wed, 28 Jan 2026 12:08:31 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH v6 31/31] drm/sched: Remove drm_sched_init_args->num_rqs
-Date: Wed, 28 Jan 2026 11:08:06 +0000
-Message-ID: <20260128110806.38350-32-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260128110806.38350-1-tvrtko.ursulin@igalia.com>
-References: <20260128110806.38350-1-tvrtko.ursulin@igalia.com>
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31FFD10E670
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 11:10:14 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20260128111012euoutp016d2a09809bf77a1875a912ce6ce12348~O4I-t_EPk3202032020euoutp01S
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 11:10:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20260128111012euoutp016d2a09809bf77a1875a912ce6ce12348~O4I-t_EPk3202032020euoutp01S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1769598612;
+ bh=45jaImfVH7kr/nS0FqB71oJKgUEPUgwMAJFDZ02gS2I=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=e7TIY0mVVbHRZJQwi+WMMav97sC49+KwDu2GGaWW+C4sNN0zeUrKZUzpkRdRKQvkw
+ pHI9z2tl4ich1br8bHnxz0ndvvkghRdfemCwwnPSD6jHa2qm4m+aRTMOnow5zvN4O0
+ mdJv583zDVUIh3mIu+McfZ/J0GXG6r57pO1WsQn0=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20260128111011eucas1p2b98d9b06481ae6d47968b83ec0ed491c~O4I-SdpCE2976529765eucas1p2U;
+ Wed, 28 Jan 2026 11:10:11 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20260128111011eusmtip1807cf713c50c74db811a812a02bdb2e4~O4I_kWAQE1268412684eusmtip1Y;
+ Wed, 28 Jan 2026 11:10:11 +0000 (GMT)
+Message-ID: <b05f6b30-04b7-4b88-b0b0-40dfdea4944b@samsung.com>
+Date: Wed, 28 Jan 2026 12:10:10 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH 0/3] Fixes and enhancements for Exynos (7870) DSIM
+ bridge driver
+To: Kaustabh Chakraborty <kauschluss@disroot.org>, Inki Dae
+ <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, Andrzej
+ Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20260124-exynos-dsim-fixes-v1-0-122d047a23d1@disroot.org>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260128111011eucas1p2b98d9b06481ae6d47968b83ec0ed491c
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260124172131eucas1p2bd0fa9cde2981c87238deb67cf5f0554
+X-EPHeader: CA
+X-CMS-RootMailID: 20260124172131eucas1p2bd0fa9cde2981c87238deb67cf5f0554
+References: <CGME20260124172131eucas1p2bd0fa9cde2981c87238deb67cf5f0554@eucas1p2.samsung.com>
+ <20260124-exynos-dsim-fixes-v1-0-122d047a23d1@disroot.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,65 +86,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.49 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [0.20 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
+	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,igalia.com:mid,igalia.com:email];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.979];
+	XM_UA_NO_VERSION(0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[igalia.com:-]
-X-Rspamd-Queue-Id: 9601FA00DD
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:kauschluss@disroot.org,m:inki.dae@samsung.com,m:jagan@amarulasolutions.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[disroot.org,samsung.com,amarulasolutions.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[m.szyprowski@samsung.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[m.szyprowski@samsung.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[samsung.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:email,samsung.com:dkim,samsung.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 3575DA016C
 X-Rspamd-Action: no action
 
-Remove member no longer used by the scheduler core and the drivers.
+On 24.01.2026 18:20, Kaustabh Chakraborty wrote:
+> Since v6.17, there were a few regressive changes for the Exynos 7870
+> DSIM driver. These changes resulted in weird artifacts on the display,
+> such as random RGB channel swaps and random aberration (the occurrences
+> of both were mutually exclusive).
+>
+> The first two commits of this patch series address the aforementioned
+> changes.
+>
+> The third patch replaces an implicit loop for waiting for PLL
+> stabilization with an interrupt-based solution, which should be more
+> reliable. This solution was suggested by Inki Dae in a discussion of an
+> earlier patch series sent by me. For further details, refer to its
+> commit description.
+>
+> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Philipp Stanner <phasta@kernel.org>
----
- include/drm/gpu_scheduler.h | 3 ---
- 1 file changed, 3 deletions(-)
+Works fine on legacy Exynos based boards in my test lab.
 
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index cea2ee956422..53417baebd49 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -608,8 +608,6 @@ struct drm_gpu_scheduler {
-  * @ops: backend operations provided by the driver
-  * @submit_wq: workqueue to use for submission. If NULL, an ordered wq is
-  *	       allocated and used.
-- * @num_rqs: Number of run-queues. This may be at most DRM_SCHED_PRIORITY_COUNT,
-- *	     as there's usually one run-queue per priority, but may be less.
-  * @credit_limit: the number of credits this scheduler can hold from all jobs
-  * @hang_limit: number of times to allow a job to hang before dropping it.
-  *		This mechanism is DEPRECATED. Set it to 0.
-@@ -623,7 +621,6 @@ struct drm_sched_init_args {
- 	const struct drm_sched_backend_ops *ops;
- 	struct workqueue_struct *submit_wq;
- 	struct workqueue_struct *timeout_wq;
--	u32 num_rqs;
- 	u32 credit_limit;
- 	unsigned int hang_limit;
- 	long timeout;
+Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+
+> ---
+> Kaustabh Chakraborty (3):
+>        drm/bridge: samsung-dsim: move bridge init sequence to atomic_enable
+>        drm/bridge: samsung-dsim: enable MFLUSH_VS for Exynos 7870 DSIM
+>        drm/bridge: samsung-dsim: use DSIM interrupt to wait for PLL stability
+>
+>   drivers/gpu/drm/bridge/samsung-dsim.c | 61 +++++++++++++++++++++++------------
+>   include/drm/bridge/samsung-dsim.h     |  1 +
+>   2 files changed, 42 insertions(+), 20 deletions(-)
+> ---
+> base-commit: ca3a02fda4da8e2c1cb6baee5d72352e9e2cfaea
+> change-id: 20260124-exynos-dsim-fixes-5383d6a6f073
+>
+> Best regards,
+
+Best regards
 -- 
-2.52.0
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
