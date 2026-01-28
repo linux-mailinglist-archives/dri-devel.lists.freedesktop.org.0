@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oJgCKZcEemlg1gEAu9opvQ
+	id KGHcJpsEemlE1gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 13:44:07 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 13:44:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1A9A168A
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 13:44:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35942A1692
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 13:44:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 803BA10E6BE;
-	Wed, 28 Jan 2026 12:44:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80AEF10E6C1;
+	Wed, 28 Jan 2026 12:44:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LHNxOVAV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZX5m6TVM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CDDB10E6BE
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 12:44:03 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5081010E6BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 12:44:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 3430B600AD;
- Wed, 28 Jan 2026 12:44:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A82CC16AAE;
- Wed, 28 Jan 2026 12:44:01 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 37F4643483;
+ Wed, 28 Jan 2026 12:44:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B73DFC4CEF1;
+ Wed, 28 Jan 2026 12:44:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769604241;
- bh=Ekf+oXhzSU/gP59CKx2w6AC6rD/g3uXkS/Y2vrm32mA=;
+ s=k20201202; t=1769604245;
+ bh=V7Ma3X7LG48w9HTyefbNoIpfRHkOODEjeQOmUZZ1GVs=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=LHNxOVAVy6jNlOQFfg0rh035S0mU9S5LFg/XK5zpTdiNPmdSyayrU2uQrshL7PuLD
- pz13gYn1ef7UWJtN5Q48BJOxUx2iqjG+Udd6dn+0Mf4hU8B/bPJyCSUyUBiz1tM9fl
- rFuF1mccm02NTWdbvNva0jQn+ZK0YNvoZgzDjBMp+g5wROr+N37wcdzNUH4VBj+AHS
- Q1TzHRsdHwE2JfrRCYY9lwKXmdfwlVZN41kmERA4Fcqv+elyA566V0OBKk/9PKoxhg
- IqZ/jQ4fkh0Z1WeEShGthX1Bo/qEGpPFo/Yo3Ed5ILvWgPw4n9t3Dhk59rLShdshdo
- eC4A12aZMgTFw==
+ b=ZX5m6TVM0FK3X4z161c2bgcLSZ74aELxkaV+3Pamr9vblG9jdC+o/I9j4ZV3DBA/L
+ ptz/HiE6nNlyq7XZWKzy2uB3YevKucADcBjLSrNXhLLLuwkEU29dBRGCSVis8QTqk/
+ 8KrwCFiFHAiKOx0YvtWhQLDR7JqOWsXXxZFPsJh+F7QJKIpflGgVvFtm8uf+lMzVf1
+ 3xitfaQmk+IQjjXaa9ixT8mJN9RPvXxDHZhWPOESPOE2JoVKx6CXPpYw9BkPawKRxS
+ r5LMD66jFkGdQgMXoK3Kn2JQN/DPW39vd8oFj5SvZHcdEONTplVUlGOcdTSc0rrVdb
+ VYertN/wbPxsA==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 28 Jan 2026 13:43:45 +0100
-Subject: [PATCH v4 01/15] drm/atomic: Make drm_atomic_private_obj_init fallible
+Date: Wed, 28 Jan 2026 13:43:46 +0100
+Subject: [PATCH v4 02/15] drm/atomic: Add new atomic_create_state callback
+ to drm_private_obj
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260128-drm-private-obj-reset-v4-1-90891fa3d3b0@redhat.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260128-drm-private-obj-reset-v4-2-90891fa3d3b0@redhat.com>
 References: <20260128-drm-private-obj-reset-v4-0-90891fa3d3b0@redhat.com>
 In-Reply-To: <20260128-drm-private-obj-reset-v4-0-90891fa3d3b0@redhat.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2966; i=mripard@redhat.com;
- h=from:subject:message-id; bh=Ekf+oXhzSU/gP59CKx2w6AC6rD/g3uXkS/Y2vrm32mA=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJlVLK36Ub/O8p35J2v+zP9CXMLi9wWWvAGLZLQsj+2p9
- 1dUkDrUMZWFQZiTQVZMkeWJTNjp5e2LqxzsV/6AmcPKBDKEgYtTACZSqM7Y0OkT7HPczuPSrsen
- 9Hv0Jj9exHDn7tQittvL8jcsOho/vVzcf9W67PKcbo3MT5cnfpw9l7Hh20yHriALmZvXvYXdX0r
- 1zdrLyjlhvfe/+yr72IQmfS7b38vQwKGU+njWpuL6WVM0XpkBAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3491; i=mripard@redhat.com;
+ h=from:subject:message-id; bh=V7Ma3X7LG48w9HTyefbNoIpfRHkOODEjeQOmUZZ1GVs=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJlVLK0PZT98Vo+Tmsxm0HpxNytD80v5hLR0nzdxtSYSU
+ aG6E053TGVhEOZkkBVTZHkiE3Z6efviKgf7lT9g5rAygQxh4OIUgIm0ZDPW8LDpaMv57Z9+2Xdn
+ ydqDWyouKHo+zpzbV6W56623i8Nhc9WIIvn7FXxKy6vlcpW2JD9mbNi5vO+W8ztDcc83UXEiqyR
+ Pfr3qFZ16b8OtmRVv3t9nlLrQ71iufjepafVDsSJ7a7eAVAA=
 X-Developer-Key: i=mripard@redhat.com; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,7 +82,7 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:mripard@kernel.org,m:ville.syrjala@linux.intel.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:mripard@kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
 	ARC_NA(0.00)[];
@@ -102,86 +103,103 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 2C1A9A168A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 35942A1692
 X-Rspamd-Action: no action
 
-Since we're going to move the drm_private_obj state allocation to a
-callback, we need to be able to deal with its possible failure.
+The drm_private_obj initialization was inconsistent with the rest of the
+KMS objects. Indeed, it required to pass a preallocated state in
+drm_private_obj_init(), while all the others objects would have a reset
+callback that would be called later on to create the state.
 
-Make drm_private_obj_init return an error code on failure.
+However, reset really is meant to reset the hardware and software state.
+That it creates an initial state is a side-effect that has been used in
+all objects but drm_private_obj. This is made more complex since some
+drm_private_obj, the DisplayPort ones in particular, need to be
+persistent across and suspend/resume cycle, and such a cycle would call
+drm_mode_config_reset().
 
-Suggested-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Thus, we need to add a new callback to allocate a pristine state for a
+given private object.
+
+This discussion has also came up during the atomic state readout
+discussion, so it might be introduced into the other objects later on.
+
+Until all drivers are converted to that new allocation pattern, we will
+only call it if the passed state is NULL. This will be removed
+eventually.
+
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/gpu/drm/drm_atomic.c | 14 +++++++++-----
- include/drm/drm_atomic.h     |  8 ++++----
- 2 files changed, 13 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/drm_atomic.c | 18 ++++++++++++++++--
+ include/drm/drm_atomic.h     | 13 +++++++++++++
+ 2 files changed, 29 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index 52738b80ddbeb124896f6124df5628e2ac27faa4..4191a8333fc4ebdfc10f664c837a3f1693eff022 100644
+index 4191a8333fc4ebdfc10f664c837a3f1693eff022..e3029c8f02e5a3698781117bcc80eff98407cf16 100644
 --- a/drivers/gpu/drm/drm_atomic.c
 +++ b/drivers/gpu/drm/drm_atomic.c
-@@ -925,16 +925,18 @@ static void drm_atomic_plane_print_state(struct drm_printer *p,
-  * @funcs: pointer to the struct of function pointers that identify the object
-  * type
-  *
-  * Initialize the private object, which can be embedded into any
-  * driver private object that needs its own atomic state.
-+ *
-+ * RETURNS:
-+ * Zero on success, error code on failure
-  */
--void
--drm_atomic_private_obj_init(struct drm_device *dev,
--			    struct drm_private_obj *obj,
--			    struct drm_private_state *state,
--			    const struct drm_private_state_funcs *funcs)
-+int drm_atomic_private_obj_init(struct drm_device *dev,
-+				struct drm_private_obj *obj,
-+				struct drm_private_state *state,
-+				const struct drm_private_state_funcs *funcs)
- {
+@@ -939,15 +939,29 @@ int drm_atomic_private_obj_init(struct drm_device *dev,
  	memset(obj, 0, sizeof(*obj));
  
  	drm_modeset_lock_init(&obj->lock);
  
-@@ -942,10 +944,12 @@ drm_atomic_private_obj_init(struct drm_device *dev,
- 	obj->state = state;
+ 	obj->dev = dev;
+-	obj->state = state;
  	obj->funcs = funcs;
  	list_add_tail(&obj->head, &dev->mode_config.privobj_list);
  
- 	state->obj = obj;
+-	state->obj = obj;
++	/*
++	 * Not all users of drm_atomic_private_obj_init have been
++	 * converted to using &drm_private_obj_funcs.atomic_create_state yet.
++	 * For the time being, let's only call reset if the passed state is
++	 * NULL. Otherwise, we will fallback to the previous behaviour.
++	 */
++	if (!state) {
++		state = obj->funcs->atomic_create_state(obj);
++		if (IS_ERR(state))
++			return PTR_ERR(state);
 +
-+	return 0;
++		obj->state = state;
++	} else {
++		obj->state = state;
++		state->obj = obj;
++	}
+ 
+ 	return 0;
  }
  EXPORT_SYMBOL(drm_atomic_private_obj_init);
  
- /**
-  * drm_atomic_private_obj_fini - finalize private object
 diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 178f8f62c80fc58fe42e8564a716da1a99ddb7da..712f5fb977bff8a15592a3949444d9ac306e6c54 100644
+index 712f5fb977bff8a15592a3949444d9ac306e6c54..0b1b32bcd2bda1b92299fd369ba7c23b1c2d3dfa 100644
 --- a/include/drm/drm_atomic.h
 +++ b/include/drm/drm_atomic.h
-@@ -721,14 +721,14 @@ drm_atomic_get_new_colorop_state(struct drm_atomic_state *state,
- 
- struct drm_connector_state * __must_check
- drm_atomic_get_connector_state(struct drm_atomic_state *state,
- 			       struct drm_connector *connector);
- 
--void drm_atomic_private_obj_init(struct drm_device *dev,
--				 struct drm_private_obj *obj,
--				 struct drm_private_state *state,
--				 const struct drm_private_state_funcs *funcs);
-+int drm_atomic_private_obj_init(struct drm_device *dev,
-+				struct drm_private_obj *obj,
-+				struct drm_private_state *state,
-+				const struct drm_private_state_funcs *funcs);
- void drm_atomic_private_obj_fini(struct drm_private_obj *obj);
- 
- struct drm_private_state * __must_check
- drm_atomic_get_private_obj_state(struct drm_atomic_state *state,
- 				 struct drm_private_obj *obj);
+@@ -259,10 +259,23 @@ struct drm_private_state;
+  * added to the atomic states is expected to have an implementation of these
+  * hooks and pass a pointer to its drm_private_state_funcs struct to
+  * drm_atomic_get_private_obj_state().
+  */
+ struct drm_private_state_funcs {
++	/**
++	 * @atomic_create_state:
++	 *
++	 * Allocates a pristine, initialized, state for the private
++	 * object and returns it.
++	 *
++	 * RETURNS:
++	 *
++	 * A new, pristine, private state instance or an error pointer
++	 * on failure.
++	 */
++	struct drm_private_state *(*atomic_create_state)(struct drm_private_obj *obj);
++
+ 	/**
+ 	 * @atomic_duplicate_state:
+ 	 *
+ 	 * Duplicate the current state of the private object and return it. It
+ 	 * is an error to call this before obj->state has been initialized.
 
 -- 
 2.52.0
