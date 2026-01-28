@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MKGwGSdoemmB5gEAu9opvQ
+	id eDqAJzpoemmB5gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 20:48:55 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 20:49:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32AAA8415
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 20:48:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4F3A842B
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 20:49:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C12710E2E6;
-	Wed, 28 Jan 2026 19:48:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A78810E75F;
+	Wed, 28 Jan 2026 19:49:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZR4m4kSB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jkx+W8yk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF69110E75F
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 19:48:51 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8A9C10E75F
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 19:49:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 82D6B60007;
- Wed, 28 Jan 2026 19:48:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF4C4C4CEF1;
- Wed, 28 Jan 2026 19:48:49 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 1968342D95;
+ Wed, 28 Jan 2026 19:49:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 956C3C4CEF1;
+ Wed, 28 Jan 2026 19:49:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769629730;
- bh=4zt9hc3BBEaGcxjfty65LgYWsANjQMrfkrl4+EdZevs=;
+ s=k20201202; t=1769629751;
+ bh=ZgURDPXZxdlzY1nCr7dFdlPZ+CG+p3tih0XcJrBxJSc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZR4m4kSBzAMSHsbeBQ34bIcwQAsZVK+OE178Cx8QjpLqVZ645Gg5NOBjPTVif7Wdg
- 2jtmumLgu2VZ0EGB2gpNcViq/IV89Fa1xx0J5gGG97RPg+tPberSBmPjrWO/dDKu90
- U2ELtlQtf3PCUr3Z/h1gMGZJA1fqKAE7fbY4TW8EPMqhTOYzAviYnQLwUJyNVTdI53
- BTTAPgp24juLsdVvHNX5vePreHHTKj74IykwKaEUjcLWXD4tb7N9CFVCvuptLhIPdI
- AXs7ZbXMkSsODGCnPZDFGwMA7ex1Lk3gA/3kncgyGU8osDrXaXu+8E1Z7sR2L2lYou
- SvuvlPDbk+0WA==
-Date: Wed, 28 Jan 2026 11:48:48 -0800
+ b=jkx+W8ykaiIAXPqelZuIfPFrrsGq5g6rbS4D8Jk/4FwLCUPyFtyLQbdRWVd5QVY0G
+ XOhZUqzVn1LqgIWGYrZDgEebxdC/KmN+dqrMiJ36UyI2+n1ywoBfPKW3kzUL4JwMSh
+ TWQu2/usGHuvucBrBEYtY1CuGbnwXZCIYuv9XxdIziZ1xHxgWV8GUsm4WaD8vJTtyI
+ ZjozH8/Y9OXlZkm/CQdngwr2lbuVJX3/CF01ddVSudhxRygFUhpXyXj8Bgbjk4WQim
+ HASeIQyrPngoVJoNEuDYWJ/Iq7mtUb/As6vyFCkXvux9Q53OAsVmr7xAByTYYFOlcx
+ bbpNtTZ7q9KSA==
+Date: Wed, 28 Jan 2026 11:49:09 -0800
 From: Drew Fustini <fustini@kernel.org>
 To: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -56,16 +56,15 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
  Icenowy Zheng <uwu@icenowy.me>, Han Gao <gaohan@iscas.ac.cn>
-Subject: Re: [PATCH v6 6/9] riscv: dts: thead: add DPU and HDMI device tree
- nodes
-Message-ID: <aXpoIBxC6vwZ27By@x1>
+Subject: Re: [PATCH v6 7/9] riscv: dts: thead: lichee-pi-4a: enable HDMI
+Message-ID: <aXpoNTuziA2XOIuz@x1>
 References: <20260123092830.4046009-1-zhengxingda@iscas.ac.cn>
- <20260123092830.4046009-7-zhengxingda@iscas.ac.cn>
- <aXpa5zPWNOM1oP/C@x1> <aXpnGA80OYY+aoMy@x1>
+ <20260123092830.4046009-8-zhengxingda@iscas.ac.cn>
+ <aXpbBq3TwuiP9Qry@x1> <aXpnTDSowoW+8UzN@x1>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aXpnGA80OYY+aoMy@x1>
+In-Reply-To: <aXpnTDSowoW+8UzN@x1>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,39 +114,40 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,icenowy.me:email,samsung.com:email,iscas.ac.cn:email]
-X-Rspamd-Queue-Id: E32AAA8415
+X-Rspamd-Queue-Id: 3F4F3A842B
 X-Rspamd-Action: no action
 
-On Wed, Jan 28, 2026 at 11:44:24AM -0800, Drew Fustini wrote:
-> On Wed, Jan 28, 2026 at 10:52:23AM -0800, Drew Fustini wrote:
-> > On Fri, Jan 23, 2026 at 05:28:27PM +0800, Icenowy Zheng wrote:
-> > > From: Icenowy Zheng <uwu@icenowy.me>
+On Wed, Jan 28, 2026 at 11:45:16AM -0800, Drew Fustini wrote:
+> On Wed, Jan 28, 2026 at 10:52:54AM -0800, Drew Fustini wrote:
+> > On Fri, Jan 23, 2026 at 05:28:28PM +0800, Icenowy Zheng wrote:
+> > > Lichee Pi 4A board features a HDMI Type-A connector connected to the
+> > > HDMI TX controller of TH1520 SoC.
 > > > 
-> > > T-Head TH1520 SoC contains a Verisilicon DC8200 display controller
-> > > (called DPU in manual) and a Synopsys DesignWare HDMI TX controller.
-> > > 
-> > > Add device tree nodes to them.
+> > > Add a device tree node describing the connector, connect it to the HDMI
+> > > controller, and enable everything on this display pipeline.
 > > > 
 > > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 > > > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 > > > Tested-by: Han Gao <gaohan@iscas.ac.cn>
 > > > Tested-by: Michal Wilczynski <m.wilczynski@samsung.com>
 > > > ---
-> > > No changes since v4.
+> > > No changes in v5.
 > > > 
-> > > Changes in v3:
-> > > - Adapting to the changed binding.
+> > > Changes in v4:
+> > > - Rebased on top of v6.19-rc1.
 > > > 
-> > > No changes in v2.
+> > > No changes in v2, v3.
 > > > 
-> > >  arch/riscv/boot/dts/thead/th1520.dtsi | 66 +++++++++++++++++++++++++++
-> > >  1 file changed, 66 insertions(+)
+> > >  .../boot/dts/thead/th1520-lichee-pi-4a.dts    | 25 +++++++++++++++++++
+> > >  1 file changed, 25 insertions(+)
 > > 
 > > Reviewed-by: Drew Fustini <fustini@kernel.org>
 > 
 > I've applied this to tenstorrent-dt-for-next
 > 
-> https://git.kernel.org/pub/scm/linux/kernel/git/fustini/linux.git/commit/?h=tenstorrent-dt-for-next&id=b6a400f45aaf391d15d70758df207bbf5a63811e
+> https://git.kernel.org/pub/scm/linux/kernel/git/fustini/linux.git/commit/?h=tenstorrent-dt-for-next&id=0075f4c3aade0d436925026eaefb14be1ec52a69
+> 
+> Hopefully we can get some testing done with a next release once the driver patches hit next.
 
 Sorry about my typo mistake. The correct branch is thead-dt-for-next
 
