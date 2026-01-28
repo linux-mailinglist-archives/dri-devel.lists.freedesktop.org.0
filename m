@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UONTFPtceWnXwgEAu9opvQ
+	id UGQXJf9ceWnXwgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 01:48:59 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 01:49:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F069BBAD
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 01:48:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C949BBD0
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 01:49:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 794F010E5E9;
-	Wed, 28 Jan 2026 00:48:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F52510E5EF;
+	Wed, 28 Jan 2026 00:48:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Sl1bG/6H";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ECmu035a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA1FE10E5DD;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDCA310E5DB;
  Wed, 28 Jan 2026 00:48:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769561329; x=1801097329;
+ t=1769561330; x=1801097330;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=OnOQh1Qj33/UNnWPRm4ArdCwn+OnRbMVCy4pH3tEYXA=;
- b=Sl1bG/6HBDTQCq7ZtvezBe3D8ehngPp81IeQoZ3iJlhBS8bTAuencvtb
- 46igQwLEIe+jPyKSdJ6PzDQb085K4CorWpmOWUSXlEtS9dR71IY/zOccp
- rUdrHznqSWclkdqUlzUti0MDK+4+a27WT9+KhhVsW7Qie7CwkqAMto9C7
- kvyQE22cJHbTCyLBkfjrmzjJ7+XwWOsERTDpyv8BSY9C9ac83MvvgzDrV
- nE8YZizLGQRd9464ZRfClhQ59jL1/u/tlHmbOfqtC4dMoCCD+gbL1XQ1L
- 2dBMsiMX7D1/CsgJaLwrQKAAKpMy6/DNJ8UwAi/6LDAAbqDDl8FTqACbi A==;
-X-CSE-ConnectionGUID: uEJxkX6AT525NTrmhGLyCQ==
-X-CSE-MsgGUID: M0Q9+/GqTE2iBKoJkSsKvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="93427518"
-X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; d="scan'208";a="93427518"
+ bh=dXgplS3Jy0P4s4byWI3P/34Aiv0qlSFAzzUgtV4wmw0=;
+ b=ECmu035aF2J0z0CFvN0bkHkwVkLkowin4EmS3MQkqtCNc9dM8MGa0WgH
+ svO37B2WBiIfJvVXrAoSdi/QjWq+PpPlwKFXuPCTZj3zSevrztPENiMyv
+ WEB7AvbTuwMbdGxXAetymn3uORK0wvhM1qsG7z1Ihmk+EyNCC2HGfuscr
+ xKDn9A2/ZKXsHXFZ+9ny5MoIPUjYQWvcY/dftWsdgMA9p4QMQ/Y1SjO2D
+ QXevvLglD7yyzS5CI/kWouC5uFH0N/a1QNDcS3+KbcTIyUFi3HIxNG7Ei
+ fBjwMJnyptuhzvaWDi+zMXO6D3D6mUiD0GUlYKH9zr5ci8bD0AgbtNW6e Q==;
+X-CSE-ConnectionGUID: Bexx0kPkQaiQcXkuuCH7sw==
+X-CSE-MsgGUID: CmxCPD5KT3aywj2uWNqHOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="93427525"
+X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; d="scan'208";a="93427525"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Jan 2026 16:48:48 -0800
-X-CSE-ConnectionGUID: lKB6kxkKTtGoQ5dg5tV6sw==
-X-CSE-MsgGUID: 0LSlxnlMSpSI6rxqnVN2WQ==
+X-CSE-ConnectionGUID: QQfRycTETnSrnjh+Bc0GiQ==
+X-CSE-MsgGUID: jhnR5iXeRXWJZeSWWthE6g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; d="scan'208";a="238822657"
+X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; d="scan'208";a="238822660"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Jan 2026 16:48:48 -0800
@@ -52,9 +52,9 @@ To: intel-xe@lists.freedesktop.org,
 Cc: leonro@nvidia.com, francois.dugast@intel.com,
  thomas.hellstrom@linux.intel.com, himal.prasad.ghimiray@intel.com,
  jgg@ziepe.ca
-Subject: [RFC PATCH v3 05/11] drm/pagemap: Reduce number of IOVA link calls
-Date: Tue, 27 Jan 2026 16:48:35 -0800
-Message-Id: <20260128004841.2436896-6-matthew.brost@intel.com>
+Subject: [RFC PATCH v3 06/11] drm/pagemap: Add IOVA interface to DRM pagemap
+Date: Tue, 27 Jan 2026 16:48:36 -0800
+Message-Id: <20260128004841.2436896-7-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260128004841.2436896-1-matthew.brost@intel.com>
 References: <20260128004841.2436896-1-matthew.brost@intel.com>
@@ -99,94 +99,117 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+]
-X-Rspamd-Queue-Id: 01F069BBAD
+X-Rspamd-Queue-Id: 46C949BBD0
 X-Rspamd-Action: no action
 
-Each IOVA link call results in a page walk, which is relatively
-expensive. Reduce the number of IOVA link calls by collapsing
-contiguous physical pages into a single IOVA link operation.
+Add an IOVA interface to the DRM pagemap layer. This provides a semantic
+wrapper around the dma-map IOVA alloc/link/sync/unlink/free API while
+remaining flexible enough to support future high-speed interconnects
+between devices.
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/drm_pagemap.c | 49 ++++++++++++++++++++++++++---------
- 1 file changed, 37 insertions(+), 12 deletions(-)
+ include/drm/drm_pagemap.h | 87 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 87 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
-index b928c89f4bd1..a167064ce41a 100644
---- a/drivers/gpu/drm/drm_pagemap.c
-+++ b/drivers/gpu/drm/drm_pagemap.c
-@@ -305,7 +305,8 @@ drm_pagemap_migrate_map_system_pages(struct device *dev,
- 				     struct dma_iova_state *state)
- {
- 	struct page *dummy_page = NULL;
--	unsigned long i, psize;
-+	unsigned long i, j, psize;
-+	phys_addr_t phys = -1;
- 	bool try_alloc = false;
- 
- 	for (i = 0; i < npages;) {
-@@ -339,26 +340,50 @@ drm_pagemap_migrate_map_system_pages(struct device *dev,
- 
- 		if (dma_use_iova(state)) {
- 			bool found_dummy = page && !dummy_page;
-+			bool phys_match;
- 			int err;
- 
--			if (found_dummy) {
--				unsigned long j;
-+			if (found_dummy && i) {
-+				err = dma_iova_link(dev, state,
-+						    page_to_phys(page),
-+						    0, i * PAGE_SIZE,
-+						    dir, 0);
-+				if (err)
-+					return err;
-+			}
+diff --git a/include/drm/drm_pagemap.h b/include/drm/drm_pagemap.h
+index 14e1db564c25..0b410113ef95 100644
+--- a/include/drm/drm_pagemap.h
++++ b/include/drm/drm_pagemap.h
+@@ -72,6 +72,93 @@ drm_pagemap_addr_encode(dma_addr_t addr,
+  * struct drm_pagemap_ops: Ops for a drm-pagemap.
+  */
+ struct drm_pagemap_ops {
++	/**
++	 * @device_iova_alloc: Allocate a IOVA for device access (required)
++	 *
++	 * @dpagemap: The struct drm_pagemap for the IOVA.
++	 * @dev: The device mapper.
++	 * @length: Length of IOVA.
++	 * @dir: The transfer direction.
++	 *
++	 * Context: Reclaim unsafe, maybe take dma-resv locks.
++	 *
++	 * Return: Cookie to IOVA which is passed to other vfuncs, NULL if no
++	 * IOVA could be allocated or not needed, ERR_PTR if an IOVA is required
++	 * but allocation failed.
++	 */
++	void *(*device_iova_alloc)(struct drm_pagemap *dpagemap,
++				   struct device *dev, size_t length,
++				   enum dma_data_direction dir);
 +
-+			if (phys == -1) {
-+				phys = page_to_phys(page);
-+				j = i;
-+				phys_match = true;
-+			} else {
-+				phys_match = phys + (i - j) * PAGE_SIZE ==
-+					page_to_phys(page);
-+			}
- 
--				for (j = 0; j < i; ++j) {
-+			if (psize != PAGE_SIZE || !phys_match ||
-+			    (i + 1) == npages) {
-+				err = dma_iova_link(dev, state, phys,
-+						    j * PAGE_SIZE,
-+						    psize * ((i - j) +
-+						    phys_match),
-+						    dir, 0);
-+				if (err)
-+					return err;
++	/**
++	 * @device_iova_free: Free a IOVA from device access (optional, required
++	 * if @device_iova_alloc returns a valid cookie)
++	 *
++	 * @dpagemap: The struct drm_pagemap for the IOVA.
++	 * @dev: The device mapper.
++	 * @length: Length of IOVA.
++	 * @cookie: Cookie for IOVA.
++	 *
++	 * Context: Reclaim unsafe, maybe take dma-resv locks.
++	 */
++	void (*device_iova_free)(struct drm_pagemap *dpagemap,
++				 struct device *dev, size_t length,
++				 void *cookie);
 +
-+				if (!phys_match && (i + 1) == npages) {
- 					err = dma_iova_link(dev, state,
- 							    page_to_phys(page),
--							    j * PAGE_SIZE,
--							    PAGE_SIZE, dir, 0);
-+							    i * PAGE_SIZE,
-+							    psize,
-+							    dir, 0);
- 					if (err)
- 						return err;
- 				}
--			}
- 
--			err = dma_iova_link(dev, state, page_to_phys(page),
--					    i * PAGE_SIZE, psize,
--					    dir, 0);
--			if (err)
--				return err;
-+				phys = page_to_phys(page);
-+				j = i;
-+			}
- 
- 			if (page != dummy_page)
- 				dma_addr = state->addr + i * PAGE_SIZE;
++	/**
++	 * @device_iova_link: Link IOVA in device (optional, required if
++	 * @device_iova_alloc returns a valid cookie)
++	 *
++	 * @dpagemap: The struct drm_pagemap for the IOVA.
++	 * @dev: The device mapper.
++	 * @length: Length of mapping.
++	 * @offset: Offset in IOVA of mapping.
++	 * @cookie: Cookie for IOVA.
++	 * @dir: The transfer direction.
++	 *
++	 * Context: Reclaim safe.
++	 */
++	struct drm_pagemap_addr (*device_iova_link)(struct drm_pagemap *dpagemap,
++						    struct device *dev,
++						    struct page *page,
++						    size_t length,
++						    size_t offset,
++						    void *cookie,
++						    enum dma_data_direction dir);
++
++	/**
++	 * @device_iova_sync: Sync IOVA in device (optional, required if
++	 * @device_iova_alloc returns a valid cookie)
++	 *
++	 * @dpagemap: The struct drm_pagemap for the IOVA.
++	 * @dev: The device mapper.
++	 * @length: Length of IOVA.
++	 * @cookie: Cookie for IOVA.
++	 *
++	 * Context: Reclaim safe.
++	 *
++	 * Return: Zero on success, negative error code on failure.
++	 */
++	int (*device_iova_sync)(struct drm_pagemap *dpagemap,
++				struct device *dev, size_t length,
++				void *cookie);
++
++	/**
++	 * @device_iova_unlink: Unlink IOVA from device (optional, required if
++	 * @device_iova_alloc returns a valid cookie)
++	 *
++	 * @dpagemap: The struct drm_pagemap for the IOVA.
++	 * @dev: The device mapper.
++	 * @length: Length of IOVA.
++	 * @cookie: Cookie for IOVA.
++	 * @dir: The transfer direction.
++	 *
++	 * Context: Reclaim safe.
++	 */
++	void (*device_iova_unlink)(struct drm_pagemap *dpagemap,
++				   struct device *dev, size_t length,
++				   void *cookie, enum dma_data_direction dir);
++
+ 	/**
+ 	 * @device_map: Map for device access or provide a virtual address suitable for
+ 	 *
 -- 
 2.34.1
 
