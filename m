@@ -2,70 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8MfHL2sNemmS2AEAu9opvQ
+	id mL+wGpsOemmS2AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 14:21:47 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 14:26:51 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A42A20D7
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 14:21:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7874A21C1
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 14:26:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04E8310E6EB;
-	Wed, 28 Jan 2026 13:21:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C24F10E282;
+	Wed, 28 Jan 2026 13:26:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NjkLZO9G";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Wi30YdRJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0463210E2BA;
- Wed, 28 Jan 2026 13:21:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769606502; x=1801142502;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=IBtvxcFQH17EFb7APUsEEaA1PasU3giQo88bh1kk8LI=;
- b=NjkLZO9GspLJfyjyO5NT2rQhzX7VNhUwuSpByVG/VETQGcKf92fFTroH
- hIcZeGXN1t3y54rOIYHMrtVaa/IupCXGW4JeTJz0CEX+Zxfn5kiL5tbUe
- b78Lf17aY4E3Da8pydy+vy6ww1KKlHzo25F6L7cRQ7tCbZcCm+3MJmPfB
- FQ/kCo3+5uQXq1cRUy6+iOXmmZrD7ucqkksJQ6VvM0r6ORWMfoXvT+pLv
- 8X4IvyaGn1rp7CEHp3KX73CNrHiv95TNHAlK24xZLUOUjLy9RfXI0lN8V
- bmdAEPwbQsZCy27W/IDx5nL9KXIo/+3tsV8LcmcMc+wRQAN8i1Bx1Yp7m w==;
-X-CSE-ConnectionGUID: uwf9DEhXTaKqf3IJIzI3Dg==
-X-CSE-MsgGUID: EhP3RTplQ7i56Yt1asqJmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="82184141"
-X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; d="scan'208";a="82184141"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2026 05:21:42 -0800
-X-CSE-ConnectionGUID: UOTjtR7UQHO3E0a1uQjRoQ==
-X-CSE-MsgGUID: f7tU4Gj4QDShAnjUhX6aFg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; d="scan'208";a="208280486"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
- by orviesa008.jf.intel.com with ESMTP; 28 Jan 2026 05:21:39 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vl5UG-00000000ZhM-1Cs0;
- Wed, 28 Jan 2026 13:21:36 +0000
-Date: Wed, 28 Jan 2026 21:21:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 04/11] amdgpu/vce: use amdgpu_gtt_mgr_alloc_entries
-Message-ID: <202601282153.4kuaeoS5-lkp@intel.com>
-References: <20260126133518.2486-5-pierre-eric.pelloux-prayer@amd.com>
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCA6610E282
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 13:26:46 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-47ff94b46afso7977835e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 05:26:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1769606805; x=1770211605; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=loXdXykH2/xF3NA+Uwx4RfRbCLma9XM176QXX5TmjYg=;
+ b=Wi30YdRJuqO4WhnGGsDWf4Xz4kJrO4KPcQnfj1SSCOpzidI5pphEPmUK5Ccnp57khD
+ WxE2Riy9SgNzneSuEruzYcd2QYCSeyFD27fmXJfJt8Qmm2izoznbm6Eb4mvmo2GvjL/X
+ 25NBLswLkkas9+gF7wplNJqsjB7UM2JZ0vXSbg17g/E4VWuw6BVEqT1QmtI5z/hcwX8y
+ g+xULlwa4IvE5szpydgyD6j/SsXNLMysAFV3o95A+2vhHZv35Y+/KU8pyVCpIEk6emK1
+ wf/II4A9tvKbKbf8GD+Tp0PNH7yS8yxNSvGM2z09ljCpVuVz+XXW6OO7HjrKJNKb3pcN
+ gBjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769606805; x=1770211605;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=loXdXykH2/xF3NA+Uwx4RfRbCLma9XM176QXX5TmjYg=;
+ b=M9gmG7/3VFFy2DNKSBvyzljPsNYnxk7vuIc+J7vE5Kj25RhflaTQvz96364gRAsEXe
+ SD7pAE5lZ+8TqX/bWHi0ZhHo/Zs6BAcOt2TIohr+/RolMLEcTI2EtsGgzARn12UCAmwx
+ sABxW/1SfbcTtdquXNR3SBVAqs1+adNt4ZX8xcfXP2GkUXrzCBY4V3FRrbAHwZLzlsuV
+ 4N/Jb2XkXS5qG5f5SI7AifSLwNpiwIrAR/4CwAJ6YSjGR4YTEDG8nEI6+OthqglBqqKj
+ /DEqo1ZVA1Hpq+JTa3zql2HtI0+Haq3XotOZloAxaCVIFTpzs6P8zQSKae6Dfk7sk+6P
+ c89w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWs1Ym96/eOC7LLNkWm4oXW0w5YFsiTExPqQwfOQ1QQBQwBJwEv5/C/j9R0mN54bpxSn9l/NVhO03c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxZN9n761tHiSfY4CvJwOxwdXgzihAFHMBPT15XYwmBCbqogLrp
+ jMvGl2z4kYbpdI1JM6dtoixfmavBxOoDHqCUQW9RwR+vp8jLXXj5b/DpoIiIJsBtVzQ5VkWTY4H
+ Ok78k
+X-Gm-Gg: AZuq6aK1xzVm8ai845bV0GVcvyTwfOd5Cr6lmQn49uneqs/Qpfvq7eYMDf3g0b8o2E1
+ 8blvoowlUF2id058HTr7uWTfLKotpzpDQsIr2K3HbWY78cDAsevnSnqAOrckvKXXOF1mqgft+pk
+ DGmkGMVAFP5+ik+LwtkYWiS/WNAIT4XDswOloKTX5u7K3tGJV0UTfBXDoI2Eg0FgqLER+6hddTS
+ J6bpeD2QPrEitzkJ5B8zslmZYxQh4NVoE8n54pYfDANuxRMyRSG4/8AW3X3LYAtOAV2ayZt9ZLD
+ 1yyKMiXljnVrdBeLl4XAZjVjJtbPYFDMGpbAGqKVyxZSGzvMUDbIaLJPnVCbVIQFYVcwADvio1D
+ g24PEdYbhzAsrFCulfMZf0Y50WSMXZrnzqPla3y9AkAub4LhWEeKzGh7fuLAktcPNk6M2wSl69a
+ n5aTImuxcE2g6l+Uit
+X-Received: by 2002:a05:600c:4587:b0:47d:403a:277 with SMTP id
+ 5b1f17b1804b1-48069e24034mr70902875e9.4.1769606805009; 
+ Wed, 28 Jan 2026 05:26:45 -0800 (PST)
+Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4806cde00e8sm66387125e9.6.2026.01.28.05.26.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Jan 2026 05:26:44 -0800 (PST)
+Date: Wed, 28 Jan 2026 16:26:41 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Waffle0823 <csshin9928@gmail.com>
+Cc: andy@kernel.org, gregkh@linuxfoundation.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Subject: Re: [PATCH] fbtft: Improve damage_range to mark only changed rows
+Message-ID: <aXoOkXRK2e44W_nm@stanley.mountain>
+References: <20260128085720.862399-1-csshin9928@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260126133518.2486-5-pierre-eric.pelloux-prayer@amd.com>
+In-Reply-To: <20260128085720.862399-1-csshin9928@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,115 +94,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[amd.com,gmail.com,ffwll.ch];
+	FORGED_RECIPIENTS(0.00)[m:csshin9928@gmail.com,m:andy@kernel.org,m:gregkh@linuxfoundation.org,m:linux-fbdev@vger.kernel.org,m:linux-staging@lists.linux.dev,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[intel.com:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[dan.carpenter@linaro.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dan.carpenter@linaro.org,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,intel.com:dkim,intel.com:mid,git-scm.com:url]
-X-Rspamd-Queue-Id: 71A42A20D7
+	DBL_BLOCKED_OPENRESOLVER(0.00)[stanley.mountain:mid,linaro.org:dkim]
+X-Rspamd-Queue-Id: D7874A21C1
 X-Rspamd-Action: no action
 
-Hi Pierre-Eric,
+On Wed, Jan 28, 2026 at 05:57:20PM +0900, Waffle0823 wrote:
+> Instead of marking the entire display as dirty, calculate
+> start_row and end_row based on off/len and mark only those rows.
+> This improves performance for partial framebuffer updates.
+> 
+> Signed-off-by: Waffle0283 csshin9928@gmail.com
 
-kernel test robot noticed the following build warnings:
+Please use your real name that you use to sign legal documents.  The
+email address is in the wrong format.
 
-[auto build test WARNING on next-20260123]
-[cannot apply to drm-misc/drm-misc-next v6.19-rc7 v6.19-rc6 v6.19-rc5 linus/master v6.19-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Have you tested this patch?  What was the speedup?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pierre-Eric-Pelloux-Prayer/drm-amdgpu-remove-gart_window_lock-usage-from-gmc-v12_1/20260126-214013
-base:   next-20260123
-patch link:    https://lore.kernel.org/r/20260126133518.2486-5-pierre-eric.pelloux-prayer%40amd.com
-patch subject: [PATCH v6 04/11] amdgpu/vce: use amdgpu_gtt_mgr_alloc_entries
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260128/202601282153.4kuaeoS5-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260128/202601282153.4kuaeoS5-lkp@intel.com/reproduce)
+regards,
+dan carpenter
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601282153.4kuaeoS5-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/amd/amdgpu/vce_v1_0.c: In function 'vce_v1_0_ensure_vcpu_bo_32bit_addr':
->> drivers/gpu/drm/amd/amdgpu/vce_v1_0.c:533:13: warning: unused variable 'gpu_addr' [-Wunused-variable]
-     533 |         u64 gpu_addr = amdgpu_bo_gpu_offset(adev->vce.vcpu_bo);
-         |             ^~~~~~~~
-
-
-vim +/gpu_addr +533 drivers/gpu/drm/amd/amdgpu/vce_v1_0.c
-
-d4a640d4b9f34a Timur Kristóf              2025-11-07  516  
-221cadb9c6bc2e Timur Kristóf              2025-11-07  517  /**
-221cadb9c6bc2e Timur Kristóf              2025-11-07  518   * vce_v1_0_ensure_vcpu_bo_32bit_addr() - ensure the VCPU BO has a 32-bit address
-221cadb9c6bc2e Timur Kristóf              2025-11-07  519   *
-221cadb9c6bc2e Timur Kristóf              2025-11-07  520   * @adev: amdgpu_device pointer
-221cadb9c6bc2e Timur Kristóf              2025-11-07  521   *
-221cadb9c6bc2e Timur Kristóf              2025-11-07  522   * Due to various hardware limitations, the VCE1 requires
-221cadb9c6bc2e Timur Kristóf              2025-11-07  523   * the VCPU BO to be in the low 32 bit address range.
-221cadb9c6bc2e Timur Kristóf              2025-11-07  524   * Ensure that the VCPU BO has a 32-bit GPU address,
-221cadb9c6bc2e Timur Kristóf              2025-11-07  525   * or return an error code when that isn't possible.
-221cadb9c6bc2e Timur Kristóf              2025-11-07  526   *
-221cadb9c6bc2e Timur Kristóf              2025-11-07  527   * To accomodate that, we put GART to the LOW address range
-221cadb9c6bc2e Timur Kristóf              2025-11-07  528   * and reserve some GART pages where we map the VCPU BO,
-221cadb9c6bc2e Timur Kristóf              2025-11-07  529   * so that it gets a 32-bit address.
-221cadb9c6bc2e Timur Kristóf              2025-11-07  530   */
-221cadb9c6bc2e Timur Kristóf              2025-11-07  531  static int vce_v1_0_ensure_vcpu_bo_32bit_addr(struct amdgpu_device *adev)
-221cadb9c6bc2e Timur Kristóf              2025-11-07  532  {
-221cadb9c6bc2e Timur Kristóf              2025-11-07 @533  	u64 gpu_addr = amdgpu_bo_gpu_offset(adev->vce.vcpu_bo);
-221cadb9c6bc2e Timur Kristóf              2025-11-07  534  	u64 bo_size = amdgpu_bo_size(adev->vce.vcpu_bo);
-221cadb9c6bc2e Timur Kristóf              2025-11-07  535  	u64 max_vcpu_bo_addr = 0xffffffff - bo_size;
-221cadb9c6bc2e Timur Kristóf              2025-11-07  536  	u64 num_pages = ALIGN(bo_size, AMDGPU_GPU_PAGE_SIZE) / AMDGPU_GPU_PAGE_SIZE;
-221cadb9c6bc2e Timur Kristóf              2025-11-07  537  	u64 pa = amdgpu_gmc_vram_pa(adev, adev->vce.vcpu_bo);
-221cadb9c6bc2e Timur Kristóf              2025-11-07  538  	u64 flags = AMDGPU_PTE_READABLE | AMDGPU_PTE_WRITEABLE | AMDGPU_PTE_VALID;
-6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  539  	u64 vce_gart_start;
-6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  540  	int r;
-221cadb9c6bc2e Timur Kristóf              2025-11-07  541  
-6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  542  	r = amdgpu_gtt_mgr_alloc_entries(&adev->mman.gtt_mgr,
-6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  543  					 &adev->vce.node, num_pages,
-6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  544  					 DRM_MM_INSERT_LOW);
-6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  545  	if (r)
-6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  546  		return r;
-6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  547  
-6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  548  	vce_gart_start = adev->vce.node.start * AMDGPU_GPU_PAGE_SIZE;
-221cadb9c6bc2e Timur Kristóf              2025-11-07  549  
-221cadb9c6bc2e Timur Kristóf              2025-11-07  550  	/* Check if we can map the VCPU BO in GART to a 32-bit address. */
-6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  551  	if (adev->gmc.gart_start + vce_gart_start > max_vcpu_bo_addr)
-221cadb9c6bc2e Timur Kristóf              2025-11-07  552  		return -EINVAL;
-221cadb9c6bc2e Timur Kristóf              2025-11-07  553  
-6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  554  	amdgpu_gart_map_vram_range(adev, pa, adev->vce.node.start,
-221cadb9c6bc2e Timur Kristóf              2025-11-07  555  				   num_pages, flags, adev->gart.ptr);
-6e8defc22cdff6 Pierre-Eric Pelloux-Prayer 2026-01-26  556  	adev->vce.gpu_addr = adev->gmc.gart_start + vce_gart_start;
-221cadb9c6bc2e Timur Kristóf              2025-11-07  557  	if (adev->vce.gpu_addr > max_vcpu_bo_addr)
-221cadb9c6bc2e Timur Kristóf              2025-11-07  558  		return -EINVAL;
-221cadb9c6bc2e Timur Kristóf              2025-11-07  559  
-221cadb9c6bc2e Timur Kristóf              2025-11-07  560  	return 0;
-221cadb9c6bc2e Timur Kristóf              2025-11-07  561  }
-221cadb9c6bc2e Timur Kristóf              2025-11-07  562  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
