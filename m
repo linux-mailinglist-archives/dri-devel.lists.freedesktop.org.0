@@ -2,89 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id Dn0AHpzQeWlCzwEAu9opvQ
+	id 6InhON/QeWlCzwEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 10:02:20 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 10:03:27 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6727D9E92E
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 10:02:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A019E9A4
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 10:03:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E14F110E629;
-	Wed, 28 Jan 2026 09:02:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9B1B10E62A;
+	Wed, 28 Jan 2026 09:03:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="PIgPuFEx";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xJUzDWmL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69FAB10E629
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 09:02:06 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-480706554beso2862925e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 01:02:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1769590925; x=1770195725; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=qAOxIVYTEue9E0jsTADeINvfipVSQ2+6/g8YDctDKvU=;
- b=PIgPuFEx5vcqVvz2E8gbLRs/tpZRlbk95AzCbsoRXSjSvdU2SaOIOwQkOAk2RjalV4
- ltEqyCOB2J5+x6FCd9ZyWAt0sOOKJApzMzu3MaeBSI/qHJ8G4W5axQ/V0cyLcbR+kn1S
- M9rZ7CFM+wMStAoKd9qmTF1O1KzOgfwykaA3d72R7vZDeAkyKkwDQoV3UaD6BlMXXkM3
- sqxKjrGEKIsUo3xV8Iz5msePqTw5MMXTTo3gge4aS+8X5uAB/M+uFbJTTXrPx2O0N17t
- xF+AIWJQTT6aTz9zbY1Z8yGogXAybT+2Txr4QipZyhpp+nn/bnKHfQkQjstSrOkUvO8m
- tPRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769590925; x=1770195725;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qAOxIVYTEue9E0jsTADeINvfipVSQ2+6/g8YDctDKvU=;
- b=bmOPEJK3SPJ6WyAEDYclO01vYh7f+YYBwflDFjQzBAo8QQGa3K46XL34jCMXtZsq36
- a944n/LVI45l6s79JvnT3crTEeLIxDeOQ/58lak0S2p9laVSp5HNRRDCO2RfOLWyVAw+
- pyP2dh7Z/4+AVY2OAY7ss9CHhl975buGFO1Um9KZggWbBlg6cVygQFcccHMHbtvP1dR5
- QoKhC51gIkTs5zadrGdbdlqcenZi4MrRo6ri7ciiPom8/4cMhO12m5tpQB0Qf/XXZoMm
- rkHEHByyKaOKubnYpCHsxL7GurxU9OJlcLEL8ydqtcPAPz64fnW3B2GDBSYM3faWS4Lv
- HqQA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUAs8FiXME7MEhUVd6MfgXoWOWYRgiVii2ntGcvHDlB8ZvlrTCDt5YNskLEFu9Z3eqqkktfwn5KoRw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxy7Gow7y71zihveyVe9fUWJ8GwW8wLzjt/5k1SmEYUSUycdEIz
- B5AcQJfSMjKul6AkX1/YkBguSuvRi7Urtfjblm5E1bFJwqgm8zJvmfatWa883hULc20RA6UCLwE
- rcG5Q
-X-Gm-Gg: AZuq6aKzC62lczKweWxVJMPQK1jMII7ICyWwk4J0jJQ5otRYcCbPFLuJFoaoYYHtkcn
- hB5W+QH/n8Mt6KzYlMLRIbN/vb5E69aBcwWuCSbWQzFPkJt4bglV5Ct/i+u+lMDluQeWxRrgfij
- CEdJli4WI0V/PVQfaWw4NC/2x83d0hpUYdyYfk0ZmaJpKkBoafLYFZHkZTMIf35mBz8Sem0+v/U
- net3WyEnZIv279Y7qmNO0VrsJyO7kL7u2Ae/VNFKoYdxuquvgSn/HIO+UL8jK/TopI/4K6qOUYE
- D7TcVRgUXuOnd20c0z0BGGa2/A2EEhq9JFsVMtuD3AJ4gkOQy5H8jr5QJmQTcdH4I9EXFC5G5XR
- aX2Ib84iPrPpVod5SiNPgpsXAMa6Dx6vhN+N/Fr7d0umKNSPwhaWYkXgbEpkTbIGAKhGmZZqcs+
- x49qGs5FVtlIbMhQ==
-X-Received: by 2002:a05:600c:3154:b0:477:5cc6:7e44 with SMTP id
- 5b1f17b1804b1-48069c1a7ebmr50821355e9.11.1769590924606; 
- Wed, 28 Jan 2026 01:02:04 -0800 (PST)
-Received: from pathway.suse.cz ([176.114.240.130])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-48066bee7d0sm122234435e9.4.2026.01.28.01.02.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jan 2026 01:02:04 -0800 (PST)
-Date: Wed, 28 Jan 2026 10:02:01 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rt-devel@lists.linux.dev, Steven Rostedt <rostedt@goodmis.org>,
- John Ogness <john.ogness@linutronix.de>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH] printk, vt, fbcon: Remove console_conditional_schedule()
-Message-ID: <aXnQiSBskXo4RDAL@pathway.suse.cz>
-References: <20260126180836.SNCdMW2f@linutronix.de>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2565010E62A
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 09:03:24 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 96DC840E2A;
+ Wed, 28 Jan 2026 09:03:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15CE8C4CEF1;
+ Wed, 28 Jan 2026 09:03:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1769591003;
+ bh=ZvAupvvr/WMYU+hMmFixA0h6HMFEsrs2ahj7ED07S8Y=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=xJUzDWmLpQ0qEvTYAWlP7N6JSHh75wMJM+pT2Ev2av9hTUaZHxBiexo8mZKpRTYay
+ ik2SNxfKJ4TVeplA7ga4oMmIpykCYMtsr2jBpmnqMMuuc6zzNY6+3WtIsXhY44nhJN
+ 1hQ0isvuV+2+n0LAyzjQUwDSLdJxDrn+lG5jejjU=
+Date: Wed, 28 Jan 2026 10:03:20 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Waffle0823 <csshin9928@gmail.com>
+Cc: andy@kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] fbtft: Improve damage_range to mark only changed rows
+Message-ID: <2026012804-pentagram-emote-d443@gregkh>
+References: <20260128085720.862399-1-csshin9928@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260126180836.SNCdMW2f@linutronix.de>
+In-Reply-To: <20260128085720.862399-1-csshin9928@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,115 +59,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
+X-Spamd-Result: default: False [3.19 / 15.00];
+	MID_END_EQ_FROM_USER_PART(4.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:bigeasy@linutronix.de,m:linux-kernel@vger.kernel.org,m:linux-serial@vger.kernel.org,m:linux-fbdev@vger.kernel.org,m:linux-rt-devel@lists.linux.dev,m:rostedt@goodmis.org,m:john.ogness@linutronix.de,m:senozhatsky@chromium.org,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:simona@ffwll.ch,m:deller@gmx.de,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:csshin9928@gmail.com,m:andy@kernel.org,m:linux-fbdev@vger.kernel.org,m:linux-staging@lists.linux.dev,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[pmladek@suse.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_TO(0.00)[gmail.com];
 	ARC_NA(0.00)[];
-	ASN_FAIL(0.00)[177.210.252.131.asn.rspamd.com:query timed out];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.linux.dev,goodmis.org,linutronix.de,chromium.org,linuxfoundation.org,kernel.org,ffwll.ch,gmx.de];
-	DKIM_TRACE(0.00)[suse.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[pmladek@suse.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[gregkh@linuxfoundation.org,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[linuxfoundation.org:+];
+	RCPT_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gmx.de:email,suse.com:email,suse.com:dkim,linutronix.de:email,lists.freedesktop.org:email]
-X-Rspamd-Queue-Id: 6727D9E92E
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linuxfoundation.org:dkim]
+X-Rspamd-Queue-Id: 65A019E9A4
 X-Rspamd-Action: no action
 
-On Mon 2026-01-26 19:08:36, Sebastian Andrzej Siewior wrote:
-> do_con_write(), fbcon_redraw.*() invoke console_conditional_schedule()
-> which is a conditional scheduling point based on printk's internal
-> variables console_may_schedule. It may only be used if the console lock
-> is acquired for instance via console_lock() or console_trylock().
+On Wed, Jan 28, 2026 at 05:57:20PM +0900, Waffle0823 wrote:
+> Instead of marking the entire display as dirty, calculate
+> start_row and end_row based on off/len and mark only those rows.
+> This improves performance for partial framebuffer updates.
 > 
-> Prinkt sets the internal variable to 1 (and allows to schedule)
-> if the console lock has been acquired via console_lock(). The trylock
-> does not allow it.
+> Signed-off-by: Waffle0283 csshin9928@gmail.com
+> ---
+>  drivers/staging/fbtft/fbtft-core.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 > 
-> The console_conditional_schedule() invocation in do_con_write() is
-> invoked shortly before console_unlock().
-> The console_conditional_schedule() invocation in fbcon_redraw.*()
-> original from fbcon_scroll() / vt's con_scroll() which originate from a
-> line feed.
+> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+> index 8a5ccc8ae0a1..0fbdfdaaa94d 100644
+> --- a/drivers/staging/fbtft/fbtft-core.c
+> +++ b/drivers/staging/fbtft/fbtft-core.c
+> @@ -415,8 +415,11 @@ static void fbtft_ops_damage_range(struct fb_info *info, off_t off, size_t len)
+>  {
+>  	struct fbtft_par *par = info->par;
+>  
+> -	/* TODO: only mark changed area update all for now */
+> -	par->fbtftops.mkdirty(info, -1, 0);
+> +	__u32 width = info->var.xres;
+> +	__u32 start_row = off / width;
+> +	__u32 end_row = (off + len - 1) / width;
+> +
+> +	par->fbtftops.mkdirty(info, start_row, end_row);
+>  }
+>  
+>  static void fbtft_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u32 height)
+> -- 
+> 2.52.0
 > 
-> In console_unlock() the variable is set to 0 (forbids to schedule) and
-> it tries to schedule while making progress printing. This is brand new
-> compared to when console_conditional_schedule() was added in v2.4.9.11.
-> 
-> In v2.6.38-rc3, console_unlock() (started its existence) iterated over
-> all consoles and flushed them with disabled interrupts. A scheduling
-> attempt here was not possible, it relied that a long print scheduled
-> before console_unlock().
-> 
-> Since commit 8d91f8b15361d ("printk: do cond_resched() between lines
-> while outputting to consoles"), which appeared in v4.5-rc1,
-> console_unlock() attempts to schedule if it was allowed to schedule
-> while during console_lock(). Each record is idealy one line so after
-> every line feed.
-> 
-> This console_conditional_schedule() is also only relevant on
-> PREEMPT_NONE and PREEMPT_VOLUNTARY builds. In other configurations
-> cond_resched() becomes a nop and has no impact.
-> 
-> I'm bringing this all up just proof that it is not required anymore. It
-> becomes a problem on a PREEMPT_RT build with debug code enabled because
-> that might_sleep() in cond_resched() remains and triggers a warnings.
-> This is due to
-> 
->  legacy_kthread_func-> console_flush_one_record ->  vt_console_print-> lf
->    -> con_scroll -> fbcon_scroll
-> 
-> and vt_console_print() acquires a spinlock_t which does not allow a
-> voluntary schedule. There is no need to fb_scroll() to schedule since
-> console_flush_one_record() attempts to schedule after each line.
-> !PREEMPT_RT is not affected because the legacy printing thread is only
-> enabled on PREEMPT_RT builds.
-> 
-> Therefore I suggest to remove console_conditional_schedule().
-> 
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Fixes: 5f53ca3ff83b4 ("printk: Implement legacy printer kthread for PREEMPT_RT")
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-Just for record. This change looks OK from printk() POV.
-printk() does console_trylock() and calls console_unlock()
-with preemption disabled anyway, see vprintk_emit().
+Hi,
 
-VT code still synchronizes some operations using console_lock().
-It is possible that some non-printk related operations rely
-on this. But it is hard to say. It might actually be a good
-idea to find it out.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-Also I have seen many printk-related softlockups. But they
-were always caused by slow serial consoles. I can't remember
-any in VT code.
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-Feel free to use:
+- It looks like you did not use your "real" name for the patch on either
+  the Signed-off-by: line, or the From: line (both of which have to
+  match).  Please read the kernel file,
+  Documentation/process/submitting-patches.rst for how to do this
+  correctly.
 
-Acked-by: Petr Mladek <pmladek@suse.com> # from printk() POV
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
-Best Regards,
-Petr
+thanks,
+
+greg k-h's patch email bot
