@@ -2,81 +2,176 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mEKpML0Eemlg1gEAu9opvQ
+	id qHxpDcYEemlE1gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 13:44:45 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 13:44:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 737C6A173A
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 13:44:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF61A177D
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 13:44:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C036D10E6D7;
-	Wed, 28 Jan 2026 12:44:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1403210E6CD;
+	Wed, 28 Jan 2026 12:44:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="b5lfsBEU";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="hPIWJE9s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE16D10E6D5;
- Wed, 28 Jan 2026 12:44:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B2086416B7;
- Wed, 28 Jan 2026 12:44:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FBC3C116C6;
- Wed, 28 Jan 2026 12:44:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769604281;
- bh=wCwhcXcYJdOH8RnqL52AYGE9QQrdpKTqnvRvUswKKmY=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=b5lfsBEUt/YlVPW0f0UHGY4GrmG4BgDTiikI7yA/80gD+BfWzCJ+2DuGTsrqS7lqd
- eDdrW/hK+LuK6+FyXARSXCBSi4TJnX8avpS8BF1Hk6X0kzvAXdbULoLJR+mbW6cHoK
- UZn1eUURt9jrYlr/cwlLnUPKpp9jIms9ydWawjTi0B3SkOPNzcgEB8r10M10b6afE1
- ZTgoUKYVeWNxwg4pme19+3/QNrJx7IOi8n6IL+atDco9yYjLb3N0QB6vX9KeuCAIvP
- 23aNbMNuRpJ2I90cdLYvdlLWexDsFW3N+KV3fhgUJKL4epdgeVNX2vsNn4xdCK9rpw
- rhT82o8rSssdQ==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 28 Jan 2026 13:43:59 +0100
-Subject: [PATCH v4 15/15] drm/atomic: Remove state argument to
- drm_atomic_private_obj_init
+Received: from CY3PR05CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11013051.outbound.protection.outlook.com
+ [40.93.201.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5012810E6CF;
+ Wed, 28 Jan 2026 12:44:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Z+lYGgLsS6XcD4yn2N57SS56NCvanO1z3jGL3oBGUv4GNAW4LZNQIu0UowakPZnDMl8sPJLpL0ZEvISDYZiJSClQ84fBPSJ4Jws7kS0AjEjfz03aIhnBOjJ06unlrVL/oCfKZ8jl1EfwSxFb/5/op/0q8z3/ESatzPHOC1FLhWN3+PCkdT54J5+dwd7xngjAV7HiGyZvdF9I30mH0M6f1yewxXOiS6T3sCMtOwdQuC3hWW08mERqw8RIH0vVYrTYhgkL0JGg2taXJBDu5ehoUJ17PMw3dYFmGdwTWDO93CPis6Pbz9qiEDGmdNnVsb1nTjZsCkOrofs/xKLKZI2F7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=s0D0uxLPAApM+DLvGr1aKRFdjBdf4g9N89FDZJFLRLs=;
+ b=B1TWZ0USESJCmHJ8r0FPdL8TlU4rVAbneEafeKk8jnMCN/Ud9eYIiI2mTZcZGY37PIjI0Ne0dZrCghtn6uVcCERf1lBTsVUuYI3RvXCxtLYQmgvENAUwu6JRaggk/EEOHESuJj0orEyS9sPYeoOnAvFq1td+msAMDMmpG3P/+uaXHOBzFZlnFEBA6KRo2ezColz/GEKJam3JB/u53eouAAHJiQRz7ar/A8A4NmxZ1667qH8PCMyLAT5EN8FkCI+qa1jo3NPnUePq32d/nMMfXyEviZ76wDEcc8R6TwtpZgp2rp5Sa4Ui5BOJ7NpjqOojpgzMXsV60KgPpfTV+WtMzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=s0D0uxLPAApM+DLvGr1aKRFdjBdf4g9N89FDZJFLRLs=;
+ b=hPIWJE9sCUuguA4iH6OvQKeoOCDHdXDHZsUtZBnYWHtt6hpjqhDWrgxdkvcSb8peG4HmVAWYBRn2Wwkd9lOSSay6x9Ae0xlZHHxDv8gao9mvwHAm7Til9sCU9gpvAAZLWTj4x7ClVgNcRlmMqPJQgf8HLXbE3gA6QEQluLW/h6/EFGH4Wb30yrjsCb/Ro15XPE5elt2c6eA8nZMqT1RZZQVnshW0/A7cKMr9hbV9DHQg7RcirfM3Zm/xqX29xZh1PfTwgDvI2HT74DpGiCa8GtwRydfNWiBEs8Hy5bZGzxhFqZeGw0422T+b5D3T0Sf5+tJdHz4cgvN8gndyZr6LmA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ IA1PR12MB6601.namprd12.prod.outlook.com (2603:10b6:208:3a3::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Wed, 28 Jan
+ 2026 12:44:36 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9542.010; Wed, 28 Jan 2026
+ 12:44:36 +0000
+Date: Wed, 28 Jan 2026 07:44:34 -0500
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Vivi Rodrigo <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rui Huang <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+ Helge Deller <deller@gmx.de>, Alice Ryhl <aliceryhl@google.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, John Hubbard <jhubbard@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Edwin Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
+ Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
+ Zhi Wang <zhiw@nvidia.com>, Alexey Ivanov <alexeyi@nvidia.com>,
+ Balbir Singh <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
+ Elle Rhumsaa <elle@weathered-steel.dev>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH RFC v6 00/26] nova-core: Memory management infrastructure
+ (v6)
+Message-ID: <4540DD73-77BA-45F0-B686-32EB96402717@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DG06XUWOJLO5.1ESB8ES6A6081@kernel.org>
+X-ClientProxiedBy: IA4P220CA0008.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:208:558::6) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260128-drm-private-obj-reset-v4-15-90891fa3d3b0@redhat.com>
-References: <20260128-drm-private-obj-reset-v4-0-90891fa3d3b0@redhat.com>
-In-Reply-To: <20260128-drm-private-obj-reset-v4-0-90891fa3d3b0@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Liviu Dudau <liviu.dudau@arm.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Paul Cercueil <paul@crapouillou.net>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- amd-gfx@lists.freedesktop.org, linux-mips@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- linux-tegra@vger.kernel.org, Jessica Zhang <jesszhan0024@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=17167; i=mripard@redhat.com;
- h=from:subject:message-id; bh=wCwhcXcYJdOH8RnqL52AYGE9QQrdpKTqnvRvUswKKmY=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJlVLN1iEUYvFv9O6D2WkVAXINMdPStgatNFgRCF7FWvP
- WdVGHl1TGVhEOZkkBVTZHkiE3Z6efviKgf7lT9g5rAygQxh4OIUgIks/cBYzR5bsUaFZeniwkn+
- abWmLUyMHvOijm257XLw7xHpGa3vzs1QTuPd+UU81lk8zzVh1c9QxoYnixxO/M2tvdQadOHn6m9
- XHuWolSbuk3V60/c85OQS4ZmBJ+/H3Ftat196wn7D2f49IdwA
-X-Developer-Key: i=mripard@redhat.com; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|IA1PR12MB6601:EE_
+X-MS-Office365-Filtering-Correlation-Id: 687689d8-90ff-4223-8106-08de5e6afe97
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|376014|7416014|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?RWV74g88gNMSyxN3Zr9O2iIdB09EU9FD/mzZHgWwiwV0OJX5r9ku1dJZnnJG?=
+ =?us-ascii?Q?e/0Dua5r0XomtFSLfwNfE8YsClfYZdKlMl33vFsmqEWy0m5CoxUKms+GNnyp?=
+ =?us-ascii?Q?iVVaYBDg98oo3riYO/lZ6DttPQPDEwBGvwYoVuJvYGjI0q+IfhFfvpCaFAfI?=
+ =?us-ascii?Q?d7uHf/R4hApsFhAC2Fm+hz5bPM6OycXmKxN/rIl0v1pAodAElWmn5335Vz6A?=
+ =?us-ascii?Q?VL94EJgiY7imXXDwlM72YFlPAzZHJFt4MWlhUt90SFPmopyOGwDlPrPGB7YZ?=
+ =?us-ascii?Q?PqAXpu2BMdatENhnpOJ8UmVXkFheZF9h+PaCKdZByq4mz8rB6c7HEU9/Gh0t?=
+ =?us-ascii?Q?TPQlVQx/FcWMd3/i60ZQVaCFK+ldX5NM7MH2Wq7O9kuySEzFPW0/ipK0DE4H?=
+ =?us-ascii?Q?lg7q1/Iy7xAkDmPs+o5rzOvinykh+YzAf2/xnJyckqTeLBkbrdBhPnFVROv4?=
+ =?us-ascii?Q?yQTbBw/Cx45PZADlGqMedz8Ih1d69GJij/P1HTTK4JNdHq1JWT6auWx7nXuX?=
+ =?us-ascii?Q?4pQNRAb7UGShZNXwYguzEmHUp4XhWcv/mhOe8Dmh9y8vWUc5ewViMEPVTW5J?=
+ =?us-ascii?Q?Dkt+Hm8p16yYInmL+kpId8DBQkvejY8FhTJwWPOSkPI+6nup9vWIl56RB4Di?=
+ =?us-ascii?Q?w2PCAVBYc935J7Ic0ErBZ6lOVtQmJWVHbv7xl7W2pCnWKd+D0OhGfv7kjkwk?=
+ =?us-ascii?Q?dl7buLpZRyt7aNrWvL+p2nTlobUaMrdlhdkKwhmo0+EBbvE95eAffqzXp17R?=
+ =?us-ascii?Q?LlrFtgQmjb4OXFlxRA4p95CcECIycNqrz3OgXbkgbw7p0E4BNWawOXY5s67v?=
+ =?us-ascii?Q?l2hbf2OT27XNMpNK1ZqOkip+lq81HoeMO2sAQSETIvOnllaQ8P7GoFzU7IAN?=
+ =?us-ascii?Q?B1bPOqi1YJJcOrRoO5HwUlyK9Oz223SCHXpOLR/V1i+l7NS0uy4F2gdUI2xf?=
+ =?us-ascii?Q?DkLiKX24dGuF2PKNcuK3tqhqTk3V3rzf5Z/VeWcPaqzCwbo8KqelltxLVBvm?=
+ =?us-ascii?Q?n7Fapv3TXtnR0b4fVEc+f3FoxIothhpPxI0GDKz2YgbUFtwgb8wKa24xV1rZ?=
+ =?us-ascii?Q?heIQpU9Wo6CoI+ELTUzuwNF5mAT1VctHvJ3MKXFk5WBcaP6Dw/czwYAfecqf?=
+ =?us-ascii?Q?sVkK2fAGddsCl3e1LLNaMIBg4Dy/8PF3jqkQjYhQ63VTxLB5mc5x+V3i8/ik?=
+ =?us-ascii?Q?cHkTqIcI2f1BlitJDqdOES61IMwGJhK0/DwFwaFQwozN4f6DlR5B0SIPXuIr?=
+ =?us-ascii?Q?/ezy5blGa6tsLd6gVyOoqffD/yiLCm+y3CNL+gIT8R8/GydLyFzibAXO9uAj?=
+ =?us-ascii?Q?MV1YkxqbhlA/VDJTzGS+zm7vTvboWWPM/3DLwp67ixZ3nf2NcT7pfDFK+VBq?=
+ =?us-ascii?Q?VoDSepVuvi5uNS4HbcZSV1mRSAM0jBKlQpbnW6ZYtw51n/SpClijarD2JhJX?=
+ =?us-ascii?Q?dsU530OWhVAKHfIJ4RGHSnc69UT8WWMQX3VNOLCPuwNpnKX1fCBr0sfidhox?=
+ =?us-ascii?Q?VQ44sVkJaXCn3EJpv7oIMCgQ9WEh0JfEd5N1yZ9c9bYeesP8yj+kCgKwaNde?=
+ =?us-ascii?Q?ppYefjVH7g2s7OkzcS0=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB6486.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cYzKhfqtlJRPBrru+1hwTzU0psHZ5AVZZpkGIDmFKfr+wTA33gBa1L06C0OE?=
+ =?us-ascii?Q?vLysSBJ/6/d8SSNy278dk0nhMHeds9JjEr0pZ/HC1YQ+eGPA88R5booMXjJi?=
+ =?us-ascii?Q?TJ2ndX5UeSMWLD4zofZ64YbobuMlDY2zjgTeveIIA1y+vzZySTORyGb95FEP?=
+ =?us-ascii?Q?ej33LnIy9PCYDVf44R0+BR94QYTnaLqeCQMv7SM1HQceu/yz3rMMe+WgZRk3?=
+ =?us-ascii?Q?oO9YOpoXARnpEjbHLn7CKRbMdeHqETN2sI4rlw23E13rdRoMjGiU3ZOmy+zc?=
+ =?us-ascii?Q?t1Zr2AYnGFOOye/GtHPFGIywF1ZFp8RqH2HneCaSUwS5Z/BL6qbLePZxUSIZ?=
+ =?us-ascii?Q?4JbEZ2ZZ0A4NVLzXhxhzKtEJNPBoB0RfNjIpS+O3XUIWOjSJhs2UIg3+iprM?=
+ =?us-ascii?Q?h7qcCRCvA86BtbfCc5I5T00ByOzjuqK3MoZyDtABv2zHVxNM/8vfDPIOf2jk?=
+ =?us-ascii?Q?g2gxAYnUpNsbGKIBlwtiD0BP0j9fsO5o+VOSioznoaSaTSuYHUgWZ3PE6xA7?=
+ =?us-ascii?Q?ZRoWcsfVrP+ey8jNBOXX/9HqKquwZw1ZccfMve44CpmH1ECUL0rxECFJi1x/?=
+ =?us-ascii?Q?IMw0kE7Gh2Sn+iKx7vqnocELfNwEl49gui142rNU/UKFoUg4JbEYZ4bbw4Ck?=
+ =?us-ascii?Q?eBkrjVmHOy6dZEJmwtJnC5cpRZSLXj0vORoDbpJWEToU8Sakj3f/RzZ5Mkd7?=
+ =?us-ascii?Q?0/AoLr2V8+mvl2PRouP8I9FPPsKU+i592x1tr1W2hjeIYkstvUOBZv3Dhot7?=
+ =?us-ascii?Q?8nAPHAMPCMjlPDSJKKqcYfrw/oD9w+LhnP0iDZf6ULtgyokiYOjaF4l8zxQS?=
+ =?us-ascii?Q?dreP2MJCXUmiPAj+IyVkEETDVMREREehEqoeleDpueh9PGGdBeJ7GcxRLBh7?=
+ =?us-ascii?Q?mlHJUfAhZzZYMPcQoIfCPcjFssmS4kANVzAPteUI1ye0UzR1v2O/b/O4RUoe?=
+ =?us-ascii?Q?+cMhooLUEL3QDSNWXTns3NLDikv2G1f4jjWFDqzNDub2KThsSk5je5ymzloy?=
+ =?us-ascii?Q?44V32YdaAeiEFc8UBKqQaFjGbvRyhb2nU20NHEkhJOsTiniw1/q8a3SqXswt?=
+ =?us-ascii?Q?cMUwe/FGIyuqHuigAs3ztJvHfyyAjoIELsBnPtYjoeHbFNGsUl/UsBEya8ai?=
+ =?us-ascii?Q?FTdeZaJuxJvyLJaftsM2tYZ2//zbe8GQLrAsu+MEic+MIf8YWXA/EOdaFAhh?=
+ =?us-ascii?Q?FfhO89ftDbjyYc0827mIyCGtb4issLqf5s4aiZo7BohaCJunGQVsCBMUc4AX?=
+ =?us-ascii?Q?WF4NGSX85kKlSeSnaPkLI2swJz4e7BzI5B7zAGREtXNKDVSwgBJf6FNGsTW5?=
+ =?us-ascii?Q?ZPM2nKfph4dmphz+v+5DIE/zDBDSoZoMcCal95+VNuFeqdBgEbPQxxGwJcoR?=
+ =?us-ascii?Q?CPCr/uM8ELB9jlD5DcGk0PgZf3IRkSNWf3B+GiotWmTILqjlYWtt+fPBadNH?=
+ =?us-ascii?Q?3EPeg8DRGcURzg859wRdRwWYK4vQUz8CGCNuSpAfGVHhmwyERIBQ7iFasIUw?=
+ =?us-ascii?Q?A00GcdZ+1cqH7mYVdGRIIq4bouDXYqZMFMlQIS4hOFMBW52mje09fBurAlmf?=
+ =?us-ascii?Q?Yv6Lr+s5uoo+FJY4uSbp628QcsjJU2BX5HXIMPtr+DBk3A57KNM1HGj8OjaN?=
+ =?us-ascii?Q?jxW/ge9UILotDnHmGdBL6EKFf/x+fW/ISIpaWm9ZLGdbK2ar2AAnmKas/1P2?=
+ =?us-ascii?Q?Q/arU3UjD9jBeVxFf8wpizr1QpZF1cO24kjS7pwcktyLJL7lwx9QbKnlgxyo?=
+ =?us-ascii?Q?dPjdhD2Rpw=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 687689d8-90ff-4223-8106-08de5e6afe97
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 12:44:36.5743 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: T0NATs37xmcxF10iglpEgvn17VPX99f1lUUwfHfVx3hGcHbrPLGNFGI/qr6AQ6FLdkh1rm4b1SUMSgV6wTymlg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6601
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,478 +187,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[linux.intel.com,suse.de,gmail.com,ffwll.ch];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[32];
-	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[nvidia.com,vger.kernel.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,google.com,garyguo.net,protonmail.com,umich.edu,weathered-steel.dev,collabora.com,lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,kernel.org,oss.qualcomm.com,ideasonboard.com,arm.com,intel.com,linaro.org,crapouillou.net,gmail.com,nvidia.com,raspberrypi.com,igalia.com,kwiboo.se,linux.dev,poorly.run,somainline.org,vger.kernel.org];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[raspberrypi.com:email,igalia.com:email,crapouillou.net:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 737C6A173A
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[51];
+	FROM_NEQ_ENVFROM(0.00)[joelagnelf@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MID_RHS_MATCH_FROM(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:mid]
+X-Rspamd-Queue-Id: AEF61A177D
 X-Rspamd-Action: no action
 
-Now that all drm_private_objs users have been converted to use
-atomic_create_state instead of the old ad-hoc initialization, we can
-remove the state parameter from drm_private_obj_init and the fallback
-code.
+On Jan 28, 2026, at 6:38 AM, Danilo Krummrich <dakr@kernel.org> wrote:
+> On Tue Jan 20, 2026 at 9:42 PM CET, Joel Fernandes wrote:
+>> This series is rebased on drm-rust-kernel/drm-rust-next and provides memory
+>> management infrastructure for the nova-core GPU driver. It combines several
+>> previous series and provides a foundation for nova GPU memory management
+>> including page tables, virtual memory management, and BAR mapping. All these
+>> are critical nova-core features.
+>
+> Thanks for this work, I will go through the series soon. (Although it would also
+> be nice to have what I mention below addressed first.)
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
----
+Thanks, I appreciate that.
 
-To: Liviu Dudau <liviu.dudau@arm.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-To: Robert Foss <rfoss@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-To: Mikko Perttunen <mperttunen@nvidia.com>
-To: Jonathan Hunter <jonathanh@nvidia.com>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Rodrigo Siqueira <siqueira@igalia.com>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Abhinav Kumar <abhinav.kumar@linux.dev>
-Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-Cc: Sean Paul <sean@poorly.run>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: "Maíra Canal" <mcanal@igalia.com>
-Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: linux-mips@vger.kernel.org
-Cc: linux-arm-msm@vger.kernel.org
-Cc: freedreno@lists.freedesktop.org
-Cc: linux-tegra@vger.kernel.org
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  1 -
- .../drm/arm/display/komeda/komeda_private_obj.c    | 16 ++++++++--------
- drivers/gpu/drm/display/drm_dp_mst_topology.c      |  1 -
- drivers/gpu/drm/display/drm_dp_tunnel.c            |  2 +-
- drivers/gpu/drm/drm_atomic.c                       | 22 +++++-----------------
- drivers/gpu/drm/drm_bridge.c                       |  1 -
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |  2 +-
- drivers/gpu/drm/ingenic/ingenic-ipu.c              |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  1 -
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c           |  1 -
- drivers/gpu/drm/omapdrm/omap_drv.c                 |  2 +-
- drivers/gpu/drm/tegra/hub.c                        |  2 +-
- drivers/gpu/drm/vc4/vc4_kms.c                      |  4 +---
- include/drm/drm_atomic.h                           |  1 -
- 14 files changed, 19 insertions(+), 39 deletions(-)
+> I'm not overly happy with this version history. I understand that you are
+> building things on top of each other, but going back and forth with adding and
+> removing features from a series is confusing and makes it hard to keep track of
+> things.
+>
+> (In the worst case it may even result in reviewers skipping over it leaving you
+> with no progress eventually.)
+>
+> [...]
+>
+> Hence, please separate the features from each other in separate patch series,
+> with their own proper version history and changelog. In order to account for the
+> dependencies, you can just mention them in the cover letter and add a link to
+> the other related patch series, which should be sufficient for people interested
+> in the full picture.
+>
+> I think the most clean approach would probably be a split with CList, DRM buddy
+> and Nova MM stuff.
+>
+> And just to clarify, in the end I do not care too much about whether it's all in
+> a single series or split up, but going back and forth with combining things that
+> once have been separate and have a separate history doesn't work out well.
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index a97e1bf1bfdc6384a6ac83f907878807bb3b62a0..cff3d00a367728449b4a4de4cc9f3c9036e3924f 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -4932,11 +4932,10 @@ static int amdgpu_dm_mode_config_init(struct amdgpu_device *adev)
- 	/* indicates support for immediate flip */
- 	adev_to_drm(adev)->mode_config.async_page_flip = true;
- 
- 	drm_atomic_private_obj_init(adev_to_drm(adev),
- 				    &adev->dm.atomic_obj,
--				    NULL,
- 				    &dm_atomic_state_funcs);
- 
- 	r = amdgpu_display_modeset_create_props(adev);
- 	if (r)
- 		return r;
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_private_obj.c b/drivers/gpu/drm/arm/display/komeda/komeda_private_obj.c
-index 4994b69c6595637ea832b97629b052e3aea97ee7..6270e5c525db221267b1215a27653ace578eeb0a 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_private_obj.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_private_obj.c
-@@ -63,11 +63,11 @@ static const struct drm_private_state_funcs komeda_layer_obj_funcs = {
- };
- 
- static int komeda_layer_obj_add(struct komeda_kms_dev *kms,
- 				struct komeda_layer *layer)
- {
--	drm_atomic_private_obj_init(&kms->base, &layer->base.obj, NULL,
-+	drm_atomic_private_obj_init(&kms->base, &layer->base.obj,
- 				    &komeda_layer_obj_funcs);
- 	return 0;
- }
- 
- static struct drm_private_state *
-@@ -116,11 +116,11 @@ static const struct drm_private_state_funcs komeda_scaler_obj_funcs = {
- 
- static int komeda_scaler_obj_add(struct komeda_kms_dev *kms,
- 				 struct komeda_scaler *scaler)
- {
- 	drm_atomic_private_obj_init(&kms->base,
--				    &scaler->base.obj, NULL,
-+				    &scaler->base.obj,
- 				    &komeda_scaler_obj_funcs);
- 	return 0;
- }
- 
- static struct drm_private_state *
-@@ -168,11 +168,11 @@ static const struct drm_private_state_funcs komeda_compiz_obj_funcs = {
- };
- 
- static int komeda_compiz_obj_add(struct komeda_kms_dev *kms,
- 				 struct komeda_compiz *compiz)
- {
--	drm_atomic_private_obj_init(&kms->base, &compiz->base.obj, NULL,
-+	drm_atomic_private_obj_init(&kms->base, &compiz->base.obj,
- 				    &komeda_compiz_obj_funcs);
- 
- 	return 0;
- }
- 
-@@ -222,11 +222,11 @@ static const struct drm_private_state_funcs komeda_splitter_obj_funcs = {
- 
- static int komeda_splitter_obj_add(struct komeda_kms_dev *kms,
- 				   struct komeda_splitter *splitter)
- {
- 	drm_atomic_private_obj_init(&kms->base,
--				    &splitter->base.obj, NULL,
-+				    &splitter->base.obj,
- 				    &komeda_splitter_obj_funcs);
- 
- 	return 0;
- }
- 
-@@ -275,11 +275,11 @@ static const struct drm_private_state_funcs komeda_merger_obj_funcs = {
- 
- static int komeda_merger_obj_add(struct komeda_kms_dev *kms,
- 				 struct komeda_merger *merger)
- {
- 	drm_atomic_private_obj_init(&kms->base,
--				    &merger->base.obj, NULL,
-+				    &merger->base.obj,
- 				    &komeda_merger_obj_funcs);
- 
- 	return 0;
- }
- 
-@@ -328,11 +328,11 @@ static const struct drm_private_state_funcs komeda_improc_obj_funcs = {
- };
- 
- static int komeda_improc_obj_add(struct komeda_kms_dev *kms,
- 				 struct komeda_improc *improc)
- {
--	drm_atomic_private_obj_init(&kms->base, &improc->base.obj, NULL,
-+	drm_atomic_private_obj_init(&kms->base, &improc->base.obj,
- 				    &komeda_improc_obj_funcs);
- 
- 	return 0;
- }
- 
-@@ -381,11 +381,11 @@ static const struct drm_private_state_funcs komeda_timing_ctrlr_obj_funcs = {
- };
- 
- static int komeda_timing_ctrlr_obj_add(struct komeda_kms_dev *kms,
- 				       struct komeda_timing_ctrlr *ctrlr)
- {
--	drm_atomic_private_obj_init(&kms->base, &ctrlr->base.obj, NULL,
-+	drm_atomic_private_obj_init(&kms->base, &ctrlr->base.obj,
- 				    &komeda_timing_ctrlr_obj_funcs);
- 
- 	return 0;
- }
- 
-@@ -435,11 +435,11 @@ static const struct drm_private_state_funcs komeda_pipeline_obj_funcs = {
- };
- 
- static int komeda_pipeline_obj_add(struct komeda_kms_dev *kms,
- 				   struct komeda_pipeline *pipe)
- {
--	drm_atomic_private_obj_init(&kms->base, &pipe->obj, NULL,
-+	drm_atomic_private_obj_init(&kms->base, &pipe->obj,
- 				    &komeda_pipeline_obj_funcs);
- 
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index 1ab0233a2a18f784d8c43e61b94e40a06bd4baf6..7e0e5b90df7251beed6985e16d1c3270ddfb3f37 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -5763,11 +5763,10 @@ int drm_dp_mst_topology_mgr_init(struct drm_dp_mst_topology_mgr *mgr,
- 	mgr->max_dpcd_transaction_bytes = max_dpcd_transaction_bytes;
- 	mgr->max_payloads = max_payloads;
- 	mgr->conn_base_id = conn_base_id;
- 
- 	drm_atomic_private_obj_init(dev, &mgr->base,
--				    NULL,
- 				    &drm_dp_mst_topology_state_funcs);
- 
- 	return 0;
- }
- EXPORT_SYMBOL(drm_dp_mst_topology_mgr_init);
-diff --git a/drivers/gpu/drm/display/drm_dp_tunnel.c b/drivers/gpu/drm/display/drm_dp_tunnel.c
-index 2abd714efd19f27697770813b38194e384be87ce..241498cef7de497afdf2837f750113743c001240 100644
---- a/drivers/gpu/drm/display/drm_dp_tunnel.c
-+++ b/drivers/gpu/drm/display/drm_dp_tunnel.c
-@@ -1598,11 +1598,11 @@ static bool init_group(struct drm_dp_tunnel_mgr *mgr, struct drm_dp_tunnel_group
- {
- 	group->mgr = mgr;
- 	group->available_bw = -1;
- 	INIT_LIST_HEAD(&group->tunnels);
- 
--	drm_atomic_private_obj_init(mgr->dev, &group->base, NULL,
-+	drm_atomic_private_obj_init(mgr->dev, &group->base,
- 				    &tunnel_group_funcs);
- 
- 	return true;
- }
- 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index e3029c8f02e5a3698781117bcc80eff98407cf16..243579fa1c756cd2eda660ad658cb49d67106584 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -919,11 +919,10 @@ static void drm_atomic_plane_print_state(struct drm_printer *p,
- 
- /**
-  * drm_atomic_private_obj_init - initialize private object
-  * @dev: DRM device this object will be attached to
-  * @obj: private object
-- * @state: initial private object state
-  * @funcs: pointer to the struct of function pointers that identify the object
-  * type
-  *
-  * Initialize the private object, which can be embedded into any
-  * driver private object that needs its own atomic state.
-@@ -931,37 +930,26 @@ static void drm_atomic_plane_print_state(struct drm_printer *p,
-  * RETURNS:
-  * Zero on success, error code on failure
-  */
- int drm_atomic_private_obj_init(struct drm_device *dev,
- 				struct drm_private_obj *obj,
--				struct drm_private_state *state,
- 				const struct drm_private_state_funcs *funcs)
- {
-+	struct drm_private_state *state;
- 	memset(obj, 0, sizeof(*obj));
- 
- 	drm_modeset_lock_init(&obj->lock);
- 
- 	obj->dev = dev;
- 	obj->funcs = funcs;
- 	list_add_tail(&obj->head, &dev->mode_config.privobj_list);
- 
--	/*
--	 * Not all users of drm_atomic_private_obj_init have been
--	 * converted to using &drm_private_obj_funcs.atomic_create_state yet.
--	 * For the time being, let's only call reset if the passed state is
--	 * NULL. Otherwise, we will fallback to the previous behaviour.
--	 */
--	if (!state) {
--		state = obj->funcs->atomic_create_state(obj);
--		if (IS_ERR(state))
--			return PTR_ERR(state);
-+	state = obj->funcs->atomic_create_state(obj);
-+	if (IS_ERR(state))
-+		return PTR_ERR(state);
- 
--		obj->state = state;
--	} else {
--		obj->state = state;
--		state->obj = obj;
--	}
-+	obj->state = state;
- 
- 	return 0;
- }
- EXPORT_SYMBOL(drm_atomic_private_obj_init);
- 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 94864e05619d1678ea6c0571e889f951e17d8d16..648d94da26b11e51ba4eca506ac99786838c81f7 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -551,11 +551,10 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
- 			goto err_reset_bridge;
- 	}
- 
- 	if (drm_bridge_is_atomic(bridge))
- 		drm_atomic_private_obj_init(bridge->dev, &bridge->base,
--					    NULL,
- 					    &drm_bridge_priv_state_funcs);
- 
- 	return 0;
- 
- err_reset_bridge:
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 862691991ed2770d30342bf531e828e34bd7080a..e6b003c16e63609180881b1d3b0c7acbd5218ada 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -1399,11 +1399,11 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 	if (ret) {
- 		dev_err(dev, "Unable to register clock notifier\n");
- 		goto err_devclk_disable;
- 	}
- 
--	drm_atomic_private_obj_init(drm, &priv->private_obj, NULL,
-+	drm_atomic_private_obj_init(drm, &priv->private_obj,
- 				    &ingenic_drm_private_state_funcs);
- 
- 	ret = drmm_add_action_or_reset(drm, ingenic_drm_atomic_private_obj_fini,
- 				       &priv->private_obj);
- 	if (ret)
-diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-index 253a1ce30997308547b61339468d52e6875785d3..635ef2b1efa57556f32fded612f0ff1068e23e8c 100644
---- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-@@ -899,11 +899,11 @@ static int ingenic_ipu_bind(struct device *dev, struct device *master, void *d)
- 	if (err) {
- 		dev_err(dev, "Unable to prepare clock\n");
- 		return err;
- 	}
- 
--	drm_atomic_private_obj_init(drm, &ipu->private_obj, NULL,
-+	drm_atomic_private_obj_init(drm, &ipu->private_obj,
- 				    &ingenic_ipu_private_state_funcs);
- 
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index e33995a9522d2a9e8d0627069f7b5f44902278de..e52fd6b79c614a67d910e404efc24be014ec8f5e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1159,11 +1159,10 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
- 
- 	dev->mode_config.cursor_width = 512;
- 	dev->mode_config.cursor_height = 512;
- 
- 	drm_atomic_private_obj_init(dpu_kms->dev, &dpu_kms->global_state,
--				    NULL,
- 				    &dpu_kms_global_state_funcs);
- 
- 	atomic_set(&dpu_kms->bandwidth_ref, 0);
- 
- 	rc = pm_runtime_resume_and_get(&dpu_kms->pdev->dev);
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-index 1fc9671590762b800bdeb6cd440b1ae6ee634679..c41bb03e5b96a162340b886d32656dfe4b0d1a99 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-@@ -715,11 +715,10 @@ static int mdp5_init(struct platform_device *pdev, struct drm_device *dev)
- 	int ret;
- 
- 	mdp5_kms->dev = dev;
- 
- 	drm_atomic_private_obj_init(mdp5_kms->dev, &mdp5_kms->glob_state,
--				    NULL,
- 				    &mdp5_global_state_funcs);
- 
- 	/* we need to set a default rate before enabling.  Set a safe
- 	 * rate first, then figure out hw revision, and then set a
- 	 * more optimal rate:
-diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-index febee3fea01dd40faec7d631279b1393a17822ba..27de798026365f710b78306a7ec2a72ddff20828 100644
---- a/drivers/gpu/drm/omapdrm/omap_drv.c
-+++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-@@ -297,11 +297,11 @@ static const struct drm_private_state_funcs omap_global_state_funcs = {
- 
- static int omap_global_obj_init(struct drm_device *dev)
- {
- 	struct omap_drm_private *priv = dev->dev_private;
- 
--	drm_atomic_private_obj_init(dev, &priv->glob_obj, NULL,
-+	drm_atomic_private_obj_init(dev, &priv->glob_obj,
- 				    &omap_global_state_funcs);
- 	return 0;
- }
- 
- static void omap_global_obj_fini(struct omap_drm_private *priv)
-diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
-index e8cc4382532fffaea99020755ad78d3252613c26..5c7fd36aaadc405b9dae0acb1e8b4f12f12c84bd 100644
---- a/drivers/gpu/drm/tegra/hub.c
-+++ b/drivers/gpu/drm/tegra/hub.c
-@@ -955,11 +955,11 @@ static int tegra_display_hub_init(struct host1x_client *client)
- {
- 	struct tegra_display_hub *hub = to_tegra_display_hub(client);
- 	struct drm_device *drm = dev_get_drvdata(client->host);
- 	struct tegra_drm *tegra = drm->dev_private;
- 
--	drm_atomic_private_obj_init(drm, &hub->base, NULL,
-+	drm_atomic_private_obj_init(drm, &hub->base,
- 				    &tegra_display_hub_state_funcs);
- 
- 	tegra->hub = hub;
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index f82c7ea1d74eeaa075296533a1ffe3561f197748..8f60e9e98380984a0de7c9243c5ba703316d0c13 100644
---- a/drivers/gpu/drm/vc4/vc4_kms.c
-+++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -114,11 +114,11 @@ static void vc4_ctm_obj_fini(struct drm_device *dev, void *unused)
- 
- static int vc4_ctm_obj_init(struct vc4_dev *vc4)
- {
- 	drm_modeset_lock_init(&vc4->ctm_state_lock);
- 
--	drm_atomic_private_obj_init(&vc4->base, &vc4->ctm_manager, NULL,
-+	drm_atomic_private_obj_init(&vc4->base, &vc4->ctm_manager,
- 				    &vc4_ctm_state_funcs);
- 
- 	return drmm_add_action_or_reset(&vc4->base, vc4_ctm_obj_fini, NULL);
- }
- 
-@@ -755,11 +755,10 @@ static void vc4_load_tracker_obj_fini(struct drm_device *dev, void *unused)
- }
- 
- static int vc4_load_tracker_obj_init(struct vc4_dev *vc4)
- {
- 	drm_atomic_private_obj_init(&vc4->base, &vc4->load_tracker,
--				    NULL,
- 				    &vc4_load_tracker_state_funcs);
- 
- 	return drmm_add_action_or_reset(&vc4->base, vc4_load_tracker_obj_fini, NULL);
- }
- 
-@@ -847,11 +846,10 @@ static void vc4_hvs_channels_obj_fini(struct drm_device *dev, void *unused)
- }
- 
- static int vc4_hvs_channels_obj_init(struct vc4_dev *vc4)
- {
- 	drm_atomic_private_obj_init(&vc4->base, &vc4->hvs_channels,
--				    NULL,
- 				    &vc4_hvs_state_funcs);
- 
- 	return drmm_add_action_or_reset(&vc4->base, vc4_hvs_channels_obj_fini, NULL);
- }
- 
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 0b1b32bcd2bda1b92299fd369ba7c23b1c2d3dfa..f03cd199aee73fa8e15b2d9e16a53d134fc7de7d 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -736,11 +736,10 @@ struct drm_connector_state * __must_check
- drm_atomic_get_connector_state(struct drm_atomic_state *state,
- 			       struct drm_connector *connector);
- 
- int drm_atomic_private_obj_init(struct drm_device *dev,
- 				struct drm_private_obj *obj,
--				struct drm_private_state *state,
- 				const struct drm_private_state_funcs *funcs);
- void drm_atomic_private_obj_fini(struct drm_private_obj *obj);
- 
- struct drm_private_state * __must_check
- drm_atomic_get_private_obj_state(struct drm_atomic_state *state,
+I understand the concern, and I appreciate you taking the time to explain. Let
+me provide some context on how we ended up here, as it may help clarify the
+situation.
 
--- 
-2.52.0
+1. This is a multi-month undertaking with many interdependencies. It is
+   difficult to predict which patches will come to exist, the optimal order, how to split, which series
+   first, or what pieces are missing. This is similar to the evolution of nova
+   itself - complex interdependencies make it hard to predict what will be
+   needed. Rather than waiting months for a perfect plan before posting
+   anything, I chose to iterate publicly.
+
+2. The decision to move GPU buddy out of DRM came later in the process [1].
+   This significantly changed the scope, requiring a much larger patch to
+   handle the buddy infrastructure that everything else depends on.
+
+3. The decision to separate buddy from the CList series came from wanting to
+   make progress on CList independently [2]. That effort alone took almost a
+   month with several rewrites based on feedback from  others.
+
+4. There was some back and forth on whether to post code with users or code
+   that could potentially be used. This influenced the decision to combine
+   things into the same series to demonstrate working functionality.
+
+5. The memory management code only became functional around v3. Page table
+   walking turned out to be tricky, and I did not have a proper user at that
+   time. Eventually I realized BAR1 is a strong use case for page table
+   translation, so I added support for that.
+
+Regarding splitting the series: that makes sense, I will split into CList, GPU
+buddy, and Nova MM as you suggest. You make a fair point about the versioning
+too - labeling new patches (even though most are old) as v6 is confusing. One question: what version
+numbers should each split series use? CList was at v3 before being combined,
+and similar story for GPU buddy and Nova MM. Should I continue from the last
+version number they were posted with, or continue from v6?
+
+[1] https://lore.kernel.org/all/20251124234432.1988476-1-joelagnelf@nvidia.com/
+[2] https://lore.kernel.org/all/20251129213056.4021375-1-joelagnelf@nvidia.com/
+
+--
+Joel Fernandes
 
