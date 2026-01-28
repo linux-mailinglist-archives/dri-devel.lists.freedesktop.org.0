@@ -2,72 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kKoIHCkyemlo4gEAu9opvQ
+	id QF+DGVMzeml+4gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:58:33 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 17:03:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF9C9A4D86
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:58:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0168DA4FC3
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 17:03:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0281610E2CE;
-	Wed, 28 Jan 2026 15:58:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EB1710E73F;
+	Wed, 28 Jan 2026 16:03:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="QamPg3xM";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="OU8kDing";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6672010E2CE
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 15:58:29 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 02EC61A2ACA;
- Wed, 28 Jan 2026 15:58:28 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id C8DD06071F;
- Wed, 28 Jan 2026 15:58:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id C68C4119A880E; Wed, 28 Jan 2026 16:58:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1769615906; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=opAspiy4bTRYcLC6unWKPdWWHfqQ8ZUrRbEYl36TmAQ=;
- b=QamPg3xM/8AtOWXPVKLc0zQYrpOuZwfbPdoikFrYbxLui6jdcfG7NjcdieV7BNDPrjj+Lw
- rEc6DRq8w0F8oS+UQ5VoVnmbOp1n9qMLfRQKl3c5efASRc6MC9ceoMkU0Fn2yk+SfaLCQ8
- XcceSvgfcibNP4C7fekLjCJgdKZ8qkxjSl0CivQkkTMgzphGvSpsy4O8uEmHyNPRiI20l3
- BpmCJ9EChqaTYfc6huYMMomKw5MHNGcqYcVWKUsY7wqFm416lZhLlnsfPRg/jNPlzNNv/8
- aBSUCRLcEH6XZfJqoS211BBiMpOPkrb3jTiIfvh142LnY872qGqJSHteXn4dXA==
-Mime-Version: 1.0
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
+ [136.143.188.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3286F10E72D
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 16:03:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1769616197; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=KsUYL+x6XTGumAPf4LHWK80bbs53+d3HPLm90Go7sYCj+RwcKPpm0XoDs3KVIhMbGueVtgK5yxNH1I1iE792LJEI11yBVi4jiCxHnP7Za3KWzkomy9Gt+Z9AqyM7o38M69Q+B5db44qgbNWETcsO3S29Smv+0i2D0xuOr4h19cA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1769616197;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=fncxXrnvzx+rBXB1A07QCoO0pcakz1qEXgNvB3GhOfM=; 
+ b=YDoKEXNSB+QWXuMLMvX1pzHoEXlEo4jWynRjagZQnYsv6fsWJOdn3v2y2vc9bOCVVNl9MeKoGDkFd21jojWZLh+UuVFhUG1fZVNTWjoB247Cyz4UCiPvKRCIPTLCtD0tSirsG21NpM/Kz3PVlSontwDKJ+jIn+B9Ipgc9U02pYY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769616197; 
+ s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+ h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+ bh=fncxXrnvzx+rBXB1A07QCoO0pcakz1qEXgNvB3GhOfM=;
+ b=OU8kDingy9lLvJ8GxvS478sS/qda/34ammNsRz8DnZB/ohesi3vunzYMUII5r+25
+ ZBdt0mFwVXtXj1NhrVrsO4G51gvWz+AXUFS3lsAofulogbsgcXbjEZZdGHwRQzgx5EU
+ yFHfzaOSEuHJDabRp7JX1y1ejXwlOBvs1WZSUP8iYGqaKSD+t7+jf3wpBGuUHblEp8f
+ ApBzPwJ3tUG+ERH3B0OlP6feb7LAJXKascYy0fiaa5+ghlld8tCxaFMmJpYU/y8j6OS
+ /g53PtJ0FOnZJWTSDAUxbuRqXhNir0lKsWpPQ5pDuVrFf7/o1of600i4m0XCYbCOzmP
+ Yx6+DIuuIw==
+Received: by mx.zohomail.com with SMTPS id 1769616195122188.38127945886322;
+ Wed, 28 Jan 2026 08:03:15 -0800 (PST)
+Message-ID: <4e340eb246e4e725754ed2097260c1a1acd8fe71.camel@icenowy.me>
+Subject: Re: [PATCH v6 3/9] drm: verisilicon: add a driver for Verisilicon
+ display controllers
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob
+ Herring <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>, Guo Ren
+ <guoren@kernel.org>, Fu Wei <wefu@redhat.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, Dmitry Baryshkov
+ <lumag@kernel.org>,  Michal Wilczynski <m.wilczynski@samsung.com>, Luca
+ Ceresoli <luca.ceresoli@bootlin.com>, Han Gao <rabenda.cn@gmail.com>,  Yao
+ Zi <ziyao@disroot.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,  devicetree@vger.kernel.org,
+ linux-riscv@lists.infradead.org, Han Gao <gaohan@iscas.ac.cn>
+Date: Thu, 29 Jan 2026 00:03:01 +0800
+In-Reply-To: <064dd2b7-415b-4794-8867-73bdd7ac17df@suse.de>
+References: <20260123092830.4046009-1-zhengxingda@iscas.ac.cn>
+ <20260123092830.4046009-4-zhengxingda@iscas.ac.cn>
+ <6ea016d6-42a4-4d83-89fd-eee918a834ef@suse.de>
+ <7301d5f80c7f247d4a2f82c242b3d8b8ad69f5e1.camel@icenowy.me>
+ <064dd2b7-415b-4794-8867-73bdd7ac17df@suse.de>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 28 Jan 2026 16:58:18 +0100
-Message-Id: <DG0CHD0TAH9A.27UW4KKY2O9V7@bootlin.com>
-Subject: Re: [PATCH v4 4/4] drm/bridge: imx8qxp-pixel-link: get/put the next
- bridge
-Cc: "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>
-To: "Liu Ying" <victor.liu@nxp.com>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Shawn Guo"
- <shawnguo@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>,
- "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam"
- <festevam@gmail.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-v4-0-a62b4399a6bf@bootlin.com>
- <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-v4-4-a62b4399a6bf@bootlin.com>
- <e2536229-f8d9-4d65-8211-cf445677bef2@nxp.com>
- <DFYQ7TS25SQT.2F7NBYOP8P5R4@bootlin.com>
- <efeb3583-dd0c-4e91-bbfc-54b04644f2c2@nxp.com>
-In-Reply-To: <efeb3583-dd0c-4e91-bbfc-54b04644f2c2@nxp.com>
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Evolution 3.44.4 
+MIME-Version: 1.0
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,230 +93,301 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
+	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[icenowy.me,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[icenowy.me:s=zmail2];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:Hui.Pu@gehealthcare.com,m:thomas.petazzoni@bootlin.com,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:victor.liu@nxp.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:p.zabel@pengutronix.de,m:lumag@kernel.org,m:m.wilczynski@samsung.com,m:luca.ceresoli@bootlin.com,m:rabenda.cn@gmail.com,m:ziyao@disroot.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:gaohan@iscas.ac.cn,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:rabendacn@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[suse.de,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,ffwll.ch,redhat.com];
+	FORGED_SENDER(0.00)[uwu@icenowy.me,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[nxp.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,pengutronix.de];
+	RSPAMD_URIBL_FAIL(0.00)[iscas.ac.cn:query timed out,samsung.com:query timed out,suse.de:query timed out,icenowy.me:query timed out];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[bootlin.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_TWELVE(0.00)[22];
+	HAS_ORG_HEADER(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[icenowy.me:+];
+	RCPT_COUNT_TWELVE(0.00)[28];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[uwu@icenowy.me,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[pengutronix.de,kernel.org,samsung.com,bootlin.com,gmail.com,disroot.org,vger.kernel.org,lists.freedesktop.org,lists.infradead.org,iscas.ac.cn];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: CF9C9A4D86
+X-Rspamd-Queue-Id: 0168DA4FC3
 X-Rspamd-Action: no action
 
-On Tue Jan 27, 2026 at 4:54 AM CET, Liu Ying wrote:
+=E5=9C=A8 2026-01-28=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 09:54 +0100=EF=BC=
+=8CThomas Zimmermann=E5=86=99=E9=81=93=EF=BC=9A
+> Hi
+>=20
+> Am 28.01.26 um 09:39 schrieb Icenowy Zheng:
+> > =E5=9C=A8 2026-01-28=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 08:58 +0100=EF=
+=BC=8CThomas Zimmermann=E5=86=99=E9=81=93=EF=BC=9A
+> > > Hi
+> > >=20
+> > > Am 23.01.26 um 10:28 schrieb Icenowy Zheng:
+> > > > From: Icenowy Zheng <uwu@icenowy.me>
+> > > >=20
+> > > > This is a from-scratch driver targeting Verisilicon DC-series
+> > > > display
+> > > > controllers, which feature self-identification functionality
+> > > > like
+> > > > their
+> > > > GC-series GPUs.
+> > > >=20
+> > > > Only DC8200 is being supported now, and only the main
+> > > > framebuffer
+> > > > is set
+> > > > up (as the DRM primary plane). Support for more DC models and
+> > > > more
+> > > > features is my further targets.
+> > > >=20
+> > > > As the display controller is delivered to SoC vendors as a
+> > > > whole
+> > > > part,
+> > > > this driver does not use component framework and extra bridges
+> > > > inside a
+> > > > SoC is expected to be implemented as dedicated bridges (this
+> > > > driver
+> > > > properly supports bridge chaining).
+> > > >=20
+> > > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> > > > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+> > > > Tested-by: Han Gao <gaohan@iscas.ac.cn>
+> > > > Tested-by: Michal Wilczynski <m.wilczynski@samsung.com>
+> > > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > >=20
+> > > I only briefly looked over this revision, as v5 already seemed
+> > > quite
+> > > good. If you want to do a follow-up patch, see my other reply to
+> > > v5
+> > > on
+> > > storing hardware formats in the plane state.
+> > Well the kernel test robot found a small Kconfig problem in this
+> > revision -- DRM_DISPLAY_HELPER should be selected.
+> >=20
+> > Maybe I'm going to send a v7 to address this.
+> >=20
+> > Should I also make derived plane state a change in v7, or leave it
+> > as a
+> > follow-up?
+>=20
+> That would require another round of review, I guess. Better leave it
+> for=20
+> a separate series.
+>=20
+> >=20
+> > By the way, I think PATCH 1-5 should go through drm-misc tree, am I
+> > right? Who's going to pick it if going through drm-misc?
+>=20
+> I can do that. In v7, you can merge patch 8 (MAINTAINERS) into patch
+> 3,=20
+> so that it goes in as well.
 
-...
+Well then who should pick patch 9, the mailmap change?
 
->>>> @@ -260,7 +259,7 @@ static int imx8qxp_pixel_link_find_next_bridge(str=
-uct imx8qxp_pixel_link *pl)
->>>>  {
->>>>  	struct device_node *np =3D pl->dev->of_node;
->>>>  	struct device_node *port;
->>>> -	struct drm_bridge *selected_bridge =3D NULL;
->>>> +	struct drm_bridge *selected_bridge __free(drm_bridge_put) =3D NULL;
->>>>  	u32 port_id;
->>>>  	bool found_port =3D false;
->>>>  	int reg;
->>>> @@ -297,7 +296,8 @@ static int imx8qxp_pixel_link_find_next_bridge(str=
-uct imx8qxp_pixel_link *pl)
->>>>  			continue;
->>>>  		}
->>>>
->>>> -		struct drm_bridge *next_bridge =3D of_drm_find_bridge(remote);
->>>> +		struct drm_bridge *next_bridge __free(drm_bridge_put) =3D
->>>> +			of_drm_find_and_get_bridge(remote);
->>>>  		if (!next_bridge)
->>>>  			return -EPROBE_DEFER;
->>>>
->>>> @@ -305,12 +305,14 @@ static int imx8qxp_pixel_link_find_next_bridge(s=
-truct imx8qxp_pixel_link *pl)
->>>>  		 * Select the next bridge with companion PXL2DPI if
->>>>  		 * present, otherwise default to the first bridge
->>>>  		 */
->>>> -		if (!selected_bridge || of_property_present(remote, "fsl,companion-=
-pxl2dpi"))
->>>> -			selected_bridge =3D next_bridge;
->>>> +		if (!selected_bridge || of_property_present(remote, "fsl,companion-=
-pxl2dpi")) {
->>>> +			drm_bridge_put(selected_bridge);
->>>> +			selected_bridge =3D drm_bridge_get(next_bridge);
->>>
->>> Considering selecting the first bridge without the companion pxl2dpi,
->>> there would be a superfluous refcount for the selected bridge:
->>>
->>> 1) of_drm_find_and_get_bridge: refcount =3D 1
->>> 2) drm_bridge_put: noop, since selected_bridge is NULL, refcount =3D 1
->>> 3) drm_bridge_get: refcount =3D 2
->>> 4) drm_bridge_put(__free): refcount =3D 1
->>> 5) drm_bridge_get: for the pl->bridge.next_bridge, refcount =3D 2
->>
->> Here you are missing one put. There are two drm_bridge_put(__free), one =
-for
->> next_bridge and one for selected_bridge. So your list should rather be:
->>
->> 1) next_bridge =3D of_drm_find_and_get_bridge: refcount =3D 1
->> 2) drm_bridge_put(selected_bridge): noop, since selected_bridge is NULL,=
- refcount =3D 1
->> 3) selected_bridge =3D drm_bridge_get: refcount =3D 2
->> 4) drm_bridge_put(next_bridge) [__free at loop scope end]: refcount =3D =
-1
->> 5) pl->bridge.next_bridge =3D drm_bridge_get(), refcount =3D 2
->> 6) drm_bridge_put(selected_bridge) [__free at function scope end]: refco=
-unt =3D 1
->
-> Ah, right, I did miss this last put because selected_bridge is declared w=
-ith
-> __free a bit far away from the loop at the very beginning of
-> imx8qxp_pixel_link_find_next_bridge() - that's my problem I guess, but I'=
-m
-> not even sure if I'll fall into this same pitfall again after a while, wh=
-ich
-> makes the driver difficult to maintain.
->
-> Also, it seems that the refcount dance(back and forth bewteen 1 and 2) is=
- not
-> something straightforward for driver readers to follow.
+I remember there is some tree for this kind of "trivial changes", but I
+forgot any detail about this.
 
-I thing the whole logic becomes straightforward if you think it this way:
+>=20
+> Patches 6 and 7 are small, so I can also take them into drm-misc if
+> they=20
+> riscv maintainers are OK with that.
 
- * when a pointer is assigned =3D a new reference starts existing -> refcou=
-nt++
- * when a pointer is cleared/overwritten or goes out of scope =3D a referen=
-ce
-   stops existing -> refcount--
+Well, I think there might be other TH1520 DT bits merged by Drew
+Fustini in this cycle?
 
-In short: one pointer, one reference, one refcount.
+Drew, can you read this? (I heard from Han Gao that his mail failed to
+get delivered to Drew). If you can read this, could you confirm that
+whether you want to merge DT patches?
 
-If you re-read the patch with this in mind, does it become clearer?
+Thanks,
+Icenowy
 
->>> I think the below snippet would be the right thing to do:
->>> -8<-
->>> {
->>> 	...
->>>
->>> 	struct drm_bridge *next_bridge __free(drm_bridge_put) =3D
->>> 		of_drm_find_and_get_bridge(remote);
->>>   		if (!next_bridge)
->>>   			return -EPROBE_DEFER;
->>>
->>> 	/*
->>> 	 * Select the next bridge with companion PXL2DPI if
->>> 	 * present, otherwise default to the first bridge
->>> 	 */
->>> 	if (!selected_bridge)
->>> 		selected_bridge =3D drm_bridge_get(next_bridge);
->>>
->>> 	if (of_property_present(remote, "fsl,companion-pxl2dpi")) {
->>> 		if (selected_bridge)
->>> 			drm_bridge_put(selected_bridge);
->>>
->>> 		selected_bridge =3D drm_bridge_get(next_bridge);
->>> 	}
->>> }
->>
->> Your version of the code looks OK as well so far, but totally equivalent=
- to
->> what my patch proposes.
->>
->> Do you think splitting the if() into two if()s is clearer? Would you lik=
+>=20
+> Best regards
+> Thomas
+>=20
+> >=20
+> > > Best regards
+> > > Thomas
+> > >=20
+> > > > ---
+> > > > Changes in v6:
+> > > > - Sorted Kconfig dependency.
+> > > > - Get rid of obsolete uppercase DRM_* printk marcos.
+> > > > - Optimization to printk messages (unknown IRQ message is only
+> > > > printed
+> > > > =C2=A0=C2=A0=C2=A0 once, device recognition message has "Found" add=
+ed,
+> > > > "Skipping
+> > > > output"
+> > > > =C2=A0=C2=A0=C2=A0 message priority lowered to debug).
+> > > > - Splitted most bridge functions for DPI/DP output.
+> > > > - Get rid of custom CRTC atomic_flush, which doesn't do
+> > > > anything
+> > > > =C2=A0=C2=A0=C2=A0 device-specific.
+> > > > - Adapted macro HZ_PER_KHZ and VSDC_DISP_TIMING_VALUE_MAX.
+> > > > - Switched to use drm_mode_size_dumb() to align dumb buffer
+> > > > pitch.
+> > > > - Reordered some function calls in vs_drm_initialize() (
+> > > > =C2=A0=C2=A0=C2=A0 aperture_remove_all_conflicting_devices() is now=
+ called
+> > > > earlier
+> > > > and
+> > > > =C2=A0=C2=A0=C2=A0 drm_mode_config_reset() is now called later).
+> > > > - Splitted out vs_fb_get_dma_addr() and switched to use
+> > > > =C2=A0=C2=A0=C2=A0 drm_format_info_min_pitch() to calculate the src=
+ X offset
+> > > > to the
+> > > > =C2=A0=C2=A0=C2=A0 framebuffer address.
+> > > > - Splitted out atomic_{en,dis}able for primary plane.
+> > > > - Removed an unused pm_runtime.h inclusion because the driver
+> > > > now
+> > > > does
+> > > > =C2=A0=C2=A0=C2=A0 not do runpm.
+> > > >=20
+> > > > Changes in v5:
+> > > > - Switching to drm_atomic_get_new_bridge_state, which seems to
+> > > > let
+> > > > the
+> > > > =C2=A0=C2=A0=C2=A0 driver get rid of the hack of saving bus format =
+itself.
+> > > > - Add the internal bridge before attaching it.
+> > > > - Adapted next_bridge struct field name suggested by Luca
+> > > > Ceresoli.
+> > > > - Refactored the probe code to not use port count, to allow
+> > > > port@0
+> > > > being
+> > > > =C2=A0=C2=A0=C2=A0 missing.
+> > > >=20
+> > > > Changes in v4:
+> > > > - Switch to drm_* logger when we're handling with struct
+> > > > drm_device.
+> > > >=20
+> > > > Changes in v3:
+> > > > - Get rid of drm_atomic_get_existing_crtc_state() which is
+> > > > marked
+> > > > =C2=A0=C2=A0=C2=A0 deprecated.
+> > > >=20
+> > > > Changes in v2:
+> > > > - Changed some Control flows according to previous reviews.
+> > > > - Added missing of_node_put when checking of endpoints for
+> > > > output
+> > > > type.
+> > > > - Switched all userspace-visible modeset objects to be managed
+> > > > by
+> > > > drmm
+> > > > =C2=A0=C2=A0=C2=A0 instead of devm.
+> > > > - Utilize devm_drm_bridge_alloc() in internal bridge.
+> > > > - Prevented the usage of simple encoder helpers by passing a
+> > > > NULL
+> > > > funcs pointer.
+> > > > - Let devm enable clocks when getting them.
+> > > > - Removed explicit `.cache_type =3D REGCACHE_NONE` in regmap
+> > > > config.
+> > > > - Fixed a debug print using a variable before initialization.
+> > > > - Fixed a wrong index when using bulk to handle resets.
+> > > > - Added missing configuration for DPI format (currently fixed
+> > > > RGB888).
+> > > >=20
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/Kconfig=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 15 +
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/Makefile=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 5 +
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_bridge.c=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 | 371
+> > > > ++++++++++++++++++
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_bridge.h=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 39 ++
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_bridge_regs.h=C2=A0 |=
+=C2=A0 54 +++
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_crtc.c=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 191
+> > > > +++++++++
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_crtc.h=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 31 ++
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_crtc_regs.h=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 60 +++
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_dc.c=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 207
+> > > > ++++++++++
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_dc.h=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 38 ++
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_dc_top_regs.h=C2=A0 |=
+=C2=A0 27 ++
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_drm.c=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 182
+> > > > +++++++++
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_drm.h=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 28 ++
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_hwdb.c=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 150 +++++++
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_hwdb.h=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 29 ++
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_plane.c=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 124 ++++++
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/verisilicon/vs_plane.h=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 72 ++++
+> > > > =C2=A0=C2=A0 .../gpu/drm/verisilicon/vs_primary_plane.c=C2=A0=C2=A0=
+=C2=A0 | 173 ++++++++
+> > > > =C2=A0=C2=A0 .../drm/verisilicon/vs_primary_plane_regs.h=C2=A0=C2=
+=A0 |=C2=A0 53 +++
+> > > > =C2=A0=C2=A0 21 files changed, 1852 insertions(+)
+> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/Kconfig
+> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/Makefil=
 e
->> me to change this?
->
-> Yes, please.  Two if()s are easier for me to read.
+> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_brid=
+ge.c
+> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_brid=
+ge.h
+> > > > =C2=A0=C2=A0 create mode 100644
+> > > > drivers/gpu/drm/verisilicon/vs_bridge_regs.h
+> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc=
+.c
+> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc=
+.h
+> > > > =C2=A0=C2=A0 create mode 100644
+> > > > drivers/gpu/drm/verisilicon/vs_crtc_regs.h
+> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.c
+> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.h
+> > > > =C2=A0=C2=A0 create mode 100644
+> > > > drivers/gpu/drm/verisilicon/vs_dc_top_regs.h
+> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_drm.=
+c
+> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_drm.=
+h
+> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_hwdb=
+.c
+> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_hwdb=
+.h
+> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_plan=
+e.c
+> > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/verisilicon/vs_plan=
+e.h
+> > > > =C2=A0=C2=A0 create mode 100644
+> > > > drivers/gpu/drm/verisilicon/vs_primary_plane.c
+> > > > =C2=A0=C2=A0 create mode 100644
+> > > > drivers/gpu/drm/verisilicon/vs_primary_plane_regs.h
+>=20
 
-OK, will do.
-
-> Also I think the
-> "if (selected_bridge)" before "drm_bridge_put(selected_bridge)" improves
-> readability, though I know drm_bridge_put() checks input parameter bridge
-> for now.
-
-I was about to reply "the NULL check in drm_bridge_put() is part of the API
-contract as its documentation says", but then realized the documentation
-does not say that. My bad, I was convinced I had documented that behaviour
-to make it part of the contract so users can rely on it. I'm sending a
-patch ASAP to document that.
-
->
->>
->>> ...
->>> pl->bridge.next_bridge =3D selected_bridge;
->>
->> Based on the logic above the drm_bridge_get() is still needed here (both
->> with the single if() or the split if()s) because at function exit the
->> selected_bridge reference will be put.
->
-> Can the refcount dance be simplified a bit by dropping the put at
-> function exit?  This snippet is what I'd propose if not too scary:
->
-> -8<-
-> 	struct drm_bridge *selected_bridge =3D NULL;
-> 	...
->
-> 	{
-> 		...
->
-> 		struct drm_bridge *next_bridge __free(drm_bridge_put) =3D
-> 			of_drm_find_and_get_bridge(remote);
-> 			if (!next_bridge)
-> 				return -EPROBE_DEFER;
->
-> 		/*
-> 		 * Select the next bridge with companion PXL2DPI if
-> 		 * present, otherwise default to the first bridge
-> 		 */
-> 		if (!selected_bridge)
-> 			selected_bridge =3D drm_bridge_get(next_bridge);
->
-> 		if (of_property_present(remote, "fsl,companion-pxl2dpi")) {
-> 			if (selected_bridge)
-> 				drm_bridge_put(selected_bridge);
->
-> 			selected_bridge =3D drm_bridge_get(next_bridge);
-> 		}
-> 	}
->
-> 	...
-> 	pl->bridge.next_bridge =3D selected_bridge;
-> -8<-
-
-Based on the "one pointer, one reference, one refcount" logic I explained
-above, I find this version more complex to understand. I read it as:
-selected_bridge and pl->bridge.next_bridge are two pointers sharing a
-single reference, and we know that would not create bugs because by careful
-code inspection we realize that the life of the two references is
-overlapped without a hole inbetween. I'm not a fan of this.
-
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
