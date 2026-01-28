@@ -2,94 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CH36JVQkemmv2wEAu9opvQ
+	id iNC9Ofknemlk3QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 15:59:32 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:15:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A2EDA3664
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 15:59:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F0E7A39A3
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:15:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A018F10E711;
-	Wed, 28 Jan 2026 14:59:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7C4810E6EA;
+	Wed, 28 Jan 2026 15:15:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="g8L04+IK";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="gTuWDzTz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8108810E712
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 14:59:29 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-2a7786d7895so47392375ad.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 06:59:29 -0800 (PST)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3538F10E6E0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 15:15:01 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id
+ af79cd13be357-8c6a0702b86so687093485a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 07:15:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769612369; x=1770217169; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aXyZBm2HT5a2syRm7I8O8JEOj9+5Hm8S0vVHV9UIr+Q=;
- b=g8L04+IK5edafrFewkF4egpq/1U4F9l3c5eUEiLuZ8xy479s1ZoS68Qup0umF8kqqr
- 42/k7Ve20KT4sZUbc4Fi3rtjUSh7uWjAojcbybVgcV9GD5cxrb6XOw6yeskXwWYp1xy1
- FW7FKIZQvStzzk8R+d3Wr/s04H1OBpN6FqbxJQoQ2ZTxlFvo8h7Sa1KDsvZHLdB1skYG
- hLeBwm8WGB4L8hjYyI+OcOoTgM+NdtjY4B8YJ2tUcqRkqXTavkQBRB3VuuyRNAgMxvAL
- BR14NnC2zC3xsKGpCsh9R0VxOU0sS1SZFbZdQpUdzgkqNtYHdCjvPVtQ8MfzU8RzRyso
- KnuQ==
+ d=ziepe.ca; s=google; t=1769613300; x=1770218100; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=O/COmePD/TYm2Jf55QJyZUZAcIYHKYp8bDLJm97WVmU=;
+ b=gTuWDzTzDLPhYSkkwLIppoYeuFWRoYZYgvvH+u0zmF3VG+oUCfQ/hpveUFDgt/7rNe
+ COPAdxZJnWeex9pjXN4Xn5NoLDtTlytUEu+cwluRfpKEt14WdwyWMKs8mbps3E5rFBhX
+ DkxRVPyrr0L6Su9GrvsHZGqqCrWBsnFmRlMAiB6i6pgo8cqNZYtwOpSINitTNZ2qE9QM
+ DjrdJD6DgGR0RPuqkpmvvD2Mfhm/sWptV2L7m0czJINtMW7vJ1ZFLCHMTih67NMw89x4
+ vDrW5sxTEjF58LOOgdjYj2nh82wMhD2ICYYuhWyp92UUIJRIrTh8a4oUpTXlpG7wZiac
+ 3nMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769612369; x=1770217169;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=aXyZBm2HT5a2syRm7I8O8JEOj9+5Hm8S0vVHV9UIr+Q=;
- b=obQaK9GYB0279/CNIuQE8yKI5tfeFgpX//PE4j75obXUbuBaEEzmAbhzTYumvcXCLt
- ibdp5UegNzD/93SrtbFLZ80Je6b1igpe2kE1uvxQ6i/tj/NF32KLr08S5WR1UmnOaZur
- 2GJLof8V1IlZQqgyznwnqQOXLhc0t6h9oJ69KkEMnp+KsWqUz+LWDp5+kMEl+ce1vHxO
- COSkKOW1G7AUO1pI2t+9SdysEwX9lBoIVa2jRqEFUj1lvuGQB+MO/RcWE2rw5L9++Ub1
- dpVuaEn7il1u1bPrqey51jYmYBWdppS3WAedjthSdeJMfxeBPvaO0sbkWmVO2SENMYHX
- 6PNw==
+ d=1e100.net; s=20230601; t=1769613300; x=1770218100;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=O/COmePD/TYm2Jf55QJyZUZAcIYHKYp8bDLJm97WVmU=;
+ b=dCWgzw/H5zQsImQTwiSIrcixx7v9wZf15j8e+Gs9XffEKYWTc/uJeY6JTaV/9f0Uk8
+ fkouZ18SOlq8l6hZtC6Q6KL2IJ6r03bXAgtS5LFihNMmS2CuVkMVH+ie5ExFiIx6pgIf
+ GGAsUUjp644QRN8j0DrbVNY8KOBLj15wSS1oP5zjyzjLmgCUuEhqDU1J88cgdFgMOqoP
+ X/IPAnJKXAKvJFHotdbby/eXL7SMyi7YLkxovaTpgollFzLhy5in9H0PHMODbRRyErJq
+ XwOrU3nqK9RYP3lFoY/dmWmMsBxj3YELtu0NIEFC+nM5TD99zIJoiRwFRZMNruQ4zm8Y
+ HbbA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVG1BGESTN1ycjCFsxMC4tkwFy530lVst+HzUmo6HhDrh/2lXt5e0gLHg5vIabH3/1MLd2TVwM2vI0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzOXuQ9zDNvysbLbuFaO+qjZkvKaNg+sIMd6Fj4EJ4C/SyVkGX9
- XaBT/hRuv2MI5hasGWD6/OUnUnFUbzhS+Aeta/SjCaZAY9inMH2IXN4=
-X-Gm-Gg: AZuq6aLNzSj3lTdkS5V+6Yix5i6QNT7juh4TgL2oOFCzL+VaGh+6mpnfClwHkvde89e
- KHpOpuX1m3c4bv/9UhpmQWkBaz6bzj06+FEXfaxVN8Baq+9W2NeCad3qtjIucaAaFq6jhxpD6xv
- 1va1K4CVt04ucCV5OkJ2f0KJxjGTWgAL+1Z4rSMATjSrthpC5NVGArdC31+aNvLUE0hpamw/rFI
- qRmvcNwlZyPqdnNk5Eo+ylMuplvZxSD0p1VF+G3NmAPd+OkaDVeDfopPOBH60hHUUJwRXVE2M9k
- BUm4csbziPfImWkRpkHMFcRe7bWYlwzGwa4HOQhAZZALyW3Nx/fvbIZPQUrIhnnkGdbZJ5ptj/C
- DdC6MBR1hURkw1pUgiPN3bauc91nwXxrVcmeN2wjBAUcpQUdjCA5sedqem6gJm/CBinNLZwXfTp
- mCl5uTvmr3lpOj
-X-Received: by 2002:a17:902:ce0d:b0:2a7:d7b8:7661 with SMTP id
- d9443c01a7336-2a870d536c7mr48989305ad.4.1769612368925; 
- Wed, 28 Jan 2026 06:59:28 -0800 (PST)
-Received: from at.. ([171.61.161.8]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a88b5d9a7bsm25820235ad.79.2026.01.28.06.59.22
+ AJvYcCWo/hHiprh1AzYFgB68Qj1e7XLVuXaJ0HWmxvmTpfWTXMuztYx911n/j2iL/3BhtXSVPwGlPZHtaf0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwdBV8+KrO7W3mfwg03WspcB8ttVZ+KrWOcBELA4giPrdrkG8LT
+ DouX1ilRYJwqV+0qN6zSEi5PQGLqWuXOjq6a8FjdP8U3h/6lgzr0b+jEZsgKgcCrgAE=
+X-Gm-Gg: AZuq6aJFclDGhLQQCGjBjVDKhoLE+UxhyPUjUCc/8pIicFejtHfQdAs2ltw2tEvMVzd
+ IwtZK/CBhFfRItDa/EhPMwI/TlnsawfZtThj4RJMQTYahWaviswh6WNZnNSUfPnE00U7NwdNPhE
+ TIZzo/qXp592K/QhRRBRa5ia6rTcDqnWSRj+2OG+C6L7tZo71d5OqnmEhOp5NDazq/J0NNhzoKV
+ ZsV+rw+MHjknqz6ZCZ9mpdUswJcLLP+7rneAIJfCVs8j55DjX2dpodl7CoEGsx6KLUp62O/ZO8w
+ VEeSqytcyZlA+kc09jAS/kxG4H2LnHXSta3VnqRdjebHHC17nWmpxRAsLO/YmUrq/U59onG2cmC
+ 8QPZ+BVXLfXesUq4svlxEP+HUswBw/WR96f6/JczPlv0yvGHp1BDPGtzTsYAPp3oU+S70iQg3IQ
+ L1y4KpsnPmwbv8T+A94PZ2wJp/dMLAjmix7wEH5ecGu3lSCnZfnz92cVxkmwgDu9LyYP4=
+X-Received: by 2002:a05:620a:698b:b0:856:60d8:3688 with SMTP id
+ af79cd13be357-8c70b8f9260mr718644785a.47.1769613300094; 
+ Wed, 28 Jan 2026 07:15:00 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-8c711b95e43sm204173885a.17.2026.01.28.07.14.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jan 2026 06:59:28 -0800 (PST)
-From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-To: 
-Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
- Ard Biesheuvel <ardb@kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "Borislav Petkov (AMD)" <bp@alien8.de>,
- Lenny Szubowicz <lszubowi@redhat.com>,
- Francesco Pompo <francescopompo2@gmail.com>, linux-efi@vger.kernel.org,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/i915/display: Disable display for iMac's
-Date: Wed, 28 Jan 2026 14:58:38 +0000
-Message-ID: <20260128145855.1071-3-atharvatiwarilinuxdev@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260128145855.1071-1-atharvatiwarilinuxdev@gmail.com>
-References: <20260128145855.1071-1-atharvatiwarilinuxdev@gmail.com>
+ Wed, 28 Jan 2026 07:14:58 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+ (envelope-from <jgg@ziepe.ca>) id 1vl7Fy-00000009JHD-0UeO;
+ Wed, 28 Jan 2026 11:14:58 -0400
+Date: Wed, 28 Jan 2026 11:14:58 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ leonro@nvidia.com, francois.dugast@intel.com,
+ thomas.hellstrom@linux.intel.com, himal.prasad.ghimiray@intel.com
+Subject: Re: [RFC PATCH v3 06/11] drm/pagemap: Add IOVA interface to DRM
+ pagemap
+Message-ID: <20260128151458.GJ1641016@ziepe.ca>
+References: <20260128004841.2436896-1-matthew.brost@intel.com>
+ <20260128004841.2436896-7-matthew.brost@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260128004841.2436896-7-matthew.brost@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,83 +100,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:matthew.brost@intel.com,m:intel-xe@lists.freedesktop.org,m:leonro@nvidia.com,m:francois.dugast@intel.com,m:thomas.hellstrom@linux.intel.com,m:himal.prasad.ghimiray@intel.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:atharvatiwarilinuxdev@gmail.com,m:ardb@kernel.org,m:jani.nikula@linux.intel.com,m:rodrigo.vivi@intel.com,m:joonas.lahtinen@linux.intel.com,m:tursulin@ursulin.net,m:airlied@gmail.com,m:simona@ffwll.ch,m:tzimmermann@suse.de,m:javierm@redhat.com,m:bp@alien8.de,m:lszubowi@redhat.com,m:francescopompo2@gmail.com,m:linux-efi@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:intel-gfx@lists.freedesktop.org,m:intel-xe@lists.freedesktop.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[atharvatiwarilinuxdev@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linux.intel.com,intel.com,ursulin.net,ffwll.ch,suse.de,redhat.com,alien8.de,vger.kernel.org,lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[atharvatiwarilinuxdev@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DMARC_NA(0.00)[ziepe.ca];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[ziepe.ca:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 4A2EDA3664
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[]
+X-Rspamd-Queue-Id: 0F0E7A39A3
 X-Rspamd-Action: no action
 
-Disable display on iMacs, as they can't do link training
-on the internal display.
+On Tue, Jan 27, 2026 at 04:48:36PM -0800, Matthew Brost wrote:
+> Add an IOVA interface to the DRM pagemap layer. This provides a semantic
+> wrapper around the dma-map IOVA alloc/link/sync/unlink/free API while
+> remaining flexible enough to support future high-speed interconnects
+> between devices.
 
-(tested on iMac20,1)
+I don't think this is a very clear justification.
 
-Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
----
- .../gpu/drm/i915/display/intel_display_device.c    | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+"IOVA" and dma_addr_t should be strictly reserved for communication
+that flows through the interconnect that Linux struct device is aware
+of (ie the PCIe fabric). It should not ever be used for "high speed
+interconnects" implying some private and hidden things like
+xgmi/nvlink/ualink type stuff.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_device.c b/drivers/gpu/drm/i915/display/intel_display_device.c
-index 1170afaa8680..b1fec1018d7e 100644
---- a/drivers/gpu/drm/i915/display/intel_display_device.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_device.c
-@@ -3,6 +3,7 @@
-  * Copyright © 2023 Intel Corporation
-  */
- 
-+#include <linux/dmi.h>
- #include <linux/pci.h>
- 
- #include <drm/drm_color_mgmt.h>
-@@ -1435,7 +1436,18 @@ static bool has_no_display(struct pci_dev *pdev)
- 		{}
- 	};
- 
--	return pci_match_id(ids, pdev);
-+	static const struct dmi_system_id dmi_ids[] = {
-+		{
-+			.ident = "Apple Inc. iMac",
-+			.matches = {
-+				DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Apple Inc."),
-+				DMI_MATCH(DMI_PRODUCT_NAME, "iMac"),
-+			}
-+		},
-+		{}
-+	};
-+
-+	return pci_match_id(ids, pdev) || dmi_check_system(dmi_ids);
- }
- 
- #define INTEL_DISPLAY_DEVICE(_id, _desc) { .devid = (_id), .desc = (_desc) }
--- 
-2.43.0
+I can't think of any reason why you'd want to delegate constructing
+the IOVA to some other code. I can imagine you'd want to get a pfn
+list from someplace else and turn that into a mapping.
 
+My understanding of all the private interconnects is you get an
+interconnect address and program it directly into the device HW,
+possibly with a "use interconnect" bit, and the device never touches
+the PCIe fabric at all.
+
+Jason
