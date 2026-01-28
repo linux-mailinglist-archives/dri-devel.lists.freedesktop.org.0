@@ -2,82 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id dKGGEMMkemlk3QEAu9opvQ
+	id SAD8KaQKemk82AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:01:23 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 14:09:56 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3380A36CF
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:01:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BB54A1DA0
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 14:09:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 046BB10E719;
-	Wed, 28 Jan 2026 15:01:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20AB210E6BC;
+	Wed, 28 Jan 2026 13:09:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KxNd6xw+";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="d0JE3igs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EEB910E6CF
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 13:05:18 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id
- d2e1a72fcca58-8230c839409so5549621b3a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 05:05:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769605517; x=1770210317; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=60aBumMe56xZXRD8vE8OZN2hvZkCH80+CQWsk/u8eek=;
- b=KxNd6xw+cpkQER5g1k0lfK33x2V910f62ib5T6MeIawXzMPdljVapS960FQuFHRnsj
- ZsJ60uWYYr9sg/E1v+UwZGc9+VBF5sViZueibfB1fkHaWhaf/bvyWdvmIf32Gag0yqgs
- LqYB1lu8epynFXGLlmjE44fSnqEdHCcoNb/7E9YPWTEIKA63P+aZKupvaL/39Q009F/g
- OAC1SlodRCdCXnyUiA/f1rJClMNXmJQAe/X7l1k9n4sbBhd+QxVQgbei5Bjlc7/RTaEY
- TKurY/10M+PL0Dg2N62+C/my/3tQWpWovZfiUfd/UjGKKfgJbCxL0BrLs4pbqlFabaRl
- gGWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769605517; x=1770210317;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=60aBumMe56xZXRD8vE8OZN2hvZkCH80+CQWsk/u8eek=;
- b=QVAmmjj0PGR+B8PAQ1fN+EnK1+aa3I1u//O5dv+2kBCBuGA07IeXA7+WxwaRUIq317
- 9J+cz8ttNxDoWSg7M0d7xFMmQeFC9cwjP8mZVTqYJh2jx2vksd2bGklT9zRiZ7VFMiQK
- V8gLgR5vGDAeR7iit8i29pJ+l7sFE2METSsXLSHixFReVts98/cjktwdKFjND6LVS7kK
- JRDWmFVhAlZnKgBgAI5XkOwAdSOt4HOi43Gymho6Xz+5Xr5WniZhcg9eSbtVZy/20qVg
- W++jWgd362JiC042sU205AVwPyBRYr4Aj26I2KhCredQKRc3o2ucLZnG4EF3bqIk4TJe
- +hEg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX7120cfokAUiCuoVkOpx7C5TNItqKjOrbXtkVOIBnOFKxoj4Pt+uQ8ogqFz6na629+J8MSEHVICjg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz5nc0oZNh2K0THzBcI0VrvgRCI5vLs9aKdUh7EwQHmL6rKV8jU
- psvgkc25S6Ske2secVm2TBtkvlif/vIvxl9r+k7OMKxD5ptKFDZjmFG2
-X-Gm-Gg: AZuq6aKIFLat3Tt02mbMQ3/bDqgXnCLmDLMUh6u36lvtwfmJWYwK+6QTfNRGvWBU2dK
- rl7iFt8Z4S/UVnMaWjCrR6oOe6chwnf1JR/er3cJQqqBjY5sqlmw5C4/lPn6uFAcqoz/NSV+yGZ
- CkveKciBvCMdhQz/s2YbW7gRjXDD3D+c+B3MeX5+jfI86Smcb20Zf01punBNQlviIODLd9hMRDd
- n0sNRBvH6AxXHtu//uRPWU3Ywsd5ZTwbwzTYpIcQ7eT1jeNOEnJPrpWsGHQgxVwdUIq+EBlwDba
- N5eMXFEr12iXFrHUG7TTHwRoeCWym9kv6RFT9GnCqw20IV9ITJvsDyyVSRrTsJeiAhqyOIZTTKz
- UZcNfVX2j+qVoG29ZhHHEuuOIfxXToJHQ1vuVcCOqoKPMcP98tgG0ggTk1zl3HDJaARkyMCpnPL
- GuOauBQBQF8KHiwW/j/vj77ClBQg==
-X-Received: by 2002:a05:6a00:9506:b0:81f:ac80:499a with SMTP id
- d2e1a72fcca58-82369199b5amr4580614b3a.20.1769605517452; 
- Wed, 28 Jan 2026 05:05:17 -0800 (PST)
-Received: from localhost.localdomain ([58.231.102.222])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-82379c50fccsm2569978b3a.60.2026.01.28.05.05.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jan 2026 05:05:17 -0800 (PST)
-From: ChanSoo Shin <csshin9928@gmail.com>
-To: andy@kernel.org
-Cc: gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- ChanSoo Shin <csshin9928@gmail.com>
-Subject: [PATCH] fbtft: Improve damage_range to mark only changed rows
-Date: Wed, 28 Jan 2026 22:05:03 +0900
-Message-ID: <20260128130503.868466-1-csshin9928@gmail.com>
-X-Mailer: git-send-email 2.52.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50E9910E6BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 13:09:51 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+ by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id BC45F3A2;
+ Wed, 28 Jan 2026 14:09:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1769605752;
+ bh=eoWm0ODiCGoFxKKdpMxGg0dhmOyGV9mLi7ccTk7hYhI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=d0JE3igs1aAkx8tTKYunUcwa5HGRUqwAaegZobA8/4BagIN//NM+JKH9b33RrPVW7
+ rhHcGFUSMesbBA/XaYoXFoeYsSHV1NeokLyZnK6WtzOV/2kmZshRhZp0p1NLNloOyy
+ OtGCMGgxXwEivE0yu+soTAVK7M+SkWfFHZNkbaCw=
+Date: Wed, 28 Jan 2026 15:09:48 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Vishal Sagar <vishal.sagar@amd.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Michal Simek <michal.simek@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Pekka Paalanen <ppaalanen@gmail.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH v7 03/11] drm/fourcc: Add DRM_FORMAT_Y8
+Message-ID: <20260128130948.GA3210848@killaraus>
+References: <20251201-xilinx-formats-v7-0-1e1558adfefc@ideasonboard.com>
+ <20251201-xilinx-formats-v7-3-1e1558adfefc@ideasonboard.com>
+ <20260128114941.GF2558360@killaraus>
+ <6bf4347b-ce70-4325-965f-40f81b24a0d1@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 28 Jan 2026 15:01:07 +0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <6bf4347b-ce70-4325-965f-40f81b24a0d1@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,69 +74,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER(0.00)[csshin9928@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:andy@kernel.org,m:gregkh@linuxfoundation.org,m:linux-fbdev@vger.kernel.org,m:linux-staging@lists.linux.dev,m:csshin9928@gmail.com,s:lists@lfdr.de];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,gmail.com];
-	FROM_NEQ_ENVFROM(0.00)[csshin9928@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	NEURAL_HAM(-0.00)[-1.000];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:tomi.valkeinen@ideasonboard.com,m:vishal.sagar@amd.com,m:anatoliy.klymenko@amd.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:michal.simek@amd.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:geert@linux-m68k.org,m:dmitry.baryshkov@oss.qualcomm.com,m:ppaalanen@gmail.com,m:pekka.paalanen@collabora.com,m:lumag@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: A3380A36CF
+	FREEMAIL_CC(0.00)[amd.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,lists.infradead.org,linux-m68k.org,oss.qualcomm.com,collabora.com];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,linaro.org:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,ideasonboard.com:email,ideasonboard.com:dkim]
+X-Rspamd-Queue-Id: 0BB54A1DA0
 X-Rspamd-Action: no action
 
-Instead of marking the entire display as dirty, calculate
-start_row and end_row based on off/len and mark only those rows.
-This improves performance for partial framebuffer updates.
+On Wed, Jan 28, 2026 at 02:31:57PM +0200, Tomi Valkeinen wrote:
+> On 28/01/2026 13:49, Laurent Pinchart wrote:
+> > On Mon, Dec 01, 2025 at 02:18:45PM +0200, Tomi Valkeinen wrote:
+> >> Add greyscale Y8 format.
+> > 
+> > I would explain here why we need a new format and can't just use
+> > DRM_FORMAT_R8. You don't need to convince me, but I think it's important
+> > to summarize the rationale should someone later wonder why we introduced
+> > this.
+> 
+> Good point. I can take the text from the cover letter to this commit's
+> description.
+> 
+> Would this be fine:
+> 
+> ==
+> 
+> Add greyscale Y8 format.
+> 
+> The 8-bit greyscale format has been discussed before, and the
+> earlier guidance was to use DRM_FORMAT_R8, as a single-channel 8-bit pixel.
+> 
+> However, adding DRM_FORMAT_Y8 makes sense, as:
+> 
+> 1) We can mark it as 'is_yuv' in the drm_format_info, and this can help
+>    the drivers handle e.g. full/limited range. Probably some hardware
+>    handles grayscale as a value used for all RGB components, in which case
+>    R8 makes sense, but when the hardware handles the Y-only pixels as YCbCr,
+>    where Cb and Cr are "neutral", it makes more sense to consider the
+>    format as an YUV format rather than RGB.
+> 
+> 2) We can have the same fourcc as in v4l2. While not strictly necessary,
+>    it's a constant source of confusion when the fourccs differ.
 
-Signed-off-by: ChanSoo Shin <csshin9928@gmail.com>
----
- drivers/staging/fbtft/fbtft-core.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+I wouldn't consider that as a goal (see my comment below about the 4CC
+value). V4L2 and DRM 4CCs differ, and applications must handle them
+separately. Implying we can take shortcuts for a subset of formats will
+in my opinion generate more harm than good.
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 8a5ccc8ae0a1..0fbdfdaaa94d 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -415,8 +415,11 @@ static void fbtft_ops_damage_range(struct fb_info *info, off_t off, size_t len)
- {
- 	struct fbtft_par *par = info->par;
- 
--	/* TODO: only mark changed area update all for now */
--	par->fbtftops.mkdirty(info, -1, 0);
-+	__u32 width = info->var.xres;
-+	__u32 start_row = off / width;
-+	__u32 end_row = (off + len - 1) / width;
-+
-+	par->fbtftops.mkdirty(info, start_row, end_row);
- }
- 
- static void fbtft_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u32 height)
+> 3) It (possibly) makes more sense for the user to use Y8/GREY format
+>    instead of R8, as, in my experience, the documentation usually refers
+>    to gray(scale) format or Y-only format.
+> 
+> 4) We have other Y-only formats, like the Y10_P32 added in the following
+>    patches, with "Y" in the fourcc name.
+
+If those two were the only reasons, I'd tell you to use R8 :-) I would
+drop 2-4 and only document 1, that's the real reason.
+
+> >> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >> Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> >> Reviewed-by: Vishal Sagar <vishal.sagar@amd.com>
+> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> >> ---
+> >>  drivers/gpu/drm/drm_fourcc.c  |  1 +
+> >>  include/uapi/drm/drm_fourcc.h | 10 ++++++++++
+> >>  2 files changed, 11 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+> >> index b22ef86428a1..a39b9d7a5b62 100644
+> >> --- a/drivers/gpu/drm/drm_fourcc.c
+> >> +++ b/drivers/gpu/drm/drm_fourcc.c
+> >> @@ -275,6 +275,7 @@ const struct drm_format_info *__drm_format_info(u32 format)
+> >>  		{ .format = DRM_FORMAT_YVU422,		.depth = 0,  .num_planes = 3, .cpp = { 1, 1, 1 }, .hsub = 2, .vsub = 1, .is_yuv = true },
+> >>  		{ .format = DRM_FORMAT_YUV444,		.depth = 0,  .num_planes = 3, .cpp = { 1, 1, 1 }, .hsub = 1, .vsub = 1, .is_yuv = true },
+> >>  		{ .format = DRM_FORMAT_YVU444,		.depth = 0,  .num_planes = 3, .cpp = { 1, 1, 1 }, .hsub = 1, .vsub = 1, .is_yuv = true },
+> >> +		{ .format = DRM_FORMAT_Y8,		.depth = 8,  .num_planes = 1, .cpp = { 1, 0, 0 }, .hsub = 1, .vsub = 1, .is_yuv = true },
+> >>  		{ .format = DRM_FORMAT_NV12,		.depth = 0,  .num_planes = 2, .cpp = { 1, 2, 0 }, .hsub = 2, .vsub = 2, .is_yuv = true },
+> >>  		{ .format = DRM_FORMAT_NV21,		.depth = 0,  .num_planes = 2, .cpp = { 1, 2, 0 }, .hsub = 2, .vsub = 2, .is_yuv = true },
+> >>  		{ .format = DRM_FORMAT_NV16,		.depth = 0,  .num_planes = 2, .cpp = { 1, 2, 0 }, .hsub = 2, .vsub = 1, .is_yuv = true },
+> >> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> >> index 6c786701238e..5cfc188c4e72 100644
+> >> --- a/include/uapi/drm/drm_fourcc.h
+> >> +++ b/include/uapi/drm/drm_fourcc.h
+> >> @@ -459,6 +459,16 @@ extern "C" {
+> >>  #define DRM_FORMAT_YUV444	fourcc_code('Y', 'U', '2', '4') /* non-subsampled Cb (1) and Cr (2) planes */
+> >>  #define DRM_FORMAT_YVU444	fourcc_code('Y', 'V', '2', '4') /* non-subsampled Cr (1) and Cb (2) planes */
+> >>  
+> >> +/*
+> >> + * Y-only (greyscale) formats
+> >> + *
+> >> + * The Y-only formats are handled similarly to the YCbCr formats in the display
+> >> + * pipeline, with the Cb and Cr implicitly neutral (0.0 in nominal values). This
+> >> + * also means that COLOR_RANGE property applies to the Y-only formats.
+> >> + *
+> > 
+> > Extra blank line.
+> > 
+> >> + */
+> >> +
+> >> +#define DRM_FORMAT_Y8		fourcc_code('G', 'R', 'E', 'Y')  /* 8-bit Y-only */
+> > 
+> > I would have gone for 'Y', '8', ' ', ' '
+> > 
+> >>  
+> >>  /*
+> >>   * Format Modifiers:
+
 -- 
-2.52.0
+Regards,
 
+Laurent Pinchart
