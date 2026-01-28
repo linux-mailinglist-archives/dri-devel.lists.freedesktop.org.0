@@ -2,170 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kCKnKEf2eWkE1QEAu9opvQ
+	id KM/uGcP3eWkE1QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:43:03 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:49:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF40A0B50
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:43:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 170B8A0CD3
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:49:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E56010E297;
-	Wed, 28 Jan 2026 11:43:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD69310E2A2;
+	Wed, 28 Jan 2026 11:49:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="R47oYFyr";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="o9qaCDOs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BL0PR03CU003.outbound.protection.outlook.com
- (mail-eastusazon11012057.outbound.protection.outlook.com [52.101.53.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA99910E297;
- Wed, 28 Jan 2026 11:42:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hwvGooyUKdiCa+fbSpMFKr7Sv362deaXVB1FenMBQfi0eavuGjz79nSTb531LUBwz3j8+aqgde2oYQeY5wIsX46+EZnBVVS1vB78fiENDIwUUNo0ROOkduSFGVRbWRVpWcc53h55DtcuPcEbUAjyLn0JVpStKTguz7dl1ee2jOiyYUVYf4D+Px8EIB0TpK2tQDWmUi4jb3QHqtXp1zepAztGcGMDVuluF1Vo6SiNQcBVb70w8tCSaPonfhK5IH3Jk+12nm4Oz5XTgnxtvlnzvd2B5pWvIasm9LeXbYTJAHREXtmQRhC19gEV5BG15g2Wq03JaCQQATMCQ9rnMszhyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j/Sx08D9VPm9fPeH2dwVs9wP7USAO7h+53XVp6/YTvE=;
- b=Fib9/HSAA98Lvl4gQPilQt01VLMOl6TZyJhPzRIALcTlK/NeACJ0fId5jNTqOTm+7fDr/HGRC5DwrThdaeLFL7wbtXnXet7ZEhoBwwCoBeoW1Aj6hVQQuRyN5vdCFMIzhuZwdc7pjQZar/S4X0xcIDXkRWSrtxvZa+K/oPfyDkNFAYaOZniCDDDEPvpctb7rmzLJTEbANb7j2O+V5lHkA8CFGgpo/2yQBWHNn9vMwhEweXe/rFzazs2rmQih1J8Q3zdrOQgUyoHioBv7JyMlOaotvy0Fvus1IPbhuibh61uvE7jAZPD3q/St7HGNzqVSCDK/6kXxM1T9U3QyGE5GOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j/Sx08D9VPm9fPeH2dwVs9wP7USAO7h+53XVp6/YTvE=;
- b=R47oYFyrE0Y/4ApgYoUY7PYyQQJA8xF+m9KrMUGoRQm9cO9/KLCOBB6mTGHys2+RSvZmqeA3y05j8qTtWdXLEn0lAm8GB5rJAzr0SMyMmfx692S6OVbf2ynHmg1ZvGpiq9mospeDW+MAYlVtHyxhAkJ+AOnRCCCM9WobUui+zsvxUm/xt5teNuU22q9yDeFwSmnOkCYQISoiaHuz4i2YK5rVWknf+AvVUMwrTcmlrv6IJYlT9xdW47AzIESZXNtFnhcfYyMcUTJVVpuO6H9HgkpY0KKYVEElZ4PQOjMGgb2VBb72TnH1H0AOmZ7ScZZZg+mauq2Yh+JlhC6w1BAh1g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by CY8PR12MB7563.namprd12.prod.outlook.com (2603:10b6:930:96::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Wed, 28 Jan
- 2026 11:42:56 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9542.010; Wed, 28 Jan 2026
- 11:42:56 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 28 Jan 2026 20:42:52 +0900
-Message-Id: <DG071RZV1S25.22955R6F9YZ7J@nvidia.com>
-Cc: "Eliot Courtney" <ecourtney@nvidia.com>, "Danilo Krummrich"
- <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Alistair Popple"
- <apopple@nvidia.com>, <nouveau@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 3/4] gpu: nova-core: gsp: fix improper handling of
- empty slot in cmdq
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Gary Guo" <gary@garyguo.net>
-References: <20260123-nova-core-cmdq1-v2-0-e797ec1b714c@nvidia.com>
- <20260123-nova-core-cmdq1-v2-3-e797ec1b714c@nvidia.com>
- <DFYQDRTTNQ4J.7DS0PAZQZ7XV@garyguo.net>
-In-Reply-To: <DFYQDRTTNQ4J.7DS0PAZQZ7XV@garyguo.net>
-X-ClientProxiedBy: TY4P286CA0001.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:26d::9) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B252010E2A1;
+ Wed, 28 Jan 2026 11:49:18 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60S92WoQ254579; Wed, 28 Jan 2026 11:49:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=IbRL/MdORU0nV1KmM+0/jPn6yuujtqAOkTm
+ 0iq6dFWs=; b=o9qaCDOsNalPQsexZB1O7ofYEd3SpsOWir4WSxyvpcmbcvZnbZQ
+ fl9jmnD0dgPFDg6s5IK0oUGovY4mpXM6EcktW5zq5RC4hGTdr0FSYlHpxsAsqFfL
+ vdgJPtEuMNtB4r9MIL7tfE7qplhPb7aDW5zip0AaNxCEAsA2WU/YcB6v7k9E+cHF
+ XTAGJVL0BbyAPg1nxXin+rmiPuaKo3Tanm+rCOrLIaTcGqwwudP3DFRpvo9RUpBT
+ VeFPOpGo6TUKoE0hJG1hFl5MsU65uj+pffUx0z/ZPRSBv3RZmTayZ3GqBiLKqCEq
+ 1HmCH4F3dB8cFVXnnonvXzVMo1KYFEap7IQ==
+Received: from apblrppmta02.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4by20y36pr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Jan 2026 11:49:08 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 60SBn5Hh004220; 
+ Wed, 28 Jan 2026 11:49:05 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4bvq5mgsj1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Jan 2026 11:49:05 +0000
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 60SBn5Uo004094;
+ Wed, 28 Jan 2026 11:49:05 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-riteshk-hyd.qualcomm.com
+ [10.213.102.118])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 60SBn4ie004089
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Jan 2026 11:49:05 +0000
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 2314801)
+ id 356AB5DF; Wed, 28 Jan 2026 17:19:04 +0530 (+0530)
+From: Ritesh Kumar <quic_riteshk@quicinc.com>
+To: robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+ sean@poorly.run, marijn.suijten@somainline.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ quic_mahap@quicinc.com, andersson@kernel.org, konradybcio@kernel.org,
+ mani@kernel.org, James.Bottomley@HansenPartnership.com,
+ martin.petersen@oracle.com, vkoul@kernel.org, kishon@kernel.org,
+ cros-qcom-dts-watchers@chromium.org
+Cc: Ritesh Kumar <quic_riteshk@quicinc.com>, linux-phy@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
+ quic_vproddut@quicinc.com
+Subject: [PATCH v4 0/2] Add edp reference clock for lemans
+Date: Wed, 28 Jan 2026 17:18:48 +0530
+Message-ID: <20260128114853.2543416-1-quic_riteshk@quicinc.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CY8PR12MB7563:EE_
-X-MS-Office365-Filtering-Correlation-Id: 584c0326-fd4e-4af3-31b8-08de5e6260e7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0; ARA:13230040|10070799003|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MXo2eFUrUGRkbXEyaFE0QnlRdzZvM1hWRFdoa1VPNEFFOVEvS3E5NkJkN0t5?=
- =?utf-8?B?Um52RmdBbm5TMlNTRmhvVkhoNFlhSFZ5dGlhanFUQXpTaU50aU8xUE5SbXdx?=
- =?utf-8?B?U1VzemtDWUZBTWhuVWNmNEM1c3hOUmxybmQwNVpDR3RjQkpQY1Y2OURnbmNP?=
- =?utf-8?B?ZzRxemNwNUN5QUZha1hXVXk4TmowNm54M3VobmlVOHZ5OFR4Z1hiM09lVGJx?=
- =?utf-8?B?ZEk1ekdhNTc0T2RRNitLQ2FueUVUS3VnT0FnZkhKS25nSkREWS9kaFlyY2Q0?=
- =?utf-8?B?Z3psWndHcHhOWWhtWkIvcSs0eWdGVU5lbU1wMUpLYU4weVNZTWhvNkJNUk5z?=
- =?utf-8?B?VlYwV0RXWEkwNUZDdFRrdmJPSDU1ZW5MQlNHdVNVM2c5aHJFU1RFaHZ1aExi?=
- =?utf-8?B?cHJpTWlVNXpVa0hwQzBoSlRXQmRxc2toVXFad3pMZWdGbEZHcDU1K3lXbVJY?=
- =?utf-8?B?Um14RFcyeUZOV0F3Y05FU2ZwS3l0bmpPYVRVNG1wVG5TNlkrenlMOU1ycDh0?=
- =?utf-8?B?TkIvMGtZUkJaTFR0YUcyNXUya0hST1hjNmhjb1MxQU5JNlVoeUFQYmxxSnB5?=
- =?utf-8?B?WjVxbWMrd2hHaWRORDFsVnhHU1llYWgwaEdjdUJucnNtTkFBaGtJUHM0TkNG?=
- =?utf-8?B?SzZNY2liUGR5ZVNWaU41R3J3L3dhQ0FOZjNES0p0WVZkNjZuc3luRCtMUjZr?=
- =?utf-8?B?QUtEY3dLYUJPVUV4VS9taERGdXFtQzVkbVFXM3g5L2NpUWNxd0l1Z3h0U0RJ?=
- =?utf-8?B?TnhXZ1BsSFFUWUxUSWNHaVh2UXBrTERZRDRjamNwWXZ3VHFVYkFCL3A2bDV4?=
- =?utf-8?B?NXg4NEZYYklkaDRaNUZPOXVwWmFHSW5KR1hXd2x3ZFlDTGg0TWlaK2RYNGJH?=
- =?utf-8?B?c3pTSXNqdW5mSFcxS1VWU21pUEd6RUttWnhuaU5mMWU5d0FZUXpKV0FuMSt0?=
- =?utf-8?B?bkdUWGVPQjc2cENEZDZyNGdEVit3ak5VdEJqZ09KMUFYZ2t3QVVvSFN4T1NJ?=
- =?utf-8?B?OXF2V2E0ZUQzZnFDWjV5NktIMmpjejA1aVUyaC9WZzBYR1dyK0VIRlZIVUMy?=
- =?utf-8?B?b2FhZ2dHN2o5WFQ1K1VhZmVyOTRIOWUxQzViNHdxYkxMekcyTmpUdWUvaGF0?=
- =?utf-8?B?VkNLa3hMSlZya2NTc2lQK3NpL2ZlWjQ0ZlA5RzVJUkNxT2tuRHlWT3QrRyt1?=
- =?utf-8?B?UWZsQmhyb1lQRERiVGpQV2o5YXZ3ak8vdSswNTNOcHdscVJMTzFsQnpTa01w?=
- =?utf-8?B?YnNsY3JkanBDeDZkVGlHdU9HRWJmRTNMajROWkR3VGhuMTVuTXpKUlBCek52?=
- =?utf-8?B?YmRLcGpBZDU3KzQvUmErOVQzS2lJdnA2T3ZKMTJoZVRLN2ZxL042V2owRmlr?=
- =?utf-8?B?YmhtN05OeDd0OGhWYTN2MTMwNkpOWmlGREVWdDh3MFBrSmZrcWpSdTlSOUdk?=
- =?utf-8?B?dnpaNmxCSEdJQWZRaE1qbi9NRnVFNHdpVGJXemNHT0xtREE0ZDBuTVR2NW9W?=
- =?utf-8?B?L0JZZVNodnVYeEJuOVcrVGVoVXJiSm13bkgvWktUOXpHWkZMd0Q2bnEyWHdw?=
- =?utf-8?B?ZnVBUHRXaEV6cHFoTXhVV2puQ0V1cXdDakIvS3Rwa1hZNUdmNkoxRXEyTC83?=
- =?utf-8?B?dkd3MEVFOVV5ejVhS3kxL0tPRU1sVlpLQnRzMFdsYjZtdUNwWDUvNkxFRWJ5?=
- =?utf-8?B?YmtVNmxmWmw4VHlXMEk0dEwzRnNFU2ZsaytYQ29uSGVXQmVrU2h6M2xmWFUx?=
- =?utf-8?B?dGE3SSt0RXE4RHBVZnkzRTZDQjBGZDAyelFLMld0ZFBVYkFRU2x5bWhvb01T?=
- =?utf-8?B?Mm0wUWR4Z3RsUTZXOTFkTXI4TUdnOFR2K09jVkcrNzlYbjd6Y2xUVklHaE1t?=
- =?utf-8?B?V1BIbFc0WUhmQllDTkZud01ISUdjYkZXUVk5RlZVZmpQdWxUUEdrZlN6M2Fz?=
- =?utf-8?B?aEZvTVJaNFkvWllpT2JIcGkyNC8wRkgyYWQ2dUhvcDRLSnEwa1JSLzh1Qm1G?=
- =?utf-8?B?YUcxVzVUbXBadDRVa2FxcGM2SkgzQi9zempYczh1dmJBV01RTUptUk9GTWR5?=
- =?utf-8?B?YStEQVBTSWoxdVhtSXluaDZQanFtTnU4eGl4UVdaMmtsT1JEN1p4QlFUZ0J0?=
- =?utf-8?Q?IwAI=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(10070799003)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZkNjNWMrckppWFYrWWJ5b1pOTUtFTkE3ZHRSSE5nMWR5MjAzaThNOEE3R3ZF?=
- =?utf-8?B?WGVkbHRIUG9WNDVnUVpSaWpEODl0MWtoZVFEMmtNTW95YWtnR2dWeUxrZGNN?=
- =?utf-8?B?NVpPdjNQdWY4NXU4bXgyU0VtSEwwMXRVQ2VVMi9zN0FtMnhjbTZ3ZEhrZ0pp?=
- =?utf-8?B?YnlSYVdBaWI0MnM3MlA1SFd0Z21iTE12NS94SGFDeXI5SnNNNWliZm92cEhp?=
- =?utf-8?B?UkVLbWRKLy9IU0RuWWYwUG9BaS9WbW1GcjVaUzNzVG4zUHJMQUFHUW1DSkVz?=
- =?utf-8?B?aFlDRTNmcG9yWGwxbWpnTENGWFd2QUlkYjcvOHhoNlVnTkZWWHUxTloxOFFX?=
- =?utf-8?B?TW52QXc1aTFiMmRidDVaYUJPMDMwamdPTHdZUVRlVUZxbCtDZ0Z6TU1oQkxO?=
- =?utf-8?B?Q1BLdjVSWjdrUytPRzdLditvVXFXTHRBUEVMdmFOckVVTnExckgzYi96M0JC?=
- =?utf-8?B?ek5ST0FxUUZnVUtsMm9lVWtkM2hBbWhCeWIyUUlPL3NQd0JUMXQ4Q0pIQUpo?=
- =?utf-8?B?Ry9qQUdQdTV2VlM2SndvS0VqelRKODhoNkhYZFZIZE9FUHovVmlpSE5lMVk2?=
- =?utf-8?B?N3VQVXZlQkRDWnVDVUJqTVYzakNrZVd2eHVET2RqbU5HM1k3L2h4Y2srMzZh?=
- =?utf-8?B?TXY1MUQvQnNOaVJoTFI1alUxOEdTZ1NjVVE4eC9qWUFwTm5YZWZCczhzeHJU?=
- =?utf-8?B?R0Y5VmxOOUhVUHdkOU84c1ZjZTBuSkFPT2pxUXZ4d2l1RTJXWlZONEp1MHFX?=
- =?utf-8?B?V1BoVW1RM25tc2VGemFlL1VtZ1VNb1Q2bDBoVWs0bTJDbmhwNEdHVHg4QndL?=
- =?utf-8?B?c0c5Y3YxQTRiK3RVWHhLbjZIN08ycUpiQVROU3JJdjF3bnI5TCtDMXlITzZy?=
- =?utf-8?B?MSsva1NRaFRER3pXNXJpeDZUYTFPSnJJb3IwNFVoa1VyWUpsWlJJc2x2UWU4?=
- =?utf-8?B?b21UZ2p3OHRQVERLY0dNejc1RG9OVmg5djd5TmNHNmdzTjZEN3N0cUVHTENq?=
- =?utf-8?B?SGZHc01pbmt6MDB4RURzV2ZmeFNKdG5TQ3lFQUVENU5NUFVhMGVNdklRSmlE?=
- =?utf-8?B?c2UvdDBXQmdyaWduUStjSTRkbTNxZURSbEQ0UDFtOUhTTXdQTzJCeU82bGFw?=
- =?utf-8?B?MnY0QjJodFkwVmxkcFhRTWhXK2l6QzdDUmloeEVVenRqQUR3UEV0NisrQkhX?=
- =?utf-8?B?QzFISlcyQTd6WWJ1N1NqTkY2aXZpZ0FVMldxZzF4akl3dUtEL0IrU2N0ZTZJ?=
- =?utf-8?B?cC8rUmpWbTRibDNVeUVVT0FFLzFyVkFIdDhSK3dwNXNucFBNc2U5TnpOWllT?=
- =?utf-8?B?aS9MLzl2V2VEMHB1Tmx1VU1yVEdiRUp5SnBRaW80bC83VFhZdEJWQ1dEdnVw?=
- =?utf-8?B?UnBKdFhyZmhRZElxWnoxRDZuTHAxczByZVBlK3BOL0JmT3paUThtR2lTR1Bo?=
- =?utf-8?B?Q0I5OEg5TzNjcjR5WFZ0VXJzS1NGcEpPc0tpYzNMTkJwVFoxcllhWVFIQVFP?=
- =?utf-8?B?OCs2ajRNckVkeFl0VlhJci84cUhvSTRQTXNNbXc3NmhpMkQvRUZXYkVob2ZB?=
- =?utf-8?B?L2hBc09tUkdiZ0RzUHZQZmlzdmRZUlR0a2NjS3BqaDlOK0lIdEQvUjdNYmhK?=
- =?utf-8?B?R0VRM1BZck5kc3NRVEdoWjg2azBEQjFyb3N3ZWo4b2hKRXRJdk92U3NEQ0FQ?=
- =?utf-8?B?QjNLa0lsY1FMdWR6RXJLSUJ0aS9NRDBaRHk5S1JBNUxGYWU1M09RcjZhQita?=
- =?utf-8?B?dTBoZ2pyZGo2RHI4dTNJbU1FYUZVSlp1bXl6RXdtK2VxRTdudUJ6MGRWNXZ4?=
- =?utf-8?B?eWpuMWh4aFhhU3RCWmJ2aVcvZ3FKOGJwV252Zy9jVUtrZXlTdG5wZzVmMU1B?=
- =?utf-8?B?dXZzeGF2U2VCY21YRkJWOU85TkdCSkl6S1VPTDRoczNob2h0VE5kM1FYVTY1?=
- =?utf-8?B?eXFlcGJNa2grU3NMREUwTVc5VUd5cHBPUEFFRy91TnpqTHFGc3ZXR2FNWGkz?=
- =?utf-8?B?dkF0WTg0MXgybXJtZFlBYU92RHNPc2dHYVRyVEsxbVdpNHdkUmNDa3JQNlQ2?=
- =?utf-8?B?L2llZVN6S1N4dUY0dUJXL3RFb1Joa2VjRVVNZnZQN0RkZlNnS3RzQ1lITXZ0?=
- =?utf-8?B?dnhRZjhTTm1kaG9ZLzI0NG1RdzMyOTZiVnNZdDJYdU81UEtndjJ6ZmtKZ0RH?=
- =?utf-8?B?ZFMrNFR4NjNtbHpTK0NpdHV2OGd5V3BKNzdyenN1Y1FTeWVCaFd0NTVMKzFF?=
- =?utf-8?B?elZnWEl0dmJmMGN4R000WDh4YWNMQTdRK3MrTjRacGtiSHRRaVJaNm04NFFW?=
- =?utf-8?B?OVBMSk40MkZJUmlQeDUzbHpKc1VkWTZXYWNudlcvQ0svaXRTb1ZQZkFtZ2hF?=
- =?utf-8?Q?IHZZ+TFXeFv4+M2BV/F7T0zsWCiT4hGvE5IGveD0S6MiB?=
-X-MS-Exchange-AntiSpam-MessageData-1: mRZ74s/mnEAuQg==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 584c0326-fd4e-4af3-31b8-08de5e6260e7
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 11:42:55.9976 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hjxCBJBM7P/tQ8p3hHSpvCDcrqMw5MHX7mNhZIFQkS/vkFLsJ1R1B4sxHcKkh9KDJtKAwxkxMmb8YtOdMIuEUg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7563
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: xkX8URlhIYmfiYxwg_gGFmygazzvMK_o
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI4MDA5NyBTYWx0ZWRfX14V9n/Aa786j
+ JGb/wmODho8qppn/lrc/DupUEh+E+AvcedqRYIOvJskzFnaTq4vtkrWfCNSMgS8Gph+pjb0Qy4E
+ 5zNOhwRY8bfMLu90qK/pzDAF2A7AykvYbsdushUoP4DxMGApkbBnE7Qwzuoa+qskoxmYb3mJMRa
+ rYDjCwpNzP/Unsmb8GBJjvNUxikfy+DJ3gwZSTNfAYq1aUY3gPd9u0Qp5rwBRQb92XlTNy/Hh/s
+ GZePvxo7UYuPbeQF1OE7JufdM0IgUpgoBpLyVInaSynQfIrMVe1Cxvvg6q+fgIaGVpDjbC/nita
+ NvABlDB0Ke7rsZR2UJDI62/BJi2NjOEdLm1b+/wnuG4IO/VDRpUerktyt6ryJ2Gzzuju5iephjE
+ /nr1sFHFUtGciPBqjqp1ze2hTJuYXaabpsQCegszmCcWVfEDfdAyNF82EJaP5OQ12mqhh55uqBs
+ JJDfs47XRG+vlFVOgSQ==
+X-Proofpoint-GUID: xkX8URlhIYmfiYxwg_gGFmygazzvMK_o
+X-Authority-Analysis: v=2.4 cv=IKgPywvG c=1 sm=1 tr=0 ts=6979f7b5 cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=COk6AnOGAAAA:8 a=VVwWfd7dDLNrxvkr-osA:9 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-01-28_02,2026-01-27_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 clxscore=1011 suspectscore=0 impostorscore=0
+ phishscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601280097
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,126 +120,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+X-Spamd-Result: default: False [1.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[quicinc.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[quicinc.com:s=qcppdkim1];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[nvidia.com,kernel.org,google.com,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linux.dev,poorly.run,somainline.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,quicinc.com,HansenPartnership.com,oracle.com,chromium.org];
+	DKIM_TRACE(0.00)[quicinc.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[acourbot@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_NEQ_ENVFROM(0.00)[quic_riteshk@quicinc.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:mid,nvidia.com:email]
-X-Rspamd-Queue-Id: 0DF40A0B50
+	DBL_BLOCKED_OPENRESOLVER(0.00)[quicinc.com:mid,quicinc.com:dkim,1d87000:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[9]
+X-Rspamd-Queue-Id: 170B8A0CD3
 X-Rspamd-Action: no action
 
-On Tue Jan 27, 2026 at 3:26 AM JST, Gary Guo wrote:
-> On Fri Jan 23, 2026 at 12:12 PM GMT, Eliot Courtney wrote:
->> The current code hands out buffers that go all the way up to and
->> including `rx - 1`, but we need to maintain an empty slot to prevent the
->> ring buffer from wrapping around into having 'tx =3D=3D rx', which means
->> empty.
->>
->> Also add more rigorous no-panic proofs.
->>
->> Fixes: 75f6b1de8133 ("gpu: nova-core: gsp: Add GSP command queue binding=
-s and handling")
->> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
->> ---
->>  drivers/gpu/nova-core/gsp/cmdq.rs | 33 +++++++++++++++++++-------------=
--
->>  1 file changed, 19 insertions(+), 14 deletions(-)
->>
->> diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/g=
-sp/cmdq.rs
->> index 09c28eeb6f12..aa8758fc7723 100644
->> --- a/drivers/gpu/nova-core/gsp/cmdq.rs
->> +++ b/drivers/gpu/nova-core/gsp/cmdq.rs
->> @@ -227,21 +227,26 @@ fn new(dev: &device::Device<device::Bound>) -> Res=
-ult<Self> {
->>          // PANIC: per the invariant of `cpu_write_ptr`, `tx` is `< MSGQ=
-_NUM_PAGES`.
->>          let (before_tx, after_tx) =3D gsp_mem.cpuq.msgq.data.split_at_m=
-ut(tx);
->> =20
->> -        if rx <=3D tx {
->> -            // The area from `tx` up to the end of the ring, and from t=
-he beginning of the ring up
->> -            // to `rx`, minus one unit, belongs to the driver.
->> -            if rx =3D=3D 0 {
->> -                let last =3D after_tx.len() - 1;
->> -                (&mut after_tx[..last], &mut before_tx[0..0])
->> -            } else {
->> -                (after_tx, &mut before_tx[..rx])
->> -            }
->> +        // The area starting at `tx` and ending at `rx - 2` modulo MSGQ=
-_NUM_PAGES, inclusive,
->> +        // belongs to the driver for writing.
->> +        if rx =3D=3D 0 {
->> +            // Since `rx` is zero, leave an empty slot at end of the bu=
-ffer.
->> +            let last =3D after_tx.len() - 1;
->> +            (&mut after_tx[..last], &mut before_tx[0..0])
->
-> Does the address actually matter? Otherwise I would find `&mut []` easier=
- to
-> understand than an empty indexing.
+On lemans chipset, edp reference clock is being voted by ufs mem phy
+(ufs_mem_phy: phy@1d87000). But after commit 77d2fa54a945
+("scsi: ufs: qcom : Refactor phy_power_on/off calls") edp reference
+clock is getting turned off, leading to below phy poweron failure on
+lemans edp phy.
 
-The address doesn't matter, and indeed I am not sure why we did that
-(possibly a lifetime issue with some previous version of the code?).
+[   19.830220] phy phy-aec2a00.phy.10: phy poweron failed --> -110
+[   19.842112] mdss_0_disp_cc_mdss_dptx0_link_clk status stuck at 'off'
+[   19.842131] WARNING: CPU: 2 PID: 371 at drivers/clk/qcom/clk-branch.c:87 clk_branch_toggle+0x174/0x18c
+[   19.984356] Hardware name: Qualcomm QCS9100 Ride (DT)
+[   19.989548] pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   19.996697] pc : clk_branch_toggle+0x174/0x18c
+[   20.001267] lr : clk_branch_toggle+0x174/0x18c
+[   20.005833] sp : ffff8000863ebbc0
+[   20.009251] x29: ffff8000863ebbd0 x28: 0000000000000000 x27: 0000000000000000
+[   20.016579] x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000000001
+[   20.023915] x23: ffff0000c53de980 x22: 0000000000000001 x21: ffffb4b57fd8d710
+[   20.031245] x20: ffffb4b5bb238b88 x19: 0000000000000000 x18: ffffffffffff7198
+[   20.038584] x17: 0000000000000014 x16: ffffb4b5bb1e2330 x15: 0000000000000048
+[   20.045926] x14: 0000000000000000 x13: ffffb4b5bd386a48 x12: 0000000000000dfb
+[   20.053263] x11: 00000000000004a9 x10: ffffb4b5bd3e5a20 x9 : ffffb4b5bd386a48
+[   20.060600] x8 : 00000000ffffefff x7 : ffffb4b5bd3dea48 x6 : 00000000000004a9
+[   20.067934] x5 : ffff000eb7d38408 x4 : 40000000fffff4a9 x3 : ffff4b58fb2b7000
+[   20.075269] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff000ec4fc3480
+[   20.082601] Call trace:
+[   20.085127]  clk_branch_toggle+0x174/0x18c (P)
+[   20.089705]  clk_branch2_enable+0x1c/0x28
+[   20.093829]  clk_core_enable+0x6c/0xac
+[   20.097687]  clk_enable+0x2c/0x4c
+[   20.101104]  clk_bulk_enable+0x4c/0xd8
+[   20.104964]  msm_dp_ctrl_enable_mainlink_clocks+0x184/0x24c [msm]
+[   20.111294]  msm_dp_ctrl_on_link+0xb0/0x400 [msm]
+[   20.116178]  msm_dp_display_process_hpd_high+0x110/0x190 [msm]
+[   20.122209]  msm_dp_hpd_plug_handle.isra.0+0xac/0x1c4 [msm]
+[   20.127983]  hpd_event_thread+0x320/0x5cc [msm]
+[   20.132680]  kthread+0x12c/0x204
+[   20.136011]  ret_from_fork+0x10/0x20
+[   20.139699] ---[ end trace 0000000000000000 ]---
+[   20.144489] Failed to enable clk 'ctrl_link': -16
+[   20.149340] [drm:msm_dp_ctrl_enable_mainlink_clocks [msm]] *ERROR* Unable to start link clocks. ret=-16
 
-Your suggestion seems to work fine, so Eliot feel free to include it in
-your series (as a separate patch please to make sure we can isolate the
-effects of both changes).
+This series adds support for voting the clock from lemans edp phy driver.
 
->
->> +        } else if rx > tx {
->> +            // The area is contiguous and we leave an empty slot before=
- `rx`.
->> +            // PANIC:
->> +            // - The index `rx - tx - 1` is non-negative because `rx > =
-tx` in this branch.
->> +            // - The index does not exceed `after_tx.len()` (which is `=
-MSGQ_NUM_PAGES - tx`)
->> +            //   because `rx < MSGQ_NUM_PAGES` by the `gsp_read_ptr` in=
-variant.
->> +            (&mut after_tx[..(rx - tx - 1)], &mut before_tx[0..0])
->>          } else {
->> -            // The area from `tx` to `rx`, minus one unit, belongs to t=
-he driver.
->> -            //
->> -            // PANIC: per the invariants of `cpu_write_ptr` and `gsp_re=
-ad_ptr`, `rx` and `tx` are
->> -            // `<=3D MSGQ_NUM_PAGES`, and the test above ensured that `=
-rx > tx`.
->> -            (after_tx.split_at_mut(rx - tx).0, &mut before_tx[0..0])
->> +            // The area is discontiguous and we leave an empty slot bef=
-ore `rx`.
->> +            // PANIC:
->> +            // - The index `rx - 1` is non-negative because `rx !=3D 0`=
- in this branch.
->> +            // - The index does not exceed `before_tx.len()` (which equ=
-als `tx`) because
->> +            //   `rx <=3D tx` in this branch.
->> +            (after_tx, &mut before_tx[..(rx - 1)])
->
-> If this is written with get_disjoint_mut, the indices would be so much ea=
-sier to
-> understand... To bad that that API is only available from 1.86 onwards.
+---
 
-I for one am longing for `split_at_checked`... :)
+Change in v4:
+- The dependent series is merged. Rebased to latest linux-next. Removed dependency in cover letter.
+- Update commit message of dt-bindings patch. [Krzysztof]
+- Update commit message of devicetree patch to give more detail. [Abel Vesa]
+- Link to v3: https://lore.kernel.org/all/20251104114327.27842-1-riteshk@qti.qualcomm.com/
+
+Change in v3:
+- Rebase to latest linux-next and latest version 5 of dependency.
+- Squash both DT binding patches together. [Dmitry, Rob]
+- Add dt-binding change in sorted order. [Dmitry]
+- Update commit message of bindings patch to give more detail of the problem. [Bjorn]
+- Update commit message of devicetree patch and add Fixes tag. [Dmitry]
+- Link to v2: https://lore.kernel.org/all/20251013104806.6599-1-quic_riteshk@quicinc.com/
+
+Change in v2:
+- Rebase on top of dependent series. [Krzysztof]
+- Remove duplicate patches and make changes limited to lemans.
+- Link to v1: https://lore.kernel.org/all/20251009071127.26026-1-quic_riteshk@quicinc.com/
+
+---
+Ritesh Kumar (2):
+  dt-bindings: phy: qcom-edp: Add reference clock for sa8775p eDP PHY
+  arm64: dts: qcom: lemans: Add eDP ref clock for eDP PHYs
+
+ .../bindings/display/msm/qcom,sa8775p-mdss.yaml      |  6 ++++--
+ .../devicetree/bindings/phy/qcom,edp-phy.yaml        |  1 +
+ arch/arm64/boot/dts/qcom/lemans.dtsi                 | 12 ++++++++----
+ 3 files changed, 13 insertions(+), 6 deletions(-)
+
+-- 
+2.34.1
+
