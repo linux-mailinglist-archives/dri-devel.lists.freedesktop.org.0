@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OI7FAEfueWm41AEAu9opvQ
+	id cC26EUTueWkF1AEAu9opvQ:T2
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:08:55 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:08:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE04A012F
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:08:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9601FA00DD
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:08:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6398110E695;
-	Wed, 28 Jan 2026 11:08:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92F7E10E68E;
+	Wed, 28 Jan 2026 11:08:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="TYGsSG+j";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="mbFEqtMI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F7E710E685;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CC5910E686;
  Wed, 28 Jan 2026 11:08:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
@@ -27,27 +27,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=NaFH3Y022RATKKNl7Y+V+1q98VJmEOTSRrXcvdjorEo=; b=TYGsSG+jHN/vRefcDACAekKY3l
- Jv1Y96ItaT5Mpx5u6HbQ5u7Qun8S+UlWrAdFsLFu5tXFuphR4BEcYsg2C/g3867Ten1uXAgZAWuDx
- LcXZelmwG/thqaIHFZw6YNzMW8T2+M4XteRo0o29yywk1luPIGFSLu9ZkD/ehj2gq/KqrJ+cxIVG2
- NFk4mAUb7lMWXF55f/mCXdflzT6W00QcADecXpyemHUOU+YSRJP1qAL+XrhODDV8fcTRNyn4sFbdG
- OEIKze5oHQlQox+BYfmj+1Teb9h+5fzzf6sG18TCFAWOqpM2nCIs1D/p0xrI96MnW6+co7hdLREou
- 6dQhy0pA==;
+ bh=XyQbPx4NyqvVfGhQbWsK0ZPD+RUNlqviLfN4Hpb1lKc=; b=mbFEqtMInXN4qmLb7Sjn9m4+2X
+ PmqG35gI/oEBiErH7YrcSLKg6s4urnqyviI9djHNaRC8TNyIjVkAVQ7Lt08ihHmeN6+I7Wjr+x23B
+ aoQSXuDhpecocummjF+JP1kejazdk7zOgp557tMuNQerwtz9obLf+cTSxVV8d72jUDdsm9eVo9BWU
+ E+7FUPj4EHpAecmEAfh/guknBENNbmBLRR4lB3M1aC+CZQvLYKfLxkLTPKERdwbHIAcwtNSpyfrOz
+ yWEppPldycWikzXXj9Eg0Zn/9u0Q6qw4ukCfs6LCCVHEkJmAGwC7hqg//sayqhR8Gc0oINXHkd7uA
+ VWcsIWaQ==;
 Received: from [90.240.106.137] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vl3PT-00Aqgl-2u; Wed, 28 Jan 2026 12:08:31 +0100
+ id 1vl3PT-00Aqgw-QF; Wed, 28 Jan 2026 12:08:31 +0100
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-xe@lists.freedesktop.org,
- Matthew Brost <matthew.brost@intel.com>
-Subject: [PATCH v6 30/31] drm/xe: Remove drm_sched_init_args->num_rqs usage
-Date: Wed, 28 Jan 2026 11:08:05 +0000
-Message-ID: <20260128110806.38350-31-tvrtko.ursulin@igalia.com>
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <phasta@kernel.org>
+Subject: [PATCH v6 31/31] drm/sched: Remove drm_sched_init_args->num_rqs
+Date: Wed, 28 Jan 2026 11:08:06 +0000
+Message-ID: <20260128110806.38350-32-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260128110806.38350-1-tvrtko.ursulin@igalia.com>
 References: <20260128110806.38350-1-tvrtko.ursulin@igalia.com>
@@ -83,69 +83,51 @@ X-Spamd-Result: default: False [1.49 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:email,igalia.com:mid,igalia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,igalia.com:mid,igalia.com:email];
 	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.975];
+	NEURAL_HAM(-0.00)[-0.979];
 	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[igalia.com:-]
-X-Rspamd-Queue-Id: CAE04A012F
+X-Rspamd-Queue-Id: 9601FA00DD
 X-Rspamd-Action: no action
 
-Remove member no longer used by the scheduler core.
+Remove member no longer used by the scheduler core and the drivers.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: intel-xe@lists.freedesktop.org
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_dep_scheduler.c | 1 -
- drivers/gpu/drm/xe/xe_execlist.c      | 1 -
- drivers/gpu/drm/xe/xe_gpu_scheduler.c | 1 -
- 3 files changed, 3 deletions(-)
+ include/drm/gpu_scheduler.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_dep_scheduler.c b/drivers/gpu/drm/xe/xe_dep_scheduler.c
-index 9bd3bfd2e526..2c7f43e61069 100644
---- a/drivers/gpu/drm/xe/xe_dep_scheduler.c
-+++ b/drivers/gpu/drm/xe/xe_dep_scheduler.c
-@@ -78,7 +78,6 @@ xe_dep_scheduler_create(struct xe_device *xe,
- 	const struct drm_sched_init_args args = {
- 		.ops = &sched_ops,
- 		.submit_wq = submit_wq,
--		.num_rqs = 1,
- 		.credit_limit = job_limit,
- 		.timeout = MAX_SCHEDULE_TIMEOUT,
- 		.name = name,
-diff --git a/drivers/gpu/drm/xe/xe_execlist.c b/drivers/gpu/drm/xe/xe_execlist.c
-index 005a5b2c36fe..94aeab394f88 100644
---- a/drivers/gpu/drm/xe/xe_execlist.c
-+++ b/drivers/gpu/drm/xe/xe_execlist.c
-@@ -337,7 +337,6 @@ static int execlist_exec_queue_init(struct xe_exec_queue *q)
- 	struct drm_gpu_scheduler *sched;
- 	const struct drm_sched_init_args args = {
- 		.ops = &drm_sched_ops,
--		.num_rqs = 1,
- 		.credit_limit = xe_lrc_ring_size() / MAX_JOB_SIZE_BYTES,
- 		.hang_limit = XE_SCHED_HANG_LIMIT,
- 		.timeout = XE_SCHED_JOB_TIMEOUT,
-diff --git a/drivers/gpu/drm/xe/xe_gpu_scheduler.c b/drivers/gpu/drm/xe/xe_gpu_scheduler.c
-index 9c8004d5dd91..67d8ce368486 100644
---- a/drivers/gpu/drm/xe/xe_gpu_scheduler.c
-+++ b/drivers/gpu/drm/xe/xe_gpu_scheduler.c
-@@ -66,7 +66,6 @@ int xe_sched_init(struct xe_gpu_scheduler *sched,
- 	const struct drm_sched_init_args args = {
- 		.ops = ops,
- 		.submit_wq = submit_wq,
--		.num_rqs = 1,
- 		.credit_limit = hw_submission,
- 		.hang_limit = hang_limit,
- 		.timeout = timeout,
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index cea2ee956422..53417baebd49 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -608,8 +608,6 @@ struct drm_gpu_scheduler {
+  * @ops: backend operations provided by the driver
+  * @submit_wq: workqueue to use for submission. If NULL, an ordered wq is
+  *	       allocated and used.
+- * @num_rqs: Number of run-queues. This may be at most DRM_SCHED_PRIORITY_COUNT,
+- *	     as there's usually one run-queue per priority, but may be less.
+  * @credit_limit: the number of credits this scheduler can hold from all jobs
+  * @hang_limit: number of times to allow a job to hang before dropping it.
+  *		This mechanism is DEPRECATED. Set it to 0.
+@@ -623,7 +621,6 @@ struct drm_sched_init_args {
+ 	const struct drm_sched_backend_ops *ops;
+ 	struct workqueue_struct *submit_wq;
+ 	struct workqueue_struct *timeout_wq;
+-	u32 num_rqs;
+ 	u32 credit_limit;
+ 	unsigned int hang_limit;
+ 	long timeout;
 -- 
 2.52.0
 
