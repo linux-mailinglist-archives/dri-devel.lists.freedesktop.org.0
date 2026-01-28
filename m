@@ -2,85 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GF8KBsMkemkO3QEAu9opvQ
+	id sNqLB1ccemlS2QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:01:23 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 15:25:27 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80A48A36BB
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:01:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C94A2B99
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 15:25:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E29B10E715;
-	Wed, 28 Jan 2026 15:01:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF69F10E6FC;
+	Wed, 28 Jan 2026 14:25:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YHDVjQpP";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="bMa52G8O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
- [209.85.210.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3084A10E2C5
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 14:09:00 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id
- d2e1a72fcca58-81dab89f286so3509466b3a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 06:09:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769609340; x=1770214140; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=0UboJ63LtcZ77ZQp3GiXhx2JgM+P9ZD2N90y/HehnAU=;
- b=YHDVjQpP4VcUu8HgR+i4YqI2b+zx0bwCqgd16toVYqrwbdmcOaPSv+5c7R+Ku9hvIV
- zxlCNof7yMl8cvWzdoLr7egZ7btxjrmhMyuM/GZXuzXj1t19DTcCC9cgVceHDR0lOIXy
- dqMUb1/4jzSLk2JrChRuLX/99YTLVhjZ7xGK5tQoWSn2YJVMxBasYnXTZARGc2wG1yqB
- 4dch9ZJGmc+9CEqs9/Fi9LIvSBd7tppNbMRkg5syJSCLhvuT+x9A+XoPnLixZ6ALbxWs
- 1Yo+xBjEKzfXM4LxKc0J+FaGEgx3xhqFuPCDdcQVIKyc7KYKmI8fGW/oSdZa/E5ZLEeV
- 0SKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769609340; x=1770214140;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0UboJ63LtcZ77ZQp3GiXhx2JgM+P9ZD2N90y/HehnAU=;
- b=OGY5+wCubf67zO2XYixWQK1S1VflJkO7RAKceJlzct0E/d034yV0Pwhpt/b/37E2BF
- fgIdTzbXm0hKSjp8drZWxwAGun5e5jH524KELghDT5cLhvPMa0ZRdI4WGIiy7Ftxp6O8
- RkiyH7MCP9Z8DTbu8xXeaVU05IElG23gXpQdAeNobOAKLTEAgYq3jeLFLW56m9gv0ioS
- MW/7Am5ixWbZTqTZBtm6cZZb1ehBdMTkQVJfdhagsRcD81OciXH2/ffF8J3LdN6x0aRO
- 6+zvTsfiVZ2N08kLKc4hzd3bx6BU+l1JXkVOoPFR6fXZuhF8xIgmj4FiR6BOUHwNQOXH
- 5aGA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW+5jXf910T2IpE0K3zyNFhhezfB7mYis5x5p2kdrMk04FUdhg99bNUU9K1ZXOGbGN6toumx+y+gB0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx/w+DMiK5oIJ1YeTKumbOrkoMlPZTrK03uG3DYcfFg5+3VaqWY
- mHgpnKx/ZV59UjNX1kwGkE+tgvGHO3uoA6zBGHoInDk7HGlPYTjysCq8
-X-Gm-Gg: AZuq6aLPtb3GFkYvMuI5zOwhtDX61hiUCJ132ztsmQxk24X4sG0Uso40ojmhxFgbrsM
- 0CH71mFM1E1j2RhSHEM6Mr2oBNtCaAIxsR5WwRvlxfjuTal/EYOrtZL9dYm3DqwsyTcJsNiPU5U
- nEc01KyPdmfbvTYdz+W0j12UXSvmQ1mA42wkU1CgriXjDjDjMeUgwVOS5iaazzfBFD34IRGrKlp
- IM7I9kmM3lmqHS+5s2IelUDAboGxNagHpHPaFLRNWeXAT3EgPoObT57xmmD45OUBXWF53mk+K85
- uZNB3+xHuFcVnk9JMyydjhuOLCmzEM4XAaufbD55tMkFYKp10aY5Co44JXlZ6ChxeQhnb4AWDeJ
- cuqPQ0w1pGHmqA4wWHDRibq+ZsInvNLLkVlc8BtDjGzIKyNDqSCMdtUbGbbW52R6I9znTD67bNg
- kVF5rcBBpWXJdPLWpw8fQd5E/T6w==
-X-Received: by 2002:a05:6a21:790:b0:38d:efcb:2e99 with SMTP id
- adf61e73a8af0-38ec62ddf2cmr4704070637.22.1769609339439; 
- Wed, 28 Jan 2026 06:08:59 -0800 (PST)
-Received: from localhost.localdomain ([58.231.102.222])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-c642b0b4c07sm2456786a12.36.2026.01.28.06.08.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jan 2026 06:08:58 -0800 (PST)
-From: ChanSoo Shin <csshin9928@gmail.com>
-To: andy@kernel.org
-Cc: gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- ChanSoo Shin <csshin9928@gmail.com>
-Subject: [PATCH v4] fbtft: Improve damage_range to mark only changed rows
- Instead of marking the entire display as dirty,
- calculate start_row and end_row based on off/len and mark only those rows.
- This improves performance for partial framebuffer updates.
-Date: Wed, 28 Jan 2026 23:08:44 +0900
-Message-ID: <20260128140844.949262-1-csshin9928@gmail.com>
-X-Mailer: git-send-email 2.52.0
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B75810E6FB;
+ Wed, 28 Jan 2026 14:25:22 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4f1Pgf4tKQz9tjX;
+ Wed, 28 Jan 2026 15:25:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1769610318;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xo2PUTC7FFhnXypRzYjVg5zeByp0vVFeAjVGsUVuktU=;
+ b=bMa52G8OAzbGFL2ILE7gP9CjU3nc0NM8cNvGHSzE8eI99EIbiuNdWqrFhOQ5xiV4ZPfHci
+ AQ7cIcAtjgnZpKFNMHvrYhjrusC352sSxs92OMVMWKWSNny0folG6JyrtJEODt623DZ2CW
+ VDVo2VKYRFItnDnZORkLB7XayD4Ub/owHd3bcAfovHb32mrQVkYikz/mXcwnGPQUkuGwBP
+ 7zKAK2YxDbt5W8MzAUsBaphBFoV+m+0xqyIZlOQjZRCVF/9P+e1oCNIAFnrtjZ7kc4A3mp
+ 4sNouoo+WrptnXW23uO3Rt9MnNanAcuuOoLGykUMJ/f8u2iCF18Zy5uCJIuP7g==
+Message-ID: <ab52825d-8f26-4b52-af5d-4051760b2aa4@mailbox.org>
+Date: Wed, 28 Jan 2026 15:25:09 +0100
 MIME-Version: 1.0
+Subject: Re: [PATCH 1/2] drm: introduce page_flip_timeout()
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>,
+ Alex Deucher <alexdeucher@gmail.com>,
+ Hamza Mahfooz <someguy@effective-light.com>
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sunil Khatri <sunil.khatri@amd.com>, Ce Sun <cesun102@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>, Kenneth Feng <kenneth.feng@amd.com>,
+ Ivan Lipski <ivan.lipski@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>, Melissa Wen <mwen@igalia.com>,
+ Fangzhi Zuo <Jerry.Zuo@amd.com>, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20260123000537.2450496-1-someguy@effective-light.com>
+ <17cd6378-e3fa-419b-90d3-7e0549817110@amd.com>
+ <f71df23e-f267-46b7-8fd8-4235e9a7a7fb@mailbox.org>
+ <2203806.9o76ZdvQCi@timur-hyperion>
+ <eef1982a-ddff-4aea-8ece-5aa1995cc2ec@amd.com>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: en-CA
+In-Reply-To: <eef1982a-ddff-4aea-8ece-5aa1995cc2ec@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 28 Jan 2026 15:01:07 +0000
+X-MBO-RS-ID: 9dd2d33cda4345fcdbb
+X-MBO-RS-META: oz8pm1kmkkhg3ezazqfhnxbg8hnzzqbk
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,68 +86,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [2.04 / 15.00];
-	LONG_SUBJ(1.84)[246];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:andy@kernel.org,m:gregkh@linuxfoundation.org,m:linux-fbdev@vger.kernel.org,m:linux-staging@lists.linux.dev,m:csshin9928@gmail.com,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[csshin9928@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[amd.com,gmail.com,effective-light.com];
 	MIME_TRACE(0.00)[0:+];
-	ASN_FAIL(0.00)[177.210.252.131.asn.rspamd.com:query timed out];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,gmail.com];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[26];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[csshin9928@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RSPAMD_EMAILBL_FAIL(0.00)[csshin9928.gmail.com:query timed out];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[michel.daenzer@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[amd.com,lists.freedesktop.org,gmail.com,ffwll.ch,igalia.com,linux.intel.com,kernel.org,suse.de,vger.kernel.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 80A48A36BB
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:mid,mailbox.org:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: C3C94A2B99
 X-Rspamd-Action: no action
 
-Signed-off-by: ChanSoo Shin <csshin9928@gmail.com>
----
- drivers/staging/fbtft/fbtft-core.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+On 1/28/26 13:48, Christian König wrote:
+> On 1/28/26 13:14, Timur Kristóf wrote:
+>> On Wednesday, January 28, 2026 12:26:20 PM Central European Standard Time 
+>> Michel Dänzer wrote:
+>>> On 1/28/26 11:39, Christian König wrote:
+>>>>
+>>>> Even if we missed a vblank interrupt that thing is reoccurring, so the
+>>>> worst thing that can happen is that we delayed reporting back success by
+>>>> one frame.
+>>>>
+>>>> So something must have turned the CRTC fully off.
+>>>
+>>> Not sure that's a generally valid conclusion (do the gitlab issues talk
+>>> about the display going black, or about it staying on but freezing?).
+>>
+>> In all the bug reports I've seen about page flip timeouts, and in all the 
+>> timeouts I've seen on my machine, the screen remains on, but frozen.
+>> It doesn't go black and doesn't turn off.
+>>
+>> Christian, why would the CRTC be turned off?
+> 
+> Exactly that's the question we need to answer.
+> 
+> But from what you describe the CRTC keeps on, just doesn't send any more vblank events.
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 8a5ccc8ae0a1..0fbdfdaaa94d 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -415,8 +415,11 @@ static void fbtft_ops_damage_range(struct fb_info *info, off_t off, size_t len)
- {
- 	struct fbtft_par *par = info->par;
- 
--	/* TODO: only mark changed area update all for now */
--	par->fbtftops.mkdirty(info, -1, 0);
-+	__u32 width = info->var.xres;
-+	__u32 start_row = off / width;
-+	__u32 end_row = (off + len - 1) / width;
-+
-+	par->fbtftops.mkdirty(info, start_row, end_row);
- }
- 
- static void fbtft_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u32 height)
+The vblank interrupt source getting accidentally disabled might be one possible cause though.
+
+
+>>> P.S. Completing the atomic commit and sending the completion event must work
+>>> even if user space turns off any CRTCs as part of the commit[0].
+> 
+> Wait a second. What happens if we never complete that? So when the completion event is never signaled?
+> 
+> Does the kernel then reject any new atomic commit as well?
+
+Fundamentally, current atomic KMS UAPI is that any attempt to do a commit before the previous one completes fails with EBUSY.
+
+(Another possible scenario is that the commit completes as far as the kernel is concerned, but the completion events for it are never sent to user space for some reason. In that case, user space would hang waiting for the completion events. That's not the scenario we're talking about here though, or there would be no timeout in the kernel)
+
+
+> If yes then I think that is not defensive at all. In other words when you are right and the page flip interrupt is used and missed then we are stuck forever.
+
+I guess it's basically up to the driver to prevent that from happening. Other drivers don't seem to have such issues.
+
+
+> In other words could it be that userspace does something illegal which the kernel fails to reject?
+
+That's possible in theory, we haven't ruled out all simpler explanations on the kernel side though.
+
+
 -- 
-2.52.0
-
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
