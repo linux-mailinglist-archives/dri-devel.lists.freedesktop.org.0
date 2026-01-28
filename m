@@ -2,66 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yCIqMR6Peml+7wEAu9opvQ
+	id qF0oMS2Qemmz7wEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 23:35:10 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 23:39:41 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54EECA99EF
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 23:35:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42BBCA9AD8
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 23:39:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2388D10E2EC;
-	Wed, 28 Jan 2026 22:35:07 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="D9KNFiBf";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB54510E778;
+	Wed, 28 Jan 2026 22:39:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBF5610E2EC
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 22:35:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769639706; x=1801175706;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=nhYygQQwOHRkNC6CveoNJnpwHeTyhDqvKVE7dBa1WgY=;
- b=D9KNFiBfaCL6sNElvo44Pv5dI/KSr90RYr/rHIucInfWlrbTOB7TkDlC
- DNjShTpBzYLf6DGNm1/hYxDApJXbMHPC/tFOOWjKlH1qXWeWG6AA3w9xq
- a5L1JTIXWc38HS8mKRBGBSrheAA19Vq3GHfKWGE6xc6HdHjQ4VbnpzOnG
- /1WQwxu4cRykmbk2m9s/fev2AMtlwT3aOapKl4W/qPdkKQ1D49pbNWNSm
- h7eD1y4UdIHQgh4ECexLXfYXggCpYeMcgmreg4ypuYZK4mMe5/gAzZJAN
- /Qpws2jJBmPSd3btEpD3Gwt+9s0SY0QfXqaUzjzEZkuGsf7I6RxrhX3Aw w==;
-X-CSE-ConnectionGUID: f8GUB5SCRbK+2js7RKiZ1Q==
-X-CSE-MsgGUID: U1ypX58WR92wDLEN4mpmGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="70905538"
-X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; d="scan'208";a="70905538"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2026 14:35:05 -0800
-X-CSE-ConnectionGUID: 6X5jH80pQeSWIE+VLaAAww==
-X-CSE-MsgGUID: Ss0/p/x2QCel/znQA4hZcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; d="scan'208";a="207992461"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost)
- ([10.245.245.57])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2026 14:35:03 -0800
-Date: Thu, 29 Jan 2026 00:35:01 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: ChanSoo Shin <csshin9928@gmail.com>
-Cc: andy@kernel.org, gregkh@linuxfoundation.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH v5] fbtft: limit dirty rows based on damage range
-Message-ID: <aXqPFXQh5zpbnjhR@smile.fi.intel.com>
-References: <20260128203938.962414-1-csshin9928@gmail.com>
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
+ [209.85.161.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08A1C10E778
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 22:39:36 +0000 (UTC)
+Received: by mail-oo1-f72.google.com with SMTP id
+ 006d021491bc7-662c6dddba6so1087495eaf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 14:39:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769639976; x=1770244776;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Iq4sx9bn40pQioEMzOi1lwCHZAwjSgbYPk4fZJYF7VM=;
+ b=Vu9Oo3A+cN7U9QFDLW5F77jDZ2K76NplmcqUmrP3riMYCK9/wzLhZAKD5Am+KJlwOy
+ ro//HAO6vykpfapGI0mBhTJ+722X4Ns834AR5Ts0dU75HEXBYW+slUpywE/ivFCvm9Q7
+ aKqUN9QSmY2+5c9FjKp93EarRuh7pMVirhnvI6t3yvCaLExvPU96noa7cQ38/Zimd/F+
+ WLUbOZyEdW6xrTrGUu7AjohBfFypuf4PMs/4UKUEhK6M4Jxyz/zEKLWg6XFZK9hhmQzJ
+ 38i7myKg5izGXvOgkLN4oqKQ77QB3znIwY0EBPRqUuHEKwOg4pnNbIYcbsDX0RycvYsH
+ 64jg==
+X-Gm-Message-State: AOJu0Yyy4PCvnmVF5OpwMiJqct0tYg5MVuKw5D/mks/ZIR0crCYgCrpM
+ r5js7zaoSIh8vULUsbFXkR9p0PKmkqR1sfCeQmPvX+8NBNiG3In5CndD8H9tJEpd+T64pJfiJGV
+ u1M7fpIL/NN7IaVfSLNNLojb7uQ/7J5qD1qdzGOQzFHStglDC6swQAQR/iLE=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260128203938.962414-1-csshin9928@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-Received: by 2002:a05:6820:82a:b0:662:ffc4:8349 with SMTP id
+ 006d021491bc7-662ffc4857amr1161846eaf.81.1769639976196; Wed, 28 Jan 2026
+ 14:39:36 -0800 (PST)
+Date: Wed, 28 Jan 2026 14:39:36 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <697a9028.a70a0220.9914.000b.GAE@google.com>
+Subject: [syzbot] Monthly dri report (Jan 2026)
+From: syzbot <syzbot+list8add4c53cbe5ac19965e@syzkaller.appspotmail.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,56 +63,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [-0.51 / 15.00];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:csshin9928@gmail.com,m:andy@kernel.org,m:gregkh@linuxfoundation.org,m:linux-fbdev@vger.kernel.org,m:linux-staging@lists.linux.dev,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[list8add4c53cbe5ac19965e];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[andriy.shevchenko@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	TO_DN_NONE(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,dri-devel-bounces@lists.freedesktop.org];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_FIVE(0.00)[6]
-X-Rspamd-Queue-Id: 54EECA99EF
+	R_DKIM_NA(0.00)[];
+	REDIRECTOR_URL(0.00)[goo.gl];
+	MIME_TRACE(0.00)[0:+]
+X-Rspamd-Queue-Id: 42BBCA9AD8
 X-Rspamd-Action: no action
 
-On Thu, Jan 29, 2026 at 05:39:38AM +0900, ChanSoo Shin wrote:
-> Instead of marking the entire display as dirty, calculate the start
-> and end rows based on the damage offset and length and only mark the
-> affected rows dirty. This reduces unnecessary full framebuffer updates
-> for partial writes.
-> 
-> Signed-off-by: ChanSoo Shin <csshin9928@gmail.com>
-> ---
+Hello dri maintainers/developers,
 
-This is v5 and no changelog and no answers to the reviewers' questions.
-Please, read all what people replied to your previous attempts.
-Without that processed correctly NAK to this one.
+This is a 31-day syzbot report for the dri subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/dri
 
--- 
-With Best Regards,
-Andy Shevchenko
+During the period, 1 new issues were detected and 0 were fixed.
+In total, 11 issues are still open and 34 have already been fixed.
 
+Some of the still happening issues:
 
+Ref Crashes Repro Title
+<1> 3101    Yes   WARNING in drm_syncobj_array_find
+                  https://syzkaller.appspot.com/bug?extid=95416f957d84e858b377
+<2> 2145    Yes   WARNING in drm_wait_one_vblank (3)
+                  https://syzkaller.appspot.com/bug?extid=f59157955aba9d0cb43b
+<3> 162     Yes   WARNING in drm_atomic_helper_wait_for_vblanks (5)
+                  https://syzkaller.appspot.com/bug?extid=fcede535e7eb57cf5b43
+<4> 45      Yes   KASAN: slab-use-after-free Read in drm_atomic_helper_wait_for_vblanks (2)
+                  https://syzkaller.appspot.com/bug?extid=0f999d26a4fd79c3a23b
+<5> 15      Yes   WARNING in dma_buf_vmap
+                  https://syzkaller.appspot.com/bug?extid=4317d7108e14e5d56308
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
