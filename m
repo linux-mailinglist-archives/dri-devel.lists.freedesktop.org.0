@@ -2,73 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oCMUCsEkemkO3QEAu9opvQ
+	id gJxUICbxeWnT1AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:01:21 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:21:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C4E3A36B3
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:01:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C03A038B
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:21:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F419810E714;
-	Wed, 28 Jan 2026 15:01:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8610A10E68B;
+	Wed, 28 Jan 2026 11:21:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=thundersoft.com header.i=@thundersoft.com header.b="BeA1vlF7";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="OVGNQAqE";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Y88GrQCK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49217.qiye.163.com (mail-m49217.qiye.163.com
- [45.254.49.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C7A010E20E
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 11:16:26 +0000 (UTC)
-Received: from [127.0.1.1] (unknown [36.129.139.90])
- by smtp.qiye.163.com (Hmail) with ESMTP id 3248e533b;
- Wed, 28 Jan 2026 19:16:20 +0800 (GMT+08:00)
-From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-Date: Wed, 28 Jan 2026 19:15:47 +0800
-Subject: [PATCH v2 3/3] arm64: dts: qcom: qcs6490-rubikpi3: Use lt9611 DSI
- Port B
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F33F10E671
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 11:21:02 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60S92Tqb3907699
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 11:21:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 1g2tc08NYFOW9PyN0Q/fD1WgNK60ygQO4ur4eDmhFgk=; b=OVGNQAqEyJXdmDbO
+ aX2gznPXCvBCwLJ4xK/OpqjbaCvvSwc1KeNGm/O01eQWMAlYDlKB9OJALSBfeL4r
+ 9xtn/GECQXB+R9N2zUluP7CwdvXl62t0TYrydk8Hucqk6htd6HktYD+XRIITjTmf
+ xccgtRCt1vWAPxHQkm/RVAaCaOGUwwEkvgnSIZbMorPoTOgOqO/j2RaWBHGw62jG
+ ri/Oo1v52yjuh8kj/HMK+NQZHy4gT5GrifNZGVKnknxs0OLYqWrawc5RDHl+cGPM
+ nl6sOXory+jz3KDsHJ3c03uUOeRdbMJJRHuBarobuF6wiaYcpcbjbtNPwVEfOL+Y
+ BlD9Zw==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4by0g0bj3a-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 11:21:01 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-88a26989018so15294856d6.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 03:21:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1769599261; x=1770204061;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1g2tc08NYFOW9PyN0Q/fD1WgNK60ygQO4ur4eDmhFgk=;
+ b=Y88GrQCKPr09GPip56G37i/UoDoDFctZGfx/b9h8zxs+HSXLKPGy6FQK/H/AmMZqG1
+ 9QmwCmXHFbmG9tzBgl35IWefNS0ko+KrGa8CsSI30VHLPWNRubUWhM1UzLsw66nlF1A8
+ m9gk55xbDSG2UAM28/cV2FWUJpI5sHT+jbCxxaTAEyfLMnMqefI4NKLUVIPIRWoW6FxI
+ CVUA923OUYdf0nM+f92nOl+sEq1IHBQpHJLNsTXkSoETAaa5Z63B9OIRXyr+CN+jM6oc
+ wbM9R53nRZgGUZJ27WIATMUK86aiZVRl+25erszDJamW/YJgZf44CZwuSRSb60qw14Og
+ 5Wtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769599261; x=1770204061;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1g2tc08NYFOW9PyN0Q/fD1WgNK60ygQO4ur4eDmhFgk=;
+ b=K+cgbOUVmyD7VYFLhLmN79PFR8vFkJJOoZHzhPfXyTI1KZ6KuYPJXKb9vuPaYmd2to
+ NSo+9AShmzFAnvG+d0M9oyh1uzIEcjPaDcvuo+NGIuBmNXcl2wmzlnwXGoVM5Z7tbmjT
+ ObdokB6IFvPl97Nx/vC2HVEYBZH0FYpGjtBgNapHFyYmXSjUa0w0fFL6ebY1u+T3nfyr
+ fy74mcMZSqUBBPpOa6l+mChY/Tjcol0ldtpa2dNtWp2XCN0WoLf7dF4XR2jVxj8Fmw+c
+ B/1cyBwbJT4BgIZxKONfznH5MW/m9J4K9CPktKMDESYe7t25zffDFvejksBsBLW/jBE3
+ oCNA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXsTJvBaJ3eyEs3WnXYtJ0VOU+tnDlJyCCruNXFkeZxnyFkw24hmxEvzOkHv9LdP91ajIWIo888YPo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy1ag8ohR4NDyb9piGn1lec6nSGTcr0MbczRSpCxIWkSMboLDfe
+ Zd8rzoKhOJRddCUmIG+914VhtfBQivpKZnEOqiF/bQe97RP7kgQeR5bMKpAOeRwt+7y5fyqnJYD
+ p3gIZPrgyBXdtcbC2sAgmvETgenG7VM2FlfZxxnE6gsvabjrA2wMN+85J6lReySs/xIBUktc=
+X-Gm-Gg: AZuq6aKQoqm/XtxdMgMc8s68Ab8lHrAtLPdyQwIEeH5jZDFy7ThdLyrInRkxAx2O5cL
+ to6N2cdJ8+8RBWtp58MtND8s1V9nBc2tx5syookNOj25aHCTIWiOle33zd+PJW3ej9YdUxXU4pV
+ H88k8abEEOeXf3O4dyqH3LkwCYVGMDCvJgC7IruahG2WjdiyYuFcDcG76lwzRcYKITRRNrA9V5D
+ 18/1Vpg3mqbyi71FhHeSTAsjoezTSIz0Cddaz5MwNzXAi5SfX3Yz26sF78ucFuQwH/J5UvDmTv/
+ UDDu/VVcpXkm6mVbwfg478pepxMSbXDi+wUnSRCXlCWMKE4bLAn0+mvajGrNtOsPQLGXPoV9nZy
+ t30LN681G9Eh9+h9uvqTgA/I5EuRTB/4hCVayvcSLt0Yh1HSXXE1IuTn2w3hbyRhk4kQ=
+X-Received: by 2002:a05:6214:5c92:b0:795:c55c:87de with SMTP id
+ 6a1803df08f44-894d786e265mr9868346d6.5.1769599260723; 
+ Wed, 28 Jan 2026 03:21:00 -0800 (PST)
+X-Received: by 2002:a05:6214:5c92:b0:795:c55c:87de with SMTP id
+ 6a1803df08f44-894d786e265mr9867946d6.5.1769599260101; 
+ Wed, 28 Jan 2026 03:21:00 -0800 (PST)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-658b44527eesm1422612a12.9.2026.01.28.03.20.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Jan 2026 03:20:59 -0800 (PST)
+Message-ID: <56b686d8-d526-4e11-9b5b-b98e4f1f72d0@oss.qualcomm.com>
+Date: Wed, 28 Jan 2026 12:20:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/7] arm64: dts: qcom: sm8650: Add sound DAI prefix for
+ DP
+To: Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Bartosz Golaszewski <brgl@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-usb@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org
+References: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-0-c55ec1b5d8bf@linaro.org>
+ <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-6-c55ec1b5d8bf@linaro.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260127-topic-sm8650-ayaneo-pocket-s2-base-v2-6-c55ec1b5d8bf@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260128-rubikpi-next-20260116-v2-3-ba51ce8d2bd2@thundersoft.com>
-References: <20260128-rubikpi-next-20260116-v2-0-ba51ce8d2bd2@thundersoft.com>
-In-Reply-To: <20260128-rubikpi-next-20260116-v2-0-ba51ce8d2bd2@thundersoft.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Hongyang Zhao <hongyang.zhao@thundersoft.com>, 
- Roger Shimizu <rosh@debian.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1769598974; l=1148;
- i=hongyang.zhao@thundersoft.com; s=20260127; h=from:subject:message-id;
- bh=bWCcXGTVHme5M9Xo9Mhld8IO59/ow1tBHDxOuIGfUCI=;
- b=7F6pvzeVxMelhJa932UiwwwXy8Vf7emQFiGx8M1BVJVzBhXpIAWiHgvR6sJRbxVe0Skzfb445
- 8TfTiC6uwfQB2q3X9aKz7Fj/r9AApa4ix4FiRyL4w4j1OAvaLzn+ojH
-X-Developer-Key: i=hongyang.zhao@thundersoft.com; a=ed25519;
- pk=D9yL5W9Zj0lPBDAq9gzY++1849VlXuTWAkROzZ88J/4=
-X-HM-Tid: 0a9c0451922d09d5kunm18b1b2c5170bc1
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCHxlIVkIeTx4eTBhCTkofTFYVFAkWGhdVEwETFh
- oSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
- VKQktLWQY+
-DKIM-Signature: a=rsa-sha256;
- b=BeA1vlF75cGR5B4WaG64burB4L/yexJIk+mK3ZQG3ydZYGpHVo4cVlZjsePcCA2POwi71BZv4r9SfG02szyD5IN5+xuG10UvasoCBJLOll2msegIKfSh2RYXYhk65N0ue/Efu2N/efiNfBPx8YEH1/+Y7GHutEgAZb9u+6diLAM=;
- c=relaxed/relaxed; s=default; d=thundersoft.com; v=1; 
- bh=UTXryoQsVsCPG4vVLUPCR9UG+SNJR389wN/RdON4cr4=;
- h=date:mime-version:subject:message-id:from;
-X-Mailman-Approved-At: Wed, 28 Jan 2026 15:01:07 +0000
+X-Proofpoint-ORIG-GUID: vMyQXjfwuEDwX6Luzpl41-hp_CFieNi8
+X-Proofpoint-GUID: vMyQXjfwuEDwX6Luzpl41-hp_CFieNi8
+X-Authority-Analysis: v=2.4 cv=UPXQ3Sfy c=1 sm=1 tr=0 ts=6979f11d cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
+ a=UpTyAFhicMDBmGaZp7IA:9 a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10
+ a=iYH6xdkBrDN1Jqds4HTS:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI4MDA5MiBTYWx0ZWRfX3k2CI95hhUxU
+ 4D9aU3EUHoQCbmxympVQVst0BJBbmbyTLowMhfAtFlchjYmUvRscEAeqYKUh12sst74L79uYfAX
+ 6koGIIHYsfPkwbsg7miADZ0Lx3uU2vA+40cn5K9d7Zz6rOmfFkfQ5FLj6bUS02C876OHNxk7Ddg
+ BwLd+eOTI/tr/ezeC4PqqMPyyh/fC/2KFG4Aq8VMm0GfX/5rQZYfoOpYH0PiJfJ5w+gfa1hPGjl
+ ja7In+m4AY9xa7ayAndwgqjV/GjzcXDZIMHT1uYhQc1wNvQyQX42BM1LhIokE6SbOOVcga3QUyF
+ r5WBZhFHw7erzKWwFrLBT5EHf8L9AXTbonJYWAKwYrAftG33BekgPnJFdKiYcQG0NdOcTeVTG3V
+ cZ/MxoTcoNPIcZ0BKXTgO8QDVJDrUB+Gf6ng/rOUeoV9wsidimuVAADcz0hzOlfZwquQYwsyk4E
+ kicQKHXgT9WD9mvYitg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-01-28_02,2026-01-27_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 clxscore=1015 priorityscore=1501
+ suspectscore=0 spamscore=0 adultscore=0 impostorscore=0 bulkscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2601280092
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,84 +163,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [8.69 / 15.00];
-	URIBL_BLACK(7.50)[thundersoft.com:email,thundersoft.com:dkim,thundersoft.com:mid];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
-	BAD_REP_POLICIES(0.10)[];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:vkoul@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:hongyang.zhao@thundersoft.com,m:rosh@debian.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de];
-	RSPAMD_URIBL_FAIL(0.00)[0.0.0.0:query timed out,thundersoft.com:query timed out,0.0.0.1:query timed out];
-	GREYLIST(0.00)[pass,meta];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[hongyang.zhao@thundersoft.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	RCVD_COUNT_THREE(0.00)[3];
-	ASN_FAIL(0.00)[177.210.252.131.asn.rspamd.com:query timed out];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	R_DKIM_ALLOW(0.00)[thundersoft.com:s=default];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.999];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hongyang.zhao@thundersoft.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[28];
 	RCVD_TLS_LAST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DMARC_POLICY_ALLOW(0.00)[thundersoft.com,none];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[thundersoft.com:+];
-	R_SPF_ALLOW(0.00)[+ip4:131.252.210.177:c];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:gregkh@linuxfoundation.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:brgl@kernel.org,m:mani@kernel.org,m:bhelgaas@google.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-usb@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-pci@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[linaro.org,kernel.org,oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linuxfoundation.org,glider.be,google.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,thundersoft.com:email,thundersoft.com:dkim,thundersoft.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,0.0.0.1:email]
-X-Rspamd-Queue-Id: 6C4E3A36B3
-X-Rspamd-Action: add header
-X-Spam: Yes
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim,linaro.org:email]
+X-Rspamd-Queue-Id: 31C03A038B
+X-Rspamd-Action: no action
 
-The LT9611 HDMI bridge on RubikPi3 has DSI physically connected to
-Port B. Update the devicetree to use port@1 which corresponds to
-Port B input on the LT9611.
+On 1/27/26 10:57 AM, Neil Armstrong wrote:
+> Sound DAI devices exposing same set of mixers, e.g. each DisplayPort
+> controller, need to add dedicated prefix for these mixers to avoid
+> conflicts and to allow ALSA to properly configure given instance.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
 
-Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-Reviewed-by: Roger Shimizu <rosh@debian.org>
----
- arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-diff --git a/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts b/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts
-index 0b64a0b91202..f47efca42d48 100644
---- a/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts
-+++ b/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts
-@@ -755,10 +755,10 @@ ports {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 
--			port@0 {
--				reg = <0>;
-+			port@1 {
-+				reg = <1>;
- 
--				lt9611_a: endpoint {
-+				lt9611_b: endpoint {
- 					remote-endpoint = <&mdss_dsi0_out>;
- 				};
- 			};
-@@ -801,7 +801,7 @@ &mdss_dsi {
- };
- 
- &mdss_dsi0_out {
--	remote-endpoint = <&lt9611_a>;
-+	remote-endpoint = <&lt9611_b>;
- 	data-lanes = <0 1 2 3>;
- };
- 
-
--- 
-2.43.0
-
+Konrad
