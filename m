@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QKzeIJvueWm41AEAu9opvQ
+	id KPRcGMEkemkO3QEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:10:19 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:01:21 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3575DA016C
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 12:10:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D26AFA36B4
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 16:01:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 706E310E670;
-	Wed, 28 Jan 2026 11:10:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C21BA10E713;
+	Wed, 28 Jan 2026 15:01:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="e7TIY0mV";
+	dkim=pass (1024-bit key; unprotected) header.d=thundersoft.com header.i=@thundersoft.com header.b="MFYCfZUi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31FFD10E670
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 11:10:14 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20260128111012euoutp016d2a09809bf77a1875a912ce6ce12348~O4I-t_EPk3202032020euoutp01S
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 11:10:12 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20260128111012euoutp016d2a09809bf77a1875a912ce6ce12348~O4I-t_EPk3202032020euoutp01S
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1769598612;
- bh=45jaImfVH7kr/nS0FqB71oJKgUEPUgwMAJFDZ02gS2I=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=e7TIY0mVVbHRZJQwi+WMMav97sC49+KwDu2GGaWW+C4sNN0zeUrKZUzpkRdRKQvkw
- pHI9z2tl4ich1br8bHnxz0ndvvkghRdfemCwwnPSD6jHa2qm4m+aRTMOnow5zvN4O0
- mdJv583zDVUIh3mIu+McfZ/J0GXG6r57pO1WsQn0=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20260128111011eucas1p2b98d9b06481ae6d47968b83ec0ed491c~O4I-SdpCE2976529765eucas1p2U;
- Wed, 28 Jan 2026 11:10:11 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20260128111011eusmtip1807cf713c50c74db811a812a02bdb2e4~O4I_kWAQE1268412684eusmtip1Y;
- Wed, 28 Jan 2026 11:10:11 +0000 (GMT)
-Message-ID: <b05f6b30-04b7-4b88-b0b0-40dfdea4944b@samsung.com>
-Date: Wed, 28 Jan 2026 12:10:10 +0100
+Received: from mail-m3295.qiye.163.com (mail-m3295.qiye.163.com
+ [220.197.32.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9612810E20E
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 11:16:20 +0000 (UTC)
+Received: from [127.0.1.1] (unknown [36.129.139.90])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 3248e5331;
+ Wed, 28 Jan 2026 19:16:14 +0800 (GMT+08:00)
+From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+Subject: [PATCH v2 0/3] Add DSI Port B input support for LT9611 HDMI bridge
+Date: Wed, 28 Jan 2026 19:15:44 +0800
+Message-Id: <20260128-rubikpi-next-20260116-v2-0-ba51ce8d2bd2@thundersoft.com>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH 0/3] Fixes and enhancements for Exynos (7870) DSIM
- bridge driver
-To: Kaustabh Chakraborty <kauschluss@disroot.org>, Inki Dae
- <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, Andrzej
- Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20260124-exynos-dsim-fixes-v1-0-122d047a23d1@disroot.org>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260128111011eucas1p2b98d9b06481ae6d47968b83ec0ed491c
-X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20260124172131eucas1p2bd0fa9cde2981c87238deb67cf5f0554
-X-EPHeader: CA
-X-CMS-RootMailID: 20260124172131eucas1p2bd0fa9cde2981c87238deb67cf5f0554
-References: <CGME20260124172131eucas1p2bd0fa9cde2981c87238deb67cf5f0554@eucas1p2.samsung.com>
- <20260124-exynos-dsim-fixes-v1-0-122d047a23d1@disroot.org>
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAODveWkC/4WNQQ6CMBBFr0Jm7Zi2sSCuuIdhAWWQibElbWkwh
+ Ltb8QAu30v++xsE8kwBbsUGnhIHdjaDOhVgps4+CHnIDEqoUkhVoV96fs6MltaIPytLrGsjh54
+ 6LegCeTt7Gnk9uvc288QhOv8+bpL82n/FJFGgUNfSVFpqYXQTp8UO5IMb49m4F7T7vn8A+lgnY
+ sAAAAA=
+X-Change-ID: 20260127-rubikpi-next-20260116-99c1dbea50e4
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Hongyang Zhao <hongyang.zhao@thundersoft.com>, 
+ Roger Shimizu <rosh@debian.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1769598974; l=1696;
+ i=hongyang.zhao@thundersoft.com; s=20260127; h=from:subject:message-id;
+ bh=G1tLy3X0pwUTp+0XP3NmSu8ewIiqb6AxewUvTdt+hJM=;
+ b=vf2MSsYcsOxNjRStcrpHi98KqMLbB2Faz4kdRCa1x6yey/Btdox/izOle3IoH6Q54zMqQg0y1
+ jcCqor0GfeYDyqKT+iaUQ/P3zs0jOn80BFoKMlaQHX2z1FqmigGKqWq
+X-Developer-Key: i=hongyang.zhao@thundersoft.com; a=ed25519;
+ pk=D9yL5W9Zj0lPBDAq9gzY++1849VlXuTWAkROzZ88J/4=
+X-HM-Tid: 0a9c0451790409d5kunm18b1b2c5170b8b
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDGR0eVhpKSR9CSkwaQkIfSFYVFAkWGhdVEwETFh
+ oSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
+ VKQktLWQY+
+DKIM-Signature: a=rsa-sha256;
+ b=MFYCfZUiC6KzcaSy3J2EJCsGDhNkSjSpJfCiwHWr24eZbHi6McB6cobj4YU+idEXc6EXV2WgpGrFIyzItfDjE967kzzyD7JBnx3NEgHgKj0o+Ta5/brrWUz6oARL7favi5sWQZ7W4YdS/dwVt+x1XCVjkFK6616a6P1iA0LVsCk=;
+ c=relaxed/relaxed; s=default; d=thundersoft.com; v=1; 
+ bh=pwZ05mi6UL/CMOflFU3AdlhoHrzqDcS6IyaCree00ZE=;
+ h=date:mime-version:subject:message-id:from;
+X-Mailman-Approved-At: Wed, 28 Jan 2026 15:01:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,80 +86,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.20 / 15.00];
+X-Spamd-Result: default: False [8.69 / 15.00];
+	URIBL_BLACK(7.50)[thundersoft.com:email,thundersoft.com:dkim,thundersoft.com:mid];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
-	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	BAD_REP_POLICIES(0.10)[];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:kauschluss@disroot.org,m:inki.dae@samsung.com,m:jagan@amarulasolutions.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[disroot.org,samsung.com,amarulasolutions.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch];
+	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:vkoul@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:hongyang.zhao@thundersoft.com,m:rosh@debian.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de];
+	RSPAMD_URIBL_FAIL(0.00)[thundersoft.com:query timed out];
+	GREYLIST(0.00)[pass,meta];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[m.szyprowski@samsung.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[hongyang.zhao@thundersoft.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	RCVD_COUNT_THREE(0.00)[3];
+	ASN_FAIL(0.00)[177.210.252.131.asn.rspamd.com:query timed out];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	R_DKIM_ALLOW(0.00)[thundersoft.com:s=default];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[m.szyprowski@samsung.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[samsung.com:+];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hongyang.zhao@thundersoft.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DMARC_POLICY_ALLOW(0.00)[thundersoft.com,none];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:email,samsung.com:dkim,samsung.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 3575DA016C
-X-Rspamd-Action: no action
+	DKIM_TRACE(0.00)[thundersoft.com:+];
+	R_SPF_ALLOW(0.00)[+ip4:131.252.210.177:c];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[thundersoft.com:email,thundersoft.com:dkim,thundersoft.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,0.0.0.1:email,0.0.0.0:email]
+X-Rspamd-Queue-Id: D26AFA36B4
+X-Rspamd-Action: add header
+X-Spam: Yes
 
-On 24.01.2026 18:20, Kaustabh Chakraborty wrote:
-> Since v6.17, there were a few regressive changes for the Exynos 7870
-> DSIM driver. These changes resulted in weird artifacts on the display,
-> such as random RGB channel swaps and random aberration (the occurrences
-> of both were mutually exclusive).
->
-> The first two commits of this patch series address the aforementioned
-> changes.
->
-> The third patch replaces an implicit loop for waiting for PLL
-> stabilization with an interrupt-based solution, which should be more
-> reliable. This solution was suggested by Inki Dae in a discussion of an
-> earlier patch series sent by me. For further details, refer to its
-> commit description.
->
-> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+The LT9611 HDMI bridge has two DSI input ports (Port A and Port B).
+The current driver only supports Port A or dual-port (A+B) mode, but
+some boards like RubikPi3 connect DSI to Port B only.
 
-Works fine on legacy Exynos based boards in my test lab.
+This series adds support for using DSI Port B as the input source by
+utilizing the existing ports mechanism in devicetree:
 
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+- port@0 corresponds to LT9611 DSI Port A input
+- port@1 corresponds to LT9611 DSI Port B input
 
-> ---
-> Kaustabh Chakraborty (3):
->        drm/bridge: samsung-dsim: move bridge init sequence to atomic_enable
->        drm/bridge: samsung-dsim: enable MFLUSH_VS for Exynos 7870 DSIM
->        drm/bridge: samsung-dsim: use DSIM interrupt to wait for PLL stability
->
->   drivers/gpu/drm/bridge/samsung-dsim.c | 61 +++++++++++++++++++++++------------
->   include/drm/bridge/samsung-dsim.h     |  1 +
->   2 files changed, 42 insertions(+), 20 deletions(-)
-> ---
-> base-commit: ca3a02fda4da8e2c1cb6baee5d72352e9e2cfaea
-> change-id: 20260124-exynos-dsim-fixes-5383d6a6f073
->
-> Best regards,
+The driver detects which ports are populated and configures the hardware
+accordingly. When only port@1 is present, it configures port swap
+(register 0x8303 bit 6) and byte_clk source (register 0x8250 bit 3:2)
+for Port B operation.
 
-Best regards
+Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+---
+Changes in v2:
+- Use ports mechanism instead of boolean property
+- port@0 corresponds to LT9611 Port A, port@1 to Port B
+- Driver detects which port is populated and configures accordingly
+- Link to v1: https://lore.kernel.org/r/20260127-rubikpi-next-20260116-v1-0-0286c75150c5@thundersoft.com
+
+---
+Hongyang Zhao (3):
+      dt-bindings: display: lt9611: Support single Port B input
+      drm/bridge: lt9611: Add support for single Port B input
+      arm64: dts: qcom: qcs6490-rubikpi3: Use lt9611 DSI Port B
+
+ .../bindings/display/bridge/lontium,lt9611.yaml    | 15 +++++--
+ .../boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts |  8 ++--
+ drivers/gpu/drm/bridge/lontium-lt9611.c            | 46 +++++++++++++++-------
+ 3 files changed, 47 insertions(+), 22 deletions(-)
+---
+base-commit: 46fe65a2c28ecf5df1a7475aba1f08ccf4c0ac1b
+change-id: 20260127-rubikpi-next-20260116-99c1dbea50e4
+
+Best regards,
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+Hongyang Zhao <hongyang.zhao@thundersoft.com>
 
