@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SOcaKcBGemkp5AEAu9opvQ
+	id QPmkK8VGemk+5AEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:26:24 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:26:29 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 625A1A6D8E
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:26:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E6EA6DBB
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 18:26:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91AB010E757;
-	Wed, 28 Jan 2026 17:26:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D084910E744;
+	Wed, 28 Jan 2026 17:26:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="n3xAs2Z4";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Hm+EoL4P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3BF610E74B
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 17:26:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B52ED10E742
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 17:26:11 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1056D2816;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 01D272E20;
  Wed, 28 Jan 2026 18:25:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1769621132;
- bh=BZHJIHbfU3WMf56HjmEiiHzf5jpWhVk/2HMKJJVRN/Y=;
+ s=mail; t=1769621133;
+ bh=+oUF2qRpuz+LzSyFszlYyMlSIQmD/HVVsSraJ65kr0Y=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=n3xAs2Z45+uxhJSOXbQ9I/DOcOPs1mYEIgMDFRpWK+gwaiXFnTpwaoQc2osv4xW2Z
- jKSea0oJy6oy44jEfeZ2+iWVgvlM9wgOue8K8yxGea+yNCq+MIUwTAECVTbTjB3wEL
- BLKYcwjSBcQPQWeBQogIQi1tfrq5PajYbUfsBxmU=
+ b=Hm+EoL4Pu24+tyTfy8xruslPx1Ri+WPQ/JOTOC56dyeG+qxz0XVCD969IfZpxOKcN
+ IiwZCYrzOagZU+P7FLtm/4iR7fIWtQFsWfhuDAzGci6YjU2LAbeRJ5m8xrw775ejG9
+ SIys+F2t2oDjEvVUqtp1dNw9CkvD6UyZ6RlfVszM=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 28 Jan 2026 19:25:35 +0200
-Subject: [PATCH v8 10/11] drm: xlnx: zynqmp: Add support for X403
+Date: Wed, 28 Jan 2026 19:25:36 +0200
+Subject: [PATCH v8 11/11] drm: xlnx: zynqmp: Add support for XVUY2101010
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260128-xilinx-formats-v8-10-9ea8adb70269@ideasonboard.com>
+Message-Id: <20260128-xilinx-formats-v8-11-9ea8adb70269@ideasonboard.com>
 References: <20260128-xilinx-formats-v8-0-9ea8adb70269@ideasonboard.com>
 In-Reply-To: <20260128-xilinx-formats-v8-0-9ea8adb70269@ideasonboard.com>
 To: Vishal Sagar <vishal.sagar@amd.com>, 
@@ -55,21 +55,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Pekka Paalanen <ppaalanen@gmail.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=883;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=898;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=BZHJIHbfU3WMf56HjmEiiHzf5jpWhVk/2HMKJJVRN/Y=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBpekammVcnVYz6gf4gZVCGbHxAjIhBFFhgNq7Ge
- br/STj6SDmJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaXpGpgAKCRD6PaqMvJYe
- 9YvrD/wOvZAPuoQW9Vk7ZIkDTJJx4Uf5YkZu+9+xHFYQnRSS5AlQDLHQQTGjdp1vrPhZOfUstdQ
- +fRjBM1CYIc24ynA8eJao8HjtPGCaLcp8slVXoLC88M/Wfpw/en/5pnLuFLEeU/K2DQux3XxJoV
- R+3BeS9vnSU3EQxtbjewoRFMeZsxXAcSk6yK0JVx/n4LM247FFsr+5oWqelzlcKh0HyvoPEyMi/
- +/PdXs3oAUCMrWSz8sa0PLOdO7JMw/i1pjl/RT0TnLDJqADZ7SZlihE50pg3XhGWm4qkVHLj94O
- PFbOPKKY13wRC6kOn2CWQYbzCxyCOcMySAxHedOz7tBtZpLLmf85GB840qS4oR0i/BN6vrzZOWw
- tUBGF6LMqDGDWAw1X+nGpC98qT6OWMU/OSRYONf2da4bWW8FIrVyILvrwLQrJoKsNU7FzobNyme
- CwmyftUfiGwJEhEXQqXBhhWx2tdztl2u65HVlQFMeQP43qFFiRIvqcgDprSODcuGE85ot3aNun1
- NsOUJdAnsjGx0g+6nzPyPCd6kB0+y/D4hgoqktTeuvK8AMv9Au9Cj5DH9EpcDuXKT6sqBFlvBIm
- s325a1bSdEhrw1R7AHVSaEWacRPboX4qs1m3eYxJdDkS1sHBhngdBJJVgOZCduF10WWeLu2zv1r
- VCbRZHEYF2Mb5kg==
+ bh=+oUF2qRpuz+LzSyFszlYyMlSIQmD/HVVsSraJ65kr0Y=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBpekam+SKdKnF77nq/1RJT5BJN1fQbu9mCPItnz
+ y9VstkS/O+JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaXpGpgAKCRD6PaqMvJYe
+ 9ZThEACXjLutPrz62N/7Y0jOBsEefTawu+HuIBAaLb4zIHL0x1c5NjqnwtgVXw8f3I2WW9JxmIk
+ tiJf/ujq9uxPgFTeDnXjfQ/GPykYhvOU6ctujeoOoCW+BwV47CISO4Ca2T+OurlkgTAKo0zeo4D
+ hSQE0apJEAKq4a+IMi/rMfM5GDcsuGXwQSyOzeFZVaCI4bSGPF4YGfMwjczcyH2zR/8QPJm9a4E
+ mUm1FNLCK6y+dlxAKZFCUvIA3xKRFhN8Tfb33zSvn+U42aZVzYepUn/9wKRHrxWtYkbfjCd8bcy
+ 4Z/uQPMCKKYGYMP8DrowR7I+5s8RZiU/ez6YFF45qhwZoRZnBChuBYaLNFxGiS5iTGqO6kS4lDO
+ 63im0tIxf9S/F59By95FI8Sz9KkaSv9YKFo6Shnk2DhizU6k0nfnbGL114ezv4gOvqSuqviPThZ
+ VH7nFBx9SvkgGd53W+wGSsBVyfeAXU20sXhy4m0VzXFgkj74V7AhRmrqYuhP+IZEbx40+RKeMF6
+ WlIqnCE8DWtYW2hdaxqNp/MYOIdSgDMq1C4lxVFyF8fyVTKoJy/bwQS2yemmyNIFRCZijE8lfw7
+ 3W8Nhdosj3OvkzkCdc5wKc9LuvStx1Pw1U5ckWlZ8BnzhE6ezYmdGTUnn4m9Hq4mPiC5xQDXo13
+ HgVYJ0Jeq1hSLsg==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -120,10 +120,10 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 625A1A6D8E
+X-Rspamd-Queue-Id: 85E6EA6DBB
 X-Rspamd-Action: no action
 
-Add support for X403 format.
+Add support for XVUY2101010 format.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Vishal Sagar <vishal.sagar@amd.com>
@@ -133,16 +133,16 @@ Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
  1 file changed, 5 insertions(+)
 
 diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-index 57bb6d1dd10a..98105d1c4456 100644
+index 98105d1c4456..a00a57c6dcca 100644
 --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
 +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-@@ -317,6 +317,11 @@ static const struct zynqmp_disp_format avbuf_vid_fmts[] = {
- 		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YONLY_10,
+@@ -322,6 +322,11 @@ static const struct zynqmp_disp_format avbuf_vid_fmts[] = {
+ 		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YV24_10,
  		.swap		= false,
  		.sf		= scaling_factors_101010,
 +	}, {
-+		.drm_fmt	= DRM_FORMAT_X403,
-+		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YV24_10,
++		.drm_fmt	= DRM_FORMAT_XVUY2101010,
++		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_VID_YUV444_10,
 +		.swap		= false,
 +		.sf		= scaling_factors_101010,
  	},
