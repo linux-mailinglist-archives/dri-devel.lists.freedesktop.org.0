@@ -2,103 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uKaCKIfheWm50gEAu9opvQ
+	id IB/9J3HneWl60wEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 11:14:31 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 11:39:45 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35669F4FB
-	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 11:14:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9D819F98B
+	for <lists+dri-devel@lfdr.de>; Wed, 28 Jan 2026 11:39:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 396C610E635;
-	Wed, 28 Jan 2026 10:14:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10EFC10E2A3;
+	Wed, 28 Jan 2026 10:39:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rt++YOd+";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="sSRjEGbt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A741810E635
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 10:14:27 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id AA01B600AA;
- Wed, 28 Jan 2026 10:14:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A494C16AAE;
- Wed, 28 Jan 2026 10:14:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769595266;
- bh=4OWfhnYD2xIoJP/oYLpREJGUH7ShEHWsA3ATbPvp9sg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=rt++YOd+C4NUVRt2vuKCPAMReK7DRcFwepu1MTh9dUvzIPKqtZzazctknpKApIQXZ
- xJOS1/gJtY5uj9gxcYenbGN4oZwD4qMNdb9VO6iW6i6TT14POXPS6dJ9JBgObGpVhy
- XFpbvH1sRNLCtV/M/i0WHsh3HhGqt/SHgqOdk4C950DAOA3ii0LW5e9U/IUWXLN3OF
- Bn/tc2x7X76d/ZT6dMRDGRMW5UQ1bRkBe3MBuYxqko/zxBRJfSirw4G9A4eFF9b4ga
- Tiw/sHdNq5SPgf1cbYW+sBvYMlfiKVHwb0lofWvB+UybKpQWJVKZ1NgifAhTu5RVaJ
- CexKoFbRERkxw==
-Message-ID: <14c04d1d-f42f-4ac9-a887-ed37cedb4913@kernel.org>
-Date: Wed, 28 Jan 2026 11:14:21 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A128410E2A3
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 10:39:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=6QAm6MI5fA78tiaivTj0SYN9DSoGLWLa4UU9wdUW4qU=; b=sSRjEGbtOkoBGsVLkZiC7oaRCi
+ bDf+ZwdPCR8aAbuJm6b4Bzx0wNQ+JZtmA5KLnyTiks6mIDGjd2bvT+3yY/Ls0cD4HDTmpaO454qdH
+ +In8ccdHGl/HGO18tbDPV5owsRMySuHvARUWtKX+X4nBF3wR2duCCWC7E00TY4d1uuIgwFQk/n2SW
+ KxyZmofRfEMGKud4ddMMPwRF9paJrvrBofmqa2UcDu/+k5hRugJ0It0nrZ6tPXrTHvZHT4tKrrMgV
+ /j2WB6iM0C3CZTSHEY7HrqYapZLMGUxMS1GXCJO52Cp3FGt6TgnwmhXwJkY1qa9GUAzpnQx2+slMa
+ mNz8i6+Q==;
+Received: from [187.36.210.68] (helo=[192.168.1.103])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vl2xV-00Aq1Y-06; Wed, 28 Jan 2026 11:39:37 +0100
+Message-ID: <224913c8-52a6-4b3f-a375-e1b4fcc0c142@igalia.com>
+Date: Wed, 28 Jan 2026 07:39:30 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: backlight: gpio-backlight: allow
- multiple GPIOs
-To: tessolveupstream@gmail.com, lee@kernel.org, danielt@kernel.org,
- jingoohan1@gmail.com
-Cc: deller@gmx.de, pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260120125036.2203995-1-tessolveupstream@gmail.com>
- <20260120125036.2203995-2-tessolveupstream@gmail.com>
- <3f3c47ea-1660-4bd4-ab89-3bdf58217995@kernel.org>
- <54d156ba-e177-4059-a808-2505983b4e2e@gmail.com>
- <5f78fbe8-288d-4b0a-af57-e834bd1186ba@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v2] arm64: dts: broadcom: bcm2712: Add V3D device node
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Stefan Wahren <wahrenst@gmx.net>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ kernel-dev@igalia.com
+References: <20260114120610.82531-1-mcanal@igalia.com>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <5f78fbe8-288d-4b0a-af57-e834bd1186ba@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
+ /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
+ gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
+ SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
+ G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
+ AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
+ dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
+ P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
+ O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
+ GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
+ 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
+ FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
+ TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
+ Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
+ 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
+ LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
+ T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
+ wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
+ zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
+ it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
+ Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
+ uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
+ raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
+In-Reply-To: <20260114120610.82531-1-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -115,135 +95,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [1.99 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:tessolveupstream@gmail.com,m:lee@kernel.org,m:danielt@kernel.org,m:jingoohan1@gmail.com,m:deller@gmx.de,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux-fbdev@vger.kernel.org,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:florian.fainelli@broadcom.com,m:wahrenst@gmx.net,m:bcm-kernel-feedback-list@broadcom.com,m:devicetree@vger.kernel.org,m:linux-rpi-kernel@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:kernel-dev@igalia.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_COUNT_THREE(0.00)[3];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
+	FORGED_SENDER(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,broadcom.com,gmx.net];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[gmx.de,kernel.org,lists.freedesktop.org,vger.kernel.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	DBL_PROHIBIT(0.00)[59.185.78.128:email];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: D35669F4FB
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:mid,igalia.com:email,59.156.201.184:email]
+X-Rspamd-Queue-Id: C9D819F98B
 X-Rspamd-Action: no action
 
-On 27/01/2026 13:46, tessolveupstream@gmail.com wrote:
-> 
-> 
-> On 23-01-2026 16:41, tessolveupstream@gmail.com wrote:
->>
->>
->> On 20-01-2026 20:01, Krzysztof Kozlowski wrote:
->>> On 20/01/2026 13:50, Sudarshan Shetty wrote:
->>>> Update the gpio-backlight binding to support configurations that require
->>>> more than one GPIO for enabling/disabling the backlight.
->>>
->>>
->>> Why? Which devices need it? How a backlight would have three enable
->>> GPIOs? I really do not believe, so you need to write proper hardware
->>> justification.
->>>
->>
->> To clarify our hardware setup: 
->> the panel requires one GPIO for the backlight enable signal, and it 
->> also has a PWM input. Since the QCS615 does not provide a PWM controller 
->> for this use case, the PWM input is connected to a GPIO that is driven 
->> high to provide a constant 100% duty cycle, as explained in the link 
->> below.
->> https://lore.kernel.org/all/20251028061636.724667-1-tessolveupstream@gmail.com/T/#m93ca4e5c7bf055715ed13316d91f0cd544244cf5
->>  
->>>>
->>>> Signed-off-by: Sudarshan Shetty <tessolveupstream@gmail.com>
->>>> ---
->>>>  .../leds/backlight/gpio-backlight.yaml        | 24 +++++++++++++++++--
->>>>  1 file changed, 22 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
->>>> index 584030b6b0b9..4e4a856cbcd7 100644
->>>> --- a/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
->>>> +++ b/Documentation/devicetree/bindings/leds/backlight/gpio-backlight.yaml
->>>> @@ -16,8 +16,18 @@ properties:
->>>>      const: gpio-backlight
->>>>  
->>>>    gpios:
->>>> -    description: The gpio that is used for enabling/disabling the backlight.
->>>> -    maxItems: 1
->>>> +    description: |
->>>> +      The gpio that is used for enabling/disabling the backlight.
->>>> +      Multiple GPIOs can be specified for panels that require several
->>>> +      enable signals. All GPIOs are controlled together.
->>>> +    type: array
->>>
->>> There is no such syntax in the bindings, from where did you get it? Type
->>> is already defined.
->>>
->>> items:
->>>   minItems: 1
->>>   maxItems: 3
->>>
->>>
->>>> +    minItems: 1
->>>> +    items:
->>>> +      type: array
->>>> +      minItems: 3
->>>> +      maxItems: 3
->>>> +      items:
->>>> +        type: integer
->>>
->>> All this is some odd stuff - just to be clear, don't send us LLM output.
->>> I don't want to waste my time to review microslop.
->>>
->>> Was it done with help of Microslop?
->>>
->>
->> I understand now that the schema changes I proposed were not correct, 
->> and I will address this in the next patch series. My intention was to 
->> check whether the gpio-backlight binding could support more than one 
->> enable-type GPIO. 
->> Could you please advise what would be an appropriate maximum number of 
->> GPIOs for gpio-backlight in such a scenario? For example, would allowing 
->> 2 GPIOs be acceptable, or should this case be handled in a different way?
->>
-> 
-> In line with Daniel’s suggestion, I am planning to adopt a fixed upper 
-> limit for the number of backlight GPIOs. The current hardware only 
-> requires two GPIOs, so the maxItems can be set to 2.
-> 
-> If future platforms or customers require support for a higher number 
-> of GPIOs, this limit can be increased and the driver can be 
-> updated accordingly.
-> 
-> Kindly advise if this solution aligns with your expectations, or if 
-> you prefer an alternative maximum value.
+Hi Florian,
 
-
-You have entire commit msg to explain the hardware and explain WHY you
-are doing this. In a concise and readable way. I will not be going
-through 2 different email threads with 20 messages to figure that out.
+Just a quick ping on this patch. Did you get a chance to review it?
 
 Best regards,
-Krzysztof
+- Maíra
+
+On 14/01/26 09:04, Maíra Canal wrote:
+> Commits 0ad5bc1ce463 ("drm/v3d: fix up register addresses for V3D 7.x")
+> and 6fd9487147c4 ("drm/v3d: add brcm,2712-v3d as a compatible V3D device")
+> added driver support for V3D on BCM2712, but the corresponding device
+> tree node is still missing.
+> 
+> Add the V3D device tree node to the BCM2712 DTS.
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> 
+> ---
+> v1 -> v2:
+> 
+> - Rebased on top of linux-next (Stefan Wahren)
+> - Fixed node's address (2000000 -> 1002000000) (Stefan Wahren)
+> - Link to v1: https://lore.kernel.org/linux-devicetree/20260113192902.48046-2-mcanal@igalia.com/
+> ---
+>   .../boot/dts/broadcom/bcm2712-rpi-5-b-base.dtsi    |  4 ++++
+>   arch/arm64/boot/dts/broadcom/bcm2712.dtsi          | 14 ++++++++++++++
+>   2 files changed, 18 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-base.dtsi b/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-base.dtsi
+> index 7d4742ebe247..97522c6803c5 100644
+> --- a/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-base.dtsi
+> +++ b/arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-base.dtsi
+> @@ -247,3 +247,7 @@ &pcie1 {
+>   &pcie2 {
+>   	status = "okay";
+>   };
+> +
+> +&v3d {
+> +	clocks = <&firmware_clocks 5>;
+> +};
+> diff --git a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi b/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
+> index 330a121ebfcb..661668ef7419 100644
+> --- a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
+> +++ b/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
+> @@ -1,5 +1,6 @@
+>   // SPDX-License-Identifier: (GPL-2.0 OR MIT)
+>   #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +#include <dt-bindings/soc/bcm2835-pm.h>
+>   
+>   / {
+>   	compatible = "brcm,bcm2712";
+> @@ -642,6 +643,19 @@ mip1: msi-controller@1000131000 {
+>   			msi-ranges = <&gicv2 GIC_SPI 247 IRQ_TYPE_EDGE_RISING 8>;
+>   			brcm,msi-offset = <8>;
+>   		};
+> +
+> +		v3d: gpu@1002000000 {
+> +			compatible = "brcm,2712-v3d";
+> +			reg = <0x10 0x02000000 0x00 0x4000>,
+> +			      <0x10 0x02008000 0x00 0x6000>,
+> +			      <0x10 0x02030800 0x00 0x0700>;
+> +			reg-names = "hub", "core0", "sms";
+> +
+> +			power-domains = <&pm BCM2835_POWER_DOMAIN_GRAFX_V3D>;
+> +			resets = <&pm BCM2835_RESET_V3D>;
+> +			interrupts = <GIC_SPI 250 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 249 IRQ_TYPE_LEVEL_HIGH>;
+> +		};
+>   	};
+>   
+>   	vc4: gpu {
+
