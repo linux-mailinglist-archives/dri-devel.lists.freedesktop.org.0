@@ -2,107 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sMKnA5e5e2k0IAIAu9opvQ
+	id MPmEEDu/e2mnIAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 20:48:39 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 21:12:43 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5A9B415E
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 20:48:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16743B42A7
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 21:12:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5100310E1CB;
-	Thu, 29 Jan 2026 19:48:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A844910E254;
+	Thu, 29 Jan 2026 20:12:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=fooishbar.org header.i=@fooishbar.org header.b="eNlhLCxc";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H5pBh11F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
- [209.85.219.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5B5710E213
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 19:48:34 +0000 (UTC)
-Received: by mail-qv1-f44.google.com with SMTP id
- 6a1803df08f44-894723da7dfso18756786d6.1
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 11:48:34 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769716114; cv=none;
- d=google.com; s=arc-20240605;
- b=EN+4nIqVhBIx5eO9D6mrhfmCoeE/nNVWCqBdDnpFROg5A+gVOXT5tNXICYqgfsekwc
- QjbtlN9d5RQgXz8u7RdXjWJVrjeg3RQ27f2K6/lyH9d13CKmMQI7bdjuUfjkRoSVV+uN
- cMEE7gP9+EVk2KOz7n9UblM2k/7MDebopaHx9dLtmbPrXCi/hjRp2d0eBeGGxLSd3qqb
- lWELXtaxqMIVtZ4VIKsT3JgBJqwk2npo7WLCwu7GLisuW/TJO/KXWLTSALRYsIqgrf/i
- OE+vYk0LMm2QyBCFuN11rbCPGN0piwQIRP9FCa1bIqo07lVby8JOCAXQk3P0TkGSHi3F
- 05pw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:dkim-signature;
- bh=jCTiIipBCtSXGzHyo7dsaeFVkTGnRc5PRkJmlEKnilw=;
- fh=/be22c3a3fm6b0b+0Gva82ed4CB2QZTJZyXgnoKUJDI=;
- b=ZYy/dAtpWIrk+rF06Q4PYHGCAp3mewCxpBoXoDvVN/Rkr/K3mCXspL2yxBml+jF64A
- kYo7OfC3I2CppN02xPTxD16B1EJpln6O8+196Ju0rCdHTRPilqTVlDME+opaORII++5z
- 7UpU6MdfusXBb3ELYT9tncahA7UK/+MhMy6CE3IEYs2zU0wz57QTK1yY8v2HwNamvTOM
- pLP8VV6U4XcTczd+5Z1ZOPYp9zQIIhbmJ9blpJCan4YFc8Q1MgzUIifIDH3TpXa5UrG0
- Lv6HvT/rItnN0DfeHCU/CuG5pOfzWGuvvxX5yD9mtKOSu3Th05P+oWjZ9a1PYRpvnbGD
- 2YnQ==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1769716114; x=1770320914;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=jCTiIipBCtSXGzHyo7dsaeFVkTGnRc5PRkJmlEKnilw=;
- b=eNlhLCxcr30EvKwi0U3Uc6c4O+sldvpXPS7X8dZRJYmE7Z4f0FWChOeXe0hVeIxfAK
- HBdPvaxOosWvH6WYQBJYWNWD5tW4aNQcm3LGzVc5gydUbfSHrTMo1X4KEVvHIxoFNwFg
- jSGwDMuBGEV8xtMz15iTFE2LL1fI1YBp1qYo6b9kPlldrPqzqLmYuAwkOCLfY25K8Iu9
- Ptgl9SygmLCwVJgqqMiuYPDPkrKbFIVHHtPKQAgYS9zbZIP4tjir+deTPHa1/yUUx+5d
- cxifZixPT97aZPO7rHlZQyVB2ikK33ouVkskOLFR3voUEVpj2+fGWi0ZIiWhn6A17jbI
- /c8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769716114; x=1770320914;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jCTiIipBCtSXGzHyo7dsaeFVkTGnRc5PRkJmlEKnilw=;
- b=GbgKlHXyMddW/X4AXRTVTO6eAx6SyApRNOS/ZYpNbVVtd5wRdzOEV+monD/ny8pKxT
- Q6y2fpd9A+mo2QAqakhmR+dfJo6ZiSPv0INR7+zNviy/6KF1SXQHAEyaihDa+e73UW22
- s47CUuwoRxas6sARcYykpCLWL7jl5aw/QkzCcW3viyU3ja/yBLil7T1i00m5ldD1sO4S
- KzlgQHYSx1qv61XpwX03VxCHX8ptPT7ljDrFi0vhYJ/umxqJUbsW3gTIY4JoecfZLSeO
- /gFrojNmkQVm1IWE0XNdjxHnZehWzssILNS+rVy9EXyni9AYE2K3IzatvneK/X9htSTd
- wAPw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW/NMAaP02z31LUkhmipWs76C4nIjgPNxOvHV1tKduSoDrz9BL7L+q2x9GsxpI0su/5ggbRyE1bWL4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwLXPlLEhbxBMgmnONO6OtlycVPSbvVRQen15vyOEZ19wghC1kZ
- L3rag+DbFBOM/KceZJ4Ct9c2v/B9sNXdFy7qye11EBKmRJaZ1o9ubx9GQuGHPM4aYR0TiGCJxZe
- aPxXtj5JDHx+9pn7t+3OUivoadNgULDsGg1Its7BT9g==
-X-Gm-Gg: AZuq6aK06gzlZ1hE+zwhIrXL9GIT+XvZXW/+EGM9zMLERj6p88bC22olfTCvSqkE1FS
- AfdD33znyJTfWliii5biEC6lTdBX+fhzZ0zxJE5JKsurX3oqn+tvi441lP2U2ekPxx8dwcAXC47
- CCKotHPT1/6X9+j1+jt7wHfUi14JGpN8Kwu6p/oPC8oTI8ZlVq5WF4KXak2iltmQIoveoNjvaFW
- 8I+nIrwwG4ffH5R0/uNUJBWWVlLXzA0Rd9T0MGfZCxfb7gGkaa1h3czXdXXKoJ4nlxys9XWKuA1
- cCmDeA==
-X-Received: by 2002:a05:6214:5286:b0:78d:be82:fffa with SMTP id
- 6a1803df08f44-894ea036083mr8366586d6.33.1769716113799; Thu, 29 Jan 2026
- 11:48:33 -0800 (PST)
-MIME-Version: 1.0
-References: <20260129-dw-hdmi-qp-iframe-v2-0-0157ad05232c@collabora.com>
-In-Reply-To: <20260129-dw-hdmi-qp-iframe-v2-0-0157ad05232c@collabora.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 29 Jan 2026 19:48:22 +0000
-X-Gm-Features: AZwV_Qj94V5Hu3g2vxsxpVqBoJ8WOgqHl8tphwr-4jb_er0eGoDd858uNirbKKw
-Message-ID: <CAPj87rNd8d2=001uE8nJW2ut7eLBtYpqCiVSRi_HkAEORG9jTw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] Provide HDMI VSI & SPD InfoFrames to DW HDMI QP TX
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B94510E07A;
+ Thu, 29 Jan 2026 20:12:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1769717558; x=1801253558;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=e/oecSBPN8hSYzWv9o9QG/NxTb7taZBzlNv8EH28SAc=;
+ b=H5pBh11FfZIwf7rrq2dwHBb47pmjWxnsZq8aPUphYmI9RIV7COkaO0Qy
+ kUF3q408v1vcVse7Ias56Iea1RlQGDhkI/AZc115HkYwCmUbhk5rUkkCL
+ fI7Y/mcUGBKdPGxGlMbfmouqyWJZiAIlgOt6nY1f+ipyLYgHt79uWXL/9
+ juOGqc8dmEF+rP6HqXy40wv3raLLKw/sc4mQZxW8wzZHpr8gf+k/KdL0X
+ 9KH6UQD+z2SjtbnljwpJOwCzCABcr75dKJblh1fRVpXPt6hhsk8In1+Rp
+ cOKfDrpnKkCDNu3i3zSfxUqh7iZgf+6VWuLJ/i3+QN3biDAhBiidLteoC g==;
+X-CSE-ConnectionGUID: uoTNo5dxSICJTiLno0Mi6g==
+X-CSE-MsgGUID: +22j11+ZRi2qULQatX4DJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="71006837"
+X-IronPort-AV: E=Sophos;i="6.21,261,1763452800"; d="scan'208";a="71006837"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2026 12:12:37 -0800
+X-CSE-ConnectionGUID: Hr5d/A6pSDal1vLcJwSlcA==
+X-CSE-MsgGUID: ifDXzIbGRS2t6S7OkTQLyQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,261,1763452800"; d="scan'208";a="213198695"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO fedora)
+ ([10.245.245.140])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2026 12:12:34 -0800
+Date: Thu, 29 Jan 2026 21:12:23 +0100
+From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ Maxime Ripard <mripard@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-xe-fixes
+Message-ID: <aXu_JzBFb9YVFYW1@fedora>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,56 +81,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[fooishbar.org:s=google];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[fooishbar.org];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:cristian.ciocaltea@collabora.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:kernel@collabora.com,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[daniel@fooishbar.org,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[fooishbar.org:+];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daniel@fooishbar.org,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,collabora.com,lists.freedesktop.org,vger.kernel.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email]
-X-Rspamd-Queue-Id: 3B5A9B415E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:dkim]
+X-Rspamd-Queue-Id: 16743B42A7
 X-Rspamd-Action: no action
 
-Hi Cristian,
+Hi, Dave, Simona
 
-On Thu, 29 Jan 2026 at 12:13, Cristian Ciocaltea
-<cristian.ciocaltea@collabora.com> wrote:
-> This patch series provides the missing support for sending HDMI
-> Vendor-Specific Infoframes and Source Product Description InfoFrames in
-> dw-hdmi-qp library.
->
-> Additionally, it improves the existing AVI, DRM and Audio infoframes
-> handling by getting rid of some boilerplate and/or redundant code.
+Here are the drm-xe-fixes for -rc8.
 
-Thanks a lot! I like this version a lot more.
+Thanks,
+Thomas
 
-Series is:
-Reviewed-by: Daniel Stone <daniels@collabora.com>
 
-Cheers,
-Daniel
+drm-xe-fixes-2026-01-29:
+Driver Changes:
+- Skip address copy for sync-only execs (Lin)
+- Fix a WA (Tvrtko)
+- Derive mem_copy cap from graphics version (Nitin)
+- Fix is_bound() pci_dev lifetime (Lin)
+- xe nvm cleanup fixes (Lin)
+The following changes since commit e27ada4f19e7ffda4c05ce8633daf6daed667eea:
+
+  drm/xe: Select CONFIG_DEVICE_PRIVATE when DRM_XE_GPUSVM is selected (2026-01-22 11:27:25 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2026-01-29
+
+for you to fetch changes up to 8a44241b0b83a6047c5448da1fff03fcc29496b5:
+
+  drm/xe/nvm: Fix double-free on aux add failure (2026-01-29 20:31:53 +0100)
+
+----------------------------------------------------------------
+Driver Changes:
+- Skip address copy for sync-only execs (Lin)
+- Fix a WA (Tvrtko)
+- Derive mem_copy cap from graphics version (Nitin)
+- Fix is_bound() pci_dev lifetime (Lin)
+- xe nvm cleanup fixes (Lin)
+
+----------------------------------------------------------------
+Nitin Gote (1):
+      drm/xe: derive mem copy capability from graphics version
+
+Shuicheng Lin (4):
+      drm/xe: Skip address copy for sync-only execs
+      drm/xe/configfs: Fix is_bound() pci_dev lifetime
+      drm/xe/nvm: Manage nvm aux cleanup with devres
+      drm/xe/nvm: Fix double-free on aux add failure
+
+Tvrtko Ursulin (1):
+      drm/xe/xelp: Fix Wa_18022495364
+
+ drivers/gpu/drm/xe/xe_configfs.c  |  3 +--
+ drivers/gpu/drm/xe/xe_device.c    |  2 --
+ drivers/gpu/drm/xe/xe_exec.c      |  6 ++---
+ drivers/gpu/drm/xe/xe_lrc.c       |  2 +-
+ drivers/gpu/drm/xe/xe_nvm.c       | 55 +++++++++++++++++++--------------------
+ drivers/gpu/drm/xe/xe_nvm.h       |  2 --
+ drivers/gpu/drm/xe/xe_pci.c       |  6 +----
+ drivers/gpu/drm/xe/xe_pci_types.h |  1 -
+ 8 files changed, 33 insertions(+), 44 deletions(-)
