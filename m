@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AIHnCgNPe2n9DgIAu9opvQ
+	id uNjkOfxOe2n9DgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 13:13:55 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 13:13:48 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7B3AAFF66
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 13:13:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8513BAFF51
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 13:13:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CBF610E850;
-	Thu, 29 Jan 2026 12:13:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4A5D10E84B;
+	Thu, 29 Jan 2026 12:13:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="MioptNh5";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="HRQSns4J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B902410E84B
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 12:13:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 934A110E84B
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 12:13:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1769688820;
- bh=tABGDG5Z5ICTGCam4XV/umuPl2h3XtN1aIU88xjL14s=;
+ s=mail; t=1769688821;
+ bh=Y5cnz7/7Nno5HroZNG8LyxA6SXEx7p9n08HM8mkOWf0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=MioptNh5/wujC3TVfl2QOaNL1ZK70TPYTXN9qWJ7RrAXJR9hUM4k1pGWLefxcjWjb
- fgiwlB6YD3ZX6gTrTzc4S4Z3kOEsXAqFZdLN6oLlAePnNmbg/Es6iywPXyy8WV4Jn5
- RTcR6I6bCE43kRi4Dt53/6ZFzO+soGYbskRkJoCEBZHMeMANFEoJ83TqzSn44qpA0c
- BQF4RgDfdCK6So59yYhdlIy0sOtpQnvooLxYkOmFHa02rR3iFT4SfB7yuBYVjkrvDf
- IXf7RX1rmUdqJtAHEA1e38Bj0rDLI4SGWkW7Wq6jMcE7tToMc8FjUnV/w718ZsUGUp
- KYP81tXz2D8xw==
+ b=HRQSns4JwKpSX88bs8nSt9oOm0RUHr2NNqNV25EXsoSf85EfLW9p7jk/0okJw2Xvy
+ B3Z28H1Mi5cj0pqAjkMnRElb+Uwm0dEliGjwR2ly+IiL63hc00aixXBKPmzm8Uhoje
+ mUcN+5WcFCyVAJqsysUxeed0A5dT+F/0jtO41F3wIwaCF3a659vxHERM5Wt74n7Mb9
+ 37Xca7SfNWQ6UE+xbc7R/6AC8QhJjELn0LYZsi6QC+5AQNlJkoyYl+jz4eQ3Hl16iT
+ FdLDIo9m3NtpkZTbWCiI6FD6svxuCQASEzUuCemxF62YPJ18qbKhofd4D+2fSQ2lvT
+ miLzTJ97yS6SQ==
 Received: from localhost (unknown [82.79.138.145])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3CEF117E14F2;
- Thu, 29 Jan 2026 13:13:40 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 1892517E14F5;
+ Thu, 29 Jan 2026 13:13:41 +0100 (CET)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Thu, 29 Jan 2026 14:13:35 +0200
-Subject: [PATCH v2 4/5] drm/bridge: dw-hdmi-qp: Rework DRM InfoFrame
- handler
+Date: Thu, 29 Jan 2026 14:13:36 +0200
+Subject: [PATCH v2 5/5] drm/bridge: dw-hdmi-qp: Rework Audio InfoFrame handler
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260129-dw-hdmi-qp-iframe-v2-4-0157ad05232c@collabora.com>
+Message-Id: <20260129-dw-hdmi-qp-iframe-v2-5-0157ad05232c@collabora.com>
 References: <20260129-dw-hdmi-qp-iframe-v2-0-0157ad05232c@collabora.com>
 In-Reply-To: <20260129-dw-hdmi-qp-iframe-v2-0-0157ad05232c@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -106,85 +105,115 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,collabora.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: B7B3AAFF66
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 8513BAFF51
 X-Rspamd-Action: no action
 
 Make use of the recently introduced dw_hdmi_qp_write_infoframe() helper
-to simplify the writing of the Dynamic Range and Mastering (DRM)
-InfoFrame packet header and body registers.
+to simplify the writing of the Audio InfoFrame packet header and body
+registers.
+
+Additionally, discard the redundant static values identifying the frame
+version and length.
 
 Moreover, since now having dedicated callbacks per InfoFrame type, move
-the implementation to dw_hdmi_qp_bridge_write_hdr_drm_infoframe() and
-drop dw_hdmi_qp_config_drm_infoframe().
-
-While at it, also discard the unnecessary infoframe size verification,
-as well as the redundant disabling of the packet transmission (already
-done by the explicit call to the clear callback).
+the implementation to dw_hdmi_qp_bridge_write_audio_infoframe() and
+drop dw_hdmi_qp_config_audio_infoframe().
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 40 +++++-----------------------
- 1 file changed, 7 insertions(+), 33 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 71 ++++++++++------------------
+ 1 file changed, 25 insertions(+), 46 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-index abfe5641158f..33c990e198e9 100644
+index 33c990e198e9..464ace1221d0 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-@@ -748,38 +748,6 @@ static struct i2c_adapter *dw_hdmi_qp_i2c_adapter(struct dw_hdmi_qp *hdmi)
+@@ -748,51 +748,6 @@ static struct i2c_adapter *dw_hdmi_qp_i2c_adapter(struct dw_hdmi_qp *hdmi)
  	return adap;
  }
  
--static int dw_hdmi_qp_config_drm_infoframe(struct dw_hdmi_qp *hdmi,
--					   const u8 *buffer, size_t len)
+-/*
+- * Static values documented in the TRM
+- * Different values are only used for debug purposes
+- */
+-#define DW_HDMI_QP_AUDIO_INFOFRAME_HB1	0x1
+-#define DW_HDMI_QP_AUDIO_INFOFRAME_HB2	0xa
+-
+-static int dw_hdmi_qp_config_audio_infoframe(struct dw_hdmi_qp *hdmi,
+-					     const u8 *buffer, size_t len)
 -{
--	u32 val, i;
+-	/*
+-	 * AUDI_CONTENTS0: { RSV, HB2, HB1, RSV }
+-	 * AUDI_CONTENTS1: { PB3, PB2, PB1, PB0 }
+-	 * AUDI_CONTENTS2: { PB7, PB6, PB5, PB4 }
+-	 *
+-	 * PB0: CheckSum
+-	 * PB1: | CT3    | CT2  | CT1  | CT0  | F13  | CC2 | CC1 | CC0 |
+-	 * PB2: | F27    | F26  | F25  | SF2  | SF1  | SF0 | SS1 | SS0 |
+-	 * PB3: | F37    | F36  | F35  | F34  | F33  | F32 | F31 | F30 |
+-	 * PB4: | CA7    | CA6  | CA5  | CA4  | CA3  | CA2 | CA1 | CA0 |
+-	 * PB5: | DM_INH | LSV3 | LSV2 | LSV1 | LSV0 | F52 | F51 | F50 |
+-	 * PB6~PB10: Reserved
+-	 *
+-	 * AUDI_CONTENTS0 default value defined by HDMI specification,
+-	 * and shall only be changed for debug purposes.
+-	 */
+-	u32 header_bytes = (DW_HDMI_QP_AUDIO_INFOFRAME_HB1 << 8) |
+-			  (DW_HDMI_QP_AUDIO_INFOFRAME_HB2 << 16);
 -
--	if (len != HDMI_INFOFRAME_SIZE(DRM)) {
--		dev_err(hdmi->dev, "failed to configure drm infoframe\n");
--		return -EINVAL;
--	}
+-	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS0, &header_bytes, 1);
+-	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS1, &buffer[3], 1);
+-	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS2, &buffer[4], 1);
 -
--	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_DRMI_TX_EN, PKTSCHED_PKT_EN);
--
--	val = buffer[1] << 8 | buffer[2] << 16;
--	dw_hdmi_qp_write(hdmi, val, PKT_DRMI_CONTENTS0);
--
--	for (i = 0; i <= buffer[2]; i++) {
--		if (i % 4 == 0)
--			val = buffer[3 + i];
--		val |= buffer[3 + i] << ((i % 4) * 8);
--
--		if ((i % 4 == 3) || i == buffer[2])
--			dw_hdmi_qp_write(hdmi, val,
--					 PKT_DRMI_CONTENTS1 + ((i / 4) * 4));
--	}
--
--	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_DRMI_FIELDRATE, PKTSCHED_PKT_CONFIG1);
--	dw_hdmi_qp_mod(hdmi, PKTSCHED_DRMI_TX_EN, PKTSCHED_DRMI_TX_EN,
+-	/* Enable ACR, AUDI, AMD */
+-	dw_hdmi_qp_mod(hdmi,
+-		       PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN | PKTSCHED_AMD_TX_EN,
+-		       PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN | PKTSCHED_AMD_TX_EN,
 -		       PKTSCHED_PKT_EN);
+-
+-	/* Enable AUDS */
+-	dw_hdmi_qp_mod(hdmi, PKTSCHED_AUDS_TX_EN, PKTSCHED_AUDS_TX_EN, PKTSCHED_PKT_EN);
 -
 -	return 0;
 -}
 -
- /*
-  * Static values documented in the TRM
-  * Different values are only used for debug purposes
-@@ -1036,7 +1004,13 @@ static int dw_hdmi_qp_bridge_write_hdr_drm_infoframe(struct drm_bridge *bridge,
+ static void dw_hdmi_qp_bridge_atomic_enable(struct drm_bridge *bridge,
+ 					    struct drm_atomic_state *state)
+ {
+@@ -1035,7 +990,31 @@ static int dw_hdmi_qp_bridge_write_audio_infoframe(struct drm_bridge *bridge,
  
- 	dw_hdmi_qp_bridge_clear_hdr_drm_infoframe(bridge);
+ 	dw_hdmi_qp_bridge_clear_audio_infoframe(bridge);
  
--	return dw_hdmi_qp_config_drm_infoframe(hdmi, buffer, len);
-+	dw_hdmi_qp_write_infoframe(hdmi, buffer, len, PKT_DRMI_CONTENTS0);
+-	return dw_hdmi_qp_config_audio_infoframe(hdmi, buffer, len);
++	/*
++	 * AUDI_CONTENTS0: { RSV, HB2, HB1, RSV }
++	 * AUDI_CONTENTS1: { PB3, PB2, PB1, PB0 }
++	 * AUDI_CONTENTS2: { PB7, PB6, PB5, PB4 }
++	 *
++	 * PB0: CheckSum
++	 * PB1: | CT3    | CT2  | CT1  | CT0  | F13  | CC2 | CC1 | CC0 |
++	 * PB2: | F27    | F26  | F25  | SF2  | SF1  | SF0 | SS1 | SS0 |
++	 * PB3: | F37    | F36  | F35  | F34  | F33  | F32 | F31 | F30 |
++	 * PB4: | CA7    | CA6  | CA5  | CA4  | CA3  | CA2 | CA1 | CA0 |
++	 * PB5: | DM_INH | LSV3 | LSV2 | LSV1 | LSV0 | F52 | F51 | F50 |
++	 * PB6~PB10: Reserved
++	 */
++	dw_hdmi_qp_write_infoframe(hdmi, buffer, len, PKT_AUDI_CONTENTS0);
 +
-+	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_DRMI_FIELDRATE, PKTSCHED_PKT_CONFIG1);
-+	dw_hdmi_qp_mod(hdmi, PKTSCHED_DRMI_TX_EN, PKTSCHED_DRMI_TX_EN,
++	/* Enable ACR, AUDI, AMD */
++	dw_hdmi_qp_mod(hdmi,
++		       PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN | PKTSCHED_AMD_TX_EN,
++		       PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN | PKTSCHED_AMD_TX_EN,
 +		       PKTSCHED_PKT_EN);
++
++	/* Enable AUDS */
++	dw_hdmi_qp_mod(hdmi, PKTSCHED_AUDS_TX_EN, PKTSCHED_AUDS_TX_EN, PKTSCHED_PKT_EN);
 +
 +	return 0;
  }
  
- static int dw_hdmi_qp_bridge_write_spd_infoframe(struct drm_bridge *bridge,
+ #ifdef CONFIG_DRM_DW_HDMI_QP_CEC
 
 -- 
 2.52.0
