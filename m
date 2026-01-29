@@ -2,127 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aNOcHf4be2msBQIAu9opvQ
+	id CEDvLGAde2msBQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 09:36:14 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 09:42:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA1CAD925
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 09:36:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB83AD9EE
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 09:42:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4913310E283;
-	Thu, 29 Jan 2026 08:36:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE16A10E7FC;
+	Thu, 29 Jan 2026 08:42:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="CKBj7h7/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zqMvb+Z7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Tb6BMQk9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="49pcOwHJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sJecCk3f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CEE910E283
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 08:36:10 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D98355BCDC;
- Thu, 29 Jan 2026 08:36:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1769675768; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=WQAc5T7zApr4eCsZOkLI7RX6tGsSY1oM0/JdDUvrtdQ=;
- b=CKBj7h7/hDPTUCxJGlPCl2+C5MyeZAUssqOt+zDUjH9WqToSjetMNtm+uPYKQGYeA1eMpX
- S416khMDeh3e8LDivYqH+pVpCJ/m6inub3gPXAgzHnh61ChpyVuzKnJQLt1SGwrsstKqiW
- nObP2GzSxY/FinviN1if6N59uGFLIXk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1769675768;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=WQAc5T7zApr4eCsZOkLI7RX6tGsSY1oM0/JdDUvrtdQ=;
- b=zqMvb+Z7p05Zy9EdbQV1yftYyrDt/VeVZ/bn6kdPR/VfbkRSZme0oRgR/Ok14JAEy7Wnxp
- grI5wzf4fqCqoyCA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Tb6BMQk9;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=49pcOwHJ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1769675767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=WQAc5T7zApr4eCsZOkLI7RX6tGsSY1oM0/JdDUvrtdQ=;
- b=Tb6BMQk9rD6tUH0WSy5kEIr6e0tquG5xkFxSkBmWDgSeoni+DJZ1PylNkIec8eGf+b8Hvx
- Y8ln+Il6EX4bI8j4WbdPZKlexh454D4DI8I275XwhAq0STIR8mGpRCfwRzwPJsBQyT3fyM
- CVSbEYtVprqPQRye9qC2dSlD1GkEQmI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1769675767;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=WQAc5T7zApr4eCsZOkLI7RX6tGsSY1oM0/JdDUvrtdQ=;
- b=49pcOwHJeGqVt6cd2huJXtsU1P4b96MZeA1gcuQut66+Re8AkX0nU8oYN3OR3PcrgpZoxG
- gcjGI9Ym78x8xuAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 84E093EA61;
- Thu, 29 Jan 2026 08:36:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id G83rHvcbe2nkaQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 29 Jan 2026 08:36:07 +0000
-Message-ID: <bfc6a338-de9e-404e-839f-245ff21b2968@suse.de>
-Date: Thu, 29 Jan 2026 09:36:06 +0100
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F89910E33C;
+ Thu, 29 Jan 2026 08:42:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 2FD9F60054;
+ Thu, 29 Jan 2026 08:42:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED8E8C4CEF7;
+ Thu, 29 Jan 2026 08:42:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1769676122;
+ bh=ULqTXXRRvOEaToOQufqn0DT2Uq0Y5ZhV8wPvD5kiy38=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=sJecCk3fd142pV7aGXECoVLIDzOZhUWnnhJKlTwcp9G4EN9Cuwi1JPzmHE7fiMuyf
+ e/hYZk7b68M92QyJpAGFzHgWPoWU4Wv7Yc4Pss8RlXgDoH8Z3zICPvVfVfnUVRD32G
+ Ja9IvIO/38norewAYFYG4VPRhHkXMjp05wW4imftl2jLLNJZbuWAtXZxRFaOPiW5qe
+ /apGZQxhSLlXRP7POJu5VImlUrKlNTUavJQSDI4NJJ23U9yj4JOx9ldP/dQ+uCrERk
+ vTmo7fG/G4U1Lw+wkQ7q9YMCGCnnKeD3CrfFgxtQgSnLVANjTikelLazKIOJKQQ9Ca
+ XUPt3aSNkmxwg==
+Date: Thu, 29 Jan 2026 10:41:56 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Pranjal Shrivastava <praan@google.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Williamson <alex@shazbot.org>, Ankit Agrawal <ankita@nvidia.com>,
+ "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>
+Subject: Re: [PATCH v5 4/8] vfio: Wait for dma-buf invalidation to complete
+Message-ID: <20260129084156.GC10992@unreal>
+References: <20260124-dmabuf-revoke-v5-0-f98fca917e96@nvidia.com>
+ <20260124-dmabuf-revoke-v5-4-f98fca917e96@nvidia.com>
+ <aXfUZcSEr9N18o6w@google.com> <20260127085835.GQ13967@unreal>
+ <20260127162754.GH1641016@ziepe.ca>
+ <BN9PR11MB5276B99D4E8C6496B0C447888C9EA@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <20260129073331.GB10992@unreal>
+ <BN9PR11MB52766EA91FEB08876DA474888C9EA@BN9PR11MB5276.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/2] staging: fbtft: Fix build failure when
- CONFIG_FB_DEVICE=n
-To: Chintan Patel <chintanlike@gmail.com>, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-omap@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- andy@kernel.org, deller@gmx.de, gregkh@linuxfoundation.org,
- kernel test robot <lkp@intel.com>,
- Andy Shevchenko <andriy.shevchenko@intel.com>
-References: <20260122031635.11414-1-chintanlike@gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260122031635.11414-1-chintanlike@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
+In-Reply-To: <BN9PR11MB52766EA91FEB08876DA474888C9EA@BN9PR11MB5276.namprd11.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,143 +97,173 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:chintanlike@gmail.com,m:linux-fbdev@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-omap@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:andy@kernel.org,m:deller@gmx.de,m:gregkh@linuxfoundation.org,m:lkp@intel.com,m:andriy.shevchenko@intel.com,s:lists@lfdr.de];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,kernel.org,gmx.de,linuxfoundation.org,intel.com];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,lists.linux.dev];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[35];
+	FREEMAIL_CC(0.00)[ziepe.ca,google.com,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:mid,suse.de:dkim,suse.com:url,intel.com:email]
-X-Rspamd-Queue-Id: ECA1CAD925
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,ziepe.ca:email]
+X-Rspamd-Queue-Id: 1FB83AD9EE
 X-Rspamd-Action: no action
 
-Hi,
+On Thu, Jan 29, 2026 at 08:13:18AM +0000, Tian, Kevin wrote:
+> > From: Leon Romanovsky <leon@kernel.org>
+> > Sent: Thursday, January 29, 2026 3:34 PM
+> > 
+> > On Thu, Jan 29, 2026 at 07:06:37AM +0000, Tian, Kevin wrote:
+> > > > From: Jason Gunthorpe <jgg@ziepe.ca>
+> > > > Sent: Wednesday, January 28, 2026 12:28 AM
+> > > >
+> > > > On Tue, Jan 27, 2026 at 10:58:35AM +0200, Leon Romanovsky wrote:
+> > > > > > > @@ -333,7 +359,37 @@ void vfio_pci_dma_buf_move(struct
+> > > > vfio_pci_core_device *vdev, bool revoked)
+> > > > > > >  			dma_resv_lock(priv->dmabuf->resv, NULL);
+> > > > > > >  			priv->revoked = revoked;
+> > > > > > >  			dma_buf_invalidate_mappings(priv-
+> > >dmabuf);
+> > > > > > > +			dma_resv_wait_timeout(priv->dmabuf->resv,
+> > > > > > > +
+> > DMA_RESV_USAGE_BOOKKEEP,
+> > > > false,
+> > > > > > > +
+> > MAX_SCHEDULE_TIMEOUT);
+> > > > > > >  			dma_resv_unlock(priv->dmabuf->resv);
+> > > > > > > +			if (revoked) {
+> > > > > > > +				kref_put(&priv->kref,
+> > > > vfio_pci_dma_buf_done);
+> > > > > > > +				/* Let's wait till all DMA unmap are
+> > > > completed. */
+> > > > > > > +				wait = wait_for_completion_timeout(
+> > > > > > > +					&priv->comp,
+> > secs_to_jiffies(1));
+> > > > > >
+> > > > > > Is the 1-second constant sufficient for all hardware, or should the
+> > > > > > invalidate_mappings() contract require the callback to block until
+> > > > > > speculative reads are strictly fenced? I'm wondering about a case
+> > where
+> > > > > > a device's firmware has a high response latency, perhaps due to
+> > internal
+> > > > > > management tasks like error recovery or thermal and it exceeds the
+> > 1s
+> > > > > > timeout.
+> > > > > >
+> > > > > > If the device is in the middle of a large DMA burst and the firmware is
+> > > > > > slow to flush the internal pipelines to a fully "quiesced"
+> > > > > > read-and-discard state, reclaiming the memory at exactly 1.001
+> > seconds
+> > > > > > risks triggering platform-level faults..
+> > > > > >
+> > > > > > Since the wen explicitly permit these speculative reads until unmap is
+> > > > > > complete, relying on a hardcoded timeout in the exporter seems to
+> > > > > > introduce a hardware-dependent race condition that could
+> > compromise
+> > > > > > system stability via IOMMU errors or AER faults.
+> > > > > >
+> > > > > > Should the importer instead be required to guarantee that all
+> > > > > > speculative access has ceased before the invalidation call returns?
+> > > > >
+> > > > > It is guaranteed by the dma_resv_wait_timeout() call above. That call
+> > > > ensures
+> > > > > that the hardware has completed all pending operations. The 1‑second
+> > > > delay is
+> > > > > meant to catch cases where an in-kernel DMA unmap call is missing,
+> > which
+> > > > should
+> > > > > not trigger any DMA activity at that point.
+> > > >
+> > > > Christian may know actual examples, but my general feeling is he was
+> > > > worrying about drivers that have pushed the DMABUF to visibility on
+> > > > the GPU and the move notify & fences only shoot down some access. So
+> > > > it has to wait until the DMABUF is finally unmapped.
+> > > >
+> > > > Pranjal's example should be covered by the driver adding a fence and
+> > > > then the unbounded fence wait will complete it.
+> > > >
+> > >
+> > > Bear me if it's an ignorant question.
+> > >
+> > > The commit msg of patch6 says that VFIO doesn't tolerate unbounded
+> > > wait, which is the reason behind the 2nd timeout wait here.
+> > 
+> > It is not accurate. A second timeout is present both in the
+> > description of patch 6 and in VFIO implementation. The difference is
+> > that the timeout is enforced within VFIO.
+> > 
+> > >
+> > > Then why is "the unbounded fence wait" not a problem in the same
+> > > code path? the use of MAX_SCHEDULE_TIMEOUT imply a worst-case
+> > > timeout in hundreds of years...
+> > 
+> > "An unbounded fence wait" is a different class of wait. It indicates broken
+> > hardware that continues to issue DMA transactions even after it has been
+> > told to
+> > stop.
+> > 
+> > The second wait exists to catch software bugs or misuse, where the dma-buf
+> > importer has misrepresented its capabilities.
+> > 
+> 
+> Okay I see.
+> 
+> > >
+> > > and it'd be helpful to put some words in the code based on what's
+> > > discussed here.
+> > 
+> > We've documented as much as we can in dma_buf_attach_revocable() and
+> > dma_buf_invalidate_mappings(). Do you have any suggestions on what else
+> > should be added here?
+> > 
+> 
+> the selection of 1s?
 
-we've seen reports about this bug from linux-next.
+It is indirectly written in description of WARN_ON(), but let's add
+more. What about the following?
 
-Did anyone merge this series?
+diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
+index 93795ad2e025..948ba75288c6 100644
+--- a/drivers/vfio/pci/vfio_pci_dmabuf.c
++++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+@@ -357,7 +357,13 @@ void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
+                        dma_resv_unlock(priv->dmabuf->resv);
+                        if (revoked) {
+                                kref_put(&priv->kref, vfio_pci_dma_buf_done);
+-                               /* Let's wait till all DMA unmap are completed. */
++                               /*
++                                * Let's wait for 1 second till all DMA unmap
++                                * are completed. It is supposed to catch dma-buf
++                                * importers which lied about their support
++                                * of dmabuf revoke. See dma_buf_invalidate_mappings()
++                                * for the expected behaviour,
++                                */
+                                wait = wait_for_completion_timeout(
+                                        &priv->comp, secs_to_jiffies(1));
+                                /*
 
-Best regards
-Thomas
+> 
+> then,
+> 
+> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
 
-Am 22.01.26 um 04:16 schrieb Chintan Patel:
-> When CONFIG_FB_DEVICE is disabled, struct fb_info does
-> not provide a valid dev pointer. Direct dereferences of
-> fb_info->dev therefore result in build failures.
->
-> Fix this by avoiding direct accesses to fb_info->dev and
-> switching the affected debug logging to framebuffer helpers
-> that do not rely on a device pointer.
->
-> This fixes the following build failure reported by the
-> kernel test robot.
->
-> Fixes: a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency optional")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202601110740.Y9XK5HtN-lkp@intel.com
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
->
-> ---
-> Changes in v8:
-> - Add Reviewed-by tag from Andy Shevchenko.
->
-> Changes in v7:
-> - Split logging cleanups into a separate patch
-> - Limit this patch to the CONFIG_FB_DEVICE=n build fix only
->
-> Changes in v6:
-> - Switch debug/info logging to fb_dbg() and fb_info()(suggested by Thomas Zimmermann)
-> - Drop dev_of_fbinfo() usage in favor of framebuffer helpers that implicitly
->    handle the debug/info context.
-> - Drop __func__ usage per review feedback(suggested by greg k-h)
-> - Add Fixes tag for a06d03f9f238 ("staging: fbtft: Make FB_DEVICE dependency optional")
->    (suggested by Andy Shevchenko)
->
-> Changes in v5:
-> - Initial attempt to replace info->dev accesses using
->    dev_of_fbinfo() helper
->
->   drivers/staging/fbtft/fbtft-core.c | 19 +++++++++----------
->   1 file changed, 9 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-> index 8a5ccc8ae0a1..1b3b62950205 100644
-> --- a/drivers/staging/fbtft/fbtft-core.c
-> +++ b/drivers/staging/fbtft/fbtft-core.c
-> @@ -365,9 +365,9 @@ static int fbtft_fb_setcolreg(unsigned int regno, unsigned int red,
->   	unsigned int val;
->   	int ret = 1;
->   
-> -	dev_dbg(info->dev,
-> -		"%s(regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X)\n",
-> -		__func__, regno, red, green, blue, transp);
-> +	fb_dbg(info,
-> +	       "regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X\n",
-> +	       regno, red, green, blue, transp);
->   
->   	switch (info->fix.visual) {
->   	case FB_VISUAL_TRUECOLOR:
-> @@ -391,8 +391,7 @@ static int fbtft_fb_blank(int blank, struct fb_info *info)
->   	struct fbtft_par *par = info->par;
->   	int ret = -EINVAL;
->   
-> -	dev_dbg(info->dev, "%s(blank=%d)\n",
-> -		__func__, blank);
-> +	fb_dbg(info, "blank=%d\n", blank);
->   
->   	if (!par->fbtftops.blank)
->   		return ret;
-> @@ -793,11 +792,11 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
->   	if (spi)
->   		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
->   			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
-> -	dev_info(fb_info->dev,
-> -		 "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
-> -		 fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
-> -		 fb_info->fix.smem_len >> 10, text1,
-> -		 HZ / fb_info->fbdefio->delay, text2);
-> +	fb_info(fb_info,
-> +		"%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
-> +		fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
-> +		fb_info->fix.smem_len >> 10, text1,
-> +		HZ / fb_info->fbdefio->delay, text2);
->   
->   	/* Turn on backlight if available */
->   	if (fb_info->bl_dev) {
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+Thanks
