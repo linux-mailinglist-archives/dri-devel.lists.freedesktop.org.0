@@ -2,66 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GK83H+Qoe2nRBwIAu9opvQ
+	id j+ioIXIqe2kyCAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 10:31:16 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 10:37:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04E88AE2A4
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 10:31:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE41FAE31A
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 10:37:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F01910E83E;
-	Thu, 29 Jan 2026 09:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 807A810E842;
+	Thu, 29 Jan 2026 09:37:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="eY5dKRT0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Sqr8Gfqd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8F4610E83E
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 09:31:13 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 0447A1A2AF3;
- Thu, 29 Jan 2026 09:31:12 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id C6AC2606B6;
- Thu, 29 Jan 2026 09:31:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 68F0F119A884E; Thu, 29 Jan 2026 10:31:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1769679070; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding; bh=zk2OpegAMJiCNxvll5oNlkpQYOrJ2hMu552NiCOVNiI=;
- b=eY5dKRT0hRIq9ipGZUYAMiEZsHlKTidPAQEW6RaQ7xf3SuStvuMFa11gcUOa2wKHCijZdi
- 6DNWPzK2JBvxPCxj1y0e6jB2DCdczafOjoUAo4pe06hHmgbUcQxrh1nAKKbN851CAWN8xU
- N8e1IqsAFV8LcqBoLqY5ouP3tt1fQFeHYgZ140SvxV02ckprHjAFpimGNFR0SxqFtzJFZ/
- m47Xly+7lNxmdI8ByFF/37q3eB3xtagjkW0P+JyW9yyWrdUb3vsnwaDS7m+MU/EgNd/ZKF
- sFAwcdbkOBClERvlfvZF2LTj4qTUAB4rn1Z2kd/njMg+8xpZghW89hJLWI5dVQ==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 29 Jan 2026 10:30:52 +0100
-Subject: [PATCH] drm/bridge: drm_bridge_get/put(): document NULL pointer
- behaviour
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50B3210E842
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 09:37:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1769679471; x=1801215471;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=fcH4mUDNyS5wydLrVZXUX/K4ZKaotkjSpo0HtMsk+1o=;
+ b=Sqr8GfqdDxpU6PVhdvF2rH3etLLl1MdARKBZ7KjRDykxFBa4hPAgmQFE
+ 3rawpZCEBwX8tSjvMOnG17PHkXThHcPvcNHKkMbX6jO5mtL+irOnW4WxC
+ jrb+yszPT+59gkx+12MrPbY9HpLNt023bGubSLxgLihcsY2+Xvq9pMaUr
+ AR7DNg0OaCbH96Hza76IJ2MDp7lMPiF82ptL60Do0Yyhu/N6ZXYUXorl9
+ UmP1cU2Hvy8GBBEboGI0aplFupeOW3Ts4KxV3OTFdwPs2JOcQ64B45ckG
+ apHvWazmLRvDmelwMm+e6fDxsTyVOANlTvrH6dphwsheen6p0rhIs+C5g A==;
+X-CSE-ConnectionGUID: tTnlgpIDQPu2Dbv1fhUmHQ==
+X-CSE-MsgGUID: N+bDNrMIRT2BBxQ2HVZ+mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="71074880"
+X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; d="scan'208";a="71074880"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2026 01:37:50 -0800
+X-CSE-ConnectionGUID: Q6oB1hS4RWCJLoDv2BxPDA==
+X-CSE-MsgGUID: vyc3EwQqRieVpm72pc7e7w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; d="scan'208";a="246133392"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.155])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2026 01:37:29 -0800
+Date: Thu, 29 Jan 2026 11:37:22 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Louis Chauvet <louis.chauvet@bootlin.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Robert Mader <robert.mader@collabora.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ Matt Roper <matthew.d.roper@intel.com>,
+ =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+ Diederik de Haas <diederik@cknow-tech.com>
+Subject: Re: [PATCH v6 2/4] drm: Add CRTC background color property
+Message-ID: <aXsp2s5a7sJL7Itp@smile.fi.intel.com>
+References: <20260129-rk3588-bgcolor-v6-0-c15f755a4055@collabora.com>
+ <20260129-rk3588-bgcolor-v6-2-c15f755a4055@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260129-drm-bridge-alloc-getput-document-null-check-v1-1-2e5334b9e78e@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAMsoe2kC/x2NQQqDMBAAvyJ77oIJVdp+pfQQN6sujYlsklIQ/
- 97Q4zAwc0BmFc7w6A5Q/kiWFBuYSwe0urgwim8Mtrdjb+wdvW44qfhmXAiJcOGy14I+Ud04Fow
- 1BKSV6Y1uGAyP1+k2k4FW3JVn+f5vz9d5/gAZN6w+fQAAAA==
-X-Change-ID: 20260129-drm-bridge-alloc-getput-document-null-check-a551e64b8fc1
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Liu Ying <victor.liu@nxp.com>, Hui Pu <Hui.Pu@gehealthcare.com>, 
- Ian Ray <ian.ray@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260129-rk3588-bgcolor-v6-2-c15f755a4055@collabora.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,92 +94,115 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:victor.liu@nxp.com,m:Hui.Pu@gehealthcare.com,m:ian.ray@gehealthcare.com,m:thomas.petazzoni@bootlin.com,m:linux-kernel@vger.kernel.org,m:luca.ceresoli@bootlin.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:cristian.ciocaltea@collabora.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:louis.chauvet@bootlin.com,m:hamohammed.sa@gmail.com,m:melissa.srw@gmail.com,m:jani.nikula@linux.intel.com,m:robert.mader@collabora.com,m:kernel@collabora.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:matthew.d.roper@intel.com,m:nfraprado@collabora.com,m:diederik@cknow-tech.com,m:hamohammedsa@gmail.com,m:melissasrw@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[andriy.shevchenko@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	HAS_ORG_HEADER(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,rock-chips.com,sntech.de,bootlin.com,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org,intel.com,cknow-tech.com];
+	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[bootlin.com:+];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,bootlin.com:dkim,bootlin.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 04E88AE2A4
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:dkim,smile.fi.intel.com:mid]
+X-Rspamd-Queue-Id: AE41FAE31A
 X-Rspamd-Action: no action
 
-drm_bridge_get and drm_bridge_put() do nothing when they are passed a NULL
-pointer, and they do so since their initial addition in commit 30d1b37d4c02
-("drm/bridge: add support for refcounting").
+On Thu, Jan 29, 2026 at 02:58:52AM +0200, Cristian Ciocaltea wrote:
+> Some display controllers can be hardware programmed to show non-black
+> colors for pixels that are either not covered by any plane or are
+> exposed through transparent regions of higher planes.  This feature can
+> help reduce memory bandwidth usage, e.g. in compositors managing a UI
+> with a solid background color while using smaller planes to render the
+> remaining content.
+> 
+> To support this capability, introduce the BACKGROUND_COLOR standard DRM
+> mode property, which can be attached to a CRTC through the
+> drm_crtc_attach_background_color_property() helper function.
+> 
+> Additionally, define a 64-bit ARGB format value to be built with the
+> help of a couple of dedicated DRM_ARGB64_PREP*() helpers.  Individual
+> color components can be extracted with desired precision using the
+> corresponding DRM_ARGB64_GET*() macros.
 
-This allows simpler code in various places when using these
-functions. However it's not documented, so it's not clear whether it is
-part of the API "contract" or just a current implementation detail that
-might change in the future.
+...
 
-There is no visible reason to remove this NULL check, so document it,
-making it part of the contract, letting users count on it.
+> +/*
+> + * Put 16-bit ARGB values into a standard 64-bit representation that can be
+> + * used for ioctl parameters, inter-driver communication, etc.
+> + *
+> + * If the component values being provided contain less than 16 bits of
+> + * precision, use a conversion ratio to get a better color approximation.
+> + * The ratio is computed as (2^16 - 1) / (2^bpc - 1), where bpc and 16 are
+> + * the input and output precision, respectively.
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
-Historical note: I thought this was documented from the beginning and
-realized it's not the case when someone proposed adding a 'if (bridge)
-drm_bridge_put(bridge)' to a driver [0]. Let's fix it now.
+Not sure if you should explicitly mention that "bpc must not be 0"
+(it can be derived from the "division by 0" in the given formula,
+but still...).
 
-[0] https://lore.kernel.org/lkml/DG0CHD0TAH9A.27UW4KKY2O9V7@bootlin.com/
----
- drivers/gpu/drm/drm_bridge.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> + */
+> +#define __DRM_ARGB64_PREP(c, shift)					\
+> +	(((__u64)(c) & __GENMASK(15, 0)) << (shift))
+> +
+> +#define __DRM_ARGB64_PREP_BPC(c, shift, bpc)({				\
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 3b165a0d1e77..3108249a63cd 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -282,7 +282,7 @@ static void __drm_bridge_free(struct kref *kref)
- 
- /**
-  * drm_bridge_get - Acquire a bridge reference
-- * @bridge: DRM bridge
-+ * @bridge: DRM bridge; if NULL this function does nothing
-  *
-  * This function increments the bridge's refcount.
-  *
-@@ -300,7 +300,7 @@ EXPORT_SYMBOL(drm_bridge_get);
- 
- /**
-  * drm_bridge_put - Release a bridge reference
-- * @bridge: DRM bridge
-+ * @bridge: DRM bridge; if NULL this function does nothing
-  *
-  * This function decrements the bridge's reference count and frees the
-  * object if the reference count drops to zero.
+Not sure if this is an accepted style in DRM, by I find it difficult
+to follow. I would expect the "({" be on a separate line.
 
----
-base-commit: a50007089e078a1b7a826559a02277b1601ee189
-change-id: 20260129-drm-bridge-alloc-getput-document-null-check-a551e64b8fc1
+> +	__u16 mask = __GENMASK((bpc) - 1, 0);				\
+> +	__u16 conv = __KERNEL_DIV_ROUND_CLOSEST((mask & (c)) *		\
+> +						__GENMASK(15, 0), mask);\
 
-Best regards,
+The whole point of the first patch is to use it in the divisions by 2^n - 1.
+Can we transform this to make it "divisions" by power-of-two?
+
+     ...: def dbm2(c, bpc):
+     ...:     m = (1 << bpc) - 1
+     ...:     c1 = m & c
+     ...:     r = c1 << (16 - bpc)
+     ...:     for i in range(1, 16 // bpc):
+     ...:         r = r + (c1 << (16 - (i + 1) * bpc))
+     ...:     return r
+
+The above is a Python version of PoC of this approximation. Basically
+we transform the fraction X / (2^n - 1) to a chained version of
+X / 2^n + X / 2^2n + ... X / 2^kn as derived from recurrent formula
+of i+1:th iteration as Xi+1 = Xi / 2^n + Xi / (2^n * (2^n - 1)).
+
+So, maybe that one should be used instead? (It may be thought through
+on how to collapse the for-loop to maybe some bitops, but even with
+a for-loop it might be faster than real division.)
+
+Note, we have some (for sure more than one, I remember the same Q appeared to
+me a few years ago) of the examples which may avoid division at all. I would
+like to have this macro to be kernel wide (and UAPI seems also okay).
+
+> +	__DRM_ARGB64_PREP(conv, shift);					\
+> +})
+
 -- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
+With Best Regards,
+Andy Shevchenko
+
 
