@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kKKMIi3Memmu+gEAu9opvQ
+	id iFCqHVTNemnU+gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 03:55:41 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 04:00:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156D1AB45F
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 03:55:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F35A1AB4A1
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 04:00:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1346410E7A7;
-	Thu, 29 Jan 2026 02:55:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE32610E7AE;
+	Thu, 29 Jan 2026 03:00:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="RE5oEN+B";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="JG+j+f9F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 436 seconds by postgrey-1.36 at gabe;
- Thu, 29 Jan 2026 02:55:35 UTC
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com
- [91.218.175.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49B3810E7A7;
- Thu, 29 Jan 2026 02:55:35 +0000 (UTC)
+X-Greylist: delayed 618 seconds by postgrey-1.36 at gabe;
+ Thu, 29 Jan 2026 03:00:32 UTC
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com
+ [95.215.58.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D23E10E7AF
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 03:00:32 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1769654887;
+ t=1769655012;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=w37zi7Z3Z1toycVB9XsslK/3vJdWdgc5ktIQdfluvMU=;
- b=RE5oEN+B/mFoQOi85mSF6DC0enssy/ugYR03qfZbKSUNTMLcb6Bl4sQObojIGaY6gFK++4
- qD4rYueiwW2la2xvYSE6QLhakVnqY4ec5S3JVzGT7crOLJ4lJgc0whIoTRRma6ng+rU+xT
- FjGWSYkkzH2Xcs35BJjMC4AeliQ8eIg=
+ bh=0LxstW29k/h/2F7AZ/O8A+GqEd32z7jzPtpyQ0dWEUQ=;
+ b=JG+j+f9Fe/HLug+o+caz4zwkyGcp/qX2uNIIpAKU0L1ZplRLRmJNRJm6d/f5oeQ8DrydYI
+ xGfh2QarC5IDlo1mHBeRtg9mSLgUt7AIjDxCFhwhX8OkMadq4jXMM7LJXTxVPmx2oZiL+2
+ P7MPkEE2yPHFgUudYu421dCOvpIHz7c=
 From: sunliming@linux.dev
 To: robin.clark@oss.qualcomm.com, lumag@kernel.org, airlied@gmail.com,
  simona@ffwll.ch
@@ -42,10 +42,10 @@ Cc: sean@poorly.run, marijn.suijten@somainline.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  sunliming <sunliming@kylinos.cn>, kernel test robot <lkp@intel.com>,
  Dan Carpenter <error27@gmail.com>
-Subject: [PATCH] drm/msm/dpu: Fix smatch warnings about variable dereferenced
- before check
-Date: Thu, 29 Jan 2026 10:47:11 +0800
-Message-Id: <20260129024711.30268-1-sunliming@linux.dev>
+Subject: [PATCH RESEND] drm/msm/dpu: Fix smatch warnings about variable
+ dereferenced before check
+Date: Thu, 29 Jan 2026 10:49:19 +0800
+Message-Id: <20260129024919.30449-1-sunliming@linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
@@ -74,24 +74,30 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_RECIPIENTS(0.00)[m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:sunliming@kylinos.cn,m:lkp@intel.com,m:error27@gmail.com,s:lists@lfdr.de];
 	FREEMAIL_CC(0.00)[poorly.run,somainline.org,vger.kernel.org,lists.freedesktop.org,kylinos.cn,intel.com,gmail.com];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,gmail.com,ffwll.ch];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_SENDER(0.00)[sunliming@linux.dev,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_COUNT_TWO(0.00)[2];
 	FROM_NEQ_ENVFROM(0.00)[sunliming@linux.dev,dri-devel-bounces@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[linux.dev:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FROM_NO_DN(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MISSING_XM_UA(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 156D1AB45F
+X-Rspamd-Queue-Id: F35A1AB4A1
 X-Rspamd-Action: no action
 
 From: sunliming <sunliming@kylinos.cn>
@@ -122,7 +128,7 @@ index e65f1fc026fd..312ee6597ab1 100644
  	if (!ctx || !pe_ext)
  		return;
  
-+	u32 offset = ctx->cap->sblk->sspp_rec0_blk.base;
++	offset = ctx->cap->sblk->sspp_rec0_blk.base;
 +
  	c = &ctx->hw;
  	/* program SW pixel extension override for all pipes*/
