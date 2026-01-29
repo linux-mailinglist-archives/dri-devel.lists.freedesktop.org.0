@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KNqWNY7Iemk7+gEAu9opvQ
+	id WOP6Mo7Iemky+gEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
 	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 03:40:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A1F5AB30C
+	by mail.lfdr.de (Postfix) with ESMTPS id 51660AB30B
 	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 03:40:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B33D910E7AD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A8C710E7AC;
 	Thu, 29 Jan 2026 02:40:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A554110E7A6
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 02:39:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49E7C10E7A6
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 02:40:05 +0000 (UTC)
 Received: from edelgard.fodlan.icenowy.me (unknown [112.94.102.235])
- by APP-03 (Coremail) with SMTP id rQCowADX9t1byHppMtQpBw--.56353S9;
- Thu, 29 Jan 2026 10:39:45 +0800 (CST)
+ by APP-03 (Coremail) with SMTP id rQCowADX9t1byHppMtQpBw--.56353S10;
+ Thu, 29 Jan 2026 10:39:46 +0800 (CST)
 From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
@@ -40,18 +40,18 @@ Cc: Philipp Zabel <p.zabel@pengutronix.de>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-riscv@lists.infradead.org, Icenowy Zheng <uwu@icenowy.me>,
  Icenowy Zheng <zhengxingda@iscas.ac.cn>
-Subject: [PATCH v7 7/8] riscv: dts: thead: lichee-pi-4a: enable HDMI
-Date: Thu, 29 Jan 2026 10:39:21 +0800
-Message-ID: <20260129023922.1527729-8-zhengxingda@iscas.ac.cn>
+Subject: [PATCH v7 8/8] mailmap: map all Icenowy Zheng's mail addresses
+Date: Thu, 29 Jan 2026 10:39:22 +0800
+Message-ID: <20260129023922.1527729-9-zhengxingda@iscas.ac.cn>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260129023922.1527729-1-zhengxingda@iscas.ac.cn>
 References: <20260129023922.1527729-1-zhengxingda@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: rQCowADX9t1byHppMtQpBw--.56353S9
-X-Coremail-Antispam: 1UD129KBjvJXoW7WFy8Kw1kKr4kAr1rKF4UJwb_yoW8XF1Dpa
- 1xGrsaqFyDCr43u3W3AF18Grn8Krs5ZF93Gw13Z34UJrsIgFZ7t3yfKws8XFyDXFZ3Xr43
- AF1kZF4a9r1qyw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: rQCowADX9t1byHppMtQpBw--.56353S10
+X-Coremail-Antispam: 1UD129KBjvJXoWrKryDWr4ktryDKw4fCFWDXFb_yoW8JrWkpr
+ 4xGF4UKFykAwn29r1qgry5XF18Xa95WF4DGw4Yvw18urZ3JF1kWrsxtayDXr1UJrWS93y3
+ JFnFvr93W3Z7A3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnRJUUUmq14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
  rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
  kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
@@ -116,73 +116,42 @@ X-Spamd-Result: default: False [2.39 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 7A1F5AB30C
+X-Rspamd-Queue-Id: 51660AB30B
 X-Rspamd-Action: no action
 
-Lichee Pi 4A board features a HDMI Type-A connector connected to the
-HDMI TX controller of TH1520 SoC.
+From: Icenowy Zheng <uwu@icenowy.me>
 
-Add a device tree node describing the connector, connect it to the HDMI
-controller, and enable everything on this display pipeline.
+Map all mail addresses Icenowy Zheng had used to the personal mailbox
+prefixed "uwu".
+
+All these mailboxes, except the one of Sipeed (which was only used
+during a summer vacation internship), can accept mails now.
 
 Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
-Tested-by: Han Gao <gaohan@iscas.ac.cn>
-Tested-by: Michal Wilczynski <m.wilczynski@samsung.com>
 ---
-No changes in v5.
+No changes since v4.
 
-Changes in v4:
-- Rebased on top of v6.19-rc1.
+New patch in v3.
 
-No changes in v2, v3.
+ .mailmap | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- .../boot/dts/thead/th1520-lichee-pi-4a.dts    | 25 +++++++++++++++++++
- 1 file changed, 25 insertions(+)
-
-diff --git a/arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dts b/arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dts
-index c58c2085ca92a..7cb7d28683bce 100644
---- a/arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dts
-+++ b/arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dts
-@@ -29,6 +29,17 @@ chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
- 
-+	hdmi-connector {
-+		compatible = "hdmi-connector";
-+		type = "a";
-+
-+		port {
-+			hdmi_con_in: endpoint {
-+				remote-endpoint = <&hdmi_out_con>;
-+			};
-+		};
-+	};
-+
- 	thermal-zones {
- 		cpu-thermal {
- 			polling-delay = <1000>;
-@@ -121,6 +132,20 @@ rx-pins {
- 	};
- };
- 
-+&dpu {
-+	status = "okay";
-+};
-+
-+&hdmi {
-+	status = "okay";
-+};
-+
-+&hdmi_out_port {
-+	hdmi_out_con: endpoint {
-+		remote-endpoint = <&hdmi_con_in>;
-+	};
-+};
-+
- &uart0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&uart0_pins>;
+diff --git a/.mailmap b/.mailmap
+index 428d721ffbb16..ade2883f1c056 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -319,6 +319,10 @@ Henrik Rydberg <rydberg@bitmath.org>
+ Herbert Xu <herbert@gondor.apana.org.au>
+ Huacai Chen <chenhuacai@kernel.org> <chenhc@lemote.com>
+ Huacai Chen <chenhuacai@kernel.org> <chenhuacai@loongson.cn>
++Icenowy Zheng <uwu@icenowy.me> <zhengxingda@iscas.ac.cn>
++Icenowy Zheng <uwu@icenowy.me> <icenowy@aosc.io>
++Icenowy Zheng <uwu@icenowy.me> <icenowy@aosc.xyz>
++Icenowy Zheng <uwu@icenowy.me> <icenowy@sipeed.com>
+ Ike Panhc <ikepanhc@gmail.com> <ike.pan@canonical.com>
+ J. Bruce Fields <bfields@fieldses.org> <bfields@redhat.com>
+ J. Bruce Fields <bfields@fieldses.org> <bfields@citi.umich.edu>
 -- 
 2.52.0
 
