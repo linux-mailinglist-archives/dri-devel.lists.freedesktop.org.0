@@ -2,146 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KN/IEV1+e2kQFAIAu9opvQ
+	id EJ+uM06Ae2mQFAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 16:35:57 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 16:44:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBFF1B18BC
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 16:35:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A8EDB1980
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 16:44:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 442D310E897;
-	Thu, 29 Jan 2026 15:35:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E60E10E8A4;
+	Thu, 29 Jan 2026 15:44:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Gq57Az3W";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="cEq+PTcY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11011022.outbound.protection.outlook.com [40.107.208.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFF3210E897;
- Thu, 29 Jan 2026 15:35:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bVtwB4RBzR8P/QmmRxf9g4Safh6s0tCqIHgv0cn/fNYFwZIf4giALNx7ON6l0ojrnJnKDOYkBDSiboPlZLtToND+/oDpnxkVSuKk4xFS8VoKeYWf5ZzvtD/Va/1+3DxsTx/Mt4UuKIrL/iMFdgMCS1aGp0DggIaxC+KH0ocqCuV6CnfeZavZguoS84Gvj0OAKiPuSBE4rRlI3LuTEeGNWKjFB3xy1fIDPl1sCqipw9kAvig2q+/s4YfOdrT2lCSwpnoalSEqblJB+0qLN39LlWRK1vF7SlE3eo/ZOvSRRrD8PqGAcaA6PWXxoPdLvmBOSw5hAMlELeujkhuGX1ATag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Xr5lADiH3Ok9PAp3wwyVgDIwyLIQTT/j8CgoGSzlu0g=;
- b=EgW+CjwEsOW7Z3S21n7SaWF1z84f85gZbuGug01iJZdoiwnhaUcuxDtbdjvLjv3JMCAdojFkY/6XXc1SL9o8LGq6pbmh6jDcWCWO5BivNqM9BNesqssPljZXO2nJqgz8wGz45GBt2BEowdVnnftrZ9IJfSSHPPJKUKqlk088+JjHxMOwVEwzqNXqkKSV1yLCHBoYjtRIeSIXvU9wQ9Pe6Wf2dWv0Pe6sfv408Cp1gqVWJLkqGFKwcYVrCa5NNXsLEEJQ5RxcDxQ+r+s/ldvjDGH5liUVpwwy3z+JEj21V1d6cWMx6USIqaQdWJn1a2JkkCU/9A+j0uTWvsq40BDdUQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xr5lADiH3Ok9PAp3wwyVgDIwyLIQTT/j8CgoGSzlu0g=;
- b=Gq57Az3WvrZK7fEeksEZrqNUjai/t9TUvG2L4dzMk9EOXkEBXe8TEVMhrr/KLrKZuS6SIQNTtDHAPLMU6bM2kopvBtZ3Ph6rUDYptQc5E+31j4YqtRmJ+zzcZm7GaxVANcKHrSI0NkrbQHKYo+2inrTFCz52p++DLNXJVnr0Hrc=
-Received: from BY3PR05CA0039.namprd05.prod.outlook.com (2603:10b6:a03:39b::14)
- by LV2PR12MB5871.namprd12.prod.outlook.com (2603:10b6:408:174::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Thu, 29 Jan
- 2026 15:35:49 +0000
-Received: from CO1PEPF000044F5.namprd05.prod.outlook.com
- (2603:10b6:a03:39b:cafe::ab) by BY3PR05CA0039.outlook.office365.com
- (2603:10b6:a03:39b::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.2 via Frontend Transport; Thu,
- 29 Jan 2026 15:35:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CO1PEPF000044F5.mail.protection.outlook.com (10.167.241.75) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.3 via Frontend Transport; Thu, 29 Jan 2026 15:35:48 +0000
-Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
- satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 29 Jan 2026 09:35:42 -0600
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v7 12/12] drm/amdgpu: move sched status check inside
- amdgpu_ttm_set_buffer_funcs_status
-Date: Thu, 29 Jan 2026 16:33:24 +0100
-Message-ID: <20260129153336.7473-13-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260129153336.7473-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20260129153336.7473-1-pierre-eric.pelloux-prayer@amd.com>
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+ [209.85.208.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 956E210E8A5
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 15:44:09 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id
+ 4fb4d7f45d1cf-658b511573cso2020427a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 07:44:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin.net; s=google; t=1769701448; x=1770306248; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=gf72vv/L1NZVmpVrv7jod85nxZQsIOHsk45dE27u4yk=;
+ b=cEq+PTcYWKojQ2WFxXtPioPaupuEz6SGHswjEvG+nZ5QmZIBRAJvdFlbl4iSUNbmn2
+ cUpVaOhhRCcQwqSxcQFKHAevzJt6exnzwaelAQCpgGywJVVQFOdJcU5LATj1JH6Mn3uP
+ ZAij4kPt/NBJqYiLWKpUyBoRYfbK8IeM6qpj8RAFsszHMGFGQih7JpI/pbthQwJDlB8C
+ RQADObViMIYid6Hq9vfBJ4c2ZWoQaTQII8+j8zkyrJoZPpjod5NDiYm8JO2b9BdS3B8u
+ I+d5UWC9LN2CujjGFzfoNCFUiCwZ1r12Fy06zLEts0ESBAL4Uf54lvgNm4wruep6WZ3R
+ 47IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769701448; x=1770306248;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=gf72vv/L1NZVmpVrv7jod85nxZQsIOHsk45dE27u4yk=;
+ b=MmMN3wDwcQufYXvTbrXX4UAbxDobYdeHTvUekjMQAXIxwrMsRsnUIfFQVK/Y2yeYx4
+ 9lE8hqykkfEuWiuPE/xio0//z3PNe90Pm1WruAP6P3jxwlFKhG0bQLjJzf544uVnlPQW
+ CLySSeFF+1+EBsVUPSQILcgyWPnSXp2/6rApAc1MdPtJll07iR9xNAmz+mwru2kHPVn0
+ DTZfPnvkk4sXuAL8A+aFU6IWgXGxZ7BxjXdkGMlWSHpfgfErjYJv0E193jqMs5omS/jG
+ Fvw71ATqqLEKNP84/eEf2SX3lW3kZ4kAI5uf8laBMhRTDjK62SDQ5WVjVBPztYAijaBv
+ sHGA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXyJLbRCG7us/UKTEdhrlEmYs4DqwnLbfFzVoaDsRsu7wuCy61vg/teHLxaBuTyIrWy4zU0OArF8o8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwKFQTmDgrLTWMeRgcwbsgEzjgBnLy8Vw2rvaRxnl9JI2q5G/zQ
+ wnAnVkAXYNZ0yifQ+CV62XFWYrHKdjCsubbci7iK7KXwdgKVtEY1RhgJoV+4Fd57VxM=
+X-Gm-Gg: AZuq6aJbtKUsw8ltIQN3Ot+hggheTPBlvjfHx+NWpGbrcOteVJ8XTd76TNQdWHBNy6H
+ PPrMq+8y0zAi5/EW9kfnBtW9W0S0A4Lt65ZBLJldJPnxHvMeszipbnntxzr0zS9F6pYkCxid+Wf
+ nnXMMZXCu2ZBFir+TOI9znkJ7dI2kSRVBENBDKUXqS7jSTma+jvUBkGXhGzLHYsaITB7yjeval7
+ CblS8RsEFDpt4VMR8MHyi6RYiTTCTCj1eKAUB+gqncNvEB4Ww24VUFDJ3UDq6SGCtC/9GK67I/z
+ Iy207ZNDQq9WKel693k/ND3oYw2GAcXYFZGegvqKiZjojH8msaoSX0MhgLNAUwEmBJnAyYQOn/B
+ EQDfQdyt30u+Kf+ZX1/klvdGZMw6iDEa8aA82OfHLSCEVdILPXriKTk08vpFXuLt8u0yjhJXT88
+ r5A3akYNYZEMDtQdgsXqdtwLglM57SbN0U
+X-Received: by 2002:a05:6402:42c8:b0:64b:4f44:60ef with SMTP id
+ 4fb4d7f45d1cf-658a60af2famr6532349a12.27.1769701447969; 
+ Thu, 29 Jan 2026 07:44:07 -0800 (PST)
+Received: from [192.168.0.101] ([90.240.106.137])
+ by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-658b4256a35sm3047135a12.1.2026.01.29.07.44.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Jan 2026 07:44:06 -0800 (PST)
+Message-ID: <36b2f7b1-f38e-41b6-b7e5-107a80c028d0@ursulin.net>
+Date: Thu, 29 Jan 2026 15:44:05 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044F5:EE_|LV2PR12MB5871:EE_
-X-MS-Office365-Filtering-Correlation-Id: 732a167e-ebbe-4f7b-e5d0-08de5f4c13c1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|1800799024|376014|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SFJaeVVCcERBck9LeExqemF6bE9vNDRtcnN0TEkyeHBJcHNIYUZWYmNkRTJr?=
- =?utf-8?B?clJpcnl4YnhTNTFTSW9DRjk3VW56djBhbEliTnBxU3FuMlNZTXNhOElRdGVz?=
- =?utf-8?B?U2dHVStORk8rSEFwaDcxZU8rd0FVOEkwaHk3Nzl4M3pWOHVKUWJvdVY1dm8z?=
- =?utf-8?B?OGUyNWtYak1scmVGeDBhK3pRb1dqS3V4WU1EdmtQMlpRSkI2TnpRNmVsYmk3?=
- =?utf-8?B?R3hMNzlpR3dyczJFL0RlbWQzNStmbW1Yc1YvWjlpM04xYTU2K2lhUm1FQlJ0?=
- =?utf-8?B?cFJ6NFI3WkI4MlpCdVoxbzREejZvZWY0YXVoblV4TzA0R2l2QTMxMEZKSzlx?=
- =?utf-8?B?TlZQWGNxZjhabmdaSFIweFRkTk03UW9wWXJSUlFOV2wzOTVNZXZSNkdiNkwv?=
- =?utf-8?B?THM0dG1oOW9jUk1QV2NYaHgvM1o4c3g3R2l2RS8yOWU1WU1wTjhuY292R3VQ?=
- =?utf-8?B?dnNpSHROK3VnZ1piWU4vRGRBWnlFWGk3bGZhNXh4SEhmTlFtT2VHZmJLMHda?=
- =?utf-8?B?WXJRT3RyQVMrbS9EVHJYbFBxTk1wekhDZC9iUzBPUHlUdjNXMTd1cEl3Y3lF?=
- =?utf-8?B?bmVQbHhJbCtxNWkxQSt0M1ZmWGVnMTJ6Sy9oR1NkeXhXZGpPaWE0VmVBMTB0?=
- =?utf-8?B?SjdUZGwyOVRTR3FKQmY4cG5laExZRU1vcHl6VFhqZ0lJamRhbU03dUlHUDhB?=
- =?utf-8?B?R241azBMY2tRTGMwcGtFYUNRUW00T0xiUkF4QkFLdzU1Q0tDTkx2c1o1OEYr?=
- =?utf-8?B?Y1lic0ZNTVJhanFzckluNHFvU3pDMWZRMDJaSUEzbkl3R285QlJQdVFjQ05T?=
- =?utf-8?B?c3k4VXZvbkQ1YSs0Q1ZtSG1DOWQ1aW9ERDJUK3VVQ0xiVEhPZTdxNTV6eTNU?=
- =?utf-8?B?T2J4SDR2OFpaWE1NcHBudWxCTyt4Y1RsZWNUQTc1U3RLV01FbTNGQTZMTERy?=
- =?utf-8?B?TjdCMys4S3VrOFNXbVRCSGlnaWxtK2lpam41R0ZCVGJ5VHJnVVpnd3E1LzVX?=
- =?utf-8?B?OG95bWtOTlhYQ0lDTTRvRFMxT2RCcGdvVEpIU2diMmZRVjZkRTFGQ3h4bkZu?=
- =?utf-8?B?cVhBaC94T0t1U1Z1NkFMUXZHYlAweEgxbGRoUjhxVTFYK3FDTHVsUS9ydFRN?=
- =?utf-8?B?cExqK2dUWG9QK2lJb2NucDVHYjdnSXl3WXZCdEV1UzlwdnpjbmRYRTBYYlUw?=
- =?utf-8?B?eHlUUlR0bXE2YXJrQTNQMUFRdmlJNjB2WHhsSEZHT0NJNk0vRUlwR05XT2JF?=
- =?utf-8?B?NzdhT0I5LzZjblFUTUszTEFKMEZaTlBWRXpWMEJkWkp6dVVBRTJNRWpBdll0?=
- =?utf-8?B?emJBQkk3VUZCeVZ4UWYrRnFST2lZc2xENHZTMnEwbDEzb0RjWENYM1JEcWI0?=
- =?utf-8?B?TGhhMVVDcmZPVFduV1l4Rko5bVpMZWFtL0lFQ2V0ekJtQWY0aHlvOGZGNjFR?=
- =?utf-8?B?Ymw4cFdCS3hGOVRWRU4rcUF1aXNOTDFSOTNtcUppTFRWYTRMS21HdG00a0Fa?=
- =?utf-8?B?Y0hZN3l5am9WdTQ4c1Z6ak5KRHkrMnJzbS9aZ2VpZi90L1Y2VDY3SUdZa2k5?=
- =?utf-8?B?Szc1RUFibjhPNU9tQ1JEWVQ3WGVQNE0vdG1kOGh6LzBFTFFDYU5Rc2MwN2VY?=
- =?utf-8?B?Yk9UK0lIL29XUUN3NW93ZmFrKzk2Q3VRYnBvMzFzeDdmZnQycUtNT1p3QWFx?=
- =?utf-8?B?ZGNEUnJuY2xBWk03dndOaHBXUUZ4YUFXSmt5WkxMb3hzMFdCdEhTbTRiRi85?=
- =?utf-8?B?alVydG5CVG9xa3NXWERhcmVVQzR6aFRpb2d6QWFqbzRLUmRoZFQ4U1J0YzZ3?=
- =?utf-8?B?VjRDMU54WXdiblhQVU0yamlQU0hJR1I4NVU2SWdZTUpFVExHZklzVE0xblBE?=
- =?utf-8?B?cllJdksvMlZTTlZQYTJnYTE4SGMzRmRNMDJyRjVJM0pQbWFQd1phcVZ4Vnds?=
- =?utf-8?B?TkR0RXR3UGhQaTEwTUJhdVlDZXlhVGVTU3A5RVVFUC83NytOMWd3eE1PZ1NC?=
- =?utf-8?B?eXF6cEJCUkFLcWhyaGhmUkZwWndCK0RRT3ZqUkdlS2x0UW5SOENCWnpGYWlW?=
- =?utf-8?B?MEJSckpSTmZJNTR5S3RsUEZwN3dKNmFZYnBQZG5WVStiNXI5Q092eVZqcEhT?=
- =?utf-8?B?REVkSlRIUG1sdWEyYVJUMUhJT2t6SUtrM1oyZXlMM25zNUpOMzN4UmNIUXlp?=
- =?utf-8?B?WWJpTU5BSUZSdER6aXM3UDhEdlZTWkN1eWhocFJRMm9OV2JiU0w0R0EvRWRp?=
- =?utf-8?B?WkY5OWNqMGJkQjk5L0lOZnp3Z21nPT0=?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: kLhAauJRAqHa0kSBhlAPZkO46q2DFrTEqDyT0e2v4tB7Q+VcW9a1CljgPF76SfDYyGCL7R2QtPIEwEh5nWM+YVWZ+Oo4pgM3SS/per+Y0y4ZdX5/SRYnLyz9l5YYrAlfeZYq9tEoBYuaeidcst2xEK6N0OL6yqxs6FP3vjIA9EhUsVKl8MkWd6cud3Zt1DOMPkbsohP1N7lyirCKWnc/OQHSIM07T+Cu8dXv+NR4wBZa86+WVO+2S4eSuz1DOloe7td34NrlrKrwV1zI+ZUSwlhQSxGNBWyTjMKOQV+b1AwyN8K86VVCfxEIs+aVE60kCHuqsrorqhN9lcEWr0zWRD1GUTkOqaCyP8bHhHRV+LQO2Gv/wdneVUT69WMD+GB1wbK2+9ae3p5a/A8C681FfrKaoXhrrF6bUcStJP9S/fWgBOSIgZmA01OOdhnCNCgd
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2026 15:35:48.5474 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 732a167e-ebbe-4f7b-e5d0-08de5f4c13c1
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F5.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5871
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] drm/sched: Add new KUnit test suite for concurrent
+ job submission
+To: Marco Pagani <marco.pagani@linux.dev>
+Cc: airlied@gmail.com, ckoenig.leichtzumerken@gmail.com, dakr@kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, marpagan@redhat.com,
+ matthew.brost@intel.com, mripard@kernel.org, phasta@kernel.org,
+ simona@ffwll.ch, tzimmermann@suse.de
+References: <79cf2013-da6b-4653-aaa8-3e29a7d1ee3a@ursulin.net>
+ <90cdb121-7ff2-43a5-9327-2898b5e65609@linux.dev>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <90cdb121-7ff2-43a5-9327-2898b5e65609@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,110 +102,317 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[ursulin.net:s=google];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[amd.com,gmail.com,ffwll.ch];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[ursulin.net];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_RECIPIENTS(0.00)[m:marco.pagani@linux.dev,m:airlied@gmail.com,m:ckoenig.leichtzumerken@gmail.com,m:dakr@kernel.org,m:linux-kernel@vger.kernel.org,m:maarten.lankhorst@linux.intel.com,m:marpagan@redhat.com,m:matthew.brost@intel.com,m:mripard@kernel.org,m:phasta@kernel.org,m:simona@ffwll.ch,m:tzimmermann@suse.de,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,lists.freedesktop.org,vger.kernel.org,linux.intel.com,redhat.com,intel.com,ffwll.ch,suse.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	HAS_XOIP(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[pierre-eric.pelloux-prayer@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[amd.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[8];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email,amd.com:dkim,amd.com:mid]
-X-Rspamd-Queue-Id: EBFF1B18BC
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[ursulin.net:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 8A8EDB1980
 X-Rspamd-Action: no action
 
-It avoids duplicated code and allows to output a warning.
 
----
-v4: move check inside the existing if (enable) test
----
+On 28/01/2026 11:39, Marco Pagani wrote:
+> 
+> On 22/01/2026 10:51, Tvrtko Ursulin wrote:
+>>
+>> On 20/01/2026 20:52, Marco Pagani wrote:
+>>> Add a new test suite to simulate concurrent job submissions from userspace.
+>>> The suite includes a basic test case where each worker submits a single
+>>> job, and a more advanced case involving the submission of multiple jobs.
+>>
+>> New test coverage is welcome!
+> 
+> Hi Tvrtko, Philip, and thank you.
+> 
+>> But as Philipp has said some more context would be beneficial. Like are
+>> you trying to hit a bug, or extend later with something which will hit a
+>> bug and then you will propose improvements? Or simply improving the
+>> coverage?
+> 
+> Sure, I'll extend the commit message to be more descriptive in the next
+> version.
+>   
+>> If it is about some race I would maybe consider putting this into a new
+>> tests_races.c. I actually have this file locally and some unfinished
+>> test cases already, although it is unclear when I will be happy with
+>> them to post. But if the test is simply about adding coverage it is fine
+>> to live in tests_basic.c.
+> 
+> The general idea is to extend the suite with some initial tests that stress
+> concurrency to spot race conditions. Having these initial tests grouped together
+> with future ones in a new tests_races.c file makes perfect sense to me.
 
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 13 ++++---------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  5 +++++
- 2 files changed, 9 insertions(+), 9 deletions(-)
+It can also be moved later, if/when tests_basic.c grows too long for 
+comfort. My suggestion was conditional on knowing how many tests cases 
+and for what kind of races you plan to add soon. If there are no clear 
+plans to hit already known bugs, then again, it is fine to keep it in a 
+single file for now.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 362ab2b34498..98aead91b98b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3158,9 +3158,7 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
- 	if (r)
- 		goto init_failed;
- 
--	if (adev->mman.buffer_funcs_ring &&
--	    adev->mman.buffer_funcs_ring->sched.ready)
--		amdgpu_ttm_set_buffer_funcs_status(adev, true);
-+	amdgpu_ttm_set_buffer_funcs_status(adev, true);
- 
- 	/* Don't init kfd if whole hive need to be reset during init */
- 	if (adev->init_lvl->level != AMDGPU_INIT_LEVEL_MINIMAL_XGMI) {
-@@ -4052,8 +4050,7 @@ static int amdgpu_device_ip_resume(struct amdgpu_device *adev)
- 
- 	r = amdgpu_device_ip_resume_phase2(adev);
- 
--	if (adev->mman.buffer_funcs_ring->sched.ready)
--		amdgpu_ttm_set_buffer_funcs_status(adev, true);
-+	amdgpu_ttm_set_buffer_funcs_status(adev, true);
- 
- 	if (r)
- 		return r;
-@@ -5199,8 +5196,7 @@ int amdgpu_device_suspend(struct drm_device *dev, bool notify_clients)
- 	return 0;
- 
- unwind_evict:
--	if (adev->mman.buffer_funcs_ring->sched.ready)
--		amdgpu_ttm_set_buffer_funcs_status(adev, true);
-+	amdgpu_ttm_set_buffer_funcs_status(adev, true);
- 	amdgpu_fence_driver_hw_init(adev);
- 
- unwind_userq:
-@@ -5931,8 +5927,7 @@ int amdgpu_device_reinit_after_reset(struct amdgpu_reset_context *reset_context)
- 				if (r)
- 					goto out;
- 
--				if (tmp_adev->mman.buffer_funcs_ring->sched.ready)
--					amdgpu_ttm_set_buffer_funcs_status(tmp_adev, true);
-+				amdgpu_ttm_set_buffer_funcs_status(tmp_adev, true);
- 
- 				r = amdgpu_device_ip_resume_phase3(tmp_adev);
- 				if (r)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 7eaaf5d4db94..10943311ce94 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -2354,6 +2354,11 @@ void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
- 		struct amdgpu_ring *ring;
- 		struct drm_gpu_scheduler *sched;
- 
-+		if (!adev->mman.buffer_funcs_ring || !adev->mman.buffer_funcs_ring->sched.ready) {
-+			dev_warn(adev->dev, "Not enabling DMA transfers for in kernel use");
-+			return;
-+		}
-+
- 		ring = adev->mman.buffer_funcs_ring;
- 		sched = &ring->sched;
- 		r = amdgpu_ttm_buffer_entity_init(&adev->mman.gtt_mgr,
--- 
-2.43.0
+>>> Signed-off-by: Marco Pagani <marpagan@redhat.com>
+>>> ---
+>>>    drivers/gpu/drm/scheduler/tests/tests_basic.c | 175 ++++++++++++++++++
+>>>    1 file changed, 175 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+>>> index 82a41a456b0a..7c25bcbbe7c9 100644
+>>> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+>>> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+>>> @@ -2,6 +2,7 @@
+>>>    /* Copyright (c) 2025 Valve Corporation */
+>>>    
+>>>    #include <linux/delay.h>
+>>> +#include <linux/completion.h>
+>>>    
+>>>    #include "sched_tests.h"
+>>>    
+>>> @@ -235,6 +236,179 @@ static void drm_sched_basic_cancel(struct kunit *test)
+>>>    	KUNIT_ASSERT_EQ(test, job->hw_fence.error, -ECANCELED);
+>>>    }
+>>>    
+>>> +struct sched_concurrent_test_context {
+>>> +	struct drm_mock_scheduler *sched;
+>>> +	struct workqueue_struct *sub_wq;
+>>> +	struct completion wait_go;
+>>> +};
+>>> +
+>>> +KUNIT_DEFINE_ACTION_WRAPPER(destroy_workqueue_wrap, destroy_workqueue,
+>>> +			    struct workqueue_struct *);
+>>> +
+>>> +KUNIT_DEFINE_ACTION_WRAPPER(drm_mock_sched_fini_wrap, drm_mock_sched_fini,
+>>> +			    struct drm_mock_scheduler *);
+>>> +
+>>> +KUNIT_DEFINE_ACTION_WRAPPER(drm_mock_sched_entity_free_wrap, drm_mock_sched_entity_free,
+>>> +			    struct drm_mock_sched_entity *);
+>>> +
+>>> +static int drm_sched_concurrent_init(struct kunit *test)
+>>> +{
+>>> +	struct sched_concurrent_test_context *ctx;
+>>> +	int ret;
+>>> +
+>>> +	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
+>>> +
+>>> +	init_completion(&ctx->wait_go);
+>>> +
+>>> +	ctx->sched = drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
+>>> +
+>>> +	ret = kunit_add_action_or_reset(test, drm_mock_sched_fini_wrap, ctx->sched);
+>>> +	KUNIT_ASSERT_EQ(test, ret, 0);
+>>> +
+>>> +	/* Use an unbounded workqueue to maximize job submission concurrency */
+>>> +	ctx->sub_wq = alloc_workqueue("drm-sched-submitters-wq", WQ_UNBOUND,
+>>> +				      WQ_UNBOUND_MAX_ACTIVE);
+>>> +	KUNIT_ASSERT_NOT_NULL(test, ctx->sub_wq);
+>>> +
+>>> +	ret = kunit_add_action_or_reset(test, destroy_workqueue_wrap, ctx->sub_wq);
+>>> +	KUNIT_ASSERT_EQ(test, ret, 0);
+>>> +
+>>> +	test->priv = ctx;
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +struct drm_sched_concurrent_params {
+>>> +	const char *description;
+>>> +	unsigned int job_base_us;
+>>> +	unsigned int num_jobs;
+>>> +	unsigned int num_subs;
+>>> +};
+>>> +
+>>> +static const struct drm_sched_concurrent_params drm_sched_concurrent_cases[] = {
+>>> +	{
+>>> +		.description = "Concurrently submit a single job in a single entity",
+>>> +		.job_base_us = 1000,
+>>> +		.num_jobs = 1,
+>>> +		.num_subs = 32,
+>>> +	},
+>>
+>> Why is submission from a single thread interesting if it is already covered?
+> 
+> These two initial parameter sets cover only concurrent submission:
+> multiple submitters, single job / multiple submitters, multiple jobs.
 
+Yes sorry I got confused jumping back and forth.
+
+>>> +	{
+>>> +		.description = "Concurrently submit multiple jobs in a single entity",
+>>> +		.job_base_us = 1000,
+>>> +		.num_jobs = 10,
+>>> +		.num_subs = 64,
+>>> +	},
+>>> +};
+>>> +
+>>> +static void
+>>> +drm_sched_concurrent_desc(const struct drm_sched_concurrent_params *params, char *desc)
+>>> +{
+>>> +	strscpy(desc, params->description, KUNIT_PARAM_DESC_SIZE);
+>>> +}
+>>> +
+>>> +KUNIT_ARRAY_PARAM(drm_sched_concurrent, drm_sched_concurrent_cases, drm_sched_concurrent_desc);
+>>> +
+>>> +struct submitter_data {
+>>> +	struct work_struct work;
+>>> +	struct sched_concurrent_test_context *ctx;
+>>> +	struct drm_mock_sched_entity *entity;
+>>> +	struct drm_mock_sched_job **jobs;
+>>> +	struct kunit *test;
+>>> +	unsigned int id;
+>>> +	bool timedout;
+>>> +};
+>>> +
+>>> +static void drm_sched_submitter_worker(struct work_struct *work)
+>>> +{
+>>> +	const struct drm_sched_concurrent_params *params;
+>>> +	struct sched_concurrent_test_context *ctx;
+>>> +	struct submitter_data *sub_data;
+>>> +	unsigned int i, duration_us;
+>>> +	unsigned long timeout_jiffies;
+>>> +	bool done;
+>>> +
+>>> +	sub_data = container_of(work, struct submitter_data, work);
+>>> +	ctx = sub_data->ctx;
+>>> +	params = sub_data->test->param_value;
+>>> +
+>>> +	wait_for_completion(&ctx->wait_go);
+>>> +
+>>> +	for (i = 0; i < params->num_jobs; i++) {
+>>> +		duration_us = params->job_base_us + (sub_data->id * 10);
+>>
+>> Why is job duration dependent by the submitter id?
+> 
+> Just a simple way to have a deterministic distribution of durations.
+> I can change it if it doesn't fit.
+> 
+>> Would it be feasiable to not use auto-completing jobs and instead
+>> advance the timeline manually? Given how the premise of the test seems
+>> to be about concurrent submission it sounds plausible that what happens
+>> after submission maybe isn't very relevant.
+> 
+> Good idea! I'll run some experiments and see if it works.
+
+Cool, I will await your findings in v2. :)
+
+>>> +		drm_mock_sched_job_set_duration_us(sub_data->jobs[i], duration_us);
+>>> +		drm_mock_sched_job_submit(sub_data->jobs[i]);
+>>
+>> On a related note, one interesting thing to add coverage for later is
+>> multi-threaded submit of multiple jobs against a single entity. But it
+>> is not an immediate need. Just mentioning it as something interesting.
+> 
+> Currently, the test configures each submitter to submit multiple jobs
+> against its own dedicated entity. I considered adding a test case for
+> submitting multiple jobs against multiple entities, but I decided to
+> leave it for the future.
+> 
+>> It would mean open coding drm_mock_sched_job_submit() as
+>> drm_sched_job_arm() and drm_sched_entity_push_job() and sticking some
+>> delay in between so two threads have the chance to interleave. Mock
+>> scheduler does not handle it today, neither does the scheduler itself
+>> who punts responsibility to callers. So adding a test and making the
+>> mock scheduler handle that properly would serve as an example on how
+>> scheduler must be used. Or what can go bad if it isn't.
+> 
+> Do you mean having multiple (k)threads submitting against the same entity?
+> Would that be used to model a multithread application that uses multiple queues?
+
+Yes, since there is nothing preventing userspace to do that today, with 
+any driver. So IMO would be interesting to see what explodes, and to 
+then model the mock scheduler as an example on what is the proper way to 
+handle it. It isn't something I was suggesting to try straight away, and 
+Phillip is also suggesting to not try.
+
+>>> +	}
+>>> +
+>>> +	timeout_jiffies = usecs_to_jiffies(params->job_base_us * params->num_subs *
+>>> +					   params->num_jobs * 10);
+>>
+>> The timeout calculation could use a comment. You are using num_subs * 10
+>> to match the duratiot_us above being id * 10? With logic of calculating
+>> a pessimistic timeout?
+>>
+>> Have you tried it with qemu to check if it is pessimistic enough?
+> 
+> I'll double check on that.
+
+For context I tend to runt the unit tests with the kunit.py runner and 
+the qemu system backend and it is regularly quite slow when there is a 
+lot of timer and workqueue activity. Anyway, this would become 
+irrelevant if you move to manual job signaling.
+
+>>> +	for (i = 0; i < params->num_jobs; i++) {
+>>> +		done = drm_mock_sched_job_wait_finished(sub_data->jobs[i],
+>>> +							timeout_jiffies);
+>>> +		if (!done)
+>>> +			sub_data->timedout = true;
+>>> +	}
+>>
+>> Technically you only need to wait on the last job but it is passable
+>> like this too.
+>>
+>> Also, is it important for the worker to wait for completion or the main
+>> thread could simply wait for everything? Maybe that would simplify things.
+> 
+> I would say they serve different purposes. The completion is used to pause
+> all worker threads until they are all created to ensure they start submitting
+> jobs together to maximize concurrency.
+
+Makes sense.
+
+>> Manual timeline advance and this combined would mean the workers only
+>> submit jobs, while the main thread simply does
+>> drm_mock_sched_advance(sched, num_subs * num_jobs) and waits for last
+>> job from each submitter to finish.
+>>
+>> Again, auto-completion and timeout reporting is something I do not
+>> immediate see is relevant for multi-threaded submission testing.
+>>
+>> Maybe if you want to test the mock scheduler itself it could be, but
+>> then I would add it as separate entry in drm_sched_concurrent_cases[].
+>> Like maybe have a flag/boolean "auto-complete jobs". So one without and
+>> one with that set.
+> 
+> I think it's a good idea and I'll experiment to see if it works.
+
+Ack.
+
+>   
+>> Other than that it looks tidy and was easy to follow. Only thing which
+>> slightly got me was the term "subs" since I don't intuitively associate
+>> it with a submitter but, well, a sub entity of some kind. Might be worth
+>> renaming that to submitter(s), or even dropping the prefix in some cases
+>> might be feasible (like sub(s)_data).
+> 
+> Agreed. I'll rename "subs" for better clarity.
+
+Thank you!
+
+Regards,
+
+Tvrtko
