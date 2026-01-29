@@ -2,86 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CEDvLGAde2msBQIAu9opvQ
+	id OPdoF1oge2lPBgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 09:42:08 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 09:54:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB83AD9EE
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 09:42:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02076ADCC3
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 09:54:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE16A10E7FC;
-	Thu, 29 Jan 2026 08:42:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 368C610E80C;
+	Thu, 29 Jan 2026 08:54:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sJecCk3f";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H2g0WTmq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F89910E33C;
- Thu, 29 Jan 2026 08:42:04 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 2FD9F60054;
- Thu, 29 Jan 2026 08:42:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED8E8C4CEF7;
- Thu, 29 Jan 2026 08:42:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769676122;
- bh=ULqTXXRRvOEaToOQufqn0DT2Uq0Y5ZhV8wPvD5kiy38=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sJecCk3fd142pV7aGXECoVLIDzOZhUWnnhJKlTwcp9G4EN9Cuwi1JPzmHE7fiMuyf
- e/hYZk7b68M92QyJpAGFzHgWPoWU4Wv7Yc4Pss8RlXgDoH8Z3zICPvVfVfnUVRD32G
- Ja9IvIO/38norewAYFYG4VPRhHkXMjp05wW4imftl2jLLNJZbuWAtXZxRFaOPiW5qe
- /apGZQxhSLlXRP7POJu5VImlUrKlNTUavJQSDI4NJJ23U9yj4JOx9ldP/dQ+uCrERk
- vTmo7fG/G4U1Lw+wkQ7q9YMCGCnnKeD3CrfFgxtQgSnLVANjTikelLazKIOJKQQ9Ca
- XUPt3aSNkmxwg==
-Date: Thu, 29 Jan 2026 10:41:56 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Pranjal Shrivastava <praan@google.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Williamson <alex@shazbot.org>, Ankit Agrawal <ankita@nvidia.com>,
- "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>
-Subject: Re: [PATCH v5 4/8] vfio: Wait for dma-buf invalidation to complete
-Message-ID: <20260129084156.GC10992@unreal>
-References: <20260124-dmabuf-revoke-v5-0-f98fca917e96@nvidia.com>
- <20260124-dmabuf-revoke-v5-4-f98fca917e96@nvidia.com>
- <aXfUZcSEr9N18o6w@google.com> <20260127085835.GQ13967@unreal>
- <20260127162754.GH1641016@ziepe.ca>
- <BN9PR11MB5276B99D4E8C6496B0C447888C9EA@BN9PR11MB5276.namprd11.prod.outlook.com>
- <20260129073331.GB10992@unreal>
- <BN9PR11MB52766EA91FEB08876DA474888C9EA@BN9PR11MB5276.namprd11.prod.outlook.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0373710E310;
+ Thu, 29 Jan 2026 08:54:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1769676885; x=1801212885;
+ h=from:subject:date:message-id:mime-version:
+ content-transfer-encoding:to:cc;
+ bh=uz5xvlD86mwwG9UMw451LFd5CbY7UvwzMxtOjK+ZAl0=;
+ b=H2g0WTmqubA5He1P6IQja8Z0gEdvjxXwi2/N7cfXw8ZgWiOwq/qRHIba
+ YGVD3K9Pl0qpdVE3fww2BGkU0lkX5EDKjuMucC/eiLpXvfga7F8qqt4Gc
+ AvDaK/LunPp3jW9jQ8/YY8XVQjl2T3/hgU2WJB2KyqEv15+CSWag5HZ0q
+ gjErRdN+WVKGhbGQsuBEt2b0+do/sLTVdXTeRjtzlYO9aUKYwkQysqWKI
+ rTEswSEMBLr6Z8+m2aPg8OFhxNZTCIMkxbsbGzQYViNbYDiw20uWCzJhy
+ SKC149uAW6l2njm1sQgcanNXQGFIYBeKQk7yXlnXyiYThqkvVpwnXILsL A==;
+X-CSE-ConnectionGUID: 63pQNCa6RZG2sLHnatIezQ==
+X-CSE-MsgGUID: 5Nlf5sIhSNGZ7grQLe6MLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="69919922"
+X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; d="scan'208";a="69919922"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2026 00:54:44 -0800
+X-CSE-ConnectionGUID: gRtGNHfxQD6+WElbrF6NXw==
+X-CSE-MsgGUID: wb5BBubYTzyc+mNStQseSg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,260,1763452800"; d="scan'208";a="213019508"
+Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
+ by fmviesa005.fm.intel.com with ESMTP; 29 Jan 2026 00:54:39 -0800
+From: Arun R Murthy <arun.r.murthy@intel.com>
+Subject: [PATCH v8 0/7] User readable error codes on atomic_ioctl failure
+Date: Thu, 29 Jan 2026 14:22:57 +0530
+Message-Id: <20260129-atomic-v8-0-4cb7b0faa051@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <BN9PR11MB52766EA91FEB08876DA474888C9EA@BN9PR11MB5276.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOkfe2kC/0XMQQrDIBCF4auEWXdK1BiTrnqP0oXo2AzUWFRCI
+ eTulULp8oP3vx0KZaYCl26HTBsXTmvDdOrALXZ9ELJvBtlL3Rs5oa0pskM3G6GCV9rQAG38yhT
+ 4/T263ZtDThHrksn+81GaX74JFDja2VkhvPJ6uPJa6Xl2KcJxfACcohyxlgAAAA==
+X-Change-ID: 20250728-atomic-c9713fd357e4
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, xaver.hugl@kde.org, 
+ harry.wentland@amd.com, uma.shankar@intel.com, louis.chauvet@bootlin.com, 
+ naveen1.kumar@intel.com, ramya.krishna.yella@intel.com
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, Arun R Murthy <arun.r.murthy@intel.com>, 
+ Suraj Kandpal <suraj.kandpal@intel.com>
+X-Mailer: b4 0.15-dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,173 +84,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,intel.com,ursulin.net,kde.org,amd.com,bootlin.com];
 	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[35];
-	FREEMAIL_CC(0.00)[ziepe.ca,google.com,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[arun.r.murthy@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,ziepe.ca:email]
-X-Rspamd-Queue-Id: 1FB83AD9EE
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kde.org:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,intel.com:dkim,intel.com:mid]
+X-Rspamd-Queue-Id: 02076ADCC3
 X-Rspamd-Action: no action
 
-On Thu, Jan 29, 2026 at 08:13:18AM +0000, Tian, Kevin wrote:
-> > From: Leon Romanovsky <leon@kernel.org>
-> > Sent: Thursday, January 29, 2026 3:34 PM
-> > 
-> > On Thu, Jan 29, 2026 at 07:06:37AM +0000, Tian, Kevin wrote:
-> > > > From: Jason Gunthorpe <jgg@ziepe.ca>
-> > > > Sent: Wednesday, January 28, 2026 12:28 AM
-> > > >
-> > > > On Tue, Jan 27, 2026 at 10:58:35AM +0200, Leon Romanovsky wrote:
-> > > > > > > @@ -333,7 +359,37 @@ void vfio_pci_dma_buf_move(struct
-> > > > vfio_pci_core_device *vdev, bool revoked)
-> > > > > > >  			dma_resv_lock(priv->dmabuf->resv, NULL);
-> > > > > > >  			priv->revoked = revoked;
-> > > > > > >  			dma_buf_invalidate_mappings(priv-
-> > >dmabuf);
-> > > > > > > +			dma_resv_wait_timeout(priv->dmabuf->resv,
-> > > > > > > +
-> > DMA_RESV_USAGE_BOOKKEEP,
-> > > > false,
-> > > > > > > +
-> > MAX_SCHEDULE_TIMEOUT);
-> > > > > > >  			dma_resv_unlock(priv->dmabuf->resv);
-> > > > > > > +			if (revoked) {
-> > > > > > > +				kref_put(&priv->kref,
-> > > > vfio_pci_dma_buf_done);
-> > > > > > > +				/* Let's wait till all DMA unmap are
-> > > > completed. */
-> > > > > > > +				wait = wait_for_completion_timeout(
-> > > > > > > +					&priv->comp,
-> > secs_to_jiffies(1));
-> > > > > >
-> > > > > > Is the 1-second constant sufficient for all hardware, or should the
-> > > > > > invalidate_mappings() contract require the callback to block until
-> > > > > > speculative reads are strictly fenced? I'm wondering about a case
-> > where
-> > > > > > a device's firmware has a high response latency, perhaps due to
-> > internal
-> > > > > > management tasks like error recovery or thermal and it exceeds the
-> > 1s
-> > > > > > timeout.
-> > > > > >
-> > > > > > If the device is in the middle of a large DMA burst and the firmware is
-> > > > > > slow to flush the internal pipelines to a fully "quiesced"
-> > > > > > read-and-discard state, reclaiming the memory at exactly 1.001
-> > seconds
-> > > > > > risks triggering platform-level faults..
-> > > > > >
-> > > > > > Since the wen explicitly permit these speculative reads until unmap is
-> > > > > > complete, relying on a hardcoded timeout in the exporter seems to
-> > > > > > introduce a hardware-dependent race condition that could
-> > compromise
-> > > > > > system stability via IOMMU errors or AER faults.
-> > > > > >
-> > > > > > Should the importer instead be required to guarantee that all
-> > > > > > speculative access has ceased before the invalidation call returns?
-> > > > >
-> > > > > It is guaranteed by the dma_resv_wait_timeout() call above. That call
-> > > > ensures
-> > > > > that the hardware has completed all pending operations. The 1‑second
-> > > > delay is
-> > > > > meant to catch cases where an in-kernel DMA unmap call is missing,
-> > which
-> > > > should
-> > > > > not trigger any DMA activity at that point.
-> > > >
-> > > > Christian may know actual examples, but my general feeling is he was
-> > > > worrying about drivers that have pushed the DMABUF to visibility on
-> > > > the GPU and the move notify & fences only shoot down some access. So
-> > > > it has to wait until the DMABUF is finally unmapped.
-> > > >
-> > > > Pranjal's example should be covered by the driver adding a fence and
-> > > > then the unbounded fence wait will complete it.
-> > > >
-> > >
-> > > Bear me if it's an ignorant question.
-> > >
-> > > The commit msg of patch6 says that VFIO doesn't tolerate unbounded
-> > > wait, which is the reason behind the 2nd timeout wait here.
-> > 
-> > It is not accurate. A second timeout is present both in the
-> > description of patch 6 and in VFIO implementation. The difference is
-> > that the timeout is enforced within VFIO.
-> > 
-> > >
-> > > Then why is "the unbounded fence wait" not a problem in the same
-> > > code path? the use of MAX_SCHEDULE_TIMEOUT imply a worst-case
-> > > timeout in hundreds of years...
-> > 
-> > "An unbounded fence wait" is a different class of wait. It indicates broken
-> > hardware that continues to issue DMA transactions even after it has been
-> > told to
-> > stop.
-> > 
-> > The second wait exists to catch software bugs or misuse, where the dma-buf
-> > importer has misrepresented its capabilities.
-> > 
-> 
-> Okay I see.
-> 
-> > >
-> > > and it'd be helpful to put some words in the code based on what's
-> > > discussed here.
-> > 
-> > We've documented as much as we can in dma_buf_attach_revocable() and
-> > dma_buf_invalidate_mappings(). Do you have any suggestions on what else
-> > should be added here?
-> > 
-> 
-> the selection of 1s?
+The series focuses on providing a user readable error value on a failure
+in drm_atomic_ioctl(). Usually -EINVAL is returned in most of the error
+cases and it is difficult for the user to decode the error and get to
+know the real cause for the error. If user gets to know the reason for
+the error then corrective measurements can be taken up.
 
-It is indirectly written in description of WARN_ON(), but let's add
-more. What about the following?
+User will have to check for the capability
+DRM_CAP_ATOMIC_ERROR_REPORTING before using this feature so as to ensure
+that the driver supports failure reporting.
 
-diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
-index 93795ad2e025..948ba75288c6 100644
---- a/drivers/vfio/pci/vfio_pci_dmabuf.c
-+++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
-@@ -357,7 +357,13 @@ void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
-                        dma_resv_unlock(priv->dmabuf->resv);
-                        if (revoked) {
-                                kref_put(&priv->kref, vfio_pci_dma_buf_done);
--                               /* Let's wait till all DMA unmap are completed. */
-+                               /*
-+                                * Let's wait for 1 second till all DMA unmap
-+                                * are completed. It is supposed to catch dma-buf
-+                                * importers which lied about their support
-+                                * of dmabuf revoke. See dma_buf_invalidate_mappings()
-+                                * for the expected behaviour,
-+                                */
-                                wait = wait_for_completion_timeout(
-                                        &priv->comp, secs_to_jiffies(1));
-                                /*
+TODO: driver specific error codes are to be added and will be done in
+the follow-up patches.
 
-> 
-> then,
-> 
-> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+TODO: Once the series is merged the element 'reserved' used for sending
+the failure code in struct drm_mode_atomic is to changed to err_code.
 
-Thanks
+The IGT related changes are pushed for review @
+https://patchwork.freedesktop.org/series/153330/
+
+    To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+    To: suraj.kandpal@intel.com>
+    To: Maxime Ripard <mripard@kernel.org>
+    To: Thomas Zimmermann <tzimmermann@suse.de>
+    To: David Airlie <airlied@gmail.com>
+    To: Simona Vetter <simona@ffwll.ch>
+    To: Jani Nikula <jani.nikula@linux.intel.com>
+    To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+    To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+    To: Tvrtko Ursulin <tursulin@ursulin.net>
+    To: xaver.hugl@kde.org
+    To: harry.wentland@amd.com
+    To: uma.shankar@intel.com
+    To: louis.chauvet@bootlin.com
+    To: naveen1.kumar@intel.com
+    To: ramya.krishna.yella@intel.com
+    Cc: dri-devel@lists.freedesktop.org
+    Cc: intel-gfx@lists.freedesktop.org
+    Cc: intel-xe@lists.freedesktop.org
+    Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+
+Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+---
+Arun R Murthy (7):
+      drm: Define user readable error codes for atomic ioctl
+      drm/atomic: Add error_code element in atomic_state
+      drm/atomic: Allocate atomic_state at the beginning of atomic_ioctl
+      drm/atomic: Call complete_signaling only if prepare_signaling is done
+      drm/atomic: Return user readable error in atomic_ioctl
+      drm/i915/display: Error codes for async flip failures
+      drm: Introduce DRM_CAP_ATOMIC_ERROR_REPORTING
+
+ drivers/gpu/drm/drm_atomic.c                 | 31 ++++++++++
+ drivers/gpu/drm/drm_atomic_uapi.c            | 91 +++++++++++++++++++---------
+ drivers/gpu/drm/drm_ioctl.c                  |  3 +
+ drivers/gpu/drm/i915/display/intel_display.c | 25 ++++----
+ include/drm/drm_atomic.h                     | 10 +++
+ include/uapi/drm/drm.h                       |  7 +++
+ include/uapi/drm/drm_mode.h                  | 37 +++++++++++
+ 7 files changed, 165 insertions(+), 39 deletions(-)
+---
+base-commit: 6a3c9a03d943eb112c916c7419a837bc7de3a296
+change-id: 20250728-atomic-c9713fd357e4
+
+Best regards,
+-- 
+Arun R Murthy <arun.r.murthy@intel.com>
+
