@@ -2,101 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SMCyMIZ0fGmAMwIAu9opvQ
+	id ECtFJdyNe2kKGAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 10:06:14 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 17:42:04 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E01B8B6F
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 10:06:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01672B257D
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 17:42:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5994E10E93E;
-	Fri, 30 Jan 2026 09:06:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C01410E8A5;
+	Thu, 29 Jan 2026 16:42:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dUJ4OEDi";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="n3y/a6pv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com
- [209.85.219.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CE7110E8A5
+Received: from PH7PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11010024.outbound.protection.outlook.com [52.101.201.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5938210E8A5
  for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 16:42:01 +0000 (UTC)
-Received: by mail-qv1-f52.google.com with SMTP id
- 6a1803df08f44-8947e17968eso14314776d6.0
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 08:42:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769704920; cv=none;
- d=google.com; s=arc-20240605;
- b=hqn2qx4q+zyaFk2T3gBCbNzYneNoOE5McPyL7aA4dvqJl8emLGEfxZpP9XYKFlO5PD
- Vi3AGKJOe4K6g2iARbpDXFdCXqvV2r6uvxW5KTor90MQuHXwrOJdUm23xw8FkLMigCZF
- 0x1UTHRuVgQLChd14G25nWjY0V0OgTmNYhVT6DXOj3Vo2Z/WRVWpey11Nm2dAPyV00HR
- 0uRF0fLHKK7FhNtvc2iBoYvCelRTPrR28SqyVLWMtaHB9RXj1DcOpw8XjeHcnl2+g39s
- MccBqSXUhtCJFQxvGAtzNdGg2BODBsig4fRaOCSXIwlc7BHk4caFZckz5RropJaI+ReW
- tc1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:dkim-signature;
- bh=UTUVbcd/Q4jnC5ImuUSFgP8oQOyNCkpI89jF1YQHUqo=;
- fh=BiahF60dVAU/XHKZHp1JUhosDayHjshBsYNM2K9I5ao=;
- b=Rs2DFwzW+nFZMJfRO/8umDTfk8oHBOj51TlGp8QqIe+PPdKUvUGposOXrfVHyFprMD
- AyD0ydnlk6GH8xIGoQsi+GkZ/OPCRY9FbAzqGQRCE+tdo8OCd4ZSldBOFuwVrsV2NN+n
- c3KgL9PX7ZQEtT5Pv1JkCSzkeq/6SFw55G6m4uoo19WiLi0WbAwHtsx9izoNWnFKmbY6
- jGqBRUIM77CJ4mGK70cQ7iBvS199iFmpSB23mXeTmlywGQbOByaiPKtEXTdKSugx3zuG
- I9tZ3YXS1sAEc8xLHgK9ig3pim+eobS5q76gyfjtSu9Jd+Q/fdAyVSizRDhvPAdIEOPW
- ez0A==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769704920; x=1770309720; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=UTUVbcd/Q4jnC5ImuUSFgP8oQOyNCkpI89jF1YQHUqo=;
- b=dUJ4OEDi39mLvT/k5aXlWuI7/z4GEiwVKnQ6hJyS1CIBmLrGxW6gBQm5T4ChI+VzV1
- LpAVYsWpFxlIcMGE3J05E1J98yjHMOsBeCN66vcQvC2VGLukFRufSDCUdY+Nw3aIJCs5
- B9q8Gp7NefNlpJXsg0Akt6E9vstJT6wckbRmu2+cOizPQKnULqSB4CKYYLJ+8/iNeJWQ
- wg67CqULymHhAAOMWEL8mcldO78sY/T7VRi9mBHbU2FV8lTPGXt6dyba+37eGW5bE0P8
- iMFEC7+NYpkUFtBI8ZSqj/75qagdy3XD8CnbYsrMY21R4npPjfALmrNimCbH2Ss2JrcZ
- FnjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769704920; x=1770309720;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UTUVbcd/Q4jnC5ImuUSFgP8oQOyNCkpI89jF1YQHUqo=;
- b=JBw6WhTgWbbXWZ/SEXrslhnU4zWPXkUchKEbXiShjmnGfDCwMsTJQKyxDMMbAHFsr3
- di+Th5NYUDM4sgHNaMheknQyXNc8n7deaOwzigQQfzSl5GLHbfgwz0HrI4IAJOB20w8/
- CnEcxF09KLdJzhes3H52iWETairL8qS/wt0iR/mnz1zaQSSFxgp1ZT6maXj/j5PM0cyJ
- pkpCQ1fcwnvZo3oXUF14ffgwSuz2mhVRwvzg178B284gmX3n+wWY1nFjoDW26KQPmXSv
- z24pQB/LSF1AOuDbUSNTIDTkpAXClU3Ak8Zh3+K9lFePy2LY8FSB0XZ8/I8KSe5buRs3
- qL1A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXN79W1rZmK5QW/iEA/JUs9tfuS0lT7ozFxglHG+0w8h4CiKDXmDoSsKy4C/TdCq6WoO8xkvWNLX+4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywu3mkrS0Mm1Bep1MGWBASWFps1xF4tcLddhm9jGmQA1VcrEcXx
- NmSpgE8ksnpYE8xGQXyPyMIjWdpKtIKVV5UXjlI11YX3jx0oG1V9VfaVIm/NmojF+kvjzybTBHB
- p8cs+GJc4d4bJbMdt4JoPZxmfnMBhIfw=
-X-Gm-Gg: AZuq6aL089HGDFt9oAISTJaE7rnviPOxsM4n7ANtTujHvhWvPP9oIO2Y31ABNrkp7v1
- phXUPpi35SDiskhFm+IJ5nsfRWo5ht4SNAsaEGEAlKJH+fn5Qb/npUQrwDWLuK7AS+P1C8MuUdZ
- ug4QcgrT+7tWoY6gXnto2KCv7DSiDcG4PPqQ0XlOv38fzhK2TSWDmQHUu6pKIqsIvpC/3m88hLA
- silLgcngoUpQOj1KnFnVo7M7l7NZpcu8fVnwOsjqk8FSktvR8BnHrROTDhfso2/VY99HNqh
-X-Received: by 2002:a05:6214:765:b0:890:754b:1396 with SMTP id
- 6a1803df08f44-894cc9472cemr136001506d6.57.1769704920164; Thu, 29 Jan 2026
- 08:42:00 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XJt8Q58j3jGCgvVm1eAM5B1bCoTM2mr0MV6AH+MYRmuISB+kFboq2YUWDFjrxT8RWB5Hz0I4nE/cHnlaWPXVOvnSYZyIjWra7JX60AS8fxqeEwU61h7vLC1gu0R3HUj0kYZjzyN0yqziK9FAlSD6S6b8Nb8S8Z6lP1Epy/0rH62iixJPYlMkPZiPcKdGvWf4P0GRX28xjAqaMCxpqWtAntgPQIJHd62hIR4YPVC8liceZsVdHhxgQFvTEGvjWhhA1EwLD93U6uKZUpzj33YoH0fgvnD8KtX7XzlZC8bkvPpRJV9F4SpLHttl3CWUU4oAcZp/W5zFWOPKEgzxoNwgSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zDinoTnz55p4gW67GkuW55iiaywJDX90qXUYL/m+Zqo=;
+ b=E5mK/B70+9sKMump5d/n02g1UWlsTN/M51rz7x3H/LQpaYRzIz4ci2yfZMJvFytPb0pNNhpnLsCuwplvkEg+TY4gDe6Jz0qBlyGj06y9UTsHRHgdmLrLVLOK0Hl5t/SA9BkVm3QkDdA+2swZPIML85EGxGQ3FRbqEK2uKwOmpeCVnIq/VgpEg9LPiNN13+n1dom/FNaDmjtVBH7YuYjrLdsPPnRMecNIasNh7oNypqjV/pf3OvvlJ733NZBVcDoOLPhuA8ZsPs1IY5YmI3eDMwMhaYzbKqahjoNnedw7C8I8tlHolCZ/agjn6HcDoRpe56SSOtEAY2B2e+c1/gK7zw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zDinoTnz55p4gW67GkuW55iiaywJDX90qXUYL/m+Zqo=;
+ b=n3y/a6pvCdAh5sZwHolGUfIdwQHg9VXHPRWroEId0wXxfJwrenF60ysQs5MaEom0lmXYtB1DAhBVFiJarTRt+OzBqFNEsAEuVcW4+mjbFlyk6bm8wLwNNzgW4diQ5wHiOJ0dVJdtt0KG3wbII/gV9pAJVCDWaOtVrurqRoWrYaM=
+Received: from CH2PR04CA0018.namprd04.prod.outlook.com (2603:10b6:610:52::28)
+ by MW6PR12MB8758.namprd12.prod.outlook.com (2603:10b6:303:23d::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Thu, 29 Jan
+ 2026 16:41:56 +0000
+Received: from CH2PEPF00000099.namprd02.prod.outlook.com
+ (2603:10b6:610:52:cafe::63) by CH2PR04CA0018.outlook.office365.com
+ (2603:10b6:610:52::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.11 via Frontend Transport; Thu,
+ 29 Jan 2026 16:41:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ CH2PEPF00000099.mail.protection.outlook.com (10.167.244.20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9564.3 via Frontend Transport; Thu, 29 Jan 2026 16:41:56 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 29 Jan
+ 2026 10:41:55 -0600
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Thu, 29 Jan 2026 08:41:55 -0800
+Message-ID: <a6e64fe8-8b27-2ffa-fde4-3e3d26ea4049@amd.com>
+Date: Thu, 29 Jan 2026 08:41:55 -0800
 MIME-Version: 1.0
-References: <CAFqHKTnSUndwTs-cc8SZxST48UBj6_oKf0Bzt_mMSsj6=g-xww@mail.gmail.com>
- <923ab7ae-0963-472e-995e-760c30978274@amd.com>
- <31babc28-0e69-46e5-94cd-8856e9ad6550@amd.com>
-In-Reply-To: <31babc28-0e69-46e5-94cd-8856e9ad6550@amd.com>
-From: Derek John Clark <derekjohn.clark@gmail.com>
-Date: Thu, 29 Jan 2026 08:41:48 -0800
-X-Gm-Features: AZwV_QgOegN2_JQ1MaXI7zJ3zc-NfBU0ZhSluXQW6M3h8P4l86-IKVydfZW541U
-Message-ID: <CAFqHKTmeGC_7FiuU73yCUxkXdQ78Q-6NXT43aHOqBjSE4beUog@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] drm: Introduce drm_crtc_vblank_prepare()
-To: Leo Li <sunpeng.li@amd.com>
-Cc: Harry.Wentland@amd.com, airlied@gmail.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, jani.nikula@linux.intel.com,
- simona@ffwll.ch, 
- Mario Limonciello <superm1@kernel.org>, ville.syrjala@linux.intel.com
-Content-Type: multipart/alternative; boundary="0000000000001fae9206498989d4"
-X-Mailman-Approved-At: Fri, 30 Jan 2026 09:06:10 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] accel/amdxdna: Fix memory leak in amdxdna_ubuf_map
+Content-Language: en-US
+To: zishun yi <zishun.yi.dev@gmail.com>, Min Ma <mamin506@gmail.com>, Oded
+ Gabbay <ogabbay@kernel.org>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20260129100731.56116-1-zishun.yi.dev@gmail.com>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <20260129100731.56116-1-zishun.yi.dev@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF00000099:EE_|MW6PR12MB8758:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2d9ef74c-537c-4d66-3205-08de5f5550b0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|1800799024|82310400026|36860700013|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WWo1MDBJcXRuSW4wTytNMEpwU2pWMTZSbzZjOFh4NkRxYVR0bGdHbUFwTldh?=
+ =?utf-8?B?T1NxMDVtYTZqMHNaYnBQWjVrWFgxb09VZC9MZEFCeldOcFdCL0xGc2RkblRs?=
+ =?utf-8?B?SHMxYTFXMUtEeXMrRkFic2hwRnNlcmJkb2RHaEFmcWJuZzQrT1QvVzREbzlR?=
+ =?utf-8?B?UnQ3UmNvSGw5M0dNZHkyYk9YNzFPTHpTTTlQYzlrckhIYk1Sa1JpSlFuOTZs?=
+ =?utf-8?B?Yjg2RDlIQmZkR0dZVDROQm9vV0RYY0NWWUg5TTJtdEdCN0ZLQVFlLzhOTy9t?=
+ =?utf-8?B?WjU1OTN6YktubjAzMmhsbGV1MjBoa21HN2xLcm9IRjZ1SjZ2L2xWOE1UYWlU?=
+ =?utf-8?B?QVVNWW0yMUswTGRKR1dHdklmdEs0Q2lkdjE5UUJPdzNMYzhBTzUrV0J1YWd3?=
+ =?utf-8?B?RXhSVG93NGEzNGR3VUlWQUFHZzlESUNtbUhrckFsMjdya3hUVy9haFVvS2pX?=
+ =?utf-8?B?SElyb2l6T3gyR2hRM1JhZXUrQUkveG9pcmwxQVpTdDg0cGs2MzgvNHYrTUhn?=
+ =?utf-8?B?ZHNkWC83RHhmUjdhOXdjaGtJS0dicWtGYXZHNVkrRGp0TXlHOGVlTzcxUXk3?=
+ =?utf-8?B?TVJHQWNJNk5zV2t5UVIyTmVKSERJSnZJTldoSjVWMTgva2FiWlhxUFZ2ZW5u?=
+ =?utf-8?B?OFpybmliZncrQjBSYkpaS0dOSm8xV3cyU05Hb3pkZUEzK2haejd6Y3gxR3N2?=
+ =?utf-8?B?aVdUN3d0eHgrRHdoT0NYck1LcmFsYmh6bGJCZ2VTeDY2SDh2aHlhbUQ5MG5S?=
+ =?utf-8?B?WkNlNFFNUVVZMVMrcnFrMExMNmpPajZrbUMrSzdUTkl4Tm1wRXNDZXFxcHpF?=
+ =?utf-8?B?aHIxNDY4d0k3R3dzdXNYbEVkc2pIV1JDMkV5WUtDMFpBZk5sNzJjWnUySDAy?=
+ =?utf-8?B?ZTRpaTJVS29obW1MbHZwaVhzV2NQdFJ2NEdtTkNYb2hhN0RiemlvdkFwY2lD?=
+ =?utf-8?B?a0NYM1ZrRWRVaXJDcFRsUk10RUYvSmNLTGhrMWRReS9QMUVLRUhWako5MElV?=
+ =?utf-8?B?YW81OXh6VWdZRWRWa0JoS2k2WmdpVEFUanVmK3lmRG9VM1k2Qy9xZjY2UEEy?=
+ =?utf-8?B?TGwrZWdIb1RjRldSZVRqQlo1cjk5N295eFhYeUY0aWVYNW12MXBxWk5iMHJu?=
+ =?utf-8?B?QkpKY2dyZWkrU1RrTExTeWFLa3Y4TlIrM0E4ZmsrVGdnMWtYL1EzUDlvbFlK?=
+ =?utf-8?B?VzZDNk9nTDVoUXpUMEJ1MHhFRThvODNqUXVNNmVvQUMvQXZuOFhsRXpzeGRU?=
+ =?utf-8?B?NXZ6ME52NGtIVG1aUElYNWs3VlM0aFRYemFENk8vRUtITGhEbnVNVUIzSDlC?=
+ =?utf-8?B?b3JmMHluYUhZOFl5Ny81emtCUlpteGRLSHJmOE9FQ1NNSEJvSkUvS0o4eGF3?=
+ =?utf-8?B?OExWY0htU1NBaWJxOWt6eEc0WERhWnlIdmFQaGJQYThRUWJoNGh4Z0NnT1l4?=
+ =?utf-8?B?dERScTllV1FTZjQ3NE5YTXQyekFJLzJBZzlua1NzZHdvdjhCcjFUUkhzbktJ?=
+ =?utf-8?B?anY0cGdrV2JicGVsd0R2YSt6a1JyN3lheW1pZE1pQ1RncTZUTjRJK3Zrbmxh?=
+ =?utf-8?B?VHIrMDdBQ0tYamRLa1UxYUNOdXJPRjVrQWNIM29SL2NQSUFMUHR5UGJQSDJz?=
+ =?utf-8?B?bitmUm1mNDFJdGpmdzdVSGFUcko0YkY0WmxvUC85SDZ5ZDFLU1liTzFjT0Jj?=
+ =?utf-8?B?NU5wRFBuSmNHYnlFa2JrQUtubmJHR3VoNGlGSGlCOXU4SEhCOHhCMnQxVG11?=
+ =?utf-8?B?YkE5U0FWbXl1aGk2ZEJYYjR4a2Z5YkhIcFdHb3JRQ3NuNzRlMUwwem9HeG5U?=
+ =?utf-8?B?NGdqTWtFYUpFWC9IUmV1NWdwWXMrYzNINkxGdlp5bjJPQU5udW1NSXA2aGdO?=
+ =?utf-8?B?dkZXSCs5b3h0OTVVaFM5Ujh2UW5ETDNrbkxreWVRaFpLaGR4alhJamJqN05j?=
+ =?utf-8?B?RHIyL05DYUFmbnA4ZFFKZFo2RkU4ZHBYNjhZdU9HVS9xb3R5cVFqUHJROEJz?=
+ =?utf-8?B?NTNMTHozQjBZZTNCUUdmeGFrRVBpVDgwVWFoYkNFT0FqN3J2NWdwWGI5UGJu?=
+ =?utf-8?B?UFdqRmZSczlQZldHQXFOcmRIR1JWUDBpcnZhTldnVzl2eCtOblliR2pRaVpH?=
+ =?utf-8?B?MFpkWkRtd1IvZ1hCaTJFMzVDaGxnd3k4K3Z4Ny9FSTFITjNJZmdaZ3F4RGVl?=
+ =?utf-8?B?N3BYM21icjFIb0MwRUEvdHpyenFqMWhTQm1EcWgvT0laRkwyL1RuWjFZc0FX?=
+ =?utf-8?B?QThhWU93MkgySUkrMlFuekpiZ1F3PT0=?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: pHRAeiYHMDmYauBPAYdD6NRURHnb4pPdh2HgycgbhuN+USbtHvCJwf9MFdtZtwil8qbvnFcBmvb4tYxijt7GvBoRbjSZwlJovETp7QcXD+1r34l/hZ6LggGdQZknWVhH4fenmnTBF38Osk62aOCWFY5x2FRqFDh2aX93XfUoKdHDjXjbEaXrTAOXsvRQIcWp2Uix1wpRehYXhs2AZ+ihn9PvRwZ+4unUd6ZYa0GLmkGCjXcdrNIDgte2KeGYOXQDj8/Y9pTBQ8vzFEQc1ujdKU9TM82j2NOtQ4z4zI7SSGnPp85vhcrvICNxXi8Kg/HYlONafpnX+BNCS5Nyb6ekRvqro2omUaQgTk++gpOu8Gd99rLaAAXsIqMEBjr2wVTcLX4jlR7ZALPcCod17w//ABbboSPrYaMNo8uTiehC8LAmPcDPFPyXOMqQ9kaSltl+
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2026 16:41:56.3477 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d9ef74c-537c-4d66-3205-08de5f5550b0
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF00000099.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8758
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,268 +155,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:zishun.yi.dev@gmail.com,m:mamin506@gmail.com,m:ogabbay@kernel.org,m:linux-kernel@vger.kernel.org,m:zishunyidev@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:sunpeng.li@amd.com,m:Harry.Wentland@amd.com,m:airlied@gmail.com,m:amd-gfx@lists.freedesktop.org,m:jani.nikula@linux.intel.com,m:simona@ffwll.ch,m:superm1@kernel.org,m:ville.syrjala@linux.intel.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[derekjohnclark@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[amd.com,gmail.com,lists.freedesktop.org,linux.intel.com,ffwll.ch,kernel.org];
-	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:mid,amd.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[derekjohnclark@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[amd.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email,gitlab.freedesktop.org:url]
-X-Rspamd-Queue-Id: 07E01B8B6F
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 01672B257D
 X-Rspamd-Action: no action
 
---0000000000001fae9206498989d4
-Content-Type: text/plain; charset="UTF-8"
+Thanks for fixing this. Could you add 'Fixes' tag?
 
-Leo,
+Lizhi
 
-Appreciate it, thanks
-
-Cheers,
-Derek
-
-On Thu, Jan 29, 2026, 08:40 Leo Li <sunpeng.li@amd.com> wrote:
-
+On 1/29/26 02:07, zishun yi wrote:
+> From: Zishun Yi <zishun.yi.dev@gmail.com>
 >
+> The amdxdna_ubuf_map() function allocates memory for sg and
+> internal sg table structures, but it fails to free them if subsequent
+> operations (sg_alloc_table_from_pages or dma_map_sgtable) fail.
 >
-> On 2026-01-29 10:15, Leo Li wrote:
-> >
-> >
-> > On 2026-01-28 23:43, Derek John Clark wrote:
-> >>> From: Leo Li <sunpeng.li@amd.com>
-> >>>
-> >>> Some drivers need to perform sleepable operations prior to enabling
-> >>> vblank interrupts. A display hardware spin-up from a low-power state
-> >>> that requires synchronization with the rest of the driver, for example.
-> >>>
-> >>> To support this, introduce a DRM-internal drm_crtc_vblank_prepare()
-> >>> helper that calls back into the driver -- if implemented -- for DRM to
-> >>> do such preparation work before enabling vblank.
-> >>>
-> >>> v3:
-> >>> * Unexport drm_crtc_vblank_prepare() and make it DRM internal
-> >>> * Drop warnings in drm core for vblank_prepare(), drivers can do so in
-> >>>  their implementations
-> >>> * Drop unnecessary crtc null checks
-> >>> * Check for drm_dev_has_vblank()
-> >>> * Rebase on latest drm-misc-next
-> >>>
-> >>> v4:
-> >>> * EXPORT function to fix build error on DRM_KMS_HELPER=m
-> >>>
-> >>> Signed-off-by: Leo Li <sunpeng.li@amd.com>
-> >>
-> >> Hi Leo.
-> >>
-> >> I wanted to know what branch this series applies to. I'm trying to
-> >> troubleshoot a possible vblank issue on the Legion Go 2 and was
-> >> pointed towards this patch series. Unfortunately I can't get it to
-> >> apply cleanly to drm/drm-fixes, drm/drm-next or stable/linux-6.18.y
-> >
-> > Hi Derek,
-> >
-> > This applies to drm-misc-next, here:
-> > https://gitlab.freedesktop.org/drm/misc/kernel/-/tree/drm-misc-next
-> >
-> > Thanks,
-> > Leo
+> Signed-off-by: Zishun Yi <zishun.yi.dev@gmail.com>
+> ---
+>   drivers/accel/amdxdna/amdxdna_ubuf.c | 10 ++++++++--
+>   1 file changed, 8 insertions(+), 2 deletions(-)
 >
-> FYI, in case you run into the same issue, I had to blacklist my wifi
-> driver:
-> modprobe.blacklist=mt7925e in my kernel cmdline for drm-misc-next to boot.
->
-> -Leo
->
-> >
-> >>
-> >>
-> >> From commit 15392f76405ecb953216b437bed76ffa49cefb7b (HEAD,
-> >> drm/drm-next, drm/HEAD):
-> >> $ b4 shazam
-> https://lore.kernel.org/dri-devel/20260127194143.176248-1-sunpeng.li@amd.com/
-> >> Grabbing thread from
-> >>
-> lore.kernel.org/all/20260127194143.176248-1-sunpeng.li@amd.com/t.mbox.gz
-> >> Checking for newer revisions
-> >> Grabbing search results from lore.kernel.org
-> >> Analyzing 2 messages in the thread
-> >> Analyzing 0 code-review messages
-> >> Checking attestation on all messages, may take a moment...
-> >> ---
-> >>   [PATCH v4 1/2] drm: Introduce drm_crtc_vblank_prepare()
-> >>   [PATCH v4 2/2] drm/amd/display: Implement prepare_vblank_enable
-> callback
-> >>   ---
-> >>   NOTE: install dkimpy for DKIM signature verification
-> >> ---
-> >> Total patches: 2
-> >> ---
-> >> Applying: drm: Introduce drm_crtc_vblank_prepare()
-> >> Applying: drm/amd/display: Implement prepare_vblank_enable callback
-> >> Patch failed at 0002 drm/amd/display: Implement prepare_vblank_enable
-> callback
-> >> error: patch failed:
-> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c:277
-> >> error: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c: patch
-> >> does not apply
-> >>
-> >>
-> >> Thanks,
-> >> Derek
-> >
->
->
-
---0000000000001fae9206498989d4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Leo,=C2=A0<div dir=3D"auto"><br></div><div dir=3D"auto">A=
-ppreciate it, thanks=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"aut=
-o">Cheers,</div><div dir=3D"auto">Derek</div></div><br><div class=3D"gmail_=
-quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, =
-Jan 29, 2026, 08:40 Leo Li &lt;<a href=3D"mailto:sunpeng.li@amd.com">sunpen=
-g.li@amd.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-<br>
-On 2026-01-29 10:15, Leo Li wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; On 2026-01-28 23:43, Derek John Clark wrote:<br>
-&gt;&gt;&gt; From: Leo Li &lt;<a href=3D"mailto:sunpeng.li@amd.com" target=
-=3D"_blank" rel=3D"noreferrer">sunpeng.li@amd.com</a>&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Some drivers need to perform sleepable operations prior to ena=
-bling<br>
-&gt;&gt;&gt; vblank interrupts. A display hardware spin-up from a low-power=
- state<br>
-&gt;&gt;&gt; that requires synchronization with the rest of the driver, for=
- example.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; To support this, introduce a DRM-internal drm_crtc_vblank_prep=
-are()<br>
-&gt;&gt;&gt; helper that calls back into the driver -- if implemented -- fo=
-r DRM to<br>
-&gt;&gt;&gt; do such preparation work before enabling vblank.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; v3:<br>
-&gt;&gt;&gt; * Unexport drm_crtc_vblank_prepare() and make it DRM internal<=
-br>
-&gt;&gt;&gt; * Drop warnings in drm core for vblank_prepare(), drivers can =
-do so in<br>
-&gt;&gt;&gt;=C2=A0 their implementations<br>
-&gt;&gt;&gt; * Drop unnecessary crtc null checks<br>
-&gt;&gt;&gt; * Check for drm_dev_has_vblank()<br>
-&gt;&gt;&gt; * Rebase on latest drm-misc-next<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; v4:<br>
-&gt;&gt;&gt; * EXPORT function to fix build error on DRM_KMS_HELPER=3Dm<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Signed-off-by: Leo Li &lt;<a href=3D"mailto:sunpeng.li@amd.com=
-" target=3D"_blank" rel=3D"noreferrer">sunpeng.li@amd.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Hi Leo.<br>
-&gt;&gt;<br>
-&gt;&gt; I wanted to know what branch this series applies to. I&#39;m tryin=
-g to<br>
-&gt;&gt; troubleshoot a possible vblank issue on the Legion Go 2 and was<br=
->
-&gt;&gt; pointed towards this patch series. Unfortunately I can&#39;t get i=
-t to<br>
-&gt;&gt; apply cleanly to drm/drm-fixes, drm/drm-next or stable/linux-6.18.=
-y<br>
-&gt; <br>
-&gt; Hi Derek,<br>
-&gt; <br>
-&gt; This applies to drm-misc-next, here:<br>
-&gt; <a href=3D"https://gitlab.freedesktop.org/drm/misc/kernel/-/tree/drm-m=
-isc-next" rel=3D"noreferrer noreferrer" target=3D"_blank">https://gitlab.fr=
-eedesktop.org/drm/misc/kernel/-/tree/drm-misc-next</a><br>
-&gt; <br>
-&gt; Thanks,<br>
-&gt; Leo<br>
-<br>
-FYI, in case you run into the same issue, I had to blacklist my wifi driver=
-:<br>
-modprobe.blacklist=3Dmt7925e in my kernel cmdline for drm-misc-next to boot=
-.<br>
-<br>
--Leo<br>
-<br>
-&gt; <br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; From commit 15392f76405ecb953216b437bed76ffa49cefb7b (HEAD,<br>
-&gt;&gt; drm/drm-next, drm/HEAD):<br>
-&gt;&gt; $ b4 shazam <a href=3D"https://lore.kernel.org/dri-devel/202601271=
-94143.176248-1-sunpeng.li@amd.com/" rel=3D"noreferrer noreferrer" target=3D=
-"_blank">https://lore.kernel.org/dri-devel/20260127194143.176248-1-sunpeng.=
-li@amd.com/</a><br>
-&gt;&gt; Grabbing thread from<br>
-&gt;&gt; <a href=3D"http://lore.kernel.org/all/20260127194143.176248-1-sunp=
-eng.li@amd.com/t.mbox.gz" rel=3D"noreferrer noreferrer" target=3D"_blank">l=
-ore.kernel.org/all/20260127194143.176248-1-sunpeng.li@amd.com/t.mbox.gz</a>=
-<br>
-&gt;&gt; Checking for newer revisions<br>
-&gt;&gt; Grabbing search results from <a href=3D"http://lore.kernel.org" re=
-l=3D"noreferrer noreferrer" target=3D"_blank">lore.kernel.org</a><br>
-&gt;&gt; Analyzing 2 messages in the thread<br>
-&gt;&gt; Analyzing 0 code-review messages<br>
-&gt;&gt; Checking attestation on all messages, may take a moment...<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 =C2=A0[PATCH v4 1/2] drm: Introduce drm_crtc_vblank_prepare(=
-)<br>
-&gt;&gt;=C2=A0 =C2=A0[PATCH v4 2/2] drm/amd/display: Implement prepare_vbla=
-nk_enable callback<br>
-&gt;&gt;=C2=A0 =C2=A0---<br>
-&gt;&gt;=C2=A0 =C2=A0NOTE: install dkimpy for DKIM signature verification<b=
-r>
-&gt;&gt; ---<br>
-&gt;&gt; Total patches: 2<br>
-&gt;&gt; ---<br>
-&gt;&gt; Applying: drm: Introduce drm_crtc_vblank_prepare()<br>
-&gt;&gt; Applying: drm/amd/display: Implement prepare_vblank_enable callbac=
-k<br>
-&gt;&gt; Patch failed at 0002 drm/amd/display: Implement prepare_vblank_ena=
-ble callback<br>
-&gt;&gt; error: patch failed: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_=
-dm_crtc.c:277<br>
-&gt;&gt; error: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c: pat=
-ch<br>
-&gt;&gt; does not apply<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Thanks,<br>
-&gt;&gt; Derek<br>
-&gt; <br>
-<br>
-</blockquote></div>
-
---0000000000001fae9206498989d4--
+> diff --git a/drivers/accel/amdxdna/amdxdna_ubuf.c b/drivers/accel/amdxdna/amdxdna_ubuf.c
+> index 077b2261cf2a..9e3b3b055caa 100644
+> --- a/drivers/accel/amdxdna/amdxdna_ubuf.c
+> +++ b/drivers/accel/amdxdna/amdxdna_ubuf.c
+> @@ -34,15 +34,21 @@ static struct sg_table *amdxdna_ubuf_map(struct dma_buf_attachment *attach,
+>   	ret = sg_alloc_table_from_pages(sg, ubuf->pages, ubuf->nr_pages, 0,
+>   					ubuf->nr_pages << PAGE_SHIFT, GFP_KERNEL);
+>   	if (ret)
+> -		return ERR_PTR(ret);
+> +		goto err_free_sg;
+>   
+>   	if (ubuf->flags & AMDXDNA_UBUF_FLAG_MAP_DMA) {
+>   		ret = dma_map_sgtable(attach->dev, sg, direction, 0);
+>   		if (ret)
+> -			return ERR_PTR(ret);
+> +			goto err_free_table;
+>   	}
+>   
+>   	return sg;
+> +
+> +err_free_table:
+> +	sg_free_table(sg);
+> +err_free_sg:
+> +	kfree(sg);
+> +	return ERR_PTR(ret);
+>   }
+>   
+>   static void amdxdna_ubuf_unmap(struct dma_buf_attachment *attach,
