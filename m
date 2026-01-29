@@ -2,59 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iKU1Af4ze2lJCQIAu9opvQ
+	id EGE9EP01e2mGCQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 11:18:38 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 11:27:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE82AE7F8
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 11:18:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 835A2AEA2D
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 11:27:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04E2F10E2DE;
-	Thu, 29 Jan 2026 10:18:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3F8C10E32A;
+	Thu, 29 Jan 2026 10:27:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZCmAZGrR";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="YqzbJf3X";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KqDnWPZQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24EBC10E2DE
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 10:18:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1769681912;
- bh=Rz7mcUafrSg4lut8jeKQqqooiY1nYVBazT3jFi6XCAE=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ZCmAZGrRpuDCFRUAPijTAld9Ai77R/kz0Ko+MM2qpZPWvhEox9yXNCIkXttrOhmJ4
- WUNdMRwF5d5Wp9l83gUFsmphy4TGMh8uzSJiTP33rihJuSveIpqLyla9R17/SndOpd
- xnrHzABTiltnecp24QxBGqdgjSeoJ7zRLRJZbCUmASLF3UQK+9w2RJ2K1rtE3IFi9U
- LgMa3uGu7hWFf7i6AaSwOnvzUnMBA7POQ7pazvaFXdUo0RFv+Ka+3TB8lak0kcjzuA
- eybRmwmt6aRnhWp4XR5DfVuYO3EJgEJJTWkaBgj2tCcd69w5sVrT7VsCX34TII+WAX
- wG+xfo38NKSOA==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 41C2317E0699;
- Thu, 29 Jan 2026 11:18:32 +0100 (CET)
-Date: Thu, 29 Jan 2026 11:18:27 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Caterina Shablia <caterina.shablia@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, kernel@collabora.com,
- "Steven Price" <steven.price@arm.com>, "Liviu Dudau" <liviu.dudau@arm.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] drm: add ARM interleaved 64k modifier
-Message-ID: <20260129111827.36fe150c@fedora>
-In-Reply-To: <20260128184058.807213-1-caterina.shablia@collabora.com>
-References: <20260128184058.807213-1-caterina.shablia@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10E7F10E32A
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 10:27:03 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 60T39xsO1429065
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 10:27:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ poJxw3O33HGhuN9ILVRF83I2m99nsoSK8pXDKw4sctc=; b=YqzbJf3XVsErNCF9
+ VBNz/ct0U2LFzE4j2NVfNJi3vOZ6st1Jo3CMmFt8e6i/yGgrwGbQePinMlmLIcPV
+ d31XwpI0A0b5ocpuQeExeqdzs+PC5ob4THW0ArXYLqh0b0X2uHZR51cAGzNaF8f8
+ xVzcO4pCduevy3mViJARVHFmmiZ9wYs39HmlkP45vU6cC5CwW5d5YlXgBKJiuYGv
+ NJBSv/9UM5Mq1jeECQQ1mKpEmolMgQg+5xtwwZPNfYKjX99kw7y/lhnyrVAWMed+
+ saV+RfxGOqSmF3940xlfohnT//8p9jpxASW0DX+8ubI217QTXm+BVVBY+ur83OdU
+ 8v+24Q==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4byydh18ta-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 10:27:02 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id
+ 41be03b00d2f7-c54e81eeab9so562028a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 02:27:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1769682422; x=1770287222;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=poJxw3O33HGhuN9ILVRF83I2m99nsoSK8pXDKw4sctc=;
+ b=KqDnWPZQhMOs18m+JpC3V7DVHFAxVEGzasjyCykwZlnq5fPpj09gZPW3iyo2dbgx9N
+ 4U9NVNfUUliFQftzYsaqbX9aJ7bGJJzgMxY8vkLWFAD/SHhe/YTHwUCDWTkQqIk7FQYy
+ VdYEozXZN9gYeOgl8Hx611f2LPozN88QxhZdsQBp8B0tjsGMdvujhJNYvwPwknFIQlOb
+ 9EBmIVFj5V/0Zg4F+VbId+WQJtGFy4p1BouFs8IxVXYxWX+Jg8YWqjuko+oCZ9XaUkYr
+ x3ezdgHhDVIlrTUQhH1SGneCW47vEoboYGcCXvItMJabnXXGk8uJhcFbyr9taPFzcGQM
+ j8iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769682422; x=1770287222;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=poJxw3O33HGhuN9ILVRF83I2m99nsoSK8pXDKw4sctc=;
+ b=X9+7GkEES1oGVT5KD1nmrw6mz3L485JpzcrvEuoUANotvJDUu31bc0hehfAILXNfCM
+ OEKHDu+miVDrbG7e9bx/rC8neWZMhq8ckUaBdPJST4jh4figYUdQiciRdfkxlLbrcO8V
+ HgMeRnJVNVnATnkPAcBZPDsvLkqqK3yUP8MJem/V9McktfMjiSb/zvDxuOSFCHbwnpmK
+ a8UYYhdzfTH2JRYEPuOefwUzbrYMvDJXKCV6gOzzW0kSz+26AtRPVW6qIAS4Io6ehdJe
+ orWPIiACaTpI+HnvJE0/qAAjjMYaA4QddacSlLYNkKN/z0w8tHRj/tf/FIqPf4BH7F+4
+ 8zuw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW+ZFIonTfMTCG2DHMxL+TwPNDxse+sO+Jk5RimcF4qQ0NLb9SQ7HNCi6jRzGuS1adEnhFj4VYGSTo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxCMaO5SsVtTLDjwkmat8cmKlWRpITQixXbsFWQajFaKwMmxDip
+ j6zY52tj1S/TMYSXy71QcBfiMvGpFHNKEUFFF42zrGIK8jF+tde1yWa38xK9VHnlz/Vasl9kQ9I
+ DCo6jSlMyyCCccAxj6KIoOIjpCBwSGyIaws/xn3We4A4jcRcvTO3YTahljjUAVCIpmyGRyxE=
+X-Gm-Gg: AZuq6aJE9XBHHuyvq1+x2eVw028J50Q+WAnTaTYSQpqJcjSvMeoEALemzFlQ8vjN2gT
+ p1aKVITo0KBl4VLHHrhUSNFerW6q6Ts0yNzQ1lVTUcitFjLIRG9bZILq6ml0wB/Mz9jft4AH65p
+ rkZDzvuNg+KRDyPDswO9MbRV/U38NcNU6pA4qQyOHF35K+Laj2ju3j4hZNXm4IFAerGIrwJ4bHX
+ cAWTdZTrscmgYpLdraL0SOSC2TTA7kuv/fYog/1p4YkQDBO6KSH62UOLBeFHY8ae2ryqJEDtiSD
+ ESSlDGgypS0ALG2vR8WxHzik/jUxWCbxr4zFv6FRQ8FiKRUKXjcPkX7IL3hQkG/0ZygSmVO27dD
+ hOh3pP7eb1dSpNSzslDpw8mW9tsFfUTYnxHy0mg==
+X-Received: by 2002:a17:903:2a87:b0:29f:e787:2b9b with SMTP id
+ d9443c01a7336-2a870dd93a8mr83226755ad.41.1769682421778; 
+ Thu, 29 Jan 2026 02:27:01 -0800 (PST)
+X-Received: by 2002:a17:903:2a87:b0:29f:e787:2b9b with SMTP id
+ d9443c01a7336-2a870dd93a8mr83226545ad.41.1769682421301; 
+ Thu, 29 Jan 2026 02:27:01 -0800 (PST)
+Received: from [10.206.99.28] ([202.46.23.25])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2a88b426ae4sm45721695ad.43.2026.01.29.02.26.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Jan 2026 02:27:00 -0800 (PST)
+Message-ID: <37e2876f-6998-4e79-8696-c7f97307a28f@oss.qualcomm.com>
+Date: Thu, 29 Jan 2026 15:56:55 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/4] misc: fastrpc: Expand context ID mask for DSP
+ polling mode support
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: srini@kernel.org, linux-arm-msm@vger.kernel.org,
+ gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
+ dri-devel@lists.freedesktop.org, arnd@arndb.de,
+ konrad.dybcio@oss.qualcomm.com
+References: <20251230062831.1195116-1-ekansh.gupta@oss.qualcomm.com>
+ <20251230062831.1195116-4-ekansh.gupta@oss.qualcomm.com>
+ <xrudy7p267tuu6q5qrndw35677noevqq23zooxmsacxlswzpub@2cqtvc6e3aw4>
+Content-Language: en-US
+From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+In-Reply-To: <xrudy7p267tuu6q5qrndw35677noevqq23zooxmsacxlswzpub@2cqtvc6e3aw4>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: dC_QS00O8SCXYJoRiT8MrJ0YhzxeNGe2
+X-Proofpoint-ORIG-GUID: dC_QS00O8SCXYJoRiT8MrJ0YhzxeNGe2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI5MDA2OCBTYWx0ZWRfXy8gTGoPlEJRh
+ Ttz/BFQeGy0KykjcaRNBJ+RyLoHAjmaJaOPXq7etjglnfx3nV0Z6xX24b3J8FA3mwcJwUs0Qibh
+ JReMXmGTGEMS3cFa3URLzOz8noR1IyC60RQCxTBtLVYEo8Fvwcr8MBoeAQ3MvMGrGixrqLD67uG
+ kIHunnsBvqzojB1Jv3ieYhH1K0UXSzZ1AcFK6VBJWkJuEZn2U/vYvkot/bIuoDTVWokLH1EQSVW
+ pQIQTbre35STxCYKDzUkPM26oN0pA9PnsagOystN9UHR1mc28+UsVN+aIMW0GE00ffGFfjpg1sn
+ 2fvx19iQuUBqWOeHIoklxJQzblif/zd+Fac1TqpXexKhdJXr2GPOfRJ+qN2tNusIiefyZ06X0Zb
+ fwwWXsYHLbbPxFePCJJLN0+Nh0wjGYeESvLFwMB0WLPF+uJPUfyw5hgiTSoLsegq+JTU2iCN5vp
+ RQ2kJBU7T3L9y6yrxPw==
+X-Authority-Analysis: v=2.4 cv=Cs6ys34D c=1 sm=1 tr=0 ts=697b35f6 cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=XpT7ApHK0yhPgYAQ0KkA:9
+ a=QEXdDO2ut3YA:10 a=_Vgx9l1VpLgwpw_dHYaR:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-01-29_02,2026-01-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 clxscore=1015 spamscore=0 phishscore=0 bulkscore=0
+ malwarescore=0 priorityscore=1501 adultscore=0 impostorscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601290068
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,112 +150,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:caterina.shablia@collabora.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:kernel@collabora.com,m:steven.price@arm.com,m:liviu.dudau@arm.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:srini@kernel.org,m:linux-arm-msm@vger.kernel.org,m:gregkh@linuxfoundation.org,m:quic_bkumar@quicinc.com,m:linux-kernel@vger.kernel.org,m:quic_chennak@quicinc.com,m:arnd@arndb.de,m:konrad.dybcio@oss.qualcomm.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[ekansh.gupta@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	HAS_ORG_HEADER(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.999];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,collabora.com,arm.com,lists.freedesktop.org,vger.kernel.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,arm.com:email,collabora.com:email,collabora.com:dkim]
-X-Rspamd-Queue-Id: 5CE82AE7F8
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ekansh.gupta@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 835A2AEA2D
 X-Rspamd-Action: no action
 
-On Wed, 28 Jan 2026 18:40:57 +0000
-Caterina Shablia <caterina.shablia@collabora.com> wrote:
 
-> This modifier is primarily intended to be used by panvk to implement
-> sparse partially-resident images with better map and unmap
-> performance, and no worse access performance, compared to
-> implementing them in terms of U-interleaved.
-> 
-> With this modifier, the plane is divided into 64k byte 1:1 or 2:1
-> -sided tiles. The 64k tiles are laid out linearly. Each 64k tile
-> is divided into blocks of 16x16 texel blocks each, which themselves
-> are laid out linearly within a 64k tile. Then within each such
-> 16x16 block, texel blocks are laid out according to U order,
-> similar to 16X16_BLOCK_U_INTERLEAVED.
-> 
-> Unlike 16X16_BLOCK_U_INTERLEAVED, the layout does not depend on
-> whether a format is compressed or not.
-> 
-> The hardware features corresponding to this modifier are available
-> starting with v10 (second gen Valhall.)
-> 
-> The corresponding panvk MR can be found at:
-> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/38986
-> 
-> Previous version:
-> https://lists.freedesktop.org/archives/dri-devel/2026-January/547072.html
-> 
-> No changes since v2
-> 
-> Changes since v1:
-> 
-> * Rewrite the description of the modifier to be hopefully unambiguous.
-> 
-> Signed-off-by: Caterina Shablia <caterina.shablia@collabora.com>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
-Queued to drm-misc-next.
+On 1/6/2026 8:23 AM, Dmitry Baryshkov wrote:
+> On Tue, Dec 30, 2025 at 11:58:30AM +0530, Ekansh Gupta wrote:
+>> Current FastRPC context uses a 12-bit mask:
+>>   [ID(8 bits)][PD type(4 bits)] = GENMASK(11, 4)
+> Is it Linux-only representation or is it also used by the DSP? Will it
+> work with MSM8916?
+Apologies for the delay in response, had to go back to check on older DSP software.
 
-> ---
->  include/uapi/drm/drm_fourcc.h | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> index e527b24bd824..452f901513ad 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -1422,6 +1422,22 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
->  #define DRM_FORMAT_MOD_ARM_16X16_BLOCK_U_INTERLEAVED \
->  	DRM_FORMAT_MOD_ARM_CODE(DRM_FORMAT_MOD_ARM_TYPE_MISC, 1ULL)
->  
-> +/*
-> + * ARM 64k interleaved modifier
-> + *
-> + * This is used by ARM Mali v10+ GPUs. With this modifier, the plane is divided
-> + * into 64k byte 1:1 or 2:1 -sided tiles. The 64k tiles are laid out linearly.
-> + * Each 64k tile is divided into blocks of 16x16 texel blocks, which are
-> + * themselves laid out linearly within a 64k tile. Then within each 16x16
-> + * block, texel blocks are laid out according to U order, similar to
-> + * 16X16_BLOCK_U_INTERLEAVED.
-> + *
-> + * Note that unlike 16X16_BLOCK_U_INTERLEAVED, the layout does not change
-> + * depending on whether a format is compressed or not.
-> + */
-> +#define DRM_FORMAT_MOD_ARM_INTERLEAVED_64K \
-> +	DRM_FORMAT_MOD_ARM_CODE(DRM_FORMAT_MOD_ARM_TYPE_MISC, 2ULL)
-> +
->  /*
->   * Allwinner tiled modifier
->   *
-> 
-> base-commit: f08f665f8cda9520d98ee24545d306a92f386616
+DSP will also use this but it handled properly across platforms. DSP get PD details from PD bits
+and mask it to use further for async call checks. Other than async call check, the context ID is
+majorly used for book-keeping on DSP side(no functional utility).
+
+So, it should also work on MSM8916,
+>
+>> This works for normal calls but fails for DSP polling mode.
+>> Polling mode expects a 16-bit layout:
+>>   [15:8] = context ID (8 bits)
+>>   [7:5]  = reserved
+>>   [4]    = async mode bit
+>>   [3:0]  = PD type (4 bits)
+>>
+>> If async bit (bit 4) is set, DSP disables polling. With current
+>> mask, odd IDs can set this bit, causing DSP to skip poll updates.
+>>
+>> Update FASTRPC_CTXID_MASK to GENMASK(15, 8) so IDs occupy upper
+>> byte and lower byte is left for DSP flags and PD type.
+>>
+>> Reserved bits remain unused. This change is compatible with
+>> polling mode and does not break non-polling behavior.
+>>
+>> Bit layout:
+>>   [15:8] = CCCCCCCC (context ID)
+>>   [7:5]  = xxx (reserved)
+>>   [4]    = A (async mode)
+>>   [3:0]  = PPPP (PD type)
+>>
+>> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+>> ---
+>>  drivers/misc/fastrpc.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
 
