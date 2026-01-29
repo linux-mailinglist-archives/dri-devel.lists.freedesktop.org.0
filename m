@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OKcdA5P0emnDAAIAu9opvQ
+	id WK7qCZv0emnDAAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 06:48:03 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 06:48:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A84B9AC0DD
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 06:48:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AFADAC103
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 06:48:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C159410E7CC;
-	Thu, 29 Jan 2026 05:47:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAD4E10E7CE;
+	Thu, 29 Jan 2026 05:48:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="h2h/uCxJ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FELBJCqY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
- [209.85.222.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE7DB10E7CA
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 05:47:58 +0000 (UTC)
-Received: by mail-qk1-f172.google.com with SMTP id
- af79cd13be357-8c5386f1c9fso87817085a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 21:47:58 -0800 (PST)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
+ [209.85.219.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2A2710E7CB
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 05:48:00 +0000 (UTC)
+Received: by mail-qv1-f44.google.com with SMTP id
+ 6a1803df08f44-88a2fe9e200so6288076d6.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 21:48:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769665678; x=1770270478; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1769665680; x=1770270480; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dfxr03p7S9Rer87uRm31FU2g8xU+t3fSe3azXAHj5IA=;
- b=h2h/uCxJWSuH5zJv+3NCUmfyHFmRXbeOeny/uUBOCJz+/pEDoUQ4QWi4Xi7tbh+kGE
- 0gVIDV9Q4ephEzLJjUCiZU742P3MfK3WfHMueFY0iaykCB1W4JX+giQO3xyviofo1hIb
- 6Z8zl09wEXQ1ZXTtfHdaRJeNUsNgCUzCI3YM2YYPCt7bRTmHFg+mj4ZiPgeLuzdJgMi8
- +9K5iKcMaw0RqSsQcBVhxsjVB+OOWxr1iy5LwssR32UjGtlXeQmcHPn4KU8kjDbGJKAv
- NYWatm7kxMdkzx/U+4k0iCh/WatgXGzy4xQvvKbf8S3M5VrfA9rgQ30JH1sg5KUGrka+
- O9fQ==
+ bh=meO53koivOwOs9Bd8q7AbA+V+PS952tTGxoKR0dH/Dg=;
+ b=FELBJCqY/hCGalqxJ/jfujRwGScmJDQEeuXbp3tKsS5+zj2kv9nPk+i/ZdrVqsqfUD
+ pxA9kZlGskTzuZ/9AQhPu0Y880Tq4eqJFhzI6X1rCbepO3De5dISU69yGo91KRcOPcII
+ Fyp3Fjn2wL7fJ1eq9Sgkv4ZX5Oi10rYBD4AY3Q6Xe3ooSVLOA+U9Z+2qh31cSbhVlJ4s
+ tzf+xltb52JQGPIAek+S+U1ftLulzX+C6NbqI2a662GznV9kGpba9s5bKIyBb6I3+jTp
+ bQuHobNVvjHljlr6cn7fG/3epETQ85tfa0wOS3b3lfnOqFd7S7l9RGcrkDPj84djx4Ub
+ BCeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769665678; x=1770270478;
+ d=1e100.net; s=20230601; t=1769665680; x=1770270480;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=dfxr03p7S9Rer87uRm31FU2g8xU+t3fSe3azXAHj5IA=;
- b=T/mH7XYB7758iyCOhZQ/cS5uoln+9SgkeZtoFFB+kyf4g8aixoi/NxMRy43BWRSGZG
- Ba86i93rAIua+MYCDiW3hwofgvfbO745HOcIVrq+zZCSvErRrOHB7umPboa1xJ67ES1W
- uuC7aqxoc52AA/S5OcDe0CSzyb/adUjz+Akp/8qNsIhAM+oxZbWcLl6Ya1zZWxoE3/ak
- wTP9Koj2uE29w0HBcSLm6a7BaB4qdbvdcABS4+yRupTlzKTPNMeCMV7dkwySZ9bJbbIS
- 5WqIwr6tq9YfxAB+VqjR/yqWNdQAbZNQfWGN2LWuWGWJ/3mEx+8HBYAcPj/T9Q7S66Rz
- L8yQ==
+ bh=meO53koivOwOs9Bd8q7AbA+V+PS952tTGxoKR0dH/Dg=;
+ b=TS/7pIifLQRNyZ94oo9xv8imAnhlvgpjRQJKuSrJEKF2ij9s1gYdgQdZ/wjgKsjpD9
+ FOEfUGILY6TSt7bSDGHBukG7mfEW5hVU51Af6WP96+hfQrlF7FNaZ62mo240nEqSrt8r
+ ur3DmWQWwiDgrbzqHtvXT44utRJjSnK/g7gK0GMITP9BxVg+d1vdzFDIjlWPMRhKinbK
+ bS3tHyozxrhXuSYpaKWjI8ZpSPHBYA7NcdVSvGcMk9TFpBIGqVRoERufQZluWjLjiY5F
+ 0Y0JkFEnk6mVKw63iwsd9Gqmk60h3WIv+ItvDFTlXiXQzc/hwdGNbrNGR+BJwcHDxrgP
+ p5jw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUfiW1y04PmHBKe63CeYQp3a2Rq4YQL15LNGVDPoybe1s8Hu9dzLDmmcqx3aHSCjKUY4MnLWx/d78k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz5KyvVS4J4VImDacgtXqVrdKp+jMmNfZcST8XHlX4ybE4V7eKv
- NkDzyMi4RDB9Xk6HZd3kj5W5FXLMDSObOq2aSpE8dwJa+C5egoriaPeg
-X-Gm-Gg: AZuq6aJFyRi9xRMarGcX2kc1dBfuCgJsgNy5fAL0icOn7+3v7B8+HXV7NvtJLobSHmL
- AvmzelWA2g6mEYzsQoc+0e64Lh4PrZhColPlatuo8WTO3NiIDbIKqGcT2cBBROhYeh3bGVH91tb
- 2kKmzWXD1MHhrNTPHAutScYYpnE0eNwdfo9/tpV5r9aDcIrxjZbs0zc6GyRkvQoxTFQNzXARqLA
- XO7m+YhRopexFMQByrdN3ncblCti+FNfqUAbVQMH6ZN00Lhnfh7NS3xCoHyX1tjSNvqvrJCNsi8
- L9CqUS+V0o7h86ocYcYT+wmjeM3X5Itgj7FNX8Fk/zJ8LWfzzURpKOAHnTZWtYMIsN4AbBE5Wno
- fXAKnwY4E1SbCmPXVzfMDpqsjHCzWVxP6j4+t0FLhyBPYyjMFXHTUHlv2acVlp+w/vC3XwB1VUL
- liVCYMbtKyvK2Qdk0FtZ3S+Pj9FoNL4Legie9HiVYfMqlcVnSwY8gNHtbOi7Msu/mjoqqwzAg=
-X-Received: by 2002:a05:620a:5d9a:b0:8c7:155a:6d03 with SMTP id
- af79cd13be357-8c7155a71b6mr401340185a.58.1769665677768; 
- Wed, 28 Jan 2026 21:47:57 -0800 (PST)
+ AJvYcCWp4799Y7bs8HlL3xaBgx7aIOjJX7yryXuUnHZ+q03aNT17YEf9qlLfPXGiJREUPQ2+vazTuGMkO6U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwnueTRkUz+vVAjKRV846FSS928bneemZqNvUdJqq+ldxOrvbaY
+ DSDgkEyDVnJDD783ovfKNyDqMh0QNn3wytXJ0fAGA0pf89QIMy20pExl
+X-Gm-Gg: AZuq6aJxEBd0NpH0C0y4Hh5kPlWMOoLy9cEHE6FXXJqmINFyAaoHjkgHNi5Wq18S5pc
+ SQzFmaKSXefW1fcFzr75tyLhj4YCnlmmEbKuIY47zHTYX1tIMqoLdoA26nf+F4q/SZYkZNdoKiE
+ 1yRa9zWNYMOvM1GLCvXIiZ1RL7l7fPRUQXeraciE6HVt2hmdbEWYMTPMkqGa0ocvsp1Hf5J1gIc
+ T4aLRjq+GOFvydHNO5xDAq+eEBIGsbq/LAiK7Pkjuei9nAW9Z/Eo50sRDFt/VbIYT58Q+7iEoQm
+ XXOjrZikrdWFd4j925BswkFliPiOzN3Zd/tQCM9dFDI+jUJbWObwi9W4rY4hiYLlR0ZgpYT5w7y
+ 7I09Q+5F+R9o4KLthp6V6EyE3ws3zD9m3JQYXiXJ3nEy1lwZaI0i666qZOuhzx1S/a3NzE/+DML
+ VOnI0YyTaI9nIrdTzqt9ac9XAirHwZSY6H2jnGeczlX+Cx4lgzY8mD6BGDRnvgWiXzI2BIKR0=
+X-Received: by 2002:a05:6214:485:b0:892:6ec3:41d2 with SMTP id
+ 6a1803df08f44-894cc93d523mr120506026d6.54.1769665679737; 
+ Wed, 28 Jan 2026 21:47:59 -0800 (PST)
 Received: from mighty.stonybrook.edu (nat-130-245-192-1.resnet.stonybrook.edu.
  [130.245.192.1]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-894d36dd1cfsm30903216d6.25.2026.01.28.21.47.56
+ 6a1803df08f44-894d36dd1cfsm30903216d6.25.2026.01.28.21.47.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jan 2026 21:47:57 -0800 (PST)
+ Wed, 28 Jan 2026 21:47:59 -0800 (PST)
 From: Mithil Bavishi <bavishimithil@gmail.com>
 To: aaro.koskinen@iki.fi, airlied@gmail.com, andreas@kemnade.info,
  conor+dt@kernel.org, jernej.skrabec@gmail.com, jonas@kwiboo.se,
@@ -79,10 +79,10 @@ To: aaro.koskinen@iki.fi, airlied@gmail.com, andreas@kemnade.info,
  andrzej.hajda@intel.com, bavishimithil@gmail.com
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org
-Subject: [PATCH v5 7/8] ARM: dts: ti: omap: samsung-espresso7: Add initial
- support for Galaxy Tab 2 7.0
-Date: Thu, 29 Jan 2026 00:47:08 -0500
-Message-ID: <20260129054709.3878-8-bavishimithil@gmail.com>
+Subject: [PATCH v5 8/8] ARM: dts: ti: omap: samsung-espresso10: Add initial
+ support for Galaxy Tab 2 10.1
+Date: Thu, 29 Jan 2026 00:47:09 -0500
+Message-ID: <20260129054709.3878-9-bavishimithil@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260129054709.3878-1-bavishimithil@gmail.com>
 References: <20260129054709.3878-1-bavishimithil@gmail.com>
@@ -109,111 +109,124 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_TO(0.00)[iki.fi,gmail.com,kemnade.info,kernel.org,kwiboo.se,baylibre.com,ideasonboard.com,linux.intel.com,linaro.org,bp.renesas.com,ffwll.ch,atomide.com,suse.de,intel.com];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[27];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[bavishimithil@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS(0.00)[m:aaro.koskinen@iki.fi,m:airlied@gmail.com,m:andreas@kemnade.info,m:conor+dt@kernel.org,m:jernej.skrabec@gmail.com,m:jonas@kwiboo.se,m:khilman@baylibre.com,m:krzk+dt@kernel.org,m:laurent.pinchart@ideasonboard.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:neil.armstrong@linaro.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:jesszhan0024@gmail.com,m:rfoss@kernel.org,m:robh@kernel.org,m:rogerq@kernel.org,m:simona@ffwll.ch,m:thierry.reding@gmail.com,m:tony@atomide.com,m:tzimmermann@suse.de,m:andrzej.hajda@intel.com,m:bavishimithil@gmail.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-omap@vger.kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[iki.fi,gmail.com,kemnade.info,kernel.org,kwiboo.se,baylibre.com,ideasonboard.com,linux.intel.com,linaro.org,bp.renesas.com,ffwll.ch,atomide.com,suse.de,intel.com];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[bavishimithil@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[27];
 	ARC_NA(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
+	TO_DN_NONE(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[bavishimithil@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_PROHIBIT(0.00)[0.0.0.48:email];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: A84B9AC0DD
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.1:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,0.0.0.11:email,0.0.0.20:email,0.0.0.6:email]
+X-Rspamd-Queue-Id: 8AFADAC103
 X-Rspamd-Action: no action
 
-Create a device tree for the 7 inch variants (P3100, P3110, P3113)
+Create a device tree for the 10 inch variants (P5100, P5110, P5113)
 
 Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
 ---
- arch/arm/boot/dts/ti/omap/Makefile            |  1 +
- .../dts/ti/omap/omap4-samsung-espresso7.dts   | 70 +++++++++++++++++++
- 2 files changed, 71 insertions(+)
- create mode 100644 arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dts
+ arch/arm/boot/dts/ti/omap/Makefile            |   1 +
+ .../dts/ti/omap/omap4-samsung-espresso10.dts  | 104 ++++++++++++++++++
+ 2 files changed, 105 insertions(+)
+ create mode 100644 arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dts
 
 diff --git a/arch/arm/boot/dts/ti/omap/Makefile b/arch/arm/boot/dts/ti/omap/Makefile
-index 14e500846..d24f13efd 100644
+index d24f13efd..140ac39b3 100644
 --- a/arch/arm/boot/dts/ti/omap/Makefile
 +++ b/arch/arm/boot/dts/ti/omap/Makefile
-@@ -80,6 +80,7 @@ dtb-$(CONFIG_ARCH_OMAP4) += \
- 	omap4-sdp-es23plus.dtb \
+@@ -81,6 +81,7 @@ dtb-$(CONFIG_ARCH_OMAP4) += \
  	omap4-var-dvk-om44.dtb \
  	omap4-var-stk-om44.dtb \
-+	omap4-samsung-espresso7.dtb \
+ 	omap4-samsung-espresso7.dtb \
++	omap4-samsung-espresso10.dtb \
  	omap4-xyboard-mz609.dtb \
  	omap4-xyboard-mz617.dtb
  dtb-$(CONFIG_SOC_AM33XX) += \
-diff --git a/arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dts b/arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dts
+diff --git a/arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dts b/arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dts
 new file mode 100644
-index 000000000..cae37ff06
+index 000000000..5c00d67ac
 --- /dev/null
-+++ b/arch/arm/boot/dts/ti/omap/omap4-samsung-espresso7.dts
-@@ -0,0 +1,70 @@
++++ b/arch/arm/boot/dts/ti/omap/omap4-samsung-espresso10.dts
+@@ -0,0 +1,104 @@
 +// SPDX-License-Identifier: (GPL-2.0 OR MIT)
 +/dts-v1/;
 +
 +#include "omap4-samsung-espresso-common.dtsi"
-+
++#include <dt-bindings/power/summit,smb347-charger.h>
 +/ {
-+	model = "Samsung Galaxy Tab 2 (7 inch)";
-+	compatible = "samsung,espresso7", "ti,omap4430", "ti,omap4";
++	model = "Samsung Galaxy Tab 2 (10 inch)";
++	compatible = "samsung,espresso10", "ti,omap4430", "ti,omap4";
++
++	i2c-gpio5 {
++		smb347: charger@6 {
++			compatible = "summit,smb347";
++			reg = <0x6>; // 0x0C >> 1
++			interrupt-parent = <&gpio2>;
++			interrupts = <0 IRQ_TYPE_EDGE_BOTH>;
++
++			summit,enable-usb-charging;
++			summit,enable-charge-control = <SMB3XX_CHG_ENABLE_SW>;
++			summit,chip-temperature-threshold-celsius = <120>;
++			summit,usb-current-limit-microamp = <1800000>;
++		};
++	};
 +
 +	backlight: backlight {
 +		compatible = "pwm-backlight";
 +		pinctrl-names = "default";
 +		pinctrl-0 = <&backlight_pins>;
-+		pwms = <&pwm10 0 1200 0>;
++		pwms = <&pwm10 0 1600 0>;
 +		power-supply = <&reg_lcd>;
 +		enable-gpios = <&gpio3 31 GPIO_ACTIVE_HIGH>;
 +		brightness-levels = <0 4 8 16 32 64 128 255>;
-+		default-brightness-level = <2>;
++		default-brightness-level = <7>;
 +	};
 +
 +	panel {
-+		compatible = "samsung,ltn070nl01", "panel-lvds";
++		compatible = "samsung,ltn101al03", "panel-lvds";
 +		power-supply = <&reg_lcd>;
-+		width-mm = <154>;
-+		height-mm = <90>;
++		width-mm = <223>;
++		height-mm = <125>;
 +		data-mapping = "vesa-24";
 +		backlight = <&backlight>;
 +
 +		panel-timing {
-+			clock-frequency = <47255554>;
++			clock-frequency = <69818000>;
 +
-+			hback-porch = <210>;
-+			hactive = <1024>;
-+			hfront-porch = <186>;
-+			hsync-len = <50>;
++			hback-porch = <64>;
++			hactive = <1280>;
++			hfront-porch = <16>;
++			hsync-len = <48>;
 +
 +			vback-porch = <11>;
-+			vactive = <600>;
-+			vfront-porch = <24>;
-+			vsync-len = <10>;
++			vactive = <800>;
++			vfront-porch = <16>;
++			vsync-len = <3>;
 +
 +			hsync-active = <0>;
 +			vsync-active = <0>;
 +			de-active = <1>;
 +			pixelclk-active = <1>;
-+			syncclk-active = <0>;
 +		};
 +
 +		port {
@@ -225,17 +238,38 @@ index 000000000..cae37ff06
 +};
 +
 +&i2c3 {
-+	touchscreen@48 {
-+		compatible = "melfas,mms136";
-+		reg = <0x48>;
++	touchscreen@20 {
++		compatible = "syna,rmi4-i2c";
++		reg = <0x20>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++
 +		interrupt-parent = <&gpio2>;
 +		interrupts = <14 IRQ_TYPE_EDGE_FALLING>;
-+		touchscreen-size-x = <1024>;
-+		touchscreen-size-y = <600>;
++
 +		pinctrl-names = "default";
 +		pinctrl-0 = <&touch_pins>;
-+		avdd-supply = <&reg_touch_ldo_en>;
++
++		//avdd-supply = <&reg_touch_ldo_en>;
 +		vdd-supply = <&ldo6>;
++
++		syna,reset-delay-ms = <200>;
++		syna,startup-delay-ms = <200>;
++
++		touchscreen-size-x = <1280>;
++		touchscreen-size-y = <800>;
++
++		rmi4-f01@1 {
++			reg = <0x01>;
++			syna,nosleep-mode = <1>;
++		};
++
++		rmi4-f11@11 {
++			reg = <0x11>;
++			touchscreen-size-x = <1280>;
++			touchscreen-size-y = <800>;
++			syna,sensor-type = <1>;
++		};
 +	};
 +};
 -- 
