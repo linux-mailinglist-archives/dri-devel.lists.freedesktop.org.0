@@ -2,72 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uMpGMYr0emnDAAIAu9opvQ
+	id UHX7Ao30emnDAAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 06:47:54 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 06:47:57 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30DD3AC0B0
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 06:47:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADFD3AC0B7
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 06:47:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C088E10E263;
-	Thu, 29 Jan 2026 05:47:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9A3A10E7C9;
+	Thu, 29 Jan 2026 05:47:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BiIpNbBA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lW518QdA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
- [209.85.219.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DDBA10E263
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 05:47:50 +0000 (UTC)
-Received: by mail-qv1-f54.google.com with SMTP id
- 6a1803df08f44-88888d80590so10542386d6.3
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 21:47:50 -0800 (PST)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
+ [209.85.222.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C688110E7C9
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 05:47:52 +0000 (UTC)
+Received: by mail-qk1-f170.google.com with SMTP id
+ af79cd13be357-8c07bc2ad13so52181385a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 21:47:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769665669; x=1770270469; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1769665672; x=1770270472; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0Hq1Jil93LKWD5SqiddgyBykMfT43TbOI7JPjGrETyE=;
- b=BiIpNbBA4rGjFWCKXgHmr283yQIwkxy6Ei4tMtYdqX3AFpv+E+g1WaGdTWzTopPLzh
- nU4ptmOyptHfN1S1z60HKM+Ge2BZD+oL2UtjdGn3npXaT/jpo179NNftoNs0ce1e7eOP
- ebfSyoMBSL7lc6asSNeYhutUzXrDo8WeZbSkSshrZmtGk+r0qH+eqnKniMK3aIWUPLWw
- xbDlB3rYaTRkeRHfcj7XV1o8suSFE8b3Mcev4Ug85eWbXJG89ORcEpGrfbsAcT6XOz15
- E0vLgfvVljByXLaMzb7IJ/2L5/QknLWdGmHWop1XM9gS1y3SAMyHqVugiA+d/qOZS35M
- SYuQ==
+ bh=1IVPvbiKHqb1wJCwFPWETEeAl2aF1oAt9knBh3vkK+g=;
+ b=lW518QdAVcmRPh+Blw62gW1hvVimt1mNMEPPCt+zsZXJ4t1C8kZvuCtt5pHDaB2H0v
+ BpE8OJc1vPpR+PIdGUvK9gzmOBpl4KwjczBYfobYiU9gkAaNmtMm+7D+NJA+dNjJjRCU
+ 4ms+C0iiW16MuHu8PbWy4h2fyQ6/7OlEc/NW1nfCyPF/FZd4ERET/f2g+EcQDYc2pQE2
+ vr9l903ijyivNzP61lur1sM1CcYRdEnd4I7CHMmfXBnGUu2IyjdeuaTu/fmoOXRKAt4g
+ CUShd5WVQB1ZZvgAuc9cC3Hdw0rzxfTFCp1zyxD37pozzDl2ld9NKeAjFSOjLZSPUsiq
+ N7pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769665669; x=1770270469;
+ d=1e100.net; s=20230601; t=1769665672; x=1770270472;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=0Hq1Jil93LKWD5SqiddgyBykMfT43TbOI7JPjGrETyE=;
- b=bl6OO+5BEZJgUuz5B1mcRd0XFXsNWPWDS4qLx4foGeDBA0+aqIu0ZfHZlMmwz6t1AO
- uf6P7/1huTKvbTl3IOpnE5ItrKru5iIs/X3WWX1X9j/oZOHiGhCeCebgdlq5bxxx9Yuk
- omRgyKxi3JzBGpfI4532eueMmNhrNU+dyUDkd+GN21iH/CTYduC485CZbgZ/9zcZGexO
- mfk1OicOUuqGGaDqCBa8XTET0EkI8joAlwkbZYvXm67+qKbAag+FuCqupOFTF/3P//dv
- 8BP78rLHf2ImkxWEoWZF2hqI5xhWcUVp5GXouSaw7YQCiGOOES1e7UEWwz76XSq912ns
- z7Ww==
+ bh=1IVPvbiKHqb1wJCwFPWETEeAl2aF1oAt9knBh3vkK+g=;
+ b=uI/htZcjZXBmrDLcdnSOvCsL6Z+k5ZNs739AJGhMKVAhZUUqGhnjVL4I+3i2fhH3tv
+ tW/iZGidz49Xs6HTespVlkswsCygRZDxKJq+ixSASsPMhZSrzR5kIoVvVLHrA7ZCT9T3
+ RpGzPFcoouAPyVhjMqgvBpEbWIIL/Crq1muL8baD12z+k1ojb7UypXLTxcSo9ZBJ9wzl
+ QiKFBp08wy4ofX7DR7LUWase9FCdm7XisltLDcoO/5G/UZhP9OwF7xDzslZZLgSMJ3ly
+ 7thxodea13c1/TlM8IhwJSGf8RfnLIpIgvZbs0KNGC5gOwu9lmEklr+qpY4hETNXcH9R
+ t5jQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUeIn82F3YqBFg4msOSX8tYwc3H32lZHywPxsZfpCGxfWY+CM0OiLGvsJ4XzLryJ7mzOoQtZkhNm1E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz7KBx2IMI0LT6uJd7PWejzin4C+2jhMBvNoH/QaeVjvv3qk4Wl
- ZbsrZU/nl+VUYRiK212vTXgKis4jwyh5rwBRmnhmxLQbOis0Qoswg4/h
-X-Gm-Gg: AZuq6aI9XdwCX75xu6Mz8KTaOotJRi5MQ+wIm3B0L2nBc9g46iAlMQdAnnMhRNuvfHy
- 3ey91z09QnXO653SWX2a4zbwS4jcmKLs34U+LzI0ugYVeeqnyk/Mm5DTSAWITDBiMyysNxelARv
- S/oOrfPbYikskn3nAkWCh/IJDIn092+dYoQnBLkxiLK8gVGtzbsRp54Bzv7vkTiQ50T5kHB+RV/
- 7p/RrRBRb4CjFLmDuzREs7bfWUQpLfYG0/EMyk5nlelYoxirZOFqXSWRRzspuz38fUnbhjVU41e
- x15MwF+u+R2hOChfxQWBc9yco2fM2WVmldDjiRy5CEr/P/rtly3+Dj3h3p2U9rZhvZM3+FJMVdb
- dq85fR1HZ+3/W6Vckh1xCZOWvozE+6ok2Bei5syIQtXsdsn6cPfqjGR1GzbEvFBUDy0obPLp3I+
- 5olRpXnPxrFtf/tE5zef002PA/yhHzKXh7w4MhGNbyW8q2NBwW3cHnDKIc3Q+OWcmsBdKd/WNe6
- 9IMt71TpQ==
-X-Received: by 2002:a05:6214:410f:b0:894:7d78:9cf4 with SMTP id
- 6a1803df08f44-894cc7d012cmr118216296d6.13.1769665669193; 
- Wed, 28 Jan 2026 21:47:49 -0800 (PST)
+ AJvYcCWmw6NaXXDoCFo+CFpocGjnPzhCKzNBq9WdGpd4DDwEQfDFyzu7/PBkSKUt9WIcZyjOuxX9xKpclms=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz70awZKlvGC34zexkIC83l5ptwayhxNONIW45jnAKL/Uz0iGjR
+ aAAH8aoHFLud70O+EqqbyzGjaLe1uFNsOUaCuBoWcsPH6Oyk7bW6hdQb
+X-Gm-Gg: AZuq6aKPwfclzyW+uE2xk4nIQrVPVHNXdmeN5wQ1/dqVkoPhWOLMgMzA27Ic4uuujbd
+ GNd3GXxN6oeNGrcAUcGj/Pyj48SVrOaUIJW8hzvaB6x1mQ0//98aAnGh3zSyHOmzWfvSzp+eJLa
+ 1sa0KKeHe1iPJvcn5i1zCGuFC2UnlXaaiD1mGdqhGdcF1JRl3zPQf9ZFLipFK9AYLvqbK8V0pX3
+ Bu2+r3pHbxRvVyjoXcVduvxaj8+1/vMPG/qRyFNhnJdG4ps0aDySLq+0YjniUMPm5cWKcq6fcot
+ pe1gBWow5ZsDPAt8xkI+We0ainy87gCMlsulLb2wf4CZpHsfitVk+lJQi+ubvJptiaVPjj16+Bb
+ kSD7Wyy8tsxTjAiKbCiEg895mXTmL37seRq3wdw3zdT1CWtP0O9bLwobxvFdWup1Pl17E5wCQQM
+ UCY3QvhEuqZyHe7TTVfI+LkXg45hCUuDtdxy50LS6iRtWeIDQ3yoEKpjKln2I0LCsKbJKV/AY=
+X-Received: by 2002:a05:622a:3c8:b0:503:2d06:8e1f with SMTP id
+ d75a77b69052e-5032f774707mr95808421cf.19.1769665671643; 
+ Wed, 28 Jan 2026 21:47:51 -0800 (PST)
 Received: from mighty.stonybrook.edu (nat-130-245-192-1.resnet.stonybrook.edu.
  [130.245.192.1]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-894d36dd1cfsm30903216d6.25.2026.01.28.21.47.47
+ 6a1803df08f44-894d36dd1cfsm30903216d6.25.2026.01.28.21.47.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jan 2026 21:47:48 -0800 (PST)
+ Wed, 28 Jan 2026 21:47:51 -0800 (PST)
 From: Mithil Bavishi <bavishimithil@gmail.com>
 To: aaro.koskinen@iki.fi, airlied@gmail.com, andreas@kemnade.info,
  conor+dt@kernel.org, jernej.skrabec@gmail.com, jonas@kwiboo.se,
@@ -81,10 +80,10 @@ To: aaro.koskinen@iki.fi, airlied@gmail.com, andreas@kemnade.info,
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v5 3/8] dt-bindings: display: bridge: lvds-codec: add doestek,
- dtc34lm85am
-Date: Thu, 29 Jan 2026 00:47:04 -0500
-Message-ID: <20260129054709.3878-4-bavishimithil@gmail.com>
+Subject: [PATCH v5 4/8] dt-bindings: display: panel-lvds: Add compatibles for
+ Samsung LTN070NL01 and LTN101AL03 panels
+Date: Thu, 29 Jan 2026 00:47:05 -0500
+Message-ID: <20260129054709.3878-5-bavishimithil@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260129054709.3878-1-bavishimithil@gmail.com>
 References: <20260129054709.3878-1-bavishimithil@gmail.com>
@@ -105,16 +104,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [3.49 / 15.00];
+X-Spamd-Result: default: False [1.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_REJECT(1.00)[gmail.com:s=20230601];
 	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	DMARC_POLICY_SOFTFAIL(0.10)[gmail.com : SPF not aligned (relaxed),none];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FREEMAIL_FROM(0.00)[gmail.com];
@@ -137,32 +136,37 @@ X-Spamd-Result: default: False [3.49 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:-];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 30DD3AC0B0
+X-Rspamd-Queue-Id: ADFD3AC0B7
 X-Rspamd-Action: no action
 
-Add compatible strings for the Doestek DTC34LM85AM Flat Panel Display
-Transmitter
+The LTN070NL01 is a 7.0 inch 1024x600, 24 bit, VESA Compatible, TFT
+display panel
+The LTN101AL03 is a 10.1 inch 800x1280, 24 bit, VESA Compatible, TFT
+display panel
 
 Signed-off-by: Mithil Bavishi <bavishimithil@gmail.com>
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/display/panel/panel-lvds.yaml         | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-index 4f7d3e9cf..3ad01645c 100644
---- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-@@ -33,6 +33,7 @@ properties:
-     oneOf:
-       - items:
-           - enum:
-+              - doestek,dtc34lm85am # For the Doestek DTC34LM85AM Flat Panel Display (FPD) Transmitter
-               - ti,ds90c185   # For the TI DS90C185 FPD-Link Serializer
-               - ti,ds90c187   # For the TI DS90C187 FPD-Link Serializer
-               - ti,sn75lvds83 # For the TI SN75LVDS83 FlatLink transmitter
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
+index dbc01e640..b31c67bab 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
+@@ -58,6 +58,10 @@ properties:
+           - hydis,hv070wx2-1e0
+           # Jenson Display BL-JT60050-01A 7" WSVGA (1024x600) color TFT LCD LVDS panel
+           - jenson,bl-jt60050-01a
++          # Samsung LTN070NL01 7.0" WSVGA (1024x600) TFT LCD LVDS panel
++          - samsung,ltn070nl01
++          # Samsung LTN101AL03 10.1" WXGA (800x1280) TFT LCD LVDS panel
++          - samsung,ltn101al03
+           - tbs,a711-panel
+           # Winstar WF70A8SYJHLNGA 7" WSVGA (1024x600) color TFT LCD LVDS panel
+           - winstar,wf70a8syjhlnga
 -- 
 2.43.0
 
