@@ -2,146 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sBDQD1tEe2l+DAIAu9opvQ
+	id 0CqzOMBDe2l+DAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 12:28:27 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 12:25:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A702CAF9B2
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 12:28:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DDE8AF96C
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 12:25:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0510E10E08F;
-	Thu, 29 Jan 2026 11:28:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B60810E31E;
+	Thu, 29 Jan 2026 11:25:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="bgVakqCR";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hMV5RgLu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com
- (mail-northcentralusazon11013017.outbound.protection.outlook.com
- [40.107.201.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74A0D10E102
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 11:28:23 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ImkXGnACk/bBM9ROXX9Fye/vqWjmV+ShKt8VoQ6diDczYAfPET3V2tZ6+5bP5CbpV4D9Uvc0JU9n1lVS/vUpB/0z0w/sFz9xc6ZIG49Awcxpj/Lv/UvvLyz/bwIt+WxkDzATzUwdMFkZAhy2E0YhXjaZlUuyVM1trPXbWiWEIBa8teDL8U2QC+X1QrUjl2ERtYCcev0QQNT6S9etZ8WQSF8ptKMyJwQema9bFaMIDYTJCNqDwuSMvM9rcmWXX6booOyZte9MRstTtdpUSQKQhdqyZIl8L5atyEI5vkv6PwlYMGAL5JTMszjwLrUP1rYDDQKfpa5XXBarRDyfV65woA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wSIa51OFwUOlnJQjZRS6pd6DIW74lS9LlNczl/SOI3o=;
- b=Mmr+h5BfyoqtYUPKcqltvmkcZo6vDYGkFN9F+TTsjlR8Y7hbjuD9D+Me8ANymGIW5MP84IiO0apt2E7BA56dlXuOJG+DzlFl+6kl+aUwWpkmsU0wEw7LfrBn9ZYLEIjJGsBKX32KHlSRTwzACMIr4FaLOkqd35HxMRws5qPbaQEcpyC9qrzLM+4LOtMAUZVTqGafSlVaA5QeuubUVUoosCsHM7rbG2u//UMobQQYAZ4MjcvcP75C/LQ4FAhwL5M+FdfuCD9Nu2mNP8y9/dbD4O5mjvgSAFV9b606mMDSXaKIQwCedoKlaCIpL+A4TqotqtEu3NyqO43E8vKaKbwt2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=ideasonboard.com smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wSIa51OFwUOlnJQjZRS6pd6DIW74lS9LlNczl/SOI3o=;
- b=bgVakqCRQa1FljaPZHMZHrZJY7sHP46vmWQSdHrZW+g8X8LJSBYJsPMZBAQG5niwt9UbaqThiUx7m3Y5n7VPgUs38vBl9/ICeDKva4CNRNcsK3wm7wyLxCSPAZERd7iwSdYY0uon/VBVoeMKec0CJjI+enrlGW6WBSOmw+IN8n4=
-Received: from BYAPR02CA0029.namprd02.prod.outlook.com (2603:10b6:a02:ee::42)
- by SJ5PPFB3F166793.namprd10.prod.outlook.com
- (2603:10b6:a0f:fc02::7c4) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.10; Thu, 29 Jan
- 2026 11:28:20 +0000
-Received: from SJ5PEPF000001D6.namprd05.prod.outlook.com
- (2603:10b6:a02:ee:cafe::ee) by BYAPR02CA0029.outlook.office365.com
- (2603:10b6:a02:ee::42) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.11 via Frontend Transport; Thu,
- 29 Jan 2026 11:28:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- SJ5PEPF000001D6.mail.protection.outlook.com (10.167.242.58) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.3 via Frontend Transport; Thu, 29 Jan 2026 11:28:19 +0000
-Received: from DFLE209.ent.ti.com (10.64.6.67) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 29 Jan
- 2026 05:28:17 -0600
-Received: from DFLE205.ent.ti.com (10.64.6.63) by DFLE209.ent.ti.com
- (10.64.6.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 29 Jan
- 2026 05:28:17 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE205.ent.ti.com
- (10.64.6.63) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 29 Jan 2026 05:28:17 -0600
-Received: from uda0543015.dhcp.ti.com (uda0543015.dhcp.ti.com [10.24.69.9])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60TBSBZ63657229;
- Thu, 29 Jan 2026 05:28:12 -0600
-From: Abhash Kumar Jha <a-kumar2@ti.com>
-To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
- <rfoss@kernel.org>, <mripard@kernel.org>, <tzimmermann@suse.de>,
- <airlied@gmail.com>, <simona@ffwll.ch>, <devarsht@ti.com>, <u-kumar1@ti.com>, 
- <sjakhade@cadence.com>
-CC: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <s-jain1@ti.com>, <p-mantena@ti.com>,
- <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH] drm/bridge: cdns-mhdp8546: Add suspend resume support to the
- bridge driver
-Date: Thu, 29 Jan 2026 16:50:16 +0530
-Message-ID: <20260129112016.2448037-1-a-kumar2@ti.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B011910E31E
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 11:25:48 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-4801d7c72a5so6577455e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 03:25:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1769685947; x=1770290747; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ouo/mg65aOcXSM62YmotwBXBKDEb8Yzi3FDBO7jCaMY=;
+ b=hMV5RgLu5DfVna3ybsrfuHgWttd+JnMg0cB1oagGKfRb4cxPRhYo+GY7fNDcNBfdXA
+ ZluEcM4mReKVX7ysbo+1GjGD7nzcbG120H6bPvVQ/a0dzZYk7hTNvR86jOne6Hg1gqAL
+ TttNhEZkxla7SOTVC/zqz5k/IMDeCRgH/gusgXfgxZ7FxKB0TNLvvlQYQQuZMR4yEWhk
+ x+pkpTXsaluWzD7EYj4zzBkw0EUvcqRhbTTMdbJKrUuVwdNCzZt8kxDwd2P71Fnj9ITy
+ FdHSWx0vdReGD20sM5ixNr7S2VODpkLlf5hXMZd7UXdk3klRaJ2ljrxn75DbEr4Oki3M
+ OXdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769685947; x=1770290747;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=Ouo/mg65aOcXSM62YmotwBXBKDEb8Yzi3FDBO7jCaMY=;
+ b=hnmkNAv+mdz1Nee1o6W8vre3f4lFUnanervkQ5ck4P3le6f4xCOzq8U+pIaFUDUjYW
+ G6tw14hQrvpUe5/DdGneZ14es2mcHh3NYy3zWuWHTzL7a3CzRgiWhJKSMuc4uSShWmYB
+ 1WojmxkWtKSciugvJw/aZD4aCwHJaop2UDBQoBzalQlmdF9b0nV/5Divs2cjNUiY82Nu
+ grCB9yytihi8z61Dghyw49r2JGhInHjf0GzN3SBfOf+a415byMwqxI+wk96nbGvdghn1
+ J8vYhIEYFqE5J9OSQVKsATZgTzHn2xXErBAAN3fOnh2+Ud64MYzIiSiWLxxX8IaD9a27
+ t+fA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW6cXr9/l5gGOfzjPDStDAT4kPnjhXxnuPUplcdKz/90lvaUOygIpTk2j/9skF0e2TFC+tx+3b9LzE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyzNkKSqArc6YCdXqFDQkPiSbhYyWr66wQ3LYZgydeQo0X2SXWv
+ etGsbryPl687gW9iR6JDHm7rd3hf/X4PV4RpbnNNOOYZA+aCzeVM1lnX
+X-Gm-Gg: AZuq6aLgck8rkM575i9t/Fute2+R++Ta86QTggV76Y4SYotCXzuezWJM9kl3qEKDZxd
+ 1cADJHRnsZZYm5uzO+0a+CRQqe9uqREmJgEeuA+5HMzngvbU6MijUE6ZSKH3qsiZJSzLTaDTN1A
+ 7hd65Dsw/+pHAKqIoRkLbEDLj6mkdEn3e1jfIHYJaagw9BlpwaQ6P5VCtc5Dnz1gShzuRNKZCa4
+ Lhcazlxr21hYks6jyPdiLMw4kIjSuiSD0FsVToMrSdiUDNOeoJ8C5zEDuih+audf2NkgvZU5i7X
+ Om/3Mu4Lfxxj/FXomCzf/BfzEXYrgZF7Yck4oP3hGXzUXZE5h7dDHmxtd6MlAFvrmVohZe3gmlF
+ mtTOK6+mbPKHVqKP4ddcMF0DLSNwjrbloSqRqOlfbfmCD/ZJ+vhSLPwPxex6kuLU3iVnatzn2to
+ ZRFNRfa05cBAamz+YCw4ZmwT3cQXTRbqIw3NRTun0ntbWiDp1gfz+afoLdtDo=
+X-Received: by 2002:a05:600c:4e8b:b0:480:1b65:b741 with SMTP id
+ 5b1f17b1804b1-48069c4ae9cmr98553855e9.15.1769685946522; 
+ Thu, 29 Jan 2026 03:25:46 -0800 (PST)
+Received: from timur-hyperion.localnet (5401DF8B.dsl.pool.telekom.hu.
+ [84.1.223.139]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4806cddffc0sm151978565e9.5.2026.01.29.03.25.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Jan 2026 03:25:45 -0800 (PST)
+From: Timur =?UTF-8?B?S3Jpc3TDs2Y=?= <timur.kristof@gmail.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Alex Deucher <alexdeucher@gmail.com>,
+ Hamza Mahfooz <someguy@effective-light.com>,
+ Michel =?UTF-8?B?RMOkbnplcg==?= <michel.daenzer@mailbox.org>
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sunil Khatri <sunil.khatri@amd.com>, Ce Sun <cesun102@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>, Kenneth Feng <kenneth.feng@amd.com>,
+ Ivan Lipski <ivan.lipski@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>, Melissa Wen <mwen@igalia.com>,
+ Fangzhi Zuo <Jerry.Zuo@amd.com>, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] drm: introduce page_flip_timeout()
+Date: Thu, 29 Jan 2026 12:25:44 +0100
+Message-ID: <2719069.vYhyI6sBWr@timur-hyperion>
+In-Reply-To: <6f1239d2-eec3-40b6-aca7-5b278350dd04@mailbox.org>
+References: <20260123000537.2450496-1-someguy@effective-light.com>
+ <ab52825d-8f26-4b52-af5d-4051760b2aa4@mailbox.org>
+ <6f1239d2-eec3-40b6-aca7-5b278350dd04@mailbox.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001D6:EE_|SJ5PPFB3F166793:EE_
-X-MS-Office365-Filtering-Correlation-Id: e852e340-caff-46c0-29d8-08de5f2980f6
-X-LD-Processed: e5b49634-450b-4709-8abb-1e2b19b982b7,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|36860700013|82310400026|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?GMnHIv7qeibBywDngbmkGm6pDdyfuk7TMucwPlgxf3vzYGy7bB3N7hNbWQWQ?=
- =?us-ascii?Q?VsOZJkoNwQOfOWPsYRmQgFBx5kXs+mHuaaVupxD0MEnSGfv89ck77mdkwJAp?=
- =?us-ascii?Q?Is/tctAr0/7NMkOu+1MH5Emj0WuRp63vzC+v6GA1HtwIzznPk8RKPUMfn419?=
- =?us-ascii?Q?yTYStaoKpYv38qtJeogZ6RaAcdvFB4vMUgEh3kEpM5CKiR9hxxqsqWsMg06a?=
- =?us-ascii?Q?Sm9V3094vy4VgQxnBj7qPX2YR0NDuVRIHoHzWxgMXSbjhnGM40McYeAYNtQq?=
- =?us-ascii?Q?81/2Lh5BbKmR8PjXzSkyBqc5biVu+4UemTXfBhtLA9MVU/5zhq0IFRAW9ADb?=
- =?us-ascii?Q?/IBSjFC8qzH50HF0Ob3001O+Cdb7bn5azobEVInCrGf2fabZ7rxzl9SfsJB3?=
- =?us-ascii?Q?XjgPTLSP8iecW24omkBOs69Dk3aRsAwH2jqoFsUDJ4PATJAAbxRmEDfgv8KO?=
- =?us-ascii?Q?ip1lIliDk+WWFr1FU9zN+8TCfsfUdPP1lEZ3L3vJ39uEQluziSqlD4YM2o7P?=
- =?us-ascii?Q?489VgjnGfER/EXDu02R3KsECIs9M7Wt8OundWIYGp9tkgI2c2VHzanDodzqb?=
- =?us-ascii?Q?gKbK2/2iVRNVQKay3QZMg/ZhoLefI7Bam2azkAjGCo76MhNyLnU5LGm+A+lC?=
- =?us-ascii?Q?AJCiNN8I50hTPEXmtkWj4t+7qbnlf1yW7ZQ4nR5d6h2DD4CP+jefRMBtIghe?=
- =?us-ascii?Q?mTcBwRY/UIp95eNcZZhZoGMHCuanlqJA2mwdTpx00pGs3XiuCQ8gkHtrlSo0?=
- =?us-ascii?Q?1E+NzEnGgjhdqttQayDGOxbydVIQPT/xqXls2us6+lb6UW4VapR1BCFSGM7P?=
- =?us-ascii?Q?QrPOilzN85XR5PmfA/D+nCC0JFJlrLz+cERGenV7OaTMNjNWHDuxGMXNh16V?=
- =?us-ascii?Q?/bUWP49/AqP59pfhDEmVYS3PdKBFJ9dTGcYOmfQ9dN7Za6cjj1zWLOOmh7vN?=
- =?us-ascii?Q?E96Yic616MAcOrTZE0ORXp0rLa7YSFHXi00VWP3EhW4HndnZsSn1J7IZYr+8?=
- =?us-ascii?Q?tNU6IOdn9i8u9TmfxAn3aeVob70cKMrzve5tvnNSucV5bP9VRSF2KSPcO+RZ?=
- =?us-ascii?Q?u7fHxWpXyADWeIR1TOXk3tsq3TYYQ2ocHdOdts6DQ/dYRfYvjX0nhv0CmV56?=
- =?us-ascii?Q?0MVFZLCM8EZXnRKOLgiWQ64ZIi+lJjMpZQvrTX4nSIfgTrZ7bpfn0bIWtb9d?=
- =?us-ascii?Q?S2pe1ujVEZrrjA2bQPtRWeR9jXyTBeEb0z4JJLO1G5uYNj1kaptQO4jvOW38?=
- =?us-ascii?Q?3N0dC2F9DjkYwDevd8bSo27MswAu6gvbfe/AFNUEMa8vxg8mtlij0GAPRZqc?=
- =?us-ascii?Q?ELGo6UpQVuu+IKbY3HZcOlTfYIYpv/Ul1Pd8TEiqO0N8NS7yQCJ5Mh7wvZiC?=
- =?us-ascii?Q?ozC2K9Nm2+n9BWGcmAH5NhznymTR8J2k/qCCFHB7tub80EhGttpKhR3PaTG1?=
- =?us-ascii?Q?dkTqsMPGrgpTt7GB//dDtdCuxz0Oy5PLCixTUl22IBi+qVLFO/Y5TqU9sTI2?=
- =?us-ascii?Q?loH2n9h+HAVnOg5vR6NS9waWuO0DcBGUuhUk5ZYUX9Yd06CHyJujrrNHsBcR?=
- =?us-ascii?Q?b7u9vssJ3rVsoJ6Q4kT9n0ZtauAIWNLMfXf2fxSRN4Riw8uoz8G+l7d2OjZa?=
- =?us-ascii?Q?7GqL8rbyoffH9Dtk0lJ3g35HBE0bF2yvZ3DVSz4Y9S4bNTfZOi5NSCYSnvhE?=
- =?us-ascii?Q?0iTUdg=3D=3D?=
-X-Forefront-Antispam-Report: CIP:198.47.21.194; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:flwvzet200.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(36860700013)(82310400026)(1800799024)(921020);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2026 11:28:19.3706 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e852e340-caff-46c0-29d8-08de5f2980f6
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.194];
- Helo=[flwvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF000001D6.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPFB3F166793
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,275 +110,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ti.com,quarantine];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[ti.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER(0.00)[a-kumar2@ti.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,ideasonboard.com,kwiboo.se,gmail.com,ti.com];
-	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:devarsht@ti.com,m:u-kumar1@ti.com,m:sjakhade@cadence.com,m:linux-kernel@vger.kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:s-jain1@ti.com,m:p-mantena@ti.com,m:tomi.valkeinen@ideasonboard.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:alexdeucher@gmail.com,m:someguy@effective-light.com,m:michel.daenzer@mailbox.org,m:mario.limonciello@amd.com,m:alexander.deucher@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:harry.wentland@amd.com,m:sunpeng.li@amd.com,m:siqueira@igalia.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:sunil.khatri@amd.com,m:cesun102@amd.com,m:lijo.lazar@amd.com,m:kenneth.feng@amd.com,m:ivan.lipski@amd.com,m:alex.hung@amd.com,m:chiahsuan.chung@amd.com,m:mwen@igalia.com,m:Jerry.Zuo@amd.com,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[timurkristof@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[amd.com,gmail.com,effective-light.com,mailbox.org];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,suse.de,gmail.com,ffwll.ch,ti.com,cadence.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	TO_DN_NONE(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[a-kumar2@ti.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ti.com:+];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[timurkristof@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[amd.com,lists.freedesktop.org,gmail.com,ffwll.ch,igalia.com,linux.intel.com,kernel.org,suse.de,vger.kernel.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: A702CAF9B2
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 3DDE8AF96C
 X-Rspamd-Action: no action
 
-Add system suspend and resume hooks to the cdns-mhdp8546 bridge driver.
+On Thursday, January 29, 2026 11:06:11=E2=80=AFAM Central European Standard=
+ Time=20
+Michel D=C3=A4nzer wrote:
+> >>>=20
+> >>> Christian, why would the CRTC be turned off?
+> >>=20
+> >> Exactly that's the question we need to answer.
+> >>=20
+> >> But from what you describe the CRTC keeps on, just doesn't send any mo=
+re
+> >> vblank events.>=20
+> > The vblank interrupt source getting accidentally disabled might be one
+> > possible cause though.
+> Another possibility is that test-only commits with the
+> DRM_MODE_ATOMIC_TEST_ONLY flag (which can happen in parallel while the
+> kernel is processing a "real" commit) accidentally have side effects on t=
+he
+> current kernel state, resulting in the "real" commit failing to do
+> something it should. There have been bugs like that in the amdgpu DM code
+> before.
+>=20
+>=20
+> Anyway, this is all speculation. Somebody just needs to dig in and get to
+> the bottom of why the commits aren't getting completed.
 
-While resuming we either load the firmware or activate it. Firmware
-is loaded only when resuming from a successful suspend-resume cycle.
+Yes, I agree.
 
-If resuming due to an aborted suspend, loading the firmware is not
-possible because the uCPU's IMEM is only accessible after a reset and the
-bridge has not gone through a reset in this case. Hence, Activate the
-firmware that is already loaded.
+However, just like we do with ring timeouts, we also need to be prepared fo=
+r=20
+the situation where a page flip timeout happens and we should try to recove=
+r=20
+from it. And if it isn't recoverable, fall back to GPU reset.
 
-Use GENPD_NOTIFY_OFF genpd_notifier to get the power domain status of
-the bridge and accordingly load the firmware.
+I strongly suspect that there are many different issues depending on the=20
+hardware generation and display configuration. There isn't going to be a si=
+lver=20
+bullet to fix all of them, and in case it cannot be fixed, I think a GPU re=
+set=20
+is the right thing to do - it's drastic, but still better than letting the=
+=20
+machine just freeze irrecoverably.
 
-Additionally, introduce phy_power_off/on to control the power to the phy.
+One example of such a bug was fixed by 6cbe6e072c5d where DC was trying to =
+use=20
+an interrupt that didn't exist on some hardware. This type of bug would be=
+=20
+impossible for userspace to solve in any way, but a GPU reset would have=20
+helped to recover the machine into a usable state.
 
-Signed-off-by: Abhash Kumar Jha <a-kumar2@ti.com>
----
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 136 +++++++++++++++++-
- .../drm/bridge/cadence/cdns-mhdp8546-core.h   |   4 +
- 2 files changed, 139 insertions(+), 1 deletion(-)
+Another example would be Strix Halo with adaptive sync and/or tearing updat=
+es=20
+enabled, which 100% reproduces a page flip timeout for me. I haven't had ti=
+me=20
+to investigate that one just yet.
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index 38726ae1bf150..dd482094bf184 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -32,6 +32,7 @@
- #include <linux/phy/phy.h>
- #include <linux/phy/phy-dp.h>
- #include <linux/platform_device.h>
-+#include <linux/pm_domain.h>
- #include <linux/slab.h>
- #include <linux/wait.h>
- 
-@@ -2383,6 +2384,120 @@ static void cdns_mhdp_hpd_work(struct work_struct *work)
- 	}
- }
- 
-+static int cdns_mhdp_resume(struct device *dev)
-+{
-+	struct cdns_mhdp_device *mhdp = dev_get_drvdata(dev);
-+	unsigned long rate;
-+	int ret;
-+
-+	ret = clk_prepare_enable(mhdp->clk);
-+	if (ret)
-+		return ret;
-+
-+	rate = clk_get_rate(mhdp->clk);
-+	writel(rate % 1000000, mhdp->regs + CDNS_SW_CLK_L);
-+	writel(rate / 1000000, mhdp->regs + CDNS_SW_CLK_H);
-+	writel(~0, mhdp->regs + CDNS_APB_INT_MASK);
-+
-+	ret = phy_init(mhdp->phy);
-+	if (ret) {
-+		dev_err(mhdp->dev, "Failed to initialize PHY: %d\n", ret);
-+		goto disable_clk;
-+	}
-+	ret = phy_power_on(mhdp->phy);
-+	if (ret < 0) {
-+		dev_err(mhdp->dev, "Failed to power on PHY: %d\n", ret);
-+		goto error;
-+	}
-+
-+	if (mhdp->powered_off) {
-+		ret = cdns_mhdp_load_firmware(mhdp);
-+		if (ret)
-+			goto phy_off;
-+
-+		ret = wait_event_timeout(mhdp->fw_load_wq,
-+					mhdp->hw_state == MHDP_HW_READY,
-+					msecs_to_jiffies(1000));
-+		if (ret == 0) {
-+			dev_err(mhdp->dev, "%s: Timeout waiting for fw loading\n",
-+				__func__);
-+			ret = -ETIMEDOUT;
-+			goto phy_off;
-+		}
-+	} else {
-+		ret = cdns_mhdp_set_firmware_active(mhdp, true);
-+		if (ret) {
-+			dev_err(mhdp->dev, "Failed to activate firmware (%pe)\n", ERR_PTR(ret));
-+			goto phy_off;
-+		}
-+	}
-+
-+	return 0;
-+
-+phy_off:
-+	phy_power_off(mhdp->phy);
-+error:
-+	phy_exit(mhdp->phy);
-+disable_clk:
-+	clk_disable_unprepare(mhdp->clk);
-+
-+	return ret;
-+}
-+
-+static int cdns_mhdp_suspend(struct device *dev)
-+{
-+	struct cdns_mhdp_device *mhdp = dev_get_drvdata(dev);
-+	unsigned long timeout = msecs_to_jiffies(100);
-+	int ret = 0;
-+
-+	cancel_work_sync(&mhdp->hpd_work);
-+	ret = wait_event_timeout(mhdp->fw_load_wq,
-+				 mhdp->hw_state == MHDP_HW_READY,
-+				 timeout);
-+
-+	spin_lock(&mhdp->start_lock);
-+	if (mhdp->hw_state != MHDP_HW_READY) {
-+		spin_unlock(&mhdp->start_lock);
-+		return -EINVAL;
-+	}
-+	mhdp->hw_state = MHDP_HW_STOPPED;
-+	spin_unlock(&mhdp->start_lock);
-+
-+	if (ret == 0) {
-+		dev_err(mhdp->dev, "%s: Timeout waiting for fw loading\n", __func__);
-+		ret = -ETIMEDOUT;
-+		goto error;
-+	} else {
-+		ret = cdns_mhdp_set_firmware_active(mhdp, false);
-+		if (ret) {
-+			dev_err(mhdp->dev, "Failed to stop firmware (%pe)\n", ERR_PTR(ret));
-+			goto error;
-+		}
-+	}
-+
-+	phy_power_off(mhdp->phy);
-+	phy_exit(mhdp->phy);
-+	clk_disable_unprepare(mhdp->clk);
-+
-+error:
-+	return ret;
-+}
-+
-+static int mhdp_pd_notifier_cb(struct notifier_block *nb,
-+			unsigned long action, void *data)
-+{
-+	struct cdns_mhdp_device *mhdp = container_of(nb, struct cdns_mhdp_device, pd_nb);
-+
-+	if (action == GENPD_NOTIFY_OFF)
-+		mhdp->powered_off = true;
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops cdns_mhdp_pm_ops = {
-+	SET_SYSTEM_SLEEP_PM_OPS(cdns_mhdp_suspend, cdns_mhdp_resume)
-+};
-+
- static int cdns_mhdp_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -2494,6 +2609,11 @@ static int cdns_mhdp_probe(struct platform_device *pdev)
- 		dev_err(mhdp->dev, "Failed to initialize PHY: %d\n", ret);
- 		goto plat_fini;
- 	}
-+	ret = phy_power_on(mhdp->phy);
-+	if (ret < 0) {
-+		dev_err(mhdp->dev, "Failed to power on PHY: %d\n", ret);
-+		goto phy_exit;
-+	}
- 
- 	/* Initialize the work for modeset in case of link train failure */
- 	INIT_WORK(&mhdp->modeset_retry_work, cdns_mhdp_modeset_retry_fn);
-@@ -2504,21 +2624,33 @@ static int cdns_mhdp_probe(struct platform_device *pdev)
- 
- 	ret = cdns_mhdp_load_firmware(mhdp);
- 	if (ret)
--		goto phy_exit;
-+		goto power_off;
- 
- 	if (mhdp->hdcp_supported)
- 		cdns_mhdp_hdcp_init(mhdp);
- 
- 	drm_bridge_add(&mhdp->bridge);
- 
-+	mhdp->powered_off = false;
-+	mhdp->pd_nb.notifier_call = mhdp_pd_notifier_cb;
-+	ret = dev_pm_genpd_add_notifier(mhdp->dev, &mhdp->pd_nb);
-+	if (ret) {
-+		dev_err_probe(dev, ret, "failed to add power domain notifier\n");
-+		dev_pm_genpd_remove_notifier(mhdp->dev);
-+		goto power_off;
-+	}
-+
- 	return 0;
- 
-+power_off:
-+	phy_power_off(mhdp->phy);
- phy_exit:
- 	phy_exit(mhdp->phy);
- plat_fini:
- 	if (mhdp->info && mhdp->info->ops && mhdp->info->ops->exit)
- 		mhdp->info->ops->exit(mhdp);
- runtime_put:
-+	mhdp->powered_off = true;
- 	pm_runtime_put_sync(dev);
- 	pm_runtime_disable(dev);
- 
-@@ -2550,6 +2682,7 @@ static void cdns_mhdp_remove(struct platform_device *pdev)
- 				ERR_PTR(ret));
- 	}
- 
-+	phy_power_off(mhdp->phy);
- 	phy_exit(mhdp->phy);
- 
- 	if (mhdp->info && mhdp->info->ops && mhdp->info->ops->exit)
-@@ -2581,6 +2714,7 @@ static struct platform_driver mhdp_driver = {
- 	.driver	= {
- 		.name		= "cdns-mhdp8546",
- 		.of_match_table	= mhdp_ids,
-+		.pm = &cdns_mhdp_pm_ops,
- 	},
- 	.probe	= cdns_mhdp_probe,
- 	.remove = cdns_mhdp_remove,
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-index bad2fc0c73066..b06dd5e44aafd 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-@@ -412,6 +412,10 @@ struct cdns_mhdp_device {
- 
- 	struct cdns_mhdp_hdcp hdcp;
- 	bool hdcp_supported;
-+
-+	/* Power domain status notifier */
-+	struct notifier_block pd_nb;
-+	bool powered_off;
- };
- 
- #define connector_to_mhdp(x) container_of(x, struct cdns_mhdp_device, connector)
--- 
-2.34.1
+Timur
+
 
