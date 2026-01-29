@@ -2,127 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0Cp6AxZ1e2mMEgIAu9opvQ
+	id GB5HD7J1e2mMEgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 15:56:22 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 15:58:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DAA2B1353
-	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 15:56:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A624B13B4
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 15:58:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C675E10E340;
-	Thu, 29 Jan 2026 14:56:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C2B910E886;
+	Thu, 29 Jan 2026 14:58:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ZB5YTLZl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J4N4i6QM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AdYgVerl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IVmmUdWT";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="gAAIoJ7q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52FDB10E340
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 14:56:16 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id EDEBD5BCCB;
- Thu, 29 Jan 2026 14:56:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1769698575; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ADkPVypQ4XreIDXNhapSh6XOVhp0PkHC8gfNh5W+GnM=;
- b=ZB5YTLZloszpTmVz9N2wHoeX3BsTAcBJPH0VNOIDLw25bs1YEHCJUS02erV7RYugK2cxzi
- 6r6Sw8I+JJQjzEx1AuE96+dxy3CTJl7Xy4buY/4JjwncNYnsZlALHs7mzHH4wNWXtXn4St
- S08JKuE3mTguj6K8bl1HgjpbvF876+I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1769698575;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ADkPVypQ4XreIDXNhapSh6XOVhp0PkHC8gfNh5W+GnM=;
- b=J4N4i6QM3zQLtw6ZfS0YYgP7Tn6FJqyCCvvRY0XBjBnWf4zok3JlQqp/udXtkOock4Rh7F
- krFBm7ifrYx6aRBQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=AdYgVerl;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=IVmmUdWT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1769698574; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ADkPVypQ4XreIDXNhapSh6XOVhp0PkHC8gfNh5W+GnM=;
- b=AdYgVerlhWib2VNp4z69FRToU2npgBO61100cawpOTrCKoddRDhiWglEW8LQZ2moDR7cLK
- Fb/hl9AXSwIVNup3aPPHgpkt3RxoJrGvWkKOaXJvbuMM35mkCdW8ScBzE5zrpD5iao3378
- u7N8wHYDmUhH9RV4AkNqh2GxJHKhet4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1769698574;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ADkPVypQ4XreIDXNhapSh6XOVhp0PkHC8gfNh5W+GnM=;
- b=IVmmUdWTJ13LwZH8tD+Lo4PJ8CXH0kJrJbkFVqkKNP6Rh3sfdmCfDMp1B0BTFGlSkawWkC
- Qiu3HpeLRRYr5iAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9DC443EA61;
- Thu, 29 Jan 2026 14:56:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id CuVQJQ51e2nQDwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 29 Jan 2026 14:56:14 +0000
-Message-ID: <3ff5456f-b925-410d-a671-070eec85484b@suse.de>
-Date: Thu, 29 Jan 2026 15:56:14 +0100
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com
+ [209.85.222.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD28F10E887
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 14:58:53 +0000 (UTC)
+Received: by mail-qk1-f175.google.com with SMTP id
+ af79cd13be357-8c70ce93afaso118828885a.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 06:58:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1769698733; x=1770303533; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=o4w2e3JsR9J6c+UOY9xxx12hv3SNlcI3MEz/ixg8Unk=;
+ b=gAAIoJ7qumw1Ks75U1UYitTw5gNmdxYzNwMnEpfwgkyFoFq0cZNuKyY8+rLzAA97CY
+ MhdlVSuDcflZJ2huTLdsiYmjp8DSGJFBW/9eRF8pYVw21vknwuLyRAW4BRWk+Nq9Q/+H
+ OGJJ/SFTv7Wy7+/RofOAnS55IsOksjKMd8AL7oqFwonCakIhpASUnXDJ+N0gFZyBe6lk
+ CEcsP9Iw5QDHvOQl3nrwoPbeCK0eHzpEg3Bflbyt7AXPZF9U+ILyhaXZpwTUFYK7VRiA
+ zIgPgnRbdZN1a6iSwBkjCYd6JcE1/FtHUayYJdAi61eozTXWvsAKOXhuBasd9nY4BvWG
+ bxOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769698733; x=1770303533;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=o4w2e3JsR9J6c+UOY9xxx12hv3SNlcI3MEz/ixg8Unk=;
+ b=IGhEXnrW9JtEZ8uUSQkk/Oj+dtxeIyN5cavnzzS6B0mtE0X7ewNVMA+e68e76XB1jN
+ cU5h9n1duXWMEgr5VZqgA76rK+atmeBkH+J1MJNRQKDPZABLdhmDrNVng1Muz27eW5bW
+ p49nxMJzIvxsMib+L65NEOJmSvqAn4Vt+BLFzxeB6voJvQaIeTPdyKEASSCZ6l9d9xHU
+ YaB48+i43xG/suNq6LomgfgvlLLu9y5U7gsO4vcOOmcK77+KezrhXpmLcO1rTFLAB7W3
+ PqWw1Q7XrL0m/F58fy83kGg89x2T0GcG5A0VREKOU2xqDeMXbH5XUmt4AvWpUvcyXoEL
+ nzGQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV1hEaEBDfY2L9sJq7duzSklvj36NPlt3Z2hFcKbkYFm/BstWj7jicjaOADknPdvQao4JR/NZtwkQ4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzq6RlOVbTevSRSarfXOB7mpBXo8yeqqz3vLSYZucufn+b8z9hA
+ wGJwauP6T5XazQSa41aeJUd8LeAN9fP4s/vqiDRhUT6K4QmgLaU3kOmLgchBv5+HjdY=
+X-Gm-Gg: AZuq6aKObr11IcrCKY+Mjq/pso8wtQ3V4OB3gi4yUgXWxNw1GeJ/sIozBf5aYtWFYVA
+ ZWiJhcaCnA0pT9EFnLsQmKFtyhY28eauMUQn4VVdSTsinP4P3g4KjIICpTgSY/OUq4qhOv1L4g3
+ zWIhKW9co4e/o9q/hqgxWDxQQHVEBv80tTnPe/DtqSqYhgkapjWwX135M9P+JjXe/REjYYBb5z9
+ Ab0cVfsZrv0J27TUQKMZ1o5Da8zFAxknG84d0AE5grbCI+PjAPYFquAmvoLeC4QX8GDZJYSszKH
+ 9pz+XEbS2gw9kxzRcwkQndFELRuT/+1nlwGZjHOFhYNvyTkNKk7OVgKo3+OyurslaiiL8b8XUrR
+ Z2lLNexU8nO6+0NaECCgLXsZEDpn4y1y+A2Wj3zPUpH0P0kbNf2sEWZvVgg8uxSEd4GXcOYr77j
+ M+haBepd7iAfz97lw1FQfGxn58RSkrchNF7WzZg+ddjxR3y+abxEkuiWXWX1iuFPItlDA=
+X-Received: by 2002:a05:620a:2550:b0:8c6:d398:4a76 with SMTP id
+ af79cd13be357-8c70b833da6mr1225384185a.2.1769698732651; 
+ Thu, 29 Jan 2026 06:58:52 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-894d375c0d8sm38242676d6.43.2026.01.29.06.58.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Jan 2026 06:58:52 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+ (envelope-from <jgg@ziepe.ca>) id 1vlTTv-00000009kfJ-363L;
+ Thu, 29 Jan 2026 10:58:51 -0400
+Date: Thu, 29 Jan 2026 10:58:51 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Pranjal Shrivastava <praan@google.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Williamson <alex@shazbot.org>, Ankit Agrawal <ankita@nvidia.com>,
+ "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>
+Subject: Re: [PATCH v5 4/8] vfio: Wait for dma-buf invalidation to complete
+Message-ID: <20260129145851.GE2307128@ziepe.ca>
+References: <20260124-dmabuf-revoke-v5-0-f98fca917e96@nvidia.com>
+ <20260124-dmabuf-revoke-v5-4-f98fca917e96@nvidia.com>
+ <aXfUZcSEr9N18o6w@google.com> <20260127085835.GQ13967@unreal>
+ <20260127162754.GH1641016@ziepe.ca>
+ <BN9PR11MB5276B99D4E8C6496B0C447888C9EA@BN9PR11MB5276.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/12] drm/sysfb: corebootdrm: Add DRM driver for
- coreboot framebuffers
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: briannorris@chromium.org, jwerner@chromium.org, javierm@redhat.com,
- samuel@sholland.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, chrome-platform@lists.linux.dev,
- dri-devel@lists.freedesktop.org
-References: <20260115082128.12460-1-tzimmermann@suse.de>
- <20260115082128.12460-12-tzimmermann@suse.de> <aXhuENnpeevg7vpw@google.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <aXhuENnpeevg7vpw@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.51
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BN9PR11MB5276B99D4E8C6496B0C447888C9EA@BN9PR11MB5276.namprd11.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,104 +129,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[chromium.org,redhat.com,sholland.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.linux.dev,lists.freedesktop.org];
+	DMARC_NA(0.00)[ziepe.ca];
+	FORGED_RECIPIENTS(0.00)[m:kevin.tian@intel.com,m:leon@kernel.org,m:praan@google.com,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:alexander.deucher@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:kraxel@redhat.com,m:dmitry.osipenko@collabora.com,m:gurchetansingh@chromium.org,m:olvaffe@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:lucas.demarchi@intel.com,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:Felix.Kuehling@amd.com,m:alex@shazbot.org,m:ankita@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:amd-gfx@lists.freedesktop.org,m:virtualization@lists.linux.dev,m:intel-xe@lists.freedesktop.org,m:linux-rdma@vger.kernel.org,m:iommu@lists.linux.dev,m:kvm@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tzungbi@kernel.org,m:briannorris@chromium.org,m:jwerner@chromium.org,m:javierm@redhat.com,m:samuel@sholland.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:chrome-platform@lists.linux.dev,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.de:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[35];
+	FREEMAIL_CC(0.00)[kernel.org,google.com,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	DKIM_TRACE(0.00)[ziepe.ca:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.com:url,suse.de:mid,suse.de:dkim]
-X-Rspamd-Queue-Id: 6DAA2B1353
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ziepe.ca:mid,ziepe.ca:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 9A624B13B4
 X-Rspamd-Action: no action
 
-Hi
+On Thu, Jan 29, 2026 at 07:06:37AM +0000, Tian, Kevin wrote:
+> Bear me if it's an ignorant question.
+> 
+> The commit msg of patch6 says that VFIO doesn't tolerate unbounded
+> wait, which is the reason behind the 2nd timeout wait here.
 
-Am 27.01.26 um 08:49 schrieb Tzung-Bi Shih:
-> On Thu, Jan 15, 2026 at 08:57:21AM +0100, Thomas Zimmermann wrote:
->> Add corebotdrm, a DRM driver for coreboot framebuffers. The driver
->             ^ oo
->
->> diff --git a/include/linux/coreboot.h b/include/linux/coreboot.h
->> index 514c95f9d0e3..e81ee5746e2b 100644
->> --- a/include/linux/coreboot.h
->> +++ b/include/linux/coreboot.h
->> @@ -14,6 +14,7 @@
->>   
->>   #include <linux/compiler_attributes.h>
->>   #include <linux/types.h>
->> +#include <linux/stddef.h>
->>   
->>   /* List of coreboot entry structures that is used */
->>   
->> @@ -64,4 +65,7 @@ struct lb_framebuffer {
->>   	u8  reserved_mask_size;
->>   } __packed;
->>   
->> +#define LB_FRAMEBUFFER_HAS_LFB(__fb) \
->> +	((__fb)->size >= offsetofend(struct lb_framebuffer, reserved_mask_size))
->> +
-> Does LFB stand for "Linear Frame Buffer"?
+As far as I understand dmabuf design a fence wait should complete
+eventually under kernel control, because these sleeps are
+sprinkled all around the kernel today.
 
-Yes.
+I suspect that is not actually true for every HW, probably something
+like "shader programs can run forever technically".
 
->
-> I supposed the LFB follows the struct lb_framebuffer in memory.  If yes, I'm
-> wondering does LB_FRAMEBUFFER_HAS_LFB() work?  As the struct lb_framebuffer
-> definition is different from [1].
->
-> `offsetofend(struct lb_framebuffer, reserved_mask_size)` is 37 in the kernel
-> but the tailing data (i.e., LFB in the context) might start from offset 40 in
-> coreboot.
+We can argue if those cases should not report revocable either, but at
+least this will work "correctly" even if it takes a huge amount of
+time.
 
-Newer versions of coreboot add fields to the end of struct 
-cb_framebuffer. So it keeps growing in size.
+I wouldn't mind seeing a shorter timeout and print on the fence too
+just in case.
 
-This macro checks is the provided size is large enough to cover 
-framebuffer information. The framebuffer info consists of all the fields 
-up-to-and-including reserved_mask_size. Testing with 
-LB_FRAMEBUFFER_HAS_LFB is a safety measure, as we can assume that it's 
-always there.
-
-If coreboot provides less fields, it is likely broken. If it provides 
-more fields, it doesn't affect the framebuffer.
-
-Best regards
-Thomas
-
->
-> [1] https://github.com/coreboot/coreboot/blob/main/payloads/libpayload/include/coreboot_tables.h#L232
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+Jason
