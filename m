@@ -2,57 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AFxbEZd0fGkmNAIAu9opvQ
+	id QG9pDxtpe2lEEgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 10:06:31 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 15:05:15 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE1B0B8BA8
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 10:06:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72CD4B0AD1
+	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 15:05:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E21A910E974;
-	Fri, 30 Jan 2026 09:06:26 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="vhwc1iYu";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50F2D10E1AA;
+	Thu, 29 Jan 2026 14:05:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 304 seconds by postgrey-1.36 at gabe;
- Thu, 29 Jan 2026 13:54:52 UTC
-Received: from out30-110.freemail.mail.aliyun.com
- (out30-110.freemail.mail.aliyun.com [115.124.30.110])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8864310E30A;
- Thu, 29 Jan 2026 13:54:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux.alibaba.com; s=default;
- t=1769694889; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
- bh=L2m3MJadzQ92FjJDvV6pbq0LnAGzP5Bc/Tadk16iraY=;
- b=vhwc1iYu2V0ciXuhdZpI/KSPiMGsCja/3InqBRRH9LzbnDxTwfyV0ee1Kx3m8QBJeijEpUO7Qru8VCqvokD4KADEoYsMFX4NVxCPD3fGk+tBbk5ZB1EURnXorW4HyYTj5lzk7Ak+oExLGNLNgIaNiYXcAf2Iibn5WGZj7IWHYTs=
-Received: from DESKTOP-5N7EMDA(mailfrom:ying.huang@linux.alibaba.com
- fp:SMTPD_---0Wy7d5tv_1769694581 cluster:ay36) by smtp.aliyun-inc.com;
- Thu, 29 Jan 2026 21:49:42 +0800
-From: "Huang, Ying" <ying.huang@linux.alibaba.com>
-To: Jordan Niethe <jniethe@nvidia.com>
-Cc: linux-mm@kvack.org,  balbirs@nvidia.com,  matthew.brost@intel.com,
- akpm@linux-foundation.org,  linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  david@redhat.com,  ziy@nvidia.com,
- apopple@nvidia.com,  lorenzo.stoakes@oracle.com,  lyude@redhat.com,
- dakr@kernel.org,  airlied@gmail.com,  simona@ffwll.ch,
- rcampbell@nvidia.com,  mpenttil@redhat.com,  jgg@nvidia.com,
- willy@infradead.org,  linuxppc-dev@lists.ozlabs.org,
- intel-xe@lists.freedesktop.org,  jgg@ziepe.ca,  Felix.Kuehling@amd.com,
- jhubbard@nvidia.com
-Subject: Re: [PATCH v3 00/13] Remove device private pages from physical
- address space
-In-Reply-To: <20260123062309.23090-1-jniethe@nvidia.com> (Jordan Niethe's
- message of "Fri, 23 Jan 2026 17:22:56 +1100")
-References: <20260123062309.23090-1-jniethe@nvidia.com>
-Date: Thu, 29 Jan 2026 21:49:40 +0800
-Message-ID: <875x8kbkaz.fsf@DESKTOP-5N7EMDA>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+Received: from h5.fbrelay.privateemail.com (h5.fbrelay.privateemail.com
+ [162.0.218.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 680FE10E1AA;
+ Thu, 29 Jan 2026 14:05:09 +0000 (UTC)
+Received: from MTA-05-3.privateemail.com (mta-05.privateemail.com
+ [198.54.127.60])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by h5.fbrelay.privateemail.com (Postfix) with ESMTPSA id 4f219v04nZz2y4L;
+ Thu, 29 Jan 2026 14:05:07 +0000 (UTC)
+Received: from hal-station (unknown [23.129.64.159])
+ by mta-05.privateemail.com (Postfix) with ESMTPA id 4f21986cmPz3hhT6;
+ Thu, 29 Jan 2026 09:04:28 -0500 (EST)
+Date: Thu, 29 Jan 2026 09:04:23 -0500
+From: Hamza Mahfooz <someguy@effective-light.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Timur =?iso-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>,
+ Alex Deucher <alexdeucher@gmail.com>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Sunil Khatri <sunil.khatri@amd.com>, Ce Sun <cesun102@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>, Kenneth Feng <kenneth.feng@amd.com>,
+ Ivan Lipski <ivan.lipski@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>, Melissa Wen <mwen@igalia.com>,
+ Fangzhi Zuo <Jerry.Zuo@amd.com>, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] drm: introduce page_flip_timeout()
+Message-ID: <aXto53g2mSNsNmFM@hal-station>
+References: <20260123000537.2450496-1-someguy@effective-light.com>
+ <2719069.vYhyI6sBWr@timur-hyperion>
+ <30f2480d-016f-417e-9ddf-7805e4943e7b@amd.com>
+ <2285353.hkbZ0PkbqX@timur-hyperion>
+ <2f9bc706-02d6-4dec-a56c-53abc5d43f46@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ascii
-X-Mailman-Approved-At: Fri, 30 Jan 2026 09:06:10 +0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2f9bc706-02d6-4dec-a56c-53abc5d43f46@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,138 +75,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-7.81 / 15.00];
-	WHITELIST_DMARC(-7.00)[alibaba.com:D:+];
-	DMARC_POLICY_ALLOW(-0.50)[linux.alibaba.com,none];
+X-Spamd-Result: default: False [1.39 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[linux.alibaba.com:s=default];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[linux.alibaba.com:+];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ying.huang@linux.alibaba.com,dri-devel-bounces@lists.freedesktop.org];
+	DMARC_NA(0.00)[effective-light.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[gmail.com,mailbox.org,amd.com,lists.freedesktop.org,ffwll.ch,igalia.com,linux.intel.com,kernel.org,suse.de,vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	NEURAL_HAM(-0.00)[-0.866];
+	FROM_NEQ_ENVFROM(0.00)[someguy@effective-light.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kvack.org,nvidia.com,intel.com,linux-foundation.org,vger.kernel.org,lists.freedesktop.org,redhat.com,oracle.com,kernel.org,gmail.com,ffwll.ch,infradead.org,lists.ozlabs.org,ziepe.ca,amd.com];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:email]
-X-Rspamd-Queue-Id: AE1B0B8BA8
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 72CD4B0AD1
 X-Rspamd-Action: no action
 
-Hi, Jordan,
+On Thu, Jan 29, 2026 at 01:59:00PM +0100, Christian König wrote:
+> > How do you propose to do that?
+> 
+> I need to dig a bit into the DAL/DC code and see how the signaling path actually goes.
+> 
+> Going to give that a try tomorrow.
+> 
 
-Jordan Niethe <jniethe@nvidia.com> writes:
+For recent ASICs, something along the lines of the following should do
+the trick:
 
-> Introduction
-> ------------
->
-> The existing design of device private memory imposes limitations which
-> render it non functional for certain systems and configurations - this
-> series removes those limitations. These issues are:
->
->   1) Limited available physical address space 
->   2) Conflicts with arch64 mm implementation
->
-> Limited available address space
-> -------------------------------
->
-> Device private memory is implemented by first reserving a region of the
-> physical address space. This is a problem. The physical address space is
-> not a resource that is directly under the kernel's control. Availability
-> of suitable physical address space is constrained by the underlying
-> hardware and firmware and may not always be available. 
->
-> Device private memory assumes that it will be able to reserve a device
-> memory sized chunk of physical address space. However, there is nothing
-> guaranteeing that this will succeed, and there a number of factors that
-> increase the likelihood of failure. We need to consider what else may
-> exist in the physical address space. It is observed that certain VM
-> configurations place very large PCI windows immediately after RAM. Large
-> enough that there is no physical address space available at all for
-> device private memory. This is more likely to occur on 43 bit physical
-> width systems which have less physical address space.
->
-> The fundamental issue is the physical address space is not a resource
-> the kernel can rely on being to allocate from at will.  
->
-> aarch64 issues
-> --------------
->
-> The current device private memory implementation has further issues on
-> aarch64. On aarch64, vmemmap is sized to cover the ram only. Adding
-> device private pages to the linear map then means that for device
-> private page, pfn_to_page() will read beyond the end of vmemmap region
-> leading to potential memory corruption. This means that device private
-> memory does not work reliably on aarch64 [0].  
->
-> New implementation
-> ------------------
->
-> This series changes device private memory so that it does not require
-> allocation of physical address space and these problems are avoided.
-> Instead of using the physical address space, we introduce a "device
-> private address space" and allocate from there.
->
-> A consequence of placing the device private pages outside of the
-> physical address space is that they no longer have a PFN. However, it is
-> still necessary to be able to look up a corresponding device private
-> page from a device private PTE entry, which means that we still require
-> some way to index into this device private address space. Instead of a
-> PFN, device private pages use an offset into this device private address
-> space to look up device private struct pages.
->
-> The problem that then needs to be addressed is how to avoid confusing
-> these device private offsets with PFNs. It is the limited usage
-> of the device private pages themselves which make this possible. A
-> device private page is only used for userspace mappings, we do not need
-> to be concerned with them being used within the mm more broadly. This
-> means that the only way that the core kernel looks up these pages is via
-> the page table, where their PTE already indicates if they refer to a
-> device private page via their swap type, e.g.  SWP_DEVICE_WRITE. We can
-> use this information to determine if the PTE contains a PFN which should
-> be looked up in the page map, or a device private offset which should be
-> looked up elsewhere.
->
-> This applies when we are creating PTE entries for device private pages -
-> because they have their own type there are already must be handled
-> separately, so it is a small step to convert them to a device private
-> PFN now too.
->
-> The first part of the series updates callers where device private
-> offsets might now be encountered to track this extra state.
->
-> The last patch contains the bulk of the work where we change how we
-> convert between device private pages to device private offsets and then
-> use a new interface for allocating device private pages without the need
-> for reserving physical address space.
->
-> By removing the device private pages from the physical address space,
-> this series also opens up the possibility to moving away from tracking
-> device private memory using struct pages in the future. This is
-> desirable as on systems with large amounts of memory these device
-> private struct pages use a signifiant amount of memory and take a
-> significant amount of time to initialize.
-
-Now device private pages are quite different from other pages, even in a
-separate address pace.  IMHO, it may be better to make that as explicit
-as possible.  For example, is it a good idea to put them in its own
-zone, like ZONE_DEVICE_PRIVATE?  It appears not natural to put pages
-from different address spaces into one zone.  And, this may make them
-easier to be distinguished from other pages.
-
-[snip]
-
----
-Best Regards,
-Huang, Ying
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+index dc8d2f52c7d6..fac668c2fcfb 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+@@ -510,6 +510,7 @@ struct amdgpu_crtc {
+ 	bool wb_pending;
+ 	bool wb_enabled;
+ 	struct drm_writeback_connector *wb_conn;
++	int pflip_cnt;
+ };
+ 
+ struct amdgpu_encoder_atom_dig {
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 740711ac1037..1c3b7fbab1c6 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -427,6 +427,18 @@ static inline bool update_planes_and_stream_adapter(struct dc *dc,
+ 					   stream_update);
+ }
+ 
++static inline bool update_pflip_cnt(struct amdgpu_crtc *acrtc)
++{
++	int cnt = acrtc->pflip_cnt++;
++
++	if (cnt == 300) {
++		acrtc->pflip_cnt = 0;
++		return true;
++	}
++
++	return false;
++}
++
+ /**
+  * dm_pflip_high_irq() - Handle pageflip interrupt
+  * @interrupt_params: ignored
+@@ -454,6 +466,9 @@ static void dm_pflip_high_irq(void *interrupt_params)
+ 		return;
+ 	}
+ 
++	if (update_pflip_cnt(amdgpu_crtc))
++		return;
++
+ 	spin_lock_irqsave(&adev_to_drm(adev)->event_lock, flags);
+ 
+ 	if (amdgpu_crtc->pflip_status != AMDGPU_FLIP_SUBMITTED) {
+@@ -589,6 +604,9 @@ static void dm_vupdate_high_irq(void *interrupt_params)
+ 	acrtc = get_crtc_by_otg_inst(adev, irq_params->irq_src - IRQ_TYPE_VUPDATE);
+ 
+ 	if (acrtc) {
++		if (update_pflip_cnt(acrtc))
++			return;
++
+ 		vrr_active = amdgpu_dm_crtc_vrr_active_irq(acrtc);
+ 		drm_dev = acrtc->base.dev;
+ 		vblank = drm_crtc_vblank_crtc(&acrtc->base);
+@@ -659,6 +677,9 @@ static void dm_crtc_high_irq(void *interrupt_params)
+ 	if (!acrtc)
+ 		return;
+ 
++	if (update_pflip_cnt(acrtc))
++		return;
++
+ 	if (acrtc->wb_conn) {
+ 		spin_lock_irqsave(&acrtc->wb_conn->job_lock, flags);
