@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EIwUJ5cMe2k6AwIAu9opvQ
+	id EPI4M5cMe2k6AwIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
 	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 08:30:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B9EEACA24
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EACBACA25
 	for <lists+dri-devel@lfdr.de>; Thu, 29 Jan 2026 08:30:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77A0410E7E0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C92A10E7E1;
 	Thu, 29 Jan 2026 07:30:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IVo5ixTP";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OKbni8c7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
- [209.85.167.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7638A10E7E0
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 07:30:24 +0000 (UTC)
-Received: by mail-oi1-f169.google.com with SMTP id
- 5614622812f47-45c819ca0f1so438549b6e.0
- for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 23:30:24 -0800 (PST)
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
+ [209.85.210.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B681010E7E0
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 07:30:27 +0000 (UTC)
+Received: by mail-ot1-f41.google.com with SMTP id
+ 46e09a7af769-7d148dd3421so229251a34.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 28 Jan 2026 23:30:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769671824; x=1770276624; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1769671827; x=1770276627; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lWBgactQrIZ1su7qA+LsEPA2s9t2/HSNvP/FFiyIdUA=;
- b=IVo5ixTPt61lN8KdQQ7o20zZPdGDyI2cd2wRuItfdvTk8G80/Jw/RXr3u5QHKYe3NY
- 9/hLK0dUXOwIYFeI8s/HSaWqxp8tXhkNsrlXiTQ7g0DSkfPxOj2N004ZoCXLQpDdQ+gx
- jDjsUORINjy6VlCPs9rYJNoj8aMZp3Tfsfhv7Pqpxx4PTk3LwFnnHevopCKrXacDlPNC
- gZProeITMtWm5shgO+aoeiX7sstjSFwwuQFtaEuaW1RARYmLLuPG7FngG3NoFW8xDwvQ
- h8f/1WGC5F2V+O1fJaVF+AnyG04SI2R67xVZMrflF2IPkRkfntnqhRvCU+ow/R2eUDdJ
- qJlw==
+ bh=7h3bLXzeM6mWSjiJcGUgMMMhzyq4pD1tO2973ypLisk=;
+ b=OKbni8c7mxITzQj8psPil56LbS8GM/25EANWw0wI9XonRALz5VG4IsOUT07NmZXA+8
+ vDOq/Lz/VS+WyrdYczAE82XO8BUJJAuFDRBUSZy+4GnzgB0qKURajMaPVwjiIui7I4nm
+ 4yQP0V8ZnQ6NSXvm4BwQvO5tNO4oI0PlbWcthsZjyg3vsDdRA8+GNpD/yJ64YyisLMDA
+ Z+irPiBclRgyG5nU4InlDl10i2cedkxvZAGrJTTBKPLBuHn9m9dl6YbCD45dINTIV6Oy
+ NUui/t+6t98/oCaIg5A7KqJfOGJ+YXyfIN+7lWjFiUNQeg61WNmr0SMKo7IfiPsiNZhX
+ K/LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769671824; x=1770276624;
+ d=1e100.net; s=20230601; t=1769671827; x=1770276627;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=lWBgactQrIZ1su7qA+LsEPA2s9t2/HSNvP/FFiyIdUA=;
- b=rhF+hDbGPZWOF06YDoqHoLOUraNqd8FARXJTOHgiArB3BWAlCfabbE1T+oSBBALf67
- gXe4+jZ6HZ3MV2N2X3EdJxyZnAM+XaS1mi1f66a9No7gYLUzyBLe/wQbvmMv60415Aj0
- NiHaA/9ICvJNbyjhsPzuEri7XLpiUmTZAaDuo1d1tSw3y7rqCLdjy8OB3Wo4ZTRBK/91
- tpoD9/oBBpMLPI4lhBqjQNStRNgrcKqiO9QwcBnidJHf35bTHMAyIaRIVqKPn9R+d8+I
- imselv+E6Rz2mGBwjC5sSsCdKjXbI12Zv+N0cN8VRrgcKt8126qQdllTtFGZ9V7LxfaE
- nPPw==
+ bh=7h3bLXzeM6mWSjiJcGUgMMMhzyq4pD1tO2973ypLisk=;
+ b=fNIcPIexDl/NkwuZ3DTCMOGW0gVGgPeoJPjFZrTQFMLsuQzRu6PNmcaiQcgY5zg6Gn
+ st90unQGYznGaxztCVnJ5CUaZfGr2ZWMpIJbq03jaDPYyGcS4LDwDgMg3lT7DaU+0yX8
+ fG+SqA57KWkb6NVLDCM2PNGZ54rqJHKDT4/q2BTAm6p+pExAYK4yYekOcb10mBYPJkoI
+ vTuqpiRJhA2vNoXR6I1zo2osUfnoXj0rLTcM539tvcowQWd8bp3VyvD5kreWwuHFAS6g
+ /Y7KdfVMQzRBvhLxBjI42/s6Sfo8tlqv8Js9cJKC/XzzPy9PXTZ0aR49O6XF1ufJ6FpH
+ 69ig==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXwx8/o2iyev3S+lzkrcd8EmiJ3CIPak82mxff0QL2Lbg99LghMRowixrA9BJllnTo8jLZoJE2nB20=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzrSOvtPhGn4Cb3mjs4zPjHUW/llmdUo+V34eV8G4xQKWBfh9Xf
- tHe+laf0LxqKlNMxsyMMqEbw1m0Bz/UUoumGAZuYrF09OWfpsLR7t4nW
-X-Gm-Gg: AZuq6aI9KTJ1fSPXuO7VCjj8OdIQbuF78Y4ntBIGOOA5WWtdZtpDECmz+2EcXxdER2t
- 5mOu7fbzHnWOdLINyiZs1wp8qyg3deThRxkKC3gKSlqOci0mFd/b2+kw0SYSoRK7RgQvmL+5eAj
- CPCWL7SiZqTdd/BHYdwlVfxeBgCiJQc65BnGtOWcU16NC01840nb4A6KFDRC13xf+dEw+d5uHH8
- KVV1AKUUC1CAmAcxE7BQsov4ASYWWejj4TDkaymduCA9LS7szCt1MvnkkZDh+oCxX4y+lbSOE6O
- 5q1mEXJ5qJ1OsCAcmUair1WaAWysbZM6oZXMCgs7ovRwOuf6ZVUvNlpWwy8BiyEU3CpRv1SDa3D
- tcgO8qMgrKtRqK5TBmKzkq3ZSNHErxMLKnRr4Juolb2erJjVsTIcgSMauUwBY6UhKDwe9JpUTeo
- JjPHC+PpGhUiB6sdrhBvCuVD9SXgUbLyD+GjPejm6F
-X-Received: by 2002:a05:6808:3a07:b0:45f:13fe:4a2e with SMTP id
- 5614622812f47-45f1e352fb0mr985931b6e.17.1769671823662; 
- Wed, 28 Jan 2026 23:30:23 -0800 (PST)
+ AJvYcCXMtiO0El6O+Id3eBG0EiGDuBoldxldKZyD8G2saBbWLM+pjwkCMKS9LSTld6eWuDRzTEVCdz2X9Hk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzsOX0zCYE2zSS9d4UhguBijVgsZxhBN4Ygky97JCmkxfpEWJzU
+ SUCLWUi5BFQt7vqqW8qFwv+y/+ll5Q6JvCQk0hcaM1s7XsbMRKWgw2fv
+X-Gm-Gg: AZuq6aLGS9szO5nb7Er2YTgepk06/BZFgmxARxcz+n8qPH7uSB8Jhzvpgq764eaBiO8
+ z84FAgi37JrlvpO0M0kgIvoFJRZC67J8k0epLILywQydY1T4Dae6ONOT73wp4FJXTUk1xc/zM/k
+ wAKQBFCche3bheLXUK+0J7SK9JWutme9af2GYi88NGQ8Yd8q753C/cfVjsCCjF8J/fBD9dzJIGJ
+ XSjJ+aLfKbhEcHitfGz/9UqemjOhf8ZMOgvk64FV+n8es3QcYuaTvY6utWQs+diPPLku68MSeSR
+ TP16nousvQn6Po38pZZ9uBQtjYv41qHakgQTvhOjz09ZCnszfxVugB06MO1rxM2UmN/h7Ou2Yz0
+ ryAQHVU2Kmlqdd9J3jv9MjRnT5tFfCPr9XD+/fi4xMtIiIRBoWS69zD7j+QlDLZxkGntxFWNRSQ
+ Ilv/lMnV+5p4TVY7n+j+4vlgAMOcs8sjvHwUGLPNFu
+X-Received: by 2002:a05:6830:4985:b0:7c7:e3b:488a with SMTP id
+ 46e09a7af769-7d18512ac73mr4516959a34.30.1769671826941; 
+ Wed, 28 Jan 2026 23:30:26 -0800 (PST)
 Received: from godzilla (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
  by smtp.googlemail.com with ESMTPSA id
- 5614622812f47-45f08d894f5sm2741734b6e.5.2026.01.28.23.30.22
+ 46e09a7af769-7d18c7ffbedsm3173982a34.21.2026.01.28.23.30.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jan 2026 23:30:23 -0800 (PST)
+ Wed, 28 Jan 2026 23:30:26 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Jim Cromie <jim.cromie@gmail.com>, Jason Baron <jbaron@akamai.com>,
@@ -78,10 +78,11 @@ Cc: Jim Cromie <jim.cromie@gmail.com>, Jason Baron <jbaron@akamai.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
  Petr Mladek <pmladek@suse.com>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v9 09/32] dyndbg: drop NUM_TYPE_ARRAY
-Date: Thu, 29 Jan 2026 00:28:55 -0700
-Message-ID: <20260129072932.2190803-10-jim.cromie@gmail.com>
+ linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v9 10/32] dyndbg: tweak pr_fmt to avoid expansion conflicts
+Date: Thu, 29 Jan 2026 00:28:56 -0700
+Message-ID: <20260129072932.2190803-11-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260129072932.2190803-1-jim.cromie@gmail.com>
 References: <20260129072932.2190803-1-jim.cromie@gmail.com>
@@ -118,11 +119,11 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	ARC_NA(0.00)[];
 	FORGED_SENDER(0.00)[jimcromie@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_RECIPIENTS(0.00)[m:gregkh@linuxfoundation.org,m:jim.cromie@gmail.com,m:jbaron@akamai.com,m:ukaszb@chromium.org,m:louis.chauvet@bootlin.com,m:bagasdotme@gmail.com,m:airlied@gmail.com,m:daniel@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:pmladek@suse.com,m:skhan@linuxfoundation.org,m:linux-doc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jimcromie@gmail.com,s:lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	FORGED_RECIPIENTS(0.00)[m:gregkh@linuxfoundation.org,m:jim.cromie@gmail.com,m:jbaron@akamai.com,m:ukaszb@chromium.org,m:louis.chauvet@bootlin.com,m:bagasdotme@gmail.com,m:airlied@gmail.com,m:daniel@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:pmladek@suse.com,m:skhan@linuxfoundation.org,m:linux-doc@vger.kernel.org,m:akpm@linux-foundation.org,m:linux-kernel@vger.kernel.org,m:jimcromie@gmail.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmail.com,akamai.com,chromium.org,bootlin.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,lists.freedesktop.org,suse.com,linuxfoundation.org,vger.kernel.org];
+	FREEMAIL_CC(0.00)[gmail.com,akamai.com,chromium.org,bootlin.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,lists.freedesktop.org,suse.com,linuxfoundation.org,vger.kernel.org,linux-foundation.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -137,37 +138,34 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 3B9EEACA24
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:email]
+X-Rspamd-Queue-Id: 5EACBACA25
 X-Rspamd-Action: no action
 
-ARRAY_SIZE works here, since array decl is complete.
+Disambiguate pr_fmt(fmt) arg, by changing it to _FMT_, to avoid naming
+confusion with many later macros also using that argname.
 
 no functional change
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- include/linux/dynamic_debug.h | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ lib/dynamic_debug.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-index 441305277914..92627a03b4d1 100644
---- a/include/linux/dynamic_debug.h
-+++ b/include/linux/dynamic_debug.h
-@@ -132,11 +132,9 @@ struct ddebug_class_param {
- 		.mod_name = KBUILD_MODNAME,				\
- 		.base = _base,						\
- 		.map_type = _maptype,					\
--		.length = NUM_TYPE_ARGS(char*, __VA_ARGS__),		\
-+		.length = ARRAY_SIZE(_var##_classnames),		\
- 		.class_names = _var##_classnames,			\
- 	}
--#define NUM_TYPE_ARGS(eltype, ...)				\
--	(sizeof((eltype[]) {__VA_ARGS__}) / sizeof(eltype))
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index 1d13e3ee3e12..fbe18b1f0b73 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -11,7 +11,7 @@
+  * Copyright (C) 2013 Du, Changbin <changbin.du@gmail.com>
+  */
  
- extern __printf(2, 3)
- void __dynamic_pr_debug(struct _ddebug *descriptor, const char *fmt, ...);
+-#define pr_fmt(fmt) "dyndbg: " fmt
++#define pr_fmt(_FMT_) "dyndbg: " _FMT_
+ 
+ #include <linux/kernel.h>
+ #include <linux/module.h>
 -- 
 2.52.0
 
