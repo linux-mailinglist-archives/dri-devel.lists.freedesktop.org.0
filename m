@@ -2,81 +2,173 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AEtCJ2ggfWmkQQIAu9opvQ
+	id +EEuEH4jfWnPQQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 22:19:36 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 22:32:46 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D0DCBEC57
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 22:19:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54312BECF1
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 22:32:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7A7D10E085;
-	Fri, 30 Jan 2026 21:19:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0453110E8F2;
+	Fri, 30 Jan 2026 21:32:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gZZ6jy44";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="WkeuEN2E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
- [209.85.128.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FB6810E085
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 21:19:31 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id
- 5b1f17b1804b1-47fedb7c68dso27105395e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 13:19:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769807970; x=1770412770; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=g7emkTAOZf3RTCGxFWHqfyLFM5cRhc8/Waeh1SPd4fw=;
- b=gZZ6jy44DwmtvD/kfhu2EQjw27FjclhdgxBl/9+u1zV8UOVKmZbR7n0Nq4lK6eMKHj
- p/tgcNsxJHPfaFtldOJzeyA3W/ruIPufQtCQwHcdZOBB5HbBQwbcqjMjh8VreSlSOvB4
- oPsx0ZqljJF41ZoOcZjs/ZbHYKnHHMArozJcIzqYqwN3Eg2Ru78ZuS5cqb1HvMltewFZ
- V/CZLEXGYx7okC6mKIWQexfQ7a0bx3r+QVLztsE0gg9j58EoR4eWpiWn5gup8g+XEyya
- bWfms6WwEkTuWeByvqkWlovc6/76hKGNDTvtnGvEjbdY/5Gg1Lc4SiA6Yw+1sDgBroPX
- bQ2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769807970; x=1770412770;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=g7emkTAOZf3RTCGxFWHqfyLFM5cRhc8/Waeh1SPd4fw=;
- b=ZWUMPKe5wH8zULCEEH9M/hvO1lN/1bCmiMHi1ZKsIKiaYKU1Cn7KXLwaHR9scyzYL+
- 3q55GDktQrVLfjNIDsBmV7uLQubRxvGUIevUsMSiv6v7Vw79wR9mvQQuDuYoYYnHPk5n
- ZKd5Mitxh4wYWlZaOvlk3stqOgViPU2EuvaNlsHOEraGeF/QgFI84EDlGDQzlfvO5fIP
- d1gH/tib9stOe4SshF///KjY1YVc1yzgZpRPTb+FsPM9SB2/r3eZ4epyDMM6CnT+uH+x
- y4ogyRP2/XNkpmvu0JH1W34lXeI/kTFhDJ3caueZHzvTbHL9mSkTo7ybdAljItdykpgE
- uSVA==
-X-Gm-Message-State: AOJu0YxxwCh3J9lXXIn0AB0bb6qOSHM6iW7DKNrYDPjQAqZmpEJh8djj
- jj1Y+CY9n5OpXkCD0wVkh5m6dbGxpP4agYM1iJOFlwLzYBRA0qL0oq9P
-X-Gm-Gg: AZuq6aIMJQhRTJDLvSyg3+jD7/qiXHs7RIHhIJgcCDhfx+UodwdRd6OeRErIpi6ubh5
- Ti+mOM7xuAAZ+vWKxMs4VTqmWsyqVw239c9d3lafKQZksqlnca5F/TJznmOSu/9mO9SF3FDyKCm
- qjSqaVF6dUOtoTocgaJo08iE4mkTW3YBzKwvBGEl+WnKMrNJQmKw3RNhkaszd5ejQqDi0sVkdOd
- TorCX+K0h1w+Va4xJZEZSAQ9bCmOqPGV6yYinWTG8LZ/9jizX8BSwTcWOzpGVA2u+ny5wiSrocY
- +qaZ+kzIjFZyiLYLgAY2DXRITwfleihSi7GZhnnoioGDO83J1hD6SClor7rHtRXDkiaQyfaLi10
- KQ5gaSUTQcmO4n4edPZGm35rju3LCR/YJ9ecxybhJYQIthtyHB6f6yJ70xObT48ulU30hj1MCR3
- bP4dHaQdfucD/waR5zBmoKsMv6qoYv82lYYZxd
-X-Received: by 2002:a05:600c:b99:b0:47a:8154:33e3 with SMTP id
- 5b1f17b1804b1-482db49a483mr50562055e9.28.1769807969652; 
- Fri, 30 Jan 2026 13:19:29 -0800 (PST)
-Received: from localhost.localdomain ([196.235.250.51])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-482e256482esm22544215e9.12.2026.01.30.13.19.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jan 2026 13:19:28 -0800 (PST)
-From: Salah Triki <salah.triki@gmail.com>
-To: Koby Elbaz <koby.elbaz@intel.com>,
- Konstantin Sinyuk <konstantin.sinyuk@intel.com>,
- Oded Gabbay <ogabbay@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Salah Triki <salah.triki@gmail.com>
-Subject: [PATCH] accel/habanalabs: fix device lifecycle handling in
- device_init_cdev()
-Date: Fri, 30 Jan 2026 22:19:12 +0100
-Message-ID: <20260130211912.220042-1-salah.triki@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010004.outbound.protection.outlook.com
+ [40.93.198.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9990710E097;
+ Fri, 30 Jan 2026 21:32:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JvSH0uV4hG+NRWtEX+r5Uyt4PnOMf0k9GHqCFcoifRRpbJzuM5zt7pYgBizyj/Jlt+KC2x30tRU+OUSHK5ROlK/I2nS6gaQj+wXvaRtn4Fd8y5lrbwarsKMs57QuTVxQ/fJbRAW2e+9ZE3buUz0OG/JC2mWNnGz06v/SVpJsmnvBGi2cJZw/FVRC7HUpV9I1/zxH9pBgDlo1K9/V4xT34EKIn8h0PTTZXb2DgA1L/jfBxzpKjl0J72ksb7Ptl/As0EOtbxxWacZdfQBG3iW0/52LXoos+6o97FNPEHpLgECZxMkK0K+tG8PxGvbyGI3Po5YYCGfQ1C/rM2VEW799Tg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=n/aV/7HBoj4g19Y2R3DKUij5lYl9D7Ted6hVeQWZkXw=;
+ b=dBoCnYc7VXlN/UDIt4ySwMk580bSlHMCat88y/TCwW4OSxAH5K6fTcf/YcyaTPT1JPLaOjmKKtkS1CQt9JWucl55y1gSvyEkPSKcyIZVtaZrcZC5UQBPLgX/M9oMIMwqmVHW2GQDZJhpckWkSfZi3WD7ha7bU6QOyFi+gmHcIlScwsdNuH7P5bKN+s1nGLfp02JJfu7B8b4zGYypwO/yNllV8ofuXFsxRHrsvCS2c9FBw/SYfoAA1/7Fd3nkVG43dABP2QRhyKHbIpB9PCC6t4poIZyiu6+nR8au5A9bRjQNcGKbb+EZ6G7KIDV84Dm54Z51PI3JKBJoTt47Xml0hQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n/aV/7HBoj4g19Y2R3DKUij5lYl9D7Ted6hVeQWZkXw=;
+ b=WkeuEN2EujdUqso+Xu4PUK7Wxgy291NNvNQpHjm5PGUHP+U6XH5G2+IuRUkbKDhrgWjXCqshCX+77HK+cCP1/7yq6Vlyci61Se/jKOizQooC59O65FQmU5iH78AbnpqOJk1T8UFvvKoEvqaMZXOavIU9DxxYBlpCD73+Mtnz8lSkyxghT3MsNTV970Dq1s93yUFRlWcM7W74kK2IpJOngwOY+/AahxqePHnKmMDrdv/kb0vphmRPpjE59Pt/KfLsEq6U5j97z1SW3Gn/RrB8QONGrAJDVfKVLKvw5ls+zd/L1gZVKRgb2/SCtBTak2ITS3TuLRJ4uY9d6uL8junMyQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB9072.namprd12.prod.outlook.com (2603:10b6:8:be::6) by
+ SJ2PR12MB8955.namprd12.prod.outlook.com (2603:10b6:a03:542::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.11; Fri, 30 Jan
+ 2026 21:32:36 +0000
+Received: from DM4PR12MB9072.namprd12.prod.outlook.com
+ ([fe80::9e49:782:8e98:1ff1]) by DM4PR12MB9072.namprd12.prod.outlook.com
+ ([fe80::9e49:782:8e98:1ff1%5]) with mapi id 15.20.9564.013; Fri, 30 Jan 2026
+ 21:32:36 +0000
+Message-ID: <443f2a0f-b9be-45aa-b977-d9a32196f122@nvidia.com>
+Date: Sat, 31 Jan 2026 08:32:26 +1100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 13/13] mm: Remove device private pages from the
+ physical address space
+To: linux-mm@kvack.org, Matthew Brost <matthew.brost@intel.com>
+Cc: balbirs@nvidia.com, matthew.brost@intel.com, akpm@linux-foundation.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ david@redhat.com, ziy@nvidia.com, apopple@nvidia.com,
+ lorenzo.stoakes@oracle.com, lyude@redhat.com, dakr@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, rcampbell@nvidia.com,
+ mpenttil@redhat.com, jgg@nvidia.com, willy@infradead.org,
+ linuxppc-dev@lists.ozlabs.org, intel-xe@lists.freedesktop.org, jgg@ziepe.ca,
+ Felix.Kuehling@amd.com, jhubbard@nvidia.com, maddy@linux.ibm.com,
+ mpe@ellerman.id.au
+References: <20260130111050.53670-1-jniethe@nvidia.com>
+ <20260130111050.53670-14-jniethe@nvidia.com>
+Content-Language: en-US
+From: Jordan Niethe <jniethe@nvidia.com>
+In-Reply-To: <20260130111050.53670-14-jniethe@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SY8P300CA0019.AUSP300.PROD.OUTLOOK.COM
+ (2603:10c6:10:29d::27) To DM4PR12MB9072.namprd12.prod.outlook.com
+ (2603:10b6:8:be::6)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB9072:EE_|SJ2PR12MB8955:EE_
+X-MS-Office365-Filtering-Correlation-Id: ffbf7dc5-7205-442c-8715-08de604715ec
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZktFMDIxWkVyZ2Rxc2xVTkRCZ3NPNkdiOTB3ZTNTZjhJNnUxa3FPMC9JMVBS?=
+ =?utf-8?B?cXdPNjVsQ1gySWtnLzgxaDdpWWt3RVl3Z1RZZmxlQkxBZXMzbHV1TmlVRkxw?=
+ =?utf-8?B?ZDRuVitUQklQSnY3NFU1TmRkVlhjWk15MlJKK3hUeEcxNmJ3SE9zTUtFencx?=
+ =?utf-8?B?cTNIZjNEckdXdnh0c0dIS3BqTlpUVDJreXFDVE82ZG9RU2kzTllLcU9rS2lk?=
+ =?utf-8?B?eGl3K2lidU5sTXpFS1c2TDdsZlNoTU5taHFOTGNTTTQ2TGFCUWxJTVBPUHND?=
+ =?utf-8?B?d0hlMTRIb3A4K0xaMkloQ3h1bDJrMDV0MlRraDFSbGVsOHA5bHNWVEcyV2pB?=
+ =?utf-8?B?VU1jSEhNdnk3S3NlaGhVY1VvMVgyanJTVStJcW1hWEFvTnNFQzJBWmtHeEI2?=
+ =?utf-8?B?ZHNnUDV5VzhjU1k4ZzVJa29YTUtLV2FoNExXNWZGbGJGS1NMUGozQ2laNTIr?=
+ =?utf-8?B?dFVPQnBPYS82eXJsd05mUzFkaTdXK2x5eStqK1p5WEtKYmFZaXAvcWFFY3k4?=
+ =?utf-8?B?ZFB4U01WSnZLNk9ZNVJ3TjVPOXJkckFqQ2Rxa21aMWRkTjlSZXVZOFZ1aCtZ?=
+ =?utf-8?B?eCtPV0lFVnQ2bkxlMmtDL2NVRzY0UFkvVXpIenJZU2RLZGhOWGVPYitvSU1Y?=
+ =?utf-8?B?dGtKWFJSd3pxSWYrbDNuOWx1RE43L1oxNWVkQ0xWMS9JVDNUTDZ2eGppMlZG?=
+ =?utf-8?B?NkFnbzFHSTNydDN4N01objRrZzNBaVZzOGRSSStaMVd2R1dneDQwelZpZkU5?=
+ =?utf-8?B?YkFSa1FEVVg2NWVidjdVM1VyQXdISnFYYkhXeXFiR0Z6V2QwYnUyYlR5aWJk?=
+ =?utf-8?B?RkVGVGRrSVEzK3NtbngyVGFPNnh4emJZbW5Na2dFMmZpT3k2VDdTK2Mvckdo?=
+ =?utf-8?B?NU9jenVtelJjeEhpUEpHTlFNUDhKN0cxU3hqaTZERHFISHA1WlhOT3FGeW1I?=
+ =?utf-8?B?YnRMTW82V1NZWFl5NjJ3Z25tTkhMTEZET2ZUTCt3MUFLTlVBYWRVZC8wTk1J?=
+ =?utf-8?B?emJKL3dLdGtTOVAyV2hrcDRDeWxqRi91NVVoVThKL0NGSmdJUG1RTmkxTXVt?=
+ =?utf-8?B?UVpQblVDcWgyMk1DYW5YdmpIaU13ZTBLblgzZ0hMbzBGRTQwZGFnbEJES29p?=
+ =?utf-8?B?ZXJ6N3RCUUovMXQ0dCswa0dGaS94cDdtdFF0U25JL0RMTkY3TTIzSHljNjMv?=
+ =?utf-8?B?eVFkbFhpVWxsbm55QVpYczNvYXZ6UFFaajNUU3VUYjRTLzJ3Z2RJQU13bkUz?=
+ =?utf-8?B?aUlaN1FKRkRaK2M0N1hXbXIweWZvSUxaUjRJTnN6Mm5xc3I0VndSL3p0OHg5?=
+ =?utf-8?B?cERWams0OS9MSFBTWFd0V3d1UVhHbWVqNU8yNFBOOWIySnczY2FOcG9Ea2ZE?=
+ =?utf-8?B?Q3cya1hEN0YrWUFkdTlOWGRKZDdVaVlpNVhGaUpMOTRYWU1Bb2ZzMndFa2Ru?=
+ =?utf-8?B?bERBekVkc2xBTjZrUmdxZFk4QmcxckhQTTFNdmVsNHZaTUNHaEd4cjJPZCt1?=
+ =?utf-8?B?VUpSZG9JZmVMZ0kzQWhuM2NhYkRqbkxZY0R2OVdxZzhDQVR4V0dNbm00V2lr?=
+ =?utf-8?B?cXBMNWxidHFjRWkrMzl5R2NqQVA3a1BGMzAwWWhRUmZCS1lGcmpib2ZyQnhP?=
+ =?utf-8?B?TDNQS2R1eGRPUjd3RTJRK1dudE5nUEFBdUNob3lEL1FHUjd6bkdBU0ZzN2hs?=
+ =?utf-8?B?L0x1ais5MENmL2dZMGpla0l5eFJqWUpaRHdub0pxcjJvUzZHZVBDTGJYb2w2?=
+ =?utf-8?B?SnJITG9vRHIzNXBaU3NHbzNaUVlZUWVCaUpaU0pOWlVEbEVpdUxIOXgvdDI4?=
+ =?utf-8?B?dWVTclp3b1FqZ1hmU203NlRrbUdTTWJucjN2aU0yTjhtcGJsT3MyZ0libVZH?=
+ =?utf-8?B?MnByT2FHemY1K1NsWGhzNzRLVGhjR1VBVzZHeHpxZFBTZ3BIcHNMZG15ODBF?=
+ =?utf-8?B?ZStDZHV3OGhuTTBpcTJsbkxURTFrKzZZOUJuR0prY01oSnN6REFLdy9sOWVO?=
+ =?utf-8?B?RHZuNmhUQ3BLai9pSjE4eUg3L3NFd0tFekdqWERDclcwdnFSWDcyWUhoUmM1?=
+ =?utf-8?B?OWJTTnVBMGY3NFRRcUFPS25nVUFvdlNuUVNDYlNzMkRFQ3JWM09udXFUcjdi?=
+ =?utf-8?Q?NEwQ=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB9072.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NHBCUFdJNm85bExSbk9adklUYXNKN0RWWkxqQjU1ZSt5VU5IZUVvZEY3cmEr?=
+ =?utf-8?B?Smc2a3diUkdwUytNc1FxQml2Qktabmx4V2VoNklQSEprdFlwQmYwRnVjVXNn?=
+ =?utf-8?B?ZHZIOE9JQU00Q0lWd2p1M1VHMStXN2ZVRnJHUmk5UHdKVmo0Y28rTVBNNUNC?=
+ =?utf-8?B?akZVTUIweFBsQzRuaVB5aSsvOUVROG4yUXJGRGdBdXNLeENINW9DdG9VNWc5?=
+ =?utf-8?B?eHVTZ0gxTkR1TTRFUVA1UGwrR0JOUnpPWk54cGJzQTFLSXBzLytaS0NtM3pQ?=
+ =?utf-8?B?S1RPN1ZRWFhPTy9IY0Rhdkx6WkhIcGFmRW1pYktTT1JLQkpHQVdQdnpSbzN2?=
+ =?utf-8?B?djh3V2pTRm1RZmtyc1NSSXFEOXNraFJoWEtkZUNrWE51b2xpNnNvTit6c1lt?=
+ =?utf-8?B?TEo1b1lycWp0S3NTbkdnK3ZtUmpnMW5HU2lmZXFhTUxMMFdaZXQvcXhNTGtU?=
+ =?utf-8?B?NWNGcjRjdUVyejVYeHNJQjI3TUhvejN2YWlzbjdyaHk4Umg0K0JrVjRuWGdR?=
+ =?utf-8?B?UnZyTGREMzhVOGc5ZWx2VFpzNk9BcnlWelZ5LzMyRWZPdlNFWC9xZlpiNGR5?=
+ =?utf-8?B?NWJocFlQOWdjT1dVb1ZyNmtoWHpRa0tjYWhHUm9PNG9kVzRmV0tHaktpSFpR?=
+ =?utf-8?B?TWMwZWxkRzl0MXJvbG9kMzhyZmVDRzVFZzlsRXBXZk55QTlnZ2NxeTdIcUZu?=
+ =?utf-8?B?eEJoSEVXT1dSMUJqTUJScUswcjFtRk9rcDJ0WXprUms4NEMxSTVHbFFBRzZ3?=
+ =?utf-8?B?OWNvbXlFM0JTcTFGa1ZINTB4NU1Cc296b0hiVDRrbEk0d2loaEpsVUc1UVpy?=
+ =?utf-8?B?cWduTzdVSTJ1V29oWTRrNlhtUE9Pckx1UUczTUtUQ0UvZEwvMXNkTll2b05x?=
+ =?utf-8?B?RlhaUEhpTGxLZ09aS053emZaamx1TDUvaDVNdW1NM0pLaVVQZG11WkVEVkp3?=
+ =?utf-8?B?ZVE3RDdXdG1EUzVMSnVoa2x6VDkzMDBsSDdicnkrWlZDei9oNVM4UE1LbXJG?=
+ =?utf-8?B?TnUyOGIxWkRDRTFTMWdmNkZTR1g1WlJ4cStrYm9kQmJhb1p0YSszMWc0bWJn?=
+ =?utf-8?B?c0Z0NUljelp4aVdFazZ1TDRuSEErWW5hNzhKTjFLVDFrSFBrbXlNbmVBNHRh?=
+ =?utf-8?B?ME45VWlQWWJkRU80M00venJrRlR4NDdXMnJtelZBV2hYTUNabGFWNFkwaUlk?=
+ =?utf-8?B?c2JqbGh6bkxZSVM0UFZBODU4aHJCeTlQYzJ3dS9YNkdhaXF6T0V6bHM2OWVx?=
+ =?utf-8?B?UUROQW11TTIwRmZKT21XaitWdEE2Vm14SW1NcHZKOTJXMUJnK0cyUW0weVlu?=
+ =?utf-8?B?U2ZTb0dCT1JCQ1pZT1lGL3FnV0JERTB0R21vc25aMlpIN1JaZTFqTGVReWtB?=
+ =?utf-8?B?dVZhaFY0aC9nc0xES2tCeUdWeHdiQW15bllFVzBBUnlPc1lvbE9HR0k5bGhG?=
+ =?utf-8?B?SVRHSUFybDRPU2I5SlNmaUhOYThxY0VQSlRYTk1xcStDeFZETmwxZFp4N3Nu?=
+ =?utf-8?B?NWpFUlY1Mk5KQ2IzblAxK05iU0cxQ1FmQ1dRUGRvWENuVjJPaUJLKzlJZGJo?=
+ =?utf-8?B?bXl2Q1hnamd5WVdBZ29FYlBvN0tYSnM1SG8yZjVGanowSUwxNmFseFF2d3kz?=
+ =?utf-8?B?YVF4dk1uL0svMEx6dGowUFJKeWxNVHU4dkNvTHRKZFJBVE5lOFM1Y1pZTmUy?=
+ =?utf-8?B?U1lWQ1ROOWRSNi9KQ05mdzZWTlNWSnc0U0M1TU4zSk9nZGFZNnlQWmM3RFQ1?=
+ =?utf-8?B?YVpSUjNVUFV5VGtnTCtZb3ExL3FWTDZxZlpSVUphek11QjNQOFpiSm1ubHQ5?=
+ =?utf-8?B?RGFJSGxrQStPajF4WVhqeGEwRHdpZG9zNFVlcm9XQlFRS0tEWTh1YW9YNzUx?=
+ =?utf-8?B?dkpLN3I0cERGYkQ1MnJtUXNIbSs4VlF0YmtIaHU2NDhXM1hrU0Q1K3ozemNR?=
+ =?utf-8?B?M2dCMGxlR0VJc3hrS1RtalZTNUpCaFgrbVZhTCtNQlpVeitscGt5WWhlSHRs?=
+ =?utf-8?B?NFlGazFSSGNjd0JUKzc2SEVibDBmYitVTW1oaDJWU2lmNTkzOVE3TFZuR3hy?=
+ =?utf-8?B?eGE5SG9FQXZlT0l4bkdGMU5YVTE4WlVGRTR2VXZKWjlrLzlqWHcvTi9tcU9m?=
+ =?utf-8?B?dUlGdHZ6SHhYbkNrcTRlZzJUTnlrRk51V2hlc0FpNVNpS3NpVXlFSEtLaGU5?=
+ =?utf-8?B?OXpFbjdkcTRQVEN4ZURRYTNhV1BibDc3VW5qSk00aWNTWWEyamkyY2hnaC9i?=
+ =?utf-8?B?OFR4WWNUTlpHcHpseFR3UjNoSFJpaS82VjBqQlNsVXU0U3ZZbEhrMlF2dFhT?=
+ =?utf-8?B?eUJrNklFVVlqT09Ld1hTdEJaakU5Q2pGN2NDQ1ptc3ZJOFNlWWZqZz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ffbf7dc5-7205-442c-8715-08de604715ec
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB9072.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 21:32:36.2742 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: J+6cdXI/N9AhDRy2zo1G4pdUxStumAa4r3Crc02bMKkqQ04Su5GDQGLoI8FH/zyuJ+8O7wLlXCFPLKKmu5DJ5Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8955
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,78 +184,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:koby.elbaz@intel.com,m:konstantin.sinyuk@intel.com,m:ogabbay@kernel.org,m:linux-kernel@vger.kernel.org,m:salah.triki@gmail.com,m:salahtriki@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[salahtriki@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[salahtriki@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	FREEMAIL_CC(0.00)[nvidia.com,intel.com,linux-foundation.org,vger.kernel.org,lists.freedesktop.org,redhat.com,oracle.com,kernel.org,gmail.com,ffwll.ch,infradead.org,lists.ozlabs.org,ziepe.ca,amd.com,linux.ibm.com,ellerman.id.au];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 0D0DCBEC57
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[jniethe@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 54312BECF1
 X-Rspamd-Action: no action
 
-`device_init_cdev()` calls device_initialize() on a newly allocated struct
-device. The current release callback, `device_release_func()`, frees the
-device directly with `kfree()`. This bypasses the device model reference
-counting and violates the expected device lifecycle.
+Hi,
 
-After `device_initialize()`, all cleanup must go `through put_device()` to
-properly manage the reference count and invoke the release callback.
+On 30/1/26 22:10, Jordan Niethe wrote:
+> The existing design of device private memory imposes limitations which
+> render it non functional for certain systems and configurations where
+> the physical address space is limited.
+> 
+> Device private memory is implemented by first reserving a region of the
+> physical address space. This is a problem. The physical address space is
+> not a resource that is directly under the kernel's control. Availability
+> of suitable physical address space is constrained by the underlying
+> hardware and firmware and may not always be available.
+> 
+> Device private memory assumes that it will be able to reserve a device
+> memory sized chunk of physical address space. However, there is nothing
+> guaranteeing that this will succeed, and there a number of factors that
+> increase the likelihood of failure. We need to consider what else may
+> exist in the physical address space. It is observed that certain VM
+> configurations place very large PCI windows immediately after RAM. Large
+> enough that there is no physical address space available at all for
+> device private memory. This is more likely to occur on 43 bit physical
+> width systems which have less physical address space.
+> 
+> Instead of using the physical address space, introduce a device private
+> address space and allocate devices regions from there to represent the
+> device private pages.
+> 
+> Introduce a new interface memremap_device_private_pagemap() that
+> allocates a requested amount of device private address space and creates
+> the necessary device private pages.
+> 
+> To support this new interface, struct dev_pagemap needs some changes:
+> 
+>    - Add a new dev_pagemap::nr_pages field as an input parameter.
+>    - Add a new dev_pagemap::pages array to store the device
+>      private pages.
+> 
+> When using memremap_device_private_pagemap(), rather then passing in
+> dev_pagemap::ranges[dev_pagemap::nr_ranges] of physical address space to
+> be remapped, dev_pagemap::nr_ranges will always be 1, and the device
+> private range that is reserved is returned in dev_pagemap::range.
+> 
+> Forbid calling memremap_pages() with dev_pagemap::ranges::type =
+> MEMORY_DEVICE_PRIVATE.
+> 
+> Represent this device private address space using a new
+> device_private_pgmap_tree maple tree. This tree maps a given device
+> private address to a struct dev_pagemap, where a specific device private
+> page may then be looked up in that dev_pagemap::pages array.
+> 
+> Device private address space can be reclaimed and the assoicated device
+> private pages freed using the corresponding new
+> memunmap_device_private_pagemap() interface.
+> 
+> Because the device private pages now live outside the physical address
+> space, they no longer have a normal PFN. This means that page_to_pfn(),
+> et al. are no longer meaningful.
+> 
+> Introduce helpers:
+> 
+>    - device_private_page_to_offset()
+>    - device_private_folio_to_offset()
+> 
+> to take a given device private page / folio and return its offset within
+> the device private address space.
+> 
+> Update the places where we previously converted a device private page to
+> a PFN to use these new helpers. When we encounter a device private
+> offset, instead of looking up its page within the pagemap use
+> device_private_offset_to_page() instead.
+> 
+> Update the existing users:
+> 
+>   - lib/test_hmm.c
+>   - ppc ultravisor
+>   - drm/amd/amdkfd
+>   - gpu/drm/xe
+>   - gpu/drm/nouveau
+> 
+> to use the new memremap_device_private_pagemap() interface.
+> 
+> Acked-by: Felix Kuehling <felix.kuehling@amd.com>
+> Reviewed-by: Zi Yan <ziy@nvidia.com> # for MM changes
+> Signed-off-by: Jordan Niethe <jniethe@nvidia.com>
+> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> 
+> ---
 
-Fix the release callback to ensure that the device memory is freed
-only when the reference count reaches zero, preserving proper device
-model semantics and preventing potential use-after-free or double-free
-issues.
+Hi Matthew - the latest intel-xe CI run is passing: https://patchwork.freedesktop.org/series/159738/#rev8
 
-Fixes: ea451f88ef9c8 ("habanalabs: Expose devices after initialization is
-done")
+Would you mind reviewing the gpu/drm/xe changes here and in:
+- [PATCH v5 01/13] mm/migrate_device: Introduce migrate_pfn_from_page() helper
+- [PATCH v5 03/13] mm/migrate_device: Make migrate_device_{pfns,range}() take mpfns	
+- [PATCH v5 04/13] mm/migrate_device: Add migrate PFN flag to track device private pages
 
-Signed-off-by: Salah Triki <salah.triki@gmail.com>
----
- drivers/accel/habanalabs/common/device.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks very much,
+Jordan.
 
-diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
-index 999c92d7036e..df20a0bb63e5 100644
---- a/drivers/accel/habanalabs/common/device.c
-+++ b/drivers/accel/habanalabs/common/device.c
-@@ -698,7 +698,7 @@ static const struct file_operations hl_ctrl_ops = {
- 
- static void device_release_func(struct device *dev)
- {
--	kfree(dev);
-+	put_device(dev);
- }
- 
- /*
--- 
-2.43.0
 
