@@ -2,105 +2,190 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oI+hLsZvfGk/MgIAu9opvQ
+	id 4OQnLBJwfGk/MgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:45:58 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:47:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20DFAB8992
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:45:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3B3B89EE
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:47:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 710B810E9A9;
-	Fri, 30 Jan 2026 08:45:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3D810E0AC;
+	Fri, 30 Jan 2026 08:47:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RmIJbcvs";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="0qP35pZz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
- [209.85.210.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80D0B10E9AE
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 08:45:54 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id
- d2e1a72fcca58-82318702afbso1738243b3a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 00:45:54 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769762754; cv=none;
- d=google.com; s=arc-20240605;
- b=X5PASoQAOtCFX5vRCQU5j4f+vPnCPG9scfkXHpUnmOUxe9mPYZy8FyYs0xnvvhB7Ll
- MGeRDzjzRFK9eYZFvs5GsiSrQ/fcVH1jARqBAOojhOAGrQem8EwSFh5wIq8RFSpvgYYC
- xE7Acxn/gknllrcUe77Jkcw/q+Egix45Pvz7dgYSwJk5OLDwNILWfOaRpRDAiHMijOse
- 75dkbIRkiwf3CKWKCTebdDx/I9EhKmdUudgLLpRhCSN47rUwKPvj6esX2WYkuApvzx5q
- VfDcM3ycejVINxyn/8UGR36c/raqgrvGmwNBmeyLPzVwMjrfqvKKLdghvpuh1NabjPUh
- yBxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:dkim-signature;
- bh=eEAW01z9JQWBTM10b2sP0NfwiccdN1/5P+EOzAVhSFs=;
- fh=hWaOdPYiLpSwjkeTyXvFX+yZHZbrIJZMMgf7eP3iujo=;
- b=KvIEoNqjnpI2CpLNixPwTWpwpJlppDWtoXVdh5DnzCfzKiHF2J1/LjXWPspWcx/93y
- x7z2jX35vcXa9KJVZwqVPnmOjsm3ejJD+Sx92FBxk7MiVoW3OK7eO3/hX1HjxySjvvP9
- 3ETMsBFwIwRge7bzTb+AtTudnE8M+Ug0qchnn00V+pbKAMJ6ZLEf+oVpfnIbUWelCcOo
- sbTGh+x0TYkITJqCzr6nfNWhE/iz2Rrd1BzKAkL2nY5ShxqTVNoQa7tAa2aEPJ57dKPk
- 8mpfNAE6McTwshB8QHopioYxRE3fiiLUuQvydFm2+j5VPzI13l1TjF+R92TlG5WiuEQx
- WvFw==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769762754; x=1770367554; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=eEAW01z9JQWBTM10b2sP0NfwiccdN1/5P+EOzAVhSFs=;
- b=RmIJbcvs20sHaa+R0OLj6E88M9hhI9QUHJ90BP2d0o38OalLPbzDkN58VuhPwacdAb
- DZ2wOGcLqapJ5dNQVv0W3DvtMjxhUbAI+pO6LHXctYpgr2LHujgUBI+gCMJqOEkWzHuq
- sbUtDe5eLYgSPO+c56nyKqeh3Hj8D6IcL1NQ/TRbiIXgCO3G5QIBS/PsNaQPzfp9dPur
- BS/bd9xWsBmMIuchTYhakvnNejN57N4ccCL2wSf9YoqOEa4KMImJkHFMRGHnVzzXSYCN
- 5tZn5+e0mr+DFeEZhlEXaSbbwZLciBKzJ0aBEG+J7Ug8vpqFzcP7RFb7t7wFKiMs9bvD
- Gn0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769762754; x=1770367554;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eEAW01z9JQWBTM10b2sP0NfwiccdN1/5P+EOzAVhSFs=;
- b=oFAkhjzqAGuAQFLsLSMUs0HO8d+I/RVmEPGdZHDgcOI2pNR7HU3ixEHH36w1I2CzNi
- ZguX7yenvXM8oD/a3c72o1Felx3dg0ythXofJgwUMsgQpQCWZU7vpDl2trhPWf3st4K8
- FgYPxx+PDgKwocVzks6/16zwb3EhZ+R6dS3t+ox9siyQiUwqGPESVUnJyQkmeAU2FgBW
- RNPTwtE9v0XmchEy5//gapr2OcvITk2yHzzZa4NRMTZF509MMgCbUD8vtAjYL+661YAv
- 6+dv3OXhnVaiPGF+Ybf0n3d6bv9aNGryvqeHG7uUqnLltCcQcEGJKpnHm2fJDXmB+VGl
- Txdw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWHmokzJV70zdo4MbkJephFJVDJVsn6aLlEguwbX+rubCVrH/bpSOG8vgtBrvM1MiTocyqtIXbCHSM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy7RYXIREgf50kX7L2MKgO9jDNkky0rNDpoeivIBQLbiVZutgtA
- 7dLmBSiD3DD5m4YLI6XNNIgh5qXojNrQe/UeiEu5cToEP4jtTZS4TFhuwvxZhai4Wr22q9SOTRf
- sTOo3shqgCEGnQun48l/wQsJ3IOZS2ho=
-X-Gm-Gg: AZuq6aJqVL8Vf6h4CQixqZSMN8/AU38vupFP7yOp/nobfCvcymIrtpET+96xYi8gm9D
- JCWh3Pk3SF3HezKt3WnwsY/MDfPq4cvZ8H2M3Whz1I9hk1FbFjE4+pFFerXSiKSKfWg9MMSlVpD
- Jg7AonAMzaL2dVv5HdTwH/LZbhAVTT4X97/oFLR569AvDieKyYSVvLIQDRBe7Kkngfg+1gDjAK+
- nOS2fehJsrUe1muYeWCXt7rogh1O7NnhHWzY3/X6N43dOfQ/OxQJk3s+Fd4pU36mFpfrodgWEWs
- aC5ylZCCPhvr0f08C9T9qolWse7+
-X-Received: by 2002:a05:6a21:a42:b0:334:a11e:6bed with SMTP id
- adf61e73a8af0-392e0053615mr2227722637.29.1769762753855; Fri, 30 Jan 2026
- 00:45:53 -0800 (PST)
+Received: from DM5PR21CU001.outbound.protection.outlook.com
+ (mail-centralusazon11011044.outbound.protection.outlook.com [52.101.62.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50A3010E0AC;
+ Fri, 30 Jan 2026 08:47:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wkPoDXoG91IkDuV7fFIR5hi23bXAW9ddrIlc2dhvuj/QnqYtQUkTmOjWSOyuC0Q1FO3OjhfbSd0RM4wdsRFIPWws5BJ94vRSuNaT+HT9mA1U4u5FMq7XRnoUQ3T+S5Zv1OJTY1ZhyB3E0wyCxc7/7vUrRKHpBFY22RN22EHEbyt/hCR16To4C31mfRxcX0IO+c40Vf8tFu0bD5KcoNGH8VaX5VriCq5zKuw2J5Rtb0K7C+kEAtGFUhlDZqOtdIJIuu0C+jDJ7jsFddtpK6AP368L+kVLE+jwAA3/L79kV0+H1gWMmxiVUw4d7Iy+U8X9osl80wwzDcXBDZqAGXfpKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nokbhVpJ3SJcV+d3H+pV8ko3IHBKE8xrspgt7fGuwhA=;
+ b=umT1rBASXzgYE6xmK7ZZLA5A2q7I57MkLx35tI+FrnSbHkjiBJbfAuvMXHZl+9/XSSvfphG+qIkHAgaT06e65I0JLAxEgPQw0g/wXecBHCBS+cBbt5FciGanZ6F747QVsT1wTHTRg0K3AvK1TKS3RLP5MTIty+cQ0OxPQfvXwYhd2sVVdm3UEDCc4jAnIR35tQWwCs72/HIMSGRMg8o2tUL4Fjbl0Glj2/dUMTvfbQNsB2Bq2Uxb0MnqBJWlUauZqY61raJAyEba1+H7eQYDFDm5HWgVdT8lhRFhncUSYrPGaX6XilZrOjt+GhxJudZwQ4AYVrZxnBvcQYgSqfyoVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nokbhVpJ3SJcV+d3H+pV8ko3IHBKE8xrspgt7fGuwhA=;
+ b=0qP35pZzzyAe+clXhjqBXhY4ymBMmLbQWMsOhyYM7FK1jLhcNp6E1PJbZLXzu5DbY/pnvi8ZnLKRT6bPfIE7J5+AtxlAH8svmJATtXEAkQeQkBcDj4K2DYLMFsq3A/gcVsWoq8NzbTMzHL1rAhdDU17rBZ/5AqEYDEQVbsm+mik=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DS7PR12MB9527.namprd12.prod.outlook.com (2603:10b6:8:251::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.8; Fri, 30 Jan
+ 2026 08:47:07 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9564.010; Fri, 30 Jan 2026
+ 08:47:07 +0000
+Message-ID: <2d9339db-4d26-4ff7-8390-5ac5c0a92401@amd.com>
+Date: Fri, 30 Jan 2026 09:46:55 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 4/8] vfio: Wait for dma-buf invalidation to complete
+To: Jason Gunthorpe <jgg@ziepe.ca>, "Tian, Kevin" <kevin.tian@intel.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Pranjal Shrivastava
+ <praan@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Alex Williamson <alex@shazbot.org>,
+ Ankit Agrawal <ankita@nvidia.com>,
+ "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>
+References: <20260124-dmabuf-revoke-v5-0-f98fca917e96@nvidia.com>
+ <20260124-dmabuf-revoke-v5-4-f98fca917e96@nvidia.com>
+ <aXfUZcSEr9N18o6w@google.com> <20260127085835.GQ13967@unreal>
+ <20260127162754.GH1641016@ziepe.ca>
+ <BN9PR11MB5276B99D4E8C6496B0C447888C9EA@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <20260129145851.GE2307128@ziepe.ca>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260129145851.GE2307128@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0170.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b7::11) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-References: <20260129233703.407404-1-xjdeng@buaa.edu.cn>
- <ie3hipmp5nqappyuwnxm2kpgscnl6qe42cwf2sep4inwunb5th@gontu4foua6q>
- <CAK+ZN9oaUh5PPBx5QPCya=hqDM42CQptD2-MrJvMZsypNuZ66A@mail.gmail.com>
- <4rfalipp5xyejwappzi5gny4muetuzrr2q3sunctfmsvb4juwf@64kdxjrakr5q>
-In-Reply-To: <4rfalipp5xyejwappzi5gny4muetuzrr2q3sunctfmsvb4juwf@64kdxjrakr5q>
-From: Xingjing Deng <micro6947@gmail.com>
-Date: Fri, 30 Jan 2026 16:45:43 +0800
-X-Gm-Features: AZwV_QiaVUxZYp2r3LsMEsEBTrYjWrRMw1lgAjNb8iVpASaAPEQ6nzSN-ssydZk
-Message-ID: <CAK+ZN9pDpvf+29quNptrMKoti_E5m36XHZJP125ctZmBk2w3sw@mail.gmail.com>
-Subject: Re: [PATCH v7] misc: fastrpc: check qcom_scm_assign_mem() return in
- rpmsg_probe
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de, 
- gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Xingjing Deng <xjdeng@buaa.edu.cn>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS7PR12MB9527:EE_
+X-MS-Office365-Filtering-Correlation-Id: 78cba416-cbaa-4960-1466-08de5fdc25ee
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OS9kalhBMWQ4ZlpvdzIzZjViR1Z4T3VKMDI5NUx1bkhoQkE0MTNFYnVvTVFr?=
+ =?utf-8?B?Wlp2bXE0UHNzQktSaHlzTkZTUHBJVnZ5RlhHUEVETUY3VituZ1ZES2duN0FT?=
+ =?utf-8?B?L1dTUEhWWGxNNGVBQS9qZ3Z6dUxNdlhMZEdpRVB2dzBhRVVqMDRLa1o0dUxH?=
+ =?utf-8?B?cmNQRHIrTXIrdk53QUZhR3U3MENtZEdDWkhwbnM2bU1xc0J4VlUyMmFRTkFt?=
+ =?utf-8?B?cC9KaDVsRGRHY25qQmxNUGJGQ3hGdm4xNlg2cmI0WEtNbUJyZUg3em9NOG9E?=
+ =?utf-8?B?REJSYW9uNXAvQitLLytjZ0JDUWF2dXBwUVllWW9UYkdvT0VJR3NkOXJjQVlo?=
+ =?utf-8?B?NzI5VlRhWFJkemdzWFl3K1pMZzRGTlhyeU9MRWl4RkNBdjFpd3k0RFhIWEc0?=
+ =?utf-8?B?ZFUwQ2RNdmRTUkdPNWtnMlFZTXV5dHFpTVJBeHVoNlpXTFRlc0g5cGJ6UFln?=
+ =?utf-8?B?cG5aSzI0SE5zVTVESGJmU1hBTEIvbnVkVW9YVEVtQ210ZW9GVXh5WStDVWdD?=
+ =?utf-8?B?eldHa2liVHUvMEZZWWJJYU5UU1l2ZWFxK2VFbFBISzJwaC83WTRoQkQvYUFH?=
+ =?utf-8?B?SFVuV2RQMkhIZUFzeURabVJ4WjJEYm1NaFZSVGJQb1kvaDFFZW9VckVEN092?=
+ =?utf-8?B?dGJGRVMvR0dzZjlwMXExeG9sbXB3Mnd1SHpoTUlzSDV4YnNrSnM5dEZjeUZV?=
+ =?utf-8?B?eXhDTUpINzhyQU5CVFRiZUFvMnp3ZkphNlVJdDhsTUFaNENrS0NLRy82aGdi?=
+ =?utf-8?B?dUpMZk5teVozYWdmRWExSnU1bWRSSE84WGNIUVpIaG5udHdETmRwSVFKUmRL?=
+ =?utf-8?B?UVBERGtVRkIrWG85Y3RvZWYrMHcySU4vaGIweXBoVGY4VUFQcnJnNW8yYUZ0?=
+ =?utf-8?B?b3NQZlFweVMzSnVDUW9iTWVIbENhQlFOVDR5eVRzTHlQK1JKVTMxd0JqaWor?=
+ =?utf-8?B?bnhOZGcwckNFbDlzTEZ3NTErR3ZmamROU0N4RG8ySUxsa01rZ2UxTnI1eFBq?=
+ =?utf-8?B?TGo1Z1dkY2pGcUFQaWVOM1VHSFNEbnJVb285S0h5c0lMdFBPRE91SjFKalA2?=
+ =?utf-8?B?elNad1o3Z0VzZUN5UkV5VEwyU1RPM05oSUFRTjlzVi9MMUdFMHArZCtlaTNm?=
+ =?utf-8?B?T3RIeXNRZTNra2hvUjlrV0U3Nkt2bmhWOGtCM0plWXZRMXVrNzJwYVhQcU5u?=
+ =?utf-8?B?bWhDU1VSNHo5NWVpL0V2bjhaWVh1OWg0WFhxN1JtejBLTEFxQ0VUSHFscnlq?=
+ =?utf-8?B?dFNnYWNDMzhWaVNCdlFIR29CZmg2YS9kRkJOc3ZQeU5RNlg5eXBiZEd2b2hC?=
+ =?utf-8?B?c1I2YUxBVU9RckJDTW13M0RWOXZZZFdSdWNsaXV2bnJkZEx5SGt2QkRNYnV2?=
+ =?utf-8?B?bkRiU3hRelhWaXRnMjdvUXMwdEdrampXODdQQ2JJaFFUV1V5ekx4UmdKcnRp?=
+ =?utf-8?B?TWFHNllabWdzek5yalVHMFVWY1NONWw1NzgzSE9CWWsxT1VPVXR3S2dHa3NR?=
+ =?utf-8?B?QWNSRjRHZVg3RXNDMnV6a1JtNlEraDdTRDVXakNEMjcrajVvSzB6NlM3Z2hy?=
+ =?utf-8?B?UUtIMGV2Ym5wRXNGcWhxRnpPMDJSTFVqK0RJQVRrNjVaUm1ENkl3amtDaldO?=
+ =?utf-8?B?Y3l4SXZrVE10ODZxaGF3elhYNWk5a1I3ZlFWMGtHeGVVYWFHM1FTSXFlak5y?=
+ =?utf-8?B?ZUlBMUt3U21jTmJhbEdVdFZaT0RhcjJZT3VVRzNVYmJRWW9BYW5EUmJ4ZUpY?=
+ =?utf-8?B?Qlg1QmFwcXlhajBqZzBYOEQrZmN1R29pTmVZU01yT0Y3cGpXaDMwQlp2SUVs?=
+ =?utf-8?B?OG5FS0xEU25pL21hU1p3ampHQUF1Rm9SOXB6cVlCSk0vZHpreks1QjZsQ0RN?=
+ =?utf-8?B?WFhqZitvYXBGNy9wTTFPNlc5bVYvU1BCNFoyUmF3NVJyRmdzaW9ZVXZPUTJa?=
+ =?utf-8?B?SWxTRWgrVmsxd2V6VDFVa3RqN2k2MHhrVnV6eXBwTkRBaW9PbHovTDBMeWhs?=
+ =?utf-8?B?WURDZUdTY3k0MmljMXlzWHI5amtOWlNLQ2F2WFhrUGl4Z01ndzBBNjZqL2pR?=
+ =?utf-8?B?SnJtN2c2RkRYOVFZRjBYd0o1SWNzK3NGUk9Pd3hlYUxvQWVGOEVKcWI2SWcz?=
+ =?utf-8?Q?K2o4=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SG90QVdlamFnaTdoZTRIcXRxbW9kRklKWTJ4eEFsdEZKNVhOcVd3MVFjQVZE?=
+ =?utf-8?B?OHZkUmFQOW95S2JpWDRMbTFjVXl3TkJUT0xoVDEzOUdNbDNVMUlPK3c1NTNV?=
+ =?utf-8?B?dUZrdEN2NTYvMXRLQ1A1SFM4OG8xWVE0c3VTMlQxVVdWMHNuWSt1a3V2d0Vl?=
+ =?utf-8?B?QzZSQ1dGM1J1alpNZjhFWllJdFNxRWxVNWhBbVRldXhiS0FJZ2hkZU9Dc0U1?=
+ =?utf-8?B?MWpIT3o5Y25CcVFlb0JML3R4ZlQzdGxzREo3VkJqUThFRlloaWlaZTY0MGRE?=
+ =?utf-8?B?WUt5OGJPN3YwMkFzbUplNEY4RmRia2hzRUpZUGp3MVA1VG85UDVMNGhCVWJH?=
+ =?utf-8?B?dmZCRUM3aTUwZVdZL2I1Nk5zVDl4MDJXN21VMFJubjVZZlgrR0xRUVVNQWtO?=
+ =?utf-8?B?NGZWNjhOM01QMmN5SGxsV0pHaTNPQ3NxWFQxbVRJLzN6WWxVc0N3d3IyY0lo?=
+ =?utf-8?B?R0ZMb0JjMDlSa0s1dm13V2k5cXZrMFhSVi9LN1RWL0o0NlE0djdWSFdEQzE2?=
+ =?utf-8?B?c0xHdFR1VnpHczFjeGJ1U0RjSjExamFuYWZmTmdyQU95dW1MZkVZV3Fvc1or?=
+ =?utf-8?B?S01ZMTBDTWFWYzZUbWcvVmErUmN2UUNlRGFJbHhuK21HNHZDU3Fpek54S2Iy?=
+ =?utf-8?B?cUVsUFl4bW5sRjBaMm5QM24zZGtIY2xLaDJGT2FUeXgxVGFudGtmNnpmRUJX?=
+ =?utf-8?B?Y2d1S1RYYkNkTHlnaXc4NXBXbXhwbXdaaXNpazArbG9SamRGdEpsR3JydTNC?=
+ =?utf-8?B?a3VUNTRJeHdEVnhURytVajgrazZ6b3NnVWdTYU1uL3QxZmJjQkxWZzVUTVZS?=
+ =?utf-8?B?bjhHbHMrd3hVTFl3aXVyNjJrQzBOOWxFMHlLQjJPNUVTU1UrZUJCSDB1VEV4?=
+ =?utf-8?B?N0F4Y2szOWJZamQxQXRRTEVjVmt0QVA0bXNkYi9aODg1ZjlYNDkrbXZVYisy?=
+ =?utf-8?B?RHFWMnZDcWNzNCt6WGhlMHRVbmphaFNwa09PTWovMEZYR1BEcXp4eTZvVGF0?=
+ =?utf-8?B?bHhvVmlQb1c3OGgzd2g2NythM3R5Y2diOWRXVzJ4NGVHOW9yNUZkQ1k3RUhE?=
+ =?utf-8?B?RXlSS3lVVGNnRy9takx1RWFGU0I1aFV0R2gyTW5Jb2VoaXNPbkxKTEJoRVpH?=
+ =?utf-8?B?VlhXSUJYaVYzWm1aZGdqNW03N1FpdFc1K0RuT0M2ZFhiZ3FoN2t5c0RKWUQ2?=
+ =?utf-8?B?Y1JvVkIvL1NwYUdLZE9YcUpVZWZjVGhCN3FjakNMdkRjSjI3dFVydU0rdTJh?=
+ =?utf-8?B?aVE0Qk1na2hLSkNheFliSmhQMTlPZzVWcG1vRjVaTnZnWDgwTiszaFQrdGZZ?=
+ =?utf-8?B?S1lkbzJDZExvOTAyUmoxampSV2kvZTB6WTdaTDFoVldqSGd0TUJQb2JOQVNL?=
+ =?utf-8?B?U0pvNm5uZ2JRS1RCTDNsTzRlelRCSHl1a3p4WDArcWFKaldXU2g5OGZkQjFl?=
+ =?utf-8?B?Zk9DbFFOWUM4OC9uTU1ESjY4bEYySHBNVHNsUzRxV1pxMXc1OGlrUFgwM1Z4?=
+ =?utf-8?B?TFA2RlFpWU1Zd1EvUStGY2dEVnFVSmYxaTczOXlxRjl6enZaMnlEQlZXYVps?=
+ =?utf-8?B?bVJBcjRnZytOY05xSzVXNXlPZmdIWmNFVEgyQjh4K05jT2V2NkdCc1Rhd2Vr?=
+ =?utf-8?B?WWxEVzZWMmxPU200c1ZQOGoyUDBkQStKRDlKT0paU1VCZnJEcFFFNnM3VHNQ?=
+ =?utf-8?B?S1B0Q0tqU1FOQktseEp4V1VvSkVvQXlNN21ZUjlQOWxGbDFnVkF3ZGw3SGNT?=
+ =?utf-8?B?WkFpNEFMZnBrTmdrcCtTY2VuT0paU3NyMGtMNEd6b0MydklrQksvcGR0eDRP?=
+ =?utf-8?B?T1VlSzdXTi9DaFhuc2E5ckRqaTJiWEEvbjNsT3hXaFhEMDVXdk5Ia3NGWUF2?=
+ =?utf-8?B?OEpnRjVxT2FBa1Jqcy9Dd3A5c3JBSTk1MFYxSEhXeklqRnRrSDYwRjM5Nm5t?=
+ =?utf-8?B?czJXZ2pJV2tmV3BzT0dtOEFpR2lTSHo3cnEwQmNIMjAzY3MxRGpTQUEzN3Fj?=
+ =?utf-8?B?b0hzZ0VFZFdZYXlyRWtQaGVTMFU1YXhSWnR4WWczNDgvRjhYVHJqSldYMzU5?=
+ =?utf-8?B?dWNDdnZYdEQ5NUNvaHhTQ2RWRzVUVkFCS0oxQ0FzNVd2cTgyVkIzNFFYZnBK?=
+ =?utf-8?B?K2pTOS9oU2dZTUh1Sy93TFY3bXNscUNjdnArdEczb1lSeE5VZWlBSklzd2Y5?=
+ =?utf-8?B?bzNoTHNyODlKMTh4UzBCWk4wSXVpdDZSWnlqZzZlcWV6WjZpTkdSOVZzU2xq?=
+ =?utf-8?B?UEhOVzJpYys0amM0YndGTklpQ0p6QkZLenNxaUtJVWlCaFBFN2t2ZUNxcVMv?=
+ =?utf-8?Q?nrCV/cMPVaz/o6yS3t?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78cba416-cbaa-4960-1466-08de5fdc25ee
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 08:47:06.9340 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: X51ms7P2mSqWn1tw5OGYbMkncbjH/t3FiqqLm3DJZV+uZ6ZJJ+x+xj9OeKh295ZD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB9527
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,152 +198,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: micro6947@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:srini@kernel.org,m:amahesh@qti.qualcomm.com,m:arnd@arndb.de,m:gregkh@linuxfoundation.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:xjdeng@buaa.edu.cn,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[35];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_REPLYTO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[micro6947@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FREEMAIL_CC(0.00)[kernel.org,google.com,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	HAS_REPLYTO(0.00)[micro6947@gmail.com];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[amd.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[micro6947@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:email]
-X-Rspamd-Queue-Id: 20DFAB8992
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:mid,amd.com:dkim]
+X-Rspamd-Queue-Id: 1C3B3B89EE
 X-Rspamd-Action: no action
 
-Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2026=E5=B9=B4=
-1=E6=9C=8830=E6=97=A5=E5=91=A8=E4=BA=94 12:33=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Fri, Jan 30, 2026 at 11:07:38AM +0800, Xingjing Deng wrote:
-> > Yes, I found that.
-> > I will release patch v8.
->
-> You have been notified once already. Please stop top-posting (aka
-> responding at the top of the message).
->
+On 1/29/26 15:58, Jason Gunthorpe wrote:
+> On Thu, Jan 29, 2026 at 07:06:37AM +0000, Tian, Kevin wrote:
+>> Bear me if it's an ignorant question.
+>>
+>> The commit msg of patch6 says that VFIO doesn't tolerate unbounded
+>> wait, which is the reason behind the 2nd timeout wait here.
+> 
+> As far as I understand dmabuf design a fence wait should complete
+> eventually under kernel control, because these sleeps are
+> sprinkled all around the kernel today.
 
-Sorry about that, I just replied the email directly.
+Well it's a bit different, but we indeed guarantee that dma_fences complete in finite time.
 
-> > Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2026=E5=
-=B9=B41=E6=9C=8830=E6=97=A5=E5=91=A8=E4=BA=94 10:38=E5=86=99=E9=81=93=EF=BC=
-=9A
-> > >
-> > > On Fri, Jan 30, 2026 at 07:37:03AM +0800, Xingjing Deng wrote:
-> > > > In the SDSP probe path, qcom_scm_assign_mem() is used to assign the
-> > > > reserved memory to the configured VMIDs, but its return value was n=
-ot checked.
-> > > >
-> > > > Fail the probe if the SCM call fails to avoid continuing with an
-> > > > unexpected/incorrect memory permission configuration.
-> > > >
-> > > > This issue was found by an in-house analysis workflow that extracts=
- AST-based
-> > > > information and runs static checks, with LLM assistance for triage,=
- and was
-> > > > confirmed by manual code review.
-> > > > No hardware testing was performed.
-> > > >
-> > > > Fixes: c3c0363bc72d4 ("misc: fastrpc: support complete DMA pool acc=
-ess to the DSP")
-> > > > Cc: stable@vger.kernel.org # 6.11-rc1
-> > > > Signed-off-by: Xingjing Deng <xjdeng@buaa.edu.cn>
-> > > > ---
-> > > > v7:
-> > > > - Add the detail description of how the tool detect.
-> > > > - Link to v6: https://lore.kernel.org/linux-arm-msm/20260128033454.=
-2614886-1-xjdeng@buaa.edu.cn/
-> > > >
-> > > > v6:
-> > > > - Add description of the detection tool.
-> > > > - Link to v5: https://lore.kernel.org/linux-arm-msm/20260117140351.=
-875511-1-xjdeng@buaa.edu.cn/T/#u
-> > > >
-> > > > v5:
-> > > > - Squash the functional change and indentation fix into a single pa=
-tch.
-> > > > - Link to v4: https://lore.kernel.org/linux-arm-msm/2026011637-stat=
-ute-showy-2c3f@gregkh/T/#t
-> > > >
-> > > > v4:
-> > > > - Format the indentation
-> > > > - Link to v3: https://lore.kernel.org/linux-arm-msm/20260113084352.=
-72itrloj5w7qb5o3@hu-mojha-hyd.qualcomm.com/T/#t
-> > > >
-> > > > v3:
-> > > > - Add missing linux-kernel@vger.kernel.org to cc list.
-> > > > - Standarlize changelog placement/format.
-> > > > - Link to v2: https://lore.kernel.org/linux-arm-msm/20260113063618.=
-e2ke47gy3hnfi67e@hu-mojha-hyd.qualcomm.com/T/#t
-> > > >
-> > > > v2:
-> > > > - Add Fixes: and Cc: stable tags.
-> > > > - Link to v1: https://lore.kernel.org/linux-arm-msm/20260113022550.=
-4029635-1-xjdeng@buaa.edu.cn/T/#u
-> > > > ---
-> > > >  drivers/misc/fastrpc.c | 5 ++++-
-> > > >  1 file changed, 4 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> > > > index ee652ef01534..8bac2216cb20 100644
-> > > > --- a/drivers/misc/fastrpc.c
-> > > > +++ b/drivers/misc/fastrpc.c
-> > > > @@ -2337,8 +2337,11 @@ static int fastrpc_rpmsg_probe(struct rpmsg_=
-device *rpdev)
-> > > >               if (!err) {
-> > > >                       src_perms =3D BIT(QCOM_SCM_VMID_HLOS);
-> > > >
-> > > > -                     qcom_scm_assign_mem(res.start, resource_size(=
-&res), &src_perms,
-> > > > +                     err =3D qcom_scm_assign_mem(res.start, resour=
-ce_size(&res), &src_perms,
-> > > >                                   data->vmperms, data->vmcount);
-> > > > +                     if (err) {
-> > > > +                             goto err_free_data;
-> > > > +                     }
-> > >
-> > > I think, checkpatch should warn here about unnecessary braces.
-> > >
-> > > >               }
-> > > >
-> > > >       }
-> > > > --
-> > > > 2.25.1
-> > > >
-> > >
-> > > --
-> > > With best wishes
-> > > Dmitry
->
-> --
-> With best wishes
-> Dmitry
+> I suspect that is not actually true for every HW, probably something
+> like "shader programs can run forever technically".
+
+Nope, stuff like that is strictly forbidden.
+
+Regards,
+Christian.
+
+> 
+> We can argue if those cases should not report revocable either, but at
+> least this will work "correctly" even if it takes a huge amount of
+> time.
+> 
+> I wouldn't mind seeing a shorter timeout and print on the fence too
+> just in case.
+> 
+> Jason
+
