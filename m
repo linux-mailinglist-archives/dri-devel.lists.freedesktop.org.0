@@ -2,196 +2,197 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8MS6EnUGfGnBKAIAu9opvQ
+	id YBs3B10NfGkEKQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 02:16:37 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 02:46:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1663B61B4
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 02:16:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38549B63EE
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 02:46:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D480510E331;
-	Fri, 30 Jan 2026 01:16:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5555A10E0BA;
+	Fri, 30 Jan 2026 01:46:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="ml42NyGf";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="RfXlfAQs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from LO2P265CU024.outbound.protection.outlook.com
- (mail-uksouthazon11021072.outbound.protection.outlook.com [52.101.95.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A350910E270;
- Fri, 30 Jan 2026 01:16:30 +0000 (UTC)
+Received: from BL0PR03CU003.outbound.protection.outlook.com
+ (mail-eastusazon11012010.outbound.protection.outlook.com [52.101.53.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6934E10E0BA;
+ Fri, 30 Jan 2026 01:45:59 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nP7WWS28p4WtF9/szG7RIX3hK5DFeQ93ZaRXaIKxw/BZA1VZOPuEAV5R40FnGNr8ZYPpjOWqeItmZ8qQQ7I3hVb7ARrxTTViRh/Q5CQrkF/NWsQzADhjZgAUKB28lxtnk+LM/wY5DbxwdqAEytOmPfez2+ryNmhC2pMR4JKqt+4PeIxjM4XMkec9+8Mz9rdSN3m3h81C9nIMzSZ3nIJyPlJ0IyEK1xH3conxj328WVc5MFXXZXnAyNFEvBfTTKZqgHU4yb2Y+6LU2eRuZ1UAI/ZD+b5zHYEbaUKRuvWA7NkkD3Z2NfKDNa6XK+WoUF/dInfLLUICpcs79JaCVdN32w==
+ b=hkrcecpAKRN/pcJfkJir/NOnsC25oVQvjHIel5dc/XND+OphAq8M15U3AbhmMkaLEvzjRUIxEo7JnlS1jqy0/0HEH7fyP0M1p2wWqOVIKwrX6BbW5N3v4GuLFq1YaWfcpLCSvc31eZrhsZU/3parlFR5ztaCdaFyzVocdZrTZjWmOstrBstgTPGE/HjsolDtowpu1QPBSm8Dr6pVDmqtVCRMJqJDXb4gfyVJfrnWAufrZdtQIgDJj5Wh38tDVcy6fu5VG7Y99+GDddPF3ToRNL9MS+Jl775Hmus1W8XmlLMJlZWOXZqW55kHpkedRnTC/3rGlYjf06Qde+c2NCbOEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Eb5T1e+WC+h/T3w62dnzLnirX9OdDJiXHInDcxku7N4=;
- b=hr2psHUH9xA4/bayhkUYSkAbbL9del7AL9NvS6Ar5v6nqLd2QaMbq/oeu4sAExCRr9fuXmAr37y77GtD0SHTBuK6tNkfjyGFiC7s14QuoM+ZTHTn16xdRzcuuSb9KMU84xBXuTm6Kia3R6ovK5rEtnxFnSl09YhkdLih67+CoCVArikFYve38XTj4Efg0UpVmfaBMSnJqzv7779p2fmVPPxUrWKxtds63c3lnpEBOsZeHcBGOoRxloJWfXFOj/1Un8hG22InMYWgtV1mEV8QaCfVcJQOJej1bqK9shBXBH1lH77sk90NxgJutWku86eGKXt13PLh3J9tLET1CVqtjg==
+ bh=9BMBc88TCoTVBqA9JyV/AA99hZkHF9Xxsdkz1NYrl6E=;
+ b=UyfgT1Wr8Uxx65mqJkgikc239b0cbYbDzXjHkl01Q1UceYsa3hKP5Cs9flNWzcRxea9MP606iii89oc9mRTe8oqIu+ISpzZNYzzzpIbCT4qqT9ewpwzbxVXVJak7V+/LXoFfur6pMuNTxLx8J24qWueDo4m3TSQmS0CW/fLdo8k8IwMkHHkPC6xZqcQzCtPsWXM4qooE9Q7E5iU48C6DoCJ2XiAQ6d1sHer+sbjTUzoIj83QUn8hRkmS9BaWfqDD5p2clexdqJJKWGONyB2/XdZyE+XsqlE9m5Kju2piOWMUINvjbH3JAms8hOlkfLrDA/qpfq7jEO+rDpMwCsnhzQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Eb5T1e+WC+h/T3w62dnzLnirX9OdDJiXHInDcxku7N4=;
- b=ml42NyGf8sAVmdlQBIssTPw2b4pW4ezOzH1MhFXJRCQntSPimmpaqbxp/8V1kL8DCuQEEXNOWHWTb6rex81a2atCS7H9AJFzeRMka6HCPJi9xL2ldu6mXw74/UqNu2RwIe6j9lmhpnanVmutkNK1O429wA8LorcoCrVFfL1m/bk=
+ bh=9BMBc88TCoTVBqA9JyV/AA99hZkHF9Xxsdkz1NYrl6E=;
+ b=RfXlfAQs4kOusskdiKcS0OGdaspEgQIVsahNQCuouwq43vI1YlNFjWbfpqaO5Qei2SMirA8EmUDw3smgIWPabMAiMGmJHNthMPotQSOO8Kcwncv74UMqigokDbt3IIBUOoNZ2obk4RT+MXS3fbmTNvyhSURfk9LEQ+vmSGRIoU42ctQxZZ0paVUd8gwhnFanxk9CUwHmS4dOTgkjo/aGqxOXqrd6dynuocTrbFzHxcjnEqEnTKWe+0uEakr8NQV5oA/9riHzb0WaXAj+S5c+a4nmhLNTZmBeha0USnx0dsosb17X09V7McvsA78z9nJxLr6yqlb3Qc/I8/T2QUgMpw==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO7P265MB7463.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:41b::5) with
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ BY5PR12MB4307.namprd12.prod.outlook.com (2603:10b6:a03:20c::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.11; Fri, 30 Jan
- 2026 01:16:27 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9564.010; Fri, 30 Jan 2026
- 01:16:27 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 30 Jan 2026 01:16:26 +0000
-Message-Id: <DG1IZ8T0FFM2.2WTUZ3AESF9RD@garyguo.net>
-Cc: "Zhi Wang" <zhiw@nvidia.com>, <linux-kernel@vger.kernel.org>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan
- Corbet" <corbet@lwn.net>, "Alex Deucher" <alexander.deucher@amd.com>,
- "Christian Koenig" <christian.koenig@amd.com>, "Jani Nikula"
- <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
- <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
- "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang Rui" <ray.huang@amd.com>,
- "Matthew Auld" <matthew.auld@intel.com>, "Matthew Brost"
- <matthew.brost@intel.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
- "Thomas Hellstrom" <thomas.hellstrom@linux.intel.com>, "Helge Deller"
- <deller@gmx.de>, "Alice Ryhl" <aliceryhl@google.com>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>, "Bjorn Roy Baron"
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Edwin Peer"
- <epeer@nvidia.com>, "Alexandre Courbot" <acourbot@nvidia.com>, "Andrea
- Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Alexey
- Ivanov" <alexeyi@nvidia.com>, "Balbir Singh" <balbirs@nvidia.com>, "Philipp
- Stanner" <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>,
- "Daniel Almeida" <daniel.almeida@collabora.com>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>
+ 2026 01:45:53 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9564.007; Fri, 30 Jan 2026
+ 01:45:53 +0000
+Date: Thu, 29 Jan 2026 20:45:51 -0500
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: Gary Guo <gary@garyguo.net>
+Cc: Danilo Krummrich <dakr@kernel.org>, Zhi Wang <zhiw@nvidia.com>,
+ linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Vivi Rodrigo <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rui Huang <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+ Helge Deller <deller@gmx.de>, Alice Ryhl <aliceryhl@google.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>,
+ Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, John Hubbard <jhubbard@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Edwin Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
+ Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
+ Alexey Ivanov <alexeyi@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
+ Philipp Stanner <phasta@kernel.org>,
+ Elle Rhumsaa <elle@weathered-steel.dev>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ Gary Guo <gary@garyguo.net>
 Subject: Re: [PATCH RFC v6 05/26] nova-core: mm: Add support to use PRAMIN
  windows to write to VRAM
-From: "Gary Guo" <gary@garyguo.net>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>, "Danilo Krummrich"
- <dakr@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260120204303.3229303-1-joelagnelf@nvidia.com>
- <20260120204303.3229303-6-joelagnelf@nvidia.com>
- <20260121100745.2b5a58e5.zhiw@nvidia.com>
- <e186973c-ce31-405a-8bfa-dc647737a666@nvidia.com>
- <DS0PR12MB6486717785F6DD14EE1F1C46A397A@DS0PR12MB6486.namprd12.prod.outlook.com>
- <DG07HZN0PL87.X5MKDCVVYIRE@kernel.org>
- <20e04a3e-8d7d-47bc-9299-deadf8b9e992@nvidia.com>
-In-Reply-To: <20e04a3e-8d7d-47bc-9299-deadf8b9e992@nvidia.com>
-X-ClientProxiedBy: LO4P123CA0043.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:152::12) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+Message-ID: <1769737351.3442.2180@nvidia.com>
+References: <DG1IZ8T0FFM2.2WTUZ3AESF9RD@garyguo.net>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <DG1IZ8T0FFM2.2WTUZ3AESF9RD@garyguo.net>
+X-ClientProxiedBy: MN2PR17CA0019.namprd17.prod.outlook.com
+ (2603:10b6:208:15e::32) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO7P265MB7463:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8cd3f3df-d13f-4742-8881-08de5f9d3156
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|BY5PR12MB4307:EE_
+X-MS-Office365-Filtering-Correlation-Id: 07792530-52ed-4ed1-3799-08de5fa14d6c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bFIxSmpwd1ZBeDhUWGlqWU9vcTNUaGZvL3FtaVBhdTBoV3BmckFpM0d6VnB0?=
- =?utf-8?B?S05KclJCSmY0K1oxd2tDR3hjSlFnMFRXbk5qdXZoVkFuMVQ1RWt6aC9wc0tU?=
- =?utf-8?B?bDhFNG1OcTFoUkZhajFSL01Pcjk3Z2E5VlBxWmMxeUMrT2Fqa2FwdjV5WUJk?=
- =?utf-8?B?b0JkU3RDRjZtRnU0MXZnZ3hhbXlWejM2aUdCeHFGbGpFbjQ3enYwd1JPZGd2?=
- =?utf-8?B?ZnI2cFNsN1Nxam5qa0hCMnVrZmsvSUtybzJ1c2JtT0N1TFNUWE1kQjNKd0xG?=
- =?utf-8?B?NmoyMk00M0l1UGxpVUFOMTNPZ29tTEE0V1QyMWlQKzFhdzJtSDI0d21ZS1BP?=
- =?utf-8?B?YzBsak4waVdTeWZDa0ZaSVNpVlVQUkwrTDB6WlJkQmUvbkwrTjk5MW5DcWFW?=
- =?utf-8?B?QmRNWUFuNlJYVUE4M0lOaFYyKzNQQ0RuMnVTUUtONDRiMEczRXlGV2tkeWxM?=
- =?utf-8?B?S0ZRSFJENTNyRk42OC9vS0RyRWNjSnhtWUx2alYrL3lOYlZUMTF0VWYxTmtK?=
- =?utf-8?B?dXRCTHpaYmg3UnNqMktKTTZYMFRPVXlSTFZ6R1pqSVJwMlk3SWVzNi9VWnRp?=
- =?utf-8?B?Y3orUFJDK3AvK3BXanpCQ0tuNU5Eend5enlIeU9Mb3JwaWZ6ZHJCZm5SQlhZ?=
- =?utf-8?B?NEtFbG15N21NZlM1dFJBeVArNEdna08yNWxPNGhxRDhhSHVsZDFySTU5Y2U5?=
- =?utf-8?B?WUlRc1d5R2FENE16WmQzRGtPNE5nc21KNXFFZFZqZXp4cFNFV2s1a1MvTnFZ?=
- =?utf-8?B?OTBJWkNucmkyZW9yTHlNWG5pRkNsQXNvZWVRRUNhK3ZHVTZlcSs0NHB2MENw?=
- =?utf-8?B?NVlYTWlhTExIQTE1cDZLVW41MTdONXVRMUIyNUwyajhiUHdnc2RUc1RzNjI0?=
- =?utf-8?B?YnRadmZYRnJrOGxwYWNuOUNxc0hpUHlML2xvTjUvZ09yd0FOM2xwK2wreXcw?=
- =?utf-8?B?WVVHaHBQL3dWdWlVY2o3MVk0SEJDWGgyY1YySHVGbnM4YWkvb293OWVjQjg4?=
- =?utf-8?B?VUU4V0E5ZGk4a0wvSk5USnRTMkdNb3duMDc0LzBhY0lGS1I4R3lBUTdiTjFY?=
- =?utf-8?B?VDRIa2VjYlhvL1o0U0c4UGFQb0xWeXRqVWZQMjB0VG1LbTB0RjdrOEtodnFr?=
- =?utf-8?B?YzZockxHZmRKVnBMRVlzR3h5OGtId0FieEg2S2cvNHZ6QlB3K1BlWFVzSEdv?=
- =?utf-8?B?ZXRSdHY2eUF2bVR3Q3M5WDMzNEJ2MDlWdDhlSmVnVXhoTmZ1ai9QMVJMbGhi?=
- =?utf-8?B?MW9qRmNKYVI3T3VYeHpJd3ZReCtjUzZpUjA1cjBLLzQyVTRsQTdmSnZWQWt6?=
- =?utf-8?B?Wk9yQzRmRjZlZk5yK1I0WmxUMkFSVHNzcU1NYkZ3YzlXOFYxVEtQWUhwdzNz?=
- =?utf-8?B?WXlZc0dUTExDdFozalU2M3JYTmVhSjBjZWJ0SmtJejFRWnFjZ25VS2pQbGRw?=
- =?utf-8?B?NWF6NHZsVmN6UGRCK1VIWTl6RlRCakxTd3l2QVJMM2R5M2Q3dWtTYnVmc2hR?=
- =?utf-8?B?aVBCS3NMb3orekRyN3c3cnVJTlBUZXZHVWFLcWk5alRiTVhuUmd1aEZqRmRC?=
- =?utf-8?B?WWwrblVyNlpyUFNEUDlBdlBKZXJCbXlyTlBnNG52MzhhMjlWTDVnR2dsSlpK?=
- =?utf-8?B?RjdrSkJ4NVA4aVZ4ZlJEand6dk5qZWRBazN3UnhJVGxvK1dXOGFteU9ZcFZh?=
- =?utf-8?B?UTYxV2V5ZGxXNzRCandrRXlqbDFNT1hVMkt0TEI4QUlwamZPZVQ2UE9zQ1Zh?=
- =?utf-8?B?ZTdpbDFvMERuMHp1T0VPT3RqZllXQmNxcWJHd0JjV0ZtQ1NUZkFnQUNmYkF4?=
- =?utf-8?B?aHg2MGJVd2xSYm0zK05QaStLcjFVKzNVMHBaWmtLSlB4cmsvY3Rla3E4OGdT?=
- =?utf-8?B?dGdWeDlrWFJ5TVlvODJvQjkyVUlSQXZBdEtHbVpoVEhiR1JWR2hpc0dvWWg5?=
- =?utf-8?B?RmdmNTI5RTliTWpSWWM0QnhWUjZsUzM0L1VCb29DK2FRTFVkSWRQcUhSeWUy?=
- =?utf-8?B?ZlBPRnZuQUs5OFUzc3o2QjYxd0YxcjJsVmM3SHgvU3RhUUxPSk9GcWJHUGgr?=
- =?utf-8?B?VFhZanRlRjZaREI2Q2pKMmNLcnRCOW5zb2kzbnV0OExDa3NDV0YrQlVFOUhr?=
- =?utf-8?Q?zUIE=3D?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|1800799024|366016|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RERuc3c0STJMdTYrcnFoZ1MyMUgvUWRaaFNISjgyY1pwcisvS0pmb1E0NEY4?=
+ =?utf-8?B?WGV6VlhPSTN2Q2xpR2laUkxrY3BDTWxDRXZyMU1XalpxeElTcTIrZkNpTGZV?=
+ =?utf-8?B?dUtDR0FSMUd2aFk2WWowdUoxL2FDWncwWmRIdW5rOXZGUERFdTVCa1FNei81?=
+ =?utf-8?B?Ui96eUFidDZFeGxuRzlWWWhEWFBsUHppbi9tR2pRSndveWFQMUhFQlNuSjVM?=
+ =?utf-8?B?dHBEOGY4Z0c2eXNZcE5kVWdJNll3TnZTSmtyZm1LVXNXRmZBVWVVRVAzNjhy?=
+ =?utf-8?B?UzYzbCt5UGJCRnlQdTl1RG1kRlRyelhOZVJSQjdtM0FPTldGU3pJZTBXeDNL?=
+ =?utf-8?B?UmdSdWdJVVo0ci9Vbzk0QWd6a0VCQmVmVW9QVExDUEJpdjJzai9pZk1OTUVt?=
+ =?utf-8?B?ejZGL3pmU01FNEhBZVR5UGwxVHkwU3lRTjBRNkYwSE14UWlXcjBGRU9wY1d5?=
+ =?utf-8?B?OUo5aTdEWnNFRDd2cHJrQnJqN0pnK28rQ2RsWWlXbndWOGRiVVp3NjYyNzBT?=
+ =?utf-8?B?MEpmRUFrbWtJeGF2bXV1SEN2N0twellDbndtMVVpSUNpWjhkdWxXSldTZnBW?=
+ =?utf-8?B?cTByMFBOT0ZOeVA3ei9BSUVtSUxuMnNYaVYyL0RHZlF0bHE5S09wRGx6R0U1?=
+ =?utf-8?B?cjRNNytYQ2hBd0plNXViNjBCa3J5WDdBQWI5RVQrdmlWK3g4N29ZNWRteTk0?=
+ =?utf-8?B?QXJ5MEZQUDZ1bzAwQU0xVklSK1RSNHo3TUVWTGVBUmdWdGJwaVROQlk0dno4?=
+ =?utf-8?B?SkQyQnArYklEeTNEUnZkRUF0d0FZREFzM0VpREVuZ2IxVjZEUHRGQ3RjMmFm?=
+ =?utf-8?B?ZE5xdmsrcDgzU3lsTFNQMVhRRW9EOUgvbkFLZU52NmY2Rld4Z0ZGOVJnMkNr?=
+ =?utf-8?B?RS9ER0t5d2QxT1JIbDkrbWFjUXlmd3hyeDBQTGVjbXM1Qm91SXJxUFZQL05O?=
+ =?utf-8?B?Z0poOVFJVVk5U1N1dzBjZ3VJZFY0SE1rRDhaeEt4WURsYk16NzR5T1BHaEJp?=
+ =?utf-8?B?ZzI5Tit6TWlSWGphaUk5UjRZNlVOVXc4SUFhMWtYVno4RUl3aEtRdzMrSThu?=
+ =?utf-8?B?MC82M1RDVTlwV2pzdWlaQnNTVzMyWFdVMjRSWjRNSjliMERzVGpPWlR4Mlov?=
+ =?utf-8?B?dGN2NXJLaE52dUFYU3ZKaElrajZaUm5zUDhiaFBHbmFhRnVHNlNhTHBWajE2?=
+ =?utf-8?B?cnIvK1pJbDFmTkcwODBENlZOb3pFdHpiMVNnT1RaVXFRbmd5WVpzb2g3djNR?=
+ =?utf-8?B?R3pVY0lIVGFaZUwvdkNLS0VOcG1YbTZSTmJGdkdUb1pKQnQrNGRKOTYxNDhZ?=
+ =?utf-8?B?bmFod2Y1TUwzUnQ1d1NaZmQrRXVwKzdNd3RIOGZLNFAxZnlWcHo5a2k2RnR6?=
+ =?utf-8?B?bXpWTnlUTWVpelJETWxUNytZYnF3RWpieWsxcUwxejcyK0VjQ000Z1ZiWWcw?=
+ =?utf-8?B?Nkd5Mm9pWXcvU1VBdHJ3dkdCQmZIRGJSNHJ2ODBxdnJoSVBRaHhsM3p0cmtz?=
+ =?utf-8?B?Ny9lVlNNZldiSzNobTF3amp4bWRxS0YwYnV2bFNJZTBIMCtHb0xUMU1QRWx4?=
+ =?utf-8?B?aUFzTGplTk4yQlkvZDNyMEdjcEtpRWJidVpJVithd2hJWWFaVnM4ZVk1eEdx?=
+ =?utf-8?B?WmhrWkJvR0lwTVVuTjR5Qk1XLzE2UWg2ZkNBNTlFKzQyOGhJS1lIZFVHUGNr?=
+ =?utf-8?B?SzFjYUdoYUl4UFloMWpFckJ6S2o1ZzRBOFBlUWtnZzhVbndma3hWbzg1RjdG?=
+ =?utf-8?B?Rk5hR2dTUjhYM0w4NW1yKy94eWY3a002K3krU3orTEpMSTg1QlFKUS9ONE1M?=
+ =?utf-8?B?R21NMHYwamd2UXZYNUJXOVcvTDljR2c0L2ZHOTRLWGtwQ24xWDJyaENmNXVh?=
+ =?utf-8?B?d2J4NEpwcTNWTUtiQm9CemdEbFgvdUc4c0gyamdmS1NzcUZpbFM0bnhRc2RY?=
+ =?utf-8?B?c0FRR2dSMWs3RGgybnp6QzJNbks5NHNadjFlakVUemIzSXRLNVZnTDYxSlBy?=
+ =?utf-8?B?bzY2NFd4TUdsMUlCMW5OYXJ1eDNXVU9JZVJ4T3JEdFNrUk1LUExlVm8xL0NF?=
+ =?utf-8?B?bXBUYUQya3dkRnRiam9JNUU5U2ZpWC9zZG1LLzdHS2ZtNTZHbnQ1YjNFY2Nu?=
+ =?utf-8?Q?9VxQ=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB6486.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007); DIR:OUT;
+ SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K09ZVkE0cHZialhlM1IvbTNLVjJHMnl2YlN0czdIQzVTMzJWMHRhU3VuNVVY?=
- =?utf-8?B?SDlOOERCOUhDUFBQOGdNbGtZVElFd3RwZFJKNEdmN0hpOXVVRFJQb2crQ1BE?=
- =?utf-8?B?T3J5N0szcDhXclZCYkdPZ2JmZXdldWRzL01aWmZicDhsQkhrTUJUWGJrVkMy?=
- =?utf-8?B?ZHJFSnNFTUdwelBDaDdFVXBQcUtPREg4ZzdNMXE0WWlaR0RoRWs5U2ZURUp5?=
- =?utf-8?B?cEhoNzZNUGVDRFFGK3lXNU9GRHl0NFVaQ3NQV1BiNFRnU043STRueXIxM0V4?=
- =?utf-8?B?MS9hUHhGYnJyZXNvb1dxOWNJWVZuRU0rczV6SXY5Z2Z2Ukx1dVdQZlQ0MjE3?=
- =?utf-8?B?ZEtxUGZJRWxMOEk1bEppWVJvc2QrMEVuZlF0NUtFZE9OajJraU11RXQ0Z1Uz?=
- =?utf-8?B?L0V2ZFUvOUp4VFZjUzExcncwTGlMOUZzUlZYMTQvaVNvNGlWcnJKOXFJWXlI?=
- =?utf-8?B?THd3UlR5cGtwSjNBQzJzYmhhdmhwSjJtTmhWS1ZicGtQSlBLS3RwOU5PMnd0?=
- =?utf-8?B?ek1EWm9WZ285NFBvd3BWT0lNY2x1VDVXTHMyU0xZY2ZGazU1VzJFdStlalM2?=
- =?utf-8?B?RDZNYjE2aGtkMVdSZlJJL1ZJZDdWY0hQcDJGOVBsVS8rMStQdmgxaFQ2eWRr?=
- =?utf-8?B?Ly9EOXNCbXBzcHlFdCtycU1MV3JzYVVvLysvSHpVSVNBbkZSdHVrakhHNnBr?=
- =?utf-8?B?aTMvQVRKVlJwSEsxcnBTNzVqWk9VUHhyaDlCUk5IdTdDRlorKytLVEtnTDVX?=
- =?utf-8?B?YjFIbmZpSkhZbGVuWTJIalNxU3RzMUhCV1BKRnYxNWg4ZTUxdHlGR0hLQlBu?=
- =?utf-8?B?RDRSTnN6MnR4dFZML2VMSUJDRGtwbXlHS3E1ZnloR05UUVd3MTZHK3p5eHov?=
- =?utf-8?B?N1NvenNHdjF0NVE4ZHNOb3ZwVHFEYXF1dForNXR3cjhWRGp4dytIbENmQ1RB?=
- =?utf-8?B?S1R0VWUxVUhHM1ZPRkVXWGdPUWlDaGNveG5VcUYySnUrcG42bTdwNkpGcXpa?=
- =?utf-8?B?VW5WK29VNmt3RCtXYUwyMmttcUdTWFdSRHYzSnFObVI1SkxXcTNnekJHOWw1?=
- =?utf-8?B?dzVjdDVDVWdnVVhINlpHQnhRUTlRcjJXUG96OThCblpGSys2MndVRzZjbWxM?=
- =?utf-8?B?bXJZalBGc2Jwa0dmWE5xRXp1WGtqaExtdzZpNGxsV29yWE1ER1ZhZEFGcTV2?=
- =?utf-8?B?MmUxcHBKSDdkYWZnRVo4TkR5WFJ2SjFLaEcveVJSNFI0dnNMV2lkTXZuYXFS?=
- =?utf-8?B?a0VvejlsYXdaQ2QzVWE5Y09UOTdqNUZyYnhxTGhtZEJrdlU2anZtZisxS28v?=
- =?utf-8?B?a1FDMmJ5T3dIUUNVWDNNc0xLelp4OFBERnNZYWtIeVBncTFQZUk4RllqMFpr?=
- =?utf-8?B?ajRCaGxZWktidmFGdGRJR2liY3BtcUM0TmpDbldvaFJpcWxsTzVZc25WZVlZ?=
- =?utf-8?B?VEpDbVViNDBXdkwxWHJKdEpidm9NQmdDNVRVWVhKUnk4Tm83WWtCMmhocDZI?=
- =?utf-8?B?eUh3V2xFN2Y0NjJrSXQyYXViaVJ0bXRzRUt1L1MwK3hRWktpdVFPa3RHT1hZ?=
- =?utf-8?B?RHhjRFYyMlkrdzRubnRVc28zWStNWkVnVEJLY0hJY2plaGFPVytSOEl5bmQv?=
- =?utf-8?B?SFNzN00xa3NyNzlzRG51UUN1RWdrVGEyd1ZjZXlDUU5XZ0cwUHRvVUVoczJF?=
- =?utf-8?B?aUNYK2ZjbFJUbEd2UGxwbHQzc1RoRjR1SkFCK256Q3hMY2JWQy9RVzZ5Z25y?=
- =?utf-8?B?YVNXTWtpODVKSGloNmFjVld6c1JMTWdtTmVnQ2sxRVF2bjFMcFhVWUtYc3da?=
- =?utf-8?B?Zi9UY1F4NzFlOTFzZEJMazh1aGt4ZjdpVEFJTFNaOTVGQ1dnTFE0c3MvV2U5?=
- =?utf-8?B?YUN2RkhLeGxRc2ZNa1ZKSStCU2tlaStPVi8zOUFHNHU5bStGamZZSnNWK2tm?=
- =?utf-8?B?ckJTeFhPV0oyVXhJMEgxNUpNZ21aalQvb2QrUk9xRWNNRVQzVW9LNGN2cDNl?=
- =?utf-8?B?TVRNNHRQTlZka3hjYUg4b0owdEtya0lpbU1GY1E2ak1UWWFvQkVSeXVSTFN3?=
- =?utf-8?B?NG5wODB0eXc5QklFODdyQ3lkaWFEemNMQjd1aFh2aGxlcEVuMnVCaUp2RVd3?=
- =?utf-8?B?SHJSZXFCWXlIbjQ3L0g2VU1BandOS0MxcFpyc0NyZVVrRTZSNGlnQ21odU9J?=
- =?utf-8?B?MHREcFR5bUJoQnV5ODFCaUM2S0NHbmNhQ2p4aGpRdytFNXJYdXcrUVV3a2w1?=
- =?utf-8?B?WXV2OWtEN0t3SUc5aGowRlBsUnRoMXFUN05qNHBIc0FmUFFMR1V1SUxDRWsr?=
- =?utf-8?Q?YP7lXO+J9rxnR7I34P?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8cd3f3df-d13f-4742-8881-08de5f9d3156
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?clo2cjZkL3BVZzlVeTZlTTBsdmc5eS91dDhiU1dpaUJIN1pLZm9oRkJKSFpq?=
+ =?utf-8?B?Uk1hU20yQWhVT2lPWWE3VlY3VnJDWjJLOXV5TVljZ3hYVjVBejZSbXdMdjNC?=
+ =?utf-8?B?MXloSklvVWUzMXVteEl5OEE2S25vUFlZZ2lKR2lPSHE2R3BvdDBTMTZsSmJ4?=
+ =?utf-8?B?aWFrUnprakgyK1RyNHpmaE1IQzl3cEhRaG9oRjU3YW1FY1Nub0VJOGxqdFRy?=
+ =?utf-8?B?YWIrUHpnckt3Wjc3aHBjRTlCbHNKMkFacDkwSUp3d0RHNUpjdjU5T0x6Szcz?=
+ =?utf-8?B?NUVCaFBPalV4dFVHZ2pWYUlzenVBZ0V6NXhiNEphWXFTTDVJMWVEWXFoTlV1?=
+ =?utf-8?B?b1JBTWZTajZiREo2TnVWQVlMelpldTJuck9lUlhJMU91SnlaalVsczNOcTdS?=
+ =?utf-8?B?VjlQZzFrYVlQbkprSkN3RlNUUlF3dC9Hb3l6ZzRZb2txaFBENEpUaHdzdXly?=
+ =?utf-8?B?eFRjWEdiVFlkdEhidGhjRlV0NzRsY0JTMUhrU0IvYmZ2MnZPVTJKWDJMWmFh?=
+ =?utf-8?B?M0JBTXNIMkdvbEl2dkdtL25YM3gwc1huMk8yQU4wbTE5N1NQenFLVjZ0a1Fp?=
+ =?utf-8?B?UDArcmlPZ1lSK2ltWEFzNVRZTjZkYW5lK2FtZDBFeDVibGRkcG5DUTZYTHRl?=
+ =?utf-8?B?Y0pkUDkyb2ZxdWF2UlRJVmRlZjJJUzdzL3RCZldicXRaVko4TGo5MUlhRUNU?=
+ =?utf-8?B?SmtSQXJuOFRpR2Rab2hLWUFDQ2RCUUxIK1Y5RTFIMnlVVnp2UktpVEdiaW1G?=
+ =?utf-8?B?eHlPUjdVWnJGNUdNalQwRFhRMnUwMzRWanBiTWhUVzN3QXc0cmh0Snc1YVZY?=
+ =?utf-8?B?b0IzOXkxbkh1MWlqRWJMNVNHR0V2MTJkck9hMTJ0M1VGOGRobFdDNTN2dWRG?=
+ =?utf-8?B?QkRNMWo0NFgzS2xrVjZlNktYVTNlMEhkdWNOQjBwYlNTbDVlZis4emxSWTFh?=
+ =?utf-8?B?c3d0MzV4UFQ5c2hOU2wvYzk2SlR3cktIblhYaXhrdFlrZVo2eWQvMFZoTGlF?=
+ =?utf-8?B?QUN0WlhhcVUvdzVXaHk3ZTZ6K1k3cWVFSkJhT1IxazByUjUwMXpZV3pvRTdt?=
+ =?utf-8?B?OThkSHExcVBRL3FFK2RYRzhHaXV5cDAvRGMveVZCSkdxZFlGQThENjdrMXQy?=
+ =?utf-8?B?NzY0YUo5Qm9YZTRjZGh6TVp0TmdhZms1bWNOVVp0UzlXLzBMQllTTGNlVlRj?=
+ =?utf-8?B?RUJUOGRCN21IWjVyUjdjRnhRTmlIbngzVmpVb1NnUUhpWldtL2pLcHpiMm8x?=
+ =?utf-8?B?VU1RREhtMnA4alNoYXZMMy9yN0NMeWYxUzRUbVUrM0tTQm90NWdNTmRWV1V1?=
+ =?utf-8?B?clkrVWNuelhkb1JnamFYYmZCeXQyZFlVbmpLTzBqMERiUUFzOWc2V2pLWkho?=
+ =?utf-8?B?b1VhOG5HQWF6Lys5VU1SRVJLVHh0STN2OVFlc0VOOEp1M0VXbUQvaHh0di95?=
+ =?utf-8?B?QXdXa0hCNjlzMG1ZMjl1NFpEMEFXZVNZeXpDZkV0bFkwODdiUTgzYlZsb1Bn?=
+ =?utf-8?B?Qk1aKzA4RWVKL01DZmFCY3d6L1NRR1dPTU84enNaTEt0cGFyNjg1R05ZTWdT?=
+ =?utf-8?B?WWZlYmhtcVVMTXZ0cWdlQkhtZnpaRGgrL2Z2OHY3TWV3djJ3elh5cDdvYWpI?=
+ =?utf-8?B?c2UyNytrNFNwN3k2T1RHRlRwejZsK1gyc1E0ZWZuUXZRdzhHanM0SzRjbGU1?=
+ =?utf-8?B?RDlkUGgxS094UStoUTZOdCsrSStHRUcvNTE4dHYwUEtFZHZ2VldhZkUrSTlG?=
+ =?utf-8?B?Z2V6ZU5hdXQrMC9vR1NKckhUM1RDUGIvQ21PUW02cHVTeUF4aTlXVCt2ZE94?=
+ =?utf-8?B?M0pIdkgxdlJuK1N5WStEb21JVGlSNmpXbkd3eUVUd1YwSG9Pei8rZHlkaHNz?=
+ =?utf-8?B?WGU4UUdmM2RQdUlJZWlBbm5OeWJJSUlvUWdWbGxpVm5TV01sbzAxTmtnRmQz?=
+ =?utf-8?B?OTdOTmlyeGtvQm1KeXg5enpyN0hRUU94M25uNWhBQ3dhajdVSGtYRHFQZUx5?=
+ =?utf-8?B?MlJsdFFHSDdGaVgyQUljOElvTCtnKzl2TFlZa0pNRS9NVGYyOUJhMlM0OXo2?=
+ =?utf-8?B?U3A1TVk0ZUc3SWx2Qy9pc3REMXUrQkwwV0haR3hIeGh1UTdBeGlmYyt6cWRV?=
+ =?utf-8?B?eDJiQ3U3aFROOFpMQlMzWGJCWlNHVC95QjJuMUNGUWt3ZzlqNHlYQ3hsQmcy?=
+ =?utf-8?B?ZUMyZzNTaHJSbTZGWm82RkhZT0wyMzcyYk9WRWNMd1ZIRlhNQlkxaW4rSmI5?=
+ =?utf-8?B?S2hUdElrRlplYTg5blNyZ1VOREVUNkg1RWlZbTBGd3FqRXZNN2pCK1hoeUdm?=
+ =?utf-8?B?aUVYaE5zQTQvRkxrZDZZdkQxb0daZEtRZXNsTDUrWXp2Q0k2Wkc0Zz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07792530-52ed-4ed1-3799-08de5fa14d6c
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 01:16:27.6467 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 01:45:52.9225 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AW4E0Ns0H1GpsKMVarYleHGkvyzB+t9C6KTBns+yxkXZPIVlXQ80lDbAeXFV35DMQQmCos3cKPcsUM0UitpYoQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P265MB7463
+X-MS-Exchange-CrossTenant-UserPrincipalName: sz9+J6Wv4/rLAPubATKEahypZqkQbs+AaB/qQBChDt2bKe10adfADCYlWgHIlV7wf5hi5RB6qUb6U71niewaew==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4307
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -210,223 +211,206 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[nvidia.com,vger.kernel.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,google.com,garyguo.net,protonmail.com,umich.edu,weathered-steel.dev,collabora.com,lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,nvidia.com,vger.kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,google.com,protonmail.com,umich.edu,weathered-steel.dev,collabora.com,lists.freedesktop.org,garyguo.net];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCPT_COUNT_GT_50(0.00)[51];
-	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[garyguo.net:+];
-	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FROM_NEQ_ENVFROM(0.00)[joelagnelf@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,garyguo.net:mid,garyguo.net:dkim]
-X-Rspamd-Queue-Id: E1663B61B4
+	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[garyguo.net:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 38549B63EE
 X-Rspamd-Action: no action
 
-On Fri Jan 30, 2026 at 12:26 AM GMT, Joel Fernandes wrote:
-> Hi, Danilo, all,
+> On Jan 29, 2026, at 8:16 PM, Gary Guo <gary@garyguo.net> wrote:
 >
-> Based on the below discussion and research, I came up with some deadlock
-> scenarios that we need to handle in the v6 series of these patches. Pleas=
-e let
-> me know if I missed something below. At the moment, off the top I identif=
-ied
-> that we are doing GFP_KERNEL memory allocations inside GPU buddy allocato=
-r
-> during map/unmap. I will work on solutions for that. Thanks.
+> ﻿On Fri Jan 30, 2026 at 12:26 AM GMT, Joel Fernandes wrote:
+>> Hi, Danilo, all,
+>>
+>> Based on the below discussion and research, I came up with some deadlock
+>> scenarios that we need to handle in the v6 series of these patches. Please let
+>> me know if I missed something below. At the moment, off the top I identified
+>> that we are doing GFP_KERNEL memory allocations inside GPU buddy allocator
+>> during map/unmap. I will work on solutions for that. Thanks.
+>>
+>> All deadlock scenarios
+>> ----------------------
+>> The gist is, in the DMA fence signaling critical path we cannot acquire
+>> resources (locks or memory allocation etc) that are already acquired when a
+>> fence is being waited on to be signaled. So we have to careful which resources
+>> we acquire, and also we need to be careful which paths in the driver we do any
+>> memory allocations under locks that we need in the dma-fence signaling critical
+>> path (when doing the virtual memory map/unmap)
 >
-> All deadlock scenarios
-> ----------------------
-> The gist is, in the DMA fence signaling critical path we cannot acquire
-> resources (locks or memory allocation etc) that are already acquired when=
- a
-> fence is being waited on to be signaled. So we have to careful which reso=
-urces
-> we acquire, and also we need to be careful which paths in the driver we d=
-o any
-> memory allocations under locks that we need in the dma-fence signaling cr=
-itical
-> path (when doing the virtual memory map/unmap)
+> When thinking about deadlocks it usually helps if you think without detailed
+> scenarios (which would be hard to enumerate and easy to miss), but rather in
+> terms of relative order of resource acquisition. All resources that you wait on
+> would need to form a partial order. Any violation could result in deadlocks.
+> This is also how lockdep checks.
+>
+> So to me all cases you listed are all the same...
 
-When thinking about deadlocks it usually helps if you think without detaile=
-d
-scenarios (which would be hard to enumerate and easy to miss), but rather i=
-n
-terms of relative order of resource acquisition. All resources that you wai=
-t on
-would need to form a partial order. Any violation could result in deadlocks=
-.
-This is also how lockdep checks.
+Hmm, I am quite familiar with lockdep internals, but I don’t see how all cases
+are the same one when there are different resources being acquired (locks versus
+memory allocation, for instance). I think it helps to visualize different cases
+based on different scenarios for a complete understanding of issues and mild
+repetition is a good thing IMO - the goal is to not miss anything. But agreed on
+that is how lockdep works. Lockdep just needs those relationships in its graph
+to know that ordering enough to flag issues. Speaking of lockdep, I have not
+checked but we should probably add support for fence signal/wait and resource
+dependencies, to catch any potential issues as well.
 
-So to me all cases you listed are all the same...
+Thanks for taking a look,
 
-Best,
-Gary
+--
+Joel Fernandes
+
+
 
 >
-> 1. deadlock scenario 1: allocator deadlock (no locking needed to trigger =
-it)
+> Best,
+> Gary
 >
-> Fence Signal start (A) -> Alloc -> MMU notifier/Shrinker (B) -> Fence Wai=
-t (A)
->
-> ABA deadlock.
->
-> 2. deadlock scenario 2: Same as 1, but ABBA scenario (2 CPUs).
->
-> CPU 0: Fence Signal start (A) -> Alloc (B)
->
-> CPU 1: Alloc -> MMU notifier or Shrinker (B) -> Fence Wait (A)
->
-> 3. deadlock scenario 3: When locking: ABBA (and similarly) deadlock but l=
-ocking.
->
-> CPU 0: Fence Signal start (A) -> Lock (B)
->
-> CPU 1: Lock (B) -> Fence Wait (A)
->
-> 4. deadlock scenario 4: Same as scenario 3, but the fence wait comes from
-> allocation path.
->
-> rule: We cannot try to acquire locks in the DMA fence signaling critical =
-path if
-> those locks were already acquire in paths that do reclaimable memory allo=
-cations.
->
-> CPU 0: Fence Signal (A) -> Lock (B)
->
-> CPU 1: Lock (B) -> Alloc -> Fence Wait (A)
->
-> 5. deadlock scenario 5: Transitive locking:
->
-> rule: We cannot try to acquire locks in the DMA fence signaling critical =
-path
-> that are transitively waiting on the same DMA fence.
->
-> Fence Signal (A) -> Lock (B)
->
-> Lock (B) -> Lock(C)
->
-> Lock (C) -> Alloc -> Fence Wait (A)
->
-> ABBCCA deadlock.
->
->
-> --
-> Joel Fernandes
->
-> On 1/28/2026 7:04 AM, Danilo Krummrich wrote:
->> On Fri Jan 23, 2026 at 12:16 AM CET, Joel Fernandes wrote:
->>> My plan is to make TLB and PRAMIN use immutable references in their fun=
-ction
->>> calls and then implement internal locking. I've already done this for t=
-he GPU
->>> buddy functions, so it should be doable, and we'll keep it consistent. =
-As a
->>> result, we will have finer-grain locking on the memory management objec=
-ts
->>> instead of requiring to globally lock a common GpuMm object. I'll plan =
-on
->>> doing this for v7.
+>>
+>> 1. deadlock scenario 1: allocator deadlock (no locking needed to trigger it)
+>>
+>> Fence Signal start (A) -> Alloc -> MMU notifier/Shrinker (B) -> Fence Wait (A)
+>>
+>> ABA deadlock.
+>>
+>> 2. deadlock scenario 2: Same as 1, but ABBA scenario (2 CPUs).
+>>
+>> CPU 0: Fence Signal start (A) -> Alloc (B)
+>>
+>> CPU 1: Alloc -> MMU notifier or Shrinker (B) -> Fence Wait (A)
+>>
+>> 3. deadlock scenario 3: When locking: ABBA (and similarly) deadlock but locking.
+>>
+>> CPU 0: Fence Signal start (A) -> Lock (B)
+>>
+>> CPU 1: Lock (B) -> Fence Wait (A)
+>>
+>> 4. deadlock scenario 4: Same as scenario 3, but the fence wait comes from
+>> allocation path.
+>>
+>> rule: We cannot try to acquire locks in the DMA fence signaling critical path if
+>> those locks were already acquire in paths that do reclaimable memory allocations.
+>>
+>> CPU 0: Fence Signal (A) -> Lock (B)
+>>
+>> CPU 1: Lock (B) -> Alloc -> Fence Wait (A)
+>>
+>> 5. deadlock scenario 5: Transitive locking:
+>>
+>> rule: We cannot try to acquire locks in the DMA fence signaling critical path
+>> that are transitively waiting on the same DMA fence.
+>>
+>> Fence Signal (A) -> Lock (B)
+>>
+>> Lock (B) -> Lock(C)
+>>
+>> Lock (C) -> Alloc -> Fence Wait (A)
+>>
+>> ABBCCA deadlock.
+>>
+>>
+>> --
+>> Joel Fernandes
+>>
+>>> On 1/28/2026 7:04 AM, Danilo Krummrich wrote:
+>>> On Fri Jan 23, 2026 at 12:16 AM CET, Joel Fernandes wrote:
+>>>> My plan is to make TLB and PRAMIN use immutable references in their function
+>>>> calls and then implement internal locking. I've already done this for the GPU
+>>>> buddy functions, so it should be doable, and we'll keep it consistent. As a
+>>>> result, we will have finer-grain locking on the memory management objects
+>>>> instead of requiring to globally lock a common GpuMm object. I'll plan on
+>>>> doing this for v7.
+>>>>
+>>>> Also, the PTE allocation race you mentioned is already handled by PRAMIN
+>>>> serialization. Since threads must hold the PRAMIN lock to write page table
+>>>> entries, concurrent writers are not possible:
+>>>>
+>>>>  Thread A: acquire PRAMIN lock
+>>>>  Thread A: read PDE (via PRAMIN) -> NULL
+>>>>  Thread A: alloc PT page, write PDE
+>>>>  Thread A: release PRAMIN lock
+>>>>
+>>>>  Thread B: acquire PRAMIN lock
+>>>>  Thread B: read PDE (via PRAMIN) -> sees A's pointer
+>>>>  Thread B: uses existing PT page, no allocation needed
 >>>
->>> Also, the PTE allocation race you mentioned is already handled by PRAMI=
-N
->>> serialization. Since threads must hold the PRAMIN lock to write page ta=
-ble
->>> entries, concurrent writers are not possible:
+>>> This won't work unfortunately.
 >>>
->>>   Thread A: acquire PRAMIN lock
->>>   Thread A: read PDE (via PRAMIN) -> NULL
->>>   Thread A: alloc PT page, write PDE
->>>   Thread A: release PRAMIN lock
+>>> We have to separate allocations and modifications of the page tabe. Or in other
+>>> words, we must not allocate new PDEs or PTEs while holding the lock protecting
+>>> the page table from modifications.
 >>>
->>>   Thread B: acquire PRAMIN lock
->>>   Thread B: read PDE (via PRAMIN) -> sees A's pointer
->>>   Thread B: uses existing PT page, no allocation needed
->>=20
->> This won't work unfortunately.
->>=20
->> We have to separate allocations and modifications of the page tabe. Or i=
-n other
->> words, we must not allocate new PDEs or PTEs while holding the lock prot=
-ecting
->> the page table from modifications.
->>=20
->> Once we have VM_BIND in nova-drm, we will have the situation that usersp=
-ace
->> passes jobs to modify the GPUs virtual address space and hence the page =
-tables.
->>=20
->> Such a jobs has mainly three stages.
->>=20
->>   (1) The submit stage.
->>=20
->>       This is where the job is initialized, dependencies are set up and =
-the
->>       driver has to pre-allocate all kinds of structures that are requir=
-ed
->>       throughout the subsequent stages of the job.
->>=20
->>   (2) The run stage.
->>=20
->>       This is the stage where the job is staged for execution and its DM=
-A fence
->>       has been made public (i.e. it is accessible by userspace).
->>=20
->>       This is the stage where we are in the DMA fence signalling critica=
-l
->>       section, hence we can't do any non-atomic allocations, since other=
-wise we
->>       could deadlock in MMU notifier callbacks for instance.
->>=20
->>       This is the stage where the page table is actually modified. Hence=
-, we
->>       can't acquire any locks that might be held elsewhere while doing
->>       non-atomic allocations. Also note that this is transitive, e.g. if=
- you
->>       take lock A and somewhere else a lock B is taked while A is alread=
-y held
->>       and we do non-atomic allocations while holding B, then A can't be =
-held in
->>       the DMA fence signalling critical path either.
->>=20
->>       It is also worth noting that this is the stage where we know the e=
-xact
->>       operations we have to execute based on the VM_BIND request from us=
-erspace.
->>=20
->>       For instance, in the submit stage we may only know that userspace =
-wants
->>       that we map a BO with a certain offset in the GPUs virtual address=
- space
->>       at [0x0, 0x1000000]. What we don't know is what exact operations t=
-his does
->>       require, i.e. "What do we have to unmap first?", "Are there any
->>       overlapping mappings that we have to truncate?", etc.
->>=20
->>       So, we have to consider this when we pre-allocate in the submit st=
-age.
->>=20
->>   (3) The cleanup stage.
->>=20
->>       This is where the job has been signaled and hence left the DMA fen=
-ce
->>       signalling critical section.
->>=20
->>       In this stage the job is cleaned up, which includes freeing data t=
-hat is
->>       not required anymore, such as PTEs and PDEs.
+>>> Once we have VM_BIND in nova-drm, we will have the situation that userspace
+>>> passes jobs to modify the GPUs virtual address space and hence the page tables.
+>>>
+>>> Such a jobs has mainly three stages.
+>>>
+>>>  (1) The submit stage.
+>>>
+>>>      This is where the job is initialized, dependencies are set up and the
+>>>      driver has to pre-allocate all kinds of structures that are required
+>>>      throughout the subsequent stages of the job.
+>>>
+>>>  (2) The run stage.
+>>>
+>>>      This is the stage where the job is staged for execution and its DMA fence
+>>>      has been made public (i.e. it is accessible by userspace).
+>>>
+>>>      This is the stage where we are in the DMA fence signalling critical
+>>>      section, hence we can't do any non-atomic allocations, since otherwise we
+>>>      could deadlock in MMU notifier callbacks for instance.
+>>>
+>>>      This is the stage where the page table is actually modified. Hence, we
+>>>      can't acquire any locks that might be held elsewhere while doing
+>>>      non-atomic allocations. Also note that this is transitive, e.g. if you
+>>>      take lock A and somewhere else a lock B is taked while A is already held
+>>>      and we do non-atomic allocations while holding B, then A can't be held in
+>>>      the DMA fence signalling critical path either.
+>>>
+>>>      It is also worth noting that this is the stage where we know the exact
+>>>      operations we have to execute based on the VM_BIND request from userspace.
+>>>
+>>>      For instance, in the submit stage we may only know that userspace wants
+>>>      that we map a BO with a certain offset in the GPUs virtual address space
+>>>      at [0x0, 0x1000000]. What we don't know is what exact operations this does
+>>>      require, i.e. "What do we have to unmap first?", "Are there any
+>>>      overlapping mappings that we have to truncate?", etc.
+>>>
+>>>      So, we have to consider this when we pre-allocate in the submit stage.
+>>>
+>>>  (3) The cleanup stage.
+>>>
+>>>      This is where the job has been signaled and hence left the DMA fence
+>>>      signalling critical section.
+>>>
+>>>      In this stage the job is cleaned up, which includes freeing data that is
+>>>      not required anymore, such as PTEs and PDEs.
+>
 
+-- 
+Joel Fernandes
+
+-- 
+-- 
+Joel Fernandes
