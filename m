@@ -2,62 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EOWMFFVtfGkSMgIAu9opvQ
+	id SCULI1ltfGkSMgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:35:33 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:35:37 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D927CB86F6
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:35:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA80B8705
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:35:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3874C10E94D;
-	Fri, 30 Jan 2026 08:35:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97B7410E957;
+	Fri, 30 Jan 2026 08:35:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="lvHdDNCM";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="CKXUgdb5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from MW6PR02CU001.outbound.protection.outlook.com
- (mail-westus2azon11012008.outbound.protection.outlook.com [52.101.48.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B9F810E94D;
- Fri, 30 Jan 2026 08:35:30 +0000 (UTC)
+ (mail-westus2azon11012009.outbound.protection.outlook.com [52.101.48.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91EFC10E957;
+ Fri, 30 Jan 2026 08:35:34 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KHxGSglXNLX6wGUuoa4l/w082whv8h7WY807E2Y6pviENIJRACzgduO+zSq48djL9Kpa7hp/LFBMcE+abBfS59DwmD31yz3ua28bXLaQP8sUb7uzI0I9WcLSbFxT2fvOjdcqSpwS6jylin3r+qnN6VlT52qmWNiMKZFWiGY4wcQynBsO+eAlew3YRRJtbxD4cPQXqRfd1hUxEhBvm/i3V07OdTYCz+CA3Re7aBExM91EALXLryNzUERk9zsecSI88P+yRUJjuO6ezBbDOfD5kTP95HVp3YT+plBoHqu8/fEDyRwfktRCuhhYpmGGXVcvoinQIir6pUpBZL2DcHQ4Dg==
+ b=YLTAEgs2YTxEaOEjq7DyS/r2agrDklNbFSc0Eft5C9wprN4XmPaF1OsTuj8q7+woLBCCaHSlVm/b9AntcCDojHUg5HooI+UTaTg0LzNp74aFUi9p18QludPt+7zSE4Rd5Y1d5F8K1l25hHDikvUaADvXPMerwiNKXRqAnAh3p9uyhP3bbLWkDstlIUxik8gA08xfhlI+gZIDuGKyeDmh6iMFEdP9d3iXwgns9QFij9YRs4wfTmBfOjW0TCBcf/KoyT5Yt0cjMFAKeLj4BIEFa5XXHKAbp7CrBhce4G8+dcwX+ymiDRUsisZxRAdqhlCcvRDyh2XCNJIGVAW5dsrZgQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FLYd5R2uu/5K5wpPQ95VoiD/6ZsMFIcXy4LSPgxs7/A=;
- b=itbztRP6uurxh7KmIO2fJy05p1b7p6djOnzD3eJ4MW5nHct+GqR34JqQoeXymOLjE5u5tuwoQ5X9ESR2cQLbRHS4+PLqTn6N0vl/qAwMiJ3vg6+SclKupbYg3YQGWPtz4JgMOZ+5z9r7zBiYzjBiM2+AkCVViz7xQhkc8eUnvtiUriDj9GHLqUNVLCa6rrJ2EIbC+l6mkx1zU1ldkcYj2t0C6q05TAdtZnx3JAjeNWv4q9UqXayiRBLekN9G4U82HXpXTLxcqfvpqg6gjx1P6uONfbH9DoNyHfkh3rE8Y1yDQzFoiRu3zFHOsnvPCMBGCXnrYyNg7lXD/S0fEYs7bA==
+ bh=kA9R8Rxz1G7iPOKp8pYm905Gu/KbLbGJ3myVy5aVskE=;
+ b=zI4tqpUk1i7fPUYfhN/F2+cWd6PdgtGi8ZWGdDVc1knszDnJV3cU4BWIDG//hOAQ/pF3xlM1IpbiIqPsG/Krx4vI7t3ZyU+C0GAjvmSVgSIlB8y7/ppEpAllfw/KshaQusF8ojoZ1VChkj6jH0BgY4fsgFkrK6kam4Z5alU4+t95Htn28PExC0x1TVkNGvgfabxYIK0Z/Tmq+ENHMH+OpujOfE/faGt1/mcBP3Y/oDgCC4oZMhhGVGty1iFsaAuOI9XHZoOOsriZQL3QRLYDLA0YXZCu4Po/0HMh5QFTnYpo4jabOp4gjcZ3WmdIjOMBps+bS7zQewLV9rm4hzpVXQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FLYd5R2uu/5K5wpPQ95VoiD/6ZsMFIcXy4LSPgxs7/A=;
- b=lvHdDNCMU/6hanNXI0/nlrtRegjOzsyex8209LvB4BCEP1OX9pruEWXRWzCZIw30/Atu6Ih358QMGqpuJa+pngO0Z92EU8YfWBEdUzR55CJ/bz1FccmIohDVX2GVq4sQkFwIRljGXFo/ec6oGdhETwK2T8srjJq3KBehN5N4zMgPipCUp2/00aGKAK1og9ZFcYEmqOrdo84ej7Fl56RtR9zIvGuxHA7mz3jq7dNWPyXkI1OEB7ztW4px8gPLKRLf+aB2QuJMAn6eGv6VGIL3UArj/yvdgrbv8SSyjSvfptDo2A0CsQdjcd9kth3wZ5lFUUMs7lSVedJ5AWynWa5HaA==
+ bh=kA9R8Rxz1G7iPOKp8pYm905Gu/KbLbGJ3myVy5aVskE=;
+ b=CKXUgdb5sANlkb9lEO4Fe/Bxv3FunTxgwE1ltXNAb+9O7iLJ192JK6VL7rRRK0TuBqqYlviME9mR2o86F/qwkb8/i3/CMX9KN7nwQt2ibym1ANqH8Cxc7eccDwgwnptFcruSQN1+hxRPrHRQ2F36XAG8VuoO8uvwArS+zc0iYlBHJcwPLX0G6LTXVlUNSYkad1Vjl4PFQkBmjVi1I6XiKxoYyUhKqJhMB8nUJ0MP9BhXt9B3coZMwNRX5d+3uw7ojp9rT92h7hPM9GFbkUNV0GFJ2Q14jfwRbYK99SdjV/FNSjvTS8qMwWwxr252oF6fkmaYm/f1KAu5oDHrN9HXrQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
  by DS0PR12MB9400.namprd12.prod.outlook.com (2603:10b6:8:1b6::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.11; Fri, 30 Jan
- 2026 08:35:25 +0000
+ 2026 08:35:28 +0000
 Received: from BL0PR12MB2353.namprd12.prod.outlook.com
  ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
  ([fe80::99b:dcff:8d6d:78e0%6]) with mapi id 15.20.9542.010; Fri, 30 Jan 2026
- 08:35:25 +0000
+ 08:35:28 +0000
 From: Eliot Courtney <ecourtney@nvidia.com>
-Subject: [PATCH 0/9] rust: dma: add CoherentArray for compile-time sized
- allocations
-Date: Fri, 30 Jan 2026 17:34:03 +0900
-Message-Id: <20260130-coherent-array-v1-0-bcd672dacc70@nvidia.com>
+Date: Fri, 30 Jan 2026 17:34:04 +0900
+Subject: [PATCH 1/9] rust: dma: rename CoherentAllocation fallible methods
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMwQ6CMBCE4Vche7ZJW4waXsVwKO0oe6DothIM4
- d3dyPGbZP6NCoRRqGs2EixceM4Kd2oojiE/YTipyVt/sc7fTJxHCHI1QSR8jW29w3D1bTpH0tN
- L8OD1H7z3hwXvj3brMdIQCrQyTVy7JgkvEKXAZKyV+n3/AUxem9GUAAAA
-X-Change-ID: 20260128-coherent-array-0321eb723d4c
+Message-Id: <20260130-coherent-array-v1-1-bcd672dacc70@nvidia.com>
+References: <20260130-coherent-array-v1-0-bcd672dacc70@nvidia.com>
+In-Reply-To: <20260130-coherent-array-v1-0-bcd672dacc70@nvidia.com>
 To: Danilo Krummrich <dakr@kernel.org>, 
  Alexandre Courbot <acourbot@nvidia.com>, Alice Ryhl <aliceryhl@google.com>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -72,109 +69,109 @@ Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
  rust-for-linux@vger.kernel.org, Eliot Courtney <ecourtney@nvidia.com>
 X-Mailer: b4 0.14.3
-X-ClientProxiedBy: BL1PR13CA0384.namprd13.prod.outlook.com
- (2603:10b6:208:2c0::29) To BL0PR12MB2353.namprd12.prod.outlook.com
+X-ClientProxiedBy: TY4P286CA0048.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:36e::9) To BL0PR12MB2353.namprd12.prod.outlook.com
  (2603:10b6:207:4c::31)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|DS0PR12MB9400:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7f50b2d3-503f-411e-d0a8-08de5fda8384
+X-MS-Office365-Filtering-Correlation-Id: e8a4548a-69bd-4688-0126-08de5fda85cb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|366016|1800799024|376014|7416014|10070799003|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Z0cyN2xYaFBwcEp0YkpmWnRHMlNOc1QvL3ZySHc0TmozZ2U1RnNmTndrQ0Jq?=
- =?utf-8?B?YWMzSjUxd1A0WnFBdVNNb3YzWXZjQW14WUUwVlBHWW1mRCs1dFJtTjk5TFNh?=
- =?utf-8?B?dkNHRnMzUm42NmhkNHFsWW9vT3RVMUMvWkZ0WkkrbzdSSUphYXEvS295U2Zo?=
- =?utf-8?B?Rm5yb0IvczBuQ3EvQXVXRmlLMVNPakd2YzM4aDhHQkUwVFJDdmpDOERDczJo?=
- =?utf-8?B?QlptSzdjYlFCSGw5YkhhZWZGTHkrV1kwM1FIUGVVeDI3TThVSWxJSHhBai9B?=
- =?utf-8?B?UUlnU3Y1ZWNRaVF2TFhqZEk2ckx3aEFSSW05VElNVXFsbEhyalNDREFwNkVp?=
- =?utf-8?B?YzFnL1d3czh2TUtvQkNyQmtZSlhRbTlpUWQ4WmpHTjBRQ0pqZHBSQ1FhbHRZ?=
- =?utf-8?B?ejEzdEd1OU05K3pFWUNuU1pxdzNlSWo4Mm9ubnNnVEV3U1MvaHBxRTV2RlJv?=
- =?utf-8?B?blJ1TWVGUTdHUXc5aDN3dlJQUjVxNE5zRU5FTEhSZk1tUFZEa29weWI3d1Ra?=
- =?utf-8?B?cGl4RDRVVW51K2szdlNhSFpPblh5aGI0YTR6YjNNeVJxa2JWT0VpbnY3SVFy?=
- =?utf-8?B?QlVOTEUxRVZFY0dzY0VtSjJlLy9lQjZITWxzS2NWSjd1d2Z4V05DRklyRlhZ?=
- =?utf-8?B?TG1CY0Nab095WExBclpqSUR1NXhVTjFXRHBWS1FFbnJGRzNpVWk5QjY5bmQz?=
- =?utf-8?B?Ny9SNksrRVZpb1FRTTVSZW1xNzg3dGxlSTE3Vk96UFAxcU1MYlIrbm9wOW5q?=
- =?utf-8?B?OXNqUGxNUE5PT1BrMnJEOW01OE03d1g4aUR1RWhUTXRQbWF4Ly96alZ4ekNj?=
- =?utf-8?B?cSswVmFyY29hWTRaYUtoT2JOeU15NHIxZEdTM001eTR6aENzWVRkQU11N2k4?=
- =?utf-8?B?WmkyM3I3cmxkRk1ubVhvY3hzNWVIcWxwSDlvWXl5Y0MyUVpyZmFqRkpCakdW?=
- =?utf-8?B?ZzdsTFFIQzNvMkt0bmlUMWFoNkpVN09SQi9qNUpRSTJDc201NEhLeEI0VHhJ?=
- =?utf-8?B?TFl0L2U0MmppeEUram8vMTZCYU5rKzc3eENIeGF4UlFRdEYydVlVeDRSWHp2?=
- =?utf-8?B?YlVWaDlrdUo0TEUyOVJHMVlmRHJ4aDYvUTNyK1BBY3pvZ2h6bWFlQ0NZQktz?=
- =?utf-8?B?a1ZQWWd6WUZ5V2UwT05WTklNRmJXYmFnSDUydVpOOVpFbkdTL2t5RFRGMURI?=
- =?utf-8?B?ZGdaQk5PaklaaVJMVEhnUm5uTXA3VWRwSXFiOS9qVlNhUW9DZGVBVUsya2o0?=
- =?utf-8?B?dTZCYm5HaS9XcU1XVW9RVDkydlgyWWlPNjhJWWJRYzZtcG5Qam5UQ2JKcmNu?=
- =?utf-8?B?ODdQU1FCT0lSWVJBNFJXQ1Q0Qm56MWNBZ2h4RlZiK1NOZG15M0Y0QlYzdElB?=
- =?utf-8?B?SWdsUWR2SEUwbmNJR24yYnlMZDZKejZ2WEpkQ2t1WGRzcmNkdTg4R2R4UVpO?=
- =?utf-8?B?ZE15cXpJako4aXZIUlc1RlhDQ1JJdmkyUnBSaE1SOGFQaUx3NjZuM3BXeExY?=
- =?utf-8?B?OE05eHpNZzRQNUFlOW1ROTVLM0o2UVdjU2luczYyOEtscTlObmpSaTgrcU1u?=
- =?utf-8?B?bmI4eFdCRGJJcDRCajJHeW9XWkZjRE4yZ1B6dEZXbGtwS2VZdlE3bEpuaVpL?=
- =?utf-8?B?NjZqNGtWbnlHRkNtN21OYWE3eXhheXpYdGVQbkdOVkZuWm5PeTh0N2d3YzBG?=
- =?utf-8?B?d2NPaUhqTmxPRUp5T3pOTzFxelorYXR3V0NpWHBmWmVubUhjL3VEMitHSDVO?=
- =?utf-8?B?NndPMUc4T1JucXVmbkVNSVBzV25QQjM4TVRNc1J0M0NBbHBTc3orRlVXVCtW?=
- =?utf-8?B?UmhnUC9GR0xhRTlCV0xpaUQzZ2pVVnNha0xkbURSK2o4c0dRVXcvRDE0OGZO?=
- =?utf-8?B?UDJtaUhXMitNSUNIK0JlSXFHeHdQK0gwUnZkZko5bUYrMDMrVGsvbnZsekt6?=
- =?utf-8?B?OC94SnBmUFNPZVo4NXdzbER3UFI2eWN6TkFrdnBtZ3l0Mzc3eHhEaFZFRG5W?=
- =?utf-8?B?RU8rdWpmZVNPSjFpUzVhQ1h2WnBSbiszWmh1L29DaU5vS29Da25BdFgxVVFY?=
- =?utf-8?B?UmRxcU1ycVF0a2EwRGRwTU0rdjZFaU1lellzNlg2ZjZob0t3TTAranptKzRL?=
- =?utf-8?B?ZTFLNVFnOGF0Ym9xN1RCZ0FkT21BTnZPQkRVYjBZdnp3bkY2ZVlGdXpZK2dC?=
- =?utf-8?B?SGc9PQ==?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?L0hWd25lS2MvL1FFc3h3OGtTNGhUVGU1aHNtMTQ2dTlRbVlPMDJGRklqdmVi?=
+ =?utf-8?B?UTNqaklPMU1pV3hpQWRQZGFFMytiOXVUY1N0VHM5WGN4dElQVVVYQ0VQTi9N?=
+ =?utf-8?B?MEYxajFscndvaWFTMXVTL1dEcko2aTNBK0E5Q2d3QnVwTHc5eWR4V1l1SzJX?=
+ =?utf-8?B?bFNaV29aaXR5TzlrVG8rZENCbnJBak1ubTBrNzl0OVdqUG4wVjhTSHlVYW1z?=
+ =?utf-8?B?Z2xHUW8zdW56RGhmbnExMW15RXAzYVo3eEx4NWVudTV3Vm4ycmlOYVh2a0JL?=
+ =?utf-8?B?bEZnb3c2dzNJaHZwNVpXYXI2QWJmQlZZZjlINDRNcXZHdVByc0J6RW1GSUdr?=
+ =?utf-8?B?am11SlFnR3M4bWRBUGprYnhoUHhPQXJVSFViNTJlbVNVa0ZTdEhtOTl2SVRq?=
+ =?utf-8?B?R0p0YlZORXM1enVnQzhPRmtEM1RYQUZRNVZZbkZpTjQ5QnNHSmVocUNLY2Ra?=
+ =?utf-8?B?S1gwZWgwRlpleWJsdUdIdGM1TFFNMDJPUnNFU2lZa0ora0d4QjhXRW84Y2lH?=
+ =?utf-8?B?MkowWHRaeG9MalM4NllDOXd1R2tpa01TVVpBekVPQ2dFRkp2YW5TTmd2OFpy?=
+ =?utf-8?B?ZEdJa05aK2tKam5jczEra3VJR0w3S0luQVgvUjl2VWR0YUU4Z3VTOThnSThl?=
+ =?utf-8?B?VjhLMytoR01vWElOZFJXb2ZlclFGOEtpbXgxNjg5QWkwS0VmZ2RGMTlaZVV3?=
+ =?utf-8?B?V244YWE3bURUeHhEOUdsVlpjN2ljMXltcXNCa3RCQ3lPa2d5NTRiUklFdHM0?=
+ =?utf-8?B?blQ3QnpjNE9sQ29XYkJ1Q2hCQittdE1CY3l3WUpKTlFJcWRtb0V5NlRZbWRu?=
+ =?utf-8?B?UVV5WW1EaS85TWYrRG5lME1nUG5QSGRCNmMwRFcrbldjWkpxcmJIRTRGZEFE?=
+ =?utf-8?B?KzMxOTlsbk9uUW42QnhuRHFnZEcyclp3YnRNYkdtRGVNSTRtL0R5bndsb1hh?=
+ =?utf-8?B?MjRpWHpGMXVkTExRU0htNHpicEpINmZzR1FkZ3BRN0hqT3JucE5GV1dFKzQr?=
+ =?utf-8?B?SFdlRnVZakdHU05hZncrT1hCL0djb3BpZ1YwWmlReW5HUDZ2U1VaVHoyZytP?=
+ =?utf-8?B?VHA1eERPOFZ1WlNjeWlRRWQ5RkVkZG5NbWlMVjFnUzRRYnNvU1AzcWtuOERK?=
+ =?utf-8?B?RmMybTlndDF1SDlDWnRwUFE5Vjk1V0xvemhDcVAvbkNWaDBkMFFDSUZCSytL?=
+ =?utf-8?B?UXJjOHZVTjVFNDE5a1NrMXJzRGhIVEgzd1dSTHR0dXNSTnZUWDRETEVOVnc4?=
+ =?utf-8?B?WWNaSktWUnFtNFpyL3c5MlhlOXJUWFB6L3RleHdCNzZzN1ltRDltdjdPSzk5?=
+ =?utf-8?B?bHlETWJxVmgwelZxejNQeFF6NE1wSnFuSFlkZVQyY3kwMndtNnFjbjkxY1o0?=
+ =?utf-8?B?bkNhZkhBbDlhSk5NUGYyNWtwUHVZWGhQdzB4b1QyN1N1ckRjdHdGUnVUR0oz?=
+ =?utf-8?B?TVhMKzRMUzNLYmxLcjhKamZzMHNwditoRitGdmlvN0VwUkhmYk12ajVaMlNv?=
+ =?utf-8?B?ZjZ2Q2lGcDZiUWdWUW05RGovOHRCNkkvTmtjYWtrbDBRek0vaFBXQ0lpUmVJ?=
+ =?utf-8?B?eWpTYk9vR0JNcnNqTDNCcmRVVzRLT2NQS043NEFseUpnalhqNGJ3K3p5SDk5?=
+ =?utf-8?B?cjI3SkZOQ2o4MlQzZS9ibCtiWHpKZmZjTDEzMTFxajc3SkZ2QlZZOVFpUUtS?=
+ =?utf-8?B?Tm8va0tObi9pSDBNNCtUVGpRWmhSWG9ScXN0M1VpZ0E3cU9mQjRLS1NocCsy?=
+ =?utf-8?B?SzZQS2JvOUVVd3FhKytRS0VJdjJoY3crT2xGaWNCNlRTWnI2ZWJjb3BGSTBa?=
+ =?utf-8?B?b2xjNk1RWmJQWFJoaDZGQTd0QnNNNWhDVTMvQ2tGTk04bkV5aWY5d1NHODc3?=
+ =?utf-8?B?c2ZzYi9mK25RSk0yVlptWjBYTVVvd1I0SVNVdkZNZmpwV2JzMFNidU8vdVRu?=
+ =?utf-8?B?QUZLS3ZxUGJUNW05YTJMTmFTa1IzVkFMWWVHNzRVTXFOVmppejlBbnpnaXRw?=
+ =?utf-8?B?NE5kdzlYTkl2a1ZnaXd1Qk5oZWUxc25DWkI2SllQQitDQ3VHclBCejVkUXU1?=
+ =?utf-8?B?dDY0WEtmaGloUzh3UWtHUUJPU1dTQ3U5OENMZHVMWlNjM0QzTEFVMHJvV1Jz?=
+ =?utf-8?B?ZEJzcldYRXphbnNzT3I3M25uV2t5emZwSm5lMkJyUUhNNStQZFQ4VzFTNGU5?=
+ =?utf-8?B?TVE9PQ==?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL0PR12MB2353.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(1800799024)(376014)(7416014)(10070799003)(921020);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZTFldVdBbFJvRC9nUVZRNkV3cXByTDJ3T3NwSVdrLzZQMEgzZ0tEOW9JMHVi?=
- =?utf-8?B?d2lSVWpvZDJnODI4YzNyMUVRYVJlM1laYkZ1cDNWSGRJWkxMMWgyb2R6dUNv?=
- =?utf-8?B?dTJFczM2YlZsMndQRnBYY2h5K1Y1Z3pUdnhNMlg0ZVpYNUhSdmpDSW0yNE04?=
- =?utf-8?B?OGpiWUpVSjdMR3Fnc2xYN1pMNmM0UXJrWVpYQ0hwbWNKYUt5SGFnMnlJWW1h?=
- =?utf-8?B?aGdkMENBd0xQd3prVTRBaGZhdVYxYzYxU1Ztc3JHOGtyQUYzVGRnd20wcjVk?=
- =?utf-8?B?Nmk5L3dVR1NObDgrZGxRZlNaeUYrUG1pSENLU0hIQjJ4NEdKOFprLzE2ZjRN?=
- =?utf-8?B?WDhoWm8yZUdHajhTYVplQW1CK2hPZ0lFNkVCNDB3TWtEUjFiQytjNTl4MVBB?=
- =?utf-8?B?enJKcXZxTjJYY0VRVjRFK1Y1eEJWTlZUQlBSWW41N0JwWGlRM0FuQTFCcjhk?=
- =?utf-8?B?ZGFoY2srWXRaNndVQjgrR0tOaUErd3BOamc3bjdJMFRObjVyY3pxSUJibXFp?=
- =?utf-8?B?QmR6YmVTTU12ekZ0WUQ3TXVadTRSN1FNWlBkeDM0RmkzWllqaFVRZTM3UXJC?=
- =?utf-8?B?STlHbi9INUtSMDg0WkJGakttMC9BaEFnSlU5Z2JGRGw0SFl3MWE5QTJ3K0FS?=
- =?utf-8?B?a2dvL2VPQUp5NVFKQzlORytab1VoYjJCVnkraTlhVlU4ak5WMUJlVWY3RXNl?=
- =?utf-8?B?S21NNHpGcW5NNFhYWlBoQkNVbWEyMDU0Um1mWkNUVXZhWW5yeXV6TjNqZ29X?=
- =?utf-8?B?M1F5NXIyRFk2Mno2aUhGZFk4cEpXdUtUeWhQYmZDVGx3QkZjTmJhSGlyZHpy?=
- =?utf-8?B?QzBCeDZHL0VUdEIwdFNwYllBNmgrdzlBSitOeFpYMkwwcUFRdmNsM081N2hs?=
- =?utf-8?B?OHJ6UExQQmsrRWRYRzgyRjd1ak5rK1NtNDVsQms4LytXWjVUTWtRaHhrQU1p?=
- =?utf-8?B?VHdCNFRpejFVUXlXUXBSQW5DMTZ6TysrMVVOdWlKN0JOaFI5Q0t0R3VOS1N1?=
- =?utf-8?B?cFpKelNWYnN4SjdBS1JIbi9GeWRzdUpCMHY1ZEZqc3B4eWpnbS9JbFM1U1Rj?=
- =?utf-8?B?clVSSUdFRHZ6L1RrTzN4dzFKbXhYYjAyaUwzOGxUelY2V1N4am5kc2V6MUUy?=
- =?utf-8?B?QkVVRHhDcHRlY1RhN0hWaFlic2tsYURFbXdWUGIrcDU1d0V0VnZsZktnRGF3?=
- =?utf-8?B?bTQreEJ3cHJLYWRmd0l3K3RCSEU4SDdrRWZMOXhCQzBOaDc4OFZCZWJ2bmZr?=
- =?utf-8?B?YVhsckFJeXJrenlRNTRLNXpoa0RBMHBWUnlNcFRGYy9veklNZXRSaDVRSW1U?=
- =?utf-8?B?bjZqa1ZSQnpvczBsNkhkOFllNXhUQlZOL0V5UmJtOGQvMkxqS3Z5Qk9aQjV0?=
- =?utf-8?B?dVZyalJSNmJ3Vng4RzF5clJGVDZ4bm8yNnJkbWRlY3d4ai95MXVHQ1RGWWhN?=
- =?utf-8?B?ejJxNm5PL0xiZFc2Z2dKZXNtK2ZTOTZ1V3d6bE5PbmxHRnJlVWNZU092RzVN?=
- =?utf-8?B?YStIYi9PUWlyaWxrZkt0L0lkV2s5akE4K3pDaWwyaGN2c0JNTEF3am1ZRzVt?=
- =?utf-8?B?YjliOUxiOThDK0dwMWlWSERjS0pzU3NuMTBUczRFbXBLMEEwTmZ6OEtlOGow?=
- =?utf-8?B?YUFBR3RIYi9UV0pNd0YreHlmYUJzM05JSC94QStIMjh5TVhVeVFoS1ZlVnQw?=
- =?utf-8?B?SG94bTJIcU02SHh4U241d1R2KzRidHBFWFhSWm9LaE4zNXpYcUIvalJ2bnZM?=
- =?utf-8?B?VzE4NGw5anBGZEdVbzNpM1FLMld5OEtUM0NPMTA2Wm93RmFwM0Z6VFNNUjVh?=
- =?utf-8?B?ZUM0YVhLektrVUc2dXowWjBWZmRuUGNuNVRPRk4wNFJYdWlyKythQ0NvRjgw?=
- =?utf-8?B?QWd3cldzT1AyblE0QUFIMUR4U1JhdnRyUkpsZXZnYXJxb1dldWlGdW5YQVcx?=
- =?utf-8?B?L1Fyb200dVpRd0pEcU5IbWl5eVN0R011VE5hWUx3Z2czb2h3RkNzMTJGZW8w?=
- =?utf-8?B?L2Nzem93UGp6UVhlQnVUdXZtdVYxSG4rTWFtNnljUWRXZEVmcDBJMVUwK0Yr?=
- =?utf-8?B?cUN0ajRnY1dZWkJaWDBQdG5IanRJQ2VFY2NObGZQZEp5TEpLSmkzZXpGWk9k?=
- =?utf-8?B?dkkrTWoveUg0QjRKWUlyd1pLOVVmUngrZnBNVGRDd2JxeDAyN3YyaWNiRDM0?=
- =?utf-8?B?SUc4SkhITlpaeTJKNFhaYjRCQzduVFlhTGRvUWV3Q2IxQ2RPaVhZK2VpK3Jl?=
- =?utf-8?B?NG15SFVNNWMvaG41cTBJQnNIUXMwQ01OUmszdzhSc2wwMW5VNWJ1MXRkY0ZB?=
- =?utf-8?B?bTkyMGVkRmlSZVV3MnBoVGx1UmhjOWVadHpkd3JCWGVLNXdIRUw1VThhUXhD?=
- =?utf-8?Q?2RdoHIqUrrRzHdsxV8CdYvJbY27N7Zt3C80kbOcJnpb9a?=
-X-MS-Exchange-AntiSpam-MessageData-1: xhIvjmXzVAwCHg==
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UnYzVTJ3TmF1eG43ZzNGNTV0bkMwYUpoV3JxYi9abFgyVGNVQWFNeFJBRGVI?=
+ =?utf-8?B?dzRLTjFrcE1Dc05TMWJxcy8vbVRRd3Fhb3UvRVhOcFFlVU80eHRHcnJ5c2lO?=
+ =?utf-8?B?UzRad2JsMWJOWEdEaUZZL2NUWjdwS3V6RFlxS3AwVGJod2ttVmNUMUhPZlhu?=
+ =?utf-8?B?SDZsQWk3dnByRUUwbEhvcUVOdE9EV0djWjBRNDRvUVFzeGZma3YvaFQwdFdP?=
+ =?utf-8?B?MFREancrV3V3OE1DaUNHNXI3amVWODlXTE1vcUFYTGlTWUdtbEZIYVdwWFln?=
+ =?utf-8?B?SnoreHM4eVFjTUV2Zm9vc3k4SHZqWGhUcmZOZFlpVjFoN05GV0pWRDRrc2VK?=
+ =?utf-8?B?dnZFeFdXbFQ4b01SMHh0VEVmanpiV0hEOWthTEhnTW90T3NjT1lPVENUc0NE?=
+ =?utf-8?B?eHMxQkoyOGMydzRzTmpNcURyNGZiTW45allEQjVkUENjWlkvcG1aaWdueFFh?=
+ =?utf-8?B?eDZQU0kxVFR0WFd0Vm9IZ215Tk5QY1V3NThsbnVjdmtzRjF1SWdIaE1rVmtu?=
+ =?utf-8?B?ZldxcEEvV2ppQlRrRlVFUkowVm4zdjQ4YmJQTkZjR0h1TDVSZVRwSXZrakZZ?=
+ =?utf-8?B?elVaNjhSRmFyd3VKajJWQ1FFY1lxb3FldHgyNlpJc3ZlMitxZHpuSjdRRjNk?=
+ =?utf-8?B?WjJ3S29tTXVuU2d1QXh6Y2x1ZkJNbERab3lMTk5UQ0JlR1B6WGNOdnlrVDNB?=
+ =?utf-8?B?YkpQRk9MWnVTczlRME5vT3R5QVVZNXcrS0ZNOGl0Z2tqdmJFOG12bzQ0RGQw?=
+ =?utf-8?B?MUdtQ28yd0N1UlI2SDZ1Q1pkaXJvVWQyZVMxUEdqTkJRaGlXTkVCaG9haEp4?=
+ =?utf-8?B?bXZKSkVOdy9Ec0xVc3lacStyZW1RMXdTU3c5aFdaR0NQUkViUEQrd1M4Si9r?=
+ =?utf-8?B?bmtWNm0rcFpERW1JRWtDTmo0cXIyQ1NOeDlPUFA4MGEzcnUrUllYem93M0k5?=
+ =?utf-8?B?dVpadnlmZnUyY1lpN3NkTTZ2ejkreWlVd3JvTUZoVEc1ZTdoWWZZYzVSTjZs?=
+ =?utf-8?B?dDNRMndxWnl1SzZRclZndWdaZzAvYTh1eWliaGhrbXQzMVJWTkdUQXIrelBu?=
+ =?utf-8?B?bnBhYllyL2pTa2hGQnRwLzY2WVRzZ0tFZ1NoM3diVzdidjRZMHZicHprRVpE?=
+ =?utf-8?B?MFloWGQ2aWE5YmplRmdidFZsRTlycm9mRUJBYVMvMXpabm5CS0RCaDBYamFQ?=
+ =?utf-8?B?eUVmVkVWVG5NZWZTdHMxdDBSNnQxN1hEUE1VSzkrNWVuR0FDRlBlK0NKcnpk?=
+ =?utf-8?B?S1FwUlVOSXplc2dGb1RYVXFSWUtham15bG12cHRReFpCK1lzSDlwRmhiaFBt?=
+ =?utf-8?B?R2tidGFCUVlxZHdGb3hvKzV4ZTRjRE1lMURhSHlkREJjeHpqR1RkSEEvNEUy?=
+ =?utf-8?B?UmFON3lkZjVJemVRVDkxek16TzZLaVFWaEdKTzNhOHl0Z2pxdFovRjVOMFRK?=
+ =?utf-8?B?bUtmVVpETDRlTVIxNjJvaDBhMjlpUlB2ckNyVk1vUk85dWRyN2cvMjVyV2ZR?=
+ =?utf-8?B?VkVxcUU5N1BTcWFBQU9jT3pmamZmcnlEMjUwM29jK3VkcG9TOHYzT0h1a0Js?=
+ =?utf-8?B?VWcwam4yUE40dDE1dTVIYXB2MU9JQ3JjVjh4N1d1VGJQOWNaQzJYZzlkUUJz?=
+ =?utf-8?B?YUhTZlRwZU0zRmNwaWJQZExvTEl0OVIreE1rV2NEY2tNQXFoRlg4b3F0YVNp?=
+ =?utf-8?B?QjNMb1ZWOVloKzRMU2xOTzBlT1dBUEZhamo2SmlnUUdvRitPUmg0YWsveHla?=
+ =?utf-8?B?SkMzWWlnbzUvR2o5ME9JWDIrUUZrYkJ3TzV6Nm83bDlNMFNkRTFyQ2FPV0Rh?=
+ =?utf-8?B?ZlNtV3lUeGM0SitwY0U5OHlydVFRcnM2Sy95RmxYbldPU1Qza3ZQZEFjMGJu?=
+ =?utf-8?B?Rk5ORGs5OUg1QlFXUktyMjdLVU50bG5sNXkvWVlCZ0VsTElMWEJPYmZSalVw?=
+ =?utf-8?B?ZDRTc0dBQUtzMUJPV3JmYnQrdFgrSktsTUluNFJueDBiK3lDb1UzbTRRS0da?=
+ =?utf-8?B?QXlOZWlyTkNmRHZOaTVTdWpONUtLY0xIZ0I0WGlwVzFmZHdQSm9rTjFsVnVW?=
+ =?utf-8?B?elNYTUJWeWF0bnNiejZnakJwcDlITy9IdzZKVFlURWxmMnFtMVhFYzNCdUht?=
+ =?utf-8?B?RGRaclorU2Zld21FeEpEWER2NDc5amVrSGZJcFFFYitDSFdIOWRUUjhTY0JX?=
+ =?utf-8?B?UUsxUCsxRkpWNTJlYUc0Rm1LcDZ6ekVEZzJEcE5kam9WZlh2YVFKcFRoSndV?=
+ =?utf-8?B?STdKM2VkNmIzdHZnaGRUZkNqRXd5NnFXbHpDTUV5OE83MHBGR1hEZ3BxNE1u?=
+ =?utf-8?B?UGFDS1A5Z0lwSjhPcklxY2x0MTNpOVFyYXNBSXBGTTEyeDA1czAzeTFleU84?=
+ =?utf-8?Q?f/PzpWG7tvnhQ62jiiJmiTfBT/5tkRmHmAEN+MGcI50Ge?=
+X-MS-Exchange-AntiSpam-MessageData-1: 3k7R/UpR75IBeA==
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f50b2d3-503f-411e-d0a8-08de5fda8384
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8a4548a-69bd-4688-0126-08de5fda85cb
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 08:35:24.9488 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 08:35:28.6437 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 42HzjtJeEt8hzK//2nyrYYWPFGWDrEbrWG+Kfp2Rk2EmyX3v7oP6OT7ev8shL8pvVdqsVJfUXKtlFW3XNSbc/Q==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6M2yVZmO+G1gDn9UwFNdv27hOrehoQ2d8wxu0r2sQ3vt+j7ira8Sjn5d6zQeWUwna7z50M/if0cFNfRFOPTGMw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9400
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -217,74 +214,432 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: D927CB86F6
+X-Rspamd-Queue-Id: 3AA80B8705
 X-Rspamd-Action: no action
 
-This series extends the DMA coherent allocation API to support compile-time
-known sizes. This lets bounds checking to be moved from runtime to build
-time, which is useful to avoid runtime panics from index typos. It also
-removes the need for a Result return type in some places.
-
-The compile time size is specified via a marker type: StaticSize<N>.
-Statically sized allocations can decay to runtime sized ones via deref
-coercion for code that doesn't need to know the size at compile time, or to
-avoid having to carry around extra type parameters. The implementation
-follows a similar pattern to Device/DeviceContext.
-
-The series defines three type aliases: CoherentSlice<T> (for runtime size),
-CoherentArray<T, N> (for compile-time size N), and CoherentObject<T> (for
-single object allocations). It also adds infallible dma_read!/dma_write!
-macros and methods to CoherentArray, while prefixing the existing fallible
-methods and macros with `try_`.
-
-The macros keep the same syntax (i.e.
-coherent_allocation[index].optional_fields = expression) even for
-CoherentObject, because the [] syntax is needed to know where to split the
-actual CoherentAllocation object from the fields. This means that
-CoherentObject is indexed with [0] in dma_write!/dma_read! macros. The
-alternative is defining a separate macro for single object access, but it
-still would need a way to delineate between the allocation and the fields,
-perhaps by using commas (dma_read_obj!(object, fields),
-dma_write_obj!(object, fields, value)). This would be inconsistent with the
-array/slice syntax.
-
-The last patch in the series may be useful as an example of what this
-looks like to use. Also, there is probably a better name than
-CoherentSlice. I found that specifying a default of RuntimeSize on
-CoherentAllocation stopped the compiler from being able to resolve
-which alloc_attrs to call in usages like e.g.
-CoherentAllocation<u8>::alloc_attrs. Also, we probably want to encourage
-people to use the statically sized one if possible, so it may be nice to
-avoid defaulting CoherentAllocation to RuntimeSize.
+Prefix fallible methods in CoherentAllocation with try_. Prefix
+dma_write! and dma_read! macros with try_ to better indicate they
+can fail.
 
 Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
 ---
-Eliot Courtney (9):
-      rust: dma: rename CoherentAllocation fallible methods
-      rust: dma: parameterize CoherentAllocation with AllocationSize
-      rust: dma: add CoherentArray for compile-time sized allocations
-      rust: dma: simplify try_dma_read! and try_dma_write!
-      rust: dma: rename try_item_from_index to try_ptr_at
-      rust: dma: add dma_read! and dma_write! macros
-      rust: dma: implement decay from CoherentArray to CoherentSlice
-      rust: dma: add CoherentObject for single element allocations
-      gpu: nova-core: migrate to CoherentArray and CoherentObject
+ drivers/gpu/nova-core/dma.rs            |  2 +-
+ drivers/gpu/nova-core/falcon.rs         |  2 +-
+ drivers/gpu/nova-core/firmware/fwsec.rs |  4 +-
+ drivers/gpu/nova-core/gsp.rs            | 16 +++----
+ drivers/gpu/nova-core/gsp/boot.rs       |  6 +--
+ drivers/gpu/nova-core/gsp/cmdq.rs       | 14 +++---
+ rust/kernel/dma.rs                      | 85 +++++++++++++++++----------------
+ samples/rust/rust_dma.rs                |  6 +--
+ 8 files changed, 69 insertions(+), 66 deletions(-)
 
- drivers/gpu/nova-core/dma.rs            |  10 +-
- drivers/gpu/nova-core/falcon.rs         |   2 +-
- drivers/gpu/nova-core/firmware/fwsec.rs |   4 +-
- drivers/gpu/nova-core/gsp.rs            |  44 +--
- drivers/gpu/nova-core/gsp/boot.rs       |   6 +-
- drivers/gpu/nova-core/gsp/cmdq.rs       |  20 +-
- drivers/gpu/nova-core/gsp/fw.rs         |  12 +-
- rust/kernel/dma.rs                      | 555 +++++++++++++++++++++++++-------
- samples/rust/rust_dma.rs                |  14 +-
- 9 files changed, 489 insertions(+), 178 deletions(-)
----
-base-commit: c71257394bc9c59ea727803f6e55e83fe63db74e
-change-id: 20260128-coherent-array-0321eb723d4c
+diff --git a/drivers/gpu/nova-core/dma.rs b/drivers/gpu/nova-core/dma.rs
+index 7215398969da..f77754f12f02 100644
+--- a/drivers/gpu/nova-core/dma.rs
++++ b/drivers/gpu/nova-core/dma.rs
+@@ -33,7 +33,7 @@ pub(crate) fn from_data(dev: &device::Device<device::Bound>, data: &[u8]) -> Res
+         Self::new(dev, data.len()).and_then(|mut dma_obj| {
+             // SAFETY: We have just allocated the DMA memory, we are the only users and
+             // we haven't made the device aware of the handle yet.
+-            unsafe { dma_obj.write(data, 0)? }
++            unsafe { dma_obj.try_write(data, 0)? }
+             Ok(dma_obj)
+         })
+     }
+diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/falcon.rs
+index 82c661aef594..9cd271de0554 100644
+--- a/drivers/gpu/nova-core/falcon.rs
++++ b/drivers/gpu/nova-core/falcon.rs
+@@ -460,7 +460,7 @@ fn dma_wr<F: FalconFirmware<Target = E>>(
+             FalconMem::Imem => (load_offsets.src_start, fw.dma_handle()),
+             FalconMem::Dmem => (
+                 0,
+-                fw.dma_handle_with_offset(load_offsets.src_start.into_safe_cast())?,
++                fw.try_dma_handle_with_offset(load_offsets.src_start.into_safe_cast())?,
+             ),
+         };
+         if dma_start % DmaAddress::from(DMA_LEN) > 0 {
+diff --git a/drivers/gpu/nova-core/firmware/fwsec.rs b/drivers/gpu/nova-core/firmware/fwsec.rs
+index b28e34d279f4..515b19926b49 100644
+--- a/drivers/gpu/nova-core/firmware/fwsec.rs
++++ b/drivers/gpu/nova-core/firmware/fwsec.rs
+@@ -191,7 +191,7 @@ unsafe fn transmute<T: Sized + FromBytes>(fw: &DmaObject, offset: usize) -> Resu
+     // SAFETY: The safety requirements of the function guarantee the device won't read
+     // or write to memory while the reference is alive and that this call won't race
+     // with writes to the same memory region.
+-    T::from_bytes(unsafe { fw.as_slice(offset, size_of::<T>())? }).ok_or(EINVAL)
++    T::from_bytes(unsafe { fw.try_as_slice(offset, size_of::<T>())? }).ok_or(EINVAL)
+ }
+ 
+ /// Reinterpret the area starting from `offset` in `fw` as a mutable instance of `T` (which must
+@@ -210,7 +210,7 @@ unsafe fn transmute_mut<T: Sized + FromBytes + AsBytes>(
+     // SAFETY: The safety requirements of the function guarantee the device won't read
+     // or write to memory while the reference is alive and that this call won't race
+     // with writes or reads to the same memory region.
+-    T::from_bytes_mut(unsafe { fw.as_slice_mut(offset, size_of::<T>())? }).ok_or(EINVAL)
++    T::from_bytes_mut(unsafe { fw.try_as_slice_mut(offset, size_of::<T>())? }).ok_or(EINVAL)
+ }
+ 
+ /// The FWSEC microcode, extracted from the BIOS and to be run on the GSP falcon.
+diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
+index fb6f74797178..43bc35fd3b55 100644
+--- a/drivers/gpu/nova-core/gsp.rs
++++ b/drivers/gpu/nova-core/gsp.rs
+@@ -8,10 +8,10 @@
+         CoherentAllocation,
+         DmaAddress, //
+     },
+-    dma_write,
+     pci,
+     prelude::*,
+-    transmute::AsBytes, //
++    transmute::AsBytes,
++    try_dma_write, //
+ };
+ 
+ pub(crate) mod cmdq;
+@@ -92,7 +92,7 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
+         unsafe {
+             // Copy the self-mapping PTE at the expected location.
+             obj.0
+-                .as_slice_mut(size_of::<u64>(), size_of_val(&ptes))?
++                .try_as_slice_mut(size_of::<u64>(), size_of_val(&ptes))?
+                 .copy_from_slice(ptes.as_bytes())
+         };
+ 
+@@ -131,13 +131,13 @@ pub(crate) fn new(pdev: &pci::Device<device::Bound>) -> Result<impl PinInit<Self
+         // _kgspInitLibosLoggingStructures (allocates memory for buffers)
+         // kgspSetupLibosInitArgs_IMPL (creates pLibosInitArgs[] array)
+         let loginit = LogBuffer::new(dev)?;
+-        dma_write!(libos[0] = LibosMemoryRegionInitArgument::new("LOGINIT", &loginit.0))?;
++        try_dma_write!(libos[0] = LibosMemoryRegionInitArgument::new("LOGINIT", &loginit.0))?;
+ 
+         let logintr = LogBuffer::new(dev)?;
+-        dma_write!(libos[1] = LibosMemoryRegionInitArgument::new("LOGINTR", &logintr.0))?;
++        try_dma_write!(libos[1] = LibosMemoryRegionInitArgument::new("LOGINTR", &logintr.0))?;
+ 
+         let logrm = LogBuffer::new(dev)?;
+-        dma_write!(libos[2] = LibosMemoryRegionInitArgument::new("LOGRM", &logrm.0))?;
++        try_dma_write!(libos[2] = LibosMemoryRegionInitArgument::new("LOGRM", &logrm.0))?;
+ 
+         let cmdq = Cmdq::new(dev)?;
+ 
+@@ -146,8 +146,8 @@ pub(crate) fn new(pdev: &pci::Device<device::Bound>) -> Result<impl PinInit<Self
+             1,
+             GFP_KERNEL | __GFP_ZERO,
+         )?;
+-        dma_write!(rmargs[0] = fw::GspArgumentsCached::new(&cmdq))?;
+-        dma_write!(libos[3] = LibosMemoryRegionInitArgument::new("RMARGS", &rmargs))?;
++        try_dma_write!(rmargs[0] = fw::GspArgumentsCached::new(&cmdq))?;
++        try_dma_write!(libos[3] = LibosMemoryRegionInitArgument::new("RMARGS", &rmargs))?;
+ 
+         Ok(try_pin_init!(Self {
+             libos,
+diff --git a/drivers/gpu/nova-core/gsp/boot.rs b/drivers/gpu/nova-core/gsp/boot.rs
+index 54937606b5b0..69e2fb064220 100644
+--- a/drivers/gpu/nova-core/gsp/boot.rs
++++ b/drivers/gpu/nova-core/gsp/boot.rs
+@@ -3,11 +3,11 @@
+ use kernel::{
+     device,
+     dma::CoherentAllocation,
+-    dma_write,
+     io::poll::read_poll_timeout,
+     pci,
+     prelude::*,
+-    time::Delta, //
++    time::Delta,
++    try_dma_write, //
+ };
+ 
+ use crate::{
+@@ -160,7 +160,7 @@ pub(crate) fn boot(
+ 
+         let wpr_meta =
+             CoherentAllocation::<GspFwWprMeta>::alloc_coherent(dev, 1, GFP_KERNEL | __GFP_ZERO)?;
+-        dma_write!(wpr_meta[0] = GspFwWprMeta::new(&gsp_fw, &fb_layout))?;
++        try_dma_write!(wpr_meta[0] = GspFwWprMeta::new(&gsp_fw, &fb_layout))?;
+ 
+         self.cmdq
+             .send_command(bar, commands::SetSystemInfo::new(pdev))?;
+diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gsp/cmdq.rs
+index 3991ccc0c10f..9c94f4c6ff6d 100644
+--- a/drivers/gpu/nova-core/gsp/cmdq.rs
++++ b/drivers/gpu/nova-core/gsp/cmdq.rs
+@@ -15,7 +15,6 @@
+         CoherentAllocation,
+         DmaAddress, //
+     },
+-    dma_write,
+     io::poll::read_poll_timeout,
+     prelude::*,
+     sync::aref::ARef,
+@@ -24,6 +23,7 @@
+         AsBytes,
+         FromBytes, //
+     },
++    try_dma_write, //
+ };
+ 
+ use crate::{
+@@ -201,9 +201,11 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
+ 
+         let gsp_mem =
+             CoherentAllocation::<GspMem>::alloc_coherent(dev, 1, GFP_KERNEL | __GFP_ZERO)?;
+-        dma_write!(gsp_mem[0].ptes = PteArray::new(gsp_mem.dma_handle())?)?;
+-        dma_write!(gsp_mem[0].cpuq.tx = MsgqTxHeader::new(MSGQ_SIZE, RX_HDR_OFF, MSGQ_NUM_PAGES))?;
+-        dma_write!(gsp_mem[0].cpuq.rx = MsgqRxHeader::new())?;
++        try_dma_write!(gsp_mem[0].ptes = PteArray::new(gsp_mem.dma_handle())?)?;
++        try_dma_write!(
++            gsp_mem[0].cpuq.tx = MsgqTxHeader::new(MSGQ_SIZE, RX_HDR_OFF, MSGQ_NUM_PAGES)
++        )?;
++        try_dma_write!(gsp_mem[0].cpuq.rx = MsgqRxHeader::new())?;
+ 
+         Ok(Self(gsp_mem))
+     }
+@@ -221,7 +223,7 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
+         // - The `CoherentAllocation` contains exactly one object.
+         // - We will only access the driver-owned part of the shared memory.
+         // - Per the safety statement of the function, no concurrent access will be performed.
+-        let gsp_mem = &mut unsafe { self.0.as_slice_mut(0, 1) }.unwrap()[0];
++        let gsp_mem = &mut unsafe { self.0.try_as_slice_mut(0, 1) }.unwrap()[0];
+         // PANIC: per the invariant of `cpu_write_ptr`, `tx` is `<= MSGQ_NUM_PAGES`.
+         let (before_tx, after_tx) = gsp_mem.cpuq.msgq.data.split_at_mut(tx);
+ 
+@@ -256,7 +258,7 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
+         // - The `CoherentAllocation` contains exactly one object.
+         // - We will only access the driver-owned part of the shared memory.
+         // - Per the safety statement of the function, no concurrent access will be performed.
+-        let gsp_mem = &unsafe { self.0.as_slice(0, 1) }.unwrap()[0];
++        let gsp_mem = &unsafe { self.0.try_as_slice(0, 1) }.unwrap()[0];
+         // PANIC: per the invariant of `cpu_read_ptr`, `xx` is `<= MSGQ_NUM_PAGES`.
+         let (before_rx, after_rx) = gsp_mem.gspq.msgq.data.split_at(rx);
+ 
+diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
+index 909d56fd5118..02321d5f3f06 100644
+--- a/rust/kernel/dma.rs
++++ b/rust/kernel/dma.rs
+@@ -482,7 +482,7 @@ pub fn dma_handle(&self) -> DmaAddress {
+     /// device as the DMA address base of the region.
+     ///
+     /// Returns `EINVAL` if `offset` is not within the bounds of the allocation.
+-    pub fn dma_handle_with_offset(&self, offset: usize) -> Result<DmaAddress> {
++    pub fn try_dma_handle_with_offset(&self, offset: usize) -> Result<DmaAddress> {
+         if offset >= self.count {
+             Err(EINVAL)
+         } else {
+@@ -494,7 +494,7 @@ pub fn dma_handle_with_offset(&self, offset: usize) -> Result<DmaAddress> {
+ 
+     /// Common helper to validate a range applied from the allocated region in the CPU's virtual
+     /// address space.
+-    fn validate_range(&self, offset: usize, count: usize) -> Result {
++    fn try_validate_range(&self, offset: usize, count: usize) -> Result {
+         if offset.checked_add(count).ok_or(EOVERFLOW)? > self.count {
+             return Err(EINVAL);
+         }
+@@ -514,8 +514,8 @@ fn validate_range(&self, offset: usize, count: usize) -> Result {
+     ///   slice is live.
+     /// * Callers must ensure that this call does not race with a write to the same region while
+     ///   the returned slice is live.
+-    pub unsafe fn as_slice(&self, offset: usize, count: usize) -> Result<&[T]> {
+-        self.validate_range(offset, count)?;
++    pub unsafe fn try_as_slice(&self, offset: usize, count: usize) -> Result<&[T]> {
++        self.try_validate_range(offset, count)?;
+         // SAFETY:
+         // - The pointer is valid due to type invariant on `CoherentAllocation`,
+         //   we've just checked that the range and index is within bounds. The immutability of the
+@@ -525,8 +525,8 @@ pub unsafe fn as_slice(&self, offset: usize, count: usize) -> Result<&[T]> {
+         Ok(unsafe { core::slice::from_raw_parts(self.start_ptr().add(offset), count) })
+     }
+ 
+-    /// Performs the same functionality as [`CoherentAllocation::as_slice`], except that a mutable
+-    /// slice is returned.
++    /// Performs the same functionality as [`CoherentAllocation::try_as_slice`], except that a
++    /// mutable slice is returned.
+     ///
+     /// # Safety
+     ///
+@@ -534,8 +534,8 @@ pub unsafe fn as_slice(&self, offset: usize, count: usize) -> Result<&[T]> {
+     ///   slice is live.
+     /// * Callers must ensure that this call does not race with a read or write to the same region
+     ///   while the returned slice is live.
+-    pub unsafe fn as_slice_mut(&mut self, offset: usize, count: usize) -> Result<&mut [T]> {
+-        self.validate_range(offset, count)?;
++    pub unsafe fn try_as_slice_mut(&mut self, offset: usize, count: usize) -> Result<&mut [T]> {
++        self.try_validate_range(offset, count)?;
+         // SAFETY:
+         // - The pointer is valid due to type invariant on `CoherentAllocation`,
+         //   we've just checked that the range and index is within bounds. The immutability of the
+@@ -561,11 +561,11 @@ pub unsafe fn as_slice_mut(&mut self, offset: usize, count: usize) -> Result<&mu
+     /// let buf: &[u8] = &somedata;
+     /// // SAFETY: There is no concurrent HW operation on the device and no other R/W access to the
+     /// // region.
+-    /// unsafe { alloc.write(buf, 0)?; }
++    /// unsafe { alloc.try_write(buf, 0)?; }
+     /// # Ok::<(), Error>(()) }
+     /// ```
+-    pub unsafe fn write(&mut self, src: &[T], offset: usize) -> Result {
+-        self.validate_range(offset, src.len())?;
++    pub unsafe fn try_write(&mut self, src: &[T], offset: usize) -> Result {
++        self.try_validate_range(offset, src.len())?;
+         // SAFETY:
+         // - The pointer is valid due to type invariant on `CoherentAllocation`
+         //   and we've just checked that the range and index is within bounds.
+@@ -581,12 +581,13 @@ pub unsafe fn write(&mut self, src: &[T], offset: usize) -> Result {
+         Ok(())
+     }
+ 
+-    /// Returns a pointer to an element from the region with bounds checking. `offset` is in
+-    /// units of `T`, not the number of bytes.
++    /// Returns a pointer to an element from the region with bounds checking. `offset` is in units
++    /// of `T`, not the number of bytes.
+     ///
+-    /// Public but hidden since it should only be used from [`dma_read`] and [`dma_write`] macros.
++    /// Public but hidden since it should only be used from [`try_dma_read`] and [`try_dma_write`]
++    /// macros.
+     #[doc(hidden)]
+-    pub fn item_from_index(&self, offset: usize) -> Result<*mut T> {
++    pub fn try_item_from_index(&self, offset: usize) -> Result<*mut T> {
+         if offset >= self.count {
+             return Err(EINVAL);
+         }
+@@ -602,10 +603,10 @@ pub fn item_from_index(&self, offset: usize) -> Result<*mut T> {
+     ///
+     /// # Safety
+     ///
+-    /// This must be called from the [`dma_read`] macro which ensures that the `field` pointer is
+-    /// validated beforehand.
++    /// This must be called from the [`try_dma_read`] macro which ensures that the `field` pointer
++    /// is validated beforehand.
+     ///
+-    /// Public but hidden since it should only be used from [`dma_read`] macro.
++    /// Public but hidden since it should only be used from [`try_dma_read`] macro.
+     #[doc(hidden)]
+     pub unsafe fn field_read<F: FromBytes>(&self, field: *const F) -> F {
+         // SAFETY:
+@@ -625,10 +626,10 @@ pub unsafe fn field_read<F: FromBytes>(&self, field: *const F) -> F {
+     ///
+     /// # Safety
+     ///
+-    /// This must be called from the [`dma_write`] macro which ensures that the `field` pointer is
+-    /// validated beforehand.
++    /// This must be called from the [`try_dma_write`] macro which ensures that the `field` pointer
++    /// is validated beforehand.
+     ///
+-    /// Public but hidden since it should only be used from [`dma_write`] macro.
++    /// Public but hidden since it should only be used from [`try_dma_write`] macro.
+     #[doc(hidden)]
+     pub unsafe fn field_write<F: AsBytes>(&self, field: *mut F, val: F) {
+         // SAFETY:
+@@ -684,18 +685,18 @@ unsafe impl<T: AsBytes + FromBytes + Send> Send for CoherentAllocation<T> {}
+ /// unsafe impl kernel::transmute::AsBytes for MyStruct{};
+ ///
+ /// # fn test(alloc: &kernel::dma::CoherentAllocation<MyStruct>) -> Result {
+-/// let whole = kernel::dma_read!(alloc[2]);
+-/// let field = kernel::dma_read!(alloc[1].field);
++/// let whole = kernel::try_dma_read!(alloc[2]);
++/// let field = kernel::try_dma_read!(alloc[1].field);
+ /// # Ok::<(), Error>(()) }
+ /// ```
+ #[macro_export]
+-macro_rules! dma_read {
+-    ($dma:expr, $idx: expr, $($field:tt)*) => {{
++macro_rules! try_dma_read {
++    ($dma:expr, $idx:expr, $($field:tt)*) => {{
+         (|| -> ::core::result::Result<_, $crate::error::Error> {
+-            let item = $crate::dma::CoherentAllocation::item_from_index(&$dma, $idx)?;
+-            // SAFETY: `item_from_index` ensures that `item` is always a valid pointer and can be
+-            // dereferenced. The compiler also further validates the expression on whether `field`
+-            // is a member of `item` when expanded by the macro.
++            let item = $crate::dma::CoherentAllocation::try_item_from_index(&$dma, $idx)?;
++            // SAFETY: `try_item_from_index` ensures that `item` is always a valid pointer
++            // and can be dereferenced. The compiler also further validates the expression
++            // on whether `field` is a member of `item` when expanded by the macro.
+             unsafe {
+                 let ptr_field = ::core::ptr::addr_of!((*item) $($field)*);
+                 ::core::result::Result::Ok(
+@@ -705,10 +706,10 @@ macro_rules! dma_read {
+         })()
+     }};
+     ($dma:ident [ $idx:expr ] $($field:tt)* ) => {
+-        $crate::dma_read!($dma, $idx, $($field)*)
++        $crate::try_dma_read!($dma, $idx, $($field)*)
+     };
+     ($($dma:ident).* [ $idx:expr ] $($field:tt)* ) => {
+-        $crate::dma_read!($($dma).*, $idx, $($field)*)
++        $crate::try_dma_read!($($dma).*, $idx, $($field)*)
+     };
+ }
+ 
+@@ -728,32 +729,32 @@ macro_rules! dma_read {
+ /// unsafe impl kernel::transmute::AsBytes for MyStruct{};
+ ///
+ /// # fn test(alloc: &kernel::dma::CoherentAllocation<MyStruct>) -> Result {
+-/// kernel::dma_write!(alloc[2].member = 0xf);
+-/// kernel::dma_write!(alloc[1] = MyStruct { member: 0xf });
++/// kernel::try_dma_write!(alloc[2].member = 0xf);
++/// kernel::try_dma_write!(alloc[1] = MyStruct { member: 0xf });
+ /// # Ok::<(), Error>(()) }
+ /// ```
+ #[macro_export]
+-macro_rules! dma_write {
++macro_rules! try_dma_write {
+     ($dma:ident [ $idx:expr ] $($field:tt)*) => {{
+-        $crate::dma_write!($dma, $idx, $($field)*)
++        $crate::try_dma_write!($dma, $idx, $($field)*)
+     }};
+     ($($dma:ident).* [ $idx:expr ] $($field:tt)* ) => {{
+-        $crate::dma_write!($($dma).*, $idx, $($field)*)
++        $crate::try_dma_write!($($dma).*, $idx, $($field)*)
+     }};
+     ($dma:expr, $idx: expr, = $val:expr) => {
+         (|| -> ::core::result::Result<_, $crate::error::Error> {
+-            let item = $crate::dma::CoherentAllocation::item_from_index(&$dma, $idx)?;
+-            // SAFETY: `item_from_index` ensures that `item` is always a valid item.
++            let item = $crate::dma::CoherentAllocation::try_item_from_index(&$dma, $idx)?;
++            // SAFETY: `try_item_from_index` ensures that `item` is always a valid item.
+             unsafe { $crate::dma::CoherentAllocation::field_write(&$dma, item, $val) }
+             ::core::result::Result::Ok(())
+         })()
+     };
+     ($dma:expr, $idx: expr, $(.$field:ident)* = $val:expr) => {
+         (|| -> ::core::result::Result<_, $crate::error::Error> {
+-            let item = $crate::dma::CoherentAllocation::item_from_index(&$dma, $idx)?;
+-            // SAFETY: `item_from_index` ensures that `item` is always a valid pointer and can be
+-            // dereferenced. The compiler also further validates the expression on whether `field`
+-            // is a member of `item` when expanded by the macro.
++            let item = $crate::dma::CoherentAllocation::try_item_from_index(&$dma, $idx)?;
++            // SAFETY: `try_item_from_index` ensures that `item` is always a valid pointer
++            // and can be dereferenced. The compiler also further validates the expression
++            // on whether `field` is a member of `item` when expanded by the macro.
+             unsafe {
+                 let ptr_field = ::core::ptr::addr_of_mut!((*item) $(.$field)*);
+                 $crate::dma::CoherentAllocation::field_write(&$dma, ptr_field, $val)
+diff --git a/samples/rust/rust_dma.rs b/samples/rust/rust_dma.rs
+index 9c45851c876e..7a87048575df 100644
+--- a/samples/rust/rust_dma.rs
++++ b/samples/rust/rust_dma.rs
+@@ -68,7 +68,7 @@ fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) -> impl PinInit<Self, E
+                 CoherentAllocation::alloc_coherent(pdev.as_ref(), TEST_VALUES.len(), GFP_KERNEL)?;
+ 
+             for (i, value) in TEST_VALUES.into_iter().enumerate() {
+-                kernel::dma_write!(ca[i] = MyStruct::new(value.0, value.1))?;
++                kernel::try_dma_write!(ca[i] = MyStruct::new(value.0, value.1))?;
+             }
+ 
+             let size = 4 * page::PAGE_SIZE;
+@@ -91,8 +91,8 @@ fn drop(self: Pin<&mut Self>) {
+         dev_info!(self.pdev, "Unload DMA test driver.\n");
+ 
+         for (i, value) in TEST_VALUES.into_iter().enumerate() {
+-            let val0 = kernel::dma_read!(self.ca[i].h);
+-            let val1 = kernel::dma_read!(self.ca[i].b);
++            let val0 = kernel::try_dma_read!(self.ca[i].h);
++            let val1 = kernel::try_dma_read!(self.ca[i].b);
+             assert!(val0.is_ok());
+             assert!(val1.is_ok());
+ 
 
-Best regards,
 -- 
-Eliot Courtney <ecourtney@nvidia.com>
+2.52.0
 
