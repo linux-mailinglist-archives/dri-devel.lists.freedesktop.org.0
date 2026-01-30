@@ -2,106 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OLHSKsq+fGlVOgIAu9opvQ
+	id WLLAAh+/fGlVOgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 15:23:06 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 15:24:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D28B9BB8C4
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 15:23:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE1CBB8E7
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 15:24:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20E1C10E256;
-	Fri, 30 Jan 2026 14:23:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECDDC10E9EC;
+	Fri, 30 Jan 2026 14:24:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="AsHVhYPw";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="iyCxdsRL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BDDA10E256
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 14:23:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1769782980;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5NysZYs1wcrqLDG0t5h0GSF4MeXnnFrjLy628r+9XtI=;
- b=AsHVhYPwj/CoWR/6XTdL0AJyvGCbmBOuD7ER3uMtlM6yo18Ezmo71Afi4jSpAXs+fmo85D
- DsvX0KnAKoK0nbuf7d3pe/mSYiVX87y2kU+iZ3ZlxzfpztFou/WhtOAYaI9KtcOZGPYs2U
- neIPv70Gl34qbRB0BjCK3g6xme53iFs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-54-SBmPuiDXM1ao1sAa4fPVZg-1; Fri, 30 Jan 2026 09:22:57 -0500
-X-MC-Unique: SBmPuiDXM1ao1sAa4fPVZg-1
-X-Mimecast-MFC-AGG-ID: SBmPuiDXM1ao1sAa4fPVZg_1769782976
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-4801d21c280so17088315e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 06:22:57 -0800 (PST)
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com
+ [209.85.128.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5009D10E9EC
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 14:24:22 +0000 (UTC)
+Received: by mail-wm1-f74.google.com with SMTP id
+ 5b1f17b1804b1-4806cfffca6so23126475e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 06:24:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1769783061; x=1770387861;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=wgH1umHMvKF8uVd86KXX82zt+PyZUkfGsFkd4abYEVQ=;
+ b=iyCxdsRLn/tnJCb1y8Zbtb0qji3sk2vfoTJqI9XDJraHlB54sGgvb4iFoz3PKECj8c
+ J5g13dDaBhf4amjZcE2CCHUGubQklrXXP1soAYnOzHNGG+rMAe8odsim62PH4AbvLZfV
+ UMpqgMGgr+NyP3SLnWlhHJlMezKEEf/5RnRwKPa5f3beaLnJVtNNQVhGNyIsN4xhzg1O
+ yCAqikrZc5xaepXRM2DzADzev6dlqaAZarhDBw++YOtWK0zky2Z37ZlynAzjVrvPFrH/
+ by6NrRz3Os3+7WO18NUVaqragIWC/YbExfZVydwguv7R9J0j5UOGwZhOLdvxmYnd4hy+
+ ErwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769782976; x=1770387776;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5NysZYs1wcrqLDG0t5h0GSF4MeXnnFrjLy628r+9XtI=;
- b=Pf89qeknYHO7QjLlfYAfaHJSjT5cSkF66Pe3vJ9h20TGRMu/gY2iqX2AsUEXoAi+Q9
- vUxX4z3IsZHmfQo97wK8iT2GeujXRCS3mUPVwnl+JvWhKTJ9AFrONUfU2WX+/+IGhrl5
- 7ijuiyBatbeDPPyi2oIhq0jQde7El09UFjRKXtEUvDOeKvElZ8HYqEpcnKVkPtFg1DFj
- HkVUzOtS3JFayPcla9NIRzimBxt1f7EkYvJehjDJXyxFpUgL+XtQy1ApILtO3u+evIxQ
- PDFpe3Y5j/wyNIIXW4tsEqe5XBlPsqp5brxAYw+Z+gzEbew2/OlJ2HpeUipMwESm7hlb
- 7dFQ==
+ d=1e100.net; s=20230601; t=1769783061; x=1770387861;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=wgH1umHMvKF8uVd86KXX82zt+PyZUkfGsFkd4abYEVQ=;
+ b=cmIdGqls6Z5UudZUPyptjxtanRJ9Dd2xHy9QmgFpiDdfD6nkzYrjlZjLmGB6va5eSY
+ /iCS+Iyg6y0mMpnfvSxuEAgxk5aqcQuN8iFuvc8vg/pbunSvhLFpsGHeLjj9cJOSmfHt
+ o1i/yuM9TU3b8e4qj2VcJ4usJxFYi9q0Q+T06lVsRqtM9gRXEb2CwO84Raj+g1DKzhEz
+ 9/lMwj7x9YfZaiO7+d9GWJ78w3WGQxQ/6D7NzTtJyyrqOu/8CQOpfOUWR8XT5o+ljnyz
+ W31bWqkBDqPjUNSdXbIdGYaUcUPaFQhBbKQyD3sioqeWJaZhG0VJZEhA+CcEKdLb0l6R
+ fwwg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWK1i0Fv8MbeZR20zIQ+CVU4RuJsvKidvlEiyfaW2ZxbzEG6Zp0+He4vGzvdzH7HKXYWnxdPxN8kmM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzVT0ZhUKnkx0WT6N3y/r1nkzdN224Y2gt+eFhD+AsqN8m6CbEj
- BtruciKByw1nK+DqHZrRuPNTiOpt4wfA1+cfYZBDMzixagwnvG4SLy6EGdazs0zaG27c71xwpmO
- /3pVLM00w+mCoDox9FzOrdvnNLOmhY/rktX5OFjX1cfkIS8MRsUjREzBNXetLGQeOM6dnlg==
-X-Gm-Gg: AZuq6aJouad5x4m/M4X5CEsDyPV61JW0L7PQFYys3BzShr/ThMvPzPe0ZBU31D0Rs09
- JV2oqDKlCq5HUcFsJ49QywY/F1TpHid6SpAlnVP0sgES3F8ft7jhSxgJETqKMINLRmVbJLsrnIG
- KtOe1w9TJ1t0hbGNA55SyzLDsbKi34HF3BNNrQokqp0EUxOPRWESPpGunR4MrIoaaz35dEIyMzU
- rxkirWEZg8EOSahLiKPAv1F8Y5s4tWA8yHTf5KfERY0LV1huKs+crUE1oM68jE5e6xysc1cNLf9
- eoAk6InocNoKkWHukcLZcTrm+AG+aN8Thp1NUl6/eXU4FS6v9bQGZ+o50fU79YGULlOtPxo/gCD
- yAw1t/pQh/0DcA//TaPTgwVArdRlLewtJX13oBjEv+obOyP0DXg==
-X-Received: by 2002:a05:600c:3e15:b0:477:df7:b020 with SMTP id
- 5b1f17b1804b1-482db48c76dmr38136285e9.18.1769782976049; 
- Fri, 30 Jan 2026 06:22:56 -0800 (PST)
-X-Received: by 2002:a05:600c:3e15:b0:477:df7:b020 with SMTP id
- 5b1f17b1804b1-482db48c76dmr38135955e9.18.1769782975646; 
- Fri, 30 Jan 2026 06:22:55 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
- ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-435e131cf4asm23441310f8f.28.2026.01.30.06.22.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Jan 2026 06:22:54 -0800 (PST)
-Message-ID: <85edc1c4-1985-48d0-9ece-50a5c70e1752@redhat.com>
-Date: Fri, 30 Jan 2026 15:22:52 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/mgag200: sleep instead of busy wait for BMC
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Jacob Keller <jacob.e.keller@intel.com>, Dave Airlie <airlied@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>
-Cc: Pasi Vaananen <pvaanane@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260128-jk-mgag200-fix-bad-udelay-v1-1-db02e04c343d@intel.com>
- <338ff7cf-1c7d-48da-b1b8-37aac440fed0@suse.de>
- <88f33e4e-5d0e-4520-a399-5be2901a3281@intel.com>
- <27af79a8-ee84-4845-a737-82d3883536e7@redhat.com>
- <8d238204-b0f6-48a7-9afc-480097c32a23@suse.de>
- <770785c9-266b-4ebb-a0a1-f5e615e45855@redhat.com>
- <4272ae94-902e-40dc-86ce-62b642fa9656@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <4272ae94-902e-40dc-86ce-62b642fa9656@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: QbftwVMRpvx7KAw_KC2TbSbgEpv2cfCadwxkDJ6uXdw_1769782976
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ AJvYcCX3A1aii1+kkY5z2Iok/6cmdBHKH//Zh3NySSQrwoSeY8eYehMWOfN8GITfKW+38e9FBd9pQ9JD5do=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw5yMswMNW2VQZplvR5uQUuLHtaeNiY3wRr0NJLajmAL20g3u/F
+ 98X0+2fGaLZ1FXKvDTA5iuOnGkP/9ytItalz4ZfTRRMSp4X+gEbMgtWermtfcm6T4EJbZhATtdl
+ /YnoRqYK9gwE0GbUHZA==
+X-Received: from wmlc14.prod.google.com ([2002:a7b:c84e:0:b0:480:2e46:31e1])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:c16d:b0:477:63b5:7148 with SMTP id
+ 5b1f17b1804b1-482db44d22dmr41461495e9.6.1769783060869; 
+ Fri, 30 Jan 2026 06:24:20 -0800 (PST)
+Date: Fri, 30 Jan 2026 14:24:09 +0000
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAAm/fGkC/23MSwrCMBSF4a2UjI3cJH2oI/chDvK4bQO2KUkbl
+ NK9mxYEiw7Pge+fSUBvMZBLNhOP0Qbr+jTyQ0Z0K/sGqTVpEw68YIyfaDNMsaN+CiNVFTtrqXk
+ lTUkSGDzW9rnFbve0WxtG519bO7L1/ZuJjAJFVZelqrnIEa6Nc80Dj9p1ZO1E/rElMNhbnqxRB
+ lgOUEhQP1Z8Wc52VqzWnAsNuUQtip1dluUNQ19k4h0BAAA=
+X-Change-Id: 20251128-gpuvm-rust-b719cac27ad6
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp;
+ fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2841; i=aliceryhl@google.com; 
+ h=from:subject:message-id;
+ bh=c7+gsehW6l++ywwtKH66K3DZWRLdGhqXlJPg2WevWJg=; 
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBpfL8ODHdEgGQHcL5Hx5w+G06YTGrVLX1xlfPdu
+ YsjP4Hhv+2JAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaXy/DgAKCRAEWL7uWMY5
+ RgVRD/0V0SYugUCUlBz1Sz9y942V/YvgefJCytbhSCJR46MtDAFQ84DBrnUujwLcy9XbqLRFbw9
+ vijMkh2pKEwPCWCOmQn1Jfq/jGHs/kzM+pUSr+0uqeInyMtx1smuejcr4EMVz2+JMNqIhkkv2AB
+ LbFXCPh3jKmFijP32lCojxbNxHIesmgMcwq0gMPZ3nunJsifWCnI2uisyznst6VNFqfHNlQ7jkF
+ AS8LicvtviuEJHJnapnG1JBweUjCOiHg7HMxYu20EIPzD0XRbP5jJOdrg2K6cb0eoFKxUh57IJ4
+ hSc1FMp4mAEyyQO3O0zDKERQIh/3EwMiyD3nSqVNbVmI0OiBHDx1WIQ1lwYoslkyzJl7m+5ejXr
+ NeHea+soQ3XiNkY1/n87RxD7V7sX0Y164ODq7F7MZAy5lCUFrsamT5q7F8dGo8RLfe5LBWzIDK4
+ Jojy/R7VzGaH6GV+YmpDPe05X6VK3SJj9Bw6n+mTvW1ltuhCnKgZGBnJR3fOUaIy023mGupQz0+
+ Rg5ZsaNuxlDFT28Ur8T7S1CWMQGlp3FmPYj0K42eYS67JvjRljt4m5CX9ut6eTkRUcO9y4Qjk9+
+ bRDVTy4bEge3mYvbXlxm+gl3xSCqZDASjuXHWWpsWtxUrSY3Nv5qQ8sKe9249OgJ46qaJxxxp1n
+ vv5YsWte9cRmXmw==
+X-Mailer: b4 0.14.2
+Message-ID: <20260130-gpuvm-rust-v4-0-8364d104ff40@google.com>
+Subject: [PATCH v4 0/6] Rust GPUVM immediate mode
+From: Alice Ryhl <aliceryhl@google.com>
+To: Danilo Krummrich <dakr@kernel.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Janne Grunau <j@jannau.net>, Matthew Brost <matthew.brost@intel.com>, 
+ "=?utf-8?q?Thomas_Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>, 
+ Asahi Lina <lina+kernel@asahilina.net>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ Alice Ryhl <aliceryhl@google.com>
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,164 +110,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	MV_CASE(0.50)[];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:jacob.e.keller@intel.com,m:airlied@redhat.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:simona@ffwll.ch,m:pvaanane@redhat.com,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[jfalempe@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:daniel.almeida@collabora.com,m:boris.brezillon@collabora.com,m:j@jannau.net,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:lyude@redhat.com,m:lina+kernel@asahilina.net,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:aliceryhl@google.com,m:lina@asahilina.net,s:lists@lfdr.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jfalempe@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[google.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[60hz:email]
-X-Rspamd-Queue-Id: D28B9BB8C4
+	NEURAL_HAM(-0.00)[-0.940];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel,kernel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: AAE1CBB8E7
 X-Rspamd-Action: no action
 
-On 30/01/2026 15:03, Thomas Zimmermann wrote:
-> Hi,
-> 
-> I don't understand this.
-> 
-> Am 30.01.26 um 14:27 schrieb Jocelyn Falempe:
->> Hi,
->>
->> To take some measurement, I've put this instead of step 3a of 
->> mgag200_bmc_stop_scanout()
->>
->> for (i = 0; i < 100000; i++) {
->>     WREG8(DAC_INDEX, MGA1064_SPAREREG);
->>     tmp = RREG8(DAC_DATA);
->>     pr_info("MGA Sparereg %02x\n", tmp);
->>     udelay(10);
->> }
->> return;
-> 
-> What do you actually measure? The loop in 3a is supposed to end as soon 
-> as bit 0x1 signals that the hsync is active.
-> 
-> Are you sure that the pr_info() doesn't interfere with the loop? This is 
-> a tight loop to catch the bit when it flips. Putting that pr_info() 
-> there in the loop can take plenty of time.
+This series provides an immediate mode GPUVM implementation.
 
-I just read continuously the SPAREREG register, just after step 2.
+Only immediate mode is provided for Rust code, as all planned Rust
+drivers intend to use GPUVM in immediate mode.
 
-So I take 100000 measurement, every 10us, which should take 1s, but take 
-1,2s in practice, probably due to pr_info(), and reading MGA register, 
-but that's not relevant.
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+---
+Changes in v4:
+- Add trait bound so that DriverGpuVm::Object must be the same type as
+  Driver::Object.
+- Add rust/helpers/dma-resv.c to MAINTAINERS.
+- Add __rust_helper to dma_resv_lock and dma_resv_unlock.
+- Rename GpuVm::raw_resv_lock() to GpuVm::raw_resv()
+- Reword comment in obtain() for adding to extobj list.
+- Fix typo in commit message referring to GpuVm<_> instead of GpuVmBo<_>.
+- Changed the PhantomData type used for invariance and add comment. (No
+  functional change.)
+- Rename offset to gem_offset in args to sm_map().
+- Link to v3: https://lore.kernel.org/r/20260121-gpuvm-rust-v3-0-dd95c04aec35@google.com
 
-> 
-> 
-> 
->>
->> It's called at boot at
->> [   45.110616] MGA STOP SCANOUT
->> [   45.110631] MGA Sparereg 84
->> it oscillates between 80, 81, 82, 83, 84 for ~4310us
->> [   45.114941] MGA Sparereg 81
->> then stays at 81 for ~227ms
->> [   45.342492] MGA Sparereg 81
->> [   45.342504] MGA Sparereg 80
->> and stays at 80 for 1136ms, until the end of the loop.
->> [   46.356152] MGA Sparereg 80
->>
->> Then it's called a few time when my display go blank and each time a 
->> different behavior is seen
->>
->> [  729.448040] MGA STOP SCANOUT
->> [  729.448055] MGA Sparereg 80
->> it oscillates between 80, 81, 82, 83, 84 for ~39258us
->> [  729.487313] MGA Sparereg 81
->> then stays at 81 for ~230ms
->> [  729.717349] MGA Sparereg 81
->> [  729.717363] MGA Sparereg 80
->> then back to 80
->>
->> This one is strange, it stays at 0x81 for 1191ms
->> [  838.307042] MGA STOP SCANOUT
->> [  838.307055] MGA Sparereg 81
->> [  839.498450] MGA Sparereg 81
->>
->> And the last one, this time it stays at 0x80 for 1235ms
->>
->> [ 4318.439032] MGA STOP SCANOUT
->> [ 4318.439047] MGA Sparereg 80
->> [ 4319.674140] MGA Sparereg 80
->>
->> So my conclusion, is that the bit 2 is almost never seen when polling 
->> at 10us, so there is no chance to see it if polling at 1000us like 
->> it's done by the driver. So the step 3b won't work at all on my setup.
-> 
-> 
-> 
->>
->> But even the bit 1 can stay set or unset for more than 1s, so it looks 
->> very unreliable to rely on it, at least on this hardware.
-> 
-> Did you connect to the BMC virtual display while performing the test?
+Changes in v3:
+- C prerequisites have landed, so only Rust part is present.
+- The logic for drm_exec was removed, and is for a follow-up.
+- Split up into patches.
+- Add lifetime to SmStepContext.
+- Docs filled out.
+- Mutex abstractions used for GEM gpuva lock.
+- Drop 'shared data' concept for now. (Can be added back later if required.)
+- Rename 'core' field to 'data'.
+- GpuVmCore<T> now derefs to GpuVm<T> instead of T.
+- Renamed GpuVmBoObtain to GpuVmBoResident.
+- Probably more changes I forgot.
+- Link to v2: https://lore.kernel.org/r/20260108-gpuvm-rust-v2-0-dbd014005a0b@google.com
 
-I didn't configure the remote interface on this machine. But this code 
-is still run and should work in this case.
+Changes in v2:
+- For this version, only the C prerequisites are included. Rust will be
+  sent as follow-up.
+- Add comment to drm_gpuvm_bo_destroy_not_in_lists()
+- Add Fixes: tag.
+- Pick up Reviewed-by tags.
+- Link to v1: https://lore.kernel.org/r/20251128-gpuvm-rust-v1-0-ebf66bf234e0@google.com
 
-> 
-> 
->>
->> I feel like doing a msleep(300) is probably the best bet.
->> If you still trust the hardware, maybe it should wait for ~100us, then 
->> check the bit 1 and wait until it goes back to 0.
-> 
-> Here's an example calculation: with 1920x1080@60Hz, there are 1125 lines 
-> overall. So
-> 
->    (1,000,000 usec/sec / 60 Hz) / 1125 lines ~= 14.8 usec / line.
-> 
-> There are 2200 pixels on each scanline. So
-> 
->    (1 - (1920 pixels / 2200 pixels) ) * 14.8 usec / line ~= 1.88 usec
-> 
-> This is roughly the time that the CRTC spends in each scanline's blank 
-> area and likely the upper bound for the duration of a single polling 
-> with that display mode. Otherwise, we might miss the blank.
-> 
-> Honestly, I'd just take the proposed patch as it is and not bother any 
-> further. I think this is the correct fix unless we can figure out the 
-> exact meaning of these bits and the BMC.
+---
+Alice Ryhl (4):
+      rust: gpuvm: add GpuVm::obtain()
+      rust: gpuvm: add GpuVa struct
+      rust: gpuvm: add GpuVmCore::sm_unmap()
+      rust: gpuvm: add GpuVmCore::sm_map()
 
-I'm fine with that too. At least on my machine, this waits for a random 
-amount of time, and that looks to work.
-> 
-> If anything, we could try to reduce the polling time to 1 usec and 
-> reduce the number of iterations to 50. This would give us 3 scanlines to 
-> catch the bit.
-> 
-> 
-> Best regards
-> Thomas
-> 
-> 
->>
->> You can find below the raw dmesg (I just removed the lines where the 
->> value is equal to the previous and next line, to make it smaller).
->>
-> 
+Asahi Lina (2):
+      rust: drm: add base GPUVM immediate mode abstraction
+      rust: helpers: Add bindings/wrappers for dma_resv_lock
+
+ MAINTAINERS                     |   3 +
+ rust/bindings/bindings_helper.h |   2 +
+ rust/helpers/dma-resv.c         |  14 ++
+ rust/helpers/drm_gpuvm.c        |  18 ++
+ rust/helpers/helpers.c          |   2 +
+ rust/kernel/drm/gpuvm/mod.rs    | 299 ++++++++++++++++++++++++++++
+ rust/kernel/drm/gpuvm/sm_ops.rs | 417 ++++++++++++++++++++++++++++++++++++++++
+ rust/kernel/drm/gpuvm/va.rs     | 148 ++++++++++++++
+ rust/kernel/drm/gpuvm/vm_bo.rs  | 227 ++++++++++++++++++++++
+ rust/kernel/drm/mod.rs          |   1 +
+ 10 files changed, 1131 insertions(+)
+---
+base-commit: 263e9ef3f5736697483af66babb8bc72f145b3f4
+change-id: 20251128-gpuvm-rust-b719cac27ad6
+
+Best regards,
+-- 
+Alice Ryhl <aliceryhl@google.com>
 
