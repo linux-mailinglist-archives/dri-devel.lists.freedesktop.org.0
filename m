@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cGwpHQipfGnuOAIAu9opvQ
+	id 4fkEByGpfGkYOQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 13:50:16 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 13:50:41 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A3FBBAA9F
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 13:50:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F24ABAAEB
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 13:50:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 540F210E9D0;
-	Fri, 30 Jan 2026 12:50:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4928C10E9D6;
+	Fri, 30 Jan 2026 12:50:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KP34JSm1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZK8AMuYi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5191610E9CA
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 12:50:09 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-4806bf39419so19908475e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 04:50:09 -0800 (PST)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66A3510E9CA
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 12:50:10 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-43590777e22so1320560f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 04:50:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769777408; x=1770382208; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1769777409; x=1770382209; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jCPyOYLjH+xCK5jyX0zEVU2hkN+dQM35tiBS1e1/x50=;
- b=KP34JSm1HrCFZAm3r3H3nl1minCbWdHT1MAdB+fJnS+VUNKxHr78sQBFGMdu0mOtzo
- qkDThyHGB6OACZt2XsQnk2XNO8ITCeFb11WTNdjNhjQwfsLz/M9kQu7FllMf4XikemLo
- 6siOpXUv2wby+A/XE8F938A0zVlfrB9wE7jQv1Ab7zhLg6otCiYuaD/n6bPd7z1zoGTV
- VwYu3ZELucorIIeaP5jkVVuqSNjssKHD2RbLCATsF47BndOtScSS2DtanIMZL6mHxdz5
- rVyP8gsejxbq8Mo7vgEJ+IcT2hfi3V2XF2bg8aagvYGiCqH5cs6c6aInlJiYLvn05U93
- 9NYQ==
+ bh=GI8V+9k69rlYV5L2TtkXx8LtnMYI334GXubYSiK/FVQ=;
+ b=ZK8AMuYi9cZ2vC7AK35hMQ6qbcrGB3FhEpQNsJiWJFiCpw5bSUOvGuXRgica5scYzl
+ mMfxN7k+tT2LtlEV1nCxlvBt5QR00GlMU2QFdy8LBRGPqQup+Ok5u47sFQJmxWLt0031
+ vR6vcVb2oxXi7ZEbXhAYZh2+mzWLnadXUEXA9yKsiafT0ZSaD0CEweyoO4fSLy3bu4TN
+ una9CfX3Vva3kEPJPd+hJ1cqof3b2rMzPn9To+tCae4nCUmL1XZlLa28f+DMm0e2IUg7
+ hXQ6iDD8LPP/mWQ6GZWYG9iq1ThkvwHAhJYc2eGRqROfyNNButk6tKJcKUnk4sls8Tve
+ bVmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769777408; x=1770382208;
+ d=1e100.net; s=20230601; t=1769777409; x=1770382209;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=jCPyOYLjH+xCK5jyX0zEVU2hkN+dQM35tiBS1e1/x50=;
- b=pwNCR/YWP5/COwpepR0PN7l9Nv3TtO5mwvH11CEwnV5X/nbo7O+pAITzJZsgsdKPoA
- 0alx2UDn5mjHZjT3TKfLQUIboiEZLTXUoO9qAxIzfOXVYP+oSY9+xCTSAmNmabwsJP5I
- yZjj5VI3PeVHrZJX3wJdN4RomgcpIyL7eCZSXBPwrbSG3QqXpTMIdRv6un1GVre2r9x4
- 5s1eEEbe0rqmoUsg1J4GyGsvOIm3avSNKbtDYR2hWBP4HC8FBa4PTpkZlvefFzDxDoFP
- oBD0gLCxeTeUF51F88WvcU/m42FJ5gQuy+zKhtRufKhcBWTov65bvOetbXMX8k6dn0oB
- M5Gg==
+ bh=GI8V+9k69rlYV5L2TtkXx8LtnMYI334GXubYSiK/FVQ=;
+ b=rHAOt0db3VcPYGWvvN02qZGUoXSmQ3DcN2iyv2r1G0OhJC06dTThrGFk2nGm0LS9M7
+ T0+e8XLqOth5m5hw+CbH/UfC7tpV+aEF2xb2CFDADMkXVOZfic6U8DGPhOt0AvtBNkqp
+ 7KzPhTmVng6HSiRuFCg2MB0Q6wMexsa3Aqxk1YqJ8xCE76/XniXRpepFnmdahQWZ8ept
+ RR6xGsGBeAqfsoRn07dBnQ+kf3VcRIUIyRXY0bzSfovI7zybzPlheB/ws9kINCeSne9Z
+ LlyvYrIqUwuKiY0Q/4O6JfMShzRK4Qp6WJ3ncuuTS7hWVW+lRNvwlq7csJAhHJex6g08
+ Du0A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUU1UgCbrU1hdmWzxqvKhnH14h73riJZea+p7KaiulqSYACljYNZWa+j6Z3hIawglFdzw3b3DYFEEI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yym1baBGepZPIWOI17/bqF+1AliK/ne09mAebMlpDCkA7QWapsH
- eUAmlpFBVqntaGZ52lFTSyShfAaEoYeJOBxtcdKALakD8h+2fvzQF/Hn
-X-Gm-Gg: AZuq6aKzN1Alb9XyJdd92ORbwaHuESCQwFjV8SaRcdu6uak0zYi7v8mEUirF30vZ6cB
- 4EwqdPlUaQk+s1xVB5Za+gHjZSZPJ3YROgyonIAINZilaT3LT/FVtkRK3buWPsrlLQyR+vCAuYX
- LUHnNFM14f2dNMpQW3z1cK4gPHKMubRU1xQxYuPjLM38qtqfJ+BAiy1nPoeBkcznUv562id3Sb+
- R97RkhO+XQcppUuEGVL2vzvd9hj9tRb7KkwNefAyb5WJkwB9dLBzcbARmwP5I6/S4vzbMaIKjYx
- BzGfnsq4dkejXB1j/xUOf8oFrK4ppyJTee3urNKbOTcxIR4RjtTg8Sea/ZLRB16NBmXNZH6d0wE
- 0mSPG0Ihe+enqHP+qj9eAd+Ql+V91ynj92Od64AyTqLW9ZP5wf2lHf+6BoNz+qc5+IAOXYHjnWw
- NM
-X-Received: by 2002:a05:6000:178b:b0:432:dcb1:68bc with SMTP id
- ffacd0b85a97d-435ea2102d0mr8586769f8f.23.1769777407709; 
- Fri, 30 Jan 2026 04:50:07 -0800 (PST)
+ AJvYcCWvRydhrgU71pclo1U6T+DHtEJ1ndiWxM8Bp0HvxcI6Iiq/+G9Gkx3FK04NUKdXSagTc0VMOZV1BsQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzYNKVbh0mkbMz2uKHaQSYwTdRQ4W3ziRCaJ/u6+YfIXAK6NcfW
+ zrO/1cCDXOXddp0HWe8M3seWFycbZlcBxuoiPzSJmAXg0GQHKnATABPz
+X-Gm-Gg: AZuq6aJJSRgEf6Ty0W8dLlZ6cmf7ZBcW5kZzWONCgrAXg0VCgjSjyRQ+F91y+M/Qc6e
+ EnrBFDTykABbaK7hFC5Kk28Yg47byLN9paHgvb2QMuLlxZGyEMIN3lPITks0BwYbzhfv5sDMHlj
+ bQfH5EKcIGlXM2xAE1PHI3VrvTdJf0IyUz4Oaudb4OIXPvUOI+L+XT843ARjBCnZMQObGAbEIr8
+ 7c1fo0/LCc86E31GBVXyn6BtyNcCRKXNwP9qrqEfylR5QSnqoayI29mk29cqLh95nqFF2vMsy+s
+ 76RaaPW2JOS7ov1amqICSGIwWtxlIIatoYx+TMQuQuyCGya0ZL3+PUwKngUBdbCAMlR19L7jNYt
+ FZY5+81/l10342n6ZPInjPBgAuuNPsaewogvy6JD9uzQ+6ah1XdMmvu/p3BsR1jS5UYr0jsbUUA
+ E8
+X-Received: by 2002:a5d:5d06:0:b0:435:9ef7:5c3c with SMTP id
+ ffacd0b85a97d-435f3a745abmr4685603f8f.25.1769777408736; 
+ Fri, 30 Jan 2026 04:50:08 -0800 (PST)
 Received: from xeon ([188.163.112.49]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-435e10e4757sm22738783f8f.5.2026.01.30.04.50.06
+ ffacd0b85a97d-435e10e4757sm22738783f8f.5.2026.01.30.04.50.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jan 2026 04:50:07 -0800 (PST)
+ Fri, 30 Jan 2026 04:50:08 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>,
@@ -79,10 +79,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
  linux-staging@lists.linux.dev
-Subject: [PATCH v6 12/15] staging: media: tegra-video: tegra20: increase
- maximum VI clock frequency
-Date: Fri, 30 Jan 2026 14:49:29 +0200
-Message-ID: <20260130124932.351328-13-clamor95@gmail.com>
+Subject: [PATCH v6 13/15] staging: media: tegra-video: tegra20: expand format
+ support with RAW8/10 and YUV422/YUV420p 1X16
+Date: Fri, 30 Jan 2026 14:49:30 +0200
+Message-ID: <20260130124932.351328-14-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260130124932.351328-1-clamor95@gmail.com>
 References: <20260130124932.351328-1-clamor95@gmail.com>
@@ -121,9 +121,9 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FREEMAIL_TO(0.00)[gmail.com,nvidia.com,ffwll.ch,bootlin.com,kernel.org,linuxfoundation.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[16];
 	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FORGED_SENDER(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -137,32 +137,156 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:email,bootlin.com:email]
-X-Rspamd-Queue-Id: 2A3FBBAA9F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:email]
+X-Rspamd-Queue-Id: 2F24ABAAEB
 X-Rspamd-Action: no action
 
-Increase maximum VI clock frequency to 450MHz to allow correct work with
-high resolution camera sensors.
+Add support for Bayer formats (RAW8 and RAW10) and YUV422/420p 1X16
+versions of existing YUV422/YUV420p 2X8.
 
 Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # tegra20, parallel camera
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/staging/media/tegra-video/tegra20.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/tegra-video/tegra20.c | 74 ++++++++++++++++++++-
+ 1 file changed, 71 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
-index 7ceefd920cd6..bf8755698610 100644
+index bf8755698610..36a57078d539 100644
 --- a/drivers/staging/media/tegra-video/tegra20.c
 +++ b/drivers/staging/media/tegra-video/tegra20.c
-@@ -598,7 +598,7 @@ const struct tegra_vi_soc tegra20_vi_soc = {
- 	.ops = &tegra20_vi_ops,
- 	.hw_revision = 1,
- 	.vi_max_channels = 2, /* TEGRA_VI_OUT_1 and TEGRA_VI_OUT_2 */
--	.vi_max_clk_hz = 150000000,
-+	.vi_max_clk_hz = 450000000,
- 	.has_h_v_flip = true,
+@@ -187,6 +187,18 @@ static void tegra20_vi_get_input_formats(struct tegra_vi_channel *chan,
+ 	case MEDIA_BUS_FMT_YVYU8_2X8:
+ 		(*yuv_input_format) = VI_INPUT_YUV_INPUT_FORMAT_YVYU;
+ 		break;
++	/* RAW8 */
++	case MEDIA_BUS_FMT_SBGGR8_1X8:
++	case MEDIA_BUS_FMT_SGBRG8_1X8:
++	case MEDIA_BUS_FMT_SGRBG8_1X8:
++	case MEDIA_BUS_FMT_SRGGB8_1X8:
++	/* RAW10 */
++	case MEDIA_BUS_FMT_SBGGR10_1X10:
++	case MEDIA_BUS_FMT_SGBRG10_1X10:
++	case MEDIA_BUS_FMT_SGRBG10_1X10:
++	case MEDIA_BUS_FMT_SRGGB10_1X10:
++		(*main_input_format) = VI_INPUT_INPUT_FORMAT_BAYER;
++		break;
+ 	}
+ }
+ 
+@@ -221,6 +233,18 @@ static void tegra20_vi_get_output_formats(struct tegra_vi_channel *chan,
+ 	case V4L2_PIX_FMT_YVU420:
+ 		(*main_output_format) = VI_OUTPUT_OUTPUT_FORMAT_YUV420PLANAR;
+ 		break;
++	/* RAW8 */
++	case V4L2_PIX_FMT_SBGGR8:
++	case V4L2_PIX_FMT_SGBRG8:
++	case V4L2_PIX_FMT_SGRBG8:
++	case V4L2_PIX_FMT_SRGGB8:
++	/* RAW10 */
++	case V4L2_PIX_FMT_SBGGR10:
++	case V4L2_PIX_FMT_SGBRG10:
++	case V4L2_PIX_FMT_SGRBG10:
++	case V4L2_PIX_FMT_SRGGB10:
++		(*main_output_format) = VI_OUTPUT_OUTPUT_FORMAT_VIP_BAYER_DIRECT;
++		break;
+ 	}
+ }
+ 
+@@ -308,6 +332,16 @@ static void tegra20_channel_queue_setup(struct tegra_vi_channel *chan)
+ 	case V4L2_PIX_FMT_VYUY:
+ 	case V4L2_PIX_FMT_YUYV:
+ 	case V4L2_PIX_FMT_YVYU:
++	/* RAW8 */
++	case V4L2_PIX_FMT_SRGGB8:
++	case V4L2_PIX_FMT_SGRBG8:
++	case V4L2_PIX_FMT_SGBRG8:
++	case V4L2_PIX_FMT_SBGGR8:
++	/* RAW10 */
++	case V4L2_PIX_FMT_SRGGB10:
++	case V4L2_PIX_FMT_SGRBG10:
++	case V4L2_PIX_FMT_SGBRG10:
++	case V4L2_PIX_FMT_SBGGR10:
+ 		if (chan->vflip)
+ 			chan->start_offset += stride * (height - 1);
+ 		if (chan->hflip)
+@@ -373,6 +407,19 @@ static void tegra20_channel_vi_buffer_setup(struct tegra_vi_channel *chan,
+ 		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS(TEGRA_VI_OUT_1),  base);
+ 		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS(TEGRA_VI_OUT_1), base + chan->start_offset);
+ 		break;
++	/* RAW8 */
++	case V4L2_PIX_FMT_SRGGB8:
++	case V4L2_PIX_FMT_SGRBG8:
++	case V4L2_PIX_FMT_SGBRG8:
++	case V4L2_PIX_FMT_SBGGR8:
++	/* RAW10 */
++	case V4L2_PIX_FMT_SRGGB10:
++	case V4L2_PIX_FMT_SGRBG10:
++	case V4L2_PIX_FMT_SGBRG10:
++	case V4L2_PIX_FMT_SBGGR10:
++		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS(TEGRA_VI_OUT_2),  base);
++		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS(TEGRA_VI_OUT_2), base + chan->start_offset);
++		break;
+ 	}
+ }
+ 
+@@ -454,12 +501,15 @@ static int tegra20_chan_capture_kthread_start(void *data)
+ static void tegra20_camera_capture_setup(struct tegra_vi_channel *chan)
+ {
+ 	u32 output_fourcc = chan->format.pixelformat;
++	u32 data_type = chan->fmtinfo->img_dt;
+ 	int width  = chan->format.width;
+ 	int height = chan->format.height;
+ 	int stride_l = chan->format.bytesperline;
+ 	int stride_c = (output_fourcc == V4L2_PIX_FMT_YUV420 ||
+ 			output_fourcc == V4L2_PIX_FMT_YVU420) ? 1 : 0;
+-	enum tegra_vi_out output_channel = TEGRA_VI_OUT_1;
++	enum tegra_vi_out output_channel = (data_type == TEGRA_IMAGE_DT_RAW8 ||
++					    data_type == TEGRA_IMAGE_DT_RAW10) ?
++					    TEGRA_VI_OUT_2 : TEGRA_VI_OUT_1;
+ 	int main_output_format;
+ 	int yuv_output_format;
+ 
+@@ -586,9 +636,25 @@ static const struct tegra_video_format tegra20_video_formats[] = {
+ 	TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 2, VYUY),
+ 	TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 2, YUYV),
+ 	TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 2, YVYU),
++	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_1X16, 2, UYVY),
++	TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_1X16, 2, VYUY),
++	TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_1X16, 2, YUYV),
++	TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_1X16, 2, YVYU),
+ 	/* YUV420P */
+ 	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 1, YUV420),
+ 	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 1, YVU420),
++	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_1X16, 1, YUV420),
++	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_1X16, 1, YVU420),
++	/* RAW 8 */
++	TEGRA20_VIDEO_FMT(RAW8, 8, SRGGB8_1X8, 2, SRGGB8),
++	TEGRA20_VIDEO_FMT(RAW8, 8, SGRBG8_1X8, 2, SGRBG8),
++	TEGRA20_VIDEO_FMT(RAW8, 8, SGBRG8_1X8, 2, SGBRG8),
++	TEGRA20_VIDEO_FMT(RAW8, 8, SBGGR8_1X8, 2, SBGGR8),
++	/* RAW 10 */
++	TEGRA20_VIDEO_FMT(RAW10, 10, SRGGB10_1X10, 2, SRGGB10),
++	TEGRA20_VIDEO_FMT(RAW10, 10, SGRBG10_1X10, 2, SGRBG10),
++	TEGRA20_VIDEO_FMT(RAW10, 10, SGBRG10_1X10, 2, SGBRG10),
++	TEGRA20_VIDEO_FMT(RAW10, 10, SBGGR10_1X10, 2, SBGGR10),
  };
+ 
+ const struct tegra_vi_soc tegra20_vi_soc = {
+@@ -615,10 +681,12 @@ const struct tegra_vi_soc tegra20_vi_soc = {
+ static int tegra20_vip_start_streaming(struct tegra_vip_channel *vip_chan)
+ {
+ 	struct tegra_vi_channel *vi_chan = v4l2_get_subdev_hostdata(&vip_chan->subdev);
++	u32 data_type = vi_chan->fmtinfo->img_dt;
+ 	int width  = vi_chan->format.width;
+ 	int height = vi_chan->format.height;
+-	enum tegra_vi_out output_channel = TEGRA_VI_OUT_1;
+-
++	enum tegra_vi_out output_channel = (data_type == TEGRA_IMAGE_DT_RAW8 ||
++					    data_type == TEGRA_IMAGE_DT_RAW10) ?
++					    TEGRA_VI_OUT_2 : TEGRA_VI_OUT_1;
+ 	unsigned int main_input_format;
+ 	unsigned int yuv_input_format;
  
 -- 
 2.51.0
