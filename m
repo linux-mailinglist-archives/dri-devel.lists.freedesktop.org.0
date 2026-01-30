@@ -2,178 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SKC+IYFtfGkSMgIAu9opvQ
+	id KFDtNWRufGkSMgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:36:17 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:40:04 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37463B878F
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:36:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43DA5B8800
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:40:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FDCD10E966;
-	Fri, 30 Jan 2026 08:36:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBD0B10E96C;
+	Fri, 30 Jan 2026 08:40:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="mbg6nCIn";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="fxbmNev3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazon11012003.outbound.protection.outlook.com [52.101.43.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A05CD10E962;
- Fri, 30 Jan 2026 08:36:13 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com
+ (mail-swedencentralazon11013069.outbound.protection.outlook.com
+ [52.101.83.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 507A710E978
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 08:40:00 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eA0O+z12YDh6PZQM7qxdcQ7axIjKwPClyGLORwbQ9dmcgLpHOUw3Zr4I+MSICvT1LbZS+1jlqAzATQMArvCZx4Nn+UV5UaaApcrgBBw8Z7AcIK+tUMnLRO33imu6dPp2bLCfwAtXkYyUAN6v+QaIEdZV3gLQgk7fyq5vOYB2BtEOK+NReX+58BCJUjudvv8632RDRdCGMbNV1TRY911J69bj2VxU2uZ+1LwMKINQL90R1GHzQvz4GB+/gZCXQVoy4U+670a6vu1Lc8QAZslRfsy2794F+fgxYHhsCinPoinATU1z9zW9GBlgDMYjeeiXK4J1x+6/rKX404HjQH8+YQ==
+ b=U2Yae1sm2AVbEIHrwUIo6vE4OPWMoNwGlH7qg5SU2z4Byb03VYZndgm69blBcV1xSnPsoJ9hJ7w2DBOIHGzXSqDkrUoSW8KaWj/0mZN1J4nZ6a9p4R7CY3cBaNw4WrBmBXJiAonxQFXwxoS1XdwW97/AzKCxzUFmBZOzP/Oi+qFxNfT34XSYg+zNp1g7UuVhzPDQZgpJK4dNpC9L+SiZmHtcqMawV7MDeDe7ODvW07uGKhV4cZi7SwsXjZxIfO8pdfT/TeHJgELse8RR163KrH047Y+26xcB0m29ffFLVlkNh9qxB4C2BYVMWPqIdmK23S7xnwDNvgP0KPCMSQ9jSQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9Lqhq+72C2e8wtc+h/gNYzX2Aqwy7FdRMyOTEbJ6Lpo=;
- b=oDX+wzspFlduKihcIEwzCj3//lvDjAtkCi8ni5zEvWadCurSY/m4kXhCBybyLmlN6bQSH7mxS/lilsfXcbjUbOiMVIeeufMw5bNZ1f2wtPzxwOHZHSbJT/G+xcbKkMh8OruBPHpJGJ8fePePDoLEa08nHXD/5fQ3nnf5QKNVOT7TXSgP1wm3Ha9NXsiWDxroUcURxejXzfGh4CXrsuP/GsRI4YSixWiZorl+IxWnkC+yIjC9qyYq4RcKqmeAnOpeiY5cAFhSOLtE/hsB1ZdwzTxDg30QWdGLVzYHuKdscVfa6zqSv+bUdYNDk74TvPdU/ho9c4zHN1NFcIm8OUgqyg==
+ bh=RxtWNez9/i84N1cyeZiuN5cgTywKhdqz0LWf7SV99UU=;
+ b=thik9xa2EjcXc1rkrGbfuhEkuS/40Z4NcMVq/Fe1yhu7Z4g5rNiLFoqqPE1AB4d8SQ5cqIQQedEfXXNR60BsmHdMrrpNbeU0WVd+kATO1fsOSMtQ+nyRSF039AtLF8Qu0z5vGO3zqlyUrjjelnPTIYCRFjTEETaUKS9rd19ee8cbRJC76XUyE1OVKiqn3zHpLnrUiO5oY4em4O47BLP4Y9CnCOdwqMv0UlQp7IGMgjwyp9h2mwS06pef1BZNTo9rX/RQ3YNEc0BGjI7dlPfk20lo6uUnKqAnTfoet09sUd02AiQAo9vmXUGxVehtfOkmIUWVdF3GwP8uKBfAps2tNw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9Lqhq+72C2e8wtc+h/gNYzX2Aqwy7FdRMyOTEbJ6Lpo=;
- b=mbg6nCIn6jiCBQdDzTeZCAaIJL1AOT0wX1qV6Txn39ipq/88DLw1mw1HX7fMIcKXsrQaKJ/2WGOcLRRIshaXmI3qc+gKPNwu93DOXrHxLSsf0t4o05mKMVdDCodfzZUkpfIPQt0JfXtefOm9Q5HQHSp2W3NQViaNaq/Eop/pEupcn2zCsSx2Z1i8RQ7RqxGuHwhKt9zB+lCm7Q6+YzhCePLR9e4EuGYXCzk5PC9sS5dls6KAeAQNMY2avrlrtMbzm34XVgh+Okoxqz2Zq97Yt7w91IooQ2aBpdkFHx2xrET7aRHyyYOYZVYPrJ3HStMbJyUfP9DJpoEhLS1zrbADgA==
+ bh=RxtWNez9/i84N1cyeZiuN5cgTywKhdqz0LWf7SV99UU=;
+ b=fxbmNev3EsmUxpPaFJBXZqdIqKl/AVFEX5eXlBvJ7/36eACwomkQafdrHJokctjKXgCicOUzP0nslei5c2oRNS3TRPpahsk4aefhrZqbElccwJjxnfWZhAYJBTw44hq57905gXj9zvC7qIKa2YQlXB+8gkmIFrYV59hAKsRimBDAWBnQIBIsOE9zvGuTx9Px1xI5rvLXEY5SrZGuckN9zWvjxd0C3DiH0F6vEVzli+A2Xm4eyL5whiosVG0hgatLp+m6iz6bvsURKl+Cw/JEbjaT49AV/idS3k9+qKabk5DN9a+kSlaVgBsK6/q5YKyVUCYQMqEcTp4WZLRkShixNA==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
- by PH7PR12MB5757.namprd12.prod.outlook.com (2603:10b6:510:1d0::13)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by AS4PR04MB9622.eurprd04.prod.outlook.com (2603:10a6:20b:4cc::20)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Fri, 30 Jan
- 2026 08:36:09 +0000
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0%6]) with mapi id 15.20.9542.010; Fri, 30 Jan 2026
- 08:36:09 +0000
-From: Eliot Courtney <ecourtney@nvidia.com>
-Date: Fri, 30 Jan 2026 17:34:12 +0900
-Subject: [PATCH 9/9] gpu: nova-core: migrate to CoherentArray and
- CoherentObject
-Content-Type: text/plain; charset="utf-8"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.11; Fri, 30 Jan
+ 2026 08:39:55 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::4609:64af:8a4b:fd64]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::4609:64af:8a4b:fd64%4]) with mapi id 15.20.9564.006; Fri, 30 Jan 2026
+ 08:39:55 +0000
+Message-ID: <a2ca752a-c70e-4348-bdb7-e89ac119c842@nxp.com>
+Date: Fri, 30 Jan 2026 16:40:46 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/bridge: imx8mp-hdmi-pai: enable PM runtime
+To: Shengjiu Wang <shengjiu.wang@nxp.com>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20260130080910.3532724-1-shengjiu.wang@nxp.com>
+From: Liu Ying <victor.liu@nxp.com>
+Content-Language: en-US
+In-Reply-To: <20260130080910.3532724-1-shengjiu.wang@nxp.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260130-coherent-array-v1-9-bcd672dacc70@nvidia.com>
-References: <20260130-coherent-array-v1-0-bcd672dacc70@nvidia.com>
-In-Reply-To: <20260130-coherent-array-v1-0-bcd672dacc70@nvidia.com>
-To: Danilo Krummrich <dakr@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, Alice Ryhl <aliceryhl@google.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Robin Murphy <robin.murphy@arm.com>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
- rust-for-linux@vger.kernel.org, Eliot Courtney <ecourtney@nvidia.com>
-X-Mailer: b4 0.14.3
-X-ClientProxiedBy: TYCP286CA0130.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b6::12) To BL0PR12MB2353.namprd12.prod.outlook.com
- (2603:10b6:207:4c::31)
+X-ClientProxiedBy: SI2PR04CA0009.apcprd04.prod.outlook.com
+ (2603:1096:4:197::8) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|PH7PR12MB5757:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4e297311-f88c-412a-abde-08de5fda9846
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AS4PR04MB9622:EE_
+X-MS-Office365-Filtering-Correlation-Id: fd34eb95-873e-409c-cd88-08de5fdb24c4
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|376014|366016|10070799003|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?eWFyZlpXRUdEemNzZkVINTV2S1dUQXhlZEtFNFE1SkoxQXlUYkVIcUlDTmNR?=
- =?utf-8?B?WHMvelc5c2lMSVlHNVd5a09xT2hKQWI5SWRVWTdwT0hYMjN2djFOTXZ3dnVE?=
- =?utf-8?B?NHZ6b0U2czdDanZBRUtGUTAvWjFkMnFQMWVEUTd6OExjQXRUcVl5UW1vaTdt?=
- =?utf-8?B?OXJPbm9OM1JveXJLVE1EUldicFlrWkpCdS9zZk5yT0N1UWtCbFBPMERVRjVs?=
- =?utf-8?B?SzcvUXNYeEhoUUprL2ZTcjV0aGpJcjZzTnFqVjBaWnpHUnBrTDBmVHUvQVVv?=
- =?utf-8?B?V0k2TTlTbGZ5WjBrME4yRU5jRDhHMkZhVmFCdVVMdUpnTUg1SkdmNGU5RmZw?=
- =?utf-8?B?U3I3eEVjWGlXeHpqaGNmVzB3dU1MdEliNlFKL1ZhcDFVdlRaL2ZURHdJeVdU?=
- =?utf-8?B?RWh2eWVaRlJuc1Q5YWppbWlwUDR4QTJDbTlNQjJEdEllUWFNTTU5azdlSTFD?=
- =?utf-8?B?RS91WHl4Z0hLZ2xsa3pFM3p1Szh1Zllrd1JHVFpIS0VFOXBlNER0VGRoRlJl?=
- =?utf-8?B?c0wxR295MzRXdEhlamE2WGtsOXlKaDhrR3ZRSE40Q3BhdUVSeDRyeDdRMWNz?=
- =?utf-8?B?N3h0T2I5Slc2YlUzMk5jdTJYbXVkVWpNS3dKVWdRbjhOYjRWZVFHalRMbUNr?=
- =?utf-8?B?TDlzTDZyZkRZaUs0Qm1JdlRDL2YxMjBVZzNIUnRXY0VMNlh6TmRkUXUwMk5a?=
- =?utf-8?B?eTJnNmk5aUFOVndteG5JQkpHblZlY1UyL0lDTGhUQmpTQUhrNFFVMHQvQjVI?=
- =?utf-8?B?SE9yOGtOeU5yc2RiUDZ5S3pmQkhMMXhJUGVXdS8vdlNWaTV0ZWNqTGNac0w4?=
- =?utf-8?B?OWUxbzQrdkF5OVNXTFRKRzFWYXhCSVBUbnQxWGQyVkNJaXM5SkNRSXptU1FB?=
- =?utf-8?B?WVlKYXZkc041YnZodWRzQ2MyQTRYZVZvdWE2dnRTL1ZhZnU2QVpkdUlvSnNY?=
- =?utf-8?B?cms4U3BINXREMzl5SHU0MVNIS1owNFRQbTJVVDdSeEJUMnNPTkV3ajczMWNC?=
- =?utf-8?B?ZGhnSC9UeGZnclBzUEltclNRT21oZm1BUTQ0VUIrNmlvZzFwd1pmMDl5R3pX?=
- =?utf-8?B?bEZDcldQSjlqaThmMSsvbllMOUZmUlkyMFlySFZRSFNONFVqTDQxTkdJVHds?=
- =?utf-8?B?NytrMnhwdkNrZEM0NU5QWk9DOFdsLytHQzF0UTBUWFZqbnBNNVJVZXZva3VM?=
- =?utf-8?B?SUQwSjJ0RU5hSXFDMHNIQ1RPd01tcllGOVhCd1gybVlMbXRFOHFWMWZxUUsw?=
- =?utf-8?B?dWY0c2U3cWMyUUU5TkFkL3ZPU2ZKSlY0QkdOZmxxWXQvdjd0aWVuY3ZLZ3Zp?=
- =?utf-8?B?NU9OcEVRdzEzbUdNYktXLzVOQ2tkdkR3RXBJYjlCMHdrZ1l5ZnlrYU9ZWnhR?=
- =?utf-8?B?TlQxQzFRZjNEMzZDZWNkcjhkM3BLTytySVlNVTBWY0hBQ2F2YW5FYWgyWWF1?=
- =?utf-8?B?K2RxbkhuNzMxQ2lhb0JWcWdrTTBVTG1vdCtFV3Q3Vk8zSXlrVnkraUE1cm40?=
- =?utf-8?B?Rnkxa2hrdGExQVBvYkxLRUN0bWtTVkJUUmE1RHFEVmE1MlNKQmtwL1ZtcDhp?=
- =?utf-8?B?dUtHeUVNMzdQY3RvajRwVGkxZnBVdStPZEorRk16THIrYzJncWNHUHpaUDhC?=
- =?utf-8?B?S29iQjhXekw3aFNhZUtvbTIzMVNocE4rQVZWR2RpYi9lQ1lFamZWdlI4SWV4?=
- =?utf-8?B?N3JmZHdLWkl1L2s4cHNkUnRIL0krcFdaRnNJVnlDWmhHZDc2Y0kwdldSSVhj?=
- =?utf-8?B?Umo5a21jcUQxMmttL0VtWHhlLzEvSUNYMmZqdndMMnc5aEJKWk9YUEZGQlYr?=
- =?utf-8?B?U1lIYXMzU2JIUEh5aThkYll4QU9Nb0pIcUNOQ1ZyQUJYZkFpKzJ6MnV4dFpj?=
- =?utf-8?B?TThLMmlqeWpiVStkUGZLTERYUWZ0eTBrN2pLajQ2WmYrcFZ2QS9mUm9nUnk4?=
- =?utf-8?B?MFpTT0JHNHhoZk9Ja1BiMWEvcXl4WmtQWnJ0REhnaEJQTi9ZVmFqQUI5U2hy?=
- =?utf-8?B?akZqajNicndiWWlOdmo5cHdPMTBCUVMxRXpXZXV5VlVYT05oU2Zqb2FuOTdo?=
- =?utf-8?B?WmJBQkJQWmEzSlNzRTRwNHV2V0pDSStZRHExWmJ4UG9GMStJaTRpdFpBTGk2?=
- =?utf-8?B?YnBOdWRlUnQ2VFdKZGdPRDF5SFFGTGdiNU1aNk92ZjVWc2VKUHlPcGhUVUdX?=
- =?utf-8?B?RkE9PQ==?=
+ ARA:13230040|1800799024|7416014|376014|366016|19092799006|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VDlxaUpUN2tEcGhySkRZWEVrK0ppK3g3TGx3NkNqM2k4V0J5eU5FT3o5SEVz?=
+ =?utf-8?B?V0dObUZ1Nk1jZkZjME9hc1pjK21tMURQaVdEblNCUU4vR3ZUajZacTI3NHY5?=
+ =?utf-8?B?bVpWcDBXYUIzTjR3UTdJZHU0bmYveFRIVGJuckFMSnkwRG51Y2lwTG14TW1z?=
+ =?utf-8?B?Yzd2T25sMFRybzR0QlZJZXZnNmt1RnhtWm5uSUpjNFJpbXllRUpZUzFJbE1r?=
+ =?utf-8?B?YTdiS2s5WGRHeHM4QTlxSWxNNnBDOFc5dWR4RmRjbjJLVTVtcnZJUHdMUXJK?=
+ =?utf-8?B?V0htMThlb0YrSmw0RlZtR2hBQi8zRWJSTVVmNk5TZ2lxSkVnaGQxb1VXZ2xs?=
+ =?utf-8?B?SWZPbklWemUvTTVOWjRQbFFwOEw1SWp6cUpNMmx1Ymk3Q1JKQ2t0NlEvVXRL?=
+ =?utf-8?B?NFlTcS9ocTNnY3ZPcEd0S0VHMUJGQmRzOE9zQXhsSGdrS2pTcU9xc01JTkV2?=
+ =?utf-8?B?VWQrWTl3R2F3R1dJdE5ueDVjdHZscXZ0aDFFNi94Wmg0OEY1U0I5UGh0ZWF5?=
+ =?utf-8?B?Y1FwVzNqS09JMHozbCtrM1U2ZUkrdDYyelVaWUFkTVZnSTB0SkFram5ZY3Ey?=
+ =?utf-8?B?R0lwaDkzdTJJOVVjaERtdTM1MGNRelorUEpCZjNZSkRDdzdqdFd3SFhLbFQ0?=
+ =?utf-8?B?T01TcGc0NlVpaHJrRzlTY3pXUFBMc1d1czBMM2hZeVY3TzB5TzY0cjJrM292?=
+ =?utf-8?B?NkluNGFvcEpnL0Q3Nnc4TUhnaWVZdGJkckEyNnE4bTRUVTROand4TFhpblpW?=
+ =?utf-8?B?ckRaV3p6elo5STNqTlRTZ0FJQmRMTmlZbjI5QVUzR25PRXhlTTFFTCtvMmlO?=
+ =?utf-8?B?UVBycmI0dW1kQUJrR0pzc0Q1YWZ4ZWZxZUZCeEVWU1l3T2VVWnhlcDlLSzNR?=
+ =?utf-8?B?bkxNZStRSkt1a3lISVZWNnA4MkszUmRQMmg5MWM3MEZZZklZdEk5SVdvcS93?=
+ =?utf-8?B?cTg2djN3dUpEKzc0Uk1NUENyZDZYUzhyRnhlZ2NWdUhHN2tRZ1NmS2R2dlRt?=
+ =?utf-8?B?ZzRtVnBwNnhVRW9yL3cxSjgwanVpaGN4RlhPQ3lqTTAyeDlDWGxSaUNwWTNi?=
+ =?utf-8?B?WUJsc1pwL0R3VmxKbEN1UXNOV0lvL241T3U1WGNqNlZ2bzd0MTJJN3o3aTJH?=
+ =?utf-8?B?VjR5Z1UzbEI2Yk1iVnhiaVRqQVZvL2hKcm1FaWRkRitUOGRPTDRtaGJvbWtZ?=
+ =?utf-8?B?Q1VFNTlwMFg3NEoxVjYwb2I3UzhOSVY0RHoyamxnQUZ6NUxUTVl4c0R3Uzly?=
+ =?utf-8?B?QXVSZ3VaaXpuL2Vpbk9WOUVXcktiR01iYVBTRFpyd2pkZkNPYjh3dlNRYnFq?=
+ =?utf-8?B?SzBjTG1SUUZYSHJtcVB6Y0tHZUs3N25IMTJJcUk2OVFDaTZFUXZBdEY2a2Nl?=
+ =?utf-8?B?d1ZDYmFaVDhSakY5NHB3bjZMNkZuZitnYmJIQXkvajZEV2JyM3NHbDB3MFND?=
+ =?utf-8?B?N0lueklDQ3lNYU9qL0Q3NFNvTGEwRzJTNzJ5aXFmUVQxUU1HTUtVY1Fyanhx?=
+ =?utf-8?B?a1ZIYjI2K1FQTnppQkNkVjBSV1N5dmt2Uzl0ZzZGa3BTSlB6aWkrVDV4QVlz?=
+ =?utf-8?B?a3RIZVJvbFFYZFRUTzd0WFVpeEx5ZURZdVJSMWlmQTArbWgrdElDY0F0ZFpv?=
+ =?utf-8?B?d1FvcEZLZGFKNW82bXhDb2UxMk1PSWN3NmlOK3hmbU9OZjhMTWQrYVRMWFVz?=
+ =?utf-8?B?dGZDYzNQQzAxY29vVGh0cnp3U0EyK2xpT1M0Tmg4K3FXT3dQbzB6WG5VZ0lF?=
+ =?utf-8?B?SUZQWExkdzMzcVNpZk1uMStGbVRlbU84K1ROQVBlQm1xWFRYeHBRMEVUdllw?=
+ =?utf-8?B?MFdaSWN5dFdqL2tzN1F6UGFRaUl6bTJBQzZSdmVDWGNZQllYc0pCTzZLNjRT?=
+ =?utf-8?B?ZkMwei9NU0ZjOG1yYkQ5aXF5U3d1YUV3RDVjdkRQQmlsc1M0djk0NktSVXcr?=
+ =?utf-8?B?K3NRZFNzbkVDWE1sNnNxaDFrN1JRUWkwMXBTYmR4L3duU05ZVnRqN3RDYStZ?=
+ =?utf-8?B?VDNyNUJQdm1HajZkZDZTaTA0RDBYZ3hWcW9MNTJJdE1tUWRxZW1neUpkNVpQ?=
+ =?utf-8?B?RS9zaDFrZ0MxWTRUQTJ6US9Jd1MwcGFZR01IWnkrT1hSeHM5QTlTMjJzWXpR?=
+ =?utf-8?B?U3ViM2dhN25iWjUvV0dWWWl4Mmwxa08rYTRIRmZKWjJpQ3pIOTNNQlpCd1dM?=
+ =?utf-8?B?Snc9PQ==?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB2353.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016)(10070799003)(921020);
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016)(19092799006)(921020);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NmtLL1VocEhhR1lOZEx3dENaRGRaTjZsc1ZtVi94dzYxSW1KWVNNV0tJbWEv?=
- =?utf-8?B?Z1BTU1YydVRPWjlyaVE2L0t5RXdvTXlORWZFQlB4RHhuWTUvZnVaaUNrNGFL?=
- =?utf-8?B?NDY2N0tnbEJSSG94cmFyU3ZhM2RFbFFOVEUxeVU3Tk1YbjB1ZmwzS1VWMExw?=
- =?utf-8?B?a0JlTnkyTnVrM2EwTU00bEhxWmxJSkUwTTJwNGIreTJUaXRyWUh1K3lFR0p3?=
- =?utf-8?B?ZjhrbjltQ3pmamlmby9mRTVYSllyd3MveXFZZkVLOGFwc0gzTi9UUGR1NSt0?=
- =?utf-8?B?dmptUGlERkVpc1ZYV05OdWJEYTljd2NiR2R0ZVlXbnZHdzFJQ1IxNVdLL3l6?=
- =?utf-8?B?MldDWlpVeEs3SG5uY3VwQ0QzMGttdHBYNTBlKzZFSzNMQlhHc0p3TmJsL2hm?=
- =?utf-8?B?R1ZkOVlKdFk0TlZLSk44WitzOWc1Y2lvOVFRMGVSNGUwQnZwOVNSZVNhQ0FR?=
- =?utf-8?B?NkFPY01XSUxGdjA1RmJJZk1hMFgvdmoyUkNGZkNoLytocUJocW9KcVR2TjFk?=
- =?utf-8?B?SGtjU3UzVUNiclpBcncxd1dBa0o0ZndWZ3E2RVcydXgzc3VyTXJsWkNHbVd5?=
- =?utf-8?B?azhVaDdQTENaRE9VUUpkRmVWM2lKdmNPbFlmeWRJYTduVHc3cTZidnhaZmEr?=
- =?utf-8?B?VzIxNkNVSjkwOG9FTkJRajJuSkhicTN3MkhoOENjOGErdHJWbXBxTk8vdTFw?=
- =?utf-8?B?WEhLOVNRcWJPL201a3pXRmtrdWQvMHVsUmhQd04zZGc2UlN0VGF2S2o3Y09B?=
- =?utf-8?B?RGxrSlhnOHQ1NlY2OTVHYVdMZlFYeUZsM01OaXpQUkFMbEd2Njhaamk1aHhk?=
- =?utf-8?B?enJWbmpONlUzUDBQS3d0OXhYK05BWG42TTJyekdqT2dLbHFsV25INHcyT1E5?=
- =?utf-8?B?ZmxVdkl3MitncE90V3pxRlZ2YksyN2lSdFdkOGQ3RExwNmFoYWtJd0cyUTZv?=
- =?utf-8?B?Rm5mSVpxVnAyS0FiWmV2dC9ERkFvRHByM0p3dkpYbFZtbDIrbmhhaXFkVk5l?=
- =?utf-8?B?WVh6RURBdDRUT0xiOTFpVmtmTVRxUU5WaVVmaGpBbW5MK2ZTWVgzMkNNK2h6?=
- =?utf-8?B?K25Ub1ZTbHdjWm9NdGNGTmZwVU5UZGJKR2dYbDFXSHVhaFl5ODhEV2t0U2dY?=
- =?utf-8?B?bnJvNTcrRzdDTEY2V3E0UkVvVWwyNVNNaGpMdjZ4RTlSNnJvdXZ4K0VaejVF?=
- =?utf-8?B?N1NuTnRNNlNyY2tLdkl3MzJPSk5CLzRuem9jajZtSUt0a045V3diK1Ixd3dh?=
- =?utf-8?B?YWNMWnUxR29OT0NJVlRpWHRQRzJTZU80d2puQkZLdzUwZG91NndrbG9WaXpi?=
- =?utf-8?B?RHBhaFQxRUlzcEQzMnhwMGpxRWE0ZVB0dEZKTEhBUFJ1dHZQRlRtK081Z2l5?=
- =?utf-8?B?NVJ5YURDdHdQOHdoVWVNU25CTHkrVDRGOVJyb2pralZLZ0xDZDFyam5tSE1i?=
- =?utf-8?B?MkZ4TktSTUxRRndFWmVxdG1VUWtNc094cmNnaHJ0WFNsR0FaUmV5cFA5aXhU?=
- =?utf-8?B?aXcxZkFjSndYSVpsTTc4ZGVUR1hnaWpxWThCMEhHbjNZOUtYaFVxM04rcUw2?=
- =?utf-8?B?MVhQc0JoMmFCVmtZOFliQnUycDQweFRUSTZSTks0bG13Q3hPcEVRd1BFZnJp?=
- =?utf-8?B?dnIwMmMyd3VxNlhpVXVOZHpHT1U1Vm1KUUdSSkJxaVBGd3VyS2JPaFUzaDAv?=
- =?utf-8?B?OHpmbFhBUGlqUFdBSy9sQUd3dFVycjM4TEFLUmlZaExVY2wzT3lwV3FRRzVL?=
- =?utf-8?B?R0o0MHpzNmJEODhqTFpyMWlIdmxRaEJnVk93TkpaWVBWeTQwQjU3Z3F1d01y?=
- =?utf-8?B?REhyNEc3Z2x1NnFUMjVFZW1ZQXB4M2ttb1BUT2ZhamppcU4xbWdseTJwL1cv?=
- =?utf-8?B?dVFqa0ZrQU9sVUZmbEE3Y2QvbVRZdTZOQlNRcmxadVFGWndlTUx6ang2dlgy?=
- =?utf-8?B?RlVib1ordFRFVUxZNUZBM3BONkxud21CQTdnUlJZeUR6bS9Ca2JzeVdhWkgy?=
- =?utf-8?B?emhMeXRENjZSVVdEQ2JrZWZrQVhBa0hvb1Y5NXNoenNONFZCdWpNOEd5ZjdG?=
- =?utf-8?B?N04wSEp3R0lnRExLYlJaemQ0TWJWTmJ5ZHZwbUJRK2FTdDRKeGdlYUxXcWVE?=
- =?utf-8?B?MkpvV0ZzazVncVNVQ1gxR21GSmpLMDRzQTVCbDgzUysyUy85cWNpQWpXbDU0?=
- =?utf-8?B?ODR5WXdISHh5M2pvVGlzZGVsMkJRQjdLclozMjhSY2hpbExMUlV4UmtJWHor?=
- =?utf-8?B?ZGlzZDhyQ3QyUnlxem1PTmwvRmxnWnJEUUgrdjRsQWFBZEJ6RUFPUVNFUG93?=
- =?utf-8?B?WVczOVZGVkFvMHZManNJUFdRTDd2MXVLcEM0MlVKR0g1SXcwWFUzSWJyWjhI?=
- =?utf-8?Q?LqB+oW/ssvbuGQZgfjym7OmrEHi9k3LUedm0Ea+5U1Iwe?=
-X-MS-Exchange-AntiSpam-MessageData-1: QwSJSyFNTvKMpg==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e297311-f88c-412a-abde-08de5fda9846
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dHU0YlJkcFhTRnhTR3UxSG11NmpPZ1NPYW80VEJjV2N6R0VxNzdWY2cwQVo0?=
+ =?utf-8?B?cFBreWxnZEhOUU9IdnF0Z3lva2NwRzFVWkU0UTNieEk2T2cvZ0JXZGtqV2hI?=
+ =?utf-8?B?RFFoVm1JUWxHcmZBZlcwcDMrR1ZBR25pUlpiM282c3AyWjFuRGpnN2poRTUy?=
+ =?utf-8?B?c0l2TSthckdTRkVBbmRQU1ZYWldsUVZuM3Z1WWsvdm80bTNlNlNsQ1EzQXcr?=
+ =?utf-8?B?ODNLcGJONjloczAwVENkZ0tyMk9HcUJwZmFyLzVrVDhtcDB1M0pVT1BlVUdl?=
+ =?utf-8?B?N3JrT2JGRUc0Nk9NTzZEbUNnbDNkNGJidkI3eFRjbVRudFcxRkpHOVpScUJL?=
+ =?utf-8?B?UnRzR1NYN082d09ZVnpVSy9aSW96bW83Q1E0bUVHQ0VWZjJ3R2JsYmZhOGJF?=
+ =?utf-8?B?ZDFGT3hXdUVRNVk1RGdPSDFwRXcrZFVKNUMrdUhqSW5vNXY3aldqSHpKS2J3?=
+ =?utf-8?B?a3lFTG85OEVSME12SHI0R2x4dE1zaXE0R2syQWdOOXI2Uko3MWR4MHVBWUlv?=
+ =?utf-8?B?RDA3MWZQVEp5T0w3dHhCZGFSbDJKZnBic0JMMXRickJnZy9ocWs2a0k3WFNn?=
+ =?utf-8?B?b3hvMlhhSFVGckd6alEreFpsVlVJMmdYUlA5VzFrU2F0R0VJcnc1VGJ0a1Vu?=
+ =?utf-8?B?aEl6ajlmV3VaMmNwYURzNWU0UTloWTFkMlJSNGlxRjFxVnZ6QnBnU1JURlhJ?=
+ =?utf-8?B?OTRQVFFPNWFtVldRL2lFbk9YcUdCWEsxV3oycjRVeGQ3UElCZ21qZTdPbDBM?=
+ =?utf-8?B?RXp6aHlJcGNXNUY3Q1B6SmNsV1Ezc3NKWkhESXNBT3FXY3JqTXp6U1REZ0Rx?=
+ =?utf-8?B?TG5sSTJMRUJuV3ZhQlJpOTgzUk8xNHk0bnRqTUVNazhKOWV5Tlp3T3hxUU5X?=
+ =?utf-8?B?YTc1QjJXd29OZk5lQUNjLzMyeU5tcVdFTnlDSGsvR1BlZmRQeUJ6SjlnSjV1?=
+ =?utf-8?B?aGM4K1AvM3pyNjJDcExMZ3Y5ZldTUnpLc2F4QUtydUUzb2FxbTFNTGxMbWJD?=
+ =?utf-8?B?cnNiQWxjcWJEZGg5VStDcVpON3JzMlpQTEVPNWdYOGFwR0NZc3RQMjBESVhj?=
+ =?utf-8?B?RGpHWnFpQXNuZTQ2OEZUbnZzT2Fmd21kUTdLeFduQlZlM2hZeVdzS1JQY3FF?=
+ =?utf-8?B?VGw2eXRlcDFJMXloajdaMzhPWlQyT2t6RXByZTB1Mjl5TFJjU2JncTlqTDBy?=
+ =?utf-8?B?WWtQVG5LYnVHdWdkZjFZb0I3MlFMSGd6d082Vk5kRERBSDRuVFhXSW8xTUJv?=
+ =?utf-8?B?NnAyQWw3UGZ4TFdwY2J4Rlk3SWE4dGxyUmYwR29HOG50U1p3WXFWRTY3ekFq?=
+ =?utf-8?B?ZVFSRmViTHFnaUVCU1pnRTNSaTAvN1g0SnJHNHBiYVo0cTVsQ2hoT2VQc1E2?=
+ =?utf-8?B?MTZ2NnRrNGc2VFM4VDRmWWlwc3AxL2dnYWVzanNNSjBhOGxucWpjS0dlSkdC?=
+ =?utf-8?B?a05HVHRqWTVROEdnUmZ0OE9WeGdta3I5S045QVdCZ3BNQzNGbUNSdTVyanJk?=
+ =?utf-8?B?VjlEY0VNOEQ2Q0Q0Skx3UDRzSWF2QndoK3pUNWhJSE4xWDM1ZDFSbThBZVpW?=
+ =?utf-8?B?U3dWTlFMM0lCOHhpM1Y0RG9TR3pjelVZdGtpRm1QczRBbHhDTW94SzVLWjc4?=
+ =?utf-8?B?L2FtTU4rNHpDWDc2aXRaakE3RVExOWFvZWdsS3IxRi9uY0dkNzdzQjFoa0xy?=
+ =?utf-8?B?MDZna0RlNFF4VDY2b3NPdk9MR0dLUjFhZjlDVmR5Sllzd3c1ZkpacjFJMDc4?=
+ =?utf-8?B?WXpkbGEzM0cva2tFWlBGbVg0bG1kOTVSVHpZQnpRcWI0SHBLM040bUFETG92?=
+ =?utf-8?B?ZEFnSStFM25xV1RTeUpmMkdBbzFMM3c5RVp2Sy9EdUtNdU95ZVo1R2FMeUh0?=
+ =?utf-8?B?YVpDckFsUzVKRVJWYXR1cXRiWUJpV2U3K1FWTURRdXBwL0Q3ZHY4dVlxdXdD?=
+ =?utf-8?B?QXluTGZNZHgxNUNyOG5CRnRTWnI4Q1dTOFhjaUdLK0twVzNHQnBDYm43NVdk?=
+ =?utf-8?B?THR5ckNHcityakIrQ3R1NVgwQlRoQ01GV1N0SDlmSENCYWYyNmw2U0FieDlG?=
+ =?utf-8?B?WGkvQWphcWppK3FFTFN2bjNvVGVrQU1OeGlQRGZITUwzYkM4aFVKSDU3b3R2?=
+ =?utf-8?B?UVhGS0xNSzdxdGtPYm9jZzZpTmtjYmZpRmRPd3QyZDZ1SkJmWk9DWVFSQnpF?=
+ =?utf-8?B?Y3IxME1pR0xyeWFQWFFUM3JzTHNGdEVNR0UrTERsb005UmZTdFFxM2o0Snh1?=
+ =?utf-8?B?aUlSMGF3bUNUY0lGakhvSFVMd0hyWlVnbGZ3WjB6eTg5U3RWQVdJK09xWmor?=
+ =?utf-8?B?VW1HZldCTVQycWxSdjNFS1JGdGk3VThncEJOTDRFY0paYnRGSTB1Zz09?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd34eb95-873e-409c-cd88-08de5fdb24c4
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 08:35:59.7957 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 08:39:55.6130 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EOuS6oJfx5fSQklqbSKtZiCCz6X3RJwu0DUnl4xkdQT6FJcfB2mcTM7I3UDDBUpFJo6K0FMrlrXnFWU7CnVnDA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5757
+X-MS-Exchange-CrossTenant-UserPrincipalName: P5p+7El+qwXA7MnLtcB7LYtIQJnIVd6DY+Qvj6347i1Dtmc2jNAJaBAZwRaDPQxE+x1orZ5anJtfSDZ0lQ8UMA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR04MB9622
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -192,293 +186,65 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:shengjiu.wang@nxp.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,nvidia.com,google.com,gmail.com,ffwll.ch,collabora.com,arm.com,garyguo.net,protonmail.com,umich.edu];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[nxp.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,pengutronix.de,lists.freedesktop.org,lists.linux.dev,lists.infradead.org,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FORGED_SENDER(0.00)[victor.liu@nxp.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
+	DKIM_TRACE(0.00)[nxp.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[ecourtney@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[victor.liu@nxp.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:mid,nvidia.com:email]
-X-Rspamd-Queue-Id: 37463B878F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,nxp.com:dkim,nxp.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 43DA5B8800
 X-Rspamd-Action: no action
 
-Migrate to CoherentArray and CoherentObject. This enables removing
-a few unwrap()s.
+On Fri, Jan 30, 2026 at 04:09:10PM +0800, Shengjiu Wang wrote:
+> There is an audio channel shift issue with multi channel case - the
+> channel order is correct for the first run, but the channel order is
+> shifted for the second run. The fix method is to reset the PAI interface
+> at the end of playback.
+> 
+> The reset can be handled by PM runtime, so enable PM runtime.
+> 
+> Fixes: 0205fae6327a ("drm/bridge: imx: add driver for HDMI TX Parallel Audio Interface")
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> ---
+> Changes in v2:
+> - update commit message
+> - add fixes tag
+> - use pm_runtime_resume_and_get()
 
-Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
----
- drivers/gpu/nova-core/gsp.rs      | 46 ++++++++++++++++++++-------------------
- drivers/gpu/nova-core/gsp/boot.rs | 10 ++++-----
- drivers/gpu/nova-core/gsp/cmdq.rs | 24 ++++++++++----------
- drivers/gpu/nova-core/gsp/fw.rs   | 12 +++-------
- 4 files changed, 43 insertions(+), 49 deletions(-)
+You also fixed subject and fixed error msg for devm_pm_runtime_enable().
 
-diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
-index 43bc35fd3b55..2513822d43fb 100644
---- a/drivers/gpu/nova-core/gsp.rs
-+++ b/drivers/gpu/nova-core/gsp.rs
-@@ -5,13 +5,15 @@
- use kernel::{
-     device,
-     dma::{
--        CoherentAllocation,
-+        CoherentArray,
-+        CoherentObject,
-+        CoherentSlice,
-         DmaAddress, //
-     },
-+    dma_write,
-     pci,
-     prelude::*,
--    transmute::AsBytes,
--    try_dma_write, //
-+    transmute::AsBytes, //
- };
- 
- pub(crate) mod cmdq;
-@@ -74,14 +76,14 @@ fn new(start: DmaAddress) -> Result<Self> {
- /// then pp points to index into the buffer where the next logging entry will
- /// be written. Therefore, the logging data is valid if:
- ///   1 <= pp < sizeof(buffer)/sizeof(u64)
--struct LogBuffer(CoherentAllocation<u8>);
-+struct LogBuffer(CoherentSlice<u8>);
- 
- impl LogBuffer {
-     /// Creates a new `LogBuffer` mapped on `dev`.
-     fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
-         const NUM_PAGES: usize = RM_LOG_BUFFER_NUM_PAGES;
- 
--        let mut obj = Self(CoherentAllocation::<u8>::alloc_coherent(
-+        let mut obj = Self(CoherentSlice::<u8>::alloc_coherent(
-             dev,
-             NUM_PAGES * GSP_PAGE_SIZE,
-             GFP_KERNEL | __GFP_ZERO,
-@@ -100,11 +102,14 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
-     }
- }
- 
-+/// Number of `LibosMemoryRegionInitArgument` entries that fit in a GSP page.
-+const LIBOS_REGION_SIZE: usize = GSP_PAGE_SIZE / size_of::<LibosMemoryRegionInitArgument>();
-+
- /// GSP runtime data.
- #[pin_data]
- pub(crate) struct Gsp {
-     /// Libos arguments.
--    pub(crate) libos: CoherentAllocation<LibosMemoryRegionInitArgument>,
-+    pub(crate) libos: CoherentArray<LibosMemoryRegionInitArgument, LIBOS_REGION_SIZE>,
-     /// Init log buffer.
-     loginit: LogBuffer,
-     /// Interrupts log buffer.
-@@ -114,40 +119,37 @@ pub(crate) struct Gsp {
-     /// Command queue.
-     pub(crate) cmdq: Cmdq,
-     /// RM arguments.
--    rmargs: CoherentAllocation<GspArgumentsCached>,
-+    rmargs: CoherentObject<GspArgumentsCached>,
- }
- 
- impl Gsp {
-     // Creates an in-place initializer for a `Gsp` manager for `pdev`.
-     pub(crate) fn new(pdev: &pci::Device<device::Bound>) -> Result<impl PinInit<Self, Error>> {
-         let dev = pdev.as_ref();
--        let libos = CoherentAllocation::<LibosMemoryRegionInitArgument>::alloc_coherent(
--            dev,
--            GSP_PAGE_SIZE / size_of::<LibosMemoryRegionInitArgument>(),
--            GFP_KERNEL | __GFP_ZERO,
--        )?;
-+        let libos =
-+            CoherentArray::<LibosMemoryRegionInitArgument, LIBOS_REGION_SIZE>::alloc_coherent(
-+                dev,
-+                GFP_KERNEL | __GFP_ZERO,
-+            )?;
- 
-         // Initialise the logging structures. The OpenRM equivalents are in:
-         // _kgspInitLibosLoggingStructures (allocates memory for buffers)
-         // kgspSetupLibosInitArgs_IMPL (creates pLibosInitArgs[] array)
-         let loginit = LogBuffer::new(dev)?;
--        try_dma_write!(libos[0] = LibosMemoryRegionInitArgument::new("LOGINIT", &loginit.0))?;
-+        dma_write!(libos[0] = LibosMemoryRegionInitArgument::new("LOGINIT", &loginit.0));
- 
-         let logintr = LogBuffer::new(dev)?;
--        try_dma_write!(libos[1] = LibosMemoryRegionInitArgument::new("LOGINTR", &logintr.0))?;
-+        dma_write!(libos[1] = LibosMemoryRegionInitArgument::new("LOGINTR", &logintr.0));
- 
-         let logrm = LogBuffer::new(dev)?;
--        try_dma_write!(libos[2] = LibosMemoryRegionInitArgument::new("LOGRM", &logrm.0))?;
-+        dma_write!(libos[2] = LibosMemoryRegionInitArgument::new("LOGRM", &logrm.0));
- 
-         let cmdq = Cmdq::new(dev)?;
- 
--        let rmargs = CoherentAllocation::<GspArgumentsCached>::alloc_coherent(
--            dev,
--            1,
--            GFP_KERNEL | __GFP_ZERO,
--        )?;
--        try_dma_write!(rmargs[0] = fw::GspArgumentsCached::new(&cmdq))?;
--        try_dma_write!(libos[3] = LibosMemoryRegionInitArgument::new("RMARGS", &rmargs))?;
-+        let rmargs =
-+            CoherentObject::<GspArgumentsCached>::alloc_coherent(dev, GFP_KERNEL | __GFP_ZERO)?;
-+        dma_write!(rmargs[0] = fw::GspArgumentsCached::new(&cmdq));
-+        dma_write!(libos[3] = LibosMemoryRegionInitArgument::new("RMARGS", &rmargs));
- 
-         Ok(try_pin_init!(Self {
-             libos,
-diff --git a/drivers/gpu/nova-core/gsp/boot.rs b/drivers/gpu/nova-core/gsp/boot.rs
-index 69e2fb064220..7888a39356f3 100644
---- a/drivers/gpu/nova-core/gsp/boot.rs
-+++ b/drivers/gpu/nova-core/gsp/boot.rs
-@@ -2,12 +2,12 @@
- 
- use kernel::{
-     device,
--    dma::CoherentAllocation,
-+    dma::CoherentObject,
-+    dma_write,
-     io::poll::read_poll_timeout,
-     pci,
-     prelude::*,
--    time::Delta,
--    try_dma_write, //
-+    time::Delta, //
- };
- 
- use crate::{
-@@ -159,8 +159,8 @@ pub(crate) fn boot(
-         )?;
- 
-         let wpr_meta =
--            CoherentAllocation::<GspFwWprMeta>::alloc_coherent(dev, 1, GFP_KERNEL | __GFP_ZERO)?;
--        try_dma_write!(wpr_meta[0] = GspFwWprMeta::new(&gsp_fw, &fb_layout))?;
-+            CoherentObject::<GspFwWprMeta>::alloc_coherent(dev, GFP_KERNEL | __GFP_ZERO)?;
-+        dma_write!(wpr_meta[0] = GspFwWprMeta::new(&gsp_fw, &fb_layout));
- 
-         self.cmdq
-             .send_command(bar, commands::SetSystemInfo::new(pdev))?;
-diff --git a/drivers/gpu/nova-core/gsp/cmdq.rs b/drivers/gpu/nova-core/gsp/cmdq.rs
-index 9c94f4c6ff6d..845c9e176b93 100644
---- a/drivers/gpu/nova-core/gsp/cmdq.rs
-+++ b/drivers/gpu/nova-core/gsp/cmdq.rs
-@@ -12,9 +12,10 @@
- use kernel::{
-     device,
-     dma::{
--        CoherentAllocation,
-+        CoherentObject,
-         DmaAddress, //
-     },
-+    dma_write,
-     io::poll::read_poll_timeout,
-     prelude::*,
-     sync::aref::ARef,
-@@ -22,8 +23,7 @@
-     transmute::{
-         AsBytes,
-         FromBytes, //
--    },
--    try_dma_write, //
-+    }, //
- };
- 
- use crate::{
-@@ -191,7 +191,7 @@ unsafe impl FromBytes for GspMem {}
- ///   pointer and the GSP read pointer. This region is returned by [`Self::driver_write_area`].
- /// * The driver owns (i.e. can read from) the part of the GSP message queue between the CPU read
- ///   pointer and the GSP write pointer. This region is returned by [`Self::driver_read_area`].
--struct DmaGspMem(CoherentAllocation<GspMem>);
-+struct DmaGspMem(CoherentObject<GspMem>);
- 
- impl DmaGspMem {
-     /// Allocate a new instance and map it for `dev`.
-@@ -199,13 +199,11 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
-         const MSGQ_SIZE: u32 = num::usize_into_u32::<{ size_of::<Msgq>() }>();
-         const RX_HDR_OFF: u32 = num::usize_into_u32::<{ mem::offset_of!(Msgq, rx) }>();
- 
--        let gsp_mem =
--            CoherentAllocation::<GspMem>::alloc_coherent(dev, 1, GFP_KERNEL | __GFP_ZERO)?;
--        try_dma_write!(gsp_mem[0].ptes = PteArray::new(gsp_mem.dma_handle())?)?;
--        try_dma_write!(
--            gsp_mem[0].cpuq.tx = MsgqTxHeader::new(MSGQ_SIZE, RX_HDR_OFF, MSGQ_NUM_PAGES)
--        )?;
--        try_dma_write!(gsp_mem[0].cpuq.rx = MsgqRxHeader::new())?;
-+        let gsp_mem = CoherentObject::<GspMem>::alloc_coherent(dev, GFP_KERNEL | __GFP_ZERO)?;
-+        let ptes = PteArray::new(gsp_mem.dma_handle())?;
-+        dma_write!(gsp_mem[0].ptes = ptes);
-+        dma_write!(gsp_mem[0].cpuq.tx = MsgqTxHeader::new(MSGQ_SIZE, RX_HDR_OFF, MSGQ_NUM_PAGES));
-+        dma_write!(gsp_mem[0].cpuq.rx = MsgqRxHeader::new());
- 
-         Ok(Self(gsp_mem))
-     }
-@@ -223,7 +221,7 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
-         // - The `CoherentAllocation` contains exactly one object.
-         // - We will only access the driver-owned part of the shared memory.
-         // - Per the safety statement of the function, no concurrent access will be performed.
--        let gsp_mem = &mut unsafe { self.0.try_as_slice_mut(0, 1) }.unwrap()[0];
-+        let gsp_mem = &mut unsafe { self.0.as_slice_mut::<0, 1>() }[0];
-         // PANIC: per the invariant of `cpu_write_ptr`, `tx` is `<= MSGQ_NUM_PAGES`.
-         let (before_tx, after_tx) = gsp_mem.cpuq.msgq.data.split_at_mut(tx);
- 
-@@ -258,7 +256,7 @@ fn new(dev: &device::Device<device::Bound>) -> Result<Self> {
-         // - The `CoherentAllocation` contains exactly one object.
-         // - We will only access the driver-owned part of the shared memory.
-         // - Per the safety statement of the function, no concurrent access will be performed.
--        let gsp_mem = &unsafe { self.0.try_as_slice(0, 1) }.unwrap()[0];
-+        let gsp_mem = &unsafe { self.0.as_slice::<0, 1>() }[0];
-         // PANIC: per the invariant of `cpu_read_ptr`, `xx` is `<= MSGQ_NUM_PAGES`.
-         let (before_rx, after_rx) = gsp_mem.gspq.msgq.data.split_at(rx);
- 
-diff --git a/drivers/gpu/nova-core/gsp/fw.rs b/drivers/gpu/nova-core/gsp/fw.rs
-index caeb0d251fe5..1877b727cc22 100644
---- a/drivers/gpu/nova-core/gsp/fw.rs
-+++ b/drivers/gpu/nova-core/gsp/fw.rs
-@@ -9,17 +9,14 @@
- use core::ops::Range;
- 
- use kernel::{
--    dma::CoherentAllocation,
-+    dma::CoherentSlice,
-     fmt,
-     prelude::*,
-     ptr::{
-         Alignable,
-         Alignment, //
-     },
--    sizes::{
--        SZ_128K,
--        SZ_1M, //
--    },
-+    sizes::{SZ_128K, SZ_1M},
-     transmute::{
-         AsBytes,
-         FromBytes, //
-@@ -652,10 +649,7 @@ unsafe impl AsBytes for LibosMemoryRegionInitArgument {}
- unsafe impl FromBytes for LibosMemoryRegionInitArgument {}
- 
- impl LibosMemoryRegionInitArgument {
--    pub(crate) fn new<A: AsBytes + FromBytes>(
--        name: &'static str,
--        obj: &CoherentAllocation<A>,
--    ) -> Self {
-+    pub(crate) fn new<A: AsBytes + FromBytes>(name: &'static str, obj: &CoherentSlice<A>) -> Self {
-         /// Generates the `ID8` identifier required for some GSP objects.
-         fn id8(name: &str) -> u64 {
-             let mut bytes = [0u8; core::mem::size_of::<u64>()];
+Anyway,
+Reviewed-by: Liu Ying <victor.liu@nxp.com>
+
+Thanks!
+
+> 
+>  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
 
 -- 
-2.52.0
-
+Regards,
+Liu Ying
