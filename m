@@ -2,50 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QHSDDqUvfWnKQgIAu9opvQ
+	id KM+VEw04fWlMQwIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 23:24:37 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 00:00:29 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE7B6BF16E
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 23:24:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 981B6BF461
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 00:00:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E584410E1A2;
-	Fri, 30 Jan 2026 22:24:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABC2710E030;
+	Fri, 30 Jan 2026 23:00:25 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="N41qAFT8";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88A8910E1A2
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 22:24:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 2AC8741523;
- Fri, 30 Jan 2026 22:24:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C294EC4CEF7;
- Fri, 30 Jan 2026 22:24:31 +0000 (UTC)
-Received: by venus (Postfix, from userid 1000)
- id CC3181805A0; Fri, 30 Jan 2026 23:24:27 +0100 (CET)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org, dmitry.torokhov@gmail.com, 
- sre@kernel.org, gregkh@linuxfoundation.org, jirislaby@kernel.org, 
- lgirdwood@gmail.com, broonie@kernel.org, 
- Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: jserv@ccns.ncku.edu.tw, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-serial@vger.kernel.org, linux-sound@vger.kernel.org, 
- Yu-Chun Lin <eleanor.lin@realtek.com>
-In-Reply-To: <20260113092602.3197681-1-visitorckw@gmail.com>
-References: <20260113092602.3197681-1-visitorckw@gmail.com>
-Subject: Re: (subset) [PATCH v4 0/6] dt-bindings: goldfish: Convert to DT
- schema
-Message-Id: <176981186782.331784.16669920696929509019.b4-ty@collabora.com>
-Date: Fri, 30 Jan 2026 23:24:27 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2D7F10E030
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 23:00:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1769814022;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xpVWSYOjmpUvjd6bPS5vI/Dt/+7lbqD30OTCkZ3YauU=;
+ b=N41qAFT8gcNrQZQA1VfQSOaJE8UCXul/LrsPWmrJLJtVhWx7yV58AbmKtPb4l4xxd8eWAh
+ ELkmagl2q3wXOy5nya1vevRfJtB2L3FLXz8UkxkMjEVDDlxT+J0O3qDThresTHzptMK4rs
+ WzuqYv4H/KhjhSjpYYLdWiL8OfMILOU=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-106-hwTKOdunOyeZ9PQ-KTY9DQ-1; Fri, 30 Jan 2026 18:00:21 -0500
+X-MC-Unique: hwTKOdunOyeZ9PQ-KTY9DQ-1
+X-Mimecast-MFC-AGG-ID: hwTKOdunOyeZ9PQ-KTY9DQ_1769814021
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-50333a8184aso81171691cf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 15:00:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769814021; x=1770418821;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xpVWSYOjmpUvjd6bPS5vI/Dt/+7lbqD30OTCkZ3YauU=;
+ b=Ao55pCNZf75f6i/aJfWRgTbkd+P+fa8Q2n7ojwBonRmtgOwXwi8vALTB7BxSLWhDhn
+ QeguxThY9uoloGI+oa19p1HZ5C1uPkxzcDe8LUaJ5vuhkhz3MpRpAAvTsloDNM+AZ/xa
+ ziG7IuZcqjG5bo4F3BHDEgdqsACvNJn6+S2hphd4Y2BaqABgDCz8KmyGmejh1QunnJpp
+ mGCEWaE2mfr2qlzXOPi8pRbaQwRPDCkGZgSpCmS1hfgdIKS1JU6P0L/+8JKH1AuCnCP0
+ NvWYvxXrToquu8biEIraCome8YQhiwQNb4jw6+LYpAwoTr/362fSzYOq0Nnr1ApUZoNU
+ THnQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX/3K76RR2EM0fFMlFLyH0Xe+J6l3e5k/ZXc4R/7oop9ShYDVx2ioLRQIK81GP7p1YLFFtecIowN5I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxYWfPGeAiFZLb5ucSjFWK2H9naaPcVJwUuDA6LSfWhHUH63QTR
+ UlgjWBtAiIDpPsnhDkV95X2GhEp8djzTk9QID2ilP3XFfOz8vT+jv43DvmQVktRHy+QpojnX+iR
+ lZGVTsKGKskxaSd8DvMgPErGENScaocY0tuXCYqk7GoWNTbb82UwPZcgGAfZarWJMJdM5LA==
+X-Gm-Gg: AZuq6aLVoUuhAKKBY36QerC94Jbi6m4IsHH6VEd77LI0NuxTEkZoJr5MD1iOU8ty5E9
+ VKi3nuK9NK9Qyd3jd5ukReIk6knbcJJpikQHYCom3qU9dLZidJc0Vmnm8Kf2f9d6zjdNxhvqOXe
+ CGn053lF0zdc9BX4HmHNsgPqaCstmSo6CIXLNOrwbqjjL8WnH/NPUGIwQN7NZhtVx0rEKBxBFIR
+ Sao6gncnYSk/4j1kjxxJhPzec4mGfoKLxxyaVCZwq8A5vUZC8R5VFIlwvP0Wny6DjrAeaCshprI
+ KdZfei7fKeA4L0cu3WUZH1lw224Dg6hCRB91UnuNNcvKbimbIE0kWOzYja4r2pCR5SzDSE4ZIpR
+ sNW2vOpE7ncmYYGqmgO0lawnx1wC3imN4u/oCSwUGkPkRcIXRCmU=
+X-Received: by 2002:ac8:5ac7:0:b0:4f1:ca4f:d480 with SMTP id
+ d75a77b69052e-505d2263fddmr58996191cf.45.1769814020765; 
+ Fri, 30 Jan 2026 15:00:20 -0800 (PST)
+X-Received: by 2002:ac8:5ac7:0:b0:4f1:ca4f:d480 with SMTP id
+ d75a77b69052e-505d2263fddmr58995451cf.45.1769814020240; 
+ Fri, 30 Jan 2026 15:00:20 -0800 (PST)
+Received: from localhost (pool-100-17-18-12.bstnma.fios.verizon.net.
+ [100.17.18.12]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-894d375e1c8sm70249956d6.48.2026.01.30.15.00.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Jan 2026 15:00:19 -0800 (PST)
+From: Eric Chanudet <echanude@redhat.com>
+Date: Fri, 30 Jan 2026 17:55:30 -0500
+Subject: [PATCH] dma-buf: heaps: cma: register a dmem region for each cma heap
 MIME-Version: 1.0
+Message-Id: <20260130-dmabuf-heap-cma-dmem-v1-1-3647ea993e99@redhat.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MMQqAMAxA0atIZgNtEBGvIg7RpjZDq7Qognh3i
+ +Mb/n+gSFYpMDYPZLm06J4qbNvAGjhtguqqgQz1xtKALvJyegzCB66RqyWi7ywZJuc7HqCmRxa
+ v97+d5vf9AHWa3QpmAAAA
+X-Change-ID: 20260128-dmabuf-heap-cma-dmem-f4120a2df4a8
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T.J. Mercier" <tjmercier@google.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>, 
+ Eric Chanudet <echanude@redhat.com>
+X-Mailer: b4 0.14.2
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: NDaFKD8PMrTUbfvpUMZmvXputHiCKIbPbqJm_83gzgk_1769814021
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,58 +112,204 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.99 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	DMARC_POLICY_SOFTFAIL(0.10)[collabora.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:mripard@redhat.com,m:aesteve@redhat.com,m:echanude@redhat.com,s:lists@lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,linuxfoundation.org];
-	FORGED_RECIPIENTS(0.00)[m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:dmitry.torokhov@gmail.com,m:sre@kernel.org,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:lgirdwood@gmail.com,m:broonie@kernel.org,m:visitorckw@gmail.com,m:jserv@ccns.ncku.edu.tw,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-input@vger.kernel.org,m:linux-pm@vger.kernel.org,m:linux-serial@vger.kernel.org,m:linux-sound@vger.kernel.org,m:eleanor.lin@realtek.com,m:krzk@kernel.org,m:conor@kernel.org,m:dmitrytorokhov@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[sebastian.reichel@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
+	FORGED_SENDER(0.00)[echanude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[sebastian.reichel@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[echanude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: BE7B6BF16E
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 981B6BF461
 X-Rspamd-Action: no action
 
+The cma dma-buf heaps let userspace allocate buffers in CMA regions
+without enforcing limits. Register a dmem region per cma heap and charge
+against it when allocating a buffer in a cma heap.
 
-On Tue, 13 Jan 2026 09:25:56 +0000, Kuan-Wei Chiu wrote:
-> Convert the Android Goldfish emulator platform bindings from text
-> format to DT schema.
-> 
-> Most of these bindings are currently located in
-> Documentation/devicetree/bindings/goldfish/. Move them to the
-> appropriate subsystem directories (serial, input, power, sound, misc)
-> to align with the kernel directory structure.
-> 
-> [...]
+For the default cma region, two heaps may be created for the same cma
+range:
+commit 854acbe75ff4 ("dma-buf: heaps: Give default CMA heap a fixed name")
+  Introduced /dev/dma_heap/default_cma_region
+commit 4f5f8baf7341 ("dma-buf: heaps: cma: Create CMA heap for each CMA
+                      reserved region")
+  Created a CMA heap for each CMA region, which might create a duplicate
+  heap to the default one, e.g:
+    /dev/dma_heap/default_cma_region
+    /dev/dma_heap/reserved
 
-Applied, thanks!
+Removing the legacy heap would break user API. So handle the special
+case by using one dmem between the two heaps to account charges
+correctly.
 
-[4/6] dt-bindings: power: supply: google,goldfish-battery: Convert to DT schema
-      commit: 4c3f02f843999a590f4481791f59a2f9a7f34fe4
+Signed-off-by: Eric Chanudet <echanude@redhat.com>
+---
+In continuation with introducing cgroup for the system heap[1], this
+behavior is enabled based on dma_heap.mem_accounting, disabled by
+default.
+
+dmem is chosen for CMA heaps as it allows limits to be set for each
+region backing each heap. There is one caveat for the default cma range
+that may accessible through two different cma heaps, which is treated as
+a special case.
+
+[1] https://lore.kernel.org/all/20260116-dmabuf-heap-system-memcg-v3-0-ecc6b62cc446@redhat.com/
+---
+ drivers/dma-buf/heaps/cma_heap.c | 51 ++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 46 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 49cc45fb42dd7200c3c14384bcfdbe85323454b1..608af8ad6bce7fe0321da6d8f1b65a69f5d8d950 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -27,6 +27,7 @@
+ #include <linux/scatterlist.h>
+ #include <linux/slab.h>
+ #include <linux/vmalloc.h>
++#include <linux/cgroup_dmem.h>
+ 
+ #define DEFAULT_CMA_NAME "default_cma_region"
+ 
+@@ -46,7 +47,9 @@ int __init dma_heap_cma_register_heap(struct cma *cma)
+ struct cma_heap {
+ 	struct dma_heap *heap;
+ 	struct cma *cma;
++	struct dmem_cgroup_region *cg;
+ };
++static struct dmem_cgroup_region *default_cma_cg;
+ 
+ struct cma_heap_buffer {
+ 	struct cma_heap *heap;
+@@ -58,6 +61,7 @@ struct cma_heap_buffer {
+ 	pgoff_t pagecount;
+ 	int vmap_cnt;
+ 	void *vaddr;
++	struct dmem_cgroup_pool_state *pool;
+ };
+ 
+ struct dma_heap_attachment {
+@@ -276,6 +280,7 @@ static void cma_heap_dma_buf_release(struct dma_buf *dmabuf)
+ 	kfree(buffer->pages);
+ 	/* release memory */
+ 	cma_release(cma_heap->cma, buffer->cma_pages, buffer->pagecount);
++	dmem_cgroup_uncharge(buffer->pool, buffer->len);
+ 	kfree(buffer);
+ }
+ 
+@@ -319,9 +324,16 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
+ 	if (align > CONFIG_CMA_ALIGNMENT)
+ 		align = CONFIG_CMA_ALIGNMENT;
+ 
++	if (mem_accounting) {
++		ret = dmem_cgroup_try_charge(cma_heap->cg, size,
++					     &buffer->pool, NULL);
++		if (ret)
++			goto free_buffer;
++	}
++
+ 	cma_pages = cma_alloc(cma_heap->cma, pagecount, align, false);
+ 	if (!cma_pages)
+-		goto free_buffer;
++		goto uncharge_cgroup;
+ 
+ 	/* Clear the cma pages */
+ 	if (PageHighMem(cma_pages)) {
+@@ -376,6 +388,8 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
+ 	kfree(buffer->pages);
+ free_cma:
+ 	cma_release(cma_heap->cma, cma_pages, pagecount);
++uncharge_cgroup:
++	dmem_cgroup_uncharge(buffer->pool, size);
+ free_buffer:
+ 	kfree(buffer);
+ 
+@@ -390,25 +404,52 @@ static int __init __add_cma_heap(struct cma *cma, const char *name)
+ {
+ 	struct dma_heap_export_info exp_info;
+ 	struct cma_heap *cma_heap;
++	struct dmem_cgroup_region *region;
++	int ret;
+ 
+ 	cma_heap = kzalloc(sizeof(*cma_heap), GFP_KERNEL);
+ 	if (!cma_heap)
+ 		return -ENOMEM;
+ 	cma_heap->cma = cma;
+ 
++	/*
++	 * If two heaps are created for the default cma region, use the same
++	 * dmem for them. They both use the same memory pool.
++	 */
++	if (dev_get_cma_area(NULL) == cma && default_cma_cg)
++		region = default_cma_cg;
++	else {
++		region = dmem_cgroup_register_region(cma_get_size(cma), "cma/%s", name);
++		if (IS_ERR(region)) {
++			ret = PTR_ERR(region);
++			goto free_cma_heap;
++		}
++	}
++	cma_heap->cg = region;
++
+ 	exp_info.name = name;
+ 	exp_info.ops = &cma_heap_ops;
+ 	exp_info.priv = cma_heap;
+ 
+ 	cma_heap->heap = dma_heap_add(&exp_info);
+ 	if (IS_ERR(cma_heap->heap)) {
+-		int ret = PTR_ERR(cma_heap->heap);
+-
+-		kfree(cma_heap);
+-		return ret;
++		ret = PTR_ERR(cma_heap->heap);
++		goto cg_unregister;
+ 	}
+ 
++	if (dev_get_cma_area(NULL) == cma && !default_cma_cg)
++		default_cma_cg = region;
++
+ 	return 0;
++
++cg_unregister:
++	/* default_cma_cg == cma_heap->cg only for the duplicate heap. */
++	if (default_cma_cg != cma_heap->cg)
++		dmem_cgroup_unregister_region(cma_heap->cg);
++free_cma_heap:
++	kfree(cma_heap);
++
++	return ret;
+ }
+ 
+ static int __init add_cma_heaps(void)
+
+---
+base-commit: 3d65e4c276b32c03450261d114e495fda03c8e97
+change-id: 20260128-dmabuf-heap-cma-dmem-f4120a2df4a8
 
 Best regards,
 -- 
-Sebastian Reichel <sebastian.reichel@collabora.com>
+Eric Chanudet <echanude@redhat.com>
 
