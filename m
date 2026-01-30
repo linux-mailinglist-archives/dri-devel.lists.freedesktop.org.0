@@ -2,56 +2,159 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id nGV7NxTkfGkwPQIAu9opvQ
+	id MODlBLTpfGlTPQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 18:02:12 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 18:26:12 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73697BCC86
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 18:02:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D3ACBD081
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 18:26:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D9F010E15E;
-	Fri, 30 Jan 2026 17:02:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22B5310E037;
+	Fri, 30 Jan 2026 17:26:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ax0vA9rB";
+	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="oAtZa4Ps";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FBE810E0AD;
- Fri, 30 Jan 2026 17:02:03 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6C21D60018;
- Fri, 30 Jan 2026 17:02:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 591AAC4CEF7;
- Fri, 30 Jan 2026 17:02:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769792522;
- bh=qJet0Ig2FvrgFUoZlVTlRYNLrADIS9xbqjTzK2rlbQQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Ax0vA9rBHx992xEkSvk2bT/UQ+6nECLsD/+xpRTXEszqJS5bIBgp0kIbeZyDjSxaE
- SZ6T4gR2dgo18+7TQYtWgMb2Yo0t9z68Ef4r0wzMvIyYiSU7ID6Qf/z7o3MsJQDenm
- 50iM5vLyGS1enArgpWdZdyB4LtkGpJ4ITtxbQWXvSPSJXJ+w4ZwUBTXWxWjMWkPkoJ
- o+PGR7yRZ4NHEboxjz1bgMOuvQFYQavsyyQ3pa8TTaFSR+JK3uTD646nxXSdLgACxp
- nCbVLV4mYUCp/Nis4/N3sOVC9w60Ri6Qn89zkqD0zHfWLFaRw0WP/20r6MSzblF4/+
- 3/eGIGBXlGe9A==
-Message-ID: <c87b2e28-b1f0-4e08-9a6e-70b545a432bb@kernel.org>
-Date: Fri, 30 Jan 2026 11:02:00 -0600
+Received: from OS0P286CU010.outbound.protection.outlook.com
+ (mail-japanwestazon11011057.outbound.protection.outlook.com [40.107.74.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F27D10E037
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 17:26:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iLF8lxFMYsE1KmldL9B9EuhhyHP84A5srzYWXRmUJifJM1ogw6LAiqSCzs+OnIqkOimLiD8uPnOHTGe+LzBxLWqPQehghl8rOjajkfD5/y8q0PuyCAdVnJO7+p4DsaAUgh8lnfHC+tUdgDkfZFUSwMPwQQ3OB+SLG2TwqmMKmHerjm01VUq0TZnimHHPeRfcP/Qi8yLs1Dtg+IrliaMtHzKR/nIrEpjAQRFLNe8p2EoSODHVThV00PB1sT4xd5haKCw+yTsvpLtEwRgIuQCPhQQN/6T56mD8oBzRccaMn8JRa26OzM+10+f7UPs8cngGQvA1oy7PLHduqLxag6/04Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WQagPSP1+TDWHb6BcjkaOzycuVKi9VHd4FE5KHhKMnw=;
+ b=vuKJcrus2ukblA/H0/WeDhx6cRUgbeKSS5kPRb425rq5EwpsKH1aujHAiubuuxIHmZFxOhCZ8W733fBQuYSXmHK6lO4lLaJWMOVeITChNN9HtURflHPHQIKgJ66Y6i2BRMaV7uB7r90RnarnPPEiTEchh2R7BE3QPHO/Imjtv3qZSRdlIMhgJ1xG4lshlaNrHrI6ijoSY4RKRLLZ07laS6R9j/r7jx1vvnmEHwjIYD5t4FqW6GEuo63Y+2fgcfu/8aaVh37C5HEEagatqHI6S9mN0TVAOEprE/WLnOYkzkfrYdNLmLKfAg/tdHSHkERIRYWHPKgCzzlUhak5vkPl1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WQagPSP1+TDWHb6BcjkaOzycuVKi9VHd4FE5KHhKMnw=;
+ b=oAtZa4PsNVg4Vc6NRVY9oMCARRMpcRDXG9WRUFtP9wJio/ofewU7pLTeetYV5lCk8xWeAKlogKTU4lmnTQ8e+WHEUZI6cRmVUa8jrgItfcZDnJqRsZe+PBxQNs1HNczmD4q+cr9ZBPay6eQHqDL0d7DDxHMs/L1wmYfiSYDyvaw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
+ by TYCPR01MB10351.jpnprd01.prod.outlook.com (2603:1096:400:226::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.11; Fri, 30 Jan
+ 2026 17:26:00 +0000
+Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
+ ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
+ ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9564.010; Fri, 30 Jan 2026
+ 17:26:00 +0000
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+To: tomm.merciai@gmail.com, geert@linux-m68k.org,
+ laurent.pinchart@ideasonboard.com
+Cc: linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
+ Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: [PATCH v2 00/20] Add support for DU and DSI on the Renesas RZ/G3E SoC
+Date: Fri, 30 Jan 2026 18:24:57 +0100
+Message-ID: <cover.1769789834.git.tommaso.merciai.xr@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: FR0P281CA0155.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b3::18) To TYCPR01MB11947.jpnprd01.prod.outlook.com
+ (2603:1096:400:3e1::6)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] drm/amd/display: Implement prepare_vblank_enable
- callback
-To: sunpeng.li@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: Harry.Wentland@amd.com, simona@ffwll.ch, airlied@gmail.com,
- jani.nikula@linux.intel.com, ville.syrjala@linux.intel.com
-References: <20260127194143.176248-1-sunpeng.li@amd.com>
- <20260127194143.176248-2-sunpeng.li@amd.com>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20260127194143.176248-2-sunpeng.li@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|TYCPR01MB10351:EE_
+X-MS-Office365-Filtering-Correlation-Id: 425b96b3-d640-4efd-8887-08de6024a2f7
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|1800799024|7416014|52116014|366016|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?FFKrJfyla9vR9m5X7mXo2vCfg66D2t8+zEuoDwSlcRp/6cpoIbQoQgeB4IAg?=
+ =?us-ascii?Q?C8uWQCATkruNRvQxY2ehuCaHR1gOQ3emHuvJxM7l8BvJcMPOY1WIOOScvCTM?=
+ =?us-ascii?Q?iNPVeSQW0G0ZRYHBUB72vlAofuPFAzn7+DulkQyawTUnvLzRY2wuau0Jv4yR?=
+ =?us-ascii?Q?mD6/SmPBL1vM1zIddjjtbUFPwE2mOBu9pgLlo1A0glnSrtzE4zanao8q/Det?=
+ =?us-ascii?Q?P6TT2G0wtawDb/0vBAe3me/u2XY4Kd2zeBmt3RRr+G4LzXDWmVLazf+12uht?=
+ =?us-ascii?Q?dAEHyxADUcl2hyCgXe9jRqg0SC+gNuVQwjzxmUvRyT++JAV0Z7WsRoGlwdeb?=
+ =?us-ascii?Q?HRQTwlmVyoBGuglwNI+X5aIxecs5X8QpHrFIl7TW/B9/h/bopIbAZOqcC/EM?=
+ =?us-ascii?Q?7TpJ1+7RuDewAWN51zE7nWJ8WZb9BjssoTtklAUX26xpYS9ks+QGqzpOleMW?=
+ =?us-ascii?Q?HpIDrr3F+L48eCf15mLIbOVJNZYYthhko9Vaqps44ALx/LprGzNljCXGj+ud?=
+ =?us-ascii?Q?9hB0ldnG/GqSPQedSV5SMLQZWJn3wTDGdxhc18lzqEk8GSAwphghMxQ+UqN0?=
+ =?us-ascii?Q?fu0preo/X01oIj2DMxURTJ3/A9hlrNu1ZARp6OMzojrbEdrMKU39Mjs8OTAf?=
+ =?us-ascii?Q?qhXRmmPR+pth+WTXfXsfTzyjTRULtyzE/Y+JHeP1FXzRM7ONg8m9hNLQH/aG?=
+ =?us-ascii?Q?Vx6YXmViYkSgc0ejf41SCv1rgd+xocS0GKc9g1I40XEUvBYyucHh6XTP9M3N?=
+ =?us-ascii?Q?Wgod2ELAwwT7Nf/vyCmWs0yOcudNw0+UlOhqJ7rzF9+dDwedspllXS9IzoBl?=
+ =?us-ascii?Q?5DKUmvjdwemhrGPyfExWbAXGYLbgomfyt1/Oc0QI77GEEEkKKhvx2MoiSLI0?=
+ =?us-ascii?Q?5xUFkksARlzkdN8m6pCNmXBbh7sQe3Ycsh1dkn2GPwoBmYcvLbH+lfA2efKp?=
+ =?us-ascii?Q?cvQizAF2BedcQ8gMzzpOFn67hvPRexUo7eJ9N8P2l8VwkKnXs2RSG6vE6MRN?=
+ =?us-ascii?Q?9Y3jG6/mF2XZrqyVJ2JVAWWAiI1+WOwDeIu4067R5yW82PMdGO1aWKGqjv5z?=
+ =?us-ascii?Q?StlwCBknh3x/O4tgxgBzWinCy+mCxZT5aclJVEZMkNj00lh3ApvrWhztjuBK?=
+ =?us-ascii?Q?Nkhu+wdhupFHE9wJdX2s79yps6xXUrSZuz/PKppI8fH3MupZC4ae25N0fAQw?=
+ =?us-ascii?Q?VNVN/xZbF8iDSacsKxoNqucvXmic6jN2dxMtlyY9sQmuN8zegLabCL+ySeYR?=
+ =?us-ascii?Q?QjwviBDZq2Nm5dbF7pywGodsaFPs7QvDxfFwszmdQvVVwlczbB8ZrkM0d9Of?=
+ =?us-ascii?Q?O+x2w39bgtYb4defsm+Km0QrpSpLO2lVqtbvI5X2Zq8W+zduS3pInzubLGXf?=
+ =?us-ascii?Q?mAMsuVDTR+HPZVSB/GyX9ZOjNExYPNr0CIdMuRtSN/4VFzZHTmUlbLNrTlDo?=
+ =?us-ascii?Q?axK92n1zRR3XEXnqB2AO4y4i38mwXrSvsW3TCXjl1Z91Zfos0nCTL2hkvqyJ?=
+ =?us-ascii?Q?JI56sAKpKwOqIc7UQCH7izTj/vWqOJZIrKHFOd2oO1rcu2RDcht2ggvdjkIE?=
+ =?us-ascii?Q?XOUjwJD/Uj9Si2VuiK4DrRnGoUSxvVQw0WPlyA50TxvSCE4iDZhagpjCC5bT?=
+ =?us-ascii?Q?qnjeL4hh5G/268IWHW2T0BU=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYCPR01MB11947.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(7416014)(52116014)(366016)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JqO/XQfNCrGQKuosCvVie8H5vNtZx0pVEZSown4AKK/Fg5QjHmqQtAJc39G0?=
+ =?us-ascii?Q?X2k92jW0l62qwn2vaKdLdNV6nUFnMdrVzM/kI2IjRGZZ4npsfEPKFVfT4LUO?=
+ =?us-ascii?Q?Ei8sAuWbvRtgB84cfgKFrRe5w7eaFsvZXhHZ4FKrhrrR+wpn4SgYditoF2+a?=
+ =?us-ascii?Q?/NkQzVpozFpH7tG3TVFm087p384MGtqAbPBoXrzryjOJy37RRt3iwYm3Ve6B?=
+ =?us-ascii?Q?8DNIVu2pm9w9U5BcEQlUV1nowFpaH3bG5v/87sXIChw40Hxisx3aU7ssZUUi?=
+ =?us-ascii?Q?arILYDOPkDGfHeSenmbfip40rTWTROBMRlALvRcoT7I9HblU2BDgf8qQpTPM?=
+ =?us-ascii?Q?nRxDqjkhe4BM6WHLbd2mf3zFmka17Z6/MqFL0QUDir6VuLdma6TivjLD0eZn?=
+ =?us-ascii?Q?KTiRzWTRRgTxl6JCHa1OjZfCp2L0qcH0Ga3V1Nzaswa4oFVroLz5c0yFdJFB?=
+ =?us-ascii?Q?D5DNg8EmDTbtvk6aKqmFB3ap61SEIDQn0IiK2ReTgGykXHpYgYJvnQV07poZ?=
+ =?us-ascii?Q?cIlu+YMaUEN6tN5hT1CKrQ/ibyLYMRTaaFc4Gmydm03R52LFBVcCUm/xasko?=
+ =?us-ascii?Q?dW1PXUrvxeq924Y3t6bjSeGiB6DU06OJqnnystOaTbzmUM6YEhWAZNXVmXTP?=
+ =?us-ascii?Q?jUM3HxcaSqHq7r7Ppbf3ZuNejxQMAaoK6we4sVGDu99FPrygtrcvRq8OFsuu?=
+ =?us-ascii?Q?mOqXnQIJ61sFKWAjjQvC4+QAVd/qIT1boT66m0yg0D3rM+xRZqROYtDBQO2I?=
+ =?us-ascii?Q?jKduPcvN93vcG/9EnJT6juYhPnjFqKFLXPbCv/+C3T8E45ka988iJa+2xDYh?=
+ =?us-ascii?Q?9RPXfLOIjbyVc5VK9JsHnLfU5j3sixmbIluBW664WBUlbxWuSYqGeNq8xfYk?=
+ =?us-ascii?Q?RhgECrjAnwuFB8JipcfJZHxpRIa3sPACKVcNRGY4xj3b6yTfr1VzknTOvHzD?=
+ =?us-ascii?Q?ulqeQ9dIv+N2h9ftW6gUk4XjuKg6t7etgQkeBNIt4b2uaqeYdRlWqHuWJZST?=
+ =?us-ascii?Q?35N9BH7aekw9O0oDdoQ42VwclQpsWgJsslnSvMe/+TT+66IcLaDlQ1s57C7g?=
+ =?us-ascii?Q?1OOowerYCc8LagDydWiq0oFhr9pfQwEVi4G3hfIr28wt4jV/Q3A47YS11Ygi?=
+ =?us-ascii?Q?RQ0JXPEXVjJwK+sTGSKvVwHvEAtQJHL04Eizl2nQT9CyYGgLVjCxn1xG4Mbt?=
+ =?us-ascii?Q?gGe3jQXoQEV1vmw5HrWcyvs0hOdy1z/yIe4U29OGpVNctXRNtf5TcjzPTL5w?=
+ =?us-ascii?Q?FtMbGVJtbZX3ift7svj2Q2Ox44fs+Uh2cIuFlhJNfsjijww+IRVEiaI2o7en?=
+ =?us-ascii?Q?/epyXKyXLCFNyl8aTx3ipnMnTUt92X4s3mNFhLpfGpyMeg7v3YVXd92Avxb0?=
+ =?us-ascii?Q?bvkvZBZvwUvJonV13j3AyEBPVhtUfJkPrIoZ/7aNZ6ykL22igmGxNBrPB22E?=
+ =?us-ascii?Q?iQMKUgiWdxjU7XqqdDo19zA/nJWh3pMns2RJeoGRkIitg8QDWjCt3sRZyQvv?=
+ =?us-ascii?Q?76S6y+UsFPc7oz8CKXAHJ3wqo7noybpf/bnS5FFVpzUQAhTofPqSKl0SR9JP?=
+ =?us-ascii?Q?s4eh+7Ui59emkftEILBRnCU8zvR3mlOUgwpIfE1r4yNsBGG0S+b1E0zvcVHO?=
+ =?us-ascii?Q?6VSskUtf2GqVTrlKWfDotcXAVrmR6Eur+SWlpFMd8/cBPP9r+v22fRSdQ8hx?=
+ =?us-ascii?Q?4J075FpqAYpS8zMNm4Cm/Y077gjtacd55pJTDD8Vp/CZkVyNFDpf4DY+JlLv?=
+ =?us-ascii?Q?rRvMLVVIB8bvJL+9m6pn8cMWvaZJF3E0qXwQcDHT9PbXT/ilkmsk?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 425b96b3-d640-4efd-8887-08de6024a2f7
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 17:26:00.6575 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9gJS392ypz53PdPaUHrmfsPsRssgBYfhpC/LcYG6DWyNADAGdO2E35mxCbd/NFHyUJ9DKUx9HcmODzBsOW/xgfj2hdBjky2NoHulZ1PrgJd34v1hgt2qD+2eHXUXcJOG
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10351
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,303 +170,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[amd.com,ffwll.ch,gmail.com,linux.intel.com];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS(0.00)[m:tomm.merciai@gmail.com,m:geert@linux-m68k.org,m:laurent.pinchart@ideasonboard.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:tommaso.merciai.xr@bp.renesas.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:geert+renesas@glider.be,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:magnus.damm@gmail.com,m:laurent.pinchart+renesas@ideasonboard.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-clk@vger.kernel.org,m:tommmerciai@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,linux-m68k.org,ideasonboard.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[tommaso.merciai.xr@bp.renesas.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,bp.renesas.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,glider.be,baylibre.com,ideasonboard.com,lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[tommaso.merciai.xr@bp.renesas.com,dri-devel-bounces@lists.freedesktop.org];
+	TAGGED_RCPT(0.00)[dri-devel,dt,renesas];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_NONE(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[superm1@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gitlab.freedesktop.org:url]
-X-Rspamd-Queue-Id: 73697BCC86
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[bp.renesas.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:mid,bp.renesas.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 6D3ACBD081
 X-Rspamd-Action: no action
 
-On 1/27/26 1:41 PM, sunpeng.li@amd.com wrote:
-> From: Leo Li <sunpeng.li@amd.com>
-> 
-> [Why]
-> 
-> APU DCN generations since DCN3.5 have the capability to power down
-> almost all of the DCN hw block during idle periods. This is referred to
-> as  IPS -- idle power states. In combination with a panel remote-buffer
-> feature (like PSR or Panel Replay), IPS can save additional power.
-> 
-> Once DCN is in an IPS, no register access can occur. This includes
-> control registers for vblank interrupts; IPS must first be exited.
-> 
-> Transitioning in or out of IPS requires synchronization with the rest of
-> DC, as it powers up or down DCN, and may communicate with other MCUs on
-> the SOC to do so. This is done via the dc_lock mutex.
-> 
-> While calling enable_vblank, the DRM vblank core holds spinlocks that
-> prevent blocking operations. Yet acquiring the dc_lock mutex is
-> blocking. Thus, IPS can not be exited piror to programming vblank
-> interrupt registers from within enable_vblank. At least not in a
-> race-free way.
-> 
-> Prior to this change, amdgpu_dm was exiting IPS(*) without holding the
-> dc_lock, opening the door for races:
-> https://gitlab.freedesktop.org/drm/amd/-/issues/5233
-> 
-> (*) From touching the interrupt registers. All register reads today have
-> an implicit IPS exit, see dm_read_reg_func()
-> 
-> To solve this, the prepare_vblank_enable callback can be implemented to
-> exit IPS, as it is called from process context.
-> 
-> [How]
-> 
-> Implement the prepare_vblank_enable callback for amdgpu_dm. In it,
-> the dc_lock mutex is acquired, and IPS is exited.
-> 
-> Note that the only place that should unconditionally IPS allow is the
-> vblank disable path. All other paths shall check whether IPS was
-> previously allowed. If so, they can re-allow after all programming is
-> complete. They also need to hold the dc_lock for the duration of the IPS
-> disallow to re-allow. (This is not the for all of amdgpu_dm today,
-> cleanup will come in future patches.)
-> 
-> v2: Add missing semicolon, add docstring for prepare_vbl_disallow_idle
-> v3: Do prepare work (IPS exit) directly, instead of routing through DRM
-> v4: Fix build error on CONFIG_DRM_AMD_SECURE_DISPLAY not set
-> 
-> Signed-off-by: Leo Li <sunpeng.li@amd.com>
-> ---
->   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 37 ++++++++++++------
->   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  9 +++++
->   .../drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c |  8 ++--
->   .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    | 38 +++++++++++++++++--
->   4 files changed, 75 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 740711ac1037c..d0c412260be0c 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -9681,7 +9681,8 @@ static void update_stream_irq_parameters(
->   	spin_unlock_irqrestore(&adev_to_drm(adev)->event_lock, flags);
->   }
->   
-> -static void amdgpu_dm_handle_vrr_transition(struct dm_crtc_state *old_state,
-> +static void amdgpu_dm_handle_vrr_transition(struct amdgpu_display_manager *dm,
-> +					    struct dm_crtc_state *old_state,
->   					    struct dm_crtc_state *new_state)
->   {
->   	bool old_vrr_active = amdgpu_dm_crtc_vrr_active(old_state);
-> @@ -9696,8 +9697,11 @@ static void amdgpu_dm_handle_vrr_transition(struct dm_crtc_state *old_state,
->   		 * We also need vupdate irq for the actual core vblank handling
->   		 * at end of vblank.
->   		 */
-> -		WARN_ON(amdgpu_dm_crtc_set_vupdate_irq(new_state->base.crtc, true) != 0);
-> -		WARN_ON(drm_crtc_vblank_get(new_state->base.crtc) != 0);
-> +		scoped_guard(mutex, &dm->dc_lock) {
-> +			dc_exit_ips_for_hw_access(dm->dc);
-> +			WARN_ON(amdgpu_dm_crtc_set_vupdate_irq(new_state->base.crtc, true) != 0);
-> +			WARN_ON(drm_crtc_vblank_get(new_state->base.crtc) != 0);
-> +		}
->   		drm_dbg_driver(new_state->base.crtc->dev, "%s: crtc=%u VRR off->on: Get vblank ref\n",
->   				 __func__, new_state->base.crtc->base.id);
->   	} else if (old_vrr_active && !new_vrr_active) {
-> @@ -10122,7 +10126,11 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
->   		 */
->   		if (acrtc_attach->base.state->event &&
->   		    acrtc_state->active_planes > 0) {
-> -			drm_crtc_vblank_get(pcrtc);
-> +
-> +			scoped_guard(mutex, &dm->dc_lock) {
-> +				dc_exit_ips_for_hw_access(dm->dc);
-> +				drm_crtc_vblank_get(pcrtc);
+Dear All,
 
-drm_crtc_vblank_get() can potentially fail, should you be checking that 
-here and showing a warning?
+This patch series adds support for the 2 Display Units (DUs) and MIPI DSI
+interface found on the Renesas RZ/G3E SoC.
 
-> +			}
->   
->   			spin_lock_irqsave(&pcrtc->dev->event_lock, flags);
->   
-> @@ -10138,13 +10146,19 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
->   					&acrtc_state->stream->vrr_infopacket;
->   		}
->   	} else if (cursor_update && acrtc_state->active_planes > 0) {
-> -		spin_lock_irqsave(&pcrtc->dev->event_lock, flags);
-> -		if (acrtc_attach->base.state->event) {
-> -			drm_crtc_vblank_get(pcrtc);
-> -			acrtc_attach->event = acrtc_attach->base.state->event;
-> -			acrtc_attach->base.state->event = NULL;
-> +
-> +		scoped_guard(mutex, &dm->dc_lock) {
-> +			dc_exit_ips_for_hw_access(dm->dc);
-> +
-> +			spin_lock_irqsave(&pcrtc->dev->event_lock, flags);
-> +			if (acrtc_attach->base.state->event) {
-> +				drm_crtc_vblank_get(pcrtc);
-> +				acrtc_attach->event =
-> +					acrtc_attach->base.state->event;
-> +				acrtc_attach->base.state->event = NULL;
-> +			}
-> +			spin_unlock_irqrestore(&pcrtc->dev->event_lock, flags);
->   		}
-> -		spin_unlock_irqrestore(&pcrtc->dev->event_lock, flags);
->   	}
->   
->   	/* Update the planes if changed or disable if we don't have any. */
-> @@ -10976,7 +10990,8 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
->   			manage_dm_interrupts(adev, acrtc, dm_new_crtc_state);
->   		}
->   		/* Handle vrr on->off / off->on transitions */
-> -		amdgpu_dm_handle_vrr_transition(dm_old_crtc_state, dm_new_crtc_state);
-> +		amdgpu_dm_handle_vrr_transition(dm, dm_old_crtc_state,
-> +						dm_new_crtc_state);
->   
->   #ifdef CONFIG_DEBUG_FS
->   		if (new_crtc_state->active &&
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> index bd0403005f370..b2fbdaa7c5c9c 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> @@ -585,6 +585,15 @@ struct amdgpu_display_manager {
->   	 */
->   	uint32_t active_vblank_irq_count;
->   
-> +	/**
-> +	 * @prepare_vbl_disallow_idle:
-> +	 *
-> +	 * Set to true when idle has been disallowed. Set to false when vblank
-> +	 * interrupts have been enabled. i.e. idle re-allow on vblank disable is
-> +	 * blocked if this is true.
-> +	 */
-> +	bool prepare_vbl_disallow_idle;
-> +
->   #if defined(CONFIG_DRM_AMD_SECURE_DISPLAY)
->   	/**
->   	 * @secure_display_ctx:
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
-> index e20aa74380665..2d2eda804735a 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c
-> @@ -547,10 +547,8 @@ int amdgpu_dm_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
->   	struct drm_crtc_commit *commit;
->   	struct dm_crtc_state *crtc_state;
->   	struct drm_device *drm_dev = crtc->dev;
-> -#if defined(CONFIG_DRM_AMD_SECURE_DISPLAY)
->   	struct amdgpu_device *adev = drm_to_adev(drm_dev);
->   	struct amdgpu_display_manager *dm = &adev->dm;
-> -#endif
->   	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
->   	struct drm_dp_aux *aux = NULL;
->   	bool enable = false;
-> @@ -656,7 +654,11 @@ int amdgpu_dm_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
->   	 */
->   	enabled = amdgpu_dm_is_valid_crc_source(cur_crc_src);
->   	if (!enabled && enable) {
-> -		ret = drm_crtc_vblank_get(crtc);
-> +		scoped_guard(mutex, &dm->dc_lock) {
-> +			dc_exit_ips_for_hw_access(dm->dc);
-> +			ret = drm_crtc_vblank_get(crtc);
-> +		}
-> +
->   		if (ret)
->   			goto cleanup;
->   	}
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-> index 697e232acebfb..5edc035ec152a 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-> @@ -258,8 +258,8 @@ static void amdgpu_dm_crtc_vblank_control_worker(struct work_struct *work)
->   	else if (dm->active_vblank_irq_count)
->   		dm->active_vblank_irq_count--;
->   
-> -	if (dm->active_vblank_irq_count > 0)
-> -		dc_allow_idle_optimizations(dm->dc, false);
-> +	/* prepare_vblank_enable must disallow idle first */
-> +	ASSERT(dm->dc->idle_optimizations_allowed == false);
->   
->   	/*
->   	 * Control PSR based on vblank requirements from OS
-> @@ -277,7 +277,13 @@ static void amdgpu_dm_crtc_vblank_control_worker(struct work_struct *work)
->   			vblank_work->acrtc->dm_irq_params.allow_sr_entry);
->   	}
->   
-> -	if (dm->active_vblank_irq_count == 0) {
-> +	/*
-> +	 * If this worker runs disable between prepare_vblank and enable_vblank,
-> +	 * we need to block idle re-allow. Leave it to the next vblank disable
-> +	 * to re-allow idle.
-> +	 */
-> +	if (dm->active_vblank_irq_count == 0 &&
-> +	    !READ_ONCE(dm->prepare_vbl_disallow_idle)) {
->   		dc_post_update_surfaces_to_stream(dm->dc);
->   
->   		r = amdgpu_dpm_pause_power_profile(adev, true);
-> @@ -308,6 +314,8 @@ static inline int amdgpu_dm_crtc_set_vblank(struct drm_crtc *crtc, bool enable)
->   	int irq_type;
->   	int rc = 0;
->   
-> +	ASSERT(dm->dc->idle_optimizations_allowed == false);
-> +
->   	if (enable && !acrtc->base.enabled) {
->   		drm_dbg_vbl(crtc->dev,
->   				"Reject vblank enable on unconfigured CRTC %d (enabled=%d)\n",
-> @@ -399,6 +407,9 @@ static inline int amdgpu_dm_crtc_set_vblank(struct drm_crtc *crtc, bool enable)
->   	}
->   #endif
->   
-> +	/* Ensure compiler emits the write before worker is queued */
-> +	WRITE_ONCE(dm->prepare_vbl_disallow_idle, false);
-> +
->   	if (amdgpu_in_reset(adev))
->   		return 0;
->   
-> @@ -423,6 +434,26 @@ static inline int amdgpu_dm_crtc_set_vblank(struct drm_crtc *crtc, bool enable)
->   	return 0;
->   }
->   
-> +static int amdgpu_prepare_enable_vblank(struct drm_crtc *crtc)
-> +{
-> +	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
-> +	struct amdgpu_display_manager *dm = &adev->dm;
-> +
-> +	guard(mutex)(&adev->dm.dc_lock);
-> +
-> +	if (dm->dc->idle_optimizations_allowed) {
-> +		/*
-> +		 * Prevent the disable worker from re-allowing idle until
-> +		 * interrupts are enabled. Ensure compiler emits the write
-> +		 * before disallowing idle.
-> +		 */
-> +		WRITE_ONCE(dm->prepare_vbl_disallow_idle, true);
-> +		dc_exit_ips_for_hw_access(dm->dc);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->   int amdgpu_dm_crtc_enable_vblank(struct drm_crtc *crtc)
->   {
->   	return amdgpu_dm_crtc_set_vblank(crtc, true);
-> @@ -590,6 +621,7 @@ static const struct drm_crtc_funcs amdgpu_dm_crtc_funcs = {
->   	.verify_crc_source = amdgpu_dm_crtc_verify_crc_source,
->   	.get_crc_sources = amdgpu_dm_crtc_get_crc_sources,
->   	.get_vblank_counter = amdgpu_get_vblank_counter_kms,
-> +	.prepare_enable_vblank = amdgpu_prepare_enable_vblank,
->   	.enable_vblank = amdgpu_dm_crtc_enable_vblank,
->   	.disable_vblank = amdgpu_dm_crtc_disable_vblank,
->   	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
+RZ/G3E SoC has 2 LCD controller (LCDC0 and LCDC1), both are composed
+of Frame Compression Processor (FCPVD), Video Signal Processor (VSPD),
+and Display Unit (DU).
+
+LCDC0 is connected to LVDS (single or dual channel) and DSI.
+LCDC1 is connected to LVDS (single ch), DSI, and GPIO (Parallel I/F).
+
+Thanks & Regards,
+Tommaso
+
+v1->v2:
+ - Rebased on top of next-20260129.
+ - PATCH 1: Added rzv2h_cpg_plldsi_smux_{get,set}_duty_cycle clock
+   operations to allow the DRM driver to query and configure the
+   appropriate clock path based on the required output duty cycle.
+   Updated commit message accordingly.
+ - PATCH 2-5: Collected tags.
+ - PATCH 6: Moved clk_ids to match enum order.
+ - PATCH 7: Collected GUytterhoeven tag. Fixed "dsi_0_vclk2" position
+   to match order.
+ - PATCH 8: Collected GUytterhoeven tag.
+ - PATCH 9: Use single compatible string instead of multiple compatible
+   strings for the two DU instances, leveraging a 'renesas,id' property
+   to differentiate between DU0 and DU1. Updated commit message.
+ - PATCH 10: Removed oneOf from clocks property, which is not sufficient
+   to differentiate between RZ/G3E, RZ/V2H(P) and RZ/G2L. Use the already
+   existing vclk instead of vclk1 for RZ/G3E DSI bindings. Updated allOf.
+ - PATCH 14: Instead of using clk-provider API to select the right parent
+   clock, just set the correct duty cycle based on the output. Updated
+   commit message accordingly.
+ - PATCH 15-16: Collected tags.
+ - PATCH 17: Squashed fcpvd0 and fcpvd1 patches into a single patch.
+   Collected tags.
+ - PATCH 18: Squashed vspd0 and vspd1 patches into a single patch.
+   Collected tags.
+ - PATCH 19: Reworked DU nodes to use single compatible. Use vclk instead
+   of vclk1 for DSI Node and set to the right position.
+ - PATCH 20: Fixed: dsi, du and adv7535 are part of the R9A09G047E57
+   SMARC SoM board then add entries in the rzg3e-smarc-som.dtsi instead
+   of using the r9a09g047e57-smarc-du1-adv7535.dtsi.
+
+Tommaso Merciai (20):
+  clk: renesas: rzv2h: Add PLLDSI clk mux support
+  clk: renesas: r9a09g047: Add CLK_PLLETH_LPCLK support
+  clk: renesas: r9a09g047: Add CLK_PLLDSI{0,1} clocks
+  clk: renesas: r9a09g047: Add CLK_PLLDSI{0,1}_DIV7 clocks
+  clk: renesas: r9a09g047: Add CLK_PLLDSI{0,1}_CSDIV clocks
+  clk: renesas: r9a09g047: Add support for SMUX2_DSI{0,1}_CLK
+  clk: renesas: r9a09g047: Add support for DSI clocks and resets
+  clk: renesas: r9a09g047: Add support for LCDC{0,1} clocks and resets
+  dt-bindings: display: renesas,rzg2l-du: Add support for RZ/G3E SoC
+  dt-bindings: display: bridge: renesas,dsi: Add support for RZ/G3E SoC
+  drm: renesas: rz-du: mipi_dsi: Add out_port to OF data
+  drm: renesas: rz-du: mipi_dsi: Add RZ_MIPI_DSI_FEATURE_GPO0R feature
+  drm: renesas: rz-du: mipi_dsi: Add support for RZ/G3E
+  drm: renesas: rz-du: Add RZ/G3E support
+  media: dt-bindings: media: renesas,vsp1: Document RZ/G3E
+  media: dt-bindings: media: renesas,fcp: Document RZ/G3E SoC
+  arm64: dts: renesas: r9a09g047: Add fcpvd{0,1} nodes
+  arm64: dts: renesas: r9a09g047: Add vspd{0,1} nodes
+  arm64: dts: renesas: r9a09g047: Add DU{0,1} and DSI nodes
+  arm64: dts: renesas: r9a09g047e57-smarc: Enable DU1 and DSI support
+
+ .../bindings/display/bridge/renesas,dsi.yaml  | 144 ++++++++++----
+ .../bindings/display/renesas,rzg2l-du.yaml    |  54 ++++++
+ .../bindings/media/renesas,fcp.yaml           |   2 +
+ .../bindings/media/renesas,vsp1.yaml          |   1 +
+ arch/arm64/boot/dts/renesas/r9a09g047.dtsi    | 175 +++++++++++++++++
+ .../boot/dts/renesas/rzg3e-smarc-som.dtsi     | 114 +++++++++++
+ drivers/clk/renesas/r9a09g047-cpg.c           |  84 +++++++++
+ drivers/clk/renesas/rzv2h-cpg.c               | 178 ++++++++++++++++++
+ drivers/clk/renesas/rzv2h-cpg.h               |  12 ++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c |  48 +++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  |  26 +++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h  |  11 ++
+ .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 105 ++++++++++-
+ .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |   3 +
+ include/linux/clk/renesas.h                   |  20 ++
+ 15 files changed, 933 insertions(+), 44 deletions(-)
+
+-- 
+2.43.0
 
