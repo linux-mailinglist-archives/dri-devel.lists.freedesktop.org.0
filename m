@@ -2,105 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ePYhAeGxfGmbOQIAu9opvQ
+	id IC9bCteyfGmbOQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 14:28:01 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 14:32:07 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 222F9BAFF6
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 14:28:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE985BB0BF
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 14:32:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4450F10E07D;
-	Fri, 30 Jan 2026 13:27:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01A0C10E9E3;
+	Fri, 30 Jan 2026 13:32:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="X34VFLio";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZSRGu88o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF1AB10E07D
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 13:27:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1769779675;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TYwQySttYyCEilBxqRDT35PoNDtcUCfA33Cd5zePwOI=;
- b=X34VFLio72jhP09/mglBAeLzDPLry6YsQxQlVIu16k1sHIfwj0MikIUrzLVMlEjfCz7qhp
- m5C08VTL+lyO6/qdCYA1eTlvQIk0J1H7/UX5+LMhvWxpz/+ewNcY8N/iKeETMVAljF/nPg
- oP3AItOyENdMB3ZzIy0ALE3fEgj/m/o=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-341-oFW6czJnOqKgQEhDpirEVw-1; Fri, 30 Jan 2026 08:27:54 -0500
-X-MC-Unique: oFW6czJnOqKgQEhDpirEVw-1
-X-Mimecast-MFC-AGG-ID: oFW6czJnOqKgQEhDpirEVw_1769779673
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-4359849d324so1320036f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 05:27:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769779672; x=1770384472;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TYwQySttYyCEilBxqRDT35PoNDtcUCfA33Cd5zePwOI=;
- b=d0adbCJx/WJouTCm9Lj4GrqgN5uWXpB07HSdUsTtmVZKysrwv/421J0A0uWQyGCMMK
- 2s6vGOmiqRU+hyrCWv+uzBDKYV2u4TH86J8LJI11O6T8O8KvTu+xQsOvEcmu/yKBCeJr
- WcDJSXTUbbWPVp3/xYJFln4ejgBXWopkeoL2rG4O/mL6nS5n8IeZx4KrI2Kk7G2/3gtF
- wRrShX0vUcUGiJM9MSbnYnxhyWqLsDKes3Kyz1qs67gJI3O67KwgHx7FkeqqABjmLe2d
- ojXZIvpbKihNjh3mNYPpiCCyw464h8xZKrtadns4HLIbssw5f945kIXcBInoWVG0qhvF
- zUIw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWabe3yQbOCMYVc7w7ApOtTVFSPG/nGtSHakMYhpqJPMfYeDBdsm8ayWMNbAXiveLgTTkaI7+idC50=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwV5U09W4ba8Gx8Ls015lu4IpXtx90cARJr0sy6Y8XPDArCoKR+
- Bsei5JtixCX/7jCfdyCjtWOSAIlKAFhkBXUA7uddrvfvy+NnbLyUG4+rKG2C55+ng3ca5boka7T
- MmakX+8P+Va73nqwj92VeewFC0y9U2xEiuo2BRJ5Gneys5sGna2UJgTDXC1qt1cl+B8dIAH+tZy
- kqTw==
-X-Gm-Gg: AZuq6aI8fx/+hXKyodZug816ayG+8AUnrzHGCnYdbrpER4EJ/AJrH4dt27NdmWkmGY7
- HKvsdibRsHjek56caYEyY7rCg8WCkJWwfCI9nA951NW14F3Bo82vB/nAQLAHYqjI1vasTgpC7EH
- fP5s5l+na20u09wWG+gy72p0ZrgTtiuVzd9ISYZcgaDe+JvwQQ8cmI4yL53TmKjduJTRhk7kWl1
- D3yUOsnc8eWxTpMVisWlLq40PoMG0hDUs5pOqh6EHTA2GczonISY5McbYxa5vz0bg3r/fs2WcPD
- i0GHpl/kJYbftfk90UhJ3HZbh5zUkkrn8UvDdC1nbUFBwXltVtIDb6V0LkrOP+66VV6LJxtJdaP
- S3TTs5k8Ksw25dEyeBIGKILKGapW6MuEood2hEcqt0DqwN6jpMA==
-X-Received: by 2002:a05:6000:18a8:b0:432:c092:ee3b with SMTP id
- ffacd0b85a97d-435f3aba1f4mr4975705f8f.62.1769779671809; 
- Fri, 30 Jan 2026 05:27:51 -0800 (PST)
-X-Received: by 2002:a05:6000:18a8:b0:432:c092:ee3b with SMTP id
- ffacd0b85a97d-435f3aba1f4mr4975600f8f.62.1769779670894; 
- Fri, 30 Jan 2026 05:27:50 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
- ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-435e10e476dsm21997117f8f.4.2026.01.30.05.27.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Jan 2026 05:27:50 -0800 (PST)
-Message-ID: <770785c9-266b-4ebb-a0a1-f5e615e45855@redhat.com>
-Date: Fri, 30 Jan 2026 14:27:48 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/mgag200: sleep instead of busy wait for BMC
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Jacob Keller <jacob.e.keller@intel.com>, Dave Airlie <airlied@redhat.com>,
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 567D910E9E1;
+ Fri, 30 Jan 2026 13:32:02 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 5BA6760129;
+ Fri, 30 Jan 2026 13:32:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FD92C4CEF7;
+ Fri, 30 Jan 2026 13:32:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1769779921;
+ bh=2FHGfR1+rV5y9fo03gsLXeuoUugXCjI+I0ti0U1qLic=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZSRGu88oOI6vFqCqJnrQ+KdrSIipu/Ozty1sylFz+RbFPPyjnlAJ/HjGdup7aqYLv
+ UCNh0h7nNCDkto8xxur99HwOGax0Zo3pXngTXRMDyOBg7x+BergpU619Wgs8kSTacU
+ /dbzA22SXGkyn3txC5yj3zHLn5CTyp33w7SvUc7L0C2t4G58QWEQUgpMq60uSlqUZE
+ RaoP+yW1lk+F319fNb4aOuBrSb+SO0oIoM+aKSxw0wYPh7vy/IrTLNPDT2MuNNVmzl
+ 3zerbgU/brTA56iz+tEHYLONlqT51pF1E++w2syhg6xVdMxkIUo2vfvC1qR509aY+U
+ Kndw9S+US0M+A==
+Date: Fri, 30 Jan 2026 15:31:57 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>
-Cc: Pasi Vaananen <pvaanane@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260128-jk-mgag200-fix-bad-udelay-v1-1-db02e04c343d@intel.com>
- <338ff7cf-1c7d-48da-b1b8-37aac440fed0@suse.de>
- <88f33e4e-5d0e-4520-a399-5be2901a3281@intel.com>
- <27af79a8-ee84-4845-a737-82d3883536e7@redhat.com>
- <8d238204-b0f6-48a7-9afc-480097c32a23@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <8d238204-b0f6-48a7-9afc-480097c32a23@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 2JvLhpIuZEs3p1yviCAvMwcProxH0xuk7PzQqy3R424_1769779673
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Williamson <alex@shazbot.org>, Ankit Agrawal <ankita@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
+ intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+ iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v5 4/8] vfio: Wait for dma-buf invalidation to complete
+Message-ID: <20260130133157.GP10992@unreal>
+References: <20260124-dmabuf-revoke-v5-0-f98fca917e96@nvidia.com>
+ <20260124-dmabuf-revoke-v5-4-f98fca917e96@nvidia.com>
+ <31872c87-5cba-4081-8196-72cc839c6122@amd.com>
+ <20260130130131.GO10992@unreal>
+ <d25bead8-8372-4791-a741-3371342f4698@amd.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d25bead8-8372-4791-a741-3371342f4698@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,2763 +89,274 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[34];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:jacob.e.keller@intel.com,m:airlied@redhat.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:simona@ffwll.ch,m:pvaanane@redhat.com,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[jfalempe@redhat.com,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[redhat.com:+];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,ziepe.ca,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jfalempe@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 222F9BAFF6
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: CE985BB0BF
 X-Rspamd-Action: no action
 
-Hi,
+On Fri, Jan 30, 2026 at 02:21:08PM +0100, Christian König wrote:
+> On 1/30/26 14:01, Leon Romanovsky wrote:
+> > On Fri, Jan 30, 2026 at 09:30:59AM +0100, Christian König wrote:
+> >> On 1/24/26 20:14, Leon Romanovsky wrote:
+> >>> From: Leon Romanovsky <leonro@nvidia.com>
+> >>>
+> >>> dma-buf invalidation is handled asynchronously by the hardware, so VFIO
+> >>> must wait until all affected objects have been fully invalidated.
+> >>>
+> >>> In addition, the dma-buf exporter is expecting that all importers unmap any
+> >>> buffers they previously mapped.
+> >>>
+> >>> Fixes: 5d74781ebc86 ("vfio/pci: Add dma-buf export support for MMIO regions")
+> >>> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> >>> ---
+> >>>  drivers/vfio/pci/vfio_pci_dmabuf.c | 71 ++++++++++++++++++++++++++++++++++++--
+> >>>  1 file changed, 68 insertions(+), 3 deletions(-)
+> >>>
+> >>> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> >>> index d8ceafabef48..485515629fe4 100644
+> >>> --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
+> >>> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> >>> @@ -17,6 +17,8 @@ struct vfio_pci_dma_buf {
+> >>>  	struct dma_buf_phys_vec *phys_vec;
+> >>>  	struct p2pdma_provider *provider;
+> >>>  	u32 nr_ranges;
+> >>> +	struct kref kref;
+> >>> +	struct completion comp;
+> >>>  	u8 revoked : 1;
+> >>>  };
+> >>>  
+> >>> @@ -44,27 +46,46 @@ static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
+> >>>  	return 0;
+> >>>  }
+> >>>  
+> >>> +static void vfio_pci_dma_buf_done(struct kref *kref)
+> >>> +{
+> >>> +	struct vfio_pci_dma_buf *priv =
+> >>> +		container_of(kref, struct vfio_pci_dma_buf, kref);
+> >>> +
+> >>> +	complete(&priv->comp);
+> >>> +}
+> >>> +
+> >>>  static struct sg_table *
+> >>>  vfio_pci_dma_buf_map(struct dma_buf_attachment *attachment,
+> >>>  		     enum dma_data_direction dir)
+> >>>  {
+> >>>  	struct vfio_pci_dma_buf *priv = attachment->dmabuf->priv;
+> >>> +	struct sg_table *ret;
+> >>>  
+> >>>  	dma_resv_assert_held(priv->dmabuf->resv);
+> >>>  
+> >>>  	if (priv->revoked)
+> >>>  		return ERR_PTR(-ENODEV);
+> >>>  
+> >>> -	return dma_buf_phys_vec_to_sgt(attachment, priv->provider,
+> >>> -				       priv->phys_vec, priv->nr_ranges,
+> >>> -				       priv->size, dir);
+> >>> +	ret = dma_buf_phys_vec_to_sgt(attachment, priv->provider,
+> >>> +				      priv->phys_vec, priv->nr_ranges,
+> >>> +				      priv->size, dir);
+> >>> +	if (IS_ERR(ret))
+> >>> +		return ret;
+> >>> +
+> >>> +	kref_get(&priv->kref);
+> >>> +	return ret;
+> >>>  }
+> >>>  
+> >>>  static void vfio_pci_dma_buf_unmap(struct dma_buf_attachment *attachment,
+> >>>  				   struct sg_table *sgt,
+> >>>  				   enum dma_data_direction dir)
+> >>>  {
+> >>> +	struct vfio_pci_dma_buf *priv = attachment->dmabuf->priv;
+> >>> +
+> >>> +	dma_resv_assert_held(priv->dmabuf->resv);
+> >>> +
+> >>>  	dma_buf_free_sgt(attachment, sgt, dir);
+> >>> +	kref_put(&priv->kref, vfio_pci_dma_buf_done);
+> >>>  }
+> >>>  
+> >>>  static void vfio_pci_dma_buf_release(struct dma_buf *dmabuf)
+> >>> @@ -287,6 +308,9 @@ int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
+> >>>  		goto err_dev_put;
+> >>>  	}
+> >>>  
+> >>> +	kref_init(&priv->kref);
+> >>> +	init_completion(&priv->comp);
+> >>> +
+> >>>  	/* dma_buf_put() now frees priv */
+> >>>  	INIT_LIST_HEAD(&priv->dmabufs_elm);
+> >>>  	down_write(&vdev->memory_lock);
+> >>> @@ -326,6 +350,8 @@ void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
+> >>>  	lockdep_assert_held_write(&vdev->memory_lock);
+> >>>  
+> >>>  	list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm) {
+> >>> +		unsigned long wait;
+> >>> +
+> >>>  		if (!get_file_active(&priv->dmabuf->file))
+> >>>  			continue;
+> >>>  
+> >>> @@ -333,7 +359,37 @@ void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
+> >>>  			dma_resv_lock(priv->dmabuf->resv, NULL);
+> >>>  			priv->revoked = revoked;
+> >>>  			dma_buf_invalidate_mappings(priv->dmabuf);
+> >>> +			dma_resv_wait_timeout(priv->dmabuf->resv,
+> >>> +					      DMA_RESV_USAGE_BOOKKEEP, false,
+> >>> +					      MAX_SCHEDULE_TIMEOUT);
+> >>>  			dma_resv_unlock(priv->dmabuf->resv);
+> >>> +			if (revoked) {
+> >>> +				kref_put(&priv->kref, vfio_pci_dma_buf_done);
+> >>> +				/* Let's wait till all DMA unmap are completed. */
+> >>> +				wait = wait_for_completion_timeout(
+> >>> +					&priv->comp, secs_to_jiffies(1));
+> >>> +				/*
+> >>> +				 * If you see this WARN_ON, it means that
+> >>> +				 * importer didn't call unmap in response to
+> >>> +				 * dma_buf_invalidate_mappings() which is not
+> >>> +				 * allowed.
+> >>> +				 */
+> >>> +				WARN(!wait,
+> >>> +				     "Timed out waiting for DMABUF unmap, importer has a broken invalidate_mapping()");
+> >>
+> >> You can do the revoke to do your resource management, for example re-use the backing store for something else.
+> >>
+> >> But it is mandatory that you keep the mapping around indefinitely until the importer closes it.
+> >>
+> >> Before that you can't do things like runtime PM or remove or anything which would make the DMA addresses invalid.
+> >>
+> >> As far as I can see vfio_pci_dma_buf_move() is used exactly for that use case so this here is an absolutely clear NAK from my side for this approach.
+> >>
+> >> You can either split up the functionality of vfio_pci_dma_buf_move() into vfio_pci_dma_buf_invalidate_mappings() and vfio_pci_dma_buf_flush() and then call the later whenever necessary or you keep it in one function and block everybody until the importer has dropped all mappings.
+> > 
+> > No problem, I can change it to be:
+> > 
+> > diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> > index d087d018d547..53772a84c93b 100644
+> > --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
+> > +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> > @@ -357,23 +357,7 @@ void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
+> >                         dma_resv_unlock(priv->dmabuf->resv);
+> >                         if (revoked) {
+> >                                 kref_put(&priv->kref, vfio_pci_dma_buf_done);
+> > -                               /*
+> > -                                * Let's wait for 1 second till all DMA unmap
+> > -                                * are completed. It is supposed to catch dma-buf
+> > -                                * importers which lied about their support
+> > -                                * of dmabuf revoke. See dma_buf_invalidate_mappings()
+> > -                                * for the expected behaviour.
+> > -                                */
+> > -                               wait = wait_for_completion_timeout(
+> > -                                       &priv->comp, secs_to_jiffies(1));
+> > -                               /*
+> > -                                * If you see this WARN_ON, it means that
+> > -                                * importer didn't call unmap in response to
+> > -                                * dma_buf_invalidate_mappings() which is not
+> > -                                * allowed.
+> > -                                */
+> > -                               WARN(!wait,
+> > -                                    "Timed out waiting for DMABUF unmap, importer has a broken invalidate_mapping()");
+> > +                               wait_for_completion(&priv->comp);
+> >                         } else {
+> >                                 /*
+> >                                  * Kref is initialize again, because when revoke
+> > 
+> > Do you want me to send v6?
+> 
+> That would work for me.
+> 
+> Question is if you really want to do it this way? See usually exporters try to avoid blocking such functions.
+> 
+> What exporters usually do instead is to grab references, e.g. call pm_runtime_get_sync() when either a DMA-buf, a DMA-buf attachment or in your case here a mapping of this attachment is made.
 
-To take some measurement, I've put this instead of step 3a of 
-mgag200_bmc_stop_scanout()
+I view this as an enhancement that can be addressed later down the road.
 
-for (i = 0; i < 100000; i++) {
-	WREG8(DAC_INDEX, MGA1064_SPAREREG);
-	tmp = RREG8(DAC_DATA);
-	pr_info("MGA Sparereg %02x\n", tmp);
-	udelay(10);
-}
-return;
+> 
+> But all of this is just a suggestion, if you are fine with blocking then feel free to add my rb.
 
-It's called at boot at
-[   45.110616] MGA STOP SCANOUT
-[   45.110631] MGA Sparereg 84
-it oscillates between 80, 81, 82, 83, 84 for ~4310us
-[   45.114941] MGA Sparereg 81
-then stays at 81 for ~227ms
-[   45.342492] MGA Sparereg 81
-[   45.342504] MGA Sparereg 80
-and stays at 80 for 1136ms, until the end of the loop.
-[   46.356152] MGA Sparereg 80
+It is fine for initial version. We need to start somewhere.
 
-Then it's called a few time when my display go blank and each time a 
-different behavior is seen
+Thanks
 
-[  729.448040] MGA STOP SCANOUT
-[  729.448055] MGA Sparereg 80
-it oscillates between 80, 81, 82, 83, 84 for ~39258us
-[  729.487313] MGA Sparereg 81
-then stays at 81 for ~230ms
-[  729.717349] MGA Sparereg 81
-[  729.717363] MGA Sparereg 80
-then back to 80
-
-This one is strange, it stays at 0x81 for 1191ms
-[  838.307042] MGA STOP SCANOUT
-[  838.307055] MGA Sparereg 81
-[  839.498450] MGA Sparereg 81
-
-And the last one, this time it stays at 0x80 for 1235ms
-
-[ 4318.439032] MGA STOP SCANOUT
-[ 4318.439047] MGA Sparereg 80
-[ 4319.674140] MGA Sparereg 80
-
-So my conclusion, is that the bit 2 is almost never seen when polling at 
-10us, so there is no chance to see it if polling at 1000us like it's 
-done by the driver. So the step 3b won't work at all on my setup.
-
-But even the bit 1 can stay set or unset for more than 1s, so it looks 
-very unreliable to rely on it, at least on this hardware.
-
-I feel like doing a msleep(300) is probably the best bet.
-If you still trust the hardware, maybe it should wait for ~100us, then 
-check the bit 1 and wait until it goes back to 0.
-
-You can find below the raw dmesg (I just removed the lines where the 
-value is equal to the previous and next line, to make it smaller).
-
--- 
-
-Jocelyn
-
-
-[   45.110616] MGA STOP SCANOUT
-[   45.110631] MGA Sparereg 84
-[   45.110658] MGA Sparereg 84
-[   45.110671] MGA Sparereg 80
-[   45.110697] MGA Sparereg 80
-[   45.110710] MGA Sparereg 84
-[   45.110782] MGA Sparereg 84
-[   45.110794] MGA Sparereg 80
-[   45.110807] MGA Sparereg 84
-[   45.110858] MGA Sparereg 84
-[   45.110871] MGA Sparereg 80
-[   45.110884] MGA Sparereg 84
-[   45.110897] MGA Sparereg 80
-[   45.110910] MGA Sparereg 84
-[   45.110923] MGA Sparereg 84
-[   45.110936] MGA Sparereg 80
-[   45.110949] MGA Sparereg 80
-[   45.110962] MGA Sparereg 84
-[   45.111001] MGA Sparereg 84
-[   45.111014] MGA Sparereg 80
-[   45.111027] MGA Sparereg 84
-[   45.111040] MGA Sparereg 80
-[   45.111053] MGA Sparereg 84
-[   45.111066] MGA Sparereg 80
-[   45.111079] MGA Sparereg 84
-[   45.111092] MGA Sparereg 80
-[   45.111105] MGA Sparereg 80
-[   45.111118] MGA Sparereg 84
-[   45.111131] MGA Sparereg 80
-[   45.111144] MGA Sparereg 84
-[   45.111158] MGA Sparereg 80
-[   45.111171] MGA Sparereg 81
-[   45.111184] MGA Sparereg 80
-[   45.111197] MGA Sparereg 84
-[   45.111222] MGA Sparereg 84
-[   45.111235] MGA Sparereg 80
-[   45.111261] MGA Sparereg 80
-[   45.111274] MGA Sparereg 84
-[   45.111326] MGA Sparereg 84
-[   45.111340] MGA Sparereg 81
-[   45.111353] MGA Sparereg 84
-[   45.111405] MGA Sparereg 84
-[   45.111418] MGA Sparereg 80
-[   45.111431] MGA Sparereg 84
-[   45.111483] MGA Sparereg 84
-[   45.111496] MGA Sparereg 80
-[   45.111509] MGA Sparereg 84
-[   45.111548] MGA Sparereg 84
-[   45.111561] MGA Sparereg 80
-[   45.111574] MGA Sparereg 80
-[   45.111587] MGA Sparereg 84
-[   45.111600] MGA Sparereg 80
-[   45.111613] MGA Sparereg 84
-[   45.111626] MGA Sparereg 84
-[   45.111639] MGA Sparereg 80
-[   45.111651] MGA Sparereg 84
-[   45.111664] MGA Sparereg 84
-[   45.111678] MGA Sparereg 80
-[   45.111691] MGA Sparereg 84
-[   45.111704] MGA Sparereg 84
-[   45.111717] MGA Sparereg 80
-[   45.111730] MGA Sparereg 84
-[   45.111782] MGA Sparereg 84
-[   45.111795] MGA Sparereg 80
-[   45.111808] MGA Sparereg 80
-[   45.111821] MGA Sparereg 84
-[   45.111834] MGA Sparereg 80
-[   45.111847] MGA Sparereg 84
-[   45.111874] MGA Sparereg 84
-[   45.111887] MGA Sparereg 80
-[   45.111900] MGA Sparereg 84
-[   45.111952] MGA Sparereg 84
-[   45.111965] MGA Sparereg 80
-[   45.111978] MGA Sparereg 80
-[   45.111991] MGA Sparereg 84
-[   45.112043] MGA Sparereg 84
-[   45.112056] MGA Sparereg 80
-[   45.112069] MGA Sparereg 84
-[   45.112082] MGA Sparereg 80
-[   45.112108] MGA Sparereg 80
-[   45.112121] MGA Sparereg 84
-[   45.112134] MGA Sparereg 84
-[   45.112147] MGA Sparereg 80
-[   45.112160] MGA Sparereg 84
-[   45.112173] MGA Sparereg 81
-[   45.112186] MGA Sparereg 80
-[   45.112199] MGA Sparereg 84
-[   45.112275] MGA Sparereg 84
-[   45.112287] MGA Sparereg 80
-[   45.112299] MGA Sparereg 84
-[   45.112312] MGA Sparereg 84
-[   45.112325] MGA Sparereg 80
-[   45.112351] MGA Sparereg 80
-[   45.112364] MGA Sparereg 84
-[   45.112377] MGA Sparereg 84
-[   45.112390] MGA Sparereg 80
-[   45.112403] MGA Sparereg 80
-[   45.112415] MGA Sparereg 84
-[   45.112428] MGA Sparereg 84
-[   45.112441] MGA Sparereg 80
-[   45.112453] MGA Sparereg 84
-[   45.112466] MGA Sparereg 80
-[   45.112479] MGA Sparereg 84
-[   45.112517] MGA Sparereg 84
-[   45.112530] MGA Sparereg 80
-[   45.112542] MGA Sparereg 84
-[   45.112555] MGA Sparereg 80
-[   45.112578] MGA Sparereg 84
-[   45.112591] MGA Sparereg 80
-[   45.112604] MGA Sparereg 80
-[   45.112616] MGA Sparereg 84
-[   45.112642] MGA Sparereg 84
-[   45.112654] MGA Sparereg 80
-[   45.112679] MGA Sparereg 80
-[   45.112692] MGA Sparereg 84
-[   45.112705] MGA Sparereg 84
-[   45.112717] MGA Sparereg 80
-[   45.112730] MGA Sparereg 84
-[   45.112743] MGA Sparereg 84
-[   45.112755] MGA Sparereg 80
-[   45.112768] MGA Sparereg 80
-[   45.112781] MGA Sparereg 84
-[   45.112794] MGA Sparereg 81
-[   45.112806] MGA Sparereg 84
-[   45.112844] MGA Sparereg 84
-[   45.112857] MGA Sparereg 80
-[   45.112870] MGA Sparereg 80
-[   45.112883] MGA Sparereg 84
-[   45.112922] MGA Sparereg 84
-[   45.112935] MGA Sparereg 80
-[   45.112948] MGA Sparereg 80
-[   45.112961] MGA Sparereg 84
-[   45.112987] MGA Sparereg 84
-[   45.113000] MGA Sparereg 80
-[   45.113026] MGA Sparereg 80
-[   45.113039] MGA Sparereg 84
-[   45.113066] MGA Sparereg 84
-[   45.113078] MGA Sparereg 80
-[   45.113105] MGA Sparereg 80
-[   45.113117] MGA Sparereg 84
-[   45.113157] MGA Sparereg 84
-[   45.113170] MGA Sparereg 80
-[   45.113183] MGA Sparereg 80
-[   45.113196] MGA Sparereg 84
-[   45.113235] MGA Sparereg 84
-[   45.113248] MGA Sparereg 80
-[   45.113261] MGA Sparereg 80
-[   45.113275] MGA Sparereg 84
-[   45.113288] MGA Sparereg 84
-[   45.113301] MGA Sparereg 80
-[   45.113327] MGA Sparereg 80
-[   45.113340] MGA Sparereg 84
-[   45.113392] MGA Sparereg 84
-[   45.113405] MGA Sparereg 80
-[   45.113418] MGA Sparereg 80
-[   45.113431] MGA Sparereg 84
-[   45.113444] MGA Sparereg 84
-[   45.113457] MGA Sparereg 80
-[   45.113470] MGA Sparereg 80
-[   45.113483] MGA Sparereg 84
-[   45.113517] MGA Sparereg 84
-[   45.113530] MGA Sparereg 81
-[   45.113542] MGA Sparereg 80
-[   45.113555] MGA Sparereg 84
-[   45.113582] MGA Sparereg 84
-[   45.113594] MGA Sparereg 80
-[   45.113620] MGA Sparereg 80
-[   45.113633] MGA Sparereg 84
-[   45.113658] MGA Sparereg 84
-[   45.113671] MGA Sparereg 80
-[   45.113683] MGA Sparereg 80
-[   45.113696] MGA Sparereg 84
-[   45.113708] MGA Sparereg 80
-[   45.113745] MGA Sparereg 80
-[   45.113757] MGA Sparereg 84
-[   45.113769] MGA Sparereg 84
-[   45.113783] MGA Sparereg 80
-[   45.113848] MGA Sparereg 80
-[   45.113861] MGA Sparereg 84
-[   45.113875] MGA Sparereg 80
-[   45.113888] MGA Sparereg 84
-[   45.113901] MGA Sparereg 80
-[   45.113914] MGA Sparereg 84
-[   45.113927] MGA Sparereg 84
-[   45.113939] MGA Sparereg 80
-[   45.113977] MGA Sparereg 80
-[   45.113990] MGA Sparereg 84
-[   45.114003] MGA Sparereg 84
-[   45.114015] MGA Sparereg 80
-[   45.114041] MGA Sparereg 80
-[   45.114054] MGA Sparereg 84
-[   45.114079] MGA Sparereg 84
-[   45.114091] MGA Sparereg 80
-[   45.114129] MGA Sparereg 80
-[   45.114142] MGA Sparereg 84
-[   45.114154] MGA Sparereg 80
-[   45.114167] MGA Sparereg 80
-[   45.114180] MGA Sparereg 84
-[   45.114193] MGA Sparereg 84
-[   45.114206] MGA Sparereg 80
-[   45.114219] MGA Sparereg 81
-[   45.114231] MGA Sparereg 84
-[   45.114270] MGA Sparereg 84
-[   45.114283] MGA Sparereg 80
-[   45.114309] MGA Sparereg 80
-[   45.114322] MGA Sparereg 84
-[   45.114424] MGA Sparereg 84
-[   45.114438] MGA Sparereg 80
-[   45.114464] MGA Sparereg 80
-[   45.114477] MGA Sparereg 84
-[   45.114489] MGA Sparereg 80
-[   45.114515] MGA Sparereg 80
-[   45.114528] MGA Sparereg 84
-[   45.114541] MGA Sparereg 84
-[   45.114553] MGA Sparereg 80
-[   45.114566] MGA Sparereg 84
-[   45.114591] MGA Sparereg 84
-[   45.114604] MGA Sparereg 80
-[   45.114616] MGA Sparereg 80
-[   45.114629] MGA Sparereg 84
-[   45.114642] MGA Sparereg 80
-[   45.114655] MGA Sparereg 81
-[   45.114668] MGA Sparereg 80
-[   45.114681] MGA Sparereg 84
-[   45.114694] MGA Sparereg 84
-[   45.114707] MGA Sparereg 80
-[   45.114746] MGA Sparereg 80
-[   45.114759] MGA Sparereg 84
-[   45.114798] MGA Sparereg 84
-[   45.114811] MGA Sparereg 81
-[   45.114824] MGA Sparereg 80
-[   45.114837] MGA Sparereg 84
-[   45.114850] MGA Sparereg 80
-[   45.114863] MGA Sparereg 84
-[   45.114876] MGA Sparereg 80
-[   45.114889] MGA Sparereg 83
-[   45.114902] MGA Sparereg 82
-[   45.114927] MGA Sparereg 82
-[   45.114941] MGA Sparereg 81
-[   45.342492] MGA Sparereg 81
-[   45.342504] MGA Sparereg 80
-[   46.356152] MGA Sparereg 80
-[  729.448040] MGA STOP SCANOUT
-[  729.448055] MGA Sparereg 80
-[  729.448069] MGA Sparereg 80
-[  729.448082] MGA Sparereg 81
-[  729.448094] MGA Sparereg 80
-[  729.448108] MGA Sparereg 84
-[  729.448120] MGA Sparereg 84
-[  729.448132] MGA Sparereg 80
-[  729.448144] MGA Sparereg 84
-[  729.448155] MGA Sparereg 80
-[  729.448167] MGA Sparereg 84
-[  729.448191] MGA Sparereg 84
-[  729.448203] MGA Sparereg 80
-[  729.448215] MGA Sparereg 80
-[  729.448238] MGA Sparereg 84
-[  729.448251] MGA Sparereg 81
-[  729.448263] MGA Sparereg 84
-[  729.448286] MGA Sparereg 84
-[  729.448298] MGA Sparereg 81
-[  729.448310] MGA Sparereg 80
-[  729.448322] MGA Sparereg 84
-[  729.448334] MGA Sparereg 84
-[  729.448345] MGA Sparereg 80
-[  729.448357] MGA Sparereg 84
-[  729.448381] MGA Sparereg 84
-[  729.448393] MGA Sparereg 80
-[  729.448405] MGA Sparereg 80
-[  729.448416] MGA Sparereg 84
-[  729.448428] MGA Sparereg 80
-[  729.448440] MGA Sparereg 80
-[  729.448452] MGA Sparereg 84
-[  729.448488] MGA Sparereg 84
-[  729.448500] MGA Sparereg 80
-[  729.448512] MGA Sparereg 84
-[  729.448524] MGA Sparereg 84
-[  729.448536] MGA Sparereg 80
-[  729.448547] MGA Sparereg 80
-[  729.448559] MGA Sparereg 84
-[  729.448571] MGA Sparereg 80
-[  729.448583] MGA Sparereg 84
-[  729.448595] MGA Sparereg 80
-[  729.448607] MGA Sparereg 84
-[  729.448619] MGA Sparereg 84
-[  729.448631] MGA Sparereg 81
-[  729.448643] MGA Sparereg 84
-[  729.448678] MGA Sparereg 84
-[  729.448690] MGA Sparereg 80
-[  729.448750] MGA Sparereg 80
-[  729.448762] MGA Sparereg 84
-[  729.448773] MGA Sparereg 84
-[  729.448785] MGA Sparereg 80
-[  729.448797] MGA Sparereg 81
-[  729.448809] MGA Sparereg 84
-[  729.448833] MGA Sparereg 84
-[  729.448845] MGA Sparereg 80
-[  729.448857] MGA Sparereg 84
-[  729.448868] MGA Sparereg 84
-[  729.448880] MGA Sparereg 80
-[  729.448892] MGA Sparereg 84
-[  729.448904] MGA Sparereg 84
-[  729.448916] MGA Sparereg 80
-[  729.448928] MGA Sparereg 84
-[  729.448940] MGA Sparereg 80
-[  729.448952] MGA Sparereg 84
-[  729.448963] MGA Sparereg 80
-[  729.448975] MGA Sparereg 84
-[  729.449023] MGA Sparereg 84
-[  729.449035] MGA Sparereg 80
-[  729.449047] MGA Sparereg 81
-[  729.449058] MGA Sparereg 84
-[  729.449070] MGA Sparereg 84
-[  729.449082] MGA Sparereg 80
-[  729.449094] MGA Sparereg 80
-[  729.449106] MGA Sparereg 84
-[  729.449118] MGA Sparereg 84
-[  729.449130] MGA Sparereg 80
-[  729.449141] MGA Sparereg 80
-[  729.449153] MGA Sparereg 84
-[  729.449201] MGA Sparereg 84
-[  729.449213] MGA Sparereg 80
-[  729.449225] MGA Sparereg 84
-[  729.449273] MGA Sparereg 84
-[  729.449284] MGA Sparereg 80
-[  729.449296] MGA Sparereg 84
-[  729.449320] MGA Sparereg 84
-[  729.449332] MGA Sparereg 80
-[  729.449344] MGA Sparereg 80
-[  729.449356] MGA Sparereg 84
-[  729.449368] MGA Sparereg 84
-[  729.449380] MGA Sparereg 80
-[  729.449392] MGA Sparereg 80
-[  729.449403] MGA Sparereg 84
-[  729.449415] MGA Sparereg 84
-[  729.449427] MGA Sparereg 80
-[  729.449439] MGA Sparereg 84
-[  729.449451] MGA Sparereg 84
-[  729.449463] MGA Sparereg 80
-[  729.449475] MGA Sparereg 84
-[  729.449487] MGA Sparereg 80
-[  729.449499] MGA Sparereg 84
-[  729.449511] MGA Sparereg 84
-[  729.449522] MGA Sparereg 80
-[  729.449534] MGA Sparereg 84
-[  729.449546] MGA Sparereg 80
-[  729.449558] MGA Sparereg 84
-[  729.449570] MGA Sparereg 84
-[  729.449582] MGA Sparereg 80
-[  729.449594] MGA Sparereg 80
-[  729.449606] MGA Sparereg 84
-[  729.449618] MGA Sparereg 84
-[  729.449630] MGA Sparereg 80
-[  729.449641] MGA Sparereg 84
-[  729.449748] MGA Sparereg 84
-[  729.449760] MGA Sparereg 80
-[  729.449772] MGA Sparereg 84
-[  729.449784] MGA Sparereg 80
-[  729.449796] MGA Sparereg 84
-[  729.449819] MGA Sparereg 84
-[  729.449831] MGA Sparereg 80
-[  729.449843] MGA Sparereg 84
-[  729.449867] MGA Sparereg 84
-[  729.449879] MGA Sparereg 80
-[  729.449890] MGA Sparereg 80
-[  729.449902] MGA Sparereg 84
-[  729.449914] MGA Sparereg 84
-[  729.449926] MGA Sparereg 80
-[  729.449938] MGA Sparereg 80
-[  729.449950] MGA Sparereg 84
-[  729.449962] MGA Sparereg 80
-[  729.449997] MGA Sparereg 80
-[  729.450009] MGA Sparereg 84
-[  729.450021] MGA Sparereg 80
-[  729.450033] MGA Sparereg 84
-[  729.450045] MGA Sparereg 84
-[  729.450057] MGA Sparereg 80
-[  729.450068] MGA Sparereg 80
-[  729.450080] MGA Sparereg 84
-[  729.450116] MGA Sparereg 84
-[  729.450128] MGA Sparereg 80
-[  729.450140] MGA Sparereg 84
-[  729.450163] MGA Sparereg 84
-[  729.450175] MGA Sparereg 80
-[  729.450187] MGA Sparereg 84
-[  729.450199] MGA Sparereg 84
-[  729.450211] MGA Sparereg 80
-[  729.450247] MGA Sparereg 80
-[  729.450259] MGA Sparereg 84
-[  729.450271] MGA Sparereg 80
-[  729.450282] MGA Sparereg 80
-[  729.450294] MGA Sparereg 84
-[  729.450306] MGA Sparereg 80
-[  729.450318] MGA Sparereg 80
-[  729.450330] MGA Sparereg 84
-[  729.450413] MGA Sparereg 84
-[  729.450425] MGA Sparereg 80
-[  729.450437] MGA Sparereg 84
-[  729.450448] MGA Sparereg 84
-[  729.450460] MGA Sparereg 80
-[  729.450472] MGA Sparereg 80
-[  729.450484] MGA Sparereg 84
-[  729.450508] MGA Sparereg 84
-[  729.450520] MGA Sparereg 80
-[  729.450532] MGA Sparereg 80
-[  729.450543] MGA Sparereg 84
-[  729.450555] MGA Sparereg 80
-[  729.450591] MGA Sparereg 80
-[  729.450603] MGA Sparereg 84
-[  729.450615] MGA Sparereg 80
-[  729.450650] MGA Sparereg 80
-[  729.450662] MGA Sparereg 84
-[  729.450674] MGA Sparereg 84
-[  729.450686] MGA Sparereg 80
-[  729.450722] MGA Sparereg 80
-[  729.450733] MGA Sparereg 84
-[  729.450757] MGA Sparereg 84
-[  729.450769] MGA Sparereg 80
-[  729.450781] MGA Sparereg 84
-[  729.450805] MGA Sparereg 84
-[  729.450817] MGA Sparereg 80
-[  729.450829] MGA Sparereg 80
-[  729.450840] MGA Sparereg 84
-[  729.450852] MGA Sparereg 84
-[  729.450864] MGA Sparereg 80
-[  729.450888] MGA Sparereg 80
-[  729.450900] MGA Sparereg 84
-[  729.450912] MGA Sparereg 84
-[  729.450924] MGA Sparereg 80
-[  729.450936] MGA Sparereg 84
-[  729.450959] MGA Sparereg 84
-[  729.450971] MGA Sparereg 80
-[  729.450983] MGA Sparereg 84
-[  729.450995] MGA Sparereg 84
-[  729.451007] MGA Sparereg 80
-[  729.451019] MGA Sparereg 84
-[  729.451031] MGA Sparereg 84
-[  729.451043] MGA Sparereg 80
-[  729.451055] MGA Sparereg 80
-[  729.451067] MGA Sparereg 84
-[  729.451079] MGA Sparereg 80
-[  729.451090] MGA Sparereg 80
-[  729.451102] MGA Sparereg 84
-[  729.451114] MGA Sparereg 80
-[  729.451126] MGA Sparereg 84
-[  729.451150] MGA Sparereg 84
-[  729.451162] MGA Sparereg 80
-[  729.451174] MGA Sparereg 80
-[  729.451186] MGA Sparereg 84
-[  729.451221] MGA Sparereg 84
-[  729.451233] MGA Sparereg 80
-[  729.451245] MGA Sparereg 84
-[  729.451257] MGA Sparereg 84
-[  729.451269] MGA Sparereg 80
-[  729.451281] MGA Sparereg 84
-[  729.451293] MGA Sparereg 84
-[  729.451305] MGA Sparereg 80
-[  729.451317] MGA Sparereg 80
-[  729.451328] MGA Sparereg 84
-[  729.451340] MGA Sparereg 84
-[  729.451352] MGA Sparereg 80
-[  729.451364] MGA Sparereg 84
-[  729.451376] MGA Sparereg 80
-[  729.451388] MGA Sparereg 84
-[  729.451447] MGA Sparereg 84
-[  729.451459] MGA Sparereg 80
-[  729.451471] MGA Sparereg 84
-[  729.451507] MGA Sparereg 84
-[  729.451519] MGA Sparereg 80
-[  729.451531] MGA Sparereg 84
-[  729.451566] MGA Sparereg 84
-[  729.451578] MGA Sparereg 80
-[  729.451590] MGA Sparereg 84
-[  729.451602] MGA Sparereg 80
-[  729.451614] MGA Sparereg 84
-[  729.451649] MGA Sparereg 84
-[  729.451661] MGA Sparereg 80
-[  729.451673] MGA Sparereg 80
-[  729.451685] MGA Sparereg 84
-[  729.451697] MGA Sparereg 84
-[  729.451709] MGA Sparereg 80
-[  729.451720] MGA Sparereg 80
-[  729.451732] MGA Sparereg 84
-[  729.451804] MGA Sparereg 84
-[  729.451815] MGA Sparereg 80
-[  729.451827] MGA Sparereg 84
-[  729.451851] MGA Sparereg 84
-[  729.451863] MGA Sparereg 80
-[  729.451875] MGA Sparereg 80
-[  729.451887] MGA Sparereg 84
-[  729.451899] MGA Sparereg 84
-[  729.451910] MGA Sparereg 80
-[  729.451922] MGA Sparereg 84
-[  729.451934] MGA Sparereg 84
-[  729.451946] MGA Sparereg 80
-[  729.451970] MGA Sparereg 80
-[  729.451982] MGA Sparereg 84
-[  729.452005] MGA Sparereg 84
-[  729.452017] MGA Sparereg 80
-[  729.452029] MGA Sparereg 80
-[  729.452041] MGA Sparereg 84
-[  729.452077] MGA Sparereg 84
-[  729.452088] MGA Sparereg 80
-[  729.452100] MGA Sparereg 84
-[  729.452124] MGA Sparereg 84
-[  729.452136] MGA Sparereg 81
-[  729.452148] MGA Sparereg 84
-[  729.452195] MGA Sparereg 84
-[  729.452207] MGA Sparereg 80
-[  729.452219] MGA Sparereg 84
-[  729.452231] MGA Sparereg 80
-[  729.452243] MGA Sparereg 84
-[  729.452255] MGA Sparereg 80
-[  729.452267] MGA Sparereg 80
-[  729.452279] MGA Sparereg 84
-[  729.452291] MGA Sparereg 84
-[  729.452302] MGA Sparereg 80
-[  729.452314] MGA Sparereg 80
-[  729.452326] MGA Sparereg 84
-[  729.452362] MGA Sparereg 84
-[  729.452374] MGA Sparereg 80
-[  729.452386] MGA Sparereg 80
-[  729.452397] MGA Sparereg 84
-[  729.452433] MGA Sparereg 84
-[  729.452445] MGA Sparereg 80
-[  729.452469] MGA Sparereg 80
-[  729.452480] MGA Sparereg 84
-[  729.452492] MGA Sparereg 80
-[  729.452504] MGA Sparereg 80
-[  729.452516] MGA Sparereg 84
-[  729.452528] MGA Sparereg 80
-[  729.452540] MGA Sparereg 84
-[  729.452552] MGA Sparereg 80
-[  729.452564] MGA Sparereg 80
-[  729.452575] MGA Sparereg 84
-[  729.452587] MGA Sparereg 81
-[  729.452599] MGA Sparereg 80
-[  729.452623] MGA Sparereg 80
-[  729.452635] MGA Sparereg 84
-[  729.452647] MGA Sparereg 84
-[  729.452659] MGA Sparereg 80
-[  729.452670] MGA Sparereg 84
-[  729.452742] MGA Sparereg 84
-[  729.452754] MGA Sparereg 80
-[  729.452765] MGA Sparereg 84
-[  729.452789] MGA Sparereg 84
-[  729.452801] MGA Sparereg 80
-[  729.452813] MGA Sparereg 84
-[  729.452837] MGA Sparereg 84
-[  729.452849] MGA Sparereg 80
-[  729.452861] MGA Sparereg 80
-[  729.452873] MGA Sparereg 84
-[  729.452896] MGA Sparereg 84
-[  729.452908] MGA Sparereg 80
-[  729.452920] MGA Sparereg 84
-[  729.452968] MGA Sparereg 84
-[  729.452980] MGA Sparereg 80
-[  729.452992] MGA Sparereg 80
-[  729.453004] MGA Sparereg 84
-[  729.453027] MGA Sparereg 84
-[  729.453039] MGA Sparereg 80
-[  729.453075] MGA Sparereg 80
-[  729.453087] MGA Sparereg 84
-[  729.453099] MGA Sparereg 80
-[  729.453111] MGA Sparereg 80
-[  729.453122] MGA Sparereg 84
-[  729.453158] MGA Sparereg 84
-[  729.453170] MGA Sparereg 80
-[  729.453182] MGA Sparereg 84
-[  729.453194] MGA Sparereg 80
-[  729.453206] MGA Sparereg 84
-[  729.453242] MGA Sparereg 84
-[  729.453254] MGA Sparereg 80
-[  729.453266] MGA Sparereg 84
-[  729.453277] MGA Sparereg 84
-[  729.453289] MGA Sparereg 80
-[  729.453301] MGA Sparereg 80
-[  729.453313] MGA Sparereg 84
-[  729.453349] MGA Sparereg 84
-[  729.453361] MGA Sparereg 80
-[  729.453373] MGA Sparereg 84
-[  729.453396] MGA Sparereg 84
-[  729.453408] MGA Sparereg 81
-[  729.453420] MGA Sparereg 84
-[  729.453444] MGA Sparereg 84
-[  729.453456] MGA Sparereg 80
-[  729.453491] MGA Sparereg 80
-[  729.453503] MGA Sparereg 84
-[  729.453515] MGA Sparereg 80
-[  729.453527] MGA Sparereg 80
-[  729.453539] MGA Sparereg 84
-[  729.453551] MGA Sparereg 80
-[  729.453562] MGA Sparereg 84
-[  729.453586] MGA Sparereg 84
-[  729.453598] MGA Sparereg 80
-[  729.453693] MGA Sparereg 80
-[  729.453705] MGA Sparereg 84
-[  729.453717] MGA Sparereg 80
-[  729.453764] MGA Sparereg 80
-[  729.453776] MGA Sparereg 84
-[  729.453788] MGA Sparereg 80
-[  729.453824] MGA Sparereg 80
-[  729.453835] MGA Sparereg 81
-[  729.453847] MGA Sparereg 80
-[  729.453919] MGA Sparereg 80
-[  729.453930] MGA Sparereg 84
-[  729.453942] MGA Sparereg 80
-[  729.454025] MGA Sparereg 80
-[  729.454037] MGA Sparereg 84
-[  729.454049] MGA Sparereg 80
-[  729.454109] MGA Sparereg 80
-[  729.454120] MGA Sparereg 84
-[  729.454132] MGA Sparereg 84
-[  729.454144] MGA Sparereg 80
-[  729.454156] MGA Sparereg 84
-[  729.454242] MGA Sparereg 84
-[  729.454254] MGA Sparereg 80
-[  729.454266] MGA Sparereg 84
-[  729.454289] MGA Sparereg 84
-[  729.454301] MGA Sparereg 80
-[  729.454313] MGA Sparereg 84
-[  729.454325] MGA Sparereg 84
-[  729.454337] MGA Sparereg 80
-[  729.454349] MGA Sparereg 84
-[  729.454361] MGA Sparereg 80
-[  729.454373] MGA Sparereg 84
-[  729.454384] MGA Sparereg 80
-[  729.454420] MGA Sparereg 80
-[  729.454432] MGA Sparereg 84
-[  729.454444] MGA Sparereg 80
-[  729.454456] MGA Sparereg 81
-[  729.454467] MGA Sparereg 84
-[  729.454479] MGA Sparereg 80
-[  729.454491] MGA Sparereg 80
-[  729.454503] MGA Sparereg 84
-[  729.454515] MGA Sparereg 80
-[  729.454527] MGA Sparereg 80
-[  729.454539] MGA Sparereg 84
-[  729.454551] MGA Sparereg 80
-[  729.454562] MGA Sparereg 84
-[  729.454574] MGA Sparereg 80
-[  729.454586] MGA Sparereg 84
-[  729.454598] MGA Sparereg 80
-[  729.454610] MGA Sparereg 84
-[  729.454681] MGA Sparereg 84
-[  729.454693] MGA Sparereg 80
-[  729.454705] MGA Sparereg 80
-[  729.454717] MGA Sparereg 84
-[  729.454729] MGA Sparereg 80
-[  729.454740] MGA Sparereg 80
-[  729.454752] MGA Sparereg 84
-[  729.454764] MGA Sparereg 84
-[  729.454776] MGA Sparereg 80
-[  729.454788] MGA Sparereg 84
-[  729.454800] MGA Sparereg 84
-[  729.454812] MGA Sparereg 81
-[  729.454824] MGA Sparereg 84
-[  729.454836] MGA Sparereg 80
-[  729.454847] MGA Sparereg 84
-[  729.454871] MGA Sparereg 84
-[  729.454883] MGA Sparereg 80
-[  729.454895] MGA Sparereg 80
-[  729.454907] MGA Sparereg 84
-[  729.454931] MGA Sparereg 84
-[  729.454943] MGA Sparereg 80
-[  729.454954] MGA Sparereg 84
-[  729.454966] MGA Sparereg 80
-[  729.454978] MGA Sparereg 84
-[  729.454990] MGA Sparereg 84
-[  729.455002] MGA Sparereg 80
-[  729.455014] MGA Sparereg 84
-[  729.455050] MGA Sparereg 84
-[  729.455062] MGA Sparereg 80
-[  729.455073] MGA Sparereg 84
-[  729.455133] MGA Sparereg 84
-[  729.455145] MGA Sparereg 80
-[  729.455157] MGA Sparereg 84
-[  729.455180] MGA Sparereg 84
-[  729.455192] MGA Sparereg 80
-[  729.455204] MGA Sparereg 81
-[  729.455216] MGA Sparereg 84
-[  729.455229] MGA Sparereg 84
-[  729.455241] MGA Sparereg 80
-[  729.455253] MGA Sparereg 84
-[  729.455265] MGA Sparereg 84
-[  729.455277] MGA Sparereg 80
-[  729.455289] MGA Sparereg 84
-[  729.455301] MGA Sparereg 80
-[  729.455313] MGA Sparereg 84
-[  729.455337] MGA Sparereg 84
-[  729.455372] MGA Sparereg 80
-[  729.455384] MGA Sparereg 84
-[  729.455397] MGA Sparereg 80
-[  729.455410] MGA Sparereg 80
-[  729.455422] MGA Sparereg 84
-[  729.455445] MGA Sparereg 84
-[  729.455457] MGA Sparereg 80
-[  729.455469] MGA Sparereg 84
-[  729.455517] MGA Sparereg 84
-[  729.455528] MGA Sparereg 80
-[  729.455564] MGA Sparereg 80
-[  729.455576] MGA Sparereg 84
-[  729.455588] MGA Sparereg 80
-[  729.455600] MGA Sparereg 80
-[  729.455612] MGA Sparereg 84
-[  729.455719] MGA Sparereg 84
-[  729.455731] MGA Sparereg 80
-[  729.455743] MGA Sparereg 84
-[  729.455755] MGA Sparereg 80
-[  729.455767] MGA Sparereg 80
-[  729.455779] MGA Sparereg 84
-[  729.455790] MGA Sparereg 84
-[  729.455802] MGA Sparereg 80
-[  729.455814] MGA Sparereg 80
-[  729.455826] MGA Sparereg 84
-[  729.455874] MGA Sparereg 84
-[  729.455886] MGA Sparereg 80
-[  729.455897] MGA Sparereg 84
-[  729.455921] MGA Sparereg 84
-[  729.455933] MGA Sparereg 80
-[  729.455945] MGA Sparereg 84
-[  729.455980] MGA Sparereg 84
-[  729.455992] MGA Sparereg 80
-[  729.456004] MGA Sparereg 80
-[  729.456016] MGA Sparereg 84
-[  729.456028] MGA Sparereg 84
-[  729.456040] MGA Sparereg 80
-[  729.456052] MGA Sparereg 80
-[  729.456063] MGA Sparereg 84
-[  729.456075] MGA Sparereg 84
-[  729.456087] MGA Sparereg 80
-[  729.456099] MGA Sparereg 80
-[  729.456111] MGA Sparereg 84
-[  729.456123] MGA Sparereg 84
-[  729.456135] MGA Sparereg 80
-[  729.456158] MGA Sparereg 80
-[  729.456170] MGA Sparereg 84
-[  729.456182] MGA Sparereg 84
-[  729.456194] MGA Sparereg 80
-[  729.456206] MGA Sparereg 84
-[  729.456258] MGA Sparereg 84
-[  729.456270] MGA Sparereg 80
-[  729.456282] MGA Sparereg 80
-[  729.456294] MGA Sparereg 84
-[  729.456306] MGA Sparereg 84
-[  729.456318] MGA Sparereg 80
-[  729.456329] MGA Sparereg 84
-[  729.456353] MGA Sparereg 84
-[  729.456365] MGA Sparereg 80
-[  729.456377] MGA Sparereg 84
-[  729.456389] MGA Sparereg 84
-[  729.456401] MGA Sparereg 80
-[  729.456424] MGA Sparereg 80
-[  729.456436] MGA Sparereg 84
-[  729.456460] MGA Sparereg 84
-[  729.456472] MGA Sparereg 80
-[  729.456484] MGA Sparereg 80
-[  729.456496] MGA Sparereg 84
-[  729.456531] MGA Sparereg 84
-[  729.456543] MGA Sparereg 80
-[  729.456555] MGA Sparereg 84
-[  729.456602] MGA Sparereg 84
-[  729.456614] MGA Sparereg 80
-[  729.456626] MGA Sparereg 84
-[  729.456650] MGA Sparereg 84
-[  729.456662] MGA Sparereg 80
-[  729.456674] MGA Sparereg 84
-[  729.456685] MGA Sparereg 84
-[  729.456697] MGA Sparereg 80
-[  729.456721] MGA Sparereg 80
-[  729.456733] MGA Sparereg 84
-[  729.456745] MGA Sparereg 80
-[  729.456757] MGA Sparereg 80
-[  729.456769] MGA Sparereg 84
-[  729.456804] MGA Sparereg 84
-[  729.456816] MGA Sparereg 81
-[  729.456828] MGA Sparereg 80
-[  729.456840] MGA Sparereg 84
-[  729.456852] MGA Sparereg 84
-[  729.456864] MGA Sparereg 80
-[  729.456876] MGA Sparereg 84
-[  729.456888] MGA Sparereg 84
-[  729.456900] MGA Sparereg 80
-[  729.456911] MGA Sparereg 84
-[  729.456923] MGA Sparereg 84
-[  729.456935] MGA Sparereg 80
-[  729.456947] MGA Sparereg 84
-[  729.456959] MGA Sparereg 80
-[  729.456971] MGA Sparereg 80
-[  729.456983] MGA Sparereg 84
-[  729.456995] MGA Sparereg 80
-[  729.457007] MGA Sparereg 80
-[  729.457019] MGA Sparereg 84
-[  729.457054] MGA Sparereg 84
-[  729.457066] MGA Sparereg 81
-[  729.457078] MGA Sparereg 84
-[  729.457102] MGA Sparereg 84
-[  729.457114] MGA Sparereg 80
-[  729.457126] MGA Sparereg 84
-[  729.457150] MGA Sparereg 84
-[  729.457162] MGA Sparereg 80
-[  729.457173] MGA Sparereg 84
-[  729.457197] MGA Sparereg 84
-[  729.457209] MGA Sparereg 80
-[  729.457233] MGA Sparereg 80
-[  729.457245] MGA Sparereg 84
-[  729.457257] MGA Sparereg 80
-[  729.457269] MGA Sparereg 80
-[  729.457281] MGA Sparereg 84
-[  729.457304] MGA Sparereg 84
-[  729.457316] MGA Sparereg 81
-[  729.457328] MGA Sparereg 84
-[  729.457447] MGA Sparereg 84
-[  729.457459] MGA Sparereg 80
-[  729.457471] MGA Sparereg 80
-[  729.457483] MGA Sparereg 84
-[  729.457519] MGA Sparereg 84
-[  729.457530] MGA Sparereg 80
-[  729.457542] MGA Sparereg 84
-[  729.457578] MGA Sparereg 84
-[  729.457590] MGA Sparereg 80
-[  729.457602] MGA Sparereg 84
-[  729.457614] MGA Sparereg 84
-[  729.457626] MGA Sparereg 80
-[  729.457638] MGA Sparereg 84
-[  729.457649] MGA Sparereg 84
-[  729.457661] MGA Sparereg 80
-[  729.457673] MGA Sparereg 84
-[  729.457685] MGA Sparereg 80
-[  729.457721] MGA Sparereg 80
-[  729.457733] MGA Sparereg 84
-[  729.457745] MGA Sparereg 84
-[  729.457757] MGA Sparereg 80
-[  729.457768] MGA Sparereg 80
-[  729.457780] MGA Sparereg 84
-[  729.457792] MGA Sparereg 84
-[  729.457804] MGA Sparereg 80
-[  729.457816] MGA Sparereg 80
-[  729.457828] MGA Sparereg 84
-[  729.457875] MGA Sparereg 84
-[  729.457887] MGA Sparereg 80
-[  729.457899] MGA Sparereg 84
-[  729.457911] MGA Sparereg 80
-[  729.457923] MGA Sparereg 84
-[  729.457946] MGA Sparereg 84
-[  729.457958] MGA Sparereg 80
-[  729.457970] MGA Sparereg 84
-[  729.457982] MGA Sparereg 80
-[  729.457994] MGA Sparereg 84
-[  729.458006] MGA Sparereg 80
-[  729.458018] MGA Sparereg 84
-[  729.458041] MGA Sparereg 84
-[  729.458053] MGA Sparereg 80
-[  729.458077] MGA Sparereg 80
-[  729.458089] MGA Sparereg 84
-[  729.458101] MGA Sparereg 80
-[  729.458113] MGA Sparereg 80
-[  729.458125] MGA Sparereg 84
-[  729.458136] MGA Sparereg 84
-[  729.458148] MGA Sparereg 80
-[  729.458160] MGA Sparereg 84
-[  729.458244] MGA Sparereg 84
-[  729.458256] MGA Sparereg 80
-[  729.458267] MGA Sparereg 84
-[  729.458291] MGA Sparereg 84
-[  729.458303] MGA Sparereg 80
-[  729.458315] MGA Sparereg 84
-[  729.458327] MGA Sparereg 84
-[  729.458339] MGA Sparereg 80
-[  729.458351] MGA Sparereg 80
-[  729.458362] MGA Sparereg 84
-[  729.458386] MGA Sparereg 84
-[  729.458398] MGA Sparereg 80
-[  729.458410] MGA Sparereg 80
-[  729.458422] MGA Sparereg 84
-[  729.458517] MGA Sparereg 84
-[  729.458529] MGA Sparereg 80
-[  729.458541] MGA Sparereg 84
-[  729.458552] MGA Sparereg 80
-[  729.458564] MGA Sparereg 84
-[  729.458588] MGA Sparereg 84
-[  729.458600] MGA Sparereg 80
-[  729.458612] MGA Sparereg 80
-[  729.458624] MGA Sparereg 84
-[  729.458636] MGA Sparereg 84
-[  729.458647] MGA Sparereg 80
-[  729.458659] MGA Sparereg 84
-[  729.458707] MGA Sparereg 84
-[  729.458719] MGA Sparereg 80
-[  729.458731] MGA Sparereg 84
-[  729.458766] MGA Sparereg 84
-[  729.458778] MGA Sparereg 80
-[  729.458790] MGA Sparereg 84
-[  729.458802] MGA Sparereg 80
-[  729.458814] MGA Sparereg 84
-[  729.458838] MGA Sparereg 84
-[  729.458849] MGA Sparereg 80
-[  729.458861] MGA Sparereg 84
-[  729.458897] MGA Sparereg 84
-[  729.458909] MGA Sparereg 80
-[  729.458921] MGA Sparereg 80
-[  729.458932] MGA Sparereg 84
-[  729.459087] MGA Sparereg 84
-[  729.459099] MGA Sparereg 80
-[  729.459111] MGA Sparereg 84
-[  729.459134] MGA Sparereg 84
-[  729.459146] MGA Sparereg 80
-[  729.459158] MGA Sparereg 84
-[  729.459170] MGA Sparereg 80
-[  729.459182] MGA Sparereg 84
-[  729.459194] MGA Sparereg 80
-[  729.459206] MGA Sparereg 84
-[  729.459217] MGA Sparereg 80
-[  729.459230] MGA Sparereg 84
-[  729.459254] MGA Sparereg 84
-[  729.459266] MGA Sparereg 80
-[  729.459278] MGA Sparereg 84
-[  729.459289] MGA Sparereg 81
-[  729.459301] MGA Sparereg 84
-[  729.459384] MGA Sparereg 84
-[  729.459396] MGA Sparereg 80
-[  729.459408] MGA Sparereg 84
-[  729.459432] MGA Sparereg 84
-[  729.459444] MGA Sparereg 80
-[  729.459456] MGA Sparereg 84
-[  729.459515] MGA Sparereg 84
-[  729.459527] MGA Sparereg 80
-[  729.459539] MGA Sparereg 84
-[  729.459587] MGA Sparereg 84
-[  729.459599] MGA Sparereg 80
-[  729.459611] MGA Sparereg 80
-[  729.459623] MGA Sparereg 84
-[  729.459635] MGA Sparereg 80
-[  729.459658] MGA Sparereg 80
-[  729.459670] MGA Sparereg 84
-[  729.459682] MGA Sparereg 84
-[  729.459694] MGA Sparereg 80
-[  729.459706] MGA Sparereg 80
-[  729.459718] MGA Sparereg 84
-[  729.459730] MGA Sparereg 84
-[  729.459742] MGA Sparereg 80
-[  729.459754] MGA Sparereg 84
-[  729.459884] MGA Sparereg 84
-[  729.459896] MGA Sparereg 80
-[  729.459908] MGA Sparereg 81
-[  729.459920] MGA Sparereg 84
-[  729.459932] MGA Sparereg 84
-[  729.459944] MGA Sparereg 80
-[  729.459955] MGA Sparereg 84
-[  729.459991] MGA Sparereg 84
-[  729.460003] MGA Sparereg 80
-[  729.460015] MGA Sparereg 84
-[  729.460027] MGA Sparereg 84
-[  729.460039] MGA Sparereg 80
-[  729.460050] MGA Sparereg 80
-[  729.460062] MGA Sparereg 84
-[  729.460074] MGA Sparereg 80
-[  729.460086] MGA Sparereg 84
-[  729.460098] MGA Sparereg 80
-[  729.460110] MGA Sparereg 81
-[  729.460122] MGA Sparereg 84
-[  729.460169] MGA Sparereg 84
-[  729.460181] MGA Sparereg 80
-[  729.460193] MGA Sparereg 80
-[  729.460205] MGA Sparereg 84
-[  729.460229] MGA Sparereg 84
-[  729.460241] MGA Sparereg 80
-[  729.460265] MGA Sparereg 80
-[  729.460277] MGA Sparereg 84
-[  729.460289] MGA Sparereg 80
-[  729.460301] MGA Sparereg 80
-[  729.460313] MGA Sparereg 84
-[  729.460325] MGA Sparereg 84
-[  729.460336] MGA Sparereg 80
-[  729.460348] MGA Sparereg 80
-[  729.460360] MGA Sparereg 84
-[  729.460384] MGA Sparereg 84
-[  729.460396] MGA Sparereg 80
-[  729.460408] MGA Sparereg 84
-[  729.460420] MGA Sparereg 84
-[  729.460431] MGA Sparereg 80
-[  729.460443] MGA Sparereg 84
-[  729.460467] MGA Sparereg 84
-[  729.460479] MGA Sparereg 80
-[  729.460491] MGA Sparereg 84
-[  729.460503] MGA Sparereg 84
-[  729.460515] MGA Sparereg 80
-[  729.460526] MGA Sparereg 84
-[  729.460538] MGA Sparereg 80
-[  729.460550] MGA Sparereg 84
-[  729.460562] MGA Sparereg 80
-[  729.460574] MGA Sparereg 84
-[  729.460586] MGA Sparereg 80
-[  729.460598] MGA Sparereg 80
-[  729.460610] MGA Sparereg 84
-[  729.460621] MGA Sparereg 80
-[  729.460633] MGA Sparereg 80
-[  729.460645] MGA Sparereg 84
-[  729.460693] MGA Sparereg 84
-[  729.460705] MGA Sparereg 80
-[  729.460716] MGA Sparereg 84
-[  729.460728] MGA Sparereg 84
-[  729.460740] MGA Sparereg 80
-[  729.460752] MGA Sparereg 84
-[  729.460776] MGA Sparereg 84
-[  729.460788] MGA Sparereg 80
-[  729.460800] MGA Sparereg 84
-[  729.460811] MGA Sparereg 80
-[  729.460859] MGA Sparereg 80
-[  729.460871] MGA Sparereg 84
-[  729.460883] MGA Sparereg 80
-[  729.460895] MGA Sparereg 80
-[  729.460907] MGA Sparereg 84
-[  729.460919] MGA Sparereg 80
-[  729.460931] MGA Sparereg 81
-[  729.460942] MGA Sparereg 80
-[  729.460954] MGA Sparereg 84
-[  729.460966] MGA Sparereg 80
-[  729.460978] MGA Sparereg 84
-[  729.460990] MGA Sparereg 80
-[  729.461002] MGA Sparereg 80
-[  729.461014] MGA Sparereg 84
-[  729.461061] MGA Sparereg 84
-[  729.461073] MGA Sparereg 80
-[  729.461097] MGA Sparereg 80
-[  729.461109] MGA Sparereg 84
-[  729.461121] MGA Sparereg 84
-[  729.461133] MGA Sparereg 80
-[  729.461157] MGA Sparereg 80
-[  729.461169] MGA Sparereg 84
-[  729.461180] MGA Sparereg 80
-[  729.461192] MGA Sparereg 84
-[  729.461242] MGA Sparereg 84
-[  729.461254] MGA Sparereg 80
-[  729.461266] MGA Sparereg 84
-[  729.461278] MGA Sparereg 84
-[  729.461290] MGA Sparereg 80
-[  729.461302] MGA Sparereg 84
-[  729.461385] MGA Sparereg 84
-[  729.461397] MGA Sparereg 80
-[  729.461409] MGA Sparereg 84
-[  729.461432] MGA Sparereg 84
-[  729.461444] MGA Sparereg 80
-[  729.461456] MGA Sparereg 84
-[  729.461468] MGA Sparereg 80
-[  729.461480] MGA Sparereg 84
-[  729.461492] MGA Sparereg 84
-[  729.461504] MGA Sparereg 80
-[  729.461516] MGA Sparereg 84
-[  729.461540] MGA Sparereg 84
-[  729.461552] MGA Sparereg 80
-[  729.461563] MGA Sparereg 84
-[  729.461575] MGA Sparereg 84
-[  729.461587] MGA Sparereg 80
-[  729.461599] MGA Sparereg 84
-[  729.461623] MGA Sparereg 84
-[  729.461635] MGA Sparereg 80
-[  729.461647] MGA Sparereg 80
-[  729.461659] MGA Sparereg 84
-[  729.461682] MGA Sparereg 84
-[  729.461694] MGA Sparereg 80
-[  729.461706] MGA Sparereg 84
-[  729.461730] MGA Sparereg 84
-[  729.461742] MGA Sparereg 80
-[  729.461754] MGA Sparereg 80
-[  729.461766] MGA Sparereg 84
-[  729.461778] MGA Sparereg 84
-[  729.461790] MGA Sparereg 80
-[  729.461802] MGA Sparereg 80
-[  729.461813] MGA Sparereg 84
-[  729.461885] MGA Sparereg 84
-[  729.461897] MGA Sparereg 80
-[  729.461908] MGA Sparereg 81
-[  729.461920] MGA Sparereg 84
-[  729.461956] MGA Sparereg 84
-[  729.461968] MGA Sparereg 80
-[  729.461980] MGA Sparereg 84
-[  729.461991] MGA Sparereg 80
-[  729.462003] MGA Sparereg 84
-[  729.462015] MGA Sparereg 84
-[  729.462027] MGA Sparereg 80
-[  729.462051] MGA Sparereg 80
-[  729.462063] MGA Sparereg 84
-[  729.462075] MGA Sparereg 84
-[  729.462086] MGA Sparereg 80
-[  729.462110] MGA Sparereg 80
-[  729.462122] MGA Sparereg 84
-[  729.462158] MGA Sparereg 84
-[  729.462170] MGA Sparereg 80
-[  729.462181] MGA Sparereg 84
-[  729.462193] MGA Sparereg 80
-[  729.462249] MGA Sparereg 84
-[  729.462274] MGA Sparereg 84
-[  729.462286] MGA Sparereg 80
-[  729.462298] MGA Sparereg 80
-[  729.462310] MGA Sparereg 84
-[  729.462369] MGA Sparereg 84
-[  729.462381] MGA Sparereg 80
-[  729.462393] MGA Sparereg 84
-[  729.462405] MGA Sparereg 80
-[  729.462417] MGA Sparereg 84
-[  729.462429] MGA Sparereg 80
-[  729.462440] MGA Sparereg 84
-[  729.462464] MGA Sparereg 84
-[  729.462476] MGA Sparereg 80
-[  729.462488] MGA Sparereg 84
-[  729.462512] MGA Sparereg 84
-[  729.462524] MGA Sparereg 80
-[  729.462535] MGA Sparereg 80
-[  729.462547] MGA Sparereg 84
-[  729.462571] MGA Sparereg 84
-[  729.462583] MGA Sparereg 80
-[  729.462595] MGA Sparereg 84
-[  729.462607] MGA Sparereg 84
-[  729.462619] MGA Sparereg 81
-[  729.462630] MGA Sparereg 84
-[  729.462642] MGA Sparereg 84
-[  729.462654] MGA Sparereg 80
-[  729.462666] MGA Sparereg 80
-[  729.462678] MGA Sparereg 84
-[  729.462714] MGA Sparereg 84
-[  729.462725] MGA Sparereg 80
-[  729.462737] MGA Sparereg 84
-[  729.462749] MGA Sparereg 81
-[  729.462761] MGA Sparereg 84
-[  729.462773] MGA Sparereg 80
-[  729.462785] MGA Sparereg 84
-[  729.462797] MGA Sparereg 84
-[  729.462809] MGA Sparereg 80
-[  729.462833] MGA Sparereg 80
-[  729.462844] MGA Sparereg 84
-[  729.462856] MGA Sparereg 84
-[  729.462868] MGA Sparereg 80
-[  729.462880] MGA Sparereg 84
-[  729.462904] MGA Sparereg 84
-[  729.462916] MGA Sparereg 80
-[  729.462928] MGA Sparereg 84
-[  729.462951] MGA Sparereg 84
-[  729.462963] MGA Sparereg 80
-[  729.462975] MGA Sparereg 80
-[  729.462987] MGA Sparereg 84
-[  729.463094] MGA Sparereg 84
-[  729.463106] MGA Sparereg 80
-[  729.463130] MGA Sparereg 80
-[  729.463142] MGA Sparereg 84
-[  729.463201] MGA Sparereg 84
-[  729.463213] MGA Sparereg 80
-[  729.463225] MGA Sparereg 84
-[  729.463241] MGA Sparereg 80
-[  729.463253] MGA Sparereg 84
-[  729.463265] MGA Sparereg 84
-[  729.463277] MGA Sparereg 80
-[  729.463301] MGA Sparereg 80
-[  729.463313] MGA Sparereg 84
-[  729.463324] MGA Sparereg 84
-[  729.463336] MGA Sparereg 80
-[  729.463348] MGA Sparereg 80
-[  729.463360] MGA Sparereg 84
-[  729.463372] MGA Sparereg 84
-[  729.463384] MGA Sparereg 80
-[  729.463396] MGA Sparereg 84
-[  729.463419] MGA Sparereg 84
-[  729.463431] MGA Sparereg 80
-[  729.463443] MGA Sparereg 84
-[  729.463455] MGA Sparereg 84
-[  729.463467] MGA Sparereg 80
-[  729.463491] MGA Sparereg 80
-[  729.463502] MGA Sparereg 84
-[  729.463526] MGA Sparereg 84
-[  729.463538] MGA Sparereg 80
-[  729.463550] MGA Sparereg 84
-[  729.463562] MGA Sparereg 80
-[  729.463574] MGA Sparereg 84
-[  729.463586] MGA Sparereg 80
-[  729.463598] MGA Sparereg 84
-[  729.463633] MGA Sparereg 84
-[  729.463645] MGA Sparereg 80
-[  729.463657] MGA Sparereg 84
-[  729.463681] MGA Sparereg 84
-[  729.463693] MGA Sparereg 80
-[  729.463705] MGA Sparereg 84
-[  729.463717] MGA Sparereg 84
-[  729.463729] MGA Sparereg 80
-[  729.463740] MGA Sparereg 84
-[  729.463752] MGA Sparereg 80
-[  729.463788] MGA Sparereg 80
-[  729.463800] MGA Sparereg 81
-[  729.463812] MGA Sparereg 84
-[  729.463824] MGA Sparereg 80
-[  729.463836] MGA Sparereg 80
-[  729.463848] MGA Sparereg 84
-[  729.463871] MGA Sparereg 84
-[  729.463883] MGA Sparereg 80
-[  729.463895] MGA Sparereg 80
-[  729.463907] MGA Sparereg 84
-[  729.463919] MGA Sparereg 84
-[  729.463931] MGA Sparereg 80
-[  729.463954] MGA Sparereg 80
-[  729.463966] MGA Sparereg 84
-[  729.464026] MGA Sparereg 84
-[  729.464037] MGA Sparereg 80
-[  729.464049] MGA Sparereg 84
-[  729.464061] MGA Sparereg 84
-[  729.464073] MGA Sparereg 80
-[  729.464085] MGA Sparereg 80
-[  729.464097] MGA Sparereg 84
-[  729.464109] MGA Sparereg 80
-[  729.464120] MGA Sparereg 84
-[  729.464132] MGA Sparereg 80
-[  729.464144] MGA Sparereg 84
-[  729.464168] MGA Sparereg 84
-[  729.464180] MGA Sparereg 80
-[  729.464192] MGA Sparereg 80
-[  729.464203] MGA Sparereg 84
-[  729.464229] MGA Sparereg 84
-[  729.464242] MGA Sparereg 80
-[  729.464253] MGA Sparereg 80
-[  729.464265] MGA Sparereg 84
-[  729.464277] MGA Sparereg 80
-[  729.464289] MGA Sparereg 84
-[  729.464301] MGA Sparereg 80
-[  729.464313] MGA Sparereg 84
-[  729.464325] MGA Sparereg 80
-[  729.464348] MGA Sparereg 80
-[  729.464360] MGA Sparereg 84
-[  729.464372] MGA Sparereg 84
-[  729.464384] MGA Sparereg 80
-[  729.464396] MGA Sparereg 80
-[  729.464408] MGA Sparereg 84
-[  729.464420] MGA Sparereg 84
-[  729.464431] MGA Sparereg 81
-[  729.464443] MGA Sparereg 80
-[  729.464455] MGA Sparereg 84
-[  729.464467] MGA Sparereg 80
-[  729.464479] MGA Sparereg 84
-[  729.464491] MGA Sparereg 80
-[  729.464503] MGA Sparereg 80
-[  729.464515] MGA Sparereg 84
-[  729.464526] MGA Sparereg 84
-[  729.464538] MGA Sparereg 80
-[  729.464550] MGA Sparereg 84
-[  729.464562] MGA Sparereg 84
-[  729.464574] MGA Sparereg 80
-[  729.464586] MGA Sparereg 80
-[  729.464598] MGA Sparereg 84
-[  729.464610] MGA Sparereg 81
-[  729.464621] MGA Sparereg 84
-[  729.464633] MGA Sparereg 84
-[  729.464645] MGA Sparereg 80
-[  729.464657] MGA Sparereg 84
-[  729.464669] MGA Sparereg 84
-[  729.464681] MGA Sparereg 80
-[  729.464693] MGA Sparereg 80
-[  729.464705] MGA Sparereg 84
-[  729.464717] MGA Sparereg 84
-[  729.464729] MGA Sparereg 80
-[  729.464740] MGA Sparereg 84
-[  729.464752] MGA Sparereg 80
-[  729.464764] MGA Sparereg 84
-[  729.464824] MGA Sparereg 84
-[  729.464836] MGA Sparereg 80
-[  729.464848] MGA Sparereg 81
-[  729.464859] MGA Sparereg 84
-[  729.464871] MGA Sparereg 84
-[  729.464883] MGA Sparereg 80
-[  729.464895] MGA Sparereg 80
-[  729.464907] MGA Sparereg 84
-[  729.464919] MGA Sparereg 80
-[  729.464955] MGA Sparereg 80
-[  729.464966] MGA Sparereg 84
-[  729.465109] MGA Sparereg 84
-[  729.465121] MGA Sparereg 80
-[  729.465133] MGA Sparereg 84
-[  729.465180] MGA Sparereg 84
-[  729.465192] MGA Sparereg 80
-[  729.465204] MGA Sparereg 84
-[  729.465229] MGA Sparereg 84
-[  729.465242] MGA Sparereg 80
-[  729.465253] MGA Sparereg 84
-[  729.465277] MGA Sparereg 84
-[  729.465289] MGA Sparereg 80
-[  729.465301] MGA Sparereg 80
-[  729.465313] MGA Sparereg 84
-[  729.465325] MGA Sparereg 84
-[  729.465337] MGA Sparereg 80
-[  729.465360] MGA Sparereg 80
-[  729.465372] MGA Sparereg 84
-[  729.465384] MGA Sparereg 80
-[  729.465396] MGA Sparereg 80
-[  729.465408] MGA Sparereg 84
-[  729.465431] MGA Sparereg 84
-[  729.465443] MGA Sparereg 80
-[  729.465455] MGA Sparereg 84
-[  729.465515] MGA Sparereg 84
-[  729.465526] MGA Sparereg 80
-[  729.465538] MGA Sparereg 84
-[  729.465550] MGA Sparereg 80
-[  729.465562] MGA Sparereg 84
-[  729.465574] MGA Sparereg 84
-[  729.465586] MGA Sparereg 80
-[  729.465598] MGA Sparereg 84
-[  729.465622] MGA Sparereg 84
-[  729.465633] MGA Sparereg 80
-[  729.465645] MGA Sparereg 80
-[  729.465657] MGA Sparereg 84
-[  729.465669] MGA Sparereg 84
-[  729.465681] MGA Sparereg 80
-[  729.465693] MGA Sparereg 84
-[  729.465705] MGA Sparereg 80
-[  729.465717] MGA Sparereg 84
-[  729.465800] MGA Sparereg 84
-[  729.465812] MGA Sparereg 80
-[  729.465823] MGA Sparereg 84
-[  729.465835] MGA Sparereg 80
-[  729.465847] MGA Sparereg 84
-[  729.465871] MGA Sparereg 84
-[  729.465883] MGA Sparereg 80
-[  729.465895] MGA Sparereg 84
-[  729.465918] MGA Sparereg 84
-[  729.465930] MGA Sparereg 80
-[  729.465942] MGA Sparereg 80
-[  729.465954] MGA Sparereg 84
-[  729.465966] MGA Sparereg 84
-[  729.465978] MGA Sparereg 80
-[  729.465990] MGA Sparereg 80
-[  729.466001] MGA Sparereg 84
-[  729.466013] MGA Sparereg 84
-[  729.466025] MGA Sparereg 80
-[  729.466037] MGA Sparereg 80
-[  729.466049] MGA Sparereg 84
-[  729.466061] MGA Sparereg 84
-[  729.466073] MGA Sparereg 80
-[  729.466085] MGA Sparereg 84
-[  729.466108] MGA Sparereg 84
-[  729.466120] MGA Sparereg 80
-[  729.466132] MGA Sparereg 84
-[  729.466275] MGA Sparereg 84
-[  729.466288] MGA Sparereg 81
-[  729.466301] MGA Sparereg 84
-[  729.466312] MGA Sparereg 84
-[  729.466324] MGA Sparereg 80
-[  729.466336] MGA Sparereg 80
-[  729.466348] MGA Sparereg 84
-[  729.466371] MGA Sparereg 84
-[  729.466383] MGA Sparereg 80
-[  729.466395] MGA Sparereg 84
-[  729.466407] MGA Sparereg 84
-[  729.466419] MGA Sparereg 80
-[  729.466442] MGA Sparereg 80
-[  729.466454] MGA Sparereg 84
-[  729.466478] MGA Sparereg 84
-[  729.466490] MGA Sparereg 80
-[  729.466501] MGA Sparereg 84
-[  729.466513] MGA Sparereg 80
-[  729.466525] MGA Sparereg 84
-[  729.466537] MGA Sparereg 80
-[  729.466549] MGA Sparereg 84
-[  729.466560] MGA Sparereg 80
-[  729.466572] MGA Sparereg 84
-[  729.466584] MGA Sparereg 80
-[  729.466596] MGA Sparereg 84
-[  729.466667] MGA Sparereg 84
-[  729.466679] MGA Sparereg 80
-[  729.466690] MGA Sparereg 84
-[  729.466714] MGA Sparereg 84
-[  729.466726] MGA Sparereg 80
-[  729.466738] MGA Sparereg 84
-[  729.466750] MGA Sparereg 84
-[  729.466761] MGA Sparereg 80
-[  729.466773] MGA Sparereg 84
-[  729.466832] MGA Sparereg 84
-[  729.466844] MGA Sparereg 80
-[  729.466868] MGA Sparereg 80
-[  729.466880] MGA Sparereg 84
-[  729.466951] MGA Sparereg 84
-[  729.466962] MGA Sparereg 80
-[  729.466974] MGA Sparereg 80
-[  729.466986] MGA Sparereg 84
-[  729.466998] MGA Sparereg 80
-[  729.467010] MGA Sparereg 84
-[  729.467045] MGA Sparereg 84
-[  729.467057] MGA Sparereg 80
-[  729.467069] MGA Sparereg 84
-[  729.467081] MGA Sparereg 84
-[  729.467093] MGA Sparereg 80
-[  729.467104] MGA Sparereg 84
-[  729.467152] MGA Sparereg 84
-[  729.467164] MGA Sparereg 80
-[  729.467175] MGA Sparereg 84
-[  729.467199] MGA Sparereg 84
-[  729.467211] MGA Sparereg 80
-[  729.467223] MGA Sparereg 84
-[  729.467247] MGA Sparereg 84
-[  729.467259] MGA Sparereg 80
-[  729.467270] MGA Sparereg 80
-[  729.467282] MGA Sparereg 84
-[  729.467294] MGA Sparereg 84
-[  729.467306] MGA Sparereg 80
-[  729.467318] MGA Sparereg 80
-[  729.467330] MGA Sparereg 84
-[  729.467341] MGA Sparereg 84
-[  729.467353] MGA Sparereg 80
-[  729.467365] MGA Sparereg 80
-[  729.467377] MGA Sparereg 84
-[  729.467401] MGA Sparereg 84
-[  729.467413] MGA Sparereg 80
-[  729.467424] MGA Sparereg 84
-[  729.467448] MGA Sparereg 84
-[  729.467460] MGA Sparereg 80
-[  729.467472] MGA Sparereg 84
-[  729.467484] MGA Sparereg 80
-[  729.467496] MGA Sparereg 84
-[  729.467507] MGA Sparereg 80
-[  729.467519] MGA Sparereg 84
-[  729.467543] MGA Sparereg 84
-[  729.467555] MGA Sparereg 80
-[  729.467567] MGA Sparereg 84
-[  729.467614] MGA Sparereg 84
-[  729.467626] MGA Sparereg 80
-[  729.467638] MGA Sparereg 84
-[  729.467650] MGA Sparereg 84
-[  729.467662] MGA Sparereg 80
-[  729.467674] MGA Sparereg 84
-[  729.467697] MGA Sparereg 84
-[  729.467709] MGA Sparereg 80
-[  729.467721] MGA Sparereg 84
-[  729.467733] MGA Sparereg 84
-[  729.467745] MGA Sparereg 81
-[  729.467757] MGA Sparereg 80
-[  729.467769] MGA Sparereg 84
-[  729.467793] MGA Sparereg 84
-[  729.467804] MGA Sparereg 80
-[  729.467816] MGA Sparereg 84
-[  729.467828] MGA Sparereg 80
-[  729.467840] MGA Sparereg 84
-[  729.467852] MGA Sparereg 84
-[  729.467864] MGA Sparereg 80
-[  729.467876] MGA Sparereg 84
-[  729.467900] MGA Sparereg 84
-[  729.467912] MGA Sparereg 80
-[  729.467924] MGA Sparereg 84
-[  729.467935] MGA Sparereg 80
-[  729.467947] MGA Sparereg 81
-[  729.467959] MGA Sparereg 84
-[  729.467983] MGA Sparereg 84
-[  729.467995] MGA Sparereg 80
-[  729.468019] MGA Sparereg 80
-[  729.468031] MGA Sparereg 81
-[  729.468042] MGA Sparereg 80
-[  729.468054] MGA Sparereg 80
-[  729.468066] MGA Sparereg 84
-[  729.468090] MGA Sparereg 84
-[  729.468102] MGA Sparereg 80
-[  729.468114] MGA Sparereg 84
-[  729.468185] MGA Sparereg 84
-[  729.468196] MGA Sparereg 80
-[  729.468208] MGA Sparereg 80
-[  729.468220] MGA Sparereg 84
-[  729.468232] MGA Sparereg 80
-[  729.468244] MGA Sparereg 80
-[  729.468256] MGA Sparereg 84
-[  729.468268] MGA Sparereg 80
-[  729.468280] MGA Sparereg 84
-[  729.468292] MGA Sparereg 84
-[  729.468304] MGA Sparereg 80
-[  729.468315] MGA Sparereg 84
-[  729.468327] MGA Sparereg 80
-[  729.468339] MGA Sparereg 80
-[  729.468351] MGA Sparereg 84
-[  729.468363] MGA Sparereg 84
-[  729.468375] MGA Sparereg 80
-[  729.468387] MGA Sparereg 84
-[  729.468398] MGA Sparereg 80
-[  729.468410] MGA Sparereg 84
-[  729.468422] MGA Sparereg 84
-[  729.468434] MGA Sparereg 80
-[  729.468446] MGA Sparereg 80
-[  729.468458] MGA Sparereg 84
-[  729.468481] MGA Sparereg 84
-[  729.468493] MGA Sparereg 80
-[  729.468505] MGA Sparereg 84
-[  729.468529] MGA Sparereg 84
-[  729.468541] MGA Sparereg 80
-[  729.468552] MGA Sparereg 80
-[  729.468564] MGA Sparereg 84
-[  729.468588] MGA Sparereg 84
-[  729.468600] MGA Sparereg 81
-[  729.468612] MGA Sparereg 84
-[  729.468659] MGA Sparereg 84
-[  729.468671] MGA Sparereg 81
-[  729.468683] MGA Sparereg 84
-[  729.468767] MGA Sparereg 84
-[  729.468779] MGA Sparereg 80
-[  729.468802] MGA Sparereg 80
-[  729.468814] MGA Sparereg 84
-[  729.468826] MGA Sparereg 84
-[  729.468838] MGA Sparereg 80
-[  729.468850] MGA Sparereg 80
-[  729.468862] MGA Sparereg 84
-[  729.468885] MGA Sparereg 84
-[  729.468897] MGA Sparereg 80
-[  729.468909] MGA Sparereg 84
-[  729.468921] MGA Sparereg 84
-[  729.468933] MGA Sparereg 80
-[  729.468945] MGA Sparereg 84
-[  729.468957] MGA Sparereg 84
-[  729.468969] MGA Sparereg 81
-[  729.468980] MGA Sparereg 84
-[  729.469028] MGA Sparereg 84
-[  729.469040] MGA Sparereg 80
-[  729.469052] MGA Sparereg 84
-[  729.469075] MGA Sparereg 84
-[  729.469087] MGA Sparereg 80
-[  729.469099] MGA Sparereg 80
-[  729.469111] MGA Sparereg 84
-[  729.469123] MGA Sparereg 80
-[  729.469146] MGA Sparereg 80
-[  729.469158] MGA Sparereg 84
-[  729.469182] MGA Sparereg 84
-[  729.469194] MGA Sparereg 80
-[  729.469205] MGA Sparereg 84
-[  729.469217] MGA Sparereg 80
-[  729.469230] MGA Sparereg 84
-[  729.469242] MGA Sparereg 84
-[  729.469254] MGA Sparereg 80
-[  729.469266] MGA Sparereg 84
-[  729.469277] MGA Sparereg 84
-[  729.469289] MGA Sparereg 80
-[  729.469301] MGA Sparereg 84
-[  729.469337] MGA Sparereg 84
-[  729.469348] MGA Sparereg 80
-[  729.469360] MGA Sparereg 84
-[  729.469372] MGA Sparereg 80
-[  729.469396] MGA Sparereg 80
-[  729.469408] MGA Sparereg 84
-[  729.469420] MGA Sparereg 84
-[  729.469431] MGA Sparereg 80
-[  729.469443] MGA Sparereg 80
-[  729.469455] MGA Sparereg 84
-[  729.469467] MGA Sparereg 80
-[  729.469479] MGA Sparereg 80
-[  729.469491] MGA Sparereg 84
-[  729.469503] MGA Sparereg 80
-[  729.469514] MGA Sparereg 84
-[  729.469526] MGA Sparereg 80
-[  729.469550] MGA Sparereg 80
-[  729.469562] MGA Sparereg 84
-[  729.469573] MGA Sparereg 80
-[  729.469585] MGA Sparereg 84
-[  729.469657] MGA Sparereg 84
-[  729.469668] MGA Sparereg 80
-[  729.469680] MGA Sparereg 80
-[  729.469692] MGA Sparereg 84
-[  729.469704] MGA Sparereg 84
-[  729.469716] MGA Sparereg 80
-[  729.469728] MGA Sparereg 80
-[  729.469739] MGA Sparereg 84
-[  729.469763] MGA Sparereg 84
-[  729.469775] MGA Sparereg 80
-[  729.469799] MGA Sparereg 80
-[  729.469811] MGA Sparereg 84
-[  729.469823] MGA Sparereg 80
-[  729.469834] MGA Sparereg 84
-[  729.469858] MGA Sparereg 84
-[  729.469870] MGA Sparereg 80
-[  729.469882] MGA Sparereg 80
-[  729.469894] MGA Sparereg 84
-[  729.469906] MGA Sparereg 84
-[  729.469917] MGA Sparereg 80
-[  729.469929] MGA Sparereg 84
-[  729.470000] MGA Sparereg 84
-[  729.470012] MGA Sparereg 80
-[  729.470024] MGA Sparereg 80
-[  729.470036] MGA Sparereg 84
-[  729.470060] MGA Sparereg 84
-[  729.470071] MGA Sparereg 80
-[  729.470083] MGA Sparereg 84
-[  729.470095] MGA Sparereg 84
-[  729.470107] MGA Sparereg 80
-[  729.470154] MGA Sparereg 80
-[  729.470166] MGA Sparereg 81
-[  729.470178] MGA Sparereg 80
-[  729.470241] MGA Sparereg 80
-[  729.470253] MGA Sparereg 84
-[  729.470265] MGA Sparereg 80
-[  729.470277] MGA Sparereg 84
-[  729.470289] MGA Sparereg 84
-[  729.470301] MGA Sparereg 80
-[  729.470313] MGA Sparereg 84
-[  729.470325] MGA Sparereg 80
-[  729.470384] MGA Sparereg 80
-[  729.470396] MGA Sparereg 84
-[  729.470408] MGA Sparereg 80
-[  729.470420] MGA Sparereg 80
-[  729.470432] MGA Sparereg 84
-[  729.470443] MGA Sparereg 80
-[  729.470455] MGA Sparereg 84
-[  729.470467] MGA Sparereg 80
-[  729.470515] MGA Sparereg 80
-[  729.470527] MGA Sparereg 84
-[  729.470538] MGA Sparereg 80
-[  729.470598] MGA Sparereg 80
-[  729.470610] MGA Sparereg 81
-[  729.470622] MGA Sparereg 80
-[  729.470633] MGA Sparereg 80
-[  729.470645] MGA Sparereg 84
-[  729.470657] MGA Sparereg 84
-[  729.470669] MGA Sparereg 80
-[  729.470693] MGA Sparereg 80
-[  729.470705] MGA Sparereg 81
-[  729.470716] MGA Sparereg 80
-[  729.470764] MGA Sparereg 80
-[  729.470776] MGA Sparereg 84
-[  729.470788] MGA Sparereg 80
-[  729.470800] MGA Sparereg 84
-[  729.470823] MGA Sparereg 84
-[  729.470835] MGA Sparereg 80
-[  729.470847] MGA Sparereg 84
-[  729.470859] MGA Sparereg 84
-[  729.470871] MGA Sparereg 80
-[  729.470883] MGA Sparereg 84
-[  729.470918] MGA Sparereg 84
-[  729.470930] MGA Sparereg 80
-[  729.470942] MGA Sparereg 84
-[  729.470966] MGA Sparereg 84
-[  729.470977] MGA Sparereg 80
-[  729.470989] MGA Sparereg 80
-[  729.471001] MGA Sparereg 84
-[  729.471013] MGA Sparereg 84
-[  729.471025] MGA Sparereg 81
-[  729.471037] MGA Sparereg 80
-[  729.471049] MGA Sparereg 84
-[  729.471060] MGA Sparereg 84
-[  729.471072] MGA Sparereg 80
-[  729.471084] MGA Sparereg 84
-[  729.471096] MGA Sparereg 84
-[  729.471108] MGA Sparereg 80
-[  729.471131] MGA Sparereg 80
-[  729.471143] MGA Sparereg 84
-[  729.471155] MGA Sparereg 84
-[  729.471167] MGA Sparereg 80
-[  729.471179] MGA Sparereg 80
-[  729.471191] MGA Sparereg 84
-[  729.471203] MGA Sparereg 80
-[  729.471214] MGA Sparereg 84
-[  729.471230] MGA Sparereg 80
-[  729.471242] MGA Sparereg 84
-[  729.471254] MGA Sparereg 80
-[  729.471265] MGA Sparereg 84
-[  729.471289] MGA Sparereg 84
-[  729.471301] MGA Sparereg 81
-[  729.471313] MGA Sparereg 84
-[  729.471325] MGA Sparereg 80
-[  729.471337] MGA Sparereg 84
-[  729.471372] MGA Sparereg 84
-[  729.471384] MGA Sparereg 80
-[  729.471396] MGA Sparereg 84
-[  729.471408] MGA Sparereg 84
-[  729.471419] MGA Sparereg 80
-[  729.471431] MGA Sparereg 80
-[  729.471443] MGA Sparereg 84
-[  729.471455] MGA Sparereg 84
-[  729.471467] MGA Sparereg 80
-[  729.471479] MGA Sparereg 80
-[  729.471490] MGA Sparereg 84
-[  729.471502] MGA Sparereg 80
-[  729.471538] MGA Sparereg 80
-[  729.471550] MGA Sparereg 84
-[  729.471561] MGA Sparereg 80
-[  729.471573] MGA Sparereg 80
-[  729.471585] MGA Sparereg 84
-[  729.471597] MGA Sparereg 84
-[  729.471609] MGA Sparereg 80
-[  729.471621] MGA Sparereg 84
-[  729.471632] MGA Sparereg 80
-[  729.471644] MGA Sparereg 84
-[  729.471656] MGA Sparereg 80
-[  729.471668] MGA Sparereg 84
-[  729.471704] MGA Sparereg 84
-[  729.471716] MGA Sparereg 80
-[  729.471727] MGA Sparereg 81
-[  729.471739] MGA Sparereg 84
-[  729.471751] MGA Sparereg 80
-[  729.471763] MGA Sparereg 84
-[  729.471775] MGA Sparereg 80
-[  729.471787] MGA Sparereg 84
-[  729.471798] MGA Sparereg 84
-[  729.471810] MGA Sparereg 80
-[  729.471822] MGA Sparereg 80
-[  729.471834] MGA Sparereg 84
-[  729.471846] MGA Sparereg 80
-[  729.471893] MGA Sparereg 80
-[  729.471905] MGA Sparereg 84
-[  729.471917] MGA Sparereg 84
-[  729.471929] MGA Sparereg 80
-[  729.471941] MGA Sparereg 84
-[  729.471964] MGA Sparereg 84
-[  729.471976] MGA Sparereg 80
-[  729.472000] MGA Sparereg 80
-[  729.472012] MGA Sparereg 81
-[  729.472024] MGA Sparereg 84
-[  729.472036] MGA Sparereg 80
-[  729.472048] MGA Sparereg 81
-[  729.472059] MGA Sparereg 84
-[  729.472071] MGA Sparereg 80
-[  729.472083] MGA Sparereg 80
-[  729.472095] MGA Sparereg 84
-[  729.472107] MGA Sparereg 84
-[  729.472119] MGA Sparereg 80
-[  729.472142] MGA Sparereg 80
-[  729.472154] MGA Sparereg 84
-[  729.472202] MGA Sparereg 84
-[  729.472214] MGA Sparereg 80
-[  729.472241] MGA Sparereg 80
-[  729.472253] MGA Sparereg 84
-[  729.472265] MGA Sparereg 80
-[  729.472288] MGA Sparereg 80
-[  729.472300] MGA Sparereg 84
-[  729.472312] MGA Sparereg 84
-[  729.472324] MGA Sparereg 80
-[  729.472336] MGA Sparereg 84
-[  729.472407] MGA Sparereg 84
-[  729.472419] MGA Sparereg 80
-[  729.472431] MGA Sparereg 80
-[  729.472442] MGA Sparereg 84
-[  729.472466] MGA Sparereg 84
-[  729.472478] MGA Sparereg 80
-[  729.472490] MGA Sparereg 80
-[  729.472502] MGA Sparereg 84
-[  729.472514] MGA Sparereg 80
-[  729.472526] MGA Sparereg 84
-[  729.472537] MGA Sparereg 80
-[  729.472549] MGA Sparereg 84
-[  729.472561] MGA Sparereg 80
-[  729.472573] MGA Sparereg 84
-[  729.472585] MGA Sparereg 80
-[  729.472597] MGA Sparereg 84
-[  729.472609] MGA Sparereg 84
-[  729.472620] MGA Sparereg 80
-[  729.472632] MGA Sparereg 80
-[  729.472644] MGA Sparereg 84
-[  729.472668] MGA Sparereg 84
-[  729.472680] MGA Sparereg 81
-[  729.472692] MGA Sparereg 84
-[  729.472751] MGA Sparereg 84
-[  729.472763] MGA Sparereg 80
-[  729.472775] MGA Sparereg 84
-[  729.472787] MGA Sparereg 80
-[  729.472799] MGA Sparereg 84
-[  729.472811] MGA Sparereg 84
-[  729.472823] MGA Sparereg 80
-[  729.472834] MGA Sparereg 84
-[  729.472870] MGA Sparereg 84
-[  729.472882] MGA Sparereg 80
-[  729.472894] MGA Sparereg 84
-[  729.472918] MGA Sparereg 84
-[  729.472929] MGA Sparereg 80
-[  729.472941] MGA Sparereg 80
-[  729.472953] MGA Sparereg 84
-[  729.472965] MGA Sparereg 80
-[  729.472977] MGA Sparereg 84
-[  729.473024] MGA Sparereg 84
-[  729.473036] MGA Sparereg 80
-[  729.473048] MGA Sparereg 84
-[  729.473060] MGA Sparereg 84
-[  729.473072] MGA Sparereg 80
-[  729.473084] MGA Sparereg 81
-[  729.473095] MGA Sparereg 84
-[  729.473107] MGA Sparereg 80
-[  729.473131] MGA Sparereg 80
-[  729.473143] MGA Sparereg 84
-[  729.473155] MGA Sparereg 84
-[  729.473167] MGA Sparereg 80
-[  729.473190] MGA Sparereg 80
-[  729.473202] MGA Sparereg 84
-[  729.473214] MGA Sparereg 84
-[  729.473229] MGA Sparereg 80
-[  729.473253] MGA Sparereg 80
-[  729.473265] MGA Sparereg 84
-[  729.473277] MGA Sparereg 80
-[  729.473289] MGA Sparereg 80
-[  729.473301] MGA Sparereg 84
-[  729.473313] MGA Sparereg 84
-[  729.473325] MGA Sparereg 80
-[  729.473336] MGA Sparereg 84
-[  729.473348] MGA Sparereg 84
-[  729.473360] MGA Sparereg 80
-[  729.473372] MGA Sparereg 84
-[  729.473419] MGA Sparereg 84
-[  729.473431] MGA Sparereg 80
-[  729.473443] MGA Sparereg 80
-[  729.473455] MGA Sparereg 84
-[  729.473467] MGA Sparereg 84
-[  729.473479] MGA Sparereg 80
-[  729.473491] MGA Sparereg 84
-[  729.473502] MGA Sparereg 84
-[  729.473514] MGA Sparereg 80
-[  729.473538] MGA Sparereg 80
-[  729.473550] MGA Sparereg 84
-[  729.473562] MGA Sparereg 84
-[  729.473574] MGA Sparereg 80
-[  729.473597] MGA Sparereg 80
-[  729.473609] MGA Sparereg 84
-[  729.473680] MGA Sparereg 84
-[  729.473692] MGA Sparereg 80
-[  729.473704] MGA Sparereg 84
-[  729.473716] MGA Sparereg 84
-[  729.473728] MGA Sparereg 80
-[  729.473740] MGA Sparereg 84
-[  729.473776] MGA Sparereg 84
-[  729.473788] MGA Sparereg 80
-[  729.473835] MGA Sparereg 80
-[  729.473847] MGA Sparereg 81
-[  729.473859] MGA Sparereg 84
-[  729.473871] MGA Sparereg 80
-[  729.473883] MGA Sparereg 81
-[  729.473895] MGA Sparereg 84
-[  729.473907] MGA Sparereg 84
-[  729.473918] MGA Sparereg 80
-[  729.473930] MGA Sparereg 80
-[  729.473942] MGA Sparereg 84
-[  729.473954] MGA Sparereg 80
-[  729.473966] MGA Sparereg 84
-[  729.473978] MGA Sparereg 84
-[  729.473990] MGA Sparereg 80
-[  729.474001] MGA Sparereg 84
-[  729.474025] MGA Sparereg 84
-[  729.474037] MGA Sparereg 80
-[  729.474049] MGA Sparereg 84
-[  729.474061] MGA Sparereg 84
-[  729.474073] MGA Sparereg 80
-[  729.474085] MGA Sparereg 84
-[  729.474096] MGA Sparereg 84
-[  729.474108] MGA Sparereg 80
-[  729.474132] MGA Sparereg 80
-[  729.474144] MGA Sparereg 84
-[  729.474156] MGA Sparereg 84
-[  729.474167] MGA Sparereg 80
-[  729.474191] MGA Sparereg 80
-[  729.474203] MGA Sparereg 84
-[  729.474215] MGA Sparereg 80
-[  729.474230] MGA Sparereg 84
-[  729.474243] MGA Sparereg 80
-[  729.474254] MGA Sparereg 84
-[  729.474302] MGA Sparereg 84
-[  729.474314] MGA Sparereg 80
-[  729.474326] MGA Sparereg 84
-[  729.474338] MGA Sparereg 80
-[  729.474349] MGA Sparereg 84
-[  729.474361] MGA Sparereg 84
-[  729.474373] MGA Sparereg 80
-[  729.474385] MGA Sparereg 80
-[  729.474397] MGA Sparereg 84
-[  729.474421] MGA Sparereg 84
-[  729.474432] MGA Sparereg 80
-[  729.474444] MGA Sparereg 84
-[  729.474480] MGA Sparereg 84
-[  729.474492] MGA Sparereg 80
-[  729.474504] MGA Sparereg 84
-[  729.474516] MGA Sparereg 80
-[  729.474563] MGA Sparereg 80
-[  729.474575] MGA Sparereg 84
-[  729.474587] MGA Sparereg 80
-[  729.474599] MGA Sparereg 84
-[  729.474635] MGA Sparereg 84
-[  729.474646] MGA Sparereg 80
-[  729.474658] MGA Sparereg 84
-[  729.474670] MGA Sparereg 80
-[  729.474682] MGA Sparereg 80
-[  729.474694] MGA Sparereg 84
-[  729.474718] MGA Sparereg 84
-[  729.474729] MGA Sparereg 80
-[  729.474741] MGA Sparereg 80
-[  729.474753] MGA Sparereg 84
-[  729.474765] MGA Sparereg 84
-[  729.474777] MGA Sparereg 81
-[  729.474789] MGA Sparereg 80
-[  729.474801] MGA Sparereg 84
-[  729.474813] MGA Sparereg 80
-[  729.474825] MGA Sparereg 80
-[  729.474836] MGA Sparereg 84
-[  729.474848] MGA Sparereg 84
-[  729.474860] MGA Sparereg 80
-[  729.474872] MGA Sparereg 84
-[  729.474943] MGA Sparereg 84
-[  729.474955] MGA Sparereg 80
-[  729.474967] MGA Sparereg 81
-[  729.474979] MGA Sparereg 80
-[  729.474991] MGA Sparereg 84
-[  729.475014] MGA Sparereg 84
-[  729.475026] MGA Sparereg 80
-[  729.475038] MGA Sparereg 84
-[  729.475050] MGA Sparereg 84
-[  729.475062] MGA Sparereg 80
-[  729.475074] MGA Sparereg 84
-[  729.475085] MGA Sparereg 80
-[  729.475097] MGA Sparereg 84
-[  729.475109] MGA Sparereg 80
-[  729.475133] MGA Sparereg 80
-[  729.475145] MGA Sparereg 84
-[  729.475216] MGA Sparereg 84
-[  729.475230] MGA Sparereg 80
-[  729.475242] MGA Sparereg 80
-[  729.475254] MGA Sparereg 84
-[  729.475278] MGA Sparereg 84
-[  729.475289] MGA Sparereg 80
-[  729.475301] MGA Sparereg 84
-[  729.475325] MGA Sparereg 84
-[  729.475337] MGA Sparereg 80
-[  729.475349] MGA Sparereg 84
-[  729.475361] MGA Sparereg 84
-[  729.475372] MGA Sparereg 80
-[  729.475384] MGA Sparereg 84
-[  729.475444] MGA Sparereg 84
-[  729.475456] MGA Sparereg 80
-[  729.475468] MGA Sparereg 84
-[  729.475480] MGA Sparereg 80
-[  729.475491] MGA Sparereg 84
-[  729.475515] MGA Sparereg 84
-[  729.475527] MGA Sparereg 80
-[  729.475539] MGA Sparereg 80
-[  729.475551] MGA Sparereg 84
-[  729.475563] MGA Sparereg 84
-[  729.475575] MGA Sparereg 80
-[  729.475598] MGA Sparereg 80
-[  729.475610] MGA Sparereg 84
-[  729.475622] MGA Sparereg 80
-[  729.475634] MGA Sparereg 80
-[  729.475646] MGA Sparereg 84
-[  729.475717] MGA Sparereg 84
-[  729.475729] MGA Sparereg 80
-[  729.475741] MGA Sparereg 84
-[  729.475764] MGA Sparereg 84
-[  729.475776] MGA Sparereg 80
-[  729.475788] MGA Sparereg 84
-[  729.475812] MGA Sparereg 84
-[  729.475824] MGA Sparereg 80
-[  729.475836] MGA Sparereg 80
-[  729.475848] MGA Sparereg 84
-[  729.475872] MGA Sparereg 84
-[  729.475884] MGA Sparereg 80
-[  729.475895] MGA Sparereg 80
-[  729.475907] MGA Sparereg 84
-[  729.475919] MGA Sparereg 80
-[  729.475931] MGA Sparereg 84
-[  729.475943] MGA Sparereg 80
-[  729.475955] MGA Sparereg 84
-[  729.475967] MGA Sparereg 84
-[  729.475979] MGA Sparereg 80
-[  729.475991] MGA Sparereg 84
-[  729.476014] MGA Sparereg 84
-[  729.476026] MGA Sparereg 80
-[  729.476038] MGA Sparereg 84
-[  729.476050] MGA Sparereg 84
-[  729.476062] MGA Sparereg 80
-[  729.476086] MGA Sparereg 80
-[  729.476098] MGA Sparereg 84
-[  729.476169] MGA Sparereg 84
-[  729.476181] MGA Sparereg 80
-[  729.476193] MGA Sparereg 84
-[  729.476204] MGA Sparereg 80
-[  729.476230] MGA Sparereg 80
-[  729.476242] MGA Sparereg 84
-[  729.476266] MGA Sparereg 84
-[  729.476278] MGA Sparereg 80
-[  729.476289] MGA Sparereg 80
-[  729.476301] MGA Sparereg 84
-[  729.476325] MGA Sparereg 84
-[  729.476337] MGA Sparereg 80
-[  729.476349] MGA Sparereg 84
-[  729.476373] MGA Sparereg 84
-[  729.476385] MGA Sparereg 81
-[  729.476396] MGA Sparereg 84
-[  729.476420] MGA Sparereg 84
-[  729.476432] MGA Sparereg 80
-[  729.476444] MGA Sparereg 84
-[  729.476456] MGA Sparereg 80
-[  729.476468] MGA Sparereg 80
-[  729.476480] MGA Sparereg 84
-[  729.476515] MGA Sparereg 84
-[  729.476527] MGA Sparereg 80
-[  729.476539] MGA Sparereg 80
-[  729.476551] MGA Sparereg 84
-[  729.476575] MGA Sparereg 84
-[  729.476587] MGA Sparereg 80
-[  729.476598] MGA Sparereg 84
-[  729.476634] MGA Sparereg 84
-[  729.476646] MGA Sparereg 80
-[  729.476658] MGA Sparereg 84
-[  729.476682] MGA Sparereg 84
-[  729.476693] MGA Sparereg 80
-[  729.476705] MGA Sparereg 84
-[  729.476717] MGA Sparereg 84
-[  729.476729] MGA Sparereg 80
-[  729.476741] MGA Sparereg 84
-[  729.476765] MGA Sparereg 84
-[  729.476777] MGA Sparereg 80
-[  729.476788] MGA Sparereg 84
-[  729.476812] MGA Sparereg 84
-[  729.476824] MGA Sparereg 80
-[  729.476836] MGA Sparereg 80
-[  729.476848] MGA Sparereg 84
-[  729.476860] MGA Sparereg 80
-[  729.476872] MGA Sparereg 84
-[  729.476895] MGA Sparereg 84
-[  729.476907] MGA Sparereg 80
-[  729.476919] MGA Sparereg 84
-[  729.476990] MGA Sparereg 84
-[  729.477002] MGA Sparereg 80
-[  729.477014] MGA Sparereg 84
-[  729.477026] MGA Sparereg 84
-[  729.477038] MGA Sparereg 80
-[  729.477050] MGA Sparereg 84
-[  729.477061] MGA Sparereg 84
-[  729.477073] MGA Sparereg 80
-[  729.477085] MGA Sparereg 84
-[  729.477109] MGA Sparereg 84
-[  729.477121] MGA Sparereg 80
-[  729.477133] MGA Sparereg 84
-[  729.477156] MGA Sparereg 84
-[  729.477168] MGA Sparereg 80
-[  729.477180] MGA Sparereg 84
-[  729.477192] MGA Sparereg 80
-[  729.477204] MGA Sparereg 84
-[  729.477216] MGA Sparereg 80
-[  729.477233] MGA Sparereg 84
-[  729.477257] MGA Sparereg 84
-[  729.477269] MGA Sparereg 80
-[  729.477305] MGA Sparereg 80
-[  729.477317] MGA Sparereg 84
-[  729.477340] MGA Sparereg 84
-[  729.477352] MGA Sparereg 80
-[  729.477376] MGA Sparereg 80
-[  729.477388] MGA Sparereg 84
-[  729.477435] MGA Sparereg 84
-[  729.477447] MGA Sparereg 81
-[  729.477459] MGA Sparereg 84
-[  729.477518] MGA Sparereg 84
-[  729.477530] MGA Sparereg 80
-[  729.477542] MGA Sparereg 80
-[  729.477554] MGA Sparereg 84
-[  729.477566] MGA Sparereg 84
-[  729.477578] MGA Sparereg 80
-[  729.477589] MGA Sparereg 84
-[  729.477601] MGA Sparereg 84
-[  729.477613] MGA Sparereg 80
-[  729.477625] MGA Sparereg 84
-[  729.477637] MGA Sparereg 80
-[  729.477649] MGA Sparereg 80
-[  729.477661] MGA Sparereg 84
-[  729.477673] MGA Sparereg 84
-[  729.477684] MGA Sparereg 80
-[  729.477696] MGA Sparereg 81
-[  729.477708] MGA Sparereg 84
-[  729.477767] MGA Sparereg 84
-[  729.477779] MGA Sparereg 80
-[  729.477791] MGA Sparereg 84
-[  729.477827] MGA Sparereg 84
-[  729.477839] MGA Sparereg 80
-[  729.477851] MGA Sparereg 84
-[  729.477874] MGA Sparereg 84
-[  729.477886] MGA Sparereg 80
-[  729.477898] MGA Sparereg 80
-[  729.477910] MGA Sparereg 84
-[  729.477922] MGA Sparereg 84
-[  729.477934] MGA Sparereg 80
-[  729.477993] MGA Sparereg 80
-[  729.478005] MGA Sparereg 84
-[  729.478017] MGA Sparereg 84
-[  729.478029] MGA Sparereg 80
-[  729.478041] MGA Sparereg 84
-[  729.478065] MGA Sparereg 84
-[  729.478077] MGA Sparereg 80
-[  729.478089] MGA Sparereg 80
-[  729.478100] MGA Sparereg 84
-[  729.478112] MGA Sparereg 84
-[  729.478124] MGA Sparereg 80
-[  729.478136] MGA Sparereg 80
-[  729.478148] MGA Sparereg 84
-[  729.478160] MGA Sparereg 84
-[  729.478172] MGA Sparereg 80
-[  729.478243] MGA Sparereg 80
-[  729.478255] MGA Sparereg 84
-[  729.478267] MGA Sparereg 84
-[  729.478279] MGA Sparereg 80
-[  729.478303] MGA Sparereg 80
-[  729.478315] MGA Sparereg 84
-[  729.478362] MGA Sparereg 84
-[  729.478374] MGA Sparereg 80
-[  729.478386] MGA Sparereg 84
-[  729.478421] MGA Sparereg 84
-[  729.478433] MGA Sparereg 80
-[  729.478445] MGA Sparereg 84
-[  729.478457] MGA Sparereg 80
-[  729.478493] MGA Sparereg 80
-[  729.478505] MGA Sparereg 84
-[  729.478516] MGA Sparereg 80
-[  729.478552] MGA Sparereg 80
-[  729.478564] MGA Sparereg 84
-[  729.478576] MGA Sparereg 84
-[  729.478588] MGA Sparereg 80
-[  729.478600] MGA Sparereg 80
-[  729.478612] MGA Sparereg 84
-[  729.478624] MGA Sparereg 80
-[  729.478636] MGA Sparereg 84
-[  729.478672] MGA Sparereg 84
-[  729.478684] MGA Sparereg 81
-[  729.478696] MGA Sparereg 80
-[  729.478708] MGA Sparereg 84
-[  729.478720] MGA Sparereg 80
-[  729.478744] MGA Sparereg 80
-[  729.478756] MGA Sparereg 84
-[  729.478767] MGA Sparereg 84
-[  729.478779] MGA Sparereg 81
-[  729.478791] MGA Sparereg 80
-[  729.478803] MGA Sparereg 84
-[  729.478827] MGA Sparereg 84
-[  729.478839] MGA Sparereg 80
-[  729.478851] MGA Sparereg 84
-[  729.478863] MGA Sparereg 84
-[  729.478875] MGA Sparereg 80
-[  729.478887] MGA Sparereg 80
-[  729.478899] MGA Sparereg 84
-[  729.478911] MGA Sparereg 80
-[  729.478923] MGA Sparereg 84
-[  729.478934] MGA Sparereg 81
-[  729.478946] MGA Sparereg 80
-[  729.478958] MGA Sparereg 84
-[  729.478970] MGA Sparereg 84
-[  729.478982] MGA Sparereg 80
-[  729.478994] MGA Sparereg 80
-[  729.479006] MGA Sparereg 84
-[  729.479018] MGA Sparereg 84
-[  729.479029] MGA Sparereg 80
-[  729.479041] MGA Sparereg 80
-[  729.479053] MGA Sparereg 84
-[  729.479113] MGA Sparereg 84
-[  729.479124] MGA Sparereg 80
-[  729.479136] MGA Sparereg 80
-[  729.479148] MGA Sparereg 84
-[  729.479160] MGA Sparereg 84
-[  729.479172] MGA Sparereg 80
-[  729.479196] MGA Sparereg 80
-[  729.479208] MGA Sparereg 84
-[  729.479219] MGA Sparereg 80
-[  729.479256] MGA Sparereg 80
-[  729.479268] MGA Sparereg 84
-[  729.479279] MGA Sparereg 80
-[  729.479291] MGA Sparereg 80
-[  729.479303] MGA Sparereg 84
-[  729.479327] MGA Sparereg 84
-[  729.479339] MGA Sparereg 80
-[  729.479350] MGA Sparereg 84
-[  729.479362] MGA Sparereg 84
-[  729.479374] MGA Sparereg 80
-[  729.479386] MGA Sparereg 84
-[  729.479422] MGA Sparereg 84
-[  729.479433] MGA Sparereg 80
-[  729.479445] MGA Sparereg 84
-[  729.479457] MGA Sparereg 80
-[  729.479481] MGA Sparereg 80
-[  729.479493] MGA Sparereg 84
-[  729.479516] MGA Sparereg 84
-[  729.479528] MGA Sparereg 81
-[  729.479540] MGA Sparereg 80
-[  729.479552] MGA Sparereg 84
-[  729.479564] MGA Sparereg 80
-[  729.479588] MGA Sparereg 80
-[  729.479600] MGA Sparereg 84
-[  729.479612] MGA Sparereg 84
-[  729.479623] MGA Sparereg 81
-[  729.479635] MGA Sparereg 80
-[  729.479647] MGA Sparereg 84
-[  729.479707] MGA Sparereg 84
-[  729.479719] MGA Sparereg 80
-[  729.479731] MGA Sparereg 80
-[  729.479742] MGA Sparereg 84
-[  729.479766] MGA Sparereg 84
-[  729.479778] MGA Sparereg 81
-[  729.479790] MGA Sparereg 80
-[  729.479802] MGA Sparereg 84
-[  729.479814] MGA Sparereg 80
-[  729.479849] MGA Sparereg 80
-[  729.479861] MGA Sparereg 84
-[  729.479873] MGA Sparereg 80
-[  729.479885] MGA Sparereg 80
-[  729.479897] MGA Sparereg 84
-[  729.479921] MGA Sparereg 84
-[  729.479933] MGA Sparereg 80
-[  729.479968] MGA Sparereg 80
-[  729.479980] MGA Sparereg 84
-[  729.480016] MGA Sparereg 84
-[  729.480028] MGA Sparereg 81
-[  729.480040] MGA Sparereg 80
-[  729.480087] MGA Sparereg 80
-[  729.480099] MGA Sparereg 84
-[  729.480111] MGA Sparereg 80
-[  729.480135] MGA Sparereg 80
-[  729.480147] MGA Sparereg 84
-[  729.480171] MGA Sparereg 84
-[  729.480182] MGA Sparereg 80
-[  729.480194] MGA Sparereg 80
-[  729.480206] MGA Sparereg 84
-[  729.480218] MGA Sparereg 80
-[  729.480239] MGA Sparereg 84
-[  729.480251] MGA Sparereg 80
-[  729.480287] MGA Sparereg 80
-[  729.480299] MGA Sparereg 84
-[  729.480310] MGA Sparereg 80
-[  729.480334] MGA Sparereg 80
-[  729.480346] MGA Sparereg 84
-[  729.480358] MGA Sparereg 80
-[  729.480370] MGA Sparereg 80
-[  729.480382] MGA Sparereg 84
-[  729.480406] MGA Sparereg 84
-[  729.480417] MGA Sparereg 80
-[  729.480429] MGA Sparereg 84
-[  729.480441] MGA Sparereg 80
-[  729.480465] MGA Sparereg 80
-[  729.480477] MGA Sparereg 84
-[  729.480501] MGA Sparereg 84
-[  729.480513] MGA Sparereg 80
-[  729.480525] MGA Sparereg 80
-[  729.480536] MGA Sparereg 84
-[  729.480548] MGA Sparereg 84
-[  729.480560] MGA Sparereg 80
-[  729.480572] MGA Sparereg 84
-[  729.480584] MGA Sparereg 84
-[  729.480596] MGA Sparereg 80
-[  729.480608] MGA Sparereg 84
-[  729.480703] MGA Sparereg 84
-[  729.480715] MGA Sparereg 80
-[  729.480727] MGA Sparereg 84
-[  729.480751] MGA Sparereg 84
-[  729.480762] MGA Sparereg 80
-[  729.480774] MGA Sparereg 81
-[  729.480786] MGA Sparereg 84
-[  729.480810] MGA Sparereg 84
-[  729.480822] MGA Sparereg 80
-[  729.480834] MGA Sparereg 84
-[  729.480845] MGA Sparereg 84
-[  729.480857] MGA Sparereg 80
-[  729.480869] MGA Sparereg 84
-[  729.480905] MGA Sparereg 84
-[  729.480916] MGA Sparereg 80
-[  729.480928] MGA Sparereg 80
-[  729.480940] MGA Sparereg 84
-[  729.480952] MGA Sparereg 84
-[  729.480964] MGA Sparereg 80
-[  729.480976] MGA Sparereg 84
-[  729.480988] MGA Sparereg 84
-[  729.480999] MGA Sparereg 80
-[  729.481011] MGA Sparereg 80
-[  729.481023] MGA Sparereg 84
-[  729.481035] MGA Sparereg 84
-[  729.481047] MGA Sparereg 80
-[  729.481059] MGA Sparereg 84
-[  729.481071] MGA Sparereg 84
-[  729.481082] MGA Sparereg 80
-[  729.481094] MGA Sparereg 84
-[  729.481106] MGA Sparereg 80
-[  729.481118] MGA Sparereg 84
-[  729.481130] MGA Sparereg 84
-[  729.481142] MGA Sparereg 80
-[  729.481165] MGA Sparereg 80
-[  729.481177] MGA Sparereg 84
-[  729.481189] MGA Sparereg 84
-[  729.481201] MGA Sparereg 81
-[  729.481213] MGA Sparereg 80
-[  729.481225] MGA Sparereg 84
-[  729.481312] MGA Sparereg 84
-[  729.481324] MGA Sparereg 80
-[  729.481336] MGA Sparereg 84
-[  729.481360] MGA Sparereg 84
-[  729.481372] MGA Sparereg 80
-[  729.481384] MGA Sparereg 84
-[  729.481408] MGA Sparereg 84
-[  729.481419] MGA Sparereg 80
-[  729.481431] MGA Sparereg 80
-[  729.481443] MGA Sparereg 84
-[  729.481455] MGA Sparereg 80
-[  729.481503] MGA Sparereg 80
-[  729.481515] MGA Sparereg 84
-[  729.481562] MGA Sparereg 84
-[  729.481574] MGA Sparereg 80
-[  729.481586] MGA Sparereg 84
-[  729.481645] MGA Sparereg 84
-[  729.481657] MGA Sparereg 80
-[  729.481669] MGA Sparereg 80
-[  729.481681] MGA Sparereg 84
-[  729.481705] MGA Sparereg 84
-[  729.481716] MGA Sparereg 80
-[  729.481728] MGA Sparereg 80
-[  729.481740] MGA Sparereg 84
-[  729.481752] MGA Sparereg 84
-[  729.481764] MGA Sparereg 80
-[  729.481776] MGA Sparereg 80
-[  729.481788] MGA Sparereg 84
-[  729.481835] MGA Sparereg 84
-[  729.481847] MGA Sparereg 80
-[  729.481859] MGA Sparereg 84
-[  729.481871] MGA Sparereg 80
-[  729.481883] MGA Sparereg 84
-[  729.481907] MGA Sparereg 84
-[  729.481919] MGA Sparereg 80
-[  729.481931] MGA Sparereg 84
-[  729.481954] MGA Sparereg 84
-[  729.481966] MGA Sparereg 80
-[  729.481978] MGA Sparereg 80
-[  729.481990] MGA Sparereg 84
-[  729.482014] MGA Sparereg 84
-[  729.482026] MGA Sparereg 80
-[  729.482038] MGA Sparereg 84
-[  729.482050] MGA Sparereg 84
-[  729.482062] MGA Sparereg 80
-[  729.482073] MGA Sparereg 84
-[  729.482085] MGA Sparereg 84
-[  729.482097] MGA Sparereg 80
-[  729.482109] MGA Sparereg 84
-[  729.482121] MGA Sparereg 80
-[  729.482133] MGA Sparereg 84
-[  729.482157] MGA Sparereg 84
-[  729.482169] MGA Sparereg 80
-[  729.482181] MGA Sparereg 84
-[  729.482193] MGA Sparereg 80
-[  729.482204] MGA Sparereg 84
-[  729.482216] MGA Sparereg 80
-[  729.482230] MGA Sparereg 84
-[  729.482243] MGA Sparereg 80
-[  729.482254] MGA Sparereg 80
-[  729.482266] MGA Sparereg 84
-[  729.482278] MGA Sparereg 80
-[  729.482290] MGA Sparereg 84
-[  729.482302] MGA Sparereg 84
-[  729.482314] MGA Sparereg 80
-[  729.482326] MGA Sparereg 80
-[  729.482337] MGA Sparereg 84
-[  729.482361] MGA Sparereg 84
-[  729.482373] MGA Sparereg 80
-[  729.482385] MGA Sparereg 80
-[  729.482397] MGA Sparereg 84
-[  729.482409] MGA Sparereg 84
-[  729.482420] MGA Sparereg 80
-[  729.482432] MGA Sparereg 80
-[  729.482444] MGA Sparereg 84
-[  729.482468] MGA Sparereg 84
-[  729.482480] MGA Sparereg 80
-[  729.482491] MGA Sparereg 84
-[  729.482503] MGA Sparereg 84
-[  729.482515] MGA Sparereg 80
-[  729.482527] MGA Sparereg 84
-[  729.482563] MGA Sparereg 84
-[  729.482574] MGA Sparereg 80
-[  729.482586] MGA Sparereg 84
-[  729.482610] MGA Sparereg 84
-[  729.482622] MGA Sparereg 80
-[  729.482634] MGA Sparereg 84
-[  729.482658] MGA Sparereg 84
-[  729.482669] MGA Sparereg 80
-[  729.482681] MGA Sparereg 80
-[  729.482693] MGA Sparereg 84
-[  729.482705] MGA Sparereg 84
-[  729.482717] MGA Sparereg 80
-[  729.482729] MGA Sparereg 80
-[  729.482741] MGA Sparereg 84
-[  729.482752] MGA Sparereg 84
-[  729.482764] MGA Sparereg 80
-[  729.482776] MGA Sparereg 84
-[  729.482800] MGA Sparereg 84
-[  729.482812] MGA Sparereg 80
-[  729.482824] MGA Sparereg 84
-[  729.482847] MGA Sparereg 84
-[  729.482859] MGA Sparereg 80
-[  729.482871] MGA Sparereg 84
-[  729.482895] MGA Sparereg 84
-[  729.482907] MGA Sparereg 80
-[  729.482919] MGA Sparereg 80
-[  729.482930] MGA Sparereg 84
-[  729.482954] MGA Sparereg 84
-[  729.482966] MGA Sparereg 80
-[  729.482978] MGA Sparereg 84
-[  729.482990] MGA Sparereg 81
-[  729.483002] MGA Sparereg 84
-[  729.483013] MGA Sparereg 80
-[  729.483025] MGA Sparereg 84
-[  729.483049] MGA Sparereg 84
-[  729.483061] MGA Sparereg 80
-[  729.483073] MGA Sparereg 80
-[  729.483084] MGA Sparereg 84
-[  729.483096] MGA Sparereg 84
-[  729.483108] MGA Sparereg 80
-[  729.483120] MGA Sparereg 81
-[  729.483132] MGA Sparereg 84
-[  729.483191] MGA Sparereg 84
-[  729.483203] MGA Sparereg 80
-[  729.483215] MGA Sparereg 84
-[  729.483230] MGA Sparereg 84
-[  729.483242] MGA Sparereg 80
-[  729.483254] MGA Sparereg 84
-[  729.483266] MGA Sparereg 80
-[  729.483277] MGA Sparereg 80
-[  729.483289] MGA Sparereg 84
-[  729.483313] MGA Sparereg 84
-[  729.483325] MGA Sparereg 80
-[  729.483337] MGA Sparereg 84
-[  729.483349] MGA Sparereg 84
-[  729.483361] MGA Sparereg 80
-[  729.483373] MGA Sparereg 80
-[  729.483384] MGA Sparereg 84
-[  729.483396] MGA Sparereg 80
-[  729.483408] MGA Sparereg 84
-[  729.483420] MGA Sparereg 80
-[  729.483432] MGA Sparereg 80
-[  729.483444] MGA Sparereg 84
-[  729.483456] MGA Sparereg 84
-[  729.483467] MGA Sparereg 80
-[  729.483479] MGA Sparereg 80
-[  729.483491] MGA Sparereg 84
-[  729.483515] MGA Sparereg 84
-[  729.483527] MGA Sparereg 81
-[  729.483539] MGA Sparereg 84
-[  729.483598] MGA Sparereg 84
-[  729.483610] MGA Sparereg 80
-[  729.483621] MGA Sparereg 80
-[  729.483633] MGA Sparereg 84
-[  729.483645] MGA Sparereg 84
-[  729.483657] MGA Sparereg 80
-[  729.483669] MGA Sparereg 80
-[  729.483681] MGA Sparereg 84
-[  729.483752] MGA Sparereg 84
-[  729.483764] MGA Sparereg 80
-[  729.483775] MGA Sparereg 80
-[  729.483787] MGA Sparereg 84
-[  729.483799] MGA Sparereg 84
-[  729.483811] MGA Sparereg 81
-[  729.483823] MGA Sparereg 84
-[  729.483835] MGA Sparereg 84
-[  729.483847] MGA Sparereg 80
-[  729.483870] MGA Sparereg 80
-[  729.483882] MGA Sparereg 84
-[  729.483930] MGA Sparereg 84
-[  729.483941] MGA Sparereg 80
-[  729.483953] MGA Sparereg 84
-[  729.483965] MGA Sparereg 80
-[  729.483977] MGA Sparereg 84
-[  729.483989] MGA Sparereg 84
-[  729.484001] MGA Sparereg 80
-[  729.484013] MGA Sparereg 80
-[  729.484024] MGA Sparereg 84
-[  729.484048] MGA Sparereg 84
-[  729.484060] MGA Sparereg 80
-[  729.484072] MGA Sparereg 84
-[  729.484084] MGA Sparereg 84
-[  729.484096] MGA Sparereg 80
-[  729.484107] MGA Sparereg 84
-[  729.484119] MGA Sparereg 80
-[  729.484131] MGA Sparereg 84
-[  729.484155] MGA Sparereg 84
-[  729.484167] MGA Sparereg 80
-[  729.484178] MGA Sparereg 84
-[  729.484190] MGA Sparereg 84
-[  729.484202] MGA Sparereg 80
-[  729.484214] MGA Sparereg 80
-[  729.484229] MGA Sparereg 84
-[  729.484313] MGA Sparereg 84
-[  729.484325] MGA Sparereg 80
-[  729.484337] MGA Sparereg 84
-[  729.484349] MGA Sparereg 84
-[  729.484361] MGA Sparereg 80
-[  729.484373] MGA Sparereg 80
-[  729.484384] MGA Sparereg 84
-[  729.484396] MGA Sparereg 80
-[  729.484408] MGA Sparereg 84
-[  729.484420] MGA Sparereg 80
-[  729.484432] MGA Sparereg 80
-[  729.484444] MGA Sparereg 81
-[  729.484456] MGA Sparereg 80
-[  729.484479] MGA Sparereg 80
-[  729.484491] MGA Sparereg 84
-[  729.484515] MGA Sparereg 84
-[  729.484527] MGA Sparereg 81
-[  729.484539] MGA Sparereg 84
-[  729.484562] MGA Sparereg 84
-[  729.484574] MGA Sparereg 80
-[  729.484586] MGA Sparereg 84
-[  729.484633] MGA Sparereg 84
-[  729.484645] MGA Sparereg 80
-[  729.484669] MGA Sparereg 80
-[  729.484681] MGA Sparereg 84
-[  729.484752] MGA Sparereg 84
-[  729.484764] MGA Sparereg 80
-[  729.484776] MGA Sparereg 80
-[  729.484788] MGA Sparereg 84
-[  729.484800] MGA Sparereg 84
-[  729.484812] MGA Sparereg 80
-[  729.484824] MGA Sparereg 80
-[  729.484835] MGA Sparereg 84
-[  729.484847] MGA Sparereg 84
-[  729.484859] MGA Sparereg 80
-[  729.484871] MGA Sparereg 84
-[  729.484883] MGA Sparereg 84
-[  729.484895] MGA Sparereg 80
-[  729.484907] MGA Sparereg 84
-[  729.484919] MGA Sparereg 80
-[  729.484931] MGA Sparereg 84
-[  729.484966] MGA Sparereg 84
-[  729.484978] MGA Sparereg 81
-[  729.484990] MGA Sparereg 84
-[  729.485014] MGA Sparereg 84
-[  729.485026] MGA Sparereg 80
-[  729.485038] MGA Sparereg 84
-[  729.485061] MGA Sparereg 84
-[  729.485073] MGA Sparereg 81
-[  729.485085] MGA Sparereg 84
-[  729.485097] MGA Sparereg 80
-[  729.485109] MGA Sparereg 84
-[  729.485121] MGA Sparereg 80
-[  729.485133] MGA Sparereg 84
-[  729.485145] MGA Sparereg 80
-[  729.485156] MGA Sparereg 84
-[  729.485180] MGA Sparereg 84
-[  729.485192] MGA Sparereg 80
-[  729.485204] MGA Sparereg 84
-[  729.485216] MGA Sparereg 80
-[  729.485230] MGA Sparereg 80
-[  729.485242] MGA Sparereg 84
-[  729.485254] MGA Sparereg 80
-[  729.485266] MGA Sparereg 84
-[  729.485313] MGA Sparereg 84
-[  729.485325] MGA Sparereg 80
-[  729.485337] MGA Sparereg 84
-[  729.485349] MGA Sparereg 80
-[  729.485361] MGA Sparereg 84
-[  729.485373] MGA Sparereg 80
-[  729.485385] MGA Sparereg 80
-[  729.485397] MGA Sparereg 84
-[  729.485408] MGA Sparereg 84
-[  729.485420] MGA Sparereg 80
-[  729.485432] MGA Sparereg 80
-[  729.485444] MGA Sparereg 84
-[  729.485456] MGA Sparereg 84
-[  729.485468] MGA Sparereg 81
-[  729.485480] MGA Sparereg 80
-[  729.485492] MGA Sparereg 84
-[  729.485504] MGA Sparereg 84
-[  729.485515] MGA Sparereg 80
-[  729.485527] MGA Sparereg 80
-[  729.485539] MGA Sparereg 84
-[  729.485575] MGA Sparereg 84
-[  729.485587] MGA Sparereg 80
-[  729.485610] MGA Sparereg 80
-[  729.485622] MGA Sparereg 84
-[  729.485634] MGA Sparereg 80
-[  729.485646] MGA Sparereg 84
-[  729.485658] MGA Sparereg 84
-[  729.485670] MGA Sparereg 80
-[  729.485682] MGA Sparereg 81
-[  729.485693] MGA Sparereg 84
-[  729.485705] MGA Sparereg 84
-[  729.485717] MGA Sparereg 80
-[  729.485729] MGA Sparereg 84
-[  729.485753] MGA Sparereg 84
-[  729.485765] MGA Sparereg 80
-[  729.485777] MGA Sparereg 80
-[  729.485789] MGA Sparereg 84
-[  729.485800] MGA Sparereg 84
-[  729.485812] MGA Sparereg 81
-[  729.485824] MGA Sparereg 84
-[  729.485907] MGA Sparereg 84
-[  729.485919] MGA Sparereg 80
-[  729.485931] MGA Sparereg 84
-[  729.485955] MGA Sparereg 84
-[  729.485967] MGA Sparereg 80
-[  729.485979] MGA Sparereg 84
-[  729.486002] MGA Sparereg 84
-[  729.486014] MGA Sparereg 80
-[  729.486026] MGA Sparereg 80
-[  729.486038] MGA Sparereg 84
-[  729.486050] MGA Sparereg 84
-[  729.486062] MGA Sparereg 80
-[  729.486074] MGA Sparereg 80
-[  729.486086] MGA Sparereg 84
-[  729.486109] MGA Sparereg 84
-[  729.486121] MGA Sparereg 80
-[  729.486133] MGA Sparereg 84
-[  729.486145] MGA Sparereg 84
-[  729.486157] MGA Sparereg 80
-[  729.486169] MGA Sparereg 84
-[  729.486181] MGA Sparereg 84
-[  729.486193] MGA Sparereg 80
-[  729.486204] MGA Sparereg 84
-[  729.486216] MGA Sparereg 80
-[  729.486230] MGA Sparereg 84
-[  729.486266] MGA Sparereg 84
-[  729.486278] MGA Sparereg 81
-[  729.486290] MGA Sparereg 84
-[  729.486302] MGA Sparereg 80
-[  729.486314] MGA Sparereg 84
-[  729.486325] MGA Sparereg 80
-[  729.486337] MGA Sparereg 84
-[  729.486349] MGA Sparereg 84
-[  729.486361] MGA Sparereg 80
-[  729.486373] MGA Sparereg 84
-[  729.486385] MGA Sparereg 84
-[  729.486397] MGA Sparereg 80
-[  729.486409] MGA Sparereg 84
-[  729.486432] MGA Sparereg 84
-[  729.486444] MGA Sparereg 80
-[  729.486456] MGA Sparereg 84
-[  729.486468] MGA Sparereg 80
-[  729.486480] MGA Sparereg 80
-[  729.486492] MGA Sparereg 84
-[  729.486658] MGA Sparereg 84
-[  729.486670] MGA Sparereg 80
-[  729.486682] MGA Sparereg 84
-[  729.486694] MGA Sparereg 84
-[  729.486706] MGA Sparereg 80
-[  729.486730] MGA Sparereg 80
-[  729.486741] MGA Sparereg 84
-[  729.486753] MGA Sparereg 84
-[  729.486765] MGA Sparereg 80
-[  729.486825] MGA Sparereg 80
-[  729.486836] MGA Sparereg 84
-[  729.486848] MGA Sparereg 80
-[  729.486860] MGA Sparereg 84
-[  729.486872] MGA Sparereg 80
-[  729.486931] MGA Sparereg 80
-[  729.486943] MGA Sparereg 81
-[  729.486955] MGA Sparereg 80
-[  729.486967] MGA Sparereg 80
-[  729.486979] MGA Sparereg 84
-[  729.486990] MGA Sparereg 80
-[  729.487038] MGA Sparereg 80
-[  729.487050] MGA Sparereg 84
-[  729.487062] MGA Sparereg 80
-[  729.487085] MGA Sparereg 80
-[  729.487097] MGA Sparereg 81
-[  729.487109] MGA Sparereg 80
-[  729.487180] MGA Sparereg 80
-[  729.487192] MGA Sparereg 84
-[  729.487204] MGA Sparereg 80
-[  729.487216] MGA Sparereg 80
-[  729.487230] MGA Sparereg 84
-[  729.487242] MGA Sparereg 80
-[  729.487266] MGA Sparereg 80
-[  729.487278] MGA Sparereg 82
-[  729.487301] MGA Sparereg 82
-[  729.487313] MGA Sparereg 81
-[  729.717349] MGA Sparereg 81
-[  729.717363] MGA Sparereg 80
-[  730.674675] MGA Sparereg 80
-[  838.307042] MGA STOP SCANOUT
-[  838.307055] MGA Sparereg 81
-[  839.498450] MGA Sparereg 81
-[ 4318.439032] MGA STOP SCANOUT
-[ 4318.439047] MGA Sparereg 80
-[ 4319.674140] MGA Sparereg 80
-
-
-
+> 
+> Regards,
+> Christian.
+> 
+> > 
+> > Thanks
+> > 
+> >>
+> >>> +			} else {
+> >>> +				/*
+> >>> +				 * Kref is initialize again, because when revoke
+> >>> +				 * was performed the reference counter was decreased
+> >>> +				 * to zero to trigger completion.
+> >>> +				 */
+> >>> +				kref_init(&priv->kref);
+> >>> +				/*
+> >>> +				 * There is no need to wait as no mapping was
+> >>> +				 * performed when the previous status was
+> >>> +				 * priv->revoked == true.
+> >>> +				 */
+> >>> +				reinit_completion(&priv->comp);
+> >>> +			}
+> >>>  		}
+> >>>  		fput(priv->dmabuf->file);
+> >>
+> >> This is also extremely questionable. Why doesn't the dmabuf have a reference while on the linked list?
+> >>
+> >> Regards,
+> >> Christian.
+> >>
+> >>>  	}
+> >>> @@ -346,6 +402,8 @@ void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
+> >>>  
+> >>>  	down_write(&vdev->memory_lock);
+> >>>  	list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm) {
+> >>> +		unsigned long wait;
+> >>> +
+> >>>  		if (!get_file_active(&priv->dmabuf->file))
+> >>>  			continue;
+> >>>  
+> >>> @@ -354,7 +412,14 @@ void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
+> >>>  		priv->vdev = NULL;
+> >>>  		priv->revoked = true;
+> >>>  		dma_buf_invalidate_mappings(priv->dmabuf);
+> >>> +		dma_resv_wait_timeout(priv->dmabuf->resv,
+> >>> +				      DMA_RESV_USAGE_BOOKKEEP, false,
+> >>> +				      MAX_SCHEDULE_TIMEOUT);
+> >>>  		dma_resv_unlock(priv->dmabuf->resv);
+> >>> +		kref_put(&priv->kref, vfio_pci_dma_buf_done);
+> >>> +		wait = wait_for_completion_timeout(&priv->comp,
+> >>> +						   secs_to_jiffies(1));
+> >>> +		WARN_ON(!wait);
+> >>>  		vfio_device_put_registration(&vdev->vdev);
+> >>>  		fput(priv->dmabuf->file);
+> >>>  	}
+> >>>
+> >>
+> >>
+> 
+> 
