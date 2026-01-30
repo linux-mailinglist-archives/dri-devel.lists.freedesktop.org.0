@@ -2,151 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QPmNGtOjfGmMOAIAu9opvQ
+	id iPUmJMKnfGnuOAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 13:28:03 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 13:44:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B405EBA832
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 13:28:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 413C7BA9E1
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 13:44:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89E1010E361;
-	Fri, 30 Jan 2026 12:28:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0801A10E29E;
+	Fri, 30 Jan 2026 12:44:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="h5eWiktD";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="WbY4tr1m";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ULsVCle4";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WbY4tr1m";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ULsVCle4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com
- (mail-westusazon11010006.outbound.protection.outlook.com [52.101.85.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EADA310E361
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 12:27:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LAF0iIum6eixUEwmD0AkH1OaEG18exxyFCXfuRJu9e79eaEcUjsPovrcxrVSP3h7n14dZOttY5xhnApEzwU1ubtwIj78jVuiwdW46sSTtMx+iNttPMdWaeyP5i4vzXe6+NI/uGyjrJ0uMnS4YT/uI0WLQ27Vz4OyS5cJVZy1qLrDW1g8ZxAanHPGa5X5skqwZKt2OlvwB+nT2DCnhzG7J+VzVWXyy4pCe0vSA6ItYE7jaieQ3rtx6ZDLykDKRyy3ffzvfrAeea33UFZ7WotfusTD0in1JJ5P5W6VnnfovLeuaj3Nv+XNna+9Xe+XuU3fBzI5TzWBOPxcmXOTtgbB9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HkZvl5mM0Cn/olqItnN8Af7f2wJF4gGCI8yx0fGdlw0=;
- b=dbDLWQo7L6ear0MgilorW4lFIjuTaTMHZgBZPeUsyMB2T4PZvtysdW0xDVpEG/v0pqOXIvpKEm0TcDxtExA0anutT6gwkXxT1U/W3HGao2xyeJ+uctRP3Wh+gxvnlKMoNaXFUMD4LVduJmYaTmSZv3+bUYdhVhhJcvxwRbEHXuCkzOQmOnXr9qdMoA+I62FLhCpBrpVUM0MyPE8l+NoQH1rTnXQRKkeqbgQcXEXctGiq/nmT+9YQHH9Q8jkeooxMjxDefUaCNkxVfjRIRph7efgtsvTHrXvmIV38BF2sLywmrHBH0r6YUysv99TGTh3lWzaFMHipy86vrb7nb0j5kw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HkZvl5mM0Cn/olqItnN8Af7f2wJF4gGCI8yx0fGdlw0=;
- b=h5eWiktDlvk/IRoITNQcHFz9rkf8eApyC88K9JnxeGzD01hACbcpU2wPKsLK2q2Kut969yxQ4eGU02b1jnGnnMtCFYJMFlwm//bfuoNrse2CAS6dwb54bJrNNW/0T3fj+J9iCWsJOIuk7Ka48LGBajilcI2+9uoBhsKjWvVdsEU=
-Received: from BL1PR13CA0399.namprd13.prod.outlook.com (2603:10b6:208:2c2::14)
- by CO1PR10MB4676.namprd10.prod.outlook.com (2603:10b6:303:9e::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Fri, 30 Jan
- 2026 12:27:56 +0000
-Received: from BL6PEPF00022574.namprd02.prod.outlook.com
- (2603:10b6:208:2c2:cafe::9c) by BL1PR13CA0399.outlook.office365.com
- (2603:10b6:208:2c2::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.2 via Frontend Transport; Fri,
- 30 Jan 2026 12:27:43 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- BL6PEPF00022574.mail.protection.outlook.com (10.167.249.42) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.3 via Frontend Transport; Fri, 30 Jan 2026 12:27:55 +0000
-Received: from DLEE201.ent.ti.com (157.170.170.76) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 30 Jan
- 2026 06:27:54 -0600
-Received: from DLEE212.ent.ti.com (157.170.170.114) by DLEE201.ent.ti.com
- (157.170.170.76) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 30 Jan
- 2026 06:27:54 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE212.ent.ti.com
- (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 30 Jan 2026 06:27:54 -0600
-Received: from localhost (uda0133052.dhcp.ti.com [128.247.81.232])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60UCRsAZ1302946;
- Fri, 30 Jan 2026 06:27:54 -0600
-Date: Fri, 30 Jan 2026 06:27:54 -0600
-From: Nishanth Menon <nm@ti.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-CC: Swamil Jain <s-jain1@ti.com>, <jyri.sarha@iki.fi>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>, 
- <tzimmermann@suse.de>, <robh@kernel.org>, <krzk+dt@kernel.org>,
- <conor+dt@kernel.org>, <aradhya.bhatia@linux.dev>, <mwalle@kernel.org>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <devarsht@ti.com>, <praneeth@ti.com>,
- <u-kumar1@ti.com>
-Subject: Re: [PATCH v4 1/3] dt-bindings: display: ti, am65x-dss: Add am62p dss
- compatible
-Message-ID: <20260130122754.4ywqarmjzgnhih7f@recreate>
-References: <20260116095406.2544565-1-s-jain1@ti.com>
- <20260116095406.2544565-2-s-jain1@ti.com>
- <462b3b7a-c228-456a-84bf-0e6103be61b7@ideasonboard.com>
- <5f0d509b-f1e4-44c8-80f4-74c3f4b61b28@ideasonboard.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83ECA10E29E
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 12:44:45 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2CA885BD27;
+ Fri, 30 Jan 2026 12:44:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1769777084; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=cmTy+/jZVtleQ6PhhO8tgB5KUS1uToNzQ2NWSfPOP5w=;
+ b=WbY4tr1mCYVHkydJtBZhskZO8OPaSI1nRKiAX7fqKTKXBOAG9oBrDcQnvZ1mYLkjcTZ271
+ DlTBVgGkoxcRVcnJacrNvbo9P19EoFOhtx5QF23BnLie4/8dEwkDDiSqLzZvWvgN4eLXh4
+ 72j7HH/vaxKfiB0P/4O9GvccXhYRuUQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1769777084;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=cmTy+/jZVtleQ6PhhO8tgB5KUS1uToNzQ2NWSfPOP5w=;
+ b=ULsVCle4RRH9n4pKYFgNzZIkTuge3o4rUcqis8xgy65sipq0dnd7dU/cleKDnrptv5U4pE
+ RBHNHQAPp2y02YAA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1769777084; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=cmTy+/jZVtleQ6PhhO8tgB5KUS1uToNzQ2NWSfPOP5w=;
+ b=WbY4tr1mCYVHkydJtBZhskZO8OPaSI1nRKiAX7fqKTKXBOAG9oBrDcQnvZ1mYLkjcTZ271
+ DlTBVgGkoxcRVcnJacrNvbo9P19EoFOhtx5QF23BnLie4/8dEwkDDiSqLzZvWvgN4eLXh4
+ 72j7HH/vaxKfiB0P/4O9GvccXhYRuUQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1769777084;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=cmTy+/jZVtleQ6PhhO8tgB5KUS1uToNzQ2NWSfPOP5w=;
+ b=ULsVCle4RRH9n4pKYFgNzZIkTuge3o4rUcqis8xgy65sipq0dnd7dU/cleKDnrptv5U4pE
+ RBHNHQAPp2y02YAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E29B13EA61;
+ Fri, 30 Jan 2026 12:44:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id qOcnNrunfGmiYwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 30 Jan 2026 12:44:43 +0000
+Message-ID: <5aec1964-072c-4335-8f37-35e6efb4910e@suse.de>
+Date: Fri, 30 Jan 2026 13:44:43 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <5f0d509b-f1e4-44c8-80f4-74c3f4b61b28@ideasonboard.com>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF00022574:EE_|CO1PR10MB4676:EE_
-X-MS-Office365-Filtering-Correlation-Id: cfc9917e-496a-4729-77d2-08de5ffaff2e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|1800799024|82310400026|7416014|376014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?05wdAmSfkOaF/Gfag1OrzRGKD4SAcpf7S8HJMKm5OotdEtWOT/1MoZb10ior?=
- =?us-ascii?Q?Du5dDTXhdIDmThmog6JWNJBG7KcBwBA/TGKBHnLF2svLm7R18/mqpl5oZVn6?=
- =?us-ascii?Q?pAInLEf3PpDEhOTq+g9TbsVD5I0cKPkM/x0dRgDemutdMAItUYsY8ARdXwop?=
- =?us-ascii?Q?YIkRdxPrApmlHdpVFaUHv6XWLXkH2h/u3PkIZ5sX47piPjAWtup2rD8i7Duu?=
- =?us-ascii?Q?/4Qwp2/BLRSK3ferq3Ky/Yx+loMle0ZYPOS4KdjkKq/ckvRaGL6T03ZcqzC9?=
- =?us-ascii?Q?RHyfuw+FBdm3ukBpsM4ptrlB8uDdT5ir+GEi8Pytn5jtK2modzz+RqJt2EiR?=
- =?us-ascii?Q?oD/r8n8JYoMJAA9H88J+dmABBo3TPSDcoiA+l6RaN7EzHa9OuOAWu7JEHghL?=
- =?us-ascii?Q?lPPu2WW4T69xeymAFWkCboPMDji1oz9tqeCHeZoaldK9MC+1TeGm3GkAHYOt?=
- =?us-ascii?Q?/PKDfMlMIWbQZXNiUiOVy1rienNiZov4oBrfw8QDddpsdEp64ycxU1UQ34/i?=
- =?us-ascii?Q?RrvEKhpUsSWVDlRGjsrg6Q4oyfctcFclLSzfv9kXexD+t7CK0hR0jgsKT61g?=
- =?us-ascii?Q?++FZGVQwAT7yG/ZqnPbl89lSezlo7AMJmhezj/f6/vfiRn7kxzdGyRr3krX6?=
- =?us-ascii?Q?6uubJeyZvFESRMlUZrAHdfmc4breAb4H0lQw7lEN8zR7fZIpREeBWinvwGIv?=
- =?us-ascii?Q?otwPvuhcFF0GY9UpF1DRpIPec98dH2zKr2hrX3HzItvPgANJ2DWRygFRhb0i?=
- =?us-ascii?Q?07VgFIehP5ssf3YN+Jl87lJVw5qpxV1JBNyUfTgFA+0SQUosOuuVfTw3w5kD?=
- =?us-ascii?Q?nyU/kAHLkZv8MOB7d215HsMKVPk6LVvZM80F5bMUwoUQkHhoBV+lsKnyiDEa?=
- =?us-ascii?Q?p3U34UOURidSJ8Y7cYU0JJuxgfJwX4SQPLoef7JszGeFRpyOTY65yQjEk/a/?=
- =?us-ascii?Q?2n9zyMa+ZVtflbkKytjKJesU15xvKlylPln4/9DK3CISpK/6zXV1+T+S8cgA?=
- =?us-ascii?Q?B7owijD97hbfMff/0U+nVoKZnkjm48XKLpBL2ck5hI6T8MBOIA7LFymXNCYW?=
- =?us-ascii?Q?litoGRW031m6BiHyj/Fi+pVcgZrmE9pLVGZ0aG6TFplFJse7QS0FFcNVcmCc?=
- =?us-ascii?Q?cBPtyrY+SNQ1uEQF0T5UqQ2wiaSGBqVnKSprq/zBFh7Y5Pa6pgMaRu8IRbx6?=
- =?us-ascii?Q?5g29r/MjE0UcND+4PpalvqXyJJoJcxvDF81LU1NvYH5ZxzXM1s+4FzWrhy23?=
- =?us-ascii?Q?dwTTTwlRhmxsubaosllFRTEXGZG16ciLgEfg1nBqUt59+ngqPV94hH5jZArY?=
- =?us-ascii?Q?z7wtxTlm9lrNtQkJN1mJodASBEnNI7TkoSgKipwTVa2yKbqXDogo73jEBn3/?=
- =?us-ascii?Q?09Ffa2AvgC+ccbBbVTX3kVUI8ltrCGzzoCplJ+je3AY0wItwoDLe0b8tomnA?=
- =?us-ascii?Q?s4KHcF2fD7VwUc26oJF4YeQesmxAJAcbUbI3P3xv00J2p1bv3NQAoJuNPAHC?=
- =?us-ascii?Q?zrckpepssCpVfd2OXr9G6tWBMnEpU0QNjNKMPDOzSLzPeHs6shj4RWjugFJM?=
- =?us-ascii?Q?bfq8btO59wfcj9g4cuYJJBODaENSDYMuA0s0nXZDmIkb420x5X7cmZ9jlUHK?=
- =?us-ascii?Q?6gBjXYjuHv8MYADTJ/s34Gucwb+gUIBeXnYx1cS8bjxKKU46eY6f4X7cAmQp?=
- =?us-ascii?Q?OixPNw=3D=3D?=
-X-Forefront-Antispam-Report: CIP:198.47.23.194; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:lewvzet200.ext.ti.com; PTR:InfoDomainNonexistent;
- CAT:NONE;
- SFS:(13230040)(36860700013)(1800799024)(82310400026)(7416014)(376014); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 4EK7FkOupINvKZ5LZ+kngmKSb+32cgzx2ApZiQsJxJt3DeW9KfsRBKTOSD7To4dWq+ubOwez9qoKzu6ErBHu7C7RZ4P/Yw+Forq1JBauqPnjqeXanwFS04fC3HclFsc1V25zXGtmJ064zM+Qq8uvC26pM7FL4uQo5kUv4Qw7yLMljra1iWmsXACywWULZ1rqDokeH/1Lqvo25MQ5rEf0R//Y+Z0nJJ4vPi0PlRmue9q7UJ5DRabzbGEgzn/wp/Ci2c8Zqg0ODIGh6Ucj0Pu+yhVskp+vNje+B2/8W5sfu1PpPspuaw1eLbBa41eH7/ANL3lWwM7CwlwaLbB9VBLEtSQugyv2aBoYIZny1TToBj6Sx3h4tK9uJmABOYapAxvD0m7r8XTouajCl4ZgqzpKTGIxJAcxMCKE2IiuECxnbMG3chd4nRitPXlGbHOjAiQN
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 12:27:55.9710 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cfc9917e-496a-4729-77d2-08de5ffaff2e
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.194];
- Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF00022574.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4676
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/6] drm/gma500: use drm_crtc_vblank_crtc()
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, ville.syrjala@linux.intel.com
+References: <cover.1762513240.git.jani.nikula@intel.com>
+ <27b2c6772c68120d0d5ec28477db0d993743e955.1762513240.git.jani.nikula@intel.com>
+ <CAMeQTsaU7nS9K=UkQW73L6TS6PBLw26s_-jiOchEyT7dcfz-7Q@mail.gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <CAMeQTsaU7nS9K=UkQW73L6TS6PBLw26s_-jiOchEyT7dcfz-7Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,219 +135,267 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [4.89 / 15.00];
-	DMARC_POLICY_QUARANTINE(1.50)[ti.com : SPF not aligned (relaxed),quarantine];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
-	R_DKIM_REJECT(1.00)[ti.com:s=selector1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	GREYLIST(0.00)[pass,meta];
-	FORGED_SENDER(0.00)[nm@ti.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FORGED_RECIPIENTS(0.00)[m:tomi.valkeinen@ideasonboard.com,m:s-jain1@ti.com,m:jyri.sarha@iki.fi,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:aradhya.bhatia@linux.dev,m:mwalle@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devarsht@ti.com,m:praneeth@ti.com,m:u-kumar1@ti.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:patrik.r.jakobsson@gmail.com,m:jani.nikula@intel.com,m:intel-gfx@lists.freedesktop.org,m:intel-xe@lists.freedesktop.org,m:ville.syrjala@linux.intel.com,m:patrikrjakobsson@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,intel.com];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:url,ti.com:email,0.0.0.0:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
-	DKIM_TRACE(0.00)[ti.com:-];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	DBL_PROHIBIT(0.00)[0.0.0.1:email];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nm@ti.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[ti.com,iki.fi,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,linux.dev,lists.freedesktop.org,vger.kernel.org];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.de:+];
+	NEURAL_HAM(-0.00)[-0.999];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: B405EBA832
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email]
+X-Rspamd-Queue-Id: 413C7BA9E1
 X-Rspamd-Action: no action
 
-On 14:00-20260130, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 19/01/2026 12:10, Tomi Valkeinen wrote:
-> > Hi,
-> > 
-> > On 16/01/2026 11:54, Swamil Jain wrote:
-> >> TI's AM62P SoC contains two instances of the TI Keystone Display
-> >> SubSystem (DSS), each with two video ports and two video planes. These
-> >> instances support up to three independent video streams through OLDI,
-> >> DPI, and DSI interfaces. The OLDI interfaces utilizes two OLDI
-> >> transmitters OLDI0 and OLDI1.
-> >>
-> >> DSS0 (first instance) supports:
-> >>  - With respect to OLDI Tx interfaces, DSS0 instance can either drive
-> >>    both OLDI0 Tx and OLDI1 Tx together (e.g. dual link mode or clone
-> >>    mode) or can only drive OLDI0 Tx in single link mode with OLDI1 being
-> >>    utilized by DSS1 or left unused.
-> >>  - DPI output from video port 2.
-> >>
-> >> DSS1 (second instance) supports:
-> >>  - With respect to OLDI Tx interfaces, DSS1 instance can only drive
-> >>    OLDI1 Tx given DSS0 is not utilizing that as described above.
-> >>  - DSI controller output from video port 2.
-> >>
-> >> The two OLDI transmitters can be configured in clone mode to drive a
-> >> pair of identical OLDI single-link displays. DPI outputs from
-> >> DSS0 VP2, DSS1 VP1, and DSS1 VP2 are multiplexed, allowing only one
-> >> DPI output at a time.
-> >>
-> >> Add the compatible string "ti,am62p-dss" and update related
-> >> description accordingly.
-> >>
-> >> AM62P has different power domains for DSS and OLDI compared to other
-> >> Keystone SoCs. DSS0 can have up to 3 power-domains for DSS0, OLDI0 and
-> >> OLDI1, and DSS1 can have up to 2 power-domains for DSS1 and OLDI1.
-> >>
-> >> Signed-off-by: Swamil Jain <s-jain1@ti.com>
-> >> ---
-> >>  .../bindings/display/ti/ti,am65x-dss.yaml     | 37 ++++++++++++++++++-
-> >>  1 file changed, 35 insertions(+), 2 deletions(-)
-> > I think we have a bad design issue here, and I don't know how to fix it.
-> > 
-> > The OLDIs have been a bit difficult to model, as they are not full
-> > devices: they are not on a control bus, and don't have registers, yet
-> > they need configuration. Part of the config is done via separate IO
-> > controls with syscon, part of the config is done via DSS's registers.
-> > It's not documented, but I assume the OLDI registers in the DSS IP are
-> > wired somewhat directly to the OLDI IP.
-> > 
-> > So currently we just consider OLDIs to be part of the DSS. We do model
-> > them as separate custom DSS child nodes in the DT, so that we can model
-> > the pipelines correctly. For example, to support dual-link OLDI, we have
-> > two OLDI TX nodes, which get their pixel stream from a single DSS port.
-> > The power-domains for the OLDIs were just set as DSS power-domains, as
-> > OLDIs were part of DSS in this design.
-> > 
-> > This felt perhaps slightly hacky, but it also made sense and allowed us
-> > to model the HW.
-> > 
-> > Now, with AM62P, it gets a bit interesting. We have two independent DSS
-> > IPs, each of which have two output ports, and we have two OLDI TX
-> > instances. The OLDI TX instances are shared between the DSS instances,
-> > and the first output port on both DSS can be muxed to an OLDI. The first
-> > DSS can be connected to both OLDI TXes, the second DSS can be connected
-> > only to the second OLDI.
-> > 
-> > This DSS application note has a bit more info and some pics:
-> > https://www.ti.com/lit/pdf/sprads3
-> > 
-> > Now, both DSS instances have identical registers for configuring both
-> > OLDI instances. This is not documented, but I'm guessing that when
-> > configuring the clock muxes (the clock tree is also "interesting"), it
-> > will also mux the configuration wires coming from the DSS instances. So
-> > when you change the parent clocks for DSS & OLDI to be the right ones to
-> > use, say, OLDI TX1 on DSS1, you also change where the OLDI configuration
-> > is coming from.
-> > 
-> > So the OLDIs are now shared, and the configuration registers are
-> > duplicated and routed based on clock setup (afaiu). Clearly the OLDIs
-> > can not be considered being part of DSS0 or DSS1 anymore, nor can we set
-> > the OLDI power-domains in the DSS node.
-> > 
-> > What this series does is that it adds three OLDI nodes, two for DSS0 (as
-> > DSS0 can use either one or two OLDIs) and one for DSS1. And then,
-> > depending on which OLDIs you happen to use, you're supposed to set the
-> > DSS power-domains accordingly, so that the DSS being used for OLDI has
-> > the necessary OLDI power-domains. And connect the media graph so that if
-> > your panel uses OLDI TX1 with the DSS0, you connect to that OLDI DT
-> > node, but if you use the same OLDI TX1 with the DSS1, you connect to
-> > another OLDI DT node. I don't think that's right at all...
-> > 
-> > I don't right away have a good idea (well, not even a bad idea) how this
-> > should be designed.
-> I still don't have a binding-idea that I would be satisfied with, but I
-> guess there's just no sensible way to represent this hardware. How to
-> model an IP that has its control bus changing based on a clock mux...
-> 
-> I think one thing we can do is move the OLDI power-domains into the OLDI
-> nodes. That feels like a more correct place for them. Earlier the OLDI
-> PDs were in the DSS node, as the OLDI was considered an internal part of
-> the DSS. But now that the OLDIs can move from one DSS to another, this
-> "OLDI is part of a DSS" model doesn't work.
-> 
-> However, even if it looks fine on DT side, I wonder if this will cause
-> problems on the Linux side: OLDI is not a device, so I guess we still
-> need to associate those PDs somehow with the DSS device.
-> 
-> For the issue with the control bus, I don't see a solution, so I propose
-> doing what the patch here does: The two OLDIs are represented by three
-> OLDI nodes in the DT: OLDI TX0 and TX1 under DSS0, OLDI TX1 under DSS1.
-> Only one of the TX1s should be enabled at a time, of course.
-> 
-> So the DT structure would be something like this:
-> 
-> dss0 {
->   power-domains = <dss0 pd>;
-> 
->   ports {
->     ports for DSS videoports
->   };
-> 
->   oldi-transmitters {
->     oldi0: oldi@0 {
->       power-domains = <oldi0 pd>;
->         ports {
->           ports for OLDI TX0
->         }
->     };
->     oldi1: oldi@1 {
->       power-domains = <oldi1 pd>;
->         ports {
->           ports for OLDI TX1
->         }
->     };
-> };
-> 
-> dss1 {
->   power-domains = <dss1 pd>;
-> 
->   ports {
->     ports for DSS videoports
->   };
-> 
->   oldi-transmitters {
->     oldi1: oldi@1 {
->       power-domains = <oldi1 pd>;
->       ports {
->         ports for OLDI TX1
->       }
->     };
-> };
+Hi
 
-I was discussing something similar on #devicetree yesterday:
+Am 07.11.25 um 14:11 schrieb Patrik Jakobsson:
+> On Fri, Nov 7, 2025 at 12:05 PM Jani Nikula <jani.nikula@intel.com> wrote:
+>> We have drm_crtc_vblank_crtc() to get the struct drm_vblank_crtc pointer
+>> for a crtc. Use it instead of poking at dev->vblank[] directly.
+>>
+>> However, we also need to get the crtc to start with. We could use
+>> drm_crtc_from_index(), but refactor to use drm_for_each_crtc() instead.
+>>
+>> This is all a bit tedious, and perhaps the driver shouldn't be poking at
+>> vblank->enabled directly in the first place. But at least hide away the
+>> dev->vblank[] access in drm_vblank.c where it belongs.
+>>
+>> Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> Hi Jani,
+> The gma500 part looks good. Feel free to merge this yourself.
+>
+> Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 
-diff --git a/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml b/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
-index 8203ec5e5bb3..7902637587b4 100644
---- a/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
-+++ b/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
-@@ -29,6 +29,11 @@ properties:
-   clock-names:
-     const: serial
- 
-+  power-domains:
-+    description: phandle to the associated OLDI power domain
-+    items:
-+      - description: OLDI power domain
-+
-   ti,companion-oldi:
-     $ref: /schemas/types.yaml#/definitions/phandle
-     description:
+This patch breaks the driver with a NULL-ptr oops on startup. This is 
+because the IRQ initialization in gma_irq_install() now uses CRTCs that 
+are only allocated later in psb_modeset_init(). Stack trace is below.
+
+There's a nearby comment about preserving the order of the operations, 
+so I don't dare touching it. But reverting commit d930ffa5d6e8 
+("drm/gma500: use drm_crtc_vblank_crtc()") resolves the issue.
+
+Best regards
+Thomas
+
+
+[   65.831766] Oops: general protection fault, probably for 
+non-canonical address 0xdffffc0000000021: 0000 [#1] SMP KASAN NOPTI
+[   65.832114] KASAN: null-ptr-deref in range 
+[0x0000000000000108-0x000000000000010f]
+[   65.832232] CPU: 1 UID: 0 PID: 296 Comm: (udev-worker) Tainted: G    
+         E       6.19.0-rc6-1-default+ #4622 PREEMPT(voluntary)
+[   65.832376] Tainted: [E]=UNSIGNED_MODULE
+[   65.832448] Hardware name:  /DN2800MT, BIOS 
+MTCDT10N.86A.0164.2012.1213.1024 12/13/2012
+[   65.832543] RIP: 0010:drm_crtc_vblank_crtc+0x24/0xd0
+[   65.832652] Code: 90 90 90 90 90 90 0f 1f 44 00 00 48 89 f8 48 81 c7 
+18 01 00 00 48 83 ec 10 48 ba 00 00 00 00 00 fc ff df 48 89 f9 48 c1 e9 
+03 <0f> b6 14 11 84 d2 74 05 80 fa 03 7e 58 48 89 c6 8b 90 18 01 00
+00
+[   65.832820] RSP: 0018:ffff88800c8f7688 EFLAGS: 00010006
+[   65.832919] RAX: fffffffffffffff0 RBX: ffff88800fff4928 RCX: 
+0000000000000021
+[   65.833011] RDX: dffffc0000000000 RSI: ffffc90000978130 RDI: 
+0000000000000108
+[   65.833107] RBP: ffffed1001ffea03 R08: 0000000000000000 R09: 
+ffffed100191eec7
+[   65.833199] R10: 0000000000000001 R11: 0000000000000001 R12: 
+ffff8880014480c8
+[   65.833289] R13: dffffc0000000000 R14: fffffffffffffff0 R15: 
+ffff88800fff4000
+[   65.833380] FS:  00007fe53d4d5d80(0000) GS:ffff888148dd8000(0000) 
+knlGS:0000000000000000
+[   65.833488] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   65.833575] CR2: 00007fac707420b8 CR3: 000000000ebd1000 CR4: 
+00000000000006f0
+[   65.833668] Call Trace:
+[   65.833735]  <TASK>
+[   65.833808]  gma_irq_preinstall+0x190/0x3e0 [gma500_gfx]
+[   65.834054]  gma_irq_install+0xb2/0x240 [gma500_gfx]
+[   65.834282]  psb_driver_load+0x7b2/0x1090 [gma500_gfx]
+[   65.834516]  ? __pfx_psb_driver_load+0x10/0x10 [gma500_gfx]
+[   65.834726]  ? ksize+0x1d/0x40
+[   65.834817]  ? drmm_add_final_kfree+0x3b/0xb0
+[   65.834935]  ? __pfx_psb_pci_probe+0x10/0x10 [gma500_gfx]
+[   65.835164]  psb_pci_probe+0xc8/0x150 [gma500_gfx]
+[   65.835384]  local_pci_probe+0xd5/0x190
+[   65.835492]  pci_call_probe+0x167/0x4b0
+[   65.835594]  ? __pfx_pci_call_probe+0x10/0x10
+[   65.835693]  ? local_clock+0x11/0x30
+[   65.835808]  ? __pfx___driver_attach+0x10/0x10
+[   65.835915]  ? do_raw_spin_unlock+0x55/0x230
+[   65.836014]  ? pci_match_device+0x303/0x790
+[   65.836124]  ? pci_match_device+0x386/0x790
+[   65.836226]  ? __pfx_pci_assign_irq+0x10/0x10
+[   65.836320]  ? kernfs_create_link+0x16a/0x230
+[   65.836418]  ? do_raw_spin_unlock+0x55/0x230
+[   65.836526]  ? __pfx___driver_attach+0x10/0x10
+[   65.836626]  pci_device_probe+0x175/0x2c0
+[   65.836735]  call_driver_probe+0x64/0x1e0
+[   65.836842]  really_probe+0x194/0x740
+[   65.836951]  ? __pfx___driver_attach+0x10/0x10
+[   65.837053]  __driver_probe_device+0x18c/0x3a0
+[   65.837163]  ? __pfx___driver_attach+0x10/0x10
+[   65.837262]  driver_probe_device+0x4a/0x120
+[   65.837369]  __driver_attach+0x19c/0x550
+[   65.837474]  ? __pfx___driver_attach+0x10/0x10
+[   65.837575]  bus_for_each_dev+0xe6/0x150
+[   65.837669]  ? local_clock+0x11/0x30
+[   65.837770]  ? __pfx_bus_for_each_dev+0x10/0x10
+[   65.837891]  bus_add_driver+0x2af/0x4f0
+[   65.838000]  ? __pfx_psb_init+0x10/0x10 [gma500_gfx]
+[   65.838236]  driver_register+0x19f/0x3a0
+[   65.838342]  ? rcu_is_watching+0x11/0xb0
+[   65.838446]  do_one_initcall+0xb5/0x3a0
+[   65.838546]  ? __pfx_do_one_initcall+0x10/0x10
+[   65.838644]  ? __kasan_slab_alloc+0x2c/0x70
+[   65.838741]  ? rcu_is_watching+0x11/0xb0
+[   65.838837]  ? __kmalloc_cache_noprof+0x3e8/0x6e0
+[   65.838937]  ? klp_module_coming+0x1a0/0x2e0
+[   65.839033]  ? do_init_module+0x85/0x7f0
+[   65.839126]  ? kasan_unpoison+0x40/0x70
+[   65.839230]  do_init_module+0x26e/0x7f0
+[   65.839341]  ? __pfx_do_init_module+0x10/0x10
+[   65.839450]  init_module_from_file+0x13f/0x160
+[   65.839549]  ? __pfx_init_module_from_file+0x10/0x10
+[   65.839651]  ? __lock_acquire+0x578/0xae0
+[   65.839791]  ? do_raw_spin_unlock+0x55/0x230
+[   65.839886]  ? idempotent_init_module+0x585/0x720
+[   65.839993]  idempotent_init_module+0x1ff/0x720
+[   65.840097]  ? __pfx_cred_has_capability.isra.0+0x10/0x10
+[   65.840211]  ? __pfx_idempotent_init_module+0x10/0x10
+[   65.840342]  ? [   65.844743] note: (udev-worker)[296] exited with 
+preempt_count 1
+
+
+
+
+>
+>> ---
+>>   drivers/gpu/drm/gma500/psb_irq.c | 36 ++++++++++++++++++++------------
+>>   1 file changed, 23 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/gma500/psb_irq.c b/drivers/gpu/drm/gma500/psb_irq.c
+>> index c224c7ff353c..3a946b472064 100644
+>> --- a/drivers/gpu/drm/gma500/psb_irq.c
+>> +++ b/drivers/gpu/drm/gma500/psb_irq.c
+>> @@ -250,6 +250,7 @@ static irqreturn_t gma_irq_handler(int irq, void *arg)
+>>   void gma_irq_preinstall(struct drm_device *dev)
+>>   {
+>>          struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+>> +       struct drm_crtc *crtc;
+>>          unsigned long irqflags;
+>>
+>>          spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
+>> @@ -260,10 +261,15 @@ void gma_irq_preinstall(struct drm_device *dev)
+>>          PSB_WSGX32(0x00000000, PSB_CR_EVENT_HOST_ENABLE);
+>>          PSB_RSGX32(PSB_CR_EVENT_HOST_ENABLE);
+>>
+>> -       if (dev->vblank[0].enabled)
+>> -               dev_priv->vdc_irq_mask |= _PSB_VSYNC_PIPEA_FLAG;
+>> -       if (dev->vblank[1].enabled)
+>> -               dev_priv->vdc_irq_mask |= _PSB_VSYNC_PIPEB_FLAG;
+>> +       drm_for_each_crtc(crtc, dev) {
+>> +               struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
+>> +
+>> +               if (vblank->enabled) {
+>> +                       u32 mask = drm_crtc_index(crtc) ? _PSB_VSYNC_PIPEB_FLAG :
+>> +                               _PSB_VSYNC_PIPEA_FLAG;
+>> +                       dev_priv->vdc_irq_mask |= mask;
+>> +               }
+>> +       }
+>>
+>>          /* Revisit this area - want per device masks ? */
+>>          if (dev_priv->ops->hotplug)
+>> @@ -278,8 +284,8 @@ void gma_irq_preinstall(struct drm_device *dev)
+>>   void gma_irq_postinstall(struct drm_device *dev)
+>>   {
+>>          struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+>> +       struct drm_crtc *crtc;
+>>          unsigned long irqflags;
+>> -       unsigned int i;
+>>
+>>          spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
+>>
+>> @@ -292,11 +298,13 @@ void gma_irq_postinstall(struct drm_device *dev)
+>>          PSB_WVDC32(dev_priv->vdc_irq_mask, PSB_INT_ENABLE_R);
+>>          PSB_WVDC32(0xFFFFFFFF, PSB_HWSTAM);
+>>
+>> -       for (i = 0; i < dev->num_crtcs; ++i) {
+>> -               if (dev->vblank[i].enabled)
+>> -                       gma_enable_pipestat(dev_priv, i, PIPE_VBLANK_INTERRUPT_ENABLE);
+>> +       drm_for_each_crtc(crtc, dev) {
+>> +               struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
+>> +
+>> +               if (vblank->enabled)
+>> +                       gma_enable_pipestat(dev_priv, drm_crtc_index(crtc), PIPE_VBLANK_INTERRUPT_ENABLE);
+>>                  else
+>> -                       gma_disable_pipestat(dev_priv, i, PIPE_VBLANK_INTERRUPT_ENABLE);
+>> +                       gma_disable_pipestat(dev_priv, drm_crtc_index(crtc), PIPE_VBLANK_INTERRUPT_ENABLE);
+>>          }
+>>
+>>          if (dev_priv->ops->hotplug_enable)
+>> @@ -337,8 +345,8 @@ void gma_irq_uninstall(struct drm_device *dev)
+>>   {
+>>          struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+>>          struct pci_dev *pdev = to_pci_dev(dev->dev);
+>> +       struct drm_crtc *crtc;
+>>          unsigned long irqflags;
+>> -       unsigned int i;
+>>
+>>          if (!dev_priv->irq_enabled)
+>>                  return;
+>> @@ -350,9 +358,11 @@ void gma_irq_uninstall(struct drm_device *dev)
+>>
+>>          PSB_WVDC32(0xFFFFFFFF, PSB_HWSTAM);
+>>
+>> -       for (i = 0; i < dev->num_crtcs; ++i) {
+>> -               if (dev->vblank[i].enabled)
+>> -                       gma_disable_pipestat(dev_priv, i, PIPE_VBLANK_INTERRUPT_ENABLE);
+>> +       drm_for_each_crtc(crtc, dev) {
+>> +               struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
+>> +
+>> +               if (vblank->enabled)
+>> +                       gma_disable_pipestat(dev_priv, drm_crtc_index(crtc), PIPE_VBLANK_INTERRUPT_ENABLE);
+>>          }
+>>
+>>          dev_priv->vdc_irq_mask &= _PSB_IRQ_SGX_FLAG |
+>> --
+>> 2.47.3
+>>
 
 -- 
-Regards,
-Nishanth Menon
-Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
-https://ti.com/opensource
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
