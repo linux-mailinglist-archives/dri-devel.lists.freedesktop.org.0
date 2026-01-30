@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iFP1Bl5tfGkqMgIAu9opvQ
+	id +M2YMmJtfGkqMgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:35:42 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:35:46 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0930B871B
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:35:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B32AB8732
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:35:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B88810E964;
-	Fri, 30 Jan 2026 08:35:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFB7910E953;
+	Fri, 30 Jan 2026 08:35:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="X7zJqADw";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="dUljGZ44";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY7PR03CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11010000.outbound.protection.outlook.com
- [40.93.198.0])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A35710E952;
- Fri, 30 Jan 2026 08:35:36 +0000 (UTC)
+Received: from DM5PR21CU001.outbound.protection.outlook.com
+ (mail-centralusazon11011063.outbound.protection.outlook.com [52.101.62.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A7BC10E965;
+ Fri, 30 Jan 2026 08:35:41 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r0rBbkQ2vO10ZuxdbxCrDDwX6tcKGdmn/IAmHvcDH26mK2A/CJdRjSsD2UNM2Goduz/NOptRvPrbIFyZreG5xj2uX5vZoryrfOJhQG1dNo+pWRwZhYc/tO313MA67uoK4cG3lyQWKbBhCNkrqStGXFP7VUjysE3zwtBbxcdSOuPn47yr04amOcU3qeDqONDUdrwv1sVpHGpnAttfUTuP/2kToofeWG3QIR4SLt+oc8Wpq7yw/bNA/weeGICu34eSoeHfLU1TQk3IzSdB4kpzkPCkWbH57AtXE7OGTgcoW3nhXkbrUR4E4PCf8PamkAIvS8uG/RcUSPsVeMnLRNBRsg==
+ b=hCb9tYBZLYgZfKfUhXhSOUw445tjS7hFXZqbkSdDcJDu2piiu5CLfqPBDtH5Wo+6sgfQfDWXVbcO2ZcWv6CGOue/bQtD4aaMkYBWRLmNM6KcxgSkmzGzGIY0RhM69p+k/HvRUhFbr+8u1Zrsy606uU0YNLpW721zgXt/T0ukh7NXaIGe0ZPn/CiGA2kctENUH+bXMw1ypp5E9s6bAB1bRimf0iEcAsGe0R18hmx8IRJjL8sddjYF6vq6M0UtUV2CvX7Pp1sh7f7dAnXgGBSIwmE5EsvQtUrfZeJpmWQdg3oyQVfGjr+C1DCtJugbUdazG40+2UmxxFgC6HJbiAJsUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0PVSLl84T6R4bkcOBRJEdC3f6ytQAkcWCVq/xY9WxCY=;
- b=bEgAE3ZdF7wX2nUUhYBZDABwyrH2XME8ZQVGWTajwkp4ExGb/++o6BIFMnDHC+FywFwpRtCH14ShNepCMHh8p1Gf4Ev76J7HyfrXaMKok8lnvAY58vh+kBksd0DlvyKwn4OOgQdbDF1xZvUXRThGX8DM53ZoeXq8gZt/2zvxaR5nS4uX5rV19tz8pCKGhDo3CQdktglMLOuZoD5Prkzh+I2KwO704kmOgdGs8CVF8iWikJUc7UrtWImJDtr0oiqstG6/j0qh8/L4Mk0NztopPY+oPBs63im/SnHrpsmAidwjnCD5/+oSpQphX0j6SSroAQNnzMUhmyNSMc15aFZZoA==
+ bh=9y9ODM4+ldeghrT49aub4SQ57dU9CY/QpzXDKno35mE=;
+ b=XAZEdAJA8/+gCwiBNlVyHsPkeuKxMndd4tzi7EOPgxUk9/dEN7UP996XFVI7W+VjP+gntDaGw2Tooam1x7xtzcfslT4ASBkXWUTKpvFfNjrf4S5jZCzKQ3WY5DpUPc83iRflhbtgdKgbVq+f+9uZeFah5lGYVr6SOc1IbKTzNlUu4iN0DmJ5NEU4JTtlLGBlmK3RCePv35f4QMVYiK8lorMyTwqRrwy8iaWvuEr/pawBcpLhL6wZ3NdHEYb1gXbkOjFGZyhC/JLpPD07WA7CHI+oNeFscfFWvCcb2sW8vYeebt95YE8ZUkSkx5ttXGB/PyI7o8Z3eKjC2VJjAxEdGg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0PVSLl84T6R4bkcOBRJEdC3f6ytQAkcWCVq/xY9WxCY=;
- b=X7zJqADw9TZ1vnO9pec+CqaJZfzB/nWifZ5EuMtLKzdKt9yPlgXQtGM5g+crAF5wWTj/1m4aL9tNMdraFLN39wg3YLPFlKwW78El6VawNvtW57Q0X+wdL8jOKhbIHXVJk4xpZ+V6Su+h7JX6B3CsWJDQZn78ONJpCOacPTkui8NhRaWHPreBqqULs6Ia/bxjmraqKFWTc3Ivr3VE/vtqvZoZn/5Lbqe2b3srCR9g9B0ZI4RxnyXYXA7dYcZxTV6ifO3Vy4LKGUV619kh/Sk7f2vM7GKb0Usl7W42EGUqBQRNtfN9PuESA25T4xpkAnpkJBa8njqz0/hLrFug49jPWQ==
+ bh=9y9ODM4+ldeghrT49aub4SQ57dU9CY/QpzXDKno35mE=;
+ b=dUljGZ44A+iD3N3b0a+2eqX/5wRVRfTlnMYMtCdsMEXQ1HLBHT6ZQeAA8cJ1UbThOwjDaeEAkQ0TQ2rGpBztg+SBdfezq60CjAMU4Zfm3o+8Hr/TIVq4NPxe8R0o3i33hV0bxYHl42CYmWgP+AGzF8x6kqvshMNA6iMtVEDep5tQBLa5ufeelyvV/8np+0D1x6RnVCSNv6wvmruLjgzBetffDhGdDItCCu49qpr7dOQUFcaMzxh6O+5HnIyij0/YscvioE3xoi8JF+a+1XU29XLBZfZMvdbaePWOSbhnRCtJoeiP3TqD4GBtwn6qyCMDWKbK7vq2ry0jCaxL7AIX9Q==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
  by DS0PR12MB9400.namprd12.prod.outlook.com (2603:10b6:8:1b6::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.11; Fri, 30 Jan
- 2026 08:35:31 +0000
+ 2026 08:35:35 +0000
 Received: from BL0PR12MB2353.namprd12.prod.outlook.com
  ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
  ([fe80::99b:dcff:8d6d:78e0%6]) with mapi id 15.20.9542.010; Fri, 30 Jan 2026
- 08:35:31 +0000
+ 08:35:35 +0000
 From: Eliot Courtney <ecourtney@nvidia.com>
-Date: Fri, 30 Jan 2026 17:34:05 +0900
-Subject: [PATCH 2/9] rust: dma: parameterize CoherentAllocation with
- AllocationSize
+Date: Fri, 30 Jan 2026 17:34:06 +0900
+Subject: [PATCH 3/9] rust: dma: add CoherentArray for compile-time sized
+ allocations
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260130-coherent-array-v1-2-bcd672dacc70@nvidia.com>
+Message-Id: <20260130-coherent-array-v1-3-bcd672dacc70@nvidia.com>
 References: <20260130-coherent-array-v1-0-bcd672dacc70@nvidia.com>
 In-Reply-To: <20260130-coherent-array-v1-0-bcd672dacc70@nvidia.com>
 To: Danilo Krummrich <dakr@kernel.org>, 
@@ -71,109 +70,109 @@ Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
  rust-for-linux@vger.kernel.org, Eliot Courtney <ecourtney@nvidia.com>
 X-Mailer: b4 0.14.3
-X-ClientProxiedBy: BL1PR13CA0410.namprd13.prod.outlook.com
- (2603:10b6:208:2c2::25) To BL0PR12MB2353.namprd12.prod.outlook.com
+X-ClientProxiedBy: BL1PR13CA0174.namprd13.prod.outlook.com
+ (2603:10b6:208:2bd::29) To BL0PR12MB2353.namprd12.prod.outlook.com
  (2603:10b6:207:4c::31)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|DS0PR12MB9400:EE_
-X-MS-Office365-Filtering-Correlation-Id: fb1bc477-8c91-4b88-7470-08de5fda877e
+X-MS-Office365-Filtering-Correlation-Id: 77b79c9b-89d6-45ce-0b26-08de5fda8981
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|366016|1800799024|376014|7416014|10070799003|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Q28rMHU4NHRqdDA0SVlxN0xlU01KUVVvTVVMaFJXS2N3THRqSVFQNWhjcVk5?=
- =?utf-8?B?dnpPUVNnRzJ6TmVlMUI2SU8xeVhHNHZDbkpEL05yWjNFdWtXZVhRMGZOMUtS?=
- =?utf-8?B?ek5xR1AvSG5rTVI5VWVrOWZTNHBqQ2g4WFVDdit2Y0xVQXBBMXh3UGZnL0tZ?=
- =?utf-8?B?bGdwVHpmTUwrdG9OcmFtc25ZMXFlL1FLamRtbklqaW02TDZUV1VZUWdPbnkr?=
- =?utf-8?B?SUhJd2hwWElUcTBQeDdPaEpDZE8xaTlWV1lnTkd4SURMY0p6VVp2UU83UWkv?=
- =?utf-8?B?TldsREdITzN3TDF5ZExJK2g3KzIwTmJGd1IrTy8vT0p2VUlvenQ4ZU9mdEJt?=
- =?utf-8?B?eG14TGVPcHJZQjdrbU9DaE54K2FYMjV2bjV0WHJIQ1FBbVRCa2NqUlQ1aHhQ?=
- =?utf-8?B?cmZzLzl2RUFYR2IvL0krZ2VWWlQ1OWlyaHkxM3l0VDRTb1hiUnJuSmdmSVNO?=
- =?utf-8?B?UDVZVVVHRHMxdGZaTHYxMi9oMTJWM2w1T0RobnZYTjFkOG41eTY2Ym5Eck10?=
- =?utf-8?B?NDBGLzEzZUliMDhsYmprTUdJeE5wWEVSWjBTb050d1ZEU1BEVnVyenhHWG9S?=
- =?utf-8?B?S2pSdy9PTE5YRWtiN1JVUnozdEpXdEFjWXRtb05TNnJkb3pMWGJTY0UrM2NO?=
- =?utf-8?B?bno4N1BLZy9IRVFwd2l5QWhZWVZBa1Nqd0xkWHJhTXJydjZLOWlTQW1tMGNw?=
- =?utf-8?B?MEtJdEd1aExOaHg1VUdTaGFRTVA5ZVkzRHRVa1FKWFBsdG1QckZCN1kxZnZz?=
- =?utf-8?B?TlFIeVpKd2VUdDFVT0VWRWlLMnJhdjVtdXhEUW1EN1YzYkNRRG95WkNUVWc4?=
- =?utf-8?B?ZVpDMWdOSXNidjZQaGphR3Q1ZXNNeGh6K3RjWVIydCtYNE9KUEhmY3ZacS9N?=
- =?utf-8?B?dHZlOE56Z0gzVWJzT1BuSHlleE82ZEhpd2pFajJYd0s3RjRQN0p4WnZlNU5L?=
- =?utf-8?B?UWZLZUMxRkJOTkVGenJ6NnlzeXlONGpnWmZ2bjZmZk1Zc3FWeEh2UEpkWGtX?=
- =?utf-8?B?REtJY051bTFqdnV4eUFjUVJCNzVKb1NxVGpKSG1DbjFqRjFudUNWQnQ1Vm93?=
- =?utf-8?B?OGpxUkFDT3N3YVNkUFU2WGN5YTdndi9kQUJaN2JQS3JaN0FtUjZ6U2F5RlJN?=
- =?utf-8?B?YWgvODgxK25GckRKSGhwOXkvTTFlNkNkSE10M1B2c0pvNmJlQTZLMmZjYUFP?=
- =?utf-8?B?TGZvVFZ4VVJGbzcwREhPWTlxcU1ZaWQrVHp5UWFQaU9UT3Q4SjZzN0JMbFlB?=
- =?utf-8?B?N0ZRbUI1Vkk0ZGFvUWdWc2pYZ1YwRzNsbERYMnJQSkhpZDJJZDFZaTcrdnRy?=
- =?utf-8?B?b3hJMURJeFVMeUhyMThsZmRaM01nZ0RZUHA5MksxL01CbG5nUFFGcGpob0ow?=
- =?utf-8?B?ZCtWNThISzlhRGVNdlEzTDNBUzZZTXBkUWZLZkl0LzNpeXVkY0tmT2x2S3Aw?=
- =?utf-8?B?cTQ0WVZ2cFRCb29lUkJOVytuQkk4d01nR3RXaHlNZHNieU4yNGJOVHFINXVY?=
- =?utf-8?B?bmlQNkovU01LN0wxY25uZEs4bDE1Z2dsUnlSL21mVHY1ZFBPWFlBaitaczlV?=
- =?utf-8?B?bk9LeUtYT0NmUmY1aEI2TklBa3VLVzAvTUtLQitiVHl0N2R3SEEyMFllR3hu?=
- =?utf-8?B?STVYWUpxTGFRSTdvWi84dCtmQzdkNjJHU2ZmNEsxZlhyWWdTdktEN0NMTnF2?=
- =?utf-8?B?RUhzUDRQZzZtSStoU0R2L2dhSzUyQnRHd3pSM3p1eEMxdEFEemlRSFJnOERK?=
- =?utf-8?B?bTF3WloxdTY3Sm94UkwrMzYzcmR4TWZvUGVvbjg0RnpwaWkzWkR3MUxQd1hx?=
- =?utf-8?B?TExhSmtvMTRXNlFPb25NM1NhbWt6bVQxRTRHTkViUk9xclg2bnhreUVNTFBu?=
- =?utf-8?B?cEhyUmlHZUV2aVVwZjZaMFlJYktlYXowdGc5UGE5Zm1ET2tMV29YTVZxUERN?=
- =?utf-8?B?eTJlcHdlSFQyRTkwWFlQWWxsNHJzaVpqbWFPbzdHMGlRWHVETjJWUVNpUmZS?=
- =?utf-8?B?SCtSWTc1V1Y0RTZIYzgrQ2YweFF0aHlqTUZueUpiWGdMSlNQak5tc1R1UmZx?=
- =?utf-8?B?UHlKb3gzdXF6Nng4OUxUeC9HWlZ1Vm96M2grWE5pdUNFMTJweUJ6c2ZBM2Jr?=
- =?utf-8?B?bTgwdmxob1d2c0gxekg5UkZ2ZS9HajkxOFc1U25jcHFmVFZtNmMwbldRVTV1?=
- =?utf-8?B?MXc9PQ==?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?eWVXUG84ZGxrWStNWW1CZzNVNlpZMVZFREYyNWZtdjVxM05hRTllV0dkNTlV?=
+ =?utf-8?B?SEE0c3owUGZnZ3lLSFdzZmZsZ0dxWEhaWlJrYW91K2JyREx4UEFweERxUHdo?=
+ =?utf-8?B?UzBZcWxNWk1MQjFOSzZ1VGFrekNhU2FaZFlXY044TDlRdStPdUlmdkZnYUls?=
+ =?utf-8?B?VE1xYlBiUitCYU5wU2RFL0djbU5SRHNWeExlYnVCYWNqWTR2YlJGY00ybzZQ?=
+ =?utf-8?B?ZVAxT0UyVDRYa3NXV09NVlJvKzVVaVExNkRCWGdTODF1SW5ESHVPcTFpSnRZ?=
+ =?utf-8?B?OW5vVHhhMzhXc0o3T3NFNFNxVGlPbThhT2ZVbGZpbjF3STFFRkQ3R0dzQnhh?=
+ =?utf-8?B?YnBsZnhEeFd6NlRFN21aWWRrRUdDdUtEcEdnaytxcDFZZ1F1NWwzRUZPa2gz?=
+ =?utf-8?B?eG1RVjNoQ1c3NFpvSG50UHlpRU9aaVpCSFVOY2MwSVd5UUE1UkxuN3RiTDds?=
+ =?utf-8?B?dDFmV3dLOURzVHJSa3dQQk5LZ1FoendHTk1iZk9leTZMT2RySUpiZnFaZUFY?=
+ =?utf-8?B?M0Y4ZzlhVEtOc1JtV3UwMDNYWmVMWFNiUDlBay9DZVBwYkNXQVNGWU5yc2Zw?=
+ =?utf-8?B?OW00VUpiNUs2amk2YUxqRTJBQ2ZmSDVyUkxGNEx4M3o5QmtyRy9XU3NjSlBW?=
+ =?utf-8?B?WUVVWklCTnNxUFJTaWlLMWZVMlFuTFRSYlJiSHQ4cDJIcHVmd1VOOElWN0Jy?=
+ =?utf-8?B?SkViRHV4WTM2dWpLS05iMW8rNTRyMWZIMnFaTmp2MDIrTGNFSHBBZFR4K0JM?=
+ =?utf-8?B?T3pvcUxBUkYrTDBmRTFZSUsxcVlRNnZtZWNNQjQ2bzVJVkZISXQ1ZjVRYXdr?=
+ =?utf-8?B?YUM1eCtXTkk4RS9qVUNVbWJtQjZITENNSFFJeENlQzR1WHNlTXNjTkRGMmEz?=
+ =?utf-8?B?aEVxTE9aNXVobXZ0TGxNVW42YVhka2E3bE80QS9KTVQvWFVCRmRzY1JmSHVS?=
+ =?utf-8?B?a09OSFpNVTlJdVBXKzJPR3ZCdE15cGc3ZDlmaWFYaGthaGxCNFBmM3NmbVd1?=
+ =?utf-8?B?SFFNQWx4U25UZm52K0w5QmRkNWMyWVJOczlvQVNtS090aVU2cUlmbWlBQkRT?=
+ =?utf-8?B?d1ZRZ01WR1c5R3h6RHh0aTlZVGJmT1JlRWQxeHNoL3duWnZoQUNWd2xXZzZP?=
+ =?utf-8?B?Qm56MHl6WkhmazhYQTNNMXZid3VsM3JqeGF1bkJDU1h1dFJadnpFZkRFSU5F?=
+ =?utf-8?B?NmQ2YksrYk11Q2JqTUFjRW5GR3AzNHZZeFloNXpmNTlXV3JBSVdQWE4zek5U?=
+ =?utf-8?B?SmNnWXc5NWpHTWRxbnRyWGVkajd2ZU9zTW85Ry9rdWNVdldxL2MwS2NtZk4x?=
+ =?utf-8?B?eVZ0eFFQbHlEMEJkVVZhUGdZblppTCsxeTFZWGRpVkdnVGVNaXF6RTJ6NGth?=
+ =?utf-8?B?MTl2WGkxQXR3bVAzNTVBZ3NpbnZNOGVBbVAyc2ZzTDY2ZzFVOC90cXNzSExp?=
+ =?utf-8?B?ZnRFQTd2RFdBalNoR3VXa1VzZzcweWo2OHhDRzBFUGtzOU54THZmdWxYZ25z?=
+ =?utf-8?B?OUp0empUUENVWXZnWlUvVm00Slg1TWJPTGFuZmt5MjhHVS9rRFlBTFZ4dkdP?=
+ =?utf-8?B?MW5PcHJXc29yOEVvNU96SkF5eXRJNUk0Ny9LZG52ME9MZEt4R0FiMmh4d0Z0?=
+ =?utf-8?B?WkxVdWd4RkVRQytIa1BSdjZhU1NhU05PbVJ3L1pXSWt1ZUtjVmdjaFBkM0lP?=
+ =?utf-8?B?cEcyRS9URTFNOUFGSlNuZys4UUw2Mk1aTWFIMFMxOUVXUCtsTXphNlVqU3NS?=
+ =?utf-8?B?RzdjaFFBV3dNVHVWTHVQYTU1amJNTHZrWjN0TU0wZ0JwWWh5TGVmZVRyUklo?=
+ =?utf-8?B?QWVzQkdmVFZubC9rSmtOaE4xUjMrQVVteHBkSmhLd2RET24vdlJPNWVhcGtT?=
+ =?utf-8?B?WHlKV2tSMHRBWGk5cjJqZmtNVVF4WC9xTndrVEIxOUFiZzhOMXNFSk83bUVK?=
+ =?utf-8?B?VTgzcmo4VnhlN1lheEpDKzBZa0R5YjhMa283YmZPWXowa3VQTExCTVo0Q3d5?=
+ =?utf-8?B?REoxazU3R2ROQnFubkJzTm9FRHRNM3FocjFkSUJ4RERZSnJGNG1JMC9IcXJ6?=
+ =?utf-8?B?WlIrc3pnbHN0N2c0cmdJNzJkVjVnS2M0a0JXOWpRWERNMC9zVko5VUJhcWJE?=
+ =?utf-8?B?TU5zTUZjZjVuMy9kb2FLN1JRaVcyMUR1aWdmWEtvU2ZCVWhXQUhFUmhVUEpi?=
+ =?utf-8?B?QUE9PQ==?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL0PR12MB2353.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(1800799024)(376014)(7416014)(10070799003)(921020);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?THZtZzl6Kzhua3AxbXpTS2lLRFVMZ3NxWlRQZUJYSVBoNTdOQ3lYaUw5eVlv?=
- =?utf-8?B?ZHZRSlRLZ3JmZFVSZFV2VnFYaGxleDY2Nnl6c3dzWVpkRzV1a2lodWx5bExI?=
- =?utf-8?B?cmVSOUY0UTY5L0I1S0xmOTFOTnZkUHhwbHpXc3dFNXhHOG4xVWJWSUVKTXNz?=
- =?utf-8?B?WkNCdklhYWFGcU9ZSzR4K0wwUXVxLzZaeGxtK0g1UW10eFRsVWRLTE8wWnhh?=
- =?utf-8?B?eGVRRGNwWDZDOWJPSVZhZGR2SVJpbFQ0VHlyQnpXdFEzbWVBTE1ERDFXb1Zm?=
- =?utf-8?B?V00wcklLU09sNE4vRmF4bUgvaFVXMG9tRHltRE9pLy9GVmwzTHdJQ0gzYjY2?=
- =?utf-8?B?STdnc3d4Z1E5MUQrcTBpRHg5bERCVk5BZU9JMzM2S3BsUVljd0M0K0g1ZGlN?=
- =?utf-8?B?VCtQVlFreHoweDZ4ZUNQMy8vb0ZoMFFXRmFaNjRyeFRFd0ZSYVVJSkJiSzBt?=
- =?utf-8?B?QTRaNVhoRlRHb2taZ1BxQVlHeFNWSlRNQXJIUjVnTno1Wk1HNTBkNXkySnBJ?=
- =?utf-8?B?cnZIZDc3ODhGRGJsdm9yQ0NUdndZMzBXTDZzbUoxd3ZQelVZZ0tpcFdMSi9o?=
- =?utf-8?B?aTBEeWhITUVMQWUraHVuclBpdkVRVU5zdkQ3Y1I5Yk43cnJFVGxDSFVwY0F6?=
- =?utf-8?B?Wm4vczNFY09KcDhKQjY5UERIQWpPbERNQk0wZHI2SURwWDh0RDZ1Y3ZmUmhz?=
- =?utf-8?B?Y2JyZ3RFaVpYNW9yU1UwN1c2dFk4QlF2M0xrdnVWVGZRV0k4ODAvN0FRSDRa?=
- =?utf-8?B?cEpxRTJXc1JuakhMSVJUWlRhUHZRMS9xUXgyVjZNR3BkVzZtZlc2cVdLa3Vq?=
- =?utf-8?B?bWdoNVNOd2pxdmFQdW5BQXE4dXFxeFdEKzJ3Sk1RTjZiTUN4b0RyTDRoN1Fj?=
- =?utf-8?B?MS9Pb0VzOW51b1JqSmMyVHE0Mnk4aTZMMDVVZnhiZ3pIdk1QTDNFWGs0MERK?=
- =?utf-8?B?R2xmRnZjYkxZdzZzQzBBUHA0SkVJSGtvaUhmWjZ3SzBpSlBjaDFtakpuMG9F?=
- =?utf-8?B?SDMzck43Q21EZjY1VEJDK0VpZGh1RlpaQUhoK2c2bHdLVFhHdWFCbFI0L1RY?=
- =?utf-8?B?cjlRM2xQZmQyalFaQVc1L0xKVFphbElGd2hYelRDMlplVEJSQ0tQZWpzWXBv?=
- =?utf-8?B?VnIwUW9JK3NjZXdYMWw0c1o5ekdVa2lyWk5rQ2c2dmJwK2NveHl2bUpkcFNC?=
- =?utf-8?B?QWwyNFJhMEF1M3dyN2dnZmx3TnJ4UHIzRDByYlFETWhORW1kKzEvMERGSExX?=
- =?utf-8?B?Rkt4d01ld1ZrRVlZQStsNWVPZ29iaHBLMmJrMGpsRGNsZlpycWFzejhlMW85?=
- =?utf-8?B?SDVVUTBCYWhwMHNDY2JXUnRCRi9UWE9ndFlwVFNzdkNaTFdBUFhmMGxRdC9i?=
- =?utf-8?B?VjgyUktUREtISWsveE5ORDQrWDBzWWRtYlRkUEFaRWxFNWxUdUloNllXR2RN?=
- =?utf-8?B?Q0xUc0Z5T2NDZ2NpVC9qV2dyMjJ2dGtabnRMYUVETVI5MnpPU1RFVGlsd0du?=
- =?utf-8?B?Z0UvNEkzdk1ZSk1YazhvcXdBbG9pNWlQZUZGS0ZyOG5oU1RtREd6d2RTSnBx?=
- =?utf-8?B?bDNwZ0lJK2svRnBnaE5ybFVlUEcyK3UxSFZjcVB0NnpKM2MxZjBLZEt1U1RQ?=
- =?utf-8?B?Nk5mVHRhWk9ST2gxM0IzK2ZWT3FzeDUySnJjMnFLaStpeEdLUk0rQzdxK1VR?=
- =?utf-8?B?ZXVnRGlLekpjaEwzYnhSNjU3ZHY1a1NQWE9VWG9KWlpZRWx5emp6enZsOGU1?=
- =?utf-8?B?N1JsbTBlaDhHODdTQjdhUjBXR0VDMjZRa2x1c2xSS0h0THUrdnNtUjhRQkdu?=
- =?utf-8?B?MCtEVVExdGFYaXowdFp3M2tMZG9JcnJlNzd0Z2pSb1JOQkMyRHNBR05WbE8w?=
- =?utf-8?B?RERtMStkblZINmNQTjRNaGsyZW9hTW4raHlYbTd2MVNBYWNhQmhMSWNsUHBK?=
- =?utf-8?B?ZXlNWStDTTZsKzNtcEZFNXQ2YU9aWlJYcldTa2VBaHNaU3FVcHJDUFdvUW9K?=
- =?utf-8?B?cmpKNnErOVpvenZLVDRIVDlsVURRTDZTb0tHd2VOTGxWY1RRYkhwenhkV1Ro?=
- =?utf-8?B?b2FML2tpK1dPTjhiS0RjT3BESzIvbldxVDRmRlAyb09TaS94L3lBQTh5Rmpv?=
- =?utf-8?B?dmh5aEtMN2RSV1BCenUra3hKYUZxZVJiaElhSWpDc0lyMTdCVkxyYjBJUkNp?=
- =?utf-8?B?dWJLMUNQVTZoQVRNZlVXSVF6NjhSQjY3UGY3WjM2ZllnYmlhN0dVcmZjbWww?=
- =?utf-8?B?dFIrVndpWG91ZGFxTDR6QnZhdWhMb2gxN0I2SStkWTFCQWtHNkZQcldXSWtt?=
- =?utf-8?B?R0JzTWhHcHNYZjBEekRKMWZWMWFMSXlYcGNjdENraXIrMTUzZ1QxaU5PclFL?=
- =?utf-8?Q?EJa9KT9GdhIbHeeEdZsn/iPjHpa2TX8LAaKi3iqj0DmWk?=
-X-MS-Exchange-AntiSpam-MessageData-1: Xz40MZ/xyFuUMw==
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TDZxOFVubGs4YTI5L2ZPazZuVzNldkdkRkc5YnNTeDNZQVFNdkVKaDY5K0dl?=
+ =?utf-8?B?YTl4SE9HcGZoeWdtSlNnTDUrYjNzZlptWkltMkdRUWNXMklMSTh5YTRyNjZZ?=
+ =?utf-8?B?TVYwMXY4aW9GUVRkV090ZnA3WjB0S0p3d2Zwak1DSnkyUFBOZXV1RUlPQkRi?=
+ =?utf-8?B?KzdpTitlajZGYlQrbEJ1cnROODhVTThrT0J5ZlRHckRnbkRMZDkrT0ErcDFL?=
+ =?utf-8?B?R2U4MEhFUTZ0OGErRHhoeXU5bWM2dGFTMzFYTWYyYm05VFJnYlNlOTh2dUlW?=
+ =?utf-8?B?d2tLLzBEZXN5SzZmdXpoL2JWSnM3QVljeWRQN1ozQS9TbkNVWWxwd3RhWW1Y?=
+ =?utf-8?B?eG1jNVgxcFltRlBRM1VSOGZ2RWs2SnRtdzhncTJzR0tjaFhYOU43YmcrT2Ey?=
+ =?utf-8?B?K1Y0NWVLWUplZTYxQ2x5bWtzWFkxam1sV3dYT01sSnZqZ0tBMW5NWVViOEhX?=
+ =?utf-8?B?K1RFUnYvODVtSmtlK0pVRlBmeUZIMisyRVIvZEVMVGdsNTVOZS9EblhTM1lp?=
+ =?utf-8?B?ekhwS2RoNXo1THZ2T2xJUWgyNExnTTg3WGdQUzd3R0Fzb2xJWS9sQVlVdHlp?=
+ =?utf-8?B?RFVnV2Z3RjNNbDA1WHMzOVo4d0ZyNVlFb0RBL0tDSHNRRmFNY1dLdk0xNVVE?=
+ =?utf-8?B?b2d3Mmxjb1lEWWdudElvYmY2QitaeVp6TE9BOEgyeXZGU0Q0RUhlU2F3MjZN?=
+ =?utf-8?B?cUtnZ1ZweGpOSjdPY2ZYcTdJSFhKQjNESlFoaldsTHVSOHRUVlFEbVhjOG9C?=
+ =?utf-8?B?YnlWQkNYd2ExYnExczRLdUtsNDNKN1FmYklFcjM1RHo0eU9aRE1oNWFFNkZN?=
+ =?utf-8?B?U1NlZUlzbzVOTzl3emRDdXFKTUV4cS9HNFhVSkszd01ieG0xckVieEMzemIz?=
+ =?utf-8?B?ZTBwSDRDM3N6aml3T0dUOU9McnpGbGNJOGNjUXczNW5DOTdSc2VSNFY1REsr?=
+ =?utf-8?B?YnNyZjhHRnYrbzl2eW1sWGZKQlFGRFl4ek95SDYrcXFGclBQUjNNS05JV1c5?=
+ =?utf-8?B?YnBrck9wMnEyanpNSnpUSExPSmlOOTY2V1pkRFE0TEg5dTZPVDJkbDkvbTUw?=
+ =?utf-8?B?NVVuME1JM0pxOUY0bmJqU3hTazhTaURYMWx0Tm90SVhDdGZWMEEzY0FkaU9O?=
+ =?utf-8?B?My9iUDJTb2dCZTBURzA0UEJPVWx6aHE1ZnFRckpxcTFLcDNLdUVLT0I4Um94?=
+ =?utf-8?B?Q2p4VHN4QlRRblp1T1dKYkZKcTVZMk5SSnVjU0RiR1MvcXA5SnZ5anUreWxn?=
+ =?utf-8?B?SGpEYUhUNVhPSzZVSnRhbjhsaG1MYUhEbWluRGczdUFibFB6ek5YN2M5R05K?=
+ =?utf-8?B?Wm03TGFJMndFbWNTS3JmOUtBVHVsZFJqbWQ5b3BROGdpU1RqcXVVOVZYSmtS?=
+ =?utf-8?B?cCtpcVBIUjdVZUVpMUtUV2I2Rjh3Z29wcXI0dnV1ZjdvZ3hySmNReC84R1Jq?=
+ =?utf-8?B?cDB5VHlobFZsQk53UkJaNFNmYk12WkYveWJoY2VNUDB4L3hCTzJlZkNYV1hw?=
+ =?utf-8?B?b3l3M3k4elI2eHltaGorM2hYWTYxSnY1YW5lTXdYYmZNNDY0UEtRN1NkMVRR?=
+ =?utf-8?B?OVVnVkhNVGhkcmV5S3laSk9SOXdlWDFGVkZJMllwbGRadWIwSEt3Ky9CS0hu?=
+ =?utf-8?B?RndiL0IrYldXYi9ucG05NkI4aGhlZU9aak5Xc1RTa3Mxdy96NmVHR0ptOWRX?=
+ =?utf-8?B?TForU0ZRbVlxRnpUdW5EUkFFUXRSTldHTHgzeXpMTExneEozUVZMTE95UnAx?=
+ =?utf-8?B?OTN5bG1MSWJzOXJCVXhlZzVpa3lsVThod3NLejZBU3RLc3d0R2JYdXk4eWs3?=
+ =?utf-8?B?WEZXNmkyWVlVeHpRSDNjRW1pbDlkMlg5VXMvdHFjU3FsS0ZhVTh1ZENhN28v?=
+ =?utf-8?B?cHVFTzdpYmh3eXB6ZDJ2Y2NXQlpSYkNlTkNOaFBVQWZhZW9aMHZLOWY1Rmk3?=
+ =?utf-8?B?Z1FJMGtYWHZRTnlKckJIbmJwdXhiamFJZkhFeFAvcjlXK21IWlEyY2Y3bGdt?=
+ =?utf-8?B?MmJGMFJlamVrN2N2RTBTTks0L3lPVzF2cGlrRkZXeThDenVoVy9FamJaN2sr?=
+ =?utf-8?B?REV5WVNPRlF0ZHlJUzRWMzNxZmI5TkRtR3ZSdEdhUUF5Nys2dzFwdktwYVha?=
+ =?utf-8?B?OXFZNk1MSERJOFl1K2FNODl0M1ZvczByajFBdTJ2V2pjd0l0eG9HUXhaaFB2?=
+ =?utf-8?B?cytiWFgwNGZ6ejdlK2xLTWpON2RTa0k2aHRqVjBXbGg0a0tKb1cyZ3BLUHM1?=
+ =?utf-8?B?Q1F4WHMxNEo4MjdTdk04V3pzdXNMOStUWjAzNlBGTUxVUW1saVhNZHRMV3pi?=
+ =?utf-8?B?ck04RXU0RElEaUFiTEtsUiszTURqcGltamVidjFaNktaZVVjZ0lBSDFkVlk3?=
+ =?utf-8?Q?/GhpzDjxoMuoiRB6aUqsvHUDlsbwwV5ci8mbVdt/KN2p9?=
+X-MS-Exchange-AntiSpam-MessageData-1: 5n8ituzASDtPAg==
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb1bc477-8c91-4b88-7470-08de5fda877e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77b79c9b-89d6-45ce-0b26-08de5fda8981
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 08:35:31.6513 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 08:35:35.0093 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QIRXtNaF0R7/GcnAQQaObxgGHugWhcidZyChaHbQ2LIwJqcDrhxJQr4EW+XaIaeFecjYEJcVHYWHo6vCCOIHwQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Dnb4kOo/arHVayXugeHeS7bM+xeRjDuqR50cHltJdIYE3DVA093WapWibECD9ymK7X3JMd2dW/buB55oPzIGTg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9400
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -216,263 +215,246 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: C0930B871B
+X-Rspamd-Queue-Id: 7B32AB8732
 X-Rspamd-Action: no action
 
-Parameterize CoherentAllocation with AllocationSize. This lets it
-carry information about whether it knows its size at compile time.
-This follows a similar design to Device and DeviceContext.
-
-This is useful to be able to read/write without having to handle
-a Result, and to move indexing errors from runtime to build time.
+Add a CoherentArray type alias which takes the size parameter directly,
+without using the StaticSize<N> marker type. This makes it a bit nicer
+to use.
 
 Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
 ---
- rust/kernel/dma.rs | 185 +++++++++++++++++++++++++++++++++--------------------
- 1 file changed, 117 insertions(+), 68 deletions(-)
+ drivers/gpu/nova-core/dma.rs |   8 +--
+ rust/kernel/dma.rs           | 127 ++++++++++++++++++++++++++++++++++++++++++-
+ samples/rust/rust_dma.rs     |   8 +--
+ 3 files changed, 132 insertions(+), 11 deletions(-)
 
+diff --git a/drivers/gpu/nova-core/dma.rs b/drivers/gpu/nova-core/dma.rs
+index f77754f12f02..c217cdb14223 100644
+--- a/drivers/gpu/nova-core/dma.rs
++++ b/drivers/gpu/nova-core/dma.rs
+@@ -9,13 +9,13 @@
+ 
+ use kernel::{
+     device,
+-    dma::CoherentAllocation,
++    dma::CoherentSlice,
+     page::PAGE_SIZE,
+     prelude::*, //
+ };
+ 
+ pub(crate) struct DmaObject {
+-    dma: CoherentAllocation<u8>,
++    dma: CoherentSlice<u8>,
+ }
+ 
+ impl DmaObject {
+@@ -24,7 +24,7 @@ pub(crate) fn new(dev: &device::Device<device::Bound>, len: usize) -> Result<Sel
+             .map_err(|_| EINVAL)?
+             .pad_to_align()
+             .size();
+-        let dma = CoherentAllocation::alloc_coherent(dev, len, GFP_KERNEL | __GFP_ZERO)?;
++        let dma = CoherentSlice::alloc_coherent(dev, len, GFP_KERNEL | __GFP_ZERO)?;
+ 
+         Ok(Self { dma })
+     }
+@@ -40,7 +40,7 @@ pub(crate) fn from_data(dev: &device::Device<device::Bound>, data: &[u8]) -> Res
+ }
+ 
+ impl Deref for DmaObject {
+-    type Target = CoherentAllocation<u8>;
++    type Target = CoherentSlice<u8>;
+ 
+     fn deref(&self) -> &Self::Target {
+         &self.dma
 diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
-index 02321d5f3f06..6e6d91a9cd62 100644
+index 6e6d91a9cd62..43ed0dfdbc08 100644
 --- a/rust/kernel/dma.rs
 +++ b/rust/kernel/dma.rs
-@@ -12,7 +12,7 @@
-     sync::aref::ARef,
-     transmute::{AsBytes, FromBytes},
- };
--use core::ptr::NonNull;
-+use core::{marker::PhantomData, ptr::NonNull};
- 
- /// DMA address type.
+@@ -194,12 +194,12 @@ pub const fn value(&self) -> u64 {
  ///
-@@ -344,6 +344,29 @@ fn from(direction: DataDirection) -> Self {
-     }
- }
- 
-+/// Marker trait for the size parameter of a [`CoherentAllocation`].
-+///
-+/// [`AllocationSize`] is a marker trait for the size parameter of a [`CoherentAllocation`].
-+///
-+/// The specific types of size are `RuntimeSize` and `StaticSize<N>`.
-+pub trait AllocationSize: private::Sealed {}
-+
-+/// Marker type for a [`CoherentAllocation`] with a runtime-determined size.
-+pub struct RuntimeSize;
-+
-+/// Marker type for a [`CoherentAllocation`] with a compile-time-known size of `N` elements.
-+pub struct StaticSize<const N: usize>;
-+
-+mod private {
-+    pub trait Sealed {}
-+
-+    impl Sealed for super::RuntimeSize {}
-+    impl<const N: usize> Sealed for super::StaticSize<N> {}
-+}
-+
-+impl AllocationSize for RuntimeSize {}
-+impl<const N: usize> AllocationSize for StaticSize<N> {}
-+
- /// An abstraction of the `dma_alloc_coherent` API.
+ /// ```
+ /// # use kernel::device::{Bound, Device};
+-/// use kernel::dma::{attrs::*, CoherentAllocation};
++/// use kernel::dma::{attrs::*, CoherentArray};
  ///
- /// This is an abstraction around the `dma_alloc_coherent` API which is used to allocate and map
-@@ -361,6 +384,12 @@ fn from(direction: DataDirection) -> Self {
- ///   region.
- /// - The size in bytes of the allocation is equal to `size_of::<T> * count`.
- /// - `size_of::<T> * count` fits into a `usize`.
-+/// - If parameterized by `StaticSize<N>`, then `count == N`.
-+///
-+/// # Allocation size
-+///
-+/// [`CoherentAllocation`] is generic over an [`AllocationSize`], which lets it record a compile
-+/// time known size (in number of elements of `T`).
- // TODO
- //
- // DMA allocations potentially carry device resources (e.g.IOMMU mappings), hence for soundness
-@@ -373,79 +402,19 @@ fn from(direction: DataDirection) -> Self {
- //
- // Hence, find a way to revoke the device resources of a `CoherentAllocation`, but not the
- // entire `CoherentAllocation` including the allocated memory itself.
--pub struct CoherentAllocation<T: AsBytes + FromBytes> {
-+pub struct CoherentAllocation<T: AsBytes + FromBytes, Size: AllocationSize = RuntimeSize> {
-     dev: ARef<device::Device>,
-     dma_handle: DmaAddress,
-     count: usize,
-     cpu_addr: NonNull<T>,
-     dma_attrs: Attrs,
-+    _size: PhantomData<Size>,
- }
+ /// # fn test(dev: &Device<Bound>) -> Result {
+ /// let attribs = DMA_ATTR_FORCE_CONTIGUOUS | DMA_ATTR_NO_WARN;
+-/// let c: CoherentAllocation<u64> =
+-///     CoherentAllocation::alloc_attrs(dev, 4, GFP_KERNEL, attribs)?;
++/// let c: CoherentArray<u64, 4> =
++///     CoherentArray::alloc_attrs(dev, GFP_KERNEL, attribs)?;
+ /// # Ok::<(), Error>(()) }
+ /// ```
+ #[derive(Clone, Copy, PartialEq)]
+@@ -414,6 +414,9 @@ pub struct CoherentAllocation<T: AsBytes + FromBytes, Size: AllocationSize = Run
+ /// A coherent DMA allocation with a runtime-determined size.
+ pub type CoherentSlice<T> = CoherentAllocation<T, RuntimeSize>;
  
--impl<T: AsBytes + FromBytes> CoherentAllocation<T> {
--    /// Allocates a region of `size_of::<T> * count` of coherent memory.
--    ///
--    /// # Examples
--    ///
--    /// ```
--    /// # use kernel::device::{Bound, Device};
--    /// use kernel::dma::{attrs::*, CoherentAllocation};
--    ///
--    /// # fn test(dev: &Device<Bound>) -> Result {
--    /// let c: CoherentAllocation<u64> =
--    ///     CoherentAllocation::alloc_attrs(dev, 4, GFP_KERNEL, DMA_ATTR_NO_WARN)?;
--    /// # Ok::<(), Error>(()) }
--    /// ```
--    pub fn alloc_attrs(
--        dev: &device::Device<Bound>,
--        count: usize,
--        gfp_flags: kernel::alloc::Flags,
--        dma_attrs: Attrs,
--    ) -> Result<CoherentAllocation<T>> {
--        build_assert!(
--            core::mem::size_of::<T>() > 0,
--            "It doesn't make sense for the allocated type to be a ZST"
--        );
--
--        let size = count
--            .checked_mul(core::mem::size_of::<T>())
--            .ok_or(EOVERFLOW)?;
--        let mut dma_handle = 0;
--        // SAFETY: Device pointer is guaranteed as valid by the type invariant on `Device`.
--        let addr = unsafe {
--            bindings::dma_alloc_attrs(
--                dev.as_raw(),
--                size,
--                &mut dma_handle,
--                gfp_flags.as_raw(),
--                dma_attrs.as_raw(),
--            )
--        };
--        let addr = NonNull::new(addr).ok_or(ENOMEM)?;
--        // INVARIANT:
--        // - We just successfully allocated a coherent region which is accessible for
--        //   `count` elements, hence the cpu address is valid. We also hold a refcounted reference
--        //   to the device.
--        // - The allocated `size` is equal to `size_of::<T> * count`.
--        // - The allocated `size` fits into a `usize`.
--        Ok(Self {
--            dev: dev.into(),
--            dma_handle,
--            count,
--            cpu_addr: addr.cast(),
--            dma_attrs,
--        })
--    }
--
--    /// Performs the same functionality as [`CoherentAllocation::alloc_attrs`], except the
--    /// `dma_attrs` is 0 by default.
--    pub fn alloc_coherent(
--        dev: &device::Device<Bound>,
--        count: usize,
--        gfp_flags: kernel::alloc::Flags,
--    ) -> Result<CoherentAllocation<T>> {
--        CoherentAllocation::alloc_attrs(dev, count, gfp_flags, Attrs(0))
--    }
-+/// A coherent DMA allocation with a runtime-determined size.
-+pub type CoherentSlice<T> = CoherentAllocation<T, RuntimeSize>;
- 
-+impl<T: AsBytes + FromBytes, Size: AllocationSize> CoherentAllocation<T, Size> {
++/// A coherent DMA allocation for an array of `N` elements.
++pub type CoherentArray<T, const N: usize> = CoherentAllocation<T, StaticSize<N>>;
++
+ impl<T: AsBytes + FromBytes, Size: AllocationSize> CoherentAllocation<T, Size> {
      /// Returns the number of elements `T` in this allocation.
      ///
-     /// Note that this is not the size of the allocation in bytes, which is provided by
-@@ -644,10 +613,87 @@ pub unsafe fn field_write<F: AsBytes>(&self, field: *mut F, val: F) {
-         // the UB caused by racing between two kernel functions nor do they provide atomicity.
-         unsafe { field.write_volatile(val) }
+@@ -692,6 +695,124 @@ pub fn alloc_coherent(
      }
-+
-+    // Allocates a region of `size_of::<T> * count` of coherent memory.
-+    fn alloc_impl(
-+        dev: &device::Device<Bound>,
-+        count: usize,
-+        gfp_flags: kernel::alloc::Flags,
-+        dma_attrs: Attrs,
-+    ) -> Result<Self> {
-+        build_assert!(
-+            core::mem::size_of::<T>() > 0,
-+            "It doesn't make sense for the allocated type to be a ZST"
-+        );
-+
-+        let size = count
-+            .checked_mul(core::mem::size_of::<T>())
-+            .ok_or(EOVERFLOW)?;
-+        let mut dma_handle = 0;
-+        // SAFETY: Device pointer is guaranteed as valid by the type invariant on `Device`.
-+        let addr = unsafe {
-+            bindings::dma_alloc_attrs(
-+                dev.as_raw(),
-+                size,
-+                &mut dma_handle,
-+                gfp_flags.as_raw(),
-+                dma_attrs.as_raw(),
-+            )
-+        };
-+        let addr = NonNull::new(addr).ok_or(ENOMEM)?;
-+        // INVARIANT:
-+        // - We just successfully allocated a coherent region which is accessible for
-+        //   `count` elements, hence the cpu address is valid. We also hold a refcounted reference
-+        //   to the device.
-+        // - The allocated `size` is equal to `size_of::<T> * count`.
-+        // - The allocated `size` fits into a `usize`.
-+        Ok(Self {
-+            dev: dev.into(),
-+            dma_handle,
-+            count,
-+            cpu_addr: addr.cast(),
-+            dma_attrs,
-+            _size: PhantomData,
-+        })
-+    }
-+}
-+
-+impl<T: AsBytes + FromBytes> CoherentSlice<T> {
-+    /// Allocates a region of `size_of::<T> * count` of coherent memory.
+ }
+ 
++impl<T: AsBytes + FromBytes, const N: usize> CoherentArray<T, N> {
++    /// Allocates a region of `size_of::<T> * N` of coherent memory.
 +    ///
 +    /// # Examples
 +    ///
 +    /// ```
 +    /// # use kernel::device::{Bound, Device};
-+    /// use kernel::dma::{attrs::*, CoherentSlice};
++    /// use kernel::dma::{attrs::*, CoherentArray};
 +    ///
 +    /// # fn test(dev: &Device<Bound>) -> Result {
-+    /// let c: CoherentSlice<u64> =
-+    ///     CoherentSlice::alloc_attrs(dev, 4, GFP_KERNEL, DMA_ATTR_NO_WARN)?;
++    /// let c: CoherentArray<u64, 4> =
++    ///     CoherentArray::alloc_attrs(dev, GFP_KERNEL, DMA_ATTR_NO_WARN)?;
 +    /// # Ok::<(), Error>(()) }
 +    /// ```
 +    pub fn alloc_attrs(
 +        dev: &device::Device<Bound>,
-+        count: usize,
 +        gfp_flags: kernel::alloc::Flags,
 +        dma_attrs: Attrs,
 +    ) -> Result<Self> {
-+        Self::alloc_impl(dev, count, gfp_flags, dma_attrs)
++        Self::alloc_impl(dev, N, gfp_flags, dma_attrs)
 +    }
 +
-+    /// Performs the same functionality as [`CoherentSlice::alloc_attrs`], except the
++    /// Performs the same functionality as [`CoherentArray::alloc_attrs`], except the
 +    /// `dma_attrs` is 0 by default.
 +    pub fn alloc_coherent(
 +        dev: &device::Device<Bound>,
-+        count: usize,
 +        gfp_flags: kernel::alloc::Flags,
 +    ) -> Result<Self> {
-+        Self::alloc_attrs(dev, count, gfp_flags, Attrs(0))
++        Self::alloc_attrs(dev, gfp_flags, Attrs(0))
 +    }
- }
- 
- /// Note that the device configured to do DMA must be halted before this object is dropped.
--impl<T: AsBytes + FromBytes> Drop for CoherentAllocation<T> {
-+impl<T: AsBytes + FromBytes, Size: AllocationSize> Drop for CoherentAllocation<T, Size> {
-     fn drop(&mut self) {
-         let size = self.count * core::mem::size_of::<T>();
-         // SAFETY: Device pointer is guaranteed as valid by the type invariant on `Device`.
-@@ -667,7 +713,10 @@ fn drop(&mut self) {
- 
- // SAFETY: It is safe to send a `CoherentAllocation` to another thread if `T`
- // can be sent to another thread.
--unsafe impl<T: AsBytes + FromBytes + Send> Send for CoherentAllocation<T> {}
-+unsafe impl<T: AsBytes + FromBytes + Send, Size: AllocationSize> Send
-+    for CoherentAllocation<T, Size>
-+{
++
++    /// Returns a DMA handle starting at `OFFSET` (in units of `T`) which may be given to the
++    /// device as the DMA address base of the region.
++    pub fn dma_handle_with_offset<const OFFSET: usize>(&self) -> DmaAddress {
++        build_assert!(OFFSET < N, "Offset is out of bounds for the allocation.");
++
++        // INVARIANT: The type invariant of `Self` guarantees that `size_of::<T> * N` fits
++        // into a `usize`, and `OFFSET` is inferior to `N`.
++        self.dma_handle + (OFFSET * core::mem::size_of::<T>()) as DmaAddress
++    }
++
++    /// Returns the data from the region starting from `OFFSET` as a slice.
++    /// `OFFSET` and `COUNT` are in units of `T`, not the number of bytes.
++    ///
++    /// For ringbuffer type of r/w access or use-cases where the pointer to the live data is needed,
++    /// [`CoherentAllocation::start_ptr`] or [`CoherentAllocation::start_ptr_mut`] could be used
++    /// instead.
++    ///
++    /// # Safety
++    ///
++    /// * Callers must ensure that the device does not read/write to/from memory while the returned
++    ///   slice is live.
++    /// * Callers must ensure that this call does not race with a write to the same region while
++    ///   the returned slice is live.
++    pub unsafe fn as_slice<const OFFSET: usize, const COUNT: usize>(&self) -> &[T] {
++        build_assert!(
++            OFFSET + COUNT <= N,
++            "Range is out of bounds for the allocation."
++        );
++        // SAFETY:
++        // - The pointer is valid due to type invariant on `CoherentAllocation`,
++        //   we've just checked that the range and index is within bounds. The immutability of the
++        //   data is also guaranteed by the safety requirements of the function.
++        // - `OFFSET + COUNT` can't overflow since it is smaller than `N` and we've checked
++        //   that `N` won't overflow early in the constructor.
++        unsafe { core::slice::from_raw_parts(self.start_ptr().add(OFFSET), COUNT) }
++    }
++
++    /// Performs the same functionality as [`CoherentArray::as_slice`], except that a mutable
++    /// slice is returned.
++    ///
++    /// # Safety
++    ///
++    /// * Callers must ensure that the device does not read/write to/from memory while the returned
++    ///   slice is live.
++    /// * Callers must ensure that this call does not race with a read or write to the same region
++    ///   while the returned slice is live.
++    pub unsafe fn as_slice_mut<const OFFSET: usize, const COUNT: usize>(&mut self) -> &mut [T] {
++        build_assert!(
++            OFFSET + COUNT <= N,
++            "Range is out of bounds for the allocation."
++        );
++        // SAFETY:
++        // - The pointer is valid due to type invariant on `CoherentAllocation`,
++        //   we've just checked that the range and index is within bounds. The immutability of the
++        //   data is also guaranteed by the safety requirements of the function.
++        // - `OFFSET + COUNT` can't overflow since it is smaller than `N` and we've checked
++        //   that `N` won't overflow early in the constructor.
++        unsafe { core::slice::from_raw_parts_mut(self.start_ptr_mut().add(OFFSET), COUNT) }
++    }
++
++    /// Writes data to the region starting from `OFFSET`. `OFFSET` is in units of `T`, not the
++    /// number of bytes.
++    ///
++    /// # Safety
++    ///
++    /// * Callers must ensure that this call does not race with a read or write to the same region
++    ///   that overlaps with this write.
++    pub unsafe fn write<const OFFSET: usize, const SIZE: usize>(&mut self, src: &[T; SIZE]) {
++        build_assert!(
++            OFFSET + SIZE <= N,
++            "Range is out of bounds for the allocation."
++        );
++        // SAFETY:
++        // - The pointer is valid due to type invariant on `CoherentAllocation`
++        //   and we've just checked that the range and index is within bounds.
++        // - `OFFSET + SIZE` can't overflow since it is smaller than `N` and we've checked
++        //   that `N` won't overflow early in the constructor.
++        unsafe {
++            core::ptr::copy_nonoverlapping(
++                src.as_ptr(),
++                self.start_ptr_mut().add(OFFSET),
++                src.len(),
++            )
++        };
++    }
 +}
++
+ /// Note that the device configured to do DMA must be halted before this object is dropped.
+ impl<T: AsBytes + FromBytes, Size: AllocationSize> Drop for CoherentAllocation<T, Size> {
+     fn drop(&mut self) {
+diff --git a/samples/rust/rust_dma.rs b/samples/rust/rust_dma.rs
+index 7a87048575df..97711a99ac8b 100644
+--- a/samples/rust/rust_dma.rs
++++ b/samples/rust/rust_dma.rs
+@@ -6,7 +6,7 @@
  
- /// Reads a field of an item from an allocated region of structs.
- ///
+ use kernel::{
+     device::Core,
+-    dma::{CoherentAllocation, DataDirection, Device, DmaMask},
++    dma::{CoherentSlice, DataDirection, Device, DmaMask},
+     page, pci,
+     prelude::*,
+     scatterlist::{Owned, SGTable},
+@@ -16,7 +16,7 @@
+ #[pin_data(PinnedDrop)]
+ struct DmaSampleDriver {
+     pdev: ARef<pci::Device>,
+-    ca: CoherentAllocation<MyStruct>,
++    ca: CoherentSlice<MyStruct>,
+     #[pin]
+     sgt: SGTable<Owned<VVec<u8>>>,
+ }
+@@ -64,8 +64,8 @@ fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) -> impl PinInit<Self, E
+             // SAFETY: There are no concurrent calls to DMA allocation and mapping primitives.
+             unsafe { pdev.dma_set_mask_and_coherent(mask)? };
+ 
+-            let ca: CoherentAllocation<MyStruct> =
+-                CoherentAllocation::alloc_coherent(pdev.as_ref(), TEST_VALUES.len(), GFP_KERNEL)?;
++            let ca: CoherentSlice<MyStruct> =
++                CoherentSlice::alloc_coherent(pdev.as_ref(), TEST_VALUES.len(), GFP_KERNEL)?;
+ 
+             for (i, value) in TEST_VALUES.into_iter().enumerate() {
+                 kernel::try_dma_write!(ca[i] = MyStruct::new(value.0, value.1))?;
 
 -- 
 2.52.0
