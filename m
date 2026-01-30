@@ -2,111 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4AhxCnaHfGmbNgIAu9opvQ
+	id 0IASC2OMfGnyNgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 11:27:02 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 11:48:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 877BDB9560
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 11:27:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6D9B9834
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 11:48:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7825A10E985;
-	Fri, 30 Jan 2026 10:26:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2509B10E99B;
+	Fri, 30 Jan 2026 10:48:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="JBFBwCwo";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UzeRJfBD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6945B10E1A0
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 10:26:57 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-4359a302794so1365638f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 02:26:57 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769768816; cv=none;
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
+ [209.85.219.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC99010E99B
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 10:47:58 +0000 (UTC)
+Received: by mail-qv1-f51.google.com with SMTP id
+ 6a1803df08f44-8947ddce09fso15860406d6.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 02:47:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769770078; cv=none;
  d=google.com; s=arc-20240605;
- b=HyRlDI8eVZINZA/UCDu5oe52emw6H6z11G5KeuKOcIFihFsHn+A9UFCOGkb5Mh3TnO
- UF+hgG4CITZzX3EM1xcPLD4yCCVO7zN+KKAMVEw17OphpjXdDjkUyEMjs7geYJId8IaE
- 1pCz+eKsEWl7d/hn8lK3i0F1fnldizxtGykF+d0zrcAfGeAPAtJq1HHGUEFHkWeWS/ys
- m1EEOVrLlJSdXZOLpWpep5L6RFJ6iey9q4wHzfBdswcySVLJL9suq1gsQzOEaqVRW7XL
- mlYdQrAePgyd6+o+i33DvSjojmdZJ0E3//5C2mz3SZUib+2ccfRjK2NveFIXPW7diZBk
- gZ6w==
+ b=WfrJATTaWAV26JVg9QPqCiboQVLe5EBnCOLsQx+xtpFZAdHmkLA308786uCMmcR3N1
+ p+DFE0j5HAmls4MfEibjYGNkh1vIBd1vIa/Z/oC/lCKu2cBhVy5nR9zQdPP/fABljQjg
+ 5I9JCESxZ0e91ek/OMFoWdMYw8RtrV/Na0KFvOJpjyUa5f9sBudI2UHRAG1aQBLEgbdT
+ vd+QOjE5ZDehwiM0NvmovyxI9KQDX+F5Cq9Ude1T/jqSxA/ivrzyoMg9KRhhvFCOiaTj
+ s0lVeYo5aRfCjuE/5uvMOhl+OhkCPva0t4GF8b4Fr7C4xW30nd2HJuulxdADfmHV9WNb
+ CI6w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
  s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=qKGf5ayE/1fi3WtglGaStB/NskmIOWGBfGvj57gDQYY=;
- fh=IBJexb1D7h300x2PLh188OfI0kDWocwcEditYVIjKfs=;
- b=XyglOKhJuEocKDbN7ZrIH6DAOmlkN0k5WJsGxI1D732keWEBsqT5VGs9xZrQhuMqia
- KcSiZxdy68BajIhU5FgspsNoBf6VMGC6C4CnNyu16E8t09aKd/uTjWCbA7Lbk5/hJrj8
- 0LiBgIM0OCC70yId8H6gQO9YBOCaVQwjnBpyCeuAKZD3rmf9QQPNaYo9dzXkiT0yInhw
- YWrMPXECMxXcpA0LVDJyfX4gw5PTAMGiieL8+pq0T3OneQi3b0A6P18E07mSwDpBvlsR
- QxgJW1nOuI8LHwIj0FfMH7KZFRoMTd3ZKfJbvRTFmqEw+ZAABb48WET0Xgn2e0YEzlR4
- tJdw==; darn=lists.freedesktop.org
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:dkim-signature;
+ bh=BU1TLiyM4pSOOCbNwWx+ktn77BIiSxV11z6iEfmhsbA=;
+ fh=LYpSJpw3anLEa1OhLTX2+9KWwCIAyD9B3K9wgrr37sQ=;
+ b=X0vGxXllr/8TdNMukN1X9tJ2IEcct7ZFF9La8fksiF8d/fLSmAXTBDMz002m9fH1od
+ JXlTYr1jn+dnbIAkqFHpDAY7s7JVFMhGcVGZ1gGnSD/C/J09fSq93VIAAqTqu4IQoBG/
+ 8YB296o8D9VXPetZbcqW1AoBPOFo2k+HD45vevLahTdnMlmUEnopnioAJLbF/k54AuoE
+ gVu3sb6WW32vaqvZZEZ8y4pg9zGEVxDerhp1Rx+bn5hTqU7thd2earFg8XpilLseWBRO
+ MTUjERX6FRkfCW1DVnfFdMVJV1+4Ab2JTKeWs/T2eX+S7ySiMglQlNKb6hfajxxnnJKa
+ kU7Q==; darn=lists.freedesktop.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1769768816; x=1770373616;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qKGf5ayE/1fi3WtglGaStB/NskmIOWGBfGvj57gDQYY=;
- b=JBFBwCwoSkbW44P4vncIjZO9PvWgonRi3cQ6qZ5wjikqD8m0wb3zkur2FvPr8Ray24
- SifpHrfS0b3+dZ1LLTTKhCAJwYOBQG7wIYP1gVE7Y2rjZvVantuEHNbCPThFwlLgU/7b
- st83OMHDVrM8RJZDsYzLZxsM9aU42mY9hQPkxaQp/jM0ORp1rVgcuCnBZArdqhnPfsai
- 4q9iArC/5pUeoRviYbJyjp2ZZxTh/lc03ZjXr4LJkwFcqk9oM8AbPGWS92nRo+pPi1ci
- VhdasCWynfIhv0u6nO1UrPFwqVkJRwVEh/PRAQxP8CrLvannxYupDBsiL1E4HIyoDntZ
- bZPg==
+ d=gmail.com; s=20230601; t=1769770078; x=1770374878; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=BU1TLiyM4pSOOCbNwWx+ktn77BIiSxV11z6iEfmhsbA=;
+ b=UzeRJfBD7Zb17j2tj2nJEL5E5a3S7qsQYQnsici8IdKyRtPWnAQjG5BXwINQ+QHb31
+ SCocXAetlK/P94l/H4XC1OF+EmjMlEp/oxZ+zcSvp56gpicEMJOylJhOxi546vtIqxg4
+ O/HZfe0g2u6fWVpPf9UDG5PRayZrArK3gnZBQarSG4F5RpROyyxoi6cYd5nAJ4qF/Pvr
+ /oXu4YadEzL88LNYJTcis2gUE1eoWOg43tJ9pQlB8Zs9jgeoij45wVS77uJ8e+45uPDX
+ aotUpuKlFYAPcJgiU7Ai3wjPfk1uECVArY+vlM5pZw4/gWQGT6Cm7n8Oo6oFIIOlIY7y
+ i7jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769768816; x=1770373616;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=qKGf5ayE/1fi3WtglGaStB/NskmIOWGBfGvj57gDQYY=;
- b=nYx7s+IzXO+TT4FgQ/WpXj31YwyUX9SWorXlxeGBaVjaQ8BlLc7xY1ixTwgxjVomKu
- M7YPP7UBJzZ9NUM75UpCrSTmw494QhRlItwnj9dNOgNnsQ14uQ2cfhzZ6cJgWV2oK0xK
- ygw/DdpsJ/fqjEONLZ9vGJETZxa28IG1YCBqqxDTUZijVPky7EPevJ1M6qbMODOeDsKd
- Yee4Rk4yNDDKXvzuBwtMe6Y15GxRwCadSXv0wvLPN5ee8VnTUFe8xNr7cQxdS75qQ+9x
- xOLMvBO7laGp06rV/3UIX+m/8JbaejX9D4rVCaQibaF8aUgXodoB0ZwGQuH0p8vVRH1m
- MlQg==
+ d=1e100.net; s=20230601; t=1769770078; x=1770374878;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BU1TLiyM4pSOOCbNwWx+ktn77BIiSxV11z6iEfmhsbA=;
+ b=k+gMkmFCCwUmP2zbNRX25M5KtV1InQ4qCXSOkyclEwChnFKnm3eMMGXVtZlSBCVSRM
+ 1KcFIUd2f8dbCNn1LHNhxID6g8HOO70xnsjVBsjzt9eSq1LkEfwb54RzG4VGbbpx61EN
+ vY62o5bj00wzpCBLV5ZSSVG+hWGDeKCgibAUL0jZBGq73EALu0n+sDL8qG1reV99FVUx
+ t5ad2s7+ZTBCsTNP/yS72sdzjPnOke6GVpLf0psOBP+GPQYaUBy4nNp+5o++4Ni+quWp
+ yRMsvIOTNhjzhJm+BVDUWQB2WINnP0QiCcQMHfmkeODNeO4z9aDNs40zif12e7H5BWk0
+ 64Cw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW8fhDx40s32+DOYbi4C99c2sP8437oNKJmLRUxfP9HGkm1XTe1QSj9BwA0mmbCTQBx3fSFRtcq40A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwQx+6RGb9YdIPiulhy4Yloih4G3qiefP6GpzPex/IhtEE8Daat
- BMSjpxdNgELe1xfen3AqnvwXNptNIkEr/LAK/9HQ+vSVomDR5yUcYWK5WzEjK0AGByXwg7X8Iu6
- hUAwOPSQrVhA39LObquUTwuJtu5rGq8rv8b462N8R
-X-Gm-Gg: AZuq6aKl5Zu04YVlGwHY629bS6oMvK0Yqusvw/8h7HrKiRNe7TDpnvCwjXkuY+dyNPR
- GIZ9bew0j/WRu6Yg/+N64M70KJfJq0XxUbPDkkYtT5NKf1YWfZ9uHjZWr0zvNHsKMn094XqdmnQ
- IB2mM+LrQLn7tqak3lGbYEeit6V1sAYu1hic643szAh2A4LLyO3YHuWumdhUYJrwZnuJxbXPtcQ
- +2Qej2d9bmdCcKYlLwHd1Kvce5zHg4zbLkjRupw2EtJtLpslPESUd0V3bbpgXZbdCJ8Buda6Glq
- /rEH8QygdeEA7qzMa7QpAEq6ow==
-X-Received: by 2002:a05:6000:144a:b0:432:8504:a383 with SMTP id
- ffacd0b85a97d-435f3ab53cfmr3434365f8f.45.1769768815664; Fri, 30 Jan 2026
- 02:26:55 -0800 (PST)
+ AJvYcCVzveZvHFRk+OLJ3pqNBrDDw3k+Jmo59MxiaVb5IxQsydEodyXko91sEK4WxpiuTBwT11co4oZdrN4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyeammJY4wDh9ND14uNGvPTxjJKDJyTpsyet3HTCDkUGrO5hUZ+
+ Ww0H0NVyj2G9shqD0i6RHFwzN7EZ4I3Ynz6tqY9DB00u7EVRvVCx4+eB5ptbBaNC4vkKVRj8mfe
+ Ag8q7rAyo9Y+iCUKe1612+z6IPZh0Ol/kpQ==
+X-Gm-Gg: AZuq6aIpu2tuasJAJa2mFP9wajd6rodc+8vcZqob/9Kl1WWZCg090/nWDg7BgaGJyiG
+ gf4RAB8cptq+yL0ZgMixmMP3a5s9DTqxYzJ/g66r3VgeucMVlsvuCJ6yNLkmZGn3GamSfn4GkXZ
+ vddXTdj+Jvtva2xv3cB1QmS2rmDpZvMGS8+fl08ZhRuEvUMsv43DM0LwpanarTgoLNM2sm9FfUU
+ PY+tBTJo6+jppqkXooAxnX7vns8lleIcbinL17X7RndJLz4LCWLGvjjvOzBVKpLe3TNang52rEu
+ AjabL5gpoarf3GZVQSBgzgqjvh6lJ5HQwf/lE8DmV4802awJu2tJmOo=
+X-Received: by 2002:a05:6214:20ea:b0:88a:277d:10c with SMTP id
+ 6a1803df08f44-894e9f8874dmr32317756d6.26.1769770077681; Fri, 30 Jan 2026
+ 02:47:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20260130-coherent-array-v1-0-bcd672dacc70@nvidia.com>
- <20260130-coherent-array-v1-6-bcd672dacc70@nvidia.com>
-In-Reply-To: <20260130-coherent-array-v1-6-bcd672dacc70@nvidia.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Fri, 30 Jan 2026 11:26:44 +0100
-X-Gm-Features: AZwV_QjIZnbbm9xp8XOB5ABAESxw5YmRd900W4CPJMrijbzi9HEw_BSq-MEG1sk
-Message-ID: <CAH5fLggBd6s5MooGPfUaoarNF651BjTyBt+KcuJc0zdx5xg7cg@mail.gmail.com>
-Subject: Re: [PATCH 6/9] rust: dma: add dma_read! and dma_write! macros
-To: Eliot Courtney <ecourtney@nvidia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Robin Murphy <robin.murphy@arm.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>,
- nouveau@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org
+References: <87ldhf1prw.fsf@jogness.linutronix.de>
+ <87h5s34d36.fsf@jogness.linutronix.de>
+In-Reply-To: <87h5s34d36.fsf@jogness.linutronix.de>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 30 Jan 2026 20:47:46 +1000
+X-Gm-Features: AZwV_QimU45fHN7_4cEw9UXdD7YCfSc3kfEPiFQwR4lIsamoUkrGrJvX3Dgzpzc
+Message-ID: <CAPM=9tyzBxS69GtwzfaudZBM9SsuZ+ENGJJbT_mXG2qxFkaK4A@mail.gmail.com>
+Subject: Re: nouveau regression with 6.19.0-rc7
+To: John Ogness <john.ogness@linutronix.de>
+Cc: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Sean Paul <seanpaul@chromium.org>, 
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,77 +114,62 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:ecourtney@nvidia.com,m:dakr@kernel.org,m:acourbot@nvidia.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:abdiel.janulgue@gmail.com,m:daniel.almeida@collabora.com,m:robin.murphy@arm.com,m:a.hindborg@kernel.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:tmgross@umich.edu,m:nouveau@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:driver-core@lists.linux.dev,m:rust-for-linux@vger.kernel.org,m:abdieljanulgue@gmail.com,m:boqunfeng@gmail.com,s:lists@lfdr.de];
-	SUBJECT_HAS_EXCLAIM(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[google.com:+];
 	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:john.ogness@linutronix.de,m:lyude@redhat.com,m:dakr@kernel.org,m:hamohammed.sa@gmail.com,m:seanpaul@chromium.org,m:simona@ffwll.ch,m:nouveau@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:hamohammedsa@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[redhat.com,kernel.org,gmail.com,chromium.org,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,nvidia.com,gmail.com,ffwll.ch,collabora.com,arm.com,garyguo.net,protonmail.com,umich.edu,lists.freedesktop.org,vger.kernel.org,lists.linux.dev];
+	FROM_NEQ_ENVFROM(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:email,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 877BDB9560
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linutronix.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 7C6D9B9834
 X-Rspamd-Action: no action
 
-On Fri, Jan 30, 2026 at 9:35=E2=80=AFAM Eliot Courtney <ecourtney@nvidia.co=
-m> wrote:
+On Fri, 30 Jan 2026 at 20:19, John Ogness <john.ogness@linutronix.de> wrote:
 >
-> Add dma_read! and dma_write! macros using the new infallible methods
-> on CoherentArray.
+> On 2026-01-30, John Ogness <john.ogness@linutronix.de> wrote:
+> > On my workstation I have been using 6.19.0-rc4 with no problems. This
+> > morning I switched to 6.19.0-rc7 and now my graphics explodes when the
+> > nouveau module is loaded.
 >
-> Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
-> ---
->  rust/kernel/dma.rs | 103 +++++++++++++++++++++++++++++++++++++++++++++++=
-++++++
->  1 file changed, 103 insertions(+)
+> Reverting commit 604826acb3f5 ("drm/nouveau/disp: Set
+> drm_mode_config_funcs.atomic_(check|commit)") allows the nouveau driver
+> to load and work again.
 >
-> diff --git a/rust/kernel/dma.rs b/rust/kernel/dma.rs
-> index e4bca7a18ac1..f3920f74583a 100644
-> --- a/rust/kernel/dma.rs
-> +++ b/rust/kernel/dma.rs
-> @@ -811,6 +811,24 @@ pub unsafe fn as_slice_mut<const OFFSET: usize, cons=
-t COUNT: usize>(&mut self) -
->              )
->          };
->      }
-> +
-> +    /// Returns a pointer to an element from the region with bounds chec=
-king. `OFFSET` is in
-> +    /// units of `T`, not the number of bytes.
-> +    ///
-> +    /// Public but hidden since it should only be used from [`dma_read`]=
- and [`dma_write`] macros.
-> +    #[doc(hidden)]
-> +    pub fn ptr_at<const OFFSET: usize>(&self) -> *mut T {
-> +        build_assert!(
-> +            OFFSET < N,
-> +            "Index out of bounds when accessing CoherentArray"
-> +        );
+> Even though nouveau "technically supports atomic modesetting", it seems
+> more callbacks need to be implemented than just atomic_(check|commit).
+>
+> Should I submit a patch with the revert? Or is there a quick fix to
+> allow drm_drv_uses_atomic_modeset() to return true and properly support
+> atomic modesetting?
 
-This build assert does not depend on runtime values, so it can be
-written as a const block:
-const { assert!(OFFSET < N, "Index out of bounds when accessing
-CoherentArray"); }
+Please submit the revert patch at this point and we can work out the
+proper fix later.
 
-Alice
+Dave.
+
+>
+> John Ogness
