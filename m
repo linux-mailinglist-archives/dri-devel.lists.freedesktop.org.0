@@ -2,107 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +GVqBbxhfGl0MAIAu9opvQ
+	id aSBtF7lkfGkKMQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 08:46:04 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 08:58:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D042B8059
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 08:46:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF39B813E
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 08:58:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73E2910E074;
-	Fri, 30 Jan 2026 07:45:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73E1F10E90F;
+	Fri, 30 Jan 2026 07:58:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RDDIqeI/";
+	dkim=pass (2048-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="OaU820oA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1CF210E074
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 07:45:58 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id
- 98e67ed59e1d1-352c414bbbeso1769597a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 23:45:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769759158; cv=none;
- d=google.com; s=arc-20240605;
- b=cYBgPAgOT+l71SSDKe8nHOV2NX1jNQjdD+3Gu4jUHSF9kW5+9V5aswXmh/sPzfUBLv
- cPjJFhsd5tyTv7bdw0fhKYsZO3GpSLUDbVN06GsZZYIPRfWPYMQ+f7JRDbdDH28ngUZl
- qvrZRAFQY4JBDVX2yv0xDje9EY00C2RvDg+X7Y4kjz7GqFCLganhUsRoHS2D/IXosD1C
- I5HU0rMpEg/fVwg83vQSJhYxXP8+DY50IfRBoI7m+H/uw5s0KdaXPf7pBUirbeSUth8z
- yMh8MHQ/37puCWsaM5/iQEyIVa3X6/5fxYjNL0WB9aWQ6nlGu742FyzFWf3KrKUSqLP9
- YAwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=TAKPIgQHJLSAdcHdDw9QZcfJJfsr09DFKKKOpfOD4gw=;
- fh=OQJx43KzJFVjEUXGb1nf4R3K4zw+Ig54Mc825dJSPUs=;
- b=jeYnewWHBXfc2ihBI9i589qrpkJHngL+/cFVpf2pccvDH/5+qwbgZsyAQkIITYuXXb
- ORUrurbJYPlq2UKj2GjqmvI24vl0xdu+pSTooSvXIaRptDBGfqmFaWsvqrIB5yk5WwQc
- NRHcGS4PahOXjlhZHVaZeWueoHd7hZNS7yJqwTlfg7g5U2vM99BcGVCkq2mOvzfuu1sP
- UtOW85CCo945zX/XwtLvh9GyvROlRzwnRQSW+5tnb97b8K6mLZRj81ZCQe/6PGG4js2i
- 9KaTjdjZyNlWgUAaEIOFv45cubwvCnTo2pv8x3AmrZ4rTGLPRed58HOFTZtQRUhdHxMN
- KI8Q==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1769759158; x=1770363958; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TAKPIgQHJLSAdcHdDw9QZcfJJfsr09DFKKKOpfOD4gw=;
- b=RDDIqeI/i7o91LurG13hveNxJY4VbBgkvEaydPthBTLCng2TIj06pSUrHe6IpFbVI5
- NzsPmVYMzttZd4WSNj+utpBaI7H550WSqpRPR8paymAlZxnTO1Jm07oHPxzO2mo+S2Qt
- BKDor7hyJA1KqW4CRWtqkKPVtSI6fXUpJIZV6gloe2dDF/fgBLBBTatBG50PSg/NAbTp
- CWh/zm3magnCNhFRaMC+139tz7LSBIrnBrhJyqcXeASqSIV63NUEejBG8wF+hHlQ/dpk
- dluo3lICaOrGMQgFl4IaoG5QGT0LHR0DK47hV/ciGKuTM6OXLK/gtjjYLB9feLAw2KHA
- 2ljw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769759158; x=1770363958;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=TAKPIgQHJLSAdcHdDw9QZcfJJfsr09DFKKKOpfOD4gw=;
- b=tn7PhevyVbuEp0uml1EBORS/0FS0ehcpysQitNPs7QRkrR+hAgXBkNGwoIYZBqd5uT
- vG66nQgNINViX3bXIUEJScV+64qddN3XHHZ62grTGlshvCgkzMm6fz1aqvAu7nex88Ag
- sIpoEWe79G5gKkiOE56SGxHPBFqhCrJVq7pHBJr6+3u0NIdY/Wzqdg+FqYo12SJZmFt3
- TSwcS53UE5aSShjoGz7KMfj5gRElBTmyZcwQoby4ZnvOG5ANGyT34SZJOYOCIq0UuScI
- LSsjNeOH6PDYsC41GkuoCh1WiSbrty8eC1GRQq6+4ELUQ7NDUwLQsZXH2pcHAETrT9wc
- ibFQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVjzIYG6NXC2KL5CLEE2BVqAvG90P2bQymosA+i/EdSXUnsHyJDMOqAvpYtkxiHSDNtiS5aNyIq/TY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwC08HdW3AdC2F1WGBdPlo8YRWnUWYVW0r9wRO9Frj2cbtGmxdw
- VfEfydtWgtKzzZM9GQEx3XAvnVf4xiHJqof1Wz128AmQ76BoRKh920yYWOCIjdi+D/4f4Z94DEG
- 0R8gYyaBg5cKBVkcfYBPez/Wx/ighZTU=
-X-Gm-Gg: AZuq6aICkXJsjVNk1XOm1AeKCdnnKjL6W6PcYc4jPaYfL5/tzRBe9xIO/Yzp3W1Qo7P
- 6fenAEjgJBddPRBUBXud0983A0vbRYvMtFzEV3OVrjuDHO6nr/GplDUa9mHF+d2O7FZ4DGZBbYS
- KUBz4a5MEhqv8y2ouvrzbjtT7oEvdYcgg/7BnnGYZCfdezTySqCEEilaEpYTZeb5JOB90nDWnuT
- jLN8wh2AFB22hBV4shF78ZYf97a51N8vc7/hB8yyzTRm8azfv0JQ2OBgT56GNkzRpOnLZc=
-X-Received: by 2002:a17:90a:c888:b0:34c:718c:5448 with SMTP id
- 98e67ed59e1d1-354299f4a62mr4806616a91.4.1769759158099; Thu, 29 Jan 2026
- 23:45:58 -0800 (PST)
+X-Greylist: delayed 430 seconds by postgrey-1.36 at gabe;
+ Fri, 30 Jan 2026 07:58:44 UTC
+Received: from ironport.ite.com.tw (219-87-157-213.static.tfn.net.tw
+ [219.87.157.213])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92F9410E232
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 07:58:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
+ h=from:subject:date:message-id:mime-version:
+ content-transfer-encoding:to:cc;
+ bh=d8q7eoSppetlUUt5FXMVaOw5irGBi+mWlhzmWhDaui4=;
+ b=OaU820oA08phpFDMNuHUZj7iVFZS4MpLSnIZCP9Zuzx2FWVUPPkgGpzy
+ gCbOx/riRSZbynQWiA/JtDYG5L+AGYT4QFR/0eRP/Ij1vddg1V/3d7RLn
+ PnFWb0vQbEZPsAXxl4Ka+XKNb9PAikdTcQINbbRQdIbZje4FmI3D9PmU4
+ uyieGE0KX6fAXTieDtv+q0UZ6S2NBZq+l08ReT7OTNkH9iDsN7/zuMsNy
+ 9C3EcKtT+cbYbJ9vsgBVnUqXKf3aVpiWGlzTgobo5ULiRUv6Nf/P1HEWQ
+ f0pNF4ZdyCuhNT0x07QlqylZKrCgxJD5DACuBsd67Dg5vsOv4EfS25Yvd w==;
+X-CSE-ConnectionGUID: VrRCf1vOQaio2GtM9fjNAw==
+X-CSE-MsgGUID: OF7wCRxVR7u8QyA4Ded9cg==
+Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
+ by ironport.ite.com.tw with ESMTP; 30 Jan 2026 15:48:54 +0800
+Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL2.internal.ite.com.tw
+ [192.168.65.41]) by mse.ite.com.tw with ESMTP id 60U7pQj7005426;
+ Fri, 30 Jan 2026 15:51:26 +0800 (+08)
+ (envelope-from Pet.Weng@ite.com.tw)
+Received: from [127.0.1.1] (192.168.72.40) by CSBMAIL2.internal.ite.com.tw
+ (192.168.65.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.35; Fri, 30 Jan
+ 2026 15:51:26 +0800
+From: Pet Weng <pet.weng@ite.com.tw>
+Subject: [PATCH v6 0/3] Add ITE IT61620 MIPI DSI to HDMI bridge driver
+Date: Fri, 30 Jan 2026 15:51:33 +0800
+Message-ID: <20260130-it61620-0714-v6-0-70afa65923b5@ite.com.tw>
 MIME-Version: 1.0
-References: <20260130055508.3462700-1-shengjiu.wang@nxp.com>
- <cec25a41-cc6a-4b03-833e-5c7da5727e85@nxp.com>
- <CAA+D8AMkipi_iX=vagZMHXTNtqUqyFeVkU1Vr_wb4R82F1OHDA@mail.gmail.com>
- <5c559d32-c75d-469e-8652-86122cf436df@nxp.com>
-In-Reply-To: <5c559d32-c75d-469e-8652-86122cf436df@nxp.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Fri, 30 Jan 2026 15:45:45 +0800
-X-Gm-Features: AZwV_QhX1h_sXu2udLuSrjmEyu3PiDv_14Kt3Gf0zaIQ_xpv8bfSI3HflORbIrk
-Message-ID: <CAA+D8AMoEaY0WzU82L_JnwhHMeA4THZe0bgBSgsyuvhjP9Z3AQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: imx: imx8mp-hdmi-pai: enable pm runtime
-To: Liu Ying <victor.liu@nxp.com>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, andrzej.hajda@intel.com, 
- neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, shawnguo@kernel.org, 
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAVjfGkC/3XMPW7DMAyG4asEmqNApKi/Tr1H0UG2qEZD4sI23
+ BaB717ZQ5PYKMDlJfB8NzFwX3gQL4eb6HkqQ+muNezxINpzvH6wLKm2QIVGOSBZRgsWlVwjNlS
+ v5ZwxiEo+e87le517e699LsPY9T/r+gTL95+hCaSS2lkAS0k1wb+WkU9tdzmNX2JZmvCuPfqNx
+ qqNt9kETcnkvdZ/GpQKG60XnazHpNATwU7TXSPYjaaqQ8LM0XlykXfaPGjEjTZVx9xYciEm3cY
+ nPc/zLw5bXbGhAQAA
+X-Change-ID: 20250714-it61620-0714-ab4ab4ceff29
+To: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, Hermes Wu <hermes.Wu@ite.com.tw>, Kenneth
+ Hung <kenneth.Hung@ite.com.tw>, Pet Weng <pet.weng@ite.com.tw>, Jau-chih
+ Tseng <jau-chih.tseng@ite.com.tw>, Pin-yen Lin <treapking@google.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1769759532; l=5884;
+ i=pet.weng@ite.com.tw; s=20250702; h=from:subject:message-id;
+ bh=xh2USqWmPFvVEzqqe3NKTlTfG0pQtpIHu7vzwqSFgP0=;
+ b=rJ+CyM4DOhjJsPorbjC0vCuBo8wK9iwHURunpVeCoNJY6aWPeKsEtLFqZTfVwbhYvwSyGrbYx
+ tj2uN8VKPOxDZTcAYcSuC6FwgIIFIEOJ4/zbunmRXFaXtuzEwMFLQv7
+X-Developer-Key: i=pet.weng@ite.com.tw; a=ed25519;
+ pk=wd08uBtTLb93x2ixbKVNsxiZPdMh1Ov4z5klodh2bqo=
+X-Originating-IP: [192.168.72.40]
+X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
+ CSBMAIL2.internal.ite.com.tw (192.168.65.41)
+X-TM-SNTS-SMTP: E3887AD8A52ACCB7E1B5EECD5C5DB3C657921162994682458308DA2890FCB9DA2002:8
+X-MAIL: mse.ite.com.tw 60U7pQj7005426
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,80 +100,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[ite.com.tw,quarantine];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[ite.com.tw:s=dkim];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:victor.liu@nxp.com,m:shengjiu.wang@nxp.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[shengjiuwang@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hermes.Wu@ite.com.tw,m:kenneth.Hung@ite.com.tw,m:pet.weng@ite.com.tw,m:jau-chih.tseng@ite.com.tw,m:treapking@google.com,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[pet.weng@ite.com.tw,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[shengjiuwang@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[nxp.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,pengutronix.de,lists.freedesktop.org,lists.linux.dev,lists.infradead.org,vger.kernel.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[ite.com.tw:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 7D042B8059
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[pet.weng@ite.com.tw,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_XOIP(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_PROHIBIT(0.00)[0.0.0.58:email];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	NEURAL_HAM(-0.00)[-0.836];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.2:email]
+X-Rspamd-Queue-Id: AAF39B813E
 X-Rspamd-Action: no action
 
-On Fri, Jan 30, 2026 at 3:08=E2=80=AFPM Liu Ying <victor.liu@nxp.com> wrote=
-:
->
->
->
-> On Fri, Jan 30, 2026 at 03:06:19PM +0800, Shengjiu Wang wrote:
-> > On Fri, Jan 30, 2026 at 2:49=E2=80=AFPM Liu Ying <victor.liu@nxp.com> w=
-rote:
-> >>
-> >> Hi Shengjiu,
-> >>
-> >> On Fri, Jan 30, 2026 at 01:55:08PM +0800, Shengjiu Wang wrote:
-> >>> There is an audio channel shift issue with multi channel case, first =
-run
-> >>> the channel order is correct, but second run the channel order is shi=
-fted.
->
-> [...]
->
-> >> Can the channel order shift issue be fully fixed instead of implementi=
-ng
-> >> a "recovery method"?  I presume that this patch implements a recovery
-> >> mechanism.  If it can't, any chip ERRATA?
-> >
-> > Yes, it can be fully fixed by this patch. I will remove the "recovery" =
-for
-> > confusion.
->
-> Then, you need to add a Fixes tag.
+This patch series adds support for the ITE IT61620 MIPI DSI to HDMI 
+bridge chip.
 
-yes.
+The IT61620 is an I2C-controlled bridge that receives MIPI DSI input 
+and outputs HDMI signals. A single-port MIPI DSI input is converted to 
+an HDMI 1.4 output. This series introduces:
+- A device tree binding YAML file describing the hardware
+- A new DRM bridge driver implementing the basic functionality
+- A MAINTAINERS entry for the driver
 
-best regards
-Shengjiu Wang
+Signed-off-by: Pet Weng <pet.weng@ite.com.tw>
+---
+Changes in v6:
+- In patch 2								[Luca] 
+ 1. Fix a typo in the commit message.
+ 2. Remove redundant assignment of bridge.funcs, which is already set by 
+    devm_drm_bridge_alloc().
+- Link to v5: https://lore.kernel.org/r/20251222-it61620-0714-v5-0-afb6479ad3ca@ite.com.tw
 
->
-> --
-> Regards,
-> Liu Ying
+Changes in v5:
+- Fix dt_binding_check errors by adding missing unevaluatedProperties constraints
+  for port and endpoint nodes in the device tree binding.		[Rob]
+- Link to v4: https://lore.kernel.org/r/20251216-it61620-0714-v4-0-9d2fea7847ae@ite.com.tw
+
+Changes in v4:
+- In patch 1								[Krzysztof]
+ 1. Remove redundant "description" fields from interrupts and regulators
+ 2. Drop pinctrl-names and pinctrl-0; driver does not require them
+ 3. Remove port/endpoint properties already covered by video interfaces schema
+ 4. Fix example indentation to 4 spaces for readability
+- In patch 2								[Jani]
+ 1. Use connector->display_info from DRM helper instead of parsing EDID manually
+- In patch 2								[Dmitry]
+ 1. Remove redundant powered check in reg access
+ 2. Use TMDS character rate instead of pixel clock for N/CTS
+ 3. Use consistent lowercase naming for tmds.
+ 4. Use test_bit() instead of custom bit-test helper
+ 5. Use tmds_char_rate_valid instead of custom mode_valid
+ 6. Use custom EDID read instead of DDC bus for segment handling
+ 7. Drop redundant atomic feature check
+ 8. Pass flags directly to drm_bridge_attach()
+ 9. Check DRM_BRIDGE_ATTACH_NO_CONNECTOR flag before drm_bridge_attach()
+ 10. Short-circuit HPD update if connector status unchanged
+ 11. Remove unnecessary NULL check for connector state
+ 12. Rename cached_edid to edid since it's no longer cached
+ 13. Remove redundant sample rate checks; rely on hdmi-codec validation
+ 14. Remove unsupported 18-bit audio sample size; rely on hdmi-codec
+ 15. Remove unnecessary fmt switch; rely on hdmi-codec defaults
+ 16. Check and propagate errors from it61620_audio_update_hw_params instead of
+     ignoring them
+- In patch 3								[Krzysztof]
+ 1. Remove unnecessary T: field pointing to git; subsystem already defines it
+- Link to v3: https://lore.kernel.org/r/20251009-it61620-0714-v3-0-5d682d028441@ite.com.tw
+
+Changes in v3:
+- Wrapped description lines to comply with 80-character line length limit
+  in patch 1.								[Rob]
+- Renamed node from "it61620@58" to "bridge@58" in patch 1.		[Rob]
+- Add port@2 for I2S audio input in patch 1.				[Dmitry]
+- Updated the Kconfig dependency from CRYPTO and CRYPTO_HASH to 
+  CRYPTO_LIB_SHA1 in patch 2.						[Eric]
+- In patch 2								[Dmitry]
+ 1. Audio and InfoFrame
+   - Rename audfmt to i2s_input_format for clarity.
+   - Remove unused infoframe[HDMI_INFOFRAME_SIZE(AUDIO)].
+ 2. Platform data and structure
+   - Drop platform data usage; migrate members into struct it61620
+ 3. Code organization
+   - Reorder functions to avoid the need for forward declarations.
+   - Add static inline to small helper functions
+     (e.g. bridge_to_it61620()).
+ 4. HDCP handling
+   - Make HDCP enable/disable conditional on conn_state->content_protection.
+   - Report authentication result using drm_hdcp_update_content_protection().
+ 5. Error handling
+   - Replace manual error path with dev_err_probe().
+ 6. Power management
+   - Inline suspend/resume callbacks.
+   - Use DEFINE_RUNTIME_DEV_PM_OPS() instead of explicit struct definition.
+ 7. Bridge callbacks
+   - Drop empty bridge_detach().
+   - Inline it61620_bridge_mode_valid().
+ 8. EDID handling
+   - Remove unnecessary cached EDID duplication.
+ 9. Mode set and pixel clock
+   - Move mode handling to atomic_enable().
+   - Keep only pixelclock for future N/CTS audio calculations.
+ 10. Logging
+    - Replace noisy drm_err() calls with drm_dbg().
+ 11. InfoFrame support
+    - Add support for SPD and Vendor InfoFrames.
+- Link to v2: https://lore.kernel.org/r/20250828-it61620-0714-v2-0-586f5934d5f8@ite.com.tw
+
+Changes in v2:
+- Call the sha1() library function instead of using the crypto_shash
+  "sha1" in patch 2.
+- Rewrite it61620_hdmi_ddc_wait() with readx_poll_timeout() in patch 2.	[Pin-yen]
+- Rewrite it61620_hdmi_hdcp_wait_ksv_list() with readx_poll_timeout() in
+  patch 2.
+- Replace interrupts-extended with interrupts in patch 1.		[Rob]
+- Replace dsi-lanes with the standard property data-lanes from the graph
+  binding.								[Rob]
+- Replace "#/$defs/port-base" with "#/properties/port" in patch 1.	[Rob]
+- Drop unused labels and "hdmi" for the node name.			[Rob]
+- Drop status in patch 1.						[Rob]
+- Link to v1: https://lore.kernel.org/r/20250714-it61620-0714-v1-0-3761164d0b98@ite.com.tw
+
+---
+Pet Weng (3):
+      dt-binding: display: Add ITE IT61620 MIPI DSI to HDMI bridge
+      drm/bridge: Add ITE IT61620 MIPI DSI to HDMI bridge driver
+      MAINTAINERS: Add entry for ITE IT61620 MIPI to HDMI bridge driver
+
+ .../bindings/display/bridge/ite,it61620.yaml       |  142 +
+ MAINTAINERS                                        |    7 +
+ drivers/gpu/drm/bridge/Kconfig                     |   18 +
+ drivers/gpu/drm/bridge/Makefile                    |    1 +
+ drivers/gpu/drm/bridge/ite-it61620.c               | 2817 ++++++++++++++++++++
+ 5 files changed, 2985 insertions(+)
+---
+base-commit: 7d86ab402f1ccd4190af9b9eda766e0f53a44bf1
+change-id: 20250714-it61620-0714-ab4ab4ceff29
+
+Best regards,
+-- 
+Pet Weng <pet.weng@ite.com.tw>
+
