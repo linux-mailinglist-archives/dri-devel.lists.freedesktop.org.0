@@ -2,112 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aJePDKa5fGk0OgIAu9opvQ
+	id wHmCLzS6fGk0OgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 15:01:10 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 15:03:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE8EBB6E7
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 15:01:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C77B7BB71C
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 15:03:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40B1510E9E6;
-	Fri, 30 Jan 2026 14:01:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C047C10E0B7;
+	Fri, 30 Jan 2026 14:03:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="bkuul8n7";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="NOOvIBMc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="G/1gH+th";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yrKh5IeP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uH4ebGJe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
- [209.85.222.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A78C610E11C
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 14:01:02 +0000 (UTC)
-Received: by mail-qk1-f181.google.com with SMTP id
- af79cd13be357-8c710439535so170114685a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 06:01:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1769781661; x=1770386461; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=RZzJd1rUXnKgbbFoik2J/HwA+Mcwjh2UI/kxMGq+fms=;
- b=bkuul8n7Q1FQ+fhJ34zNUQldl9Mi09F1DLoaitfXg54pb0lTA0U8ZZkpVRkb0hGt5n
- GG0sbYa+45QlOAyuNiBhfUiU7Y++rW7vCgtuYvrsi+woFf4L56mSxBLJxbw7oTGAy+OP
- YIQaWnpqxWQHQC7GnWi1DItg4PtB6lYrwixh+utDBYx/rykZaOQxjLryj4A7bGSJuxdU
- BYZbwdAz9Xj3aRz/GjdJ8yLWIdOmt/ORo911OGOkL5Wf04ALG6Ju7amZqon3CiH8afnT
- H6yAU3wSV1UMbzx9tYT28qw9bpDWPaQbhwA0AqOKTXtMmXKpjXyTv1sWkB1oMgGenn4L
- xHuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769781661; x=1770386461;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RZzJd1rUXnKgbbFoik2J/HwA+Mcwjh2UI/kxMGq+fms=;
- b=N6y8W3kEyTZNsC+GGHwurW/Rcl8vUWGKZSXRFQtEBAdzIw1VdMntjOyj4puVh/rj6g
- 5zvh4x5eQx0OH6O1wyCv58dlKAtc7El01gxeQG8Pb3+AgssnXm3jzYVWto6IgVykwMAm
- e/URYRzOrntaQvtBIiz/yjjzZmODach+ZobhPIPaC9FZuWPauZjH5W2xrKisxAtb91z7
- x5FChQsTtwoPDMx8GM5rmik3oVmHA7JupL9O3sQHhI3LssTCq6Aattd15994WXa2n7d/
- 21vh+hk2CvqtsbD6hnznFZpyHYZMp0QBo/EwdaxYdDYugsnpko5mNU1GrglLpU1i+yxy
- 2i8A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX3AamxP4SITKEfdAeJLmD4xHuB8h3YegJRYd1SfFTmgU2cfGmEYe8ST13ef5trNJpAYpl8klPOCiI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyW3A9IYi9V3K88bMxKxKW/n5ZKlbpyADUMEwVRzb/7fBs7R/dk
- 3+L5ld1spBfUrdpxZ7RbTXN8qPcnTsdGXNhjKLl0+oTQuOtZgwFlIbqDGnO6NQKxDdE=
-X-Gm-Gg: AZuq6aIMemNaGeZh/SpGMBB/XTNm+jkZprtrceGMf+D4U6MeiAhxa7jHPcEGa6OASxd
- eOP1kfB2broV3wg5LDLUbyJkEL1K6nSbCLN71IReADe579GRL/nkAYpW4MtB63Y5u4C3DcWfF7q
- Mva4LR9MxlXbkkylWfEUCJWzaxdOwQ6DTEBrS2//YYTfKrkVJKJr1pxb7AyQWpPgBm+hmZDHcJc
- gUKVIE8r6OwlT+5KdxOLXORpdlaScG36r+Na4wH5pqQz7lCBRGAyky9RcKFE32C8H61VvJLtC6a
- M/FsUJgtzHD5/QPvPnYgmmK1Suq/vWXC9Ml+lmbeQvXy6PRNe02DflNlNz7z9chYIfZQOXY16Um
- UN+Nvsb1oZvPcSKM0/A95AzPV7VwRyJHbspGCJLuGeya4NrAYHp/fZzflkx8Qdn8eHkQNvB6CdH
- bwLrhWRdZSMMcxpAfO84H5uHAYWbviPom+s9FMBoTguPcasSOzaWFM7N7+KX3mFv3dVs9sb4kwm
- Qi4ZQ==
-X-Received: by 2002:a05:620a:290f:b0:8c3:650d:577e with SMTP id
- af79cd13be357-8c9eb224827mr368793585a.4.1769781649371; 
- Fri, 30 Jan 2026 06:00:49 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-8c711b95e4esm700915485a.15.2026.01.30.06.00.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jan 2026 06:00:48 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1vlp3H-0000000Annc-1AWG;
- Fri, 30 Jan 2026 10:00:47 -0400
-Date: Fri, 30 Jan 2026 10:00:47 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Williamson <alex@shazbot.org>, Ankit Agrawal <ankita@nvidia.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
- intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v5 6/8] dma-buf: Add dma_buf_attach_revocable()
-Message-ID: <20260130140047.GD2328995@ziepe.ca>
-References: <20260124-dmabuf-revoke-v5-0-f98fca917e96@nvidia.com>
- <20260124-dmabuf-revoke-v5-6-f98fca917e96@nvidia.com>
- <b4cf1379-d68b-45da-866b-c461d6feb51b@amd.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9938910E0B7
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 14:03:28 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id BD3C534722;
+ Fri, 30 Jan 2026 14:03:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1769781807; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hx7JSfqo6prQnFtiJ9n8NFVfauePCUDnrC4x1EH5+kM=;
+ b=NOOvIBMcAhez32a6Ry/IOYerVaWHp+SUNSbNrf8vlZHNAXN2XRDUtzsEawVnUJyI/n9p9f
+ W2t72ZsD4vNpLNorLuMh03HoJ+smA898vG/6+cKNGSjGZjGPEN4h3/ssF3LnZncP0iUuTD
+ CR/ANu4yQS65fLyESfhIJNP2cyRcRr0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1769781807;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hx7JSfqo6prQnFtiJ9n8NFVfauePCUDnrC4x1EH5+kM=;
+ b=G/1gH+thr8o/9hjn7TkaVn9xHe/el7zruB+X/Nnr0+JhdOE/LhCvnjcsqEEXz8Gusd280U
+ QbWP5HxgR8SYCfCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1769781805; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hx7JSfqo6prQnFtiJ9n8NFVfauePCUDnrC4x1EH5+kM=;
+ b=yrKh5IePvexgkosutZ6CsY/fF7YWyiWfJFNl6bmCgumycrUVcpDzb8xPLEvjjjcvzmTyIj
+ k4X5/4Z2pTcWBKvsF8Ob0mjC59ksOxlCxpdsUd27TA5js/zM/bBcTpIQN+5Yj/alu5R13j
+ fOXh9FjIeT9JiXzK4QVrraigXEo5H4A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1769781805;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hx7JSfqo6prQnFtiJ9n8NFVfauePCUDnrC4x1EH5+kM=;
+ b=uH4ebGJeIDKnWxEtrNzsmqHBK2cHwAt5OHNw4IcdgDqJU0/CXOv80HZnQMH637WPY1zYMU
+ fcbjYhwdhQBHB1Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 64CB93EA61;
+ Fri, 30 Jan 2026 14:03:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id lk/IFi26fGlRNQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 30 Jan 2026 14:03:25 +0000
+Message-ID: <4272ae94-902e-40dc-86ce-62b642fa9656@suse.de>
+Date: Fri, 30 Jan 2026 15:03:24 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/mgag200: sleep instead of busy wait for BMC
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+ Jacob Keller <jacob.e.keller@intel.com>, Dave Airlie <airlied@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>
+Cc: Pasi Vaananen <pvaanane@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260128-jk-mgag200-fix-bad-udelay-v1-1-db02e04c343d@intel.com>
+ <338ff7cf-1c7d-48da-b1b8-37aac440fed0@suse.de>
+ <88f33e4e-5d0e-4520-a399-5be2901a3281@intel.com>
+ <27af79a8-ee84-4845-a737-82d3883536e7@redhat.com>
+ <8d238204-b0f6-48a7-9afc-480097c32a23@suse.de>
+ <770785c9-266b-4ebb-a0a1-f5e615e45855@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <770785c9-266b-4ebb-a0a1-f5e615e45855@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b4cf1379-d68b-45da-866b-c461d6feb51b@amd.com>
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,70 +140,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[ziepe.ca];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:leon@kernel.org,m:sumit.semwal@linaro.org,m:alexander.deucher@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:kraxel@redhat.com,m:dmitry.osipenko@collabora.com,m:gurchetansingh@chromium.org,m:olvaffe@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:lucas.demarchi@intel.com,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,m:kevin.tian@intel.com,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:Felix.Kuehling@amd.com,m:alex@shazbot.org,m:ankita@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:amd-gfx@lists.freedesktop.org,m:virtualization@lists.linux.dev,m:intel-xe@lists.freedesktop.org,m:linux-rdma@vger.kernel.org,m:iommu@lists.linux.dev,m:kvm@vger.kernel.org,s:lists@lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	DKIM_TRACE(0.00)[ziepe.ca:+];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:jfalempe@redhat.com,m:jacob.e.keller@intel.com,m:airlied@redhat.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:simona@ffwll.ch,m:pvaanane@redhat.com,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
-	RSPAMD_EMAILBL_FAIL(0.00)[leonro.nvidia.com:server fail];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,ziepe.ca:mid,ziepe.ca:dkim]
-X-Rspamd-Queue-Id: 8BE8EBB6E7
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: C77B7BB71C
 X-Rspamd-Action: no action
 
-On Fri, Jan 30, 2026 at 09:43:22AM +0100, Christian König wrote:
-> On 1/24/26 20:14, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > Some exporters need a flow to synchronously revoke access to the DMA-buf
-> > by importers. Once revoke is completed the importer is not permitted to
-> > touch the memory otherwise they may get IOMMU faults, AERs, or worse.
-> 
-> That approach is seriously not going to fly.
-> 
-> You can use the invalidate_mappings approach to trigger the importer
-> to give back the mapping, but when the mapping is really given back
-> is still completely on the importer side.
+Hi,
 
-Yes, and that is what this is all doing, there is the wait for the
-importer's unmap to happen in the sequence.
+I don't understand this.
 
-> In other words you can't do the shot down revoke semantics you are
-> trying to establish here.
+Am 30.01.26 um 14:27 schrieb Jocelyn Falempe:
+> Hi,
+>
+> To take some measurement, I've put this instead of step 3a of 
+> mgag200_bmc_stop_scanout()
+>
+> for (i = 0; i < 100000; i++) {
+>     WREG8(DAC_INDEX, MGA1064_SPAREREG);
+>     tmp = RREG8(DAC_DATA);
+>     pr_info("MGA Sparereg %02x\n", tmp);
+>     udelay(10);
+> }
+> return;
 
-All this is doing is saying if dma_buf_attach_revocable() == true then
-the importer will call unmap within bounded time after
-dma_buf_invalidate_mappings().
+What do you actually measure? The loop in 3a is supposed to end as soon 
+as bit 0x1 signals that the hsync is active.
 
-That's it. If the importing driver doesn't want to do that then it
-should make dma_buf_attach_revocable()=false.
+Are you sure that the pr_info() doesn't interfere with the loop? This is 
+a tight loop to catch the bit when it flips. Putting that pr_info() 
+there in the loop can take plenty of time.
 
-VFIO/etc only want to interwork with importers that can do this.
 
-Jason
+
+>
+> It's called at boot at
+> [   45.110616] MGA STOP SCANOUT
+> [   45.110631] MGA Sparereg 84
+> it oscillates between 80, 81, 82, 83, 84 for ~4310us
+> [   45.114941] MGA Sparereg 81
+> then stays at 81 for ~227ms
+> [   45.342492] MGA Sparereg 81
+> [   45.342504] MGA Sparereg 80
+> and stays at 80 for 1136ms, until the end of the loop.
+> [   46.356152] MGA Sparereg 80
+>
+> Then it's called a few time when my display go blank and each time a 
+> different behavior is seen
+>
+> [  729.448040] MGA STOP SCANOUT
+> [  729.448055] MGA Sparereg 80
+> it oscillates between 80, 81, 82, 83, 84 for ~39258us
+> [  729.487313] MGA Sparereg 81
+> then stays at 81 for ~230ms
+> [  729.717349] MGA Sparereg 81
+> [  729.717363] MGA Sparereg 80
+> then back to 80
+>
+> This one is strange, it stays at 0x81 for 1191ms
+> [  838.307042] MGA STOP SCANOUT
+> [  838.307055] MGA Sparereg 81
+> [  839.498450] MGA Sparereg 81
+>
+> And the last one, this time it stays at 0x80 for 1235ms
+>
+> [ 4318.439032] MGA STOP SCANOUT
+> [ 4318.439047] MGA Sparereg 80
+> [ 4319.674140] MGA Sparereg 80
+>
+> So my conclusion, is that the bit 2 is almost never seen when polling 
+> at 10us, so there is no chance to see it if polling at 1000us like 
+> it's done by the driver. So the step 3b won't work at all on my setup.
+
+
+
+>
+> But even the bit 1 can stay set or unset for more than 1s, so it looks 
+> very unreliable to rely on it, at least on this hardware.
+
+Did you connect to the BMC virtual display while performing the test?
+
+
+>
+> I feel like doing a msleep(300) is probably the best bet.
+> If you still trust the hardware, maybe it should wait for ~100us, then 
+> check the bit 1 and wait until it goes back to 0.
+
+Here's an example calculation: with 1920x1080@60Hz, there are 1125 lines 
+overall. So
+
+   (1,000,000 usec/sec / 60 Hz) / 1125 lines ~= 14.8 usec / line.
+
+There are 2200 pixels on each scanline. So
+
+   (1 - (1920 pixels / 2200 pixels) ) * 14.8 usec / line ~= 1.88 usec
+
+This is roughly the time that the CRTC spends in each scanline's blank 
+area and likely the upper bound for the duration of a single polling 
+with that display mode. Otherwise, we might miss the blank.
+
+Honestly, I'd just take the proposed patch as it is and not bother any 
+further. I think this is the correct fix unless we can figure out the 
+exact meaning of these bits and the BMC.
+
+If anything, we could try to reduce the polling time to 1 usec and 
+reduce the number of iterations to 50. This would give us 3 scanlines to 
+catch the bit.
+
+
+Best regards
+Thomas
+
+
+>
+> You can find below the raw dmesg (I just removed the lines where the 
+> value is equal to the previous and next line, to make it smaller).
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
