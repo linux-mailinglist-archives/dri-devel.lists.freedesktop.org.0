@@ -2,150 +2,160 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GK7yLeBHfGkSLwIAu9opvQ
+	id 0ECeLQFKfGktLwIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 06:55:44 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 07:04:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B14FB782C
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 06:55:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E123B78EF
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 07:04:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8077010E903;
-	Fri, 30 Jan 2026 05:55:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0469810E905;
+	Fri, 30 Jan 2026 06:04:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="Mv1C5Jzm";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="Gpy0AhSY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com
- (mail-northeuropeazon11010043.outbound.protection.outlook.com [52.101.84.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 914AA10E908
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 05:55:40 +0000 (UTC)
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010004.outbound.protection.outlook.com
+ [40.93.198.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4957010E905
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 06:04:44 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vyTUQSpNuyg6eeB2Z4jI1EBgkulvTRB4ujwN1QQ10hWkpFDuY2qt0W4mK3om5A9s6f2kLyEaSHhzsd83puHtTQES+jdsyRjwq7H6Wsv/FPlCu69rpQTn6SVt7ImDiMtd0lMowchTiJfceGv1cAeh88UeHuy3wO8aEuTw/8Om99rk6B9oCxHhJ/Zp+j8HFe0Bvh8ItP5IpblReVUr2cZTF3kD/t5ftMBytI9upHjtQ3Ws1CDCer4TV9LbMz4Om0yejF2ZZISW6AhPDdoZE29NcJRFX9WyqYQqxda4tGrHbR+rzwHuapneRMeUPnKIlhel7qvlHlukUZ95sbFxoVLqVA==
+ b=vKQ47HkfRnpgSotIgHpdBcXufBNHkQZO6/kBCEIfw9uMgnVZGKnBN9rfJcLt8qycX+jK9R8eJ27nxpylahAK8eX1Qy9HN1kBth7Y1Ko9xv7Vu9PxdW9eFEUOSzjOmMTS7szBcyaMaRBK9jrj3CPYVqfg8K8qgFnJPUMjaIEg/3GEihl0bsKSjhhVIkOw6pe+SjyB3D0o4N3hxPH0I1FFumVAExyVe4aiWLV/Stm9oN+homecPNGGPHqR6Gt5++atkMJFi+eXXGA6n9ez+CEondiOytnN9q4u6PdXj2TzwaofWFULWpEfy2g55qg0uNB6ggtUO37m5A+uhI52pfLt9g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wM8tQ+K4wGRJuxPKhSlT6YdGHmuCUgEA8I0NmacpuvU=;
- b=o3ee/Bn3Aln/lemFlaK+0AKifP9qgkgSvZ2kYeRxfA5Cti23ojlrHm7oyGh3wVb3jwRZV8yi6tadUhjxek8WGWIvkIaTKWyuuzAJiJLHyaIyzZnvQ2VpiRdlPegBz6+Cp2Wi9bjFUK8Hn8SPfeYR3hxIFUfY4LhqwQN2+Qzl3xlMgRJUdkeWu0VgtzH7nd2Dwh5UkT4i1RXd/Envlz2bAURR6a4sS8eWJIYbIHi3rV2YkhahUsCG4Emm+eHqsL2kyXlsz/JqmcL0sBq+qqZpPfKpe93PnGL2BYhDebSe20HHmr9qjKq2MCn3mHvjR/NteGjpx4aow3afWXxcKfsqeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ bh=TKxEfo+y7JwqbzMkIxwL0c81dKPbf4m7NbcinrEFObY=;
+ b=tyFRhLx+QQDXfFrFEIjRrjiA8Y5a8pluXAoJz9eqboo+Noesn7diA6csLXvfnJosHLreHC1Tr6usc5t4wuDd2ehAY0nRJ6sXX+CfBtlEedgGMp0dKtUlkkdmPjtfNC5phnDGFAU2mif8yX6dZiqse/cnROARFTvhv+70rQ5X/J4LwZI7jtio7E/vQqT5YIazfJwrLvIGPo96s91Bs2MW3Au205lJSPnJCIBNbGc+Ran+iN0eYHW21q4YZdrMgYNs32b6kD99B7bT8ROsZCPM610/DE6fIuWG8t+cDnA25oEWXCKVMDnaDDHdTmHl5IFE/lML2rH6SrJNg7AWPsoLUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wM8tQ+K4wGRJuxPKhSlT6YdGHmuCUgEA8I0NmacpuvU=;
- b=Mv1C5JzmN8bbKhYCHvSvA+tlyKQYAxzj4Nxx7hHV23wQeSpxX0DEZ1fnReJh9cFREV84mof4VBkeHoHdX+ToHyxS74RxJGX8Sgp7yfuSO4xiHfxvPJb6j9qY/e8wT4gEAqnBG1O4JxAayE8QYAITGRrku6VAwiJFLWj/pZK0CZ3Xg9XRQdKZBHFSDgIcNbGxJikMG+JjOQBkEO22unXJ79HaJe/Qp9eZVTmeZxyMB02IIbfxIpZm+qBw9Hpry+Xs5mNDo11tjxYNK4kS3zNdStRzWrlltLrh6aPKFqQGEvCjmEHsW/CsQtoXjz/yijWb9AcjjuLvLKCmd+RqrvpZew==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
- by GVXPR04MB11017.eurprd04.prod.outlook.com (2603:10a6:150:21c::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Fri, 30 Jan
- 2026 05:55:35 +0000
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b]) by AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b%3]) with mapi id 15.20.9564.008; Fri, 30 Jan 2026
- 05:55:35 +0000
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: victor.liu@nxp.com, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
- rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/bridge: imx: imx8mp-hdmi-pai: enable pm runtime
-Date: Fri, 30 Jan 2026 13:55:08 +0800
-Message-Id: <20260130055508.3462700-1-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.37.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0039.apcprd02.prod.outlook.com
- (2603:1096:4:1f6::9) To AM0PR04MB7044.eurprd04.prod.outlook.com
- (2603:10a6:208:191::20)
+ bh=TKxEfo+y7JwqbzMkIxwL0c81dKPbf4m7NbcinrEFObY=;
+ b=Gpy0AhSYImriDGztj63fSLneqXjS97xE5hEd3ev3fwEIx8QghORV5x5hwlqbZ7EkeKiHFaVZb0sFmrhpNunHd1tes7ejSO9c656+E9puk2mK9o2WZ3+KTzluiqcss5EWRhJ1pwLOPVP3fpi3uPSpzHsk1zUfiVgmyOJ89DyGYQs=
+Received: from CH5PR03CA0003.namprd03.prod.outlook.com (2603:10b6:610:1f1::19)
+ by SJ5PPFC802EB2B9.namprd10.prod.outlook.com
+ (2603:10b6:a0f:fc02::7cb) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Fri, 30 Jan
+ 2026 06:04:41 +0000
+Received: from DS2PEPF00003440.namprd02.prod.outlook.com
+ (2603:10b6:610:1f1:cafe::4f) by CH5PR03CA0003.outlook.office365.com
+ (2603:10b6:610:1f1::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.12 via Frontend Transport; Fri,
+ 30 Jan 2026 06:04:35 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ DS2PEPF00003440.mail.protection.outlook.com (10.167.18.43) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9564.3 via Frontend Transport; Fri, 30 Jan 2026 06:04:38 +0000
+Received: from DFLE211.ent.ti.com (10.64.6.69) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 30 Jan
+ 2026 00:04:38 -0600
+Received: from DFLE215.ent.ti.com (10.64.6.73) by DFLE211.ent.ti.com
+ (10.64.6.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 30 Jan
+ 2026 00:04:38 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE215.ent.ti.com
+ (10.64.6.73) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Fri, 30 Jan 2026 00:04:38 -0600
+Received: from [172.24.233.20] (a0512632.dhcp.ti.com [172.24.233.20])
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60U64XjP814780;
+ Fri, 30 Jan 2026 00:04:33 -0600
+Message-ID: <0711169f-6054-44c1-9039-1b56e68c32e0@ti.com>
+Date: Fri, 30 Jan 2026 11:34:32 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dt-bindings: display: ti, am65x-dss: Add AM62L DSS support
+To: Rob Herring <robh@kernel.org>
+CC: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
+ <airlied@gmail.com>, <simona@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <krzk+dt@kernel.org>,
+ <conor+dt@kernel.org>, <devarsht@ti.com>, <praneeth@ti.com>, <bb@ti.com>,
+ <vigneshr@ti.com>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20251224133150.2266524-1-s-jain1@ti.com>
+ <20251230022741.GA3217586-robh@kernel.org>
+ <fd9f0b37-001e-4721-82b7-ee29379eb9a9@ti.com>
+ <CAL_JsqKYsf9dmY3qKx6MVT0-0emTzO=0z32rOzt3070LykhrPA@mail.gmail.com>
+Content-Language: en-US
+From: Swamil Jain <s-jain1@ti.com>
+In-Reply-To: <CAL_JsqKYsf9dmY3qKx6MVT0-0emTzO=0z32rOzt3070LykhrPA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|GVXPR04MB11017:EE_
-X-MS-Office365-Filtering-Correlation-Id: e6eb5eb0-1e1c-4274-d9ac-08de5fc42f87
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-TrafficTypeDiagnostic: DS2PEPF00003440:EE_|SJ5PPFC802EB2B9:EE_
+X-MS-Office365-Filtering-Correlation-Id: b572b896-c4b5-4a1f-c262-08de5fc573cc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|19092799006|7416014|376014|52116014|38350700014|921020;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?vN/+4aYpii0QTPV7ET7dS5/8Rmcb4FZFNwK9/7fKSJCso9O60sAgeX1Wi+VK?=
- =?us-ascii?Q?mPrAvAsCcP5gaPbseUrbRTzdDlTBxp8k7Ek4CbXuPkFBCB4vr8K8DLLZyHWU?=
- =?us-ascii?Q?o6fbBNv1+fq/4XjDrhUopBKJ8Exdq5bCk1G+Bs4YB2vPm6j/Nv9DQl5jZa7U?=
- =?us-ascii?Q?CjVNf2vq+lGhPlJLi70aXCTv5V89sP8hhUeklSswP9xVKMccA6wFw+Wm3PRm?=
- =?us-ascii?Q?LeUpjtDZY5tTFrgjDy3tEN7VZQfOP4pFGzJl07xXh2z5jYEf23XfdmCmour3?=
- =?us-ascii?Q?LL3sjPsoNh+AeDht/92MIqk+K3WsJx0AiT5PZpJLmLhwDcLt+Qay9DqTudw7?=
- =?us-ascii?Q?AsNHuVfwPjFsD2soVjmRKmEQ7ly50ISeUrB2Ah4wE8t9Mc744HMcw9wiiPuW?=
- =?us-ascii?Q?YolKwVPHea+PkbEmWwQVDuBj0qnMI5R4baF6bHObrZsFHzOf4z9//zBagwfa?=
- =?us-ascii?Q?+2yXkXgIMQWfB/q0Uz5mHnGh7LQaiwuzAtAO/he6+bSw3CzzdELyCj6aU76u?=
- =?us-ascii?Q?CX2omK6By10x/rLXtCegkwG9Gw1uXhbPs/v0MZTQHQhmxRspi6gxD5hFdQ/K?=
- =?us-ascii?Q?7fgWYFXtcX7L8k28sBv2L/05onD6RDmANqIu2+T/br9vSpVKobaR90QziyBD?=
- =?us-ascii?Q?G6KgVqZamYS1gKFRdlocz3paM6st//jQ9/8bIl5Rh0upj0MJFIVVp6Id3ljF?=
- =?us-ascii?Q?S59o/hRp0EtKvGzgM/Igqh8aI+gHSfrKwwIxywgZaKcqkPxXxQTxf3y6KssT?=
- =?us-ascii?Q?iXXkZefbe5e995PNxklvfmO0kGIRsqBuVDIVyOOkNiqgr/N1iSCWmFmEDDlL?=
- =?us-ascii?Q?bhyaZWyEjoK2Q5T0EGsk8j7FF3/K7GQiUqX3n+WM2WrmYXBW5Se4MVbdPsMm?=
- =?us-ascii?Q?n+VVUZBhLits/APhn3259D+O0UxiBvfkagkRndH1N243ThC6TL2nJDmk2+Be?=
- =?us-ascii?Q?+4kRpc/NgQgGvE6ewDO6xIH/nYU+tj9e9EyHwuZsU10Ii/8dnWYmG/CPngFy?=
- =?us-ascii?Q?/vZ2e1cHUjvn9ZqINTzHTjxB3C770FN4FIpGOAwItMHsoLHHyWz+IC5M0CcZ?=
- =?us-ascii?Q?tJXZDSO4+OCRYkv2tbedkVt+ZjQxFf7p4IX7tF5sbLrX2UOuPT8L75Wbz3Za?=
- =?us-ascii?Q?RQI729aOhPOElWxS3EiYPmyP27hAdAvyoLEBSkNdjJpvPRXZtuNhWCKkgrYo?=
- =?us-ascii?Q?ynpCCZZ+YleUY+qntP+T7QX+xXEZwgknljCKvLdOuyej31GZQO128SeRlvlD?=
- =?us-ascii?Q?txaEa0p1AckgUIFlUAMks5mTiHt2OkB2Ndqr6RX5NcSKBmI+qjyKPoSoeoK3?=
- =?us-ascii?Q?BANWBZb0Hngkhkrlc709bCbr/wXuPdadIbXzHLoZKpV3+Do3Go3wFDs5WPa3?=
- =?us-ascii?Q?3STmzHjdW8W/pfH0CnYPhOfKDemwjv3oap+HLI0x+f+/YSPFLkdVTo+2bWgp?=
- =?us-ascii?Q?jKDA4xGledcs7Trcp2+EPveUMglo9a0Z1NGYklLUu592fRx+XprZhZ5qIfwp?=
- =?us-ascii?Q?isUB7uUyK2Pqga8+y/HcmXkPNcR+lceJQF4Vo7qwSM7pfbaU/23slFJSMc6K?=
- =?us-ascii?Q?kjpDT5k9bd1sLDeA5jyn3lh7C5f8YLDlJfwrDzz3sYEK78YmFTN4R0g/8OV9?=
- =?us-ascii?Q?C92grDSHbwQtFTYJYVthIWM28SVIytkFD09ScWzW6pyr?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR04MB7044.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(19092799006)(7416014)(376014)(52116014)(38350700014)(921020);
- DIR:OUT; SFP:1101; 
+ ARA:13230040|376014|7416014|1800799024|36860700013|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UjQ0RzlpVC9FVXRiTExnNXNpQWo0bXptWHlrbWwrSU5paTF0VktlVGloTGtX?=
+ =?utf-8?B?SFI0TkpFSHpwNEJJWTBLSkJRZnVkLzVjYjhwMmxzSmQyb1Q1QkVFbzB0NmVO?=
+ =?utf-8?B?c3FIM2toZ3JYYzlOY0liOUJBbFBxUTdwUW1CTGg1aTFuWnU1bi8rd1U4S29W?=
+ =?utf-8?B?RGlsc0dKM3lramduYzgwTW1OWUhSdGRVYVdsakw5ZmpwZ1JYNjZkdHE1WVhs?=
+ =?utf-8?B?cG1mOEgvL2V5S3h4Q2MrdUVxM1k0QTNrdGJ6N0JnZ3gzc25xSXV0MzNha0hL?=
+ =?utf-8?B?OEJGblJoQTBIdEdwWTM4eENBMFNTMFRZWlpMUGZ4eXdETjlxMUFKZG1KWWhW?=
+ =?utf-8?B?L3lWNW93M0lhMUpOUzhobm8vWGtCRzJENFV5ZUsxZzE1emNKZ1ZaQVQzd3cx?=
+ =?utf-8?B?eXFlQUNRa1ovNFE3Uk9reXQ1QXJManVNaGlqYlJDTnpFOWNGalVma2JLSW9U?=
+ =?utf-8?B?T3pXcWZwbm41bTFHNEFlZFRTeDE3bnpsMCtZRFdQbnlWOG10dllucGN6andk?=
+ =?utf-8?B?OEFUbTVLWTlXbFFSeUxXRUU1ekV4UnVPd09vS2RteEFxYUozRWVydnJvTE5z?=
+ =?utf-8?B?NHp2MEVQQS9nZUxBOXF3aTRMYWVZUlFDWC9uajlaMkxBUEtHNjlLelBVdFFa?=
+ =?utf-8?B?UUZGWTlkQkxoZC94UXc1V052NGFFcEtyM3Y0WnhyRjg1QndvaVZhbnAzVUs2?=
+ =?utf-8?B?cGJxVHJCeUgxSU9UcGE1QnMwZjJseWlONkJ4TlI2dDhKQjRHMy90cFpJamVk?=
+ =?utf-8?B?VlpGQ0lUdmw4OUtuMVBwY1dSMnExQ1pXeG9TYUhtenJYT3hQYTJaa0lOYkRl?=
+ =?utf-8?B?NHBuekhFSTQxdExVa21aY01kYWZqYlpXMFMyN2xmWXZhWi84UkNZWEFQcy9t?=
+ =?utf-8?B?ZUF1ZzN5SnE2QTZINEhDNjVaTjB6TjYvVDRnc21MektvSnZXRkE3ZE9Lb25t?=
+ =?utf-8?B?emdDakNZNFVzUHpnOEl2eUxGMjNkaVNCdjhjdTN3am0yZUp1b1RNOGRJcklH?=
+ =?utf-8?B?ZkY4NStwbHQwZGQveDNlUE9Zd0ZEWmJGSStCYVZZckJDb1pJTnN4MGFEZTFa?=
+ =?utf-8?B?VGIzV1VSMWhCZlBrQm0vejB6c0RsNGxLcXFUOCtEYWNQR2E0TFFsanZpODYr?=
+ =?utf-8?B?WkZHNk5OdnQ5Rno1VjJtY1M2TVZPUk53WjNFSFk0amZwRW1KRG1hUy9lYlZj?=
+ =?utf-8?B?WkxEenBLSVRYSk5YeXFSZjZ3dDhLUmdXM2JpcTNYV3pDUXpwZUpka2MvWFpk?=
+ =?utf-8?B?ak9BZklROW5wWDFHaDM5V2R4VEgrTi9TTm9pZFRlM3lsU2VsaFYxNm5lajlF?=
+ =?utf-8?B?ekVlNzRaU1dUSEJFazh2U3BnSDVpQ3RJQ1dRNUtHQkpiTm9tSkJmbEFjYlJO?=
+ =?utf-8?B?a1hsTVA4SWtETGVwOE5vM2JrRkE5eHNFUmtIdFB0UGhBQXJMcGJQQ0Fyck5k?=
+ =?utf-8?B?dUhlVDZWcnNUMjFPRjlOcEFmVk1rczZpV2FCaUZZbGVTQXBDeC9wa0R1eEhI?=
+ =?utf-8?B?a2hsLzI0NGZDSFBSUXUzZUFkY21vWVVrREhzTlhDcnBrSGNWdDZjQ24wVzht?=
+ =?utf-8?B?UkhuQmFDTkRaMGZOa2lTRkNpemNNWVZEaG55WHVhTnNYT3JJWGtUMXNjcVg3?=
+ =?utf-8?B?U2xpcGt1R1ZjakNZbTFzQk92S1ZQM05oQ0RNWkM0bUFDb3U3Wi84NWlNTUd5?=
+ =?utf-8?B?YzAxUTZpY1U1a3Q3UmhFdDhWZDd1aDkrVXFvRjRyRzl0M2JjTDIyb2RkRkJa?=
+ =?utf-8?B?Mm5TQ3JabGtuOEtwTjJaVWlkU25icHdxN2Yxc0FJTk0wcjJQNHQ5enlyUjRO?=
+ =?utf-8?B?RGZaL1NSYlEvNVBzbHRGek1hdTJxZXhYMlVMQW01Y0dMdkx5TzlHa2dFTWxT?=
+ =?utf-8?B?eW5YQkxFT2hJVTNDeXBRakgyZ2MzL2JXZWN2TDdTWkxDQStlTkNvb2tLZUhM?=
+ =?utf-8?B?RHdTL1Z4elhqazFaSzM3Z0htcTVNN1M5eG1wem84a1BIUGlRRnFNeVNWNVQw?=
+ =?utf-8?B?R0gxTmFZdkt0L2M4V0w0Z1lDSEdPVU0vMDY1aStqLzZxQ09kbGJmaVoweVNZ?=
+ =?utf-8?B?STZkQ1kyVEFFL1Y1b2tycEIxeHp2K3FzblNjaG5zd25FamdHLzhyTU1maUlN?=
+ =?utf-8?B?V0JXY0ZHdlBEUFF1QXJlOHZKS3VmeXR5WG9wbVdmemFkYlNVMkIreXdXa3ph?=
+ =?utf-8?B?dnpQQXRKemdReTVuM0dJbmlKQUJLa00rKzh3aXQrL2tLU3h3OGc3S2wwclJp?=
+ =?utf-8?B?WW9aZmtROUNoWFhVbHllWDArUFVnPT0=?=
+X-Forefront-Antispam-Report: CIP:198.47.21.195; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:flwvzet201.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(36860700013)(82310400026); DIR:OUT;
+ SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Nn0gIzm1nBn/ts+K071iOmEGZqDh8ok0twF98fFBLZlgMznJNcoGCkfLKGyE?=
- =?us-ascii?Q?cYC+9wHhaiVPYQbFJo5JwHuvPOggk8UIaG0Uv5jKIH0bq1yDKqHJD+/RL0G/?=
- =?us-ascii?Q?Ej9fZC+j4Y6MCwfIOH+KYMm06wg+He68fCQm9DpHZnFrLla9NMDV/9ItFeCo?=
- =?us-ascii?Q?MyaPr7Ui0wm8/KR2W4it8W/JbhlHs4ThMrjh+bdqscLwmAtoEsJYcpQpAMHp?=
- =?us-ascii?Q?oAAJNrp7zFPWo7qBPfRTZdMo0EYy6ncGQwgzKTU8YyCMnzCsLob0o8X9BxH6?=
- =?us-ascii?Q?8lCbqYURoR/oOeWdExkD1aau9g3tWMhXx3TmNuhkd6DHZFzbd7d/s5VV9kPT?=
- =?us-ascii?Q?4ICDtlGAMvkEtYvjto8SlebtjDYHbEYbS9+Hue94tl+qpa1V6IeCzp/Zt+Ij?=
- =?us-ascii?Q?bXutItIIbMJh2j0b48gsN1PPdsYMJYDQddKU5pIjH5GX2Qn5OLFo6fuONHcN?=
- =?us-ascii?Q?K6kQ/DLuLSICzm7y61BB23Ciqsh+dq4PE1hUvdYB89hF2GXSdiF+qdurdEw6?=
- =?us-ascii?Q?ei4A3Wr+VCPHBlKRhphATvO2/M+3t7AsGn7ZlTcmyl0XPEFc/3tMcUGj0xDC?=
- =?us-ascii?Q?Wj400g3+XpuZtwqRAXPpC9Jb9P+QDcDfo6QQfWegWsPpevTFCCzmRuAz2ZoT?=
- =?us-ascii?Q?iSq3bbJdLl4MoLEa+3TZRj5Zvqexyf9QG3SPpcxLNc28BXbSs8GBlfQEGIyY?=
- =?us-ascii?Q?TMzzVgU4ihA8oBfUUdMyYLqCp93oHSOFyIRjSKIr5Oaz8Dafl/43xgRPfDnW?=
- =?us-ascii?Q?e8rFmG5GtTOw3tmpYyzhzBqW5XBZeeLr71F24dRxFIe06VBsulinrlm/mpdi?=
- =?us-ascii?Q?XuLrJsj+PD/USeg18QXJk8RBDptQvOdWdsEWJslQe7A06/0b1bbGGPzzmqnU?=
- =?us-ascii?Q?0Z9RZ430zQ/ppIljJConOMVMeZJeBhWHTD0V9sS3K7EoJBcNFiqq5VrswGkC?=
- =?us-ascii?Q?lOBmt6DvJIkBtXatSsTlyhW8bcsEQEHTW5bo8WNr0pKui+SDXEMEIgJV2ov5?=
- =?us-ascii?Q?0iX6zgT+WAYdJ1dyPpyFC2L1nC8tpFHQZ76oNQlauDg40SysdN64rgcHRljo?=
- =?us-ascii?Q?tAQEfYS+ydneB6qoppnjRUJ8YQFrxTMLr3LYp0Uck4s3yTTvFBFQYQdsHGSY?=
- =?us-ascii?Q?NbRjo+YEWp+xrDCgzltUY55GCWkL11hGhcU5z+5lEhWE1DLr2xxEGai7umOb?=
- =?us-ascii?Q?XOXePlXrlDRsuYJC+OYDa7EqI4V2AzMRrc8ImSS6NSYTSzVoqbMQpO29nopF?=
- =?us-ascii?Q?CoEqcHoFAWKMYqxY9GGs8WaiNFpz4D/qi4G89TkAvPFUxnkCWCsHLOXUxTe8?=
- =?us-ascii?Q?qBa+4okEfR2AClyoLTwPY9C6R780iPeytUbc5hyO9echelXt8Xe8XL7lmR10?=
- =?us-ascii?Q?r7nOQ62E3MOI+56Y0wOriCI0Mok550pfWnImMYwfE0NB2UMQcKQ0lfDGP58n?=
- =?us-ascii?Q?HSOIIQomHPx1/K3G3ktI3+DE8VThkxgMfjKEj/azyQwY5H/pz9qdLir9eTmO?=
- =?us-ascii?Q?HYBTtzi06BNoGoyl1zueKnRK6/yUekIhZQhZ9KfTaKqeZjWu3N8hiRpX6KFu?=
- =?us-ascii?Q?NwmBzIQ+Nt/+VrTwgZqUwApfH9fL4e5N1q30MurKytSA58xnYVrwAtyhPgNP?=
- =?us-ascii?Q?ljI2DmQ0XLojZoxXmMXLslTI5ij5VYr9VQsVXxwOcEklqp4dZzaJ+MiAFQgW?=
- =?us-ascii?Q?jUjaaTC5/qcV1EfSGXb3R1NUrCcw144dRCbRsY2hTfTXsQZ86wzvaov25fEw?=
- =?us-ascii?Q?G0AEausffg=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6eb5eb0-1e1c-4274-d9ac-08de5fc42f87
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 05:55:35.1393 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 324XTcIyRdbAqnuD9PU2pjWoTHrageQqshgS726q20dFJ9eAU+bO3qOwzWkAl/6/XBgQpT+TqTsbVCPuGzmp1w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB11017
+X-MS-Exchange-AntiSpam-MessageData-0: LsL34INujhb5bhSfoU+xDEEHoN+R+8+niXXoCvWSnR2hHti70ZoHkfrk8TbDkfTTsojTgrSnQXyixtDQCwz0Vs7PAW3McEEAAj4huWhfQ6/+rMqQUtkzyWz1pPxP1sSZ2g1CgkP93z4FzBLCu8nUv0lrJHGCAb+yBgzoP5+kQ7iRyvDLyw8fa13yqEGWSKIc+9oATRFg7knAtfYCd/VvT9siQIUkcRRWpwpzqNrxhVgTrwatdXCPDCmHQymIInUYUgUw0cNk3n2HV034nh5KMgxgQ+keMCi62WDAMUH/c0e3YZyCq2cdYHVEmQBR+3OapQjdbv/5gTmWyR8gsOcz28gTLXAY4sn4d11aX6GgB8IMWSTMp0gvpObSV7ZCm1Ee1+hjNny0Zqlcb3owkmjFmITCPaF0WoKwP2ONHgpETPmn1zY4GxHNFazA01EjdJRj
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 06:04:38.8266 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b572b896-c4b5-4a1f-c262-08de5fc573cc
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.195];
+ Helo=[flwvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF00003440.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPFC802EB2B9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,114 +171,217 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
+X-Spamd-Result: default: False [4.39 / 15.00];
+	DMARC_POLICY_QUARANTINE(1.50)[ti.com : SPF not aligned (relaxed),quarantine];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+	R_DKIM_REJECT(1.00)[ti.com:s=selector1];
+	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER(0.00)[shengjiu.wang@nxp.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:jyri.sarha@iki.fi,m:tomi.valkeinen@ideasonboard.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:devarsht@ti.com,m:praneeth@ti.com,m:bb@ti.com,m:vigneshr@ti.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:victor.liu@nxp.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[nxp.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,pengutronix.de,lists.freedesktop.org,lists.linux.dev,lists.infradead.org,vger.kernel.org];
+	FORGED_SENDER(0.00)[s-jain1@ti.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	GREYLIST(0.00)[pass,meta];
+	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCVD_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,0.0.0.1:email,0.0.0.0:email];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
+	DKIM_TRACE(0.00)[ti.com:-];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	TO_DN_NONE(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[shengjiu.wang@nxp.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[nxp.com:+];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[s-jain1@ti.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[iki.fi,ideasonboard.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,ti.com,lists.freedesktop.org,vger.kernel.org];
+	NEURAL_HAM(-0.00)[-0.995];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 1B14FB782C
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	RCVD_COUNT_SEVEN(0.00)[9]
+X-Rspamd-Queue-Id: 0E123B78EF
 X-Rspamd-Action: no action
 
-There is an audio channel shift issue with multi channel case, first run
-the channel order is correct, but second run the channel order is shifted.
-The recovery method is to reset the pai interface.
+Hi Rob,
 
-The reset can be handled by pm runtime, so add the pm runtime function.
+On 1/3/26 04:04, Rob Herring wrote:
+> On Tue, Dec 30, 2025 at 8:23 AM Swamil Jain <s-jain1@ti.com> wrote:
+>>
+>> Hi Rob,
+>>
+>> On 12/30/25 07:57, Rob Herring wrote:
+>>> On Wed, Dec 24, 2025 at 07:01:50PM +0530, Swamil Jain wrote:
+>>>> Update the AM65x DSS bindings to support AM62L which has a single video
+>>>> port. Add conditional constraints for AM62L.
+>>>>
+>>>> Signed-off-by: Swamil Jain <s-jain1@ti.com>
+>>>> ---
+>>>>    .../bindings/display/ti/ti,am65x-dss.yaml     | 95 +++++++++++++++----
+>>>>    1 file changed, 76 insertions(+), 19 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+>>>> index 38fcee91211e..ce39690df4e5 100644
+>>>> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+>>>> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+>>>> @@ -36,34 +36,50 @@ properties:
+>>>>      reg:
+>>>>        description:
+>>>>          Addresses to each DSS memory region described in the SoC's TRM.
+>>>> -    items:
+>>>> -      - description: common DSS register area
+>>>> -      - description: VIDL1 light video plane
+>>>> -      - description: VID video plane
+>>>> -      - description: OVR1 overlay manager for vp1
+>>>> -      - description: OVR2 overlay manager for vp2
+>>>> -      - description: VP1 video port 1
+>>>> -      - description: VP2 video port 2
+>>>> -      - description: common1 DSS register area
+>>>> +    oneOf:
+>>>> +      - items:
+>>>> +          - description: common DSS register area
+>>>> +          - description: VIDL1 light video plane
+>>>> +          - description: VID video plane
+>>>> +          - description: OVR1 overlay manager for vp1
+>>>> +          - description: OVR2 overlay manager for vp2
+>>>> +          - description: VP1 video port 1
+>>>> +          - description: VP2 video port 2
+>>>> +          - description: common1 DSS register area
+>>>> +      - items:
+>>>> +          - description: common DSS register area
+>>>> +          - description: VIDL1 light video plane
+>>>> +          - description: OVR1 overlay manager for vp1
+>>>> +          - description: VP1 video port 1
+>>>> +          - description: common1 DSS register area
+>>>>
+>>>>      reg-names:
+>>>> -    items:
+>>>> -      - const: common
+>>>> -      - const: vidl1
+>>>> -      - const: vid
+>>>> -      - const: ovr1
+>>>> -      - const: ovr2
+>>>> -      - const: vp1
+>>>> -      - const: vp2
+>>>> -      - const: common1
+>>>> +    oneOf:
+>>>> +      - items:
+>>>> +          - const: common
+>>>> +          - const: vidl1
+>>>> +          - const: vid
+>>>> +          - const: ovr1
+>>>> +          - const: ovr2
+>>>> +          - const: vp1
+>>>> +          - const: vp2
+>>>> +          - const: common1
+>>>> +      - items:
+>>>> +          - const: common
+>>>> +          - const: vidl1
+>>>> +          - const: ovr1
+>>>> +          - const: vp1
+>>>> +          - const: common1
+>>>>
+>>>>      clocks:
+>>>> +    minItems: 2
+>>>>        items:
+>>>>          - description: fck DSS functional clock
+>>>>          - description: vp1 Video Port 1 pixel clock
+>>>>          - description: vp2 Video Port 2 pixel clock
+>>>>
+>>>>      clock-names:
+>>>> +    minItems: 2
+>>>>        items:
+>>>>          - const: fck
+>>>>          - const: vp1
+>>>> @@ -84,7 +100,8 @@ properties:
+>>>>        maxItems: 1
+>>>>        description: phandle to the associated power domain
+>>>>
+>>>> -  dma-coherent: true
+>>>> +  dma-coherent:
+>>>> +    type: boolean
+>>>>
+>>>>      ports:
+>>>>        $ref: /schemas/graph.yaml#/properties/ports
+>>>> @@ -195,6 +212,46 @@ allOf:
+>>>>                port@0:
+>>>>                  properties:
+>>>>                    endpoint@1: false
+>>>> +  - if:
+>>>> +      properties:
+>>>> +        compatible:
+>>>> +          contains:
+>>>> +            const: ti,am62l-dss
+>>>> +    then:
+>>>> +      properties:
+>>>> +        clock-names:
+>>>> +          maxItems: 2
+>>>> +        clocks:
+>>>> +          maxItems: 2
+>>>> +        reg:
+>>>> +          maxItems: 5
+>>>
+>>>              reg-names:
+>>>                minItems: 8
+>>>          else:
+>>>            properties:
+>>>              reg:
+>>>                minItems: 8
+>>>              reg-names:
+>>>                minItems: 8
+>>>
+>>> clocks needs similar constraints...
+>>
+>> Sure, will add in v2.
+>>
+>>>
+>>>> +
+>>>> +  - if:
+>>>> +      properties:
+>>>> +        compatible:
+>>>> +          contains:
+>>>> +            const: ti,am62l-dss
+>>>> +    then:
+>>>> +      properties:
+>>>> +        reg-names:
+>>>> +          items:
+>>>> +            - const: common
+>>>> +            - const: vidl1
+>>>> +            - const: ovr1
+>>>> +            - const: vp1
+>>>> +            - const: common1
+>>>> +    else:
+>>>> +      properties:
+>>>> +        reg-names:
+>>>> +          items:
+>>>> +            - const: common
+>>>> +            - const: vidl1
+>>>> +            - const: vid
+>>>> +            - const: ovr1
+>>>> +            - const: ovr2
+>>>> +            - const: vp1
+>>>> +            - const: vp2
+>>>> +            - const: common1
+>>>
+>>> Why are you defining the names twice?
+>>>
+>>
+>> For AM62L we don't have "vid", "ovr2" and "vp2", the dtbs_check will fail.
+>> Could you please suggest a better way?
+> 
+> You already defined them at the top level. Here in the if/then schema,
+> all you need is 'maxItems: 5' and 'minItems: 8'. But then you already
+> have that as well.
+> 
+> Rob
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
----
- drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+Posted a v2[1], could you please review if the patch looks good?
 
-diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
-index 8d13a35b206a..1afc729da9b9 100644
---- a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
-@@ -8,6 +8,7 @@
- #include <linux/module.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
- #include <linux/regmap.h>
- #include <drm/bridge/dw_hdmi.h>
- #include <sound/asoundef.h>
-@@ -33,6 +34,7 @@
- 
- struct imx8mp_hdmi_pai {
- 	struct regmap	*regmap;
-+	struct device	*dev;
- };
- 
- static void imx8mp_hdmi_pai_enable(struct dw_hdmi *dw_hdmi, int channel,
-@@ -43,6 +45,9 @@ static void imx8mp_hdmi_pai_enable(struct dw_hdmi *dw_hdmi, int channel,
- 	struct imx8mp_hdmi_pai *hdmi_pai = pdata->priv_audio;
- 	int val;
- 
-+	if (pm_runtime_get_sync(hdmi_pai->dev) < 0)
-+		return;
-+
- 	/* PAI set control extended */
- 	val =  WTMK_HIGH(3) | WTMK_LOW(3);
- 	val |= NUM_CH(channel);
-@@ -85,6 +90,8 @@ static void imx8mp_hdmi_pai_disable(struct dw_hdmi *dw_hdmi)
- 
- 	/* Stop PAI */
- 	regmap_write(hdmi_pai->regmap, HTX_PAI_CTRL, 0);
-+
-+	pm_runtime_put_sync(hdmi_pai->dev);
- }
- 
- static const struct regmap_config imx8mp_hdmi_pai_regmap_config = {
-@@ -101,6 +108,7 @@ static int imx8mp_hdmi_pai_bind(struct device *dev, struct device *master, void
- 	struct imx8mp_hdmi_pai *hdmi_pai;
- 	struct resource *res;
- 	void __iomem *base;
-+	int ret;
- 
- 	hdmi_pai = devm_kzalloc(dev, sizeof(*hdmi_pai), GFP_KERNEL);
- 	if (!hdmi_pai)
-@@ -121,6 +129,13 @@ static int imx8mp_hdmi_pai_bind(struct device *dev, struct device *master, void
- 	plat_data->disable_audio = imx8mp_hdmi_pai_disable;
- 	plat_data->priv_audio = hdmi_pai;
- 
-+	hdmi_pai->dev = dev;
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to enable pm runtime: %d\n", ret);
-+		return ret;
-+	}
-+
- 	return 0;
- }
- 
--- 
-2.34.1
+[1]: https://lore.kernel.org/all/20260129150601.185882-1-s-jain1@ti.com/
 
+Regards,
+Swamil.
