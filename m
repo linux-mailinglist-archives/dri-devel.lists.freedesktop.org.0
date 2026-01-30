@@ -2,70 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yMXdIMUffGmgKgIAu9opvQ
+	id mPGEGeUffGmgKgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 04:04:37 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 04:05:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D489CB6AFB
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 04:04:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF5FB6B19
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 04:05:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 880B010E8DD;
-	Fri, 30 Jan 2026 03:04:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9DBE10E353;
+	Fri, 30 Jan 2026 03:05:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="T2zhW6RC";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="Jr2DjMRf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87C2D10E353
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 03:04:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769742273; x=1801278273;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=bc7u74LVYc9UekDNqOXsly9zkvNuhJqgVW3Ic95fVvM=;
- b=T2zhW6RCBiBF0DkQ6A/hufBZvJpxfYepyBOqsmOSliNgeIHuH0cEFVcl
- WtZIALnxw0A6mP5u1yg6vzWUdeWmVSV42Dq1gmRFqhpCzn1uwDvdpLJIk
- 8HGXwJ9GdHyw1TErdDHJgMf7PHgsW8wJnmVhx52iH1IQH6X0lBN+yuDhT
- nHa/2ly3wlJRkyMr8YqABFGtGLXIJ4bLTDotBAem6knHK1gxWOwsTdMON
- H15SH6mdnARqaiVcLZT1Tl+AiQvFxC6hICh7guSSZX87WOgQtjAe6Bs91
- vcKoAvTJLq0zePYPuuQh7RFZXzryx7xgxCfaeD6bEPQDYWukFk8uqO8Ip Q==;
-X-CSE-ConnectionGUID: lTIQ/0X2Rxqo0GMf5VmArA==
-X-CSE-MsgGUID: V2Xw0BIxQP69TjwJ8BuxYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="88405918"
-X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; d="scan'208";a="88405918"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jan 2026 19:04:32 -0800
-X-CSE-ConnectionGUID: tGDPVXjSRcun43cHIKk5Wg==
-X-CSE-MsgGUID: 2pEfEYMdSAmCuRgbkxja8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; d="scan'208";a="207872451"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
- by orviesa006.jf.intel.com with ESMTP; 29 Jan 2026 19:04:27 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vleo4-00000000c7M-1707;
- Fri, 30 Jan 2026 03:04:24 +0000
-Date: Fri, 30 Jan 2026 11:03:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Abhash Kumar Jha <a-kumar2@ti.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- devarsht@ti.com, u-kumar1@ti.com, sjakhade@cadence.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, s-jain1@ti.com,
- p-mantena@ti.com, tomi.valkeinen@ideasonboard.com
-Subject: Re: [PATCH] drm/bridge: cdns-mhdp8546: Add suspend resume support to
- the bridge driver
-Message-ID: <202601301031.VutflAtp-lkp@intel.com>
-References: <20260129112016.2448037-1-a-kumar2@ti.com>
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
+ [209.85.215.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7936210E353
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 03:05:05 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id
+ 41be03b00d2f7-c65822dead7so586979a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 29 Jan 2026 19:05:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1769742305; x=1770347105; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=oEURg7WwL2YrmTk3m+t4901sI744EiBH75OpucFP6iU=;
+ b=Jr2DjMRfsBXRg7/MVO9/IVtILK+fHleh9oTTwsVtM2yg2C6Y2HAm/BY8gF2sTf4OCC
+ 47OKnSSct38RGmg1Ct1roUYDuQoJ+5BfaZYzKIFWSKg+vj/ksBCGi/aISriuqxf6nQIM
+ sUIUG3usgQYztrXAOx0oRIBrkHjXh2f5HF7dmhq4KnDG3zb66JHtlUqYcjp7gjpvahTJ
+ vTwO2gZU7HnHlk5itIbh38wnySz2uy5Hb7IWCSbcHdkInnY9loPl6/IXDbFO7ke6gnlJ
+ 1MnkWbb6lzv/nahR6sEio6MVam3mMR6ffUE+G5pLRKa8gSvSR545WKJ1Kpqk20yZr2st
+ 6VEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1769742305; x=1770347105;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oEURg7WwL2YrmTk3m+t4901sI744EiBH75OpucFP6iU=;
+ b=iAbyTE1Z9dCH/YLLDPs0nsAkzC+PjXNnXXC01pWvchhTP0iF48cStfQzGjCvINZlRi
+ Mv6Q3bcyvaRsABx4VAUCOMmAQrxYOvAhPv6M1TnrhbBsggKBmsBMD7U+zypaqR7n6qE6
+ t3++lTBhrTrBWEvIEBONN5V/Nl8LBS7ZeFkfMD52guKIC52xRGEGRqf/tRl5KXDaUstg
+ uBzkn29ZPLxuE//gK5NIqmF0EaWIg8A4PGyAMuFCkrwsEIPxp0vHGShbmdHgSt3kIjIO
+ sf0BqcfkYoQt+4ypp5ETyxQkSocnxL6/rWuhsRncU83CzcZMWnhIWJ4c4B5GpX+6CoA/
+ 8hVw==
+X-Gm-Message-State: AOJu0Yyx9wN72Z4JyjP9Me4cssxuB1nTJ+1dJD6b0zVaSqyCSTa/k2p4
+ svWpmB57U/dNsBzVxllUhZgCmMlFquHZlKqABd/2fhc5Cl42A18XoV5ODgeJ+dhfqqQ=
+X-Gm-Gg: AZuq6aKz3qvWArYr9oGZcZCmuLib1iYblwmH2WL+IArmMwjT6JvStcu4U/GplzNNOPi
+ pkUXYHULEPJshePdAc82UKyNBZ8FkTuJEV94fBorqiSZyOCQvwvRU3VD+fkNjfSNwzmr2CfxvCT
+ jgaQoORG4xv0YoEopufKqX8/R02uabPtvFpHkK4ZI/Owstl3TJBDsch740GEoe5lxkD5VlZ7gvJ
+ QnV108Mcr6THFGL0sL3816cuDNF9/oBOAfV8DlBwqzLEE2RH7fJ0aD+dxMy5gwuX2e2UkR2ZEHu
+ wjw93TO6mUF4PHFpNFpltlPk7QO1TLd7uKIZLlC6EzsMOO8KhYsjYsiMjHTp5mFJWs9FdO56KXp
+ bi2mdiSsWWyaEur0jeG3XKweON0V/Rxg5qxclFn8c9trVOdOCu2X8lgR/9EIXtl3yadmYcZERnb
+ OQ0/gTQjf5MGax6vWGa4+P8AvXFmy1UrrInFV9tmkM
+X-Received: by 2002:a17:902:ce83:b0:2a7:7e00:6a96 with SMTP id
+ d9443c01a7336-2a8d7edda5emr16859865ad.25.1769742304748; 
+ Thu, 29 Jan 2026 19:05:04 -0800 (PST)
+Received: from yc.huaqin.com ([103.117.77.121])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2a88b3eecb7sm60715885ad.1.2026.01.29.19.05.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Jan 2026 19:05:04 -0800 (PST)
+From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+To: neil.armstrong@linaro.org, dianders@chromium.org, jesszhan0024@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, treapking@chromium.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Subject: [PATCH V2] drm/panel-edp: Add CMN N116BCL-EAK (C2)
+Date: Fri, 30 Jan 2026 11:04:56 +0800
+Message-Id: <20260130030456.2080748-1-yangcong5@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260129112016.2448037-1-a-kumar2@ti.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,179 +92,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [2.69 / 15.00];
+	DMARC_POLICY_REJECT(2.00)[google.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),reject];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[huaqin-corp-partner-google-com.20230601.gappssmtp.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[lists.linux.dev,vger.kernel.org,lists.freedesktop.org,ideasonboard.com,kwiboo.se,gmail.com,ti.com];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:a-kumar2@ti.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:devarsht@ti.com,m:u-kumar1@ti.com,m:sjakhade@cadence.com,m:oe-kbuild-all@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:s-jain1@ti.com,m:p-mantena@ti.com,m:tomi.valkeinen@ideasonboard.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[ti.com,intel.com,linaro.org,kernel.org,suse.de,gmail.com,ffwll.ch,cadence.com];
+	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:dianders@chromium.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:treapking@chromium.org,m:linux-kernel@vger.kernel.org,m:yangcong5@huaqin.corp-partner.google.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[linaro.org,chromium.org,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[yangcong5@huaqin.corp-partner.google.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[yangcong5@huaqin.corp-partner.google.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[huaqin-corp-partner-google-com.20230601.gappssmtp.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,01.org:url,intel.com:email,intel.com:dkim,intel.com:mid,git-scm.com:url]
-X-Rspamd-Queue-Id: D489CB6AFB
+	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[huaqin-corp-partner-google-com.20230601.gappssmtp.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: AEF5FB6B19
 X-Rspamd-Action: no action
 
-Hi Abhash,
+Add support for the CMN N116BCL-EAK (C2) panel, pleace the EDID here for
+subsequent reference.
 
-kernel test robot noticed the following build warnings:
+edid-decode (hex):
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.19-rc7 next-20260129]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+00 ff ff ff ff ff ff 00 0d ae 7a 11 00 00 00 00
+08 22 01 04 95 1a 0e 78 03 46 a5 9c 5b 53 8b 24
+1d 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 e6 1e 56 e2 50 00 3c 30 30 20
+a6 00 00 90 10 00 00 1a 00 00 00 fd 00 28 3c 32
+32 08 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43
+4d 4e 0a 20 20 20 20 20 20 20 20 20 00 00 00 fe
+00 4e 31 31 36 42 43 4c 2d 45 41 4b 0a 20 01 80
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abhash-Kumar-Jha/drm-bridge-cdns-mhdp8546-Add-suspend-resume-support-to-the-bridge-driver/20260129-193145
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260129112016.2448037-1-a-kumar2%40ti.com
-patch subject: [PATCH] drm/bridge: cdns-mhdp8546: Add suspend resume support to the bridge driver
-config: parisc-randconfig-002-20260130 (https://download.01.org/0day-ci/archive/20260130/202601301031.VutflAtp-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301031.VutflAtp-lkp@intel.com/reproduce)
+70 20 79 02 00 25 01 09 fc 34 01 fc 34 01 28 3c
+80 81 00 10 72 1a 00 00 03 01 28 3c 00 00 00 00
+00 00 3c 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 2f 90
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601301031.VutflAtp-lkp@intel.com/
+Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+---
+Chage since V1:
 
-All warnings (new ones prefixed by >>):
+- Change string "N116BCL-EAK-c2" to "N116BCL-EAK".
 
->> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:2447:12: warning: 'cdns_mhdp_suspend' defined but not used [-Wunused-function]
-    static int cdns_mhdp_suspend(struct device *dev)
-               ^~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:2387:12: warning: 'cdns_mhdp_resume' defined but not used [-Wunused-function]
-    static int cdns_mhdp_resume(struct device *dev)
-               ^~~~~~~~~~~~~~~~
+V1: https://lore.kernel.org/all/CAD=FV=V2HzOYcOgeY94h+Pk33=niJrQzzZF0hLE+VH8Jacbfvw@mail.gmail.com
+---
+ drivers/gpu/drm/panel/panel-edp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-
-vim +/cdns_mhdp_suspend +2447 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-
-  2386	
-> 2387	static int cdns_mhdp_resume(struct device *dev)
-  2388	{
-  2389		struct cdns_mhdp_device *mhdp = dev_get_drvdata(dev);
-  2390		unsigned long rate;
-  2391		int ret;
-  2392	
-  2393		ret = clk_prepare_enable(mhdp->clk);
-  2394		if (ret)
-  2395			return ret;
-  2396	
-  2397		rate = clk_get_rate(mhdp->clk);
-  2398		writel(rate % 1000000, mhdp->regs + CDNS_SW_CLK_L);
-  2399		writel(rate / 1000000, mhdp->regs + CDNS_SW_CLK_H);
-  2400		writel(~0, mhdp->regs + CDNS_APB_INT_MASK);
-  2401	
-  2402		ret = phy_init(mhdp->phy);
-  2403		if (ret) {
-  2404			dev_err(mhdp->dev, "Failed to initialize PHY: %d\n", ret);
-  2405			goto disable_clk;
-  2406		}
-  2407		ret = phy_power_on(mhdp->phy);
-  2408		if (ret < 0) {
-  2409			dev_err(mhdp->dev, "Failed to power on PHY: %d\n", ret);
-  2410			goto error;
-  2411		}
-  2412	
-  2413		if (mhdp->powered_off) {
-  2414			ret = cdns_mhdp_load_firmware(mhdp);
-  2415			if (ret)
-  2416				goto phy_off;
-  2417	
-  2418			ret = wait_event_timeout(mhdp->fw_load_wq,
-  2419						mhdp->hw_state == MHDP_HW_READY,
-  2420						msecs_to_jiffies(1000));
-  2421			if (ret == 0) {
-  2422				dev_err(mhdp->dev, "%s: Timeout waiting for fw loading\n",
-  2423					__func__);
-  2424				ret = -ETIMEDOUT;
-  2425				goto phy_off;
-  2426			}
-  2427		} else {
-  2428			ret = cdns_mhdp_set_firmware_active(mhdp, true);
-  2429			if (ret) {
-  2430				dev_err(mhdp->dev, "Failed to activate firmware (%pe)\n", ERR_PTR(ret));
-  2431				goto phy_off;
-  2432			}
-  2433		}
-  2434	
-  2435		return 0;
-  2436	
-  2437	phy_off:
-  2438		phy_power_off(mhdp->phy);
-  2439	error:
-  2440		phy_exit(mhdp->phy);
-  2441	disable_clk:
-  2442		clk_disable_unprepare(mhdp->clk);
-  2443	
-  2444		return ret;
-  2445	}
-  2446	
-> 2447	static int cdns_mhdp_suspend(struct device *dev)
-  2448	{
-  2449		struct cdns_mhdp_device *mhdp = dev_get_drvdata(dev);
-  2450		unsigned long timeout = msecs_to_jiffies(100);
-  2451		int ret = 0;
-  2452	
-  2453		cancel_work_sync(&mhdp->hpd_work);
-  2454		ret = wait_event_timeout(mhdp->fw_load_wq,
-  2455					 mhdp->hw_state == MHDP_HW_READY,
-  2456					 timeout);
-  2457	
-  2458		spin_lock(&mhdp->start_lock);
-  2459		if (mhdp->hw_state != MHDP_HW_READY) {
-  2460			spin_unlock(&mhdp->start_lock);
-  2461			return -EINVAL;
-  2462		}
-  2463		mhdp->hw_state = MHDP_HW_STOPPED;
-  2464		spin_unlock(&mhdp->start_lock);
-  2465	
-  2466		if (ret == 0) {
-  2467			dev_err(mhdp->dev, "%s: Timeout waiting for fw loading\n", __func__);
-  2468			ret = -ETIMEDOUT;
-  2469			goto error;
-  2470		} else {
-  2471			ret = cdns_mhdp_set_firmware_active(mhdp, false);
-  2472			if (ret) {
-  2473				dev_err(mhdp->dev, "Failed to stop firmware (%pe)\n", ERR_PTR(ret));
-  2474				goto error;
-  2475			}
-  2476		}
-  2477	
-  2478		phy_power_off(mhdp->phy);
-  2479		phy_exit(mhdp->phy);
-  2480		clk_disable_unprepare(mhdp->clk);
-  2481	
-  2482	error:
-  2483		return ret;
-  2484	}
-  2485	
-
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 108569490ed5..c9eacfffd5b2 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -2014,6 +2014,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1160, &delay_200_500_e80_d50, "N116BCJ-EAK"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1161, &delay_200_500_e80, "N116BCP-EA2"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1163, &delay_200_500_e80_d50, "N116BCJ-EAK"),
++	EDP_PANEL_ENTRY('C', 'M', 'N', 0x117a, &delay_200_500_e80_d50, "N116BCL-EAK"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1247, &delay_200_500_e80_d50, "N120ACA-EA1"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x124c, &delay_200_500_e80_d50, "N122JCA-ENK"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x142b, &delay_200_500_e80_d50, "N140HCA-EAC"),
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
