@@ -2,184 +2,180 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6N5DDlZsfGkSMgIAu9opvQ
+	id EOWMFFVtfGkSMgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:31:18 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:35:33 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD513B85DA
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:31:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D927CB86F6
+	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 09:35:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2083910E92C;
-	Fri, 30 Jan 2026 08:31:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3874C10E94D;
+	Fri, 30 Jan 2026 08:35:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="f1XLMRiy";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="lvHdDNCM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY7PR03CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11010057.outbound.protection.outlook.com
- [40.93.198.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94A7610E929;
- Fri, 30 Jan 2026 08:31:14 +0000 (UTC)
+Received: from MW6PR02CU001.outbound.protection.outlook.com
+ (mail-westus2azon11012008.outbound.protection.outlook.com [52.101.48.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B9F810E94D;
+ Fri, 30 Jan 2026 08:35:30 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hda+PbGRQEInNw5Uh8ON5cvFwT0g3hCnT8yQfvoHaoTvnmxVVIed5cT5mlh9/Fsv2FfboWRepaqBCvb3l+uON4/mZ5+RkouiXS1WXMvOWANrI7UXFG5sJJgPgtzqegEF98NLi1AVKipRhwSi7hHmHYq3qa3rX0YViPAACN/9CXg85NtAWRUArB/7ivsmdaAUrjquVjnZZ88F4vbN3qIALEJ81q70dJ/8xv1+02F3WpnkAyRXphPuHBWRyBgsn+2c8FFtFBOj5CMVJBQldYJnboUQbqN806CWHrvUflmilqwrreX2anEjXJz3bscfW+KWiM2AYrdkNTLng1DY0dHCMQ==
+ b=KHxGSglXNLX6wGUuoa4l/w082whv8h7WY807E2Y6pviENIJRACzgduO+zSq48djL9Kpa7hp/LFBMcE+abBfS59DwmD31yz3ua28bXLaQP8sUb7uzI0I9WcLSbFxT2fvOjdcqSpwS6jylin3r+qnN6VlT52qmWNiMKZFWiGY4wcQynBsO+eAlew3YRRJtbxD4cPQXqRfd1hUxEhBvm/i3V07OdTYCz+CA3Re7aBExM91EALXLryNzUERk9zsecSI88P+yRUJjuO6ezBbDOfD5kTP95HVp3YT+plBoHqu8/fEDyRwfktRCuhhYpmGGXVcvoinQIir6pUpBZL2DcHQ4Dg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=adr/mMi/Fgz04f2PhBuIJEu6mtoSa08dfKoWfZ7Z/kk=;
- b=v6CoU1y8cEbm6YnlSXxNBfqE47ZgrBSmWy2MzhBZi46TQkkEsYB0xtO6f7R0fYBpYV1lvc8Wxr83LNvUquSBgRv9aAV0l+atmXz4BppvMrwxt9kTJLMNR7quVylmRGG+5404c7bmTOLJ70YwBOTzNG3f3lXEG2XzDBXSxShSWObVoplXLAlrya/KUknRZN8sFkdbrviFaKQWPqPXe5DKKNAtkWllVIDGw8OjcBEe+tlyrQiFDB3wh8r3M8rJF8xf7owToN9Qt/0CU27ABIL9W1t7sK+i8CF+Np9rOathiQ+h7Rm/Wk3/+o4W2hl/cmieSnmWQ2NIT0dBrwPF+umO1g==
+ bh=FLYd5R2uu/5K5wpPQ95VoiD/6ZsMFIcXy4LSPgxs7/A=;
+ b=itbztRP6uurxh7KmIO2fJy05p1b7p6djOnzD3eJ4MW5nHct+GqR34JqQoeXymOLjE5u5tuwoQ5X9ESR2cQLbRHS4+PLqTn6N0vl/qAwMiJ3vg6+SclKupbYg3YQGWPtz4JgMOZ+5z9r7zBiYzjBiM2+AkCVViz7xQhkc8eUnvtiUriDj9GHLqUNVLCa6rrJ2EIbC+l6mkx1zU1ldkcYj2t0C6q05TAdtZnx3JAjeNWv4q9UqXayiRBLekN9G4U82HXpXTLxcqfvpqg6gjx1P6uONfbH9DoNyHfkh3rE8Y1yDQzFoiRu3zFHOsnvPCMBGCXnrYyNg7lXD/S0fEYs7bA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=adr/mMi/Fgz04f2PhBuIJEu6mtoSa08dfKoWfZ7Z/kk=;
- b=f1XLMRiykKDS7UVmd0g74E+CmeX5IafphRodP6Z9IM08zTynXl+VrsvtlkNOsc5FZROrnbn5wIPHxyhhJZZ9BtFpx6ORdo3wwAzXPfxAPA1RBlpx3LhfLCiuQYLp/ylpPCX3eUtZEoUltMGeVLcR4nJsoz2dQi4N2y9GYG6Fmx0=
+ bh=FLYd5R2uu/5K5wpPQ95VoiD/6ZsMFIcXy4LSPgxs7/A=;
+ b=lvHdDNCMU/6hanNXI0/nlrtRegjOzsyex8209LvB4BCEP1OX9pruEWXRWzCZIw30/Atu6Ih358QMGqpuJa+pngO0Z92EU8YfWBEdUzR55CJ/bz1FccmIohDVX2GVq4sQkFwIRljGXFo/ec6oGdhETwK2T8srjJq3KBehN5N4zMgPipCUp2/00aGKAK1og9ZFcYEmqOrdo84ej7Fl56RtR9zIvGuxHA7mz3jq7dNWPyXkI1OEB7ztW4px8gPLKRLf+aB2QuJMAn6eGv6VGIL3UArj/yvdgrbv8SSyjSvfptDo2A0CsQdjcd9kth3wZ5lFUUMs7lSVedJ5AWynWa5HaA==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH2PR12MB4215.namprd12.prod.outlook.com (2603:10b6:610:ab::24)
- with Microsoft SMTP Server (version=TLS1_2,
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
+ by DS0PR12MB9400.namprd12.prod.outlook.com (2603:10b6:8:1b6::9) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.11; Fri, 30 Jan
- 2026 08:31:10 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9564.010; Fri, 30 Jan 2026
- 08:31:10 +0000
-Message-ID: <31872c87-5cba-4081-8196-72cc839c6122@amd.com>
-Date: Fri, 30 Jan 2026 09:30:59 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/8] vfio: Wait for dma-buf invalidation to complete
-To: Leon Romanovsky <leon@kernel.org>, Sumit Semwal
- <sumit.semwal@linaro.org>, Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>, Alex Williamson <alex@shazbot.org>,
- Ankit Agrawal <ankita@nvidia.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
- intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- iommu@lists.linux.dev, kvm@vger.kernel.org
-References: <20260124-dmabuf-revoke-v5-0-f98fca917e96@nvidia.com>
- <20260124-dmabuf-revoke-v5-4-f98fca917e96@nvidia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260124-dmabuf-revoke-v5-4-f98fca917e96@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
+ 2026 08:35:25 +0000
+Received: from BL0PR12MB2353.namprd12.prod.outlook.com
+ ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
+ ([fe80::99b:dcff:8d6d:78e0%6]) with mapi id 15.20.9542.010; Fri, 30 Jan 2026
+ 08:35:25 +0000
+From: Eliot Courtney <ecourtney@nvidia.com>
+Subject: [PATCH 0/9] rust: dma: add CoherentArray for compile-time sized
+ allocations
+Date: Fri, 30 Jan 2026 17:34:03 +0900
+Message-Id: <20260130-coherent-array-v1-0-bcd672dacc70@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0244.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f5::13) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMwQ6CMBCE4Vche7ZJW4waXsVwKO0oe6DothIM4
+ d3dyPGbZP6NCoRRqGs2EixceM4Kd2oojiE/YTipyVt/sc7fTJxHCHI1QSR8jW29w3D1bTpH0tN
+ L8OD1H7z3hwXvj3brMdIQCrQyTVy7JgkvEKXAZKyV+n3/AUxem9GUAAAA
+X-Change-ID: 20260128-coherent-array-0321eb723d4c
+To: Danilo Krummrich <dakr@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, Alice Ryhl <aliceryhl@google.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Robin Murphy <robin.murphy@arm.com>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+ rust-for-linux@vger.kernel.org, Eliot Courtney <ecourtney@nvidia.com>
+X-Mailer: b4 0.14.3
+X-ClientProxiedBy: BL1PR13CA0384.namprd13.prod.outlook.com
+ (2603:10b6:208:2c0::29) To BL0PR12MB2353.namprd12.prod.outlook.com
+ (2603:10b6:207:4c::31)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH2PR12MB4215:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f5bd8b8-856e-423a-a37e-08de5fd9ebe4
+X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|DS0PR12MB9400:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f50b2d3-503f-411e-d0a8-08de5fda8384
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|366016|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VHptNVRmNUpReHNNRjE1TVBCZmVibS8yVmdhWFA0djgrWXNMMFN3WW5ZakxH?=
- =?utf-8?B?NmFkbE00L3NUM1NadWRpd3M5QmxuQUVjYmRwZXFIVHlCWnVBbjhTdWRBVWpa?=
- =?utf-8?B?anJqOXVxejM0SG5TcmxUakZRNVNlcWFMSXRUNC9RTkxzU0drSWVwcjhNaHRH?=
- =?utf-8?B?QnF0MnRVdDhIM3pRcXpOWkovKzN0WVlNc05qTitObVo2NVJUeUFCYWUyaUZO?=
- =?utf-8?B?TzN0ZzhXcGliQmNMNS9tcnRodGZZdnoyU2pCWHlibkRCWVVQT0Yyak9yc1Rl?=
- =?utf-8?B?ZzU2NkpEYW0wRFJWTmN3K3daYmdPUFdXZTNVQnA2Qm5WUEtlU0lrbWpUcE1s?=
- =?utf-8?B?SFZRdW9GcitYWlZFZVJRRWNwdURDK3doMWlWTVpIOWZhTmg1d1k5ZVJMMWE2?=
- =?utf-8?B?ZkZaWk9JZHpQOUJQNjRpUUdJS0kxV3FhZ0o2THhYalM2VmxXRVgzY0JyNkZL?=
- =?utf-8?B?WHRGMWhTT2dObEdYcVBhSlFvOWFrOGU4NDZ0VG9JRENETXhadzhWY0FNZ1RV?=
- =?utf-8?B?RmJEdkNSdWxpSng1WVRmSGJDQ1h2NDBHeDQwRjVWNzhIWVoxM3EzcHpnQXNy?=
- =?utf-8?B?SDN1OGtrKytYRG1JMXdCN2J1MUxqLzgxMU5DcUcwcWlBT1dHZktsS2Z6QStw?=
- =?utf-8?B?RjNaNEJwYjlQbUZ5YUFIN1I2MkVFVjhQenFjSW5SQmJTVzM1emFuK2tiVWZD?=
- =?utf-8?B?TlhsT3NKNW5BbUZoUm9KdWdRYXE5VFh6OWdpNitjRlpRMCs1Q3RqbmtSN1Zp?=
- =?utf-8?B?Znl4Mjd2emYzS0EyUXU3T3ZraWRGd3djbjdkZmttaC94NUwvVzhuMFlkajh0?=
- =?utf-8?B?SHUxb3Y2czRYRXB4d1doaUJ1akxqLzlaTXpLVFlOWVNNeTJiV2cxTU5UVncy?=
- =?utf-8?B?NG1tSlp1U1ZRU1JyZ2tMNjRCSlJ2SkU3K245L0NHVEhwMmRFQlE0dllYZGs1?=
- =?utf-8?B?NEJTb3N6azRUbEdaY0gxYVdlWmdSY2VYVXRrMFFzSDFUaXkxdWJ3UXRhQ3hX?=
- =?utf-8?B?bDEyOUxSa2UzWVdXUFNQUHFkYjcwbzl6ZTVoWkZKSmx3SERxcndBcllERU1r?=
- =?utf-8?B?WktyZ0dMdFFnMUZMcEIyaDF5ZnNEYzJXVUZDVGxzVDFNVmNDVHp1R1NpWE9C?=
- =?utf-8?B?dkJ2SURHSXpORzcxTlVEbDRVbTBtbXRBcDl5QzZDK3lmY3d1cGFObjdjdlVT?=
- =?utf-8?B?NEVnNG1laDhTbjZ2SU5SNENBTmJ0WkVDSGRBaEJsaFFzMkdmNllUNi9ZV2wx?=
- =?utf-8?B?enhSZnU1K3lMbHFwcndteFJjMVpFd0FBY2dqU1lvNnpWWVo1M2hVVi9TOTBD?=
- =?utf-8?B?RkE4bno0REgyYnZWcWx4a1p0Vk9acVgvTmRmd29NL0JXUFp1SExyWHFxZmRo?=
- =?utf-8?B?dG9RVGtsTG94N2NuYmFMOWtLYkh1SmZKb3VlVmNYLzhhNXQ3a3NHaUlnOG80?=
- =?utf-8?B?VFNZT1pHN0UvVkVIWmlDbngrZDZjT0tTVTUxR0p5WERVcmhqT252WlVISlhx?=
- =?utf-8?B?cWorb2tycktxcFNJUSsydGVQM3dQOWlNanN4cjBuVFFaT253SHRYaE9OUVNU?=
- =?utf-8?B?bE9FcGxMWjREL1dsMDR1MWF2bWNhQ2FXbHBSejgzaWJsSS9KUlpzYXlGaXAw?=
- =?utf-8?B?NFM2MmUrKzNDUHlVMXhDNmt4emtjNzV5c2hJaXQvRGplSFRCWW5lcnR2QlVK?=
- =?utf-8?B?QW1keGZoVnJVaFQwZHVNejhIeXpIN0J3ZVZHT2doQ1JzRGlycElaZ3pBUUpR?=
- =?utf-8?B?WkExMmdad0tsNWlEWExGZG9YM09NeHVlaWxCaTVRUXlqQ1pVdXF1UCs2S3RC?=
- =?utf-8?B?Q25DcmkzZUNhbTB3VDdwTFJrRWtsWDlnNTUrVi9SUnV3R3VNN1JwbmlML242?=
- =?utf-8?B?M1N6RXpQbHR5MXA4TXZCV2dqUFl6Z2p5Mk9Db3daZlhuUnlrckFSNHNRY1I1?=
- =?utf-8?B?N2tVZUNxOFFiaWRxTzQ3OFZEaTdsSjJwOXgzeGZHZlZmY0czWm5zVm1hRDdw?=
- =?utf-8?B?UHl0ZFRUNE55bDB2b1NSUjlRc3dYOGl6K3pYekNyalIrNlBGY1dFeER6Q1NR?=
- =?utf-8?B?Q01POStMMVFPV3YrNHhZVDV5Z1BBMDN4SndmRzZOclQyMnJhaXY0emJBVEhL?=
- =?utf-8?B?YnpUK0dsUE9JR3Z3U0hrT1prZ043YVI3MTRuMVRCK3Q1RzdLckUyb1J0dGdy?=
- =?utf-8?B?dFE9PQ==?=
+ ARA:13230040|366016|1800799024|376014|7416014|10070799003|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Z0cyN2xYaFBwcEp0YkpmWnRHMlNOc1QvL3ZySHc0TmozZ2U1RnNmTndrQ0Jq?=
+ =?utf-8?B?YWMzSjUxd1A0WnFBdVNNb3YzWXZjQW14WUUwVlBHWW1mRCs1dFJtTjk5TFNh?=
+ =?utf-8?B?dkNHRnMzUm42NmhkNHFsWW9vT3RVMUMvWkZ0WkkrbzdSSUphYXEvS295U2Zo?=
+ =?utf-8?B?Rm5yb0IvczBuQ3EvQXVXRmlLMVNPakd2YzM4aDhHQkUwVFJDdmpDOERDczJo?=
+ =?utf-8?B?QlptSzdjYlFCSGw5YkhhZWZGTHkrV1kwM1FIUGVVeDI3TThVSWxJSHhBai9B?=
+ =?utf-8?B?UUlnU3Y1ZWNRaVF2TFhqZEk2ckx3aEFSSW05VElNVXFsbEhyalNDREFwNkVp?=
+ =?utf-8?B?YzFnL1d3czh2TUtvQkNyQmtZSlhRbTlpUWQ4WmpHTjBRQ0pqZHBSQ1FhbHRZ?=
+ =?utf-8?B?ejEzdEd1OU05K3pFWUNuU1pxdzNlSWo4Mm9ubnNnVEV3U1MvaHBxRTV2RlJv?=
+ =?utf-8?B?blJ1TWVGUTdHUXc5aDN3dlJQUjVxNE5zRU5FTEhSZk1tUFZEa29weWI3d1Ra?=
+ =?utf-8?B?cGl4RDRVVW51K2szdlNhSFpPblh5aGI0YTR6YjNNeVJxa2JWT0VpbnY3SVFy?=
+ =?utf-8?B?QlVOTEUxRVZFY0dzY0VtSjJlLy9lQjZITWxzS2NWSjd1d2Z4V05DRklyRlhZ?=
+ =?utf-8?B?TG1CY0Nab095WExBclpqSUR1NXhVTjFXRHBWS1FFbnJGRzNpVWk5QjY5bmQz?=
+ =?utf-8?B?Ny9SNksrRVZpb1FRTTVSZW1xNzg3dGxlSTE3Vk96UFAxcU1MYlIrbm9wOW5q?=
+ =?utf-8?B?OXNqUGxNUE5PT1BrMnJEOW01OE03d1g4aUR1RWhUTXRQbWF4Ly96alZ4ekNj?=
+ =?utf-8?B?cSswVmFyY29hWTRaYUtoT2JOeU15NHIxZEdTM001eTR6aENzWVRkQU11N2k4?=
+ =?utf-8?B?WmkyM3I3cmxkRk1ubVhvY3hzNWVIcWxwSDlvWXl5Y0MyUVpyZmFqRkpCakdW?=
+ =?utf-8?B?ZzdsTFFIQzNvMkt0bmlUMWFoNkpVN09SQi9qNUpRSTJDc201NEhLeEI0VHhJ?=
+ =?utf-8?B?TFl0L2U0MmppeEUram8vMTZCYU5rKzc3eENIeGF4UlFRdEYydVlVeDRSWHp2?=
+ =?utf-8?B?YlVWaDlrdUo0TEUyOVJHMVlmRHJ4aDYvUTNyK1BBY3pvZ2h6bWFlQ0NZQktz?=
+ =?utf-8?B?a1ZQWWd6WUZ5V2UwT05WTklNRmJXYmFnSDUydVpOOVpFbkdTL2t5RFRGMURI?=
+ =?utf-8?B?ZGdaQk5PaklaaVJMVEhnUm5uTXA3VWRwSXFiOS9qVlNhUW9DZGVBVUsya2o0?=
+ =?utf-8?B?dTZCYm5HaS9XcU1XVW9RVDkydlgyWWlPNjhJWWJRYzZtcG5Qam5UQ2JKcmNu?=
+ =?utf-8?B?ODdQU1FCT0lSWVJBNFJXQ1Q0Qm56MWNBZ2h4RlZiK1NOZG15M0Y0QlYzdElB?=
+ =?utf-8?B?SWdsUWR2SEUwbmNJR24yYnlMZDZKejZ2WEpkQ2t1WGRzcmNkdTg4R2R4UVpO?=
+ =?utf-8?B?ZE15cXpJako4aXZIUlc1RlhDQ1JJdmkyUnBSaE1SOGFQaUx3NjZuM3BXeExY?=
+ =?utf-8?B?OE05eHpNZzRQNUFlOW1ROTVLM0o2UVdjU2luczYyOEtscTlObmpSaTgrcU1u?=
+ =?utf-8?B?bmI4eFdCRGJJcDRCajJHeW9XWkZjRE4yZ1B6dEZXbGtwS2VZdlE3bEpuaVpL?=
+ =?utf-8?B?NjZqNGtWbnlHRkNtN21OYWE3eXhheXpYdGVQbkdOVkZuWm5PeTh0N2d3YzBG?=
+ =?utf-8?B?d2NPaUhqTmxPRUp5T3pOTzFxelorYXR3V0NpWHBmWmVubUhjL3VEMitHSDVO?=
+ =?utf-8?B?NndPMUc4T1JucXVmbkVNSVBzV25QQjM4TVRNc1J0M0NBbHBTc3orRlVXVCtW?=
+ =?utf-8?B?UmhnUC9GR0xhRTlCV0xpaUQzZ2pVVnNha0xkbURSK2o4c0dRVXcvRDE0OGZO?=
+ =?utf-8?B?UDJtaUhXMitNSUNIK0JlSXFHeHdQK0gwUnZkZko5bUYrMDMrVGsvbnZsekt6?=
+ =?utf-8?B?OC94SnBmUFNPZVo4NXdzbER3UFI2eWN6TkFrdnBtZ3l0Mzc3eHhEaFZFRG5W?=
+ =?utf-8?B?RU8rdWpmZVNPSjFpUzVhQ1h2WnBSbiszWmh1L29DaU5vS29Da25BdFgxVVFY?=
+ =?utf-8?B?UmRxcU1ycVF0a2EwRGRwTU0rdjZFaU1lellzNlg2ZjZob0t3TTAranptKzRL?=
+ =?utf-8?B?ZTFLNVFnOGF0Ym9xN1RCZ0FkT21BTnZPQkRVYjBZdnp3bkY2ZVlGdXpZK2dC?=
+ =?utf-8?B?SGc9PQ==?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024)(921020); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R1ZjOTJQNEZlRTkzWHRaTUxkQUVJT21xREgxTjVtSzYxUEtidG9qZXdPcHJF?=
- =?utf-8?B?YldvMS96NGJvYXhCWldsTUI0bU44ZlVnRWJSc1QwczFtdUJvS1JkSytjSXNB?=
- =?utf-8?B?TkNBcENac2E1Ky9NSGJlYXJzQ245b0d0d0IzQlg1bURWUEgzUVY0c2ZmVlc2?=
- =?utf-8?B?MWJPeFpOWSswcVIrZXdQeTBzclZFaHNaSjBEWGFnNkNPc1MyQ3F4cnN4cXpl?=
- =?utf-8?B?RVdnZUQ4Q2tGOEV3d0JYczEvc29qN1BhL3d3SXJsRW1tQzZUZG1aMFJSWkkw?=
- =?utf-8?B?TEtMVXNRNUJ1Y0RXZlZ1QlFqcFJMZTQ2M0R0TWxrbURWYVFjeE5QVnFqbS90?=
- =?utf-8?B?ZExpeHBwYi9iZ0lOQldpdE1GQmYvRXFwWEVrWTVLZkJrYzNRSUtSL2pDSHFI?=
- =?utf-8?B?UEVabUpnLzlyTFljRlFsTnhyVTVYemlEY1AzT1JGbzJCVUQ0c3U0cndLWlE0?=
- =?utf-8?B?TnkvN3BOUXdjV05vbFJPeEJtM0tINnlhWjJGZ2VYczhhc2FUTEpjd3M1WjE3?=
- =?utf-8?B?ZVVIeGVrM0dVSDAxRGpWMXUyZm56MXBYNzdvTmtrRmFUeC9kVFJMdlhpMWR3?=
- =?utf-8?B?MjdYOXlwR3Z4M29ZSm0vd3h0WmxFLzUzTU4rRGZYNjcrY3piUm9SeGFXTVJE?=
- =?utf-8?B?bWthQVU0cEVJd0k1UXEydjZwbFVaMU42MUEzdkYyU1VtZnVXU0U0L3M4ak1B?=
- =?utf-8?B?T2l3d0FsTkY0S3p5Q0dFMDBzWXFRS0tHRDZPQVJSQmZramgwY0tGQkxVelli?=
- =?utf-8?B?NFptdi9yU3g4cW4rWWM2c0VnZU85cVBXV21JSEllNDNxaDFrVldqM2U2S09n?=
- =?utf-8?B?Mk1kSEw2TFNQc0I4QXluWnVQRSs1bkl6a3FaVlpxYVlnU3NMVU0vWHVzVEhu?=
- =?utf-8?B?V3Azd0xRMkxrT1lvSERwZTRieDNuejZnSzFzRXdwNzdtckVNZ29PaDI2bHdx?=
- =?utf-8?B?YjRkQ1FBM3JveUt5ZE11V0IrdFRiVHIxYVk3RHF1VHRGUzdaS1Rka1dHVTJY?=
- =?utf-8?B?ZTVPa0l4dG9jdFl3Z1NkNlVPamthbzV3K2xZT1U5bzA5VFBnOC9sZkxTQUFZ?=
- =?utf-8?B?Rlg3cWhXT3cwSm5YMFhoK0JrT1JkTXJyMTN5ejVQVGM0Wkg1Y1lvTVlzMUxh?=
- =?utf-8?B?QXpmdXRVdVA3SzdvODVMOEw4NmZ6WWxOMlp5VGRYcWt6N2NrYjhqa0VkUVgr?=
- =?utf-8?B?NWdYaEpVcVVjQVhHQWlnQkNOOUFrRUZxM3ExVTZTMURoZGx3Zk1SRWhwV2xM?=
- =?utf-8?B?VHA0c052R3pEUmw1RzlSWG5jMFIrNUc5MVg3ZmNoM3lXTDVVZEJWYVNRTXBQ?=
- =?utf-8?B?dUNLZ3dTSjA2eHovc2JPSVRtSEc1RFo4UzF0ZHV6MzVmbzQzYUNyZUN5eHhz?=
- =?utf-8?B?bXB1ZzRsOHZuSjVONGN6WS95NEJaNFg1a2liK0hRM0dERXNiRkNOS0NLQkl0?=
- =?utf-8?B?Nk54ampFTGVYUmJ2NWNJS2ZuTTRoR3JiTFN5ZUxPSTN0LzF4OUxNQ2ZHaDBq?=
- =?utf-8?B?R3NocytTQzdLU01SRUJkcGJIcFlqeUJWOEQ1Ukx0Rmx3MXpOYm5lTlQzRHZ3?=
- =?utf-8?B?U0craE9JWTVJd1F5eGIwb3NGNlpFRXJweUNTbG51a3RsZThuQWxubXFMc1JD?=
- =?utf-8?B?TTI1dGI1aXp0aTQzRGYxUDIyM3hTS3ZsdmhNcU5FamEyOHBLQmxZcFNqcHlZ?=
- =?utf-8?B?WXkvYUhOODB0OWY0aGtzVi9ieUIwTG85R3E1cnZUSFFZUElDTWhtRm9GVFgv?=
- =?utf-8?B?dXpEZld0a1dOdUNIeTA0dWt1UE5jdmhad1h0OXVIQmpOdi9MbW5KNTRvbFhQ?=
- =?utf-8?B?RHFuY0FIRUJpR2NzY2dIem9md0M3ZGk0V2ZUb1ArdjlvRmpoSm9ldFdVZnIr?=
- =?utf-8?B?Mjh6QUxoR1lJZjNYd21SSnZ3cko2K0dIN2dVcU01anp4RlJPUkpmM3lNNy80?=
- =?utf-8?B?V0FEaURucWR1SnFXOERMS2hqTEIwTzJqQ2E1UU5naUswcmZDazZLN3NZa2N3?=
- =?utf-8?B?VmtnWTJweGM4TGlsbWRVZkp0enJCWDA0T0gwNWp5MGNZV1JKZGRObWloUUVH?=
- =?utf-8?B?V0V6U21odW1hcWhnRmQweHUzR2V2VkNIOTdyNXpJNFErbGZIQU82V0p1cElq?=
- =?utf-8?B?UWZPMlRKcXpkYjdPaTVmUEVnSENEUENrSmMwYjEwMWc3YVhWYTlOVXIzb25I?=
- =?utf-8?B?ZHpSc1dyMTB2WHBXRVFISE1DcnJGbkZtNnQzeThNTEd4elFseVlwMEJBazR3?=
- =?utf-8?B?OUp6NlBnZmxJaFR1NlllenRJS0g5SU83T1hDWm9mTE95YzJEb0Q4cThBd0V4?=
- =?utf-8?Q?1OC4z1ShsniCNO1Nku?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f5bd8b8-856e-423a-a37e-08de5fd9ebe4
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB2353.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014)(10070799003)(921020);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZTFldVdBbFJvRC9nUVZRNkV3cXByTDJ3T3NwSVdrLzZQMEgzZ0tEOW9JMHVi?=
+ =?utf-8?B?d2lSVWpvZDJnODI4YzNyMUVRYVJlM1laYkZ1cDNWSGRJWkxMMWgyb2R6dUNv?=
+ =?utf-8?B?dTJFczM2YlZsMndQRnBYY2h5K1Y1Z3pUdnhNMlg0ZVpYNUhSdmpDSW0yNE04?=
+ =?utf-8?B?OGpiWUpVSjdMR3Fnc2xYN1pMNmM0UXJrWVpYQ0hwbWNKYUt5SGFnMnlJWW1h?=
+ =?utf-8?B?aGdkMENBd0xQd3prVTRBaGZhdVYxYzYxU1Ztc3JHOGtyQUYzVGRnd20wcjVk?=
+ =?utf-8?B?Nmk5L3dVR1NObDgrZGxRZlNaeUYrUG1pSENLU0hIQjJ4NEdKOFprLzE2ZjRN?=
+ =?utf-8?B?WDhoWm8yZUdHajhTYVplQW1CK2hPZ0lFNkVCNDB3TWtEUjFiQytjNTl4MVBB?=
+ =?utf-8?B?enJKcXZxTjJYY0VRVjRFK1Y1eEJWTlZUQlBSWW41N0JwWGlRM0FuQTFCcjhk?=
+ =?utf-8?B?ZGFoY2srWXRaNndVQjgrR0tOaUErd3BOamc3bjdJMFRObjVyY3pxSUJibXFp?=
+ =?utf-8?B?QmR6YmVTTU12ekZ0WUQ3TXVadTRSN1FNWlBkeDM0RmkzWllqaFVRZTM3UXJC?=
+ =?utf-8?B?STlHbi9INUtSMDg0WkJGakttMC9BaEFnSlU5Z2JGRGw0SFl3MWE5QTJ3K0FS?=
+ =?utf-8?B?a2dvL2VPQUp5NVFKQzlORytab1VoYjJCVnkraTlhVlU4ak5WMUJlVWY3RXNl?=
+ =?utf-8?B?S21NNHpGcW5NNFhYWlBoQkNVbWEyMDU0Um1mWkNUVXZhWW5yeXV6TjNqZ29X?=
+ =?utf-8?B?M1F5NXIyRFk2Mno2aUhGZFk4cEpXdUtUeWhQYmZDVGx3QkZjTmJhSGlyZHpy?=
+ =?utf-8?B?QzBCeDZHL0VUdEIwdFNwYllBNmgrdzlBSitOeFpYMkwwcUFRdmNsM081N2hs?=
+ =?utf-8?B?OHJ6UExQQmsrRWRYRzgyRjd1ak5rK1NtNDVsQms4LytXWjVUTWtRaHhrQU1p?=
+ =?utf-8?B?VHdCNFRpejFVUXlXUXBSQW5DMTZ6TysrMVVOdWlKN0JOaFI5Q0t0R3VOS1N1?=
+ =?utf-8?B?cFpKelNWYnN4SjdBS1JIbi9GeWRzdUpCMHY1ZEZqc3B4eWpnbS9JbFM1U1Rj?=
+ =?utf-8?B?clVSSUdFRHZ6L1RrTzN4dzFKbXhYYjAyaUwzOGxUelY2V1N4am5kc2V6MUUy?=
+ =?utf-8?B?QkVVRHhDcHRlY1RhN0hWaFlic2tsYURFbXdWUGIrcDU1d0V0VnZsZktnRGF3?=
+ =?utf-8?B?bTQreEJ3cHJLYWRmd0l3K3RCSEU4SDdrRWZMOXhCQzBOaDc4OFZCZWJ2bmZr?=
+ =?utf-8?B?YVhsckFJeXJrenlRNTRLNXpoa0RBMHBWUnlNcFRGYy9veklNZXRSaDVRSW1U?=
+ =?utf-8?B?bjZqa1ZSQnpvczBsNkhkOFllNXhUQlZOL0V5UmJtOGQvMkxqS3Z5Qk9aQjV0?=
+ =?utf-8?B?dVZyalJSNmJ3Vng4RzF5clJGVDZ4bm8yNnJkbWRlY3d4ai95MXVHQ1RGWWhN?=
+ =?utf-8?B?ejJxNm5PL0xiZFc2Z2dKZXNtK2ZTOTZ1V3d6bE5PbmxHRnJlVWNZU092RzVN?=
+ =?utf-8?B?YStIYi9PUWlyaWxrZkt0L0lkV2s5akE4K3pDaWwyaGN2c0JNTEF3am1ZRzVt?=
+ =?utf-8?B?YjliOUxiOThDK0dwMWlWSERjS0pzU3NuMTBUczRFbXBLMEEwTmZ6OEtlOGow?=
+ =?utf-8?B?YUFBR3RIYi9UV0pNd0YreHlmYUJzM05JSC94QStIMjh5TVhVeVFoS1ZlVnQw?=
+ =?utf-8?B?SG94bTJIcU02SHh4U241d1R2KzRidHBFWFhSWm9LaE4zNXpYcUIvalJ2bnZM?=
+ =?utf-8?B?VzE4NGw5anBGZEdVbzNpM1FLMld5OEtUM0NPMTA2Wm93RmFwM0Z6VFNNUjVh?=
+ =?utf-8?B?ZUM0YVhLektrVUc2dXowWjBWZmRuUGNuNVRPRk4wNFJYdWlyKythQ0NvRjgw?=
+ =?utf-8?B?QWd3cldzT1AyblE0QUFIMUR4U1JhdnRyUkpsZXZnYXJxb1dldWlGdW5YQVcx?=
+ =?utf-8?B?L1Fyb200dVpRd0pEcU5IbWl5eVN0R011VE5hWUx3Z2czb2h3RkNzMTJGZW8w?=
+ =?utf-8?B?L2Nzem93UGp6UVhlQnVUdXZtdVYxSG4rTWFtNnljUWRXZEVmcDBJMVUwK0Yr?=
+ =?utf-8?B?cUN0ajRnY1dZWkJaWDBQdG5IanRJQ2VFY2NObGZQZEp5TEpLSmkzZXpGWk9k?=
+ =?utf-8?B?dkkrTWoveUg0QjRKWUlyd1pLOVVmUngrZnBNVGRDd2JxeDAyN3YyaWNiRDM0?=
+ =?utf-8?B?SUc4SkhITlpaeTJKNFhaYjRCQzduVFlhTGRvUWV3Q2IxQ2RPaVhZK2VpK3Jl?=
+ =?utf-8?B?NG15SFVNNWMvaG41cTBJQnNIUXMwQ01OUmszdzhSc2wwMW5VNWJ1MXRkY0ZB?=
+ =?utf-8?B?bTkyMGVkRmlSZVV3MnBoVGx1UmhjOWVadHpkd3JCWGVLNXdIRUw1VThhUXhD?=
+ =?utf-8?Q?2RdoHIqUrrRzHdsxV8CdYvJbY27N7Zt3C80kbOcJnpb9a?=
+X-MS-Exchange-AntiSpam-MessageData-1: xhIvjmXzVAwCHg==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f50b2d3-503f-411e-d0a8-08de5fda8384
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 08:31:10.6601 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 08:35:24.9488 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FqLSC6UrmYaDP1lvszjFZ7/XJVmVjoAzjoFHYFvVeyIjhDGEbwQKX/orZrnJqH/J
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4215
+X-MS-Exchange-CrossTenant-UserPrincipalName: 42HzjtJeEt8hzK//2nyrYYWPFGWDrEbrWG+Kfp2Rk2EmyX3v7oP6OT7ev8shL8pvVdqsVJfUXKtlFW3XNSbc/Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9400
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -195,209 +191,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,ziepe.ca,8bytes.org,arm.com,shazbot.org,nvidia.com];
+	FREEMAIL_TO(0.00)[kernel.org,nvidia.com,google.com,gmail.com,ffwll.ch,collabora.com,arm.com,garyguo.net,protonmail.com,umich.edu];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[34];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[amd.com:+];
+	FROM_NEQ_ENVFROM(0.00)[ecourtney@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:mid,amd.com:dkim]
-X-Rspamd-Queue-Id: DD513B85DA
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: D927CB86F6
 X-Rspamd-Action: no action
 
-On 1/24/26 20:14, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
-> 
-> dma-buf invalidation is handled asynchronously by the hardware, so VFIO
-> must wait until all affected objects have been fully invalidated.
-> 
-> In addition, the dma-buf exporter is expecting that all importers unmap any
-> buffers they previously mapped.
-> 
-> Fixes: 5d74781ebc86 ("vfio/pci: Add dma-buf export support for MMIO regions")
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->  drivers/vfio/pci/vfio_pci_dmabuf.c | 71 ++++++++++++++++++++++++++++++++++++--
->  1 file changed, 68 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> index d8ceafabef48..485515629fe4 100644
-> --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
-> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> @@ -17,6 +17,8 @@ struct vfio_pci_dma_buf {
->  	struct dma_buf_phys_vec *phys_vec;
->  	struct p2pdma_provider *provider;
->  	u32 nr_ranges;
-> +	struct kref kref;
-> +	struct completion comp;
->  	u8 revoked : 1;
->  };
->  
-> @@ -44,27 +46,46 @@ static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
->  	return 0;
->  }
->  
-> +static void vfio_pci_dma_buf_done(struct kref *kref)
-> +{
-> +	struct vfio_pci_dma_buf *priv =
-> +		container_of(kref, struct vfio_pci_dma_buf, kref);
-> +
-> +	complete(&priv->comp);
-> +}
-> +
->  static struct sg_table *
->  vfio_pci_dma_buf_map(struct dma_buf_attachment *attachment,
->  		     enum dma_data_direction dir)
->  {
->  	struct vfio_pci_dma_buf *priv = attachment->dmabuf->priv;
-> +	struct sg_table *ret;
->  
->  	dma_resv_assert_held(priv->dmabuf->resv);
->  
->  	if (priv->revoked)
->  		return ERR_PTR(-ENODEV);
->  
-> -	return dma_buf_phys_vec_to_sgt(attachment, priv->provider,
-> -				       priv->phys_vec, priv->nr_ranges,
-> -				       priv->size, dir);
-> +	ret = dma_buf_phys_vec_to_sgt(attachment, priv->provider,
-> +				      priv->phys_vec, priv->nr_ranges,
-> +				      priv->size, dir);
-> +	if (IS_ERR(ret))
-> +		return ret;
-> +
-> +	kref_get(&priv->kref);
-> +	return ret;
->  }
->  
->  static void vfio_pci_dma_buf_unmap(struct dma_buf_attachment *attachment,
->  				   struct sg_table *sgt,
->  				   enum dma_data_direction dir)
->  {
-> +	struct vfio_pci_dma_buf *priv = attachment->dmabuf->priv;
-> +
-> +	dma_resv_assert_held(priv->dmabuf->resv);
-> +
->  	dma_buf_free_sgt(attachment, sgt, dir);
-> +	kref_put(&priv->kref, vfio_pci_dma_buf_done);
->  }
->  
->  static void vfio_pci_dma_buf_release(struct dma_buf *dmabuf)
-> @@ -287,6 +308,9 @@ int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
->  		goto err_dev_put;
->  	}
->  
-> +	kref_init(&priv->kref);
-> +	init_completion(&priv->comp);
-> +
->  	/* dma_buf_put() now frees priv */
->  	INIT_LIST_HEAD(&priv->dmabufs_elm);
->  	down_write(&vdev->memory_lock);
-> @@ -326,6 +350,8 @@ void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
->  	lockdep_assert_held_write(&vdev->memory_lock);
->  
->  	list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm) {
-> +		unsigned long wait;
-> +
->  		if (!get_file_active(&priv->dmabuf->file))
->  			continue;
->  
-> @@ -333,7 +359,37 @@ void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
->  			dma_resv_lock(priv->dmabuf->resv, NULL);
->  			priv->revoked = revoked;
->  			dma_buf_invalidate_mappings(priv->dmabuf);
-> +			dma_resv_wait_timeout(priv->dmabuf->resv,
-> +					      DMA_RESV_USAGE_BOOKKEEP, false,
-> +					      MAX_SCHEDULE_TIMEOUT);
->  			dma_resv_unlock(priv->dmabuf->resv);
-> +			if (revoked) {
-> +				kref_put(&priv->kref, vfio_pci_dma_buf_done);
-> +				/* Let's wait till all DMA unmap are completed. */
-> +				wait = wait_for_completion_timeout(
-> +					&priv->comp, secs_to_jiffies(1));
-> +				/*
-> +				 * If you see this WARN_ON, it means that
-> +				 * importer didn't call unmap in response to
-> +				 * dma_buf_invalidate_mappings() which is not
-> +				 * allowed.
-> +				 */
-> +				WARN(!wait,
-> +				     "Timed out waiting for DMABUF unmap, importer has a broken invalidate_mapping()");
+This series extends the DMA coherent allocation API to support compile-time
+known sizes. This lets bounds checking to be moved from runtime to build
+time, which is useful to avoid runtime panics from index typos. It also
+removes the need for a Result return type in some places.
 
-You can do the revoke to do your resource management, for example re-use the backing store for something else.
+The compile time size is specified via a marker type: StaticSize<N>.
+Statically sized allocations can decay to runtime sized ones via deref
+coercion for code that doesn't need to know the size at compile time, or to
+avoid having to carry around extra type parameters. The implementation
+follows a similar pattern to Device/DeviceContext.
 
-But it is mandatory that you keep the mapping around indefinitely until the importer closes it.
+The series defines three type aliases: CoherentSlice<T> (for runtime size),
+CoherentArray<T, N> (for compile-time size N), and CoherentObject<T> (for
+single object allocations). It also adds infallible dma_read!/dma_write!
+macros and methods to CoherentArray, while prefixing the existing fallible
+methods and macros with `try_`.
 
-Before that you can't do things like runtime PM or remove or anything which would make the DMA addresses invalid.
+The macros keep the same syntax (i.e.
+coherent_allocation[index].optional_fields = expression) even for
+CoherentObject, because the [] syntax is needed to know where to split the
+actual CoherentAllocation object from the fields. This means that
+CoherentObject is indexed with [0] in dma_write!/dma_read! macros. The
+alternative is defining a separate macro for single object access, but it
+still would need a way to delineate between the allocation and the fields,
+perhaps by using commas (dma_read_obj!(object, fields),
+dma_write_obj!(object, fields, value)). This would be inconsistent with the
+array/slice syntax.
 
-As far as I can see vfio_pci_dma_buf_move() is used exactly for that use case so this here is an absolutely clear NAK from my side for this approach.
+The last patch in the series may be useful as an example of what this
+looks like to use. Also, there is probably a better name than
+CoherentSlice. I found that specifying a default of RuntimeSize on
+CoherentAllocation stopped the compiler from being able to resolve
+which alloc_attrs to call in usages like e.g.
+CoherentAllocation<u8>::alloc_attrs. Also, we probably want to encourage
+people to use the statically sized one if possible, so it may be nice to
+avoid defaulting CoherentAllocation to RuntimeSize.
 
-You can either split up the functionality of vfio_pci_dma_buf_move() into vfio_pci_dma_buf_invalidate_mappings() and vfio_pci_dma_buf_flush() and then call the later whenever necessary or you keep it in one function and block everybody until the importer has dropped all mappings.
+Signed-off-by: Eliot Courtney <ecourtney@nvidia.com>
+---
+Eliot Courtney (9):
+      rust: dma: rename CoherentAllocation fallible methods
+      rust: dma: parameterize CoherentAllocation with AllocationSize
+      rust: dma: add CoherentArray for compile-time sized allocations
+      rust: dma: simplify try_dma_read! and try_dma_write!
+      rust: dma: rename try_item_from_index to try_ptr_at
+      rust: dma: add dma_read! and dma_write! macros
+      rust: dma: implement decay from CoherentArray to CoherentSlice
+      rust: dma: add CoherentObject for single element allocations
+      gpu: nova-core: migrate to CoherentArray and CoherentObject
 
-> +			} else {
-> +				/*
-> +				 * Kref is initialize again, because when revoke
-> +				 * was performed the reference counter was decreased
-> +				 * to zero to trigger completion.
-> +				 */
-> +				kref_init(&priv->kref);
-> +				/*
-> +				 * There is no need to wait as no mapping was
-> +				 * performed when the previous status was
-> +				 * priv->revoked == true.
-> +				 */
-> +				reinit_completion(&priv->comp);
-> +			}
->  		}
->  		fput(priv->dmabuf->file);
+ drivers/gpu/nova-core/dma.rs            |  10 +-
+ drivers/gpu/nova-core/falcon.rs         |   2 +-
+ drivers/gpu/nova-core/firmware/fwsec.rs |   4 +-
+ drivers/gpu/nova-core/gsp.rs            |  44 +--
+ drivers/gpu/nova-core/gsp/boot.rs       |   6 +-
+ drivers/gpu/nova-core/gsp/cmdq.rs       |  20 +-
+ drivers/gpu/nova-core/gsp/fw.rs         |  12 +-
+ rust/kernel/dma.rs                      | 555 +++++++++++++++++++++++++-------
+ samples/rust/rust_dma.rs                |  14 +-
+ 9 files changed, 489 insertions(+), 178 deletions(-)
+---
+base-commit: c71257394bc9c59ea727803f6e55e83fe63db74e
+change-id: 20260128-coherent-array-0321eb723d4c
 
-This is also extremely questionable. Why doesn't the dmabuf have a reference while on the linked list?
-
-Regards,
-Christian.
-
->  	}
-> @@ -346,6 +402,8 @@ void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
->  
->  	down_write(&vdev->memory_lock);
->  	list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm) {
-> +		unsigned long wait;
-> +
->  		if (!get_file_active(&priv->dmabuf->file))
->  			continue;
->  
-> @@ -354,7 +412,14 @@ void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
->  		priv->vdev = NULL;
->  		priv->revoked = true;
->  		dma_buf_invalidate_mappings(priv->dmabuf);
-> +		dma_resv_wait_timeout(priv->dmabuf->resv,
-> +				      DMA_RESV_USAGE_BOOKKEEP, false,
-> +				      MAX_SCHEDULE_TIMEOUT);
->  		dma_resv_unlock(priv->dmabuf->resv);
-> +		kref_put(&priv->kref, vfio_pci_dma_buf_done);
-> +		wait = wait_for_completion_timeout(&priv->comp,
-> +						   secs_to_jiffies(1));
-> +		WARN_ON(!wait);
->  		vfio_device_put_registration(&vdev->vdev);
->  		fput(priv->dmabuf->file);
->  	}
-> 
+Best regards,
+-- 
+Eliot Courtney <ecourtney@nvidia.com>
 
