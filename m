@@ -2,70 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id dvk3DPoMfWkxQAIAu9opvQ
+	id OAqGI1Uwf2k8lQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 20:56:42 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Feb 2026 11:52:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D161BE475
-	for <lists+dri-devel@lfdr.de>; Fri, 30 Jan 2026 20:56:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC435C5A4D
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Feb 2026 11:52:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C47810E378;
-	Fri, 30 Jan 2026 19:56:38 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eEFvxzVP";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94FA010E13D;
+	Sun,  1 Feb 2026 10:51:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D30E610E378;
- Fri, 30 Jan 2026 19:56:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769802997; x=1801338997;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=worejeHHsq1ziRWfoviB7RGwOnlqO7vcDzzLdGwlVXo=;
- b=eEFvxzVP5oCUpmlFwep7mf7IGCEVFJkTSXZ0kqJ592SDNnbVBc9wX+cF
- MXOzibCPs0PXMlMxE1D24JfsUwZRBNaeAn2E58QPtrOdgTgjp7g2UyBtk
- kHRopSJn+o4eG5vXUbJb1Iacvabc661vrtDu2RyWahI2luiBBNWFerqov
- ErOKvtnv08WAO7Cp54/Er4YQh1kzA4jaFwTqazWY1CUHm58sxg+btHOR/
- OtwgQeE0TdCyISOn8S2pkEk1JbRuxGF8BP/FBwCfCD4YxGIZHoEHhSP8o
- Sgte8FauKoEKhCjKz83l8safgBufZU0aQyfs5WS2G8nBJug+HBsuugDVi Q==;
-X-CSE-ConnectionGUID: ehhou1ugSKO4uksqipqdVw==
-X-CSE-MsgGUID: 91CjBeoARoqDgeDkW4M4wA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="70776050"
-X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; d="scan'208";a="70776050"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2026 11:56:37 -0800
-X-CSE-ConnectionGUID: nM5QeG7ATpaADUZTOayMgQ==
-X-CSE-MsgGUID: 9tIorAgaQku43phLFmJqtw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,263,1763452800"; d="scan'208";a="208735691"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO [10.245.244.13])
- ([10.245.244.13])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2026 11:56:33 -0800
-Message-ID: <b9dd97e7d9e62ebc33c4dfef53a9fd3f51352d3a.camel@linux.intel.com>
-Subject: Re: [PATCH] mm/hmm: Fix a hmm_range_fault() livelock / starvation
- problem
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: intel-xe@lists.freedesktop.org, Ralph Campbell <rcampbell@nvidia.com>, 
- Christoph Hellwig	 <hch@lst.de>, Jason Gunthorpe <jgg@mellanox.com>, Jason
- Gunthorpe <jgg@ziepe.ca>,  Leon Romanovsky	 <leon@kernel.org>, Matthew
- Brost <matthew.brost@intel.com>, linux-mm@kvack.org, 
- stable@vger.kernel.org, dri-devel@lists.freedesktop.org
-Date: Fri, 30 Jan 2026 20:56:31 +0100
-In-Reply-To: <20260130100013.fb1ce1cd5bd7a440087c7b37@linux-foundation.org>
-References: <20260130144529.79909-1-thomas.hellstrom@linux.intel.com>
- <20260130100013.fb1ce1cd5bd7a440087c7b37@linux-foundation.org>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+X-Greylist: delayed 903 seconds by postgrey-1.36 at gabe;
+ Fri, 30 Jan 2026 20:47:58 UTC
+Received: from mail.auroraos.dev (unknown [95.181.193.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28DFA10E346
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 20:47:58 +0000 (UTC)
+Received: from wasted (213.87.133.239) by exch16.corp.auroraos.dev
+ (10.189.209.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1847.3; Fri, 30 Jan
+ 2026 23:32:46 +0300
+From: Sergey Shtylyov <s.shtylyov@auroraos.dev>
+To: Sandy Huang <hjc@rock-chips.com>, =?UTF-8?q?Heiko=20St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
+ <linux-rockchip@lists.infradead.org>
+CC: Sergey Shtylyov <s.shtylyov@auroraos.dev>,
+ <linux-arm-kernel@lists.infradead.org>, <stable@vger.kernel.org>
+Subject: [PATCH] drm/rockchip: cdn-dp: add missing check in
+ cdn_dp_config_video()
+Date: Fri, 30 Jan 2026 23:31:46 +0300
+Message-ID: <20260130203148.46473-1-s.shtylyov@auroraos.dev>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [213.87.133.239]
+X-ClientProxiedBy: exch16.corp.auroraos.dev (10.189.209.38) To
+ exch16.corp.auroraos.dev (10.189.209.38)
+X-Mailman-Approved-At: Sun, 01 Feb 2026 10:51:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,122 +59,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [1.99 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DATE_IN_PAST(1.00)[38];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	DMARC_POLICY_SOFTFAIL(0.10)[auroraos.dev : SPF not aligned (relaxed), No valid DKIM,quarantine,sampled_out];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-rockchip@lists.infradead.org,m:s.shtylyov@auroraos.dev,m:linux-arm-kernel@lists.infradead.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[rock-chips.com,sntech.de,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,lists.infradead.org];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[s.shtylyov@auroraos.dev,dri-devel-bounces@lists.freedesktop.org];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linux.intel.com:mid]
-X-Rspamd-Queue-Id: 7D161BE475
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[s.shtylyov@auroraos.dev,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.997];
+	TAGGED_RCPT(0.00)[dri-devel];
+	HAS_XOIP(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	R_DKIM_NA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxtesting.org:url]
+X-Rspamd-Queue-Id: CC435C5A4D
 X-Rspamd-Action: no action
 
-On Fri, 2026-01-30 at 10:00 -0800, Andrew Morton wrote:
-> On Fri, 30 Jan 2026 15:45:29 +0100 Thomas Hellstr=C3=B6m
-> <thomas.hellstrom@linux.intel.com> wrote:
->=20
-> > If hmm_range_fault() fails a folio_trylock() in do_swap_page,
-> > trying to acquire the lock of a device-private folio for migration,
-> > to ram, the function will spin until it succeeds grabbing the lock.
-> >=20
-> > However, if the process holding the lock is depending on a work
-> > item to be completed, which is scheduled on the same CPU as the
-> > spinning hmm_range_fault(), that work item might be starved and
-> > we end up in a livelock / starvation situation which is never
-> > resolved.
-> >=20
-> > This can happen, for example if the process holding the
-> > device-private folio lock is stuck in
-> > =C2=A0=C2=A0 migrate_device_unmap()->lru_add_drain_all()
-> > The lru_add_drain_all() function requires a short work-item
-> > to be run on all online cpus to complete.
->=20
-> This is pretty bad behavior from lru_add_drain_all().
->=20
-> > A prerequisite for this to happen is:
-> > a) Both zone device and system memory folios are considered in
-> > =C2=A0=C2=A0 migrate_device_unmap(), so that there is a reason to call
-> > =C2=A0=C2=A0 lru_add_drain_all() for a system memory folio while a
-> > =C2=A0=C2=A0 folio lock is held on a zone device folio.
-> > b) The zone device folio has an initial mapcount > 1 which causes
-> > =C2=A0=C2=A0 at least one migration PTE entry insertion to be deferred =
-to
-> > =C2=A0=C2=A0 try_to_migrate(), which can happen after the call to
-> > =C2=A0=C2=A0 lru_add_drain_all().
-> > c) No or voluntary only preemption.
-> >=20
-> > This all seems pretty unlikely to happen, but indeed is hit by
-> > the "xe_exec_system_allocator" igt test.
-> >=20
-> > Resolve this using a cond_resched() after each iteration in
-> > hmm_range_fault(). Future code improvements might consider moving
-> > the lru_add_drain_all() call in migrate_device_unmap() out of the
-> > folio locked region.
-> >=20
-> > Also, hmm_range_fault() can be a very long-running function
-> > so a cond_resched() at the end of each iteration can be
-> > motivated even in the absence of an -EBUSY.
-> >=20
-> > Fixes: d28c2c9a4877 ("mm/hmm: make full use of walk_page_range()")
->=20
-> Six years ago.
+The result of cdn_dp_reg_write() is checked everywhere (with the error
+being logged by the callers) except one place in cdn_dp_config_video().
+Add the missing result check, bailing out early on error...
 
-Yeah, although unlikely to have been hit due to our multi-device
-migration code might have been the first instance of all those
-prerequisites to be fulfilled.
+Found by Linux Verification Center (linuxtesting.org) with the Svace static
+analysis tool.
 
->=20
-> > --- a/mm/hmm.c
-> > +++ b/mm/hmm.c
-> > @@ -674,6 +674,13 @@ int hmm_range_fault(struct hmm_range *range)
-> > =C2=A0			return -EBUSY;
-> > =C2=A0		ret =3D walk_page_range(mm, hmm_vma_walk.last,
-> > range->end,
-> > =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &hmm_walk_ops,
-> > &hmm_vma_walk);
-> > +		/*
-> > +		 * Conditionally reschedule to let other work
-> > items get
-> > +		 * a chance to unlock device-private pages whose
-> > locks
-> > +		 * we're spinning on.
-> > +		 */
-> > +		cond_resched();
-> > +
-> > =C2=A0		/*
-> > =C2=A0		 * When -EBUSY is returned the loop restarts with
-> > =C2=A0		 * hmm_vma_walk.last set to an address that has
-> > not been stored
->=20
-> If the process which is running hmm_range_fault() has
-> SCHED_FIFO/SHCED_RR then cond_resched() doesn't work.=C2=A0 An explicit
-> msleep() would be better?
+Fixes: 1a0f7ed3abe2 ("drm/rockchip: cdn-dp: add cdn DP support for rk3399")
+Signed-off-by: Sergey Shtylyov <s.shtylyov@auroraos.dev>
+Cc: stable@vger.kernel.org
+---
+ drivers/gpu/drm/rockchip/cdn-dp-reg.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Unfortunately hmm_range_fault() is typically called from a gpu
-pagefault handler and it's crucial to get the gpu up and running again
-as fast as possible.
+diff --git a/drivers/gpu/drm/rockchip/cdn-dp-reg.c b/drivers/gpu/drm/rockchip/cdn-dp-reg.c
+index 0dc3804051a9..9b82b27770e5 100644
+--- a/drivers/gpu/drm/rockchip/cdn-dp-reg.c
++++ b/drivers/gpu/drm/rockchip/cdn-dp-reg.c
+@@ -685,6 +685,8 @@ int cdn_dp_config_video(struct cdn_dp_device *dp)
+ 	val = div_u64(8 * (symbol + 1), bit_per_pix) - val;
+ 	val += 2;
+ 	ret = cdn_dp_reg_write(dp, DP_VC_TABLE(15), val);
++	if (ret)
++		goto err_config_video;
+ 
+ 	switch (video->color_depth) {
+ 	case 6:
+-- 
+2.52.0
 
-Is there a way we could test for the cases where cond_resched() doesn't
-work and in that case instead call sched_yield(), at least on -EBUSY
-errors?
-
-Thanks,
-Thomas
