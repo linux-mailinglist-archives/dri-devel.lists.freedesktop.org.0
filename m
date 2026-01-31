@@ -2,101 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KM+VEw04fWlMQwIAu9opvQ
+	id eJjPM9hJfWlZRQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 00:00:29 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 01:16:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 981B6BF461
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 00:00:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A105BF8F3
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 01:16:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABC2710E030;
-	Fri, 30 Jan 2026 23:00:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39AB010E079;
+	Sat, 31 Jan 2026 00:16:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="N41qAFT8";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="KrsG3FP9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2D7F10E030
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 23:00:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D44A810E109
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Jan 2026 00:16:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1769814022;
+ s=mimecast20190719; t=1769818579;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=xpVWSYOjmpUvjd6bPS5vI/Dt/+7lbqD30OTCkZ3YauU=;
- b=N41qAFT8gcNrQZQA1VfQSOaJE8UCXul/LrsPWmrJLJtVhWx7yV58AbmKtPb4l4xxd8eWAh
- ELkmagl2q3wXOy5nya1vevRfJtB2L3FLXz8UkxkMjEVDDlxT+J0O3qDThresTHzptMK4rs
- WzuqYv4H/KhjhSjpYYLdWiL8OfMILOU=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-106-hwTKOdunOyeZ9PQ-KTY9DQ-1; Fri, 30 Jan 2026 18:00:21 -0500
-X-MC-Unique: hwTKOdunOyeZ9PQ-KTY9DQ-1
-X-Mimecast-MFC-AGG-ID: hwTKOdunOyeZ9PQ-KTY9DQ_1769814021
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-50333a8184aso81171691cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 15:00:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769814021; x=1770418821;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xpVWSYOjmpUvjd6bPS5vI/Dt/+7lbqD30OTCkZ3YauU=;
- b=Ao55pCNZf75f6i/aJfWRgTbkd+P+fa8Q2n7ojwBonRmtgOwXwi8vALTB7BxSLWhDhn
- QeguxThY9uoloGI+oa19p1HZ5C1uPkxzcDe8LUaJ5vuhkhz3MpRpAAvTsloDNM+AZ/xa
- ziG7IuZcqjG5bo4F3BHDEgdqsACvNJn6+S2hphd4Y2BaqABgDCz8KmyGmejh1QunnJpp
- mGCEWaE2mfr2qlzXOPi8pRbaQwRPDCkGZgSpCmS1hfgdIKS1JU6P0L/+8JKH1AuCnCP0
- NvWYvxXrToquu8biEIraCome8YQhiwQNb4jw6+LYpAwoTr/362fSzYOq0Nnr1ApUZoNU
- THnQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX/3K76RR2EM0fFMlFLyH0Xe+J6l3e5k/ZXc4R/7oop9ShYDVx2ioLRQIK81GP7p1YLFFtecIowN5I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxYWfPGeAiFZLb5ucSjFWK2H9naaPcVJwUuDA6LSfWhHUH63QTR
- UlgjWBtAiIDpPsnhDkV95X2GhEp8djzTk9QID2ilP3XFfOz8vT+jv43DvmQVktRHy+QpojnX+iR
- lZGVTsKGKskxaSd8DvMgPErGENScaocY0tuXCYqk7GoWNTbb82UwPZcgGAfZarWJMJdM5LA==
-X-Gm-Gg: AZuq6aLVoUuhAKKBY36QerC94Jbi6m4IsHH6VEd77LI0NuxTEkZoJr5MD1iOU8ty5E9
- VKi3nuK9NK9Qyd3jd5ukReIk6knbcJJpikQHYCom3qU9dLZidJc0Vmnm8Kf2f9d6zjdNxhvqOXe
- CGn053lF0zdc9BX4HmHNsgPqaCstmSo6CIXLNOrwbqjjL8WnH/NPUGIwQN7NZhtVx0rEKBxBFIR
- Sao6gncnYSk/4j1kjxxJhPzec4mGfoKLxxyaVCZwq8A5vUZC8R5VFIlwvP0Wny6DjrAeaCshprI
- KdZfei7fKeA4L0cu3WUZH1lw224Dg6hCRB91UnuNNcvKbimbIE0kWOzYja4r2pCR5SzDSE4ZIpR
- sNW2vOpE7ncmYYGqmgO0lawnx1wC3imN4u/oCSwUGkPkRcIXRCmU=
-X-Received: by 2002:ac8:5ac7:0:b0:4f1:ca4f:d480 with SMTP id
- d75a77b69052e-505d2263fddmr58996191cf.45.1769814020765; 
- Fri, 30 Jan 2026 15:00:20 -0800 (PST)
-X-Received: by 2002:ac8:5ac7:0:b0:4f1:ca4f:d480 with SMTP id
- d75a77b69052e-505d2263fddmr58995451cf.45.1769814020240; 
- Fri, 30 Jan 2026 15:00:20 -0800 (PST)
-Received: from localhost (pool-100-17-18-12.bstnma.fios.verizon.net.
- [100.17.18.12]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-894d375e1c8sm70249956d6.48.2026.01.30.15.00.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jan 2026 15:00:19 -0800 (PST)
-From: Eric Chanudet <echanude@redhat.com>
-Date: Fri, 30 Jan 2026 17:55:30 -0500
-Subject: [PATCH] dma-buf: heaps: cma: register a dmem region for each cma heap
+ bh=DUlHZCO3uYHyEV1uv7j6n5bPLjINc4Q3Eh1O4mdV7Bg=;
+ b=KrsG3FP9pUkXOK12A3P5BXva0HYf9CQRbcnT8WtcN+7GDolMPCwToLZ+VGFhgo04AXunBZ
+ R+I0OoN++WUFNsKM2URkK44OMABZ+ODL8/eShFYKdsYMH0J5tSEPx1goRci3GfH/7Jn95L
+ pjtEkIubhVU4RMkA2rOaTmlg8vVAbf0=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-228-zlw75-UyNGmfOJGcqocEnw-1; Fri,
+ 30 Jan 2026 19:16:16 -0500
+X-MC-Unique: zlw75-UyNGmfOJGcqocEnw-1
+X-Mimecast-MFC-AGG-ID: zlw75-UyNGmfOJGcqocEnw_1769818574
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 351AB180044D; Sat, 31 Jan 2026 00:16:14 +0000 (UTC)
+Received: from GoldenWind.lan (unknown [10.22.81.64])
+ by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 1676A18002A6; Sat, 31 Jan 2026 00:16:11 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
+Cc: nouveau@lists.freedesktop.org, "Miguel Ojeda" <ojeda@kernel.org>,
+ "Simona Vetter" <simona@ffwll.ch>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Shankari Anand" <shankari.ak0208@gmail.com>,
+ "David Airlie" <airlied@gmail.com>, "Benno Lossin" <lossin@kernel.org>,
+ "Asahi Lina" <lina+kernel@asahilina.net>,
+ "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Lyude Paul" <lyude@redhat.com>
+Subject: [PATCH v5 0/4] Introduce DeviceContext
+Date: Fri, 30 Jan 2026 19:13:29 -0500
+Message-ID: <20260131001602.2095470-1-lyude@redhat.com>
 MIME-Version: 1.0
-Message-Id: <20260130-dmabuf-heap-cma-dmem-v1-1-3647ea993e99@redhat.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MMQqAMAxA0atIZgNtEBGvIg7RpjZDq7Qognh3i
- +Mb/n+gSFYpMDYPZLm06J4qbNvAGjhtguqqgQz1xtKALvJyegzCB66RqyWi7ywZJuc7HqCmRxa
- v97+d5vf9AHWa3QpmAAAA
-X-Change-ID: 20260128-dmabuf-heap-cma-dmem-f4120a2df4a8
-To: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
- Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>, 
- Eric Chanudet <echanude@redhat.com>
-X-Mailer: b4 0.14.2
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: NDaFKD8PMrTUbfvpUMZmvXputHiCKIbPbqJm_83gzgk_1769814021
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,204 +78,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
+X-Spamd-Result: default: False [1.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:mripard@redhat.com,m:aesteve@redhat.com,m:echanude@redhat.com,s:lists@lfdr.de];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,kernel.org,ffwll.ch,google.com,gmail.com,asahilina.net,collabora.com,redhat.com];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[echanude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	ARC_NA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:dakr@kernel.org,m:nouveau@lists.freedesktop.org,m:ojeda@kernel.org,m:simona@ffwll.ch,m:aliceryhl@google.com,m:shankari.ak0208@gmail.com,m:airlied@gmail.com,m:lossin@kernel.org,m:lina+kernel@asahilina.net,m:daniel.almeida@collabora.com,m:lyude@redhat.com,m:shankariak0208@gmail.com,m:lina@asahilina.net,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[echanude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[lyude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lyude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[redhat.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
+	TAGGED_RCPT(0.00)[dri-devel,kernel];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 981B6BF461
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,patchwork.freedesktop.org:url]
+X-Rspamd-Queue-Id: 2A105BF8F3
 X-Rspamd-Action: no action
 
-The cma dma-buf heaps let userspace allocate buffers in CMA regions
-without enforcing limits. Register a dmem region per cma heap and charge
-against it when allocating a buffer in a cma heap.
+Previous version of this patch series:
+  https://patchwork.freedesktop.org/series/160217/#rev3
 
-For the default cma region, two heaps may be created for the same cma
-range:
-commit 854acbe75ff4 ("dma-buf: heaps: Give default CMA heap a fixed name")
-  Introduced /dev/dma_heap/default_cma_region
-commit 4f5f8baf7341 ("dma-buf: heaps: cma: Create CMA heap for each CMA
-                      reserved region")
-  Created a CMA heap for each CMA region, which might create a duplicate
-  heap to the default one, e.g:
-    /dev/dma_heap/default_cma_region
-    /dev/dma_heap/reserved
+One of the unsolved issues we still have with the rust DRM bindings is
+the ability to limit certain Device operations to contexts where we can
+guarantee that a Device has been fully initialized and registered with
+userspace, or vice-versa (e.g. must be unregistered).
 
-Removing the legacy heap would break user API. So handle the special
-case by using one dmem between the two heaps to account charges
-correctly.
+While the previous solution for this that I had was simply not exposing
+drm::Device at all until the device has been registered with userspace,
+unfortunately this isn't enough since:
 
-Signed-off-by: Eric Chanudet <echanude@redhat.com>
----
-In continuation with introducing cgroup for the system heap[1], this
-behavior is enabled based on dma_heap.mem_accounting, disabled by
-default.
+* As we found out with Tyr, drivers occasionally need to be able to
+  create GEM objects before device registration
+* We would still need to be able to handle KMS callbacks which could be
+  invoked after KMS init but before userspace registration (not handled
+  in this series specifically, but DeviceContext will be required for
+  handling this).
 
-dmem is chosen for CMA heaps as it allows limits to be set for each
-region backing each heap. There is one caveat for the default cma range
-that may accessible through two different cma heaps, which is treated as
-a special case.
+This patch series provides a pretty nice solution to this, by
+implementing a very similar solution to kernel::device::DeviceContext:
+introducing our own DeviceContext type state.
 
-[1] https://lore.kernel.org/all/20260116-dmabuf-heap-system-memcg-v3-0-ecc6b62cc446@redhat.com/
----
- drivers/dma-buf/heaps/cma_heap.c | 51 ++++++++++++++++++++++++++++++++++++----
- 1 file changed, 46 insertions(+), 5 deletions(-)
+This patch series depends on the two pre-requisite patch series:
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 49cc45fb42dd7200c3c14384bcfdbe85323454b1..608af8ad6bce7fe0321da6d8f1b65a69f5d8d950 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -27,6 +27,7 @@
- #include <linux/scatterlist.h>
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
-+#include <linux/cgroup_dmem.h>
- 
- #define DEFAULT_CMA_NAME "default_cma_region"
- 
-@@ -46,7 +47,9 @@ int __init dma_heap_cma_register_heap(struct cma *cma)
- struct cma_heap {
- 	struct dma_heap *heap;
- 	struct cma *cma;
-+	struct dmem_cgroup_region *cg;
- };
-+static struct dmem_cgroup_region *default_cma_cg;
- 
- struct cma_heap_buffer {
- 	struct cma_heap *heap;
-@@ -58,6 +61,7 @@ struct cma_heap_buffer {
- 	pgoff_t pagecount;
- 	int vmap_cnt;
- 	void *vaddr;
-+	struct dmem_cgroup_pool_state *pool;
- };
- 
- struct dma_heap_attachment {
-@@ -276,6 +280,7 @@ static void cma_heap_dma_buf_release(struct dma_buf *dmabuf)
- 	kfree(buffer->pages);
- 	/* release memory */
- 	cma_release(cma_heap->cma, buffer->cma_pages, buffer->pagecount);
-+	dmem_cgroup_uncharge(buffer->pool, buffer->len);
- 	kfree(buffer);
- }
- 
-@@ -319,9 +324,16 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
- 	if (align > CONFIG_CMA_ALIGNMENT)
- 		align = CONFIG_CMA_ALIGNMENT;
- 
-+	if (mem_accounting) {
-+		ret = dmem_cgroup_try_charge(cma_heap->cg, size,
-+					     &buffer->pool, NULL);
-+		if (ret)
-+			goto free_buffer;
-+	}
-+
- 	cma_pages = cma_alloc(cma_heap->cma, pagecount, align, false);
- 	if (!cma_pages)
--		goto free_buffer;
-+		goto uncharge_cgroup;
- 
- 	/* Clear the cma pages */
- 	if (PageHighMem(cma_pages)) {
-@@ -376,6 +388,8 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
- 	kfree(buffer->pages);
- free_cma:
- 	cma_release(cma_heap->cma, cma_pages, pagecount);
-+uncharge_cgroup:
-+	dmem_cgroup_uncharge(buffer->pool, size);
- free_buffer:
- 	kfree(buffer);
- 
-@@ -390,25 +404,52 @@ static int __init __add_cma_heap(struct cma *cma, const char *name)
- {
- 	struct dma_heap_export_info exp_info;
- 	struct cma_heap *cma_heap;
-+	struct dmem_cgroup_region *region;
-+	int ret;
- 
- 	cma_heap = kzalloc(sizeof(*cma_heap), GFP_KERNEL);
- 	if (!cma_heap)
- 		return -ENOMEM;
- 	cma_heap->cma = cma;
- 
-+	/*
-+	 * If two heaps are created for the default cma region, use the same
-+	 * dmem for them. They both use the same memory pool.
-+	 */
-+	if (dev_get_cma_area(NULL) == cma && default_cma_cg)
-+		region = default_cma_cg;
-+	else {
-+		region = dmem_cgroup_register_region(cma_get_size(cma), "cma/%s", name);
-+		if (IS_ERR(region)) {
-+			ret = PTR_ERR(region);
-+			goto free_cma_heap;
-+		}
-+	}
-+	cma_heap->cg = region;
-+
- 	exp_info.name = name;
- 	exp_info.ops = &cma_heap_ops;
- 	exp_info.priv = cma_heap;
- 
- 	cma_heap->heap = dma_heap_add(&exp_info);
- 	if (IS_ERR(cma_heap->heap)) {
--		int ret = PTR_ERR(cma_heap->heap);
--
--		kfree(cma_heap);
--		return ret;
-+		ret = PTR_ERR(cma_heap->heap);
-+		goto cg_unregister;
- 	}
- 
-+	if (dev_get_cma_area(NULL) == cma && !default_cma_cg)
-+		default_cma_cg = region;
-+
- 	return 0;
-+
-+cg_unregister:
-+	/* default_cma_cg == cma_heap->cg only for the duplicate heap. */
-+	if (default_cma_cg != cma_heap->cg)
-+		dmem_cgroup_unregister_region(cma_heap->cg);
-+free_cma_heap:
-+	kfree(cma_heap);
-+
-+	return ret;
- }
- 
- static int __init add_cma_heaps(void)
+* https://patchwork.freedesktop.org/series/160523/
 
----
-base-commit: 3d65e4c276b32c03450261d114e495fda03c8e97
-change-id: 20260128-dmabuf-heap-cma-dmem-f4120a2df4a8
+                          Series-wide changes
 
-Best regards,
+V2:
+* s/DeviceCtx/DeviceContext/ for consistency
+* Move private driver-data availability to the Registration
+  DeviceContext
+* s/AnyCtx/Init/
+V4:
+* Split out DriverAllocImpl into it's own patch
+
+More changes described in each patch description.
+
+Lyude Paul (3):
+  rust/drm: Introduce DeviceContext
+  rust/drm: Don't setup private driver data until registration
+  rust/drm/gem: Use DeviceContext with GEM objects
+
+Lyude Paul (4):
+  rust/drm: Introduce DeviceContext
+  rust/drm: Don't setup private driver data until registration
+  rust/drm/gem: Add DriverAllocImpl type alias
+  rust/drm/gem: Use DeviceContext with GEM objects
+
+ drivers/gpu/drm/nova/driver.rs |  10 +-
+ drivers/gpu/drm/nova/gem.rs    |  11 +-
+ drivers/gpu/drm/tyr/driver.rs  |  12 +-
+ drivers/gpu/drm/tyr/gem.rs     |   3 +-
+ rust/kernel/drm/device.rs      | 250 +++++++++++++++++++++++++--------
+ rust/kernel/drm/driver.rs      |  52 +++++--
+ rust/kernel/drm/gem/mod.rs     |  64 ++++++---
+ rust/kernel/drm/mod.rs         |   4 +
+ 8 files changed, 305 insertions(+), 101 deletions(-)
+
+
+base-commit: cea7b66a80412e2a5b74627b89ae25f1d0110a4b
+prerequisite-patch-id: ddb20be75c8fc92ba2d48a5c4aa8e724202de1ff
+prerequisite-patch-id: 87e69cd89a806392d3275b19fbfb160d44d957c9
 -- 
-Eric Chanudet <echanude@redhat.com>
+2.52.0
 
