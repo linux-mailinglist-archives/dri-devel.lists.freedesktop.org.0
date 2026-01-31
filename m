@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ANrUI8EmfmmLWAIAu9opvQ
+	id eOskJ80mfmmOWAIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 16:58:57 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 16:59:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43134C2D25
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 16:58:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B92CC2D43
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 16:59:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ED4110E1E0;
-	Sat, 31 Jan 2026 15:58:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B704810E20D;
+	Sat, 31 Jan 2026 15:59:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="auoOheU+";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="evGVxg5w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 332AE10E1E0
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Jan 2026 15:58:51 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F329410E1E0
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Jan 2026 15:58:53 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id CF80DC22F7F;
- Sat, 31 Jan 2026 15:58:53 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id BD8FF1A2B64;
+ Sat, 31 Jan 2026 15:58:52 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id E0DEF606B6;
- Sat, 31 Jan 2026 15:58:49 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 92C17606B6;
+ Sat, 31 Jan 2026 15:58:52 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id EFD1A119A88ED; Sat, 31 Jan 2026 16:58:45 +0100 (CET)
+ with ESMTPSA id 0B9F5119A888D; Sat, 31 Jan 2026 16:58:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1769875128; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1769875131; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=7D5QQyExNyfyjBaZdxllAyYcdraSblv1miW7+FtWhKM=;
- b=auoOheU+CekEL7kZy2raJxgMy2+4BJCd9bzG4l8fMbaKcUt5CdrqETkEXoPeK/R8VkpZU4
- zVencQcmCyH2YCP4ntH6FjCtTw8/WnpbceEW1PtF+EXHdsSxZ63d4SE0Hb2W+09rOgWw1m
- +99hTbNikHxU7s3i3/7ot8OmK/XuUZS9NselxzwNfA0q4RQOH+YAZWhoD0/TZbAr5NfxjT
- yITTq+VCuvvjfKxGcy/spdYizZHvofglLDoti4axaREWrHGEozjn6B6YOhi9Vq3N+xYPm5
- bT0GFPscK/5YyPbv5feh/2zfE++t79EtLVJiDHtUvU+HM33KvVoyGfWgNsKcjw==
+ bh=XWvPrNM51DRgWiT+4jttnUuVuHPq0djc3tV/ZM+m9o0=;
+ b=evGVxg5wevejvO5UmMbqaVti2wZD3mHSfRVFBAd0m6DF7RSTyyo/CKzU0DMbnbRZl1cw7Z
+ ReuBREotaJb8Vx9PcId379jMMOs04rtwJa9U6sYEqQJreepbufZgre+VsNoA7l3o4KNrom
+ C1ZG1TkN00bOqaA0+8N16NvtFTfNOgYIgT1LXnjiwA0w8WW1N8e+yC8yIJDGdL3YWJd0cO
+ e5K6LsgjzbLU8WBKg9DL9cY+7ZFz5kY+eqsCrjUtdFZfh0LjTo+lBosKsfo5i0OfMYR5jM
+ /C8ozom5W3glHi0z2WPB7ns6vnL79IkQ731yWzlwlCTcbqXmb9knAdzd0gC7ag==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Sat, 31 Jan 2026 16:58:33 +0100
-Subject: [PATCH v2 1/6] drm: renesas: rz-du: rzg2l_du_encoder: convert to
+Date: Sat, 31 Jan 2026 16:58:34 +0100
+Subject: [PATCH v2 2/6] drm/kmb/dsi: convert to
  of_drm_find_and_get_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260131-drm-bridge-alloc-getput-drm_of_find_bridge-4-v2-1-e081bcdc1467@bootlin.com>
+Message-Id: <20260131-drm-bridge-alloc-getput-drm_of_find_bridge-4-v2-2-e081bcdc1467@bootlin.com>
 References: <20260131-drm-bridge-alloc-getput-drm_of_find_bridge-4-v2-0-e081bcdc1467@bootlin.com>
 In-Reply-To: <20260131-drm-bridge-alloc-getput-drm_of_find_bridge-4-v2-0-e081bcdc1467@bootlin.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>, 
@@ -113,69 +113,36 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 43134C2D25
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:email,bootlin.com:dkim,bootlin.com:mid]
+X-Rspamd-Queue-Id: 6B92CC2D43
 X-Rspamd-Action: no action
 
 of_drm_find_bridge() is deprecated. Move to its replacement
-of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
-is put when done.
+of_drm_find_and_get_bridge() which gets a bridge reference.
 
-This is made somewhat simpler by the fact that 'bridge' is a local
-variable.
-
-However we need to handle both branches of the main if().
-
-In the 'else' case, just switch to of_drm_find_and_get_bridge() to ensure
-the bridge is not freed while in use in the function tail
-(drm_bridge_attach() mainly).
-
-In the 'then' case, devm_drm_panel_bridge_add_typed() already increments
-the refcount using devres which ties the bridge allocation lifetime to the
-device lifetime, so we would not need to do anything. However to have the
-same behaviour in both branches take an additional reference here, so that
-the bridge needs to be put whichever branch is taken without more
-complicated logic. Ensure to clear the bridge pointer however, to avoid
-calling drm_bridge_put() on an ERR_PTR.
+This driver has global variables for the DSI host and DSI device, and code
+to allocate them on probe but no code to free them when on remove. So it
+does not at all support removal, and not even multiple instances. For this
+reason putting the reference would be pointless here.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/kmb/kmb_dsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-index 5e6dd16705e6..9b65bcefdb86 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-@@ -67,7 +67,7 @@ int rzg2l_du_encoder_init(struct rzg2l_du_device  *rcdu,
- {
- 	struct rzg2l_du_encoder *renc;
- 	struct drm_connector *connector;
--	struct drm_bridge *bridge;
-+	struct drm_bridge *bridge __free(drm_bridge_put) = NULL;
- 	int ret;
- 
- 	/*
-@@ -83,10 +83,16 @@ int rzg2l_du_encoder_init(struct rzg2l_du_device  *rcdu,
- 
- 		bridge = devm_drm_panel_bridge_add_typed(rcdu->dev, panel,
- 							 DRM_MODE_CONNECTOR_DPI);
--		if (IS_ERR(bridge))
--			return PTR_ERR(bridge);
-+		if (IS_ERR(bridge)) {
-+			// Inhibit the cleanup action on an ERR_PTR
-+			ret = PTR_ERR(bridge);
-+			bridge = NULL;
-+			return ret;
-+		}
-+
-+		drm_bridge_get(bridge);
- 	} else {
--		bridge = of_drm_find_bridge(enc_node);
-+		bridge = of_drm_find_and_get_bridge(enc_node);
- 		if (!bridge)
- 			return -EPROBE_DEFER;
+diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
+index faf38ca9e44c..8c8908c3bf32 100644
+--- a/drivers/gpu/drm/kmb/kmb_dsi.c
++++ b/drivers/gpu/drm/kmb/kmb_dsi.c
+@@ -251,7 +251,7 @@ int kmb_dsi_host_bridge_init(struct device *dev)
+ 		return -EINVAL;
  	}
+ 	/* Locate drm bridge from the hdmi encoder DT node */
+-	adv_bridge = of_drm_find_bridge(encoder_node);
++	adv_bridge = of_drm_find_and_get_bridge(encoder_node);
+ 	of_node_put(dsi_out);
+ 	of_node_put(encoder_node);
+ 	if (!adv_bridge) {
 
 -- 
 2.52.0
