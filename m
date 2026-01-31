@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id vEESLMr6fWkQUwIAu9opvQ
+	id 0OljBQj7fWkQUwIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 13:51:22 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 13:52:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 103E4C1D2A
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 13:51:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91B37C1D40
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 13:52:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42C0A10E1B9;
-	Sat, 31 Jan 2026 12:51:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D79E510E1B3;
+	Sat, 31 Jan 2026 12:52:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="xUz4nJ3S";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="fDgxO6Mp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9DB510E1B9
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Jan 2026 12:51:18 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7C3C10E1B3
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Jan 2026 12:52:20 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 9625B1A2B5E;
- Sat, 31 Jan 2026 12:51:16 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 7E4784E42385;
+ Sat, 31 Jan 2026 12:52:19 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 62646606B6;
- Sat, 31 Jan 2026 12:51:16 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 522DA606B6;
+ Sat, 31 Jan 2026 12:52:19 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 35E56119A8886; Sat, 31 Jan 2026 13:51:01 +0100 (CET)
+ with ESMTPSA id DA0F6119A8886; Sat, 31 Jan 2026 13:52:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1769863874; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1769863937; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=/lxexy1NRGnGkNwTh+ZH9C7Afn1tu/sVb3g8M/zCZEQ=;
- b=xUz4nJ3SqjGSb47/RdZbD7Mz4iocZu5Lg7WWrLX+Q3XjVIFvvhEyp/qZle3m+2QW+oTtkk
- basmI5anMTEXc8TeVJSa7L+5cEIPDYB+Ahou91ptDdsT67GEcF/pyI1ogFHPEQVKO9HWaP
- 3M7vzhz1wVR1lbwQsrieEA2GjG0S0DJ7kPdxNIB7mmOVKhLpIrWbFvHGBVRexKSkV2EoVy
- wvdeSCDukaZRYEZ/Z0r27A5wQWaX9jOq6N8+rNWHE59XfSqQTo1QLcUZjoQcbmcYDhSuTB
- +r83Re64f6lxJ1tj8TXY8V7ROzULO4dxPEsrW6lQzc3mTI7rgSIyl2e/EifVOw==
+ bh=RxyFnWgbUAYvhpMdYr/N5vyAI+H1oL4nAc3ZU6Inhdc=;
+ b=fDgxO6MpgRZyihSKd+5jBWPrdf8LpxE1hSaDbW9Mvvs57WZymPmqhA4k9vp9beotZi02f/
+ Tpr7wrnWzg25aiajUyQRlxD1SaOCo/g+cRuPf19riEF8V3TDjBSNp8k2OYPdukD21qFzSm
+ i5oaqHmH9YLl+Ow64sXn/8bpJzJLCW1V1KyLV5TLk2bqfbZ5Rp71U1FZmlQCH3n+EP3pf6
+ 2ZyTo/c83fTEJH3KcHDoYtTPgQXpe2uk/+6xiQChhrROszlENHUJ8pVQpaTsErJqwsQzkW
+ mkiIbWU4Y7RgIA84Ru6lLy6cS+jJE5gBANoVsCC1HDVcGdGo2MHTLo5NsrxcjA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 31 Jan 2026 13:50:59 +0100
-Message-Id: <DG2SDKH3BPGG.1IIH4ZHVY4M69@bootlin.com>
+Date: Sat, 31 Jan 2026 13:52:06 +0100
+Message-Id: <DG2SEFJHOTZZ.19VQUW2FYSWAC@bootlin.com>
 Cc: <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
  <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
  <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
@@ -59,12 +59,12 @@ Cc: <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
 To: "Damon Ding" <damon.ding@rock-chips.com>, <andrzej.hajda@intel.com>,
  <neil.armstrong@linaro.org>, <rfoss@kernel.org>
 From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v8 03/18] drm/bridge: analogix_dp: Move
- &drm_bridge_funcs.mode_set to &drm_bridge_funcs.atomic_enable
+Subject: Re: [PATCH v8 02/18] drm/bridge: analogix_dp: Formalize the struct
+ analogix_dp_device
 X-Mailer: aerc 0.20.1
 References: <20251217093321.3108939-1-damon.ding@rock-chips.com>
- <20251217093321.3108939-4-damon.ding@rock-chips.com>
-In-Reply-To: <20251217093321.3108939-4-damon.ding@rock-chips.com>
+ <20251217093321.3108939-3-damon.ding@rock-chips.com>
+In-Reply-To: <20251217093321.3108939-3-damon.ding@rock-chips.com>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -115,14 +115,17 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:dkim,bootlin.com:email,bootlin.com:url,bootlin.com:mid,qualcomm.com:email]
-X-Rspamd-Queue-Id: 103E4C1D2A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:email,bootlin.com:dkim,bootlin.com:email,bootlin.com:url,bootlin.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:email,rock-chips.com:email]
+X-Rspamd-Queue-Id: 91B37C1D40
 X-Rspamd-Action: no action
 
 On Wed Dec 17, 2025 at 10:33 AM CET, Damon Ding wrote:
-> According to the include/drm/drm_bridge.h, the callback
-> &drm_bridge_funcs.mode_set is deprecated and it should be better to
-> include the mode setting in the &drm_bridge_funcs.atomic_enable instead.
+> Use the tap instead of the space for &analogix_dp_device.aux and
+          tab
+
+(no need to resend yust to fix this minor typo)
+
+> &analogix_dp_device.force_hpd.
 >
 > Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
 > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
