@@ -2,62 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qB/fMCb1fWmBUgIAu9opvQ
+	id AKqhGLP2fWmiUgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 13:27:18 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 13:33:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5289C1C87
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 13:27:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2385C1CAC
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 13:33:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE09110E042;
-	Sat, 31 Jan 2026 12:27:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F88E10E1AB;
+	Sat, 31 Jan 2026 12:33:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EHJeQ0It";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="oqTZJV0h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D37DD10E042;
- Sat, 31 Jan 2026 12:27:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E7D796001A;
- Sat, 31 Jan 2026 12:27:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D5EFC19421;
- Sat, 31 Jan 2026 12:27:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1769862432;
- bh=2fTkhAUP5p8/EG0o4I2HX5HD4RSHs9zkMP98Fcb/6XM=;
- h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
- b=EHJeQ0ItVPSJjv4Jmi+vbS4l02KXRVHbuPygJkkFwtXr/bXADaVsDAgBcvTjog/zi
- MnL0byblG1dhDo4GmZ4xiinVA3SW+Qq7nXDPipRavAjiim9Kg9JShwQRWcgnYhSK1x
- HoHqWiXSdA2DLJJDPqmxxueUORw6vAKKrXnOQz/XeMHrrVQgcKFgtttGg5CZUyTMa6
- +sDqrpjbbST5XynxHPuh+5/Tcf2bu6Rr6Crxoawt/tCrm5bSGeN0tB79mM7p75qS4J
- VbuKNHuo7vffsGmjuY8XNP8uIGsNk/odg6PPIRoutntFMOUb/5pTU2mpy8raWq2/iK
- +/caWR1/xwcpw==
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F19F910E1AB
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Jan 2026 12:33:49 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 3F2DF4E42385;
+ Sat, 31 Jan 2026 12:33:48 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id EBC92606B6;
+ Sat, 31 Jan 2026 12:33:47 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 2DA53119A8886; Sat, 31 Jan 2026 13:33:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1769862826; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=o1FArTjWb5fHnMv+cvCRxPx2Pce2+vtnbqLuhuuwGV4=;
+ b=oqTZJV0hSg/2X16nn9r8HEyNeDGFLcFLjeWYysi+mRl3B8Uj0JW9fvJs4Pxa4SClyr2qbA
+ ZQamRMUOLc7fAbjdchR/x04C2usO+abkffytpKYafkpjibIF1pJftgtdM9kZKNhgQWW+he
+ Qen3cNjQnXdCBvQixpQSw1Ina3DIgbzxdLPAVQB92wUkKnPYOXDdb5pSVOfSG8U1+7sEPT
+ TWjulhUlCGohNKQW8tAuhKiE+ww/5LNHvq8zRIVOMPOALjdXHIlWH0t2U92M+uIGCxbG8f
+ R5Uj2RBFaitVU2ZkJIq++Kvw1YgbCYmFH60kAjMd7q8SIjUMcalagEoEEfDdYw==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 31 Jan 2026 13:27:06 +0100
-Message-Id: <DG2RVAALGX4W.1L637C8NXXEEM@kernel.org>
-To: "Eliot Courtney" <ecourtney@nvidia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH 0/9] rust: dma: add CoherentArray for compile-time sized
- allocations
-Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Alice Ryhl"
- <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Abdiel Janulgue" <abdiel.janulgue@gmail.com>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Robin Murphy"
- <robin.murphy@arm.com>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Miguel
- Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, <lyude@redhat.com>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>
-References: <20260130-coherent-array-v1-0-bcd672dacc70@nvidia.com>
-In-Reply-To: <20260130-coherent-array-v1-0-bcd672dacc70@nvidia.com>
+Date: Sat, 31 Jan 2026 13:33:29 +0100
+Message-Id: <DG2S064XPGXL.1MQDAKWZEK50K@bootlin.com>
+Subject: Re: [PATCH v8 05/18] drm/bridge: Move legacy bridge driver out of
+ imx directory for multi-platform use
+Cc: <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <shawnguo@kernel.org>, <s.hauer@pengutronix.de>,
+ <kernel@pengutronix.de>, <festevam@gmail.com>, <inki.dae@samsung.com>,
+ <sw0312.kim@samsung.com>, <kyungmin.park@samsung.com>, <krzk@kernel.org>,
+ <alim.akhtar@samsung.com>, <jingoohan1@gmail.com>,
+ <p.zabel@pengutronix.de>, <hjc@rock-chips.com>, <heiko@sntech.de>,
+ <andy.yan@rock-chips.com>, <dmitry.baryshkov@oss.qualcomm.com>,
+ <dianders@chromium.org>, <m.szyprowski@samsung.com>,
+ <jani.nikula@intel.com>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <imx@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-samsung-soc@vger.kernel.org>, <linux-rockchip@lists.infradead.org>
+To: "Damon Ding" <damon.ding@rock-chips.com>, <andrzej.hajda@intel.com>,
+ <neil.armstrong@linaro.org>, <rfoss@kernel.org>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.20.1
+References: <20251217093321.3108939-1-damon.ding@rock-chips.com>
+ <20251217093321.3108939-6-damon.ding@rock-chips.com>
+In-Reply-To: <20251217093321.3108939-6-damon.ding@rock-chips.com>
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,93 +83,89 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
 	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[nvidia.com,google.com,gmail.com,ffwll.ch,collabora.com,arm.com,kernel.org,garyguo.net,protonmail.com,umich.edu,redhat.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[36];
+	FORGED_RECIPIENTS(0.00)[m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:inki.dae@samsung.com,m:sw0312.kim@samsung.com,m:kyungmin.park@samsung.com,m:krzk@kernel.org,m:alim.akhtar@samsung.com,m:jingoohan1@gmail.com,m:p.zabel@pengutronix.de,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:dmitry.baryshkov@oss.qualcomm.com,m:dianders@chromium.org,m:m.szyprowski@samsung.com,m:jani.nikula@intel.com,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:damon.ding@rock-chips.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,pengutronix.de,samsung.com,rock-chips.com,sntech.de,oss.qualcomm.com,chromium.org,intel.com,vger.kernel.org,lists.freedesktop.org,lists.linux.dev,lists.infradead.org];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[bootlin.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: E5289C1C87
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,samsung.com:email]
+X-Rspamd-Queue-Id: B2385C1CAC
 X-Rspamd-Action: no action
 
-(Cc: Lyude)
+Hello Damon, Dmitry,
 
-On Fri Jan 30, 2026 at 9:34 AM CET, Eliot Courtney wrote:
-> This series extends the DMA coherent allocation API to support compile-ti=
-me
-> known sizes. This lets bounds checking to be moved from runtime to build
-> time, which is useful to avoid runtime panics from index typos. It also
-> removes the need for a Result return type in some places.
+On Wed Dec 17, 2025 at 10:33 AM CET, Damon Ding wrote:
+> As suggested by Dmitry, the DRM legacy bridge driver can be pulled
+> out of imx/ subdir for multi-platform use. The driver is also renamed
+> to make it more generic and suitable for platforms other than i.MX.
 >
-> The compile time size is specified via a marker type: StaticSize<N>.
-> Statically sized allocations can decay to runtime sized ones via deref
-> coercion for code that doesn't need to know the size at compile time, or =
-to
-> avoid having to carry around extra type parameters. The implementation
-> follows a similar pattern to Device/DeviceContext.
+> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 >
-> The series defines three type aliases: CoherentSlice<T> (for runtime size=
-),
-> CoherentArray<T, N> (for compile-time size N), and CoherentObject<T> (for
-> single object allocations). It also adds infallible dma_read!/dma_write!
-> macros and methods to CoherentArray, while prefixing the existing fallibl=
-e
-> methods and macros with `try_`.
+> ---
 >
-> The macros keep the same syntax (i.e.
-> coherent_allocation[index].optional_fields =3D expression) even for
-> CoherentObject, because the [] syntax is needed to know where to split th=
-e
-> actual CoherentAllocation object from the fields. This means that
-> CoherentObject is indexed with [0] in dma_write!/dma_read! macros. The
-> alternative is defining a separate macro for single object access, but it
-> still would need a way to delineate between the allocation and the fields=
-,
-> perhaps by using commas (dma_read_obj!(object, fields),
-> dma_write_obj!(object, fields, value)). This would be inconsistent with t=
-he
-> array/slice syntax.
+> Changes in v7:
+> - Rename legacy-bridge to of-display-mode-bridge.
+> - Remove unnecessary API drm_bridge_is_legacy().
 
-We've just generalized I/O to support arbitrary I/O backends (busses, backi=
-ng
-storage, etc.).
+...
 
-With this we can wire up the I/O traits to DMA and generalize the dma_read(=
-) and
-dma_write() macros accordingly. I.e. we can extend the I/O traits with
-field_write() and field_read().
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -244,6 +244,16 @@ config DRM_NXP_PTN3460
+>  	help
+>  	  NXP PTN3460 eDP-LVDS bridge chip driver.
+>
+> +config DRM_OF_DISPLAY_MODE_BRIDGE
+> +	tristate
+> +	depends on DRM_BRIDGE && OF
+> +	help
+> +	  This is a DRM bridge implementation that uses of_get_drm_display_mode
+> +	  to acquire display mode.
+> +
+> +	  Newer designs should not use this bridge and should use proper panel
+> +	  driver instead.
 
-(Lyude is going to work on this as a more integrated alternative to iosys_m=
-ap.
-It would be good to align with her regarding this work.)
+"Newer designs should not use this bridge", but in patch 8 you are
+introducing a new use ot devm_drm_of_display_mode_bridge(). Shouldn't you
+instead "use proper panel driver instead" in patch 8?
 
-This has the advantage that we don't have to duplicate all this infrastruct=
-ure
-for I/O memory, DMA, etc.
+Can you point to the conversation where the converstaion where Dmitry
+suggested this change? Maybe it already contains the answer to my
+qustion. Also adding a link to that conversation in the commit message
+woule be useful.
 
-I also think that CoherentSlice is too specific of a type. I'd rather have =
-a
-generic type, maybe UnsafeSlice or IoSlice, that just uses the I/O backend =
-for
-accesses.
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
