@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qNnkKvUEfmmVUwIAu9opvQ
+	id kNxICWIGfmmVUwIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 14:34:45 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 14:40:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32470C1F94
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 14:34:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8223C2073
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 14:40:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01E4110E12F;
-	Sat, 31 Jan 2026 13:34:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95FC710E1D0;
+	Sat, 31 Jan 2026 13:40:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="fngV0pi6";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="WTuQ2mha";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 989FD10E12F
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Jan 2026 13:34:40 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89F4E10E219
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Jan 2026 13:40:44 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 539981A2B62;
- Sat, 31 Jan 2026 13:34:39 +0000 (UTC)
+ by smtpout-04.galae.net (Postfix) with ESMTPS id 62F88C22F7D;
+ Sat, 31 Jan 2026 13:40:46 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 0D3ED606B6;
- Sat, 31 Jan 2026 13:34:39 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 68E36606B6;
+ Sat, 31 Jan 2026 13:40:42 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 0F16B119A8886; Sat, 31 Jan 2026 14:34:21 +0100 (CET)
+ with ESMTPSA id 915C8119A8886; Sat, 31 Jan 2026 14:40:30 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1769866477; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1769866840; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=0HAQIqHa85IFCSYgPdu37BcRsaz31BQ9JGVCc0EJGks=;
- b=fngV0pi6VE6AZzizYbIJfeRlGWfCSwNkJCKGblK3KIcyIyOr5b7vLMh36tA/uRXiPJ2CdD
- cbdMAStxEyz1n9ZaTfPSCC381dSy5T72ToPbdzGHgn+mPZyvA1axyZnANceZLCwBOJOLS9
- DwEcKSZ/DQ80GCvCzAAcvfZMZhRzP1ZbAEZfZwVbbncDSN540qq+1vmLepakmbSUsZWZNL
- Zk0Ks6gPWlvDS8qwjtcpFexMUMoHsGFxFnS6PjMv+zf5vQ6qtLUDOFcaGXnUdG1xxml//V
- SHH1Mtj/39nGPgK5sVwyxoNWAHrqpdKekrjKHrQF75cisR6hn6e9IR6WUp8qaQ==
+ bh=XSxS9wHGDtdAjX1/5+mH0Huzdhx7zLjNEB5f+DdlTHs=;
+ b=WTuQ2mhaaXw/P7Q25lzFfVTRcWPv/hugf9DkEQvyFph1whXGvriM4dSVQvFK4TtrcxnOQu
+ IAMhT3QpPx2uJAbmP8FqQUPbtPh/g4NUG3r9iSs8IC1BM4ptqVxeF9JgZ3oUy1SToqGgAz
+ FywDfiaBr+6xyHGJq9KCWX2rrECQtJKsSSLuAhSYB7WRmgjVNhdUoXJXnFDeMv70xeHxcW
+ VSMFMHQqwqVrXq6zx+RYNMQ2OesienWcAOHAVgUpRY0aOweknThfG5iGej6R1TEpxBI8TB
+ t4pNxRlvealMsJ+yFWLRGtldVaRAdu53+YnKrwyp3aN89lawwYRC0LJaxEwJ+w==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 31 Jan 2026 14:34:20 +0100
-Message-Id: <DG2TARDGCULW.M6ZDK1G0WGKC@bootlin.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v8 16/18] drm/bridge: analogix_dp: Attach the next
- bridge in analogix_dp_bridge_attach()
+Date: Sat, 31 Jan 2026 14:40:29 +0100
+Message-Id: <DG2TFGURV519.27PQFYSUMS6C7@bootlin.com>
+Subject: Re: [PATCH v8 07/18] drm/exynos: exynos_dp: Remove unused
+ &exynos_dp_device.connector
 Cc: <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
  <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
  <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
@@ -61,11 +60,11 @@ Cc: <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
  <linux-samsung-soc@vger.kernel.org>, <linux-rockchip@lists.infradead.org>
 To: "Damon Ding" <damon.ding@rock-chips.com>, <andrzej.hajda@intel.com>,
  <neil.armstrong@linaro.org>, <rfoss@kernel.org>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
 X-Mailer: aerc 0.20.1
 References: <20251217093321.3108939-1-damon.ding@rock-chips.com>
- <20251217095912.3109103-1-damon.ding@rock-chips.com>
- <20251217095912.3109103-3-damon.ding@rock-chips.com>
-In-Reply-To: <20251217095912.3109103-3-damon.ding@rock-chips.com>
+ <20251217093321.3108939-8-damon.ding@rock-chips.com>
+In-Reply-To: <20251217093321.3108939-8-damon.ding@rock-chips.com>
 X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,7 +87,7 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	MV_CASE(0.50)[];
 	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -116,19 +115,17 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,samsung.com:email,qualcomm.com:email]
-X-Rspamd-Queue-Id: 32470C1F94
+	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:email,rock-chips.com:email,qualcomm.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:dkim,bootlin.com:email,bootlin.com:url,bootlin.com:mid]
+X-Rspamd-Queue-Id: A8223C2073
 X-Rspamd-Action: no action
 
-On Wed Dec 17, 2025 at 10:59 AM CET, Damon Ding wrote:
-> Uniformly, move the next bridge attachment to the Analogix side
-> rather than scattered on Rockchip and Exynos sides. It can also
-> help get rid of the callback &analogix_dp_plat_data.attach() and
-> make codes more concise.
+On Wed Dec 17, 2025 at 10:33 AM CET, Damon Ding wrote:
+> The &exynos_dp_device.connector is assigned in exynos_dp_bridge_attach()
+> but never used. It should make sense to remove it.
 >
 > Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
-> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
 Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
