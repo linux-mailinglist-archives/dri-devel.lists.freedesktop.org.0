@@ -2,83 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ULCVAHMwf2k8lQIAu9opvQ
+	id cBBRC04wf2k8lQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Feb 2026 11:52:35 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Feb 2026 11:51:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2D2FC5A7B
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Feb 2026 11:52:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A1DC5A13
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Feb 2026 11:51:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E6EF10E163;
-	Sun,  1 Feb 2026 10:52:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1313E10E099;
+	Sun,  1 Feb 2026 10:51:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=huawei.com header.i=@huawei.com header.b="TKDi+2So";
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="TKDi+2So";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ry.rs header.i=@ry.rs header.b="QaiGIsu/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 954 seconds by postgrey-1.36 at gabe;
- Sat, 31 Jan 2026 10:38:52 UTC
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63CF710E0A7
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Jan 2026 10:38:52 +0000 (UTC)
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
- c=relaxed/relaxed; q=dns/txt; h=From;
- bh=wDs6942Cj/UVhdUys1MIucPzg0BeCUlH62s730LAQEo=;
- b=TKDi+2SomzIk2+qnlDaUTfdYqJZMp/EC92jrrEDfdjOn9Hnazms8rSRQKIVpSab1FYpOvviRp
- rLxIVsi71n6F1xJtoaAMwUN32pGg7atkgFYNocGsuKoiFTtD1Xil+5vgBgsMTO3uM1lQIMnv3FC
- t945YZ8SpV4TTC51hC8jlsU=
-Received: from canpmsgout01.his.huawei.com (unknown [172.19.92.178])
- by szxga01-in.huawei.com (SkyGuard) with ESMTPS id 4f387v0GmJz1BGBW
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Jan 2026 18:22:19 +0800 (CST)
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
- c=relaxed/relaxed; q=dns/txt; h=From;
- bh=wDs6942Cj/UVhdUys1MIucPzg0BeCUlH62s730LAQEo=;
- b=TKDi+2SomzIk2+qnlDaUTfdYqJZMp/EC92jrrEDfdjOn9Hnazms8rSRQKIVpSab1FYpOvviRp
- rLxIVsi71n6F1xJtoaAMwUN32pGg7atkgFYNocGsuKoiFTtD1Xil+5vgBgsMTO3uM1lQIMnv3FC
- t945YZ8SpV4TTC51hC8jlsU=
-Received: from mail.maildlp.com (unknown [172.19.162.140])
- by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4f383b65q4z1T4JF;
- Sat, 31 Jan 2026 18:18:35 +0800 (CST)
-Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
- by mail.maildlp.com (Postfix) with ESMTPS id A7FBC2021A;
- Sat, 31 Jan 2026 18:22:52 +0800 (CST)
-Received: from kwepemq100006.china.huawei.com (7.202.195.243) by
- dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Sat, 31 Jan 2026 18:22:50 +0800
-Received: from kwepemh200008.china.huawei.com (7.202.181.115) by
- kwepemq100006.china.huawei.com (7.202.195.243) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Sat, 31 Jan 2026 18:22:50 +0800
-Received: from kwepemh200008.china.huawei.com ([7.202.181.115]) by
- kwepemh200008.china.huawei.com ([7.202.181.115]) with mapi id 15.02.1544.011; 
- Sat, 31 Jan 2026 18:22:50 +0800
-From: "liukai (Y)" <liukai284@huawei.com>
-To: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
- <tzimmermann@suse.de>, "airlied@linux.ie" <airlied@linux.ie>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-CC: "Chenhui (Judy)" <judy.chenhui@huawei.com>, "tanghui (C)"
- <tanghui20@huawei.com>, "Zhangqiao (2012 lab)" <zhangqiao22@huawei.com>
-Subject: drm/atomic: KASAN: use-after-free in
- drm_atomic_helper_wait_for_vblanks
-Thread-Topic: drm/atomic: KASAN: use-after-free in
- drm_atomic_helper_wait_for_vblanks
-Thread-Index: AdySmxnx1Ev0mcgfQuGhvqwNO0MYBw==
-Date: Sat, 31 Jan 2026 10:22:50 +0000
-Message-ID: <06a8cb3f5da040c2a439f9f16d6abcec@huawei.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.67.111.106]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+X-Greylist: delayed 300 seconds by postgrey-1.36 at gabe;
+ Sat, 31 Jan 2026 11:21:35 UTC
+Received: from mail-108-mta10.mxroute.com (mail-108-mta10.mxroute.com
+ [136.175.108.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B601510E042
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Jan 2026 11:21:35 +0000 (UTC)
+Received: from filter006.mxroute.com ([136.175.111.3] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta10.mxroute.com (ZoneMTA) with ESMTPSA id 19c13c4d05b0009140.005
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Sat, 31 Jan 2026 11:16:31 +0000
+X-Zone-Loop: a1b91658532191d61edf92d39497844f163bbdce722c
+X-Originating-IP: [136.175.111.3]
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=ry.rs; s=x; 
+ h=Content-Transfer-Encoding:MIME-Version:Date:Subject:Cc:To:From:Sender:
+ Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References;
+ bh=SWvtaEiT/41NAalPPWhdhfM93rTmPvj7juU4A2w+NMk=; b=QaiGIsu/AcVLE7nl7OY51sFaz9
+ QMLORznRNBDfaeMa2oSyQ+2C2IIT6Lo6CSllhbJOcrGPWkXUgrwNHMmHU3RMKh86WJCm9AFVzVupT
+ SMseQJW+vvvioYCDU8PKJWVh/DxTaaYHgiaZG4lxCiGbTEieH9YEgM81cyfBhCVHD2m3nTmB0yWy8
+ RS3RSQcrbPis1wP2F00XpgY3e7wKBxCEXFKa18b8PiCXlvte7xkWKmwFfK7sHzGnJMlRpdQohql6O
+ 61L5YH61yA0rqL8jZXC3JO094DnI3Ys36aJ5TAzLdymBS6MCQN5+3XDbgNwSHCJ3/72NA39V+h+H+
+ vRZ8J3pA==;
+From: Zijing Zhang <zijing.zhang@ry.rs>
+To: dakr@kernel.org,
+	acourbot@nvidia.com
+Cc: aliceryhl@google.com, airlied@gmail.com, simona@ffwll.ch,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Zijing Zhang <zijing.zhang@ry.rs>
+Subject: [PATCH] gpu: nova-core: vbios: harden falcon pointer parsing
+Date: Sat, 31 Jan 2026 11:16:19 +0000
+Message-ID: <20260131111619.1360414-1-zijing.zhang@ry.rs>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Authenticated-Id: zijing.zhang@ry.rs
 X-Mailman-Approved-At: Sun, 01 Feb 2026 10:51:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,136 +69,234 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.21 / 15.00];
-	DATE_IN_PAST(1.00)[24];
-	DMARC_POLICY_ALLOW(-0.50)[huawei.com,quarantine];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [1.99 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_REJECT(1.00)[ry.rs:s=x];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[huawei.com:s=dkim];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_BASE64_TEXT(0.10)[];
+	MAILLIST(-0.20)[mailman];
+	DMARC_POLICY_SOFTFAIL(0.10)[ry.rs : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@linux.ie,m:daniel@ffwll.ch,m:linux-kernel@vger.kernel.org,m:judy.chenhui@huawei.com,m:tanghui20@huawei.com,m:zhangqiao22@huawei.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[huawei.com:mid,huawei.com:dkim];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
 	TO_DN_SOME(0.00)[];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[liukai284@huawei.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[huawei.com:+];
-	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:acourbot@nvidia.com,m:aliceryhl@google.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:nouveau@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:zijing.zhang@ry.rs,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[zijing.zhang@ry.rs,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[google.com,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,ry.rs];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	HAS_XOIP(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[liukai284@huawei.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	HAS_XOIP(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_NEQ_ENVFROM(0.00)[zijing.zhang@ry.rs,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[ry.rs:-];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[8]
-X-Rspamd-Queue-Id: A2D2FC5A7B
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[entry.data:url]
+X-Rspamd-Queue-Id: 83A1DC5A13
 X-Rspamd-Action: no action
 
-RGVhciBMaW51eCBLZXJuZWwgRGV2ZWxvcGVycywNCkmhr3ZlIGlkZW50aWZpZWQgYSB1c2UtYWZ0
-ZXItZnJlZSAoVUFGKSBpbiB0aGUgRFJNIGF0b21pYyBjb3JlIHRoYXQNCm9jY3VycyB1bmRlciBh
-IHNwZWNpZmljIHJhY2UgY29uZGl0aW9uIGJldHdlZW4gYSBub24tYmxvY2tpbmcgKGFzeW5jKQ0K
-YXRvbWljIGNvbW1pdCBhbmQgYSBzeW5jaHJvbm91cyBvbmUuIFRoaXMgY2FuIGxlYWQgdG8gY3Jh
-c2hlcyBsaWtlIHRoZQ0KS0FTQU4gcmVwb3J0IGJlbG93Lg0KDQpSZXByb2R1Y3Rpb24gU2NlbmFy
-aW86DQpDUFUxOiBBIG5vbi1ibG9ja2luZyBhdG9taWMgY29tbWl0IChlLmcuLCBmcm9tIGRybV9t
-b2RlX3BhZ2VfZmxpcF9pb2N0bCkNCjEuIENyZWF0ZXMgbmV3X2NydGNfc3RhdGUxIGJ5IGF0b21p
-Y19kdXBsaWNhdGVfc3RhdGUoKQ0KMi4gQ2FsbHMgZHJtX2F0b21pY19oZWxwZXJfc3dhcF9zdGF0
-ZSgpLCBtYWtpbmcgY3J0Yy0+c3RhdGUgPSBuZXdfY3J0Y19zdGF0ZTENCjMuIFF1ZXVlcyBjb21t
-aXRfd29yayBmb3IgZGVmZXJyZWQgZXhlY3V0aW9uICh2aWEgcXVldWVfd29yaykNCg0KQ1BVMjog
-QSBzeW5jaHJvbm91cyBhdG9taWMgY29tbWl0IChlLmcuLCBmcm9tIGRybV9mYl9oZWxwZXJfZGFt
-YWdlX3dvcmspDQpydW5zIGJlZm9yZSB0aGUgYXN5bmMgd29yayBzdGFydHM6DQoxLiBDYWxscyBk
-cm1fYXRvbWljX2dldF9jcnRjX3N0YXRlKCksIHdoaWNoIHJlYWRzIGNydGMtPnN0YXRlICg9IG5l
-d19jcnRjX3N0YXRlMSkgYXMgdGhlIGN1cnJlbnQgc3RhdGUNCjIuIER1cGxpY2F0ZXMgaXQgdG8g
-Y3JlYXRlIG5ld19jcnRjX3N0YXRlMg0KMy4gU2V0cyBpdHMgaW50ZXJuYWwgY3J0Y3NbaV0ub2xk
-X2NydGNfc3RhdGUgPSBjcnRjLT5zdGF0ZSAodG8gYmUgZGVzdHJveWVkIGxhdGVyKQ0KNC4gQ2Fs
-bHMgZHJtX2F0b21pY19oZWxwZXJfc3dhcF9zdGF0ZSgpLCBtYWtpbmcgY3J0Y3NbaV0uc3RhdGVf
-dG9fZGVzdHJveSA9IG9sZF9jcnRjX3N0YXRlICg9IG5ld19jcnRjX3N0YXRlMSkNCjUuIENvbXBs
-ZXRlcyBpbW1lZGlhdGVseSBhbmQgY2FsbHMgZHJtX2F0b21pY19zdGF0ZV9wdXQoKQ0KNS4gRHVy
-aW5nIGNsZWFyLCBhdG9taWNfZGVzdHJveV9zdGF0ZSgpIGlzIGNhbGxlZCBvbiBjcnRjc1tpXS5z
-dGF0ZV90b19kZXN0b3J5IKH6IG5ld19jcnRjX3N0YXRlMSBpcyBmcmVlZC4NCg0KQ1BVMzogVGhl
-IGRlZmVycmVkIGNvbW1pdF93b3JrIGZyb20gQ1BVMSBmaW5hbGx5IHJ1bnMgYW5kIGFjY2Vzc2Vz
-DQpzdGF0ZS0+Y3J0Y3NbaV0ubmV3X2NydGNfc3RhdGUgKHdoaWNoIHBvaW50cyB0byB0aGUgbm93
-LWZyZWVkDQpuZXdfY3J0Y19zdGF0ZTEpIKH6IFVBRi4NCg0KVGhlIGNvcmUgcHJvYmxlbSBpcyB0
-aGF0IHRoZSBEUk0gYXRvbWljIGZyYW1ld29yayBhc3N1bWVzIGNydGNfc3RhdGUNCm9iamVjdHMg
-YXJlIG9ubHkgb3duZWQgYnkgYSBzaW5nbGUgZHJtX2F0b21pY19zdGF0ZS4gQnV0IG9uY2UgYSBz
-dGF0ZQ0KYmVjb21lcyBjcnRjLT5zdGF0ZSwgaXQgY2FuIGJlIGNhcHR1cmVkIGFzIHRoZSAib2xk
-IHN0YXRlIiBieSBhDQpzdWJzZXF1ZW50IGNvbW1pdCBhbmQgZGVzdHJveWVkIHByZW1hdHVyZWx5
-Lg0KDQpUaGUgZ2VuZXJpYyBhdG9taWMgaGVscGVycyBkbyBub3QgcHJvdGVjdCBjcnRjX3N0YXRl
-IGFjcm9zcyBjb21taXQNCmJvdW5kYXJpZXMuIFRoaXMgdmlvbGF0ZXMgdGhlIGltcGxpY2l0IGxp
-ZmV0aW1lIGNvbnRyYWN0IGFuZCBsZWFkcyB0bw0KVUFGIGluIHRoZSBhc3luYyBwYXRoLg0KDQpQ
-cm9wb3NlZCBmaXg6DQpGb3Igbm9uLWJsb2NraW5nIGNvbW1pdHMsIGV4cGxpY2l0bHkgdGFrZSBh
-IGtyZWYgb24gZWFjaCBuZXdfY3J0Y19zdGF0ZQ0KYmVmb3JlIHF1ZXVpbmcgdGhlIHdvcmssIGFu
-ZCByZWxlYXNlIGl0IG9ubHkgYWZ0ZXIgY29tbWl0X3RhaWwoKQ0KY29tcGxldGVzLiBUaGlzIGVu
-c3VyZXMgdGhlIHN0YXRlIHJlbWFpbnMgdmFsaWQgZXZlbiBpZiBhbm90aGVyIGNvbW1pdA0KdHJp
-ZXMgdG8gZGVzdHJveSBpdCBhcyBpdHMgInByZXZpb3VzIHN0YXRlIi4NCg0KSaGvbSBwcmVwYXJp
-bmcgYSBwYXRjaCB0aGF0IGFkZHMgYSBrcmVmIHRvIGRybV9jcnRjX3N0YXRlIGFuZCBpbXBsZW1l
-bnRzDQp0aGUgcmVmY291bnRpbmcgaW4gdGhlIGFzeW5jIGNvbW1pdCBwYXRoLg0KDQpJcyB0aGlz
-IHRoZSByaWdodCBkaXJlY3Rpb24sIG9yIHNob3VsZCB3ZSBpbnN0ZWFkIGVuZm9yY2Ugc3RyaWN0
-ZXINCnNlcmlhbGl6YXRpb24gYmV0d2VlbiBhc3luYyBhbmQgc3luYyBjb21taXRzIG9uIHRoZSBz
-YW1lIENSVEM/DQoNCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PQ0KQlVHOiBLQVNBTjogdXNlLWFmdGVyLWZyZWUgaW4gZHJt
-X2F0b21pY19oZWxwZXJfd2FpdF9mb3JfdmJsYW5rcy5wYXJ0LjArMHgxM2YvMHg1MzANClJlYWQg
-b2Ygc2l6ZSAxIGF0IGFkZHIgZmZmZjg4ODEwZjFiNzgwOSBieSB0YXNrIGt3b3JrZXIvdTg6MC8z
-NTA3MzcNCg0KQ2FsbCBUcmFjZToNCiBkdW1wX3N0YWNrKzB4YmUvMHhmZA0KIHByaW50X2FkZHJl
-c3NfZGVzY3JpcHRpb24uY29uc3Rwcm9wLjArMHgxOS8weDE3MA0KID8gZHJtX2F0b21pY19oZWxw
-ZXJfd2FpdF9mb3JfdmJsYW5rcy5wYXJ0LjArMHgxM2YvMHg1MzANCiBfX2thc2FuX3JlcG9ydC5j
-b2xkKzB4NmMvMHg4NA0KID8gaXJxX2VudGVyX3JjdSsweDkwLzB4ZDANCiA/IGRybV9hdG9taWNf
-aGVscGVyX3dhaXRfZm9yX3ZibGFua3MucGFydC4wKzB4MTNmLzB4NTMwDQoga2FzYW5fcmVwb3J0
-KzB4M2EvMHg1MA0KIGRybV9hdG9taWNfaGVscGVyX3dhaXRfZm9yX3ZibGFua3MucGFydC4wKzB4
-MTNmLzB4NTMwDQogPyBkaXNhYmxlX291dHB1dHMrMHg3NjAvMHg3NjANCiA/IHN3YWtlX3VwX2Fs
-bF9sb2NrZWQrMHgxZS8weGMwDQogPyBfcmF3X3NwaW5fdW5sb2NrX2lycXJlc3RvcmUrMHhlLzB4
-MjANCiA/IGRybV9hdG9taWNfaGVscGVyX2NvbW1pdF9od19kb25lKzB4Mjc2LzB4MzIwDQogZHJt
-X2F0b21pY19oZWxwZXJfY29tbWl0X3RhaWwrMHg5OS8weGIwDQogY29tbWl0X3RhaWwrMHgxZjkv
-MHgyNjANCiBwcm9jZXNzX29uZV93b3JrKzB4NDE0LzB4N2UwDQogd29ya2VyX3RocmVhZCsweDkz
-LzB4NmYwDQogPyByZXNjdWVyX3RocmVhZCsweDdhMC8weDdhMA0KIGt0aHJlYWQrMHgxY2MvMHgy
-MjANCiA/IGt0aHJlYWRfcGFyaysweDE1MC8weDE1MA0KIHJldF9mcm9tX2ZvcmsrMHgyMi8weDMw
-DQoNCkFsbG9jYXRlZCBieSB0YXNrIDQ4NzEwMDoNCiBrYXNhbl9zYXZlX3N0YWNrKzB4MWIvMHg0
-MA0KIF9fa2FzYW5fa21hbGxvYy5jb25zdHByb3AuMCsweGI1LzB4ZTANCiBkcm1fYXRvbWljX2hl
-bHBlcl9jcnRjX2R1cGxpY2F0ZV9zdGF0ZSsweDRmLzB4OTANCiBkcm1fYXRvbWljX2dldF9jcnRj
-X3N0YXRlKzB4ZWIvMHgxZjANCiBwYWdlX2ZsaXBfY29tbW9uKzB4NDYvMHgxYTANCiBkcm1fYXRv
-bWljX2hlbHBlcl9wYWdlX2ZsaXArMHg3YS8weDEzMA0KIGRybV9tb2RlX3BhZ2VfZmxpcF9pb2N0
-bCsweGIwMy8weGI3MA0KIGRybV9pb2N0bF9rZXJuZWwrMHgxYjMvMHgyMjANCiBkcm1faW9jdGwr
-MHg0NTMvMHg2YzANCiBfX3NlX3N5c19pb2N0bCsweDExNC8weDE2MA0KIGRvX3N5c2NhbGxfNjQr
-MHgyYi8weDQwDQogZW50cnlfU1lTQ0FMTF82NF9hZnRlcl9od2ZyYW1lKzB4NmMvMHhkNg0KDQpG
-cmVlZCBieSB0YXNrIDQxNzk1NToNCiBrYXNhbl9zYXZlX3N0YWNrKzB4MWIvMHg0MA0KIGthc2Fu
-X3NldF90cmFjaysweDFjLzB4MzANCiBrYXNhbl9zZXRfZnJlZV9pbmZvKzB4MjAvMHg0MA0KIF9f
-a2FzYW5fc2xhYl9mcmVlKzB4MTUxLzB4MTgwDQoga2ZyZWUrMHhhOS8weDVjMA0KIGRybV9hdG9t
-aWNfc3RhdGVfZGVmYXVsdF9jbGVhcisweDI0OS8weDcxMA0KIF9fZHJtX2F0b21pY19zdGF0ZV9m
-cmVlKzB4YmYvMHgxMjANCiBkcm1fYXRvbWljX2hlbHBlcl9kaXJ0eWZiKzB4NGQ1LzB4NTAwDQog
-ZHJtX2ZiX2hlbHBlcl9kaXJ0eV93b3JrKzB4MWZlLzB4MjcwDQogcHJvY2Vzc19vbmVfd29yaysw
-eDQxNC8weDdlMA0KIHdvcmtlcl90aHJlYWQrMHg5My8weDZmMA0KIGt0aHJlYWQrMHgxY2MvMHgy
-MjANCiByZXRfZnJvbV9mb3JrKzB4MjIvMHgzMA0KDQpUaGUgYnVnZ3kgYWRkcmVzcyBiZWxvbmdz
-IHRvIHRoZSBvYmplY3QgYXQgZmZmZjg4ODEwZjFiNzgwMA0KIHdoaWNoIGJlbG9uZ3MgdG8gdGhl
-IGNhY2hlIGttYWxsb2MtNTEyIG9mIHNpemUgNTEyDQpUaGUgYnVnZ3kgYWRkcmVzcyBpcyBsb2Nh
-dGVkIDkgYnl0ZXMgaW5zaWRlIG9mDQogNTEyLWJ5dGUgcmVnaW9uIFtmZmZmODg4MTBmMWI3ODAw
-LCBmZmZmODg4MTBmMWI3YTAwKQ0KVGhlIGJ1Z2d5IGFkZHJlc3MgYmVsb25ncyB0byB0aGUgcGFn
-ZToNCnBhZ2U6MDAwMDAwMDBlYzJjZTA0NCByZWZjb3VudDoxIG1hcGNvdW50OjAgbWFwcGluZzow
-MDAwMDAwMDAwMDAwMDAwIGluZGV4OjB4MCBwZm46MHgxMGYxYjQNCmhlYWQ6MDAwMDAwMDBlYzJj
-ZTA0NCBvcmRlcjoyIGNvbXBvdW5kX21hcGNvdW50OjAgY29tcG91bmRfcGluY291bnQ6MA0KZmxh
-Z3M6IDB4MTdmZmZmYzAwMTAyMDAoc2xhYnxoZWFkfG5vZGU9MHx6b25lPTJ8bGFzdGNwdXBpZD0w
-eDFmZmZmZikNCnJhdzogMDAxN2ZmZmZjMDAxMDIwMCBkZWFkMDAwMDAwMDAwMTAwIGRlYWQwMDAw
-MDAwMDAxMjIgZmZmZjg4ODEwMDA0MzQwMA0KcmF3OiAwMDAwMDAwMDAwMDAwMDAwIDAwMDAwMDAw
-MDAxMDAwMTAgMDAwMDAwMDFmZmZmZmZmZiAwMDAwMDAwMDAwMDAwMDAwDQpwYWdlIGR1bXBlZCBi
-ZWNhdXNlOiBrYXNhbjogYmFkIGFjY2VzcyBkZXRlY3RlZA0KDQpNZW1vcnkgc3RhdGUgYXJvdW5k
-IHRoZSBidWdneSBhZGRyZXNzOg0KIGZmZmY4ODgxMGYxYjc3MDA6IGZjIGZjIGZjIGZjIGZjIGZj
-IGZjIGZjIGZjIGZjIGZjIGZjIGZjIGZjIGZjIGZjDQogZmZmZjg4ODEwZjFiNzc4MDogZmMgZmMg
-ZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMNCj5mZmZmODg4MTBmMWI3
-ODAwOiBmYSBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYg0KICAg
-ICAgICAgICAgICAgICAgICAgIF4NCiBmZmZmODg4MTBmMWI3ODgwOiBmYiBmYiBmYiBmYiBmYiBm
-YiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYg0KIGZmZmY4ODgxMGYxYjc5MDA6IGZiIGZi
-IGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiDQo9PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCg0K
-QmVzdCByZWdhcmRzLCBMaXUgS2FpDQo=
+Use checked arithmetic and slice get() to avoid overflow/underflow and out-of-bounds access when parsing Falcon data pointers and FWSEC payloads.
+
+This also clarifies the error message for pointers that still fall within the PciAt image.
+
+Signed-off-by: Zijing Zhang <zijing.zhang@ry.rs>
+---
+ drivers/gpu/nova-core/vbios.rs | 95 ++++++++++++++++++++++++----------
+ 1 file changed, 69 insertions(+), 26 deletions(-)
+
+diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vbios.rs
+index 3e3fa5b72524..45bbc8894281 100644
+--- a/drivers/gpu/nova-core/vbios.rs
++++ b/drivers/gpu/nova-core/vbios.rs
+@@ -785,22 +785,31 @@ fn get_bit_token(&self, token_id: u8) -> Result<BitToken> {
+     fn falcon_data_ptr(&self) -> Result<u32> {
+         let token = self.get_bit_token(BIT_TOKEN_ID_FALCON_DATA)?;
+ 
+-        // Make sure we don't go out of bounds
+-        if usize::from(token.data_offset) + 4 > self.base.data.len() {
+-            return Err(EINVAL);
+-        }
+-
+-        // read the 4 bytes at the offset specified in the token
+         let offset = usize::from(token.data_offset);
+-        let bytes: [u8; 4] = self.base.data[offset..offset + 4].try_into().map_err(|_| {
+-            dev_err!(self.base.dev, "Failed to convert data slice to array\n");
+-            EINVAL
+-        })?;
++        let end = offset.checked_add(4).ok_or(EINVAL)?;
++
++        // Read the 4 bytes at the offset specified in the token.
++        let bytes: [u8; 4] = self
++            .base
++            .data
++            .get(offset..end)
++            .ok_or(EINVAL)?
++            .try_into()
++            .map_err(|_| {
++                dev_err!(self.base.dev, "Failed to convert data slice to array\n");
++                EINVAL
++            })?;
+ 
+         let data_ptr = u32::from_le_bytes(bytes);
+ 
+-        if (usize::from_safe_cast(data_ptr)) < self.base.data.len() {
+-            dev_err!(self.base.dev, "Falcon data pointer out of bounds\n");
++        // The BIT Falcon data pointer is expected to point outside the PciAt image (into a later
++        // image in the ROM chain). Reject pointers that still fall within this PciAt image, since
++        // downstream code will subtract `self.base.data.len()` from this offset.
++        if usize::from_safe_cast(data_ptr) < self.base.data.len() {
++            dev_err!(
++                self.base.dev,
++                "Falcon data pointer points inside PciAt image\n"
++            );
+             return Err(EINVAL);
+         }
+ 
+@@ -921,14 +930,17 @@ fn setup_falcon_data(
+         pci_at_image: &PciAtBiosImage,
+         first_fwsec: &FwSecBiosBuilder,
+     ) -> Result {
+-        let mut offset = usize::from_safe_cast(pci_at_image.falcon_data_ptr()?);
++        let data_ptr = pci_at_image.falcon_data_ptr()?;
++        let mut offset = usize::from_safe_cast(data_ptr);
+         let mut pmu_in_first_fwsec = false;
+ 
+         // The falcon data pointer assumes that the PciAt and FWSEC images
+         // are contiguous in memory. However, testing shows the EFI image sits in
+         // between them. So calculate the offset from the end of the PciAt image
+         // rather than the start of it. Compensate.
+-        offset -= pci_at_image.base.data.len();
++        offset = offset
++            .checked_sub(pci_at_image.base.data.len())
++            .ok_or(EINVAL)?;
+ 
+         // The offset is now from the start of the first Fwsec image, however
+         // the offset points to a location in the second Fwsec image. Since
+@@ -938,7 +950,9 @@ fn setup_falcon_data(
+         if offset < first_fwsec.base.data.len() {
+             pmu_in_first_fwsec = true;
+         } else {
+-            offset -= first_fwsec.base.data.len();
++            offset = offset
++                .checked_sub(first_fwsec.base.data.len())
++                .ok_or(EINVAL)?;
+         }
+ 
+         self.falcon_data_offset = Some(offset);
+@@ -946,12 +960,16 @@ fn setup_falcon_data(
+         if pmu_in_first_fwsec {
+             self.pmu_lookup_table = Some(PmuLookupTable::new(
+                 &self.base.dev,
+-                &first_fwsec.base.data[offset..],
++                first_fwsec.base.data.get(offset..).ok_or(EINVAL)?,
+             )?);
+         } else {
++            if offset >= self.base.data.len() {
++                dev_err!(self.base.dev, "Falcon data pointer out of bounds\n");
++                return Err(EINVAL);
++            }
+             self.pmu_lookup_table = Some(PmuLookupTable::new(
+                 &self.base.dev,
+-                &self.base.data[offset..],
++                self.base.data.get(offset..).ok_or(EINVAL)?,
+             )?);
+         }
+ 
+@@ -963,12 +981,20 @@ fn setup_falcon_data(
+         {
+             Ok(entry) => {
+                 let mut ucode_offset = usize::from_safe_cast(entry.data);
+-                ucode_offset -= pci_at_image.base.data.len();
++                ucode_offset = ucode_offset
++                    .checked_sub(pci_at_image.base.data.len())
++                    .ok_or(EINVAL)?;
+                 if ucode_offset < first_fwsec.base.data.len() {
+                     dev_err!(self.base.dev, "Falcon Ucode offset not in second Fwsec.\n");
+                     return Err(EINVAL);
+                 }
+-                ucode_offset -= first_fwsec.base.data.len();
++                ucode_offset = ucode_offset
++                    .checked_sub(first_fwsec.base.data.len())
++                    .ok_or(EINVAL)?;
++                if ucode_offset >= self.base.data.len() {
++                    dev_err!(self.base.dev, "Falcon Ucode offset out of bounds.\n");
++                    return Err(EINVAL);
++                }
+                 self.falcon_ucode_offset = Some(ucode_offset);
+             }
+             Err(e) => {
+@@ -1007,7 +1033,11 @@ pub(crate) fn header(&self) -> Result<FalconUCodeDesc> {
+         let falcon_ucode_offset = self.falcon_ucode_offset;
+ 
+         // Read the first 4 bytes to get the version.
+-        let hdr_bytes: [u8; 4] = self.base.data[falcon_ucode_offset..falcon_ucode_offset + 4]
++        let hdr_bytes: [u8; 4] = self
++            .base
++            .data
++            .get(falcon_ucode_offset..falcon_ucode_offset.checked_add(4).ok_or(EINVAL)?)
++            .ok_or(EINVAL)?
+             .try_into()
+             .map_err(|_| EINVAL)?;
+         let hdr = u32::from_le_bytes(hdr_bytes);
+@@ -1039,13 +1069,20 @@ pub(crate) fn ucode(&self, desc: &FalconUCodeDesc) -> Result<&[u8]> {
+         let falcon_ucode_offset = self.falcon_ucode_offset;
+ 
+         // The ucode data follows the descriptor.
+-        let ucode_data_offset = falcon_ucode_offset + desc.size();
+-        let size = usize::from_safe_cast(desc.imem_load_size() + desc.dmem_load_size());
++        let ucode_data_offset = falcon_ucode_offset
++            .checked_add(desc.size())
++            .ok_or(ERANGE)?;
++        let size_u32 = desc
++            .imem_load_size()
++            .checked_add(desc.dmem_load_size())
++            .ok_or(ERANGE)?;
++        let size = usize::from_safe_cast(size_u32);
++        let ucode_data_end = ucode_data_offset.checked_add(size).ok_or(ERANGE)?;
+ 
+         // Get the data slice, checking bounds in a single operation.
+         self.base
+             .data
+-            .get(ucode_data_offset..ucode_data_offset + size)
++            .get(ucode_data_offset..ucode_data_end)
+             .ok_or(ERANGE)
+             .inspect_err(|_| {
+                 dev_err!(
+@@ -1062,12 +1099,18 @@ pub(crate) fn sigs(&self, desc: &FalconUCodeDesc) -> Result<&[Bcrt30Rsa3kSignatu
+             FalconUCodeDesc::V3(_v3) => core::mem::size_of::<FalconUCodeDescV3>(),
+         };
+         // The signatures data follows the descriptor.
+-        let sigs_data_offset = self.falcon_ucode_offset + hdr_size;
++        let sigs_data_offset = self
++            .falcon_ucode_offset
++            .checked_add(hdr_size)
++            .ok_or(ERANGE)?;
+         let sigs_count = usize::from(desc.signature_count());
+-        let sigs_size = sigs_count * core::mem::size_of::<Bcrt30Rsa3kSignature>();
++        let sigs_size = sigs_count
++            .checked_mul(core::mem::size_of::<Bcrt30Rsa3kSignature>())
++            .ok_or(ERANGE)?;
+ 
+         // Make sure the data is within bounds.
+-        if sigs_data_offset + sigs_size > self.base.data.len() {
++        let end = sigs_data_offset.checked_add(sigs_size).ok_or(ERANGE)?;
++        if end > self.base.data.len() {
+             dev_err!(
+                 self.base.dev,
+                 "fwsec signatures data not contained within BIOS bounds\n"
+-- 
+2.52.0
+
