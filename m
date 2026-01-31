@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +AZRMkkwf2k8lQIAu9opvQ
+	id yPdeGEwwf2k8lQIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Feb 2026 11:51:53 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Feb 2026 11:51:56 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1573FC59FB
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Feb 2026 11:51:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4A0AC5A0A
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Feb 2026 11:51:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 028C010E02E;
-	Sun,  1 Feb 2026 10:51:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 944FC10E072;
+	Sun,  1 Feb 2026 10:51:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=reznichenko.net header.i=@reznichenko.net header.b="A8I8lSMb";
+	dkim=pass (2048-bit key; secure) header.d=reznichenko.net header.i=@reznichenko.net header.b="avl6A+dE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA30D10E1A6
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Jan 2026 03:41:05 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id
- 98e67ed59e1d1-34c708702dfso1472258a91.1
- for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 19:41:05 -0800 (PST)
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+ [209.85.215.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82E4310E1A6
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Jan 2026 03:41:07 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id
+ 41be03b00d2f7-c54f700b5b1so1705595a12.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 30 Jan 2026 19:41:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=reznichenko.net; s=google; t=1769830865; x=1770435665;
+ d=reznichenko.net; s=google; t=1769830867; x=1770435667;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=G785GoMTBphgxxOD0Z2Ym57qa0BDh5wFTX3RHKNv7Hc=;
- b=A8I8lSMbS3TtnMo/IFZmd+mgWg6AbE+U9MxGfey2DOMHFpTKJmS10atnQu34WF40co
- HG8a9XRnpXD8g8KyJddf3dmxsuBg+2+icseGzhXl3CI5hghCtpsyGPaidslQ3xRlPIOr
- gnb4KF5SZBys7SrF0yRGsNMNcYmeMV6txxPiPX/T9blQ7Q+5+YXCT5Kgik77meCqCaNl
- OXu01mf1qGe4u+pDvAbR1tvXKJ50GeFtFZbK0EgVyUYoWDVSyKxjTz6DnH/jh1kVBWtl
- TzMjDWePxsEAt954hWllx0tRBAuqKMfO2o6b0Q9w5LMW23EyTvTKxGId+koXvin/mX1Q
- 7bww==
+ bh=0F/+WwJ4GgbOYPy3UtQ/y6jWwOMUeMh//woYhmhU11g=;
+ b=avl6A+dENQGS5c6f0Tft9sKn2ZYdBapDKlgqsUNFgdsaq1MW0/1KrEvaiUAJ9G3jQj
+ sQG+DWK0pRU5vh8NSrbkbFFvh7HgzlaI2F8wgfuXWaDQNQlHKDv3Z53yoPYSwe8t6HEq
+ bffm1oILBwp4K0WoxZ/LkU2VTJpJ1agcYRsYyc2t/KeIJ3nk9dsJgsvuq1FrM4cJASpD
+ BhtWs3FTlxFLL09KtC9VtO80c9OxIIRAjRFXlDzxV7Sghe0jd6bj89KcRnzRu36oRK5e
+ trpp/oOz/kCsmUw07rCNf5ayQVmLiytr3n+6beWEo5GXkadPQqT5nZDVK3jvjUo5eYPN
+ aArQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1769830865; x=1770435665;
+ d=1e100.net; s=20230601; t=1769830867; x=1770435667;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=G785GoMTBphgxxOD0Z2Ym57qa0BDh5wFTX3RHKNv7Hc=;
- b=l9eoXhh2HKle2Hr3XhV0LhATTAVQgDtoi78oVFfeXk37R+8aQy8BFZ9LKjOKr5ccJR
- XcGpy9KObGeqhLdeiGLnWt605mkD+ZEvJj5ZduyMxeJtetYP3qfTwIUF1biXreJav1BN
- XveEG9OF08zGEaAaRqVBe9fiiN529IWOi7NW6KNiBsIa0c7Nkes3pSSPlDTInS/A+I7H
- zF79o3IgfS97wOvsGWMxu6pWvjgjFjAUpXH5fhlm+fC8LaaJdwUvuKzq80dhShj38RAB
- rSSZKELNZkeibynU/OUYPS/eJLNyhHaSbMljx4GevaETFsBDa1twtT803BEhh9Jf1ryB
- io9g==
-X-Gm-Message-State: AOJu0YznBzLiIkt6eNjWyBCxRS8bLK4BclnE7rE7JlGqNTxrgh8oftjg
- BGxYi6+x4A4s5migLjr2Sv6EWoZzyTkxnlZD1dA2HcitE6QpaA8SRixe6rSpKS8tNSE=
-X-Gm-Gg: AZuq6aK35wolqxN2UXrrroYwlVbVx3pjIqT+eYQ5VQLOw8PnCdXXbXpx2Fysp+3NC1U
- ACby/zeCqRvpztgBjP3EOM5iAGfKDmE38emQLlZTPyeBu2ThjNd3t4vmnynZDQONXhvelJA16HT
- hBKRanU0WX/slE5wuh8in6RN4Kb9GWrS4BL8cRGABbW+8jlOZEVp6miOtYIwOyQG5ARMxGI8TBA
- 69le2F94ePgiJ0UkUXR2E3g+1zLr6Mg/HTnC9wj/ZDSwNG/c076wGxUzo3w+7cFv0e85AlUi3WC
- V1Tlsukv9FOLzBcZetE/oyjQDyymfRu1mJQBvSA6DzDRfLNgBraW/WmcNVBBEQ/eRBNsKTrMlUJ
- ho5MqMDv/K/a6AtKYkRFgE0KxVvFnRQAWvDyVtWjhcudpTXf2UAH1g5WeYo3JBfKbpCFsUFaCW4
- nwu/bbRYcbhof8RJlXTg5hctGSU+M=
-X-Received: by 2002:a17:90b:4c0b:b0:340:c261:f9f3 with SMTP id
- 98e67ed59e1d1-3543b33aad3mr4875068a91.14.1769830865399; 
- Fri, 30 Jan 2026 19:41:05 -0800 (PST)
+ bh=0F/+WwJ4GgbOYPy3UtQ/y6jWwOMUeMh//woYhmhU11g=;
+ b=QEjd9V5aZiXmcZnbExQokVVUpI46oHGc5CKdFKTvoRO30LOQ0uMh/LOtT6zgxIc8mS
+ bUNGw8eEoc2ZhwtEHxHywtYDU+709LFMmyZoytsydkGQM0FYPJ5nPUNfafodSKVb584T
+ vGmh8i5YWEj+df9jRPvo2nmvL16y5wz5cGomJNtEzkz5lppESPKF/O1fvrAr7tlJkOJh
+ J3lPmm36BpXjjKDdsNJHPsMsnvPgZyAt+KN35WZ2dxkAF/pHjjNwMqBrbrV3l0YdlNt7
+ ngywmgS2IOJg7rAjGmoggUCCqUCr4WHe5PtWNjzo1XvLe6tdf1JLDk+TqZLyOPMzhHKo
+ yXhw==
+X-Gm-Message-State: AOJu0YwMchMd4uobYrsaUiBfxmO4R21CABsDxqKsiJHoZ0TTkdmdVlYW
+ q5BPZUumdDsM/ZIWzDZ9IErdyU9OfxlFuNhnZErR+DgLVcXlmdv1jL2rKBzQmVF7L7E=
+X-Gm-Gg: AZuq6aIAS5pNySckda0ipoSsDqBXxUB++Kye9ozlT2op+8hhu7COe46w8gRS2n3T83U
+ Xw0/sOqawbzo7p2Wv/TZhTaK8vrz3jViEwr+OWjyXC1aQCKfOkvCpQDUIsD0zh4N49waGwLa2Gh
+ hIFphw6KBOEOfy5zmiZBgFluojBAzAi9ejvGegBvjBvfMCBTTO/Y+g+gXSRbDc3islQmdQ+XCLA
+ 17TUBmXvXk9hqE2CWxLyErZmJ8UvC03ZZ9ShDSmimyEGddGb3t8/INQK11VRm9gEYcl6g0jI+WG
+ HaRY0jJS+OYXLmQ8MpBzfpBjNwnNlbxxa8/bZEgLhWHe+yXt0H93zSdCTlbEFMELQnYITwU58K9
+ bPZHrZpWoRlfaO2KuGvmAZkcc9GOvSocGDyrxWkmsKLFh31bNigkdR75x2t61+rZnXtIaw2mbiK
+ TyrldAw3FA0zm2typ/
+X-Received: by 2002:a05:6a21:3a85:b0:38d:f8e6:fc87 with SMTP id
+ adf61e73a8af0-392e01a7c46mr5228981637.76.1769830866746; 
+ Fri, 30 Jan 2026 19:41:06 -0800 (PST)
 Received: from z440.. ([2601:1c0:4502:2d00:f8d:9478:bfbf:7332])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-3540f3cc71bsm8986062a91.11.2026.01.30.19.41.04
+ 98e67ed59e1d1-3540f3cc71bsm8986062a91.11.2026.01.30.19.41.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Jan 2026 19:41:04 -0800 (PST)
+ Fri, 30 Jan 2026 19:41:06 -0800 (PST)
 From: Igor Reznichenko <igor@reznichenko.net>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <jesszhan0024@gmail.com>,
@@ -80,10 +80,9 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Kever Yang <kever.yang@rock-chips.com>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] dt-bindings: display: panel: Add Ilitek ILI9488 panel
- controller
-Date: Fri, 30 Jan 2026 19:41:00 -0800
-Message-ID: <20260131034101.307486-2-igor@reznichenko.net>
+Subject: [PATCH 2/2] drm/panel: Add Ilitek ILI9488 controller driver
+Date: Fri, 30 Jan 2026 19:41:01 -0800
+Message-ID: <20260131034101.307486-3-igor@reznichenko.net>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260131034101.307486-1-igor@reznichenko.net>
 References: <20260131034101.307486-1-igor@reznichenko.net>
@@ -139,102 +138,376 @@ X-Spamd-Result: default: False [3.19 / 15.00];
 	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,devicetree.org:url,reznichenko.net:email,reznichenko.net:dkim,reznichenko.net:mid]
-X-Rspamd-Queue-Id: 1573FC59FB
+	DBL_BLOCKED_OPENRESOLVER(0.00)[reznichenko.net:email,reznichenko.net:dkim,reznichenko.net:mid,amarulasolutions.com:email,gitlab.freedesktop.org:url]
+X-Rspamd-Queue-Id: C4A0AC5A0A
 X-Rspamd-Action: no action
 
-Add binding for the Ilitek ILI9488 panel controller which is found on
-the FocusLCDs E35GH-I-MW800-CB MIPI DSI panel.
+Add support for Ilitek ILI9488 controller which is used in
+FocusLCDs E35GH-I-MW800-CB 320x480 MIPI DSI panel.
 
 Signed-off-by: Igor Reznichenko <igor@reznichenko.net>
 ---
- .../display/panel/ilitek,ili9488.yaml         | 63 +++++++++++++++++++
- .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
- 2 files changed, 65 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9488.yaml
+ MAINTAINERS                                  |   6 +
+ drivers/gpu/drm/panel/Kconfig                |   9 +
+ drivers/gpu/drm/panel/Makefile               |   1 +
+ drivers/gpu/drm/panel/panel-ilitek-ili9488.c | 299 +++++++++++++++++++
+ 4 files changed, 315 insertions(+)
+ create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9488.c
 
-diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9488.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9488.yaml
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 67db88b04537..19f7806bbb56 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7908,6 +7908,12 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/ilitek,ili9486.yaml
+ F:	drivers/gpu/drm/tiny/ili9486.c
+ 
++DRM DRIVER FOR ILITEK ILI9488 PANELS
++M:	Igor Reznichenko <igor@reznichenko.net>
++S:	Maintained
++F:	Documentation/devicetree/bindings/display/panel/ilitek,ili9488.yaml
++F:	drivers/gpu/drm/panel/panel-ilitek-ili9488.c
++
+ DRM DRIVER FOR ILITEK ILI9805 PANELS
+ M:	Michael Trimarchi <michael@amarulasolutions.com>
+ S:	Maintained
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index 7a83804fedca..2a764d3d5097 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -248,6 +248,15 @@ config DRM_PANEL_ILITEK_ILI9341
+ 	  QVGA (240x320) RGB panels. support serial & parallel rgb
+ 	  interface.
+ 
++config DRM_PANEL_ILITEK_ILI9488
++	tristate "Ilitek ILI9488-based panels"
++	depends on OF
++	depends on DRM_MIPI_DSI
++	depends on BACKLIGHT_CLASS_DEVICE
++	help
++	  Say Y if you want to enable support for panels based on the
++	  Ilitek ILI9488 controller.
++
+ config DRM_PANEL_ILITEK_ILI9805
+ 	tristate "Ilitek ILI9805-based panels"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+index b9562a6fdcb3..62e49a322f21 100644
+--- a/drivers/gpu/drm/panel/Makefile
++++ b/drivers/gpu/drm/panel/Makefile
+@@ -25,6 +25,7 @@ obj-$(CONFIG_DRM_PANEL_HIMAX_HX8394) += panel-himax-hx8394.o
+ obj-$(CONFIG_DRM_PANEL_HYDIS_HV101HD1) += panel-hydis-hv101hd1.o
+ obj-$(CONFIG_DRM_PANEL_ILITEK_IL9322) += panel-ilitek-ili9322.o
+ obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9341) += panel-ilitek-ili9341.o
++obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9488) += panel-ilitek-ili9488.o
+ obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9805) += panel-ilitek-ili9805.o
+ obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9806E) += panel-ilitek-ili9806e.o
+ obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9881C) += panel-ilitek-ili9881c.o
+diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9488.c b/drivers/gpu/drm/panel/panel-ilitek-ili9488.c
 new file mode 100644
-index 000000000000..ea7449273022
+index 000000000000..2bb5622ae506
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9488.yaml
-@@ -0,0 +1,63 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/ilitek,ili9488.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/gpu/drm/panel/panel-ilitek-ili9488.c
+@@ -0,0 +1,299 @@
++// SPDX-License-Identifier: GPL-2.0
 +
-+title: Ilitek ILI9488 based MIPI-DSI panels
++#include <linux/delay.h>
++#include <linux/device.h>
++#include <linux/err.h>
++#include <linux/errno.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/of.h>
 +
-+maintainers:
-+  - Igor Reznichenko <igor@reznichenko.net>
++#include <linux/gpio/consumer.h>
++#include <linux/regulator/consumer.h>
 +
-+allOf:
-+  - $ref: panel-common.yaml#
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_modes.h>
++#include <drm/drm_panel.h>
++#include <drm/drm_probe_helper.h>
 +
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - focuslcds,e35gh-i-mw800cb
-+      - const: ilitek,ili9488
++#include <video/mipi_display.h>
 +
-+  reg:
-+    maxItems: 1
++struct ili9488_desc {
++	const struct drm_display_mode *display_mode;
++	unsigned long mode_flags;
++	enum mipi_dsi_pixel_format format;
++	unsigned int lanes;
++	void (*init_sequence)(struct mipi_dsi_multi_context *ctx);
++};
 +
-+  vci-supply: true
-+  iovcc-supply: true
++struct ili9488 {
++	struct drm_panel panel;
++	struct mipi_dsi_device *dsi;
++	struct gpio_desc *reset;
++	struct regulator_bulk_data supplies[2];
++	const struct ili9488_desc *desc;
++	enum drm_panel_orientation orientation;
++};
 +
-+required:
-+  - compatible
-+  - reg
-+  - vci-supply
-+  - iovcc-supply
-+  - reset-gpios
-+  - backlight
-+  - port
++static const char * const regulator_names[] = {
++	"vci",
++	"iovcc",
++};
 +
-+unevaluatedProperties: false
++static void e35gh_i_mw800cb_init(struct mipi_dsi_multi_context *ctx)
++{
++	/* Gamma control 1,2 */
++	mipi_dsi_dcs_write_seq_multi(ctx, 0xE0, 0x00, 0x10, 0x14, 0x01, 0x0E, 0x04, 0x33,
++				     0x56, 0x48, 0x03, 0x0C, 0x0B, 0x2B, 0x34, 0x0F);
++	mipi_dsi_dcs_write_seq_multi(ctx, 0xE1, 0x00, 0x12, 0x18, 0x05, 0x12, 0x06, 0x40,
++				     0x34, 0x57, 0x06, 0x10, 0x0C, 0x3B, 0x3F, 0x0F);
++	/* Power control 1,2 */
++	mipi_dsi_dcs_write_seq_multi(ctx, 0xC0, 0x0F, 0x0C);
++	mipi_dsi_dcs_write_seq_multi(ctx, 0xC1, 0x41);
++	/* VCOM Control */
++	mipi_dsi_dcs_write_seq_multi(ctx, 0xC5, 0x00, 0x25, 0x80);
++	mipi_dsi_dcs_write_seq_multi(ctx, 0x36, 0x48);
++	/* Interface pixel format 18bpp */
++	mipi_dsi_dcs_write_seq_multi(ctx, 0x3A, 0x66);
++	mipi_dsi_dcs_write_seq_multi(ctx, 0xB0, 0x00);
++	mipi_dsi_dcs_write_seq_multi(ctx, 0xB1, 0xA0);
++	mipi_dsi_dcs_write_seq_multi(ctx, 0xB4, 0x02);
++	mipi_dsi_dcs_write_seq_multi(ctx, 0xB6, 0x02, 0x02, 0x3B);
++	mipi_dsi_dcs_write_seq_multi(ctx, 0xE9, 0x00);
++	mipi_dsi_dcs_write_seq_multi(ctx, 0xF7, 0xA9, 0x51, 0x2C, 0x82);
++	mipi_dsi_dcs_write_seq_multi(ctx, 0x21, 0x00);
++}
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
++static const struct drm_display_mode e35gh_i_mw800cb_display_mode = {
++	.clock = 14256,
 +
-+    dsi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++	.hdisplay = 320,
++	.hsync_start = 320 + 60,
++	.hsync_end = 320 + 60 + 20,
++	.htotal = 320 + 60 + 20 + 40,
 +
-+        panel@0 {
-+            compatible = "focuslcds,e35gh-i-mw800cb", "ilitek,ili9488";
-+            reg = <0>;
-+            vci-supply = <&reg_vci_panel>;
-+            iovcc-supply = <&reg_iovcc_panel>;
-+            reset-gpios = <&gpio3 6 GPIO_ACTIVE_LOW>;
-+            backlight = <&pwm_bl>;
++	.vdisplay = 480,
++	.vsync_start = 480 + 20,
++	.vsync_end = 480 + 20 + 10,
++	.vtotal = 480 + 20 + 10 + 30,
 +
-+            port {
-+                panel_in: endpoint {
-+                    remote-endpoint = <&dsi_out>;
-+                };
-+            };
-+        };
-+    };
++	.width_mm = 48,
++	.height_mm = 73,
 +
-+...
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index c7591b2aec2a..aa3a8fd67155 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -584,6 +584,8 @@ patternProperties:
-     description: Flipkart Inc.
-   "^focaltech,.*":
-     description: FocalTech Systems Co.,Ltd
-+  "^focuslcds,.*":
-+    description: Focus Display Solutions, Inc.
-   "^forlinx,.*":
-     description: Baoding Forlinx Embedded Technology Co., Ltd.
-   "^foursemi,.*":
++	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
++	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
++};
++
++static inline struct ili9488 *panel_to_ili9488(struct drm_panel *panel)
++{
++	return container_of(panel, struct ili9488, panel);
++}
++
++static int ili9488_power_on(struct ili9488 *ili)
++{
++	struct mipi_dsi_device *dsi = ili->dsi;
++	int ret;
++
++	ret = regulator_bulk_enable(ARRAY_SIZE(ili->supplies), ili->supplies);
++	if (ret < 0) {
++		dev_err(&dsi->dev, "regulator bulk enable failed: %d\n", ret);
++		return ret;
++	}
++
++	gpiod_set_value_cansleep(ili->reset, 0);
++	usleep_range(1000, 5000);
++	gpiod_set_value_cansleep(ili->reset, 1);
++	usleep_range(1000, 5000);
++	gpiod_set_value_cansleep(ili->reset, 0);
++	usleep_range(5000, 10000);
++
++	return 0;
++}
++
++static int ili9488_power_off(struct ili9488 *ili)
++{
++	struct mipi_dsi_device *dsi = ili->dsi;
++	int ret;
++
++	gpiod_set_value_cansleep(ili->reset, 1);
++
++	ret = regulator_bulk_disable(ARRAY_SIZE(ili->supplies), ili->supplies);
++	if (ret)
++		dev_err(&dsi->dev, "regulator bulk disable failed: %d\n", ret);
++
++	return ret;
++}
++
++static int ili9488_activate(struct ili9488 *ili)
++{
++	struct mipi_dsi_multi_context ctx = { .dsi = ili->dsi };
++
++	if (ili->desc->init_sequence)
++		ili->desc->init_sequence(&ctx);
++
++	mipi_dsi_dcs_exit_sleep_mode_multi(&ctx);
++	mipi_dsi_msleep(&ctx, 120);
++	mipi_dsi_dcs_set_display_on_multi(&ctx);
++
++	return ctx.accum_err;
++}
++
++static int ili9488_prepare(struct drm_panel *panel)
++{
++	struct ili9488 *ili = panel_to_ili9488(panel);
++	int ret;
++
++	ret = ili9488_power_on(ili);
++	if (ret)
++		return ret;
++
++	ret = ili9488_activate(ili);
++	if (ret) {
++		ili9488_power_off(ili);
++		return ret;
++	}
++
++	return 0;
++}
++
++static int ili9488_deactivate(struct ili9488 *ili)
++{
++	struct mipi_dsi_multi_context ctx = { .dsi = ili->dsi };
++
++	mipi_dsi_dcs_set_display_off_multi(&ctx);
++	mipi_dsi_dcs_enter_sleep_mode_multi(&ctx);
++	mipi_dsi_msleep(&ctx, 120);
++
++	return ctx.accum_err;
++}
++
++static int ili9488_unprepare(struct drm_panel *panel)
++{
++	struct ili9488 *ili = panel_to_ili9488(panel);
++	struct mipi_dsi_device *dsi = ili->dsi;
++	int ret;
++
++	ili9488_deactivate(ili);
++	ret = ili9488_power_off(ili);
++	if (ret < 0)
++		dev_err(&dsi->dev, "power off failed: %d\n", ret);
++
++	return ret;
++}
++
++static int ili9488_get_modes(struct drm_panel *panel, struct drm_connector *connector)
++{
++	struct ili9488 *ili = panel_to_ili9488(panel);
++	const struct drm_display_mode *mode = ili->desc->display_mode;
++
++	return drm_connector_helper_get_modes_fixed(connector, mode);
++}
++
++static enum drm_panel_orientation ili9488_get_orientation(struct drm_panel *panel)
++{
++	struct ili9488 *ili = panel_to_ili9488(panel);
++
++	return ili->orientation;
++}
++
++static const struct drm_panel_funcs ili9488_funcs = {
++	.prepare	= ili9488_prepare,
++	.unprepare	= ili9488_unprepare,
++	.get_modes	= ili9488_get_modes,
++	.get_orientation = ili9488_get_orientation,
++};
++
++static int ili9488_dsi_probe(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	struct ili9488 *ili;
++	int i, ret;
++
++	ili = devm_drm_panel_alloc(dev, struct ili9488, panel, &ili9488_funcs,
++				   DRM_MODE_CONNECTOR_DSI);
++	if (IS_ERR(ili))
++		return PTR_ERR(ili);
++
++	ili->desc = device_get_match_data(dev);
++	mipi_dsi_set_drvdata(dsi, ili);
++	ili->dsi = dsi;
++
++	dsi->mode_flags = ili->desc->mode_flags;
++	dsi->format = ili->desc->format;
++	dsi->lanes = ili->desc->lanes;
++
++	ili->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
++	if (IS_ERR(ili->reset))
++		return dev_err_probe(dev, PTR_ERR(ili->reset),
++				     "failed to get reset-gpios\n");
++
++	for (i = 0; i < ARRAY_SIZE(ili->supplies); i++)
++		ili->supplies[i].supply = regulator_names[i];
++
++	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ili->supplies),
++				      ili->supplies);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "failed to get regulators\n");
++
++	ret = of_drm_get_panel_orientation(dev->of_node, &ili->orientation);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to get orientation\n");
++
++	ret = drm_panel_of_backlight(&ili->panel);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to get backlight\n");
++
++	ili->panel.prepare_prev_first = true;
++	drm_panel_add(&ili->panel);
++
++	ret = mipi_dsi_attach(dsi);
++	if (ret < 0) {
++		dev_err_probe(dev, ret, "failed to attach to DSI host\n");
++		drm_panel_remove(&ili->panel);
++		return ret;
++	}
++
++	return 0;
++}
++
++static void ili9488_dsi_remove(struct mipi_dsi_device *dsi)
++{
++	struct ili9488 *ili = mipi_dsi_get_drvdata(dsi);
++	int ret;
++
++	ret = mipi_dsi_detach(dsi);
++	if (ret < 0)
++		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", ret);
++
++	drm_panel_remove(&ili->panel);
++}
++
++static const struct ili9488_desc e35gh_i_mw800cb_desc = {
++	.init_sequence = e35gh_i_mw800cb_init,
++	.display_mode = &e35gh_i_mw800cb_display_mode,
++	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
++		      MIPI_DSI_MODE_LPM | MIPI_DSI_CLOCK_NON_CONTINUOUS,
++	.format = MIPI_DSI_FMT_RGB666_PACKED,
++	.lanes = 1,
++};
++
++static const struct of_device_id ili9488_of_match[] = {
++	{ .compatible = "focuslcds,e35gh-i-mw800cb", .data = &e35gh_i_mw800cb_desc },
++	{ }
++};
++
++MODULE_DEVICE_TABLE(of, ili9488_of_match);
++
++static struct mipi_dsi_driver ili9488_dsi_driver = {
++	.probe	= ili9488_dsi_probe,
++	.remove	= ili9488_dsi_remove,
++	.driver = {
++		.name		= "ili9488-dsi",
++		.of_match_table	= ili9488_of_match,
++	},
++};
++module_mipi_dsi_driver(ili9488_dsi_driver);
++
++MODULE_AUTHOR("Igor Reznichenko <igor@reznichenko.net>");
++MODULE_DESCRIPTION("Ilitek ILI9488 Controller Driver");
++MODULE_LICENSE("GPL");
 -- 
 2.43.0
 
