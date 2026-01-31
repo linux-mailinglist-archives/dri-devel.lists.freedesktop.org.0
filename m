@@ -2,68 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +Ii/I0U7fmkOWgIAu9opvQ
+	id WC1iBD0/fmk6WgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 18:26:29 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 18:43:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95FB8C3323
-	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 18:26:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D8FC3635
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 18:43:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C0ED10E0A3;
-	Sat, 31 Jan 2026 17:26:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43CB810E0E5;
+	Sat, 31 Jan 2026 17:43:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ViRVfNH6";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="SJMrMNct";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17BE510E0A3
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Jan 2026 17:26:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1769880384; x=1801416384;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=uIWfSCvK68Etb9X3TzeCb76P3tmAfEpNTg90mX9Wfyg=;
- b=ViRVfNH61926YvSP4IpNwW13r/5E/nB6SG4HgPzX3ISHsz6GcmvqjZnZ
- GvpaV4KCVs3aYnqKPsQqnaSidxsCtrdVUhoRqhVsCQYrWz1F4dGy9sWdX
- /UMSDYCNPaMfXX8maASgNo0ixhfNyP2/XcOfqk/RD2BoVlElZ3bhZO50O
- /Fm9DtdJiAmfHAdrWVRAfc836uxiInFdkuv1j1Jnm5EDVeZA1fcbPMKgY
- 5XNbSsxoebn2FAfWB0Dm1/P7kG5sQcq/cr47K66E5H944MgZJ+I43EOV9
- GAZJsYedzG2Wk8ZBeI0KxONVNM0VMC4izZeZjTrJ0KvGf/PVCdT/w3TPM Q==;
-X-CSE-ConnectionGUID: /3Af3qW6ToKFkvAWnm5W6w==
-X-CSE-MsgGUID: la28iow0Ti+IctKiUwrvRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11688"; a="73705123"
-X-IronPort-AV: E=Sophos;i="6.21,265,1763452800"; d="scan'208";a="73705123"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2026 09:26:23 -0800
-X-CSE-ConnectionGUID: PJk2UmUAQg2/JXjYRlChjQ==
-X-CSE-MsgGUID: P3a5X5xzR/mmRtRzFiJGbg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,265,1763452800"; d="scan'208";a="213607954"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
- by fmviesa005.fm.intel.com with ESMTP; 31 Jan 2026 09:26:20 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vmEji-00000000eEO-19A9;
- Sat, 31 Jan 2026 17:26:18 +0000
-Date: Sun, 1 Feb 2026 01:26:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chen Ridong <chenridong@huaweicloud.com>, dev@lankhorst.se,
- mripard@kernel.org, natalie.vock@gmx.de, tj@kernel.org,
- hannes@cmpxchg.org, mkoutny@suse.com
-Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- lujialin4@huawei.com, chenridong@huaweicloud.com
-Subject: Re: [PATCH -next 1/3] cgroup/dmem: fix NULL pointer dereference when
- setting max
-Message-ID: <202602010100.5CjcoPFh-lkp@intel.com>
-References: <20260131091202.344788-2-chenridong@huaweicloud.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260131091202.344788-2-chenridong@huaweicloud.com>
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA14710E0E5
+ for <dri-devel@lists.freedesktop.org>; Sat, 31 Jan 2026 17:43:20 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 16D591A2B5F;
+ Sat, 31 Jan 2026 17:43:19 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id CA50E606B6;
+ Sat, 31 Jan 2026 17:43:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 472E9119A888D; Sat, 31 Jan 2026 18:43:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1769881397; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=+0GLAxiMOsLVdd68D5Q5jgpRId3SxU0Ogg0V46Yapj0=;
+ b=SJMrMNctuR74wAN8d4z0NJzEOlaGLF1diXKFZ5u1qknb7SE9NOGtn8mUGXpYpQvfDYtdeR
+ Zbx6nd1axeg5Aoze4vT/4lnKT+ZC4qxC2FpFj7h+1o2LxxUj/7seU8u1leoz1PWioDNpzU
+ 6k0hOqGHR/CHDUsXeEwYmj9yxTfS9F7E3EIVNVWB2zX3FLZojA5jQnIAOusXd1Fox40j0k
+ lOFxwTi3ls00YGrvWActsK5XmsiCv/rxtvGmexbrfInrtdcZVHYMpnCnTx9f+nFPRFoz4j
+ dPwItRhhKdKhrWIU8wFOi1ekIvo3hsuK+SHh1cYbvFQqnpvN33/aAK7+QtkszQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 31 Jan 2026 18:43:08 +0100
+Message-Id: <DG2YL94N216P.31GDSWQ0OD1PT@bootlin.com>
+Subject: Re: [PATCH v4 4/4] drm/bridge: imx8qxp-pixel-link: get/put the next
+ bridge
+Cc: "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas Petazzoni"
+ <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
+ <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>
+To: "Liu Ying" <victor.liu@nxp.com>, "Andrzej Hajda"
+ <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
+ <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Shawn Guo"
+ <shawnguo@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>,
+ "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam"
+ <festevam@gmail.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.20.1
+References: <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-v4-0-a62b4399a6bf@bootlin.com>
+ <20260107-drm-bridge-alloc-getput-drm_of_find_bridge-v4-4-a62b4399a6bf@bootlin.com>
+ <e2536229-f8d9-4d65-8211-cf445677bef2@nxp.com>
+ <DFYQ7TS25SQT.2F7NBYOP8P5R4@bootlin.com>
+ <efeb3583-dd0c-4e91-bbfc-54b04644f2c2@nxp.com>
+ <DG0CHD0TAH9A.27UW4KKY2O9V7@bootlin.com>
+ <d0836d04-d15d-45de-a765-bacad9e7759a@nxp.com>
+ <aff6f95e-abdc-4253-8724-eec4a98bb268@nxp.com>
+In-Reply-To: <aff6f95e-abdc-4253-8724-eec4a98bb268@nxp.com>
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,159 +86,180 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+	MV_CASE(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
 	RCVD_TLS_LAST(0.00)[];
-	ARC_NA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:Hui.Pu@gehealthcare.com,m:thomas.petazzoni@bootlin.com,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:victor.liu@nxp.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[nxp.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,pengutronix.de];
+	RCPT_COUNT_TWELVE(0.00)[22];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:chenridong@huaweicloud.com,m:dev@lankhorst.se,m:mripard@kernel.org,m:natalie.vock@gmx.de,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mkoutny@suse.com,m:oe-kbuild-all@lists.linux.dev,m:cgroups@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:lujialin4@huawei.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[huaweicloud.com,lankhorst.se,kernel.org,gmx.de,cmpxchg.org,suse.com];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[bootlin.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.988];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 95FB8C3323
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 68D8FC3635
 X-Rspamd-Action: no action
 
-Hi Chen,
+On Thu Jan 29, 2026 at 9:18 AM CET, Liu Ying wrote:
+>
+>
+> On Thu, Jan 29, 2026 at 03:49:38PM +0800, Liu Ying wrote:
+>>
+>>
+>> On Wed, Jan 28, 2026 at 04:58:18PM +0100, Luca Ceresoli wrote:
+>>> On Tue Jan 27, 2026 at 4:54 AM CET, Liu Ying wrote:
+>>>
+>>> ...
+>>>
+>>>>>>> @@ -260,7 +259,7 @@ static int imx8qxp_pixel_link_find_next_bridge(=
+struct imx8qxp_pixel_link *pl)
+>>>>>>>  {
+>>>>>>>  	struct device_node *np =3D pl->dev->of_node;
+>>>>>>>  	struct device_node *port;
+>>>>>>> -	struct drm_bridge *selected_bridge =3D NULL;
+>>>>>>> +	struct drm_bridge *selected_bridge __free(drm_bridge_put) =3D NUL=
+L;
+>>>>>>>  	u32 port_id;
+>>>>>>>  	bool found_port =3D false;
+>>>>>>>  	int reg;
+>>>>>>> @@ -297,7 +296,8 @@ static int imx8qxp_pixel_link_find_next_bridge(=
+struct imx8qxp_pixel_link *pl)
+>>>>>>>  			continue;
+>>>>>>>  		}
+>>>>>>>
+>>>>>>> -		struct drm_bridge *next_bridge =3D of_drm_find_bridge(remote);
+>>>>>>> +		struct drm_bridge *next_bridge __free(drm_bridge_put) =3D
+>>>>>>> +			of_drm_find_and_get_bridge(remote);
+>>>>>>>  		if (!next_bridge)
+>>>>>>>  			return -EPROBE_DEFER;
+>>>>>>>
+>>>>>>> @@ -305,12 +305,14 @@ static int imx8qxp_pixel_link_find_next_bridg=
+e(struct imx8qxp_pixel_link *pl)
+>>>>>>>  		 * Select the next bridge with companion PXL2DPI if
+>>>>>>>  		 * present, otherwise default to the first bridge
+>>>>>>>  		 */
+>>>>>>> -		if (!selected_bridge || of_property_present(remote, "fsl,compani=
+on-pxl2dpi"))
+>>>>>>> -			selected_bridge =3D next_bridge;
+>>>>>>> +		if (!selected_bridge || of_property_present(remote, "fsl,compani=
+on-pxl2dpi")) {
+>>>>>>> +			drm_bridge_put(selected_bridge);
+>>>>>>> +			selected_bridge =3D drm_bridge_get(next_bridge);
+>>>>>>
+>>>>>> Considering selecting the first bridge without the companion pxl2dpi=
+,
+>>>>>> there would be a superfluous refcount for the selected bridge:
+>>>>>>
+>>>>>> 1) of_drm_find_and_get_bridge: refcount =3D 1
+>>>>>> 2) drm_bridge_put: noop, since selected_bridge is NULL, refcount =3D=
+ 1
+>>>>>> 3) drm_bridge_get: refcount =3D 2
+>>>>>> 4) drm_bridge_put(__free): refcount =3D 1
+>>>>>> 5) drm_bridge_get: for the pl->bridge.next_bridge, refcount =3D 2
+>>>>>
+>>>>> Here you are missing one put. There are two drm_bridge_put(__free), o=
+ne for
+>>>>> next_bridge and one for selected_bridge. So your list should rather b=
+e:
+>>>>>
+>>>>> 1) next_bridge =3D of_drm_find_and_get_bridge: refcount =3D 1
+>>>>> 2) drm_bridge_put(selected_bridge): noop, since selected_bridge is NU=
+LL, refcount =3D 1
+>>>>> 3) selected_bridge =3D drm_bridge_get: refcount =3D 2
+>>>>> 4) drm_bridge_put(next_bridge) [__free at loop scope end]: refcount =
+=3D 1
+>>>>> 5) pl->bridge.next_bridge =3D drm_bridge_get(), refcount =3D 2
+>>>>> 6) drm_bridge_put(selected_bridge) [__free at function scope end]: re=
+fcount =3D 1
+>>>>
+>>>> Ah, right, I did miss this last put because selected_bridge is declare=
+d with
+>>>> __free a bit far away from the loop at the very beginning of
+>>>> imx8qxp_pixel_link_find_next_bridge() - that's my problem I guess, but=
+ I'm
+>>>> not even sure if I'll fall into this same pitfall again after a while,=
+ which
+>>>> makes the driver difficult to maintain.
+>>>>
+>>>> Also, it seems that the refcount dance(back and forth bewteen 1 and 2)=
+ is not
+>>>> something straightforward for driver readers to follow.
+>>>
+>>> I thing the whole logic becomes straightforward if you think it this wa=
+y:
+>>>
+>>>  * when a pointer is assigned =3D a new reference starts existing -> re=
+fcount++
+>>>  * when a pointer is cleared/overwritten or goes out of scope =3D a ref=
+erence
+>>>    stops existing -> refcount--
+>>>
+>>> In short: one pointer, one reference, one refcount.
+>>>
+>>> If you re-read the patch with this in mind, does it become clearer?
+>>
+>> Thanks for more explaination, maybe it becomes a bit clearer, I'm not su=
+re:/
+>>
+>> Anyway, to simplify things with another try, I came up with the below
+>> snippet in that loop, which drops the two intermediate bridges(local
+>> next_bridge and selected_bridge) and uses pl->next_bridge only.
+>
+> Fix a typo:
+> s/pl->next_bridge/pl->bridge.next_bridge/
+>
+>> It looks ok to me(at least, refcount dance is much simpler).
+>>
+>> -8<-
+>> if (!pl->next_bridge || of_property_present(remote, "fsl,companion-pxl2d=
+pi")) {
+>>         drm_bridge_put(pl->next_bridge);
+>>         pl->next_bridge =3D of_drm_find_and_get_bridge(remote);
+>>         if (!pl->next_bridge)
+>>                 return -EPROBE_DEFER;
+>> }
+>> -8<-
+>
+> -8<-
+> if (!pl->bridge.next_bridge || of_property_present(remote, "fsl,companion=
+-pxl2dpi")) {
+>         drm_bridge_put(pl->bridge.next_bridge);
+>         pl->bridge.next_bridge =3D of_drm_find_and_get_bridge(remote);
+>         if (!pl->bridge.next_bridge)
+>                 return -EPROBE_DEFER;
+> }
+> -8<-
 
-kernel test robot noticed the following build warnings:
+It's OK enough, so in v5 I'm going to split the if() and skip the
+intermediate selected_bridge variable.
 
-[auto build test WARNING on next-20260130]
+Luca
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Ridong/cgroup-dmem-fix-NULL-pointer-dereference-when-setting-max/20260131-173002
-base:   next-20260130
-patch link:    https://lore.kernel.org/r/20260131091202.344788-2-chenridong%40huaweicloud.com
-patch subject: [PATCH -next 1/3] cgroup/dmem: fix NULL pointer dereference when setting max
-config: x86_64-randconfig-161-20260131 (https://download.01.org/0day-ci/archive/20260201/202602010100.5CjcoPFh-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch version: v0.5.0-8994-gd50c5a4c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260201/202602010100.5CjcoPFh-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602010100.5CjcoPFh-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> kernel/cgroup/dmem.c:703:7: warning: variable 'region' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     703 |                 if (!options || !*options) {
-         |                     ^~~~~~~~~~~~~~~~~~~~~
-   kernel/cgroup/dmem.c:729:13: note: uninitialized use occurs here
-     729 |                 kref_put(&region->ref, dmemcg_free_region);
-         |                           ^~~~~~
-   kernel/cgroup/dmem.c:703:3: note: remove the 'if' if its condition is always false
-     703 |                 if (!options || !*options) {
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     704 |                         err = -EINVAL;
-         |                         ~~~~~~~~~~~~~~
-     705 |                         goto out_put;
-         |                         ~~~~~~~~~~~~~
-     706 |                 }
-         |                 ~
->> kernel/cgroup/dmem.c:703:7: warning: variable 'region' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
-     703 |                 if (!options || !*options) {
-         |                     ^~~~~~~~
-   kernel/cgroup/dmem.c:729:13: note: uninitialized use occurs here
-     729 |                 kref_put(&region->ref, dmemcg_free_region);
-         |                           ^~~~~~
-   kernel/cgroup/dmem.c:703:7: note: remove the '||' if its condition is always false
-     703 |                 if (!options || !*options) {
-         |                     ^~~~~~~~~~~
-   kernel/cgroup/dmem.c:685:36: note: initialize the variable 'region' to silence this warning
-     685 |                 struct dmem_cgroup_region *region;
-         |                                                  ^
-         |                                                   = NULL
-   2 warnings generated.
-
-
-vim +703 kernel/cgroup/dmem.c
-
-   674	
-   675	static ssize_t dmemcg_limit_write(struct kernfs_open_file *of,
-   676					 char *buf, size_t nbytes, loff_t off,
-   677					 void (*apply)(struct dmem_cgroup_pool_state *, u64))
-   678	{
-   679		struct dmemcg_state *dmemcs = css_to_dmemcs(of_css(of));
-   680		int err = 0;
-   681	
-   682		while (buf && !err) {
-   683			struct dmem_cgroup_pool_state *pool = NULL;
-   684			char *options, *region_name;
-   685			struct dmem_cgroup_region *region;
-   686			u64 new_limit;
-   687	
-   688			options = buf;
-   689			buf = strchr(buf, '\n');
-   690			if (buf)
-   691				*buf++ = '\0';
-   692	
-   693			options = strstrip(options);
-   694	
-   695			/* eat empty lines */
-   696			if (!options[0])
-   697				continue;
-   698	
-   699			region_name = strsep(&options, " \t");
-   700			if (!region_name[0])
-   701				continue;
-   702	
- > 703			if (!options || !*options) {
-   704				err = -EINVAL;
-   705				goto out_put;
-   706			}
-   707	
-   708			rcu_read_lock();
-   709			region = dmemcg_get_region_by_name(region_name);
-   710			rcu_read_unlock();
-   711	
-   712			if (!region)
-   713				return -EINVAL;
-   714	
-   715			err = dmemcg_parse_limit(options, region, &new_limit);
-   716			if (err < 0)
-   717				goto out_put;
-   718	
-   719			pool = get_cg_pool_unlocked(dmemcs, region);
-   720			if (IS_ERR(pool)) {
-   721				err = PTR_ERR(pool);
-   722				goto out_put;
-   723			}
-   724	
-   725			/* And commit */
-   726			apply(pool, new_limit);
-   727	
-   728	out_put:
-   729			kref_put(&region->ref, dmemcg_free_region);
-   730		}
-   731	
-   732	
-   733		return err ?: nbytes;
-   734	}
-   735	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
