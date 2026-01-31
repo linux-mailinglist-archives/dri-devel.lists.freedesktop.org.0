@@ -2,58 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cBBRC04wf2k8lQIAu9opvQ
+	id qB/fMCb1fWmBUgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Feb 2026 11:51:58 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 13:27:18 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A1DC5A13
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Feb 2026 11:51:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5289C1C87
+	for <lists+dri-devel@lfdr.de>; Sat, 31 Jan 2026 13:27:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1313E10E099;
-	Sun,  1 Feb 2026 10:51:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE09110E042;
+	Sat, 31 Jan 2026 12:27:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ry.rs header.i=@ry.rs header.b="QaiGIsu/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EHJeQ0It";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 300 seconds by postgrey-1.36 at gabe;
- Sat, 31 Jan 2026 11:21:35 UTC
-Received: from mail-108-mta10.mxroute.com (mail-108-mta10.mxroute.com
- [136.175.108.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B601510E042
- for <dri-devel@lists.freedesktop.org>; Sat, 31 Jan 2026 11:21:35 +0000 (UTC)
-Received: from filter006.mxroute.com ([136.175.111.3] filter006.mxroute.com)
- (Authenticated sender: mN4UYu2MZsgR)
- by mail-108-mta10.mxroute.com (ZoneMTA) with ESMTPSA id 19c13c4d05b0009140.005
- for <dri-devel@lists.freedesktop.org>
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Sat, 31 Jan 2026 11:16:31 +0000
-X-Zone-Loop: a1b91658532191d61edf92d39497844f163bbdce722c
-X-Originating-IP: [136.175.111.3]
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=ry.rs; s=x; 
- h=Content-Transfer-Encoding:MIME-Version:Date:Subject:Cc:To:From:Sender:
- Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References;
- bh=SWvtaEiT/41NAalPPWhdhfM93rTmPvj7juU4A2w+NMk=; b=QaiGIsu/AcVLE7nl7OY51sFaz9
- QMLORznRNBDfaeMa2oSyQ+2C2IIT6Lo6CSllhbJOcrGPWkXUgrwNHMmHU3RMKh86WJCm9AFVzVupT
- SMseQJW+vvvioYCDU8PKJWVh/DxTaaYHgiaZG4lxCiGbTEieH9YEgM81cyfBhCVHD2m3nTmB0yWy8
- RS3RSQcrbPis1wP2F00XpgY3e7wKBxCEXFKa18b8PiCXlvte7xkWKmwFfK7sHzGnJMlRpdQohql6O
- 61L5YH61yA0rqL8jZXC3JO094DnI3Ys36aJ5TAzLdymBS6MCQN5+3XDbgNwSHCJ3/72NA39V+h+H+
- vRZ8J3pA==;
-From: Zijing Zhang <zijing.zhang@ry.rs>
-To: dakr@kernel.org,
-	acourbot@nvidia.com
-Cc: aliceryhl@google.com, airlied@gmail.com, simona@ffwll.ch,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Zijing Zhang <zijing.zhang@ry.rs>
-Subject: [PATCH] gpu: nova-core: vbios: harden falcon pointer parsing
-Date: Sat, 31 Jan 2026 11:16:19 +0000
-Message-ID: <20260131111619.1360414-1-zijing.zhang@ry.rs>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authenticated-Id: zijing.zhang@ry.rs
-X-Mailman-Approved-At: Sun, 01 Feb 2026 10:51:49 +0000
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D37DD10E042;
+ Sat, 31 Jan 2026 12:27:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id E7D796001A;
+ Sat, 31 Jan 2026 12:27:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D5EFC19421;
+ Sat, 31 Jan 2026 12:27:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1769862432;
+ bh=2fTkhAUP5p8/EG0o4I2HX5HD4RSHs9zkMP98Fcb/6XM=;
+ h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
+ b=EHJeQ0ItVPSJjv4Jmi+vbS4l02KXRVHbuPygJkkFwtXr/bXADaVsDAgBcvTjog/zi
+ MnL0byblG1dhDo4GmZ4xiinVA3SW+Qq7nXDPipRavAjiim9Kg9JShwQRWcgnYhSK1x
+ HoHqWiXSdA2DLJJDPqmxxueUORw6vAKKrXnOQz/XeMHrrVQgcKFgtttGg5CZUyTMa6
+ +sDqrpjbbST5XynxHPuh+5/Tcf2bu6Rr6Crxoawt/tCrm5bSGeN0tB79mM7p75qS4J
+ VbuKNHuo7vffsGmjuY8XNP8uIGsNk/odg6PPIRoutntFMOUb/5pTU2mpy8raWq2/iK
+ +/caWR1/xwcpw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 31 Jan 2026 13:27:06 +0100
+Message-Id: <DG2RVAALGX4W.1L637C8NXXEEM@kernel.org>
+To: "Eliot Courtney" <ecourtney@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH 0/9] rust: dma: add CoherentArray for compile-time sized
+ allocations
+Cc: "Alexandre Courbot" <acourbot@nvidia.com>, "Alice Ryhl"
+ <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Abdiel Janulgue" <abdiel.janulgue@gmail.com>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Robin Murphy"
+ <robin.murphy@arm.com>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Miguel
+ Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, <lyude@redhat.com>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <driver-core@lists.linux.dev>,
+ <rust-for-linux@vger.kernel.org>
+References: <20260130-coherent-array-v1-0-bcd672dacc70@nvidia.com>
+In-Reply-To: <20260130-coherent-array-v1-0-bcd672dacc70@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,234 +73,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.99 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_REJECT(1.00)[ry.rs:s=x];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
-	DMARC_POLICY_SOFTFAIL(0.10)[ry.rs : SPF not aligned (relaxed),none];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:acourbot@nvidia.com,m:aliceryhl@google.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:nouveau@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:zijing.zhang@ry.rs,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[zijing.zhang@ry.rs,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[google.com,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,ry.rs];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[nvidia.com,google.com,gmail.com,ffwll.ch,collabora.com,arm.com,kernel.org,garyguo.net,protonmail.com,umich.edu,redhat.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	HAS_XOIP(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[zijing.zhang@ry.rs,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[ry.rs:-];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
 	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[entry.data:url]
-X-Rspamd-Queue-Id: 83A1DC5A13
+	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: E5289C1C87
 X-Rspamd-Action: no action
 
-Use checked arithmetic and slice get() to avoid overflow/underflow and out-of-bounds access when parsing Falcon data pointers and FWSEC payloads.
+(Cc: Lyude)
 
-This also clarifies the error message for pointers that still fall within the PciAt image.
+On Fri Jan 30, 2026 at 9:34 AM CET, Eliot Courtney wrote:
+> This series extends the DMA coherent allocation API to support compile-ti=
+me
+> known sizes. This lets bounds checking to be moved from runtime to build
+> time, which is useful to avoid runtime panics from index typos. It also
+> removes the need for a Result return type in some places.
+>
+> The compile time size is specified via a marker type: StaticSize<N>.
+> Statically sized allocations can decay to runtime sized ones via deref
+> coercion for code that doesn't need to know the size at compile time, or =
+to
+> avoid having to carry around extra type parameters. The implementation
+> follows a similar pattern to Device/DeviceContext.
+>
+> The series defines three type aliases: CoherentSlice<T> (for runtime size=
+),
+> CoherentArray<T, N> (for compile-time size N), and CoherentObject<T> (for
+> single object allocations). It also adds infallible dma_read!/dma_write!
+> macros and methods to CoherentArray, while prefixing the existing fallibl=
+e
+> methods and macros with `try_`.
+>
+> The macros keep the same syntax (i.e.
+> coherent_allocation[index].optional_fields =3D expression) even for
+> CoherentObject, because the [] syntax is needed to know where to split th=
+e
+> actual CoherentAllocation object from the fields. This means that
+> CoherentObject is indexed with [0] in dma_write!/dma_read! macros. The
+> alternative is defining a separate macro for single object access, but it
+> still would need a way to delineate between the allocation and the fields=
+,
+> perhaps by using commas (dma_read_obj!(object, fields),
+> dma_write_obj!(object, fields, value)). This would be inconsistent with t=
+he
+> array/slice syntax.
 
-Signed-off-by: Zijing Zhang <zijing.zhang@ry.rs>
----
- drivers/gpu/nova-core/vbios.rs | 95 ++++++++++++++++++++++++----------
- 1 file changed, 69 insertions(+), 26 deletions(-)
+We've just generalized I/O to support arbitrary I/O backends (busses, backi=
+ng
+storage, etc.).
 
-diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vbios.rs
-index 3e3fa5b72524..45bbc8894281 100644
---- a/drivers/gpu/nova-core/vbios.rs
-+++ b/drivers/gpu/nova-core/vbios.rs
-@@ -785,22 +785,31 @@ fn get_bit_token(&self, token_id: u8) -> Result<BitToken> {
-     fn falcon_data_ptr(&self) -> Result<u32> {
-         let token = self.get_bit_token(BIT_TOKEN_ID_FALCON_DATA)?;
- 
--        // Make sure we don't go out of bounds
--        if usize::from(token.data_offset) + 4 > self.base.data.len() {
--            return Err(EINVAL);
--        }
--
--        // read the 4 bytes at the offset specified in the token
-         let offset = usize::from(token.data_offset);
--        let bytes: [u8; 4] = self.base.data[offset..offset + 4].try_into().map_err(|_| {
--            dev_err!(self.base.dev, "Failed to convert data slice to array\n");
--            EINVAL
--        })?;
-+        let end = offset.checked_add(4).ok_or(EINVAL)?;
-+
-+        // Read the 4 bytes at the offset specified in the token.
-+        let bytes: [u8; 4] = self
-+            .base
-+            .data
-+            .get(offset..end)
-+            .ok_or(EINVAL)?
-+            .try_into()
-+            .map_err(|_| {
-+                dev_err!(self.base.dev, "Failed to convert data slice to array\n");
-+                EINVAL
-+            })?;
- 
-         let data_ptr = u32::from_le_bytes(bytes);
- 
--        if (usize::from_safe_cast(data_ptr)) < self.base.data.len() {
--            dev_err!(self.base.dev, "Falcon data pointer out of bounds\n");
-+        // The BIT Falcon data pointer is expected to point outside the PciAt image (into a later
-+        // image in the ROM chain). Reject pointers that still fall within this PciAt image, since
-+        // downstream code will subtract `self.base.data.len()` from this offset.
-+        if usize::from_safe_cast(data_ptr) < self.base.data.len() {
-+            dev_err!(
-+                self.base.dev,
-+                "Falcon data pointer points inside PciAt image\n"
-+            );
-             return Err(EINVAL);
-         }
- 
-@@ -921,14 +930,17 @@ fn setup_falcon_data(
-         pci_at_image: &PciAtBiosImage,
-         first_fwsec: &FwSecBiosBuilder,
-     ) -> Result {
--        let mut offset = usize::from_safe_cast(pci_at_image.falcon_data_ptr()?);
-+        let data_ptr = pci_at_image.falcon_data_ptr()?;
-+        let mut offset = usize::from_safe_cast(data_ptr);
-         let mut pmu_in_first_fwsec = false;
- 
-         // The falcon data pointer assumes that the PciAt and FWSEC images
-         // are contiguous in memory. However, testing shows the EFI image sits in
-         // between them. So calculate the offset from the end of the PciAt image
-         // rather than the start of it. Compensate.
--        offset -= pci_at_image.base.data.len();
-+        offset = offset
-+            .checked_sub(pci_at_image.base.data.len())
-+            .ok_or(EINVAL)?;
- 
-         // The offset is now from the start of the first Fwsec image, however
-         // the offset points to a location in the second Fwsec image. Since
-@@ -938,7 +950,9 @@ fn setup_falcon_data(
-         if offset < first_fwsec.base.data.len() {
-             pmu_in_first_fwsec = true;
-         } else {
--            offset -= first_fwsec.base.data.len();
-+            offset = offset
-+                .checked_sub(first_fwsec.base.data.len())
-+                .ok_or(EINVAL)?;
-         }
- 
-         self.falcon_data_offset = Some(offset);
-@@ -946,12 +960,16 @@ fn setup_falcon_data(
-         if pmu_in_first_fwsec {
-             self.pmu_lookup_table = Some(PmuLookupTable::new(
-                 &self.base.dev,
--                &first_fwsec.base.data[offset..],
-+                first_fwsec.base.data.get(offset..).ok_or(EINVAL)?,
-             )?);
-         } else {
-+            if offset >= self.base.data.len() {
-+                dev_err!(self.base.dev, "Falcon data pointer out of bounds\n");
-+                return Err(EINVAL);
-+            }
-             self.pmu_lookup_table = Some(PmuLookupTable::new(
-                 &self.base.dev,
--                &self.base.data[offset..],
-+                self.base.data.get(offset..).ok_or(EINVAL)?,
-             )?);
-         }
- 
-@@ -963,12 +981,20 @@ fn setup_falcon_data(
-         {
-             Ok(entry) => {
-                 let mut ucode_offset = usize::from_safe_cast(entry.data);
--                ucode_offset -= pci_at_image.base.data.len();
-+                ucode_offset = ucode_offset
-+                    .checked_sub(pci_at_image.base.data.len())
-+                    .ok_or(EINVAL)?;
-                 if ucode_offset < first_fwsec.base.data.len() {
-                     dev_err!(self.base.dev, "Falcon Ucode offset not in second Fwsec.\n");
-                     return Err(EINVAL);
-                 }
--                ucode_offset -= first_fwsec.base.data.len();
-+                ucode_offset = ucode_offset
-+                    .checked_sub(first_fwsec.base.data.len())
-+                    .ok_or(EINVAL)?;
-+                if ucode_offset >= self.base.data.len() {
-+                    dev_err!(self.base.dev, "Falcon Ucode offset out of bounds.\n");
-+                    return Err(EINVAL);
-+                }
-                 self.falcon_ucode_offset = Some(ucode_offset);
-             }
-             Err(e) => {
-@@ -1007,7 +1033,11 @@ pub(crate) fn header(&self) -> Result<FalconUCodeDesc> {
-         let falcon_ucode_offset = self.falcon_ucode_offset;
- 
-         // Read the first 4 bytes to get the version.
--        let hdr_bytes: [u8; 4] = self.base.data[falcon_ucode_offset..falcon_ucode_offset + 4]
-+        let hdr_bytes: [u8; 4] = self
-+            .base
-+            .data
-+            .get(falcon_ucode_offset..falcon_ucode_offset.checked_add(4).ok_or(EINVAL)?)
-+            .ok_or(EINVAL)?
-             .try_into()
-             .map_err(|_| EINVAL)?;
-         let hdr = u32::from_le_bytes(hdr_bytes);
-@@ -1039,13 +1069,20 @@ pub(crate) fn ucode(&self, desc: &FalconUCodeDesc) -> Result<&[u8]> {
-         let falcon_ucode_offset = self.falcon_ucode_offset;
- 
-         // The ucode data follows the descriptor.
--        let ucode_data_offset = falcon_ucode_offset + desc.size();
--        let size = usize::from_safe_cast(desc.imem_load_size() + desc.dmem_load_size());
-+        let ucode_data_offset = falcon_ucode_offset
-+            .checked_add(desc.size())
-+            .ok_or(ERANGE)?;
-+        let size_u32 = desc
-+            .imem_load_size()
-+            .checked_add(desc.dmem_load_size())
-+            .ok_or(ERANGE)?;
-+        let size = usize::from_safe_cast(size_u32);
-+        let ucode_data_end = ucode_data_offset.checked_add(size).ok_or(ERANGE)?;
- 
-         // Get the data slice, checking bounds in a single operation.
-         self.base
-             .data
--            .get(ucode_data_offset..ucode_data_offset + size)
-+            .get(ucode_data_offset..ucode_data_end)
-             .ok_or(ERANGE)
-             .inspect_err(|_| {
-                 dev_err!(
-@@ -1062,12 +1099,18 @@ pub(crate) fn sigs(&self, desc: &FalconUCodeDesc) -> Result<&[Bcrt30Rsa3kSignatu
-             FalconUCodeDesc::V3(_v3) => core::mem::size_of::<FalconUCodeDescV3>(),
-         };
-         // The signatures data follows the descriptor.
--        let sigs_data_offset = self.falcon_ucode_offset + hdr_size;
-+        let sigs_data_offset = self
-+            .falcon_ucode_offset
-+            .checked_add(hdr_size)
-+            .ok_or(ERANGE)?;
-         let sigs_count = usize::from(desc.signature_count());
--        let sigs_size = sigs_count * core::mem::size_of::<Bcrt30Rsa3kSignature>();
-+        let sigs_size = sigs_count
-+            .checked_mul(core::mem::size_of::<Bcrt30Rsa3kSignature>())
-+            .ok_or(ERANGE)?;
- 
-         // Make sure the data is within bounds.
--        if sigs_data_offset + sigs_size > self.base.data.len() {
-+        let end = sigs_data_offset.checked_add(sigs_size).ok_or(ERANGE)?;
-+        if end > self.base.data.len() {
-             dev_err!(
-                 self.base.dev,
-                 "fwsec signatures data not contained within BIOS bounds\n"
--- 
-2.52.0
+With this we can wire up the I/O traits to DMA and generalize the dma_read(=
+) and
+dma_write() macros accordingly. I.e. we can extend the I/O traits with
+field_write() and field_read().
 
+(Lyude is going to work on this as a more integrated alternative to iosys_m=
+ap.
+It would be good to align with her regarding this work.)
+
+This has the advantage that we don't have to duplicate all this infrastruct=
+ure
+for I/O memory, DMA, etc.
+
+I also think that CoherentSlice is too specific of a type. I'd rather have =
+a
+generic type, maybe UnsafeSlice or IoSlice, that just uses the I/O backend =
+for
+accesses.
