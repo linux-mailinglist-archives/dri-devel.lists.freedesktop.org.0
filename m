@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +JHZFK1kf2lSpgIAu9opvQ
+	id qPM/Katkf2lNpgIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Feb 2026 15:35:25 +0100
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Feb 2026 15:35:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E607EC62D5
-	for <lists+dri-devel@lfdr.de>; Sun, 01 Feb 2026 15:35:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12692C62C7
+	for <lists+dri-devel@lfdr.de>; Sun, 01 Feb 2026 15:35:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5453610E0D2;
-	Sun,  1 Feb 2026 14:35:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5020F10E0AB;
+	Sun,  1 Feb 2026 14:35:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="nXr2bkhH";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="RNnt7vkC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH7PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11010053.outbound.protection.outlook.com [52.101.201.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE30B10E0D2
+Received: from CO1PR03CU002.outbound.protection.outlook.com
+ (mail-westus2azon11010028.outbound.protection.outlook.com [52.101.46.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A1B910E0D2
  for <dri-devel@lists.freedesktop.org>; Sun,  1 Feb 2026 14:35:20 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k/nNBUzpPFv0u7tRVK//sStMzy+3CN0MrqwuVyQkffaC1Fhx/2BMmv1gN3zGB+5SzkE/Q1eJBKc6oItZLj5r8ZUMvapV9w1eRUG2vyK42BtKSOBaPDcTdjYZHvoieED/UjqEr+pSWK4rxwp8hY/EUbAmreRQ5BokCIhrL/7v7lW8WpQa/nIhpIeW0wlcs4OrJVPJEmzwSFvk2C2hpnvbaTr18YxwK07r5wxpOi4yCknCOGJMzwshuOXe6i9MKEZFyVUCzudthUhYohj0d+Y/RLQEslk3xXWIenNPKWob11IOJ6QRsQ0lRQQ54Z6rJBXB3/0cEhso9pcPKVD4BqlqyQ==
+ b=vPjYBogiFIH4iqvCnqp9HxZIlmUiyxbwmBZiT/NHrfsfa5PRZo6rgV6YETTRd/RyGs4mPoXJqSznf/OB1PFAK20KQpOSZcCjJogUnGQ0aGwmB/7v7yjLh562Yw7LQucMbFSmPC25Du9PVFaRHBGxv/VtFHlJy95W6TnzT3b7RoqdfA0m3M5vQfVYB0tO4OVkAx72ic4lPbVCHq/+Ed81gLmj603q+HsA8i7ohvqULydtufQgJ4EcL1UiIN9WhjIGEU7Tn7mcYkgbLuo3rhdeERBJPt2LIGsgaVZqbRgWPWp1Xmo6Q9vDJAJVTIM1f1irSWgkqXTn34yKduDbaz4/Mg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z0J1+5GnHz5hxiQYAV9NW/fcGEDb3qMf5AolhgVWvcM=;
- b=awqsxqJz1AiuI5XBuNrAWntqDAuI/vQAeknmr93s1uSkVX545yeb6bNflgpEEDk78euL0l+IcoXcMFulJn9nNsh518YW0Cu2jYv86mMSB72ZzAEbTDmJ4RfJM7WKPKbm5dw4S/r5boPol3CT3dbgOuXg9l7vlWIoYxcGzwSXvcT2QEaDWWmfuHd5oQ1Y/YRpfwTTNk7dHozJS78eR7iiNBcAkkb7lOPQ3hiOEXAFbfeoCu7oZu7EWBxDWJzyLqQYiT6Uz2ybnBZwgkYiawofBbHoaA3eyry8Y745HK6kc9qdUJSIVglqi274CtNhDwsA8Lqgns7nAsJvYZnS+s4a+w==
+ bh=CqQjI1+i7zIp2HLfkd0TeFGaF4Ig+F/CBt8oFBlJzlg=;
+ b=xMNS5f9Yb4FyLxsFHGRm/tllVmzwhAdHiprlJqIiulQuRTvDKkqHj3EHmBVrK0Cd0sEnJNhjJTJV5eSIgUfNBMiw9A72rPTXSU5GlA5GZ7n4kaeGnbl9wil7gRErrSx7M/abINhZ/Hi3oUw1yMNL5OYR2cPWzL5hMeB/bFHNDwAcgBQCI8rvGPcTjj0TyxqJkkiacoOz5vRcD0KxjlDOr5MzULJXd2HftvQgp/YCkAZEeOOcGlvPEvp9U2GSXxnXUkoUAdK4gAJ55gSsDQGRaiBaRnW9c6rFF1TtimZ8VEjPA64yjWf8DaB6jh9sTTlzw6ReEiUTK8yOJOhixpny8w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.117.160) smtp.rcpttodomain=ziepe.ca smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
@@ -35,18 +35,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z0J1+5GnHz5hxiQYAV9NW/fcGEDb3qMf5AolhgVWvcM=;
- b=nXr2bkhHip9y1CmSr/bzOsjhBskXxJUOJVjx6C/UaJKoLTlWpjMSTrFzlF7ErG5/A8gAzpGCLjfrG8QPmuUf9yNrJVq4aSW2jsyK0ge2zc93QbCL+bor3+jHcMiydUYGCzD6m9TDUkCQB0CvLL+zKhqLiTWW3k+uhByoKv3W4QK0la2febTg+U3PXp2SQUDBlg1ul6cAARao92PLmAsBhrvSn/3zS56v0oY0XjOtQVEyVnImr6FCv+qYmb7QC+nEGkFmr7pp1dSy37D3iQqSxG+nO8x1Vw6iAf5skLVIimvLcXtRezYxpXBydGzA+gfoaShxMlTT1lnu7YEZCpHUxw==
-Received: from BL1PR13CA0253.namprd13.prod.outlook.com (2603:10b6:208:2ba::18)
- by DM6PR12MB4234.namprd12.prod.outlook.com (2603:10b6:5:213::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Sun, 1 Feb
- 2026 14:35:11 +0000
-Received: from BN3PEPF0000B06C.namprd21.prod.outlook.com
- (2603:10b6:208:2ba:cafe::4b) by BL1PR13CA0253.outlook.office365.com
- (2603:10b6:208:2ba::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.9 via Frontend Transport; Sun, 1
- Feb 2026 14:34:47 +0000
+ bh=CqQjI1+i7zIp2HLfkd0TeFGaF4Ig+F/CBt8oFBlJzlg=;
+ b=RNnt7vkCCAn3vqWaCQx5/bcuUewNs0mkwkzqVTgmFsuQ3P0t2ItWsRDWXJctt3N5IhjIP/HzuU1eBGphuFuy//9JOvmP/SeaKr+PQc723eI7uR2j6wcWsNDiNGxEqdN1oJwViMYr3rxWc3BIQL3TqmeSBkrgo4kuwnkjFwAK26eq/I2xETR3Aeqil4dlIc+X7KhYagfpkVkHhj3MV3ZAxnwHBCTD7FilwiKMRzsBCV9fVAGBy6K41DtJuhhdKSS5o2XRWQAXBSZ5hGkOILdV5jC2vhuZD+5x6M4/6F0FZr10tP0wfeROUVMOP6TieRnf6uDiMS42sMvqha2ri99CCg==
+Received: from BN9PR03CA0060.namprd03.prod.outlook.com (2603:10b6:408:fb::35)
+ by PH8PR12MB6916.namprd12.prod.outlook.com (2603:10b6:510:1bd::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.8; Sun, 1 Feb
+ 2026 14:35:15 +0000
+Received: from BN3PEPF0000B06B.namprd21.prod.outlook.com
+ (2603:10b6:408:fb:cafe::59) by BN9PR03CA0060.outlook.office365.com
+ (2603:10b6:408:fb::35) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.15 via Frontend Transport; Sun,
+ 1 Feb 2026 14:35:08 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
  smtp.mailfrom=nvidia.com;
  dkim=none (message not signed)
@@ -55,33 +55,29 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
  216.228.117.160 as permitted sender) receiver=protection.outlook.com;
  client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
 Received: from mail.nvidia.com (216.228.117.160) by
- BN3PEPF0000B06C.mail.protection.outlook.com (10.167.243.71) with Microsoft
+ BN3PEPF0000B06B.mail.protection.outlook.com (10.167.243.70) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9587.0 via Frontend Transport; Sun, 1 Feb 2026 14:35:11 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ 15.20.9587.0 via Frontend Transport; Sun, 1 Feb 2026 14:35:15 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
  (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 1 Feb
- 2026 06:34:56 -0800
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ 2026 06:34:59 -0800
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 1 Feb
- 2026 06:34:55 -0800
+ 2026 06:34:59 -0800
 Received: from c-237-169-180-181.mtl.labs.mlnx (10.127.8.12) by
  mail.nvidia.com (10.129.68.6) with Microsoft SMTP Server id 15.2.2562.20 via
- Frontend Transport; Sun, 1 Feb 2026 06:34:52 -0800
+ Frontend Transport; Sun, 1 Feb 2026 06:34:56 -0800
 From: Edward Srouji <edwards@nvidia.com>
-Subject: [PATCH rdma-next v3 0/3] RDMA: Add support for exporting dma-buf
- file descriptors
-Date: Sun, 1 Feb 2026 16:34:03 +0200
-Message-ID: <20260201-dmabuf-export-v3-0-da238b614fe3@nvidia.com>
+Date: Sun, 1 Feb 2026 16:34:04 +0200
+Subject: [PATCH rdma-next v3 1/3] RDMA/uverbs: Support external FD uobjects
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFtkf2kC/3WNyw6CMBREf8XctTV9AFZX/odxAb1F7oKWtNhgC
- P9u7UpNXE5mzpkVog1kI5x3KwSbKJJ3Oaj9DszQurtlhDmD5LLhgmuGY9s9emaXyYeZcaxPmtc
- aUVjIzBRsT0vxXSHkLXN2meGWq4Hi7MOzPCVRBn+kSTDOGqyOWDW15qguLhFSezB+LKokP3Apf
- nH5xpUWQqvOGIVf+LZtLzvnndr1AAAA
-X-Change-ID: 20260108-dmabuf-export-0d598058dd1e
+Message-ID: <20260201-dmabuf-export-v3-1-da238b614fe3@nvidia.com>
+References: <20260201-dmabuf-export-v3-0-da238b614fe3@nvidia.com>
+In-Reply-To: <20260201-dmabuf-export-v3-0-da238b614fe3@nvidia.com>
 To: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, "Sumit
  Semwal" <sumit.semwal@linaro.org>, =?utf-8?q?Christian_K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -90,76 +86,76 @@ CC: <linux-kernel@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
  <linaro-mm-sig@lists.linaro.org>, Yishai Hadas <yishaih@nvidia.com>, "Edward
  Srouji" <edwards@nvidia.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1769956492; l=3699;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1769956492; l=2919;
  i=edwards@nvidia.com; s=20251029; h=from:subject:message-id;
- bh=fa3FoI6ozulVLFuIZLH6OJmyvh41t1jxQpwgpx5gjf8=;
- b=YW1CVDoU/FpD4SC5Lh+MWYPpKDGEOUoklWpqxfOudC8GES15XIPhXEidTr7r7gxxH0b+os/Iz
- wjy24zSE/UJAEC2ICcTwZ/R5VfNVgDaUHN7w/2tGJfpZMzFF0PW23dm
+ bh=sVKb3nq/MHyjSi6RiIWEpVeGvtgdrTgJi+GqWpgSRhE=;
+ b=TDeA41ostJZxvrNONlRI8EKJfPeCBTjtDL71LgGCet1DLymy872nNr6YIFlxb9triQmz6O62h
+ HW/Z7AjTe/ZBiUp8NR5lzWRlWYFpMX3q+RrRKyyu3slZuB7ySthyRuT
 X-Developer-Key: i=edwards@nvidia.com; a=ed25519;
  pk=VME+d2WbMZT5AY+AolKh2XIdrnXWUwwzz/XLQ3jXgDM=
 X-NV-OnPremToCloud: ExternallySecured
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B06C:EE_|DM6PR12MB4234:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4552810c-2882-43b1-0ee5-08de619f1b41
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B06B:EE_|PH8PR12MB6916:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3a9e8f2e-96d6-418b-d7e7-08de619f1d6c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|82310400026|36860700013|13003099007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?djZHdFhzNkhTVk5ubVBqaG9OUVB4MGdtOEhQMkhtT0hjMlVyZlVOQXFyYnZ1?=
- =?utf-8?B?eGc3M2psek1aVitnZ0lmbDE5RTkvTkloMkRTL1kzSFhTR3R6dWpDUXdIUjZ6?=
- =?utf-8?B?Znp5NXNnR01aL3lpSk1ZQSsvZFBIT2NOemdSVDNxSS9aMEx6WjNjaG5JTGxu?=
- =?utf-8?B?VWFpUXVVSFZHQTEwczJ6WnNtQVFxdFdTMXgxWmJWQnJpWk9McnZVcm14d05Y?=
- =?utf-8?B?cC82QWNadG9vNWR1dWlXWm1CeldRdE1KVm5MbVRqaEJUbE1QT2ZOak02ZW1r?=
- =?utf-8?B?b3hSTDJaR1hDWHNtV21TaEtSV3BtTWJYb2dsQU1HVWlpMngyRDE3ZlJ3RGRI?=
- =?utf-8?B?RDFpa0hGd2hjV2tKTEJ4RzJIdXNKck85eEJwNnFhdnoySzNFZ1Bsc09GZEp3?=
- =?utf-8?B?eElMRGI5YUU4NklxbHFXUmJxMWdiQXc4WThwQVp4am9UZk5UVStwTVhqWmxq?=
- =?utf-8?B?c2R1czBpNFgwMGR4SmVaUFlJZnVxeFVCQ2c0dG81eUVycWdodTF6MWN2UXQr?=
- =?utf-8?B?ZmFtUkEwTGlJa1lVSkI0c3FDdUFqWVcybUREMjVHMml1cHhvVnlrbXZaamtN?=
- =?utf-8?B?TjBSc295cjEzSnBuTk5HMmg0ZjBWeW1lS1J1TlRkNEJpc2poSTMzMDZJVmQz?=
- =?utf-8?B?UFRCWUFhbVd2RXFnLzh3d3A1U3h4L3F3MEZNQzJSSk1uVllTMmRKM1JYZHJK?=
- =?utf-8?B?VWI2OTNweDdqU1dReGQ0ZCtTblk3OHk2Q3FaOExyMk5BbThGdXZyYVA1ZW5I?=
- =?utf-8?B?Z1dKTG9BazQ5VUUvTVdIelhFQ2grMFJCeVB0YVZmYmoydC8yZ0prWDE3MVVu?=
- =?utf-8?B?YlZGZHNRN09NQU1wbTM2SjIzMVlJaHlPaC9seGthcHI0NWF3VXpyUWwrR0dW?=
- =?utf-8?B?SW9tNzM2TWsyM1RDV1B5UlM3Zy95YlFwbS9EcGFESW5yWXJPVWxmRk5lZUl4?=
- =?utf-8?B?Q0pOVlBMQnZic0tndCtRMzJPKzlBeFhsdWEzcnNod3FaQlNxREFvVWJRWEky?=
- =?utf-8?B?dzVxTk91WXE3Y1BIVUhVNzhyNGN0QnN1ZW9nRE43bkprMkx5azVIM2EzRUw2?=
- =?utf-8?B?SVFJWGpiSjZHaWh1K3JPMHFna3N5TTNPVTNQQTY2Y1ZWRXF5VXQ0UGhuSE1a?=
- =?utf-8?B?VGR4VW1VK0hKeERBdStwS0liY0tZNkJEdUpOMjNxY01pc0dSU3JTU0ZHSHRN?=
- =?utf-8?B?Mmwzd2d3ZjJ4aVhFcXo4eWdya053RHRLQjZWaitIbW84TFNSeUhWaDVEVCti?=
- =?utf-8?B?Q21waldpMkVJVUhPZWZxUE85TCtZdnI5cmRlamZEUlNyaTdyYXFVQ2VYQW1I?=
- =?utf-8?B?UFpERzM2YWVYRHo0UFJ1T0VQTUs3b1R2T0FoUG1MUWJzWTBZeUFMMVgweDI0?=
- =?utf-8?B?QTk0dmdsZythdE5oM2p5RG9MNUprOWJwNkNWc2JtSlR5TUNhZEVLNDBvZFN4?=
- =?utf-8?B?RVhpYWh0U2NLVVNRa1ZDNUw4cktmOTFNb3ZiV20vMTlJZmJXSTZOOHJYNUxK?=
- =?utf-8?B?Vno2SjZobXBCV1U0c3VvUmZYUys2ejNDYjZsU3c5Z2lqdWFlUkRiK2xtMWEv?=
- =?utf-8?B?RGVsQ0hKekRCTzlnMjQ0UmkxUjJKaU93ajFEWHI2L3dmNnc0NThmclhkUnpp?=
- =?utf-8?B?b2k0c2l4MmFTQ1N5U3hHbjZJQ3Z6NEgwSG9iODVsdkxZeXZ5Z0l0b29sK2U4?=
- =?utf-8?B?aE9nMW9ONytiTmVNWkVPWWg1QkFLZlRmeTBSV2pMRllnUzRlbks5VFIzSUhQ?=
- =?utf-8?B?dkRSVG9RYlRmWWptdWY0Z1AyVnlneWVJZGF4RjBpU2lNRGlibG5IMVZYRlZ0?=
- =?utf-8?B?aWlZRDF1QVNLNU9IOGU2cllZRGxpSDUxLzRYUUJRM2E4VXNjak5MK0QrZGJX?=
- =?utf-8?B?K2FKNVVORW1RNnh1RnhtaVdrbXdMUUxvYjBuQlhEaFJpZ3lweHBySVhLSGpj?=
- =?utf-8?B?THBpRFVrU09mOE9hRmdhdEtXQkxJUlNycXRscUZqMkFtdkI4cmwrQ0FPTGxP?=
- =?utf-8?B?VzZjNklnRzBsL29pZS90bDNON1ZjWUJkUGZWdUpYelUyS3hHQ20rZjlON1BT?=
- =?utf-8?B?SGpQSWpLTUZvOFRTUC9DTVMzZHV4N29udVVMRmQxajVTcnNIMnRFRm5zS1BV?=
- =?utf-8?B?aFhKZFIwVFlwVDg3QnpBWGFwcEtLMFFETlNyREZWNXgreUJnSGVOSFBIY1N0?=
- =?utf-8?B?QVlJS1FRUXJOZHZQRDRHaHFFbHlPSEd2azlXaVlRWEw5Q1hCRnJWZ1g1dTRP?=
- =?utf-8?B?eWE4enA2eEM2M0syVGJGVUtjMGlnPT0=?=
+ ARA:13230040|82310400026|36860700013|376014|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?LzkwQ3dwS0h2Tm8vNWJ3enhiZFZBYVJjZk5hQkZpL2J3TTJadm5OSGRiSmRx?=
+ =?utf-8?B?eW0zVGlteDN2ZTViNE52dlZQSWxRTjA0QTVOOGM4d0hKTmFJOTE0SzhtTWh6?=
+ =?utf-8?B?RmZJeWovT2RUTEl2RiszenpwbGRWOUN3KzlISXE5U2Q1RXlFOHVIS0ZnU2pH?=
+ =?utf-8?B?OGZ1L3Z4QW1KODErZmorL3AweFd5cDJDVHRnRUs5c3RnaE1jVG1PbTU5NnZQ?=
+ =?utf-8?B?Z09Uck9aYWtRVWtTWml6clBma2MxUzVmNzJjRnJ4Q2NTTTJkR3pmOVQvLzFT?=
+ =?utf-8?B?R085K3FuY2hpWTUyYlNNTzFuNllieHk2ckhER3Nmbmc3YzI4N21JajRUVmFr?=
+ =?utf-8?B?VlgvcHpxNEs4QW1jQllGWmFBTG45dkdqSjZSQmd6ZDNiWXBKcUJ4T2RKdHdk?=
+ =?utf-8?B?ZHRnTVZZSjVOYVQ3ZzJzck5yTGxIUDVIUDJ4VUhXdnprQlFBNkMraklLVW1m?=
+ =?utf-8?B?eE5sazNrTHFIMmJMNHVLQUxSK2VPWkc5WTR1T3RxMVpiektEQ2ZjVU9zZk5J?=
+ =?utf-8?B?eW9Kc1FTOW8zcGc3ZEgrcE1uOXF5YVMzbE92YzBXQ0ZCS2N1cE9NR0paZitY?=
+ =?utf-8?B?M0Y5Z0pVRXhPa3FPU2d1ZzlJQmFZT3hWRnVzTXBRQkRMc1JVOHlaNW1xMEUy?=
+ =?utf-8?B?YUh5a2tGQllzM25TVWk2QjBvWUUwRk8wbWhEOGZNNlBEM0tJbjN4SDlEbjVa?=
+ =?utf-8?B?d2FhcWtJdWNHOFFjQ3l6eFdYdkU3NHJ4bnQ4eTMwSFhRTmF2eTcvb050YUNJ?=
+ =?utf-8?B?MjBlRlpFaHZtSU45TlpqUWY5QTZYdE5XQW1xWlpFTnhxbStLRC82VnRhT01a?=
+ =?utf-8?B?QXhXaFhESjJrRGxXUEh4SGxYNDltd3kxSFllY1h0L0g0eDAxa0hraXIyUkpw?=
+ =?utf-8?B?ZDZEYW1xWkZaK3ZKdjlPNCtLL0VJVkh0Wjd0Zm5zWHAwU3orWWVXSjJYb0pZ?=
+ =?utf-8?B?YjVDaHpqQXJhTFR3UTBIdC9mVTlRWXFERTFjZXllcmFFRlRvTTQvcWxGWXV4?=
+ =?utf-8?B?UGxlNHB5dzFqRUI4dHpQL3N0Qk5xOEZoL3ErYVFZeUNIcmZZbXRGVDVibkpS?=
+ =?utf-8?B?WGp3MXdPUWdmdlJJbjlacWcxb2dBemlJQTBHZVVONi9vbDRXQUVZMDNJQ3dN?=
+ =?utf-8?B?RGlEVGhsQ2QzRjcwWGlkTzB3TjZCMFdBN3dwYUxQT09hR2FzSVRvTTZHSkJv?=
+ =?utf-8?B?aFo3cXZOTG5acW0rWEtrQkxMVytKcFdtWm1qOFpaSDQ1aXhUMmk3M3NHNTBZ?=
+ =?utf-8?B?elp3VzZQQ2xpYTRLVjkxQzBwL1JBK1AvQXJDa2RPalNEaDkwYURKSWFRaVln?=
+ =?utf-8?B?aVkzcHBpQUcrUnlaQ3RCZm5PMVRXVVNFNlcxcG5ROUdIU3lXa2NDcUxQNitG?=
+ =?utf-8?B?cm9MNDMvTko1MnRhWFJQa0FSWFY5V0RJckNMd0FqS2psYTlDMnN5UkRnNUtV?=
+ =?utf-8?B?anRkWWlHWHE0UWw1N3pTRlhEdkIvZ0V2Ty9Sd3hXK2l6UWwrdE1TS1kySk1i?=
+ =?utf-8?B?ejVnM0VYeEdWOFlzVE8ybThDNlhkbWxkcnVmMWhlT2NGbVBwam5LTG9lRFJt?=
+ =?utf-8?B?RFZ5VjFycW95VmJIRTJJMU16K0dlSXJJQlFsMEtaOEpKcEpLbWl3Z2RkY1BP?=
+ =?utf-8?B?VVdpVVNaZWFXbFE3RUNUcHl1alVNeTBLeENBWjJwTEc5MjhydXJMQzVMUUx1?=
+ =?utf-8?B?T2pPSEVpTlU2UVZLeHpuaXRUdHl4SnM5ME5aV25tcnBlR1loTjJBRnpoci9C?=
+ =?utf-8?B?Q1JaZXFhb3lwVk1HejdVRnFWdWVjRWNqanJ6YkdUOS9rN0V3UDFPWDJES1V0?=
+ =?utf-8?B?TG1JYnZsMkUvKzB0VlB6ZURoTlFEMEVLVzhpZXRtSWxTbEhlMmd6VVFQajMx?=
+ =?utf-8?B?NTIvQ29GOXBTd2lOeEQrd1dwc3RqMFNQZzRud0JZNDhxd3JObFpOenQzL1Ew?=
+ =?utf-8?B?WVJMUWVwWGpXeG5mcWJPVXN2M29RWDZUcW1qWEJKamd1UCt0cDI1dTNpS0lt?=
+ =?utf-8?B?eVRKN0owTlFyTmJVUzE1eUdDUG5wc281aGxpWjhSaHBzcEhETFM5ekx1Yjdy?=
+ =?utf-8?B?Z2oxN3A1LzJZZ0IxeUdWTDJlNmxZRy9McExCSHJ1bEJITCtwRHo2UXFnK2RZ?=
+ =?utf-8?B?TFo2czkzMGdmT3VxZXliQW1pVkVEMjJpOVFkcEI4eEgrbm0xd2hqa0lrbTNr?=
+ =?utf-8?B?NFI2ZndkTmtPY1J0ekttd0ZGTTdsNkJhM1JGMXFrSlBGQk9sU3NIWGppMUxo?=
+ =?utf-8?B?Tml2UXRCZVVoWlAxK2FRNXlPbm1nPT0=?=
 X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013)(13003099007);
- DIR:OUT; SFP:1101; 
+ SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024); DIR:OUT;
+ SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: ESXffWIPa8QE0xPhn/8Ocpnh3W4sB+2SHLrb1npZ/fZA5PAi2kJc9O1kkw64XM+QCKucMlm1xKZSE1Wnvxc8AfhKzM5eDVdXrKKunaUchlUJjGcmImxhKXMQDXHEbiZxnb/0A+91F3kIJYbJZ2ntWpG6iM+K+GLDNGtoFZpIbs8wqCxmhQMNXK4BEbRr4HZWPvnjshgKdXd9PyfOn3xz1+OZDovEqbFzjywtLH8X+9/ySpoiR8wHADEPXgdSh6LCli0/curWxFJAoP6aOXnULp95Le4caQJa8yvXryM0ea5T3wyI/ddipbPxSPMWf/Noo54mKrNH7x3cTlz4TRk2/spmkQKmu2JqERA4FzZ1atnsjXHZt/iz2wqnT+jq/GAzOvF4sja3yvEbDUagQxmD6ii/+JwBkCjcR6o6O6m+FQRCMvme0i5gAry+3nfF1Jve
+X-MS-Exchange-AntiSpam-MessageData-0: WLc3j7WPSD7ETnpsN5OnfYFgq/SBZ8dBin10YcfTOyAGGAB5yyRhUjwv4cwbIA+poP3AjL0FFz1b1pursY9TVlKr/jAAKpZNcMjyIV6hcy9R61cMWGjpD+SvfncLu27KZneTRCQXQNrr0qOc6UDULMTdrsQYd88SFBHgC3G9E4u+YDZlVZ2zxz1u/1BWZ0J/kKteTKuoP983yMWK/wqb/UX3KzzBHONnMFWDw6CVxHTaWu+anQJAYwwoYullCMVE3kCfOOZ2x7J6OQJZJlqyeTGqGtDEqjL4Y97giD/79sMPsFFZGUxYsL+R//ZSOfk8VEOw7OPdL84h/SRsH2EANyPajbaRS+7xaXbOFLcwF5BFJtRKYz90z7IbbNtXMHY4KWPONil9YoaCSGCCYJB/j0Z86zDVhgXeE7T7yE9QH5v//L99cPV+Vp+lggXuxrKv
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2026 14:35:11.6325 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4552810c-2882-43b1-0ee5-08de619f1b41
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2026 14:35:15.2597 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a9e8f2e-96d6-418b-d7e7-08de619f1d6c
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B06C.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B06B.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4234
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6916
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -205,88 +201,98 @@ X-Spamd-Result: default: False [-2.31 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[8]
-X-Rspamd-Queue-Id: E607EC62D5
+X-Rspamd-Queue-Id: 12692C62C7
 X-Rspamd-Action: no action
 
-This patch series introduces dma-buf export support for RDMA/InfiniBand
-devices, enabling userspace applications to export RDMA PCI-backed
-memory regions (such as device memory or mlx5 UAR pages) as dma-buf file
-descriptors.
+From: Yishai Hadas <yishaih@nvidia.com>
 
-This allows PCI device memory to be shared with other kernel subsystems
-(e.g., graphics or media) or between userspace processes, via the 
-standard dma-buf interface, avoiding unnecessary copies and enabling
-efficient peer-to-peer (P2P) DMA transfers. See [1] for background on
-dma-buf.
+Add support for uobjects that wrap externally allocated file
+descriptors (FDs).
 
-As part of this series, we introduce a new uverbs object of type FD for 
-dma-buf export, along with the corresponding APIs for allocation and 
-teardown. This object encapsulates all attributes required to export a
-dma-buf.
+In this mode, the FD number still follows the standard uverbs allocation
+flow, but the file pointer is allocated externally and has its own fops
+and private data.
 
-The implementation enforces P2P-only mappings and properly manages
-resource lifecycle, including:
-- Cleanup during driver removal or RDMA context destruction.
-- Revocation via dma_buf_move_notify() when the underlying mmap entries
-  are removed.
-- Refactors common cleanup logic for reuse across FD uobject types.
-
-The infrastructure is generic within uverbs, allowing individual drivers
-to easily integrate and supply their vendor-specific implementation.
-
-The mlx5 driver is the first consumer of this new API, providing:
-- Initialization of PCI peer-to-peer DMA support.
-- mlx5-specific implementations of the mmap_get_pfns and 
-  pgoff_to_mmap_entry device operations required for dma-buf export.
-
-[1] https://docs.kernel.org/driver-api/dma-buf.html
+As a result, alloc_begin_fd_uobject() must handle cases where
+fd_type->fops is NULL, and both alloc_commit_fd_uobject() and
+alloc_abort_fd_uobject() must account for whether filp->private_data
+exists, since it is populated outside the standard uverbs flow.
 
 Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
 Signed-off-by: Edward Srouji <edwards@nvidia.com>
 ---
-Changes in v3:
-- Wait for importers to complete their unmap() calls after
-  dma_buf_move_notify(), ensuring all mappings are properly cleaned up
-  before revocation
-- Add unpin callback to pair with pin (both are required by dma-buf ops)
-- Link to v2: https://lore.kernel.org/r/20260121-dmabuf-export-v2-0-6381183bcc3d@nvidia.com
+ drivers/infiniband/core/rdma_core.c | 35 +++++++++++++++++++++--------------
+ 1 file changed, 21 insertions(+), 14 deletions(-)
 
-Changes in v2:
-- Split the FD uobject refactoring into a separate patch
-  ("RDMA: Add support for exporting dma-buf file descriptors")
-- Remove redundant revoked check from attach callback. It is checked
-  during map
-- Add pin callback that returns -EOPNOTSUPP to explicitly refuse pinned
-  importers
-- Wait for pending fences after dma_buf_move_notify() using
-  dma_resv_wait_timeout() to ensure hardware has completed all in-flight
-  operations before proceeding
-- Link to v1: https://lore.kernel.org/r/20260108-dmabuf-export-v1-0-6d47d46580d3@nvidia.com
+diff --git a/drivers/infiniband/core/rdma_core.c b/drivers/infiniband/core/rdma_core.c
+index 18918f463361..b6eda2fb0911 100644
+--- a/drivers/infiniband/core/rdma_core.c
++++ b/drivers/infiniband/core/rdma_core.c
+@@ -465,7 +465,7 @@ alloc_begin_fd_uobject(const struct uverbs_api_object *obj,
+ 
+ 	fd_type =
+ 		container_of(obj->type_attrs, struct uverbs_obj_fd_type, type);
+-	if (WARN_ON(fd_type->fops->release != &uverbs_uobject_fd_release &&
++	if (WARN_ON(fd_type->fops && fd_type->fops->release != &uverbs_uobject_fd_release &&
+ 		    fd_type->fops->release != &uverbs_async_event_release)) {
+ 		ret = ERR_PTR(-EINVAL);
+ 		goto err_fd;
+@@ -477,14 +477,16 @@ alloc_begin_fd_uobject(const struct uverbs_api_object *obj,
+ 		goto err_fd;
+ 	}
+ 
+-	/* Note that uverbs_uobject_fd_release() is called during abort */
+-	filp = anon_inode_getfile(fd_type->name, fd_type->fops, NULL,
+-				  fd_type->flags);
+-	if (IS_ERR(filp)) {
+-		ret = ERR_CAST(filp);
+-		goto err_getfile;
++	if (fd_type->fops) {
++		/* Note that uverbs_uobject_fd_release() is called during abort */
++		filp = anon_inode_getfile(fd_type->name, fd_type->fops, NULL,
++					  fd_type->flags);
++		if (IS_ERR(filp)) {
++			ret = ERR_CAST(filp);
++			goto err_getfile;
++		}
++		uobj->object = filp;
+ 	}
+-	uobj->object = filp;
+ 
+ 	uobj->id = new_fd;
+ 	return uobj;
+@@ -561,7 +563,9 @@ static void alloc_abort_fd_uobject(struct ib_uobject *uobj)
+ {
+ 	struct file *filp = uobj->object;
+ 
+-	fput(filp);
++	if (filp)
++		fput(filp);
++
+ 	put_unused_fd(uobj->id);
+ }
+ 
+@@ -628,11 +632,14 @@ static void alloc_commit_fd_uobject(struct ib_uobject *uobj)
+ 	/* This shouldn't be used anymore. Use the file object instead */
+ 	uobj->id = 0;
+ 
+-	/*
+-	 * NOTE: Once we install the file we loose ownership of our kref on
+-	 * uobj. It will be put by uverbs_uobject_fd_release()
+-	 */
+-	filp->private_data = uobj;
++	if (!filp->private_data) {
++		/*
++		 * NOTE: Once we install the file we loose ownership of our kref on
++		 * uobj. It will be put by uverbs_uobject_fd_release()
++		 */
++		filp->private_data = uobj;
++	}
++
+ 	fd_install(fd, filp);
+ }
+ 
 
----
-Yishai Hadas (3):
-      RDMA/uverbs: Support external FD uobjects
-      RDMA/uverbs: Add DMABUF object type and operations
-      RDMA/mlx5: Implement DMABUF export ops
-
- drivers/infiniband/core/Makefile                  |   1 +
- drivers/infiniband/core/device.c                  |   2 +
- drivers/infiniband/core/ib_core_uverbs.c          |  24 +++
- drivers/infiniband/core/rdma_core.c               |  63 ++++---
- drivers/infiniband/core/rdma_core.h               |   1 +
- drivers/infiniband/core/uverbs.h                  |  21 +++
- drivers/infiniband/core/uverbs_std_types_dmabuf.c | 200 ++++++++++++++++++++++
- drivers/infiniband/core/uverbs_uapi.c             |   1 +
- drivers/infiniband/hw/mlx5/main.c                 |  72 ++++++++
- include/rdma/ib_verbs.h                           |   9 +
- include/rdma/uverbs_types.h                       |   1 +
- include/uapi/rdma/ib_user_ioctl_cmds.h            |  10 ++
- 12 files changed, 379 insertions(+), 26 deletions(-)
----
-base-commit: 325e3b5431ddd27c5f93156b36838a351e3b2f72
-change-id: 20260108-dmabuf-export-0d598058dd1e
-
-Best regards,
 -- 
-Edward Srouji <edwards@nvidia.com>
+2.47.1
 
