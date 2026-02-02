@@ -2,91 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2G1bE5d+gGnE8wIAu9opvQ
+	id wMRsO6N/gGnE8wIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:38:15 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:42:43 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BCDCB14A
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:38:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E85E7CB1EE
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:42:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46F8910E42A;
-	Mon,  2 Feb 2026 10:38:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6915810E428;
+	Mon,  2 Feb 2026 10:42:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="akKj7T/u";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UkI/vjVv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D0E610E428
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 10:38:09 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-4807068eacbso35365365e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 02:38:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1770028688; x=1770633488; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=z1Zr9CZPjcDp+rU0IFgfIbOKfXeqeyWHk38cKV69c90=;
- b=akKj7T/u3vOwD2yndNtyaTjdPdGNwUfAYm+n1I4Ft6zQhNmQWlEt28uoSJ9ccDhjFx
- XIy9EurZwlH3uqR+3Za4sqdR1ke4E5g9eL40yIey5OW6izOs4NvX/Lm+MkIhAz3URdfA
- tOF9zPEyV1Dlth0w5zpdagxkMfpck1q6ZDUclcTk5GqugZPQ2ryXOXm8EpbZpLQWEZvZ
- QhzgjyMQhV4nmKuhrgT4o67zXDBvVXFVKG5zvGgTMln/fAjJ2gk4uiXRtBBc/Qo1F10O
- mrrkvuB4A9cbAHe+LmjoEfLeP3LGuQaubqdsQ4VCvaShZRM2gKaJciAAACaBn2WSTKyn
- m0nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770028688; x=1770633488;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=z1Zr9CZPjcDp+rU0IFgfIbOKfXeqeyWHk38cKV69c90=;
- b=M5wZiTCMqsgGeeeFFrZa6X+0qgWVelM27kNRKVwekfuZ2YjEKUY/oCitC7WZsijgKz
- 7i4JbwzqJD9GbBuo7EesRtlzl3NU74HsMUkSTFV3GLLL00VL6sMfLjUpswz3+SXR8/Hl
- O9yn3L4RPXsONxxeuclGFiggy1nkz7Vo5YtN4tZnN2EatzFFDwfNp2/qWsr7SYH6Y90z
- PYqoktmXg2Te8HjS/N0Ia8w+z5tmhoyX84CuALI6uCcQbec2MC6Ehlg2OfHPZRf5U97T
- eUUyM3meJhvKrsM2PTYT0XFi2o9WQeXsu0xFrMK2MNtcmmQo5k55dH0Fwmt6s4azeX01
- Fo1w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXQ7AmeiLKslmHSq172QRTj1XDs729AobdlhhrGEwMWCv4ay5Z8hbPgbouVTGSF5T4Kh+VbBm69Bfs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwU+t+SADIFEv/scXMQvKt9pUmsVcoKGUK9C/N3tvdmbaPbSlIE
- I1JoatqUrLyOzYrWDAJ8+6WW2P3kU9D3f2FLk06oGU368ns/H8iGNEEcmWoU2LqxcSw=
-X-Gm-Gg: AZuq6aI+eu4+Sisfled+bhPjFJxvQZeEqWyqaADWafxYJ2APlq1B4BTg5a2u4Mvxyvj
- owvw2AJiuBixT1ryKWT/lg2ToUiX9QIOF8cpiYRB09w1q2+0VR5nbOaUTmTl0fPGFbH2kM6nzf3
- X4MSqFIev8L2+AQ5nSPPmp0JqpQW+Z987ePLf5GxyrBWNyDqXUmChu1OYOq2bvDjxcU5PP8oMa/
- 4teMwPY1WnQwVsIVyMr7+8kM14BKpF8Vl6QpOZLMzqxb5EwFV+Ev4PNe7SF3c+aKZuCJdmnUs3Q
- RiPIFwJe2CUagxg6330iyReyykPy8YpXfy18mlcd/X5M+9ET/MDBNn8StE4qXRyZZAvXcz8FX9v
- 8GVLL325pJTIp5eYdISqUp1zhpj2NOktnUlO0ECTGbv8ZrVqWgWdBzQPLdDjLJx/NVjc4j+BlNh
- soY84FKjZkogm77w==
-X-Received: by 2002:a05:600c:3148:b0:480:1e9e:f9b with SMTP id
- 5b1f17b1804b1-482db45d7eemr147372575e9.16.1770028688023; 
- Mon, 02 Feb 2026 02:38:08 -0800 (PST)
-Received: from linux ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-435e1354d43sm47020132f8f.43.2026.02.02.02.38.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Feb 2026 02:38:07 -0800 (PST)
-From: Marco Crivellari <marco.crivellari@suse.com>
-To: linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Frederic Weisbecker <frederic@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Marco Crivellari <marco.crivellari@suse.com>,
- Michal Hocko <mhocko@suse.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH v4 2/2] drm/xe: add WQ_PERCPU to alloc_workqueue users
-Date: Mon,  2 Feb 2026 11:37:56 +0100
-Message-ID: <20260202103756.62138-3-marco.crivellari@suse.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260202103756.62138-1-marco.crivellari@suse.com>
-References: <20260202103756.62138-1-marco.crivellari@suse.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E474810E428;
+ Mon,  2 Feb 2026 10:42:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1770028959; x=1801564959;
+ h=message-id:subject:from:to:cc:in-reply-to:references:
+ content-transfer-encoding:mime-version:date;
+ bh=HfbgfI4yoG07K2TM8oxZOyfmUnfK+HlfALUvR7rwYzE=;
+ b=UkI/vjVvVKIbz+skpsLv6eoJNN4qT5xvR3rT4gCsEILAw50oiX/ItkkE
+ L8QfcxcrWqG8wiBHZSuINfdXJz1GWjGkHfAkyfE7EIOHPHLIjwLEHvJFI
+ RhrNv8kYICxBDYr1VHxLTrnyFqay1oFznG/sfb7EdAQeI9wtruR/f6aIb
+ iDSElJPSLLSqfJNfcNltWJYKGr+L7OcpWDi5DvhfkZbFN7fAg3DbN/OdA
+ 2rFN6CZkfJ3RlGR38Z1uYAsmD5f3NH+OXhEt8b0M4R93xxKHVM9xP2RK/
+ xvX54E+BN9/U69/M0dRV7PHH933Tv0e2rDESXhhiPby3mI8Jp5OLLFIHd A==;
+X-CSE-ConnectionGUID: 3Rp0psYgS5m7hnG2Nc/Hiw==
+X-CSE-MsgGUID: E2OqxZBDTx686Ro9Y4c00A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="70902269"
+X-IronPort-AV: E=Sophos;i="6.21,268,1763452800"; d="scan'208";a="70902269"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2026 02:42:38 -0800
+X-CSE-ConnectionGUID: pV+IQe09Sm2wunR2/xlRUw==
+X-CSE-MsgGUID: U+mXd3PfRU2BapCal+fMkw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,268,1763452800"; d="scan'208";a="213591322"
+Received: from abityuts-desk.ger.corp.intel.com (HELO [10.245.244.223])
+ ([10.245.244.223])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2026 02:42:34 -0800
+Message-ID: <d8c02e59a4cdd2d02b41aa5ce8dcd36a94fbba86.camel@linux.intel.com>
+Subject: Re: [PATCH] mm/hmm: Fix a hmm_range_fault() livelock / starvation
+ problem
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Alistair Popple <apopple@nvidia.com>
+Cc: Matthew Brost <matthew.brost@intel.com>, John Hubbard
+ <jhubbard@nvidia.com>,  Andrew Morton <akpm@linux-foundation.org>,
+ intel-xe@lists.freedesktop.org, Ralph Campbell <rcampbell@nvidia.com>, 
+ Christoph Hellwig	 <hch@lst.de>, Jason Gunthorpe <jgg@mellanox.com>, Jason
+ Gunthorpe <jgg@ziepe.ca>,  Leon Romanovsky	 <leon@kernel.org>,
+ linux-mm@kvack.org, stable@vger.kernel.org, 	dri-devel@lists.freedesktop.org
+In-Reply-To: <ymg5yawktqtw7vfgt77iciqzxhjlsnqrwnjx3xmkflbjqbmq5s@jcxzcymqq2af>
+References: <20260130100013.fb1ce1cd5bd7a440087c7b37@linux-foundation.org>
+ <57fd7f99-fa21-41eb-b484-56778ded457a@nvidia.com>
+ <2d96c9318f2a5fc594dc6b4772b6ce7017a45ad9.camel@linux.intel.com>
+ <aX5RQBxYB029/dkt@lstrano-desk.jf.intel.com>
+ <0025ee21-2a6c-4c6e-a49a-2df525d3faa1@nvidia.com>
+ <aX+oUorOWPt1xbgw@lstrano-desk.jf.intel.com>
+ <81b9ffa6-7624-4ab0-89b7-5502bc6c711a@nvidia.com>
+ <aX/AgHAZ7Tl4iOua@lstrano-desk.jf.intel.com>
+ <lbqqmohxpeynsrunbdyvod2fm4tinzq5coueh2mq6weubste5x@y4f5weqvwszg>
+ <f48e3d818c6e20d6ea7a7fbd6b1741f25df17a78.camel@linux.intel.com>
+ <ymg5yawktqtw7vfgt77iciqzxhjlsnqrwnjx3xmkflbjqbmq5s@jcxzcymqq2af>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Mon, 02 Feb 2026 11:41:56 +0100
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,121 +91,280 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linutronix.de,suse.com,linux.intel.com,intel.com,ffwll.ch];
-	FORGED_SENDER(0.00)[marco.crivellari@suse.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:linux-kernel@vger.kernel.org,m:intel-xe@lists.freedesktop.org,m:tj@kernel.org,m:jiangshanlai@gmail.com,m:frederic@kernel.org,m:bigeasy@linutronix.de,m:marco.crivellari@suse.com,m:mhocko@suse.com,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,m:airlied@gmail.com,m:simona@ffwll.ch,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[marco.crivellari@suse.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[suse.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: E2BCDCB14A
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[intel.com:+]
+X-Rspamd-Queue-Id: E85E7CB1EE
 X-Rspamd-Action: no action
 
-This continues the effort to refactor workqueue APIs, which began with
-the introduction of new workqueues and a new alloc_workqueue flag in:
+On Mon, 2026-02-02 at 21:25 +1100, Alistair Popple wrote:
+> On 2026-02-02 at 20:30 +1100, Thomas Hellstr=C3=B6m
+> <thomas.hellstrom@linux.intel.com> wrote...
+> > Hi,
+> >=20
+> > On Mon, 2026-02-02 at 11:10 +1100, Alistair Popple wrote:
+> > > On 2026-02-02 at 08:07 +1100, Matthew Brost
+> > > <matthew.brost@intel.com>
+> > > wrote...
+> > > > On Sun, Feb 01, 2026 at 12:48:33PM -0800, John Hubbard wrote:
+> > > > > On 2/1/26 11:24 AM, Matthew Brost wrote:
+> > > > > > On Sat, Jan 31, 2026 at 01:42:20PM -0800, John Hubbard
+> > > > > > wrote:
+> > > > > > > On 1/31/26 11:00 AM, Matthew Brost wrote:
+> > > > > > > > On Sat, Jan 31, 2026 at 01:57:21PM +0100, Thomas
+> > > > > > > > Hellstr=C3=B6m
+> > > > > > > > wrote:
+> > > > > > > > > On Fri, 2026-01-30 at 19:01 -0800, John Hubbard
+> > > > > > > > > wrote:
+> > > > > > > > > > On 1/30/26 10:00 AM, Andrew Morton wrote:
+> > > > > > > > > > > On Fri, 30 Jan 2026 15:45:29 +0100 Thomas
+> > > > > > > > > > > Hellstr=C3=B6m
+> > > > > > > > > > > wrote:
+> > > > > > > > > > ...
+> > > > > > > > I=E2=80=99m not convinced the folio refcount has any bearin=
+g if
+> > > > > > > > we
+> > > > > > > > can take a
+> > > > > > > > sleeping lock in do_swap_page, but perhaps I=E2=80=99m miss=
+ing
+> > > > > > > > something.
+> > >=20
+> > > I think the point of the trylock vs. lock is that if you can't
+> > > immediately
+> > > lock the page then it's an indication the page is undergoing a
+> > > migration.
+> > > In other words there's no point waiting for the lock and then
+> > > trying
+> > > to call
+> > > migrate_to_ram() as the page will have already moved by the time
+> > > you
+> > > acquire
+> > > the lock. Of course that just means you spin faulting until the
+> > > page
+> > > finally
+> > > migrates.
+> > >=20
+> > > If I'm understanding the problem it sounds like we just want to
+> > > sleep
+> > > until the
+> > > migration is complete, ie. same as the migration entry path. We
+> > > don't
+> > > have a
+> > > device_private_entry_wait() function, but I don't think we need
+> > > one,
+> > > see below.
+> > >=20
+> > > > > > diff --git a/mm/memory.c b/mm/memory.c
+> > > > > > index da360a6eb8a4..1e7ccc4a1a6c 100644
+> > > > > > --- a/mm/memory.c
+> > > > > > +++ b/mm/memory.c
+> > > > > > @@ -4652,6 +4652,8 @@ vm_fault_t do_swap_page(struct
+> > > > > > vm_fault
+> > > > > > *vmf)
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 vmf->page =3D
+> > > > > > softleaf_to_page(entry);
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 ret =3D
+> > > > > > remove_device_exclusive_entry(vmf);
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else if
+> > > > > > (softleaf_is_device_private(entry))
+> > > > > > {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 st=
+ruct dev_pagemap *pgmap;
+> > > > > > +
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 if (vmf->flags &
+> > > > > > FAULT_FLAG_VMA_LOCK)
+> > > > > > {
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * migrate_to_r=
+am is not
+> > > > > > yet
+> > > > > > ready to operate
+> > > > > > @@ -4670,21 +4672,15 @@ vm_fault_t do_swap_page(struct
+> > > > > > vm_fault
+> > > > > > *vmf)
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> > > > > > vmf-
+> > > > > > > orig_pte)))
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto unlock;
+> > > > > >=20
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 * Get a page reference while we
+> > > > > > know
+> > > > > > the page can't be
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 * freed.
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 */
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if=
+ (trylock_page(vmf->page)) {
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dev_pagemap *pgmap;
+> > > > > > -
+> > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 get_page(vmf->page);
+> > >=20
+> > > At this point we:
+> > > 1. Know the page needs to migrate
+> > > 2. Have the page locked
+> > > 3. Have a reference on the page
+> > > 4. Have the PTL locked
+> > >=20
+> > > Or in other words we have everything we need to install a
+> > > migration
+> > > entry,
+> > > so why not just do that? This thread would then proceed into
+> > > migrate_to_ram()
+> > > having already done migrate_vma_collect_pmd() for the faulting
+> > > page
+> > > and any
+> > > other threads would just sleep in the wait on migration entry
+> > > path
+> > > until the
+> > > migration is complete, avoiding the livelock problem the trylock
+> > > was
+> > > introduced
+> > > for in 1afaeb8293c9a.
+> > >=20
+> > > =C2=A0- Alistair
+> > >=20
+> > > > >=20
+> >=20
+> > There will always be a small time between when the page is locked
+> > and
+> > when we can install a migration entry. If the page only has a
+> > single
+> > mapcount, then the PTL lock is held during this time so the issue
+> > does
+> > not occur. But for multiple map-counts we need to release the PTL
+> > lock
+> > in migration to run try_to_migrate(), and before that, the migrate
+> > code
+> > is running lru_add_drain_all() and gets stuck.
+>=20
+> Oh right, my solution would be fine for the single mapping case but I
+> hadn't
+> fully thought through the implications of other threads accessing
+> this for
+> multiple map-counts. Agree it doesn't solve anything there (the rest
+> of the
+> threads would still spin on the trylock).
+>=20
+> Still we could use a similar solution for waiting on device-private
+> entries as
+> we do for migration entries. Instead of spinning on the trylock (ie.
+> PG_locked)
+> we could just wait on it to become unlocked if it's already locked.
+> Would
+> something like the below completely untested code work? (obviously
+> this is a bit
+> of hack, to do it properly you'd want to do more than just remove the
+> check from
+> migration_entry_wait)
 
-   commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
-   commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
+Well I guess there could be failed migration where something is
+aborting the migration even after a page is locked. Also we must unlock
+the PTL lock before waiting otherwise we could deadlock.
 
-The refactoring is going to alter the default behavior of
-alloc_workqueue() to be unbound by default.
+I believe a robust solution would be to take a folio reference and do a
+sleeping lock like John's example. Then to assert that a folio pin-
+count, not ref-count is required to pin a device-private folio. That
+would eliminate the problem of the refcount held while locking blocking
+migration. It looks like that's fully consistent with=20
 
-With the introduction of the WQ_PERCPU flag (equivalent to !WQ_UNBOUND),
-any alloc_workqueue() caller that doesn’t explicitly specify WQ_UNBOUND
-must now use WQ_PERCPU. For more details see the Link tag below.
+https://docs.kernel.org/core-api/pin_user_pages.html
 
-In order to keep alloc_workqueue() behavior identical, explicitly request
-WQ_PERCPU.
+Then as general improvements we should fully unmap pages before calling
+lru_add_drain_all() as MBrost suggest and finally, to be more nice to
+the system in the common cases, add a cond_resched() to
+hmm_range_fault().
 
-Link: https://lore.kernel.org/all/20250221112
-Suggested-by: Tejun Heo <tj@kernel.org>
-Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
----
- drivers/gpu/drm/xe/xe_device.c          | 4 ++--
- drivers/gpu/drm/xe/xe_ggtt.c            | 2 +-
- drivers/gpu/drm/xe/xe_hw_engine_group.c | 3 ++-
- drivers/gpu/drm/xe/xe_sriov.c           | 2 +-
- 4 files changed, 6 insertions(+), 5 deletions(-)
+Thanks,
+Thomas
 
-diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-index 9cf82bde36c4..9e5fb0d4b8e7 100644
---- a/drivers/gpu/drm/xe/xe_device.c
-+++ b/drivers/gpu/drm/xe/xe_device.c
-@@ -508,8 +508,8 @@ struct xe_device *xe_device_create(struct pci_dev *pdev,
- 	xe->preempt_fence_wq = alloc_ordered_workqueue("xe-preempt-fence-wq",
- 						       WQ_MEM_RECLAIM);
- 	xe->ordered_wq = alloc_ordered_workqueue("xe-ordered-wq", 0);
--	xe->unordered_wq = alloc_workqueue("xe-unordered-wq", 0, 0);
--	xe->destroy_wq = alloc_workqueue("xe-destroy-wq", 0, 0);
-+	xe->unordered_wq = alloc_workqueue("xe-unordered-wq", WQ_PERCPU, 0);
-+	xe->destroy_wq = alloc_workqueue("xe-destroy-wq", WQ_PERCPU, 0);
- 	if (!xe->ordered_wq || !xe->unordered_wq ||
- 	    !xe->preempt_fence_wq || !xe->destroy_wq) {
- 		/*
-diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
-index 60665ad1415b..8b9d7c0bbe90 100644
---- a/drivers/gpu/drm/xe/xe_ggtt.c
-+++ b/drivers/gpu/drm/xe/xe_ggtt.c
-@@ -367,7 +367,7 @@ int xe_ggtt_init_early(struct xe_ggtt *ggtt)
- 	else
- 		ggtt->pt_ops = &xelp_pt_ops;
- 
--	ggtt->wq = alloc_workqueue("xe-ggtt-wq", WQ_MEM_RECLAIM, 0);
-+	ggtt->wq = alloc_workqueue("xe-ggtt-wq", WQ_MEM_RECLAIM | WQ_PERCPU, 0);
- 	if (!ggtt->wq)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/xe/xe_hw_engine_group.c b/drivers/gpu/drm/xe/xe_hw_engine_group.c
-index 2ef33dfbe3a2..4c2b113364d3 100644
---- a/drivers/gpu/drm/xe/xe_hw_engine_group.c
-+++ b/drivers/gpu/drm/xe/xe_hw_engine_group.c
-@@ -51,7 +51,8 @@ hw_engine_group_alloc(struct xe_device *xe)
- 	if (!group)
- 		return ERR_PTR(-ENOMEM);
- 
--	group->resume_wq = alloc_workqueue("xe-resume-lr-jobs-wq", 0, 0);
-+	group->resume_wq = alloc_workqueue("xe-resume-lr-jobs-wq", WQ_PERCPU,
-+					   0);
- 	if (!group->resume_wq)
- 		return ERR_PTR(-ENOMEM);
- 
-diff --git a/drivers/gpu/drm/xe/xe_sriov.c b/drivers/gpu/drm/xe/xe_sriov.c
-index ea411944609b..f3835867fce5 100644
---- a/drivers/gpu/drm/xe/xe_sriov.c
-+++ b/drivers/gpu/drm/xe/xe_sriov.c
-@@ -120,7 +120,7 @@ int xe_sriov_init(struct xe_device *xe)
- 		xe_sriov_vf_init_early(xe);
- 
- 	xe_assert(xe, !xe->sriov.wq);
--	xe->sriov.wq = alloc_workqueue("xe-sriov-wq", 0, 0);
-+	xe->sriov.wq = alloc_workqueue("xe-sriov-wq", WQ_PERCPU, 0);
- 	if (!xe->sriov.wq)
- 		return -ENOMEM;
- 
--- 
-2.52.0
 
+
+>=20
+> ---
+>=20
+> diff --git a/mm/memory.c b/mm/memory.c
+> index 2a55edc48a65..3e5e205ee279 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -4678,10 +4678,10 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+> =C2=A0				pte_unmap_unlock(vmf->pte, vmf-
+> >ptl);
+> =C2=A0				pgmap =3D page_pgmap(vmf->page);
+> =C2=A0				ret =3D pgmap->ops-
+> >migrate_to_ram(vmf);
+> -				unlock_page(vmf->page);
+> =C2=A0				put_page(vmf->page);
+> =C2=A0			} else {
+> -				pte_unmap_unlock(vmf->pte, vmf-
+> >ptl);
+> +				migration_entry_wait(vma->vm_mm,
+> vmf->pmd,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0 vmf->address);
+> =C2=A0			}
+> =C2=A0		} else if (softleaf_is_hwpoison(entry)) {
+> =C2=A0			ret =3D VM_FAULT_HWPOISON;
+> diff --git a/mm/migrate.c b/mm/migrate.c
+> index 5169f9717f60..b676daf0f4e8 100644
+> --- a/mm/migrate.c
+> +++ b/mm/migrate.c
+> @@ -496,8 +496,6 @@ void migration_entry_wait(struct mm_struct *mm,
+> pmd_t *pmd,
+> =C2=A0		goto out;
+> =C2=A0
+> =C2=A0	entry =3D softleaf_from_pte(pte);
+> -	if (!softleaf_is_migration(entry))
+> -		goto out;
+> =C2=A0
+> =C2=A0	migration_entry_wait_on_locked(entry, ptl);
+> =C2=A0	return;
