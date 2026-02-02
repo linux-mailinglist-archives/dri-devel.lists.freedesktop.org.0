@@ -2,87 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eMKTJ2WLgGnO9wIAu9opvQ
+	id YAe9DTiMgGnO9wIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 12:32:53 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 12:36:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E7F8CBB03
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 12:32:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84957CBB83
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 12:36:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9181A10E46E;
-	Mon,  2 Feb 2026 11:32:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3246810E43C;
+	Mon,  2 Feb 2026 11:36:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KzfAAskm";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Tpaxwh8q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1570C10E427
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 11:32:51 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-8230d228372so2259520b3a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 03:32:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770031970; x=1770636770; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NiX6sc+bte0/E+dFVuNXwgpx22zYYyWdASCMsSYGK9c=;
- b=KzfAAskmHubhR8p7+18tnGbcYCg5HkCAxf5oanXZXgZ8tHN70SmyoKduZlpho1wmj1
- Ru1gB0py/GnX49+iSiR5uNBs2zGmgF7Wq43p0MZ7mRkY2vjVGv/yQ2l0tSjJdIIbXji2
- 081bM+dwRG/kF4FmWGcl+9V3zJ6dELWp+DJdiUCRQyri/wUG7as4MsXKDfYxc9sx9qEV
- UHLeRy88AxkDVFPJTrz891pQ97+Dr/9TsP1g5XdDjGzdJPkoJQjhpngDmYNdI1hiO74I
- yNDMUZybU3t9qup77zkbQluIAKm+e789vNRGryAtpr3juW2kfaIG2NKLA5UeBqewRdMo
- 8MRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770031970; x=1770636770;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=NiX6sc+bte0/E+dFVuNXwgpx22zYYyWdASCMsSYGK9c=;
- b=fYN74w2kAOgN8NxKGgYXziVmuPMeEMZT5AsEzJdX12cnE/7RpJCI1k96+iMnCX6cdY
- MBwUCEVxeZXvmkBHDVUPX5RixpvqC0jsrVs538lcpiP+n/wb4oiPGmfZkaFpHof9EKQW
- 9GbEJrC2TZSWOS64fQO0CzI8iMbCXqRlMiy+/LEHVymL0lay/I78QqfuR87fLJeqUIZK
- XobzzSwaFSGXA+1zhV5p4GKoqiN3S+OH7AjHBKoxKbuTtz40zTvJoP86R86SkKLl41/v
- Vs54CLogBClze/SFcqV6QKjmd9WVmlyRGOyg50NPdkhQQJvpo4Z3Bl++FTaZpyWttVKH
- 8VBA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU9djCNeND/u5tMHxDaeUOLgmgflT52JdFizkvYCX57LF+2RNYq0gcqGg/msBweKL2HDOVq3r7tUAo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw+p5soMiIUs18c2bSajxzvefwyBGGux/CiNQw4ir/kP1o4EFaV
- K4zvXEtOWeNBFiHY4pTorO8XuhHUN5SSAezDyVKYxU/WBN0e5Sv44eegVHaKYA==
-X-Gm-Gg: AZuq6aJtUuduwGK7c4cTq2dYEeoGp76hrlR6Vki9mKEHEDZ8XAuetFRufd6IJ9Xhvwh
- EEIygYJNMgBgtNr5uBglJaUWpvqngng+svy2sBnMpaP4zFCtXQ3OTJw2Pv6SDXAO1dwR+18HHDf
- 87oxxwvEpLoI8PHb/oKydFpbLJDg7y79OYTNc6z5oK5K5HWez8Y9LpmloR3kl7bLf15JJ4ET4OE
- qevHMyqOAwdH/AqGQRwjvmGN4UB9dRgfOVcw6wu5nUQTqoXVZs5JHniwJemf83f5a0toYfccRuW
- Z/b08eseK7zQnppeUFRxfUyBCE2tmNL3EWLofwepmQ1esZtiEZw2ElKGftDKeSs3rAkvJ6Xr2zH
- mMU2kjdIc242B685muNrLjtIL4YLe031eZ1qWM8wWn/ekIfYHvXuximb8bLigbWjeFKq4I9YjMt
- +5BEFW1NtTjPMIeiXJo2qZYgz/y4OP1rHrOmuWJQ==
-X-Received: by 2002:a05:6a21:483:b0:366:19c9:b6b6 with SMTP id
- adf61e73a8af0-392e0000539mr10085643637.11.1770031970541; 
- Mon, 02 Feb 2026 03:32:50 -0800 (PST)
-Received: from name2965-Precision-7820-Tower.. ([121.185.186.233])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-c642a9f539dsm13743190a12.26.2026.02.02.03.32.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Feb 2026 03:32:50 -0800 (PST)
-From: Jeongjun Park <aha310510@gmail.com>
-To: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Jeongjun Park <aha310510@gmail.com>
-Subject: [PATCH 3/3 v2] drm/exynos: vidi: use ctx->lock to protect struct
- vidi_context member variables related to memory alloc/free
-Date: Mon,  2 Feb 2026 20:32:34 +0900
-Message-Id: <20260202113234.183393-4-aha310510@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260202113234.183393-1-aha310510@gmail.com>
-References: <20260202113234.183393-1-aha310510@gmail.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8F6710E44A
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 11:36:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1770032177;
+ bh=5+T6NBbTOKi5fFdIGf7MyRxemFEoYPdtjCY9XIxqzm8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Tpaxwh8qSOcmdkL0q6kxmIYGTXtYUz6hep7FpGOS/YimrC5uwASwn6CUG+rh+ZmVh
+ QlMo5AFmcNPVeb6/YdOSEdl8ZkfAnI0pRQP8klVqEWXqi0nakjSnbko8K2PyuV8f6s
+ y5FxBl7aCqOfUYLqDGpbmIW8JYi72+NeeMRCa735YCi+PoTcd9DIylD+eJQRI4Qdpt
+ Ti56+CRFfBNsRYSN6OHSWc2XPdz3MYfYLhKb3n+xudTrvOaBtR5LgR4BvZtfVKLP2F
+ gJ5t2kC5LCEmYOhYOotvm6wK3H6J9TZ0L+tdw8dSkoYNPRNhFKTT1q+4acsLZfrLQ2
+ 3quIaeGbv4NWg==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 7EA6517E0071;
+ Mon,  2 Feb 2026 12:36:16 +0100 (CET)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Chris Diamand <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Alice Ryhl <aliceryhl@google.com>, kernel@collabora.com
+Subject: [PATCH v2 0/8] drm/panthor: Add a GEM shrinker
+Date: Mon,  2 Feb 2026 12:35:59 +0100
+Message-ID: <20260202113607.1745667-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,199 +78,120 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:inki.dae@samsung.com,m:sw0312.kim@samsung.com,m:kyungmin.park@samsung.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:krzk@kernel.org,m:alim.akhtar@samsung.com,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:aha310510@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[aha310510@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,gmail.com,ffwll.ch,arm.com,oss.qualcomm.com,poorly.run,kernel.org,linux.intel.com,suse.de,collabora.com,intel.com,google.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:steven.price@arm.com,m:liviu.dudau@arm.com,m:adrian.larumbe@collabora.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:akash.goel@arm.com,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:akhilpo@oss.qualcomm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:dmitry.osipenko@collabora.com,m:chris.diamand@arm.com,m:dakr@kernel.org,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:aliceryhl@google.com,m:kernel@collabora.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[22];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,kernel.org,samsung.com,lists.freedesktop.org,lists.infradead.org,vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[aha310510@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 4E7F8CBB03
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gitlab.freedesktop.org:url]
+X-Rspamd-Queue-Id: 84957CBB83
 X-Rspamd-Action: no action
 
-Exynos Virtual Display driver performs memory alloc/free operations
-without lock protection, which easily causes concurrency problem.
+Hello,
 
-For example, use-after-free can occur in race scenario like this:
-```
-	CPU0				CPU1				CPU2
-	----				----				----
-  vidi_connection_ioctl()
-    if (vidi->connection) // true
-      drm_edid = drm_edid_alloc(); // alloc drm_edid
-      ...
-      ctx->raw_edid = drm_edid;
-      ...
-								drm_mode_getconnector()
-								  drm_helper_probe_single_connector_modes()
-								    vidi_get_modes()
-								      if (ctx->raw_edid) // true
-								        drm_edid_dup(ctx->raw_edid);
-								          if (!drm_edid) // false
-								          ...
-				vidi_connection_ioctl()
-				  if (vidi->connection) // false
-				    drm_edid_free(ctx->raw_edid); // free drm_edid
-				    ...
-								          drm_edid_alloc(drm_edid->edid)
-								            kmemdup(edid); // UAF!!
-								            ...
-```
+This is an attempt at adding a GEM shrinker to panthor so the system
+can finally reclaim GPU memory.
 
-To prevent these vulns, at least in vidi_context, member variables related
-to memory alloc/free should be protected with ctx->lock.
+This implementation is losely based on the MSM shrinker (which is why
+I added the MSM maintainers in Cc), and it's relying on the drm_gpuvm
+eviction/validation infrastructure.
 
-Cc: <stable@vger.kernel.org>
-Fixes: b73d12303ecf ("drm/exynos: added virtual display driver.")
-Signed-off-by: Jeongjun Park <aha310510@gmail.com>
----
- drivers/gpu/drm/exynos/exynos_drm_vidi.c | 38 ++++++++++++++++++++----
- 1 file changed, 32 insertions(+), 6 deletions(-)
+I've only done very basic IGT-based [1] and chromium-based (opening
+a lot of tabs on Aquarium until the system starts reclaiming+swaping
+out GPU buffers) testing, but I'm posting this early so I can get
+preliminary feedback on the implementation. If someone knows about
+better tools/ways to test the shrinker, please let me know.
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_vidi.c b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-index 601406b640c7..37733f2ac0e7 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_vidi.c
-@@ -186,29 +186,37 @@ static ssize_t vidi_store_connection(struct device *dev,
- 				const char *buf, size_t len)
- {
- 	struct vidi_context *ctx = dev_get_drvdata(dev);
--	int ret;
-+	int ret, new_connected;
- 
--	ret = kstrtoint(buf, 0, &ctx->connected);
-+	ret = kstrtoint(buf, 0, &new_connected);
- 	if (ret)
- 		return ret;
--
--	if (ctx->connected > 1)
-+	if (new_connected > 1)
- 		return -EINVAL;
- 
-+	mutex_lock(&ctx->lock);
-+
- 	/*
- 	 * Use fake edid data for test. If raw_edid is set then it can't be
- 	 * tested.
- 	 */
- 	if (ctx->raw_edid) {
- 		DRM_DEV_DEBUG_KMS(dev, "edid data is not fake data.\n");
--		return -EINVAL;
-+		ret = -EINVAL;
-+		goto fail;
- 	}
- 
-+	ctx->connected = new_connected;
-+	mutex_unlock(&ctx->lock);
-+
- 	DRM_DEV_DEBUG_KMS(dev, "requested connection.\n");
- 
- 	drm_helper_hpd_irq_event(ctx->drm_dev);
- 
- 	return len;
-+fail:
-+	mutex_unlock(&ctx->lock);
-+	return ret;
- }
- 
- static DEVICE_ATTR(connection, 0644, vidi_show_connection,
-@@ -243,11 +251,14 @@ int vidi_connection_ioctl(struct drm_device *drm_dev, void *data,
- 		return -EINVAL;
- 	}
- 
-+	mutex_lock(&ctx->lock);
- 	if (ctx->connected == vidi->connection) {
-+		mutex_unlock(&ctx->lock);
- 		DRM_DEV_DEBUG_KMS(ctx->dev,
- 				  "same connection request.\n");
- 		return -EINVAL;
- 	}
-+	mutex_unlock(&ctx->lock);
- 
- 	if (vidi->connection) {
- 		const struct drm_edid *drm_edid;
-@@ -281,14 +292,21 @@ int vidi_connection_ioctl(struct drm_device *drm_dev, void *data,
- 					  "edid data is invalid.\n");
- 			return -EINVAL;
- 		}
-+		mutex_lock(&ctx->lock);
- 		ctx->raw_edid = drm_edid;
-+		mutex_unlock(&ctx->lock);
- 	} else {
- 		/* with connection = 0, free raw_edid */
-+		mutex_lock(&ctx->lock);
- 		drm_edid_free(ctx->raw_edid);
- 		ctx->raw_edid = NULL;
-+		mutex_unlock(&ctx->lock);
- 	}
- 
-+	mutex_lock(&ctx->lock);
- 	ctx->connected = vidi->connection;
-+	mutex_unlock(&ctx->lock);
-+
- 	drm_helper_hpd_irq_event(ctx->drm_dev);
- 
- 	return 0;
-@@ -303,7 +321,7 @@ static enum drm_connector_status vidi_detect(struct drm_connector *connector,
- 	 * connection request would come from user side
- 	 * to do hotplug through specific ioctl.
- 	 */
--	return ctx->connected ? connector_status_connected :
-+	return READ_ONCE(ctx->connected) ? connector_status_connected :
- 			connector_status_disconnected;
- }
- 
-@@ -326,11 +344,15 @@ static int vidi_get_modes(struct drm_connector *connector)
- 	const struct drm_edid *drm_edid;
- 	int count;
- 
-+	mutex_lock(&ctx->lock);
-+
- 	if (ctx->raw_edid)
- 		drm_edid = drm_edid_dup(ctx->raw_edid);
- 	else
- 		drm_edid = drm_edid_alloc(fake_edid_info, sizeof(fake_edid_info));
- 
-+	mutex_unlock(&ctx->lock);
-+
- 	drm_edid_connector_update(connector, drm_edid);
- 
- 	count = drm_edid_connector_add_modes(connector);
-@@ -482,9 +504,13 @@ static void vidi_remove(struct platform_device *pdev)
- {
- 	struct vidi_context *ctx = platform_get_drvdata(pdev);
- 
-+	mutex_lock(&ctx->lock);
-+
- 	drm_edid_free(ctx->raw_edid);
- 	ctx->raw_edid = NULL;
- 
-+	mutex_unlock(&ctx->lock);
-+
- 	component_del(&pdev->dev, &vidi_component_ops);
- }
- 
---
+A few words about some design/implementation choices:
+- No MADVISE support because I want to see if we can live with just
+  transparent reclaim
+- We considered basing this implementation on the generic shrinker work
+  started by Dmitry [2], but
+  1. with the activeness/idleness tracking happening at the VM
+     granularity, having per-BO LRUs would caused a lot of
+     list_move()s that are not really needed (the VM as a whole
+     become active/idle, we can track individual BOs)
+  2. Thomas Zimmermann recently suggested that we should have our
+     own GEM implementation instead of trying to add this extra reclaim
+     complexity to gem-shmem. There are some plans to create a
+     gem-uma (Unified Memory Architecture) lib that would do more
+     than gem-shmem but in a way that doesn't force all its users
+     to pay the overhead (size overhead of the gem object, mostly)
+     for features they don't use. Patch "Part ways with
+     drm_gem_shmem_object" is showing what this component-based lib
+     API could look like if it were to be extracted
+- At the moment we only support swapout, but we could add an
+  extra flag to specify when buffer content doesn't need to be
+  preserved to avoid the swapout/swapin dance. First candidate for
+  this DISCARD_ON_RECLAIM flag would probably be the tiler heap chunks.
+- Reclaim uses _try_lock() all the way because of the various lock order
+  inversions between the reclaim path and submission paths. That means
+  we don't try very hard to reclaim hot GPU buffers, but the locking is
+  such a mess that I don't really see a better option to be honest.
+
+
+Changes in v2:
+- No fundamental changes in this v2, since the feedback I got were more
+  focused on bugs than the overall approach. Check the changelog in each
+  patch for more details.
+
+Regards,
+
+Boris
+
+[1]https://gitlab.freedesktop.org/bbrezillon/igt-gpu-tools/-/commit/fc76934a5579767d2aabe787d40e38a17c3f4ea4
+[2]https://lkml.org/lkml/2024/1/5/665
+
+Akash Goel (1):
+  drm/panthor: Add a GEM shrinker
+
+Boris Brezillon (7):
+  drm/gem: Consider GEM object reclaimable if shrinking fails
+  drm/panthor: Move panthor_gems_debugfs_init() to panthor_gem.c
+  drm/panthor: Group panthor_kernel_bo_xxx() helpers
+  drm/panthor: Part ways with drm_gem_shmem_object
+  drm/panthor: Lazily allocate pages on mmap()
+  drm/panthor: Split panthor_vm_prepare_map_op_ctx() to prepare for
+    reclaim
+  drm/panthor: Track the number of mmap on a BO
+
+ drivers/gpu/drm/drm_gem.c                |   10 +
+ drivers/gpu/drm/panthor/Kconfig          |    1 -
+ drivers/gpu/drm/panthor/panthor_device.c |   11 +-
+ drivers/gpu/drm/panthor/panthor_device.h |   73 ++
+ drivers/gpu/drm/panthor/panthor_drv.c    |   33 +-
+ drivers/gpu/drm/panthor/panthor_fw.c     |   16 +-
+ drivers/gpu/drm/panthor/panthor_gem.c    | 1409 ++++++++++++++++++----
+ drivers/gpu/drm/panthor/panthor_gem.h    |  138 ++-
+ drivers/gpu/drm/panthor/panthor_mmu.c    |  458 +++++--
+ drivers/gpu/drm/panthor/panthor_mmu.h    |    8 +
+ drivers/gpu/drm/panthor/panthor_sched.c  |    9 +-
+ 11 files changed, 1831 insertions(+), 335 deletions(-)
+
+-- 
+2.52.0
+
