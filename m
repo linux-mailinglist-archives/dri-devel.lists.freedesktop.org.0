@@ -2,180 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wE0AOL97gGnE8wIAu9opvQ
+	id qI/aC+x7gGnE8wIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:26:07 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:26:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33508CADDB
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:26:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 863C2CADF8
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:26:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DE2810E401;
-	Mon,  2 Feb 2026 10:26:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C14B210E415;
+	Mon,  2 Feb 2026 10:26:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="FTaIRIKA";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="srP47E5m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SA9PR02CU001.outbound.protection.outlook.com
- (mail-southcentralusazon11013051.outbound.protection.outlook.com
- [40.93.196.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E02210E401;
- Mon,  2 Feb 2026 10:25:59 +0000 (UTC)
+Received: from CH1PR05CU001.outbound.protection.outlook.com
+ (mail-northcentralusazon11010044.outbound.protection.outlook.com
+ [52.101.193.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 609AB10E413
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 10:26:48 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EwBEHPKkMDe9SFqzrSsh53rlVfKAuHp9pg2CkcXm6K/Fx6F3nLsWemQqv31efRS2RnIEjZCjtcOVyeYFVWqy5SiMzV9EyxALe8wK2YcjPVgL82w1IUjMaUpxca2Rmxx2GSB9+3IuHl9LyzFgFapTuYvROOsjJwg+MZn8x57TsB8A47wGQLC3gADisGbbq8xFWwbp4p9xS+8ygI6C1Vb3DGe74i40Gy7b1ynBYLUvgVftnS+i1Bn7EVyHQ7uRGWSZvR7JY4lK4F/sIxzoBfNauBZ1un/F+twJ1feknFCckolq2dWBmbv4gY12jVFOkCaFMz2KGaPEnS1drbntTa2SeA==
+ b=g9iF/+VX6lNbucvQ57FiE7blYaEgeQ24OEakmgWS3ncoYFT0W+3QwTHLapPwzcYQbRVC6qWlIZVBNoLWpgeDzk7YSK6SkzjNsK7OlFG8fPfdMbgERlX627xtNNt88qAeWgX2aeuIcRl1QU4b28OztpZjuCqhy1qvfp58K6f55vkwPVB8ipeYIQ8mKBCy04VkEnowpIlnv4oqkRyQcMK8efVn1hdAqfKmMCZLcseaQdzwHDKwxTjRimRiZpY8ZsLHNXCpSVW+mH5Q19p73l0mM8yMGZUTU69HvRR5OVRm8gP2IBEYGDAm9h88YBtEE7qZyrG4caSuVUgZ8iUyY7Pi+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lhhmpSd9nZaUHDthIlw8BWAr9QRQuEUIZKjFX5+T9ic=;
- b=NPGYymYVJD2u95Nwx/d8e5Ys8jdzJfy2NR+bIWAO6vIu3OsOi1E7HuNoFFPkvG8OYHhcrYPJZM0U9/DwS2olXLEFl6PlPtvSxmEcFAPRhMMk3BSrQlGaNgbPlC9F1QrewwfZ3H+WSfgZfl6yFNsqZo7YfRYrx7uW/L0q7ucw6yoht0afsKavPBdoGTAlXEnkvijyzxCJTEMmkGMATLTOej0Ghj68PZzrCVg5+vYONGZQdP8wpvbVtTE6+SNXR9XRI1Tvd4zv3JRTxi4gmTvwcBMPitlVILfeVq1Bs3mFqu7wa8VfVlfjesHD24MaL9MB9DDxQa76FKzx17FGQt2j/w==
+ bh=9hqaqWksTu7accyg1Ot/GcZVOteOdLtEJEhU4ghGvRc=;
+ b=rVbW7dKrX4Qr+FKf0b/3DVzoSoW0a9UgSkbNr4d5Z1LFm3BzNs/dFz0u/astuWjXm4yAWmDF9cGd/IyE9pXGQfcdXOFxFFi7oDpLZKlMbXLu3AAK4+U/9x5If6ppJ04sln+gXtTPvD2YMN/B82zc52qgIUp0dVhDgp+JfGFak7znPVC13RMvkcn/41OHS3+/h0JCd9+RE8OTptQ0oJilh0aegHAWxJcNHem/fO7f8pCiYzkscxsHEoN4p0OZRmWwnzkXblb0xEAVPk167YWclzp1lU5adcgnYRPPDQHfNCZ14tXpbkeP5xNhVvdQVT8ro7OyXkHnBCjjlwYA+Lf6FQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lhhmpSd9nZaUHDthIlw8BWAr9QRQuEUIZKjFX5+T9ic=;
- b=FTaIRIKA6mQ33uwmVFZYzzZlOyOkvhtGBAkH/0ikT7jhaRIL0xz8IG0NqR/V4YaY/rDN/4GsAhvzmha6wWM7s69J3va6HKdjzRi7aaNn6Dz48J68OyyhgDbZqW2nXk4NhaFR0vzxzwW56Fzq09j8O56gFoHalF0qoblX9wbeH+nB3vWF71LFfmdDETZd4zhexEu7TWYpruGzFvilx3tYtHOC+q5qc5KgwwWUVxRLoGdW0wkgmihFiOz70YSR+R85ollEmPh6NWMFkKKYqFIvbR7vdkNNd3IAdrJAosl9doUHYLkL9hafYkDV9br/yKQgIz3utSlNF+sgtErIgFFJFg==
+ bh=9hqaqWksTu7accyg1Ot/GcZVOteOdLtEJEhU4ghGvRc=;
+ b=srP47E5mo9rZppcHNwn6rUqtmjVs5cotJ3bhunho2kCw68hjkO6GzVKrmLY9/RQC3CAReWCwI8QMd4XNYAJGLcNSf7r8V6DCJ6dqqt/s3U5e0RlqivXcWZujg6zp31nnXlFkjG0gpkjUvN5cIyhHNcpyTbhUXEYWX4d2VjmmIRHSfTep+2fnjMdOLtgfTLRpEiE/wEti9qQqG6cE3E4090gu+phc0BNHfmpZeRNDf5Vwx67ysXB2XJ9Qouu0OnjziZM/M0bPMeRB1GVI5cpSKwfG2pXDOVmvZttsyw1SWiqj9TW6pGqayr2uStWlH4im64Q55Tv6DoVxvLumi6+Ifw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
- PH0PR12MB8007.namprd12.prod.outlook.com (2603:10b6:510:28e::5) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.16; Mon, 2 Feb 2026 10:25:54 +0000
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe%7]) with mapi id 15.20.9564.016; Mon, 2 Feb 2026
- 10:25:54 +0000
-Date: Mon, 2 Feb 2026 21:25:49 +1100
-From: Alistair Popple <apopple@nvidia.com>
-To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>, 
- John Hubbard <jhubbard@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
- intel-xe@lists.freedesktop.org, Ralph Campbell <rcampbell@nvidia.com>, 
- Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@mellanox.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- linux-mm@kvack.org, 
- stable@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] mm/hmm: Fix a hmm_range_fault() livelock / starvation
- problem
-Message-ID: <ymg5yawktqtw7vfgt77iciqzxhjlsnqrwnjx3xmkflbjqbmq5s@jcxzcymqq2af>
-References: <20260130100013.fb1ce1cd5bd7a440087c7b37@linux-foundation.org>
- <57fd7f99-fa21-41eb-b484-56778ded457a@nvidia.com>
- <2d96c9318f2a5fc594dc6b4772b6ce7017a45ad9.camel@linux.intel.com>
- <aX5RQBxYB029/dkt@lstrano-desk.jf.intel.com>
- <0025ee21-2a6c-4c6e-a49a-2df525d3faa1@nvidia.com>
- <aX+oUorOWPt1xbgw@lstrano-desk.jf.intel.com>
- <81b9ffa6-7624-4ab0-89b7-5502bc6c711a@nvidia.com>
- <aX/AgHAZ7Tl4iOua@lstrano-desk.jf.intel.com>
- <lbqqmohxpeynsrunbdyvod2fm4tinzq5coueh2mq6weubste5x@y4f5weqvwszg>
- <f48e3d818c6e20d6ea7a7fbd6b1741f25df17a78.camel@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f48e3d818c6e20d6ea7a7fbd6b1741f25df17a78.camel@linux.intel.com>
-X-ClientProxiedBy: SY5P282CA0045.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:10:206::12) To DS0PR12MB7726.namprd12.prod.outlook.com
- (2603:10b6:8:130::6)
+Received: from SJ2PR12MB9161.namprd12.prod.outlook.com (2603:10b6:a03:566::20)
+ by SA1PR12MB7151.namprd12.prod.outlook.com (2603:10b6:806:2b1::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Mon, 2 Feb
+ 2026 10:26:43 +0000
+Received: from SJ2PR12MB9161.namprd12.prod.outlook.com
+ ([fe80::d9d1:8c49:a703:b017]) by SJ2PR12MB9161.namprd12.prod.outlook.com
+ ([fe80::d9d1:8c49:a703:b017%4]) with mapi id 15.20.9564.007; Mon, 2 Feb 2026
+ 10:26:43 +0000
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: Thierry Reding <thierry.reding@kernel.org>,
+ Aaron Kling <webgeek1234@gmail.com>
+Cc: Kurt Kiefer <kekiefer@gmail.com>, Jasper Korten <jja2000@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/tegra: Enable cmu for Tegra186 and Tegra194
+Date: Mon, 02 Feb 2026 19:26:39 +0900
+Message-ID: <2691012.Lt9SDvczpP@senjougahara>
+In-Reply-To: <CALHNRZ-ZxBmbCNGyq77TWcNQwo9qhrB0znfRnsj7zy9GVE=jtA@mail.gmail.com>
+References: <20251101-tegra-drm-cmu-v1-1-211799755ab8@gmail.com>
+ <aXiSMlP-UKmrFKL7@orome>
+ <CALHNRZ-ZxBmbCNGyq77TWcNQwo9qhrB0znfRnsj7zy9GVE=jtA@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ClientProxiedBy: TY4P286CA0138.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:37f::12) To SJ2PR12MB9161.namprd12.prod.outlook.com
+ (2603:10b6:a03:566::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|PH0PR12MB8007:EE_
-X-MS-Office365-Filtering-Correlation-Id: 130e6eae-005e-46b5-a30b-08de62457259
+X-MS-TrafficTypeDiagnostic: SJ2PR12MB9161:EE_|SA1PR12MB7151:EE_
+X-MS-Office365-Filtering-Correlation-Id: 34c58a98-6101-4304-ca20-08de62458f56
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|1800799024|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?OFQxYzYxd25UZlJGRnJDYVhLeXRFQW1SNEplSnZWVi8xMSs1VWd6WGNXOFUw?=
- =?utf-8?B?YTY2cHB0UVVDdUhJUkpITVpDVTBLMWxDUWw0aUJrR3pKaXplV3MvaGxRQTdP?=
- =?utf-8?B?NzcxR0l5MUFCZ0ZISWhUdm1EU0hSOWdHTFlqWEVDRk5ock5tMmFLWlg5U0xK?=
- =?utf-8?B?QVdaM0hJMm5uYkVlZ1dLeFNUUDIrNk85czZVbDc0Ukd6bG5pQ0lEV3FrMmVT?=
- =?utf-8?B?bDNCMHRNQ1IzS0NtdDA4QVk1dGtVZXNmaHpQYnFJamhlTDduTkZacFZxQ1Av?=
- =?utf-8?B?TGIyTG9jdUVIa0thc244Z1RyOHkxUjlRT2JMQ25lWktVTGt4VFJGemd3YmVv?=
- =?utf-8?B?QTVseW92OE5YaFBUNXpzcmlUZ3hRL21sRnZ2VHQxVUVNUW5SWUdmSnFTSGpI?=
- =?utf-8?B?bzBYTXpDQUFTWGIvdEhPQXgzcGgxdFJBdm82YmdHQ08vTXlBd3drVHJuK01Y?=
- =?utf-8?B?Rk1OUmpaajd2V2pNK3VtYWY0bUF5ZGJlQVlPdDBVMzBadk9YTUFkc2c5VEhT?=
- =?utf-8?B?bWtDdjdmczF0WmtQT0hpZ3EvN0tnNTZvdlI5NGQ3bk5KRlJPa1Y2ZG12N0ZD?=
- =?utf-8?B?L0RPSGI0NG03alBreE4vdnFTa2Z1bjFuZndScnVxU3cvZXBZdFBpd1E2ci9J?=
- =?utf-8?B?dlNzZVpxVnZUZUU5UURYKzhkUHNUNmlwMlMyS2IyMnpqdklrc3RLNkUxVXlu?=
- =?utf-8?B?WklQbjVjRzd1bkJjcXU1Q0dVNFhXOElQUFlvQllKa2srUThOcjhvMXk1YUlj?=
- =?utf-8?B?c0RNbHRkaXhBV3pqR3hBK3I5eUk2ZnJBbXhFRUxleUxnUzVLc2R5djJGZ1pU?=
- =?utf-8?B?Y2lzUFYyZDZUUE9hTVFncTV1T2NwUGY3YXNYUlNkMlZ1NGs4WjN1WldReGZh?=
- =?utf-8?B?VWlXZWs4b24wbVR6SXdzdXFacDhlbGFROHl1dmh1R0JDaDZtcitVdnVJaUtE?=
- =?utf-8?B?SG0xTXJZckpXTzh0aVNUbE9sMjAvUnlCQkQwVU5aSXFlb283K2pCQThQSXd6?=
- =?utf-8?B?VEJyN0N5V2d6S3h0M3NKSzZhUXQ2c2VZQ0g2dzZZdzVJeE8ybHFqM2RRSTVR?=
- =?utf-8?B?aFBlVEFPaHJjS01jTTA3RW9aQ09hYzZmaDl0R01jRUo0MWJsaTNneFpyRldv?=
- =?utf-8?B?K3dHcVJpdzdDZ04ycDdBWVhuZ2I2dmRRTTN4VFQxU2hlQjMyOGp3RytvbGlR?=
- =?utf-8?B?OWxUb3dlNGVsTkpYSDl2VVpvM3U3dXdFTEZISGlCTVZJTVYySWhmbTlzRzBv?=
- =?utf-8?B?T2l6L0ZMSmRlUU9nSU9GVWppek9GQjNwLzRsUktJZXB1S2FVNnc0UjZVSDls?=
- =?utf-8?B?RVRYSGVZL1FiSlN4cDM0bnZ0UkJvOUVWT0I1RlBMUTBJL21sdU9vQUVSR1p1?=
- =?utf-8?B?elV0TjhOL29CQVAyU0lySXJTNm9uQmtKTWtKQ1NwcmV0RHdlRC9NUTZaZ0RM?=
- =?utf-8?B?Y016Uzk4S1Z3QlhVWElObk5xTWRHQlZ0L1BWSE02S2hCUW9pMTFGYW91cmxo?=
- =?utf-8?B?bE01QjVxcVROTklmTUc5bXBFcFZZQllDblVDMC9XZzE1YS9mdjN0RWwzTkd4?=
- =?utf-8?B?K2ZqK0x6TlRCV2dHNE8yK3ZJdGR1SDdPRHBKYThUZ2NLTFVMMlVESEhqWFFV?=
- =?utf-8?B?WXdwUEtlblVVTFo0R3RvT3pNK2kzWWhaQi9zdC9xNmhGdHBhQldjNE9YK3V4?=
- =?utf-8?B?dWFBRk5WY0lTWTk5dkRHaVZ1aFhVQ056WUxaZitpcXZveGlFanNJam0vbkpz?=
- =?utf-8?B?REVqNUd1OHhaalc2R2xyaUVFaTZFK3V4b2R3QmZGTXpzblM3MTRVWHUzdDZK?=
- =?utf-8?B?T3ZXS1l6d2tPK2h5V0FGVVBYMkRKZHVGejd5Vkx0NVQ5V05PY1Z5VXZJUDNy?=
- =?utf-8?B?R1o2R25vcjdxNGsvejRmblZUeTI5elRNMjhYaDRnYVdPamcreXRGd1BuTktI?=
- =?utf-8?B?RUlSeFdsQ3RhSStnbWx0Z1dhMWppSkNvMUNkcmlWQml4SkNhajVzb2hGQlhK?=
- =?utf-8?B?aGpkODJJRnMrcFgrNHJQWnNvQmpUQXZxYVd0YkRZcmJvejN3eGhZeVhMQlpn?=
- =?utf-8?B?QUd6Wmp1TVJuNDlqcHgxRFBhVGNwRmdFNHRVT1diUCs3Q3RvV1R3Y01INENI?=
- =?utf-8?Q?eKCI=3D?=
+ ARA:13230040|7416014|376014|10070799003|366016|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SkQzY3I3RDZMMGNsUGs4bjNmMms3ZWFLOERZelRNbEJ3dm1zUFlZeTBZUjN5?=
+ =?utf-8?B?NFFIMW1IWDl3VjN1Si9Nenp2U0RjWFk0TzdBdVFKTlc4dUE2blNaUEtBdWR0?=
+ =?utf-8?B?OUVyOGpHS21oempjV3A0dWVRRHRyeDh3NWVOWjR3UXFQL1lXVUpVeElObytE?=
+ =?utf-8?B?ZzB4cEgyTE9pcm5UZG5CN0hCblFYS1VzZFJFSUl6bWNncGR5V1RYUHlDNkNo?=
+ =?utf-8?B?M1NGbjRQcTJraytFZGFyU0I1K0dpbERoNDUwdkZhQ1MyNWxsUVRpaWNqVWNl?=
+ =?utf-8?B?eEo2L2JWOERaN0NKa29ncTZTUll3bzhBZ29hWHA2V1lOR2VpZEFON3d6dTV5?=
+ =?utf-8?B?OG1NakE1U0daU1BHTDlUMEQ2djBSSTBTTXhiN1dNcENjbUpxeUY4RmlRZ1Vp?=
+ =?utf-8?B?T2o0bGJjeDhDQ3JMc0ZIbERiQmdrMG5aM2ZxR0EzdWRrYUZlakFWdmpvamgx?=
+ =?utf-8?B?aWIxdUxEamh6SEs2My9qUkQybjhrNkpxdXVCNGRpcGlGQnNqRDlZN1RtUTlT?=
+ =?utf-8?B?K2s3dUo2ZUNFTXB6YkF2cHluYlFVMTZ6allsb3hXMU1INVg3OEgwcC9SSUEr?=
+ =?utf-8?B?OEs5WS9mL0NTa0VNY1VqQUZQeFZZUmZBRjdEblUwaHFjTlBoU3lYdTFZMVlC?=
+ =?utf-8?B?ZG1aa1MyUkErOXh0SUhvTFRFeGxMWkhjSFQwQ1RxcHRNMjROVmxTbHFGZWxt?=
+ =?utf-8?B?UURZUmhxQlVQZk9RZDYvMVF6ejdqV21CeUg1WmJuVXd6OHY3bU1HZXNYakkr?=
+ =?utf-8?B?eVhpc3ZrQ253TE1SaTNTT3RXMjFETG9XejNDSEk4bEpCNVArdEk3clFYT0Nh?=
+ =?utf-8?B?ME5obmRyVGZrM280N3FGM3YveHIxYXp5ekdXWmthY2lraUlhQnNPRTIyVEZv?=
+ =?utf-8?B?aWZmaEJVZEpXYnltNjdCUUpBQlRIZnErck96RnpYaG1yZnBGb2xjWWZXdWlJ?=
+ =?utf-8?B?RXBpMUJXazMzQTZxTzVDcmlVSjRTSWZTNTUxZkRkZ1FTSWlhYjByVU1sUEFF?=
+ =?utf-8?B?bGQwTU1xc1BZbnJMaFB5RTBDOEJ2cmJUMXFMVUdqUWRCTHJtTGtLaWpTRGJu?=
+ =?utf-8?B?aEZ6dWt4Wm01elFTY0Rid1UzR2RMUFJnZnFHbG1XT3lkc3g2eUhLdm9QWHFP?=
+ =?utf-8?B?NTJjaXVXUkliSmg2SUFCbndMWCtwQmdwb0ZFaGE5bGNBaElBOGFyR2lWemN6?=
+ =?utf-8?B?TERvSXBvdHNoZlVtbXF6U1pqMmJJVTZJTm1Ka3dxY1B2ZDF5Uk5sZzNZMzZZ?=
+ =?utf-8?B?S2UzeFBFUTc1RzhtMGY1WjQ4V0kyVUhITTU5UmFlbk14WjNnbEVjRmhWbnFX?=
+ =?utf-8?B?cmdieU96Y245NzNuKy9sUEJYcnZreHhRQWF4NE42OXErd0htUm5SeUdCSFBY?=
+ =?utf-8?B?dWw5VjRtcUtNVERsODl4N0VxU1dHVCsxSGt6ay9NZ2dQMFFiN1cwUDRNRkJB?=
+ =?utf-8?B?a052Z1pnMERnV0tOR3ljclExWGk5RC8yYWtSeStYZHc2WmZCS2lKR3pKK3Bv?=
+ =?utf-8?B?M250Z2xpNlZVVThaNmY1TzJTbWYzMXVhckFyZ3kzMVNGcXhYWkR1UDZzQ0ph?=
+ =?utf-8?B?a056Snp0czNaTitHNzFub1FiaFNISC8zdG9xYmhQcDNCcytLT3RLOEZNK291?=
+ =?utf-8?B?RTA3RHJUY3pNWk1IYTZNZmVhcUZBazhFNXptVXJWbFhoZUEzcXJQd0JJdkY2?=
+ =?utf-8?B?aXRNeXRqRDRmUXhKNE1vNUwvdk9lZ2NOL3l4cHFkVXNTbG4rMXpoYmxLSmMv?=
+ =?utf-8?B?a2kyZXJtMndhU2wxdzdiYXVtNyt1Uk8wZXJCTHZPMitrTHhsY09OTTI4c2JF?=
+ =?utf-8?B?aHdjcysxbTVicWJ5cUtBdUNJdmxyNG0xaitmcnVMQVNEcXFoQ1ZGK2I4U0dt?=
+ =?utf-8?B?SlFVRHY4elJFdHo3d005bnVSWEpIUFZqNE11UXowV0lQZG5tZlIvRnNNZW5R?=
+ =?utf-8?B?eXhHZ0lQZEhtVlNaWXpSMTQxeXcydllLT0cyNmlmOHNDS3c1dXI2VmszMzlJ?=
+ =?utf-8?B?UTFzNHg2WG5yR0VCM2dHRG9UVmluL01ISzVvRmVSTmlnQTdPczNPbFVpM0dN?=
+ =?utf-8?B?Q2JpcngyY3p0alpCUUQzNkIyWU81amhCK0xYbk8rV2xrUzMxRzJFZzJGbGRG?=
+ =?utf-8?Q?zJoo=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR12MB7726.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S0I2MVRiVXdtVjlFK05sZGw4YVJFaEttWElDdFVqNzhrclFQWFFkb2pJaVN2?=
- =?utf-8?B?aUN2WWtwZnY2Q0c2cStvRDEvSU5NVmFkVVFZRXFEa0tSVUNxYUEvUW9GOUxt?=
- =?utf-8?B?ejlmWklFWGl4UWxVN2RKVHlFMURTR3ZJNnVZa1R2WXU0dWNUVHJheHVKZjZW?=
- =?utf-8?B?Z1BMMEFvUDAyWi85d1dTL0hjTFU0RkhmZVIvSXZ0cjVqTlVQWjQyWTFqUTdm?=
- =?utf-8?B?c0FUZ2FoME8zcUJKU0p5TTlWOFVnNUtkbVJBN1Q2VnlOa2xoS25aYWl1R1Jr?=
- =?utf-8?B?RHRzODhjNE4xMnVpUGNrM2NmRGVmVHNocUNXN2lYYmp5RmYzeG53bERDMFFi?=
- =?utf-8?B?U2tldUVoQ0diQmNXYm1IWHQ1LzMvNkpndis1bENTQVJSK0xxc21WOHhFL01H?=
- =?utf-8?B?SFM1SWJjVlJkbFk4NFRZaTRVM3d0bjVRTUJOZGc2TXNTTXA5V01EUUtuQTNF?=
- =?utf-8?B?d0RJRmZ5bURrbVEvSG1DckdHOUQyZzAwY2JxbGlqMi8wL3E0cGNtRWtIdDdS?=
- =?utf-8?B?aDdZRTdTd1ZIVjBWSkJjaU5yY1dKUmFEeXpzbWJIRXAxL0krejU3ZDk2T2tq?=
- =?utf-8?B?Z1RzelZHREdEcDQySVlOS2cxb1lKdFl3T1QxU0JxV29qTXhHREFnSTNyd0tG?=
- =?utf-8?B?Ti9VK1F3MlpBdGUzQThBTmJkWmdUdkZNalJQRjB4OUNHbHJoV0l2ZzRrTnh1?=
- =?utf-8?B?c2xoVEFnZUVkb0R1MExFeUZnQnZzZ2tBYVc3a1B3NzNpVXBzVDBJajIyZ3c4?=
- =?utf-8?B?VVNlRWFZRkhjRmZPalVnUzRrQS82TjhmNHcxeGpZMHlGMjBwNTBoUXlaL0Nl?=
- =?utf-8?B?aWlsazhUaWM3NnZIc1kzZUdoVndPMVAyU0VISjBoQTNOV1g1T0hDamF1RXN0?=
- =?utf-8?B?Z0dmU2ZrWVJmcmJsNkNHVmRSSGlEMkUxdzlkdnVqaVpueCtxZEV4NEd2R2tC?=
- =?utf-8?B?bCtUcWk5aWVETnppbTJyYXp2VmtwSlM2dnk0U2piZGtPRGE4aENBU2ROZlhD?=
- =?utf-8?B?emNQbXU5Y002dEMzN2x6VXIra2xnVUN5eW5SeWQyT1hrQnVmWFg5eWxIdTIr?=
- =?utf-8?B?OHNYejZ4MS9Xa2l5YUFGVi8vc1hRcXBmcm9JSmlsRVZoaVkxeGw4aXY2cWpk?=
- =?utf-8?B?Ty9kN1hINEFwOG0yalpHenlNV3Vld2hKTzFmUllINUh1UkNNYXdQeU9aZHlr?=
- =?utf-8?B?dW9HaGJTUjVOQ2gxVmphRWpSQzZkdUZSWEV1eGlHUUlEOTJZU0dRby9jbWh4?=
- =?utf-8?B?YTEzNjMyTFNnWmlFT2pwclgrZlcxSHVGTFNjd3VLaWZZOW10U21PQnJ4SVlK?=
- =?utf-8?B?aVNYTGZYaGNTNmJyYjU1Y2l4eForakVxeDg0c3d6MmZqb01RUU41SHNBc2N2?=
- =?utf-8?B?aTBuYUNxRk5tYWYxTkVOVmQvVStaWXFwaVZONE9CdzNsR0d3S1I0aXNTSmE2?=
- =?utf-8?B?cXlKdzNlbFBMdnZaaGkrRzBYWVd0VWt4WDB1b3d0bjRwOGY4cUxuU1pYVVZt?=
- =?utf-8?B?ekY4ODlEOGFITXpveWQ0dDI4bXdsNzBKUWduZ0JVSEs5NllOeUh3SmtabUxn?=
- =?utf-8?B?OGpTVFI4T3hBWEVBYXF5MEdtbk1yekh4ektYSytCU3hTQm5EVlUycUtpVHRH?=
- =?utf-8?B?V2x6aG1HTWltZnR1cTZXakZUUEtuZjdFZDc0Tk1rN2lzdkNmQUN3WW5FdTYx?=
- =?utf-8?B?ZVBZdkg5ZmhqVHhRTjN6RGFhRm1yMXNuY05ncStKSU9JS2tLTnIyR29UR3E3?=
- =?utf-8?B?ZVlROVVHVWwveG5QdllyQkx2ZWxMRENlS0hCWHpSQ054NU02MnkwM2twSVFi?=
- =?utf-8?B?Z2t6UTlKQ091WDlGZFEwU0kzUkkrUEd6anB1RXdmeW5KMDF2TWVZQjdFVjhl?=
- =?utf-8?B?dzNpQ0p6L0pKaXF2NWdpQTR0U3Vyd3BMWnpYSXV1NVZPd0JrVU16MjByUlNn?=
- =?utf-8?B?WlFrSW1lOVV0NklXSkVBRmM1MW02KzVQc3dXZ3JDRlVNOTRQaGx6TnFrSWxk?=
- =?utf-8?B?bnpvMFJXSWNIbVJiVXQ3ZVd5TStVZGRGUjFBaDRNUHQ4dk4wRFkzaFV2TUFj?=
- =?utf-8?B?YnF2a2t6WmhjNFJ3U2VSbHhMb2h3NEJsMUl4SXpBd0c0eWI1eVNYNHd6K1h0?=
- =?utf-8?B?WHVTMWlMMkRzR3U2TzZVVFZ0dlFTTzRkcExLNDVqWkxGK2trZ3RzcnBrRGJv?=
- =?utf-8?B?L1lNU1JIWFQxQ2VudGhJNGY2U1VmSExlRlo5RkQ2SXNadjRlZUp6RTJCcXdH?=
- =?utf-8?B?Ulp2clgrMnJJRERySldVbU5yWDVMNmh4TzVYR3VmbCtRUTI5RCtJNTRRRnZW?=
- =?utf-8?B?M3JvZEtHZlZtMGQwTmNoQ1duMTJZd09qV0ZMNWVwTTNnMzVHZ3dKUT09?=
+ IPV:NLI; SFV:NSPM; H:SJ2PR12MB9161.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(10070799003)(366016)(1800799024)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Qi9JcC80aklIYVhSajV2YzFZdFB3VzZDSGJMdWUwa3VOQ1pHOTNWRFR1YkN4?=
+ =?utf-8?B?cWNaTzBWQy80TG1UMjB2ZWU5Y2c5dGdCck4rWm0xVWg4WHpDYjVrL2pkZkp4?=
+ =?utf-8?B?L1dKWVdjRzA3Wk04a04wa0FoMC9sbzBDOGlkem1kdERSTzFFNmZpcm91a0hY?=
+ =?utf-8?B?QnVzaUFOYlI3MVdIWkhiS2VkbmF3aE91L080OW15YUN0T3pEcXgvaTh1Zmpw?=
+ =?utf-8?B?cXdIWnhrSEFoTE13N1JITXpuWG9HK1VFQU9wdGZLekdkcG5VZXc0SjRZQTRS?=
+ =?utf-8?B?RHpPancwZnVwTzJJSllSOWREVHNRelRHQldrOGw2bDl1T0JZMzNaeWVmYmty?=
+ =?utf-8?B?aW5vNU8vNXZwL1o5OTk4R1cxUjVNNHlHcG5ucEd4eUtuS2t0K1FOaWo3elU5?=
+ =?utf-8?B?Y1J3QnBxM1o5OWxsMjZJNnlMZ0dpblU0WUpwNkd1UEgzTlRxNm5WYndmSlIx?=
+ =?utf-8?B?REFjT2w0ZnhDY2hwS1JLNnBnZGxHNkdNaUVkWWhJbHEzOG5PSC8zTTRLLzVo?=
+ =?utf-8?B?dlJxaGhVQ0pYM0MrR2c3elZaSFk3OSttenR0bjBhNndxc2tkQnRIYlBnSkJj?=
+ =?utf-8?B?UU1lbGhJZ2RUQ1pnaHlSYjV1a1FVTW5hNnhHbXcwT1hVdmZDYUhaSHNpYTQ4?=
+ =?utf-8?B?d3RTdzFiTDlDT1lzWjNtQy9nTldobDFqUU5XVnRacFZFZXpyNzdReExpbXdt?=
+ =?utf-8?B?Zm4ra0E3RS9tazN5dVViL05hUUNQdTZjS1k4eXkwQ2t3WUJLUFpFNVJXZ2lO?=
+ =?utf-8?B?cXJuRUMrbnJEZVN6TkNERjJoUERjb3N4dzRUS0NpTGpLa3lRRGtObWg0OGRh?=
+ =?utf-8?B?cVJwZno4d2E1VHNkSXJoZGZBc3gyelF1bXVqY0dZNE5PRE9sdi9LSU96Y0Vi?=
+ =?utf-8?B?ZW9zNGhQZTBKeVdZYS91R0ZzTkM0VGdDUDFKTjU5YlZ0bkFac2RpcE9hNVBp?=
+ =?utf-8?B?L3ZiUlYxYmh1ZjE1NUl4UmdteUc1VHZ3K2RLdEtleG5vSjJxVW5GWjJRS0lj?=
+ =?utf-8?B?bnYyZUlFdmlPYm16RENaM3FHUDltTE84RzhPZkRvQWpiWTNTUU54Z3ZER0RZ?=
+ =?utf-8?B?TDY3RFZoLzl4NHNyd0d6djFEMWprQW5XQkRiYmVmb2hsUjBxeGtnWHkwaFBt?=
+ =?utf-8?B?NmY5TU9sbGVHMFJQUVcvL09pMTFvaFlLeW9ZSVdFN3JGalVSQ1JRWnhMQytq?=
+ =?utf-8?B?d1hkSml5eVNWWVNNeEQyZjRYMVFhQ3JVNGxjN0JpeDk5SVkvOWhZcGswMG1k?=
+ =?utf-8?B?QUljWStUSEZ5TkU2Rmp1WEIvQllOdWJCK085d1JEUXdHMnM1cUpjTUovYmdk?=
+ =?utf-8?B?T2JYZk8zSlpxbUJWOXovK0cvelhJS2pyN1c3aWNLOEtvUnZqam1lNkVkTG9u?=
+ =?utf-8?B?R0RPamxqUVRWek1ZUXZPU1ZWYTdndGhxc2grZnFNREpScklmTWRMMkpSM056?=
+ =?utf-8?B?eTZOVGlzVTBHVWN4dlFzZG1uaFlodEsrNmhyMjY5YmRBZ1g2TXAvQkZEcWFr?=
+ =?utf-8?B?bmFYeWxrcmNuQmUzK3lkVU9odXFxbGFoRW1RNnF0aHAwUWw5QmExWlZlY1ZH?=
+ =?utf-8?B?bm10WnhySWJXLzhiRW04YTh4Mkxzbk84NkJWWjEveUc3cXlNWmphWTFvcWFa?=
+ =?utf-8?B?ZkdORkVmNmpmaHhiVjh4LysyeVZiOHJKS2RGUk4yZU5FZ3FKRDdHaXNFT2kx?=
+ =?utf-8?B?d1pNV0FzTnlvU2N4K2ZhUWlnbHFhMGpZWUk5eTJJMUJKSGw4Z0YvVFRIVk5X?=
+ =?utf-8?B?UmtveFFDcUhuOFZiTmxJYndFTjJQRHVDSkdsWDc1WkRNVlZwb1lMK1phZHYw?=
+ =?utf-8?B?M2xhczMrN3MxNHJEQndjQXNvQmE5YkNCekp4R0Q3elcyZWRCWXdWVHN1bnM5?=
+ =?utf-8?B?a0ptNlI1dEJQTENxdnZERVRnQndWY3I1STNVd0NoRXBtWDRlR3UxeWx1a1Y2?=
+ =?utf-8?B?b25BK0o3ZEVNU1JJOEVZakpiWktrWEx3Sml5b3B2bkplbnFQNExnZXhvSFM5?=
+ =?utf-8?B?Y1FnWjZSd3VnalowanR3SjJYRmJJb0E1dS9hZmFsalN0N3c3RmdXdDFabHZF?=
+ =?utf-8?B?clZOMVp5NDY0dnlPdS9Vcm15MGJPV2RRSkFHR0FiQWhsdXdSNTYzdVVDY0JW?=
+ =?utf-8?B?amR5eGZXcjk5bzRycUNiQlBxalE3Wk9TSm43QzBpZDEvOTkvb3RCcUwzUXJn?=
+ =?utf-8?B?aDRuT3llRjZVR0tsaHZxMElFcEhlLy94aE5EQmcvU1VPdnAzUVdLZ1RMWUty?=
+ =?utf-8?B?YVphdmFjaHlWcnIvT0hJT3NuQlJTTmpKNUM1TlAxTjdYQmZxWjJ5dlFzSjFm?=
+ =?utf-8?B?OXBFUjNLdElCQllvMUwwMjNJbDJKSWMvbW5DcGN4UktaTjM4YjRKM0NTYUhC?=
+ =?utf-8?Q?nMOmgsuhB3316k4rXaC8xVeWXlnCepK/f5FyBnETgOB7e?=
+X-MS-Exchange-AntiSpam-MessageData-1: 6nRkp30S4RhFHw==
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 130e6eae-005e-46b5-a30b-08de62457259
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34c58a98-6101-4304-ca20-08de62458f56
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB9161.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2026 10:25:54.5609 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2026 10:26:43.2466 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FKlMrZ/QHomd7HKHk4nojCUrk+E+3/b2PL9WubTYQm2ctCWWEzhGUxy6p0chKRerKCrwcLmM2BIapqD/zQbVVA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8007
+X-MS-Exchange-CrossTenant-UserPrincipalName: YtQoSvQPQI8P73aUxS3sAYjyVNMKYP4LyPzpBs+7h9PCB3Au78uGHSlT6U0FqFGj2YK/0sG+cSRnFK9IzHY3sA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7151
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -191,179 +183,260 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.81 / 15.00];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
 	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[apopple@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[mperttunen@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:thierry.reding@kernel.org,m:webgeek1234@gmail.com,m:kekiefer@gmail.com,m:jja2000@gmail.com,m:thierry.reding@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:jonathanh@nvidia.com,m:linux-tegra@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[Nvidia.com:+];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mperttunen@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,nvidia.com,lists.freedesktop.org,vger.kernel.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 33508CADDB
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,Nvidia.com:dkim]
+X-Rspamd-Queue-Id: 863C2CADF8
 X-Rspamd-Action: no action
 
-On 2026-02-02 at 20:30 +1100, Thomas Hellström <thomas.hellstrom@linux.intel.com> wrote...
-> Hi,
-> 
-> On Mon, 2026-02-02 at 11:10 +1100, Alistair Popple wrote:
-> > On 2026-02-02 at 08:07 +1100, Matthew Brost <matthew.brost@intel.com>
-> > wrote...
-> > > On Sun, Feb 01, 2026 at 12:48:33PM -0800, John Hubbard wrote:
-> > > > On 2/1/26 11:24 AM, Matthew Brost wrote:
-> > > > > On Sat, Jan 31, 2026 at 01:42:20PM -0800, John Hubbard wrote:
-> > > > > > On 1/31/26 11:00 AM, Matthew Brost wrote:
-> > > > > > > On Sat, Jan 31, 2026 at 01:57:21PM +0100, Thomas Hellström
-> > > > > > > wrote:
-> > > > > > > > On Fri, 2026-01-30 at 19:01 -0800, John Hubbard wrote:
-> > > > > > > > > On 1/30/26 10:00 AM, Andrew Morton wrote:
-> > > > > > > > > > On Fri, 30 Jan 2026 15:45:29 +0100 Thomas Hellström
-> > > > > > > > > > wrote:
-> > > > > > > > > ...
-> > > > > > > I’m not convinced the folio refcount has any bearing if we
-> > > > > > > can take a
-> > > > > > > sleeping lock in do_swap_page, but perhaps I’m missing
-> > > > > > > something.
-> > 
-> > I think the point of the trylock vs. lock is that if you can't
-> > immediately
-> > lock the page then it's an indication the page is undergoing a
-> > migration.
-> > In other words there's no point waiting for the lock and then trying
-> > to call
-> > migrate_to_ram() as the page will have already moved by the time you
-> > acquire
-> > the lock. Of course that just means you spin faulting until the page
-> > finally
-> > migrates.
-> > 
-> > If I'm understanding the problem it sounds like we just want to sleep
-> > until the
-> > migration is complete, ie. same as the migration entry path. We don't
-> > have a
-> > device_private_entry_wait() function, but I don't think we need one,
-> > see below.
-> > 
-> > > > > diff --git a/mm/memory.c b/mm/memory.c
-> > > > > index da360a6eb8a4..1e7ccc4a1a6c 100644
-> > > > > --- a/mm/memory.c
-> > > > > +++ b/mm/memory.c
-> > > > > @@ -4652,6 +4652,8 @@ vm_fault_t do_swap_page(struct vm_fault
-> > > > > *vmf)
-> > > > >                          vmf->page = softleaf_to_page(entry);
-> > > > >                          ret =
-> > > > > remove_device_exclusive_entry(vmf);
-> > > > >                  } else if (softleaf_is_device_private(entry))
-> > > > > {
-> > > > > +                       struct dev_pagemap *pgmap;
-> > > > > +
-> > > > >                          if (vmf->flags & FAULT_FLAG_VMA_LOCK)
-> > > > > {
-> > > > >                                  /*
-> > > > >                                   * migrate_to_ram is not yet
-> > > > > ready to operate
-> > > > > @@ -4670,21 +4672,15 @@ vm_fault_t do_swap_page(struct vm_fault
-> > > > > *vmf)
-> > > > >                                                          vmf-
-> > > > > >orig_pte)))
-> > > > >                                  goto unlock;
-> > > > > 
-> > > > > -                       /*
-> > > > > -                        * Get a page reference while we know
-> > > > > the page can't be
-> > > > > -                        * freed.
-> > > > > -                        */
-> > > > > -                       if (trylock_page(vmf->page)) {
-> > > > > -                               struct dev_pagemap *pgmap;
-> > > > > -
-> > > > > -                               get_page(vmf->page);
-> > 
-> > At this point we:
-> > 1. Know the page needs to migrate
-> > 2. Have the page locked
-> > 3. Have a reference on the page
-> > 4. Have the PTL locked
-> > 
-> > Or in other words we have everything we need to install a migration
-> > entry,
-> > so why not just do that? This thread would then proceed into
-> > migrate_to_ram()
-> > having already done migrate_vma_collect_pmd() for the faulting page
-> > and any
-> > other threads would just sleep in the wait on migration entry path
-> > until the
-> > migration is complete, avoiding the livelock problem the trylock was
-> > introduced
-> > for in 1afaeb8293c9a.
-> > 
-> >  - Alistair
-> > 
-> > > > 
-> 
-> There will always be a small time between when the page is locked and
-> when we can install a migration entry. If the page only has a single
-> mapcount, then the PTL lock is held during this time so the issue does
-> not occur. But for multiple map-counts we need to release the PTL lock
-> in migration to run try_to_migrate(), and before that, the migrate code
-> is running lru_add_drain_all() and gets stuck.
+On Wednesday, January 28, 2026 2:57=E2=80=AFAM Aaron Kling wrote:
+> On Tue, Jan 27, 2026 at 4:32=E2=80=AFAM Thierry Reding
+> <thierry.reding@kernel.org> wrote:
+> >
+> > On Tue, Jan 27, 2026 at 01:12:54PM +0900, Mikko Perttunen wrote:
+> > > On Thursday, January 22, 2026 2:08=E2=80=AFAM Kurt Kiefer wrote:
+> > > >
+> > > > > On Dec 8, 2025, at 8:23=E2=80=AFPM, Aaron Kling <webgeek1234@gmai=
+l.com> wrote:
+> > > > >
+> > > > > On Wed, Nov 5, 2025 at 3:28=E2=80=AFPM Jasper Korten <jja2000@gma=
+il.com> wrote:
+> > > > >>
+> > > > >> Hi all,
+> > > > >>
+> > > > >> On 11/4/25 19:12, Aaron Kling wrote:
+> > > > >>> On Tue, Nov 4, 2025 at 3:14=E2=80=AFAM Thierry Reding <thierry.=
+reding@gmail.com> wrote:
+> > > > >>>> On Mon, Nov 03, 2025 at 12:39:57PM -0600, Aaron Kling wrote:
+> > > > >>>>> On Mon, Nov 3, 2025 at 5:54=E2=80=AFAM Thierry Reding <thierr=
+y.reding@gmail.com> wrote:
+> > > > >>>>>> On Sat, Nov 01, 2025 at 06:15:17PM -0500, Aaron Kling via B4=
+ Relay wrote:
+> > > > >>>>>>> From: Aaron Kling <webgeek1234@gmail.com>
+> > > > >>>>>>>
+> > > > >>>>>>> Without the cmu, nvdisplay will display colors that are not=
+ably darker
+> > > > >>>>>>> than intended. The vendor bootloader and the downstream dis=
+play driver
+> > > > >>>>>>> enable the cmu and sets a sRGB table. Loading that table he=
+re results in
+> > > > >>>>>>> the intended colors.
+> > > > >>>>>>>
+> > > > >>>>>>> Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
+> > > > >>>>>>> ---
+> > > > >>>>>>>  drivers/gpu/drm/tegra/dc.h  |  13 +++
+> > > > >>>>>>>  drivers/gpu/drm/tegra/sor.c | 206 ++++++++++++++++++++++++=
+++++++++++++++++++++
+> > > > >>>>>>>  2 files changed, 219 insertions(+)
+> > > > >>>>>> What does "darker than intended" mean? Who defines the inten=
+tion? How do
+> > > > >>>>>> we know what the intention is? What this patch ultimately se=
+ems to be
+> > > > >>>>>> doing is define sRGB to be the default colorspace. Is that a=
+lways the
+> > > > >>>>>> right default choice? What if people want to specify a diffe=
+rent
+> > > > >>>>>> colorspace?
+> > > > >>>>> I reported this issue almost a month ago. See kernel lore [0]=
+ and
+> > > > >>>>> freedesktop issue [1]. The pictures in the latter show what n=
+vdisplay
+> > > > >>>>> looks like right now. It's nigh unusably dark. When booted in=
+to
+> > > > >>>>> Android with a tv launcher that has a black background, as is=
+ default
+> > > > >>>>> for LineageOS, it is really hard to read anything. Is it corr=
+ect as a
+> > > > >>>>> default? Well, cboot hardcodes this, so... presumably? It wou=
+ld be
+> > > > >>>>> more ideal to expose this and csc to userspace, but I'm not s=
+ure if
+> > > > >>>>> drm has a standardized interface for that or if tegra would h=
+ave to
+> > > > >>>>> make something vendor specific. I think that would be a separ=
+ate
+> > > > >>>>> change concept compared to setting this default, though.
+> > > > >>>> The reason I'm asking is because I don't recall ever seeing "b=
+roken"
+> > > > >>>> colors like you do. So I suspect that this may also be related=
+ to what
+> > > > >>>> display is connected, or the mode that we're setting.
+> > > > >> I have tried it on both a MacroSilicon HDMI capture card and an =
+Arzopa
+> > > > >> Z1FC 1080p portable monitor and run into the same darker colors.=
+ Both
+> > > > >> have in common that they use HDMI which seems to line up with wh=
+at Aaron
+> > > > >> is reporting. I do not have an eDP display to test or another ca=
+rrier
+> > > > >> board with a different display out to test.
+> > > > >>>> It could perhaps
+> > > > >>>> also be related to what infoframes we're sending and how these=
+ are
+> > > > >>>> supported/interpreted by the attached display.
+> > > > >>>>
+> > > > >>>> All of that is to say that maybe this looks broken on the part=
+icular
+> > > > >>>> setup that you have but may works fine on other setups. Changi=
+ng the
+> > > > >>>> default may fix your setup and break others.
+> > > > >>> Do you have a device set up so you can check? Or does the regre=
+ssion
+> > > > >>> test bench have a display that can be forwarded?
+> > > > >>>
+> > > > >>> My current setup is a rack of units plugged via hdmi to a kvm w=
+hich is
+> > > > >>> then plugged to a pikvm. I also observed this issue before I ha=
+d this
+> > > > >>> setup, plugged directly to a 1080p monitor. I have not checked
+> > > > >>> displayport. I can cycle through a couple other displays withou=
+t this
+> > > > >>> patch to see if I get any other result. I am fairly certain I h=
+ave
+> > > > >>> consistently seen this issue since I started trying to work wit=
+h
+> > > > >>> tegra-drm on kernel 6.1 or maybe even 5.15. I've never seen it =
+work to
+> > > > >>> allow for a bisect.
+> > > > >>>
+> > > > >>> I am in contact with one other person with a tx2 devkit, who
+> > > > >>> replicated the issue when I asked. Who plans to reply to this t=
+hread
+> > > > >>> with setup info later.
+> > > > >>
+> > > > >> For reference, I am said person. I have a Jetson TX2 Devkit that=
+ uses
+> > > > >> the P2771 Device Tree. I'm running a Fedora distrokernel with no
+> > > > >> additional patches applied by myself. I have personally noticed =
+the
+> > > > >> issue to at least be present on 6.14.5 and 6.17.4.
+> > > > >>
+> > > > >>
+> > > > >> I'm currently not at home to take screenshots with and without t=
+he
+> > > > >> submitted patch, but will be able to do it tomorrownight or frid=
+ay.
+> > > > >
+> > > > > Any further thoughts from the maintainers on this patch? As far a=
+s I
+> > > > > know, this is an issue for all users, at the very least on hdmi.
+> > > > >
+> > > > > Aaron
+> > > > >
+> > > >
+> > > > I can confirm that I have the same issue on a DisplayPort output of=
+ t194.
+> > > > IMO, this patch will need to be reworked a bit to enable the CMU fo=
+r this
+> > > > output as well. I hacked this change in for DisplayPort, and then i=
+t
+> > > > functioned as intended there as well.
+> > > >
+> > > > I've traced back to the reason this is necessary. The DC hub driver=
+ is
+> > > > applying an sRGB degamma for every RGB plane (presumably for blendi=
+ng),
+> > > > and then nothing reapplies the EOTF later on. Without gamma correct=
+ion
+> > > > in places where it is expected, images are going to look "too dark"=
+.
+> > > >
+> > > > Which does raise the point that there is an alternative implementat=
+ion
+> > > > where we do not degamma RGB planes in the first place. But this may=
+ have
+> > > > unintended consequences when it comes to composition.
+> > > >
+> > > > The SOR does not appear to handle YCbCr outputs at this time, so en=
+abling
+> > > > the CMU assuming an sRGB EOTF seems like a reasonable path here, to=
+ me.
+> > > >
+> > > > Kurt
+> > >
+> > > I tested this patch locally and did some investigation. Can confirm
+> > > that on my Jetson AGX Xavier, this patch (or disabling degamma) fixes
+> > > the color output.
+> > >
+> > > The colorspace the display expects from the incoming data is specifie=
+d
+> > > in the AVI infoframe. This is generated in
+> > > tegra_sor_hdmi_setup_avi_infoframe, which calls into
+> > > drm_hdmi_avi_infoframe_from_display_mode, which leaves a lot of field=
+s
+> > > set at the default.
+> > >
+> > > Currently we're advertising:
+> > > * colorimetry =3D no data -> for HD resolutions, use Rec. 709 primari=
+es.
+> > > These are the same as sRGB.
+> > > * itc =3D false -> NOT IT content.
+> > >
+> > > My understanding (based on some LLM research and otherwise) is that
+> > > this is likely to result in the display expecting Rec. 709 colors wit=
+h
+> > > Rec. 709 gamma. sRGB gamma is slightly different, and setting itc =3D
+> > > true would hint the display towards using sRGB gamma.
+> > >
+> > > However, what seems clear to me is that the display would be expectin=
+g
+> > > nonlinear data, so enabling gamma conversion at the output LUT seems
+> > > correct to me. So this patch would be a clear improvement (with the
+> > > fixes already discussed).
+> >
+> > I think ideally we want to hook this up to the DRM color management
+> > facilities, so that it can both be properly reported and configured
+> > at runtime.
+>=20
+> That would be ideal yes. But I don't have nearly the knowledge of DRM
+> or nvdisplay to wire this up. Is there someone at Nvidia that can make
+> time to do so?
+>=20
+> > Obviously we also want to make sure that the output pixels match what
+> > is advertised via the AVI infoframe. Looks like there's concensus that
+> > enabling the output LUT is the correct way to do that.
+>=20
+> If more fully featured CMU support can't be done in a reasonable
+> timeframe, I can address the earlier review comments and coordinate
+> with Kurt to replicate this for DP, then send a v2.
+>=20
+> Aaron
 
-Oh right, my solution would be fine for the single mapping case but I hadn't
-fully thought through the implications of other threads accessing this for
-multiple map-counts. Agree it doesn't solve anything there (the rest of the
-threads would still spin on the trylock).
+The DRM color management stuff should be mostly orthogonal to this, so yes,=
+ we should go forward with this patch.
 
-Still we could use a similar solution for waiting on device-private entries as
-we do for migration entries. Instead of spinning on the trylock (ie. PG_locked)
-we could just wait on it to become unlocked if it's already locked. Would
-something like the below completely untested code work? (obviously this is a bit
-of hack, to do it properly you'd want to do more than just remove the check from
-migration_entry_wait)
+Mikko
 
----
 
-diff --git a/mm/memory.c b/mm/memory.c
-index 2a55edc48a65..3e5e205ee279 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -4678,10 +4678,10 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
- 				pte_unmap_unlock(vmf->pte, vmf->ptl);
- 				pgmap = page_pgmap(vmf->page);
- 				ret = pgmap->ops->migrate_to_ram(vmf);
--				unlock_page(vmf->page);
- 				put_page(vmf->page);
- 			} else {
--				pte_unmap_unlock(vmf->pte, vmf->ptl);
-+				migration_entry_wait(vma->vm_mm, vmf->pmd,
-+						     vmf->address);
- 			}
- 		} else if (softleaf_is_hwpoison(entry)) {
- 			ret = VM_FAULT_HWPOISON;
-diff --git a/mm/migrate.c b/mm/migrate.c
-index 5169f9717f60..b676daf0f4e8 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -496,8 +496,6 @@ void migration_entry_wait(struct mm_struct *mm, pmd_t *pmd,
- 		goto out;
- 
- 	entry = softleaf_from_pte(pte);
--	if (!softleaf_is_migration(entry))
--		goto out;
- 
- 	migration_entry_wait_on_locked(entry, ptl);
- 	return;
+
