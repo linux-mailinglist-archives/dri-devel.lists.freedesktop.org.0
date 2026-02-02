@@ -2,99 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2P3qDI/PgGlBBwMAu9opvQ
+	id UOTwIM7ggGleCAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 17:23:43 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 18:37:18 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 785BBCEE6D
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 17:23:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F8FCFAB4
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 18:37:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B87610E2CE;
-	Mon,  2 Feb 2026 16:23:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B33710E532;
+	Mon,  2 Feb 2026 17:37:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="nfaXqux1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lGwd+w47";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7355410E2CE
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 16:23:39 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id
- 4fb4d7f45d1cf-658078d6655so9010828a12.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 08:23:39 -0800 (PST)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88DFE10E529
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 16:28:48 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-2a8ff2ca490so8562655ad.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 08:28:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1770049413; x=1770654213;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vaV3IL9ro8NZdhSR9VH7JUHGaFRzoo32AE2sGgVePaE=;
- b=nfaXqux1GJAfYBISVhhq3toECYlOTaU+/BckVLqHbaNfBH4wcQzEiucVvqgtFL9yaM
- F9PDSZDawzjcRHnY5J6dBmnCrxaoPkhEqa/RpuBkmz3dmymVpDsAr08rOtWlges/j0to
- 9sykdEMYy0aIp/TL7WWDq+KcB2vpsOO4BRHPI=
+ d=gmail.com; s=20230601; t=1770049728; x=1770654528; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=sahNc25e8V/0vokuer5AdT6A9YG4/1fX8go429GK/ZE=;
+ b=lGwd+w47gcPqLyZEgwywi8OM4r1QV624VsTTqnFfeaMZNNnu+SqJnKgntitYyl2AaQ
+ soaNmxGVfBfccY6gNjjpty71JkavduJuqMLlrC1MPMH7U/xobv4MabzAqdTGNZvAGGvZ
+ dJCNTWg3eQz9z8JmEf8mApYmy8xaZzSS9aHtOJbbTNWDhyAlfuZaxswYQcMd5n5aiYJ/
+ JSEj+MWcWnb4w9Dpkav/dgr5gMdM+1lpxQinHOYIX5wkxe+fPpaZE2dF6ER60hGgBw2z
+ 0fChMKTMGwi0+zlFBOhNRhHDioi8p7aItzgdL+410BVdRnWSARLkkofiyeJFNvjpG3wG
+ Z13w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770049413; x=1770654213;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=vaV3IL9ro8NZdhSR9VH7JUHGaFRzoo32AE2sGgVePaE=;
- b=iN75nhrfSaKdfzZK6NpkDhZ0v+hLyZbfKCq0OXPdHiRp3lOlhygU7ds6jmU/xfxbs8
- AM1XRR4eqIQFHUzj9n7F/IwSKfQshpWOrf7naxbeorFnxxsrz3ZPiOr5/gE3HQyWNmde
- gUvZqXhTmSmpHMKyc7jv1cRjEcmJmz9UzP7zcay6C3T8a6x8sXLQj0amH4RBfLk8WWvA
- FYWrjOtNlEK61PaZO+2KFsouo5SY+s6ndgIQVjbJ+ZvrBTqFyWMQ+i1aHYnBrGu+hGZ4
- xlFqJ5cL8jpwqSgsr7bAwYsha+yUnlhWk0GgmXLFyGKod1fyCtyqj0Clau0D98s1ftNS
- 6EuQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVu8xkVUGaGu0mH3BIYb+9bFl8jf7xle2lnmxom3cgmJVJROcHNznr1rf4lTDV8aVMQXTnloyW/0jw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzshvN1bafJgkFsAKl6cEKQjNQ+wGS2mBJUMSj5MUEMO98uQBYv
- YGepimQJa9iuAugPwWAZgiT6b6Mn5Wo3tqWt7+grqXPhqNjqiHTkmNFsN0niH1+SupsgfY1Cmdm
- Zb/8Z2Q==
-X-Gm-Gg: AZuq6aLJQMaaChefukrkxr+OHjxVDH9wunsGupHnOfWjBciNcbvRXdM6kWwwFoC8dzK
- besrRiPTP7qEexvQfQG99ukuKvytcaQjUTg5Ll8K68ztp2AXBPhJhp8wuI1Gag00A7j1Tw+4heg
- v5FIAfdMy+PDh6zJ2dTF7OORw1JY0lk13ILsq9IL/vBuxz4OY/UGgz0rsIkwmGAFY6Mp1yQSRAZ
- I7OD0wWWJDHoyiFmO7CrWYhRmDJ1zy8AsbIzfTq1S1/YusI53caKEE3pbRt2ttveFTcF4RcJ5Ve
- ItFkYtPrHJxJn6PxwebV3nKStmphARMoaGJFzann1kTnOVi+5Ov4nV25zETECfBD3LLEDkBTUdv
- Z0m272Ow8/kiEkeS7EeHc5hBdo0vZQ+OG0FtpF28QwLpjENm0xIg1BMF/jRvgbQUxYZ4LAw3N1Z
- Qq49t5kO094X1SomlkTSJIGG1u4W+IeJIuAY8+oUSOIT1BIscGTA==
-X-Received: by 2002:a17:906:6a1f:b0:b7a:39a2:7f50 with SMTP id
- a640c23a62f3a-b8dff66cbd2mr754998366b.39.1770049412664; 
- Mon, 02 Feb 2026 08:23:32 -0800 (PST)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com.
- [209.85.128.50]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b8de3046abasm732988766b.2.2026.02.02.08.23.30
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Feb 2026 08:23:30 -0800 (PST)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-47ee07570deso38819165e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 08:23:30 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCW2mK8x3MN7iOq7FZv9oh9c6ODMXqT0dZik2kGPi6FxyHCmTD9TD5Ln5ZP6rCo/1CsIvUGrKBV4Lxw=@lists.freedesktop.org
-X-Received: by 2002:a05:6000:2304:b0:435:9cd5:bb2a with SMTP id
- ffacd0b85a97d-435f3a7449amr17889894f8f.24.1770049409825; Mon, 02 Feb 2026
- 08:23:29 -0800 (PST)
+ d=1e100.net; s=20230601; t=1770049728; x=1770654528;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sahNc25e8V/0vokuer5AdT6A9YG4/1fX8go429GK/ZE=;
+ b=I2cPf1W/MAj0ajNuQruRxMqIhFlzoT0sewqRnzC0b4asEUUShk8MOQgo2SSJt6ks1q
+ dzBPWUiIL2pCzm0pvdt7PM2pTh+9wg0xoLvaXeXZ0VaHvy3GQ5SIBELTqjqf3rUI+rpe
+ SHnARKnIlovLwoAr+oZ5bHd6rzZou8wl04vBjek8B0QkY5OEmrdG8YEP4hCQnJb05SjH
+ PfWVnNgUx5OyhUxY76yfdh5KgVTKxOBsIFoQlR7cIM9O0Hv9ukgZz8N6Dd5Gvaw+3irw
+ nVMmJyoFa97QCOTc7YKTJjijTWoTyElNDWugDJtx2BQZ1/3iMKdPYDY0+OF69U108nnk
+ BMAA==
+X-Gm-Message-State: AOJu0YxvI2XcN3tLj0QZWVNPM9OIZBRkpKtt//IIBYMFcLTL0Z/VA4pZ
+ BZO37WvS6S5WDbFug5rYSsXvgcgGt+zAw5hV+gA1e+Uthq6gtnxcb2Rq
+X-Gm-Gg: AZuq6aKBMiATtonRyXEmEYVeEvKL/hYkBAtrP99gCElD6eW22Uo/xvjwP80gqACgqoJ
+ qJNLlha5k+Nwc+c9jNFVcYG6PLZJn7/fiKOXI4TXooaHr2d/sNsm67VryqX4i91b+1C9mF36l8p
+ Mb71p1ZwEVbMGxVWNEQ7EIZGXMypag/sJvDPCIR5Ka+b06T5otkeQ6pROyIYMnkxSJz5HyVemHC
+ lnRthEZIEbTZrCpYSWjFtltwd8dPFtZc19F0eFpa2ezFAC4L7s11mAKUuaPcQCzHkfzHVV9Sg29
+ SZzvUpDZSqx44JURK0qoMzUsmqW6tNxE9LyJSx30cbNuX8Q9GL2Jb6RiZO+ytihDiRLUaKnAvKG
+ UQyAtytUz3UGgjGqUoLRn+/tmCvF4a+mqQWPIjnckCy/je5nU6HSqsJnz4CtL+5JrHzDU7Vcv/Z
+ j7maXjmTd6kLuQHR+kDUvl0yQ=
+X-Received: by 2002:a17:902:db09:b0:2a3:bf5f:926b with SMTP id
+ d9443c01a7336-2a8d818b2bemr140531225ad.47.1770049727956; 
+ Mon, 02 Feb 2026 08:28:47 -0800 (PST)
+Received: from krishna.. ([103.220.210.247]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2a88b3eee8bsm142211405ad.6.2026.02.02.08.28.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Feb 2026 08:28:47 -0800 (PST)
+From: KrishnaAgarwal1308 <krishnaworkemail1308@gmail.com>
+To: Andy Shevchenko <andy@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ KrishnaAgarwal1308 <krishnaworkemail1308@gmail.com>
+Subject: [PATCH] staging: fbtft: fix macro flow control warning and empty
+ macro argument in fbtft-bus.c
+Date: Mon,  2 Feb 2026 21:58:26 +0530
+Message-ID: <20260202162826.116739-1-krishnaworkemail1308@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20260124124959.196051-3-caio.ishikawa@proton.me>
-In-Reply-To: <20260124124959.196051-3-caio.ishikawa@proton.me>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 2 Feb 2026 08:23:16 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=Vd3PbB9h4=n=8ArkMJ8g1VKxpxSk8pLDJ4gDYn1_=4aw@mail.gmail.com>
-X-Gm-Features: AZwV_Qh9MOMFDj_D9NVUaM65CMldX-k36ArrFEYXuZ-hMHRf3G7YEdTaS_DTrds
-Message-ID: <CAD=FV=Vd3PbB9h4=n=8ArkMJ8g1VKxpxSk8pLDJ4gDYn1_=4aw@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: boe-th101mb31ig002: Remove use of deprecated
- mipi_dsi_dcs_nop()
-To: Caio Ishikawa <caio.ishikawa@proton.me>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 02 Feb 2026 17:37:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,56 +92,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linaro.org,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,lists.linux.dev,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:caio.ishikawa@proton.me,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[dianders@chromium.org,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dianders@chromium.org,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:andy@kernel.org,m:gregkh@linuxfoundation.org,m:linux-fbdev@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:krishnaworkemail1308@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[krishnaworkemail1308@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[krishnaworkemail1308@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,proton.me:email]
-X-Rspamd-Queue-Id: 785BBCEE6D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 25F8FCFAB4
 X-Rspamd-Action: no action
 
-Hi,
+Fix checkpatch warning by adding identity modifier for define_fbtft_write_reg().
+No functional change.
 
-On Sat, Jan 24, 2026 at 4:51=E2=80=AFAM Caio Ishikawa <caio.ishikawa@proton=
-.me> wrote:
->
-> Replace calls to deprecated mipi_dsi_dcs_nop() with
-> mipi_dsi_dcs_nop_multi(). No intended functional changes.
->
-> Signed-off-by: Caio Ishikawa <caio.ishikawa@proton.me>
-> ---
->  drivers/gpu/drm/panel/panel-boe-th101mb31ig002-28a.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+Signed-off-by: KrishnaAgarwal1308 <krishnaworkemail1308@gmail.com>
+---
+ drivers/staging/fbtft/fbtft-bus.c | 36 +++++++++++++++----------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
-Pushed to drm-misc-next:
+diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
+index 30e436ff19e4..0ab4f5c4f886 100644
+--- a/drivers/staging/fbtft/fbtft-bus.c
++++ b/drivers/staging/fbtft/fbtft-bus.c
+@@ -10,6 +10,7 @@
+  *   void (*write_reg)(struct fbtft_par *par, int len, ...);
+  *
+  *****************************************************************************/
++#define fbtft_identity(x) (x)
+ 
+ #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
+ void func(struct fbtft_par *par, int len, ...)                                \
+@@ -42,29 +43,28 @@ void func(struct fbtft_par *par, int len, ...)                                \
+ 	*buf = modifier((data_type)va_arg(args, unsigned int));               \
+ 	ret = fbtft_write_buf_dc(par, par->buf, sizeof(data_type) + offset,   \
+ 				 0);                                          \
+-	if (ret < 0)							      \
+-		goto out;						      \
+-	len--;                                                                \
+-									      \
+-	if (par->startbyte)                                                   \
+-		*(u8 *)par->buf = par->startbyte | 0x2;                       \
+-									      \
+-	if (len) {                                                            \
+-		i = len;                                                      \
+-		while (i--)						      \
+-			*buf++ = modifier((data_type)va_arg(args,             \
+-							    unsigned int));   \
+-		fbtft_write_buf_dc(par, par->buf,			      \
+-				   len * (sizeof(data_type) + offset), 1);    \
+-	}                                                                     \
+-out:									      \
++	if (ret >= 0) {							      \
++		len--;                                                                \
++											\
++		if (par->startbyte)                                                   \
++			*(u8 *)par->buf = par->startbyte | 0x2;                       \
++											\
++		if (len) {                                                            \
++			i = len;                                                      \
++			while (i--)						      \
++				*buf++ = modifier((data_type)va_arg(args,             \
++									unsigned int));   \
++			fbtft_write_buf_dc(par, par->buf,			      \
++					len * (sizeof(data_type) + offset), 1);    \
++		}                                                                     \
++	}											\
+ 	va_end(args);                                                         \
+ }                                                                             \
+ EXPORT_SYMBOL(func);
+ 
+-define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
++define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, fbtft_identity)
+ define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
+-define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
++define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, fbtft_identity)
+ 
+ void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
+ {
+-- 
+2.43.0
 
-[1/1] drm/panel: boe-th101mb31ig002: Remove use of deprecated mipi_dsi_dcs_=
-nop()
-      commit: 3c55330aac69150a1a4ff20684b41e7f66ad5fe9
