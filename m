@@ -2,116 +2,200 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id Ki0mHhRPgGkF6QIAu9opvQ
+	id SMJwNNxSgGla6QIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 08:15:32 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 08:31:40 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8587C91CE
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 08:15:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41137C92A9
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 08:31:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3B8910E170;
-	Mon,  2 Feb 2026 07:15:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CADCB10E24A;
+	Mon,  2 Feb 2026 07:31:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="E6L7tcrp";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dLn/dwsi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com
- [74.125.224.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 164C910E170
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 07:15:27 +0000 (UTC)
-Received: by mail-yx1-f46.google.com with SMTP id
- 956f58d0204a3-649bff225d4so661428d50.2
- for <dri-devel@lists.freedesktop.org>; Sun, 01 Feb 2026 23:15:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770016526; cv=none;
- d=google.com; s=arc-20240605;
- b=czSGZ64WitD2FHbGKuR6YBIWaouvQW/fRgFKC4Ozj65UjrTsVbSkUEDzNee6LfQ9x4
- +Htj9pBg3iB9X8xlWLjvnyaSpGnUHGKXp1YPwjOLgZe+ABgYq3J1o+oy2Cf/JovUKwhM
- 4v+sjbJcvjGQMd7CVLBQhIEIM0v8sGCGA2p9plnJYzmnszT+bw5XSvCvArcvWgIP8N0b
- nHQ7n/oOsVCHpxmIt3ASiCOqQBKzFOdlMj/AE3dpQP8PJGCpHAIOQ81+nu0Tuhi4yMD5
- T9OYAhs+/ADWb6StNAJllLKd7YIuh3Pkvd4bK9MeunVNky538UsR/E6MNkoEC1aqnxDj
- IslQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=AOhIjuxpp6TSu7OUXd09SI4wwYt5TFMCJ2RUNnmG8u4=;
- fh=ng+1Zg/Q4DToZbFzipmB3yuJ6faByKwG/lJAmDy7288=;
- b=lt3I1A98UiNoGCyObqx85NO5alr+gE6lmTlaMNaQ6gSox9jOAOEgGpM5Bru7iyqyOr
- v0Oh3aH6wSnVUvM1maoLm5zWr5sc0t4O5+Cv8AbOIYdwIpxW71fwfdk32Jstpa3gDt6K
- SWDmr/+VmTU0iDMJFM3DJt+c/I4TaHq/NUczFR7NgpnW90aob52Ch5ivSBN95pp3KlCj
- IVFDB6IoX0yk2/QUcoLEFmdPByu8NkbsHR2UTFX+YkKLwsGsqCmllIvvTypLo8J49MxL
- 4khdQWahfvvVe+sj3XjSF1JxDI/CxqLkgCUQDkbosDhjcWw8DCeZmRb5P200FO8/g0AJ
- 5hsw==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1770016526; x=1770621326; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AOhIjuxpp6TSu7OUXd09SI4wwYt5TFMCJ2RUNnmG8u4=;
- b=E6L7tcrpSSR4h6mNihUxpIVDLDTngM8B8mlF3fwd9eOGuLNcozqg1Gexi1febiUplI
- I/Mj5pHy2SneIIsxTmRm1D5HAVFh/D8QPVdmVZt7XVwtyD5QTXNW1OqLZb9hPhsEpKpU
- nTAzuZT6wrt3hkUWixj8dMJId+Nk9VAwsIG/7xW151JnB1TGz0Lg2i9RTpKkwrYAgyT3
- 3b5gcQVCxR2TdBNS1QYZpDvxO1JPX+A/9/F5aPsPk1DqDyVc0E+50vh9JCGqDso3cXFJ
- CJwBdV6/Tr/0yC/40sAyzYewjFtHyGHXKjwRgwtrLgFjX9j2/3dCg/KNelc/fgoZPUr0
- ALDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770016526; x=1770621326;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=AOhIjuxpp6TSu7OUXd09SI4wwYt5TFMCJ2RUNnmG8u4=;
- b=fF8IOpu9+g9ese0krkDX8wKjvZ49nj+iqxyqZAHZ9wlFxZzvtlcJaeg7pkeCnhiVZj
- ypv47FXadhs0vNf6nLfNHXLdOsSxdY56LfzKvGXQYApGS6LSxLexNgsmN3qrH3AbAdqH
- prnsqO2XyUU3ma4aRZ57PsOYR9+/nEWfAW+4gd2aWeohwnGrkV53DYd/lVUKWbYkDzCH
- tHsLlSrjZF4GDlGEsWsveE/ggZ/6PzZr1OqfiJieyXRb9JVlbmTI77R3e9+Od4Y6cgJe
- n9V1MVGzPgVKWjRKYHqTQeytbmbYdifDqH9iGfNjmi0LBIKiKCQKQkARW56eSw2E5PLV
- iCdA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVjKdC4oNklUE0T4gMIjFdSxEBiW6V0rgqEvhPkfMlvVbxUU6njVnIE98ijrflrsz1yqgdD+WAiuZQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwV3mVA6SJjbGqN4ZFvw9GU1ZMwUR2sdn2uUfKbKCArvC3KOlDN
- TdkT/8KR3OWZYNI+A1TOpgJ67wPqOZcGGwSZGb1/p/+C+T6FkKqH7iXX77oa5axigmc8udapFj/
- Nbwa8tao4VpVfzrTk4z26IEYgau69tCU//Ssr/55eWA==
-X-Gm-Gg: AZuq6aIj4jSkKBLBBb0jr5EXNyNtRXylfaAT8WcFBCKhQCr29k52X8jN/1ZntlwaAKN
- H8xsMMwrrIgES0UcBFWFgUtKWvOkqI6czNxsWwldHaVP8fMrTZvvRP8LwBCd41RH810xXp62YXG
- xpORfokJg/4ULUWjPsET90doYj8UiFc8d7BebkT0LQLfCFnqi7ZzOPsT+qu5ueLVoHNeiLMKgHn
- +dA4HHBkRbxvgqsrCgnJfnavx4xYyX6BKatUaq0A+xMsk8GgFaXdTUu+McadW/+DnKlNDVYFL7F
- g2c=
-X-Received: by 2002:a05:690e:1347:b0:649:b002:2553 with SMTP id
- 956f58d0204a3-649b0022aaamr6055975d50.79.1770016525726; Sun, 01 Feb 2026
- 23:15:25 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7219310E24A;
+ Mon,  2 Feb 2026 07:31:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1770017496; x=1801553496;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=aGzvNA7fG148vWC275AVeZP2pHsXDtfrUwigmRUXCK4=;
+ b=dLn/dwsia3Q5LFtfw/3xWowdTqPD/H1ZZRQTl1rF373ENqH5NTZXksyN
+ Etog5/gnPX5Hqb/teZFP3TzdHs8H1gwi2ouWLDvfVsq5tKUdTj4jkeRK3
+ 6f0wUY2iPMBCBPJR5sy1XNx/LyuHPX0oM2amNwrOE0QB8nTOMpDI1r51q
+ wQnnNWv9fJt/0Dr0M7lZn8nMbrQFJs4rkWGz10jR416HCOam2om45fLrP
+ kh6c6XJBw3WpxFRsPJlRj9UaHXEatKxp51FNSalxe/7J7s2a/JbKPFAQO
+ SwPMRFwE6gt0HKgM0/lxRdwSIueFp7hgGc8rcyHMjLkZCBSg7DZ6Y4Qy6 g==;
+X-CSE-ConnectionGUID: bWD715WVSpCmj0CfbUJIQQ==
+X-CSE-MsgGUID: t3nYt7HXS9OKY2kcxJEUuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="70189048"
+X-IronPort-AV: E=Sophos;i="6.21,268,1763452800"; d="scan'208";a="70189048"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2026 23:31:35 -0800
+X-CSE-ConnectionGUID: wBkY5rY/SqCmBNNFK1Xz7Q==
+X-CSE-MsgGUID: +tQs8AZcSbuH6vYdoWzhMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,268,1763452800"; d="scan'208";a="209307136"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2026 23:31:35 -0800
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Sun, 1 Feb 2026 23:31:34 -0800
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35 via Frontend Transport; Sun, 1 Feb 2026 23:31:34 -0800
+Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.40) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Sun, 1 Feb 2026 23:31:33 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y36MMAlAi4Ny4DfQ6b3vzH8Z7GHDfEjBHFQ4gcjRUtROEE0MEiXHiqRau0jaao3I6BRfHp/nOdpfynCKCSbi6p6ChDhU06MoBOfSWYIHGsJGto3kxPejKMU1UTnscD9F519ivqgCPGXT7UDvolnM1QcGdXUYJl+zPpvhhU9f1mF2WiQ86V/Fuj9NifxOFF0+Q44FCsG28M5AyERMYJv5C/ZJZFXHqjUXXvpXvZEwFg3pG5FbIc0U9PPsgo8l7D1zf7rExI4Dbf5z4JeizRR8zbyWhrhXI35+rr+FyKGwvzQ60c0kduQ2ryue+DovWQ4OoONTzYEblboCp4hitdXT2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q9E2XRY7qKAH4UmlUqXpoK/tcyVdpqdL8Eo9a48h584=;
+ b=Iy7teB69IZNsZofsjb5LRZ4bV1TVAJD/aeukHqaxtWVeOOQKTMfrcMBUCaXNroyrHxYOS0G8rep4qBPEJTH1NTEyG91jLXJPz46OLI1dcWPF2PAunNAx01mou6c1igR/r7gFOEIGI68KH8ltDtKI5KYXlxPNAvoekNatllytA/H9Qb7ZLf5KC1g5OeqASp1LMb+u5HrYTTv6csd56X1w4YU4HsITV9Ya5cfgTkICauZiub0CLMTVHKxByH3rtbAuYaQ9fnE6LS2cbdbygl8mfaYbMf50auqVgyfLXqJcJmpm7rkKPX5BhfbOoxf8yCW3FpYBO7dmylKZ8EUodbbMOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CO1PR11MB5057.namprd11.prod.outlook.com (2603:10b6:303:6c::15)
+ by BL3PR11MB6532.namprd11.prod.outlook.com (2603:10b6:208:38f::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Mon, 2 Feb
+ 2026 07:31:32 +0000
+Received: from CO1PR11MB5057.namprd11.prod.outlook.com
+ ([fe80::3b75:a8d2:464e:30cc]) by CO1PR11MB5057.namprd11.prod.outlook.com
+ ([fe80::3b75:a8d2:464e:30cc%6]) with mapi id 15.20.9564.016; Mon, 2 Feb 2026
+ 07:31:31 +0000
+Date: Mon, 2 Feb 2026 07:31:22 +0000
+From: Krzysztof Karas <krzysztof.karas@intel.com>
+To: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+CC: <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ "Andi Shyti" <andi.shyti@linux.intel.com>, Jonathan Cavitt
+ <jonathan.cavitt@intel.com>, Janusz Krzysztofik
+ <janusz.krzysztofik@linux.intel.com>, Sebastian Brzezinka
+ <sebastian.brzezinka@intel.com>, Chris Wilson
+ <chris.p.wilson@linux.intel.com>
+Subject: Re: [PATCH v4] drm/i915/selftests: Defer signalling the request fence
+Message-ID: <kusqnu2hh4ejugc4j6wxrsoiqzjv53dzmjixl2qinxcs34eh4z@sjhk6nrnzk3z>
+"Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316"
+References: <20260130184507.45233-2-krzysztof.niemiec@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+In-Reply-To: <20260130184507.45233-2-krzysztof.niemiec@intel.com>
+X-ClientProxiedBy: LO4P123CA0581.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:276::11) To CO1PR11MB5057.namprd11.prod.outlook.com
+ (2603:10b6:303:6c::15)
 MIME-Version: 1.0
-References: <6kzd2g4hgffqz5ipaqbourgiefuxxh3njj44n35blo37z6hhhj@us7lzlgmjuld>
- <CABymUCMf8LxX6VWUuzNJP+G1y3Xi5-CVYhaqLR7F=kU6ZgdcgA@mail.gmail.com>
- <c56e4ylgwcqni23btaxegdbfg3tbkyp2vtjtboeb3kbvcfk27u@vrlh276djtfr>
- <CABymUCP6ZDGtEJeQSZ48x8TZyJ4gKVDC+JzJRz-tZ0ksCUCqsA@mail.gmail.com>
- <91d590de-fa00-4df3-923f-b49ad00cd9da@oss.qualcomm.com>
- <CABymUCOqxtYS7BaDMHeN2npn=4+Y-6kxLDOS6oskiiH58epR5w@mail.gmail.com>
- <bbd8e584-4398-40da-9759-0c27f34214d3@oss.qualcomm.com>
- <CABymUCMivNJt4fikx8XJ8KFZB-y4zc2RaqjBksxWrQFD9foEkg@mail.gmail.com>
- <7c3yxfkadtkd6xs6aiupcamykx75c2tieakc7n4a2jyymz6kzz@4gflcto2nbkj>
- <CABymUCMeS7cWgEProyWnMUJ1fF1rfba3dy4VB0mwTmPbpTvanA@mail.gmail.com>
- <g2kzzrfmcsmzs6wz7alzjjycytpuebxwbehkco7yimdg2jam5a@uqsrt7mov7la>
-In-Reply-To: <g2kzzrfmcsmzs6wz7alzjjycytpuebxwbehkco7yimdg2jam5a@uqsrt7mov7la>
-From: Jun Nie <jun.nie@linaro.org>
-Date: Mon, 2 Feb 2026 15:15:14 +0800
-X-Gm-Features: AZwV_QgxNMYnRxQupdZOrh2Yv4jbFQ5rsdru-fR7eVF3kXxCsbW0Ix_tK3sAtyQ
-Message-ID: <CABymUCOmq_FVOQRVQSz97wjF_gtdji4dXz0CucChvFyqmyw06w@mail.gmail.com>
-Subject: Re: [PATCH v17 2/4] drm/msm/dpu: Defer SSPP allocation until CRTC
- check
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Abhinav Kumar <abhinav.kumar@linux.dev>,
- Dmitry Baryshkov <lumag@kernel.org>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PR11MB5057:EE_|BL3PR11MB6532:EE_
+X-MS-Office365-Filtering-Correlation-Id: cf1edfee-3e0a-4bba-c76e-08de622d161e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TGtqcUY4RXM4Rk9FTTRNMzBrZXRjaEtrbG00NE4wQXVvdDNvVVc2RmpYSHk2?=
+ =?utf-8?B?SzhTeStkSFlBd2dkR0VoT1JDdlkva3o4NkxMWk45ak5oV2hUencvSHQ2RDVo?=
+ =?utf-8?B?OW4ySVhUWmJzaHBCakZ0akRwUXZQUmdvVHAyN2RWdjhyMkdwMHBaZGxMQVFi?=
+ =?utf-8?B?SVREcEZNcEh3UXpQVjM5M2JKVlc4NVNPVTFmaTF0SklDSCtDdzhjRFc5ZHJK?=
+ =?utf-8?B?eG5JLzRvRGExV3hCREhCRHlyU0xUVWVXS2VXbjlyTFB0a3J3SEN1c0JWVWo0?=
+ =?utf-8?B?dXdWTG10UHNXeWZtTEFBRWFPVHlIcE54VWJRcjQrbXpHalJLNHhHTFI3Uk9m?=
+ =?utf-8?B?bGpMMFlTdWU3KytlWENKMFQrTUU1SkUxUzhOdEUvNGlsbXJzMHlTWDB4R0xK?=
+ =?utf-8?B?RXpQRkJ0djlLSCtpMTRhcUhKcW9JVWtxZ0w5OE9pL251S2dYcnBabHc4UFp4?=
+ =?utf-8?B?VFM1TEZlWC9JNGo4NXpqOW4rRUJMU1M4R1lWS0tROURuZWYvQzQyVHozQUgz?=
+ =?utf-8?B?T1p0c1hML3dxMUFrTEhGQVlXQjlVT2p1RlFQdFMyMUlrSythekNjT296ZFRj?=
+ =?utf-8?B?cFdraGEwNGpvM1JMaGI4SXlJbHpWcWJBWTBxZnZsN1hjd0dTeVVQeUozR2RD?=
+ =?utf-8?B?VnJTY0FVMnZ1T3Q3MmV6YlF0RnpVK3pmNDh4bTJXUkRCdlJkTjZ0SlhaZ1B0?=
+ =?utf-8?B?ZnM0eUF4dk5jTnROR1V1c1lmbkhrbFpRTCtpV01MaUpudFVETUY2cmttaDVp?=
+ =?utf-8?B?b1BOY0RHdVl1eHZjbnJvVHVmL3pOQ2htWDZCTmdnN0loNEczc1RyUm1KQUE2?=
+ =?utf-8?B?dmd0OFVQQzV1YksxWFQrM1dqeFhuejN1eVNwcnJ3WWRmYllBQ2dzcCtldC9S?=
+ =?utf-8?B?OUlvaGp6My9KNzNhNEp0SGtrK0loWDBDVXd6dVNFVjhSenZvVUFNY3F5b21l?=
+ =?utf-8?B?d0NDdWRhV3V1Q2hVMGt3N3NEaUJBaXhzVjE5ZllPeG9hbFZXVHBIQllnWEk4?=
+ =?utf-8?B?c3I3TWJIRHNOeStvM0xhK2pFZ2UrUXYwZDB0dk5iUkJLWXo0RWVrWFBJUXNP?=
+ =?utf-8?B?cU56TzlpYVVkRzk5WlJFRmRuU1NoWmdBTFZCdzcvVXZZck9MYUpHSDF2MHI5?=
+ =?utf-8?B?bDhPcXRpL0IrSXgwVzBtMTlUc1RTSUpBaURneHQ1WVV6MURwcUx6bGkvNHUv?=
+ =?utf-8?B?MVE0U1ROVjRkdGJZMXREcjZyVWtPaGZHT3YwZFh2YzZQcmNkUlhJdlpjRGhI?=
+ =?utf-8?B?SnA5NTVXaW8rR0FjVTRuTXFiQWY5NGdFVWQ2RStROE55NEFlRmlTZzIxTW94?=
+ =?utf-8?B?VEZiVk5JeWZpbWlUMHJjVUUydGYxN1VvMnhZRXZDSjc1MUw3eGdTWnhEQzg4?=
+ =?utf-8?B?M1NrVGdmU1NURE1VWWp2UVZIaTVjYWdSYlhyekQ2OW9ySEdpdE5wM1JaRUE2?=
+ =?utf-8?B?dmZaR2RrR0ptYlljNWNEaUc4NHRmcHhaVlMzWHpqazVBY1hzV01PSVp5WEJt?=
+ =?utf-8?B?akFxdDBSOUJDdXVIL1NPV0RFZEtENU5VNHFRall1ZG5ic0U4bHNORDV4OEtC?=
+ =?utf-8?B?T1NMU2p6MGp1VFJsVWlDeUE4TGRmaUp0dWlnazhMTDhPay9QNy95ZXFRN253?=
+ =?utf-8?B?SldUQ1NIOXZlRi91UmdlYm82YXNmRTA1cUF6UFZvamF5WGlBV2d2YjIvTnJr?=
+ =?utf-8?B?RHB0TUJUVTJvMkpTY2NFZEsraFg3Wklsa0tGcUVic1lQampDaTZFbXJ0dlJP?=
+ =?utf-8?B?VVpMLzJNYklOankrT2hpNVRrMlFVdE0rUktCOFA5Wm11UTM3N09QTi9WZFQ3?=
+ =?utf-8?B?TXNoR251Sm9HU2k3SUs4RE9hZ3VZNjVTZWZlU3hLM2JNN3c2bVNsVkNRRHNW?=
+ =?utf-8?B?TXB3WE5UYWlCdHNMN1FHcDVTVEtTMWQxclY5WDQ0NlRLVDI3Ty9SZXBDSjgx?=
+ =?utf-8?B?SmJRQVV4b3ZCVzNBbFVZblpQa3RhMEJJbDFVQTlRRnRPNVJBYTBSNlRlOU1q?=
+ =?utf-8?B?bU9JZXVSa0VBU2ZDYXBZa0dPRHk1R002MHlSWklwNTBOSHBkUldJaXZmenJV?=
+ =?utf-8?B?dC9TNlVFMTN2bkJDMVErc0NXS1p4dkJCU3NwdlR6b0JpdjRJR3NZRlVHTGpX?=
+ =?utf-8?Q?cGYY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO1PR11MB5057.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NDhxYldEK0d0ZTdxcSs0U2FaUTEvUGJvcERubW5CWkJIa0lLcVF0WjJRejFk?=
+ =?utf-8?B?Sy8relUwbDhoc2h4cmJoSjVWaGhQeGdFaGFVYU9OWDM5YXd5NUtXQ1owUnpN?=
+ =?utf-8?B?bS9zYXplaEVES1JvVVo3SlBVMndMVE5Td3RnODdwOTVTS1FuN2RTNE9Ga1Nj?=
+ =?utf-8?B?cnBYczdWVzd1c3YveHNSK1NkTjE0b1F2WXBhUzkrSFJjZW9TRjQ1b0F1TFBx?=
+ =?utf-8?B?OEQ2Y0VrbjUxdm9EZDNGQXpuYXhPUUh0elNzSk9tbnQ1VmZIdGVWenRISGN1?=
+ =?utf-8?B?aW1GY25rQXBNckZpSVpGWFZBaytVY1hEcUhpdjd4RDA2dFI1TmZNYzFoVk9T?=
+ =?utf-8?B?bENMdnRXV2FTUnQzdVI0VHhCNmJKcDkzbCtxdDR1VG5jK0JzeFpURzdhVGh0?=
+ =?utf-8?B?RXVHMytiK3IrYTNxbDNtemUzM1RoZXQ2QlVNS3ZrRW9weVhkdzRCb1ZsRU1O?=
+ =?utf-8?B?MDE0RnZpM2RtYStKSWxBbm01RzBNTEJ4QldQSkFla3BtM0FUMWRIYjRDNzli?=
+ =?utf-8?B?cW1MMzgvMHZ6ZUlNVGJVS1d6b2ljUEVCcHVIMW1WYkp4WWIwY2lrY09OTjBY?=
+ =?utf-8?B?bWZFS0I0aU1NanhtOGh3TFNrOXZvT1drMmVzK05mNit4SjNnczcxNlk0Zm1r?=
+ =?utf-8?B?L2dsZVZWTmNsWSsyWFdJVGJtVzZ0QnhESHErWWYvV2YxMVEvNkJTRGxaQlRG?=
+ =?utf-8?B?Uk4xRzIxUVFJcGFJamxoMExRdExIODIxNkgzVDlrbGx5R2ZWOWtQV1ExOUJj?=
+ =?utf-8?B?clViNVhLMXhWZ0g2ZVFac1dIOEFCU0hlU1dxVnJTaU5EVGpnTVZTek56blRz?=
+ =?utf-8?B?WkdQZlV5NkQrSFIyRGp2VUhqblRNTEdPam5IKzVuaERNUDhzenVZcVBha211?=
+ =?utf-8?B?YWpDSW1UZVI1ZkZjc3NsQ0Y3dlFSOXJJSUpHYlZ4ZllKbTBDVVVHL0FJMjd5?=
+ =?utf-8?B?RU8vTlF1Z2hqLzF0NytEN0tvVXNuVGFqVE9XRVdWLy9LOVczZTh6NDhZUFZK?=
+ =?utf-8?B?N1h6K09RZTl3WXF0czZWdVIrUDBrZEFaOG02MmFGeWxxT01hRjR5L2xNNUwy?=
+ =?utf-8?B?R0p5K090WHk2T0tqRW4zRW5peDNwR0Y5Skh0RjNtak92Y1dKak5kQ1NOL3NX?=
+ =?utf-8?B?MGpTZHRQdmdNUG9oSVpmdHpWcHhDc2FxVEs2Ky8zdEt3cnlGYmd3ZDFHYVRj?=
+ =?utf-8?B?R0ttWEIvTFQxTGE3dWFDMFRTVHowM0FuYlRTTU1OSkJLK2s4UUFrTWczT29D?=
+ =?utf-8?B?Z0pHeHcySVFvK0dsQjNiczlKZ1hBd0tBNEtKVEIzN3JaZmhVaTBvYXNMVlN2?=
+ =?utf-8?B?VFdlMERUVlI4YVRXeVNvMEY1TDlDYmUvQWVVek9tdk9pMkJYMzR4Z2pWNWJH?=
+ =?utf-8?B?R2c4d1o0SUJFbkNiWEpUZy9QV2FqNWNPc0ErMktZSktOYS9lSDFaTEpTa1VN?=
+ =?utf-8?B?ZDh3aW55UzRTU3A3eGFMczdlNjBJZ2ExV0VlbkR0M1NmZlphMVY0clR6Y0tn?=
+ =?utf-8?B?akZRVW05Kzc3c0NkOWNwbll3aWh1Mk9rTE9Yc1NUdFoxbjZPL3BtVWprMFJG?=
+ =?utf-8?B?YmFTT1Axd24xUEc1dHFOQ1R0bWdRYytiMFVFVkhaNGNDMTNkRzlhZ3ZjR2E5?=
+ =?utf-8?B?MEVGdG8ycThFVlNER29KcTVTQ1lDVFZoS2xSUDR5Ymoycm1zcjAvc0NIMDBS?=
+ =?utf-8?B?NlVwaXJVa0tKTTVHajlhZjdYcGFyNm45eVlDNC9GLzdLM1VmS3AvanZpMjNu?=
+ =?utf-8?B?RDkrY0FsNThrdzNJNGtUSFp3eXZiOC9LWUY4anhROGZlK01EREN6WVJiOHh5?=
+ =?utf-8?B?U3Q3aWhnM2s0K1Z2YUJXeExoYkxYUVJWQXVVZ1I2T2xCd2VJOE56ZkZQbmxZ?=
+ =?utf-8?B?QTYrZnpoM2o3MEN1NmxxdlNxV2hZeENZWWF4RkwrM0tQbHlGQTNRcml6emZ5?=
+ =?utf-8?B?aEhsOUphdDc4U3VCMkxHWlNyOXJjOFplQlRsQTB3dmhleW5EZE1HNFhHVzc2?=
+ =?utf-8?B?Q2NNZ0VuVW1vUlpNbzV4Z2UwL2xub0dmOE5QN0tOOFBPa2pzbXZOamg2cXVC?=
+ =?utf-8?B?cis5cTI5WGNPdjVoU0RrM2gxaGE0K2draTk3Z1NLbHlrZUNGaXpwNXJ4REht?=
+ =?utf-8?B?MUc0K2orNHdKeFUvejkrOVBVZkNvV0hiV1hscmt6RnFnZlRiSVgvKy9ZLzUr?=
+ =?utf-8?B?c3drQ0hGVFBnUDdwUEJTdml3K1Jsb05SUjQzR0dDZnBvN0JjSW5OUm0yQXhE?=
+ =?utf-8?B?N0cxYjJidFU2T0ZuLy9HbFJqcTlTQms0NU5Eb0gxdW5UMWxnTXhaNlZCcFA2?=
+ =?utf-8?B?NnhpaUU5ZGlnRVNMUjdRb0NBbGh4MVR0V3ZMVktlTVJFQml6QXoyek5mRWNK?=
+ =?utf-8?Q?PLiG+BZg75sYWcec=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf1edfee-3e0a-4bba-c76e-08de622d161e
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5057.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2026 07:31:31.8670 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yCRnBLGsCdnzfzD3NNl+Fnb9g480ea5P67Dh2fICDM4qgQ1wyywcQ6r4CxiEqNSIIB6PIHfz9h4iFSU6oNY/T+4hB8tJjq5CjmlFSoEXsZY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6532
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,258 +211,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:lumag@kernel.org,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:robin.clark@oss.qualcomm.com,m:neil.armstrong@linaro.org,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[jun.nie@linaro.org,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[linux.dev,kernel.org,poorly.run,somainline.org,gmail.com,ffwll.ch,oss.qualcomm.com,linaro.org,vger.kernel.org,lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jun.nie@linaro.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[linaro.org:+];
+	FROM_NEQ_ENVFROM(0.00)[krzysztof.karas@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,qualcomm.com:email]
-X-Rspamd-Queue-Id: B8587C91CE
+	RCVD_COUNT_SEVEN(0.00)[9]
+X-Rspamd-Queue-Id: 41137C92A9
 X-Rspamd-Action: no action
 
-Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2026=E5=B9=B4=
-1=E6=9C=8827=E6=97=A5=E5=91=A8=E4=BA=8C 03:06=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Mon, Jan 26, 2026 at 09:29:44PM +0800, Jun Nie wrote:
-> > Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2026=E5=
-=B9=B41=E6=9C=8826=E6=97=A5=E5=91=A8=E4=B8=80 20:31=E5=86=99=E9=81=93=EF=BC=
-=9A
-> > >
-> > > On Mon, Jan 26, 2026 at 08:01:00PM +0800, Jun Nie wrote:
-> > > > Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2026=
-=E5=B9=B41=E6=9C=8826=E6=97=A5=E5=91=A8=E4=B8=80 18:49=E5=86=99=E9=81=93=EF=
-=BC=9A
-> > > > >
-> > > > > On 26/01/2026 12:29, Jun Nie wrote:
-> > > > > > Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=8E2=
-026=E5=B9=B41=E6=9C=8826=E6=97=A5=E5=91=A8=E4=B8=80 18:13=E5=86=99=E9=81=93=
-=EF=BC=9A
-> > > > > >>
-> > > > > >> On 26/01/2026 12:06, Jun Nie wrote:
-> > > > > >>> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=
-=8E2026=E5=B9=B41=E6=9C=8822=E6=97=A5=E5=91=A8=E5=9B=9B 18:22=E5=86=99=E9=
-=81=93=EF=BC=9A
-> > > > > >>>>
-> > > > > >>>> On Thu, Jan 22, 2026 at 02:03:25PM +0800, Jun Nie wrote:
-> > > > > >>>>> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> =E4=BA=
-=8E2026=E5=B9=B41=E6=9C=8821=E6=97=A5=E5=91=A8=E4=B8=89 17:30=E5=86=99=E9=
-=81=93=EF=BC=9A
-> > > > > >>>>>>
-> > > > > >>>>>> On Wed, Jan 21, 2026 at 04:01:51PM +0800, Jun Nie wrote:
-> > > > > >>>>>>> Currently, plane splitting and SSPP allocation occur duri=
-ng the plane
-> > > > > >>>>>>> check phase. Defer these operations until dpu_assign_plan=
-e_resources()
-> > > > > >>>>>>> is called from the CRTC side to ensure the topology infor=
-mation from
-> > > > > >>>>>>> the CRTC check is available.
-> > > > > >>>>>>
-> > > > > >>>>>> Why is it important? What is broken otherwise?
-> > > > > >>>>>
-> > > > > >>>>> I see. Thanks! Will add below lines in next version.
-> > > > > >>>>>
-> > > > > >>>>> By default, the plane check occurs before the CRTC check.
-> > > > > >>>>> Without topology information from the CRTC, plane splitting
-> > > > > >>>>> cannot be properly executed. Consequently, the SSPP
-> > > > > >>>>> engine starts without a valid memory address, which trigger=
-s
-> > > > > >>>>> an IOMMU warning.
-> > > > > >>>>
-> > > > > >>>> What is plane splitting? Write commit message for somebody w=
-ho doesn't
-> > > > > >>>> exactly know what is going on.
-> > > > > >>>
-> > > > > >>> Thanks for the suggestion! Any more revise is needed?
-> > > > > >>
-> > > > > >> Sadly enough the text below is not a significant improvement.
-> > > > > >>
-> > > > > >>>
-> > > > > >>> Currently, splitting plane into SSPP rectangles the allocatio=
-n occur
-> > > > > >>> during the plane check phase, so that a plane can be supporte=
-d by
-> > > > > >>> multiple hardware pipe.
-> > > > > >>
-> > > > > >> What does this mean? Without virtual planes in place, there ar=
-e no
-> > > > > >> multiple hardware pipes.
-> > > > > >>
-> > > > > >>> While pipe topology is decided in CRTC check.
-> > > > > >>
-> > > > > >> ?? What does it mean here?
-> > > > > >>
-> > > > > >>> By default, the plane check occurs before the CRTC check in D=
-RM
-> > > > > >>> framework. Without topology information from the CRTC, plane =
-splitting
-> > > > > >>> cannot be properly executed.
-> > > > > >>
-> > > > > >> What does 'properly' mean here? How is it executed? What happe=
-ns?
-> > > > > >>
-> > > > > >>> Consequently, the SSPP engine starts
-> > > > > >>> without a valid memory address, which triggers IOMMU warning.
-> > > > > >>
-> > > > > >> IOMMU faults. There are no "warnings".
-> > > > > >>
-> > > > > >>>
-> > > > > >>> Defer above plane operations until dpu_assign_plane_resources=
-()
-> > > > > >>> is called from the CRTC side to ensure the topology informati=
-on from
-> > > > > >>> the CRTC check is available.
-> > > > > >>
-> > > > > >>
-> > > > > > Thanks for the patience!
-> > > > > >
-> > > > > >
-> > > > > > Currently, splitting plane into SSPP rectangles and allocation =
-occur
-> > > > > > during the plane check phase. When virtual plane is enabled to =
-support
-> > > > > > quad-pipe topology later, 2 SSPPs with 4 rect will be needed, s=
-o that
-> > > > > > a plane can be supported by 4 hardware pipes. And pipe number i=
-s
-> > > > >
-> > > > > number of pipes
-> > > > >
-> > > > > > decided in CRTC check per interface number, resolution and hard=
-ware
-> > > > > > feature.
-> > > > >
-> > > > > Okay, but IOMMU errors were reported with virtual planes being di=
-sabled.
-> > > > > So how is it relevant?
-> > > >
-> > > > After revise of splitting plane into pipes, the number of pipes wil=
-l be decided
-> > > > by CRTC check for both virtual plane and non-virtual plane case to =
-unify the
-> > > > plane handling,  instead of assumption of 2 pipes at most.
-> > >
-> > > This needs to be explicitly written.
-> > >
-> > > > >
-> > > > > >
-> > > > > > By default, the plane check occurs before the CRTC check in DRM
-> > > > > > framework. Without topology information from the CRTC, plane sp=
-litting
-> > > > >
-> > > > > WHat is plane splitting?
-> > > >
-> > > > How about: s/plane splitting/splitting plane into pipes ?
-> > >
-> > > This plane is not being split into anything. It's being mapped onto h=
-w
-> > > pipes. But before that, the number of necessary hw pipes is being det=
-ermined
-> > > based on foo, bar an baz,
-> >
-> > Thanks for the correction!
-> >
-> > Currently, plane is mapped onto at most 2 hardware pipes and 1 SSPP
-> > allocation occur during the plane check phase. When virtual plane is
-> > enabled to support quad-pipe topology later, 2 SSPPs with 4 rect will
-> > be needed, so that a plane can be supported by 4 hardware pipes.
-> >
-> > After revise of quad-pipe, the number of pipes is decided in CRTC
-> > check per number of interfaces, resolution, clock rate constrain,
->
-> Where?
+Hi Krzysztof,
 
-The pipe is decided in dpu_crtc_get_topology(). Change to quad-pipe
- is made in later patch. So I drop this in this patch message below.
->
-> > hardware feature and virtual plane enablement. The decidsion of
->
-> decision
->
-> > number of pipes will happen in CRTC check for both virtual plane and
-> > non-virtual plane case to unify the plane handling. Before that, the
->
-> will? Do you mean, after this patch? If so, please use imperative
-> language. See Documentation/process/submitting-patches.rst
+[...]
 
-Yes, it is in later patch. So drop it in this patch message.
+> +__live_work_confirm_finished(struct drm_i915_private *i915,
+> +			     struct live_active *active)
+> +{
+> +	int err = 0;
+> +
+> +	if (!active->work_finished) {
+> +		struct drm_printer p = drm_err_printer(&i915->drm, __func__);
+> +
+> +		drm_printf(&p, "active->work hasn't finished, something went\
+> +				terribly wrong\n");
+I think "something went terribly wrong" is superfluous, when you
+are not sure what the "something" was, so you could skip
+printing that part. This is a non-blocking suggestion, include
+it if you plan to prepare a v5 of this patch.
 
-It is possible to keep plane check unchanged, and rely on re-allocation
-in later stage to support quad-pipe, if quad-pipe use case is detected.
-But to unify the allocation logic for both non-virtual and virtual plane
-use cases, and to centralize resource management, we'd better defer
-the allocation.
+Reviewed-by: Krzysztof Karas <krzysztof.karas@intel.com>
 
-
->
-> > the number of necessary hw pipes is being determined based on
-> > resolution and clock rate constrain.
-> >
-> > By default, the plane check occurs before the CRTC check in DRM
-> > framework. Without topology information from the CRTC, plane mapping
-> > will be skipped for the first time as number of pipe is 0.
-> > Consequently, the SSPP engine starts without a valid memory address,
-> > which triggers IOMMU fault.
-> >
-> > Defer above plane related operations until dpu_assign_plane_resources()
-> > is called from the CRTC side to ensure the topology information from
-> > the CRTC check is available.
-> >
-> > >
-> > > >
-> > > > >
-> > > > > > will be skipped for the first time as pipe number is 0. Consequ=
-ently,
-> > > > > > the SSPP engine starts without a valid memory address, which tr=
-iggers
-> > > > > > IOMMU fault.
-> > > > > >
-> > > > > > Defer above plane related operations until dpu_assign_plane_res=
-ources()
-> > > > > > is called from the CRTC side to ensure the topology information=
- from
-> > > > > > the CRTC check is available.
->
-How about this commit message? It is more coherent with the change
-in this patch.
-
-
-Currently, a plane maps to at most two hardware pipes, and SSPP
-allocation occurs during the plane check phase. However, when virtual
-planes are enabled, SSPP re-allocation can occur within
-dpu_assign_plane_resources() during the CRTC check.
-
-To support future quad-pipe topologies, which require allocating two
-SSPPs with four rectangles by default, it is more efficient to perform
-the primary allocation in a single pass rather than relying on later
-re-allocations. So defer the allocation to CRTC check phase by default.
-Allocation logic for both non-virtual and virtual plane use cases is
-unified in this way.
-
-> --
-> With best wishes
-> Dmitry
+-- 
+Best Regards,
+Krzysztof
