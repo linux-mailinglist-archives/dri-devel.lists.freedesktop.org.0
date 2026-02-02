@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cGoMFHx3gGne8gIAu9opvQ
+	id EA5GN4B3gGne8gIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:07:56 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:08:00 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F64CA8BD
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:07:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5B41CA8D5
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:08:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 740AA10E3F7;
-	Mon,  2 Feb 2026 10:07:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AC9610E404;
+	Mon,  2 Feb 2026 10:07:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NmB/7xYc";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XwyUQLlw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04A9D10E3F7;
- Mon,  2 Feb 2026 10:07:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0BA710E3E5;
+ Mon,  2 Feb 2026 10:07:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770026873; x=1801562873;
+ t=1770026878; x=1801562878;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Tm2G7MUXkuyXbS4oxiX8ruOc6c7mq9dhfxznPV/oKG4=;
- b=NmB/7xYcpLgGI+qlsJuT8UDI9KoxrTPyKpVzBzaGILvV3cJOXpG7G9EN
- mJ91hGDSQ6/HPy9jDqAnb6o631pdj3DI0p8GCVBvQPaO4dzMy9XqMSwZV
- sO1ATGOpa7aQoDDvdXAl9xspqcRi3uwE6RJO2yEirT5Y8JDKmnuiYPExV
- 2GpWJZYteNLjGEN74Xh+g0QrC+UzaMifS0j+TdBju3hC+f5mPdiwRFw+Y
- kME65nhoyF8XlMpr9aJ7oBP40qFDn6WmvoMXuck3BJRu3D7ZNd7PwBUBQ
- 480SEDidCGbNhhhiTpLHpLHwCX4NVBmYXoeB81NTD+qL0Ues7RnB4+66a g==;
-X-CSE-ConnectionGUID: MFafiqDuTHi3Xyjqb9sjiw==
-X-CSE-MsgGUID: 25ciHi12So2z34Who/XlYw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="71163406"
-X-IronPort-AV: E=Sophos;i="6.21,268,1763452800"; d="scan'208";a="71163406"
+ bh=U/ty4QMF2fDJpFbuAugdjBT2iSAtFi6lXMMgWaONO6Q=;
+ b=XwyUQLlwkydogs6VNO6zHXOgpp8YJeGutx6EY8NpJ2qG8d/BJ7g2dw2R
+ /4p7innJp6wSAImYJyHvAcZEDumnEztzCV/hUyAJq2sQ7A75Z4sIGEK5V
+ fyy5JhE01Y8q0rCvW54JY5NuyxtWqlayy9vTIfXB41/v4fPH/DaKpTsE6
+ cXP4fKwHFTcRalI6/oxIHLF1WfseCHw9SYxvUyJnGv3ebeLsbpL4dwqaB
+ OJkKK83aAIlf53vG8dBPHulCRPtHm1qWloMOWs5f7XLkbXte++4LeWNrF
+ j6PldqWPaWmx5woT2T/qYiseuRDqwwLxFCHE3dedqoEJeWnJBq+jYgnw+ A==;
+X-CSE-ConnectionGUID: 4FHsiBxMSbGTG9JFgK8bag==
+X-CSE-MsgGUID: FtInP57sQlqXddnM+CW7Eg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="71163415"
+X-IronPort-AV: E=Sophos;i="6.21,268,1763452800"; d="scan'208";a="71163415"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2026 02:07:53 -0800
-X-CSE-ConnectionGUID: XwfO/Ad+SB67wNs4IVbmMg==
-X-CSE-MsgGUID: V7YLjXliTBapz+gcDP79cg==
+ 02 Feb 2026 02:07:57 -0800
+X-CSE-ConnectionGUID: EAZ6Yd1LQemWlAYJ/+iWzQ==
+X-CSE-MsgGUID: xWt/8ixdQO6VjoVXCJP0ag==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,268,1763452800"; d="scan'208";a="208984862"
+X-IronPort-AV: E=Sophos;i="6.21,268,1763452800"; d="scan'208";a="208984868"
 Received: from dut-2a59.iind.intel.com ([10.190.239.113])
- by fmviesa007.fm.intel.com with ESMTP; 02 Feb 2026 02:07:48 -0800
+ by fmviesa007.fm.intel.com with ESMTP; 02 Feb 2026 02:07:53 -0800
 From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
@@ -54,10 +54,10 @@ Cc: harry.wentland@amd.com, jani.nikula@linux.intel.com,
  suraj.kandpal@intel.com, nfraprado@collabora.com,
  ville.syrjala@linux.intel.com, matthew.d.roper@intel.com,
  maarten.lankhorst@intel.com, chaitanya.kumar.borah@intel.com
-Subject: [RESEND 7/9] drm/vkms: Remove drm_colorop_pipeline_destroy() from
- vkms_destroy()
-Date: Mon,  2 Feb 2026 15:12:00 +0530
-Message-Id: <20260202094202.2871478-8-chaitanya.kumar.borah@intel.com>
+Subject: [RESEND 8/9] drm/colorop: Use destroy callback for color pipeline
+ teardown
+Date: Mon,  2 Feb 2026 15:12:01 +0530
+Message-Id: <20260202094202.2871478-9-chaitanya.kumar.borah@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260202094202.2871478-1-chaitanya.kumar.borah@intel.com>
 References: <20260202094202.2871478-1-chaitanya.kumar.borah@intel.com>
@@ -102,33 +102,40 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	NEURAL_HAM(-0.00)[-1.000];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 25F64CA8BD
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: B5B41CA8D5
 X-Rspamd-Action: no action
 
-Now that colorops are cleaned from drm_mode_config_cleanup(), remove
-drm_colorop_pipeline_destroy() from  vkms_destroy().
+Switch drm_colorop_pipeline_destroy() to use the driver-provided
+destroy callback instead of directly calling drm_colorop_cleanup()
+and freeing the object.
+
+This allows drivers that embed struct drm_colorop in driver-specific
+objects to perform correct teardown.
 
 Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
 Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Reviewed-by: Alex Hung <alex.hung@amd.com>
 Acked-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/vkms/vkms_drv.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/drm_colorop.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index 434c295f44ba..95020765c4c2 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -259,7 +259,6 @@ void vkms_destroy(struct vkms_config *config)
+diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+index 2bce29176ab3..aa19de769eb2 100644
+--- a/drivers/gpu/drm/drm_colorop.c
++++ b/drivers/gpu/drm/drm_colorop.c
+@@ -208,8 +208,7 @@ void drm_colorop_pipeline_destroy(struct drm_device *dev)
+ 	struct drm_colorop *colorop, *next;
  
- 	fdev = config->dev->faux_dev;
- 
--	drm_colorop_pipeline_destroy(&config->dev->drm);
- 	drm_dev_unregister(&config->dev->drm);
- 	drm_atomic_helper_shutdown(&config->dev->drm);
- 	devres_release_group(&fdev->dev, NULL);
+ 	list_for_each_entry_safe(colorop, next, &config->colorop_list, head) {
+-		drm_colorop_cleanup(colorop);
+-		kfree(colorop);
++		colorop->funcs->destroy(colorop);
+ 	}
+ }
+ EXPORT_SYMBOL(drm_colorop_pipeline_destroy);
 -- 
 2.25.1
 
