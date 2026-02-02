@@ -2,52 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +KDeMmEfgWm0EAMAu9opvQ
+	id cF36BcYhgWl+EQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 23:04:17 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 23:14:30 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E247D1EC5
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 23:04:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F8D1D20BA
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 23:14:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F16D810E278;
-	Mon,  2 Feb 2026 22:04:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39AA010E2EA;
+	Mon,  2 Feb 2026 22:14:26 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VX+E3OSh";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35DD210E278
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 22:04:12 +0000 (UTC)
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-339-yNFmwIMuOiqU5LGfMJjNcw-1; Mon,
- 02 Feb 2026 17:04:08 -0500
-X-MC-Unique: yNFmwIMuOiqU5LGfMJjNcw-1
-X-Mimecast-MFC-AGG-ID: yNFmwIMuOiqU5LGfMJjNcw_1770069847
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 9A10C18003FC; Mon,  2 Feb 2026 22:04:07 +0000 (UTC)
-Received: from dreadlord.redhat.com (unknown [10.67.32.75])
- by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 6F9FA30001A7; Mon,  2 Feb 2026 22:04:04 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
-Subject: [PATCH] nouveau/vmm: start tracking if the LPT PTE is valid. (v4)
-Date: Tue,  3 Feb 2026 08:04:02 +1000
-Message-ID: <20260202220402.2217813-1-airlied@gmail.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92D3410E2EA
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 22:14:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 8684460010;
+ Mon,  2 Feb 2026 22:14:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA797C116C6;
+ Mon,  2 Feb 2026 22:14:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1770070464;
+ bh=sO5KPNQ8TrkL4sJvZKSQZoiBVi33bIgn3j10AQb7f2k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VX+E3OShKLDfDhSRpROGEgofypRa6ipIYNLJdS/bzT5kMqki+Sq5mceA5k1fl/VyV
+ yQhBEwL6VBTGZLaauoINn8ZDSGaBZuJdD5SwJcfbgasAYeWb8GLpOMxf1EBORTS0B1
+ IheeKPPBg4W9Nw3sIT8oGKlX3JCMrk4Fo2M5Z+DwQxYxKxnW9XDYgwEwOyeezk4Gxt
+ ENNHPD6PY7odbG+OI/lpKTa/SuowlfdGtkFUWg1h0rfUfcRJIMJqHX7dS09Vx9as6X
+ QqziNEjvLjzp6h/c9sKuQksuU3qNpXX4SXZUfrU7GDvEKIjbKJqgQgioCPM6IjcP0F
+ uRcR63eTdYfFA==
+Date: Mon, 2 Feb 2026 15:14:19 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Langyan Ye <yelangyan@huaqin.corp-partner.google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ dri-devel@lists.freedesktop.org, llvm@lists.linux.dev,
+ patches@lists.linux.dev
+Subject: Re: [PATCH] drm/panel: ilitek-ili9882t: Remove duplicate
+ initializers in tianma_il79900a_dsc
+Message-ID: <20260202221419.GA229639@ax162>
+References: <20260114-panel-ilitek-ili9882t-fix-override-init-v1-1-1d69a2b096df@kernel.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: YIH8c1mNpD3O5wvx_LwqK3X9DM_fQDCtZA4FIpI_ujw_1770069847
-X-Mimecast-Originator: gmail.com
-Content-Transfer-Encoding: quoted-printable
-content-type: text/plain; charset=WINDOWS-1252; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260114-panel-ilitek-ili9882t-fix-override-init-v1-1-1d69a2b096df@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,305 +69,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	DMARC_POLICY_SOFTFAIL(0.10)[gmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:yelangyan@huaqin.corp-partner.google.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:nick.desaulniers+lkml@gmail.com,m:morbo@google.com,m:justinstitt@google.com,m:llvm@lists.linux.dev,m:patches@lists.linux.dev,m:nickdesaulniers@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[linaro.org,gmail.com,huaqin.corp-partner.google.com,linux.intel.com,kernel.org,suse.de];
 	ARC_NA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FORGED_SENDER(0.00)[nathan@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	R_DKIM_NA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gitlab.freedesktop.org:url]
-X-Rspamd-Queue-Id: 2E247D1EC5
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nathan@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[gmail.com,google.com,lists.freedesktop.org,lists.linux.dev];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,lkml];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 6F8D1D20BA
 X-Rspamd-Action: no action
 
-From: Dave Airlie <airlied@redhat.com>
+Ping? This is still breaking builds and we are about to be in the merge
+window...
 
-When NVK enabled large pages userspace tests were seeing fault
-reports at a valid address.
-
-There was a case where an address moving from 64k page to 4k pages
-could expose a race between unmapping the 4k page, mapping the 64k
-page and unref the 4k pages.
-
-Unref 4k pages would cause the dual-page table handling to always
-set the LPTE entry to SPARSE or INVALID, but if we'd mapped a valid
-LPTE in the meantime, it would get trashed. Keep track of when
-a valid LPTE has been referenced, and don't reset in that case.
-
-This increase the tracking to 32-bit, because it turns out if
-unref can get delayed, you can get a lot of these outstanding
-and this can cause strange behaviours.
-
-Cc: stable@vger.kernel.org
-Link: https://gitlab.freedesktop.org/mesa/mesa/-/issues/14610
-Signed-off-by: Dave Airlie <airlied@redhat.com>
-
---
-v2: move to 32-bit from 8-bit tracker
-fix some more flag changes.
-v3: missed one BIG_PTE unset
-v4: start referencing counting LPTE
----
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c | 80 ++++++++++++-------
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h | 14 +++-
- 2 files changed, 61 insertions(+), 33 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c b/drivers/gpu/dr=
-m/nouveau/nvkm/subdev/mmu/vmm.c
-index f95c58b67633..c2dfaa4b89cf 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
-@@ -53,7 +53,7 @@ nvkm_vmm_pt_new(const struct nvkm_vmm_desc *desc, bool sp=
-arse,
- =09=09}
- =09}
-=20
--=09if (!(pgt =3D kzalloc(sizeof(*pgt) + lpte, GFP_KERNEL)))
-+=09if (!(pgt =3D kzalloc(sizeof(*pgt) + (sizeof(pgt->pte[0]) * lpte), GFP_=
-KERNEL)))
- =09=09return NULL;
- =09pgt->page =3D page ? page->shift : 0;
- =09pgt->sparse =3D sparse;
-@@ -208,7 +208,7 @@ nvkm_vmm_unref_sptes(struct nvkm_vmm_iter *it, struct n=
-vkm_vmm_pt *pgt,
- =09 */
- =09for (lpti =3D ptei >> sptb; ptes; spti =3D 0, lpti++) {
- =09=09const u32 pten =3D min(sptn - spti, ptes);
--=09=09pgt->pte[lpti] -=3D pten;
-+=09=09pgt->pte[lpti].spte_count -=3D pten;
- =09=09ptes -=3D pten;
- =09}
-=20
-@@ -218,9 +218,9 @@ nvkm_vmm_unref_sptes(struct nvkm_vmm_iter *it, struct n=
-vkm_vmm_pt *pgt,
-=20
- =09for (ptei =3D pteb =3D ptei >> sptb; ptei < lpti; pteb =3D ptei) {
- =09=09/* Skip over any LPTEs that still have valid SPTEs. */
--=09=09if (pgt->pte[pteb] & NVKM_VMM_PTE_SPTES) {
-+=09=09if (pgt->pte[pteb].spte_count) {
- =09=09=09for (ptes =3D 1, ptei++; ptei < lpti; ptes++, ptei++) {
--=09=09=09=09if (!(pgt->pte[ptei] & NVKM_VMM_PTE_SPTES))
-+=09=09=09=09if (!pgt->pte[ptei].spte_count)
- =09=09=09=09=09break;
- =09=09=09}
- =09=09=09continue;
-@@ -232,24 +232,27 @@ nvkm_vmm_unref_sptes(struct nvkm_vmm_iter *it, struct=
- nvkm_vmm_pt *pgt,
- =09=09 *
- =09=09 * Determine how many LPTEs need to transition state.
- =09=09 */
--=09=09pgt->pte[ptei] &=3D ~NVKM_VMM_PTE_VALID;
-+=09=09pgt->pte[ptei].spte_valid =3D false;
- =09=09for (ptes =3D 1, ptei++; ptei < lpti; ptes++, ptei++) {
--=09=09=09if (pgt->pte[ptei] & NVKM_VMM_PTE_SPTES)
-+=09=09=09if (pgt->pte[ptei].spte_count)
- =09=09=09=09break;
--=09=09=09pgt->pte[ptei] &=3D ~NVKM_VMM_PTE_VALID;
-+=09=09=09pgt->pte[ptei].spte_valid =3D false;
- =09=09}
-=20
--=09=09if (pgt->pte[pteb] & NVKM_VMM_PTE_SPARSE) {
-+=09=09if (pgt->pte[pteb].sparse) {
- =09=09=09TRA(it, "LPTE %05x: U -> S %d PTEs", pteb, ptes);
- =09=09=09pair->func->sparse(vmm, pgt->pt[0], pteb, ptes);
--=09=09} else
--=09=09if (pair->func->invalid) {
--=09=09=09/* If the MMU supports it, restore the LPTE to the
--=09=09=09 * INVALID state to tell the MMU there is no point
--=09=09=09 * trying to fetch the corresponding SPTEs.
--=09=09=09 */
--=09=09=09TRA(it, "LPTE %05x: U -> I %d PTEs", pteb, ptes);
--=09=09=09pair->func->invalid(vmm, pgt->pt[0], pteb, ptes);
-+=09=09} else if (!pgt->pte[pteb].lpte_valid) {
-+=09=09=09if (pair->func->invalid) {
-+=09=09=09=09/* If the MMU supports it, restore the LPTE to the
-+=09=09=09=09 * INVALID state to tell the MMU there is no point
-+=09=09=09=09 * trying to fetch the corresponding SPTEs.
-+=09=09=09=09 */
-+=09=09=09=09TRA(it, "LPTE %05x: U -> I %d PTEs", pteb, ptes);
-+=09=09=09=09pair->func->invalid(vmm, pgt->pt[0], pteb, ptes);
-+=09=09=09}
-+=09=09} else {
-+=09=09=09TRA(it, "LPTE %05x: V %d PTEs", pteb, ptes);
- =09=09}
- =09}
- }
-@@ -280,6 +283,13 @@ nvkm_vmm_unref_ptes(struct nvkm_vmm_iter *it, bool pfn=
-, u32 ptei, u32 ptes)
- =09if (desc->type =3D=3D SPT && (pgt->refs[0] || pgt->refs[1]))
- =09=09nvkm_vmm_unref_sptes(it, pgt, desc, ptei, ptes);
-=20
-+=09if (desc->type =3D=3D LPT && (pgt->refs[0] || pgt->refs[1])) {
-+=09=09for (u32 lpti =3D ptei; ptes; lpti++) {
-+=09=09=09pgt->pte[lpti].lpte_count--;
-+=09=09=09ptes--;
-+=09=09}
-+=09}
-+
- =09/* PT no longer needed? Destroy it. */
- =09if (!pgt->refs[type]) {
- =09=09it->lvl++;
-@@ -307,7 +317,7 @@ nvkm_vmm_ref_sptes(struct nvkm_vmm_iter *it, struct nvk=
-m_vmm_pt *pgt,
- =09 */
- =09for (lpti =3D ptei >> sptb; ptes; spti =3D 0, lpti++) {
- =09=09const u32 pten =3D min(sptn - spti, ptes);
--=09=09pgt->pte[lpti] +=3D pten;
-+=09=09pgt->pte[lpti].spte_count +=3D pten;
- =09=09ptes -=3D pten;
- =09}
-=20
-@@ -317,9 +327,9 @@ nvkm_vmm_ref_sptes(struct nvkm_vmm_iter *it, struct nvk=
-m_vmm_pt *pgt,
-=20
- =09for (ptei =3D pteb =3D ptei >> sptb; ptei < lpti; pteb =3D ptei) {
- =09=09/* Skip over any LPTEs that already have valid SPTEs. */
--=09=09if (pgt->pte[pteb] & NVKM_VMM_PTE_VALID) {
-+=09=09if (pgt->pte[pteb].spte_valid) {
- =09=09=09for (ptes =3D 1, ptei++; ptei < lpti; ptes++, ptei++) {
--=09=09=09=09if (!(pgt->pte[ptei] & NVKM_VMM_PTE_VALID))
-+=09=09=09=09if (!pgt->pte[ptei].spte_valid)
- =09=09=09=09=09break;
- =09=09=09}
- =09=09=09continue;
-@@ -331,14 +341,16 @@ nvkm_vmm_ref_sptes(struct nvkm_vmm_iter *it, struct n=
-vkm_vmm_pt *pgt,
- =09=09 *
- =09=09 * Determine how many LPTEs need to transition state.
- =09=09 */
--=09=09pgt->pte[ptei] |=3D NVKM_VMM_PTE_VALID;
-+=09=09pgt->pte[ptei].spte_valid =3D true;
-+=09=09pgt->pte[ptei].lpte_valid =3D false;
- =09=09for (ptes =3D 1, ptei++; ptei < lpti; ptes++, ptei++) {
--=09=09=09if (pgt->pte[ptei] & NVKM_VMM_PTE_VALID)
-+=09=09=09if (pgt->pte[ptei].spte_valid)
- =09=09=09=09break;
--=09=09=09pgt->pte[ptei] |=3D NVKM_VMM_PTE_VALID;
-+=09=09=09pgt->pte[ptei].spte_valid =3D true;
-+=09=09=09pgt->pte[ptei].lpte_valid =3D false;
- =09=09}
-=20
--=09=09if (pgt->pte[pteb] & NVKM_VMM_PTE_SPARSE) {
-+=09=09if (pgt->pte[pteb].sparse) {
- =09=09=09const u32 spti =3D pteb * sptn;
- =09=09=09const u32 sptc =3D ptes * sptn;
- =09=09=09/* The entire LPTE is marked as sparse, we need
-@@ -374,6 +386,15 @@ nvkm_vmm_ref_ptes(struct nvkm_vmm_iter *it, bool pfn, =
-u32 ptei, u32 ptes)
- =09if (desc->type =3D=3D SPT)
- =09=09nvkm_vmm_ref_sptes(it, pgt, desc, ptei, ptes);
-=20
-+=09if (desc->type =3D=3D LPT) {
-+=09=09for (u32 lpti =3D ptei; ptes; lpti++) {
-+=09=09=09pgt->pte[lpti].spte_valid =3D false;
-+=09=09=09pgt->pte[lpti].lpte_valid =3D true;
-+=09=09=09pgt->pte[lpti].lpte_count++;
-+=09=09=09ptes--;
-+=09=09}
-+=09}
-+
- =09return true;
- }
-=20
-@@ -386,7 +407,8 @@ nvkm_vmm_sparse_ptes(const struct nvkm_vmm_desc *desc,
- =09=09=09pgt->pde[ptei++] =3D NVKM_VMM_PDE_SPARSE;
- =09} else
- =09if (desc->type =3D=3D LPT) {
--=09=09memset(&pgt->pte[ptei], NVKM_VMM_PTE_SPARSE, ptes);
-+=09=09struct pt_tracker sparse =3D { .sparse =3D 1 };
-+=09=09memset32((u32 *)&pgt->pte[ptei], *(u32 *)&sparse, ptes);
- =09}
- }
-=20
-@@ -398,7 +420,7 @@ nvkm_vmm_sparse_unref_ptes(struct nvkm_vmm_iter *it, bo=
-ol pfn, u32 ptei, u32 pte
- =09=09memset(&pt->pde[ptei], 0x00, sizeof(pt->pde[0]) * ptes);
- =09else
- =09if (it->desc->type =3D=3D LPT)
--=09=09memset(&pt->pte[ptei], 0x00, sizeof(pt->pte[0]) * ptes);
-+=09=09memset32((u32 *)&pt->pte[ptei], 0x00, ptes);
- =09return nvkm_vmm_unref_ptes(it, pfn, ptei, ptes);
- }
-=20
-@@ -445,9 +467,9 @@ nvkm_vmm_ref_hwpt(struct nvkm_vmm_iter *it, struct nvkm=
-_vmm_pt *pgd, u32 pdei)
- =09=09 * the SPTEs on some GPUs.
- =09=09 */
- =09=09for (ptei =3D pteb =3D 0; ptei < pten; pteb =3D ptei) {
--=09=09=09bool spte =3D pgt->pte[ptei] & NVKM_VMM_PTE_SPTES;
-+=09=09=09bool spte =3D !!pgt->pte[ptei].spte_count;
- =09=09=09for (ptes =3D 1, ptei++; ptei < pten; ptes++, ptei++) {
--=09=09=09=09bool next =3D pgt->pte[ptei] & NVKM_VMM_PTE_SPTES;
-+=09=09=09=09bool next =3D !!pgt->pte[ptei].spte_count;
- =09=09=09=09if (spte !=3D next)
- =09=09=09=09=09break;
- =09=09=09}
-@@ -457,11 +479,11 @@ nvkm_vmm_ref_hwpt(struct nvkm_vmm_iter *it, struct nv=
-km_vmm_pt *pgd, u32 pdei)
- =09=09=09=09=09desc->func->sparse(vmm, pt, pteb, ptes);
- =09=09=09=09else
- =09=09=09=09=09desc->func->invalid(vmm, pt, pteb, ptes);
--=09=09=09=09memset(&pgt->pte[pteb], 0x00, ptes);
-+=09=09=09=09memset32((u32 *)&pgt->pte[pteb], 0x00, ptes);
- =09=09=09} else {
- =09=09=09=09desc->func->unmap(vmm, pt, pteb, ptes);
- =09=09=09=09while (ptes--)
--=09=09=09=09=09pgt->pte[pteb++] |=3D NVKM_VMM_PTE_VALID;
-+=09=09=09=09=09pgt->pte[pteb++].spte_valid =3D true;
- =09=09=09}
- =09=09}
- =09} else {
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h b/drivers/gpu/dr=
-m/nouveau/nvkm/subdev/mmu/vmm.h
-index 4586a425dbe4..8c4531a70a3a 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
-@@ -4,6 +4,15 @@
- #include <core/memory.h>
- enum nvkm_memory_target;
-=20
-+struct pt_tracker {
-+=09u32 sparse:1;
-+=09u32 spte_valid:1;
-+=09u32 lpte_valid:1;
-+=09u32 lpte_count:13;
-+=09u32 spte_count:16;
-+};
-+
-+
- struct nvkm_vmm_pt {
- =09/* Some GPUs have a mapping level with a dual page tables to
- =09 * support large and small pages in the same address-range.
-@@ -44,10 +53,7 @@ struct nvkm_vmm_pt {
- =09 *
- =09 * This information is used to manage LPTE state transitions.
- =09 */
--#define NVKM_VMM_PTE_SPARSE 0x80
--#define NVKM_VMM_PTE_VALID  0x40
--#define NVKM_VMM_PTE_SPTES  0x3f
--=09u8 pte[];
-+=09struct pt_tracker pte[];
- };
-=20
- typedef void (*nvkm_vmm_pxe_func)(struct nvkm_vmm *,
---=20
-2.52.0
-
+On Wed, Jan 14, 2026 at 01:43:31PM -0700, Nathan Chancellor wrote:
+> Clang warns (or errors with CONFIG_WERROR=y / W=e):
+> 
+>   drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:95:16: error: initializer overrides prior initialization of this subobject [-Werror,-Winitializer-overrides]
+>      95 |         .vbr_enable = 0,
+>         |                       ^
+>   drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:90:16: note: previous initialization is here
+>      90 |         .vbr_enable = false,
+>         |                       ^~~~~
+>   drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:97:19: error: initializer overrides prior initialization of this subobject [-Werror,-Winitializer-overrides]
+>      97 |         .rc_model_size = DSC_RC_MODEL_SIZE_CONST,
+>         |                          ^~~~~~~~~~~~~~~~~~~~~~~
+>   include/drm/display/drm_dsc.h:22:38: note: expanded from macro 'DSC_RC_MODEL_SIZE_CONST'
+>      22 | #define DSC_RC_MODEL_SIZE_CONST             8192
+>         |                                             ^~~~
+>   drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:91:19: note: previous initialization is here
+>      91 |         .rc_model_size = DSC_RC_MODEL_SIZE_CONST,
+>         |                          ^~~~~~~~~~~~~~~~~~~~~~~
+>   include/drm/display/drm_dsc.h:22:38: note: expanded from macro 'DSC_RC_MODEL_SIZE_CONST'
+>      22 | #define DSC_RC_MODEL_SIZE_CONST             8192
+>         |                                             ^~~~
+>   drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:132:25: error: initializer overrides prior initialization of this subobject [-Werror,-Winitializer-overrides]
+>     132 |         .initial_scale_value = 32,
+>         |                                ^~
+>   drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:126:25: note: previous initialization is here
+>     126 |         .initial_scale_value = 32,
+>         |                                ^~
+>   drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:133:20: error: initializer overrides prior initialization of this subobject [-Werror,-Winitializer-overrides]
+>     133 |         .nfl_bpg_offset = 3511,
+>         |                           ^~~~
+>   drivers/gpu/drm/panel/panel-ilitek-ili9882t.c:108:20: note: previous initialization is here
+>     108 |         .nfl_bpg_offset = 1402,
+>         |                           ^~~~
+> 
+> GCC would warn about this in the same manner but its version,
+> -Woverride-init, is disabled for a normal kernel build in
+> scripts/Makefile.warn. For clang, -Wextra in drivers/gpu/drm/Makefile
+> turns it back but GCC respects turning it off earlier in the command
+> line.
+> 
+> Of all the duplicate fields in the initializer, only nfl_bpg_offset is a
+> different value. Clear up the duplicate initializers, keeping the
+> 'false' value for .vbr_enable, as it is bool, and the second value for
+> .nfl_bpg_offset, assuming it is the correct one since it was the one
+> tested in the original change.
+> 
+> Fixes: 65ce1f5834e9 ("drm/panel: ilitek-ili9882t: Switch Tianma TL121BVMS07 to DSC 120Hz mode")
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>  drivers/gpu/drm/panel/panel-ilitek-ili9882t.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+> index 370424ddfc80..8b2bfb7d3638 100644
+> --- a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+> +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+> @@ -88,11 +88,9 @@ static const struct drm_dsc_config tianma_il79900a_dsc = {
+>  	.native_422 = false,
+>  	.simple_422 = false,
+>  	.vbr_enable = false,
+> -	.rc_model_size = DSC_RC_MODEL_SIZE_CONST,
+>  	.pic_width = 1600,
+>  	.pic_height = 2560,
+>  	.convert_rgb = 0,
+> -	.vbr_enable = 0,
+>  	.rc_buf_thresh = {14, 28, 42, 56, 70, 84, 98, 105, 112, 119, 121, 123, 125, 126},
+>  	.rc_model_size = DSC_RC_MODEL_SIZE_CONST,
+>  	.rc_edge_factor = DSC_RC_EDGE_FACTOR_CONST,
+> @@ -105,7 +103,6 @@ static const struct drm_dsc_config tianma_il79900a_dsc = {
+>  	.initial_offset = 6144,
+>  	.rc_quant_incr_limit0 = 11,
+>  	.rc_quant_incr_limit1 = 11,
+> -	.nfl_bpg_offset = 1402,
+>  	.rc_range_params = {
+>  		{ 0,  4, DSC_BPG_OFFSET(2)},
+>  		{ 0,  4, DSC_BPG_OFFSET(0)},
+> @@ -123,7 +120,6 @@ static const struct drm_dsc_config tianma_il79900a_dsc = {
+>  		{ 9, 12, DSC_BPG_OFFSET(-12)},
+>  		{12, 13, DSC_BPG_OFFSET(-12)},
+>  	},
+> -	.initial_scale_value = 32,
+>  	.slice_chunk_size = 800,
+>  	.initial_dec_delay = 657,
+>  	.final_offset = 4320,
+> 
+> ---
+> base-commit: b36178488d479e9a53bbef2b01280378b5586e60
+> change-id: 20260114-panel-ilitek-ili9882t-fix-override-init-21e19143f770
+> 
+> Best regards,
+> --  
+> Nathan Chancellor <nathan@kernel.org>
+> 
