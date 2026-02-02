@@ -2,96 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UGKyJ2nWgGmFBwMAu9opvQ
+	id wAJTDfPZgGnMBwMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 17:52:57 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 18:08:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07819CF330
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 17:52:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FBE9CF619
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 18:08:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0954010E50A;
-	Mon,  2 Feb 2026 16:52:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 736EA10E2CC;
+	Mon,  2 Feb 2026 17:07:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="JU2Hc/i7";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="2qqhM+kS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
- [209.85.218.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1B0910E50A
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 16:52:53 +0000 (UTC)
-Received: by mail-ej1-f66.google.com with SMTP id
- a640c23a62f3a-b88593aa4dcso637531766b.3
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 08:52:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1770051169; x=1770655969;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QGLSQGBxItX/p5vDeLcxHCTPSeYQPRqcWlnQBJSqWY0=;
- b=JU2Hc/i7NJaHJb9RIoRRaP0TdJRVLktR2YEd+TzPShWxk7XOGh1oX7FB0MFvSi2kY4
- /4QoVZl1ANNKUcglW8dWoQ0F9WZLtubdnhuJ2gglkZd6sxa/HTJuRZ13qUOM1TNIT8JL
- iZ64u5KPO+6dmMoWiXNTax3VnMBMmVAPulzv0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770051169; x=1770655969;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=QGLSQGBxItX/p5vDeLcxHCTPSeYQPRqcWlnQBJSqWY0=;
- b=NzncY66BgNq95QZM0Gw560OjNd3IiuTd7fVF3jsKxr4gegGfr5RsBzntaHLnuk97Ir
- AHJ8CE1IfwiW2ARipqRC8jtkz4cRNLjrWzABDuEML4cb+MZI2nvmkI+cFhC7RwAbSaOh
- lOG8YDQ/KoiMw7qWTyeGesR8A39D9mvVGIarEOHhv1F6/HrIBdrPXG6MFqwniQNHxO86
- C9HL+eXNly6H+A60+7m31r7P//59oS72/Bg4LUaua+EOwGKwiKns57L38PWh7IseSnDX
- 2JaOWnaXwkLUPGuGygpAeO8ReV9voQF0o1iUgtMYVuUKZ6dWtpOn1NkqAfPvwZPuNqaA
- qWXw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWvKebQleGlpRQblraOBT/GevisggOkXKYsZbuSa77hdYJY55EPMTKLHA04Ka1+SyC1/dMIUZbUxlc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwHbPw4nBUhB72ZNexuEJjPYWnTINuxtcz8IqMgq5C7YAG5rRA7
- oCfQiKT/TWPxGhb/aotZ+rFvGl52XkT7M5Qog1DLCnsAR0/G7BAi8ZyKfREipr1GZ88Kj5mnLJG
- 84GGfjwrt
-X-Gm-Gg: AZuq6aLJ0clx5z2cMa5DJtx0D3M5QEuLBSTkzUNBdjyi97lm8A88if0o7TSY2ZNXO9p
- nOhT6x1Rq9NNHbs49ijteoHMLSmMoksNAcyXgyewXpPE1K4NO4bVM3JGPiVy7BL9Rqgy+M2twRe
- P1b5RRP2Pz9SNPWud7fNAWTcb42UGacr+kvn96v+XUpnPzlAR/iGBrZfqZ8mITVTte9VXkEAjAk
- Xi9V1YN4gcgfcGqfeiQDekWzUJSljXpM3H5QS9Nvgkd0bQsbNTtIH2F8FL9jk1adX03dsBugDJo
- qG1LEQdpc7K3W/EbPIt68nREBunGMpZKy+VIZKsyJ9uUie9ku6oZUqGdM9BTE42fm2HC1uM0IxX
- 9W5LXu50f2rgnOV69P9Wsu6vn2N2SMuWWpvZO5BjUu6ui9VEKdU/sFkwLITMV5FM0GGgPAFVJSD
- Z07Vh0OwGvtCgR/p3gkD6ZFYN/xiL/eb9cokbx2qHbWAkifY9ZYQ==
-X-Received: by 2002:a17:907:7207:b0:b88:5a74:4cd6 with SMTP id
- a640c23a62f3a-b8dff755042mr835648866b.43.1770051169490; 
- Mon, 02 Feb 2026 08:52:49 -0800 (PST)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com.
- [209.85.128.48]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b8dbf1baa42sm906049566b.46.2026.02.02.08.52.47
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Feb 2026 08:52:47 -0800 (PST)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-48068ed1eccso43079995e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 08:52:47 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVhT+Qfbi4y105LD87rZO9iThWoc24xIx9p0+LnYK2yEqKaniN8fzJiJXLdMFt+i7RZfxMMcjC6BSY=@lists.freedesktop.org
-X-Received: by 2002:a05:600c:8b12:b0:47d:5e02:14e5 with SMTP id
- 5b1f17b1804b1-482db44e7f7mr158073105e9.5.1770051167405; Mon, 02 Feb 2026
- 08:52:47 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1769191673.git.robin.murphy@arm.com>
- <a00a59dcef3693efb02a8ee942848fbeaeaf05ba.1769191673.git.robin.murphy@arm.com>
- <CAD=FV=ViHWqjMGfYFgHBNRY-ex2vZjMaYoYLJb=vcUfPQRb9FA@mail.gmail.com>
-In-Reply-To: <CAD=FV=ViHWqjMGfYFgHBNRY-ex2vZjMaYoYLJb=vcUfPQRb9FA@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 2 Feb 2026 08:52:36 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UKL5mSr3b_0eBuYZ04RFjFLAG1ZRw=JC5wtPy=t7+7wA@mail.gmail.com>
-X-Gm-Features: AZwV_Qg8mOHmFnRAdN4OmDJbt-Yo140VuLppfyIQONLjHwqHVTpsMUgdZpTJYuk
-Message-ID: <CAD=FV=UKL5mSr3b_0eBuYZ04RFjFLAG1ZRw=JC5wtPy=t7+7wA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] drm/panel-edp: Move FriendlyELEC HD702E
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: heiko@sntech.de, neil.armstrong@linaro.org, thierry.reding@gmail.com, 
- sam@ravnborg.org, jesszhan0024@gmail.com, dri-devel@lists.freedesktop.org, 
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4604410E2CC
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 17:07:58 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-04.galae.net (Postfix) with ESMTPS id A96C0C237F3;
+ Mon,  2 Feb 2026 17:08:01 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id BEF2560767;
+ Mon,  2 Feb 2026 17:07:56 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id E9F3E119A8888; Mon,  2 Feb 2026 18:07:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1770052075; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=GI+ra4XFLShnydK/2m1O36TI0V8Tq0yYe+Uz1t6wvaU=;
+ b=2qqhM+kSc6wGOF8joN8LTC5kMrxJrGg/XunkxEBv7HGKWW75HyI0OdOn6hM8FhiIoOLbd3
+ kHALb7zczTwoPZSq91G5IncAHvcy0wuQxdViDhp5+SaJMI5+bRdhUut5E8nKtdG7PfHZrw
+ wfJbj7b8NpuTQ82Q7C59YXf/GnO4Ez9sSQi8RlXObT92OBp/oEgSUUqhHhP0DWRka9WRBM
+ BZOMylxjxQIkqjQpb5J+CGZqmx1wcgdyFr4RScLEWf6q0A4MXs8foeSROFNQtH1EePquOT
+ H3mPAR8Vaaedr9txCYvBevjRa6wIuJ3HvG0l192QPEg5vPqY0IwWYEx8dVK7cQ==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 02 Feb 2026 18:07:45 +0100
+Message-Id: <DG4N39EA7RN5.NARFDHX3IXGE@bootlin.com>
+Subject: Re: [PATCH v5 20/25] drm/tilcdc: Use devm_drm_of_get_bridge() helper
+Cc: "Jyri Sarha" <jyri.sarha@iki.fi>, "Tomi Valkeinen"
+ <tomi.valkeinen@ideasonboard.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Russell King" <linux@armlinux.org.uk>,
+ "Bartosz Golaszewski" <brgl@bgdev.pl>, "Tony Lindgren" <tony@atomide.com>,
+ "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Markus
+ Schneider-Pargmann" <msp@baylibre.com>, "Bajjuri Praneeth"
+ <praneeth@ti.com>, "Louis Chauvet" <louis.chauvet@bootlin.com>, "Thomas
+ Petazzoni" <thomas.petazzoni@bootlin.com>, "Miguel Gazquez"
+ <miguel.gazquez@bootlin.com>, "Herve Codina" <herve.codina@bootlin.com>,
+ <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-omap@vger.kernel.org>
+To: "Kory Maincent" <kory.maincent@bootlin.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.20.1
+References: <20260123-feature_tilcdc-v5-0-5a44d2aa3f6f@bootlin.com>
+ <20260123-feature_tilcdc-v5-20-5a44d2aa3f6f@bootlin.com>
+ <DG269FV5MZ8I.2VFNJXA0N2Y26@bootlin.com>
+ <20260202105717.53067aae@kmaincent-XPS-13-7390>
+In-Reply-To: <20260202105717.53067aae@kmaincent-XPS-13-7390>
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,80 +86,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[sntech.de,linaro.org,gmail.com,ravnborg.org,lists.freedesktop.org,lists.infradead.org];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[dianders@chromium.org,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:robin.murphy@arm.com,m:heiko@sntech.de,m:neil.armstrong@linaro.org,m:thierry.reding@gmail.com,m:sam@ravnborg.org,m:jesszhan0024@gmail.com,m:linux-rockchip@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:jyri.sarha@iki.fi,m:tomi.valkeinen@ideasonboard.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux@armlinux.org.uk,m:brgl@bgdev.pl,m:tony@atomide.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:msp@baylibre.com,m:praneeth@ti.com,m:louis.chauvet@bootlin.com,m:thomas.petazzoni@bootlin.com,m:miguel.gazquez@bootlin.com,m:herve.codina@bootlin.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-omap@vger.kernel.org,m:kory.maincent@bootlin.com,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[iki.fi,ideasonboard.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,armlinux.org.uk,bgdev.pl,atomide.com,intel.com,linaro.org,kwiboo.se,baylibre.com,ti.com,bootlin.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dianders@chromium.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[bootlin.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,arm.com:email,mail.gmail.com:mid,chromium.org:email,chromium.org:dkim,linaro.org:email]
-X-Rspamd-Queue-Id: 07819CF330
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:dkim,bootlin.com:email,bootlin.com:url,bootlin.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,ti.com:url]
+X-Rspamd-Queue-Id: 3FBE9CF619
 X-Rspamd-Action: no action
 
-Hi,
+On Mon Feb 2, 2026 at 10:57 AM CET, Kory Maincent wrote:
+> On Fri, 30 Jan 2026 20:31:11 +0100
+> "Luca Ceresoli" <luca.ceresoli@bootlin.com> wrote:
+>
+>> Hi Kory,
+>>
+>> On Fri Jan 23, 2026 at 5:12 PM CET, Kory Maincent (TI.com) wrote:
+>> > Replace drm_of_find_panel_or_bridge() with the newer
+>> > devm_drm_of_get_bridge() helper which simplifies the code by:
+>> > - Automatically handling both panel and bridge cases internally
+>> > - Managing the panel-to-bridge conversion when needed
+>> > - Using devres for resource management, eliminating manual cleanup
+>> >
+>> > This removes the need for explicit panel-to-bridge conversion via
+>> > devm_drm_panel_bridge_add_typed() and the associated error handling pa=
+th.
+>
+> ...
+>
+>> >  	encoder =3D drmm_simple_encoder_alloc(ddev, struct tilcdc_encoder,
+>> >  					    base, DRM_MODE_ENCODER_NONE);
+>> > @@ -73,12 +70,5 @@ int tilcdc_encoder_create(struct drm_device *ddev)
+>> >  	}
+>> >  	priv->encoder =3D encoder;
+>> >
+>> > -	if (panel) {
+>> > -		bridge =3D devm_drm_panel_bridge_add_typed(ddev->dev, panel,
+>> > -
+>> > DRM_MODE_CONNECTOR_DPI);
+>>
+>> You are introducing a subtle difference here: while you pass the connect=
+or
+>> type to devm_drm_panel_bridge_add_typed(), devm_drm_of_get_bridge() does
+>> not take it and expects it to ahve been set previously and errors out if=
+ it
+>> hasn't.
+>>
+>> Can you ensure the connector type is alway set before this
+>> devm_drm_of_get_bridge() call?
+>
+> The connector type should be set by the bridge or the panel driver.
+>
+> https://elixir.bootlin.com/linux/v6.18.6/source/drivers/gpu/drm/bridge/pa=
+nel.c#L397
+>  * This function is deprecated and should not be used in new drivers. Use
+>  * devm_drm_panel_bridge_add() instead, and fix panel drivers as necessar=
+y if
+>  * they don't report a connector type.
 
-On Sat, Jan 24, 2026 at 3:52=E2=80=AFPM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
-> On Fri, Jan 23, 2026 at 11:22=E2=80=AFAM Robin Murphy <robin.murphy@arm.c=
-om> wrote:
-> >
-> > FriendlyELEC's HD702E module is an eDP panel (in as much as it's some
-> > LVDS LCD behind a Chrontel CH7511B eDP bridge), so move its data over
-> > to the eDP driver, also resolving the warning about the missing bpc
-> > value in the process.
-> >
-> > The unfortunate combination of HPD not being wired up and the RK3399 eD=
-P
-> > controller's behaviour seems to result in the EDID not being readable
-> > over DP-AUX without probing the panel first, thus the hard-coded mode i=
-s
-> > still needed to get things going.
-> >
-> > Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-> > Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> > ---
-> > v2: Clarify issue with the generic binding
-> > ---
-> >  drivers/gpu/drm/panel/panel-edp.c    | 26 ++++++++++++++++++++++++++
-> >  drivers/gpu/drm/panel/panel-simple.c | 25 -------------------------
-> >  2 files changed, 26 insertions(+), 25 deletions(-)
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->
-> I'll plan to apply patches #1 and #2 in ~1 week to drm-misc-next if
-> there are no other comments. If someone else wants to beat me to it,
-> though, I'm also OK w/ that.
+Ah, right, so it means this patch might cause some regressions due to panel
+drivers to be fixed. So it's fine as long as you are ready to handle such
+regression, should any happen.
 
-Pushed patches to drm-misc-next:
+Also other patches did exactly the same, e.g.:
 
-[2/4] drm/panel-edp: Move FriendlyELEC HD702E
-      commit: 5c323ea948ff0f9e50418119cbbb3d94f2bd6a96
+  commit 6e1853589ea6 ("drm/lcdif: switch to devm_drm_of_get_bridge")
+  commit a43dd76bacd0 ("drm/vc4: dsi: Switch to devm_drm_of_get_bridge")
+
+And so:
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
