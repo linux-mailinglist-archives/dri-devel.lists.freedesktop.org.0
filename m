@@ -2,75 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +KHDMzJ3gGmo8gIAu9opvQ
+	id kCsHOEBzgGkw8QIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:06:42 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 10:49:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32BA4CA7B6
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:06:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F279CA48A
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 10:49:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05FFE10E3C9;
-	Mon,  2 Feb 2026 10:06:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFA1510E28E;
+	Mon,  2 Feb 2026 09:49:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="F3Zk2JPt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="b4FHKik3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2421310E3C9
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 10:06:38 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id DB1F1401FB;
- Mon,  2 Feb 2026 10:06:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4988CC116C6;
- Mon,  2 Feb 2026 10:06:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770026797;
- bh=AR8WJZlCheylxeYBIiVxCcxzyOcuAsM0oQ9x69QBGeM=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=F3Zk2JPtX9BKsOfGhozTjtxp24jGgOGKlChNCS+jg88F1hIocpFuLVSYIR18rCyVU
- Moue0o90AkrrRNWLZsD3Ivul0Ujd6NRdOLRfS4mbYhd+jIgh3WaUTu37sqLhjoVDDM
- ZgNKC4CQQbziV9McP8h+/UTn9ywlHI2QkvLZ2ar9yc3YlJ8hR3SruAEiAa6yi0It27
- BEnKNuFE3HNDel0CDsOIk6P757sPTcTgYwWOtVRxtchr0rBPAWQmmqwkgUZckaznQa
- zih68OgLAg6wb4fCu8Re3XEGr9fp/N7elqd9Vgxj/bLH1xzTBTaowCfXgw4AOXcm0E
- o6qWmBVO6NSqg==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Gary Guo <gary@garyguo.net>, Oliver Mangold <oliver.mangold@pm.me>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>, Alice
- Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Benno Lossin
- <lossin@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Dave Ertman
- <david.m.ertman@intel.com>, Ira
- Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>, "Rafael J.
- Wysocki" <rafael@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Lorenzo
- Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Viresh Kumar <vireshk@kernel.org>, Nishanth
- Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, Paul
- Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Asahi Lina
- <lina+kernel@asahilina.net>, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v13 2/4] rust: `AlwaysRefCounted` is renamed to
- `RefCounted`.
-In-Reply-To: <20251201160030.6956a834.gary@garyguo.net>
-References: <20251117-unique-ref-v13-0-b5b243df1250@pm.me>
- <20251117-unique-ref-v13-2-b5b243df1250@pm.me>
- <20251201160030.6956a834.gary@garyguo.net>
-Date: Mon, 02 Feb 2026 10:48:39 +0100
-Message-ID: <87wm0vpjbc.fsf@t14s.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAEE910E28E
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 09:49:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1770025782; x=1801561782;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=KYLWXHG5CV4pfZ0AMIfxHVjeWQhyjMHTo9SoYGh5nSE=;
+ b=b4FHKik3NeYQQkUxLt04Sb/CeRZ1+DwPvDXkwHlBNOzgOkMRRUkEPdqe
+ thlRdF8uK7DR4CBfCEo94vsdv41zw6N70Mt+xRxAKCTNlB9dCe7T+wfCm
+ bYkk0TZcK9/RyER6Gn97U5++IVg9QMRxoBxG4dlDzdWMCZme0xP663+jr
+ 0442pZ7x9rbgPhk2J9pCaRuYnfIPrXv6eLlWhIRDuY2Eq84bd9JBnDCLv
+ HPpGogWfcRG8UDqRW/BqMLcDjx1RZDXXsa7JL7WJBl6DTgmTjFcbI3OCO
+ 8BPmoxc3H+yAsNk30G23I4KfvfxtSBrvLp1aLgot37eCvVsisZ8eqqfja Q==;
+X-CSE-ConnectionGUID: 7DzpiwVaQ52WlaRGY8i+xA==
+X-CSE-MsgGUID: xSCrOLpFQNGP2MsmtB6Oyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="74802547"
+X-IronPort-AV: E=Sophos;i="6.21,268,1763452800"; d="scan'208";a="74802547"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2026 01:49:42 -0800
+X-CSE-ConnectionGUID: KGnY2pOJQfaAjQSF8RtbjQ==
+X-CSE-MsgGUID: d5gdnoEPSQmYDQ9HO0Dvgw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,268,1763452800"; d="scan'208";a="247082861"
+Received: from abityuts-desk.ger.corp.intel.com (HELO [10.245.244.193])
+ ([10.245.244.193])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2026 01:49:40 -0800
+Message-ID: <081c00e4b349ec6b81ef9659b8180c1b834909b7.camel@linux.intel.com>
+Subject: Re: drm_gpusvm: questions on multi-GPU support
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Honglei Huang <honghuan@amd.com>, matthew.brost@intel.com
+Cc: Ray.Huang@amd.com, dri-devel@lists.freedesktop.org
+Date: Mon, 02 Feb 2026 10:49:37 +0100
+In-Reply-To: <a1dc7f3a-376f-4910-b6ae-8ee733bd598f@amd.com>
+References: <a1dc7f3a-376f-4910-b6ae-8ee733bd598f@amd.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 MIME-Version: 1.0
-Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,73 +75,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[42];
+	FORGED_RECIPIENTS(0.00)[m:honghuan@amd.com,m:matthew.brost@intel.com,m:Ray.Huang@amd.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:gary@garyguo.net,m:oliver.mangold@pm.me,m:ojeda@kernel.org,m:alex.gaynor@gmail.com,m:boqun.feng@gmail.com,m:bjorn3_gh@protonmail.com,m:aliceryhl@google.com,m:tmgross@umich.edu,m:lossin@kernel.org,m:dakr@kernel.org,m:gregkh@linuxfoundation.org,m:david.m.ertman@intel.com,m:ira.weiny@intel.com,m:leon@kernel.org,m:rafael@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vireshk@kernel.org,m:nm@ti.com,m:sboyd@kernel.org,m:bhelgaas@google.com,m:kwilczynski@kernel.org,m:paul@paul-moore.com,m:sergeh@kernel.org,m:lina+kernel@asahilina.net,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-block@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-pm@vger.kernel.org,m:linux-pci@vger.kernel.org,m:linux-security-module@vger.kernel.
- org,m:alexgaynor@gmail.com,m:boqunfeng@gmail.com,m:lina@asahilina.net,s:lists@lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,protonmail.com,google.com,umich.edu,linuxfoundation.org,intel.com,linux.intel.com,suse.de,ffwll.ch,zeniv.linux.org.uk,suse.cz,oracle.com,ti.com,paul-moore.com,asahilina.net,vger.kernel.org,lists.freedesktop.org,kvack.org];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[a.hindborg@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[a.hindborg@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_SENDER(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	HAS_ORG_HEADER(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel,kernel];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[t14s.mail-host-address-is-not-set:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 32BA4CA7B6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linux.intel.com:mid]
+X-Rspamd-Queue-Id: 1F279CA48A
 X-Rspamd-Action: no action
 
-Gary Guo <gary@garyguo.net> writes:
+On Mon, 2026-02-02 at 15:56 +0800, Honglei Huang wrote:
+>=20
+> Hi Matthew and Thomas,
+>=20
+> I'm exploring the use of drm_gpusvm for multi-GPU shared virtual
+> memory
+> scenarios and have some questions about potential synchronization
+> issues.
+>=20
+> The drm_gpusvm design is per-device oriented, so for multi-GPU
+> setups,
+> each GPU would have its own drm_gpusvm instance with independent MMU
+> notifiers registered to the same mm_struct.
+>=20
+> When multiple drm_gpusvm instances share the same process address
+> space,
+> I'm concerned about the following synchronization issues:
+>=20
+> 1. MMU notifier ordering: When CPU modifies memory (e.g., munmap),
+> =C2=A0=C2=A0=C2=A0 multiple notifier callbacks are triggered independentl=
+y. Is there
+> any
+> =C2=A0=C2=A0=C2=A0 guarantee on the ordering or atomicity across GPUs? Co=
+uld this
+> lead
+> =C2=A0=C2=A0=C2=A0 to inconsistent states between GPUs?
 
-> On Mon, 17 Nov 2025 10:07:57 +0000
-> Oliver Mangold <oliver.mangold@pm.me> wrote:
->
->> `AlwaysRefCounted` will become a marker trait to indicate that it is
->> allowed to obtain an `ARef<T>` from a `&T`, which cannot be allowed for
->> types which are also Ownable.
->
-> The message needs a rationale for making the change rather than relying
-> on the reader to deduce so.
->
-> For example:
->
-> 	There are types where it may both be referenced counted in some
-> 	cases and owned in other. In such cases, obtaining `ARef<T>`
-> 	from `&T` would be unsound as it allows creation of `ARef<T>`
-> 	copy from `&Owned<T>`.
->
-> 	Therefore, we split `AlwaysRefCounted` into `RefCounted` (which
-> 	`ARef<T>` would require) and a marker trait to indicate that
-> 	the type is always reference counted (and not `Ownable`) so the
-> 	`&T` -> `ARef<T>` conversion is possible.
+The guarantee is that the invalidation may not proceed until all mmu
+notifiers have completed, and then gpusvm_range_get_pages() will never
+complete successfully until the invalidation is complete.
 
-Thanks, I'll mix this in with the one I sent to Daniel.
+>=20
+> 2. Range state consistency: If GPU-A and GPU-B both have ranges
+> =C2=A0=C2=A0=C2=A0 covering the same virtual address, and an invalidation=
+ occurs,
+> how
+> =C2=A0=C2=A0=C2=A0 should we ensure both GPUs see a consistent view befor=
+e allowing
+> =C2=A0=C2=A0=C2=A0 new GPU accesses?
+
+Multiple gpus may maintain ranges of different size with different
+attributes pointing to the same memory, and that's really not a
+problem. It's up to user-space to ensure that we're not bouncing data
+around between gpus. In xe, we're using the gpu_madvise() ioctl to
+allow UMD to specify things like preferred region and access mode.
 
 
-Best regards,
-Andreas Hindborg
+>=20
+> 3. Concurrent fault handling: If GPU-A and GPU-B fault on the same
+> =C2=A0=C2=A0=C2=A0 address simultaneously, is there potential for races i=
+n
+> =C2=A0=C2=A0=C2=A0 drm_gpusvm_range_find_or_insert()?
+
+each drm_gpusvm() instance is meant to be per-vm and per-device so each
+vm on each gpu only sees its own ranges. The drm_pagemap code is then
+the code that maintains the migration state, and that is per-cpu-vm so
+if it is fed conflicting migration requests from different gpus or even
+different vms, it will try its best to mitigate.
+
+However, the invalidation scheme in 1. will always guarantee that all
+gpus either have invalid page-tables causing gpu-faults or point to
+common memory that holds the data.
 
 
+>=20
+> Is multi-GPU a considered use case for drm_gpusvm? If so, are there
+> recommended patterns for handling these coordination issues?
 
+For us it's considered a valid use-case. In the end I guess that
+depends on the API you are exposing to the end-user. KMD ensures all
+GPUs always point to the correct data for a given cpu virtual address
+space, but leaves it to user-space to supply non-conflicting migration
+requests to avoid excessive migration. I'm under the impression that
+our L0 user-facing API is also forwarding this responsibility to the
+end-user.
+
+Hope this information helps.
+
+Thanks,
+Thomas
+
+
+>=20
+> Regards,
+> Honglei
