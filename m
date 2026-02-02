@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iMDHHIORgGkj/gIAu9opvQ
+	id AN4tHIqRgGkj/gIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 12:58:59 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 12:59:06 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E209CCBF99
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 12:58:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20899CBFBE
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 12:59:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34AA210E476;
-	Mon,  2 Feb 2026 11:58:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5398510E484;
+	Mon,  2 Feb 2026 11:59:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="vvrXyuFC";
+	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="irtUpi+k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TYVP286CU001.outbound.protection.outlook.com
- (mail-japaneastazon11011010.outbound.protection.outlook.com [52.101.125.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CB5C10E475
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 11:58:55 +0000 (UTC)
+Received: from OS0P286CU010.outbound.protection.outlook.com
+ (mail-japanwestazon11011011.outbound.protection.outlook.com [40.107.74.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F04AE10E484
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 11:59:02 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=azkB1diE0ZFKzD0uWo22Za5nTIXYwrhLupMdDca3Bxgymt7Z313vdy1seaL0iKhI67nJ2b54Pz4auMvNE2PqM/rUHy45U/GZUKdGTybGpK0F8zPIiWbYwWLNINOlVm2z+PWro5kAUkbPolWsukpgPQr9SprTZtPtDYTRyQRck+Ld3erBQpC5FHudFrjdKhj5BBl9qrvtQPJxxMV/S3dNL3b1LuoVKDTNV/Pg0Y0Ij5y7Sa/3DFlru2+soQ68x4/uWqXK4o4YHJ/G5OzARnkjwVpDs1C8E0QfUUyO1zpaMxPM3TECVbierrOIctVm7JvpPO7YJMxnkzeRR5XsekxKPw==
+ b=OqHxjPgVNE6uIgJSbIbNSTH5HRvcL3CSSCu0HG1JodqmsxssMbdck20An+aXWFLDKXuenFLdoUV6MmHjwJmxOWVqAKtBiHOOxDrAEoOhi1QJyu2SfCbcWXT1L86dj7Z326Csftrao8XfpA9Nyz+5/eRkjDfAhU04bJoPub9l9wYnBYEda4SQxY4xzWIlLcfhbOb6GWtHW1D5jdaeh940iv4Wc8ToQ+s6EEyKA2spPP6kssJU/J4aHgkEizc6HCT0EEH1AX4taXERc+Qrp6wmtC58u7+6RrwrkL015/2GQMjQ5QLDQjv3tNPZLaqE3wrW5lHF1O3wgr3lJrliiiCPNA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EGOLbdqh2lR0gfspXy4OTzggQ3ACi0Nkvo06c8rdCvA=;
- b=QRrGOAXpLsg0WCJAlliBm2KaRTz3xPuR6FIGfWMFESGY4PAZAAQPzSpAhrBVp7TgAMw/w/awsv2FyWRFp++si2yYKlD0EKTtIKIjpA26WGZKe3choG0CcQKffhb7x3MN2dPcCkYUWzC9tjkoUe0HDeD5gcBODrPiUeH3oJih9aLfjkV3LwuSdB33nnXpHmYgMmyapp9NW3GQO1nD5yS+TQseJUsGYjdvlOmLwZshYSKbd2Xm7PeJ36/GC/dTidGx/r/jotTs3iMmTx5MZht/BfSH9X+DguHl43h2NPrKSTsDi8Dpm8YqZvsTVpuuKcwHhMAiWAUqLBlphPpqFxD9Hw==
+ bh=jMNXmcWnJP0/zzqJ+6k0FbvUr9IGh9XpPli3uUzhTtM=;
+ b=pz2uI4Fb1W2RbWjZPiQVWTs0hZoURtCSfVO/DxBM4bdMjDRaCgsY25zEypXt6cdQGupwRNFwMEqNaUXGbwxMZ3ffcLooM3wUi0b2p57p3HBpFu5jK7maMbFepa8MJMoLDQ4jHlGSqmBmQZW2H8pBgU6SloDHiSqXORpgCVOdkTt6fWYtwasxuYVZaKE39gb1hAyI9I1oGJEm/0/2ocBgMTItsaTs4z9vYs8DPDN5X4eKeIV+ZJYxTeOf5eWVz++rBvQxvi5sm8/m85mnFzReoNHHP2JKQf4QWOGuSUTItxQgVI2ATnJwU1HPnnvqqo3Bv3OvSd1zX6ppncuZHk0/hQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EGOLbdqh2lR0gfspXy4OTzggQ3ACi0Nkvo06c8rdCvA=;
- b=vvrXyuFCuoW8RKuvnyWgI0gfa62/SnL0rWd94zq8dQ4CIPO4fm9A2CLb8fp+QUPcgkBHm/j4OmNLCb6xpTRI5arv6Ee2I+GazcpGMjL+COiqkBktLeNqgDnPpt11Q+ELeqDh7OWC8SNSh+wRMcokSKjRLI1AwBlwGXQsAy2Pg9U=
+ bh=jMNXmcWnJP0/zzqJ+6k0FbvUr9IGh9XpPli3uUzhTtM=;
+ b=irtUpi+kfBdmCqb3ppaxv4j96s0kauRislLOn34t5zuiodORMqov2ZS+DHWZR3Al4ejotdoa1zF2lP5J6a2CeQ2xMNF/qxM/QgdNXvRw4DcZoBSrwZMIKgGvtSkj60xZHmfDRXVtAKdeOd5WV07znpy4RLXqBaIb9FE4IMPKNzc=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
  by OSZPR01MB6552.jpnprd01.prod.outlook.com (2603:1096:604:fc::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Mon, 2 Feb
- 2026 11:58:52 +0000
+ 2026 11:58:59 +0000
 Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
  ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
  ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.20.9564.016; Mon, 2 Feb 2026
- 11:58:51 +0000
+ 11:58:59 +0000
 From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 To: tomm.merciai@gmail.com, geert@linux-m68k.org,
  laurent.pinchart@ideasonboard.com
@@ -64,9 +64,9 @@ Cc: linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: [PATCH v4 02/20] clk: renesas: r9a09g047: Add CLK_PLLETH_LPCLK support
-Date: Mon,  2 Feb 2026 12:57:33 +0100
-Message-ID: <9c67237edf82faf9dfeb55883dab15b5faf1fa38.1770030493.git.tommaso.merciai.xr@bp.renesas.com>
+Subject: [PATCH v4 03/20] clk: renesas: r9a09g047: Add CLK_PLLDSI{0,1} clocks
+Date: Mon,  2 Feb 2026 12:57:34 +0100
+Message-ID: <df571c2190cceff4caf094a1504ace08fd57e4f8.1770030493.git.tommaso.merciai.xr@bp.renesas.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1770030493.git.tommaso.merciai.xr@bp.renesas.com>
 References: <cover.1770030493.git.tommaso.merciai.xr@bp.renesas.com>
@@ -78,84 +78,84 @@ X-ClientProxiedBy: FR0P281CA0087.DEUP281.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|OSZPR01MB6552:EE_
-X-MS-Office365-Filtering-Correlation-Id: 400fd4a2-258a-49b3-5751-08de62526e9e
+X-MS-Office365-Filtering-Correlation-Id: 36124b7f-24cf-45e4-b2b9-08de62527379
 X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|7416014|376014|52116014|366016|1800799024|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?EqJ6ArlZ/qP+DUXCS5UChtpNQSExk3ejlL8v637qFYw6kQLWyjywJ9RpPNn7?=
- =?us-ascii?Q?M7p0OU8RHzKmfvfOwl55cfstwk1lSDcLrHBgXF88ySnQQwzL/o3m4tUt2SU+?=
- =?us-ascii?Q?Yle30X+DN3tXwdwGkLaABwEOUzNhBwHTBbtH1FxOA4LDfxX0txALuVmIcmCK?=
- =?us-ascii?Q?rasqERcBOM4mqQMIgBChIZ+lzcshg7NDdSRrGBNZi/l9zsrrQT1EFPnaYVud?=
- =?us-ascii?Q?syrDRa2+hs4M1p2k5nZnfU4rbuPFQpzpcc5zUeZPV4uWwDnORpUWb6hOQIg/?=
- =?us-ascii?Q?wDx24CmM+NEXEv01epx4JIPs0VaXml8xe6SSNb2CZS3caiCBmkWCcUR//R2p?=
- =?us-ascii?Q?PDFmLL1DDYFOTv/YOCP21gIenFvqkAhTgq4RKMftcaaS/bE1Kuk+la0syLqa?=
- =?us-ascii?Q?tSF6I2L1qxrJYekPwWiLLGkoGeLU6Oujkjz9Gvy3oW8d08xcblxw5WYTNmT6?=
- =?us-ascii?Q?Zf2+a+LCPNx6Z5I7/tf3XH+8zAUPHVgNBdPpa/RaAKnVj0Z/1Xh2r6XXgU/q?=
- =?us-ascii?Q?q0x0U3MKgdXFh28xNdLfoy9X/RkJDzBDuQHpKKpcVmSTb7p7IcyEzhQEPiV4?=
- =?us-ascii?Q?C1Re9+cY+bXwv+6zusQjLAv9XoYY6UBVvrdg9QkxSeKb2iBmPU8KaedRdsj8?=
- =?us-ascii?Q?xaLnfXi8aCJesTfRhMPXrhfaXOHOBYeKDhnbAwFhQeeqVHot4M9pZtbwjvSw?=
- =?us-ascii?Q?NDgB+XPDQo/ZifLlDXgqx4fjRKNZWCiqU1lh9NfcqFIk7yjluPT7ZEaFNOBu?=
- =?us-ascii?Q?ARlx5mpAAUKPHIPX1Q6f5KjiDNEmAzXXvlpwLA/Uh0AHojmOLgtQyBk0kQj/?=
- =?us-ascii?Q?Jks1q7WqrYJPQsvBY251XquYX1Lbls3t90diiDr/jEZqa5xcMKrYSQeWqphL?=
- =?us-ascii?Q?tg6+0u9JA17TeCy24R2hdm6+akYafxN0LWbYiNB4V1Qjs6NzGkRyeXNGeMtW?=
- =?us-ascii?Q?AV2mUhuWgWcobHjuQ07FhTq3dSXPqqO11qPxPB4t4p7T03UzDsDCGpbLqdZN?=
- =?us-ascii?Q?dKTm0QGEuzsoy/8Ac9nh4yZmTrFzpNFR9vYsdIEs/02aFAkFbE5OSrp2YbTm?=
- =?us-ascii?Q?sCrsdlLKor2qnygJvY0nbL4evb0CnAGGpLqsOYiT3iWCkjoCZ/QguJfQH/RL?=
- =?us-ascii?Q?v1dJ3NG9wN/N3eBiWm0w/00m0ssDKq6OXP5DgyO9iNb6jh++RKswQqAPZ9pC?=
- =?us-ascii?Q?k0tLddUsO4EjQp1sA34ev6YR9rjT/IYmUiaVKf8gHFkrr9F8UNl2jO6NbHYG?=
- =?us-ascii?Q?1hdUZONZD58+0FKyU5q5Shj+kFJjMLty9neKBn374RzqWueBiAP6O6R0r8y+?=
- =?us-ascii?Q?ZdchicHPMu2Dn17A0pJZVPScnCuzSebe9ZpQJ4jiLjOOqPlEKPqjQ82Ge1Zn?=
- =?us-ascii?Q?EW9jFR9JkLFoYX6KGY0GKaCjFiEiVR8WnOZbpjuXf6CazdFW+AdOY4M+7juw?=
- =?us-ascii?Q?tQfVKxFESePBmKOVwOsKso6dlGD7fsr2H6TMoKCbeqqmONFEKB/jUTB8wqpt?=
- =?us-ascii?Q?fUeUBv8pyU3wsWCP4ZfBDydSDXwquE52HoXDyDDtoAM6/uvtWfB7rRXL6kuK?=
- =?us-ascii?Q?c+aiZvwu3ZUIDl4G0adr4xfC4PB5Nx7wi8aujbvz32Xz8ccUG+oJDU4ehmf3?=
- =?us-ascii?Q?e0TWrZWIGvxlo2+E9n5MsOE=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?uxa4TsBOoiDWuegy+24vEH1xAf3fco0uFzZrvvk1WEsL3jRpJQbZfzWiaE/U?=
+ =?us-ascii?Q?EUSlren1m0nPN+PStwosGvtP9ryb9FbmxWk0pbDejfNo8S1vqv1ymlf3HMkf?=
+ =?us-ascii?Q?5Fx3VMxYbxdZgbEfGOjwESrA0CsO3y1dFMxD3GWbMsRWm32u7PJjX1lFMbTu?=
+ =?us-ascii?Q?SbPnM+j66rDBKCM5qD1W+30ydZ9aG38+A9JQSPEj+/wMpvXklTPxbMJUSavC?=
+ =?us-ascii?Q?51kzFeQTyp29yJaIHA9JuZGAFxyAvUtPLtvoCT+A9UGPDydtmxCCkG2nQEBp?=
+ =?us-ascii?Q?q/AggdIibX15JusnDihgKkufJx2sCBLcW/PX1WLIdMBib1jKdcNYrOXTHln3?=
+ =?us-ascii?Q?28ZoPCw3sezSPu6oLiaWFdhc7O8NKOB6V4Izh3so3ROxzT4/Z1rUw7sJooHP?=
+ =?us-ascii?Q?dA9AY8Q8FHO8Xue7KwmOF/g+9Ys4rUOoXplqffvt+S8ywBRE9vkIusGtWI30?=
+ =?us-ascii?Q?uBx9hPPabWYf8RBjG6Z6zV7gh8J/h8v1ryi9p9ande6N35aT5ShTKPsmvXTB?=
+ =?us-ascii?Q?U8eGB92QBSjTrfiDUFZU6sz4FvBUWkjgveJXFiABP2niW4fwpy70hv5Akmqk?=
+ =?us-ascii?Q?8aHBStTPY+u4PExipnejFbgVV6DIbMMvFLJMoiHEnEzgPvOyfvr6C83OitMI?=
+ =?us-ascii?Q?UQiRqZFpmuT66YB4sI8wPunZzetKw+huLoNCYIO6LAXoOsM5W7kwWf15gaOn?=
+ =?us-ascii?Q?k0WV9lx6lIoaV4hiCwRXbau7J0Zsacu0QxN3tgONI0Tcrnkp9QW7u0RPW2z+?=
+ =?us-ascii?Q?W1QjBUdHgS/bNt5ZPtb5GOyxL9AQ3T+AVFlrIzQayJrGWH9pEcWHeZmASexi?=
+ =?us-ascii?Q?RK6s9JEhKn2KBc7leKLqfDRPsEetsIzNJo5Pz5xhRVNVhNLFZFC9JqFh0RQc?=
+ =?us-ascii?Q?zSox7gyEoQb+Sj/hPNVfkhaf3CvYzGsqh1hCQ752wiT2DhdbE6p3VzdtK+Ya?=
+ =?us-ascii?Q?eCVOhjRLHWHMW1bV4LotafzKizkBQflrDKSTcqlIWLpKBmR3vTWx0CpLHcx6?=
+ =?us-ascii?Q?gDQnelpSsED980Ku32/y2+akUfO+Wl0Ufjd4cw7Grq7++gaOOpq4ck+qNuOY?=
+ =?us-ascii?Q?MuaTxxZnGWcrK0kA/1maxUyNifZ/KeCgRDSN/e6MbOu325kde61ltVAkfaac?=
+ =?us-ascii?Q?Elvg2WPLsowsdcXafcSxnEnsXn0BsF8TKst9GImM/W/YcJPGDmRjj2iDNryF?=
+ =?us-ascii?Q?Pcy1UZV+5dj3b7ASYeXeIHVGrJ6yMibGVGObU/hJYdEz6QoHwOnRg6OK/SZa?=
+ =?us-ascii?Q?cNaOmKF9H1uB3JBzwjsvwn9Tlx4qzFwRFTAAfTomKh+zbghB+Ysv+8UjaMNa?=
+ =?us-ascii?Q?h+SZy1qWQvcXyM1ZNlnZ8Pbgujb2td8knzxnazzJjVpIYqk66TL+5V2zm5J+?=
+ =?us-ascii?Q?KJjc4HBrzhWbLawtgzq6VjV7i5X4j09xFCeEr0xkz5MQa1cCZC8IPyoNa3va?=
+ =?us-ascii?Q?yZL9fsrh0t7xB9mvtgJTuIeFxxR5WYMpddHevobFGFwjWoS85n09Y94gBSHo?=
+ =?us-ascii?Q?AWZUGbyRA7zQfJE3r0ISUhLTzx0Qmyq2dG5/cfxmEMnWTg5GvnDtPBQkFVPB?=
+ =?us-ascii?Q?4yKSILkqFf9aMn0QDr1Ex1YpUF9gj/yRA/94p5Q9S6SsVzhRh4ZbdiX6qpoE?=
+ =?us-ascii?Q?GD1/pN+qR8/3R75wRz3mBTM=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:TYCPR01MB11947.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(7416014)(376014)(52116014)(366016)(1800799024)(38350700014);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TM9oSmKdzmAytUUaSpHbvEa95V7CK69nnbpGnoy1Or3GajQ137CIfJ0C80We?=
- =?us-ascii?Q?MHJdX9jVqs3OrYjbjzkdymlMCf2SaJDlF2Oo5zOtIPgSp7kYNnhdpwQwG7CG?=
- =?us-ascii?Q?jzo3H3gRIxDnqGAOex/9C3PPOEAIGfSMVzq/I1oGtAsH+XCzWmwB74biwV1G?=
- =?us-ascii?Q?5gZBP9chQTt5xMPK9D2DI0XtvFEhuR74KW9Qvd87szSuBN5cgRf7fcsciErz?=
- =?us-ascii?Q?mJkVhd8fgypxBJjC2Hizz+xa8I4nIiqTivkqHMntfp3xQd5cYx546FjqJ/z9?=
- =?us-ascii?Q?1r8rEqbvxmRp86eITqW/UizI5Rh1Y93nLLwxm7H97LR7Fcb66NRI0NgRczvP?=
- =?us-ascii?Q?Me4shPOzdZSCBsdYEQPSaOiezXVYJqln74oVxUSGOrqW97uto1f924RZqFd+?=
- =?us-ascii?Q?LZDOs4/8Je8OvmVmXj0z7lX2wffU2zi0tF7coaXnyL/kkq2PhLRqF3MTm6lN?=
- =?us-ascii?Q?1p3YTK/4M5NRabkLRTX/5QHt7RMhKApy8Mz3FaLfGX0UtBQ3/kZ5ee1ZcgLX?=
- =?us-ascii?Q?dyAp8K0anKzzcsB8tnsI4EunTjdmOnuA0RrKB5gXGydKiWdHSKzqvpPBuSGa?=
- =?us-ascii?Q?lHRPs/9Fx3dbCnnrhCakW0VUhuboypBQvSkLFF3URk7tt/tngnoy2USRg/Dk?=
- =?us-ascii?Q?xdCwHb1j6AaqFCY5r6YI1gRbaPjxWAcW+HRAVrolKU0Wdg1ymV9jIy1QSXX3?=
- =?us-ascii?Q?am7h1Vl6ZSuCDEskg2P/IU3BJkUaQMuz4gjpMTbDx5NZgstvLrQKXCAv9mBZ?=
- =?us-ascii?Q?euh/YjLD/q9e7qAl+Wz14I95aizEjGkxfSTJMBcja/bmdttMQmxNu9wYgTMD?=
- =?us-ascii?Q?hMlicq/fEIM9HS4q2VJmp24m9li2WyyUvm5wmAZgA4au0VKtWuii217lRGDL?=
- =?us-ascii?Q?P3KS+zszR03c4cKB9uiPnnxYU4xB823GJrsvodSeEwGhF5BGqRDYw1zrnYyh?=
- =?us-ascii?Q?Y2CyS0HMQjAwsHdmqHp1JwtBAlwUXv8NqlbsKws7OqRzEFBMFlinuj/se6WG?=
- =?us-ascii?Q?7bFn9waT24Hods2dQUV+B6iGLJLyoG2ouWlhfYmszBTWI2Br0vobjEedfEUi?=
- =?us-ascii?Q?LZ3il6xrjKxH0CclVxAzGZ7e8QVa3HSArecchCM6iReUKfPjxGmqJMz3ZtNG?=
- =?us-ascii?Q?Le8Vesv/nwyl3PGXt9A7+sbI6c2WaE45AMJWzhPMd5Ftdev7WlywawqGUIcx?=
- =?us-ascii?Q?vGslmSvYHm/WjHHDYjh2EeWAPhWrKakWbJhy6r3m30GjpDLkeDuG8G6dTm21?=
- =?us-ascii?Q?an9YSEyvAqJu+YOs3UxjScAwmCN0+UPPW4tlDOcn+uLm1EqUZcotcgeXyXB+?=
- =?us-ascii?Q?uQYMH2/PbGDuSGa7N68ICRIFWw5LbE0/Aiqw3OQ0KEk8wBkXiPbeoKi1U4s8?=
- =?us-ascii?Q?LosmKQa8zZHKwpHH1QTGDypXxalIMXxNnPFyllQkm4+Vjva3aSFK/ThYPrJL?=
- =?us-ascii?Q?U6KtUIy7y0yi3yeRz6l7lfmF2/noPxzgfS9FCUhoJjFo4nkoKteKRP7z4d3r?=
- =?us-ascii?Q?xd2Fw61+WWFFlmjv/unuCNf81fbKn2uHaZ0wBqMC2DXq0+MA7EDm6HXVssRX?=
- =?us-ascii?Q?twly8oKIZKTYfwBHE0tEH016vmWOFwiw6kZDs2/KuVmHR7oo4lI2AdgoRT4x?=
- =?us-ascii?Q?mMJ12BrrXkgwR8UIosw5FA7T+grle9jEzfL0ZAZGbI5EI5t27sujFHCz237q?=
- =?us-ascii?Q?bcOSWNGCLfIq4+/tL4zgsEu2+zKbjap9uQYYThNIOP+A4YGrsYiHWojyCIfu?=
- =?us-ascii?Q?er+Tkl2/3NqxF1uXObIBt3+PjefO6TB0YCZIuCslQBDhSPInIZlx?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AcYgL4B+8Bt/HsYNoiIla/sC9m7qAyw3uXUvzw5/zTchbtk+WzkGYM3ziy0j?=
+ =?us-ascii?Q?PzCZ2cWYVkXTe+ShKkCDtm+EJ3JpWzwGFKxVfT8fjSoxsRs9umAOQEMZ1oDu?=
+ =?us-ascii?Q?EVIFfs373td1AUcvk6/l2NxN7jf5f0coo6fHi3a+rrT+KGsl4Bz+Gn20RDfh?=
+ =?us-ascii?Q?jtZXD6Xs1M3TRRop098hMc34GzKz0FfrQ2lfsCZi6Yb5ubMbrytWDtHPYvKt?=
+ =?us-ascii?Q?dk7NJJv7Qv9Sb5820b+Jp4mtBBWesippjQ/zqaoXssAvDw3fxurZ3qvW5sw3?=
+ =?us-ascii?Q?6ye1JM3boGEDAYfH7DFoX/NOkfBBpAcHBm4D3nYdh1NrknbZk2ROzgzOaa7Z?=
+ =?us-ascii?Q?PL1Uw31AYaSPnssGoffQue1hXm/0JAEqmFMo5qWEws484FxIvZMMZR0acpQQ?=
+ =?us-ascii?Q?8h1vxz4iEwBkdZg3hYhE9Pmb9ZhJfMMbeNswHRhQBmqwd5JmpovsWR/F8yTM?=
+ =?us-ascii?Q?xc2GYi/FKDcj5WkSLMC8quJj3RYhAHHakfSaFtgd1ZATfpsD0VAMCGvPUzAP?=
+ =?us-ascii?Q?vfMX/V1ofgxTrUPN+3crZsnB+0FKPJXaqlnI4cBOSswtDx5Hy5eI/ku9FUh9?=
+ =?us-ascii?Q?/pclJHSziQSrgwszF7OVKVFuU0dhDNNsL293urlZ8Wsc+WAleDYzz7iDR9zO?=
+ =?us-ascii?Q?ffjZ/SzeXs87l9YjTfC/1KIMqc13N+ejHWk8QS/2ZgLnE9XlajEPOSrdZv8j?=
+ =?us-ascii?Q?hTK+aR8+7Vrdq3iPtJcrB0iOomDHUGq7lAHGRFD3puOG7gPn2Jxh+YTXTgna?=
+ =?us-ascii?Q?8+PiBTW/+uycO59fE7GHGMXPthF6rymTZPypuBZudxdre3yIg9RILbzGjcNd?=
+ =?us-ascii?Q?ysK8KGGS1C3DTj2qP3FSK60GYLgs6cOHiKEi6dK5ujxZPbty3LLB5m0VypVL?=
+ =?us-ascii?Q?MJfeygs7X83wIx8mlXwKaEZqPjGj4j4Gf/C+GAWcgzTRSvDynzySTL2LOJZr?=
+ =?us-ascii?Q?ESSTgoZlaXw6Er4+GJmzjcJhcAlI1Fe2rQ6xnumKdKwNSsqhH8qRqKsIwD/U?=
+ =?us-ascii?Q?sNS66GulCaoznLsVzqkWAbpfOv1bhnA5LS8ew4KLRT2V7TRq43Xnsdmzatbm?=
+ =?us-ascii?Q?9MDiiuHcXyShoXlE37Ow/M6p+zpd65sVt6hcV4CFvPbSpI2n41JKaHJLp6Fq?=
+ =?us-ascii?Q?YG8YCpf5DJcdnAJ1IaozyfmSoJAdsMrucjKWE1ubM0krPLpV7o6xxsYKoLX5?=
+ =?us-ascii?Q?yzCHDoljzqr/A2LhULg8PFMn2dlD2BnLiCjxClHU3fylDE4EW61awcGR2Z+n?=
+ =?us-ascii?Q?12XI8Z0vcvvncSqJ0nKYrIgX9pbgLR9ssGLnQ0hqPJMIRh/IzOmNI0NLxLcC?=
+ =?us-ascii?Q?PvheuCS7ypEsYzO9aWHm6L8WdAsJbEsL70ce0NlPCs+ZcSbKgST5jaLFiZ+l?=
+ =?us-ascii?Q?MUa3EShN0O6dk8G8hNcNaz8+tnRCG2WQiBrSs+x/3n07Gck4kOSX4pVWxL9F?=
+ =?us-ascii?Q?gIrC5bkeYOfTDImS48Ij6gzcsmv+xHxsglYwnsre7SrZ8a2CdKmA4RIT0zo6?=
+ =?us-ascii?Q?jXtZnXWPoTJxpVHPjlt3BjApUj8J4SLC7AiGxaA/YKV3eFO6gCmWArFPRL0f?=
+ =?us-ascii?Q?iV2genxGzmU8aBFhA3yP+8hcbBeOqLRyjskjYBfN9afx8Wxn4Hq/TJlgpIxh?=
+ =?us-ascii?Q?GdpA7p34bdX0wvoMRq1twHHx2a/J/qAJaVxD13GIHy2BZ5i9yc27i13JCKNo?=
+ =?us-ascii?Q?E++IEqU4TFigP/mHy2JvmqKfGXcw7tDKvvnbSgva3yqN8xoQP1dXw0y6Db5s?=
+ =?us-ascii?Q?Fwj97bCzRmAIzdwn5OK0cdeVNR3I1e7gv4F+dBJ493KJm8RXdwdx?=
 X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 400fd4a2-258a-49b3-5751-08de62526e9e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 36124b7f-24cf-45e4-b2b9-08de62527379
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2026 11:58:51.9478 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2026 11:58:59.8505 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SaR4zqWx51KcCKnsv+DyjQYCBM2npv7QK6zHZE5nQJWr2MeHdSu55PyEF/zxnvJlyOC0GtVNuhGeagPHHQtVcXosaxW768Xw8kJEr/oKz4fsZmnZJwOgW1H85n8ugP4O
+X-MS-Exchange-CrossTenant-UserPrincipalName: vS/98YRDJYW6wc2gpaVYHK4XNT2CWsuqwd5UHbQYOu+9Bq3/QKzUg5PVBH7HnuFVa02fIGsWYckZ629avBUCvjP/rwhGLMLiZGATShG3FfenKgs8g7z0OZL74dcX4Pew
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB6552
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -205,11 +205,23 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[bp.renesas.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,renesas.com:email,glider.be:email]
-X-Rspamd-Queue-Id: E209CCBF99
+	DBL_BLOCKED_OPENRESOLVER(0.00)[glider.be:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,renesas.com:email]
+X-Rspamd-Queue-Id: 20899CBFBE
 X-Rspamd-Action: no action
 
-Add CLK_PLLETH_LPCLK clock support.
+Add support for the PLLDSI{0,1} clocks in the r9a09g047 CPG driver.
+
+Introduce CLK_PLLDSI{0,1} also, introduce the
+rzg3e_cpg_pll_dsi{0,1}_limits structures to describe the frequency
+constraints specific to the RZ/G3E SoC.
+
+On Renesas RZ/G3E:
+
+ - PLLDSI0 maximum output frequency: 1218 MHz
+ - PLLDSI1 maximum output frequency: 609 MHz
+
+These limits are enforced through the newly added
+RZG3E_CPG_PLL_DSI{0,1}_LIMITS().
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
@@ -223,48 +235,84 @@ v2->v3:
 v3->v4:
  - No changes.
 
- drivers/clk/renesas/r9a09g047-cpg.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/clk/renesas/r9a09g047-cpg.c | 11 +++++++++++
+ include/linux/clk/renesas.h         | 20 ++++++++++++++++++++
+ 2 files changed, 31 insertions(+)
 
 diff --git a/drivers/clk/renesas/r9a09g047-cpg.c b/drivers/clk/renesas/r9a09g047-cpg.c
-index 1e9896742a06..a73d12d4964a 100644
+index a73d12d4964a..8d4c70533a79 100644
 --- a/drivers/clk/renesas/r9a09g047-cpg.c
 +++ b/drivers/clk/renesas/r9a09g047-cpg.c
-@@ -64,6 +64,8 @@ enum clk_ids {
- 	CLK_PLLDTY_DIV16,
- 	CLK_PLLVDO_CRU0,
- 	CLK_PLLVDO_GPU,
-+	CLK_PLLETH_DIV4_LPCLK,
-+	CLK_PLLETH_LPCLK,
+@@ -6,6 +6,7 @@
+  */
  
- 	/* Module Clocks */
- 	MOD_CLK_BASE,
-@@ -107,6 +109,14 @@ static const struct clk_div_table dtable_2_100[] = {
+ #include <linux/clk-provider.h>
++#include <linux/clk/renesas.h>
+ #include <linux/device.h>
+ #include <linux/init.h>
+ #include <linux/kernel.h>
+@@ -30,6 +31,8 @@ enum clk_ids {
+ 	CLK_PLLCA55,
+ 	CLK_PLLVDO,
+ 	CLK_PLLETH,
++	CLK_PLLDSI0,
++	CLK_PLLDSI1,
+ 
+ 	/* Internal Core Clocks */
+ 	CLK_PLLCM33_DIV3,
+@@ -117,6 +120,12 @@ static const struct clk_div_table dtable_16_128[] = {
  	{0, 0},
  };
  
-+static const struct clk_div_table dtable_16_128[] = {
-+	{0, 16},
-+	{1, 32},
-+	{2, 64},
-+	{3, 128},
-+	{0, 0},
-+};
++RZG3E_CPG_PLL_DSI0_LIMITS(rzg3e_cpg_pll_dsi0_limits);
++RZG3E_CPG_PLL_DSI1_LIMITS(rzg3e_cpg_pll_dsi1_limits);
++
++#define PLLDSI0		PLL_PACK_LIMITS(0xc0, 1, 0, &rzg3e_cpg_pll_dsi0_limits)
++#define PLLDSI1		PLL_PACK_LIMITS(0x160, 1, 1, &rzg3e_cpg_pll_dsi1_limits)
 +
  /* Mux clock tables */
  static const char * const smux2_gbe0_rxclk[] = { ".plleth_gbe0", "et0_rxclk" };
  static const char * const smux2_gbe0_txclk[] = { ".plleth_gbe0", "et0_txclk" };
-@@ -171,6 +181,10 @@ static const struct cpg_core_clk r9a09g047_core_clks[] __initconst = {
- 	DEF_DDIV(".pllvdo_cru0", CLK_PLLVDO_CRU0, CLK_PLLVDO, CDDIV3_DIVCTL3, dtable_2_4),
- 	DEF_DDIV(".pllvdo_gpu", CLK_PLLVDO_GPU, CLK_PLLVDO, CDDIV3_DIVCTL1, dtable_2_64),
+@@ -138,6 +147,8 @@ static const struct cpg_core_clk r9a09g047_core_clks[] __initconst = {
+ 	DEF_PLL(".pllca55", CLK_PLLCA55, CLK_QEXTAL, PLLCA55),
+ 	DEF_FIXED(".plleth", CLK_PLLETH, CLK_QEXTAL, 125, 3),
+ 	DEF_FIXED(".pllvdo", CLK_PLLVDO, CLK_QEXTAL, 105, 2),
++	DEF_PLLDSI(".plldsi0", CLK_PLLDSI0, CLK_QEXTAL, PLLDSI0),
++	DEF_PLLDSI(".plldsi1", CLK_PLLDSI1, CLK_QEXTAL, PLLDSI1),
  
-+	DEF_FIXED(".plleth_div4_lpclk", CLK_PLLETH_DIV4_LPCLK, CLK_PLLETH, 1, 4),
-+	DEF_CSDIV(".plleth_lpclk", CLK_PLLETH_LPCLK, CLK_PLLETH_DIV4_LPCLK,
-+		  CSDIV0_DIVCTL2, dtable_16_128),
+ 	/* Internal Core Clocks */
+ 	DEF_FIXED(".pllcm33_div3", CLK_PLLCM33_DIV3, CLK_PLLCM33, 1, 3),
+diff --git a/include/linux/clk/renesas.h b/include/linux/clk/renesas.h
+index c360df9fa735..0949400f44de 100644
+--- a/include/linux/clk/renesas.h
++++ b/include/linux/clk/renesas.h
+@@ -164,6 +164,26 @@ struct rzv2h_pll_div_pars {
+ 		.k = { .min = -32768, .max = 32767 },			\
+ 	}								\
+ 
++#define RZG3E_CPG_PLL_DSI0_LIMITS(name)					\
++	static const struct rzv2h_pll_limits (name) = {			\
++		.fout = { .min = 25 * MEGA, .max = 1218 * MEGA },	\
++		.fvco = { .min = 1600 * MEGA, .max = 3200 * MEGA },	\
++		.m = { .min = 64, .max = 533 },				\
++		.p = { .min = 1, .max = 4 },				\
++		.s = { .min = 0, .max = 6 },				\
++		.k = { .min = -32768, .max = 32767 },			\
++	}								\
 +
- 	/* Core Clocks */
- 	DEF_FIXED("sys_0_pclk", R9A09G047_SYS_0_PCLK, CLK_QEXTAL, 1, 1),
- 	DEF_DDIV("ca55_0_coreclk0", R9A09G047_CA55_0_CORECLK0, CLK_PLLCA55,
++#define RZG3E_CPG_PLL_DSI1_LIMITS(name)					\
++	static const struct rzv2h_pll_limits (name) = {			\
++		.fout = { .min = 25 * MEGA, .max = 609 * MEGA },	\
++		.fvco = { .min = 1600 * MEGA, .max = 3200 * MEGA },	\
++		.m = { .min = 64, .max = 533 },				\
++		.p = { .min = 1, .max = 4 },				\
++		.s = { .min = 0, .max = 6 },				\
++		.k = { .min = -32768, .max = 32767 },			\
++	}								\
++
+ #ifdef CONFIG_CLK_RZV2H
+ bool rzv2h_get_pll_pars(const struct rzv2h_pll_limits *limits,
+ 			struct rzv2h_pll_pars *pars, u64 freq_millihz);
 -- 
 2.43.0
 
