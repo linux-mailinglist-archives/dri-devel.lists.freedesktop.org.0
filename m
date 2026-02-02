@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kPpaGsrggGleCAMAu9opvQ
+	id GKmXJNHggGleCAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 18:37:14 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 18:37:21 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC318CFA9E
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 18:37:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBDB9CFAC3
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 18:37:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5189810E1B4;
-	Mon,  2 Feb 2026 17:37:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58E2510E539;
+	Mon,  2 Feb 2026 17:37:13 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=stu.xidian.edu.cn header.i=@stu.xidian.edu.cn header.b="6D2dFXF5";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com
- [45.249.212.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F9A110E4A8
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 12:42:14 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.177])
- by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4f4R7y2VhwzKHMn6
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 20:41:50 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
- by mail.maildlp.com (Postfix) with ESMTP id 8786540590
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 20:42:10 +0800 (CST)
-Received: from hulk-vt.huawei.com (unknown [10.67.174.121])
- by APP1 (Coremail) with SMTP id cCh0CgDXj+WWm4Bpt7ipFw--.14648S6;
- Mon, 02 Feb 2026 20:42:10 +0800 (CST)
-From: Chen Ridong <chenridong@huaweicloud.com>
-To: dev@lankhorst.se, mripard@kernel.org, natalie.vock@gmx.de, tj@kernel.org,
- hannes@cmpxchg.org, mkoutny@suse.com
-Cc: cgroups@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, lujialin4@huawei.com,
- chenridong@huaweicloud.com
-Subject: [PATCH -next v2 4/4] cgroup/dmem: add argument checks in helpers
-Date: Mon,  2 Feb 2026 12:27:19 +0000
-Message-Id: <20260202122719.414466-5-chenridong@huaweicloud.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260202122719.414466-1-chenridong@huaweicloud.com>
-References: <20260202122719.414466-1-chenridong@huaweicloud.com>
+X-Greylist: delayed 16737 seconds by postgrey-1.36 at gabe;
+ Mon, 02 Feb 2026 12:29:15 UTC
+Received: from sgoci-sdnproxy-4.icoremail.net (sgoci-sdnproxy-4.icoremail.net
+ [129.150.39.64])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3061210E47F
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 12:29:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=stu.xidian.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
+ Disposition-Notification-To:Content-Type:MIME-Version:
+ Message-ID; bh=oWq6Xg6KhRRM4xxoUzgZ7GXE+gy9cXyNfSYjNf9Bfjs=; b=6
+ D2dFXF5pIos/kh6/Am93FZZnujRb9X1f8VH0IMXTxQbMFGHsuenldgQOpnP/HNxf
+ 26LIZkRQHxHmIzV0EJ/rpzY1h2q0gyj9TBcR5g7+u8JRpXqCdQR5wk9YFeSYKX58
+ yziLrhymKaUUDh3B0hFxypE3beejnomI0LDEwQZOEg=
+Received: from 25181214217$stu.xidian.edu.cn ( [115.53.140.163] ) by
+ ajax-webmail-hzbj-edu-front-4.icoremail.net (Coremail) ; Mon, 2 Feb 2026
+ 20:29:04 +0800 (GMT+08:00)
+X-Originating-IP: [115.53.140.163]
+Date: Mon, 2 Feb 2026 20:29:04 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?546L5piO54Wc?= <25181214217@stu.xidian.edu.cn>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [BUG] drm/gem: DRM_IOCTL_GEM_CHANGE_HANDLE new_handle>=0x80000000
+ triggers WARN in idr_alloc()
+X-Priority: 1
+X-Mailer: Coremail Webmail Server Version 2024.3-cmXT6 build
+ 20250410(2f5ccd7f) Copyright (c) 2002-2026 www.mailtech.cn
+ mispb-8dfce572-2f24-404d-b59d-0dd2e304114c-icoremail.cn
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_10357_1526801665.1770035344570"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: cCh0CgDXj+WWm4Bpt7ipFw--.14648S6
-X-Coremail-Antispam: 1UD129KBjvJXoW7Ww13ZryrGFWfXFW5urykZrb_yoW8Cw48pF
- 4qka45Kw4FvF47Zws2ya4xZFyFka1xtw1UC3y7Xr4SvF1xJw1rGr47Jw1jqF1FyF9rGr18
- XFZ0yF1akrWSyrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUma14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
- 4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
- 3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
- IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
- M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
- kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
- bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
- AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI
- 42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
- CI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsG
- vfC2KfnxnUUI43ZEXa7VUbPC7UUUUUU==
-X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
+Message-ID: <daaf1ed.b48.19c1e53f4e0.Coremail.25181214217@stu.xidian.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: BrQMCkB2HrqRmIBpTmILAA--.1290W
+X-CM-SenderInfo: qsvrmiqsrujiux6v33wo0lvxldqovvfxof0/1tbiAgUMEWl-jxQ-o
+	wACsJ
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
 X-Mailman-Approved-At: Mon, 02 Feb 2026 17:37:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,104 +73,179 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.89 / 15.00];
+X-Spamd-Result: default: False [1.99 / 15.00];
+	DMARC_POLICY_QUARANTINE(1.50)[xidian.edu.cn : SPF not aligned (relaxed),quarantine];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MIME_BASE64_TEXT(0.10)[];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[lankhorst.se,kernel.org,gmx.de,cmpxchg.org,suse.com];
-	DMARC_NA(0.00)[huaweicloud.com];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:dev@lankhorst.se,m:mripard@kernel.org,m:natalie.vock@gmx.de,m:tj@kernel.org,m:hannes@cmpxchg.org,m:mkoutny@suse.com,m:cgroups@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:lujialin4@huawei.com,m:chenridong@huaweicloud.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[chenridong@huaweicloud.com,dri-devel-bounces@lists.freedesktop.org];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[chenridong@huaweicloud.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
+	FORGED_SENDER(0.00)[25181214217@stu.xidian.edu.cn,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	DKIM_TRACE(0.00)[stu.xidian.edu.cn:~];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	R_DKIM_PERMFAIL(0.00)[stu.xidian.edu.cn:s=dkim];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	TO_DN_NONE(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	HAS_X_PRIO_ONE(0.00)[1];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[25181214217@stu.xidian.edu.cn,dri-devel-bounces@lists.freedesktop.org];
+	NEURAL_SPAM(0.00)[0.930];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	R_DKIM_NA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,huawei.com:email,huaweicloud.com:mid]
-X-Rspamd-Queue-Id: BC318CFA9E
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	HAS_XOIP(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: BBDB9CFAC3
 X-Rspamd-Action: no action
 
-From: Chen Ridong <chenridong@huawei.com>
+------=_Part_10357_1526801665.1770035344570
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-Add WARN_ON_ONCE guards for NULL-sensitive arguments in dmem helpers to
-avoid NULL dereferences on misused APIs. Valid callers are unaffected.
+SGkgRFJNIG1haW50YWluZXJzLAoKCgoKSeKAmW0gc2VlaW5nIGEgdXNlcnNwYWNlLXRyaWdnZXJh
+YmxlIFdBUk4gaW4gaWRyX2FsbG9jKCkgdGhyb3VnaCBEUk1fSU9DVExfR0VNX0NIQU5HRV9IQU5E
+TEUuCgoKCgpLZXJuZWwKCgoKCnRyZWU6IHVwc3RyZWFtCgoKCgpIRUFEOiA3ZDBhNjZlNGJiOTA4
+MWQ3NWM4MmVjNDk1N2M1MDAzNGNiMGVhNDQ5CgoKCgp1bmFtZTogTGludXggc3l6a2FsbGVyIDYu
+MTguMCAjOSBTTVAgUFJFRU1QVF9EWU5BTUlDIEphbiBEZWMgMjkgMTA6NDk6MjkgQ1NUIDIwMjUg
+eDg2XzY0IEdOVS9MaW51eAoKCgoKUmVwcm8gLyBhcnRpZmFjdHM6CgoKCgpDIHJlcHJvOiBodHRw
+czovL2dpdGh1Yi5jb20vV21pbmd5dS9DcmFzaGVzL2Jsb2IvbWFpbi9iNzkyZGM0NDdiOGZkMWI2
+YTkzNjI3NTY4NjBkMjVjMmRlNWY4YTQ1L3JlcHJvLmMgCgoKCgpkbWVzZzogaHR0cHM6Ly9naXRo
+dWIuY29tL1dtaW5neXUvQ3Jhc2hlcy9ibG9iL21haW4vYjc5MmRjNDQ3YjhmZDFiNmE5MzYyNzU2
+ODYwZDI1YzJkZTVmOGE0NS9kbWVzZy50eHQgCgoKCgouY29uZmlnOiBodHRwczovL2dpdGh1Yi5j
+b20vV21pbmd5dS9DcmFzaGVzL2Jsb2IvbWFpbi82LjE4LmNvbmZpZyAKCgoKCgoKCldoYXQgaGFw
+cGVuczpEUk1fSU9DVExfR0VNX0NIQU5HRV9IQU5ETEUgd2l0aCBuZXdfaGFuZGxlID0gMHg4MDAw
+MDAwMCByZWxpYWJseSB0cmlnZ2VyczoKCgoKCldBUk5JTkcgYXQgbGliL2lkci5jOjg0IGluIGlk
+cl9hbGxvYygpIGNhbGwgdHJhY2UgaW5jbHVkZXMgZHJtX2dlbV9jaGFuZ2VfaGFuZGxlX2lvY3Rs
+KCkKCgoKCkNoYW5naW5nIG9ubHkgbmV3X2hhbmRsZSB0byAweDdmZmZmZmZmIGRvZXMgTk9UIHRy
+aWdnZXIgdGhlIFdBUk4uCgoKCgpFeHBlY3RlZDpJbnZhbGlkL3Vuc3VwcG9ydGVkIG5ld19oYW5k
+bGUgc2hvdWxkIGJlIHJlamVjdGVkIChlLmcuIC1FSU5WQUwpIHdpdGhvdXQgV0FSTi4KCgoKCkRt
+ZXNnIGV4Y2VycHQ6CgoKCgpbIDE5MDcuNTYzODU1XSBXQVJOSU5HOiBDUFU6IDEgUElEOiAzMDEg
+YXQgbGliL2lkci5jOjg0IGlkcl9hbGxvYysweDEyMy8weDE0MAoKCgoKWyAxOTA3LjU2NjYwN10g
+TW9kdWxlcyBsaW5rZWQgaW46IGJvY2hzIGRybV9zaG1lbV9oZWxwZXIgZHJtX2ttc19oZWxwZXIg
+ZHJtIHZpcnRpb19wY2kgaTJjX3BpaXg0IGF0YV9nZW5lcmljIHZpcnRpb19wY2lfbGVnYWN5X2Rl
+diBpMmNfc21idXMgaW50ZWxfcWVwIGRybV9wYW5lbF9vcmllbnRhdGlvbl9xdWlya3MgdmlydGlv
+X3BjaV9tb2Rlcm5fZGV2IHBhdGFfYWNwaQoKCgoKWyAxOTA3LjU3MTY2N10gQ1BVOiAxIFVJRDog
+MCBQSUQ6IDMwMSBDb21tOiByZXBybyBOb3QgdGFpbnRlZCA2LjE4LjAgIzkgUFJFRU1QVCh2b2x1
+bnRhcnkpCgoKCgpbIDE5MDcuNTc1NjcxXSBIYXJkd2FyZSBuYW1lOiBRRU1VIFN0YW5kYXJkIFBD
+IChpNDQwRlggKyBQSUlYLCAxOTk2KSwgQklPUyByZWwtMS4xNi4zLTAtZ2E2ZWQ2YjcwMWYwYS1w
+cmVidWlsdC5xZW11Lm9yZyAwNC8wMS8yMDE0CgoKCgpbIDE5MDcuNTc5NDQ0XSBSSVA6IDAwMTAr
+MHgxMjMvMHgxNDAKCgoKClsgMTkwNy42MTE2MTZdIENhbGwgVHJhY2U6CgoKCgpbIDE5MDcuNjE4
+NTEwXSBkcm1fZ2VtX2NoYW5nZV9oYW5kbGVfaW9jdGwrMHgyYmYvMHg0ZjAgW2RybV0KCgoKClsg
+MTkwNy42Mjg2MzhdIGRybV9pb2N0bF9rZXJuZWwrMHgxZjIvMHgzZTAgW2RybV0KCgoKClsgMTkw
+Ny42MzU1MzFdIGRybV9pb2N0bCsweDU4MC8weGI3MCBbZHJtXQoKCgoKWyAxOTA3LjY0OTQ2N10g
+X194NjRfc3lzX2lvY3RsKzB4MTk0LzB4MjEwCgoKCgpbIDE5MDcuNjUwOTUxXSBkb19zeXNjYWxs
+XzY0KzB4YzYvMHgzOTAKCgoKClsgMTkwNy42NTIxMzVdIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJf
+aHdmcmFtZSsweDc3LzB4N2YKCgoKCgoKCk5vdGVzOgoKbmV3X2hhbmRsZSBpcyB1MzIgaW4gVUFQ
+SSwgYnV0IHZhbHVlcyB3aXRoIGJpdDMxIHNldCAoPj0gMHg4MDAwMDAwMCkgc2VlbSB0byByZWFj
+aCBpZHJfYWxsb2MoKSB3aXRoIHNpZ25lZC1pbnQgc2VtYW50aWNzIGFuZCB0cmlnZ2VyIHRoaXMg
+V0FSTiAoaWRyX2FsbG9jKCkgdHlwaWNhbGx5IHdhcm5zIG9uIG5lZ2F0aXZlIHN0YXJ0L2ludmFs
+aWQgcmFuZ2UpLiBJdCB3b3VsZCBiZSBwcmVmZXJhYmxlIHRvIGZhaWwgdGhlIGlvY3RsIGNsZWFu
+bHkgd2l0aG91dCB3YXJuaW5nLgoKSWYgdGhpcyBpcyBhbHJlYWR5IGZpeGVkIHVwc3RyZWFtLCBJ
+4oCZbSBoYXBweSB0byByZXRlc3QuCgoKCgpUaGFua3MsCgoKCgpNaW5neXUgV2FuZwoKCgoKCg==
 
-Signed-off-by: Chen Ridong <chenridong@huawei.com>
----
- kernel/cgroup/dmem.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+------=_Part_10357_1526801665.1770035344570
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-diff --git a/kernel/cgroup/dmem.c b/kernel/cgroup/dmem.c
-index 1ea6afffa985..aa5bacf5fe45 100644
---- a/kernel/cgroup/dmem.c
-+++ b/kernel/cgroup/dmem.c
-@@ -307,6 +307,9 @@ bool dmem_cgroup_state_evict_valuable(struct dmem_cgroup_pool_state *limit_pool,
- 	struct page_counter *ctest;
- 	u64 used, min, low;
- 
-+	if (WARN_ON_ONCE(!test_pool))
-+		return false;
-+
- 	/* Can always evict from current pool, despite limits */
- 	if (limit_pool == test_pool)
- 		return true;
-@@ -343,7 +346,8 @@ bool dmem_cgroup_state_evict_valuable(struct dmem_cgroup_pool_state *limit_pool,
- 		low = READ_ONCE(ctest->elow);
- 		if (used > low)
- 			return true;
--
-+		if (WARN_ON_ONCE(!ret_hit_low))
-+			return false;
- 		*ret_hit_low = true;
- 		return false;
- 	}
-@@ -512,7 +516,7 @@ struct dmem_cgroup_region *dmem_cgroup_register_region(u64 size, const char *fmt
- 	char *region_name;
- 	va_list ap;
- 
--	if (!size)
-+	if (WARN_ON_ONCE(!size || !fmt))
- 		return NULL;
- 
- 	va_start(ap, fmt);
-@@ -520,6 +524,10 @@ struct dmem_cgroup_region *dmem_cgroup_register_region(u64 size, const char *fmt
- 	va_end(ap);
- 	if (!region_name)
- 		return ERR_PTR(-ENOMEM);
-+	if (WARN_ON_ONCE(!region_name[0])) {
-+		kfree(region_name);
-+		return ERR_PTR(-EINVAL);
-+	}
- 
- 	ret = kzalloc(sizeof(*ret), GFP_KERNEL);
- 	if (!ret) {
-@@ -657,6 +665,9 @@ int dmem_cgroup_try_charge(struct dmem_cgroup_region *region, u64 size,
- 	struct page_counter *fail;
- 	int ret;
- 
-+	if (WARN_ON_ONCE(!region || !ret_pool))
-+		return -EINVAL;
-+
- 	*ret_pool = NULL;
- 	if (ret_limit_pool)
- 		*ret_limit_pool = NULL;
--- 
-2.34.1
+PHN0eWxlIGNsYXNzPSJrZS1zdHlsZSI+CltsaXN0LXN0eWxlLXR5cGVdIHtwYWRkaW5nLWxlZnQ6
+MjBweDtsaXN0LXN0eWxlLXBvc2l0aW9uOmluc2lkZX0KW2xpc3Qtc3R5bGUtdHlwZV0gbGkge21h
+cmdpbjowfQpbbGlzdC1zdHlsZS10eXBlXSBsaTpiZWZvcmUsIHNwYW4ua2UtbGlzdC1pdGVtLW1h
+dHRlciB7Zm9udC1mYW1pbHk6InNhbnMgc2VyaWYiLHRhaG9tYSx2ZXJkYW5hLGhlbHZldGljYX0K
+W2xpc3Qtc3R5bGUtdHlwZV0gbGkgcCxbbGlzdC1zdHlsZS10eXBlXSBsaSBoMSxbbGlzdC1zdHls
+ZS10eXBlXSBsaSBoMixbbGlzdC1zdHlsZS10eXBlXSBsaSBoMyxbbGlzdC1zdHlsZS10eXBlXSBs
+aSBoNCxbbGlzdC1zdHlsZS10eXBlXSBsaSBoNSxbbGlzdC1zdHlsZS10eXBlXSBsaSBkaXYsW2xp
+c3Qtc3R5bGUtdHlwZV0gbGkgYmxvY2txdW90ZXtkaXNwbGF5OmlubGluZTt3b3JkLWJyZWFrOmJy
+ZWFrLWFsbH0KW2xpc3Qtc3R5bGUtdHlwZV0gbGkgdGFibGUge2Rpc3BsYXk6aW5saW5lLWJsb2Nr
+O3ZlcnRpY2FsLWFsaWduOnRvcH0KcHttYXJnaW46MH0KdGQge3dvcmQtYnJlYWs6IGJyZWFrLXdv
+cmR9Ci5kZWZhdWx0LWZvbnQtMTc3MDAzNTI0MTg4NXsKfQo8L3N0eWxlPjxkaXYgY2xhc3M9ImRl
+ZmF1bHQtZm9udC0xNzcwMDM1MjQxODg1IiBkaXI9Imx0ciI+PHNwYW4gc3R5bGU9InRleHQtd3Jh
+cDpub3dyYXA7Ij48L3NwYW4+PHAgY2xhc3M9ImlzU2VsZWN0ZWRFbmQiIHN0eWxlPSJmb250LXNp
+emU6MTRweDsiPjxzcGFuIHN0eWxlPSJ0ZXh0LXdyYXA6bm93cmFwOyI+SGkgRFJNIG1haW50YWlu
+ZXJzLDwvc3Bhbj48L3A+PHA+PGJyPjwvcD48cD48c3BhbiBzdHlsZT0idGV4dC13cmFwOm5vd3Jh
+cDsiPknigJltIHNlZWluZyBhIHVzZXJzcGFjZS10cmlnZ2VyYWJsZSBXQVJOIGluIGlkcl9hbGxv
+YygpIHRocm91Z2ggRFJNX0lPQ1RMX0dFTV9DSEFOR0VfSEFORExFLjwvc3Bhbj48L3A+PHA+PGJy
+PjwvcD48cD48c3BhbiBzdHlsZT0idGV4dC13cmFwOm5vd3JhcDsiPktlcm5lbDwvc3Bhbj48L3A+
+PHA+PGJyPjwvcD48cD48c3BhbiBzdHlsZT0idGV4dC13cmFwOm5vd3JhcDsiPnRyZWU6IHVwc3Ry
+ZWFtPC9zcGFuPjwvcD48cD48YnI+PC9wPjxwPjxzcGFuIHN0eWxlPSJ0ZXh0LXdyYXA6bm93cmFw
+OyI+SEVBRDogN2QwYTY2ZTRiYjkwODFkNzVjODJlYzQ5NTdjNTAwMzRjYjBlYTQ0OTwvc3Bhbj48
+L3A+PHA+PGJyPjwvcD48cD48c3BhbiBzdHlsZT0idGV4dC13cmFwOm5vd3JhcDsiPnVuYW1lOiBM
+aW51eCBzeXprYWxsZXIgNi4xOC4wICM5IFNNUCBQUkVFTVBUX0RZTkFNSUMgSmFuIERlYyAyOSAx
+MDo0OToyOSBDU1QgMjAyNSB4ODZfNjQgR05VL0xpbnV4PC9zcGFuPjwvcD48cD48YnI+PC9wPjxw
+PjxzcGFuIHN0eWxlPSJ0ZXh0LXdyYXA6bm93cmFwOyI+UmVwcm8gLyBhcnRpZmFjdHM6PC9zcGFu
+PjwvcD48cD48YnI+PC9wPjxwPjxzcGFuIHN0eWxlPSJ0ZXh0LXdyYXA6bm93cmFwOyI+QyByZXBy
+bzogaHR0cHM6Ly9naXRodWIuY29tL1dtaW5neXUvQ3Jhc2hlcy9ibG9iL21haW4vYjc5MmRjNDQ3
+YjhmZDFiNmE5MzYyNzU2ODYwZDI1YzJkZTVmOGE0NS9yZXByby5jJm5ic3A7PC9zcGFuPjwvcD48
+cD48YnI+PC9wPjxwPjxzcGFuIHN0eWxlPSJ0ZXh0LXdyYXA6bm93cmFwOyI+ZG1lc2c6IGh0dHBz
+Oi8vZ2l0aHViLmNvbS9XbWluZ3l1L0NyYXNoZXMvYmxvYi9tYWluL2I3OTJkYzQ0N2I4ZmQxYjZh
+OTM2Mjc1Njg2MGQyNWMyZGU1ZjhhNDUvZG1lc2cudHh0Jm5ic3A7PC9zcGFuPjwvcD48cD48YnI+
+PC9wPjxwPjxzcGFuIHN0eWxlPSJ0ZXh0LXdyYXA6bm93cmFwOyI+LmNvbmZpZzogaHR0cHM6Ly9n
+aXRodWIuY29tL1dtaW5neXUvQ3Jhc2hlcy9ibG9iL21haW4vNi4xOC5jb25maWcmbmJzcDs8L3Nw
+YW4+PC9wPjxwPjxicj48L3A+PHA+PGJyPjwvcD48cD48c3BhbiBzdHlsZT0idGV4dC13cmFwOm5v
+d3JhcDsiPldoYXQgaGFwcGVuczo8L3NwYW4+PHNwYW4gc3R5bGU9InRleHQtd3JhcDpub3dyYXA7
+Ij5EUk1fSU9DVExfR0VNX0NIQU5HRV9IQU5ETEUgd2l0aCBuZXdfaGFuZGxlID0gMHg4MDAwMDAw
+MCByZWxpYWJseSB0cmlnZ2Vyczo8L3NwYW4+PC9wPjxwPjxicj48L3A+PHA+PHNwYW4gc3R5bGU9
+InRleHQtd3JhcDpub3dyYXA7Ij5XQVJOSU5HIGF0IGxpYi9pZHIuYzo4NCBpbiBpZHJfYWxsb2Mo
+KSZuYnNwOzwvc3Bhbj48c3BhbiBzdHlsZT0idGV4dC13cmFwOm5vd3JhcDsiPmNhbGwgdHJhY2Ug
+aW5jbHVkZXMgZHJtX2dlbV9jaGFuZ2VfaGFuZGxlX2lvY3RsKCk8L3NwYW4+PC9wPjxwPjxicj48
+L3A+PHA+PHNwYW4gc3R5bGU9InRleHQtd3JhcDpub3dyYXA7Ij5DaGFuZ2luZyBvbmx5IG5ld19o
+YW5kbGUgdG8gMHg3ZmZmZmZmZiBkb2VzIE5PVCB0cmlnZ2VyIHRoZSBXQVJOLjwvc3Bhbj48L3A+
+PHA+PGJyPjwvcD48cD48c3BhbiBzdHlsZT0idGV4dC13cmFwOm5vd3JhcDsiPkV4cGVjdGVkOjwv
+c3Bhbj48c3BhbiBzdHlsZT0idGV4dC13cmFwOm5vd3JhcDsiPkludmFsaWQvdW5zdXBwb3J0ZWQg
+bmV3X2hhbmRsZSBzaG91bGQgYmUgcmVqZWN0ZWQgKGUuZy4gLUVJTlZBTCkgd2l0aG91dCBXQVJO
+Ljwvc3Bhbj48L3A+PHA+PGJyPjwvcD48cD48c3BhbiBzdHlsZT0idGV4dC13cmFwOm5vd3JhcDsi
+PkRtZXNnIGV4Y2VycHQ6PC9zcGFuPjwvcD48cD48YnI+PC9wPjxwPjxzcGFuIHN0eWxlPSJ0ZXh0
+LXdyYXA6bm93cmFwOyI+WyAxOTA3LjU2Mzg1NV0gV0FSTklORzogQ1BVOiAxIFBJRDogMzAxIGF0
+IGxpYi9pZHIuYzo4NCBpZHJfYWxsb2MrMHgxMjMvMHgxNDA8L3NwYW4+PC9wPjxwPjxicj48L3A+
+PHA+PHNwYW4gc3R5bGU9InRleHQtd3JhcDpub3dyYXA7Ij5bIDE5MDcuNTY2NjA3XSBNb2R1bGVz
+IGxpbmtlZCBpbjogYm9jaHMgZHJtX3NobWVtX2hlbHBlciBkcm1fa21zX2hlbHBlciBkcm0gdmly
+dGlvX3BjaSBpMmNfcGlpeDQgYXRhX2dlbmVyaWMgdmlydGlvX3BjaV9sZWdhY3lfZGV2IGkyY19z
+bWJ1cyBpbnRlbF9xZXAgZHJtX3BhbmVsX29yaWVudGF0aW9uX3F1aXJrcyB2aXJ0aW9fcGNpX21v
+ZGVybl9kZXYgcGF0YV9hY3BpPC9zcGFuPjwvcD48cD48YnI+PC9wPjxwPjxzcGFuIHN0eWxlPSJ0
+ZXh0LXdyYXA6bm93cmFwOyI+WyAxOTA3LjU3MTY2N10gQ1BVOiAxIFVJRDogMCBQSUQ6IDMwMSBD
+b21tOiByZXBybyBOb3QgdGFpbnRlZCA2LjE4LjAgIzkgUFJFRU1QVCh2b2x1bnRhcnkpPC9zcGFu
+PjwvcD48cD48YnI+PC9wPjxwPjxzcGFuIHN0eWxlPSJ0ZXh0LXdyYXA6bm93cmFwOyI+WyAxOTA3
+LjU3NTY3MV0gSGFyZHdhcmUgbmFtZTogUUVNVSBTdGFuZGFyZCBQQyAoaTQ0MEZYICsgUElJWCwg
+MTk5NiksIEJJT1MgcmVsLTEuMTYuMy0wLWdhNmVkNmI3MDFmMGEtcHJlYnVpbHQucWVtdS5vcmcg
+MDQvMDEvMjAxNDwvc3Bhbj48L3A+PHA+PGJyPjwvcD48cD48c3BhbiBzdHlsZT0idGV4dC13cmFw
+Om5vd3JhcDsiPlsgMTkwNy41Nzk0NDRdIFJJUDogMDAxMCsweDEyMy8weDE0MDwvc3Bhbj48L3A+
+PHA+PGJyPjwvcD48cD48c3BhbiBzdHlsZT0idGV4dC13cmFwOm5vd3JhcDsiPlsgMTkwNy42MTE2
+MTZdIENhbGwgVHJhY2U6PC9zcGFuPjwvcD48cD48YnI+PC9wPjxwPjxzcGFuIHN0eWxlPSJ0ZXh0
+LXdyYXA6bm93cmFwOyI+WyAxOTA3LjYxODUxMF0gZHJtX2dlbV9jaGFuZ2VfaGFuZGxlX2lvY3Rs
+KzB4MmJmLzB4NGYwIFtkcm1dPC9zcGFuPjwvcD48cD48YnI+PC9wPjxwPjxzcGFuIHN0eWxlPSJ0
+ZXh0LXdyYXA6bm93cmFwOyI+WyAxOTA3LjYyODYzOF0gZHJtX2lvY3RsX2tlcm5lbCsweDFmMi8w
+eDNlMCBbZHJtXTwvc3Bhbj48L3A+PHA+PGJyPjwvcD48cD48c3BhbiBzdHlsZT0idGV4dC13cmFw
+Om5vd3JhcDsiPlsgMTkwNy42MzU1MzFdIGRybV9pb2N0bCsweDU4MC8weGI3MCBbZHJtXTwvc3Bh
+bj48L3A+PHA+PGJyPjwvcD48cD48c3BhbiBzdHlsZT0idGV4dC13cmFwOm5vd3JhcDsiPlsgMTkw
+Ny42NDk0NjddIF9feDY0X3N5c19pb2N0bCsweDE5NC8weDIxMDwvc3Bhbj48L3A+PHA+PGJyPjwv
+cD48cD48c3BhbiBzdHlsZT0idGV4dC13cmFwOm5vd3JhcDsiPlsgMTkwNy42NTA5NTFdIGRvX3N5
+c2NhbGxfNjQrMHhjNi8weDM5MDwvc3Bhbj48L3A+PHA+PGJyPjwvcD48cD48c3BhbiBzdHlsZT0i
+dGV4dC13cmFwOm5vd3JhcDsiPlsgMTkwNy42NTIxMzVdIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJf
+aHdmcmFtZSsweDc3LzB4N2Y8L3NwYW4+PC9wPjxwPjxicj48L3A+PHA+PGJyPjwvcD48cD48c3Bh
+biBzdHlsZT0idGV4dC13cmFwOm5vd3JhcDsiPk5vdGVzOjwvc3Bhbj48L3A+PHA+PHNwYW4gc3R5
+bGU9InRleHQtd3JhcDpub3dyYXA7Ij5uZXdfaGFuZGxlIGlzIHUzMiBpbiBVQVBJLCBidXQgdmFs
+dWVzIHdpdGggYml0MzEgc2V0ICgmZ3Q7PSAweDgwMDAwMDAwKSBzZWVtIHRvIHJlYWNoIGlkcl9h
+bGxvYygpIHdpdGggc2lnbmVkLWludCBzZW1hbnRpY3MgYW5kIHRyaWdnZXIgdGhpcyBXQVJOIChp
+ZHJfYWxsb2MoKSB0eXBpY2FsbHkgd2FybnMgb24gbmVnYXRpdmUgc3RhcnQvaW52YWxpZCByYW5n
+ZSkuIEl0IHdvdWxkIGJlIHByZWZlcmFibGUgdG8gZmFpbCB0aGUgaW9jdGwgY2xlYW5seSB3aXRo
+b3V0IHdhcm5pbmcuPC9zcGFuPjwvcD48cD48c3BhbiBzdHlsZT0idGV4dC13cmFwOm5vd3JhcDsi
+PklmIHRoaXMgaXMgYWxyZWFkeSBmaXhlZCB1cHN0cmVhbSwgSeKAmW0gaGFwcHkgdG8gcmV0ZXN0
+Ljwvc3Bhbj48L3A+PHA+PGJyPjwvcD48cD48c3BhbiBzdHlsZT0idGV4dC13cmFwOm5vd3JhcDsi
+PlRoYW5rcyw8L3NwYW4+PC9wPjxwPjxicj48L3A+PHA+PHNwYW4gc3R5bGU9InRleHQtd3JhcDpu
+b3dyYXA7Ij5NaW5neXUgV2FuZzwvc3Bhbj48L3A+PHA+PGJyPjwvcD48cCBjbGFzcz0iaXNTZWxl
+Y3RlZEVuZCIgc3R5bGU9ImZvbnQtc2l6ZToxNHB4OyI+PGJyPjwvcD48ZGl2IHN0eWxlPSJmb250
+LXNpemU6MTRweDt3aGl0ZS1zcGFjZTpub3dyYXA7Ij48L2Rpdj48L2Rpdj4=
+------=_Part_10357_1526801665.1770035344570--
 
