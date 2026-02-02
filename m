@@ -2,86 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KB5uFJh4gGne8gIAu9opvQ
+	id 4JkgEJ54gGne8gIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:12:40 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:12:46 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2E41CAA4D
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:12:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97285CAA54
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:12:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39B5D10E411;
-	Mon,  2 Feb 2026 10:12:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E987010E3BE;
+	Mon,  2 Feb 2026 10:12:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BVRKcqQa";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="c1J3hUex";
+	dkim=pass (2048-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="c9/87kap";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5472310E415
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 10:12:36 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-47ee07570deso35363715e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 02:12:36 -0800 (PST)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F0A710E3BE
+ for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 10:12:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1770027162;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=T8trzVS4ZUCHrBPpOVXGPFbB+m6G0A2WMMBaMJLn58s=;
+ b=c1J3hUexP3c8TKmy7G1BL+02diZtlGzmE4nUvaczA9Uo2rvOTNWaWECRY4xk+7SbPxTQ7p
+ /RiTOWgnMZIjG4P7pU1kvswtSgIifb8Zr6yKSr9qtW2FTgeJBiOQBXG1vdUNwyNT2+nr4f
+ Roo0rG0Sovp6RvhTubx5UCnXTl3dQO0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-467-pwiT-hSDOX-idphZx77VbQ-1; Mon, 02 Feb 2026 05:12:40 -0500
+X-MC-Unique: pwiT-hSDOX-idphZx77VbQ-1
+X-Mimecast-MFC-AGG-ID: pwiT-hSDOX-idphZx77VbQ_1770027159
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-482eec44485so13675855e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 02:12:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1770027155; x=1770631955; darn=lists.freedesktop.org;
+ d=redhat.com; s=google; t=1770027159; x=1770631959; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=u5iMSISoPXHP8cm/BuB1aiphidaUfX1u3Xy0JvO160Q=;
- b=BVRKcqQa6r9B2qCRhZCy9xQaPhWsWWoCd00fVo7wC+0W9mD5eQ0qSarobJoHUC/eZ7
- tJhSSDPuMMYo619Tf1PewTf8SNFCTktcjmM33ltP0n/J2CDaHZLSOJO1hf1BJUOk3zMX
- QIQZJq11UO64T7p6s4c9/oW521ZQydixgOPcL2QoOdruVhp7mBnvzpTGgxyF1HlbaUAL
- /SfHo3A7PikeHEmR+8fPshXSJ2b6yURRYaMawA/qQ1AIRK5KuMLbW2C0ncCCQE/ICv4k
- SYJjbC5Z3s/KrsHCAjALfNEDJEJd108kyXNYx3pLhbno2AOy7vEa0Veqdc7uGRfM/z2A
- PvNQ==
+ bh=T8trzVS4ZUCHrBPpOVXGPFbB+m6G0A2WMMBaMJLn58s=;
+ b=c9/87kapa0abwSj4Yh2lOtIbDnQRQIpoVJwZmaPRsworIyvIVs9isnOnRvkRfCoIHv
+ i7PXWmaDQ2Lp5T8DGHE8WcisQ/pmMSQoSKFhQWFByX1nJb1wtc6RW5ZtfZJZKFcuVcCF
+ H5v9octY32XjfGKKryxosxDMc2/d78XQ7gXA/L3wFvDMBo2wrzlv0Y4OMp597JeeKGxf
+ 501UVUfd19X3mYRPs66kF/G9dr1TCn+JqF5KXd/bYXxAbDVw3WHizmhYLskA1Mkri2Hp
+ Xg8hSwILA6GHe0y+EOUbDouIRlt0FT5u6RCcM5g1wtAr5PS823WV4c4wsZtVlSfyutjV
+ nR+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770027155; x=1770631955;
+ d=1e100.net; s=20230601; t=1770027159; x=1770631959;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=u5iMSISoPXHP8cm/BuB1aiphidaUfX1u3Xy0JvO160Q=;
- b=J9icl835w5rYqJvycqPNUR6velIn8jqmlF1vPdb1gtQ/EVmbVaU9873zIxqhNwCFNP
- 0OyK2cdPB1gxUsZSc7jdvBGpvephMXEwRZE6bObdfHZ+j3tSflhVck0z0wGgSbChPwbe
- mLGhUD89J9CH2obnHgK/X+DikN+bzCA7L+u5OXCiNRKHj2KhSxKMPI2esTwQA0Mi4N33
- 94YTU/i7w2VEWXRE+ersXY2406DTCe4cayalkCmRel6yMsZj7jVuZZ/EXNm59PkM0Rma
- aCgSi23RMB+YNXjzv7XUntBkohabbhOo19MhsDr1Irmp+hi70LcybkOJera3/UfY8sSZ
- pL3g==
+ bh=T8trzVS4ZUCHrBPpOVXGPFbB+m6G0A2WMMBaMJLn58s=;
+ b=pRvRWMJWakrMgjGezmrfYNnvbB3bgUgKtKSUHevqY2PrzAYgfCEDE7X6rxdQR4SZQj
+ y03Ha2MgFTNyrH66wItVKG9jtFSDeVWNkdY9GMbk9xeL1erYk6xUGsplKWGmzJFG5InR
+ oPyc3Yx3sYY2IaWv5Zw1W32LzN4Ui2TUZxioLWLro29spEzxjkaEgOlgsWKJiaKhktjp
+ BNyUuUIEUGtOcgyZ9L+rR4nbLvgoVe7Zgfnhza0+3fzCwezoFuIC7J/B6OZ7t6wW1pKO
+ xBvxnccMGTUHRIiGYiQetBoL80DPpopb8mpIo9ISFVv0y5xf0bn55b6CXfHR7NgN/1ny
+ qb4w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXAXWqvv/aZmfL+YF1m19U4z1xGwJhdQGFPCB4gB8Tzafyyxx5iceuo3jznAgXAJ9QDc0301CHXXgg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxDFD1aKc5YFjpoo6ycrQTRJawpcVPSZXATZlqffo9fU9/vQV5v
- 2zIkHtnkQlPpzYy9JwM/vKzkvlQWGOY2q1pM4Nj5viAJ+Zoxr0SOqvlbrtIsaedqH1Q=
-X-Gm-Gg: AZuq6aLa1ggxn2vhqA7df/1OCY/eDAb4cmESiwOmgyWjCHa5QgkUSNWjWRVnD0Ik0/M
- Ru11wEwNs/YjCNKxiFE4kWqqX9HrhX863WgD9NdKlkaR09Xo5nmNi4lSv1fIT67HCxCXXnijnAn
- TcSVdWx+73tIO2s1l/I5oWc9Wa0YD9OhwSvO+9NIuvYDx+q5XHFbBLcd0emIQZKB2PEz2ucd4Cx
- XWneoto9hq1vRmonfL6IwEpShdOkIiXPd6574RH3AP+dHkF1VIzTNOYiZlA/ZCexBEwZvn862y5
- YG6aQYDRKVTrvuxfqol6DW6Cq3lbsUC3FfHXiSHZTHroLo4wWyuyjrZQEbfjitkjyMyrSbGHyXm
- WyExYWXce5ArGGtZtAqh6wVxL4qNj0bGt7o1gtAGx7Xhb+6mRvBam3JQihkvNpNcN9UlzTWlQqg
- GEIyZboIbSmoZL6gsC
-X-Received: by 2002:a05:600c:5566:b0:482:dbd7:a1c1 with SMTP id
- 5b1f17b1804b1-482dbd7a308mr90480105e9.34.1770027154676; 
- Mon, 02 Feb 2026 02:12:34 -0800 (PST)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4806cdd78d3sm399143985e9.1.2026.02.02.02.12.32
+ AJvYcCWd9qgH8NludJldQjGgG345T9TsPhFJSGpySVeenE2yifpbnfkrgysIWYqPwTMRkPBCo1wKuhd7Des=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxhp6zjgxeRs4gr8GVD0sCavLgct+P68hXeeEmyE047e3JgFVDy
+ FEuw0cRMlcNy3Twlbkbyxvx6fmrz7G3BrTEBjnqU06jnWZdD9SZtedXaQMFyNAyPrm9sqcUwUiK
+ bMV9e8I1uHKAUB28IuqL512/eLzVJdIWpkuOH71mUXbhp0CDrvuZPGRatlOmDr9KetTcWAQ==
+X-Gm-Gg: AZuq6aK4aTmEErEkftXdx+zpC3o1honVpwn43/vDjQjWeLJXzB7K1vDNUOY5ix32jjv
+ HQDPEu5TSLTlaeFJmBhiLiLivXnkXJm9EzpNq9AVRUSl7iqzf/wyb9v8xr0P9RWeChmeE4nIBug
+ 1oNyuw4+PzEBmfoPiKW4sv1GZkUNaM3DnDmwTmD+wsDXM6G2ZFd8Ke7lHmvzd/JmuLYiV+AgHCm
+ D/b4PJ8xODtqdAj6w4m8vvF9k/+nj1DR3JtmDGSwq5exSAUtkGvqCtl2MMsXW226OqqYFnRDxQI
+ pRx96lB+opsQ9Qt/GZAyj6Rx8lzpag0Y+5t+Gdh4/+06CsiDFMF1J2rdWelqzw==
+X-Received: by 2002:a05:600c:6092:b0:47a:7fdd:2906 with SMTP id
+ 5b1f17b1804b1-482db45441fmr144478615e9.12.1770027158987; 
+ Mon, 02 Feb 2026 02:12:38 -0800 (PST)
+X-Received: by 2002:a05:600c:6092:b0:47a:7fdd:2906 with SMTP id
+ 5b1f17b1804b1-482db45441fmr144478255e9.12.1770027158488; 
+ Mon, 02 Feb 2026 02:12:38 -0800 (PST)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4806cddffe9sm555222985e9.4.2026.02.02.02.12.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Feb 2026 02:12:33 -0800 (PST)
-Date: Mon, 2 Feb 2026 13:12:30 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Shenghao Yang <me@shenghaoyang.info>
-Cc: Ruben Wauters <rubenru09@aol.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable+noautosel@kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2] drm/gud: fix NULL crtc dereference on display disable
-Message-ID: <aYB4jhjqC4ij5LBO@stanley.mountain>
-References: <20260201095956.21042-1-me@shenghaoyang.info>
+ Mon, 02 Feb 2026 02:12:37 -0800 (PST)
+Date: Mon, 2 Feb 2026 11:12:37 +0100
+From: Maxime Ripard <mripard@redhat.com>
+To: Eric Chanudet <echanude@redhat.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ Albert Esteve <aesteve@redhat.com>
+Subject: Re: [PATCH] dma-buf: heaps: cma: register a dmem region for each cma
+ heap
+Message-ID: <20260202-wealthy-quick-cow-8c5421@houat>
+References: <20260130-dmabuf-heap-cma-dmem-v1-1-3647ea993e99@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="ourfsz72devil6zd"
 Content-Disposition: inline
-In-Reply-To: <20260201095956.21042-1-me@shenghaoyang.info>
+In-Reply-To: <20260130-dmabuf-heap-cma-dmem-v1-1-3647ea993e99@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,113 +119,228 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+X-Spamd-Result: default: False [-2.91 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[dan.carpenter@linaro.org,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:me@shenghaoyang.info,m:rubenru09@aol.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:stable+noautosel@kernel.org,m:lkp@intel.com,m:stable@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:echanude@redhat.com,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:aesteve@redhat.com,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[mripard@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[aol.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,intel.com];
-	DKIM_TRACE(0.00)[linaro.org:+];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[mripard@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dan.carpenter@linaro.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,noautosel];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linaro.org:dkim]
-X-Rspamd-Queue-Id: B2E41CAA4D
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 97285CAA54
 X-Rspamd-Action: no action
 
-On Sun, Feb 01, 2026 at 05:59:56PM +0800, Shenghao Yang wrote:
-> gud_plane_atomic_update() currently handles both crtc state and
-> framebuffer updates - the complexity has led to a few accidental
-> NULL pointer dereferences.
-> 
-> Commit dc2d5ddb193e ("drm/gud: fix NULL fb and crtc dereferences
-> on USB disconnect") [1] fixed an earlier dereference but planes
-> can also be disabled in non-hotplug paths (e.g. display disables
-> via the desktop environment). The drm_dev_enter() call would not
-> cause an early return in those and subsequently oops on
-> dereferencing crtc:
-> 
-> BUG: kernel NULL pointer dereference, address: 00000000000005c8
-> CPU: 6 UID: 1000 PID: 3473 Comm: kwin_wayland Not tainted 6.18.2-200.vanilla.gud.fc42.x86_64 #1 PREEMPT(lazy)
-> RIP: 0010:gud_plane_atomic_update+0x148/0x470 [gud]
->  <TASK>
->  drm_atomic_helper_commit_planes+0x28e/0x310
->  drm_atomic_helper_commit_tail+0x2a/0x70
->  commit_tail+0xf1/0x150
->  drm_atomic_helper_commit+0x13c/0x180
->  drm_atomic_commit+0xb1/0xe0
-> info ? __pfx___drm_printfn_info+0x10/0x10
->  drm_mode_atomic_ioctl+0x70f/0x7c0
->  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
->  drm_ioctl_kernel+0xae/0x100
->  drm_ioctl+0x2a8/0x550
->  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
->  __x64_sys_ioctl+0x97/0xe0
->  do_syscall_64+0x7e/0x7f0
->  ? __ct_user_enter+0x56/0xd0
->  ? do_syscall_64+0x158/0x7f0
->  ? __ct_user_enter+0x56/0xd0
->  ? do_syscall_64+0x158/0x7f0
->  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> 
-> Split out crtc handling from gud_plane_atomic_update() into
-> atomic_enable() and atomic_disable() functions to delegate
-> crtc state transitioning work to the DRM helpers.
-> 
-> To preserve the gud state commit sequence [2], switch to
-> the runtime PM version of drm_atomic_helper_commit_tail() which
-> ensures that crtcs are enabled (hence sending the
-> GUD_REQ_SET_CONTROLLER_ENABLE and GUD_REQ_SET_DISPLAY_ENABLE
-> requests) before a framebuffer update is sent.
-> 
-> [1] https://lore.kernel.org/all/20251231055039.44266-1-me@shenghaoyang.info/
-> [2] https://github.com/notro/gud/wiki/GUD-Protocol#display-state
-> 
-> Cc: <stable+noautosel@kernel.org> # won't apply cleanly on 6.18.x
 
-Why are you adding this?
+--ourfsz72devil6zd
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] dma-buf: heaps: cma: register a dmem region for each cma
+ heap
+MIME-Version: 1.0
 
-I suspect it's because checkpatch complains that commits with BUG: in
-the commit message should be CC'd to stable.  (Although, I can't trigger
-that warning now.  Weird).
+Hi,
 
-If a patch doesn't apply, then the stable scripts aren't going to apply
-it.  It's not necessary to tell the scripts not to try.  To me the
-"noautosel" basically means that it's important to not backport the
-patch.  Maybe the API has changed so backporting it will cause a subtle
-breakage.
+On Fri, Jan 30, 2026 at 05:55:30PM -0500, Eric Chanudet wrote:
+> The cma dma-buf heaps let userspace allocate buffers in CMA regions
+> without enforcing limits. Register a dmem region per cma heap and charge
+> against it when allocating a buffer in a cma heap.
+>=20
+> For the default cma region, two heaps may be created for the same cma
+> range:
+> commit 854acbe75ff4 ("dma-buf: heaps: Give default CMA heap a fixed name")
+>   Introduced /dev/dma_heap/default_cma_region
+> commit 4f5f8baf7341 ("dma-buf: heaps: cma: Create CMA heap for each CMA
+>                       reserved region")
+>   Created a CMA heap for each CMA region, which might create a duplicate
+>   heap to the default one, e.g:
+>     /dev/dma_heap/default_cma_region
+>     /dev/dma_heap/reserved
+>=20
+> Removing the legacy heap would break user API. So handle the special
+> case by using one dmem between the two heaps to account charges
+> correctly.
+>=20
+> Signed-off-by: Eric Chanudet <echanude@redhat.com>
+> ---
+> In continuation with introducing cgroup for the system heap[1], this
+> behavior is enabled based on dma_heap.mem_accounting, disabled by
+> default.
+>=20
+> dmem is chosen for CMA heaps as it allows limits to be set for each
+> region backing each heap. There is one caveat for the default cma range
+> that may accessible through two different cma heaps, which is treated as
+> a special case.
+>=20
+> [1] https://lore.kernel.org/all/20260116-dmabuf-heap-system-memcg-v3-0-ec=
+c6b62cc446@redhat.com/
+> ---
+>  drivers/dma-buf/heaps/cma_heap.c | 51 ++++++++++++++++++++++++++++++++++=
+++----
+>  1 file changed, 46 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma=
+_heap.c
+> index 49cc45fb42dd7200c3c14384bcfdbe85323454b1..608af8ad6bce7fe0321da6d8f=
+1b65a69f5d8d950 100644
+> --- a/drivers/dma-buf/heaps/cma_heap.c
+> +++ b/drivers/dma-buf/heaps/cma_heap.c
+> @@ -27,6 +27,7 @@
+>  #include <linux/scatterlist.h>
+>  #include <linux/slab.h>
+>  #include <linux/vmalloc.h>
+> +#include <linux/cgroup_dmem.h>
+> =20
+>  #define DEFAULT_CMA_NAME "default_cma_region"
+> =20
+> @@ -46,7 +47,9 @@ int __init dma_heap_cma_register_heap(struct cma *cma)
+>  struct cma_heap {
+>  	struct dma_heap *heap;
+>  	struct cma *cma;
+> +	struct dmem_cgroup_region *cg;
+>  };
+> +static struct dmem_cgroup_region *default_cma_cg;
+> =20
+>  struct cma_heap_buffer {
+>  	struct cma_heap *heap;
+> @@ -58,6 +61,7 @@ struct cma_heap_buffer {
+>  	pgoff_t pagecount;
+>  	int vmap_cnt;
+>  	void *vaddr;
+> +	struct dmem_cgroup_pool_state *pool;
+>  };
+> =20
+>  struct dma_heap_attachment {
+> @@ -276,6 +280,7 @@ static void cma_heap_dma_buf_release(struct dma_buf *=
+dmabuf)
+>  	kfree(buffer->pages);
+>  	/* release memory */
+>  	cma_release(cma_heap->cma, buffer->cma_pages, buffer->pagecount);
+> +	dmem_cgroup_uncharge(buffer->pool, buffer->len);
+>  	kfree(buffer);
+>  }
+> =20
+> @@ -319,9 +324,16 @@ static struct dma_buf *cma_heap_allocate(struct dma_=
+heap *heap,
+>  	if (align > CONFIG_CMA_ALIGNMENT)
+>  		align =3D CONFIG_CMA_ALIGNMENT;
+> =20
+> +	if (mem_accounting) {
+> +		ret =3D dmem_cgroup_try_charge(cma_heap->cg, size,
+> +					     &buffer->pool, NULL);
+> +		if (ret)
+> +			goto free_buffer;
+> +	}
+>
+>  	cma_pages =3D cma_alloc(cma_heap->cma, pagecount, align, false);
+>  	if (!cma_pages)
+> -		goto free_buffer;
+> +		goto uncharge_cgroup;
+> =20
+>  	/* Clear the cma pages */
+>  	if (PageHighMem(cma_pages)) {
+> @@ -376,6 +388,8 @@ static struct dma_buf *cma_heap_allocate(struct dma_h=
+eap *heap,
+>  	kfree(buffer->pages);
+>  free_cma:
+>  	cma_release(cma_heap->cma, cma_pages, pagecount);
+> +uncharge_cgroup:
+> +	dmem_cgroup_uncharge(buffer->pool, size);
 
-Are you planning to manually backport it? If so, you could CC stable
-and then when you get the email that it doesn't apply, then you can do
-the manual backport.  Or you could ignore it.
+Should we make that conditional on mem_accounting =3D=3D true ?
 
-Or if you think it's not worth backporting, you could explain why.
+>  free_buffer:
+>  	kfree(buffer);
+> =20
+> @@ -390,25 +404,52 @@ static int __init __add_cma_heap(struct cma *cma, c=
+onst char *name)
+>  {
+>  	struct dma_heap_export_info exp_info;
+>  	struct cma_heap *cma_heap;
+> +	struct dmem_cgroup_region *region;
+> +	int ret;
+> =20
+>  	cma_heap =3D kzalloc(sizeof(*cma_heap), GFP_KERNEL);
+>  	if (!cma_heap)
+>  		return -ENOMEM;
+>  	cma_heap->cma =3D cma;
+> =20
+> +	/*
+> +	 * If two heaps are created for the default cma region, use the same
+> +	 * dmem for them. They both use the same memory pool.
+> +	 */
+> +	if (dev_get_cma_area(NULL) =3D=3D cma && default_cma_cg)
+> +		region =3D default_cma_cg;
+> +	else {
+> +		region =3D dmem_cgroup_register_region(cma_get_size(cma), "cma/%s", na=
+me);
+> +		if (IS_ERR(region)) {
+> +			ret =3D PTR_ERR(region);
+> +			goto free_cma_heap;
+> +		}
+> +	}
+> +	cma_heap->cg =3D region;
+> +
 
-Cc: <stable+noautosel@kernel.org> # too risky for low benefit
+I'm not sure it's the best way to go with this. We want to track all
+relevant CMA allocations going forward, in the heaps and elsewhere.
 
-regards,
-dan carpenter
+If we were to do what you suggest, an allocation in, say, DRM or v4l2
+wouldn't be tracked in the same region than one in the heaps, while we
+want to have it cumulated.
+
+I think we'd be better off if we created a dmem region for each CMA
+region in the system, but we would charge from the heap so we don't
+account for every allocation.
+
+I don't think we can register the dmem region when the CMA area is
+initialized though, since it will probably be too early in the kernel
+boot and SLAB isn't around yet.
+
+But since we would need an accessor to get a dmem region from a cma
+region, we could do something like check if a dmem eregion already
+exists for that cma region, and allocate one otherwise. Or have a
+secondary initcall to allocate all dmem regions.
+
+Maxime
+
+--ourfsz72devil6zd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaYB4kAAKCRAnX84Zoj2+
+dqPBAX9oydlm9YZRNx1uUYcnGj8czxCI9/nwwv3lTG3vB/96CaCaciG72JRvyD2+
+YtcMBPEBf2UZP8KVV1tDJ+oujyCdJZXIsjWxMc55iL7AcfydJqlROACsQSaGrLgZ
+L+gEjF3czQ==
+=dD0c
+-----END PGP SIGNATURE-----
+
+--ourfsz72devil6zd--
 
