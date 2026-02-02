@@ -2,76 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EFPIFUV3gGmo8gIAu9opvQ
+	id EMDbNap3gGne8gIAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:07:01 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:08:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7BD6CA7E5
-	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:07:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC16CA961
+	for <lists+dri-devel@lfdr.de>; Mon, 02 Feb 2026 11:08:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B42210E3E8;
-	Mon,  2 Feb 2026 10:06:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9553110E40C;
+	Mon,  2 Feb 2026 10:08:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Z7SYgy4v";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YDw2WQEz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A5BD10E3DD
- for <dri-devel@lists.freedesktop.org>; Mon,  2 Feb 2026 10:06:57 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6448160008;
- Mon,  2 Feb 2026 10:06:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 611DFC116D0;
- Mon,  2 Feb 2026 10:06:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770026816;
- bh=DlHoOTLxIxjAjwF5rSYvlt5G94iLnc2c4QiF0If3+SU=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=Z7SYgy4v07w1AugBQ5PySBoJ5Ew8y2VILV4q+TXbJbgSA0KpfHpLuNExlQ1DT56bW
- TpinW8kxfX+Y9FWOzp1Ipg4NMzWUgxmVikG1asAF3MP4u2VTxqYM0SxoWxFaksQb0f
- 5pwYNOWOq5rkrRx3UenvjAm7+bLAysTDYv53RV/Xksnwv4Ns4uNumHpoV8Ml2F1/RC
- Xv1PTuTZn1wgrxLtSIuJo8eIAmzPFcKcRRDrcccfDXjFjbMZcOQchhPQe8ofUspMvX
- lmUh0Ejhus8nx+FbJeHrXB+GRK2jPzA7e+jFf2+I5aAdfF9bGc1ZwzWxMdKMYB0v+9
- /jrdOL/XLZz+A==
-From: Andreas Hindborg <a.hindborg@kernel.org>
-To: Daniel Almeida <daniel.almeida@collabora.com>, Oliver Mangold
- <oliver.mangold@pm.me>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn?= Roy
- Baron <bjorn3_gh@protonmail.com>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Benno Lossin <lossin@kernel.org>, Danilo
- Krummrich <dakr@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Dave Ertman <david.m.ertman@intel.com>, Ira
- Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>, "Rafael J.
- Wysocki" <rafael@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Lorenzo
- Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Viresh Kumar <vireshk@kernel.org>, Nishanth
- Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, Paul
- Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Asahi Lina
- <lina+kernel@asahilina.net>, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v13 4/4] rust: Add `OwnableRefCounted`
-In-Reply-To: <A5A7C4C9-1504-439C-B4FF-C28482AF7444@collabora.com>
-References: <20251117-unique-ref-v13-0-b5b243df1250@pm.me>
- <20251117-unique-ref-v13-4-b5b243df1250@pm.me>
- <A5A7C4C9-1504-439C-B4FF-C28482AF7444@collabora.com>
-Date: Mon, 02 Feb 2026 11:06:02 +0100
-Message-ID: <87qzr3piid.fsf@t14s.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32E6810E40B;
+ Mon,  2 Feb 2026 10:08:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1770026919; x=1801562919;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=cCgG3dIux3x+xt02C17bJz27PWIwYr7tHK1Irige0qI=;
+ b=YDw2WQEz5+dH62HBMtjsk/gcEsNVkw9HGRv9mR6HETnL+IviVd0DWmbR
+ oUM8vZJBb6IzpTP/a0nlV+z5bIPWiG8uv40c3+jbs+q2v3IqW/1FkrnTq
+ 6k2lVN3PfYkIJrV/cO7n5nFPlZknt1t8M7csj4ToJoK9A8h2AmnXK68U1
+ MDy4npID0HVOrYXonNlC6SPi5gPx6RSq9dNmu7qWeI1jxByL6QNbBIkbW
+ 1Nf8yNN/kvrI+E0bk/QpiFYsACxR5l9u29g/wz9tVOrWR5YWXtJYmQ3R/
+ LRFVaNfw7sEaxUq+f9xGUzmBp1ZnKUHrHXUll5pe9G4/+MiIMnbwT0Nfy g==;
+X-CSE-ConnectionGUID: Fb9kQGgFSQezNXnTzEso5A==
+X-CSE-MsgGUID: Yi3C56tvS7KH+AIQjHxeMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11689"; a="82289595"
+X-IronPort-AV: E=Sophos;i="6.21,268,1763452800"; d="scan'208";a="82289595"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2026 02:08:38 -0800
+X-CSE-ConnectionGUID: 4A8P+vxkRfuBRuRzEds7GQ==
+X-CSE-MsgGUID: M1aAK9y4RLq/kvZE4ISRrQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,268,1763452800"; d="scan'208";a="209483479"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602)
+ ([10.211.93.152])
+ by orviesa008.jf.intel.com with ESMTP; 02 Feb 2026 02:08:34 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vmqr9-00000000345-1anf;
+ Mon, 02 Feb 2026 10:08:31 +0000
+Date: Mon, 2 Feb 2026 11:08:22 +0100
+From: kernel test robot <lkp@intel.com>
+To: Riana Tauro <riana.tauro@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, aravind.iddamsetty@linux.intel.com,
+ anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
+ joonas.lahtinen@linux.intel.com, simona.vetter@ffwll.ch,
+ airlied@gmail.com, pratik.bari@intel.com,
+ joshua.santosh.ranjan@intel.com, ashwin.kumar.kulkarni@intel.com,
+ shubham.kumar@intel.com, ravi.kishore.koppuravuri@intel.com,
+ raag.jadav@intel.com, Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>,
+ Lijo Lazar <lijo.lazar@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+ Riana Tauro <riana.tauro@intel.com>
+Subject: Re: [PATCH v5 1/5] drm/ras: Introduce the DRM RAS infrastructure
+ over generic netlink
+Message-ID: <202602021142.G5vT8UkJ-lkp@intel.com>
+References: <20260202064356.286243-8-riana.tauro@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260202064356.286243-8-riana.tauro@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,349 +87,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[lists.linux.dev,linux.intel.com,intel.com,ffwll.ch,gmail.com,oss.qualcomm.com,amd.com,kernel.org,redhat.com,google.com,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:daniel.almeida@collabora.com,m:oliver.mangold@pm.me,m:ojeda@kernel.org,m:alex.gaynor@gmail.com,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:aliceryhl@google.com,m:tmgross@umich.edu,m:lossin@kernel.org,m:dakr@kernel.org,m:gregkh@linuxfoundation.org,m:david.m.ertman@intel.com,m:ira.weiny@intel.com,m:leon@kernel.org,m:rafael@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vireshk@kernel.org,m:nm@ti.com,m:sboyd@kernel.org,m:bhelgaas@google.com,m:kwilczynski@kernel.org,m:paul@paul-moore.com,m:sergeh@kernel.org,m:lina+kernel@asahilina.net,m:rust-for-linux@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-block@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-pm@vger.kernel.org,m:linux-pci@vger.kernel.org,m:lin
- ux-security-module@vger.kernel.org,m:alexgaynor@gmail.com,m:boqunfeng@gmail.com,m:lina@asahilina.net,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[a.hindborg@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[24];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[43];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,linuxfoundation.org,intel.com,linux.intel.com,suse.de,ffwll.ch,zeniv.linux.org.uk,suse.cz,oracle.com,ti.com,paul-moore.com,asahilina.net,vger.kernel.org,lists.freedesktop.org,kvack.org];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[a.hindborg@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	DKIM_TRACE(0.00)[intel.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel,kernel];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[t14s.mail-host-address-is-not-set:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,pm.me:email]
-X-Rspamd-Queue-Id: D7BD6CA7E5
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,git-scm.com:url,01.org:url,intel.com:email,intel.com:dkim,intel.com:mid]
+X-Rspamd-Queue-Id: 4BC16CA961
 X-Rspamd-Action: no action
 
-Daniel Almeida <daniel.almeida@collabora.com> writes:
+Hi Riana,
 
-> Hi Oliver,
->
->> On 17 Nov 2025, at 07:08, Oliver Mangold <oliver.mangold@pm.me> wrote:
->>=20
->> Types implementing one of these traits can safely convert between an
->> `ARef<T>` and an `Owned<T>`.
->>=20
->> This is useful for types which generally are accessed through an `ARef`
->> but have methods which can only safely be called when the reference is
->> unique, like e.g. `block::mq::Request::end_ok()`.
->>=20
->> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
->> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
->> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
->> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
->> ---
->> rust/kernel/owned.rs     | 138 +++++++++++++++++++++++++++++++++++++++++=
-+++---
->> rust/kernel/sync/aref.rs |  11 +++-
->> rust/kernel/types.rs     |   2 +-
->> 3 files changed, 141 insertions(+), 10 deletions(-)
->>=20
->> diff --git a/rust/kernel/owned.rs b/rust/kernel/owned.rs
->> index a26747cbc13b..26ab2b00ada0 100644
->> --- a/rust/kernel/owned.rs
->> +++ b/rust/kernel/owned.rs
->> @@ -5,6 +5,7 @@
->> //! These pointer types are useful for C-allocated objects which by API-=
-contract
->> //! are owned by Rust, but need to be freed through the C API.
->>=20
->> +use crate::sync::aref::{ARef, RefCounted};
->> use core::{
->>     mem::ManuallyDrop,
->>     ops::{Deref, DerefMut},
->> @@ -14,14 +15,16 @@
->>=20
->> /// Type allocated and destroyed on the C side, but owned by Rust.
->> ///
->> -/// Implementing this trait allows types to be referenced via the [`Own=
-ed<Self>`] pointer type. This
->> -/// is useful when it is desirable to tie the lifetime of the reference=
- to an owned object, rather
->> -/// than pass around a bare reference. [`Ownable`] types can define cus=
-tom drop logic that is
->> -/// executed when the owned reference [`Owned<Self>`] pointing to the o=
-bject is dropped.
->> +/// Implementing this trait allows types to be referenced via the [`Own=
-ed<Self>`] pointer type.
->> +///  - This is useful when it is desirable to tie the lifetime of an ob=
-ject reference to an owned
->> +///    object, rather than pass around a bare reference.
->> +///  - [`Ownable`] types can define custom drop logic that is executed =
-when the owned reference
->> +///    of type [`Owned<_>`] pointing to the object is dropped.
->> ///
->> /// Note: The underlying object is not required to provide internal refe=
-rence counting, because it
->> /// represents a unique, owned reference. If reference counting (on the =
-Rust side) is required,
->> -/// [`RefCounted`](crate::types::RefCounted) should be implemented.
->> +/// [`RefCounted`] should be implemented. [`OwnableRefCounted`] should =
-be implemented if conversion
->> +/// between unique and shared (reference counted) ownership is needed.
->> ///
->> /// # Safety
->> ///
->> @@ -143,9 +146,7 @@ impl<T: Ownable> Owned<T> {
->>     ///   mutable reference requirements. That is, the kernel will not m=
-utate or free the underlying
->>     ///   object and is okay with it being modified by Rust code.
->>     pub unsafe fn from_raw(ptr: NonNull<T>) -> Self {
->> -        Self {
->> -            ptr,
->> -        }
->> +        Self { ptr }
->>     }
->
-> Unrelated change?
+kernel test robot noticed the following build warnings:
 
-Looks like a rustfmt thing. I'll split it out or remove it.
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on drm-misc/drm-misc-next drm/drm-next linus/master v6.16-rc1 next-20260130]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->
->>=20
->>     /// Consumes the [`Owned`], returning a raw pointer.
->> @@ -193,3 +194,124 @@ fn drop(&mut self) {
->>         unsafe { T::release(self.ptr) };
->>     }
->> }
->> +
->> +/// A trait for objects that can be wrapped in either one of the refere=
-nce types [`Owned`] and
->> +/// [`ARef`].
->> +///
->> +/// # Examples
->> +///
->> +/// A minimal example implementation of [`OwnableRefCounted`], [`Ownabl=
-e`] and its usage with
->> +/// [`ARef`] and [`Owned`] looks like this:
->> +///
->> +/// ```
->> +/// # #![expect(clippy::disallowed_names)]
->> +/// # use core::cell::Cell;
->> +/// # use core::ptr::NonNull;
->> +/// # use kernel::alloc::{flags, kbox::KBox, AllocError};
->> +/// # use kernel::sync::aref::{ARef, RefCounted};
->> +/// # use kernel::types::{Owned, Ownable, OwnableRefCounted};
->> +///
->> +/// // Example internally refcounted struct.
->
-> nit: IMHO the wording could improve ^
+url:    https://github.com/intel-lab-lkp/linux/commits/Riana-Tauro/drm-ras-Introduce-the-DRM-RAS-infrastructure-over-generic-netlink/20260202-141553
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20260202064356.286243-8-riana.tauro%40intel.com
+patch subject: [PATCH v5 1/5] drm/ras: Introduce the DRM RAS infrastructure over generic netlink
+reproduce: (https://download.01.org/0day-ci/archive/20260202/202602021142.G5vT8UkJ-lkp@intel.com/reproduce)
 
-/// // An internally refcounted struct for demonstration purposes.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602021142.G5vT8UkJ-lkp@intel.com/
 
->
->> +/// //
->> +/// // # Invariants
->> +/// //
->> +/// // - `refcount` is always non-zero for a valid object.
->> +/// // - `refcount` is >1 if there are more than 1 Rust reference to it.
->> +/// //
->> +/// struct Foo {
->> +///     refcount: Cell<usize>,
->> +/// }
->> +///
->> +/// impl Foo {
->> +///     fn new() -> Result<Owned<Self>, AllocError> {
->> +///         // We are just using a `KBox` here to handle the actual all=
-ocation, as our `Foo` is
->> +///         // not actually a C-allocated object.
->> +///         let result =3D KBox::new(
->> +///             Foo {
->> +///                 refcount: Cell::new(1),
->> +///             },
->> +///             flags::GFP_KERNEL,
->> +///         )?;
->> +///         let result =3D NonNull::new(KBox::into_raw(result))
->> +///             .expect("Raw pointer to newly allocation KBox is null, =
-this should never happen.");
->> +///         // SAFETY: We just allocated the `Self`, thus it is valid a=
-nd there cannot be any other
->> +///         // Rust references. Calling `into_raw()` makes us responsib=
-le for ownership and
->> +///         // we won't use the raw pointer anymore, thus we can transf=
-er ownership to the `Owned`.
->> +///         Ok(unsafe { Owned::from_raw(result) })
->> +///     }
->> +/// }
->> +///
->> +/// // SAFETY: We increment and decrement each time the respective func=
-tion is called and only free
->> +/// // the `Foo` when the refcount reaches zero.
->> +/// unsafe impl RefCounted for Foo {
->> +///     fn inc_ref(&self) {
->> +///         self.refcount.replace(self.refcount.get() + 1);
->> +///     }
->> +///
->> +///     unsafe fn dec_ref(this: NonNull<Self>) {
->> +///         // SAFETY: By requirement on calling this function, the ref=
-count is non-zero,
->> +///         // implying the underlying object is valid.
->> +///         let refcount =3D unsafe { &this.as_ref().refcount };
->> +///         let new_refcount =3D refcount.get() - 1;
->> +///         if new_refcount =3D=3D 0 {
->> +///             // The `Foo` will be dropped when `KBox` goes out of sc=
-ope.
->> +///             // SAFETY: The [`KBox<Foo>`] is still alive as the old =
-refcount is 1. We can pass
->> +///             // ownership to the [`KBox`] as by requirement on calli=
-ng this function,
->> +///             // the `Self` will no longer be used by the caller.
->> +///             unsafe { KBox::from_raw(this.as_ptr()) };
->> +///         } else {
->> +///             refcount.replace(new_refcount);
->> +///         }
->> +///     }
->> +/// }
->> +///
->> +/// impl OwnableRefCounted for Foo {
->> +///     fn try_from_shared(this: ARef<Self>) -> Result<Owned<Self>, ARe=
-f<Self>> {
->> +///         if this.refcount.get() =3D=3D 1 {
->> +///             // SAFETY: The `Foo` is still alive and has no other Ru=
-st references as the refcount
->> +///             // is 1.
->> +///             Ok(unsafe { Owned::from_raw(ARef::into_raw(this)) })
->> +///         } else {
->> +///             Err(this)
->> +///         }
->> +///     }
->> +/// }
->> +///
->
-> We wouldn=E2=80=99t need this implementation if we added a =E2=80=9Crefco=
-unt()=E2=80=9D
-> member to this trait. This lets you abstract away this logic for all
-> implementors, which has the massive upside of making sure we hardcode (an=
-d thus
-> enforce) the refcount =3D=3D 1 check.
+All warnings (new ones prefixed by >>):
 
-This exist to allow reference counting schemes that are different from
-the general implementation. See [1] for an example.
+   ERROR: Cannot find file ./include/linux/hdmi.h
+   ERROR: Cannot find file ./include/linux/hdmi.h
+   WARNING: No kernel-doc for file ./include/linux/hdmi.h
+   WARNING: ./drivers/gpu/drm/scheduler/sched_main.c:367 function parameter 'result' not described in 'drm_sched_job_done'
+   Documentation/gpu/drm-ras:39: ./drivers/gpu/drm/drm_ras.c:40: ERROR: Unexpected indentation. [docutils]
+>> Documentation/gpu/drm-ras:39: ./drivers/gpu/drm/drm_ras.c:41: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/gpu/drm-ras:39: ./drivers/gpu/drm/drm_ras.c:46: ERROR: Unexpected indentation. [docutils]
+   Documentation/gpu/drm-ras:39: ./drivers/gpu/drm/drm_ras.c:59: ERROR: Unexpected indentation. [docutils]
+   Documentation/gpu/drm-ras:39: ./drivers/gpu/drm/drm_ras.c:60: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/gpu/drm-uapi:607: ./drivers/gpu/drm/drm_ioctl.c:923: WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:69.
+   Declaration is '.. c:function:: bool drm_ioctl_flags (unsigned int nr, unsigned int *flags)'. [duplicate_declaration.c]
+--
+   ERROR: Cannot find file ./include/linux/mutex.h
+   ERROR: Cannot find file ./include/linux/mutex.h
+   WARNING: No kernel-doc for file ./include/linux/mutex.h
+   ERROR: Cannot find file ./include/linux/fwctl.h
+   WARNING: No kernel-doc for file ./include/linux/fwctl.h
+>> Documentation/gpu/drm-ras.rst:59: WARNING: undefined label: 'documentation/netlink/specs/drm_ras.yaml' [ref.ref]
 
-[1] https://github.com/metaspace/linux/blob/3e46e95f0707fa71259b1d241f68914=
-4ad61cc62/rust/kernel/block/mq/request.rs#L478
-
->
->
->> +/// // SAFETY: This implementation of `release()` is safe for any valid=
- `Self`.
->> +/// unsafe impl Ownable for Foo {
->> +///     unsafe fn release(this: NonNull<Self>) {
->> +///         // SAFETY: Using `dec_ref()` from [`RefCounted`] to release=
- is okay, as the refcount is
->> +///         // always 1 for an [`Owned<Foo>`].
->> +///         unsafe{ Foo::dec_ref(this) };
->> +///     }
->> +/// }
->> +///
->> +/// let foo =3D Foo::new().expect("Failed to allocate a Foo. This shoul=
-dn't happen");
->
-> All these =E2=80=9Cexpects()=E2=80=9D and custom error strings would go a=
-way if you
-> place this behind a fictional function that returns Result.
-
-I'll do that.
-
->
->> +/// let mut foo =3D ARef::from(foo);
->> +/// {
->> +///     let bar =3D foo.clone();
->> +///     assert!(Owned::try_from(bar).is_err());
->> +/// }
->> +/// assert!(Owned::try_from(foo).is_ok());
->> +/// ```
->> +pub trait OwnableRefCounted: RefCounted + Ownable + Sized {
->> +    /// Checks if the [`ARef`] is unique and convert it to an [`Owned`]=
- it that is that case.
->> +    /// Otherwise it returns again an [`ARef`] to the same underlying o=
-bject.
->> +    fn try_from_shared(this: ARef<Self>) -> Result<Owned<Self>, ARef<Se=
-lf>>;
->
-> Again, this method can go way if we add a method to expose the refcount.
->
->> +
->> +    /// Converts the [`Owned`] into an [`ARef`].
->> +    fn into_shared(this: Owned<Self>) -> ARef<Self> {
->> +        // SAFETY: Safe by the requirements on implementing the trait.
->> +        unsafe { ARef::from_raw(Owned::into_raw(this)) }
->> +    }
->> +}
->> +
->> +impl<T: OwnableRefCounted> TryFrom<ARef<T>> for Owned<T> {
->> +    type Error =3D ARef<T>;
->> +    /// Tries to convert the [`ARef`] to an [`Owned`] by calling
->> +    /// [`try_from_shared()`](OwnableRefCounted::try_from_shared). In c=
-ase the [`ARef`] is not
->> +    /// unique, it returns again an [`ARef`] to the same underlying obj=
-ect.
->> +    fn try_from(b: ARef<T>) -> Result<Owned<T>, Self::Error> {
->> +        T::try_from_shared(b)
->> +    }
->> +}
->> diff --git a/rust/kernel/sync/aref.rs b/rust/kernel/sync/aref.rs
->> index 937dcf6ed5de..2dbffe2ed1b8 100644
->> --- a/rust/kernel/sync/aref.rs
->> +++ b/rust/kernel/sync/aref.rs
->> @@ -30,7 +30,10 @@
->> /// Note: Implementing this trait allows types to be wrapped in an [`ARe=
-f<Self>`]. It requires an
->> /// internal reference count and provides only shared references. If uni=
-que references are required
->> /// [`Ownable`](crate::types::Ownable) should be implemented which allow=
-s types to be wrapped in an
->> -/// [`Owned<Self>`](crate::types::Owned).
->> +/// [`Owned<Self>`](crate::types::Owned). Implementing the trait
->> +/// [`OwnableRefCounted`](crate::types::OwnableRefCounted) allows to co=
-nvert between unique and
->> +/// shared references (i.e. [`Owned<Self>`](crate::types::Owned) and
->> +/// [`ARef<Self>`](crate::types::Owned)).
->> ///
->> /// # Safety
->> ///
->> @@ -180,6 +183,12 @@ fn from(b: &T) -> Self {
->>     }
->> }
->>=20
->> +impl<T: crate::types::OwnableRefCounted> From<crate::types::Owned<T>> f=
-or ARef<T> {
->> +    fn from(b: crate::types::Owned<T>) -> Self {
->> +        T::into_shared(b)
->> +    }
->> +}
->> +
->
-> Not sure why we=E2=80=99re using fully-qualified names here if we can imp=
-ort them, but your call.
-
-I'll import them.
-
-
-Best regards,
-Andreas Hindborg
-
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
