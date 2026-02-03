@@ -2,52 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MDMoEGsbgmmhPQMAu9opvQ
+	id cJIqAGkbgmmhPQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:59:39 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:59:37 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C2A1DB9E1
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:59:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C5CDDB9CC
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:59:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAE7910E6E3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5C1A10E6E2;
 	Tue,  3 Feb 2026 15:59:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IKcJ6ec1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hpTyWfQf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DC0910E6E2;
- Tue,  3 Feb 2026 15:59:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEAD210E6E2
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 15:59:31 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 55BFF4422C;
+ by sea.source.kernel.org (Postfix) with ESMTP id B1417443F4;
  Tue,  3 Feb 2026 15:59:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB4DFC116D0;
- Tue,  3 Feb 2026 15:59:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1770134371;
- bh=RwnFXHCSRr93XQC8pa5aGNUxua6lOjbRFetYWmw4iy4=;
- h=Subject:To:Cc:From:Date:In-Reply-To:From;
- b=IKcJ6ec1L+hToUV3KndBq3KUkclYNvMvFdBkXwJU9aYbVvyj4pnC8mFc2vQT9UI47
- iaENlZTqoMwHTal1g8DRaRZZPCMWkRzp/MFsX7x0QExIXSUCZzRiaqsWS2L5Fee+yd
- dTqRC0CbM+wCmTaCDErVMHyHpU25H1lmdpe2iWNI=
-Subject: Patch "drm/radeon: delete radeon_fence_process in is_signaled,
- no deadlock" has been added to the 6.1-stable tree
-To: 1468888505@139.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
- christian.koenig@amd.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, patches@lists.linux.dev, rbmccav@gmail.com
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Tue, 03 Feb 2026 16:59:08 +0100
-In-Reply-To: <20260202075855.947632-1-1468888505@139.com>
-Message-ID: <2026020308-sandpit-carbon-ce38@gregkh>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7440CC16AAE;
+ Tue,  3 Feb 2026 15:59:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1770134371;
+ bh=HZpYlGDGLWaUHzG4EqbGI9XpE07voezN40184NbjljI=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=hpTyWfQfad3gnwUPcoewPQ7AqjKvJino61gvUgByDN9F4vntrTHR7s2nfCi3x3VcY
+ UvP/TsTfY6l2JccJO/l0Nxh5r9eV2wmjC6ZC0wjvttD3IlQue4iGjya9tvs1LqL5MI
+ /mx38W/NIEJtypG1pswOHlmEe/Khz5JR/vabIdSSyj/mINx5teQB0cbl5z5Y+iTTkK
+ 3BfDp80LdR3u4+4r9hqzMwHlZbAW+whMgEBW9nV4pYo8/1l65ESnvgsWLjdR50dAqA
+ o/qMllt5Wkd2V6vJ8SdNVFi1n4dvXM2JFUyx0tywMI2RAVlbfyoQaKPcCAXBmarft6
+ xIvi65xhIs6DQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 03 Feb 2026 16:59:24 +0100
+Message-Id: <DG5G9GZ3KB4Q.QCBC35TTSNWK@kernel.org>
+Subject: Re: [PATCH v2 5/6] rust: debugfs: Allow access to device in
+ Devres-wrapped scopes
+Cc: "Bjorn Andersson" <andersson@kernel.org>, "Konrad Dybcio"
+ <konradybcio@kernel.org>, "Satya Durga Srinivasu Prabhala"
+ <satyap@quicinc.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
+ <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Michal Wilczynski" <m.wilczynski@samsung.com>, "Dave Ertman"
+ <david.m.ertman@intel.com>, "Ira Weiny" <ira.weiny@intel.com>, "Leon
+ Romanovsky" <leon@kernel.org>, "Trilok Soni" <tsoni@quicinc.com>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <driver-core@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>, <linux-pwm@vger.kernel.org>
+To: "Matthew Maurer" <mmaurer@google.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260203-qcom-socinfo-v2-0-d6719db85637@google.com>
+ <20260203-qcom-socinfo-v2-5-d6719db85637@google.com>
+In-Reply-To: <20260203-qcom-socinfo-v2-5-d6719db85637@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,114 +78,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [4.99 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
-	R_DKIM_REJECT(1.00)[linuxfoundation.org:s=korg];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MV_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[linuxfoundation.org : SPF not aligned (relaxed),none];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[139.com,amd.com,gmail.com,lists.freedesktop.org,ffwll.ch,linuxfoundation.org,lists.linux.dev];
-	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	GREYLIST(0.00)[pass,meta];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:andersson@kernel.org,m:konradybcio@kernel.org,m:satyap@quicinc.com,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:daniel.almeida@collabora.com,m:gregkh@linuxfoundation.org,m:rafael@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:m.wilczynski@samsung.com,m:david.m.ertman@intel.com,m:ira.weiny@intel.com,m:leon@kernel.org,m:tsoni@quicinc.com,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:driver-core@lists.linux.dev,m:linux-pwm@vger.kernel.org,m:mmaurer@google.com,m:boqunfeng@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	FREEMAIL_CC(0.00)[kernel.org,quicinc.com,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,collabora.com,linuxfoundation.org,ffwll.ch,samsung.com,intel.com,vger.kernel.org,lists.linux.dev,lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	NEURAL_HAM(-0.00)[-0.997];
-	TO_DN_NONE(0.00)[];
-	DKIM_TRACE(0.00)[linuxfoundation.org:-];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_NO_DN(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,linuxfoundation.org:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linux.dev:email,gitlab.freedesktop.org:url,139.com:email]
-X-Rspamd-Queue-Id: 9C2A1DB9E1
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 7C5CDDB9CC
 X-Rspamd-Action: no action
 
+On Tue Feb 3, 2026 at 4:46 PM CET, Matthew Maurer wrote:
+> This adds support for creating a DebugFS directory which is aware that
+> it is bound to a device. As a result, callbacks under that directory
+> have access to a bound device which gives them efficient access to other
+> Devres, ability to use dev_err! and friends, etc.
+>
 
-This is a note to let you know that I've just added the patch titled
+Suggested-by: Danilo Krummrich <dakr@kernel.org>
 
-    drm/radeon: delete radeon_fence_process in is_signaled, no deadlock
+> Signed-off-by: Matthew Maurer <mmaurer@google.com>
 
-to the 6.1-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+Again,
 
-The filename of the patch is:
-     drm-radeon-delete-radeon_fence_process-in-is_signaled-no-deadlock.patch
-and it can be found in the queue-6.1 subdirectory.
+Acked-by: Danilo Krummrich <dakr@kernel.org>
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From stable+bounces-213031-greg=kroah.com@vger.kernel.org Mon Feb  2 08:59:14 2026
-From: Li hongliang <1468888505@139.com>
-Date: Mon,  2 Feb 2026 15:58:55 +0800
-Subject: drm/radeon: delete radeon_fence_process in is_signaled, no deadlock
-To: gregkh@linuxfoundation.org, stable@vger.kernel.org, rbmccav@gmail.com
-Cc: patches@lists.linux.dev, linux-kernel@vger.kernel.org, alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Message-ID: <20260202075855.947632-1-1468888505@139.com>
-
-From: Robert McClinton <rbmccav@gmail.com>
-
-[ Upstream commit 9eb00b5f5697bd56baa3222c7a1426fa15bacfb5 ]
-
-Delete the attempt to progress the queue when checking if fence is
-signaled. This avoids deadlock.
-
-dma-fence_ops::signaled can be called with the fence lock in unknown
-state. For radeon, the fence lock is also the wait queue lock. This can
-cause a self deadlock when signaled() tries to make forward progress on
-the wait queue. But advancing the queue is unneeded because incorrectly
-returning false from signaled() is perfectly acceptable.
-
-Link: https://github.com/brave/brave-browser/issues/49182
-Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4641
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Robert McClinton <rbmccav@gmail.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-(cherry picked from commit 527ba26e50ec2ca2be9c7c82f3ad42998a75d0db)
-Cc: stable@vger.kernel.org
-[ Minor conflict resolved. ]
-Signed-off-by: Li hongliang <1468888505@139.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/radeon/radeon_fence.c |    8 --------
- 1 file changed, 8 deletions(-)
-
---- a/drivers/gpu/drm/radeon/radeon_fence.c
-+++ b/drivers/gpu/drm/radeon/radeon_fence.c
-@@ -362,14 +362,6 @@ static bool radeon_fence_is_signaled(str
- 		return true;
- 	}
- 
--	if (down_read_trylock(&rdev->exclusive_lock)) {
--		radeon_fence_process(rdev, ring);
--		up_read(&rdev->exclusive_lock);
--
--		if (atomic64_read(&rdev->fence_drv[ring].last_seq) >= seq) {
--			return true;
--		}
--	}
- 	return false;
- }
- 
-
-
-Patches currently in stable-queue which might be from 1468888505@139.com are
-
-queue-6.1/vhost-scsi-fix-handling-of-multiple-calls-to-vhost_scsi_set_endpoint.patch
-queue-6.1/fs-ntfs3-initialize-allocated-memory-before-use.patch
-queue-6.1/drm-radeon-delete-radeon_fence_process-in-is_signaled-no-deadlock.patch
-queue-6.1/ksmbd-fix-race-condition-in-rpc-handle-list-access.patch
-queue-6.1/ksmbd-fix-use-after-free-in-ksmbd_session_rpc_open.patch
-queue-6.1/drm-amdgpu-replace-mutex-with-spinlock-for-rlcg-register-access-to-avoid-priority-inversion-in-sriov.patch
-queue-6.1/sctp-linearize-cloned-gso-packets-in-sctp_rcv.patch
+if this should go through another tree, but I can also pick it up.
