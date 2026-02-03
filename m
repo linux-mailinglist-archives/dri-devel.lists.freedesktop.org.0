@@ -2,75 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GEISAmQYgmmZPAMAu9opvQ
+	id OKTvKWYYgmmZPAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:46:44 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:46:46 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6EC6DB796
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:46:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F02DB7A4
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:46:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63DB410E6C5;
-	Tue,  3 Feb 2026 15:46:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C66B10E6CE;
+	Tue,  3 Feb 2026 15:46:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="RhWg0rIT";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="2lAl5Rhi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-dy1-f201.google.com (mail-dy1-f201.google.com
  [74.125.82.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CFF010E6C5
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 15:46:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 271DF10E6C9
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 15:46:41 +0000 (UTC)
 Received: by mail-dy1-f201.google.com with SMTP id
- 5a478bee46e88-2b74aff34efso10550080eec.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Feb 2026 07:46:39 -0800 (PST)
+ 5a478bee46e88-2b74aff34efso10550372eec.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Feb 2026 07:46:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1770133599; x=1770738399;
+ d=google.com; s=20230601; t=1770133600; x=1770738400;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=3QkppxUftz38QVidHBNdTmT2F8VCX5EZWUQmqLBEfqQ=;
- b=RhWg0rITAW6Fnnv9uVVsJ1IHCoW2AKkQEQED/0L2DmTmWHM+fjBFtlmcZyUXqV4H2u
- prRjOpCaZTQSZ7FWrAqEsAPF30a9g7rd4E3XL5+X7ozBzG+CLpbBkdj4ujJEe/9TA2s1
- FGRLio3mhgvqmPNW+tuh94Z/hoYUudTI9NgGAsbR6myDzkKfvQ55s61M5zll5U4CYRU7
- 0vVbbf9xXnEISpKo4+4LJ9d+LULtgMfeGc2GfD8caH1ntr1XNxvewCAzXse2eB8wozgt
- 2sqpNWxJbluUiWptDBXh7kl8HxdKdzsNehMSwzl0xX/T4kODe5WkCAzs3/hYqGkGxOiE
- i7Kw==
+ bh=KdXVf1jtiVVdnaqb+rLnoB8/QmUjcxzniTwKjo2bXrU=;
+ b=2lAl5RhiKcXPVUSPBKzUV2jJYcjcA4uUsTzcmPAu2uqzfwY4QOyLwOy82CyPqOcEA8
+ hbigFeTeudSBZWJxFDPgJ5rW9TPWxL4M/0FCDvyaFbai0i5rF88uMEFJdhaFxnAlF2Yr
+ xXzQcOqXlcn0ZDxyS1jHkvxenSf7+RYFNYf9iZQ0ewKMZ3r9fqq4+5sf9jY45DRXuYUg
+ UhZaG8RaAk+nRl+j755QKrzXMn76PJAek4rJDDx23B2Cs1uwJtUnG00K2boIXXcuGBYz
+ p3Vaa+WmzKo0u0UKm1SjUkjOnLW9lqGFiq89qbnkBzSEFnyWD7MXKxy8QqzaqIjPy3ca
+ c4YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770133599; x=1770738399;
+ d=1e100.net; s=20230601; t=1770133600; x=1770738400;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3QkppxUftz38QVidHBNdTmT2F8VCX5EZWUQmqLBEfqQ=;
- b=sd90E8u77MMFgPQilQLh32dEr8IYmpUwDngi0SRJm7gcgr2TYQ+kpV/Z92HuVqRjiC
- RRxEwv6Mcnzc9J89ochEN+uz4DFAQmrteQiZO7pFgc2ZB4eabDh+BvhnelgJpk0ndBOP
- xSpgTG57es/X+TeEkiC5XdpveY/V4dhMROm2JTxl1WOHctI5fZQOwZc+qjhJ3TULSy8z
- 2RIuXFGAI46dvUeqBuScNGxrA33LM/qEFj+w1KwGs4IlrFSdMRLwBdNU1TOUY+FqP4KR
- 4r7XpR/DL+uDS2bBch/adNoD3VwJ/ZoQM6paCa71Miywwp/fuzzDnjF48Oq4rX1p0PoO
- Vg7g==
+ bh=KdXVf1jtiVVdnaqb+rLnoB8/QmUjcxzniTwKjo2bXrU=;
+ b=Ayzc+NTINls0rCHi8LDf+Z2XTWSeJebMi/ILiLxBiI5tKsuFzuSsGmGGP7kbZorPXN
+ wy7SDPTAopp8WYebjWwSSa2neP14bPaDwmkOr280hbQ3h6cIUF+oMcU+FpGOCk9hluPn
+ uDUMK3Ne6alX3A6JZVCzShXXEIEGy5bpALq7Uyi/HFLZsjnYAYT8baVxmsI2ek/03dhJ
+ /FDQilQOSvDBNZfOxbVSF3bxtDCDXM6yH6Ln+s/gV6NI8QxxBSg53P3NlkSMIieLeB2h
+ o7NuxMLuhbNST8LvB3hynxIERjY8o20tijTQTotatwM+7D5Z5eLWp+nkvH5pm2mv2OeO
+ fNqg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVRWfpt4qftr0NYpKIzf00oEqTcs+gI4oEbS8bRHKAkO4XMFIhK2x0MmrG5ObbdvPuhKAG6ZnWkC8E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxbbJgB/ejm/UghN/dq66rkGityNABAw4L6t1FcGZgS/aV7GYR4
- 7QkgS8ay0YBaHpimWKpnVEWheSyfwP6CZ07lP+evA3qAsXy95iNft3RrLpXT8Pz7dL1OPXqxJ8j
- ypg/JGYlKew==
-X-Received: from dydb13.prod.google.com ([2002:a05:7300:80cd:b0:2b6:b139:8515])
+ AJvYcCWFFOXawcZWTFXIU7vqqAIsSz5iTavUT/4kqIuoeyEDogrW3NHFjhgP6GfYEGJA/OlCU/psSRKFjFU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzc/nYCk81oFYB8PY3lI8Y2AloqzABJJ2/EDM8IJvQSMzxUdgH/
+ 8ISWRL/klncPK6trrq/zT8JcA/SQOz3ty909B1yfEHNDQk8/OkzthVxrUT76bhCosU9CRjh2Dls
+ 3RnCQ9IRCIw==
+X-Received: from dycrt20.prod.google.com
+ ([2002:a05:693c:2d94:b0:2b6:c6a7:636a])
  (user=mmaurer job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:7300:c8d:b0:2b7:f415:53da
- with SMTP id 5a478bee46e88-2b7f41562demr4507487eec.39.1770133598871; Tue, 03
- Feb 2026 07:46:38 -0800 (PST)
-Date: Tue, 03 Feb 2026 15:46:31 +0000
+ 2002:a05:693c:3002:b0:2b6:c617:f795
+ with SMTP id 5a478bee46e88-2b7c86663c1mr7418033eec.17.1770133600442; Tue, 03
+ Feb 2026 07:46:40 -0800 (PST)
+Date: Tue, 03 Feb 2026 15:46:32 +0000
 In-Reply-To: <20260203-qcom-socinfo-v2-0-d6719db85637@google.com>
 Mime-Version: 1.0
 References: <20260203-qcom-socinfo-v2-0-d6719db85637@google.com>
 X-Developer-Key: i=mmaurer@google.com; a=ed25519;
  pk=2Ezhl7+fEjTOMVFpplDeak2AdQ8cjJieLRVJdNzrW+E=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1770133593; l=4973;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770133593; l=2963;
  i=mmaurer@google.com; s=20250429; h=from:subject:message-id;
- bh=B6pUx1j5pFgygp5i69R4pVf7HKotofgGAbGCOoefnlg=;
- b=fxAPn9jEKutvpJgCWN9uhdCYYPvpNSAPYUiC58vFHXa9srmJAEVvTYAI4ltyhlDhosBAKf3Rg
- E9oiUBNs6ZcCvvrOXXHz6bHCDz2FOMAAS2YvT7aTHhFBqLoubFyOfDq
+ bh=RwCJ/xEwqbjligRdRo7donBAUlsdrVxdbuTW9DJLV3g=;
+ b=SQdCmaIOesp2nNqbcmI1qfM3G5NEMlAiTI7JoMUcwHSNW8vyq+fqK1lL17+OwnTzARN5rGU+z
+ 9PyU4DL3NSyDmB3rGdnOpkIMgMGTW/9HGTk/h/gqJgPbPfyQrUyBmYk
 X-Mailer: b4 0.14.2
-Message-ID: <20260203-qcom-socinfo-v2-2-d6719db85637@google.com>
-Subject: [PATCH v2 2/6] rust: io: Support copying arrays and slices
+Message-ID: <20260203-qcom-socinfo-v2-3-d6719db85637@google.com>
+Subject: [PATCH v2 3/6] rust: device: Support testing devices for equality
 From: Matthew Maurer <mmaurer@google.com>
 To: Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>, 
@@ -141,114 +142,82 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: A6EC6DB796
+X-Rspamd-Queue-Id: 56F02DB7A4
 X-Rspamd-Action: no action
 
-Adds support for doing array copies of data in and out of IO regions.
-Fixed size arrays allow for compile-time bound checking, while slice
-arguments allow for dynamically checked copies.
+This allows device drivers to check if, for example, an auxiliary
+devices is one of its children by comparing the parent field, or
+checking if a device parameter is its own device.
+
+Also convert existing `.as_raw() != .as_raw()` to  use this new
+implementation.
 
 Signed-off-by: Matthew Maurer <mmaurer@google.com>
 ---
- rust/kernel/io.rs | 72 ++++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 71 insertions(+), 1 deletion(-)
+ rust/kernel/device.rs     | 8 ++++++++
+ rust/kernel/devres.rs     | 2 +-
+ rust/kernel/drm/driver.rs | 2 +-
+ rust/kernel/pwm.rs        | 2 +-
+ 4 files changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/rust/kernel/io.rs b/rust/kernel/io.rs
-index 056a3ec71647b866a9a4b4c9abe9a0844f126930..6e74245eced2c267ba3b5b744eab3bc2db670e71 100644
---- a/rust/kernel/io.rs
-+++ b/rust/kernel/io.rs
-@@ -266,8 +266,9 @@ macro_rules! define_write {
- #[inline]
- const fn offset_valid<U>(offset: usize, size: usize) -> bool {
-     let type_size = core::mem::size_of::<U>();
-+    let type_align = core::mem::align_of::<U>();
-     if let Some(end) = offset.checked_add(type_size) {
--        end <= size && offset % type_size == 0
-+        end <= size && offset % type_align == 0
-     } else {
-         false
-     }
-@@ -323,6 +324,25 @@ fn io_addr<U>(&self, offset: usize) -> Result<usize> {
-         self.addr().checked_add(offset).ok_or(EINVAL)
-     }
+diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
+index 94e0548e76871d8b7de309c1f1c7b77bb49738ed..aa10359d3ebdd1c99cc567a35b89f52ddb2ee050 100644
+--- a/rust/kernel/device.rs
++++ b/rust/kernel/device.rs
+@@ -516,6 +516,14 @@ unsafe impl Send for Device {}
+ // synchronization in `struct device`.
+ unsafe impl Sync for Device {}
  
-+    /// Returns the absolute I/O address for a given `offset`, performing runtime bounds checks
-+    /// to ensure the entire range is available.
-+    #[inline]
-+    fn io_addr_range<U>(&self, offset: usize, count: usize) -> Result<usize> {
-+        if count != 0 {
-+            // These ranges are contiguous, so we can just check the first and last elements.
-+            let bytes = (count - 1)
-+                .checked_mul(core::mem::size_of::<U>())
-+                .ok_or(EINVAL)?;
-+            let end = offset.checked_add(bytes).ok_or(EINVAL)?;
-+            if !offset_valid::<U>(offset, self.maxsize()) || !offset_valid::<U>(end, self.maxsize())
-+            {
-+                return Err(EINVAL);
-+            }
-+        }
-+
-+        self.addr().checked_add(offset).ok_or(EINVAL)
++impl<Ctx: DeviceContext, Ctx2: DeviceContext> PartialEq<Device<Ctx2>> for Device<Ctx> {
++    fn eq(&self, other: &Device<Ctx2>) -> bool {
++        self.as_raw() == other.as_raw()
 +    }
++}
 +
-     /// Returns the absolute I/O address for a given `offset`,
-     /// performing compile-time bound checks.
-     // Always inline to optimize out error path of `build_assert`.
-@@ -605,4 +625,54 @@ pub unsafe fn from_raw(raw: &MmioRaw<SIZE>) -> &Self {
-         pub try_write64_relaxed,
-         call_mmio_write(writeq_relaxed) <- u64
-     );
++impl<Ctx: DeviceContext> Eq for Device<Ctx> {}
 +
-+    /// Write a known size buffer to an offset known at compile time.
-+    ///
-+    /// Bound checks are performed at compile time, hence if the offset is not known at compile
-+    /// time, the build will fail, and the buffer size must be statically known.
-+    #[inline]
-+    pub fn copy_from<const N: usize>(&self, src: &[u8; N], offset: usize) {
-+        let addr = self.io_addr_assert::<[u8; N]>(offset);
-+        // SAFETY: By the type invariant `addr` is a valid address for MMIO operations, and by the
-+        // assertion it's valid for `N` bytes.
-+        unsafe { bindings::memcpy_toio(addr as *mut c_void, src.as_ptr().cast(), N) }
-+    }
-+
-+    /// Write the contents of a slice to an offset.
-+    ///
-+    /// Bound checks are performed at runtime and will fail if the offset (plus the slice size) is
-+    /// out of bounds.
-+    #[inline]
-+    pub fn try_copy_from(&self, src: &[u8], offset: usize) -> Result<()> {
-+        let addr = self.io_addr_range::<u8>(offset, src.len())?;
-+        // SAFETY: By the type invariant `addr` is a valid address for MMIO operations, and by the
-+        // range check it's valid for `src.len()` bytes.
-+        unsafe { bindings::memcpy_toio(addr as *mut c_void, src.as_ptr().cast(), src.len()) };
-+        Ok(())
-+    }
-+
-+    /// Read a known size buffer from an offset known at compile time.
-+    ///
-+    /// Bound checks are performed at compile time, hence if the offset is not known at compile
-+    /// time, the build will fail, and the buffer size must be statically known.
-+    #[inline]
-+    pub fn copy_to<const N: usize>(&self, dst: &mut [u8; N], offset: usize) {
-+        let addr = self.io_addr_assert::<[u8; N]>(offset);
-+        // SAFETY: By the type invariant `addr` is a valid address for MMIO operations, and by the
-+        // assertion it's valid for `N` bytes.
-+        unsafe { bindings::memcpy_fromio(dst.as_mut_ptr().cast(), addr as *mut c_void, N) }
-+    }
-+
-+    /// Read into a slice from an offset.
-+    ///
-+    /// Bound checks are performed at runtime and will fail if the offset (plus the slice size) is
-+    /// out of bounds.
-+    #[inline]
-+    pub fn try_copy_to(&self, dst: &mut [u8], offset: usize) -> Result<()> {
-+        let addr = self.io_addr_range::<u8>(offset, dst.len())?;
-+        // SAFETY: By the type invariant `addr` is a valid address for MMIO operations, and by the
-+        // range check, it's valid for `dst.len()` bytes.
-+        unsafe { bindings::memcpy_fromio(dst.as_mut_ptr().cast(), addr as *mut c_void, dst.len()) }
-+        Ok(())
-+    }
- }
+ /// Marker trait for the context or scope of a bus specific device.
+ ///
+ /// [`DeviceContext`] is a marker trait for types representing the context of a bus specific
+diff --git a/rust/kernel/devres.rs b/rust/kernel/devres.rs
+index cdc49677022a6b466e771d9d8cf3818ab9b9112d..20126daad193370868661b9412937937eda6d3c4 100644
+--- a/rust/kernel/devres.rs
++++ b/rust/kernel/devres.rs
+@@ -281,7 +281,7 @@ pub fn device(&self) -> &Device {
+     /// }
+     /// ```
+     pub fn access<'a>(&'a self, dev: &'a Device<Bound>) -> Result<&'a T> {
+-        if self.dev.as_raw() != dev.as_raw() {
++        if self.dev.as_ref() != dev {
+             return Err(EINVAL);
+         }
+ 
+diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
+index f30ee4c6245cda72ac72852bf9362736d8fe992f..497ef46028d560bc9649dbbdf69316ce4fce8199 100644
+--- a/rust/kernel/drm/driver.rs
++++ b/rust/kernel/drm/driver.rs
+@@ -139,7 +139,7 @@ pub fn new_foreign_owned(
+     where
+         T: 'static,
+     {
+-        if drm.as_ref().as_raw() != dev.as_raw() {
++        if drm.as_ref() != dev {
+             return Err(EINVAL);
+         }
+ 
+diff --git a/rust/kernel/pwm.rs b/rust/kernel/pwm.rs
+index cb00f8a8765c8ec58ed78a73275b022b02bf7aa3..033f778909a2633acbc25d5a21a1c8a7b8e41a70 100644
+--- a/rust/kernel/pwm.rs
++++ b/rust/kernel/pwm.rs
+@@ -680,7 +680,7 @@ impl<T: 'static + PwmOps + Send + Sync> Registration<T> {
+     /// calling `pwmchip_remove`. This function should be called from the driver's `probe`.
+     pub fn register(dev: &device::Device<Bound>, chip: ARef<Chip<T>>) -> Result {
+         let chip_parent = chip.device().parent().ok_or(EINVAL)?;
+-        if dev.as_raw() != chip_parent.as_raw() {
++        if dev != chip_parent {
+             return Err(EINVAL);
+         }
+ 
 
 -- 
 2.53.0.rc2.204.g2597b5adb4-goog
