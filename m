@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cM+2ImukgWnuIAMAu9opvQ
+	id 0POFBnGkgWnuIAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 08:31:55 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 08:32:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3430D5B6E
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 08:31:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A60EBD5B7E
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 08:32:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D567F10E318;
-	Tue,  3 Feb 2026 07:31:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F259010E553;
+	Tue,  3 Feb 2026 07:31:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="grKwTYOR";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gTonk76a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2278810E553
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 07:31:50 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-8220bd582ddso3111081b3a.2
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 23:31:50 -0800 (PST)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08EC310E556
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 07:31:58 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-2a9296b3926so1719405ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 23:31:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770103909; x=1770708709; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=f1PNOi1oh0/Zk5XEHIqvUN6ECXvN0Y2KoNmyJjB7WcQ=;
- b=grKwTYOR23LQTLpuIMu5kNiy0e7ZGqO1QTCMWGm+f/l2VEM/AcctZICyQ57JG+szWM
- YWDppChlQMy7uNCPTONtov2a6I4myWEnehRUXJfr69sHQGZG9DSR+M2d4lRda5oMjaYc
- 2AE5fzECzEWtAEyaiZCUZegfsKs1O9exrUNnx6BIkmUyrUNyhRJXVQGQUOFSdhof44Np
- f0UkvqM+WSGEAh+gIuJn3QIbMreNLop/PR3ZGWHfJ9CQoTZVXYq0P296iXe9+r0S4Ih+
- whj0fgE9bVlbISvyk9U5KtLFzsT+iZvn3GtKr+xxKIXv1HlMjvuRd1HcTLe2CP9IoJr5
- ha+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770103909; x=1770708709;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1770103917; x=1770708717; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=f1PNOi1oh0/Zk5XEHIqvUN6ECXvN0Y2KoNmyJjB7WcQ=;
- b=L3mJ7EMP6kiDKZosj35p9dbJm54kvIu+JXowGQjrer1RhQQhGezOQs6FshXM1h+Yex
- OPvEtLkFbh0A7UWDKeTKD7Plwz1nVAxJonM/RpPc69VPis2woLHa1d/SP5jgBv7844rZ
- mqsh8W+yeadUeeN5C7BNjNXjSCJv8VPmuNlm5oNNMGbx8VOpO6LdmKL1TDWVIqOC8rfK
- aRhDJKf1d1S9vHs4jJYxUACjJuWgljCAg488FoRqaQzGhZcYdVrYybe58fdtivdcW669
- IuWKlwphfHF8u5TSXcUcNP1gbCM1qh9RFm6yabNEi8I1x17plt2iuigreOKv7QIT9tD5
- Vemg==
+ bh=JuaUAhd1+lDG6wBrbXZqMO2C5ILHdpZJbCQrItpX1Ck=;
+ b=gTonk76alwH4yy8cx56qmvYfNpF1qCr0VU3ZwOVfQHWqOtiQcdIADX8mXwke0XmEvl
+ XwzkUqMRzPA/B01o27K+jQ/kyHqiWLf7RddTa7DpUc0AtpA4NAiZ6+aE4p3mfUYC7Q9O
+ ylfYpflz7pkRzoB7A81s3wFF/OgjSWN+dvnwmqdIR8PPH2XpkJYlC3UpCXwcpaSryPwR
+ u4P/Zp2DCq/OFGwWmsB4aop0TABTvvsJEXTle5bA38X6HbGGEqZSveUN62vyB2beS4Wh
+ UoE84yTmaCH1ZF4gOEQ1y2Lo2RbMuJsoGfswOzWWsnOXf//uqCz0w2fk+hePAljr/byF
+ PYaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770103917; x=1770708717;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=JuaUAhd1+lDG6wBrbXZqMO2C5ILHdpZJbCQrItpX1Ck=;
+ b=b/0hTFgReccTWi0qUy/0dA45wTe+1X/b9F8JYd0RUFc5AKZEIf319P+ablLHgtUjju
+ 1rdIddeGe3Mo0Gdxl3cmBzfKBixGJ2LRPcURE103odVfkpzFk6VoYEYN6Up3q+5UE/Ld
+ HszaWGgsiKzbo4HV2PHKgdjH2OtSqEkoOAw+BtYRkUnflTpA/Qfv2JoAJUH05P3aj4tk
+ cigmGW/bY1xM8YtASXaz540t0uzjfRqpPgdvcRN/8WDD16Bc+rvLPc4zXRRlWZANDqjD
+ 5kibY6ZojX4j31ixH359UyQlKE5J1z3NOa53Cu9rpGPKpSfTAEyHsMM+npw2ozFGvuR0
+ +TEA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVRIK981yFpPyr1ihfNUON51Ws8Y+irxW4KP/silWcV/Sx/0I+6uQmApkWAPZQ6m95s+Lagi+dDZmg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyAyEQ/sJ4KizgT8eH4Kx3OdUOTEFOhdj5lVDXbqxxI1kfGOXP0
- UfWUL5XZhFRt9pMvsv5V4EG0NeWlKPwjEfuCnDaD4x1WLlKKoTklamQ=
-X-Gm-Gg: AZuq6aKmhDtT+8kTWYgWrAH584iDo85nr+xlvfbtY6xCQEHE9F3g+ILzrmksTgL6EKK
- c+cB8BPzuplbAh/wVfk/mOFmObFnAX9/MOJmHrgjyavtKkHjl4dExEQZ6hThxP1WrvurGKv87bb
- ADzJLvqmleJCYBw/FraWqNmxK+FvsXfjFtHvFbJLuY71h8ymBF71NronivvAr+Gza1JFOuk5gCh
- bTBftYR9UU7Z5nRaAvX+0CLohfLgAR3VfCVcLrhhq09t4/spEqOtQCkJku+Tx10JuGxgwAzDzH5
- n28TqLTpPbC2rfIrExakOXH9flwYVODaYx/jXYp/iQgfgaRZd22eUHj8BDAvvj+wxlEuHPfzeak
- TiBiDe/i8rGuCnBWC/7tubRxjlc7aX6l+GNEfSbp47R6Ti8DqsGQ2O0JHLeYe8B5Q/s08M5SdhG
- 8OJ6K9GvWCAoT8ZAk=
-X-Received: by 2002:a05:6300:4093:b0:38d:e674:b5ef with SMTP id
- adf61e73a8af0-392e01aa144mr12357123637.75.1770103909557; 
- Mon, 02 Feb 2026 23:31:49 -0800 (PST)
+ AJvYcCXpjOVgT2DTaYYi83frXVDqnZIVAqi/lcWIWA15oX/Fk34w43KXBVGQgg6Qu2pthpzJvlwViqGiApg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx3LcDNTAD4+dpXTkBB8h1N1+Q/3LKYGXUb5WynTam16rmiuoa0
+ TDVW67bHHwkIHqGEi5/nvVyOYt2kpg4uWzVHGfmtaEYRHq9qrxjNyXo=
+X-Gm-Gg: AZuq6aJhzAdIHzlv4WFkbIB7tWAQDxD4wCKnZeasBrDG6F9qHu+tGr3W5LsgHuV7S1v
+ cleKScmpUg01jdG4yViVEZ7oGZyT5iMDntvJ3pn6zzpqqhvwIuc9W69rG8y6Vhs41btBWjcemHA
+ ltC8OGUmYnlo3lqBYmPSuXV2zatr3txNZiOr4u/LZqWa8SohG+k2MDMxlT65jWJVRQ5VsxySPbR
+ a0CZ0nvEOnN+Qs+tnubV5KIDIpllmYkJXwXDssTNeerKWg8V/Xf/p3jvKkcvpL8bEzsZskBZtdw
+ LMmrRzCXAlBY6JnRgNeUd0WvhKYRW+ddqzNmGdnVwdcoVdRNojCBVfyPVVbdYkRIEV+7rHgAs4T
+ pGXEc3yokeLZX61IZUQUFII243J/yYz5LTklucOfZTwd6STsxFy0RWWA1ra3YpU+thi/VZ717SO
+ HJN1e5b0B0GyPl46EurQ+jQKQ5Hw==
+X-Received: by 2002:a17:903:1ac8:b0:2a0:d728:2e79 with SMTP id
+ d9443c01a7336-2a8d7ed9bcbmr138418055ad.16.1770103917493; 
+ Mon, 02 Feb 2026 23:31:57 -0800 (PST)
 Received: from at.. ([171.61.163.171]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a8dc225534sm108280865ad.68.2026.02.02.23.31.43
+ d9443c01a7336-2a8dc225534sm108280865ad.68.2026.02.02.23.31.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Feb 2026 23:31:49 -0800 (PST)
+ Mon, 02 Feb 2026 23:31:57 -0800 (PST)
 From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
 To: 
 Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
@@ -73,19 +74,21 @@ Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Simona Vetter <simona@ffwll.ch>,
  Javier Martinez Canillas <javierm@redhat.com>,
- Francesco Pompo <francescopompo2@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lenny Szubowicz <lszubowi@redhat.com>,
  "Borislav Petkov (AMD)" <bp@alien8.de>,
- Lenny Szubowicz <lszubowi@redhat.com>, linux-efi@vger.kernel.org,
+ Francesco Pompo <francescopompo2@gmail.com>, linux-efi@vger.kernel.org,
  linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 0/2] Add support for eGPUs on Apple Products
-Date: Tue,  3 Feb 2026 07:31:16 +0000
-Message-ID: <20260203073130.1111-1-atharvatiwarilinuxdev@gmail.com>
+Subject: [PATCH v3 1/2] efi/libstub: Enable apple-set-os for most apple devices
+Date: Tue,  3 Feb 2026 07:31:17 +0000
+Message-ID: <20260203073130.1111-2-atharvatiwarilinuxdev@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260203073130.1111-1-atharvatiwarilinuxdev@gmail.com>
+References: <20260203073130.1111-1-atharvatiwarilinuxdev@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -102,71 +105,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	MAILLIST(-0.20)[mailman];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:atharvatiwarilinuxdev@gmail.com,m:ardb@kernel.org,m:jani.nikula@linux.intel.com,m:rodrigo.vivi@intel.com,m:joonas.lahtinen@linux.intel.com,m:tursulin@ursulin.net,m:airlied@gmail.com,m:simona@ffwll.ch,m:tzimmermann@suse.de,m:javierm@redhat.com,m:francescopompo2@gmail.com,m:bp@alien8.de,m:lszubowi@redhat.com,m:linux-efi@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:intel-gfx@lists.freedesktop.org,m:intel-xe@lists.freedesktop.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[atharvatiwarilinuxdev@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linux.intel.com,intel.com,ursulin.net,ffwll.ch,redhat.com,suse.de,alien8.de,vger.kernel.org,lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linux.intel.com,intel.com,ursulin.net,ffwll.ch,suse.de,redhat.com,alien8.de,vger.kernel.org,lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:atharvatiwarilinuxdev@gmail.com,m:ardb@kernel.org,m:jani.nikula@linux.intel.com,m:rodrigo.vivi@intel.com,m:joonas.lahtinen@linux.intel.com,m:tursulin@ursulin.net,m:airlied@gmail.com,m:simona@ffwll.ch,m:javierm@redhat.com,m:tzimmermann@suse.de,m:lszubowi@redhat.com,m:bp@alien8.de,m:francescopompo2@gmail.com,m:linux-efi@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:intel-gfx@lists.freedesktop.org,m:intel-xe@lists.freedesktop.org,s:lists@lfdr.de];
+	ARC_NA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[atharvatiwarilinuxdev@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[atharvatiwarilinuxdev@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: D3430D5B6E
+X-Rspamd-Queue-Id: A60EBD5B7E
 X-Rspamd-Action: no action
 
-This series adds support for eGPUs on Apple products, by
-enabling apple-set-os on all apple devices.
+Enable apple-set-os on Apple Mac systems by default.
 
-A side effect of this patch is that the iGPU becomes enabled on iMacs.
-However, iMacs can’t use the iGPU to drive the display
-(They can't link-train the internal display),
-so displays must be disabled on iMacs.
+Exclude MacBook6,2 and MacBookAir7,2, as enabling apple-set-os on
+these models causes regressions.
 
-Changes in v3:
-- Disabled apple-set-os on MacBookAir6,1 and 7,1 to avoid regressions
-- Reworded 1st patch
-Changes in v2:
-- Reworded cover-letter
-- Transferred logic to has_no_display in the 2nd patch
+(tested on iMac20,1)
 
-Link to v2:
-https://lore.kernel.org/all/20260128145855.1071-1-atharvatiwarilinuxdev@gmail.com/#t
+Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+---
+ drivers/firmware/efi/libstub/x86-stub.c | 20 +++++++-------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
 
-Link to v1:
-https://lore.kernel.org/all/20260125001111.1269-1-atharvatiwarilinuxdev@gmail.com/
-
-Atharva Tiwari (2):
-  efi/libstub: Enable apple-set-os for most apple devices
-  drm/i915/display: Disable display for iMac's
-
- drivers/firmware/efi/libstub/x86-stub.c       | 20 +++++++------------
- .../drm/i915/display/intel_display_device.c   | 14 ++++++++++++-
- 2 files changed, 20 insertions(+), 14 deletions(-)
-
+diff --git a/drivers/firmware/efi/libstub/x86-stub.c b/drivers/firmware/efi/libstub/x86-stub.c
+index cef32e2c82d8..532a713adef5 100644
+--- a/drivers/firmware/efi/libstub/x86-stub.c
++++ b/drivers/firmware/efi/libstub/x86-stub.c
+@@ -303,15 +303,9 @@ static const struct efi_smbios_record *get_table_record(u8 type)
+ 
+ static bool apple_match_product_name(void)
+ {
+-	static const char type1_product_matches[][15] = {
+-		"MacBookPro11,3",
+-		"MacBookPro11,5",
+-		"MacBookPro13,3",
+-		"MacBookPro14,3",
+-		"MacBookPro15,1",
+-		"MacBookPro15,3",
+-		"MacBookPro16,1",
+-		"MacBookPro16,4",
++	static const char disabled_product_matches[][14] = {
++		"MacBookPro6,2",
++		"MacBookPro7,2",
+ 	};
+ 	const struct efi_smbios_type1_record *record;
+ 	const u8 *product;
+@@ -325,12 +319,12 @@ static bool apple_match_product_name(void)
+ 	if (!product)
+ 		return false;
+ 
+-	for (int i = 0; i < ARRAY_SIZE(type1_product_matches); i++) {
+-		if (!strcmp(product, type1_product_matches[i]))
+-			return true;
++	for (int i = 0; i < ARRAY_SIZE(disabled_product_matches); i++) {
++		if (!strcmp(product, disabled_product_matches[i]))
++			return false;
+ 	}
+ 
+-	return false;
++	return true;
+ }
+ 
+ static void apple_set_os(void)
 -- 
 2.43.0
 
