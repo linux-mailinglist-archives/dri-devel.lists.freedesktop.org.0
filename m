@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +CTJMvFTgmmYSQMAu9opvQ
+	id sBeoEmxVgmntSQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 21:00:49 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 21:07:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50EE7DE539
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 21:00:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8AFDE5A1
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 21:07:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7585310E341;
-	Tue,  3 Feb 2026 20:00:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D4AC10E04A;
+	Tue,  3 Feb 2026 20:07:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hg/+pYK9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="J4sjCvJ3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FCAA10E341
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 20:00:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D01610E04A
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 20:07:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 284394408D
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 20:00:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0D0E9C2BCB0
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 20:00:45 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 186E5402A3
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 20:07:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EC65EC19422
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 20:07:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770148845;
- bh=LIt1sorm8aSgamWPEmqYSgfiUCuLBp8jvEf4hBROTr4=;
+ s=k20201202; t=1770149222;
+ bh=l+eaJ2pLWM7n+z32s+CEfCz8GGGNkEnqAOO0kmjHP9Y=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=hg/+pYK9qS1rLlridxmslYhDW7dDfQ+VVRjqZbhtUaBEOKdAMBnP6ic+7P1Lof2JA
- n9mqq5FuMnYiXlmIbZe9i65ZXpQzlVcMHU5w1i8s/eAso8Q8raLocihVs8CQK6HQcx
- zBYZ8PD5mYaqavqVhZOgRbwyPZa8Wwe87a7sjJmRxpI6oMoTQ0cj4CF72rR0Qqm1OU
- cqACqgKrHqpMqqQfwImFecytEcpJCSJubnNM5SksUYSZUnKbJDDOEi++1hFZEXyyZB
- wc/fzpsJFlCYa4dHeIPi23Kfy9Dt8bJNRJAwCXgzxqC0faZg6eEQf/uYpZkzuOMFWm
- sp8UX7t44geSg==
+ b=J4sjCvJ3FB4tEg6M/uNhdV/SVyfMeNc6UhSJx9LZdWTwLi/hFUQPawnG7yPpbuAhi
+ YZK8/eVRZradcmCguYvFTzPsyYzW0Wwv37wNq1pDR5EMV0bld70C9uT4dhidOrqYKX
+ jGp/hRzPjIL2+iDEx3ZP4nMs+xMPCsnZFyhvoJKaZkCiHJNAMI2REFV1wrveeRNeoi
+ zf6KjquZZsnTc4jEYaqo3JFxgp0aahIky3Kn2Z4LmKZpo4ILWWzG3PcuYLiKCiEmfA
+ EhJlTVfs4TOlrrke9EajCXTkE8dGQsOaUiCxiMpteN8X7R+oeJ3zld6ylMfndJhRQZ
+ jludxk73G0Itw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id F0729C41613; Tue,  3 Feb 2026 20:00:44 +0000 (UTC)
+ from userid 48) id E00EFC41613; Tue,  3 Feb 2026 20:07:01 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 221040] AMD Ryzen 5700G (Renoir/Cezanne): Second suspend hangs
  after "PM: suspend entry (deep)" - xhci_hcd and asus_wmi LPS0 involvement
-Date: Tue, 03 Feb 2026 20:00:44 +0000
+Date: Tue, 03 Feb 2026 20:07:01 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -57,7 +57,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221040-2300-k9rN7bENPT@https.bugzilla.kernel.org/>
+Message-ID: <bug-221040-2300-zuemhvAzF4@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-221040-2300@https.bugzilla.kernel.org/>
 References: <bug-221040-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -98,19 +98,20 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[bugzilla-daemon@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	RCPT_COUNT_ONE(0.00)[1];
 	RCVD_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,unbox.at:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[unbox.at:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_NONE(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[kernel.org:+]
-X-Rspamd-Queue-Id: 50EE7DE539
+X-Rspamd-Queue-Id: 7E8AFDE5A1
 X-Rspamd-Action: no action
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D221040
 
---- Comment #1 from Bertram Ganz (s93nesua@bote.unbox.at) ---
-Workaround: Use suspend-to-disk (hibernation) instead of suspend-to-RAM.
+--- Comment #2 from Bertram Ganz (s93nesua@bote.unbox.at) ---
+Cross-posted to:
+- AMD DRM GitLab: https://gitlab.freedesktop.org/drm/amd/-/issues/4927
 
 --=20
 You may reply to this email to add a comment.
