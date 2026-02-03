@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yDaCBqCugWn0IQMAu9opvQ
+	id 2BY3EaKugWn0IQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 09:15:28 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 09:15:30 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31E5D6167
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 09:15:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D5E0D617D
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 09:15:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D415A10E572;
-	Tue,  3 Feb 2026 08:15:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E3EF10E578;
+	Tue,  3 Feb 2026 08:15:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=reznichenko.net header.i=@reznichenko.net header.b="XQqC45j1";
+	dkim=pass (2048-bit key; secure) header.d=reznichenko.net header.i=@reznichenko.net header.b="HaeWY+E1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
- [209.85.215.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 276FF10E53D
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 05:41:26 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id
- 41be03b00d2f7-c075ec1a58aso2162005a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 21:41:26 -0800 (PST)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CF4310E53D
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 05:41:29 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id
+ d2e1a72fcca58-823210d1d8eso2671171b3a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 21:41:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=reznichenko.net; s=google; t=1770097286; x=1770702086;
+ d=reznichenko.net; s=google; t=1770097289; x=1770702089;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=D08eqWaNz/g58oq/9WRuxN3nwvX07U65CVm0PjSPoH8=;
- b=XQqC45j1VRInoKOmqT4MeL6jVxVVeMKdHSmsr5og4gwleHmUKlq/DsaIuh7yR5c2s2
- dEm90g3JAF2qIyztw7qmDQpxEOiYNWyIXWhBOs5MdLPwEUWjJZvM5SMRPCZn3krfcisq
- rsRYx7lN5Eb8ilUG2/orUXRlXBIwUnps4vvFj6C1gjejHa4rG50NCk2BQUnYWjAtAP7V
- e2wP5DdE/RU0M0cVMM/Qm/IObeJ7tbqA+GilBMowKBRuH2zbJt4NcmFVh11p05MIPoUZ
- Xh0TB8O0fC+2NKIw85zt5bx9Kz7Z2ydv6GFeM01sDDAJ9DZxxhSK/CNEVYo4pU4wdY4b
- EhuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770097286; x=1770702086;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=D08eqWaNz/g58oq/9WRuxN3nwvX07U65CVm0PjSPoH8=;
- b=wzusFQqATuOMuYPANufS5BbWHFEtltBjazACdPBAgJ8CVtnfOvnwsk2iOqlPxSWRJ+
- 9F3/AuCQniMGW5DhJ+evmSo9BHWkQM4Uy2kPMYVYxNxe9vtYC7hZLVoT42XUcaKgPEDD
- 0gWplTZaMrAAUY157OALwUwN7EgT6iVTmhwCuaqAcY261F/8OVcFUFyenj0MlQWUEJ0A
- UFm3nXLBgBzFjYYuYole/s4kQFPOcbiQryP2HIrr797uIzRP1nWHTu9B3wf1WloZ75yV
- JecJW/aHqRf+zeLNgI6XaVLlaAt/UMXLRAKZ4stz8deer2eDl/1i0SpiWNZOsD1maC0Q
- idig==
-X-Gm-Message-State: AOJu0YyUsbpu4LbrUThEE7PcaOpksIKR95RX04s/OINxuRKtb5gG4O5M
- ShgL3DAwF+POINESOZdAQ5+2w0yInSNA+PlxeZ1pHPtdkE1bOKu8QxsM6f8/kFHnksM=
-X-Gm-Gg: AZuq6aIZD0F+dQcfOcwylZJyacItGgaudmLAyExXIHInFFgGAy9NPwAhzrrK7ti74E6
- H9/qHIxZXStkpZDnr3ocdBfVgZDi9/GrcbiJ2TW/Ygu00ur/hBDmmE2PqF4mConOudCCI8OTwku
- VJiRj8sx3vGXwycDqlpjZz/1WWbXmeDdfjfxAZokMdNnv9eLCvMCeJneNEElyOO0oq+21gR409X
- rXIkophrXSIRjUqZL5YKrogVNOS5n4Cyd+RuooN9sD0seF35XShnWgzJc4qy4xmYuIvN59RcpXA
- YpWCQtcTtAd57ap9K0IbdWNBH+zEsXNCmNh3YS2HmexAUSMwlzKFzCwUBpC0oWat9FQOGkNxadp
- HoXyo3XE/YxDSAI/bdfYPOqyOwPH/Bltudsi2oJ/t9MuZ0Ir7lhbG0Oy6JhGEvTKw1quGQv9iXM
- rw+vnPCJc49beBTGKQrrZ3LMuGyVmU
-X-Received: by 2002:a05:6a20:72a0:b0:366:14b2:314 with SMTP id
- adf61e73a8af0-392e016e452mr13386544637.71.1770097286379; 
- Mon, 02 Feb 2026 21:41:26 -0800 (PST)
+ bh=yEfiSIftUOQSLeWOpxZiWd1+I6rz5yVYKhg8cViyxSc=;
+ b=HaeWY+E16N0DlCILXKqrlG95z/tBWXVcQJE2Vkb2lUbM3wV3nBRwoCOd+XNZUmN974
+ A2HsOLukYAFXd31i/9ac2QdbY0Qr4YcWWlF18oaSxj6u179yq+fkBIQsDWgf23TQb5fm
+ ZRoMGB5URbgZC1li1PpXnCkX7yHZJgF0wjO+sHdfqJlcTovcYLA6OtS8ojuO3mFirnsv
+ vnb0BDXlTcD4YbjIhs24CaQ7aMyXW1n62+gFH3YkFpT9FL1MUHxqJ/4GTIsdGcy5lbO4
+ CCbfVifu0JXUoNOn1LpmluBw1+fa42tlgb85R28BwW9FsR1jBYHohlKkxn4Trw1VGIFm
+ 6ekw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770097289; x=1770702089;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=yEfiSIftUOQSLeWOpxZiWd1+I6rz5yVYKhg8cViyxSc=;
+ b=iR+PH7ChcB+bOfULchyCpuTpMn8dchkOLdbiy/9a5zz2h+livyNb+haDj3F9BpAUVL
+ QCoIOoDnTD8A0GCntnLMAq+6ntdj5O+6pG2iTnuJI+XeUJnoWJWhJ7+V5ZYUQEB7E2Ys
+ PoSJ2bybmZLVTzVPmZkdehbSi3c6v23q15zL491HP4BlYH349iu4J7rjk69meI3RjmjW
+ /9aE1rd9A4IqnF2i7r4HdVg6WN4hoY3YJ3rLZ/EaNTyBZOqlkcKNcsYeRxqSaytUdT0Y
+ leruq0DVofaz7xoljzbTZssvjtkxYeg+r0MZRY0sV7rxqNptKksV4bi8s9iRLhm3iYa8
+ 0KVw==
+X-Gm-Message-State: AOJu0Yz6/KOTQ/CQmUUEuJQB9ngqwYLlmLUdr+KE6GqYY/EINdF/qswl
+ 153/hKeXRNs0+yHJ17oeN0nOwzB4FhnIk8QcHh61qoqbfUoWwmGCpYHl8LMD/gN78/c=
+X-Gm-Gg: AZuq6aKQ+3wh7U1xOhtCmPotYMZ027fEPL1NCyyAbTOfLkTawkHWlRNEdejXDALABLC
+ rz/8yr91YzpSRv11ZaGKqhZ9mZVvpQqe4FybVve749BBuUh/8lJd3HX9lo/I6ABihIJBGDGSMbs
+ CikgTuL1CELq1UbUsA+/M0ahHYlUOfgrWzZR8o4+yopBdP/URXq0WgCKTtNglrru97Y+5tS2jDA
+ RTB3ZXFbYPmcUnHPYuaTATh1yryG5Q+BppG2rXeMKOtEb18S8q3tWf3MiDBJfuH6TIizZFqAEKX
+ KSA7soWa9fCfIKGIVxRKMOmodJbfZNtNnY8xeE11/2bqbziXfvNwS0+z8vwrBuqgv/8SFD4A4N+
+ C0/q2QFZMQvHLyYXmMd3Cp4oZbODT4puC3o+8EgeJx9tlyL6joYWEfu53eU6YNt4IXC2LFDgNsP
+ V1V8DuQGSiSY4JO3EeGA==
+X-Received: by 2002:a05:6a20:7345:b0:38e:92e1:e8d with SMTP id
+ adf61e73a8af0-392e005a2b6mr12969136637.30.1770097289159; 
+ Mon, 02 Feb 2026 21:41:29 -0800 (PST)
 Received: from z440.. ([2601:1c0:4502:2d00:361d:bbce:3ed0:c3b6])
  by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-c6427da845csm16051669a12.12.2026.02.02.21.41.23
+ 41be03b00d2f7-c6427da845csm16051669a12.12.2026.02.02.21.41.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Feb 2026 21:41:25 -0800 (PST)
+ Mon, 02 Feb 2026 21:41:28 -0800 (PST)
 From: Igor Reznichenko <igor@reznichenko.net>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <jesszhan0024@gmail.com>,
@@ -79,11 +80,13 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Kever Yang <kever.yang@rock-chips.com>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/2] drm/panel: Add support for the FocusLCDs
- E35GH-I-MW800CB
-Date: Mon,  2 Feb 2026 21:41:18 -0800
-Message-ID: <20260203054121.335441-1-igor@reznichenko.net>
+Subject: [PATCH v2 1/2] dt-bindings: display: panel: Add Ilitek ILI9488 panel
+ controller
+Date: Mon,  2 Feb 2026 21:41:19 -0800
+Message-ID: <20260203054121.335441-2-igor@reznichenko.net>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260203054121.335441-1-igor@reznichenko.net>
+References: <20260203054121.335441-1-igor@reznichenko.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 03 Feb 2026 08:15:23 +0000
@@ -117,9 +120,9 @@ X-Spamd-Result: default: False [2.19 / 15.00];
 	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:heiko@sntech.de,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:mani@kernel.org,m:dev@kael-k.io,m:kever.yang@rock-chips.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[igor@reznichenko.net,dri-devel-bounces@lists.freedesktop.org];
-	DMARC_NA(0.00)[reznichenko.net];
 	ARC_NA(0.00)[];
+	DMARC_NA(0.00)[reznichenko.net];
+	FORGED_SENDER(0.00)[igor@reznichenko.net,dri-devel-bounces@lists.freedesktop.org];
 	RCPT_COUNT_TWELVE(0.00)[18];
 	FREEMAIL_TO(0.00)[linaro.org,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,sntech.de,bp.renesas.com,kael-k.io,rock-chips.com];
 	DKIM_TRACE(0.00)[reznichenko.net:+];
@@ -135,30 +138,104 @@ X-Spamd-Result: default: False [2.19 / 15.00];
 	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[reznichenko.net:mid,reznichenko.net:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: A31E5D6167
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,reznichenko.net:email,reznichenko.net:dkim,reznichenko.net:mid,0.0.0.0:email]
+X-Rspamd-Queue-Id: 9D5E0D617D
 X-Rspamd-Action: no action
 
-Add support for E35GH-I-MW800CB 320x480 MIPI DSI panel by FocusLCDs.
-The panel uses Ilitek ILI9488 driver IC.
+Add binding for the Ilitek ILI9488 panel controller which is found on
+the FocusLCDs E35GH-I-MW800-CB MIPI DSI panel. Add "focuslcds" to
+vendor-prefixes.yaml as it's a brandname and a website for
+Focus Display Solutions, Inc.
 
-v2: Added comment explaining the "focuslcds" vendor prefix
-v1: https://lore.kernel.org/all/20260131034101.307486-1-igor@reznichenko.net/
-
-Igor Reznichenko (2):
-  dt-bindings: display: panel: Add Ilitek ILI9488 panel controller
-  drm/panel: Add Ilitek ILI9488 controller driver
-
- .../display/panel/ilitek,ili9488.yaml         |  63 ++++
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- MAINTAINERS                                   |   6 +
- drivers/gpu/drm/panel/Kconfig                 |   9 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- drivers/gpu/drm/panel/panel-ilitek-ili9488.c  | 299 ++++++++++++++++++
- 6 files changed, 380 insertions(+)
+Signed-off-by: Igor Reznichenko <igor@reznichenko.net>
+---
+ .../display/panel/ilitek,ili9488.yaml         | 63 +++++++++++++++++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+ 2 files changed, 65 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/panel/ilitek,ili9488.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9488.c
 
+diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9488.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9488.yaml
+new file mode 100644
+index 000000000000..ea7449273022
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9488.yaml
+@@ -0,0 +1,63 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/ilitek,ili9488.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Ilitek ILI9488 based MIPI-DSI panels
++
++maintainers:
++  - Igor Reznichenko <igor@reznichenko.net>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - focuslcds,e35gh-i-mw800cb
++      - const: ilitek,ili9488
++
++  reg:
++    maxItems: 1
++
++  vci-supply: true
++  iovcc-supply: true
++
++required:
++  - compatible
++  - reg
++  - vci-supply
++  - iovcc-supply
++  - reset-gpios
++  - backlight
++  - port
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "focuslcds,e35gh-i-mw800cb", "ilitek,ili9488";
++            reg = <0>;
++            vci-supply = <&reg_vci_panel>;
++            iovcc-supply = <&reg_iovcc_panel>;
++            reset-gpios = <&gpio3 6 GPIO_ACTIVE_LOW>;
++            backlight = <&pwm_bl>;
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&dsi_out>;
++                };
++            };
++        };
++    };
++
++...
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index c7591b2aec2a..aa3a8fd67155 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -584,6 +584,8 @@ patternProperties:
+     description: Flipkart Inc.
+   "^focaltech,.*":
+     description: FocalTech Systems Co.,Ltd
++  "^focuslcds,.*":
++    description: Focus Display Solutions, Inc.
+   "^forlinx,.*":
+     description: Baoding Forlinx Embedded Technology Co., Ltd.
+   "^foursemi,.*":
 -- 
 2.43.0
 
