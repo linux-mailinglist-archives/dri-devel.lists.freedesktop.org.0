@@ -2,75 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0C5gI6YggmlIPgMAu9opvQ
+	id gCuxJT0igmmQPgMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 17:21:58 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 17:28:45 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E8B0DBD7A
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 17:21:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B6FDBF5B
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 17:28:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CFD610E6F7;
-	Tue,  3 Feb 2026 16:21:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FE4A10E6F4;
+	Tue,  3 Feb 2026 16:28:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bnr5JK7p";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="Vaohwio6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91E7510E6F7
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 16:21:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770135714; x=1801671714;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=7Y2gy7hhsFI0b40ji/v+SoBFAiAx+y6+IF76XFVeOaA=;
- b=bnr5JK7p5bruXaQxFzVe2X7CmOO5x/wZ0aisjYLTgM2ZS+jQlKHJ2eCa
- vCHZ8f2iyeywMiMb5/zPtNuG0YM4szCHlxzwEVoRUmv4Q3vt9OI66kMsj
- uoEh2avNmULyCY++t4VD5+XHEg7CnS6+Y9i8gs7FZrDu0Vfn35RItT70K
- UcMPq5zmP7DYx+1Gxw/Zgx+qMhXWLGh2rFZ5zhqfkdwlJGVI+Pr4eVruh
- vHrxs4Nq5Z9kOjdVRTR2oLd7/Pfe5jADwDFkvvsVKgg2+NJhvowCFcIHI
- Hdhpp17KVsqoWGA9Y9cbuXoziX3CXS0wJyZwvK5Ag2V5Fm0ekYaWu7Vkg Q==;
-X-CSE-ConnectionGUID: trnblGO+QIWA98QkB7pTyQ==
-X-CSE-MsgGUID: NfiDZDQ9Tzib52dIcrLZIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="82682265"
-X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; d="scan'208";a="82682265"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2026 08:21:52 -0800
-X-CSE-ConnectionGUID: LTnIiRNtQk6GtvTntW1wqg==
-X-CSE-MsgGUID: g+qqdzp9SKCInIWgj3S9GQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; d="scan'208";a="232804399"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602)
- ([10.211.93.152])
- by fmviesa002.fm.intel.com with ESMTP; 03 Feb 2026 08:21:49 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vnJ9u-000000003Nx-3Omr;
- Tue, 03 Feb 2026 16:21:46 +0000
-Date: Tue, 3 Feb 2026 17:21:30 +0100
-From: kernel test robot <lkp@intel.com>
-To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- linux-kernel@vger.kernel.org
-Cc: Paul Gazzillo <paul@pgazz.com>,
- Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- oe-kbuild-all@lists.linux.dev, linux-amarula@amarulasolutions.com,
- Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- David Airlie <airlied@gmail.com>, Jessica Zhang <jesszhan0024@gmail.com>,
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7890810E6F4
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 16:28:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1770136118; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=lLkAncyetA37sc/HLFwEKT9Cqga2bbfnvmVihfzHkmqajAmyRsiq6JC9FcK2A8hqdurM/F4aMjZUh51/NVgMBiu2qu+oXKMaAm9l9wDmMjBeR5Ufq1bT2kC1QzGnWOZ0ncvbBXh94p3s7uOqk7p1dMZy9VLGCX8tiykydSyR8Q0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1770136118;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=mcpQ6BHdtlmcJP+6sUHzKp/HKqU2X/+4lbxQzskRA/8=; 
+ b=mtdzdD9lE65ZdW3lERr1djKK6k9RzPFv0ppHVYzAr8YCubzOnLynnBSdLz6T0bMMprfgNlCAa5tEI093fendJnYCPtHidl7FupFhvGQxPUpqJdMp6hUD4PFT1bQP2dOZrqx64SNaE6nky/GaW567pJnBDrn0UaErjUkwBH1abGk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770136118; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=mcpQ6BHdtlmcJP+6sUHzKp/HKqU2X/+4lbxQzskRA/8=;
+ b=Vaohwio60p4BO1VObvEdiCCH1LCnW2Snk0CPfKC9EeKEQ6/ThqJr7X0R6eP2mxpI
+ MoXy/OuxN2rNIq4upnh03oXvE2nll/jit27nzX9Eqbr5egP1RCpMMFjwmY6fGLK83Cf
+ /Hnfo4IKgwI7yeQLDAIUDWJGXnCpZIRHV9eZ5x08=
+Received: by mx.zohomail.com with SMTPS id 1770136116210986.0414403743216;
+ Tue, 3 Feb 2026 08:28:36 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH v3 1/3] rust: clk: use the type-state pattern
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20260203150855.77c93e22@fedora>
+Date: Tue, 3 Feb 2026 13:28:15 -0300
+Cc: Alice Ryhl <aliceryhl@google.com>, Maxime Ripard <mripard@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Danilo Krummrich <dakr@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Michael Walle <mwalle@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 2/4] drm/panel: ilitek-ili9806e: split core and DSI
- logic
-Message-ID: <202602031753.CjqWRWVT-lkp@intel.com>
-References: <20260203075548.14907-3-dario.binacchi@amarulasolutions.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260203075548.14907-3-dario.binacchi@amarulasolutions.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Drew Fustini <fustini@kernel.org>,
+ Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+ =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-riscv@lists.infradead.org, linux-pwm@vger.kernel.org,
+ linux-clk@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <4DD13AE1-C85F-450F-93F2-C7C75766E518@collabora.com>
+References: <20260107-clk-type-state-v3-0-77d3e3ee59c2@collabora.com>
+ <20260107-clk-type-state-v3-1-77d3e3ee59c2@collabora.com>
+ <20260108-delectable-fennec-of-sunshine-ffca19@houat>
+ <98CD0BF6-3350-40B9-B8A9-F569AE3E3220@collabora.com>
+ <20260119-thundering-tested-robin-4be817@houat> <aW4lCfUyumOKRRJm@google.com>
+ <20260203113902.501e5803@fedora>
+ <E7286D12-0BD9-4726-B072-FE5A040312B1@collabora.com>
+ <20260203150855.77c93e22@fedora>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+X-Mailer: Apple Mail (2.3826.700.81)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,66 +94,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[pgazz.com,gmail.com,lists.linux.dev,amarulasolutions.com,linux.intel.com,kernel.org,linaro.org,ffwll.ch,suse.de,lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:dario.binacchi@amarulasolutions.com,m:linux-kernel@vger.kernel.org,m:paul@pgazz.com,m:fazilyildiran@gmail.com,m:oe-kbuild-all@lists.linux.dev,m:linux-amarula@amarulasolutions.com,m:airlied@gmail.com,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:mwalle@kernel.org,m:neil.armstrong@linaro.org,m:simona@ffwll.ch,m:tzimmermann@suse.de,s:lists@lfdr.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[daniel.almeida@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[google.com,kernel.org,linaro.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,redhat.com,baylibre.com,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,lists.freedesktop.org,lists.infradead.org];
+	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:mripard@kernel.org,m:rafael@kernel.org,m:viresh.kumar@linaro.org,m:dakr@kernel.org,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:ukleinek@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:linux-pm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:linux-pwm@vger.kernel.org,m:linux-clk@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:boris.brezillon@collabora.com,m:boqunfeng@gmail.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[30];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[daniel.almeida@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,intel.com:dkim,intel.com:mid,01.org:url]
-X-Rspamd-Queue-Id: 0E8B0DBD7A
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	APPLE_MAILER_COMMON(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: E9B6FDBF5B
 X-Rspamd-Action: no action
 
-Hi Dario,
+<snip>
 
-kernel test robot noticed the following build warnings:
+>>=20
+>> The problem with what you have suggested is that the previous state =
+is not
+>> consumed if you can clone it, and consuming the previous state is a =
+pretty key
+>> element in ensuring you cannot misuse it. For example, here:
+>>=20
+>> let enabled_clk =3D prepared_clk.clone().enable()?;
+>> // do stuff
+>> // enabled_clk goes out of scope and releases the enable
+>> // ref it had
+>>=20
+>> prepared_clk is still alive.
+>=20
+> That was intentional in this example. Think about a prepared_clk =
+that's
+> stored in some driver-internal object, because you want to keep the =
+clk
+> prepared at all times between the probe() and unbind(). Then you have
+> some sections where you want to briefly enable the clk to access
+> registers, and immediately disable it when you're done. The clone()
+> here guarantees that the initial prepared_clk stays valid.
+>=20
+> If you were to disable, unprepare and put the clk when enabled_clk =
+goes
+> out of scope, you'd go
 
-[auto build test WARNING on 6bd9ed02871f22beb0e50690b0c3caf457104f7c]
+>=20
+> let enabled_clk =3D prepared_clk.enable()?;
+>=20
+> and that would still work, it's just not the same use-case.
+>=20
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dario-Binacchi/drm-panel-ilitek-ili9806e-rename-to-specific-DSI-driver/20260203-155721
-base:   6bd9ed02871f22beb0e50690b0c3caf457104f7c
-patch link:    https://lore.kernel.org/r/20260203075548.14907-3-dario.binacchi%40amarulasolutions.com
-patch subject: [PATCH v3 2/4] drm/panel: ilitek-ili9806e: split core and DSI logic
-config: hexagon-kismet-CONFIG_DRM_PANEL_ILITEK_ILI9806E_CORE-CONFIG_DRM_PANEL_ILITEK_ILI9806E_DSI-0-0 (https://download.01.org/0day-ci/archive/20260203/202602031753.CjqWRWVT-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20260203/202602031753.CjqWRWVT-lkp@intel.com/reproduce)
+Ok, let=E2=80=99s have clone() then.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602031753.CjqWRWVT-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for DRM_PANEL_ILITEK_ILI9806E_CORE when selected by DRM_PANEL_ILITEK_ILI9806E_DSI
-   WARNING: unmet direct dependencies detected for DRM_PANEL_ILITEK_ILI9806E_CORE
-     Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_PANEL [=y] && OF [=y] && BACKLIGHT_CLASS_DEVICE [=n]
-     Selected by [y]:
-     - DRM_PANEL_ILITEK_ILI9806E_DSI [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_PANEL [=y] && DRM_MIPI_DSI [=y]
+>> Now, this may not be the end of the world in this
+>> particular case, but for API consistency, I'd say we should probably =
+avoid this
+>> behavior.
+>>=20
+>> I see that Alice suggested a closure approach. IMHO, we should use =
+that
+>> instead.
+>=20
+> The closure, while being useful for the above local clk-enablement
+> example, doesn't allow for passing some Clk<Enabled> guard around, =
+like
+> you would do with a lock Guard, and I believe that's a useful thing to
+> have.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+Wdym? You=E2=80=99d still get a &Clk<Enabled> that you can pass around, =
+i.e.:
+
+   self.prepared_clk.with_enabled(|clk: &Clk<Enabled> | {
+       ... use registers, pass &Clk<Enabled> as needed
+   });
+
+This is now not about clone() vs not clone(), but more about limiting =
+the scope of the
+Enabled state, which would cater to the use-case you mentioned IIUC.
+
+=E2=80=94 Daniel
+
+
