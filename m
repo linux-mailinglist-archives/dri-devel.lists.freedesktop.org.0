@@ -2,98 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kLWrBGX+gWk7NQMAu9opvQ
+	id KFf9BWH+gWmYNgMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 14:55:49 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 14:55:45 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA4BDA3C6
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 14:55:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DD4ADA3B8
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 14:55:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 645FD10E67A;
-	Tue,  3 Feb 2026 13:55:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 712E510E66D;
+	Tue,  3 Feb 2026 13:55:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="0BqRZtWV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zVoPj4CI";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0BqRZtWV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zVoPj4CI";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="LAR2p81I";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QllUPBcJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LAR2p81I";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QllUPBcJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FD1310E67C
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 13:55:45 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B364510E676
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 13:55:41 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 26C845BCCD;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7BA903E6D5;
  Tue,  3 Feb 2026 13:55:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1770126929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3ExTemMncm5MNREj98gkbAh0WWc+sAT4FX3LuHshVjU=;
- b=0BqRZtWVlF8vBo73ZfZLPfC7QqKCDVB2AXDO35F4hkw78j4ZRgd26E3KYIfC+RrPdxQoxg
- LBE6pbHrGx4brkcSoOrEdSRL+3bwEylj7mlpMWq917Tq9d9Z8aZfVEqV5QpOsYv8NDorWQ
- aqIRwDTuLoesff5wo8YYzD5b9fNvFI8=
+ bh=m+pDbjxVqJIFwnaAB3M0jgbm3ql3GEtdjLFQ79q0pWw=;
+ b=LAR2p81II6uz5XH/lHruVaHwX3wZ1kX3WtmujLwDYM8xxN38bGlsYnj11YKs0QQ5g3CB4o
+ ZfTeKXMCxh5B50PdUFm6Ef7O9fUs4WZFJbbDAQs72/b4316xeBspbVbbfuWqIuZ6Msps+w
+ S6qETImMBjP+lHIk0YDG5765bb818ko=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1770126929;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3ExTemMncm5MNREj98gkbAh0WWc+sAT4FX3LuHshVjU=;
- b=zVoPj4CItq4d6yCxjkjY89U79ueopuI0Fp9xb/z0LFTbnWtZSzxs3OsQ+S91ig0aJno4P5
- 0NO7FXwHdbsA1eCA==
-Authentication-Results: smtp-out2.suse.de;
+ bh=m+pDbjxVqJIFwnaAB3M0jgbm3ql3GEtdjLFQ79q0pWw=;
+ b=QllUPBcJELlxYGwWkw6HPK7VreSSVHvdm8zeTb4hkmJr5rhMeySz78SMLZZzzcR0t8P7az
+ J6etTeNFWffuGiDA==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1770126929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3ExTemMncm5MNREj98gkbAh0WWc+sAT4FX3LuHshVjU=;
- b=0BqRZtWVlF8vBo73ZfZLPfC7QqKCDVB2AXDO35F4hkw78j4ZRgd26E3KYIfC+RrPdxQoxg
- LBE6pbHrGx4brkcSoOrEdSRL+3bwEylj7mlpMWq917Tq9d9Z8aZfVEqV5QpOsYv8NDorWQ
- aqIRwDTuLoesff5wo8YYzD5b9fNvFI8=
+ bh=m+pDbjxVqJIFwnaAB3M0jgbm3ql3GEtdjLFQ79q0pWw=;
+ b=LAR2p81II6uz5XH/lHruVaHwX3wZ1kX3WtmujLwDYM8xxN38bGlsYnj11YKs0QQ5g3CB4o
+ ZfTeKXMCxh5B50PdUFm6Ef7O9fUs4WZFJbbDAQs72/b4316xeBspbVbbfuWqIuZ6Msps+w
+ S6qETImMBjP+lHIk0YDG5765bb818ko=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1770126929;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3ExTemMncm5MNREj98gkbAh0WWc+sAT4FX3LuHshVjU=;
- b=zVoPj4CItq4d6yCxjkjY89U79ueopuI0Fp9xb/z0LFTbnWtZSzxs3OsQ+S91ig0aJno4P5
- 0NO7FXwHdbsA1eCA==
+ bh=m+pDbjxVqJIFwnaAB3M0jgbm3ql3GEtdjLFQ79q0pWw=;
+ b=QllUPBcJELlxYGwWkw6HPK7VreSSVHvdm8zeTb4hkmJr5rhMeySz78SMLZZzzcR0t8P7az
+ J6etTeNFWffuGiDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C108C3EA62;
- Tue,  3 Feb 2026 13:55:28 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 23BA83EA63;
+ Tue,  3 Feb 2026 13:55:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id GOGrLVD+gWlGDwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 03 Feb 2026 13:55:28 +0000
+ by imap1.dmz-prg2.suse.org with ESMTPSA id KMpMB1H+gWlGDwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 03 Feb 2026 13:55:29 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: tzungbi@kernel.org, briannorris@chromium.org, jwerner@chromium.org,
  javierm@redhat.com, samuel@sholland.org, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
 Cc: chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 07/12] firmware: google: Clean up include statements in
- coreboot_table.h
-Date: Tue,  3 Feb 2026 14:52:26 +0100
-Message-ID: <20260203135519.417931-8-tzimmermann@suse.de>
+Subject: [PATCH v3 08/12] firmware: google: Export coreboot table entries
+Date: Tue,  3 Feb 2026 14:52:27 +0100
+Message-ID: <20260203135519.417931-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260203135519.417931-1-tzimmermann@suse.de>
 References: <20260203135519.417931-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
 X-Spam-Score: -2.80
 X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,100 +140,216 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid]
-X-Rspamd-Queue-Id: 6AA4BDA3C6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,sholland.org:email,suse.de:email,suse.de:dkim,suse.de:mid,linaro.org:email]
+X-Rspamd-Queue-Id: 5DD4ADA3B8
 X-Rspamd-Action: no action
 
-Include <linux/mod_devicetable.h> from source files and only forward-
-declare struct coreboot_device_id in coreboot_table.h.
+Move types for coreboot table entries to <linux/coreboot.h>. Allows
+drivers in other subsystems to use these structures.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
 Acked-by: Julius Werner <jwerner@chromium.org>
 ---
- drivers/firmware/google/cbmem.c                | 1 +
- drivers/firmware/google/coreboot_table.c       | 1 +
- drivers/firmware/google/coreboot_table.h       | 3 ++-
- drivers/firmware/google/framebuffer-coreboot.c | 1 +
- drivers/firmware/google/memconsole-coreboot.c  | 1 +
- drivers/firmware/google/vpd.c                  | 1 +
- 6 files changed, 7 insertions(+), 1 deletion(-)
+ MAINTAINERS                                   |  1 +
+ drivers/firmware/google/coreboot_table.c      | 10 +++
+ drivers/firmware/google/coreboot_table.h      | 60 +----------------
+ .../firmware/google/framebuffer-coreboot.c    |  2 -
+ include/linux/coreboot.h                      | 66 +++++++++++++++++++
+ 5 files changed, 78 insertions(+), 61 deletions(-)
+ create mode 100644 include/linux/coreboot.h
 
-diff --git a/drivers/firmware/google/cbmem.c b/drivers/firmware/google/cbmem.c
-index 54c3b8b05e5d..3397bacdfdbe 100644
---- a/drivers/firmware/google/cbmem.c
-+++ b/drivers/firmware/google/cbmem.c
-@@ -12,6 +12,7 @@
- #include <linux/io.h>
- #include <linux/kernel.h>
- #include <linux/kobject.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cd371029629e..c0a8de9fb58d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10742,6 +10742,7 @@ L:	chrome-platform@lists.linux.dev
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git
+ F:	drivers/firmware/google/
++F:	include/linux/coreboot.h
+ 
+ GOOGLE TENSOR SoC SUPPORT
+ M:	Peter Griffin <peter.griffin@linaro.org>
 diff --git a/drivers/firmware/google/coreboot_table.c b/drivers/firmware/google/coreboot_table.c
-index 26d93781e64a..a031d6fe6bc5 100644
+index a031d6fe6bc5..c769631ea15d 100644
 --- a/drivers/firmware/google/coreboot_table.c
 +++ b/drivers/firmware/google/coreboot_table.c
-@@ -14,6 +14,7 @@
- #include <linux/init.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
+@@ -22,6 +22,16 @@
+ 
+ #include "coreboot_table.h"
+ 
++/* Coreboot table header structure */
++struct coreboot_table_header {
++	char signature[4];
++	u32 header_bytes;
++	u32 header_checksum;
++	u32 table_bytes;
++	u32 table_checksum;
++	u32 table_entries;
++};
++
+ #define CB_DEV(d) container_of(d, struct coreboot_device, dev)
+ #define CB_DRV(d) container_of_const(d, struct coreboot_driver, drv)
+ 
 diff --git a/drivers/firmware/google/coreboot_table.h b/drivers/firmware/google/coreboot_table.h
-index bb6f0f7299b4..17e9e5c3f6e1 100644
+index 17e9e5c3f6e1..616ca3903e5c 100644
 --- a/drivers/firmware/google/coreboot_table.h
 +++ b/drivers/firmware/google/coreboot_table.h
-@@ -13,7 +13,8 @@
+@@ -12,67 +12,9 @@
+ #ifndef __COREBOOT_TABLE_H
  #define __COREBOOT_TABLE_H
  
++#include <linux/coreboot.h>
  #include <linux/device.h>
--#include <linux/mod_devicetable.h>
-+
-+struct coreboot_device_id;
  
- /* Coreboot table header structure */
- struct coreboot_table_header {
+-struct coreboot_device_id;
+-
+-/* Coreboot table header structure */
+-struct coreboot_table_header {
+-	char signature[4];
+-	u32 header_bytes;
+-	u32 header_checksum;
+-	u32 table_bytes;
+-	u32 table_checksum;
+-	u32 table_entries;
+-};
+-
+-/* List of coreboot entry structures that is used */
+-/* Generic */
+-struct coreboot_table_entry {
+-	u32 tag;
+-	u32 size;
+-};
+-
+-/* Points to a CBMEM entry */
+-struct lb_cbmem_ref {
+-	u32 tag;
+-	u32 size;
+-
+-	u64 cbmem_addr;
+-};
+-
+-#define LB_TAG_CBMEM_ENTRY 0x31
+-
+-/* Corresponds to LB_TAG_CBMEM_ENTRY */
+-struct lb_cbmem_entry {
+-	u32 tag;
+-	u32 size;
+-
+-	u64 address;
+-	u32 entry_size;
+-	u32 id;
+-};
+-
+-/* Describes framebuffer setup by coreboot */
+-struct lb_framebuffer {
+-	u32 tag;
+-	u32 size;
+-
+-	u64 physical_address;
+-	u32 x_resolution;
+-	u32 y_resolution;
+-	u32 bytes_per_line;
+-	u8  bits_per_pixel;
+-	u8  red_mask_pos;
+-	u8  red_mask_size;
+-	u8  green_mask_pos;
+-	u8  green_mask_size;
+-	u8  blue_mask_pos;
+-	u8  blue_mask_size;
+-	u8  reserved_mask_pos;
+-	u8  reserved_mask_size;
+-};
+-
+ /* A device, additionally with information from coreboot. */
+ struct coreboot_device {
+ 	struct device dev;
 diff --git a/drivers/firmware/google/framebuffer-coreboot.c b/drivers/firmware/google/framebuffer-coreboot.c
-index 07e9c7be94fa..81aa522edb1e 100644
+index 81aa522edb1e..fab3f28655d3 100644
 --- a/drivers/firmware/google/framebuffer-coreboot.c
 +++ b/drivers/firmware/google/framebuffer-coreboot.c
-@@ -12,6 +12,7 @@
- #include <linux/device.h>
- #include <linux/kernel.h>
- #include <linux/mm.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/pci.h>
- #include <linux/platform_data/simplefb.h>
-diff --git a/drivers/firmware/google/memconsole-coreboot.c b/drivers/firmware/google/memconsole-coreboot.c
-index c5f08617aa8d..4aa9b1cad3c3 100644
---- a/drivers/firmware/google/memconsole-coreboot.c
-+++ b/drivers/firmware/google/memconsole-coreboot.c
-@@ -10,6 +10,7 @@
- #include <linux/device.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
+@@ -21,8 +21,6 @@
  
- #include "memconsole.h"
-diff --git a/drivers/firmware/google/vpd.c b/drivers/firmware/google/vpd.c
-index 339a3f74b247..8d7f123f96f4 100644
---- a/drivers/firmware/google/vpd.c
-+++ b/drivers/firmware/google/vpd.c
-@@ -13,6 +13,7 @@
- #include <linux/kernel.h>
- #include <linux/kobject.h>
- #include <linux/list.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/of_address.h>
- #include <linux/platform_device.h>
+ #include "coreboot_table.h"
+ 
+-#define CB_TAG_FRAMEBUFFER 0x12
+-
+ #if defined(CONFIG_PCI)
+ static bool framebuffer_pci_dev_is_enabled(struct pci_dev *pdev)
+ {
+diff --git a/include/linux/coreboot.h b/include/linux/coreboot.h
+new file mode 100644
+index 000000000000..48705b439c6e
+--- /dev/null
++++ b/include/linux/coreboot.h
+@@ -0,0 +1,66 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * coreboot.h
++ *
++ * Coreboot device and driver interfaces.
++ *
++ * Copyright 2014 Gerd Hoffmann <kraxel@redhat.com>
++ * Copyright 2017 Google Inc.
++ * Copyright 2017 Samuel Holland <samuel@sholland.org>
++ */
++
++#ifndef _LINUX_COREBOOT_H
++#define _LINUX_COREBOOT_H
++
++#include <linux/types.h>
++
++/* List of coreboot entry structures that is used */
++
++#define CB_TAG_FRAMEBUFFER 0x12
++#define LB_TAG_CBMEM_ENTRY 0x31
++
++/* Generic */
++struct coreboot_table_entry {
++	u32 tag;
++	u32 size;
++};
++
++/* Points to a CBMEM entry */
++struct lb_cbmem_ref {
++	u32 tag;
++	u32 size;
++
++	u64 cbmem_addr;
++};
++
++/* Corresponds to LB_TAG_CBMEM_ENTRY */
++struct lb_cbmem_entry {
++	u32 tag;
++	u32 size;
++
++	u64 address;
++	u32 entry_size;
++	u32 id;
++};
++
++/* Describes framebuffer setup by coreboot */
++struct lb_framebuffer {
++	u32 tag;
++	u32 size;
++
++	u64 physical_address;
++	u32 x_resolution;
++	u32 y_resolution;
++	u32 bytes_per_line;
++	u8  bits_per_pixel;
++	u8  red_mask_pos;
++	u8  red_mask_size;
++	u8  green_mask_pos;
++	u8  green_mask_size;
++	u8  blue_mask_pos;
++	u8  blue_mask_size;
++	u8  reserved_mask_pos;
++	u8  reserved_mask_size;
++};
++
++#endif /* _LINUX_COREBOOT_H */
 -- 
 2.52.0
 
