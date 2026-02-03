@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EMRqJTsfgmmhPQMAu9opvQ
+	id SLtBAaAfgmmhPQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 17:15:55 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 17:17:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 209A2DBC29
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 17:15:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85759DBC7A
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 17:17:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDDCF10E6F2;
-	Tue,  3 Feb 2026 16:15:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6DA510E709;
+	Tue,  3 Feb 2026 16:17:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QrFnAl22";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="K7PxGaVp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9303410E6F2
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 16:15:51 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5169F10E6F7
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 16:17:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 8CDAE6013E;
- Tue,  3 Feb 2026 16:15:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B790C116D0;
- Tue,  3 Feb 2026 16:15:49 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 15F2A43F32;
+ Tue,  3 Feb 2026 16:17:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47725C116D0;
+ Tue,  3 Feb 2026 16:17:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1770135350;
- bh=fuZTQUH+E/78sks20xJ2HF7aFknTSvUQsFwJrThJ3gc=;
+ s=korg; t=1770135451;
+ bh=Y5GCQ53SPa0Arre4QKWM7rqqfYEk92SpOKdkmzkB/sA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QrFnAl22X7lYs06a6hrCFhyaANXh43lqo8vktQBJ3h1n88G8BFDp75OmIxPeS80FM
- 86N9tHQ8o20QpJQdU8ggc9wWpanGeD99+dQF9ro4tJTKzfxgTIkgQeozXDfla2roxv
- d7PNmpOwrb/ip9ssPKXKdsmVXSVioEg7xBndPJLY=
-Date: Tue, 3 Feb 2026 17:15:47 +0100
+ b=K7PxGaVpkAZn7aly4ZMsjZhSYTnF4SyjU8VoRi2Vhbpg881m+qfI1FT4LJo8z9XiC
+ D44AcpGlVQa/p93cPsgwNmjTs5KKQuUdWvGW9iSA8uxUDz5/0huFWLGZ6OjELXvkoa
+ NEG4D3mW7+IFrkRCQpGqDfd7X5vWtHVHaGpPnzAc=
+Date: Tue, 3 Feb 2026 17:17:28 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Matthew Maurer <mmaurer@google.com>
 Cc: Bjorn Andersson <andersson@kernel.org>,
@@ -55,7 +55,7 @@ Cc: Bjorn Andersson <andersson@kernel.org>,
  driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org,
  linux-pwm@vger.kernel.org
 Subject: Re: [PATCH v2 3/6] rust: device: Support testing devices for equality
-Message-ID: <2026020315-flop-wiry-f1be@gregkh>
+Message-ID: <2026020338-gratitude-overplay-98b0@gregkh>
 References: <20260203-qcom-socinfo-v2-0-d6719db85637@google.com>
  <20260203-qcom-socinfo-v2-3-d6719db85637@google.com>
 MIME-Version: 1.0
@@ -113,18 +113,21 @@ X-Spamd-Result: default: False [4.69 / 15.00];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 209A2DBC29
+X-Rspamd-Queue-Id: 85759DBC7A
 X-Rspamd-Action: no action
 
 On Tue, Feb 03, 2026 at 03:46:32PM +0000, Matthew Maurer wrote:
 > This allows device drivers to check if, for example, an auxiliary
 > devices is one of its children by comparing the parent field, or
 > checking if a device parameter is its own device.
+> 
+> Also convert existing `.as_raw() != .as_raw()` to  use this new
+> implementation.
 
-Ok, but why?  This says what it does, but I have no context as to why
-this would be needed.
+Ah, ok, I can see how getting rid of the as_raw() calls here is a "good
+thing", but overall it's just the same code paths :)
 
-What driver wants to know this?
+And I don't see what patch in this series uses this, am I missing it?
 
 thanks,
 
