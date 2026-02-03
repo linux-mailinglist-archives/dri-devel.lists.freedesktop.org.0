@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IFrqLBsagmmZPAMAu9opvQ
+	id ELMLHYsagmmZPAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:54:03 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:55:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39710DB8EC
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:54:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02486DB933
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:55:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 897EB89E36;
-	Tue,  3 Feb 2026 15:54:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9666010E335;
+	Tue,  3 Feb 2026 15:55:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="D3+Ob8zk";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Le/RAiAz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83ECC89E36
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 15:53:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FA6510E335
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 15:55:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 44021434D2;
- Tue,  3 Feb 2026 15:53:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D661AC19421;
- Tue,  3 Feb 2026 15:53:52 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 4634F43432;
+ Tue,  3 Feb 2026 15:55:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01758C116D0;
+ Tue,  3 Feb 2026 15:55:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770134039;
- bh=1nS4AO22symQeFy3tcdMNBtHeJUlbBFqz1B5VpUBa6Y=;
- h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
- b=D3+Ob8zkiZjMhafcOfTN1MUr9UGmopuQ1uHGIYvDxb5qvvGvdYL0OTSF3tok13Cl5
- xkqRQucdFd7u2DMKRlVCd8HpSBsN8VHAgKCg0IOOtSgbVNV9CosRNUbRRWZVoPtL2Y
- 4ccnSqQpaAkrqZzvrPINZ476YLJZ9gf8EzKqwC5hNa2lKEJi5Z3jVsHHqJKCSN9kLV
- 4r7Rsfq+vD94Dcn46vp5mBWKIsBPcn+1TjoxCh3R+xHGhJl/3Mi9zjDaQOEoDR/6Jh
- SLgTo+9bd0uAHwwAedeKQH9+rfMRY3WCAWVaftbQ6TEh1X253zfm3K3AZWPzzadLyc
- puGofnWid+Wng==
+ s=k20201202; t=1770134151;
+ bh=/xUQRy0cArdh67xxYz8tNs4qAGoDCFuISO6r7tmdMFw=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=Le/RAiAzYp3Wea57YnAAv1R5gQs+iT5aAIy60KbhXOIGj66crsbNB1WcWKjR880yN
+ TwBegG2uib0bt+bwRoetTp1PNLVmOIdsJTGVmAhgcqz325wX5aRJS9JCLiBvUG+XnT
+ GCyJChVCdBnEYrV+rRLw5BkNp2hlTW0NGa5+MaUtlSC5EYU1ZKQYnjkCa3m2UDJlmP
+ iVxdMNMogm6MLpcrJpdq71lWHj3At4J1GGOn9y/TKXdUm+U+ktytK9+ZLclR7JQaRq
+ PfOm4lb6ikMdH7VK1J3avjgOZll86HW9FcvNp8oQdtHixFHE3wQtqaTUQl2icyHyWe
+ Ksmzgq+oyqGvA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 03 Feb 2026 16:53:51 +0100
-Message-Id: <DG5G57S9G1HK.3T2CT6RLURWPT@kernel.org>
+Date: Tue, 03 Feb 2026 16:55:44 +0100
+Message-Id: <DG5G6NS0ZIPV.DGKUZ2J46AKX@kernel.org>
+Subject: Re: [PATCH v2 4/6] rust: auxiliary: Support accessing raw aux pointer
 Cc: "Bjorn Andersson" <andersson@kernel.org>, "Konrad Dybcio"
  <konradybcio@kernel.org>, "Satya Durga Srinivasu Prabhala"
  <satyap@quicinc.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
@@ -58,10 +59,9 @@ Cc: "Bjorn Andersson" <andersson@kernel.org>, "Konrad Dybcio"
  <dri-devel@lists.freedesktop.org>, <linux-pwm@vger.kernel.org>
 To: "Matthew Maurer" <mmaurer@google.com>
 From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 2/6] rust: io: Support copying arrays and slices
 References: <20260203-qcom-socinfo-v2-0-d6719db85637@google.com>
- <20260203-qcom-socinfo-v2-2-d6719db85637@google.com>
-In-Reply-To: <20260203-qcom-socinfo-v2-2-d6719db85637@google.com>
+ <20260203-qcom-socinfo-v2-4-d6719db85637@google.com>
+In-Reply-To: <20260203-qcom-socinfo-v2-4-d6719db85637@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,20 +111,44 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[zulipchat.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 39710DB8EC
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 02486DB933
 X-Rspamd-Action: no action
 
 On Tue Feb 3, 2026 at 4:46 PM CET, Matthew Maurer wrote:
-> Adds support for doing array copies of data in and out of IO regions.
-> Fixed size arrays allow for compile-time bound checking, while slice
-> arguments allow for dynamically checked copies.
+> While it's preferable to add bindings in the kernel crate rather than
+> using raw pointers where possible, access to the raw aux pointer is
+> required to pass it to C interfaces provided by a driver.
 >
 > Signed-off-by: Matthew Maurer <mmaurer@google.com>
+> ---
+>  rust/kernel/auxiliary.rs | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
+> index 93c0db1f66555c97ec7dc58825e97c47c0154e54..1a88277f0fd9ea5ff32cc534d=
+fe5682009de94c2 100644
+> --- a/rust/kernel/auxiliary.rs
+> +++ b/rust/kernel/auxiliary.rs
+> @@ -237,7 +237,11 @@ pub struct Device<Ctx: device::DeviceContext =3D dev=
+ice::Normal>(
+>  );
+> =20
+>  impl<Ctx: device::DeviceContext> Device<Ctx> {
+> -    fn as_raw(&self) -> *mut bindings::auxiliary_device {
+> +    /// Returns the underlying auxiliary device
 
-This patch needs to go on top of the recent I/O rework and should be genera=
-lized
-through an IoSlice type [1].
+"Returns a pointer to the underlying `struct auxiliary_device`."
 
-[1] https://rust-for-linux.zulipchat.com/#narrow/channel/288089-General/top=
-ic/Generic.20I.2FO.20backends/with/571639597
+> +    ///
+> +    /// Prefer to add bindings in the kernel crate for any use other tha=
+n calling driver-specific
+> +    /// functions.
+
+I'm not sure I understand the message of this comment, but I'd probably jus=
+t
+drop it, the above should be enough.
+
+> +    pub fn as_raw(&self) -> *mut bindings::auxiliary_device {
+>          self.0.get()
+>      }
