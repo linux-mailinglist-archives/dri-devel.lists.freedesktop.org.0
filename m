@@ -2,66 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SLtBAaAfgmmhPQMAu9opvQ
+	id 0C5gI6YggmlIPgMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 17:17:36 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 17:21:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85759DBC7A
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 17:17:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E8B0DBD7A
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 17:21:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6DA510E709;
-	Tue,  3 Feb 2026 16:17:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CFD610E6F7;
+	Tue,  3 Feb 2026 16:21:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="K7PxGaVp";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bnr5JK7p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5169F10E6F7
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 16:17:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 15F2A43F32;
- Tue,  3 Feb 2026 16:17:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47725C116D0;
- Tue,  3 Feb 2026 16:17:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1770135451;
- bh=Y5GCQ53SPa0Arre4QKWM7rqqfYEk92SpOKdkmzkB/sA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=K7PxGaVpkAZn7aly4ZMsjZhSYTnF4SyjU8VoRi2Vhbpg881m+qfI1FT4LJo8z9XiC
- D44AcpGlVQa/p93cPsgwNmjTs5KKQuUdWvGW9iSA8uxUDz5/0huFWLGZ6OjELXvkoa
- NEG4D3mW7+IFrkRCQpGqDfd7X5vWtHVHaGpPnzAc=
-Date: Tue, 3 Feb 2026 17:17:28 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Matthew Maurer <mmaurer@google.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Satya Durga Srinivasu Prabhala <satyap@quicinc.com>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Michal Wilczynski <m.wilczynski@samsung.com>,
- Dave Ertman <david.m.ertman@intel.com>,
- Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>,
- Trilok Soni <tsoni@quicinc.com>, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, rust-for-linux@vger.kernel.org,
- driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v2 3/6] rust: device: Support testing devices for equality
-Message-ID: <2026020338-gratitude-overplay-98b0@gregkh>
-References: <20260203-qcom-socinfo-v2-0-d6719db85637@google.com>
- <20260203-qcom-socinfo-v2-3-d6719db85637@google.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91E7510E6F7
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 16:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1770135714; x=1801671714;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=7Y2gy7hhsFI0b40ji/v+SoBFAiAx+y6+IF76XFVeOaA=;
+ b=bnr5JK7p5bruXaQxFzVe2X7CmOO5x/wZ0aisjYLTgM2ZS+jQlKHJ2eCa
+ vCHZ8f2iyeywMiMb5/zPtNuG0YM4szCHlxzwEVoRUmv4Q3vt9OI66kMsj
+ uoEh2avNmULyCY++t4VD5+XHEg7CnS6+Y9i8gs7FZrDu0Vfn35RItT70K
+ UcMPq5zmP7DYx+1Gxw/Zgx+qMhXWLGh2rFZ5zhqfkdwlJGVI+Pr4eVruh
+ vHrxs4Nq5Z9kOjdVRTR2oLd7/Pfe5jADwDFkvvsVKgg2+NJhvowCFcIHI
+ Hdhpp17KVsqoWGA9Y9cbuXoziX3CXS0wJyZwvK5Ag2V5Fm0ekYaWu7Vkg Q==;
+X-CSE-ConnectionGUID: trnblGO+QIWA98QkB7pTyQ==
+X-CSE-MsgGUID: NfiDZDQ9Tzib52dIcrLZIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="82682265"
+X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; d="scan'208";a="82682265"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2026 08:21:52 -0800
+X-CSE-ConnectionGUID: LTnIiRNtQk6GtvTntW1wqg==
+X-CSE-MsgGUID: g+qqdzp9SKCInIWgj3S9GQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; d="scan'208";a="232804399"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602)
+ ([10.211.93.152])
+ by fmviesa002.fm.intel.com with ESMTP; 03 Feb 2026 08:21:49 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vnJ9u-000000003Nx-3Omr;
+ Tue, 03 Feb 2026 16:21:46 +0000
+Date: Tue, 3 Feb 2026 17:21:30 +0100
+From: kernel test robot <lkp@intel.com>
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ linux-kernel@vger.kernel.org
+Cc: Paul Gazzillo <paul@pgazz.com>,
+ Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, linux-amarula@amarulasolutions.com,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ David Airlie <airlied@gmail.com>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Michael Walle <mwalle@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 2/4] drm/panel: ilitek-ili9806e: split core and DSI
+ logic
+Message-ID: <202602031753.CjqWRWVT-lkp@intel.com>
+References: <20260203075548.14907-3-dario.binacchi@amarulasolutions.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260203-qcom-socinfo-v2-3-d6719db85637@google.com>
+In-Reply-To: <20260203075548.14907-3-dario.binacchi@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,58 +86,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [4.69 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:mmaurer@google.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:satyap@quicinc.com,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:daniel.almeida@collabora.com,m:rafael@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:m.wilczynski@samsung.com,m:david.m.ertman@intel.com,m:ira.weiny@intel.com,m:leon@kernel.org,m:tsoni@quicinc.com,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:driver-core@lists.linux.dev,m:linux-pwm@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[gregkh@linuxfoundation.org,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	GREYLIST(0.00)[pass,meta];
+	FREEMAIL_CC(0.00)[pgazz.com,gmail.com,lists.linux.dev,amarulasolutions.com,linux.intel.com,kernel.org,linaro.org,ffwll.ch,suse.de,lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:dario.binacchi@amarulasolutions.com,m:linux-kernel@vger.kernel.org,m:paul@pgazz.com,m:fazilyildiran@gmail.com,m:oe-kbuild-all@lists.linux.dev,m:linux-amarula@amarulasolutions.com,m:airlied@gmail.com,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:mwalle@kernel.org,m:neil.armstrong@linaro.org,m:simona@ffwll.ch,m:tzimmermann@suse.de,s:lists@lfdr.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[linuxfoundation.org:+];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,quicinc.com,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,collabora.com,ffwll.ch,samsung.com,intel.com,vger.kernel.org,lists.linux.dev,lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxfoundation.org:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 85759DBC7A
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,intel.com:dkim,intel.com:mid,01.org:url]
+X-Rspamd-Queue-Id: 0E8B0DBD7A
 X-Rspamd-Action: no action
 
-On Tue, Feb 03, 2026 at 03:46:32PM +0000, Matthew Maurer wrote:
-> This allows device drivers to check if, for example, an auxiliary
-> devices is one of its children by comparing the parent field, or
-> checking if a device parameter is its own device.
-> 
-> Also convert existing `.as_raw() != .as_raw()` to  use this new
-> implementation.
+Hi Dario,
 
-Ah, ok, I can see how getting rid of the as_raw() calls here is a "good
-thing", but overall it's just the same code paths :)
+kernel test robot noticed the following build warnings:
 
-And I don't see what patch in this series uses this, am I missing it?
+[auto build test WARNING on 6bd9ed02871f22beb0e50690b0c3caf457104f7c]
 
-thanks,
+url:    https://github.com/intel-lab-lkp/linux/commits/Dario-Binacchi/drm-panel-ilitek-ili9806e-rename-to-specific-DSI-driver/20260203-155721
+base:   6bd9ed02871f22beb0e50690b0c3caf457104f7c
+patch link:    https://lore.kernel.org/r/20260203075548.14907-3-dario.binacchi%40amarulasolutions.com
+patch subject: [PATCH v3 2/4] drm/panel: ilitek-ili9806e: split core and DSI logic
+config: hexagon-kismet-CONFIG_DRM_PANEL_ILITEK_ILI9806E_CORE-CONFIG_DRM_PANEL_ILITEK_ILI9806E_DSI-0-0 (https://download.01.org/0day-ci/archive/20260203/202602031753.CjqWRWVT-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20260203/202602031753.CjqWRWVT-lkp@intel.com/reproduce)
 
-greg k-h
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602031753.CjqWRWVT-lkp@intel.com/
+
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for DRM_PANEL_ILITEK_ILI9806E_CORE when selected by DRM_PANEL_ILITEK_ILI9806E_DSI
+   WARNING: unmet direct dependencies detected for DRM_PANEL_ILITEK_ILI9806E_CORE
+     Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_PANEL [=y] && OF [=y] && BACKLIGHT_CLASS_DEVICE [=n]
+     Selected by [y]:
+     - DRM_PANEL_ILITEK_ILI9806E_DSI [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_PANEL [=y] && DRM_MIPI_DSI [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
