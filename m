@@ -2,76 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OKTvKWYYgmmZPAMAu9opvQ
+	id QBpJL2cYgmmZPAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:46:46 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:46:47 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56F02DB7A4
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:46:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D73DB7AB
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:46:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C66B10E6CE;
-	Tue,  3 Feb 2026 15:46:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02A7910E6D8;
+	Tue,  3 Feb 2026 15:46:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="2lAl5Rhi";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ubp+mG2U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-dy1-f201.google.com (mail-dy1-f201.google.com
  [74.125.82.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 271DF10E6C9
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 15:46:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B281910E6CE
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 15:46:42 +0000 (UTC)
 Received: by mail-dy1-f201.google.com with SMTP id
- 5a478bee46e88-2b74aff34efso10550372eec.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Feb 2026 07:46:41 -0800 (PST)
+ 5a478bee46e88-2b795cff830so18085153eec.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Feb 2026 07:46:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1770133600; x=1770738400;
+ d=google.com; s=20230601; t=1770133602; x=1770738402;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=KdXVf1jtiVVdnaqb+rLnoB8/QmUjcxzniTwKjo2bXrU=;
- b=2lAl5RhiKcXPVUSPBKzUV2jJYcjcA4uUsTzcmPAu2uqzfwY4QOyLwOy82CyPqOcEA8
- hbigFeTeudSBZWJxFDPgJ5rW9TPWxL4M/0FCDvyaFbai0i5rF88uMEFJdhaFxnAlF2Yr
- xXzQcOqXlcn0ZDxyS1jHkvxenSf7+RYFNYf9iZQ0ewKMZ3r9fqq4+5sf9jY45DRXuYUg
- UhZaG8RaAk+nRl+j755QKrzXMn76PJAek4rJDDx23B2Cs1uwJtUnG00K2boIXXcuGBYz
- p3Vaa+WmzKo0u0UKm1SjUkjOnLW9lqGFiq89qbnkBzSEFnyWD7MXKxy8QqzaqIjPy3ca
- c4YQ==
+ bh=yriD2nT/Os7MHztKIgeqU92FBaPsLQ1akZyLJCP9KTY=;
+ b=ubp+mG2UnLPiQd9vGDc23KqZB8C1XPWNE1dtNjHg7a1x1IfEQcS/Mi95iVSLryhmhd
+ YYo+UliwJbXEfsE5PW2oC9uBslAIL1QApRoPmDg8OaeGmNwbvWGCQY/c+i4SYwpFzOl5
+ oT71A/ZUin9jmibErX21Snb5fIS8iQf2hLTz9K0+9Kv0jDXcuPuVeHPCEuGY14ypmMPZ
+ RXS/bMyj/m2VJQH3eDPG6GHh7qWAZ89fWbECNMqt8R/RG10LZNorn3YLvgixSy716n0a
+ ZM/bA8ammCARLnF12bqodT+8x8qR4oPN3Fq4dRgassD+c87gYMOBmJcYnA9i5Hc+qVB+
+ f8pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770133600; x=1770738400;
+ d=1e100.net; s=20230601; t=1770133602; x=1770738402;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KdXVf1jtiVVdnaqb+rLnoB8/QmUjcxzniTwKjo2bXrU=;
- b=Ayzc+NTINls0rCHi8LDf+Z2XTWSeJebMi/ILiLxBiI5tKsuFzuSsGmGGP7kbZorPXN
- wy7SDPTAopp8WYebjWwSSa2neP14bPaDwmkOr280hbQ3h6cIUF+oMcU+FpGOCk9hluPn
- uDUMK3Ne6alX3A6JZVCzShXXEIEGy5bpALq7Uyi/HFLZsjnYAYT8baVxmsI2ek/03dhJ
- /FDQilQOSvDBNZfOxbVSF3bxtDCDXM6yH6Ln+s/gV6NI8QxxBSg53P3NlkSMIieLeB2h
- o7NuxMLuhbNST8LvB3hynxIERjY8o20tijTQTotatwM+7D5Z5eLWp+nkvH5pm2mv2OeO
- fNqg==
+ bh=yriD2nT/Os7MHztKIgeqU92FBaPsLQ1akZyLJCP9KTY=;
+ b=NzGp9ILo1ihtckXvGoESHB9wy9OQ8ocyTKY6OUufySPn+xdz5B2AYR4X2QKolvwkE0
+ JmSgpcv39FsTHh0WrbrJhqBCQMZM6I8x9L9aA5j4zRn4fGrGVwmXufvw9sVo000rNVe6
+ N+4FTuRAmmMmR8PRWBc9mThI4BSagVXKDsCDMLdLMV7znA9kVjBSuUMRbPcpJ/ap3fFB
+ l03aPyZZOj4IjFTI4I7eNd9mY4DHMpYE4vv8Cuog8DgWGN3wXtS7j31ioDsDmx+QUMBM
+ zIeRHlDdESjNIfvKx6pY8xuXHBzTEqrVLsIL7+s3emcKW+15zUloRcMTzDkjJNOK6CEy
+ S74A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWFFOXawcZWTFXIU7vqqAIsSz5iTavUT/4kqIuoeyEDogrW3NHFjhgP6GfYEGJA/OlCU/psSRKFjFU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzc/nYCk81oFYB8PY3lI8Y2AloqzABJJ2/EDM8IJvQSMzxUdgH/
- 8ISWRL/klncPK6trrq/zT8JcA/SQOz3ty909B1yfEHNDQk8/OkzthVxrUT76bhCosU9CRjh2Dls
- 3RnCQ9IRCIw==
-X-Received: from dycrt20.prod.google.com
- ([2002:a05:693c:2d94:b0:2b6:c6a7:636a])
+ AJvYcCXayD4zdPQbDFS+EUArJRpg8EKdLrpHjKlLKdJfN3ZnV5W8WIvnZMQohCRLw+vCywRbRMHJKfRUABM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwU5xrDdgJuU3JspZZlMsjRVtIOH4jO1GOOgz+6fyvnnzNCjEqX
+ maEowPhWfqMQR6BHh5Fmf7GcZJkyqIwqpH/N7GJtGh5qqU8q9KgCA4PQgDHx7c94RYIWlmlUCOW
+ QXuahS9YFtQ==
+X-Received: from dybhk18.prod.google.com ([2002:a05:7301:2892:b0:2b7:d91:b4a2])
  (user=mmaurer job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:693c:3002:b0:2b6:c617:f795
- with SMTP id 5a478bee46e88-2b7c86663c1mr7418033eec.17.1770133600442; Tue, 03
- Feb 2026 07:46:40 -0800 (PST)
-Date: Tue, 03 Feb 2026 15:46:32 +0000
+ 2002:a05:7300:7491:b0:2b7:f28d:c8c1
+ with SMTP id 5a478bee46e88-2b8327328c7mr4126eec.0.1770133601984; Tue, 03 Feb
+ 2026 07:46:41 -0800 (PST)
+Date: Tue, 03 Feb 2026 15:46:33 +0000
 In-Reply-To: <20260203-qcom-socinfo-v2-0-d6719db85637@google.com>
 Mime-Version: 1.0
 References: <20260203-qcom-socinfo-v2-0-d6719db85637@google.com>
 X-Developer-Key: i=mmaurer@google.com; a=ed25519;
  pk=2Ezhl7+fEjTOMVFpplDeak2AdQ8cjJieLRVJdNzrW+E=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1770133593; l=2963;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770133593; l=1096;
  i=mmaurer@google.com; s=20250429; h=from:subject:message-id;
- bh=RwCJ/xEwqbjligRdRo7donBAUlsdrVxdbuTW9DJLV3g=;
- b=SQdCmaIOesp2nNqbcmI1qfM3G5NEMlAiTI7JoMUcwHSNW8vyq+fqK1lL17+OwnTzARN5rGU+z
- 9PyU4DL3NSyDmB3rGdnOpkIMgMGTW/9HGTk/h/gqJgPbPfyQrUyBmYk
+ bh=sLbxFTX2mTYV2vSHOwak0YCZYcQva6hVw82FQCeYKlk=;
+ b=lrUfeO8BzxGoH2q0cLzXZitIHc5mxhrmhIP1EvIGlTolROpSubzosdu4ukDgERhXMbVdgqt6B
+ hy4MuPfZ3YMDwryq+n6Z7b1/52uJBUTXJBD7xC/OlPQKkhC26hmI+cu
 X-Mailer: b4 0.14.2
-Message-ID: <20260203-qcom-socinfo-v2-3-d6719db85637@google.com>
-Subject: [PATCH v2 3/6] rust: device: Support testing devices for equality
+Message-ID: <20260203-qcom-socinfo-v2-4-d6719db85637@google.com>
+Subject: [PATCH v2 4/6] rust: auxiliary: Support accessing raw aux pointer
 From: Matthew Maurer <mmaurer@google.com>
 To: Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>, 
@@ -142,81 +141,34 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 56F02DB7A4
+X-Rspamd-Queue-Id: 65D73DB7AB
 X-Rspamd-Action: no action
 
-This allows device drivers to check if, for example, an auxiliary
-devices is one of its children by comparing the parent field, or
-checking if a device parameter is its own device.
-
-Also convert existing `.as_raw() != .as_raw()` to  use this new
-implementation.
+While it's preferable to add bindings in the kernel crate rather than
+using raw pointers where possible, access to the raw aux pointer is
+required to pass it to C interfaces provided by a driver.
 
 Signed-off-by: Matthew Maurer <mmaurer@google.com>
 ---
- rust/kernel/device.rs     | 8 ++++++++
- rust/kernel/devres.rs     | 2 +-
- rust/kernel/drm/driver.rs | 2 +-
- rust/kernel/pwm.rs        | 2 +-
- 4 files changed, 11 insertions(+), 3 deletions(-)
+ rust/kernel/auxiliary.rs | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
-index 94e0548e76871d8b7de309c1f1c7b77bb49738ed..aa10359d3ebdd1c99cc567a35b89f52ddb2ee050 100644
---- a/rust/kernel/device.rs
-+++ b/rust/kernel/device.rs
-@@ -516,6 +516,14 @@ unsafe impl Send for Device {}
- // synchronization in `struct device`.
- unsafe impl Sync for Device {}
+diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
+index 93c0db1f66555c97ec7dc58825e97c47c0154e54..1a88277f0fd9ea5ff32cc534dfe5682009de94c2 100644
+--- a/rust/kernel/auxiliary.rs
++++ b/rust/kernel/auxiliary.rs
+@@ -237,7 +237,11 @@ pub struct Device<Ctx: device::DeviceContext = device::Normal>(
+ );
  
-+impl<Ctx: DeviceContext, Ctx2: DeviceContext> PartialEq<Device<Ctx2>> for Device<Ctx> {
-+    fn eq(&self, other: &Device<Ctx2>) -> bool {
-+        self.as_raw() == other.as_raw()
-+    }
-+}
-+
-+impl<Ctx: DeviceContext> Eq for Device<Ctx> {}
-+
- /// Marker trait for the context or scope of a bus specific device.
- ///
- /// [`DeviceContext`] is a marker trait for types representing the context of a bus specific
-diff --git a/rust/kernel/devres.rs b/rust/kernel/devres.rs
-index cdc49677022a6b466e771d9d8cf3818ab9b9112d..20126daad193370868661b9412937937eda6d3c4 100644
---- a/rust/kernel/devres.rs
-+++ b/rust/kernel/devres.rs
-@@ -281,7 +281,7 @@ pub fn device(&self) -> &Device {
-     /// }
-     /// ```
-     pub fn access<'a>(&'a self, dev: &'a Device<Bound>) -> Result<&'a T> {
--        if self.dev.as_raw() != dev.as_raw() {
-+        if self.dev.as_ref() != dev {
-             return Err(EINVAL);
-         }
- 
-diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
-index f30ee4c6245cda72ac72852bf9362736d8fe992f..497ef46028d560bc9649dbbdf69316ce4fce8199 100644
---- a/rust/kernel/drm/driver.rs
-+++ b/rust/kernel/drm/driver.rs
-@@ -139,7 +139,7 @@ pub fn new_foreign_owned(
-     where
-         T: 'static,
-     {
--        if drm.as_ref().as_raw() != dev.as_raw() {
-+        if drm.as_ref() != dev {
-             return Err(EINVAL);
-         }
- 
-diff --git a/rust/kernel/pwm.rs b/rust/kernel/pwm.rs
-index cb00f8a8765c8ec58ed78a73275b022b02bf7aa3..033f778909a2633acbc25d5a21a1c8a7b8e41a70 100644
---- a/rust/kernel/pwm.rs
-+++ b/rust/kernel/pwm.rs
-@@ -680,7 +680,7 @@ impl<T: 'static + PwmOps + Send + Sync> Registration<T> {
-     /// calling `pwmchip_remove`. This function should be called from the driver's `probe`.
-     pub fn register(dev: &device::Device<Bound>, chip: ARef<Chip<T>>) -> Result {
-         let chip_parent = chip.device().parent().ok_or(EINVAL)?;
--        if dev.as_raw() != chip_parent.as_raw() {
-+        if dev != chip_parent {
-             return Err(EINVAL);
-         }
+ impl<Ctx: device::DeviceContext> Device<Ctx> {
+-    fn as_raw(&self) -> *mut bindings::auxiliary_device {
++    /// Returns the underlying auxiliary device
++    ///
++    /// Prefer to add bindings in the kernel crate for any use other than calling driver-specific
++    /// functions.
++    pub fn as_raw(&self) -> *mut bindings::auxiliary_device {
+         self.0.get()
+     }
  
 
 -- 
