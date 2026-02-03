@@ -2,84 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6CbZCJ6ugWn0IQMAu9opvQ
+	id wEf1OQaCgWlNGwMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 09:15:26 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 06:05:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C2CAD6151
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 09:15:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB81D489C
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 06:05:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C014210E54C;
-	Tue,  3 Feb 2026 08:15:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DB3510E1F4;
+	Tue,  3 Feb 2026 05:05:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CplbSt2D";
+	dkim=pass (2048-bit key; unprotected) header.d=canonical-com.20230601.gappssmtp.com header.i=@canonical-com.20230601.gappssmtp.com header.b="Mwn2xgdq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B6A910E1F4
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 04:52:15 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-2a7bceb6cd0so35970635ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 20:52:15 -0800 (PST)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B63DB10E1F4
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 05:05:04 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-59dd4b602bfso6402420e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 21:05:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770095102; cv=none;
+ d=google.com; s=arc-20240605;
+ b=E1cPKcs8RbWeEERevKfYjmHB0Y/Jo3He+bXYuvWWZYUrir+z6+hFKrc6Rlv4PAYXbZ
+ ctJ6qHTMIAoxWkZxm3H80IetRMonaskPAkojGWDsTAC2Lx2yv1gciEIr6669q9lj4s4f
+ 3fwVcJDAhHdWrIHkuIaM7dikpLFWQy910HarWR1Gt07G/YkYJU0WcmEsofgT3SFPoTys
+ IaFMU2VVuWj19C+Yov0UNPWfNzb4byQXzP4IgbAY6xV6HCDFjCLY4iVvJJIOP6SoDo0Q
+ 8to0nsQGvJU7LCJ8fva+R5jXuQ2FoSYrk7G8CE4ytSCKi992zqxQzB405DfeF5ROygRS
+ R73Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=R8Uq40im68Bsn440IXZslpowd8o1+PpzUOCwvDYaiRc=;
+ fh=09oeyaIgOVPQ2GWN8eKWuJ6LQ3uBprSWpDE8pPtqfOU=;
+ b=I5tCe5C12a6IkeDZkHtju4c72eTbJimO79l6N6s8EsOiVk0GTMtAT5zsiqniZUIXdK
+ KZL8/f+QWMXmC7ahlTHBfNz2PrU4HfoIn3ONlrjUfQDHae/ccVOAi6hUspEp8PBAS4+0
+ 7xWhUw5sbdAeO94zgl1mZoUrPi8hQTISdhQHANJMsF7VlvcqUoxERIS1WD3YqIWvQxS0
+ 8i5qLGLw+9N6KPtq74y+WvDJCS0Usc/4Qz6EBK7fkNmDgKaQYFA//Mt/PbYIQ5dMzOMf
+ 611Q9avgfacJCrKw8XPPGdeGZIXC446XC0L6ZNs74QhbuRhbVghQqi2352nn6err2Tql
+ eguQ==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770094335; x=1770699135; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=canonical-com.20230601.gappssmtp.com; s=20230601; t=1770095102; x=1770699902;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sahNc25e8V/0vokuer5AdT6A9YG4/1fX8go429GK/ZE=;
- b=CplbSt2D6k5OekQSjl1MJ94SkkKDZgFhAU3IWwGB5C2OYW00C9aSSG2GJX4jcSoNkl
- 6D0B8mejV2MX7fUFuOEe0ra58oZzK3HsZ3JKrkC/jfELOvCkKTThbODIe/xXjrmLokII
- m/csxFyvg4DTYd6pMM2TJlFLiC1PXUZ3rALNnSU5WARqdg+fvTwgUbmj+S6Vqog3XMVk
- nIZytf+f76BudNqTAzPuB5MsApEQc8ssXbYsq1EeNvaYP6G31+DoEK9fDlytkE316blj
- XPiGh+tOKfEk7ThEijtR6254Kix2tdAUl3mZvbZJKErcH0H7aWQe4vjiRZzAC/TZ51Qp
- Pdww==
+ bh=R8Uq40im68Bsn440IXZslpowd8o1+PpzUOCwvDYaiRc=;
+ b=Mwn2xgdqfENDEYcRBQG4KOqB54YMCFVvrp+uTfseuidOC6Gpg2YAjVPx9X7E9RObxa
+ OcaYBQxwBwUbIBQfWDF7OwHsg+OAqQsuoS0ZPvMCb3FLCyNUtrHVqzYIoZ+LEXxuYVjG
+ hNZ+ckQk1hR6qkpmw1g88GTYfTZmyT21BNvVmUffAmaN9BV2v+WvC/Dr4OHbK3yj+L3X
+ 2niESbQDIac8wwOga32+q7yGzr1QDi4S58e0yMxNI8rwNOyzYw3k+jV6Fa3Ih6g9P91V
+ o96sTMO/wD+CBdqYyY7s37GQRAE4trXGoX6eLx77YxNvWueKChUi13+040vJQeZfM9yv
+ Maaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770094335; x=1770699135;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ d=1e100.net; s=20230601; t=1770095102; x=1770699902;
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=sahNc25e8V/0vokuer5AdT6A9YG4/1fX8go429GK/ZE=;
- b=WnPHtB1LEiVdcZzA51W5OPEPQB1OjUCcNL2NYMY3y3Usn2eGeISsn5gETQOku/WH5n
- OXZNPNDU5hMsSQbZ22coxtypH4wYfJ7QPnJI6vM5BcdDIeTTsrky36LTekN1pxCe56ER
- kXfgsxsqT9buiF1duG5PhyOUOjGne8rMgCASjbiWFEFMDcIYuKjp6Z6aZPnG8Qtkbn1u
- BumeySger4kP44vtH6l20appPA3TZL3Ash5eYlejC27sPRtXhN9N4z8UR70ngLlMfopJ
- 1q/9vLWqTYWE4BrR/hNnn9pcKX/vkaUKaDUbHPwxtN5LLMupgf88ajQNtsvvaqO+JWDQ
- GDAQ==
-X-Gm-Message-State: AOJu0YzrfRpMwWxgHViCnFEJwFMGznI8z8u3PCb4UkJlN+ONMsjlP0n0
- 13srTDv0y9vSsXE9Sj+JHGt4gcQ+H0lc73E8H8fBKIfcLfXuZZame2jSWwXcyg==
-X-Gm-Gg: AZuq6aLQLjGtymb4JRw5MwXfGMKat0jaKmnMjqXbbgT5wGkliJfosSPDVSVW4D4oSSY
- v9Xe2IIJUJBEKg7HqHtzqzGxW/+7RfHkkup/SxQtJO3odoSjFKdR+mv48OgTIEJcLuycdsh2T5S
- M1XxO9Riyv7dvW9Rfp3STKpimRvKtadeF0+W7/AD0tl4ffAw6eZpTwyaClqzrX8aTQCQZRhBq0L
- Xe1fQV/vbzXnW+u9oO554hN9BS+Y04vdN7wgEvMVROyJSLP6n+/MQSrceB9WIaZ+J6VtSjhtFm3
- UlUIFjI+VKTjvtmY7ev1S+Pf4GROWeJ8bWmfeQRbA9T0jfkbSlDsc+jMfhVdv4uSZ+Zyf0ytUB9
- 68WDVZHb7A6LnWVQYElxYdRP38VFXdzuzW5O9Y6NcWFT0trfRdXoLyLA3Ebhx5qN3S8tKLY3Rbx
- MKRieHu3Dnfsij0BtN4RrdpdU=
-X-Received: by 2002:a17:902:f544:b0:2a7:fe78:a344 with SMTP id
- d9443c01a7336-2a8d959c5a1mr143542085ad.6.1770094335015; 
- Mon, 02 Feb 2026 20:52:15 -0800 (PST)
-Received: from krishna.. ([103.220.210.247]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a8ec56da60sm85791515ad.38.2026.02.02.20.52.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Feb 2026 20:52:14 -0800 (PST)
-From: KrishnaAgarwal1308 <krishnaworkemail1308@gmail.com>
-To: Andy Shevchenko <andy@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- KrishnaAgarwal1308 <krishnaworkemail1308@gmail.com>
-Subject: [PATCH] staging: fbtft: fix macro flow control warning and empty
- macro argument in fbtft-bus.c
-Date: Tue,  3 Feb 2026 10:17:28 +0530
-Message-ID: <20260203044728.23774-2-krishnaworkemail1308@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260203044728.23774-1-krishnaworkemail1308@gmail.com>
-References: <20260203044728.23774-1-krishnaworkemail1308@gmail.com>
+ bh=R8Uq40im68Bsn440IXZslpowd8o1+PpzUOCwvDYaiRc=;
+ b=rEY1FZB3qXN+z1M15x2l8OcTp5yzisUyQkYYzvyf5TBV+VAfPxH0Aebo/d7E2JxsCx
+ eZiqafbrcbEcUqoseLpl+fJ3sR0/7yghnQfvA39tFJCeJU1wzz71I6CeFJhpus/Wl8kj
+ 7eB7h5Y8bwuYD+/bgsBfhjn6yii7VlyaGN4W5L3mSHHAC7ow0mKsXzKnMYFa4CHJZvlW
+ tLcfHiRYFcRSs3r2JjidqGre/aLExtiKbLANyKwf61b6r4FMBwFw5B0DQC9uEwyumHRZ
+ r73dwn7yoROpKq5oB1mdiwJ0lTdFolHTNbBEalCUr55DJ516PS61Pgfj4pz0oDLsq7Sk
+ 7p7w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVM9i70HYU9eEv7ywmrLEYS5elJa9T94rrItJ/4jz7EdXs8gxf3uPXhQ8JI9HGHHvyCzWXQZbhLE8U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwQBuebLd5LxJiyA4hodlPqWdSxBqKw3X5A184kGSgD8iSHSdwP
+ T7pWmJ+QvbHm/w72YRaknWi6MEkRNixnZZahtWEqgfwRy+cVZW5MozXMXZ7/FM6LIDfla6Y3PZy
+ IxFI7XtZnt4pEN1bizAT/QXC3umVQb5M=
+X-Gm-Gg: AZuq6aJZHJDcw12KxtJbuJyQ7QaXvsavW2CyfRyK8Euau21SEfXG6F3lX5CdsLzTr5R
+ Mz+eDka3EF2CkgxfX6UV7G8YCvn4cEQy40SMwaqxRmMlETTawqCQph43nX4e0e2V97eubeCWBm0
+ ZC3QFJCTd1ZatZ/lEGXsSWStefCwnAQgudqTK4AzIzmALrCg3cKqQM+dKpY3bNSpamypT0d8m7n
+ DUISGRYR+33QMVZCa6aI10zK8ppY08utlBuJ6KGK9VZ6t0gmZi6JiIVT25wOuPHxWfOA2I+
+X-Received: by 2002:a05:6512:12c4:b0:59e:1813:76ae with SMTP id
+ 2adb3069b0e04-59e181378f9mr4300091e87.44.1770095101318; Mon, 02 Feb 2026
+ 21:05:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 03 Feb 2026 08:15:23 +0000
+References: <20260114011917.241196-1-acelan.kao@canonical.com>
+In-Reply-To: <20260114011917.241196-1-acelan.kao@canonical.com>
+From: AceLan Kao <acelan.kao@canonical.com>
+Date: Tue, 3 Feb 2026 13:04:49 +0800
+X-Gm-Features: AZwV_Qi2T0EhTqZVBJiCZ6adKX1ZiJrDZb_bikoYUAtxh6o1wMI284ojl7lLFWc
+Message-ID: <CAMz9Wg8ez3U3qbB5AbyA_8QUkEoPyejyAhyy82+xwiH8wxi1Jw@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: set SB_I_NOEXEC and SB_I_NODEV on dmabuf
+ filesystem
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,109 +113,87 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_REJECT(2.00)[canonical.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),reject];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[canonical-com.20230601.gappssmtp.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,lists.linux.dev,gmail.com];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[acelan.kao@canonical.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:andy@kernel.org,m:gregkh@linuxfoundation.org,m:linux-fbdev@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:krishnaworkemail1308@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[krishnaworkemail1308@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[krishnaworkemail1308@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[acelan.kao@canonical.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[canonical-com.20230601.gappssmtp.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 8C2CAD6151
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 1DB81D489C
 X-Rspamd-Action: no action
 
-Fix checkpatch warning by adding identity modifier for define_fbtft_write_reg().
-No functional change.
+Chia-Lin Kao (AceLan) <acelan.kao@canonical.com> =E6=96=BC 2026=E5=B9=B41=
+=E6=9C=8814=E6=97=A5=E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=889:19=E5=AF=AB=E9=
+=81=93=EF=BC=9A
+>
+> The VFS now warns if an inode flagged with S_ANON_INODE is located on a
+> filesystem that does not have SB_I_NOEXEC set. dmabuf inodes are
+> created using alloc_anon_inode(), which sets S_ANON_INODE.
+>
+> This triggers a warning in path_noexec() when a dmabuf is mmapped, for
+> example by GStreamer's v4l2src element.
+>
+> [   60.061328] WARNING: CPU: 2 PID: 2803 at fs/exec.c:125 path_noexec+0xa=
+0/0xd0
+> ...
+> [   60.061637]  do_mmap+0x2b5/0x680
+>
+> The warning was introduced by commit 1e7ab6f67824 ("anon_inode: rework
+> assertions") which added enforcement that anonymous inodes must be on
+> filesystems with SB_I_NOEXEC set.
+>
+> Fix this by setting SB_I_NOEXEC and SB_I_NODEV on the dmabuf filesystem
+> context, following the same pattern as commit ce7419b6cf23d ("anon_inode:
+> raise SB_I_NODEV and SB_I_NOEXEC") and commit 98f99394a104c ("secretmem:
+> use SB_I_NOEXEC").
+>
+> Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
+> ---
+>  drivers/dma-buf/dma-buf.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index a4d8f2ff94e46..dea79aaab10ce 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -221,6 +221,8 @@ static int dma_buf_fs_init_context(struct fs_context =
+*fc)
+>         if (!ctx)
+>                 return -ENOMEM;
+>         ctx->dops =3D &dma_buf_dentry_ops;
+> +       fc->s_iflags |=3D SB_I_NOEXEC;
+> +       fc->s_iflags |=3D SB_I_NODEV;
+>         return 0;
+>  }
+>
+> --
+> 2.51.0
+>
+A gentle ping, please review this patch, thanks.
 
-Signed-off-by: KrishnaAgarwal1308 <krishnaworkemail1308@gmail.com>
----
- drivers/staging/fbtft/fbtft-bus.c | 36 +++++++++++++++----------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
-index 30e436ff19e4..0ab4f5c4f886 100644
---- a/drivers/staging/fbtft/fbtft-bus.c
-+++ b/drivers/staging/fbtft/fbtft-bus.c
-@@ -10,6 +10,7 @@
-  *   void (*write_reg)(struct fbtft_par *par, int len, ...);
-  *
-  *****************************************************************************/
-+#define fbtft_identity(x) (x)
- 
- #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
- void func(struct fbtft_par *par, int len, ...)                                \
-@@ -42,29 +43,28 @@ void func(struct fbtft_par *par, int len, ...)                                \
- 	*buf = modifier((data_type)va_arg(args, unsigned int));               \
- 	ret = fbtft_write_buf_dc(par, par->buf, sizeof(data_type) + offset,   \
- 				 0);                                          \
--	if (ret < 0)							      \
--		goto out;						      \
--	len--;                                                                \
--									      \
--	if (par->startbyte)                                                   \
--		*(u8 *)par->buf = par->startbyte | 0x2;                       \
--									      \
--	if (len) {                                                            \
--		i = len;                                                      \
--		while (i--)						      \
--			*buf++ = modifier((data_type)va_arg(args,             \
--							    unsigned int));   \
--		fbtft_write_buf_dc(par, par->buf,			      \
--				   len * (sizeof(data_type) + offset), 1);    \
--	}                                                                     \
--out:									      \
-+	if (ret >= 0) {							      \
-+		len--;                                                                \
-+											\
-+		if (par->startbyte)                                                   \
-+			*(u8 *)par->buf = par->startbyte | 0x2;                       \
-+											\
-+		if (len) {                                                            \
-+			i = len;                                                      \
-+			while (i--)						      \
-+				*buf++ = modifier((data_type)va_arg(args,             \
-+									unsigned int));   \
-+			fbtft_write_buf_dc(par, par->buf,			      \
-+					len * (sizeof(data_type) + offset), 1);    \
-+		}                                                                     \
-+	}											\
- 	va_end(args);                                                         \
- }                                                                             \
- EXPORT_SYMBOL(func);
- 
--define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
-+define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, fbtft_identity)
- define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
--define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
-+define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, fbtft_identity)
- 
- void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
- {
--- 
-2.43.0
-
+--=20
+Chia-Lin Kao(AceLan)
+http://blog.acelan.idv.tw/
+E-Mail: acelan.kaoATcanonical.com (s/AT/@/)
