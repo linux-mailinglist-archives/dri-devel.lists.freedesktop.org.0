@@ -2,97 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0PEAOHH+gWmYNgMAu9opvQ
+	id 8KN6KFT+gWk7NQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 14:56:01 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 14:55:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D69DA3FB
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 14:56:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5F75DA378
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 14:55:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1F6810E67C;
-	Tue,  3 Feb 2026 13:55:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6C2B10E661;
+	Tue,  3 Feb 2026 13:55:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="mtUib12A";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tbpCO+s/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mtUib12A";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tbpCO+s/";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="TEQQT4xb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D67810E67C
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 13:55:58 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D598A5BCD1;
- Tue,  3 Feb 2026 13:55:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770126930; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JvSlecGw1g6arIANSsIRSRrSzxuSgdqZjf1K88KFbt4=;
- b=mtUib12A43mkajv5rTDchFPcEQvp9109SoKs8w8aIxpDMZXztmCfOZg+YeCmfkB07n3qgA
- Evt8OON6BhiPrKIonPXNssIBOo2PU2NutOS5AYaNk7vbBnKnPgoBnosclrSBmvur8aUsOG
- 0JJmy2XTszfUd5m6poHrT3hVszck09k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770126930;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JvSlecGw1g6arIANSsIRSRrSzxuSgdqZjf1K88KFbt4=;
- b=tbpCO+s//oelNpZ5RgCxZNfor3JgK4Bi3QoM8W3HJ9s98kFqremGl27awCqGLjK8PyIucq
- HGnntH3buP4834BA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770126930; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JvSlecGw1g6arIANSsIRSRrSzxuSgdqZjf1K88KFbt4=;
- b=mtUib12A43mkajv5rTDchFPcEQvp9109SoKs8w8aIxpDMZXztmCfOZg+YeCmfkB07n3qgA
- Evt8OON6BhiPrKIonPXNssIBOo2PU2NutOS5AYaNk7vbBnKnPgoBnosclrSBmvur8aUsOG
- 0JJmy2XTszfUd5m6poHrT3hVszck09k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770126930;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JvSlecGw1g6arIANSsIRSRrSzxuSgdqZjf1K88KFbt4=;
- b=tbpCO+s//oelNpZ5RgCxZNfor3JgK4Bi3QoM8W3HJ9s98kFqremGl27awCqGLjK8PyIucq
- HGnntH3buP4834BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7E84B3EA63;
- Tue,  3 Feb 2026 13:55:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id GAOzHVL+gWlGDwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 03 Feb 2026 13:55:30 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: tzungbi@kernel.org, briannorris@chromium.org, jwerner@chromium.org,
- javierm@redhat.com, samuel@sholland.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
-Cc: chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 12/12] drm/sysfb: corebootdrm: Support panel orientation
-Date: Tue,  3 Feb 2026 14:52:31 +0100
-Message-ID: <20260203135519.417931-13-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260203135519.417931-1-tzimmermann@suse.de>
-References: <20260203135519.417931-1-tzimmermann@suse.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9536C10E65F
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 13:55:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1770126925; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=mqpErazCYJwWsKbalny940d+xNG67LuWdf+RjZkkuq/biWxMMJZK5jB0JBDew84/XQMe+ZPPQlxiNIwNz+Y09GEbgaAatTzrluKXr/66AjzNJ7n9gjcKYmhg11lcKrl+DX87eHhgREAotCYYZHLfKA6Iw3qkCiaf7vLnKMk6pTM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1770126925;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=2blSuRUPsP6+4ceJBo384cKeJKIWx4uTqBEcRiz5ods=; 
+ b=W5puTORxBCCUx5ioGJP5obhlLJLb3U1CH1/frhpZEcsr0ydo0e8t5fZMO5gNb8yRazIKpH5CplFPDhlTHncOGTy93cBN8uhimwZLK/ZCXBknWzZIK10VQqp0SxY1kDhFKPJHOhcyDzytntI20XkCbDk9SclS57zFAkhlDGPMapQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770126925; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=2blSuRUPsP6+4ceJBo384cKeJKIWx4uTqBEcRiz5ods=;
+ b=TEQQT4xbTfWVfPNOg0xCXb4lASGYx+OI0vE+k0g0C53zBi5kGDHziUlC8sPs37pC
+ J1akyXM96Jugpf5zq+PuZf3cgjPoa2o164mWE4yMsSpW/akFV/lQ47P+RB+M5QulQO8
+ 6qRchcKH4FaTpf/tHdZWDT5OKasnsWHhw8EQFzmo=
+Received: by mx.zohomail.com with SMTPS id 1770126924198180.96689099106857;
+ Tue, 3 Feb 2026 05:55:24 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH v3 1/3] rust: clk: use the type-state pattern
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <DG5DCYIUHCF5.3JL8I7GQ8REI8@garyguo.net>
+Date: Tue, 3 Feb 2026 10:55:05 -0300
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Alice Ryhl <aliceryhl@google.com>, Maxime Ripard <mripard@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Danilo Krummrich <dakr@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Drew Fustini <fustini@kernel.org>,
+ Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+ =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun.feng@gmail.com>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-riscv@lists.infradead.org, linux-pwm@vger.kernel.org,
+ linux-clk@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <20C2CC23-4558-4490-A5A9-E46AA150E7DD@collabora.com>
+References: <20260107-clk-type-state-v3-0-77d3e3ee59c2@collabora.com>
+ <20260107-clk-type-state-v3-1-77d3e3ee59c2@collabora.com>
+ <20260108-delectable-fennec-of-sunshine-ffca19@houat>
+ <98CD0BF6-3350-40B9-B8A9-F569AE3E3220@collabora.com>
+ <20260119-thundering-tested-robin-4be817@houat> <aW4lCfUyumOKRRJm@google.com>
+ <20260203113902.501e5803@fedora>
+ <E7286D12-0BD9-4726-B072-FE5A040312B1@collabora.com>
+ <DG5DCYIUHCF5.3JL8I7GQ8REI8@garyguo.net>
+To: Gary Guo <gary@garyguo.net>
+X-Mailer: Apple Mail (2.3826.700.81)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,169 +95,181 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:tzungbi@kernel.org,m:briannorris@chromium.org,m:jwerner@chromium.org,m:javierm@redhat.com,m:samuel@sholland.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:chrome-platform@lists.linux.dev,m:tzimmermann@suse.de,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,chromium.org,redhat.com,sholland.org,linux.intel.com,gmail.com,ffwll.ch];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER(0.00)[daniel.almeida@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[30];
+	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:aliceryhl@google.com,m:mripard@kernel.org,m:rafael@kernel.org,m:viresh.kumar@linaro.org,m:dakr@kernel.org,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:ukleinek@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:linux-pm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:linux-pwm@vger.kernel.org,m:linux-clk@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:gary@garyguo.net,m:boqunfeng@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[collabora.com,google.com,kernel.org,linaro.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,redhat.com,baylibre.com,protonmail.com,umich.edu,vger.kernel.org,lists.freedesktop.org,lists.infradead.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[daniel.almeida@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid]
-X-Rspamd-Queue-Id: 82D69DA3FB
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	APPLE_MAILER_COMMON(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,collabora.com:mid,garyguo.net:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gitlab.freedesktop.org:url]
+X-Rspamd-Queue-Id: B5F75DA378
 X-Rspamd-Action: no action
 
-Add fields and constants for coreboot framebuffer orientation. Set
-corebootdrm's DRM connector state from the values. Not all firmware
-provides orientation, so make it optional. Systems without, continue
-to use unknown orientation.
 
-v3:
-- comment on _HAS_ORIENTATION semantics (Tzung-Bi)
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Julius Werner <jwerner@chromium.org>
----
- drivers/gpu/drm/sysfb/corebootdrm.c | 30 +++++++++++++++++++++++++----
- include/linux/coreboot.h            | 13 +++++++++++++
- 2 files changed, 39 insertions(+), 4 deletions(-)
+> On 3 Feb 2026, at 10:42, Gary Guo <gary@garyguo.net> wrote:
+>=20
+> On Tue Feb 3, 2026 at 1:33 PM GMT, Daniel Almeida wrote:
+>> Hi Boris,
+>>=20
+>>> On 3 Feb 2026, at 07:39, Boris Brezillon =
+<boris.brezillon@collabora.com> wrote:
+>>>=20
+>>> On Mon, 19 Jan 2026 12:35:21 +0000
+>>> Alice Ryhl <aliceryhl@google.com> wrote:
+>>>=20
+>>>> On Mon, Jan 19, 2026 at 11:45:57AM +0100, Maxime Ripard wrote:
+>>>>> On Thu, Jan 08, 2026 at 11:14:37AM -0300, Daniel Almeida wrote: =20=
 
-diff --git a/drivers/gpu/drm/sysfb/corebootdrm.c b/drivers/gpu/drm/sysfb/corebootdrm.c
-index 745318580a5d..5dc6f3c76f7b 100644
---- a/drivers/gpu/drm/sysfb/corebootdrm.c
-+++ b/drivers/gpu/drm/sysfb/corebootdrm.c
-@@ -110,6 +110,26 @@ static phys_addr_t corebootdrm_get_address_fb(struct drm_device *dev, resource_s
- 	return fb->physical_address;
- }
- 
-+static enum drm_panel_orientation corebootdrm_get_orientation_fb(struct drm_device *dev,
-+								 const struct lb_framebuffer *fb)
-+{
-+	if (!LB_FRAMEBUFFER_HAS_ORIENTATION(fb))
-+		return DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
-+
-+	switch (fb->orientation) {
-+	case LB_FRAMEBUFFER_ORIENTATION_NORMAL:
-+		return DRM_MODE_PANEL_ORIENTATION_NORMAL;
-+	case LB_FRAMEBUFFER_ORIENTATION_BOTTOM_UP:
-+		return DRM_MODE_PANEL_ORIENTATION_BOTTOM_UP;
-+	case LB_FRAMEBUFFER_ORIENTATION_LEFT_UP:
-+		return DRM_MODE_PANEL_ORIENTATION_LEFT_UP;
-+	case LB_FRAMEBUFFER_ORIENTATION_RIGHT_UP:
-+		return DRM_MODE_PANEL_ORIENTATION_RIGHT_UP;
-+	}
-+
-+	return DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
-+}
-+
- /*
-  * Simple Framebuffer device
-  */
-@@ -168,7 +188,8 @@ static const struct drm_mode_config_funcs corebootdrm_mode_config_funcs = {
- 	DRM_SYSFB_MODE_CONFIG_FUNCS,
- };
- 
--static int corebootdrm_mode_config_init(struct corebootdrm_device *cdev)
-+static int corebootdrm_mode_config_init(struct corebootdrm_device *cdev,
-+					enum drm_panel_orientation orientation)
- {
- 	struct drm_sysfb_device *sysfb = &cdev->sysfb;
- 	struct drm_device *dev = &sysfb->dev;
-@@ -234,8 +255,7 @@ static int corebootdrm_mode_config_init(struct corebootdrm_device *cdev)
- 	if (ret)
- 		return ret;
- 	drm_connector_helper_add(connector, &corebootdrm_connector_helper_funcs);
--	drm_connector_set_panel_orientation_with_quirk(connector,
--						       DRM_MODE_PANEL_ORIENTATION_UNKNOWN,
-+	drm_connector_set_panel_orientation_with_quirk(connector, orientation,
- 						       width, height);
- 
- 	ret = drm_connector_attach_encoder(connector, encoder);
-@@ -276,6 +296,7 @@ static int corebootdrm_probe(struct platform_device *pdev)
- 	int width, height, pitch;
- 	resource_size_t size;
- 	phys_addr_t address;
-+	enum drm_panel_orientation orientation;
- 	struct resource *res, *mem = NULL;
- 	struct resource aperture;
- 	void __iomem *screen_base;
-@@ -320,6 +341,7 @@ static int corebootdrm_probe(struct platform_device *pdev)
- 	address = corebootdrm_get_address_fb(dev, size, fb);
- 	if (!address)
- 		return -EINVAL;
-+	orientation = corebootdrm_get_orientation_fb(dev, fb);
- 
- 	sysfb->fb_mode = drm_sysfb_mode(width, height, 0, 0);
- 	sysfb->fb_format = format;
-@@ -375,7 +397,7 @@ static int corebootdrm_probe(struct platform_device *pdev)
- 	 * DRM mode setting and registration
- 	 */
- 
--	ret = corebootdrm_mode_config_init(cdev);
-+	ret = corebootdrm_mode_config_init(cdev, orientation);
- 	if (ret)
- 		return ret;
- 
-diff --git a/include/linux/coreboot.h b/include/linux/coreboot.h
-index b51665165f9f..de9652e1a53f 100644
---- a/include/linux/coreboot.h
-+++ b/include/linux/coreboot.h
-@@ -47,6 +47,11 @@ struct lb_cbmem_entry {
- 	u32 id;
- };
- 
-+#define LB_FRAMEBUFFER_ORIENTATION_NORMAL	0
-+#define LB_FRAMEBUFFER_ORIENTATION_BOTTOM_UP	1
-+#define LB_FRAMEBUFFER_ORIENTATION_LEFT_UP	2
-+#define LB_FRAMEBUFFER_ORIENTATION_RIGHT_UP	3
-+
- /* Describes framebuffer setup by coreboot */
- struct lb_framebuffer {
- 	u32 tag;
-@@ -65,6 +70,7 @@ struct lb_framebuffer {
- 	u8  blue_mask_size;
- 	u8  reserved_mask_pos;
- 	u8  reserved_mask_size;
-+	u8  orientation;
- };
- 
- /*
-@@ -74,4 +80,11 @@ struct lb_framebuffer {
- #define LB_FRAMEBUFFER_HAS_LFB(__fb) \
- 	((__fb)->size >= offsetofend(struct lb_framebuffer, reserved_mask_size))
- 
-+/*
-+ * True if the coreboot-provided data is large enough to hold information
-+ * on the display orientation. False otherwise.
-+ */
-+#define LB_FRAMEBUFFER_HAS_ORIENTATION(__fb) \
-+	((__fb)->size >= offsetofend(struct lb_framebuffer, orientation))
-+
- #endif /* _LINUX_COREBOOT_H */
--- 
-2.52.0
+>>>>>>> For example, it's quite typical to have (at least) one clock for =
+the bus
+>>>>>>> interface that drives the register, and one that drives the main
+>>>>>>> component logic. The former needs to be enabled only when you're
+>>>>>>> accessing the registers (and can be abstracted with
+>>>>>>> regmap_mmio_attach_clk for example), and the latter needs to be =
+enabled
+>>>>>>> only when the device actually starts operating.
+>>>>>>>=20
+>>>>>>> You have a similar thing for the prepare vs enable thing. The =
+difference
+>>>>>>> between the two is that enable can be called into atomic context =
+but
+>>>>>>> prepare can't.
+>>>>>>>=20
+>>>>>>> So for drivers that would care about this, you would create your =
+device
+>>>>>>> with an unprepared clock, and then at various times during the =
+driver
+>>>>>>> lifetime, you would mutate that state. =20
+>>>>=20
+>>>> The case where you're doing it only while accessing registers is
+>>>> interesting, because that means the Enable bit may be owned by a =
+local
+>>>> variable. We may imagine an:
+>>>>=20
+>>>>   let enabled =3D self.prepared_clk.enable_scoped();
+>>>>   ... use registers
+>>>>   drop(enabled);
+>>>>=20
+>>>> Now ... this doesn't quite work with the current API - the current
+>>>> Enabled stated owns both a prepare and enable count, but the above =
+keeps
+>>>> the prepare count in `self` and the enabled count in a local =
+variable.
+>>>> But it could be done with a fourth state, or by a closure method:
+>>>>=20
+>>>>   self.prepared_clk.with_enabled(|| {
+>>>>       ... use registers
+>>>>   });
+>>>>=20
+>>>> All of this would work with an immutable variable of type =
+Clk<Prepared>.
+>>>=20
+>>> Hm, maybe it'd make sense to implement Clone so we can have a =
+temporary
+>>> clk variable that has its own prepare/enable refs and releases them
+>>> as it goes out of scope. This implies wrapping *mut bindings::clk in =
+an
+>>> Arc<> because bindings::clk is not ARef, but should be relatively =
+easy
+>>> to do. Posting the quick experiment I did with this approach, in =
+case
+>>> you're interested [1]
+>>>=20
+>>> =
+[1]https://gitlab.freedesktop.org/bbrezillon/linux/-/commit/d5d04da4f4f619=
+2b6e6760d5f861c69596c7d837
+>>=20
+>> The problem with what you have suggested is that the previous state =
+is not
+>> consumed if you can clone it, and consuming the previous state is a =
+pretty key
+>> element in ensuring you cannot misuse it. For example, here:
+>>=20
+>> let enabled_clk =3D prepared_clk.clone().enable()?;
+>> // do stuff
+>> // enabled_clk goes out of scope and releases the enable
+>> // ref it had
+>>=20
+>> prepared_clk is still alive. Now, this may not be the end of the =
+world in this
+>> particular case, but for API consistency, I'd say we should probably =
+avoid this
+>> behavior.
+>=20
+> Is this an issue though? You cannot mistakenly own `Clk<Enabled>` =
+while the clk
+> is not enabled, (and similarly for `Prepared`), and that should be =
+sufficient.
+
+It is not an issue. However, I just find it a bit confusing. With a =
+typestate, one
+usually expects state transitions where a new state fully consumes the =
+previous
+one, and that assumption is =E2=80=9Cbroken=E2=80=9D in a way when you =
+add clone().
+
+>=20
+> Having `Clk<Prepared>` makes no guarantee on if the clk is enabled or =
+not anyway
+> as you can have another user do `Clk<Unprepared>::get().enable()`.
+
+Although you=E2=80=99re right here, I find this less confusing than =
+clone(). You
+have to explicitly craft a new Clk<Enabled>, where a clone() is a =
+shorter way
+to basically get around the =E2=80=9Cstate transition=E2=80=9D idea on =
+an _existing_ Clk
+reference.
+
+This is a bit pedantic on my side though, so I have no problem in adding
+clone() if it's the consensus of the majority.
+
+>=20
+> The only guarantee is that the state the clk have is going to be =
+greater than or
+> equal to the type state, so allowing cloning an intermediate state is =
+no
+> problem.
+>=20
+> Best,
+> Gary
+>=20
+>>=20
+>> I see that Alice suggested a closure approach. IMHO, we should use =
+that
+>> instead.
+>>=20
+>> =E2=80=94 Daniel
+
+
+Is there any pushback on the closure approach? If so, mind sharing why?
+
+=E2=80=94 Daniel
 
