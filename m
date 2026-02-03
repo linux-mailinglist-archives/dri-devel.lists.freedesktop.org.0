@@ -2,121 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EFoqAtEvgmlFQAMAu9opvQ
+	id sFoVOt4vgml5QQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 18:26:41 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 18:26:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E7ADCC3D
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 18:26:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E959DCC53
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 18:26:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59BCD10E72B;
-	Tue,  3 Feb 2026 17:26:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CB0F10E298;
+	Tue,  3 Feb 2026 17:26:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="tS++Hv3c";
+	dkim=pass (2048-bit key; secure) header.d=shenghaoyang.info header.i=@shenghaoyang.info header.b="UjoZbTZA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E3EC10E71C
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 17:26:36 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-64baa44df99so11850a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Feb 2026 09:26:36 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770139595; cv=none;
- d=google.com; s=arc-20240605;
- b=ZoWDHhA/3Xyitq+QBXnTz5cK66eRdyAjEHdPHZGpt/3qT7T8V7xD4+RWF7V0XON//S
- j8ovIrFpn1xGolcNOUJ3QKPYEOW0HbJo2lb2pxW8vsS+3qRw3mY5IAZPBqVdNakVWnZI
- IwgBuJq9x34DpSNPTrBb5yF5C1uAMaxFSroDHVAf/6geOoU3j2Ot7gkgnoD0n2RJQusk
- lpJTzP0ZWVWjxzEF4M0DQ37wT+q0w9LCZKLHa6BlFnncH9mdSmPes6LIv+JHnCGcDIda
- SQih27jyJ0zMdWzrPOC6pK29H4/I/JXgSpi8t6+0uyyMyflj2JQgMbK1RlJ8VvVKKMgS
- xEuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=TNaiJtMpISY5S0HDy1ONbkfjtxu0QVlIHfgawUN5ajQ=;
- fh=oKH1vo/2NVE08qZ2qOQOESogljMQCi2sN8tZ+9C1F/s=;
- b=eVIaq1y4Wxv448jrnwaKTEeyjXcVz6AiXDgNR2gkrddyYM/X23pp/QoNowuy4aXguY
- MUJCch9JcS6Rvza8NKFbdBYhKOFIHDCZfvg5Qwj5HYOrCICTQesIFjauSsGf5fRWJrW4
- MiaqR7ZIaphqg5A1dj8hG3cMBlvdjZruAaiOCw+ZaRBY/DhLlOqgmz+YsKLlufatdFfG
- Sp1wkSInUXSmZYAcU1nPS7pruqxD7nEn03lEnX82QZGjHofPddY0CQmXDObnEmCV1hKc
- A5RkTAlOloTAdyzlaY8KFXDpAafuhomcR9pWVJOHoFOvRJs/AYqA0k2EF74DB+UT59ZS
- NCZQ==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3132110E298
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 17:26:51 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id
+ d9443c01a7336-2a929763b57so1037315ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Feb 2026 09:26:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1770139595; x=1770744395;
+ d=shenghaoyang.info; s=google; t=1770139611; x=1770744411;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TNaiJtMpISY5S0HDy1ONbkfjtxu0QVlIHfgawUN5ajQ=;
- b=tS++Hv3cmB4Le7l7/RxRwecjH6tCYRUubMa0BzvvdYduNhto/GifqluPblZv2HhZQ0
- ldqnNydD8Ski07YlG9zw4LGIU9NgiE11D5C1usg+JZjsG//1mYsxbz5McT2zSjBkzdBB
- pJG4JGerBs6XJGTWhk152UBH8KmP0KDj3aqEpSf5pziR1Oq2iCRRa+RlZXQDyylJ3g7v
- ftXmAXyXZCobk8kKqMAwqG5K51guAKqPkMltWQUK6xgYGRFruwVXPnGCcUVWEwRSaLRY
- rfgnGxTo7Of7/S2KTFI+DVAyDausEH1z5OnvunOadRbgkq2CS2pLxYYHAKpZuDDUa5iq
- YKnw==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=c6xoUAJ4TqCwZ2nkBb+us8sMoTfJqBk6aFeos35tub8=;
+ b=UjoZbTZAD5gmvdB23twNfD4KvIEAMVaAZZrIVrxQ6/OPRorkkqyjbZ6XmVCmbiVtQ+
+ 3ndb5OMJxa6j5h//IYqaXmxTx6PhN0IdExiCmiiyKXoOnjAVn3WLmifAU0TWh3kWOISz
+ x9k0i7TD+eFibkTUJjNvlGvkQRp1NS1uV0W9FFUeVN/SCF6YmT4NzOqliN9b1brEMsgI
+ JxyMm6qVzLQ9qgskMt9tB8ejygy9Zb9S+WxiGF1RNglkgFlZrq5+I3G8ZtO55Am1E5tp
+ Zcvg3RVBJcB8vnG8b5TPPu2sT6foNc4tuGWd1UgNovcTz3kmDd1Bu4J27iL8eRkR1ppL
+ jEUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770139595; x=1770744395;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=TNaiJtMpISY5S0HDy1ONbkfjtxu0QVlIHfgawUN5ajQ=;
- b=BSBSkyFI4l8bbG6JSMoJFGWJxfX0ERk1tbwxi1N4lYxvtlyb/KfPPyVWP4+JwqGRTr
- 6ntGuQTAVjyBCytViQlsq9ORRePS/hMeOpA/CnFF264BpiP//WbWPqJDjwBX8JTLT9hW
- 6fIs9pJjtUUkSKQD4BpluL1uFT8zfgSV5ltf3EdOCVjqGUR46tc5902krldK9ZiHpSCZ
- Yu8Wj+T+ONxiOxcNBno/edYrqQtQT/atYANDcd4e8A1DvzEQFRexxgCqZCqKwy1YE54V
- f+Utk6tZWRtl+DAEBF3u9IZZyo6PZapvx9o4uWJSR2o0AXc81DfsHCWEzOI/I/cHdsnn
- Du0A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXVHq95H+ubL4NRXSea+13GFMPWuzyPqfMmrLyCq6tUCFEaWppIEdLnMuBG1+i+zmec8EqIep56sMU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxHaJVROvS2fWytTRpudlDeLBwAHFX8vEr6zcIoZXYUXdC3DQTX
- t7lcQcfmmpHS75+4Xy4JITaqqK28CYo5nvPu11T1sulnTflebG9RJBOwk4sJxQouRLdaXb3lPCC
- D2hEXkciAzZBYj444WnA3DcCRpXnSLRUABJuXnt+e
-X-Gm-Gg: AZuq6aInifFH0DcezGy61z3YObDJt0CgDntTl6Wj0ILopoC1TSROL1ixsSHm2hhBcjz
- RaW4aB6CZKa/mHF5j9RnfoT3pnKscymtKgy1kuTvd2/wqhkt/MhEwi4uSCj/hMeuaOQWxe/b0dL
- N8ta0FZTznHGKEHbPgF5Rz//jMWkL10wbgr88fxu68zRvnsjJCo3JkGH5C/+7GK7ujulwPBY3r8
- VPxH0wU0FR/QeIxgYG3AzwaYeppulUYBeAz5MyRRez9ZJG/58dO99MfucUIqUNCQrCRwf7oRy48
- gqH49enXmaEVUvmIppkHE4BE/w==
-X-Received: by 2002:a05:6402:3098:b0:64f:8fc5:251c with SMTP id
- 4fb4d7f45d1cf-6594a353279mr5513a12.18.1770139594461; Tue, 03 Feb 2026
- 09:26:34 -0800 (PST)
+ d=1e100.net; s=20230601; t=1770139611; x=1770744411;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=c6xoUAJ4TqCwZ2nkBb+us8sMoTfJqBk6aFeos35tub8=;
+ b=J5OH6YnQ2hnKRot6fOZ6HWrMUf7EcaxfaoXaEpLB/WJyycrLK9ZMQriStHIIVopi1+
+ 8Uj0x49Wk6Z/rgFyvutqaHyJRMdHvzUzfm4XSid+Sbq1IIiN1NqF4myS2Ae7Mb/UqIzZ
+ ObpHwhRgZDo0ify4NI3tjCL3m/+NfAfdSgYC5xwxKjr5PuhuCytJ7csQg3Qal3VWAMkd
+ ZZRfHPhjYvmoKdBzNqwsfzCKhOliD9UsZUQv0oAxgYmfnLbLmjw2jIyCTrKjs7SAAK8F
+ M7UOtbxO8TJ+p/vVPYjV2wb5Qd2KtUe3ANm9vjD2rKpmFRqr78XWpwyv6+0m06KSQi0Y
+ ztkg==
+X-Gm-Message-State: AOJu0YzrxZvsJzLNkNja0dhH9Mt/eSF9rgAXNyG1Id0qPIxMTK/x47KG
+ jTeMzuDpPA920U8ojKl7NQAdVQAs4CKtF918XweziGe63fYbg88yN96f204OBRzPy0U=
+X-Gm-Gg: AZuq6aIhn7VBmk1G3Bc0CpBPKzAOarsMSS7yYTEushyhZaC58mDsTmwIp+QmjvqfA1+
+ IbJqtVnQUZlxTMlOm62UFF8Kk6d8g1Rf/5ECjF2u9tvfqGEdY0rXY/EUapgiezJjl8FPYwVQ9Sb
+ /uBLZqyrXRe8lWIU5U3OGlnud86BP7fhjjllSH9RconI0PdEhgsSWHf9EOds2IEl+3RO4/yl06L
+ 0UqYjmvhHLxzhrQRSjaRnzP/ufnPyvI/uvMc09iPgURgLzzRcahDwTG2NpWg5r7sv0/pHZ1Eh5Y
+ uefNPgfPzVwvg3+UXp/g1M8TE1zfKk0g2pk3oPTl7euhce8kD81HLoNTZur/y8kvbmLiMCa+WXb
+ pqx6gieHzoesVNEIFIudTW2GgvWSNsYR06T0yerttfmmuynxKaT7TdMRDxJ5nUieNdTMAv/t67O
+ fTJry5pEwy
+X-Received: by 2002:a17:903:4b0d:b0:2a7:84bb:158 with SMTP id
+ d9443c01a7336-2a933ad0211mr533665ad.0.1770139610659; 
+ Tue, 03 Feb 2026 09:26:50 -0800 (PST)
+Received: from localhost ([132.147.84.99]) by smtp.gmail.com with UTF8SMTPSA id
+ d9443c01a7336-2a933854fcbsm665445ad.18.2026.02.03.09.26.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Feb 2026 09:26:50 -0800 (PST)
+From: Shenghao Yang <me@shenghaoyang.info>
+To: Ruben Wauters <rubenru09@aol.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Shenghao Yang <me@shenghaoyang.info>, kernel test robot <lkp@intel.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+Subject: [PATCH v3] drm/gud: fix NULL crtc dereference on display disable
+Date: Wed,  4 Feb 2026 01:26:30 +0800
+Message-ID: <20260203172630.10077-1-me@shenghaoyang.info>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-References: <20260203-qcom-socinfo-v2-0-d6719db85637@google.com>
- <20260203-qcom-socinfo-v2-6-d6719db85637@google.com>
- <2026020315-conch-trickle-2d84@gregkh>
- <DG5H119NY68Q.TWLCK3W36CM5@kernel.org> <2026020347-sneak-embark-1b36@gregkh>
- <DG5HGZG62NNS.18BCSOO6TR70G@kernel.org>
- <DG5HX5K2T371.3JGY5PQIV554K@garyguo.net>
-In-Reply-To: <DG5HX5K2T371.3JGY5PQIV554K@garyguo.net>
-From: Matthew Maurer <mmaurer@google.com>
-Date: Tue, 3 Feb 2026 09:26:23 -0800
-X-Gm-Features: AZwV_Qh4ac161-isyLFn5NPWx7VX7FdmQ6d8uiNuPee-beDbNAjAyPPpvPjCwQs
-Message-ID: <CAGSQo01qf4i6LDyi1umH6-6vjiE-VrFc1dd+qLxDXkjiYLcOCA@mail.gmail.com>
-Subject: Re: [PATCH v2 6/6] soc: qcom: socinfo: Convert to Rust
-To: Gary Guo <gary@garyguo.net>
-Cc: Danilo Krummrich <dakr@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Satya Durga Srinivasu Prabhala <satyap@quicinc.com>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Daniel Almeida <daniel.almeida@collabora.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Michal Wilczynski <m.wilczynski@samsung.com>,
- Dave Ertman <david.m.ertman@intel.com>, 
- Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>,
- Trilok Soni <tsoni@quicinc.com>, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, driver-core@lists.linux.dev, 
- dri-devel@lists.freedesktop.org, linux-pwm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,121 +94,242 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[shenghaoyang.info,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[shenghaoyang.info:s=google];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[mmaurer@google.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:gary@garyguo.net,m:dakr@kernel.org,m:gregkh@linuxfoundation.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:satyap@quicinc.com,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:daniel.almeida@collabora.com,m:rafael@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:m.wilczynski@samsung.com,m:david.m.ertman@intel.com,m:ira.weiny@intel.com,m:leon@kernel.org,m:tsoni@quicinc.com,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:driver-core@lists.linux.dev,m:linux-pwm@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[aol.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:rubenru09@aol.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:me@shenghaoyang.info,m:lkp@intel.com,m:dan.carpenter@linaro.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[me@shenghaoyang.info,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,quicinc.com,gmail.com,protonmail.com,google.com,umich.edu,collabora.com,ffwll.ch,samsung.com,intel.com,vger.kernel.org,lists.linux.dev,lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[me@shenghaoyang.info,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mmaurer@google.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	NEURAL_HAM(-0.00)[-1.000];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 54E7ADCC3D
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[shenghaoyang.info:+];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 4E959DCC53
 X-Rspamd-Action: no action
 
-On Tue, Feb 3, 2026 at 9:17=E2=80=AFAM Gary Guo <gary@garyguo.net> wrote:
->
-> On Tue Feb 3, 2026 at 4:56 PM GMT, Danilo Krummrich wrote:
-> > On Tue Feb 3, 2026 at 5:48 PM CET, Greg Kroah-Hartman wrote:
-> >> On Tue, Feb 03, 2026 at 05:35:24PM +0100, Danilo Krummrich wrote:
-> >>> On Tue Feb 3, 2026 at 5:28 PM CET, Greg Kroah-Hartman wrote:
-> >>> > On Tue, Feb 03, 2026 at 03:46:35PM +0000, Matthew Maurer wrote:
-> >>> >> +impl Smem {
-> >>> >> +    pub(crate) fn access<'a>(&'a self, dev: &'a Device<Bound>) ->=
- Option<&'a Mmio> {
-> >>> >> +        if *dev !=3D *self.dev {
-> >>> >
-> >>> > How can this ever happen?
-> >>>
-> >>> You are right, since this resource is local to the driver, it should =
-not be
-> >>> possible to have another devce from somewhere else (especially not a
-> >>> &Device<Bound>).
-> >>>
-> >>> However, from a Rust perspective I think not having this check would =
-be unsound,
-> >>> as the method by itself would not be able guarantee correct behavor a=
-nymore.
-> >>>
-> >>
-> >> I don't really understand this last sentence, sorry.  If this is "not
-> >> possible" why would that at the same time be "unsound"?
+gud_plane_atomic_update() currently handles both crtc state and
+framebuffer updates - the complexity has led to a few accidental
+NULL pointer dereferences.
 
-The code as it stands doesn't do anything that would grant `Smem`
-objects to something that exceeds the lifetime of the device. The goal
-of bindings APIs like these are that it should be impossible for
-someone to write Rust code without the word `unsafe` in it that breaks
-its invariants. Without that check, someone could do:
+Commit dc2d5ddb193e ("drm/gud: fix NULL fb and crtc dereferences
+on USB disconnect") [1] fixed an earlier dereference but planes
+can also be disabled in non-hotplug paths (e.g. display disables
+via the desktop environment). The drm_dev_enter() call would not
+cause an early return in those and subsequently oops on
+dereferencing crtc:
 
-let smem =3D Smem::get(dev)?;
-let f =3D move |offset| smem.try_copy(offset);
-some_other_driver_or_subsystem(f);
+BUG: kernel NULL pointer dereference, address: 00000000000005c8
+CPU: 6 UID: 1000 PID: 3473 Comm: kwin_wayland Not tainted 6.18.2-200.vanilla.gud.fc42.x86_64 #1 PREEMPT(lazy)
+RIP: 0010:gud_plane_atomic_update+0x148/0x470 [gud]
+ <TASK>
+ drm_atomic_helper_commit_planes+0x28e/0x310
+ drm_atomic_helper_commit_tail+0x2a/0x70
+ commit_tail+0xf1/0x150
+ drm_atomic_helper_commit+0x13c/0x180
+ drm_atomic_commit+0xb1/0xe0
+info ? __pfx___drm_printfn_info+0x10/0x10
+ drm_mode_atomic_ioctl+0x70f/0x7c0
+ ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
+ drm_ioctl_kernel+0xae/0x100
+ drm_ioctl+0x2a8/0x550
+ ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
+ __x64_sys_ioctl+0x97/0xe0
+ do_syscall_64+0x7e/0x7f0
+ ? __ct_user_enter+0x56/0xd0
+ ? do_syscall_64+0x158/0x7f0
+ ? __ct_user_enter+0x56/0xd0
+ ? do_syscall_64+0x158/0x7f0
+ entry_SYSCALL_64_after_hwframe+0x76/0x7e
 
-That other region of the code would now have ownership over that
-function, and expect to be able to call it safely. We're not doing
-that, but we're trying to design the unsafe API in bindings so that
-you can't mess it up even if you wanted to.
+Split out crtc handling from gud_plane_atomic_update() into
+atomic_enable() and atomic_disable() functions to delegate
+crtc state transitioning work to the DRM helpers.
 
-> >
-> > It would be considered unsound because the function itself can not guar=
-antee
-> > that it does not produce undefined behavior, i.e. it would otherwise be=
-comes
-> > unsafe.
-> >
-> > But I'm not an expert on this, I'll let Benno and Gary jump in.
->
-> Yes, in this code, `Smem::access` is using the passed-in `&'a Device<Boun=
-d>` as
-> a proof that the device is still bound.
->
-> If the check is not present, the user of this API can give in a reference=
- of a
-> different device, and now you're pontentially providing access to the MMI=
-O
-> region to a device that is not bound anymore. A important property we wan=
-t to
-> enforce is that UB cannot happen no matter how an API is misused (it may =
-still
-> oops, which is bad, but better than UB).
->
-> This particular code, though, probably should use `Devres` as Danilo sugg=
-ested.
+To preserve the gud state commit sequence [2], switch to
+the runtime PM version of drm_atomic_helper_commit_tail() which
+ensures that crtcs are enabled (hence sending the
+GUD_REQ_SET_CONTROLLER_ENABLE and GUD_REQ_SET_DISPLAY_ENABLE
+requests) before a framebuffer update is sent.
 
-Mentioned on the other thread, but I didn't use `Devres` because it
-being PinInit is problematic and I would need to encode an additional
-invariant anyways.
+[1] https://lore.kernel.org/all/20251231055039.44266-1-me@shenghaoyang.info/
+[2] https://github.com/notro/gud/wiki/GUD-Protocol#display-state
 
->
-> PS. Personally I think this check (and the one in Devres::access) should =
-use
-> assertion rather than `EINVAL`, because it is a bad driver bug when this =
-is hit,
-> and adding failing code path for something that is a bug is something I r=
-eally
-> dislike... It should at least be a `WARN`.
->
-> Best,
-> Gary
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/r/202601142159.0v8ilfVs-lkp@intel.com/
+Fixes: 73cfd166e045 ("drm/gud: Replace simple display pipe with DRM atomic helpers")
+Signed-off-by: Shenghao Yang <me@shenghaoyang.info>
+---
+v3: Dropped stable AUTOSEL opt out
+v2: Moved controller and display control commands to crtc
+    enable / disable functions.
+
+[v2]: https://lore.kernel.org/lkml/20260201095956.21042-1-me@shenghaoyang.info/
+[v1]: https://lore.kernel.org/lkml/20260118125044.54467-1-me@shenghaoyang.info/
+
+ drivers/gpu/drm/gud/gud_drv.c      |  9 ++++-
+ drivers/gpu/drm/gud/gud_internal.h |  4 ++
+ drivers/gpu/drm/gud/gud_pipe.c     | 59 +++++++++++++++++++++---------
+ 3 files changed, 53 insertions(+), 19 deletions(-)
+
+diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
+index 42135a48d92e..a2000991ecbe 100644
+--- a/drivers/gpu/drm/gud/gud_drv.c
++++ b/drivers/gpu/drm/gud/gud_drv.c
+@@ -339,7 +339,9 @@ static int gud_stats_debugfs(struct seq_file *m, void *data)
+ }
+ 
+ static const struct drm_crtc_helper_funcs gud_crtc_helper_funcs = {
+-	.atomic_check = drm_crtc_helper_atomic_check
++	.atomic_check = drm_crtc_helper_atomic_check,
++	.atomic_enable = gud_crtc_atomic_enable,
++	.atomic_disable = gud_crtc_atomic_disable,
+ };
+ 
+ static const struct drm_crtc_funcs gud_crtc_funcs = {
+@@ -364,6 +366,10 @@ static const struct drm_plane_funcs gud_plane_funcs = {
+ 	DRM_GEM_SHADOW_PLANE_FUNCS,
+ };
+ 
++static const struct drm_mode_config_helper_funcs gud_mode_config_helpers = {
++	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
++};
++
+ static const struct drm_mode_config_funcs gud_mode_config_funcs = {
+ 	.fb_create = drm_gem_fb_create_with_dirty,
+ 	.atomic_check = drm_atomic_helper_check,
+@@ -499,6 +505,7 @@ static int gud_probe(struct usb_interface *intf, const struct usb_device_id *id)
+ 	drm->mode_config.min_height = le32_to_cpu(desc.min_height);
+ 	drm->mode_config.max_height = le32_to_cpu(desc.max_height);
+ 	drm->mode_config.funcs = &gud_mode_config_funcs;
++	drm->mode_config.helper_private = &gud_mode_config_helpers;
+ 
+ 	/* Format init */
+ 	formats_dev = devm_kmalloc(dev, GUD_FORMATS_MAX_NUM, GFP_KERNEL);
+diff --git a/drivers/gpu/drm/gud/gud_internal.h b/drivers/gpu/drm/gud/gud_internal.h
+index d27c31648341..a5b7e53cf79c 100644
+--- a/drivers/gpu/drm/gud/gud_internal.h
++++ b/drivers/gpu/drm/gud/gud_internal.h
+@@ -62,6 +62,10 @@ int gud_usb_set_u8(struct gud_device *gdrm, u8 request, u8 val);
+ 
+ void gud_clear_damage(struct gud_device *gdrm);
+ void gud_flush_work(struct work_struct *work);
++void gud_crtc_atomic_enable(struct drm_crtc *crtc,
++			   struct drm_atomic_state *state);
++void gud_crtc_atomic_disable(struct drm_crtc *crtc,
++			   struct drm_atomic_state *state);
+ int gud_plane_atomic_check(struct drm_plane *plane,
+ 			   struct drm_atomic_state *state);
+ void gud_plane_atomic_update(struct drm_plane *plane,
+diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
+index 4b77be94348d..46b47452b315 100644
+--- a/drivers/gpu/drm/gud/gud_pipe.c
++++ b/drivers/gpu/drm/gud/gud_pipe.c
+@@ -580,6 +580,44 @@ int gud_plane_atomic_check(struct drm_plane *plane,
+ 	return ret;
+ }
+ 
++void gud_crtc_atomic_enable(struct drm_crtc *crtc,
++			   struct drm_atomic_state *state)
++{
++	struct drm_device *drm = crtc->dev;
++	struct gud_device *gdrm = to_gud_device(drm);
++	int idx;
++
++	if (!drm_dev_enter(drm, &idx))
++		return;
++
++	if (crtc->state->mode_changed || crtc->state->connectors_changed) {
++		gud_usb_set_u8(gdrm, GUD_REQ_SET_CONTROLLER_ENABLE, 1);
++		gud_usb_set(gdrm, GUD_REQ_SET_STATE_COMMIT, 0, NULL, 0);
++	}
++
++	gud_usb_set_u8(gdrm, GUD_REQ_SET_DISPLAY_ENABLE, crtc->state->active);
++
++	drm_dev_exit(idx);
++}
++
++void gud_crtc_atomic_disable(struct drm_crtc *crtc,
++			   struct drm_atomic_state *state)
++{
++	struct drm_device *drm = crtc->dev;
++	struct gud_device *gdrm = to_gud_device(drm);
++	int idx;
++
++	if (!drm_dev_enter(drm, &idx))
++		return;
++
++	gud_usb_set_u8(gdrm, GUD_REQ_SET_DISPLAY_ENABLE, 0);
++
++	if (crtc->state->mode_changed || crtc->state->connectors_changed)
++		gud_usb_set_u8(gdrm, GUD_REQ_SET_CONTROLLER_ENABLE, 0);
++
++	drm_dev_exit(idx);
++}
++
+ void gud_plane_atomic_update(struct drm_plane *plane,
+ 			     struct drm_atomic_state *atomic_state)
+ {
+@@ -607,24 +645,12 @@ void gud_plane_atomic_update(struct drm_plane *plane,
+ 		mutex_unlock(&gdrm->damage_lock);
+ 	}
+ 
+-	if (!drm_dev_enter(drm, &idx))
++	if (!crtc || !drm_dev_enter(drm, &idx))
+ 		return;
+ 
+-	if (!old_state->fb)
+-		gud_usb_set_u8(gdrm, GUD_REQ_SET_CONTROLLER_ENABLE, 1);
+-
+-	if (fb && (crtc->state->mode_changed || crtc->state->connectors_changed))
+-		gud_usb_set(gdrm, GUD_REQ_SET_STATE_COMMIT, 0, NULL, 0);
+-
+-	if (crtc->state->active_changed)
+-		gud_usb_set_u8(gdrm, GUD_REQ_SET_DISPLAY_ENABLE, crtc->state->active);
+-
+-	if (!fb)
+-		goto ctrl_disable;
+-
+ 	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
+ 	if (ret)
+-		goto ctrl_disable;
++		goto out;
+ 
+ 	drm_atomic_helper_damage_iter_init(&iter, old_state, new_state);
+ 	drm_atomic_for_each_plane_damage(&iter, &damage)
+@@ -632,9 +658,6 @@ void gud_plane_atomic_update(struct drm_plane *plane,
+ 
+ 	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+ 
+-ctrl_disable:
+-	if (!crtc->state->enable)
+-		gud_usb_set_u8(gdrm, GUD_REQ_SET_CONTROLLER_ENABLE, 0);
+-
++out:
+ 	drm_dev_exit(idx);
+ }
+-- 
+2.52.0
+
