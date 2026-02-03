@@ -2,90 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wBJKFQBFgmmERgMAu9opvQ
+	id Y7G9JD5HgmnzRgMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 19:57:04 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 20:06:38 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5354DDF82
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 19:57:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE23DE08F
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 20:06:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECA4C10E75F;
-	Tue,  3 Feb 2026 18:57:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB59C10E76C;
+	Tue,  3 Feb 2026 19:06:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nVus1ujs";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nqEfvcPy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1D4D10E768
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 18:56:58 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-b86ff9ff9feso66076166b.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Feb 2026 10:56:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770145017; x=1770749817; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2gojVvtD4l2rkbiM/jdY+q69y3Uync3kYZ3kcuaObgo=;
- b=nVus1ujsjDMJ1w9929jQR6cbCdfFcaV4t9oXhxSSCrtEWn2Z8l/HnOR9EnZuyaGvYa
- GbqE4XQvcsg3qf6j40dPHbBXEzdRh+qYBmg5IgOldMiBTf96DWg5oTnE/cG78EMstNTN
- 7DwkTOlTyj4/PedtrmHmp/p2l8HboawXEP9riFGi/VKlLEbzdGVnO0iVBJG6Q8Fg1ytc
- E7oe/O7Af1BhXI176PMt4UawX5TR2ItzoleIejcRH1kJM9ZLf7s6Dv8VXW507WHrgabw
- 2HxzWB+P67d1XiWgBypjTEreSjHopAUuH8QChohVUnbApLMscqd25YZdqTswwOkgdEXu
- h8Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770145017; x=1770749817;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=2gojVvtD4l2rkbiM/jdY+q69y3Uync3kYZ3kcuaObgo=;
- b=QJC+8/QZ7+hOMEXmJMEdBLP/3b/jZcH7VYmzQUUyLgikRQhLpvwUWxLTeeZg+GDYuS
- jdshWUvftzv6/iFGcy7JSJNlpKwNRmEZ/6yFbwdm3Pym0MmQTmeMamyXETo0zw/ss3ZX
- X88NvCiCLYNW/mCMmk47rcy2xrCFCDJQN3ViioVr6xfdqaUEQOg2MmWW+YD/hosa6dxs
- xo3C21x35sCRoT1UGw1icmimAS41SK6wcvE4vGRzlE1Q61tZhB2JTU8/xXeZexIh2tuH
- SH+vfi1CdJGz6H6CZ0ZtppPFb4dZ64EixQ9t1xtfQos/4J3VrHMsfHxPcIg+elhmb84m
- 6egA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUHQOw3MsSzgiKZ5PoFIDmQRBWVzr8Bc+MXpL6qlWrhzMWkSoK4mOv03btDowQhTupqekqvCU36e38=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwLXY7/BfR06qHu3Bmz6HE4otLEzjJguJLWS0WW2xFd6sqgIj0h
- 92L14Ysrrmy+e40fpwyI1HDKXnYrof4PjNYz77UFYmhp5LI62PbpXzgk
-X-Gm-Gg: AZuq6aLUmD1ErNtR3SYM22uFAScVnOmtnyyfV9YzCPBFQs+ARuWzIOJpZYGPJENAD5s
- MqYLxpsqca3czEdgxLH2hCpfyTr+aAgO+ocAdrSH88YDkul2R0pghKiyNYiBh0V6xmLV5bmid2d
- 2oak02Ex5D7iJ7YIwyIZHEQ729wxC9h19QqhONZelcgX0xnhoHz/kPaPOQlUJM+WQsgrml+N23F
- SIgaWbO+szCO1V34FGuDBZU3j+9Yi3edhW2JxXW3OuLTeQ+rGGHGsN1dPJxLNh5TjEQzZVZGzcm
- gcRh1XCE2ijrxk/gsEUQ8hAqDe1suXWNmAbETfgot/ySorNw4U/YOL8HT/k2AbwnXUoft/p5iqg
- t7E2wfx+M7+a+SQPyUUCbFR10kIaZ3pnfi3CxF5XsTzgjNhHtdH1vMOWOFbRjQakl9AX49dkgXo
- 7+ogj7+W1Yr6D/W9Q4Aud8eYcPL+GAPfeX+zk70l1x+296aIZyILiV10XT4CPXuTXA
-X-Received: by 2002:a17:907:1ca4:b0:b7f:fd9d:fff4 with SMTP id
- a640c23a62f3a-b8e9f173f18mr20497466b.1.1770145016990; 
- Tue, 03 Feb 2026 10:56:56 -0800 (PST)
-Received: from laptok.lan (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b8e9fad97a7sm16715766b.0.2026.02.03.10.56.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Feb 2026 10:56:56 -0800 (PST)
-From: =?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
-To: alexander.deucher@amd.com,
-	harry.wentland@amd.com,
-	sunpeng.li@amd.com
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, siqueira@igalia.com,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, tomasz.pakula.oficjalny@gmail.com,
- bernhard.berger@gmail.com, michel.daenzer@mailbox.org,
- daniel@fooishbar.org, admin@ptr1337.dev
-Subject: [PATCH v3 19/19] drm/amd/display: Add HDMI VRR desktop mode
-Date: Tue,  3 Feb 2026 19:56:26 +0100
-Message-ID: <20260203185626.55428-20-tomasz.pakula.oficjalny@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260203185626.55428-1-tomasz.pakula.oficjalny@gmail.com>
-References: <20260203185626.55428-1-tomasz.pakula.oficjalny@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAE8110E76D;
+ Tue,  3 Feb 2026 19:06:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1770145594; x=1801681594;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=MVe73+hmIOv1ObUNwLVqqpTZOwcApKqkTYO6yjVXSLw=;
+ b=nqEfvcPyOPfxcOB9g2zn0U0/OBT3TpBRpmsYSxwdYRagnABTg4wFNy39
+ CHXmjsutfYJxwhqt+pgIFWZ3cOSB0D7x/Obs7kzWL+ftVyE3QBAcH7y+C
+ H3Ex5ml6mEVVBLmYVRnvKDit0OXM7SV5Z8zt7S34SXRaWdiFTh4CEElOS
+ /FLOHivNlcvpBYFUI0WklSZodmOLlVXAJXcLvpVdYYCO+JLtNXHd0Yoxq
+ 0y3jS3liotROyvMvs7IodfQPueG37MDaCVP85qzcgN5xXpSxMrvKBUskF
+ OTNuFOWBUVWqE8FaLQ2/ULfTO2LrDHbRrzkuIv4lSp9g/Q3JKBSXzwGMi Q==;
+X-CSE-ConnectionGUID: Oex6/S7qRLqevHTpLmqwBQ==
+X-CSE-MsgGUID: CpsRmDWER/OVBsiJL624dQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="75183312"
+X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; d="scan'208";a="75183312"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2026 11:06:33 -0800
+X-CSE-ConnectionGUID: vzRsW4DURWSFf1RH8dfBFw==
+X-CSE-MsgGUID: K2t1elTGRe+FfW+oqdBP0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; d="scan'208";a="247531886"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.205])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2026 11:06:29 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Aniket Sahu <aniketsahu999@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: drm-misc@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, Aniket Sahu <aniketsahu999@gmail.com>
+Subject: Re: [PATCH] drm: fix spacing in printk format strings
+In-Reply-To: <20260203152127.88126-1-aniketsahu999@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20260203152127.88126-1-aniketsahu999@gmail.com>
+Date: Tue, 03 Feb 2026 21:06:26 +0200
+Message-ID: <3c1c17d0ce8ca8499e8ad172e0ff5f850fecc7d7@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,128 +76,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:alexander.deucher@amd.com,m:harry.wentland@amd.com,m:sunpeng.li@amd.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:siqueira@igalia.com,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:tomasz.pakula.oficjalny@gmail.com,m:bernhard.berger@gmail.com,m:michel.daenzer@mailbox.org,m:daniel@fooishbar.org,m:admin@ptr1337.dev,m:tomaszpakulaoficjalny@gmail.com,m:bernhardberger@gmail.com,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[tomaszpakulaoficjalny@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[17];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_NONE(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tomaszpakulaoficjalny@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,igalia.com,lists.freedesktop.org,vger.kernel.org,mailbox.org,fooishbar.org,ptr1337.dev];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FREEMAIL_TO(0.00)[gmail.com,lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
+	TO_DN_SOME(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	ARC_NA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[jani.nikula@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: E5354DDF82
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:mid,intel.com:dkim]
+X-Rspamd-Queue-Id: 0DE23DE08F
 X-Rspamd-Action: no action
 
-[Why]
-Many TVs and other HDMI sinks suffer from blanking and possibly other
-glitches when VRR is toggled. With FreeSync present on such sinks, they
-behave like the signal is always variable, even in fixed refresh rate
-situations.
+On Tue, 03 Feb 2026, Aniket Sahu <aniketsahu999@gmail.com> wrote:
+> Remove unnecessary string literal concatenation in printk format
+> strings by folding the space into the format directly. This is
+> in response to warnings from scripts/checkpatch.pl for
+> drm_print.c
+>
+> No functional change intended.
 
-[How]
-Keep HDMI VRR toggled if it's supported and not explicitly disabled.
-Additionnally, add module parameter which allows users to configure HDMI
-VRR triggering to only happen when the signal is truly asking for
-variable state. This is useful if end user has a TV that automatically
-toggles ALLM/Game mode when VRR is active and such user doesn't want
-gaming mode in normal desktop usage.
+https://docs.kernel.org/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
 
-Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu.h                 |  1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c             | 13 +++++++++++++
- .../amd/display/modules/info_packet/info_packet.c   |  9 +++++++--
- 3 files changed, 21 insertions(+), 2 deletions(-)
+> ---
+>  drivers/gpu/drm/drm_print.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+> index ded9461df..71aab4d22 100644
+> --- a/drivers/gpu/drm/drm_print.c
+> +++ b/drivers/gpu/drm/drm_print.c
+> @@ -198,10 +198,10 @@ static void __drm_dev_vprintk(const struct device *dev, const char *level,
+>  				   prefix_pad, prefix, vaf);
+>  	} else {
+>  		if (origin)
+> -			printk("%s" "[" DRM_NAME ":%ps]%s%s %pV",
+> +			printk("%s [" DRM_NAME ":%ps]%s%s %pV",
+>  			       level, origin, prefix_pad, prefix, vaf);
+>  		else
+> -			printk("%s" "[" DRM_NAME "]%s%s %pV",
+> +			printk("%s [" DRM_NAME "]%s%s %pV",
+>  			       level, prefix_pad, prefix, vaf);
+>  	}
+>  }
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index 312aa32064d5..d49cd55e0f35 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -269,6 +269,7 @@ extern int amdgpu_rebar;
- extern int amdgpu_wbrf;
- extern int amdgpu_user_queue;
- extern uint amdgpu_allm_mode;
-+extern bool amdgpu_hdmi_vrr_desktop_mode;
- 
- extern uint amdgpu_hdmi_hpd_debounce_delay_ms;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 4b038c8bbf9f..f53c2ffeffa2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -249,6 +249,7 @@ int amdgpu_rebar = -1; /* auto */
- int amdgpu_user_queue = -1;
- uint amdgpu_hdmi_hpd_debounce_delay_ms;
- uint amdgpu_allm_mode = 1;
-+bool amdgpu_hdmi_vrr_desktop_mode = true;
- 
- DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
- 			"DRM_UT_CORE",
-@@ -1146,6 +1147,18 @@ module_param_named(hdmi_hpd_debounce_delay_ms, amdgpu_hdmi_hpd_debounce_delay_ms
- MODULE_PARM_DESC(allm_mode, "Changes ALLM trigger mode (0 = disable, 1 = enable (default), 2 = force enable)");
- module_param_named(allm_mode, amdgpu_allm_mode, uint, 0644);
- 
-+/**
-+ * DOC: hdmi_vrr_on_dekstop (bool)
-+ * Enables FreeSync behavior mimicking by keeping HDMI VRR signalling active in
-+ * fixed refresh rate conditions like normal desktop work/web browsing.
-+ * Possible values:
-+ *
-+ * - false = HDMI VRR is only enabled if refresh rate is truly variable
-+ * - true  = Mimics FreeSync behavior and keeps HDMI VRR always active
-+ */
-+MODULE_PARM_DESC(hdmi_vrr_desktop_mode, "Changes HDMI VRR desktop mode (false = disable, true = enable (default))");
-+module_param_named(hdmi_vrr_desktop_mode, amdgpu_hdmi_vrr_desktop_mode, bool, 0644);
-+
- /* These devices are not supported by amdgpu.
-  * They are supported by the mach64, r128, radeon drivers
-  */
-diff --git a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
-index 5fd9e8aadc98..b41e2240e1ae 100644
---- a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
-+++ b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
-@@ -654,8 +654,13 @@ static void build_vtem_infopacket_data(const struct dc_stream_state *stream,
- 	bool vrr_active = false;
- 	bool rb = false;
- 
--	vrr_active = vrr->state == VRR_STATE_ACTIVE_VARIABLE ||
--		     vrr->state == VRR_STATE_ACTIVE_FIXED;
-+	if (amdgpu_hdmi_vrr_desktop_mode) {
-+		vrr_active = vrr->state != VRR_STATE_UNSUPPORTED &&
-+			     vrr->state != VRR_STATE_DISABLED;
-+	} else {
-+		vrr_active = vrr->state == VRR_STATE_ACTIVE_VARIABLE ||
-+			     vrr->state == VRR_STATE_ACTIVE_FIXED;
-+	}
- 
- 	infopacket->sb[VTEM_MD0] = VTEM_M_CONST << VTEM_M_CONST_BIT;
- 	infopacket->sb[VTEM_MD0] |= VTEM_FVA_FACTOR << VTEM_FVA_BIT;
 -- 
-2.52.0
-
+Jani Nikula, Intel
