@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0Lb7NmRpgmmETgMAu9opvQ
+	id EFaKAOBrgmlkUAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 22:32:20 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 22:42:56 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D854DEDE5
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 22:32:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 537E0DEE95
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 22:42:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 047A210E236;
-	Tue,  3 Feb 2026 21:32:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1438E10E274;
+	Tue,  3 Feb 2026 21:42:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ntX/TJBc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DpU4g0kC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94EE710E236
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 21:32:16 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6F7B10E274
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 21:42:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 5B05743F65;
- Tue,  3 Feb 2026 21:32:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 492A5C116D0;
- Tue,  3 Feb 2026 21:32:15 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 019B660129;
+ Tue,  3 Feb 2026 21:42:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66DF6C116D0;
+ Tue,  3 Feb 2026 21:42:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770154336;
- bh=MOjgqFKXh/fQ/B1f8Urt+Sxf5Ukj0uExqn+Nbmv5YJs=;
+ s=k20201202; t=1770154969;
+ bh=oqPMzGAG5KMEHrIwKA5YTd8Lbt2oI10dM6i5k6UVFrc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ntX/TJBcSeANnWcPMjreSrLRdExnI1nfuFFFeVd59O9wKgJ/yNEsJMfgGs+6ulUAw
- DiLMECu0+9eaVBMFW5CL88GKHZIRG7PxQmCduX/wPP3Q//7jjWLrHC1E7sIJFb1425
- tjltx+1p0nrxNVOXGVjhKoNXxeE3tOWOqf4KI48t6srQfQUr53GLwlHqdZ0jZOOuy9
- WSGEsqUH2YMRe9EVVMwGw/twpMpcmKT/b70ozHR7nuXxoLH6GaAqMMdYC54g6Qf28o
- Lgg2SF9/pU047uXA7kUUe1iU2iSgjR0S8xXDFV2clauEnThDG7bZ7l5tqyRCbMLjrF
- QNowBegCCQl6w==
-Date: Tue, 3 Feb 2026 15:32:13 -0600
+ b=DpU4g0kCw9ey7GmcmscShGofjjBh5MW+swf4E9UnuZQutdAaLEElQ/oqVZ3ek5CtI
+ Ko8BaTF94AbDdBgm1pyTTJ3dpp4+Rhj7keIEPwnYWeLGeXJdMJIyrXOzp+9v7F6YGP
+ n863B4T/CqepDiUbToyBdIWWTPqHXES33pqjY2dAy2lo1q2hr9VEPC+6BuydEMNg9x
+ sBxA04jYMluuU2tM2RBCXFZ0ecacv8DQbzHkHJQKOboJhvg1foqMmpke4zX1n7QM7+
+ zEQmT92cQGByeD6vrwIbKRi0iGS1mByRpl/CjJyp8iA16yZYPaNoVLzjVTuSI9uCDa
+ AbtfMP6gE0sfA==
+Date: Tue, 3 Feb 2026 15:42:46 -0600
 From: Bjorn Andersson <andersson@kernel.org>
-To: Jianping <jianping.li@oss.qualcomm.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, srini@kernel.org, 
- amahesh@qti.qualcomm.com, arnd@arndb.de, linux-arm-msm@vger.kernel.org, 
- ekansh.gupta@oss.qualcomm.com, thierry.escande@linaro.org, abelvesa@kernel.org,
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Jianping <jianping.li@oss.qualcomm.com>, srini@kernel.org, 
+ amahesh@qti.qualcomm.com, arnd@arndb.de, gregkh@linuxfoundation.org, 
+ linux-arm-msm@vger.kernel.org, thierry.escande@linaro.org, abelvesa@kernel.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- quic_chennak@quicinc.com, stable@kernel.org
-Subject: Re: [PATCH v2 1/4] misc: fastrpc: Add NULL check to fastrpc_buf_free
- to prevent crash
-Message-ID: <gjmq3xbu567ymkj5lc5u44pbehbn5spyshqj3wgi434q2ing75@lztciattj5pv>
+ quic_chennak@quicinc.com, Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Subject: Re: [PATCH v2 4/4] misc: fastrpc: Allocate entire reserved memory
+ for Audio PD in probe
+Message-ID: <4hnmij6jufkomwlb47fgg7ahwsjkamkaqx6h2t5cxoshfcdlpr@uh6n5tqofxdo>
 References: <20260115082851.570-1-jianping.li@oss.qualcomm.com>
- <20260115082851.570-2-jianping.li@oss.qualcomm.com>
- <2026011621-fang-moneywise-d6b2@gregkh>
- <2255b500-f4fd-4d7a-a5d9-5b4fb55c78b2@oss.qualcomm.com>
- <2026020245-catalog-outburst-f805@gregkh>
- <592129fa-cd8e-44b5-a18c-1fb6c6ed102b@oss.qualcomm.com>
+ <20260115082851.570-5-jianping.li@oss.qualcomm.com>
+ <ewiz36hwffy4egxpm7z3icvk4vd4fp7ktnny2vyiuzcsmzft5x@nsfvnpip26nd>
+ <3ba77da6-4a43-4e2b-b4d6-3d58c403ca0e@oss.qualcomm.com>
+ <pm7lequ6lqrgu3mloytfph5opz6aynaa4ag6uedc62fprpskoz@qqvonfthnk6n>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <592129fa-cd8e-44b5-a18c-1fb6c6ed102b@oss.qualcomm.com>
+In-Reply-To: <pm7lequ6lqrgu3mloytfph5opz6aynaa4ag6uedc62fprpskoz@qqvonfthnk6n>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,7 +81,7 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:jianping.li@oss.qualcomm.com,m:gregkh@linuxfoundation.org,m:srini@kernel.org,m:amahesh@qti.qualcomm.com,m:arnd@arndb.de,m:linux-arm-msm@vger.kernel.org,m:ekansh.gupta@oss.qualcomm.com,m:thierry.escande@linaro.org,m:abelvesa@kernel.org,m:linux-kernel@vger.kernel.org,m:quic_chennak@quicinc.com,m:stable@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:jianping.li@oss.qualcomm.com,m:srini@kernel.org,m:amahesh@qti.qualcomm.com,m:arnd@arndb.de,m:gregkh@linuxfoundation.org,m:linux-arm-msm@vger.kernel.org,m:thierry.escande@linaro.org,m:abelvesa@kernel.org,m:linux-kernel@vger.kernel.org,m:quic_chennak@quicinc.com,m:ekansh.gupta@oss.qualcomm.com,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[andersson@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	ARC_NA(0.00)[];
@@ -102,76 +101,72 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:email]
-X-Rspamd-Queue-Id: 2D854DEDE5
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 537E0DEE95
 X-Rspamd-Action: no action
 
-On Tue, Feb 03, 2026 at 08:08:16PM +0800, Jianping wrote:
-> 
-> 
-> On 2/2/2026 4:41 PM, Greg KH wrote:
-> > On Mon, Feb 02, 2026 at 03:13:10PM +0800, Jianping wrote:
+On Tue, Feb 03, 2026 at 11:19:39PM +0200, Dmitry Baryshkov wrote:
+> On Mon, Feb 02, 2026 at 03:06:59PM +0800, Jianping wrote:
+> > 
+> > 
+> > On 1/16/2026 4:49 AM, Dmitry Baryshkov wrote:
+> > > On Thu, Jan 15, 2026 at 04:28:51PM +0800, Jianping Li wrote:
+> > > > The entire reserved-memory region is now assigned to DSP VMIDs during
+> > > > channel setup and stored in cctx->remote_heap. Memory is reclaimed in
+> > > > rpmsg_remove by revoking DSP permissions and freeing the buffer, tying
+> > > > heap lifecycle to the rpmsg channel.
 > > > 
+> > > > @@ -1370,8 +1346,15 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
+> > > >   	args[1].length = inbuf.namelen;
+> > > >   	args[1].fd = -1;
+> > > > -	pages[0].addr = fl->cctx->remote_heap->dma_addr;
+> > > > -	pages[0].size = fl->cctx->remote_heap->size;
+> > > > +	if (!fl->cctx->audio_init_mem) {
+> > > > +		pages[0].addr = fl->cctx->remote_heap->dma_addr;
+> > > > +		pages[0].size = fl->cctx->remote_heap->size;
 > > > 
-> > > On 1/16/2026 10:49 PM, Greg KH wrote:
-> > > > On Thu, Jan 15, 2026 at 04:28:48PM +0800, Jianping Li wrote:
-> > > > > From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-> > > > > 
-> > > > > The fastrpc_buf_free function currently does not handle the case where
-> > > > > the input buffer pointer (buf) is NULL. This can lead to a null pointer
-> > > > > dereference, causing a crash or undefined behavior when the function
-> > > > > attempts to access members of the buf structure. Add a NULL check to
-> > > > > ensure safe handling of NULL pointers and prevent potential crashes.
-> > > > 
-> > > > What caller passes in NULL here?  I did a quick look, and see where the
-> > > > callers check this properly if it could be NULL, otherwise it all looks
-> > > > sane to me.  What in-kernel user is causing a crash here?  Why not fix
-> > > > the caller up instead?
-> > > > 
-> > > > thanks,
-> > > > 
-> > > > greg k-h
-> > > 
-> > > It's a saftety coding: to eliminate NULL checks on the caller side, as we do
-> > > in a lot of other kernel API.
-> > 
-> > But you do not do that for all functions in the kernel, otherwise the
-> > kernel would be full of checks that are never hit at all.
-> To clarify the intention: this change was not triggered by any real crash in
-> current callers. The motivation came from the v1 review discussion [1],
-> where it was suggested that a NULL check in fastrpc_buf_free() would allow
-> simplifying some of the caller paths.
+> > > Do we need a flag? Can't we assume that remote_heap is always to be
+> > > allocated to the PD?
+> > We do need the audio_init_mem flag.
+> > Once the PD starts and daemon takes the memory for the first time, PD will
+> > start using the memory,
+> > meanwhile, the daemon can be killed and restarted. In this case, the memory
+> > is still with the PD and the next
+> > daemon connection should not take any memory for the next request. This flag
+> > is maintained to ensure that.
+> > The memory needs to be resent only if Audio PD on DSP restarts(due to
+> > PD-restart or Subsystem-restart)
 > 
-> [1] https://lore.kernel.org/all/c80c48a1-f1b6-4520-9d7c-3a83915c7717@oss.qualcomm.com/
-> > 
-> > > And it was pointed out in the v1 patch discussion that this change was
-> > > needed:
-> > > https://lore.kernel.org/all/c80c48a1-f1b6-4520-9d7c-3a83915c7717@oss.qualcomm.com/
-> > 
-> > Were the checks removed from the caller side like was asked for?
-> 
-> Currently, I have placed the check inside the API and removed all the checks
-> outside the API.
-> 
-> > 
-> > Also, your changelog makes it sound like this is a real bugfix for
-> > something, when it is not at all, which is what I object to the most.
-> > Don't make scary changelogs for things that are not actually happening.
-> 
-> You are correct. I will modify the commit text that caused the
-> misunderstanding.
+> This needs to be explained in the changelog.
 > 
 
-You should then also drop Cc: stable and Fixes:, as this is no longer a
-bug fix. And make sure you don't put actual bug fixes after this one in
-the series (i.e. it probably shouldn't be patch 1/4).
+Not in the "changelog", in the commit message.
+
+
+@Jianping please read https://docs.kernel.org/process/submitting-patches.html#describe-your-changes 
+
+Your commit messages should "Describe your problem". From this
+description it should be clear why the change is needed and why the
+change is done in the specific way.
 
 Regards,
 Bjorn
 
 > > 
-> > thanks,
-> > 
-> > greg k-h
+> > > 
+> > > > +		fl->cctx->audio_init_mem = true;
 > 
+> What if there are two racing IOCTLs, trying to init AudioPD process?
+> 
+> > > > +		inbuf.pageslen = 1;
+> > > > +	} else {
+> > > > +		pages[0].addr = 0;
+> > > > +		pages[0].size = 0;
+> > > > +	}
+> > > >   	args[2].ptr = (u64)(uintptr_t) pages;
+> > > >   	args[2].length = sizeof(*pages);
+> 
+> -- 
+> With best wishes
+> Dmitry
 > 
