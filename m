@@ -2,78 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oJ5QB6GugWn0IQMAu9opvQ
+	id 6CbZCJ6ugWn0IQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 09:15:29 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 09:15:26 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1CA9D6175
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 09:15:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2CAD6151
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 09:15:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DD5510E576;
-	Tue,  3 Feb 2026 08:15:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C014210E54C;
+	Tue,  3 Feb 2026 08:15:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="d+2X2bxr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CplbSt2D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91FF010E51F
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 04:47:45 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-2a7bced39cfso54822965ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 20:47:45 -0800 (PST)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B6A910E1F4
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 04:52:15 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-2a7bceb6cd0so35970635ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 20:52:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770094065; x=1770698865; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=doaACG/D+VS8vv3mxSVPzZpMTEXTnbMFWjr/fZXYyuQ=;
- b=d+2X2bxrx0eXBoglHJowD1K5VfGFMk3Y+Ra/mmSw8x4w6a8YInb1tYZnAL+M5YvIu9
- 0pYiUreOnOhuQEluoPQZpVP0tuTzZA7wydIDNdwvs3beDgnuyAP3SpugFC/78JPjhwLD
- 1hxPofdwUud/8jIQjL9prp2N4j+t9f1qSsjBUi5OJ9as2HW8ezwjFVQzHyxtOJ0PRTV4
- h4qp1zE4W9i95g6NpMVrYAYnovWge4l6NxI9Z6djzfX74EQoUhKqhahkz+lDyGc6jRn4
- RUg+AQgzVKrZyx+F9DcZUMoOkmKn6MDvoHoiBJcBFop3eggnd2y9pV/lnasVRlOfMUhc
- UIhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770094065; x=1770698865;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1770094335; x=1770699135; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=doaACG/D+VS8vv3mxSVPzZpMTEXTnbMFWjr/fZXYyuQ=;
- b=qJN/rIJ27XB+eZoZs+UtxMCBXtkqUKu5IM8uT0808SjDsPtgio/XkxjTSXeTbnAsk7
- oc0oCyoQ2FQhgt2RUIPuJ1gHpA7u9z7tvxTAdGWPBN8zAQoDqN7ZHlKzbHevyJpz1KJG
- 6WbXcmzgAO1voRD1/XvWadnxeDP+IsZj3N2FCdBS9Hlk22nbhkq81LAQmHciSu5cifBi
- v8jZ/H86RFRTCDm2r/25cOggyNqiBDrNFJIzdPfxlna5p7Jg/ZMGhtNkljq7jYpeaNxq
- GEeGtiYCKk3O3Bx90yabD/7nvLJO3gpRTlYT7iGymjOKs532QX9vH53BBMfFb9V0wL+p
- TIBA==
-X-Gm-Message-State: AOJu0Ywf+uX45tS5AzmeTg/2b7L7WLoPLhH2i5Oc2J0xezxWM6ilTSQB
- E+3XeLNUyuAFfYKXJTc+f0VDNAFI1RlMjWNC+ViKO+wyzRWKWLqGsImX
-X-Gm-Gg: AZuq6aKzb16x70xmh031Leb6QRHAM8YEQVriAwPuqGII2yeQ0gal8/bt3luZjjj6q5E
- 1Rjx1E/i69FbGcZqdeyi0neQpTC5T5R3OrRqoYTR6lX4wkpJ6sDd7NlhBvTkehObiYlQKdcynEP
- 4lOsK/kNCFBQSePFoQ8qDeHQi40QngOS/BoY/1ng+/nl3ThPAV7yS4e824NotbaX/4EULrxJ1K1
- JY3pJkpzHBhNHC/orkCxhuOHpTTYmyM3a22XEhiD2wvna+GW8/osIucfNT+hbMwpXr/dbwuB8eO
- nmb1n0e9PQ8fw2tF/qOSdehoJPk88lB21DLLu4BOsL7WaJZ6CnyBQjIDTS26IlIeL+63qqyEfC0
- 0KubE3Wn2UsJ9/lbH3CD2baMStZ5nMSd6qVSjILpdStgkmxV4al94z9rG0/mRpi0OORJlqu900V
- aEaHkf8RtJdhuYxo98YTdWL3OKa9TklULYUg==
-X-Received: by 2002:a17:903:1984:b0:2a7:3db0:6e1d with SMTP id
- d9443c01a7336-2a8d96a6af9mr100225895ad.9.1770094065094; 
- Mon, 02 Feb 2026 20:47:45 -0800 (PST)
+ bh=sahNc25e8V/0vokuer5AdT6A9YG4/1fX8go429GK/ZE=;
+ b=CplbSt2D6k5OekQSjl1MJ94SkkKDZgFhAU3IWwGB5C2OYW00C9aSSG2GJX4jcSoNkl
+ 6D0B8mejV2MX7fUFuOEe0ra58oZzK3HsZ3JKrkC/jfELOvCkKTThbODIe/xXjrmLokII
+ m/csxFyvg4DTYd6pMM2TJlFLiC1PXUZ3rALNnSU5WARqdg+fvTwgUbmj+S6Vqog3XMVk
+ nIZytf+f76BudNqTAzPuB5MsApEQc8ssXbYsq1EeNvaYP6G31+DoEK9fDlytkE316blj
+ XPiGh+tOKfEk7ThEijtR6254Kix2tdAUl3mZvbZJKErcH0H7aWQe4vjiRZzAC/TZ51Qp
+ Pdww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770094335; x=1770699135;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=sahNc25e8V/0vokuer5AdT6A9YG4/1fX8go429GK/ZE=;
+ b=WnPHtB1LEiVdcZzA51W5OPEPQB1OjUCcNL2NYMY3y3Usn2eGeISsn5gETQOku/WH5n
+ OXZNPNDU5hMsSQbZ22coxtypH4wYfJ7QPnJI6vM5BcdDIeTTsrky36LTekN1pxCe56ER
+ kXfgsxsqT9buiF1duG5PhyOUOjGne8rMgCASjbiWFEFMDcIYuKjp6Z6aZPnG8Qtkbn1u
+ BumeySger4kP44vtH6l20appPA3TZL3Ash5eYlejC27sPRtXhN9N4z8UR70ngLlMfopJ
+ 1q/9vLWqTYWE4BrR/hNnn9pcKX/vkaUKaDUbHPwxtN5LLMupgf88ajQNtsvvaqO+JWDQ
+ GDAQ==
+X-Gm-Message-State: AOJu0YzrfRpMwWxgHViCnFEJwFMGznI8z8u3PCb4UkJlN+ONMsjlP0n0
+ 13srTDv0y9vSsXE9Sj+JHGt4gcQ+H0lc73E8H8fBKIfcLfXuZZame2jSWwXcyg==
+X-Gm-Gg: AZuq6aLQLjGtymb4JRw5MwXfGMKat0jaKmnMjqXbbgT5wGkliJfosSPDVSVW4D4oSSY
+ v9Xe2IIJUJBEKg7HqHtzqzGxW/+7RfHkkup/SxQtJO3odoSjFKdR+mv48OgTIEJcLuycdsh2T5S
+ M1XxO9Riyv7dvW9Rfp3STKpimRvKtadeF0+W7/AD0tl4ffAw6eZpTwyaClqzrX8aTQCQZRhBq0L
+ Xe1fQV/vbzXnW+u9oO554hN9BS+Y04vdN7wgEvMVROyJSLP6n+/MQSrceB9WIaZ+J6VtSjhtFm3
+ UlUIFjI+VKTjvtmY7ev1S+Pf4GROWeJ8bWmfeQRbA9T0jfkbSlDsc+jMfhVdv4uSZ+Zyf0ytUB9
+ 68WDVZHb7A6LnWVQYElxYdRP38VFXdzuzW5O9Y6NcWFT0trfRdXoLyLA3Ebhx5qN3S8tKLY3Rbx
+ MKRieHu3Dnfsij0BtN4RrdpdU=
+X-Received: by 2002:a17:902:f544:b0:2a7:fe78:a344 with SMTP id
+ d9443c01a7336-2a8d959c5a1mr143542085ad.6.1770094335015; 
+ Mon, 02 Feb 2026 20:52:15 -0800 (PST)
 Received: from krishna.. ([103.220.210.247]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2a8ec56da60sm85791515ad.38.2026.02.02.20.47.42
+ d9443c01a7336-2a8ec56da60sm85791515ad.38.2026.02.02.20.52.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Feb 2026 20:47:44 -0800 (PST)
+ Mon, 02 Feb 2026 20:52:14 -0800 (PST)
 From: KrishnaAgarwal1308 <krishnaworkemail1308@gmail.com>
 To: Andy Shevchenko <andy@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
  KrishnaAgarwal1308 <krishnaworkemail1308@gmail.com>
-Subject: [PATCH] Revert "staging: fbtft: remove goto from
- define_fbtft_write_reg macro and clarify empty modifier fbtft-bus.c"
-Date: Tue,  3 Feb 2026 10:17:27 +0530
-Message-ID: <20260203044728.23774-1-krishnaworkemail1308@gmail.com>
+Subject: [PATCH] staging: fbtft: fix macro flow control warning and empty
+ macro argument in fbtft-bus.c
+Date: Tue,  3 Feb 2026 10:17:28 +0530
+Message-ID: <20260203044728.23774-2-krishnaworkemail1308@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260203044728.23774-1-krishnaworkemail1308@gmail.com>
+References: <20260203044728.23774-1-krishnaworkemail1308@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 03 Feb 2026 08:15:23 +0000
@@ -126,83 +129,73 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: C1CA9D6175
+X-Rspamd-Queue-Id: 8C2CAD6151
 X-Rspamd-Action: no action
 
-Replace the goto-based error handling in the define_fbtft_write_reg macro with an
-early return while ensuring va_end() is called on all exit paths.
+Fix checkpatch warning by adding identity modifier for define_fbtft_write_reg().
+No functional change.
 
-Also add a short comment explaining the empty modifier argument used
-for native byte-order writes, instead of introducing an identity macro.
-
-No functional change intended.
-
-This reverts commit 6eec69e273e124dca8549fc52b0958b2953085ee. As per maintainer's feedback.
-
-Signed-off-by: Krishna Agarwal <krishnaworkemail1308@gmail.com>
+Signed-off-by: KrishnaAgarwal1308 <krishnaworkemail1308@gmail.com>
 ---
- drivers/staging/fbtft/fbtft-bus.c | 41 ++++++++++++++++---------------
- 1 file changed, 21 insertions(+), 20 deletions(-)
+ drivers/staging/fbtft/fbtft-bus.c | 36 +++++++++++++++----------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
-index 0ab4f5c4f886..9b9df0edc158 100644
+index 30e436ff19e4..0ab4f5c4f886 100644
 --- a/drivers/staging/fbtft/fbtft-bus.c
 +++ b/drivers/staging/fbtft/fbtft-bus.c
-@@ -10,7 +10,6 @@
+@@ -10,6 +10,7 @@
   *   void (*write_reg)(struct fbtft_par *par, int len, ...);
   *
   *****************************************************************************/
--#define fbtft_identity(x) (x)
++#define fbtft_identity(x) (x)
  
  #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
  void func(struct fbtft_par *par, int len, ...)                                \
-@@ -43,28 +42,30 @@ void func(struct fbtft_par *par, int len, ...)                                \
+@@ -42,29 +43,28 @@ void func(struct fbtft_par *par, int len, ...)                                \
  	*buf = modifier((data_type)va_arg(args, unsigned int));               \
  	ret = fbtft_write_buf_dc(par, par->buf, sizeof(data_type) + offset,   \
  				 0);                                          \
--	if (ret >= 0) {							      \
--		len--;                                                                \
--											\
--		if (par->startbyte)                                                   \
--			*(u8 *)par->buf = par->startbyte | 0x2;                       \
--											\
--		if (len) {                                                            \
--			i = len;                                                      \
--			while (i--)						      \
--				*buf++ = modifier((data_type)va_arg(args,             \
--									unsigned int));   \
--			fbtft_write_buf_dc(par, par->buf,			      \
--					len * (sizeof(data_type) + offset), 1);    \
--		}                                                                     \
--	}											\
--	va_end(args);                                                         \
-+	if (ret < 0) {							      \
-+		va_end(args);						      \
-+		return;							      \
-+	}								      \
-+	len--;                                                                \
-+									      \
-+	if (par->startbyte)                                                   \
-+		*(u8 *)par->buf = par->startbyte | 0x2;                       \
-+									      \
-+	if (len) {                                                            \
-+		i = len;                                                      \
-+		while (i--)						      \
-+			*buf++ = modifier((data_type)va_arg(args,             \
-+							    unsigned int));   \
-+		fbtft_write_buf_dc(par, par->buf,			      \
-+				   len * (sizeof(data_type) + offset), 1);    \
-+	}                                                                     \
-+	va_end(args);							      \
+-	if (ret < 0)							      \
+-		goto out;						      \
+-	len--;                                                                \
+-									      \
+-	if (par->startbyte)                                                   \
+-		*(u8 *)par->buf = par->startbyte | 0x2;                       \
+-									      \
+-	if (len) {                                                            \
+-		i = len;                                                      \
+-		while (i--)						      \
+-			*buf++ = modifier((data_type)va_arg(args,             \
+-							    unsigned int));   \
+-		fbtft_write_buf_dc(par, par->buf,			      \
+-				   len * (sizeof(data_type) + offset), 1);    \
+-	}                                                                     \
+-out:									      \
++	if (ret >= 0) {							      \
++		len--;                                                                \
++											\
++		if (par->startbyte)                                                   \
++			*(u8 *)par->buf = par->startbyte | 0x2;                       \
++											\
++		if (len) {                                                            \
++			i = len;                                                      \
++			while (i--)						      \
++				*buf++ = modifier((data_type)va_arg(args,             \
++									unsigned int));   \
++			fbtft_write_buf_dc(par, par->buf,			      \
++					len * (sizeof(data_type) + offset), 1);    \
++		}                                                                     \
++	}											\
+ 	va_end(args);                                                         \
  }                                                                             \
  EXPORT_SYMBOL(func);
--
--define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, fbtft_identity)
-+/* No modifier --> No byte-conversion is needed, data in native byte order */
-+define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
+ 
+-define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
++define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, fbtft_identity)
  define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
--define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, fbtft_identity)
-+define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
+-define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
++define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, fbtft_identity)
  
  void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
  {
