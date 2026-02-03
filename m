@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QBpJL2cYgmmZPAMAu9opvQ
+	id GB3pNmgYgmmZPAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:46:47 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:46:48 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D73DB7AB
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:46:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8670CDB7B2
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:46:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02A7910E6D8;
-	Tue,  3 Feb 2026 15:46:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CB4210E6DA;
+	Tue,  3 Feb 2026 15:46:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ubp+mG2U";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="DGvEqasy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dy1-f201.google.com (mail-dy1-f201.google.com
- [74.125.82.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B281910E6CE
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 15:46:42 +0000 (UTC)
-Received: by mail-dy1-f201.google.com with SMTP id
- 5a478bee46e88-2b795cff830so18085153eec.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Feb 2026 07:46:42 -0800 (PST)
+Received: from mail-dl1-f73.google.com (mail-dl1-f73.google.com [74.125.82.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6455710E6DA
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 15:46:45 +0000 (UTC)
+Received: by mail-dl1-f73.google.com with SMTP id
+ a92af1059eb24-124627fc58dso9318498c88.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Feb 2026 07:46:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1770133602; x=1770738402;
+ d=google.com; s=20230601; t=1770133604; x=1770738404;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=yriD2nT/Os7MHztKIgeqU92FBaPsLQ1akZyLJCP9KTY=;
- b=ubp+mG2UnLPiQd9vGDc23KqZB8C1XPWNE1dtNjHg7a1x1IfEQcS/Mi95iVSLryhmhd
- YYo+UliwJbXEfsE5PW2oC9uBslAIL1QApRoPmDg8OaeGmNwbvWGCQY/c+i4SYwpFzOl5
- oT71A/ZUin9jmibErX21Snb5fIS8iQf2hLTz9K0+9Kv0jDXcuPuVeHPCEuGY14ypmMPZ
- RXS/bMyj/m2VJQH3eDPG6GHh7qWAZ89fWbECNMqt8R/RG10LZNorn3YLvgixSy716n0a
- ZM/bA8ammCARLnF12bqodT+8x8qR4oPN3Fq4dRgassD+c87gYMOBmJcYnA9i5Hc+qVB+
- f8pQ==
+ bh=Wdhof5UcFa0LauNDEG7A5hw9JfGF2S2FIbHiIBJlkVI=;
+ b=DGvEqasydIeHVSfsJMjiksJg/KIkBXaKewpnNCs5FMK6XVU4xMz+/s1lPJSYBiDGJz
+ hCw7Bu2R9yjc/Sij4dK8US8/s5LkB+jUTSSyv0nZQBpoesTwg8XqGObnlCZuPsDsrIZi
+ 9VufiReQs0V2q2UgPBmSqnR/rHtP8t4vRSe9NsMlSEp4wjJsESSNSYY4lPCtBrBKH35z
+ 7lY3mrBPqLws59P7XyTKUfloqyBpkYye3/ESmaEAY8sLBV6Tf/w565bWeG4R9Yr24jbl
+ qg4xqByCJqyUn0lGHAaVuTOqIPrW+sPRHtACNTxviYplcvpvFZWUuHBTVEV79YJHEySA
+ vO7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770133602; x=1770738402;
+ d=1e100.net; s=20230601; t=1770133604; x=1770738404;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yriD2nT/Os7MHztKIgeqU92FBaPsLQ1akZyLJCP9KTY=;
- b=NzGp9ILo1ihtckXvGoESHB9wy9OQ8ocyTKY6OUufySPn+xdz5B2AYR4X2QKolvwkE0
- JmSgpcv39FsTHh0WrbrJhqBCQMZM6I8x9L9aA5j4zRn4fGrGVwmXufvw9sVo000rNVe6
- N+4FTuRAmmMmR8PRWBc9mThI4BSagVXKDsCDMLdLMV7znA9kVjBSuUMRbPcpJ/ap3fFB
- l03aPyZZOj4IjFTI4I7eNd9mY4DHMpYE4vv8Cuog8DgWGN3wXtS7j31ioDsDmx+QUMBM
- zIeRHlDdESjNIfvKx6pY8xuXHBzTEqrVLsIL7+s3emcKW+15zUloRcMTzDkjJNOK6CEy
- S74A==
+ bh=Wdhof5UcFa0LauNDEG7A5hw9JfGF2S2FIbHiIBJlkVI=;
+ b=BicWt1SgccNuf+xGLD+9+5PXBmRi05n5mKWtwaxUfJojW+npWALY9+Vh3gPXn2kzr1
+ NI6IBoSCgdZdr1X6zdcIGcj9CR1FrUKnxUFSrxTuP5TH3u+zjOYGG25p8/FO0yEzTI3y
+ YiDXPlKnddi32ByJAYzAdigUQwuZvGuDKh4sEpeoZ79byg23WIOONOMFztA+JOElbwCY
+ dHdbqlThiAGnVoImwYjwdP3+oMVjx5J9kPeuBNCcicyL1Wr8LMAU8eMTnWcEpQFQrSxd
+ 5XGyavFFG+OP8jJS5hZ6YCdTXdyCPpO+9JtrZnzoXAg+Sl4+j9EJGc5jN3Jl3w5JlIwW
+ tljg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXayD4zdPQbDFS+EUArJRpg8EKdLrpHjKlLKdJfN3ZnV5W8WIvnZMQohCRLw+vCywRbRMHJKfRUABM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwU5xrDdgJuU3JspZZlMsjRVtIOH4jO1GOOgz+6fyvnnzNCjEqX
- maEowPhWfqMQR6BHh5Fmf7GcZJkyqIwqpH/N7GJtGh5qqU8q9KgCA4PQgDHx7c94RYIWlmlUCOW
- QXuahS9YFtQ==
-X-Received: from dybhk18.prod.google.com ([2002:a05:7301:2892:b0:2b7:d91:b4a2])
+ AJvYcCWKVHt5HP8LbeBg90AexBBq9XUKr02QZ5WFR0SJCjhIrCmViC/6Vqk5/uVEMSCHPXSwkW3qZE/7Aww=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxubrvTxJjyR5kyIfqxRZhh6yU1vKLgoG62/mKzA0oTIY3M24BF
+ KYxj4d5Sw5GXn8LCKZ0dwmTigKAUAXDvj4PJNWnZ+J1DEyA3SZYFtJ0Fy1fcNR0nMxiU1KFJZ6W
+ y1oiUbKnxcw==
+X-Received: from dlcip4.prod.google.com ([2002:a05:7023:c084:b0:124:a6e8:e9eb])
  (user=mmaurer job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:7300:7491:b0:2b7:f28d:c8c1
- with SMTP id 5a478bee46e88-2b8327328c7mr4126eec.0.1770133601984; Tue, 03 Feb
- 2026 07:46:41 -0800 (PST)
-Date: Tue, 03 Feb 2026 15:46:33 +0000
+ 2002:a05:7022:6281:b0:11b:9386:8271
+ with SMTP id a92af1059eb24-125c10081bamr8120436c88.46.1770133603693; Tue, 03
+ Feb 2026 07:46:43 -0800 (PST)
+Date: Tue, 03 Feb 2026 15:46:34 +0000
 In-Reply-To: <20260203-qcom-socinfo-v2-0-d6719db85637@google.com>
 Mime-Version: 1.0
 References: <20260203-qcom-socinfo-v2-0-d6719db85637@google.com>
 X-Developer-Key: i=mmaurer@google.com; a=ed25519;
  pk=2Ezhl7+fEjTOMVFpplDeak2AdQ8cjJieLRVJdNzrW+E=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1770133593; l=1096;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770133593; l=2442;
  i=mmaurer@google.com; s=20250429; h=from:subject:message-id;
- bh=sLbxFTX2mTYV2vSHOwak0YCZYcQva6hVw82FQCeYKlk=;
- b=lrUfeO8BzxGoH2q0cLzXZitIHc5mxhrmhIP1EvIGlTolROpSubzosdu4ukDgERhXMbVdgqt6B
- hy4MuPfZ3YMDwryq+n6Z7b1/52uJBUTXJBD7xC/OlPQKkhC26hmI+cu
+ bh=WtZdKvjX12D2Jmn1kMkn/+vs+NvlqXqrgcd1O83Ixd4=;
+ b=y1zunl2p/I9o6cmWUb2NnYfAPstnO8iv9BQaW1CxpWleUmklNBei8N2Of6dN4lKwNKIrkORJy
+ w7+q2IWbzENDidaJ41cve7e/37dXsY/YHczM8JnE76IbaJ4tUPyi7qM
 X-Mailer: b4 0.14.2
-Message-ID: <20260203-qcom-socinfo-v2-4-d6719db85637@google.com>
-Subject: [PATCH v2 4/6] rust: auxiliary: Support accessing raw aux pointer
+Message-ID: <20260203-qcom-socinfo-v2-5-d6719db85637@google.com>
+Subject: [PATCH v2 5/6] rust: debugfs: Allow access to device in
+ Devres-wrapped scopes
 From: Matthew Maurer <mmaurer@google.com>
 To: Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>, 
@@ -141,35 +141,74 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 65D73DB7AB
+X-Rspamd-Queue-Id: 8670CDB7B2
 X-Rspamd-Action: no action
 
-While it's preferable to add bindings in the kernel crate rather than
-using raw pointers where possible, access to the raw aux pointer is
-required to pass it to C interfaces provided by a driver.
+This adds support for creating a DebugFS directory which is aware that
+it is bound to a device. As a result, callbacks under that directory
+have access to a bound device which gives them efficient access to other
+Devres, ability to use dev_err! and friends, etc.
 
 Signed-off-by: Matthew Maurer <mmaurer@google.com>
 ---
- rust/kernel/auxiliary.rs | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ rust/kernel/debugfs.rs | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
-index 93c0db1f66555c97ec7dc58825e97c47c0154e54..1a88277f0fd9ea5ff32cc534dfe5682009de94c2 100644
---- a/rust/kernel/auxiliary.rs
-+++ b/rust/kernel/auxiliary.rs
-@@ -237,7 +237,11 @@ pub struct Device<Ctx: device::DeviceContext = device::Normal>(
- );
- 
- impl<Ctx: device::DeviceContext> Device<Ctx> {
--    fn as_raw(&self) -> *mut bindings::auxiliary_device {
-+    /// Returns the underlying auxiliary device
-+    ///
-+    /// Prefer to add bindings in the kernel crate for any use other than calling driver-specific
-+    /// functions.
-+    pub fn as_raw(&self) -> *mut bindings::auxiliary_device {
-         self.0.get()
+diff --git a/rust/kernel/debugfs.rs b/rust/kernel/debugfs.rs
+index d7b8014a6474698235203f2b7d8fec96f2bb43f8..ac614d693fa73929d095b669e9ba61958bec609e 100644
+--- a/rust/kernel/debugfs.rs
++++ b/rust/kernel/debugfs.rs
+@@ -11,6 +11,11 @@
+ #[cfg(CONFIG_DEBUG_FS)]
+ use crate::sync::Arc;
+ use crate::{
++    device::{
++        Bound,
++        Device, //
++    },
++    devres::Devres,
+     fmt,
+     prelude::*,
+     str::CStr,
+@@ -722,3 +727,38 @@ fn new(name: &CStr) -> ScopedDir<'data, 'static> {
+         }
      }
- 
+ }
++
++impl<'a, T: 'a + Send> Devres<Scope<T>> {
++    /// Creates a new scope, which is a directory at the root of the debugfs filesystem,
++    /// associated with some data `T`, enclosed in a [`Devres`] for the provided device.
++    ///
++    /// The `init` closure is called to populate the directory with files and subdirectories. These
++    /// files can reference the data stored in the scope. Because it is stored inside a `Devres`,
++    /// the init method is granted access to a `&Device<Bound>`.
++    ///
++    /// This can be used for cheaply accessing device-protected data inside DebugFS methods or
++    /// accessing device-specific methods (e.g. [`dev_err!`]).
++    ///
++    /// The entire directory tree created within the scope will be removed when the returned
++    /// `Scope` handle is dropped.
++    pub fn dir<E: 'a, F>(
++        dev: &'a Device<Bound>,
++        data: impl PinInit<T, E> + 'a,
++        name: &'a CStr,
++        init: F,
++    ) -> impl PinInit<Self, Error> + 'a
++    where
++        F: for<'data, 'dir> FnOnce(&'data T, &'data Device<Bound>, &'dir ScopedDir<'data, 'dir>)
++            + 'a,
++        Error: From<E>,
++    {
++        Devres::new(
++            dev,
++            Scope::new(data, |data| {
++                let scoped = ScopedDir::new(name);
++                init(data, dev, &scoped);
++                scoped.into_entry()
++            }),
++        )
++    }
++}
 
 -- 
 2.53.0.rc2.204.g2597b5adb4-goog
