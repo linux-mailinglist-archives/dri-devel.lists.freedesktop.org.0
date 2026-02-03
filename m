@@ -2,77 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2Ca3F+wNgmkKOwMAu9opvQ
+	id iDipCYZCgmlHRQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:02:04 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 19:46:30 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3562DAF96
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:02:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B96EDDDCB0
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 19:46:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55C1810E694;
-	Tue,  3 Feb 2026 14:54:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C84EC10E2C8;
+	Tue,  3 Feb 2026 18:46:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="pFDS0747";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ThjId4B+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0325010E694
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 14:54:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1770130440;
- bh=3KcvY6BFAVkYx2CaRlFGKXfmnRMIMtHNvAHM5ApGVvU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=pFDS0747I6//N0JfFvhOfrFRr349OeRMQajiwIK8cB6QKQ03hqynIuKOrUfpt1l+O
- dTEBCyQ4QKVRojCCHAFmlJoVLbYxifRL5ffhWX3K36Od5RdlARX8wuWCdIqjEey18u
- FvjFLQDwvXiAsGytBefZEqsQCL0kPT4BhaYhhfE+K9G/m93jzOjmhYFBjSc2jt55qp
- BcuFlVbjlyBfZW13v4DFI3pJ6X3jbK5IqEN/XIZ+WjuyeJn5sv4U+NtF8WKY78DFcA
- 7Z1ick3CWWW6UrjT+OZRS/5bLrHmUV3oGyqoQlMCmlr/N+Ee5QkeFCL0rUJSoYMdUa
- 9DyAzghoEakpg==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 72A7317E1276;
- Tue,  3 Feb 2026 15:53:59 +0100 (CET)
-Date: Tue, 3 Feb 2026 15:53:54 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Daniel Almeida
- <daniel.almeida@collabora.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Danilo Krummrich <dakr@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Drew Fustini <fustini@kernel.org>, Guo Ren
- <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, "Uwe =?UTF-8?B?S2xlaW5l?=
- =?UTF-8?B?LUvDtm5pZw==?=" <ukleinek@kernel.org>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Miguel Ojeda
- <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
- <gary@garyguo.net>, "=?UTF-8?B?QmrDtnJu?= Roy Baron"
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
- Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-riscv@lists.infradead.org,
- linux-pwm@vger.kernel.org, linux-clk@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] rust: clk: use the type-state pattern
-Message-ID: <20260203155354.0cea1f65@fedora>
-In-Reply-To: <20260203122631.3a94a935@fedora>
-References: <20260107-clk-type-state-v3-0-77d3e3ee59c2@collabora.com>
- <20260107-clk-type-state-v3-1-77d3e3ee59c2@collabora.com>
- <20260108-delectable-fennec-of-sunshine-ffca19@houat>
- <98CD0BF6-3350-40B9-B8A9-F569AE3E3220@collabora.com>
- <20260119-thundering-tested-robin-4be817@houat>
- <aW4lCfUyumOKRRJm@google.com> <20260203113902.501e5803@fedora>
- <20260203122631.3a94a935@fedora>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+ [209.85.215.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAB3310E6BE
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 15:22:17 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id
+ 41be03b00d2f7-c61343f82d7so2297160a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Feb 2026 07:22:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1770132137; x=1770736937; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=JSZkVgiofjK07CSZH9W1LRi1VgYOmli3jIew7IEe2KA=;
+ b=ThjId4B+rvhdGAKjsOJ5FuX6sN/kAA87v2I2kC43pQAg1sJFi1XIbhq7ZbysBgp4rI
+ 9eK6zxFt8lDcle2hjx4UbWBDiYySoZ+N9G9FylTH+UafZhek/VoG7Y6ukmNk7QDpV5KI
+ D978RaCAoQf3EcD/ZscRLJFMXHsQiVVTloQhy1MVK4iQs97SN1bB9bA7zXEQUzJ0bpap
+ ICcwOHxOpgnUPDJ2MDyd3JVuYVU/ewYaDKjle6wF2ZD+8YgoDKXhCGu5PAL+nMLI7ROP
+ T37aSg+tVesPuPuQM4BbkhJHrargOLwc99CuGebW57gvmP6L8OKafGjgW2HFqEgDXiJR
+ ixsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770132137; x=1770736937;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=JSZkVgiofjK07CSZH9W1LRi1VgYOmli3jIew7IEe2KA=;
+ b=DZh6cF6cxKAAelKpg3OqoI7IcS8pS5TDUV+3/+GHA3ebUGMJoLef4ghY0NV+zHf5GX
+ a8VDiPLf3CfNfWWMOtQQzXWFXHFD7F3OlrBzagYUjm+9GGgGSUpc5wrK1eXmq5Gy8H8F
+ vYXYUTThBOLuCE/7rSn5Ri+Bi/JOHF43YK8ACRjQe755U5AGsN2k88NuT+khSIZ/Ox/6
+ ITcFcnAWamw//JAe9FZiMtscc0PR6N7GxMBNJttlT3LlaGoGu37sLTskO0+DbyIqi4Qn
+ pD3BpB+v8z4iIWq4xIKYIYDe69LmoZySM2lk0jFR+D3BIcbkfMxTR5xX+CT4tH/pmBVZ
+ JyBA==
+X-Gm-Message-State: AOJu0YyV7hreqhSWnUut0P54NOXYrhU39SI8HloMvkXYhKl6KIeAXtqY
+ R4tsXElozoVtom0zraKtNs3iV73c7Klwr2+kVxG8lDfDpTn196S5NSKB9Pu+3Wlu
+X-Gm-Gg: AZuq6aJAVxtop8aRQWw7lQ6vFAfbvur6+3js8LfP6prbJHuWjMnQcKpytyKANRwDda8
+ Na+NH31oaK2Wu3WFbcIb3Ku+aKNUsaIGw4yBHSYPe8aYLQXw4sbWTsjzaxehiJ9040AeDHQh1oZ
+ Yw83NnKQ5roGoIi0g87dG/F4mhhR3cxLrnQEawyeUf6OQGLf0Wllre8zJ7GLVNVjq+EkRDEpi49
+ nRhXdhlaAk9mmqUXB46Aa2WHru/Wj6BPvwoJ1BIObDuT/xBgCX504GwzSs0rmN6T2BEeC1kV+vh
+ gGPPkLq9L895fXRJpot+oH85ZqbCnni4sr+dihC7ohM0I/mG0JM2S1TOaQFcVt+1QtL9YP8MDqV
+ miszLjPURk5x5kK/7qURXv84X3bOXGdboNKT/KjhRjKza+2dju/RVHAKXVuMJv9lSrj3Mj9NbHm
+ WlUYgq889xne4aa0yMt2fXwOlinb4=
+X-Received: by 2002:a17:903:4b4c:b0:2a0:d5b0:dd82 with SMTP id
+ d9443c01a7336-2a8d81bde0fmr177373945ad.61.1770132136800; 
+ Tue, 03 Feb 2026 07:22:16 -0800 (PST)
+Received: from thickpad01 ([2406:7400:63:188d:b058:4381:a149:aa45])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2a88b4c3b29sm170551525ad.54.2026.02.03.07.22.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Feb 2026 07:22:16 -0800 (PST)
+From: Aniket Sahu <aniketsahu999@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: drm-misc@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, Aniket Sahu <aniketsahu999@gmail.com>
+Subject: [PATCH] drm: fix spacing in printk format strings
+Date: Tue,  3 Feb 2026 20:51:27 +0530
+Message-ID: <20260203152127.88126-1-aniketsahu999@gmail.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 03 Feb 2026 18:46:26 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,99 +91,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:mripard@kernel.org,m:daniel.almeida@collabora.com,m:rafael@kernel.org,m:viresh.kumar@linaro.org,m:dakr@kernel.org,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:ukleinek@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:linux-pm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:linux-pwm@vger.kernel.org,m:linux-clk@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[30];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,collabora.com,linaro.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,redhat.com,baylibre.com,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,lists.freedesktop.org,lists.infradead.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[aniketsahu999@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,collabora.com:dkim]
-X-Rspamd-Queue-Id: B3562DAF96
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: B96EDDDCB0
 X-Rspamd-Action: no action
 
-On Tue, 3 Feb 2026 12:26:31 +0100
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+Remove unnecessary string literal concatenation in printk format
+strings by folding the space into the format directly. This is
+in response to warnings from scripts/checkpatch.pl for
+drm_print.c
 
-> On Tue, 3 Feb 2026 11:39:02 +0100
-> Boris Brezillon <boris.brezillon@collabora.com> wrote:
-> 
-> > On Mon, 19 Jan 2026 12:35:21 +0000
-> > Alice Ryhl <aliceryhl@google.com> wrote:
-> >   
-> > > On Mon, Jan 19, 2026 at 11:45:57AM +0100, Maxime Ripard wrote:    
-> > > > On Thu, Jan 08, 2026 at 11:14:37AM -0300, Daniel Almeida wrote:      
-> > > > > > For example, it's quite typical to have (at least) one clock for the bus
-> > > > > > interface that drives the register, and one that drives the main
-> > > > > > component logic. The former needs to be enabled only when you're
-> > > > > > accessing the registers (and can be abstracted with
-> > > > > > regmap_mmio_attach_clk for example), and the latter needs to be enabled
-> > > > > > only when the device actually starts operating.
-> > > > > > 
-> > > > > > You have a similar thing for the prepare vs enable thing. The difference
-> > > > > > between the two is that enable can be called into atomic context but
-> > > > > > prepare can't.
-> > > > > > 
-> > > > > > So for drivers that would care about this, you would create your device
-> > > > > > with an unprepared clock, and then at various times during the driver
-> > > > > > lifetime, you would mutate that state.      
-> > > 
-> > > The case where you're doing it only while accessing registers is
-> > > interesting, because that means the Enable bit may be owned by a local
-> > > variable. We may imagine an:
-> > > 
-> > >     let enabled = self.prepared_clk.enable_scoped();
-> > >     ... use registers
-> > >     drop(enabled);
-> > > 
-> > > Now ... this doesn't quite work with the current API - the current
-> > > Enabled stated owns both a prepare and enable count, but the above keeps
-> > > the prepare count in `self` and the enabled count in a local variable.
-> > > But it could be done with a fourth state, or by a closure method:
-> > > 
-> > >     self.prepared_clk.with_enabled(|| {
-> > >         ... use registers
-> > >     });
-> > > 
-> > > All of this would work with an immutable variable of type Clk<Prepared>.    
-> > 
-> > Hm, maybe it'd make sense to implement Clone so we can have a temporary
-> > clk variable that has its own prepare/enable refs and releases them
-> > as it goes out of scope. This implies wrapping *mut bindings::clk in an
-> > Arc<> because bindings::clk is not ARef, but should be relatively easy
-> > to do. Posting the quick experiment I did with this approach, in case
-> > you're interested [1]  
-> 
-> This time with a proper RawClk(*mut bindings::clk) wrapper, so we can
-> clk_put() called in RawClk::drop() instead of in Clk::drop().
-> 
-> [1]https://gitlab.freedesktop.org/bbrezillon/linux/-/commit/6fa6cb72f14373b276c61d038bc2b16f49c78f74
+No functional change intended.
+---
+ drivers/gpu/drm/drm_print.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-And I forgot to drop the ManuallyDrop in that one, but I bet you get the
-idea.
+diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+index ded9461df..71aab4d22 100644
+--- a/drivers/gpu/drm/drm_print.c
++++ b/drivers/gpu/drm/drm_print.c
+@@ -198,10 +198,10 @@ static void __drm_dev_vprintk(const struct device *dev, const char *level,
+ 				   prefix_pad, prefix, vaf);
+ 	} else {
+ 		if (origin)
+-			printk("%s" "[" DRM_NAME ":%ps]%s%s %pV",
++			printk("%s [" DRM_NAME ":%ps]%s%s %pV",
+ 			       level, origin, prefix_pad, prefix, vaf);
+ 		else
+-			printk("%s" "[" DRM_NAME "]%s%s %pV",
++			printk("%s [" DRM_NAME "]%s%s %pV",
+ 			       level, prefix_pad, prefix, vaf);
+ 	}
+ }
+-- 
+2.53.0
+
