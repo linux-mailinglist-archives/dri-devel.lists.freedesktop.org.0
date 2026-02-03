@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ELMLHYsagmmZPAMAu9opvQ
+	id SPXuKNEagmmZPAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:55:55 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:57:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02486DB933
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:55:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 304CBDB959
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 16:57:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9666010E335;
-	Tue,  3 Feb 2026 15:55:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CFE610E6D5;
+	Tue,  3 Feb 2026 15:57:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Le/RAiAz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DSyyG+Rw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FA6510E335
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 15:55:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A857010E6D5
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 15:57:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4634F43432;
- Tue,  3 Feb 2026 15:55:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01758C116D0;
- Tue,  3 Feb 2026 15:55:45 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 7178E40A4D;
+ Tue,  3 Feb 2026 15:57:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27B14C16AAE;
+ Tue,  3 Feb 2026 15:56:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770134151;
- bh=/xUQRy0cArdh67xxYz8tNs4qAGoDCFuISO6r7tmdMFw=;
+ s=k20201202; t=1770134221;
+ bh=26nwcMryJ76wXMOtOoFHlXYsUq+qJpBWZUUKVoFPTOw=;
  h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=Le/RAiAzYp3Wea57YnAAv1R5gQs+iT5aAIy60KbhXOIGj66crsbNB1WcWKjR880yN
- TwBegG2uib0bt+bwRoetTp1PNLVmOIdsJTGVmAhgcqz325wX5aRJS9JCLiBvUG+XnT
- GCyJChVCdBnEYrV+rRLw5BkNp2hlTW0NGa5+MaUtlSC5EYU1ZKQYnjkCa3m2UDJlmP
- iVxdMNMogm6MLpcrJpdq71lWHj3At4J1GGOn9y/TKXdUm+U+ktytK9+ZLclR7JQaRq
- PfOm4lb6ikMdH7VK1J3avjgOZll86HW9FcvNp8oQdtHixFHE3wQtqaTUQl2icyHyWe
- Ksmzgq+oyqGvA==
+ b=DSyyG+RwctKLRWyjPLYbr0C5p1akxroX0ic0fyGhuYpYE1SzjmjWtfMTboxBvL/mC
+ mHDWNnXZd32pSXdBj94iiEuI/jPIleXhciHZKIu2wVAy17SSuHvtI/SP6g2jEjppc/
+ eMvgUuoJjDmLgnkt7zK9vvRH8oULq58M0gRgrhmxjqPaWYRv50LKEP/0DOdDUHNcyv
+ lpiyAIs9kMlTIgJSVVi6bJXGzgG976hL0iknU5auRiLrqhwNKsxJVABlruhEV4ubMJ
+ mFnVYzdWEi23/+OANM/WWOnvgX6h65i1v2Sjk0q1Ms4V7uW+kb73MkC+99MU2kniTx
+ 7JDOWf6A/OPrA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 03 Feb 2026 16:55:44 +0100
-Message-Id: <DG5G6NS0ZIPV.DGKUZ2J46AKX@kernel.org>
-Subject: Re: [PATCH v2 4/6] rust: auxiliary: Support accessing raw aux pointer
+Date: Tue, 03 Feb 2026 16:56:53 +0100
+Message-Id: <DG5G7JH81HEE.1ADZRELXEBNJD@kernel.org>
+Subject: Re: [PATCH v2 3/6] rust: device: Support testing devices for equality
 Cc: "Bjorn Andersson" <andersson@kernel.org>, "Konrad Dybcio"
  <konradybcio@kernel.org>, "Satya Durga Srinivasu Prabhala"
  <satyap@quicinc.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
@@ -60,8 +60,8 @@ Cc: "Bjorn Andersson" <andersson@kernel.org>, "Konrad Dybcio"
 To: "Matthew Maurer" <mmaurer@google.com>
 From: "Danilo Krummrich" <dakr@kernel.org>
 References: <20260203-qcom-socinfo-v2-0-d6719db85637@google.com>
- <20260203-qcom-socinfo-v2-4-d6719db85637@google.com>
-In-Reply-To: <20260203-qcom-socinfo-v2-4-d6719db85637@google.com>
+ <20260203-qcom-socinfo-v2-3-d6719db85637@google.com>
+In-Reply-To: <20260203-qcom-socinfo-v2-3-d6719db85637@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,43 +112,21 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 02486DB933
+X-Rspamd-Queue-Id: 304CBDB959
 X-Rspamd-Action: no action
 
 On Tue Feb 3, 2026 at 4:46 PM CET, Matthew Maurer wrote:
-> While it's preferable to add bindings in the kernel crate rather than
-> using raw pointers where possible, access to the raw aux pointer is
-> required to pass it to C interfaces provided by a driver.
+> This allows device drivers to check if, for example, an auxiliary
+> devices is one of its children by comparing the parent field, or
+> checking if a device parameter is its own device.
+>
+> Also convert existing `.as_raw() !=3D .as_raw()` to  use this new
+> implementation.
 >
 > Signed-off-by: Matthew Maurer <mmaurer@google.com>
-> ---
->  rust/kernel/auxiliary.rs | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
-> index 93c0db1f66555c97ec7dc58825e97c47c0154e54..1a88277f0fd9ea5ff32cc534d=
-fe5682009de94c2 100644
-> --- a/rust/kernel/auxiliary.rs
-> +++ b/rust/kernel/auxiliary.rs
-> @@ -237,7 +237,11 @@ pub struct Device<Ctx: device::DeviceContext =3D dev=
-ice::Normal>(
->  );
-> =20
->  impl<Ctx: device::DeviceContext> Device<Ctx> {
-> -    fn as_raw(&self) -> *mut bindings::auxiliary_device {
-> +    /// Returns the underlying auxiliary device
 
-"Returns a pointer to the underlying `struct auxiliary_device`."
+In case this should eventually go through another tree:
 
-> +    ///
-> +    /// Prefer to add bindings in the kernel crate for any use other tha=
-n calling driver-specific
-> +    /// functions.
+Acked-by: Danilo Krummrich <dakr@kernel.org>
 
-I'm not sure I understand the message of this comment, but I'd probably jus=
-t
-drop it, the above should be enough.
-
-> +    pub fn as_raw(&self) -> *mut bindings::auxiliary_device {
->          self.0.get()
->      }
+But please let me know if you want me to pick it up.
