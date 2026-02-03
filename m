@@ -2,54 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qLh7MhxYgWkFFwMAu9opvQ
+	id uHkRCK1agWlnFwMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 03:06:20 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 03:17:17 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD5BD39C4
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 03:06:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6159CD3AE6
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 03:17:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1D9010E2F7;
-	Tue,  3 Feb 2026 02:06:16 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="JV8hE9tM";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CE8A10E2F9;
+	Tue,  3 Feb 2026 02:17:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com
- [95.215.58.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9E6110E2F7
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 02:06:12 +0000 (UTC)
-Message-ID: <8196dd34-048a-452f-b01b-978f7d78df84@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1770084361;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t5xnCXyQ1Cpz7oO8OOwdeVQSo8NWh1peNlpPtSsvBzI=;
- b=JV8hE9tM03spgawEO68e+Hr1YElDCMwtQ5Hj0UObe/qRUk/hYjCWfQYQX3t2anaOqrUzoY
- MMcm229Bi+L4puKvt6kUy6iDk6DiDPbaNMxUMZ42ERpdcU/DnrFLHvnwpXn8TqWJ4dzc9h
- JKQS8IjrkjXP/rCa+FDVLKKXgrKLdqY=
-Date: Mon, 2 Feb 2026 18:05:49 -0800
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9A8510E2F9
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 02:17:11 +0000 (UTC)
+Received: from localhost (unknown [124.16.138.129])
+ by APP-05 (Coremail) with SMTP id zQCowADXaw+kWoFp5qVfBw--.9734S2;
+ Tue, 03 Feb 2026 10:17:08 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: daniel@riscstar.com
+Cc: danielt@kernel.org, deller@gmx.de, dri-devel@lists.freedesktop.org,
+ jingoohan1@gmail.com, lee@kernel.org, linusw@kernel.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH v2] backlight: sky81452-backlight: Check return value of
+ devm_gpiod_get_optional() in sky81452_bl_parse_dt()
+Date: Tue,  3 Feb 2026 10:16:25 +0800
+Message-Id: <20260203021625.578678-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <aYB0cRwmiIb0vVnq@aspen.lan>
+References: <aYB0cRwmiIb0vVnq@aspen.lan>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/amd/display: expose plane blend LUT in HW with MCM
-To: Melissa Wen <mwen@igalia.com>, harry.wentland@amd.com,
- sunpeng.li@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com, Alex Hung <alex.hung@amd.com>
-References: <20251209151032.91738-1-mwen@igalia.com>
- <003737a0-7777-45f3-af55-4cee7a73ab9d@igalia.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Matthew Schwartz <matthew.schwartz@linux.dev>
-In-Reply-To: <003737a0-7777-45f3-af55-4cee7a73ab9d@igalia.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-CM-TRANSID: zQCowADXaw+kWoFp5qVfBw--.9734S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZF48Zr17JFyxZrWkWr18Grg_yoW8XrWxpa
+ 1qy34Fkr9Fy348Ww10yr1xuF1rWa13JrW7KF97ta43u3ZIyr4DZry3KayrtFW7urZ7Xw1Y
+ vF4UZF47GFWkuw7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUB014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26F
+ 4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02
+ 628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4vE14v_Gr1l42xK82IYc2Ij64
+ vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8G
+ jcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2I
+ x0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK
+ 8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
+ 0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUOtC7UUUUU
+X-Originating-IP: [124.16.138.129]
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,77 +69,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
+X-Spamd-Result: default: False [0.89 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:mwen@igalia.com,m:harry.wentland@amd.com,m:sunpeng.li@amd.com,m:siqueira@igalia.com,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:amd-gfx@lists.freedesktop.org,m:kernel-dev@igalia.com,m:alex.hung@amd.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:daniel@riscstar.com,m:danielt@kernel.org,m:deller@gmx.de,m:jingoohan1@gmail.com,m:lee@kernel.org,m:linusw@kernel.org,m:linux-fbdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:nichen@iscas.ac.cn,s:lists@lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[igalia.com,amd.com,gmail.com,ffwll.ch];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	DMARC_NA(0.00)[iscas.ac.cn];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	FORGED_SENDER(0.00)[nichen@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_SENDER(0.00)[matthew.schwartz@linux.dev,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[linux.dev:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[matthew.schwartz@linux.dev,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmx.de,lists.freedesktop.org,gmail.com,vger.kernel.org,iscas.ac.cn];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[nichen@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	HAS_XOIP(0.00)[];
+	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,igalia.com:email]
-X-Rspamd-Queue-Id: 1AD5BD39C4
+	RCPT_COUNT_SEVEN(0.00)[10];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 6159CD3AE6
 X-Rspamd-Action: no action
 
-On 2/2/26 6:03 PM, Melissa Wen wrote:
-> 
-> On 09/12/2025 12:09, Melissa Wen wrote:
->> Since commit 39923050615cd ("drm/amd/display: Clear DPP 3DLUT Cap")
->> there is a flag in the mpc_color_caps that indicates the pre-blend usage
->> of MPC color caps. Do the same as commit a0c3e8bfbab6 ("drm/amd/display:
->> Use mpc.preblend flag to indicate preblend") and use the mpc.preblend
->> flag to expose plane blend LUT/TF properties on AMD display driver.
-> 
-> A gentle ping here.
-> 
-> Melissa
-> 
->>
->> CC: Matthew Schwartz <matthew.schwartz@linux.dev>
+The devm_gpiod_get_optional() function may return an ERR_PTR in case of
+genuine GPIO acquisition errors, not just NULL which indicates the
+legitimate absence of an optional GPIO.
 
-I can confirm this adds back color management capabilities in gamescope on DCN35 and DCN351.
+Add an IS_ERR() check after the call in sky81452_bl_parse_dt(). On
+error, return the error code to ensure proper failure handling rather
+than proceeding with invalid pointers.
 
-Tested-by: Matthew Schwartz <matthew.schwartz@linux.dev>
+Fixes: e1915eec54a6 ("backlight: sky81452: Convert to GPIO descriptors")
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+---
+Changes in v2:
+- Use dev_err_cast_probe() to make the code more concise.
+---
+ drivers/video/backlight/sky81452-backlight.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
->> Signed-off-by: Melissa Wen <mwen@igalia.com>
->> ---
->>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
->> index 56cb866ac6f8..b15f0cf86008 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
->> @@ -1649,7 +1649,7 @@ dm_atomic_plane_attach_color_mgmt_properties(struct amdgpu_display_manager *dm,
->>                          MAX_COLOR_3DLUT_SIZE);
->>       }
->>   -    if (dpp_color_caps.ogam_ram) {
->> +    if (dpp_color_caps.ogam_ram || dm->dc->caps.color.mpc.preblend) {
->>           drm_object_attach_property(&plane->base,
->>                          mode_info.plane_blend_lut_property, 0);
->>           drm_object_attach_property(&plane->base,
-> 
+diff --git a/drivers/video/backlight/sky81452-backlight.c b/drivers/video/backlight/sky81452-backlight.c
+index 2749231f0385..b2679b24de14 100644
+--- a/drivers/video/backlight/sky81452-backlight.c
++++ b/drivers/video/backlight/sky81452-backlight.c
+@@ -202,6 +202,9 @@ static struct sky81452_bl_platform_data *sky81452_bl_parse_dt(
+ 	pdata->dpwm_mode = of_property_read_bool(np, "skyworks,dpwm-mode");
+ 	pdata->phase_shift = of_property_read_bool(np, "skyworks,phase-shift");
+ 	pdata->gpiod_enable = devm_gpiod_get_optional(dev, NULL, GPIOD_OUT_HIGH);
++	if (IS_ERR(pdata->gpiod_enable))
++		return dev_err_cast_probe(dev, pdata->gpiod_enable,
++					  "failed to get gpio\n");
+ 
+ 	ret = of_property_count_u32_elems(np, "led-sources");
+ 	if (ret < 0) {
+-- 
+2.25.1
 
