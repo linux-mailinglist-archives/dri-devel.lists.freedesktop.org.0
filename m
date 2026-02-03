@@ -2,100 +2,164 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id swrKDFKzgWnNIwMAu9opvQ
+	id iC5WJU61gWkrJAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 09:35:30 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 09:43:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83AAFD6456
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 09:35:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 886DAD6560
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 09:43:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE34010E58E;
-	Tue,  3 Feb 2026 08:35:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 032B210E30C;
+	Tue,  3 Feb 2026 08:43:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="B+Run3yV";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="FcwPY7G7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A36D10E586
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 08:35:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1770107724;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vy0hVPUiK2w0Rez7l2fCnpsK8hrPlTDFnOepXkhOUq8=;
- b=B+Run3yV/uFZiRQREpUxUn64EjeHwj2RoTft3LjtP3tnDX04unAs3gsMlrYFiNQUw+RWc4
- Vjdt4+9w5En9+qPGCOKXCwfsJe5P/swvtkvigo6Og/Q2a1qLYSHXm3cSrRw5TJB7jFFG5U
- 0WT2RmyIlc96JR/Ls375dEIaQ+I7TOk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-633--EedDZZ3PUqiWl8c3cxUcw-1; Tue, 03 Feb 2026 03:35:23 -0500
-X-MC-Unique: -EedDZZ3PUqiWl8c3cxUcw-1
-X-Mimecast-MFC-AGG-ID: -EedDZZ3PUqiWl8c3cxUcw_1770107722
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-48057c39931so58794795e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Feb 2026 00:35:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770107722; x=1770712522;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vy0hVPUiK2w0Rez7l2fCnpsK8hrPlTDFnOepXkhOUq8=;
- b=hcnd1lkzgAIM5QBkNGc5yBQ8xJQ8GZnEllrQy1/Z68RhDwp1dDsid95CxZTTU88B5U
- w1BD8RthudGdem9YuB5t0L8gbCV41q9q5y/CLyDwb/abKBQSrY9qnab/+7HKrheuLvIG
- M/FvGpAR5+4T6B3x52yT7BVIAuyGeTk/Y3RF9zmPEHjjayrQZ+arTdiLEyflJBrhYx4l
- ogqaRgA5yZ186x9ONNDV/yYE0ihD4VSrxn1cLxExHlYWeh+0l+Hs402tepBzpfob/3gm
- 9JJuOgszV/DAbQGMq5HKCDDvAxY/4M7RgOVfm6u4CBnE1P4diPGTnA12RH1cpojy60Jr
- uGMQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUPQoNYYMwGncOt/MIRwbYPieqAvfVyP9qJGf4zLerqqGNqhipPmOcEKSYWuavGkrrm6oojq7ohaQs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxa1wOyWUWNd+do1qkGYY/maxbJZ3v80j/Iei7eFtqWu00vFyXN
- RQTTokT21kZyhADahPtXxLAZYsyRyqLlkS5lTdKdaCsK3tyH8O5zSjl2qxBM7H/ABabvTUdeICx
- yQUCFQ/f45qgQ3CqhnKGBCkHXDcsPHEalQEHFMmUW3pATUW6UzITNW4/4R5ZnYx1Db70YQA==
-X-Gm-Gg: AZuq6aK/l5/4aCf1u/OwgWoNGXPb0x1zFdPC0pAmQ3QCCwdkYZqcd5CRBL7bOvDeeRe
- 9o5OL7gLyCOFLu1wBSlRmqVS96wTUd1Kj5Q0ipvJMkB6HMMZGXLRuJBhfBv73HRL4blbHrvxpMd
- w6+jXp5JO8VPkjphBFnDiNUZu0A4s8cAeiufdYs9sraBV+eUjV6QSkhm2swGbTK01P8gtdI9d6o
- N5wUEdUOkYNAznT6NZtv3AKOkuT7Y9/BT8vyiMSciTGD0ASWm9znVuHaeuxsvaPCzKXIvv+5//0
- eVmBgrwp2Ko2ahaeodcI8lMcPqVQKi2PWMPyh6+Ye0bZUb9MwB/TWiQ1LP6TM5MIikbrNjBf1Gj
- k1qrj702EAITfzPncXQ5Jedymxhvg5maf5Ar9oBcTx/szvFTsgQ==
-X-Received: by 2002:a05:600c:4451:b0:477:639d:bca2 with SMTP id
- 5b1f17b1804b1-482db457724mr208563845e9.4.1770107721812; 
- Tue, 03 Feb 2026 00:35:21 -0800 (PST)
-X-Received: by 2002:a05:600c:4451:b0:477:639d:bca2 with SMTP id
- 5b1f17b1804b1-482db457724mr208563575e9.4.1770107721265; 
- Tue, 03 Feb 2026 00:35:21 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
- ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-48305129321sm46223605e9.4.2026.02.03.00.35.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Feb 2026 00:35:20 -0800 (PST)
-Message-ID: <a274b913-b41f-4fe5-bc56-b45ea030c2b7@redhat.com>
-Date: Tue, 3 Feb 2026 09:35:19 +0100
-MIME-Version: 1.0
+Received: from CH1PR05CU001.outbound.protection.outlook.com
+ (mail-northcentralusazon11010034.outbound.protection.outlook.com
+ [52.101.193.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6FFA10E30C
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 08:43:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ts1mGXDhwYLo6+FjFTVIx3tAX2Ke4sfMdGPgRGOhJKb1C7pJTg4dibpZIJxHRSOpZyPjw1CTp4yCL1ywzX0tu9VxOqU1MyHPuaVg0+XGzRl/juAhQl1YZ2kJgNv1Al4ktjcAznb4xW3EBeaNJ1s2efu5kkZty1l24eHq2s2R2KSvB8cjOdodRqGc2sp0+W3AvfIfO6RdWojw5GCyEXJwHpWOjy9SfUkrqjnsCxgj8HLTkCn6cCeujqlEbM98IUWAJsjGdrRn3UFWtw8bSkCSnc57YK3CL83wYETghMLgJAXzBzJtsHS42dU2ebr0WP2lbDk1OWJZmFiEwuhg4YxSyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0BHBBaT4Z2v5Kq5k6RCQXNcp8cVkhCrH7+FBNJLA+WQ=;
+ b=k/BXcOsXybF+dBXsv+0U3+zWFXXnuUI2prBsBpN750DxOApnUEIfc52m7jR3f1b4eILYGtTwgw63ZdpH2VfGysjtffgKttVTqRmScVXvg+5evwcRMHmbTHBh1MsvLQQY/FYg1bH3Hpt99ZysKnu4FdkhtbAJv8vb5ohdayJJTcdZGy9f+Xl1ksSK5bSM7V9EktRbYE/6lUxAy4isw5Q9WtY0STwkoVerakrpuH4KUe6dujlTy7J7j+z00l+ws1vhtn2HWU7RarOqZys9sjlcu+aRTy741vt102ANVDQurfxBaMX2sfi/eHSjLuMZoDC7j9g+W31j4lB4J3VHVGW7eQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0BHBBaT4Z2v5Kq5k6RCQXNcp8cVkhCrH7+FBNJLA+WQ=;
+ b=FcwPY7G7OaF9woifh1/F0GVQQQOgainOYPL8lvKBaMceq6sJPLy+YqebSBMlKOGR8jNy5m+K6BVGdr6C7zK7vzMaSWiVYgVp48pN4hGklelcBXAfpll2ewu7cmndHfMNPU1LtI5C/o3wBtNvP3+pHsflOSwlXz44lBePFqwSTWk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA1PR12MB6435.namprd12.prod.outlook.com (2603:10b6:208:3ad::10)
+ by LV8PR12MB9207.namprd12.prod.outlook.com (2603:10b6:408:187::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.12; Tue, 3 Feb
+ 2026 08:43:50 +0000
+Received: from IA1PR12MB6435.namprd12.prod.outlook.com
+ ([fe80::8b77:7cdb:b17a:a8e2]) by IA1PR12MB6435.namprd12.prod.outlook.com
+ ([fe80::8b77:7cdb:b17a:a8e2%5]) with mapi id 15.20.9564.016; Tue, 3 Feb 2026
+ 08:43:49 +0000
+Message-ID: <2934b2ba-d903-418c-8e5b-0d3a8bebc1d4@amd.com>
+Date: Tue, 3 Feb 2026 16:43:43 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/mgag200: fix mgag200_bmc_stop_scanout()
-To: Jacob Keller <jacob.e.keller@intel.com>, Dave Airlie
- <airlied@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>
-Cc: Pasi Vaananen <pvaanane@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260202-jk-mgag200-fix-bad-udelay-v2-1-ce1e9665987d@intel.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20260202-jk-mgag200-fix-bad-udelay-v2-1-ce1e9665987d@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Mg6aFB1e0Mk8cTLJwsM5r6wtQnIlCXOC1e7DjTvKw9I_1770107722
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
+Subject: Re: drm_gpusvm: questions on multi-GPU support
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ matthew.brost@intel.com
+Cc: Ray.Huang@amd.com, dri-devel@lists.freedesktop.org
+References: <a1dc7f3a-376f-4910-b6ae-8ee733bd598f@amd.com>
+ <081c00e4b349ec6b81ef9659b8180c1b834909b7.camel@linux.intel.com>
+Content-Language: en-US
+From: Honglei Huang <honghuan@amd.com>
+In-Reply-To: <081c00e4b349ec6b81ef9659b8180c1b834909b7.camel@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SI2P153CA0017.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:140::10) To IA1PR12MB6435.namprd12.prod.outlook.com
+ (2603:10b6:208:3ad::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR12MB6435:EE_|LV8PR12MB9207:EE_
+X-MS-Office365-Filtering-Correlation-Id: ededae54-76e5-4c97-2103-08de630059c3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?L0EvSDFWNUNXRVlBcmk2L2k1Vm92UEJzZ05zNWFIMVN5S2NTdFA4c2VneTgy?=
+ =?utf-8?B?NnNieUJ0SXBUQUM5MTF1TnZaY3d5U2RwaGJpanE1TmxraFhQRDBaWHVQZkZl?=
+ =?utf-8?B?cmF0VW9tZ3hBTm0vRmFFb0JDWFhrR250SHlZQlNMMVJ1cGhBbmxNcWdRdUVC?=
+ =?utf-8?B?OTV4UEJrVE1nQjNKdFVxRXVsZW5pYmZycmUzTzNJczQ1b0NWb1JvNDFVbUZp?=
+ =?utf-8?B?WGtNZ3d3VFFFdVNnb1RZbG92VjhGR0Rzb3g4dXg1K1RCS1NXeGJmdUZFVXls?=
+ =?utf-8?B?OHVUT3Zsb1MwTGZXak1wc2plcGw0OVU5UXh5Nnc2SUdyN2NidURvUGwya2dp?=
+ =?utf-8?B?d3dHRzN0TEE5dk13RkE2Zlh2emIzN2JXMGlCY293VDU3UXduWmozSEErQ25j?=
+ =?utf-8?B?bmxuUG9qRjFmTHc3TXkyUkMvL2M5MDlMQ0UrazVQVEg2K0gwSSswVUVNdlJW?=
+ =?utf-8?B?UU1icm5qM0YrWlJjZDZVeDM1TUdxV0l1aUdoWXROREZobER2RTYranR6Vjdv?=
+ =?utf-8?B?a040d1lrc3pSNC9OQUQ3akIrWjVYWlBMd0E2WWovY291L1BOSGRmRjZabWRx?=
+ =?utf-8?B?OUlyWjNmOG5ReU5FU04xTzFSMWtZcGZ4TXdMVFlBdUhBTkIydTFsZEI0V2FR?=
+ =?utf-8?B?MzJvSUdJUUQ1OWg1NEtPM1ljckNpM2VoS291dDRQazJBcHdyc0NqbFVOREdq?=
+ =?utf-8?B?SFRGZWxickdDRUdNWjRBNmdNL1dxdjlYYTZ0NC83MGwvTnFaRS9RN1l5VWxW?=
+ =?utf-8?B?MUJ6NUpSbWxIMkdtSHcwbFJTY3BXbEdGR203UDNuZTNzSXVVa2laZDF2VkFO?=
+ =?utf-8?B?TVpYWDhCQ3ZoRWJPeVd5NHhuUXdQZWNnRXVpTU9RcGpScWVHc2grZUEwWDAz?=
+ =?utf-8?B?TjJGRjBtTng1K2dvN3JSL1FxN0hGNVVRbFBEQUwwRmZxc3JnOG9RV0tmUTRV?=
+ =?utf-8?B?VmwwM2hIdEtTUU9OdUNVSEFIa1k3aXEzNmlJMkR1aUNWbFBvcytyZUs4aE90?=
+ =?utf-8?B?OTZROEExL01mOU53VkpOa2V1VWVyM3JPbkRxMkdNN05WeVl3TFhOL2FFUW4x?=
+ =?utf-8?B?cGdsNHVhVml6VUhTZ0ZRN29pdUREMmUvOHVnUURXVlI4aFhneXYvbzhXQ0Jz?=
+ =?utf-8?B?Nm1JbWRPTjluNm41ZW9OT2xUWFBnc3JKTEpqL2RsOXhyTS9iVkU3b09rcVFU?=
+ =?utf-8?B?MlpjazkwSCszVjlhOTM3aVNPaWNiRE9Ra1Z0clVjelcvL3BYNWhTQjhWWVFt?=
+ =?utf-8?B?V0p5M0ZNWHBWVHhzT09nUEhaanBlQ2VXYXpEb3U4ME1OdUE1L09LOUFFWDJh?=
+ =?utf-8?B?eGJLL0hEWS8wS1BGK2RGM05nT2kyYUtBQVJXdDNWM0hqNFhSN3AvNTgydFl2?=
+ =?utf-8?B?dDZwTUpiYlNaQnI4cVpiVlJCckpNYStiTnI1UWVtQ2g5WTJNcTEyWU5TT0Q3?=
+ =?utf-8?B?cWpMajIvbE5jVlI0eUtHMzBaenZaTDhjYlJnNGFjUDBqV3dNMkk4b01ya1NQ?=
+ =?utf-8?B?RU9DdGtTM252VE5BWktGb1h6WVlEdjh1SFZTcGxOc21XdnNieHltdXdGeU5Z?=
+ =?utf-8?B?VDlkRC9kdGxFWExTSS9tak5rUngvbUhoaWhWQkZNSjgrZ0M2ck1wTzJPZ05F?=
+ =?utf-8?B?aWFFOVVGSlNqU2pTYnlHdjZuNTJ1bnl4Z2lIdjc5OE53U2NnNlJ4Y3pESU9q?=
+ =?utf-8?B?SUFVN3NaMkZhL1c1QkxIbVVwZFB3UDZYeGFOOUdYbDVLUm5YMUFUS0ZpYzIy?=
+ =?utf-8?B?dndGR2ErNVBiMjBJNEVzZ1lVeEo4eDMxMkYrL3pYaGJwOGNvdzZSdFNZQ0Ex?=
+ =?utf-8?B?eUdmVmFEeHlWcXZzOUVkSXFHczVGQllSK2lOcndqSzI1Y0d1bjl4ZWlPcEdp?=
+ =?utf-8?B?WXlOZkVqejFhK2hYZXdFS1pLZU42OXp5NjgvUkF5REd3VEc1MmVQSWw1TGlJ?=
+ =?utf-8?B?dnZ3RERjTnQyd2prTHovT2ZVK05ocTg5c1dSNThtUlFRcTNSaTFNbmpwQmE0?=
+ =?utf-8?B?YXpzbSt0YVNHT3NGMFVpdExFbzVEYVVNUmZWeHNpYjk1SHNBTDFqTXJxZkNq?=
+ =?utf-8?B?UlVkdU1BVTRmK25pQVdwVEVIRlhmMXJ5SmQ5bFVXWG9lbkowZWI1QmVTdVFM?=
+ =?utf-8?Q?IyGQ=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA1PR12MB6435.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MURZWHlWZHZpYmlFVmJmbDU2MlNobk1uK1Y0MGplZkNiSzVYeHQyVkxmMjhK?=
+ =?utf-8?B?ZHlPRERBWHdvWlZvOHNjQmtEcmNSZTVkd2dGcVRkanZWaVJONlFqUWNzRVRW?=
+ =?utf-8?B?RmQwanpRRGtLUTBZWEFyUTZlQ3hiT3NnWkwyUFUza0VkcEtzZUwyLzdqeUZS?=
+ =?utf-8?B?cmwwako1QVcwVWVJUmlDMlFheUJueE9NNkJhTVF3Qkh5SlhCVHVoaFlpUVVY?=
+ =?utf-8?B?ZkRUWVZIZkZKMFVmMGVKVDBHSmtEN1RYZ2JmYXNTeS9rTXpGdWRkeUZoTTNW?=
+ =?utf-8?B?QVlHdTRUeG5vYjg2WTREZEVRTk5RMW1WdEExNTQrZUJHZlJBUmdxQVk3Zmtx?=
+ =?utf-8?B?enJBVTJEYVlDWUJ2ckE1blRJbkFiTWN3S01MQXVxL2JRWS9NRkJhbTRuc0lV?=
+ =?utf-8?B?ZUNNVVhDSVU5dVhsVUNoRDBtRjRSTTFNUVEvVVlZeHRFYmJFR2tMUFY0VWtW?=
+ =?utf-8?B?MUNQOVRqdDV6WnFYNnZnT1JJQWRQWFhBVGw4eFVPUURZdTRmUWlMNXN6Wmh6?=
+ =?utf-8?B?U2ZISUIrbDNEcTJRNjQveFpIdlFLT1o0Y01wc0N2SXlwb2oxa3d1Z0ZUT3Rh?=
+ =?utf-8?B?WG1DNXg2NXM2Vlh5V3hJQTloblRScXlmUkZvRnhqMVJEUnhyTnJLMml6bkp1?=
+ =?utf-8?B?MTdndE9YYml5dWNub0IzbVMzWlpxMGN1OUVmV0hGVGQzZXl2NUFrTEMzNFZY?=
+ =?utf-8?B?UnZtdUNFaDNDQktFaFQwanFQSW40QnNhbVRPOFhDNFNaOHZjNHV1aTZNZmFL?=
+ =?utf-8?B?cC82TW12dml5Qy94ZDFFRTljRU9HYmxUTTArUjRIeUJpRy9FL1E0eXZVSnhs?=
+ =?utf-8?B?VHZJWWduaW9HS2s2aCtFdU9hNFgrZ0VtNmpJQzVReTYwdlpYZ1habWpWdEts?=
+ =?utf-8?B?d3cxUzg5WkxOV1FiUWNpOU5OT3VVYVNURklzQ3YvQnNIZ0FxRDlsQTZOY2ho?=
+ =?utf-8?B?cHVuTno5ZzYvWUNKUDlPSXlBTGRQYWtJWko1S1FrbW44OEs0TlliUU9IYkZ2?=
+ =?utf-8?B?N3NBOHdqYnRhd2JuMHdJYWJWQXpaOTVPMXRBZHROVVV2N0RteFV4eGx6VzUy?=
+ =?utf-8?B?TTBKQTJaaUNNWk9SUWZVYzB6bUcvYXJCbFV0TU1heDZpbXZXM1k4T29Tdkcv?=
+ =?utf-8?B?bFJPUjVKTUNGdGVMWUFtL3F5NmkwTGFTd3AxczBhNWxCMUIrRGRLMTAvSGZ1?=
+ =?utf-8?B?MDRaMEtMTTI3WnpvUXAySUFIS2dLa2wvUmVEMDRpcWtWTWo1K2xlZ013Ymc5?=
+ =?utf-8?B?WlIyVTE2bEVHTzBvZlMrZllSeVFUSk5DZ2FMczlwN0hXQVJ6cERrK1FidHFs?=
+ =?utf-8?B?aGVPZWVaRUcrZHRKczhsTU5VMjJwNGxzcS9McHozL1RTYjdVMDhEbTkzT3ZU?=
+ =?utf-8?B?d1k4VjV5ZWtZZVFKZFlIeEN1R2FxeGVvR1RBV0lab1ZVRGp2ZUVhNlBzL2E5?=
+ =?utf-8?B?czQ2SDl2akREN0xzWHNGYzhTNncwbGpLMVZOTXRBWjhCNHFiZldNS2ZVeHRC?=
+ =?utf-8?B?Szl5Q2YvQUNJSStnT01hSXcxU25LWHhFNnBsRUJiejdsdEc1QUFUM0RkdEN2?=
+ =?utf-8?B?dUxqS2FKQ0FtT3Flc0srV0dPT0IyeC9BbFl4a1FyZFh3ZEw4UW4wYXhYRlND?=
+ =?utf-8?B?SmtRZkhEbjlmUm1lRGdpazgzSVROM1hJZHJCSWtQa2NCU1k0eVBwWGJmSkFG?=
+ =?utf-8?B?L2JkNUNiTnhqQmRTUFBHRXVuYUx1Ukd5NzVjUVZ3U2RoMzVsUnpOZERyeFFE?=
+ =?utf-8?B?UFZJNzhnMlROeDNxVVowTHo4ekkxWXNOMkQ2L0d1ZU5jUUFhWnViTFQxblBJ?=
+ =?utf-8?B?QnB1RnVQa05sZzNJbXRCbENjSUt5SnNjSmw2ekwyamxETGpKcWNGUFgxK09r?=
+ =?utf-8?B?OFRMclp1b295MFJJV3laZzZmVFVjWXRCaWJSWmFpQ3NtUHJMcUhtSHJQQkEy?=
+ =?utf-8?B?c1djeUtOUmNHWkZ1YnM4eUNJZElIYVRmN1ROYllFbzRoanVFd2hpcS9rYzJ3?=
+ =?utf-8?B?ZVZwMHhJSU9FS1VLYnAzV0VTaGlQRlp0emtzM096aTZ4ZWFoZjl3Y1BibEJ5?=
+ =?utf-8?B?KzdyZit1RW8ydjNtMjlVOU5idUlvVkdnd3paK01KRUJjUDBvcXdvY2JibzB2?=
+ =?utf-8?B?MGt3TElZUWJrNlowM0MyNWxaVHpmNTRFZ0NiYWF0OVNZK01zL1ovRTZZUnR5?=
+ =?utf-8?B?L2lmT0JlaHREVlczOGQ2KzFoZEJhVWROVFk1dnJMVDV1aGh5eFpQWW5vcXNi?=
+ =?utf-8?B?ejZGLzErU1E1TXNsNWhGeVpMeHZMTm1vdDRVQy9rbVJYekcvdGNEZWpVU1E0?=
+ =?utf-8?Q?lolJtEgCvVPbIG/JzQ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ededae54-76e5-4c97-2103-08de630059c3
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6435.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2026 08:43:49.4371 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IR+yjmyq8849uJvUPHLEiAU8fdAyEZT3riOUU6lj+JDUEgfvkDrhmfxAE8nhTtPQJOSoi2KPBep4qOpPDDdSeA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9207
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,286 +175,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:jacob.e.keller@intel.com,m:airlied@redhat.com,m:tzimmermann@suse.de,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:simona@ffwll.ch,m:pvaanane@redhat.com,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[jfalempe@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER(0.00)[honghuan@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:thomas.hellstrom@linux.intel.com,m:matthew.brost@intel.com,m:Ray.Huang@amd.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[amd.com:+];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jfalempe@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FROM_NEQ_ENVFROM(0.00)[honghuan@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_THREE(0.00)[4];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,msgid.link:url]
-X-Rspamd-Queue-Id: 83AAFD6456
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:mid,amd.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 886DAD6560
 X-Rspamd-Action: no action
 
-Thanks, it looks good to me.
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+Really thanks for your detailed reply, it really helps a lot!
 
--- 
+Regards,
+Honglei
 
-Jocelyn
-
-On 03/02/2026 01:16, Jacob Keller wrote:
-> The mgag200_bmc_stop_scanout() function is called by the .atomic_disable()
-> handler for the MGA G200 VGA BMC encoder. This function performs a few
-> register writes to inform the BMC of an upcoming mode change, and then
-> polls to wait until the BMC actually stops.
+On 2026/2/2 17:49, Thomas Hellström wrote:
+> On Mon, 2026-02-02 at 15:56 +0800, Honglei Huang wrote:
+>>
+>> Hi Matthew and Thomas,
+>>
+>> I'm exploring the use of drm_gpusvm for multi-GPU shared virtual
+>> memory
+>> scenarios and have some questions about potential synchronization
+>> issues.
+>>
+>> The drm_gpusvm design is per-device oriented, so for multi-GPU
+>> setups,
+>> each GPU would have its own drm_gpusvm instance with independent MMU
+>> notifiers registered to the same mm_struct.
+>>
+>> When multiple drm_gpusvm instances share the same process address
+>> space,
+>> I'm concerned about the following synchronization issues:
+>>
+>> 1. MMU notifier ordering: When CPU modifies memory (e.g., munmap),
+>>      multiple notifier callbacks are triggered independently. Is there
+>> any
+>>      guarantee on the ordering or atomicity across GPUs? Could this
+>> lead
+>>      to inconsistent states between GPUs?
 > 
-> The polling is implemented using a busy loop with udelay() and an iteration
-> timeout of 300, resulting in the function blocking for 300 milliseconds.
+> The guarantee is that the invalidation may not proceed until all mmu
+> notifiers have completed, and then gpusvm_range_get_pages() will never
+> complete successfully until the invalidation is complete.
 > 
-> The function gets called ultimately by the output_poll_execute work thread
-> for the DRM output change polling thread of the mgag200 driver:
+>>
+>> 2. Range state consistency: If GPU-A and GPU-B both have ranges
+>>      covering the same virtual address, and an invalidation occurs,
+>> how
+>>      should we ensure both GPUs see a consistent view before allowing
+>>      new GPU accesses?
 > 
-> kworker/0:0-mm_    3528 [000]  4555.315364:
->          ffffffffaa0e25b3 delay_halt.part.0+0x33
->          ffffffffc03f6188 mgag200_bmc_stop_scanout+0x178
->          ffffffffc087ae7a disable_outputs+0x12a
->          ffffffffc087c12a drm_atomic_helper_commit_tail+0x1a
->          ffffffffc03fa7b6 mgag200_mode_config_helper_atomic_commit_tail+0x26
->          ffffffffc087c9c1 commit_tail+0x91
->          ffffffffc087d51b drm_atomic_helper_commit+0x11b
->          ffffffffc0509694 drm_atomic_commit+0xa4
->          ffffffffc05105e8 drm_client_modeset_commit_atomic+0x1e8
->          ffffffffc0510ce6 drm_client_modeset_commit_locked+0x56
->          ffffffffc0510e24 drm_client_modeset_commit+0x24
->          ffffffffc088a743 __drm_fb_helper_restore_fbdev_mode_unlocked+0x93
->          ffffffffc088a683 drm_fb_helper_hotplug_event+0xe3
->          ffffffffc050f8aa drm_client_dev_hotplug+0x9a
->          ffffffffc088555a output_poll_execute+0x29a
->          ffffffffa9b35924 process_one_work+0x194
->          ffffffffa9b364ee worker_thread+0x2fe
->          ffffffffa9b3ecad kthread+0xdd
->          ffffffffa9a08549 ret_from_fork+0x29
+> Multiple gpus may maintain ranges of different size with different
+> attributes pointing to the same memory, and that's really not a
+> problem. It's up to user-space to ensure that we're not bouncing data
+> around between gpus. In xe, we're using the gpu_madvise() ioctl to
+> allow UMD to specify things like preferred region and access mode.
 > 
-> On a server running ptp4l with the mgag200 driver loaded, we found that
-> ptp4l would sometimes get blocked from execution because of this busy
-> waiting loop.
 > 
-> Every so often, approximately once every 20 minutes -- though with large
-> variance -- the output_poll_execute() thread would detect some sort of
-> change that required performing a hotplug event which results in attempting
-> to stop the BMC scanout, resulting in a 300msec delay on one CPU.
+>>
+>> 3. Concurrent fault handling: If GPU-A and GPU-B fault on the same
+>>      address simultaneously, is there potential for races in
+>>      drm_gpusvm_range_find_or_insert()?
 > 
-> On this system, ptp4l was pinned to a single CPU. When the
-> output_poll_execute() thread ran on that CPU, it blocked ptp4l from
-> executing for its 300 millisecond duration.
+> each drm_gpusvm() instance is meant to be per-vm and per-device so each
+> vm on each gpu only sees its own ranges. The drm_pagemap code is then
+> the code that maintains the migration state, and that is per-cpu-vm so
+> if it is fed conflicting migration requests from different gpus or even
+> different vms, it will try its best to mitigate.
 > 
-> This resulted in PTP service disruptions such as failure to send a SYNC
-> message on time, failure to handle ANNOUNCE messages on time, and clock
-> check warnings from the application. All of this despite the application
-> being configured with FIFO_RT and a higher priority than the background
-> workqueue tasks. (However, note that the kernel did not use
-> CONFIG_PREEMPT...)
+> However, the invalidation scheme in 1. will always guarantee that all
+> gpus either have invalid page-tables causing gpu-faults or point to
+> common memory that holds the data.
 > 
-> It is unclear if the event is due to a faulty VGA connection, another bug,
-> or actual events causing a change in the connection. At least on the system
-> under test it is not a one-time event and consistently causes disruption to
-> the time sensitive applications.
 > 
-> The function has some helpful comments explaining what steps it is
-> attempting to take. In particular, step 3a and 3b are explained as such:
+>>
+>> Is multi-GPU a considered use case for drm_gpusvm? If so, are there
+>> recommended patterns for handling these coordination issues?
 > 
->    3a - The third step is to verify if there is an active scan. We are
->         waiting on a 0 on remhsyncsts (<XSPAREREG<0>.
+> For us it's considered a valid use-case. In the end I guess that
+> depends on the API you are exposing to the end-user. KMD ensures all
+> GPUs always point to the correct data for a given cpu virtual address
+> space, but leaves it to user-space to supply non-conflicting migration
+> requests to avoid excessive migration. I'm under the impression that
+> our L0 user-facing API is also forwarding this responsibility to the
+> end-user.
 > 
->    3b - This step occurs only if the remove is actually scanning. We are
->         waiting for the end of the frame which is a 1 on remvsyncsts
->         (<XSPAREREG<1>).
+> Hope this information helps.
 > 
-> The actual steps 3a and 3b are implemented as while loops with a
-> non-sleeping udelay(). The first step iterates while the tmp value at
-> position 0 is *not* set. That is, it keeps iterating as long as the bit is
-> zero. If the bit is already 0 (because there is no active scan), it will
-> iterate the entire 300 attempts which wastes 300 milliseconds in total.
-> This is opposite of what the description claims.
+> Thanks,
+> Thomas
 > 
-> The step 3b logic only executes if we do not iterate over the entire 300
-> attempts in the first loop. If it does trigger, it is trying to check and
-> wait for a 1 on the remvsyncsts. However, again the condition is actually
-> inverted and it will loop as long as the bit is 1, stopping once it hits
-> zero (rather than the explained attempt to wait until we see a 1).
 > 
-> Worse, both loops are implemented using non-sleeping waits which spin
-> instead of allowing the scheduler to run other processes. If the kernel is
-> not configured to allow arbitrary preemption, it will waste valuable CPU
-> time doing nothing.
-> 
-> There does not appear to be any documentation for the BMC register
-> interface, beyond what is in the comments here. It seems more probable that
-> the comment here is correct and the implementation accidentally got
-> inverted from the intended logic.
-> 
-> Reading through other DRM driver implementations, it does not appear that
-> the .atomic_enable or .atomic_disable handlers need to delay instead of
-> sleep. For example, the ast_astdp_encoder_helper_atomic_disable() function
-> calls ast_dp_set_phy_sleep() which uses msleep(). The "atomic" in the name
-> is referring to the atomic modesetting support, which is the support to
-> enable atomic configuration from userspace, and not to the "atomic context"
-> of the kernel. There is no reason to use udelay() here if a sleep would be
-> sufficient.
-> 
-> Replace the while loops with a read_poll_timeout() based implementation
-> that will sleep between iterations, and which stops polling once the
-> condition is met (instead of looping as long as the condition is met). This
-> aligns with the commented behavior and avoids blocking on the CPU while
-> doing nothing.
-> 
-> Note the RREG_DAC is implemented using a statement expression to allow
-> working properly with the read_poll_timeout family of functions. The other
-> RREG_<TYPE> macros ought to be cleaned up to have better semantics, and
-> several places in the mgag200 driver could make use of RREG_DAC or similar
-> RREG_* macros should likely be cleaned up for better semantics as well, but
-> that task has been left as a future cleanup for a non-bugfix.
-> 
-> Fixes: 414c45310625 ("mgag200: initial g200se driver (v2)")
-> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
-> ---
-> We still do not know if the reconfiguration is caused by a different
-> bug or by a faulty VGA connector or something else. However, there is no
-> reason that this function should be spinning instead of sleeping while
-> waiting for the BMC scan to stop.
-> 
-> It is known that removing the mgag200 module avoids the issue. It is also
-> likely that use of CONFIG_PREEMPT (or CONFIG_PREEMPT_RT) could allow the
-> high priority process to preempt the kernel thread even while it is
-> delaying. However, it is better to let the process sleep() so that other
-> tasks can execute even if these steps are not taken.
-> 
-> There are multiple other udelay() which likely could safely be converted to
-> usleep_range(). However they are all short, and I felt that the smallest
-> targeted fix made the most sense. They could perhaps be cleaned up in a
-> non-fix commit or series along with other improvements like fixing the
-> other RREG_* macros.
-> 
-> Thanks to Thomas Zimmermann for catching the originally unintended flipping
-> of the loop condition, and for helping determine this seems to actually be
-> correct. It seems likely that we are blocking for 300 milliseconds every
-> time unintentionally because we loop until there is an active scan instead
-> of looping until there is no more active scan.
-> ---
-> Changes in v2:
-> - Update the description after the insights from Thomas, and the testing
->    from Jocelyn.
-> - Fix some minor typos in the comments.
-> - No functional change from v1, though we now explain why we're changing
->    the conditions in the commit message properly.
-> - Link to v1: https://patch.msgid.link/20260128-jk-mgag200-fix-bad-udelay-v1-1-db02e04c343d@intel.com
-> ---
->   drivers/gpu/drm/mgag200/mgag200_drv.h |  6 ++++++
->   drivers/gpu/drm/mgag200/mgag200_bmc.c | 31 ++++++++++++-------------------
->   2 files changed, 18 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-> index f4bf40cd7c88..a875c4bf8cbe 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-> +++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-> @@ -111,6 +111,12 @@
->   #define DAC_INDEX 0x3c00
->   #define DAC_DATA 0x3c0a
->   
-> +#define RREG_DAC(reg)						\
-> +	({							\
-> +		WREG8(DAC_INDEX, reg);				\
-> +		RREG8(DAC_DATA);				\
-> +	})							\
-> +
->   #define WREG_DAC(reg, v)					\
->   	do {							\
->   		WREG8(DAC_INDEX, reg);				\
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_bmc.c b/drivers/gpu/drm/mgag200/mgag200_bmc.c
-> index a689c71ff165..bbdeb791c5b3 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_bmc.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_bmc.c
-> @@ -1,6 +1,7 @@
->   // SPDX-License-Identifier: GPL-2.0-only
->   
->   #include <linux/delay.h>
-> +#include <linux/iopoll.h>
->   
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_edid.h>
-> @@ -12,7 +13,7 @@
->   void mgag200_bmc_stop_scanout(struct mga_device *mdev)
->   {
->   	u8 tmp;
-> -	int iter_max;
-> +	int ret;
->   
->   	/*
->   	 * 1 - The first step is to inform the BMC of an upcoming mode
-> @@ -42,30 +43,22 @@ void mgag200_bmc_stop_scanout(struct mga_device *mdev)
->   
->   	/*
->   	 * 3a- The third step is to verify if there is an active scan.
-> -	 * We are waiting for a 0 on remhsyncsts <XSPAREREG<0>).
-> +	 * We are waiting for a 0 on remhsyncsts (<XSPAREREG<0>).
->   	 */
-> -	iter_max = 300;
-> -	while (!(tmp & 0x1) && iter_max) {
-> -		WREG8(DAC_INDEX, MGA1064_SPAREREG);
-> -		tmp = RREG8(DAC_DATA);
-> -		udelay(1000);
-> -		iter_max--;
-> -	}
-> +	ret = read_poll_timeout(RREG_DAC, tmp, !(tmp & 0x1),
-> +				1000, 300000, false,
-> +				MGA1064_SPAREREG);
-> +	if (ret == -ETIMEDOUT)
-> +		return;
->   
->   	/*
-> -	 * 3b- This step occurs only if the remove is actually
-> +	 * 3b- This step occurs only if the remote BMC is actually
->   	 * scanning. We are waiting for the end of the frame which is
->   	 * a 1 on remvsyncsts (XSPAREREG<1>)
->   	 */
-> -	if (iter_max) {
-> -		iter_max = 300;
-> -		while ((tmp & 0x2) && iter_max) {
-> -			WREG8(DAC_INDEX, MGA1064_SPAREREG);
-> -			tmp = RREG8(DAC_DATA);
-> -			udelay(1000);
-> -			iter_max--;
-> -		}
-> -	}
-> +	(void)read_poll_timeout(RREG_DAC, tmp, (tmp & 0x2),
-> +				1000, 300000, false,
-> +				MGA1064_SPAREREG);
->   }
->   
->   void mgag200_bmc_start_scanout(struct mga_device *mdev)
-> 
-> ---
-> base-commit: e535c23513c63f02f67e3e09e0787907029efeaf
-> change-id: 20260127-jk-mgag200-fix-bad-udelay-409133777e3a
-> 
-> Best regards,
-> --
-> Jacob Keller <jacob.e.keller@intel.com>
-> 
+>>
+>> Regards,
+>> Honglei
 
