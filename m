@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iBdqCl3+gWk7NQMAu9opvQ
+	id iNuoFmL+gWk7NQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 14:55:41 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 14:55:46 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B76C1DA3AA
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 14:55:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E799ADA3BF
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 14:55:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3A2410E670;
-	Tue,  3 Feb 2026 13:55:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFF0710E677;
+	Tue,  3 Feb 2026 13:55:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="1Odh5pY+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MrZViEif";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Odh5pY+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MrZViEif";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="JPalHk0p";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7wCLObgJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JPalHk0p";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7wCLObgJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A7BC10E673
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 13:55:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B058110E66D
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 13:55:41 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 70E735BCCA;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C4D775BCCC;
  Tue,  3 Feb 2026 13:55:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1770126928; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L8W1YvhOq8g7YlbsdDLFAp6o4z96Ka/OvuBJlFbu9/Q=;
- b=1Odh5pY+LeZ+OIBS2dXjxkXkA+i/OrGxcs1WZmnxRUIj2X+XZWMwDTzDD5vQRWspfkkEl0
- Px47WTqmrM3E2cjbW5nFOaVxwQJLnd1clIyFjM1O5wxXa0eNRMe3e2pXJ2kY0NI7AC/AK6
- 1yMoi8QndwaOVRXnnzoONOe4AQbauCM=
+ bh=ld7t4qNNobtnHi99lbfrnBdwHcjxOvn6d3Vey/eHElY=;
+ b=JPalHk0pJ+7cU/tOVkrkSuwg1NwLcU5zXbki/QuqQIBinzNAoFdwqIO9IYDlFgKFkYslIX
+ xlDosQOAeKH82Lcj9SV5FT+8ubxiAqjqtUdXtlDyohFdBSmE2LHFaA0HqERZSC3o6iUloS
+ DuV+PGMrU1peuwZVIMlfrZcQSArKxe8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1770126928;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L8W1YvhOq8g7YlbsdDLFAp6o4z96Ka/OvuBJlFbu9/Q=;
- b=MrZViEifuYYeS8gxqK4doK8FgVFN+0gqJxzVjLYlFngxVlyrrDzka31awMlJPfjUe2unFb
- myvU7Cyc7v/bN1Cw==
+ bh=ld7t4qNNobtnHi99lbfrnBdwHcjxOvn6d3Vey/eHElY=;
+ b=7wCLObgJSNUiAGa3UZ0C1v/4Yi9kdaluyU9fGM/Rx20kEuUbmLGb08QoGjjvOUmS05x1zf
+ 0m4dyXHaeMo8CIAw==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
@@ -54,27 +54,27 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L8W1YvhOq8g7YlbsdDLFAp6o4z96Ka/OvuBJlFbu9/Q=;
- b=1Odh5pY+LeZ+OIBS2dXjxkXkA+i/OrGxcs1WZmnxRUIj2X+XZWMwDTzDD5vQRWspfkkEl0
- Px47WTqmrM3E2cjbW5nFOaVxwQJLnd1clIyFjM1O5wxXa0eNRMe3e2pXJ2kY0NI7AC/AK6
- 1yMoi8QndwaOVRXnnzoONOe4AQbauCM=
+ bh=ld7t4qNNobtnHi99lbfrnBdwHcjxOvn6d3Vey/eHElY=;
+ b=JPalHk0pJ+7cU/tOVkrkSuwg1NwLcU5zXbki/QuqQIBinzNAoFdwqIO9IYDlFgKFkYslIX
+ xlDosQOAeKH82Lcj9SV5FT+8ubxiAqjqtUdXtlDyohFdBSmE2LHFaA0HqERZSC3o6iUloS
+ DuV+PGMrU1peuwZVIMlfrZcQSArKxe8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1770126928;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L8W1YvhOq8g7YlbsdDLFAp6o4z96Ka/OvuBJlFbu9/Q=;
- b=MrZViEifuYYeS8gxqK4doK8FgVFN+0gqJxzVjLYlFngxVlyrrDzka31awMlJPfjUe2unFb
- myvU7Cyc7v/bN1Cw==
+ bh=ld7t4qNNobtnHi99lbfrnBdwHcjxOvn6d3Vey/eHElY=;
+ b=7wCLObgJSNUiAGa3UZ0C1v/4Yi9kdaluyU9fGM/Rx20kEuUbmLGb08QoGjjvOUmS05x1zf
+ 0m4dyXHaeMo8CIAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 18FB03EA62;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6CF033EA63;
  Tue,  3 Feb 2026 13:55:28 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id yA7oBFD+gWlGDwAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id WHRqGVD+gWlGDwAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Tue, 03 Feb 2026 13:55:28 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: tzungbi@kernel.org, briannorris@chromium.org, jwerner@chromium.org,
@@ -82,17 +82,18 @@ To: tzungbi@kernel.org, briannorris@chromium.org, jwerner@chromium.org,
  mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
 Cc: chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 05/12] firmware: google: framebuffer: Fix dependencies
-Date: Tue,  3 Feb 2026 14:52:24 +0100
-Message-ID: <20260203135519.417931-6-tzimmermann@suse.de>
+Subject: [PATCH v3 06/12] firmware: google: Init coreboot bus with
+ subsys_initcall()
+Date: Tue,  3 Feb 2026 14:52:25 +0100
+Message-ID: <20260203135519.417931-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260203135519.417931-1-tzimmermann@suse.de>
 References: <20260203135519.417931-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
 X-Spam-Score: -2.80
 X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,40 +141,41 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: B76C1DA3AA
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid]
+X-Rspamd-Queue-Id: E799ADA3BF
 X-Rspamd-Action: no action
 
-The framebuffer on the coreboot bus represents an entry in the
-coreboot payload table; not the actual device. [1] Hence it must
-not depend on any other driver setting.
+Using module_init()/device_initcall() is too late to initialize
+the coreboot bus, as there might already be drivers that depend
+on it.
+
+So far this hasn't been a problem, as coreboot controls all device
+creation. Initializing the coreboot bus earlier in subsys_initcall()
+will allow for external coreboot drivers to register themselves
+with device_initcall(). Prepares coreboot to support additional
+coreboot drivers from other subsystems.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://lore.kernel.org/dri-devel/CAODwPW9_ym3E4za3yoUAs0+1sQfaKTDOau4Oh9Zm8+2uvYVgFQ@mail.gmail.com/ # [1]
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
 Acked-by: Julius Werner <jwerner@chromium.org>
 ---
- drivers/firmware/google/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/firmware/google/coreboot_table.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/firmware/google/Kconfig b/drivers/firmware/google/Kconfig
-index 41b78f5cb735..3ab3e089328b 100644
---- a/drivers/firmware/google/Kconfig
-+++ b/drivers/firmware/google/Kconfig
-@@ -59,11 +59,11 @@ config GOOGLE_MEMCONSOLE_X86_LEGACY
+diff --git a/drivers/firmware/google/coreboot_table.c b/drivers/firmware/google/coreboot_table.c
+index 882db32e51be..26d93781e64a 100644
+--- a/drivers/firmware/google/coreboot_table.c
++++ b/drivers/firmware/google/coreboot_table.c
+@@ -251,7 +251,7 @@ static void __exit coreboot_table_driver_exit(void)
+ 	bus_unregister(&coreboot_bus_type);
+ }
  
- config GOOGLE_FRAMEBUFFER_COREBOOT
- 	tristate "Coreboot Framebuffer"
--	depends on FB_SIMPLE || DRM_SIMPLEDRM
- 	depends on GOOGLE_COREBOOT_TABLE
- 	help
- 	  This option enables the kernel to search for a framebuffer in
--	  the coreboot table.  If found, it is registered with simplefb.
-+	  the coreboot table.  If found, it is registered with a platform
-+	  device of type simple-framebuffer.
+-module_init(coreboot_table_driver_init);
++subsys_initcall(coreboot_table_driver_init);
+ module_exit(coreboot_table_driver_exit);
  
- config GOOGLE_MEMCONSOLE_COREBOOT
- 	tristate "Firmware Memory Console"
+ MODULE_AUTHOR("Google, Inc.");
 -- 
 2.52.0
 
