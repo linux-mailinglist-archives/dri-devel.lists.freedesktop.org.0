@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mNfQFJHygWkMNAMAu9opvQ
+	id oH6iFo/ygWkMNAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 14:05:21 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 14:05:19 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE8FED99BE
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 14:05:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B49B9D99AE
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 14:05:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C22C10E64A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 405F010E644;
 	Tue,  3 Feb 2026 13:05:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q7ddkYkK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gaN2Gubx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BB3610E644;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67F4910E648;
  Tue,  3 Feb 2026 13:05:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1770123914; x=1801659914;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=kn3C6M/TSejjaUN/E6ZMHb6KaBqL5MF8BD7HrMgd0CI=;
- b=Q7ddkYkKzBvmqg0J0BpVnpsvButshlE0ecEKDIEPAhLtGJuYwq5X9+rs
- /ZDnh4mYb6zFtRBQH6/Lx01xtr16p4nYBlMwyry9t3Ubey1dbmjPTgP1/
- mh6ojPdt1gQ2ABjDU6lOWGVTP1xWL4Urz3gA8WLTRE7q0zb25YzE5HLSg
- nGIiC9PeCEVL/9+S4/uF6qHCYX/6CkxsT7OzIt2vjhfQwcXYwE36YPl5w
- kYkRQHel40xA5GGoty8OpkEO/8Q+W9dxFuWEOsRV9bsqn0TA0O9Fjcwbk
- RNIYjLwPxzkk1Sjk0JLNPVXLx0J2CwyMcpxRnHHlKO3R4ax6ehjg1Ks8k g==;
-X-CSE-ConnectionGUID: HUj0uOVXS5eCtFpoU5XsDw==
-X-CSE-MsgGUID: 7ge2l/CXR7ymbiEKk8s/og==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="93945550"
-X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; d="scan'208";a="93945550"
+ bh=eAOTahntRImrik38mnsnViDi0PjENZgxrqEs53AMudI=;
+ b=gaN2Gubx6Zz5/pPibh1a7TWtSuYSdcq3uAF739DNKBBsoQnuClMIbias
+ dVcI5vgVrMWjYi4h4uemTXmM6bGCHb4QDGCfu7E/epYdT54b1sbl5jRs8
+ o9lPKwzSi72eeOVjabnFn2374wG8fBHyit0RBf9JmDEZZllP0y/5dI7dO
+ tyVra6Mkil6Axolxi8zh3Y5CTea5jIoxpOxgNWZEOjuQz79JOa7EF0F0T
+ aK5piqLBNPRNQfyeQ0GX3iaxCdhljEiykT9b5AAy46D0hNxhGsGRaHd6n
+ 3Oad8wfIPOr5OoKtsMeqvT7eQYAHS76s6xac6vj9c2aChS5yv/5HBEbo1 Q==;
+X-CSE-ConnectionGUID: 0lD9Bw/1QaWPb999eT5gPg==
+X-CSE-MsgGUID: 9ADdYXvvRzuy0OcBH+w/tA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="93945556"
+X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; d="scan'208";a="93945556"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2026 05:05:13 -0800
-X-CSE-ConnectionGUID: kNfuwGaxQDib9rOdY46bLw==
-X-CSE-MsgGUID: R3noAhp2TNytBWA9/xTLwQ==
+ 03 Feb 2026 05:05:14 -0800
+X-CSE-ConnectionGUID: NUmFSuM4RTG8P55q95+ARw==
+X-CSE-MsgGUID: nLLd4nr8TfSH1xmlM01hPA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; d="scan'208";a="240516119"
+X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; d="scan'208";a="240516124"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
  by orviesa002.jf.intel.com with ESMTP; 03 Feb 2026 05:05:10 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vnG5b-00000000gfc-1XXY;
+ (envelope-from <lkp@intel.com>) id 1vnG5b-00000000gfe-1dla;
  Tue, 03 Feb 2026 13:05:07 +0000
 Date: Tue, 3 Feb 2026 21:04:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
  intel-xe@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
  Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
  Alistair Popple <apopple@nvidia.com>,
  Ralph Campbell <rcampbell@nvidia.com>,
@@ -65,7 +65,7 @@ Cc: oe-kbuild-all@lists.linux.dev,
  stable@vger.kernel.org
 Subject: Re: [PATCH v2] mm: Fix a hmm_range_fault() livelock / starvation
  problem
-Message-ID: <202602032021.bgMlVqDp-lkp@intel.com>
+Message-ID: <202602032123.zvKd7G8W-lkp@intel.com>
 References: <20260203104532.98534-1-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -99,7 +99,7 @@ X-Spamd-Result: default: False [-0.31 / 15.00];
 	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -110,8 +110,8 @@ X-Spamd-Result: default: False [-0.31 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,01.org:url]
-X-Rspamd-Queue-Id: EE8FED99BE
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,01.org:url,intel.com:email,intel.com:dkim,intel.com:mid]
+X-Rspamd-Queue-Id: B49B9D99AE
 X-Rspamd-Action: no action
 
 Hi Thomas,
@@ -124,25 +124,28 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/mm-Fix-a
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20260203104532.98534-1-thomas.hellstrom%40linux.intel.com
 patch subject: [PATCH v2] mm: Fix a hmm_range_fault() livelock / starvation problem
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260203/202602032021.bgMlVqDp-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602032021.bgMlVqDp-lkp@intel.com/reproduce)
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260203/202602032123.zvKd7G8W-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260203/202602032123.zvKd7G8W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602032021.bgMlVqDp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602032123.zvKd7G8W-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/memory.c: In function 'do_swap_page':
->> mm/memory.c:4769:33: error: implicit declaration of function 'migration_entry_wait_on_locked'; did you mean 'migration_entry_wait_huge'? [-Wimplicit-function-declaration]
+>> mm/memory.c:4769:5: error: call to undeclared function 'migration_entry_wait_on_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     4769 |                                 migration_entry_wait_on_locked(entry, vmf->ptl);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                 migration_entry_wait_huge
+         |                                 ^
+   mm/memory.c:4769:5: note: did you mean 'migration_entry_wait_huge'?
+   include/linux/swapops.h:237:20: note: 'migration_entry_wait_huge' declared here
+     237 | static inline void migration_entry_wait_huge(struct vm_area_struct *vma,
+         |                    ^
+   1 error generated.
 
 
-vim +4769 mm/memory.c
+vim +/migration_entry_wait_on_locked +4769 mm/memory.c
 
   4699	
   4700	/*
