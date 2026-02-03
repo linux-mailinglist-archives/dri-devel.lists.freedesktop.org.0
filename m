@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YJ4wCK86gWmUEwMAu9opvQ
+	id yCU6Dcw6gWktFAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 01:00:47 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 01:01:16 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BEDBD2CD8
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 01:00:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA350D2CEF
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 01:01:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA98D10E48A;
-	Tue,  3 Feb 2026 00:00:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18ECC10E494;
+	Tue,  3 Feb 2026 00:01:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dwrsY72R";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gXu30xq4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0784110E48A
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 00:00:43 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32FB410E494
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 00:01:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B4DC1444B3
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 00:00:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93814C4AF0B
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 00:00:42 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 6F3A660010
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 00:01:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27B35C2BC87
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 00:01:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770076842;
- bh=WrPPs8WcaSvfdv5rnIAyJY574BdkZCY/wzVTg3/Q/hg=;
+ s=k20201202; t=1770076872;
+ bh=AEyq+1AGX37SMEthk/OyZ90jnJjCF9WKf64WOKd4zlg=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=dwrsY72RWvnbLmq45P/u9xVB7r09F5KmuvlEenvFLWEZeiO1ChAA4JcaKZrVgH9Js
- bCnmYXGxkIqFx/rTA0v6oagewV0VtZZ/hfEkpfK+VyMGtmnFXX64v1NGSachg2ogFm
- fX6l4n+o8zkkkAzORwDiBNeOpKOO07KSLyABCYY1QMk3WrCMKYpCRBTewVqLVvkwL1
- Enfb1K4xK0UpJqJgPVNeSSaRiRIfuyyHUha+0/8L85ZQtrTbMQF+XjfNEgQN48/kpU
- b9rzhjYFB9ib0Ye+bOW2OcXvx+Lzw0HHX19SX/d233ds7a8CszdQltvyQ66dh6yoHW
- pwUHB04NdpdDw==
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-794baacdefcso23292167b3.0
- for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 16:00:42 -0800 (PST)
+ b=gXu30xq4a9wlx207IAkYKZ8sjlZRRelxZBbiwg6tSS2SG1qCVOJazG2o1tMwZv6Ir
+ RijFwcr0qEjqdI60LbBYejfAArT6PRphViqNBk/mXLWgKMdHGJWWT0gwjCRansd2vp
+ PGKfzqRQ9EvMrCVmFkSIRj3I8Oy70WAG3FxMiuEW1APAfmqbbddkM/w56obZ66DPjj
+ ldFcgIW7tQZ+UBi6pi0gvt8J6Pi9/9Xaz/O6A+5xXKzrkU2jAbVHvSse0eRN1mtuod
+ e7Vf1m9Uu7JdwdnWb+5VQ+2GSI8zfuhyyOXE+skoQhsqBolgCjMY55oEL5VvCS1OFx
+ N7KYEk7IXZaEw==
+Received: by mail-yw1-f174.google.com with SMTP id
+ 00721157ae682-79088484065so46665357b3.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 02 Feb 2026 16:01:12 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXZCE26RYajEk8mVxSrMxPXkUjUmCAshpe+ziGFIlVad8RhJoFCvlxq1C0tf3FHb5VnaiN1PxHVi/4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwgQC8V9FfDB6xMOqsQmE64Y1ooi4YRMfbU/XtR9R3J8KZ9bOJq
- poQVEVREbMrepNhCDO9c2HJ7TkaSTqRxW1X+nRFFUct/VgN8IvdrQd4tvyuxNVDAkXHWleNhIhR
- SfATmATUUI8qAUZxb+rocTaVM423Nk58=
-X-Received: by 2002:a05:690c:c3cb:b0:788:201c:a170 with SMTP id
- 00721157ae682-7949e017673mr195191607b3.42.1770076841683; Mon, 02 Feb 2026
- 16:00:41 -0800 (PST)
+ AJvYcCV/xvjJIqCTdN1zz9seAALHh/RTqNRpQ2M5OjWJZf8u5zuP6WfljKsuoFT2u8KiDRbtAEIXHJeMCy0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxlYTtBsQDqT/kQbM0Zfi9rP05/gsKpmHfYFUIJ5nK87t8KuG7U
+ epzN2ZS90Bms2gMdjR/OqP42imQU0YoyE0SJZ/6shakUqBb0n5o9KrFwn9RFL79kWPraXFFRve5
+ qIUGR8Z7UPhFlyAdSG6OSe3ymDlQB9qk=
+X-Received: by 2002:a05:690c:22c1:b0:794:795d:4724 with SMTP id
+ 00721157ae682-7949df03372mr224092257b3.18.1770076871489; Mon, 02 Feb 2026
+ 16:01:11 -0800 (PST)
 MIME-Version: 1.0
 References: <20260131-drm-bridge-alloc-getput-drm_of_find_bridge-4-v2-0-e081bcdc1467@bootlin.com>
- <20260131-drm-bridge-alloc-getput-drm_of_find_bridge-4-v2-3-e081bcdc1467@bootlin.com>
-In-Reply-To: <20260131-drm-bridge-alloc-getput-drm_of_find_bridge-4-v2-3-e081bcdc1467@bootlin.com>
+ <20260131-drm-bridge-alloc-getput-drm_of_find_bridge-4-v2-4-e081bcdc1467@bootlin.com>
+In-Reply-To: <20260131-drm-bridge-alloc-getput-drm_of_find_bridge-4-v2-4-e081bcdc1467@bootlin.com>
 From: Linus Walleij <linusw@kernel.org>
-Date: Tue, 3 Feb 2026 01:00:29 +0100
-X-Gmail-Original-Message-ID: <CAD++jLnbXyCK+iY8M=tMTGvsSq=Gg5mxiqyGAh6NKOyVz5tzeA@mail.gmail.com>
-X-Gm-Features: AZwV_Qh6fmiQ2UigTxCTLDFtCigzUbALA2x_oLrz-IzstcPkob2SbnZ13_CAUOc
-Message-ID: <CAD++jLnbXyCK+iY8M=tMTGvsSq=Gg5mxiqyGAh6NKOyVz5tzeA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/6] drm/mcde: dsi: mcde_dsi_bind: break when a panel
- or bridge is found
+Date: Tue, 3 Feb 2026 01:01:00 +0100
+X-Gmail-Original-Message-ID: <CAD++jLk8w=YueeSdNOEXMU1JAkN=uxv+_jiYAwsHvOexXCzrEw@mail.gmail.com>
+X-Gm-Features: AZwV_Qhk0sQ1xC7for89cmEyxVxKxu8RCmnX4B77DqsIpZbHHQR6m7kDjGP8QyU
+Message-ID: <CAD++jLk8w=YueeSdNOEXMU1JAkN=uxv+_jiYAwsHvOexXCzrEw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/6] drm/mcde: dsi: convert to
+ of_drm_find_and_get_bridge()
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -123,23 +123,28 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 9BEDBD2CD8
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,bootlin.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: CA350D2CEF
 X-Rspamd-Action: no action
 
-On Sat, Jan 31, 2026 at 4:58=E2=80=AFPM Luca Ceresoli <luca.ceresoli@bootli=
+On Sat, Jan 31, 2026 at 4:59=E2=80=AFPM Luca Ceresoli <luca.ceresoli@bootli=
 n.com> wrote:
 
-> mcde_dsi_bind() has a loop over all subnodes looking for a panel, but doe=
-s
-> not exit when a match is found and only stores the last match. However th=
-is
-> will be problematic when introducing refcounting on the struct drm_device
-> pointer in a following commit, because of_drm_find_and_get_bridge() would
-> get a reference to multiple bridges.
+> of_drm_find_bridge() is deprecated. Move to its replacement
+> of_drm_find_and_get_bridge() which gets a bridge reference, and ensure it
+> is put when done.
 >
-> There seem to be no real reason for looking for multiple panels, so just
-> break as soon as a match is found.
+> We need to handle the two cases: when a panel is found and when it isn't,
+> even though the latter is not supported. So:
+>
+>  * in case a panel is not found and bridge is, get a reference to the
+>    found bridge
+>  * in case a panel is found, get a reference to the panel_bridge when it
+>    is added, so the following code always get exactly one reference that
+>    it needs to put
+>
+> Finally, use the next_bridge pointer in struct drm_bridge in order to
+> simplify putting the reference.
 >
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
