@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oPOwBiHNgWl1JwMAu9opvQ
+	id 4HGqCC3NgWl1JwMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 11:25:37 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 11:25:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE152D78DC
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 11:25:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A11BDD78FB
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 11:25:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD9F610E325;
-	Tue,  3 Feb 2026 10:25:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1E6510E5DA;
+	Tue,  3 Feb 2026 10:25:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="DJKsys0z";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="vNQ6debL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM5PR21CU001.outbound.protection.outlook.com
- (mail-centralusazon11011049.outbound.protection.outlook.com [52.101.62.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB21310E325;
- Tue,  3 Feb 2026 10:25:33 +0000 (UTC)
+Received: from SN4PR2101CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11012070.outbound.protection.outlook.com
+ [40.93.195.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A347510E5CC;
+ Tue,  3 Feb 2026 10:25:45 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QHBqLhbfeScgHRgIWqdIwxXeyQgYa4KUa8XM3q5EIYHl5dvVBRgRQ8y8DQ9+MFxRYsjTn+x0RuZCWXtjuo75nv0ShjMwTGlbT09VXTUSUUbqZ7E9LI8E7s7RW7M7evHWOGtrQJEFmAPZExCryC1A4PcRdtB4FOAzCTWsXDa27M7FaBwHGlzccZcvshoiptBJeBDpNtuaw6rv2/RxDAD/JaWcbzLrlmyjGp/a+t/C3uYmBQvzIwHeLwwDWcgz1yGdag74oVZrNWFJb9Go3X7Be4kZGdn08woEpIQfF8aOVrdlPXgo4xxkWXS8A9dk503D+Auj+mzAwNVQNrdFRfjihw==
+ b=LFoqKNhB6StP9+FUkT4TQrYSiooeDSIuqohnKrUo7e/uYl0Xk0pjd8kmRPbBasWpIDKNGeHDFCZmDXLa4AhEI4j1D+xPiaG4V4GLrVX55I+sADVFt45vdvspDoNSuLPzx/HPplxlwBkZbron8QCdPoFaWwd1BWgBs6Y22/Lc72ou6CZxz7BYh/ACU7tSnDPdtFFXZPczZSN3/qls4rc74y9Et17D7UqtALW6YEOr/UBWRPFYYxmXtLWOx7nQIumml/AKbUUkauYBvLQfkXXK4SnxSy5BstCnXQXzxITgfVzRUZmi9P3uANplJGBNGHJxVPND7XrlGFHZ4pnVH4f7cA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wJv7uSUJonLy0flGfiHY2ZL2uSmRGaiZIegCS/CDOuU=;
- b=ghfD9qf7PCFOpOxa9UI3budroa6XbxaA8GuccSLn/bSTqz2FVpGuzHeyj8+cG9XOHT7GalUtn12n/eR/lp0hPyIz1sWxIGJgFOgjlmLsAn1ovquRRPS2XoDufY1IDFhrm7yVYIvA0ginaYSAxwdFgqOsjfC6zPIPu3YE1nq/0wE8jLIGru3Nq2e0pTgZg1lLb3ZAPYkoN6nf84Dma/u/rsGYC2o87zrY9YvQNhgHNokKznCtR+pJZnd5h9AVzJWtrjs8i5AkD5BCqQdvbZBPO3CTuE7MZdEdMhYh+zJElf1h9Na3XDFPf2m3UvUPpFBtlJ9MLFEV8H4/qO8fUfzqqA==
+ bh=VjbVLUNhXPpr2Oq9zndV8exMO0QthHxjyx7kaDC+tvs=;
+ b=sbYrJ7MINMeH9JdUg5Kw0jRJrwmMVaq7d9Pjeb5VSL0rVEg3F/GCQIMgv1/2+MLHDEammzehG3OC/kPu58bjUi6MrwVGHgB8YYtqHGo8nBxZNaaQHGLY+/fuKkuoncTG3pkLCMwAMJgPTXaQW6Tgg32dQdXAIvcc9xlePS4kZfbUzZvO77KbC+SP/B3HLd90NoTssKrbm5pCoXe8VgCigSbg8Fzq8UQyW+I1bFTPxP4vuQTA1qfN8AOcPSCzJpfJceTjupbLq65u5sL34L8NLuMIGs2AwB4zq9OkHER1Tm8IbtCPsjSTWwuDQbGDNY9JdIfEaaGz0ljBLB2lFUCFUA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wJv7uSUJonLy0flGfiHY2ZL2uSmRGaiZIegCS/CDOuU=;
- b=DJKsys0z2TEnbnBWHefM+YmpZQAw6zURyIK14PnFlAAyJXyTq6SwFAs6YSJwJBt7/j0WYAmfQ24xSdMN9rNScy1JzAhWEJZ97qrbMqPyJzROywtxD8WU3DSIrJ2VrAYWD1dSTZpFnjPeB5gNMp7GPsUK875E6XxjlTwXuNAs9tI=
-Received: from BYAPR05CA0024.namprd05.prod.outlook.com (2603:10b6:a03:c0::37)
- by CH3PR12MB9283.namprd12.prod.outlook.com (2603:10b6:610:1cd::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Tue, 3 Feb
- 2026 10:25:27 +0000
-Received: from CO1PEPF000075F2.namprd03.prod.outlook.com
- (2603:10b6:a03:c0:cafe::d7) by BYAPR05CA0024.outlook.office365.com
- (2603:10b6:a03:c0::37) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.12 via Frontend Transport; Tue,
- 3 Feb 2026 10:25:28 +0000
+ bh=VjbVLUNhXPpr2Oq9zndV8exMO0QthHxjyx7kaDC+tvs=;
+ b=vNQ6debLetSS5FuR9BLf3QoF/TvtRu9uj+czkLodKBTjWG2z5ZqdKd8nT99DBJtup+79oh6l+xm4qresYZn4fzVEyuXmAeO59+2p3ULD10aLIPOrhysyM/pyIG6csucNn/1YbdvZM8wvBSJyK2pZihZ7mzIdjWVBB/mHZWBm4ys=
+Received: from BYAPR11CA0037.namprd11.prod.outlook.com (2603:10b6:a03:80::14)
+ by DS0PR12MB8813.namprd12.prod.outlook.com (2603:10b6:8:14e::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.15; Tue, 3 Feb
+ 2026 10:25:41 +0000
+Received: from CO1PEPF000075ED.namprd03.prod.outlook.com
+ (2603:10b6:a03:80:cafe::b0) by BYAPR11CA0037.outlook.office365.com
+ (2603:10b6:a03:80::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.16 via Frontend Transport; Tue,
+ 3 Feb 2026 10:25:41 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -53,23 +54,24 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- CO1PEPF000075F2.mail.protection.outlook.com (10.167.249.41) with Microsoft
+ CO1PEPF000075ED.mail.protection.outlook.com (10.167.249.36) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9587.10 via Frontend Transport; Tue, 3 Feb 2026 10:25:27 +0000
+ 15.20.9587.10 via Frontend Transport; Tue, 3 Feb 2026 10:25:41 +0000
 Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
  satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 3 Feb 2026 04:25:24 -0600
+ 15.2.2562.17; Tue, 3 Feb 2026 04:25:38 -0600
 From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 01/12] drm/amdgpu: allocate clear entities dynamically
-Date: Tue, 3 Feb 2026 11:22:08 +0100
-Message-ID: <20260203102236.3456-2-pierre-eric.pelloux-prayer@amd.com>
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Felix Kuehling
+ <Felix.Kuehling@amd.com>
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Felix
+ Kuehling" <felix.kuehling@amd.com>, <amd-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 02/12] drm/amdgpu: allocate move entities dynamically
+Date: Tue, 3 Feb 2026 11:22:09 +0100
+Message-ID: <20260203102236.3456-3-pierre-eric.pelloux-prayer@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260203102236.3456-1-pierre-eric.pelloux-prayer@amd.com>
 References: <20260203102236.3456-1-pierre-eric.pelloux-prayer@amd.com>
@@ -81,57 +83,57 @@ X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000075F2:EE_|CH3PR12MB9283:EE_
-X-MS-Office365-Filtering-Correlation-Id: fec30d0d-854f-4edb-4fd9-08de630e8cce
+X-MS-TrafficTypeDiagnostic: CO1PEPF000075ED:EE_|DS0PR12MB8813:EE_
+X-MS-Office365-Filtering-Correlation-Id: ff6f0ec9-41b1-455b-849c-08de630e9505
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|36860700013|376014|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?uo3NsiKGFF2l2XGAn6T6cN0B/cit4OqAXP+6lEWczscvDiIaJU4y3Eti5AaA?=
- =?us-ascii?Q?HjmgXhgaik/al767wBfIX6pbpLPs+TQaJxsYnYOrawhN1oOg74o3ifbDrO2e?=
- =?us-ascii?Q?57kPhU2lTUIL/QQWcuJLdkUcmMACQAMJB++T8GYSFCqgIZjqJo5g+NK8/zGx?=
- =?us-ascii?Q?/h+YQYN0vcngPk9yyQGy/rGbU8KgEWcBt3FLbLtiSWg10Mg8mQEZLYfsXwus?=
- =?us-ascii?Q?4wGa4/c+FLB+dj3rFzEFfAIuAbUFofivvNjX4eQrL30ublaIZ0Aa+RvlE9pC?=
- =?us-ascii?Q?PZuOOS6JSHckOr3G9E43B3TNNKVxm738XhlhlK9OVt9Lv4ofWLRABCtOTfZt?=
- =?us-ascii?Q?j5Ppn+QQP6Y59nEqKSgq0uSReWDXF+zpWg23vldqMQuu3tBeBvE7mjto4oDh?=
- =?us-ascii?Q?JiYrGIAE56sD/fzZQ4pMx7bEAteJb/xyeph+Elmr0vlslMGq61SRybgouiji?=
- =?us-ascii?Q?IhUy2GsIKkm7pDimyPfKfQhvhv1WHZ5VcRkco0ExSAK412Uh1Cc1bKTbr80i?=
- =?us-ascii?Q?QsdkkpJ2wpxE5ZLAWc8iUt2NAx8UChsdy0Dj2o1O8Bcjl1lKG+h1NiqYXK0Q?=
- =?us-ascii?Q?BTFxgacJJwVHcf1deNJDBwLzh9+PKIt9tufp3pEaxW5ihTkSMFD5QNiH65JS?=
- =?us-ascii?Q?Up4qVRMz9M9VwmPJRke4SKTCl8+TcEjaeCRy6cJwlxI2ZonLPgHAeGjhhd9Q?=
- =?us-ascii?Q?DOtrUi9ZvF0JlF82HUmMy+fWGzMV/+r5lO+ZhW0rKJ2mFMIw/dKixW3ZmKrn?=
- =?us-ascii?Q?zlZD5psBKWuCCVDu8fdeped4vohFeddo+4WwNcfWHVj9rio0mVgVD9t61PQ0?=
- =?us-ascii?Q?pwlReumCm45YaBjpxz5e/Di5b78MXZIGSObsvdVChFsyGYGkUSvplHmXEsN5?=
- =?us-ascii?Q?jL3HBnhIWRoeKlkz749tSUTeChHjZOtCHbMY/v7fzwtfvdlMqYZqy1o/jiKb?=
- =?us-ascii?Q?Lq9Yadk+DQCkj2GRFXFtdUnvGlRGvTY5yUiUmzrQUa6DuCW721jbHTy7akhc?=
- =?us-ascii?Q?RA2Oc64J127s2cveUOQvDfKIaqGp1By6VcgkXCxDf54B+/lW6OlC5Pw6+ZAp?=
- =?us-ascii?Q?kelbT+mQYKNnPOBrzGIWoNIuqKNel+p252yG8P5c2HirT3j5hG617iF7aTZL?=
- =?us-ascii?Q?KKY79rT94tb/JlgKdcxKVDaRcGZcp05DuGlEyg87PGkCV8dKNBf8vlizrmM0?=
- =?us-ascii?Q?gIwuCveFVoVPj3T89sOSxpmEDpg7Z3Hwh8m23QdqWx3qSm8krAwJ82lVM2ut?=
- =?us-ascii?Q?xCNoDASeMbLS5wo+EtUGRxbVBNnhZI7xzlQsVJTy1nB92Hn/jAQPxtdSA+fl?=
- =?us-ascii?Q?Sua3hVpRqMm5U/Pdnnr7RqHX0QAOVV23wrkJ/S0nKXcE1/tVHm7mtGb9QLm+?=
- =?us-ascii?Q?lUbfxOj9OjOTiu5lzwOSWp4Y+X/B1hvluCYUq+wORDRTJ85dW4Q9quY13Xvo?=
- =?us-ascii?Q?UPPjVJU2px0GCnmckVkRq19vYBZYULACwq1WdBT3X75BLAe9A2fCNjrk8V0m?=
- =?us-ascii?Q?IAfv6Q4CbEqfmZG9O3S0/fdTNMaoaPJEg0t4CZR6jRFf5Q7n6yDjMovFH69Q?=
- =?us-ascii?Q?psxlZxXDeNpgPqTsZ8WQh+ARA765FWZLQAZqIrwgb7/h92piPqhCbduBxW3r?=
- =?us-ascii?Q?cVZEN18GDWKL/PB9iVLRh5F8pIYdC5IrRCfQy9UfaMx4wNT5eWXTEekl85z9?=
- =?us-ascii?Q?qf0keQ=3D=3D?=
+ ARA:13230040|36860700013|1800799024|376014|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?rHsbyInGb5tdMipnKCm/Q2Ddwy4ZrA532ehCB794YMp3NhMpYltMnzwGE3xx?=
+ =?us-ascii?Q?9/3vBFtjyIKjU7yQkTBuPIOfOV+PO8lorvLAKP4YIREuBORXygVXdtomgRx+?=
+ =?us-ascii?Q?IphIyNHYg4t3Ldncxig0l36R/xu7swXnXBXTJXVJXszFJBR97YDFo8TN8F5P?=
+ =?us-ascii?Q?DRDmzM+PZ/sqCEUlGi1/EdpedZDNtHRSd4yCDWDt2T8tD1yTPrt+AXqA5pU7?=
+ =?us-ascii?Q?woE3Xk/Xk2+APf/QXOJD/eUeQmZT0MtK1E8eyDyLsATL1yIq2P6aIcqMoW4g?=
+ =?us-ascii?Q?NuBDlpBB8rdHNCjQ1pYwi6DjZdd92rUMV+9BTr7gMq3FCn7VKhgIoGPTbnBu?=
+ =?us-ascii?Q?pttCrev+6BBvOzu+diIQ2zscJHU1t+hCpKaZRXs/ICVvEqiFD+P5u9mY7NuA?=
+ =?us-ascii?Q?lmzmcwFahvTjD6AgzJWOhkP4V3CshdYFNlkpdLAhgdEYW+rDLPMdN5H/v26S?=
+ =?us-ascii?Q?I4RTkvr94qT5J9DsYiTzvZAJ3flNxHz+WdJsiJAygz04brjZMVEtZQGT3l6D?=
+ =?us-ascii?Q?xkj0sm6HSGFTqsMfekDqy2l1KDHKMN4zT+QQo5c86atJQ17PUpLEu32F1dyr?=
+ =?us-ascii?Q?scp5moZpfUpyNGz/5EhcWmMOQMCkGUb7G5YlaMp3il+5lujm7c6sVLGDNVRV?=
+ =?us-ascii?Q?2r+orvJTY0b+yf+QK0dlmAGUTVnW1K0uvQ3JJPY4PIMtDd/iy+GdA8asB8Bh?=
+ =?us-ascii?Q?yXZQ16UyfB3Cpv2SQfCfFpe2Z/+TgdHR3xS5z4LPoWbBJwO7CtOYOYzti6sR?=
+ =?us-ascii?Q?d+TwNjkvAU1glctvkcpQejpNiFZc1p9WdDJr/+DN279QUU/5TDh3/YkARDRO?=
+ =?us-ascii?Q?+uA9ziemj2JWIFiyTpSC+g5nZenIIkGR0KS+Q2moY+qnNsHc/RYcteOSbHPm?=
+ =?us-ascii?Q?SKeE8INm74IO4TUI21bJbjeirl6I/6299ib/Al2/xxHcuV9DmggIS6Uz1z0B?=
+ =?us-ascii?Q?K6fwSzk3Y33VNVD6REetzC3lXH/ZA6cu7YIq/DH0VvS+t9pzxCUjcR4SI4gm?=
+ =?us-ascii?Q?NzYRnjXzxxA3o1iXjGn2ucP26apZXESLEWGEvwTk2qwjbKZjQn2d3DjW+yHr?=
+ =?us-ascii?Q?hEKDt2knSQvmCpHsw7fYVtViDXNBnG2TLxLqW5lcYlxfuIYvVbKPMCDbmORF?=
+ =?us-ascii?Q?O0+5BblEs/w0YJa4Yb7RBenuNATA8wIVBCKLkPz1R1MYzVtldDlBdlDqBHTF?=
+ =?us-ascii?Q?gCyyoZnFnjfdlP7tzNzqwpRFdSgsv5T9zisFiGQPL+AGBKnxyEPUqeWfutdT?=
+ =?us-ascii?Q?lL1KzExSMckGfRQtNc0dxQe3itDuX4SWFtnWP759W7UBrkCRPVPPMWBCE+/Z?=
+ =?us-ascii?Q?qg9nlvNfeS7m2z/3zg8aLchOTtbpIxSOyWDQzHdOuf1JTRt6BXIYGJUbcIO6?=
+ =?us-ascii?Q?jFNpko7Q8/l/ubU/xkcqMlCt1gUEwAP0xBpryy7zHJfFE2qh68cCod+MMolx?=
+ =?us-ascii?Q?VjV/TMU39BJ4TTdanDtDkQVaJPisGm3+wLsoo4eHmt9wTUpcQPjOC5zzAYWI?=
+ =?us-ascii?Q?OA77iJW//6EWH5iDsWykhVlSNlFG3X4knLUYm4XULfpbmXYtrPOYH/Kb/HBz?=
+ =?us-ascii?Q?DDMfPEIby6kFBG3dnzBv0XgogAZyOG+FE41x3CW64bnfJBp8y3s3tnMA8FQr?=
+ =?us-ascii?Q?lgAhAWZ7oLw3tnSnaYKVFwuc8uNyhI8+/n9ZrR7kDKLafsLOYZY4V6TDkm08?=
+ =?us-ascii?Q?kmqbxQ=3D=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024); DIR:OUT;
+ SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026); DIR:OUT;
  SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: NdDRwkTy7s7HF9/M6CmTuEwKydcNfGF0PzEUxwpyas9Jp7xZUawBbvQeO9UXksN1B5FznTYk6soCUzuynjVuSiNdo5VJbMyRohkh3pFioyP9DQDt0pWIAqqcMUhvb8RrrhQJGUT4KRS61NoxhGnbFe/4zxveUJtlSgQZziLhaDyIHljygyYL1e/HpWlVgjSjjVRkQxHNDhnFrBAxo8l1IAR7dV5Is3ALxBn2wXMRDysyI23Y6I5rTbbcGlHm84va9CuFSNQTF2I9u1CoXhZNPp3LLOrj3kG9BiSLZzZnv+Prr80MuvkmVo360TvOE8ju6+8qtDHS65Bg0mUFmghy9kE5ktk3/hQsXVfrooZUkuzDtt2Yt58yFT546t71garh6/GjF4Y7mP5xRmTGZgjM1m4wkIFzxk9i2c9srmV4NEegRRF3xdiR9SaSRmJApqJ0
+X-MS-Exchange-AntiSpam-MessageData-0: BMenX1U9A1OFWONh2LMFIpv4dZ4Mzm7yL2pqrDNzfcAsaJ80q5strgNyD6O38YgqXqvwoRz5FbvsZntXmlahGbQ5YY0fi9vLsDLIvkVCjtigmXcAUN1HPj4lcVgbL1cnUJ+w/wplm9NfYYsEH2LuUQ6vRE7sqZVMaw9jvViXKiLtD3xC6dgOoDcIZwq400ROKpAXjaQHK0EVmppf0vuE/J9Byw1kKI5fo7gMs/WJlfHjRpNCfOOG+45N0q/W9eUIv29v+2UPEeCqy4EmQ4XhHpiyi/83y3u8yiX+q5Rxy2gUGyQDuFCGJxcCvvHTkuTRF17WvlnpPN8z8GfaGCPk/HU5d2G3oulYaN+KqVcQgQdvd7sDgTeEgouYpg2d1e/M2c4QQtAd42Ya3KICZxooUzNbLwyXvFdK8FAmC78qtEoCq+Dc5nCcwvDY1Ho7d7Pp
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2026 10:25:27.4870 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fec30d0d-854f-4edb-4fd9-08de630e8cce
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2026 10:25:41.2697 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff6f0ec9-41b1-455b-849c-08de630e9505
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000075F2.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000075ED.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9283
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8813
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,168 +173,144 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	HAS_XOIP(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email,amd.com:dkim,amd.com:mid]
-X-Rspamd-Queue-Id: BE152D78DC
+X-Rspamd-Queue-Id: A11BDD78FB
 X-Rspamd-Action: no action
 
-No functional change for now, as we always allocate a single entity
-and use it everywhere.
+No functional change for now, as we always allocate a single entity.
 
 ---
 v4: stop using adev->sdma.num_instances
 ---
 
 Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Acked-by: Felix Kuehling <felix.kuehling@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 55 +++++++++++++++-------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h    |  3 +-
- 3 files changed, 42 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c  | 35 +++++++++++++++---------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h  |  3 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c |  2 +-
+ 3 files changed, 25 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index 1fb956400696..bf98be8fd007 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -1325,7 +1325,7 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
- 	if (r)
- 		goto out;
- 
--	r = amdgpu_fill_buffer(&adev->mman.clear_entity, abo, 0, &bo->base._resv,
-+	r = amdgpu_fill_buffer(&adev->mman.clear_entities[0], abo, 0, &bo->base._resv,
- 			       &fence, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
- 	if (WARN_ON(r))
- 		goto out;
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 0977a10679dc..71316b3d4a29 100644
+index 71316b3d4a29..75cb354084a0 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -2346,8 +2346,9 @@ void amdgpu_ttm_fini(struct amdgpu_device *adev)
+@@ -399,7 +399,7 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
+ 	dst.offset = 0;
+ 
+ 	r = amdgpu_ttm_copy_mem_to_mem(adev,
+-				       &adev->mman.move_entity,
++				       &adev->mman.move_entities[0],
+ 				       &src, &dst,
+ 				       new_mem->size,
+ 				       amdgpu_bo_encrypted(abo),
+@@ -412,7 +412,7 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
+ 	    (abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE)) {
+ 		struct dma_fence *wipe_fence = NULL;
+ 
+-		r = amdgpu_fill_buffer(&adev->mman.move_entity,
++		r = amdgpu_fill_buffer(&adev->mman.move_entities[0],
+ 				       abo, 0, NULL, &wipe_fence,
+ 				       AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
+ 		if (r) {
+@@ -2346,7 +2346,7 @@ void amdgpu_ttm_fini(struct amdgpu_device *adev)
  void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
  {
  	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
-+	u32 num_clear_entities;
+-	u32 num_clear_entities;
++	u32 num_clear_entities, num_move_entities;
  	uint64_t size;
--	int r;
-+	int r, i, j;
+ 	int r, i, j;
  
- 	if (!adev->mman.initialized || amdgpu_in_reset(adev) ||
- 	    adev->mman.buffer_funcs_enabled == enable || adev->gmc.is_app_apu)
-@@ -2362,6 +2363,7 @@ void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
- 			return;
+@@ -2364,6 +2364,7 @@ void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
  		}
  
-+		num_clear_entities = 1;
+ 		num_clear_entities = 1;
++		num_move_entities = 1;
  		ring = adev->mman.buffer_funcs_ring;
  		sched = &ring->sched;
  		r = amdgpu_ttm_buffer_entity_init(&adev->mman.gtt_mgr,
-@@ -2374,14 +2376,28 @@ void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
- 			return;
+@@ -2400,14 +2401,20 @@ void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
+ 			}
  		}
  
 -		r = amdgpu_ttm_buffer_entity_init(&adev->mman.gtt_mgr,
--						  &adev->mman.clear_entity,
+-						  &adev->mman.move_entity,
 -						  DRM_SCHED_PRIORITY_NORMAL,
--						  &sched, 1, 1);
+-						  &sched, 1, 2);
 -		if (r < 0) {
 -			dev_err(adev->dev,
--				"Failed setting up TTM BO clear entity (%d)\n", r);
-+		adev->mman.clear_entities = kcalloc(num_clear_entities,
-+						    sizeof(struct amdgpu_ttm_buffer_entity),
-+						    GFP_KERNEL);
-+		if (!adev->mman.clear_entities)
- 			goto error_free_default_entity;
-+
-+		adev->mman.num_clear_entities = num_clear_entities;
-+
-+		for (i = 0; i < num_clear_entities; i++) {
+-				"Failed setting up TTM BO move entity (%d)\n", r);
+-			goto error_free_clear_entities;
++		adev->mman.num_move_entities = num_move_entities;
++		for (i = 0; i < num_move_entities; i++) {
 +			r = amdgpu_ttm_buffer_entity_init(
-+				&adev->mman.gtt_mgr, &adev->mman.clear_entities[i],
-+				DRM_SCHED_PRIORITY_NORMAL, &sched, 1, 1);
++				&adev->mman.gtt_mgr,
++				&adev->mman.move_entities[i],
++				DRM_SCHED_PRIORITY_NORMAL, &sched, 1, 2);
 +
 +			if (r < 0) {
 +				for (j = 0; j < i; j++)
 +					amdgpu_ttm_buffer_entity_fini(
-+						&adev->mman.gtt_mgr, &adev->mman.clear_entities[j]);
-+				kfree(adev->mman.clear_entities);
-+				adev->mman.num_clear_entities = 0;
-+				adev->mman.clear_entities = NULL;
-+				goto error_free_default_entity;
++						&adev->mman.gtt_mgr, &adev->mman.move_entities[j]);
++				adev->mman.num_move_entities = 0;
++				goto error_free_clear_entities;
 +			}
- 		}
- 
- 		r = amdgpu_ttm_buffer_entity_init(&adev->mman.gtt_mgr,
-@@ -2391,19 +2407,23 @@ void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
- 		if (r < 0) {
- 			dev_err(adev->dev,
- 				"Failed setting up TTM BO move entity (%d)\n", r);
--			goto error_free_clear_entity;
-+			goto error_free_clear_entities;
  		}
  	} else {
  		amdgpu_ttm_buffer_entity_fini(&adev->mman.gtt_mgr,
- 					      &adev->mman.default_entity);
+@@ -2415,8 +2422,9 @@ void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
+ 		for (i = 0; i < adev->mman.num_clear_entities; i++)
+ 			amdgpu_ttm_buffer_entity_fini(&adev->mman.gtt_mgr,
+ 						      &adev->mman.clear_entities[i]);
 -		amdgpu_ttm_buffer_entity_fini(&adev->mman.gtt_mgr,
--					      &adev->mman.clear_entity);
-+		for (i = 0; i < adev->mman.num_clear_entities; i++)
+-					      &adev->mman.move_entity);
++		for (i = 0; i < adev->mman.num_move_entities; i++)
 +			amdgpu_ttm_buffer_entity_fini(&adev->mman.gtt_mgr,
-+						      &adev->mman.clear_entities[i]);
- 		amdgpu_ttm_buffer_entity_fini(&adev->mman.gtt_mgr,
- 					      &adev->mman.move_entity);
++						      &adev->mman.move_entities[i]);
  		/* Drop all the old fences since re-creating the scheduler entities
  		 * will allocate new contexts.
  		 */
- 		ttm_resource_manager_cleanup(man);
-+		kfree(adev->mman.clear_entities);
-+		adev->mman.clear_entities = NULL;
-+		adev->mman.num_clear_entities = 0;
+@@ -2424,6 +2432,7 @@ void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
+ 		kfree(adev->mman.clear_entities);
+ 		adev->mman.clear_entities = NULL;
+ 		adev->mman.num_clear_entities = 0;
++		adev->mman.num_move_entities = 0;
  	}
  
  	/* this just adjusts TTM size idea, which sets lpfn to the correct value */
-@@ -2416,9 +2436,13 @@ void amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
- 
- 	return;
- 
--error_free_clear_entity:
--	amdgpu_ttm_buffer_entity_fini(&adev->mman.gtt_mgr,
--				      &adev->mman.clear_entity);
-+error_free_clear_entities:
-+	for (i = 0; i < adev->mman.num_clear_entities; i++)
-+		amdgpu_ttm_buffer_entity_fini(&adev->mman.gtt_mgr,
-+					      &adev->mman.clear_entities[i]);
-+	kfree(adev->mman.clear_entities);
-+	adev->mman.clear_entities = NULL;
-+	adev->mman.num_clear_entities = 0;
- error_free_default_entity:
- 	amdgpu_ttm_buffer_entity_fini(&adev->mman.gtt_mgr,
- 				      &adev->mman.default_entity);
-@@ -2568,8 +2592,7 @@ int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
- 
- 	if (!fence)
- 		return -EINVAL;
--
--	entity = &adev->mman.clear_entity;
-+	entity = &adev->mman.clear_entities[0];
- 	*fence = dma_fence_get_stub();
- 
- 	amdgpu_res_first(bo->tbo.resource, 0, amdgpu_bo_size(bo), &cursor);
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-index bf101215757e..e98d458b8029 100644
+index e98d458b8029..cd24ca851b6d 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-@@ -72,8 +72,9 @@ struct amdgpu_mman {
+@@ -72,9 +72,10 @@ struct amdgpu_mman {
  
  	/* @default_entity: for workarounds, has no gart windows */
  	struct amdgpu_ttm_buffer_entity default_entity;
--	struct amdgpu_ttm_buffer_entity clear_entity;
- 	struct amdgpu_ttm_buffer_entity move_entity;
-+	struct amdgpu_ttm_buffer_entity *clear_entities;
-+	u32 num_clear_entities;
+-	struct amdgpu_ttm_buffer_entity move_entity;
+ 	struct amdgpu_ttm_buffer_entity *clear_entities;
+ 	u32 num_clear_entities;
++	struct amdgpu_ttm_buffer_entity move_entities[TTM_NUM_MOVE_FENCES];
++	u32 num_move_entities;
  
  	struct amdgpu_vram_mgr vram_mgr;
  	struct amdgpu_gtt_mgr gtt_mgr;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+index b3d304aab686..7b089d22c367 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+@@ -136,7 +136,7 @@ svm_migrate_copy_memory_gart(struct amdgpu_device *adev, dma_addr_t *sys,
+ 	u64 size;
+ 	int r;
+ 
+-	entity = &adev->mman.move_entity;
++	entity = &adev->mman.move_entities[0];
+ 
+ 	mutex_lock(&entity->lock);
+ 
 -- 
 2.43.0
 
