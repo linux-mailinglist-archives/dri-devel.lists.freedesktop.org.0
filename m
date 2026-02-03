@@ -2,67 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KBI0HtDhgWmDLQMAu9opvQ
+	id kMogJT/lgWl0LwMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 12:53:52 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 13:08:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B512D8A4A
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 12:53:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E95BED8CE4
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 13:08:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E467010E31E;
-	Tue,  3 Feb 2026 11:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA56A10E1E5;
+	Tue,  3 Feb 2026 12:08:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="pGLrDq0F";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Nl6YtP03";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="bpoxKbed";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA97310E31E
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 11:53:48 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 35D15C211EB;
- Tue,  3 Feb 2026 11:53:52 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id EED3760728;
- Tue,  3 Feb 2026 11:53:37 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 42835119A8888; Tue,  3 Feb 2026 12:53:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1770119615; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=czGxAqtWlC7CiVBQnNcTBd7QV+mqCq2IlCe+hizwtH0=;
- b=pGLrDq0FDlC6TZPzDwz+Q/LbCPms3wDALSsrNFAGRXrrJUMWn/+VlSWQN2QR1wDRN5t7R/
- 4dzoNl826W3u5sMZpiUnAdxPkKb84cPrxTMxNDLahXGpiwPNmn9eS5238/Jp+bC+ex8+vX
- vbDhkjVeUStK9q7btu0T2fx76OX81Ua0754MhEjiyODMlnM/R7O8S56hvlNuX01P0qZM+G
- nlwC3jJMJKjoHhH2sq8CMgGpUNdNEwPZhhN6u26MXXTEcHuZ+OoKdCgPnRYERLalsXIgXs
- ne+a7qepIg13lOceMckrlU+BJr2gXQ4vfi5Pi4HuB/tssJGozFElfoz4tOiY2A==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Damon Ding <damon.ding@rock-chips.com>
-Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
- festevam@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com, 
- kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com, 
- jingoohan1@gmail.com, p.zabel@pengutronix.de, hjc@rock-chips.com, 
- heiko@sntech.de, andy.yan@rock-chips.com, dmitry.baryshkov@oss.qualcomm.com, 
- dianders@chromium.org, m.szyprowski@samsung.com, jani.nikula@intel.com, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
-In-Reply-To: <20251217093321.3108939-1-damon.ding@rock-chips.com>
-References: <20251217093321.3108939-1-damon.ding@rock-chips.com>
-Subject: Re: (subset) [PATCH v8 00/18] Apply drm_bridge_connector and
- panel_bridge helper for the Analogix DP driver
-Message-Id: <177011960346.1855144.4866699055858398856.b4-ty@bootlin.com>
-Date: Tue, 03 Feb 2026 12:53:23 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C392E10E1E5
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 12:08:27 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 6136fCai278229
+ for <dri-devel@lists.freedesktop.org>; Tue, 3 Feb 2026 12:08:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ B7h20MCirN2R6w9UGWVeyGVzBsz4bKvBB1VWC/VSR0k=; b=Nl6YtP03sJmlmlWI
+ NqhiqSHHqr2Fs9mO0HZyIujupk60wK48NPFS2lVwy68IfD69aVohvyccLBC7TzYw
+ Aa0NpohjhVVepb8/SL5awQg2IlhioIe6jxcLQpIil2VweZWPeZtSAiTDf8uuVZha
+ FvhuZ4TfyD4VP3+JI2G7dAaBpy9PcSyJWZqCKTorJ8ldXnW4419eI9EHRbPvV3kS
+ 5BTHKlKqgBt5KtynGAsQpECtV5C2BmXGawvsfj0oD4iXF3TuN5m4l4mAN2sxMsm9
+ ezgSt8qQoXatu95irv9AH2weX0b1go6WyGAm0cy7S4RjJZ3W+ylXvojq6mP+z2g1
+ Pd1BpA==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c32s3ahe3-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Feb 2026 12:08:26 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id
+ 41be03b00d2f7-c5539b9adbcso11374277a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Feb 2026 04:08:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1770120505; x=1770725305;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:cc:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=B7h20MCirN2R6w9UGWVeyGVzBsz4bKvBB1VWC/VSR0k=;
+ b=bpoxKbedCYE9PRM+UtHwtwVbIMJF/cyNVFLezN8IPKBxfSUWP2r49Yewzi9IZqoZD7
+ EDpkLjez9K6ouh+VJ5JGWAF+6TuBHTiu3BqSF+MssIGocrQoUvRzLl0a6LGOG/95bAdL
+ 4SDP+YMsYKZk2UaT+Cxse2DdlLGJLXmuKAAweCXdUaS91ckhdyzV5fVCFgOnkBPnZJHb
+ PiM+AZ/1E7cJBzhX/geWev82cqcN9sEFsXGqste5As1v7+39HvUPi+BIQgmgwX9iXyP6
+ fd3x9giMbtKUOXjEHdAjK57f9Bm0f1fo58xP86E9PieszoRJgGnmEq9Dbh3CseH9x6yE
+ ZSug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770120506; x=1770725306;
+ h=content-transfer-encoding:in-reply-to:cc:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=B7h20MCirN2R6w9UGWVeyGVzBsz4bKvBB1VWC/VSR0k=;
+ b=EQeoA8XSmL4h3Z3lFNnTfoFlSXOSjeP7A+fnkbwxuBsVD/+NPJTY04Q6gDUw+3RGm1
+ Dj3OJh2jwHm6PmO5oTWL32qD0Z4T1boxKzFjmGZ0cdfxL5aqLHEAgAhTv5HJYv2O16/d
+ 2f++6eEaDIGIy/1ixcXFgcsEikn4sFXgKzzDqDIPxymzshclyu3WFXgZIhdAnG9mRiO3
+ mmsJgH5Uqt7J/vkpKG7mPUeWxdhaHaHP8BNARCo0/dCTA3NbcGQ3KNaMWJKQ32G+bIEX
+ cyh33fyY0e4UmtfuwElPqb5RPux+gbO3cN4Vb19/Hy5ygbvGPNcmmiaCrka2Y5+WB/bF
+ z5Qg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVO3VhVSK3Jfj8FQNHhYiPVvfE6NvPyy3Lfb39u3yiY/iQtvu40/7/yIGHrSlu5jEo4IcDuA2OWpmI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwKk6Y4RyF7ni6ETrQVbVa7KEw/AnUGMwSTbvlTNr2cKZ788hqZ
+ lZQUwj5Yc3E3rcqY8XqwvGhbxy8gOtnnCaFSluBYAerv9FGhkd9mkJPmFYxxeCiliuJIy8duQPL
+ i2moo5mX2ijK+5aY6SQp3ltyjPQWQWMFlov++VjZb9dd7+9ILDIo5qpXv+xDXauFup2GC3j8=
+X-Gm-Gg: AZuq6aL3nO41NNRzcI9W9tf3V4Zse7VbB9fup6DX+PaOEdMqZa56KD1LqBj9bvc3ntE
+ ZE7NNKcroWyykE+OmMQsneYnCXWSRPaPLffWm0se2YWKHm6j5wByVUig66DUNokCv3v45Lg2lF0
+ UoWNWCtWnyuvWyRZmi/yWvGCa3sCqMYcgC2+r2LuIxs6OqbdercGA1lUpcc+fQBbRh8xXjKuddc
+ wsMGqLrM/3YOQffyJaxfr2bo/1+SXY8P+WZQPrxO8dO/7nEjpaZ2pqPkM/gzAvGZrflqDuN0Uhx
+ RuTm+UJwOMhIBgHXi6sJn3wZE2eTBchGtaLQKgB5gGwW52DHRtXFEG/JGO9S3L0t+4OqpscP1ZT
+ EHEGAgmEH+z5TsQaU77psiNKedwwZPhPvkBMAeOSZXUz+IED7bV5JWqNFwLmr7x20Y5gdP2RqNJ
+ wjpiU=
+X-Received: by 2002:a05:6a00:3a1d:b0:81f:adb3:21c7 with SMTP id
+ d2e1a72fcca58-823ab684020mr14247657b3a.22.1770120505612; 
+ Tue, 03 Feb 2026 04:08:25 -0800 (PST)
+X-Received: by 2002:a05:6a00:3a1d:b0:81f:adb3:21c7 with SMTP id
+ d2e1a72fcca58-823ab684020mr14247634b3a.22.1770120505146; 
+ Tue, 03 Feb 2026 04:08:25 -0800 (PST)
+Received: from [10.133.33.16] (tpe-colo-wan-fw-bordernet.qualcomm.com.
+ [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-82379c5a190sm22756121b3a.68.2026.02.03.04.08.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Feb 2026 04:08:24 -0800 (PST)
+Message-ID: <592129fa-cd8e-44b5-a18c-1fb6c6ed102b@oss.qualcomm.com>
+Date: Tue, 3 Feb 2026 20:08:16 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] misc: fastrpc: Add NULL check to fastrpc_buf_free
+ to prevent crash
+To: Greg KH <gregkh@linuxfoundation.org>
+References: <20260115082851.570-1-jianping.li@oss.qualcomm.com>
+ <20260115082851.570-2-jianping.li@oss.qualcomm.com>
+ <2026011621-fang-moneywise-d6b2@gregkh>
+ <2255b500-f4fd-4d7a-a5d9-5b4fb55c78b2@oss.qualcomm.com>
+ <2026020245-catalog-outburst-f805@gregkh>
+Content-Language: en-US
+From: Jianping <jianping.li@oss.qualcomm.com>
+Cc: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
+ linux-arm-msm@vger.kernel.org, ekansh.gupta@oss.qualcomm.com,
+ thierry.escande@linaro.org, abelvesa@kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ quic_chennak@quicinc.com, stable@kernel.org
+In-Reply-To: <2026020245-catalog-outburst-f805@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+X-Authority-Analysis: v=2.4 cv=Zc4Q98VA c=1 sm=1 tr=0 ts=6981e53a cx=c_pps
+ a=rz3CxIlbcmazkYymdCej/Q==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=X5nBk1X44HCHp22wJVoA:9 a=QEXdDO2ut3YA:10 a=bFCP_H2QrGi7Okbo017w:22
+X-Proofpoint-ORIG-GUID: LWJQAXTnOkJbFMuVeI8H8nqT5zqCKbzS
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAzMDA5NiBTYWx0ZWRfXx0jFy8xRM/3w
+ RZaynBxHqsBfIPcgHwn2Lhjbw6uQfbkKCRQBlF3o30KrlOvHE0pPyTeWEGP4luNxsBZkE8BTPY7
+ iPXxcR0InLY1neeOcWm7roCZT0xEUjds9Dp/peKGBx5kl38IyGSOVnq/HchVny7XtHjeQVghsvV
+ wH57WDbyybmI5Sgbm8PxoIBtcmkwKBcH4cVPHgikqOMv9tsJKMlK/23/ruvobFNEVPJfaT+Xg6r
+ 0DJFE6iremzoGFpfpxkc3PCjX8F6tRdMh3bw+J3C8l98ZGD6kiwpLrxd4zspDJxOr0Wy/JvPQYM
+ Utu6CIf9KJ8kgskIcHeQ9uKLCdo8wsUnjrbwb4OuUfjwNv6aHibR1HDSaJsKiv6edNbBBViSRVr
+ pyyBQcWsdKex4rAGQswIk6BqIQHJQPrBJZLdxhAPYyPuvOoAeSmhutBhdlODlR6VH1sF1abDThH
+ XYe5+XFK7GGGlHbLCAg==
+X-Proofpoint-GUID: LWJQAXTnOkJbFMuVeI8H8nqT5zqCKbzS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-03_03,2026-02-02_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 suspectscore=0 impostorscore=0 adultscore=0
+ phishscore=0 bulkscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602030096
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,68 +153,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[36];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:damon.ding@rock-chips.com,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:inki.dae@samsung.com,m:sw0312.kim@samsung.com,m:kyungmin.park@samsung.com,m:krzk@kernel.org,m:alim.akhtar@samsung.com,m:jingoohan1@gmail.com,m:p.zabel@pengutronix.de,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:dmitry.baryshkov@oss.qualcomm.com,m:dianders@chromium.org,m:m.szyprowski@samsung.com,m:jani.nikula@intel.com,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,pengutronix.de,samsung.com,rock-chips.com,sntech.de,oss.qualcomm.com,chromium.org,intel.com,vger.kernel.org,lists.freedesktop.org,lists.linux.dev,lists.infradead.org];
+	FORGED_RECIPIENTS(0.00)[m:gregkh@linuxfoundation.org,m:srini@kernel.org,m:amahesh@qti.qualcomm.com,m:arnd@arndb.de,m:linux-arm-msm@vger.kernel.org,m:ekansh.gupta@oss.qualcomm.com,m:thierry.escande@linaro.org,m:abelvesa@kernel.org,m:linux-kernel@vger.kernel.org,m:quic_chennak@quicinc.com,m:stable@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[jianping.li@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[bootlin.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[jianping.li@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,bootlin.com:dkim,bootlin.com:mid]
-X-Rspamd-Queue-Id: 0B512D8A4A
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: E95BED8CE4
 X-Rspamd-Action: no action
 
 
-On Wed, 17 Dec 2025 17:33:03 +0800, Damon Ding wrote:
-> PATCH 1 is to ensure the last bridge declares OP_EDID or OP_MODES or both.
-> PATCH 2 is a small format optimization for struct analogid_dp_device.
-> PATCH 3 is to perform mode setting in &drm_bridge_funcs.atomic_enable.
-> PATCH 4 is to add a new parameter to store the point of next bridge.
-> PATCH 5 is to make legacy bridge driver more universal.
-> PATCH 6-11 are preparations for apply drm_bridge_connector helper.
-> PATCH 12 is to apply the drm_bridge_connector helper.
-> PATCH 13-15 are to move the panel/bridge parsing to the Analogix side.
-> PATCH 16 is to attach the next bridge on Analogix side uniformly.
-> PATCH 17-18 are to apply the panel_bridge helper.
+
+On 2/2/2026 4:41 PM, Greg KH wrote:
+> On Mon, Feb 02, 2026 at 03:13:10PM +0800, Jianping wrote:
+>>
+>>
+>> On 1/16/2026 10:49 PM, Greg KH wrote:
+>>> On Thu, Jan 15, 2026 at 04:28:48PM +0800, Jianping Li wrote:
+>>>> From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+>>>>
+>>>> The fastrpc_buf_free function currently does not handle the case where
+>>>> the input buffer pointer (buf) is NULL. This can lead to a null pointer
+>>>> dereference, causing a crash or undefined behavior when the function
+>>>> attempts to access members of the buf structure. Add a NULL check to
+>>>> ensure safe handling of NULL pointers and prevent potential crashes.
+>>>
+>>> What caller passes in NULL here?  I did a quick look, and see where the
+>>> callers check this properly if it could be NULL, otherwise it all looks
+>>> sane to me.  What in-kernel user is causing a crash here?  Why not fix
+>>> the caller up instead?
+>>>
+>>> thanks,
+>>>
+>>> greg k-h
+>>
+>> It's a saftety coding: to eliminate NULL checks on the caller side, as we do
+>> in a lot of other kernel API.
 > 
-> [...]
+> But you do not do that for all functions in the kernel, otherwise the
+> kernel would be full of checks that are never hit at all.
+To clarify the intention: this change was not triggered by any real 
+crash in current callers. The motivation came from the v1 review 
+discussion [1], where it was suggested that a NULL check in 
+fastrpc_buf_free() would allow simplifying some of the caller paths.
 
-Applied, thanks!
+[1] 
+https://lore.kernel.org/all/c80c48a1-f1b6-4520-9d7c-3a83915c7717@oss.qualcomm.com/
+> 
+>> And it was pointed out in the v1 patch discussion that this change was
+>> needed:
+>> https://lore.kernel.org/all/c80c48a1-f1b6-4520-9d7c-3a83915c7717@oss.qualcomm.com/
+> 
+> Were the checks removed from the caller side like was asked for?
 
-[01/18] drm/display: bridge_connector: Ensure last bridge determines EDID/modes detection capabilities
-        commit: 3c05e956b85e70cbd5042e03f615b23ca4635385
-[02/18] drm/bridge: analogix_dp: Formalize the struct analogix_dp_device
-        commit: 10a2694fde68ba214eca7d24229094fc2427fddd
-[03/18] drm/bridge: analogix_dp: Move &drm_bridge_funcs.mode_set to &drm_bridge_funcs.atomic_enable
-        commit: cff3f89ffbdd4b6c43a117c01aaf5b290ff80803
+Currently, I have placed the check inside the API and removed all the 
+checks outside the API.
 
-Best regards,
--- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
+> 
+> Also, your changelog makes it sound like this is a real bugfix for
+> something, when it is not at all, which is what I object to the most.
+> Don't make scary changelogs for things that are not actually happening.
+
+You are correct. I will modify the commit text that caused the 
+misunderstanding.
+
+> 
+> thanks,
+> 
+> greg k-h
 
