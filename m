@@ -2,142 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kMogJT/lgWl0LwMAu9opvQ
+	id qBufH8/mgWl0LwMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 13:08:31 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 13:15:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95BED8CE4
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 13:08:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDF3AD8DE6
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 13:15:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA56A10E1E5;
-	Tue,  3 Feb 2026 12:08:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86A8910E324;
+	Tue,  3 Feb 2026 12:15:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Nl6YtP03";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="bpoxKbed";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mjT6N8Kx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C392E10E1E5
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 12:08:27 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 6136fCai278229
- for <dri-devel@lists.freedesktop.org>; Tue, 3 Feb 2026 12:08:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- B7h20MCirN2R6w9UGWVeyGVzBsz4bKvBB1VWC/VSR0k=; b=Nl6YtP03sJmlmlWI
- NqhiqSHHqr2Fs9mO0HZyIujupk60wK48NPFS2lVwy68IfD69aVohvyccLBC7TzYw
- Aa0NpohjhVVepb8/SL5awQg2IlhioIe6jxcLQpIil2VweZWPeZtSAiTDf8uuVZha
- FvhuZ4TfyD4VP3+JI2G7dAaBpy9PcSyJWZqCKTorJ8ldXnW4419eI9EHRbPvV3kS
- 5BTHKlKqgBt5KtynGAsQpECtV5C2BmXGawvsfj0oD4iXF3TuN5m4l4mAN2sxMsm9
- ezgSt8qQoXatu95irv9AH2weX0b1go6WyGAm0cy7S4RjJZ3W+ylXvojq6mP+z2g1
- Pd1BpA==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c32s3ahe3-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Feb 2026 12:08:26 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id
- 41be03b00d2f7-c5539b9adbcso11374277a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Feb 2026 04:08:26 -0800 (PST)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0057410E324
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 12:15:05 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-2a7b23dd036so27254595ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Feb 2026 04:15:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1770120505; x=1770725305;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:cc:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=B7h20MCirN2R6w9UGWVeyGVzBsz4bKvBB1VWC/VSR0k=;
- b=bpoxKbedCYE9PRM+UtHwtwVbIMJF/cyNVFLezN8IPKBxfSUWP2r49Yewzi9IZqoZD7
- EDpkLjez9K6ouh+VJ5JGWAF+6TuBHTiu3BqSF+MssIGocrQoUvRzLl0a6LGOG/95bAdL
- 4SDP+YMsYKZk2UaT+Cxse2DdlLGJLXmuKAAweCXdUaS91ckhdyzV5fVCFgOnkBPnZJHb
- PiM+AZ/1E7cJBzhX/geWev82cqcN9sEFsXGqste5As1v7+39HvUPi+BIQgmgwX9iXyP6
- fd3x9giMbtKUOXjEHdAjK57f9Bm0f1fo58xP86E9PieszoRJgGnmEq9Dbh3CseH9x6yE
- ZSug==
+ d=gmail.com; s=20230601; t=1770120905; x=1770725705; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=LVb3ZndkYPxb0vLCFm6FM7GNTS9TCg3b/+4i6KnRxlE=;
+ b=mjT6N8KxVMNUnxcb5yLDYV9Jc8BMrIbS7iQFnl9etWe1ztue30SSFAHqXMPnWI6liQ
+ czcHFmfSSwVFMHjaQA+S5C6w6+dfhIpMCW/rjfj0QcyEoKDQ26jnYn8lihhQMCQU4jFq
+ dt4aiZSk8vYKlpXNavE/0pgcCxE6qYD4WOXf5ViKP2sMxkRbqMkz92vXg1YzzH4a6UHp
+ kdtfxl1XtcXlpDt8omfmoUygHZlyHOL7ASmdMPtteZq+CpZ9wROcSSHUzbrAkbDKwyZn
+ h9XNQHlyea5niem+Kwpf27lrjC7pWpp1rFCD87QuF1u0O9K6h45Lw1/3ZbICS/Pp31/m
+ ehkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770120506; x=1770725306;
- h=content-transfer-encoding:in-reply-to:cc:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=B7h20MCirN2R6w9UGWVeyGVzBsz4bKvBB1VWC/VSR0k=;
- b=EQeoA8XSmL4h3Z3lFNnTfoFlSXOSjeP7A+fnkbwxuBsVD/+NPJTY04Q6gDUw+3RGm1
- Dj3OJh2jwHm6PmO5oTWL32qD0Z4T1boxKzFjmGZ0cdfxL5aqLHEAgAhTv5HJYv2O16/d
- 2f++6eEaDIGIy/1ixcXFgcsEikn4sFXgKzzDqDIPxymzshclyu3WFXgZIhdAnG9mRiO3
- mmsJgH5Uqt7J/vkpKG7mPUeWxdhaHaHP8BNARCo0/dCTA3NbcGQ3KNaMWJKQ32G+bIEX
- cyh33fyY0e4UmtfuwElPqb5RPux+gbO3cN4Vb19/Hy5ygbvGPNcmmiaCrka2Y5+WB/bF
- z5Qg==
+ d=1e100.net; s=20230601; t=1770120905; x=1770725705;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LVb3ZndkYPxb0vLCFm6FM7GNTS9TCg3b/+4i6KnRxlE=;
+ b=dvWhtXTfIVCCN7opHXpLjrue21mSsZdgai24uXnpvScXzta4ZKwirs+lP7R+FIOuna
+ GlNXnxdsh9WU9Rg/meO/CT1yUxfMFzuQg9OPhBVTXMBHcAHPIDpdAZn0IFb0mc1mWCg1
+ 5MHcmDTqJCkId64TfDJEHw4SIIWszJOtuM77+mN2GvBdoFWdxUJ2yTxFb4hIhOM1g1hv
+ C2xglQa82LY9E50nvFoPM0bGW583QAOBRghqs6fPNqGNWwQKzLRqpIuvEYtZP9xPUMAo
+ 8LDgI9XByVY046XHecrFhvd4XCLwROBXgxikkQfmX9SWd/KyHNo1cjmf+x0PafzG3Y5u
+ 0C6Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVO3VhVSK3Jfj8FQNHhYiPVvfE6NvPyy3Lfb39u3yiY/iQtvu40/7/yIGHrSlu5jEo4IcDuA2OWpmI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwKk6Y4RyF7ni6ETrQVbVa7KEw/AnUGMwSTbvlTNr2cKZ788hqZ
- lZQUwj5Yc3E3rcqY8XqwvGhbxy8gOtnnCaFSluBYAerv9FGhkd9mkJPmFYxxeCiliuJIy8duQPL
- i2moo5mX2ijK+5aY6SQp3ltyjPQWQWMFlov++VjZb9dd7+9ILDIo5qpXv+xDXauFup2GC3j8=
-X-Gm-Gg: AZuq6aL3nO41NNRzcI9W9tf3V4Zse7VbB9fup6DX+PaOEdMqZa56KD1LqBj9bvc3ntE
- ZE7NNKcroWyykE+OmMQsneYnCXWSRPaPLffWm0se2YWKHm6j5wByVUig66DUNokCv3v45Lg2lF0
- UoWNWCtWnyuvWyRZmi/yWvGCa3sCqMYcgC2+r2LuIxs6OqbdercGA1lUpcc+fQBbRh8xXjKuddc
- wsMGqLrM/3YOQffyJaxfr2bo/1+SXY8P+WZQPrxO8dO/7nEjpaZ2pqPkM/gzAvGZrflqDuN0Uhx
- RuTm+UJwOMhIBgHXi6sJn3wZE2eTBchGtaLQKgB5gGwW52DHRtXFEG/JGO9S3L0t+4OqpscP1ZT
- EHEGAgmEH+z5TsQaU77psiNKedwwZPhPvkBMAeOSZXUz+IED7bV5JWqNFwLmr7x20Y5gdP2RqNJ
- wjpiU=
-X-Received: by 2002:a05:6a00:3a1d:b0:81f:adb3:21c7 with SMTP id
- d2e1a72fcca58-823ab684020mr14247657b3a.22.1770120505612; 
- Tue, 03 Feb 2026 04:08:25 -0800 (PST)
-X-Received: by 2002:a05:6a00:3a1d:b0:81f:adb3:21c7 with SMTP id
- d2e1a72fcca58-823ab684020mr14247634b3a.22.1770120505146; 
- Tue, 03 Feb 2026 04:08:25 -0800 (PST)
-Received: from [10.133.33.16] (tpe-colo-wan-fw-bordernet.qualcomm.com.
- [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-82379c5a190sm22756121b3a.68.2026.02.03.04.08.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Feb 2026 04:08:24 -0800 (PST)
-Message-ID: <592129fa-cd8e-44b5-a18c-1fb6c6ed102b@oss.qualcomm.com>
-Date: Tue, 3 Feb 2026 20:08:16 +0800
+ AJvYcCW5UH4M2MWFJfJa1i1CsSA9efTlyDC3wM70P9joHvYlENlJVdJ9KkKtNahSCvx7/dJVGUEtezRz2GM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxZmlg+rcHuGxgSLotg+Na6/zjWXNDg8BQBUYn5hNy35wgHwWbl
+ 6UPkE0SjLdGtZPY8LHAy0ebpHeD8/4DionykWIC4pxvUB8NZPHjTAyh7
+X-Gm-Gg: AZuq6aKgvyGDGo463KWY1fOyj8ehtUcuVxA25eA9lgpdF9P0Yw586SraKpTOyJyTkpZ
+ 8LYgxme+1CVeak2noQOgjxdQGMnfMSrLtum1W+TZY7Y9KJQnkKwmoZ3bQeTUCENalz7Gbr322Lo
+ 6dN9vf7Ap6uYgOPXJn1sBxlGm+xMbm9xhVw6HshB40vpJriQXfRuLGYhJ3MleDlF7pK2QTAmGvg
+ 27MnXWG+8rNGKe5zXsQqNIupXkEb/JRBUNYI1sNdhl0cq2dhvI7wCKmORxKxL5sd/T/MwnllJxV
+ bxkk5d+K1ZmX65YjPwlJW+tRuHYrZ1KlpBg94vEuqQLRl8BcKHkwrH7jdWTIXSyrOfHF3ffx432
+ p1M86RiNPMGgv2li9g0kDcKjWtKU7mHeQUqEBpuUFLk84t+I97GAS4Vn8TbT1AvJpQ+jxFMfs/A
+ 86smjZgcE0faVb2H75JRn+MLyhgw==
+X-Received: by 2002:a17:903:2c04:b0:269:8d1b:40c3 with SMTP id
+ d9443c01a7336-2a8d7eaadd2mr149945765ad.12.1770120905361; 
+ Tue, 03 Feb 2026 04:15:05 -0800 (PST)
+Received: from junjungu-PC.localdomain
+ ([2408:820c:9008:ba52:f091:7dff:927e:f788])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2a88b4c3db4sm183413415ad.50.2026.02.03.04.15.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Feb 2026 04:15:05 -0800 (PST)
+From: Felix Gu <ustc.gu@gmail.com>
+Date: Tue, 03 Feb 2026 20:14:58 +0800
+Subject: [PATCH] fbdev: au1200fb: Fix a memory leak in au1200fb_drv_probe()
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] misc: fastrpc: Add NULL check to fastrpc_buf_free
- to prevent crash
-To: Greg KH <gregkh@linuxfoundation.org>
-References: <20260115082851.570-1-jianping.li@oss.qualcomm.com>
- <20260115082851.570-2-jianping.li@oss.qualcomm.com>
- <2026011621-fang-moneywise-d6b2@gregkh>
- <2255b500-f4fd-4d7a-a5d9-5b4fb55c78b2@oss.qualcomm.com>
- <2026020245-catalog-outburst-f805@gregkh>
-Content-Language: en-US
-From: Jianping <jianping.li@oss.qualcomm.com>
-Cc: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
- linux-arm-msm@vger.kernel.org, ekansh.gupta@oss.qualcomm.com,
- thierry.escande@linaro.org, abelvesa@kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- quic_chennak@quicinc.com, stable@kernel.org
-In-Reply-To: <2026020245-catalog-outburst-f805@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=Zc4Q98VA c=1 sm=1 tr=0 ts=6981e53a cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=X5nBk1X44HCHp22wJVoA:9 a=QEXdDO2ut3YA:10 a=bFCP_H2QrGi7Okbo017w:22
-X-Proofpoint-ORIG-GUID: LWJQAXTnOkJbFMuVeI8H8nqT5zqCKbzS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAzMDA5NiBTYWx0ZWRfXx0jFy8xRM/3w
- RZaynBxHqsBfIPcgHwn2Lhjbw6uQfbkKCRQBlF3o30KrlOvHE0pPyTeWEGP4luNxsBZkE8BTPY7
- iPXxcR0InLY1neeOcWm7roCZT0xEUjds9Dp/peKGBx5kl38IyGSOVnq/HchVny7XtHjeQVghsvV
- wH57WDbyybmI5Sgbm8PxoIBtcmkwKBcH4cVPHgikqOMv9tsJKMlK/23/ruvobFNEVPJfaT+Xg6r
- 0DJFE6iremzoGFpfpxkc3PCjX8F6tRdMh3bw+J3C8l98ZGD6kiwpLrxd4zspDJxOr0Wy/JvPQYM
- Utu6CIf9KJ8kgskIcHeQ9uKLCdo8wsUnjrbwb4OuUfjwNv6aHibR1HDSaJsKiv6edNbBBViSRVr
- pyyBQcWsdKex4rAGQswIk6BqIQHJQPrBJZLdxhAPYyPuvOoAeSmhutBhdlODlR6VH1sF1abDThH
- XYe5+XFK7GGGlHbLCAg==
-X-Proofpoint-GUID: LWJQAXTnOkJbFMuVeI8H8nqT5zqCKbzS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-03_03,2026-02-02_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 suspectscore=0 impostorscore=0 adultscore=0
- phishscore=0 bulkscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602030096
+Message-Id: <20260203-au1200fb-v1-1-7889c4061337@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAMHmgWkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDIwNj3cRSQyMDg7QkXXNzMyMTE6OkZLM0AyWg8oKi1LTMCrBR0bG1tQC
+ ZhAwuWgAAAA==
+X-Change-ID: 20260203-au1200fb-7762442bc6f0
+To: Helge Deller <deller@gmx.de>, Zhang Shurong <zhang_shurong@foxmail.com>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Felix Gu <ustc.gu@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770120902; l=1120;
+ i=ustc.gu@gmail.com; h=from:subject:message-id;
+ bh=Z9DoncZRp1hGTgs52zuEEOEhMYNvMiELdJSmhQoVOuU=;
+ b=STbOjk+2U9pG24k+N3Z0e3r2giORI4ny9g7q6UZRZr1BYvAHqq9qT9OEGEdSXbyMrbpFP9jfH
+ +TC2o9HFL5GBnTkn5B1TXGOv1owwlmXHOxLzhZSEXFi4/PCiqhPggma
+X-Developer-Key: i=ustc.gu@gmail.com; a=ed25519;
+ pk=fjUXwmjchVN7Ja6KGP55IXOzFeCl9edaHoQIEUA+/hw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,97 +104,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:gregkh@linuxfoundation.org,m:srini@kernel.org,m:amahesh@qti.qualcomm.com,m:arnd@arndb.de,m:linux-arm-msm@vger.kernel.org,m:ekansh.gupta@oss.qualcomm.com,m:thierry.escande@linaro.org,m:abelvesa@kernel.org,m:linux-kernel@vger.kernel.org,m:quic_chennak@quicinc.com,m:stable@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmx.de,foxmail.com];
+	FORGED_RECIPIENTS(0.00)[m:deller@gmx.de,m:zhang_shurong@foxmail.com,m:linux-fbdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:ustc.gu@gmail.com,m:ustcgu@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[ustcgu@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[jianping.li@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[jianping.li@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,gmail.com];
+	RCPT_COUNT_FIVE(0.00)[6];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
+	MID_RHS_MATCH_FROM(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[ustcgu@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	TAGGED_FROM(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: E95BED8CE4
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: CDF3AD8DE6
 X-Rspamd-Action: no action
 
+In au1200fb_drv_probe(), when platform_get_irq fails(), it directly
+returns from the function with an error code, which causes a memory
+leak.
 
+Replace it with a goto label to ensure proper cleanup.
 
-On 2/2/2026 4:41 PM, Greg KH wrote:
-> On Mon, Feb 02, 2026 at 03:13:10PM +0800, Jianping wrote:
->>
->>
->> On 1/16/2026 10:49 PM, Greg KH wrote:
->>> On Thu, Jan 15, 2026 at 04:28:48PM +0800, Jianping Li wrote:
->>>> From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
->>>>
->>>> The fastrpc_buf_free function currently does not handle the case where
->>>> the input buffer pointer (buf) is NULL. This can lead to a null pointer
->>>> dereference, causing a crash or undefined behavior when the function
->>>> attempts to access members of the buf structure. Add a NULL check to
->>>> ensure safe handling of NULL pointers and prevent potential crashes.
->>>
->>> What caller passes in NULL here?  I did a quick look, and see where the
->>> callers check this properly if it could be NULL, otherwise it all looks
->>> sane to me.  What in-kernel user is causing a crash here?  Why not fix
->>> the caller up instead?
->>>
->>> thanks,
->>>
->>> greg k-h
->>
->> It's a saftety coding: to eliminate NULL checks on the caller side, as we do
->> in a lot of other kernel API.
-> 
-> But you do not do that for all functions in the kernel, otherwise the
-> kernel would be full of checks that are never hit at all.
-To clarify the intention: this change was not triggered by any real 
-crash in current callers. The motivation came from the v1 review 
-discussion [1], where it was suggested that a NULL check in 
-fastrpc_buf_free() would allow simplifying some of the caller paths.
+Fixes: 4e88761f5f8c ("fbdev: au1200fb: Fix missing IRQ check in au1200fb_drv_probe")
+Signed-off-by: Felix Gu <ustc.gu@gmail.com>
+---
+ drivers/video/fbdev/au1200fb.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-[1] 
-https://lore.kernel.org/all/c80c48a1-f1b6-4520-9d7c-3a83915c7717@oss.qualcomm.com/
-> 
->> And it was pointed out in the v1 patch discussion that this change was
->> needed:
->> https://lore.kernel.org/all/c80c48a1-f1b6-4520-9d7c-3a83915c7717@oss.qualcomm.com/
-> 
-> Were the checks removed from the caller side like was asked for?
+diff --git a/drivers/video/fbdev/au1200fb.c b/drivers/video/fbdev/au1200fb.c
+index ed770222660b..685e629e7e16 100644
+--- a/drivers/video/fbdev/au1200fb.c
++++ b/drivers/video/fbdev/au1200fb.c
+@@ -1724,8 +1724,10 @@ static int au1200fb_drv_probe(struct platform_device *dev)
+ 
+ 	/* Now hook interrupt too */
+ 	irq = platform_get_irq(dev, 0);
+-	if (irq < 0)
+-		return irq;
++	if (irq < 0) {
++		ret = irq;
++		goto failed;
++	}
+ 
+ 	ret = request_irq(irq, au1200fb_handle_irq,
+ 			  IRQF_SHARED, "lcd", (void *)dev);
 
-Currently, I have placed the check inside the API and removed all the 
-checks outside the API.
+---
+base-commit: 193579fe01389bc21aff0051d13f24e8ea95b47d
+change-id: 20260203-au1200fb-7762442bc6f0
 
-> 
-> Also, your changelog makes it sound like this is a real bugfix for
-> something, when it is not at all, which is what I object to the most.
-> Don't make scary changelogs for things that are not actually happening.
-
-You are correct. I will modify the commit text that caused the 
-misunderstanding.
-
-> 
-> thanks,
-> 
-> greg k-h
+Best regards,
+-- 
+Felix Gu <ustc.gu@gmail.com>
 
