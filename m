@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0EpJLb8DgmmYNgMAu9opvQ
+	id gG61HzoHgmn2OAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 15:18:39 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 15:33:30 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11AF1DA781
-	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 15:18:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDAD2DAA40
+	for <lists+dri-devel@lfdr.de>; Tue, 03 Feb 2026 15:33:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ADE210E68C;
-	Tue,  3 Feb 2026 14:18:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C11410E6B1;
+	Tue,  3 Feb 2026 14:33:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="qvZA1lAt";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="e8RhOKAm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 488CF10E05A
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 14:18:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F15A10E68D
+ for <dri-devel@lists.freedesktop.org>; Tue,  3 Feb 2026 14:33:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1770128313;
- bh=7znWxXYIyAFor7GBuPQ2iXaTErwfqu61GaPtTURriHE=;
+ s=mail; t=1770129203;
+ bh=GE45IF9BTKapMK7Wz2pnLi4JhSkRouCp88scmTlp9SM=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=qvZA1lAt8ZY/5dEMmWSkR8L29JOmH/j4xZl98vyrl2DG/cLP2IhKeHPZAD6pz4OA1
- g7mKVbvOzPfqqxcYxYwFq1mogaUBhh7Ao3fPd83SvvnAuxD5HhWIII9j2bb2fV4j/9
- sDkP/3NmyDhV9xJnpYLup9AbtDdpSqzgPeZ11dAU81QbRQ/FVIBVP5A9BrcLxECw7j
- 7fZe4VVivXBnAJEQEU1Emc8VdQ/w6R9fGX7FfnxHLT/WWC31+QdnPVzUe5zaE/ks9X
- Gz+wZ6OXmiy4g5ujtJB8f50rWEc3rvBzRHTiQRtQws0A3NWeQjp0MNm3AbfhRrm3Bo
- SGzG3aL2hXr9A==
+ b=e8RhOKAmEl/cYUyU+pzDXzhJqm83CEQFc02TaliSQk/VzcvUmxLX0xW2ZErKFCNxL
+ 9kfyHU5HbpTnKv3JoulgswfcjyFXghUm7Wun2EPutZESsk5kRG027tZEBu2vZXdrr0
+ g5T+SHDwRv5fe956N2CjI0e2TJcnu4XulHxJTbxAtb4bQAYGDMn2XSavR2jm0xewmA
+ jlRP89gF0Ko7hoFXt1MPk49MDs9kDv9KbhDJA7oW+T2nNCuj3Ov8esbyNqlUKgxw4c
+ uMSowRXaIzIdHYU86bDXassySAthDEi2DxzOI40XA2E66EglVdLDSZAvGYPrxopIyO
+ tQuZNZuOefLvA==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 9FADB17E1276;
- Tue,  3 Feb 2026 15:18:32 +0100 (CET)
-Date: Tue, 3 Feb 2026 15:18:28 +0100
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 7967017E12E5;
+ Tue,  3 Feb 2026 15:33:22 +0100 (CET)
+Date: Tue, 3 Feb 2026 15:33:16 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Gary Guo <gary@garyguo.net>, "Rafael J. Wysocki" <rafael@kernel.org>,
+Cc: Gary Guo <gary@garyguo.net>, Alice Ryhl <aliceryhl@google.com>, Maxime
+ Ripard <mripard@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
  Viresh Kumar <viresh.kumar@linaro.org>, Danilo Krummrich <dakr@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Drew Fustini <fustini@kernel.org>, Guo Ren
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Drew Fustini <fustini@kernel.org>, Guo Ren
  <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Uwe =?UTF-8?B?S2xlaW5lLUs=?=
  =?UTF-8?B?w7ZuaWc=?= <ukleinek@kernel.org>, Michael Turquette
  <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Miguel Ojeda
@@ -58,13 +58,17 @@ Cc: Gary Guo <gary@garyguo.net>, "Rafael J. Wysocki" <rafael@kernel.org>,
  linux-pwm@vger.kernel.org, linux-clk@vger.kernel.org,
  rust-for-linux@vger.kernel.org
 Subject: Re: [PATCH v3 1/3] rust: clk: use the type-state pattern
-Message-ID: <20260203151828.669c29cb@fedora>
-In-Reply-To: <E786E2B1-E233-45D3-923D-A2DBA54BB166@collabora.com>
+Message-ID: <20260203153316.3a645635@fedora>
+In-Reply-To: <20C2CC23-4558-4490-A5A9-E46AA150E7DD@collabora.com>
 References: <20260107-clk-type-state-v3-0-77d3e3ee59c2@collabora.com>
  <20260107-clk-type-state-v3-1-77d3e3ee59c2@collabora.com>
- <DFSMRQFIYQPO.1A38Y84XZ1GZO@garyguo.net>
- <20260202171038.10e51e18@fedora> <20260203100913.6d224657@fedora>
- <E786E2B1-E233-45D3-923D-A2DBA54BB166@collabora.com>
+ <20260108-delectable-fennec-of-sunshine-ffca19@houat>
+ <98CD0BF6-3350-40B9-B8A9-F569AE3E3220@collabora.com>
+ <20260119-thundering-tested-robin-4be817@houat>
+ <aW4lCfUyumOKRRJm@google.com> <20260203113902.501e5803@fedora>
+ <E7286D12-0BD9-4726-B072-FE5A040312B1@collabora.com>
+ <DG5DCYIUHCF5.3JL8I7GQ8REI8@garyguo.net>
+ <20C2CC23-4558-4490-A5A9-E46AA150E7DD@collabora.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -89,13 +93,13 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:daniel.almeida@collabora.com,m:gary@garyguo.net,m:rafael@kernel.org,m:viresh.kumar@linaro.org,m:dakr@kernel.org,m:aliceryhl@google.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:ukleinek@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:linux-pm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:linux-pwm@vger.kernel.org,m:linux-clk@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:daniel.almeida@collabora.com,m:gary@garyguo.net,m:aliceryhl@google.com,m:mripard@kernel.org,m:rafael@kernel.org,m:viresh.kumar@linaro.org,m:dakr@kernel.org,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:ukleinek@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:linux-pm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:linux-pwm@vger.kernel.org,m:linux-clk@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -111,100 +115,165 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[garyguo.net,kernel.org,linaro.org,google.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,redhat.com,baylibre.com,protonmail.com,umich.edu,vger.kernel.org,lists.freedesktop.org,lists.infradead.org];
+	FREEMAIL_CC(0.00)[garyguo.net,google.com,kernel.org,linaro.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,redhat.com,baylibre.com,protonmail.com,umich.edu,vger.kernel.org,lists.freedesktop.org,lists.infradead.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DKIM_TRACE(0.00)[collabora.com:+];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 11AF1DA781
+	DBL_BLOCKED_OPENRESOLVER(0.00)[garyguo.net:email,collabora.com:email,collabora.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gitlab.freedesktop.org:url]
+X-Rspamd-Queue-Id: CDAD2DAA40
 X-Rspamd-Action: no action
 
-On Tue, 3 Feb 2026 10:37:15 -0300
+On Tue, 3 Feb 2026 10:55:05 -0300
 Daniel Almeida <daniel.almeida@collabora.com> wrote:
 
-> > On 3 Feb 2026, at 06:09, Boris Brezillon <boris.brezillon@collabora.com=
-> wrote:
+> > On 3 Feb 2026, at 10:42, Gary Guo <gary@garyguo.net> wrote:
 > >=20
-> > Hello Daniel,
-> >=20
-> > On Mon, 2 Feb 2026 17:10:38 +0100
-> > Boris Brezillon <boris.brezillon@collabora.com> wrote:
-> >  =20
-> >>>> -#[pin_data(PinnedDrop)]
-> >>>> +#[pin_data]
-> >>>> pub(crate) struct TyrData {
-> >>>>     pub(crate) pdev: ARef<platform::Device>,
+> > On Tue Feb 3, 2026 at 1:33 PM GMT, Daniel Almeida wrote: =20
+> >> Hi Boris,
+> >>  =20
+> >>> On 3 Feb 2026, at 07:39, Boris Brezillon <boris.brezillon@collabora.c=
+om> wrote:
+> >>>=20
+> >>> On Mon, 19 Jan 2026 12:35:21 +0000
+> >>> Alice Ryhl <aliceryhl@google.com> wrote:
+> >>>  =20
+> >>>> On Mon, Jan 19, 2026 at 11:45:57AM +0100, Maxime Ripard wrote: =20
+> >>>>> On Thu, Jan 08, 2026 at 11:14:37AM -0300, Daniel Almeida wrote:   =
+=20
+> >>>>>>> For example, it's quite typical to have (at least) one clock for =
+the bus
+> >>>>>>> interface that drives the register, and one that drives the main
+> >>>>>>> component logic. The former needs to be enabled only when you're
+> >>>>>>> accessing the registers (and can be abstracted with
+> >>>>>>> regmap_mmio_attach_clk for example), and the latter needs to be e=
+nabled
+> >>>>>>> only when the device actually starts operating.
+> >>>>>>>=20
+> >>>>>>> You have a similar thing for the prepare vs enable thing. The dif=
+ference
+> >>>>>>> between the two is that enable can be called into atomic context =
+but
+> >>>>>>> prepare can't.
+> >>>>>>>=20
+> >>>>>>> So for drivers that would care about this, you would create your =
+device
+> >>>>>>> with an unprepared clock, and then at various times during the dr=
+iver
+> >>>>>>> lifetime, you would mutate that state.   =20
 > >>>>=20
-> >>>> @@ -92,13 +92,9 @@ fn probe(
-> >>>>         pdev: &platform::Device<Core>,
-> >>>>         _info: Option<&Self::IdInfo>,
-> >>>>     ) -> impl PinInit<Self, Error> {
-> >>>> -        let core_clk =3D Clk::get(pdev.as_ref(), Some(c_str!("core"=
-)))?;
-> >>>> -        let stacks_clk =3D OptionalClk::get(pdev.as_ref(), Some(c_s=
-tr!("stacks")))?;
-> >>>> -        let coregroup_clk =3D OptionalClk::get(pdev.as_ref(), Some(=
-c_str!("coregroup")))?;
-> >>>> -
-> >>>> -        core_clk.prepare_enable()?;
-> >>>> -        stacks_clk.prepare_enable()?;
-> >>>> -        coregroup_clk.prepare_enable()?;
-> >>>> +        let core_clk =3D Clk::<Enabled>::get(pdev.as_ref(), Some(c_=
-str!("core")))?;     =20
+> >>>> The case where you're doing it only while accessing registers is
+> >>>> interesting, because that means the Enable bit may be owned by a loc=
+al
+> >>>> variable. We may imagine an:
+> >>>>=20
+> >>>>   let enabled =3D self.prepared_clk.enable_scoped();
+> >>>>   ... use registers
+> >>>>   drop(enabled);
+> >>>>=20
+> >>>> Now ... this doesn't quite work with the current API - the current
+> >>>> Enabled stated owns both a prepare and enable count, but the above k=
+eeps
+> >>>> the prepare count in `self` and the enabled count in a local variabl=
+e.
+> >>>> But it could be done with a fourth state, or by a closure method:
+> >>>>=20
+> >>>>   self.prepared_clk.with_enabled(|| {
+> >>>>       ... use registers
+> >>>>   });
+> >>>>=20
+> >>>> All of this would work with an immutable variable of type Clk<Prepar=
+ed>. =20
 > >>>=20
-> >>> Ah, more turbofish.. I'd really want to avoid them if possible.
+> >>> Hm, maybe it'd make sense to implement Clone so we can have a tempora=
+ry
+> >>> clk variable that has its own prepare/enable refs and releases them
+> >>> as it goes out of scope. This implies wrapping *mut bindings::clk in =
+an
+> >>> Arc<> because bindings::clk is not ARef, but should be relatively easy
+> >>> to do. Posting the quick experiment I did with this approach, in case
+> >>> you're interested [1]
 > >>>=20
-> >>> Any disadvantage on just ask the user to chain `.get().prepare_enable=
-()?`? This
-> >>> way it is also clear that some action is performed.   =20
+> >>> [1]https://gitlab.freedesktop.org/bbrezillon/linux/-/commit/d5d04da4f=
+4f6192b6e6760d5f861c69596c7d837 =20
 > >>=20
-> >> I've just disc =20
+> >> The problem with what you have suggested is that the previous state is=
+ not
+> >> consumed if you can clone it, and consuming the previous state is a pr=
+etty key
+> >> element in ensuring you cannot misuse it. For example, here:
+> >>=20
+> >> let enabled_clk =3D prepared_clk.clone().enable()?;
+> >> // do stuff
+> >> // enabled_clk goes out of scope and releases the enable
+> >> // ref it had
+> >>=20
+> >> prepared_clk is still alive. Now, this may not be the end of the world=
+ in this
+> >> particular case, but for API consistency, I'd say we should probably a=
+void this
+> >> behavior. =20
 > >=20
-> > Sorry, I've hit the reply button before I had finished writing my
-> > answer. So I was about to say that I had started writing something
-> > similar without knowing this series existed, and I feel like we'd don't
-> > really need those prepare_enable() shortcuts that exist in C. We might
-> > has well just go:
-> >=20
-> > Clk::get(dev, Some(c_str!("core"))).prepare()?.enable()?;
-> >=20
-> > and have the following variant-specofoc functions
-> >=20
-> > - Clk<Unprepared>::get[_optional]() (no get on Prepared and Enabled
-> >  variants)
-> > - Clk<Unprepared>::prepare()
-> > - Clk<Prepared>::{enable,unprepare}()
-> > - Clk<Enabled>::{disable}()
-> >=20
-> > Regards,
-> >=20
-> > Boris
-> >=20
-> >  =20
+> > Is this an issue though? You cannot mistakenly own `Clk<Enabled>` while=
+ the clk
+> > is not enabled, (and similarly for `Prepared`), and that should be suff=
+icient. =20
 >=20
->=20
-> I don=E2=80=99t understand how is this better than the turbofish we curre=
-ntly have.
->=20
-> In other words, how is this:
->=20
-> Clk::get(dev, Some(c_str!("core"))).prepare()?.enable()?;
->=20
-> Better than this:
->=20
-> Clk::<Enabled>::get(/*=E2=80=A6*/);
+> It is not an issue. However, I just find it a bit confusing. With a types=
+tate, one
+> usually expects state transitions where a new state fully consumes the pr=
+evious
+> one, and that assumption is =E2=80=9Cbroken=E2=80=9D in a way when you ad=
+d clone().
 
-For one, it doesn't force you to expose multiple functions in the
-implementation (::get[_optional]() is only present in the Unprepared
-impl variant, no shortcut to combine state transition, ...) which means
-less code to maintain overall. But I also prefer the fact this clearly
-reflects the state transitions that exist to get an Enabled clk (first
-you get an Unprepared clk that you have to prepare and enable to turn
-that into an Enabled clk). That's a matter of taste of course, just
-saying that if we get rid of the turbofish syntax like Gary suggested
-at some point, I think I'd find it clearer to also just expose the
-transitions between two consecutive states, and let the caller go
-through all the steps.
+It's just the way clks work in practice: you having a Clk<Unprepared>
+doesn't mean the underlying clk_hw (the C object) is in an unprepared
+state, because some other users might point to the same clk_hw and have
+it enabled already. What Clk<State> means here is that you have a local
+view of a clk that's in at least this State. In order to guarantee that
+the clk is at least OtherState, you'll have to transition your view to
+this OtherState.
+
+Clone here just means you're cloning a view of this clone in its
+original view state. Then you're free to do whatever you want on this
+new view. So is the original owner of the object you clone from.
+
+>=20
+> >=20
+> > Having `Clk<Prepared>` makes no guarantee on if the clk is enabled or n=
+ot anyway
+> > as you can have another user do `Clk<Unprepared>::get().enable()`. =20
+>=20
+> Although you=E2=80=99re right here, I find this less confusing than clone=
+(). You
+> have to explicitly craft a new Clk<Enabled>, where a clone() is a shorter=
+ way
+> to basically get around the =E2=80=9Cstate transition=E2=80=9D idea on an=
+ _existing_ Clk
+> reference.
+
+The idea behind the clone() is that you can transition from one state
+to an higher state (prepared -> enabled for instance) for a shorter
+period of time than the cloned clk lifetime. Something like that, for
+instance:
+
+	let MyDevice {
+		prepared_clk: Clk::get(...)?.prepare()?,
+	}
+
+
+	implem MyDevice {
+		fn do_stuff(&self) {
+			let enabled_clk =3D self.prepared_clk.clone();
+
+			// do stuff that need to be guaranteed that clk
+			// is enabled
+			self.do_other_stuff(enabled_clk);
+
+			// the enabled_clk object is dropped, but the
+			// clk remains prepared because
+			// self.prepared_clk is still there
+		}
+	}
