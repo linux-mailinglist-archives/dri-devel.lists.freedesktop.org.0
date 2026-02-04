@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CGAyGuWug2lOswMAu9opvQ
+	id 2FwGM+eug2lOswMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 21:41:09 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 21:41:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04BEEC83E
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 21:41:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 700FEEC846
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 21:41:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B21F10E37E;
-	Wed,  4 Feb 2026 20:41:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9306810E380;
+	Wed,  4 Feb 2026 20:41:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PphQE3pl";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="fy1kUwfX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFD3610E37E
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 20:41:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E535C10E380
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 20:41:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1770237663;
- bh=qp1iKf391KY2mUCxLej6xprZ+WzxUPUnRVNWXA+uTRU=;
+ s=mail; t=1770237666;
+ bh=ApvBkXicI2zoEGRrzQsJJHposj44s/SN+iBr72P8xoc=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=PphQE3pltqlvoHgT9xUP/+r7GsGFIrvNNTSfwVG38YRPU/0tG3/Q8cIRHQpZZ4ovJ
- X6H3SFxcRaucCovzcSLaxgl+Kpv7ukr5bCi7q7MUwolBAVTdNyZn7ANtgK9H78Ax0f
- HVtgh6DMWSAIteSGhCuSF+blqmdMkShDl/R1pdcKIJwuZjVyVkIj07t/9CWr51U0QW
- xtDbCePDRmv2CqLWnlZVVcvWZLzujvhhhVszgZxZBEhYaQfSNTPExaCFReDtok9iCZ
- XFs/5EZxtrfCqcB1p6Ii3TxnZfM902JBGfWSJp2xKx5955weKcogfVXfpiyN1cnxPm
- RGz0lFEOQ259Q==
+ b=fy1kUwfXucF9asetdEhTZdZiF7CYpfsGAos4AIHK+G4XWTVyxvI1RlatDuaEtyx5l
+ XdbHJJ8hhsajCp00kKsST0btcX8N90RZHSHzQfjhDPhEv46KkRkLpNE1nmYqlKoihA
+ xHwlic7Z8M7wVtH90KqG3HdskrMEUF5BSvisFHW0RrXQFu9iOzQYV1GfR0mt5TIWZg
+ ratMe9jk7X03LQEa7bQtbm9L9zACzQIpmOvrNbfkCZxDBmZHDjTdSW401cyLA2X0eL
+ L0dVy8F/ekIyMhna6ajaLblaBsBxSxdlj68OmIIr/CcB4uU9kpkN7PR6Q2H/+RlBFQ
+ Ph8xmOarCdXVA==
 Received: from [192.168.0.79] (unknown
  [IPv6:2804:14d:72b4:81ae:67c:16ff:fe57:b5a3])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: dwlsalmeida)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 2181F17E1144;
- Wed,  4 Feb 2026 21:41:01 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 085CC17E1582;
+ Wed,  4 Feb 2026 21:41:03 +0100 (CET)
 From: Daniel Almeida <daniel.almeida@collabora.com>
-Date: Wed, 04 Feb 2026 17:40:39 -0300
-Subject: [PATCH v2 1/4] rust: workqueue: add support for ARef<T>
+Date: Wed, 04 Feb 2026 17:40:40 -0300
+Subject: [PATCH v2 2/4] rust: drm: dispatch work items to the private data
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260204-aref-workitem-v2-1-bec25b012d2a@collabora.com>
+Message-Id: <20260204-aref-workitem-v2-2-bec25b012d2a@collabora.com>
 References: <20260204-aref-workitem-v2-0-bec25b012d2a@collabora.com>
 In-Reply-To: <20260204-aref-workitem-v2-0-bec25b012d2a@collabora.com>
 To: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
@@ -107,135 +107,107 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: F04BEEC83E
+X-Rspamd-Queue-Id: 700FEEC846
 X-Rspamd-Action: no action
 
-Add support for the ARef<T> smart pointer. This allows an instance of
-ARef<T> to handle deferred work directly, which can be convenient or even
-necessary at times, depending on the specifics of the driver or subsystem.
+This implementation dispatches any work enqueued on ARef<drm::Device<T>> to
+its driver-provided handler. It does so by building upon the newly-added
+ARef<T> support in workqueue.rs in order to call into the driver
+implementations for work_container_of and raw_get_work.
 
-The implementation is similar to that of Arc<T>, and a subsequent patch
-will implement support for drm::Device as the first user. This is notably
-important for work items that need access to the drm device, as it was not
-possible to enqueue work on a ARef<drm::Device<T>> previously without
-failing the orphan rule.
+This is notably important for work items that need access to the drm
+device, as it was not possible to enqueue work on a ARef<drm::Device<T>>
+previously without failing the orphan rule.
+
+The current implementation needs T::Data to live inline with drm::Device in
+order for work_container_of to function. This restriction is already
+captured by the trait bounds. Drivers that need to share their ownership of
+T::Data may trivially get around this:
+
+// Lives inline in drm::Device
+struct DataWrapper {
+  work: ...,
+  // Heap-allocated, shared ownership.
+  data: Arc<DriverData>,
+}
 
 Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
 ---
- rust/kernel/workqueue.rs | 85 ++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 79 insertions(+), 6 deletions(-)
+ rust/kernel/drm/device.rs | 54 +++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 50 insertions(+), 4 deletions(-)
 
-diff --git a/rust/kernel/workqueue.rs b/rust/kernel/workqueue.rs
-index 706e833e9702..6ae7f3fb3496 100644
---- a/rust/kernel/workqueue.rs
-+++ b/rust/kernel/workqueue.rs
-@@ -192,9 +192,9 @@
-     sync::Arc,
-     sync::LockClassKey,
-     time::Jiffies,
--    types::Opaque,
-+    types::{ARef, AlwaysRefCounted, Opaque},
+diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
+index 3ce8f62a0056..c760a743e1df 100644
+--- a/rust/kernel/drm/device.rs
++++ b/rust/kernel/drm/device.rs
+@@ -6,13 +6,13 @@
+ 
+ use crate::{
+     alloc::allocator::Kmalloc,
+-    bindings, device, drm,
+-    drm::driver::AllocImpl,
+-    error::from_err_ptr,
+-    error::Result,
++    bindings, device,
++    drm::{self, driver::AllocImpl},
++    error::{from_err_ptr, Result},
+     prelude::*,
+     sync::aref::{ARef, AlwaysRefCounted},
+     types::Opaque,
++    workqueue::{HasWork, Work, WorkItem},
  };
--use core::marker::PhantomData;
-+use core::{marker::PhantomData, ptr::NonNull};
+ use core::{alloc::Layout, mem, ops::Deref, ptr, ptr::NonNull};
  
- /// Creates a [`Work`] initialiser with the given name and a newly-created lock class.
- #[macro_export]
-@@ -425,10 +425,11 @@ pub unsafe trait RawDelayedWorkItem<const ID: u64>: RawWorkItem<ID> {}
- 
- /// Defines the method that should be called directly when a work item is executed.
- ///
--/// This trait is implemented by `Pin<KBox<T>>` and [`Arc<T>`], and is mainly intended to be
--/// implemented for smart pointer types. For your own structs, you would implement [`WorkItem`]
--/// instead. The [`run`] method on this trait will usually just perform the appropriate
--/// `container_of` translation and then call into the [`run`][WorkItem::run] method from the
-+/// This trait is implemented by `Pin<KBox<T>>`, [`Arc<T>`] and [`ARef<T>`], and
-+/// is mainly intended to be implemented for smart pointer types. For your own
-+/// structs, you would implement [`WorkItem`] instead. The [`run`] method on
-+/// this trait will usually just perform the appropriate `container_of`
-+/// translation and then call into the [`run`][WorkItem::run] method from the
- /// [`WorkItem`] trait.
- ///
- /// This trait is used when the `work_struct` field is defined using the [`Work`] helper.
-@@ -934,6 +935,78 @@ unsafe impl<T, const ID: u64> RawDelayedWorkItem<ID> for Pin<KBox<T>>
- {
- }
- 
-+// SAFETY: Like the `Arc<T>` implementation, the `__enqueue` implementation for
-+// `ARef<T>` obtains a `work_struct` from the `Work` field using
-+// `T::raw_get_work`, so the same safety reasoning applies:
+@@ -227,3 +227,49 @@ unsafe impl<T: drm::Driver> Send for Device<T> {}
+ // SAFETY: A `drm::Device` can be shared among threads because all immutable methods are protected
+ // by the synchronization in `struct drm_device`.
+ unsafe impl<T: drm::Driver> Sync for Device<T> {}
++
++impl<T, const ID: u64> WorkItem<ID> for Device<T>
++where
++    T: drm::Driver,
++    T::Data: WorkItem<ID, Pointer = ARef<Device<T>>>,
++    T::Data: HasWork<Device<T>, ID>,
++{
++    type Pointer = ARef<Device<T>>;
++
++    fn run(ptr: ARef<Device<T>>) {
++        T::Data::run(ptr);
++    }
++}
++
++// SAFETY:
 +//
-+//   - `__enqueue` gets the `work_struct` from the `Work` field, using `T::raw_get_work`.
-+//   - The only safe way to create a `Work` object is through `Work::new`.
-+//   - `Work::new` makes sure that `T::Pointer::run` is passed to `init_work_with_key`.
-+//   - Finally `Work` and `RawWorkItem` guarantee that the correct `Work` field
-+//     will be used because of the ID const generic bound. This makes sure that `T::raw_get_work`
-+//     uses the correct offset for the `Work` field, and `Work::new` picks the correct
-+//     implementation of `WorkItemPointer` for `ARef<T>`.
-+unsafe impl<T, const ID: u64> WorkItemPointer<ID> for ARef<T>
++// - `raw_get_work` and `work_container_of` return valid pointers by relying on
++// `T::Data::raw_get_work` and `container_of`. In particular, `T::Data` is
++// stored inline in `drm::Device`, so the `container_of` call is valid.
++//
++// - The two methods are true inverses of each other: given `ptr: *mut
++// Device<T>`, `raw_get_work` will return a `*mut Work<Device<T>, ID>` through
++// `T::Data::raw_get_work` and given a `ptr: *mut Work<Device<T>, ID>`,
++// `work_container_of` will return a `*mut Device<T>` through `container_of`.
++unsafe impl<T, const ID: u64> HasWork<Device<T>, ID> for Device<T>
 +where
-+    T: AlwaysRefCounted,
-+    T: WorkItem<ID, Pointer = Self>,
-+    T: HasWork<T, ID>,
++    T: drm::Driver,
++    T::Data: HasWork<Device<T>, ID>,
 +{
-+    unsafe extern "C" fn run(ptr: *mut bindings::work_struct) {
-+        // The `__enqueue` method always uses a `work_struct` stored in a `Work<T, ID>`.
-+        let ptr = ptr.cast::<Work<T, ID>>();
++    unsafe fn raw_get_work(ptr: *mut Self) -> *mut Work<Device<T>, ID> {
++        // SAFETY: The caller promises that `ptr` points to a valid `Device<T>`.
++        let data_ptr = unsafe { &raw mut (*ptr).data };
 +
-+        // SAFETY: This computes the pointer that `__enqueue` got from
-+        // `ARef::into_raw`.
-+        let ptr = unsafe { T::work_container_of(ptr) };
++        // SAFETY: `data_ptr` is a valid pointer to `T::Data`.
++        unsafe { T::Data::raw_get_work(data_ptr) }
++    }
 +
-+        // SAFETY: The safety contract of `work_container_of` ensures that it
-+        // returns a valid non-null pointer.
-+        let ptr = unsafe { NonNull::new_unchecked(ptr) };
++    unsafe fn work_container_of(ptr: *mut Work<Device<T>, ID>) -> *mut Self {
++        // SAFETY: The caller promises that `ptr` points at a `Work` field in
++        // `T::Data`.
++        let data_ptr = unsafe { T::Data::work_container_of(ptr) };
 +
-+        // SAFETY: This pointer comes from `ARef::into_raw` and we've been given
-+        // back ownership.
-+        let aref = unsafe { ARef::from_raw(ptr) };
-+
-+        T::run(aref)
++        // SAFETY: `T::Data` is stored as the `data` field in `Device<T>`.
++        unsafe { crate::container_of!(data_ptr, Self, data) }
 +    }
 +}
-+
-+// SAFETY: The `work_struct` raw pointer is guaranteed to be valid for the duration of the call to
-+// the closure because we get it from an `ARef`, which means that the ref count will be at least 1,
-+// and we don't drop the `ARef` ourselves. If `queue_work_on` returns true, it is further guaranteed
-+// to be valid until a call to the function pointer in `work_struct` because we leak the memory it
-+// points to, and only reclaim it if the closure returns false, or in `WorkItemPointer::run`, which
-+// is what the function pointer in the `work_struct` must be pointing to, according to the safety
-+// requirements of `WorkItemPointer`.
-+unsafe impl<T, const ID: u64> RawWorkItem<ID> for ARef<T>
-+where
-+    T: AlwaysRefCounted,
-+    T: WorkItem<ID, Pointer = Self>,
-+    T: HasWork<T, ID>,
-+{
-+    type EnqueueOutput = Result<(), Self>;
-+
-+    unsafe fn __enqueue<F>(self, queue_work_on: F) -> Self::EnqueueOutput
-+    where
-+        F: FnOnce(*mut bindings::work_struct) -> bool,
-+    {
-+        let ptr = ARef::into_raw(self);
-+
-+        // SAFETY: Pointers from ARef::into_raw are valid and non-null.
-+        let work_ptr = unsafe { T::raw_get_work(ptr.as_ptr()) };
-+        // SAFETY: `raw_get_work` returns a pointer to a valid value.
-+        let work_ptr = unsafe { Work::raw_get(work_ptr) };
-+
-+        if queue_work_on(work_ptr) {
-+            Ok(())
-+        } else {
-+            // SAFETY: The work queue has not taken ownership of the pointer.
-+            Err(unsafe { ARef::from_raw(ptr) })
-+        }
-+    }
-+}
-+
- /// Returns the system work queue (`system_wq`).
- ///
- /// It is the one used by `schedule[_delayed]_work[_on]()`. Multi-CPU multi-threaded. There are
 
 -- 
 2.52.0
