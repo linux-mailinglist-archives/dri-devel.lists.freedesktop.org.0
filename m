@@ -2,91 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id rv/dFNj5gmlNgAMAu9opvQ
+	id oBMiFjf7gmm6gAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 08:48:40 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 08:54:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D677BE2CFB
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 08:48:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D360E2D9C
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 08:54:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E474210E34B;
-	Wed,  4 Feb 2026 07:48:35 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hQnWqrD2";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7766C10E409;
+	Wed,  4 Feb 2026 07:54:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
- [209.85.222.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A33DC10E34B
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 07:48:34 +0000 (UTC)
-Received: by mail-qk1-f178.google.com with SMTP id
- af79cd13be357-8c5384ee23fso731416185a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Feb 2026 23:48:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770191313; x=1770796113; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vFAyxlb4iCSkPw1pLsAtumnvdjzuriOCYM9dwXAoQ/M=;
- b=hQnWqrD2VHTOrrNcGpOg4bnT6rKTw1bC25N9SZ3xFj7PBmkCk7glyKajFW8N6OBKi4
- 6dABcjCFRjyPKo4hdgU9uuOKmrRHLg9BE5K8viCFpXViShgSxpb7mQeGbl+a+/nAZk8x
- SuBNp6PRouOUyqmsRQWObLp69gHCUY/E/mUGB9GUPariM3meRG6MUddVAfePp2GDLg3n
- su32OHVjcTwFPhJefXUOJl5JG1/2IIhQlS97KmJclixIS+EaYzNLr9SozzdBHbnyRSzV
- FMJ03mQIEkziw5bMLkYCH750i+nekshVY2yHnqy4KV52B56SjAVsIV1BTaIHIZlAK3ce
- WtdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770191313; x=1770796113;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=vFAyxlb4iCSkPw1pLsAtumnvdjzuriOCYM9dwXAoQ/M=;
- b=TuqApooEshYhVxieX+oQ8NHYdfKosD7uTykYj5a2SiY9N4TfP/WOo9RyOnR+33rSZF
- REtas90j5jwtsP/s0TPhPAybPgdJGl36bmsDXY7Q9Q4x3v7E2jlfiBdNYexwrVH0zrFy
- 8+Tqazc2j1cQCwh4alRWg4IASR6FtrJahV3Vf8CtX55uHsJeT+TGU0wQhCaZCaMG1s1h
- k5Gt9tc5WwyvixKM7sbzONwjcB9WAUa4KNwu2I8zyGob9E8dJ+w9JDmPWI1v8RtZS1Ds
- HLiXr63IK6KfluAOIhlqLeYUNa/MFtW1wqQYU/SfAbSMaiETOdoqlY49mlRF/Gp54TNy
- 1ILg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUOiTLq37SJgGPj1t2j/dhlqRFsloyCtYDuLpdZJxoyub/qi6JeJ3mSj/1XxKtM8JzfDz0rqvgScs4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwaPh7gO7Wn1Zy8Lbn9TELuOFqKyb59ckiwuNdh4K07eAXVeo5A
- byVkZ2obbP491aH76sOXFyjb/E+Ov6w/nCmEhu3OOYM2gP8kLxCFrBJL
-X-Gm-Gg: AZuq6aLnkleR/B+zsffO344uX8/mJKSEjLo1P2esLKJg8lFQbJnp2Lq9feUPRrwArC5
- Ylo82rq0n+Ttp07lXfsgmWS0l0XOCQgGuy+UvgZBEb4nO3YVqYMFm5nt4wJwLENa3O8YxUel7EX
- kFAeHF60ylNERsibbX3HPRNiPu6c5uh6UJmHYKVRyJ/ThA1QEckyh4QMLa8iYUs/VRzOlyJPMyY
- JQsMTzer482ajZ4f36B4YVbMrDpsbwlV/+bkH8iYP1Ck13hPHyj0/AOHhcXq4WO8ZIqHi1kq1rN
- 4haai/tCC8K20FjaTyNTBnWEVZHF4HJPBMx36wehGTj/nPWnshXw/jnbJ2yaqD+G+U5vnwxOj7O
- 0wCfDBs+WcR6V955WWbHRgvX44Na0VCCZbkWd2VMPmQwbIpkj+eAnJkqJgiiRHPWISjsXUQkUpV
- 36qHC1HZ5n0/wVipCtjmARG4e/RRvzGQkH+z7ncVApv1X9x+METbpB5hVo/Mq5Fsa2vFz8YQM=
-X-Received: by 2002:a05:620a:f15:b0:8c6:a539:55d7 with SMTP id
- af79cd13be357-8ca2f9cea3dmr248741785a.55.1770191313409; 
- Tue, 03 Feb 2026 23:48:33 -0800 (PST)
-Received: from mighty.stonybrook.edu (nat-130-245-192-1.resnet.stonybrook.edu.
- [130.245.192.1]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-89521c19923sm14215576d6.23.2026.02.03.23.48.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Feb 2026 23:48:33 -0800 (PST)
-From: Mithil Bavishi <bavishimithil@gmail.com>
-To: andreas@kemnade.info
-Cc: aaro.koskinen@iki.fi, airlied@gmail.com, bavishimithil@gmail.com,
- conor+dt@kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com, jonas@kwiboo.se,
- khilman@baylibre.com, krzk+dt@kernel.org,
- laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org,
- linux-omap@vger.kernel.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, neil.armstrong@linaro.org, rfoss@kernel.org,
- robh@kernel.org, rogerq@kernel.org, simona@ffwll.ch,
- thierry.reding@gmail.com, tony@atomide.com, tzimmermann@suse.de
-Subject: Re: [PATCH v5 5/8] ARM: dts: ti: omap: espresso-common: Add common
- device tree for Samsung Galaxy Tab 2 series
-Date: Wed,  4 Feb 2026 02:48:31 -0500
-Message-ID: <20260204074831.300311-1-bavishimithil@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260202090408.4c3757cb@kemnade.info>
-References: <20260202090408.4c3757cb@kemnade.info>
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C6F010E409
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 07:54:25 +0000 (UTC)
+Received: from localhost (unknown [124.16.138.129])
+ by APP-05 (Coremail) with SMTP id zQCowAAHmQwg+4JppWN1Bw--.26555S2;
+ Wed, 04 Feb 2026 15:54:08 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: andy.yan@rock-chips.com, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, rgallaispou@gmail.com, luca.ceresoli@bootlin.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH] drm/bridge: synopsys: dw-dp: Check return value of
+ devm_drm_bridge_add() in dw_dp_bind()
+Date: Wed,  4 Feb 2026 15:53:19 +0800
+Message-Id: <20260204075319.1994814-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowAAHmQwg+4JppWN1Bw--.26555S2
+X-Coremail-Antispam: 1UD129KBjvJXoWrKF1UJFy7Gw1xAF4xAFWUJwb_yoW8Jr1UpF
+ 4Iqa15tr9YqF43tayUAr18CFnxAa4DtFWrC3y7Xws2vwn3WF1qyw4qya43tr1DGF15Cr15
+ Zrs8ur4fCF1jkF7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9C14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+ n2IY04v7MxkF7I0En4kS14v26r4a6rW5MxkIecxEwVAFwVW8CwCF04k20xvY0x0EwIxGrw
+ CFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE
+ 14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2
+ IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxK
+ x2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI
+ 0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0pRqYLgUUUUU=
+X-Originating-IP: [124.16.138.129]
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,68 +70,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.69 / 15.00];
+X-Spamd-Result: default: False [2.39 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:andreas@kemnade.info,m:aaro.koskinen@iki.fi,m:airlied@gmail.com,m:bavishimithil@gmail.com,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:jernej.skrabec@gmail.com,m:jonas@kwiboo.se,m:khilman@baylibre.com,m:krzk+dt@kernel.org,m:laurent.pinchart@ideasonboard.com,m:linux-kernel@vger.kernel.org,m:linux-omap@vger.kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:robh@kernel.org,m:rogerq@kernel.org,m:simona@ffwll.ch,m:thierry.reding@gmail.com,m:tony@atomide.com,m:tzimmermann@suse.de,m:conor@kernel.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	FORGED_SENDER(0.00)[bavishimithil@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:andy.yan@rock-chips.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:rgallaispou@gmail.com,m:luca.ceresoli@bootlin.com,m:linux-kernel@vger.kernel.org,m:nichen@iscas.ac.cn,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	DMARC_NA(0.00)[iscas.ac.cn];
+	FREEMAIL_TO(0.00)[rock-chips.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,bootlin.com];
+	FORGED_SENDER(0.00)[nichen@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bavishimithil@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[iki.fi,gmail.com,kernel.org,vger.kernel.org,lists.freedesktop.org,kwiboo.se,baylibre.com,ideasonboard.com,linux.intel.com,linaro.org,ffwll.ch,atomide.com,suse.de];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	NEURAL_HAM(-0.00)[-1.000];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	TO_DN_NONE(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: D677BE2CFB
+	FROM_NEQ_ENVFROM(0.00)[nichen@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	HAS_XOIP(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	R_DKIM_NA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 9D360E2D9C
 X-Rspamd-Action: no action
 
-> We had the discussion. This should be done via pinctrl irq if possible instead of
-> specifying WAKEUP_EN here, You had some trouble to understand how it can be done,
-> and we agreed to add the wakeup functionality as a follow-up concentrating just
-> on that detail and for now just remove WAKEUP_EN.
+Return the value of devm_drm_bridge_add() in order to propagate the
+error properly, if it fails due to resource allocation failure or bridge
+registration failure.
 
-I think I may have understood what is to be done.
-For example we have 
-pinctrl-single,pins = <
-	OMAP4_IOPAD(0x0bc, WAKEUP_EN | PIN_INPUT | MUX_MODE3)
->;
+This ensures that the bind function fails safely rather than proceeding
+with a potentially incomplete bridge setup.
 
-for wlan_host_wake, so the change needed to be done is from
-interrupt-parent = <&gpio3>;
-interrupts = <17 IRQ_TYPE_LEVEL_HIGH>;
-interrupt-names = "host-wake";
-pinctrl-names = "default";
-pinctrl-0 = <&wlan_host_wake>;
+Fixes: b726970486d8 ("drm/bridge: synopsys: dw-dp: add bridge before attaching")
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+---
+ drivers/gpu/drm/bridge/synopsys/dw-dp.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-to
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-dp.c b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
+index 432342452484..b0007805f283 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-dp.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
+@@ -2049,7 +2049,9 @@ struct dw_dp *dw_dp_bind(struct device *dev, struct drm_encoder *encoder,
+ 	bridge->type = DRM_MODE_CONNECTOR_DisplayPort;
+ 	bridge->ycbcr_420_allowed = true;
+ 
+-	devm_drm_bridge_add(dev, bridge);
++	ret = devm_drm_bridge_add(dev, bridge);
++	if (ret)
++		return dev_err_ptr_probe(dev, ret, "Failed to add bridge\n");
+ 
+ 	dp->aux.dev = dev;
+ 	dp->aux.drm_dev = encoder->dev;
+-- 
+2.25.1
 
-interrupts-extended = <&gpio3 17 IRQ_TYPE_LEVEL_HIGH>, 
-			<&omap4_pmx_core 0x0bc>;
-interrupt-names = "host-wake", "wakeup";
-
-and remove the pinctrl?
-Similarly for all in the omap4_pmx_core domain (wifi, bt, i2c as the
-drivers support it)
-No chnages for &omap4_pmx_wkup domain
