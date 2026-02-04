@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wNAYHz4Lg2k+hAMAu9opvQ
+	id SB07N3AMg2k+hAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 10:02:54 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 10:08:00 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83DE5E37DD
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 10:02:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23564E3932
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 10:08:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A8E3899B3;
-	Wed,  4 Feb 2026 09:02:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 577D110E57D;
+	Wed,  4 Feb 2026 09:07:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91237899B3
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 09:02:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9160510E57D
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 09:07:56 +0000 (UTC)
 Received: from localhost (unknown [124.16.138.129])
- by APP-01 (Coremail) with SMTP id qwCowAC3Ym4uC4Npvv4fBw--.26620S2;
- Wed, 04 Feb 2026 17:02:38 +0800 (CST)
+ by APP-01 (Coremail) with SMTP id qwCowABnD2tjDINpCwsgBw--.19519S2;
+ Wed, 04 Feb 2026 17:07:47 +0800 (CST)
 From: Chen Ni <nichen@iscas.ac.cn>
-To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+To: p.zabel@pengutronix.de, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, qijian.guo@nxp.com
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ simona@ffwll.ch, Frank.Li@nxp.com, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, luca.ceresoli@bootlin.com,
+ louis.chauvet@bootlin.com
+Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] drm/bridge: waveshare-dsi: Return devm_drm_bridge_add() to
- transfer the error
-Date: Wed,  4 Feb 2026 17:01:19 +0800
-Message-Id: <20260204090119.2209476-1-nichen@iscas.ac.cn>
+Subject: [PATCH] drm/imx: parallel-display: check return value of
+ devm_drm_bridge_add() in imx_pd_probe()
+Date: Wed,  4 Feb 2026 17:06:29 +0800
+Message-Id: <20260204090629.2209542-1-nichen@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAC3Ym4uC4Npvv4fBw--.26620S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZryfWFW7KrW8KFW5Gw4DArb_yoWDAFb_uF
- nYvry7uFsIyas5KF43Zr4Uua9Fva4DurWxWF47K39xJrW5Zr13Xw42qFyDJr18ZF48uFy7
- Gw4UXFW7Zr47AjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbTxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+X-CM-TRANSID: qwCowABnD2tjDINpCwsgBw--.19519S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKF1UJFy3tF1DWF43Aw45trb_yoWkWrX_uF
+ 1j9F1rXFy5CFnFgr17Gw4fAryvvwn8uFWxAFn0gwsIqry5Aw43X39FvryDZrWxAw12yry5
+ Gw1UGF47AFnrCjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbTkFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
  6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
- Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
- 1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
- cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
- ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
- 0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFylc2xSY4AK67AK6r4fMxAIw28IcxkI7VAKI48JMx
- C20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAF
- wI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20x
- vE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v2
- 0xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxV
- W8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjAsqtUUUUU==
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+ Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+ n2IY04v7MxkF7I0En4kS14v26r4a6rW5MxkIecxEwVAFwVW8uwCF04k20xvY0x0EwIxGrw
+ CFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE
+ 14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2
+ IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxK
+ x2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI
+ 0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0pRrsqAUUUUU=
 X-Originating-IP: [124.16.138.129]
 X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,26 +70,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [2.39 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [0.89 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FORGED_RECIPIENTS(0.00)[m:p.zabel@pengutronix.de,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:luca.ceresoli@bootlin.com,m:louis.chauvet@bootlin.com,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:nichen@iscas.ac.cn,s:lists@lfdr.de];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:qijian.guo@nxp.com,m:linux-kernel@vger.kernel.org,m:nichen@iscas.ac.cn,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
 	DMARC_NA(0.00)[iscas.ac.cn];
-	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,nxp.com];
-	FORGED_SENDER(0.00)[nichen@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	FREEMAIL_TO(0.00)[pengutronix.de,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,nxp.com,bootlin.com];
+	FORGED_SENDER(0.00)[nichen@iscas.ac.cn,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
@@ -104,35 +104,37 @@ X-Spamd-Result: default: False [2.39 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	R_DKIM_NA(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,iscas.ac.cn:mid,iscas.ac.cn:email]
-X-Rspamd-Queue-Id: 83DE5E37DD
+X-Rspamd-Queue-Id: 23564E3932
 X-Rspamd-Action: no action
 
-Return devm_drm_bridge_add() in order to transfer the error if it fails.
+Return the value of devm_drm_bridge_add() in order to propagate the
+error properly, if it fails due to resource allocation failure or bridge
+registration failure.
 
 This ensures that the probe function fails safely rather than proceeding
 with a potentially incomplete bridge setup.
 
-Fixes: dbdea37add13 ("drm: bridge: Add waveshare DSI2DPI unit driver")
+Fixes: bf7e97910b9f ("drm/imx: parallel-display: add the bridge before attaching it")
 Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
 ---
- drivers/gpu/drm/bridge/waveshare-dsi.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/imx/ipuv3/parallel-display.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/waveshare-dsi.c b/drivers/gpu/drm/bridge/waveshare-dsi.c
-index 43f4e7412d72..e25b139b4a41 100644
---- a/drivers/gpu/drm/bridge/waveshare-dsi.c
-+++ b/drivers/gpu/drm/bridge/waveshare-dsi.c
-@@ -177,9 +177,8 @@ static int ws_bridge_probe(struct i2c_client *i2c)
+diff --git a/drivers/gpu/drm/imx/ipuv3/parallel-display.c b/drivers/gpu/drm/imx/ipuv3/parallel-display.c
+index 6fbf505d2801..590120a33fa0 100644
+--- a/drivers/gpu/drm/imx/ipuv3/parallel-display.c
++++ b/drivers/gpu/drm/imx/ipuv3/parallel-display.c
+@@ -256,7 +256,9 @@ static int imx_pd_probe(struct platform_device *pdev)
  
- 	ws->bridge.type = DRM_MODE_CONNECTOR_DPI;
- 	ws->bridge.of_node = dev->of_node;
--	devm_drm_bridge_add(dev, &ws->bridge);
+ 	platform_set_drvdata(pdev, imxpd);
  
--	return 0;
-+	return devm_drm_bridge_add(dev, &ws->bridge);
+-	devm_drm_bridge_add(dev, &imxpd->bridge);
++	ret = devm_drm_bridge_add(dev, &imxpd->bridge);
++	if (ret)
++		return ret;
+ 
+ 	return component_add(dev, &imx_pd_ops);
  }
- 
- static const struct of_device_id ws_bridge_of_ids[] = {
 -- 
 2.25.1
 
