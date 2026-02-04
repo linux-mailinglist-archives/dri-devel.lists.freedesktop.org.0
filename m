@@ -2,68 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wNtoAO4Ng2k+hAMAu9opvQ
+	id iGo0KTMOg2k+hAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 10:14:22 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 10:15:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C71C9E3A24
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 10:14:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5729CE3AB5
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 10:15:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E90F610E58C;
-	Wed,  4 Feb 2026 09:14:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B10F410E589;
+	Wed,  4 Feb 2026 09:15:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eA7W7k2Q";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="uiGUZ9YI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5960310E599;
- Wed,  4 Feb 2026 09:14:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770196456; x=1801732456;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=uWFc3cCq7nvgonjkWV9CXlG3ak0iloScDgH4XwXi1og=;
- b=eA7W7k2Q45OxPoRtIl4TM9/wwAyFgUS8FJd155dAeM5qKW3Wz9p/5tpu
- PJ0pxT12zhDBlCUim3Rb1Anxyk08pttY7ZICuGNXGs7uRn8D9ibLTEMfU
- ohzI6/LkLSQKJtpHIK3dkG+3XWWhHj+5lqN+rycCvrLT/8C+BY7+V1u2c
- pLyqJqFcz3Bd4NFf8wpEYdb12kIbjgfGjGEmh3f0OXVLdriMReYnsB+PL
- YV6csPC7aAmtYUH8haey1f6nWvm/MJ6tOSlNdQ2N+4KSpbOj64d7icKA1
- s4n65KhWVuZFr0QI8y/0Qa93u6vnx0F6nK6bamaMrNnXmnU7yHlCYM5YV w==;
-X-CSE-ConnectionGUID: H+j056cQQcmPfmxpk6wJbQ==
-X-CSE-MsgGUID: 8xVVkCFGQ8SXaiOJiVEf2w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="75230385"
-X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; d="scan'208";a="75230385"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2026 01:14:16 -0800
-X-CSE-ConnectionGUID: 2skSiKnGR+upiIjAzys1xQ==
-X-CSE-MsgGUID: rZDQ3aCPSp63PrxXSlN9LA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; d="scan'208";a="214276632"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost)
- ([10.245.245.209])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2026 01:14:14 -0800
-Date: Wed, 4 Feb 2026 10:14:11 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Krzysztof Karas <krzysztof.karas@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
- Sebastian Brzezinka <sebastian.brzezinka@intel.com>
-Subject: Re: [PATCH v2] drm/i915/selftests: Prevent userspace mapping
- invalidation
-Message-ID: <aYMN4xHcqNqcI2CL@ashyti-mobl2.lan>
-References: <5biajlwhi3oaep72si2dj2lhp2xwrpfa2gxqc2l36464uishjo@g26isdq64nv2>
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0555610E589
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 09:15:26 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-480142406b3so48869785e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Feb 2026 01:15:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1770196525; x=1770801325;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=bO9G9tYPhY8+70A/i4Fl7rDlPCoV3MPLBkNv0Mgen4Y=;
+ b=uiGUZ9YI1JqJEzVZLXq/4Wmxv7rGzrnbsu8BEu7dlGIYblndvJAYmvu6e48UKzhDiR
+ DuZHvjEu7oxCw7nyECROjaAtgWvkfCzVQyNdCPFvPYkHkH9eLMvyRDP83NvOn2Jm4c6a
+ 74G7KbxBd5vtbq/2OhUP5vKMe+TZuhw99xkGzobKf0uNrRU2+oYXRy76tBzZtcYvT9n0
+ dgDKpgUJMYeFCK9NP/zY1kIe5R4JY5SJyp8H3/fWxICu8yCL7ap3KHBsK12WWByZ0m3S
+ F+Lh61CbTMZfS6KlcNLAVoWejonLymqQpgpuEtR1FY89zj/18WfVb171uMWMvyEUtlR9
+ mmTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770196525; x=1770801325;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bO9G9tYPhY8+70A/i4Fl7rDlPCoV3MPLBkNv0Mgen4Y=;
+ b=TfAXPYXp05cIDhzg4E9X5+yEW/6FiZLUiqb5EyZAbhcAA0MW3n3lhCOx8gejABc8ua
+ W5qttZJtj03U3paB5unUamYogjVAGhKP2CZn8jAW8cm1k84G4jRRtiWRf50W8ecPotLo
+ EP6seGNgmxzNSCAPNsTZjkdoQXT7s6rYmHmiwdAmXeik3MdnlbLcEKOsLuSHYTQgQ+nr
+ s34j7D8Etmh3ElSHJwcx3eFJd8ZUVP/tjoZzNGc9EsuWUXmvWXtjJ7MQpxMCy1B674wi
+ czH1CgF4wFxQf8I9NV22x2+Afue3TqKoznK/aUzBUbTCFN8llAfL2NHt02Wtxxny6mky
+ PhsQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUgAtEHRqM/kcxmzTZpm2Xi/hcNgBSm301361RHm2ctSlFjfMYRS0g+vTLLETiUqvhRJKdbG5vfQwg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxWQ0lzJqhxOmTKfn0+0UCPIgBEe/glRmMVIZNg4EZsA6/c6yKA
+ CCHhMc1AckpQjlOMVqD+9DHIEL6pmGMgb/pJjnPvGOWTCDxoJK6kmNbupvgPGpMhpZ8=
+X-Gm-Gg: AZuq6aKA32yZBS723WbY1YjQgaRHnfyi6ncECS8/1TdcbaHxR7M1u3WD+rQjIfCetbj
+ kI4+s4veh8Wu1/9jiRXmyImLtrMXYAEsN4oQW3kZ6CUa7rvSBLj7KYROoQ+IHQbuBf2FUr4F97n
+ DXdIVWB4xpo0ErbtXP9BZyoCPpLct0dt+RhoaE1W0sBmzeitocEuQuHByR5kM3gSj6b6uiNwCEm
+ hchfm4DppLwQMIqLn8rXEKP2WBsBuBHJcimSUC3xZjrU2MWMRxQ5DnDN3LmuhmWyrppY4pvqpj1
+ BndcsId+eMr8Nh9BnUYzJHJbHSDLuNSBKNHoTJ/YA153NwGN9vQpwCXuByeviCIdjlXtAwsoj6/
+ 4J8lNIpdWpnCUDhe/uOoJTFpwXQ2yWIwpwOl6TufuO6ktUo3Q+idMmZM8Xdce/Ds0lb+mTR2ZEC
+ n1aTdvY0V20Scg9iEHLEhXNDo6sbU8bPY18dz9GbRQ27IRq3JP66AjDHhrL9+0W1cbrVoA0byio
+ IlaKBXIk1RzmQ==
+X-Received: by 2002:a05:600c:1e2a:b0:477:9dc1:b706 with SMTP id
+ 5b1f17b1804b1-4830e988efdmr30794505e9.19.1770196524897; 
+ Wed, 04 Feb 2026 01:15:24 -0800 (PST)
+Received: from localhost
+ (p200300f65f20eb0470629fa1229c2efb.dip0.t-ipconnect.de.
+ [2003:f6:5f20:eb04:7062:9fa1:229c:2efb])
+ by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-43618058473sm5267642f8f.22.2026.02.04.01.15.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Feb 2026 01:15:24 -0800 (PST)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Helge Deller <deller@gmx.de>
+Cc: Chen Ni <nichen@iscas.ac.cn>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v1 0/3] fbdev: au1100fb: support COMPILE_TEST and fix
+ multi-device support
+Date: Wed,  4 Feb 2026 10:15:10 +0100
+Message-ID: <cover.1770196161.git.u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5biajlwhi3oaep72si2dj2lhp2xwrpfa2gxqc2l36464uishjo@g26isdq64nv2>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1076;
+ i=u.kleine-koenig@baylibre.com; h=from:subject:message-id;
+ bh=5m9kSIVNTKtItphnRlrL11Gl8bzNdjb0IlTPZPxLNyw=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBpgw4fm5EVfF5VorVtnsGTdUtnwTU9CvRL9ZmPa
+ dYfsrRRt/2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaYMOHwAKCRCPgPtYfRL+
+ ToTkB/oCnl1j/dWfB/K/yBWDw+ka6uMn8A8pVPT1poAR5kUjRJrosD0FvxRS7Sk0hZc9W4Vg5Qy
+ 9HKhOnXBhDJ37VrVCFIqy1tSRpzgKILkG8fWQg+rdEjSmaPoc9pn8ciZA8V5VA6M7/7SB8qb29Z
+ gdvas+i5W+P+heNbEcM3P7OKKrJlMm+JhVjj1GaaEEYhMEMjsLU0+AuGsNxjj2UBzY4QluIPkN2
+ p/WLmfMLMvY3SA952mEmDq6dTlKZrePmgiEZRLgAAPk9EvV6dY+02eCU4W71QZetl+yJ6jjvzKT
+ wXTf1gCOhf1Hpix2UhOXfIfNBC4L4NI6uOJOjKkIfu0+Dq8C
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,63 +109,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_DKIM_ALLOW(-0.20)[baylibre-com.20230601.gappssmtp.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andi.shyti@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ashyti-mobl2.lan:mid,intel.com:email,intel.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gitlab.freedesktop.org:url];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmx.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[intel.com:+]
-X-Rspamd-Queue-Id: C71C9E3A24
+	DMARC_NA(0.00)[baylibre.com];
+	ARC_NA(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:deller@gmx.de,m:nichen@iscas.ac.cn,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[u.kleine-koenig@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DKIM_TRACE(0.00)[baylibre-com.20230601.gappssmtp.com:+];
+	RCPT_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 5729CE3AB5
 X-Rspamd-Action: no action
 
-Hi Krzysztof,
+Hello,
 
-On Mon, Jan 19, 2026 at 10:16:02AM +0000, Krzysztof Karas wrote:
-> IGT mmap testing in i915 uses current task's address space to
-> allocate new userspace mapping, without registering real user
-> for that address space in mm_struct.
-> 
-> It was observed that mm->mm_users would occasionally drop to 0
-> during tests, which reaped userspace mappings, further leading
-> to failures upon reading from userland memory.
-> 
-> Prevent this by artificially increasing mm_users counter for the
-> duration of the test.
-> 
-> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14204
-> Signed-off-by: Krzysztof Karas <krzysztof.karas@intel.com>
+In reply to the patch that became commit 0636e6205bee ("fbdev: au1100fb:
+Check return value of clk_enable() in .resume()") I pointed out that the
+driver uses global data in .suspend() and .resume(). Helge asked Chen if
+they want to address it, but up to now there was no reply. So to get
+this thread out of my inbox I address the issue here. While working on
+that I found another two variables affected and instead of installing a
+mips compiler added COMPILE_TEST support (which revealed several
+warnings fixed in patch #1 when compiled for ARCH=arm).
 
-Can you please rebase this patch on top of the current trees?
+Uwe Kleine-König (3):
+  fbdev: au1100fb: Mark several local functions as static
+  fbdev: au1100fb: Make driver compilable on non-mips platforms
+  fbdev: au1100fb: Don't store device specific data in global variables
 
-> +	/*
-> +	 * Get a reference to tasks's mm_struct to artificially increase mm_users
-> +	 * and ensure the kernel does not try to clean up the userspace mappings
-> +	 * of the current task during the test.
-> +	 */
-> +	mmget_not_zero(current->mm);
+ drivers/video/fbdev/Kconfig    |  3 +-
+ drivers/video/fbdev/au1100fb.c | 86 +++++++++++++++++-----------------
+ drivers/video/fbdev/au1100fb.h |  7 ++-
+ 3 files changed, 49 insertions(+), 47 deletions(-)
 
-why mmget_not_zero() and not just mmget()?
 
-Overall the patch looks fine to me, I'd like to hear what's
-Janusz real concern here.
+base-commit: 0636e6205beed850d985276dc56fd73d785bea5c
+-- 
+2.47.3
 
-Thanks,
-Andi
