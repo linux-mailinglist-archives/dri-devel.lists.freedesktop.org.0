@@ -2,75 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +CLnNAl4g2mFmwMAu9opvQ
+	id QM34Oml4g2nwngMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 17:47:05 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 17:48:41 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE6CEA732
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 17:47:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49F12EA834
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 17:48:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F9B310E6CF;
-	Wed,  4 Feb 2026 16:47:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A63210E6D1;
+	Wed,  4 Feb 2026 16:48:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZHj8q1Uc";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="elWXs1VI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A61C610E6CF
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 16:47:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 2BC5240E19;
- Wed,  4 Feb 2026 16:47:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF418C4CEF7;
- Wed,  4 Feb 2026 16:46:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770223620;
- bh=dy73/9OQI/HuBvsd+ptSVtFrF/SFQ/zEvH4RIO0j4i4=;
- h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
- b=ZHj8q1Ucvt7QcaZcn9QuPYACGDPfU/YL82+e6kQIaszjDn8/K3Lk25/ytj8Malksx
- QTrROJpGVUsMkMWTzjQvp0wcUGKl69dlGdw+uM4ZXkcku66CUCCFf+JntNkoa9XeFK
- UBAoEJloaJHzf8XjFtFKSgZDr+rjjdpxj021cT2FEEhwdvxmV1QnS69elAgBlCG2S1
- 5VpdKtuK+x95jkiRP0Q0olnVlaCNxNMiWvM9N5rJSdpQVInfdYkjh/kMwVzxggH0vt
- xi4ko64jYM5R0Fh8vdICZWmXXV6iTywKSpHzFCGMppUp7E+ZJ8jy9VLrS1L5oDN6Sy
- z8aQSzU00WK2A==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 324B610E6D1;
+ Wed,  4 Feb 2026 16:48:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1770223719; x=1801759719;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=hqaixW3GZxkQ3u0RRS+ZcVJuGFrnEeCqG5FxLxxelZA=;
+ b=elWXs1VIQbKy+hbV7a09TRecDMeVpTwJ7NXiAaY3JerM66Wl+iR6fnvJ
+ yGTdNb+8ZqxPNOflzLyHKzwp0w/1DfOUlmyIbXwO06Jb2oTBnwq1tz1p4
+ r9fGaERyY0Lq+lC9sXbu13eQKhmXY+NKf/Vs4ZvYqGSN8os2iOXelp9uM
+ qXisAGYbjWsULF6bxUaE8OXi+nZX0qPD/QJvCiRb8PJQYfGOMScqeKA4o
+ VccpDmH8WUMn21AB+qDn1xbUhesxdJoIA93txiQaZXkD8KLCjklA4vyai
+ 46BP/FZhHSFmXJDR41CxMMz4gB7raiZhnX/1oZhl42+xuqC4Q0bf+k/Dg Q==;
+X-CSE-ConnectionGUID: gi1nazsLQtanEJOq/0Uw1A==
+X-CSE-MsgGUID: dDJNEo/VQcaUJPEEmY8n0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71578997"
+X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; d="scan'208";a="71578997"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Feb 2026 08:48:38 -0800
+X-CSE-ConnectionGUID: yBxwfeD5SpC0LKm20rrzGQ==
+X-CSE-MsgGUID: Zk7VEgN8RrWQ1x844OYi3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; d="scan'208";a="210311606"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.7])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Feb 2026 08:48:34 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: jani.nikula@intel.com, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+Subject: [PATCH 1/2] drm/i915: drop display version 2-4 overlay uAPI
+Date: Wed,  4 Feb 2026 18:48:26 +0200
+Message-ID: <20260204164827.807502-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 04 Feb 2026 17:46:51 +0100
-Message-Id: <DG6BWC5SOHUG.2K1ZXGYNVB69V@kernel.org>
-To: "Andreas Hindborg" <a.hindborg@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v14 1/9] rust: types: Add Ownable/Owned types
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>,
- "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Dave Ertman"
- <david.m.ertman@intel.com>, "Ira Weiny" <ira.weiny@intel.com>, "Leon
- Romanovsky" <leon@kernel.org>, "Paul Moore" <paul@paul-moore.com>, "Serge
- Hallyn" <sergeh@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner"
- <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>, "Igor Korotin"
- <igor.korotin.linux@gmail.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Lorenzo Stoakes"
- <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- "Viresh Kumar" <vireshk@kernel.org>, "Nishanth Menon" <nm@ti.com>, "Stephen
- Boyd" <sboyd@kernel.org>, "Bjorn Helgaas" <bhelgaas@google.com>,
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <linux-block@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-fsdevel@vger.kernel.org>,
- <linux-mm@kvack.org>, <linux-pm@vger.kernel.org>,
- <linux-pci@vger.kernel.org>, "Asahi Lina" <lina+kernel@asahilina.net>
-References: <20260204-unique-ref-v14-0-17cb29ebacbb@kernel.org>
- <20260204-unique-ref-v14-1-17cb29ebacbb@kernel.org>
- <7uftlTZxNVxMw7VNqETbf9dBIWLrQ1Px16pM3qnAcc6FPgQj-ERdWfAACc5aDSAdeHM5lLTdSBZYkcOIgu7mWA==@protonmail.internalid>
- <DG6AIA0QK77C.EKG7X4NBEJ00@kernel.org>
- <87fr7gpk6d.fsf@t14s.mail-host-address-is-not-set>
-In-Reply-To: <87fr7gpk6d.fsf@t14s.mail-host-address-is-not-set>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,64 +77,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MV_CASE(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:a.hindborg@kernel.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:gregkh@linuxfoundation.org,m:david.m.ertman@intel.com,m:ira.weiny@intel.com,m:leon@kernel.org,m:paul@paul-moore.com,m:sergeh@kernel.org,m:rafael@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:igor.korotin.linux@gmail.com,m:daniel.almeida@collabora.com,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vireshk@kernel.org,m:nm@ti.com,m:sboyd@kernel.org,m:bhelgaas@google.com,m:kwilczynski@kernel.org,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-block@vger.kernel.org,m:linux-security-module@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-pm@vger.kernel.org,m:linux-pci@vger.kernel.org,m:lina+kernel@asahilina.net,m:boqunfeng@gmail.com,m:igorkorotinlinux@gmail.com,m:l
- ina@asahilina.net,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[intel.com,gmail.com,ffwll.ch,linux.intel.com];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[39];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,linuxfoundation.org,intel.com,paul-moore.com,ffwll.ch,zeniv.linux.org.uk,suse.cz,collabora.com,oracle.com,ti.com,vger.kernel.org,lists.freedesktop.org,kvack.org,asahilina.net];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	HAS_ORG_HEADER(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jani.nikula@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel,kernel];
 	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 5DE6CEA732
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 49F12EA834
 X-Rspamd-Action: no action
 
-On Wed Feb 4, 2026 at 5:06 PM CET, Andreas Hindborg wrote:
-> It is my understanding that the SoB needs confirmation from the author
-> if the code was changed. I changed the code and did not want to bother
-> the original author, because it is my understanding they do not wish to
-> be contacted. I did not want to misrepresent the original author, and so
-> I did not change the "From:" line.
+i915 has a custom overlay IOCTL uAPI for display version 2-4, give or
+take a few platforms.
 
-Frankly, I don't know what's the correct thing to do in this case; maybe th=
-e
-correct thing is to just keep the SoB, but list all the changes that have b=
-een
-made.
+The implementation sits somewhere between i915 display and core
+(although the files are located under display). In order to properly
+separate display and core, a lot of refactoring would be required,
+splitting the functionality, defining better interfaces between them,
+and so on.
 
-Technically, the same thing is common practice when maintainers (including
-myself) apply (minor) changes to a patch when applying them to their tree.
+The problem is, there are no IGT tests for the overlay IOCTLs,
+I915_OVERLAY_PUT_IMAGE and I915_OVERLAY_ATTRS, at all. And even if there
+were IGT tests, there seems to be only one PNV machine with overlay
+support left in CI, at this time. A significant refactoring without
+testing or CI support is bound to break something.
 
-> How would you prefer to account for the work by Abdiel and Boqun?
+In user space the functionality is, to the best of my knowledge, only
+supported by xf86-video-intel. There have been no updates to it in the
+past six years, and the last tag is from 10+ years ago. It's been at the
+end of the line for quite some time now. It's not really something
+people should be using. The question is, if we regressed the
+functionality, who is even going to notice, and when?
 
-I mean, I don't have a preference and if I would have one, it wouldn't be
-relevant. :) I just wanted to bring it up since the very first version was =
-sent
-by the two of them. So, I think we should just ask.
+Let's just drop the custom IOCTL support.
+
+The functionality is behind an I915_GETPARAM feature check, and the
+current IOCTLs expect the caller to respect that. Return 0 for the
+feature check, and -ENODEV for the IOCTLs, reusing and refactoring
+i915_gem_reject_pin_ioctl() as i915_enodev_ioctl() for the job.
+
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/i915/i915_driver.c   | 13 +++++--------
+ drivers/gpu/drm/i915/i915_getparam.c |  4 +---
+ 2 files changed, 6 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+index c01a35ecfa2f..da8f0210cc46 100644
+--- a/drivers/gpu/drm/i915/i915_driver.c
++++ b/drivers/gpu/drm/i915/i915_driver.c
+@@ -65,7 +65,6 @@
+ #include "display/intel_gmbus.h"
+ #include "display/intel_hotplug.h"
+ #include "display/intel_opregion.h"
+-#include "display/intel_overlay.h"
+ #include "display/intel_pch_refclk.h"
+ #include "display/intel_pps.h"
+ #include "display/intel_sbi.h"
+@@ -1772,9 +1771,7 @@ static const struct file_operations i915_driver_fops = {
+ 	.fop_flags = FOP_UNSIGNED_OFFSET,
+ };
+ 
+-static int
+-i915_gem_reject_pin_ioctl(struct drm_device *dev, void *data,
+-			  struct drm_file *file)
++static int i915_enodev_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+ {
+ 	return -ENODEV;
+ }
+@@ -1800,8 +1797,8 @@ static const struct drm_ioctl_desc i915_ioctls[] = {
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_INIT, drm_noop, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_EXECBUFFER, drm_invalid_op, DRM_AUTH),
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_EXECBUFFER2_WR, i915_gem_execbuffer2_ioctl, DRM_RENDER_ALLOW),
+-	DRM_IOCTL_DEF_DRV(I915_GEM_PIN, i915_gem_reject_pin_ioctl, DRM_AUTH|DRM_ROOT_ONLY),
+-	DRM_IOCTL_DEF_DRV(I915_GEM_UNPIN, i915_gem_reject_pin_ioctl, DRM_AUTH|DRM_ROOT_ONLY),
++	DRM_IOCTL_DEF_DRV(I915_GEM_PIN, i915_enodev_ioctl, DRM_AUTH|DRM_ROOT_ONLY),
++	DRM_IOCTL_DEF_DRV(I915_GEM_UNPIN, i915_enodev_ioctl, DRM_AUTH|DRM_ROOT_ONLY),
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_BUSY, i915_gem_busy_ioctl, DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_SET_CACHING, i915_gem_set_caching_ioctl, DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_GET_CACHING, i915_gem_get_caching_ioctl, DRM_RENDER_ALLOW),
+@@ -1821,8 +1818,8 @@ static const struct drm_ioctl_desc i915_ioctls[] = {
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_GET_APERTURE, i915_gem_get_aperture_ioctl, DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(I915_GET_PIPE_FROM_CRTC_ID, intel_crtc_get_pipe_from_crtc_id_ioctl, 0),
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_MADVISE, i915_gem_madvise_ioctl, DRM_RENDER_ALLOW),
+-	DRM_IOCTL_DEF_DRV(I915_OVERLAY_PUT_IMAGE, intel_overlay_put_image_ioctl, DRM_MASTER),
+-	DRM_IOCTL_DEF_DRV(I915_OVERLAY_ATTRS, intel_overlay_attrs_ioctl, DRM_MASTER),
++	DRM_IOCTL_DEF_DRV(I915_OVERLAY_PUT_IMAGE, i915_enodev_ioctl, DRM_MASTER),
++	DRM_IOCTL_DEF_DRV(I915_OVERLAY_ATTRS, i915_enodev_ioctl, DRM_MASTER),
+ 	DRM_IOCTL_DEF_DRV(I915_SET_SPRITE_COLORKEY, intel_sprite_set_colorkey_ioctl, DRM_MASTER),
+ 	DRM_IOCTL_DEF_DRV(I915_GET_SPRITE_COLORKEY, drm_noop, DRM_MASTER),
+ 	DRM_IOCTL_DEF_DRV(I915_GEM_WAIT, i915_gem_wait_ioctl, DRM_RENDER_ALLOW),
+diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
+index cf47c2491a0a..cdf8ad4b6f3a 100644
+--- a/drivers/gpu/drm/i915/i915_getparam.c
++++ b/drivers/gpu/drm/i915/i915_getparam.c
+@@ -4,7 +4,6 @@
+ 
+ #include <drm/drm_print.h>
+ 
+-#include "display/intel_overlay.h"
+ #include "gem/i915_gem_mman.h"
+ #include "gt/intel_engine_user.h"
+ #include "pxp/intel_pxp.h"
+@@ -18,7 +17,6 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
+ 			struct drm_file *file_priv)
+ {
+ 	struct drm_i915_private *i915 = to_i915(dev);
+-	struct intel_display *display = i915->display;
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	const struct sseu_dev_info *sseu = &to_gt(i915)->info.sseu;
+ 	drm_i915_getparam_t *param = data;
+@@ -41,7 +39,7 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
+ 		value = to_gt(i915)->ggtt->num_fences;
+ 		break;
+ 	case I915_PARAM_HAS_OVERLAY:
+-		value = intel_overlay_available(display);
++		value = 0;
+ 		break;
+ 	case I915_PARAM_HAS_BSD:
+ 		value = !!intel_engine_lookup_user(i915,
+-- 
+2.47.3
+
