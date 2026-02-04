@@ -2,47 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eEPQD/ZIg2m0kwMAu9opvQ
+	id 8Pk3FX3KhGk45QMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 14:26:14 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 17:51:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C068CE665B
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 14:26:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B46B9F57F7
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 17:51:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BCBF10E023;
-	Wed,  4 Feb 2026 13:26:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0AF210E930;
+	Thu,  5 Feb 2026 16:50:58 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lHQ3IHte";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3C22210E023
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 13:26:09 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 67D68497
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 05:26:02 -0800 (PST)
-Received: from [192.168.0.1] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id
- 913353F778
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 05:26:08 -0800 (PST)
-Date: Wed, 4 Feb 2026 13:24:30 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Brian Starkey <brian.starkey@arm.com>
-Cc: Alexander Konyukhov <Alexander.Konyukhov@kaspersky.com>,
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+ [209.85.210.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D540310E092
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 13:27:52 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id
+ d2e1a72fcca58-81df6a302b1so6407926b3a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Feb 2026 05:27:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1770211672; x=1770816472; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0QxiUUxXks3mDUShsHgUE4n9xVgAAJ6iYKwHeDQAktQ=;
+ b=lHQ3IHte1Lvv8ygJMlZcrvR6enCrXshmIFwjG0m/rimjQ64j5/Vti33jxUarXFnmSI
+ tuuG/yqDS6HMQjwsBOYELFDCJM4jxDwexr7M9Az2lrX44OIms1hCCPt/bKklNI0vWoUU
+ LOB9M860KQ3RzT1uMDDSfWyhY+WraoBOU6vxCAY7ilQV1FTHLieqrGJRReGk820aKknB
+ X97nF5OU7clhTnwXqfg6X3qTR2OdImY0TkPKIddiZNVHcViAduwZUilNt1yaBXg1QXRs
+ IBRoBifCCCTEulxDN0oXCzwCHgCot+PKrp3LewUKSO1X/M490gih4A7zBHzhjqxq5JzH
+ cFfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770211672; x=1770816472;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=0QxiUUxXks3mDUShsHgUE4n9xVgAAJ6iYKwHeDQAktQ=;
+ b=Xs3OKiVp3w8yMM2MXKK5Ce6MQdj97wIFDwpEpiD5nf+isKGYG44FBfAkDyDbxFiqTH
+ I2Qe29VIW1OjLf5TuDsYGAH8I/PsQsCoAhYT5ZDRdbOx0aco5DyAIT/EvKXQAiNQh8M7
+ X0IY+UAidbpHehutWVSGWtx1H/8A7StcWwzPAJma0JFpZtZPkbz7w5bU/rSLtdkDTeX+
+ l3QzKDJceZWlLmq3FCc+eA3+S50RpWC6BA7Xpy81vat0a/8oHuAieRykrZboXdNEj5mn
+ 59zUyycd2r/4vbjH3ItQsqf12uFiE074UYdAsZkfIGvAAxZcxXeE4Qk6YM1+iG5Box6N
+ jvnA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWnkDVAh64dOKNj4K/iiN+HLWdjfBAV6ZyIfR5RaZrrvoO3yD/wV5ix/BdSxBGI+I7xDlAYD62sZJQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx6YHk9XIRbSugIMc2OjxX8UCZ5WgRWZ0swcTLQWI7TUEWUw9A4
+ QTrpnT24ZTqK0j9jzZ9Lmvj/WIKNtGorgaGyVeUQI2zTDacAHjKZwJD7WZW58ek0
+X-Gm-Gg: AZuq6aLMZJBjhbucrtkh+LKx7G3nVSLb6vxockuZUp5pnM/RREegu0vr28VJrdgVota
+ xq9xm7W4h7gOwO/2W9t3+i470Ccf1BNKLT2Z92M9y2cW6IVIFcpWOyYnag82V5oOmoy6i5R4Hip
+ UJEdrJ9JjBzWO+HYRfkIcabDFp/sqX/TitWlQiLNdUAOLxADnVpJyTdKfIiEoA8NLW2oGaP4GLt
+ sm3QZg7RlhCtqoNMbZdUFjysxpNZwLLFmUlks6uVUqNUMt5h6tJRh1xeWwuiIkBM/sQNxCdujT1
+ UUiToEO+Y+wis4p1WvZcpcb0F+rd6CFBedt8MHBtDl4zEEXtk6qZyrBIFlX3nYfGmLFtzlxPyjB
+ WNDvbPXUW7WxKp50aUCM0GGXgNerxOtbPHypUW+wYps+fcVazlQ+bmGF3C5gaTJmmGh6fBe8lNM
+ ggSL9DZrbBZFbce7JL
+X-Received: by 2002:a05:6a00:114c:b0:81f:4944:c391 with SMTP id
+ d2e1a72fcca58-8241c1e82bfmr3120904b3a.16.1770211672230; 
+ Wed, 04 Feb 2026 05:27:52 -0800 (PST)
+Received: from thickpad01 ([2406:7400:63:188d:b058:4381:a149:aa45])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-8241d1b71cesm2437972b3a.19.2026.02.04.05.27.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Feb 2026 05:27:51 -0800 (PST)
+From: Aniket Sahu <aniketsahu999@gmail.com>
+To: jani.nikula@linux.intel.com,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- lvc-project@linuxtesting.org, nd@arm.com
-Subject: Re: [PATCH] drm/komeda: fix integer overflow in AFBC framebuffer
- size check
-Message-ID: <aYNIjm8XIdxKNo-0@e142607>
-References: <20260203134907.1587067-1-Alexander.Konyukhov@kaspersky.com>
- <ct5tkr764socel5o4gtd4k2fgofqiljy3yzdjokij3jjkcf2ks@c3p7fs33znoe>
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Aniket Sahu <aniketsahu999@gmail.com>
+Subject: [PATCH v2] drm: fix spacing in printk format strings
+Date: Wed,  4 Feb 2026 18:57:20 +0530
+Message-ID: <20260204132722.6692-1-aniketsahu999@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260203152127.88126-1-aniketsahu999@gmail.com>
+References: <20260203152127.88126-1-aniketsahu999@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ct5tkr764socel5o4gtd4k2fgofqiljy3yzdjokij3jjkcf2ks@c3p7fs33znoe>
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 05 Feb 2026 16:50:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,106 +99,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.01 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [1.19 / 15.00];
+	DATE_IN_PAST(1.00)[27];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:brian.starkey@arm.com,m:Alexander.Konyukhov@kaspersky.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:lvc-project@linuxtesting.org,m:nd@arm.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[liviu.dudau@arm.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kaspersky.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,linuxtesting.org,arm.com];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[liviu.dudau@arm.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	R_DKIM_NA(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:jani.nikula@linux.intel.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:aniketsahu999@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	FORGED_SENDER(0.00)[aniketsahu999@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com];
+	FROM_NEQ_ENVFROM(0.00)[aniketsahu999@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	NEURAL_HAM(-0.00)[-1.000];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kaspersky.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,arm.com:email,linuxtesting.org:url]
-X-Rspamd-Queue-Id: C068CE665B
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: B46B9F57F7
 X-Rspamd-Action: no action
 
-On Tue, Feb 03, 2026 at 09:43:12PM +0000, Brian Starkey wrote:
-> Hi Alexander,
-> 
-> On Tue, Feb 03, 2026 at 04:48:46PM +0000, Alexander Konyukhov wrote:
-> > The AFBC framebuffer size validation calculates the minimum required
-> > buffer size by adding the AFBC payload size to the framebuffer offset.
-> > This addition is performed without checking for integer overflow.
-> > 
-> > If the addition oveflows, the size check may incorrectly succed and
-> > allow userspace to provide an undersized drm_gem_object, potentially
-> > leading to out-of-bounds memory access.
-> > 
-> > Add usage of check_add_overflow() to safely compute the minimum
-> > required size and reject the framebuffer if an overflow is detected.
-> > This makes the AFBC size validation more robust against malformed.
-> > 
-> > Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> > 
-> > Fixes: 65ad2392dd6d ("drm/komeda: Added AFBC support for komeda driver")
-> > Signed-off-by: Alexander Konyukhov <Alexander.Konyukhov@kaspersky.com>
-> > ---
-> >  drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-> > index 3ca461eb0a24..3cb34d03f7f8 100644
-> > --- a/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-> > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_framebuffer.c
-> > @@ -4,6 +4,8 @@
-> >   * Author: James.Qian.Wang <james.qian.wang@arm.com>
-> >   *
-> >   */
-> > +#include <linux/overflow.h>
-> > +
-> >  #include <drm/drm_device.h>
-> >  #include <drm/drm_fb_dma_helper.h>
-> >  #include <drm/drm_gem.h>
-> > @@ -93,7 +95,9 @@ komeda_fb_afbc_size_check(struct komeda_fb *kfb, struct drm_file *file,
-> >  	kfb->afbc_size = kfb->offset_payload + n_blocks *
-> >  			 ALIGN(bpp * AFBC_SUPERBLK_PIXELS / 8,
-> >  			       AFBC_SUPERBLK_ALIGNMENT);
-> > -	min_size = kfb->afbc_size + fb->offsets[0];
-> 
-> Can this really overflow? Is the concern a hypothetical ILP64
-> situation?
-> 
-> min_size is u64, kfb->afbc_size is u32, and fb->offsets[0] is unsigned
-> int.
+Remove unnecessary string literal concatenation in printk format
+strings by folding the space into the format directly. This is
+in response to warnings from scripts/checkpatch.pl for
+drm_print.c
 
-Yeah, I was thinking the same thing yesterday at the end of the work day when I looked
-at the patch. I don't think following the call flow you can end up with an overflow.
+No functional change intended.
 
-Best regards,
-Liviu
+Signed-off-by: Aniket Sahu <aniketsahu999@gmail.com>
+---
+ drivers/gpu/drm/drm_print.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> 
-> Thanks,
-> -Brian
-> 
-> > +	if (check_add_overflow(kfb->afbc_size, fb->offsets[0], &min_size)) {
-> > +		goto check_failed;
-> > +	}
-> >  	if (min_size > obj->size) {
-> >  		DRM_DEBUG_KMS("afbc size check failed, obj_size: 0x%zx. min_size 0x%llx.\n",
-> >  			      obj->size, min_size);
-> > -- 
-> > 2.43.0
-> > 
+diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+index ded9461df..71aab4d22 100644
+--- a/drivers/gpu/drm/drm_print.c
++++ b/drivers/gpu/drm/drm_print.c
+@@ -198,10 +198,10 @@ static void __drm_dev_vprintk(const struct device *dev, const char *level,
+ 				   prefix_pad, prefix, vaf);
+ 	} else {
+ 		if (origin)
+-			printk("%s" "[" DRM_NAME ":%ps]%s%s %pV",
++			printk("%s [" DRM_NAME ":%ps]%s%s %pV",
+ 			       level, origin, prefix_pad, prefix, vaf);
+ 		else
+-			printk("%s" "[" DRM_NAME "]%s%s %pV",
++			printk("%s [" DRM_NAME "]%s%s %pV",
+ 			       level, prefix_pad, prefix, vaf);
+ 	}
+ }
+-- 
+2.53.0
+
