@@ -2,81 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4EZsFwAxg2kwjAMAu9opvQ
+	id APabCQUxg2kwjAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 12:44:00 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 12:44:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 063A3E541B
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 12:43:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9930EE5422
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 12:44:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5189F10E5ED;
-	Wed,  4 Feb 2026 11:43:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E02B410E5EE;
+	Wed,  4 Feb 2026 11:44:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="SONFhUkI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QqtP6VUt";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SONFhUkI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QqtP6VUt";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="DESgMqgB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GgltB/GL";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DESgMqgB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GgltB/GL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43FB210E5ED
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 11:43:57 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DB1E10E5EE
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 11:44:01 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 9DBCA3E70B;
- Wed,  4 Feb 2026 11:43:47 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 074C13E710;
+ Wed,  4 Feb 2026 11:43:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770205427; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1770205428; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+A5QWqoW6d1rO2c2JIsl4NsgDOsKOprgGQq2z6U+QEs=;
- b=SONFhUkIJgt02zWFvIjmMfbCsPqjzHb18sIyG7XJ9FeUkx7qjgz1Cqr2SmrUxWp5bcHAVR
- YV4XTCGOCFoYD1csAETUFI++dxXnLYOHlmSHAo9MqbuLmA5ghwmFDJ6CNuKbXnoX9z0iVp
- 6kyHW6TULp5x59v4/4Gcw912e4dJmzE=
+ bh=npsqTdSLDnuea594DZUQ+Ck3wT+hdTqImYL3Ki0a0LI=;
+ b=DESgMqgBDxiuKGaeb1DEPlvnqBXV11Vv8139od7KMuma1Hp7enYPBLLqLfxrpYwTAP/kwP
+ SEWdfr+se661eiSTO9QwtGOhtby7zKLI2CpUfnxL5eoqtuzhR/kAKV6sMiaI44pVl+3Xzk
+ 5OSEV0xrtELj0HDRma/dMWv2oRSWe3Q=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770205427;
+ s=susede2_ed25519; t=1770205428;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+A5QWqoW6d1rO2c2JIsl4NsgDOsKOprgGQq2z6U+QEs=;
- b=QqtP6VUtsKILY3OoCyz3kw1pU69XU4JRSTPxX1HFiIbNGnbqeVqMfBT2bzrQsMx4CYZDMv
- S+BY1dt8FM4Pe/DA==
+ bh=npsqTdSLDnuea594DZUQ+Ck3wT+hdTqImYL3Ki0a0LI=;
+ b=GgltB/GLs6kyyvousKewkZXRafzgkvE26FlskQb4I53oxd5EjFN6Wke29PupcaLj8zQ7oj
+ OjGQ1ttcBv880vBA==
 Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=SONFhUkI;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QqtP6VUt
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770205427; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1770205428; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+A5QWqoW6d1rO2c2JIsl4NsgDOsKOprgGQq2z6U+QEs=;
- b=SONFhUkIJgt02zWFvIjmMfbCsPqjzHb18sIyG7XJ9FeUkx7qjgz1Cqr2SmrUxWp5bcHAVR
- YV4XTCGOCFoYD1csAETUFI++dxXnLYOHlmSHAo9MqbuLmA5ghwmFDJ6CNuKbXnoX9z0iVp
- 6kyHW6TULp5x59v4/4Gcw912e4dJmzE=
+ bh=npsqTdSLDnuea594DZUQ+Ck3wT+hdTqImYL3Ki0a0LI=;
+ b=DESgMqgBDxiuKGaeb1DEPlvnqBXV11Vv8139od7KMuma1Hp7enYPBLLqLfxrpYwTAP/kwP
+ SEWdfr+se661eiSTO9QwtGOhtby7zKLI2CpUfnxL5eoqtuzhR/kAKV6sMiaI44pVl+3Xzk
+ 5OSEV0xrtELj0HDRma/dMWv2oRSWe3Q=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770205427;
+ s=susede2_ed25519; t=1770205428;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+A5QWqoW6d1rO2c2JIsl4NsgDOsKOprgGQq2z6U+QEs=;
- b=QqtP6VUtsKILY3OoCyz3kw1pU69XU4JRSTPxX1HFiIbNGnbqeVqMfBT2bzrQsMx4CYZDMv
- S+BY1dt8FM4Pe/DA==
+ bh=npsqTdSLDnuea594DZUQ+Ck3wT+hdTqImYL3Ki0a0LI=;
+ b=GgltB/GLs6kyyvousKewkZXRafzgkvE26FlskQb4I53oxd5EjFN6Wke29PupcaLj8zQ7oj
+ OjGQ1ttcBv880vBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3D0DF3EA63;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9BCA63EA64;
  Wed,  4 Feb 2026 11:43:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id gAt2DfMwg2ldawAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 2HGbJPMwg2ldawAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Wed, 04 Feb 2026 11:43:47 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: boris.brezillon@collabora.com, loic.molinari@collabora.com,
@@ -85,17 +83,18 @@ To: boris.brezillon@collabora.com, loic.molinari@collabora.com,
  simona@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 2/4] drm/gem-shmem: Map pages in mmap fault handler
-Date: Wed,  4 Feb 2026 12:39:30 +0100
-Message-ID: <20260204114341.195143-3-tzimmermann@suse.de>
+Subject: [PATCH v2 3/4] drm/gem-shmem: Track folio accessed/dirty status in
+ mmap
+Date: Wed,  4 Feb 2026 12:39:31 +0100
+Message-ID: <20260204114341.195143-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260204114341.195143-1-tzimmermann@suse.de>
 References: <20260204114341.195143-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.01
-X-Spam-Level: 
 X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,116 +142,79 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 063A3E541B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 9930EE5422
 X-Rspamd-Action: no action
 
-Gem-shmem operates on pages instead of I/O memory ranges, so use them
-for mmap. This will allow for tracking page dirty/accessed flags. If
-hugepage support is available, insert the page's folio if possible.
-Otherwise fall back to mapping individual pages.
+Invoke folio_mark_accessed() in mmap page faults to add the folio to
+the memory manager's LRU list. Userspace invokes mmap to get the memory
+for software rendering. Compositors do the same when creating the final
+on-screen image, so keeping the pages in LRU makes sense. Avoids paging
+out graphics buffers when under memory pressure.
 
-As the PFN is no longer required for hugepage mappings, simplify the
-related code and make it depend on CONFIG_TRANSPARENT_HUGEPAGE. Prepare
-for tracking folio status.
+In page_mkwrite, further invoke the folio_mark_dirty() to add the folio
+for writeback, should the underlying file be paged out from system memory.
+This rarely happens in practice, yet it would corrupt the buffer content.
+
+This has little effect on a system's hardware-accelerated rendering, which
+only mmaps for an initial setup of textures, meshes, shaders, etc.
 
 v2:
-- do not look up the page before testing page-array bounds (Matthew)
-- simplify error handling in drm_gem_shmem_fault() (Boris)
 - adapt to changes in drm_gem_shmem_try_mmap_pmd()
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 49 +++++++++++++++-----------
- 1 file changed, 29 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index e7316dc7e921..24553dec070d 100644
+index 24553dec070d..c2ee30967c41 100644
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -553,16 +553,17 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_dumb_create);
- static vm_fault_t drm_gem_shmem_try_map_pmd(struct vm_fault *vmf, unsigned long addr,
- 					    struct page *page)
- {
--#ifdef CONFIG_ARCH_SUPPORTS_PMD_PFNMAP
--	unsigned long pfn = page_to_pfn(page);
--	unsigned long paddr = pfn << PAGE_SHIFT;
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+	phys_addr_t paddr = page_to_phys(page);
- 	bool aligned = (addr & ~PMD_MASK) == (paddr & ~PMD_MASK);
- 
--	if (aligned &&
--	    pmd_none(*vmf->pmd) &&
--	    folio_test_pmd_mappable(page_folio(page))) {
--		pfn &= PMD_MASK >> PAGE_SHIFT;
--		return vmf_insert_pfn_pmd(vmf, pfn, false);
-+	if (aligned && pmd_none(*vmf->pmd)) {
-+		struct folio *folio = page_folio(page);
-+
-+		if (folio_test_pmd_mappable(folio)) {
-+			/* Read-only mapping; split upon write fault */
-+			return vmf_insert_folio_pmd(vmf, folio, false);
-+		}
- 	}
- #endif
- 
-@@ -575,13 +576,10 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
- 	struct drm_gem_object *obj = vma->vm_private_data;
- 	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
- 	loff_t num_pages = obj->size >> PAGE_SHIFT;
--	vm_fault_t ret;
- 	struct page **pages = shmem->pages;
--	pgoff_t page_offset;
--	unsigned long pfn;
--
--	/* Offset to faulty address in the VMA. */
--	page_offset = vmf->pgoff - vma->vm_pgoff;
-+	pgoff_t page_offset = vmf->pgoff - vma->vm_pgoff; /* page offset within VMA */
-+	struct page *page;
-+	vm_fault_t ret;
- 
- 	dma_resv_lock(shmem->base.resv, NULL);
- 
-@@ -592,14 +590,25 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
- 		goto out;
+@@ -597,12 +597,17 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
  	}
  
--	ret = drm_gem_shmem_try_map_pmd(vmf, vmf->address, pages[page_offset]);
--	if (ret == VM_FAULT_NOPAGE)
-+	page = pages[page_offset];
-+	if (!page) {
-+		ret = VM_FAULT_SIGBUS;
- 		goto out;
-+	}
-+
-+	ret = drm_gem_shmem_try_map_pmd(vmf, vmf->address, page);
-+	if (ret != VM_FAULT_NOPAGE) {
+ 	ret = drm_gem_shmem_try_map_pmd(vmf, vmf->address, page);
+-	if (ret != VM_FAULT_NOPAGE) {
++	if (ret == VM_FAULT_NOPAGE) {
 +		struct folio *folio = page_folio(page);
 +
-+		get_page(page);
++		folio_mark_accessed(folio);
++	} else {
+ 		struct folio *folio = page_folio(page);
  
--	pfn = page_to_pfn(pages[page_offset]);
--	ret = vmf_insert_pfn(vma, vmf->address, pfn);
-+		folio_lock(folio);
+ 		get_page(page);
+ 
+ 		folio_lock(folio);
++		folio_mark_accessed(folio);
+ 
+ 		vmf->page = page;
+ 		ret = VM_FAULT_LOCKED;
+@@ -648,10 +653,23 @@ static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
+ 	drm_gem_vm_close(vma);
+ }
+ 
++static vm_fault_t drm_gem_shmem_page_mkwrite(struct vm_fault *vmf)
++{
++	struct folio *folio = page_folio(vmf->page);
 +
-+		vmf->page = page;
-+		ret = VM_FAULT_LOCKED;
-+	}
++	file_update_time(vmf->vma->vm_file);
++
++	folio_lock(folio);
++	folio_mark_dirty(folio);
++
++	return VM_FAULT_LOCKED;
++}
++
+ const struct vm_operations_struct drm_gem_shmem_vm_ops = {
+ 	.fault = drm_gem_shmem_fault,
+ 	.open = drm_gem_shmem_vm_open,
+ 	.close = drm_gem_shmem_vm_close,
++	.page_mkwrite = drm_gem_shmem_page_mkwrite,
+ };
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_vm_ops);
  
-- out:
-+out:
- 	dma_resv_unlock(shmem->base.resv);
- 
- 	return ret;
-@@ -689,7 +698,7 @@ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct
- 	if (ret)
- 		return ret;
- 
--	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
-+	vm_flags_mod(vma, VM_DONTEXPAND | VM_DONTDUMP, VM_PFNMAP);
- 	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
- 	if (shmem->map_wc)
- 		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
 -- 
 2.52.0
 
