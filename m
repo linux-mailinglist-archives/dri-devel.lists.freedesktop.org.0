@@ -2,120 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6JkmNDJeg2mJlQMAu9opvQ
+	id 2BJWBXrKhGk45QMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 15:56:50 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 17:51:06 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 721E0E79F4
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 15:56:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48937F57E1
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 17:51:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E55810E678;
-	Wed,  4 Feb 2026 14:56:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAC4A10E925;
+	Thu,  5 Feb 2026 16:50:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=shazbot.org header.i=@shazbot.org header.b="mi9xMhj7";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="sGJeihXB";
+	dkim=pass (2048-bit key; unprotected) header.d=kaspersky.com header.i=@kaspersky.com header.b="Fx731CpU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh-b4-smtp.messagingengine.com
- (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE17510E100;
- Wed,  4 Feb 2026 14:56:44 +0000 (UTC)
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
- by mailfhigh.stl.internal (Postfix) with ESMTP id 39ADB7A00DC;
- Wed,  4 Feb 2026 09:49:59 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
- by phl-compute-02.internal (MEProxy); Wed, 04 Feb 2026 09:50:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
- cc:cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1770216599;
- x=1770302999; bh=QL9sSVQuHUyiqNNTJS1cRzIO660sEsNkmSlJpdQIa7o=; b=
- mi9xMhj7D7QVZHhZAiU9VKOtKQC8hfwKHEV1GYiUwJ/vKTw3MKybuvhpvocGWH8O
- ewf0IHP5WCIsCdkETSsxiawgbu8U8Ln3q8u5A6j0l1WpPHcVZqXUbf78d98CdUiM
- /IKqdJz2j5iWqpqDqhm4lV0r1z2yblKVWo/XKIIS48JRCN8WvWKd+9fo9YVCQRcl
- WDBefUZrDuUCw4YCvCRys6oeir7MzfGqsiCrzNNF+z9gUQxDdikdIgcVqQLVJJGA
- 29vYJ4VhBWB9dOxWuTZALTQDzZMBUS6lPHTNaNL/TY+JA3Wi7AAhU2HH5Ycma9h2
- iZvPLo9ASafd4U5gTrgqJQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1770216599; x=
- 1770302999; bh=QL9sSVQuHUyiqNNTJS1cRzIO660sEsNkmSlJpdQIa7o=; b=s
- GJeihXBk9DA4kr+BL+nNsg7zc5GMkdRCLjYJKk36zDGPac6Z7Moje8C4Gg96noVB
- fvzNyywNxA9I6qSs/ISvmhNult3u6YFp5A+Ak5O5WFOj4z5O9gjC6f0ph7vq3j/H
- nrd5wyg5KgPCM2bedm+0RVSCzt+R5z1nbbRxnE8jo4m4UXA748X6ZC52nPekwl5d
- hfOar7dY1pgUQWdNag+q5umeAcQEi9mIvXbo7DTN57R2xk3ZFNUvUKrf8rZmaJFl
- o6VAuTQcOkiTEpUlqQGmdX6f9sk7qvvXtn85KmfukgAViHuF50rkeqyEfQtmXkEf
- wB2zeq2JfVG/hI+46N9Kg==
-X-ME-Sender: <xms:llyDaZJmYGMjYnUmYVdxhVEDlr_O47dRinUwU0f6dKEXQvoB64o4vA>
- <xme:llyDaXBAuXkvQLS0ogkdqBg_K1u8VpwbUoDJ8l2mawpsOazzq99eL5AEeW9c2GuAR
- S2c8GrwPKH-y-GC8HJG7cPQrzEmN_18FnYzPmuwtGjwyLKlTtfp>
-X-ME-Received: <xmr:llyDaWVMxdX5QgxRsgefK1RHbav935eSzrLU1oHeIiUeob1gUxBD-IIfYUc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukedvjedvucetufdoteggodetrf
- dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
- rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
- gurhepfffhvfevuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpeetlhgvgicu
- hghilhhlihgrmhhsohhnuceorghlvgigsehshhgriigsohhtrdhorhhgqeenucggtffrrg
- htthgvrhhnpeegudevhfejueefveduieeuueeifeettdekveekhffgvdetfeelueehgfdt
- heffhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- grlhgvgiesshhhrgiisghothdrohhrghdpnhgspghrtghpthhtohepfeegpdhmohguvgep
- shhmthhpohhuthdprhgtphhtthhopehlvghonheskhgvrhhnvghlrdhorhhgpdhrtghpth
- htoheptghhrhhishhtihgrnhdrkhhovghnihhgsegrmhgurdgtohhmpdhrtghpthhtohep
- shhumhhithdrshgvmhifrghlsehlihhnrghrohdrohhrghdprhgtphhtthhopegrlhgvgi
- grnhguvghrrdguvghutghhvghrsegrmhgurdgtohhmpdhrtghpthhtoheprghirhhlihgv
- ugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpd
- hrtghpthhtohepkhhrrgigvghlsehrvgguhhgrthdrtghomhdprhgtphhtthhopegumhhi
- thhrhidrohhsihhpvghnkhhosegtohhllhgrsghorhgrrdgtohhmpdhrtghpthhtohepgh
- hurhgthhgvthgrnhhsihhnghhhsegthhhrohhmihhumhdrohhrgh
-X-ME-Proxy: <xmx:llyDaY6NKd7bDMPwzDMtrcrglA0Q7txOe9i2cEfBbUnJh4H99P3BMA>
- <xmx:llyDaQZPU4E4Fm9axqtBaX-WLMNA4ScJrvmFQpdDiyZJd9HNbYKoEA>
- <xmx:llyDaaqq_FW_PxGHRUdmctm9S2ljoFVq-NcIFh50bdZjLOoV2jrdcA>
- <xmx:llyDaXL7AZ2xV6n4J6obLGjlreHCThd-WQGNqX770JaImsW7wESD1Q>
- <xmx:l1yDaYhCjTqzR9iSEa4wxIeg-VejF46Npe8P2GPeeU0DmGS4kQ10LlGd>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 Feb 2026 09:49:56 -0500 (EST)
-Date: Wed, 4 Feb 2026 07:49:55 -0700
-From: Alex Williamson <alex@shazbot.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>, Ankit Agrawal <ankita@nvidia.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
- linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v7 0/8] dma-buf: Use revoke mechanism to invalidate
- shared buffers
-Message-ID: <20260204074955.394a42e1@shazbot.org>
-In-Reply-To: <20260204114751.GF6771@unreal>
-References: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
- <20260202160425.GO34749@unreal> <20260204081630.GA6771@unreal>
- <6d5c392b-596b-4341-9992-aa4b26001804@amd.com>
- <20260204114751.GF6771@unreal>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+Received: from mx9.kaspersky-labs.com (mx9.kaspersky-labs.com [195.122.169.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D10F10E100
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 14:56:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kaspersky.com;
+ s=mail202505; t=1770217000;
+ bh=hJRv7Oarwa60guT9O+RN6FK8kiq9wZipNgVGYy4yhUY=;
+ h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version;
+ b=Fx731CpUxFcBKcGTewFkc5SkqFi9oiQtiQ0wXJ5gyREpMhA3qKeYrCcPLa7JKNPqQ
+ EhcyMueIWv4Xn8q0fwFJnvAh26t9eCKrQEkki0WIXng6CdZkXHk9eHqJFoIID6/MR6
+ BnxpLNyWfRuBwu0HVf5+ItOFRrcg/goEsyPTqJUtdrSG2t7G0q5TvUIyCVdHp76BRz
+ ohUI2pEJbkitGAEWkAlJCMbE067b9WOAW56a1S+gu3kPS+pRn4Kia1OxvITngX02v5
+ Gq8KgRZNSnP9wEQdgctkAJUJCILyuEW/kxhNNeVJPXFhVYEJKnBUy5ECEYC/uJQ599
+ NzxZ8IfYwgRHA==
+Received: from relay9.kaspersky-labs.com (localhost [127.0.0.1])
+ by relay9.kaspersky-labs.com (Postfix) with ESMTP id 15E538A084A;
+ Wed,  4 Feb 2026 17:56:40 +0300 (MSK)
+Received: from mail-hq2.kaspersky.com (unknown [91.103.66.201])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "mail-hq2.kaspersky.com",
+ Issuer "Kaspersky MailRelays CA G3" (verified OK))
+ by mailhub9.kaspersky-labs.com (Postfix) with ESMTPS id 8D31F8A06F8;
+ Wed,  4 Feb 2026 17:56:39 +0300 (MSK)
+Received: from HQMAILSRV1.avp.ru (10.64.57.51) by HQMAILSRV3.avp.ru
+ (10.64.57.53) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.35; Wed, 4 Feb
+ 2026 17:56:38 +0300
+Received: from HQMAILSRV1.avp.ru ([fe80::44b0:5a05:5379:9408]) by
+ HQMAILSRV1.avp.ru ([fe80::44b0:5a05:5379:9408%2]) with mapi id
+ 15.02.2562.035; Wed, 4 Feb 2026 17:56:38 +0300
+From: Alexander Konyukhov <Alexander.Konyukhov@kaspersky.com>
+To: Liviu Dudau <liviu.dudau@arm.com>, Brian Starkey <brian.starkey@arm.com>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "lvc-project@linuxtesting.org" <lvc-project@linuxtesting.org>, "nd@arm.com"
+ <nd@arm.com>
+Subject: RE: [PATCH] drm/komeda: fix integer overflow in AFBC framebuffer size
+ check
+Thread-Topic: [PATCH] drm/komeda: fix integer overflow in AFBC framebuffer
+ size check
+Thread-Index: AQHclRP6O05dHMqcvkmuYUf+ZXwIGLVxT70AgAEG/wCAAEltUA==
+Date: Wed, 4 Feb 2026 14:56:38 +0000
+Message-ID: <57df230af1624c679a947317152fd8ed@kaspersky.com>
+References: <20260203134907.1587067-1-Alexander.Konyukhov@kaspersky.com>
+ <ct5tkr764socel5o4gtd4k2fgofqiljy3yzdjokij3jjkcf2ks@c3p7fs33znoe>
+ <aYNIjm8XIdxKNo-0@e142607>
+In-Reply-To: <aYNIjm8XIdxKNo-0@e142607>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.32.57.18]
+x-kse-serverinfo: HQMAILSRV3.avp.ru, 9
+x-kse-attachmentfiltering-interceptor-info: no applicable attachment filtering
+ rules found
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: Clean, bases: 2/4/2026 11:49:00 AM
+x-kse-bulkmessagesfiltering-scan-result: InTheLimit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-KSMG-AntiPhishing: NotDetected
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310,
+ bases: 2026/02/04 11:41:00 #28178294
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 52
+X-Mailman-Approved-At: Thu, 05 Feb 2026 16:50:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,102 +105,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[shazbot.org,none];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [0.79 / 15.00];
+	DATE_IN_PAST(1.00)[25];
+	MIME_BASE64_TEXT_BOGUS(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kaspersky.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[shazbot.org:s=fm2,messagingengine.com:s=fm3];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[kaspersky.com:s=mail202505];
+	MAILLIST(-0.20)[mailman];
+	MIME_BASE64_TEXT(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[amd.com,linaro.org,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,ziepe.ca,8bytes.org,arm.com,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	DKIM_TRACE(0.00)[shazbot.org:+,messagingengine.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[alex@shazbot.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FORGED_SENDER(0.00)[Alexander.Konyukhov@kaspersky.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:liviu.dudau@arm.com,m:brian.starkey@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:lvc-project@linuxtesting.org,m:nd@arm.com,s:lists@lfdr.de];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,linuxtesting.org,arm.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[dri-devel];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	HAS_XOIP(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[Alexander.Konyukhov@kaspersky.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kaspersky.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MISSING_XM_UA(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,shazbot.org:mid,shazbot.org:dkim]
-X-Rspamd-Queue-Id: 721E0E79F4
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,kaspersky.com:email,kaspersky.com:dkim,kaspersky.com:mid,suse.de:email]
+X-Rspamd-Queue-Id: 48937F57E1
 X-Rspamd-Action: no action
 
-On Wed, 4 Feb 2026 13:47:51 +0200
-Leon Romanovsky <leon@kernel.org> wrote:
-
-> On Wed, Feb 04, 2026 at 09:54:13AM +0100, Christian K=C3=B6nig wrote:
-> > On 2/4/26 09:16, Leon Romanovsky wrote: =20
-> > > On Mon, Feb 02, 2026 at 06:04:25PM +0200, Leon Romanovsky wrote: =20
-> > >> On Sat, Jan 31, 2026 at 07:34:10AM +0200, Leon Romanovsky wrote: =20
-> > >>> Changelog:
-> > >>> v7: =20
-> > >>
-> > >> <...>
-> > >> =20
-> > >>> Leon Romanovsky (8):
-> > >>>       dma-buf: Rename .move_notify() callback to a clearer identifi=
-er
-> > >>>       dma-buf: Rename dma_buf_move_notify() to dma_buf_invalidate_m=
-appings()
-> > >>>       dma-buf: Always build with DMABUF_MOVE_NOTIFY
-> > >>>       vfio: Wait for dma-buf invalidation to complete
-> > >>>       dma-buf: Make .invalidate_mapping() truly optional
-> > >>>       dma-buf: Add dma_buf_attach_revocable()
-> > >>>       vfio: Permit VFIO to work with pinned importers
-> > >>>       iommufd: Add dma_buf_pin()
-> > >>>
-> > >>>  drivers/dma-buf/Kconfig                     | 12 -----
-> > >>>  drivers/dma-buf/dma-buf.c                   | 69 +++++++++++++++++=
-+++-----
-> > >>>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 14 ++---
-> > >>>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  2 +-
-> > >>>  drivers/gpu/drm/amd/amdkfd/Kconfig          |  2 +-
-> > >>>  drivers/gpu/drm/virtio/virtgpu_prime.c      |  2 +-
-> > >>>  drivers/gpu/drm/xe/tests/xe_dma_buf.c       |  7 ++-
-> > >>>  drivers/gpu/drm/xe/xe_bo.c                  |  2 +-
-> > >>>  drivers/gpu/drm/xe/xe_dma_buf.c             | 14 ++---
-> > >>>  drivers/infiniband/core/umem_dmabuf.c       | 13 -----
-> > >>>  drivers/infiniband/hw/mlx5/mr.c             |  2 +-
-> > >>>  drivers/iommu/iommufd/pages.c               | 11 +++-
-> > >>>  drivers/iommu/iommufd/selftest.c            |  2 +-
-> > >>>  drivers/vfio/pci/vfio_pci_dmabuf.c          | 80 +++++++++++++++++=
-+++++-------
-> > >>>  include/linux/dma-buf.h                     | 17 +++---
-> > >>>  15 files changed, 153 insertions(+), 96 deletions(-) =20
-> > >>
-> > >> Christian,
-> > >>
-> > >> Given the ongoing discussion around patch v5, I'm a bit unclear on t=
-he
-> > >> current state. Is the series ready for merging, or do you need me to
-> > >> rework anything further? =20
-> > >=20
-> > > Christian,
-> > >=20
-> > > Let's not miss the merge window for work that is already ready. =20
-> >=20
-> > Mhm, sounds like AMDs mail servers never send my last mail out.
-> >=20
-> > As far as I can see all patches have an reviewed-by, I also gave an rb =
-on patch #6 (should that mail never got out as well). The discussion on pat=
-ch v5 is just orthogonal I think, the handling was there even completely be=
-fore this patch set.
-> >=20
-> > For upstreaming as long as the VFIO and infiniband folks don't object I=
- would like to take that through the drm-misc branch (like every other DMA-=
-buf change). =20
->=20
-> Infiniband folks don't object :).
-
-No objection from vfio, I added one last R-b.  Thanks,
-
-Alex
+VGhhbmsgeW91IGZvciB0aGUgcmVwbGllcy4NCg0KQWNjb3JkaW5nIHRvIElTTyA5ODk5IDYuMy4x
+IGJvdGggb3BlcmFuZHMgYXJlIGZpcnN0IGNvbnZlcnRlZCB0byBhIGNvbW1vbiB0eXBlICh1MzIp
+LCB0aGVyZSBhcmUgbm8gZGVmaW5lZCBsaW1pdHMgb2Yga2ZiLT5hZmJjX3NpemUgYW5kIGZiLT5v
+ZmZzZXRzWzBdICwgc28gbWluX3NpemUgY2FuIGhhdmUgYW4gb3ZlcmZsb3dlZCB1MzIgdmFsdWUu
+DQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBMaXZpdSBEdWRhdSA8bGl2aXUu
+ZHVkYXVAYXJtLmNvbT4gDQpTZW50OiBXZWRuZXNkYXksIEZlYnJ1YXJ5IDQsIDIwMjYgNDoyNSBQ
+TQ0KVG86IEJyaWFuIFN0YXJrZXkgPGJyaWFuLnN0YXJrZXlAYXJtLmNvbT4NCkNjOiBBbGV4YW5k
+ZXIgS29ueXVraG92IDxBbGV4YW5kZXIuS29ueXVraG92QGthc3BlcnNreS5jb20+OyBNYWFydGVu
+IExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPjsgTWF4aW1lIFJp
+cGFyZCA8bXJpcGFyZEBrZXJuZWwub3JnPjsgVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5u
+QHN1c2UuZGU+OyBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAZ21haWwuY29tPjsgU2ltb25hIFZldHRl
+ciA8c2ltb25hQGZmd2xsLmNoPjsgZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgbGlu
+dXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgbHZjLXByb2plY3RAbGludXh0ZXN0aW5nLm9yZzsg
+bmRAYXJtLmNvbQ0KU3ViamVjdDogUmU6IFtQQVRDSF0gZHJtL2tvbWVkYTogZml4IGludGVnZXIg
+b3ZlcmZsb3cgaW4gQUZCQyBmcmFtZWJ1ZmZlciBzaXplIGNoZWNrDQoNCkNhdXRpb246IFRoaXMg
+aXMgYW4gZXh0ZXJuYWwgZW1haWwuDQoNCg0KDQpPbiBUdWUsIEZlYiAwMywgMjAyNiBhdCAwOTo0
+MzoxMlBNICswMDAwLCBCcmlhbiBTdGFya2V5IHdyb3RlOg0KPiBIaSBBbGV4YW5kZXIsDQo+DQo+
+IE9uIFR1ZSwgRmViIDAzLCAyMDI2IGF0IDA0OjQ4OjQ2UE0gKzAwMDAsIEFsZXhhbmRlciBLb255
+dWtob3Ygd3JvdGU6DQo+ID4gVGhlIEFGQkMgZnJhbWVidWZmZXIgc2l6ZSB2YWxpZGF0aW9uIGNh
+bGN1bGF0ZXMgdGhlIG1pbmltdW0gcmVxdWlyZWQgDQo+ID4gYnVmZmVyIHNpemUgYnkgYWRkaW5n
+IHRoZSBBRkJDIHBheWxvYWQgc2l6ZSB0byB0aGUgZnJhbWVidWZmZXIgb2Zmc2V0Lg0KPiA+IFRo
+aXMgYWRkaXRpb24gaXMgcGVyZm9ybWVkIHdpdGhvdXQgY2hlY2tpbmcgZm9yIGludGVnZXIgb3Zl
+cmZsb3cuDQo+ID4NCj4gPiBJZiB0aGUgYWRkaXRpb24gb3ZlZmxvd3MsIHRoZSBzaXplIGNoZWNr
+IG1heSBpbmNvcnJlY3RseSBzdWNjZWQgYW5kIA0KPiA+IGFsbG93IHVzZXJzcGFjZSB0byBwcm92
+aWRlIGFuIHVuZGVyc2l6ZWQgZHJtX2dlbV9vYmplY3QsIHBvdGVudGlhbGx5IA0KPiA+IGxlYWRp
+bmcgdG8gb3V0LW9mLWJvdW5kcyBtZW1vcnkgYWNjZXNzLg0KPiA+DQo+ID4gQWRkIHVzYWdlIG9m
+IGNoZWNrX2FkZF9vdmVyZmxvdygpIHRvIHNhZmVseSBjb21wdXRlIHRoZSBtaW5pbXVtIA0KPiA+
+IHJlcXVpcmVkIHNpemUgYW5kIHJlamVjdCB0aGUgZnJhbWVidWZmZXIgaWYgYW4gb3ZlcmZsb3cg
+aXMgZGV0ZWN0ZWQuDQo+ID4gVGhpcyBtYWtlcyB0aGUgQUZCQyBzaXplIHZhbGlkYXRpb24gbW9y
+ZSByb2J1c3QgYWdhaW5zdCBtYWxmb3JtZWQuDQo+ID4NCj4gPiBGb3VuZCBieSBMaW51eCBWZXJp
+ZmljYXRpb24gQ2VudGVyIChsaW51eHRlc3Rpbmcub3JnKSB3aXRoIFNWQUNFLg0KPiA+DQo+ID4g
+Rml4ZXM6IDY1YWQyMzkyZGQ2ZCAoImRybS9rb21lZGE6IEFkZGVkIEFGQkMgc3VwcG9ydCBmb3Ig
+a29tZWRhIA0KPiA+IGRyaXZlciIpDQo+ID4gU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEtvbnl1
+a2hvdiANCj4gPiA8QWxleGFuZGVyLktvbnl1a2hvdkBrYXNwZXJza3kuY29tPg0KPiA+IC0tLQ0K
+PiA+ICBkcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9mcmFtZWJ1ZmZl
+ci5jIHwgNiArKysrKy0NCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgMSBk
+ZWxldGlvbigtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlz
+cGxheS9rb21lZGEva29tZWRhX2ZyYW1lYnVmZmVyLmMgDQo+ID4gYi9kcml2ZXJzL2dwdS9kcm0v
+YXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9mcmFtZWJ1ZmZlci5jDQo+ID4gaW5kZXggM2NhNDYx
+ZWIwYTI0Li4zY2IzNGQwM2Y3ZjggMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2Fy
+bS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfZnJhbWVidWZmZXIuYw0KPiA+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2ZyYW1lYnVmZmVyLmMNCj4gPiBAQCAt
+NCw2ICs0LDggQEANCj4gPiAgICogQXV0aG9yOiBKYW1lcy5RaWFuLldhbmcgPGphbWVzLnFpYW4u
+d2FuZ0Bhcm0uY29tPg0KPiA+ICAgKg0KPiA+ICAgKi8NCj4gPiArI2luY2x1ZGUgPGxpbnV4L292
+ZXJmbG93Lmg+DQo+ID4gKw0KPiA+ICAjaW5jbHVkZSA8ZHJtL2RybV9kZXZpY2UuaD4NCj4gPiAg
+I2luY2x1ZGUgPGRybS9kcm1fZmJfZG1hX2hlbHBlci5oPg0KPiA+ICAjaW5jbHVkZSA8ZHJtL2Ry
+bV9nZW0uaD4NCj4gPiBAQCAtOTMsNyArOTUsOSBAQCBrb21lZGFfZmJfYWZiY19zaXplX2NoZWNr
+KHN0cnVjdCBrb21lZGFfZmIgKmtmYiwgc3RydWN0IGRybV9maWxlICpmaWxlLA0KPiA+ICAgICBr
+ZmItPmFmYmNfc2l6ZSA9IGtmYi0+b2Zmc2V0X3BheWxvYWQgKyBuX2Jsb2NrcyAqDQo+ID4gICAg
+ICAgICAgICAgICAgICAgICAgQUxJR04oYnBwICogQUZCQ19TVVBFUkJMS19QSVhFTFMgLyA4LA0K
+PiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIEFGQkNfU1VQRVJCTEtfQUxJR05NRU5UKTsN
+Cj4gPiAtICAgbWluX3NpemUgPSBrZmItPmFmYmNfc2l6ZSArIGZiLT5vZmZzZXRzWzBdOw0KPg0K
+PiBDYW4gdGhpcyByZWFsbHkgb3ZlcmZsb3c/IElzIHRoZSBjb25jZXJuIGEgaHlwb3RoZXRpY2Fs
+IElMUDY0IA0KPiBzaXR1YXRpb24/DQo+DQo+IG1pbl9zaXplIGlzIHU2NCwga2ZiLT5hZmJjX3Np
+emUgaXMgdTMyLCBhbmQgZmItPm9mZnNldHNbMF0gaXMgdW5zaWduZWQgDQo+IGludC4NCg0KWWVh
+aCwgSSB3YXMgdGhpbmtpbmcgdGhlIHNhbWUgdGhpbmcgeWVzdGVyZGF5IGF0IHRoZSBlbmQgb2Yg
+dGhlIHdvcmsgZGF5IHdoZW4gSSBsb29rZWQgYXQgdGhlIHBhdGNoLiBJIGRvbid0IHRoaW5rIGZv
+bGxvd2luZyB0aGUgY2FsbCBmbG93IHlvdSBjYW4gZW5kIHVwIHdpdGggYW4gb3ZlcmZsb3cuDQoN
+CkJlc3QgcmVnYXJkcywNCkxpdml1DQoNCj4NCj4gVGhhbmtzLA0KPiAtQnJpYW4NCj4NCj4gPiAr
+ICAgaWYgKGNoZWNrX2FkZF9vdmVyZmxvdyhrZmItPmFmYmNfc2l6ZSwgZmItPm9mZnNldHNbMF0s
+ICZtaW5fc2l6ZSkpIHsNCj4gPiArICAgICAgICAgICBnb3RvIGNoZWNrX2ZhaWxlZDsNCj4gPiAr
+ICAgfQ0KPiA+ICAgICBpZiAobWluX3NpemUgPiBvYmotPnNpemUpIHsNCj4gPiAgICAgICAgICAg
+ICBEUk1fREVCVUdfS01TKCJhZmJjIHNpemUgY2hlY2sgZmFpbGVkLCBvYmpfc2l6ZTogMHglengu
+IG1pbl9zaXplIDB4JWxseC5cbiIsDQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICBvYmot
+PnNpemUsIG1pbl9zaXplKTsNCj4gPiAtLQ0KPiA+IDIuNDMuMA0KPiA+DQo=
