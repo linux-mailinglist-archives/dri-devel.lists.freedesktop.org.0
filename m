@@ -2,90 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gJNkKDFeg2mJlQMAu9opvQ
+	id 6JkmNDJeg2mJlQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 15:56:49 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 15:56:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A927E79ED
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 15:56:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 721E0E79F4
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 15:56:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE2510E100;
-	Wed,  4 Feb 2026 14:56:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E55810E678;
+	Wed,  4 Feb 2026 14:56:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=shazbot.org header.i=@shazbot.org header.b="0o8WaWC+";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="jzmMz8cj";
+	dkim=pass (2048-bit key; unprotected) header.d=shazbot.org header.i=@shazbot.org header.b="mi9xMhj7";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="sGJeihXB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 516 seconds by postgrey-1.36 at gabe;
- Wed, 04 Feb 2026 14:56:43 UTC
-Received: from fout-b6-smtp.messagingengine.com
- (fout-b6-smtp.messagingengine.com [202.12.124.149])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8092D10E678;
- Wed,  4 Feb 2026 14:56:43 +0000 (UTC)
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
- by mailfout.stl.internal (Postfix) with ESMTP id 459111D00099;
- Wed,  4 Feb 2026 09:48:05 -0500 (EST)
+Received: from fhigh-b4-smtp.messagingengine.com
+ (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE17510E100;
+ Wed,  4 Feb 2026 14:56:44 +0000 (UTC)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+ by mailfhigh.stl.internal (Postfix) with ESMTP id 39ADB7A00DC;
+ Wed,  4 Feb 2026 09:49:59 -0500 (EST)
 Received: from phl-frontend-03 ([10.202.2.162])
- by phl-compute-04.internal (MEProxy); Wed, 04 Feb 2026 09:48:06 -0500
+ by phl-compute-02.internal (MEProxy); Wed, 04 Feb 2026 09:50:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
  cc:cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1770216485;
- x=1770302885; bh=OAqECMTNWylYMxvQZWo48cfQCG+FzsGTUnm7TRzruJc=; b=
- 0o8WaWC+JS0r9CyNO/nTgXfRQDJ56/yoy70axLrKphXjIXJxrk75jlyRIc0mFozg
- Lk9yZLXvit+j0LAW6FO4NKvl1M/1uw0AqI/Kv0zLHGMB4xaXYj7dVhwRDcsAdFbe
- XldCsL0y3BWhA1RU+xIRj0DlrCxgJ+y9G+eS5tdLTz/xq9KeKueV28uAkNWAkYki
- JFt10+lcANDhqdHiJ+aWcx0rZPmqY4AcPIAS78Sywq78D8ETU6OsQVbv4v/NDVLx
- tcRW2AWOeJfeGEo9hYpBcCvKQi7VmCM0uEGGCIeEXOrD7uBLnfVA8mCfURXdb+Zo
- 0O72ph1Y+QfDvfTonvb22Q==
+ :references:reply-to:subject:subject:to:to; s=fm2; t=1770216599;
+ x=1770302999; bh=QL9sSVQuHUyiqNNTJS1cRzIO660sEsNkmSlJpdQIa7o=; b=
+ mi9xMhj7D7QVZHhZAiU9VKOtKQC8hfwKHEV1GYiUwJ/vKTw3MKybuvhpvocGWH8O
+ ewf0IHP5WCIsCdkETSsxiawgbu8U8Ln3q8u5A6j0l1WpPHcVZqXUbf78d98CdUiM
+ /IKqdJz2j5iWqpqDqhm4lV0r1z2yblKVWo/XKIIS48JRCN8WvWKd+9fo9YVCQRcl
+ WDBefUZrDuUCw4YCvCRys6oeir7MzfGqsiCrzNNF+z9gUQxDdikdIgcVqQLVJJGA
+ 29vYJ4VhBWB9dOxWuTZALTQDzZMBUS6lPHTNaNL/TY+JA3Wi7AAhU2HH5Ycma9h2
+ iZvPLo9ASafd4U5gTrgqJQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1770216485; x=
- 1770302885; bh=OAqECMTNWylYMxvQZWo48cfQCG+FzsGTUnm7TRzruJc=; b=j
- zmMz8cjFVoG/rsm+0syFV2GjH1G9Jl5OSmRwqy86uRGwWgXestcZk51Jl2OtfOhi
- 5dT2To2mQwZKbEcO3KiJ6YVzN/OWqj+r5xAY4f4Pcl47DGV+vjJCwJT82kWxuiYI
- U3D3g6AIwCcaYR2plHhaB4epoyk0ucC5lxbtg6+tuSzhDaJBG2MwMz5qymt6du14
- u5x4iw9+Urw3wJMot+A2nGSTxrNjdniDBsJvL0IV/uztGqUeYAV7FueJ6jd7hMI2
- V0Qujs8/84hPQEZQbg81ddFd/smKComYzHat9t/3Z/A9zAv532+oJhyaXykyLIuz
- /MklR4ShSvjuoAZODm5ow==
-X-ME-Sender: <xms:JFyDabc3NtC5x9d-S5b8xgv_nBJstlaRTFKO2hRPyja2VYX4o8sNZQ>
- <xme:JFyDaTGLxs7JuKE4V_IA9P4W29Q7v5RsliDeybttbvBXmlhQwQJ1WPvXOy_ADVtQJ
- e5mu5eIf2Mw1llgw8EuXb9IOb9VYfiAv1zqZFzzC2PoRDuwWF_R>
-X-ME-Received: <xmr:JFyDaZKGg0VtncgyvA-_AYz2KWPpimcRT69PBe7Nym3aMVuNqRimo99sgsg>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1770216599; x=
+ 1770302999; bh=QL9sSVQuHUyiqNNTJS1cRzIO660sEsNkmSlJpdQIa7o=; b=s
+ GJeihXBk9DA4kr+BL+nNsg7zc5GMkdRCLjYJKk36zDGPac6Z7Moje8C4Gg96noVB
+ fvzNyywNxA9I6qSs/ISvmhNult3u6YFp5A+Ak5O5WFOj4z5O9gjC6f0ph7vq3j/H
+ nrd5wyg5KgPCM2bedm+0RVSCzt+R5z1nbbRxnE8jo4m4UXA748X6ZC52nPekwl5d
+ hfOar7dY1pgUQWdNag+q5umeAcQEi9mIvXbo7DTN57R2xk3ZFNUvUKrf8rZmaJFl
+ o6VAuTQcOkiTEpUlqQGmdX6f9sk7qvvXtn85KmfukgAViHuF50rkeqyEfQtmXkEf
+ wB2zeq2JfVG/hI+46N9Kg==
+X-ME-Sender: <xms:llyDaZJmYGMjYnUmYVdxhVEDlr_O47dRinUwU0f6dKEXQvoB64o4vA>
+ <xme:llyDaXBAuXkvQLS0ogkdqBg_K1u8VpwbUoDJ8l2mawpsOazzq99eL5AEeW9c2GuAR
+ S2c8GrwPKH-y-GC8HJG7cPQrzEmN_18FnYzPmuwtGjwyLKlTtfp>
+X-ME-Received: <xmr:llyDaWVMxdX5QgxRsgefK1RHbav935eSzrLU1oHeIiUeob1gUxBD-IIfYUc>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukedvjedvucetufdoteggodetrf
  dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
  rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
- gurhepfffhvfevuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpeetlhgvgicu
+ gurhepfffhvfevuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpeetlhgvgicu
  hghilhhlihgrmhhsohhnuceorghlvgigsehshhgriigsohhtrdhorhhgqeenucggtffrrg
- htthgvrhhnpedvkeefjeekvdduhfduhfetkedugfduieettedvueekvdehtedvkefgudeg
- veeuueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ htthgvrhhnpeegudevhfejueefveduieeuueeifeettdekveekhffgvdetfeelueehgfdt
+ heffhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  grlhgvgiesshhhrgiisghothdrohhrghdpnhgspghrtghpthhtohepfeegpdhmohguvgep
  shhmthhpohhuthdprhgtphhtthhopehlvghonheskhgvrhhnvghlrdhorhhgpdhrtghpth
- htohepshhumhhithdrshgvmhifrghlsehlihhnrghrohdrohhrghdprhgtphhtthhopegt
- hhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomhdprhgtphhtthhopegrlhgvgi
+ htoheptghhrhhishhtihgrnhdrkhhovghnihhgsegrmhgurdgtohhmpdhrtghpthhtohep
+ shhumhhithdrshgvmhifrghlsehlihhnrghrohdrohhrghdprhgtphhtthhopegrlhgvgi
  grnhguvghrrdguvghutghhvghrsegrmhgurdgtohhmpdhrtghpthhtoheprghirhhlihgv
  ugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpd
  hrtghpthhtohepkhhrrgigvghlsehrvgguhhgrthdrtghomhdprhgtphhtthhopegumhhi
  thhrhidrohhsihhpvghnkhhosegtohhllhgrsghorhgrrdgtohhmpdhrtghpthhtohepgh
  hurhgthhgvthgrnhhsihhnghhhsegthhhrohhmihhumhdrohhrgh
-X-ME-Proxy: <xmx:JFyDabfA6AFufRXzaJSlKz-2t1bgQfl_-vcdUPLYedDqqhfQtD0F4g>
- <xmx:JFyDaXvtfjlvHHOBDbzIpiei4TfKRK6qgjSvLo_n98W07rjE3fSC_w>
- <xmx:JFyDaXtAyHrtabg5GCKcPsYXr1EXU3FQH7-j2yI9cGuotG8BnRMRyA>
- <xmx:JFyDaW-L9op9ODgl26-U7zgoSReG5Hb16hvQv5SKv36wBdcXrSzLXQ>
- <xmx:JVyDacEzOan8IdGoHVZJwVYbWkrRfU2u-Tob81oE2TJvkvib1I9BFGdR>
+X-ME-Proxy: <xmx:llyDaY6NKd7bDMPwzDMtrcrglA0Q7txOe9i2cEfBbUnJh4H99P3BMA>
+ <xmx:llyDaQZPU4E4Fm9axqtBaX-WLMNA4ScJrvmFQpdDiyZJd9HNbYKoEA>
+ <xmx:llyDaaqq_FW_PxGHRUdmctm9S2ljoFVq-NcIFh50bdZjLOoV2jrdcA>
+ <xmx:llyDaXL7AZ2xV6n4J6obLGjlreHCThd-WQGNqX770JaImsW7wESD1Q>
+ <xmx:l1yDaYhCjTqzR9iSEa4wxIeg-VejF46Npe8P2GPeeU0DmGS4kQ10LlGd>
 Feedback-ID: i03f14258:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 Feb 2026 09:48:01 -0500 (EST)
-Date: Wed, 4 Feb 2026 07:47:59 -0700
+ 4 Feb 2026 09:49:56 -0500 (EST)
+Date: Wed, 4 Feb 2026 07:49:55 -0700
 From: Alex Williamson <alex@shazbot.org>
 To: Leon Romanovsky <leon@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
  Alex Deucher <alexander.deucher@amd.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Gerd Hoffmann <kraxel@redhat.com>,
@@ -106,15 +104,18 @@ Cc: Sumit Semwal <sumit.semwal@linaro.org>,
  linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
  virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
  linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v7 4/8] vfio: Wait for dma-buf invalidation to complete
-Message-ID: <20260204074759.108f579e@shazbot.org>
-In-Reply-To: <20260131-dmabuf-revoke-v7-4-463d956bd527@nvidia.com>
+Subject: Re: [PATCH v7 0/8] dma-buf: Use revoke mechanism to invalidate
+ shared buffers
+Message-ID: <20260204074955.394a42e1@shazbot.org>
+In-Reply-To: <20260204114751.GF6771@unreal>
 References: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
- <20260131-dmabuf-revoke-v7-4-463d956bd527@nvidia.com>
+ <20260202160425.GO34749@unreal> <20260204081630.GA6771@unreal>
+ <6d5c392b-596b-4341-9992-aa4b26001804@amd.com>
+ <20260204114751.GF6771@unreal>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,13 +134,13 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[shazbot.org,none];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[shazbot.org:s=fm2,messagingengine.com:s=fm3];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,ziepe.ca,8bytes.org,arm.com,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	FREEMAIL_CC(0.00)[amd.com,linaro.org,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,ziepe.ca,8bytes.org,arm.com,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
@@ -151,155 +152,81 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[alex@shazbot.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[dri-devel];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:email,shazbot.org:email,shazbot.org:dkim,shazbot.org:mid,intel.com:email,messagingengine.com:dkim]
-X-Rspamd-Queue-Id: 3A927E79ED
+	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,shazbot.org:mid,shazbot.org:dkim]
+X-Rspamd-Queue-Id: 721E0E79F4
 X-Rspamd-Action: no action
 
-On Sat, 31 Jan 2026 07:34:14 +0200
+On Wed, 4 Feb 2026 13:47:51 +0200
 Leon Romanovsky <leon@kernel.org> wrote:
 
-> From: Leon Romanovsky <leonro@nvidia.com>
-> 
-> dma-buf invalidation is handled asynchronously by the hardware, so VFIO
-> must wait until all affected objects have been fully invalidated.
-> 
-> In addition, the dma-buf exporter is expecting that all importers unmap any
-> buffers they previously mapped.
-> 
-> Fixes: 5d74781ebc86 ("vfio/pci: Add dma-buf export support for MMIO regions")
-> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->  drivers/vfio/pci/vfio_pci_dmabuf.c | 61 +++++++++++++++++++++++++++++++++++---
->  1 file changed, 57 insertions(+), 4 deletions(-)
+> On Wed, Feb 04, 2026 at 09:54:13AM +0100, Christian K=C3=B6nig wrote:
+> > On 2/4/26 09:16, Leon Romanovsky wrote: =20
+> > > On Mon, Feb 02, 2026 at 06:04:25PM +0200, Leon Romanovsky wrote: =20
+> > >> On Sat, Jan 31, 2026 at 07:34:10AM +0200, Leon Romanovsky wrote: =20
+> > >>> Changelog:
+> > >>> v7: =20
+> > >>
+> > >> <...>
+> > >> =20
+> > >>> Leon Romanovsky (8):
+> > >>>       dma-buf: Rename .move_notify() callback to a clearer identifi=
+er
+> > >>>       dma-buf: Rename dma_buf_move_notify() to dma_buf_invalidate_m=
+appings()
+> > >>>       dma-buf: Always build with DMABUF_MOVE_NOTIFY
+> > >>>       vfio: Wait for dma-buf invalidation to complete
+> > >>>       dma-buf: Make .invalidate_mapping() truly optional
+> > >>>       dma-buf: Add dma_buf_attach_revocable()
+> > >>>       vfio: Permit VFIO to work with pinned importers
+> > >>>       iommufd: Add dma_buf_pin()
+> > >>>
+> > >>>  drivers/dma-buf/Kconfig                     | 12 -----
+> > >>>  drivers/dma-buf/dma-buf.c                   | 69 +++++++++++++++++=
++++-----
+> > >>>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 14 ++---
+> > >>>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  2 +-
+> > >>>  drivers/gpu/drm/amd/amdkfd/Kconfig          |  2 +-
+> > >>>  drivers/gpu/drm/virtio/virtgpu_prime.c      |  2 +-
+> > >>>  drivers/gpu/drm/xe/tests/xe_dma_buf.c       |  7 ++-
+> > >>>  drivers/gpu/drm/xe/xe_bo.c                  |  2 +-
+> > >>>  drivers/gpu/drm/xe/xe_dma_buf.c             | 14 ++---
+> > >>>  drivers/infiniband/core/umem_dmabuf.c       | 13 -----
+> > >>>  drivers/infiniband/hw/mlx5/mr.c             |  2 +-
+> > >>>  drivers/iommu/iommufd/pages.c               | 11 +++-
+> > >>>  drivers/iommu/iommufd/selftest.c            |  2 +-
+> > >>>  drivers/vfio/pci/vfio_pci_dmabuf.c          | 80 +++++++++++++++++=
++++++-------
+> > >>>  include/linux/dma-buf.h                     | 17 +++---
+> > >>>  15 files changed, 153 insertions(+), 96 deletions(-) =20
+> > >>
+> > >> Christian,
+> > >>
+> > >> Given the ongoing discussion around patch v5, I'm a bit unclear on t=
+he
+> > >> current state. Is the series ready for merging, or do you need me to
+> > >> rework anything further? =20
+> > >=20
+> > > Christian,
+> > >=20
+> > > Let's not miss the merge window for work that is already ready. =20
+> >=20
+> > Mhm, sounds like AMDs mail servers never send my last mail out.
+> >=20
+> > As far as I can see all patches have an reviewed-by, I also gave an rb =
+on patch #6 (should that mail never got out as well). The discussion on pat=
+ch v5 is just orthogonal I think, the handling was there even completely be=
+fore this patch set.
+> >=20
+> > For upstreaming as long as the VFIO and infiniband folks don't object I=
+ would like to take that through the drm-misc branch (like every other DMA-=
+buf change). =20
+>=20
+> Infiniband folks don't object :).
 
-Reviewed-by: Alex Williamson <alex@shazbot.org>
+No objection from vfio, I added one last R-b.  Thanks,
 
-> 
-> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> index d8ceafabef48..78d47e260f34 100644
-> --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
-> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> @@ -17,6 +17,8 @@ struct vfio_pci_dma_buf {
->  	struct dma_buf_phys_vec *phys_vec;
->  	struct p2pdma_provider *provider;
->  	u32 nr_ranges;
-> +	struct kref kref;
-> +	struct completion comp;
->  	u8 revoked : 1;
->  };
->  
-> @@ -44,27 +46,46 @@ static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
->  	return 0;
->  }
->  
-> +static void vfio_pci_dma_buf_done(struct kref *kref)
-> +{
-> +	struct vfio_pci_dma_buf *priv =
-> +		container_of(kref, struct vfio_pci_dma_buf, kref);
-> +
-> +	complete(&priv->comp);
-> +}
-> +
->  static struct sg_table *
->  vfio_pci_dma_buf_map(struct dma_buf_attachment *attachment,
->  		     enum dma_data_direction dir)
->  {
->  	struct vfio_pci_dma_buf *priv = attachment->dmabuf->priv;
-> +	struct sg_table *ret;
->  
->  	dma_resv_assert_held(priv->dmabuf->resv);
->  
->  	if (priv->revoked)
->  		return ERR_PTR(-ENODEV);
->  
-> -	return dma_buf_phys_vec_to_sgt(attachment, priv->provider,
-> -				       priv->phys_vec, priv->nr_ranges,
-> -				       priv->size, dir);
-> +	ret = dma_buf_phys_vec_to_sgt(attachment, priv->provider,
-> +				      priv->phys_vec, priv->nr_ranges,
-> +				      priv->size, dir);
-> +	if (IS_ERR(ret))
-> +		return ret;
-> +
-> +	kref_get(&priv->kref);
-> +	return ret;
->  }
->  
->  static void vfio_pci_dma_buf_unmap(struct dma_buf_attachment *attachment,
->  				   struct sg_table *sgt,
->  				   enum dma_data_direction dir)
->  {
-> +	struct vfio_pci_dma_buf *priv = attachment->dmabuf->priv;
-> +
-> +	dma_resv_assert_held(priv->dmabuf->resv);
-> +
->  	dma_buf_free_sgt(attachment, sgt, dir);
-> +	kref_put(&priv->kref, vfio_pci_dma_buf_done);
->  }
->  
->  static void vfio_pci_dma_buf_release(struct dma_buf *dmabuf)
-> @@ -287,6 +308,9 @@ int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
->  		goto err_dev_put;
->  	}
->  
-> +	kref_init(&priv->kref);
-> +	init_completion(&priv->comp);
-> +
->  	/* dma_buf_put() now frees priv */
->  	INIT_LIST_HEAD(&priv->dmabufs_elm);
->  	down_write(&vdev->memory_lock);
-> @@ -331,9 +355,33 @@ void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
->  
->  		if (priv->revoked != revoked) {
->  			dma_resv_lock(priv->dmabuf->resv, NULL);
-> -			priv->revoked = revoked;
-> +			if (revoked)
-> +				priv->revoked = true;
->  			dma_buf_invalidate_mappings(priv->dmabuf);
-> +			dma_resv_wait_timeout(priv->dmabuf->resv,
-> +					      DMA_RESV_USAGE_BOOKKEEP, false,
-> +					      MAX_SCHEDULE_TIMEOUT);
->  			dma_resv_unlock(priv->dmabuf->resv);
-> +			if (revoked) {
-> +				kref_put(&priv->kref, vfio_pci_dma_buf_done);
-> +				wait_for_completion(&priv->comp);
-> +			} else {
-> +				/*
-> +				 * Kref is initialize again, because when revoke
-> +				 * was performed the reference counter was decreased
-> +				 * to zero to trigger completion.
-> +				 */
-> +				kref_init(&priv->kref);
-> +				/*
-> +				 * There is no need to wait as no mapping was
-> +				 * performed when the previous status was
-> +				 * priv->revoked == true.
-> +				 */
-> +				reinit_completion(&priv->comp);
-> +				dma_resv_lock(priv->dmabuf->resv, NULL);
-> +				priv->revoked = false;
-> +				dma_resv_unlock(priv->dmabuf->resv);
-> +			}
->  		}
->  		fput(priv->dmabuf->file);
->  	}
-> @@ -354,7 +402,12 @@ void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
->  		priv->vdev = NULL;
->  		priv->revoked = true;
->  		dma_buf_invalidate_mappings(priv->dmabuf);
-> +		dma_resv_wait_timeout(priv->dmabuf->resv,
-> +				      DMA_RESV_USAGE_BOOKKEEP, false,
-> +				      MAX_SCHEDULE_TIMEOUT);
->  		dma_resv_unlock(priv->dmabuf->resv);
-> +		kref_put(&priv->kref, vfio_pci_dma_buf_done);
-> +		wait_for_completion(&priv->comp);
->  		vfio_device_put_registration(&vdev->vdev);
->  		fput(priv->dmabuf->file);
->  	}
-> 
-
+Alex
