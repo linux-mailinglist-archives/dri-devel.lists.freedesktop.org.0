@@ -2,130 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QFZfAHg0g2kwjAMAu9opvQ
+	id wOE8HDo1g2kwjAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 12:58:48 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 13:02:02 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5851AE56B9
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 12:58:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3EFE5796
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 13:02:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FCBA10E630;
-	Wed,  4 Feb 2026 11:58:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFA8B10E628;
+	Wed,  4 Feb 2026 12:01:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="QOVhPjM9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yOGssyGm";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QOVhPjM9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yOGssyGm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ecqvuUEK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93FE310E629
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 11:58:43 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2F68B5BCC5;
- Wed,  4 Feb 2026 11:58:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770206322; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Svok84PHKIOq3JNR1zvrutPZt7f1XP1Oz6Eb0VaaZAk=;
- b=QOVhPjM9pm8vf6Ig0Zd+recKUx9bbTfaUVhk0gZfWsw0XnJtx+M1ZT8hY5yNqn09TES+Qa
- PNl9T6d0Q6Zvrvvl7T7t/PEHX2eV6w8N134ENETFUio3aJmKfdX9Vkdos69q8AsGli1Kk1
- xtgwqYi4R5G3PsO23zzsebpd3or/vDE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770206322;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Svok84PHKIOq3JNR1zvrutPZt7f1XP1Oz6Eb0VaaZAk=;
- b=yOGssyGmzhmbWLAuRsjcFKvJfzY2OQerjZKkXyh+BqRq8ZPRKY9mBTHJTwktCezWm1vvf3
- o2sR2OUROoyH9+Dw==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=QOVhPjM9;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=yOGssyGm
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770206322; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Svok84PHKIOq3JNR1zvrutPZt7f1XP1Oz6Eb0VaaZAk=;
- b=QOVhPjM9pm8vf6Ig0Zd+recKUx9bbTfaUVhk0gZfWsw0XnJtx+M1ZT8hY5yNqn09TES+Qa
- PNl9T6d0Q6Zvrvvl7T7t/PEHX2eV6w8N134ENETFUio3aJmKfdX9Vkdos69q8AsGli1Kk1
- xtgwqYi4R5G3PsO23zzsebpd3or/vDE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770206322;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Svok84PHKIOq3JNR1zvrutPZt7f1XP1Oz6Eb0VaaZAk=;
- b=yOGssyGmzhmbWLAuRsjcFKvJfzY2OQerjZKkXyh+BqRq8ZPRKY9mBTHJTwktCezWm1vvf3
- o2sR2OUROoyH9+Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C34383EA63;
- Wed,  4 Feb 2026 11:58:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id NpA1KXE0g2muWQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 04 Feb 2026 11:58:41 +0000
-Message-ID: <a68bac38-ac0e-4ad6-8b70-72b09811a21e@suse.de>
-Date: Wed, 4 Feb 2026 12:58:40 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] replace system_unbound_wq and system_wq with the new
- wqs
-To: Marco Crivellari <marco.crivellari@suse.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Frederic Weisbecker <frederic@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Michal Hocko <mhocko@suse.com>,
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2ADA10E623;
+ Wed,  4 Feb 2026 12:01:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 0737760010;
+ Wed,  4 Feb 2026 12:01:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 378D2C4CEF7;
+ Wed,  4 Feb 2026 12:01:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1770206517;
+ bh=pAFppQWXwyr1ZHA6/KdUe7Mqw4VMKSVzSpDees0+yiM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ecqvuUEKp9ozIxLsvB6vCc8eRdemkPcfP2cBWqDhT6uTHs1LaqcW/rS1U0QWCNwy0
+ MT7uHEDmEEn0Q9RU0yBnr6lmxBX5NtRp2Z5U4bAgyXv5FA3iDPjfUk2b5eg/M0CTWr
+ 62hbjfKXeIJ+z8PWK0fgJFApOrSEvWgFQ+jTdMcFg8pMFdwcyET55bA2kgYoQrN0gn
+ 5q7xjfWGt4uFO/HyRXwwiuPtvx2U2ebm9GLPNKmiJr8cu6g8eaj6BGGClB7lMSVz8d
+ N5p6UlSjc25me9PA1yqgmA+kwLSmhAGExoh4YUknovNWidckZNrP8ALc3D9kF7GYem
+ MyyM/sne2vZxA==
+Date: Wed, 4 Feb 2026 13:01:54 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-References: <20251030162043.292468-1-marco.crivellari@suse.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251030162043.292468-1-marco.crivellari@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>, 
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+ Robin Murphy <robin.murphy@arm.com>, Felix Kuehling <Felix.Kuehling@amd.com>, 
+ Alex Williamson <alex@shazbot.org>, Ankit Agrawal <ankita@nvidia.com>, 
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, 
+ virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v7 0/8] dma-buf: Use revoke mechanism to invalidate
+ shared buffers
+Message-ID: <20260204-clever-butterfly-of-mastery-0cdc19@houat>
+References: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
+ <20260202160425.GO34749@unreal> <20260204081630.GA6771@unreal>
+ <20260204-icy-classic-crayfish-68da6d@houat>
+ <20260204115212.GG6771@unreal>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="7qwl2ctcsasohfq6"
+Content-Disposition: inline
+In-Reply-To: <20260204115212.GG6771@unreal>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,120 +87,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
+X-Spamd-Result: default: False [-2.91 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:marco.crivellari@suse.com,m:linux-kernel@vger.kernel.org,m:tj@kernel.org,m:jiangshanlai@gmail.com,m:frederic@kernel.org,m:bigeasy@linutronix.de,m:mhocko@suse.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linutronix.de,suse.com,linux.intel.com,ffwll.ch];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FREEMAIL_CC(0.00)[amd.com,linaro.org,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,ziepe.ca,8bytes.org,kernel.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid]
-X-Rspamd-Queue-Id: 5851AE56B9
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 1A3EFE5796
 X-Rspamd-Action: no action
 
-Hi
 
-Am 30.10.25 um 17:20 schrieb Marco Crivellari:
-> Hi,
->
-> === Current situation: problems ===
->
-> Let's consider a nohz_full system with isolated CPUs: wq_unbound_cpumask is
-> set to the housekeeping CPUs, for !WQ_UNBOUND the local CPU is selected.
->
-> This leads to different scenarios if a work item is scheduled on an
-> isolated CPU where "delay" value is 0 or greater then 0:
->          schedule_delayed_work(, 0);
->
-> This will be handled by __queue_work() that will queue the work item on the
-> current local (isolated) CPU, while:
->
->          schedule_delayed_work(, 1);
->
-> Will move the timer on an housekeeping CPU, and schedule the work there.
->
-> Currently if a user enqueue a work item using schedule_delayed_work() the
-> used wq is "system_wq" (per-cpu wq) while queue_delayed_work() use
-> WORK_CPU_UNBOUND (used when a cpu is not specified). The same applies to
-> schedule_work() that is using system_wq and queue_work(), that makes use
-> again of WORK_CPU_UNBOUND.
->
-> This lack of consistency cannot be addressed without refactoring the API.
->
-> === Recent changes to the WQ API ===
->
-> The following, address the recent changes in the Workqueue API:
->
-> - commit 128ea9f6ccfb ("workqueue: Add system_percpu_wq and system_dfl_wq")
-> - commit 930c2ea566af ("workqueue: Add new WQ_PERCPU flag")
->
-> The old workqueues will be removed in a future release cycle.
->
-> === Introduced Changes by this series ===
->
-> 1) [P 1-2-3]  Replace uses of system_wq and system_unbound_wq
->
->      system_wq is a per-CPU workqueue, but his name is not clear.
->      system_unbound_wq is to be used when locality is not required.
->
->      Because of that, system_wq has been replaced with system_percpu_wq, and
->      system_unbound_wq has been replaced with system_dfl_wq.
+--7qwl2ctcsasohfq6
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v7 0/8] dma-buf: Use revoke mechanism to invalidate
+ shared buffers
+MIME-Version: 1.0
 
- From the description, I've found it hard to see if there's a change in 
-semantics here. But this series is effectively about renaming AFAICT. If so,
+On Wed, Feb 04, 2026 at 01:52:12PM +0200, Leon Romanovsky wrote:
+> On Wed, Feb 04, 2026 at 09:56:08AM +0100, Maxime Ripard wrote:
+> > On Wed, Feb 04, 2026 at 10:16:30AM +0200, Leon Romanovsky wrote:
+> > > On Mon, Feb 02, 2026 at 06:04:25PM +0200, Leon Romanovsky wrote:
+> > > > On Sat, Jan 31, 2026 at 07:34:10AM +0200, Leon Romanovsky wrote:
+> > > > > Changelog:
+> > > > > v7:
+> > > >=20
+> > > > <...>
+> > > >=20
+> > > > > Leon Romanovsky (8):
+> > > > >       dma-buf: Rename .move_notify() callback to a clearer identi=
+fier
+> > > > >       dma-buf: Rename dma_buf_move_notify() to dma_buf_invalidate=
+_mappings()
+> > > > >       dma-buf: Always build with DMABUF_MOVE_NOTIFY
+> > > > >       vfio: Wait for dma-buf invalidation to complete
+> > > > >       dma-buf: Make .invalidate_mapping() truly optional
+> > > > >       dma-buf: Add dma_buf_attach_revocable()
+> > > > >       vfio: Permit VFIO to work with pinned importers
+> > > > >       iommufd: Add dma_buf_pin()
+> > > > >=20
+> > > > >  drivers/dma-buf/Kconfig                     | 12 -----
+> > > > >  drivers/dma-buf/dma-buf.c                   | 69 +++++++++++++++=
++++++-----
+> > > > >  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 14 ++---
+> > > > >  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  2 +-
+> > > > >  drivers/gpu/drm/amd/amdkfd/Kconfig          |  2 +-
+> > > > >  drivers/gpu/drm/virtio/virtgpu_prime.c      |  2 +-
+> > > > >  drivers/gpu/drm/xe/tests/xe_dma_buf.c       |  7 ++-
+> > > > >  drivers/gpu/drm/xe/xe_bo.c                  |  2 +-
+> > > > >  drivers/gpu/drm/xe/xe_dma_buf.c             | 14 ++---
+> > > > >  drivers/infiniband/core/umem_dmabuf.c       | 13 -----
+> > > > >  drivers/infiniband/hw/mlx5/mr.c             |  2 +-
+> > > > >  drivers/iommu/iommufd/pages.c               | 11 +++-
+> > > > >  drivers/iommu/iommufd/selftest.c            |  2 +-
+> > > > >  drivers/vfio/pci/vfio_pci_dmabuf.c          | 80 +++++++++++++++=
++++++++-------
+> > > > >  include/linux/dma-buf.h                     | 17 +++---
+> > > > >  15 files changed, 153 insertions(+), 96 deletions(-)
+> > > >=20
+> > > > Christian,
+> > > >=20
+> > > > Given the ongoing discussion around patch v5, I'm a bit unclear on =
+the
+> > > > current state. Is the series ready for merging, or do you need me to
+> > > > rework anything further?
+> > >=20
+> > > Christian,
+> > >=20
+> > > Let's not miss the merge window for work that is already ready.
+> >=20
+> > The cutoff date for the merge window was on 25/1, so it was already
+> > missed by the time you sent your series.
+>=20
+> The primary goal of this series is to update dma-buf. The changes in
+> drivers/gpu/drm are limited to straightforward renames.
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+And yet, dma-buf is maintained through drm.
 
-for all patches.
+Also, it's a general rule Linus has, it's nothing specific to DRM.
 
-Best regards
-Thomas
+Maxime
 
->
-> Thanks!
->
->
-> Marco Crivellari (3):
->    drm/atomic-helper: replace use of system_unbound_wq with system_dfl_wq
->    drm/probe-helper: replace use of system_wq with system_percpu_wq
->    drm/self_refresh: replace use of system_wq with system_percpu_wq
->
->   drivers/gpu/drm/drm_atomic_helper.c       | 6 +++---
->   drivers/gpu/drm/drm_probe_helper.c        | 2 +-
->   drivers/gpu/drm/drm_self_refresh_helper.c | 2 +-
->   3 files changed, 5 insertions(+), 5 deletions(-)
->
+--7qwl2ctcsasohfq6
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+-----BEGIN PGP SIGNATURE-----
 
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaYM1LgAKCRAnX84Zoj2+
+dog2AYDSggxELrRiCi4rnOlE+XigMxQtESWX/Y7jVdTjE3PNFxYKhA+xaHfqEAjE
+syQhwawBeQHgBqt3UJuo10tSa9JfMqGIWVTHVvS5mS9fdSi5s98NbjDa0NglHueQ
+eqfO3tocdg==
+=/V8y
+-----END PGP SIGNATURE-----
 
+--7qwl2ctcsasohfq6--
