@@ -2,68 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QLMzJDVZg2mJlQMAu9opvQ
+	id COy8Df1Yg2mJlQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 15:35:33 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 15:34:37 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA04CE72E3
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 15:35:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 616B9E72B8
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 15:34:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02A9410E146;
-	Wed,  4 Feb 2026 14:35:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E02410E05E;
+	Wed,  4 Feb 2026 14:34:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="La/bKhVv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gx/BQ7ev";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2417510E146
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 14:35:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770215730; x=1801751730;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=S51Eo1kvBp2wy/E4Bblmv7YBpm0aNIOY3/VX+4k/fKI=;
- b=La/bKhVvTKG+MBJfkKc/DyOEtCuStDFf7/ulOCCW1dKV12jxPv3gU/k/
- 4RC/SbYZ4OWtFQNGdbeb61CL0jIFtfusjepRkTInHF57uVOSkpe0y8Bma
- J6qIBUbuBIJZxXkQx23IxWj6Mr/4+XD5NPMo+C4lmghRDVl9rI/e5uuIg
- y6irenCV72F2Avx6S957XE/txU7petgxEySBV00nCEX955s1/9JPQWUSD
- A9/dDfzy+yInLcwz2U73o0qwTHzpIf+Pp8qO8srg59nzlHYKN6FW5EKNj
- pQQfN2xpi+pCtK6Cb8QsRWiobh3eeqrzVrPGXiMoit+D6WgrXvUX8uh04 Q==;
-X-CSE-ConnectionGUID: 1JvPd8N/SDypUgyn9RYVhA==
-X-CSE-MsgGUID: LZjLI/OGRlqTa/TU/7uiIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71437069"
-X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; d="scan'208";a="71437069"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2026 06:35:29 -0800
-X-CSE-ConnectionGUID: SyvXr0fbSH+kd4UCZRcVRQ==
-X-CSE-MsgGUID: hrhRM+DnT8Wy939zJfiStA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; d="scan'208";a="209472705"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
- by orviesa010.jf.intel.com with ESMTP; 04 Feb 2026 06:35:28 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vndyX-00000000huS-2DtK;
- Wed, 04 Feb 2026 14:35:25 +0000
-Date: Wed, 4 Feb 2026 22:34:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
- Helge Deller <deller@gmx.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Chen Ni <nichen@iscas.ac.cn>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v1 2/3] fbdev: au1100fb: Make driver compilable on
- non-mips platforms
-Message-ID: <202602042224.CY8SSh3n-lkp@intel.com>
-References: <474eca0c9ecb8a2e610e82922ad22ad7e8ff0b8b.1770196161.git.u.kleine-koenig@baylibre.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C98D910E05E
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 14:34:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 96DA440BDC;
+ Wed,  4 Feb 2026 14:34:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8E2AC4CEF7;
+ Wed,  4 Feb 2026 14:34:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1770215671;
+ bh=qwW0E3km7Imz+Ih8y6CvkTb1Tgc1MA3d/Qg0OSOn85k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gx/BQ7evxp6zGTeDdYoeq3cHPDxwjrQbY50Ss5ol6uWNa+m6MGxM9SEfyVAjON7T4
+ iwKsc/t0UJOg4gYwqSRE9ScZwhNIgNZZrSTVUsEwEKrpQ3tDKLF0LFaGYdKLU/mCQQ
+ ibCvVC4jzkyf+i3JTkD+wqYf33swZRh3fZWbrqJZ2nB6S9TvL8EWJlV2qDzisdv5VT
+ LRrEeWKgxTGv+UnV12pBS94uB6vmZZbEnBNazaqkB6dxHGK67rJZOfYuDOW8cOaZdb
+ JvBaq6akDKJuCavqkeSkUmbXjrUkL7aP6dDrNmkMQaSxRwqi54I9vUJBj8EpYlqyGw
+ 6DdWz+yJivXRg==
+Date: Wed, 4 Feb 2026 15:34:29 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
+ Fu Wei <wefu@redhat.com>, 
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ linux-pm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-riscv@lists.infradead.org, 
+ linux-pwm@vger.kernel.org, linux-clk@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] rust: clk: use the type-state pattern
+Message-ID: <20260204-angelic-vermilion-beagle-fd1507@houat>
+References: <20260119-thundering-tested-robin-4be817@houat>
+ <aW4lCfUyumOKRRJm@google.com>
+ <518D8B09-B9A1-4DB4-85CD-37A2DD3D5FB1@collabora.com>
+ <DFSLCI9U4NCW.2HI2UPUI7G134@kernel.org>
+ <20260119-weightless-pelican-of-anger-190db0@houat>
+ <DFSN4FDCYHMW.3J3237PEBV2ZP@kernel.org>
+ <20260122-majestic-masterful-jaguarundi-d0abde@houat>
+ <2F3D3A40-6EF9-46FC-A769-E5A3AAF67E65@collabora.com>
+ <20260204-nickel-seal-of-poetry-8fdefb@houat>
+ <91A92D84-1F2E-45F3-82EC-6A97D32E2A78@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="qsblwuvkhfiyygwy"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <474eca0c9ecb8a2e610e82922ad22ad7e8ff0b8b.1770196161.git.u.kleine-koenig@baylibre.com>
+In-Reply-To: <91A92D84-1F2E-45F3-82EC-6A97D32E2A78@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,103 +89,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [-1.41 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:u.kleine-koenig@baylibre.com,m:deller@gmx.de,m:llvm@lists.linux.dev,m:oe-kbuild-all@lists.linux.dev,m:nichen@iscas.ac.cn,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[baylibre.com,gmx.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	FORGED_RECIPIENTS(0.00)[m:daniel.almeida@collabora.com,m:dakr@kernel.org,m:aliceryhl@google.com,m:rafael@kernel.org,m:viresh.kumar@linaro.org,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:ukleinek@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:linux-pm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:linux-pwm@vger.kernel.org,m:linux-clk@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,google.com,linaro.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,redhat.com,baylibre.com,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,lists.freedesktop.org,lists.infradead.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[intel.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	TAGGED_RCPT(0.00)[dri-devel];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,01.org:url]
-X-Rspamd-Queue-Id: EA04CE72E3
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 616B9E72B8
 X-Rspamd-Action: no action
 
-Hi Uwe,
 
-kernel test robot noticed the following build errors:
+--qsblwuvkhfiyygwy
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 1/3] rust: clk: use the type-state pattern
+MIME-Version: 1.0
 
-[auto build test ERROR on 0636e6205beed850d985276dc56fd73d785bea5c]
+On Wed, Feb 04, 2026 at 09:43:55AM -0300, Daniel Almeida wrote:
+> > I'm probably missing something then, but let's assume you have a driver
+> > that wants its clock prepared and enabled in an hypothetical enable()
+> > callback, and disabled / unprepared in a disable() callback.
+> >=20
+> > From a PM management perspective, this usecase makes total sense, is a
+> > valid usecase, is widely used in the kernel, and is currently supported
+> > by both the C and Rust clk APIs.
+> >=20
+> > The only solution to this you suggested so far (I think?) to implement
+> > this on top of the new clk API you propose is to have a driver specific
+> > enum that would store each of the possible state transition.
+>=20
+> Yes, you need an enum _if_ you want to model transitions at runtime. IIUC=
+ you
+> only need two variants to implement the pattern you described. I do not
+> consider this  =E2=80=9Cboilerplate=E2=80=9D, but rather a small cost to =
+pay.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/fbdev-au1100fb-Mark-several-local-functions-as-static/20260204-171704
-base:   0636e6205beed850d985276dc56fd73d785bea5c
-patch link:    https://lore.kernel.org/r/474eca0c9ecb8a2e610e82922ad22ad7e8ff0b8b.1770196161.git.u.kleine-koenig%40baylibre.com
-patch subject: [PATCH v1 2/3] fbdev: au1100fb: Make driver compilable on non-mips platforms
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260204/202602042224.CY8SSh3n-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602042224.CY8SSh3n-lkp@intel.com/reproduce)
+A maintenance cost to pay by every driver is kind of the textbook
+definition of boilerplate to me.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602042224.CY8SSh3n-lkp@intel.com/
+> I would understand if this was some elaborate pattern that had to be
+> implemented by all drivers, but a two-variant enum is as
+> straightforward as it gets.
 
-All errors (new ones prefixed by >>):
+And yet, that framework has dozens of helpers that do not remove
+anything from drivers but a couple of lines. So surely its users must
+find value in reducing that boilerplate as much as possible. And you do
+implement some of them, so you must find value in that too.
 
->> drivers/video/fbdev/au1100fb.c:354:32: error: expression is not assignable
-     354 |         pgprot_val(vma->vm_page_prot) |= (6 << 9); //CCA=6
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   drivers/video/fbdev/au1100fb.c:473:6: warning: format specifies type 'int' but the argument has type 'size_t' (aka 'unsigned long') [-Wformat]
-     472 |                 print_err("fail to allocate framebuffer (size: %dK))",
-         |                                                                ~~
-         |                                                                %zu
-     473 |                           fbdev->fb_len / 1024);
-         |                           ^~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/au1100fb.h:33:74: note: expanded from macro 'print_err'
-      33 | #define print_err(f, arg...) printk(KERN_ERR DRIVER_NAME ": " f "\n", ## arg)
-         |                                                               ~          ^~~
-   include/linux/printk.h:512:60: note: expanded from macro 'printk'
-     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   1 warning and 1 error generated.
+> > That's the boilerplate I'm talking about. If every driver wanting to
+> > implement that pattern has to make such an enum, with all the relevant
+> > traits implementation that might come with it, we go from an API where
+> > everything works at no-cost from a code-size perspective to a situation
+> > where every driver has to develop and maintain that enum.
+>
+> There are no "traits that come with it". It's just an enum, with two
+> variants.
+>=20
+> > API where everything works at no-cost
+>=20
+> The previous API was far from =E2=80=9Ceverything works=E2=80=9D. It was =
+fundamentally
+> broken by design in multiple ways, i.e.:
 
+Out of context and not what I meant, but ok.
 
-vim +354 drivers/video/fbdev/au1100fb.c
+> > a) It only keeps track of a count to clk_get(), which means that users =
+have
+> > to manually call disable() and unprepare(), or a variation of those, li=
+ke
+> > disable_unprepare().
+> >=20
+> > b) It allows repeated calls to prepare() or enable(), but it keeps no t=
+rack
+> > of how often these were called, i.e., it's currently legal to write the
+> > following:
+> >=20
+> > clk.prepare();
+> > clk.prepare();
+> > clk.enable();
+> > clk.enable();
+> >=20
+> > And nothing gets undone on drop().
+>=20
+> IMHO, what we have here is an improvement that has been long overdue.
 
-3b495f2bb749b82 drivers/video/au1100fb.c       Pete Popov        2005-04-04  343  
-3b495f2bb749b82 drivers/video/au1100fb.c       Pete Popov        2005-04-04  344  /* fb_mmap
-3b495f2bb749b82 drivers/video/au1100fb.c       Pete Popov        2005-04-04  345   * Map video memory in user space. We don't use the generic fb_mmap method mainly
-3b495f2bb749b82 drivers/video/au1100fb.c       Pete Popov        2005-04-04  346   * to allow the use of the TLB streaming flag (CCA=6)
-3b495f2bb749b82 drivers/video/au1100fb.c       Pete Popov        2005-04-04  347   */
-0238b447706a72c drivers/video/fbdev/au1100fb.c Uwe Kleine-König  2026-02-04  348  static int au1100fb_fb_mmap(struct fb_info *fbi, struct vm_area_struct *vma)
-3b495f2bb749b82 drivers/video/au1100fb.c       Pete Popov        2005-04-04  349  {
-67f30ad19c4b329 drivers/video/fbdev/au1100fb.c Christoph Hellwig 2019-04-28  350  	struct au1100fb_device *fbdev = to_au1100fb_device(fbi);
-c05b7f3d12b9455 drivers/video/au1100fb.c       Rodolfo Giometti  2006-05-30  351  
-76f92201b821dd2 drivers/video/fbdev/au1100fb.c Thomas Zimmermann 2023-11-27  352  	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
-76f92201b821dd2 drivers/video/fbdev/au1100fb.c Thomas Zimmermann 2023-11-27  353  
-^1da177e4c3f415 drivers/video/au1100fb.c       Linus Torvalds    2005-04-16 @354  	pgprot_val(vma->vm_page_prot) |= (6 << 9); //CCA=6
-^1da177e4c3f415 drivers/video/au1100fb.c       Linus Torvalds    2005-04-16  355  
-67f30ad19c4b329 drivers/video/fbdev/au1100fb.c Christoph Hellwig 2019-04-28  356  	return dma_mmap_coherent(fbdev->dev, vma, fbdev->fb_mem, fbdev->fb_phys,
-67f30ad19c4b329 drivers/video/fbdev/au1100fb.c Christoph Hellwig 2019-04-28  357  			fbdev->fb_len);
-^1da177e4c3f415 drivers/video/au1100fb.c       Linus Torvalds    2005-04-16  358  }
-^1da177e4c3f415 drivers/video/au1100fb.c       Linus Torvalds    2005-04-16  359  
+Nothing is absolute. It is indeed an improvement on the refcounting side
+of things and general safety of the API for the general case. I don't
+think I ever questionned that.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+However, for the use-cases we've been discussing (and dozens of drivers
+implementing it), it also comes with a regression in the amount of code
+to create and maintain. They used to be able to only deal with the Clk
+structure, and now they can't anymore.
+
+You might find that neglible, you might have a plan to address that in
+the future, etc. and that's fine, but if you can't acknowledge that it's
+indeed happening, there's no point in me raising the issue and
+continuing the discussion.
+
+Maxime
+
+--qsblwuvkhfiyygwy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaYNY7AAKCRAnX84Zoj2+
+dse/AXsGeJch3I0bMyx52I9cEf+Sxmls2zkB6ONfE0zIrOQMV2G4Snz3Z01b1itP
+KS0DtvABgNL1o1ryYS9P8eHOi2y4d6qYsbQfxCQ0B9xEbJpvTbkBm30967SOJrBI
+4I9o9NicZA==
+=izfb
+-----END PGP SIGNATURE-----
+
+--qsblwuvkhfiyygwy--
