@@ -2,56 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4PKuI7cEg2njggMAu9opvQ
+	id MA11IIQFg2njggMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 09:35:03 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 09:38:28 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2590E3320
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 09:35:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC668E33D4
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 09:38:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9480010E551;
-	Wed,  4 Feb 2026 08:34:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7691310E17E;
+	Wed,  4 Feb 2026 08:38:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gnviAn8V";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zZ9wK3Dd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C8B210E551
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 08:34:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1770194097;
- bh=S539VUjPKJOISaRuCvVzZgVIORN48iX4j7g9m1M/SUA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=gnviAn8VOpCQvAbz+CFRxQypz7qvcpfjOb2G2wJRWOh/+lMebqB5hk83JLnqsQJ1S
- zWnIzMxhynU9qrALblyY56qJ/2A+PAGpZLX+uyw8UtzOynUioZf3UmBdjiMri6KXzN
- eFO8yHoYxzP5ZaDzJLz8Y4hWql0BJUJBCmHSv1JvJL9oSPZDZFoGH38Xmd6W9Hjqnp
- a1kGqR8zY1r2P29KKmhLcTchLYj/bPc5emTgX2Z/cCCDUJrNInZ39T+++IRq87Lr9P
- B+lhlY++yuvP4guImejnwA0WodXh0P1Dbi37G1Vt8UREoI0H9IUnvo9zXV9xvw7Q8J
- WeuPWB75z966w==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id BEDE117E0E90;
- Wed,  4 Feb 2026 09:34:56 +0100 (CET)
-Date: Wed, 4 Feb 2026 09:34:53 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Deborah Brouwer <deborah.brouwer@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- daniel.almeida@collabora.com, aliceryhl@google.com
-Subject: Re: [PATCH] drm/tyr: Use vertical style for imports
-Message-ID: <20260204093453.1b5130d0@fedora>
-In-Reply-To: <20260204013331.427210-1-deborah.brouwer@collabora.com>
-References: <20260204013331.427210-1-deborah.brouwer@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B59D310E17E
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 08:38:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 181DA43605;
+ Wed,  4 Feb 2026 08:38:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0149C4CEF7;
+ Wed,  4 Feb 2026 08:38:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1770194302;
+ bh=lOydLdwq0DJFngTFiPOVACyhCV1v+oLvFmseBRZSl9E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=zZ9wK3DdZuQtbQgr8kmPZPfHhAnXOknf1rTetfhvDwCRs80vZL19iBD35iTyihxBy
+ MKVki/wCr1XYG5hDoFk3Gn4d1h/VDij2I6C7clzDq1Snl8w66CPI9HxVB9Bp4dxGkl
+ A7EexQ4Ns5AXdzDQO/bOn3TvmrIda650d51zEkGs=
+Date: Wed, 4 Feb 2026 09:38:19 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Matthew Maurer <mmaurer@google.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Satya Durga Srinivasu Prabhala <satyap@quicinc.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Michal Wilczynski <m.wilczynski@samsung.com>,
+ Dave Ertman <david.m.ertman@intel.com>,
+ Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>,
+ Trilok Soni <tsoni@quicinc.com>, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ driver-core@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v2 6/6] soc: qcom: socinfo: Convert to Rust
+Message-ID: <2026020409-situated-icing-5a1a@gregkh>
+References: <20260203-qcom-socinfo-v2-0-d6719db85637@google.com>
+ <20260203-qcom-socinfo-v2-6-d6719db85637@google.com>
+ <2026020315-conch-trickle-2d84@gregkh>
+ <CAGSQo03Ok1sv4myQk2Ch68rET19ypq4Mm-=82Ue-T-2Z8kaGmA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGSQo03Ok1sv4myQk2Ch68rET19ypq4Mm-=82Ue-T-2Z8kaGmA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,261 +80,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+X-Spamd-Result: default: False [4.69 / 15.00];
+	MID_END_EQ_FROM_USER_PART(4.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[linuxfoundation.org,none];
 	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_DKIM_ALLOW(-0.20)[linuxfoundation.org:s=korg];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:deborah.brouwer@collabora.com,m:rust-for-linux@vger.kernel.org,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:mmaurer@google.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:satyap@quicinc.com,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:daniel.almeida@collabora.com,m:rafael@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:m.wilczynski@samsung.com,m:david.m.ertman@intel.com,m:ira.weiny@intel.com,m:leon@kernel.org,m:tsoni@quicinc.com,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:driver-core@lists.linux.dev,m:linux-pwm@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[gregkh@linuxfoundation.org,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	GREYLIST(0.00)[pass,meta];
 	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[linuxfoundation.org:+];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[gregkh@linuxfoundation.org,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,quicinc.com,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,collabora.com,ffwll.ch,samsung.com,intel.com,vger.kernel.org,lists.linux.dev,lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: D2590E3320
+	DBL_BLOCKED_OPENRESOLVER(0.00)[cve.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: DC668E33D4
 X-Rspamd-Action: no action
 
-On Tue,  3 Feb 2026 17:33:31 -0800
-Deborah Brouwer <deborah.brouwer@collabora.com> wrote:
+On Tue, Feb 03, 2026 at 09:37:50AM -0800, Matthew Maurer wrote:
+> On Tue, Feb 3, 2026 at 8:28 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Tue, Feb 03, 2026 at 03:46:35PM +0000, Matthew Maurer wrote:
+> > > Convert the socinfo driver to Rust for a number of improvements:
+> > > * Accessing IO mapped regions through the IO subsystem, rather than
+> > >   through regular memory accesses.
+> >
+> > That's good, but the C code could also be "fixed" to do this, right?
+> 
+> Yes, nothing stops the C code from being fixed to do all of this - all
+> of this is representable in C code.
 
-> Currently Tyr uses rustfmt style for imports, but the kernel uses a
-> vertical layout that makes it easier to resolve conflicts and rebase.
-> 
-> Import guidelines are documented here:
-> 	https://docs.kernel.org/rust/coding-guidelines.html#imports
-> 
-> Change all of Tyr's imports to use the vertical layout. This will
-> ease the introduction of additional Tyr patches upstream.
-> 
-> There should be no functional changes in this patch.
-> 
-> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+Great!  How about sending fixes for that first so that older kernels can
+benifit from those fixes :)
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-> ---
->  drivers/gpu/drm/tyr/driver.rs | 62 ++++++++++++++++++++---------------
->  drivers/gpu/drm/tyr/file.rs   | 18 ++++++----
->  drivers/gpu/drm/tyr/gem.rs    | 13 +++++---
->  drivers/gpu/drm/tyr/gpu.rs    | 38 ++++++++++++---------
->  drivers/gpu/drm/tyr/regs.rs   | 14 +++++---
->  5 files changed, 88 insertions(+), 57 deletions(-)
+> > > * Binds the device as an auxiliary device rather than a platform device,
+> > >   ensuring the mapped IO regions cannot be accessed after the smem
+> > >   device is removed.
+> >
+> > I'm all for this, but is this really an aux device?  What is the
+> > "parent" device of this aux device?  Where are the "siblings"?  What
+> > does sysfs look like before/after this?
 > 
-> diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
-> index 568cb89aaed8..46b65e004a15 100644
-> --- a/drivers/gpu/drm/tyr/driver.rs
-> +++ b/drivers/gpu/drm/tyr/driver.rs
-> @@ -1,31 +1,41 @@
->  // SPDX-License-Identifier: GPL-2.0 or MIT
->  
-> -use kernel::clk::Clk;
-> -use kernel::clk::OptionalClk;
-> -use kernel::device::Bound;
-> -use kernel::device::Core;
-> -use kernel::device::Device;
-> -use kernel::devres::Devres;
-> -use kernel::drm;
-> -use kernel::drm::ioctl;
-> -use kernel::io::poll;
-> -use kernel::new_mutex;
-> -use kernel::of;
-> -use kernel::platform;
-> -use kernel::prelude::*;
-> -use kernel::regulator;
-> -use kernel::regulator::Regulator;
-> -use kernel::sizes::SZ_2M;
-> -use kernel::sync::aref::ARef;
-> -use kernel::sync::Arc;
-> -use kernel::sync::Mutex;
-> -use kernel::time;
-> -
-> -use crate::file::File;
-> -use crate::gem::TyrObject;
-> -use crate::gpu;
-> -use crate::gpu::GpuInfo;
-> -use crate::regs;
-> +use kernel::{
-> +    clk::{
-> +        Clk,
-> +        OptionalClk, //
-> +    },
-> +    device::{
-> +        Bound,
-> +        Core,
-> +        Device, //
-> +    },
-> +    devres::Devres,
-> +    drm,
-> +    drm::ioctl,
-> +    io::poll,
-> +    new_mutex,
-> +    of,
-> +    platform,
-> +    prelude::*,
-> +    regulator,
-> +    regulator::Regulator,
-> +    sizes::SZ_2M,
-> +    sync::{
-> +        aref::ARef,
-> +        Arc,
-> +        Mutex, //
-> +    },
-> +    time, //
-> +};
-> +
-> +use crate::{
-> +    file::File,
-> +    gem::TyrObject,
-> +    gpu,
-> +    gpu::GpuInfo,
-> +    regs, //
-> +};
->  
->  pub(crate) type IoMem = kernel::io::mem::IoMem<SZ_2M>;
->  
-> diff --git a/drivers/gpu/drm/tyr/file.rs b/drivers/gpu/drm/tyr/file.rs
-> index 0ef432947b73..48bff4476d74 100644
-> --- a/drivers/gpu/drm/tyr/file.rs
-> +++ b/drivers/gpu/drm/tyr/file.rs
-> @@ -1,12 +1,16 @@
->  // SPDX-License-Identifier: GPL-2.0 or MIT
->  
-> -use kernel::drm;
-> -use kernel::prelude::*;
-> -use kernel::uaccess::UserSlice;
-> -use kernel::uapi;
-> -
-> -use crate::driver::TyrDevice;
-> -use crate::TyrDriver;
-> +use kernel::{
-> +    drm,
-> +    prelude::*,
-> +    uaccess::UserSlice,
-> +    uapi, //
-> +};
-> +
-> +use crate::{
-> +    driver::TyrDevice,
-> +    TyrDriver, //
-> +};
->  
->  #[pin_data]
->  pub(crate) struct File {}
-> diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
-> index 1273bf89dbd5..8f2d23e3c093 100644
-> --- a/drivers/gpu/drm/tyr/gem.rs
-> +++ b/drivers/gpu/drm/tyr/gem.rs
-> @@ -1,9 +1,14 @@
->  // SPDX-License-Identifier: GPL-2.0 or MIT
->  
-> -use crate::driver::TyrDevice;
-> -use crate::driver::TyrDriver;
-> -use kernel::drm::gem;
-> -use kernel::prelude::*;
-> +use kernel::{
-> +    drm::gem,
-> +    prelude::*, //
-> +};
-> +
-> +use crate::driver::{
-> +    TyrDevice,
-> +    TyrDriver, //
-> +};
->  
->  /// GEM Object inner driver data
->  #[pin_data]
-> diff --git a/drivers/gpu/drm/tyr/gpu.rs b/drivers/gpu/drm/tyr/gpu.rs
-> index bfbf2a1d80e6..affca5b0dc6c 100644
-> --- a/drivers/gpu/drm/tyr/gpu.rs
-> +++ b/drivers/gpu/drm/tyr/gpu.rs
-> @@ -1,20 +1,28 @@
->  // SPDX-License-Identifier: GPL-2.0 or MIT
->  
-> -use core::ops::Deref;
-> -use core::ops::DerefMut;
-> -use kernel::bits::genmask_u32;
-> -use kernel::device::Bound;
-> -use kernel::device::Device;
-> -use kernel::devres::Devres;
-> -use kernel::io::poll;
-> -use kernel::platform;
-> -use kernel::prelude::*;
-> -use kernel::time::Delta;
-> -use kernel::transmute::AsBytes;
-> -use kernel::uapi;
-> -
-> -use crate::driver::IoMem;
-> -use crate::regs;
-> +use core::ops::{
-> +    Deref,
-> +    DerefMut, //
-> +};
-> +use kernel::{
-> +    bits::genmask_u32,
-> +    device::{
-> +        Bound,
-> +        Device, //
-> +    },
-> +    devres::Devres,
-> +    io::poll,
-> +    platform,
-> +    prelude::*,
-> +    time::Delta,
-> +    transmute::AsBytes,
-> +    uapi, //
-> +};
-> +
-> +use crate::{
-> +    driver::IoMem,
-> +    regs, //
-> +};
->  
->  /// Struct containing information that can be queried by userspace. This is read from
->  /// the GPU's registers.
-> diff --git a/drivers/gpu/drm/tyr/regs.rs b/drivers/gpu/drm/tyr/regs.rs
-> index f46933aaa221..a7672fffbba5 100644
-> --- a/drivers/gpu/drm/tyr/regs.rs
-> +++ b/drivers/gpu/drm/tyr/regs.rs
-> @@ -7,11 +7,15 @@
->  // does.
->  #![allow(dead_code)]
->  
-> -use kernel::bits::bit_u32;
-> -use kernel::device::Bound;
-> -use kernel::device::Device;
-> -use kernel::devres::Devres;
-> -use kernel::prelude::*;
-> +use kernel::{
-> +    bits::bit_u32,
-> +    device::{
-> +        Bound,
-> +        Device, //
-> +    },
-> +    devres::Devres,
-> +    prelude::*, //
-> +};
->  
->  use crate::driver::IoMem;
->  
+> The parent of this aux device is qcom-smem. In the prior
+> implementation, qcom-smem loads this device through
+> `platform_device_register_data` and `platform_device_unregister`,
+> holding a reference in its global struct to release it when being
+> released. The probe table for the qcom-socinfo driver was empty, so it
+> would not probe without an explicit registration.
 
+So it's a "fake" platform device being created?  As Bjorn said, moving
+this to aux today would probably be good first.
+
+> > > * Adds bounds-checking to all accesses, hardening against a repeat of
+> > >   CVE-2024-58007
+> >
+> > How do you now "know" that the bounds checking is correct?  The C
+> > version also had this, it was just "not correct" :)
+> 
+> While it's technically possible for the Rust code to have an error
+> here, the error would not be in the driver, but in the kernel crate.
+> The advantage here is that the bounds checking is all centralized, so
+> we get it right once, for the entire kernel, instead of needing to get
+> it right every time.
+
+I missed where the bounds checking is happening at all here.  I see
+fields and sizes of fields, but what is verifying that those sizes are
+actually correct?
+
+> > And which accesses are you referring to?  From userspace?  From the
+> > kernel?  That CVE looks very odd, it's probably not even a real one and
+> > should be revoked, right?
+> >
+> 
+> That CVE looks like this:
+> 1. qcom_smem_get returns an object of size N
+> 2. When initializing the `serial_number` field of
+> soc_device_attributes, the offset of the serial number field was
+> checked as <= N, rather than the *end* of the serial number field.
+> 3. This resulted in the driver exposing through sysfs whatever data
+> was mapped afterwards, interpreted as a number.
+> 
+> I agree that the severity seems oddly high, given that in practice,
+> this will expose the remainder of the IO mapped page - I don't believe
+> it crosses a page boundary, so it can't even *really* leak anything.
+
+Where do you see this as "high"?  The kernel CNA does NOT give any
+severity info for any CVEs that are issued.
+
+If you are looking at the crap that NVD adds, well, it's just that,
+crap, that has no actual relevance to anyone and is flat out wrong most
+of the time.  We have asked them to stop doing this, but so far we have
+not gotten a response:
+	https://github.com/cisagov/vulnrichment/issues/262
+
+In short, for kernel CVEs only look at the data provided by cve.org, or
+the raw data provided by the kernel CNA team.
+
+That being said, this seems like a basic "we are just displaying wrong
+data in a sysfs file", so it probably should be rejected unless someone
+can tell me how it fits the definition of a vulnerability?
+
+As for why it's a CVE at all, it came in as part of the required GSD
+import into CVE.org.
+
+> > > +void *qcom_smem_get_aux(struct auxiliary_device *aux, unsigned int host,
+> > > +             unsigned int item, size_t *size)
+> > > +{
+> > > +     if (IS_ERR(__smem))
+> > > +             return __smem;
+> > > +     if (aux->dev.parent != __smem->dev)
+> > > +             return ERR_PTR(-EINVAL);
+> > > +     return qcom_smem_get(host, item, size);
+> >
+> > So you are returning a void pointer?  But don't you really know the
+> > "type" of what is being asked here?  It's a memory chunk, so u8?  Or
+> > something else?  void * feels "rough" here.
+> >
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(qcom_smem_get_aux);
+> > > +
+> > >  /**
+> > >   * qcom_smem_get() - resolve ptr of size of a smem item
+> > >   * @host:    the remote processor, or -1
+> > > @@ -684,6 +710,9 @@ static void *qcom_smem_get_private(struct qcom_smem *smem,
+> > >   * Looks up smem item and returns pointer to it. Size of smem
+> > >   * item is returned in @size.
+> > >   *
+> > > + * It is up to the caller to ensure that the qcom_smem device remains
+> > > + * loaded by some mechanism when accessing returned memory.
+> >
+> > What do you mean by "loaded"?  You are saying that the caller needs to
+> > rely on this driver remaining in memory for that memory to be "valid"?
+> >
+> > If this is the case, why not take a reference count?
+> >
+> > > +impl Smem {
+> > > +    pub(crate) fn access<'a>(&'a self, dev: &'a Device<Bound>) -> Option<&'a Mmio> {
+> > > +        if *dev != *self.dev {
+> >
+> > How can this ever happen?
+
+I think you missed these review comments?
+
+thanks,
+
+greg k-h
