@@ -2,63 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QMS3Edgeg2nWhwMAu9opvQ
+	id CImkM7Mfg2nWhwMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 11:26:32 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 11:30:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F69E4770
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 11:26:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3676EE481F
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 11:30:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37D4F10E5B2;
-	Wed,  4 Feb 2026 10:26:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 230B610E5B6;
+	Wed,  4 Feb 2026 10:30:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G0XacNdi";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="usDB/P+S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3A3C10E5B2
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 10:26:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9D65243FBD;
- Wed,  4 Feb 2026 10:26:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10194C4CEF7;
- Wed,  4 Feb 2026 10:26:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770200788;
- bh=d2ORjAFYDx26CCy9qL6CmpUxNx4yL0rMuIyF+swd47c=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=G0XacNdiA2sPN9bZfD51gtADbKtxQu8R/qTGNkZr4YjYt0KUY7g9bp0m6ZNanmclc
- xKqjqGs/2VMC0xVXm5Sc7pi1K5NgSsT6oKaK0ukJeSa4Sm8cdf1HECNIergdRekhDd
- MzJxZo+h95odzHjxCQjaVeMYWdYOUIU1aIfOBfSo1JbF6YgUjCBH31ZlIjhCB3kcEv
- xD7TRJuUF4SpuJengb7BJeXKLzqH4Yt601kU9y7AFCqg2aSCmd+N2qVbQv46YrYAnB
- TV3WUjV/IwbCj+f8TMSCnw4ejCN4AyKKqAHrI6Ej6KKBhYDUqpXXAOAVcSOQs7FTfP
- lBDFotNRjA1Zw==
-From: Lee Jones <lee@kernel.org>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Kiran Gunda <quic_kgunda@quicinc.com>, Helge Deller <deller@gmx.de>, 
- Luca Weiss <luca@lucaweiss.eu>, Konrad Dybcio <konradybcio@kernel.org>, 
- Eugene Lepshy <fekz115@gmail.com>, Gianluca Boiano <morf3089@gmail.com>, 
- Alejandro Tafalla <atafalla@dnyon.com>, 
- =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
-Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Daniel Thompson <daniel.thompson@linaro.org>, linux-arm-msm@vger.kernel.org, 
- linux-fbdev@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-In-Reply-To: <20260116-pmi8950-wled-v3-0-e6c93de84079@mainlining.org>
-References: <20260116-pmi8950-wled-v3-0-e6c93de84079@mainlining.org>
-Subject: Re: (subset) [PATCH v3 0/7] Fix PMI8994 WLED ovp values and more
-Message-Id: <177020078282.1122108.15047767273354321830.b4-ty@kernel.org>
-Date: Wed, 04 Feb 2026 10:26:22 +0000
-MIME-Version: 1.0
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com
+ [209.85.128.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0CAD10E5B6
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 10:30:07 +0000 (UTC)
+Received: by mail-wm1-f74.google.com with SMTP id
+ 5b1f17b1804b1-4804157a3c9so76080485e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Feb 2026 02:30:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1770201006; x=1770805806;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=8XSWebpuCWegMlwjG4hS6R8tDkiXl6gBTB7fLfLRPN4=;
+ b=usDB/P+SCheYuI4h6WvHAJX6qivnXnBGtBSc0U9+MV9oLuUWBPGozOOsl3PMP/9u0N
+ sLLJ3Fkt3BWihFVCddurkIdzEzX6JviagKloJM6JSI/pmgwjkD+uZpH/Ck+0pBKUPEWx
+ oXPq/TGckNeWK9BRJHJr9TZZORyJAs7gAy0QL/dgvdHXPWc3ZDayARDr0fvkrUeSkxLB
+ J/LjSwik+BL0+UqGLwtzXLjjM7/Bg1/SdTe7bmTg7UhvjC7zVXMN0UPOoH5SUd8g7tOG
+ 2MmR2x6+nlWTQOCvCwWbVow65QiSKR62pki6Lj77G7FUY4P1hpioRSp8ubS+WBxpxk1g
+ 8qqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770201006; x=1770805806;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8XSWebpuCWegMlwjG4hS6R8tDkiXl6gBTB7fLfLRPN4=;
+ b=Q3ckfbJdXxIxhVzN4rZUjhfKjVLVYtwzydyVL7XqbWWhhggQCGUxiE4HktAqOOyUIJ
+ sUNAhoCzedBqDjCnRtSNFNVtqcdso38V9hDae7WZzEYPmAgmBo4/8ssleeBSVfrROKaR
+ IIeDI3rYwnCZa+mwB73c+NLALjuT2aAyfu+rnKyT9vsqrfLXLV14Ell7PWPXkKMc/FfQ
+ SjG/IVzlE7z8fk5qSmjxn6ed2N964J+8ZjmYH8R3qQ+Lhi7nuBKLkN1nHVGgO/M8Uq9n
+ RwOCT+4+uzXmgKXh7rmVOieHve8Lkjbnwa2WbmeILsu7Inzs4SMuHg9vymukg7tPx/Vx
+ H+jQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUgrC8tURv55RG7U9FrrGr3SKIqhe18XEQal89qOtU0VzmvvQXwnBbDqubRXJou6OnufCPHqV7YPSU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx/oTDL6aXhaQVh07de97O1BdVF06r2nDGvwdJdISipTSi2HKou
+ Ie/VTTimJEkFcFy6ZiVpZ+ZvyaGW2OIf3zme8T0u46OccPzKVVB+C5bknrhsO9n1Cv01GaqjrcJ
+ e4Tn2WeNKYBu8XsR1jQ==
+X-Received: from wmber8.prod.google.com ([2002:a05:600c:84c8:b0:47e:e4a5:c5f2])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:1c02:b0:475:dd89:acb with SMTP id
+ 5b1f17b1804b1-4830e96fb19mr35946565e9.22.1770201006224; 
+ Wed, 04 Feb 2026 02:30:06 -0800 (PST)
+Date: Wed, 4 Feb 2026 10:30:05 +0000
+In-Reply-To: <20260203081403.68733-3-phasta@kernel.org>
+Mime-Version: 1.0
+References: <20260203081403.68733-2-phasta@kernel.org>
+ <20260203081403.68733-3-phasta@kernel.org>
+Message-ID: <aYMfrT_Cv2NC-MB1@google.com>
+Subject: Re: [RFC PATCH 1/4] rust: list: Add unsafe for container_of
+From: Alice Ryhl <aliceryhl@google.com>
+To: Philipp Stanner <phasta@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>,
+ Benno Lossin <lossin@kernel.org>, 
+ "Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ rust-for-linux@vger.kernel.org, stable@vger.kernel.org
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-52d38
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,61 +91,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	MV_CASE(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:danielt@kernel.org,m:jingoohan1@gmail.com,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:quic_kgunda@quicinc.com,m:deller@gmx.de,m:luca@lucaweiss.eu,m:konradybcio@kernel.org,m:fekz115@gmail.com,m:morf3089@gmail.com,m:atafalla@dnyon.com,m:barnabas.czeman@mainlining.org,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:daniel.thompson@linaro.org,m:linux-arm-msm@vger.kernel.org,m:linux-fbdev@vger.kernel.org,m:konrad.dybcio@oss.qualcomm.com,m:krzysztof.kozlowski@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[lee@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,quicinc.com,gmx.de,lucaweiss.eu,dnyon.com,mainlining.org];
+	RCVD_COUNT_THREE(0.00)[3];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:dakr@kernel.org,m:gary@garyguo.net,m:lossin@kernel.org,m:christian.koenig@amd.com,m:boris.brezillon@collabora.com,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,kernel.org,garyguo.net,amd.com,collabora.com,nvidia.com,vger.kernel.org,lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DKIM_TRACE(0.00)[google.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: C6F69E4770
+X-Rspamd-Queue-Id: 3676EE481F
 X-Rspamd-Action: no action
 
-On Fri, 16 Jan 2026 08:07:32 +0100, Barnabás Czémán wrote:
-> This patch series fixes supported ovp values related to pmi8994 wled
-> and set same configuration for pmi8950 wled.
-> It also corrects wled related properties in xiaomi-daisy, xiaomi-land and
-> in xiaomi-vince.
+On Tue, Feb 03, 2026 at 09:14:00AM +0100, Philipp Stanner wrote:
+> impl_list_item_mod.rs calls container_of() without unsafe blocks at a
+> couple of places. Since container_of() is an unsafe macro / function,
+> the blocks are strictly necessary.
 > 
+> For unknown reasons, that problem was so far not visible and only gets
+> visible once one utilizes the list implementation from within the core
+> crate:
 > 
+> error[E0133]: call to unsafe function `core::ptr::mut_ptr::<impl *mut T>::byte_sub`
+> is unsafe and requires unsafe block
+>    --> rust/kernel/lib.rs:252:29
+>     |
+> 252 |           let container_ptr = field_ptr.byte_sub(offset).cast::<$Container>();
+>     |                               ^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+>     |
+>    ::: rust/kernel/drm/jq.rs:98:1
+>     |
+> 98  | / impl_list_item! {
+> 99  | |     impl ListItem<0> for BasicItem { using ListLinks { self.links }; }
+> 100 | | }
+>     | |_- in this macro invocation
+>     |
+> note: an unsafe function restricts its caller, but its body is safe by default
+>    --> rust/kernel/list/impl_list_item_mod.rs:216:13
+>     |
+> 216 |               unsafe fn view_value(me: *mut $crate::list::ListLinks<$num>) -> *const Self {
+>     |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>     |
+>    ::: rust/kernel/drm/jq.rs:98:1
+>     |
+> 98  | / impl_list_item! {
+> 99  | |     impl ListItem<0> for BasicItem { using ListLinks { self.links }; }
+> 100 | | }
+>     | |_- in this macro invocation
+>     = note: requested on the command line with `-D unsafe-op-in-unsafe-fn`
+>     = note: this error originates in the macro `$crate::container_of` which comes
+>     from the expansion of the macro `impl_list_item`
+> 
+> Add unsafe blocks to container_of to fix the issue.
+> 
+> Cc: stable@vger.kernel.org # v6.17+
+> Fixes: c77f85b347dd ("rust: list: remove OFFSET constants")
+> Suggested-by: Alice Ryhl <aliceryhl@google.com>
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
 
-Applied, thanks!
+With the reason that Gary shared added to the commit message:
 
-[1/7] dt-bindings: backlight: qcom-wled: Document ovp values for PMI8994
-      commit: 02031064bb8f387d81988a8abb211f1366d87582
-[2/7] backlight: qcom-wled: Support ovp values for PMI8994
-      commit: f29f972a6e7e3f187ea4d89b98a76c1981ca4d53
-[3/7] dt-bindings: backlight: qcom-wled: Document ovp values for PMI8950
-      commit: b2df6cf10d5242bfef2cc957d83738ccb560ed9f
-[4/7] backlight: qcom-wled: Change PM8950 WLED configurations
-      commit: 83333aa97441ba7ce32b91e8a007c72d316a1c67
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 
---
-Lee Jones [李琼斯]
+> ---
+>  rust/kernel/list/impl_list_item_mod.rs | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/rust/kernel/list/impl_list_item_mod.rs b/rust/kernel/list/impl_list_item_mod.rs
+> index 202bc6f97c13..7052095efde5 100644
+> --- a/rust/kernel/list/impl_list_item_mod.rs
+> +++ b/rust/kernel/list/impl_list_item_mod.rs
+> @@ -217,7 +217,7 @@ unsafe fn view_value(me: *mut $crate::list::ListLinks<$num>) -> *const Self {
+>                  // SAFETY: `me` originates from the most recent call to `prepare_to_insert`, so it
+>                  // points at the field `$field` in a value of type `Self`. Thus, reversing that
+>                  // operation is still in-bounds of the allocation.
+> -                $crate::container_of!(me, Self, $($field).*)
+> +                unsafe { $crate::container_of!(me, Self, $($field).*) }
+>              }
+>  
+>              // GUARANTEES:
+> @@ -242,7 +242,7 @@ unsafe fn post_remove(me: *mut $crate::list::ListLinks<$num>) -> *const Self {
+>                  // SAFETY: `me` originates from the most recent call to `prepare_to_insert`, so it
+>                  // points at the field `$field` in a value of type `Self`. Thus, reversing that
+>                  // operation is still in-bounds of the allocation.
+> -                $crate::container_of!(me, Self, $($field).*)
+> +                unsafe { $crate::container_of!(me, Self, $($field).*) }
+>              }
+>          }
+>      )*};
+> @@ -270,9 +270,9 @@ unsafe fn prepare_to_insert(me: *const Self) -> *mut $crate::list::ListLinks<$nu
+>                  // SAFETY: The caller promises that `me` points at a valid value of type `Self`.
+>                  let links_field = unsafe { <Self as $crate::list::ListItem<$num>>::view_links(me) };
+>  
+> -                let container = $crate::container_of!(
+> +                let container = unsafe { $crate::container_of!(
+>                      links_field, $crate::list::ListLinksSelfPtr<Self, $num>, inner
+> -                );
+> +                ) };
 
+It may be cleaner to write this as:
+
+let container = unsafe {
+    $crate::container_of!(
+        links_field, $crate::list::ListLinksSelfPtr<Self, $num>, inner
+    )
+};
+
+Rustfmt has no effect on macro definitions, but if this was not a macro,
+then I believe that rustfmt would format it like the above.
+
+>  
+>                  // SAFETY: By the same reasoning above, `links_field` is a valid pointer.
+>                  let self_ptr = unsafe {
+> @@ -319,9 +319,9 @@ unsafe fn view_links(me: *const Self) -> *mut $crate::list::ListLinks<$num> {
+>              //   `ListArc` containing `Self` until the next call to `post_remove`. The value cannot
+>              //   be destroyed while a `ListArc` reference exists.
+>              unsafe fn view_value(links_field: *mut $crate::list::ListLinks<$num>) -> *const Self {
+> -                let container = $crate::container_of!(
+> +                let container = unsafe { $crate::container_of!(
+>                      links_field, $crate::list::ListLinksSelfPtr<Self, $num>, inner
+> -                );
+> +                ) };
+
+Ditto here.
+
+Alice
