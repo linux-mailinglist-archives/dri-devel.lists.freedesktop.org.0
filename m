@@ -2,57 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YGrxDHQeg2nWhwMAu9opvQ
+	id QMS3Edgeg2nWhwMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 11:24:52 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 11:26:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AD9FE473A
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 11:24:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F69E4770
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 11:26:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47D6410E5AF;
-	Wed,  4 Feb 2026 10:24:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37D4F10E5B2;
+	Wed,  4 Feb 2026 10:26:30 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G0XacNdi";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0E88C10E5AF
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 10:24:48 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 159CC339;
- Wed,  4 Feb 2026 02:24:41 -0800 (PST)
-Received: from [10.57.54.249] (unknown [10.57.54.249])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EAB983F632;
- Wed,  4 Feb 2026 02:24:42 -0800 (PST)
-Message-ID: <20026be6-1a2b-4b79-902c-94300d781fdb@arm.com>
-Date: Wed, 4 Feb 2026 10:24:40 +0000
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3A3C10E5B2
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 10:26:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 9D65243FBD;
+ Wed,  4 Feb 2026 10:26:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10194C4CEF7;
+ Wed,  4 Feb 2026 10:26:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1770200788;
+ bh=d2ORjAFYDx26CCy9qL6CmpUxNx4yL0rMuIyF+swd47c=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=G0XacNdiA2sPN9bZfD51gtADbKtxQu8R/qTGNkZr4YjYt0KUY7g9bp0m6ZNanmclc
+ xKqjqGs/2VMC0xVXm5Sc7pi1K5NgSsT6oKaK0ukJeSa4Sm8cdf1HECNIergdRekhDd
+ MzJxZo+h95odzHjxCQjaVeMYWdYOUIU1aIfOBfSo1JbF6YgUjCBH31ZlIjhCB3kcEv
+ xD7TRJuUF4SpuJengb7BJeXKLzqH4Yt601kU9y7AFCqg2aSCmd+N2qVbQv46YrYAnB
+ TV3WUjV/IwbCj+f8TMSCnw4ejCN4AyKKqAHrI6Ej6KKBhYDUqpXXAOAVcSOQs7FTfP
+ lBDFotNRjA1Zw==
+From: Lee Jones <lee@kernel.org>
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Kiran Gunda <quic_kgunda@quicinc.com>, Helge Deller <deller@gmx.de>, 
+ Luca Weiss <luca@lucaweiss.eu>, Konrad Dybcio <konradybcio@kernel.org>, 
+ Eugene Lepshy <fekz115@gmail.com>, Gianluca Boiano <morf3089@gmail.com>, 
+ Alejandro Tafalla <atafalla@dnyon.com>, 
+ =?utf-8?q?Barnab=C3=A1s_Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>
+Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Daniel Thompson <daniel.thompson@linaro.org>, linux-arm-msm@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260116-pmi8950-wled-v3-0-e6c93de84079@mainlining.org>
+References: <20260116-pmi8950-wled-v3-0-e6c93de84079@mainlining.org>
+Subject: Re: (subset) [PATCH v3 0/7] Fix PMI8994 WLED ovp values and more
+Message-Id: <177020078282.1122108.15047767273354321830.b4-ty@kernel.org>
+Date: Wed, 04 Feb 2026 10:26:22 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 8/8] drm/panthor: Add a GEM shrinker
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Akash Goel <akash.goel@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Clark <robin.clark@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Chris Diamand <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Alice Ryhl <aliceryhl@google.com>, kernel@collabora.com, nd@arm.com
-References: <20260202113607.1745667-1-boris.brezillon@collabora.com>
- <20260202113607.1745667-9-boris.brezillon@collabora.com>
- <31c3f2bf-e530-45ae-900e-4e25db54f367@arm.com>
- <e44be9f6-b7d8-4586-a72f-21e704b8579e@arm.com>
- <20260203090912.10b4e6bc@fedora>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20260203090912.10b4e6bc@fedora>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-52d38
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,107 +74,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.51 / 15.00];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
-	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:akash.goel@arm.com,m:liviu.dudau@arm.com,m:adrian.larumbe@collabora.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:akhilpo@oss.qualcomm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:dmitry.osipenko@collabora.com,m:chris.diamand@arm.com,m:dakr@kernel.org,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:aliceryhl@google.com,m:kernel@collabora.com,m:nd@arm.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:danielt@kernel.org,m:jingoohan1@gmail.com,m:pavel@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:quic_kgunda@quicinc.com,m:deller@gmx.de,m:luca@lucaweiss.eu,m:konradybcio@kernel.org,m:fekz115@gmail.com,m:morf3089@gmail.com,m:atafalla@dnyon.com,m:barnabas.czeman@mainlining.org,m:linux-leds@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:daniel.thompson@linaro.org,m:linux-arm-msm@vger.kernel.org,m:linux-fbdev@vger.kernel.org,m:konrad.dybcio@oss.qualcomm.com,m:krzysztof.kozlowski@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[steven.price@arm.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[lee@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	FREEMAIL_CC(0.00)[arm.com,collabora.com,lists.freedesktop.org,gmail.com,ffwll.ch,oss.qualcomm.com,poorly.run,kernel.org,linux.intel.com,suse.de,intel.com,google.com];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,quicinc.com,gmx.de,lucaweiss.eu,dnyon.com,mainlining.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[steven.price@arm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,arm.com:mid,arm.com:email]
-X-Rspamd-Queue-Id: 7AD9FE473A
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: C6F69E4770
 X-Rspamd-Action: no action
 
-On 03/02/2026 08:09, Boris Brezillon wrote:
-> On Mon, 2 Feb 2026 20:08:30 +0000
-> Akash Goel <akash.goel@arm.com> wrote:
+On Fri, 16 Jan 2026 08:07:32 +0100, Barnabás Czémán wrote:
+> This patch series fixes supported ovp values related to pmi8994 wled
+> and set same configuration for pmi8950 wled.
+> It also corrects wled related properties in xiaomi-daisy, xiaomi-land and
+> in xiaomi-vince.
 > 
->>>> +bool panthor_gem_try_evict(struct drm_gem_object *obj,
->>>> +			   struct ww_acquire_ctx *ticket)  
->>>
->>> I think this could be static - I don't see any reference outside this
->>> file (other than the header).
 > 
-> Will do.
-> 
->>>   
->>>> +{
->>>> +	/*
->>>> +	 * Track last locked entry for unwinding locks in error and
->>>> +	 * success paths
->>>> +	 */
->>>> +	struct panthor_gem_object *bo = to_panthor_bo(obj);
->>>> +	struct drm_gpuvm_bo *vm_bo, *last_locked = NULL;
->>>> +	enum panthor_gem_reclaim_state old_state;
->>>> +	int ret = 0;
->>>> +
->>>> +	/* To avoid potential lock ordering issue between bo_gpuva and
->>>> +	 * mapping->i_mmap_rwsem, unmap the pages from CPU side before
->>>> +	 * acquring the bo_gpuva lock. As the bo_resv lock is held, CPU
->>>> +	 * page fault handler won't be able to map in the pages whilst
->>>> +	 * eviction is in progress.
->>>> +	 */
->>>> +	drm_vma_node_unmap(&bo->base.vma_node, bo->base.dev->anon_inode->i_mapping);  
->>>
->>> There might be an issue here - drm_gem_lru_scan() will have taken the
->>> resv lock. drm_vma_node_unmap() could cause a callback to
->>> panthor_vm_close(). If that ends up being the last reference to
->>> bo->cmap.mmap_count then we'll deadlock attempting to aquire the resv
->>> lock again.  
->>
->> Actually drm_vma_node_unmap() would just invalidate the CPU PTEs.
->> The CPU mapping won't be removed and so panthor_vm_close() won't get called.
-> 
-> Yep, that's also my understanding of drm_vma_node_unmap(): it kills the
-> relevant PTEs in the user VM, but leave the VMA active, so next time
-> there's an access, the fault handler will be called.
-> 
->>
->>>
->>> I not 100% on that, and sadly it seems my test setup has died so I can't
->>> test that out today.
->>>  
->>
->> We have tests that tries to trigger an evicition for a CPU mapped BO and 
->> so far we didn't see a deadlock problem.
-> 
-> Actually, that's one of the very few tests I have in my igt branch [1],
-> and it was passing fine.
-> 
-> [1]https://gitlab.freedesktop.org/bbrezillon/igt-gpu-tools/-/commit/fc76934a5579767d2aabe787d40e38a17c3f4ea4#67d3c5d7df01192b03c20b43ad33249c663a95f5_80_97
 
-Cool - I was going to test this out, but I was working at home and my
-machine in the office decided to lose its USB devices so I couldn't get
-my board working. The joys of working in two different locations.
+Applied, thanks!
 
-Anyway, with that resolved, it looks good to me. So with that minor
-change to panthor_gem_try_evict() you have my:
+[1/7] dt-bindings: backlight: qcom-wled: Document ovp values for PMI8994
+      commit: 02031064bb8f387d81988a8abb211f1366d87582
+[2/7] backlight: qcom-wled: Support ovp values for PMI8994
+      commit: f29f972a6e7e3f187ea4d89b98a76c1981ca4d53
+[3/7] dt-bindings: backlight: qcom-wled: Document ovp values for PMI8950
+      commit: b2df6cf10d5242bfef2cc957d83738ccb560ed9f
+[4/7] backlight: qcom-wled: Change PM8950 WLED configurations
+      commit: 83333aa97441ba7ce32b91e8a007c72d316a1c67
 
-Reviewed-by: Steven Price <steven.price@arm.com>
-
-Thanks,
-Steve
+--
+Lee Jones [李琼斯]
 
