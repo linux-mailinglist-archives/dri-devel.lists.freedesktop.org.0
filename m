@@ -2,68 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wKRcB2mTg2lrpgMAu9opvQ
+	id uEIiH+eVg2nYpgMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 19:43:53 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 19:54:31 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 427E7EBBC4
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 19:43:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFCF0EBC94
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 19:54:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2A5010E73A;
-	Wed,  4 Feb 2026 18:43:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1D9310E0A4;
+	Wed,  4 Feb 2026 18:54:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="eq8gm3g7";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JyO2vrkO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D197110E73A;
- Wed,  4 Feb 2026 18:43:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1770229718; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=RrnnWNFovVAA7axgHvvJbMU76dInNA2OcXPTGMkvH7c2QCNdmQpR43RKqUs+mNc2k3z7YJJDpgk+Ci+lyeFnwZ3haSJ7u3JiLw4RJpm2SXHCws/sXZYxzCZHMf0X2jVyZKlxsQWhLmWAh64GYGi1oK4tVIPxBE8GqarXuX/RXcE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1770229718;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=eHsWAvz2hep0KdnzuN8UWmsGB1m6+dJ9OA8gLUPXydU=; 
- b=kJXGKGVIZkLtnSkxO/gGoLDQCwfGAY4j9zorW0DOz5Cwe/u/bwah82/dPsfdLPKK0DXe43K7jnW1pCSiLGRKwB1Vrjyh7wr1uBLMeXcHjeEehW8XN+AwBvz8rujxSGhWPUirNDwe6VClVaO3m/351zDz3u3w1k0hKbLDuxjhwNw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770229718; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=eHsWAvz2hep0KdnzuN8UWmsGB1m6+dJ9OA8gLUPXydU=;
- b=eq8gm3g7JtCOAvJFXHaZgS6PYgHQ/r/fqwf8NZRu14T9UoZDZouJUqW4jmo7S2xs
- k+HApZ9/f32PdqhLMZdGrdCpocsOC5c+cRN4V5ED232E7gvKPwOTBUUkgpCIfDUA2p+
- 4z75gOqC25a+L7t28m6nT9G6dXdOlicTQ0NT9L/g=
-Received: by mx.zohomail.com with SMTPS id 1770229717476464.77123307000454;
- Wed, 4 Feb 2026 10:28:37 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH v5 2/4] rust/drm: Don't setup private driver data until
- registration
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20260131001602.2095470-3-lyude@redhat.com>
-Date: Wed, 4 Feb 2026 15:28:20 -0300
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>,
- nouveau@lists.freedesktop.org, Miguel Ojeda <ojeda@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Alice Ryhl <aliceryhl@google.com>,
- Shankari Anand <shankari.ak0208@gmail.com>,
- David Airlie <airlied@gmail.com>, Benno Lossin <lossin@kernel.org>,
- Asahi Lina <lina+kernel@asahilina.net>
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com
+ [74.125.82.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF83610E0A4
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 18:54:27 +0000 (UTC)
+Received: by mail-dy1-f174.google.com with SMTP id
+ 5a478bee46e88-2b8095668ebso5120eec.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Feb 2026 10:54:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770231267; cv=none;
+ d=google.com; s=arc-20240605;
+ b=ZzBBXD0y27h8c0DF7AjIC5ZV4h6GhJe9iN1Npl68z9N39o+E78Xb9wGsPCcIbErM8q
+ vv9n4wlrOU9X5w/wZ1IwNXUFpNyNEMwr5pSjnfmgnXO4j2u+wcBx3gCXCOpqAAc0ASmZ
+ +3Q6VlTKv3rsr3uiNnGJb7R8q7HPTkBSl9MOBvJoQW+NvVLPy+7Mt9KUTuvYBKG8k+SD
+ R+G25lrK5ElSlGKGfh95YJKgv+tbaW2/bRfALEglQ66I8G3Hm2MKVJAuRhPeoUNNmIwX
+ lXIhXK1V09ru0Ls9xmCgMRZ5pS8VTl9vYc6rdJlf5xVqX8YVW/weK0grh/VIllu6rkGF
+ R0Hw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=1RPD11HPFnCejVcKGso6kkcyi791BttWY+zwBXmHJDg=;
+ fh=Nf0j3BAVdRi/y+YKkvHXHA+7DHf6lrIqXtUGM6C6ODg=;
+ b=Ud4Bw19VZ1B/6XdDYSCTADbnmtnVMb5YqWpGjpJrlKg6WzX4Uk+pFwFZ9QuwWsQMOA
+ u7wrl8IbFXPF4iH5/KDangxffdnxNx3jJJb+yy2NwwjdvaxPDh2o0ZKmdzEfrRFoeibX
+ K15ULUMVmuXd3PiCRUpnX9NbZum6JcBUTjzTSoP0lci50O4CNGWDNmW4kG8R3xm4U7yU
+ 3MRjm/x86hIzydZEnuDFJftDo9hzf4/O4btEnSRIZ9N1fmy0piHgU2RHghe8vyXDeYQB
+ gMzOag/4Byf32KQQLfIXfeQPrig+jqN2S8QAcGPugYKXv+dgPX6wohXZbDbTXWmzoaKY
+ nHGQ==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1770231267; x=1770836067; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1RPD11HPFnCejVcKGso6kkcyi791BttWY+zwBXmHJDg=;
+ b=JyO2vrkOnTp85T0eQYO8QJclGWx3q+QTmFxasBtv+QVf9rvtxj6eBA76cg2EyDplwq
+ g+to7Hkb35VyibAmyqZp2x9pnLg3WCVZwPCAr1G2136bZo+xPFN5j+auymStykg+V67R
+ sGv4o0WoACfYLt54Rxzi1LoJ/FaCHvPC1Kcoz21xu/OBian6AvC8ODrWSwHjkwymZnlB
+ 6OGXC78KNBWQ32JK0qJ1JuWb2d961QvtZtlLI93hfNhRmS8zjdI30Wg+w2ubFaK6KnrT
+ wMuRP7azbLJrR41iyjted0t5aEyJ1bkcr7K7o9Qp+04A8ryAk32pce2ZP8/mR8k5UXSy
+ 8PBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770231267; x=1770836067;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=1RPD11HPFnCejVcKGso6kkcyi791BttWY+zwBXmHJDg=;
+ b=tV/xaIvR+3jMOh3op8cyL2hYtXW4svYxZzKxUDsZAjMKQIfgqh/nbpR1oHidc+8NaJ
+ 727pzt9c8SKZaXiXXrkrBQbVIJW4E//UVBKJxE5GYl7oGYu0VN6y9fcFxWamxdw3WMGV
+ jn9d+/AAJ4jFWrq4eRNYg50tAbh05v3N9m0zBGBI3Z7dK3ynHSxqx4kJHsUMwIRQPOkH
+ qYwWzRcHQqYsqnKDuBgmkTcEH6GmxhZa2v46Hm1T8czjrKhbONfWPfiWFosyn/wkzLKr
+ Z7JjbSZvExAIX4OSNNKp3Pw/X9G/Guz3yLHYdUQnBE/QtRLtUJN527l+YEf1l8n49A+s
+ nOhQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCURMwp7U5wW6b1gs040us8Eko+ZAlNKhDU5gkZssXuzjAX33wvfJ3RVTfdkIqGf3OF0APsqpZEL0c0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwQPJgYnRqLvZkVTV6O/lp1rJuZeo97DG/ITkIJv9/Z2J72fl+Q
+ TV8QUPT7HHtc6kiUweyoNjIXRMapVFyiUJgJHYiwU4rVCrZlUHqsac2vN9CWno8Zr15PLWP4bfD
+ WXiFU5XZsLmZr/QOhvVSVWzdm4JKf56c=
+X-Gm-Gg: AZuq6aLXxVcf+N+WHKpj367S47511nV57NtOkCM4FLOLaT6h9w2cAkEQaaym6Tzn88g
+ U5l61282RdyVV11OEWidn9aJwxmmYR7X8yq0HaveRASBXk8Wl+15RpdOEn+WItRVmGxERkKS82t
+ yasg6Y0gHAy8AInxYruk6iaWsbhdY71x+/wa77nbQMvkSt14BjP87fqK1TWrWhKgkhb8RgBibFX
+ 0OLb2/PU96jQoWTuH5rUy09bCq+XYmY3PrgrSgrc1MiO6JwByn5kCZbdxTJPS6bBmE/jLXda+I+
+ 8esUrrbPo/WPz3MRKFRy2W/62cVgZdPnzOXjBFfAjqEWy0CeDXPAoJ/8GPNpHbRyTuGZPKPUyTT
+ HqHqQZTnaa+qK
+X-Received: by 2002:a05:7301:fa07:b0:2b7:f145:a66 with SMTP id
+ 5a478bee46e88-2b832895203mr863567eec.2.1770231266769; Wed, 04 Feb 2026
+ 10:54:26 -0800 (PST)
+MIME-Version: 1.0
+References: <20260126202305.2526618-1-joelagnelf@nvidia.com>
+ <20260126202305.2526618-2-joelagnelf@nvidia.com>
+ <DG0607SU943F.1FDOPYPN38FCS@kernel.org>
+ <259bdacf-d16e-4fff-9f6b-f860feb40aa8@nvidia.com>
+ <DG0N5PNS1ZQ0.13WMT4XYDXNUS@kernel.org>
+ <8859d68f-ca38-469e-8345-84059573ac97@nvidia.com>
+ <DG5OGLH0BHNE.2XSVBQHAAXHGI@nvidia.com>
+In-Reply-To: <DG5OGLH0BHNE.2XSVBQHAAXHGI@nvidia.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 4 Feb 2026 19:54:14 +0100
+X-Gm-Features: AZwV_Qga4SHaJVbqnKL6-k_z0NAbFWIYrZ90umh2b3m2XbOK6FLc8RcS6JCVOMk
+Message-ID: <CANiq72nhzix4Dr9_gbaFwZQQq=3cDY=oAYVgG5hDAmMgaYKQJg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] gpu: nova-core: use checked arithmetic in FWSEC
+ firmware parsing
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: John Hubbard <jhubbard@nvidia.com>, Danilo Krummrich <dakr@kernel.org>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org, 
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Alistair Popple <apopple@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Dirk Behme <dirk.behme@gmail.com>, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+ linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <95623012-BAA8-4AA5-9D34-42FAE44B0FFD@collabora.com>
-References: <20260131001602.2095470-1-lyude@redhat.com>
- <20260131001602.2095470-3-lyude@redhat.com>
-To: Lyude Paul <lyude@redhat.com>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,216 +133,62 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_RECIPIENTS(0.00)[m:acourbot@nvidia.com,m:jhubbard@nvidia.com,m:dakr@kernel.org,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:pjw@kernel.org,m:palmer@dabbelt.com,m:aou@eecs.berkeley.edu,m:alex@ghiti.fr,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:apopple@nvidia.com,m:zhiw@nvidia.com,m:simona@ffwll.ch,m:bhelgaas@google.com,m:alex.gaynor@gmail.com,m:dirk.behme@gmail.com,m:nouveau@lists.freedesktop.org,m:rust-for-linux@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:boqunfeng@gmail.com,m:alexgaynor@gmail.com,m:dirkbehme@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,kernel.org,ffwll.ch,google.com,gmail.com,asahilina.net];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daniel.almeida@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[dri-devel,kernel];
-	APPLE_MAILER_COMMON(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[nvidia.com,kernel.org,vger.kernel.org,dabbelt.com,eecs.berkeley.edu,ghiti.fr,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,ffwll.ch,lists.freedesktop.org,lists.infradead.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:mid,collabora.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 427E7EBBC4
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: AFCF0EBC94
 X-Rspamd-Action: no action
 
-Hi Lyude,
+On Tue, Feb 3, 2026 at 11:25=E2=80=AFPM Alexandre Courbot <acourbot@nvidia.=
+com> wrote:
+>
+> Thus for anything non-trivial, I'd like to keep a `// CALC: ` header
+> describing the intended operation. I also noticed that LLMs check that
+> the code is in accordance with comments, which provides an additional
+> layer of checking.
 
-> On 30 Jan 2026, at 21:13, Lyude Paul <lyude@redhat.com> wrote:
->=20
-> Now that we have a DeviceContext that we can use to represent whether =
-a
-> Device is known to have been registered, we can make it so that =
-drivers can
-> create their Devices but wait until the registration phase to assign =
-their
-> private data to the Device. This is desirable as some drivers need to =
-make
-> use of the DRM device early on before finalizing their private driver =
-data.
->=20
-> As such, this change makes it so that the driver's private data can
-> currently only be accessed through Device<T, Registered> types and not
-> Device<T, Uninit>.
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> ---
-> V4:
-> * Remove accidental double-aliasing &mut in Device::release()
-> ---
-> drivers/gpu/drm/nova/driver.rs |  4 +--
-> drivers/gpu/drm/tyr/driver.rs  |  4 +--
-> rust/kernel/drm/device.rs      | 64 +++++++++++++++++++++-------------
-> rust/kernel/drm/driver.rs      | 19 ++++++++--
-> 4 files changed, 59 insertions(+), 32 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/nova/driver.rs =
-b/drivers/gpu/drm/nova/driver.rs
-> index 99d6841b69cbc..8cea5f68c3b04 100644
-> --- a/drivers/gpu/drm/nova/driver.rs
-> +++ b/drivers/gpu/drm/nova/driver.rs
-> @@ -56,8 +56,8 @@ impl auxiliary::Driver for NovaDriver {
->     fn probe(adev: &auxiliary::Device<Core>, _info: &Self::IdInfo) -> =
-impl PinInit<Self, Error> {
->         let data =3D try_pin_init!(NovaData { adev: adev.into() });
->=20
-> -        let drm =3D =
-drm::UnregisteredDevice::<Self>::new(adev.as_ref(), data)?;
-> -        let drm =3D drm::Registration::new_foreign_owned(drm, =
-adev.as_ref(), 0)?;
-> +        let drm =3D =
-drm::UnregisteredDevice::<Self>::new(adev.as_ref())?;
-> +        let drm =3D drm::Registration::new_foreign_owned(drm, =
-adev.as_ref(), data, 0)?;
->=20
->         Ok(Self { drm: drm.into() })
->     }
-> diff --git a/drivers/gpu/drm/tyr/driver.rs =
-b/drivers/gpu/drm/tyr/driver.rs
-> index 0d479b5d7bd62..b574ee1c24587 100644
-> --- a/drivers/gpu/drm/tyr/driver.rs
-> +++ b/drivers/gpu/drm/tyr/driver.rs
-> @@ -133,8 +133,8 @@ fn probe(
->                 gpu_info,
->         });
->=20
-> -        let tdev =3D =
-drm::UnregisteredDevice::<Self>::new(pdev.as_ref(), data)?;
-> -        let tdev =3D =
-drm::driver::Registration::new_foreign_owned(tdev, pdev.as_ref(), 0)?;
-> +        let tdev =3D =
-drm::UnregisteredDevice::<Self>::new(pdev.as_ref())?;
-> +        let tdev =3D =
-drm::driver::Registration::new_foreign_owned(tdev, pdev.as_ref(), data, =
-0)?;
->=20
->         let driver =3D TyrDriver {
->             _device: tdev.into(),
-> diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
-> index 8f1780b8f0196..a1d9b0e92f3fd 100644
-> --- a/rust/kernel/drm/device.rs
-> +++ b/rust/kernel/drm/device.rs
-> @@ -26,13 +26,15 @@
-> };
-> use core::{
->     alloc::Layout,
-> +    cell::UnsafeCell,
->     marker::PhantomData,
-> -    mem,
-> -    ops::Deref,
-> -    ptr::{
-> +    mem::{
->         self,
-> -        NonNull, //
-> +        MaybeUninit, //
->     },
-> +    ops::Deref,
-> +    ptr::NonNull,
-> +    sync::atomic::*,
-> };
->=20
-> #[cfg(CONFIG_DRM_LEGACY)]
-> @@ -141,7 +143,7 @@ impl DeviceContext for Uninit {}
-> ///
-> /// The device in `self.0` is guaranteed to be a newly created =
-[`Device`] that has not yet been
-> /// registered with userspace until this type is dropped.
-> -pub struct UnregisteredDevice<T: drm::Driver>(ARef<Device<T, =
-Uninit>>, NotThreadSafe);
-> +pub struct UnregisteredDevice<T: drm::Driver>(pub(crate) =
-ARef<Device<T, Uninit>>, NotThreadSafe);
->=20
-> impl<T: drm::Driver> Deref for UnregisteredDevice<T> {
->     type Target =3D Device<T, Uninit>;
-> @@ -188,7 +190,7 @@ impl<T: drm::Driver> UnregisteredDevice<T> {
->     /// Create a new `UnregisteredDevice` for a `drm::Driver`.
->     ///
->     /// This can be used to create a =
-[`Registration`](kernel::drm::Registration).
-> -    pub fn new(dev: &device::Device, data: impl PinInit<T::Data, =
-Error>) -> Result<Self> {
-> +    pub fn new(dev: &device::Device) -> Result<Self> {
->         // `__drm_dev_alloc` uses `kmalloc()` to allocate memory, =
-hence ensure a `kmalloc()`
->         // compatible `Layout`.
->         let layout =3D Kmalloc::aligned_layout(Layout::new::<Self>());
-> @@ -207,22 +209,6 @@ pub fn new(dev: &device::Device, data: impl =
-PinInit<T::Data, Error>) -> Result<S
->         .cast();
->         let raw_drm =3D =
-NonNull::new(from_err_ptr(raw_drm)?).ok_or(ENOMEM)?;
->=20
-> -        // SAFETY: `raw_drm` is a valid pointer to `Self`.
-> -        let raw_data =3D unsafe { =
-ptr::addr_of_mut!((*raw_drm.as_ptr()).data) };
-> -
-> -        // SAFETY:
-> -        // - `raw_data` is a valid pointer to uninitialized memory.
-> -        // - `raw_data` will not move until it is dropped.
-> -        unsafe { data.__pinned_init(raw_data) }.inspect_err(|_| {
-> -            // SAFETY: `raw_drm` is a valid pointer to `Self`, given =
-that `__drm_dev_alloc` was
-> -            // successful.
-> -            let drm_dev =3D unsafe { Device::into_drm_device(raw_drm) =
-};
-> -
-> -            // SAFETY: `__drm_dev_alloc()` was successful, hence =
-`drm_dev` must be valid and the
-> -            // refcount must be non-zero.
-> -            unsafe { bindings::drm_dev_put(drm_dev) };
-> -        })?;
-> -
->         // SAFETY: The reference count is one, and now we take =
-ownership of that reference as a
->         // `drm::Device`.
->         // INVARIANT: We just created the device above, but have yet =
-to call `drm_dev_register`.
-> @@ -253,7 +239,15 @@ pub fn new(dev: &device::Device, data: impl =
-PinInit<T::Data, Error>) -> Result<S
-> #[repr(C)]
-> pub struct Device<T: drm::Driver, C: DeviceContext =3D Registered> {
->     dev: Opaque<bindings::drm_device>,
-> -    data: T::Data,
-> +
-> +    /// Keeps track of whether we've initialized the device data yet.
-> +    pub(crate) data_is_init: AtomicBool,
+Yeah, it is the same reason why documentation as well as other tagged
+comments like `// SAFETY:` comments enable to catch mistakes even if
+they may be redundant in a certain sense.
 
-What about this?
+I wouldn't mind having those tagged comments after a certain
+complexity -- perhaps it could be possible to define a heuristic for a
+threshold where such a comment is required, and get Clippy to warn
+about it (we are trying to get other tagged comments implemented, so
+it is a good opportunity).
 
-	/**
-	 * @registered:
-	 *
-	 * Internally used by drm_dev_register() and =
-drm_connector_register().
-	 */
-	bool registered;
+I guess a fancy IDE could perhaps render the math expression on hover as we=
+ll.
 
-Can=E2=80=99t we use this in lieu of this flag you=E2=80=99ve added?
-
-> +
-> +    /// The Driver's private data.
-> +    ///
-> +    /// This must only be written to from [`drm::Registration::new`].
-> +    pub(crate) data: UnsafeCell<MaybeUninit<T::Data>>,
-> +
->     _ctx: PhantomData<C>,
-> }
->=20
-
-=E2=80=94 Daniel
-
+Cheers,
+Miguel
