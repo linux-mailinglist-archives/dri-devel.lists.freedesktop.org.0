@@ -2,53 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MDOCAfNtg2kFmwMAu9opvQ
+	id ECwHF69ug2lNmwMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 17:04:03 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 17:07:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F533E9CFC
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 17:04:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ECC1E9E31
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 17:07:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C44610E0A2;
-	Wed,  4 Feb 2026 16:04:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F00710E363;
+	Wed,  4 Feb 2026 16:07:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="AVzXf6Ju";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XnzGhoQx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6338110E6CF
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 16:03:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=b9lIxu4ovet3xhuS4wnPeL3igvkStQvaCz+D9Z2wMRo=; b=AVzXf6JucTDPWVzrpQ9XcUMEMX
- z+HeNAuKCPsQFG5JrRLiDvhnyJ3iXUaG6Oj3VrHMMb7CdMKCOiZTl2PllyeyqDrUfZm5jkbBX7nt5
- Y5BU0mR/TvGLvXKFocq5mnJ+KDK4s7TAebhq2bd1BTB+ffCH38WwHowo1MECacVwJmNm6ynadJUzA
- tDTJEsvxB/Q/wMCcX8JZWNATbxhjraAiPh6oCrMFL7QFLbviam1Yqf5iEnYbSTvzv+LHIX/AhBM9b
- xzzKOzfxfLW1u+hUfHNUy96xIAyGrkTbb3dqFNS+oKCseN0tqZgHwWp2B0Q9ZN5GRHi6uGgxRj4wU
- i5cdSDQQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red
- Hat Linux)) id 1vnfM6-00000002ItN-1FYi;
- Wed, 04 Feb 2026 16:03:50 +0000
-Date: Wed, 4 Feb 2026 16:03:50 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: boris.brezillon@collabora.com, loic.molinari@collabora.com,
- frank.binns@imgtec.com, matt.coster@imgtec.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org
-Subject: Re: [PATCH v2 2/4] drm/gem-shmem: Map pages in mmap fault handler
-Message-ID: <aYNt5m8rffUYK1al@casper.infradead.org>
-References: <20260204114341.195143-1-tzimmermann@suse.de>
- <20260204114341.195143-3-tzimmermann@suse.de>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DF0A10E363
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 16:07:07 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id EF5C343386;
+ Wed,  4 Feb 2026 16:07:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC1A4C19423;
+ Wed,  4 Feb 2026 16:06:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1770221226;
+ bh=zgeg4LpFYkGts44vRDwLwUa+VYSDlRkllv2N4lJEvvg=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=XnzGhoQxZKf3UQUh2YoZFN9qW8ovu2POoWF9WjU6+PWtF+yVh/x/ub22/QXkV9h+Y
+ xQAB+vpKbZNTxsxvYOGjMKFs+zhQYNcpvhtzg5hwZy7PC72ma7i23uU5zASOCB3d7U
+ JE+DG9j6685I5plBOtUzYIFke4zPfub1mdjahapJr4+/uYqYwArr2iW9Zzh+tL+4i4
+ qocUIrDo/U8co47MA3m34ke+IGQfRBAohAjf5uTGNfYgwIiciKP9K7vnqOWNzL2cSf
+ u0QkyK6DDvaohsw0x3RfqmciFoHurjoxlEfTbDT+pLK5v/6DvUWtiQU+mKsVxN/335
+ +mgP920c5zjTg==
+From: Andreas Hindborg <a.hindborg@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary
+ Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Alice
+ Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Dave Ertman
+ <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, Leon
+ Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, Serge
+ Hallyn <sergeh@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Alexander
+ Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, Igor Korotin <igor.korotin.linux@gmail.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, Lorenzo Stoakes
+ <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen
+ Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, Krzysztof
+ =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-security-module@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, Asahi Lina
+ <lina+kernel@asahilina.net>
+Subject: Re: [PATCH v14 1/9] rust: types: Add Ownable/Owned types
+In-Reply-To: <DG6AIA0QK77C.EKG7X4NBEJ00@kernel.org>
+References: <20260204-unique-ref-v14-0-17cb29ebacbb@kernel.org>
+ <20260204-unique-ref-v14-1-17cb29ebacbb@kernel.org>
+ <7uftlTZxNVxMw7VNqETbf9dBIWLrQ1Px16pM3qnAcc6FPgQj-ERdWfAACc5aDSAdeHM5lLTdSBZYkcOIgu7mWA==@protonmail.internalid>
+ <DG6AIA0QK77C.EKG7X4NBEJ00@kernel.org>
+Date: Wed, 04 Feb 2026 17:06:50 +0100
+Message-ID: <87fr7gpk6d.fsf@t14s.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260204114341.195143-3-tzimmermann@suse.de>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,70 +84,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.49 / 15.00];
-	R_DKIM_REJECT(1.00)[infradead.org:s=casper.20170209];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[infradead.org : SPF not aligned (relaxed),none];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:boris.brezillon@collabora.com,m:loic.molinari@collabora.com,m:frank.binns@imgtec.com,m:matt.coster@imgtec.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-mm@kvack.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[willy@infradead.org,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[39];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:gregkh@linuxfoundation.org,m:david.m.ertman@intel.com,m:ira.weiny@intel.com,m:leon@kernel.org,m:paul@paul-moore.com,m:sergeh@kernel.org,m:rafael@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:igor.korotin.linux@gmail.com,m:daniel.almeida@collabora.com,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vireshk@kernel.org,m:nm@ti.com,m:sboyd@kernel.org,m:bhelgaas@google.com,m:kwilczynski@kernel.org,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-block@vger.kernel.org,m:linux-security-module@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-pm@vger.kernel.org,m:linux-pci@vger.kernel.org,m:lina+kernel@asahilina.net,m:boqunfeng@gmail.com,m:igorkorotinlinux@gmail.com,m:lina@as
+ ahilina.net,s:lists@lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,linuxfoundation.org,intel.com,paul-moore.com,ffwll.ch,zeniv.linux.org.uk,suse.cz,collabora.com,oracle.com,ti.com,vger.kernel.org,lists.freedesktop.org,kvack.org,asahilina.net];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[collabora.com,imgtec.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,kvack.org];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[a.hindborg@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[willy@infradead.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[infradead.org:-];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[a.hindborg@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel,kernel];
 	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 7F533E9CFC
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[t14s.mail-host-address-is-not-set:mid,asahilina.net:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,pm.me:email]
+X-Rspamd-Queue-Id: 9ECC1E9E31
 X-Rspamd-Action: no action
 
-On Wed, Feb 04, 2026 at 12:39:30PM +0100, Thomas Zimmermann wrote:
-> +	ret = drm_gem_shmem_try_map_pmd(vmf, vmf->address, page);
-> +	if (ret != VM_FAULT_NOPAGE) {
-> +		struct folio *folio = page_folio(page);
-> +
-> +		get_page(page);
+"Danilo Krummrich" <dakr@kernel.org> writes:
 
-folio_get(folio);
+> On Wed Feb 4, 2026 at 12:56 PM CET, Andreas Hindborg wrote:
+>> From: Asahi Lina <lina+kernel@asahilina.net>
+>>
+>> By analogy to `AlwaysRefCounted` and `ARef`, an `Ownable` type is a
+>> (typically C FFI) type that *may* be owned by Rust, but need not be. Unlike
+>> `AlwaysRefCounted`, this mechanism expects the reference to be unique
+>> within Rust, and does not allow cloning.
+>>
+>> Conceptually, this is similar to a `KBox<T>`, except that it delegates
+>> resource management to the `T` instead of using a generic allocator.
+>>
+>> This change is a derived work based on work by Asahi Lina
+>> <lina+kernel@asahilina.net> [1] and Oliver Mangold <oliver.mangold@pm.me>.
+>>
+>> Link: https://lore.kernel.org/rust-for-linux/20250202-rust-page-v1-1-e3170d7fe55e@asahilina.net/ [1]
+>> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+>
+> Given the From: line above, this needs Lina's SoB.
+>
+> This patch was also originally posted by Abdiel and Boqun and I think we should
+> account for this. I mentioned this in a couple of previous versions already,
+> e.g. in [1]. I think we should account for this.
+>
+> [1] https://lore.kernel.org/all/cc28d048-5e0f-4f0e-b0f2-1b9e240f639b@kernel.org/
 
-> -	pfn = page_to_pfn(pages[page_offset]);
-> -	ret = vmf_insert_pfn(vma, vmf->address, pfn);
-> +		folio_lock(folio);
-> +
-> +		vmf->page = page;
-> +		ret = VM_FAULT_LOCKED;
-> +	}
->  
-> - out:
-> +out:
->  	dma_resv_unlock(shmem->base.resv);
->  
->  	return ret;
-> @@ -689,7 +698,7 @@ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct
->  	if (ret)
->  		return ret;
->  
-> -	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
-> +	vm_flags_mod(vma, VM_DONTEXPAND | VM_DONTDUMP, VM_PFNMAP);
+I had a question about this in the cover letter.
 
-Do you need to explicitly clear VM_PFNMAP here?  I'm not familiar with
-the DRM stack; maybe that's set for you higher in the stack.
+It is my understanding that the SoB needs confirmation from the author
+if the code was changed. I changed the code and did not want to bother
+the original author, because it is my understanding they do not wish to
+be contacted. I did not want to misrepresent the original author, and so
+I did not change the "From:" line.
+
+I want to be clear that I want to submit this patch the correct way,
+whatever that is. I will happily take all the guidance I can get to find
+the correct way to represent the work of the original author(s).
+
+How would you prefer to account for the work by Abdiel and Boqun?
+
+Please advise about SoB and I will correct the series.
+
+
+Best regards,
+Andreas Hindborg
+
 
