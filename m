@@ -2,68 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0BaZL9AQg2kPhQMAu9opvQ
+	id EL7QKd8Rg2kPhQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 10:26:40 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 10:31:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F50CE3CFB
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 10:26:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 112DCE3DDF
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 10:31:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7232F10E599;
-	Wed,  4 Feb 2026 09:26:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E66010E5A2;
+	Wed,  4 Feb 2026 09:31:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aWgTejNO";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SR0MdOrN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B93B10E599;
- Wed,  4 Feb 2026 09:26:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770197197; x=1801733197;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=S1nzuNSJMTBoOxH6sKw/202K31gvAx+KFP3lq5TqC5Y=;
- b=aWgTejNOMi/h2ZmSCwvlpgkr8O3oQM0znOzzQ0Us5KJZLqjQvc3Dp2Ii
- w/e0iWQnN62IF+wkVjnGPAK8xLVkvjRD5kzhhFhPYZ1JKG3w6nxsl8u4C
- Nobi4PbgzhcgQBmMhW8qpOBYTxbWrJKNOoXXvFduwSgSZrH7GTgUaf9OF
- TOGrC4gOuu5moO4aFIr0hx7rYHeGx11ziz3TW22Zpl/M0dt7Y1IuppaDy
- AFXIondUrW22rwWnY23Q9hr+5MXjT+mpS/TiNNw31XAqfKYVVyDhEa/xn
- d61hkrAAXCvRBQllsoA0I14MmXKo15RpxZo6HfOUL9j2ij9dqySfp/qvV Q==;
-X-CSE-ConnectionGUID: XMo3ujGNQjGah5IVIhgOBw==
-X-CSE-MsgGUID: IzhpAF1bQOWX9f519tM/CA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71276396"
-X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; d="scan'208";a="71276396"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2026 01:26:37 -0800
-X-CSE-ConnectionGUID: n1iv16PmS3mg1jffErXZPg==
-X-CSE-MsgGUID: AuorOw+QQMyB65iZEao1DA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; d="scan'208";a="210153564"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost)
- ([10.245.245.209])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2026 01:26:35 -0800
-Date: Wed, 4 Feb 2026 10:26:32 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Krzysztof Karas <krzysztof.karas@intel.com>,
- Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>
-Subject: Re: [PATCH v4] drm/i915/selftests: Defer signalling the request fence
-Message-ID: <aYMQyMS1b5PhLPyv@ashyti-mobl2.lan>
-References: <20260130184507.45233-2-krzysztof.niemiec@intel.com>
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9A8710E59E
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 09:31:06 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id
+ ffacd0b85a97d-432d2670932so5901909f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Feb 2026 01:31:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1770197465; x=1770802265; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=KG2GKfbQvjEW2JmZRuLJwTnuQG9bribyjhWUk28KFDY=;
+ b=SR0MdOrNMsiqNgBQYYjZBD7Q8Pr7+uXdPsLpnL2iEqcqKwjyHldUjQC5aXQ4dxLTO3
+ b5cUQcspn5UjUDFgrD/P6lgUkmgEHm+zBqIYHaYQ+VGAu4UgrmAOw/qZg1jxAGH/bk90
+ WNaIu7/7Uaz+GpVIiDBfSkvNyA3yjNPTF002iUkh6S9iGe8srAiPN8nNOwbVEJx7fNX6
+ 6v0/r6bo/BEWE4tJCEAscWXYfjwCGkFS814KWPpBVH9gI2w+5aIf6psPhXyZtkXf4MMP
+ Qf9q7JLomkALOKAUB/8lgfi6iohV3Ba8R5nGrQFs0XMYEsX9AChTmdkCg0mRDdrtiyPq
+ t+Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770197465; x=1770802265;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KG2GKfbQvjEW2JmZRuLJwTnuQG9bribyjhWUk28KFDY=;
+ b=OKUCXl2WVNO7DTLaGXRU9kVJEFgkaBovHCad7QQVJM9yvmnJVZ/ptBAE07Owt1gHuI
+ L9A9CMej5XujmnYXTrsfATxrpxI1hBLxJ8X96ofbG53uiikC8v+0t2r+Q9ladOgv15G5
+ 6BhJNJR6SAtZ6D3hP0d9cODutttBV6pU3cGoAiu1WiEoe56R9x9jHpuZh0dd3WyZ8oos
+ qOVlUQag/1EegREmujv2iRQYI/4juhQZZut5N1gUiKdPzTEyEnR4ZSlkfsueqTsgwnXT
+ 0pnuJ2JeM/MB4xfdRtmek6bviEeDjqpXMObv2iETCaBF1/NgsoihjUefgUnOp5hTl/Np
+ e3Mg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXq/NGXpb3zoA2J7txCs4iiWg2w6SxVA40iCQysnhIRh/8yjzoD1JdJn+vBkYD0V0cqT1at+4HenE4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YycIJoUJY7Zrto24pZRvqk+YA6YYbMU7w8ZBdv5o6R6OblHF6nv
+ 8vL5yJvtff4JkWbPpeGU9EiD4RPQv5qW5kbJfwPtmmcO+Sd4wglmD0+iUiHSpc8UnSs=
+X-Gm-Gg: AZuq6aLxegIzCVKYDoJt72UICMIdM4tZPUFG9QEPtkZImQMj6lkhD/5nJnhuvsRbHUK
+ 32b5jYDS0GJvnaAt5FS932ePAlF2wrgHJ9Ay4Yc/wgzzMQiXJXNVYF54E6sk+C3D1QCb8abvz7E
+ 0m0nvTuIIRQReuuQgIt+snY3sxY656kMiQmQmNbH/T5bAhK9PuhJLIX70SRZxYt139IQEdEcw3H
+ BqVb3mS+XDVftBcrGbqdtAGdr5fKGbwPUIrMcPn/rPaQGaVH97o8rFMz3SYhOI6+AXTlN9EvzAC
+ PDt0C6FS7nXBg9sL/u4QAHR3EKaDyZp9MQ4RK6hsJXgDzlotZAbpitQOMaHQ64n4OKxc9TEUOCm
+ mtCAd92Y7SluaG2V51pN0czZWaCSi6GMhCCAn71thEbsF1J3SC7FMnDvLN8RedlASDzGh7jOXc1
+ 2hMYGpPz6WpAB8Zep4
+X-Received: by 2002:a5d:5f45:0:b0:430:fa9a:74d with SMTP id
+ ffacd0b85a97d-43617e3fff4mr3072034f8f.24.1770197465047; 
+ Wed, 04 Feb 2026 01:31:05 -0800 (PST)
+Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-436180588bfsm5307015f8f.26.2026.02.04.01.31.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Feb 2026 01:31:04 -0800 (PST)
+Date: Wed, 4 Feb 2026 12:31:01 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: KrishnaAgarwal1308 <krishnaworkemail1308@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Revert "staging: fbtft: remove goto from
+ define_fbtft_write_reg macro and clarify empty modifier fbtft-bus.c"
+Message-ID: <aYMR1Q-Fifzts8gH@stanley.mountain>
+References: <20260203044728.23774-1-krishnaworkemail1308@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260130184507.45233-2-krzysztof.niemiec@intel.com>
+In-Reply-To: <20260203044728.23774-1-krishnaworkemail1308@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,91 +96,63 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	ARC_NA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gitlab.freedesktop.org:url,ashyti-mobl2.lan:mid];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:krishnaworkemail1308@gmail.com,m:andy@kernel.org,m:gregkh@linuxfoundation.org,m:linux-fbdev@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andi.shyti@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER(0.00)[dan.carpenter@linaro.org,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+]
-X-Rspamd-Queue-Id: 1F50CE3CFB
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dan.carpenter@linaro.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linaro.org:dkim,stanley.mountain:mid]
+X-Rspamd-Queue-Id: 112DCE3DDF
 X-Rspamd-Action: no action
 
-Hi Krzysztof,
-
-On Fri, Jan 30, 2026 at 07:45:08PM +0100, Krzysztof Niemiec wrote:
-> The i915_active selftests live_active_wait and live_active_retire
-> operate on an i915_active attached to a mock, empty request, created as
-> part of test setup. A fence is attached to this request to control when
-> the request is processed. The tests then wait for the completion of the
-> active with __i915_active_wait(), and the test is considered successful
-> if this results in setting a variable in the active callback.
+On Tue, Feb 03, 2026 at 10:17:27AM +0530, KrishnaAgarwal1308 wrote:
+> Replace the goto-based error handling in the define_fbtft_write_reg macro with an
+> early return while ensuring va_end() is called on all exit paths.
 > 
-> However, the behavior of __i915_active_wait() is such that if the
-> refcount for the active is 0, the function is almost completely skipped;
-> waiting on a already completed active yields no effect. This includes a
-> subsequent call to the retire() function of the active (which is the
-> callback that the test is interested about, and which dictates whether
-> its successful or not). So, if the active is completed before the
-> aforementioned call to __i915_active_wait(), the test will fail.
+> Also add a short comment explaining the empty modifier argument used
+> for native byte-order writes, instead of introducing an identity macro.
 > 
-> Most of the test runs in a single thread, including creating the
-> request, creating the fence for it, signalling that fence, and calling
-> __i915_active_wait(). However, the request itself is handled
-> asynchronously. This creates a race condition where if the request is
-> completed after signalling the fence, but before waiting on its active,
-> the active callback will not be invoked, failing the test.
+> No functional change intended.
 > 
-> Defer signalling the request's fence, to ensure the main test thread
-> gets to call __i915_active_wait() before request completion.
+> This reverts commit 6eec69e273e124dca8549fc52b0958b2953085ee. As per maintainer's feedback.
 > 
-> v4:
-> - Lower the delay timeout to 50ms (Jonathan)
-> - Put the check on work_finished inside a helper function (Jonathan)
-> 
-> v3:
-> - Embed the variables inside the live_active struct (Andi)
-> - Move the schedule_delayed_work call closer to the wait (Andi)
-> - Implement error handling in case an error state - the wait has
->   finished, but the deferred work didn't run - is somehow achieved (Andi)
-> 
-> v2:
-> - Clarify the need for a fix a little more (Krzysztof K., Janusz)
-> 
-> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14808
-> Signed-off-by: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+> Signed-off-by: Krishna Agarwal <krishnaworkemail1308@gmail.com>
+> ---
 
-BTW, I don't want to block this patch, I'm just not feeling
-comfortable at merging it and I don't have better suggestions.
+There is no need to revert the commit because we weren't going to apply
+it.
 
-BTW, you already have consensus here:
+Also checkpatch is going to complain about return statements the same
+way it complains about gotos.  Actually, I'm surprised checkpatch
+complains about gotos.  Does it differentiate between local gotos?
+I can't be bothered to check.  #LazyWeb
 
-Reviewed-by: Sebastian Brzezinka <sebastian.brzezinka@intel.com>
-Reviewed-by: Krzysztof Karas <krzysztof.karas@intel.com>
-Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+regards,
+dan carpenter
 
-And, BTW, can you please add comments through the lines so that
-people understand what you are doing.
-
-Moreover, as Janusz suggested I would also like to have a real
-use case description of the issue and how it appeared in our
-environment.
-
-Thanks,
-Andi
