@@ -2,165 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eMUNHouhg2kLqQMAu9opvQ
+	id 2L0GGOqlg2l3rgMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 20:44:11 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 21:02:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D846EC311
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 20:44:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D0AEC55B
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 21:02:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AE8010E765;
-	Wed,  4 Feb 2026 19:44:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE11A10E76B;
+	Wed,  4 Feb 2026 20:02:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="5t6HlYrA";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="DZPThFqM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BL2PR02CU003.outbound.protection.outlook.com
- (mail-eastusazon11011036.outbound.protection.outlook.com [52.101.52.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 473E810E767;
- Wed,  4 Feb 2026 19:44:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SN0l+PUWpriclQ93FG37yC3AVc7iMrGBqsyb0hy36fjSuJ7B3hq8dbRyfBe4LghnuLvmfQ0LKKON4BjoXL65BpzX8PZ5pqaZ/xIsw0d8hFcoHntoO0lDqRVFPtKVrIyDCvKs8/CY6O8GNMRMrVBjt2l6CepUxt7l6F8DsfpQqj3jcOBrnDbwHlq56LA02ECoHnlUDTu0v5pbanAaqyrIsbERbats72tDDahpkrSH8mpEXxoNHziLjvkbKtnOEWYPILO0OqkozHXKnNp7gqT3ECpFc3fJGys7OEbLzbrl2EvtRJqFc/tVPUzm5T7qx6YXx/T26zFaFS4G6tXqPi9FCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ouFeZCH4EDu0Zr8I2K6ebaMRiHlr4n7EtHjIvP3IstE=;
- b=NtuVLNAG7kiPp5xM8Y/cpBSqqBMa9XcUBc06zUdmsQrp3+u7R13RiKQMP3YlfxTEReeZjS3SwlSmjUgmH5FzqL8E5N5+ww7+rrE/5SBSdHluMlZgf6vFiw2bi0tbPaepA36YtSZ6iKGhxkdSU2H3o3wKUIm+/l91UHdLmr91b5EgO0EA8U9o5704fsLSsNjK+Xqw4dX9EQOdfxCLH+jJw23p5EI595KKpZQqDKgTVQPskce2mYQThZxKRbxzf4qTdXF6fDpcCwgKcj9XClBzWejNteBKhMtwiNeM/mNmFXyGnwwIDSXhSoScubQjgSKDK2Iy3qUKJHKnaVxGMb8nmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ouFeZCH4EDu0Zr8I2K6ebaMRiHlr4n7EtHjIvP3IstE=;
- b=5t6HlYrAYiTAa43gRCcjE0/H7GdM1I17bzu6L4ICl1La6pQQu+3KAw96kOFd4Nm5B0rO/744EZOh8FVbQjvGGJJah7OV/Ch6AzQ+yX5fXjCRYBz3MaFDDyi9qdLrhC/+CYdDq0AVp0RowGKiORoxNLX7Y1UpfYG7747Zq1lUXi8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
- by DS2PR12MB9799.namprd12.prod.outlook.com (2603:10b6:8:270::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Wed, 4 Feb
- 2026 19:44:03 +0000
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2d79:122f:c62b:1cd8]) by DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2d79:122f:c62b:1cd8%6]) with mapi id 15.20.9587.010; Wed, 4 Feb 2026
- 19:44:03 +0000
-Message-ID: <00fc5199-0f6b-4b05-8825-f7ca627890a2@amd.com>
-Date: Wed, 4 Feb 2026 12:44:01 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/display: expose plane blend LUT in HW with MCM
-To: Melissa Wen <mwen@igalia.com>, harry.wentland@amd.com,
- sunpeng.li@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch
-Cc: Matthew Schwartz <matthew.schwartz@linux.dev>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com
-References: <20251209151032.91738-1-mwen@igalia.com>
-Content-Language: en-US
-From: Alex Hung <alex.hung@amd.com>
-In-Reply-To: <20251209151032.91738-1-mwen@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4P222CA0017.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:303:114::22) To DM4PR12MB8476.namprd12.prod.outlook.com
- (2603:10b6:8:17e::15)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F35A10E767
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 20:02:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1770235360;
+ bh=a/M6Z0teSVJkkSYd4p86GcxD8xoetTNz8XjsO//xYdw=;
+ h=From:Subject:Date:To:Cc:From;
+ b=DZPThFqMzwckLkl057WW4jJOlvi1/DfQdfsyZycKQEWtbHlJfsEW3EYdc0TV+fTV6
+ g1wXa9heDEs7LQyDajVeEOjkQdkYda+ZncRgsZU+NGintUro28SCVHfyibRzwTdewz
+ I2NaRoF6U98HDQ5ReaivwF7p76Qfy0B/EiyzBT9NTeonTs3++rrlo8Z9iTXkuELPWp
+ h7PyJx6v6T984Gza3V9vHm3dCXbZn5bteDE2fj8CSc0ffRCSObS3rgS5uGzjBdTytH
+ dGim+bo0lhJ4snGzS4Oah6kFm1TtPXOSdxz918t3GOKg9D9WJWsgmgBQJrnkJXKXwr
+ jgZcqJj7GkTtQ==
+Received: from localhost (unknown [82.79.138.145])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 05CAF17E1144;
+ Wed,  4 Feb 2026 21:02:39 +0100 (CET)
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: [PATCH v7 0/4] Introduce BACKGROUND_COLOR DRM CRTC property
+Date: Wed, 04 Feb 2026 22:02:27 +0200
+Message-Id: <20260204-rk3588-bgcolor-v7-0-78d1d01c5ca1@collabora.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|DS2PR12MB9799:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8662e902-62a2-4ed1-dc7b-08de6425c004
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?eXQxS0Y4cHZ2YWxFNVlMTjJ4Y1FMaU1TN2tmSFMxYXF2Z1Qyb1lKMDZoN3Vn?=
- =?utf-8?B?V3NSRGNabkpwMHR5cG9QbVExQmt0WmhZRHpib3FVRkJkTEw5WHZ4Q1NTdnlW?=
- =?utf-8?B?MERtYjF3L2RmQStPNUhQOUFHNEgzNVJKeG1FUEU4djRkZkxiRjBoNWZoSWNo?=
- =?utf-8?B?Y281aUpLSHFJYzFSZGFPc0NpcExZRU1ic3NKdE44YTVuOUl4OXZMUmZWUEpR?=
- =?utf-8?B?NUwxbUlFbjdkNmlyWWNIUllEVzZDajVmN0pDS0dXcnFwc2c3YmZsR3pUYW54?=
- =?utf-8?B?SmNaemtzMU5xZjhrN2dzYjRXYVAxQllUODlGMmdYN1ViNDhEMlFNVXFYZnlD?=
- =?utf-8?B?SzRxTGN2V1g5b2NvcS9TZGFCZDF0cjdTeXZiYTNtMlhHVkVoUHlqRCtSNS85?=
- =?utf-8?B?dERlT0FUMU9pVnQrQlJoTzFNd2g1MGZBUzBSLzZsR1IxSmJHQ3dBUXlKK2xK?=
- =?utf-8?B?N1lMUC95ZUE2VnZ5ZkNPdXV4UzhUdFEwcjltWHBVeEs3RkhyTU9wcHhWMTBi?=
- =?utf-8?B?TWxDYXNBbjV4MmFWREJQZEFnbEN5ZmZYbzRPQ1ZjR2J1Q2owVGRRdWpmanh3?=
- =?utf-8?B?YUpmL0F0UVhiVWF2RnpQNENTN0cwT1hBUmh1TmdIa25SRFRpOWlHbTBXdEhU?=
- =?utf-8?B?MU1zaXRLSDJYT3hpNzZCMXh1UmlHUW5vQTJBVHZITXNzK3BSMVozckVpT2pt?=
- =?utf-8?B?TnFkbHhCVFZSN1N2Q3JQZXRnSE8wU09sTTdwZktscGxqdjU4UUxTeGVYcjZj?=
- =?utf-8?B?cU5kNTAyVHBHL0kwMVFiOVd5Yll2cXlrNTBSVXhhYnE0R2hxVytIVzJjclRN?=
- =?utf-8?B?eGJDbWxETW1pTUJ2ZTJOQ3padStaR1ozR2NlVzVDaDNQamw3UVNTMmNvV2xw?=
- =?utf-8?B?OE9xSUNDMHRSZEF3RGVIOFZKaGxVbWcvL1hCaVVxWFhTM0wwVW5iMktlWTN3?=
- =?utf-8?B?UktKVDMvK3dTWmRVcDQvZ2FuVVYrY0NJT1FvbkFqN3JScUtFUTJneVBnbUpC?=
- =?utf-8?B?US8wSHBUT0htaktLZkdOZElybk1RVTIwaXlxdEFxTUplVmt1NjhqWEJ6U3Bz?=
- =?utf-8?B?eGNNZEtGNU5GS2QxL1dkcVFLTjVZdkhWQzRwN3JhQmpnZDJhM3NOaTczOGJY?=
- =?utf-8?B?S0ZHU00wYTdWdHBUTW9CcjhzaUZPbkpEK3puSEl4QXJTYXpPOUxRa3YxQUhV?=
- =?utf-8?B?SDVSOFZTU1JjSkFsTmZML1VPQjJNRG9NQTBzZUY4dDZmdWhKdktibjFhOWEr?=
- =?utf-8?B?Nms4UUwyRGJ1a2RMc29KRksyUEFjRUZvbHZSQlRnV2c2NDh0MFJiT1JiWWJQ?=
- =?utf-8?B?VmxGZjJGWjNRQ3Bya1Nsa2tWSlZKMTdGd2xqZVlJN09oZ3ExZ1VwQmNhdzJ5?=
- =?utf-8?B?VjFzUmhTZGIralozUkx4dkdvOTYwVzRCV0ppV1QyMXVlZnN1OXVNMCtha1dP?=
- =?utf-8?B?Ujc2TTZVVmFsbGFvbll0dVBEVTlVd29NT2lyajVscGtQazBtVWJCQjlEWXdC?=
- =?utf-8?B?eXlFb0duMlMxWHAwRGZYdWcwSHYvRmFtZmJVYitzbUR6ZWVJWUxSWVJxazN0?=
- =?utf-8?B?S2dGK2dzaUZ3WHYybWRZUWx6V1E2RktwQmNXWUtaSmp4WlpJdDlaOHlYbllj?=
- =?utf-8?B?d2lDaWNNS2srWnYzVDNxb2IyME5tRVQ3MGlCL3pLSGV6NFVIOWdCL1VET3V3?=
- =?utf-8?B?K3ovNGZDNmpnR2o1SXpab2dIK0xmakZTSWVZNFpwMVkxNjBnWjBTYWV1Rjdp?=
- =?utf-8?B?a0hTU1kxWUZiMlFER1FvNGNOU1M4RkZJM3NPSzdsN2ZyQjRsemJaa3h4UVRC?=
- =?utf-8?B?Z1lzeVJWNzdhT3Q4dmo3QXduR0FqeVVoLy9QTC9CZzhTYnlyVzhzZjE2U2hW?=
- =?utf-8?B?NVBhZTdYZGozS0ExZmNmenJOVk5jN0VvdHdMSndjOE5YcG15MVJhMUl3Qm9B?=
- =?utf-8?B?MDU1dlluNkRvdlY5SmowMVJFSG9zNFdvbkZtMzdGd2xQT2RuWkhNUVBGbFdx?=
- =?utf-8?B?dXpFRU5qcThHcjVYTHVITlFJSFZNNnpPQnFONzZJZWtSY1JCUHZKZUFYcmVO?=
- =?utf-8?B?bFpVWFJ3c2Fic3JxTUVxb3JKSkczc0VoZ1BXb2RGb0czZmpBOXo5dTJYTVNY?=
- =?utf-8?Q?CWqQ=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cFJxV0FVMGZ1TzE1ekUzTTZpREJqdHJkbC9aUitHUjE4clVlTzVUWnNmMEVi?=
- =?utf-8?B?Mm0veE50MDBSVWlPOWd6L0pOcnUxRnFZSEhzMHRxdDBGWnJoa1l6M2dsL2Fr?=
- =?utf-8?B?ZjFoWmNxYXY3dDhwS1NDSnJHS2czS0NHeW9BNlJBRGpvS3ZpdEozK2lHdm8r?=
- =?utf-8?B?QnFtMS9ZcEhDNVZkV3U2bEFJTmJlU01lZFRVYnFuOXorY3IvdnRiZmNIbW1O?=
- =?utf-8?B?d3UvR2I0TmZIR0ZWZDU5NE93b29YbEt1eWdYczdCUTY5NHhrNEZZaTJSYjZK?=
- =?utf-8?B?cHNneGlVTzZadzBLenBHT08yTWYyTGhKVklXWmIwNHZocDBvaEZ5UVVoQThZ?=
- =?utf-8?B?MEZYTExic2g2M2ozdThLVHRhSU4yUFFsb3orK3F4RjBoc25Va3diQWNKaXBZ?=
- =?utf-8?B?Mml5eCt0bm5jNk44cTRmZTdvRFN0V0NVRjN6dW5VKzZjS3ZlRU1BbktMSEJ4?=
- =?utf-8?B?NTVpaURWOW1PUU1CcjRNZExudHlTRnlKRElSTFNFWElvOXlKSlJVNjE3dTRD?=
- =?utf-8?B?bTkxY1hSSE1Oa0lIT3RJNHlUUE5NZTFDdGJhbjRvVjc0WS9qZkpiK1I5VWo5?=
- =?utf-8?B?WkdvS0JYdFJJUmNoL3FibmpYeFJ6OG1OdW12RmpkK1JNejBlT2d4T2VDZllo?=
- =?utf-8?B?NmlCemx1TFhVdENMMVRndW44TFJ5c3lqakNqdkdQOHQvc0E0T29TVmVGZUdG?=
- =?utf-8?B?NzVsTGZjaXVwaS91YmtDR2UydDNaMHJ1cWFjcE1ldDVPR3MwV2Y2YUR3TE03?=
- =?utf-8?B?amdidVplZ2tvUFRYOWJZZzJPSW9Gdk5yTENOblZoQ3NaUmxQS2daMDU2Ui9r?=
- =?utf-8?B?RHNHMVNBbUFPVVFqdWNZZWYzQjhXb1h2NXNaR3k4OCt4WVIxTENaSmJFWVdC?=
- =?utf-8?B?VFRrUDN6M2xncHpSbzVNQjRDdzRCVjg3bVR0M05RSXkrOGZNR1VvQ01pMFZP?=
- =?utf-8?B?YjNlSzJzUjdDSDQxVnMrRmZaaTd5TStmcUd0a0M4eVZ4ZFlDZE9pb0t6UkQr?=
- =?utf-8?B?YjJiWkY4Q21iZkVaYjhqTzlYMHBwNy85bDR3VzhualFsc2xWWi9nSTFzeGZI?=
- =?utf-8?B?K1BRNC9meEc2cm9ucjNjUklxTkdJdkFZWFM1SzFqN2xxSng3d2pyc1AyMFFU?=
- =?utf-8?B?d3J3ekcrMkNGbVJIY0NzN0NORnBzLzlJNFdJUVN2Nm9JVTRFcWFCeVBGQ3Nm?=
- =?utf-8?B?OXB6TGxBckhhTEJlcnBqQU5EUkZGOThYNTEvSkVIbGYzOG1jcTIxczl5VTNk?=
- =?utf-8?B?dmFrU0NhU2hKRXVZWHdQWTJGb1Fmbm9WNUVUdlVNelUvaVhzWmY2WGx6bllJ?=
- =?utf-8?B?aXBGeE5JRlZ3Y1ZyMEhWQklsYmwwNjNmUFVrSWc5THFGQ2tNTXJMRGovV1lz?=
- =?utf-8?B?YjAzK2MvWTBmK0ZIUFRnQTVtOUNFSDhDWW5sOTVVamRZbUJab0VTK3JWM2Z5?=
- =?utf-8?B?cHQrWXFScEtyOXhLOEZneG1RQm9wNnZNVkd2N0lYWW44S3hDUmdtcWJ5U0Zq?=
- =?utf-8?B?NzN5NXZMbGdzUkZncFJzM3orVEpHYTRlV25ob1NsZlVCL3R0SVRCMzFjdmYx?=
- =?utf-8?B?U0dwWnFrNmtlbU5rOU4yS080aFhQUklzUVE3Ym8zbGE2ekRzOHUxQUMweG9R?=
- =?utf-8?B?b1R4TUU2cXNLUDVObTZNcU5kMWN1VzJENG9TU2t3NkJsR0MwVHVXSzNMRy80?=
- =?utf-8?B?NU4yaE9GSXBnNWJrNWd1L0lMdDhZNGRPL09EWEhydlJ3elFNd25nVHN3ZWdk?=
- =?utf-8?B?b1ZxNXNmZkc5RkFONDFqYjNtOW9kcVZVQmhqOFkwby9KcEc3b21tT2diNmJJ?=
- =?utf-8?B?dzF3YmNDZzhVOXBWWFJSS21yLzZNMENmUGRXQm1ndHVhVlB3RnpHQnVzSjdk?=
- =?utf-8?B?TStDcHpZcElveHJjYmpNeVNnNUw4WGV6OE5yZ1JXUmVZcVFQU1gzQWY2VVdF?=
- =?utf-8?B?ODgyQldpSlVSQVczQ201TDV5TGEzeXJkbjZHdnRjSlYvaCtnOUdSMXhqckw3?=
- =?utf-8?B?VWZ4UnR3c1lmVjRlM0VReVZQSFNwejFJTGZWZnRiVTZyMnZ4Ym1GaXZvY1lN?=
- =?utf-8?B?ZHpoeHdtYy83WFhqd3VpcVlBcmE0NFdRREh3R1VlTmpibVRWTktMTWozSVhX?=
- =?utf-8?B?MSsxUW5BaEdZWnduckNZMGg3WXV0dFg0aEw4M1VMZDc5TzB6YmtWNEg1bnlV?=
- =?utf-8?B?cnNpcFFLbkhIMlF3YUZ3WGtESkRvQlVFWTBvRTdLWE5xM1V0SE96UE56VmZR?=
- =?utf-8?B?dE91ZHF3TmhtK1REVG15VlJTcEJCWVJXdkpXbmk3U0xtMk0xdDNvRUtUbXhB?=
- =?utf-8?Q?6H7h+mMYt75uYxGOwv?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8662e902-62a2-4ed1-dc7b-08de6425c004
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2026 19:44:03.3710 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CnjkYY6ZVndgVia2/EWLpkoruo285E0ESeBDtDrvVoo8X8Qfe/6ybQG3a30gOoF1x0QHIoBpHglo1r6GoE3HmA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9799
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/23QwU7DMAwG4FeZciYoduom2Yn3QBycNNkixoJSV
+ IGmvjvpEAytPf6/7E+WL2KMNcdR7HcXUeOUx1zOLZiHnQhHPh+izEPLAhWSsuhkfdVkrfSHUE6
+ lygBsvGNSxgfRlt5rTPnzCj6/tHzM40epX1d/gqX9oZzCe2oCqWQanBmSg8G69NT6E/tS+TGUN
+ 7FwE/4RoECvCGwEUgjagvJswxahbwSAXRG6EYwhOOU6tJG3iO5GIKx+MnXLFSkBoIlsyGwR9Ev
+ 0qo2tCGqER2K2PWgE2CL6/8T6ir4RASgZIu4U0T0xz/M3Xu/JVv8BAAA=
+X-Change-ID: 20250829-rk3588-bgcolor-c1a7b9a507bc
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Robert Mader <robert.mader@collabora.com>, kernel@collabora.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>, 
+ Diederik de Haas <diederik@cknow-tech.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Matt Roper <matthew.d.roper@intel.com>
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -176,60 +85,260 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[igalia.com,amd.com,gmail.com,ffwll.ch];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:hjc@rock-chips.com,m:heiko@sntech.de,m:andy.yan@rock-chips.com,m:louis.chauvet@bootlin.com,m:hamohammed.sa@gmail.com,m:melissa.srw@gmail.com,m:jani.nikula@linux.intel.com,m:andriy.shevchenko@linux.intel.com,m:robert.mader@collabora.com,m:kernel@collabora.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:nfraprado@collabora.com,m:diederik@cknow-tech.com,m:angelogioacchino.delregno@collabora.com,m:matthew.d.roper@intel.com,m:hamohammedsa@gmail.com,m:melissasrw@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,rock-chips.com,sntech.de,bootlin.com];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	FORGED_SENDER(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[cristian.ciocaltea@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[alex.hung@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[amd.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linux.dev:email,amd.com:email,amd.com:dkim,amd.com:mid]
-X-Rspamd-Queue-Id: 1D846EC311
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gitlab.freedesktop.org:url]
+X-Rspamd-Queue-Id: B1D0AEC55B
 X-Rspamd-Action: no action
 
-Reviewed-by: Alex Hung <alex.hung@amd.com>
+Some display controllers can be hardware-configured to present non-black
+colors for pixels which are not covered by any plane (or are exposed
+through transparent regions of higher planes).
 
-On 12/9/25 08:09, Melissa Wen wrote:
-> Since commit 39923050615cd ("drm/amd/display: Clear DPP 3DLUT Cap")
-> there is a flag in the mpc_color_caps that indicates the pre-blend usage
-> of MPC color caps. Do the same as commit a0c3e8bfbab6 ("drm/amd/display:
-> Use mpc.preblend flag to indicate preblend") and use the mpc.preblend
-> flag to expose plane blend LUT/TF properties on AMD display driver.
-> 
-> CC: Matthew Schwartz <matthew.schwartz@linux.dev>
-> Signed-off-by: Melissa Wen <mwen@igalia.com>
-> ---
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> index 56cb866ac6f8..b15f0cf86008 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> @@ -1649,7 +1649,7 @@ dm_atomic_plane_attach_color_mgmt_properties(struct amdgpu_display_manager *dm,
->   					   MAX_COLOR_3DLUT_SIZE);
->   	}
->   
-> -	if (dpp_color_caps.ogam_ram) {
-> +	if (dpp_color_caps.ogam_ram || dm->dc->caps.color.mpc.preblend) {
->   		drm_object_attach_property(&plane->base,
->   					   mode_info.plane_blend_lut_property, 0);
->   		drm_object_attach_property(&plane->base,
+The 1st patch of the series provides DIV_ROUND_CLOSEST() to uapi, as a
+prerequisite to the 2nd patch introducing the BACKGROUND_COLOR DRM
+property that can be attached to a CRTC via a dedicated helper function.
+A 64-bit ARGB color value format is also defined and can be manipulated
+with the help of a few utility macros.
+
+Note this is a reworked version of the patch [1] submitted (many) years
+ago by Matt Roper.  The main changes are:
+
+* Renamed DRM_ARGB_<COMP>() to DRM_ARGB64_GET<C>_BPC() while providing
+  convenience wrappers to extract all 16 bits of a specific color via
+  DRM_ARGB64_GET<C>()
+* Replaced drm_argb() function with DRM_ARGB64_PREP_BPC() macro, to
+  improve uAPI consistency and readability; additionally fixed a bug in
+  case of using bpc < 16: the unused least-significant bits of a given
+  component in the output value would contain the unused
+  most-significant bits of the following component in the input value,
+  instead of being set to 0
+* Replaced GENMASK_ULL(63, 0) with U64_MAX when calling
+  drm_property_create_range() to create the BACKGROUND_COLOR property
+* Moved crtc_state->bgcolor initialization from
+  __drm_atomic_helper_crtc_reset() to
+  __drm_atomic_helper_crtc_state_reset()
+* Replaced '*bgcolor*' occurrences to '*background_color*' for
+  consistency with the actual property name in both storage field and
+  helper functions names
+
+The subsequent patches add background color support to VKMS and the VOP2
+display controller used in the RK3568, RK3576, and RK3588 Rockchip SoC
+families.
+
+The validation has been done using a dedicated IGT test [2] - see the
+reported results below.
+
+On the userland side, a Weston merge request [3] is available, providing
+support for the BACKGROUND_COLOR CRTC property to the DRM backend.  It
+relies on the already existing background-color setting in weston.ini:
+
+  [shell]
+  background-color=0xAARRGGBB
+
+[1] https://lore.kernel.org/all/20190930224707.14904-2-matthew.d.roper@intel.com/
+[2] https://lore.kernel.org/all/20251219-crtc-bgcolor-v3-1-31b589911588@collabora.com/
+[3] https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/1845
+
+IGT kms_crtc_background_color test results
+==========================================
+
+* VKMS
+
+virtme-ng$ IGT_FORCE_DRIVER=vkms build/tests/kms_crtc_background_color
+
+IGT-Version: 2.3-g6b07138e8 (x86_64) (Linux: 6.19.0-rc1-virtme x86_64)
+Using IGT_SRANDOM=1766149634 for randomisation
+Opened device: /dev/dri/card0
+Starting subtest: background-color-red
+Starting dynamic subtest: pipe-A-Virtual-1
+Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.071s)
+Subtest background-color-red: SUCCESS (0.073s)
+Starting subtest: background-color-green
+Starting dynamic subtest: pipe-A-Virtual-1
+Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.074s)
+Subtest background-color-green: SUCCESS (0.074s)
+Starting subtest: background-color-blue
+Starting dynamic subtest: pipe-A-Virtual-1
+Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.074s)
+Subtest background-color-blue: SUCCESS (0.074s)
+Starting subtest: background-color-yellow
+Starting dynamic subtest: pipe-A-Virtual-1
+Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.072s)
+Subtest background-color-yellow: SUCCESS (0.073s)
+Starting subtest: background-color-purple
+Starting dynamic subtest: pipe-A-Virtual-1
+Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.072s)
+Subtest background-color-purple: SUCCESS (0.074s)
+Starting subtest: background-color-cyan
+Starting dynamic subtest: pipe-A-Virtual-1
+Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.074s)
+Subtest background-color-cyan: SUCCESS (0.074s)
+Starting subtest: background-color-black
+Starting dynamic subtest: pipe-A-Virtual-1
+Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.072s)
+Subtest background-color-black: SUCCESS (0.072s)
+Starting subtest: background-color-white
+Starting dynamic subtest: pipe-A-Virtual-1
+Dynamic subtest pipe-A-Virtual-1: SUCCESS (0.073s)
+Subtest background-color-white: SUCCESS (0.074s)
+
+* Radxa ROCK 5B (RK3588)
+
+rock5b$ build/tests/kms_crtc_background_color --device drm:/dev/dri/card1
+
+IGT-Version: 2.2-g3e4ec308e (aarch64) (Linux: 6.18.0-rc1 aarch64)
+Using IGT_SRANDOM=1762774806 for randomisation
+Opened device: /dev/dri/card1
+Starting subtest: background-color-red
+Starting dynamic subtest: pipe-C-DP-1
+Dynamic subtest pipe-C-DP-1: SUCCESS (0.491s)
+Subtest background-color-red: SUCCESS (0.493s)
+Starting subtest: background-color-green
+Starting dynamic subtest: pipe-C-DP-1
+Dynamic subtest pipe-C-DP-1: SUCCESS (0.533s)
+Subtest background-color-green: SUCCESS (0.535s)
+Starting subtest: background-color-blue
+Starting dynamic subtest: pipe-C-DP-1
+Dynamic subtest pipe-C-DP-1: SUCCESS (0.541s)
+Subtest background-color-blue: SUCCESS (0.544s)
+Starting subtest: background-color-yellow
+Starting dynamic subtest: pipe-C-DP-1
+Dynamic subtest pipe-C-DP-1: SUCCESS (0.535s)
+Subtest background-color-yellow: SUCCESS (0.537s)
+Starting subtest: background-color-purple
+Starting dynamic subtest: pipe-C-DP-1
+Dynamic subtest pipe-C-DP-1: SUCCESS (0.536s)
+Subtest background-color-purple: SUCCESS (0.538s)
+Starting subtest: background-color-cyan
+Starting dynamic subtest: pipe-C-DP-1
+Dynamic subtest pipe-C-DP-1: SUCCESS (0.539s)
+Subtest background-color-cyan: SUCCESS (0.541s)
+Starting subtest: background-color-black
+Starting dynamic subtest: pipe-C-DP-1
+(kms_crtc_background_color:744) igt_pipe_crc-WARNING: Warning on condition all_zero in function crc_sanity_checks, file ../lib/igt_pipe_crc.c:475
+(kms_crtc_background_color:744) igt_pipe_crc-WARNING: Suspicious CRC: All values are 0.
+(kms_crtc_background_color:744) igt_pipe_crc-WARNING: Warning on condition all_zero in function crc_sanity_checks, file ../lib/igt_pipe_crc.c:475
+(kms_crtc_background_color:744) igt_pipe_crc-WARNING: Suspicious CRC: All values are 0.
+Dynamic subtest pipe-C-DP-1: SUCCESS (0.535s)
+Subtest background-color-black: SUCCESS (0.537s)
+Starting subtest: background-color-white
+Starting dynamic subtest: pipe-C-DP-1
+Dynamic subtest pipe-C-DP-1: SUCCESS (0.540s)
+Subtest background-color-white: SUCCESS (0.542s)
+
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+---
+Changes in v7:
+- Consistently put "({" on a separate line for all macro definitions
+  (Andy Shevchenko)
+- Rebased series onto latest drm-misc-next
+- Link to v6: https://lore.kernel.org/r/20260129-rk3588-bgcolor-v6-0-c15f755a4055@collabora.com
+
+Changes in v6:
+- Collected Acked-by & Reviewed-by tags from Andy S & Angelo
+- Handled feedback from Andy Shevchenko
+  * Fixed up styling for __KERNEL_DIV_ROUND_CLOSEST() macro
+  * Made use of __GENMASK() helper in __DRM_ARGB64_PREP*() and
+    __DRM_ARGB64_GET*() definitions
+  * Introduced DRM_ARGB64_GET*_BPCS() as an alternative for
+    DRM_ARGB64_GET*_BPC() to help when performance is more important
+    than accuracy, e.g. used it along with FIELD_MODIFY() in the vop2
+    related patch to simplify a bit the bgcolor operations
+- Link to v5: https://lore.kernel.org/r/20260127-rk3588-bgcolor-v5-0-b25aa8613211@collabora.com
+
+Changes in v5:
+- Collected Reviewed-by & Tested-by tags from Nícolas & Diederik
+- Dumped background_color prop value in drm_atomic_crtc_print_state()
+  and updated comment in drm_crtc_state (Nícolas)
+- Documented the reasons of not using the DRM_ARGB64_GET*_BPC() helpers
+  in vop2 related patch (Nícolas)
+- Rebased series onto latest drm-misc-next
+- Link to v4: https://lore.kernel.org/r/20251219-rk3588-bgcolor-v4-0-2ff1127ea757@collabora.com
+
+Changes in v4:
+- Switched to simple bit-shifting approach when performing the bpc
+  conversion in the vop2 driver, to avoid the expensive division since
+  we shouldn't be concerned anymore about the precision (Chaoyi)
+- Rebased series onto latest drm-misc-next
+- Link to v3: https://lore.kernel.org/r/20251118-rk3588-bgcolor-v3-0-a2cc909428ea@collabora.com
+
+Changes in v3:
+- Added new patches:
+  * uapi: Provide DIV_ROUND_CLOSEST()
+  * drm/vkms: Support setting custom background color
+- Improved DRM_ARGB64_{PREP|GET}*() helpers by using a conversion ratio
+  for better color approximation when dealing with less than 16 bits of
+  precision
+- Mentioned the IGT test in the cover letter while documenting the
+  validation results; also dropped references to the now useless
+  modetest wrapper script and its generated report
+- Rebased series onto latest drm-misc-next
+- Link to v2: https://lore.kernel.org/r/20251013-rk3588-bgcolor-v2-0-25cc3810ba8c@collabora.com
+
+Changes in v2:
+- Improved uAPI consistency and readability by introducing
+  DRM_ARGB64_PREP*() and DRM_ARGB64_GET*() helper macros
+- Updated several code comment sections
+- Referenced the counterpart Weston support in the cover letter
+- Rebased series onto v6.18-rc1
+- Link to v1: https://lore.kernel.org/r/20250902-rk3588-bgcolor-v1-0-fd97df91d89f@collabora.com
+
+---
+Cristian Ciocaltea (4):
+      uapi: Provide DIV_ROUND_CLOSEST()
+      drm: Add CRTC background color property
+      drm/vkms: Support setting custom background color
+      drm/rockchip: vop2: Support setting custom background color
+
+ drivers/gpu/drm/drm_atomic.c                 |  1 +
+ drivers/gpu/drm/drm_atomic_state_helper.c    |  1 +
+ drivers/gpu/drm/drm_atomic_uapi.c            |  4 ++
+ drivers/gpu/drm/drm_blend.c                  | 39 ++++++++++++--
+ drivers/gpu/drm/drm_mode_config.c            |  6 +++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 17 +++++-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  4 ++
+ drivers/gpu/drm/vkms/vkms_composer.c         | 10 +++-
+ drivers/gpu/drm/vkms/vkms_crtc.c             |  3 ++
+ include/drm/drm_blend.h                      |  4 +-
+ include/drm/drm_crtc.h                       | 12 +++++
+ include/drm/drm_mode_config.h                |  5 ++
+ include/linux/math.h                         | 18 +------
+ include/uapi/drm/drm_mode.h                  | 80 ++++++++++++++++++++++++++++
+ include/uapi/linux/const.h                   | 18 +++++++
+ 15 files changed, 197 insertions(+), 25 deletions(-)
+---
+base-commit: cff3f89ffbdd4b6c43a117c01aaf5b290ff80803
+change-id: 20250829-rk3588-bgcolor-c1a7b9a507bc
 
