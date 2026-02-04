@@ -2,85 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yCO9FSY/g2kPkQMAu9opvQ
+	id MMz6CPo/g2kPkQMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 13:44:22 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 13:47:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4FB4E5F3B
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 13:44:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 673DCE5FA9
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 13:47:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13D4810E63B;
-	Wed,  4 Feb 2026 12:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FC3110E0D4;
+	Wed,  4 Feb 2026 12:47:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="D9fY5vsY";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VUjUlfCY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8475210E63B
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 12:44:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1770209056; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=VlpkdDeeeuo06wVd3QoFjeQF4Ze/WvqBlenT7Jxm0kIXdrUYyqy7ANv1tLtDRRzzqfLYNdrPNkWVquUaNRftFbw42AH49LYk/zkoDXAH0Ntfo1HhhYgXERyL497cdRdqm1Ex72I7fUcm5KVNgfWVA5+svJoKXiMwu0aq6H6hApQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1770209056;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=ZHEfRwCP34SKP/etqf2R3yvPOUYfeiMlExy0k9a0BNk=; 
- b=EY8CFOFttnCRasix3rIcqXqI3UN2g9W04GFEFPR1ZNNP7jOpoKfAPlwvbOXuBrv3ukECbHXQdEntU4zuZB9MoDDQYHSsmIMITHZTSaQnIUbIz/xw2HPCQXTbcSNzzFhJfuJWkqdUlbiIeqlXhHvA8G8g9SXqaQK0wBphiTsMpOs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770209056; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=ZHEfRwCP34SKP/etqf2R3yvPOUYfeiMlExy0k9a0BNk=;
- b=D9fY5vsYmDzxbb3wnJ6GeN2NPcWUM3P96dDZwTdg8wRu0RO5UFiU0nieyb+hVJ0q
- yI8/bK2piXW4wuCwLcUWSkwryxH+w1MDZSTV5OJjf4H1/lV+m+0ge2r2zOoB7bn9DUC
- xBaM6iGniq4R2heDGhtciZgJAlf8pNM31KS9AmSI=
-Received: by mx.zohomail.com with SMTPS id 1770209055218580.5695590716871;
- Wed, 4 Feb 2026 04:44:15 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH v3 1/3] rust: clk: use the type-state pattern
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20260204-nickel-seal-of-poetry-8fdefb@houat>
-Date: Wed, 4 Feb 2026 09:43:55 -0300
-Cc: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23DE510E0D4
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 12:47:48 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-42fb6ce71c7so5775506f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Feb 2026 04:47:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1770209267; x=1770814067; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=JZ4TgjfnscnBfCWxdLeUdMlZj/3MYBeNA0M0+tMlZq8=;
+ b=VUjUlfCYtiXxT4gSoO4cSR0hyqOBcGGSmLiixiP/A8AqOZhKSotFKtOFUXuC3WH6Gj
+ OkGdyYkMwSFDAdMz+CtsasT0vZoQyjxAuARGqY6jIKf+c2ENfTxYZ2yh6HbSPgywuJpV
+ TWZS7av8Wtqx5ZU+PofCP63HInfWXckgHuMUToVOr/ovugwXH28U3IR62chAROI3RXQw
+ aVp5a+4eeEBp4T4Ute32c2jFChSs8ZMuc++35U16n/GkuP9S9947zcObZEjXJINH9PDm
+ Zgpw63DBFzVmlQU+Sqm0Iqctx88204Vx6qO5CSLitWyxaE7H94BwMjVf8jNKKOHy49/t
+ Az0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770209267; x=1770814067;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JZ4TgjfnscnBfCWxdLeUdMlZj/3MYBeNA0M0+tMlZq8=;
+ b=GcqPHM5dgDU+Yz2WE4YaAxOeJGcnGBYsSghHFQg0Cecjmz4XmtAVe0zPu0Rs7rqX2j
+ /9Xt2xUPDDHzcQWDKNZ4AyQ2PqqVoDePsvo7YWLQbde7yxPauA+dDsZxlwL+mWTTStOW
+ n9X4r5Ml/sbDqrn617igvgTsfcFIkmDbhXhp5345+Qah6NZuboKWHTiddKkBVVkpeTiL
+ oWOTV/70AvBdpLH70N257pna9Wv3qmt6q2I+ovpaRQS6JoLwAddWzLBEt0SGhw8vyFcb
+ mQ2xjYHDRXhxHZiemKgxOiHFbpkrUqVjvtg14gDiZJwjB9aRkaD5Qax30rW8IJXO+4wz
+ FbJQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVdCW9yYkm6BqxxukTcG0mhLXAiliX9BKLEq7B7ZcFKu27Culs/oe03Amck5vHlR1m4P8qmsOoK/co=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyz9MSNGtDt/LPmvXMuiqXrNE8UfaudkYyY/4Q8n0BZPRsexjtQ
+ A2ZHMHgJUsQ8FTQP6GUPgP3rIBhENF+U9nxfcQup67JeTM5Y+XZrtN1Czyd21R/3rGo=
+X-Gm-Gg: AZuq6aJ2ZaaEaWi44CzoQs90t3bKwgVAJJViCTcPypk4qF9EI2HSRuuzyCZUQooGKfz
+ chqyY5hEmXh++ho20sxO4j4Y5L3kX+7bSmHohoBMCuGbqXOxXW9RtjYfgN0xBYEo1/V4o2UhnC3
+ Q8V+EuRV6S5/RXcC+T4ZSgVNrsKnNO2lzRS66wpzt+kztmi8FWE4g/x7u0xA2G7IXVW7eTLlwrd
+ sjjXIgLjFohLnBvjjTK1P4AUKWsZUEVTQdeRhdeaRRjeA0rxSzpDR7tk3gsrx21/RnFl8cQ8BXc
+ Fnsw5H8DoZ/vRTLXGQhECXPABZOMtgmNMjqxG5wffNCJHZvjVogD0XXj3uYFZvnCUE6pd9JXGgm
+ 74wY4IV6LKG5/DBKHCKiibv826BvfXda3keruWwpDeRgSr6F1F3Xe6BRA6lISiS3jMRyQrICVqV
+ Youl9bgbGE7IZsa/PAEQ2OmeUv855PIo5uN12//vwobLYmD6U9BKqstG8X/G14YQ8=
+X-Received: by 2002:a05:6000:60f:b0:432:5d73:79a1 with SMTP id
+ ffacd0b85a97d-436180615e4mr3671943f8f.55.1770209266489; 
+ Wed, 04 Feb 2026 04:47:46 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:3d9:2080:b55c:58f7:42fa:3dbf?
+ ([2a01:e0a:3d9:2080:b55c:58f7:42fa:3dbf])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-4361805f25dsm6504064f8f.29.2026.02.04.04.47.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Feb 2026 04:47:46 -0800 (PST)
+Message-ID: <02c99c62-4f53-41ec-b127-ac6e8653608c@linaro.org>
+Date: Wed, 4 Feb 2026 13:47:45 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v3 0/4] drm/panel: ilitek-ili9806e: add Rocktech
+ RK050HR345-CT106A support
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ linux-kernel@vger.kernel.org
+Cc: linux-amarula@amarulasolutions.com, Conor Dooley <conor+dt@kernel.org>,
+ David Airlie <airlied@gmail.com>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Drew Fustini <fustini@kernel.org>,
- Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
- =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-riscv@lists.infradead.org, linux-pwm@vger.kernel.org,
- linux-clk@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <91A92D84-1F2E-45F3-82EC-6A97D32E2A78@collabora.com>
-References: <20260108-delectable-fennec-of-sunshine-ffca19@houat>
- <98CD0BF6-3350-40B9-B8A9-F569AE3E3220@collabora.com>
- <20260119-thundering-tested-robin-4be817@houat> <aW4lCfUyumOKRRJm@google.com>
- <518D8B09-B9A1-4DB4-85CD-37A2DD3D5FB1@collabora.com>
- <DFSLCI9U4NCW.2HI2UPUI7G134@kernel.org>
- <20260119-weightless-pelican-of-anger-190db0@houat>
- <DFSN4FDCYHMW.3J3237PEBV2ZP@kernel.org>
- <20260122-majestic-masterful-jaguarundi-d0abde@houat>
- <2F3D3A40-6EF9-46FC-A769-E5A3AAF67E65@collabora.com>
- <20260204-nickel-seal-of-poetry-8fdefb@houat>
-To: Maxime Ripard <mripard@kernel.org>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+ Maxime Ripard <mripard@kernel.org>, Michael Walle <mwalle@kernel.org>,
+ Rob Herring <robh@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20260203075548.14907-1-dario.binacchi@amarulasolutions.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20260203075548.14907-1-dario.binacchi@amarulasolutions.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,111 +128,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:dario.binacchi@amarulasolutions.com,m:linux-kernel@vger.kernel.org,m:linux-amarula@amarulasolutions.com,m:conor+dt@kernel.org,m:airlied@gmail.com,m:jesszhan0024@gmail.com,m:krzk+dt@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:mwalle@kernel.org,m:robh@kernel.org,m:simona@ffwll.ch,m:tzimmermann@suse.de,m:devicetree@vger.kernel.org,m:conor@kernel.org,m:krzk@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[neil.armstrong@linaro.org,dri-devel-bounces@lists.freedesktop.org];
+	HAS_ORG_HEADER(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[amarulasolutions.com,kernel.org,gmail.com,linux.intel.com,ffwll.ch,suse.de,vger.kernel.org,lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[daniel.almeida@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,google.com,linaro.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,redhat.com,baylibre.com,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,lists.freedesktop.org,lists.infradead.org];
-	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:aliceryhl@google.com,m:rafael@kernel.org,m:viresh.kumar@linaro.org,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:ukleinek@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:linux-pm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:linux-pwm@vger.kernel.org,m:linux-clk@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:mripard@kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
+	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:replyto,linaro.org:dkim,linaro.org:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daniel.almeida@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	APPLE_MAILER_COMMON(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: C4FB4E5F3B
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	REPLYTO_EQ_FROM(0.00)[]
+X-Rspamd-Queue-Id: 673DCE5FA9
 X-Rspamd-Action: no action
 
->=20
-> I'm probably missing something then, but let's assume you have a =
-driver
-> that wants its clock prepared and enabled in an hypothetical enable()
-> callback, and disabled / unprepared in a disable() callback.
->=20
-> =46rom a PM management perspective, this usecase makes total sense, is =
-a
-> valid usecase, is widely used in the kernel, and is currently =
-supported
-> by both the C and Rust clk APIs.
->=20
-> The only solution to this you suggested so far (I think?) to implement
-> this on top of the new clk API you propose is to have a driver =
-specific
-> enum that would store each of the possible state transition.
+On 2/3/26 08:54, Dario Binacchi wrote:
+> This series extends the Ilitek ILI9806E panel driver to support the
+> Rocktech RK050HR345-CT106A model via SPI.
+> 
+> To achieve this, the current driver (previously restricted to DSI) is
+> refactored to support both DSI and SPI variants independently.
+> 
+> The series includes:
+>   - A refactoring of the existing driver and Kconfig to support
+>     multiple buses.
+>   - DT binding documentation for the Rocktech RK050HR345-CT106A.
+>   - The implementation of the SPI-based driver for the Rocktech panel.
+> 
+> Changes in v3:
+> - Add Reviewed-by tag of Rob Herring
+> 
+> Changes in v2:
+> - Introduce DRM_PANEL_ILITEK_ILI9806E_CORE hidden kconfig option.
+> - Split core and DSI logic.
+> - Restore vdd-supply as required for both DSI and SPI types in the
+>    dt-bindings.
+> - Dop useless settings in case of rocktech,rk050hr345-ct106a in the
+>    dt-bindings.
+> 
+> Dario Binacchi (4):
+>    drm/panel: ilitek-ili9806e: rename to specific DSI driver
+>    drm/panel: ilitek-ili9806e: split core and DSI logic
+>    dt-bindings: ili9806e: add Rocktech RK050HR345-CT106A display
+>    drm/panel: ilitek-ili9806e: add Rocktech RK050HR345-CT106A SPI panel
+> 
+>   .../display/panel/ilitek,ili9806e.yaml        |  38 ++-
+>   MAINTAINERS                                   |   3 +-
+>   drivers/gpu/drm/panel/Kconfig                 |  24 +-
+>   drivers/gpu/drm/panel/Makefile                |   4 +-
+>   .../drm/panel/panel-ilitek-ili9806e-core.c    | 134 ++++++++
+>   .../drm/panel/panel-ilitek-ili9806e-core.h    |  15 +
+>   ...ili9806e.c => panel-ilitek-ili9806e-dsi.c} | 153 +++------
+>   .../gpu/drm/panel/panel-ilitek-ili9806e-spi.c | 323 ++++++++++++++++++
+>   8 files changed, 576 insertions(+), 118 deletions(-)
+>   create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9806e-core.c
+>   create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9806e-core.h
+>   rename drivers/gpu/drm/panel/{panel-ilitek-ili9806e.c => panel-ilitek-ili9806e-dsi.c} (82%)
+>   create mode 100644 drivers/gpu/drm/panel/panel-ilitek-ili9806e-spi.c
+> 
 
-Yes, you need an enum _if_ you want to model transitions at runtime. =
-IIUC you
-only need two variants to implement the pattern you described. I do not
-consider this  =E2=80=9Cboilerplate=E2=80=9D, but rather a small cost to =
-pay.
+Looks good overall, please find the kconfig dependency issue reported
 
-I would understand if this was some elaborate pattern that had to be
-implemented by all drivers, but a two-variant enum is as straightforward =
-as it
-gets.
-
-
->=20
-> That's the boilerplate I'm talking about. If every driver wanting to
-> implement that pattern has to make such an enum, with all the relevant
-> traits implementation that might come with it, we go from an API where
-> everything works at no-cost from a code-size perspective to a =
-situation
-> where every driver has to develop and maintain that enum.
->=20
-> Maxime
-
-There are no "traits that come with it". It's just an enum, with two =
-variants.
-
-> API where everything works at no-cost
-
-The previous API was far from =E2=80=9Ceverything works=E2=80=9D. It was =
-fundamentally
-broken by design in multiple ways, i.e.:
-
-> a) It only keeps track of a count to clk_get(), which means that users =
-have
-> to manually call disable() and unprepare(), or a variation of those, =
-like
-> disable_unprepare().
->=20
-> b) It allows repeated calls to prepare() or enable(), but it keeps no =
-track
-> of how often these were called, i.e., it's currently legal to write =
-the
-> following:
->=20
-> clk.prepare();
-> clk.prepare();
-> clk.enable();
-> clk.enable();
->=20
-> And nothing gets undone on drop().
-
-IMHO, what we have here is an improvement that has been long overdue.
-
-=E2=80=94 Daniel=
+Thanks,
+Neil
