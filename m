@@ -2,189 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qEFqC2J6g2nyngMAu9opvQ
+	id YIiqF2d6g2kpnwMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 17:57:06 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 17:57:11 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3FAEAA1D
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 17:57:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A6CEEAA24
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 17:57:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80BF810E6E1;
-	Wed,  4 Feb 2026 16:57:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C29710E6E5;
+	Wed,  4 Feb 2026 16:57:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="mDaW8w5F";
+	dkim=pass (2048-bit key; unprotected) header.d=shazbot.org header.i=@shazbot.org header.b="4E9zDR/3";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="kUnfeGhB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from LO0P265CU003.outbound.protection.outlook.com
- (mail-uksouthazon11022087.outbound.protection.outlook.com [52.101.96.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E739410E6E1
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 16:57:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=w5QIXVe1aEvddCwEo9pG4OOShWk4K+ODbKYT1m3QeNmEBsdCXaatIpCVuz+4CIACdJkuf5hIFV9RHhBm0wQZKlFvhn9zwQQgVns2gyKjCSnDU9/KsL7A1fz5DIDs9ODvvsHJTX+1auYuMQYvt41eEKdT2owvd+lqYeRjjegh8EBYfR7aOEEgkH8DMjnx83qs4ST3eHYm9F6RxM3cjATwgcVPduHmsQBwBPO8Vbn+NU2Y/rsjdHiTjILmw7eBOEAhv3dbkdNxrQqXs3rpqom7zTXWhOfmNWFFuVqnAYMn8w7b+hjJThdtlzYvPmevdigiT7sUYrXNUmVOoo3hPD3hKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M+eB2euhFblGFpPMkFbegNCal5M7WqtFg71x/stvqzw=;
- b=KNT3hxqPy0xLxeR/ZUxbRPvb1peyM6rcfs5KSeR+wpuo04ZXJubfVljKL4rKsMpRIc3hb6g4evLRyklXpyn58bFxXfK/I4o+7x13JZMHZy7QosjoOnVEiWx/qyE2UQl3coz8+ZUyam93ujGbWOwh/HoutbRL0cl1NdcUXeI790/HPQaxpfB8hXqzv0gR9H9MsWOQv6g4kSNJK+SK/7e1NH3qn6KCqAkWb2h4tyH0ujjxqPbJwy+T/H0rFSwv/jrmPIOCKCuTwYvCZ9Ro3xNooVv685cEgIbPNDcu0OAARG/oTLeUU+8wpKwFnIaH3x0Nr2G7LO762hbNWU6SHGUhyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M+eB2euhFblGFpPMkFbegNCal5M7WqtFg71x/stvqzw=;
- b=mDaW8w5FwvIhfc8pHmMDuRdEE2Qzf4fTW20FdlmN5Dllu0HIqBWBG8cjkOmimnocpmVd1A2wswUf6VZzIwSV934MOnT03LJoDy7GJVDWGs6pjhZlRU/oRD2KGtom3Iho5Dqhh/oxoa5DZ+BKSK30kZqvIhdLDfRVQL2jLRoq2Yk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO4P265MB6903.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:348::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.12; Wed, 4 Feb
- 2026 16:56:58 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9564.016; Wed, 4 Feb 2026
- 16:56:58 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 04 Feb 2026 16:56:57 +0000
-Message-Id: <DG6C42N3P73T.2KCI7JFOEIPC@garyguo.net>
-From: "Gary Guo" <gary@garyguo.net>
-To: "Andreas Hindborg" <a.hindborg@kernel.org>, "Danilo Krummrich"
- <dakr@kernel.org>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>,
- "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, "Dave Ertman"
- <david.m.ertman@intel.com>, "Ira Weiny" <ira.weiny@intel.com>, "Leon
- Romanovsky" <leon@kernel.org>, "Paul Moore" <paul@paul-moore.com>, "Serge
- Hallyn" <sergeh@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner"
- <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>, "Igor Korotin"
- <igor.korotin.linux@gmail.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Lorenzo Stoakes"
- <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- "Viresh Kumar" <vireshk@kernel.org>, "Nishanth Menon" <nm@ti.com>, "Stephen
- Boyd" <sboyd@kernel.org>, "Bjorn Helgaas" <bhelgaas@google.com>,
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <linux-block@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-fsdevel@vger.kernel.org>,
- <linux-mm@kvack.org>, <linux-pm@vger.kernel.org>,
- <linux-pci@vger.kernel.org>, "Asahi Lina" <lina+kernel@asahilina.net>
-Subject: Re: [PATCH v14 1/9] rust: types: Add Ownable/Owned types
-X-Mailer: aerc 0.21.0
-References: <20260204-unique-ref-v14-0-17cb29ebacbb@kernel.org>
- <20260204-unique-ref-v14-1-17cb29ebacbb@kernel.org>
- <7uftlTZxNVxMw7VNqETbf9dBIWLrQ1Px16pM3qnAcc6FPgQj-ERdWfAACc5aDSAdeHM5lLTdSBZYkcOIgu7mWA==@protonmail.internalid>
- <DG6AIA0QK77C.EKG7X4NBEJ00@kernel.org>
- <87fr7gpk6d.fsf@t14s.mail-host-address-is-not-set>
-In-Reply-To: <87fr7gpk6d.fsf@t14s.mail-host-address-is-not-set>
-X-ClientProxiedBy: LO4P123CA0283.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:195::18) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+Received: from fhigh-b5-smtp.messagingengine.com
+ (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 416FC10E6E5;
+ Wed,  4 Feb 2026 16:57:06 +0000 (UTC)
+Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
+ by mailfhigh.stl.internal (Postfix) with ESMTP id 56E537A00E6;
+ Wed,  4 Feb 2026 11:57:04 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+ by phl-compute-11.internal (MEProxy); Wed, 04 Feb 2026 11:57:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+ cc:cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm2; t=1770224224;
+ x=1770310624; bh=DMO79s1OU3juZ2+ahMo1gfPAr0s4Mn0ZEH9LRYL3vv0=; b=
+ 4E9zDR/3sr/FZ2Suz9hMpeD0Lnw9/HEY8CCWzuPTFUlCRgk/07X0XK4fG5aGG2li
+ 0fatEfbpn9z0k5kHRO4s/aH7Pm+5fLGf9Cu5wSPzt2+oFxUejLwYdnAo8+vTTtX0
+ ppcuN4ypbdJkwOnXruWUQfw/0GT3rbfK3qQN9Mnf08mCo5AQBaBvPSlPSoRMUoTj
+ iOXZEEkeA5xumAOiILKyx2I67bELe3qIddtsmC285w1VcTp+a7ofilThoTsvX+zx
+ pO0/xWe8ljTI1odRRCmkzLFYSCFSpo5gzpclcgcbTGb3ljTcYnxK7Y9V/wpzpMyn
+ zoAKW1DjfBti4jaWXz/GAg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1770224224; x=
+ 1770310624; bh=DMO79s1OU3juZ2+ahMo1gfPAr0s4Mn0ZEH9LRYL3vv0=; b=k
+ UnfeGhB0XVIKkpNpr8r70uuFr+yVF4eXt8iIIRXXxj95qP0Utymcq8DPgYCYAIIU
+ rEZGNuaB9G2Hn8XWUbdjTJ7y+DRD46zwKbYrPKP6U88INPsxVMbH1degOaxJIodR
+ DKEX0B82teBXAIjtNB6G/+CBnk6SMyNskXcPOfYXJ9PCn1LgJrYuY33kwxQBiJSM
+ +bxQJpKCVUNBF6ZzDSvQpb+hCK42zD5zrqVNNoIJeD/wSgKP3zU2ZFszbQlu1ELm
+ Xs7ysqb+/GUvegntZfforGYZ/CMyDHerVQYaW4NKWptMZ1z+aeAET2E/KP/TYGkf
+ KeEnDgEP8FPVgaex9yV8Q==
+X-ME-Sender: <xms:X3qDaUU0AqgtEAaCCzgguyzs4VTVV-B9kuHBFv5L_ryHbFAQ9OwzZw>
+ <xme:X3qDaaencOx4yFHctpjA0hJGKxhuLLru0_1AbJdrHzSTklmYn0UWK3zvzB6INNMEb
+ CDFZESzmQYzf5ASb8dYI7zOBfA7lnegmkzmNWWr00fEDEliSgPN3QI>
+X-ME-Received: <xmr:X3qDadCoS01ZWLJgy9mJqR9Qk8BNz9b7GJi9TFpc7v-Xz0c9ZWRayowlhhQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukedvleejucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+ rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+ gurhepfffhvfevuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpeetlhgvgicu
+ hghilhhlihgrmhhsohhnuceorghlvgigsehshhgriigsohhtrdhorhhgqeenucggtffrrg
+ htthgvrhhnpeeuvdevudfhleehgfffiefggfevkefhfeffheetfeejffekteeffffgffek
+ ueeuteenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomheprghlvgigsehshhgriigsohhtrdhorhhg
+ pdhnsggprhgtphhtthhopeefgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheptg
+ hhrhhishhtihgrnhdrkhhovghnihhgsegrmhgurdgtohhmpdhrtghpthhtoheplhgvohhn
+ sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsuhhmihhtrdhsvghmfigrlheslhhinh
+ grrhhordhorhhgpdhrtghpthhtoheprghlvgigrghnuggvrhdruggvuhgthhgvrhesrghm
+ ugdrtghomhdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpth
+ htohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehkrhgrgigvlhesrhgv
+ ughhrghtrdgtohhmpdhrtghpthhtohepughmihhtrhihrdhoshhiphgvnhhkohestgholh
+ hlrggsohhrrgdrtghomhdprhgtphhtthhopehguhhrtghhvghtrghnshhinhhghhestghh
+ rhhomhhiuhhmrdhorhhg
+X-ME-Proxy: <xmx:X3qDaR0JC3aeBgGCL3SOTruPcgJhXN56_tA0WN7RgTXmz9g5vEPb9w>
+ <xmx:X3qDaelkK6umwX2N7Cdn9igho2SY9UaXjO4UA7aD9BS4Prz5hLK1hg>
+ <xmx:X3qDaVHu61HKpx7M9FbvEcxQjBMz7-wYzb44ioDNXWX0Ucq2z4-t9w>
+ <xmx:X3qDaY3TnQgDqkgcBOz_No8JKgaBYtcvxf4UXBj0ym1YuPCsROzXHA>
+ <xmx:YHqDaYePnLUlo7-KxZzLGmru0GCtmPoyKuPCBDWjbJzvd7OHBc1kp6lU>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 4 Feb 2026 11:57:00 -0500 (EST)
+Date: Wed, 4 Feb 2026 09:56:59 -0700
+From: Alex Williamson <alex@shazbot.org>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Ankit Agrawal <ankita@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v7 7/8] vfio: Permit VFIO to work with pinned importers
+Message-ID: <20260204095659.5a983af2@shazbot.org>
+In-Reply-To: <fb9bf53a-7962-451a-bac2-c61eb52c7a0f@amd.com>
+References: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
+ <20260131-dmabuf-revoke-v7-7-463d956bd527@nvidia.com>
+ <fb9bf53a-7962-451a-bac2-c61eb52c7a0f@amd.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO4P265MB6903:EE_
-X-MS-Office365-Filtering-Correlation-Id: ba39bde3-e2e3-4e12-4630-08de640e6894
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|366016|7416014|10070799003|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MXUzK0FyelAwU2dDOWtlS1g4bjF2K08welB1TktKWTR2WUprVEJLME9sUHJI?=
- =?utf-8?B?eFRSaFQ3cS80ZjhuTkQ5NHhNR0FtL0ZobUJYSnMzWVhZVE9vOUN0SWwwSEtl?=
- =?utf-8?B?eWpxWHdJb1RPcnhMQ1Q2WEN5ZlpsWDdJTHo0WnV1WXRLMGl1ak04UFFCWGg5?=
- =?utf-8?B?eUZ0dGwzOUtiQ1VuQTZuRGFOME9saHRtaE5BYXQ0Y0dSNzFkUXdPK2F6L1U1?=
- =?utf-8?B?MGZWLzF6SHNOVkhkZk9EMmVEaVo3MWtYVjlNQjRDNXdwSFBBZkhzZ2gxMW1E?=
- =?utf-8?B?V05GVnNUbkM1TUNZV2NENkMwVnFXUDNQTnB5OWJLTzlpRmJRNG81dXRoKzN6?=
- =?utf-8?B?ZUdRa2VnY0tqVVYyNzZVWHJHaHpsWis1L3hNT1ArR09zOWRsYVFHa3pnTm1J?=
- =?utf-8?B?TEpISGNrazlDUlZIVTVpOTcwZEJqRDRqNjVlZno5Wmdrckx5VnFPaHZvaHVC?=
- =?utf-8?B?dXFkOGlEcUVoVks2M2R1NlhjWnV3TkV5VklaYTRmR0dIUUlINkl6SUJ2R3R1?=
- =?utf-8?B?ZTJ1aks0ZGlzaUMwQzdhZDZ5N0p6bHIvYm1vWUsxRzB3NHk0eVJXNldwR0x1?=
- =?utf-8?B?akhFYVBIeHlGNC9nYlFmdVlBTy9uejZSbk42N21CQm9ha1FSU3hpcWdocGVO?=
- =?utf-8?B?L1VKaDJVb2RNTnJocVEzZmFYSDNzQlk0ai9TSmRzU2FzS2d6OUlSSE1aMTg0?=
- =?utf-8?B?MEFPWmNBSzMxZ1Y3Y2dlcUJ5MDU2RnhLaW9ZV3ZVWUp5VzZ4cWpWVVE5SlJC?=
- =?utf-8?B?a1YzUnV0Rk1yUUxTeDhBYkltMFhqZ2FTMmwxSm9uNlJJUkdKck5KSGwxTnJQ?=
- =?utf-8?B?dUU4V2lDeU9DOS9tVzA2dFZpSGZxZjA3ZjA5QitCeDhwS0dvMUl1cU1iWnU0?=
- =?utf-8?B?UVM4K3h1R24zT1l1bUQydzRmN1ZwS0lmcStaZlNDek9hSitXSTBUeFJiYzZk?=
- =?utf-8?B?eDJsa0NkRWlQcklkQk1PdzJMNWU5TzlJUlJjUmw0WnR3RDZGK2hsTG1BZk9H?=
- =?utf-8?B?VjJOQjE0bWhvYzZLYUNxKzJBaksrQVN6ekVERUlvUnRsRXgwNTR3b1ZjRVpB?=
- =?utf-8?B?OTZRUlZEK2JSTHpyOThBSjFHM252VG5wRnNQc1dPWFZRMmVKZWY3RjNQWXR3?=
- =?utf-8?B?TjRibS9wS1RsYnphOWFEa3Z2V2l0eW5yaVRpWHI5d0xRNmlhNThpNCtoSTRx?=
- =?utf-8?B?V0wzUzgvOHVrTktrSm9EZTNGZGhES2RoYlZTUDJSdkU0Z2lyT1lPWEthQnd2?=
- =?utf-8?B?K2tNQWk5c0hwTUhFZWhpeFA2dHVTZmJvenRiMFdmL0NjcGJoZ1hUZ25LbUY4?=
- =?utf-8?B?OGFtekFweklmd1d5M01jQVJKZytTZlBpOG5EV1IyeWluK0l3RURSbU5iUEVq?=
- =?utf-8?B?NmRoMlhDTnNIbC83UnNVODNxU3ZIRDlaU0dBN21oNjU5UUt6YUFVRGxXVEVS?=
- =?utf-8?B?UWl5UmhtOEk2SkhxVCt2NmZqSmg3Y3diTERkUjJXTGtuMHhkZSt0djk0cjZh?=
- =?utf-8?B?b1ZpbC8yZEpYR09qcllTaXh4NHhMeEtTN1BKVHZVSSsvWXNJZFNyZXpKUW9F?=
- =?utf-8?B?ZXgwWk0xUjZBRFMyN2dxaFdLa3MzZUJNTldRV0YxQXhlM3hodml3bVlEWnhy?=
- =?utf-8?B?SDRpTklKTmt5dENVTENxaHkxQ3pyS1A5dEViSnVFQ3d5UDVJYlc4Z3QzS0pq?=
- =?utf-8?B?djdIU1VjSVdpK3ZOOXFvQ2p2NStKN3NobXhlWVNKODVVRFI4QXFLZEtmNDh3?=
- =?utf-8?B?VDBSdkp6cENxUDIveHBTMlk4ZzdYRTRyNDhIOUx2aG9Dc3JkV3EyeWt5ZzhV?=
- =?utf-8?B?YW1Gdy9xTzdoc3ZVN1BkdFJWRGkwdWpNeHl3QnJGbDJyRytiT083czF3NndV?=
- =?utf-8?B?YlVHM3hucGZxbVZDakV1K2xrRk5hdWE0bW9Fb001aFFMNnV2WGxvWGZDZnBu?=
- =?utf-8?B?dVRRcHc1dDZQMzZqRTkyekpKbEsxeDUzbjVsMHlWcllkZFB1clMyZXNteTNS?=
- =?utf-8?B?ZjU5MURmc203YTF6NTNYL3F4OU5Lemt3VUdtNzZoclRmV3RjTnNvTWZra3lS?=
- =?utf-8?B?MXFUUUs1UUphbGJsNHRIWFIzZTVwcmdneTdPdDNwU2w4c04vMWpRLzF2QUVL?=
- =?utf-8?Q?t7Dk=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(7416014)(10070799003)(7053199007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UlZzUUZMdzdndUhxc1JZa0ZNak1YVGt0ZU1vZWRFTmVDS3BvNFVweWRZYVpu?=
- =?utf-8?B?UU5RSGJyT1NRODNBNWlQSWhZVzdiUE9rV1VlaFpDeG9uMFFidmZuSU5HaCtT?=
- =?utf-8?B?dmc5blVYVzRxVmMvQS9zWXlaVWtpdXhZREFkMEhWSEQxU2hKbDg0WVducE1w?=
- =?utf-8?B?WGxmaU01b2VQYm5yZ2g3SXZEQ29Dby9jd3lxVTloQ3F3THpmQUZOdk9VUFZW?=
- =?utf-8?B?YTVKQVRyUGNoRnlMRnU1RDVVaFFramxLK0NBVE5SdnJzNU9Kc1puQTQ3TTJO?=
- =?utf-8?B?VzdMck9VblQveEZ2bVNxK0tjaEpVU21pOFFqczFsZFVPTVN4ZUQ3cExyMjA2?=
- =?utf-8?B?d1JzSElaVUlSSzJsLzJGRSt4VnhlZHVhZnZhc1lkU2xUemo3YjdhVDFuL1Rj?=
- =?utf-8?B?RDM2MHZMVzk0RkJRbU9aeW42T0hFRUw4SjVTblhWcFY4WEdPTGZCbTRERW5S?=
- =?utf-8?B?cC9KWUk5WnorWWYyM0dqd3c1MlFBMWsyUG82MG5PU01CTHBMRytIb1lCa21w?=
- =?utf-8?B?THRtbGNHcHdmdGxJL2tQTksvTEJ4aWViUi93bE94Vlh6ZTloMXFmeDEzSEth?=
- =?utf-8?B?NjYvdmJ3ZlZyYjVQWC9XbkNPeXZnZ3RCemRZNVN3cUxULzFra2lBYkhNRDE5?=
- =?utf-8?B?T2ltWHNCM3JUNEpjb0daV0ZORnRrV2FBZ2lYWC9OK1ArS1E3emQ2cmRsQlpQ?=
- =?utf-8?B?aG42QUJqNmRqMklmVWhlZjlhRWhkeTNrbFdXT2dITFFxK3NVNlFZeEVRYnJL?=
- =?utf-8?B?Nk5JUkpLWnFLK3dSUGRqTmlTNHh5ZUNmQkJMUVlPVEJHM3c2QnVlMi9DdWox?=
- =?utf-8?B?dXZMMmM4T2ZzRlhsaEhnTDlwdCtLQWJiRFlZcFZ4eVFzZ1Z2NzVqUVdPSzRV?=
- =?utf-8?B?L25tL0FWcU5DM0JMUGpyVHgxVWMxRlhSc0tKaVVrb09tZ2ZqTjdnd2djT3BP?=
- =?utf-8?B?bWlkTnF1dHhCdWU0UDN0U3k1bFdzcFZhVlRjTzREWkpjL0tsbkRWWGVKSUxV?=
- =?utf-8?B?T3graHJmcDJrNHV0OENLNjUvWXRzeEpjSEdDWDFiZ210N1hETERBOXZmTEZR?=
- =?utf-8?B?R2ppK3BzbXgvT2ZTeXQ4dGZIUEhIUEt4WWRKUjZ1OWhHQm5iTCtneElWV1Z1?=
- =?utf-8?B?T2VkWkkxYk5wQU5GRWlpMUozNXZRQ1JBNXdONlJrVE1LaHNKTzdnY1FCQlEr?=
- =?utf-8?B?Tk1MUm5Wb3NXazBRaUludlUxZ0V3YXg3U1Jkdk9mY0oxZG5Ha2MvdUZFWVdm?=
- =?utf-8?B?Tk1VdXdoM1lxcUR5cEN4ZmlYbHRjRW1KUWZPVDJsY0lDSEFreGoxYmtLNWU1?=
- =?utf-8?B?aG05Z05DcnY3Y3dXMDlkcjVwT2F6NlpRZEZxYjNtRlY1NXI1bkJldnZwb2dX?=
- =?utf-8?B?MHVOMkVsalZMRlE0cFNRdkppZ3I5eGF2T0ZFUG5sZk1DQ2w3aFZSZW1jOS9o?=
- =?utf-8?B?NFFkbXFhNFlEVGZPbTNYajdpcGpsdmNuY2ZXWEdtUWdVdkJnMFBXdVNzR2ow?=
- =?utf-8?B?bGNpRE84YTZYTkF3U21sOEsvWDg3TDV0TDA1NzFaSW9aMENRMGdrWlpqcUVy?=
- =?utf-8?B?NklaTGZrdFc0NzhmSCswL2pvcXEzZDg2eTEyemhEdGcrUC8wZGZtTUtPL1hr?=
- =?utf-8?B?NER3ZE5PN0FsdEF2TXJwTFJySXk2NHJjUGhNaEZ5MEhqdVcvaUJCNi83UEMy?=
- =?utf-8?B?R2x6T1M2L2NLRmtpc2daRHNiUDU5V0RnWExNVFFRVWdmbDh3SEdYQ1FMWnUv?=
- =?utf-8?B?SkR0NzJ6dzJiTWJnVllLL2djcHgzbW9weFNicHEreUxQSUtyaGErNzA5Y2tG?=
- =?utf-8?B?U0RsVGN5eGk1d3A3SExaRU5sSmJGRlZHeThvOGxxNlhwZEFWVVdIOHp2T0l4?=
- =?utf-8?B?UjdvelRyU3JmUytMOVpWanhrdVhIR29WQmtWTU5PQnRLdmJWR05ZL2lDNHFN?=
- =?utf-8?B?QTFJejRoWVc0bzB2cEtPOVhlL0trNHJlUC9SZUpTbm5lSXltWklVRFRML2hG?=
- =?utf-8?B?YTdJTU12dG1YTFY5QndQK21tWTlCL1NOSXRxTnZ0SjY0YVRIakd4UDhhL05G?=
- =?utf-8?B?c2VSQmdQOC9BcFNDU3dBelg0TzhFNmZ6NFVFdTE3djFzekJQditsY25PZWZM?=
- =?utf-8?B?Z1l2djZqTjFEQW80Yk5iTmFCN2JZSFdHZ0VjWUVrQkZia2NzV3NJTFo0M2Jl?=
- =?utf-8?B?bGtCSzd1eVVJZkl3Yng2K0l2ZVNHUjZ1MERkU0NCK0VYMHFnbGdKaWkzNEYr?=
- =?utf-8?B?ZlVnaEJDRzdDQUpVNHp2ZDRLRHg2Z1VuWVJPaEVpQTk3Y203OXc1aDdRZjlY?=
- =?utf-8?B?OW9wbXdZb0c2SHk0d3hqdnZrRU93enNNWHU1cXlEM3VqOTRmTm45UT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba39bde3-e2e3-4e12-4630-08de640e6894
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2026 16:56:58.0692 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DaDP2q673MD+JSgyD6NBKeudYCoGDNwoS0vp4eziDEud+mPx0srbtK9Rg+ujjZSBgjrxKAzRphDhkTRxDTJeog==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB6903
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -200,104 +129,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[shazbot.org,none];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
+	R_DKIM_ALLOW(-0.20)[shazbot.org:s=fm2,messagingengine.com:s=fm3];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,ziepe.ca,8bytes.org,arm.com,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[40];
-	FORGED_RECIPIENTS(0.00)[m:a.hindborg@kernel.org,m:dakr@kernel.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:gregkh@linuxfoundation.org,m:david.m.ertman@intel.com,m:ira.weiny@intel.com,m:leon@kernel.org,m:paul@paul-moore.com,m:sergeh@kernel.org,m:rafael@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:igor.korotin.linux@gmail.com,m:daniel.almeida@collabora.com,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vireshk@kernel.org,m:nm@ti.com,m:sboyd@kernel.org,m:bhelgaas@google.com,m:kwilczynski@kernel.org,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-block@vger.kernel.org,m:linux-security-module@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-pm@vger.kernel.org,m:linux-pci@vger.kernel.org,m:lina+kernel@asahilina.net,m:boqunfeng@gmail.com,m:igorkorotinl
- inux@gmail.com,m:lina@asahilina.net,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[garyguo.net:+];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,linuxfoundation.org,intel.com,paul-moore.com,ffwll.ch,zeniv.linux.org.uk,suse.cz,collabora.com,oracle.com,ti.com,vger.kernel.org,lists.freedesktop.org,kvack.org,asahilina.net];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,kernel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	DKIM_TRACE(0.00)[shazbot.org:+,messagingengine.com:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,garyguo.net:mid,garyguo.net:dkim,pm.me:email,asahilina.net:email]
-X-Rspamd-Queue-Id: 6E3FAEAA1D
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[alex@shazbot.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,messagingengine.com:dkim,shazbot.org:email,shazbot.org:dkim,shazbot.org:mid,amd.com:email,nvidia.com:email,intel.com:email]
+X-Rspamd-Queue-Id: 8A6CEEAA24
 X-Rspamd-Action: no action
 
-On Wed Feb 4, 2026 at 4:06 PM GMT, Andreas Hindborg wrote:
-> "Danilo Krummrich" <dakr@kernel.org> writes:
->
->> On Wed Feb 4, 2026 at 12:56 PM CET, Andreas Hindborg wrote:
->>> From: Asahi Lina <lina+kernel@asahilina.net>
->>>
->>> By analogy to `AlwaysRefCounted` and `ARef`, an `Ownable` type is a
->>> (typically C FFI) type that *may* be owned by Rust, but need not be. Un=
-like
->>> `AlwaysRefCounted`, this mechanism expects the reference to be unique
->>> within Rust, and does not allow cloning.
->>>
->>> Conceptually, this is similar to a `KBox<T>`, except that it delegates
->>> resource management to the `T` instead of using a generic allocator.
->>>
->>> This change is a derived work based on work by Asahi Lina
->>> <lina+kernel@asahilina.net> [1] and Oliver Mangold <oliver.mangold@pm.m=
-e>.
->>>
->>> Link: https://lore.kernel.org/rust-for-linux/20250202-rust-page-v1-1-e3=
-170d7fe55e@asahilina.net/ [1]
->>> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
->>
->> Given the From: line above, this needs Lina's SoB.
->>
->> This patch was also originally posted by Abdiel and Boqun and I think we=
- should
->> account for this. I mentioned this in a couple of previous versions alre=
-ady,
->> e.g. in [1]. I think we should account for this.
->>
->> [1] https://lore.kernel.org/all/cc28d048-5e0f-4f0e-b0f2-1b9e240f639b@ker=
-nel.org/
->
-> I had a question about this in the cover letter.
->
-> It is my understanding that the SoB needs confirmation from the author
-> if the code was changed. I changed the code and did not want to bother
-> the original author, because it is my understanding they do not wish to
-> be contacted. I did not want to misrepresent the original author, and so
-> I did not change the "From:" line.
+On Wed, 4 Feb 2026 17:21:45 +0100
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-Looks like your didn't make a very substantial change (just OwnableMut ->
-Unpin)? So mentioning the change in commit message should be sufficient.
+> On 1/31/26 06:34, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> >=20
+> > Till now VFIO has rejected pinned importers, largely to avoid being used
+> > with the RDMA pinned importer that cannot handle a move_notify() to rev=
+oke
+> > access.
+> >=20
+> > Using dma_buf_attach_revocable() it can tell the difference between pin=
+ned
+> > importers that support the flow described in dma_buf_invalidate_mapping=
+s()
+> > and those that don't.
+> >=20
+> > Thus permit compatible pinned importers.
+> >=20
+> > This is one of two items IOMMUFD requires to remove its private interfa=
+ce
+> > to VFIO's dma-buf.
+> >=20
+> > Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+> > Reviewed-by: Alex Williamson <alex@shazbot.org>
+> > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > ---
+> >  drivers/vfio/pci/vfio_pci_dmabuf.c | 15 +++------------
+> >  1 file changed, 3 insertions(+), 12 deletions(-)
+> >=20
+> > diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio=
+_pci_dmabuf.c
+> > index 78d47e260f34..a5fb80e068ee 100644
+> > --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
+> > +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> > @@ -22,16 +22,6 @@ struct vfio_pci_dma_buf {
+> >  	u8 revoked : 1;
+> >  };
+> > =20
+> > -static int vfio_pci_dma_buf_pin(struct dma_buf_attachment *attachment)
+> > -{
+> > -	return -EOPNOTSUPP;
+> > -}
+> > -
+> > -static void vfio_pci_dma_buf_unpin(struct dma_buf_attachment *attachme=
+nt)
+> > -{
+> > -	/* Do nothing */
+> > -}
+> > - =20
+>=20
+> This chunk here doesn't want to apply to drm-misc-next, my educated
+> guess is that the patch adding those lines is missing in that tree.
+>=20
+> How should we handle that? Patches 1-3 have already been pushed to
+> drm-misc-next and I would rather like to push patches 4-6 through
+> that branch as well.
+>=20
+> I can request a backmerge from the drm-misc-next maintainers, but
+> then we clearly don't get that upstream this week.
 
-If it's very substantial I would change author to be you and add the origin=
-al
-author as Co-developed-by instead.
+Hmm, drm-next already has a backmerge up to v6.19-rc7, the patch here is
+based on a commit merged in rc8.  The tag for that change was based on
+rc6.  It can be found here:
 
-Best,
-Gary
+https://github.com/awilliam/linux-vfio.git tags/vfio-v6.19-rc8
 
->
-> I want to be clear that I want to submit this patch the correct way,
-> whatever that is. I will happily take all the guidance I can get to find
-> the correct way to represent the work of the original author(s).
->
-> How would you prefer to account for the work by Abdiel and Boqun?
->
-> Please advise about SoB and I will correct the series.
->
->
-> Best regards,
-> Andreas Hindborg
+As the same tag Linus merged in:
+
+1f97d9dcf536 ("Merge tag 'vfio-v6.19-rc8' of https://github.com/awilliam/li=
+nux-vfio")
+
+drm-misc-next only seems to be based on v6.19-rc1 though, so I don't
+know that any of that helps.  Thanks,
+
+Alex
+
+> >  static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
+> >  				   struct dma_buf_attachment
+> > *attachment) {
+> > @@ -43,6 +33,9 @@ static int vfio_pci_dma_buf_attach(struct dma_buf
+> > *dmabuf, if (priv->revoked)
+> >  		return -ENODEV;
+> > =20
+> > +	if (!dma_buf_attach_revocable(attachment))
+> > +		return -EOPNOTSUPP;
+> > +
+> >  	return 0;
+> >  }
+> > =20
+> > @@ -107,8 +100,6 @@ static void vfio_pci_dma_buf_release(struct
+> > dma_buf *dmabuf) }
+> > =20
+> >  static const struct dma_buf_ops vfio_pci_dmabuf_ops =3D {
+> > -	.pin =3D vfio_pci_dma_buf_pin,
+> > -	.unpin =3D vfio_pci_dma_buf_unpin,
+> >  	.attach =3D vfio_pci_dma_buf_attach,
+> >  	.map_dma_buf =3D vfio_pci_dma_buf_map,
+> >  	.unmap_dma_buf =3D vfio_pci_dma_buf_unmap,
+> >  =20
+>=20
+>=20
 
