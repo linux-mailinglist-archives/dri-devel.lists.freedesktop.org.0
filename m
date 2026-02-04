@@ -2,111 +2,190 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yNVRKfJ5g2nyngMAu9opvQ
+	id OPjFBAV6g2nyngMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 17:55:14 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 17:55:33 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDB1AEA982
-	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 17:55:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9420AEA9AF
+	for <lists+dri-devel@lfdr.de>; Wed, 04 Feb 2026 17:55:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A637C10E6E0;
-	Wed,  4 Feb 2026 16:55:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9AB010E6DE;
+	Wed,  4 Feb 2026 16:55:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="GPUdg60W";
+	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="nf6NThav";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
- [209.85.222.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7FC610E6E4
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 16:55:09 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id
- af79cd13be357-8c59bce68a1so524569485a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Feb 2026 08:55:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1770224108; x=1770828908; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=+k5zz356tCtx+TsrSTgNS2LOgl52lZtCniOLQPd/1s0=;
- b=GPUdg60WryYi1Tdg25F+/ATxrcArA1eIzo+DLTK0OFdldSXA2i8mgELuG7NCrrFMi4
- d0Efd/CZD487hh/LBwnwMfPteOtlgM9B+BKPjxbZK0zo2eS4kjbFxnjAYs1fviKnrMAq
- 2RdKLFdARvk3euApVykjvvqmiCu1p6yw+mzqgIxLERlaBUvkUGLB7MunFZSMkk7bgOWS
- kVWgGjUroYu4WN7xx7URKz/7OZoE6f+N+k8ebpzXfJ8KcZjCwzdPoXBSNPVM3uAzOmaq
- 9QmK6/Z2MYXXcavXvtR9g+pzJJaOa+FP0vfjgHI7VwInc05Mo6t9+0Rq76XVFc0hM4J5
- gYnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770224109; x=1770828909;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+k5zz356tCtx+TsrSTgNS2LOgl52lZtCniOLQPd/1s0=;
- b=bG9tarcFyaAvGgxF5we4B5eReRhI8Z0Rnc2SYFTBYIdHbK/Iba/X7TmbW9NUh3hWkW
- AswfxBj/OnJkAijxcKwq4TLfZ7iTFRkj8djX+N3MZi0YBV6dgKug3IgUUgk51Jx8phWo
- Rad8Ka4wC3VVOpkd3ruh3bGZcyZU9TrqKYZQ/9ththkNJNZyktDtMu1qrPi8b9ya36z+
- N/cdNM3xNiJWif1F3pUnfXf3oOPN0Y6Q/zOwXBDcjNGPigS82sqmMD8/ApJML/31xRbo
- m3qEtjX7Kn3wvbbLX77rDFa1DqsMf6ICM8ovOt7ousEGH8VtMZgycH0unEQLa9YLdRxK
- Y4vw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWkXh6EQ11w7MzdjTMDA5AqN9mzToxs4nkw+jl0P7+wh/++m0XIMZ8rOiiGgwD0VMN/g4r5Oc6c0dY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyRgj8zq9rQdFpA3bij62irt31Th5d/LsaXyPjG7blMy84aCWp6
- X0Nza3qWkOO8C0psxRPQ2ih6uQwAqUlUtLJOHstXbuBwPLthaK9V/Z1579BsGXJP2uc=
-X-Gm-Gg: AZuq6aJOy7w0z+HRLSN6Mggb5nH8GbjxPbBpEHyg6IIHHbNgPQVZPAtCZekFA09VM9L
- ceT4O5r4X2fq+2jTvooHPYUm0q/ZuyTf48pPhDXebu1Emqv+hAsz4P9WBPA4Mv2JOYelXitBPc/
- WC2jUHZfuth+G6PPzd1hmOwf+bFSovRRDtMp7EpOskU1Yx6AYAzZss3lHB3M09kwXe4DiqUxjGF
- afUKWfIGxgN+014Ug8RLsdGrnPdFn6R/BUumcfRFIzb51Vy1CRcdTvoxD+2wP1XHUnAg819TARF
- sj2VWh9ahZVCUCt8aiI3WvltEex7zZ2s2eQbF90MWVBpFyq3f2oid1/uwEXrgOY1q+Gf1s60rg7
- 5gJ+U3tzBfqY8vp1fOpCbv243VujnOzkZp2/LEFrpVaKrspirLO2M3HMkotOYiTDWc5xhjQPT+W
- zANV12Jump9CbcwXcu3bGkvFguEdPK5OaaXigYYwX1fW+WvutK6NtlxHyc1/xQNi0M18A=
-X-Received: by 2002:a05:620a:4627:b0:8c7:177f:cc17 with SMTP id
- af79cd13be357-8ca2f9bbb5amr467025085a.46.1770224108469; 
- Wed, 04 Feb 2026 08:55:08 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-8ca2fd2cfb4sm226461485a.33.2026.02.04.08.55.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Feb 2026 08:55:07 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1vng9j-0000000HH15-13rk;
- Wed, 04 Feb 2026 12:55:07 -0400
-Date: Wed, 4 Feb 2026 12:55:07 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Williamson <alex@shazbot.org>, Ankit Agrawal <ankita@nvidia.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
- intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v7 7/8] vfio: Permit VFIO to work with pinned importers
-Message-ID: <20260204165507.GH2328995@ziepe.ca>
-References: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
- <20260131-dmabuf-revoke-v7-7-463d956bd527@nvidia.com>
- <fb9bf53a-7962-451a-bac2-c61eb52c7a0f@amd.com>
+Received: from CWXP265CU010.outbound.protection.outlook.com
+ (mail-ukwestazon11022108.outbound.protection.outlook.com [52.101.101.108])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 520F610E6DE
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Feb 2026 16:55:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JrzluGkuSy6If2owxworGDtFFn/GUlb7Ij8y3WsxZPxyPgP+SVIMbc9wkhvijxzAUIOrSAC9lgqe4wvaMbehqoNDcZi+HiaBuIh6rvKViK+ZC4XFr6OrNQintvd0oqzc8I25U4NsZwHRocaTw4WzfGrnxtWMF7fiTu1cZmN6UBrFzv26ndPp+bxhPKMctrmGs+XAq2BHs8LMPHwz/RPcmD0iY5KQCqFgsYUXQQWrVrUXdAEu1PrQWDG/hyGpfc7ObIPLa9GYfQFqBPpkywG+jA84munirRU/CPk+TIuY4rEDRvsrX5x4jeIzYq1kZ8mzSiASCCkua0oYBZzHLdeXtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c3GtvJisYUaeXU+VSgjH7Wjs1n662gxUkzVIVITWg8M=;
+ b=xpfm304iDBugGyi6ANZFoJgiyMxhXF3odJ7+uyoad7mpn+hkVo2cWshZwMJ6p9BgVuXpR/4cTbwiaSNbZj2cn/rKCH1Gzy9rmVApaB3lFYQkhhYO4BG+Mnj+HkfLDokCPMdlMGIEOQOE4VkD++nDXnxYsHJu9MIX+Vg6UcYrchZ+I+/xjBp/lpifRcRzOySerHzAAKrSSJdzwnUwmlMgVqhu/Hbkvhw+AsF7Bh4QsIgIEWUhoLnJUIsWtClIBs/rETc/AQgaLPwUir/IL+ahOjMWgFOQiFaZxpSKPNAShyGDgyzZW0ZFas0wPlpzTFlSFfM+WKOAZMM8gHYMs0OQwQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c3GtvJisYUaeXU+VSgjH7Wjs1n662gxUkzVIVITWg8M=;
+ b=nf6NThavl6KRnXeEqgeh4UZSDudNikRGAhp4/pMRJyEfB5KSSVTvZctJJ8q7cGVdoNbo6EjJ6nBLTWyevvtYqTwsmZR1eTjW9rjKex+NJzYQ0VTskGtNOMi/NWQ37MayeGOX3tRCzBCdcdoapOWRmSH3RBgoXNiuKnGgVc5zvWM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LOYP265MB2128.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:111::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.13; Wed, 4 Feb
+ 2026 16:55:25 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9564.016; Wed, 4 Feb 2026
+ 16:55:25 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 04 Feb 2026 16:55:24 +0000
+Message-Id: <DG6C2VV8D15R.2DEPKS467SJ6F@garyguo.net>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>,
+ "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Dave Ertman"
+ <david.m.ertman@intel.com>, "Ira Weiny" <ira.weiny@intel.com>, "Leon
+ Romanovsky" <leon@kernel.org>, "Paul Moore" <paul@paul-moore.com>, "Serge
+ Hallyn" <sergeh@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner"
+ <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>, "Igor Korotin"
+ <igor.korotin.linux@gmail.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Lorenzo Stoakes"
+ <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ "Viresh Kumar" <vireshk@kernel.org>, "Nishanth Menon" <nm@ti.com>, "Stephen
+ Boyd" <sboyd@kernel.org>, "Bjorn Helgaas" <bhelgaas@google.com>,
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-block@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-mm@kvack.org>, <linux-pm@vger.kernel.org>,
+ <linux-pci@vger.kernel.org>, "Asahi Lina" <lina+kernel@asahilina.net>
+Subject: Re: [PATCH v14 1/9] rust: types: Add Ownable/Owned types
+From: "Gary Guo" <gary@garyguo.net>
+To: "Danilo Krummrich" <dakr@kernel.org>, "Andreas Hindborg"
+ <a.hindborg@kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260204-unique-ref-v14-0-17cb29ebacbb@kernel.org>
+ <20260204-unique-ref-v14-1-17cb29ebacbb@kernel.org>
+ <7uftlTZxNVxMw7VNqETbf9dBIWLrQ1Px16pM3qnAcc6FPgQj-ERdWfAACc5aDSAdeHM5lLTdSBZYkcOIgu7mWA==@protonmail.internalid>
+ <DG6AIA0QK77C.EKG7X4NBEJ00@kernel.org>
+ <87fr7gpk6d.fsf@t14s.mail-host-address-is-not-set>
+ <DG6BWC5SOHUG.2K1ZXGYNVB69V@kernel.org>
+In-Reply-To: <DG6BWC5SOHUG.2K1ZXGYNVB69V@kernel.org>
+X-ClientProxiedBy: LO4P265CA0037.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2ac::11) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fb9bf53a-7962-451a-bac2-c61eb52c7a0f@amd.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LOYP265MB2128:EE_
+X-MS-Office365-Filtering-Correlation-Id: d1d4121e-995f-4ed2-2111-08de640e311f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|7416014|376014|10070799003; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?d2Fyd0lOamNhTVZraEpxMy9rVWN3bTd2STBVWFRwWFRnZGUvTEtXRkhZQitx?=
+ =?utf-8?B?aGROVE1yS1htdnEramdKcWUwZ3Z0UUQvSGR6RDRjekdENVhOalRJamc2M2dL?=
+ =?utf-8?B?cUN6eFVzcEJ6Z25CWDlGUG1kY3llRWc0WEw2MDBnQ3g0alVEQ0pPbDcvUm91?=
+ =?utf-8?B?UlA1VTQ3Rno4YzZHdHdhUUZIc3EvVGVyQWNsTEJSVU92Ykxsei9LaFBwOWZU?=
+ =?utf-8?B?NzlSTzJEeEp5dmRlRUNoRUhJbUhmQXNkNFZCU3NRTGtJdmpHUnlWQXFtZXh0?=
+ =?utf-8?B?UFpudFpLZUFSdFA4aDJ5aG0rWWRVaS9TeGNxVUp3NkZjWFQ3dGk4VnpsRFRk?=
+ =?utf-8?B?aFZUSzZtdW9Id29BeWdlTVJTVHFjWTVSNHpCTm42ZUdWTGl5dFhkVnBEOTB6?=
+ =?utf-8?B?c014eTI5V2JnQ0VaKzlZb3RyaHExRnZ3VHZ6UmlGMkhxbkgzNUlGQ24xczhO?=
+ =?utf-8?B?TzNyOFZTNkRyUmRkekdzdDRxcGYxZW9QSU9nZFhVbVh1WHdtbHNjWm1tcUJP?=
+ =?utf-8?B?d3YzN2wreVkyVk81WVo0YnpuSjRsU0QwV2o3eHJ0T1BMa3J2RWJSeldJZDRh?=
+ =?utf-8?B?QkJkVnZuRXYvb1BuTWFzdndSL3Fxb1ZyYVZNTjFZZERoeVpDUXIxREtZVmZa?=
+ =?utf-8?B?clFzNWZPSWtlTVhPNnZwRHBKdjgzbFg1TEx4ZlE1MnRJelZTK0RtbXcrWTBO?=
+ =?utf-8?B?cFpyL0ZVZmw4cXBvM2lNby9QWmZRVS9HVHphVXRpYXVWWGhsVW5oSVRSZFdt?=
+ =?utf-8?B?K0ttd1ZXcGJ5Zk5HcmF3M1cyTmw5M0NRV3pSb3NQNW41L3Vtb2ZhOVNoQkl6?=
+ =?utf-8?B?anNGQkJNdlVUTGFrcE95bGdTQUJnbjVSbmgvdFBMeDZ2NVVaclE3Y0Y4OXc2?=
+ =?utf-8?B?c1drV1BjUkNZeDFiQktNenljTTE5QUJUWHltMmt5V0paWDZ0bkFmdlVWVE5E?=
+ =?utf-8?B?bVlDYkl2d3oyZDRQNTBydW8rd2RJTlNNaVQvaWdOS1BwcHMwT25NdVJuelRi?=
+ =?utf-8?B?QkVPWkExbEErSkVXV25wcnNEMzZ0dm1OdnU2Vm9VbW5lR3Q0VzhpS015QjVn?=
+ =?utf-8?B?VGtibGN2RlJrVm9uYml4aUU2ZkdtOXcxR2pCaFMxRHVNSUdvUU5CSWxFNndz?=
+ =?utf-8?B?TFJRL1lLa04rY1hpUjRRbVAvTnVNWEJ4VFV2N2dPU3VMSnBlLzZ2MWZQcHZD?=
+ =?utf-8?B?Sng1NzlHNzd4dStENDhHbExoSGRzSkVWR3paN2ZuU0F6L24wRlRidVh0WHVZ?=
+ =?utf-8?B?TEd1UGRrTUhXQ3AzZUczLzJvTVlDVk9xNXE5R3NQc1FNYkdrZzdJeWg3ZlpE?=
+ =?utf-8?B?Qko4azRDdjRvWjR3QU13UnByQW4zRjdSRXdpSTh1WXlPdHd5Rk8waTRIdGJD?=
+ =?utf-8?B?cUdwTmRyZDFXdytObHZhUzhKcHBCOFRjTi8rRUNyS29XRmFyZnBvZUZWNXZ1?=
+ =?utf-8?B?MGFjVlo1Q2ZibVYrT3JpL1kzMWljVWVSeklRY1Jaa3ZGOURsTjJ3c0JtMmE4?=
+ =?utf-8?B?SHJCWEFXNWlHR1o1NnUyR1RuVDltSnJnUTZQWktpVkU3d0gxK2gzYkhHT0ZO?=
+ =?utf-8?B?RFJNWXpEUjFXQ0d5WTIyejg3bGNWZTV1WEszeFg1SmVWNVRWTmZ5cjkveEUy?=
+ =?utf-8?B?TUp4UUU5K3dkU0xSNitrK3UxcGJDYjc1SnoxRnBjNjAzTjJLWlJsWTkzZ3Jv?=
+ =?utf-8?B?MlR0UnV5aXdUODRPdkUvd3J0Rkg4WFNjZVBFalJIbmZ4Q1JmSTJqL1QrUWJq?=
+ =?utf-8?B?b09qZnRUZm4zMDVOUENCd0FDVDZzQzJHL1MrZ2RtbWhJdVpzVnN0NU5HSDlr?=
+ =?utf-8?B?R2gwRUU4MWQ0V0tkMkU5TXVLWGlXWXB6VTF4RW5vQkxUQ0h1SDhSSkUzU2FQ?=
+ =?utf-8?B?SkJicmJuSTc2aGNGYnVhMGlOaitBakFRSjFGQ3NmVGdoWUdkWkpWNEFKOW5E?=
+ =?utf-8?B?SjQ0VkN1aHJCbnorMklvNEkxZ3dJeXFlNmhnbjFvRjhycWxIV3RMOVFyUDNN?=
+ =?utf-8?B?R0JSRG9PYnRJeUU5TktqZnRSejA3a3FVN3IzQ1pOdWZ3Zk5Id05KMTRFNTJh?=
+ =?utf-8?B?bDZRd0drczg5aWN2WE5qcDIrVG4yc1ZGcDM1Z1FwaUFxUzBhYm9oN3BObnY2?=
+ =?utf-8?Q?/AsU=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014)(10070799003); DIR:OUT;
+ SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QkVhTlNMOGJvRmI3M0d6bDd0TVBURjhld3RJK015WnZrYXEyK3hueXRRTldi?=
+ =?utf-8?B?NWVCbjM2RElxM1g2SUxLeWxKaGNNUTFOVHBQVXBMMnBNM2xNNHV2OGFSQjlM?=
+ =?utf-8?B?RURJNEhLVEgreTNRVkprK0lIY2xpY3Urb1N3RE01VHBYb1FQZ0ZEdXlsUWFu?=
+ =?utf-8?B?NHVWUUlTWWhkSXJ4c1RraTBtUlp4ZjNaM2dWdGJKemFJVUFnM1lWQnh6bnJD?=
+ =?utf-8?B?RmpUUGkveWdHQTEwWXdNaEwrLzQ5WkJxR1d0N2xGTEhUM2VrT1hpcWp6Snpl?=
+ =?utf-8?B?bHliaExuZ29Zek1HSnZPMkR0bWpGVnJEUEJaTmUxckNPTExOU3k5UGhqWDNV?=
+ =?utf-8?B?SkhlTE9KelZneE16MTJ5TXNCUXpZdER1bGRtWDd5a0NwVTdnQzl1REtGaUM5?=
+ =?utf-8?B?WUtVakNvdGd2dDQ5dzlFSnlIMVlXNnUrU2FDZVhzd1pzT0lqU21EakpnaUpl?=
+ =?utf-8?B?Vjl1bXdsRlQ0YnlZR1l2R25hWHBweHFETUFZUlBicFh4UTh5OGlEb1ZFYTkw?=
+ =?utf-8?B?MlFoaENwL1cwd0QxaGVEVkZxa0YzeElQeGFoNExzOWEwZlBZOHczWXFvSEha?=
+ =?utf-8?B?OWRkYmYxOGQyWkpUNmFWR01WNzFhVzBxNzRPeXlvOC9PVWlBekRod2hTam9W?=
+ =?utf-8?B?NEVyOXNrZFNqVTIxcFBHRjZFbTBsS1pvbjdpWm5lRldlWkR2Y255dnkvZUc4?=
+ =?utf-8?B?MXl0TmtVZmlPZ1pkRGRpRkJ2L2VHQ3RPaW53dzVnaG9Pa2N2b0JIRkhFRHA5?=
+ =?utf-8?B?TjVzZ2o3OFhGaE1HM1FKRWpUcTVka3pRWlBrQVFkbDczRXoxK3R4bFlQdFhw?=
+ =?utf-8?B?bG1iaS9tRTFuYzZGNW1uL240Q0xtN1k2T2lMaTZBWG9DTkN4YXQrU2ZSQUZN?=
+ =?utf-8?B?UC9KME02RzRKTXBMNW5JTk9jQXlNcE9UWDZTT1dVS1ZJY085UW0rVzRpOTVp?=
+ =?utf-8?B?cllXMVV4Q2pta1M3WGxyazdQWm5xdXk3UjN3dVQ0aVU3dGRhdEU2WERPVElN?=
+ =?utf-8?B?WHBZdjdlaXBjSWpZS3NCTTh0TWZHMWdPWXpFeVk2ZGlzUm1YV3dpekNHdUF6?=
+ =?utf-8?B?M1VrWHNhd24wU2JMWXJLY0YvUlVzaVJ4bE1Oc3ExdHB0UGEvVzVUa0tIYm9S?=
+ =?utf-8?B?QW5UeDFoUkIrdE5oekh0c09YR2NOVnAwNHlYcEFTamMvV0w4OENqU3pSQjZY?=
+ =?utf-8?B?UXAwdlpkU1dZcUhuN1N1dmd1MC8vaElhMDhqUWcyL3MySURQMys4TXMweUtl?=
+ =?utf-8?B?ZURqRXR6KzdtRTBwdS9ubXdOaWlXOHhoOERQbmE2eSs5cXFCa3Z1M3VzYmd0?=
+ =?utf-8?B?elFrUXQyN052Njh2Q0hDR1FLTnAyVGpxYUpMNHBaWjY4VERzMk5RREJkSWpR?=
+ =?utf-8?B?dCtwcjU1OFk0UjQ2ZU9tYmN4dlBuZ2dRVG1WS3A1akJDblAwOHRQVnhYMmlr?=
+ =?utf-8?B?NHFiZ3gvR1pReXBhWEM3am1DaW5hZ2xTUjVtbXFBZGxyVDZjYWVoRkZlVzlz?=
+ =?utf-8?B?VzVDSXVkdkRMd0tlc1dHTjR1NXliODJBc1YxSi9EeU43b3kvNEJFbU9ySUQ3?=
+ =?utf-8?B?M1pmdmh0MDBlZVVYTytTcVArQ2Q0d2xtNjBZNjhWZHRNOThBZDNhM2o2dnZC?=
+ =?utf-8?B?M0l3SzIxN2NRNE9WZGhqMklMdGxSUWQvRzYvcktBMGJ4dys3UFVrRE1wUVRO?=
+ =?utf-8?B?b2xGOW1hUmp6R0hId2FpVEdLSjBDZWo2eC8xa3hLb1V4MVZqT21oQmxBSExk?=
+ =?utf-8?B?Zy8wWWg4S053Y0ZpTjJZOWw1VjNlWUFrRjVGaWJHazVHSDJpa0JaVjN5b3kw?=
+ =?utf-8?B?Q0JqVE9sdjVVbzdnZnhTOHNMOEREeHFJNHdHc3c2TTd0OXZua29rSkM2YTFY?=
+ =?utf-8?B?c3ZxNnJ0K2x6enRFU29MQmVpNnlYbFI2K1lydzIvRGxKRkpvc2pOWmF0ckFl?=
+ =?utf-8?B?WE9BMnpXZ1NFWGRnR216VHFkRndxajNXT2JybW84bGQzY1RhYXBuZTBkbHpL?=
+ =?utf-8?B?VlRhV2wzZm5QMHJBK0RBT25aNUxvTG15Q21nUE50MGRlVVZ1MTJPSEsvbldF?=
+ =?utf-8?B?UVZZNHU3M2k2Ryt5ZDlVTFRLVDhsd1FONjF1ckM1Mzd3MEVxc1RENTlpT1hj?=
+ =?utf-8?B?MTRON1FYM1BnWGxVQVEwNmhETHhDU2JtUm03N2RzVzNCZjNCZE9DbHZ4QkVH?=
+ =?utf-8?B?Yk15RHkxZTQ5bDFjWFhnVEVWWmdrbDEwSTcvL3czbnh0SjErclgwS1FhMi9r?=
+ =?utf-8?B?M2trak1oN2VMN1ZaVlBJQnZabTUxTHdrbmZiaWgwSWRjd0JvZ3F3ZjJPRVV1?=
+ =?utf-8?B?WWF3Q2Z3VSs0KytXNkRWa3I1UFRONkRaSlNJaVZjSG5UcFBwODdOdz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1d4121e-995f-4ed2-2111-08de640e311f
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2026 16:55:25.0262 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iQnVLIoh0jm+w9Dp2ZA0ra1AQxUgN71SfFjXnCifMCPJSdfO2d9Dh+VvepLHWTCt5PELtMebQshI1Q7JaVCDbw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOYP265MB2128
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,114 +202,74 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:leon@kernel.org,m:sumit.semwal@linaro.org,m:alexander.deucher@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:kraxel@redhat.com,m:dmitry.osipenko@collabora.com,m:gurchetansingh@chromium.org,m:olvaffe@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:lucas.demarchi@intel.com,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,m:kevin.tian@intel.com,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:Felix.Kuehling@amd.com,m:alex@shazbot.org,m:ankita@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:amd-gfx@lists.freedesktop.org,m:virtualization@lists.linux.dev,m:intel-xe@lists.freedesktop.org,m:linux-rdma@vger.kernel.org,m:iommu@lists.linux.dev,m:kvm@vger.kernel.org,s:lists@lfdr.de];
-	DMARC_NA(0.00)[ziepe.ca];
-	FREEMAIL_CC(0.00)[kernel.org,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	DKIM_TRACE(0.00)[ziepe.ca:+];
+	RCPT_COUNT_TWELVE(0.00)[40];
+	FORGED_RECIPIENTS(0.00)[m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:gregkh@linuxfoundation.org,m:david.m.ertman@intel.com,m:ira.weiny@intel.com,m:leon@kernel.org,m:paul@paul-moore.com,m:sergeh@kernel.org,m:rafael@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:igor.korotin.linux@gmail.com,m:daniel.almeida@collabora.com,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vireshk@kernel.org,m:nm@ti.com,m:sboyd@kernel.org,m:bhelgaas@google.com,m:kwilczynski@kernel.org,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-block@vger.kernel.org,m:linux-security-module@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-pm@vger.kernel.org,m:linux-pci@vger.kernel.org,m:lina+kernel@asahilina.net,m:dakr@kernel.org,m:a.hindborg@kernel.org,m:boqunfeng@gmail.com,m:igorkorotinl
+ inux@gmail.com,m:lina@asahilina.net,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[garyguo.net:+];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,garyguo.net,protonmail.com,google.com,umich.edu,linuxfoundation.org,intel.com,paul-moore.com,ffwll.ch,zeniv.linux.org.uk,suse.cz,collabora.com,oracle.com,ti.com,vger.kernel.org,lists.freedesktop.org,kvack.org,asahilina.net];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,kernel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email,nvidia.com:email,shazbot.org:email,intel.com:email]
-X-Rspamd-Queue-Id: DDB1AEA982
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,garyguo.net:mid,garyguo.net:dkim]
+X-Rspamd-Queue-Id: 9420AEA9AF
 X-Rspamd-Action: no action
 
-On Wed, Feb 04, 2026 at 05:21:45PM +0100, Christian König wrote:
-> On 1/31/26 06:34, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > Till now VFIO has rejected pinned importers, largely to avoid being used
-> > with the RDMA pinned importer that cannot handle a move_notify() to revoke
-> > access.
-> > 
-> > Using dma_buf_attach_revocable() it can tell the difference between pinned
-> > importers that support the flow described in dma_buf_invalidate_mappings()
-> > and those that don't.
-> > 
-> > Thus permit compatible pinned importers.
-> > 
-> > This is one of two items IOMMUFD requires to remove its private interface
-> > to VFIO's dma-buf.
-> > 
-> > Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-> > Reviewed-by: Alex Williamson <alex@shazbot.org>
-> > Reviewed-by: Christian König <christian.koenig@amd.com>
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > ---
-> >  drivers/vfio/pci/vfio_pci_dmabuf.c | 15 +++------------
-> >  1 file changed, 3 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> > index 78d47e260f34..a5fb80e068ee 100644
-> > --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
-> > +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> > @@ -22,16 +22,6 @@ struct vfio_pci_dma_buf {
-> >  	u8 revoked : 1;
-> >  };
-> >  
-> > -static int vfio_pci_dma_buf_pin(struct dma_buf_attachment *attachment)
-> > -{
-> > -	return -EOPNOTSUPP;
-> > -}
-> > -
-> > -static void vfio_pci_dma_buf_unpin(struct dma_buf_attachment *attachment)
-> > -{
-> > -	/* Do nothing */
-> > -}
-> > -
-> 
-> This chunk here doesn't want to apply to drm-misc-next, my educated
-> guess is that the patch adding those lines is missing in that tree.
+On Wed Feb 4, 2026 at 4:46 PM GMT, Danilo Krummrich wrote:
+> On Wed Feb 4, 2026 at 5:06 PM CET, Andreas Hindborg wrote:
+>> It is my understanding that the SoB needs confirmation from the author
+>> if the code was changed. I changed the code and did not want to bother
+>> the original author, because it is my understanding they do not wish to
+>> be contacted. I did not want to misrepresent the original author, and so
+>> I did not change the "From:" line.
+>
+> Frankly, I don't know what's the correct thing to do in this case; maybe =
+the
+> correct thing is to just keep the SoB, but list all the changes that have=
+ been
+> made.
+>
+> Technically, the same thing is common practice when maintainers (includin=
+g
+> myself) apply (minor) changes to a patch when applying them to their tree=
+.
+>
+>> How would you prefer to account for the work by Abdiel and Boqun?
+>
+> I mean, I don't have a preference and if I would have one, it wouldn't be
+> relevant. :) I just wanted to bring it up since the very first version wa=
+s sent
+> by the two of them. So, I think we should just ask.
 
-Yes. It looks like Alex took it to his next tree:
+It looks to me that they're independent works, there're very clear differen=
+ce
+between the two patches. Lina's patch closely follows the ARef design, and =
+it
+looks it also takes into account the dropck (by having `PhantomData`) and h=
+ave
+send/sync considerations.
 
-commit 61ceaf236115f20f4fdd7cf60f883ada1063349a
-Author: Leon Romanovsky <leon@kernel.org>
-Date:   Wed Jan 21 17:45:02 2026 +0200
-
-    vfio: Prevent from pinned DMABUF importers to attach to VFIO DMABUF
-    
-    Some pinned importers, such as non-ODP RDMA ones, cannot invalidate their
-    mappings and therefore must be prevented from attaching to this exporter.
-    
-    Fixes: 5d74781ebc86 ("vfio/pci: Add dma-buf export support for MMIO regions")
-    Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-    Reviewed-by: Pranjal Shrivastava <praan@google.com>
-    Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-    Link: https://lore.kernel.org/r/20260121-vfio-add-pin-v1-1-4e04916b17f1@nvidia.com
-    Signed-off-by: Alex Williamson <alex@shazbot.org>
-
-The very best thing would be to pull
-61ceaf236115f20f4fdd7cf60f883ada1063349a which is cleanly based on
-v6.19-rc6 ?
-
-> How should we handle that? Patches 1-3 have already been pushed to
-> drm-misc-next and I would rather like to push patches 4-6 through
-> that branch as well.
-
-Or we get Alex to take a branch from you for the first 3 and push it?
-
-Jason
+Best,
+Gary
