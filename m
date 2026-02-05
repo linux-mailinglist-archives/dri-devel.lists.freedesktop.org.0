@@ -2,81 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sH83G1xehGnS2gMAu9opvQ
+	id eA9EDHzKhGk45QMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 10:09:48 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 17:51:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E897F057F
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 10:09:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F08DF57E9
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 17:51:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DE0610E814;
-	Thu,  5 Feb 2026 09:09:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B005410E92C;
+	Thu,  5 Feb 2026 16:50:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="t3Do5o/M";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=stu.xidian.edu.cn header.i=@stu.xidian.edu.cn header.b="kMNmtIVa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45B5C10E811;
- Thu,  5 Feb 2026 09:09:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id D557A43CF5;
- Thu,  5 Feb 2026 09:09:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32E74C4CEF7;
- Thu,  5 Feb 2026 09:09:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770282582;
- bh=zl4sbHSqQvdTaC6HnQvBhEdXXeHWBp1tuYx5j590apM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=t3Do5o/MafD9ehMBYLDcL6lkwnhLhq7e7CmVmXfx/72tZJIqUv0eb4X4EeXtXm6vR
- RW63+1NuIBUrTq/eu2tKZJX7YOLZ4jCHshKJiDziCMI7d2kSZoMljOFXHIhL8er+PL
- W0NP4t1bUDCB0r4tjLPDezoShXIZBslt6MlSwgXiNS/TfvuBrka/LlOGHMCiUg0J9B
- I9/4K4mDBsgkY5QtcDjK1pxQyBBpl88WhiQ93+9sO1V7VsPbg0yxw4A8X9M0dD8+E7
- ny/rIA++tFugaFGRpyADPPMod8asmBnydKD5SndU2jZkxE+f+ci7rQ0voN9C2YD9CD
- IoEXJlcdZHU+A==
-Date: Thu, 5 Feb 2026 10:09:40 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Leon Romanovsky <leon@kernel.org>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>, 
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, 
- Chia-I Wu <olvaffe@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Felix Kuehling <Felix.Kuehling@amd.com>, 
- Alex Williamson <alex@shazbot.org>, Ankit Agrawal <ankita@nvidia.com>, 
- Vivek Kasireddy <vivek.kasireddy@intel.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, 
- virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
- linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v7 0/8] dma-buf: Use revoke mechanism to invalidate
- shared buffers
-Message-ID: <20260205-nocturnal-poetic-chamois-f566ad@houat>
-References: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
- <20260202160425.GO34749@unreal> <20260204081630.GA6771@unreal>
- <20260204-icy-classic-crayfish-68da6d@houat>
- <20260204115212.GG6771@unreal>
- <20260204-clever-butterfly-of-mastery-0cdc19@houat>
- <20260204121354.GH6771@unreal>
- <20260204-bloodhound-of-major-realization-9852ab@houat>
- <20260204135657.GE2328995@ziepe.ca>
+X-Greylist: delayed 1530 seconds by postgrey-1.36 at gabe;
+ Thu, 05 Feb 2026 09:12:27 UTC
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net
+ (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1916B10E817
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 09:12:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=stu.xidian.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
+ Disposition-Notification-To:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Message-ID; bh=O/Z+1kiLfQ6mcEjTnYTJdsA
+ CyWsc8AEm7apD3x8r5Zc=; b=kMNmtIValaH/0zpQjgPaR3toXN8AD+8GekT9VUZ
+ zHsKoCvdM4r4chCixuuaIFay8+llmcOGeprKcWITjZ9d8n6oaaKzCKsq1DrXZL/8
+ wQafG9EHxMiLNhKEk10kw6DMDMEi+AgYp29c6uNdgLdaK5Pxlaa5yqPPHRpU7N2u
+ As38=
+Received: from 25181214217$stu.xidian.edu.cn ( [115.53.180.70] ) by
+ ajax-webmail-hzbj-edu-front-2.icoremail.net (Coremail) ; Thu, 5 Feb 2026
+ 17:12:16 +0800 (GMT+08:00)
+X-Originating-IP: [115.53.180.70]
+Date: Thu, 5 Feb 2026 17:12:16 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?546L5piO54Wc?= <25181214217@stu.xidian.edu.cn>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [BUG] drm/vkms: RCU stall with CPUs spinning in
+ native_queued_spin_lock_slowpath during vblank + drm_ioctl under
+ PREEMPT(full) (syzkaller-style fuzzing)
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2024.3-cmXT6 build
+ 20250410(2f5ccd7f) Copyright (c) 2002-2026 www.mailtech.cn
+ mispb-8dfce572-2f24-404d-b59d-0dd2e304114c-icoremail.cn
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="tnyg2jepdblvcibb"
-Content-Disposition: inline
-In-Reply-To: <20260204135657.GE2328995@ziepe.ca>
+Message-ID: <129b1ef4.1458.19c2d12db12.Coremail.25181214217@stu.xidian.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: BLQMCkDmzb3wXoRpmXsYAA--.2450W
+X-CM-SenderInfo: qsvrmiqsrujiux6v33wo0lvxldqovvfxof0/1tbiAQUPEWmDgxBQ+
+	gAGsP
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VW3Jw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
+X-Mailman-Approved-At: Thu, 05 Feb 2026 16:50:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,87 +75,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.91 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+X-Spamd-Result: default: False [2.99 / 15.00];
+	DMARC_POLICY_QUARANTINE(1.50)[xidian.edu.cn : SPF not aligned (relaxed),quarantine];
+	MIME_BASE64_TEXT_BOGUS(1.00)[];
+	MID_CONTAINS_FROM(1.00)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
+	MIME_BASE64_TEXT(0.10)[];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	HAS_X_PRIO_THREE(0.00)[3];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[kernel.org,amd.com,linaro.org,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
+	R_DKIM_PERMFAIL(0.00)[stu.xidian.edu.cn:s=dkim];
+	FORGED_SENDER(0.00)[25181214217@stu.xidian.edu.cn,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	TO_DN_NONE(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FROM_NEQ_ENVFROM(0.00)[25181214217@stu.xidian.edu.cn,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[stu.xidian.edu.cn:~];
+	HAS_XOIP(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 1E897F057F
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 9F08DF57E9
 X-Rspamd-Action: no action
 
-
---tnyg2jepdblvcibb
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 0/8] dma-buf: Use revoke mechanism to invalidate
- shared buffers
-MIME-Version: 1.0
-
-On Wed, Feb 04, 2026 at 09:56:57AM -0400, Jason Gunthorpe wrote:
-> On Wed, Feb 04, 2026 at 02:44:42PM +0100, Maxime Ripard wrote:
-> > > From what I have seen, subsystems such as netdev, the block layer, an=
-d RDMA continue
-> > > to accept code that is ready for merging, especially when it has been=
- thoroughly
-> > > reviewed by multiple maintainers across different subsystems.
-> >=20
-> > He said it multiple times, but here's one of such examples:
-> >=20
-> > https://lore.kernel.org/all/CA+55aFwdd30eBsnMLB=3DncExY0-P=3DeAsxkn_O6i=
-r10JUyVSYdhA@mail.gmail.com/
->=20
-> Woah, nobody is saying to skip linux-next. It is Wednesday, if it
-> lands in the public tree today it will be in linux next probably for a
-> week before a PR is sent. This is a fairly normal thing for many trees
-> in Linux.
->=20
-> Linus is specifically complaining about people *entirely* skipping
-> linux-next.
->=20
-> > So, yeah, we can make exceptions. But you should ask and justify for
-> > one, instead of expecting us to pick up a patch submission that was
-> > already late.
->=20
-> I think Leon is only pointing out that a hard cut off two weeks before
-> the merge window even opens is a DRMism, not a kernel wide convention.
-
-arm-soc has had the same kind of rule since pretty much forever too.
-
-Maxime
-
---tnyg2jepdblvcibb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaYReTwAKCRAnX84Zoj2+
-dplgAX9hHIFQbqLK+fxvL0TIdlxKHnC96b/mM0HwLMbHd0IAQvPbbGrZJ2/A2X06
-zK51PYIBgNEjofrl7KBPxkMocbEwYn4jvc85iFf17a3flZDzCXRl//ksV9ObDYVt
-vXboJHIz/Q==
-=MSKg
------END PGP SIGNATURE-----
-
---tnyg2jepdblvcibb--
+VG86IDxmaWxsLWZyb20tcGVybCBzY3JpcHRzL2dldF9tYWludGFpbmVyLnBsIC0tYnVnIC1mIC4u
+LiBvdXRwdXQ+CkNjOiBbZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZ10obWFpbHRvOmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcpLCBbbGludXgta2VybmVsQHZnZXIua2VybmVs
+Lm9yZ10obWFpbHRvOmxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcpCgpIZWxsbyBEUk0vdmtt
+cyBtYWludGFpbmVycywKCldlIG9ic2VydmVkIHJlcGVhdGVkIFJDVSBzdGFsbHMgZHVyaW5nIHN5
+emthbGxlci1zdHlsZSBmdXp6IHRlc3Rpbmcgb24gYW4gdXBzdHJlYW0gTGludXgga2VybmVsLiBX
+aXRoIFBSRUVNUFQoZnVsbCkgZW5hYmxlZCwgdGhlIGtlcm5lbCByZXBvcnRzIHRoYXQgdGhlIHJj
+dV9wcmVlbXB0IGdyYWNlLXBlcmlvZCBrdGhyZWFkIGlzIHN0YXJ2ZWQgZm9yID4xMCBzZWNvbmRz
+IHdoaWxlIG11bHRpcGxlIENQVXMgc3BpbiBpbiBuYXRpdmVfcXVldWVkX3NwaW5fbG9ja19zbG93
+cGF0aCgpIGluIERSTS1yZWxhdGVkIHBhdGhzICh2YmxhbmsgaGFuZGxpbmcsIGRybV9pb2N0bCwg
+YW5kIERSTSBmaWxlIHRlYXJkb3duKS4gVGhpcyBhcHBlYXJzIHRvIGJlIGxvY2sgY29udGVudGlv
+bi9saXZlbG9jayB1bmRlciBhZHZlcnNhcmlhbCB3b3JrbG9hZHMgdGhhdCBwcmV2ZW50cyBSQ1Ug
+R1AgcHJvZ3Jlc3MuCgpFbnZpcm9ubWVudDoKCiogS2VybmVsOiA2LjE4LjAgKGxvY2FsbHkgYnVp
+bHQgZnJvbSB1cHN0cmVhbSkKKiBDb25maWc6IFBSRUVNUFQoZnVsbCkKKiBBcmNoOiB4ODZfNjQK
+KiBIYXJkd2FyZTogUUVNVSBTdGFuZGFyZCBQQyAoaTQ0MEZYICsgUElJWCkKKiBXb3JrbG9hZDog
+c3l6LWV4ZWN1dG9yIChzeXprYWxsZXItc3R5bGUgZnV6emluZykKCk9ic2VydmVkIHN5bXB0b206
+CgoqICJJTkZPOiByY3VfcHJlZW1wdCBkZXRlY3RlZCBzdGFsbHMgb24gQ1BVcy90YXNrcyIKKiAi
+cmN1X3ByZWVtcHQga3RocmVhZCB0aW1lciB3YWtldXAgZGlkbid0IGhhcHBlbiBmb3IgfjEwayBq
+aWZmaWVzIgoqICJyY3VfcHJlZW1wdCBrdGhyZWFkIHN0YXJ2ZWQgZm9yIG92ZXIgfjEwayBqaWZm
+aWVzIgoKVHJpZ2dlcmluZyBjb250ZXh0IChyZXByZXNlbnRhdGl2ZSk6ClRhc2sgY29udGV4dCAo
+aW9jdGwgcGF0aCk6CmRybV9pb2N0bApkcm1faW9jdGxfa2VybmVsCmRybV9tb2RlX2NyZWF0ZWJs
+b2JfaW9jdGwKZHJtX3Byb3BlcnR5X2NyZWF0ZV9ibG9iCl9fa3ZtYWxsb2Nfbm9kZV9ub3Byb2Yg
+LyBfX3ZtYWxsb2Nfbm9kZV9yYW5nZV9ub3Byb2YKSVJRIGNvbnRleHQgKHZrbXMgdmJsYW5rIHNp
+bXVsYXRpb24pOgpuYXRpdmVfcXVldWVkX3NwaW5fbG9ja19zbG93cGF0aApkcm1faGFuZGxlX3Zi
+bGFuawp2a21zX3ZibGFua19zaW11bGF0ZQpocnRpbWVyX2ludGVycnVwdApzeXN2ZWNfYXBpY190
+aW1lcl9pbnRlcnJ1cHQKVGFzayBjb250ZXh0IChmaWxlIHRlYXJkb3duIHBhdGggb24gc29tZSBy
+dW5zKToKbmF0aXZlX3F1ZXVlZF9zcGluX2xvY2tfc2xvd3BhdGgKZHJtX2ZpbGVfZnJlZQpkcm1f
+Y2xvc2VfaGVscGVyCmRybV9yZWxlYXNlCl9fZnB1dAp0YXNrX3dvcmtfcnVuClJDVSBHUCBrdGhy
+ZWFkOgpyY3VfZ3BfZnFzX2xvb3AKcmN1X2dwX2t0aHJlYWQKClJlcHJvZHVjZXI6Ck5vIHJlbGlh
+YmxlIHN0YW5kYWxvbmUgcmVwcm9kdWNlciB5ZXQ7IHRoZSBpc3N1ZSB3YXMgb2JzZXJ2ZWQgbXVs
+dGlwbGUgdGltZXMgdW5kZXIgZnV6emluZyB3b3JrbG9hZHMuIFdlIGNhbiBwcm92aWRlIGZ1bGwg
+ZG1lc2cgbG9ncyAoaW5jbHVkaW5nIE5NSSBiYWNrdHJhY2VzKSwga2VybmVsIGNvbmZpZywgYW5k
+IHRoZSBmdXp6aW5nIHByb2dyYW1zL2V4ZWN1dG9yIGxvZ3MgdXBvbiByZXF1ZXN0LgoKRXhwZWN0
+ZWQgYmVoYXZpb3I6CkRSTSBpb2N0bHMsIHZibGFuayBoYW5kbGluZywgYW5kIGZpbGUgdGVhcmRv
+d24gc2hvdWxkIG5vdCBsZWFkIHRvIHByb2xvbmdlZCBSQ1Ugc3RhbGxzIGV2ZW4gdW5kZXIgYWR2
+ZXJzYXJpYWwgdXNlcnNwYWNlIHdvcmtsb2FkczsgdGhlIHJjdV9wcmVlbXB0IEdQIGt0aHJlYWQg
+c2hvdWxkIGJlIGFibGUgdG8gbWFrZSBwcm9ncmVzcy4KCkFjdHVhbCBiZWhhdmlvcjoKUkNVIHJl
+cG9ydHMgcHJvbG9uZ2VkIHN0YWxscywgQ1BVcyBzcGluIGluIG5hdGl2ZV9xdWV1ZWRfc3Bpbl9s
+b2NrX3Nsb3dwYXRoKCksIGFuZCB0aGUgcmN1X3ByZWVtcHQgZ3JhY2UgcGVyaW9kIGRvZXMgbm90
+IGNvbXBsZXRlIGZvciA+MTAgc2Vjb25kcy4KCgpUaGFua3MsCk1pbmd5dSBXYW5nCg==
