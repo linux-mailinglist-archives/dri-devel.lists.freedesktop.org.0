@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WIVdM5WZhGmh3gMAu9opvQ
+	id SOQAI+KZhGmh3gMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 14:22:29 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 14:23:46 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E4EF32CA
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 14:22:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC5C1F3315
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 14:23:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F21110E1D1;
-	Thu,  5 Feb 2026 13:22:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F381010E2BD;
+	Thu,  5 Feb 2026 13:23:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sRt/BFMm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cGoGIKHs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 957B810E2BD
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 13:22:24 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AD3F10E2BD
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 13:23:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 3450544406;
- Thu,  5 Feb 2026 13:22:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8500AC4CEF7;
- Thu,  5 Feb 2026 13:22:23 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 30E6360138;
+ Thu,  5 Feb 2026 13:23:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81D8EC19423;
+ Thu,  5 Feb 2026 13:23:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770297744;
- bh=TkfBnRNycUzOt57ZGltou8dZywkW6jXvCL0D1cY1hQk=;
+ s=k20201202; t=1770297820;
+ bh=TH2SzadiN4HBN+40P0xnfax3PZRUqXvZ1UIA3ramg84=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sRt/BFMmWrKitSaNmQpRkeFL+wUlu0tz2R5EEbdfnxqfPxqObnM5CjORh/y3Pl1Yc
- XgGI2FT5G8myHoMBFHQD2+SAPR4kEIABNiZaShlcIMcoXEgs8cyqfpNtzqrtK4sqfx
- G4nadJP8LWubRDvacLfmFQYuTs/x1XJozZp5bRUEBzkb057RAo71EEtHU7uw99WOuX
- VsdOlCtEBHgmUJfA7WKYre9QEwKqsJYhwI6mZxJ9QUnoqea6GRd9F17ATu+XpjuqdL
- WlbtKvApqLx2dy5Ic3yIs4UxZrfrkOy6bdIQEPHEIWmNLnYgK14FxXLK2fMvlAw83n
- K1z9AeIgYA7kg==
-Date: Thu, 5 Feb 2026 14:22:21 +0100
+ b=cGoGIKHsnk/D0CGgFAjZ/QcgfCNSPhv89UWcQmkPt8BJw+uM4cBLluhtuAQ+P35+L
+ CSNDtwyJoS4ddMBv0vmjO1Q5XZ4gZcmHd7z4TH0Oq48IKPN8lUxSXD+Gu2ZelAYuvl
+ pVAAiCssvsSIhkPGc6R8OPLjNgETk0rvJl4RWOQo8YSyRwSki/+ee9uGh/mzb8hvlX
+ I0r0XZ7sbgyZLqs5mlF8Frb2zL31sme0ZtN4WAW7IAxRVoRfUlhRoGMX+/f8A3IVv9
+ 0tIojIr+uWACLmETEagWqvUhfghUaZqvmSHWr5lwBHozLSBXhVuKjTSDWuQSpqJTpe
+ ILzM0kBznjoKw==
+Date: Thu, 5 Feb 2026 14:23:38 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Joey Lu <a0987203069@gmail.com>
 Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
@@ -44,14 +44,15 @@ Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
  yclu4@nuvoton.com, 
  linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] drm/nuvoton: add MA35D1 display controller driver
-Message-ID: <20260205-classic-innocent-angelfish-5c3cd2@quoll>
+Subject: Re: [PATCH v2 2/3] arm64: dts: nuvoton: ma35d1: add display
+ controller support
+Message-ID: <20260205-tactful-warm-chicken-50bdc8@quoll>
 References: <20260129040532.382693-1-a0987203069@gmail.com>
- <20260129040532.382693-4-a0987203069@gmail.com>
+ <20260129040532.382693-3-a0987203069@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260129040532.382693-4-a0987203069@gmail.com>
+In-Reply-To: <20260129040532.382693-3-a0987203069@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,206 +102,53 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 28E4EF32CA
+X-Rspamd-Queue-Id: EC5C1F3315
 X-Rspamd-Action: no action
 
-On Thu, Jan 29, 2026 at 12:05:32PM +0800, Joey Lu wrote:
-> Add DRM driver support for the Display Control Unit (DCU)
-> found in Nuvoton MA35D1 SoCs.
-> 
-> Signed-off-by: Joey Lu <a0987203069@gmail.com>
-> ---
->  drivers/gpu/drm/Kconfig                  |   1 +
->  drivers/gpu/drm/Makefile                 |   1 +
->  drivers/gpu/drm/nuvoton/Kconfig          |  21 +
->  drivers/gpu/drm/nuvoton/Makefile         |   7 +
->  drivers/gpu/drm/nuvoton/ma35_crtc.c      | 372 ++++++++++++++
->  drivers/gpu/drm/nuvoton/ma35_crtc.h      |  67 +++
->  drivers/gpu/drm/nuvoton/ma35_drm.c       | 371 ++++++++++++++
->  drivers/gpu/drm/nuvoton/ma35_drm.h       |  48 ++
->  drivers/gpu/drm/nuvoton/ma35_interface.c | 193 ++++++++
->  drivers/gpu/drm/nuvoton/ma35_interface.h |  30 ++
->  drivers/gpu/drm/nuvoton/ma35_plane.c     | 603 +++++++++++++++++++++++
->  drivers/gpu/drm/nuvoton/ma35_plane.h     | 115 +++++
->  drivers/gpu/drm/nuvoton/ma35_regs.h      |  88 ++++
-
-No maintainers? Why would we want to take unmaintained code?
-
-> +static void ma35_mode_fini(struct ma35_drm *priv)
-> +{
-> +	struct drm_device *drm_dev = &priv->drm_dev;
+On Thu, Jan 29, 2026 at 12:05:31PM +0800, Joey Lu wrote:
+>  &uart0 {
+> @@ -129,3 +165,23 @@ &uart16 {
+>  	pinctrl-0 = <&pinctrl_uart16>;
+>  	status = "okay";
+>  };
 > +
-> +	drm_kms_helper_poll_fini(drm_dev);
-> +}
-> +
-> +static int ma35_clocks_prepare(struct ma35_drm *priv)
-> +{
-> +	struct drm_device *drm_dev = &priv->drm_dev;
-> +	struct device *dev = drm_dev->dev;
-> +	int ret;
-> +
-> +	priv->dcuclk = devm_clk_get(dev, "dcu_gate");
-> +	if (IS_ERR(priv->dcuclk)) {
-> +		dev_err(dev, "Failed to get display core clock\n");
-
-Don't spam logs on defers. Syntax is in entire probe path: return
-dev_err_probe
-
-> +		return PTR_ERR(priv->dcuclk);
-> +	}
-> +
-> +	ret = clk_prepare_enable(priv->dcuclk);
-
-Why this cannot be devm_clk_get_enabled?
-
-> +	if (ret) {
-> +		dev_err(dev, "Failed to enable display core clock\n");
-> +		return ret;
-> +	}
-> +
-> +	priv->dcupclk = devm_clk_get(dev, "dcup_div");
-> +	if (IS_ERR(priv->dcupclk)) {
-> +		dev_err(dev, "Failed to get display pixel clock\n");
-> +		return PTR_ERR(priv->dcupclk);
-> +	}
-> +
-> +	ret = clk_prepare_enable(priv->dcupclk);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to enable display pixel clock\n");
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int ma35_clocks_unprepare(struct ma35_drm *priv)
-> +{
-> +	struct clk **clocks[] = {
-> +		&priv->dcuclk,
-> +		&priv->dcupclk,
+> +&panel {
+> +	port {
+> +		panel_in: endpoint@0 {
+> +			remote-endpoint = <&dpi_out>;
+> +		};
 > +	};
-> +	unsigned int i;
+> +};
 > +
-> +	for (i = 0; i < ARRAY_SIZE(clocks); i++) {
-> +		if (!*clocks[i])
-> +			continue;
-> +
-> +		clk_disable_unprepare(*clocks[i]);
-> +		*clocks[i] = NULL;
+> +&display {
 
-Huh, pretty complicated and pointless code. This should be devm and bulk
-API...
+What sort of ordering rule is followed in Nuvoton? Why is it different
+than DTS coding style? Why do you choose other style?
 
-> +	}
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&pinctrl_display>;
+> +	status = "okay";
 > +
-> +	return 0;
-> +}
+> +	port {
+> +		dpi_out: endpoint@0 {
+> +			remote-endpoint = <&panel_in>;
+> +		};
+> +	};
+> +};
+> diff --git a/arch/arm64/boot/dts/nuvoton/ma35d1.dtsi b/arch/arm64/boot/dts/nuvoton/ma35d1.dtsi
+> index e51b98f5bdce..7d9d077f12b2 100644
+> --- a/arch/arm64/boot/dts/nuvoton/ma35d1.dtsi
+> +++ b/arch/arm64/boot/dts/nuvoton/ma35d1.dtsi
+> @@ -379,5 +379,19 @@ uart16: serial@40880000 {
+>  			clocks = <&clk UART16_GATE>;
+>  			status = "disabled";
+>  		};
 > +
-> +static int ma35_drm_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct ma35_drm *priv;
-> +	struct drm_device *drm_dev;
-> +	void __iomem *base;
-> +	struct regmap *regmap = NULL;
-> +	int irq;
-> +	int ret;
-> +
-> +	ret = of_reserved_mem_device_init(dev);
-> +	if (ret && ret != -ENODEV) {
-> +		dev_err(dev, "Failed to get optional reserved memory: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	base = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(base)) {
-> +		dev_err(dev, "Failed to map I/O base\n");
+> +		panel: panel {
 
-Why aren't you using dev_err_probe?
+No, there is no way your SoC has a panel.
 
-> +		ret = PTR_ERR(base);
-> +		goto error_reserved_mem;
-> +	}
-> +	regmap = devm_regmap_init_mmio(dev, base, &ma35_drm_regmap_config);
-> +	if (IS_ERR(regmap)) {
-> +		dev_err(dev, "Failed to create regmap for I/O\n");
-> +		ret = PTR_ERR(regmap);
-> +		goto error_reserved_mem;
-> +	}
-> +
-> +	irq = platform_get_irq(pdev, 0);
-> +	if (irq < 0) {
-> +		ret = -ENODEV;
-> +		goto error_reserved_mem;
-> +	}
-> +
-> +	priv = devm_drm_dev_alloc(dev, &ma35_drm_driver,
-> +				     struct ma35_drm, drm_dev);
-> +	if (IS_ERR(priv)) {
-> +		ret = PTR_ERR(priv);
-> +		goto error_reserved_mem;
-> +	}
-> +
-> +	platform_set_drvdata(pdev, priv);
-> +	drm_dev = &priv->drm_dev;
-> +	priv->regmap = regmap;
-> +	INIT_LIST_HEAD(&priv->layers_list);
-> +
-> +	ret = ma35_clocks_prepare(priv);
-> +	if (ret) {
-> +		drm_err(drm_dev, "Failed to prepare clocks\n");
-
-Why do you print error twice? Once in the function, second time here?
-
-> +		goto error_reserved_mem;
-> +	}
-> +
-> +	ret = devm_request_irq(dev, irq, ma35_drm_irq_handler, 0,
-> +			       dev_name(dev), priv);
-> +	if (ret) {
-> +		drm_err(drm_dev, "Failed to request IRQ\n");
-> +		goto error_clocks;
-> +	}
-> +
-> +	/* modeset */
-> +	ret = ma35_mode_init(priv);
-> +	if (ret) {
-> +		drm_err(drm_dev, "Failed to initialize KMS\n");
-> +		goto error_clocks;
-> +	}
-> +
-> +	/* plane */
-> +	ret = ma35_plane_init(priv);
-> +	if (ret) {
-> +		drm_err(drm_dev, "Failed to initialize layers\n");
-> +		goto error_clocks;
-> +	}
-> +
-> +	/* crtc */
-> +	ret = ma35_crtc_init(priv);
-> +	if (ret) {
-> +		drm_err(drm_dev, "Failed to initialize CRTC\n");
-> +		goto error_clocks;
-> +	}
-> +
-> +	/* interface */
-> +	ret = ma35_interface_init(priv);
-> +	if (ret) {
-> +		if (ret != -EPROBE_DEFER)
-> +			drm_err(drm_dev, "Failed to initialize interface\n");
-> +
-> +		goto error_clocks;
-> +	}
-> +
-> +	drm_mode_config_reset(drm_dev);
-> +
-> +	ret = drm_dev_register(drm_dev, 0);
-> +	if (ret) {
-> +		drm_err(drm_dev, "Failed to register DRM device\n");
-> +		goto error_mode;
-> +	}
-> +
-> +	drm_client_setup(drm_dev, NULL);
+Don't add fake stuff to your DTS.
 
 Best regards,
 Krzysztof
