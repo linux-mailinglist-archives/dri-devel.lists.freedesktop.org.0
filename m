@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qOcjLjgMhWlm7wMAu9opvQ
+	id OEanBzgMhWlm7wMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
 	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 22:31:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82A53F7ADC
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 22:31:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD338F7AD4
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 22:31:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6461E10E0B7;
-	Thu,  5 Feb 2026 21:31:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0AB110E0EC;
+	Thu,  5 Feb 2026 21:31:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="qPIwoAcY";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="RyqD3s0l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68D5C10E0EC
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB8B10E0F5
  for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 21:31:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
@@ -26,24 +26,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=JlK4B093qtXif+ZVPIwfuJl6ZdpnYelMvYIRG71VQPE=; b=qPIwoAcYkWlKHWgSibH7zYsQQo
- Il1hIBlN4amNzkwVC0XgkMy9x9Y8hdyixFcPH6eZwUytoEqt73P0u5MynGiPXodIYOpouDrNMxuCI
- U77AoFOIrlJkuINXUiRJAgpSzj2XpYjyneczH4vINl4RaE+W3Rr0m03nj7/BGpsg096h9pfot45kI
- MnzmZFWfB4WpFlarn60FYKifzsXlO70chrywDkZTtyrnUPXZ/B8NlYMmt770LkIyJv0usWgcK7Ok/
- f83VxJfstfLK3GZKpXLBowtU9KNxCsxbDbD58ncBLa3ZkRU3vdbhfLaVAjpMmy9+H1/tztCubNtkk
- LmPzz6AQ==;
+ bh=GmldKdYbi9vFJFTk86N7zmAHImXmnWhF+QRW/BbpGE4=; b=RyqD3s0lpA1Qoz0zA8F9AXgwp3
+ WYuXLvvYGfUqyD2MJON+lq4eWCVpFnB3XzdKhds8FIhCIdoHiurAkaJI5lm1hCykUEfLgUMZuV/fh
+ dousWKbBc5zvQV59HK3mE0Z4C+Xn0xTWbzm0/ljw+R10tAQfI5neJJEF8aW9Qg2UuTaq4mYXRTdRg
+ wSIaisY7WzfSGohnaH1XTl+ZRntOEgV+OC5AB2wNPP4u2oT6R5+JBX0rRdw4bP8hCt+MKRWp85AuN
+ BtvfnkdtlxPTocTrK/QfUCmfl6gml49F+Sgfsu/piNiWDJuSVj6+5knToFuR8lz++srmRVpJuTM9b
+ eYmvK6uQ==;
 Received: from [187.36.210.68]
  (helo=1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vo6wW-00EZx4-4F; Thu, 05 Feb 2026 22:31:16 +0100
+ id 1vo6wY-00EZx4-Vd; Thu, 05 Feb 2026 22:31:19 +0100
 From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Thu, 05 Feb 2026 18:31:00 -0300
-Subject: [PATCH 01/11] drm/vc4: Release runtime PM reference after binding V3D
+Date: Thu, 05 Feb 2026 18:31:01 -0300
+Subject: [PATCH 02/11] drm/vc4: Fix a memory leak in hang state error path
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260205-vc4-drm-scheduler-v1-1-c6174fd7bbc1@igalia.com>
+Message-Id: <20260205-vc4-drm-scheduler-v1-2-c6174fd7bbc1@igalia.com>
 References: <20260205-vc4-drm-scheduler-v1-0-c6174fd7bbc1@igalia.com>
 In-Reply-To: <20260205-vc4-drm-scheduler-v1-0-c6174fd7bbc1@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, Maxime Ripard <mripard@kernel.org>, 
@@ -55,15 +55,15 @@ To: Melissa Wen <mwen@igalia.com>, Maxime Ripard <mripard@kernel.org>,
 Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1197; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=irPA5iSds4aS5RGJDkrmlAVdCJPnW24POdkCwBlf6t8=;
- b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBphQwc2ubFFdBZw8h0D2JxNF5jU90MO3boFct83
- l6LcN1alqiJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaYUMHAAKCRA/8w6Kdoj6
- qoyyB/4uKUQjzxgemAXFVsKJkmWzidIDZoIT8Ykztk0i4ZInX5/tdLaEGpHQejuHbjFEg1bxrR3
- qr1bcW1rcHXYlZgiNGJr/gse3NyToPFoJUnYEpPiBJrnN3Cf0/D3I984YIUM2mhrVlcQiCOZDNu
- Lu61NBU1bRF2irPAOEKK7CeHNH6XrPVWAQw9l8u0piYxROkh/b7oI6UqzhaKN9aVgQveKmpDIAl
- PIsFGD/ZvzlFdix1uf6E9xKIyA8+eCuo737zoL5jAs3nqcU1iGZrYGLtZRkdlklXrZ0sHkP9IBA
- W7KnEDMsCoUwjYDVz8fBP2u/TaJ09CO8S0d8cPyG4ZfZdRN9
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1129; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=9l+JVjI1Krsniu9JqzUyae8Si3n257MOGJD54i7PKPw=;
+ b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBphQwcDTOwH0ijhgVCNg5/ZN4W4U+CBPd24p74g
+ krZ+tOdPrWJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaYUMHAAKCRA/8w6Kdoj6
+ qrfcB/0SkrqLRRvubpqBiIrcLzQoceVtsiMhuXHxSLwt1tnZJreqJSXBtRy3N9i/W15gtCbfoWX
+ 837amw0f8S0Pzkn28bkW/yS+T5VVBbPnDfMXAKxjavQolriw83O8uFHYjMjcRv8wGPngYFNFaPO
+ rDJLrW2HwfuUOH5tw07V40a88SeJrBFb65CL1hYTkFoE1livfUBKig5JgOr8VxBvNoYclAu1h3x
+ 0eJNfTfqjr1qLLXSqM5lz+2pgn6+PLQbmfH7heTyyfcUxF8dcHWAFRu4SwqiY7mUh5o2gQDKdTs
+ LOwojZBruAgaz0C+7rnp7CQZPAdbSj0XJtmeL975gH/yaPD8
 X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
  fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -113,36 +113,40 @@ X-Spamd-Result: default: False [0.49 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,igalia.com:mid,igalia.com:email]
-X-Rspamd-Queue-Id: 82A53F7ADC
+X-Rspamd-Queue-Id: CD338F7AD4
 X-Rspamd-Action: no action
 
-The vc4_v3d_bind() function acquires a runtime PM reference via
-pm_runtime_resume_and_get() to access V3D registers during setup.
-However, this reference is never released after a successful bind.
-This prevents the device from ever runtime suspending, since the
-reference count never reaches zero.
+When vc4_save_hang_state() encounters an early return condition, it
+returns without freeing the previously allocated `kernel_state`,
+leaking memory.
 
-Release the runtime PM reference by adding pm_runtime_put_autosuspend()
-after autosuspend is configured, allowing the device to runtime suspend
-after the delay.
+Add the missing kfree() calls in both early return paths.
 
-Fixes: 266cff37d7fc ("drm/vc4: v3d: Rework the runtime_pm setup")
+Fixes: 214613656b51 ("drm/vc4: Add an interface for capturing the GPU state after a hang.")
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/vc4/vc4_v3d.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/vc4/vc4_gem.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
-index 3ffe09bc89d273c2ec598f391147425d9f6785bf..d31b906cb8e787517ba3ff72c236ffcf810522b1 100644
---- a/drivers/gpu/drm/vc4/vc4_v3d.c
-+++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-@@ -481,6 +481,7 @@ static int vc4_v3d_bind(struct device *dev, struct device *master, void *data)
+diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
+index ab16164b5edaf382b9c4bf1f08766748cac77fcc..f943ff7da28ae528c0fdfac76e989a2d5286d193 100644
+--- a/drivers/gpu/drm/vc4/vc4_gem.c
++++ b/drivers/gpu/drm/vc4/vc4_gem.c
+@@ -172,6 +172,7 @@ vc4_save_hang_state(struct drm_device *dev)
+ 	exec[1] = vc4_first_render_job(vc4);
+ 	if (!exec[0] && !exec[1]) {
+ 		spin_unlock_irqrestore(&vc4->job_lock, irqflags);
++		kfree(kernel_state);
+ 		return;
+ 	}
  
- 	pm_runtime_use_autosuspend(dev);
- 	pm_runtime_set_autosuspend_delay(dev, 40); /* a little over 2 frames. */
-+	pm_runtime_put_autosuspend(dev);
+@@ -192,6 +193,7 @@ vc4_save_hang_state(struct drm_device *dev)
  
- 	return 0;
+ 	if (!kernel_state->bo) {
+ 		spin_unlock_irqrestore(&vc4->job_lock, irqflags);
++		kfree(kernel_state);
+ 		return;
+ 	}
  
 
 -- 
