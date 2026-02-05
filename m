@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QD/PKT4MhWlm7wMAu9opvQ
+	id cAr9LT8MhWmj7gMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 22:31:42 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 22:31:43 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452E3F7AF9
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 22:31:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F7E8F7B00
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 22:31:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C10610E0CA;
-	Thu,  5 Feb 2026 21:31:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58E2C10E0FE;
+	Thu,  5 Feb 2026 21:31:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="hOqv+p5Q";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="g51/A8Aw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5EE710E0CA
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 21:31:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0141610E0CA
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 21:31:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
  Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=CfVcEPKVCNDAQGkPUBQi3YBF0UACZIaeWQ52thoA6oI=; b=hOqv+p5QGYCObAdWxXXuOO64z1
- QAxS31ugfCeFnhP4HFD+z5A/TRVqpBO/+cLIppDseX1Z68+xd3BqxhKv40Bk1alm9rpzz5q8HvOLW
- E7lrvuX6WK2gTjQGBMJj+8tb3Y3E0KBOnbcE3Fgm3eVctho2n2UPCWjF7TbiK5xBYMkqaAtLDeAVb
- AI/pcdtWGdVyXvivtai52o3i+VMh7eN8hHIqVYdAMqJVOSTF4QyYKftzLQSpaNQ57Zrk+uSilnGsZ
- gZyRycR0zO1/BYbDL2bZ26mNDIvMoQ67/R4WsNTFnTAKXRfcvYdK8aZssEImhF5GU/EFeLYrA/549
- bPcdqWWA==;
+ bh=vbFGhyGIIxAqaFo2wiFJOviJonDnuLl4nJTo00bN92A=; b=g51/A8AwuDQZMuyxA1yn5HGchz
+ 1labpOZQekeKEIdtCCfFZhD8dcbyZW/jJuF5lAv0qFPEf6+7f2/pb81Z8H+/TvDCvc9p4+0iiW3Pq
+ iFhn5DY87/fFD98DES18Fph8Md++3JWMspw+4NpIuizXRX/0BtTv9Ls6uMbCay/o7xJUC22dozDbC
+ OuhbvqmGTs07Sjz1zqFTkpdkprmlKV8yO7L2fgr+hZCjQYifMaK1knaSCOdc8WdOPfd5XQoL6VHmn
+ SBslgcmH4BEkBlNJFUR4kLUOeKKHP718+yrJrfktVg25KPvuxwb9VRpfuvw5YeWGhIxAnfqKvvioK
+ bqdf7yFw==;
 Received: from [187.36.210.68]
  (helo=1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vo6wk-00EZx4-Mb; Thu, 05 Feb 2026 22:31:30 +0100
+ id 1vo6wn-00EZx4-JC; Thu, 05 Feb 2026 22:31:33 +0100
 From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Thu, 05 Feb 2026 18:31:05 -0300
-Subject: [PATCH 06/11] drm/vc4: Add new job submission implementation
+Date: Thu, 05 Feb 2026 18:31:06 -0300
+Subject: [PATCH 07/11] drm/vc4: Add per-file descriptor seqno tracking
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260205-vc4-drm-scheduler-v1-6-c6174fd7bbc1@igalia.com>
+Message-Id: <20260205-vc4-drm-scheduler-v1-7-c6174fd7bbc1@igalia.com>
 References: <20260205-vc4-drm-scheduler-v1-0-c6174fd7bbc1@igalia.com>
 In-Reply-To: <20260205-vc4-drm-scheduler-v1-0-c6174fd7bbc1@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, Maxime Ripard <mripard@kernel.org>, 
@@ -55,15 +55,15 @@ To: Melissa Wen <mwen@igalia.com>, Maxime Ripard <mripard@kernel.org>,
 Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=14132; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=BoxyjcTRU7kByZVp1Ntrk+6STE2semkwhh+xf3tsrk8=;
- b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBphQwdUSXdNWwkAtUIeFW1HiURWO48HUEcMj0Bu
- d+qEhujQrmJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaYUMHQAKCRA/8w6Kdoj6
- qo8kB/0bCkN8z/kyqqteCxd7SXx8Wt58NNBCtdulcQB6J44jUcRNRoTZkB9v0fxenV8MbP/7o8Y
- +A4dNVPddR9GxLRXBty8WJRcLyfneoXC6S+s9+lnB/xhFfSJFpqq72Ar/kr4U0azzC6cy0xI9r1
- Ph2VRvZOzBlXUFFru8yZQdeluh/h8FvPDTkqCtxsgxm721jR5KG44bTlzCP93Eo3uz5HTAXwhME
- 1KzAxtRrk8m9Y6ihYwgVzkv8p8mqUVThCHNTyw8tgyVhf8WtAEepO8twgSNOLPPRFrEV52S5j7b
- Y3yl1UanNfMjdK8KTGxH8ffQWNJgvRAWQg0zVIuZjtNGsiWP
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5706; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=uRRb95mo/P6jNEatFX6fE8lGEv729ZoN7DkoHhbW1kw=;
+ b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBphQwdRIMck8asGstiv2v41Xm4bUWpBzo2jVlXI
+ KRl/h/q8qWJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaYUMHQAKCRA/8w6Kdoj6
+ qmfZB/wOzrfCpxjdACBU9EKqKnRjPPRolRoCcR7NytnkXFEXLkfJUdLIfo2+73Eq/RlJbzq78n2
+ MGHJKiFVs7gpPSOn22ovx6BkpG7cmZaV8iTCJoaX7dAvoaNZA7iBTX+VC1aBQh8ROlVVYNKmdNp
+ j1boS32bp6HIOmRJhQ4zLPo0BUNGl9GsDBEWGei/SDAFdnYdv1OpFwCWbqsRObRynQE4nhTmzo0
+ 4uIW3ykj+yfOzuUH5SoYQjEgO+ayMDn+LUAModms5ir3wv7ATk896S56kPr1Jetdtv9+ds3eyun
+ xBrxkiFMGXxK/GIUaZoERBCScA1ibIQy3MRi8nPDoQ2Ycltr
 X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
  fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -113,537 +113,187 @@ X-Spamd-Result: default: False [0.49 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,igalia.com:mid,igalia.com:email]
-X-Rspamd-Queue-Id: 452E3F7AF9
+X-Rspamd-Queue-Id: 4F7E8F7B00
 X-Rspamd-Action: no action
 
-Introduce vc4_submit.c with the job submission path rewritten to
-integrate with the DRM GPU scheduler. Most of this code is adapted from
-vc4_gem.c, with key changes concentrated in the job creation and
-lifecycle management. This implementation follows the same design as the
-v3d driver.
+Implement per-file descriptor seqno tracking using an xarray, allowing
+userspace to wait on specific job completions via vc4_wait_seqno_ioctl.
 
-This code coexists with the legacy path until the switchover commit.
+While this interface should ideally be deprecated in favor of syncobjs,
+it has long been exposed to userspace and therefore must continue to be
+supported.
+
+Lay the groundwork to replace the existing `finished_seqno` logic with
+DMA fence-based tracking. Each allocated seqno is associated with the
+job's done_fence in a per-fd xarray. This allows vc4_wait_seqno_ioctl()
+to simply look up the corresponding fence and wait on it.
+
+This changes seqno semantics from global to per-file descriptor.
+However, this doesn't affect userspace because a client can only wait
+on seqnos returned from its own submissions.
+
+This design is inspired by the user fence handling in the Etnaviv and
+msm drivers.
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/vc4/vc4_submit.c | 509 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 509 insertions(+)
+ drivers/gpu/drm/vc4/vc4_drv.c    |  2 ++
+ drivers/gpu/drm/vc4/vc4_drv.h    | 11 ++++++++
+ drivers/gpu/drm/vc4/vc4_submit.c | 60 ++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 73 insertions(+)
 
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index c18178f6c8cea0a182dc67c2b8a992d127c87fec..4d5760192ba090a58d1ec870c37c3459f2cac468 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -166,6 +166,7 @@ static int vc4_open(struct drm_device *dev, struct drm_file *file)
+ 				      1, NULL);
+ 	}
+ 
++	xa_init_flags(&vc4file->seqno_xa, XA_FLAGS_ALLOC1);
+ 	vc4_perfmon_open_file(vc4file);
+ 	file->driver_priv = vc4file;
+ 	return 0;
+@@ -186,6 +187,7 @@ static void vc4_close(struct drm_device *dev, struct drm_file *file)
+ 	for (q = 0; q < VC4_MAX_QUEUES; q++)
+ 		drm_sched_entity_destroy(&vc4file->sched_entity[q]);
+ 
++	xa_destroy(&vc4file->seqno_xa);
+ 	vc4_perfmon_close_file(vc4file);
+ 	kfree(vc4file);
+ }
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index dc04803efad9fdf9179a98701b31b9e360e9ab15..ff6dc9aea52105359b72700ba367d390ddf84262 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -10,6 +10,7 @@
+ #include <linux/of.h>
+ #include <linux/refcount.h>
+ #include <linux/uaccess.h>
++#include <linux/xarray.h>
+ 
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_debugfs.h>
+@@ -772,6 +773,10 @@ struct vc4_render_job {
+ 	 * Must remain allocated until the render job completes.
+ 	 */
+ 	uint32_t bin_slots;
++
++	/* For userspace fence tracking. */
++	struct vc4_file *file;
++	u32 seqno;
+ };
+ 
+ struct vc4_exec_info {
+@@ -904,6 +909,12 @@ struct vc4_file {
+ 
+ 	struct drm_sched_entity sched_entity[VC4_MAX_QUEUES];
+ 
++	/* Mapping of seqno to dma_fence for job completion tracking.
++	 * Allows userspace to wait on specific submissions.
++	 */
++	struct xarray seqno_xa;
++	u32 next_seqno;
++
+ 	bool bin_bo_used;
+ };
+ 
 diff --git a/drivers/gpu/drm/vc4/vc4_submit.c b/drivers/gpu/drm/vc4/vc4_submit.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..d6c684a14e6f9d9f7f456ad7fc985dbf631a7fb4
---- /dev/null
+index d6c684a14e6f9d9f7f456ad7fc985dbf631a7fb4..8d82fcb320a7ac16497c3f49e5106cf6b44ee706 100644
+--- a/drivers/gpu/drm/vc4/vc4_submit.c
 +++ b/drivers/gpu/drm/vc4/vc4_submit.c
-@@ -0,0 +1,509 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright © 2014 Broadcom
-+ * Copyright © 2026 Raspberry Pi
-+ */
-+
-+#include <drm/drm_exec.h>
-+#include <drm/drm_print.h>
-+#include <drm/drm_syncobj.h>
-+
-+#include "vc4_drv.h"
-+#include "vc4_regs.h"
-+#include "vc4_trace.h"
-+
-+/* Takes the reservation lock on all the BOs being referenced, so that
-+ * at queue submit time we can update the reservations.
-+ *
-+ * We don't lock the RCL the tile alloc/state BOs, or overflow memory
-+ * (all of which are on render->unref_list). They're entirely private
-+ * to vc4, so we don't attach dma-buf fences to them.
-+ */
-+static int
-+vc4_lock_bo_reservations(struct vc4_render_job *job, struct drm_exec *exec)
-+{
-+	int ret;
-+
-+	/* Reserve space for our shared (read-only) fence references,
-+	 * before we commit the CL to the hardware.
-+	 */
-+	drm_exec_init(exec, DRM_EXEC_INTERRUPTIBLE_WAIT, job->bo_count);
-+	drm_exec_until_all_locked(exec) {
-+		ret = drm_exec_prepare_array(exec, job->bo, job->bo_count, 1);
-+	}
-+
-+	if (ret)
-+		goto fail;
-+
-+	for (int i = 0; i < job->bo_count; i++) {
-+		ret = drm_sched_job_add_implicit_dependencies(&job->base.base,
-+							      job->bo[i], true);
-+		if (ret)
-+			goto fail;
-+	}
-+
-+	return 0;
-+fail:
-+	drm_exec_fini(exec);
-+	return ret;
-+}
-+
-+/**
-+ * vc4_lookup_bos() - Sets up job->bo[] with the GEM objects
-+ * referenced by the job.
-+ * @dev: DRM device
-+ * @file_priv: DRM file for this fd
-+ * @job: VC4 render job being set up
-+ * @bo_handles: GEM handles
-+ * @bo_count: Number of GEM handles passed in
-+ *
-+ * The command validator needs to reference BOs by their index within
-+ * the submitted job's BO list. This does the validation of the job's
-+ * BO list and reference counting for the lifetime of the job.
-+ */
-+static int
-+vc4_lookup_bos(struct drm_device *dev, struct drm_file *file_priv,
-+	       struct vc4_render_job *job, u64 bo_handles, u32 bo_count)
-+{
-+	int ret = 0;
-+	int i;
-+
-+	job->bo_count = bo_count;
-+
-+	if (!job->bo_count) {
-+		drm_warn(dev, "Rendering requires BOs to validate\n");
-+		return -EINVAL;
-+	}
-+
-+	ret = drm_gem_objects_lookup(file_priv, u64_to_user_ptr(bo_handles),
-+				     job->bo_count, &job->bo);
-+	if (ret)
-+		return ret;
-+
-+	for (i = 0; i < job->bo_count; i++) {
-+		ret = vc4_bo_inc_usecnt(to_vc4_bo(job->bo[i]));
-+		if (ret)
-+			goto fail_dec_usecnt;
-+	}
-+
-+	return 0;
-+
-+fail_dec_usecnt:
-+	/* Decrease usecnt on acquired objects */
-+	for (i-- ; i >= 0; i--)
-+		vc4_bo_dec_usecnt(to_vc4_bo(job->bo[i]));
-+	return ret;
-+}
-+
-+static int
-+vc4_get_bcl(struct drm_device *dev, struct vc4_exec_info *exec)
-+{
-+	struct drm_vc4_submit_cl *args = exec->args;
-+	struct vc4_render_job *render_job = exec->render;
-+	struct vc4_bin_job *bin_job = exec->bin;
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
-+	struct drm_gem_dma_object *exec_bo;
-+	void *temp = NULL;
-+	void *bin;
-+	int ret = 0;
-+	uint32_t bin_offset = 0;
-+	uint32_t shader_rec_offset = roundup(bin_offset + args->bin_cl_size, 16);
-+	uint32_t uniforms_offset = shader_rec_offset + args->shader_rec_size;
-+	uint32_t exec_size = uniforms_offset + args->uniforms_size;
-+	uint32_t temp_size = exec_size + (sizeof(struct vc4_shader_state) *
-+					  args->shader_rec_count);
-+	struct vc4_bo *bo;
-+
-+	if (shader_rec_offset < args->bin_cl_size ||
-+	    uniforms_offset < shader_rec_offset ||
-+	    exec_size < uniforms_offset ||
-+	    args->shader_rec_count >= (UINT_MAX /
-+					  sizeof(struct vc4_shader_state)) ||
-+	    temp_size < exec_size) {
-+		drm_dbg(dev, "overflow in exec arguments\n");
-+		ret = -EINVAL;
-+		goto fail;
-+	}
-+
-+	/* Allocate space where we'll store the copied in user command lists
-+	 * and shader records.
-+	 *
-+	 * We don't just copy directly into the BOs because we need to
-+	 * read the contents back for validation, and I think the
-+	 * bo->vaddr is uncached access.
-+	 */
-+	temp = kvmalloc_array(temp_size, 1, GFP_KERNEL);
-+	if (!temp) {
-+		drm_err(dev, "Failed to allocate storage for copying in bin/render CLs.");
-+		ret = -ENOMEM;
-+		goto fail;
-+	}
-+	bin = temp + bin_offset;
-+	exec->shader_rec_u = temp + shader_rec_offset;
-+	exec->uniforms_u = temp + uniforms_offset;
-+	exec->shader_state = temp + exec_size;
-+	exec->shader_state_size = args->shader_rec_count;
-+
-+	if (copy_from_user(bin, u64_to_user_ptr(args->bin_cl),
-+			   args->bin_cl_size)) {
-+		ret = -EFAULT;
-+		goto fail;
-+	}
-+
-+	if (copy_from_user(exec->shader_rec_u, u64_to_user_ptr(args->shader_rec),
-+			   args->shader_rec_size)) {
-+		ret = -EFAULT;
-+		goto fail;
-+	}
-+
-+	if (copy_from_user(exec->uniforms_u, u64_to_user_ptr(args->uniforms),
-+			   args->uniforms_size)) {
-+		ret = -EFAULT;
-+		goto fail;
-+	}
-+
-+	bo = vc4_bo_create(dev, exec_size, true, VC4_BO_TYPE_BCL);
-+	if (IS_ERR(bo)) {
-+		drm_err(dev, "Couldn't allocate BO for binning\n");
-+		ret = PTR_ERR(bo);
-+		goto fail;
-+	}
-+	exec_bo = &bo->base;
-+
-+	list_add_tail(&bo->unref_head, &render_job->unref_list);
-+
-+	bin_job->ct0ca = exec_bo->dma_addr + bin_offset;
-+
-+	exec->bin_u = bin;
-+
-+	exec->shader_rec_v = exec_bo->vaddr + shader_rec_offset;
-+	exec->shader_rec_p = exec_bo->dma_addr + shader_rec_offset;
-+	exec->shader_rec_size = args->shader_rec_size;
-+
-+	exec->uniforms_v = exec_bo->vaddr + uniforms_offset;
-+	exec->uniforms_p = exec_bo->dma_addr + uniforms_offset;
-+	exec->uniforms_size = args->uniforms_size;
-+
-+	ret = vc4_validate_bin_cl(dev, exec_bo->vaddr + bin_offset, bin, exec);
-+	if (ret)
-+		goto fail;
-+
-+	ret = vc4_validate_shader_recs(dev, exec);
-+	if (ret)
-+		goto fail;
-+
-+	if (exec->found_tile_binning_mode_config_packet) {
-+		ret = vc4_v3d_bin_bo_get(vc4, &bin_job->bin_bo_used);
-+		if (ret)
-+			goto fail;
-+	}
-+
-+fail:
-+	kvfree(temp);
-+	return ret;
-+}
-+
-+static void
-+vc4_job_free(struct kref *ref)
-+{
-+	struct vc4_job *job = container_of(ref, struct vc4_job, refcount);
-+
-+	dma_fence_put(job->irq_fence);
-+	dma_fence_put(job->done_fence);
-+
-+	if (job->perfmon)
-+		vc4_perfmon_put(job->perfmon);
-+
-+	vc4_v3d_pm_put(job->vc4);
-+	kfree(job);
-+}
-+
-+static void
-+vc4_bin_job_free(struct kref *ref)
-+{
-+	struct vc4_bin_job *job = container_of(ref, struct vc4_bin_job,
-+					       base.refcount);
-+	struct vc4_dev *vc4 = job->base.vc4;
-+
-+	/* Release the reference on the binner BO if needed. */
-+	if (job->bin_bo_used)
-+		vc4_v3d_bin_bo_put(vc4);
-+
-+	vc4_job_free(ref);
-+}
-+
-+static void
-+vc4_render_job_free(struct kref *ref)
-+{
-+	struct vc4_render_job *job = container_of(ref, struct vc4_render_job,
-+						  base.refcount);
-+	struct vc4_dev *vc4 = job->base.vc4;
-+	struct vc4_bo *bo, *tmp;
-+	unsigned long irqflags;
-+	int i;
-+
-+	if (job->bo) {
-+		for (i = 0; i < job->bo_count; i++) {
-+			struct vc4_bo *bo = to_vc4_bo(job->bo[i]);
-+
-+			vc4_bo_dec_usecnt(bo);
-+			drm_gem_object_put(job->bo[i]);
-+		}
-+		kvfree(job->bo);
-+	}
-+
-+	list_for_each_entry_safe(bo, tmp, &job->unref_list, unref_head) {
-+		list_del(&bo->unref_head);
-+		drm_gem_object_put(&bo->base.base);
-+	}
-+
-+	/* Free up the allocation of any bin slots we used. */
-+	spin_lock_irqsave(&vc4->job_lock, irqflags);
-+	vc4->bin_alloc_used &= ~job->bin_slots;
-+	spin_unlock_irqrestore(&vc4->job_lock, irqflags);
-+
-+	vc4_job_free(ref);
-+}
-+
-+static void
-+vc4_job_put(struct vc4_job *job)
-+{
-+	if (!job)
-+		return;
-+
-+	kref_put(&job->refcount, job->free);
-+}
-+
-+void vc4_job_cleanup(struct vc4_job *job)
-+{
-+	if (!job)
-+		return;
-+
-+	drm_sched_job_cleanup(&job->base);
-+	vc4_job_put(job);
-+}
-+
-+static int
-+vc4_job_init(struct vc4_dev *vc4, struct drm_file *file_priv,
-+	     void **container, size_t size, void (*free)(struct kref *ref),
-+	     u32 in_sync, enum vc4_queue queue)
-+{
-+	struct vc4_file *vc4_priv = file_priv->driver_priv;
-+	struct vc4_job *job;
-+	int ret;
-+
-+	*container = kcalloc(1, size, GFP_KERNEL);
-+	if (!*container) {
-+		drm_err(&vc4->base, "Cannot allocate memory for VC4 job.");
-+		return -ENOMEM;
-+	}
-+
-+	job = *container;
-+	job->vc4 = vc4;
-+	job->free = free;
-+
-+	ret = drm_sched_job_init(&job->base, &vc4_priv->sched_entity[queue],
-+				 1, vc4_priv, file_priv->client_id);
-+	if (ret)
-+		goto fail;
-+
-+	ret = drm_sched_job_add_syncobj_dependency(&job->base, file_priv,
-+						   in_sync, 0);
-+	if (ret && ret != -ENOENT)
-+		goto fail_deps;
-+
-+	ret = vc4_v3d_pm_get(vc4);
-+	if (ret)
-+		goto fail_deps;
-+
-+	kref_init(&job->refcount);
-+
-+	return 0;
-+
-+fail_deps:
-+	drm_sched_job_cleanup(&job->base);
-+fail:
-+	kfree(*container);
-+	*container = NULL;
-+
-+	return ret;
-+}
-+
-+static void
-+vc4_push_job(struct vc4_job *job)
-+{
-+	drm_sched_job_arm(&job->base);
-+
-+	job->done_fence = dma_fence_get(&job->base.s_fence->finished);
-+
-+	/* put by scheduler job completion */
-+	kref_get(&job->refcount);
-+
-+	drm_sched_entity_push_job(&job->base);
-+}
-+
-+static void
-+vc4_attach_fences_and_unlock_reservation(struct drm_file *file_priv,
-+					 struct vc4_render_job *job,
-+					 struct drm_exec *exec,
-+					 u32 out_sync,
-+					 struct dma_fence *done_fence)
-+{
-+	struct drm_syncobj *sync_out;
-+	struct vc4_bo *bo;
-+	int i;
-+
-+	for (i = 0; i < job->bo_count; i++) {
-+		bo = to_vc4_bo(job->bo[i]);
-+		dma_resv_add_fence(bo->base.base.resv, job->base.done_fence,
-+				   DMA_RESV_USAGE_READ);
-+	}
-+
-+	for (i = 0; i < job->rcl_write_bo_count; i++) {
-+		bo = to_vc4_bo(&job->rcl_write_bo[i]->base);
-+		dma_resv_add_fence(bo->base.base.resv, job->base.done_fence,
-+				   DMA_RESV_USAGE_WRITE);
-+	}
-+
-+	drm_exec_fini(exec);
-+
-+	/* Update the return sync object for the job */
-+	sync_out = drm_syncobj_find(file_priv, out_sync);
-+	if (sync_out) {
-+		drm_syncobj_replace_fence(sync_out, done_fence);
-+		drm_syncobj_put(sync_out);
-+	}
-+}
-+
-+/**
-+ * vc4_submit_cl_ioctl() - Submits a job (frame) to VC4.
-+ * @dev: DRM device
-+ * @data: ioctl argument
-+ * @file_priv: DRM file for this fd
-+ *
-+ * This is the main entrypoint for userspace to submit a 3D frame to
-+ * the GPU. Userspace provides the binner command list (if
-+ * applicable), and the kernel sets up the render command list to draw
-+ * to the framebuffer described in the ioctl, using the command lists
-+ * that the 3D engine's binner will produce.
-+ */
+@@ -203,6 +203,50 @@ vc4_get_bcl(struct drm_device *dev, struct vc4_exec_info *exec)
+ 	return ret;
+ }
+ 
 +int
-+vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
-+		    struct drm_file *file_priv)
++vc4_wait_seqno_ioctl(struct drm_device *dev, void *data,
++		     struct drm_file *file_priv)
 +{
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
 +	struct vc4_file *vc4_priv = file_priv->driver_priv;
-+	struct drm_vc4_submit_cl *args = data;
-+	struct vc4_exec_info exec = {
-+		.dev = vc4,
-+		.args = args,
-+	};
-+	struct vc4_bin_job *bin = NULL;
-+	struct vc4_render_job *render = NULL;
-+	struct drm_exec exec_ctx;
-+	int ret = 0;
-+
-+	trace_vc4_submit_cl_ioctl(dev, args->bin_cl_size, args->shader_rec_size,
-+				  args->bo_handle_count);
++	struct vc4_dev *vc4 = to_vc4_dev(dev);
++	struct drm_vc4_wait_seqno *args = data;
++	unsigned long timeout_jiffies = nsecs_to_jiffies(args->timeout_ns);
++	unsigned long start = jiffies;
++	struct dma_fence *fence;
++	long ret;
 +
 +	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
 +		return -ENODEV;
 +
-+	if (!vc4->v3d) {
-+		drm_dbg(dev, "VC4_SUBMIT_CL with no VC4 V3D probed\n");
-+		return -ENODEV;
-+	}
++	rcu_read_lock();
++	fence = xa_load(&vc4_priv->seqno_xa, args->seqno);
++	if (fence)
++		fence = dma_fence_get_rcu(fence);
++	rcu_read_unlock();
 +
-+	if ((args->flags & ~(VC4_SUBMIT_CL_USE_CLEAR_COLOR |
-+			     VC4_SUBMIT_CL_FIXED_RCL_ORDER |
-+			     VC4_SUBMIT_CL_RCL_ORDER_INCREASING_X |
-+			     VC4_SUBMIT_CL_RCL_ORDER_INCREASING_Y)) != 0) {
-+		drm_dbg(dev, "Unknown flags: 0x%02x\n", args->flags);
-+		return -EINVAL;
-+	}
++	if (!fence)
++		return 0;
 +
-+	if (args->pad2 != 0) {
-+		drm_dbg(dev, "Invalid pad: 0x%08x\n", args->pad2);
-+		return -EINVAL;
-+	}
++	trace_vc4_wait_for_seqno_begin(dev, args->seqno, args->timeout_ns);
++	ret = dma_fence_wait_timeout(fence, true, timeout_jiffies);
++	trace_vc4_wait_for_seqno_end(dev, args->seqno);
 +
-+	ret = vc4_job_init(vc4, file_priv, (void *)&render, sizeof(*render),
-+			   vc4_render_job_free, args->in_sync, VC4_RENDER);
-+	if (ret)
++	dma_fence_put(fence);
++
++	if (ret == -ERESTARTSYS) {
++		u64 delta = jiffies_to_nsecs(jiffies - start);
++
++		if (args->timeout_ns >= delta)
++			args->timeout_ns -= delta;
++		else
++			args->timeout_ns = 0;
++
 +		return ret;
-+
-+	exec.render = render;
-+	INIT_LIST_HEAD(&render->unref_list);
-+
-+	ret = vc4_lookup_bos(dev, file_priv, render, args->bo_handles,
-+			     args->bo_handle_count);
-+	if (ret)
-+		goto fail;
-+
-+	if (args->bin_cl_size != 0) {
-+		ret = vc4_job_init(vc4, file_priv, (void *)&bin, sizeof(*bin),
-+				   vc4_bin_job_free, args->in_sync, VC4_BIN);
-+		if (ret)
-+			goto fail;
-+
-+		exec.bin = bin;
-+		bin->render = render;
-+
-+		ret = vc4_get_bcl(dev, &exec);
-+		if (ret)
-+			goto fail;
 +	}
 +
-+	ret = vc4_get_rcl(dev, &exec);
-+	if (ret)
-+		goto fail;
-+
-+	ret = vc4_lock_bo_reservations(render, &exec_ctx);
-+	if (ret)
-+		goto fail;
-+
-+	if (args->perfmonid) {
-+		render->base.perfmon = vc4_perfmon_find(vc4_priv, args->perfmonid);
-+		if (!render->base.perfmon) {
-+			ret = -ENOENT;
-+			goto fail_perfmon;
-+		}
-+
-+		if (bin) {
-+			bin->base.perfmon = render->base.perfmon;
-+			vc4_perfmon_get(bin->base.perfmon);
-+		}
-+	}
-+
-+	mutex_lock(&vc4->sched_lock);
-+	if (bin) {
-+		vc4_push_job(&bin->base);
-+
-+		ret = drm_sched_job_add_dependency(&render->base.base,
-+						   dma_fence_get(bin->base.done_fence));
-+		if (ret)
-+			goto fail_unreserve;
-+	}
-+
-+	vc4_push_job(&render->base);
-+	mutex_unlock(&vc4->sched_lock);
-+
-+	vc4_attach_fences_and_unlock_reservation(file_priv, render,
-+						 &exec_ctx, args->out_sync,
-+						 render->base.done_fence);
-+
-+	vc4_job_put((void *)bin);
-+	vc4_job_put((void *)render);
-+
-+	return 0;
-+
-+fail_unreserve:
-+	mutex_unlock(&vc4->sched_lock);
-+fail_perfmon:
-+	drm_exec_fini(&exec_ctx);
-+fail:
-+	vc4_job_cleanup((void *)bin);
-+	vc4_job_cleanup((void *)render);
-+
-+	return ret;
++	return ret > 0 ? 0 : -ETIME;
 +}
++
+ static void
+ vc4_job_free(struct kref *ref)
+ {
+@@ -262,6 +306,9 @@ vc4_render_job_free(struct kref *ref)
+ 	vc4->bin_alloc_used &= ~job->bin_slots;
+ 	spin_unlock_irqrestore(&vc4->job_lock, irqflags);
+ 
++	if (job->seqno)
++		xa_erase(&job->file->seqno_xa, job->seqno);
++
+ 	vc4_job_free(ref);
+ }
+ 
+@@ -433,6 +480,7 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
+ 		return ret;
+ 
+ 	exec.render = render;
++	render->file = vc4_priv;
+ 	INIT_LIST_HEAD(&render->unref_list);
+ 
+ 	ret = vc4_lookup_bos(dev, file_priv, render, args->bo_handles,
+@@ -488,10 +536,22 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
+ 	vc4_push_job(&render->base);
+ 	mutex_unlock(&vc4->sched_lock);
+ 
++	ret = xa_alloc_cyclic(&vc4_priv->seqno_xa, &render->seqno,
++			      render->base.done_fence,
++			      xa_limit_32b, &vc4_priv->next_seqno, GFP_KERNEL);
++	if (ret < 0) {
++		/* Jobs are already queued, just skip seqno tracking */
++		drm_err(dev, "Seqno allocation failed\n");
++		render->seqno = 0;
++	}
++
+ 	vc4_attach_fences_and_unlock_reservation(file_priv, render,
+ 						 &exec_ctx, args->out_sync,
+ 						 render->base.done_fence);
+ 
++	/* Return the seqno for our job. */
++	args->seqno = render->seqno;
++
+ 	vc4_job_put((void *)bin);
+ 	vc4_job_put((void *)render);
+ 
 
 -- 
 2.52.0
