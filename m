@@ -2,83 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uEH7KPkEhWlW7gMAu9opvQ
+	id kFhWNPoEhWlW7gMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 22:00:41 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 22:00:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D859F7577
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 22:00:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CDEAF757F
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 22:00:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 544A610E153;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8DA610E0E9;
 	Thu,  5 Feb 2026 21:00:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JDJi63Ad";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="S5Bnq9Zw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F15F210E0F5
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 21:00:37 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 452DE10E0F5
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 21:00:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1770325237;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qEZ/NIGEd7tvljUjuiPoVXU22CsIWWTrf8BQDchgWf0=;
- b=JDJi63Addy8cENNOeSswHF1h3mHrv1iH8O5gpk8BFg/t+cRJ0fGvGLGc28rBKhY+/FPrMW
- eewDQbIuh92XeOADb+guxRBTLAWmShoXu5u3rrpNJO9gJtC2hidnB8loUupbDUbjL3CFHD
- kkKsbs2+NTVIp/aTR7gqNu+bOAzn7so=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2gGPFCPOPX/fBbf5qQfZiwEzewT+3Ulk7LVkRWF8dEo=;
+ b=S5Bnq9ZwrCaHAWjhsveZG8+FeBF8WPKG05djIc2YY5sjWU6PJ0DHkEWWaVjkacvJCpynza
+ colUDhZgNV1Sk5epkD4tZQYrlGbgMatF1pFQHGAiwfNxm3ZFpsGLxkHFkuj/Bnsg5vyW12
+ s01Crg7fOXDOmkXzS14aVhhxR3PUFtM=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-360-8yMiVwbnN0OezYZH2TOorw-1; Thu, 05 Feb 2026 16:00:34 -0500
-X-MC-Unique: 8yMiVwbnN0OezYZH2TOorw-1
-X-Mimecast-MFC-AGG-ID: 8yMiVwbnN0OezYZH2TOorw_1770325234
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-89471079a13so54496d6.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Feb 2026 13:00:34 -0800 (PST)
+ us-mta-611-j3NOFBLINXqwM0qq7dFuGA-1; Thu, 05 Feb 2026 16:00:36 -0500
+X-MC-Unique: j3NOFBLINXqwM0qq7dFuGA-1
+X-Mimecast-MFC-AGG-ID: j3NOFBLINXqwM0qq7dFuGA_1770325236
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-8c71655aa11so469339185a.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Feb 2026 13:00:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770325234; x=1770930034;
+ d=1e100.net; s=20230601; t=1770325236; x=1770930036;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=qEZ/NIGEd7tvljUjuiPoVXU22CsIWWTrf8BQDchgWf0=;
- b=YVsrig9nPVEUAa0q3s4gpmhfwUP0o+XQjZNR1sqgQJnGnAIvcwM0G4LjEQojn7arq1
- tFIhIyIZgbHMnBk7CHqVV7+ZmQfwG4OO9eAUiBwuFx0EW7LYtqlVgM69BmkncDFvqTQD
- r32MXAdYjbZkUBdWmXYjSII32ld+DH2g1u48o96240ub1ghmLbGFy6ykqjN8cmSKqkx5
- kh46yJzkQNcivBH3MP9qpC3gdLND1rEsXQEzXJHLHAc/9U1x5XUVgS/KREPNw/0W79go
- FcM74TGM3qjvXKFHj/40xeNf0UXfRigMPxkSEmOxxDQkpG//etpHeuRCQpJUs5V6Cinc
- 5Oxw==
+ bh=2gGPFCPOPX/fBbf5qQfZiwEzewT+3Ulk7LVkRWF8dEo=;
+ b=qkPpvwYZHPEWDn4S/drUXSEuy6wHV59WBUijvDEh0gkIijK3CEy6Ohncx3Ef07lgvV
+ mwiiW3VhDy24NuUsj3d/G+n9J1fVZ+zLhTmDSvuypnh6l22wWqTmcnHjmQxiTtH4+4bM
+ r5h+L5c25jsEX0ZGvq+xMbchqiwL1NYYyx4JYoDHkF1kmZ+8Wn0v9SerphBieMhWwnzE
+ OXOpRzv0N8WbAE88DRaG8RJIcz8Sjr03KWjYG4qgTbwwCaO04cvnMosUy3AUjD5RMHSo
+ UC1zaL6Z5vuC8PIGdlTd9fmIQEBfSL41eTlrmhJ/ljlvtE+HCqvozUYqfbBNUxGXtNI9
+ AsXw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVfRTe6sH3iXEXilt7QKuAo71Lip/kjgQcJF2OjWQzCa8OPPjJbjUBRttBkOmce9h2VgMMjazUP330=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy+O1BtIZvnQIrs5EwAOvsjU7IpGTQubCo4yLHsXResxN8XkXj5
- nPbzuyiIEO8aIwdH07wQDGjS/rk+Z3tVftQtEWs9T+IzNd1EH1Ei1EAZ73uJTw/F2yEq6jryV0j
- fQBIl8TNAB8kxKLkxUK07IQ/oxM2vlMvpU/G69fniEGdjGPChdnU49zKnbb80khDWv5D5Yg==
-X-Gm-Gg: AZuq6aIEX7Ck5XNtP02gHBe1mGYhlIp26vacWjHEcClZhZTvsiOjcNNOqpDQEQouCEx
- EK1ElVHtTbocebLCz/9G50smvEsacQacW/b5fRJBTbVHA5SXIAufjrFfamvKne4kq2WsQRpvkoO
- 42PP9Jky2B7qNMl1uTSFrwDlt1eZcPgMktOpO5czMlJiHM85tO/PgnO14EqRzT8RBlVKN2ixHRF
- 4wZxKyef18uelytZx9PCr/y5v4DJYinIEtoJZid+N9lWW75lllL+Wai6lVqeHF03vvyHyAQQXZn
- H8RQG7NjvPZ5HwDzd/f5ciSF5T2D54SjV/X/5o8fNxdo9v6P6dCsQRUpPHhx0+0m4Ufbz1DdGQp
- RgVJxP3L3tvoqtvo=
-X-Received: by 2002:a05:6214:4017:b0:88a:3681:1d96 with SMTP id
- 6a1803df08f44-8953cd9c94fmr5941986d6.63.1770325233466; 
- Thu, 05 Feb 2026 13:00:33 -0800 (PST)
-X-Received: by 2002:a05:6214:4017:b0:88a:3681:1d96 with SMTP id
- 6a1803df08f44-8953cd9c94fmr5941106d6.63.1770325232827; 
- Thu, 05 Feb 2026 13:00:32 -0800 (PST)
+ AJvYcCUpKW1GfThyIQWveOY/6TAI9sjwjh/BSzghX7DGwA7SbU+mhIgjRWUStAiNTWwlw1HhPt8BDQ9eIvk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzd/bDTrCvmUbtOkQlekxA7hnQMBRSRqJbsbZMpf1TPmj84ah73
+ 0GD/N1Nd+7e4+3S8TXnh7E14+YaV+iNwyOsoIQlboEgvyCx4rkpEbmX8wnrCL9YefBR8f0FUrvo
+ iX0Ykhm66nuOtXcEOuDke8B7fd2QvdutKAPMc7n0EmA5YGBsMKtn1B5wPPCte0eZDCIgwVg==
+X-Gm-Gg: AZuq6aKNCdNIK/YIjeuuYjcbzn1lARF+bcxaT5u8QlGEy3b02d7gpCgagvR1HcL0aZ2
+ hWdEs+IUX9SDOTCdd6XR2hrx4Fm5P7ia/6Vrn/Phy8dc/UqYxl3StnBW0TnqPY5PSwy/icC+KEt
+ IMlYZeKnr4ofY4KafYsELtXw5wPqpVFucLPHkeRm08AxKojmoeqGVefkCXt1FwJbtw/jY8mlDUO
+ 0bg5VVOMzQ1SuDYqGKdhWC75kyy0eAlsXB+wuEhQPnWRMzdFKWKgx0o4OYRHA1wu+qQJ2oa51XO
+ Ma7f/dZXRK2oqgaSiHe7De+XaCLs3WDl9noJHmsUp8PzVD7GpoqZH+HJ+z8+VUsbcYjP29v32Qu
+ OFkjsuVjynI53dxM=
+X-Received: by 2002:a05:620a:1a04:b0:8ca:4438:b8f4 with SMTP id
+ af79cd13be357-8caf13fedb3mr61790085a.67.1770325235627; 
+ Thu, 05 Feb 2026 13:00:35 -0800 (PST)
+X-Received: by 2002:a05:620a:1a04:b0:8ca:4438:b8f4 with SMTP id
+ af79cd13be357-8caf13fedb3mr61780085a.67.1770325234922; 
+ Thu, 05 Feb 2026 13:00:34 -0800 (PST)
 Received: from [172.16.1.8] ([2607:f2c0:b010:9000:4c85:f148:4c91:943a])
  by smtp.gmail.com with ESMTPSA id
- af79cd13be357-8caf9fdf692sm17571285a.44.2026.02.05.13.00.31
+ af79cd13be357-8caf9fdf692sm17571285a.44.2026.02.05.13.00.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Feb 2026 13:00:32 -0800 (PST)
+ Thu, 05 Feb 2026 13:00:34 -0800 (PST)
 From: Peter Colberg <pcolberg@redhat.com>
-Date: Thu, 05 Feb 2026 15:59:53 -0500
-Subject: [PATCH v2 06/10] rust: pci: add is_virtfn(), to check for VFs
+Date: Thu, 05 Feb 2026 15:59:54 -0500
+Subject: [PATCH v2 07/10] rust: pci: add is_physfn(), to check for PFs
 MIME-Version: 1.0
-Message-Id: <20260205-rust-pci-sriov-v2-6-ef9400c7767b@redhat.com>
+Message-Id: <20260205-rust-pci-sriov-v2-7-ef9400c7767b@redhat.com>
 References: <20260205-rust-pci-sriov-v2-0-ef9400c7767b@redhat.com>
 In-Reply-To: <20260205-rust-pci-sriov-v2-0-ef9400c7767b@redhat.com>
 To: Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
@@ -107,7 +107,7 @@ Cc: linux-pci@vger.kernel.org, rust-for-linux@vger.kernel.org,
  Peter Colberg <pcolberg@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>
 X-Mailer: b4 0.14.2
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: IYbrQUUzJfxTAyDGxMjCJUYGkNBmhb7WRtSIXyK0KMI_1770325234
+X-Mimecast-MFC-PROC-ID: 06O7UZuPu5JbDF1kWHjVhBo2a2wdwv2aWpWtqcVh5X0_1770325236
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -159,51 +159,40 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:email]
-X-Rspamd-Queue-Id: 3D859F7577
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 6CDEAF757F
 X-Rspamd-Action: no action
 
-From: John Hubbard <jhubbard@nvidia.com>
+Add a method to check if a PCI device is a Physical Function (PF).
 
-Add a method to check if a PCI device is a Virtual Function (VF) created
-through Single Root I/O Virtualization (SR-IOV).
-
-Signed-off-by: John Hubbard <jhubbard@nvidia.com>
-Reviewed-by: Alistair Popple <apopple@nvidia.com>
 Reviewed-by: Joel Fernandes <joelagnelf@nvidia.com>
 Signed-off-by: Peter Colberg <pcolberg@redhat.com>
 ---
 Changes in v2:
-- Add #[inline] to is_virtfn().
-
-This patch was originally part of the series "rust: pci: expose
-is_virtfn() and reject VFs in nova-core" and modified as follows:
-- Replace true -> `true` in doc comment.
-- Shorten description and omit justification specific to nova-core.
-
-Link: https://lore.kernel.org/rust-for-linux/20250930220759.288528-2-jhubbard@nvidia.com/
+- Replace VF -> PF in doc comment of is_physfn().
+- Add #[inline] to is_physfn().
 ---
  rust/kernel/pci.rs | 7 +++++++
  1 file changed, 7 insertions(+)
 
 diff --git a/rust/kernel/pci.rs b/rust/kernel/pci.rs
-index 88bd114970431bf8c3edef94c1d48567d895eaf6..db05641186c3a42922e2b6a463de9c1b099a4673 100644
+index db05641186c3a42922e2b6a463de9c1b099a4673..df39ad3f0d5fd898b034609efb03368f83c2a2e9 100644
 --- a/rust/kernel/pci.rs
 +++ b/rust/kernel/pci.rs
 @@ -484,6 +484,13 @@ pub fn resource_start(&self, bar: u32) -> Result<bindings::resource_size_t> {
          Ok(unsafe { bindings::pci_resource_start(self.as_raw(), bar.try_into()?) })
      }
  
-+    /// Returns `true` if this device is a Virtual Function (VF).
++    /// Returns `true` if this device is a Physical Function (PF).
 +    #[inline]
-+    pub fn is_virtfn(&self) -> bool {
++    pub fn is_physfn(&self) -> bool {
 +        // SAFETY: `self.as_raw` is a valid pointer to a `struct pci_dev`.
-+        unsafe { (*self.as_raw()).is_virtfn() != 0 }
++        unsafe { (*self.as_raw()).is_physfn() != 0 }
 +    }
 +
-     /// Returns the size of the given PCI BAR resource.
-     pub fn resource_len(&self, bar: u32) -> Result<bindings::resource_size_t> {
-         if !Bar::index_is_valid(bar) {
+     /// Returns `true` if this device is a Virtual Function (VF).
+     #[inline]
+     pub fn is_virtfn(&self) -> bool {
 
 -- 
 2.52.0
