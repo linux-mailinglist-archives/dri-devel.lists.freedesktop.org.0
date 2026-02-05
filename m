@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oPZNDP+VhGk43gMAu9opvQ
+	id CF72KqGWhGk43gMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 14:07:11 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 14:09:53 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF14F2F92
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 14:07:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D47F300B
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 14:09:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D485710E897;
-	Thu,  5 Feb 2026 13:07:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75CE210E0D0;
+	Thu,  5 Feb 2026 13:09:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HxZ+BQSa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="J8wOaubt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F81A10E897
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 13:07:06 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1595F10E0D0
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 13:09:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id A895E60010;
- Thu,  5 Feb 2026 13:07:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9170C4CEF7;
- Thu,  5 Feb 2026 13:07:04 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id AE73644341;
+ Thu,  5 Feb 2026 13:09:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A592C16AAE;
+ Thu,  5 Feb 2026 13:09:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770296825;
- bh=zPnktn9lUL7DAsa12t/Fr+3uVvUStEec8aXiUy9gY8k=;
+ s=k20201202; t=1770296988;
+ bh=veMJKaZ6Rc2cigcfOwDAZy09/u0wn043GkOQjCV8XzU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HxZ+BQSaLQ0QZxNPeh6rbTU68EMpUOdKD63nG2l5jKG6q5kN52mwa6FRZ0EoGU+0x
- 6RZ+EDnZDW9Rsl8rlXmi9pG9w+s/nIujYC27PO2EQzGP9q9cFniOuxuhcIW04u7iCf
- l/ogoG58y7jpZWmw6Fe/5eqHvW6vEjVc/mHIRIKodQg/ueqDwdH/xupB3dM/IHKrcS
- OR1C3EMJVekhNpyeXhi+tD00m2f6LUhSr98CRNRK9o1f6pvJkfjtV6R2Df7pDU5+QB
- eebmfPFoc3OFPlO61N5cDXty5LIBK5jguZhG80mRO2B57viCIPIQemuCHVdkr/a1L6
- dAGm9HBlVDiig==
-Date: Thu, 5 Feb 2026 14:07:02 +0100
+ b=J8wOaubtN529HHkDll7yTtGvTEbxFS3qGpAMAPXAC4QyOzHMd2c1I3nDJ6jfq/Un4
+ mjLCDqVmPOnCUc3r9NKJrozrpuGGcqrk1c62iC+WW3DikLPGyzw6zN4TcrhfIadU9Y
+ w0vworH0mmEkVFLoOXy1vN7rnAHHPQLbZ2Cyf01L4eMcp5YNXEeahAsjtnsJWW16+4
+ zP6VDwro0XZMq/AlaHF5QQ2RIQiUDlBO52gFDIBh01gWnZw36KxEGFiSM8+F0bxN+b
+ VcrRJ4tdZ9HeHjOs3TzQ5e/IoZX2voNodqQC2BsYVDhXq7Cx5eRTYRbbNuKBDykd5H
+ dsLOH6N6/n8dQ==
+Date: Thu, 5 Feb 2026 14:09:46 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Hongyang Zhao <hongyang.zhao@thundersoft.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -52,15 +52,15 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, 
  linux-arm-msm@vger.kernel.org, Roger Shimizu <rosh@debian.org>
-Subject: Re: [PATCH v2 1/3] dt-bindings: display: lt9611: Support single Port
- B input
-Message-ID: <20260205-winged-alligator-of-sorcery-aada21@quoll>
+Subject: Re: [PATCH v2 3/3] arm64: dts: qcom: qcs6490-rubikpi3: Use lt9611
+ DSI Port B
+Message-ID: <20260205-calm-aboriginal-mastiff-b07eb3@quoll>
 References: <20260128-rubikpi-next-20260116-v2-0-ba51ce8d2bd2@thundersoft.com>
- <20260128-rubikpi-next-20260116-v2-1-ba51ce8d2bd2@thundersoft.com>
+ <20260128-rubikpi-next-20260116-v2-3-ba51ce8d2bd2@thundersoft.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260128-rubikpi-next-20260116-v2-1-ba51ce8d2bd2@thundersoft.com>
+In-Reply-To: <20260128-rubikpi-next-20260116-v2-3-ba51ce8d2bd2@thundersoft.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,28 +109,27 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,0.0.0.1:email,0.0.0.0:email,thundersoft.com:email]
-X-Rspamd-Queue-Id: 8AF14F2F92
+	DBL_BLOCKED_OPENRESOLVER(0.00)[thundersoft.com:email,0.0.0.1:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 30D47F300B
 X-Rspamd-Action: no action
 
-On Wed, Jan 28, 2026 at 07:15:45PM +0800, Hongyang Zhao wrote:
-> The LT9611 has two DSI input ports (Port A and Port B). Update the
-> binding to clearly document the port mapping and allow using Port B
-> alone when DSI is physically connected to Port B only.
-> 
-> Changes:
-> - Clarify port@0 corresponds to DSI Port A input
-> - Clarify port@1 corresponds to DSI Port B input
-> - Change port requirement from mandatory port@0 to anyOf port@0/port@1,
->   allowing either port to be used independently
+On Wed, Jan 28, 2026 at 07:15:47PM +0800, Hongyang Zhao wrote:
+> The LT9611 HDMI bridge on RubikPi3 has DSI physically connected to
+> Port B. Update the devicetree to use port@1 which corresponds to
+> Port B input on the LT9611.
 > 
 > Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
 > Reviewed-by: Roger Shimizu <rosh@debian.org>
 
-Where did this review happen? V1 had this tag, but the patch was
-completely different, which means you were supposed to drop the tag.
-Please perform review in public.
+Where did this happen?
 
+https://lore.kernel.org/all/?q=f%3Arosh%40debian.org
+
+And again, v1 was completely different so how pre-v1-internal-review
+could be applied to this v2?
+
+Honestly, initial guidance is useful but continuous development behind
+the closed doors is not.
 
 Best regards,
 Krzysztof
