@@ -2,96 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aB1EDkQohmmSKAQAu9opvQ
+	id uPaTHDz/hGl47QMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 18:43:32 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 21:36:12 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A498610146B
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 18:43:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 149D6F732F
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 21:36:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 984F910E87A;
-	Fri,  6 Feb 2026 17:43:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC5910E07D;
+	Thu,  5 Feb 2026 20:36:09 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ihtp1nn1";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com
- [209.85.128.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1B4C10E070
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 20:32:11 +0000 (UTC)
-Received: by mail-yw1-f179.google.com with SMTP id
- 00721157ae682-79518cc2bb4so11721837b3.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Feb 2026 12:32:11 -0800 (PST)
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com
+ [74.125.82.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4862D10E07D
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 20:36:07 +0000 (UTC)
+Received: by mail-dy1-f180.google.com with SMTP id
+ 5a478bee46e88-2b8095668ebso145470eec.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Feb 2026 12:36:07 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770323766; cv=none;
+ d=google.com; s=arc-20240605;
+ b=KhFhIBuiE/wqJ88TMiLoU6nRQazRuorzX+nNtt9WLURyEUUlP3noyjWKftjjAr1M/v
+ hh4W6lyRJ/M2LIx0xDlUfU6lbbMP7uUkwlbvumxnv2BqkytcWrXdhEHdEh7XzrvVsOnu
+ R4wQfUhhNmOcmNrFnpoEZ8bVYlMHopygPmw56TqggpBviMaUTrTwcxMe7CJ2HkgP5SAv
+ S5zThc3F3yPNr7QtBPNT6/ewCHCl7ON3Pd4ttuWuyWFjuIYPzAA5vjhzITL2u1Qj1qIA
+ tY8hpt0UAjXs/rAJRwV64TLFQGEe3f8dT5x4bS+59ma4uHdDJ/w9ZwgjqDf1wGT2e0cZ
+ q4nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=8sg36/JtdND6msAPPdYlPI96hFkd7iJTiHGCCYDl3uU=;
+ fh=rjVvUH1c+fpPDZRMO47Kmkq3k2JIowZDvcRPFEz/8JI=;
+ b=dyKLacc4bgyVdXwtaaEx3egUxzCLVJzedzodGz6s1B2lPXPp+wmU+3j0QSVxN11VxK
+ 8DVfXnULwXNgcsdrRlnTTlWVebtkPy5QZtxvEBcEOjVQLt21GjNDWfia+yx8j/fljoWj
+ J8cp7JJ2GM+FJwoatHSv7b72QpiZ8wQXN56FXyhgsYZo7xQ3ai/cDIra1enyES6aUtb3
+ IbKwOpilEehSMDX6DxoI1rLTUn6vfmpM1AMCihW8m3PfhMSYtMpjge8lbacvDVSnwzHe
+ gqe8q4uintl5S05SVM8y9Jer5HSb/UZQkiEG6SKumrpqdTLzppWIlQex/qOWDBPTypAX
+ oQ6A==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1770323766; x=1770928566; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8sg36/JtdND6msAPPdYlPI96hFkd7iJTiHGCCYDl3uU=;
+ b=ihtp1nn1avg7zWXPt+PqKoXTHq4mr9TxRJUXfaHkW0Pj5HZAwTY+RAdDfp23XPtlsg
+ ISmtxwm0hKle96YsHhcqx7bHDmm/QXgh33Lqt0PbxZXc1Ww3oI8pohd1XeaK7XnfbL3p
+ pAzfa6DX0HbBk+58IuNlfMLvnqRFLzUJw4ySIpc0F/ja/unwCCpnqFD/QerbULr/QkXr
+ rbsr3dc6K/ADxZfMqVQnhiS374vRACJyCAAmu4L87xW2fuifCzq8NLbXlhsyQACQZIcL
+ IJP4PyczR3DiuALIgjvwx4aktx9sp8HX8K5zV7ybvyXUSPWrSirCYehfCEIBW3u3JU7U
+ tO/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770323530; x=1770928330;
+ d=1e100.net; s=20230601; t=1770323766; x=1770928566;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=Uw9NFSYymdF9cfh8JgFLbLxokKprMEjCgsdfjzfGOUA=;
- b=GlYR/Qppsz2KwzyFTV7/sepl+hkihsN+iOEvbsEQutMYJzbiVkZtRRxNighhKkCWgg
- eeQf58ARKc0D0uZoxYrDUecr1N31VQ7U6aVzy/pnpGlm2IPMcyRPlWXBhBySBgOG4l+W
- pG4UdDwHgvkCdT2RYxXRC2R4JFLY9F4ePDFwZuPH7myJOzbpri1xWAW/xezuIZrKIvTt
- DWiYxXhueR6hv1JpFc3th2poKiOCSPZHMUHvFgrAYaevnS37OPEcRDU4mmYHTkW1+Dou
- knmsuxThxfKf9Ctqmj2KJCq4CTCgv6lw5LIlL4Jm8pFgbTrvynm87DFOVJ13Muffaz9f
- 8Xpw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVFpxFGbKqPjJh1zfRuvDrXL2k58BOp4UPgN2YKrB/+qbsMVl+i63WPNLS5j+WapyziTeKqGfLA7OU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyljoLWz7JZKf857L08HQFAHiGLthKQmPTDUtLscMXjitk7hfWS
- LPWxuGnOhD+k5OzSiTFUJA/FXHcdulWnF6SDlr9cE2HOkMC5Uby27rb4xZ+SRQ==
-X-Gm-Gg: AZuq6aJLexC4ouuqtjBjrn3OfluGpcHVhtYNAOVHkVBj9c7rPHWhq88Y67GMlmJP3cJ
- 9oPuIjYaXFEQfbMOGsleRvXqDKgz+28CY1hqdAMRYZombrG8Ovxs28t94JIXc9oPAwCa8lJv+xy
- 1r2J2MBV+n32LeoFsXh61TCCM5Q1rwSkLCyM3YVRzQkxcE/tXixXUG9ciW/MiciO7GKI78BqsFd
- 9w4XmHWB3aUhFuh7cGYBUMHu0C0Xi8J4L8OPyAPyOu9Z8xmqq3DW+v3V5ElFv2D5LB/KNhErePl
- iNXSg9+f+q5kFWCGTK6RKw/yIKpqyDK00d3JOrETt2vLrzEYMGARL3x8FyLqoLvhjc8d7MzM19b
- c38nqRnd92nJaHR+nzNm+J2affpE8iYxuVF3JEKWxOHxXzf60wxhlHUioJqdEgXItgHWZqDulGh
- 5JZKHsSZ3eIlOKJzk0t3LcKxbL5YtNNpoFFgaRYcMpoQ==
-X-Received: by 2002:a05:690c:399:b0:78f:c2f3:141 with SMTP id
- 00721157ae682-7952ab20ff0mr4681027b3.35.1770323530404; 
- Thu, 05 Feb 2026 12:32:10 -0800 (PST)
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com.
- [74.125.224.43]) by smtp.gmail.com with ESMTPSA id
- 00721157ae682-7952a281c59sm4960587b3.49.2026.02.05.12.32.07
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Feb 2026 12:32:08 -0800 (PST)
-Received: by mail-yx1-f43.google.com with SMTP id
- 956f58d0204a3-649b1ca87ddso1571754d50.3
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Feb 2026 12:32:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVt9lBKboNfed9d0pBjllwFMgxJUa6Kz5CGhyyltquzOHcXNYdgDnB76LuGyCBDye3nHwdzdWhy0cI=@lists.freedesktop.org
-X-Received: by 2002:a05:690e:4259:b0:649:d5ca:7988 with SMTP id
- 956f58d0204a3-649f1f53982mr512491d50.48.1770323527220; Thu, 05 Feb 2026
- 12:32:07 -0800 (PST)
+ bh=8sg36/JtdND6msAPPdYlPI96hFkd7iJTiHGCCYDl3uU=;
+ b=OHcsgy4Cl3UpVbo9bN2gNzt6xiDbxzb9ZKJPx+3OFCKbY2jAO9ZOTMTeR4YAY4QqC+
+ ldD5d2sOnhLhvtTBJVtTRQNfZFNU7raAdFbXzRIWMsFVOgakrvPKBD9MeA7ANIVaW+bB
+ jUWqAG1jB9Vy9t8Z+2v5qEJI7c230B6ugAZ8jflsBr9HYUyVDh7gJOnlxRJGMtjdPrqZ
+ GPQKcxkDk79zyFICIvs4EyYnPVnrkB5eCypBE4bmqKFE7rRPLfUqtcW/x2Eeya6E/vzH
+ g9tzef05K1ROw6SdVzWkuYT54u529LisRuJJYuE0SyWXkBKteOWaCGzJMIkz2wgvec5/
+ aFfw==
+X-Gm-Message-State: AOJu0YzmLdI/SagqM0kkj/eZa9GcpQFjD0uK7W55ZpszqXFm3YQomz+0
+ 5PzaNyo5APJW3gFLJSxEXOTm8ilukWqIx44tnRKOrCxuzwE0yh1yhfiu73O1Wm2WawKd6jcPsfu
+ z6ySyMxBav+VEgdgLpDCcBnvo2lrglmY=
+X-Gm-Gg: AZuq6aLYf1etYvi3xcHhAsRRtMwCz+YXGwNGtfVFgB/5Dhm7RIJbWMmVKG+8lQu3QTb
+ iVs4jnLBayR3eCMnjl95pW8i9HdHXKFowooQulKSEC8wKQ319M5by+65KiUl5QAaU+lG91VgCxU
+ BFLINs8YbY4oNQUA/H4K1tlaFOS4p9kxxLT1RRp+LETD27IbhagY3JYRvVNJWE0SP69ti9wclN4
+ 1SEzYh5lhFcstxoU704tCOXP77fqTvYiMC2y9W9SeUGa0rX40pa+naXmYHSwDZzhtNbCKoP
+X-Received: by 2002:a05:7022:b85:b0:119:e56b:46ba with SMTP id
+ a92af1059eb24-12703faaee3mr117614c88.4.1770323766367; Thu, 05 Feb 2026
+ 12:36:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20260128-rubikpi-next-20260116-v2-0-ba51ce8d2bd2@thundersoft.com>
- <20260128-rubikpi-next-20260116-v2-1-ba51ce8d2bd2@thundersoft.com>
- <20260205-winged-alligator-of-sorcery-aada21@quoll>
-In-Reply-To: <20260205-winged-alligator-of-sorcery-aada21@quoll>
-From: Roger Shimizu <rosh@debian.org>
-Date: Thu, 5 Feb 2026 12:31:56 -0800
-X-Gmail-Original-Message-ID: <CAEQ9gEkkK_qBCq__oSJb1D5J=gLyw-kVDx1OD4SMPry6z-F7nA@mail.gmail.com>
-X-Gm-Features: AZwV_QiroKm7vTG3Gj0nXKqwrJ2f1hhd_XI_tJeNywGoynyWCjVs8fpCZhr8ft8
-Message-ID: <CAEQ9gEkkK_qBCq__oSJb1D5J=gLyw-kVDx1OD4SMPry6z-F7nA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: display: lt9611: Support single Port
- B input
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Hongyang Zhao <hongyang.zhao@thundersoft.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <CADnq5_MTX8CifP25UvE5kdMbCYxgK+A+KGdd-_Ef1m4VYv+WRQ@mail.gmail.com>
+ <4c5c0981-fa21-4d8c-b5ed-45ebaf4d713f@gmx.de>
+In-Reply-To: <4c5c0981-fa21-4d8c-b5ed-45ebaf4d713f@gmx.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 5 Feb 2026 15:35:54 -0500
+X-Gm-Features: AZwV_QiuA1ihJ1g6ZIdAxBVYPzrZAhYftlE5C901IGgEioUs1d7NiosUg3iKc2s
+Message-ID: <CADnq5_O1tEQB6whcAc4C=u5QN4-V1KOCDAM3dKepgt+RYcsjig@mail.gmail.com>
+Subject: Re: Accelerator/GPU top
+To: Natalie Vock <natalie.vock@gmx.de>
+Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ David Francis <David.Francis@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Fri, 06 Feb 2026 17:43:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,67 +111,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.89 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:hongyang.zhao@thundersoft.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:vkoul@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:jernejskrabec@gmail.com,m:conor@kernel.org,s:lists@lfdr.de];
-	DMARC_NA(0.00)[debian.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[rosh@debian.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	FREEMAIL_CC(0.00)[thundersoft.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de,lists.freedesktop.org,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[rosh@debian.org,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_ALL(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:natalie.vock@gmx.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:amd-gfx@lists.freedesktop.org,m:David.Francis@amd.com,m:christian.koenig@amd.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmx.de];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,gmail.com,ffwll.ch,amd.com];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	R_DKIM_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-0.889];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,0.0.0.1:email,mail.gmail.com:mid,thundersoft.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: A498610146B
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gmx.de:email]
+X-Rspamd-Queue-Id: 149D6F732F
 X-Rspamd-Action: no action
 
-On Thu, Feb 5, 2026 at 5:07=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.org=
-> wrote:
+On Thu, Feb 5, 2026 at 2:25=E2=80=AFPM Natalie Vock <natalie.vock@gmx.de> w=
+rote:
 >
-> On Wed, Jan 28, 2026 at 07:15:45PM +0800, Hongyang Zhao wrote:
-> > The LT9611 has two DSI input ports (Port A and Port B). Update the
-> > binding to clearly document the port mapping and allow using Port B
-> > alone when DSI is physically connected to Port B only.
-> >
-> > Changes:
-> > - Clarify port@0 corresponds to DSI Port A input
-> > - Clarify port@1 corresponds to DSI Port B input
-> > - Change port requirement from mandatory port@0 to anyOf port@0/port@1,
-> >   allowing either port to be used independently
-> >
-> > Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-> > Reviewed-by: Roger Shimizu <rosh@debian.org>
+> On 2/5/26 19:58, Alex Deucher wrote:
+> > Has anyone given any thought on how to support something like top for
+> > accelerators or GPUs?
 >
-> Where did this review happen? V1 had this tag, but the patch was
-> completely different, which means you were supposed to drop the tag.
-> Please perform review in public.
+> top for accelerators/GPUs kind of exists already, see [1] or [2].
+> Clearly, this problem has some kind of solution (looking through the
+> code, it seems like they check every fd if it has a DRM fdinfo file
+> associated (which is indeed not particularly efficient)).
+>
+> Maybe it's worth asking the authors of the respective tools for their
+> opinions here?
 
-FYI. v2 was updated per review feedback, which is public:
-https://lore.kernel.org/all/7d9041a3-9d2b-469a-9fa7-89d53bbd2a1f@linaro.org=
-/
+These tools use the existing interfaces which are available, but
+require admin privileges to display the per process data for all
+processes using the accelerators.  That's the part I'm interested in
+solving.  For example the drm client list is admin only in debugfs.
+Could we add something in sysfs which anyone could read to get a list
+of processes using the GPU?  Presumably this was done for
+privacy/security reasons, but as accelerators become more general
+purpose, I think it's reasonable for users to see how loaded they are
+similar to the CPU.
 
-Maybe it's better to add this info to v2 cover letter / trailer for
-easier reading.
+Alex
 
--Roger
+>
+> Natalie
+>
+> [1] https://github.com/Umio-Yasuno/amdgpu_top
+> [2] https://github.com/Syllo/nvtop
+> > We have fdinfo, but using fdinfo requires extra
+> > privileges (CAP_SYS_PTRACE) and there is not a particularly efficient
+> > way to even discover what processes are using the GPU.  There is the
+> > clients list in debugfs, but that is also admin only.  Tools like ps
+> > and top use /proc/<pid>/stat and statm.  Do you think there would be
+> > an appetite for something like /proc/<pid>/drm/stat, statm, etc.?
+> > This would duplicate much of what is in fdinfo, but would be available
+> > to regular users.
+> >
+> > Thanks,
+> >
+> > Alex
+>
