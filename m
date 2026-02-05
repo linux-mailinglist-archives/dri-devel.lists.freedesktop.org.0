@@ -2,147 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8IgXGjjMhGk45QMAu9opvQ
+	id 8MF2E4TahGna5wMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 17:58:32 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 18:59:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0C1CF592B
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 17:58:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76487F6407
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 18:59:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4CC310E932;
-	Thu,  5 Feb 2026 16:58:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2D0A10E942;
+	Thu,  5 Feb 2026 17:59:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="IJeecZ3T";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CKq5FTLl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com
- (mail-centralusazon11010017.outbound.protection.outlook.com [52.101.61.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A24C10E22A
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 16:58:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BZt9/Akz9GCHIPuI+9ikJhl8oDbey4IkvrZFPf4GDYL1+pJeKFDhVPv52eJebVU0S6BzyPppcaLSJZ6EaH1me41xtat7nUf0QYzJBrtJ43kZwDy3OwVjYCtNG+Li8oR+21GQT7BE5qCl8TZFfrYIriG2pctJoTTGdrR9+JePexp+lTJPjZ1mxQIbkaQrCexXXxBNd/yv+pCNDmMvlTb/rXbAQQIg6FJOHsFKVQqhJfCjHrYH1MkCtM5oshgG/cb05B2a2m7flaKhxDLCdzrsYxwvH6E/IkagvvW4ZKBVNGJbChYpzwezqlGCtIZKER3wCWKRq+EFiaUAK3fsA2OYuw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xaVLIW8gaztuSikTRz+ScFRr7byYjKNBOal9p3Fw7yU=;
- b=sQRVcQpPL/biGe+kBbLdxhoHpJLVgr6pZSessypCzFtbo7ASZPPi7zn+tV+TN989xTlYq7ur4r4gk5tK3Qs5lh7O+e39pwe0YDZBqA9b+YvouR/tB4pbErFjXJfZudn16EXLvM+/3Pu19UGhCrWQZz0fhFa2LSZMirCKWRghfc5ux43sD9gbTe6s1c6et7oSJNe4YpxU7bIFRAT9SrRe7bizFKGmhipaBfqFrni950B1zxZi4+z1XlBwUd02XX2pNOrJFoz6XDxRCz4PPVzEaL9gtF5dKoHvu8nmUxRC70pRQFTk+QR4wIAchrTka+iSnu21Y4hD0UtoqFf/XOq9eA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=oss.qualcomm.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xaVLIW8gaztuSikTRz+ScFRr7byYjKNBOal9p3Fw7yU=;
- b=IJeecZ3T+4yG6+84dH/1GIT2hPcBrEapxOpkD801WFWx9L9WL0udpXfI7ZQvR6Oy2slEpT1gUsS91Y5ISUQkrnh+HPCXH3bH7h4dEyzbBwSwswQjaxscxu09ivdtEPtK4PMbaF95F/uq639IdNd517MWauKHtdgJbLnilRmq/Q4=
-Received: from CH0PR04CA0050.namprd04.prod.outlook.com (2603:10b6:610:77::25)
- by CY8PR12MB8213.namprd12.prod.outlook.com (2603:10b6:930:71::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Thu, 5 Feb
- 2026 16:58:21 +0000
-Received: from DS2PEPF00003440.namprd02.prod.outlook.com
- (2603:10b6:610:77:cafe::b3) by CH0PR04CA0050.outlook.office365.com
- (2603:10b6:610:77::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.15 via Frontend Transport; Thu,
- 5 Feb 2026 16:58:09 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- DS2PEPF00003440.mail.protection.outlook.com (10.167.18.43) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9587.10 via Frontend Transport; Thu, 5 Feb 2026 16:58:21 +0000
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 5 Feb
- 2026 10:58:20 -0600
-Received: from [172.19.71.207] (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Thu, 5 Feb 2026 10:58:19 -0600
-Message-ID: <8b830e47-b2f8-5429-085d-2f10bb0d679c@amd.com>
-Date: Thu, 5 Feb 2026 08:58:19 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3] accel/qaic: Handle DBC deactivation if the owner went
- away
-Content-Language: en-US
-To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
- <jeff.hugo@oss.qualcomm.com>, <carl.vanderlip@oss.qualcomm.com>,
- <troy.hanson@oss.qualcomm.com>, <zachary.mckevitt@oss.qualcomm.com>
-CC: <ogabbay@kernel.org>, <karol.wachowski@linux.intel.com>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
-References: <20260205123415.3870898-1-youssef.abdulrahman@oss.qualcomm.com>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <20260205123415.3870898-1-youssef.abdulrahman@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF00003440:EE_|CY8PR12MB8213:EE_
-X-MS-Office365-Filtering-Correlation-Id: dc221abd-476f-4d4d-42b6-08de64d7c4c1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|376014|82310400026|1800799024|7053199007|13003099007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Nm52dU5pdTAybzNvYVB1VkZwc0YvK0ZrQ0RiS1lxb1Z4ZS9hSExSMjMrM1hq?=
- =?utf-8?B?UURIM1hPN0J1Z3JheHd3aDh6dkpUbnVOcDFudHZMZ2MzNCtBdzlDTkhmaWp5?=
- =?utf-8?B?UWNuVzBwelFFblRYREZWNmdkUGJiN2FRWkxiQVVvdWlnTmJzUkk5Y0QyY1kz?=
- =?utf-8?B?aUY2U1FRdnpJenlXZGRVaytRR0w2OVd2RlFEZVZnMEVzbTNnY0dWY25VTThi?=
- =?utf-8?B?dlVlN25UODgzR2dRVzI2N05xWWhQZFBhb0V3ZW9SZzUrbldkNUU5ZXdML2Fl?=
- =?utf-8?B?MjFtemk2N3hHUmpRSnRqcnltS3p4c2Zlck1CSnYxd2x2SkNsUGs0aExiSmkr?=
- =?utf-8?B?RzMvUGZTTlB1REREUVZpb0FQYW9PaTJEV1M1SzJYOU1INC9QYnUwMzVNUFJB?=
- =?utf-8?B?YUI5OXhzY1k0TEFodGFxYWxWY3ZpQm54WmsyUnhtSksvTkx4UjlvZFptcFZX?=
- =?utf-8?B?OVJ5ZktNR3ZpSE4va3lVYTdkRWtlTXNlV2hDdU43NWh3eFpiUGpaQ3pqczJT?=
- =?utf-8?B?eW5zd2lZSWtYWnJPRWdQQnU3OXpuRkxGUTVRcEJHOHBWTnNsNWU4YXNwV3dS?=
- =?utf-8?B?Mm95WXY5WmFueWNJOWRsZEJpWE9SSVNKM2xtb0tvSGJlb0lQempsYlRtV1Ru?=
- =?utf-8?B?M0lWUWlPWHh5MnIrMFFTVytzL3dmdzhSb0p0OFNETnl0RWJFQlhpYitaSVpN?=
- =?utf-8?B?cGU5aW02Q0JqcS9ITmFsYk9EWVl4UG92OTVGdWFtRG5Fem5VTFhTeGlBL2hW?=
- =?utf-8?B?cktrejIveVVvbzBDeG1rMHdqS0JXS1Y0WEs1ZmtDTUtnSWk0SmpzRkZINU8r?=
- =?utf-8?B?NWdMdzViR08remlqWnlueU1wSU9CUTVwQVVMRS93d0pVZVJVOWsvV0QrU3Na?=
- =?utf-8?B?SjM4bkloa05lMXc2Y29UU3J2M3VDUWpCWUNVQlJJZWVWNkM3SXdnV3BTbUxI?=
- =?utf-8?B?MkVUdmNYWmNJbC9kUG5CNHllUGJOQ3JuWjVmMDV6SlRFQ0gwWVEySnZDZHR3?=
- =?utf-8?B?dEZJdFZvY3FQcUh2c3JUZnVkcGhrdnVPbkxacGk1aFMrNUpsK3ZyaFQrTk9J?=
- =?utf-8?B?R2pGQklWNXhJQ3JlSzVoL3pUUk5TZEpSM3g5eVdhTU5CNit5RzdrUXJiakZk?=
- =?utf-8?B?ZHFmdCtlOEpoM1doMUY4dXd1am9XWU5iRU13dFZ1T3pGdzV1OVpJL1E5azlY?=
- =?utf-8?B?Z2M1YzhVSkF2cUoyYi9TNHA2Tis1UXA0bFM4V0VScDJzRmVGTGM3U3Fhdjli?=
- =?utf-8?B?SkFpWWRYeXg1ZDdRSHlibFIxVWxVa3VLMWJLL1Nyd2w5a3BJT29ocnVLT05m?=
- =?utf-8?B?U2ZjTG1zTnNTVXFKeDFIV3ZSV2xOV0piMVEyb3dsS1hvRGZtOEpGR2Jla3VM?=
- =?utf-8?B?Kzl0bTUrWktLeW16UUFOYVJTRndFTlpwSFpOTW56dXZNYjJ2RXBocG52UXJk?=
- =?utf-8?B?M1BpT0VuUUdOR2pmTDZFVm9CVjJ5RTAxVVFJbkozOHN1dmpEbU42ampGS1lW?=
- =?utf-8?B?QXZjOWVJK25NMmZTbFZCLzBEUE5QQ0hBbjVFZVZwRFR3bEpvaExPUUJHTHpO?=
- =?utf-8?B?L0ZRMGppVm9QWFBwano1cHY5ZFU3NHo0SHlwWFFOaGxPNlFNbEFDT0RoWU10?=
- =?utf-8?B?amVaNXdKY2tneGF3MklYM0ZHTmF3MXRVREFYOHpVSnVwdzdVci8za0JacVZp?=
- =?utf-8?B?MTR2L1dlZ0tpNWw1dGhneVY0UldLMG1RUjZoQytPdUxzcVhpVTFpYTVtcTBp?=
- =?utf-8?B?QVJXQzFNa1lQUEVKME1kZVJ2Sk5NVmVzNFYxZU1qbHB0NVNjN1lPcDYwRkxL?=
- =?utf-8?B?Z1A4aHNLMDNOUXV3SVVpZGR3OWtjUVBOemx5TUkvUFZ0M2F4SktCYkdKbDZr?=
- =?utf-8?B?R1VGUUhhc3NBMTdPam8rOHpCV2dBWVBoZ2tLOUI1TG1JOCtuQnlqN1lDS2x3?=
- =?utf-8?B?a3phZ0xNemZKcWhyZ3hRcjIrbzJadUt0WXVTRDlrL0poQVZBR2p0SmE3a2tr?=
- =?utf-8?B?OVpRRHRnb3REZVVFajJBTElnbmF5d1R4bU9CdGJmQ0ZWOEF5ZWM0ZWJMZThM?=
- =?utf-8?B?bGZzWk1MbmF4SDQ2R0JzYjhaamZtM21MMmthSDNIbzFENFVSM0lIZzFvT1dS?=
- =?utf-8?B?SXo0T0oxakZTcWNuZWNEeGdWNTAzSzVjS2pjMUZkMG1aMmJwWHNBRHNtd1lM?=
- =?utf-8?B?MzNja1BxKzFRNGRqbnpaL3VlYXZ6WUdhZmdieWMzWi9sdzZaeG9URVpqVjJr?=
- =?utf-8?Q?oN/tLO666cW1fXEIi/oJsnjGaMjZlMQZIEmsEWFRD8=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024)(7053199007)(13003099007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: hm5RbQHEeBB/hlOHIo7lad/02b31H48FGoH8sxQbP9oo1lVssDKG9Rpy38vY9IHuN3F9iS3iWYP21e4jMgrtWH+aHAp6DVUfYK6N+YCKtbEXDGJNc45wzKqztRL6n8BPAcWyaXUr5JeG8tTieqyR0uEuuAbOkm9c2ipjVxCTPAI6qe1ahNqDN2g/f5mj05xBebTG2NQx2yHahB2e+KU+cUuN2FF3ldzY83ltL9RwSOXCoMBuUnhYXrjZ2xK2iiltRUU9XMa2gUGgHV0f5cQ8sCS0As3cSV3fb54V3H2o8T4ULreGZFl5jLOEANEdJvlNUh5/7P4Zfze6YGXgeCVHCEMv9SOQGtyt3/fMbYCRIywHcde9MnV2LTKYGJ6pzeZDiWxPEqu+HZtdLPey85Rt5buBP1+wNGVPKbcixDRdM4/5G+DgjNdYZOaWE0iEoN5S
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2026 16:58:21.4486 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc221abd-476f-4d4d-42b6-08de64d7c4c1
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF00003440.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8213
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD8F110E94D
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 17:59:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1770314367; x=1801850367;
+ h=date:from:to:cc:subject:message-id;
+ bh=BWsEYzfoVGS2aZH6wLlprpMOw6Auc5lQ1EEnep+ut7I=;
+ b=CKq5FTLlQVs0EX24Xr+kByR8Y4ta7H3SB9pOEoZ8lGHIcBjVdk7k0pHk
+ 0//D5jSLj8CxY7wR8rCppLenl0yQhfcwUoVNdQmzs1eqbPbFJOtQ4OJvy
+ 7nMizq0EkBAkhS1/RT4ZoIgoCxfMg5XcYVPrNb46cxLlOblQJgk26mr2M
+ SzmQ4lPF6WuCrnhyOA/ge6Oc2pHiOWB/2ijtXZUgDSlA7pP7v9cfN9YGD
+ ovdU0EuPb8fYP+Xggu5sLIc40XQQ9On0KLc2V0NpJPjl2p0Ua8bCD0Y89
+ 1ah7CVSHaN0g0Mu9pszXjkwnC+qZHiwM0LmpmmZKOFwwpMVJG6NlV+1xA g==;
+X-CSE-ConnectionGUID: VI/qF8nBRl+vTC85u6HWow==
+X-CSE-MsgGUID: mM5S59stRLmhfvtARuiTKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="70714604"
+X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; d="scan'208";a="70714604"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Feb 2026 09:59:26 -0800
+X-CSE-ConnectionGUID: TsD8UibkQgufUL1PXmQvxg==
+X-CSE-MsgGUID: ewUC/+paRh+KJ8UeG1wNJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; d="scan'208";a="210569214"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+ by fmviesa008.fm.intel.com with ESMTP; 05 Feb 2026 09:59:24 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vo3dS-00000000k5E-1JsY;
+ Thu, 05 Feb 2026 17:59:22 +0000
+Date: Fri, 06 Feb 2026 01:58:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Icenowy Zheng <uwu@icenowy.me>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [drm-misc:drm-misc-next 3/5]
+ drivers/gpu/drm/verisilicon/vs_dc.c:146:64: warning: '%u' directive output
+ may be truncated writing between 1 and 10 bytes into a region of size 2
+Message-ID: <202602060154.ONBYvM9m-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,141 +72,202 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
-	FORGED_RECIPIENTS(0.00)[m:youssef.abdulrahman@oss.qualcomm.com,m:jeff.hugo@oss.qualcomm.com,m:carl.vanderlip@oss.qualcomm.com,m:troy.hanson@oss.qualcomm.com,m:zachary.mckevitt@oss.qualcomm.com,m:ogabbay@kernel.org,m:karol.wachowski@linux.intel.com,m:linux-arm-msm@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email,amd.com:dkim,amd.com:mid];
 	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:uwu@icenowy.me,m:oe-kbuild-all@lists.linux.dev,m:tzimmermann@suse.de,s:lists@lfdr.de];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCPT_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	DKIM_TRACE(0.00)[intel.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: A0C1CF592B
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,01.org:url,gitlab.freedesktop.org:url]
+X-Rspamd-Queue-Id: 76487F6407
 X-Rspamd-Action: no action
 
-Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
+tree:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+head:   779ec12c85c9e4547519e3903a371a3b26a289de
+commit: dbf21777caa8b8c88c12f7f036b01208fec0d55a [3/5] drm: verisilicon: add a driver for Verisilicon display controllers
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260206/202602060154.ONBYvM9m-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260206/202602060154.ONBYvM9m-lkp@intel.com/reproduce)
 
-On 2/5/26 04:34, Youssef Samir wrote:
-> When a DBC is released, the device sends a QAIC_TRANS_DEACTIVATE_FROM_DEV
-> transaction to the host over the QAIC_CONTROL MHI channel. QAIC handles
-> this by calling decode_deactivate() to release the resources allocated for
-> that DBC. Since that handling is done in the qaic_manage_ioctl() context,
-> if the user goes away before receiving and handling the deactivation, the
-> host will be out-of-sync with the DBCs available for use, and the DBC
-> resources will not be freed unless the device is removed. If another user
-> loads and requests to activate a network, then the device assigns the same
-> DBC to that network, QAIC will "indefinitely" wait for dbc->in_use = false,
-> leading the user process to hang.
->
-> As a solution to this, handle QAIC_TRANS_DEACTIVATE_FROM_DEV transactions
-> that are received after the user has gone away.
->
-> Fixes: 129776ac2e38 ("accel/qaic: Add control path")
-> Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
-> ---
-> Changes in V3:
-> - Remove unnecessary list_empty() check
-> - Link to V2: https://lore.kernel.org/all/20251224143009.2769836-1-youssef.abdulrahman@oss.qualcomm.com
->
-> Changes in V2:
-> - Add missing closing bracket in resp_worker()
-> - Link to V1: https://lore.kernel.org/all/20251223153151.2232297-1-youssef.abdulrahman@oss.qualcomm.com
-> ---
->   drivers/accel/qaic/qaic_control.c | 47 +++++++++++++++++++++++++++++--
->   1 file changed, 45 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/accel/qaic/qaic_control.c b/drivers/accel/qaic/qaic_control.c
-> index 428d8f65bff3..3842e59291b9 100644
-> --- a/drivers/accel/qaic/qaic_control.c
-> +++ b/drivers/accel/qaic/qaic_control.c
-> @@ -913,7 +913,7 @@ static int decode_deactivate(struct qaic_device *qdev, void *trans, u32 *msg_len
->   		 */
->   		return -ENODEV;
->   
-> -	if (status) {
-> +	if (usr && status) {
->   		/*
->   		 * Releasing resources failed on the device side, which puts
->   		 * us in a bind since they may still be in use, so enable the
-> @@ -1108,6 +1108,9 @@ static void *msg_xfer(struct qaic_device *qdev, struct wrapper_list *wrappers, u
->   	mutex_lock(&qdev->cntl_mutex);
->   	if (!list_empty(&elem.list))
->   		list_del(&elem.list);
-> +	/* resp_worker() processed the response but the wait was interrupted */
-> +	else if (ret == -ERESTARTSYS)
-> +		ret = 0;
->   	if (!ret && !elem.buf)
->   		ret = -ETIMEDOUT;
->   	else if (ret > 0 && !elem.buf)
-> @@ -1418,9 +1421,49 @@ static void resp_worker(struct work_struct *work)
->   	}
->   	mutex_unlock(&qdev->cntl_mutex);
->   
-> -	if (!found)
-> +	if (!found) {
-> +		/*
-> +		 * The user might have gone away at this point without waiting
-> +		 * for QAIC_TRANS_DEACTIVATE_FROM_DEV transaction coming from
-> +		 * the device. If this is not handled correctly, the host will
-> +		 * not know that the DBC[n] has been freed on the device.
-> +		 * Due to this failure in synchronization between the device and
-> +		 * the host, if another user requests to activate a network, and
-> +		 * the device assigns DBC[n] again, save_dbc_buf() will hang,
-> +		 * waiting for dbc[n]->in_use to be set to false, which will not
-> +		 * happen unless the qaic_dev_reset_clean_local_state() gets
-> +		 * called by resetting the device (or re-inserting the module).
-> +		 *
-> +		 * As a solution, we look for QAIC_TRANS_DEACTIVATE_FROM_DEV
-> +		 * transactions in the message before disposing of it, then
-> +		 * handle releasing the DBC resources.
-> +		 *
-> +		 * Since the user has gone away, if the device could not
-> +		 * deactivate the network (status != 0), there is no way to
-> +		 * enable and reassign the DBC to the user. We can put trust in
-> +		 * the device that it will release all the active DBCs in
-> +		 * response to the QAIC_TRANS_TERMINATE_TO_DEV transaction,
-> +		 * otherwise, the user can issue an soc_reset to the device.
-> +		 */
-> +		u32 msg_count = le32_to_cpu(msg->hdr.count);
-> +		u32 msg_len = le32_to_cpu(msg->hdr.len);
-> +		u32 len = 0;
-> +		int j;
-> +
-> +		for (j = 0; j < msg_count && len < msg_len; ++j) {
-> +			struct wire_trans_hdr *trans_hdr;
-> +
-> +			trans_hdr = (struct wire_trans_hdr *)(msg->data + len);
-> +			if (le32_to_cpu(trans_hdr->type) == QAIC_TRANS_DEACTIVATE_FROM_DEV) {
-> +				if (decode_deactivate(qdev, trans_hdr, &len, NULL))
-> +					len += le32_to_cpu(trans_hdr->len);
-> +			} else {
-> +				len += le32_to_cpu(trans_hdr->len);
-> +			}
-> +		}
->   		/* request must have timed out, drop packet */
->   		kfree(msg);
-> +	}
->   
->   	kfree(resp);
->   }
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602060154.ONBYvM9m-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/verisilicon/vs_dc.c: In function 'vs_dc_probe':
+>> drivers/gpu/drm/verisilicon/vs_dc.c:146:64: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 2 [-Wformat-truncation=]
+     146 |                 snprintf(pixclk_name, sizeof(pixclk_name), "pix%u", i);
+         |                                                                ^~
+   drivers/gpu/drm/verisilicon/vs_dc.c:146:60: note: directive argument in the range [0, 4294967294]
+     146 |                 snprintf(pixclk_name, sizeof(pixclk_name), "pix%u", i);
+         |                                                            ^~~~~~~
+   drivers/gpu/drm/verisilicon/vs_dc.c:146:17: note: 'snprintf' output between 5 and 14 bytes into a destination of size 5
+     146 |                 snprintf(pixclk_name, sizeof(pixclk_name), "pix%u", i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +146 drivers/gpu/drm/verisilicon/vs_dc.c
+
+    42	
+    43	static int vs_dc_probe(struct platform_device *pdev)
+    44	{
+    45		struct device *dev = &pdev->dev;
+    46		struct vs_dc *dc;
+    47		void __iomem *regs;
+    48		unsigned int port_count, i;
+    49		/* pix0/pix1 */
+    50		char pixclk_name[5];
+    51		int irq, ret;
+    52	
+    53		if (!dev->of_node) {
+    54			dev_err(dev, "can't find DC devices\n");
+    55			return -ENODEV;
+    56		}
+    57	
+    58		port_count = of_graph_get_port_count(dev->of_node);
+    59		if (!port_count) {
+    60			dev_err(dev, "can't find DC downstream ports\n");
+    61			return -ENODEV;
+    62		}
+    63		if (port_count > VSDC_MAX_OUTPUTS) {
+    64			dev_err(dev, "too many DC downstream ports than possible\n");
+    65			return -EINVAL;
+    66		}
+    67	
+    68		ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+    69		if (ret) {
+    70			dev_err(dev, "No suitable DMA available\n");
+    71			return ret;
+    72		}
+    73	
+    74		dc = devm_kzalloc(dev, sizeof(*dc), GFP_KERNEL);
+    75		if (!dc)
+    76			return -ENOMEM;
+    77	
+    78		dc->rsts[0].id = "core";
+    79		dc->rsts[1].id = "axi";
+    80		dc->rsts[2].id = "ahb";
+    81	
+    82		ret = devm_reset_control_bulk_get_optional_shared(dev, VSDC_RESET_COUNT,
+    83								  dc->rsts);
+    84		if (ret) {
+    85			dev_err(dev, "can't get reset lines\n");
+    86			return ret;
+    87		}
+    88	
+    89		dc->core_clk = devm_clk_get_enabled(dev, "core");
+    90		if (IS_ERR(dc->core_clk)) {
+    91			dev_err(dev, "can't get core clock\n");
+    92			return PTR_ERR(dc->core_clk);
+    93		}
+    94	
+    95		dc->axi_clk = devm_clk_get_enabled(dev, "axi");
+    96		if (IS_ERR(dc->axi_clk)) {
+    97			dev_err(dev, "can't get axi clock\n");
+    98			return PTR_ERR(dc->axi_clk);
+    99		}
+   100	
+   101		dc->ahb_clk = devm_clk_get_enabled(dev, "ahb");
+   102		if (IS_ERR(dc->ahb_clk)) {
+   103			dev_err(dev, "can't get ahb clock\n");
+   104			return PTR_ERR(dc->ahb_clk);
+   105		}
+   106	
+   107		irq = platform_get_irq(pdev, 0);
+   108		if (irq < 0) {
+   109			dev_err(dev, "can't get irq\n");
+   110			return irq;
+   111		}
+   112	
+   113		ret = reset_control_bulk_deassert(VSDC_RESET_COUNT, dc->rsts);
+   114		if (ret) {
+   115			dev_err(dev, "can't deassert reset lines\n");
+   116			return ret;
+   117		}
+   118	
+   119		regs = devm_platform_ioremap_resource(pdev, 0);
+   120		if (IS_ERR(regs)) {
+   121			dev_err(dev, "can't map registers");
+   122			ret = PTR_ERR(regs);
+   123			goto err_rst_assert;
+   124		}
+   125	
+   126		dc->regs = devm_regmap_init_mmio(dev, regs, &vs_dc_regmap_cfg);
+   127		if (IS_ERR(dc->regs)) {
+   128			ret = PTR_ERR(dc->regs);
+   129			goto err_rst_assert;
+   130		}
+   131	
+   132		ret = vs_fill_chip_identity(dc->regs, &dc->identity);
+   133		if (ret)
+   134			goto err_rst_assert;
+   135	
+   136		dev_info(dev, "Found DC%x rev %x customer %x\n", dc->identity.model,
+   137			 dc->identity.revision, dc->identity.customer_id);
+   138	
+   139		if (port_count > dc->identity.display_count) {
+   140			dev_err(dev, "too many downstream ports than HW capability\n");
+   141			ret = -EINVAL;
+   142			goto err_rst_assert;
+   143		}
+   144	
+   145		for (i = 0; i < dc->identity.display_count; i++) {
+ > 146			snprintf(pixclk_name, sizeof(pixclk_name), "pix%u", i);
+   147			dc->pix_clk[i] = devm_clk_get(dev, pixclk_name);
+   148			if (IS_ERR(dc->pix_clk[i])) {
+   149				dev_err(dev, "can't get pixel clk %u\n", i);
+   150				ret = PTR_ERR(dc->pix_clk[i]);
+   151				goto err_rst_assert;
+   152			}
+   153		}
+   154	
+   155		ret = devm_request_irq(dev, irq, vs_dc_irq_handler, 0,
+   156				       dev_name(dev), dc);
+   157		if (ret) {
+   158			dev_err(dev, "can't request irq\n");
+   159			goto err_rst_assert;
+   160		}
+   161	
+   162		dev_set_drvdata(dev, dc);
+   163	
+   164		ret = vs_drm_initialize(dc, pdev);
+   165		if (ret)
+   166			goto err_rst_assert;
+   167	
+   168		return 0;
+   169	
+   170	err_rst_assert:
+   171		reset_control_bulk_assert(VSDC_RESET_COUNT, dc->rsts);
+   172		return ret;
+   173	}
+   174	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
