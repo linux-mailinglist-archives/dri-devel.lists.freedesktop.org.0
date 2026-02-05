@@ -2,84 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mI92JQAFhWlW7gMAu9opvQ
+	id ICTRCAEFhWlW7gMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 22:00:48 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 22:00:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20DA5F75AD
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F4FCF75B4
 	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 22:00:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7BCB10E10E;
-	Thu,  5 Feb 2026 21:00:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59ACF10E11F;
+	Thu,  5 Feb 2026 21:00:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FoAjm2F0";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="S0IbEztV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 904CE10E109
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 21:00:43 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3E8D10E109
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 21:00:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1770325242;
+ s=mimecast20190719; t=1770325244;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=swhoxBv4zwo4dFRpNRtMjzIqauuYaXTIl/FyLukXQWY=;
- b=FoAjm2F0+C0lIDsMprrIgJ8Jwa8OkDVMqK0lixuZ+YVQeY0fqll3qYfI6Hk5ebcu3rnBsF
- NFLpw5V4lpvPfuyE4d0qBhv4K2f3aISa/9jPrHf5TEa6407DKGuTbMG+G1zG9JTGRdDJM4
- HThLzERRi9FNIsfArESOH+OgH4LN/BU=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=BMqbQ59ZEPX4CdhRYiH6E8cBHnvUegI817wkrdE94SY=;
+ b=S0IbEztVcVhNN8/1dEt+sy8KjssmQc7358uF9fWhA/tdEGayTK+MzWk1W9pm1zc1VBwq9X
+ XfW9U1cnbBIwGUQAdhR6S4Jh9pTotCo8hoydjOJBytZc4g8WScPtEJvUutMuD3X6m/zKfX
+ JSCVPRny5YTVv2ghzsh2hA0jEh7esy0=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-640-4819KxAdN9CKj9K_H8lduw-1; Thu, 05 Feb 2026 16:00:40 -0500
-X-MC-Unique: 4819KxAdN9CKj9K_H8lduw-1
-X-Mimecast-MFC-AGG-ID: 4819KxAdN9CKj9K_H8lduw_1770325240
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-8c538971a16so350708485a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Feb 2026 13:00:40 -0800 (PST)
+ us-mta-695-WBK__GH6M728M1RAhAtr2A-1; Thu, 05 Feb 2026 16:00:42 -0500
+X-MC-Unique: WBK__GH6M728M1RAhAtr2A-1
+X-Mimecast-MFC-AGG-ID: WBK__GH6M728M1RAhAtr2A_1770325242
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-8c70d16d5a9so352296485a.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Feb 2026 13:00:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770325240; x=1770930040;
+ d=1e100.net; s=20230601; t=1770325242; x=1770930042;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=swhoxBv4zwo4dFRpNRtMjzIqauuYaXTIl/FyLukXQWY=;
- b=nkt/sZ8ZfmMVsKRl5ssx9eC8myRF2ldSlWai42kAZ02Fw5GBJoSoqcVQCVxiuxMaYt
- myB7PKREWGUZyb7tSQSHHNOAohgbcd6ls0ggmGLi/4FRKC4aRHtkdu7+llEbt9597Kw4
- uHVwIKjX7iIZcHLDc1AeGP5zyhKjHVLaM63MW2e4fUJp4Rj3Jkk3zqNKrMLUtQ1VxB/G
- Tc9v6shJhBMO3AuAEQa+TcVOYNl5QQxo7UIhmKZiXfCv4JYwZVprxXhK1bdo9bYQTVEN
- bZoVV0C7kpB+pnHdnQJ67LRj8cwODCjRN13FWHbTiY7lQ4v1HAtJDNs4aFOrAguYms4p
- ikSg==
+ bh=BMqbQ59ZEPX4CdhRYiH6E8cBHnvUegI817wkrdE94SY=;
+ b=ANoZZIhLTzw/F8zI8psx8UAG71i7S6Fq05MkKyehTYnouDRJQ8ySAZIADWpTZewX/L
+ k2Z0NW43YoFRmCeEi93Hj4thv/CI+6UDmxxnvsm5BtRzyWCqfOBfux+8Vk2j5BTW6pe9
+ jzvQfkUbO7lUtmfJlbHY1X4xaoXJnwqSM+WKRiaUsFaX3/vgTetkWta0gcW3kA5efwvh
+ 5d6JhwJEFNPhZNP6JcbVpDB5S+v8xgN2Rc250kovH/LJRRfzCb1bum/kBQMFHeDLxFqv
+ dxnOudVfe3F9ZQBZYMY4qYXvoZw5zFqsegJG5XO/wsz7LLxXQKxYefkplwGthuJGUoYh
+ 3J4A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVxFBGJCAhr4rhzl7HsZX6uGd+JAjavTK1p2SiR1hola5iH1dB7/Rhwz3vUtDGJN15+gwC4MjorpEw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzNQrEuGDNcoDshR/xFdCsyJIJZdM0dUaIv+kL68CVuk5gzwQMT
- /oEGxnoj+GC8ZJvt3lMbV0EA0aFByQZq6M+8cmioERC2rml19mIbpE/3sq17X5jSCQWKBhLZR20
- OQPeaH055xT39Kbzkli/xg8kgpINuSgYJxpsrPj6kHSJXvrrk7ZsKLy7A7s+dh10AZA9QGg==
-X-Gm-Gg: AZuq6aLDRHMZnzDOer5M5D8BloFtNFHOfCkxLAR2RjZvtXErGH/7PU9uKKN+zuHQ/5C
- rvANI24b4nBw4Ya0sUMdDZQPQtZ7izLCi8TEnedYCopj73WTvR8rcyqO/+zLOnfEZgRvv4S+8Ob
- QHvXvp7tqmh+QcAPWQFYGQyXgWvfa1+XfqFHDqLz0dc3XVop24QOJ+JC3POvLroY9hdGQrH5kWX
- LmFcjpA36uxhPlL8+w9jU0QkRhtlH9so9/O2JFb5TpGYbUcmgcKGUz4uDS8eGo4Vx2NE1ZyYsuS
- A6fVY9szpxi5oWNx99MnHW/fFOrJbQjMNPXB0TVTTa66bprdicR6Qdv+5LuKoaQeiLRSqOlIwmt
- 44H56lOp9m/r+0Sc=
-X-Received: by 2002:a05:620a:3953:b0:8b2:eae0:bbf4 with SMTP id
- af79cd13be357-8caf0487af1mr60628985a.19.1770325239600; 
- Thu, 05 Feb 2026 13:00:39 -0800 (PST)
-X-Received: by 2002:a05:620a:3953:b0:8b2:eae0:bbf4 with SMTP id
- af79cd13be357-8caf0487af1mr60617885a.19.1770325238937; 
- Thu, 05 Feb 2026 13:00:38 -0800 (PST)
+ AJvYcCUdW3mXci28R2CLNOQ2cI7DAafGU6BqZjat6/bymuW8iRlB4U309rKM/R+xPhyQn2i9b+fawxU6rkA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwTUABZ3TyodKA42B4S2PhyeCRcJCXeyh+ZWdoe3pnqUPTfyuOG
+ 5OH+Ev5RGOchlM2eweujZrNCK3B+FCXfrwSXtOgfqPj1P4938q/YjDB+eBm2fLTFrYCHToUyUgw
+ OzmCuc/JDPvmDkCrC4vbbC6h5/byJzijcY9qtmmTRWXDBHG4kCLfvKd2m0f4T6z6oK3bE7Q==
+X-Gm-Gg: AZuq6aLXQ1QZkr3qqoN7+p9NkwY6SSQuX/txeRkZDkxFUfIy4qu/RF/ziySkejhHn0S
+ Dbm9mRNvSDTsQ0cNRYncYcH8Uhbi1iKZ+GLcEXfk7VMtIvRxWVtGda5g+JXjbiA5H5ZSGMXP8lS
+ Bjs/Ou/aDOV6TYH8/ORq9Vi3AG8S6YkIFvcGNvtR15Fdt4iYHvl6FGcunkacH9x8RRhs/ZEMp58
+ UJRlpIcNHQvKa6xQN8i8KN3p44Z02pPpfaDxMml57nuxkV+gCrslZf3lQgi+xfMBRXpRohVkWLC
+ nIxaeRfO1eEQhJuhL3Z8N70qkDs0GVjegBU0cba0aex9Yrol+8Drkb/t0VcjTt6NFVUHGCgRUUF
+ yNr6p1jM68YQuPKc=
+X-Received: by 2002:a05:620a:28c5:b0:8ca:3854:8110 with SMTP id
+ af79cd13be357-8caf130789cmr57435885a.72.1770325241469; 
+ Thu, 05 Feb 2026 13:00:41 -0800 (PST)
+X-Received: by 2002:a05:620a:28c5:b0:8ca:3854:8110 with SMTP id
+ af79cd13be357-8caf130789cmr57425985a.72.1770325240837; 
+ Thu, 05 Feb 2026 13:00:40 -0800 (PST)
 Received: from [172.16.1.8] ([2607:f2c0:b010:9000:4c85:f148:4c91:943a])
  by smtp.gmail.com with ESMTPSA id
- af79cd13be357-8caf9fdf692sm17571285a.44.2026.02.05.13.00.37
+ af79cd13be357-8caf9fdf692sm17571285a.44.2026.02.05.13.00.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Feb 2026 13:00:38 -0800 (PST)
+ Thu, 05 Feb 2026 13:00:40 -0800 (PST)
 From: Peter Colberg <pcolberg@redhat.com>
-Date: Thu, 05 Feb 2026 15:59:56 -0500
-Subject: [PATCH v2 09/10] rust: pci: add physfn(), to return PF device for
- VF device
+Date: Thu, 05 Feb 2026 15:59:57 -0500
+Subject: [PATCH v2 10/10] samples: rust: add SR-IOV driver sample
 MIME-Version: 1.0
-Message-Id: <20260205-rust-pci-sriov-v2-9-ef9400c7767b@redhat.com>
+Message-Id: <20260205-rust-pci-sriov-v2-10-ef9400c7767b@redhat.com>
 References: <20260205-rust-pci-sriov-v2-0-ef9400c7767b@redhat.com>
 In-Reply-To: <20260205-rust-pci-sriov-v2-0-ef9400c7767b@redhat.com>
 To: Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
@@ -108,10 +107,10 @@ Cc: linux-pci@vger.kernel.org, rust-for-linux@vger.kernel.org,
  Peter Colberg <pcolberg@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>
 X-Mailer: b4 0.14.2
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: mWVKo3ybb6VPgYr0Sf26cUbv-c69jEQGvLYcLHH1RUM_1770325240
+X-Mimecast-MFC-PROC-ID: uWmXE1uwEvxo2abs89AfxUVYDd5hm_ehtsLIkYvfvLc_1770325242
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,103 +159,207 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 20DA5F75AD
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qemu.org:url]
+X-Rspamd-Queue-Id: 8F4FCF75B4
 X-Rspamd-Action: no action
 
-Add a method to return the Physical Function (PF) device for a Virtual
-Function (VF) device in the bound device context.
+Add a new SR-IOV driver sample that demonstrates how to enable and
+disable the Single Root I/O Virtualization capability for a PCI device.
 
-Unlike for a PCI driver written in C, guarantee that when a VF device is
-bound to a driver, the underlying PF device is bound to a driver, too,
-by always setting the flag managed_sriov in the pci_driver structure.
+The sample may be exercised using QEMU's 82576 (igb) emulation.
 
-In case SR-IOV has been enabled by a C driver that has not set the flag
-managed_sriov in pci_driver, return an error from physfn().
-
-This change depends on commit a995fe1a3aa7 ("rust: driver: drop device
-private data post unbind") to also uphold the safety guarantee in case
-a (broken) PF driver re-enables SR-IOV in its unbind() callback. That
-commit extends the lifetime of the device private data beyond the
-remove_callback() wrapper. In particular, that commit ensures that the
-device private data for the PF device is still alive until after the
-function pci_iov_remove() is called and forcibly re-disables SR_IOV,
-which means the data can be safely accessed by VF drivers until then.
-
-Suggested-by: Danilo Krummrich <dakr@kernel.org>
+Link: https://www.qemu.org/docs/master/system/devices/igb.html
 Signed-off-by: Peter Colberg <pcolberg@redhat.com>
 ---
 Changes in v2:
-- Uphold safety guarantee when PF driver is written in C.
-- Let physfn() return error if driver flag managed_sriov is unset.
+- Use "kernel vertical" style on imports.
+- Demonstrate how to reach driver data of PF device from VF device.
 ---
- rust/kernel/pci.rs | 53 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ MAINTAINERS                       |   1 +
+ samples/rust/Kconfig              |  11 ++++
+ samples/rust/Makefile             |   1 +
+ samples/rust/rust_driver_sriov.rs | 127 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 140 insertions(+)
 
-diff --git a/rust/kernel/pci.rs b/rust/kernel/pci.rs
-index 581930d0afe98ccc29d729e4d9aab75b4144e46c..3b11f73a9f2b69a02fe003b8feadd61864adc8c0 100644
---- a/rust/kernel/pci.rs
-+++ b/rust/kernel/pci.rs
-@@ -525,6 +525,59 @@ pub fn pci_class(&self) -> Class {
-     }
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b277baee5eb6725b3a5126cefb6eef6190b02413..96dffd777c24473063baaeda017f64b15e8c0ab9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20242,6 +20242,7 @@ F:	rust/helpers/pci.c
+ F:	rust/kernel/pci.rs
+ F:	rust/kernel/pci/
+ F:	samples/rust/rust_driver_pci.rs
++F:	samples/rust/rust_driver_sriov.rs
  
-+impl Device<device::Bound> {
-+    /// Returns the Physical Function (PF) device for a Virtual Function (VF) device.
-+    ///
-+    /// # Examples
-+    ///
-+    /// The following example illustrates how to obtain the private driver data of the PF device,
-+    /// where `vf_pdev` is the VF device of reference type `&Device<Core>` or `&Device<Bound>`.
-+    ///
-+    /// ```
-+    /// # use kernel::{device::Core, pci};
-+    /// /// A PCI driver that binds to both the PF and its VF devices.
-+    /// struct MyDriver;
-+    ///
-+    /// impl MyDriver {
-+    ///     fn connect(vf_pdev: &pci::Device<Core>) -> Result {
-+    ///         let pf_pdev = vf_pdev.physfn()?;
-+    ///         let pf_drvdata = pf_pdev.as_ref().drvdata::<Self>()?;
-+    ///         Ok(())
-+    ///     }
-+    /// }
-+    /// ```
-+    #[cfg(CONFIG_PCI_IOV)]
-+    pub fn physfn(&self) -> Result<&Device<device::Bound>> {
-+        if !self.is_virtfn() {
-+            return Err(EINVAL);
+ PCIE BANDWIDTH CONTROLLER
+ M:	Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+diff --git a/samples/rust/Kconfig b/samples/rust/Kconfig
+index c49ab910634596aea4a1a73dac87585e084f420a..f244df89c4fc9d741915f581de76107e8eb0121b 100644
+--- a/samples/rust/Kconfig
++++ b/samples/rust/Kconfig
+@@ -128,6 +128,17 @@ config SAMPLE_RUST_DRIVER_PLATFORM
+ 
+ 	  If unsure, say N.
+ 
++config SAMPLE_RUST_DRIVER_SRIOV
++	tristate "SR-IOV Driver"
++	depends on PCI_IOV
++	help
++	  This option builds the Rust SR-IOV driver sample.
++
++	  To compile this as a module, choose M here:
++	  the module will be called rust_driver_sriov.
++
++	  If unsure, say N.
++
+ config SAMPLE_RUST_DRIVER_USB
+ 	tristate "USB Driver"
+ 	depends on USB = y
+diff --git a/samples/rust/Makefile b/samples/rust/Makefile
+index 6c0aaa58ccccfd12ef019f68ca784f6d977bc668..19d700f8210151e298cc049dacc249a121d0f2c4 100644
+--- a/samples/rust/Makefile
++++ b/samples/rust/Makefile
+@@ -11,6 +11,7 @@ obj-$(CONFIG_SAMPLE_RUST_DRIVER_I2C)		+= rust_driver_i2c.o
+ obj-$(CONFIG_SAMPLE_RUST_I2C_CLIENT)		+= rust_i2c_client.o
+ obj-$(CONFIG_SAMPLE_RUST_DRIVER_PCI)		+= rust_driver_pci.o
+ obj-$(CONFIG_SAMPLE_RUST_DRIVER_PLATFORM)	+= rust_driver_platform.o
++obj-$(CONFIG_SAMPLE_RUST_DRIVER_SRIOV)		+= rust_driver_sriov.o
+ obj-$(CONFIG_SAMPLE_RUST_DRIVER_USB)		+= rust_driver_usb.o
+ obj-$(CONFIG_SAMPLE_RUST_DRIVER_FAUX)		+= rust_driver_faux.o
+ obj-$(CONFIG_SAMPLE_RUST_DRIVER_AUXILIARY)	+= rust_driver_auxiliary.o
+diff --git a/samples/rust/rust_driver_sriov.rs b/samples/rust/rust_driver_sriov.rs
+new file mode 100644
+index 0000000000000000000000000000000000000000..84d057629c7b03d743179a4e05ccc092f814bf6b
+--- /dev/null
++++ b/samples/rust/rust_driver_sriov.rs
+@@ -0,0 +1,127 @@
++// SPDX-License-Identifier: GPL-2.0
++
++//! Rust SR-IOV driver sample based on QEMU's 82576 ([igb]) emulation.
++//!
++//! To make this driver probe, QEMU must be run with `-device igb`.
++//!
++//! Further, enable [vIOMMU] with interrupt remapping using, e.g.,
++//!
++//! `-M q35,accel=kvm,kernel-irqchip=split -device intel-iommu,intremap=on,caching-mode=on`
++//!
++//! and append `intel_iommu=on` to the guest kernel arguments.
++//!
++//! [igb]: https://www.qemu.org/docs/master/system/devices/igb.html
++//! [vIOMMU]: https://wiki.qemu.org/Features/VT-d
++
++use kernel::{
++    device::Core,
++    pci,
++    prelude::*,
++    sync::aref::ARef, //
++};
++
++use core::any::TypeId;
++
++#[pin_data(PinnedDrop)]
++struct SampleDriver {
++    pdev: ARef<pci::Device>,
++    private: TypeId,
++}
++
++kernel::pci_device_table!(
++    PCI_TABLE,
++    MODULE_PCI_TABLE,
++    <SampleDriver as pci::Driver>::IdInfo,
++    [
++        // E1000_DEV_ID_82576
++        (pci::DeviceId::from_id(pci::Vendor::INTEL, 0x10c9), ()),
++        // E1000_DEV_ID_82576_VF
++        (pci::DeviceId::from_id(pci::Vendor::INTEL, 0x10ca), ())
++    ]
++);
++
++#[vtable]
++impl pci::Driver for SampleDriver {
++    type IdInfo = ();
++
++    const ID_TABLE: pci::IdTable<Self::IdInfo> = &PCI_TABLE;
++
++    fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) -> impl PinInit<Self, Error> {
++        pin_init::pin_init_scope(move || {
++            dev_info!(
++                pdev.as_ref(),
++                "Probe Rust SR-IOV driver sample (PCI ID: {}, 0x{:x}).\n",
++                pdev.vendor_id(),
++                pdev.device_id()
++            );
++
++            if pdev.is_virtfn() {
++                let physfn = pdev.physfn()?;
++                let drvdata = physfn.as_ref().drvdata::<Self>()?;
++
++                assert!(physfn.is_physfn());
++
++                dev_info!(
++                    pdev.as_ref(),
++                    "Parent device is PF (PCI ID: {}, 0x{:x}).\n",
++                    physfn.vendor_id(),
++                    physfn.device_id()
++                );
++
++                dev_info!(
++                    pdev.as_ref(),
++                    "We have access to the private data of {:?}.\n",
++                    drvdata.private
++                );
++            }
++
++            pdev.enable_device_mem()?;
++            pdev.set_master();
++
++            Ok(try_pin_init!(Self {
++                pdev: pdev.into(),
++                private: TypeId::of::<Self>()
++            }))
++        })
++    }
++
++    fn sriov_configure(pdev: &pci::Device<Core>, nr_virtfn: i32) -> Result<i32> {
++        assert!(pdev.is_physfn());
++
++        if nr_virtfn == 0 {
++            dev_info!(
++                pdev.as_ref(),
++                "Disable SR-IOV (PCI ID: {}, 0x{:x}).\n",
++                pdev.vendor_id(),
++                pdev.device_id()
++            );
++            pdev.disable_sriov();
++        } else {
++            dev_info!(
++                pdev.as_ref(),
++                "Enable SR-IOV (PCI ID: {}, 0x{:x}).\n",
++                pdev.vendor_id(),
++                pdev.device_id()
++            );
++            pdev.enable_sriov(nr_virtfn)?;
 +        }
 +
-+        // SAFETY: `self.as_raw()` returns a valid pointer to a `struct pci_dev`.
-+        // `physfn` is a valid pointer to a `struct pci_dev` since `is_virtfn()` is `true`.
-+        let pf_dev = unsafe { (*self.as_raw()).__bindgen_anon_1.physfn };
-+
-+        // SAFETY: `pf_dev` is a valid pointer to a `struct pci_dev`.
-+        // `driver` is either NULL or a valid pointer to a `struct pci_driver`.
-+        let pf_drv = unsafe { (*pf_dev).driver };
-+        if pf_drv.is_null() {
-+            return Err(EINVAL);
-+        }
-+
-+        // SAFETY: `pf_drv` is a valid pointer to a `struct pci_driver`.
-+        if !unsafe { (*pf_drv).managed_sriov } {
-+            return Err(EINVAL);
-+        }
-+
-+        // SAFETY: `physfn` may be cast to a `Device<device::Bound>` since the
-+        // driver flag `managed_sriov` forces SR-IOV to be disabled when the
-+        // PF driver is unbound, i.e., all VF devices are destroyed. This
-+        // guarantees that the underlying PF device is bound to a driver
-+        // when the VF device is bound to a driver, which is the case since
-+        // `Device::physfn()` requires a `&Device<Bound>` reference.
-+        Ok(unsafe { &*pf_dev.cast() })
++        assert_eq!(pdev.num_vf(), nr_virtfn);
++        Ok(nr_virtfn)
 +    }
 +}
 +
- impl Device<device::Core> {
-     /// Enable memory resources for this device.
-     pub fn enable_device_mem(&self) -> Result {
++#[pinned_drop]
++impl PinnedDrop for SampleDriver {
++    fn drop(self: Pin<&mut Self>) {
++        dev_info!(self.pdev.as_ref(), "Remove Rust SR-IOV driver sample.\n");
++    }
++}
++
++kernel::module_pci_driver! {
++    type: SampleDriver,
++    name: "rust_driver_sriov",
++    authors: ["Peter Colberg"],
++    description: "Rust SR-IOV driver",
++    license: "GPL v2",
++}
 
 -- 
 2.52.0
