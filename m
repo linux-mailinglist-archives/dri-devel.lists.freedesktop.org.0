@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cMP1A1cahGmyywMAu9opvQ
+	id 2M4kFlgahGmyywMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 05:19:35 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 05:19:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B189EE7DE
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 05:19:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2FDAEE7E6
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 05:19:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 471AE10E7A7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35E9F10E7A6;
 	Thu,  5 Feb 2026 04:19:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mccnkZti";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Gedif0Kk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD6DA10E212;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBD5C10E1D9;
  Thu,  5 Feb 2026 04:19:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1770265167; x=1801801167;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=WSIwdzS6CjBeSAnVkaOWaWwvfob3UlAErMPa099WXks=;
- b=mccnkZtil6poRf/nOX/zT0+egsxcQLe+gFMBcQBVVE6ydPDLVcugo8sm
- 1dW+rxxQ407nRlHshVkKXOY/uPiUswiELkKDRhjBSxb90VRSYHr/h0Nby
- 9UzNY5oDuukIhREsziAlooqzmVPf/9CbC9HMy7cqWHTiGMhLStEJrNnxI
- SOajoL5kruE5UpgqC8gfzO60CeW0F9nBJ/70HtxHEi11LmebXhp6O0/1R
- 0R31SeP/WzXB7tMVppsH/TtistAHr7Qlc5/HTY6zgYDZhkJAq8oEInyOW
- Dd188kBR8P3rkBh3bVkg1iQ+/DEKpLoevibolALkLnO3/4TpKecgobygb Q==;
-X-CSE-ConnectionGUID: WIwXd6V6TBmGR3yh3Z/IzA==
-X-CSE-MsgGUID: ngAkgOt2SB28HPjCuJQlYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="96914165"
-X-IronPort-AV: E=Sophos;i="6.21,273,1763452800"; d="scan'208";a="96914165"
+ bh=tZVKjsF7D6WeF1mYeVAfOWET681LE2lgVnEMvh4B42U=;
+ b=Gedif0KkngUXa8fTe+xei+AgiydOeZN89+k80tsg7gySUnUdeGqFH5t+
+ oRNDApjUGpAqFPJSac1dT/NciDk5Jm74Ou+Lum+rV716y75mfzU2ViC/g
+ 3+ttzc5x+95MlZPyacflrqWCKBsfcfpHPoyLGtElBA+gkE5xXnvqfkrYK
+ dEmSSeKacUZB30QbJ/JiG3NMNHvQgbSDFL+ERlHJ+Xd4k1n3z9frDLR8J
+ o0w0K3Mn+j6OadNCTBvzG2p/KKxl8KUKc0PR+TDUeFFbwMm0zMzKKzRgj
+ /RA8wPIXmWWDcDL4FI8qWZwJ6WM42VL3RJn+2oQbvLJTlLGAWyd8EfhlH Q==;
+X-CSE-ConnectionGUID: wkONmViWTO+MzXCfj5X4FA==
+X-CSE-MsgGUID: ge0dsVlVRbOQjzLUoSxTrQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="96914168"
+X-IronPort-AV: E=Sophos;i="6.21,273,1763452800"; d="scan'208";a="96914168"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  04 Feb 2026 20:19:26 -0800
-X-CSE-ConnectionGUID: jR0lPex7Re2zEexvT9Nydg==
-X-CSE-MsgGUID: Wlj+f5heTFWdG6A8e4G9YQ==
+X-CSE-ConnectionGUID: pHxuMWcITBaHrMHR1tcrkw==
+X-CSE-MsgGUID: OyJ4H1rXT/mEfo9pi1zIGg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,273,1763452800"; d="scan'208";a="210453869"
+X-IronPort-AV: E=Sophos;i="6.21,273,1763452800"; d="scan'208";a="210453872"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  04 Feb 2026 20:19:26 -0800
@@ -51,9 +51,10 @@ To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: leonro@nvidia.com, jgg@ziepe.ca, francois.dugast@intel.com,
  thomas.hellstrom@linux.intel.com, himal.prasad.ghimiray@intel.com
-Subject: [PATCH v4 1/4] drm/pagemap: Add helper to access zone_device_data
-Date: Wed,  4 Feb 2026 20:19:18 -0800
-Message-Id: <20260205041921.3781292-2-matthew.brost@intel.com>
+Subject: [PATCH v4 2/4] drm/gpusvm: Use dma-map IOVA alloc, link,
+ and sync API in GPU SVM
+Date: Wed,  4 Feb 2026 20:19:19 -0800
+Message-Id: <20260205041921.3781292-3-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260205041921.3781292-1-matthew.brost@intel.com>
 References: <20260205041921.3781292-1-matthew.brost@intel.com>
@@ -98,163 +99,160 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 8B189EE7DE
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,intel.com:dkim,intel.com:mid]
+X-Rspamd-Queue-Id: F2FDAEE7E6
 X-Rspamd-Action: no action
 
-From: Francois Dugast <francois.dugast@intel.com>
+The dma-map IOVA alloc, link, and sync APIs perform significantly better
+than dma-map / dma-unmap, as they avoid costly IOMMU synchronizations.
+This difference is especially noticeable when mapping a 2MB region in
+4KB pages.
 
-This new helper helps ensure all accesses to zone_device_data use the
-correct API whether the page is part of a folio or not.
+Use the IOVA alloc, link, and sync APIs for GPU SVM, which create DMA
+mappings between the CPU and GPU.
 
-Suggested-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-Signed-off-by: Francois Dugast <francois.dugast@intel.com>
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
-v2:
-- Move to drm_pagemap.h, stick to folio_zone_device_data (Matthew Brost)
-- Return struct drm_pagemap_zdd * (Matthew Brost)
+v3:
+ - Always link IOVA in mixed mappings
+ - Sync IOVA
+v4:
+ - Initialize IOVA state in get_pages
+ - Use pack IOVA linking (Jason)
+ - s/page_to_phys/hmm_pfn_to_phys (Leon)
 
- drivers/gpu/drm/drm_gpusvm.c  |  7 +++++--
- drivers/gpu/drm/drm_pagemap.c | 21 ++++++++++++---------
- include/drm/drm_pagemap.h     | 14 ++++++++++++++
- 3 files changed, 31 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/drm_gpusvm.c | 55 ++++++++++++++++++++++++++++++------
+ include/drm/drm_gpusvm.h     |  5 ++++
+ 2 files changed, 52 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
-index 871fcccd128a..4b8130a4ce95 100644
+index 4b8130a4ce95..800caaf0a783 100644
 --- a/drivers/gpu/drm/drm_gpusvm.c
 +++ b/drivers/gpu/drm/drm_gpusvm.c
-@@ -1488,12 +1488,15 @@ int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
- 		order = drm_gpusvm_hmm_pfn_to_order(pfns[i], i, npages);
- 		if (is_device_private_page(page) ||
- 		    is_device_coherent_page(page)) {
-+			struct drm_pagemap_zdd *__zdd =
-+				drm_pagemap_page_zone_device_data(page);
+@@ -1139,11 +1139,19 @@ static void __drm_gpusvm_unmap_pages(struct drm_gpusvm *gpusvm,
+ 		struct drm_gpusvm_pages_flags flags = {
+ 			.__flags = svm_pages->flags.__flags,
+ 		};
++		bool use_iova = dma_use_iova(&svm_pages->state);
 +
- 			if (!ctx->allow_mixed &&
--			    zdd != page->zone_device_data && i > 0) {
-+			    zdd != __zdd && i > 0) {
- 				err = -EOPNOTSUPP;
++		if (use_iova) {
++			dma_iova_unlink(dev, &svm_pages->state, 0,
++					svm_pages->state_offset,
++					svm_pages->dma_addr[0].dir, 0);
++			dma_iova_free(dev, &svm_pages->state);
++		}
+ 
+ 		for (i = 0, j = 0; i < npages; j++) {
+ 			struct drm_pagemap_addr *addr = &svm_pages->dma_addr[j];
+ 
+-			if (addr->proto == DRM_INTERCONNECT_SYSTEM)
++			if (!use_iova && addr->proto == DRM_INTERCONNECT_SYSTEM)
+ 				dma_unmap_page(dev,
+ 					       addr->addr,
+ 					       PAGE_SIZE << addr->order,
+@@ -1408,6 +1416,7 @@ int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
+ 	struct drm_gpusvm_pages_flags flags;
+ 	enum dma_data_direction dma_dir = ctx->read_only ? DMA_TO_DEVICE :
+ 							   DMA_BIDIRECTIONAL;
++	struct dma_iova_state *state = &svm_pages->state;
+ 
+ retry:
+ 	if (time_after(jiffies, timeout))
+@@ -1446,6 +1455,9 @@ int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
+ 	if (err)
+ 		goto err_free;
+ 
++	*state = (struct dma_iova_state){};
++	svm_pages->state_offset = 0;
++
+ map_pages:
+ 	/*
+ 	 * Perform all dma mappings under the notifier lock to not
+@@ -1539,13 +1551,33 @@ int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
  				goto err_unmap;
  			}
--			zdd = page->zone_device_data;
-+			zdd = __zdd;
- 			if (pagemap != page_pgmap(page)) {
- 				if (pagemap) {
- 					err = -EOPNOTSUPP;
-diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
-index 38eca94f01a1..fbd69f383457 100644
---- a/drivers/gpu/drm/drm_pagemap.c
-+++ b/drivers/gpu/drm/drm_pagemap.c
-@@ -244,7 +244,7 @@ static int drm_pagemap_migrate_map_pages(struct device *dev,
- 		order = folio_order(folio);
  
- 		if (is_device_private_page(page)) {
--			struct drm_pagemap_zdd *zdd = page->zone_device_data;
-+			struct drm_pagemap_zdd *zdd = drm_pagemap_page_zone_device_data(page);
- 			struct drm_pagemap *dpagemap = zdd->dpagemap;
- 			struct drm_pagemap_addr addr;
- 
-@@ -315,7 +315,7 @@ static void drm_pagemap_migrate_unmap_pages(struct device *dev,
- 			goto next;
- 
- 		if (is_zone_device_page(page)) {
--			struct drm_pagemap_zdd *zdd = page->zone_device_data;
-+			struct drm_pagemap_zdd *zdd = drm_pagemap_page_zone_device_data(page);
- 			struct drm_pagemap *dpagemap = zdd->dpagemap;
- 
- 			dpagemap->ops->device_unmap(dpagemap, dev, pagemap_addr[i]);
-@@ -603,7 +603,8 @@ int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
- 
- 		pages[i] = NULL;
- 		if (src_page && is_device_private_page(src_page)) {
--			struct drm_pagemap_zdd *src_zdd = src_page->zone_device_data;
-+			struct drm_pagemap_zdd *src_zdd =
-+				drm_pagemap_page_zone_device_data(src_page);
- 
- 			if (page_pgmap(src_page) == pagemap &&
- 			    !mdetails->can_migrate_same_pagemap) {
-@@ -725,8 +726,8 @@ static int drm_pagemap_migrate_populate_ram_pfn(struct vm_area_struct *vas,
- 			goto next;
- 
- 		if (fault_page) {
--			if (src_page->zone_device_data !=
--			    fault_page->zone_device_data)
-+			if (drm_pagemap_page_zone_device_data(src_page) !=
-+			    drm_pagemap_page_zone_device_data(fault_page))
- 				goto next;
- 		}
- 
-@@ -1067,7 +1068,7 @@ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
- 	void *buf;
- 	int i, err = 0;
- 
--	zdd = page->zone_device_data;
-+	zdd = drm_pagemap_page_zone_device_data(page);
- 	if (time_before64(get_jiffies_64(), zdd->devmem_allocation->timeslice_expiration))
- 		return 0;
- 
-@@ -1150,7 +1151,9 @@ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
-  */
- static void drm_pagemap_folio_free(struct folio *folio)
- {
--	drm_pagemap_zdd_put(folio->page.zone_device_data);
-+	struct page *page = folio_page(folio, 0);
+-			addr = dma_map_page(gpusvm->drm->dev,
+-					    page, 0,
+-					    PAGE_SIZE << order,
+-					    dma_dir);
+-			if (dma_mapping_error(gpusvm->drm->dev, addr)) {
+-				err = -EFAULT;
+-				goto err_unmap;
++			if (!i)
++				dma_iova_try_alloc(gpusvm->drm->dev, state,
++						   npages * PAGE_SIZE >=
++						   HPAGE_PMD_SIZE ?
++						   HPAGE_PMD_SIZE : 0,
++						   npages * PAGE_SIZE);
 +
-+	drm_pagemap_zdd_put(drm_pagemap_page_zone_device_data(page));
- }
++			if (dma_use_iova(state)) {
++				err = dma_iova_link(gpusvm->drm->dev, state,
++						    hmm_pfn_to_phys(pfns[i]),
++						    svm_pages->state_offset,
++						    PAGE_SIZE << order,
++						    dma_dir, 0);
++				if (err)
++					goto err_unmap;
++
++				addr = state->addr + svm_pages->state_offset;
++				svm_pages->state_offset += PAGE_SIZE << order;
++			} else {
++				addr = dma_map_page(gpusvm->drm->dev,
++						    page, 0,
++						    PAGE_SIZE << order,
++						    dma_dir);
++				if (dma_mapping_error(gpusvm->drm->dev, addr)) {
++					err = -EFAULT;
++					goto err_unmap;
++				}
+ 			}
  
- /**
-@@ -1166,7 +1169,7 @@ static void drm_pagemap_folio_free(struct folio *folio)
-  */
- static vm_fault_t drm_pagemap_migrate_to_ram(struct vm_fault *vmf)
- {
--	struct drm_pagemap_zdd *zdd = vmf->page->zone_device_data;
-+	struct drm_pagemap_zdd *zdd = drm_pagemap_page_zone_device_data(vmf->page);
- 	int err;
+ 			svm_pages->dma_addr[j] = drm_pagemap_addr_encode
+@@ -1557,6 +1589,13 @@ int drm_gpusvm_get_pages(struct drm_gpusvm *gpusvm,
+ 		flags.has_dma_mapping = true;
+ 	}
  
- 	err = __drm_pagemap_migrate_to_ram(vmf->vma,
-@@ -1232,7 +1235,7 @@ EXPORT_SYMBOL_GPL(drm_pagemap_devmem_init);
-  */
- struct drm_pagemap *drm_pagemap_page_to_dpagemap(struct page *page)
- {
--	struct drm_pagemap_zdd *zdd = page->zone_device_data;
-+	struct drm_pagemap_zdd *zdd = drm_pagemap_page_zone_device_data(page);
++	if (dma_use_iova(state)) {
++		err = dma_iova_sync(gpusvm->drm->dev, state, 0,
++				    svm_pages->state_offset);
++		if (err)
++			goto err_unmap;
++	}
++
+ 	if (pagemap) {
+ 		flags.has_devmem_pages = true;
+ 		drm_pagemap_get(dpagemap);
+diff --git a/include/drm/drm_gpusvm.h b/include/drm/drm_gpusvm.h
+index 2578ac92a8d4..cd94bb2ee6ee 100644
+--- a/include/drm/drm_gpusvm.h
++++ b/include/drm/drm_gpusvm.h
+@@ -6,6 +6,7 @@
+ #ifndef __DRM_GPUSVM_H__
+ #define __DRM_GPUSVM_H__
  
- 	return zdd->devmem_allocation->dpagemap;
- }
-diff --git a/include/drm/drm_pagemap.h b/include/drm/drm_pagemap.h
-index 2baf0861f78f..14e1db564c25 100644
---- a/include/drm/drm_pagemap.h
-+++ b/include/drm/drm_pagemap.h
-@@ -4,6 +4,7 @@
- 
- #include <linux/dma-direction.h>
- #include <linux/hmm.h>
-+#include <linux/memremap.h>
- #include <linux/types.h>
- 
- #define NR_PAGES(order) (1U << (order))
-@@ -341,6 +342,19 @@ struct drm_pagemap_migrate_details {
- 	u32 source_peer_migrates : 1;
++#include <linux/dma-mapping.h>
+ #include <linux/kref.h>
+ #include <linux/interval_tree.h>
+ #include <linux/mmu_notifier.h>
+@@ -136,6 +137,8 @@ struct drm_gpusvm_pages_flags {
+  * @dma_addr: Device address array
+  * @dpagemap: The struct drm_pagemap of the device pages we're dma-mapping.
+  *            Note this is assuming only one drm_pagemap per range is allowed.
++ * @state: DMA IOVA state for mapping.
++ * @state_offset: DMA IOVA offset for mapping.
+  * @notifier_seq: Notifier sequence number of the range's pages
+  * @flags: Flags for range
+  * @flags.migrate_devmem: Flag indicating whether the range can be migrated to device memory
+@@ -147,6 +150,8 @@ struct drm_gpusvm_pages_flags {
+ struct drm_gpusvm_pages {
+ 	struct drm_pagemap_addr *dma_addr;
+ 	struct drm_pagemap *dpagemap;
++	struct dma_iova_state state;
++	unsigned long state_offset;
+ 	unsigned long notifier_seq;
+ 	struct drm_gpusvm_pages_flags flags;
  };
- 
-+/**
-+ * drm_pagemap_page_zone_device_data() - Page to zone_device_data
-+ * @page: Pointer to the page
-+ *
-+ * Return: Page's zone_device_data
-+ */
-+static inline struct drm_pagemap_zdd *drm_pagemap_page_zone_device_data(struct page *page)
-+{
-+	struct folio *folio = page_folio(page);
-+
-+	return folio_zone_device_data(folio);
-+}
-+
- #if IS_ENABLED(CONFIG_ZONE_DEVICE)
- 
- int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
 -- 
 2.34.1
 
