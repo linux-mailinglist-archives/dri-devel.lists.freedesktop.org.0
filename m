@@ -2,65 +2,187 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UIy+D8GbhGmI3wMAu9opvQ
+	id gFR3MRachGmI3wMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 14:31:45 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 14:33:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2D4F34B2
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 14:31:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F8D2F34D7
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 14:33:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A639810E8B2;
-	Thu,  5 Feb 2026 13:31:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BE2510E8AC;
+	Thu,  5 Feb 2026 13:33:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M6eYmqV7";
+	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="UjZdQGuD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E6DE10E8A9
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 13:31:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 1E70B60010;
- Thu,  5 Feb 2026 13:31:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DD79C4CEF7;
- Thu,  5 Feb 2026 13:31:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770298300;
- bh=AUQFfU1fkfkYPuW5V8T6xoRa8uZPnGIai8orsPwhtOk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=M6eYmqV7WCmThEk7wZK3ZffIxf7rs/+OjSNoi+Fqwrb8lUVp8teCejpP7msvpLvAC
- 4im2YokdR2XeIVsdFhKS1AMFgnaIUEqaqEgAAlGFXaVd+WDqO2Y/XlvNY/GjsWgBnE
- cJlxzesSJytLbOvjG0uVxaiRaFTcllpsD70oqQ3RrXAOjzXFeHRLwCVwe3LWlZwL+U
- AMdJNOZqkoYM4tVUhoblnUENgUYy1Ql1+RUyRKPKItRDopgGlDABE21jldTeh9W6//
- hr30x04VDIuYazXVMRJWmckA+1f3sKHc2sn5/BdAXrVKHgVKcUDxSM1cHzF1VxyhBQ
- UONJYSp0vSOhw==
-Date: Thu, 5 Feb 2026 14:31:38 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Andy Yan <andyshrk@163.com>
-Cc: dmitry.baryshkov@oss.qualcomm.com, heiko@sntech.de, alchark@gmail.com, 
- andrzej.hajda@intel.com, conor+dt@kernel.org, cristian.ciocaltea@collabora.com,
- airlied@gmail.com, jernej.skrabec@gmail.com, jonas@kwiboo.se, 
- kever.yang@rock-chips.com, krzk+dt@kernel.org,
- Laurent.pinchart@ideasonboard.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- neil.armstrong@linaro.org, 
- nicolas.frattaroli@collabora.com, robh@kernel.org, rfoss@kernel.org,
- hjc@rock-chips.com, 
- sebastian.reichel@collabora.com, simona@ffwll.ch, tzimmermann@suse.de,
- devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH v2 1/5] dt-bindings: display: rockchip: Add rk3576
- DisplayPort
-Message-ID: <20260205-shrewd-honeybee-of-diversity-f3e9c6@quoll>
-References: <20260201081338.407999-1-andyshrk@163.com>
- <20260201081338.407999-2-andyshrk@163.com>
+Received: from CWXP265CU009.outbound.protection.outlook.com
+ (mail-ukwestazon11021116.outbound.protection.outlook.com [52.101.100.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34C9210E8AC
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 13:33:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Wm3aj969ih32fonFoxg6yUk0NE7ZEp5ChfmKyhOF/jW4yIvVPomi4XeIeJTHc7Nw6dvnnrcqjkDmfNmmlZdE900K+kgBCCaW9xGeZePrPhd0EbhJyVGgOu9K1/zr154y/My8VpOwKsMpThLPGqWh8NyWIYwW1GOplFdqeMXvoZhXhJBr/GZUVe26jt2mGxekAYG8nFUzbMs0Kto1QDLrs0EWYGUFCRENU8rgpYtoGn4i9hrplxuz1O1fjkfEyii33xEGF9sNutUEgWNipGYPdGFxU1+qF+m6MEZFY7CAOAKsA3g4EeCYHzCxkVOe+CRkbMSUdloX8fztBG+dGyAjmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dVHmHa51jeVgdklIdP6n7PWGZr4QgKQM/wvm4hFdIJQ=;
+ b=ohkcRwVMaE34phc0alqKqQtdhbK0qxKJQBOO0FY4pmT0fvvtf109gOSRrChvk1AKV4fyf9RpXlF39518Q/E896tA7F8xv4WkJ5f0NNspED3cJSoqHgIPaxhMLCy2HllB6rBzdYo1ivsMUoJnscY8azSWXIIJM0EnfDbQIbuS9m7FL7gj4lnkST4k0NAadr6NPWc2ZooAffaJlsKDeMBh3I0ssA1D/7cSZtZ67OFEP/Rpcxwc2Ob6OM0KWhDvVCDdwU7KWs7+IWiV2yWVtgSDhdr4AmaXALp9uLpdLAbbDCa9KY7pG7pmSV6y/+AZmiK/J+scxGRB5umARNer8inVpg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dVHmHa51jeVgdklIdP6n7PWGZr4QgKQM/wvm4hFdIJQ=;
+ b=UjZdQGuDFUWGGw9e0HKAuTZLUq4HaMrir3ghvXcs3zN0zCce08bQreUIJH+VHphDg1k/aoAhjG0zezdtzxYewJJRNvwiCm8TmlEKjkhPQHdo45UxXf//F3IJYih9O+Da4/qXX+8xb9Xt5KFgjUshWQHhluvC2GaHLSUAP5xSQ84=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO0P265MB2604.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:14c::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.13; Thu, 5 Feb
+ 2026 13:33:03 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9564.016; Thu, 5 Feb 2026
+ 13:33:03 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 05 Feb 2026 13:33:03 +0000
+Message-Id: <DG72EHZAAM5R.2HQMCZGCQFZQ4@garyguo.net>
+Subject: Re: [PATCH v14 2/9] rust: rename `AlwaysRefCounted` to `RefCounted`.
+From: "Gary Guo" <gary@garyguo.net>
+To: "Gary Guo" <gary@garyguo.net>, "Andreas Hindborg"
+ <a.hindborg@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
+ <boqun.feng@gmail.com>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Danilo
+ Krummrich" <dakr@kernel.org>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Dave Ertman" <david.m.ertman@intel.com>,
+ "Ira Weiny" <ira.weiny@intel.com>, "Leon Romanovsky" <leon@kernel.org>,
+ "Paul Moore" <paul@paul-moore.com>, "Serge Hallyn" <sergeh@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Alexander Viro"
+ <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>, "Jan
+ Kara" <jack@suse.cz>, "Igor Korotin" <igor.korotin.linux@gmail.com>,
+ "Daniel Almeida" <daniel.almeida@collabora.com>, "Lorenzo Stoakes"
+ <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ "Viresh Kumar" <vireshk@kernel.org>, "Nishanth Menon" <nm@ti.com>, "Stephen
+ Boyd" <sboyd@kernel.org>, "Bjorn Helgaas" <bhelgaas@google.com>,
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Cc: <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-block@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-mm@kvack.org>, <linux-pm@vger.kernel.org>,
+ <linux-pci@vger.kernel.org>, "Oliver Mangold" <oliver.mangold@pm.me>
+X-Mailer: aerc 0.21.0
+References: <20260204-unique-ref-v14-0-17cb29ebacbb@kernel.org>
+ <20260204-unique-ref-v14-2-17cb29ebacbb@kernel.org>
+ <DG72CY2P36F9.2O7OIN36KW8F8@garyguo.net>
+In-Reply-To: <DG72CY2P36F9.2O7OIN36KW8F8@garyguo.net>
+X-ClientProxiedBy: LO4P123CA0694.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:37b::16) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260201081338.407999-2-andyshrk@163.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO0P265MB2604:EE_
+X-MS-Office365-Filtering-Correlation-Id: fc563ab8-1ae7-4efc-29f2-08de64bb16c8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|7416014|376014|366016|921020|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NkV3ZjMwSVBFdmtvZnc1SElsR2dGWitCR1g2OTlKTUNFMkk1aHdSQlFxNUti?=
+ =?utf-8?B?dFFQbzkvNkVUZDc1RGlLWFFIMkRxQ0lJSzNjUWJ4U3N2SVdsbTdURmw4blZX?=
+ =?utf-8?B?Q1h4U0wxR1czd21WeWtjOWpJcFppMDhDYWNpeFVlbjYyTG8wTkJxUGhvd0xm?=
+ =?utf-8?B?R3Z3TUtKL1RGOXdNVzYxQlEvckNBb3crQXhkakFIb1NwRXdtVmQ2c1JFbUJv?=
+ =?utf-8?B?MFkwT1hXQlVqeSt1NEYvak5YcVJZREFLR1hpdnRFRzFEN2N3WllpbTUzNjlk?=
+ =?utf-8?B?MVd1MGpyeE8wRG1WNDZVblFKUk1vWjNRWWVxUDQxWVQraTAydXNGVERYeGZj?=
+ =?utf-8?B?VTVYWE14d0laTkZjKzc0eGYxYTJERThBOW9CKzEyaXV3TVZWV3VqTCs4NXlN?=
+ =?utf-8?B?bGdJdEFGOU9lTlJVbmxLcExvOE1qdVlnZWhRaHZ1eG5QVS9LdUt0L29ma1p0?=
+ =?utf-8?B?Q01sTjllTFltOW9MQlVRY0pMU09FWmM3UVllTDN3VlFGUng5eWhSWnI1T0l5?=
+ =?utf-8?B?RU1Qb3NZVWpHTnNRK1E4a2ZqTS9xMGszZUx4eFljZ1QydWZpRU5yeHk5MkN0?=
+ =?utf-8?B?WkVxek9CbUlMS1dkR3YyeWVTN1VwTWhrUTNMekY0TWE2MDNqM0dReEtkN3dK?=
+ =?utf-8?B?RTlYM295M252bDVsbHZCUnlpLzJaVjZ4djlpUjZIUEc2d1FwYklqTS9iYXhp?=
+ =?utf-8?B?M1Z4ODVmUzlNeEE3dnJsT3FZQkNobEhPcWttSzRRN0FHenQ2ME1NcjlaQ0dT?=
+ =?utf-8?B?N3hMTHpNcFg3L1NnQjRUR2ROZ2xvM1JEMzV3NEFFdXJnWG8xUmh5OFpUSVNQ?=
+ =?utf-8?B?ZUVUdzFkcWxXaFNKS0Z4WGMwSE1ybHBPUVJzcGYzbnBua20xQm5HVnhvS05O?=
+ =?utf-8?B?V1NER09zV0dWRVpNNTFXcC9lVjlyZEVOaUpJV2g4R0VBQ3hMT2d5ZWtIMGFs?=
+ =?utf-8?B?czRSSlY3a0VTTGxFdWFUY1owejNZSkc3WGtSZ3BROG5VNFFtN3lFRityYk1Z?=
+ =?utf-8?B?eXNZelRNWGxKSU90VXVkT2l5bjg0MkM3SFpuc0lPRnlLdVgyWTRyUXk0eW5Q?=
+ =?utf-8?B?S1ZwSDdhV1V5WTdJMWhneG4wOGpDSGd2dXp5SEFlckU1ODhmTWJSTWllTGJl?=
+ =?utf-8?B?V0RiVmo0alRBanEyUjF4SHBEUmN4VlBWMzdzbDNmbmZxTDNCbW9IdmVRMndu?=
+ =?utf-8?B?YUl1ckZTSXBlRzNxL2hMSUVsWFlHWUJuWmpWYk5pSm5keXU4WlFMNnUrbnVS?=
+ =?utf-8?B?NkFKTStxdlgyNDVyKzVnZGJPazZUSHcwYVB6cUF5S0tOeWs0cTNYd0dGVjY1?=
+ =?utf-8?B?NE91WGdGVjQvK2tRcFBXQktuSXFmempaRnJFZHhHMS9jZ21BY2hqT2JyUktE?=
+ =?utf-8?B?NkhWclRJQUE2ZGtVak1xVE4wQnRTcnkwbGo2dXZCanZFb1hqV2hBMGErdDlL?=
+ =?utf-8?B?YU9YSlBDRmxsZWE0bEJrN1FPQ2NHeWdwOERtSHgrVHcxUndPLzNxcG94NnAy?=
+ =?utf-8?B?VjFMZGpuMGhMVUI0WjhzL2MzTmRwclBZQVpjM09BQzJkZk5xNytXV3ZGTWk1?=
+ =?utf-8?B?cWZVR1pBQVR1a0NCek1lU2s2c21KZ3BZTWR0Y2dDamg2aTZtZzRpZmQ0U0Iy?=
+ =?utf-8?B?WXVsUzcwNGNGQXcxd04rU1liWXhhcFVzeXFSWCt1QUVDMzNiTUVJc21qdTA3?=
+ =?utf-8?B?SkdDV01hQU1RaTlHTTA2NFAzd0p5ajBKR2tJTkZLYnJFVHVrSFM4TE5VL21B?=
+ =?utf-8?B?Rm5yYVJPd1h4VWVqZjRmK1BVNXlCZTRkaVJDeXYwQW14VG0vdUk2UTllR05j?=
+ =?utf-8?B?Z2Uwcld4QitpR05COFVTY3prQ0VuNWYxNm44dVRQc2YwUk1BY09JUU9oTThx?=
+ =?utf-8?B?dWVuQ0RKRWpMbzNSWm45dGMrS09YVG9HZEs3blVJaGlxSGJMdnFpM1FWMGYv?=
+ =?utf-8?B?aGhRRk9LRmY0RW1VVm5wc001WFNzTmYrU2Z1MUIvVEJXU2s3SzcxNEcxMkUr?=
+ =?utf-8?B?bzF5dHA5MUxWbkhQeWRNU3B4b095T2pYMWcxYmJtY0RueDBad2lwYy9oK0pR?=
+ =?utf-8?B?SlVGdmI5WjYxYmZUelY1a3dNSHNUOEJFYXpzZGVDdHBGWjJxendLeUlkdTZS?=
+ =?utf-8?B?L2JnNDB0bWlHQVBZcU8vVlgzU0RPNGpmNGdaWkV1SFY3VFhFUFVEZC9oSFcr?=
+ =?utf-8?B?MkE9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016)(921020)(7053199007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WitFbGhNTTRZSm0ybVlkUWFVZWVOZXMyQ3B2amIwTFVMckV2dkZtL29qT2NW?=
+ =?utf-8?B?R3JlUnZMSnpZbFRYZ05ZSHFrOUZBU0w4bk42V2xNVUdpR3hlMGFZREFtTUdW?=
+ =?utf-8?B?MTVWUXRmbU9tL0tQVko3ekVjL1l0MmtORld0UzFRcmpRaXZZSlQ3b21YaGw4?=
+ =?utf-8?B?SFpBMkk2OXNxQmNWYnhDR1VOY25sMlVxanV1VFZ5QVBZSDhLMUhwY0Z3bG13?=
+ =?utf-8?B?MkNsWUJTejRiR3FtakxyOXp2aUU5QU1RYUxMbVVGYVBtOEgvck9MbjBrL3BB?=
+ =?utf-8?B?blVJNEtyS25hcHo4N1poTmxsYmtQMWprcURJUUs3UCsxM1d4eENUcE82QlBs?=
+ =?utf-8?B?cHJISjgvSzR0NWRUZTRrVjNzV25tVEJ1OGF6M0lrdjlxL0N2T3Y4anJmc1Rt?=
+ =?utf-8?B?ZnlOVEE1Y3V5Mk95ZmNMdlhGNHpuQytjUFVFRm1xUCtRcE11VjNsb05NUmhl?=
+ =?utf-8?B?dzk4OWl0MXhZa0ZnNWo5VkVhbCtJcmVKcU9YWUZ2Q1NJd1J3TGpxWU5pUklq?=
+ =?utf-8?B?ZGVBS05QRktsTUhsVmhTSzVzTFZIYnhlWGI5cjJHUlFNSTByclNLUU1CL2Jl?=
+ =?utf-8?B?YlBHN2x5b2c5WHVvUytsMWZ5RGJtamJuQ29VUWVJNG5BSzd6QS84VnFOUmNJ?=
+ =?utf-8?B?RS9MSGhnY1JWWEtBSWVwcXNWRVd0MWVGWC93Q3VHWURoUnZDK25tclcwWkdF?=
+ =?utf-8?B?UG1uQXlSaVFncjhDNTBrdDIyNE8yYkZ5VlFwenYxMkZHWm5Od1RoaU4yVWM3?=
+ =?utf-8?B?S0Zmd2Nla3VjTkJFb3NSakdZUHBhcGNpTFh3cWFYZHlNajE5QlhVOGZ3ajdN?=
+ =?utf-8?B?MnloT2ZwU1BUdDNpcGZwR05idDZ2N0p6cXZGdFJ5OVY1Y3VscStMVHplb05q?=
+ =?utf-8?B?RWs4VVhzdjcydjVMSnVLczJINEw2YkhrZTZyaFNFVHpxakc2QndsbmViUVE5?=
+ =?utf-8?B?NEpkN2ZhOEVqOURRd3c3Z29vYUVwVXBOUUY0VC9mRWlYQjR0Skt4R05IKzRE?=
+ =?utf-8?B?YjJvUDh2QmZtMkcyU2JWWVlkaGZ2dS96aHV2S2cvR2dEWFdNeW4xYWNmd1V0?=
+ =?utf-8?B?K1J5c3RMSy83Y1lodWNMNGJnUGpodWFNUG9OVkN6dXhrWERlb3k0czdqSHAx?=
+ =?utf-8?B?LzhqZm1hNVJaRkJQdjhGOStYL1VPa3RYbjlkeWtqeXpMR3ZWdDMvcEw1MGl5?=
+ =?utf-8?B?cldxc05SZGJ6V1NKbGN6Zko0T2NmMmtGVmtVVkNxSUhaK3hJUm5WYW11RkI2?=
+ =?utf-8?B?YzdrcmJOYk5tdUJyRHNEVXJGVkcweFVCcXE4b1pNS3ZUcSszOWFONkU3ZXRB?=
+ =?utf-8?B?UGxKZXh5Qk9KU2pVSk0yeW1OQURMUkVKMERVNHdZbEQra3ZUalBuU3VNSFNV?=
+ =?utf-8?B?OW9CdDQxUE9VWjRZT21qNUduY0J5d0VBT0RtYUt3YTYvRkRnRHJLZElJMndC?=
+ =?utf-8?B?bUViSHUybUhFcmQ2TXh0dGh1aU1XV0dwcGtvRXQ0RFNNcDRIS1lxZXhjM0hG?=
+ =?utf-8?B?eVlIcWFLQXk4amRvL0oxYVljVVBwOXlSMnNVZ29sL1B3cnBGdDczRVhZZ2tv?=
+ =?utf-8?B?MFIyME1CUStVTEhWOVhFN0RiQzJ5ZWMvOVVMckJpRmxQdlFYYkc2aEEwTmxv?=
+ =?utf-8?B?MzV6SEtERlNLS0VhV3pROVRzREJQOHJnQzJZQXhENHlDVmJ2UlhYUTVXbHR3?=
+ =?utf-8?B?ZUJ4aXpDWHk2ZjM3NUw0U1lvK1I0S1E2YnRHT28vRTVLK2dMb3NNc3VwUG9V?=
+ =?utf-8?B?RzVrcVNkUkVISGVwN3hCTWg5c3RXeDZkYkJEelphUDE1WDVBL3JkSXpQOVFu?=
+ =?utf-8?B?dFBpVzF5MnZNYWhqMFd0VnF4MUZGVyswVzg0ZDFiSmQrOFpqeU82Z3g3QkF3?=
+ =?utf-8?B?aDYzWm5lejlHWFJ6K2s1Uk5rb3N0NW9STnNZS3Iya2hPcy9qTEU1Sk9qSDV2?=
+ =?utf-8?B?NisvT1NyWURHWnV3ZGRlVklaazF6UUNwa1RZUDlud2RyUWxaak1sTkllVWhk?=
+ =?utf-8?B?ZkxKdXFnV1VCb2VLR2E3dS9ESERRL3J2azVHa3VIcklUK0NBcTRmSjZuTVVS?=
+ =?utf-8?B?YUVtaGRkUFNHRFd6UDFxTEYyUTV3bzIzdFd5V0dhSTNiZ2dLTnNJdnZ6a1hC?=
+ =?utf-8?B?bU1zN1p4eGZtb28zRkZnZU13Y0RZSlNQaVFrbjBUSm1TdWpJKyswRG5DTW9s?=
+ =?utf-8?B?V3J4UGxFLzVSZDhBUnFyb21CbHRlcjZHS09Dak9RMG9jaXJtaUx3RGkydUl1?=
+ =?utf-8?B?ZHNkSVhyVnFrbVowYWJ0Y3FpREJEY1VHRElGTDB0a2poOXY2aFZmSUVralBs?=
+ =?utf-8?B?UEF6RkJlUmhWZGk4bENpbGUxMEFiUWJHeTVtUGJiR25PaWFWQXBxdz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc563ab8-1ae7-4efc-29f2-08de64bb16c8
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2026 13:33:03.8273 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2tIjdqD2/J1vjANjvER+zE8+xGf1pCMAu/AsKOImnoohiwqbSWN6NPtslRrzGkLqNlRaYK9iDe1yiCTBF4gwDA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB2604
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,81 +198,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MAILLIST(-0.20)[mailman];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:andyshrk@163.com,m:dmitry.baryshkov@oss.qualcomm.com,m:heiko@sntech.de,m:alchark@gmail.com,m:andrzej.hajda@intel.com,m:conor+dt@kernel.org,m:cristian.ciocaltea@collabora.com,m:airlied@gmail.com,m:jernej.skrabec@gmail.com,m:jonas@kwiboo.se,m:kever.yang@rock-chips.com,m:krzk+dt@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:neil.armstrong@linaro.org,m:nicolas.frattaroli@collabora.com,m:robh@kernel.org,m:rfoss@kernel.org,m:hjc@rock-chips.com,m:sebastian.reichel@collabora.com,m:simona@ffwll.ch,m:tzimmermann@suse.de,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:andy.yan@rock-chips.com,m:conor@kernel.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:gary@garyguo.net,m:a.hindborg@kernel.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:gregkh@linuxfoundation.org,m:david.m.ertman@intel.com,m:ira.weiny@intel.com,m:leon@kernel.org,m:paul@paul-moore.com,m:sergeh@kernel.org,m:rafael@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:igor.korotin.linux@gmail.com,m:daniel.almeida@collabora.com,m:lorenzo.stoakes@oracle.com,m:Liam.Howlett@oracle.com,m:vireshk@kernel.org,m:nm@ti.com,m:sboyd@kernel.org,m:bhelgaas@google.com,m:kwilczynski@kernel.org,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-block@vger.kernel.org,m:linux-security-module@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:linux-mm@kvack.org,m:linux-pm@vger.kernel.org,m:linux-pci@vger.kernel.org,m:oliver.mangold@pm.me,m:boqunfeng@gmail.com,m:igorkorotinlinux@
+ gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[163.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	FORGED_SENDER(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[garyguo.net,kernel.org,gmail.com,protonmail.com,google.com,umich.edu,linuxfoundation.org,intel.com,paul-moore.com,ffwll.ch,zeniv.linux.org.uk,suse.cz,collabora.com,oracle.com,ti.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[40];
+	FORGED_SENDER(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,sntech.de,gmail.com,intel.com,kernel.org,collabora.com,kwiboo.se,rock-chips.com,ideasonboard.com,linux.intel.com,linaro.org,ffwll.ch,suse.de,vger.kernel.org,lists.freedesktop.org,lists.infradead.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[garyguo.net:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	MISSING_XM_UA(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,rock-chips.com:email]
-X-Rspamd-Queue-Id: AF2D4F34B2
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,garyguo.net:email,garyguo.net:dkim,garyguo.net:mid,pm.me:email]
+X-Rspamd-Queue-Id: 2F8D2F34D7
 X-Rspamd-Action: no action
 
-On Sun, Feb 01, 2026 at 04:13:27PM +0800, Andy Yan wrote:
-> From: Andy Yan <andy.yan@rock-chips.com>
-> 
-> The DisplayPort found on RK3576 is very similar to that of RK3588,
-> but work in dual pixel mode. And itself does not depend on the I2S
-> clock or the SPDIF clock when transmit audio.
-> 
-> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-> Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> 
-> ---
-> 
-> Changes in v2:
-> - Remove unnecessary maxItems
-> 
->  .../display/rockchip/rockchip,dw-dp.yaml      | 27 ++++++++++++++++---
->  1 file changed, 24 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-dp.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-dp.yaml
-> index 6345f0132d43..8a5299755abf 100644
-> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-dp.yaml
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-dp.yaml
-> @@ -27,13 +27,11 @@ description: |
->    * Pixel clock up to 594MHz
->    * I2S, SPDIF audio interface
->  
-> -allOf:
-> -  - $ref: /schemas/sound/dai-common.yaml#
-> -
->  properties:
->    compatible:
->      enum:
->        - rockchip,rk3588-dp
-> +      - rockchip,rk3576-dp
+On Thu Feb 5, 2026 at 1:31 PM GMT, Gary Guo wrote:
+> On Wed Feb 4, 2026 at 11:56 AM GMT, Andreas Hindborg wrote:
+>> From: Oliver Mangold <oliver.mangold@pm.me>
+>>=20
+>> There are types where it may both be reference counted in some cases and
+>> owned in others. In such cases, obtaining `ARef<T>` from `&T` would be
+>> unsound as it allows creation of `ARef<T>` copy from `&Owned<T>`.
+>>=20
+>> Therefore, we split `AlwaysRefCounted` into `RefCounted` (which `ARef<T>=
+`
+>> would require) and a marker trait to indicate that the type is always
+>> reference counted (and not `Ownable`) so the `&T` -> `ARef<T>` conversio=
+n
+>> is possible.
+>>=20
+>> - Rename `AlwaysRefCounted` to `RefCounted`.
+>> - Add a new unsafe trait `AlwaysRefCounted`.
+>> - Implement the new trait `AlwaysRefCounted` for the newly renamed
+>>   `RefCounted` implementations. This leaves functionality of existing
+>>   implementers of `AlwaysRefCounted` intact.
+>>=20
+>> Original patch by Oliver Mangold <oliver.mangold@pm.me> [1].
+>>=20
+>> Link: https://lore.kernel.org/r/20251117-unique-ref-v13-2-b5b243df1250@p=
+m.me [1]
+>> Suggested-by: Alice Ryhl <aliceryhl@google.com>
+>> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+>> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+>
+> I think you also need to update the `AlwaysRefCounted` reference mentione=
+d in
+> the `Owned` patch too? (Or perhaps this patch should be moved before `Own=
+ed`
+> instead?)
 
-Wrongly orderd. 76 < 88.
+Actually I re-read the comment in first patch, the text indeed should refer=
+ to
+`AlwaysRefCounted`. Please disregard this comment.
 
-Best regards,
-Krzysztof
+Best,
+Gary
+
+>
+> With that fixed:
+>
+> Reviewed-by: Gary Guo <gary@garyguo.net>
+>
+>> ---
+>>  rust/kernel/auxiliary.rs        |  7 +++++-
+>>  rust/kernel/block/mq/request.rs | 15 +++++++------
+>>  rust/kernel/cred.rs             | 13 ++++++++++--
+>>  rust/kernel/device.rs           | 10 ++++++---
+>>  rust/kernel/device/property.rs  |  7 +++++-
+>>  rust/kernel/drm/device.rs       | 10 ++++++---
+>>  rust/kernel/drm/gem/mod.rs      |  8 ++++---
+>>  rust/kernel/fs/file.rs          | 16 ++++++++++----
+>>  rust/kernel/i2c.rs              | 16 +++++++++-----
+>>  rust/kernel/mm.rs               | 15 +++++++++----
+>>  rust/kernel/mm/mmput_async.rs   |  9 ++++++--
+>>  rust/kernel/opp.rs              | 10 ++++++---
+>>  rust/kernel/owned.rs            |  2 +-
+>>  rust/kernel/pci.rs              | 10 ++++++++-
+>>  rust/kernel/pid_namespace.rs    | 12 +++++++++--
+>>  rust/kernel/platform.rs         |  7 +++++-
+>>  rust/kernel/sync/aref.rs        | 47 ++++++++++++++++++++++++++--------=
+-------
+>>  rust/kernel/task.rs             | 10 ++++++---
+>>  rust/kernel/types.rs            |  3 ++-
+>>  19 files changed, 164 insertions(+), 63 deletions(-)
 
