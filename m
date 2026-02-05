@@ -2,64 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cPRqOFQahGmyywMAu9opvQ
+	id QLlLE5AehGn7zAMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 05:19:32 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 05:37:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22352EE7D7
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 05:19:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88005EE8C4
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 05:37:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DF9710E212;
-	Thu,  5 Feb 2026 04:19:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82A1F10E7C4;
+	Thu,  5 Feb 2026 04:37:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IOiTDipv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HWCUgqYi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F34E10E1D9;
- Thu,  5 Feb 2026 04:19:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770265167; x=1801801167;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=5T8dqpcda0G8ksFDStYU3j/ecB/jxC3k925ar+u2KyI=;
- b=IOiTDipvPPqqViVaHfSZ6cdHdPiB7v6BHXjR9YXmr7G7GBMmB94tCg4r
- l/5O3reXZ1QtQdRoob+a2BlhSd2Ok0AQa3/3FOKfb2zvz+gXIpFyq7IAG
- jHW3VWdOR8cb6pBeMSzQhYrd2GZqjRkoF22SgOEbRTp84WicIc1Myvsh7
- AZi96MnpN/ZwgLJxFuJQzgTO3eZr2BY+ZqvwPJn7oLRml4iu9T2E2Mdwg
- lZdAoeAo+LRwWyOoyvsRCAya4TkYjqvOw+xMpa5H/byKRy0rhdRhQiemT
- qXoV3U7Lbu2fqlssbp39vWtAn20jOY0VOX6ViPX85Z8igFGYTalv+vJf1 Q==;
-X-CSE-ConnectionGUID: WcY49Q8STBaNHF/+5jb53A==
-X-CSE-MsgGUID: TdWyiK+gTO2FVjIaqx48vQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="96914174"
-X-IronPort-AV: E=Sophos;i="6.21,273,1763452800"; d="scan'208";a="96914174"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2026 20:19:26 -0800
-X-CSE-ConnectionGUID: //ibCl9+RaiS8gp7x7VSfw==
-X-CSE-MsgGUID: un/jDml+Qaqr9WeF1ZfAxg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,273,1763452800"; d="scan'208";a="210453878"
-Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2026 20:19:26 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: leonro@nvidia.com, jgg@ziepe.ca, francois.dugast@intel.com,
- thomas.hellstrom@linux.intel.com, himal.prasad.ghimiray@intel.com
-Subject: [PATCH v4 4/4] drm/pagemap: Use dma-map IOVA alloc, link,
- and sync API for DRM pagemap
-Date: Wed,  4 Feb 2026 20:19:21 -0800
-Message-Id: <20260205041921.3781292-5-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260205041921.3781292-1-matthew.brost@intel.com>
-References: <20260205041921.3781292-1-matthew.brost@intel.com>
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
+ [209.85.160.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF9A510E7C1
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 04:37:31 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id
+ d75a77b69052e-4ffbea7fdf1so5489981cf.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Feb 2026 20:37:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770266250; cv=none;
+ d=google.com; s=arc-20240605;
+ b=hjwWuUThAIqJUegA2egvfkUvpJgCeNYZEDY5rhbCCsn8UcCKYsIoAcEzqxsMj4U0BP
+ hHwPdOYhWQ3Xksf90Fli2YG5h2Zgy4SRP57RUBPkDVOJVxkoDPpjbeCvvokGBl8IN/hH
+ g57N1pWhH5BBKwJldZootlFvKSFv/5DduGfRw5Gxmw5lfP2/d7NMZv4A16C3SbQN+VSM
+ lLTamoDX5N4x/IZBZea6ynMdHyYqCQyJqBv+vgSAV8DgqpeJwRrUI3vqfifSxwq1rvWD
+ buqMyFUjDbiANcD0wLXmk5xc4EAqsEsPgXz8NpucjsPOgAoPCvGlO9uAOvoAVDAamvAL
+ wWxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:dkim-signature;
+ bh=Uo053AiR3s2wxdxNS+5lzt8uGB6Lo16NeV4FrfS11LA=;
+ fh=xKJSIE71yvETh87AiIq+JvJQ9RdrzpM69nd6fXxSXv0=;
+ b=Tb8FAu3IgQkwMO41TgdnjGHlaomi4dam0S6Eutu8sNhYZwrAEo2xo8DT3HnU9oNEmI
+ GdWB81Blhrn05G8uWUn0chjXqnE7uj0FHQTsddnu+PXOmyn8Gn8vZjkoeEhlO14Mh4E3
+ b5jHxBmfMjkzWpwHiNdac9o4XK3D6rmYOrKWiq+6jiS0plO85RPD+AUJjVvrjYi/i1QP
+ fBcq/NZjRrSJrSH5EGRFB6JcdVlw2w0k87/5wwS1VHdzuvcYcT9gIOERVl81sPxk48kq
+ fJuqLYApXzTXS6HuXocNGfS47+q/ju8A+2opsXZlIVNGkad/RLb8WdG0M2FSJyo68R8P
+ qOBQ==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1770266250; x=1770871050; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Uo053AiR3s2wxdxNS+5lzt8uGB6Lo16NeV4FrfS11LA=;
+ b=HWCUgqYihBMHJsqIqAgyr4GVpY/76speEqiSgW9gz8cmvHRCRRlwYn50WP79vN3uv5
+ hckPPapl7yOii85XXalXZCZD3PTwpXQbTtNGaErq/WgDFmf/k9Y+42YI+IUYCp1wKWmp
+ RD230IGm/0t2/HaNw/s9OpRV2m0hO2cA9X+4TWiMBpmBwI6OFPtsFzymBhOsU/M4FQTw
+ iLuMf5acirhpqFFIB+Iq6R37L93bmiPRGiVme9waWDXDAlA67hJQdKwD9qL1FZ58mELj
+ SA7icSzG5XEubtXjn2gq16y4xJjbzJvIeKtQXTFEnogzcJuGpnJk54JX/n+YuGdgdBsm
+ a+tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770266250; x=1770871050;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Uo053AiR3s2wxdxNS+5lzt8uGB6Lo16NeV4FrfS11LA=;
+ b=P4ka8dvdmRcrTgfoV0xFVlTCepKiX8MH5feLvWj1NHePPRe8+nd/imhlxB1U1hIGF5
+ xhvPP3iA6/yjYmV9XPpr+VGuvRiPuRrtZv+PYkn9ohqnYqXIWjRN4yKiQherxZc6tOz/
+ hf1XWNgH6tg55CfOUJ6QSAau8sDFS0DpgglO847QaDZU/2Ab9esSUuxXVbzHzX/QKEfA
+ pcMO+kfs/U46RqVGjm5ebBYNw4it75pZ5bsLGJ1ri2N61MSPunLwtBVxAjOBRwjcSIMM
+ gRG1G6F84BDsEWXp1HrBX3Z7DDd2CpMwvVi6XWCOcEmRar0TgbL1YznpHupLNIHq0VX2
+ of1Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWj5OBBA8oqDjgo1E+U6xJyp2ZS2BM7WmVe9vjw6HwH3C5CzatjkrRvmlj+T398EJ8TpARj8Vtx2R8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzLMVazq4Ie/FJsSkzDoiXxfdr7ycT5YKWQJhOTN97K77gS3ADM
+ I0Q0EKYwIuZTTc6wVzsANUbaMpG+pSnKc8lvZvm38zhR3+xiNHyW2u7+bD1benMGGYkox/ukKFK
+ VYrvKskS+L3rhAcaRm2WbtPamdnCTiJA=
+X-Gm-Gg: AZuq6aJu6JdEyIBAKHSmjRMo3E6hh6Yo47i/WBMSZscqpLh7u0NpSQrgv+5mje2wBiU
+ di2GCUNI0IQD3UeYksiEfMfxqw5pUI/GP9uyAdxlrUv57OFdXPCoefsnc4vZm4cmVM+ezhRNv5l
+ 8gBPEkkgEAZv85xj5tWLCrCRr2V3mNe2q5mn8Ekf2ghp5M49FtWW5sLP2WJ62hQ4gML35Xl1CXx
+ F8hLh/l8dVgltxR1f0H6efxjVScOUddnsk62FzPQkp6Y8rCXhrLS3nR0QXQnyZ2fmT/w8YBZ5pe
+ H8Pn1mmLKBxv0A4fd4RGuhYEQnr0RTQ7mDQwfp6yo3zrm9ESf+wLG58=
+X-Received: by 2002:ac8:574a:0:b0:502:ba2c:b492 with SMTP id
+ d75a77b69052e-5061c1d1edbmr67846641cf.77.1770266250183; Wed, 04 Feb 2026
+ 20:37:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260203052431.2219998-1-airlied@gmail.com>
+ <20260203052431.2219998-2-airlied@gmail.com>
+ <d8a40e5c65e4aa51636a42fc613b223dfeb001a6.camel@nvidia.com>
+ <CAPM=9twKuyo2afqR3qM7LMkyuOue_t_eCm3EcnU4CkKPOyxcRQ@mail.gmail.com>
+ <4409e252-4778-4e9a-961a-647cc99b9455@nvidia.com>
+In-Reply-To: <4409e252-4778-4e9a-961a-647cc99b9455@nvidia.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 5 Feb 2026 14:37:18 +1000
+X-Gm-Features: AZwV_QipD-8x040Gduwk0SFHBVkKNJ-_Ajyan_mUmpzusq5cHndi7LXXckN_WY0
+Message-ID: <CAPM=9twGHsH=SKvfuuqCuQ=eQw3+qKhFWtQ8WFm0Ut_2WhwZxg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] nouveau/gsp: use rpc sequence numbers properly.
+To: John Hubbard <jhubbard@nvidia.com>
+Cc: Timur Tabi <ttabi@nvidia.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ Eliot Courtney <ecourtney@nvidia.com>, 
+ Maneet Singh <mmaneetsingh@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,272 +115,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ARC_NA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:jhubbard@nvidia.com,m:ttabi@nvidia.com,m:nouveau@lists.freedesktop.org,m:ecourtney@nvidia.com,m:mmaneetsingh@nvidia.com,m:acourbot@nvidia.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,intel.com:dkim,intel.com:mid]
-X-Rspamd-Queue-Id: 22352EE7D7
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 88005EE8C4
 X-Rspamd-Action: no action
 
-The dma-map IOVA alloc, link, and sync APIs perform significantly better
-than dma-map / dma-unmap, as they avoid costly IOMMU synchronizations.
-This difference is especially noticeable when mapping a 2MB region in
-4KB pages.
+On Thu, 5 Feb 2026 at 13:01, John Hubbard <jhubbard@nvidia.com> wrote:
+>
+> On 2/4/26 1:56 PM, Dave Airlie wrote:
+> > On Thu, 5 Feb 2026 at 07:36, Timur Tabi <ttabi@nvidia.com> wrote:
+> ...
+> >> So are you saying that some RPC commands need to have a sequence number set, and some do not?
+> >
+> > I'm copying the behaviour of opengpu here,
+> > src/kernel/gpu/gsp/kernel_gsp.c
+> > if (pSequence)
+> >         vgpu_rpc_message_header_v->sequence = *pSequence = pRpc->sequence++;
+> >     else
+> >         vgpu_rpc_message_header_v->sequence = 0;
+> >
+> > src/kernel/vgpu/rpc.c:_issueRpcAsync
+> > doesn't pass pSequence
+> > _issueRpcAndWait does pass it.
+> >
+> > The SetSystemInfo and SetRegistry are the two async calls in nouveau.
+> >
+> > So I'm not saying some RPC commands need to have a sequence number and
+> > some don't, that would be up to someone who can access GSP source
+> > code, I'm saying that opengpu does this and I'm copying it :-)
+> >
+>
+> lol I love it. If only someone here had access to the GSP code and
+> the GSP team! :)
+>
+> OK, then, I just had a very enlightening call with one of our GSP
+> RPC experts, in order to learn what the sequence number story really
+> is. The notes below are sort of Nova-centric, but it should apply
+> equally to Nouveau.
+>
+> Let me Cc Eliot, because he was also fixing up other aspects
+> of GSP RPC calls on Nova, in case this overlaps.
+>
+> ==========================================================
+> Background
+> ==========
+>
+> Today there are some loose ends and inconsistencies even in the
+> Open RM + GSP scenario, for how sequence numbers are used. And these
+> are being cleaned up and fixed. In fact, I was even able to request,
+> and receive some nice clean behavior, which will be implemented in
+> GSP soon (we'll get it when we upgrade, likely sometime this year).
+>
+> Today, there are 2+ sequence number spaces, one for send-receive pairs
+> (command + response) RPC calls, and another for GSP-initiated ("async")
+> messages to the CPU.
+>
+> The "2+" is because there is an inconsistency (it will be fixed in
+> GSP), leading to the first two very early RPC calls being in yet another
+> unaccounted for number space. These:
+>
+> NovaCore 0000:01:00.0: GSP RPC: send: seq# 0, function=GSP_SET_SYSTEM_INFO, length=0x3f0
+> NovaCore 0000:01:00.0: GSP RPC: send: seq# 1, function=SET_REGISTRY, length=0xc5
+>
+> ...are not included in the counting, by GSP.
+>
+> The GSP finally starts counting up when it gets the first "non-async"
+> (command/response) message, here:
+>
+> NovaCore 0000:01:00.0: GSP RPC: send: seq# 2, function=GET_GSP_STATIC_INFO, length=0x6c8
+> NovaCore 0000:01:00.0: GSP RPC: receive: seq# 0, function=Ok(GetGspStaticInfo), length=0x6c8
+>
+>
+> But even here, it's not what I think we want, because we want the CPU to
+> get back the same seq num that it sent, for command/response pairs. But
+> that's not what actually happens (at least not directly).
+>
+> So for now, seq numbers on Nova and Nouveau are generally "do what
+> you want, it will work ok". But actually, we will soon be able to
+> use them for
+>
+>     a) debugging aids,
+>     b) detecting missing messages, and
+>     c) recovering from "CPU sent a message, timed out waiting for
+>        a response" cases.
+>
+> ==========================================================
+> Next steps for Nova (and maybe Nouveau, if not already done)
+> ============================================================
+>
+> a) Change debug output to print the seq number numeric space,
+> which is either "async message from GSP" or "command response
+> from GSP".
+>
+> b) Put a comment in the code to indicate that GSP_SET_SYSTEM_INFO
+> and SET_REGISTRY do not yet participate in the incrementing seq
+> number system, but will in future GSP versions.
+>
+> I'll send patches for Nova soon, to do the above.
 
-Use the IOVA alloc, link, and sync APIs for DRM pagemap, which create DMA
-mappings between the CPU and GPU for copying data.
+So just FYI nova gets this wrong as well.
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
-v4:
- - Pack IOVA and drop dummy page (Jason)
+There are two sequence numbers:
 
- drivers/gpu/drm/drm_pagemap.c | 84 +++++++++++++++++++++++++++++------
- 1 file changed, 70 insertions(+), 14 deletions(-)
+the one in GSP_MSG_QUEUE_ELEMENT and the one in rpc_message_header_v
 
-diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
-index 29677b19bb69..52a196bc8459 100644
---- a/drivers/gpu/drm/drm_pagemap.c
-+++ b/drivers/gpu/drm/drm_pagemap.c
-@@ -280,6 +280,20 @@ drm_pagemap_migrate_map_device_pages(struct device *dev,
- 	return 0;
- }
- 
-+/**
-+ * struct drm_pagemap_iova_state - DRM pagemap IOVA state
-+ *
-+ * @dma_state: DMA IOVA state.
-+ * @offset: Current offset in IOVA.
-+ *
-+ * This structure acts as an iterator for packing all IOVA addresses within a
-+ * contiguous range.
-+ */
-+struct drm_pagemap_iova_state {
-+	struct dma_iova_state dma_state;
-+	unsigned long offset;
-+};
-+
- /**
-  * drm_pagemap_migrate_map_system_pages() - Map system migration pages for GPU SVM migration
-  * @dev: The device performing the migration.
-@@ -287,6 +301,7 @@ drm_pagemap_migrate_map_device_pages(struct device *dev,
-  * @migrate_pfn: Array of page frame numbers of system pages or peer pages to map.
-  * @npages: Number of system pages or peer pages to map.
-  * @dir: Direction of data transfer (e.g., DMA_BIDIRECTIONAL)
-+ * @state: DMA IOVA state for mapping.
-  *
-  * This function maps pages of memory for migration usage in GPU SVM. It
-  * iterates over each page frame number provided in @migrate_pfn, maps the
-@@ -300,9 +315,11 @@ drm_pagemap_migrate_map_system_pages(struct device *dev,
- 				     struct drm_pagemap_addr *pagemap_addr,
- 				     unsigned long *migrate_pfn,
- 				     unsigned long npages,
--				     enum dma_data_direction dir)
-+				     enum dma_data_direction dir,
-+				     struct drm_pagemap_iova_state *state)
- {
- 	unsigned long i;
-+	bool try_alloc = false;
- 
- 	for (i = 0; i < npages;) {
- 		struct page *page = migrate_pfn_to_page(migrate_pfn[i]);
-@@ -317,9 +334,31 @@ drm_pagemap_migrate_map_system_pages(struct device *dev,
- 		folio = page_folio(page);
- 		order = folio_order(folio);
- 
--		dma_addr = dma_map_page(dev, page, 0, page_size(page), dir);
--		if (dma_mapping_error(dev, dma_addr))
--			return -EFAULT;
-+		if (!try_alloc) {
-+			dma_iova_try_alloc(dev, &state->dma_state,
-+					   npages * PAGE_SIZE >=
-+					   HPAGE_PMD_SIZE ?
-+					   HPAGE_PMD_SIZE : 0,
-+					   npages * PAGE_SIZE);
-+			try_alloc = true;
-+		}
-+
-+		if (dma_use_iova(&state->dma_state)) {
-+			int err = dma_iova_link(dev, &state->dma_state,
-+						page_to_phys(page),
-+						state->offset, page_size(page),
-+						dir, 0);
-+			if (err)
-+				return err;
-+
-+			dma_addr = state->dma_state.addr + state->offset;
-+			state->offset += page_size(page);
-+		} else {
-+			dma_addr = dma_map_page(dev, page, 0, page_size(page),
-+						dir);
-+			if (dma_mapping_error(dev, dma_addr))
-+				return -EFAULT;
-+		}
- 
- 		pagemap_addr[i] =
- 			drm_pagemap_addr_encode(dma_addr,
-@@ -330,6 +369,9 @@ drm_pagemap_migrate_map_system_pages(struct device *dev,
- 		i += NR_PAGES(order);
- 	}
- 
-+	if (dma_use_iova(&state->dma_state))
-+		return dma_iova_sync(dev, &state->dma_state, 0, state->offset);
-+
- 	return 0;
- }
- 
-@@ -341,6 +383,7 @@ drm_pagemap_migrate_map_system_pages(struct device *dev,
-  * @pagemap_addr: Array of DMA information corresponding to mapped pages
-  * @npages: Number of pages to unmap
-  * @dir: Direction of data transfer (e.g., DMA_BIDIRECTIONAL)
-+ * @state: DMA IOVA state for mapping.
-  *
-  * This function unmaps previously mapped pages of memory for GPU Shared Virtual
-  * Memory (SVM). It iterates over each DMA address provided in @dma_addr, checks
-@@ -350,10 +393,17 @@ static void drm_pagemap_migrate_unmap_pages(struct device *dev,
- 					    struct drm_pagemap_addr *pagemap_addr,
- 					    unsigned long *migrate_pfn,
- 					    unsigned long npages,
--					    enum dma_data_direction dir)
-+					    enum dma_data_direction dir,
-+					    struct drm_pagemap_iova_state *state)
- {
- 	unsigned long i;
- 
-+	if (state && dma_use_iova(&state->dma_state)) {
-+		dma_iova_unlink(dev, &state->dma_state, 0, state->offset, dir, 0);
-+		dma_iova_free(dev, &state->dma_state);
-+		return;
-+	}
-+
- 	for (i = 0; i < npages;) {
- 		struct page *page = migrate_pfn_to_page(migrate_pfn[i]);
- 
-@@ -406,7 +456,7 @@ drm_pagemap_migrate_remote_to_local(struct drm_pagemap_devmem *devmem,
- 			       devmem->pre_migrate_fence);
- out:
- 	drm_pagemap_migrate_unmap_pages(remote_device, pagemap_addr, local_pfns,
--					npages, DMA_FROM_DEVICE);
-+					npages, DMA_FROM_DEVICE, NULL);
- 	return err;
- }
- 
-@@ -416,11 +466,13 @@ drm_pagemap_migrate_sys_to_dev(struct drm_pagemap_devmem *devmem,
- 			       struct page *local_pages[],
- 			       struct drm_pagemap_addr pagemap_addr[],
- 			       unsigned long npages,
--			       const struct drm_pagemap_devmem_ops *ops)
-+			       const struct drm_pagemap_devmem_ops *ops,
-+			       struct drm_pagemap_iova_state *state)
- {
- 	int err = drm_pagemap_migrate_map_system_pages(devmem->dev,
- 						       pagemap_addr, sys_pfns,
--						       npages, DMA_TO_DEVICE);
-+						       npages, DMA_TO_DEVICE,
-+						       state);
- 
- 	if (err)
- 		goto out;
-@@ -429,7 +481,7 @@ drm_pagemap_migrate_sys_to_dev(struct drm_pagemap_devmem *devmem,
- 				  devmem->pre_migrate_fence);
- out:
- 	drm_pagemap_migrate_unmap_pages(devmem->dev, pagemap_addr, sys_pfns, npages,
--					DMA_TO_DEVICE);
-+					DMA_TO_DEVICE, state);
- 	return err;
- }
- 
-@@ -457,6 +509,7 @@ static int drm_pagemap_migrate_range(struct drm_pagemap_devmem *devmem,
- 				     const struct migrate_range_loc *cur,
- 				     const struct drm_pagemap_migrate_details *mdetails)
- {
-+	struct drm_pagemap_iova_state state = {};
- 	int ret = 0;
- 
- 	if (cur->start == 0)
-@@ -484,7 +537,7 @@ static int drm_pagemap_migrate_range(struct drm_pagemap_devmem *devmem,
- 						     &pages[last->start],
- 						     &pagemap_addr[last->start],
- 						     cur->start - last->start,
--						     last->ops);
-+						     last->ops, &state);
- 
- out:
- 	*last = *cur;
-@@ -1001,6 +1054,7 @@ EXPORT_SYMBOL(drm_pagemap_put);
- int drm_pagemap_evict_to_ram(struct drm_pagemap_devmem *devmem_allocation)
- {
- 	const struct drm_pagemap_devmem_ops *ops = devmem_allocation->ops;
-+	struct drm_pagemap_iova_state state = {};
- 	unsigned long npages, mpages = 0;
- 	struct page **pages;
- 	unsigned long *src, *dst;
-@@ -1042,7 +1096,7 @@ int drm_pagemap_evict_to_ram(struct drm_pagemap_devmem *devmem_allocation)
- 	err = drm_pagemap_migrate_map_system_pages(devmem_allocation->dev,
- 						   pagemap_addr,
- 						   dst, npages,
--						   DMA_FROM_DEVICE);
-+						   DMA_FROM_DEVICE, &state);
- 	if (err)
- 		goto err_finalize;
- 
-@@ -1059,7 +1113,7 @@ int drm_pagemap_evict_to_ram(struct drm_pagemap_devmem *devmem_allocation)
- 	migrate_device_pages(src, dst, npages);
- 	migrate_device_finalize(src, dst, npages);
- 	drm_pagemap_migrate_unmap_pages(devmem_allocation->dev, pagemap_addr, dst, npages,
--					DMA_FROM_DEVICE);
-+					DMA_FROM_DEVICE, &state);
- 
- err_free:
- 	kvfree(buf);
-@@ -1103,6 +1157,7 @@ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
- 		MIGRATE_VMA_SELECT_DEVICE_COHERENT,
- 		.fault_page	= page,
- 	};
-+	struct drm_pagemap_iova_state state = {};
- 	struct drm_pagemap_zdd *zdd;
- 	const struct drm_pagemap_devmem_ops *ops;
- 	struct device *dev = NULL;
-@@ -1162,7 +1217,7 @@ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
- 
- 	err = drm_pagemap_migrate_map_system_pages(dev, pagemap_addr,
- 						   migrate.dst, npages,
--						   DMA_FROM_DEVICE);
-+						   DMA_FROM_DEVICE, &state);
- 	if (err)
- 		goto err_finalize;
- 
-@@ -1180,7 +1235,8 @@ static int __drm_pagemap_migrate_to_ram(struct vm_area_struct *vas,
- 	migrate_vma_finalize(&migrate);
- 	if (dev)
- 		drm_pagemap_migrate_unmap_pages(dev, pagemap_addr, migrate.dst,
--						npages, DMA_FROM_DEVICE);
-+						npages, DMA_FROM_DEVICE,
-+						&state);
- err_free:
- 	kvfree(buf);
- err_out:
--- 
-2.34.1
+The rules for the first seem to be just increment, the rules for the
+2nd seems to be along the lines above, two msgs get 0, then start from
+0.
 
+Currently we never init the rpc message header sequence to anything but 0.
+
+Dave.
