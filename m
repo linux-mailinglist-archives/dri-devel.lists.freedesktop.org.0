@@ -2,178 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UJOFAHithGk14QMAu9opvQ
+	id GKMDKCywhGk14QMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 15:47:20 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 15:58:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB89F4381
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 15:47:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF074F456E
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 15:58:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5C7010E8F2;
-	Thu,  5 Feb 2026 14:47:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4528810E8EA;
+	Thu,  5 Feb 2026 14:58:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IyLbnwjO";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="Gb0wZeMu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDBD210E8F0;
- Thu,  5 Feb 2026 14:47:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770302835; x=1801838835;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=P654Ap3vAcra+3xMZjm33EN4Dm/GUjHY4KWFVCD/6p8=;
- b=IyLbnwjOGEEEqUk5mV99HuP6Y90W5kpnLUh9MQtfKb6NsTrDjGQFSP8s
- UXahAK50Z80rzy/4sEroeNBuYmZv0vhgKQds62NJogrpLReWOhRjd7j9Q
- KS3KLik071yswXVHyCiwCgFClgxzlGQzYU5ib547ZEI7BRwDlxirXM63Y
- 7GQR0BMMYzD+4Msapqre1+jjk/aHnJASR4Xc52USIz1/2RFgNv6TVTOQY
- CPez2GI4+0johxlD3V+QqwQltrIzkevbBJpp1WuAqCusF0ivCVnhu2flX
- t7+i2nWsEFFYyVAZwO0FZK9wO7VBMwkfJ646M6xHnFCxNuT1RK14vifWU w==;
-X-CSE-ConnectionGUID: ZMn3aXZkQgCkqxgNLcIrWg==
-X-CSE-MsgGUID: CKRwvNreToiiadetUOEt+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="71395390"
-X-IronPort-AV: E=Sophos;i="6.21,274,1763452800"; d="scan'208";a="71395390"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2026 06:47:14 -0800
-X-CSE-ConnectionGUID: 2IYxOIR+SiOoDuN/4iwShw==
-X-CSE-MsgGUID: QmAv3i+4RZ6rieFbplM27A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,274,1763452800"; d="scan'208";a="210353666"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2026 06:47:14 -0800
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Thu, 5 Feb 2026 06:47:13 -0800
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35 via Frontend Transport; Thu, 5 Feb 2026 06:47:13 -0800
-Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.12) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Thu, 5 Feb 2026 06:47:13 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bkFeF7tmDZegDDpTQRyYFA3B80XN8YCfUSlBboCEQAzAlQmLK27KWuzaZun9OpqUw3Ar9CSVBA1pOKSPuL37mcOAY8BSRrtYGtlG4BP1bs6eWIF22epF7tsgl5i9q5XaaVOlLtwl4usqsmFy3s1zwfuXnYETvD1LBBYk95xEwe9Y3H0bBjOEpI5AL0r5SlCtY26+VFqB8qnyZr3t31wkkTaYRe/WNH5kmOVrRj4eZ0P3WKxuEA2ZNTBpSrwdnGDk3Zrr1uGKoUCxwVKPJi0oL3Y8cVYxAogRmfjMgtv9u7LUAuSVNG2opVWFdOqfuOi15EGltLLxtSo8tU+CNTVStQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Mv7xUmZZvIbwg6pg5XWHLnOECwUa6D819bvmBpdkwrc=;
- b=BJEU/tLU88lLwD8ukV64UeAFO9OWiPhJZA5u8GEodqW4OiBHkj2UpLH5+8lqR2pQLM9CmQAC3eayEU1W8c04DFY2dWBntbdSqOlw1MRf/R+Fql4HodDPhb8kyAP5g6bRmakh1x8iAl0eHbLbJAcmH1i9vTKBzozJKQ4Xk5rF0r2V2VyTmdyI4oTXpJiccpQ4vqe+w7FffGtImEkFNobFpuWga7ENDLeVSvZqEHQ9hVH5KQFZRgWr0SuqqVfdoCkhOCOqDd/Nr5cd3aCJ468BBX8B8vVfFwBvoTn1Rr7tiojSOCE6UUDQ326YTnV2+ms2GVot8C0Y5J6jnhRSH1W+BA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
- by PH7PR11MB7596.namprd11.prod.outlook.com (2603:10b6:510:27e::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Thu, 5 Feb
- 2026 14:47:10 +0000
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::1d86:a34:519a:3b0d]) by CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::1d86:a34:519a:3b0d%5]) with mapi id 15.20.9587.013; Thu, 5 Feb 2026
- 14:47:10 +0000
-Date: Thu, 5 Feb 2026 09:47:04 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, "Oded
- Gabbay" <ogabbay@kernel.org>, <dri-devel@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <dim-tools@lists.freedesktop.org>
-Subject: [PULL] drm-xe-next-fixes
-Message-ID: <aYStaLZVJWwKCDZt@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SJ0PR05CA0044.namprd05.prod.outlook.com
- (2603:10b6:a03:33f::19) To CYYPR11MB8430.namprd11.prod.outlook.com
- (2603:10b6:930:c6::19)
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
+ [209.85.219.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 720C210E8FC
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 14:58:47 +0000 (UTC)
+Received: by mail-qv1-f66.google.com with SMTP id
+ 6a1803df08f44-88a367a1dbbso17929626d6.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Feb 2026 06:58:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1770303526; x=1770908326; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=6paZ1/dfF6ZJkTrV436UqQ3Veg/Kl0esrhdcHdeVKCQ=;
+ b=Gb0wZeMuhvGggNJtvOLX5qNFM8HEZ4zEgS71O8+VEXArvd623WtcKh7W/r9Hcbc3gQ
+ ablGTnr1XXk9YcMOmUvfRk4V8T3++hsbs2dn+1mOAPxI2Qib9KsNA/RAi/rCpOAHKbfp
+ /4lPBir3uIeZ3/VFyh/SEv0eWQ8+mLZWZibIO4HvCPPc61nMMvFhaQVfhcNRZ0kBq0Xg
+ fHnP2Wqq6I6qLhEOfAAfak3zu/V5IiB6DWrt0tOc6qZnmwGpUnaD3EVfkOKLqzVZxEJL
+ YrHmsEd53RRqUpazI90S+vrFMRPY9GcCZfwBve6npUFxQnsJVVi/3sRS2E53vcxmeiOR
+ 3cPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770303526; x=1770908326;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6paZ1/dfF6ZJkTrV436UqQ3Veg/Kl0esrhdcHdeVKCQ=;
+ b=PjcypD8h+jSXs9SaGYRusmSciJLzRNSYUSyg5ZYicwy+7hmLW4ReDsulgn6ESRbPhU
+ VWJ9ws59amR004dyZ0qdJIqhbSdLpd83emum0cux9OptlOZXlNYRmsnNOFIT3HayqSov
+ Nlyscjeb1Q9QwRZpCuYovCdHS8jzanoldX5PL3859jZ+G5JLC+460xL/Sb/k9GctoTxH
+ /R/koqAg9GkCBvynF5j8ctA3+T4is3OJwn09RjVMtBwNkGpvM5Nv3/uSKLl1sxwD+q6x
+ xz83hChJ2Sf8QMo3WSivr88Ds/MvgEEa0Lh9f5ivYt9bGzhY7rMw9Q7pfnRd+PIx/h+m
+ ca5g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX5SMsjY7HVz+I6oVSCIlyWRcY5BeyWYIwwiqBSZe0q9fXNKYssmJln//B1Yi0BWuZGdwA4V9R+lxE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyE5QyMAUL8wJmzFyY07zgnLNqccs5cGePnDW+AMPYJcPPKCsHC
+ 99HJtNrYezD23St/fDPgWrCnWRQHEhz58sBr5X0zbAL0mNhEQf/zccArpMKMR3baSDw=
+X-Gm-Gg: AZuq6aLgjMUkiTYHRnOFIuM9KbXgr0NxxqVV7cT0CuM3qdGFXE/Un0OvyaGUlrwJh9Y
+ 4SqnWjnFYeTDohzv75Lj+uALs3OCGcZwRjXVoc1/F59H8Y8c5UP7wBjz5SjwQ1knxDf1UCgtRtV
+ 0h4O/v1Zhsr5weuqDLwSQ2mOE9JkKkEZpdfowIqKjT6ZJ/QCEJWJGdhBe6MJgCF+SHdr8YUgjMg
+ iJFlnqR9R39UB6Z7evcKp6nVqNYWcf2GmaGsxYiXViEaz4Y2nO5Oar9+MkUkr613IOm662M4TIg
+ 62FGtUhtwdnEtb4RHvIJTmTGlC1jPRyc6X85QJfxI3n8tQ6n67mQWc925X9KflKNN2Dpx9Z6goX
+ xhUifZZyNRqJzUZaFjMgzb7S8bEUw4GkQXGvbYxdvUZXmPJgnavOgZ7yMG3XX1IB/XO8tL9S5X8
+ C//o+y0a1Rvo9zdZe5ux2PPAvOv3qSKAmpPaIfUz9rSQSTsSLzgojosznSqO4LAUEFzno=
+X-Received: by 2002:ad4:5bc1:0:b0:894:6d0b:502 with SMTP id
+ 6a1803df08f44-895221eff32mr95805386d6.59.1770303526139; 
+ Thu, 05 Feb 2026 06:58:46 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-89521bffb41sm43278866d6.4.2026.02.05.06.58.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Feb 2026 06:58:45 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+ (envelope-from <jgg@ziepe.ca>) id 1vo0of-00000000zky-02N9;
+ Thu, 05 Feb 2026 10:58:45 -0400
+Date: Thu, 5 Feb 2026 10:58:44 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Alex Williamson <alex@shazbot.org>
+Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Leon Romanovsky <leon@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Ankit Agrawal <ankita@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
+ intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+ iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v7 7/8] vfio: Permit VFIO to work with pinned importers
+Message-ID: <20260205145844.GM2328995@ziepe.ca>
+References: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
+ <20260131-dmabuf-revoke-v7-7-463d956bd527@nvidia.com>
+ <fb9bf53a-7962-451a-bac2-c61eb52c7a0f@amd.com>
+ <20260204095659.5a983af2@shazbot.org>
+ <ac33ad1a-330c-4ab5-bb98-4a4dedccf0da@amd.com>
+ <20260205121945.GC12824@unreal> <20260205142111.GK2328995@ziepe.ca>
+ <f27ad57b-d935-4ffa-a65c-9f6b5d9a1f9a@amd.com>
+ <1b7ee5ad-6dde-415a-8e06-93daddc9bcef@app.fastmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|PH7PR11MB7596:EE_
-X-MS-Office365-Filtering-Correlation-Id: ac4fff83-6d82-468c-b665-08de64c570fb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?raJ6P1O2o91sWwuekx5feA/D3wsGvPbDVzrx1hbyp/7lfXqq02pJGRHTEEVm?=
- =?us-ascii?Q?hgPvt289kxxSwbe07iO7lZhI2uoX+2jCspKjdtX7lP5c+jYRktJnCoG2F4bh?=
- =?us-ascii?Q?RHm8XdN/rdjSNDpqst1IyX6clA6q8abrSZF3V8PqGBG4kLAUsDEr38PFI9Gh?=
- =?us-ascii?Q?0dGoe0uDuR7xJYoaREtw6vvhbvtOLZwIGZhBylescPwypRBqlSm5oxhbx7EW?=
- =?us-ascii?Q?SK4kqs//cmsUTcvyNGnfA7szilxw+vZ0bDLDoYZurkvRPZujMg0nGH1Vxxuq?=
- =?us-ascii?Q?+jpM/ypW6Q/v+IcHP/fvt2KGROFac5rHfM83TqZL1HpyGHe1XkoK2xZFwggj?=
- =?us-ascii?Q?3diOm/+k3tiHvP53+SOCLUejvUz9AUDdYWvBXVIY1eZHSYrzgootbsAKeWkQ?=
- =?us-ascii?Q?QYp2wg1gipEiuSRwWGGFOGEyUyes1pOM2UjeJkckZm9gjMBwEiTZ2At/kT72?=
- =?us-ascii?Q?7106J1bn3A9WkoH3iIPaeIiyLczbGaO00gCe8FWG/SuvXBp7U+iOA8a8UzyY?=
- =?us-ascii?Q?tmgDf+oWvznsvrJNRCdYojnLVuKBqOZxZtN9SM8dvnky+EHxBjP3NVBYUbsc?=
- =?us-ascii?Q?MaM9ceK68s9Ei4PmpDTs4LmtLvC+OdUo9jJBTjPT5Ryik1E1JCUvoJEdNNSo?=
- =?us-ascii?Q?HTD68+W5s3PCrI+kpmUYex5rQ1UULZAFv3iVWOibzEsAJuKQUFyBdEdmlcrh?=
- =?us-ascii?Q?+Tq4+RieH/1tBs0bWMIPbnCCQNYHq6WGOIpeBgzyUFipZAApo5rGPDXs9/XH?=
- =?us-ascii?Q?GSjitLTkkCk2432646BM8nOFPtJeV8Vsa1ncbkFbFsrYhKD7Lz1wAqZgp98t?=
- =?us-ascii?Q?8nfcZxVmcYY6Mq/7ZEMl3evXDXCjd+mTObMFZ/wN15lvRiGQuOsxfLJyV182?=
- =?us-ascii?Q?iFTrdRY5xuSwjm0PEDFiwWkIyCY+v45U79gwuTVPxGOeXxWDs3gF4Z0RFK6w?=
- =?us-ascii?Q?UWLzieD6IxhgKeIDzcK8CKdlaUypYpbA8SoUBIW26h9AeRpCU7oq1X4a/dWM?=
- =?us-ascii?Q?BkwmHIpG9Po9V+84syHOYTsJ8u8M5jCK8Ff8LrLNG0ncXwxuJ/q8k1DciPKa?=
- =?us-ascii?Q?giYTCasLZ6cjMNsEC+gPxdnsn8DVCuM8WK8B4K4MeQxvbtPF9YZ48eDURIuu?=
- =?us-ascii?Q?Lp3jFc5ffrcawCIqRG9hr0+MFQdGie3Stp3RwM6cB/KVJLknLClO4Zq0NCHL?=
- =?us-ascii?Q?Oe+mE/2oqLHQIGAyt80x2RLNYxECcB202vki6hUvKAdrkfauI/3JT9vXgAH7?=
- =?us-ascii?Q?MH9+5H5RT3kjPa7V/XQAQqHr/c8Y+OokjN7zGn8IXzUAYL8Lmd4QqFgdU+ys?=
- =?us-ascii?Q?DXypqzyCD5FfgqqlRxpMwXDL9aXOLUUmS1CM03lOYQMVn6d2pPNvv8XZqjhS?=
- =?us-ascii?Q?mcWKSoLszWmjPjE0xlcKJFArKQ9HQQfLT+QZpJKAugV6ZmF8fjuLIUA9Ed+2?=
- =?us-ascii?Q?dW9npXAvZFvAi4rxCCswZtKSHT20Z27SolXEZ6X4HJU/LnmvWzLMPkg+xRur?=
- =?us-ascii?Q?862O0sajw7qp+rbeQXoRTB8JXAyBD8nWp8C8?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?48fFDdy//IIpXg6Balyh73CpD50sAjID+OSUExENJ5zsUtplM6m9RDFhYz3l?=
- =?us-ascii?Q?7ncV6QVdfy87yHYQMd0nddNIi25s2omLAGd/grmYCEipRlpD1MZzKiOFwmIv?=
- =?us-ascii?Q?9DSJzTGIamw7escHU44YFllKZt4mgHoZUrs4LK6/fETAz5IjJgsFGwZUmhsS?=
- =?us-ascii?Q?dWmzUXAEv/FtPkU4UB7+jzv99Tv5QamQeiglFauWf3XjLUivUf2IC+4yaJVB?=
- =?us-ascii?Q?beX4NyjNBHqwIIEdsiChlHO4sWwpU86EPalshEZluefhuv2ymojPexMPIr/V?=
- =?us-ascii?Q?VjaZ9TXnkgTtA4oI9KiMwKXcIAqgrJqEGfsi+wHEnGrMLtFSlVN/kfYikoPf?=
- =?us-ascii?Q?r3Twra9QPzcvn1Eig5LsFEMPFBRVKQXm0faacbY2W0nr4NJxMzOskNK2N1dS?=
- =?us-ascii?Q?gou7k0RYz9eqvalx9rS1JC7WW26Kzwg0l0roOzyWeaDfD0sKKnpO7RGQ2aB7?=
- =?us-ascii?Q?6xbea/KYzOfIUjvmjE51x5vAiAVyXuZLS84vFFLdU4o0Ru3h/geo+HvlfvDo?=
- =?us-ascii?Q?qOfupNFUO/b3OnDY/gmYco7Wzae/DuEDTbhnHo2i4bCaDpfX8BCamCE/x4bI?=
- =?us-ascii?Q?hc/LPG1yk+V0E9CA+25jrKYbG3rAELC8kSsTreppZi8qrsiYl26GvEqZqrRX?=
- =?us-ascii?Q?Pgfcy20GswS7+wRyFpedVu4NRSv4K72qXSyg/HkGIo4NTFZ18toHR9pappVd?=
- =?us-ascii?Q?hO8GOOz+q63bsfrlEFligPa63QlZ0TGutVHJq0idP9HcOzQXyge4M37TGGBD?=
- =?us-ascii?Q?BkK5PZED8lHzEbpS/qKUamlcGPltz1TJQcRyq1XlXcYnDExHS5xwllE1qF8s?=
- =?us-ascii?Q?pkGtHeqCdwaU1+zsvTcqvaLqBJ5YfBAAxdlseH/smZbx+071rohkjAq9+4o2?=
- =?us-ascii?Q?uGaqvivDH8tltQvd0tmou5bjvojSRyNI7IRgOysdTw7gpEkyvlBX8/AA1OZw?=
- =?us-ascii?Q?XshON0InQ5AxSAL+eLIA3uYPadD8QRPDveTe7DiYeWKlUmbJ//EjvbROIqi4?=
- =?us-ascii?Q?OgRW9d0rHKmDQU2DDbD0dW+M8bm2Vm3+u26h/ubz68wmIT46IMkWCNE4Zwxn?=
- =?us-ascii?Q?daBGb6ZGxv1WTvzBQA1H9Sr+eutjnhQM9n0RIR5b2F/bRen+GAVqtuT+Q+jj?=
- =?us-ascii?Q?hgCBQty6cy9PLd53+Fgwk+b4JE55fTyL6kh2YkXxkhSqU9DTVD7Fa0bl+7Pz?=
- =?us-ascii?Q?l2Nr/rsGYAmp4Enw3U1ZoesYQR6nNZ7a0pqQbZrGjbF3aiUaAVvuvUGDCZA3?=
- =?us-ascii?Q?tDb+bVAHB/HO9C8q3c+5Dzc1ZdpVqSlvX3+4pNaoZh1s2JxARN/UsIo9lHGG?=
- =?us-ascii?Q?oohS9OpuaoEq0pYBYtMUOImy9WJnNB/jWlEtVJvK85RyvUf8ZrxBDRMrCzQU?=
- =?us-ascii?Q?JnpXJw6bgqCVQScsgwO2klxMBOQM1NXTJlaaC7pcnJuzP1Uia20Aa3+k8fR3?=
- =?us-ascii?Q?qRlfc/jT7w4eS4b24pFpnkk3TmupAvtbub0Um4GSybFIsD3dqfJKNAsKIFeE?=
- =?us-ascii?Q?ivvLl7zHrGZpEq5QLHTaPGJ4dl6mGITrDpZGzDGrUy0dlCA4q924fHHNRODO?=
- =?us-ascii?Q?6/8pbaCiKH8iLEsFdaCRj6eLnlOFbfWe+mBDEMVoC/sh2puE6O6/HrF1GEjo?=
- =?us-ascii?Q?cirsjWKicb//nkK9p+EMW8yojrxmOeFrWJPKdPrzsxU6O6fJwaEErtVN3Wli?=
- =?us-ascii?Q?qYIPcBrbHSJLU2QoqM5DOm7DVT2UqJrwl8S+LUYHNE48CZcXiKCZuB9X0ybu?=
- =?us-ascii?Q?MtL9JTs54g=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac4fff83-6d82-468c-b665-08de64c570fb
-X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2026 14:47:10.2899 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7UJXXRVaslldOUqRp3vqmCWD5xLK3voietzqnUR/WBQ73IFi14xdKbFuukfDmc/g7JS0KVI4RqlRWTj9tXfYgw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7596
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1b7ee5ad-6dde-415a-8e06-93daddc9bcef@app.fastmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -189,87 +126,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[amd.com,kernel.org,ffwll.ch,intel.com,linaro.org,gmail.com,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,8bytes.org,arm.com,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
 	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[ziepe.ca];
+	FORGED_RECIPIENTS(0.00)[m:alex@shazbot.org,m:christian.koenig@amd.com,m:leon@kernel.org,m:simona@ffwll.ch,m:jani.nikula@intel.com,m:lucas.demarchi@intel.com,m:sumit.semwal@linaro.org,m:alexander.deucher@amd.com,m:airlied@gmail.com,m:kraxel@redhat.com,m:dmitry.osipenko@collabora.com,m:gurchetansingh@chromium.org,m:olvaffe@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,m:kevin.tian@intel.com,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:Felix.Kuehling@amd.com,m:ankita@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:amd-gfx@lists.freedesktop.org,m:virtualization@lists.linux.dev,m:intel-xe@lists.freedesktop.org,m:linux-rdma@vger.kernel.org,m:iommu@lists.linux.dev,m:kvm@vger.kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,gitlab.freedesktop.org:url];
+	DKIM_TRACE(0.00)[ziepe.ca:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[rodrigo.vivi@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_TWELVE(0.00)[35];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: 8EB89F4381
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: EF074F456E
 X-Rspamd-Action: no action
 
-Hi Dave and Sima,
+On Thu, Feb 05, 2026 at 07:41:11AM -0700, Alex Williamson wrote:
+> >> From https://anongit.freedesktop.org/git/drm/drm-misc
+> >>  * branch                          drm-misc-next -> FETCH_HEAD
+> >> 
+> >> $ git show FETCH_HEAD
+> >> commit 779ec12c85c9e4547519e3903a371a3b26a289de
+> >> Author: Alexander Konyukhov <Alexander.Konyukhov@kaspersky.com>
+> >> Date:   Tue Feb 3 16:48:46 2026 +0300
+> >> 
+> >>     drm/komeda: fix integer overflow in AFBC framebuffer size check
+> >> 
+> >> $ git merge-base  FETCH_HEAD 61ceaf236115f20f4fdd7cf60f883ada1063349a
+> >> 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
+> >> $ git describe --contains 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
+> >> v6.19-rc6^0
+> >> 
+> >> $ git log --oneline 61ceaf236115f20f4fdd7cf60f883ada1063349a ^FETCH_HEAD
+> >> 61ceaf236115f2 vfio: Prevent from pinned DMABUF importers to attach to VFIO DMABUF
+> >> 
+> >> Just pull Alex's tree, the drm-misc-next tree already has v6.19-rc6,
+> >> so all they will see is one extra patch from Alex in your PR.
+> >> 
+> >> No need to backmerge, this is normal git stuff and there won't be
+> >> conflicts when they merge a later Linus tag.
+> >
+> > Correct, but that would merge the same patch through two different 
+> > trees. That is usually a pretty big no-go.
+> 
+> Applying the patch through two different trees is a no-go, but
+> merging the same commit from a shared branch or tag is very common
+> and acceptable.  It's the same commit after all, there is no
+> conflict, no duplicate commit.  When the trees are merged, the
+> commit will exist once in the log.  Thanks,
 
-Here goes our drm-xe-next-fixes for this round.
-Mostly kernel-doc fixes, plus a debugfs, plus
-the re-enabling of D3Cold on BMG in general.
++1
 
-Thanks,
-Rodrigo.
+This is how shared branches work. There is no issue here.
 
-drm-xe-next-fixes-2026-02-05:
-- Fix CFI violation in debugfs access (Daniele)
-- Kernel-doc fixes (Chaitanya, Shuicheng)
-- Disable D3Cold for BMG only on specific platforms (Karthik)
-The following changes since commit 3cc9398a9ea69b77de01b370463b706c354e52fb:
-
-  Merge tag 'exynos-drm-next-for-v6.20' of git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos into drm-next (2026-02-02 11:17:12 +1000)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-next-fixes-2026-02-05
-
-for you to fetch changes up to 666c654a5ae4090a3402ac14f399283934ea8104:
-
-  drm/xe/pm: Disable D3Cold for BMG only on specific platforms (2026-02-05 08:03:58 -0500)
-
-----------------------------------------------------------------
-- Fix CFI violation in debugfs access (Daniele)
-- Kernel-doc fixes (Chaitanya, Shuicheng)
-- Disable D3Cold for BMG only on specific platforms (Karthik)
-
-----------------------------------------------------------------
-Chaitanya Kumar Borah (1):
-      drm/xe/guc: Fix kernel-doc warning in GuC scheduler ABI header
-
-Daniele Ceraolo Spurio (1):
-      drm/xe/guc: Fix CFI violation in debugfs access.
-
-Karthik Poosa (1):
-      drm/xe/pm: Disable D3Cold for BMG only on specific platforms
-
-Shuicheng Lin (4):
-      drm/xe/query: Fix topology query pointer advance
-      drm/xe: Fix kerneldoc for xe_migrate_exec_queue
-      drm/xe: Fix kerneldoc for xe_gt_tlb_inval_init_early
-      drm/xe: Fix kerneldoc for xe_tlb_inval_job_alloc_dep
-
- drivers/gpu/drm/xe/abi/guc_scheduler_abi.h |  2 +-
- drivers/gpu/drm/xe/xe_guc.c                |  6 ++++--
- drivers/gpu/drm/xe/xe_guc.h                |  2 +-
- drivers/gpu/drm/xe/xe_migrate.c            |  2 +-
- drivers/gpu/drm/xe/xe_pm.c                 | 13 ++++++++++---
- drivers/gpu/drm/xe/xe_query.c              |  2 +-
- drivers/gpu/drm/xe/xe_tlb_inval.c          |  2 +-
- drivers/gpu/drm/xe/xe_tlb_inval_job.c      |  2 +-
- 8 files changed, 20 insertions(+), 11 deletions(-)
+Jason
