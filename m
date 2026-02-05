@@ -2,108 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MDmHAHx9hGl/3AMAu9opvQ
+	id SM7PD3zKhGk45QMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 12:22:36 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 17:51:08 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49789F1CFD
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 12:22:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E009F57E8
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 17:51:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1FF010E867;
-	Thu,  5 Feb 2026 11:22:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F01F310E92E;
+	Thu,  5 Feb 2026 16:50:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CVSvKeGw";
-	dkim=pass (2048-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="oZOGtSUR";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=stu.xidian.edu.cn header.i=@stu.xidian.edu.cn header.b="uf9eldlh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80A9F10E166
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 11:22:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1770290550;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=PtoeRjJPoKPjVJ+o8aSXahjNNCmAGeSluGEium8wMe0=;
- b=CVSvKeGwLGwW41mh+JF6biZwwJ/hVHrmxcrOpgztrkEHxwZXAZh6kTiMbS7yGLzsyJ2zZp
- TkK69xliZIKt9/YdbbR1xT8ymGvKjDP1C2G4jYDb+LLY0Q0gEpjLYBNuDX0WQszFIY0I3A
- 4PV/VORDBkGnm/DkGuXRJsQ/OnaRelM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-593-NbeWHUZUNq6f2_dvZjKznQ-1; Thu, 05 Feb 2026 06:22:27 -0500
-X-MC-Unique: NbeWHUZUNq6f2_dvZjKznQ-1
-X-Mimecast-MFC-AGG-ID: NbeWHUZUNq6f2_dvZjKznQ_1770290546
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-430f57cd2caso853752f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Feb 2026 03:22:27 -0800 (PST)
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net
+ (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1BDE810E87E
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 11:36:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=redhat.com; s=google; t=1770290546; x=1770895346; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PtoeRjJPoKPjVJ+o8aSXahjNNCmAGeSluGEium8wMe0=;
- b=oZOGtSURXHzoWajFEvwZgpKivgJ4wKQwpLmPg3+xZV5BAw70e8qb5T/jduBxXtTyfa
- 1U6NvjyHV5HoM2ATTFlex0yynR+ohbSjhRbgwVnqR0bYofBAo1H2i2bdParlmXq7wRfM
- sAbW6T3s/GNmr1tML6DqL09XXt9bH3wpV+9pZ4twb8rxp3AIxnBXXUNxQQ8E+iJ0RIGT
- HKxBLxUAdg/TAPbXMt0a1eU9WPHtzoA209agQ+FcYJTl+u8fbKjvvqnUYUohfP8pkcO6
- z+TIG1LXE3VQozgrlhCp0eEXXxCN3jnZWyZxkbCM27Q0tr9oz2Uw6sepaJz784MwkejZ
- jMPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770290546; x=1770895346;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=PtoeRjJPoKPjVJ+o8aSXahjNNCmAGeSluGEium8wMe0=;
- b=ecscrSU0t2Api95OCq7FrL3OiClPQ3RbEU1lbk61NTOtiSV0k9+HmGViO2hKcmh4mV
- u08bXpoJQWmEQ+qwb+90F0F1enSAsj5Dkn/5hbqH+IPGJHPx7IrBTGK/GNr5fTUKhA7Y
- uqinOX5sgOtRaoCaByoiBD/IQO8DGcAWwM3F0Da6ffS2/CzqM73eVKg/pXDvj6md2KBN
- ZL/bJU3Gz2QGi0AUB75V51KbU2LVUfDj6vkW1JbR4oXMcB6fnQK6R3KToj9VDSkbNHZB
- tpSEx693F/Bb1fhHrHiSXatsCCPWDPVXvolzd1msykhWmXubxG9ZwG6RsV1He1AkJF8M
- kaTQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUfbDJkAjaHi/5jEusToucny15eVGQw0GzMlR2xwxz6DxQpg813QnSAdj/qe4J487+dcRaJgEla/Os=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw//fagE4nPLCTyiOzqK380PhYHkoDTflL8XYWymibBiAmZGXqa
- KQ+Sa2c1BdK4hU3BZytLTMonSXraxZLL0OwkvS9xtfYzKDsQ0VPoja6AcBypoD7XDv/X9AcXu8x
- Z57xTggULmCnZlkFwfSDI7hAF8nFIvEQAxRCaoBS736z+qnLmuMSkAJjeDYCtko2+d7r7kA==
-X-Gm-Gg: AZuq6aJB+oEHHybIcJxDNvZYE5EyANNZD4pQ91UUx21Nv1NcKhNXrOszO2LLupVN2Wd
- KGEyqjSzZa1Mix/cARicCUz7TYQrkPE6BPxvKv7g1AUxEn5mZaSsOdbw/gIAJ3qERG1z4Xs83VI
- xGMqTi/QtgN7yC9qi1oUYBIF5uNyVA6XYn90LYeN7kve4DY3RsJ0obxhg9Ne/Uyhax+Y+h4HkSj
- NagpQaJyMXyw12XGnn8zNRcpqiOPt/Otpfsd9x7X1klliph2u4/C/dATxpjx01pJj3wUDj1ETt1
- JSgJgwxT9S7Rh2mVDS9uIqs58p26QRwN1uxCm/uWlAwx7eLT9tCsRES3XL5xBw==
-X-Received: by 2002:a05:6000:2909:b0:430:ff81:2961 with SMTP id
- ffacd0b85a97d-4361805d057mr9636926f8f.51.1770290546053; 
- Thu, 05 Feb 2026 03:22:26 -0800 (PST)
-X-Received: by 2002:a05:6000:2909:b0:430:ff81:2961 with SMTP id
- ffacd0b85a97d-4361805d057mr9636872f8f.51.1770290545520; 
- Thu, 05 Feb 2026 03:22:25 -0800 (PST)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-43617e38ec5sm14063139f8f.14.2026.02.05.03.22.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Feb 2026 03:22:24 -0800 (PST)
-Date: Thu, 5 Feb 2026 12:22:24 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, 
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <20260205-refreshing-natural-vole-4c73af@houat>
+ d=stu.xidian.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
+ Disposition-Notification-To:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Message-ID; bh=tWEKNdu4vbo7WjdhuWCE6ML
+ u93pnfGnX4aaJXn20PaM=; b=uf9eldlh00JHSAOMPK+tgQ3QGxv+iPUzXtjKsmm
+ OBrLdx4GpKlSlGNeyFEsINC7TAV6FmCYtqCzEd5eo6Fs+SCkNTu9YABcunp/zpuY
+ qvjaCpMshMpWTCQLCtAfWWF4kTYt+cc9YbBgP1HdTLjWZifuBb1XRZe4S1DBwAKD
+ D9+c=
+Received: from 25181214217$stu.xidian.edu.cn ( [115.53.180.70] ) by
+ ajax-webmail-hzbj-edu-front-2.icoremail.net (Coremail) ; Thu, 5 Feb 2026
+ 19:36:42 +0800 (GMT+08:00)
+X-Originating-IP: [115.53.180.70]
+Date: Thu, 5 Feb 2026 19:36:42 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?546L5piO54Wc?= <25181214217@stu.xidian.edu.cn>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [BUG] rcu_ rcu_preempt detected stalls (starved for 10498 jiffies)
+ in drm_vblank_disable_and_save
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2024.3-cmXT6 build
+ 20250410(2f5ccd7f) Copyright (c) 2002-2026 www.mailtech.cn
+ mispb-8dfce572-2f24-404d-b59d-0dd2e304114c-icoremail.cn
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="ow64eandfwfxuszq"
-Content-Disposition: inline
+Message-ID: <52b02148.14e7.19c2d9716c2.Coremail.25181214217@stu.xidian.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: BLQMCkD23r7KgIRpXtQYAA--.2524W
+X-CM-SenderInfo: qsvrmiqsrujiux6v33wo0lvxldqovvfxof0/1tbiAQUPEWmDgxBpO
+	gAAsw
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWDJw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
+X-Mailman-Approved-At: Thu, 05 Feb 2026 16:50:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,129 +72,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.91 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+X-Spamd-Result: default: False [2.99 / 15.00];
+	DMARC_POLICY_QUARANTINE(1.50)[xidian.edu.cn : SPF not aligned (relaxed),quarantine];
+	MIME_BASE64_TEXT_BOGUS(1.00)[];
+	MID_CONTAINS_FROM(1.00)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
 	MAILLIST(-0.20)[mailman];
+	MIME_BASE64_TEXT(0.10)[];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	HAS_X_PRIO_THREE(0.00)[3];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:airlied@gmail.com,m:simona.vetter@ffwll.ch,m:jani.nikula@linux.intel.com,m:joonas.lahtinen@linux.intel.com,m:tursulin@ursulin.net,m:rodrigo.vivi@intel.com,m:tzimmermann@suse.de,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:ogabbay@kernel.org,m:intel-gfx@lists.freedesktop.org,m:intel-xe@lists.freedesktop.org,m:dim-tools@lists.freedesktop.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
-	FORGED_SENDER(0.00)[mripard@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
+	R_DKIM_PERMFAIL(0.00)[stu.xidian.edu.cn:s=dkim];
+	FORGED_SENDER(0.00)[25181214217@stu.xidian.edu.cn,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	ARC_NA(0.00)[];
+	TO_DN_NONE(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mripard@redhat.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
-	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[25181214217@stu.xidian.edu.cn,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[stu.xidian.edu.cn:~];
+	HAS_XOIP(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gitlab.freedesktop.org:url]
-X-Rspamd-Queue-Id: 49789F1CFD
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 7E009F57E8
 X-Rspamd-Action: no action
 
-
---ow64eandfwfxuszq
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: [PULL] drm-misc-next-fixes
-MIME-Version: 1.0
-
-Hi Dave, Sima,
-
-Here's this week drm-misc-next-fixes PR.
-
-Maxime
-
-drm-misc-next-fixes-2026-02-05:
-Several fixes for amdxdna around PM handling, error reporting and
-memory safety, a compilation fix for ilitek-ili9882t, a NULL pointer
-dereference fix for imx8qxp-pixel-combiner and several PTE fixes for
-nouveau
-The following changes since commit db7e7ea838c916ee4cdf26bee126fd36f58295dc:
-
-  drm/bridge: imx8qxp-pxl2dpi: Fix NULL pointer dereference in imx8qxp_pxl2dpi_bridge_destroy() (2026-01-27 12:22:22 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-fixes-2026-02-05
-
-for you to fetch changes up to 69674c1c704c0199ca7a3947f3cdcd575973175d:
-
-  accel/amdxdna: Move RPM resume into job run function (2026-02-04 13:08:48 -0800)
-
-----------------------------------------------------------------
-Several fixes for amdxdna around PM handling, error reporting and
-memory safety, a compilation fix for ilitek-ili9882t, a NULL pointer
-dereference fix for imx8qxp-pixel-combiner and several PTE fixes for
-nouveau
-
-----------------------------------------------------------------
-Dave Airlie (3):
-      nouveau/vmm: rewrite pte tracker using a struct and bitfields.
-      nouveau/vmm: increase size of vmm pte tracker struct to u32 (v2)
-      nouveau/vmm: start tracking if the LPT PTE is valid. (v6)
-
-Liu Ying (1):
-      drm/bridge: imx8qxp-pixel-combiner: Fix bailout for imx8qxp_pc_bridge_probe()
-
-Lizhi Hou (6):
-      accel/amdxdna: Hold mm structure across iommu_sva_unbind_device()
-      accel/amdxdna: Stop job scheduling across aie2_release_resource()
-      accel/amdxdna: Remove hardware context status
-      accel/amdxdna: Fix incorrect error code returned for failed chain command
-      accel/amdxdna: Fix incorrect DPM level after suspend/resume
-      accel/amdxdna: Move RPM resume into job run function
-
-Nathan Chancellor (1):
-      drm/panel: ilitek-ili9882t: Remove duplicate initializers in tianma_il79900a_dsc
-
-Zishun Yi (1):
-      accel/amdxdna: Fix memory leak in amdxdna_ubuf_map
-
- drivers/accel/amdxdna/aie2_ctx.c                   | 48 +++++--------
- drivers/accel/amdxdna/aie2_message.c               |  3 +
- drivers/accel/amdxdna/aie2_pm.c                    |  3 +
- drivers/accel/amdxdna/aie2_smu.c                   |  2 -
- drivers/accel/amdxdna/amdxdna_ctx.h                |  5 --
- drivers/accel/amdxdna/amdxdna_pci_drv.c            |  3 +
- drivers/accel/amdxdna/amdxdna_pci_drv.h            |  1 +
- drivers/accel/amdxdna/amdxdna_ubuf.c               | 10 ++-
- .../gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c    |  2 +-
- drivers/gpu/drm/nouveau/nouveau_drv.h              |  4 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c      | 82 ++++++++++++++--------
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h      | 16 +++--
- drivers/gpu/drm/panel/panel-ilitek-ili9882t.c      |  4 --
- 13 files changed, 103 insertions(+), 80 deletions(-)
-
---ow64eandfwfxuszq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaYR9bwAKCRAnX84Zoj2+
-dpccAYC3hibmSRRvXuB0MgqO2qrGhihntcn/vNIF9FTLWdoMiuza11H9Sf2enr/p
-64XqztsBgPiWWrzdmLtzUQcMzU815Y5DRYJA8zfX+7f/fPe+Q1JI5/uHqLDwpRZO
-1SiTu+ZY6Q==
-=rkc7
------END PGP SIGNATURE-----
-
---ow64eandfwfxuszq--
-
+RGVhciBNYWludGFpbmVycywKCldoZW4gdXNpbmcgb3VyIGN1c3RvbWl6ZWQgU3l6a2FsbGVyIHRv
+IGZ1enogdGhlIGxhdGVzdCBMaW51eCBrZXJuZWwsIHRoZSBmb2xsb3dpbmcgY3Jhc2ggd2FzIHRy
+aWdnZXJlZC4KCkhFQUQgY29tbWl0OiA3ZDBhNjZlNGJiOTA4MWQ3NWM4MmVjNDk1N2M1MDAzNGNi
+MGVhNDQ5IApnaXQgdHJlZTogdXBzdHJlYW0gCk91dHB1dDogaHR0cHM6Ly9naXRodWIuY29tL21h
+bnVhbDAvY3Jhc2gvYmxvYi9tYWluL3JlcG9ydDIudHh0IApLZXJuZWwgY29uZmlnOiBodHRwczov
+L2dpdGh1Yi5jb20vbWFudWFsMC9jcmFzaC9ibG9iL21haW4vY29uZmlnLnR4dCAKQyByZXByb2R1
+Y2VyOiBodHRwczovL2dpdGh1Yi5jb20vbWFudWFsMC9jcmFzaC9ibG9iL21haW4vcmVwcm8yLmMg
+ClN5eiByZXByb2R1Y2VyOiBodHRwczovL2dpdGh1Yi5jb20vbWFudWFsMC9jcmFzaC9ibG9iL21h
+aW4vcmVwcm8yLnN5egoKQnJpZWYgSW50cm9kdWN0aW9uOiBUaGUga2VybmVsIHJlcG9ydHMgYW4g
+UkNVIENQVSBzdGFsbCAocmN1X3ByZWVtcHQgZGV0ZWN0ZWQgc3RhbGxzKS4gVGhlIHJjdV9wcmVl
+bXB0IGt0aHJlYWQgd2FzIHN0YXJ2ZWQgZm9yIDEwLDQ5OCBqaWZmaWVzLCB3aGljaCB1c3VhbGx5
+IGxlYWRzIHRvIGFuIGV4cGVjdGVkIE9PTS4KClRoZSBOTUkgYmFja3RyYWNlIHNob3dzIENQVSAz
+IGlzIHNwaW5uaW5nIGluIHRoZSBsb2NrZGVwL2xvY2tpbmcgY29kZSB3aGlsZSBhdHRlbXB0aW5n
+IHRvIGNhbmNlbCBhbiBocnRpbWVyIGR1cmluZyBhIHRpbWVyIHNvZnRpcnEuIFRoZSBjYWxsIHBh
+dGggb3JpZ2luYXRlcyBmcm9tIGRybV92YmxhbmtfZGlzYWJsZV9hbmRfc2F2ZSBhbmQgcmVhY2hl
+cyBocnRpbWVyX2NhbmNlbF93YWl0X3J1bm5pbmcuIFRoaXMgc3VnZ2VzdHMgYSBwb3RlbnRpYWwg
+ZGVhZGxvY2sgb3IgYW4gZXhjZXNzaXZlbHkgbG9uZyBjcml0aWNhbCBzZWN0aW9uIGluIHRoZSBE
+Uk0gdmJsYW5rL3RpbWVyIGhhbmRsaW5nIHBhdGggdGhhdCBwcmV2ZW50cyB0aGUgUkNVIGdyYWNl
+LXBlcmlvZCBrdGhyZWFkIGZyb20gYmVpbmcgc2NoZWR1bGVkIG9uIHRoYXQgQ1BVLgoKUmVsZXZh
+bnQgTG9nOiAKcmN1OiBJTkZPOiByY3VfcHJlZW1wdCBkZXRlY3RlZCBzdGFsbHMgb24gQ1BVcy90
+YXNrczoKcmN1OiAJKGRldGVjdGVkIGJ5IDAsIHQ9MTA1MDIgamlmZmllcywgZz02NDYyNSwgcT0y
+MTIgbmNwdXM9NCkKcmN1OiBBbGwgUVNlcyBzZWVuLCBsYXN0IHJjdV9wcmVlbXB0IGt0aHJlYWQg
+YWN0aXZpdHkgMTA0OTggKDQyOTUwMDY3NzctNDI5NDk5NjI3OSksIGppZmZpZXNfdGlsbF9uZXh0
+X2Zxcz0xLCByb290IC0+cXNtYXNrIDB4MApyY3U6IHJjdV9wcmVlbXB0IGt0aHJlYWQgdGltZXIg
+d2FrZXVwIGRpZG4ndCBoYXBwZW4gZm9yIDEwNDk3IGppZmZpZXMhIGc2NDYyNSBmMHgyIFJDVV9H
+UF9XQUlUX0ZRUyg1KSAtPnN0YXRlPTB4MjAwCnJjdTogCVBvc3NpYmxlIHRpbWVyIGhhbmRsaW5n
+IGlzc3VlIG9uIGNwdT0zIHRpbWVyLXNvZnRpcnE9MjQ2NDEKcmN1OiByY3VfcHJlZW1wdCBrdGhy
+ZWFkIHN0YXJ2ZWQgZm9yIDEwNDk4IGppZmZpZXMhIGc2NDYyNSBmMHgyIFJDVV9HUF9XQUlUX0ZR
+Uyg1KSAtPnN0YXRlPTB4MjAwIC0+Y3B1PTMKcmN1OiAJVW5sZXNzIHJjdV9wcmVlbXB0IGt0aHJl
+YWQgZ2V0cyBzdWZmaWNpZW50IENQVSB0aW1lLCBPT00gaXMgbm93IGV4cGVjdGVkIGJlaGF2aW9y
+LgpyY3U6IFJDVSBncmFjZS1wZXJpb2Qga3RocmVhZCBzdGFjayBkdW1wOgp0YXNrOnJjdV9wcmVl
+bXB0ICAgICBzdGF0ZTpSIHN0YWNrOjI4OTIwIHBpZDoxNiAgICB0Z2lkOjE2ICAgIHBwaWQ6MiAg
+ICAgIHRhc2tfZmxhZ3M6MHgyMDgwNDAgZmxhZ3M6MHgwMDA4MDAwMApDYWxsIFRyYWNlOgogPFRB
+U0s+CiBzY2hlZF9pbmZvX2Fycml2ZSBob21lL2xpbnV4LTYuMTgva2VybmVsL3NjaGVkL3N0YXRz
+Lmg6MjY3IFtpbmxpbmVdCiBzY2hlZF9pbmZvX3N3aXRjaCBob21lL2xpbnV4LTYuMTgva2VybmVs
+L3NjaGVkL3N0YXRzLmg6MzMwIFtpbmxpbmVdCiBwcmVwYXJlX3Rhc2tfc3dpdGNoIGhvbWUvbGlu
+dXgtNi4xOC9rZXJuZWwvc2NoZWQvY29yZS5jOjUxMjIgW2lubGluZV0KIGNvbnRleHRfc3dpdGNo
+IGhvbWUvaW51eC02LjE4L2tlcm5lbC9zY2hlZC9jb3JlLmM6NTI3MiBbaW5saW5lXQogX19zY2hl
+ZHVsZSsweDEwNDQvMHg1YmIwIGhvbWUvbGludXgtNi4xOC9rZXJuZWwvc2NoZWQvY29yZS5jOjY5
+MjkKIF9fc2NoZWR1bGVfbG9vcCBob21lL2xpbnV4LTYuMTgva2VybmVsL3NjaGVkL2NvcmUuYzo3
+MDExIFtpbmxpbmVdCiBzY2hlZHVsZSsweGU3LzB4M2EwIGhvbWUvbGludXgtNi4xOC9rZXJuZWwv
+c2NoZWQvY29yZS5jOjcwMjYKIHNjaGVkdWxlX3RpbWVvdXQrMHgxMTMvMHgyODAgaG9tZS9saW51
+eC02LjE4L2tlcm5lbC90aW1lL3NsZWVwX3RpbWVvdXQuYzo5OAogcmN1X2dwX2Zxc19jaGVja193
+YWtlIGhvbWUvbGludXgtNi4xOC9rZXJuZWwvcmN1L3RyZWUuYzoyMDA3IFtpbmxpbmVdCiByY3Vf
+Z3BfZnFzX2xvb3ArMHgxOGMvMHhhMDAgaG9tZS9saW51eC02LjE4L2tlcm5lbC9yY3UvdHJlZS5j
+OjIwODMKIHJjdV9ncF9rdGhyZWFkKzB4MjZmLzB4MzcwIGhvbWUvbGludXgtNi4xOC9rZXJuZWwv
+cmN1L3RyZWUuYzoyMjgwCiBrdGhyZWFkKzB4M2QwLzB4NzgwIGhvbWUvbGludXgtNi4xOC9rZXJu
+ZWwva3RocmVhZC5jOjQ2MwogcmV0X2Zyb21fZm9yaysweDY3Ni8weDdkMCBob21lL2xpbnV4LTYu
+MTgvYXJjaC94ODYva2VybmVsL3Byb2Nlc3MuYzoxOTUKIHJldF9mcm9tX2ZvcmtfYXNtKzB4MWEv
+MHgzMCBob21lL2xpbnV4LTYuMTgvYXJjaC94ODYvZW50cnkvZW50cnlfNjQuUzoyNDUKIDwvVEFT
+Sz4KClRoYW5rcywgCk1pbmd5dSBXYW5n
