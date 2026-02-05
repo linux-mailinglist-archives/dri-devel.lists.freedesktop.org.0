@@ -2,89 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KBNJFwC/hGnG4wMAu9opvQ
+	id 8IgXGjjMhGk45QMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 17:02:08 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 17:58:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0B9BF4E94
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 17:02:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0C1CF592B
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 17:58:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C77310E919;
-	Thu,  5 Feb 2026 15:47:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4CC310E932;
+	Thu,  5 Feb 2026 16:58:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="wDiCpIOl";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="IJeecZ3T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71ACC10E918
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 15:47:21 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id
- 98e67ed59e1d1-354a5da7910so394139a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Feb 2026 07:47:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1770306441; x=1770911241; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LHoQ9FrprHWAgMr0m6/UsWHbe+Hsht9f5DvlCrcC+eY=;
- b=wDiCpIOlxdsfYlauZbFMHAn2kd8Jkr1aW9Zan9XB711OhfTyYyzPSSmS00fu2XvR4H
- /ZlhBhillav8vRK39qBRwuiQY7JHts1hQ9BR94B+X9hCL4x15OBbDWGiblyFL09UGZaA
- gnh1zJIqitzQ4GwaJJZ4TzicV7zQcMICkRn5ZEzYHfMC6G5SMsfw+9fRhrXbJIChvy1U
- 7ncyydGxbjZbm4P9NqVaa5PadFUHQGaBHdfUYxuy1QKuoH6buYoWevuCU/zHf7903Ujd
- 4wLjrZ4FLgjY+YKFMjVCyUoFBs8ywtXzOz76x45UGI8ZYcyN6sCgEJU5dYb9/ZQPQZpc
- ZU3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770306441; x=1770911241;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=LHoQ9FrprHWAgMr0m6/UsWHbe+Hsht9f5DvlCrcC+eY=;
- b=hlu14JK81hUtdygv/hQ8Wd6sagTSxpdFIOtl156ry8/GbL+Uo8KFgmsJbTuCmOnl46
- jFluLWJIjAju01V8hf4BSWgAunUVjSS8NaMGHHJJScBVQ060tZrS/G+18MhsIMqRXOj6
- 4yUh38W7VcWMYwvUqQxGP47lQGouCJ6XScSFZ39soQfc1sal9KiA1LHWRgr6AmtbiA/R
- /LRzXYt8H3wcpZO0NMYUCKuR+sV6JQsnVlskHrW8J4uOQXxv59kR5dadSHq8hZw0JZY7
- JLlgY/xyB9L3TsrjoRJDteCCQJiEJZ/0i6xcCcSwiK1kvjc6qYw3yiS6QYUyEucfWIgo
- uA1g==
-X-Gm-Message-State: AOJu0YysX80fidWHtjecNiI/KBg7nuUmpn9SsY9u65UiP5kT6E27s3o9
- 5OWrUcLXB8rFQV7mJP7oWKe3c2xU+5LgK74akABklH6S47oXJTkH/W4CsxhZ3tw4WvY=
-X-Gm-Gg: AZuq6aLgmyaRsC4snQW4QfFe7uUqqmqF1sbb4MtQEKwQrggE5IEvRwNnVHM2GbT084H
- G95FIKwg42Tc9jKtbwuEFIzWVdspGd6ZV/7mOCfoni/HfspZDLOUa346i1nYE+tnWKzGA6waeMV
- q8dpj5FkLJCpjyx8SkmAxbPht+kRDkgRTtKXVlC9PrizF3Svz5wUHac1Z9OCLsqua7kgfYfN0bw
- fhbIBgHqvdWsQque+pL4KQoyinnB4rgfA+pYRBpV1pu5jcbU0ZjQmvZ3XLKNI3Hogo8q5wuoMR/
- x3vPPZBenqq1l4q5bxnb3RzxNdE0eNNSCsQ7tDVOP1pvccax/a814IkQiQm0ECXOQbTIx7FVGvB
- hKFEzSQLmLnk96+Ptck8q+dgh11/P+5H4stQIVcEwbx9LXABrIMitzwBofhg+lLHWTjRMSFmZH8
- 545J0U5yXt5ReTOklPq7TtstTDtHaeOa0T8+WepDqCLMkF+VVapWAEKlnCMA==
-X-Received: by 2002:a17:90a:c2ce:b0:34c:6108:bf32 with SMTP id
- 98e67ed59e1d1-3548720ae04mr5927025a91.34.1770306440902; 
- Thu, 05 Feb 2026 07:47:20 -0800 (PST)
-Received: from dgp100339560-01.huaqin.com ([103.117.77.121])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-3549c09df19sm2792675a91.1.2026.02.05.07.47.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Feb 2026 07:47:20 -0800 (PST)
-From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-To: neil.armstrong@linaro.org, jesszhan0024@gmail.com, airlied@gmail.com,
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, heiko@sntech.de, mani@kernel.org,
- prabhakar.mahadev-lad.rj@bp.renesas.com, dev@kael-k.io,
- kever.yang@rock-chips.com
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dianders@chromium.org,
- Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Subject: [PATCH v1 3/3] drm/panel: panel-jadard-jd9365da-h3: support for
- taiguan-xti05101-01a MIPI-DSI panel
-Date: Thu,  5 Feb 2026 23:46:57 +0800
-Message-Id: <20260205154657.3085820-4-yelangyan@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260205154657.3085820-1-yelangyan@huaqin.corp-partner.google.com>
-References: <20260205154657.3085820-1-yelangyan@huaqin.corp-partner.google.com>
+Received: from DM1PR04CU001.outbound.protection.outlook.com
+ (mail-centralusazon11010017.outbound.protection.outlook.com [52.101.61.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A24C10E22A
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 16:58:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BZt9/Akz9GCHIPuI+9ikJhl8oDbey4IkvrZFPf4GDYL1+pJeKFDhVPv52eJebVU0S6BzyPppcaLSJZ6EaH1me41xtat7nUf0QYzJBrtJ43kZwDy3OwVjYCtNG+Li8oR+21GQT7BE5qCl8TZFfrYIriG2pctJoTTGdrR9+JePexp+lTJPjZ1mxQIbkaQrCexXXxBNd/yv+pCNDmMvlTb/rXbAQQIg6FJOHsFKVQqhJfCjHrYH1MkCtM5oshgG/cb05B2a2m7flaKhxDLCdzrsYxwvH6E/IkagvvW4ZKBVNGJbChYpzwezqlGCtIZKER3wCWKRq+EFiaUAK3fsA2OYuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xaVLIW8gaztuSikTRz+ScFRr7byYjKNBOal9p3Fw7yU=;
+ b=sQRVcQpPL/biGe+kBbLdxhoHpJLVgr6pZSessypCzFtbo7ASZPPi7zn+tV+TN989xTlYq7ur4r4gk5tK3Qs5lh7O+e39pwe0YDZBqA9b+YvouR/tB4pbErFjXJfZudn16EXLvM+/3Pu19UGhCrWQZz0fhFa2LSZMirCKWRghfc5ux43sD9gbTe6s1c6et7oSJNe4YpxU7bIFRAT9SrRe7bizFKGmhipaBfqFrni950B1zxZi4+z1XlBwUd02XX2pNOrJFoz6XDxRCz4PPVzEaL9gtF5dKoHvu8nmUxRC70pRQFTk+QR4wIAchrTka+iSnu21Y4hD0UtoqFf/XOq9eA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=oss.qualcomm.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xaVLIW8gaztuSikTRz+ScFRr7byYjKNBOal9p3Fw7yU=;
+ b=IJeecZ3T+4yG6+84dH/1GIT2hPcBrEapxOpkD801WFWx9L9WL0udpXfI7ZQvR6Oy2slEpT1gUsS91Y5ISUQkrnh+HPCXH3bH7h4dEyzbBwSwswQjaxscxu09ivdtEPtK4PMbaF95F/uq639IdNd517MWauKHtdgJbLnilRmq/Q4=
+Received: from CH0PR04CA0050.namprd04.prod.outlook.com (2603:10b6:610:77::25)
+ by CY8PR12MB8213.namprd12.prod.outlook.com (2603:10b6:930:71::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Thu, 5 Feb
+ 2026 16:58:21 +0000
+Received: from DS2PEPF00003440.namprd02.prod.outlook.com
+ (2603:10b6:610:77:cafe::b3) by CH0PR04CA0050.outlook.office365.com
+ (2603:10b6:610:77::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.15 via Frontend Transport; Thu,
+ 5 Feb 2026 16:58:09 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ DS2PEPF00003440.mail.protection.outlook.com (10.167.18.43) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9587.10 via Frontend Transport; Thu, 5 Feb 2026 16:58:21 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 5 Feb
+ 2026 10:58:20 -0600
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Thu, 5 Feb 2026 10:58:19 -0600
+Message-ID: <8b830e47-b2f8-5429-085d-2f10bb0d679c@amd.com>
+Date: Thu, 5 Feb 2026 08:58:19 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3] accel/qaic: Handle DBC deactivation if the owner went
+ away
+Content-Language: en-US
+To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
+ <jeff.hugo@oss.qualcomm.com>, <carl.vanderlip@oss.qualcomm.com>,
+ <troy.hanson@oss.qualcomm.com>, <zachary.mckevitt@oss.qualcomm.com>
+CC: <ogabbay@kernel.org>, <karol.wachowski@linux.intel.com>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
+References: <20260205123415.3870898-1-youssef.abdulrahman@oss.qualcomm.com>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <20260205123415.3870898-1-youssef.abdulrahman@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PEPF00003440:EE_|CY8PR12MB8213:EE_
+X-MS-Office365-Filtering-Correlation-Id: dc221abd-476f-4d4d-42b6-08de64d7c4c1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|376014|82310400026|1800799024|7053199007|13003099007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Nm52dU5pdTAybzNvYVB1VkZwc0YvK0ZrQ0RiS1lxb1Z4ZS9hSExSMjMrM1hq?=
+ =?utf-8?B?UURIM1hPN0J1Z3JheHd3aDh6dkpUbnVOcDFudHZMZ2MzNCtBdzlDTkhmaWp5?=
+ =?utf-8?B?UWNuVzBwelFFblRYREZWNmdkUGJiN2FRWkxiQVVvdWlnTmJzUkk5Y0QyY1kz?=
+ =?utf-8?B?aUY2U1FRdnpJenlXZGRVaytRR0w2OVd2RlFEZVZnMEVzbTNnY0dWY25VTThi?=
+ =?utf-8?B?dlVlN25UODgzR2dRVzI2N05xWWhQZFBhb0V3ZW9SZzUrbldkNUU5ZXdML2Fl?=
+ =?utf-8?B?MjFtemk2N3hHUmpRSnRqcnltS3p4c2Zlck1CSnYxd2x2SkNsUGs0aExiSmkr?=
+ =?utf-8?B?RzMvUGZTTlB1REREUVZpb0FQYW9PaTJEV1M1SzJYOU1INC9QYnUwMzVNUFJB?=
+ =?utf-8?B?YUI5OXhzY1k0TEFodGFxYWxWY3ZpQm54WmsyUnhtSksvTkx4UjlvZFptcFZX?=
+ =?utf-8?B?OVJ5ZktNR3ZpSE4va3lVYTdkRWtlTXNlV2hDdU43NWh3eFpiUGpaQ3pqczJT?=
+ =?utf-8?B?eW5zd2lZSWtYWnJPRWdQQnU3OXpuRkxGUTVRcEJHOHBWTnNsNWU4YXNwV3dS?=
+ =?utf-8?B?Mm95WXY5WmFueWNJOWRsZEJpWE9SSVNKM2xtb0tvSGJlb0lQempsYlRtV1Ru?=
+ =?utf-8?B?M0lWUWlPWHh5MnIrMFFTVytzL3dmdzhSb0p0OFNETnl0RWJFQlhpYitaSVpN?=
+ =?utf-8?B?cGU5aW02Q0JqcS9ITmFsYk9EWVl4UG92OTVGdWFtRG5Fem5VTFhTeGlBL2hW?=
+ =?utf-8?B?cktrejIveVVvbzBDeG1rMHdqS0JXS1Y0WEs1ZmtDTUtnSWk0SmpzRkZINU8r?=
+ =?utf-8?B?NWdMdzViR08remlqWnlueU1wSU9CUTVwQVVMRS93d0pVZVJVOWsvV0QrU3Na?=
+ =?utf-8?B?SjM4bkloa05lMXc2Y29UU3J2M3VDUWpCWUNVQlJJZWVWNkM3SXdnV3BTbUxI?=
+ =?utf-8?B?MkVUdmNYWmNJbC9kUG5CNHllUGJOQ3JuWjVmMDV6SlRFQ0gwWVEySnZDZHR3?=
+ =?utf-8?B?dEZJdFZvY3FQcUh2c3JUZnVkcGhrdnVPbkxacGk1aFMrNUpsK3ZyaFQrTk9J?=
+ =?utf-8?B?R2pGQklWNXhJQ3JlSzVoL3pUUk5TZEpSM3g5eVdhTU5CNit5RzdrUXJiakZk?=
+ =?utf-8?B?ZHFmdCtlOEpoM1doMUY4dXd1am9XWU5iRU13dFZ1T3pGdzV1OVpJL1E5azlY?=
+ =?utf-8?B?Z2M1YzhVSkF2cUoyYi9TNHA2Tis1UXA0bFM4V0VScDJzRmVGTGM3U3Fhdjli?=
+ =?utf-8?B?SkFpWWRYeXg1ZDdRSHlibFIxVWxVa3VLMWJLL1Nyd2w5a3BJT29ocnVLT05m?=
+ =?utf-8?B?U2ZjTG1zTnNTVXFKeDFIV3ZSV2xOV0piMVEyb3dsS1hvRGZtOEpGR2Jla3VM?=
+ =?utf-8?B?Kzl0bTUrWktLeW16UUFOYVJTRndFTlpwSFpOTW56dXZNYjJ2RXBocG52UXJk?=
+ =?utf-8?B?M1BpT0VuUUdOR2pmTDZFVm9CVjJ5RTAxVVFJbkozOHN1dmpEbU42ampGS1lW?=
+ =?utf-8?B?QXZjOWVJK25NMmZTbFZCLzBEUE5QQ0hBbjVFZVZwRFR3bEpvaExPUUJHTHpO?=
+ =?utf-8?B?L0ZRMGppVm9QWFBwano1cHY5ZFU3NHo0SHlwWFFOaGxPNlFNbEFDT0RoWU10?=
+ =?utf-8?B?amVaNXdKY2tneGF3MklYM0ZHTmF3MXRVREFYOHpVSnVwdzdVci8za0JacVZp?=
+ =?utf-8?B?MTR2L1dlZ0tpNWw1dGhneVY0UldLMG1RUjZoQytPdUxzcVhpVTFpYTVtcTBp?=
+ =?utf-8?B?QVJXQzFNa1lQUEVKME1kZVJ2Sk5NVmVzNFYxZU1qbHB0NVNjN1lPcDYwRkxL?=
+ =?utf-8?B?Z1A4aHNLMDNOUXV3SVVpZGR3OWtjUVBOemx5TUkvUFZ0M2F4SktCYkdKbDZr?=
+ =?utf-8?B?R1VGUUhhc3NBMTdPam8rOHpCV2dBWVBoZ2tLOUI1TG1JOCtuQnlqN1lDS2x3?=
+ =?utf-8?B?a3phZ0xNemZKcWhyZ3hRcjIrbzJadUt0WXVTRDlrL0poQVZBR2p0SmE3a2tr?=
+ =?utf-8?B?OVpRRHRnb3REZVVFajJBTElnbmF5d1R4bU9CdGJmQ0ZWOEF5ZWM0ZWJMZThM?=
+ =?utf-8?B?bGZzWk1MbmF4SDQ2R0JzYjhaamZtM21MMmthSDNIbzFENFVSM0lIZzFvT1dS?=
+ =?utf-8?B?SXo0T0oxakZTcWNuZWNEeGdWNTAzSzVjS2pjMUZkMG1aMmJwWHNBRHNtd1lM?=
+ =?utf-8?B?MzNja1BxKzFRNGRqbnpaL3VlYXZ6WUdhZmdieWMzWi9sdzZaeG9URVpqVjJr?=
+ =?utf-8?Q?oN/tLO666cW1fXEIi/oJsnjGaMjZlMQZIEmsEWFRD8=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024)(7053199007)(13003099007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: hm5RbQHEeBB/hlOHIo7lad/02b31H48FGoH8sxQbP9oo1lVssDKG9Rpy38vY9IHuN3F9iS3iWYP21e4jMgrtWH+aHAp6DVUfYK6N+YCKtbEXDGJNc45wzKqztRL6n8BPAcWyaXUr5JeG8tTieqyR0uEuuAbOkm9c2ipjVxCTPAI6qe1ahNqDN2g/f5mj05xBebTG2NQx2yHahB2e+KU+cUuN2FF3ldzY83ltL9RwSOXCoMBuUnhYXrjZ2xK2iiltRUU9XMa2gUGgHV0f5cQ8sCS0As3cSV3fb54V3H2o8T4ULreGZFl5jLOEANEdJvlNUh5/7P4Zfze6YGXgeCVHCEMv9SOQGtyt3/fMbYCRIywHcde9MnV2LTKYGJ6pzeZDiWxPEqu+HZtdLPey85Rt5buBP1+wNGVPKbcixDRdM4/5G+DgjNdYZOaWE0iEoN5S
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2026 16:58:21.4486 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc221abd-476f-4d4d-42b6-08de64d7c4c1
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF00003440.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8213
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,317 +158,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [4.19 / 15.00];
-	DMARC_POLICY_REJECT(2.00)[google.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),reject];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[huaqin-corp-partner-google-com.20230601.gappssmtp.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[huaqin.corp-partner.google.com:mid,huaqin-corp-partner-google-com.20230601.gappssmtp.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
-	FREEMAIL_TO(0.00)[linaro.org,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,sntech.de,bp.renesas.com,kael-k.io,rock-chips.com];
-	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:heiko@sntech.de,m:mani@kernel.org,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:dev@kael-k.io,m:kever.yang@rock-chips.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dianders@chromium.org,m:yelangyan@huaqin.corp-partner.google.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	GREYLIST(0.00)[pass,meta];
-	FORGED_SENDER(0.00)[yelangyan@huaqin.corp-partner.google.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	RSPAMD_URIBL_FAIL(0.00)[huaqin-corp-partner-google-com.20230601.gappssmtp.com:query timed out];
-	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[yelangyan@huaqin.corp-partner.google.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	NEURAL_HAM(-0.00)[-1.000];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DKIM_TRACE(0.00)[huaqin-corp-partner-google-com.20230601.gappssmtp.com:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[amd.com:+];
+	FORGED_RECIPIENTS(0.00)[m:youssef.abdulrahman@oss.qualcomm.com,m:jeff.hugo@oss.qualcomm.com,m:carl.vanderlip@oss.qualcomm.com,m:troy.hanson@oss.qualcomm.com,m:zachary.mckevitt@oss.qualcomm.com,m:ogabbay@kernel.org,m:karol.wachowski@linux.intel.com,m:linux-arm-msm@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email,amd.com:dkim,amd.com:mid];
 	TO_DN_SOME(0.00)[];
-	RSPAMD_EMAILBL_FAIL(0.00)[yelangyan.huaqin.corp-partner.google.com:query timed out];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: E0B9BF4E94
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: A0C1CF592B
 X-Rspamd-Action: no action
 
-The taiguan-xti05101-01a is a 10.1" TFT panel. The MIPI controller on this
-panel is the same as the other panels here, so add this panel to this
-driver.
+Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
 
-Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
----
- .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  | 244 ++++++++++++++++++
- 1 file changed, 244 insertions(+)
-
-diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-index 5386a06fcd08..c3103d631f11 100644
---- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-+++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-@@ -1366,6 +1366,246 @@ static const struct jadard_panel_desc anbernic_rgds_display_desc = {
- 		      MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM,
- };
- 
-+static int taiguan_xti05101_01a_init_cmds(struct jadard *jadard)
-+{
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = jadard->dsi };
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x00);
-+	jadard_enable_standard_cmds(&dsi_ctx);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0c, 0x74);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x17, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x18, 0xd7);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x19, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1a, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1b, 0xd7);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1c, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x24, 0xfe);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x37, 0x19);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x35, 0x28);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x38, 0x05);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x39, 0x08);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3a, 0x12);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3c, 0x78);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3d, 0xff);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3e, 0xff);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3f, 0x7f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x40, 0x06);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x41, 0xa0);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x43, 0x1e);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x44, 0x0b);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x55, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x57, 0x6a);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x59, 0x0a);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5a, 0x2e);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5b, 0x1a);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5c, 0x15);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5d, 0x7f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5e, 0x58);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5f, 0x46);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x60, 0x39);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x61, 0x35);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x62, 0x27);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x63, 0x2b);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x64, 0x16);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x65, 0x30);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x66, 0x2e);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x67, 0x2f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x68, 0x4d);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x69, 0x3c);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6a, 0x43);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6b, 0x36);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6c, 0x31);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6d, 0x24);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6e, 0x14);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6f, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x70, 0x7f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x71, 0x58);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x72, 0x46);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x73, 0x39);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x74, 0x35);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x75, 0x27);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x76, 0x2b);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x77, 0x16);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x78, 0x30);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x79, 0x2e);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7a, 0x2f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7b, 0x4d);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7c, 0x3c);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7d, 0x43);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7e, 0x36);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x7f, 0x31);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x80, 0x24);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x81, 0x14);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x82, 0x02);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x52);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x01, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x02, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x03, 0x50);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x04, 0x77);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x05, 0x57);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x06, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x07, 0x4e);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x08, 0x4c);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x09, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0a, 0x4a);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0b, 0x48);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0c, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0d, 0x46);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0e, 0x44);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0f, 0x40);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x10, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x11, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x12, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x13, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x14, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x15, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x16, 0x53);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x17, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x18, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x19, 0x51);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1a, 0x77);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1b, 0x57);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1c, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1d, 0x4f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1e, 0x4d);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x1f, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x20, 0x4b);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x21, 0x49);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x22, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x23, 0x47);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x24, 0x45);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x25, 0x41);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x26, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x27, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x28, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x29, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2a, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2b, 0x5f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2c, 0x13);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2d, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2e, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2f, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x30, 0x17);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x31, 0x17);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x32, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x33, 0x0d);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x34, 0x0f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x35, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x36, 0x05);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x37, 0x07);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x38, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x39, 0x09);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3a, 0x0b);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3b, 0x11);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3c, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3d, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3e, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x3f, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x40, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x41, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x42, 0x12);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x43, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x44, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x45, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x46, 0x17);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x47, 0x17);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x48, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x49, 0x0c);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4a, 0x0e);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4b, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4c, 0x04);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4d, 0x06);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4e, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x4f, 0x08);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x50, 0x0a);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x51, 0x10);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x52, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x53, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x54, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x55, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x56, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x57, 0x1f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x58, 0x40);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5b, 0x10);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5c, 0x06);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5d, 0x40);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5e, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x5f, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x60, 0x40);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x61, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x62, 0x04);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x63, 0x6c);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x64, 0x6c);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x65, 0x75);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x66, 0x08);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x67, 0xb4);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x68, 0x08);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x69, 0x6c);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6a, 0x6c);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6b, 0x0c);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6d, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6e, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x6f, 0x88);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x75, 0xbb);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x76, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x77, 0x05);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x78, 0x2a);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x04);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x00, 0x0e);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x02, 0xb3);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x09, 0x61);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x0e, 0x48);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x2b, 0x0f);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0x37, 0x58);
-+
-+	jd9365da_switch_page(&dsi_ctx, 0x00);
-+
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-+
-+	mipi_dsi_msleep(&dsi_ctx, 120);
-+
-+	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
-+
-+	mipi_dsi_msleep(&dsi_ctx, 20);
-+
-+	return dsi_ctx.accum_err;
-+};
-+
-+static const struct jadard_panel_desc taiguan_xti05101_01a_desc = {
-+	.mode = {
-+		.clock		= (800 + 24 + 24 + 24) * (1280 + 30 + 4 + 8) * 60 / 1000,
-+
-+		.hdisplay	= 800,
-+		.hsync_start	= 800 + 24,
-+		.hsync_end	= 800 + 24 + 24,
-+		.htotal		= 800 + 24 + 24 + 24,
-+
-+		.vdisplay	= 1280,
-+		.vsync_start	= 1280 + 30,
-+		.vsync_end	= 1280 + 30 + 4,
-+		.vtotal		= 1280 + 30 + 4 + 8,
-+
-+		.width_mm	= 135,
-+		.height_mm	= 216,
-+		.type		= DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+	},
-+	.lanes = 4,
-+	.format = MIPI_DSI_FMT_RGB888,
-+	.init = taiguan_xti05101_01a_init_cmds,
-+	.lp11_before_reset = true,
-+	.reset_before_power_off_vcioo = true,
-+	.vcioo_to_lp11_delay_ms = 5,
-+	.lp11_to_reset_delay_ms = 10,
-+	.backlight_off_to_display_off_delay_ms = 3,
-+	.display_off_to_enter_sleep_delay_ms = 50,
-+	.enter_sleep_to_reset_down_delay_ms = 100,
-+};
-+
- static int jadard_dsi_probe(struct mipi_dsi_device *dsi)
- {
- 	struct device *dev = &dsi->dev;
-@@ -1463,6 +1703,10 @@ static const struct of_device_id jadard_of_match[] = {
- 		.compatible = "radxa,display-8hd-ad002",
- 		.data = &radxa_display_8hd_ad002_desc
- 	},
-+	{
-+		.compatible = "taiguan,xti05101-01a",
-+		.data = &taiguan_xti05101_01a_desc
-+	},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, jadard_of_match);
--- 
-2.34.1
-
+On 2/5/26 04:34, Youssef Samir wrote:
+> When a DBC is released, the device sends a QAIC_TRANS_DEACTIVATE_FROM_DEV
+> transaction to the host over the QAIC_CONTROL MHI channel. QAIC handles
+> this by calling decode_deactivate() to release the resources allocated for
+> that DBC. Since that handling is done in the qaic_manage_ioctl() context,
+> if the user goes away before receiving and handling the deactivation, the
+> host will be out-of-sync with the DBCs available for use, and the DBC
+> resources will not be freed unless the device is removed. If another user
+> loads and requests to activate a network, then the device assigns the same
+> DBC to that network, QAIC will "indefinitely" wait for dbc->in_use = false,
+> leading the user process to hang.
+>
+> As a solution to this, handle QAIC_TRANS_DEACTIVATE_FROM_DEV transactions
+> that are received after the user has gone away.
+>
+> Fixes: 129776ac2e38 ("accel/qaic: Add control path")
+> Signed-off-by: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>
+> ---
+> Changes in V3:
+> - Remove unnecessary list_empty() check
+> - Link to V2: https://lore.kernel.org/all/20251224143009.2769836-1-youssef.abdulrahman@oss.qualcomm.com
+>
+> Changes in V2:
+> - Add missing closing bracket in resp_worker()
+> - Link to V1: https://lore.kernel.org/all/20251223153151.2232297-1-youssef.abdulrahman@oss.qualcomm.com
+> ---
+>   drivers/accel/qaic/qaic_control.c | 47 +++++++++++++++++++++++++++++--
+>   1 file changed, 45 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/accel/qaic/qaic_control.c b/drivers/accel/qaic/qaic_control.c
+> index 428d8f65bff3..3842e59291b9 100644
+> --- a/drivers/accel/qaic/qaic_control.c
+> +++ b/drivers/accel/qaic/qaic_control.c
+> @@ -913,7 +913,7 @@ static int decode_deactivate(struct qaic_device *qdev, void *trans, u32 *msg_len
+>   		 */
+>   		return -ENODEV;
+>   
+> -	if (status) {
+> +	if (usr && status) {
+>   		/*
+>   		 * Releasing resources failed on the device side, which puts
+>   		 * us in a bind since they may still be in use, so enable the
+> @@ -1108,6 +1108,9 @@ static void *msg_xfer(struct qaic_device *qdev, struct wrapper_list *wrappers, u
+>   	mutex_lock(&qdev->cntl_mutex);
+>   	if (!list_empty(&elem.list))
+>   		list_del(&elem.list);
+> +	/* resp_worker() processed the response but the wait was interrupted */
+> +	else if (ret == -ERESTARTSYS)
+> +		ret = 0;
+>   	if (!ret && !elem.buf)
+>   		ret = -ETIMEDOUT;
+>   	else if (ret > 0 && !elem.buf)
+> @@ -1418,9 +1421,49 @@ static void resp_worker(struct work_struct *work)
+>   	}
+>   	mutex_unlock(&qdev->cntl_mutex);
+>   
+> -	if (!found)
+> +	if (!found) {
+> +		/*
+> +		 * The user might have gone away at this point without waiting
+> +		 * for QAIC_TRANS_DEACTIVATE_FROM_DEV transaction coming from
+> +		 * the device. If this is not handled correctly, the host will
+> +		 * not know that the DBC[n] has been freed on the device.
+> +		 * Due to this failure in synchronization between the device and
+> +		 * the host, if another user requests to activate a network, and
+> +		 * the device assigns DBC[n] again, save_dbc_buf() will hang,
+> +		 * waiting for dbc[n]->in_use to be set to false, which will not
+> +		 * happen unless the qaic_dev_reset_clean_local_state() gets
+> +		 * called by resetting the device (or re-inserting the module).
+> +		 *
+> +		 * As a solution, we look for QAIC_TRANS_DEACTIVATE_FROM_DEV
+> +		 * transactions in the message before disposing of it, then
+> +		 * handle releasing the DBC resources.
+> +		 *
+> +		 * Since the user has gone away, if the device could not
+> +		 * deactivate the network (status != 0), there is no way to
+> +		 * enable and reassign the DBC to the user. We can put trust in
+> +		 * the device that it will release all the active DBCs in
+> +		 * response to the QAIC_TRANS_TERMINATE_TO_DEV transaction,
+> +		 * otherwise, the user can issue an soc_reset to the device.
+> +		 */
+> +		u32 msg_count = le32_to_cpu(msg->hdr.count);
+> +		u32 msg_len = le32_to_cpu(msg->hdr.len);
+> +		u32 len = 0;
+> +		int j;
+> +
+> +		for (j = 0; j < msg_count && len < msg_len; ++j) {
+> +			struct wire_trans_hdr *trans_hdr;
+> +
+> +			trans_hdr = (struct wire_trans_hdr *)(msg->data + len);
+> +			if (le32_to_cpu(trans_hdr->type) == QAIC_TRANS_DEACTIVATE_FROM_DEV) {
+> +				if (decode_deactivate(qdev, trans_hdr, &len, NULL))
+> +					len += le32_to_cpu(trans_hdr->len);
+> +			} else {
+> +				len += le32_to_cpu(trans_hdr->len);
+> +			}
+> +		}
+>   		/* request must have timed out, drop packet */
+>   		kfree(msg);
+> +	}
+>   
+>   	kfree(resp);
+>   }
