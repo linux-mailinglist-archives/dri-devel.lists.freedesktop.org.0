@@ -2,68 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UPJUCSDdhGkV6AMAu9opvQ
+	id 8PbVGnjfhGmi6AMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 19:10:40 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 19:20:40 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7451DF65A0
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 19:10:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF9BDF66B0
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 19:20:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73C9310E0E5;
-	Thu,  5 Feb 2026 18:10:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A8D210E949;
+	Thu,  5 Feb 2026 18:20:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FiCsJu/K";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="23sp98v2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5497A10E0E5;
- Thu,  5 Feb 2026 18:10:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770315036; x=1801851036;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=DhZkSVzvSf0+Ou5/OGvIfvpwQH0QYzZO3GjhqjmY3Ps=;
- b=FiCsJu/Kl1yOT7aKhanFqSWFrWMrt0nylEi0TFsn3SxllY8Co0SWnp9u
- rcg7lituT/x3/oFwCXMgvefb+sFMBmGIxwBtWhb7UcqfNUpjJTKRKvhwv
- sOrRhQGV/m+g96kuiu6yycaSWduF9PHCMxPvm4rvPoqHeGGW5gjGSg3VY
- vQn5IVbZcPNJiqkKp7vhmCnxkaRuAdbj4QaS1CQO926vX+8xKXo56cLgS
- aJRUTsqAylRdqXhRoiFrHj+VMIMDoY9ckqNeYWUYqUoyxGEPawumS8Gri
- mP1oFwlmR3p8mhee04e4bhNYkau4FsNJHyVwR84tNvTW6y+k2pmLC5UpV Q==;
-X-CSE-ConnectionGUID: eV8U9x0rRZaBERngCs/kUw==
-X-CSE-MsgGUID: qi1dtfOjT4+JJVGEdJKGpg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="74121236"
-X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; d="scan'208";a="74121236"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2026 10:10:36 -0800
-X-CSE-ConnectionGUID: Q4nKIVfRRu6kn694jFBq7g==
-X-CSE-MsgGUID: xryIq96IQbqaXFNKMAZGeQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,275,1763452800"; d="scan'208";a="241294141"
-Received: from black.igk.intel.com ([10.91.253.5])
- by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Feb 2026 10:10:32 -0800
-Date: Thu, 5 Feb 2026 19:10:28 +0100
-From: Raag Jadav <raag.jadav@intel.com>
-To: Riana Tauro <riana.tauro@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
- rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
- simona.vetter@ffwll.ch, airlied@gmail.com, pratik.bari@intel.com,
- joshua.santosh.ranjan@intel.com, ashwin.kumar.kulkarni@intel.com,
- shubham.kumar@intel.com, ravi.kishore.koppuravuri@intel.com,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Subject: Re: [PATCH v5 5/5] drm/xe/xe_hw_error: Add support for PVC SoC errors
-Message-ID: <aYTdFPXDRUsT7JGe@black.igk.intel.com>
-References: <20260202064356.286243-7-riana.tauro@intel.com>
- <20260202064356.286243-12-riana.tauro@intel.com>
+Received: from BL2PR02CU003.outbound.protection.outlook.com
+ (mail-eastusazon11011046.outbound.protection.outlook.com [52.101.52.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5189310E944;
+ Thu,  5 Feb 2026 18:20:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NjA481iGTAfGyjEupZGNeDbC1zZ98OFuDP3ftFSKeB5iHKyLJKPVKdIOV3JIWyXNs4i3Y1xtLR10xeCkCk/SLccN7s9mGF9h6FlC3I1iShAI1EZHiUOAbxaSfZWAcDdLUcg3g7WafahmqhSYL92QyaFM0tFk4NU/Pk3s91X8LqAP4cm+2y40JH9HpNw865XJkpRGV/BYhN8w+ueoL16cprFjyrs/ynnxt0wvVxipahmZiEkdUEF3f5SUYS5X7Yx+LaKI6zG6WwmSJEErahZVub3IEumrT1mQwO3R5r/I6P94JsiAogeU6B0Ww01O50WB/iXkOqrIhTi47Lwcb28yPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/skgTGwz7EjK3thKxc2Dv49bUUIAznsjGHSawHSMHYA=;
+ b=eEF2k694fdcaQLcME3fhc6tGBhPBpbyxGdwnjCYymYXk/RjE3I52ai1oE826L5Wf4HZqvG4Wslqo7Wx1Sme5HTCg+zNK4qngGab92Do2RCk02gDob2bv3Sxb1W4iSfrUKtkwtFiogzXH3Z+79RXFVpD0UZu9n7r81f+tdEl+rndCJZYeocoZr+gMQGpBXdXw+OOKC9/c7hwuSnMgG+mOio2ZOLYW22TJEou1OzgOtGIPlNBXex4LAZpe+8ISI0WKMIJTd2XFotHZjVYIehaR/dciW97KYPo/ixvCUFKjnDIbL/oiA5WDYeJPziWwNs3bF7rA4z+wJ203fzY9hWddEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/skgTGwz7EjK3thKxc2Dv49bUUIAznsjGHSawHSMHYA=;
+ b=23sp98v2yn63tWMfYiVaHc8JSksLOgCg1CMSvcs3UW9CsekK895zoDrJ9dFxyGzq1FeJD4QviAJZXySf1hFhVP3OYstFq2V0w+RlXNsE18s/Mwob7m4YN7EJBoshp95iZvha6kZKnJpfAgoaBKNQDpMdcqRrLP2bh1zWf5VL9WA=
+Received: from DM6PR07CA0101.namprd07.prod.outlook.com (2603:10b6:5:337::34)
+ by LV2PR12MB5824.namprd12.prod.outlook.com (2603:10b6:408:176::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.14; Thu, 5 Feb
+ 2026 18:20:29 +0000
+Received: from CH3PEPF00000018.namprd21.prod.outlook.com
+ (2603:10b6:5:337:cafe::94) by DM6PR07CA0101.outlook.office365.com
+ (2603:10b6:5:337::34) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.16 via Frontend Transport; Thu,
+ 5 Feb 2026 18:20:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ CH3PEPF00000018.mail.protection.outlook.com (10.167.244.123) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9587.0 via Frontend Transport; Thu, 5 Feb 2026 18:20:28 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 5 Feb
+ 2026 12:20:26 -0600
+Received: from p8.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Thu, 5 Feb 2026 10:20:26 -0800
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <simona.vetter@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu, amdkfd drm-fixes-6.19
+Date: Thu, 5 Feb 2026 13:20:17 -0500
+Message-ID: <20260205182017.2409773-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260202064356.286243-12-riana.tauro@intel.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PEPF00000018:EE_|LV2PR12MB5824:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2004b8eb-2c57-4975-7d6f-08de64e33d6c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|36860700013|376014|82310400026|13003099007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?D8s5zPdZjGz7dibcjcw/LnrS3hagpFIiapb975+PVBPJJrMdRxys0gxrajT2?=
+ =?us-ascii?Q?BuCYSuotG6L7bvXRA9Dd0pgHZUtJTf4j7bgSdcE3ULy8iLK5hXOx8eMdQkhO?=
+ =?us-ascii?Q?U/OB/Jp+hZGt9gooAWvYR2136ASLgLhPLZzZp1fqjXV3j5vigSQ39y87/Zb3?=
+ =?us-ascii?Q?CbqB3cn8j+89GUUmB9DWZdcpUpMs+UabV5zazE86BPM187zekh6ISqQLE0l8?=
+ =?us-ascii?Q?+M7KJcdCKjG9ijE3n7xbpc1XtxkBN6PZVpvUVxZWT7mVj64DWLoh0xcdMURd?=
+ =?us-ascii?Q?B4W6l/1PZCVxtpMSZKaFwNKA+EqjNrit9+BuCRYJMQWek4VS9nkdEr1XYYIT?=
+ =?us-ascii?Q?RyTlnGqDu4wN7fmV2cS2+aVk3fkDsvp+c4rtnhiTX22jYCUITVhvu/1Zjf0B?=
+ =?us-ascii?Q?Ez2EM+migxQhap8RwVN7Uo+mwou3NB5YjdOYnYYFVPIDmjO8DdFDWRRYYCYn?=
+ =?us-ascii?Q?QI/EK04s9B6FDDjZTb7OBGTvSsZtGdM8trVUonQMVpW0afLNy4X3fy8QbIBw?=
+ =?us-ascii?Q?ktuCOmVwoA99ahsHTGYyG+1q/1WQ8zYtyd8WyH7FCobdZmAKKXxk5uDIttmX?=
+ =?us-ascii?Q?I19OJWS2bTqBVWAKndkzpn2Qwe9xLkePblfwYXxd6h+Ez0CLW+OW87zjAhEs?=
+ =?us-ascii?Q?LdvucSJaQmyoMEaQKqxiw9B5JAfav7ovu2eeFTlEK9P+jhYDdlVN3uN/U1iI?=
+ =?us-ascii?Q?0LS4z39PI0IoRpTkMYawk19qLFAnAgA5n8+klalmIDkZGP5UNilxqt8oxdVo?=
+ =?us-ascii?Q?JsqtffRA+Cjk57VqfPsL7Fes7XoJ+gbwyoDOOtthII8Cy4owzYS+OjVfrYEi?=
+ =?us-ascii?Q?2NM6JmhapS2jTllzv4f5qJW/Cl5b/3MN5O9iwhXAhiDB6BbUrcQE3hx1gRo2?=
+ =?us-ascii?Q?VezEFSEOiFTuXRSsEEQjWrOarHBomJaym2A2Dkf4nyBDWz+lPQcQyGewe8gt?=
+ =?us-ascii?Q?/e2g0MUVpmE6jb2n6xLFlFY6Qhvo1z6/tRSOe7D5d1x+EJoD9/0gz1xDOa3H?=
+ =?us-ascii?Q?5Vq015WP1+yJBnWM/7IQUGDdOdUpmuUdioDiafNlKttMXk7xPUicIOZg7xjE?=
+ =?us-ascii?Q?0ulnQKvmN4eCHwRbRuneeTYu6Cy1AuQpWa60VCHwes2qfbk3PLzdq3ttk4IM?=
+ =?us-ascii?Q?GkRFiytbELz59VPSxIxH0A+ySdMKKYxdsKP06WjqAhD+UMOLj01dWwNZYKFT?=
+ =?us-ascii?Q?C5mSKiVg/fnB6TdSvYZy4LW7B8JoFBDGxmIz5gAMZSR5MIJ7+AS5C20BAzgW?=
+ =?us-ascii?Q?1MbRgapNW+Zvt6i5LJsolvSXONAymS7f2ksl+0OYQ8T2VqoT+xowjobpESLr?=
+ =?us-ascii?Q?XQ7tWnl8+TZc2Oc/NUDLEDQJsoZeXsbKF9duURd9KWrT0caqTf7uo2ihiJPL?=
+ =?us-ascii?Q?mEcpuaAb0AwzyYq/I2zHdejSvDHLzq2peDk5iayO4S022pPCJk7BOUV5kGDp?=
+ =?us-ascii?Q?CjCgVELgrgCSKZ3+ppLhOZ/6RhAx7Ip4Zn9c+PMwr7q82udqWW72pmDralnK?=
+ =?us-ascii?Q?1L0iD62bXceG73ggz1pDdwLKy5v1GKFgnml4DY4QRlWqio2/c4WC+Vxypde9?=
+ =?us-ascii?Q?bWiRth4F6bt1LcuRnKV6tiD48AH5EbDq3aa+ggZ2SGEMVKmlobHhzRUPJ7Gz?=
+ =?us-ascii?Q?/Q=3D=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026)(13003099007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: Dy6yKjc35b8NLOEi5I+2ntju3wGqavzx9v28g+u9xO9LRhCpfGdiEP4kArmNXoqde3oR4bHxxAzxPNUBRbwiE6mXV+0ceD1ypprxXdRhhlNv8CvIg6sNjx9/Wikn4kgiAV3BNb6oaBy20bRX4uQ2W7vwglNOnkdTmtfdmxDE3+yZiMZjIn8XcYpMpqvNZSO+BOhhAVjytGyZ49xdMZcxqGfJEQdXQqmpUabMZe2c4ge506u33tL/0Xz5WdOKqZI7z4biFtva2YkZ2d1hBN6rl7XtuwSIKLKV5dLQhZ4XHp3kwVRb55Cu3kRV3jUOuVGqIchavsT0vEwU1pk/vKMnyUZR9ktnBfV3jOHhFWqmYS2mjISnQVEg1d0dnZLhccsOQQRhfK2tvKZWEaC6hlASEVZZkrq1g4a47LHpkXg0RBws3dGrwtFAA7sdWF3DNoGp
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2026 18:20:28.3534 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2004b8eb-2c57-4975-7d6f-08de64e33d6c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH3PEPF00000018.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5824
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,408 +141,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,linux.intel.com,intel.com,ffwll.ch,gmail.com];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[lists.freedesktop.org,gmail.com,ffwll.ch];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[raag.jadav@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[alexander.deucher@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[amd.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gitlab.freedesktop.org:url];
 	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 7451DF65A0
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: CF9BDF66B0
 X-Rspamd-Action: no action
 
-On Mon, Feb 02, 2026 at 12:14:01PM +0530, Riana Tauro wrote:
-> Report the SoC nonfatal/fatal hardware error and update the counters.
-> 
-> $ sudo ynl --family drm_ras --do query-error-counter  --json '{"node-id":0, "error-id":2}'
+Hi Dave, Simona,
 
-Same comment as last patch.
+Fixes for 6.19.
 
-> {'error-id': 2, 'error-name': 'soc-internal', 'error-value': 0}
-> 
-> Co-developed-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-> Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-> Signed-off-by: Riana Tauro <riana.tauro@intel.com>
-> ---
-> v2: Add ID's and names as uAPI (Rodrigo)
-> 
-> v3: reorder and align arrays
->     remove redundant string err
->     use REG_BIT
->     fix aesthic review comments (Raag)
->     use only correctable/uncorrectable error severity (Aravind)
-> 
-> v4: fix comments
->     use master as variable name
->     add static_assert (Raag)
-> ---
->  drivers/gpu/drm/xe/regs/xe_hw_error_regs.h |  24 +++
->  drivers/gpu/drm/xe/xe_hw_error.c           | 221 ++++++++++++++++++++-
->  2 files changed, 244 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h b/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
-> index 17982a335941..a89a07d067fc 100644
-> --- a/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
-> +++ b/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
-> @@ -41,6 +41,7 @@
->  									  DEV_ERR_STAT_NONFATAL))
->  
->  #define   XE_CSC_ERROR					17
+The following changes since commit 18f7fcd5e69a04df57b563360b88be72471d6b62:
 
-I overlooked this in the last patch but I think this should be used as
+  Linux 6.19-rc8 (2026-02-01 14:01:13 -0800)
 
-	if (err_src & REG_BIT(XE_CSC_ERROR))
+are available in the Git repository at:
 
-> +#define   XE_SOC_ERROR					16
->  #define   XE_GT_ERROR					0
->  
->  #define ERR_STAT_GT_FATAL_VECTOR_0			0x100260
-> @@ -61,4 +62,27 @@
->  							ERR_STAT_GT_COR_VECTOR_REG(x) : \
->  							ERR_STAT_GT_FATAL_VECTOR_REG(x))
->  
-> +#define SOC_PVC_MASTER_BASE				0x282000
-> +#define SOC_PVC_SLAVE_BASE				0x283000
-> +
-> +#define SOC_GCOERRSTS					0x200
-> +#define SOC_GNFERRSTS					0x210
-> +#define SOC_GLOBAL_ERR_STAT_REG(base, x)		XE_REG(_PICK_EVEN((x), \
-> +									  (base) + SOC_GCOERRSTS, \
-> +									  (base) + SOC_GNFERRSTS))
-> +#define   SOC_SLAVE_IEH					REG_BIT(1)
-> +#define   SOC_IEH0_LOCAL_ERR_STATUS			REG_BIT(0)
-> +#define   SOC_IEH1_LOCAL_ERR_STATUS			REG_BIT(0)
-> +
-> +#define SOC_GSYSEVTCTL					0x264
-> +#define SOC_GSYSEVTCTL_REG(master, slave, x)		XE_REG(_PICK_EVEN((x), \
-> +									  (master) + SOC_GSYSEVTCTL, \
-> +									  (slave) + SOC_GSYSEVTCTL))
-> +
-> +#define SOC_LERRUNCSTS					0x280
-> +#define SOC_LERRCORSTS					0x294
-> +#define SOC_LOCAL_ERR_STAT_REG(base, hw_err)		XE_REG(hw_err == HARDWARE_ERROR_CORRECTABLE ? \
-> +							       (base) + SOC_LERRCORSTS : \
-> +							       (base) + SOC_LERRUNCSTS)
-> +
->  #endif
-> diff --git a/drivers/gpu/drm/xe/xe_hw_error.c b/drivers/gpu/drm/xe/xe_hw_error.c
-> index ff31fb322c8a..159ec796386a 100644
-> --- a/drivers/gpu/drm/xe/xe_hw_error.c
-> +++ b/drivers/gpu/drm/xe/xe_hw_error.c
-> @@ -19,6 +19,7 @@
->  #define  GT_HW_ERROR_MAX_ERR_BITS	16
->  #define  HEC_UNCORR_FW_ERR_BITS		4
->  #define  XE_RAS_REG_SIZE		32
-> +#define  XE_SOC_NUM_IEH			2
->  
->  #define  PVC_ERROR_MASK_SET(hw_err, err_bit) \
->  	((hw_err == HARDWARE_ERROR_CORRECTABLE) ? (BIT(err_bit) & PVC_COR_ERR_MASK) : \
-> @@ -36,7 +37,8 @@ static const char * const hec_uncorrected_fw_errors[] = {
->  };
->  
->  static const unsigned long xe_hw_error_map[] = {
-> -	[XE_GT_ERROR] = DRM_XE_RAS_ERR_COMP_CORE_COMPUTE,
-> +	[XE_GT_ERROR]	= DRM_XE_RAS_ERR_COMP_CORE_COMPUTE,
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.19-2026-02-05
 
-Unneeded churn, please align in the original patch.
+for you to fetch changes up to 6b61a54e684006ca0d92d684a1d3c3a00f077d8f:
 
-> +	[XE_SOC_ERROR]	= DRM_XE_RAS_ERR_COMP_SOC_INTERNAL,
->  };
->  
->  enum gt_vector_regs {
-> @@ -60,6 +62,102 @@ static enum drm_xe_ras_error_severity hw_err_to_severity(enum hardware_error hw_
->  	return DRM_XE_RAS_ERR_SEV_UNCORRECTABLE;
->  }
->  
-> +static const char * const pvc_master_global_err_reg[] = {
-> +	[0 ... 1]	= "Undefined",
-> +	[2]		= "HBM SS0: Channel0",
-> +	[3]		= "HBM SS0: Channel1",
-> +	[4]		= "HBM SS0: Channel2",
-> +	[5]		= "HBM SS0: Channel3",
-> +	[6]		= "HBM SS0: Channel4",
-> +	[7]		= "HBM SS0: Channel5",
-> +	[8]		= "HBM SS0: Channel6",
-> +	[9]		= "HBM SS0: Channel7",
-> +	[10]		= "HBM SS1: Channel0",
-> +	[11]		= "HBM SS1: Channel1",
-> +	[12]		= "HBM SS1: Channel2",
-> +	[13]		= "HBM SS1: Channel3",
-> +	[14]		= "HBM SS1: Channel4",
-> +	[15]		= "HBM SS1: Channel5",
-> +	[16]		= "HBM SS1: Channel6",
-> +	[17]		= "HBM SS1: Channel7",
-> +	[18 ... 31]	= "Undefined",
-> +};
-> +
+  drm/amdgpu: Fix double deletion of validate_list (2026-02-03 17:24:21 -0500)
 
-Redundant blank line.
+----------------------------------------------------------------
+amd-drm-fixes-6.19-2026-02-05:
 
-> +static_assert(ARRAY_SIZE(pvc_master_global_err_reg) == XE_RAS_REG_SIZE);
-> +
-> +static const char * const pvc_slave_global_err_reg[] = {
-> +	[0]		= "Undefined",
-> +	[1]		= "HBM SS2: Channel0",
-> +	[2]		= "HBM SS2: Channel1",
-> +	[3]		= "HBM SS2: Channel2",
-> +	[4]		= "HBM SS2: Channel3",
-> +	[5]		= "HBM SS2: Channel4",
-> +	[6]		= "HBM SS2: Channel5",
-> +	[7]		= "HBM SS2: Channel6",
-> +	[8]		= "HBM SS2: Channel7",
-> +	[9]		= "HBM SS3: Channel0",
-> +	[10]		= "HBM SS3: Channel1",
-> +	[11]		= "HBM SS3: Channel2",
-> +	[12]		= "HBM SS3: Channel3",
-> +	[13]		= "HBM SS3: Channel4",
-> +	[14]		= "HBM SS3: Channel5",
-> +	[15]		= "HBM SS3: Channel6",
-> +	[16]		= "HBM SS3: Channel7",
-> +	[17]		= "Undefined",
-> +	[18]		= "ANR MDFI",
-> +	[19 ... 31]	= "Undefined",
-> +};
-> +
+amdgpu:
+- MES 11 old firmware compatibility fix
+- ASPM fix
+- DC LUT fixes
 
-Ditto.
+amdkfd:
+- Fix possible double deletion of validate list
 
-> +static_assert(ARRAY_SIZE(pvc_slave_global_err_reg) == XE_RAS_REG_SIZE);
-> +
-> +static const char * const pvc_slave_local_fatal_err_reg[] = {
-> +	[0]		= "Local IEH: Malformed PCIe AER",
-> +	[1]		= "Local IEH: Malformed PCIe ERR",
-> +	[2]		= "Local IEH: UR conditions in IEH",
-> +	[3]		= "Local IEH: From SERR Sources",
-> +	[4 ... 19]	= "Undefined",
-> +	[20]		= "Malformed MCA error packet (HBM/Punit)",
-> +	[21 ... 31]	= "Undefined",
-> +};
-> +
+----------------------------------------------------------------
+Bert Karwatzki (1):
+      Revert "drm/amd: Check if ASPM is enabled from PCIe subsystem"
 
-Ditto.
+Harish Kasiviswanathan (1):
+      drm/amdgpu: Fix double deletion of validate_list
 
-> +static_assert(ARRAY_SIZE(pvc_slave_local_fatal_err_reg) == XE_RAS_REG_SIZE);
-> +
-> +static const char * const pvc_master_local_fatal_err_reg[] = {
-> +	[0]		= "Local IEH: Malformed IOSF PCIe AER",
-> +	[1]		= "Local IEH: Malformed IOSF PCIe ERR",
-> +	[2]		= "Local IEH: UR RESPONSE",
-> +	[3]		= "Local IEH: From SERR SPI controller",
-> +	[4]		= "Base Die MDFI T2T",
-> +	[5]		= "Undefined",
-> +	[6]		= "Base Die MDFI T2C",
-> +	[7]		= "Undefined",
-> +	[8]		= "Invalid CSC PSF Command Parity",
-> +	[9]		= "Invalid CSC PSF Unexpected Completion",
-> +	[10]		= "Invalid CSC PSF Unsupported Request",
-> +	[11]		= "Invalid PCIe PSF Command Parity",
-> +	[12]		= "PCIe PSF Unexpected Completion",
-> +	[13]		= "PCIe PSF Unsupported Request",
-> +	[14 ... 19]	= "Undefined",
-> +	[20]		= "Malformed MCA error packet (HBM/Punit)",
-> +	[21 ... 31]	= "Undefined",
-> +};
-> +
+Mario Limonciello (1):
+      drm/amd: Set minimum version for set_hw_resource_1 on gfx11 to 0x52
 
-Ditto.
+Melissa Wen (3):
+      drm/amd/display: fix wrong color value mapping on MCM shaper LUT
+      drm/amd/display: extend delta clamping logic to CM3 LUT helper
+      drm/amd/display: remove assert around dpp_base replacement
 
-> +static_assert(ARRAY_SIZE(pvc_master_local_fatal_err_reg) == XE_RAS_REG_SIZE);
-> +
-> +static const char * const pvc_master_local_nonfatal_err_reg[] = {
-> +	[0 ... 3]	= "Undefined",
-> +	[4]		= "Base Die MDFI T2T",
-> +	[5]		= "Undefined",
-> +	[6]		= "Base Die MDFI T2C",
-> +	[7]		= "Undefined",
-> +	[8]		= "Invalid CSC PSF Command Parity",
-> +	[9]		= "Invalid CSC PSF Unexpected Completion",
-> +	[10]		= "Invalid PCIe PSF Command Parity",
-> +	[11 ... 31]	= "Undefined",
-> +};
-> +
-
-Ditto.
-
-> +static_assert(ARRAY_SIZE(pvc_master_local_nonfatal_err_reg) == XE_RAS_REG_SIZE);
-> +
->  static bool fault_inject_csc_hw_error(void)
->  {
->  	return IS_ENABLED(CONFIG_DEBUG_FS) && should_fail(&inject_csc_hw_error, 1);
-> @@ -138,6 +236,26 @@ static void log_gt_err(struct xe_tile *tile, const char *name, int i, u32 err,
->  				    name, severity_str, i, err);
->  }
->  
-> +static void log_soc_error(struct xe_tile *tile, const char * const *reg_info,
-> +			  const enum drm_xe_ras_error_severity severity, u32 err_bit, u32 index)
-> +{
-> +	const char *severity_str = error_severity[severity];
-> +	struct xe_device *xe = tile_to_xe(tile);
-> +	struct xe_drm_ras *ras = &xe->ras;
-> +	struct xe_drm_ras_counter *info = ras->info[severity];
-> +	const char *name;
-> +
-> +	name = reg_info[err_bit];
-> +
-> +	if (strcmp(name, "Undefined")) {
-> +		if (severity == DRM_XE_RAS_ERR_SEV_CORRECTABLE)
-> +			drm_warn(&xe->drm, "%s SOC %s detected", name, severity_str);
-> +		else
-> +			drm_err_ratelimited(&xe->drm, "%s SOC %s detected", name, severity_str);
-> +		atomic_inc(&info[index].counter);
-> +	}
-> +}
-> +
->  static void gt_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err,
->  				u32 error_id)
->  {
-> @@ -221,6 +339,104 @@ static void gt_hw_error_handler(struct xe_tile *tile, const enum hardware_error
->  	}
->  }
->  
-> +static void soc_slave_ieh_handler(struct xe_tile *tile, const enum hardware_error hw_err, u32 error_id)
-> +{
-> +	const enum drm_xe_ras_error_severity severity = hw_err_to_severity(hw_err);
-> +	unsigned long slave_global_errstat, slave_local_errstat;
-> +	struct xe_mmio *mmio = &tile->mmio;
-> +	u32 regbit, slave_base;
-> +
-> +	slave_base = SOC_PVC_SLAVE_BASE;
-
-Just name it 'slave' and it'll probably help remove the line wrapping below.
-
-> +	slave_global_errstat = xe_mmio_read32(mmio, SOC_GLOBAL_ERR_STAT_REG(slave_base, hw_err));
-> +
-> +	if (slave_global_errstat & SOC_IEH1_LOCAL_ERR_STATUS) {
-> +		slave_local_errstat = xe_mmio_read32(mmio, SOC_LOCAL_ERR_STAT_REG(slave_base, hw_err));
-> +
-> +		if (hw_err == HARDWARE_ERROR_FATAL) {
-> +			for_each_set_bit(regbit, &slave_local_errstat, XE_RAS_REG_SIZE)
-> +				log_soc_error(tile, pvc_slave_local_fatal_err_reg, severity,
-> +					      regbit, error_id);
-> +		}
-> +
-> +		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(slave_base, hw_err),
-> +				slave_local_errstat);
-> +	}
-> +
-> +	for_each_set_bit(regbit, &slave_global_errstat, XE_RAS_REG_SIZE)
-> +		log_soc_error(tile, pvc_slave_global_err_reg, severity, regbit, error_id);
-> +
-> +	xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(slave_base, hw_err), slave_global_errstat);
-> +}
-> +
-> +static void soc_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err,
-> +				 u32 error_id)
-> +{
-> +	const enum drm_xe_ras_error_severity severity = hw_err_to_severity(hw_err);
-> +	struct xe_device *xe = tile_to_xe(tile);
-> +	struct xe_mmio *mmio = &tile->mmio;
-> +	unsigned long master_global_errstat, master_local_errstat;
-> +	u32 master_base, slave_base, regbit;
-> +	int i;
-> +
-> +	if (xe->info.platform != XE_PVC)
-> +		return;
-> +
-> +	master_base = SOC_PVC_MASTER_BASE;
-> +	slave_base = SOC_PVC_SLAVE_BASE;
-
-Ditto. Just 'master' and 'slave' will help remove the line wrapping below.
-
-> +	/* Mask error type in GSYSEVTCTL so that no new errors of the type will be reported */
-> +	for (i = 0; i < XE_SOC_NUM_IEH; i++)
-> +		xe_mmio_write32(mmio, SOC_GSYSEVTCTL_REG(master_base, slave_base, i),
-> +				~REG_BIT(hw_err));
-> +
-> +	if (hw_err == HARDWARE_ERROR_CORRECTABLE) {
-> +		xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(master_base, hw_err),
-> +				REG_GENMASK(31, 0));
-> +		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(master_base, hw_err),
-> +				REG_GENMASK(31, 0));
-> +		xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(slave_base, hw_err),
-> +				REG_GENMASK(31, 0));
-> +		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(slave_base, hw_err),
-> +				REG_GENMASK(31, 0));
-> +		goto unmask_gsysevtctl;
-> +	}
-> +
-> +	/*
-> +	 * Read the master global IEH error register if BIT(1) is set then process
-
-Missing comma after 'register'.
-
-> +	 * the slave IEH first. If BIT(0) in global error register is set then process
-> +	 * the corresponding local error registers.
-> +	 */
-> +	master_global_errstat = xe_mmio_read32(mmio, SOC_GLOBAL_ERR_STAT_REG(master_base, hw_err));
-> +	if (master_global_errstat & SOC_SLAVE_IEH)
-> +		soc_slave_ieh_handler(tile, hw_err, error_id);
-> +
-> +	if (master_global_errstat & SOC_IEH0_LOCAL_ERR_STATUS) {
-> +		master_local_errstat = xe_mmio_read32(mmio, SOC_LOCAL_ERR_STAT_REG(master_base, hw_err));
-> +
-> +		for_each_set_bit(regbit, &master_local_errstat, XE_RAS_REG_SIZE) {
-> +			const char * const *reg_info = (hw_err == HARDWARE_ERROR_FATAL) ?
-
-This looks like it can be outside the loop.
-
-Raag
-
-> +						       pvc_master_local_fatal_err_reg :
-> +						       pvc_master_local_nonfatal_err_reg;
-> +
-> +			log_soc_error(tile, reg_info, severity, regbit, error_id);
-> +		}
-> +
-> +		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(master_base, hw_err),
-> +				master_local_errstat);
-> +	}
-> +
-> +	for_each_set_bit(regbit, &master_global_errstat, XE_RAS_REG_SIZE)
-> +		log_soc_error(tile, pvc_master_global_err_reg, severity, regbit, error_id);
-> +
-> +	xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(master_base, hw_err),
-> +			master_global_errstat);
-> +
-> +unmask_gsysevtctl:
-> +	for (i = 0; i < XE_SOC_NUM_IEH; i++)
-> +		xe_mmio_write32(mmio, SOC_GSYSEVTCTL_REG(master_base, slave_base, i),
-> +				(HARDWARE_ERROR_MAX << 1) + 1);
-> +}
-> +
->  static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_error hw_err)
->  {
->  	const enum drm_xe_ras_error_severity severity = hw_err_to_severity(hw_err);
-> @@ -283,8 +499,11 @@ static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_er
->  					    "TILE%d reported %s %s, bit[%d] is set\n",
->  					    tile->id, name, severity_str, err_bit);
->  		}
-> +
->  		if (err_bit == XE_GT_ERROR)
->  			gt_hw_error_handler(tile, hw_err, error_id);
-> +		if (err_bit == XE_SOC_ERROR)
-> +			soc_hw_error_handler(tile, hw_err, error_id);
->  	}
->  
->  clear_reg:
-> -- 
-> 2.47.1
-> 
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   | 14 ++++----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |  3 --
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             |  2 +-
+ .../gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c | 37 +++++++++++++++++-----
+ .../drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h |  2 +-
+ .../drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c    |  9 +++---
+ .../drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c    | 18 ++++++-----
+ .../drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c  | 16 ++++++----
+ 8 files changed, 62 insertions(+), 39 deletions(-)
