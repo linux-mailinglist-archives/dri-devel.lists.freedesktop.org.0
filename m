@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SI5pBjUMhWmj7gMAu9opvQ
+	id GIJkODkMhWlm7wMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 22:31:33 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 22:31:37 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61BE8F7AC0
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 22:31:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BDF0F7AE3
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 22:31:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F14410E11A;
-	Thu,  5 Feb 2026 21:31:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77DAA10E0C0;
+	Thu,  5 Feb 2026 21:31:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="dnIzWBOU";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="VXB8vzvB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77AE010E109
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 21:31:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B6E910E0C0
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 21:31:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
  Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=qRVJW+syBiFSgw2l8vJK87H613Tqw0SJP+QY9xK03lg=; b=dnIzWBOUssZMEceurV8K20RwMW
- b+uARvzf09LwUx+69Ja7EzObzxDlXaPm3SE6ykE29m5zhuxYhVinSw6mPYt5sfPxXS6e0f1kFZ3v5
- g6E0r6bcnhWN3uym6iCnVQ1JDqhUkgM+MO5h0WxDk5P/RJ6hXlEhrGIvsiKJmN2Pg+bQkQ9uds9TY
- PUQa/s7/Fu2nfh5e2knDf6ns2j4qVuuPAsFJnksBDxCuOkYkVub9F8voJAnOYzgPE+ft+xMJ+Uxaf
- Yo3O0OZQ+q+rtxhrSsEEP2P8TWMUNAn1fx+NWw9fO7ppeMgLWlVdaVax+rNsMXUd/F6qRufKHrs4c
- Jv4V8M1Q==;
+ bh=TCqxC/inzDOOZ0KDVUgzw3tM1Fij7ZGsTDid3NkiK6E=; b=VXB8vzvBwBixBVV8i+5XMVLuae
+ TNeQN/dxLrC9QzOYa1STbz/xwKerqqi+zOSg/LV51yorwOvWnx2QmGRhaHFoz3/trkCRBT5t1q+3Z
+ moyeTZJBsKF+6qeMUua7Cit/JJKPMHRiiPAgdjZMJ0PY/Wl2BpcV6IrkgGr0ddn0FO7nA+5unzTDq
+ t//dczCnHTFozCw/JoHR1pACq82VK4/h0IctjOd5X/pOZASFJE/tveIKc3seL9Tp07yw2JKHjwfHG
+ NMNTMv9fY+CqLz1xnlPhaDhfuXaUJ2heHjdKNcUWQZqXsZmC3/IJ34CwSHWmfVtfLzgFHMGnDbUWQ
+ XMvTFu9w==;
 Received: from [187.36.210.68]
  (helo=1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vo6wb-00EZx4-V4; Thu, 05 Feb 2026 22:31:22 +0100
+ id 1vo6we-00EZx4-QD; Thu, 05 Feb 2026 22:31:25 +0100
 From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Thu, 05 Feb 2026 18:31:02 -0300
-Subject: [PATCH 03/11] drm/vc4: Move vc4_wait_bo_ioctl() to vc4_bo.c
+Date: Thu, 05 Feb 2026 18:31:03 -0300
+Subject: [PATCH 04/11] drm/vc4: Introduce vc4_job structures for DRM
+ scheduler integration
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260205-vc4-drm-scheduler-v1-3-c6174fd7bbc1@igalia.com>
+Message-Id: <20260205-vc4-drm-scheduler-v1-4-c6174fd7bbc1@igalia.com>
 References: <20260205-vc4-drm-scheduler-v1-0-c6174fd7bbc1@igalia.com>
 In-Reply-To: <20260205-vc4-drm-scheduler-v1-0-c6174fd7bbc1@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, Maxime Ripard <mripard@kernel.org>, 
@@ -55,15 +56,15 @@ To: Melissa Wen <mwen@igalia.com>, Maxime Ripard <mripard@kernel.org>,
 Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4268; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=a+H3ogXZ7imwxA1F2dZS4b1wGn2BBvtVw+vUo3DoG1I=;
- b=owGbwMvMwMFo/5mvq6zj1yrG02pJDJmtPDLn3XfmdaXMU6h1Vj1+e++5hetkJHwmTDvSMv9An
- vNEj7UFnYzGLAyMHAyyYoosP57E1jKKlbNrLiu/CDOIlQlkCgMXpwBM5NJy9r/yE9hjjDgzS0zf
- fnP4YGhstvR05fku7SqjNbVrvNX6+uIPZDsFJEeprdadVMm1/PGV6avYJr345CS95k9gg7Xr7m3
- ewjOCmbmn7SvfsHwv+00Zx5SJTSYfkqPNE3P+pk6rZt+sc6W4qu/Sx362N3X56zqveM/82fmYk1
- PXu3221UKZjctenfgjpZeyrs5Wps5OPLQ8ZIPXJE05AxbrV0pqWSnpq6OSko/u7myoX/My8e8ME
- 73CqzWHarbal1Xcywz/ImZmMSmr2bF6zvtLqZ6LTp/qrRFKKZ5nZMvS4z+tR3u+uSq3wKwgUfHJ
- WQKMhRLbJhVte3mv4Ip+qM+yqecY/M7MPxS4fN8009OPAQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3538; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=RaJYjRyAgRt+PCl8q+I6Ht1GvNjXU7ndeAO/JbzVCpw=;
+ b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBphQwc/zINh57Px0CnLTnLBmWrSqMl0lPuME39N
+ AQwoKQ3/EiJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaYUMHAAKCRA/8w6Kdoj6
+ qvsLB/9rlikG4lcwfZoZUPdf0rGW1bJAv/WScfrci57s9ItWMKKejj+USos4g/d2glZOAfM+Qk4
+ q2eR2YLsu0TComdedBAf3w5j3llZGKWnKZLqTsNgMVBNAOIjlNSzoD7IifMDLsEv+wvTGCR3zKw
+ 2SOCT7kNr9cLG3GTCU4PxAmNHq1dXFHi6YrT1EzzO9KBgGjSPIXmXr/mq4pZe9ft6Far1JYNv84
+ mQFnAtJ/xWLF/RFvSbbKf1M/EFfxWr4BmyjVeZ1r1ICWwS61il+q4kTwSmPwV8Mr+mbeXZdlQoe
+ VoLMWd/Owp4HBtwlc60c4ovlw3iLK2cOfBlA+fwApJfb0rST
 X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
  fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,8 +93,8 @@ X-Spamd-Result: default: False [0.49 / 15.00];
 	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_RECIPIENTS(0.00)[m:mwen@igalia.com,m:mripard@kernel.org,m:dave.stevenson@raspberrypi.com,m:kernel-list@raspberrypi.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:kernel-dev@igalia.com,m:mcanal@igalia.com,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[igalia.com,kernel.org,raspberrypi.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
-	FORGED_SENDER(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[mcanal@igalia.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -113,129 +114,126 @@ X-Spamd-Result: default: False [0.49 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,igalia.com:mid,igalia.com:email]
-X-Rspamd-Queue-Id: 61BE8F7AC0
+X-Rspamd-Queue-Id: 7BDF0F7AE3
 X-Rspamd-Action: no action
 
-Move vc4_wait_bo_ioctl() from vc4_gem.c to vc4_bo.c, grouping it with
-the other BO-related ioctls. No functional change.
+Introduce `struct vc4_job` as the new base structure for GPU jobs, with
+`vc4_bin_job` and `vc4_render_job` as specialized variants for BIN and
+RENDER jobs, respectively. These structures embed `struct drm_sched_job`
+and will be used with the DRM GPU scheduler.
+
+The `vc4_exec_info` struct now holds pointers to these job structs,
+allowing the existing validation code to populate job fields during
+command list processing. Each submission will have a `vc4_exec_info`,
+and each execution info will hold a BIN and RENDER job.
+
+This design is largely inspired by the v3d driver's job structures.
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/vc4/vc4_bo.c  | 33 +++++++++++++++++++++++++++++++++
- drivers/gpu/drm/vc4/vc4_drv.h |  4 ++--
- drivers/gpu/drm/vc4/vc4_gem.c | 33 ---------------------------------
- 3 files changed, 35 insertions(+), 35 deletions(-)
+ drivers/gpu/drm/vc4/vc4_drv.h | 79 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 79 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-index 46b4474ac41d46f836f0896b3b5f57f09629e24e..c32e3d24d26af1ffb50e099decb37252769de9a0 100644
---- a/drivers/gpu/drm/vc4/vc4_bo.c
-+++ b/drivers/gpu/drm/vc4/vc4_bo.c
-@@ -830,6 +830,39 @@ int vc4_mmap_bo_ioctl(struct drm_device *dev, void *data,
- 	return 0;
- }
- 
-+int
-+vc4_wait_bo_ioctl(struct drm_device *dev, void *data,
-+		  struct drm_file *file_priv)
-+{
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
-+	int ret;
-+	struct drm_vc4_wait_bo *args = data;
-+	unsigned long timeout_jiffies =
-+		usecs_to_jiffies(div_u64(args->timeout_ns, 1000));
-+	ktime_t start = ktime_get();
-+	u64 delta_ns;
-+
-+	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
-+		return -ENODEV;
-+
-+	if (args->pad != 0)
-+		return -EINVAL;
-+
-+	ret = drm_gem_dma_resv_wait(file_priv, args->handle,
-+				    true, timeout_jiffies);
-+
-+	/* Decrement the user's timeout, in case we got interrupted
-+	 * such that the ioctl will be restarted.
-+	 */
-+	delta_ns = ktime_to_ns(ktime_sub(ktime_get(), start));
-+	if (delta_ns < args->timeout_ns)
-+		args->timeout_ns -= delta_ns;
-+	else
-+		args->timeout_ns = 0;
-+
-+	return ret;
-+}
-+
- int
- vc4_create_shader_bo_ioctl(struct drm_device *dev, void *data,
- 			   struct drm_file *file_priv)
 diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index dbcc83b7df004519c9c74a618b81877a14796d36..0f2fb035fef177dd446ff8322da2413c861ecfd3 100644
+index 0f2fb035fef177dd446ff8322da2413c861ecfd3..0f6b7cda1193f0e5ee6b7a504ff447460dedab20 100644
 --- a/drivers/gpu/drm/vc4/vc4_drv.h
 +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -906,6 +906,8 @@ int vc4_bo_dumb_create(struct drm_file *file_priv,
- 		       struct drm_mode_create_dumb *args);
- int vc4_create_bo_ioctl(struct drm_device *dev, void *data,
- 			struct drm_file *file_priv);
-+int vc4_wait_bo_ioctl(struct drm_device *dev, void *data,
-+		      struct drm_file *file_priv);
- int vc4_create_shader_bo_ioctl(struct drm_device *dev, void *data,
- 			       struct drm_file *file_priv);
- int vc4_mmap_bo_ioctl(struct drm_device *dev, void *data,
-@@ -990,8 +992,6 @@ int vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
- 			struct drm_file *file_priv);
- int vc4_wait_seqno_ioctl(struct drm_device *dev, void *data,
- 			 struct drm_file *file_priv);
--int vc4_wait_bo_ioctl(struct drm_device *dev, void *data,
--		      struct drm_file *file_priv);
- void vc4_submit_next_bin_job(struct drm_device *dev);
- void vc4_submit_next_render_job(struct drm_device *dev);
- void vc4_move_job_to_render(struct drm_device *dev, struct vc4_exec_info *exec);
-diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
-index f943ff7da28ae528c0fdfac76e989a2d5286d193..9df2634e48566ba12858c135a3c313efa7bd120c 100644
---- a/drivers/gpu/drm/vc4/vc4_gem.c
-+++ b/drivers/gpu/drm/vc4/vc4_gem.c
-@@ -962,39 +962,6 @@ vc4_wait_seqno_ioctl(struct drm_device *dev, void *data,
- 					       &args->timeout_ns);
- }
+@@ -152,6 +152,10 @@ struct vc4_dev {
+ 	 */
+ 	uint64_t emit_seqno;
  
--int
--vc4_wait_bo_ioctl(struct drm_device *dev, void *data,
--		  struct drm_file *file_priv)
--{
--	struct vc4_dev *vc4 = to_vc4_dev(dev);
--	int ret;
--	struct drm_vc4_wait_bo *args = data;
--	unsigned long timeout_jiffies =
--		usecs_to_jiffies(div_u64(args->timeout_ns, 1000));
--	ktime_t start = ktime_get();
--	u64 delta_ns;
--
--	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
--		return -ENODEV;
--
--	if (args->pad != 0)
--		return -EINVAL;
--
--	ret = drm_gem_dma_resv_wait(file_priv, args->handle,
--				    true, timeout_jiffies);
--
--	/* Decrement the user's timeout, in case we got interrupted
--	 * such that the ioctl will be restarted.
--	 */
--	delta_ns = ktime_to_ns(ktime_sub(ktime_get(), start));
--	if (delta_ns < args->timeout_ns)
--		args->timeout_ns -= delta_ns;
--	else
--		args->timeout_ns = 0;
--
--	return ret;
--}
--
- /**
-  * vc4_submit_cl_ioctl() - Submits a job (frame) to the VC4.
-  * @dev: DRM device
++	struct vc4_bin_job *bin_job;
++
++	struct vc4_render_job *render_job;
++
+ 	/* Sequence number for the last completed job on the GPU.
+ 	 * Starts at 0 (no jobs completed).
+ 	 */
+@@ -668,9 +672,84 @@ struct vc4_crtc_state {
+ 
+ #define VC4_REG32(reg) { .name = #reg, .offset = reg }
+ 
++struct vc4_job {
++	struct drm_sched_job base;
++
++	struct kref refcount;
++
++	struct vc4_dev *vc4;
++
++	/* v3d fence to be signaled by IRQ handler when the job is complete. */
++	struct dma_fence *irq_fence;
++
++	/* scheduler fence for when the job is considered complete and
++	 * the BO reservations can be released.
++	 */
++	struct dma_fence *done_fence;
++
++	/* Last current and return addresses the hardware was processing when
++	 * the job timedout.
++	 */
++	u32 timedout_ctca, timedout_ctra;
++
++	/* Pointer to a performance monitor object if the user requested it,
++	 * NULL otherwise.
++	 */
++	struct vc4_perfmon *perfmon;
++
++	/* Callback for the freeing of the job on refcount going to 0. */
++	void (*free)(struct kref *ref);
++};
++
++struct vc4_bin_job {
++	struct vc4_job base;
++
++	uint32_t ct0ca, ct0ea;
++
++	/* Corresponding render job, for attaching our overflow memory. */
++	struct vc4_render_job *render;
++
++	/* Whether the exec has taken a reference to the binner BO, which should
++	 * happen with a VC4_PACKET_TILE_BINNING_MODE_CONFIG packet.
++	 */
++	bool bin_bo_used;
++};
++
++struct vc4_render_job {
++	struct vc4_job base;
++
++	uint32_t ct1ca, ct1ea;
++
++	/* This is the array of BOs that were looked up at the start of submission.
++	 * Command validation will use indices into this array.
++	 */
++	struct drm_gem_object **bo;
++	u32 bo_count;
++
++	/* List of other BOs used in the job that need to be released
++	 * once the job is complete.
++	 */
++	struct list_head unref_list;
++
++	/* List of BOs that are being written by the RCL. Other than
++	 * the binner temporary storage, this is all the BOs written
++	 * by the job.
++	 */
++	struct drm_gem_dma_object *rcl_write_bo[4];
++	uint32_t rcl_write_bo_count;
++
++	/* Bitmask of which binner slots are freed when this job completes.
++	 * Must remain allocated until the render job completes.
++	 */
++	uint32_t bin_slots;
++};
++
+ struct vc4_exec_info {
+ 	struct vc4_dev *dev;
+ 
++	struct vc4_bin_job *bin;
++	struct vc4_render_job *render;
++
+ 	/* Sequence number for this bin/render job. */
+ 	uint64_t seqno;
+ 
 
 -- 
 2.52.0
