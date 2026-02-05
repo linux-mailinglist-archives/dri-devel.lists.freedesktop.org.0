@@ -2,113 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kK7YFV2nhGmI3wMAu9opvQ
+	id +AlDFXqnhGmI3wMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 15:21:17 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 15:21:46 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD59DF3E43
-	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 15:21:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADA4CF3E58
+	for <lists+dri-devel@lfdr.de>; Thu, 05 Feb 2026 15:21:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDF0410E8E3;
-	Thu,  5 Feb 2026 14:21:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B646310E8DD;
+	Thu,  5 Feb 2026 14:21:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="T82y2l+g";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="A51m7xXz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KU1T9ipL";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="A51m7xXz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KU1T9ipL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com
- [209.85.219.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A87510E8E4
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 14:21:14 +0000 (UTC)
-Received: by mail-qv1-f65.google.com with SMTP id
- 6a1803df08f44-894770e34afso13634206d6.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Feb 2026 06:21:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1770301273; x=1770906073; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=MSUoQMJoCCNydU2DcwMWqdKRWnt0MqAVvIGN6ESmMGo=;
- b=T82y2l+gvgvflNe+Ykv+sIOMay/sO8Q2rFK8m/HCNE9dJZ/derfurWcpf8hRxRbpT3
- 655hJEFUhTmBijclKOd6OJdPCtg1Yf9VzTMvpOb7HeJpH5Dvu5UP8r4zhIJZfs5B0rWG
- Z0WHLO0jQ2NQuqBscSKVlj3VUBrx0JSCZMyiS9hh6bT1oLtHqNctjEDV2xwlMJYRcNNN
- vVJ89ZccVFE6A+GE2+JFWg3LEeeD/kMUQUiF9zT2toKPNnw03RHF30r62sxxS5t0rS1/
- 3SlNJIT3G0WqBtk7cca50Y61ey7EHayMa6gLR6/wmUbOE2cV8vqPmM4hQTaHrRIm0gxa
- euEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770301273; x=1770906073;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MSUoQMJoCCNydU2DcwMWqdKRWnt0MqAVvIGN6ESmMGo=;
- b=Bs40od+zrBOS3V6tERfCQshy2s8slXFmM23LgDJK95nPNrDiGA8CwbAAxdIxy1b+E6
- XGmPy3LsfB7c7aqs4m+0eIjoGJDgHToJqfZMJ9tbIQKuOFfXjvkMz0Lj3FneZjDJZ191
- F481SRn89HP+pyUxmPfBFimsJl5XB+4yqjm0FzVUuaIJP6gQuJSwvfY/0+52yZ3y5C9U
- icsmMhijLgLrB3R+ZDj3iivuiO31S/wQ/jfCcHxAEQFSYNP6c9mt21osSWJUA9zRF+2F
- M6n3FfA/jpg3NgDE8pBTaFy/vOE+41nz13KDm372Zpr0sEtJm++rdABywBIlG5AWzAV6
- UxYA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVezcwoXMvgc91sHpNLdRFGmvzwVYZub9nZbBBoNBcyZo4xY/6ALBGDmcCqDd54lKaD1LLOnFojKoA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyfvWAwhgaQl0MYAWC5lcI9wfgeLG4Ywc+BDa9E7orMi6VXN/ys
- 73aXyJUQy4lVFIyrZsmgfWT94XewdshvXAcl81DXQaj+FCeLEnjw7S0Jto+8+JlFUDU=
-X-Gm-Gg: AZuq6aIPzroQYh49cSRQ+z2UEKyfaOYWHCeMXWeKyRPafhkX0QxUIx7HYsrGbkA5FBc
- TdRdXJjBNSCFGJziDaA/IvJji3ScsjjKizxQf4oYu2Xi7UlvyITDvCMGNq0PFpoqARv5yktMHxl
- HEvBH5jmq/3VSQ18l86npvDdUnAFUrN1fCW6a2PQorIngumdcmbHomyDZOF6MDAbdp1t9hv6nGu
- TMjyKQg5ieXS4EI8I9QZksjyTgtMtpmxv2728LW6OimPYhAGSqJkqpj/tWE5vzJLRAiEIhQvfI/
- 9tKtDbbOqGK3Vr2Yxi5Rr5VOFUlShOH1LTtpM0ehhgCTSfzcb+iFvVpTjgXHFBtjbnFGIEiwHFI
- 43rD/KBSg000Imy76DRX4RXH6O2XDtu3O582PyOdVqTBZRxMmB82zBeiAc3K5s6QQFK8UXL/Wbn
- zZigwFfGq/MLy/M1RWYzsxZoxcQshxjydbMe90wf/ZAj6f/Lo9BLH04pU8XWor2rEkkV0=
-X-Received: by 2002:ad4:5cc6:0:b0:88f:ca72:6ae8 with SMTP id
- 6a1803df08f44-89522189787mr84672066d6.45.1770301272999; 
- Thu, 05 Feb 2026 06:21:12 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-89521bff53esm42252276d6.8.2026.02.05.06.21.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Feb 2026 06:21:12 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1vo0EJ-00000000kPY-3gpa;
- Thu, 05 Feb 2026 10:21:11 -0400
-Date: Thu, 5 Feb 2026 10:21:11 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Alex Williamson <alex@shazbot.org>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>, Ankit Agrawal <ankita@nvidia.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
- intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v7 7/8] vfio: Permit VFIO to work with pinned importers
-Message-ID: <20260205142111.GK2328995@ziepe.ca>
-References: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
- <20260131-dmabuf-revoke-v7-7-463d956bd527@nvidia.com>
- <fb9bf53a-7962-451a-bac2-c61eb52c7a0f@amd.com>
- <20260204095659.5a983af2@shazbot.org>
- <ac33ad1a-330c-4ab5-bb98-4a4dedccf0da@amd.com>
- <20260205121945.GC12824@unreal>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BBD810E8DD
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Feb 2026 14:21:41 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 077603E7AC;
+ Thu,  5 Feb 2026 14:21:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1770301300; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=c71yPSol/yRVFoUoOTimmD1QFlOjuPqBYf9NSWa3ZB4=;
+ b=A51m7xXzOht1x8d6I9i7HGVMotEleC8bU6DRTuCBn8tyMyq8Ov/SeBZK/SKujbL4k1Fnl9
+ f4QM1rMndRxX6EH9HU1XENAI0MoY3/Qaec11Fca+NezQqJeO8Q1EvaucWfAFcR4h4grYbB
+ h20XQVa7RMbO9xxj0lonr48LYMc/oU8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1770301300;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=c71yPSol/yRVFoUoOTimmD1QFlOjuPqBYf9NSWa3ZB4=;
+ b=KU1T9ipLm/1yjU0kBa9J7bfPjM+E73zuNSpYPuh+4i6ZlRTAncacX2zgRX0E511Uux32Sc
+ 4lYXrq6RNsVtJXBQ==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=A51m7xXz;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KU1T9ipL
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1770301300; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=c71yPSol/yRVFoUoOTimmD1QFlOjuPqBYf9NSWa3ZB4=;
+ b=A51m7xXzOht1x8d6I9i7HGVMotEleC8bU6DRTuCBn8tyMyq8Ov/SeBZK/SKujbL4k1Fnl9
+ f4QM1rMndRxX6EH9HU1XENAI0MoY3/Qaec11Fca+NezQqJeO8Q1EvaucWfAFcR4h4grYbB
+ h20XQVa7RMbO9xxj0lonr48LYMc/oU8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1770301300;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=c71yPSol/yRVFoUoOTimmD1QFlOjuPqBYf9NSWa3ZB4=;
+ b=KU1T9ipLm/1yjU0kBa9J7bfPjM+E73zuNSpYPuh+4i6ZlRTAncacX2zgRX0E511Uux32Sc
+ 4lYXrq6RNsVtJXBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CBBC33EA63;
+ Thu,  5 Feb 2026 14:21:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id bwsNMHOnhGnXMgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 05 Feb 2026 14:21:39 +0000
+Message-ID: <842b8471-7f71-43f7-b364-28bc9d5dad2b@suse.de>
+Date: Thu, 5 Feb 2026 15:21:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260205121945.GC12824@unreal>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Question] Dead code in aperture_remove_all_conflicting_devices()?
+To: Ingyu Jang <ingyujang25@korea.ac.kr>, dri-devel@lists.freedesktop.org
+Cc: javierm@redhat.com, deller@gmx.de
+References: <20260131151006.3296961-1-ingyujang25@korea.ac.kr>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20260131151006.3296961-1-ingyujang25@korea.ac.kr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,70 +133,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	SUBJECT_ENDS_QUESTION(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:leon@kernel.org,m:christian.koenig@amd.com,m:alex@shazbot.org,m:simona@ffwll.ch,m:jani.nikula@intel.com,m:lucas.demarchi@intel.com,m:sumit.semwal@linaro.org,m:alexander.deucher@amd.com,m:airlied@gmail.com,m:kraxel@redhat.com,m:dmitry.osipenko@collabora.com,m:gurchetansingh@chromium.org,m:olvaffe@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,m:kevin.tian@intel.com,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:Felix.Kuehling@amd.com,m:ankita@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:amd-gfx@lists.freedesktop.org,m:virtualization@lists.linux.dev,m:intel-xe@lists.freedesktop.org,m:linux-rdma@vger.kernel.org,m:iommu@lists.linux.dev,m:kvm@vger.kernel.org,s:lists@lfdr.de];
-	DMARC_NA(0.00)[ziepe.ca];
-	FREEMAIL_CC(0.00)[amd.com,shazbot.org,ffwll.ch,intel.com,linaro.org,gmail.com,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,8bytes.org,arm.com,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[35];
-	DKIM_TRACE(0.00)[ziepe.ca:+];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS(0.00)[m:ingyujang25@korea.ac.kr,m:javierm@redhat.com,m:deller@gmx.de,s:lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[redhat.com,gmx.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.de:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,anongit.freedesktop.org:url]
-X-Rspamd-Queue-Id: AD59DF3E43
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,sun4i_drv_driver.name:url]
+X-Rspamd-Queue-Id: ADA4CF3E58
 X-Rspamd-Action: no action
 
-On Thu, Feb 05, 2026 at 02:19:45PM +0200, Leon Romanovsky wrote:
-> You don't need any backmerge, SHA-1 version of vfio-v6.19-rc8 tag is the
-> same as in Linus's tree, so the flow is:
+Hi
 
-I'm confused what is the problem here?
+Am 31.01.26 um 16:10 schrieb Ingyu Jang:
+> Hi,
+>
+> I noticed that in drivers/video/aperture.c, the function
+> aperture_remove_conflicting_devices() always returns 0.
+>
+> The function (at line 284) simply performs:
+>    - sysfb_disable(NULL)
+>    - aperture_detach_devices(base, size)
+>    - return 0
+>
+> The wrapper function aperture_remove_all_conflicting_devices()
+> in include/linux/aperture.h (line 57) calls this function
+> and also always returns 0.
+>
+> However, multiple DRM drivers check the return value and have
+> error handling:
+>
+> 1. drivers/gpu/drm/vc4/vc4_drv.c (line 364):
+>     ret = aperture_remove_all_conflicting_devices(driver->name);
+>     if (ret)
+>         goto err;
+>
+> 2. drivers/gpu/drm/sun4i/sun4i_drv.c (line 103):
+>     ret = aperture_remove_all_conflicting_devices(sun4i_drv_driver.name);
+>     if (ret)
+>         goto unbind_all;
+>
+> Since aperture_remove_conflicting_devices() never fails, these
+> error paths appear to be dead code.
+>
+> Is this intentional defensive coding for potential future changes,
+> or could this be cleaned up by making the function return void?
 
-From https://anongit.freedesktop.org/git/drm/drm-misc
- * branch                          drm-misc-next -> FETCH_HEAD
+Yeah, it's mostly for completeness. But I would not want to change it 
+unless we can rule out any future failures as well. Because if there's 
+chance that the old device is still around, we should not load the new 
+driver.
 
-$ git show FETCH_HEAD
-commit 779ec12c85c9e4547519e3903a371a3b26a289de
-Author: Alexander Konyukhov <Alexander.Konyukhov@kaspersky.com>
-Date:   Tue Feb 3 16:48:46 2026 +0300
+The _pci_ helper also calls vga_remove_vgacon(), which can fail. But 
+that failure also looks related to errors in the kernel config.
 
-    drm/komeda: fix integer overflow in AFBC framebuffer size check
+Best regards
+Thomas
 
-$ git merge-base  FETCH_HEAD 61ceaf236115f20f4fdd7cf60f883ada1063349a
-24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
-$ git describe --contains 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
-v6.19-rc6^0
+>
+> Thanks,
+> Ingyu Jang
 
-$ git log --oneline 61ceaf236115f20f4fdd7cf60f883ada1063349a ^FETCH_HEAD
-61ceaf236115f2 vfio: Prevent from pinned DMABUF importers to attach to VFIO DMABUF
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
 
-Just pull Alex's tree, the drm-misc-next tree already has v6.19-rc6,
-so all they will see is one extra patch from Alex in your PR.
 
-No need to backmerge, this is normal git stuff and there won't be
-conflicts when they merge a later Linus tag.
-
-Jason
