@@ -2,63 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wGVvEPGzhWmbFQQAu9opvQ
+	id KEYmEUW1hWmbFQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 10:27:13 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 10:32:53 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0502FC02F
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 10:27:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A585DFC0E5
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 10:32:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FEEB10E62B;
-	Fri,  6 Feb 2026 09:27:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63A8410E64B;
+	Fri,  6 Feb 2026 09:32:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="O+yU2Fmb";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="abxZ6bvf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A04E10E62B
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 09:27:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1770370027;
- bh=Zb061o2u6T+vuh50BQT1sN23+REvX+tZuhCJzw9gTjw=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=O+yU2Fmba/0Uqa7CxrYjq4dF3Ig5B87cLICGMConuDVjMOJvkQ5ktzjHKhA3Sp15c
- BhXDb6CMIFn2xV3/dLhZfeXQM4gPaGrQipAuf4mqn+kJ+u+9jidAeNJIwIKHUaWBKc
- e8y5JBsnF7vP8RTY3Bmu0QuFSM/W18XLbwuthHjBtfEGMVWyYpbEeUUIXG36uNqm8X
- pkLu3f8cB9SSoll2LClzyg8QDixvkg8AzGtBkFME3RbfmTGbEdsrbTpB91o6Hq8BtZ
- 7vUXzeu1VGiMEqJkVhSE4R+9qkN9vLUPBQd0nTrhoUkfTCmflcGelcuLU5OGgJLVJY
- C2xE0kd9fp6og==
-Received: from eldfell (unknown [194.136.85.206])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D9DB10E64B
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 09:32:48 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id CD64C17E14F1;
- Fri,  6 Feb 2026 10:27:06 +0100 (CET)
-Date: Fri, 6 Feb 2026 11:27:02 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Matthias
- Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, daniels@collabora.com,
- ariel.dalessandro@collabora.com, kernel@collabora.com
-Subject: Re: [PATCH 09/11] drm/colorop: Introduce 3x3 Matrix
-Message-ID: <20260206112702.4afdbc48@eldfell>
-In-Reply-To: <20251223-mtk-ovl-pre-blend-colorops-v1-9-0cb99bd0ab33@collabora.com>
-References: <20251223-mtk-ovl-pre-blend-colorops-v1-0-0cb99bd0ab33@collabora.com>
- <20251223-mtk-ovl-pre-blend-colorops-v1-9-0cb99bd0ab33@collabora.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4f6plw4p46z9tpC;
+ Fri,  6 Feb 2026 10:32:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1770370364; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fAFhVmmwigZehhMFWD9AUSYXd2DpExwQIgAcNMsKsgg=;
+ b=abxZ6bvfId+OVQ5olSdmRpHoLL1RjKjqx62ZrOucEaHd5CrmsMJD/eyn0ySoUEZgIkA5gn
+ A+OTtKlrHdiUY8jZ2gz0ujOlx6WcKkv3xFC1WfezAcGYcaakAVqx0T9/8Cbehjo8NwzMBx
+ Sw+RWwpt/YCU2XPAHrs2JFtT5RHgQgmz2DEmAuZuUAcwJbEtnAR7cJQjFyJJ32yBZGHcDW
+ N2Im4X1oT/gyZmoT27islZoMMTORHeu4XceKlt+1Ejbxdk6Ar0WGbDQz39OEPhTzmNsn1L
+ xoWRntJ8tG25DIuPauxobDaXfsdwZ5tSBcN2jpI/4HviBftcyAt9dqy6SIYIWw==
+Message-ID: <62b82ffdd40d568d822bda8cdea83cd030851f68.camel@mailbox.org>
+Subject: Re: [RFC PATCH 2/4] rust: sync: Add dma_fence abstractions
+From: Philipp Stanner <phasta@mailbox.org>
+To: Gary Guo <gary@garyguo.net>, Boris Brezillon
+ <boris.brezillon@collabora.com>,  Philipp Stanner <phasta@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Benno Lossin <lossin@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,  rust-for-linux@vger.kernel.org
+Date: Fri, 06 Feb 2026 10:32:38 +0100
+In-Reply-To: <DG721WEFTFZY.2CSCXBQ8H0Y1A@garyguo.net>
+References: <20260203081403.68733-2-phasta@kernel.org>
+ <20260203081403.68733-4-phasta@kernel.org> <20260205111635.5307e1fa@fedora>
+ <DG721WEFTFZY.2CSCXBQ8H0Y1A@garyguo.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/2.yaxaBipUpZeYQZFdVp59S";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MBO-RS-META: uwrhoghfu5fgzspwmd3gedu94i9msomy
+X-MBO-RS-ID: d1c55b22c0f954b8976
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,222 +73,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.41 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[pekka.paalanen@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FORGED_RECIPIENTS(0.00)[m:nfraprado@collabora.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:chunkuang.hu@kernel.org,m:p.zabel@pengutronix.de,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:linux-kernel@vger.kernel.org,m:linux-mediatek@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:daniels@collabora.com,m:ariel.dalessandro@collabora.com,m:kernel@collabora.com,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:gary@garyguo.net,m:boris.brezillon@collabora.com,m:phasta@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:dakr@kernel.org,m:aliceryhl@google.com,m:lossin@kernel.org,m:christian.koenig@amd.com,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	FORGED_SENDER(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,kernel.org,google.com,amd.com,collabora.com,nvidia.com,vger.kernel.org,lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	HAS_REPLYTO(0.00)[phasta@kernel.org];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[pekka.paalanen@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,pengutronix.de,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
 	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: A0502FC02F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mailbox.org:mid,mailbox.org:dkim]
+X-Rspamd-Queue-Id: A585DFC0E5
 X-Rspamd-Action: no action
 
---Sig_/2.yaxaBipUpZeYQZFdVp59S
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Thu, 2026-02-05 at 13:16 +0000, Gary Guo wrote:
+> On Thu Feb 5, 2026 at 10:16 AM GMT, Boris Brezillon wrote:
+> > On Tue,=C2=A0 3 Feb 2026 09:14:01 +0100
+> > Philipp Stanner <phasta@kernel.org> wrote:
+> >=20
+> > >=20
 
-On Tue, 23 Dec 2025 16:44:50 -0300
-N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com> wrote:
+[=E2=80=A6]
 
-> Introduce a 3x3 Matrix colorop analogous to the 3x4 Matrix colorop, with
-> the difference of not supporting offset coefficients.
+> > > +#[pin_data]
+> > > +pub struct DmaFence<T> {
+> > > +=C2=A0=C2=A0=C2=A0 /// The actual dma_fence passed to C.
+> > > +=C2=A0=C2=A0=C2=A0 #[pin]
+> > > +=C2=A0=C2=A0=C2=A0 inner: Opaque<bindings::dma_fence>,
+> > > +=C2=A0=C2=A0=C2=A0 /// User data.
+> > > +=C2=A0=C2=A0=C2=A0 #[pin]
+> > > +=C2=A0=C2=A0=C2=A0 data: T,
+> >=20
+> > A DmaFence is a cross-device synchronization mechanism that can (and
+> > will)
+> >=20
+
+I'm not questioning the truth behind this statement. They are designed
+to do that. But is that actually being done, currently? I recently
+found that the get_driver_name() callback intended to inform the
+consumer of a fence about who actually issued the fence is only ever
+used by i915.
+
+Who actually uses that feature? Who needs fences from another driver?
+
+Just out of curiousity
+
+
+> >  cross the driver boundary (one driver can wait on a fence emitted
+> > by a different driver). As such, I don't think embedding a generic T in
+> > the DmaFence and considering it's the object being passed around is
+> > going to work, because, how can one driver know the T chosen by the
+> > driver that created the fence? If you want to have some fence emitter
+> > data attached to the DmaFence allocation, you'll need two kind of
+> > objects:
+> >=20
+> > - one that's type agnostic and on which you can do the callback
+> > =C2=A0 registration/unregistration, signalling checks, and generally al=
+l
+> > =C2=A0 type-agnostic operations. That's basically just a wrapper around=
+ a
+> > =C2=A0 bindings::dma_fence implementing AlwaysRefCounted.
+> > - one that has the extra data and fctx, with a way to transmute from a
+> > =C2=A0 generic fence to a implementer specific one in case the driver w=
+ants
+> > =C2=A0 to do something special when waiting on its own fences (check do=
+ne
+> > =C2=A0 with the fence ops in C, I don't know how that translates in rus=
+t)
 >=20
-> Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
-> ---
->  drivers/gpu/drm/drm_atomic.c      |  1 +
->  drivers/gpu/drm/drm_atomic_uapi.c |  3 +++
->  drivers/gpu/drm/drm_colorop.c     | 21 +++++++++++++++++++++
->  include/drm/drm_colorop.h         |  3 +++
->  include/uapi/drm/drm_mode.h       | 16 ++++++++++++++++
->  5 files changed, 44 insertions(+)
+> If `data` is moved to the end of struct and `DmaFence<T>` changed to
+> `DmaFence<T: ?Sized>`, you would also gain the ability to coerce `DmaFenc=
+e<T>`
+> to `DmaFence<dyn Trait>`, e.g. `DmaFence<dyn Any>`.
+
+
+I think we should go one step back here and question the general
+design.
+
+I only included data: T because it was among the early feedback that
+this is how you do it in Rust.
+
+I was never convinced that it's a good idea. Jobqueue doesn't need the
+'data' field. Can anyone think of anyone who would need it?
+
+What kind of data would be in there? It seems a driver would store its
+equivalent of C's
+
+struct my_fence {
+   struct dma_fence f;
+   /* other driver data */
+}
+
+which is then accessed in C with container_of.
+
+But that data is only ever needed by that very driver.
+
+
+My main point here is:
+dma_fence's are a synchronization primitive very similar to
+completions: informing about that something is done, executing every
+registrants callbacks.
+
+They are *not* a data transfer mechanism. It seems very wrong design-
+wise to transfer generic data T from one driver to another. That's not
+a fence's purpose. Another primitive should be used for that.
+
+If another driver could touch / consume / see / use the emitter's data:
+T, that would grossly decouple us from the original dma_fence design.
+It would be akin to doing a container_of to consume foreign driver
+data.
+
+Like Xe  doing a
+
+struct nouveau_fence *f =3D container_of(generic_fence, =E2=80=A6);
+
+Why would that ever be done? Seems totally broken.
+
+So I strongly think that we'd either want to drop data: T, or we should
+think about possibilities to hide it from other drivers.
+
+I've got currently no idea how that could be addressed in Rust, though=20
+
+:)
+:(
+
+
+P.
+
 >=20
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 6d3ea8056b60..bf4a31c02b70 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -802,6 +802,7 @@ static void drm_atomic_colorop_print_state(struct drm=
-_printer *p,
->  		drm_printf(p, "\tdata blob id=3D%d\n", state->data ? state->data->base=
-.id : 0);
->  		break;
->  	case DRM_COLOROP_CTM_3X4:
-> +	case DRM_COLOROP_CTM_3X3:
->  		drm_printf(p, "\tdata blob id=3D%d\n", state->data ? state->data->base=
-.id : 0);
->  		break;
->  	case DRM_COLOROP_MULTIPLIER:
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atom=
-ic_uapi.c
-> index 7320db4b8489..7a70e894a2ef 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -709,6 +709,9 @@ static int drm_atomic_color_set_data_property(struct =
-drm_colorop *colorop,
->  		size =3D colorop->size * colorop->size * colorop->size *
->  		       sizeof(struct drm_color_lut32);
->  		break;
-> +	case DRM_COLOROP_CTM_3X3:
-> +		size =3D sizeof(struct drm_color_ctm);
-> +		break;
->  	default:
->  		/* should never get here */
->  		return -EINVAL;
-> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-> index a19e03fb9c7c..51c1a0726dfa 100644
-> --- a/drivers/gpu/drm/drm_colorop.c
-> +++ b/drivers/gpu/drm/drm_colorop.c
-> @@ -68,6 +68,7 @@ static const struct drm_prop_enum_list drm_colorop_type=
-_enum_list[] =3D {
->  	{ DRM_COLOROP_CTM_3X4, "3x4 Matrix"},
->  	{ DRM_COLOROP_MULTIPLIER, "Multiplier"},
->  	{ DRM_COLOROP_3D_LUT, "3D LUT"},
-> +	{ DRM_COLOROP_CTM_3X3, "3x3 Matrix"},
->  };
-> =20
->  static const char * const colorop_curve_1d_type_names[] =3D {
-> @@ -377,6 +378,26 @@ int drm_plane_colorop_ctm_3x4_init(struct drm_device=
- *dev, struct drm_colorop *c
->  }
->  EXPORT_SYMBOL(drm_plane_colorop_ctm_3x4_init);
-> =20
-> +int drm_plane_colorop_ctm_3x3_init(struct drm_device *dev, struct drm_co=
-lorop *colorop,
-> +				   struct drm_plane *plane, const struct drm_colorop_funcs *funcs,
-> +				   uint32_t flags)
-> +{
-> +	int ret;
-> +
-> +	ret =3D drm_plane_colorop_init(dev, colorop, plane, funcs, DRM_COLOROP_=
-CTM_3X3, flags);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret =3D drm_colorop_create_data_prop(dev, colorop);
-> +	if (ret)
-> +		return ret;
-> +
-> +	drm_colorop_reset(colorop);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_plane_colorop_ctm_3x3_init);
-> +
->  /**
->   * drm_plane_colorop_mult_init - Initialize a DRM_COLOROP_MULTIPLIER
->   *
-> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-> index 8ec98521607d..ee7fa0eb5dbf 100644
-> --- a/include/drm/drm_colorop.h
-> +++ b/include/drm/drm_colorop.h
-> @@ -426,6 +426,9 @@ int drm_plane_colorop_curve_1d_lut_init(struct drm_de=
-vice *dev, struct drm_color
->  int drm_plane_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_co=
-lorop *colorop,
->  				   struct drm_plane *plane, const struct drm_colorop_funcs *funcs,
->  				   uint32_t flags);
-> +int drm_plane_colorop_ctm_3x3_init(struct drm_device *dev, struct drm_co=
-lorop *colorop,
-> +				   struct drm_plane *plane, const struct drm_colorop_funcs *funcs,
-> +				   uint32_t flags);
->  int drm_plane_colorop_mult_init(struct drm_device *dev, struct drm_color=
-op *colorop,
->  				struct drm_plane *plane, const struct drm_colorop_funcs *funcs,
->  				uint32_t flags);
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index cbbbfc1dfe2b..b894b19eb9f8 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -964,6 +964,22 @@ enum drm_colorop_type {
->  	 *         color =3D lut3d[index]
->  	 */
->  	DRM_COLOROP_3D_LUT,
-> +
-> +	/**
-> +	 * @DRM_COLOROP_CTM_3X3:
-> +	 *
-> +	 * enum string "3x3 Matrix"
-> +	 *
-> +	 * A 3x3 matrix. Its values are specified via the
-> +	 * &drm_color_ctm struct provided via the DATA property.
-> +	 *
-> +	 * The DATA blob is a float[9]:
-> +	 * out   matrix          in
-> +	 * | R |   | 0  1  2 |   | R |
-> +	 * | G | =3D | 3  4  5 | x | G |
-> +	 * | B |   | 6  7  8 |   | B |
-> +	 */
-> +	DRM_COLOROP_CTM_3X3,
->  };
-> =20
->  /**
+> Best,
+> Gary
+>=20
+> >=20
+> > > +=C2=A0=C2=A0=C2=A0 /// Marks whether the fence is currently in the s=
+ignalling critical section.
+> > > +=C2=A0=C2=A0=C2=A0 signalling: bool,
+> > > +=C2=A0=C2=A0=C2=A0 /// A boolean needed for the C backend's lockdep =
+guard.
+> > > +=C2=A0=C2=A0=C2=A0 signalling_cookie: bool,
+> > > +=C2=A0=C2=A0=C2=A0 /// A reference to the associated [`DmaFenceCtx`]=
+ so that it cannot be dropped while there are
+> > > +=C2=A0=C2=A0=C2=A0 /// still fences around.
+> > > +=C2=A0=C2=A0=C2=A0 fctx: Arc<DmaFenceCtx>,
+> > > +}
 >=20
 
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-FWIW, the statement "The DATA blob is a float[9]" is incorrect, but the
-same wording exists already with the DRM_COLOROP_CTM_3X4. The data type
-is not a float, nor is it a float reinterpreted as __u64 (they are not
-even the same size). Documentation for the structs explains the correct
-type, which is a fixed-point number.
-
-The struct types document also the layout, so there is no need to
-repeat the layout here. It may be worth mentioning that the blob must
-contain exactly one instance of the struct.
-
-
-Thanks,
-pq
-
-
---Sig_/2.yaxaBipUpZeYQZFdVp59S
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmmFs+YACgkQI1/ltBGq
-qqdLZxAAowBRehNNDn134OdW3p9/J7Ov6M3ZRZJ5mvJHhy+9eQuv4tao6jp/IM4o
-eEOex+lXfrOtImJqaUuTN8o1HNQXZCuI55utd84lIhpk6Vd6DH//nM6VL79eRQUR
-iyTybLFjztX+TzSA0tUA+tneFOK7oUJwT8TL4r02loEsTgf+R9lHWM3FpbJZZTPX
-DD2WcArBLo4BDaw80jQtziXPiCAFFPae0syhAoer1lirJYfvQBGTRf7sGC//TEAW
-yN3le0djZZpotHkaOaZR9T0p+7E+LjfsimVlTDxPjDFzo5X8zAebIcoBRdusAQcp
-qYF3PGHRkChjcjL731IGmq86ximudssjo5CYY5P8W4XfZUBd4LJRaP7OvDf+0zfO
-S/JBpJFjQN1zPhojqVOQ3Tc/zL7PqoU3TUrRKPID2OQqSPPOMTSch+xbrdTuAFhC
-mGTZ3bXk0LIfztAyoGjvw7itFdGOuw3dU0hQ2acqrlFnFyKHT0Xj8S/If9JpQW/L
-OnoOH5MSh29ZVrpn4/SO7iRfof1n96lROvOXT9NYfZOLVr4lbG1SeQQX1T3Qk6F9
-iHVQSfAha+xSK2MbwbygjSsosxAS7qHgWY7mfjVgqCBXv2kfA0GDEZsfmhNS5eB5
-zd2JaHP8WoH6xaYTxkUBNcMH3iFbqlxO8xwEbi1XLAfC8ajYe8g=
-=7wMB
------END PGP SIGNATURE-----
-
---Sig_/2.yaxaBipUpZeYQZFdVp59S--
