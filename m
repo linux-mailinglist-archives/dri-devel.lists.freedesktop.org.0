@@ -2,65 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IGpODne9hWmpFwQAu9opvQ
+	id +NEbJJe/hWnEFwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 11:07:51 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 11:16:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09608FC787
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 11:07:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A3EFC90D
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 11:16:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7784010E6BE;
-	Fri,  6 Feb 2026 10:07:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2866010E6C8;
+	Fri,  6 Feb 2026 10:16:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QCU/vuEh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oh8BuHVR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 961A610E6B9
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 10:07:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1770372466;
- bh=9fuBPc9bEbfZELGhdzbq1jFtq+pJY6BEhn2yGGEDIqQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=QCU/vuEhbGeqeSOEJFUbbfQ1ZstU0JYv3y5ZtuLxv0k/DgUWSBW4+xdDgR6BUBTcZ
- lHX7rXNseGQJoCMR8R/rPpQpiHH6B/V0/6/hZ9ewN/SaAauuuAdJ3kqcbLqepdrkbm
- /+tHtbIaBMDLWamHQPyuSOJzxX9SV4i3B02x1WSjRQ8W7/n5CBkQnhuPyiBBYJm3PO
- XYhmc70gS2kTTGi5tQaEz9gjaZnnyOFPmvJwNIfvsC5bdKIvg7qRYLniCe2CXmFa0N
- saQe+hexMwFxmB+ZqQ3BZ6qN7ylAhFt3Gzn5sC3E5aJkt5RndYdIxCHI51yibv0Cuk
- 5Stgn3C3MB3RQ==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 930AF17E1502;
- Fri,  6 Feb 2026 11:07:45 +0100 (CET)
-Message-ID: <8d043341-9099-47b2-a1fe-538502e40f99@collabora.com>
-Date: Fri, 6 Feb 2026 11:07:45 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/11] drm/mediatek: Introduce DDP plane_colorops_init()
- hook
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- daniels@collabora.com, ariel.dalessandro@collabora.com, kernel@collabora.com
-References: <20251223-mtk-ovl-pre-blend-colorops-v1-0-0cb99bd0ab33@collabora.com>
- <20251223-mtk-ovl-pre-blend-colorops-v1-1-0cb99bd0ab33@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20251223-mtk-ovl-pre-blend-colorops-v1-1-0cb99bd0ab33@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F8AC10E6C8
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 10:16:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 0ACF243AAF;
+ Fri,  6 Feb 2026 10:16:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B6E4C116C6;
+ Fri,  6 Feb 2026 10:16:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1770373010;
+ bh=uWFvkPo2jAVmYgug3FLkwIosXWlv9dOkXenRhtzUySI=;
+ h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
+ b=oh8BuHVRk+pnoBdLUE5n/9xMy3O7NJUNGHP5G59cqkM0KQ296EUV7DabvrkB2dvPJ
+ qPFlDLcr2tdXRTrPsB5HAbgyUv3Tow7eJAewCq+npGu411Eci4GJjGJPXQ2eL7yvD8
+ J8QszSJgFOyVUycDMht9jjA4p06UnLOcfeC47EN95c+B4SWnLw1nhJC2ICxoXSixEr
+ QwHLWkTvTOfaCr8Q5xWYBMeGP7e1shlqQjhTt7sPbE2NsCZylDwuioG1iu90TRvQGi
+ X6Cigam6O6fFz6W0ax6IHWX2SrEoS8CQLT99OmsQefSBT+6c6/pNJ+2yx2NinytdF0
+ fn+kSvKWuDrBg==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 06 Feb 2026 11:16:46 +0100
+Message-Id: <DG7SURIB90VK.1B71FGJR6U5GZ@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [RFC PATCH 2/4] rust: sync: Add dma_fence abstractions
+Cc: <phasta@kernel.org>, "Gary Guo" <gary@garyguo.net>, "Boris Brezillon"
+ <boris.brezillon@collabora.com>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Benno Lossin" <lossin@kernel.org>, =?utf-8?q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Joel Fernandes" <joelagnelf@nvidia.com>,
+ <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <rust-for-linux@vger.kernel.org>
+To: "Philipp Stanner" <phasta@mailbox.org>
+References: <20260203081403.68733-2-phasta@kernel.org>
+ <20260203081403.68733-4-phasta@kernel.org> <20260205111635.5307e1fa@fedora>
+ <DG721WEFTFZY.2CSCXBQ8H0Y1A@garyguo.net>
+ <62b82ffdd40d568d822bda8cdea83cd030851f68.camel@mailbox.org>
+In-Reply-To: <62b82ffdd40d568d822bda8cdea83cd030851f68.camel@mailbox.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,53 +71,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	MV_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,collabora.com,gmail.com,ffwll.ch,google.com,amd.com,nvidia.com,vger.kernel.org,lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:nfraprado@collabora.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:chunkuang.hu@kernel.org,m:p.zabel@pengutronix.de,m:matthias.bgg@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-mediatek@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:daniels@collabora.com,m:ariel.dalessandro@collabora.com,m:kernel@collabora.com,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[collabora.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,pengutronix.de];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[angelogioacchino.delregno@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	FORGED_SENDER(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:gary@garyguo.net,m:boris.brezillon@collabora.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:aliceryhl@google.com,m:lossin@kernel.org,m:christian.koenig@amd.com,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:phasta@mailbox.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MISSING_XM_UA(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[angelogioacchino.delregno@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 09608FC787
+X-Rspamd-Queue-Id: 18A3EFC90D
 X-Rspamd-Action: no action
 
-Il 23/12/25 20:44, Nícolas F. R. A. Prado ha scritto:
-> Introduce a plane_colorops_init() hook to allow DDP components to define
-> how to initialize the color pipeline on their planes.
-> 
-> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+On Fri Feb 6, 2026 at 10:32 AM CET, Philipp Stanner wrote:
+> Who needs fences from another driver?
 
-Just a nit for the commit description.
+When you get VM_BIND and EXEC IOCTLs a driver takes a list of syncobjs the
+submitted job should wait for before execution.
 
-In preparation for adding support for per-plane color pipelines, introduce a new
-plane_colorops_init() hook to allow [...etc]
+The fences of those syncobjs can be from anywhere, including other DRM driv=
+ers.
 
-Otherwise,
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> I think we should go one step back here and question the general
+> design.
+>
+> I only included data: T because it was among the early feedback that
+> this is how you do it in Rust.
+>
+> I was never convinced that it's a good idea. Jobqueue doesn't need the
+> 'data' field. Can anyone think of anyone who would need it?
+>
+> What kind of data would be in there? It seems a driver would store its
+> equivalent of C's
+>
+> struct my_fence {
+>    struct dma_fence f;
+>    /* other driver data */
+> }
+>
+> which is then accessed in C with container_of.
 
+Your current struct is exactly this pattern:
 
+	struct DmaFence<T> {
+	    inner: Opaque<bindings::dma_fence>,
+	    ...
+	    data: T,
+	}
+
+So, in Rust you can just write DmaFence<MyData> rather than,
+
+	struct my_dma_fence {
+		struct dma_fence inner;
+		struct my_data data;
+	}
+
+> But that data is only ever needed by that very driver.
+
+Exactly, this is the "owned" type that is only ever used by this driver.
+
+> They are *not* a data transfer mechanism. It seems very wrong design-
+> wise to transfer generic data T from one driver to another. That's not
+> a fence's purpose. Another primitive should be used for that.
+>
+> If another driver could touch / consume / see / use the emitter's data:
+> T, that would grossly decouple us from the original dma_fence design.
+> It would be akin to doing a container_of to consume foreign driver
+> data.
+
+Correct, that's why the suggestion here was to have a second type that is o=
+nly
+
+	struct ForeignDmaFence {
+	    inner: Opaque<bindings::dma_fence>,
+	    ...,
+	    /* No data. */
+	}
+
+i.e. it does not not provide access to the rest of the allocation, since it=
+ is
+private to the owning driver.
+
+This type should also not have methods like signal(), since only the owner =
+of
+the fence should be allowed to signal the fence.
