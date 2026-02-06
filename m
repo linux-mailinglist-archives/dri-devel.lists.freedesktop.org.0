@@ -2,68 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EBTnHD4ohmmLKAQAu9opvQ
+	id ABw1J+3fhWnFHgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 18:43:26 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 13:34:53 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DF55101434
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 18:43:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0EA0FDA49
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 13:34:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB6CF10E85D;
-	Fri,  6 Feb 2026 17:43:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 083F210E0C5;
+	Fri,  6 Feb 2026 12:34:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=stu.xidian.edu.cn header.i=@stu.xidian.edu.cn header.b="tVzsDtua";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Np9GgyJ8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 88690 seconds by postgrey-1.36 at gabe;
- Fri, 06 Feb 2026 12:15:02 UTC
-Received: from zg8tmja5ljk3lje4ms43mwaa.icoremail.net
- (zg8tmja5ljk3lje4ms43mwaa.icoremail.net [209.97.181.73])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1067110E7A1
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 12:15:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=stu.xidian.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
- In-Reply-To:References:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Message-ID; bh=4+4cqjv5HS7QUTKXhxPovbkRacAjiA3ql5IL
- qapzVGc=; b=tVzsDtuaf2GkW3O8BUIvzzsl281j5b7oWxtm+OS/S6/G0q9q4oSl
- PihCDfNjmooJQbF31SSI/zxA7vupSWXlZP9isMm85q+cMqISv/YziqIh5i8D+Ius
- BZAvH5W84+SygfKrfdQfjBYbyfxaZurfkenditCaNoG/dbHLnbrEFYw=
-Received: from 23009200614$stu.xidian.edu.cn ( [36.62.70.96] ) by
- ajax-webmail-hzbj-edu-front-2.icoremail.net (Coremail) ; Fri, 6 Feb 2026
- 20:14:55 +0800 (GMT+08:00)
-X-Originating-IP: [36.62.70.96]
-Date: Fri, 6 Feb 2026 20:14:55 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?546L5b+X?= <23009200614@stu.xidian.edu.cn>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: Re: [BUG] WARNING in drm_gem_object_handle_put_unlocked during
- drm_release on Linux 6.18
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2024.3-cmXT6 build
- 20250410(2f5ccd7f) Copyright (c) 2002-2026 www.mailtech.cn
- mispb-8dfce572-2f24-404d-b59d-0dd2e304114c-icoremail.cn
-In-Reply-To: <f615f704-11b9-4185-a19d-ee9f253aca9d@suse.de>
-References: <40d309e5.ba84.19ba7a719d3.Coremail.wangzhi_xd@stu.xidian.edu.cn>
- <5f9f00f9.daa0.19bc5fa04f4.Coremail.23009200614@stu.xidian.edu.cn>
- <02207cf3-5519-4795-9de5-04c1a36550bd@suse.de>
- <7b6aeae5.5f23.19bc7704c23.Coremail.23009200614@stu.xidian.edu.cn>
- <4a75964b.1828.19c32ad28bf.Coremail.23009200614@stu.xidian.edu.cn>
- <f615f704-11b9-4185-a19d-ee9f253aca9d@suse.de>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2DFD10E080;
+ Fri,  6 Feb 2026 12:34:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1770381288; x=1801917288;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=IcUfAOUSUFNyHPM6Y/fPeBYAY5LYq5UNYR347KZZK/k=;
+ b=Np9GgyJ80hQrfLNd7UWQodY2uAI0GBA3WrXSmT0sLeq0mMuMTXe26kZq
+ T5YOiSCuwwUFcMtoUI+Pwz/pcVpwllFMrPRygKdVx/hWAT2+kL/AFMV4p
+ gZFdJDlD4jdpf+yvnK3LAf7r1pidn8ezQATu7F4V/AEDeEJ2qnPMw6nfW
+ NVQmHH5ZmeCCUVtg+6ISwq/SkvnjpqeojfJ5X2HIkyzYC1TOOkr3PsT3l
+ ylV6uo5IBzeNOqzZOoER2TbeYg1NhlPrLmTaV1y+26s/eUhcvjUameLUu
+ fOFRWviXL6cfkxwTJevBLBx6X76YgLOu8VNi+TeU4BDImLY1HFgLFalxy A==;
+X-CSE-ConnectionGUID: 89WqImQNTYi43cc4sp1iAw==
+X-CSE-MsgGUID: WywlQYpFTKKM2QY5BvPTcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="71767282"
+X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; d="scan'208";a="71767282"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Feb 2026 04:34:48 -0800
+X-CSE-ConnectionGUID: ZOMW6nBoSp6N85LUae9TSg==
+X-CSE-MsgGUID: yV+S9u0vTrGX6+SBwb5+Lg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; d="scan'208";a="248478770"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.244.244])
+ ([10.245.244.244])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Feb 2026 04:34:42 -0800
+Message-ID: <93f01b083861f180838f662fc81a74b14dd17fca.camel@linux.intel.com>
+Subject: Re: [PATCH v2 1/3] drm/sa: Split drm_suballoc_new() into SA alloc
+ and init helpers
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>, 
+ intel-xe@lists.freedesktop.org
+Cc: Matthew Brost <matthew.brost@intel.com>, Michal Wajdeczko
+ <michal.wajdeczko@intel.com>, Matthew Auld <matthew.auld@intel.com>, 
+ dri-devel@lists.freedesktop.org, christian.koenig@amd.com
+Date: Fri, 06 Feb 2026 13:34:39 +0100
+In-Reply-To: <20260204164642.3509298-6-satyanarayana.k.v.p@intel.com>
+References: <20260204164642.3509298-5-satyanarayana.k.v.p@intel.com>
+ <20260204164642.3509298-6-satyanarayana.k.v.p@intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 MIME-Version: 1.0
-Message-ID: <6b7e8c3.1864.19c32e070ca.Coremail.23009200614@stu.xidian.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: BLQMCkDmzb1A24VpW7scAA--.2945W
-X-CM-SenderInfo: qstqimqsqqliuu6v33wo0lvxldqovvfxof0/1tbiAgUQCGmE1RWJq
-	AAAsT
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
- CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
- daVFxhVjvjDU=
-X-Mailman-Approved-At: Fri, 06 Feb 2026 17:43:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,224 +80,373 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.99 / 15.00];
-	DMARC_POLICY_QUARANTINE(1.50)[xidian.edu.cn : SPF not aligned (relaxed),quarantine];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_BASE64_TEXT(0.10)[];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[23009200614@stu.xidian.edu.cn,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[stu.xidian.edu.cn:~];
-	R_DKIM_PERMFAIL(0.00)[stu.xidian.edu.cn:s=dkim];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[23009200614@stu.xidian.edu.cn,dri-devel-bounces@lists.freedesktop.org];
+	HAS_ORG_HEADER(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	HAS_X_PRIO_THREE(0.00)[3];
-	HAS_XOIP(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	NEURAL_SPAM(0.00)[0.916];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,qq.com:email,xidian.edu.cn:email,stu.xidian.edu.cn:mid,lists.freedesktop.org:email]
-X-Rspamd-Queue-Id: 6DF55101434
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linux.intel.com:mid]
+X-Rspamd-Queue-Id: F0EA0FDA49
 X-Rspamd-Action: no action
 
-SGnvvIwKCkZvbGxvd2luZyB1cCBvbiB5b3VyIGNvbmNlcm46IHdl4oCZdmUgdXBkYXRlZCB0aGUg
-dGVzdCBjYXNlLiBXZSBjYW4gbm93IHN1Y2Nlc3NmdWxseSB0cmlnZ2VyIHRoZSBidWcgd2l0aG91
-dCBvdXIgY3VzdG9tIFFFTVUgZGV2aWNlIG1vZGVsIChieSBzZXR0aW5nIHRoZSBJRCB0byAw77yM
-dXNlIHRoZSBRRU1VIGRldmljZSBjYXJkMCwgLXZnYSBzdGQpLgoKU2luY2UgdGhpcyBwcm92ZXMg
-dGhlIGlzc3VlIGV4aXN0cyBpbiB0aGUgdXBzdHJlYW0ga2VybmVsIGxvZ2ljLCBjb3VsZCB5b3Ug
-cGxlYXNlIHRyeSB0byByZXByb2R1Y2UgaXQgYWdhaW4gd2l0aCB0aGUgdXBkYXRlZCBmaWxlPyBo
-dHRwczovL2dpdGh1Yi5jb20vbWFudWFsMC9jcmFzaC9ibG9iL21haW4vcmVwcm8xLmMKClRoYW5r
-cyBmb3IgdGhlIGd1aWRhbmNlIQoKPiAtLS0tLeWOn+Wni+mCruS7ti0tLS0tCj4g5Y+R5Lu25Lq6
-OiAiVGhvbWFzIFppbW1lcm1hbm4iIDx0emltbWVybWFubkBzdXNlLmRlPgo+IOWPkemAgeaXtumX
-tDoyMDI2LTAyLTA2IDE5OjIzOjM3ICjmmJ/mnJ/kupQpCj4g5pS25Lu25Lq6OiDnjovlv5cgPDIz
-MDA5MjAwNjE0QHN0dS54aWRpYW4uZWR1LmNuPiwgbXJpcGFyZEBrZXJuZWwub3JnLCBtYWFydGVu
-Lmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20KPiDmioTpgIE6IGRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcsIGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcKPiDkuLvpopg6IFJlOiBb
-QlVHXSBXQVJOSU5HIGluIGRybV9nZW1fb2JqZWN0X2hhbmRsZV9wdXRfdW5sb2NrZWQgZHVyaW5n
-IGRybV9yZWxlYXNlIG9uIExpbnV4IDYuMTgKPiAKPiBIaQo+IAo+IEFtIDA2LjAyLjI2IHVtIDEy
-OjE4IHNjaHJpZWIg546L5b+XOgo+ID4gSGksCj4gPgo+ID4gSnVzdCBhIGdlbnRsZSBmb2xsb3ct
-dXAgb24gdGhpcyBidWcgcmVwb3J0LiBTaW5jZSBpdCdzIGJlZW4gYWJvdXQgdGhyZWUgd2Vla3Ms
-IHdlIHdhbnRlZCB0byBjaGVjayB0aGUgc3RhdHVzIGFuZCBzZWUgaWYgdGhpcyBpcyBzb21ldGhp
-bmcgeW914oCZZCBsaWtlIHVzIHRvIHB1cnN1ZSBmdXJ0aGVyLgo+ID4KPiA+IFdlIGRvbuKAmXQg
-d2FudCB0byBsZXQgdGhpcyBzbGlwIGlmIGl04oCZcyBhIHZhbGlkIGlzc3VlLCBidXQgd2UgYWxz
-byB1bmRlcnN0YW5kIGlmIGl04oCZcyBub3QgYSBwcmlvcml0eS4gQ291bGQgeW91IGxldCB1cyBr
-bm93IGlmIHdlIHNob3VsZCBwcm92aWRlIG1vcmUgZGF0YSAobGlrZSB0aGUgUUVNVSBEUk0gbW9k
-ZWwgb3IgYSBmdXJ0aGVyIHJlZHVjZWQgcmVwcm9kdWNlciksIG9yIGlmIHdlIGNhbiBjbG9zZSB0
-aGlzIG9uIG91ciBlbmQ/Cj4gPgo+ID4gVGhhbmtzIGZvciB5b3VyIHRpbWUhCj4gCj4gSG9uZXN0
-bHkgc3BlYWtpbmcsIG5vIG9uZSB3aWxsIGxvb2sgYXQgdGhlc2UgYnVnIHJlcG9ydHMgaWYgdGhl
-eSByZXF1aXJlIAo+IHlvdXIgY3VzdG9taXphdGlvbiB0byBxZW11LiBJZiB0aGUgYnVnIGRvZXNu
-J3QgaGFwcGVuIHdpdGggdGhlIHVwc3RyZWFtIAo+IGNvZGUsIHRoZW4gaXQncyBub3QgYSBwcm9i
-bGVtIG9mIHVwc3RyZWFtLgo+IAo+IEJlc3QgcmVnYXJkcwo+IFRob21hcwo+IAo+ID4KPiA+Cj4g
-Pj4gLS0tLS3ljp/lp4vpgq7ku7YtLS0tLQo+ID4+IOWPkeS7tuS6ujog546L5b+XIDwyMzAwOTIw
-MDYxNEBzdHUueGlkaWFuLmVkdS5jbj4KPiA+PiDlj5HpgIHml7bpl7Q6MjAyNi0wMS0xNiAyMzoz
-MzowNCAo5pif5pyf5LqUKQo+ID4+IOaUtuS7tuS6ujogIlRob21hcyBaaW1tZXJtYW5uIiA8dHpp
-bW1lcm1hbm5Ac3VzZS5kZT4KPiA+PiDkuLvpopg6IFJlOiBSZTogW0JVR10gV0FSTklORyBpbiBk
-cm1fZ2VtX29iamVjdF9oYW5kbGVfcHV0X3VubG9ja2VkIGR1cmluZyBkcm1fcmVsZWFzZSBvbiBM
-aW51eCA2LjE4Cj4gPj4KPiA+PiBIaSwKPiA+Pgo+ID4+IHRoYW5rIHlvdSB2ZXJ5IG11Y2ggZm9y
-IHRlc3RpbmcgdGhlIHJlcHJvZHVjZXIgYW5kIGZvciB0aGUgZGV0YWlsZWQgZmVlZGJhY2suCj4g
-Pj4KPiA+Pj4gLS0tLS3ljp/lp4vpgq7ku7YtLS0tLQo+ID4+PiDlj5Hku7bkuro6ICJUaG9tYXMg
-WmltbWVybWFubiIgPHR6aW1tZXJtYW5uQHN1c2UuZGU+Cj4gPj4+IOWPkemAgeaXtumXtDoyMDI2
-LTAxLTE2IDE3OjM4OjU3ICjmmJ/mnJ/kupQpCj4gPj4+IOaUtuS7tuS6ujog546L5b+XIDwyMzAw
-OTIwMDYxNEBzdHUueGlkaWFuLmVkdS5jbj4sICJNYWFydGVuIExhbmtob3JzdCIgPG1hYXJ0ZW4u
-bGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4sICJNYXhpbWUgUmlwYXJkIiA8bXJpcGFyZEBrZXJu
-ZWwub3JnPgo+ID4+PiDkuLvpopg6IFJlOiBbQlVHXSBXQVJOSU5HIGluIGRybV9nZW1fb2JqZWN0
-X2hhbmRsZV9wdXRfdW5sb2NrZWQgZHVyaW5nIGRybV9yZWxlYXNlIG9uIExpbnV4IDYuMTgKPiA+
-Pj4KPiA+Pj4gSGkKPiA+Pj4KPiA+Pj4gQW0gMTYuMDEuMjYgdW0gMDk6NDQgc2NocmllYiDnjovl
-v5c6Cj4gPj4+PiBEZWFyIE1haW50YWluZXJzLAo+ID4+Pj4KPiA+Pj4+IEkgaG9wZSB5b3UgYXJl
-IGRvaW5nIHdlbGwuIEkgYW0gZm9sbG93aW5nIHVwIG9uIHRoZSBEUk0gd2FybmluZyBpbiBkcm1f
-Z2VtX29iamVjdF9oYW5kbGVfcHV0X3VubG9ja2VkIHRoYXQgSSByZXBvcnRlZCBvbiBKYW51YXJ5
-IDEwLiBJIHdhbnRlZCB0byBjaGVjayB3aGV0aGVyIHRoZXJlIGhhcyBiZWVuIGFueSBwcm9ncmVz
-cyBpbiBpbnZlc3RpZ2F0aW5nIHRoaXMgaXNzdWUuCj4gPj4+Pgo+ID4+Pj4gSWYgeW91IGVuY291
-bnRlciBhbnkgZGlmZmljdWx0aWVzIHJlcHJvZHVjaW5nIHRoZSBidWcgb3IgbmVlZCBhZGRpdGlv
-bmFsIHJlcHJvZHVjZXIgdGVzdHMsIGxvZ3MsIG9yIFFFTVUgZGV2aWNlIG1vZGVsaW5nIGZpbGVz
-LCB3ZSB3b3VsZCBiZSBoYXBweSB0byBwcm92aWRlIGFzc2lzdGFuY2UuCj4gPj4+IEknbSBydW5u
-aW5nIHRoZSByZXByb2R1Y2VyIGluIGEgcWVtdSBndWVzdCB3aXRoIGJvY2hzLiBUaGVyZSdzIG5v
-IGVycm9yCj4gPj4+IHNvIGZhci4gRG8gSSBuZWVkIGFueSBzcGVjaWFsIHBhcmFtZXRlcj8KPiA+
-Pj4KPiA+PiBUaGlzIGlzc3VlIGRlcGVuZHMgb24gYSBjdXN0b20gRFJNIGRldmljZSBtb2RlbCB0
-aGF0IHdlIGFkZGVkIHRvIFFFTVUsIHNvIGl0IHdpbGwgbm90IHJlcHJvZHVjZSBvbiBhIHZhbmls
-bGEgUUVNVSBzZXR1cCB3aXRoIG9ubHkgYm9jaHMgb3IgdmlydGlvLWdwdSBlbmFibGVkLiBUbyBy
-ZXByb2R1Y2UgdGhlIHdhcm5pbmcsIHRoZSBmb2xsb3dpbmcgc3RlcHMgYXJlIHJlcXVpcmVkOgo+
-ID4+Cj4gPj4gMS4gQnVpbGQgUUVNVSB3aXRoIG91ciBwcm92aWRlZCBkZXZpY2UgbW9kZWwKPiA+
-PiBQbGVhc2UgZmlyc3QgYnVpbGQgUUVNVSB3aXRoIHRoZSBEUk0gZGV2aWNlIG1vZGVsaW5nIGNv
-ZGUgd2UgcHJvdmlkZWQgKHRoZSBjdXN0b20gUENJIGRldmljZSkuCj4gPj4KPiA+PiAyLiBTdGFy
-dCBRRU1VIHdpdGggdGhlIGN1c3RvbSBEUk0gZGV2aWNlIGVuYWJsZWQKPiA+PiBJbiB0aGUgUUVN
-VSBjb21tYW5kIGxpbmUsIGFkZCB0aGUgZGV2aWNlOgo+ID4+IC1kZXZpY2UgYm9jaHNfZHJtX3Bj
-aQo+ID4+Cj4gPj4gMy4gVmVyaWZ5IHRoZSBkZXZpY2UgaW5zaWRlIHRoZSBndWVzdAo+ID4+IEFm
-dGVyIGJvb3RpbmcgdGhlIGd1ZXN0LCBwbGVhc2UgY2hlY2s6Cj4gPj4gbHMgL2Rldi9kcmkKPiA+
-PiBPbiBvdXIgc2V0dXAsIHRoZSBjdXN0b20gZGV2aWNlIGFwcGVhcnMgYXMgY2FyZDIuCj4gPj4K
-PiA+PiBBZGp1c3QgdGhlIHJlcHJvZHVjZXIgaWYgbmVlZGVkCj4gPj4gSWYgY2FyZDIgZG9lcyBu
-b3QgYXBwZWFyIGFuZCB0aGUgZGV2aWNlIGlzIGVudW1lcmF0ZWQgd2l0aCBhIGRpZmZlcmVudCBp
-bmRleCAoZm9yIGV4YW1wbGUgY2FyZDApLCBwbGVhc2UgdXBkYXRlIHRoZSByZXByb2R1Y2VyIGFj
-Y29yZGluZ2x5Lgo+ID4+Cj4gPj4gSW4gdGhlIHJlcHJvZHVjZXIsIGF0IGFyb3VuZCBsaW5lIDMw
-MDoKPiA+PiByZXMgPSBzeXpfb3Blbl9kZXYoLypkZXY9Ki8weDIwMDAwMDAwMDAwMCwgLyppZD0q
-LzIsCj4gPj4gICAgICAgICAgICAgICAgICAgICAvKmZsYWdzPSovMHgyMDAwMSk7Cj4gPj4gUGxl
-YXNlIGNoYW5nZSB0aGUgaWQgdmFsdWUgdG8gbWF0Y2ggdGhlIGFjdHVhbCBEUk0gZGV2aWNlIGlu
-ZGV4IHByZXNlbnQgaW4gL2Rldi9kcmkgKGUuZy4gMCBpZiB0aGUgZGV2aWNlIGlzIGNhcmQwKSwg
-dGhlbiByZWJ1aWxkIGFuZCByZXJ1biB0aGUgcmVwcm9kdWNlci4KPiA+Pgo+ID4+IFdpdGggdGhl
-IGFib3ZlIHNldHVwLCB0aGUgV0FSTklORyBpbiBkcm1fZ2VtX29iamVjdF9oYW5kbGVfcHV0X3Vu
-bG9ja2VkIGNhbiBiZSB0cmlnZ2VyZWQgcmVsaWFibHkuIE9uIG91ciBtYWNoaW5lcywgdGhpcyBy
-ZXByb2R1Y2VzIHRoZSBpc3N1ZSBjb25zaXN0ZW50bHkuCj4gPj4KPiA+Pj4+IFRoYW5rIHlvdSB2
-ZXJ5IG11Y2ggZm9yIHlvdXIgdGltZSBhbmQgc3VwcG9ydC4KPiA+Pj4+Cj4gPj4+PiBCZXN0IHJl
-Z2FyZHMsCj4gPj4+PiBaaGkgV2FuZwo+ID4+Pj4KPiA+Pj4+Cj4gPj4+Pj4gLS0tLS3ljp/lp4vp
-gq7ku7YtLS0tLQo+ID4+Pj4+IOWPkeS7tuS6ujog546L5b+XIDx3YW5nemhpX3hkQHN0dS54aWRp
-YW4uZWR1LmNuPgo+ID4+Pj4+IOWPkemAgeaXtumXtDoyMDI2LTAxLTEwIDE5OjI1OjA0ICjmmJ/m
-nJ/lha0pCj4gPj4+Pj4g5pS25Lu25Lq6OiAiTWFhcnRlbiBMYW5raG9yc3QiIDxtYWFydGVuLmxh
-bmtob3JzdEBsaW51eC5pbnRlbC5jb20+LCAiTWF4aW1lIFJpcGFyZCIgPG1yaXBhcmRAa2VybmVs
-Lm9yZz4sICJUaG9tYXMgWmltbWVybWFubiIgPHR6aW1tZXJtYW5uQHN1c2UuZGU+Cj4gPj4+Pj4g
-5oqE6YCBOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnLCBsaW51eC1rZXJuZWxAdmdl
-ci5rZXJuZWwub3JnCj4gPj4+Pj4g5Li76aKYOiBbQlVHXSBXQVJOSU5HIGluIGRybV9nZW1fb2Jq
-ZWN0X2hhbmRsZV9wdXRfdW5sb2NrZWQgZHVyaW5nIGRybV9yZWxlYXNlIG9uIExpbnV4IDYuMTgK
-PiA+Pj4+Pgo+ID4+Pj4+IERlYXIgTWFpbnRhaW5lcnMsCj4gPj4+Pj4gV2hlbiB1c2luZyBvdXIg
-Y3VzdG9taXplZCBTeXprYWxsZXIgdG8gZnV6eiB0aGUgbGF0ZXN0IExpbnV4IGtlcm5lbCwgdGhl
-IGZvbGxvd2luZyBjcmFzaCB3YXMgdHJpZ2dlcmVkLgo+ID4+Pj4+IEhFQUQgY29tbWl0OjdkMGE2
-NmU0YmI5MDgxZDc1YzgyZWM0OTU3YzUwMDM0Y2IwZWE0NDkKPiA+Pj4+PiBnaXQgdHJlZTogdXBz
-dHJlYW0KPiA+Pj4+PiBPdXRwdXQ6aHR0cHM6Ly9naXRodWIuY29tL21hbnVhbDAvY3Jhc2gvYmxv
-Yi9tYWluL3JlcG9ydDEudHh0Cj4gPj4+IFRoaXMgcmVwb3J0IHNheXM6Cj4gPj4+Cj4gPj4+IFNZ
-WkZBSUw6IGZhaWxlZCB0byByZWN2IHJwYwo+ID4+PiBmZD0zIHdhbnQ9NCByZWN2PTAgbj0wIChl
-cnJubyA5OiBCYWQgZmlsZSBkZXNjcmlwdG9yKQo+ID4+Pgo+ID4+PiBJZiB0aGUgRFJNIHJlcG9y
-dCBhIHJlc3VsdCBvZiB0aGlzIHByb2JsZW0/Cj4gPj4+Cj4gPj4+IEJlc3QgcmVnYXJkcwo+ID4+
-PiBUaG9tYXMKPiA+Pj4KPiA+Pj4+PiBLZXJuZWwgY29uZmlnOiBodHRwczovL2dpdGh1Yi5jb20v
-bWFudWFsMC9jcmFzaC9ibG9iL21haW4vY29uZmlnLnR4dAo+ID4+Pj4+IEMgcmVwcm9kdWNlcjpo
-dHRwczovL2dpdGh1Yi5jb20vbWFudWFsMC9jcmFzaC9ibG9iL21haW4vcmVwcm8xLmMKPiA+Pj4+
-Pgo+ID4+Pj4+IGRybV9nZW1fb2JqZWN0X2hhbmRsZV9wdXRfdW5sb2NrZWQgd2l0aGluIGRyaXZl
-cnMvZ3B1L2RybS9kcm1fZ2VtLmMgd2hpY2ggd2FzIGlkZW50aWZpZWQgZHVyaW5nIGZ1enppbmcg
-b24gYSBMaW51eCA2LjE4IGtlcm5lbC4gVGhpcyB3YXJuaW5nIGluZGljYXRlcyBhIHJlZmVyZW5j
-ZSBjb3VudGluZyBpbmNvbnNpc3RlbmN5IHdoZW4gcmVsZWFzaW5nIGEgR0VNIG9iamVjdCBoYW5k
-bGUgZHVyaW5nIHRoZSBwcm9jZXNzIGV4aXQgcGF0aC5UaGUgaXNzdWUgY29uc2lzdGVudGx5IG9j
-Y3VycyBkdXJpbmcgdGhlIHJlc291cmNlIGNsZWFudXAgc2VxdWVuY2Ugd2hlcmUgZHJtX3JlbGVh
-c2UgY2FsbHMgZHJtX2ZpbGVfZnJlZSBhbmQgc3Vic2VxdWVudGx5IGRybV9nZW1fcmVsZWFzZSwg
-d2hpY2ggdGhlbiBpdGVyYXRlcyB0aHJvdWdoIEdFTSBoYW5kbGVzIHZpYSBpZHJfZm9yX2VhY2gu
-IFdlIG5vdGljZWQgdGhhdCBzeXpib3QgaGFzIHByZXZpb3VzbHkgcmVwb3J0ZWQgYSBzaW1pbGFy
-IHdhcm5pbmcgaW4gZHJtX2dlbV9vYmplY3RfaGFuZGxlX3B1dF91bmxvY2tlZCB1bmRlciBleHRp
-ZCBlZjMyNTZhMzYwYzAyMjA3YTRjYiwgYnV0IG91ciBmaW5kaW5nIGlzIGRpc3RpbmN0IGJlY2F1
-c2UgdGhlIHN5emJvdCByZXBvcnQgaXMgdHJpZ2dlcmVkIGR1cmluZyB0aGUgY3JlYXRpb24gcGF0
-aCB2aWEgZHJtX21vZGVfY3JlYXRlX2R1bWJfaW9jdGwgd2hlcmVhcyBvdXIgdHJhY2UgcHJvdmVz
-IHRoZSBpc3N1ZSBwZXJzaXN0cyBpbiB0aGUgY2xlYW51cCBwYXRoIGV2ZW4gb24gdGhlIG5ld2Vy
-IDYuMTguMCB1cHN0cmVhbSB0cmVlLiBXZSBoYXZlIHNlYXJjaGVkIGZvciBleGlzdGluZyBwYXRj
-aGVzIGJ1dCBmb3VuZCBub25lIHRoYXQgYWRkcmVzcyB0aGlzIHNwZWNpZmljIHJlbGVhc2Utc2lk
-ZSBpbmNvbnNpc3RlbmN5LiBUaGlzIGJ1ZyB3YXMgcmVwcm9kdWNlZCBpbiBhIHNwZWNpYWxpemVk
-IGVudmlyb25tZW50IHVzaW5nIGEgY3VzdG9tLW1vZGVsZWQgZGV2aWNlIGFkZGVkIHRvIFFFTVUg
-dG8gc2ltdWxhdGUgc3BlY2lmaWMgaGFyZHdhcmUtZHJpdmVyIGludGVyYWN0aW9ucy4gVG8gYXNz
-aXN0IGluIHlvdXIgYW5hbHlzaXMsIHdlIGhhdmUgcHJvdmlkZWQgb3VyIFFFTVUgZGV2aWNlIG1v
-ZGVsaW5nIGZpbGUgaW4gdGhlIGFwcGVuZGl4IGFzIHRoZSBidWcgbWF5IG5vdCBiZSB0cmlnZ2Vy
-YWJsZSBvbiBzdGFuZGFyZCBlbXVsYXRlZCBoYXJkd2FyZS4KPiA+Pj4+Pgo+ID4+Pj4+IElmIHlv
-dSBmaXggdGhpcyBpc3N1ZSwgcGxlYXNlIGFkZCB0aGUgZm9sbG93aW5nIHRhZyB0byB0aGUgY29t
-bWl0Ogo+ID4+Pj4+IFJlcG9ydGVkLWJ5OiBaaGkgV2FuZyA8d2FuZ3poaUBzdHUueGlkaWFuLmVk
-dS5jbj4sIEJpbiBZdTxieXVAeGlkaWFuLmVkdS5jbj4sIE1pbmdZdSBXYW5nPHcxNTMwMzc0NjA2
-MkAxNjMuY29tPiwgV2VuSmlhbiBMdTwxOTg2MTcwMjY3OEAxNjMuY29tPiwgS2VGZW5nIEdhbzwy
-NDAxNTUzMDY0QHFxLmNvbT4sIHRoYW5rIHlvdSEKPiA+Pj4+Pgo+ID4+Pj4+IFdBUk5JTkc6IENQ
-VTogMSBQSUQ6IDEwODgwNiBhdCBkcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jOjMwMCBkcm1fZ2Vt
-X29iamVjdF9oYW5kbGVfcHV0X3VubG9ja2VkKzB4MzBlLzB4M2UwCj4gPj4+Pj4gTW9kdWxlcyBs
-aW5rZWQgaW46Cj4gPj4+Pj4gQ1BVOiAxIFVJRDogMCBQSUQ6IDEwODgwNiBDb21tOiBzeXouMS4z
-MTk3OCBOb3QgdGFpbnRlZCA2LjE4LjAgIzEgUFJFRU1QVChmdWxsKQo+ID4+Pj4+IEhhcmR3YXJl
-IG5hbWU6IFFFTVUgU3RhbmRhcmQgUEMgKGk0NDBGWCArIFBJSVgsIDE5OTYpLCBCSU9TIHJlbC0x
-LjE2LjMtMC1nYTZlZDZiNzAxZjBhLXByZWJ1aWx0LnFlbXUub3JnIDA0LzAxLzIwMTQKPiA+Pj4+
-PiBSSVA6IDAwMTA6ZHJtX2dlbV9vYmplY3RfaGFuZGxlX3B1dF91bmxvY2tlZCsweDMwZS8weDNl
-MAo+ID4+Pj4+IENvZGU6IGVkIDc0IDYxIGU4IDc0IGE4IDg0IGZjIDRjIDg5IGU3IGU4IDJjIDll
-IDk0IDAwIDQ4IGM3IGMxIDYwIDA5IGVhIDhiIDRjIDg5IGVhIDQ4IGM3IGM3IDQwIDA1IGVhIDhi
-IDQ4IDg5IGM2IGU4IGUzIDNiIDQ0IGZjIDkwIDwwZj4gMGIgOTAgOTAgNWIgNWQgNDEgNWMgNDEg
-NWQgNDEgNWUgNDEgNWYgZTkgM2YgYTggODQgZmMgNGMgODkgZmYKPiA+Pj4+PiBSU1A6IDAwMTg6
-ZmZmZmM5MDAwMmQyN2I4MCBFRkxBR1M6IDAwMDEwMjg2Cj4gPj4+Pj4gUkFYOiAwMDAwMDAwMDAw
-MDAwMDAwIFJCWDogZmZmZjg4ODExYWMwZmJlMCBSQ1g6IGZmZmZmZmZmODE3OWVkMDkKPiA+Pj4+
-PiBSRFg6IGZmZmY4ODgxMjRhMmJhMDAgUlNJOiBmZmZmZmZmZjgxNzllZDE2IFJESTogMDAwMDAw
-MDAwMDAwMDAwMQo+ID4+Pj4+IFJCUDogZmZmZjg4ODEwN2RmMTAwMCBSMDg6IDAwMDAwMDAwMDAw
-MDAwMDEgUjA5OiBmZmZmZWQxMDI2YmM0ODQxCj4gPj4+Pj4gUjEwOiAwMDAwMDAwMDAwMDAwMDAx
-IFIxMTogMDAwMDAwMDAwMDEzOWZjMCBSMTI6IGZmZmY4ODgxMDAxZWMwYzgKPiA+Pj4+PiBSMTM6
-IGZmZmY4ODgwMWM3MWJkNjAgUjE0OiAwMDAwMDAwMDAwMDAwMDAwIFIxNTogZmZmZjg4ODEwN2Rm
-MTAwNAo+ID4+Pj4+IEZTOiAgMDAwMDU1NTU3Y2VkMTUwMCgwMDAwKSBHUzpmZmZmODg4MWEyNjAx
-MDAwKDAwMDApIGtubEdTOjAwMDAwMDAwMDAwMDAwMDAKPiA+Pj4+PiBDUzogIDAwMTAgRFM6IDAw
-MDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzCj4gPj4+Pj4gQ1IyOiAwMDAwN2ZmZTU2
-NDZmZjAwIENSMzogMDAwMDAwMDEyZmJhMjAwMCBDUjQ6IDAwMDAwMDAwMDAwMDA2ZjAKPiA+Pj4+
-PiBDYWxsIFRyYWNlOgo+ID4+Pj4+ICAgIDxUQVNLPgo+ID4+Pj4+ICAgIGRybV9nZW1fb2JqZWN0
-X3JlbGVhc2VfaGFuZGxlKzB4YzcvMHgyMDAKPiA+Pj4+PiAgICBpZHJfZm9yX2VhY2grMHgxMTkv
-MHgyMzAgaG9tZS93bXkvRnV6emVyL3RoaXJkX3Rvb2wvbGludXgtNi4xOC9saWIvaWRyLmM6MjA4
-Cj4gPj4+Pj4gICAgZHJtX2dlbV9yZWxlYXNlKzB4MjkvMHg0MAo+ID4+Pj4+ICAgIGRybV9maWxl
-X2ZyZWUucGFydC4wKzB4NzI0LzB4Y2YwCj4gPj4+Pj4gICAgZHJtX2Nsb3NlX2hlbHBlci5pc3Jh
-LjArMHgxODMvMHgxZjAKPiA+Pj4+PiAgICBkcm1fcmVsZWFzZSsweDFhYi8weDM2MAo+ID4+Pj4+
-ICAgIF9fZnB1dCsweDQwMi8weGI1MCBob21lL3dteS9GdXp6ZXIvdGhpcmRfdG9vbC9saW51eC02
-LjE4L2ZzL2ZpbGVfdGFibGUuYzo0NjgKPiA+Pj4+PiAgICB0YXNrX3dvcmtfcnVuKzB4MTZiLzB4
-MjYwIGhvbWUvd215L0Z1enplci90aGlyZF90b29sL2xpbnV4LTYuMTgva2VybmVsL3Rhc2tfd29y
-ay5jOjIyNwo+ID4+Pj4+ICAgIGV4aXRfdG9fdXNlcl9tb2RlX2xvb3ArMHhmOS8weDEzMAo+ID4+
-Pj4+ICAgIGRvX3N5c2NhbGxfNjQrMHg0MjQvMHhmYTAgaG9tZS93bXkvRnV6emVyL3RoaXJkX3Rv
-b2wvbGludXgtNi4xOC9hcmNoL3g4Ni9lbnRyeS9zeXNjYWxsXzMyLmM6MzA4Cj4gPj4+Pj4gICAg
-ZW50cnlfU1lTQ0FMTF82NF9hZnRlcl9od2ZyYW1lKzB4NzcvMHg3Zgo+ID4+Pj4+IFJJUDogMDAz
-MzoweDdmNWY5ZDNiMDU5ZAo+ID4+Pj4+IENvZGU6IDAyIGI4IGZmIGZmIGZmIGZmIGMzIDY2IDBm
-IDFmIDQ0IDAwIDAwIGYzIDBmIDFlIGZhIDQ4IDg5IGY4IDQ4IDg5IGY3IDQ4IDg5IGQ2IDQ4IDg5
-IGNhIDRkIDg5IGMyIDRkIDg5IGM4IDRjIDhiIDRjIDI0IDA4IDBmIDA1IDw0OD4gM2QgMDEgZjAg
-ZmYgZmYgNzMgMDEgYzMgNDggYzcgYzEgYTggZmYgZmYgZmYgZjcgZDggNjQgODkgMDEgNDgKPiA+
-Pj4+PiBSU1A6IDAwMmI6MDAwMDdmZmViODVmYzZkOCBFRkxBR1M6IDAwMDAwMjQ2IE9SSUdfUkFY
-OiAwMDAwMDAwMDAwMDAwMWI0Cj4gPj4+Pj4gUkFYOiAwMDAwMDAwMDAwMDAwMDAwIFJCWDogMDAw
-MDdmNWY5ZDYyN2RhMCBSQ1g6IDAwMDA3ZjVmOWQzYjA1OWQKPiA+Pj4+PiBSRFg6IDAwMDAwMDAw
-MDAwMDAwMDAgUlNJOiAwMDAwMDAwMDAwMDAwMDFlIFJESTogMDAwMDAwMDAwMDAwMDAwMwo+ID4+
-Pj4+IFJCUDogMDAwMDdmZmViODVmYzc3OCBSMDg6IDAwMDAwMDFiMzI5MjAxNmEgUjA5OiAwMDAw
-MDAwMDAwMDAwMDAwCj4gPj4+Pj4gUjEwOiAwMDAwMDAxYjMyZDIwMDAwIFIxMTogMDAwMDAwMDAw
-MDAwMDI0NiBSMTI6IGZmZmZmZmZmZmZmZmZmZmYKPiA+Pj4+PiBSMTM6IDAwMDA3ZjVmOWQ2MjYw
-OWMgUjE0OiAwMDAwN2Y1ZjlkNjI3ZGEwIFIxNTogMDAwMDdmZmViODVmYzdhMAo+ID4+Pj4+ICAg
-IDwvVEFTSz4KPiA+Pj4+Pgo+ID4+Pj4+IFRoYW5rcywKPiA+Pj4+PiBaaGkgV2FuZwo+ID4+PiAt
-LSAKPiA+Pj4gLS0KPiA+Pj4gVGhvbWFzIFppbW1lcm1hbm4KPiA+Pj4gR3JhcGhpY3MgRHJpdmVy
-IERldmVsb3Blcgo+ID4+PiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgKPiA+
-Pj4gRnJhbmtlbnN0ci4gMTQ2LCA5MDQ2MSBOw7xybmJlcmcsIEdlcm1hbnksIHd3dy5zdXNlLmNv
-bQo+ID4+PiBHRjogSm9jaGVuIEphc2VyLCBBbmRyZXcgTWNEb25hbGQsIFdlcm5lciBLbm9ibGlj
-aCwgKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQo+ID4+Pgo+ID4+Pgo+IAo+IC0tIAo+IC0tCj4g
-VGhvbWFzIFppbW1lcm1hbm4KPiBHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyCj4gU1VTRSBTb2Z0
-d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICj4gRnJhbmtlbnN0ci4gMTQ2LCA5MDQ2MSBOw7xy
-bmJlcmcsIEdlcm1hbnksIHd3dy5zdXNlLmNvbQo+IEdGOiBKb2NoZW4gSmFzZXIsIEFuZHJldyBN
-Y0RvbmFsZCwgV2VybmVyIEtub2JsaWNoLCAoSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCj4gCj4g
-Cg==
++ dri-devel, Christian
+
+On Wed, 2026-02-04 at 16:46 +0000, Satyanarayana K V P wrote:
+> drm_suballoc_new() currently both allocates the SA object using
+> kmalloc()
+> and searches for a suitable hole in the sub-allocator for the
+> requested
+> size. Since kmalloc() may take internal locks, performing memory
+> allocation while holding the sub-allocator mutex can trigger lockdep
+> deadlock warnings.
+
+... As Matt mentioned, This is to be able to suballocate under a
+reclaim-tainted lock: Allocation can be done outside the lock, and init
+inside the lock.
+
+>=20
+> Fix this by splitting SA allocation from drm_suballoc_new(),
+> separating
+> object allocation from sub-allocator initialization and hole
+> selection.
+>=20
+> Signed-off-by: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
+> Suggested-by: Matthew Brost <matthew.brost@intel.com>
+> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: Matthew Auld <matthew.auld@intel.com>
+
+This must be CC'd dri-devel as well and AMD maintainers.
+
+Below is in addition to MBrost's comments.
+
+>=20
+> ---
+> V1 -> V2:
+> - Splitted drm_suballoc_new() into drm_suballoc_alloc() and
+> drm_suballoc_init() (Thomas).
+> ---
+> =C2=A0drivers/gpu/drm/drm_suballoc.c | 135 +++++++++++++++++++++++++-----=
+-
+> --
+> =C2=A0include/drm/drm_suballoc.h=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 8 =
+++
+> =C2=A02 files changed, 112 insertions(+), 31 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_suballoc.c
+> b/drivers/gpu/drm/drm_suballoc.c
+> index 879ea33dbbc4..6f21f9e048d6 100644
+> --- a/drivers/gpu/drm/drm_suballoc.c
+> +++ b/drivers/gpu/drm/drm_suballoc.c
+> @@ -123,7 +123,7 @@ static void drm_suballoc_remove_locked(struct
+> drm_suballoc *sa)
+> =C2=A0	list_del_init(&sa->olist);
+> =C2=A0	list_del_init(&sa->flist);
+> =C2=A0	dma_fence_put(sa->fence);
+> -	kfree(sa);
+> +	drm_suballoc_release(sa);
+> =C2=A0}
+> =C2=A0
+> =C2=A0static void drm_suballoc_try_free(struct drm_suballoc_manager
+> *sa_manager)
+> @@ -293,45 +293,75 @@ static bool drm_suballoc_next_hole(struct
+> drm_suballoc_manager *sa_manager,
+> =C2=A0}
+> =C2=A0
+> =C2=A0/**
+> - * drm_suballoc_new() - Make a suballocation.
+> + * drm_suballoc_alloc() - Allocate uninitialized suballoc object.
+> + * @gfp: gfp flags used for memory allocation.
+> + *
+> + * Allocate memory for an uninitialized suballoc object. Intended
+> usage is
+> + * allocate memory for suballoc object outside of a reclaim tainted
+> context
+> + * and then be initialized at a later time in a reclaim tainted
+> context.
+> + *
+> + * @drm_suballoc_release should be used to release the memory if
+> returned
+> + * suballoc object is in uninitialized state.
+> + *
+> + * Return: a new uninitialized suballoc object, or an ERR_PTR(-
+> ENOMEM).
+> + */
+> +struct drm_suballoc *drm_suballoc_alloc(gfp_t gfp)
+> +{
+> +	struct drm_suballoc *sa;
+> +
+> +	sa =3D kmalloc(sizeof(*sa), gfp);
+> +	if (!sa)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	return sa;
+> +}
+> +EXPORT_SYMBOL(drm_suballoc_alloc);
+> +
+> +/**
+> + * drm_suballoc_release() - Release memory for suballocation.
+> + * @sa: The struct drm_suballoc.
+> + */
+> +void drm_suballoc_release(struct drm_suballoc *sa)
+> +{
+> +	kfree(sa);
+> +}
+> +EXPORT_SYMBOL(drm_suballoc_release);
+> +
+> +/**
+> + * drm_suballoc_init() - Initialize a suballocation.
+> =C2=A0 * @sa_manager: pointer to the sa_manager
+> + * @sa: The struct drm_suballoc.
+> =C2=A0 * @size: number of bytes we want to suballocate.
+> - * @gfp: gfp flags used for memory allocation. Typically GFP_KERNEL
+> but
+> - *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the argument is provided for suba=
+llocations from reclaim
+> context or
+> - *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 where the caller wants to avoid p=
+ipelining rather than wait
+> for
+> - *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reclaim.
+> =C2=A0 * @intr: Whether to perform waits interruptible. This should
+> typically
+> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 always be true, unless=
+ the caller needs to propagate a
+> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 non-interruptible cont=
+ext from above layers.
+> =C2=A0 * @align: Alignment. Must not exceed the default manager alignment=
+.
+> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If @align is zer=
+o, then the manager alignment is used.
+> + * @timeout: Time to a wait suballocation to become available.
+
+I think we should split out the timeout to a separate patch, since that
+is not really related to the problem of the lockdep splat, and it would
+require a separate motivation, since typically the CTRL-C in
+combination with fence timeouts are sufficient. We need to explain why
+that's not the case for this particuar use-case.=20
+
+Also that would make the -fixes patches for the reclaim lockdep splat
+smaller.
+
+
+Otherwise LGTM.
+Thomas
+
+
+> =C2=A0 *
+> - * Try to make a suballocation of size @size, which will be rounded
+> - * up to the alignment specified in specified in
+> drm_suballoc_manager_init().
+> + * Try to make a suballocation on a pre-allocated suballoc object of
+> size @size,
+> + * which will be rounded up to the alignment specified in specified
+> in
+> + * drm_suballoc_manager_init().
+> =C2=A0 *
+> - * Return: a new suballocated bo, or an ERR_PTR.
+> + * Return: zero on success, errno on failure.
+> =C2=A0 */
+> -struct drm_suballoc *
+> -drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t
+> size,
+> -		 gfp_t gfp, bool intr, size_t align)
+> +int drm_suballoc_init(struct drm_suballoc_manager *sa_manager,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_suballoc *sa, size_t size,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool intr, size_t align, signed long ti=
+meout)
+> =C2=A0{
+> =C2=A0	struct dma_fence *fences[DRM_SUBALLOC_MAX_QUEUES];
+> =C2=A0	unsigned int tries[DRM_SUBALLOC_MAX_QUEUES];
+> =C2=A0	unsigned int count;
+> =C2=A0	int i, r;
+> -	struct drm_suballoc *sa;
+> =C2=A0
+> =C2=A0	if (WARN_ON_ONCE(align > sa_manager->align))
+> -		return ERR_PTR(-EINVAL);
+> +		return -EINVAL;
+> =C2=A0	if (WARN_ON_ONCE(size > sa_manager->size || !size))
+> -		return ERR_PTR(-EINVAL);
+> +		return -EINVAL;
+> =C2=A0
+> =C2=A0	if (!align)
+> =C2=A0		align =3D sa_manager->align;
+> =C2=A0
+> -	sa =3D kmalloc(sizeof(*sa), gfp);
+> -	if (!sa)
+> -		return ERR_PTR(-ENOMEM);
+> =C2=A0	sa->manager =3D sa_manager;
+> =C2=A0	sa->fence =3D NULL;
+> =C2=A0	INIT_LIST_HEAD(&sa->olist);
+> @@ -339,6 +369,8 @@ drm_suballoc_new(struct drm_suballoc_manager
+> *sa_manager, size_t size,
+> =C2=A0
+> =C2=A0	spin_lock(&sa_manager->wq.lock);
+> =C2=A0	do {
+> +		long t;
+> +
+> =C2=A0		for (i =3D 0; i < DRM_SUBALLOC_MAX_QUEUES; ++i)
+> =C2=A0			tries[i] =3D 0;
+> =C2=A0
+> @@ -348,7 +380,7 @@ drm_suballoc_new(struct drm_suballoc_manager
+> *sa_manager, size_t size,
+> =C2=A0			if (drm_suballoc_try_alloc(sa_manager, sa,
+> =C2=A0						=C2=A0=C2=A0 size, align)) {
+> =C2=A0				spin_unlock(&sa_manager->wq.lock);
+> -				return sa;
+> +				return 0;
+> =C2=A0			}
+> =C2=A0
+> =C2=A0			/* see if we can skip over some allocations
+> */
+> @@ -359,34 +391,75 @@ drm_suballoc_new(struct drm_suballoc_manager
+> *sa_manager, size_t size,
+> =C2=A0				fences[count++] =3D
+> dma_fence_get(fences[i]);
+> =C2=A0
+> =C2=A0		if (count) {
+> -			long t;
+> -
+> =C2=A0			spin_unlock(&sa_manager->wq.lock);
+> =C2=A0			t =3D dma_fence_wait_any_timeout(fences,
+> count, intr,
+> -						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> MAX_SCHEDULE_TIMEOUT,
+> -						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NULL);
+> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 timeout,
+> NULL);
+> =C2=A0			for (i =3D 0; i < count; ++i)
+> =C2=A0				dma_fence_put(fences[i]);
+> =C2=A0
+> -			r =3D (t > 0) ? 0 : t;
+> =C2=A0			spin_lock(&sa_manager->wq.lock);
+> =C2=A0		} else if (intr) {
+> +			spin_unlock(&sa_manager->wq.lock);
+> =C2=A0			/* if we have nothing to wait for block */
+> -			r =3D wait_event_interruptible_locked
+> +			r =3D wait_event_interruptible_timeout
+> =C2=A0				(sa_manager->wq,
+> -				 __drm_suballoc_event(sa_manager,
+> size, align));
+> +				 __drm_suballoc_event(sa_manager,
+> size, align),
+> +				 timeout);
+> +			spin_lock(&sa_manager->wq.lock);
+> =C2=A0		} else {
+> =C2=A0			spin_unlock(&sa_manager->wq.lock);
+> -			wait_event(sa_manager->wq,
+> -				=C2=A0=C2=A0 drm_suballoc_event(sa_manager,
+> size, align));
+> -			r =3D 0;
+> +			t =3D wait_event_timeout
+> +				(sa_manager->wq,
+> +				 drm_suballoc_event(sa_manager,
+> size, align),
+> +				 timeout);
+> =C2=A0			spin_lock(&sa_manager->wq.lock);
+> =C2=A0		}
+> +		r =3D (t > 0) ? 0 : !r ? -ETIME : t;
+> =C2=A0	} while (!r);
+> =C2=A0
+> =C2=A0	spin_unlock(&sa_manager->wq.lock);
+> -	kfree(sa);
+> -	return ERR_PTR(r);
+> +	return r;
+> +}
+> +EXPORT_SYMBOL(drm_suballoc_init);
+> +
+> +/**
+> + * drm_suballoc_new() - Make a suballocation.
+> + * @sa_manager: pointer to the sa_manager
+> + * @size: number of bytes we want to suballocate.
+> + * @gfp: gfp flags used for memory allocation. Typically GFP_KERNEL
+> but
+> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the argument is provided for suba=
+llocations from reclaim
+> context or
+> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 where the caller wants to avoid p=
+ipelining rather than wait
+> for
+> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reclaim.
+> + * @intr: Whether to perform waits interruptible. This should
+> typically
+> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 always be true, unless the =
+caller needs to propagate a
+> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 non-interruptible context f=
+rom above layers.
+> + * @align: Alignment. Must not exceed the default manager alignment.
+> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If @align is zero, th=
+en the manager alignment is used.
+> + *
+> + * Try to make a suballocation of size @size, which will be rounded
+> + * up to the alignment specified in specified in
+> drm_suballoc_manager_init().
+> + *
+> + * Return: a new suballocated bo, or an ERR_PTR.
+> + */
+> +struct drm_suballoc *
+> +drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t
+> size,
+> +		 gfp_t gfp, bool intr, size_t align)
+> +{
+> +	struct drm_suballoc *sa;
+> +	int err;
+> +
+> +	sa =3D drm_suballoc_alloc(gfp);
+> +	if (IS_ERR(sa))
+> +		return sa;
+> +
+> +	err =3D drm_suballoc_init(sa_manager, sa, size, intr, align,
+> +				MAX_SCHEDULE_TIMEOUT);
+> +	if (err) {
+> +		drm_suballoc_release(sa);
+> +		return ERR_PTR(err);
+> +	}
+> +
+> +	return sa;
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL(drm_suballoc_new);
+> =C2=A0
+> diff --git a/include/drm/drm_suballoc.h b/include/drm/drm_suballoc.h
+> index 7ba72a81a808..cff0e14556d1 100644
+> --- a/include/drm/drm_suballoc.h
+> +++ b/include/drm/drm_suballoc.h
+> @@ -53,6 +53,14 @@ void drm_suballoc_manager_init(struct
+> drm_suballoc_manager *sa_manager,
+> =C2=A0
+> =C2=A0void drm_suballoc_manager_fini(struct drm_suballoc_manager
+> *sa_manager);
+> =C2=A0
+> +struct drm_suballoc *drm_suballoc_alloc(gfp_t gfp);
+> +
+> +void drm_suballoc_release(struct drm_suballoc *sa);
+> +
+> +int drm_suballoc_init(struct drm_suballoc_manager *sa_manager,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_suballoc *sa, size_t size, b=
+ool
+> intr,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size_t align, signed long timeout);
+> +
+> =C2=A0struct drm_suballoc *
+> =C2=A0drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t
+> size,
+> =C2=A0		 gfp_t gfp, bool intr, size_t align);
