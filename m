@@ -2,194 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YDOYCzEThmk1JgQAu9opvQ
+	id mPsXHVcYhmktJwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 17:13:37 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 17:35:35 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B6D100183
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 17:13:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C06EE1005AF
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 17:35:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C65E810E835;
-	Fri,  6 Feb 2026 16:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02E7710E825;
+	Fri,  6 Feb 2026 16:35:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="pxzmmWjw";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="A/O4ECy1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from LO0P265CU003.outbound.protection.outlook.com
- (mail-uksouthazon11022093.outbound.protection.outlook.com [52.101.96.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5770610E834;
- Fri,  6 Feb 2026 16:13:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=g1i5O1CDvcvIIgA7RAWvbJ55iO2euUNEKv6Cx4qskfm4NrhD6xdQcZPF4s481qog4ZSjRnaL+f9jlrn7iChoxBVrtlEBhT4iSXuhSk9/s5/7+Rc44O6Xmt4OQNxNskbh7Y6rSvaqgnoZ6AhMdoYHWjSjw0KI1XeL/D2vxNHW8Yl+i3ZH1XT2hBTycy+eyPqnTh0PMlsXylEPNWolAQGKsUKJ3qFHoawxJKU0ao5NGauhwnO5Ag0jEmAC8MQkchDmOVoxL7BuUyLxaebfvp0TqVm9HtbIYo3tMe/a5RB0vuJsrFfeHDrEQ0ulL2hhsy2q+z+ml7tecCP/AeraKthZ5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Kwg/Bj3YCXLxkqwlVHV6hoYjss9oBtGFg9qQi7DMymk=;
- b=U2eQ+MHJVf1Y07fDujMgveXe4lM7FHz9fryLhUmrsaWo3Npmu04TUjdGYuLyAStlV/906dO+PHVau9iVCBeWteP4RRegJpaH9Npm9M5Cegrv7szl7+IKFfwHxeRbRp9V6rYYnyJBfZeQEovzsmmqKZR4m6SxJVzXbZPtgnpi9l4uNWXEm2IvP1AoFLflpbRVFAf77AraocYPuuIe/XOlrYhoHhOOEra7po01YaTF0ltC3W0mNCqv6XnYWsDqwlU32j1o4K6RwtVeVXs/7hWGUz+QBMW0QZSo/t4seC0n71isGAQycug+oaik6Ps4vsw9eb3q+vR/EwLTusqPMTXEbw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Kwg/Bj3YCXLxkqwlVHV6hoYjss9oBtGFg9qQi7DMymk=;
- b=pxzmmWjwdjiprjPiyNVQSJaY3CIaKK0Lu4KS4iXL2CQxbPJbShH/gpEkH2J/hfNhguiBphvDMpUwtEhmk55U0bZiKTbK8SxtADW+M197EJuXy8/zoAXDVOcPaTXhicGEtjYMpXlTXeMrR4KQ2XRGophFm+Eq9ZddTmyVQE+5HM4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CWLP265MB2018.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:6a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.15; Fri, 6 Feb
- 2026 16:13:28 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9564.016; Fri, 6 Feb 2026
- 16:13:28 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 06 Feb 2026 16:13:27 +0000
-Message-Id: <DG80FV3VTT6P.2ZP18EM8605GT@garyguo.net>
-Subject: Re: [PATCH -next v7 1/2] rust: clist: Add support to interface with
- C linked lists
-From: "Gary Guo" <gary@garyguo.net>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>, "Danilo Krummrich"
- <dakr@kernel.org>, "Gary Guo" <gary@garyguo.net>
-Cc: <linux-kernel@vger.kernel.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet"
- <corbet@lwn.net>, "Alex Deucher" <alexander.deucher@amd.com>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Jani Nikula"
- <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
- <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
- "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang Rui" <ray.huang@amd.com>,
- "Matthew Auld" <matthew.auld@intel.com>, "Matthew Brost"
- <matthew.brost@intel.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Helge Deller" <deller@gmx.de>, "Alice Ryhl" <aliceryhl@google.com>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>,
- "Boqun Feng" <boqun.feng@gmail.com>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Edwin Peer"
- <epeer@nvidia.com>, "Alexandre Courbot" <acourbot@nvidia.com>, "Andrea
- Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Zhi Wang"
- <zhiw@nvidia.com>, "Balbir Singh" <balbirs@nvidia.com>, "Philipp Stanner"
- <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, <joel@joelfernandes.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260206004110.1914814-1-joelagnelf@nvidia.com>
- <20260206004110.1914814-2-joelagnelf@nvidia.com>
- <DG7ZF1UT98RQ.3F42J3ULGV2OC@garyguo.net>
- <DG800TDA6OXQ.275PMMS19F1EX@kernel.org>
- <77ac3274-a962-469d-a2f6-6ccc0670988a@nvidia.com>
-In-Reply-To: <77ac3274-a962-469d-a2f6-6ccc0670988a@nvidia.com>
-X-ClientProxiedBy: LO4P265CA0172.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:312::15) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+ [209.85.208.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CA2A10E825
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 16:35:29 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id
+ 4fb4d7f45d1cf-6581234d208so1447608a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Feb 2026 08:35:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1770395727; x=1771000527;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lEqAwzXehbVzchYDAND90vGdwFH8r/bqM6A6cnJ3VvQ=;
+ b=A/O4ECy10gMmeiVD83pbkUEqGpecEl3wq2ZKCdjcyrDPRjr7LESQuHeltqW5MBfKG2
+ 75lujfhuRYia5ggQ3vcRPdHf3bDtfPp780FMvNTgH/qrMKwqmPgO2+KAtHXWgYqp1eQ6
+ tYIQUiaXXlvKxOxxfALkxV2qunAFk6p8RkAK8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770395727; x=1771000527;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=lEqAwzXehbVzchYDAND90vGdwFH8r/bqM6A6cnJ3VvQ=;
+ b=vnQKY9A2K73DVkORMqNOW4DiBOvy+9w/NMs18NEj+7N+qZjXy1MrnYed2fohd5V8za
+ lXGvZywT2jbt4ZIuF/LN7p7WVkU45wtxE6o11MJbflA/RzynT6mMRRtFq0BhHmdLr3aD
+ orvdiVCKlVlTHOPrJkcU2hz6lc/tQUXitLSziOTPNmd4UxSoVns+H24PDhTiqaYWS8An
+ 1p9kK8KdzcpPVTRvMPcirbiulsm2SVWQZmt24udHSRQ2RhGhWFCcnWwgmaZ6YVL+DKSH
+ YBd0zzBnenxzMa6Se6RcwhrzXhZMaR69rjacksIXZIo01w4ugd6bht4DkQ547sidQG13
+ SSjw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWoPzNO+YJKWeUXBd6dg4IRgYCeFoR5IUajJ8C0SJGXfdynkiWzLcmDcTSZtSPYWyLg0+UQFoCz87A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxznOyIFhH7qw0uWca7VDRXgNfTxjo/53+N2DMOACUQsARfVF+6
+ VYL9JTLJXhLpXRy+/BO8lG2wpmadJe1fXrDpnrKAPvDPQbnGFldXlXtPc2EPYqT77aYcj4mI9mX
+ eYLs05Mxc
+X-Gm-Gg: AZuq6aIKWzHpqYPfldz4QmisirWft7iwT0iuyN09oi5RbY3dzlj8++mdkGeMloBC1Xr
+ slPKMybqZaqBFQTbgN2fx5jn0EHCXjTj8G3m/FH3nzMluadQ7TxV/ZxagjpTSWMeoYOtsMg522A
+ LVmmf+pHpQL4fRkLRUEkTK4zlUSMY3q674ZEIqdT1fY5efQeODd4BvGWzSA85T10eBCnJcEu0G+
+ ZOX8qZDYhOG/c34ksMvFiDOIuC14BTTE1A0kLf/X+JioGehA6tPjEtrNclYNGwL9GPfZsqU83YG
+ 8j25AIkY6gBSXe+BwZqlN4eioCgNagf/rAI7Xa3oRxIWqludgZK4+hMFQgz3Va/QdGEveAxIvXF
+ AWzOrFYiDhghFxcwwKTCKRUrMmoIx8656Oq+yroyGMm47vcfi1h7V9ZEb9muVGtYxapnD8PJeCD
+ R+DSeyUJkPyBg38qp+Ad0rP+CeY0OKPzJRTdLZekMKbTOQwZrw3g==
+X-Received: by 2002:a17:907:9723:b0:b87:225f:2e74 with SMTP id
+ a640c23a62f3a-b8edf19d5a6mr189331566b.14.1770395726437; 
+ Fri, 06 Feb 2026 08:35:26 -0800 (PST)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com.
+ [209.85.218.46]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b8eda7a3004sm95299066b.15.2026.02.06.08.35.25
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Feb 2026 08:35:25 -0800 (PST)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-b8869cd7bb1so162120866b.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Feb 2026 08:35:25 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWHfeqnhuHNMZiJ1DWhYXdjc7YEuZ87jyNKA9j4MZgIwRfF+2wPrOTC3+NHYNH1MxSxTAW3cHqOIY0=@lists.freedesktop.org
+X-Received: by 2002:a05:6000:1848:b0:435:aaba:b8e9 with SMTP id
+ ffacd0b85a97d-43629017c58mr4513452f8f.0.1770395238489; Fri, 06 Feb 2026
+ 08:27:18 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWLP265MB2018:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed152add-6b46-4b58-6969-08de659aa9f8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bXFxV01Dcmc2MUxYRHpYcUI4RFo0amJha1BnNE0vZE5sdlFWWkZ0WU5xaUU1?=
- =?utf-8?B?MlRGNkcrcXZWa3Fjc2JKWjNjMFVUODRLdStrWGN5WXNJa05COXB2MmV0M0hD?=
- =?utf-8?B?TmZnY1h0RndXNFZUL21rcE9xRENqeGhoNEgxeFZuTllMbXJqK0dJZmxmMGly?=
- =?utf-8?B?VnptbHJVcUo4WC8zbElsZVRtUFNKWlZBYnkrZjNSbHZaZmVzZDV2Q0lFdzBH?=
- =?utf-8?B?S1lacGFycE1LM0hNYXhMblFCUFl3dkE5aC9iVmpOYVZjYVhLL2NGK0IxQlFY?=
- =?utf-8?B?Q3NWOThGRG9qbkE2MXdyemdQZ2ZwTk90THFvWCtOZVRvcmhBVGVoVVpmSXd5?=
- =?utf-8?B?WWp2bU9YU3VoWU5RY1dlaDJPUDRmbXo1ekhXUjNFRlc3WGwyV3E3dGQwUitE?=
- =?utf-8?B?MDR1YnhTL1o3RUVmd1Y2ZG9BNjhBalcyVWxSYWRDa1hHbHdKS280dk1iWkxW?=
- =?utf-8?B?RFYrQXlla0RjYmJVN1VjRXlQcDhycEVQU1NUUGNLcWxQbno3N1dwQk9INU8x?=
- =?utf-8?B?cEF6cmNMVFB6d213RzkvRmpWR2pMT1V3V2FqMjhaZlRjNXJhZGJzUWtnMmRM?=
- =?utf-8?B?QXBaT01aY1I5a0VVNnBiRTl1c2liNTE2S25NbW1Tc0FuUEZmT2dTTU9kMHFF?=
- =?utf-8?B?bHgrQk02UzJrT1hhWU9UcmoxVWVyWUpMVlFPNjQyQ1FyYjVaOTR6a3pVandS?=
- =?utf-8?B?NTJxNVIwQXhGeEUxVUc4WmlZbGlsczVlZHNwSWlycjBpT3hUL1JqQmpaUHMz?=
- =?utf-8?B?NERtK243ZCtqM3JDRTIvajY3dXVDZ3YxQmJscFMyTEw3SldOU1ViU3h4SEpi?=
- =?utf-8?B?LzZCc1c1cTZSbmpCUzRiM3JFMElxUjV2S2FkbGJtYnI0aUpxelhIYVdXLzlC?=
- =?utf-8?B?Nk01UitjSVlVem1teU42U2tWaDZaZHRHRFNqK1lGdXdBbXA4SEVaRUVHMTMx?=
- =?utf-8?B?R0p1QnNpUlVId3RZOGdoeHYvWmZFdGMvdzRIc1RQdDU5ZzR1NldPR2pQZ2lu?=
- =?utf-8?B?azRSSkxSZ1RWa28rSHZlM2IzdlcvWE1JVnkwcEx1L0F5bG9mb2xiYTAyWUdL?=
- =?utf-8?B?OUdldDF4WVRmak9yNXVSSVFSaGkrVVhzUVF5eGZvTStOcWJCS3lXYWlYK0VN?=
- =?utf-8?B?VkdGZGc2c3l4b2h4Z25tWmZCd0R0UFlwZEgyQ0dQVDNOVHpiUE9ac29DenBr?=
- =?utf-8?B?eDQ0VFdvdlZEeEdtdVNvTlZYWGhOclM1bHovU3RMWEF5WGUvN01NRk9vNXJK?=
- =?utf-8?B?aWdublJzMnNPeUpjRjBtMHA1U3N4bXFzUHp4Y043UTNBL3RFSnUvaXhhaUZL?=
- =?utf-8?B?a1hvZWxaVC9UVzVYbGlySVV1dDlhUHVXT1JGdnVkZDdrWGVhU3lmU1U2N3Zh?=
- =?utf-8?B?MFZHcXYzTndOR0dDQkZWTFUzZjZqanh5S25zTXVYTlZ1MEM2a2k5OWxXNzkw?=
- =?utf-8?B?OVZlQ3pQMm96MEVzMjloS1FxY1diRlB0YlJHUDhDL0pUeDhlMGpoYXR6ZWdk?=
- =?utf-8?B?TnNLNUR2TThHaEZ2dlVWK2dTSklVUmdnZ1o3bWE4NlpLTEVkVWtRaXBBeHB3?=
- =?utf-8?B?M2JsZ2UrUE0vQlJONUZqVWxXNjYzQ1g1QzZSMXBGSXpja2JLdUs3SWt0RS85?=
- =?utf-8?B?QlZUTnBzemV5UE5hc3kydS9EYjlsYmxCdmw2UWd0VVJsa2dFYkZFN0FFU3pl?=
- =?utf-8?B?Rk8vNjBzdFdGa2x3QmFEWENONTFHM1B1TFZjdWdBWVEvZjN4Zm1qOHVRZU5t?=
- =?utf-8?B?T0hZdzlYR1ZQYjF0cTBvWFdwL2UzdGhHSCtZNTA0czQrbnBjb2g3amZ0Q29o?=
- =?utf-8?B?WUs1c002d09tZWxyTWRvVjF5Sk9MY2x4MG04S3dGQXc5dW11MjRLRllsZ3A5?=
- =?utf-8?B?QTJKdTJWc3RRdjJ5SVNQZlZGTjVEbEdrVGlEdG5QOCtPdnRDYU9kdDRpOFUy?=
- =?utf-8?B?RzNRcGdxSDVpNzV1UE5Dakp2L2dqQzNNUC8rTndRWkhVUGk5a1k5NG1uWXJy?=
- =?utf-8?B?UXUyKzcxNVNTeEt2a0Fkb3QwUnlFKzROVERUUWE5VFNtcHVQWjlTb2kwLzNL?=
- =?utf-8?B?ZlczWHA0SW5FdHpSS3VyQzVQYWt1YmFibC8vUG9yM1BSYm93ZE1uSFdZdDl6?=
- =?utf-8?Q?QOCM=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024); DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V0xhNHVlRUdQd2ZDenJPcmR6N2FMejBhY1YzT0Q1OWJtbEZwZTh4a2hFUG90?=
- =?utf-8?B?VXdndXhPQUUyNHJxSktpY2lVODhUNjBjUVR0alpVdjZZOE8yWjVETmZPaHJ3?=
- =?utf-8?B?cStDUk1iWVo2amtvM3N3aDRtV3lPVHY2MFR5Q015NURoRzVQaDJmNkl0eWlO?=
- =?utf-8?B?a2t6K09NU2VEdDl3ZlcvVlJ6TjZ4ZFptVHBFNEFocGNlUDhkVnQvSDF6VFlV?=
- =?utf-8?B?YTVTdUNYMFRGOGN6dFVDTXQvWWF3bEcvanhYRGFteVo4Z212Y0xkKzZqd3or?=
- =?utf-8?B?VXZlOUdmZE5CSnJSV0h4ZEMyVHBNVldhUGxlaGt4aTBOQ24wNGNYSWlZUXZN?=
- =?utf-8?B?T2xKQWRVc0kyL2QxMGw2SjVpeGNiZU1PM3ROSW94L2x1bHBqL3RsUllNWjQx?=
- =?utf-8?B?bEsvR0tJdjBnUjZPTnVoOVVqc01DaC9vYlNCcjhSMHc2amEwWkZzQ2ZXekh6?=
- =?utf-8?B?ZVJRNnM0NzQ4bVVPQ0hINko3UzcvRWVUYlkwMHlXc1dNc1kyV1d3ZmZtSi9q?=
- =?utf-8?B?eXJhTi83Q1lsRktHZ0p6RzVpUC9OSCtna29BYlE1dC95Ky9xV2cxcm5ERG1y?=
- =?utf-8?B?ZHdhSHZZL2RNMm9ZMTRGSElPOHJWRjFoS3YyK3FBdG9KY2N4UmJyb0JKa096?=
- =?utf-8?B?VXpCbjdiZFd1TlBtRXQ2VnFISUdOWGRrdDhtak4xY3NvZE9pa1pSQkZVelBL?=
- =?utf-8?B?OEExS2dtNFQwY2h3cC81ZUhQblo1UllyYlNLUWtXVXRMOEREUTNuZ1NDZTJo?=
- =?utf-8?B?dFZMSHdFZ0tKVlNHREFnaDI0YnNTU25mRmlRamlzVnVmZHpMcGgza1JodXJB?=
- =?utf-8?B?MG1HOGJUQzk4SjBWY1ovU0UrN2FNQlFxdmluTHMxRU9WWXJuOEpiK2JwSnMv?=
- =?utf-8?B?US9ZbkxuTDBYakpHNHJWNjBzVHFMM1hsWkRveTZ4VmFwNWZwNnFtSWdFTWJT?=
- =?utf-8?B?L1Y4Q09ncmFSWEVRT1lvcGJpWlAvRW1jcFZlZVZTRGxudE5XcTRxeU5SaTJk?=
- =?utf-8?B?TGVSNzhLK05ZZk9qMk5wZVMwd3diZnVhWkNJOGpOY09WOFlYamlxTDhLUnYx?=
- =?utf-8?B?cnhwVkx1SlBwTmJQdEpmYjBCQXhoUWFKU2N0VjRkUkUyanNycGZ3T3dadlJE?=
- =?utf-8?B?a0xZZUpQSkQxOStnbml6ZHM1WHNKYXB2enIzZGxQZ1I5UHVIVjNIY2hlUG1F?=
- =?utf-8?B?S2VuUVF1V1hCSjBKVGRRZ0pvRXpnVFlPY3lrL2tlbjVVTmpWbG9VZFNubnBE?=
- =?utf-8?B?UERiWXZrQk5YRkRqNFpsZGF1RG5hVUJ4ZjFwRG9XVnhncTZnazVMUE5uN0JQ?=
- =?utf-8?B?cXdEaU1LRU8xRUVzMkpPNElCbTN1N1l5OGU2MDBDbUpkckh0V2hXZTlhYzB3?=
- =?utf-8?B?ZklLZGRSMzZxdlpxUWNBMytVUU1yMHpDeC9jR2pidUQ5cW9FVW1zdkJnb0VI?=
- =?utf-8?B?Tk5uVk5sSTRDeklKa2hzbHNPczd2cWlzVHUrbldqbUVMM3hPQ0tUVFVmRUIz?=
- =?utf-8?B?elh6NzUzdElySlJkdjNmOVZYbUFRRHpkbk80MVlTTWdWUkRIeWJqNVZ6TTl3?=
- =?utf-8?B?ZHJSLzF1N2RuUDhlaFNmM2gzMk9SaFpRaWZWcG9HK3FKZDMzZmlDRlpjcTRz?=
- =?utf-8?B?WW5mdEh5YUVwZWxVUjBwTHg2UENGQW9FdURzMWdyYmhsSmVJcGlwbG1WeCsx?=
- =?utf-8?B?RFBYeGdZdExGczNMVHBXMnI1VTlLTnRZcysrVkNiL0xGQXpYYnVXOUVKdkVy?=
- =?utf-8?B?ZU56ZG9ycEpOWWVvV2JKTFRXc21QeWdlVFVCbWQ1WUJpM3RTR2ozQjRUTm9S?=
- =?utf-8?B?d0dQbm9aOEhTOFZiZ3FGNFQ5VTAwSkREZ3VEeVZLWHhWU0FPNzF2NDNTT1ly?=
- =?utf-8?B?NVFEbkhUc2RkUm5Tdy9OYmZ4UlJoS3B3RG52VndmMjRPbDZ4K1dOZCtBT1NR?=
- =?utf-8?B?VDN6VU1zTERydGJSdlJBNnZqUlNhVDR0M25pdHFvcHk2T25zODhrQW1nT2hH?=
- =?utf-8?B?L1RreUppNElNQzFUKzh0TzY5ak5GeHR5bC9PTGM4ak5uWkUzU0pvS0VaSzVS?=
- =?utf-8?B?Y3EyWkl6Rmh5a1B1cUZuQWhWN1pOcEZwb1psdTZpS1Rib3Y5NzdpdmROb3Fy?=
- =?utf-8?B?dVdhSW5zbmRULzNQQnVPMUF0UEd5REt2ZWRhcVlsTnBPZHlaSnZ6OTFWOURu?=
- =?utf-8?B?Y2VrZ1ZkQ0FEbitWaWF2bWZlNGZZTndTWHhiemVWckNndDg2V0dtR1BINTBM?=
- =?utf-8?B?akxqRDJXRGh6R3BJQ2dqNVZ2Wm1CckxTYWVDeTJFaEh6R3NJbzY1ZVVTamRs?=
- =?utf-8?Q?GBsO+7/Bb0JycX+9Ak?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed152add-6b46-4b58-6969-08de659aa9f8
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 16:13:28.5461 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HmbBqhRocyqG7sZFTfIOcT4DbEOtYciyCSERzAzwhaLa8JQsYLTxK4jx30UBurd9W1m7VjaC0TdExmqJpEaRxg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB2018
+References: <20260206123758.374555-1-fra.schnyder@gmail.com>
+ <CAD=FV=UO3wHqGKep67pY04PgBJKgvOgDf8u1qxeXmWkgVMLXiQ@mail.gmail.com>
+ <20260206161054.GA101724@francesco-nb>
+In-Reply-To: <20260206161054.GA101724@francesco-nb>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 6 Feb 2026 08:27:07 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=VvePQt9LgupM+hW72doRja4UPBj6sBXUh091yHFxcxVw@mail.gmail.com>
+X-Gm-Features: AZwV_Qgm-zXegQuSpVm1x9sbLixy4tTG3qVrk--0qkuaZQnLYdiCiKMrx8LFrHU
+Message-ID: <CAD=FV=VvePQt9LgupM+hW72doRja4UPBj6sBXUh091yHFxcxVw@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/bridge: ti-sn65dsi86: Enable HPD polling if IRQ is
+ not used
+To: Francesco Dolcini <francesco@dolcini.it>
+Cc: Franz Schnyder <fra.schnyder@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Franz Schnyder <franz.schnyder@toradex.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -205,90 +117,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[garyguo.net,none];
+	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[garyguo.net:s=selector1];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[gmail.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,linux.intel.com,suse.de,ffwll.ch,toradex.com,lists.freedesktop.org,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:francesco@dolcini.it,m:fra.schnyder@gmail.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:franz.schnyder@toradex.com,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:fraschnyder@gmail.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,google.com,protonmail.com,umich.edu,nvidia.com,weathered-steel.dev,collabora.com,joelfernandes.org,lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FORGED_SENDER(0.00)[dianders@chromium.org,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[chromium.org:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[dianders@chromium.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[51];
-	FROM_NEQ_ENVFROM(0.00)[gary@garyguo.net,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[garyguo.net:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[garyguo.net:mid,garyguo.net:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: C8B6D100183
+	NEURAL_HAM(-0.00)[-0.991];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,toradex.com:email,chromium.org:dkim,dolcini.it:email,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: C06EE1005AF
 X-Rspamd-Action: no action
 
-On Fri Feb 6, 2026 at 4:05 PM GMT, Joel Fernandes wrote:
->
->
-> On 2/6/2026 10:53 AM, Danilo Krummrich wrote:
->> On Fri Feb 6, 2026 at 4:25 PM CET, Gary Guo wrote:
->>> On Fri Feb 6, 2026 at 12:41 AM GMT, Joel Fernandes wrote:
->>>> diff --git a/drivers/gpu/Kconfig b/drivers/gpu/Kconfig
->>>> index 22dd29cd50b5..2c3dec070645 100644
->>>> --- a/drivers/gpu/Kconfig
->>>> +++ b/drivers/gpu/Kconfig
->>>> @@ -1,7 +1,14 @@
->>>>  # SPDX-License-Identifier: GPL-2.0
->>>> =20
->>>> +config RUST_CLIST
->>>> +	bool
->>>> +	depends on RUST
->>>> +	help
->>>> +	  Rust abstraction for interfacing with C linked lists.
->>>
->>> I am not sure if we need extra config entry. This is fully generic so s=
-houldn't
->>> generate any code unless there is an user.
->>=20
->> I also don't think we need a Kconfig for this.
->>=20
->> In any case, it shouln't be in drivers/gpu/Kconfig.
->
-> Fair point, I believe I was having trouble compiling this into the kernel=
- crate
-> without warnings (I believe if !GPU_BUDDY). I'll try to drop it and see i=
-f we
-> can get rid of it.
+Hi,
 
-If you run into dead code warnings, I think it is fine to just
-
-    #[allow(dead_code, reason =3D "all users might be cfg-ed out")]
-
-the overhead of just let rustc type-checking this module isn't worth the ex=
-tra
-Kconfig plumbing, I think.
-
-Best,
-Gary
-
+On Fri, Feb 6, 2026 at 8:11=E2=80=AFAM Francesco Dolcini <francesco@dolcini=
+.it> wrote:
 >
->>=20
->>>> +
->>>>  config GPU_BUDDY
->>>>  	bool
->>>> +	select RUST_CLIST if RUST
->>=20
->> If we will have a Kconfig for this, this belongs in the GPU buddy patch.
+> Hello Doug,
 >
-> You mean, in the GPU buddy bindings patch right? If so, yes, I will move =
-it there.
+> On Fri, Feb 06, 2026 at 07:46:10AM -0800, Doug Anderson wrote:
+> > On Fri, Feb 6, 2026 at 4:38=E2=80=AFAM Franz Schnyder <fra.schnyder@gma=
+il.com> wrote:
+> > >
+> > > From: Franz Schnyder <franz.schnyder@toradex.com>
+> > >
+> > > Fallback to polling to detect hotplug events on systems without
+> > > interrupts.
+> > >
+> > > On systems where the interrupt line of the bridge is not connected,
+> > > the bridge cannot notify hotplug events. Only add the
+> > > DRM_BRIDGE_OP_HPD flag if an interrupt has been registered
+> > > otherwise remain in polling mode.
+> > >
+> > > Fixes: 9133bc3f0564 ("drm/bridge: ti-sn65dsi86: Add support for Displ=
+ayPort mode with HPD")
+> > > Fixes: 55e8ff842051 ("drm/bridge: ti-sn65dsi86: Add HPD for DisplayPo=
+rt connector type")
+> > > Cc: stable@vger.kernel.org
+> > > Signed-off-by: Franz Schnyder <franz.schnyder@toradex.com>
+> > > ---
+> > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 6 ++++--
+> > >  1 file changed, 4 insertions(+), 2 deletions(-)
+> >
+> > It's weird that you have two fixes, but upon closer inspection, I see
+> > why you tagged it as you did.
+> >
+> > The first commit that landed, commit 55e8ff842051 ("drm/bridge:
+> > ti-sn65dsi86: Add HPD for DisplayPort connector type"), was still
+> > using polling mode and just using the HPD line for polling. That
+> > commit incorrectly set the flag "DRM_BRIDGE_OP_HPD". So the proper
+> > backport to kernels with just that commit would be to take away that
+> > flag. Unfortunately, I didn't notice this problem during the review
+> > and I don't personally have any hardware using this bridge for DP,
+> > only eDP.
+> >
+> > The second commit that landed, commit 9133bc3f0564 ("drm/bridge:
+> > ti-sn65dsi86: Add support for DisplayPort mode with HPD"), actually
+> > added support for the HPD interrupt. After this commit, your fix
+> > (which makes the flag "DRM_BRIDGE_OP_HPD" depend on the IRQ) is the
+> > correct one.
+> >
+> > Unfortunately, I think the above will confuse the stable scripts.
+> > Since your patch applied cleanly atop the first commit then it will
+> > picked to any kernels with it, even if they don't have the second
+> > commit.
+> >
+> > I think the first commit landed in v6.16 and the second commit isn't
+> > yet in any stable release.
+> >
+> > Maybe the right way to look at this is to just call the 2nd patch a
+> > prereq? So this:
+> >
+> > Fixes: 55e8ff842051 ("drm/bridge: ti-sn65dsi86: Add HPD for
+> > DisplayPort connector type")
+> > Cc: <stable@vger.kernel.org> # 6.16: 9133bc3f0564: drm/bridge: ti-sn65d=
+si86: Add
+> >
+> > That will cause the 2nd patch to get picked up for stable too, but
+> > that would be preferable to having just your fix without the 2nd
+> > patch. Alternatively, you could try to add some other note to the
+> > stable team to help them arrive at the right backport.
 >
-> Thanks.
+> We had some internal review before sending this patch and I am the one
+> that suggested to put both commit as fixes in the end.
+>
+> I agree that your solution is the correct one (I am not familiar with
+> the syntax there, but I agree on the concept), assuming
+> nobody disagree on this, should we send a v2, or are you going to amend
+> the commit message when applying it?
 
+You can see the docs at:
+
+Documentation/process/stable-kernel-rules.rst
+
+As long as you agree with what I came up with, there's no need for you
+to resend and I can adjust it when I land the patch. I'll still let it
+sit on the list for at least next week to give others a chance to
+review / comment.
+
+-Doug
