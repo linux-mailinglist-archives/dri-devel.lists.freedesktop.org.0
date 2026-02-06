@@ -2,78 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WKELMu/uhWlvIQQAu9opvQ
+	id SNBjGhvvhWlvIQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 14:38:55 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 14:39:39 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64842FE443
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 14:38:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6547FE469
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 14:39:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 580D410E675;
-	Fri,  6 Feb 2026 13:38:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A68BC10E742;
+	Fri,  6 Feb 2026 13:39:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sXVV1ncZ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pfmVPQYk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C1A210E675
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 13:38:51 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-48329eb96a7so850985e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Feb 2026 05:38:51 -0800 (PST)
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+ [209.85.221.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63DA010E742
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 13:39:35 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id
+ ffacd0b85a97d-43626796202so1371560f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Feb 2026 05:39:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1770385130; x=1770989930; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1770385174; x=1770989974; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
  :to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=dGXuZ2bOJzj6fDAM/WtbEOtc9kf3G9+rpIVm4yXWvd4=;
- b=sXVV1ncZ6S1/JwvA9J4gSlzBcuqV0LaSyysETA5FwgRfDvq4Ufu6JZlAmVRIg3L7qb
- TPvqe8KLVkHCTmqJKatCYAQv089i+EPFmCfrIJFjm8mikNgDUfAHcnl2GetFcn47NVHQ
- opfydiW3f5qwMvJEW3Y1EC1FjY+26r1MoGcgeagpXpZJDV8U/iJtlL3JXX4VZFqetMSe
- NjzfaerVikNR4PlSCwIBsusDn/bvGCaOtnjDD5uK17dRkqfc8m5IIkYV3WCavAzMJUj+
- 0DFH6cwB1yIoFnW1gQTLwhHKV7oEKIWBA9VKJUuRIpb6MlwQdJ9kFUYltSxJOmND19fW
- cntA==
+ bh=f2Y5EKTAj1q05PpGAjFSHOf5Y6g6+lSOxl9Mg+wxTgo=;
+ b=pfmVPQYkVBRXX1ryasMbGwWZqRvKKz3odRf/WfVjmyEKZ8cvwYeImv+dGN81atFlq9
+ UGZSD2qOGzwooM8oLjdXueRzKrme1eFRnxSplKnbbVMSq2vnBQe6oB8ro+NcUZNbPi+0
+ OJBrLcPg0bO3/o6/82+YTdQGf/Tl482IXex0EpinX/zwQbEKLc9gzjDl3YetZo8vSNVn
+ 2uyESt0MQdqEZN+4aYESsqsm7cfD2WKaN5vtk1znQKa6jkWOsMkRw7Xw4LF+LBZ92k7M
+ OobvWuLWTiN9lGqvTk8YVXWpFeMmlCmXX5L3JtRoMhmcOb+O3Lgg39ncG42c4jglPh+2
+ UHCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770385130; x=1770989930;
+ d=1e100.net; s=20230601; t=1770385174; x=1770989974;
  h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
  :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dGXuZ2bOJzj6fDAM/WtbEOtc9kf3G9+rpIVm4yXWvd4=;
- b=EiG/5ymVsj80OAxpuxKCvyqJltvyzkRfbBgdyGxWK9x78cE4vweKTYsD0SSu4DDV9T
- aolMkJb/JST7ARN+GbrKx2gOEL9cvAAax1rAPI/LlpAq/vccJlc6agUOigGwDXZStmd8
- xXjhGWRgMiaRF7BUEdfv7ZcdUlH7Qu4uapbdYz35+lupDJ3ep3jkRYQvHZ9m4UqoM15m
- 21RgDduu10hw7NV9rHQc2h/LC6dSzrloPMxjgNc7ZPLuCRAux3jJuzCKb36MckPGmJaQ
- rxgyEmtox4pSAmq9pZSIh7D5hP1G0WlyGc6TneP+/3lBYsOEz9xW7eAX6QpUbXJzKOZa
- uTSw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXe9uHXdBrSsuRmQf64TEGntCb2ub1CmKKJqF2p6YoL5KRScQwBEHPeYqUagTgmJf4eHreGsnRQpS0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzYWrfhpL1tHTfqpwuxcZbsiIdLaoBj4It6fxGw/2K0u5D0yuK5
- jgVSia8T0kVteKqwaOdbpPousAGxqnUFd2j2xhtc83EAACPNJlcD62TR4NVntlg04JU=
-X-Gm-Gg: AZuq6aI7bkcngCg3cqL2cdlGQPgaTXaLO3pf259qxat5FSgiqaUFbTDQrnAU0R1Fm/g
- S7aQGTlE37h3xkhTxJJu38npZcXoi6kHhn17Tj6uBiDaosDX2958qdlOxc5sBMe3YScsh009C2+
- wigT9cpTqrlzUuGPgT5xmyz4iaSPqiT1hkkoXpfQhm4nYBET7y4G9xEuHwYu6TygtCpHg7o6ZrD
- LLqZ0dH2ORkBVUfGH0lybwxjnp07g7xgGnKPBcZ4jzAzAQM7tw5xhTOt8yXa8wDYwHDx5P4dEmq
- ud19KRbo24Pu3KnyxD60T1VbnX5RF6yEWb569ABG+IJaOLd4eyPPWFqa1dHPRdzhmZnI6KzWkKR
- sGfY2z1DGPqzafOajWHauqkUlB0hd4L1MqhtPEjQVR1L+hGS7pFbUpwgmBwPY88StBh61runL/l
- Bu69hccwF4BZoNyS/G
-X-Received: by 2002:a05:600c:548e:b0:480:1e40:3d2 with SMTP id
- 5b1f17b1804b1-48320983bf7mr29532005e9.29.1770385129893; 
- Fri, 06 Feb 2026 05:38:49 -0800 (PST)
+ bh=f2Y5EKTAj1q05PpGAjFSHOf5Y6g6+lSOxl9Mg+wxTgo=;
+ b=ELoxnhfzUq3CfG5bcG852SptssePnsQ31KfHcufWm5tc7k0cMprb+qb5Sh7U4qzrYt
+ MWQPgl6Lll9Zyu7Ya5wybdZ1OrjgmEtSpKPubrSJQvmPqhZQKr8f6Wmj9cjsESNMund5
+ QV9r+W6lHO3qVh1YWPgbwy/lhjGcRtIrYOrqRBXSYI/7S1+aJEPUprWXFiMOgJB6hjfE
+ z6MFNKmOAcoFEFnBCjU2eA5AoktHzBSImzouylitsjlyYNawW0vhPXuxt1TVOXOEn6YI
+ GildvSq+oGoziXt41EZ2NKfExBtsyqcROa9mYz76qP/nfoHPK0A4cI/5GRZIkIwIrVII
+ x4GA==
+X-Gm-Message-State: AOJu0YwFxdZdzW7ZkLey/2EepoTTEn1v/2nmekVrH7CCcRBCkNtx5zk/
+ TCy+7rlZwbGF03WVl7x1a7qvDvp3ZJFxgJLvzsIl1nlWrAFZ5o3Kd3D2p9htucnHwC0=
+X-Gm-Gg: AZuq6aKV/yd3WaSe4osBcHthQdnOaezcDTtZR6APJFVyCDG2gB/eckdiCIjXfIfwRz1
+ n+xnuB1zAF8UEpG5hY769nzM8gNJ1so+eq3O/6awAHF1UT3llKqmfVx3tLILW3QE7rqqfwkLbL4
+ P8BoT4t11FwyhJSwsxbXWJ7YDx34Hb82MndaRdCExuWZNAIT9OaunQcny/6C09R03mGMfzbPuQH
+ vvbyKY0tUnEfLCJ+HOudYEjRkXGap3Cw1dmk5dK+aJ2+9hMHRR3CE6hGYvmtoFwYgiDzEZRDtR6
+ 7qkzek8LvucdcPSVYaBsgN2YqH8dYcco628QlLnok8Ywsd4WlnoaEgvOQfXwXF7YNyiGbcudvjF
+ tuA2kEvazbLCWNnwUSi8yqC7CqzP2brK3k1trSWtVxpsvxyocd9RYM4aQVBXh38r7WAonc73RCz
+ v6psfmrjAXXbymBUuv
+X-Received: by 2002:a05:6000:22c3:b0:436:1a2e:2c50 with SMTP id
+ ffacd0b85a97d-436290463f5mr4978309f8f.12.1770385173659; 
+ Fri, 06 Feb 2026 05:39:33 -0800 (PST)
 Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-4362972fb16sm6077760f8f.25.2026.02.06.05.38.49
+ ffacd0b85a97d-436296b2110sm5804912f8f.3.2026.02.06.05.39.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Feb 2026 05:38:49 -0800 (PST)
-Date: Fri, 6 Feb 2026 16:38:46 +0300
+ Fri, 06 Feb 2026 05:39:33 -0800 (PST)
+Date: Fri, 6 Feb 2026 16:39:30 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Jonathan Kim <jonathan.kim@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- "SHANMUGAM, SRINIVASAN" <SRINIVASAN.SHANMUGAM@amd.com>,
+To: Alexandru Dadu <alexandru.dadu@imgtec.com>
+Cc: dri-devel@lists.freedesktop.org,
  linux-kernel <linux-kernel@vger.kernel.org>
-Subject: [bug report] drm/amdkfd: add debug set and clear address watch
- points operation
-Message-ID: <aYXu5vG4UBu9Xyq2@stanley.mountain>
+Subject: [bug report] drm/imagination: Add gpuid module parameter
+Message-ID: <aYXvElClUKW_DY_I@stanley.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -95,86 +91,78 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:jonathan.kim@amd.com,m:amd-gfx@lists.freedesktop.org,m:SRINIVASAN.SHANMUGAM@amd.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[dan.carpenter@linaro.org,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[dan.carpenter@linaro.org,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:alexandru.dadu@imgtec.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	RCPT_COUNT_THREE(0.00)[3];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.997];
+	NEURAL_HAM(-0.00)[-0.996];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[dan.carpenter@linaro.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:dkim,stanley.mountain:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 64842FE443
+	DBL_BLOCKED_OPENRESOLVER(0.00)[stanley.mountain:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linaro.org:dkim]
+X-Rspamd-Queue-Id: B6547FE469
 X-Rspamd-Action: no action
 
 [ Smatch checking is paused while we raise funding.  #SadFace
   https://lore.kernel.org/all/aTaiGSbWZ9DJaGo7@stanley.mountain/ -dan ]
 
-Hello Jonathan Kim,
+Hello Alexandru Dadu,
 
-Commit e0f85f4690d0 ("drm/amdkfd: add debug set and clear address
-watch points operation") from May 6, 2022 (linux-next), leads to the
-following Smatch static checker warning:
+Commit 3bf74137340a ("drm/imagination: Add gpuid module parameter")
+from Jan 13, 2026 (linux-next), leads to the following Smatch static
+checker warning:
 
-	drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_debug.c:448 kfd_dbg_trap_clear_dev_address_watch()
-	error: buffer overflow 'pdd->watch_points' 4 <= u32max user_rl='0-3,2147483648-u32max' uncapped
+	drivers/gpu/drm/imagination/pvr_device.c:485 pvr_gpuid_decode_string()
+	warn: error code type promoted to positive: 'ret'
 
-drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_debug.c
-    433 int kfd_dbg_trap_clear_dev_address_watch(struct kfd_process_device *pdd,
-    434                                         uint32_t watch_id)
-    435 {
-    436         int r;
-    437 
-    438         if (!kfd_dbg_owns_dev_watch_id(pdd, watch_id))
+drivers/gpu/drm/imagination/pvr_device.c
+    475         int ret, idx = 0;
+    476         u16 user_bvnc_u16[4];
+    477         u8 dot_cnt = 0;
+    478 
+    479         ret = strscpy(str_cpy, param_bvnc);
+    480 
+    481         /*
+    482          * strscpy() should return at least a size 7 for the input to be valid.
+    483          * Returns -E2BIG for the case when the string is empty or too long.
+    484          */
+--> 485         if (ret < PVR_GPUID_STRING_MIN_LENGTH) {
 
-kfd_dbg_owns_dev_watch_id() doesn't check for negative values so
-if watch_id is larger than INT_MAX it leads to a buffer overflow.
-(Negative shifts are undefined).
+PVR_GPUID_STRING_MIN_LENGTH is unsigned so -E2BIG is type promoted to
+positive and treated as success.
 
-    439                 return -EINVAL;
-    440 
-    441         if (!pdd->dev->kfd->shared_resources.enable_mes) {
-    442                 r = debug_lock_and_unmap(pdd->dev->dqm);
-    443                 if (r)
-    444                         return r;
-    445         }
-    446 
-    447         amdgpu_gfx_off_ctrl(pdd->dev->adev, false);
---> 448         pdd->watch_points[watch_id] = pdd->dev->kfd2kgd->clear_address_watch(
-    449                                                         pdd->dev->adev,
-    450                                                         watch_id);
-    451         amdgpu_gfx_off_ctrl(pdd->dev->adev, true);
-    452 
-    453         if (!pdd->dev->kfd->shared_resources.enable_mes)
-    454                 r = debug_map_and_unlock(pdd->dev->dqm);
-    455         else
-    456                 r = kfd_dbg_set_mes_debug_mode(pdd, true);
-    457 
-    458         kfd_dbg_clear_dev_watch_id(pdd, watch_id);
-    459 
-    460         return r;
-    461 }
+    486                 drm_info(drm_dev,
+    487                          "Invalid size of the input GPU ID (BVNC): %s",
+    488                          str_cpy);
+    489                 return -EINVAL;
+    490         }
+    491 
+    492         while (*param_bvnc) {
+    493                 if (*param_bvnc == '.')
+    494                         dot_cnt++;
+    495                 param_bvnc++;
+    496         }
 
 regards,
 dan carpenter
