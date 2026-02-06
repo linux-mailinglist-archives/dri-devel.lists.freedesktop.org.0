@@ -2,104 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4POCEn8OhmkRJQQAu9opvQ
+	id EhxSO58OhmkbJgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 16:53:35 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 16:54:07 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 911AFFFE88
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 16:53:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CCE6FFEAD
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 16:54:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42B7E10E094;
-	Fri,  6 Feb 2026 15:53:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6958510E822;
+	Fri,  6 Feb 2026 15:54:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="JYMAeOK2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FkZnrD/o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
- [209.85.167.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A268010E812
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 15:53:30 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id
- 2adb3069b0e04-59dd4bec4ecso2876429e87.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Feb 2026 07:53:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1770393208; x=1770998008;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=etMVOc7KD+4rAqRuGUMOzPeLpua4ifj9Amz+IzMXTTE=;
- b=JYMAeOK2f7/LZXsDIKkLswZEvGPdjOMrMKzAaunthkVKELVRE9Tr3Q6UH/rAEb1wMr
- 5vas5dc3NpgVybIevpwjUKc5WoLKLwSNmm3cYTXn0KLPYIzfzmh0mWIMf/dM87fgfYdE
- tO1ezSsSU6QhNT/gvxoMKKJuggqWomD6aML4g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770393208; x=1770998008;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=etMVOc7KD+4rAqRuGUMOzPeLpua4ifj9Amz+IzMXTTE=;
- b=cJrZPkKK8Ww042S9e6AWoJV+xxBE/NGKQ8pJn1huckeQXlTw3AQxS5WaGrngi4tQ3m
- hQxMkK7QW0dBa6Aw2M1uUEXPjjCQ5TSTe6ohsZLDDShNixdbMaOqW9C55EXJMfLmHE9a
- LvxHazmLvs+kelQ3BRCbgUjtsOhbUBbWKWehmxQaj2i75GOQwhH/T41cQ6KYACuye3jr
- eM4Q+dfU0FpEjh5gIyYM1r2bQhTgazsK6/4Jof4zNrVZHt7L7YDomHTtW8AqLYYb6bzD
- eX6nch6koiTXA3Cwgjzgf9BsboN79R1A4yYiyRz0t8VX1ciFapU6FlWpN3Fh2NqE1cnW
- TFVQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV/xISyaaBPuXthexwClUHd6Y+FfBxEYwXj/IiDuuZZNsETsFJV0RrZNjZKkngdW7/d8veHJYZA/80=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxI1gnigxPoQAhL5tJDLipQrXlhzBuK87p/yvUTxEBR7hqTHZer
- KIeo8y9GEiM4ZY/r4T68+cUI+DNmZMQYPeOEtYp1SzPwXR4ZJs+C9PZMWL3I2FvEbXPxALMN4eS
- bdji+r4cX
-X-Gm-Gg: AZuq6aK/zIzTkXZLh9+YbCwJEodrG7F88ErISsv5hHnkc2nVM2P0+egera1sHNUt6Oj
- bgFLJ0StoSwwOc2rZCkzUirmMZtHWdtizXctA/dDFhrMrkcXTakoUJG8O6Yv4XqYxEGaz0OO8y+
- KizhptdaVU8tU+dA4Jg5fj2io1br8ZPj02crY6DRY6I+NhyFOrIEArrJWEwBTdadBWJKRsGqRSU
- 4O0fvfJ2KxsJkgDvMl+5vRXMjlkxMZLKWwKmxZCZmIiQRFo3RwvBO9RQPtbmyptiMbiOt/QMTot
- RVfPeHq12pNcSmgYP8GMXk7bo1dwgzmDdW74MNXG/R7GjI+Z8fWWF4zddL0l37xC2ENRB4ev8GU
- a3iYIR+nSsdUouc5TNEM/jQ0fSHmWG0fKYBCrgPrNJpv9kzuJrWNoKQqWanVL9UK1b9lPDAm8Jh
- 3tGlaB568Kk1F+2ygYA7xb2zxh7nXAeuDYb/aJrgXGL7s20WrmmJO2lw==
-X-Received: by 2002:a05:6512:1052:b0:59d:e306:c621 with SMTP id
- 2adb3069b0e04-59e45167e1fmr1206234e87.48.1770393208297; 
- Fri, 06 Feb 2026 07:53:28 -0800 (PST)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com.
- [209.85.208.180]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-386b623639csm6513491fa.8.2026.02.06.07.53.28
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Feb 2026 07:53:28 -0800 (PST)
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-382fb535b73so21171611fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Feb 2026 07:53:28 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU2T8ISXppkLtFn3NJl1/LZ9BahMxsVNy6A2MHCrBVC0QsJn8GKMgvGa04mopXBFZTx0UgL31hYRqE=@lists.freedesktop.org
-X-Received: by 2002:a05:6000:200d:b0:430:fa58:a03d with SMTP id
- ffacd0b85a97d-436293ae118mr4862176f8f.63.1770392781791; Fri, 06 Feb 2026
- 07:46:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20260206123758.374555-1-fra.schnyder@gmail.com>
-In-Reply-To: <20260206123758.374555-1-fra.schnyder@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 6 Feb 2026 07:46:10 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UO3wHqGKep67pY04PgBJKgvOgDf8u1qxeXmWkgVMLXiQ@mail.gmail.com>
-X-Gm-Features: AZwV_Qhcv-IxPe6r_qqtTYtGlVNepLgatAVvPPQTa8PlDibDivxEWQ2rEGCs3tI
-Message-ID: <CAD=FV=UO3wHqGKep67pY04PgBJKgvOgDf8u1qxeXmWkgVMLXiQ@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/bridge: ti-sn65dsi86: Enable HPD polling if IRQ is
- not used
-To: Franz Schnyder <fra.schnyder@gmail.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Franz Schnyder <franz.schnyder@toradex.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Francesco Dolcini <francesco@dolcini.it>,
- stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA20810E812;
+ Fri,  6 Feb 2026 15:53:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 7A93640654;
+ Fri,  6 Feb 2026 15:53:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AA6BC116C6;
+ Fri,  6 Feb 2026 15:53:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1770393238;
+ bh=ze8RjpWv8yTJ+WjIu3XKMrMfT9jYoz3Ax+Xr197aMQM=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=FkZnrD/oa9GtTvMAdifPkms3Wa2QVBnFodZ7xitHhc1s9KkRwwcoYLF0ecmJSskB7
+ qeDNYKEQYz+l5Jcu3IxZBVpluiEeCGi5y6VjEYMLM3+KdVRzOnN7+/3BvItxTMM+Tz
+ JClwqsQv/MCqbahtuBihb6AijUCm3S7rIKYY3VIgb3140k6gtZsyyiUp7giy/FPqvQ
+ WxLb9xC9qzwJcB9LRPLhbkL3hYGTlu9jrv+9jwwpTFefk6U/jgDSGLvrlRyAaNCETU
+ erXhxJQ9whT6WQJUhkxpLOSCQygzOAyUC2J6h9/jl457b5Rcql9PmSSgT4ajwtk/oW
+ ZpzbSTyGfIvkw==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 06 Feb 2026 16:53:48 +0100
+Message-Id: <DG800TDA6OXQ.275PMMS19F1EX@kernel.org>
+Subject: Re: [PATCH -next v7 1/2] rust: clist: Add support to interface with
+ C linked lists
+Cc: "Joel Fernandes" <joelagnelf@nvidia.com>,
+ <linux-kernel@vger.kernel.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Alex Deucher" <alexander.deucher@amd.com>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Jani Nikula"
+ <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
+ <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
+ "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang Rui" <ray.huang@amd.com>,
+ "Matthew Auld" <matthew.auld@intel.com>, "Matthew Brost"
+ <matthew.brost@intel.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ "Helge Deller" <deller@gmx.de>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>,
+ "Boqun Feng" <boqun.feng@gmail.com>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
+ <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Edwin Peer"
+ <epeer@nvidia.com>, "Alexandre Courbot" <acourbot@nvidia.com>, "Andrea
+ Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Zhi Wang"
+ <zhiw@nvidia.com>, "Balbir Singh" <balbirs@nvidia.com>, "Philipp Stanner"
+ <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, <joel@joelfernandes.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>
+To: "Gary Guo" <gary@garyguo.net>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260206004110.1914814-1-joelagnelf@nvidia.com>
+ <20260206004110.1914814-2-joelagnelf@nvidia.com>
+ <DG7ZF1UT98RQ.3F42J3ULGV2OC@garyguo.net>
+In-Reply-To: <DG7ZF1UT98RQ.3F42J3ULGV2OC@garyguo.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,112 +92,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [0.69 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MV_CASE(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[nvidia.com,vger.kernel.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,google.com,protonmail.com,umich.edu,weathered-steel.dev,collabora.com,joelfernandes.org,lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:fra.schnyder@gmail.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:franz.schnyder@toradex.com,m:linux-kernel@vger.kernel.org,m:francesco@dolcini.it,m:stable@vger.kernel.org,m:fraschnyder@gmail.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[dianders@chromium.org,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,toradex.com,lists.freedesktop.org,vger.kernel.org,dolcini.it];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dianders@chromium.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	NEURAL_HAM(-0.00)[-0.991];
-	TAGGED_RCPT(0.00)[dri-devel];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[50];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:email,chromium.org:dkim,toradex.com:email,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 911AFFFE88
+	TAGGED_RCPT(0.00)[dri-devel];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[]
+X-Rspamd-Queue-Id: 7CCE6FFEAD
 X-Rspamd-Action: no action
 
-Hi,
-
-On Fri, Feb 6, 2026 at 4:38=E2=80=AFAM Franz Schnyder <fra.schnyder@gmail.c=
-om> wrote:
+On Fri Feb 6, 2026 at 4:25 PM CET, Gary Guo wrote:
+> On Fri Feb 6, 2026 at 12:41 AM GMT, Joel Fernandes wrote:
+>> diff --git a/drivers/gpu/Kconfig b/drivers/gpu/Kconfig
+>> index 22dd29cd50b5..2c3dec070645 100644
+>> --- a/drivers/gpu/Kconfig
+>> +++ b/drivers/gpu/Kconfig
+>> @@ -1,7 +1,14 @@
+>>  # SPDX-License-Identifier: GPL-2.0
+>> =20
+>> +config RUST_CLIST
+>> +	bool
+>> +	depends on RUST
+>> +	help
+>> +	  Rust abstraction for interfacing with C linked lists.
 >
-> From: Franz Schnyder <franz.schnyder@toradex.com>
->
-> Fallback to polling to detect hotplug events on systems without
-> interrupts.
->
-> On systems where the interrupt line of the bridge is not connected,
-> the bridge cannot notify hotplug events. Only add the
-> DRM_BRIDGE_OP_HPD flag if an interrupt has been registered
-> otherwise remain in polling mode.
->
-> Fixes: 9133bc3f0564 ("drm/bridge: ti-sn65dsi86: Add support for DisplayPo=
-rt mode with HPD")
-> Fixes: 55e8ff842051 ("drm/bridge: ti-sn65dsi86: Add HPD for DisplayPort c=
-onnector type")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Franz Schnyder <franz.schnyder@toradex.com>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+> I am not sure if we need extra config entry. This is fully generic so sho=
+uldn't
+> generate any code unless there is an user.
 
-It's weird that you have two fixes, but upon closer inspection, I see
-why you tagged it as you did.
+I also don't think we need a Kconfig for this.
 
-The first commit that landed, commit 55e8ff842051 ("drm/bridge:
-ti-sn65dsi86: Add HPD for DisplayPort connector type"), was still
-using polling mode and just using the HPD line for polling. That
-commit incorrectly set the flag "DRM_BRIDGE_OP_HPD". So the proper
-backport to kernels with just that commit would be to take away that
-flag. Unfortunately, I didn't notice this problem during the review
-and I don't personally have any hardware using this bridge for DP,
-only eDP.
+In any case, it shouln't be in drivers/gpu/Kconfig.
 
-The second commit that landed, commit 9133bc3f0564 ("drm/bridge:
-ti-sn65dsi86: Add support for DisplayPort mode with HPD"), actually
-added support for the HPD interrupt. After this commit, your fix
-(which makes the flag "DRM_BRIDGE_OP_HPD" depend on the IRQ) is the
-correct one.
+>> +
+>>  config GPU_BUDDY
+>>  	bool
+>> +	select RUST_CLIST if RUST
 
-Unfortunately, I think the above will confuse the stable scripts.
-Since your patch applied cleanly atop the first commit then it will
-picked to any kernels with it, even if they don't have the second
-commit.
+If we will have a Kconfig for this, this belongs in the GPU buddy patch.
 
-I think the first commit landed in v6.16 and the second commit isn't
-yet in any stable release.
-
-Maybe the right way to look at this is to just call the 2nd patch a
-prereq? So this:
-
-Fixes: 55e8ff842051 ("drm/bridge: ti-sn65dsi86: Add HPD for
-DisplayPort connector type")
-Cc: <stable@vger.kernel.org> # 6.16: 9133bc3f0564: drm/bridge: ti-sn65dsi86=
-: Add
-
-That will cause the 2nd patch to get picked up for stable too, but
-that would be preferable to having just your fix without the 2nd
-patch. Alternatively, you could try to add some other note to the
-stable team to help them arrive at the right backport.
-
-In any case:
-
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
-I'm going to let this sit on the lists for a little while in case
-folks want to comment on the above.
-
--Doug
+>>  	help
+>>  	  A page based buddy allocator for GPU memory.
