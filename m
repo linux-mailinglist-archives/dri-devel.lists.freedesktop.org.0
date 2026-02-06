@@ -2,125 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iNXGJsqbhWmUDwQAu9opvQ
+	id mJDMKEachWmUDwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 08:44:10 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 08:46:14 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FF37FB17F
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 08:44:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0284EFB1B5
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 08:46:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 687EF10E3A1;
-	Fri,  6 Feb 2026 07:44:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3B1310E3A4;
+	Fri,  6 Feb 2026 07:46:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="1zaX/phO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TjEzruYg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1zaX/phO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TjEzruYg";
+	dkim=pass (2048-bit key; unprotected) header.d=de.bosch.com header.i=@de.bosch.com header.b="przKZ9rw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9C4710E3A1
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 07:44:04 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7F99C3E70E;
- Fri,  6 Feb 2026 07:44:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770363843; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=81BSQIbHPnCy3J3OHUDUAdhPnc9eYE5b78Rh19yJHzc=;
- b=1zaX/phOFHn/kCDHWziE4MjNWlmVKSyauD/U4TSB0T+CraiSyZcmuOkMcHUxwk/UHM4Vh/
- 3Libv3sjW/ODOWoPDrUzye7CmiPhznaJF3vrTwZ46PKATYl6QxjBU2eg2lA6FtsWKVpPux
- /V5OARnhuwOizXg4ze4nRi4h3bMKM0w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770363843;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=81BSQIbHPnCy3J3OHUDUAdhPnc9eYE5b78Rh19yJHzc=;
- b=TjEzruYgpltGJLP6nJJf104e8ulBkJ0zV1nwzTgwC/AOFqvYQtEBEd31ZAHxeaCiesB2Po
- M63558LAcIdCJKCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770363843; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=81BSQIbHPnCy3J3OHUDUAdhPnc9eYE5b78Rh19yJHzc=;
- b=1zaX/phOFHn/kCDHWziE4MjNWlmVKSyauD/U4TSB0T+CraiSyZcmuOkMcHUxwk/UHM4Vh/
- 3Libv3sjW/ODOWoPDrUzye7CmiPhznaJF3vrTwZ46PKATYl6QxjBU2eg2lA6FtsWKVpPux
- /V5OARnhuwOizXg4ze4nRi4h3bMKM0w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770363843;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=81BSQIbHPnCy3J3OHUDUAdhPnc9eYE5b78Rh19yJHzc=;
- b=TjEzruYgpltGJLP6nJJf104e8ulBkJ0zV1nwzTgwC/AOFqvYQtEBEd31ZAHxeaCiesB2Po
- M63558LAcIdCJKCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 28E203EA63;
- Fri,  6 Feb 2026 07:44:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id IuSVCMObhWlIIAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 06 Feb 2026 07:44:03 +0000
-Message-ID: <0a85e1ab-e1d1-4a3a-8f3e-7478d814d400@suse.de>
-Date: Fri, 6 Feb 2026 08:44:02 +0100
+Received: from AM0PR83CU005.outbound.protection.outlook.com
+ (mail-westeuropeazon11010027.outbound.protection.outlook.com [52.101.69.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D513010E3A4;
+ Fri,  6 Feb 2026 07:46:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Aj6K4ABBoDzwFVsQkOhSd/I8qT0PZD5G+kzbZ2Q9Nn4dj5ZINVY/Hu5TZFevlBF2pHPRoXPd+RypcBM4BhxKxmHDhafA28QHcUsC0fAVRaSOUP/kY29NYIpMvrLjRqmUHhBlBaPMQnSZKlwCIh7Z/OQQamuHV4Wx5K6JhjXkmT2EUjZyurZOQr+CFpDd4JAnpUHJu9uRws2Y7hVr7RpupDkkhsXmQqccfSrAuQU0afSeai8IuOr6gdCI55qP8Pi8tMJuHqruHsf3vFb4isC/vHjnLYoZoMFqn9BViHDjoFiAa94WfSbxR3FDOpTfyFPLOW+rSLEsKdJQC61xSZU2nA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EHdeAVJRoOfxkmNwRYce/sl6BjQR/+zrQQc2PcJ7vjE=;
+ b=xb6zuo6jOTOttUkAn7SVAc41UB8iBxt38ap8dNkTW+VAGszYBdKdljjcqbZwE3wAAAIjy+X8GP5N9KRysF33oThptK9zXKXpvV2KcJq/E1LTGT6lDbfvWts4hIXpN7xev2+TY9uwrcrgbp1C7s9Wke//1MdojjJCXTb3D2RMt2wqBrjuVHDYlXlXc3CqJWlNYPe0qVCAc5EJcINiJ0fnbPnhTpvJIE3XFjtH0e9QIWIKczswOf0EuIgJ5kOK/iuI84GVxf4C6MakwLWcNGeMBdsaWKE4958/CoYQJUqW+qmsWg9c7P07xrkXqbJgWJDhZbwDjK6CoDDA8TQeIPHEwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 139.15.153.206) smtp.rcpttodomain=redhat.com smtp.mailfrom=de.bosch.com;
+ dmarc=pass (p=reject sp=none pct=100) action=none header.from=de.bosch.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=de.bosch.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EHdeAVJRoOfxkmNwRYce/sl6BjQR/+zrQQc2PcJ7vjE=;
+ b=przKZ9rwzU/iC/371AbgAJvYOe54MzGiJ6Ypa2LiVfEjJob1dsiG4WMNevoNTSX5gekk705oX4DsGgilXksw2JFs8HkrWp7jZ7FzBpqKySCJgDMl0kpCn4WPoJ9LtfuK8z6PUV+Zk4A2HGov5tvROig0Osc0KFdr96RctGybj7z8g7REa3aiz/a1fZQ0rtBcmsnsepFPYmShqg9COFuGjT22X3DWYfteAY/SWKwcm8lWexUqZnUXUDHeXM0Z0ZuR0iGIA23//d0y9WwHcO6oasaD3SZmoryBvxpnVaI9TZzboRQXflpAEpLLbhJQrjp0hkwpJZXNv1epl2ENKZha5Q==
+Received: from DU2PR04CA0358.eurprd04.prod.outlook.com (2603:10a6:10:2b4::31)
+ by DB9PR10MB7956.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:305::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.15; Fri, 6 Feb
+ 2026 07:46:05 +0000
+Received: from DB3PEPF0000885E.eurprd02.prod.outlook.com
+ (2603:10a6:10:2b4:cafe::91) by DU2PR04CA0358.outlook.office365.com
+ (2603:10a6:10:2b4::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.15 via Frontend Transport; Fri,
+ 6 Feb 2026 07:45:50 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 139.15.153.206)
+ smtp.mailfrom=de.bosch.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=de.bosch.com;
+Received-SPF: Pass (protection.outlook.com: domain of de.bosch.com designates
+ 139.15.153.206 as permitted sender)
+ receiver=protection.outlook.com; 
+ client-ip=139.15.153.206; helo=eop.bosch-org.com; pr=C
+Received: from eop.bosch-org.com (139.15.153.206) by
+ DB3PEPF0000885E.mail.protection.outlook.com (10.167.242.9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9587.10 via Frontend Transport; Fri, 6 Feb 2026 07:46:05 +0000
+Received: from RNGMBX3002.de.bosch.com (10.124.11.207) by eop.bosch-org.com
+ (139.15.153.206) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.35; Fri, 6 Feb
+ 2026 08:45:49 +0100
+Received: from [10.34.184.244] (10.34.184.244) by smtp.app.bosch.com
+ (10.124.11.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.35; Fri, 6 Feb
+ 2026 08:45:48 +0100
+Message-ID: <4669209d-c53b-4cc5-ab2f-0f09aa5dfc50@de.bosch.com>
+Date: Fri, 6 Feb 2026 08:45:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 11/12] drm/sysfb: corebootdrm: Add DRM driver for
- coreboot framebuffers
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: briannorris@chromium.org, jwerner@chromium.org, javierm@redhat.com,
- samuel@sholland.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, chrome-platform@lists.linux.dev,
- dri-devel@lists.freedesktop.org
-References: <20260203135519.417931-1-tzimmermann@suse.de>
- <20260203135519.417931-12-tzimmermann@suse.de> <aYV4m5Q1U4Nc1qwm@google.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <aYV4m5Q1U4Nc1qwm@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
+Subject: Re: [PATCH v2 00/10] rust: pci: add abstractions for SR-IOV capability
+To: Peter Colberg <pcolberg@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor
+ <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
+ <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, "Trevor
+ Gross" <tmgross@umich.edu>, Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, Robin Murphy
+ <robin.murphy@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Dave Ertman" <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ "Leon Romanovsky" <leon@kernel.org>, David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Xu Yilun
+ <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>, Moritz Fischer
+ <mdf@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Zhi Wang
+ <zhiw@nvidia.com>, Zijing Zhang <zijing.zhang@ry.rs>
+CC: <linux-pci@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
+ John Hubbard <jhubbard@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-doc@vger.kernel.org>, <linux-fpga@vger.kernel.org>,
+ <driver-core@lists.linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>
+References: <20260205-rust-pci-sriov-v2-0-ef9400c7767b@redhat.com>
+Content-Language: en-GB
+From: Dirk Behme <dirk.behme@de.bosch.com>
+In-Reply-To: <20260205-rust-pci-sriov-v2-0-ef9400c7767b@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.34.184.244]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB3PEPF0000885E:EE_|DB9PR10MB7956:EE_
+X-MS-Office365-Filtering-Correlation-Id: 49a07b5c-2065-48da-48ff-08de6553c864
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|82310400026|36860700013|376014|7416014|13003099007|921020;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WGZ3VnFyUU5zalF2ODVvYUZjWHczS3pDZWZyNWZSeVB1dTFsVFpndG4wd3hJ?=
+ =?utf-8?B?STRZL0V5N3NlUU9zbXBqWXlkZnVmMi9nN3M4VW90eDlEZStqVmdkY3VSVWZN?=
+ =?utf-8?B?S1JFaVhQejM0eWxEdy9Sa3dPaWt5WTQ0TnRRZTlDaXdVWTFYejRZYkdxWm9R?=
+ =?utf-8?B?OEFadWhPd3VJVVFacHdJd0lDYkh3UUdrTEEzUDFLdGlOMUgycWczRm9kSXFJ?=
+ =?utf-8?B?N1BFcTNxcVZCQzNYbXJpODBqNE5aZU5pb2VQQVAyZVAyQ1lOUXVhenRWTnNW?=
+ =?utf-8?B?M3FYQUhjd2FoWldkZkZrY3owdzNkc1pSeFhzN3RVaHRmWE02dTdGOVJhcUZp?=
+ =?utf-8?B?aDBHY2tUMzZEN1R4Z01ySTRQWVYzaE1RcGJwbS9ZQVdIaVBuRWoraTlBaE9u?=
+ =?utf-8?B?SmtOQUVMNTNBOTF6UTZ0VzdYd242UVd3TWJYNDBmZStZL2FjM3VqN0JLNXRu?=
+ =?utf-8?B?M05JbVRwd2QzZzJ5K0xaVGJvak1LSzE5d1pLb0JDSkhiMWl4NFNGYkZSRzJy?=
+ =?utf-8?B?QUJmTzVGRnV5Zmx2WGVVNUsvV3VPOUVSa1lvbnVxdTNQTStNTW5QWVVkd0V6?=
+ =?utf-8?B?a3ZDRm9ETlhncVVjYTVDRVAreUlCK3JIajRRWEp4YWxLcXJTejVpeFozWHh1?=
+ =?utf-8?B?L28zTE5oQTFRM1JYQ1BWQnY0UzZycTNEVHo5WjJNOHFxUkNBb2g1Nit5YS9t?=
+ =?utf-8?B?UmtCT20zVGVoMUpuZGNqdFdOdXdqWHNrd2wvVnNFRC9IditLMnF2VUdIa2c0?=
+ =?utf-8?B?Tkx5NkpWTGFnUjZpS0dUYklGZXFQeTExSU8rVkt2eStVejM4MGpWcVowbHVJ?=
+ =?utf-8?B?V1A3dHZXR3U3d2JNZ0FwYW92Sk5pNS9LWENiM3RqVnlDVUdUUmkwSUpYUzBx?=
+ =?utf-8?B?QnBvYmNiZWZ4eTZkc1Z5YkhYOHF4L29VdXYyR3hhUWpQeGJqK3JXdmwxNTBH?=
+ =?utf-8?B?RDExMzE2cTlRMHlCdlJPT3BSL0hLWWJIOStic0RNenEvampsQUZzRVFYaTlZ?=
+ =?utf-8?B?WjJ4MU1KMjZMc0VXVERYUVk2UGpwR0F4WXFZRDkvRTA1WkJMa3lNT0ZyMDlQ?=
+ =?utf-8?B?aEZEQVhGTlQ1Y3VnOTgxcFhGTEgzckJxSUc1R1pTVEVCNEtBZHYvd212L01L?=
+ =?utf-8?B?TmFOMU5PWjJpakhhTTRqN0Z1T3pDMnBSNEg4OHdVUmxoWnMvM0I1UWF6WlE1?=
+ =?utf-8?B?VmpyaWNxMVhjSUc5R21sdDhEblgzcEdSQXpaMDBneWNxMnhaM0RWRWV4dTQr?=
+ =?utf-8?B?SGpoa2VXT1h6dWZxb2t5L0pKU2tDQlF4NkgxZ01aWlhoR3ZIQkphUVo1Y1Zz?=
+ =?utf-8?B?YS9GUUdmYjVPM01CSkJ6MmloY1Nha1FmWU9URHdHV21JV3QwblE3TWp1dEt1?=
+ =?utf-8?B?VEVqYjA1aXRKbDNuY1pFeUVpK291NzU2aGZDWkhXYW9OcEJuVS84TmI2YmFi?=
+ =?utf-8?B?K0dQZ05KekRXUEFWWnYvcGd1UytpaDFSYWJSR2hBS1Z3cjRpM3NSc2dtYUxF?=
+ =?utf-8?B?UG50eWxDQkhhTCtOdE0zaEQ2M2c2Ti9BeFlvNHFHQjdxUmhZN2FHU3dZY0hG?=
+ =?utf-8?B?NmNxYUZ6eTU4UWFWOHZqNDQ0eTd1ZzhlazI0YzVBMXFKQkpIQ0hCS3lyTXhN?=
+ =?utf-8?B?TG52RFdsSm5KK292TTVHK09XNzlXbWdlVlUwN1NkY1hSOHErdXNMTFY4U2JP?=
+ =?utf-8?B?WnNVck9XcUtaVVptUUI1ODFWYTJSWUNoWlRtNHhvUUUwZXB6VFMvZlFqZGEz?=
+ =?utf-8?B?SXloY3FEbFdpL241OWdPN2kydHNKQmhBRk05RDBacGdWQUtpUGI3a21qZktr?=
+ =?utf-8?B?SCs3YS9scnlTc1RYUk9sS2ZlRmNtdENXbWVHYzJyeDlPZEJXZTNDRjRtM0pZ?=
+ =?utf-8?B?OTJMNGx0dmk4eTFZTDFlc1VkcUxoZDBWWG1qY3dUaHk1bXZCVjVFNVJ2VFFn?=
+ =?utf-8?B?UDRRN29IVjRYdmhXVW81L1FwcHNVc0RXd2VQUHl0dmV0azFWUzQ2RVovcy9N?=
+ =?utf-8?B?cmRIVFRKWVhacWZ2d0pOVS9lODZUUzFkWm56a3hTYnVCd1hHbnF0UG5pVjhl?=
+ =?utf-8?B?N1dWR0pHalEwTFhvS05UUm5SY0ZKQWVrTzVwSDNpZEcxamZBNmRLemRRZlFB?=
+ =?utf-8?B?U3Vad2JIM1R6ODhTaURZSnE3QnIvSmZjc1FzRkdKM3VRZ29NbFZ2bTZVU05V?=
+ =?utf-8?B?c2sxWjl2MXlBUndPd1JKZGNaVTNLUFlkQzNPMTlFUWQ0THYzK2tKZ3h2RU5n?=
+ =?utf-8?Q?dRUi7C/N98N1al1kRsNBQTdBO5vXwkazGOISncfE7Y=3D?=
+X-Forefront-Antispam-Report: CIP:139.15.153.206; CTRY:DE; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:eop.bosch-org.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014)(7416014)(13003099007)(921020);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 5K23AzGlOtrrbwUXZqateGtM2vxrXNT4pKfLIWxuz+2HQoNjeuiZDQh8TdOOJ7HREoYRvEOGKi2n9xL880f4hvKus59dPFojAsg49EG037mooANWgAJRMPAo0paGWb8xVPIiART17r8BVA8qmdSGRxh4oU9rmLDPXf56kPNyxWu2PoRqPQvzKggWe6uNYUKowaYXreKUK73ON/nx7AzQprkGJFPdlrJL37f0RGisS7QeqbxatewAaY7NTSHjotg8F/h+sO6j9g3drMcROy+ygSi7Kb17qiGbdQ0TNyu6TU6hgDqOI/jBcAD2chJ+EZ0WM/8YgwWNzl9l91BE/dbgbMbmAU3zEkX3X8UrTMmrB2DqR5g5muSH+OFlrpjLyfpWqK6QPmtN294nWgj3Tqna20KpZTBXibZ2xT1AVE+Xg00l3mepPDWPdUb9mTKsoxq0
+X-OriginatorOrg: de.bosch.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 07:46:05.1115 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49a07b5c-2065-48da-48ff-08de6553c864
+X-MS-Exchange-CrossTenant-Id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0ae51e19-07c8-4e4b-bb6d-648ee58410f4; Ip=[139.15.153.206];
+ Helo=[eop.bosch-org.com]
+X-MS-Exchange-CrossTenant-AuthSource: DB3PEPF0000885E.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB7956
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,164 +178,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[de.bosch.com,reject];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[de.bosch.com:s=selector2];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[chromium.org,redhat.com,sholland.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.linux.dev,lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tzungbi@kernel.org,m:briannorris@chromium.org,m:jwerner@chromium.org,m:javierm@redhat.com,m:samuel@sholland.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:chrome-platform@lists.linux.dev,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.de:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[redhat.com,kernel.org,google.com,gmail.com,garyguo.net,protonmail.com,umich.edu,collabora.com,arm.com,linuxfoundation.org,intel.com,ffwll.ch,lwn.net,nvidia.com,ry.rs];
+	RCPT_COUNT_TWELVE(0.00)[43];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qemu.org:url];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	HAS_XOIP(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dirk.behme@de.bosch.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[de.bosch.com:+];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:mid,suse.de:dkim]
-X-Rspamd-Queue-Id: 1FF37FB17F
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 0284EFB1B5
 X-Rspamd-Action: no action
 
-Hi
+On 05.02.2026 21:59, Peter Colberg wrote:
+> Add Rust abstractions for the Single Root I/O Virtualization (SR-IOV)
+> capability of a PCI device. Provide a minimal set of wrappers for the
+> SR-IOV C API to enable and disable SR-IOV for a device, and query if
+> a PCI device is a Physical Function (PF) or Virtual Function (VF).
+> 
+> Using the #[vtable] attribute, extend the pci::Driver trait with an
+> optional bus callback sriov_configure() that is invoked when a
+> user-space application writes the number of VFs to the sysfs file
+> `sriov_numvfs` to enable SR-IOV, or zero to disable SR-IOV [1].
+> 
+> Add a method physfn() to return the Physical Function (PF) device for a
+> Virtual Function (VF) device in the bound device context. Unlike for a
+> PCI driver written in C, guarantee that when a VF device is bound to a
+> driver, the underlying PF device is bound to a driver, too.
+> 
+> When a device with enabled VFs is unbound from a driver, invoke the
+> sriov_configure() callback to disable SR-IOV before the remove()
+> callback. To ensure the guarantee is upheld, call disable_sriov()
+> to remove all VF devices if the driver has not done so already.
+> 
+> For PF drivers written in C, disabling SR-IOV on remove() may be opted
+> into by setting the flag managed_sriov in the pci_driver structure. For
+> PF drivers written in Rust, disabling SR-IOV on unbind() is mandatory.
+> 
+> This series is based on Danilo Krummrich's series "Device::drvdata() and
+> driver/driver interaction (auxiliary)" applied to driver-core-next,
+> which similarly guarantees that when an auxiliary bus device is bound to
+> a driver, the underlying parent device is bound to a driver, too [2, 3].
+> 
+> Add an SR-IOV driver sample that exercises the SR-IOV capability using
+> QEMU's 82576 (igb) emulation and was used to test the abstractions [4].
+> 
+> [1] https://docs.kernel.org/PCI/pci-iov-howto.html
+> [2] https://lore.kernel.org/rust-for-linux/20251020223516.241050-1-dakr@kernel.org/
+> [3] https://lore.kernel.org/rust-for-linux/20260107103511.570525-7-dakr@kernel.org/
+> [4] https://www.qemu.org/docs/master/system/devices/igb.html
+> 
+> Signed-off-by: Peter Colberg <pcolberg@redhat.com>
+> ---
+> Changes in v2:
+> - Move logic to disable SR-IOV on remove() from Rust to C.
+> - Add driver flag managed_sriov to opt into disabling SR-IOV on remove().
+> - Demonstrate flag managed_sriov for dfl-pci driver.
+> - Uphold safety guarantee for physfn() when PF driver is written in C.
+> - Let physfn() return error if driver flag managed_sriov is unset.
+> - Use "kernel vertical" style on imports.
+> - Use to_result() to handle error in enable_sriov().
+> - Note Bound device context in SAFETY comments for {enable,disable}_sriov().
+> - Demonstrate how to reach driver data of PF device from VF device.
+> - Add missing #[vtable] attribute in PCI driver trait example.
+> - Add missing #[vtable] attribute in nova-core driver.
+> - Define struct MyDriver such that physfn() example compiles.
+> - Replace VF -> PF in doc comment of is_physfn().
+> - Add #[inline] to is_physfn() and is_virtfn().
+> - Link to v1: https://lore.kernel.org/r/20251119-rust-pci-sriov-v1-0-883a94599a97@redhat.com
+> 
+> ---
+> John Hubbard (1):
+>        rust: pci: add is_virtfn(), to check for VFs
+> 
+> Peter Colberg (9):
+>        PCI: add driver flag to opt into disabling SR-IOV on remove()
+>        fpga: dfl-pci: set driver flag to disable SR-IOV on remove()
+>        rust: pci: add {enable,disable}_sriov(), to control SR-IOV capability
+>        rust: pci: add vtable attribute to pci::Driver trait
+>        rust: pci: add bus callback sriov_configure(), to control SR-IOV from sysfs
+>        rust: pci: add is_physfn(), to check for PFs
+>        rust: pci: add num_vf(), to return number of VFs
+>        rust: pci: add physfn(), to return PF device for VF device
+>        samples: rust: add SR-IOV driver sample
 
-Am 06.02.26 um 06:14 schrieb Tzung-Bi Shih:
-> On Tue, Feb 03, 2026 at 02:52:30PM +0100, Thomas Zimmermann wrote:
->> Add corebootdrm, a DRM driver for coreboot framebuffers. The driver
->> supports a pre-initialized framebuffer with various packed RGB formats.
->> The driver code is fairly small and uses the same logic as the other
->> sysfb drivers. Most of the implementation comes from existing sysfb
->> helpers.
->>
->> Until now, coreboot relied on simpledrm or simplefb for boot-up graphics
->> output. Initialize the platform device for corebootdrm in the same place
->> in framebuffer_probe(). With a later commit, the simple-framebuffer should
->> be removed.
->>
->> v3:
->> - comment on _HAS_LFB semantics (Tzung-Bi)
->> - fix typo in commit description (Tzung-Bi)
->> - comment on simple-framebuffer being obsolete for coreboot
->> v2:
->> - reimplement as platform driver
->> - limit resources and mappings to known framebuffer memory; no
->>    page alignment
->> - create corebootdrm device from coreboot framebuffer code
-> Changelog should be after "---" otherwise it becomes part of commit message.
+Would it make sense to somehow align / coordinate / stack this with the 
+work from Zhi Wang (and Zijing Zhang)
 
-I see. In DRM land, we usually keep the change log in the commit 
-message. I'll change it for the coreboot patches, but I'd rather keep it 
-for the DRM patches. I can split off the coreboot changes for this patch 
-into its own.
+https://lore.kernel.org/rust-for-linux/20260126215957.541180-3-zhiw@nvidia.com/
 
->
->> +static int corebootdrm_probe(struct platform_device *pdev)
->> +{
-> [...]
->> +	if (!fb) {
->> +		drm_err(dev, "coreboot framebuffer not found\n");
->> +		return -EINVAL;
->> +	} else if (!LB_FRAMEBUFFER_HAS_LFB(fb)) {
->> +		drm_err(dev, "coreboot framebuffer entry too small\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +	/*
->> +	 * Hardware settings
->> +	 */
->> +
->> +	format = corebootdrm_get_format_fb(dev, fb);
->> +	if (!format)
->> +		return -EINVAL;
->> +	width = corebootdrm_get_width_fb(dev, fb);
->> +	if (width < 0)
->> +		return width;
->> +	height = corebootdrm_get_height_fb(dev, fb);
->> +	if (height < 0)
->> +		return height;
-> [...]
->> diff --git a/include/linux/coreboot.h b/include/linux/coreboot.h
->> index 5746b99a070d..b51665165f9f 100644
->> --- a/include/linux/coreboot.h
->> +++ b/include/linux/coreboot.h
->> @@ -14,6 +14,7 @@
->>   
->>   #include <linux/compiler_attributes.h>
->>   #include <linux/types.h>
->> +#include <linux/stddef.h>
-> Move it before types.h?  's' vs. 't'.
->
->> +/*
->> + * True if the coreboot-provided data is large enough to hold information
->> + * on the linear framebuffer. False otherwise.
->> + */
->> +#define LB_FRAMEBUFFER_HAS_LFB(__fb) \
->> +	((__fb)->size >= offsetofend(struct lb_framebuffer, reserved_mask_size))
->> +
-> To make sure I understand, do you mean:
->
-> - The __fb->size is possibly less than sizeof(struct lb_framebuffer).
->    LB_FRAMEBUFFER_HAS_LFB() is for checking the following fields
->    (e.g. fb->x_resolution) are available?
-
-Yes.
-
->
->      struct lb_framebuffer {
->      	u32 tag;
->      	u32 size;
->
->      	u64 physical_address;
->      	u32 x_resolution;
->      	u32 y_resolution;
->      	u32 bytes_per_line;
->      	u8  bits_per_pixel;
->      	u8  red_mask_pos;
->      	u8  red_mask_size;
->      	u8  green_mask_pos;
->      	u8  green_mask_size;
->      	u8  blue_mask_pos;
->      	u8  blue_mask_size;
->      	u8  reserved_mask_pos;
->      	u8  reserved_mask_size;
->      };
->
-> - If answer of the previous question is yes, the next question: does
->    LB_FRAMEBUFFER_HAS_LFB() needs to check up to `reserved_mask_size`?
->    As in the patch, it only accesses up to `blue_mask_size`.
-
-Well, it's a correctness thing. The reserved_mask fields have been part 
-of the structure since the first version in commit b700254aa5 ("Add 
-coreboot framebuffer support to libpayload"). I'd that expect that the 
-framebuffer entry is bogus if it does not contain these fields. If you 
-really want to leave them out, we can do that of course.
+? Or is this completely orthogonal?
 
 Best regards
-Thomas
 
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+Dirk
 
 
