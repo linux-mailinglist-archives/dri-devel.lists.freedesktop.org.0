@@ -2,98 +2,256 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YBnXHeJHhmkhLgQAu9opvQ
+	id GE2nFuJIhmkhLgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 20:58:26 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 21:02:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19561102F03
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 20:58:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E446F102F77
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 21:02:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA54810E1EB;
-	Fri,  6 Feb 2026 19:58:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20A8910E8DB;
+	Fri,  6 Feb 2026 20:02:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fPDH5uPq";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="j1D1lOHr";
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="ysMRiNJ0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF74810E8B3
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 19:58:20 +0000 (UTC)
-Received: by mail-dl1-f51.google.com with SMTP id
- a92af1059eb24-1270adc5121so772470c88.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Feb 2026 11:58:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770407900; cv=none;
- d=google.com; s=arc-20240605;
- b=SI/kd7KXtLCHAwgxvTb1Ce3D+ru1G0BJ80+DzhhII5dbBNWI7iPLdYiGvHHIOfzPRp
- /z0KxZTu6eNRaTKBr2yntoPtj6jeByzJbScUlbD9FrlvLGFeM5TRFF8tNmA/qKG0W2Kc
- Oqv6XLs795lM2aS3tpjNZFo3DYPbB7jfndgSgfTszy7y67bGr5NGgeFy2SdbH7jNFdxh
- svrUBPQlcvWpJCXrt3LVnGaseTlMjsaQOrtYjU81tEEw2qwzmdKA5VYReQ/4jsN12Csi
- ULD0NX36GLI9hzvGCmYdD9wGvju7nCe48CGImVh52HDZoO/dXQx4D/tfJh6e1UouOXa6
- G5xA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:dkim-signature;
- bh=GRm7HNfTA4ant2yIYhCAG8o23gsjvSTOyf18mlTBqqw=;
- fh=BQyoTePx0c6xKIm9HeHbjentNTrMS7LeVa48dRVsZZY=;
- b=BEk9JxrQp5vAHE2fjdaBaLNkjkgix8vWODo0ayRmNvqD4H2mqJOtrkYShXogJtc4ek
- 9b1n0UXGzdgaJyWDkHHTOKrbQqf/DFmqW9mwGPB/bxeLVrljKNf8lPJLOORx8W9+hFVs
- h5n57+5HK9u7b1TrUFsiIiXbTbS1JEMuZinmJ4vecqC+aucM/B6XoXbCgPKrdManv/dg
- qr55XX+AdPHfs+ZrNdjcOLAFSsJvTBVJXFy24cQz4wOE7jEVXvSJnqSIEvcbtEkNIvr4
- UU2zNm8YQpHLpzlnS0BKanyajKI+w59DDGtjWG5UZX4DAU2bwLSEVBCbvEluMlpQF5oT
- 2ijA==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48D6910E8DB;
+ Fri,  6 Feb 2026 20:02:36 +0000 (UTC)
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 616JuPO8790774; Fri, 6 Feb 2026 20:01:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=corp-2025-04-25; bh=IIkdhKlounf8LNIOKu
+ 57WvWnowqLrOAc6ssJmhwgASI=; b=j1D1lOHr+K7D2iLzkIVS6kNZ3pHKwbrygo
+ nabhbYjqsoyNWhCYPqKheYP1rl1smCSyVy5bwlul5n7wVeweVfrxt0GLbE9ioH+f
+ vMO1NxVC/eunTPEgphwByAJbAQO0JwBv04ciEiQI/nAcKzGeLrELMHaNvhRfUSpB
+ tDJjem8ulMVG18jLTnrY+0ziGQZ7ZKz/FnrnMcw2ZcIgb0SkGdxVLM1Qoueg6UU0
+ 78lpH8s6ZP5gGr33e6y8+9EsBFE/HdPOzmHwDX0q2VcbQOnkLWU0q5qEbbztCkZL
+ NVZlrCpdCKmIQWx8lWjZNlAensS7IvFZwPupnz1uxTRzZQTEHAcg==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4c3jsqp49t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 06 Feb 2026 20:01:56 +0000 (GMT)
+Received: from pps.filterd
+ (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 616IE24h036938; Fri, 6 Feb 2026 20:01:55 GMT
+Received: from cy3pr05cu001.outbound.protection.outlook.com
+ (mail-westcentralusazon11013046.outbound.protection.outlook.com
+ [40.93.201.46])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 4c186f1820-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 06 Feb 2026 20:01:55 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZuT56QyxkT/9rUu9Um1AjvmlDL2JZ+qNmD+5PdOVU0hOWfohsXmzNklf2e4OV5FQXH8kb1MwEYjqY0DFWDUtOpJvKXDnIx8g07aP8wW8hNjTuaOwD4n9LR57EI4AUqusyGhZ6reXZRJTeJUKzYGfb5NnlSnywNW/tnWlqlLijBMD2sBUROnDJzQNA4lQMQPL+HM2HQ3LKJvM14oV4TUwK8GiaD3iGRcA8PId3ftbFw9zK3Kc8KIei4mPNEo8RysBDnRgTuRDAihO0igYYc6QavJw+u8ToHBCPfw+bSiGOcWCAat/liYktSJfL4rFACRGtNp0mT/3X7pshfRdHiRK8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IIkdhKlounf8LNIOKu57WvWnowqLrOAc6ssJmhwgASI=;
+ b=x/RnQFV/B9ZA5lShY9tyr1byAZarISlHknEeTgpsQirV0kBvfT+topsTuLvmiPmxOywbIn0SBUTpWx9v6A1XJY0r8KuDkPUwZffmuSl00drLe1KtNguzEDh6ckF3EGl0gojvKDNnk9GV6DVPlw8wzfred75YedgdRfpVYNAO+SCRelJz5TFgzaAvAAr7k1yhHwZ+QYWH2Yn6oOkAM/aNRFIoovjZgnwWnvX1MoRSs8UsWJ3gzB8z4U1GtFUA53i87LFI+bOw2K2jHPtv/RJgtqI3uPUd89WHMEqn4P1O+LPIsD/UgHXNl587xzdBHuy6stx9sRJWmewsxKn21iG+VA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770407900; x=1771012700; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=GRm7HNfTA4ant2yIYhCAG8o23gsjvSTOyf18mlTBqqw=;
- b=fPDH5uPqwAxSmrXYr/74fbJvRWDRuaWNH4ntA0RwaI6NGSc/GfhRsJHBcE5EknCpjZ
- b2ERv56y1TDJrtEyrVJShn5dE+kcdxMqLiAINjcLYgn8T7vdyg+Fdog2HVJqyoiLnm59
- XSAasL2ICwE4QMJiKHX9af9HW5Zz9qWN/ExROfSkWyvWxu4MXypq63QrWnlday+/pOtz
- E7otOCcSNar2GCmlzTfMlOCML9UBfnZNCejjIph5JpHdUvGdwL25Tk11zKow2c+bekAF
- uJGHndWWEUc40+666PeIkQ2DGHMaOEUvHphEpk5KvbPEoYPTSIe2zy5+f/gt97MapGh8
- xXjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770407900; x=1771012700;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GRm7HNfTA4ant2yIYhCAG8o23gsjvSTOyf18mlTBqqw=;
- b=P/rgGSaLHfOL0lIkhBipsxvF5+G/L9JICdOEUfEaiXW5GiriS2tN4Qf9rNh0nJjGq3
- g4UStDvKudm9/y0/tCwU+CvLRNHW2VDSXwrTiR9Isv+BE2NHKx/ZVBZLAO9X0bFDAuMM
- o7+mFeBrAi8aGrVYQAUVC2SCwqMO/GCuMdSK8Bg6Ay7kXJ1vENMIc5hJ2w2Zt7XN2LpY
- Ll2v6cvnjKgap+XTsFV6xOomUj/UGYuxlt3BUiN/Ix01swST0A90Ncqr61fAhIEX+2gI
- rihfr9YUJ6bOSqDtiOQ5UmMqXf5dFgNXbtXyDkmwfuLyIPV3wSQfUbXttYFhVliCRhIb
- fhqw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUTRn9E97Q+si3Wz/1WwHcjlKTCciwzHat+nEruslz9sHrPhE3EWmzDUGCu7hxZP4ealnCHsfWiM4w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwUjj6OEiACU8w5wKvC6vnbzvXZuDRKpKUzET1CY7F4bhQ5DkS7
- pSiKCyoTlYbmL3Sjdao9Y9/JL/r9YqSAfDKw3o+4djQ2MmsGL3DQ3vQIk8WMQPbtPFl0FFuwUoL
- BbWgD76FqifhaHrzLmUwIq7xyzgeyips=
-X-Gm-Gg: AZuq6aLv/QBTIy0yZE1oy2PzvSNdoLHSdQvizh5LLa01I7JMYNHCO/Hle2HqTPF+YqF
- 7VNhr9TkAlasQ5vKttnxTFnSUrcgwlBU7A2HpqhoFNMi7ZXlkokwfONpwO4GTqMNwXpUGk96N9S
- rh6ojcq97E3+1iEu1S/DsPiaLB/d0Yj60sA32BjvCVJwptS+82ik0eVpR7NEHD8E9q/Bxgh/7fh
- 0V+d5AWNl+Y+z7C+GQ3X/v063EV97fS7SHoV1FIid5+hsML7dpjAqgSw9GNltgDJQOi5yYGg8Su
- jfsavDUmwy0mPBSn7Rb/AhpT5I5foQ==
-X-Received: by 2002:a05:7022:69a:b0:119:e56b:9899 with SMTP id
- a92af1059eb24-12703f0a668mr1468969c88.0.1770407899815; Fri, 06 Feb 2026
- 11:58:19 -0800 (PST)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IIkdhKlounf8LNIOKu57WvWnowqLrOAc6ssJmhwgASI=;
+ b=ysMRiNJ0cbZInAI588n+QogfqnoBzrKNmznHr2gvRRfw6tqt/6zmwU1H56IrSjkTnO7s4wvaAPFpnJoFVygzRWjXCRLBU7a9wD2m8OVF+7+3HA0fhvoCpyetz+nl1T4OnXfcpvI0n9M7O5IVJiWqQsrs/aAEIbqxi9Wzo6RmqT0=
+Received: from DS0PR10MB8223.namprd10.prod.outlook.com (2603:10b6:8:1ce::20)
+ by CH3PR10MB8215.namprd10.prod.outlook.com (2603:10b6:610:1f5::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.8; Fri, 6 Feb
+ 2026 20:01:47 +0000
+Received: from DS0PR10MB8223.namprd10.prod.outlook.com
+ ([fe80::b4a4:94e3:f0bc:f4c9]) by DS0PR10MB8223.namprd10.prod.outlook.com
+ ([fe80::b4a4:94e3:f0bc:f4c9%5]) with mapi id 15.20.9520.006; Fri, 6 Feb 2026
+ 20:01:47 +0000
+Date: Fri, 6 Feb 2026 20:01:46 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Pedro Falcato <pfalcato@suse.de>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Benjamin LaHaise <bcrl@kvack.org>, Gao Xiang <xiang@kernel.org>,
+ Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>,
+ Jeffle Xu <jefflexu@linux.alibaba.com>,
+ Sandeep Dhavale <dhavale@google.com>,
+ Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>,
+ Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ David Hildenbrand <david@kernel.org>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Mike Marshall <hubcap@omnibond.com>,
+ Martin Brandenburg <martin@omnibond.com>, Tony Luck <tony.luck@intel.com>,
+ Reinette Chatre <reinette.chatre@intel.com>,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ Babu Moger <babu.moger@amd.com>, Carlos Maiolino <cem@kernel.org>,
+ Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>,
+ Johannes Thumshirn <jth@kernel.org>, Matthew Wilcox <willy@infradead.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Zi Yan <ziy@nvidia.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Jann Horn <jannh@google.com>,
+ David Howells <dhowells@redhat.com>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E . Hallyn" <serge@hallyn.com>,
+ Yury Norov <yury.norov@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-sgx@vger.kernel.org,
+ linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ linux-aio@kvack.org, linux-erofs@lists.ozlabs.org,
+ linux-ext4@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev,
+ devel@lists.orangefs.org, linux-xfs@vger.kernel.org,
+ keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v2 09/13] mm: update all remaining mmap_prepare users to
+ use vma_flags_t
+Message-ID: <d55a0ba8-46a3-49d4-ba76-aa9658e1e8be@lucifer.local>
+References: <cover.1769097829.git.lorenzo.stoakes@oracle.com>
+ <fb1f55323799f09fe6a36865b31550c9ec67c225.1769097829.git.lorenzo.stoakes@oracle.com>
+ <hmc2or77xnhrdlncfzjsljljwljnp6zztqsvmgxspfilmzkyty@czxpjpdm66ov>
+ <20260206113153.c443545459474cdef6dfd7ea@linux-foundation.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260206113153.c443545459474cdef6dfd7ea@linux-foundation.org>
+X-ClientProxiedBy: LO4P123CA0674.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:351::6) To DS0PR10MB8223.namprd10.prod.outlook.com
+ (2603:10b6:8:1ce::20)
 MIME-Version: 1.0
-References: <20260206012447.105684-1-vitaly.prosyak@amd.com>
-In-Reply-To: <20260206012447.105684-1-vitaly.prosyak@amd.com>
-From: Mario Kleiner <mario.kleiner.de@gmail.com>
-Date: Fri, 6 Feb 2026 20:57:43 +0100
-X-Gm-Features: AZwV_QhLMdFhSXx3RckTz1j0D67WiUHBqy1sixFOW1ooDJ3FyA1L5WvRL6T6864
-Message-ID: <CAEsyxyjvV9LX_S_OhFTSp-kkyAjxYC2Yurz5kwAA=bA9YG=dpQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: guard NULL manual-trigger callback in
- cursor programming
-To: vitaly.prosyak@amd.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- alexander.deucher@amd.com, Aurabindo Pillai <aurabindo.pillai@amd.com>, 
- Christian Koenig <christian.koenig@amd.com>
-Content-Type: multipart/alternative; boundary="000000000000f9e399064a2d3501"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR10MB8223:EE_|CH3PR10MB8215:EE_
+X-MS-Office365-Filtering-Correlation-Id: e5ef8c73-bce5-48e9-d95b-08de65ba8f5f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?n9zJSU9Pf54JdVbwxsbDpmdk3jELo/jV7oFwPywMzYWnub0II9PVoW5EzrFj?=
+ =?us-ascii?Q?eEusQXBpIXTIoIJzKSfZA2JCTqR7gFq6VHwIYekCyRxt8b3GtIp4gNSe7vYG?=
+ =?us-ascii?Q?kIiU79eGzK0Pmu2rwN8U8nr1RAjGX8ePB2fy5ZeImK4ezhCzCpQ60Blmf8+E?=
+ =?us-ascii?Q?eVvVvGKwjGp2RaXYtzYDYHOZ1Fctwm8FKT+HzMFg/I70UIzT6Zztkv1MZLQT?=
+ =?us-ascii?Q?TGD+dfo8BkUTBpdigjsWeVC6Ogz1x1oM16nW20Ns8bsdFMOErjBgRGqUH2pZ?=
+ =?us-ascii?Q?svaJXYIv/7CgSCm/RsPs2C0BafhToU45elzfeYTk+Fxgq/GJCOshENHvau44?=
+ =?us-ascii?Q?pob9UOepxBkhji839ikYFL3+p5OCzxwOKPkqrxRTc6ZRAROAG3b3x+EyUvEW?=
+ =?us-ascii?Q?gjl4VZFTNKLVIfcZRYDKIKO80oKAqDk84pU7YFn4R+xRh1m0g8Du2SmkQQTT?=
+ =?us-ascii?Q?6r7Se9QtJW7PyjAhad8RjBV4goXNDs7LSu+8GyNB1g0yTJ1N/v629ggKTxuc?=
+ =?us-ascii?Q?GWLvO/KMBqOIKv+fs/TfrPPW4phNhCW2nTPrqv/kFUB3IfA1XD0VOofzxR0f?=
+ =?us-ascii?Q?w1PGNQgOl8bejdt2gWxpb3x7R8345Uo12RcXxJXU0F0c0i0FRY/tZUxg8L/R?=
+ =?us-ascii?Q?qfSKpwCvrNOifzMl1X/ej9YA/kVvnxLmcp2GwitBa2Xc7GXKtZ9VbmCUGYV6?=
+ =?us-ascii?Q?DEOtCcc4xuBhaZ7rkTKVNDtxoitiM8ShzVLZawOf1saLnCOe5233BVlvW2/q?=
+ =?us-ascii?Q?xNOnLpfGfgGgv0b82GsU7604KDRrGxU4bT+WjMH4V2/avobWiv/kTPXPHojC?=
+ =?us-ascii?Q?3pCtjNTsM5nWhg3DN8l7+16jjC6sBFEIOB6kwFyxt8XX3p5XiFsrTnHNcEFm?=
+ =?us-ascii?Q?RCUPlFBluVpYM2McCfy61zViDLpUcbMc1hTbq3HRl7MPw9AqKJFbUlpldlOr?=
+ =?us-ascii?Q?lnHDdiYMDgLICXzI5ObDEClMMEgjOIszY4JsIaKevTZAkU9XNg+2w2ydCocd?=
+ =?us-ascii?Q?aWf+kortpXqim2OikfyzO4F33VKqVLx1mtnsZWTIBbgn266307HNpOKTjAVv?=
+ =?us-ascii?Q?z+oMkIMFyQBt9TFFckpm8TSfc1VMNuZ2AX9LEDtT8j0moBo0EW8oa8MQwV5m?=
+ =?us-ascii?Q?6P/e2vHIWvnv4I53/0k45S5qCga655BDelV/QEtmRCUpZyLzHZo1otiA2nen?=
+ =?us-ascii?Q?vvhS2gpVLhFfVtoMwDOgpTVP9NQPwXPjobh1Vi7UkWpIL80mrLYR+NlMLlxn?=
+ =?us-ascii?Q?IW5COWpAko91nGx/DrUMc5XXJdYdMXMAlZMU5kmZM7brc2Xw6Bv05dC+mYr+?=
+ =?us-ascii?Q?X0ZpFCr65z5X1MUIM7tCiBqBN3ihAyNd/ZMVqCWDeGqcfvd2lvgbD7CkCC5t?=
+ =?us-ascii?Q?qDM49/EuevQtX8IXpH4AdTeBZDuV5yE4aKbBX3jZLct2B4I22GChnM/deKHS?=
+ =?us-ascii?Q?UiJcsISO0jXZtJINkYVJxZ1M53uEb6qtBTr6P0alSGDcxTcizFaeimfKwFBR?=
+ =?us-ascii?Q?cQuGGCh9zSmrRfsFhN6ctlCxC82g0LtBat1OWm8UYtpWHFhMDPVG96wE+pHC?=
+ =?us-ascii?Q?PoPJmxq2oS2nEm6Npos=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR10MB8223.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5fiS3hEI71s1mZtg7XEvgdeYlW7y5BVQPk1UWGYhSM5V9XeX+3Dqkgwn5pxH?=
+ =?us-ascii?Q?UTmCZEBn5pLqEOdvb0ufe4JpF+viYTaP5w/5VeenB6yyhyavG3YyMs7b2REj?=
+ =?us-ascii?Q?FH4rt6mn+a+fqSOx5gtM+cAiL8Jb8sCivRABfVIgFA+cYbd1kdcca3yf/EaT?=
+ =?us-ascii?Q?yNN5bWrAdoVYnDc5C/mlrqmkO5MrHAJXm2EoZweOfmp+FDXSMxJglp2iFnOm?=
+ =?us-ascii?Q?wlAHD7YEypWMiMKdnk4q81VMbVnI8X1HQYIoAVhOgwK2w4vQOkEv56gVl4zb?=
+ =?us-ascii?Q?ilkFXyKGhMZvffKMg81vZlhPKxgpcUFom8w6EsdkQp5E6y3DXB6aKOpQmxt5?=
+ =?us-ascii?Q?t21CfwTZhl8tr6PzoASpG3ahQC/FlUARO2UqBL87KZHOKophUROEd6FFHyvc?=
+ =?us-ascii?Q?lKLMpRTGz+TUgM/e0dOcroni/hFvcAk9BD78Uixby9U2yzzDpwoWq77PseJl?=
+ =?us-ascii?Q?wRt8phf+x56oRNfRoI/cJoQ6Fo56F1NCKbb/HVbZ7t2t/I4q8QnO+n2Sgz8O?=
+ =?us-ascii?Q?KpiKLLzuirkhrmRqGL9HI5xDBjVFVAh3GWq0Vp/g8xvn0W3vae2Sc5MrbTZQ?=
+ =?us-ascii?Q?ijRoShOpTm96Hj2czGMk/3zvq6IB9AxNUZnR16aDnGbVaNA5KDYFZhbRzKDB?=
+ =?us-ascii?Q?w2E171nz6PpqXizzc791gIaDqv8QvF5NhnCMdyhPlchqeTkCAawRkcNQRSPX?=
+ =?us-ascii?Q?8rGSTWlEwD/YUMcEyYskFlmCSQImIKC7Q3YuizOWUbkYhQwMFx3I6V1L7Ps6?=
+ =?us-ascii?Q?NUYuVg6lZClU5dbwozMF4s7JgmRtlBTCqEv9hRYywim3TwzIVDrvdpQOb/E8?=
+ =?us-ascii?Q?ntL2lIY3DxyiG92hRjPf0R2IOyAZk0PQ92off0CjON5R0FoouLfGaCEdeBGd?=
+ =?us-ascii?Q?6yvntKH1d0WZ4qxZorMyoKPB5iLIXFw8C9NQth0otYvwryJJIB1aR+P4HcMX?=
+ =?us-ascii?Q?jAWYGHHIk8NXTvKtbdRbw4R6PqpCSMTPnysfEeIgAUkv2FQiOsTIByJpkufL?=
+ =?us-ascii?Q?o0FhPobPERKh+O6nYSZTe22qjFQDeRTVNynHIBpKNk4CMxCKETYhFEiFabpV?=
+ =?us-ascii?Q?vKOzXY0Xzbm0CU5LRY8qDtV24V6phdEJ5jTwPTU2wKrPUhUYwfXwT4rvrLDV?=
+ =?us-ascii?Q?y5++nL3ZgQavsSWU1bPEoGyC9Te7nKCqzyMqZke/trwwWqjmwsKKU4CWKpZK?=
+ =?us-ascii?Q?IL1CdzARJ/rVWACs5M9dtMi3coEbPYbH2KssoQMUcn1dkGtT8AS66OG9N/Y7?=
+ =?us-ascii?Q?8N0q0Zd5WNtSRaIwvP44uXp7ZsEF2qRaemtNNIUImwT0yw28Dv0KMjRelh0A?=
+ =?us-ascii?Q?cZG+fEZsXRgvmCr4cg62jfTl9JW20gl3neoEisE6ZzVGq+roBo81Y978xrfg?=
+ =?us-ascii?Q?TnnlpF6eZK7cszPOwYLejd8tKVDTWp1nr/r2MFopOnn1S6lxr6muBEyO0++b?=
+ =?us-ascii?Q?242QHcMUbRO1nAYp5+WjLos85bBpSXJswxQmEAZlDECBrWW+KQ9NbpOhngIl?=
+ =?us-ascii?Q?Ejf1oO8/6aV03DuGhcNgHiuuVFeMo1BIQ0+dXVOpfcQmpFANPKufXuxXsfz6?=
+ =?us-ascii?Q?j+b5eelrZ8THRSB6dhjxHhOgY2CKXu7n11cxFiG+ld5VB5Q9zdYpAYugQVUV?=
+ =?us-ascii?Q?tCpyUvWF95ClRO+BkAhv+mBIu0C1TCANXdqN+u/rM4W0ckYEiHtBkA1dIG44?=
+ =?us-ascii?Q?p05UQD9pWpfX/gwocYCUaBRpCLVJ0+k/TvSApu/yWEi1Ippag33RWfLsAitj?=
+ =?us-ascii?Q?chEaGlQISwCNdmX1dokZGc81CQQIa/k=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: gRg3zfjEgoOb1pzNIRFIXMWmV8OXJnUZaMmG6lvdJCjgyhIxVtbIxtf1Zp3Al32t9c/Pk3CYjW4DEMLnq1LsAccIiqyqxP2gZ6doz0aBxDeZhVu8rQLTr1btGmRvwHxVSVxrI7rkF+3H17cMTaKqX32gDRwfd5UDza/50OPTp8OrJJyOrPS4rXLr12Rzi1lqrz2O2LpU0qwPXq33MPsIlTF0+CZoSxQPmDvtO69bAgtYbCTBn3jjgQvGgAzJ4wWMWbpabKZUV0wzce6MH57tV+RGjBPBcbBfdmYy5dNzGI+RC78sqLhIr56ChK6lkczO4+CYIUKbbzZ8f2Nu77FwrWUezwk+ONjhUHdbg6q0RN+OlJGImQcJ9dF1TS77B2uXZ4f2CIJZ0b1cBWyyCMpxv9UkiZyPwktQnZi3cCnTJiJD5XJfd3PVLiuADSvLnE3MZg+hOIYewhtaeIA4GgHWAEA/A9+qjW93cCY/9HkZkGfFlHOBU779y5Jt4Ix9semlDlFFsbwP+8cDu8mS4hWTEs1kNrQM/9OkO1RYWI1h5xVJc1aVNfW+Sbebpl0LZKJ9tdvrDo36lH4nA/8ZFB7IlZv2F/KGLwU8Rf3iJMIxwIk=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e5ef8c73-bce5-48e9-d95b-08de65ba8f5f
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR10MB8223.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 20:01:47.8662 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oE39J1tHGB6bCnlJ/MGiyJii+EVqj8rNF1mWtGn6pSRB1D/mGKZRsUd+AILfS1PyHJNo6440Vad2sXrf7k1j5soyBWRtgo8gMXOA8qz8SdI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB8215
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-06_05,2026-02-05_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=921
+ suspectscore=0
+ mlxscore=0 adultscore=0 phishscore=0 bulkscore=0 malwarescore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2601150000 definitions=main-2602060147
+X-Authority-Analysis: v=2.4 cv=Db0aa/tW c=1 sm=1 tr=0 ts=698648b4 cx=c_pps
+ a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=HzLeVaNsDn8A:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=se1DkVxXpihIbOsVGb0A:9
+ a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: db6m_is3Yv0tbcwjkkKt16lvjfSadZc6
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA2MDE0OCBTYWx0ZWRfX3AAS7Oqt7MxT
+ iH0ONPvWZqHXXd4hieWMZH+5gm0UHlxSyQGndI4Vb9KZTZkwPSgJmEdASxIXYTMrEVShLhixhwg
+ pW4IAyyfo6bYi7ydIh1PCVuXnru10qq5lZHiFmo2Lu1Vct0d0mLWCCN0vTMh9O2y4LbXjP0zzwt
+ dxtb9mwbP0pgBmCVhPRePEnINuu/DcK9r/YrxMojiR31bIICsk9B5zDXKZCu13YEReG9cSmg856
+ aL59JIWRwQWHrdS3BfKXtWi09pBJJbiOycP4hqGvgsZ8IXR8XSh5jVC04pj77H6vvqxL4/GUkEc
+ AT19EmxlEwCJBtFnqHhh0GtoKKCrCoMxhacOxl4HEOv0bDOvrcpAVx/+vcTF9Qk9/WDT14hnsyN
+ sfzfRppVGQHbDxUX55yyg+uLy+vfrwz8LMgobEYsonjsmtRK4JQbqVlAJe8wqlgf/3Bdfq2DOtE
+ S+mQt3DUHzFPM3goSsA==
+X-Proofpoint-GUID: db6m_is3Yv0tbcwjkkKt16lvjfSadZc6
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,486 +267,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[oracle.com,reject];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[oracle.com:s=corp-2025-04-25,oracle.onmicrosoft.com:s=selector2-oracle-onmicrosoft-com];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:vitaly.prosyak@amd.com,m:amd-gfx@lists.freedesktop.org,m:alexander.deucher@amd.com,m:aurabindo.pillai@amd.com,m:christian.koenig@amd.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[mariokleinerde@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[suse.de,kernel.org,linux.intel.com,redhat.com,alien8.de,zytor.com,arndb.de,linuxfoundation.org,intel.com,gmail.com,ffwll.ch,ursulin.net,amd.com,zeniv.linux.org.uk,suse.cz,kvack.org,linux.alibaba.com,google.com,huawei.com,vivo.com,mit.edu,dilger.ca,linux.dev,paragon-software.com,omnibond.com,arm.com,wdc.com,infradead.org,oracle.com,suse.com,nvidia.com,paul-moore.com,namei.org,hallyn.com,rasmusvillemoes.dk,vger.kernel.org,lists.linux.dev,lists.freedesktop.org,lists.ozlabs.org,lists.orangefs.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:email];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	TAGGED_FROM(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.990];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mariokleinerde@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[oracle.com:+,oracle.onmicrosoft.com:+];
 	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lorenzo.stoakes@oracle.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[93];
+	TAGGED_RCPT(0.00)[dri-devel];
+	NEURAL_HAM(-0.00)[-0.999];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 19561102F03
+	RCVD_COUNT_SEVEN(0.00)[8]
+X-Rspamd-Queue-Id: E446F102F77
 X-Rspamd-Action: no action
 
---000000000000f9e399064a2d3501
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, Feb 06, 2026 at 11:31:53AM -0800, Andrew Morton wrote:
+> On Fri, 6 Feb 2026 17:46:36 +0000 Pedro Falcato <pfalcato@suse.de> wrote:
+>
+> > > -#define VM_REMAP_FLAGS (VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP)
+> > > +#define VMA_REMAP_FLAGS mk_vma_flags(VMA_IO_BIT, VMA_PFNMAP_BIT,	\
+> > > +				     VMA_DONTEXPAND_BIT, VMA_DONTDUMP_BIT)
+> >
+> > as a sidenote, these flags are no longer constant expressions and thus
+> >
+> > static vma_flags_t flags = VMA_REMAP_FLAGS;
 
-Successfully tested on Polaris 11 / DCE 11.2.
+I mean this would be a code smell anyway :) but point taken.
 
-Reviewed-and-tested-by: Mario Kleiner <mario.kleiner.de@gmail.com>
+> >
+> > can't compile.
+>
+> Yup, that isn't nice.  An all-caps thing with no () is a compile-time
+> constant.
 
-On Fri, Feb 6, 2026 at 2:32=E2=80=AFAM <vitaly.prosyak@amd.com> wrote:
+There is precedence for this, e.g. TASK_SIZE_MAX and other arch defines like
+that:
 
-> From: Vitaly Prosyak <vitaly.prosyak@amd.com>
->
-> KASAN reports a NULL instruction fetch (RIP=3D0x0) from
-> dc_stream_program_cursor_position():
->
->   BUG: kernel NULL pointer dereference, address: 0000000000000000
->   RIP: 0010:0x0
->   Call Trace:
->     dc_stream_program_cursor_position+0x344/0x920 [amdgpu]
->     amdgpu_dm_atomic_commit_tail+...
->
-> [  +1.041013] BUG: kernel NULL pointer dereference, address:
-> 0000000000000000
-> [  +0.000027] #PF: supervisor instruction fetch in kernel mode
-> [  +0.000013] #PF: error_code(0x0010) - not-present page
-> [  +0.000012] PGD 0 P4D 0
-> [  +0.000017] Oops: Oops: 0010 [#1] SMP KASAN NOPTI
-> [  +0.000017] CPU: 0 UID: 0 PID: 10 Comm: kworker/0:1 Tainted: G
->   E       6.18.0+ #3 PREEMPT(voluntary)
-> [  +0.000023] Tainted: [E]=3DUNSIGNED_MODULE
-> [  +0.000010] Hardware name: ASUS System Product Name/ROG STRIX B550-F
-> GAMING (WI-FI), BIOS 1401 12/03/2020
-> [  +0.000016] Workqueue: events drm_mode_rmfb_work_fn
-> [  +0.000022] RIP: 0010:0x0
-> [  +0.000017] Code: Unable to access opcode bytes at 0xffffffffffffffd6.
-> [  +0.000015] RSP: 0018:ffffc9000017f4c8 EFLAGS: 00010246
-> [  +0.000016] RAX: 0000000000000000 RBX: ffff88810afdda80 RCX:
-> 1ffff110457000d1
-> [  +0.000014] RDX: 1ffffffff87b75bd RSI: 0000000000000000 RDI:
-> ffff88810afdda80
-> [  +0.000014] RBP: ffffc9000017f538 R08: 0000000000000000 R09:
-> ffff88822b800690
-> [  +0.000013] R10: 0000000000000000 R11: 0000000000000000 R12:
-> ffffffffc3dbac20
-> [  +0.000014] R13: 0000000000000000 R14: ffff88811ab80000 R15:
-> dffffc0000000000
-> [  +0.000014] FS:  0000000000000000(0000) GS:ffff888434599000(0000)
-> knlGS:0000000000000000
-> [  +0.000015] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  +0.000013] CR2: ffffffffffffffd6 CR3: 000000010ee88000 CR4:
-> 0000000000350ef0
-> [  +0.000014] Call Trace:
-> [  +0.000010]  <TASK>
-> [  +0.000010]  dc_stream_program_cursor_position+0x344/0x920 [amdgpu]
-> [  +0.001086]  ? __pfx_mutex_lock+0x10/0x10
-> [  +0.000015]  ? unwind_next_frame+0x18b/0xa70
-> [  +0.000019]  amdgpu_dm_atomic_commit_tail+0x1124/0xfa20 [amdgpu]
-> [  +0.001040]  ? ret_from_fork_asm+0x1a/0x30
-> [  +0.000018]  ? filter_irq_stacks+0x90/0xa0
-> [  +0.000022]  ? __pfx_amdgpu_dm_atomic_commit_tail+0x10/0x10 [amdgpu]
-> [  +0.001058]  ? kasan_save_track+0x18/0x70
-> [  +0.000015]  ? kasan_save_alloc_info+0x37/0x60
-> [  +0.000015]  ? __kasan_kmalloc+0xc3/0xd0
-> [  +0.000013]  ? __kmalloc_cache_noprof+0x1aa/0x600
-> [  +0.000016]  ? drm_atomic_helper_setup_commit+0x788/0x1450
-> [  +0.000017]  ? drm_atomic_helper_commit+0x7e/0x290
-> [  +0.000014]  ? drm_atomic_commit+0x205/0x2e0
-> [  +0.000015]  ? process_one_work+0x629/0xf80
-> [  +0.000016]  ? worker_thread+0x87f/0x1570
-> [  +0.000020]  ? srso_return_thunk+0x5/0x5f
-> [  +0.000014]  ? __kasan_check_write+0x14/0x30
-> [  +0.000014]  ? srso_return_thunk+0x5/0x5f
-> [  +0.000013]  ? _raw_spin_lock_irq+0x8a/0xf0
-> [  +0.000015]  ? __pfx__raw_spin_lock_irq+0x10/0x10
-> [  +0.000016]  ? srso_return_thunk+0x5/0x5f
-> [  +0.000013]  ? __kasan_check_write+0x14/0x30
-> [  +0.000014]  ? srso_return_thunk+0x5/0x5f
-> [  +0.000013]  ? __wait_for_common+0x204/0x460
-> [  +0.000015]  ? sched_clock_noinstr+0x9/0x10
-> [  +0.000014]  ? __pfx_schedule_timeout+0x10/0x10
-> [  +0.000014]  ? local_clock_noinstr+0xe/0xd0
-> [  +0.000015]  ? __pfx___wait_for_common+0x10/0x10
-> [  +0.000014]  ? srso_return_thunk+0x5/0x5f
-> [  +0.000013]  ? __wait_for_common+0x204/0x460
-> [  +0.000014]  ? __pfx_schedule_timeout+0x10/0x10
-> [  +0.000015]  ? __kasan_kmalloc+0xc3/0xd0
-> [  +0.000015]  ? srso_return_thunk+0x5/0x5f
-> [  +0.000013]  ? wait_for_completion_timeout+0x1d/0x30
-> [  +0.000015]  ? srso_return_thunk+0x5/0x5f
-> [  +0.000013]  ? drm_crtc_commit_wait+0x32/0x180
-> [  +0.000015]  ? srso_return_thunk+0x5/0x5f
-> [  +0.000013]  ? drm_atomic_helper_wait_for_dependencies+0x46a/0x800
-> [  +0.000019]  commit_tail+0x231/0x510
-> [  +0.000017]  drm_atomic_helper_commit+0x219/0x290
-> [  +0.000015]  ? __pfx_drm_atomic_helper_commit+0x10/0x10
-> [  +0.000016]  drm_atomic_commit+0x205/0x2e0
-> [  +0.000014]  ? __pfx_drm_atomic_commit+0x10/0x10
-> [  +0.000013]  ? __pfx_drm_connector_free+0x10/0x10
-> [  +0.000014]  ? __pfx___drm_printfn_info+0x10/0x10
-> [  +0.000017]  ? srso_return_thunk+0x5/0x5f
-> [  +0.000013]  ? drm_atomic_set_crtc_for_connector+0x49e/0x660
-> [  +0.000015]  ? drm_atomic_set_fb_for_plane+0x155/0x290
-> [  +0.000015]  drm_framebuffer_remove+0xa9b/0x1240
-> [  +0.000014]  ? finish_task_switch.isra.0+0x15a/0x840
-> [  +0.000015]  ? __switch_to+0x385/0xda0
-> [  +0.000015]  ? srso_safe_ret+0x1/0x20
-> [  +0.000013]  ? __pfx_drm_framebuffer_remove+0x10/0x10
-> [  +0.000016]  ? kasan_print_address_stack_frame+0x221/0x280
-> [  +0.000015]  drm_mode_rmfb_work_fn+0x14b/0x240
-> [  +0.000015]  process_one_work+0x629/0xf80
-> [  +0.000012]  ? srso_return_thunk+0x5/0x5f
-> [  +0.000013]  ? __kasan_check_write+0x14/0x30
-> [  +0.000019]  worker_thread+0x87f/0x1570
-> [  +0.000013]  ? __pfx__raw_spin_lock_irqsave+0x10/0x10
-> [  +0.000014]  ? __pfx_try_to_wake_up+0x10/0x10
-> [  +0.000017]  ? srso_return_thunk+0x5/0x5f
-> [  +0.000013]  ? kasan_print_address_stack_frame+0x227/0x280
-> [  +0.000017]  ? __pfx_worker_thread+0x10/0x10
-> [  +0.000014]  kthread+0x396/0x830
-> [  +0.000013]  ? __pfx__raw_spin_lock_irq+0x10/0x10
-> [  +0.000015]  ? __pfx_kthread+0x10/0x10
-> [  +0.000012]  ? srso_return_thunk+0x5/0x5f
-> [  +0.000013]  ? __kasan_check_write+0x14/0x30
-> [  +0.000014]  ? srso_return_thunk+0x5/0x5f
-> [  +0.000013]  ? recalc_sigpending+0x180/0x210
-> [  +0.000015]  ? srso_return_thunk+0x5/0x5f
-> [  +0.000013]  ? __pfx_kthread+0x10/0x10
-> [  +0.000014]  ret_from_fork+0x31c/0x3e0
-> [  +0.000014]  ? __pfx_kthread+0x10/0x10
-> [  +0.000013]  ret_from_fork_asm+0x1a/0x30
-> [  +0.000019]  </TASK>
-> [  +0.000010] Modules linked in: rfcomm(E) cmac(E) algif_hash(E)
-> algif_skcipher(E) af_alg(E) snd_seq_dummy(E) snd_hrtimer(E) qrtr(E)
-> xt_MASQUERADE(E) nf_nat(E) nf_conntrack(E) nf_defrag_ipv6(E)
-> nf_defrag_ipv4(E) xt_mark(E) xt_tcpudp(E) nft_compat(E) nf_tables(E)
-> x_tables(E) bnep(E) snd_hda_codec_alc882(E) snd_hda_codec_atihdmi(E)
-> snd_hda_codec_realtek_lib(E) snd_hda_codec_hdmi(E) snd_hda_codec_generic(=
-E)
-> iwlmvm(E) snd_hda_intel(E) binfmt_misc(E) snd_hda_codec(E) snd_hda_core(E=
-)
-> mac80211(E) snd_intel_dspcfg(E) snd_intel_sdw_acpi(E) snd_hwdep(E)
-> snd_pcm(E) libarc4(E) snd_seq_midi(E) snd_seq_midi_event(E) snd_rawmidi(E=
-)
-> amd_atl(E) intel_rapl_msr(E) snd_seq(E) intel_rapl_common(E) iwlwifi(E)
-> jc42(E) snd_seq_device(E) btusb(E) snd_timer(E) btmtk(E) btrtl(E)
-> edac_mce_amd(E) eeepc_wmi(E) polyval_clmulni(E) btbcm(E)
-> ghash_clmulni_intel(E) asus_wmi(E) ee1004(E) platform_profile(E) btintel(=
-E)
-> snd(E) nls_iso8859_1(E) aesni_intel(E) soundcore(E) i2c_piix4(E)
-> cfg80211(E) sparse_keymap(E) wmi_bmof(E) bluetooth(E) k10temp(E) rapl(E)
-> [  +0.000300]  i2c_smbus(E) ccp(E) joydev(E) input_leds(E) gpio_amdpt(E)
-> mac_hid(E) sch_fq_codel(E) msr(E) parport_pc(E) ppdev(E) lp(E) parport(E)
-> efi_pstore(E) nfnetlink(E) dmi_sysfs(E) autofs4(E) cdc_ether(E) usbnet(E)
-> amdgpu(E) amdxcp(E) hid_generic(E) i2c_algo_bit(E) drm_ttm_helper(E) ttm(=
-E)
-> drm_exec(E) drm_panel_backlight_quirks(E) gpu_sched(E)
-> drm_suballoc_helper(E) video(E) drm_buddy(E) usbhid(E)
-> drm_display_helper(E) r8152(E) hid(E) mii(E) cec(E) ahci(E) rc_core(E)
-> igc(E) libahci(E) wmi(E)
-> [  +0.000294] CR2: 0000000000000000
-> [  +0.000013] ---[ end trace 0000000000000000 ]---
->
-> The crash happens when we unconditionally call into the timing generator
-> manual trigger hook:
->
->   pipe_ctx->stream_res.tg->funcs->program_manual_trigger(...)
->
-> On some configurations the timing generator (tg), its funcs table, or the
-> program_manual_trigger callback can be NULL. Guard all of these before
-> calling the hook. If the first pipe matching the stream cannot trigger,
-> keep scanning to find another matching pipe with a valid hook.
->
-> Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
-> Cc: Alexander Deucher <alexander.deucher@amd.com>
-> Cc: Christian Koenig  <christian.koenig@amd.com>
->
-> Suggested-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-> Signed-off-by: Vitaly Prosyak <vitaly.prosyak@amd.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> index f59020f1a722..ecd08580937d 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c
-> @@ -522,8 +522,10 @@ bool dc_stream_program_cursor_position(
->                         struct pipe_ctx *pipe_ctx =3D
-> &dc->current_state->res_ctx.pipe_ctx[i];
->
->                         /* trigger event on first pipe with current strea=
-m
-> */
-> -                       if (stream =3D=3D pipe_ctx->stream) {
-> -
->  pipe_ctx->stream_res.tg->funcs->program_manual_trigger(pipe_ctx->
-> stream_res.tg);
-> +                       if (stream =3D=3D pipe_ctx->stream &&
-> +
->  pipe_ctx->stream_res.tg->funcs->program_manual_trigger) {
-> +
->  pipe_ctx->stream_res.tg->funcs->program_manual_trigger(
-> +                                       pipe_ctx->stream_res.tg);
->                                 break;
->                         }
->                 }
-> --
-> 2.52.0
->
->
+ error: initializer element is not a compile-time constant
+ 3309 | static unsigned long task_max = TASK_SIZE_MAX;
+      |                                 ^~~~~~~~~~~~~
 
---000000000000f9e399064a2d3501
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+And this will almost certainly (and certainly in everything I tested) become a
+compile-time constant via the optimiser so to all intents and purposes it _is_
+essentially compile-time.
 
-<div dir=3D"ltr"><div>Successfully tested on Polaris 11 / DCE 11.2.</div><d=
-iv><br></div><div>Reviewed-and-tested-by: Mario Kleiner &lt;<a href=3D"mail=
-to:mario.kleiner.de@gmail.com">mario.kleiner.de@gmail.com</a>&gt;</div></di=
-v><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" cla=
-ss=3D"gmail_attr">On Fri, Feb 6, 2026 at 2:32=E2=80=AFAM &lt;<a href=3D"mai=
-lto:vitaly.prosyak@amd.com">vitaly.prosyak@amd.com</a>&gt; wrote:<br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">From: Vitaly Prosyak &lt;=
-<a href=3D"mailto:vitaly.prosyak@amd.com" target=3D"_blank">vitaly.prosyak@=
-amd.com</a>&gt;<br>
-<br>
-KASAN reports a NULL instruction fetch (RIP=3D0x0) from<br>
-dc_stream_program_cursor_position():<br>
-<br>
-=C2=A0 BUG: kernel NULL pointer dereference, address: 0000000000000000<br>
-=C2=A0 RIP: 0010:0x0<br>
-=C2=A0 Call Trace:<br>
-=C2=A0 =C2=A0 dc_stream_program_cursor_position+0x344/0x920 [amdgpu]<br>
-=C2=A0 =C2=A0 amdgpu_dm_atomic_commit_tail+...<br>
-<br>
-[=C2=A0 +1.041013] BUG: kernel NULL pointer dereference, address: 000000000=
-0000000<br>
-[=C2=A0 +0.000027] #PF: supervisor instruction fetch in kernel mode<br>
-[=C2=A0 +0.000013] #PF: error_code(0x0010) - not-present page<br>
-[=C2=A0 +0.000012] PGD 0 P4D 0<br>
-[=C2=A0 +0.000017] Oops: Oops: 0010 [#1] SMP KASAN NOPTI<br>
-[=C2=A0 +0.000017] CPU: 0 UID: 0 PID: 10 Comm: kworker/0:1 Tainted: G=C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 E=C2=A0 =C2=A0 =C2=A0 =C2=A06.18.0+ #3 =
-PREEMPT(voluntary)<br>
-[=C2=A0 +0.000023] Tainted: [E]=3DUNSIGNED_MODULE<br>
-[=C2=A0 +0.000010] Hardware name: ASUS System Product Name/ROG STRIX B550-F=
- GAMING (WI-FI), BIOS 1401 12/03/2020<br>
-[=C2=A0 +0.000016] Workqueue: events drm_mode_rmfb_work_fn<br>
-[=C2=A0 +0.000022] RIP: 0010:0x0<br>
-[=C2=A0 +0.000017] Code: Unable to access opcode bytes at 0xffffffffffffffd=
-6.<br>
-[=C2=A0 +0.000015] RSP: 0018:ffffc9000017f4c8 EFLAGS: 00010246<br>
-[=C2=A0 +0.000016] RAX: 0000000000000000 RBX: ffff88810afdda80 RCX: 1ffff11=
-0457000d1<br>
-[=C2=A0 +0.000014] RDX: 1ffffffff87b75bd RSI: 0000000000000000 RDI: ffff888=
-10afdda80<br>
-[=C2=A0 +0.000014] RBP: ffffc9000017f538 R08: 0000000000000000 R09: ffff888=
-22b800690<br>
-[=C2=A0 +0.000013] R10: 0000000000000000 R11: 0000000000000000 R12: fffffff=
-fc3dbac20<br>
-[=C2=A0 +0.000014] R13: 0000000000000000 R14: ffff88811ab80000 R15: dffffc0=
-000000000<br>
-[=C2=A0 +0.000014] FS:=C2=A0 0000000000000000(0000) GS:ffff888434599000(000=
-0) knlGS:0000000000000000<br>
-[=C2=A0 +0.000015] CS:=C2=A0 0010 DS: 0000 ES: 0000 CR0: 0000000080050033<b=
-r>
-[=C2=A0 +0.000013] CR2: ffffffffffffffd6 CR3: 000000010ee88000 CR4: 0000000=
-000350ef0<br>
-[=C2=A0 +0.000014] Call Trace:<br>
-[=C2=A0 +0.000010]=C2=A0 &lt;TASK&gt;<br>
-[=C2=A0 +0.000010]=C2=A0 dc_stream_program_cursor_position+0x344/0x920 [amd=
-gpu]<br>
-[=C2=A0 +0.001086]=C2=A0 ? __pfx_mutex_lock+0x10/0x10<br>
-[=C2=A0 +0.000015]=C2=A0 ? unwind_next_frame+0x18b/0xa70<br>
-[=C2=A0 +0.000019]=C2=A0 amdgpu_dm_atomic_commit_tail+0x1124/0xfa20 [amdgpu=
-]<br>
-[=C2=A0 +0.001040]=C2=A0 ? ret_from_fork_asm+0x1a/0x30<br>
-[=C2=A0 +0.000018]=C2=A0 ? filter_irq_stacks+0x90/0xa0<br>
-[=C2=A0 +0.000022]=C2=A0 ? __pfx_amdgpu_dm_atomic_commit_tail+0x10/0x10 [am=
-dgpu]<br>
-[=C2=A0 +0.001058]=C2=A0 ? kasan_save_track+0x18/0x70<br>
-[=C2=A0 +0.000015]=C2=A0 ? kasan_save_alloc_info+0x37/0x60<br>
-[=C2=A0 +0.000015]=C2=A0 ? __kasan_kmalloc+0xc3/0xd0<br>
-[=C2=A0 +0.000013]=C2=A0 ? __kmalloc_cache_noprof+0x1aa/0x600<br>
-[=C2=A0 +0.000016]=C2=A0 ? drm_atomic_helper_setup_commit+0x788/0x1450<br>
-[=C2=A0 +0.000017]=C2=A0 ? drm_atomic_helper_commit+0x7e/0x290<br>
-[=C2=A0 +0.000014]=C2=A0 ? drm_atomic_commit+0x205/0x2e0<br>
-[=C2=A0 +0.000015]=C2=A0 ? process_one_work+0x629/0xf80<br>
-[=C2=A0 +0.000016]=C2=A0 ? worker_thread+0x87f/0x1570<br>
-[=C2=A0 +0.000020]=C2=A0 ? srso_return_thunk+0x5/0x5f<br>
-[=C2=A0 +0.000014]=C2=A0 ? __kasan_check_write+0x14/0x30<br>
-[=C2=A0 +0.000014]=C2=A0 ? srso_return_thunk+0x5/0x5f<br>
-[=C2=A0 +0.000013]=C2=A0 ? _raw_spin_lock_irq+0x8a/0xf0<br>
-[=C2=A0 +0.000015]=C2=A0 ? __pfx__raw_spin_lock_irq+0x10/0x10<br>
-[=C2=A0 +0.000016]=C2=A0 ? srso_return_thunk+0x5/0x5f<br>
-[=C2=A0 +0.000013]=C2=A0 ? __kasan_check_write+0x14/0x30<br>
-[=C2=A0 +0.000014]=C2=A0 ? srso_return_thunk+0x5/0x5f<br>
-[=C2=A0 +0.000013]=C2=A0 ? __wait_for_common+0x204/0x460<br>
-[=C2=A0 +0.000015]=C2=A0 ? sched_clock_noinstr+0x9/0x10<br>
-[=C2=A0 +0.000014]=C2=A0 ? __pfx_schedule_timeout+0x10/0x10<br>
-[=C2=A0 +0.000014]=C2=A0 ? local_clock_noinstr+0xe/0xd0<br>
-[=C2=A0 +0.000015]=C2=A0 ? __pfx___wait_for_common+0x10/0x10<br>
-[=C2=A0 +0.000014]=C2=A0 ? srso_return_thunk+0x5/0x5f<br>
-[=C2=A0 +0.000013]=C2=A0 ? __wait_for_common+0x204/0x460<br>
-[=C2=A0 +0.000014]=C2=A0 ? __pfx_schedule_timeout+0x10/0x10<br>
-[=C2=A0 +0.000015]=C2=A0 ? __kasan_kmalloc+0xc3/0xd0<br>
-[=C2=A0 +0.000015]=C2=A0 ? srso_return_thunk+0x5/0x5f<br>
-[=C2=A0 +0.000013]=C2=A0 ? wait_for_completion_timeout+0x1d/0x30<br>
-[=C2=A0 +0.000015]=C2=A0 ? srso_return_thunk+0x5/0x5f<br>
-[=C2=A0 +0.000013]=C2=A0 ? drm_crtc_commit_wait+0x32/0x180<br>
-[=C2=A0 +0.000015]=C2=A0 ? srso_return_thunk+0x5/0x5f<br>
-[=C2=A0 +0.000013]=C2=A0 ? drm_atomic_helper_wait_for_dependencies+0x46a/0x=
-800<br>
-[=C2=A0 +0.000019]=C2=A0 commit_tail+0x231/0x510<br>
-[=C2=A0 +0.000017]=C2=A0 drm_atomic_helper_commit+0x219/0x290<br>
-[=C2=A0 +0.000015]=C2=A0 ? __pfx_drm_atomic_helper_commit+0x10/0x10<br>
-[=C2=A0 +0.000016]=C2=A0 drm_atomic_commit+0x205/0x2e0<br>
-[=C2=A0 +0.000014]=C2=A0 ? __pfx_drm_atomic_commit+0x10/0x10<br>
-[=C2=A0 +0.000013]=C2=A0 ? __pfx_drm_connector_free+0x10/0x10<br>
-[=C2=A0 +0.000014]=C2=A0 ? __pfx___drm_printfn_info+0x10/0x10<br>
-[=C2=A0 +0.000017]=C2=A0 ? srso_return_thunk+0x5/0x5f<br>
-[=C2=A0 +0.000013]=C2=A0 ? drm_atomic_set_crtc_for_connector+0x49e/0x660<br=
->
-[=C2=A0 +0.000015]=C2=A0 ? drm_atomic_set_fb_for_plane+0x155/0x290<br>
-[=C2=A0 +0.000015]=C2=A0 drm_framebuffer_remove+0xa9b/0x1240<br>
-[=C2=A0 +0.000014]=C2=A0 ? finish_task_switch.isra.0+0x15a/0x840<br>
-[=C2=A0 +0.000015]=C2=A0 ? __switch_to+0x385/0xda0<br>
-[=C2=A0 +0.000015]=C2=A0 ? srso_safe_ret+0x1/0x20<br>
-[=C2=A0 +0.000013]=C2=A0 ? __pfx_drm_framebuffer_remove+0x10/0x10<br>
-[=C2=A0 +0.000016]=C2=A0 ? kasan_print_address_stack_frame+0x221/0x280<br>
-[=C2=A0 +0.000015]=C2=A0 drm_mode_rmfb_work_fn+0x14b/0x240<br>
-[=C2=A0 +0.000015]=C2=A0 process_one_work+0x629/0xf80<br>
-[=C2=A0 +0.000012]=C2=A0 ? srso_return_thunk+0x5/0x5f<br>
-[=C2=A0 +0.000013]=C2=A0 ? __kasan_check_write+0x14/0x30<br>
-[=C2=A0 +0.000019]=C2=A0 worker_thread+0x87f/0x1570<br>
-[=C2=A0 +0.000013]=C2=A0 ? __pfx__raw_spin_lock_irqsave+0x10/0x10<br>
-[=C2=A0 +0.000014]=C2=A0 ? __pfx_try_to_wake_up+0x10/0x10<br>
-[=C2=A0 +0.000017]=C2=A0 ? srso_return_thunk+0x5/0x5f<br>
-[=C2=A0 +0.000013]=C2=A0 ? kasan_print_address_stack_frame+0x227/0x280<br>
-[=C2=A0 +0.000017]=C2=A0 ? __pfx_worker_thread+0x10/0x10<br>
-[=C2=A0 +0.000014]=C2=A0 kthread+0x396/0x830<br>
-[=C2=A0 +0.000013]=C2=A0 ? __pfx__raw_spin_lock_irq+0x10/0x10<br>
-[=C2=A0 +0.000015]=C2=A0 ? __pfx_kthread+0x10/0x10<br>
-[=C2=A0 +0.000012]=C2=A0 ? srso_return_thunk+0x5/0x5f<br>
-[=C2=A0 +0.000013]=C2=A0 ? __kasan_check_write+0x14/0x30<br>
-[=C2=A0 +0.000014]=C2=A0 ? srso_return_thunk+0x5/0x5f<br>
-[=C2=A0 +0.000013]=C2=A0 ? recalc_sigpending+0x180/0x210<br>
-[=C2=A0 +0.000015]=C2=A0 ? srso_return_thunk+0x5/0x5f<br>
-[=C2=A0 +0.000013]=C2=A0 ? __pfx_kthread+0x10/0x10<br>
-[=C2=A0 +0.000014]=C2=A0 ret_from_fork+0x31c/0x3e0<br>
-[=C2=A0 +0.000014]=C2=A0 ? __pfx_kthread+0x10/0x10<br>
-[=C2=A0 +0.000013]=C2=A0 ret_from_fork_asm+0x1a/0x30<br>
-[=C2=A0 +0.000019]=C2=A0 &lt;/TASK&gt;<br>
-[=C2=A0 +0.000010] Modules linked in: rfcomm(E) cmac(E) algif_hash(E) algif=
-_skcipher(E) af_alg(E) snd_seq_dummy(E) snd_hrtimer(E) qrtr(E) xt_MASQUERAD=
-E(E) nf_nat(E) nf_conntrack(E) nf_defrag_ipv6(E) nf_defrag_ipv4(E) xt_mark(=
-E) xt_tcpudp(E) nft_compat(E) nf_tables(E) x_tables(E) bnep(E) snd_hda_code=
-c_alc882(E) snd_hda_codec_atihdmi(E) snd_hda_codec_realtek_lib(E) snd_hda_c=
-odec_hdmi(E) snd_hda_codec_generic(E) iwlmvm(E) snd_hda_intel(E) binfmt_mis=
-c(E) snd_hda_codec(E) snd_hda_core(E) mac80211(E) snd_intel_dspcfg(E) snd_i=
-ntel_sdw_acpi(E) snd_hwdep(E) snd_pcm(E) libarc4(E) snd_seq_midi(E) snd_seq=
-_midi_event(E) snd_rawmidi(E) amd_atl(E) intel_rapl_msr(E) snd_seq(E) intel=
-_rapl_common(E) iwlwifi(E) jc42(E) snd_seq_device(E) btusb(E) snd_timer(E) =
-btmtk(E) btrtl(E) edac_mce_amd(E) eeepc_wmi(E) polyval_clmulni(E) btbcm(E) =
-ghash_clmulni_intel(E) asus_wmi(E) ee1004(E) platform_profile(E) btintel(E)=
- snd(E) nls_iso8859_1(E) aesni_intel(E) soundcore(E) i2c_piix4(E) cfg80211(=
-E) sparse_keymap(E) wmi_bmof(E) bluetooth(E) k10temp(E) rapl(E)<br>
-[=C2=A0 +0.000300]=C2=A0 i2c_smbus(E) ccp(E) joydev(E) input_leds(E) gpio_a=
-mdpt(E) mac_hid(E) sch_fq_codel(E) msr(E) parport_pc(E) ppdev(E) lp(E) parp=
-ort(E) efi_pstore(E) nfnetlink(E) dmi_sysfs(E) autofs4(E) cdc_ether(E) usbn=
-et(E) amdgpu(E) amdxcp(E) hid_generic(E) i2c_algo_bit(E) drm_ttm_helper(E) =
-ttm(E) drm_exec(E) drm_panel_backlight_quirks(E) gpu_sched(E) drm_suballoc_=
-helper(E) video(E) drm_buddy(E) usbhid(E) drm_display_helper(E) r8152(E) hi=
-d(E) mii(E) cec(E) ahci(E) rc_core(E) igc(E) libahci(E) wmi(E)<br>
-[=C2=A0 +0.000294] CR2: 0000000000000000<br>
-[=C2=A0 +0.000013] ---[ end trace 0000000000000000 ]---<br>
-<br>
-The crash happens when we unconditionally call into the timing generator<br=
->
-manual trigger hook:<br>
-<br>
-=C2=A0 pipe_ctx-&gt;stream_res.tg-&gt;funcs-&gt;program_manual_trigger(...)=
-<br>
-<br>
-On some configurations the timing generator (tg), its funcs table, or the<b=
-r>
-program_manual_trigger callback can be NULL. Guard all of these before<br>
-calling the hook. If the first pipe matching the stream cannot trigger,<br>
-keep scanning to find another matching pipe with a valid hook.<br>
-<br>
-Cc: Aurabindo Pillai &lt;<a href=3D"mailto:aurabindo.pillai@amd.com" target=
-=3D"_blank">aurabindo.pillai@amd.com</a>&gt;<br>
-Cc: Alexander Deucher &lt;<a href=3D"mailto:alexander.deucher@amd.com" targ=
-et=3D"_blank">alexander.deucher@amd.com</a>&gt;<br>
-Cc: Christian Koenig=C2=A0 &lt;<a href=3D"mailto:christian.koenig@amd.com" =
-target=3D"_blank">christian.koenig@amd.com</a>&gt;<br>
-<br>
-Suggested-by: Aurabindo Pillai &lt;<a href=3D"mailto:aurabindo.pillai@amd.c=
-om" target=3D"_blank">aurabindo.pillai@amd.com</a>&gt;<br>
-Signed-off-by: Vitaly Prosyak &lt;<a href=3D"mailto:vitaly.prosyak@amd.com"=
- target=3D"_blank">vitaly.prosyak@amd.com</a>&gt;<br>
----<br>
-=C2=A0drivers/gpu/drm/amd/display/dc/core/dc_stream.c | 6 ++++--<br>
-=C2=A01 file changed, 4 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c b/drivers/gpu/=
-drm/amd/display/dc/core/dc_stream.c<br>
-index f59020f1a722..ecd08580937d 100644<br>
---- a/drivers/gpu/drm/amd/display/dc/core/dc_stream.c<br>
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_stream.c<br>
-@@ -522,8 +522,10 @@ bool dc_stream_program_cursor_position(<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 struct pipe_ctx *pipe_ctx =3D &amp;dc-&gt;current_state-&gt;res_=
-ctx.pipe_ctx[i];<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 /* trigger event on first pipe with current stream */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0if (stream =3D=3D pipe_ctx-&gt;stream) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pipe_ctx-&gt;stream_res.tg-&gt;funcs-=
-&gt;program_manual_trigger(pipe_ctx-&gt;<a href=3D"http://stream_res.tg" re=
-l=3D"noreferrer" target=3D"_blank">stream_res.tg</a>);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0if (stream =3D=3D pipe_ctx-&gt;stream &amp;&amp;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pipe_ctx-&gt;stream_res.tg-&gt;funcs-=
-&gt;program_manual_trigger) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pipe_ctx-&gt;stream_res.tg-&gt;funcs-=
-&gt;program_manual_trigger(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pipe_ctx-=
-&gt;<a href=3D"http://stream_res.tg" rel=3D"noreferrer" target=3D"_blank">s=
-tream_res.tg</a>);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--- <br>
-2.52.0<br>
-<br>
-</blockquote></div>
+But the point of doing it this way is to maintain, as much as possible,
+one-to-one translation between the previous approach and the new with as little
+noise/friction as possible.
 
---000000000000f9e399064a2d3501--
+Making this a function makes things really horrible honestly.
+
+Because vma_remap_flags() suddenly because a vague thing - I'd assume this was a
+function doing something. So now do we call it get_vma_remap_flags()? Suddenly
+something nice-ish like:
+
+	if (vma_flags_test(flags, VMA_REMAP_FLAGS)) {
+		...
+	}
+
+Become:
+
+	if (vma_flags_test(flags, get_vma_remap_flags())) {
+		...
+	}
+
+And now it's SUPER ambiguous as to what you're doing there. I'd assume right
+away that get_vma_remap_flags() was going off and doing something or referencing
+a static variable or something.
+
+Given the compile will treat the former _exactly_ as if it were a compile-time
+constant it's just adding unnecessary ambiguity.
+
+So is it something we can live with?
+
+If it looks like a duck, walks like a duck and quacks like a duck, but isn't
+there when the pond is first dug out, can we still call it a duck? ;)
+
+>
+> It looks like we can make this a nice inlined (commented!) lower-cased
+> C function as a little low-priority cleanup.
+>
+> > Rest LGTM though.
+> >
+> > Acked-by: Pedro Falcato <pfalcato@suse.de>
+>
+> Great, thanks.
+
+Cheers, Lorenzo
