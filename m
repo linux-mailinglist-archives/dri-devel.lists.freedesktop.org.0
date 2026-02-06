@@ -2,92 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uFulBcBfhWmfAgQAu9opvQ
+	id YBHYJNNlhWn2BAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 04:28:00 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 04:53:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F80BF9BBA
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 04:27:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB266F9DC2
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 04:53:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A795510E0F1;
-	Fri,  6 Feb 2026 03:27:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 827EF10E03E;
+	Fri,  6 Feb 2026 03:53:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ddiXuutO";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="JrFLBpRF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
- [209.85.222.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F6A810E0F1
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 03:27:55 +0000 (UTC)
-Received: by mail-qk1-f170.google.com with SMTP id
- af79cd13be357-8c70c6b2bcaso164559485a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Feb 2026 19:27:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770348474; cv=none;
- d=google.com; s=arc-20240605;
- b=TZjUWPb3Hwx+j8B27ODIGuiM360sES3F7SvUwtTFj0ICqlK1d/4K0/sTu341+iMV/v
- lsz/iDbN8D9FPoZeeEc53pgxBLv9uD277ETIhS8o4bQszywK3hi4s8gfbnkqwZhZapzY
- gVnSZN7g4wtyPxIPSfqsYg2lAznfciGubR56Yhx0NEImP9bO4CeC4l3M8LX37/M5DG8H
- 7C9UmvmS+Kqo70iVFNrtmkXOjhbjwFeHLjg09DgWglsiccY1DUlVttfab3BDj3RWx54j
- uY6K9+bshA0sKQDhJ8oBm+zo3P+oUKaoh9ldSKZqyKOsPYeJwxUt39eKu64BTvEhk07v
- Rc3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
- bh=EPIKgpVggIu3dVhICA3wTQ7+oeXoACxe3xzb0kIp9rY=;
- fh=A08XZwmmb57jzirbgTkluPSvjDeiJMkkojF1n6qDmTk=;
- b=CDDqjcTQ7X466zbJ5ZlzzUzuOwYeKC9MVV8OYxHGFV3Et0tfhCDbyA1TZbz5pWfOPH
- jfhnhFJrbWtpHOGRVfH0tHRneS1xo+TrXeR+fUHq7bPVE+peyDUUQeyW5DKK5seLjdr6
- jTY0dOFQtPazB+HCeXJozYgy3PYxM2vF7Xy9rVTT6msQzS8hrutvz6M1STI58YfNsvIl
- 6MdE5/ZI0UjSweRd+akVNw4Qu0d74Pv29FTCqkq/d0huxGJrVZYUX1xUKMtBawoVwwkD
- unoGqCRKVo4I4BksdMiReG3rg/aij9ypeTF+Vu7p9ITPMD3XojmAuuqj5FsXd3rWF2H3
- z0vw==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770348474; x=1770953274; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=EPIKgpVggIu3dVhICA3wTQ7+oeXoACxe3xzb0kIp9rY=;
- b=ddiXuutO1WTqZd98eQiFJkC1bD4GmaopkNJQx5J1ojgHTgpD1dg+rbvX1/oDb6deQ5
- WH7SVOie0RhxavEWL9IFQKeCijbINmoGaKCL7U5bEMHtrmlVo/jX4OTbBarCEzGDKKbt
- rd3dWxIX0/HgB5kAmR6/jhzwoksVD9kpPgO2QFwkiaxmUWgkrAdEaNVcAZilOcLV6isV
- aC6SOiHVDI9y8Hz9EVy4uRFSZQL8xnSj7zvh31DfFy//hUFWT7bJJ42AU8ji/dD4Q4UJ
- kDjhf6/385mH6LjXPeg1nbz+XNtRTlopup4p8kXTeGK7s22+rmmNu+hztMwj65STjjhW
- iy1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770348474; x=1770953274;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EPIKgpVggIu3dVhICA3wTQ7+oeXoACxe3xzb0kIp9rY=;
- b=eWpDZrRz0235JQ7y3PZlOtyYdL3qrhYH7k9c+hjudnA7aCZk1VaJINiLKbaQc1Mcsj
- o9+N2lecQo+x88E0dRwVoTeejGlcmxne154ROfbHPdK5jViWlnyz9DliInxYjQxZYQ9t
- D7yjp+jskX8k+lb/rmF+5EoSTP0acTBuNC20CorEmbX19o/YZFFNY8jVu0hJLQQ/LCKH
- yMgkKBjEXJmC5RRFBoQN6aIS9dfXZ21CGqhGhrpZlINHwAqWuPebxi30CVYWzqvligom
- Dd2vaaaZb7r6zmMxnNFaUnjJo0AYJGiD6BORpDx8bNH6CMUyLaU7i/yfbC265RrcixQb
- 0I0Q==
-X-Gm-Message-State: AOJu0YzJLgsm57eqj7wVp5oQQWB4pW0uYxml7wbGD25TAW7wKUhnb0dy
- Afnfc4kSyJ659mwpx26VNy5jgYgZa8LOCZ5eQb0l3Sif886h738JZGx/GJ2qwz+LyE8OG4qGQzb
- UO0Pjg5dpQzSl6n82a5Jt2CvstXnYN1Y=
-X-Gm-Gg: AZuq6aKXKoJ33tspon2stPryq6qdy/N0PiTnkzuRgxXA8XqBBe0XBE2mrFVXOAlawgM
- H2228GfJ78Zbet3vgf3A4qH7k+OuLa8+9KroFVF9UdwuVuVojBdTthkuL1cSnUVLbmXnC/oxt8n
- O2GGGk4oQXtyNGBCIFd7DkbOSTDK790HVo2zgOMVVA9DwSk3cs4GEFxkw0vrJFkDqcYEi0VGY/T
- y7Nx+UkUVom8qfwRFpqsw8YTB0vnTyp2wYwYCIBhG2LI9AXgnzg26g9BQlaENTPFS2v+pyooth/
- PMfyIZafLt9qt4ZhdnViy068FnuJdoWo/joRqdE6VBAQqbBaBYHLW0g=
-X-Received: by 2002:a05:620a:462c:b0:8b2:598d:6e66 with SMTP id
- af79cd13be357-8caef30bf03mr180315985a.22.1770348473816; Thu, 05 Feb 2026
- 19:27:53 -0800 (PST)
+Received: from SN4PR2101CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11012009.outbound.protection.outlook.com
+ [40.93.195.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F8E810E03E
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 03:53:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=W2/n+X0oGr7HbwvEdKSaCeF8e7VKLrgQRR/euYDhpVfmPlv8ALD6cFYedSPo6qRf8Nmi8IHOUHZ7vzygks4Xi1PopwZN34NzEKGw/Nu+wYBF0OERAKk8+YvEbLHSK1hibxwauPp0bFE6ajEQUSuLwp7vGEtBC2hiGn5uSKXHjM50BMGW8sY/NWfrS0oXDHkxuAyqYKr1Zl6iUp5ZBnU/RtQgQe0ngUmIjpYykQdfNwSWVvYl/UV0X/SwT51U31Vi61fgf5/eWQnNeDbWnnMNO2Q2jzXxhnIVYekUh3DFf3vvQjsgFXrFyfaexcXtVXVLTSl4MpbD5KeAPBB8cWW93w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hFMedcs0ro/OBdj8LkAGmXvLCwTyXE99oSAAB09gaS0=;
+ b=TTJLPgIreWGUsWnaRA62rs85J90vgP+UxGKiMtCwO5+1m9n/JYACH6VoOC3PISbSBkHacNokwTj2BrF/5/edKMEAHoy//Sge53Sz5OpekMfB3CVyDsrM+u2R793M28Zdb2A+lXn5Iex92esnhuzQFbW/j9TNpxBllRF5hNpUhHR9nghV96uK8gFUHKhA+9aP3FGuYzGvtRQCWt6Qn6ByjttrTeCAD1RXOPY22IVU03XXPmulKGQawJE2/xwoeG6Vvy0p267s7GEdavs9BA3V84U3AbZ77yJkO5BL+WQW8DfAlfwAAzGR6HpsfwUGSGaFPyLeEm5kt+HbOEYbNSxppQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hFMedcs0ro/OBdj8LkAGmXvLCwTyXE99oSAAB09gaS0=;
+ b=JrFLBpRFMGT6iMLPfKvqiAKCLZBMM0CtlHVg07s0Kn9b1PXR0pbQ3UrJFS3+IPAVeXNLgIGVvxiCqFLFGCqdvBMi08YZatW6XRbEEO+euiQ2PNhxP1HySk9ptiyjLJxKR/SDHCs9xWTwodyJJ6/Fd6RScKSbDJQetCpElLW2GQt3e8B7S5pXNOcr8Kd9JeOjqwrAV5BuUDN2ZotEdMBOZii9Ld718RMgLnO/cNyTn/Um+Dal4T5z1jzRLKm5AySB1D1QvrRXodTz+nwTSj2HMW/iO+ECbvz528IkbWOGe22Prg4vFc7cgAmsTAWLzNe1Vj709MRUgnxuxCtRUsU08g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ2PR12MB9161.namprd12.prod.outlook.com (2603:10b6:a03:566::20)
+ by CY3PR12MB9703.namprd12.prod.outlook.com (2603:10b6:930:102::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.15; Fri, 6 Feb
+ 2026 03:53:48 +0000
+Received: from SJ2PR12MB9161.namprd12.prod.outlook.com
+ ([fe80::d9d1:8c49:a703:b017]) by SJ2PR12MB9161.namprd12.prod.outlook.com
+ ([fe80::d9d1:8c49:a703:b017%4]) with mapi id 15.20.9587.010; Fri, 6 Feb 2026
+ 03:53:47 +0000
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Felix Gu <ustc.gu@gmail.com>
+Cc: Thierry Reding <treding@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Felix Gu <ustc.gu@gmail.com>
+Subject: Re: [PATCH] drm/tegra: dc: Fix device node reference leak in
+ tegra_dc_has_output()
+Date: Fri, 06 Feb 2026 12:53:44 +0900
+Message-ID: <3491452.e9J7NaK4W3@senjougahara>
+In-Reply-To: <20260128-dc-v1-1-a88205826301@gmail.com>
+References: <20260128-dc-v1-1-a88205826301@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ClientProxiedBy: TYCP286CA0057.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:2b5::20) To SJ2PR12MB9161.namprd12.prod.outlook.com
+ (2603:10b6:a03:566::20)
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 6 Feb 2026 13:27:42 +1000
-X-Gm-Features: AZwV_QiBRF5XnR522WnGNvZl1F-qC-HaXZ4seUMkFqm7HR8ByBgwC33VJyGRDFA
-Message-ID: <CAPM=9twrSEbBC1pGvxghuJtYzPtRHxN1OC103HLj3v_d+h_P2g@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.19-final
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR12MB9161:EE_|CY3PR12MB9703:EE_
+X-MS-Office365-Filtering-Correlation-Id: bd1156e8-b64c-464c-f48c-08de653354ff
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0; ARA:13230040|1800799024|10070799003|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UmtNZjVxNEpWRTU2TUFUdkVxbS85V09rMEVyN0s2dDZmZWlHU2xrR0N4TzZE?=
+ =?utf-8?B?ZGdEUjhoRjBHYTJPckkzTnVtN2M5NjdBUThHVzNuWTJTbHdmeitQUjNQd2Iw?=
+ =?utf-8?B?Tk9ydTFCbUJpdytnckxCWjhVUjNMaGpuZCt5UWtSTGNBY3gzSDNBQmVtdndZ?=
+ =?utf-8?B?N3lFUjZJV3FrYmsvWmI3MTVmY0xEV1lETURrVVlGZE83RUpSa25mV25Ka0Qz?=
+ =?utf-8?B?a2xLRTRhdEIxbS8rNktsdG4yb2l3Q0JjUVJqTFBIRHlzR0hSalRUckg5eFlS?=
+ =?utf-8?B?clJITS9ncHVhWGR2R1lHZXJHeTdyVzZobHVkVTMwSHp1VzF0S0Izd0NodkNI?=
+ =?utf-8?B?WU9ZNXd6S3pSNiszZ1IvN2xHM0pXd3l2V3BueXBEaUkwNk9lQUUwYzA5dTht?=
+ =?utf-8?B?eUxTczlYNXJLV25xL3M5cE1qNUkrNlN0Q2pEeE81YVJvK1RVTHBFMzBpT05O?=
+ =?utf-8?B?S3paRXlxTDBjYWpzQzZXS1VOb0hlSmVsajJoSk1jUUY4bW52RjdmdDRlWjN2?=
+ =?utf-8?B?TGxHQTJmRC9pZnNUanJiOVI1VVErOHk3RmJHc0ppeldMMHRzOW5FMWFMRXZE?=
+ =?utf-8?B?Z1dyYktXMERUWVYvV2FMSUcwckN0MkFwTDJFaGtic1phSnh5RUlneU9HcXVF?=
+ =?utf-8?B?RGp3Z2xLZkxqVEtZeUN0UzhCb3diZ2V3T0loZjltQlZsRVZqR0tVUENoWHd4?=
+ =?utf-8?B?UzM3OTdFZEhsazlzQkJJZHpTODRpODB4cEk1bjVSVmZUV2JpMVljQUk3aTFB?=
+ =?utf-8?B?TVdLVXBNV3dVeVFJb21iWG5Ld2hiOERVWVBvR3lsVHZaTnRMZHd4MDRaQ002?=
+ =?utf-8?B?MW1sUGVTWDdPL2kwZHZnRjVuUGxFQ09yL1R0WUYrMy9FaG1CeEdzWlNJRjlq?=
+ =?utf-8?B?Y2U4Tk9BTkk2Y05ZZExxaDNIaFcvMStSTnc2K2dpc1lXOVVrN2pUdVhsbGZl?=
+ =?utf-8?B?Q3Iyd3NZZmZ0WmZYaE9PUnFiZy90THJXQ05qaFFJdkNzZjJ0dzJTcjRDc0FG?=
+ =?utf-8?B?a1Z6OWxtVlhjdWd4QzRCeEtFZFQrZFpTSFJWVXIxN0lwU0tMWFZ3OFJ5U1Fq?=
+ =?utf-8?B?STl2WnYxVHJ5Ty80eFlwSUxiR05ENGZEeDB6WDdlTlRjeHpUZDQ2b3ZtV2JK?=
+ =?utf-8?B?Qml4elN4SHhkZ3dTWTdrZ29lWVZHVkhHSVNPMGV3eGphc3VuRlZncUo5NU5z?=
+ =?utf-8?B?dTN2QUV4cTY3V1VuSDVQNzZVT2dGamlXQ3BicVFITnkxWXJtNnd5bVhTOXNT?=
+ =?utf-8?B?R0RFekxTeVBqSllkbEloUGFMREx6RnVVay9yc2x6R25TTzM1K1MwL0JIVjQ3?=
+ =?utf-8?B?c1d5UDFyYkVNZDNyY0JxT2RuOCsrZnhsS3c4dFdiOFNyZWNNM1RITzBoVVUw?=
+ =?utf-8?B?eWM5Ky9LYmI4SHY1NjR1b2JVNVBpbTNteFpUWTQyYmdSMW9KaHBPSGR1bTVJ?=
+ =?utf-8?B?TWQ5R3BpSmZIY0pGaGRPZEJoenhSQ1A2Z2ZJQmdkQkFjNHRTOU9MMlNyWWVW?=
+ =?utf-8?B?a1JOemk5Y0NMTGlOV1BNa0tCcUNuTDBETzdDeklXeVNhMko1QzJka3UyYWRL?=
+ =?utf-8?B?eFUzcVA4VjdKYm43ZFdIUmNYQmlkV3hBSkZMbGhHV2tzcW4vM1RxRDNaNU9H?=
+ =?utf-8?B?NGpaWGtUUVlUVjc1ZU4zNm01QXV4Z2tMTzFWN2lIb0YvZHkva0pqeFl3Y0dw?=
+ =?utf-8?B?SjJBd3BHS1RjbXJKM2lLNlk2SUR1c3RCdU5HeTI2MUpRUS9kcXBDWGg1Y081?=
+ =?utf-8?B?eDRIa05nbVRsS2J5bE4rd284MlB2bDBqSFBVcGRyK1U3OUEzQmVJdHZDYU5N?=
+ =?utf-8?B?TFVqb2piNzZOQ01BeHE0UXJnMWpXR2M0Y3A3WEZPQnN5Z0pnVFh0eG9VRUUw?=
+ =?utf-8?B?UW9NWStqSVJyVE9Ka1RCQWFwb2NFUWt4VVlsUzcvYVRzZTR4NHN4dXZtK2xS?=
+ =?utf-8?B?ajBFblhUYjlnbmd5SUVkMktUT3h3QkJKTVRIWmxkbjYxdTA3OFZSR2dwckRX?=
+ =?utf-8?B?Z05qWU5KZ0VNeCs4Z1dIUXdiOFNncW9FMVVqNWkxUVdZSDJwbHEvNVFaMnJW?=
+ =?utf-8?B?cWE4UksreTlsRmdBMzNjVTRKN3kyQ21GSjJsT0dkbFhtQS9BRUtOSWNrMDlr?=
+ =?utf-8?Q?bmfw=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ2PR12MB9161.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(10070799003)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YWEvOEIzc2FCcDFLZ2RLVHkwM2ZTNENrMnRrMnc4N1U1dS9YZ0NJZk5BUXht?=
+ =?utf-8?B?bXlGS1doT21mUGFMMDUwYzFoYzZ4SjZGanBBaGJURFRTOTl4a3V3czNpTnI5?=
+ =?utf-8?B?aUFWMVloKzBtR25QNXJseldQVGgzekQrV05SM2FNOFRJUlp4cHJONm9uZEpO?=
+ =?utf-8?B?L0p0T2RGVWR6VkxoUDhJMDlIeGJuZG9MMjZCaThFWWw3clkvbE03RlpHR0F3?=
+ =?utf-8?B?MTZrSThUdDZmZjdzMkxEN3NwM0hPUmYxbWRiZDJEOGlMUmNRRlkxcWdnek05?=
+ =?utf-8?B?allsZDVMK3g5R0xlZm9zc1RWcHRIWlViTmZIZjB1TU9ZRnduS29VT3FNeFZs?=
+ =?utf-8?B?YWdqeEdlQzU4VGJnQTZLa05sOGQxVGFuTjFsS2NhcFhLUWRyendaRStGOXlM?=
+ =?utf-8?B?ampVcjV3YVNwVVFEWGI2OHN0MnJoWnVCTnl5QldSQThHS0V6SnZjaUpOSFlk?=
+ =?utf-8?B?SWJBVGV6WTcxOTRnaTR4dElreXhxMGxuODgxSjF6d3NHNzZFZUhJRkdrcDBv?=
+ =?utf-8?B?WksxLzZhME1heUlvSHNQVFkrcGdFUmtVcXVsWWlyb3VDa0lqTUVFb2dWYnIr?=
+ =?utf-8?B?QlIrZkhXbjZ6b1J0MXhQTzB4UW1DTHZueVR6VWM1cXFDNHVkeDFXNVBkV1ZU?=
+ =?utf-8?B?eFZBQzR5eUFBUFgvdVpiQ3BJRW5VWXcxUjEyUG5QWnlPaGd0elJLclpmN0dz?=
+ =?utf-8?B?Wk1oQ3czN0dhVkNmb2VjYnMrOFRUQnpGTktOb3hQbWMxa1NhM0lxdXdXNHlk?=
+ =?utf-8?B?MlFQQVdhcjc2QTR2ZWlweUdIVjZQMTFTWDNlTW0wTXovK3VCOU9ESTRuWWRo?=
+ =?utf-8?B?M3JLbHhrWnZCVVMrWmxuQVI4S2ZkZzRVZ3NobU91cXJLbHdXaWZCSUdmVUVZ?=
+ =?utf-8?B?bi9DODJibnVRNVJpQ1FXQXJoSWM4LzY3TDZTSFdnS21KZk1BUFl4R2lzclJT?=
+ =?utf-8?B?b3h1TXF2THBVbTdyY0pMTE5WV3RIVjl2YXdabkFieDdmbUxDc3diOUo5WkRV?=
+ =?utf-8?B?M3c2dW5aaGE4Q1E1K2pidGVQNXlrdkVmRTczajd4d1dRZExjVVZpbjBMTC96?=
+ =?utf-8?B?YUFDdHduSytsa0NFZGxPQldnZXhKOWx1SHJZM21NRXFzYW93aVpJbDBFbUpk?=
+ =?utf-8?B?cndHQ2VSODUwMUoxendhcm1semswc1B3dEJtTCtOSmlQcjVqMzFiczRvU2dr?=
+ =?utf-8?B?Tk5PMitOKzVTOVBLWTlRS0Z2RlJwV2xxUkpTWlRFdGc1N3R5TDU1djQrRm1X?=
+ =?utf-8?B?aFkvQ0d6OGRMc2dCOVVJcDU1VmUrSGxEa1ZRRnFudWROcGxlTGhCelV0R3Yv?=
+ =?utf-8?B?cmhmblNyaGtGR09NZm15bVdFN1o3c0lxMGxIRVM0d3NzMnhxUVpiSHVSOTRN?=
+ =?utf-8?B?SjVQYkRVSm5VbnVFalVHK1krNFZvZUdyVFFNK3Z0eWErZG1IMHVpejdTeHNx?=
+ =?utf-8?B?by9lbUFEekpuNkhDVThTWXVlZ2I5YUxpemdMRlQ1Wms3S3lQcjM0RU9PRHlH?=
+ =?utf-8?B?SUsyak10ZlRzRFRKcUJzdVJBTEw3RkEyTlBla0t0ZlRndDgxOXo0UHdwbnBZ?=
+ =?utf-8?B?d1M0ZlFnMENKM0tDVklnTUcyRkUvelhQb09zbVlqaWhZcEl0WE94Mi8wcGp4?=
+ =?utf-8?B?NkZuWElDZzRydjZHK1lXUGtqMURRbW9JZ0I4SmlHc1g1TWlPSzNRWUQrc1B5?=
+ =?utf-8?B?OHo5dW94MlhBYUZLeGxwTDFBOXV2MFl5TmtFVVJOam1zM3M4aWp0MGI4d0to?=
+ =?utf-8?B?NUxmRHM4bjViZ296QlVKRTNpRUN4S0hwUzF0TmVOc05YeklBZDYyRWV4S0tY?=
+ =?utf-8?B?aDlVOEY2dC83NDNWVDlNL1BRY3dHL0luMzR2bVRITDU3QTBQL0ltSGlaQzlX?=
+ =?utf-8?B?VXBlbzZhNmJ3R05MTnN2WEFCVHdLck9UYWR3NkxMaVY0Vkp2V20xTnR5cnRs?=
+ =?utf-8?B?anluMHZrU0o0M3psL2xEU3BkREdkMkc5S1NEQ2NlQmhDay8rUWxIS29WWjFu?=
+ =?utf-8?B?c3VkRVZHemh4bzExaU02bFV2SWFxenZDK0tkSWU0cFhCMHMveFVYeFkrenF4?=
+ =?utf-8?B?SXpCNjZwZEg5aGF4SU96MDYxb09EY082VU9hN1pTQjlLbGpCL1BtYW5jWW5h?=
+ =?utf-8?B?cjZqTU1aZTJtNjdjUGViUmRrMG00VERmSVBxb09tY2k3SzJaOUcydnRXNFg0?=
+ =?utf-8?B?SysxTm4vb2xwTHVhSzF3YTBBVUhyMWs0b2VrSlFyTXh3VllLcEl6QzNGajYy?=
+ =?utf-8?B?eGRFM21JYTFxbDZpSmVSN0pON1FMajhRTmdFVGp5d0JuNC9VbHRuSi9xemhO?=
+ =?utf-8?B?emJmajFySHY2RWx3SUVoQVZhMGY3TXdINm1XamJXdEFtMFNrYU1nN1ZoWFU1?=
+ =?utf-8?Q?NWJfPXOhZ4Li07jmbXTRIC56kPRD8kfLJUmH/cWz0TWJZ?=
+X-MS-Exchange-AntiSpam-MessageData-1: NaDUr8e1OZWxsw==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd1156e8-b64c-464c-f48c-08de653354ff
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR12MB9161.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 03:53:47.8798 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pMy+y+owZ9Yhi5UYOoXc5LgHd3O7J5TuEEIiqfFxIZTdW4hJCBX7tzll/mxF1NdQ0kZrnnB6fOwvLGQ1wsvjlw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY3PR12MB9703
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,259 +179,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch,nvidia.com];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_ALL(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:torvalds@linux-foundation.org,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[mperttunen@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:thierry.reding@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:jonathanh@nvidia.com,m:ustc.gu@gmail.com,m:treding@nvidia.com,m:linux-tegra@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:thierryreding@gmail.com,m:ustcgu@gmail.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FROM_NEQ_ENVFROM(0.00)[mperttunen@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[nvidia.com,lists.freedesktop.org,vger.kernel.org,gmail.com];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 4F80BF9BBA
+	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,nvidia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: EB266F9DC2
 X-Rspamd-Action: no action
 
-Hey Linus,
+On Wednesday, January 28, 2026 1:43=E2=80=AFAM Felix Gu wrote:
+> The of_for_each_phandle() macro increments the reference count of the
+> device node it iterates over. If the loop exits early, the reference must
+> be released manually.
+>=20
+> In tegra_dc_has_output(), the function returns true immediately when a
+> match is found, failing to release the current node's reference.
+>=20
+> Fix this by adding a call to of_node_put() before returning from the loop=
+.
+>=20
+> Fixes: c57997bce423 ("drm/tegra: sor: Add Tegra186 support")
+> Signed-off-by: Felix Gu <ustc.gu@gmail.com>
+> ---
+>  drivers/gpu/drm/tegra/dc.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+> index 01e9d5011dd8..9bf6c008a5ea 100644
+> --- a/drivers/gpu/drm/tegra/dc.c
+> +++ b/drivers/gpu/drm/tegra/dc.c
+> @@ -101,8 +101,10 @@ bool tegra_dc_has_output(struct tegra_dc *dc, struct=
+ device *dev)
+>  	int err;
+> =20
+>  	of_for_each_phandle(&it, err, np, "nvidia,outputs", NULL, 0)
+> -		if (it.node =3D=3D dev->of_node)
+> +		if (it.node =3D=3D dev->of_node) {
+> +			of_node_put(it.node);
+>  			return true;
+> +		}
+> =20
+>  	return false;
+>  }
+>=20
+> ---
+> base-commit: 615aad0f61e0c7a898184a394dc895c610100d4f
+> change-id: 20260127-dc-e396ab5384da
+>=20
+> Best regards,
+> --=20
+> Felix Gu <ustc.gu@gmail.com>
+>=20
+>=20
 
-Weekly pull, last set of fixes for 6.19. The usual xe/amdgpu
-selection, and a couple of misc changes for gma500, mgag200 and
-bridge. There is a nouveau revert, and also a set of changes that fix
-a regression since we moved to 570 firmware. Suspend/resume was broken
-on a bunch of GPUs. The fix looks big, but it's mostly just
-refactoring to pass an extra bit down the nouveau abstractions to the
-firmware command.
+Acked-by: Mikko Perttunen <mperttunen@nvidia.com>
 
-Dave.
 
-drm-fixes-2026-02-06:
-drm fixes for 6.19-final
 
-amdgpu:
-- MES 11 old firmware compatibility fix
-- ASPM fix
-- DC LUT fixes
-
-amdkfd:
-- Fix possible double deletion of validate list
-
-xe:
-- Fix topology query pointer advance
-- A couple of kerneldoc fixes
-- Disable D3Cold for BMG only on specific platforms
-- Fix CFI violation in debugfs access
-
-nouveau:
-- Revert adding atomic commit functions as it regresses pre-nv50.
-- Fix suspend/resume bugs exposed by enabling 570 firmware.
-
-gma500:
-- Revert a regression caused by vblank changes.
-
-mgag200:
-- Replace a busy loop with a polling loop to fix that blocking 1 cpu
-for 300 ms roughly every 20 minutes.
-
-bridge:
-- imx8mp-hdmi-pa: Use runtime pm to fix a bug in channel ordering.
-The following changes since commit 18f7fcd5e69a04df57b563360b88be72471d6b62:
-
-  Linux 6.19-rc8 (2026-02-01 14:01:13 -0800)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2026-02-06
-
-for you to fetch changes up to 7ef92d2ecef7486d46eda0f911dc53b873fdf567:
-
-  Merge tag 'amd-drm-fixes-6.19-2026-02-05' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2026-02-06
-12:44:54 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.19-final
-
-amdgpu:
-- MES 11 old firmware compatibility fix
-- ASPM fix
-- DC LUT fixes
-
-amdkfd:
-- Fix possible double deletion of validate list
-
-xe:
-- Fix topology query pointer advance
-- A couple of kerneldoc fixes
-- Disable D3Cold for BMG only on specific platforms
-- Fix CFI violation in debugfs access
-
-nouveau:
-- Revert adding atomic commit functions as it regresses pre-nv50.
-- Fix suspend/resume bugs exposed by enabling 570 firmware.
-
-gma500:
-- Revert a regression caused by vblank changes.
-
-mgag200:
-- Replace a busy loop with a polling loop to fix that blocking 1 cpu
-for 300 ms roughly every 20 minutes.
-
-bridge:
-- imx8mp-hdmi-pa: Use runtime pm to fix a bug in channel ordering.
-
-----------------------------------------------------------------
-Bert Karwatzki (1):
-      Revert "drm/amd: Check if ASPM is enabled from PCIe subsystem"
-
-Daniele Ceraolo Spurio (1):
-      drm/xe/guc: Fix CFI violation in debugfs access.
-
-Dave Airlie (6):
-      nouveau/gsp: use rpc sequence numbers properly.
-      nouveau: add a third state to the fini handler.
-      nouveau/gsp: fix suspend/resume regression on r570 firmware
-      Merge tag 'drm-misc-fixes-2026-02-05' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-      Merge tag 'drm-xe-fixes-2026-02-05' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-      Merge tag 'amd-drm-fixes-6.19-2026-02-05' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-
-Harish Kasiviswanathan (1):
-      drm/amdgpu: Fix double deletion of validate_list
-
-Jacob Keller (1):
-      drm/mgag200: fix mgag200_bmc_stop_scanout()
-
-Jani Nikula (1):
-      Revert "drm/gma500: use drm_crtc_vblank_crtc()"
-
-John Ogness (1):
-      Revert "drm/nouveau/disp: Set drm_mode_config_funcs.atomic_(check|commit)"
-
-Karthik Poosa (1):
-      drm/xe/pm: Disable D3Cold for BMG only on specific platforms
-
-Mario Limonciello (1):
-      drm/amd: Set minimum version for set_hw_resource_1 on gfx11 to 0x52
-
-Melissa Wen (3):
-      drm/amd/display: fix wrong color value mapping on MCM shaper LUT
-      drm/amd/display: extend delta clamping logic to CM3 LUT helper
-      drm/amd/display: remove assert around dpp_base replacement
-
-Shengjiu Wang (1):
-      drm/bridge: imx8mp-hdmi-pai: enable PM runtime
-
-Shuicheng Lin (4):
-      drm/xe/query: Fix topology query pointer advance
-      drm/xe: Fix kerneldoc for xe_migrate_exec_queue
-      drm/xe: Fix kerneldoc for xe_gt_tlb_inval_init_early
-      drm/xe: Fix kerneldoc for xe_tlb_inval_job_alloc_dep
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   | 18 +++++------
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |  3 --
- drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             |  2 +-
- .../gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c | 37 +++++++++++++++++-----
- .../drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h |  2 +-
- .../drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c    |  9 +++---
- .../drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c    | 18 ++++++-----
- .../drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c  | 16 ++++++----
- drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c       | 15 +++++++++
- drivers/gpu/drm/gma500/psb_irq.c                   | 36 ++++++++-------------
- drivers/gpu/drm/mgag200/mgag200_bmc.c              | 31 +++++++-----------
- drivers/gpu/drm/mgag200/mgag200_drv.h              |  6 ++++
- drivers/gpu/drm/nouveau/include/nvif/client.h      |  2 +-
- drivers/gpu/drm/nouveau/include/nvif/driver.h      |  2 +-
- drivers/gpu/drm/nouveau/include/nvkm/core/device.h |  3 +-
- drivers/gpu/drm/nouveau/include/nvkm/core/engine.h |  2 +-
- drivers/gpu/drm/nouveau/include/nvkm/core/object.h |  5 +--
- drivers/gpu/drm/nouveau/include/nvkm/core/oproxy.h |  2 +-
- drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h |  4 +--
- .../drm/nouveau/include/nvkm/core/suspend_state.h  | 11 +++++++
- drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h  |  6 ++++
- drivers/gpu/drm/nouveau/nouveau_display.c          |  2 --
- drivers/gpu/drm/nouveau/nouveau_drm.c              |  2 +-
- drivers/gpu/drm/nouveau/nouveau_nvif.c             | 10 ++++--
- drivers/gpu/drm/nouveau/nvif/client.c              |  4 +--
- drivers/gpu/drm/nouveau/nvkm/core/engine.c         |  4 +--
- drivers/gpu/drm/nouveau/nvkm/core/ioctl.c          |  4 +--
- drivers/gpu/drm/nouveau/nvkm/core/object.c         | 20 +++++++++---
- drivers/gpu/drm/nouveau/nvkm/core/oproxy.c         |  2 +-
- drivers/gpu/drm/nouveau/nvkm/core/subdev.c         | 18 +++++++++--
- drivers/gpu/drm/nouveau/nvkm/core/uevent.c         |  2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/ce/ga100.c     |  2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/ce/priv.h      |  2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/device/base.c  | 22 ++++++++++---
- drivers/gpu/drm/nouveau/nvkm/engine/device/pci.c   |  4 +--
- drivers/gpu/drm/nouveau/nvkm/engine/device/priv.h  |  2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/device/user.c  |  2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/disp/base.c    |  4 +--
- drivers/gpu/drm/nouveau/nvkm/engine/disp/chan.c    |  2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/falcon.c       |  4 +--
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/base.c    |  2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/uchan.c   |  6 ++--
- drivers/gpu/drm/nouveau/nvkm/engine/gr/base.c      |  4 +--
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c     |  2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/nv04.c      |  2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/nv10.c      |  2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/nv20.c      |  2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/nv20.h      |  2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/gr/nv40.c      |  4 +--
- drivers/gpu/drm/nouveau/nvkm/engine/mpeg/nv44.c    |  2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/sec2/base.c    |  2 +-
- drivers/gpu/drm/nouveau/nvkm/engine/xtensa.c       |  4 +--
- drivers/gpu/drm/nouveau/nvkm/subdev/acr/base.c     |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/bar/base.c     |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/clk/base.c     |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/base.c |  4 +--
- drivers/gpu/drm/nouveau/nvkm/subdev/fault/base.c   |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/fault/user.c   |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/gpio/base.c    |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/base.c     |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/gh100.c    |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h     |  8 ++---
- .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/fbsr.c |  2 +-
- .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c  |  8 ++---
- .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/rpc.c  |  6 ++++
- .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r570/fbsr.c |  8 ++---
- .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r570/gsp.c  |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/rm.h    |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/tu102.c    |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/i2c/base.c     |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/instmem/base.c |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/pci/base.c     |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/base.c     |  2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/therm/base.c   |  6 ++--
- drivers/gpu/drm/nouveau/nvkm/subdev/timer/base.c   |  2 +-
- drivers/gpu/drm/xe/xe_guc.c                        |  6 ++--
- drivers/gpu/drm/xe/xe_guc.h                        |  2 +-
- drivers/gpu/drm/xe/xe_migrate.c                    |  2 +-
- drivers/gpu/drm/xe/xe_pm.c                         | 13 ++++++--
- drivers/gpu/drm/xe/xe_query.c                      |  2 +-
- drivers/gpu/drm/xe/xe_tlb_inval.c                  |  2 +-
- drivers/gpu/drm/xe/xe_tlb_inval_job.c              |  2 +-
- 82 files changed, 290 insertions(+), 189 deletions(-)
- create mode 100644 drivers/gpu/drm/nouveau/include/nvkm/core/suspend_state.h
