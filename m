@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OCG1Hq32hWnHIgQAu9opvQ
+	id IIl7Fx33hWnHIgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 15:11:57 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 15:13:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE3CFFEAA1
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 15:11:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBD5AFEAC7
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 15:13:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01C8010E7B8;
-	Fri,  6 Feb 2026 14:11:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A47210E7BA;
+	Fri,  6 Feb 2026 14:13:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nfraprado@collabora.com header.b="arY3KAn1";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nfraprado@collabora.com header.b="f8S4RADj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D3E610E7B8
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 14:11:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1770387104; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD62610E7BA
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 14:13:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1770387214; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=Xe9seo1vMmx6WUOY3sSHMnNIOKQE94sGkmuOejebW59ydYHPRriIBCIGZlw03ekUN1fLUDI+fTN+1FJsc/eLO4CmA07nNuazd5XOx8st/3mX8gwW38mIbAywTay++wk7uR4evhXW+KDFL/1HSmQcPhaLqX3FfYA1CCncHzfpu0Y=
+ b=Gt+coUoet8QH0TDqiquTwhBLpKT89/Akykd/Qhjkz+jl4xNs7KMymHAUTG5im9Or4TqucZ2BmEn0njypAvlSnrU0vHer9kUO4mDd+YQvjAJ7xO9uQCQea4EUtbJmT4IS2Ig54a4+ca3NVm9fI/d3E+WQezSKM8A8Ja9lrkLGPzc=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1770387104;
+ s=zohoarc; t=1770387214;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=d0CsGpSSY891OKiqXJQcsVUYiswvS3iXbG826PIIuuQ=; 
- b=A4x7TaYLxdxzUvo6g7NctDqcPs/B40PM7hC4cYr5N1b2xQuR/ACxwBB1CPwK9Pnc/VGrVUFLxEw5LrkFQ+0bVfNfmWEU+yb7vp4SY6STIoS7nV4uhgjzOzC7Z8cY4aWpOlhLVhMkK1tchdemy36pTwZCD3MesPLUcoiPi+dkLVo=
+ bh=xvam5HJNIvasJ/2nIByj8E9UTXU+JTYDZ6M6R68d/EY=; 
+ b=fUkZAKXTaUrhAz7q63XAWElVsPJYHqA+Hp0X7XdnlH632o2qI2OSov7SMd9nUGoF0PmMA/wqtpKjbE2HAkcHrxffcWcZnxTMpnzkxpOLwV7gSOSXYmcQQ4a3TWbPZxAXpOm04A0wG2pYjf3j0MTVCMGGFBFq3v0mEa0T0A0Y9vU=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nfraprado@collabora.com;
  dmarc=pass header.from=<nfraprado@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770387104; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770387214; 
  s=zohomail; d=collabora.com; i=nfraprado@collabora.com;
  h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=d0CsGpSSY891OKiqXJQcsVUYiswvS3iXbG826PIIuuQ=;
- b=arY3KAn1xw8Bz+nVBksW+IvJGFZdH5eW0dZUrSlL2ivHZh4FezVPorvy5bg6W1WZ
- zPXH7P4NuuF63lI06B4H6DHlKXOqJK6ZWDq7dbHX6CRgL3u7cv4COcIWT68Zog3/1ZF
- KWPCkuoldm5fQqAV9qWmIkxrHjHVkJMsm1igq5TM=
-Received: by mx.zohomail.com with SMTPS id 1770387102870235.0357198020231;
- Fri, 6 Feb 2026 06:11:42 -0800 (PST)
-Message-ID: <3ebf96e04a4476ae58086f223ae68f422cd9e812.camel@collabora.com>
-Subject: Re: [PATCH 04/11] drm/mediatek: ovl: Enable per-plane color
- operations on MT8195
+ bh=xvam5HJNIvasJ/2nIByj8E9UTXU+JTYDZ6M6R68d/EY=;
+ b=f8S4RADjyViHt7femYhhlq9LTWkAFgUbqPBzyhXPNCt5x81+xJstzn2mZU0Dov8R
+ OWuvJTtRyW7N00h9PTXZOZkhVtCBeqk0nb56eVlWAo1aCoVPRqA1NeibY5I/GS5aafV
+ Kx0iTFB/RUyXh4pU5p/slXNB3oFcDjmaoP3h+Wnc=
+Received: by mx.zohomail.com with SMTPS id 1770387213516827.7987217683014;
+ Fri, 6 Feb 2026 06:13:33 -0800 (PST)
+Message-ID: <9849130a6c4da61bd7291f40a9a3d224d32ef08a.camel@collabora.com>
+Subject: Re: [PATCH 01/11] drm/mediatek: Introduce DDP plane_colorops_init()
+ hook
 From: =?ISO-8859-1?Q?N=EDcolas?= "F. R. A. Prado" <nfraprado@collabora.com>
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
@@ -55,11 +55,11 @@ To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
  daniels@collabora.com, ariel.dalessandro@collabora.com, kernel@collabora.com
-Date: Fri, 06 Feb 2026 09:11:40 -0500
-In-Reply-To: <e92ca2a7-7a7a-4a00-9fd8-ecacc588ffa9@collabora.com>
+Date: Fri, 06 Feb 2026 09:13:31 -0500
+In-Reply-To: <8d043341-9099-47b2-a1fe-538502e40f99@collabora.com>
 References: <20251223-mtk-ovl-pre-blend-colorops-v1-0-0cb99bd0ab33@collabora.com>
- <20251223-mtk-ovl-pre-blend-colorops-v1-4-0cb99bd0ab33@collabora.com>
- <e92ca2a7-7a7a-4a00-9fd8-ecacc588ffa9@collabora.com>
+ <20251223-mtk-ovl-pre-blend-colorops-v1-1-0cb99bd0ab33@collabora.com>
+ <8d043341-9099-47b2-a1fe-538502e40f99@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-8 
@@ -112,22 +112,24 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,collabora.com:dkim,collabora.com:mid]
-X-Rspamd-Queue-Id: EE3CFFEAA1
+X-Rspamd-Queue-Id: DBD5AFEAC7
 X-Rspamd-Action: no action
 
 On Fri, 2026-02-06 at 11:07 +0100, AngeloGioacchino Del Regno wrote:
 > Il 23/12/25 20:44, N=C3=ADcolas F. R. A. Prado ha scritto:
-> > MT8195's OVL hardware supports per-plane color operations. Enable
-> > support for it in the driver.
+> > Introduce a plane_colorops_init() hook to allow DDP components to
+> > define
+> > how to initialize the color pipeline on their planes.
 > >=20
 > > Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
 >=20
-> Agreed, but you're enabling something that doesn't exist.
-> Please move this commit at the end, so that you enable it after it's
-> all
-> implemented.
+> Just a nit for the commit description.
+>=20
+> In preparation for adding support for per-plane color pipelines,
+> introduce a new
+> plane_colorops_init() hook to allow [...etc]
 
-Ack, will do it in v2.
+Will do in v2!
 
 --=20
 Thanks,
