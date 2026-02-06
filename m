@@ -2,73 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YNx+HEFkhmmYMgQAu9opvQ
+	id XiJdAdVkhmkrMwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 22:59:29 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 23:01:57 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0FDE1039F2
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 22:59:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B63C103A04
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 23:01:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D455510E1EE;
-	Fri,  6 Feb 2026 21:59:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F6D210E93E;
+	Fri,  6 Feb 2026 22:01:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JC+hB3lW";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="LyKqhM8U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 031DF10E1EE
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 21:59:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770415163; x=1801951163;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=pyQ6zRJBMkqV7zsMhN8TlMrSiWM9hl6CFt/g/wO4Jjc=;
- b=JC+hB3lWCgpDQMd816cxHmNn0h82q5eGLHeXBWRdYafJFsJA8FqBIN5z
- dOIy838Zl3Cjql9hmhF5XJfRsYXiym8U9mJ16/hrpZdYOsCo3kvAprpSo
- Gj0QEr3/SJhD7XoUHwDbjcEKhZQNy9YiZQNcSvIu4zwO5ECJCcu89XMDK
- 96qFxRvG58s0cB9e1wpyz9TnQLBm6sERs1fcpqVxBOMqn47KSYf0Feulc
- cRM0dX+3HyRnZFAI+oxqenSPqeRAY6IRs1rk+QeGXse/9wzHsruUPB/LB
- NZICM1v4hcAEVNE0nbmjdUIByU1jQVmMjFg3ecYrMwdJcGJUKkmesKnVW Q==;
-X-CSE-ConnectionGUID: P78MRqpgRBeU4Xo0eADnbA==
-X-CSE-MsgGUID: DOPbMxrgQNixEfOQVEEMlw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="75248613"
-X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; d="scan'208";a="75248613"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2026 13:59:22 -0800
-X-CSE-ConnectionGUID: 28giitybSGm56aigh7emJg==
-X-CSE-MsgGUID: xTPaPPxuT7CXzYhBTOqbBA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; d="scan'208";a="210841562"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
- by fmviesa008.fm.intel.com with ESMTP; 06 Feb 2026 13:59:19 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1voTrA-00000000lCG-4ASs;
- Fri, 06 Feb 2026 21:59:16 +0000
-Date: Sat, 7 Feb 2026 05:58:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matt Coster <matt.coster@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Frank Binns <frank.binns@imgtec.com>,
- Brajesh Gupta <brajesh.gupta@imgtec.com>,
- Alessio Belle <alessio.belle@imgtec.com>,
- Alexandru Dadu <alexandru.dadu@imgtec.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Matt Coster <matt.coster@imgtec.com>
-Subject: Re: [PATCH 1/2] drm/imagination: Define packed BVNCs in the uapi
-Message-ID: <202602070500.zo0DrH6U-lkp@intel.com>
-References: <20260206-bvnc-cleanup-v1-1-f3c818541fbe@imgtec.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 025BB10E93E
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 22:01:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1770415311;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OJq+3L+9JXeM+d/EpzttD24Fxa4gsnfHqyDX3jISKjg=;
+ b=LyKqhM8UjgZNd/3nwMnKeaf17p27YvvabLTwt1GXHALJtZEapApBO0pmNDVvaddYciNZhI
+ qPTIDZSakfKY5/yvfMWd+AeMySYDO0K7m5LEt59zNvl42HStFqCSI4gZ5igniDlN4K2Nmo
+ JW30y3i9t5Fc8NBTumwaik8jTBWPC70=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-144-4_ATR6XYOM2MmnFJA6jfVA-1; Fri, 06 Feb 2026 17:01:48 -0500
+X-MC-Unique: 4_ATR6XYOM2MmnFJA6jfVA-1
+X-Mimecast-MFC-AGG-ID: 4_ATR6XYOM2MmnFJA6jfVA_1770415308
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-8bb9f029f31so923205385a.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Feb 2026 14:01:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770415308; x=1771020108;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5T5V4gT5bheYrPWddhGL53i3LiUJE9TPYRiptwUHacg=;
+ b=VoDNWdABGFjWdCnG7qqu/H7iDHvyA4xb5RlMaRskvJuREtfiS9AddJ+IKtMdMBmqaE
+ t3J7Qu35ZI+21y5Zc2B+5BBs5bqMxtQ6OnBjgYeKqJIowS/1B8Yf8rpVS9Mtp1ifCFC0
+ 1Ob5c4a6snVDO2HsE2zjmMPCcU1TNXvP2McPQtxpMCx8PemW5dkL/m9FsyVIo43o5DIk
+ 2p3VVTJoLENthwP1m+KRj0d1fEozbgW1eU8Qk0p8JRgt8Pm0EK3c/NM6WsKZ8rAfjTeZ
+ lPon4IAEK5IXeShI0La+4fjyavdwRSXabHQjd5JFsGX+TetmyfKSA7Y+fTTZDtccJSCM
+ jkyw==
+X-Gm-Message-State: AOJu0Yw9Z3+5trGZ7RdJbEotUyBZe8zabstqexffgyx28ihzxzRO1w0B
+ OHli85/TGSNXQHtPCOOm5b1N7YNjvpT8d4eA9pC5gkQVUfdokFf8u4ENFJx/hTAvESY7nMORssL
+ t0oxdvP8Efc5x7iIHnq/gz10ArDJl5mfwdZVv/XWojZgAZhJguuGuRAuzkpFv/cf//uSGLw==
+X-Gm-Gg: AZuq6aKsKnH4gau7012L9Dk6BmLnBuBTc5B4GKvrNNZEc1YCKBLlC5/ICgt5Iezdca6
+ KJVDml6RC3/f67bJjUnqkvCnCNWzRpb7f9IdgzV6OBKyHdfIv+DHnk/IuiI3OI2Xr9sxX0Y1MFd
+ piXbky9Fjvvi9u3AuDKtfno4mZgCGq1jfLUQioatQPFiFoAnfKLb7yTSAwkk4lcNIbPO9uexE2Z
+ j+XMqdfoGjeXkkTRGg/AFE4ihmNjEgrI9G1j/eGP50fY7T3jUzlZnIT3nhfS3HfXE04IwhGXFxI
+ L5M8dxrCI56CZsgb0SUmsHtl0AYcMSlilqoCnAqQ0mSSbn0TMxP5T+oBrgMGkSzBaeqTg+bdlXx
+ EPPMvPw==
+X-Received: by 2002:a05:620a:19a2:b0:8b2:f1cc:a14b with SMTP id
+ af79cd13be357-8caf1bc9789mr525809785a.87.1770415308049; 
+ Fri, 06 Feb 2026 14:01:48 -0800 (PST)
+X-Received: by 2002:a05:620a:19a2:b0:8b2:f1cc:a14b with SMTP id
+ af79cd13be357-8caf1bc9789mr525803185a.87.1770415307559; 
+ Fri, 06 Feb 2026 14:01:47 -0800 (PST)
+Received: from [192.168.8.4] ([100.0.180.93]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-8caf9ee8662sm266205485a.37.2026.02.06.14.01.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Feb 2026 14:01:46 -0800 (PST)
+Message-ID: <6d37ba2ccbe02fbc093c8e9b1a765c7791e47628.camel@redhat.com>
+Subject: Re: [PATCH v6 7/8] rust: Introduce iosys_map bindings
+From: lyude@redhat.com
+To: Alice Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, Daniel
+ Almeida <daniel.almeida@collabora.com>, linux-kernel@vger.kernel.org,
+ Miguel Ojeda	 <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng	 <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron	 <bjorn3_gh@protonmail.com>, Benno
+ Lossin <lossin@kernel.org>, Andreas Hindborg	 <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, Greg Kroah-Hartman	
+ <gregkh@linuxfoundation.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, Krishna Ketan Rai
+ <prafulrai522@gmail.com>, Tamir Duberstein	 <tamird@gmail.com>, Xiangfei
+ Ding <dingxiangfei2009@gmail.com>, Zhi Wang	 <zhiw@nvidia.com>, Matthew
+ Maurer <mmaurer@google.com>, Alexandre Courbot	 <acourbot@nvidia.com>
+Date: Fri, 06 Feb 2026 17:01:45 -0500
+In-Reply-To: <aWkJYyNds5zWpgYE@google.com>
+References: <20251202220924.520644-1-lyude@redhat.com>
+ <20251202220924.520644-8-lyude@redhat.com>
+ <DFOP5BY09539.AFY5L5FV1HNV@kernel.org> <aWkJYyNds5zWpgYE@google.com>
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260206-bvnc-cleanup-v1-1-f3c818541fbe@imgtec.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: v7HD1Wfz86P7tZm8QZlS5I7Vtd-rWjbvLJCz6LMTlWQ_1770415308
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,181 +114,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,collabora.com,kernel.org,gmail.com,garyguo.net,protonmail.com,umich.edu,linuxfoundation.org,linaro.org,nvidia.com,google.com];
 	RCVD_TLS_LAST(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:matt.coster@imgtec.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:llvm@lists.linux.dev,m:oe-kbuild-all@lists.linux.dev,m:frank.binns@imgtec.com,m:brajesh.gupta@imgtec.com,m:alessio.belle@imgtec.com,m:alexandru.dadu@imgtec.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[imgtec.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[lyude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:dakr@kernel.org,m:rust-for-linux@vger.kernel.org,m:daniel.almeida@collabora.com,m:linux-kernel@vger.kernel.org,m:ojeda@kernel.org,m:alex.gaynor@gmail.com,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:gregkh@linuxfoundation.org,m:viresh.kumar@linaro.org,m:fujita.tomonori@gmail.com,m:prafulrai522@gmail.com,m:tamird@gmail.com,m:dingxiangfei2009@gmail.com,m:zhiw@nvidia.com,m:mmaurer@google.com,m:acourbot@nvidia.com,m:alexgaynor@gmail.com,m:boqunfeng@gmail.com,m:fujitatomonori@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	FROM_NO_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lyude@redhat.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.995];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.987];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,01.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: C0FDE1039F2
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 4B63C103A04
 X-Rspamd-Action: no action
 
-Hi Matt,
+On Thu, 2026-01-15 at 15:36 +0000, Alice Ryhl wrote:
+>=20
+> The trait approach generally requires knowing the target type at
+> compile-time or paying dynamic function calls, but my understanding
+> is
+> that iosys exists because you might not know which variant you want
+> at
+> compile-time.
+>=20
+> Perhaps we need an
+>=20
+> =09enum Iosys {
+> =09=C2=A0=C2=A0=C2=A0 SystemMemory(...),
+> =09=C2=A0=C2=A0=C2=A0 DmaMemory(...),
+> =09}
+>=20
+> and implement Io for Iosys in terms of the inner types.
 
-kernel test robot noticed the following build errors:
+So - I didn't see this comment until now however: I personally think it
+can't hurt to have a wrapper around iosys_map simply because it makes
+it easier to pass back and forth from C APIs, and the other sideaffect
+of Io is that it's extremely trivial to implement it for the iosys map
+bindings.
 
-[auto build test ERROR on 55473b60178060a4fdb4631bd0c91879cc7d18d8]
+The one downside I could see is that I added C helper functions for all
+of the iosys map read/write operations which means they aren't
+currently inlined. But iirc there's work ongoing to allow for these to
+be inlined so I assume once that is finished there shouldn't be any
+additional overhead from this approach.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matt-Coster/drm-imagination-Define-packed-BVNCs-in-the-uapi/20260206-175844
-base:   55473b60178060a4fdb4631bd0c91879cc7d18d8
-patch link:    https://lore.kernel.org/r/20260206-bvnc-cleanup-v1-1-f3c818541fbe%40imgtec.com
-patch subject: [PATCH 1/2] drm/imagination: Define packed BVNCs in the uapi
-config: riscv-randconfig-001-20260206 (https://download.01.org/0day-ci/archive/20260207/202602070500.zo0DrH6U-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602070500.zo0DrH6U-lkp@intel.com/reproduce)
+Anyway - will send out the new version in a moment
+>=20
+> Alice
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602070500.zo0DrH6U-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/imagination/pvr_device.c:550:7: error: expression is not an integer constant expression
-     550 |         case PVR_PACKED_BVNC(33, 15, 11, 3):
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/imagination/pvr_device.h:490:2: note: expanded from macro 'PVR_PACKED_BVNC'
-     490 |         (FIELD_PREP(DRM_PVR_BVNC_B, b) | \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     491 |          FIELD_PREP(DRM_PVR_BVNC_V, v) | \
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     492 |          FIELD_PREP(DRM_PVR_BVNC_N, n) | \
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     493 |          FIELD_PREP(DRM_PVR_BVNC_C, c))
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/imagination/pvr_device.c:550:7: note: this use of statement expressions is not supported in a constant expression
-   drivers/gpu/drm/imagination/pvr_device.h:490:3: note: expanded from macro 'PVR_PACKED_BVNC'
-     490 |         (FIELD_PREP(DRM_PVR_BVNC_B, b) | \
-         |          ^
-   include/linux/bitfield.h:137:3: note: expanded from macro 'FIELD_PREP'
-     137 |                 __FIELD_PREP(_mask, _val, "FIELD_PREP: ");              \
-         |                 ^
-   include/linux/bitfield.h:90:3: note: expanded from macro '__FIELD_PREP'
-      90 |                 __BF_FIELD_CHECK_MASK(mask, val, pfx);                  \
-         |                 ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:631:2: note: expanded from macro 'compiletime_assert'
-     631 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:619:2: note: expanded from macro '_compiletime_assert'
-     619 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:603:2: note: expanded from macro '__compiletime_assert'
-     603 |         do {                                                            \
-         |         ^
-   drivers/gpu/drm/imagination/pvr_device.c:551:7: error: expression is not an integer constant expression
-     551 |         case PVR_PACKED_BVNC(36, 53, 104, 796):
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/imagination/pvr_device.h:490:2: note: expanded from macro 'PVR_PACKED_BVNC'
-     490 |         (FIELD_PREP(DRM_PVR_BVNC_B, b) | \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     491 |          FIELD_PREP(DRM_PVR_BVNC_V, v) | \
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     492 |          FIELD_PREP(DRM_PVR_BVNC_N, n) | \
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     493 |          FIELD_PREP(DRM_PVR_BVNC_C, c))
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/imagination/pvr_device.c:551:7: note: this use of statement expressions is not supported in a constant expression
-   drivers/gpu/drm/imagination/pvr_device.h:490:3: note: expanded from macro 'PVR_PACKED_BVNC'
-     490 |         (FIELD_PREP(DRM_PVR_BVNC_B, b) | \
-         |          ^
-   include/linux/bitfield.h:137:3: note: expanded from macro 'FIELD_PREP'
-     137 |                 __FIELD_PREP(_mask, _val, "FIELD_PREP: ");              \
-         |                 ^
-   include/linux/bitfield.h:90:3: note: expanded from macro '__FIELD_PREP'
-      90 |                 __BF_FIELD_CHECK_MASK(mask, val, pfx);                  \
-         |                 ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:631:2: note: expanded from macro 'compiletime_assert'
-     631 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:619:2: note: expanded from macro '_compiletime_assert'
-     619 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:603:2: note: expanded from macro '__compiletime_assert'
-     603 |         do {                                                            \
-         |         ^
-   drivers/gpu/drm/imagination/pvr_device.c:554:7: error: expression is not an integer constant expression
-     554 |         case PVR_PACKED_BVNC(36, 52, 104, 182):
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/imagination/pvr_device.h:490:2: note: expanded from macro 'PVR_PACKED_BVNC'
-     490 |         (FIELD_PREP(DRM_PVR_BVNC_B, b) | \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     491 |          FIELD_PREP(DRM_PVR_BVNC_V, v) | \
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     492 |          FIELD_PREP(DRM_PVR_BVNC_N, n) | \
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     493 |          FIELD_PREP(DRM_PVR_BVNC_C, c))
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/imagination/pvr_device.c:554:7: note: this use of statement expressions is not supported in a constant expression
-   drivers/gpu/drm/imagination/pvr_device.h:490:3: note: expanded from macro 'PVR_PACKED_BVNC'
-     490 |         (FIELD_PREP(DRM_PVR_BVNC_B, b) | \
-         |          ^
-   include/linux/bitfield.h:137:3: note: expanded from macro 'FIELD_PREP'
-     137 |                 __FIELD_PREP(_mask, _val, "FIELD_PREP: ");              \
-         |                 ^
-   include/linux/bitfield.h:90:3: note: expanded from macro '__FIELD_PREP'
-      90 |                 __BF_FIELD_CHECK_MASK(mask, val, pfx);                  \
-         |                 ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:631:2: note: expanded from macro 'compiletime_assert'
-     631 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:619:2: note: expanded from macro '_compiletime_assert'
-     619 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:603:2: note: expanded from macro '__compiletime_assert'
-     603 |         do {                                                            \
-         |         ^
-   3 errors generated.
-
-
-vim +550 drivers/gpu/drm/imagination/pvr_device.c
-
-1c21f240fbc1e47 Matt Coster 2026-01-13  545  
-1c21f240fbc1e47 Matt Coster 2026-01-13  546  static enum pvr_gpu_support_level
-1c21f240fbc1e47 Matt Coster 2026-01-13  547  pvr_gpu_support_level(const struct pvr_gpu_id *gpu_id)
-1c21f240fbc1e47 Matt Coster 2026-01-13  548  {
-1c21f240fbc1e47 Matt Coster 2026-01-13  549  	switch (pvr_gpu_id_to_packed_bvnc(gpu_id)) {
-1c21f240fbc1e47 Matt Coster 2026-01-13 @550  	case PVR_PACKED_BVNC(33, 15, 11, 3):
-1c21f240fbc1e47 Matt Coster 2026-01-13  551  	case PVR_PACKED_BVNC(36, 53, 104, 796):
-1c21f240fbc1e47 Matt Coster 2026-01-13  552  		return PVR_GPU_SUPPORTED;
-1c21f240fbc1e47 Matt Coster 2026-01-13  553  
-1c21f240fbc1e47 Matt Coster 2026-01-13  554  	case PVR_PACKED_BVNC(36, 52, 104, 182):
-1c21f240fbc1e47 Matt Coster 2026-01-13  555  		return PVR_GPU_EXPERIMENTAL;
-1c21f240fbc1e47 Matt Coster 2026-01-13  556  
-1c21f240fbc1e47 Matt Coster 2026-01-13  557  	default:
-1c21f240fbc1e47 Matt Coster 2026-01-13  558  		return PVR_GPU_UNKNOWN;
-1c21f240fbc1e47 Matt Coster 2026-01-13  559  	}
-1c21f240fbc1e47 Matt Coster 2026-01-13  560  }
-1c21f240fbc1e47 Matt Coster 2026-01-13  561  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
