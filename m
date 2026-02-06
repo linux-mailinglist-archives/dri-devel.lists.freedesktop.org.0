@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2F2UA3a9hWmpFwQAu9opvQ
+	id IGpODne9hWmpFwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 11:07:50 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 11:07:51 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5A38FC77F
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 11:07:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09608FC787
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 11:07:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F310210E6B9;
-	Fri,  6 Feb 2026 10:07:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7784010E6BE;
+	Fri,  6 Feb 2026 10:07:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="NX96ooyp";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QCU/vuEh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8723810E6B9
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 10:07:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 961A610E6B9
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 10:07:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1770372465;
- bh=jEvq53oMrqYEeQzv/eC2eWqajMXwQAx8xtAP8owsnCw=;
+ s=mail; t=1770372466;
+ bh=9fuBPc9bEbfZELGhdzbq1jFtq+pJY6BEhn2yGGEDIqQ=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=NX96ooypTynCmlKwtCAw/NkQRt9pF6gUhxECWCD71nzy+bBzRlYeKqKdsx5MSgYmx
- x/qTUhqfx1HhbZr9tcunJ0eP2c9zkunmy4pLmvnd00t3u620LR83QE4ldcaiZbIJWE
- 5YeHqNczrsaIaDRf29ywn7Vas3BS9BNp5xVpZu8YbX2Qb58X0XyYptfdPtnblhRylJ
- zla2Pd0kJBJzwtJT0UqfCckpFIoZSb41OLuiggBkSrhs/VuuZdvqydAPIvI63avUO+
- /2wQqoEdyVfpw3RsP3mMY5lJDGjABXlBu3twmLwAwM5D35lMc/AcIDVUGbJ4W6HfAj
- tV3H/1AqP4Nbw==
+ b=QCU/vuEhbGeqeSOEJFUbbfQ1ZstU0JYv3y5ZtuLxv0k/DgUWSBW4+xdDgR6BUBTcZ
+ lHX7rXNseGQJoCMR8R/rPpQpiHH6B/V0/6/hZ9ewN/SaAauuuAdJ3kqcbLqepdrkbm
+ /+tHtbIaBMDLWamHQPyuSOJzxX9SV4i3B02x1WSjRQ8W7/n5CBkQnhuPyiBBYJm3PO
+ XYhmc70gS2kTTGi5tQaEz9gjaZnnyOFPmvJwNIfvsC5bdKIvg7qRYLniCe2CXmFa0N
+ saQe+hexMwFxmB+ZqQ3BZ6qN7ylAhFt3Gzn5sC3E5aJkt5RndYdIxCHI51yibv0Cuk
+ 5Stgn3C3MB3RQ==
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 7CFC517E14F5;
- Fri,  6 Feb 2026 11:07:44 +0100 (CET)
-Message-ID: <e92ca2a7-7a7a-4a00-9fd8-ecacc588ffa9@collabora.com>
-Date: Fri, 6 Feb 2026 11:07:44 +0100
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 930AF17E1502;
+ Fri,  6 Feb 2026 11:07:45 +0100 (CET)
+Message-ID: <8d043341-9099-47b2-a1fe-538502e40f99@collabora.com>
+Date: Fri, 6 Feb 2026 11:07:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/11] drm/mediatek: ovl: Enable per-plane color
- operations on MT8195
+Subject: Re: [PATCH 01/11] drm/mediatek: Introduce DDP plane_colorops_init()
+ hook
 To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -55,10 +55,10 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  daniels@collabora.com, ariel.dalessandro@collabora.com, kernel@collabora.com
 References: <20251223-mtk-ovl-pre-blend-colorops-v1-0-0cb99bd0ab33@collabora.com>
- <20251223-mtk-ovl-pre-blend-colorops-v1-4-0cb99bd0ab33@collabora.com>
+ <20251223-mtk-ovl-pre-blend-colorops-v1-1-0cb99bd0ab33@collabora.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20251223-mtk-ovl-pre-blend-colorops-v1-4-0cb99bd0ab33@collabora.com>
+In-Reply-To: <20251223-mtk-ovl-pre-blend-colorops-v1-1-0cb99bd0ab33@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -108,38 +108,21 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: D5A38FC77F
+X-Rspamd-Queue-Id: 09608FC787
 X-Rspamd-Action: no action
 
 Il 23/12/25 20:44, Nícolas F. R. A. Prado ha scritto:
-> MT8195's OVL hardware supports per-plane color operations. Enable
-> support for it in the driver.
+> Introduce a plane_colorops_init() hook to allow DDP components to define
+> how to initialize the color pipeline on their planes.
 > 
 > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-Agreed, but you're enabling something that doesn't exist.
-Please move this commit at the end, so that you enable it after it's all
-implemented.
+Just a nit for the commit description.
 
-Cheers,
-Angelo
+In preparation for adding support for per-plane color pipelines, introduce a new
+plane_colorops_init() hook to allow [...etc]
 
-> ---
->   drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> index 46238c21b0ac..cfc6a3154f73 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> @@ -738,6 +738,7 @@ static const struct mtk_disp_ovl_data mt8195_ovl_driver_data = {
->   	.fmt_rgb565_is_0 = true,
->   	.smi_id_en = true,
->   	.supports_afbc = true,
-> +	.supports_plane_colorops = true,
->   	.blend_modes = BIT(DRM_MODE_BLEND_PREMULTI) |
->   		       BIT(DRM_MODE_BLEND_COVERAGE) |
->   		       BIT(DRM_MODE_BLEND_PIXEL_NONE),
-> 
+Otherwise,
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 
