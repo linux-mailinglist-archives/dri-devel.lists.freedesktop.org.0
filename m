@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oGPBHBfShWmOGwQAu9opvQ
+	id sP8bKh/VhWl7HAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 12:35:51 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 12:48:47 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8447FD4B7
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 12:35:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35102FD5B3
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 12:48:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0EC610E1A1;
-	Fri,  6 Feb 2026 11:35:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A02A410E02E;
+	Fri,  6 Feb 2026 11:48:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eg/JCpE9";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="glAf5kpN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B0DB10E1A1
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 11:35:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770377746; x=1801913746;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=JSF5pcLjyH9f13Yhs41JjhmwOxmO1Iv8GnJTsiRbMOw=;
- b=eg/JCpE9g5t40i7nVLpkk4QSuse0EVt1cQ0d2f306LJ1uJeShh6vGTaK
- /F0cTxN5liotOmzipqzG8Q/lcvtKPgQIsgwL294004YCLuZi0k9IpXZrD
- qChoF79FKvUg8Mqe6jwLPW8Dub/JbHsOqmpchdvmkLEae0I0w07euBJaN
- iIRD9HkaP96N3q7nc5hjgkvFLhEXotOJ4vSK8YYF/2GgQfIRA3bfI9Le8
- M6CB9iWciFdYyxmLrsvFSwd0KQnf7+9J2uISGInmlfzfLj59Y0RDPTKhh
- k/9N/q/Cq8QrbUR24nHDvpbnl5/VkgRuhouSmVn3x2pUlY1LSyD2qO9Co A==;
-X-CSE-ConnectionGUID: AGN11gQ4Rg2T7l06OCi64g==
-X-CSE-MsgGUID: f8stLjCnSeWL4LHhYMsk/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11692"; a="59155893"
-X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; d="scan'208";a="59155893"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2026 03:35:45 -0800
-X-CSE-ConnectionGUID: 1nv41lDjRwSzWGKgcYIsIg==
-X-CSE-MsgGUID: yUeHcC10RAq2bTLXy4WjtQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; d="scan'208";a="241509383"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.244.202])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2026 03:35:43 -0800
-Date: Fri, 6 Feb 2026 13:35:40 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Nam Cao <namcao@linutronix.de>
-Cc: ChanSoo Shin <csshin9928@gmail.com>, andy@kernel.org,
- gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v5] fbtft: limit dirty rows based on damage range
-Message-ID: <aYXSDNxFZ3OQvP0C@smile.fi.intel.com>
-References: <20260128203938.962414-1-csshin9928@gmail.com>
- <87y0l668ki.fsf@yellow.woof> <aYXEHajVeKvIMmL7@smile.fi.intel.com>
- <87ms1mb0vy.fsf@yellow.woof>
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8B1910E02E
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 11:48:42 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4f6sml4PpWz9sGT;
+ Fri,  6 Feb 2026 12:48:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1770378519;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cvI4siTU8KLYE21eDySdcS4XJV/PDx+9McxS7rdud24=;
+ b=glAf5kpNvJsQrX3wkQizqgcl7EqhET73QwE4zmVDjs8ogF9lDjD2WGn6A/sCAnBKNI1QzM
+ ZKsRbzTrF9KctjNMILggT2zQHvcXtxI2/OSxzQ4OqvaB/RI5aog9VDeiCNoDTAi7gfwuh7
+ ygPHXRG/7nLeAB/5Du+bKaDIDxvUmNFvGyUMjlwYQLWjYoo8cd02tkhL/2kEqrnVsSclel
+ zX+UUL6F3GhzjltVxvGElXSACONZRdv2wu5FLlfuu0Lu11+2Z7foqXO3rVvB4UBnOHnklp
+ 6Q1+oEBmcw5nNlIIWIh+R+ZVggKvmz9xs+saq7vGXnEZURBLf5qwmmd5E7AWcw==
+Message-ID: <3af09657-78ce-4bc6-b8d5-b346a3b86c5b@mailbox.org>
+Date: Fri, 6 Feb 2026 12:48:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87ms1mb0vy.fsf@yellow.woof>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Subject: Re: [PATCH v2 2/2] drm/bridge: waveshare-dsi: Add support for 1..4
+ DSI data lanes
+To: dri-devel@lists.freedesktop.org
+Cc: Joseph Guo <qijian.guo@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20260115024004.660986-1-marek.vasut+renesas@mailbox.org>
+ <20260115024004.660986-2-marek.vasut+renesas@mailbox.org>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <20260115024004.660986-2-marek.vasut+renesas@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 84c76eacb8dc1122efd
+X-MBO-RS-META: ybz1e11ur8a5cccb9omstkb1abh8b1hk
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,52 +79,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linuxfoundation.org,lists.freedesktop.org,vger.kernel.org,lists.linux.dev];
+	FREEMAIL_CC(0.00)[nxp.com,intel.com,kernel.org,gmail.com,kwiboo.se,ideasonboard.com,linux.intel.com,linaro.org,ffwll.ch,suse.de,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:namcao@linutronix.de,m:csshin9928@gmail.com,m:andy@kernel.org,m:gregkh@linuxfoundation.org,m:linux-fbdev@vger.kernel.org,m:linux-staging@lists.linux.dev,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER(0.00)[andriy.shevchenko@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	NEURAL_HAM(-0.00)[-0.996];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim]
-X-Rspamd-Queue-Id: D8447FD4B7
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,mailbox.org:email,mailbox.org:dkim,mailbox.org:mid]
+X-Rspamd-Queue-Id: 35102FD5B3
 X-Rspamd-Action: no action
 
-On Fri, Feb 06, 2026 at 05:51:45PM +0700, Nam Cao wrote:
-> Andy Shevchenko <andriy.shevchenko@intel.com> writes:
-> > Do you have an actual HW to test? If not, won't be applied either.
+On 1/15/26 3:39 AM, Marek Vasut wrote:
+> Parse the data lane count out of DT. Limit the supported data lanes
+> to 1..4 which is the maximum available DSI pairs on the connector of
+> any known panels which may use this bridge. Internally, this bridge
+> is an ChipOne ICN6211 which loads its register configuration from a
+> dedicated storage and its I2C does not seem to be accessible. The
+> ICN6211 also supports up to 4 DSI lanes, so this is a hard limit.
 > 
-> Yes, a pair with SPI interface.
+> To avoid any breakage on old DTs where the parsing of data lanes from
+> DT may fail, fall back to the original hard-coded value of 2 lanes and
+> warn user.
+> 
+> The lane configuration is preconfigured in the bridge for each of the
+> WaveShare panels. The 13.3" DSI panel works with 4-lane configuration,
+> others seem to use 2-lane configuration. This is a hardware property,
+> so the actual count should come from DT.
+> 
+> Reviewed-by: Joseph Guo <qijian.guo@nxp.com>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Cool! Would be nice to have tested contribution, indeed.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Is it OK to apply these two patches now ?
