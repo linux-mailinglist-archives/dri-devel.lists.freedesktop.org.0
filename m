@@ -2,95 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sLIUFRHuhWlvIQQAu9opvQ
+	id oBVpGBbuhWnSIQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 14:35:13 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 14:35:18 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C61FE30B
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 14:35:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE317FE33B
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 14:35:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFF3D10E6E7;
-	Fri,  6 Feb 2026 13:35:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E66D610E6E6;
+	Fri,  6 Feb 2026 13:35:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="nliEVrLI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PdTG2bLa";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nliEVrLI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PdTG2bLa";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="WvRlgDpz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EGtvkqfj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WvRlgDpz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EGtvkqfj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C620910E6E6
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 13:35:09 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A00510E6E6
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 13:35:14 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id DA5FC5BCC9;
- Fri,  6 Feb 2026 13:35:02 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1FCC15BCCB;
+ Fri,  6 Feb 2026 13:35:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770384902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1770384903; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=COcTxUbuBRKCnWcfnJkJVVRmPPV1XoNZPS/P7E/B+is=;
- b=nliEVrLIkOlMQ9uWeZbuIw5meHbu/2SMsoiTDcl9Y1udWnzzobL82lR8yVId/mpG4KkBM2
- 3JrDHJUxu3aFoCntFmTnba6oe7DoLfD/6JW1Tukv/nwHbr4UM8fUpKQy7kij/9jORqtnR3
- gpGfaLsErcRV2fr0nTMdfIoIWnzX+C0=
+ bh=CW0Pf0nQKxwYs+rEAw/1y0QYQcpJ6MDXe/a9G5zq0U8=;
+ b=WvRlgDpzxD6Vfkrqpyp2M3riRYhBhOtOLXFbkR/xhOOkPV2w5c82NwsWEsAFq+9Gk36LlQ
+ ayvwvmkFXX9JpmMHZyx/0q06EfSNX3a+zZcCc5ytKHH9Hwbvcu55Jxp/K5rztIf62HtovS
+ 0TJYomhjavV8tKVvUcBzL5NT8VjXtEo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770384902;
+ s=susede2_ed25519; t=1770384903;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=COcTxUbuBRKCnWcfnJkJVVRmPPV1XoNZPS/P7E/B+is=;
- b=PdTG2bLaUX70+gNBoLcQG/TDRV7rYqclLtxtlEt3JdKAANBfLo8o1qSlmJpEKGgJ5yT6Cj
- L5OO1BkmoId9GEAw==
+ bh=CW0Pf0nQKxwYs+rEAw/1y0QYQcpJ6MDXe/a9G5zq0U8=;
+ b=EGtvkqfjRt63AWdIo+RGLvHmxqpZK0cnFJuggMtMEnihB9YmI/ynAwGTHDV1J+QyQ4owHH
+ 5YJ04s4qZPwJRYDg==
 Authentication-Results: smtp-out2.suse.de;
-	none
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WvRlgDpz;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=EGtvkqfj
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770384902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1770384903; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=COcTxUbuBRKCnWcfnJkJVVRmPPV1XoNZPS/P7E/B+is=;
- b=nliEVrLIkOlMQ9uWeZbuIw5meHbu/2SMsoiTDcl9Y1udWnzzobL82lR8yVId/mpG4KkBM2
- 3JrDHJUxu3aFoCntFmTnba6oe7DoLfD/6JW1Tukv/nwHbr4UM8fUpKQy7kij/9jORqtnR3
- gpGfaLsErcRV2fr0nTMdfIoIWnzX+C0=
+ bh=CW0Pf0nQKxwYs+rEAw/1y0QYQcpJ6MDXe/a9G5zq0U8=;
+ b=WvRlgDpzxD6Vfkrqpyp2M3riRYhBhOtOLXFbkR/xhOOkPV2w5c82NwsWEsAFq+9Gk36LlQ
+ ayvwvmkFXX9JpmMHZyx/0q06EfSNX3a+zZcCc5ytKHH9Hwbvcu55Jxp/K5rztIf62HtovS
+ 0TJYomhjavV8tKVvUcBzL5NT8VjXtEo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770384902;
+ s=susede2_ed25519; t=1770384903;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=COcTxUbuBRKCnWcfnJkJVVRmPPV1XoNZPS/P7E/B+is=;
- b=PdTG2bLaUX70+gNBoLcQG/TDRV7rYqclLtxtlEt3JdKAANBfLo8o1qSlmJpEKGgJ5yT6Cj
- L5OO1BkmoId9GEAw==
+ bh=CW0Pf0nQKxwYs+rEAw/1y0QYQcpJ6MDXe/a9G5zq0U8=;
+ b=EGtvkqfjRt63AWdIo+RGLvHmxqpZK0cnFJuggMtMEnihB9YmI/ynAwGTHDV1J+QyQ4owHH
+ 5YJ04s4qZPwJRYDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 974763EA65;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D39243EA64;
  Fri,  6 Feb 2026 13:35:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id wJ6vIwbuhWnncwAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id sL1zMgbuhWnncwAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Fri, 06 Feb 2026 13:35:02 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: patrik.r.jakobsson@gmail.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 2/5] drm/gma500: fbdev: Set framebuffer size to GEM object size
-Date: Fri,  6 Feb 2026 14:21:55 +0100
-Message-ID: <20260206133458.226467-3-tzimmermann@suse.de>
+Subject: [PATCH 3/5] drm/gma500: fbdev: Calculate buffer geometry with format
+ helpers
+Date: Fri,  6 Feb 2026 14:21:56 +0100
+Message-ID: <20260206133458.226467-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260206133458.226467-1-tzimmermann@suse.de>
 References: <20260206133458.226467-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Flag: NO
-X-Spam-Score: -1.30
+X-Spam-Score: -1.51
 X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -134,45 +137,124 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[suse.de:+];
-	NEURAL_HAM(-0.00)[-0.986];
+	NEURAL_HAM(-0.00)[-0.984];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: E1C61FE30B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid]
+X-Rspamd-Queue-Id: EE317FE33B
 X-Rspamd-Action: no action
 
-Framebuffer emulation sets the size of the available memory to the
-value that has been requested. As the allocated GEM buffer object
-acts as full framebuffer memory, set the size to the value of the
-actually allocated buffer.
+Replace the geometry and size calculation in gma500's fbdev emulation
+with DRM format helpers. This consists of 4CC lookup from the fbdev
+parameters, format loockup, pitch calculation and size calculation.
+Then allocate the GEM buffer object for the framebuffer memory from
+the calculated size.
+
+As before, fallback to 16-bit colors if the stolen memory is insufficient
+for 32-bit colors. But look at the result from psb_gem_create() instead
+of guessing before the allocation. The new method is more reliable when
+others allocate from stolen video memory (e.g., cursors).
+
+Set up mode_cmd with the calculated values just before allocating the
+framebuffer. This code will later be replaced with a DRM client buffer.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/gma500/fbdev.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/gma500/fbdev.c | 60 ++++++++++++++++------------------
+ 1 file changed, 28 insertions(+), 32 deletions(-)
 
 diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbdev.c
-index c26926babc2a..f5e60ada6de2 100644
+index f5e60ada6de2..a93c3d2fe0ff 100644
 --- a/drivers/gpu/drm/gma500/fbdev.c
 +++ b/drivers/gpu/drm/gma500/fbdev.c
-@@ -171,12 +171,12 @@ int psb_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
+@@ -109,56 +109,52 @@ int psb_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	struct fb_info *info = fb_helper->info;
++	u32 fourcc, pitch;
++	u64 size;
++	const struct drm_format_info *format;
+ 	struct drm_framebuffer *fb;
+ 	struct drm_mode_fb_cmd2 mode_cmd = { };
+-	int size;
+ 	int ret;
+ 	struct psb_gem_object *backing;
+ 	struct drm_gem_object *obj;
+-	u32 bpp, depth;
  
- 	/* Accessed stolen memory directly */
- 	info->screen_base = dev_priv->vram_addr + backing->offset;
--	info->screen_size = size;
-+	info->screen_size = obj->size;
+ 	/* No 24-bit packed mode */
+ 	if (sizes->surface_bpp == 24) {
+ 		sizes->surface_bpp = 32;
+ 		sizes->surface_depth = 24;
+ 	}
+-	bpp = sizes->surface_bpp;
+-	depth = sizes->surface_depth;
  
- 	drm_fb_helper_fill_info(info, fb_helper, sizes);
+-	/*
+-	 * If the mode does not fit in 32 bit then switch to 16 bit to get
+-	 * a console on full resolution. The X mode setting server will
+-	 * allocate its own 32-bit GEM framebuffer.
+-	 */
+-	size = ALIGN(sizes->surface_width * DIV_ROUND_UP(bpp, 8), 64) *
+-		     sizes->surface_height;
+-	size = ALIGN(size, PAGE_SIZE);
++try_psb_gem_create:
++	fourcc = drm_mode_legacy_fb_format(sizes->surface_bpp, sizes->surface_depth);
++	format = drm_get_format_info(dev, fourcc, DRM_FORMAT_MOD_LINEAR);
++	pitch = ALIGN(drm_format_info_min_pitch(format, 0, sizes->surface_width), SZ_64);
++	size = ALIGN(pitch * sizes->surface_height, PAGE_SIZE);
  
- 	info->fix.smem_start = dev_priv->stolen_base + backing->offset;
--	info->fix.smem_len = size;
-+	info->fix.smem_len = obj->size;
- 	info->fix.ywrapstep = 0;
- 	info->fix.ypanstep = 0;
- 	info->fix.mmio_start = pci_resource_start(pdev, 0);
+-	if (size > dev_priv->vram_stolen_size) {
+-		sizes->surface_bpp = 16;
+-		sizes->surface_depth = 16;
++	/* Allocate the framebuffer in the GTT with stolen page backing */
++	backing = psb_gem_create(dev, size, "fb", true, PAGE_SIZE);
++	if (IS_ERR(backing)) {
++		ret = PTR_ERR(backing);
++		if (ret == -EBUSY && sizes->surface_bpp > 16) {
++			/*
++			 * If the mode does not fit in 32 bit then switch to 16 bit to
++			 * get a console on full resolution. User-space compositors will
++			 * allocate their own 32-bit framebuffers.
++			 */
++			sizes->surface_bpp = 16;
++			sizes->surface_depth = 16;
++			goto try_psb_gem_create;
++		}
++		return ret;
+ 	}
+-	bpp = sizes->surface_bpp;
+-	depth = sizes->surface_depth;
++	obj = &backing->base;
+ 
+ 	mode_cmd.width = sizes->surface_width;
+ 	mode_cmd.height = sizes->surface_height;
+-	mode_cmd.pitches[0] = ALIGN(mode_cmd.width * DIV_ROUND_UP(bpp, 8), 64);
+-	mode_cmd.pixel_format = drm_mode_legacy_fb_format(bpp, depth);
+-
+-	size = mode_cmd.pitches[0] * mode_cmd.height;
+-	size = ALIGN(size, PAGE_SIZE);
+-
+-	/* Allocate the framebuffer in the GTT with stolen page backing */
+-	backing = psb_gem_create(dev, size, "fb", true, PAGE_SIZE);
+-	if (IS_ERR(backing))
+-		return PTR_ERR(backing);
+-	obj = &backing->base;
++	mode_cmd.pixel_format = fourcc;
++	mode_cmd.pitches[0] = pitch;
++	mode_cmd.modifier[0] = DRM_FORMAT_MOD_LINEAR;
+ 
+-	fb = psb_framebuffer_create(dev,
+-				    drm_get_format_info(dev, mode_cmd.pixel_format,
+-							mode_cmd.modifier[0]),
+-				    &mode_cmd, obj);
++	fb = psb_framebuffer_create(dev, format, &mode_cmd, obj);
+ 	if (IS_ERR(fb)) {
+ 		ret = PTR_ERR(fb);
+ 		goto err_drm_gem_object_put;
 -- 
 2.52.0
 
