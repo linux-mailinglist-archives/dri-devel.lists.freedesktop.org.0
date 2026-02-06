@@ -2,88 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IHO/Ly2ohWnUEgQAu9opvQ
+	id AMBPLD+ohWnUEgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 09:37:01 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 09:37:19 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CBB8FB95F
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 09:37:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49789FB96F
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 09:37:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C12110E09C;
-	Fri,  6 Feb 2026 08:36:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9000B10E0B8;
+	Fri,  6 Feb 2026 08:37:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="UHhrVouM";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WPTiJ11o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABDBC10E09C
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 08:36:57 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9006110E0B8
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 08:37:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1770367016;
+ s=mimecast20190719; t=1770367035;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3lQpYEFf4qKduBMlQY0cApAO9JMrwUhcUNBWSEwShaE=;
- b=UHhrVouMUL+ulPQKC6H3n1HXEv6YurU6OvV4+vgkuDnoMRM55MABbcaVhUL/Ap+wzJskeI
- g9CzIwKUST99gAuooW2SlIpnqs8hL+2mdJ/5meZDc/gydJXWIdGS9uZ1zziJK5QQgC6vLR
- FYQQk8a294YOG8wPDotKvuk1pllFMqk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NyVVDSJAEWeUvOVHLGP2D9FNBz8EHGC9RVXlKtVKk+w=;
+ b=WPTiJ11ohy1TRvTT0GJ0nlHZI0N9bMoo/HWEMAzYYOQXjsucC6zLOiX+RDja0U/gYYb8mW
+ BL3WHls9JersqgoYW6StRj+YIzTpEiJCKigQNX+VoK379tNTx19y94FWAOauiB/bBSXHHA
+ 27g+0k+WlZBoOIr7+9yzPll4fzb3fX8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-616-BpaDuKN2MAGw_Ijvk3woWw-1; Fri, 06 Feb 2026 03:36:55 -0500
-X-MC-Unique: BpaDuKN2MAGw_Ijvk3woWw-1
-X-Mimecast-MFC-AGG-ID: BpaDuKN2MAGw_Ijvk3woWw_1770367014
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-43065ad16a8so1317942f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Feb 2026 00:36:55 -0800 (PST)
+ us-mta-481-HdeHJBhQNRqpg8Hyxtg4gQ-1; Fri, 06 Feb 2026 03:37:14 -0500
+X-MC-Unique: HdeHJBhQNRqpg8Hyxtg4gQ-1
+X-Mimecast-MFC-AGG-ID: HdeHJBhQNRqpg8Hyxtg4gQ_1770367033
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-43284f60a8aso1639627f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Feb 2026 00:37:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770367014; x=1770971814;
+ d=1e100.net; s=20230601; t=1770367033; x=1770971833;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=3lQpYEFf4qKduBMlQY0cApAO9JMrwUhcUNBWSEwShaE=;
- b=LYkCCZt058hqjaWZ9p+HaDvFcVrbPu3+hSy/RgglBru41X+jX+3Fv/1Jz+n9jZ5Jyu
- HzLrQePybPvFS7vrsQZSWxzwM6zxtHKSj1UdnIdsR+DlQYHak3TeN0R/1Qtq2FGFgc6P
- abIA27/vPgCzLwWMwd7/+xlf4KsISNo5tkQ6PmG7hwX5iGKoUZlLVLyLVBV87DeIGPI4
- WHVXy8evBXKzMeUPvX1Oi8W5r6fOA9y7tUonW9St4gVTB0Axh9JUi7Myzf2IMQZwUdwQ
- SR3Jj6ECjehsbZG+aEBY1FOk/M8FZVPXHAPSKVot7cjsf1GT0ENFZ+3/j/zxKdDOy5pr
- s6+Q==
-X-Gm-Message-State: AOJu0Yx70ZxGummet3gt73ZOoTqfI6zVAnYPYlwqLckplgY9UcUh5YQR
- HS6Xlp0I/46BNxMHGhVrMb/8l+4VJ9pGLVzUVrIVRyEg/6S8w3XMaloI67o4y9w2FImEnQA9fJ7
- GXfHS1YfpleUg92YCrMQpDkFjWi7XVAFad+MXkbAxFQPd7pHt+gSlVFJLSIYjgFs95YGbcA==
-X-Gm-Gg: AZuq6aKxRgiAjgz4V1yzB96EH7qOR5ZKxnNkvTPZ2YXSN56jqt9BZ7LuUeD7Nsll3uV
- J4dEGpebdrjwQ8VjEDZEjE7wOfUc7jFKliqtqCAmcet6fZii9HCPWNBUZiSo3Ep5FykQP61Gdhq
- jKOZjxlsISo0nTO/lWenKU1EIN8ywwfl0yLy38yYoX5G8BNTHOD8AGTMiBlOgWfkthyk+a+4nhL
- BjXhcQfqXEiHbKaz4D6hNUDCxjjctZ2dVMpa5Xs661+DlhXyIEA4YVyvCwap5BVj1FG9BQ5TvQ7
- fyw1nlhFIgkGg8OvrNKS8HIfhXJ3zo3No1sp/JwSwv2VowH9OyHuIoM16n6toQZfgMI90MX8C9o
- pAhgwP7qqsD0i/lpId1RVuQByaqSqdgrt2rV3iPefSKa6p8piJtFSuNBr5oy455MtcXIL
-X-Received: by 2002:a05:600c:5488:b0:480:1e8f:d15f with SMTP id
- 5b1f17b1804b1-483201d5fa2mr26643235e9.2.1770367014022; 
- Fri, 06 Feb 2026 00:36:54 -0800 (PST)
-X-Received: by 2002:a05:600c:5488:b0:480:1e8f:d15f with SMTP id
- 5b1f17b1804b1-483201d5fa2mr26643025e9.2.1770367013705; 
- Fri, 06 Feb 2026 00:36:53 -0800 (PST)
+ bh=NyVVDSJAEWeUvOVHLGP2D9FNBz8EHGC9RVXlKtVKk+w=;
+ b=r7zKLSUVGgrumFJfob69ubfq6TCxjG6VzsSv30dkLOC0eG9upOTbx4KCHRpQrqpxZA
+ wAvr5pXTDvImjiFJnNYzbW8dmctGCNY28yO07t7GrSiDc63J15xzxoIrZJ2IRu5HJwHb
+ wb7HYiCHgJLBD5MYBnLOCECP0SCk1CmlBaBgK17Dc2rXrF2TOIg00gp4XLgXLNwpZyu4
+ Eq0gu6UHT3CJoMIs5DIAi4LT/YuqsDEYrH/+3kGxr2xBrcPlU0NN2fe6tFtnba2fgVAD
+ Pgpb6JylFY5hUyh3quAP6dQkuyq+5OP9J1wZ79qmSfvpBuDmPQUrR1eErzU7hFGgMH76
+ QMOQ==
+X-Gm-Message-State: AOJu0Yz77tx/qSFqa7FaVHfIulqgPNeXOn2uTivj6miz8W7TV/yJo+QS
+ GmTr8/a2brCIBCXHEaeOLiMpCnmRSAnVPU4S1Vx10Se/8nQ1PHMrmAFcjgIMY6aiSYb8Y0kv/Lz
+ JcjWgF6TPQe3Sj454atGNCt5J+T8bgd1moYyz2A1HfJbcfOAlCN6cJ0wegUJbG0GAfMK5UA==
+X-Gm-Gg: AZuq6aJBXm6ceQCA0/BZBZOvvSZKV7Uq6lFcFhsFzSBeq8ipOtiCgnP1FBy0i3g1Zml
+ YCdtVwZu1ux8W63hS+2k9tQIq8mezrAlAURAMr8HGfPHy+pFLu5qU7reXr7Iqeo5mPInRqxuPl7
+ 3h93lgYSL5/WFs8ZHtTs66y/u/6LFzWQwFOOonfwkNytHd8d7qh1sVPIeCrik8td3eSzg2VOe1v
+ Gy+2nnsTZEvH1zHtKU2pBxFAZfkGGL71Ng0QDCStxINd4J4LiZpk6eUeT2zCOINqs+Vj+gQd80g
+ H8EUWF3T4YJqUh9tphX1jiTah25OTCTXO6RhbZmF5ZrhoAFKcZfccTmSowYbsxRQepqnS2Kc6QM
+ fP5BBaUYQIjUxmpDSQ0lmU/pgUvltJ2SsO9/iSR3QS0YYTeUVzQDfYtRG/jl0nhylARxI
+X-Received: by 2002:a05:6000:2601:b0:436:7ab:9290 with SMTP id
+ ffacd0b85a97d-4362933cacfmr2757436f8f.1.1770367032938; 
+ Fri, 06 Feb 2026 00:37:12 -0800 (PST)
+X-Received: by 2002:a05:6000:2601:b0:436:7ab:9290 with SMTP id
+ ffacd0b85a97d-4362933cacfmr2757396f8f.1.1770367032493; 
+ Fri, 06 Feb 2026 00:37:12 -0800 (PST)
 Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-436296bd4desm4471225f8f.18.2026.02.06.00.36.52
+ ffacd0b85a97d-436296bd3b8sm4068623f8f.11.2026.02.06.00.37.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Feb 2026 00:36:53 -0800 (PST)
+ Fri, 06 Feb 2026 00:37:11 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
  simona@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/fbdev-emulation: Remove empty placeholders
-In-Reply-To: <20260205141142.412048-1-tzimmermann@suse.de>
-References: <20260205141142.412048-1-tzimmermann@suse.de>
-Date: Fri, 06 Feb 2026 09:36:51 +0100
-Message-ID: <87pl6igtek.fsf@ocarina.mail-host-address-is-not-set>
+Subject: Re: [PATCH] drm/fbdev-emulation: Remove support for legacy emulation
+In-Reply-To: <20260205144056.416759-1-tzimmermann@suse.de>
+References: <20260205144056.416759-1-tzimmermann@suse.de>
+Date: Fri, 06 Feb 2026 09:37:10 +0100
+Message-ID: <87ms1mgte1.fsf@ocarina.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: NwrnsJr0pX4FlHumI75Q5z44BgiEl2GFZgi0XB1TkNw_1770367014
+X-Mimecast-MFC-PROC-ID: lQftgtIQ1n5hBjvF7ieOMYYMRId14dFksJ9i6iJCy7w_1770367033
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -134,16 +134,19 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 4CBB8FB95F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:email]
+X-Rspamd-Queue-Id: 49789FB96F
 X-Rspamd-Action: no action
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Hello Thomas,
-
-> Only DRM clients for fbdev emulation invoke fbdev helpers. Hence remove
-> the empty placeholders for non-fbdev builds, as they are unused.
+> Remove the internal DRM client from fbdev emulation. This has been
+> required when some DRM drivers provided their own fbdev emulation.
+>
+> This is no longer the case with commit b55f3bbab891 ("drm/{i915, xe}:
+> Implement fbdev emulation as in-kernel client") from 2024. Now there's
+> only a single DRM client for fbdev-emulation that fills out the client
+> callback functions as required.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
