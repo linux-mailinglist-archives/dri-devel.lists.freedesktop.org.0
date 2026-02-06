@@ -2,69 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IIl7Fx33hWnHIgQAu9opvQ
+	id +ODgIob3hWnHIgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 15:13:49 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 15:15:34 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD5AFEAC7
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 15:13:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA569FEAF4
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 15:15:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A47210E7BA;
-	Fri,  6 Feb 2026 14:13:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C207510E7BE;
+	Fri,  6 Feb 2026 14:15:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nfraprado@collabora.com header.b="f8S4RADj";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="OgAVwvdE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD62610E7BA
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 14:13:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1770387214; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Gt+coUoet8QH0TDqiquTwhBLpKT89/Akykd/Qhjkz+jl4xNs7KMymHAUTG5im9Or4TqucZ2BmEn0njypAvlSnrU0vHer9kUO4mDd+YQvjAJ7xO9uQCQea4EUtbJmT4IS2Ig54a4+ca3NVm9fI/d3E+WQezSKM8A8Ja9lrkLGPzc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1770387214;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=xvam5HJNIvasJ/2nIByj8E9UTXU+JTYDZ6M6R68d/EY=; 
- b=fUkZAKXTaUrhAz7q63XAWElVsPJYHqA+Hp0X7XdnlH632o2qI2OSov7SMd9nUGoF0PmMA/wqtpKjbE2HAkcHrxffcWcZnxTMpnzkxpOLwV7gSOSXYmcQQ4a3TWbPZxAXpOm04A0wG2pYjf3j0MTVCMGGFBFq3v0mEa0T0A0Y9vU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nfraprado@collabora.com;
- dmarc=pass header.from=<nfraprado@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770387214; 
- s=zohomail; d=collabora.com; i=nfraprado@collabora.com;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=xvam5HJNIvasJ/2nIByj8E9UTXU+JTYDZ6M6R68d/EY=;
- b=f8S4RADjyViHt7femYhhlq9LTWkAFgUbqPBzyhXPNCt5x81+xJstzn2mZU0Dov8R
- OWuvJTtRyW7N00h9PTXZOZkhVtCBeqk0nb56eVlWAo1aCoVPRqA1NeibY5I/GS5aafV
- Kx0iTFB/RUyXh4pU5p/slXNB3oFcDjmaoP3h+Wnc=
-Received: by mx.zohomail.com with SMTPS id 1770387213516827.7987217683014;
- Fri, 6 Feb 2026 06:13:33 -0800 (PST)
-Message-ID: <9849130a6c4da61bd7291f40a9a3d224d32ef08a.camel@collabora.com>
-Subject: Re: [PATCH 01/11] drm/mediatek: Introduce DDP plane_colorops_init()
- hook
-From: =?ISO-8859-1?Q?N=EDcolas?= "F. R. A. Prado" <nfraprado@collabora.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann	 <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter	 <simona@ffwll.ch>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel	 <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- daniels@collabora.com, ariel.dalessandro@collabora.com, kernel@collabora.com
-Date: Fri, 06 Feb 2026 09:13:31 -0500
-In-Reply-To: <8d043341-9099-47b2-a1fe-538502e40f99@collabora.com>
-References: <20251223-mtk-ovl-pre-blend-colorops-v1-0-0cb99bd0ab33@collabora.com>
- <20251223-mtk-ovl-pre-blend-colorops-v1-1-0cb99bd0ab33@collabora.com>
- <8d043341-9099-47b2-a1fe-538502e40f99@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-8 
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+ [209.85.128.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41B8910E7BE
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 14:15:29 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id
+ 5b1f17b1804b1-47ee76e8656so32903585e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Feb 2026 06:15:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1770387328; x=1770992128;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=bjyFGYhygp3KhWFix5ES6YgTS5OXgViNhj0NIrCYWy8=;
+ b=OgAVwvdE1JfMtCDw7Xnt1OTcMCg/J8pWIrgBEtOPg8BJwb9Y7XaJKkoD7x+4eisjil
+ LplNuvRgeDnc4/hjKHfaaLlmncDrAQlf/HnkXUDxG7Stt6USOtQwor2UyJPQh20Gr9Ve
+ jx6At6cNwF4Vxg6QtABqdI6GrEchC3MYZbqp6cwcpILOFdaq5UCdI/d19xoSkiMRwcLA
+ prC2/DWzk+pG9h8Vfle8gKE7Otc81Bi5IzX2i77hLzWenwxVzUTTYGCRJDaQGo/S1Mx3
+ pho5H9IDhFXVkU9MnpP/gtT2qqK/gAUe5iIJ5erzY5DSKf7PI1A2sjugDsnnC77Ln4kx
+ xsGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770387328; x=1770992128;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bjyFGYhygp3KhWFix5ES6YgTS5OXgViNhj0NIrCYWy8=;
+ b=KL8W9M4qDzpYl/F+rar4EmE3aCbSyt775iUA84SRCFdYctmbJJRyFCPlNlTrSHB/7g
+ OswjbMyti3kZ/Gsw6EmSxKQyX3pnTbUuaOm3WJ1GJ3CjmIBBxk2OAW+MGZAeP8JrlaGK
+ siJxSlU0JUBeUirpVqa92GPtkTVKRDc3TfsbIcor6u/5lETqqHSwLc9oj9NQnYtg9b4p
+ QL2qosXLa6TsCZzkpfDH/XdofPrVVnN/RN1D7xucQsLmBWKyUHOlBKg6YXyaEFsFNpFC
+ FU8x1DkYU29tDqvP3uXAjuLso3NHZMGtCCop4YahivfPx//nQLHul3zMNbQx146cjK9J
+ FI4w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV9PGlrrEi/HZURJAy+ghHRyyQu26ReNjnnclgZGSXylfmL2GCrL0foTQWvHxCfwH5MWtZVz7ZK94M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwapaGyucnfR8ejoliW/20YrkYMluPiuZHVXE8sQ1IoOPmosH4K
+ OsLPNS+9GDw7RlwT45UmUrtmuR9++SXlyeJVnVETH8VjkNfi7AErqK5izJ/2NJ/aBn8=
+X-Gm-Gg: AZuq6aLiap/RANJTnXyjUzam+v8KWOcPRXtB8l4iqJOQ71RJKP5qQ96f3Y1nc6x2j7q
+ Het2/1Xn8GLBwBhipy8HHZRbCjbiblPGKuHoervzBh7DgSALikxJOENhx3/rvKfHEGVklvc7FJ/
+ RXhqdHkPJUyaTKydRH+wg23WuzDGxpNkRJyVlAfr3hNknHOERb5B19agIPIzEPL9o+LXu/qNJIJ
+ v8enmaP3OxnIqL5gtX1w/lAPAMWwpqFZfzIb+ZVQgl4A7xf5gYlvCLhZ12OTediZXSwtRmryUKR
+ Q083gqwcsgmGyOIRdKz46Q8Zc4LXiINViw4ZdRBvHXae/QQ996ws1NOiShdZzZ1JCyVlOW56+eU
+ uNCZfBdBl6pbhxbv1dUc+BjtdSy4Ekvm/iK1dMj6XBh6GLjg9+925LHjMrjBsWRzN5be8GMD9oI
+ hoXrEMm+fEEKMbjXbZKBhydBEZFWtf/c3dleFpl2r361hjQPgy3GHGjgKp90XS221ncLKoY4fFu
+ Do=
+X-Received: by 2002:a05:600c:c4a7:b0:47f:b737:5ce0 with SMTP id
+ 5b1f17b1804b1-48320231161mr38699525e9.23.1770387327777; 
+ Fri, 06 Feb 2026 06:15:27 -0800 (PST)
+Received: from localhost
+ (p200300f65f20eb04dd2029d872c27e4b.dip0.t-ipconnect.de.
+ [2003:f6:5f20:eb04:dd20:29d8:72c2:7e4b])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 5b1f17b1804b1-48320410b78sm32854755e9.2.2026.02.06.06.15.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Feb 2026 06:15:26 -0800 (PST)
+Date: Fri, 6 Feb 2026 15:15:25 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Helge Deller <deller@gmx.de>
+Cc: Chen Ni <nichen@iscas.ac.cn>, linux-fbdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v1 1/3] fbdev: au1100fb: Mark several local functions as
+ static
+Message-ID: <aYX3KYbdSUPTSHG-@monoceros>
+References: <cover.1770196161.git.u.kleine-koenig@baylibre.com>
+ <ceb08e29f6a07075b5ca63e4ed30c5051fddcdfd.1770196161.git.u.kleine-koenig@baylibre.com>
+ <cf0433eb-e22d-498b-93a2-04b461aaa6e2@gmx.de>
+ <28affc45-7f41-40a5-82bf-308a6e34d956@gmx.de>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="tbcs3jm2xyvoo2ch"
+Content-Disposition: inline
+In-Reply-To: <28affc45-7f41-40a5-82bf-308a6e34d956@gmx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,58 +102,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+X-Spamd-Result: default: False [-2.41 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+	R_DKIM_ALLOW(-0.20)[baylibre-com.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:angelogioacchino.delregno@collabora.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:chunkuang.hu@kernel.org,m:p.zabel@pengutronix.de,m:matthias.bgg@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-mediatek@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:daniels@collabora.com,m:ariel.dalessandro@collabora.com,m:kernel@collabora.com,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[collabora.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,pengutronix.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FORGED_SENDER(0.00)[nfraprado@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nfraprado@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[gmx.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:deller@gmx.de,m:nichen@iscas.ac.cn,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[u.kleine-koenig@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.926];
+	DMARC_NA(0.00)[baylibre.com];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.982];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DKIM_TRACE(0.00)[baylibre-com.20230601.gappssmtp.com:+];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,collabora.com:dkim,collabora.com:mid]
-X-Rspamd-Queue-Id: DBD5AFEAC7
+	RCPT_COUNT_THREE(0.00)[4];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,baylibre.com:email,baylibre-com.20230601.gappssmtp.com:dkim]
+X-Rspamd-Queue-Id: CA569FEAF4
 X-Rspamd-Action: no action
 
-On Fri, 2026-02-06 at 11:07 +0100, AngeloGioacchino Del Regno wrote:
-> Il 23/12/25 20:44, N=C3=ADcolas F. R. A. Prado ha scritto:
-> > Introduce a plane_colorops_init() hook to allow DDP components to
-> > define
-> > how to initialize the color pipeline on their planes.
+
+--tbcs3jm2xyvoo2ch
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v1 1/3] fbdev: au1100fb: Mark several local functions as
+ static
+MIME-Version: 1.0
+
+Hello Helge,
+
+On Fri, Feb 06, 2026 at 12:22:39PM +0100, Helge Deller wrote:
+> On 2/6/26 12:06, Helge Deller wrote:
+> > On 2/4/26 10:15, Uwe Kleine-K=C3=B6nig wrote:
+> > > This fixes several (fatal) compiler warnings =C3=A0 la
+> > >=20
+> > > =C2=A0=C2=A0=C2=A0=C2=A0drivers/video/fbdev/au1100fb.c:530:6: error: =
+no previous prototype for =E2=80=98au1100fb_drv_remove=E2=80=99 [-Werror=3D=
+missing-prototypes]
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 523 | void au1100fb_drv_remove(struct =
+platform_device *dev)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~~~~~~~~~~
+> > >=20
+> > > Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
 > >=20
-> > Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
+> > I've applied patches #1 and #3 of this series to the fbdev git tree.
+> >=20
+> > Patch #2 needs fixing, as it breaks build on s390x.
 >=20
-> Just a nit for the commit description.
->=20
-> In preparation for adding support for per-plane color pipelines,
-> introduce a new
-> plane_colorops_init() hook to allow [...etc]
+> I fixed up patch #2 manually for now by excluding s390x as test platform.
+> If you have a better patch, I'm happy to take it.
 
-Will do in v2!
+I didn't look at that yet, but I suspect that the failure isn't s390x
+specific and I think it's better to not relax the dependencies yet.
 
---=20
-Thanks,
+Best regards
+Uwe
 
-N=C3=ADcolas
+--tbcs3jm2xyvoo2ch
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmmF93MACgkQj4D7WH0S
+/k7T9wf/QGC6mWJuNMU2J2OQf+ThcYYgLqXINFepVUdYoRPW92brCm7x2TiVdKLO
+BYf3ynkCUoPbNLKPYedawSQvGGeC5utCZfZn/LqaAzaS40uGlAPrxJvLw0B3S54N
+kzLDMXf6sarX6/QwqgFz9MbHE53rO4bBl3qXnQzXWqt1NYKnusmky9zrP6K3w4DJ
+6zJNRxbNNCCD5Doc5ZMVAgRfiH8E8gGGyrrPg5jo7dCHm0b2Be8msMBRVu3pJEn9
+2VNGn3c5bMhfKxzfXPLf+S1Kzcv+ZVI0yHg/qu7tzGxlHGrDmorjjbwRR1+d7wk8
+Csc5smqEn+67u9awy+L22Xv518hHEw==
+=Lbvd
+-----END PGP SIGNATURE-----
+
+--tbcs3jm2xyvoo2ch--
