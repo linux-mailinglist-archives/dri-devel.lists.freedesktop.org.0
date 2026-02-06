@@ -2,67 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eECFJrqvhWkRFAQAu9opvQ
+	id 4FkjNE+yhWmbFQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 10:09:14 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 10:20:15 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5379FBD62
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 10:09:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F62FFBF19
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 10:20:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D27910E5C9;
-	Fri,  6 Feb 2026 09:09:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCE6410E608;
+	Fri,  6 Feb 2026 09:20:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Zeq14iJA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bMF4RAMO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18CD010E5C9
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 09:09:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1770368947;
- bh=81Nfnr+VgGFh1r1KxdRZ/fW91tng+mO/I9oWaPLw1M8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Zeq14iJASuWMiCVaPM0Pq1VwmwDFxdyiFG+ZAxgtEY75PnbG9du504E8hcTbBT7aR
- ERjhnQPjndIHwksoMMDmEVPT4xW0SG4yU7b9Kt2wML+uSK8XwTpJY7aGhnf1sYREb4
- aDsdsN4D/aBFWNr3SY5PprTvRMKcznkaf6l/0g3muSFrXZ+KE6zHHYnFDChVkz8IWT
- kP8Udb2kwJm9E071SiJ9sA44iumwg8wIBoawYmxQpER9Y5fQ0COzRQWrFUYMw3iSjt
- UqkKrN0uGXhlsox06qmdQeKLADO8ehDkXDUOQXflk8w4xRcBdm+XjU7kGwMJkb6DbR
- YpdPjUXTBWUpg==
-Received: from eldfell (unknown [194.136.85.206])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: pq)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 837A117E1352;
- Fri,  6 Feb 2026 10:09:06 +0100 (CET)
-Date: Fri, 6 Feb 2026 11:09:01 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Cc: Shengyu Qu <wiagn233@outlook.com>, "=?UTF-8?B?TsOtY29sYXM=?= F. R. A.
- Prado" <nfraprado@collabora.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, daniels@collabora.com,
- ariel.dalessandro@collabora.com, kernel@collabora.com, xaver.hugl@gmail.com
-Subject: Re: [PATCH 00/11] Plane Color Pipeline support for MediaTek
-Message-ID: <20260206110901.660cf712@eldfell>
-In-Reply-To: <cdf6a704-88f8-414a-adf1-65ea7237337f@amd.com>
-References: <20251223-mtk-ovl-pre-blend-colorops-v1-0-0cb99bd0ab33@collabora.com>
- <TY4PR01MB144323B0DDC18B05EE1472B5298BFA@TY4PR01MB14432.jpnprd01.prod.outlook.com>
- <TY4PR01MB14432E7601C0BE848D25E80C398BAA@TY4PR01MB14432.jpnprd01.prod.outlook.com>
- <cdf6a704-88f8-414a-adf1-65ea7237337f@amd.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6314D10E608
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 09:20:11 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 694CF600AD;
+ Fri,  6 Feb 2026 09:20:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70299C116C6;
+ Fri,  6 Feb 2026 09:20:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1770369610;
+ bh=vAroDH/Lr1jPD2ULUFPe5d0gjo/V+5nxyI9p7ddlUN8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bMF4RAMOGEu2O6nEPOSn3asbDtoQpkHIyHBnNLYOKx4pNxO8lQmhzXhqbt5et4BXb
+ Vzb8bzHSqn8A2cjGLo+46gEKqXBXu3Jm0mgJjz5WXCamLDvHX8nMLiFEEkrnZ5JL/2
+ FSyPd/2eRsM+iLw/tpHLwctjSr0Bv4VVOMgofjr1Ci5GZlpYOuB0yhBb3c8/fT/K5Y
+ LIl7WLhoaXrqpEwsAUK+MHnNKv/37FMjNElJl5QGd4vVFAUHYidi61k1LU9v1rw+ac
+ FR01fis266/jnhy984ff4zhFQ5gzUbZ/8bcMpk0By3PrKeRsVPDFJKjK86aPYWHAf4
+ xm4+POlD9ZmPA==
+Date: Fri, 6 Feb 2026 09:20:06 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: briannorris@chromium.org, jwerner@chromium.org, javierm@redhat.com,
+ samuel@sholland.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+ chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 11/12] drm/sysfb: corebootdrm: Add DRM driver for
+ coreboot framebuffers
+Message-ID: <aYWyRiqpGdpze46p@google.com>
+References: <20260203135519.417931-1-tzimmermann@suse.de>
+ <20260203135519.417931-12-tzimmermann@suse.de>
+ <aYV4m5Q1U4Nc1qwm@google.com>
+ <0a85e1ab-e1d1-4a3a-8f3e-7478d814d400@suse.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/hCOlWIbx7XSjDW26hBp0SP7";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0a85e1ab-e1d1-4a3a-8f3e-7478d814d400@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,114 +68,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.41 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:briannorris@chromium.org,m:jwerner@chromium.org,m:javierm@redhat.com,m:samuel@sholland.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:chrome-platform@lists.linux.dev,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[pekka.paalanen@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FORGED_RECIPIENTS(0.00)[m:harry.wentland@amd.com,m:wiagn233@outlook.com,m:nfraprado@collabora.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:chunkuang.hu@kernel.org,m:p.zabel@pengutronix.de,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:linux-kernel@vger.kernel.org,m:linux-mediatek@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:daniels@collabora.com,m:ariel.dalessandro@collabora.com,m:kernel@collabora.com,m:xaver.hugl@gmail.com,m:matthiasbgg@gmail.com,m:xaverhugl@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	FORGED_SENDER(0.00)[tzungbi@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[pekka.paalanen@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[chromium.org,redhat.com,sholland.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.linux.dev,lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[outlook.com,collabora.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,pengutronix.de,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tzungbi@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim]
-X-Rspamd-Queue-Id: B5379FBD62
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 3F62FFBF19
 X-Rspamd-Action: no action
 
---Sig_/hCOlWIbx7XSjDW26hBp0SP7
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Fri, Feb 06, 2026 at 08:44:02AM +0100, Thomas Zimmermann wrote:
+> Am 06.02.26 um 06:14 schrieb Tzung-Bi Shih:
+> > On Tue, Feb 03, 2026 at 02:52:30PM +0100, Thomas Zimmermann wrote:
+> > > Add corebootdrm, a DRM driver for coreboot framebuffers. The driver
+> > > supports a pre-initialized framebuffer with various packed RGB formats.
+> > > The driver code is fairly small and uses the same logic as the other
+> > > sysfb drivers. Most of the implementation comes from existing sysfb
+> > > helpers.
+> > > 
+> > > Until now, coreboot relied on simpledrm or simplefb for boot-up graphics
+> > > output. Initialize the platform device for corebootdrm in the same place
+> > > in framebuffer_probe(). With a later commit, the simple-framebuffer should
+> > > be removed.
+> > > 
+> > > v3:
+> > > - comment on _HAS_LFB semantics (Tzung-Bi)
+> > > - fix typo in commit description (Tzung-Bi)
+> > > - comment on simple-framebuffer being obsolete for coreboot
+> > > v2:
+> > > - reimplement as platform driver
+> > > - limit resources and mappings to known framebuffer memory; no
+> > >    page alignment
+> > > - create corebootdrm device from coreboot framebuffer code
+> > Changelog should be after "---" otherwise it becomes part of commit message.
+> 
+> I see. In DRM land, we usually keep the change log in the commit message.
+> I'll change it for the coreboot patches, but I'd rather keep it for the DRM
+> patches. I can split off the coreboot changes for this patch into its own.
 
-On Fri, 2 Jan 2026 13:40:21 -0500
-Harry Wentland <harry.wentland@amd.com> wrote:
+I see.  Please keep it if this is a convention in DRM land.
 
-> On 2026-01-01 07:37, Shengyu Qu wrote:
-> >=20
-> >=20
-> > =E5=9C=A8 2025/12/30 02:53, Shengyu Qu =E5=86=99=E9=81=93: =20
-> >>
-> >>
-> >> =E5=9C=A8 2025/12/24 3:44, N=C3=83 colas F. R. A. Prado =E5=86=99=E9=
-=81=93: =20
+> > > +static int corebootdrm_probe(struct platform_device *pdev)
+> > > +{
+> > [...]
+> > > +	if (!fb) {
+> > > +		drm_err(dev, "coreboot framebuffer not found\n");
+> > > +		return -EINVAL;
+> > > +	} else if (!LB_FRAMEBUFFER_HAS_LFB(fb)) {
+> > > +		drm_err(dev, "coreboot framebuffer entry too small\n");
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	/*
+> > > +	 * Hardware settings
+> > > +	 */
+> > > +
+> > > +	format = corebootdrm_get_format_fb(dev, fb);
+> > > +	if (!format)
+> > > +		return -EINVAL;
+> > > +	width = corebootdrm_get_width_fb(dev, fb);
+> > > +	if (width < 0)
+> > > +		return width;
+> > > +	height = corebootdrm_get_height_fb(dev, fb);
+> > > +	if (height < 0)
+> > > +		return height;
+> > [...]
+> > > diff --git a/include/linux/coreboot.h b/include/linux/coreboot.h
+> > > index 5746b99a070d..b51665165f9f 100644
+> > > --- a/include/linux/coreboot.h
+> > > +++ b/include/linux/coreboot.h
+> > > @@ -14,6 +14,7 @@
+> > >   #include <linux/compiler_attributes.h>
+> > >   #include <linux/types.h>
+> > > +#include <linux/stddef.h>
+> > Move it before types.h?  's' vs. 't'.
+> > 
+> > > +/*
+> > > + * True if the coreboot-provided data is large enough to hold information
+> > > + * on the linear framebuffer. False otherwise.
+> > > + */
+> > > +#define LB_FRAMEBUFFER_HAS_LFB(__fb) \
+> > > +	((__fb)->size >= offsetofend(struct lb_framebuffer, reserved_mask_size))
+> > > +
+> > To make sure I understand, do you mean:
+> > 
+> > - The __fb->size is possibly less than sizeof(struct lb_framebuffer).
+> >    LB_FRAMEBUFFER_HAS_LFB() is for checking the following fields
+> >    (e.g. fb->x_resolution) are available?
+> 
+> Yes.
+> 
+> > 
+> >      struct lb_framebuffer {
+> >      	u32 tag;
+> >      	u32 size;
+> > 
+> >      	u64 physical_address;
+> >      	u32 x_resolution;
+> >      	u32 y_resolution;
+> >      	u32 bytes_per_line;
+> >      	u8  bits_per_pixel;
+> >      	u8  red_mask_pos;
+> >      	u8  red_mask_size;
+> >      	u8  green_mask_pos;
+> >      	u8  green_mask_size;
+> >      	u8  blue_mask_pos;
+> >      	u8  blue_mask_size;
+> >      	u8  reserved_mask_pos;
+> >      	u8  reserved_mask_size;
+> >      };
+> > 
+> > - If answer of the previous question is yes, the next question: does
+> >    LB_FRAMEBUFFER_HAS_LFB() needs to check up to `reserved_mask_size`?
+> >    As in the patch, it only accesses up to `blue_mask_size`.
+> 
+> Well, it's a correctness thing. The reserved_mask fields have been part of
+> the structure since the first version in commit b700254aa5 ("Add coreboot
+> framebuffer support to libpayload"). I'd that expect that the framebuffer
+> entry is bogus if it does not contain these fields. If you really want to
+> leave them out, we can do that of course.
 
-> >>> Given the lack of support for writeback connectors on the
-> >>> MediaTek KMS driver, combined with limited hardware
-> >>> documentation, I haven't been able to verify the correctness of
-> >>> each curve, only that they were visually sane (gamma curves made
-> >>> the image on the display brighter, while inverse gamma made it
-> >>> darker). =20
-> >>
-> >> Hmmm I don't think this is acceptable. sRGB/scRGB has two transfer
-> >> functions mentioned in original specification[1]. To keep color
-> >> accuracy, we need someone from mediatek confirm whether this is
-> >> piece- wise or pure power 2.2 transfer function, this is already
-> >> done in original amdgpu color pipeline series, sRGB means
-> >> piece-wise while also dedicated power 2.2 function exists. =20
->=20
-> Not sure what you mean with this not being acceptable. This is about
-> enabling HW support for this functionality. Not every HW has
-> writeback for testing. At some point you'll have to trust the driver
-> devs if you're going to use functionality of the driver. We're not
-> always going to get everything perfect, but if that's really such a
-> worry you can always use shaders to do precisely what you want.
->=20
+I see.  All makes sense.  Let's leave it as is.
 
-Hi Harry,
-
-yes, but I understood that in this case, the hardware documentation
-available is so vague that it's impossible to say what it will actually
-do. There are no formulas given or referenced in the documentation, are
-there, N=C3=ADcolas?
-
-The "HLG EOTF" is probably a good example of that, referring to the
-reply I just sent on the patch adding "HLG" as a curve.
-
-
-Thanks,
-pq
-
---Sig_/hCOlWIbx7XSjDW26hBp0SP7
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmmFr60ACgkQI1/ltBGq
-qqfVuBAAhRSCzEHvBUtrOp91RdRbG2YPSFu9qQcoCw3vhnQVW16yyqFIhyLIYYvh
-Wz+xqAHzjRwSlAQkt0tWCvLfQyOagIHc16qKV0ILgMhe9WS3L54kzGL8pusw+MFS
-e7N+hU/eTPG0ceOOBKvTB9iuWoMIMJFglSj3EX2B6NRoVeo1JxptRUoRrA4p3nh2
-IRGTOlqzOj75VbQkJRJZynwxiLiNoCj1qJzKzYsZpEx0mPUr283LiVujio0Awl/B
-iIfUbgczUS/hkENMjixJBEWkVX1V4iys6GLraJbLWqrdF5EgWEFkIOOO/iEg9rJv
-JKJZixdCs4TppDcs0lvBya5D/0gvMKJMFeZQGcqD6jNTZBuwdeoAXGcQcbuz0ljE
-R8K3V9nTHf10Mhwk2Qwp0zWAedcGM1rEIgZnlFZlTCizqcO0YCfc6iwNvat2jTUT
-oNuVbGQWXzWGb8cpGKlQ57ftrUEPdt2KCceJ+Cn3R5NAYTV2K4H1wN4aK+VGtXU0
-Wvq1Psx2H9VlualOEBWDuTCmH1EFz+UPaMXpFWnKDOhK8qgA0r0yUffyfJP7kXvh
-15d6L/2XOzbB0XnckisC/fAPX0usTGEOoNqaZVoJRGnIuYvWx26haI8R1gbmDz1G
-tdgfsmYrIdytlgiSFWzIF/9VlsBP8kOro+za0/Qt7w7surapmBA=
-=QU4T
------END PGP SIGNATURE-----
-
---Sig_/hCOlWIbx7XSjDW26hBp0SP7--
+For drivers/firmware/google/ and include/linux/coreboot.h,
+Acked-by: Tzung-Bi Shih <tzungbi@kernel.org>
