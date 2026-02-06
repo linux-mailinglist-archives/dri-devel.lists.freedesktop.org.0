@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EHp2LGGThWm3DgQAu9opvQ
+	id +K90JHyThWm3DgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 08:08:17 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 08:08:44 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5BA9FAD62
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 08:08:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DEF9FAD69
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 08:08:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B7A610E004;
-	Fri,  6 Feb 2026 07:08:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64CE110E39A;
+	Fri,  6 Feb 2026 07:08:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YrNAFJVA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SIdLnOPR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1E5610E004
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 07:08:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9719C10E39A
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 07:08:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7B4BC405BD;
- Fri,  6 Feb 2026 07:08:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFB5CC116C6;
- Fri,  6 Feb 2026 07:08:08 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 7BAC543C47;
+ Fri,  6 Feb 2026 07:08:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A0A4C116C6;
+ Fri,  6 Feb 2026 07:08:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770361693;
- bh=9TCzEfxMV7CHDiMeebC4Fkp8Q2GKzqvqiEiVuobvAZQ=;
+ s=k20201202; t=1770361721;
+ bh=1k9//wWJb62aYZ68toVkEokNHe38FeVHN4Bp4sGRr40=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YrNAFJVA7S2/rpOPOSbwaYDarWol6MnehwhqawQcW8RWrSScUNzcKkLoDNcC0CC6l
- kehhFVbDkURJFGzoX1P6yspiX25/HgJ9PyBUh1bvYRzp2bn3EVQ//b5FK5qVHcLoIs
- wf/1nQ55+kfBuLCaw3mZ9TFvlKzDau8hLvvJREPEmk21QwYytmemWFAS4XU36AuqYZ
- YXwDusfZnDWkOGqtmQIUx6M4NidfnnXgQ77ugkGRzg9GhTO5uoKs+qqEGaJ66xtUW1
- 8x9wQMlYSrIDjiSdWvYfwD/zN7/VKjMdu2Ac2NKDpKbxfu37JV4tKyX5SwYqSBx1OG
- Ee1OCVc1uNBxQ==
-Message-ID: <0bcd3cb0-9231-4cb0-a726-c439d01f63e5@kernel.org>
-Date: Fri, 6 Feb 2026 08:08:07 +0100
+ b=SIdLnOPRG287RZ/dv4KBdfYWDl6IXMmQovDw+Wp4EeTvRD/X2SXnPrlducdAeo/3S
+ WTDVWhceh+gZhqL8QiFIOGz251Lk4G2NtecxwePtGKLJt9gX1KUbMamR5AzGLBLw2Y
+ rFWY/DQHPmbv07b7EFeUEBWqsk4MJNSkKPJRA4cfanU4VUPagbFERcMRSeF+D+iYGF
+ QISZGDLEzyQPgBcbtHJ7tY/D7VkfU8uvNcR68Bb34mL7wNo3omyOoIOnrtrdcyDW8e
+ djjniC+pizxIPv9vu/hh6hwe2QGClKnOO407oiLeL5OfydIBsl7sTvFvByE9K5Rk/R
+ pQZPlCdpb9/9w==
+Message-ID: <7c6ebf5f-ed13-46f3-88c8-a33205388d74@kernel.org>
+Date: Fri, 6 Feb 2026 08:08:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: display: lt9611: Support single Port
- B input
+Subject: Re: [PATCH v2 3/3] arm64: dts: qcom: qcs6490-rubikpi3: Use lt9611 DSI
+ Port B
 To: Roger Shimizu <rosh@debian.org>
 Cc: Hongyang Zhao <hongyang.zhao@thundersoft.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -57,9 +57,9 @@ Cc: Hongyang Zhao <hongyang.zhao@thundersoft.com>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org
 References: <20260128-rubikpi-next-20260116-v2-0-ba51ce8d2bd2@thundersoft.com>
- <20260128-rubikpi-next-20260116-v2-1-ba51ce8d2bd2@thundersoft.com>
- <20260205-winged-alligator-of-sorcery-aada21@quoll>
- <CAEQ9gEkkK_qBCq__oSJb1D5J=gLyw-kVDx1OD4SMPry6z-F7nA@mail.gmail.com>
+ <20260128-rubikpi-next-20260116-v2-3-ba51ce8d2bd2@thundersoft.com>
+ <20260205-calm-aboriginal-mastiff-b07eb3@quoll>
+ <CAEQ9gEm-A8mDS=6V3h=2gHOhtM39q+bR79sSFhDTvbEJbDJRWA@mail.gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -105,7 +105,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <CAEQ9gEkkK_qBCq__oSJb1D5J=gLyw-kVDx1OD4SMPry6z-F7nA@mail.gmail.com>
+In-Reply-To: <CAEQ9gEm-A8mDS=6V3h=2gHOhtM39q+bR79sSFhDTvbEJbDJRWA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -128,7 +128,7 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -155,36 +155,36 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,thundersoft.com:email,0.0.0.1:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: E5BA9FAD62
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.1:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,thundersoft.com:email]
+X-Rspamd-Queue-Id: 0DEF9FAD69
 X-Rspamd-Action: no action
 
-On 05/02/2026 21:31, Roger Shimizu wrote:
-> On Thu, Feb 5, 2026 at 5:07 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+On 05/02/2026 20:36, Roger Shimizu wrote:
+> On Thu, Feb 5, 2026 at 5:09 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
 >>
->> On Wed, Jan 28, 2026 at 07:15:45PM +0800, Hongyang Zhao wrote:
->>> The LT9611 has two DSI input ports (Port A and Port B). Update the
->>> binding to clearly document the port mapping and allow using Port B
->>> alone when DSI is physically connected to Port B only.
->>>
->>> Changes:
->>> - Clarify port@0 corresponds to DSI Port A input
->>> - Clarify port@1 corresponds to DSI Port B input
->>> - Change port requirement from mandatory port@0 to anyOf port@0/port@1,
->>>   allowing either port to be used independently
+>> On Wed, Jan 28, 2026 at 07:15:47PM +0800, Hongyang Zhao wrote:
+>>> The LT9611 HDMI bridge on RubikPi3 has DSI physically connected to
+>>> Port B. Update the devicetree to use port@1 which corresponds to
+>>> Port B input on the LT9611.
 >>>
 >>> Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
 >>> Reviewed-by: Roger Shimizu <rosh@debian.org>
 >>
->> Where did this review happen? V1 had this tag, but the patch was
->> completely different, which means you were supposed to drop the tag.
->> Please perform review in public.
+>> Where did this happen?
+>>
+>> https://lore.kernel.org/all/?q=f%3Arosh%40debian.org
+>>
+>> And again, v1 was completely different so how pre-v1-internal-review
+>> could be applied to this v2?
+>>
+>> Honestly, initial guidance is useful but continuous development behind
+>> the closed doors is not.
 > 
 > FYI. v2 was updated per review feedback, which is public:
 > https://lore.kernel.org/all/7d9041a3-9d2b-469a-9fa7-89d53bbd2a1f@linaro.org/
 
-Link above is not from Roger, so again - where did the review leading to
-above tag happen?
+What? I asked about the tag. Do you understand how kernel review process
+works?
 
 Best regards,
 Krzysztof
