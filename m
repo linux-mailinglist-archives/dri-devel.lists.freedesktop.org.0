@@ -2,95 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eCf3LDsohmmLKAQAu9opvQ
+	id 6HlEIkYohmmSKAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 18:43:23 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 18:43:34 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5574E10142C
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 18:43:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E35101480
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 18:43:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51DAA10E869;
-	Fri,  6 Feb 2026 17:43:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F309C10E88A;
+	Fri,  6 Feb 2026 17:43:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VRroKTd3";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SdlL8yv8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A54F10E051
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 15:03:27 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-64b9cb94ff5so2908131a12.2
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Feb 2026 07:03:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770390206; cv=none;
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0D7E10E051
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 15:06:13 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-6505cac9879so2840465a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Feb 2026 07:06:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770390372; cv=none;
  d=google.com; s=arc-20240605;
- b=ZMStWa4KWwgFyBuILi3QbjvTdCEfUzvQleH1euf8QWO6ZPdg0GGgIwRiecTB3TFkW5
- pbVFvQ/oneOWeQYU4/idE/fgyD7fC9HJDa8b3nJ0gUQ4jj/J4TTx65EOlzR4ydrfc+g0
- M/QoxEkpMkn2TZZ+RKKjMR4Tg8zuxfEv1lQA8kLPThwBbVEJQfb29r/KHsjzNkvSd3Uu
- MJdZjyaUyzjDCQi5tMoz8DpIwiyLZthFzwPPyqgA/GIAZf3ZSYGaiKYtEce4XYGY+0dv
- cBvztJhJo+IBOWM88H2KFMxIHe6GdDNHqwFzNncBTCntyRT2sj+K4PMtoo2kQhyacPla
- cPeg==
+ b=daGKUqaGtlh0VWd31qKPlGLZiOASWqrS/M+6EBFvm7lmvlVeoPWOAu6yKkT1o7QZtk
+ UIE/n6NUFbdRDHuXaybdgbU1yEojzcf5KrHXMzGpPbnOBe9DPxNPg5zrv+10z51A6atJ
+ bXNZXsGpxBEAml/V4GZFn5rKolw6Rpt4Tzj8qxu0TyTfnFdZLikL0xJIFXHfGZ96dVYJ
+ 9RY6gbJEoT5faZv8hlEcbnNXmgApP4Me7SoMV9e9inzjRrwc6zm3AFQq1mktxQM4ak5K
+ LKpqImHt3SCKZ+ERYWfFjwUkYOe08pzth9wBcziHtHvsx+v5MvyyVwqK80FE1QWhzYZu
+ 49vQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
  s=arc-20240605; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:dkim-signature;
- bh=cbNYgILYh6T0L6GkBJIakhSOuBf8eodDKh7A+HpUyVc=;
- fh=m4jGoA5kJZANn0xpBBVBlYNDY0LPAMkt2wjx8TXTBxk=;
- b=hbt65KOJz9+cSDDBeDb7BzzwCWOnaQ1ZHa7YxyVjtWmx+97CPYxdJDTivD1mOyEzNq
- 8VwpB2BM5vA9Fa7ZWSm+iUUVFalSKO6x0jK5yf6dWetbqMnxJyvDpPE/Qz+TwQYhlbwm
- PHGO7WAH5AahZEq2edyyVekRN7wXiPLStH8Dm+103niqhcT7l3ID0gVp1Rte6IQ6O+Ov
- vW0Ljk45hdBSAwfgd4AgKXrf79FsRv2ZF1JzrJlV1iwW7JNcVOVP7tAhXGBdIIh0BhXh
- +arYu7X9b5rElKziMKl3tyAP464a5pz+aTsc+t+A8zdXWqNfmWNcIg3/JNvHE4VLPE16
- H8kQ==; darn=lists.freedesktop.org
+ bh=hGQBxRDZvTlf47Wu9lDxdnyR2cqQuj+x+M/+cDeQX7w=;
+ fh=65x5NjkLK0+EsgbleZhe9PtInksy76v9wwpL4m41+sg=;
+ b=Yyg/V5qujdDU7Gi048kL3skI+7K2gsGRkOFK6flgeY/gD3wTI9UNPb/K3h6ESxrk5u
+ 2LeVarSeI18mGzzqi8RiXMdZal7TDQLrLUZPDr+8YBFzSWRazpI1yNT6ypCno04Y52vq
+ 6trkzl9hOgwZReU3mF170pivw5Fdgzz1G81Z5snT670aHMovX918yK3EbLgcBeObtbxe
+ xoboW5hsFXIWvcTCC8ixrJFO+bU4hR0RMRTb4WD4nPwIsELY5plAuUFBCfXvSTrfi3g9
+ RfIkCdawWgBWsE4Mn6FlNssYWWkrizLILalkqq3/yBxipwLen53PkmdKr1nMvcG64GVN
+ +w6w==; darn=lists.freedesktop.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770390206; x=1770995006; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1770390372; x=1770995172; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=cbNYgILYh6T0L6GkBJIakhSOuBf8eodDKh7A+HpUyVc=;
- b=VRroKTd3aIUyxHe5ublr+77eWuyjHxoOL6IsMLL/LYZt+xWMMHKIh9Fu9P4wLiiFeE
- Y1BmpabQfvuPWBQV1EP2pjpPOvYV2UY9GsH64xsINnQOWeky234SfNbcCqmXdNQ+P9uN
- G44TJQEcZpQ+Jj1zNJP+Nxa5VAP5jf3QRabyHHE8cWhydl9xjHRGhgTKMfvkKFJpPYQG
- kM5GdFfZTX5/FUbQZKnjf44mP8R+aO2+UKzwvo5zcghUFqyPSIkYobrLAJGA9uDdGXw6
- QqpSt1GWrvoecl/PX7G/oQxGlHaFd5QmpQPyU/4mpRA6mq707dq8sWz28bmtng3YoFDD
- 53+g==
+ bh=hGQBxRDZvTlf47Wu9lDxdnyR2cqQuj+x+M/+cDeQX7w=;
+ b=SdlL8yv8oUXKdh9yJZpm4UU4JeboF1V2UW0m+2st/DTgYeHPDgndV31RPYSN0bimCp
+ ejBzQWkb6aBxH3xrArPC/bVAkUvkZ+AMQBrr0T0IQ0iE5ewDpehNLtlVRuXOFbhL0NpO
+ fdCTFCrfvyBSBXRBPzOS3Nni6SSO1Gk1Slaft/OVMzAHJOxS8YjWgZzOx7Id3HPqWHfB
+ qt1h5ZMK/yoki4uD2wOKZw4P2tsCX+F21vvnuYXtrYQLsK9N59qXddfDmbSDsuf4NDSs
+ WjCDY56+be/Sn0MZ4hx4rbZUtkDJ5Lr3JQWwLcB6HmWEmqtKUcw9bR1uCUH/YW2avddE
+ Ln8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770390206; x=1770995006;
+ d=1e100.net; s=20230601; t=1770390372; x=1770995172;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cbNYgILYh6T0L6GkBJIakhSOuBf8eodDKh7A+HpUyVc=;
- b=WRKkmNhbSIQJTBnr3JyyxNYpUu3s4lctDvgAMCAvje9eP+tAp5dnTdcGPd9rVQhic2
- Y3Pd+25XcKfcPNUv4W63sCFcBVjpvSdbyGix/0/wqWn+aOlzE1ftBHKL1wYNsp8K8jTj
- EjrblDfu93v++tK3YyaTzqrrYCfCTUzolOh/2P7b9iYGUPq0gqRIO6VQg3zW751bGjch
- prbPSn6X+/huPrAMzEP0EaUMmmUyX8Z04BuTKVRYh+tXdaRmNCA2siTCziJ8zqAITxDW
- YRbaimIpVAB3FYZfZ6sZx57bui2IXICqP9rMavRWd2bK8PUqMs+KZriuQFTFOBQ5mrZh
- yApQ==
+ bh=hGQBxRDZvTlf47Wu9lDxdnyR2cqQuj+x+M/+cDeQX7w=;
+ b=iILZRskoFxpRBihkmRL8vLv9LvTArswWJ62GUEociJSO/mlwqZP8F7U5XVyp2yXZsq
+ Dc/Tqb8m5/6fpE8vteJMmQPYzq0M3gwqGuHX80Vyt4EfTPaUMH4K8yW1EdYJSFcoep9Y
+ Z4UyKww2N6q7RyrXTTo9Bho1OihYZe9cVXJn74cTitrWUq8vMa3GA2PZ4vMAZUjXugwg
+ 6sCn/gApk2smbR3OVtQuWmIe/byS3+O4zs/qvrx/+SrHAokhYpCUX/UCrNW6gQ3EEHCo
+ CWRqm8sdEm6Zyd12DG8k6JadIKcqfz6nkLEUE/QXZakrN7PMOZemtVN1vusECn9++R6W
+ viAA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWxKtltJbSSop75FlR3LH7wXcuCvGHru92YNIWp220YQ5bstU87ex/ZqM1XfdufF27rDNqpAKRx590=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwYwjrUjFFQd/6GQJfaDRQOTXZNHZX1LvifZ9sWZ50Q+U3QX75F
- L17uMelyP+rwJlDnm5oVnozBlJ/kDQn/E1+pABXYQYYjFErdwQ6N0rmbk1mR6gRb3f1uYYi/Cyq
- Zm3sGDc2bp5wxKdAVdhjAa7G95SegMA==
-X-Gm-Gg: AZuq6aKYtCk+mCehrCTsQxlrXN8rVaywjA5ecKzUy5TOkpCb1v84w1u+4Zk2urliqNi
- 8m+mBWO3rA85ZzYOQYDif+PwFhyHTMuUEZTxrLsNyr1CREtNrH200rvhLt0n5d1OVWYIHW6e/Ts
- eqctKCTkI6zQCzWsWRrD3WarA3JrS/qv2LQiezov79fQlcS0GKCu/xXfrii2UGI/yWPqzujyVJV
- 213bI81daDGGUWRe7dQpHvdYXjlihULe9rFk3yIDZ1WY5c3o+OSOwPWUemuY4uZCXXFlUKODH0Z
- Diads4XfAhpxBK961YHg09FXylSsaLfx2idTcra63+WCV0C/TccTxGvqsw==
-X-Received: by 2002:a05:6402:3583:b0:659:4383:c491 with SMTP id
- 4fb4d7f45d1cf-65984193946mr1569160a12.33.1770390205748; Fri, 06 Feb 2026
- 07:03:25 -0800 (PST)
+ AJvYcCWrhvpEh0cXnGxwkTLlagRZhlSaPG0p2NjDMabbMiETbDdTkh9m9AviLfHcCZn53eUqoOfnI1E2xm0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz/bAbsGT0zZlz5t1wH8XDN/c5hzs70ve+7ZKZoBtC7a7j9nLvm
+ d7Pgw1yTIWg3hmY0oG0JUxsO0ndz4CwlTq0cS3GrzbkV4gD4vYxIACGor/JYFZdOgtMmTjl4092
+ JBNSfE+b8/axSeYDs3uC50aOO1LgrKw==
+X-Gm-Gg: AZuq6aKJkj3s68qmdE60nqmjkJfCMlXhwynrv8/RvqH8rz+O8GRO0sjPf2bSP3fJgr9
+ 6C5IO94uMxhUsYG5IMaMsrFVRzNhLhWdeJbHYUJo5bGiOjC8zUJWUAn2lE1jw/K5f6Zeq2UId0y
+ QvS4W7p9IyQ9dOyYeJcuepSEfDOarrnPmFLY2wGf3uHapSdU1b73dhD5ZWMVJpYmusILAN+rYwa
+ S7CW7O2rVUhoc0DUwy8iuDJ+Odgq3C2hAceBILu9B3im9IYC38V0m73TEHuTegjCzVqe1fp5Uim
+ Yh1GD5wxtVtWY5TMAJN0041HQPGd0FZohTnC8QhUV0hf17MfxH7hqy0bNOtphM/9VVNH
+X-Received: by 2002:a05:6402:5113:b0:658:dbf:d1a0 with SMTP id
+ 4fb4d7f45d1cf-659841a2f31mr1582224a12.30.1770390372219; Fri, 06 Feb 2026
+ 07:06:12 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1763725387.git.asml.silence@gmail.com>
- <f57269489c4d6f670ab1f9de4d0764030d8d080c.1763725387.git.asml.silence@gmail.com>
-In-Reply-To: <f57269489c4d6f670ab1f9de4d0764030d8d080c.1763725387.git.asml.silence@gmail.com>
+ <12530de6d1907afb44be3e76e7668b935f1fd441.1763725387.git.asml.silence@gmail.com>
+In-Reply-To: <12530de6d1907afb44be3e76e7668b935f1fd441.1763725387.git.asml.silence@gmail.com>
 From: Anuj gupta <anuj1072538@gmail.com>
-Date: Fri, 6 Feb 2026 20:32:47 +0530
-X-Gm-Features: AZwV_QgZhDOY8h13FRDtMZqnV6_xaqir1VOWq2MTchb4BXyrN5R68VQhosU9bGY
-Message-ID: <CACzX3Av_g5g=ssfSjHzkosEj7DMU=+xY5fpdU-zYGYc0cUWPSA@mail.gmail.com>
-Subject: Re: [RFC v2 02/11] iov_iter: introduce iter type for pre-registered
- dma
+Date: Fri, 6 Feb 2026 20:35:34 +0530
+X-Gm-Features: AZwV_QhZUfBhtu2huNeoyo9GkYijd3hbyMiyHPwiXwArHA1o3azl0x64XYjc0yI
+Message-ID: <CACzX3AuNL0g_VvxMSbUu185rvn97+NpZqOVj246-9q9hAVPa9g@mail.gmail.com>
+Subject: Re: [RFC v2 04/11] block: introduce dma token backed bio type
 To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: linux-block@vger.kernel.org, io-uring@vger.kernel.org, 
  Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com, 
@@ -145,7 +144,7 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.911];
+	NEURAL_HAM(-0.00)[-0.903];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[anuj1072538@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
@@ -154,22 +153,23 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 5574E10142C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 29E35101480
 X-Rspamd-Action: no action
 
-> +void iov_iter_dma_token(struct iov_iter *i, unsigned int direction,
-> +                       struct dma_token *token,
-> +                       loff_t off, size_t count)
-> +{
-> +       WARN_ON(direction & ~(READ | WRITE));
-> +       *i = (struct iov_iter){
-> +               .iter_type = ITER_DMA_TOKEN,
-> +               .data_source = direction,
-> +               .dma_token = token,
-> +               .iov_offset = 0,
+> @@ -328,6 +328,29 @@ int bio_split_io_at(struct bio *bio, const struct queue_limits *lim,
+>         unsigned nsegs = 0, bytes = 0, gaps = 0;
+>         struct bvec_iter iter;
+>
+> +       if (bio_flagged(bio, BIO_DMA_TOKEN)) {
+> +               int offset = offset_in_page(bio->bi_iter.bi_bvec_done);
+> +
+> +               nsegs = ALIGN(bio->bi_iter.bi_size + offset, PAGE_SIZE);
+> +               nsegs >>= PAGE_SHIFT;
+> +
+> +               if (offset & lim->dma_alignment || bytes & len_align_mask)
+> +                       return -EINVAL;
 
-nit: iov_offset is getting below too. can get rid of this one.
-> +               .count = count,
-> +               .iov_offset = off,
-> +       };
+bytes == 0 is a dead check here. Probably you would like to check the
+length of the first and last segment to match with what the normal path
+below is doing.
