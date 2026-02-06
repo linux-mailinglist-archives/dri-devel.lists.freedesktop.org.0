@@ -2,97 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kAqOGA3uhWlvIQQAu9opvQ
+	id sLIUFRHuhWlvIQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 14:35:09 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 14:35:13 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B039DFE2F6
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 14:35:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C61FE30B
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 14:35:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2E5010E6CC;
-	Fri,  6 Feb 2026 13:35:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFF3D10E6E7;
+	Fri,  6 Feb 2026 13:35:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="v4zdQ/lH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fQDAwjqd";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="v4zdQ/lH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fQDAwjqd";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="nliEVrLI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PdTG2bLa";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nliEVrLI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PdTG2bLa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8509D10E6CC
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 13:35:04 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C620910E6E6
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 13:35:09 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 9CFDC5BCC5;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id DA5FC5BCC9;
  Fri,  6 Feb 2026 13:35:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1770384902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MXFujCIM8Dm0kMzcwLRfUsHgSIfAs7nQ850kbWQuK6U=;
- b=v4zdQ/lHJbLbeiASDotbIZ6x0AlL/BrlUgYcuJPZuJC3tbtIvVWkLfjeuUY85uoppc6q70
- Q50oWjuM+NgRZ45zpM3/YErYweZJIIoltDfre+WEpdbaQ0FfosxCAZmANOAawcw2R6ZiQ1
- 0jypTXmzfVbTo0iFYdbTrGBW/jo8Wvk=
+ bh=COcTxUbuBRKCnWcfnJkJVVRmPPV1XoNZPS/P7E/B+is=;
+ b=nliEVrLIkOlMQ9uWeZbuIw5meHbu/2SMsoiTDcl9Y1udWnzzobL82lR8yVId/mpG4KkBM2
+ 3JrDHJUxu3aFoCntFmTnba6oe7DoLfD/6JW1Tukv/nwHbr4UM8fUpKQy7kij/9jORqtnR3
+ gpGfaLsErcRV2fr0nTMdfIoIWnzX+C0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1770384902;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MXFujCIM8Dm0kMzcwLRfUsHgSIfAs7nQ850kbWQuK6U=;
- b=fQDAwjqdRLqjUABbr3zcHSUPThlDWHVXm8FbMyXAC2nfH6Hu07lC3kUg9js2KATt6Bxtf/
- RxiUJ1JHhrmQhfAQ==
+ bh=COcTxUbuBRKCnWcfnJkJVVRmPPV1XoNZPS/P7E/B+is=;
+ b=PdTG2bLaUX70+gNBoLcQG/TDRV7rYqclLtxtlEt3JdKAANBfLo8o1qSlmJpEKGgJ5yT6Cj
+ L5OO1BkmoId9GEAw==
 Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b="v4zdQ/lH";
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fQDAwjqd
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1770384902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MXFujCIM8Dm0kMzcwLRfUsHgSIfAs7nQ850kbWQuK6U=;
- b=v4zdQ/lHJbLbeiASDotbIZ6x0AlL/BrlUgYcuJPZuJC3tbtIvVWkLfjeuUY85uoppc6q70
- Q50oWjuM+NgRZ45zpM3/YErYweZJIIoltDfre+WEpdbaQ0FfosxCAZmANOAawcw2R6ZiQ1
- 0jypTXmzfVbTo0iFYdbTrGBW/jo8Wvk=
+ bh=COcTxUbuBRKCnWcfnJkJVVRmPPV1XoNZPS/P7E/B+is=;
+ b=nliEVrLIkOlMQ9uWeZbuIw5meHbu/2SMsoiTDcl9Y1udWnzzobL82lR8yVId/mpG4KkBM2
+ 3JrDHJUxu3aFoCntFmTnba6oe7DoLfD/6JW1Tukv/nwHbr4UM8fUpKQy7kij/9jORqtnR3
+ gpGfaLsErcRV2fr0nTMdfIoIWnzX+C0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1770384902;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MXFujCIM8Dm0kMzcwLRfUsHgSIfAs7nQ850kbWQuK6U=;
- b=fQDAwjqdRLqjUABbr3zcHSUPThlDWHVXm8FbMyXAC2nfH6Hu07lC3kUg9js2KATt6Bxtf/
- RxiUJ1JHhrmQhfAQ==
+ bh=COcTxUbuBRKCnWcfnJkJVVRmPPV1XoNZPS/P7E/B+is=;
+ b=PdTG2bLaUX70+gNBoLcQG/TDRV7rYqclLtxtlEt3JdKAANBfLo8o1qSlmJpEKGgJ5yT6Cj
+ L5OO1BkmoId9GEAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 597BD3EA64;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 974763EA65;
  Fri,  6 Feb 2026 13:35:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id ED2oFAbuhWnncwAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id wJ6vIwbuhWnncwAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Fri, 06 Feb 2026 13:35:02 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: patrik.r.jakobsson@gmail.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 1/5] drm/client: Export drm_client_buffer_create()
-Date: Fri,  6 Feb 2026 14:21:54 +0100
-Message-ID: <20260206133458.226467-2-tzimmermann@suse.de>
+Subject: [PATCH 2/5] drm/gma500: fbdev: Set framebuffer size to GEM object size
+Date: Fri,  6 Feb 2026 14:21:55 +0100
+Message-ID: <20260206133458.226467-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260206133458.226467-1-tzimmermann@suse.de>
 References: <20260206133458.226467-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Flag: NO
-X-Spam-Score: -1.51
+X-Spam-Score: -1.30
 X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -136,60 +134,45 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[suse.de:+];
-	NEURAL_HAM(-0.00)[-0.988];
+	NEURAL_HAM(-0.00)[-0.986];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: B039DFE2F6
+X-Rspamd-Queue-Id: E1C61FE30B
 X-Rspamd-Action: no action
 
-The helper drm_client_buffer_create() will be required by various
-drivers for fbdev emulation.
+Framebuffer emulation sets the size of the available memory to the
+value that has been requested. As the allocated GEM buffer object
+acts as full framebuffer memory, set the size to the value of the
+actually allocated buffer.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_client.c | 3 ++-
- include/drm/drm_client.h     | 3 +++
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/gma500/fbdev.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-index a82d741e6630..f36c110b55db 100644
---- a/drivers/gpu/drm/drm_client.c
-+++ b/drivers/gpu/drm/drm_client.c
-@@ -204,7 +204,7 @@ void drm_client_buffer_delete(struct drm_client_buffer *buffer)
- }
- EXPORT_SYMBOL(drm_client_buffer_delete);
+diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbdev.c
+index c26926babc2a..f5e60ada6de2 100644
+--- a/drivers/gpu/drm/gma500/fbdev.c
++++ b/drivers/gpu/drm/gma500/fbdev.c
+@@ -171,12 +171,12 @@ int psb_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
  
--static struct drm_client_buffer *
-+struct drm_client_buffer *
- drm_client_buffer_create(struct drm_client_dev *client, u32 width, u32 height,
- 			 u32 format, u32 handle, u32 pitch)
- {
-@@ -265,6 +265,7 @@ drm_client_buffer_create(struct drm_client_dev *client, u32 width, u32 height,
- 	kfree(buffer);
- 	return ERR_PTR(ret);
- }
-+EXPORT_SYMBOL(drm_client_buffer_create);
+ 	/* Accessed stolen memory directly */
+ 	info->screen_base = dev_priv->vram_addr + backing->offset;
+-	info->screen_size = size;
++	info->screen_size = obj->size;
  
- /**
-  * drm_client_buffer_vmap_local - Map DRM client buffer into address space
-diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
-index c972a8a3385b..49a21f3dcb36 100644
---- a/include/drm/drm_client.h
-+++ b/include/drm/drm_client.h
-@@ -195,6 +195,9 @@ struct drm_client_buffer {
- 	struct drm_framebuffer *fb;
- };
+ 	drm_fb_helper_fill_info(info, fb_helper, sizes);
  
-+struct drm_client_buffer *
-+drm_client_buffer_create(struct drm_client_dev *client, u32 width, u32 height,
-+			 u32 format, u32 handle, u32 pitch);
- struct drm_client_buffer *
- drm_client_buffer_create_dumb(struct drm_client_dev *client, u32 width, u32 height, u32 format);
- void drm_client_buffer_delete(struct drm_client_buffer *buffer);
+ 	info->fix.smem_start = dev_priv->stolen_base + backing->offset;
+-	info->fix.smem_len = size;
++	info->fix.smem_len = obj->size;
+ 	info->fix.ywrapstep = 0;
+ 	info->fix.ypanstep = 0;
+ 	info->fix.mmio_start = pci_resource_start(pdev, 0);
 -- 
 2.52.0
 
