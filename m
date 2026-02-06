@@ -2,84 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EKs3CLlthmmTNAQAu9opvQ
+	id 7rQgHtiAhmkPOQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 23:39:53 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 01:01:28 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68476103EC8
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 23:39:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C47DE104387
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 01:01:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C192C10E94F;
-	Fri,  6 Feb 2026 22:39:48 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kPdzXVFj";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35FCE10E15A;
+	Sat,  7 Feb 2026 00:01:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA3B310E94F
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 22:39:47 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-4806ce0f97bso23492435e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Feb 2026 14:39:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770417586; x=1771022386; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=nC/CLADSz1/RKI81/8Wfm/loaE6jM2lExFPSIaWRTkQ=;
- b=kPdzXVFj+LLHgxF7htFwWMUI6oV8PJ4S5N+OIFwbtOznyl5IlNC8boBVTJnSiTAKFD
- wbXU1ZMtn/lRCCOaytQgvapLEsoiRHPSugguiXYldT0QgbxdcJD9ub0Ds6J1KMxTRd5Z
- rFQ9/D33PHby566B6eiFg6bvIvecpD/3T5sVCkZnG2f1W2HEtqtxsWJAiC6tthohbkb9
- nBAXn8DRdwUx0Cn3hqyJiljnEo1yIlYvD1CdBPTL579fGn4dlXfXFWEWs98wihGst9dP
- eV7uqt+3tm98RBEPrGc4NHVchE5uCLsDioRm5mM2hFc4ap+8rt4EpM4yqHJyy5UHgKJG
- kZxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770417586; x=1771022386;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nC/CLADSz1/RKI81/8Wfm/loaE6jM2lExFPSIaWRTkQ=;
- b=I+8MuXoY3f18IBVIds+kqz1gEHYQHB89G44L9bgmdEnIQxgP7/qSIkC+jgw1/Wev54
- 9y3ut30T6f1gSMmNRxYkHg5OlH2hdBjYmGw95bZ06rwHnt1p2bq4HTRWjjcCTzBhdupD
- SHnZTkLkaFs+PJQ9vHhK0+2pPWW/Io+PgasqE4f46gwm2cCtzCEJG5k5m/04igGG03Vl
- 0tpv+Eop9TTm4utN+OdbWDOGi7Gye9WLNpCa1PYNgZLHRbdaOzP1ZtJtT7WJJhyqKfij
- +Bl8AyO/VKkKrQSBi2o6+bMUXyowDXSZ9Dp1RDFKzX9tiSjHIBruuftXC/Pxh4ditwJ7
- Vyiw==
-X-Gm-Message-State: AOJu0YyL/QjPAKLiYqlJuEdvWjC+WYstMRYxx4LUQN+FvC/mj9zj5bsa
- ypPZRBnfFghJp9yW+xZ4xtDdjMvtrA1JdRtbpzYcRcwdKnHQlH9NON1w
-X-Gm-Gg: AZuq6aKlf5OBYc7WNzsBDoIcIH39U33Jab+6sOUxbXTm4k7ZBPOGyKIqMX7PHDkgHkN
- G25504vYfaXr7Yz47o56W8KvaHcxpzVkn7z2mAk7JBsR07kvPa0jac92jRoP0T7x88FrmiUem09
- AebP2X6Sh8EdBfnH7po314LEORlb/P1H321YfZcyo4grk+c7OLWKWO6NLVtQ5mlHOTOGaTWrWcX
- uvk2FuxIZJRPiiOPg9UBJO2/gFr1K1n5OQTxURtYvAbk7/d9/g+Ds8vQso7ozWlkFc1pImibwLF
- xANXOFk3FdlK5erUOSQq7mEPYxpxsJDwwdGs/vO1MKw6rnYVJ8hZ3snpeqqqatoDxK/Ie7IWWzS
- 1TgXIngeqtF8N5QqyxZm9gEH9ILDDgzmroc90QFO6iGmOYaQFQ3C7t0So5Z6aElnzjLLXm6zfjK
- EtAwZyP0p4bXs4tnMlbsFYERST/J5JBcFBQfHYP1+jqVOSPbU5XNQjc34V4HEk2hOtouWir4vZ0
- aShCk7ARadjIDMlSR5VGwL6Xe+A1DXtahy/Vbk01lZBs897IWmn1+yr
-X-Received: by 2002:a05:600c:4449:b0:480:32da:f33e with SMTP id
- 5b1f17b1804b1-48320216075mr70766265e9.17.1770417585968; 
- Fri, 06 Feb 2026 14:39:45 -0800 (PST)
-Received: from groovy.localdomain
- (dynamic-2a02-3100-6338-cb00-9208-8a8e-8354-3ed2.310.pool.telefonica.de.
- [2a02:3100:6338:cb00:9208:8a8e:8354:3ed2])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-48320736953sm75292715e9.15.2026.02.06.14.39.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Feb 2026 14:39:45 -0800 (PST)
-From: Mario Kleiner <mario.kleiner.de@gmail.com>
-To: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
- Mario Kleiner <mario.kleiner.de@gmail.com>,
+Received: from MTA-08-4.privateemail.com (mta-08-4.privateemail.com
+ [198.54.122.147])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D002910E15A;
+ Sat,  7 Feb 2026 00:01:22 +0000 (UTC)
+Received: from mta-08.privateemail.com (localhost [127.0.0.1])
+ by mta-08.privateemail.com (Postfix) with ESMTP id 4f7B295Q7Cz3hhV1;
+ Fri,  6 Feb 2026 19:01:21 -0500 (EST)
+Received: from localhost.localdomain (unknown [45.38.20.240])
+ by mta-08.privateemail.com (Postfix) with ESMTPA;
+ Fri,  6 Feb 2026 19:00:46 -0500 (EST)
+From: Hamza Mahfooz <someguy@effective-light.com>
+To: dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Timur=20Krist=C3=B3f?= <timur.kristof@gmail.com>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Xaver Hugl <xaver.hugl@kde.org>,
+ Hamza Mahfooz <someguy@effective-light.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
  Alex Deucher <alexander.deucher@amd.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>
-Subject: [PATCH] drm/amd/display: Use same max plane scaling limits for all 64
- bpp formats
-Date: Fri,  6 Feb 2026 23:38:28 +0100
-Message-ID: <20260206223828.33061-1-mario.kleiner.de@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Ivan Lipski <ivan.lipski@amd.com>,
+ Kenneth Feng <kenneth.feng@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ Fangzhi Zuo <Jerry.Zuo@amd.com>, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/2] drm: introduce KMS recovery mechanism
+Date: Fri,  6 Feb 2026 18:58:42 -0500
+Message-ID: <20260206235846.1019172-1-someguy@effective-light.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,107 +65,174 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [2.39 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:amd-gfx@lists.freedesktop.org,m:mario.kleiner.de@gmail.com,m:alexander.deucher@amd.com,m:harry.wentland@amd.com,m:sunpeng.li@amd.com,m:mariokleinerde@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[mariokleinerde@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[24];
 	ARC_NA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	DMARC_NA(0.00)[effective-light.com];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mariokleinerde@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,gmail.com,amd.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FREEMAIL_CC(0.00)[gmail.com,mailbox.org,kde.org,effective-light.com,amd.com,igalia.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,redhat.com,lists.freedesktop.org,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FROM_NEQ_ENVFROM(0.00)[someguy@effective-light.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.991];
+	TAGGED_RCPT(0.00)[dri-devel];
+	R_DKIM_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email]
-X-Rspamd-Queue-Id: 68476103EC8
+	FORGED_SENDER_MAILLIST(0.00)[]
+X-Rspamd-Queue-Id: C47DE104387
 X-Rspamd-Action: no action
 
-The plane scaling hw seems to have the same min/max plane scaling limits
-for all 16 bpc / 64 bpp interleaved pixel color formats.
+There should be a mechanism for drivers to respond to flip_done
+timeouts. Since, as it stands it is possible for the display to stall
+indefinitely, necessitating a hard reset. So, introduce a new mechanism
+that tries various methods of recovery with increasing aggression, in
+the following order:
 
-Therefore add cases to amdgpu_dm_plane_get_min_max_dc_plane_scaling() for
-all the 16 bpc fixed-point / unorm formats to use the same .fp16
-up/downscaling factor limits as used by the fp16 floating point formats.
+1. Force a full modeset (have the compositor reprogram the state from
+   scratch).
+3. As a last resort, have the driver attempt a vendor specific reset
+   (assuming it provides an implementation to
+   drm_crtc_funcs.page_flip_timeout()).
 
-So far, 16 bpc unorm formats were not handled, and the default: path
-returned max/min factors for 32 bpp argb8888 formats, which were wrong
-and bigger than what many DCE / DCN hw generations could handle.
-
-The result sometimes was misscaling of framebuffers with
-DRM_FORMAT_XRGB16161616, DRM_FORMAT_ARGB16161616, DRM_FORMAT_XBGR16161616,
-DRM_FORMAT_ABGR16161616, leading to very wrong looking display, as tested
-on Polaris11 / DCE-11.2.
-
-So far this went unnoticed, because only few userspace clients used such
-16 bpc unorm framebuffers, and those didn't use hw plane scaling, so they
-did not experience this issue.
-
-With upcoming Mesa 26 exposing 16 bpc unorm formats under both OpenGL
-and Vulkan under Wayland, and the upcoming GNOME 50 Mutter Wayland
-compositor allowing for direct scanout of these formats, the scaling
-hw will be used on these formats if possible for HiDPI display scaling,
-so it is important to use the correct hw scaling limits to avoid wrong
-display.
-
-Tested on AMD Polaris 11 / DCE 11.2 with upcoming Mesa 26 and GNOME 50
-on HiDPI displays with scaling enabled. The mutter Wayland compositor now
-correctly falls back to scaling via desktop compositing instead of direct
-scanout, thereby avoiding wrong image display. For unscaled mode, it
-correctly uses direct scanout.
-
-Fixes: 580204038f5b ("drm/amd/display: Enable support for 16 bpc fixed-point framebuffers.")
-Signed-off-by: Mario Kleiner <mario.kleiner.de@gmail.com>
-Tested-by: Mario Kleiner <mario.kleiner.de@gmail.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>
+Signed-off-by: Hamza Mahfooz <someguy@effective-light.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 5 +++++
- 1 file changed, 5 insertions(+)
+v2: new to the series
+---
+ drivers/gpu/drm/drm_atomic_helper.c | 36 ++++++++++++++++++++++++++---
+ include/drm/drm_crtc.h              |  9 ++++++++
+ include/drm/drm_device.h            | 24 +++++++++++++++++++
+ 3 files changed, 66 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-index d3e62f511c8f..394880ec1078 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-@@ -1060,10 +1060,15 @@ static void amdgpu_dm_plane_get_min_max_dc_plane_scaling(struct drm_device *dev,
- 		*min_downscale = plane_cap->max_downscale_factor.nv12;
- 		break;
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 5840e9cc6f66..f46d68418e32 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -42,6 +42,7 @@
+ #include <drm/drm_gem_atomic_helper.h>
+ #include <drm/drm_panic.h>
+ #include <drm/drm_print.h>
++#include <drm/drm_probe_helper.h>
+ #include <drm/drm_self_refresh_helper.h>
+ #include <drm/drm_vblank.h>
+ #include <drm/drm_writeback.h>
+@@ -1881,11 +1882,40 @@ void drm_atomic_helper_wait_for_flip_done(struct drm_device *dev,
+ 			continue;
  
-+	/* All 64 bpp formats have the same fp16 scaling limits */
- 	case DRM_FORMAT_XRGB16161616F:
- 	case DRM_FORMAT_ARGB16161616F:
- 	case DRM_FORMAT_XBGR16161616F:
- 	case DRM_FORMAT_ABGR16161616F:
-+	case DRM_FORMAT_XRGB16161616:
-+	case DRM_FORMAT_ARGB16161616:
-+	case DRM_FORMAT_XBGR16161616:
-+	case DRM_FORMAT_ABGR16161616:
- 		*max_upscale = plane_cap->max_upscale_factor.fp16;
- 		*min_downscale = plane_cap->max_downscale_factor.fp16;
- 		break;
+ 		ret = wait_for_completion_timeout(&commit->flip_done, 10 * HZ);
+-		if (ret == 0)
+-			drm_err(dev, "[CRTC:%d:%s] flip_done timed out\n",
+-				crtc->base.id, crtc->name);
++		if (!ret) {
++			switch (dev->reset_phase) {
++			case DRM_KMS_RESET_NONE:
++				drm_err(dev, "[CRTC:%d:%s] flip_done timed out\n",
++					crtc->base.id, crtc->name);
++				dev->reset_phase = DRM_KMS_RESET_FORCE_MODESET;
++				drm_kms_helper_hotplug_event(dev);
++				break;
++			case DRM_KMS_RESET_FORCE_MODESET:
++				drm_err(dev, "[CRTC:%d:%s] force full modeset failed\n",
++					crtc->base.id, crtc->name);
++				dev->reset_phase = DRM_KMS_RESET_VENDOR;
++				if (crtc->funcs->page_flip_timeout)
++					crtc->funcs->page_flip_timeout(crtc);
++				break;
++			case DRM_KMS_RESET_VENDOR:
++				drm_err(dev, "[CRTC:%d:%s] KMS recovery failed!\n",
++					crtc->base.id, crtc->name);
++				dev->reset_phase = DRM_KMS_RESET_GIVE_UP;
++				break;
++			default:
++				break;
++			}
++
++			goto exit;
++		}
++	}
++
++	if (dev->reset_phase) {
++		drm_info(dev, "KMS recovery succeeded!\n");
++		dev->reset_phase = DRM_KMS_RESET_NONE;
+ 	}
+ 
++exit:
+ 	if (state->fake_commit)
+ 		complete_all(&state->fake_commit->flip_done);
+ }
+diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+index 66278ffeebd6..45dc5a76e915 100644
+--- a/include/drm/drm_crtc.h
++++ b/include/drm/drm_crtc.h
+@@ -609,6 +609,15 @@ struct drm_crtc_funcs {
+ 				uint32_t flags, uint32_t target,
+ 				struct drm_modeset_acquire_ctx *ctx);
+ 
++	/**
++	 * @page_flip_timeout:
++	 *
++	 * This optional hook is called if &drm_crtc_commit.flip_done times out,
++	 * and can be used by drivers to attempt to recover from a page flip
++	 * timeout.
++	 */
++	void (*page_flip_timeout)(struct drm_crtc *crtc);
++
+ 	/**
+ 	 * @set_property:
+ 	 *
+diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+index bc78fb77cc27..1244d7527e7b 100644
+--- a/include/drm/drm_device.h
++++ b/include/drm/drm_device.h
+@@ -66,6 +66,23 @@ enum switch_power_state {
+ 	DRM_SWITCH_POWER_DYNAMIC_OFF = 3,
+ };
+ 
++/**
++ * enum drm_kms_reset_phase - reset phase of drm device
++ */
++enum drm_kms_reset_phase {
++	/** @DRM_KMS_RESET_NONE: Not currently attempting recovery */
++	DRM_KMS_RESET_NONE,
++
++	/** @DRM_KMS_RESET_FORCE_MODESET: Force a full modeset */
++	DRM_KMS_RESET_FORCE_MODESET,
++
++	/** @DRM_KMS_RESET_VENDOR: Attempt a vendor reset */
++	DRM_KMS_RESET_VENDOR,
++
++	/** @DRM_KMS_RESET_GIVE_UP: All recovery methods failed */
++	DRM_KMS_RESET_GIVE_UP,
++};
++
+ /**
+  * struct drm_device - DRM device structure
+  *
+@@ -375,6 +392,13 @@ struct drm_device {
+ 	 * Root directory for debugfs files.
+ 	 */
+ 	struct dentry *debugfs_root;
++
++	/**
++	 * @reset_phase:
++	 *
++	 * Reset phase that the device is in.
++	 */
++	enum drm_kms_reset_phase reset_phase;
+ };
+ 
+ void drm_dev_set_dma_dev(struct drm_device *dev, struct device *dma_dev);
 -- 
-2.43.0
+2.52.0
 
