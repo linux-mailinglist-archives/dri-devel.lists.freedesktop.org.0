@@ -2,65 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KEYmEUW1hWmbFQQAu9opvQ
+	id WHHpOEAohmmSKAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 10:32:53 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 18:43:28 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A585DFC0E5
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 10:32:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C056101455
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 18:43:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63A8410E64B;
-	Fri,  6 Feb 2026 09:32:50 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="abxZ6bvf";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5E8910E872;
+	Fri,  6 Feb 2026 17:43:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D9DB10E64B
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 09:32:48 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4f6plw4p46z9tpC;
- Fri,  6 Feb 2026 10:32:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1770370364; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fAFhVmmwigZehhMFWD9AUSYXd2DpExwQIgAcNMsKsgg=;
- b=abxZ6bvfId+OVQ5olSdmRpHoLL1RjKjqx62ZrOucEaHd5CrmsMJD/eyn0ySoUEZgIkA5gn
- A+OTtKlrHdiUY8jZ2gz0ujOlx6WcKkv3xFC1WfezAcGYcaakAVqx0T9/8Cbehjo8NwzMBx
- Sw+RWwpt/YCU2XPAHrs2JFtT5RHgQgmz2DEmAuZuUAcwJbEtnAR7cJQjFyJJ32yBZGHcDW
- N2Im4X1oT/gyZmoT27islZoMMTORHeu4XceKlt+1Ejbxdk6Ar0WGbDQz39OEPhTzmNsn1L
- xoWRntJ8tG25DIuPauxobDaXfsdwZ5tSBcN2jpI/4HviBftcyAt9dqy6SIYIWw==
-Message-ID: <62b82ffdd40d568d822bda8cdea83cd030851f68.camel@mailbox.org>
-Subject: Re: [RFC PATCH 2/4] rust: sync: Add dma_fence abstractions
-From: Philipp Stanner <phasta@mailbox.org>
-To: Gary Guo <gary@garyguo.net>, Boris Brezillon
- <boris.brezillon@collabora.com>,  Philipp Stanner <phasta@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Benno Lossin <lossin@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
- Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  rust-for-linux@vger.kernel.org
-Date: Fri, 06 Feb 2026 10:32:38 +0100
-In-Reply-To: <DG721WEFTFZY.2CSCXBQ8H0Y1A@garyguo.net>
-References: <20260203081403.68733-2-phasta@kernel.org>
- <20260203081403.68733-4-phasta@kernel.org> <20260205111635.5307e1fa@fedora>
- <DG721WEFTFZY.2CSCXBQ8H0Y1A@garyguo.net>
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF03C10E028
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 09:49:25 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-794c2db2ee5so19591387b3.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Feb 2026 01:49:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770371365; x=1770976165;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=9PKdkFDBpdEaAPJ8ineUNhYTfLtKuh6xL3hbE89jpuA=;
+ b=KGVZe0t+gMxH3Z5HHujAh+IDZlVQ7JY3QTZZxuGNgfkUKHP+bgDo6lQD3H8eLfRt5h
+ 43osmNBPaBqWIdynM95N1XD+2ts516tHAzqAO6Q/aPkg6Gm2scnKZcRPJOdJL3mS7dZC
+ 7MrbUHyoFpybD7wQsZ0LqrYaVjXA76NpYj/1EPz9zuJzrPEMSM16Ef/NLV9kt/07vXJA
+ mI8o8kl5Iz+wd492PqgP+IFD8dvpc/kWIMqplnDa05rrERBSm6Dwge4zrWztPJLUyvRj
+ embqiWkxzxHBtgPz/K4muyGbP5Rr7BiWNuWKmbNOPyyb7LLUPO5DAttRrLoYTkPM3UxE
+ 8q3A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVIe9DWBRsA+avpH6PozxCAKEpGE5VKrTFRv0xXys46iN5ekKzrN6o8vm2EwXljMuLJ7JAp1eO9w8Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyBlSM2lWSFxi/cuKB0kQTEa3pInJaj1Fsr10ssGBfw0Z2EJU6t
+ +g981GUDbGTiIetuwqJ02L2qQvVEoZ4RFbvhR0QwLuPv8CioKDTCjZR01xLOxA==
+X-Gm-Gg: AZuq6aKoJ7KjzdrT/6pwCxWRzUfuMUGz6ky0zlH7zNUL5petNHJx9bhCXVUVIV2Sz14
+ P2QDohzuS23EXgWpHzYJOg6FXrzlrYvBdo+sgKly4ZO7NxPU/mMLb6JvNJrZtY1iOZlMZQdtowM
+ F496DWcK2pn75o3yeLqWezkVXF0v/dWv5Uu/Ynh56zNlSSDgLFeF622JLsO3XegxGm4JXC0KO/+
+ LzfhwPtXE8U9SeAbytzZ+Sj3SgzGnLV6BOydRcNgokJhpWuG/1magtNYglta6SZoRbCEZDrtMuo
+ PXa6XMbjw5Ux5Z98o+ItgOwBHFSC7psxngYh+6ZrSpekGr9dYadW8syFozGUFqluIeAwEeJvywP
+ /z3Rt97FHz+6jSFcaLJtOU/5uaxviMJ2tPQqRUuJe8n+guo5VJ+Sz07xDbHk6BfeVjZKifbxxZD
+ uf4RXj9wHpO9Nkj6OwU15bniij3cfTB23Y54zql1EOEw==
+X-Received: by 2002:a05:690c:92:b0:796:1f31:f556 with SMTP id
+ 00721157ae682-7961f31f9a8mr7817967b3.45.1770371364747; 
+ Fri, 06 Feb 2026 01:49:24 -0800 (PST)
+Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com.
+ [74.125.224.46]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-7952a1dca99sm16542067b3.35.2026.02.06.01.49.24
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Feb 2026 01:49:24 -0800 (PST)
+Received: by mail-yx1-f46.google.com with SMTP id
+ 956f58d0204a3-649ba412b8dso1826864d50.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Feb 2026 01:49:24 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUoI9peSk84j1qfhMYA0lJzWs7Z0QXdgV3zy+e/rcn9EcqJm+iE5otFt0lW6zquReyOVG7xxrkbjO8=@lists.freedesktop.org
+X-Received: by 2002:a53:c449:0:b0:649:d604:fb90 with SMTP id
+ 956f58d0204a3-649f205a43dmr1514153d50.53.1770371364383; Fri, 06 Feb 2026
+ 01:49:24 -0800 (PST)
+MIME-Version: 1.0
+References: <20260128-rubikpi-next-20260116-v2-0-ba51ce8d2bd2@thundersoft.com>
+ <20260128-rubikpi-next-20260116-v2-1-ba51ce8d2bd2@thundersoft.com>
+ <20260205-winged-alligator-of-sorcery-aada21@quoll>
+ <CAEQ9gEkkK_qBCq__oSJb1D5J=gLyw-kVDx1OD4SMPry6z-F7nA@mail.gmail.com>
+ <0bcd3cb0-9231-4cb0-a726-c439d01f63e5@kernel.org>
+In-Reply-To: <0bcd3cb0-9231-4cb0-a726-c439d01f63e5@kernel.org>
+From: Roger Shimizu <rosh@debian.org>
+Date: Fri, 6 Feb 2026 01:49:13 -0800
+X-Gmail-Original-Message-ID: <CAEQ9gEnvM1x9zP2RDPpEs3TMZ2Jcah7OU6s0y9zJY-7qFUJJTw@mail.gmail.com>
+X-Gm-Features: AZwV_QgaD4XmhDKNBHfx8XaTKWfKOlqUfpjXIlHN1Z6ouM3UQ5-2qulJHJBUYsw
+Message-ID: <CAEQ9gEnvM1x9zP2RDPpEs3TMZ2Jcah7OU6s0y9zJY-7qFUJJTw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: display: lt9611: Support single Port
+ B input
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Hongyang Zhao <hongyang.zhao@thundersoft.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MBO-RS-META: uwrhoghfu5fgzspwmd3gedu94i9msomy
-X-MBO-RS-ID: d1c55b22c0f954b8976
+X-Mailman-Approved-At: Fri, 06 Feb 2026 17:43:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,177 +106,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+X-Spamd-Result: default: False [0.89 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:gary@garyguo.net,m:boris.brezillon@collabora.com,m:phasta@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:dakr@kernel.org,m:aliceryhl@google.com,m:lossin@kernel.org,m:christian.koenig@amd.com,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:hongyang.zhao@thundersoft.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:vkoul@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:jernejskrabec@gmail.com,m:conor@kernel.org,s:lists@lfdr.de];
+	DMARC_NA(0.00)[debian.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,kernel.org,google.com,amd.com,collabora.com,nvidia.com,vger.kernel.org,lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	FREEMAIL_CC(0.00)[thundersoft.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de,lists.freedesktop.org,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	HAS_REPLYTO(0.00)[phasta@kernel.org];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_SENDER(0.00)[rosh@debian.org,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mailbox.org:mid,mailbox.org:dkim]
-X-Rspamd-Queue-Id: A585DFC0E5
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[rosh@debian.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-0.888];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid,0.0.0.1:email,thundersoft.com:email]
+X-Rspamd-Queue-Id: 6C056101455
 X-Rspamd-Action: no action
 
-On Thu, 2026-02-05 at 13:16 +0000, Gary Guo wrote:
-> On Thu Feb 5, 2026 at 10:16 AM GMT, Boris Brezillon wrote:
-> > On Tue,=C2=A0 3 Feb 2026 09:14:01 +0100
-> > Philipp Stanner <phasta@kernel.org> wrote:
-> >=20
-> > >=20
+On Thu, Feb 5, 2026 at 11:08=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
+>
+> On 05/02/2026 21:31, Roger Shimizu wrote:
+> > On Thu, Feb 5, 2026 at 5:07=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel=
+.org> wrote:
+> >>
+> >> On Wed, Jan 28, 2026 at 07:15:45PM +0800, Hongyang Zhao wrote:
+> >>> The LT9611 has two DSI input ports (Port A and Port B). Update the
+> >>> binding to clearly document the port mapping and allow using Port B
+> >>> alone when DSI is physically connected to Port B only.
+> >>>
+> >>> Changes:
+> >>> - Clarify port@0 corresponds to DSI Port A input
+> >>> - Clarify port@1 corresponds to DSI Port B input
+> >>> - Change port requirement from mandatory port@0 to anyOf port@0/port@=
+1,
+> >>>   allowing either port to be used independently
+> >>>
+> >>> Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+> >>> Reviewed-by: Roger Shimizu <rosh@debian.org>
+> >>
+> >> Where did this review happen? V1 had this tag, but the patch was
+> >> completely different, which means you were supposed to drop the tag.
+> >> Please perform review in public.
+> >
+> > FYI. v2 was updated per review feedback, which is public:
+> > https://lore.kernel.org/all/7d9041a3-9d2b-469a-9fa7-89d53bbd2a1f@linaro=
+.org/
+>
+> Link above is not from Roger, so again - where did the review leading to
+> above tag happen?
 
-[=E2=80=A6]
+Per feedback of v1, v2 was quite different than v1.
+For v2, it's close to initial review, because it looks like a new patch.
+Of course, if you don't like this way, we can drop this next time.
 
-> > > +#[pin_data]
-> > > +pub struct DmaFence<T> {
-> > > +=C2=A0=C2=A0=C2=A0 /// The actual dma_fence passed to C.
-> > > +=C2=A0=C2=A0=C2=A0 #[pin]
-> > > +=C2=A0=C2=A0=C2=A0 inner: Opaque<bindings::dma_fence>,
-> > > +=C2=A0=C2=A0=C2=A0 /// User data.
-> > > +=C2=A0=C2=A0=C2=A0 #[pin]
-> > > +=C2=A0=C2=A0=C2=A0 data: T,
-> >=20
-> > A DmaFence is a cross-device synchronization mechanism that can (and
-> > will)
-> >=20
-
-I'm not questioning the truth behind this statement. They are designed
-to do that. But is that actually being done, currently? I recently
-found that the get_driver_name() callback intended to inform the
-consumer of a fence about who actually issued the fence is only ever
-used by i915.
-
-Who actually uses that feature? Who needs fences from another driver?
-
-Just out of curiousity
-
-
-> >  cross the driver boundary (one driver can wait on a fence emitted
-> > by a different driver). As such, I don't think embedding a generic T in
-> > the DmaFence and considering it's the object being passed around is
-> > going to work, because, how can one driver know the T chosen by the
-> > driver that created the fence? If you want to have some fence emitter
-> > data attached to the DmaFence allocation, you'll need two kind of
-> > objects:
-> >=20
-> > - one that's type agnostic and on which you can do the callback
-> > =C2=A0 registration/unregistration, signalling checks, and generally al=
-l
-> > =C2=A0 type-agnostic operations. That's basically just a wrapper around=
- a
-> > =C2=A0 bindings::dma_fence implementing AlwaysRefCounted.
-> > - one that has the extra data and fctx, with a way to transmute from a
-> > =C2=A0 generic fence to a implementer specific one in case the driver w=
-ants
-> > =C2=A0 to do something special when waiting on its own fences (check do=
-ne
-> > =C2=A0 with the fence ops in C, I don't know how that translates in rus=
-t)
->=20
-> If `data` is moved to the end of struct and `DmaFence<T>` changed to
-> `DmaFence<T: ?Sized>`, you would also gain the ability to coerce `DmaFenc=
-e<T>`
-> to `DmaFence<dyn Trait>`, e.g. `DmaFence<dyn Any>`.
-
-
-I think we should go one step back here and question the general
-design.
-
-I only included data: T because it was among the early feedback that
-this is how you do it in Rust.
-
-I was never convinced that it's a good idea. Jobqueue doesn't need the
-'data' field. Can anyone think of anyone who would need it?
-
-What kind of data would be in there? It seems a driver would store its
-equivalent of C's
-
-struct my_fence {
-   struct dma_fence f;
-   /* other driver data */
-}
-
-which is then accessed in C with container_of.
-
-But that data is only ever needed by that very driver.
-
-
-My main point here is:
-dma_fence's are a synchronization primitive very similar to
-completions: informing about that something is done, executing every
-registrants callbacks.
-
-They are *not* a data transfer mechanism. It seems very wrong design-
-wise to transfer generic data T from one driver to another. That's not
-a fence's purpose. Another primitive should be used for that.
-
-If another driver could touch / consume / see / use the emitter's data:
-T, that would grossly decouple us from the original dma_fence design.
-It would be akin to doing a container_of to consume foreign driver
-data.
-
-Like Xe  doing a
-
-struct nouveau_fence *f =3D container_of(generic_fence, =E2=80=A6);
-
-Why would that ever be done? Seems totally broken.
-
-So I strongly think that we'd either want to drop data: T, or we should
-think about possibilities to hide it from other drivers.
-
-I've got currently no idea how that could be addressed in Rust, though=20
-
-:)
-:(
-
-
-P.
-
->=20
-> Best,
-> Gary
->=20
-> >=20
-> > > +=C2=A0=C2=A0=C2=A0 /// Marks whether the fence is currently in the s=
-ignalling critical section.
-> > > +=C2=A0=C2=A0=C2=A0 signalling: bool,
-> > > +=C2=A0=C2=A0=C2=A0 /// A boolean needed for the C backend's lockdep =
-guard.
-> > > +=C2=A0=C2=A0=C2=A0 signalling_cookie: bool,
-> > > +=C2=A0=C2=A0=C2=A0 /// A reference to the associated [`DmaFenceCtx`]=
- so that it cannot be dropped while there are
-> > > +=C2=A0=C2=A0=C2=A0 /// still fences around.
-> > > +=C2=A0=C2=A0=C2=A0 fctx: Arc<DmaFenceCtx>,
-> > > +}
->=20
-
+-Roger
