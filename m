@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AM9JNFU+hWm1+gMAu9opvQ
+	id gP97Nlw+hWme+gMAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 02:05:25 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 02:05:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A74D6F8CED
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 02:05:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADAD6F8CFB
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 02:05:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFFB610E1E1;
-	Fri,  6 Feb 2026 01:05:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0197D10E208;
+	Fri,  6 Feb 2026 01:05:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="EP+LS3e3";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="Eu57EWPd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1830B10E1E1
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 01:05:21 +0000 (UTC)
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D420110E1FF
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 01:05:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=zH
- 2EnTZ0jPmNS1phMLXrQ3tAVky7heoWvHfS5J433Ew=; b=EP+LS3e3UsMKK+hAoe
- xaBV+JY4Pmakdd4ddcRzhH2QQ1Y4FD19xsZjGQKFUP3cXgCn7i8GbQsM8swSIP1i
- NNaJk2OMrpHWyKraCYhjZWeoLKnx7EZxCwfeGRfdUKloP+inJva/yN67BOpuiCsC
- CTYKMnG/ly4/auIBB3n5dPG3Q=
+ s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=m/
+ XW2LDrF07MmdRlAaEu9X1m0f7azZC8MoM77XmYfbo=; b=Eu57EWPdOVOGn3S1S8
+ RrgODHIUF7l58O6uDNJxVnm6a2bjQnmMaoqey+GQBGulXmbm48Iq0xBuIjtw9S9/
+ Kzp6G4ArOu7T5cKEW2e8dEw69jn5wEqH0PV9z7AnaIXNjP4GMvXrBMW5/lcZqLAB
+ fS1Giz50xXCUUT6yWO4e/FwRE=
 Received: from ProDesk-480.. (unknown [])
- by gzsmtp2 (Coremail) with SMTP id PSgvCgD3_+0XPoVpQ5VfQQ--.20291S5;
- Fri, 06 Feb 2026 09:04:32 +0800 (CST)
+ by gzsmtp2 (Coremail) with SMTP id PSgvCgD3_+0XPoVpQ5VfQQ--.20291S6;
+ Fri, 06 Feb 2026 09:04:33 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: dmitry.baryshkov@oss.qualcomm.com,
 	heiko@sntech.de
@@ -43,22 +43,21 @@ Cc: alchark@gmail.com, andrzej.hajda@intel.com, conor+dt@kernel.org,
  devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-rockchip@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>
-Subject: [PATCH v3 3/5] drm/bridge: synopsys: dw-dp: Make i2s/spdif clk
- optional
-Date: Fri,  6 Feb 2026 09:04:13 +0800
-Message-ID: <20260206010421.443605-4-andyshrk@163.com>
+Subject: [PATCH v3 4/5] drm/rockchip: dw_dp: Add DisplayPort support for rk3576
+Date: Fri,  6 Feb 2026 09:04:14 +0800
+Message-ID: <20260206010421.443605-5-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260206010421.443605-1-andyshrk@163.com>
 References: <20260206010421.443605-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: PSgvCgD3_+0XPoVpQ5VfQQ--.20291S5
-X-Coremail-Antispam: 1Uf129KBjvJXoW7WF43Kw1DZF15JrWDuFWDtwb_yoW8GF4rpF
- srG3Wrtry8Jw4S9Fy7AF18Ar9xta4kGay8uayUKw4F9wn7KF1S9anIy3y3Kr1UZ3W7Ww13
- Jrs8Z3yaka4q9F7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jP6pPUUUUU=
+X-CM-TRANSID: PSgvCgD3_+0XPoVpQ5VfQQ--.20291S6
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Aw48Jr4rAr43uw1fCr45Wrg_yoW8JFW3pa
+ nrGryjqrWkWr4Yva4qyFWxuFsIk3ZrZay7Kr4UG343tws3KryfWryagw1UGr92q3W7ZF1a
+ krsrW34UJa1a9rDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jSoGQUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbC7QBTsWmFPiBtpwAA33
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbC7QJTsWmFPiJt0AAA3A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,7 +99,7 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	FREEMAIL_CC(0.00)[gmail.com,intel.com,kernel.org,collabora.com,kwiboo.se,rock-chips.com,ideasonboard.com,linux.intel.com,linaro.org,ffwll.ch,suse.de,vger.kernel.org,lists.freedesktop.org,lists.infradead.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[220.197.31.2:received];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[117.135.210.4:received];
 	NEURAL_HAM(-0.00)[-1.000];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	HAS_XOIP(0.00)[];
@@ -112,13 +111,15 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[163.com:+];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email]
-X-Rspamd-Queue-Id: A74D6F8CED
+X-Rspamd-Queue-Id: ADAD6F8CFB
 X-Rspamd-Action: no action
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-The i2s/spdif clk are mandatory for rk3588, but not used
-for the upcoming rk3576, so make it optional here.
+The DisplayPort of the RK3576 is basically the same as that of the
+RK3588, but it operates in dual-pixel mode and also support MST.
+
+This patch only enable the SST output now.
 
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
 Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
@@ -127,29 +128,32 @@ Tested-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
 (no changes since v1)
 
- drivers/gpu/drm/bridge/synopsys/dw-dp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/rockchip/dw_dp-rockchip.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-dp.c b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-index eccf6299bdb7..93e3efe18957 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-@@ -2014,13 +2014,13 @@ struct dw_dp *dw_dp_bind(struct device *dev, struct drm_encoder *encoder,
- 		return ERR_CAST(dp->aux_clk);
- 	}
+diff --git a/drivers/gpu/drm/rockchip/dw_dp-rockchip.c b/drivers/gpu/drm/rockchip/dw_dp-rockchip.c
+index 89d614d53596..dac3d202971e 100644
+--- a/drivers/gpu/drm/rockchip/dw_dp-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw_dp-rockchip.c
+@@ -142,10 +142,18 @@ static const struct dw_dp_plat_data rk3588_dp_plat_data = {
+ 	.pixel_mode = DW_DP_MP_QUAD_PIXEL,
+ };
  
--	dp->i2s_clk = devm_clk_get(dev, "i2s");
-+	dp->i2s_clk = devm_clk_get_optional(dev, "i2s");
- 	if (IS_ERR(dp->i2s_clk)) {
- 		dev_err_probe(dev, PTR_ERR(dp->i2s_clk), "failed to get i2s clock\n");
- 		return ERR_CAST(dp->i2s_clk);
- 	}
- 
--	dp->spdif_clk = devm_clk_get(dev, "spdif");
-+	dp->spdif_clk = devm_clk_get_optional(dev, "spdif");
- 	if (IS_ERR(dp->spdif_clk)) {
- 		dev_err_probe(dev, PTR_ERR(dp->spdif_clk), "failed to get spdif clock\n");
- 		return ERR_CAST(dp->spdif_clk);
++static const struct dw_dp_plat_data rk3576_dp_plat_data = {
++	.max_link_rate = 810000,
++	.pixel_mode = DW_DP_MP_DUAL_PIXEL,
++};
++
+ static const struct of_device_id dw_dp_of_match[] = {
+ 	{
+ 		.compatible = "rockchip,rk3588-dp",
+ 		.data = &rk3588_dp_plat_data,
++	}, {
++		.compatible = "rockchip,rk3576-dp",
++		.data = &rk3576_dp_plat_data,
+ 	},
+ 	{}
+ };
 -- 
 2.43.0
 
