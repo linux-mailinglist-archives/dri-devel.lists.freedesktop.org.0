@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IFf0IOS6hWmOFgQAu9opvQ
+	id QNaoE+i6hWmOFgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 10:56:52 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 10:56:56 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E937EFC517
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 10:56:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E67E1FC52C
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 10:56:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E550010E6A7;
-	Fri,  6 Feb 2026 09:56:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F09B210E6C0;
+	Fri,  6 Feb 2026 09:56:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="YrgwMbyU";
+	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="THInFgIF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
- [91.207.212.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6740510E6D0
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 09:56:48 +0000 (UTC)
-Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
- by mx08-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 61671a6Z3324164; Fri, 6 Feb 2026 09:56:31 GMT
+Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
+ [185.132.180.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D533810E6B5
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 09:56:50 +0000 (UTC)
+Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
+ by mx07-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 61672Psj3430938; Fri, 6 Feb 2026 09:56:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
- :content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=dk201812; bh=AB3o5Ft2s9OK5rVZUP+9UGX
- sMfvR7VyUX0Cutvy5/u0=; b=YrgwMbyUKxGXcB6f22J1ua4vxYTfmNLD38yBonk
- e+swZsl5QVV4pcuNyoB+j9e/rj3dNNUCHSCBF+ncQyXM0wbYo6KVU6Xtq4z2smFT
- iXPOr9XZeznQhhg/6ic203Kg/relftZGRNBsElnJD5crcEETbKKLVTW7p76paDL9
- NwAaw2qcx73W6bwzeer1wpdzlKrTwFq+10fvoK+OMq/4qaJgi/iOJSrngGLmvF/9
- ktlHAHyGu0iWonAkyGg57x/RlJcbLYxVj+tTRC4WSHM4QSZLj95MtcnBoq6hgJ2j
- r7emdxDnrYCy2ihU/xPtMBVv+9b6eyOH11h5TDv7nBCsOdg==
+ :content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=dk201812; bh=E
+ pOpi4E2fDrwZowzWolNlPQPO9LDUigk9MxGb1DPuMs=; b=THInFgIFzJVi/H9uy
+ 5KwOj9u2mnDkevvmUu9K7OYqsyMoarvkoxgkcRYNOhkw2MMOa8zHqN/wSYOLgHPv
+ OAYhE6pVBzfd6koE7cBjelDBXEIN1TZ6WWEQAqRvlyc7PHWMc60ee4leRK8LhVzq
+ GbmhvGaZugBKfKY/aRiVzhYnjanhlH5nmu2Ua4PFoTD9yI0N7VAaDsWK6tDdgJSe
+ BubScKQW9knbz0nzi7l2DE/auOB3kw/H34JqCuQKC811rl+TWJZnEGATdcXiZmOM
+ Fe0KKKJxPOCJWVvTASc/A+Np7f78vcp0ASDPLw5Zx8J6rAMZYaydqsIPUv5rYJRj
+ LvJOQ==
 Received: from hhmail01.hh.imgtec.org
  (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
- by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 4c4jfy0xmk-1
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 4c4je3s2n5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 06 Feb 2026 09:56:31 +0000 (GMT)
+ Fri, 06 Feb 2026 09:56:32 +0000 (GMT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  (172.25.6.240) by HHMAIL01.hh.imgtec.org (10.100.10.19) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Fri, 6 Feb 2026 09:56:30 +0000
+ 15.2.2562.35; Fri, 6 Feb 2026 09:56:31 +0000
 From: Matt Coster <matt.coster@imgtec.com>
-Subject: [PATCH 0/2] drm/imagination: GPU_ID-related cleanups
-Date: Fri, 6 Feb 2026 09:56:24 +0000
-Message-ID: <20260206-bvnc-cleanup-v1-0-f3c818541fbe@imgtec.com>
+Date: Fri, 6 Feb 2026 09:56:25 +0000
+Subject: [PATCH 1/2] drm/imagination: Define packed BVNCs in the uapi
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAMi6hWkC/x3MQQqAIBBA0avIrBNMZISuEi3MphoIEyUJxLsnL
- d/i/wqZElOGSVRIVDjzHTrGQYA/XThI8tYNWmlUWqFcS/DSX+TCE6UxSFYhojUWehIT7fz+u3l
- p7QM43WjkXgAAAA==
-X-Change-ID: 20260206-bvnc-cleanup-446e70666747
+Message-ID: <20260206-bvnc-cleanup-v1-1-f3c818541fbe@imgtec.com>
+References: <20260206-bvnc-cleanup-v1-0-f3c818541fbe@imgtec.com>
+In-Reply-To: <20260206-bvnc-cleanup-v1-0-f3c818541fbe@imgtec.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
  <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
  <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
@@ -63,32 +62,32 @@ CC: Frank Binns <frank.binns@imgtec.com>, Brajesh Gupta
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Matt
  Coster" <matt.coster@imgtec.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=866; i=matt.coster@imgtec.com; 
- h=from:subject:message-id;
- bh=AGLSm3wHl0Zs0lvOpTIEQh1C19R/g+puvOXJfR1fICY=; 
- b=owGbwMvMwCFWuUfy8817WRsYT6slMWS27jprt2Fp4POdqeXLI5jio84wvfl4du+EJrlv86/fV
- /UNKdaX7ihlYRDjYJAVU2TZscJyhdofNS2JG7+KYeawMoEMYeDiFICJNKUwMuw8K7nm3psQ1VsV
- f387r+DMOX+j/ZyC1VtBaX/Ft4pWsyWBKpL+zd3g9Y3dpvL52bJ1CzdznpOy8DX9/n6bRbXC2td
- /WQE=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4474;
+ i=matt.coster@imgtec.com; h=from:subject:message-id;
+ bh=IUjffk5CloNwGZP93xbN7W0kQC8p3fqgc46IQ+Fsn94=;
+ b=owGbwMvMwCFWuUfy8817WRsYT6slMWS27jo3aYFV2e4NCVstdiyuUTE32NEtlJbZ82Kt+d07L
+ 85tNtn4paOUhUGMg0FWTJFlxwrLFWp/1LQkbvwqhpnDygQyhIGLUwAmkmLF8IdPedYnww1GH28o
+ Bbh/nyVfaVQTE5za3lxgG/hw8bnZnL6MDFPeT1HSWORUYV42xTN/U/xT1X9XL1yRFrWLmS/e+Od
+ ZCjMA
 X-Developer-Key: i=matt.coster@imgtec.com; a=openpgp;
  fpr=05A40CFCE7269D61D97100A1747F0A9036F90DFA
 X-Originating-IP: [172.25.6.240]
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA2MDA2NCBTYWx0ZWRfX/KtiiPPL+KxB
- sp5hhYscD4jhnuKgouHKDWrn43owbUnx3y3IEKMehgOk/gPwHtvJxMf5WVegPp9p2u4Z34mHSYc
- 5V60H87A0MXP/VZo+mErszsHM8wxTrKlB2oX4R5dT1Hz/B8h/LrJ9BlAvHkaK9offh7TiA0vOwe
- RACjwiM0KL200rNXj9HEUf95nDZ5RuiUxTdq4vW3GBDJpGRxNzvG1cQmGi38qXPYEv0c5HNKKQ0
- fKJNQb9O+TO8HUVxCXwUaQoxP5S9EaXUBTVwqfYF1TIWKiRr4ob5LolwNeRXcMjmeWG2kR/31k2
- r6WzvNbVPFCJFpE42kCLkJqf+5Rqix79kbVFpNQGj7xNmlbjAT55+nnWO+Q8er8SoB+hzq+mulP
- 6xOSACUY5AbW8dqTFWNnfBdJoxRll0Pw0detdllv/lvsf5I7vO15hVhaPRDLikg/AaiajKlBtyu
- m+41Zr+xK+cemol/9pQ==
-X-Proofpoint-ORIG-GUID: uYkQGsKOtqsIsGtSOd1EzWu4u2N0L97X
-X-Proofpoint-GUID: uYkQGsKOtqsIsGtSOd1EzWu4u2N0L97X
-X-Authority-Analysis: v=2.4 cv=GakaXAXL c=1 sm=1 tr=0 ts=6985bacf cx=c_pps
+X-Authority-Analysis: v=2.4 cv=TpLrRTXh c=1 sm=1 tr=0 ts=6985bad0 cx=c_pps
  a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
  a=N16aOacbDtMA:10 a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10
  a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
- a=r_1tXGB3AAAA:8 a=zMgL16SF_g1udaVeNbsA:9 a=QEXdDO2ut3YA:10
+ a=r_1tXGB3AAAA:8 a=99dQMx_Ko8NUrOUIDhEA:9 a=QEXdDO2ut3YA:10
  a=t8nPyN_e6usw4ciXM-Pk:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA2MDA2NiBTYWx0ZWRfX1wb5M+ainQtb
+ GCcmeeoDZt0VnWAYF4uH+Pkl1PERq5vR1WbQCZbW9U2OuGXKqgPRCRj+lkPGYaLMRI0k3BSVm0q
+ oLPU9cJyoxfceEWW/HU1C2hWtNKcGFOmAH/veoYZ2khxXlVopkZjuxvOaPOljo9V6VzTwvrC3p0
+ vxTZDWdwlP32YSBlBlqY7wY5+TBlj1P9Nmu0VVUivy2Emrmb41ajJQ8fa8atWgnu34XXCBmUK67
+ kZZmWNQ2IoNUfcI4sYnO8v+HrUsLbq4ZGyUoAA6eJeS14k7OAR45NfNWvrU7iGgBDTDE+kXSz7A
+ W/CxRoFEFJ7Y2f745LKPRgCEEyjW08WhLSbxYziMsP1ra3BhHUVpD+W0nj4H83O2B8KmLaOXwWc
+ 5iSGnZmrjJsAck/GziijvlozGEvXPWK4PnxQ8esHRvVznrK2xdBlmNUOMJsFs6vi4DKlm8/XWVT
+ LuggGdU5ATkBA2yJJpQ==
+X-Proofpoint-GUID: Bfm1F5q3x_dH8jrsqNEyjeyvmfRNKhqK
+X-Proofpoint-ORIG-GUID: Bfm1F5q3x_dH8jrsqNEyjeyvmfRNKhqK
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,11 +115,11 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch];
 	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:frank.binns@imgtec.com,m:brajesh.gupta@imgtec.com,m:alessio.belle@imgtec.com,m:alexandru.dadu@imgtec.com,m:linux-kernel@vger.kernel.org,m:matt.coster@imgtec.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[matt.coster@imgtec.com,dri-devel-bounces@lists.freedesktop.org];
 	RCPT_COUNT_TWELVE(0.00)[12];
 	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[matt.coster@imgtec.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	DKIM_TRACE(0.00)[imgtec.com:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
@@ -137,27 +136,133 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,imgtec.com:email,imgtec.com:dkim,imgtec.com:mid]
-X-Rspamd-Queue-Id: E937EFC517
+X-Rspamd-Queue-Id: E67E1FC52C
 X-Rspamd-Action: no action
 
-Just a couple quick QoL improvements around GPU_IDs.
-
-The first patch touches the UAPI, but is not intended to introduce any
-functional changes; it simply codifies the existing documented layout of
-packed BVNC fields as a series of GENMASKed macros.
+Using the uapi-safe __GENMASK_ULL(), we can stably define the layout of
+64-bit packed BVNCs. These defs replace the replicated doc comment that
+appears all over the place.
 
 Signed-off-by: Matt Coster <matt.coster@imgtec.com>
 ---
-Matt Coster (2):
-      drm/imagination: Define packed BVNCs in the uapi
-      drm/imagination: Add PVR_GPU_ID_FMT to format pvr_gpu_id
+ drivers/gpu/drm/imagination/pvr_device.h | 36 ++++++++++----------------------
+ include/uapi/drm/pvr_drm.h               | 14 ++++++-------
+ 2 files changed, 18 insertions(+), 32 deletions(-)
 
- drivers/gpu/drm/imagination/pvr_device.c |  4 +--
- drivers/gpu/drm/imagination/pvr_device.h | 42 +++++++++++++-------------------
- drivers/gpu/drm/imagination/pvr_fw.c     | 12 ++++-----
- include/uapi/drm/pvr_drm.h               | 14 +++++------
- 4 files changed, 31 insertions(+), 41 deletions(-)
----
-base-commit: 55473b60178060a4fdb4631bd0c91879cc7d18d8
-change-id: 20260206-bvnc-cleanup-446e70666747
+diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
+index cfda215e7428..58f0eae05ad9 100644
+--- a/drivers/gpu/drm/imagination/pvr_device.h
++++ b/drivers/gpu/drm/imagination/pvr_device.h
+@@ -14,7 +14,7 @@
+ #include <drm/drm_file.h>
+ #include <drm/drm_mm.h>
+ 
+-#include <linux/bits.h>
++#include <linux/bitfield.h>
+ #include <linux/compiler_attributes.h>
+ #include <linux/compiler_types.h>
+ #include <linux/device.h>
+@@ -479,39 +479,25 @@ struct pvr_file {
+  * @n: Number of scalable units.
+  * @c: Config ID.
+  *
+- * The packed layout is as follows:
+- *
+- *    +--------+--------+--------+-------+
+- *    | 63..48 | 47..32 | 31..16 | 15..0 |
+- *    +========+========+========+=======+
+- *    | B      | V      | N      | C     |
+- *    +--------+--------+--------+-------+
++ * The packed layout follows the bitfield defined by the DRM_PVR_BVNC_* macros.
+  *
+  * pvr_gpu_id_to_packed_bvnc() should be used instead of this macro when a
+  * &struct pvr_gpu_id is available in order to ensure proper type checking.
+  *
+  * Return: Packed BVNC.
+  */
+-/* clang-format off */
+ #define PVR_PACKED_BVNC(b, v, n, c) \
+-	((((u64)(b) & GENMASK_ULL(15, 0)) << 48) | \
+-	 (((u64)(v) & GENMASK_ULL(15, 0)) << 32) | \
+-	 (((u64)(n) & GENMASK_ULL(15, 0)) << 16) | \
+-	 (((u64)(c) & GENMASK_ULL(15, 0)) <<  0))
+-/* clang-format on */
++	(FIELD_PREP(DRM_PVR_BVNC_B, b) | \
++	 FIELD_PREP(DRM_PVR_BVNC_V, v) | \
++	 FIELD_PREP(DRM_PVR_BVNC_N, n) | \
++	 FIELD_PREP(DRM_PVR_BVNC_C, c))
+ 
+ /**
+  * pvr_gpu_id_to_packed_bvnc() - Packs B, V, N and C values into a 64-bit
+  * unsigned integer
+  * @gpu_id: GPU ID.
+  *
+- * The packed layout is as follows:
+- *
+- *    +--------+--------+--------+-------+
+- *    | 63..48 | 47..32 | 31..16 | 15..0 |
+- *    +========+========+========+=======+
+- *    | B      | V      | N      | C     |
+- *    +--------+--------+--------+-------+
++ * The packed layout follows the bitfield defined by the DRM_PVR_BVNC_* macros.
+  *
+  * This should be used in preference to PVR_PACKED_BVNC() when a &struct
+  * pvr_gpu_id is available in order to ensure proper type checking.
+@@ -527,10 +513,10 @@ pvr_gpu_id_to_packed_bvnc(const struct pvr_gpu_id *gpu_id)
+ static __always_inline void
+ packed_bvnc_to_pvr_gpu_id(u64 bvnc, struct pvr_gpu_id *gpu_id)
+ {
+-	gpu_id->b = (bvnc & GENMASK_ULL(63, 48)) >> 48;
+-	gpu_id->v = (bvnc & GENMASK_ULL(47, 32)) >> 32;
+-	gpu_id->n = (bvnc & GENMASK_ULL(31, 16)) >> 16;
+-	gpu_id->c = bvnc & GENMASK_ULL(15, 0);
++	gpu_id->b = FIELD_GET(DRM_PVR_BVNC_B, bvnc);
++	gpu_id->v = FIELD_GET(DRM_PVR_BVNC_V, bvnc);
++	gpu_id->n = FIELD_GET(DRM_PVR_BVNC_N, bvnc);
++	gpu_id->c = FIELD_GET(DRM_PVR_BVNC_C, bvnc);
+ }
+ 
+ int pvr_device_init(struct pvr_device *pvr_dev);
+diff --git a/include/uapi/drm/pvr_drm.h b/include/uapi/drm/pvr_drm.h
+index ccf6c2112468..72f3f90560cf 100644
+--- a/include/uapi/drm/pvr_drm.h
++++ b/include/uapi/drm/pvr_drm.h
+@@ -6,6 +6,7 @@
+ 
+ #include "drm.h"
+ 
++#include <linux/bits.h>
+ #include <linux/const.h>
+ #include <linux/types.h>
+ 
+@@ -113,6 +114,11 @@ struct drm_pvr_obj_array {
+  * DOC: PowerVR IOCTL DEV_QUERY interface
+  */
+ 
++#define DRM_PVR_BVNC_B __GENMASK_ULL(63, 48)
++#define DRM_PVR_BVNC_V __GENMASK_ULL(47, 32)
++#define DRM_PVR_BVNC_N __GENMASK_ULL(31, 16)
++#define DRM_PVR_BVNC_C __GENMASK_ULL(15, 0)
++
+ /**
+  * struct drm_pvr_dev_query_gpu_info - Container used to fetch information about
+  * the graphics processor.
+@@ -125,13 +131,7 @@ struct drm_pvr_dev_query_gpu_info {
+ 	 * @gpu_id: GPU identifier.
+ 	 *
+ 	 * For all currently supported GPUs this is the BVNC encoded as a 64-bit
+-	 * value as follows:
+-	 *
+-	 *    +--------+--------+--------+-------+
+-	 *    | 63..48 | 47..32 | 31..16 | 15..0 |
+-	 *    +========+========+========+=======+
+-	 *    | B      | V      | N      | C     |
+-	 *    +--------+--------+--------+-------+
++	 * value using the DRM_PVR_BVNC_* bitmasks.
+ 	 */
+ 	__u64 gpu_id;
+ 
+
+-- 
+2.52.0
 
