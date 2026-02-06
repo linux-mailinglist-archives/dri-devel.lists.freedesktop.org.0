@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oGzfNrlshmlaNAQAu9opvQ
+	id cGBILbtshmlaNAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 23:35:37 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 23:35:39 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A396D103D9A
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 23:35:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C25E103DAE
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 23:35:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87EF010E951;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0E3810E954;
 	Fri,  6 Feb 2026 22:35:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="G+S/WFOA";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ImmXGycf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2F3410E94D
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 22:35:33 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 898FA10E94D
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 22:35:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1770417333;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4YK+4HwwquBYeIuxYMPDw1j2BgvfAbpgHtDrxAyiwYs=;
- b=G+S/WFOAZfUeYv4dCfxPJ8kTP2F6YeNUll2/8Jd/fQYDXlUzBv/nHTV9RjJxQ1b73YHnXD
- HQI6jQgAJdjWOwo4LJ7bRpRlhUJhniEFQPPtwd/PpFt+HK6OjOcWmsVdrgfmJeoYTDTxL4
- xc9L5hKstNeLXiiraiKYXssUU6QAfLU=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ bh=UE4XXKfvvfpryLgAXCbkxE22KwoSFTyQYL9Yz6BCPbk=;
+ b=ImmXGycfoDD0S36Uy/8Vomu4UYdnyuCRn423p+TXvluZtztHI4Mt26WqBDXkXc8pOHytHq
+ S7M0u4y4jZC6EMpkk3/CV4u2Gj8pmB7Eq3MNF1r/9WLYG3uztLwGfQhRKYrBxvD2S0xGkv
+ NJHDcR7cw1R9DuDHmBnXWWxIXLz9Pys=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-269-oAs-S85qMCSvgldeCpQXPg-1; Fri,
- 06 Feb 2026 17:35:30 -0500
-X-MC-Unique: oAs-S85qMCSvgldeCpQXPg-1
-X-Mimecast-MFC-AGG-ID: oAs-S85qMCSvgldeCpQXPg_1770417328
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-250-pS5TagS7PL26vwJxbZ23IQ-1; Fri,
+ 06 Feb 2026 17:35:32 -0500
+X-MC-Unique: pS5TagS7PL26vwJxbZ23IQ-1
+X-Mimecast-MFC-AGG-ID: pS5TagS7PL26vwJxbZ23IQ_1770417330
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id AB00A1956095; Fri,  6 Feb 2026 22:35:28 +0000 (UTC)
+ by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 7C8D51955F20; Fri,  6 Feb 2026 22:35:30 +0000 (UTC)
 Received: from GoldenWind.redhat.com (unknown [10.22.64.226])
  by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id B9647192C7C3; Fri,  6 Feb 2026 22:35:26 +0000 (UTC)
+ id DBA9E19373D8; Fri,  6 Feb 2026 22:35:28 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  rust-for-linux@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
@@ -55,14 +55,14 @@ Cc: nouveau@lists.freedesktop.org,
  Daniel Almeida <daniel.almeida@collabora.com>, Gary Guo <gary@garyguo.net>,
  Benno Lossin <lossin@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
  Janne Grunau <j@jannau.net>
-Subject: [PATCH v7 1/7] rust: drm: gem: Add raw_dma_resv() function
-Date: Fri,  6 Feb 2026 17:34:25 -0500
-Message-ID: <20260206223431.693765-2-lyude@redhat.com>
+Subject: [PATCH v7 2/7] rust: helpers: Add bindings/wrappers for dma_resv_lock
+Date: Fri,  6 Feb 2026 17:34:26 -0500
+Message-ID: <20260206223431.693765-3-lyude@redhat.com>
 In-Reply-To: <20260206223431.693765-1-lyude@redhat.com>
 References: <20260206223431.693765-1-lyude@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-MFC-PROC-ID: 40Fv6FWZVw0Tr4yN8HFx14eQg62mJW8B9PnqeitPzBg_1770417328
+X-Mimecast-MFC-PROC-ID: OhEqKzkdl1PnjNBkvgnFuU5C5QCALxhMcQjd27y_TqE_1770417330
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
@@ -111,44 +111,70 @@ X-Spamd-Result: default: False [-0.31 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: A396D103D9A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 4C25E103DAE
 X-Rspamd-Action: no action
 
-For retrieving a pointer to the struct dma_resv for a given GEM object. We
-also introduce it in a new trait, BaseObjectPrivate, which we automatically
-implement for all gem objects and don't expose to users outside of the
-crate.
+From: Asahi Lina <lina@asahilina.net>
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
+This is just for basic usage in the DRM shmem abstractions for implied
+locking, not intended as a full DMA Reservation abstraction yet.
+
+Signed-off-by: Asahi Lina <lina@asahilina.net>
+Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Reviewed-by: Janne Grunau <j@jananu.net>
+Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- rust/kernel/drm/gem/mod.rs | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ rust/bindings/bindings_helper.h |  1 +
+ rust/helpers/dma-resv.c         | 13 +++++++++++++
+ rust/helpers/helpers.c          |  1 +
+ 3 files changed, 15 insertions(+)
+ create mode 100644 rust/helpers/dma-resv.c
 
-diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
-index e1cc3af8ade9b..82b3151e5ae3b 100644
---- a/rust/kernel/drm/gem/mod.rs
-+++ b/rust/kernel/drm/gem/mod.rs
-@@ -197,6 +197,18 @@ fn create_mmap_offset(&self) -> Result<u64> {
- 
- impl<T: IntoGEMObject> BaseObject for T {}
- 
-+/// Crate-private base operations shared by all GEM object classes.
-+#[expect(unused)]
-+pub(crate) trait BaseObjectPrivate: IntoGEMObject {
-+    /// Return a pointer to this object's dma_resv.
-+    fn raw_dma_resv(&self) -> *mut bindings::dma_resv {
-+        // SAFETY: `as_gem_obj()` always returns a valid pointer to the base DRM gem object
-+        unsafe { (*self.as_raw()).resv }
-+    }
+diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+index 9fdf76ca630e0..ecf31681df806 100644
+--- a/rust/bindings/bindings_helper.h
++++ b/rust/bindings/bindings_helper.h
+@@ -48,6 +48,7 @@
+ #include <linux/cpumask.h>
+ #include <linux/cred.h>
+ #include <linux/debugfs.h>
++#include <linux/dma-resv.h>
+ #include <linux/device/faux.h>
+ #include <linux/dma-direction.h>
+ #include <linux/dma-mapping.h>
+diff --git a/rust/helpers/dma-resv.c b/rust/helpers/dma-resv.c
+new file mode 100644
+index 0000000000000..05501cb814513
+--- /dev/null
++++ b/rust/helpers/dma-resv.c
+@@ -0,0 +1,13 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <linux/dma-resv.h>
++
++int rust_helper_dma_resv_lock(struct dma_resv *obj, struct ww_acquire_ctx *ctx)
++{
++	return dma_resv_lock(obj, ctx);
 +}
 +
-+impl<T: IntoGEMObject> BaseObjectPrivate for T {}
-+
- /// A base GEM object.
- ///
- /// # Invariants
++void rust_helper_dma_resv_unlock(struct dma_resv *obj)
++{
++	dma_resv_unlock(obj);
++}
+diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
+index 79c72762ad9c4..1d3333cc0d2a8 100644
+--- a/rust/helpers/helpers.c
++++ b/rust/helpers/helpers.c
+@@ -25,6 +25,7 @@
+ #include "cred.c"
+ #include "device.c"
+ #include "dma.c"
++#include "dma-resv.c"
+ #include "drm.c"
+ #include "err.c"
+ #include "irq.c"
 -- 
 2.53.0
 
