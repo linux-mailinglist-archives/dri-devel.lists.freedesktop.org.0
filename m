@@ -2,95 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6DgKKqHahWnfHQQAu9opvQ
+	id EBTnHD4ohmmLKAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 13:12:17 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 18:43:26 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3FA7FD7BB
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 13:12:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DF55101434
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 18:43:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B9B610E13F;
-	Fri,  6 Feb 2026 12:12:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB6CF10E85D;
+	Fri,  6 Feb 2026 17:43:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="txDnVji0";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=stu.xidian.edu.cn header.i=@stu.xidian.edu.cn header.b="tVzsDtua";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A77610E13F
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 12:12:13 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-48327b8350dso3213635e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Feb 2026 04:12:13 -0800 (PST)
+X-Greylist: delayed 88690 seconds by postgrey-1.36 at gabe;
+ Fri, 06 Feb 2026 12:15:02 UTC
+Received: from zg8tmja5ljk3lje4ms43mwaa.icoremail.net
+ (zg8tmja5ljk3lje4ms43mwaa.icoremail.net [209.97.181.73])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1067110E7A1
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 12:15:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1770379932; x=1770984732; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=YTnNWMKuRG+jSdrzPn8mAyMAVE6ntJcgf6I9XpbwmCg=;
- b=txDnVji0CALiC9LXTgM7iBMUn9l5N32QuTkawqEXvDy9JXti1zml0TpNT7L6DfnOFD
- Ve6sJkATFbScAoDDgRFljQ3pYElAQTVX735h0ucm7UztV6CJTTWBNQtG7D/OF9nXrh80
- hU6LHCpeodPMnPZ7/MxNdY7JL60XLDdSr3YBKfWgTbCzWaFdFQSUjDTtOqWeX9E3dw4m
- EUQ1apBJLeWHQ/DjEgY4BjcczOdmh6MGp2s18hcylWStXfeicoYqzTmaNtQ4wSeBmT4s
- aQd10+SXcETaS4xZC5zb1IR+cZ+Hj660bKVdu64237uaNb0CIRIjJaqpg5bM6t9ZHuSS
- fx0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770379932; x=1770984732;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YTnNWMKuRG+jSdrzPn8mAyMAVE6ntJcgf6I9XpbwmCg=;
- b=xRpfw8npsmjZCp5K9j123AFyjeKepUwaYSShc/lCkP4JCoWRNlaYPX1tKytoAdfawb
- 5E/mRa53e1CeeYgFpYRwJ1G4tNQHHycQ2Fs6mp5LN757n9Jx0CVkHy+Cqt80R5Whs2SN
- 6FGQjxFSUQ1JXbIAm8Ntt9AieYK24SiTR0SxpIqTbvvAf76ULh2xhdKQlkWEp7ZLn5Tx
- w7xg8pfWb2U2AwXi/fTBdn13WN7ga4O+jJ7icQGGKDnryWiWBKBARPr4jKpZf7dXSu6i
- SYpHD6xCHIopf0FgcX8imGCB58luGq3iyRG2dWMO+7FeVDuFsCZ3xfxFA33CuCQSOSOG
- uqiw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUt5jrJeYMWdw0HLA4HFH+x9e+gdZgXcCOYvxhyGBoajLKTbctIGMwUzLncvlSpGaBH9HgYabX+nkg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyFaHD47ut8/rmURzeEHP6iPLbVKZqJk23OKXnR+cyOjFRkmUlu
- MdaQkeWSYHvx7xFk9G02Dw48GFQqiyqULFxO1O3uzFwIIHP6ZLYrNZ2gP0adY1RDei8=
-X-Gm-Gg: AZuq6aKi6G0sRaNbs/Q6kFHB80r9CJMutre6Y/h5GZk0czNDN6PBIbCO3J2Ou/l73JA
- 9AngkBsN0x5S6ILsfP40UB1Y+aKdvwhyt1aXDyuYB2/YFOfNdveP90qFO1pwAiy/aBIjr0vz+wC
- m2d8Zxal1koBQhFxf5HHTL5ruq7ZeRyAMZlz7D1mgMnotJrRBPT0SHTX3ygOc6pPk/iN4VZsAvQ
- QZIjhbFeH9AJoptfpwSP9jGApAUmuld4VUPIa+pKmkq9lUOcRCmhhHahz+q5XdMgnfcu7QW+F1g
- bI+AIzmot++D+v4NQSi3+PcwadxCWNvKUTXZrRwTm/FOTKXP5kgJg6Tff58261170Q7rcSyhSj+
- DgLxKC21yd4H8iKz7rK2OP5RHNzbvw22dC6YeO6BxGaGcJ4uIILq2N/z2Hpg3wf3N8GlQmKDkDZ
- M319RI1zGluY0WWJ6rqlQsM+zNrlQHWT3bpyIEx9WAljk=
-X-Received: by 2002:a05:600c:c165:b0:45c:4470:271c with SMTP id
- 5b1f17b1804b1-48320213840mr35367385e9.18.1770379931591; 
- Fri, 06 Feb 2026 04:12:11 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-48317d835f0sm122385125e9.14.2026.02.06.04.12.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Feb 2026 04:12:11 -0800 (PST)
-Message-ID: <d5982a20-b43a-4548-b65a-2ffc5ae8bcc4@ursulin.net>
-Date: Fri, 6 Feb 2026 12:12:10 +0000
+ d=stu.xidian.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
+ In-Reply-To:References:Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Message-ID; bh=4+4cqjv5HS7QUTKXhxPovbkRacAjiA3ql5IL
+ qapzVGc=; b=tVzsDtuaf2GkW3O8BUIvzzsl281j5b7oWxtm+OS/S6/G0q9q4oSl
+ PihCDfNjmooJQbF31SSI/zxA7vupSWXlZP9isMm85q+cMqISv/YziqIh5i8D+Ius
+ BZAvH5W84+SygfKrfdQfjBYbyfxaZurfkenditCaNoG/dbHLnbrEFYw=
+Received: from 23009200614$stu.xidian.edu.cn ( [36.62.70.96] ) by
+ ajax-webmail-hzbj-edu-front-2.icoremail.net (Coremail) ; Fri, 6 Feb 2026
+ 20:14:55 +0800 (GMT+08:00)
+X-Originating-IP: [36.62.70.96]
+Date: Fri, 6 Feb 2026 20:14:55 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?546L5b+X?= <23009200614@stu.xidian.edu.cn>
+To: "Thomas Zimmermann" <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: Re: [BUG] WARNING in drm_gem_object_handle_put_unlocked during
+ drm_release on Linux 6.18
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2024.3-cmXT6 build
+ 20250410(2f5ccd7f) Copyright (c) 2002-2026 www.mailtech.cn
+ mispb-8dfce572-2f24-404d-b59d-0dd2e304114c-icoremail.cn
+In-Reply-To: <f615f704-11b9-4185-a19d-ee9f253aca9d@suse.de>
+References: <40d309e5.ba84.19ba7a719d3.Coremail.wangzhi_xd@stu.xidian.edu.cn>
+ <5f9f00f9.daa0.19bc5fa04f4.Coremail.23009200614@stu.xidian.edu.cn>
+ <02207cf3-5519-4795-9de5-04c1a36550bd@suse.de>
+ <7b6aeae5.5f23.19bc7704c23.Coremail.23009200614@stu.xidian.edu.cn>
+ <4a75964b.1828.19c32ad28bf.Coremail.23009200614@stu.xidian.edu.cn>
+ <f615f704-11b9-4185-a19d-ee9f253aca9d@suse.de>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] drm/sched: Add new KUnit test suite for concurrent
- job submission
-To: Marco Pagani <marco.pagani@linux.dev>
-Cc: airlied@gmail.com, ckoenig.leichtzumerken@gmail.com, dakr@kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, marpagan@redhat.com,
- matthew.brost@intel.com, mripard@kernel.org, phasta@kernel.org,
- simona@ffwll.ch, tzimmermann@suse.de
-References: <79cf2013-da6b-4653-aaa8-3e29a7d1ee3a@ursulin.net>
- <90cdb121-7ff2-43a5-9327-2898b5e65609@linux.dev>
- <36b2f7b1-f38e-41b6-b7e5-107a80c028d0@ursulin.net>
- <dcdd45d4-a5fe-41af-a86c-cf4cede6e5d6@linux.dev>
- <07c8c588-c2d6-463d-aabc-d472b8f38be8@ursulin.net>
- <dde160ab-57bd-4727-be7f-d035cd9e7f19@linux.dev>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <dde160ab-57bd-4727-be7f-d035cd9e7f19@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Message-ID: <6b7e8c3.1864.19c32e070ca.Coremail.23009200614@stu.xidian.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: BLQMCkDmzb1A24VpW7scAA--.2945W
+X-CM-SenderInfo: qstqimqsqqliuu6v33wo0lvxldqovvfxof0/1tbiAgUQCGmE1RWJq
+	AAAsT
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
+X-Mailman-Approved-At: Fri, 06 Feb 2026 17:43:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,210 +79,224 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[ursulin.net:s=google];
+X-Spamd-Result: default: False [1.99 / 15.00];
+	DMARC_POLICY_QUARANTINE(1.50)[xidian.edu.cn : SPF not aligned (relaxed),quarantine];
+	MID_CONTAINS_FROM(1.00)[];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	MIME_BASE64_TEXT(0.10)[];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:marco.pagani@linux.dev,m:airlied@gmail.com,m:ckoenig.leichtzumerken@gmail.com,m:dakr@kernel.org,m:linux-kernel@vger.kernel.org,m:maarten.lankhorst@linux.intel.com,m:marpagan@redhat.com,m:matthew.brost@intel.com,m:mripard@kernel.org,m:phasta@kernel.org,m:simona@ffwll.ch,m:tzimmermann@suse.de,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	DMARC_NA(0.00)[ursulin.net];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,lists.freedesktop.org,vger.kernel.org,linux.intel.com,redhat.com,intel.com,ffwll.ch,suse.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[23009200614@stu.xidian.edu.cn,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[stu.xidian.edu.cn:~];
+	R_DKIM_PERMFAIL(0.00)[stu.xidian.edu.cn:s=dkim];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[23009200614@stu.xidian.edu.cn,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ursulin.net:+];
-	NEURAL_HAM(-0.00)[-0.996];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	HAS_X_PRIO_THREE(0.00)[3];
+	HAS_XOIP(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: F3FA7FD7BB
+	RCPT_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	NEURAL_SPAM(0.00)[0.916];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,qq.com:email,xidian.edu.cn:email,stu.xidian.edu.cn:mid,lists.freedesktop.org:email]
+X-Rspamd-Queue-Id: 6DF55101434
 X-Rspamd-Action: no action
 
-
-On 06/02/2026 10:36, Marco Pagani wrote:
-> 
-> 
-> On 05/02/2026 10:53, Tvrtko Ursulin wrote:
->>
->> On 04/02/2026 16:33, Marco Pagani wrote:
->>
->> 8><
->>
->>>>>>> +	{
->>>>>>> +		.description = "Concurrently submit multiple jobs in a single entity",
->>>>>>> +		.job_base_us = 1000,
->>>>>>> +		.num_jobs = 10,
->>>>>>> +		.num_subs = 64,
->>>>>>> +	},
->>>>>>> +};
->>>>>>> +
->>>>>>> +static void
->>>>>>> +drm_sched_concurrent_desc(const struct drm_sched_concurrent_params *params, char *desc)
->>>>>>> +{
->>>>>>> +	strscpy(desc, params->description, KUNIT_PARAM_DESC_SIZE);
->>>>>>> +}
->>>>>>> +
->>>>>>> +KUNIT_ARRAY_PARAM(drm_sched_concurrent, drm_sched_concurrent_cases, drm_sched_concurrent_desc);
->>>>>>> +
->>>>>>> +struct submitter_data {
->>>>>>> +	struct work_struct work;
->>>>>>> +	struct sched_concurrent_test_context *ctx;
->>>>>>> +	struct drm_mock_sched_entity *entity;
->>>>>>> +	struct drm_mock_sched_job **jobs;
->>>>>>> +	struct kunit *test;
->>>>>>> +	unsigned int id;
->>>>>>> +	bool timedout;
->>>>>>> +};
->>>>>>> +
->>>>>>> +static void drm_sched_submitter_worker(struct work_struct *work)
->>>>>>> +{
->>>>>>> +	const struct drm_sched_concurrent_params *params;
->>>>>>> +	struct sched_concurrent_test_context *ctx;
->>>>>>> +	struct submitter_data *sub_data;
->>>>>>> +	unsigned int i, duration_us;
->>>>>>> +	unsigned long timeout_jiffies;
->>>>>>> +	bool done;
->>>>>>> +
->>>>>>> +	sub_data = container_of(work, struct submitter_data, work);
->>>>>>> +	ctx = sub_data->ctx;
->>>>>>> +	params = sub_data->test->param_value;
->>>>>>> +
->>>>>>> +	wait_for_completion(&ctx->wait_go);
->>>>>>> +
->>>>>>> +	for (i = 0; i < params->num_jobs; i++) {
->>>>>>> +		duration_us = params->job_base_us + (sub_data->id * 10);
->>>>>>
->>>>>> Why is job duration dependent by the submitter id?
->>>>>
->>>>> Just a simple way to have a deterministic distribution of durations.
->>>>> I can change it if it doesn't fit.
->>>>>
->>>>>> Would it be feasiable to not use auto-completing jobs and instead
->>>>>> advance the timeline manually? Given how the premise of the test seems
->>>>>> to be about concurrent submission it sounds plausible that what happens
->>>>>> after submission maybe isn't very relevant.
->>>>>
->>>>> Good idea! I'll run some experiments and see if it works.
->>>>
->>>> Cool, I will await your findings in v2. :)
->>>
->>>
->>> After fiddling a bit with the code, I came to the conclusion that
->>> changing the design to use manual timeline advancement is doable, but
->>> not beneficial, since it would require serializing job submission into
->>> "batches" using a two-step process, i.e., (i) workers submit jobs, and
->>> (ii) the main thread waits for all submissions, advances the timeline,
->>> and then releases the workers for the next iteration.
->>
->> What do you mean by next iteration?
->>
->> In the patch you have each worker submit all jobs in one go.
-> 
-> I mean, if I change the code to use manual timeline advancement, then I
-> must introduce some synchronization logic that makes the main thread
-> advance the timeline only after the workers have submitted their jobs.
-
-Oh that, I was thinking advancing after flushing the workqueue would be 
-enough for this use case. Since that one does not care about when 
-completions happens they can just be cleaned up at the exit.
-
-> Since workers submit multiple jobs, I was thinking it would be better to
-> have the workers submit jobs in batches instead of all in one go.
-
-No strong opinion from me, as long as it is clear what is being tested.
-
->>> This approach would partially defeat the purpose of a concurrency test
->>> as it would not allow job submission (KUnit process context) to overlap
->>> with job completion (hrtimer callback interrupt context) that models
->>> asynchronous hardware in the mock scheduler, limiting contention on the
->>> DRM scheduler internal locking. Moreover, while manual advancement might
->>> appear to make the test deterministic, it does not since the order in
->>> which the workers are scheduled will still be non-deterministic.
->>
->> Ah, so it depends what is the test actually wanting to test. In my view
->> exercising parallel submit is one thing, while interleaving submission
->> with completion is something else.
->>
->> In the test as written I think there is very little of the latter. Each
->> worker submits all their jobs in one tight loop. Jobs you set to be 1ms
->> so first job completion is 1ms away from when workers are released. A
->> lot of the jobs can be submitted in 1ms and it would be interesting to
->> see exactly how much, from how many workers.
->>
->> If desire is to interleave completion and submission I think that should
->> be made more explicit (less depending on how fast is the underlying
->> machine). For example adding delays into the submit loop to actually
->> guarantee that.
-> 
-> Fair point.
-> 
->> But I would also recommend parallel submit and parallel submit vs
->> completions are tested in separate test cases. It should be easy to do
->> with some flags and almost no new code. I was suggesting flags for some
->> other thing in the initial review as well. Right, for auto-complete. So
->> flag could be something like:
->>
->> +static const struct drm_sched_concurrent_params
->> drm_sched_concurrent_cases[] = {
->> +	{
->> +		.description = "Concurrently submit a single job in a single entity",
->> +		.job_base_us = 1000,
->> +		.num_jobs = 1,
->> +		.num_subs = 32,
->> 		.flags = INTERLEAVE_SUBMIT_AND_COMPLETE,
->> +	},
->>
->> In the submit loop:
->>
->> +	for (i = 0; i < params->num_jobs; i++) {
->> +		duration_us = params->job_base_us + (sub_data->id * 10);
->> 		if (flags & INTERLEAVE_SUBMIT_AND_COMPLETE) {
->> 			drm_mock_sched_job_set_duration_us(sub_data->jobs[i], duration_us);
->> 			// Add a delay based on time elapse and job duration to guarantee job
->> completions start arriving
->> 		}
->> +		drm_mock_sched_job_submit(sub_data->jobs[i]);
->> +	}
->>
->>
->> And of course handle the job waiting stage appropriately depending on
->> auto-complete or not.
->>
->> Anyway, testing as little as possible at a time is a best practice I
->> recommend, but if you insist, there is also nothing fundamentally wrong
->> with the test as you have it so I won't block it.
-> 
-> Agreed. Unit tests should test one functionality at a time and be clear
-> about which one. I'll follow your suggestions and have two separate test
-> cases: a basic one for concurrent submissions with manual timeline
-> advancement (no batches, workers submit all jobs at once) and then a
-> second one with automatic timeline advancement for testing interleaving
-> submissions with completions.
-> 
-> At this point though, I think it would be better to move the tests to a
-> separate source file, as the partial similarity of the first concurrent
-> test case with drm_sched_basic_submit could create some confusion.
-
-Works for me, thank you!
-
-Regards,
-
-Tvrtko
-
+SGnvvIwKCkZvbGxvd2luZyB1cCBvbiB5b3VyIGNvbmNlcm46IHdl4oCZdmUgdXBkYXRlZCB0aGUg
+dGVzdCBjYXNlLiBXZSBjYW4gbm93IHN1Y2Nlc3NmdWxseSB0cmlnZ2VyIHRoZSBidWcgd2l0aG91
+dCBvdXIgY3VzdG9tIFFFTVUgZGV2aWNlIG1vZGVsIChieSBzZXR0aW5nIHRoZSBJRCB0byAw77yM
+dXNlIHRoZSBRRU1VIGRldmljZSBjYXJkMCwgLXZnYSBzdGQpLgoKU2luY2UgdGhpcyBwcm92ZXMg
+dGhlIGlzc3VlIGV4aXN0cyBpbiB0aGUgdXBzdHJlYW0ga2VybmVsIGxvZ2ljLCBjb3VsZCB5b3Ug
+cGxlYXNlIHRyeSB0byByZXByb2R1Y2UgaXQgYWdhaW4gd2l0aCB0aGUgdXBkYXRlZCBmaWxlPyBo
+dHRwczovL2dpdGh1Yi5jb20vbWFudWFsMC9jcmFzaC9ibG9iL21haW4vcmVwcm8xLmMKClRoYW5r
+cyBmb3IgdGhlIGd1aWRhbmNlIQoKPiAtLS0tLeWOn+Wni+mCruS7ti0tLS0tCj4g5Y+R5Lu25Lq6
+OiAiVGhvbWFzIFppbW1lcm1hbm4iIDx0emltbWVybWFubkBzdXNlLmRlPgo+IOWPkemAgeaXtumX
+tDoyMDI2LTAyLTA2IDE5OjIzOjM3ICjmmJ/mnJ/kupQpCj4g5pS25Lu25Lq6OiDnjovlv5cgPDIz
+MDA5MjAwNjE0QHN0dS54aWRpYW4uZWR1LmNuPiwgbXJpcGFyZEBrZXJuZWwub3JnLCBtYWFydGVu
+Lmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20KPiDmioTpgIE6IGRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcsIGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcKPiDkuLvpopg6IFJlOiBb
+QlVHXSBXQVJOSU5HIGluIGRybV9nZW1fb2JqZWN0X2hhbmRsZV9wdXRfdW5sb2NrZWQgZHVyaW5n
+IGRybV9yZWxlYXNlIG9uIExpbnV4IDYuMTgKPiAKPiBIaQo+IAo+IEFtIDA2LjAyLjI2IHVtIDEy
+OjE4IHNjaHJpZWIg546L5b+XOgo+ID4gSGksCj4gPgo+ID4gSnVzdCBhIGdlbnRsZSBmb2xsb3ct
+dXAgb24gdGhpcyBidWcgcmVwb3J0LiBTaW5jZSBpdCdzIGJlZW4gYWJvdXQgdGhyZWUgd2Vla3Ms
+IHdlIHdhbnRlZCB0byBjaGVjayB0aGUgc3RhdHVzIGFuZCBzZWUgaWYgdGhpcyBpcyBzb21ldGhp
+bmcgeW914oCZZCBsaWtlIHVzIHRvIHB1cnN1ZSBmdXJ0aGVyLgo+ID4KPiA+IFdlIGRvbuKAmXQg
+d2FudCB0byBsZXQgdGhpcyBzbGlwIGlmIGl04oCZcyBhIHZhbGlkIGlzc3VlLCBidXQgd2UgYWxz
+byB1bmRlcnN0YW5kIGlmIGl04oCZcyBub3QgYSBwcmlvcml0eS4gQ291bGQgeW91IGxldCB1cyBr
+bm93IGlmIHdlIHNob3VsZCBwcm92aWRlIG1vcmUgZGF0YSAobGlrZSB0aGUgUUVNVSBEUk0gbW9k
+ZWwgb3IgYSBmdXJ0aGVyIHJlZHVjZWQgcmVwcm9kdWNlciksIG9yIGlmIHdlIGNhbiBjbG9zZSB0
+aGlzIG9uIG91ciBlbmQ/Cj4gPgo+ID4gVGhhbmtzIGZvciB5b3VyIHRpbWUhCj4gCj4gSG9uZXN0
+bHkgc3BlYWtpbmcsIG5vIG9uZSB3aWxsIGxvb2sgYXQgdGhlc2UgYnVnIHJlcG9ydHMgaWYgdGhl
+eSByZXF1aXJlIAo+IHlvdXIgY3VzdG9taXphdGlvbiB0byBxZW11LiBJZiB0aGUgYnVnIGRvZXNu
+J3QgaGFwcGVuIHdpdGggdGhlIHVwc3RyZWFtIAo+IGNvZGUsIHRoZW4gaXQncyBub3QgYSBwcm9i
+bGVtIG9mIHVwc3RyZWFtLgo+IAo+IEJlc3QgcmVnYXJkcwo+IFRob21hcwo+IAo+ID4KPiA+Cj4g
+Pj4gLS0tLS3ljp/lp4vpgq7ku7YtLS0tLQo+ID4+IOWPkeS7tuS6ujog546L5b+XIDwyMzAwOTIw
+MDYxNEBzdHUueGlkaWFuLmVkdS5jbj4KPiA+PiDlj5HpgIHml7bpl7Q6MjAyNi0wMS0xNiAyMzoz
+MzowNCAo5pif5pyf5LqUKQo+ID4+IOaUtuS7tuS6ujogIlRob21hcyBaaW1tZXJtYW5uIiA8dHpp
+bW1lcm1hbm5Ac3VzZS5kZT4KPiA+PiDkuLvpopg6IFJlOiBSZTogW0JVR10gV0FSTklORyBpbiBk
+cm1fZ2VtX29iamVjdF9oYW5kbGVfcHV0X3VubG9ja2VkIGR1cmluZyBkcm1fcmVsZWFzZSBvbiBM
+aW51eCA2LjE4Cj4gPj4KPiA+PiBIaSwKPiA+Pgo+ID4+IHRoYW5rIHlvdSB2ZXJ5IG11Y2ggZm9y
+IHRlc3RpbmcgdGhlIHJlcHJvZHVjZXIgYW5kIGZvciB0aGUgZGV0YWlsZWQgZmVlZGJhY2suCj4g
+Pj4KPiA+Pj4gLS0tLS3ljp/lp4vpgq7ku7YtLS0tLQo+ID4+PiDlj5Hku7bkuro6ICJUaG9tYXMg
+WmltbWVybWFubiIgPHR6aW1tZXJtYW5uQHN1c2UuZGU+Cj4gPj4+IOWPkemAgeaXtumXtDoyMDI2
+LTAxLTE2IDE3OjM4OjU3ICjmmJ/mnJ/kupQpCj4gPj4+IOaUtuS7tuS6ujog546L5b+XIDwyMzAw
+OTIwMDYxNEBzdHUueGlkaWFuLmVkdS5jbj4sICJNYWFydGVuIExhbmtob3JzdCIgPG1hYXJ0ZW4u
+bGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4sICJNYXhpbWUgUmlwYXJkIiA8bXJpcGFyZEBrZXJu
+ZWwub3JnPgo+ID4+PiDkuLvpopg6IFJlOiBbQlVHXSBXQVJOSU5HIGluIGRybV9nZW1fb2JqZWN0
+X2hhbmRsZV9wdXRfdW5sb2NrZWQgZHVyaW5nIGRybV9yZWxlYXNlIG9uIExpbnV4IDYuMTgKPiA+
+Pj4KPiA+Pj4gSGkKPiA+Pj4KPiA+Pj4gQW0gMTYuMDEuMjYgdW0gMDk6NDQgc2NocmllYiDnjovl
+v5c6Cj4gPj4+PiBEZWFyIE1haW50YWluZXJzLAo+ID4+Pj4KPiA+Pj4+IEkgaG9wZSB5b3UgYXJl
+IGRvaW5nIHdlbGwuIEkgYW0gZm9sbG93aW5nIHVwIG9uIHRoZSBEUk0gd2FybmluZyBpbiBkcm1f
+Z2VtX29iamVjdF9oYW5kbGVfcHV0X3VubG9ja2VkIHRoYXQgSSByZXBvcnRlZCBvbiBKYW51YXJ5
+IDEwLiBJIHdhbnRlZCB0byBjaGVjayB3aGV0aGVyIHRoZXJlIGhhcyBiZWVuIGFueSBwcm9ncmVz
+cyBpbiBpbnZlc3RpZ2F0aW5nIHRoaXMgaXNzdWUuCj4gPj4+Pgo+ID4+Pj4gSWYgeW91IGVuY291
+bnRlciBhbnkgZGlmZmljdWx0aWVzIHJlcHJvZHVjaW5nIHRoZSBidWcgb3IgbmVlZCBhZGRpdGlv
+bmFsIHJlcHJvZHVjZXIgdGVzdHMsIGxvZ3MsIG9yIFFFTVUgZGV2aWNlIG1vZGVsaW5nIGZpbGVz
+LCB3ZSB3b3VsZCBiZSBoYXBweSB0byBwcm92aWRlIGFzc2lzdGFuY2UuCj4gPj4+IEknbSBydW5u
+aW5nIHRoZSByZXByb2R1Y2VyIGluIGEgcWVtdSBndWVzdCB3aXRoIGJvY2hzLiBUaGVyZSdzIG5v
+IGVycm9yCj4gPj4+IHNvIGZhci4gRG8gSSBuZWVkIGFueSBzcGVjaWFsIHBhcmFtZXRlcj8KPiA+
+Pj4KPiA+PiBUaGlzIGlzc3VlIGRlcGVuZHMgb24gYSBjdXN0b20gRFJNIGRldmljZSBtb2RlbCB0
+aGF0IHdlIGFkZGVkIHRvIFFFTVUsIHNvIGl0IHdpbGwgbm90IHJlcHJvZHVjZSBvbiBhIHZhbmls
+bGEgUUVNVSBzZXR1cCB3aXRoIG9ubHkgYm9jaHMgb3IgdmlydGlvLWdwdSBlbmFibGVkLiBUbyBy
+ZXByb2R1Y2UgdGhlIHdhcm5pbmcsIHRoZSBmb2xsb3dpbmcgc3RlcHMgYXJlIHJlcXVpcmVkOgo+
+ID4+Cj4gPj4gMS4gQnVpbGQgUUVNVSB3aXRoIG91ciBwcm92aWRlZCBkZXZpY2UgbW9kZWwKPiA+
+PiBQbGVhc2UgZmlyc3QgYnVpbGQgUUVNVSB3aXRoIHRoZSBEUk0gZGV2aWNlIG1vZGVsaW5nIGNv
+ZGUgd2UgcHJvdmlkZWQgKHRoZSBjdXN0b20gUENJIGRldmljZSkuCj4gPj4KPiA+PiAyLiBTdGFy
+dCBRRU1VIHdpdGggdGhlIGN1c3RvbSBEUk0gZGV2aWNlIGVuYWJsZWQKPiA+PiBJbiB0aGUgUUVN
+VSBjb21tYW5kIGxpbmUsIGFkZCB0aGUgZGV2aWNlOgo+ID4+IC1kZXZpY2UgYm9jaHNfZHJtX3Bj
+aQo+ID4+Cj4gPj4gMy4gVmVyaWZ5IHRoZSBkZXZpY2UgaW5zaWRlIHRoZSBndWVzdAo+ID4+IEFm
+dGVyIGJvb3RpbmcgdGhlIGd1ZXN0LCBwbGVhc2UgY2hlY2s6Cj4gPj4gbHMgL2Rldi9kcmkKPiA+
+PiBPbiBvdXIgc2V0dXAsIHRoZSBjdXN0b20gZGV2aWNlIGFwcGVhcnMgYXMgY2FyZDIuCj4gPj4K
+PiA+PiBBZGp1c3QgdGhlIHJlcHJvZHVjZXIgaWYgbmVlZGVkCj4gPj4gSWYgY2FyZDIgZG9lcyBu
+b3QgYXBwZWFyIGFuZCB0aGUgZGV2aWNlIGlzIGVudW1lcmF0ZWQgd2l0aCBhIGRpZmZlcmVudCBp
+bmRleCAoZm9yIGV4YW1wbGUgY2FyZDApLCBwbGVhc2UgdXBkYXRlIHRoZSByZXByb2R1Y2VyIGFj
+Y29yZGluZ2x5Lgo+ID4+Cj4gPj4gSW4gdGhlIHJlcHJvZHVjZXIsIGF0IGFyb3VuZCBsaW5lIDMw
+MDoKPiA+PiByZXMgPSBzeXpfb3Blbl9kZXYoLypkZXY9Ki8weDIwMDAwMDAwMDAwMCwgLyppZD0q
+LzIsCj4gPj4gICAgICAgICAgICAgICAgICAgICAvKmZsYWdzPSovMHgyMDAwMSk7Cj4gPj4gUGxl
+YXNlIGNoYW5nZSB0aGUgaWQgdmFsdWUgdG8gbWF0Y2ggdGhlIGFjdHVhbCBEUk0gZGV2aWNlIGlu
+ZGV4IHByZXNlbnQgaW4gL2Rldi9kcmkgKGUuZy4gMCBpZiB0aGUgZGV2aWNlIGlzIGNhcmQwKSwg
+dGhlbiByZWJ1aWxkIGFuZCByZXJ1biB0aGUgcmVwcm9kdWNlci4KPiA+Pgo+ID4+IFdpdGggdGhl
+IGFib3ZlIHNldHVwLCB0aGUgV0FSTklORyBpbiBkcm1fZ2VtX29iamVjdF9oYW5kbGVfcHV0X3Vu
+bG9ja2VkIGNhbiBiZSB0cmlnZ2VyZWQgcmVsaWFibHkuIE9uIG91ciBtYWNoaW5lcywgdGhpcyBy
+ZXByb2R1Y2VzIHRoZSBpc3N1ZSBjb25zaXN0ZW50bHkuCj4gPj4KPiA+Pj4+IFRoYW5rIHlvdSB2
+ZXJ5IG11Y2ggZm9yIHlvdXIgdGltZSBhbmQgc3VwcG9ydC4KPiA+Pj4+Cj4gPj4+PiBCZXN0IHJl
+Z2FyZHMsCj4gPj4+PiBaaGkgV2FuZwo+ID4+Pj4KPiA+Pj4+Cj4gPj4+Pj4gLS0tLS3ljp/lp4vp
+gq7ku7YtLS0tLQo+ID4+Pj4+IOWPkeS7tuS6ujog546L5b+XIDx3YW5nemhpX3hkQHN0dS54aWRp
+YW4uZWR1LmNuPgo+ID4+Pj4+IOWPkemAgeaXtumXtDoyMDI2LTAxLTEwIDE5OjI1OjA0ICjmmJ/m
+nJ/lha0pCj4gPj4+Pj4g5pS25Lu25Lq6OiAiTWFhcnRlbiBMYW5raG9yc3QiIDxtYWFydGVuLmxh
+bmtob3JzdEBsaW51eC5pbnRlbC5jb20+LCAiTWF4aW1lIFJpcGFyZCIgPG1yaXBhcmRAa2VybmVs
+Lm9yZz4sICJUaG9tYXMgWmltbWVybWFubiIgPHR6aW1tZXJtYW5uQHN1c2UuZGU+Cj4gPj4+Pj4g
+5oqE6YCBOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnLCBsaW51eC1rZXJuZWxAdmdl
+ci5rZXJuZWwub3JnCj4gPj4+Pj4g5Li76aKYOiBbQlVHXSBXQVJOSU5HIGluIGRybV9nZW1fb2Jq
+ZWN0X2hhbmRsZV9wdXRfdW5sb2NrZWQgZHVyaW5nIGRybV9yZWxlYXNlIG9uIExpbnV4IDYuMTgK
+PiA+Pj4+Pgo+ID4+Pj4+IERlYXIgTWFpbnRhaW5lcnMsCj4gPj4+Pj4gV2hlbiB1c2luZyBvdXIg
+Y3VzdG9taXplZCBTeXprYWxsZXIgdG8gZnV6eiB0aGUgbGF0ZXN0IExpbnV4IGtlcm5lbCwgdGhl
+IGZvbGxvd2luZyBjcmFzaCB3YXMgdHJpZ2dlcmVkLgo+ID4+Pj4+IEhFQUQgY29tbWl0OjdkMGE2
+NmU0YmI5MDgxZDc1YzgyZWM0OTU3YzUwMDM0Y2IwZWE0NDkKPiA+Pj4+PiBnaXQgdHJlZTogdXBz
+dHJlYW0KPiA+Pj4+PiBPdXRwdXQ6aHR0cHM6Ly9naXRodWIuY29tL21hbnVhbDAvY3Jhc2gvYmxv
+Yi9tYWluL3JlcG9ydDEudHh0Cj4gPj4+IFRoaXMgcmVwb3J0IHNheXM6Cj4gPj4+Cj4gPj4+IFNZ
+WkZBSUw6IGZhaWxlZCB0byByZWN2IHJwYwo+ID4+PiBmZD0zIHdhbnQ9NCByZWN2PTAgbj0wIChl
+cnJubyA5OiBCYWQgZmlsZSBkZXNjcmlwdG9yKQo+ID4+Pgo+ID4+PiBJZiB0aGUgRFJNIHJlcG9y
+dCBhIHJlc3VsdCBvZiB0aGlzIHByb2JsZW0/Cj4gPj4+Cj4gPj4+IEJlc3QgcmVnYXJkcwo+ID4+
+PiBUaG9tYXMKPiA+Pj4KPiA+Pj4+PiBLZXJuZWwgY29uZmlnOiBodHRwczovL2dpdGh1Yi5jb20v
+bWFudWFsMC9jcmFzaC9ibG9iL21haW4vY29uZmlnLnR4dAo+ID4+Pj4+IEMgcmVwcm9kdWNlcjpo
+dHRwczovL2dpdGh1Yi5jb20vbWFudWFsMC9jcmFzaC9ibG9iL21haW4vcmVwcm8xLmMKPiA+Pj4+
+Pgo+ID4+Pj4+IGRybV9nZW1fb2JqZWN0X2hhbmRsZV9wdXRfdW5sb2NrZWQgd2l0aGluIGRyaXZl
+cnMvZ3B1L2RybS9kcm1fZ2VtLmMgd2hpY2ggd2FzIGlkZW50aWZpZWQgZHVyaW5nIGZ1enppbmcg
+b24gYSBMaW51eCA2LjE4IGtlcm5lbC4gVGhpcyB3YXJuaW5nIGluZGljYXRlcyBhIHJlZmVyZW5j
+ZSBjb3VudGluZyBpbmNvbnNpc3RlbmN5IHdoZW4gcmVsZWFzaW5nIGEgR0VNIG9iamVjdCBoYW5k
+bGUgZHVyaW5nIHRoZSBwcm9jZXNzIGV4aXQgcGF0aC5UaGUgaXNzdWUgY29uc2lzdGVudGx5IG9j
+Y3VycyBkdXJpbmcgdGhlIHJlc291cmNlIGNsZWFudXAgc2VxdWVuY2Ugd2hlcmUgZHJtX3JlbGVh
+c2UgY2FsbHMgZHJtX2ZpbGVfZnJlZSBhbmQgc3Vic2VxdWVudGx5IGRybV9nZW1fcmVsZWFzZSwg
+d2hpY2ggdGhlbiBpdGVyYXRlcyB0aHJvdWdoIEdFTSBoYW5kbGVzIHZpYSBpZHJfZm9yX2VhY2gu
+IFdlIG5vdGljZWQgdGhhdCBzeXpib3QgaGFzIHByZXZpb3VzbHkgcmVwb3J0ZWQgYSBzaW1pbGFy
+IHdhcm5pbmcgaW4gZHJtX2dlbV9vYmplY3RfaGFuZGxlX3B1dF91bmxvY2tlZCB1bmRlciBleHRp
+ZCBlZjMyNTZhMzYwYzAyMjA3YTRjYiwgYnV0IG91ciBmaW5kaW5nIGlzIGRpc3RpbmN0IGJlY2F1
+c2UgdGhlIHN5emJvdCByZXBvcnQgaXMgdHJpZ2dlcmVkIGR1cmluZyB0aGUgY3JlYXRpb24gcGF0
+aCB2aWEgZHJtX21vZGVfY3JlYXRlX2R1bWJfaW9jdGwgd2hlcmVhcyBvdXIgdHJhY2UgcHJvdmVz
+IHRoZSBpc3N1ZSBwZXJzaXN0cyBpbiB0aGUgY2xlYW51cCBwYXRoIGV2ZW4gb24gdGhlIG5ld2Vy
+IDYuMTguMCB1cHN0cmVhbSB0cmVlLiBXZSBoYXZlIHNlYXJjaGVkIGZvciBleGlzdGluZyBwYXRj
+aGVzIGJ1dCBmb3VuZCBub25lIHRoYXQgYWRkcmVzcyB0aGlzIHNwZWNpZmljIHJlbGVhc2Utc2lk
+ZSBpbmNvbnNpc3RlbmN5LiBUaGlzIGJ1ZyB3YXMgcmVwcm9kdWNlZCBpbiBhIHNwZWNpYWxpemVk
+IGVudmlyb25tZW50IHVzaW5nIGEgY3VzdG9tLW1vZGVsZWQgZGV2aWNlIGFkZGVkIHRvIFFFTVUg
+dG8gc2ltdWxhdGUgc3BlY2lmaWMgaGFyZHdhcmUtZHJpdmVyIGludGVyYWN0aW9ucy4gVG8gYXNz
+aXN0IGluIHlvdXIgYW5hbHlzaXMsIHdlIGhhdmUgcHJvdmlkZWQgb3VyIFFFTVUgZGV2aWNlIG1v
+ZGVsaW5nIGZpbGUgaW4gdGhlIGFwcGVuZGl4IGFzIHRoZSBidWcgbWF5IG5vdCBiZSB0cmlnZ2Vy
+YWJsZSBvbiBzdGFuZGFyZCBlbXVsYXRlZCBoYXJkd2FyZS4KPiA+Pj4+Pgo+ID4+Pj4+IElmIHlv
+dSBmaXggdGhpcyBpc3N1ZSwgcGxlYXNlIGFkZCB0aGUgZm9sbG93aW5nIHRhZyB0byB0aGUgY29t
+bWl0Ogo+ID4+Pj4+IFJlcG9ydGVkLWJ5OiBaaGkgV2FuZyA8d2FuZ3poaUBzdHUueGlkaWFuLmVk
+dS5jbj4sIEJpbiBZdTxieXVAeGlkaWFuLmVkdS5jbj4sIE1pbmdZdSBXYW5nPHcxNTMwMzc0NjA2
+MkAxNjMuY29tPiwgV2VuSmlhbiBMdTwxOTg2MTcwMjY3OEAxNjMuY29tPiwgS2VGZW5nIEdhbzwy
+NDAxNTUzMDY0QHFxLmNvbT4sIHRoYW5rIHlvdSEKPiA+Pj4+Pgo+ID4+Pj4+IFdBUk5JTkc6IENQ
+VTogMSBQSUQ6IDEwODgwNiBhdCBkcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jOjMwMCBkcm1fZ2Vt
+X29iamVjdF9oYW5kbGVfcHV0X3VubG9ja2VkKzB4MzBlLzB4M2UwCj4gPj4+Pj4gTW9kdWxlcyBs
+aW5rZWQgaW46Cj4gPj4+Pj4gQ1BVOiAxIFVJRDogMCBQSUQ6IDEwODgwNiBDb21tOiBzeXouMS4z
+MTk3OCBOb3QgdGFpbnRlZCA2LjE4LjAgIzEgUFJFRU1QVChmdWxsKQo+ID4+Pj4+IEhhcmR3YXJl
+IG5hbWU6IFFFTVUgU3RhbmRhcmQgUEMgKGk0NDBGWCArIFBJSVgsIDE5OTYpLCBCSU9TIHJlbC0x
+LjE2LjMtMC1nYTZlZDZiNzAxZjBhLXByZWJ1aWx0LnFlbXUub3JnIDA0LzAxLzIwMTQKPiA+Pj4+
+PiBSSVA6IDAwMTA6ZHJtX2dlbV9vYmplY3RfaGFuZGxlX3B1dF91bmxvY2tlZCsweDMwZS8weDNl
+MAo+ID4+Pj4+IENvZGU6IGVkIDc0IDYxIGU4IDc0IGE4IDg0IGZjIDRjIDg5IGU3IGU4IDJjIDll
+IDk0IDAwIDQ4IGM3IGMxIDYwIDA5IGVhIDhiIDRjIDg5IGVhIDQ4IGM3IGM3IDQwIDA1IGVhIDhi
+IDQ4IDg5IGM2IGU4IGUzIDNiIDQ0IGZjIDkwIDwwZj4gMGIgOTAgOTAgNWIgNWQgNDEgNWMgNDEg
+NWQgNDEgNWUgNDEgNWYgZTkgM2YgYTggODQgZmMgNGMgODkgZmYKPiA+Pj4+PiBSU1A6IDAwMTg6
+ZmZmZmM5MDAwMmQyN2I4MCBFRkxBR1M6IDAwMDEwMjg2Cj4gPj4+Pj4gUkFYOiAwMDAwMDAwMDAw
+MDAwMDAwIFJCWDogZmZmZjg4ODExYWMwZmJlMCBSQ1g6IGZmZmZmZmZmODE3OWVkMDkKPiA+Pj4+
+PiBSRFg6IGZmZmY4ODgxMjRhMmJhMDAgUlNJOiBmZmZmZmZmZjgxNzllZDE2IFJESTogMDAwMDAw
+MDAwMDAwMDAwMQo+ID4+Pj4+IFJCUDogZmZmZjg4ODEwN2RmMTAwMCBSMDg6IDAwMDAwMDAwMDAw
+MDAwMDEgUjA5OiBmZmZmZWQxMDI2YmM0ODQxCj4gPj4+Pj4gUjEwOiAwMDAwMDAwMDAwMDAwMDAx
+IFIxMTogMDAwMDAwMDAwMDEzOWZjMCBSMTI6IGZmZmY4ODgxMDAxZWMwYzgKPiA+Pj4+PiBSMTM6
+IGZmZmY4ODgwMWM3MWJkNjAgUjE0OiAwMDAwMDAwMDAwMDAwMDAwIFIxNTogZmZmZjg4ODEwN2Rm
+MTAwNAo+ID4+Pj4+IEZTOiAgMDAwMDU1NTU3Y2VkMTUwMCgwMDAwKSBHUzpmZmZmODg4MWEyNjAx
+MDAwKDAwMDApIGtubEdTOjAwMDAwMDAwMDAwMDAwMDAKPiA+Pj4+PiBDUzogIDAwMTAgRFM6IDAw
+MDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzCj4gPj4+Pj4gQ1IyOiAwMDAwN2ZmZTU2
+NDZmZjAwIENSMzogMDAwMDAwMDEyZmJhMjAwMCBDUjQ6IDAwMDAwMDAwMDAwMDA2ZjAKPiA+Pj4+
+PiBDYWxsIFRyYWNlOgo+ID4+Pj4+ICAgIDxUQVNLPgo+ID4+Pj4+ICAgIGRybV9nZW1fb2JqZWN0
+X3JlbGVhc2VfaGFuZGxlKzB4YzcvMHgyMDAKPiA+Pj4+PiAgICBpZHJfZm9yX2VhY2grMHgxMTkv
+MHgyMzAgaG9tZS93bXkvRnV6emVyL3RoaXJkX3Rvb2wvbGludXgtNi4xOC9saWIvaWRyLmM6MjA4
+Cj4gPj4+Pj4gICAgZHJtX2dlbV9yZWxlYXNlKzB4MjkvMHg0MAo+ID4+Pj4+ICAgIGRybV9maWxl
+X2ZyZWUucGFydC4wKzB4NzI0LzB4Y2YwCj4gPj4+Pj4gICAgZHJtX2Nsb3NlX2hlbHBlci5pc3Jh
+LjArMHgxODMvMHgxZjAKPiA+Pj4+PiAgICBkcm1fcmVsZWFzZSsweDFhYi8weDM2MAo+ID4+Pj4+
+ICAgIF9fZnB1dCsweDQwMi8weGI1MCBob21lL3dteS9GdXp6ZXIvdGhpcmRfdG9vbC9saW51eC02
+LjE4L2ZzL2ZpbGVfdGFibGUuYzo0NjgKPiA+Pj4+PiAgICB0YXNrX3dvcmtfcnVuKzB4MTZiLzB4
+MjYwIGhvbWUvd215L0Z1enplci90aGlyZF90b29sL2xpbnV4LTYuMTgva2VybmVsL3Rhc2tfd29y
+ay5jOjIyNwo+ID4+Pj4+ICAgIGV4aXRfdG9fdXNlcl9tb2RlX2xvb3ArMHhmOS8weDEzMAo+ID4+
+Pj4+ICAgIGRvX3N5c2NhbGxfNjQrMHg0MjQvMHhmYTAgaG9tZS93bXkvRnV6emVyL3RoaXJkX3Rv
+b2wvbGludXgtNi4xOC9hcmNoL3g4Ni9lbnRyeS9zeXNjYWxsXzMyLmM6MzA4Cj4gPj4+Pj4gICAg
+ZW50cnlfU1lTQ0FMTF82NF9hZnRlcl9od2ZyYW1lKzB4NzcvMHg3Zgo+ID4+Pj4+IFJJUDogMDAz
+MzoweDdmNWY5ZDNiMDU5ZAo+ID4+Pj4+IENvZGU6IDAyIGI4IGZmIGZmIGZmIGZmIGMzIDY2IDBm
+IDFmIDQ0IDAwIDAwIGYzIDBmIDFlIGZhIDQ4IDg5IGY4IDQ4IDg5IGY3IDQ4IDg5IGQ2IDQ4IDg5
+IGNhIDRkIDg5IGMyIDRkIDg5IGM4IDRjIDhiIDRjIDI0IDA4IDBmIDA1IDw0OD4gM2QgMDEgZjAg
+ZmYgZmYgNzMgMDEgYzMgNDggYzcgYzEgYTggZmYgZmYgZmYgZjcgZDggNjQgODkgMDEgNDgKPiA+
+Pj4+PiBSU1A6IDAwMmI6MDAwMDdmZmViODVmYzZkOCBFRkxBR1M6IDAwMDAwMjQ2IE9SSUdfUkFY
+OiAwMDAwMDAwMDAwMDAwMWI0Cj4gPj4+Pj4gUkFYOiAwMDAwMDAwMDAwMDAwMDAwIFJCWDogMDAw
+MDdmNWY5ZDYyN2RhMCBSQ1g6IDAwMDA3ZjVmOWQzYjA1OWQKPiA+Pj4+PiBSRFg6IDAwMDAwMDAw
+MDAwMDAwMDAgUlNJOiAwMDAwMDAwMDAwMDAwMDFlIFJESTogMDAwMDAwMDAwMDAwMDAwMwo+ID4+
+Pj4+IFJCUDogMDAwMDdmZmViODVmYzc3OCBSMDg6IDAwMDAwMDFiMzI5MjAxNmEgUjA5OiAwMDAw
+MDAwMDAwMDAwMDAwCj4gPj4+Pj4gUjEwOiAwMDAwMDAxYjMyZDIwMDAwIFIxMTogMDAwMDAwMDAw
+MDAwMDI0NiBSMTI6IGZmZmZmZmZmZmZmZmZmZmYKPiA+Pj4+PiBSMTM6IDAwMDA3ZjVmOWQ2MjYw
+OWMgUjE0OiAwMDAwN2Y1ZjlkNjI3ZGEwIFIxNTogMDAwMDdmZmViODVmYzdhMAo+ID4+Pj4+ICAg
+IDwvVEFTSz4KPiA+Pj4+Pgo+ID4+Pj4+IFRoYW5rcywKPiA+Pj4+PiBaaGkgV2FuZwo+ID4+PiAt
+LSAKPiA+Pj4gLS0KPiA+Pj4gVGhvbWFzIFppbW1lcm1hbm4KPiA+Pj4gR3JhcGhpY3MgRHJpdmVy
+IERldmVsb3Blcgo+ID4+PiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgKPiA+
+Pj4gRnJhbmtlbnN0ci4gMTQ2LCA5MDQ2MSBOw7xybmJlcmcsIEdlcm1hbnksIHd3dy5zdXNlLmNv
+bQo+ID4+PiBHRjogSm9jaGVuIEphc2VyLCBBbmRyZXcgTWNEb25hbGQsIFdlcm5lciBLbm9ibGlj
+aCwgKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQo+ID4+Pgo+ID4+Pgo+IAo+IC0tIAo+IC0tCj4g
+VGhvbWFzIFppbW1lcm1hbm4KPiBHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyCj4gU1VTRSBTb2Z0
+d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICj4gRnJhbmtlbnN0ci4gMTQ2LCA5MDQ2MSBOw7xy
+bmJlcmcsIEdlcm1hbnksIHd3dy5zdXNlLmNvbQo+IEdGOiBKb2NoZW4gSmFzZXIsIEFuZHJldyBN
+Y0RvbmFsZCwgV2VybmVyIEtub2JsaWNoLCAoSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCj4gCj4g
+Cg==
