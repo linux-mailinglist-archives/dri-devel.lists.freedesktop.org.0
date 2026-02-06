@@ -2,79 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cGfyDWjlhWnCHwQAu9opvQ
+	id iMCiN3vnhWnCHwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 13:58:16 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 14:07:07 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86AA1FDC7A
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 13:58:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68643FDDA3
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 14:07:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCE4810E12B;
-	Fri,  6 Feb 2026 12:58:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38A8810E080;
+	Fri,  6 Feb 2026 13:07:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="FQtnmZx+";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Xr/k269h";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pADlDw8M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F8CF10E12B
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 12:58:11 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4f6vJx6ppXz9vHM;
- Fri,  6 Feb 2026 13:58:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1770382690;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=llgXl1mE8bc/+pFeFK8Wf0YdvBqmM9KcT1a3EQ5d55c=;
- b=FQtnmZx+cNsWxhGtEVONGv7U1ygvr9t2SH18ew1lt0NNElAZ8lOz3U4yA/VWb/tg7RwRQj
- dHLiU+jPkQ5+e8TKv1BZt/IMMbjhpNsS3uc5Z9SGy1RHmV+Y6x810FmjDo9noQRSVrIF7g
- p0r7vT2fhUZB5h2XOAg3v1l/hvUueyyRDvtJcDE9pr0p+3ONPb/8N/A4kOAc/xnMWLd8ut
- 7JRbe+ZsSiOFzquGpUwR4rvdZDznY/0GE9eJB27KxD6zin/BGZORcyMgsia8irheMeoaX0
- 7IzX9hFF+/QruRd9sO/z1LaEvuzPwptbPEu2HY7LoPl0e2D79RoXeJMfgz9GUQ==
-Authentication-Results: outgoing_mbo_mout;
- dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="Xr/k269h";
- spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org
- designates 2001:67c:2050:b231:465::1 as permitted sender)
- smtp.mailfrom=marek.vasut+renesas@mailbox.org
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1770382688;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=llgXl1mE8bc/+pFeFK8Wf0YdvBqmM9KcT1a3EQ5d55c=;
- b=Xr/k269h0oQIaFECs9ujS9B7jQDQlNf0KRkSqFXgv8YjiHqa5gqu15zosi9JzmOdHMADMf
- hgsEQsK0mfXUpQIvDBjknQo250+sUgBR7N2vU4QBrP1iGeaQzSIbhjc5aV6LDWRkG7jgk1
- eAzJd2FOxNlD0gjcbcKHcs44GrEhPiyrXPy4feyeVidP1QDCQmmABKXzeIZNV1FZIp/pbZ
- 4IM+82SOdjbYtpAqDX9EkTvFHFH/PCu5KZb9ll1/KtesWBil4d8urhweQiS50u8FnTd/nO
- gO1UIDG4LEC6Xt9N3/dhM/wbxcWBPEAasRSe4+29Cau1zOg227eaOWnAcZpdwQ==
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] drm/bridge: waveshare-dsi: Register and attach our DSI
- device at probe
-Date: Fri,  6 Feb 2026 13:57:53 +0100
-Message-ID: <20260206125801.78705-1-marek.vasut+renesas@mailbox.org>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15EFF10E080;
+ Fri,  6 Feb 2026 13:07:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id A6AA843D3E;
+ Fri,  6 Feb 2026 13:07:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98D59C116C6;
+ Fri,  6 Feb 2026 13:06:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1770383222;
+ bh=gjqm/xw+EyLKIgvQKuFWku6zxpUiLlZVezFuLgVUV6I=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=pADlDw8M4pf14jpmlIFbIscbYzigwt0Z6gyiUPqPYg4K53sg4tuJNS+Fd8+FfzpvP
+ C4XWlPplSyj14cXa9UOyziF1zOax7eidmDcttDSh0mjeh/D67t8YdTHpquiybuI+/P
+ Q4NABcm2YikcvBj0ZVFXg/MYMud+oq8IN8rNdASMAhRBY4xV+KoolGf9pk+V097FMg
+ EzBd1mN7Vu1V6bMDFMIYJvXLnz1586zJu9OcgL9MTm+6kLK7kQUrdnyfLgd8ZL3Otd
+ XR/MPyTP6VxLKOchVZSl3jixlqmRd+7Uiwdp721hNeoHeewXT7Xoj99I5dJSjBTylf
+ cH5uYZEzgAv6w==
+Message-ID: <75a6bc37-e597-46f0-adf8-c8ec8e5e0e4e@kernel.org>
+Date: Fri, 6 Feb 2026 14:06:55 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: ebf340d77ff1dffcde5
-X-MBO-RS-META: h9kizgeey8nho63mht4btn5efcornqr7
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/13] Remove device private pages from physical
+ address space
+To: Jordan Niethe <jniethe@nvidia.com>, linux-mm@kvack.org
+Cc: balbirs@nvidia.com, matthew.brost@intel.com, akpm@linux-foundation.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ ziy@nvidia.com, apopple@nvidia.com, lorenzo.stoakes@oracle.com,
+ lyude@redhat.com, dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+ rcampbell@nvidia.com, mpenttil@redhat.com, jgg@nvidia.com,
+ willy@infradead.org, linuxppc-dev@lists.ozlabs.org,
+ intel-xe@lists.freedesktop.org, jgg@ziepe.ca, Felix.Kuehling@amd.com,
+ jhubbard@nvidia.com, maddy@linux.ibm.com, mpe@ellerman.id.au
+References: <20260130111050.53670-1-jniethe@nvidia.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260130111050.53670-1-jniethe@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,114 +115,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	TAGGED_FROM(0.00)[renesas];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[mailbox.org,bootlin.com,intel.com,gmail.com,kwiboo.se,ideasonboard.com,linux.intel.com,kernel.org,linaro.org,ffwll.ch,suse.de,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[nvidia.com,intel.com,linux-foundation.org,vger.kernel.org,lists.freedesktop.org,oracle.com,redhat.com,kernel.org,gmail.com,ffwll.ch,infradead.org,lists.ozlabs.org,ziepe.ca,amd.com,linux.ibm.com,ellerman.id.au];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[marek.vasut@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	NEURAL_HAM(-0.00)[-0.997];
-	TAGGED_RCPT(0.00)[dri-devel,renesas];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,ideasonboard.com:email,kwiboo.se:email,mailbox.org:email,mailbox.org:dkim,mailbox.org:mid,lists.freedesktop.org:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:email]
-X-Rspamd-Queue-Id: 86AA1FDC7A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 68643FDDA3
 X-Rspamd-Action: no action
 
-In order to avoid any probe ordering issue, the best practice is to move
-the secondary MIPI-DSI device registration and attachment to the
-MIPI-DSI host at probe time.
+> The last patch contains the bulk of the work where we change how we
+> convert between device private pages to device private offsets and then
+> use a new interface for allocating device private pages without the need
+> for reserving physical address space.
+> 
+> By removing the device private pages from the physical address space,
+> this series also opens up the possibility to moving away from tracking
+> device private memory using struct pages in the future. This is
+> desirable as on systems with large amounts of memory these device
+> private struct pages use a signifiant amount of memory and take a
+> significant amount of time to initialize.
 
-Besides solving the probe ordering problems, this makes the bridge work
-with R-Car DU. The R-Car DU will attempt to locate the DSI host bridge in
-its own rcar_du_probe()->rcar_du_modeset_init()->rcar_du_encoder_init()
-by calling of_drm_find_bridge() which calls of_drm_find_and_get_bridge()
-and iterates over bridge_list to locate the DSI host bridge.
+I plan to take a look at some things in here soon; still catching up on 
+my overflowing inbox.
 
-However, unless the WS driver calls mipi_dsi_attach() in probe(), the
-DSI host bridge .attach callback rcar_mipi_dsi_host_attach() is not
-called and the DSI host bridge is not added into bridge_list. Therefore
-the of_drm_find_and_get_bridge() called from du_probe() will never find
-the DSI host bridge and probe will indefinitelly fail with -EPROBE_DEFER.
-
-The circular dependency here is, that if rcar_du_encoder_init() would
-manage to find the DSI host bridge, it would call the WS driver .attach
-callback ws_bridge_bridge_attach(), but this is too late and can never
-happen. This change avoids the circular dependency.
-
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Note that this is similar to e.g. commit
-6ef7ee48765f ("drm/bridge: sn65dsi83: Register and attach our DSI device at probe")
-and pretty much what every other DSI-to-DPI bridge does.
----
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Robert Foss <rfoss@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
-V2: - Update commit message with issue description
-    - Add RB from Luca
----
- drivers/gpu/drm/bridge/waveshare-dsi.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/waveshare-dsi.c b/drivers/gpu/drm/bridge/waveshare-dsi.c
-index 43f4e7412d722..9254446f54958 100644
---- a/drivers/gpu/drm/bridge/waveshare-dsi.c
-+++ b/drivers/gpu/drm/bridge/waveshare-dsi.c
-@@ -80,11 +80,6 @@ static int ws_bridge_bridge_attach(struct drm_bridge *bridge,
- 				   enum drm_bridge_attach_flags flags)
- {
- 	struct ws_bridge *ws = bridge_to_ws_bridge(bridge);
--	int ret;
--
--	ret = ws_bridge_attach_dsi(ws);
--	if (ret)
--		return ret;
- 
- 	return drm_bridge_attach(encoder, ws->next_bridge,
- 				 &ws->bridge, flags);
-@@ -179,7 +174,7 @@ static int ws_bridge_probe(struct i2c_client *i2c)
- 	ws->bridge.of_node = dev->of_node;
- 	devm_drm_bridge_add(dev, &ws->bridge);
- 
--	return 0;
-+	return ws_bridge_attach_dsi(ws);
- }
- 
- static const struct of_device_id ws_bridge_of_ids[] = {
 -- 
-2.51.0
+Cheers,
 
+David
