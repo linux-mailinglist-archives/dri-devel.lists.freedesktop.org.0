@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aDAHKcgehmm/JwQAu9opvQ
+	id aPWtNT4fhmm/JwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 18:03:04 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 18:05:02 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40864100AEF
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 18:03:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEA09100B6D
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 18:05:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CC5610E839;
-	Fri,  6 Feb 2026 17:03:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8433A10E840;
+	Fri,  6 Feb 2026 17:04:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="orkqlvE9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EE5crKCo";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="P0Te8zeS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rMULjRcu";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="c0m+A8Cb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9dogZ3on";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c0m+A8Cb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9dogZ3on";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BBDA10E839
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 17:02:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC52E10E842
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 17:04:56 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E4EAF5BCE3;
- Fri,  6 Feb 2026 17:02:53 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8F01B5BCC5;
+ Fri,  6 Feb 2026 17:04:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770397377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1770397495; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CUYqtP7ZgHQdQC5vBnzVZXDXwlg+QpNEKhaQm5ovGbg=;
- b=orkqlvE9SwTuzg1vUY/b9kRBRSLpHcoYbkm9JOzNPXV3xUCu71jskW4VC6PYgISH5dAKeQ
- GnxkepJWMc9d5s492frW0onGpnHzB+rf+OT0PoaQHLS9zG/MfhCdsTS6jTxddG2endGtrJ
- 1XF6Cbi3kAHbaCBgf/9/TTJmGw1Khg4=
+ bh=3g+CeqAHKY80QYlzK7Q90kGJJbcwGzuOMv3DI6coiUI=;
+ b=c0m+A8Cbf+rLZ3szeGwqR0keK2N4x1OkUaeOPTkf3sMJNCpTeUBur5IDP+DKAQ2eQgejrS
+ zIEXRT0ObUT+WOhQz/vocMcAjoOtK+Zb3qEnwu8Gthjmkgjq2Xsl8B20qlBNlf2GpU40xr
+ mQI9AS7BtgLrI9P4+fMTgCEFkGS9Q6I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770397377;
+ s=susede2_ed25519; t=1770397495;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CUYqtP7ZgHQdQC5vBnzVZXDXwlg+QpNEKhaQm5ovGbg=;
- b=EE5crKCoft9WjyIsphFaJSVj0dj3WisFlTa44mrS3a0w9C5UIZO139v5AfnUvd8wFoAV/1
- ijvnduHOW12+fhAw==
+ bh=3g+CeqAHKY80QYlzK7Q90kGJJbcwGzuOMv3DI6coiUI=;
+ b=9dogZ3on7nsX+Y0Jpn32RxODAdydoZXUQ8/EzP5Y+0myTaTkASY5FCgVI2NW4EsJx7Wp53
+ E9r9FSnoaQE1aJBA==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770397373; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1770397495; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CUYqtP7ZgHQdQC5vBnzVZXDXwlg+QpNEKhaQm5ovGbg=;
- b=P0Te8zeSLjKAlYkAT+2RbICPhrTFBetL7skyodk5FaxxibOH9vtxvMRNfPFjuWF/D3BvCO
- Twi7tlKa2WiGRW6KQFw0PMJvt9zlPkCAmXE9SqS2hBuQwUn90qdevnQOf1MeWIHxKS8xjC
- uYOazmxOURU4PzyXqg1pSF2T4sjAbr4=
+ bh=3g+CeqAHKY80QYlzK7Q90kGJJbcwGzuOMv3DI6coiUI=;
+ b=c0m+A8Cbf+rLZ3szeGwqR0keK2N4x1OkUaeOPTkf3sMJNCpTeUBur5IDP+DKAQ2eQgejrS
+ zIEXRT0ObUT+WOhQz/vocMcAjoOtK+Zb3qEnwu8Gthjmkgjq2Xsl8B20qlBNlf2GpU40xr
+ mQI9AS7BtgLrI9P4+fMTgCEFkGS9Q6I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770397373;
+ s=susede2_ed25519; t=1770397495;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CUYqtP7ZgHQdQC5vBnzVZXDXwlg+QpNEKhaQm5ovGbg=;
- b=rMULjRculEo3SDhtOcqpmQ/l0s6TQHipK7lfBzjVqqjjFBs2ZAH89Z4OkmL0BIHHr2y7hh
- +YBebsQbhnf9GdDA==
+ bh=3g+CeqAHKY80QYlzK7Q90kGJJbcwGzuOMv3DI6coiUI=;
+ b=9dogZ3on7nsX+Y0Jpn32RxODAdydoZXUQ8/EzP5Y+0myTaTkASY5FCgVI2NW4EsJx7Wp53
+ E9r9FSnoaQE1aJBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B86A13EA63;
- Fri,  6 Feb 2026 17:02:48 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 517453EA63;
+ Fri,  6 Feb 2026 17:04:50 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id dUHUKbgehmmudQAAD6G6ig
- (envelope-from <pfalcato@suse.de>); Fri, 06 Feb 2026 17:02:48 +0000
-Date: Fri, 6 Feb 2026 17:02:47 +0000
+ by imap1.dmz-prg2.suse.org with ESMTPSA id cV+8EDIfhml0FwAAD6G6ig
+ (envelope-from <pfalcato@suse.de>); Fri, 06 Feb 2026 17:04:50 +0000
+Date: Fri, 6 Feb 2026 17:04:44 +0000
 From: Pedro Falcato <pfalcato@suse.de>
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
@@ -132,18 +132,18 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  linux-ext4@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev, 
  devel@lists.orangefs.org, linux-xfs@vger.kernel.org, keyrings@vger.kernel.org, 
  linux-security-module@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v2 01/13] mm/vma: remove __private sparse decoration from
- vma_flags_t
-Message-ID: <e3qrulshyfrqkpihfb7prx2xyp5sn37aobccihw6r7vwwj2zm2@fh56mijhhk3c>
+Subject: Re: [PATCH v2 02/13] mm: rename vma_flag_test/set_atomic() to
+ vma_test/set_atomic_flag()
+Message-ID: <5pqsv3quguk6mwxywdqpvkcxhmqjoupqq44pserucrlelnyvnc@tkwpixdhcw5i>
 References: <cover.1769097829.git.lorenzo.stoakes@oracle.com>
- <64fa89f416f22a60ae74cfff8fd565e7677be192.1769097829.git.lorenzo.stoakes@oracle.com>
+ <033dcf12e819dee5064582bced9b12ea346d1607.1769097829.git.lorenzo.stoakes@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <64fa89f416f22a60ae74cfff8fd565e7677be192.1769097829.git.lorenzo.stoakes@oracle.com>
+In-Reply-To: <033dcf12e819dee5064582bced9b12ea346d1607.1769097829.git.lorenzo.stoakes@oracle.com>
+X-Spam-Flag: NO
 X-Spam-Score: -2.30
 X-Spam-Level: 
-X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -195,14 +195,17 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[oracle.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:email,suse.de:dkim]
-X-Rspamd-Queue-Id: 40864100AEF
+X-Rspamd-Queue-Id: EEA09100B6D
 X-Rspamd-Action: no action
 
-On Thu, Jan 22, 2026 at 04:06:10PM +0000, Lorenzo Stoakes wrote:
-> We need to pass around these values and access them in a way that sparse
-> does not allow, as __private implies noderef, i.e. disallowing dereference
-> of the value, which manifests as sparse warnings even when passed around
-> benignly.
+On Thu, Jan 22, 2026 at 04:06:11PM +0000, Lorenzo Stoakes wrote:
+> In order to stay consistent between functions which manipulate a vm_flags_t
+> argument of the form of vma_flags_...() and those which manipulate a
+> VMA (in this case the flags field of a VMA), rename
+> vma_flag_[test/set]_atomic() to vma_[test/set]_atomic_flag().
+> 
+> This lays the groundwork for adding VMA flag manipulation functions in a
+> subsequent commit.
 > 
 > Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
