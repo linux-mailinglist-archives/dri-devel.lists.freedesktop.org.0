@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mNKfBF41hmltLAQAu9opvQ
+	id kCysGXw4hmmcLAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 19:39:26 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 19:52:44 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A56B5102156
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 19:39:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECFF7102481
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 19:52:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0463710E8F8;
-	Fri,  6 Feb 2026 18:39:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E97710E8AE;
+	Fri,  6 Feb 2026 18:52:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="zGSOzCT0";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="IYBBVYIU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com
- (mail-northcentralusazon11012024.outbound.protection.outlook.com
- [40.107.200.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35F8610E8EE;
- Fri,  6 Feb 2026 18:39:19 +0000 (UTC)
+Received: from CH1PR05CU001.outbound.protection.outlook.com
+ (mail-northcentralusazon11010068.outbound.protection.outlook.com
+ [52.101.193.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1787F10E0C2;
+ Fri,  6 Feb 2026 18:52:39 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zGgdV8qHjMxCY/4Ii3PqanlhHDvPjfgJNjFOv0HcxGrR10kE4JgIhdyYTVP7QM/LYd22ORv3VIC5BJu2NfcFIFSA5QP5yEzf8aI2aHJiczQ+ni6+N30A6Rh2yuleBEDYLCpwtZKtU/kfDLWjQg4f0dn5bLSLivwze9YxVL0hRTNtzP5RrFceqRQKVUleYyXPwC1oMUEWD5WkgiX4H0kgm0QoPpGs962DwJ2WvHXAwjld6dP9TSn21dXI2CQnR9gckWSt0LyNTF8CHOQs5E5XM9q71jsRIUpT0ggc9wOgrxJZsXo1ga7ZCyhJ2yL6lNaOtrfuozEKnoVENhOV2oqoyg==
+ b=A7yT4KGWVx12ZwfLY10BmuzxW4AJthBiqKvzRowljCscBG/NWIdX3jLDEkjEOA5Qytn1cj7Uo6Dx6Kdjoo9iWTs6ROElH9C6gCBsQ+kzU8HTKRbitJsZB2peMnIQ4fi5KVkyEOl7RgLKbyFKBUVo9Rp81vU4ZBvpSsAZDQUxfGog37IIPfGOmg6iljuxTp/2Unh6qUXq5FaZD/54vjQu6NQ6iAHQZSTT3c8hnFw0o6R2LNmmU6akkXsqaoAM86AM50OO5kz3S/TjlUpbtlpmCNQm5ByFhVE6ghBwNAKmBEHn1cbtKNGkzx2XrZMtMwGFpl2d+4wv9pfUGZVuEp/EUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vy8RT5MmDe6GXHYrIer/6XxgS6VSLrjp7//LmIe11F0=;
- b=ei4zk4g/S7mdlMf82vS/KbOoAsOjOvlXyfabnINrU7S5UjbKJDy5KJIwl2XoWHVwVxUC+fM7Ua85fsMGyYk+Gfa6xKIhfvlBip1dh5MAI37Zd/Cj7LW7DispdyBtbjh2fJ0AXEmoE4X3CM5RPoazMXa9FK0J0/Zp85hY3liMcsulyvTuhxck1GS9L8ix/kpNC4GycJ9DluK3Yb1nnL/Hn2rl+sNrU0XrucMK+zLrYzUTdDTzsVvb+3Iw7+irb+dN3pRAaRNITzl34hrdVN2/BE4czFYxyOrSSkBzhC5tS3sb0qD4caPxsNFNE4u2QBaX06m0hrhW5aGZpd/6ZcRUaw==
+ bh=7lEnU5oV1nIdI99+yX2d8stz3CZcwRdB5lmNRZMLi/g=;
+ b=TT7vn39zwHG5jETp3kb2lhHhhSi50CQ1NS12MebCio6AS2wVtfb0/GRlY2sjrzncHJCl2y/Ki+O/TCnWAmMweCb1ltVErSB5l7NLFEOkEeALrZu9UvIjY4Yz7Tku55T8e0GRTnZdHKqP8rTv/KIxXXTa2yIu48p2frWbKgU2bDmwkmyAvhkatU9xW5NL7WVZ2qH6fwxo44BY3+sbwOwtP+rRll+D4R44QgOjNCEOxMBhp/4tk1IxMSU7EyR0r+5I5gRN8koWYJYX0AusMWIprxnfGUULTGjkFAl1ujkxbVLQx5c6qVKlJHgmLgqPc4LXg/dFwpZwlqBL2WRSVyZzpQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vy8RT5MmDe6GXHYrIer/6XxgS6VSLrjp7//LmIe11F0=;
- b=zGSOzCT00iGhnbcYXTGKvNpmzNwtv2mpo+/OyICaQk2XJ4HdUK5yLo1cp8ffaWus0D62ifuG+iRoXgjTAhgLZ8BCk903dxSFojvDO1bJsYTymLqrotbeMuDFlRbxluCT2O1qUmlM9QZOjnisxKD6v4VRg7QIlLQc8PnYaFeYUeE=
+ bh=7lEnU5oV1nIdI99+yX2d8stz3CZcwRdB5lmNRZMLi/g=;
+ b=IYBBVYIUQxSdAaovH0ehlYRQtKCs+Sv1uRn6Awpffe2VT9mi6TwkzCXfInztlAMgBH4YNauXopk/QmWH0AFamWPFbH+dQ60jeXHEeR1xnCd+iCln3zdYygL8hXHSWhCNVN6hzyheCo0rwitR1T6803b0Yps9wsjU63cAcRGAJ7Y=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BL1PR12MB5126.namprd12.prod.outlook.com (2603:10b6:208:312::8)
- by IA0PR12MB7649.namprd12.prod.outlook.com (2603:10b6:208:437::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.14; Fri, 6 Feb
- 2026 18:39:11 +0000
+ by DS2PR12MB9823.namprd12.prod.outlook.com (2603:10b6:8:2ad::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.16; Fri, 6 Feb
+ 2026 18:52:35 +0000
 Received: from BL1PR12MB5126.namprd12.prod.outlook.com
  ([fe80::c3e7:1bc5:2b91:1cfe]) by BL1PR12MB5126.namprd12.prod.outlook.com
  ([fe80::c3e7:1bc5:2b91:1cfe%4]) with mapi id 15.20.9587.013; Fri, 6 Feb 2026
- 18:39:11 +0000
-Message-ID: <0d56fa79-94b3-414e-a3c9-5b142d116ec9@amd.com>
-Date: Fri, 6 Feb 2026 13:39:04 -0500
+ 18:52:35 +0000
+Message-ID: <f19af3c6-f865-4758-8c50-aba40ec1cf68@amd.com>
+Date: Fri, 6 Feb 2026 13:52:29 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/19] drm/amd/display: Refactor PCON VRR compatibility
- check
+Subject: Re: [PATCH v3 16/19] drm/amd/display: Add parameter to control ALLM
+ behavior
 To: =?UTF-8?Q?Tomasz_Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
  alexander.deucher@amd.com, sunpeng.li@amd.com
 Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
@@ -61,113 +61,113 @@ Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  bernhard.berger@gmail.com, michel.daenzer@mailbox.org, daniel@fooishbar.org,
  admin@ptr1337.dev
 References: <20260203185626.55428-1-tomasz.pakula.oficjalny@gmail.com>
- <20260203185626.55428-6-tomasz.pakula.oficjalny@gmail.com>
+ <20260203185626.55428-17-tomasz.pakula.oficjalny@gmail.com>
 Content-Language: en-US
 From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20260203185626.55428-6-tomasz.pakula.oficjalny@gmail.com>
+In-Reply-To: <20260203185626.55428-17-tomasz.pakula.oficjalny@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQBPR01CA0048.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:2::20) To BL1PR12MB5126.namprd12.prod.outlook.com
+X-ClientProxiedBy: YQBPR01CA0059.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:2::31) To BL1PR12MB5126.namprd12.prod.outlook.com
  (2603:10b6:208:312::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5126:EE_|IA0PR12MB7649:EE_
-X-MS-Office365-Filtering-Correlation-Id: c685f124-929e-4cc1-2a5a-08de65af0525
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5126:EE_|DS2PR12MB9823:EE_
+X-MS-Office365-Filtering-Correlation-Id: cfbb0660-37a8-4018-6408-08de65b0e482
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|7416014|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?eXFOUWw4T242QUFXSTNIWnovT0tnYzQ4YnZXWVZWa2FEaFhpQ2dWZDRUUmZT?=
- =?utf-8?B?S05jeG1JWjdUR1pPVitZNTUzRElkNTlNU3BwVTJLaUorRG1Pa2hsTnRwY2JC?=
- =?utf-8?B?OXA1SVN6NDNjQ1lPWUZ0R1NNWkFXU3JWWkwzbHZTRm1JNzRtTmVyVEZjUDRZ?=
- =?utf-8?B?Nys1QTRoREh3SUdhTFRNUXVLb3pLcWRXYWNTSkJaK2RRd01EYkVTdEd6dnZG?=
- =?utf-8?B?MFJ1MzFVQ3BQSGFhSVBmNTAwdk9sallaRUp0VnpEdW90TmFLem9VRWpNZjkv?=
- =?utf-8?B?eDQvMWJyMnpYVjEvSGZQdCt3Q0dZYkpBYzBGOXV4YUM4WTU0U3RUMnBvakRW?=
- =?utf-8?B?cjk3M2NsdkFvWEd6eXY2NU96V0U5VHNrNHhGNnB4TlUvTTZuOVNQSG0xR3BN?=
- =?utf-8?B?QjgxYXNVVVZoS25JQ2o4SEhqQWg4RE1VME4wdGVWVWxOclN2Y3hDV1Y1aHNy?=
- =?utf-8?B?MGJtaFJ5Zi9qVTQ1TjZqUDdlandMZUdraHVNWWhYWTJUN2hidUtkN0cyR0Rv?=
- =?utf-8?B?OXNzc0Q3UUh3TlVoWFpIMkxlL05keUtKbUtjVzMxbVFTZHZNV2IzWTRLL25l?=
- =?utf-8?B?NWIxcmE4cGtYckdneE5NK3Y0RldRcXhtclMwTkdVRnlQazdCTENCTkVZQ3k2?=
- =?utf-8?B?T2RPMFRSWkVwbUl2UzdkemVGR0hZdlVZSDl4SjJYU09oKzZONklVL0dSVFpX?=
- =?utf-8?B?T3Q1UzZ5NzVjaHF1bWxERGpBVEVLUDRnOUVSTVYyUVdaZGRoWE5xMVdPVTNx?=
- =?utf-8?B?QWpsbnNTNjFJM3F6L082Zm4zcjFZV3dZTDZEZ04xLzVacFhFWEVQSmVHNzJC?=
- =?utf-8?B?NlBxNzRQWldGczVyOVJnN2VIQ1dLbWRucXY5UnZHY3NsY1dLYzFZMUljM3NR?=
- =?utf-8?B?Y283dzN0Ym55ZEo2b0gvK0Z6MjY5Z2wyYkl2eW9hZWRaMkorcVNPV1dQaTJi?=
- =?utf-8?B?eXNSSk8zWlJDeWNCUXdnTHJ0NDdTNjhjOUpwczg4a1hLS0NaelZ4V1RPMy9G?=
- =?utf-8?B?aGY5S2plUVdybUxhaUZXV1kzV1hmQnRzc2plckhpZEhQZU5CTk9DZitZTEJC?=
- =?utf-8?B?MTdVa1AwT1pyQTUyb1M0Z01PMUVmVEZOV3dPOTBhaVFBQlg2R3cyaWk5VVVu?=
- =?utf-8?B?WUtvZUtnZDRxL2xsQjFPQ0x3cjlhOWpnUFhVUHFIR0Nnckl6UzQwckQ5WXlP?=
- =?utf-8?B?eStnSGY2S3c1Y2tYMXF2cHd5L1lhL3kxM3N2Qkl0cXZlZ3hDT0VDSElKUGRJ?=
- =?utf-8?B?a1hNWURXZW45bTFaNXdNeHhnWmRxU3FKV1pCNmZ3bXZrSjVzblZyMDQrTDZJ?=
- =?utf-8?B?YXQ2Yk9PaUhHQU9qRWNBaFFaK1dEeEVEanJhTDJ3WXZyYVoxNExkQ0V5dFMy?=
- =?utf-8?B?UTZLQnE5K3g4YTdhenJ3Q0pZdDd0aVV5QVNjT2pVU0UwVkVaQVZrRkJwWnpU?=
- =?utf-8?B?Y1VWdXl1ZmUzRjNVdkhJVU1yT05OTmpBaWF0VVcrTFh5TDBSVGtEU0JsVXRX?=
- =?utf-8?B?eVJUdWZDTXJzYnBvV2ZPcjRLWnNrT3lDQmdVZFZCaDcybHJOS2xMcW5HbjZW?=
- =?utf-8?B?Q3ZjaWRQYzN4M3pMbEJTZ3FBZm5mVDVNbFpEL2NOTU05aGNKaXJKKzduSmpG?=
- =?utf-8?B?NGU0UDFqb3VZc2JVQUk0dzB0SUxaSWlsQm1CZ3hzRHR4MHRDaklmc2pRa0xI?=
- =?utf-8?B?TXhocllIODdzZ2QyZEVnSFlDYUo1a29xbEhvZU4waklYa0RBM1RGNmxIM1ZL?=
- =?utf-8?B?WFJQaWJKRlNRakh2VHlCZmRDeDFYMkw4TzZKK1FNdFBhdStSKzMzeUM0RTUx?=
- =?utf-8?B?eE1CWTVKRGtzWEZhZTRYOFlKQ1ZWOVBYQzZMQ08ycWVjM0ViS2lDUnZFZnNy?=
- =?utf-8?B?bUZXeEYyMGFvczlvek9rNlNUS1NHUlVOUDExNjZ1ZFBsbFZHRmZvdjl5UlAx?=
- =?utf-8?B?UkFJeTRtV2VFcGxEK2JKc2c5YVJrNnR0ZGhNL0tmN0pTL2JRZm5UZlYyOW15?=
- =?utf-8?B?R1lTUFRQNWtvNm10aGRiMW43YTRVb2ZQblNLSjloU1d3Y2tHT0pUZ3RjdHJ1?=
- =?utf-8?B?RWdIbDc2eTVmM2VBRHdDRm9vak01cWtIdTFPQitzcWs4aWcvQlBTV2Nra0lO?=
- =?utf-8?Q?Aly4=3D?=
+ ARA:13230040|366016|1800799024|7416014|376014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cDNpRENhZHhtc0gzYVdKV2pIQ05yVUQ1ZHd2alRVakdKcDhtS2FQU0dXV0pF?=
+ =?utf-8?B?eE1keE56Slc1Mnl2WWVvZEFiU2w2eHhSN0IyVVZFYzJPQi9RZVJjTXNRVVg5?=
+ =?utf-8?B?Q1oxWHZvZXIrV0x2bVl6Z2pxampTSWMxcW9xa2NYR0JEZS9MY1F5a2VvZkd4?=
+ =?utf-8?B?NUMyOTM2Q1FPU1RMZ25ac2ViRXpSK1ord1d0WHVaNzJyZU9jeWhOcWZFOWda?=
+ =?utf-8?B?RHNxVE1IelpOTitOQVMvc010V0Y0b3IvWFdibEMzK2E1Y29OWXgyNzgzRHk1?=
+ =?utf-8?B?OFc5eGw2QzBSRjNHRXVZOFBUZnJDS3l1Q2xISFQ4Zis3dTA0VlQ4SGZtQVFL?=
+ =?utf-8?B?SHJJTGZSS0NIdU5WRkxNbndFcjd3eHluVVRjS0FWYzFxenllNElVRGUzcUc4?=
+ =?utf-8?B?Lzh5YmNqa0hNSms2bG9DRXRUdkl1dkhpOUxEUWRyeVJzRGdBcGs0M2dYQ1k3?=
+ =?utf-8?B?YkdPYjg2SGtHL212L0ZYbGFjdTMzL0ZxZDZidG1zZzNxT0twYW91dmxpWEZW?=
+ =?utf-8?B?a1dzb0EvSnR5cEdmZzdmMXFQcDl3S2k0NTc1czlMV1d1OUpEaHZpY1lwZjFo?=
+ =?utf-8?B?a3FlWldTTHRhUWpCSkN1cEp0dXdjdE5SUzlzUUp2NkZvT004cVRxVWdBai9i?=
+ =?utf-8?B?NzQ4QnNDMzhQRFMrY3I1QzBGMkJlMC9zMWVWaTZmYm9uMmdGSlJwdjJ5VnZr?=
+ =?utf-8?B?U0tRRnZRbXVxc3draDFuZkJyemR1UEdpK1hQb2VvSnYwck9UdUJ0SnJuK2Vl?=
+ =?utf-8?B?MzVNL2hOWFVsaTNZM05MaU9MT3ZHeWx3cUdqVHdCcUUrSXY5bWdRTWJEUEdS?=
+ =?utf-8?B?bTA0SmhKZ0VVdEVNVTFKS1pIZVVLTDF1Z0RNS280NzYxREd5djI5NEk1RGd4?=
+ =?utf-8?B?NjZFcThEZldtaG9HMGdRTGE4VXBnazZlNVFMWDBaeU5YbERyMVgvMUg3cTR4?=
+ =?utf-8?B?Qk9ZZkJOWXA3MHhGQ3lVaHQzUy9BclBrVVNSckFqTlVmVk5MLzQ5VGJWNnJa?=
+ =?utf-8?B?Vm5zUmI3Y25CZFRsL1c4UUlETStJWlBPTFI5SUlJS0ZmaTNQbU5WMndNaWNr?=
+ =?utf-8?B?WXdrdlk5NGpZRHVhay9Ick9pODdoamY1WGl6Z2d4N1NFSjZlSVkyL0lLS0dB?=
+ =?utf-8?B?SU13TkhXVWdBSVlmTnRkS1FBSlB5WHdZQXIwYUlhTEU1ZnNCU1VBYTVKUlNi?=
+ =?utf-8?B?L2R6RXZ2MzRaRGVZZjRzaXp1L1NJa2E5dWNOcUpGUnlLbUQzL0VmYWEvQkti?=
+ =?utf-8?B?YlRralBrNk9BOG5pSkVrMTZPZ0o2WTRJaGlDNEdicXZFUTgwOTN3Ylk1cnND?=
+ =?utf-8?B?eVA4VkJuc3llWWN4UlpHTEtaZlNFK3pzL1BxZkFZSUNPcUR1K0xoQkJGbnhp?=
+ =?utf-8?B?NnV4NXZQUzBjZmFmL3BMb3BlMHVVMVRSTWQ3dm1oMEZYTVhBaUE4YWVreC9G?=
+ =?utf-8?B?Z0I5dDR4Q1ZxcjJRNE13R2tUUHR4UC9tSHB1SFpmZVRRSUk5T1JZMWdkZjBJ?=
+ =?utf-8?B?alJINko4K3hMYyt6eXhXNUFrbTNuL0Y1dWFMZnR2Z2NYVTZzYXZLMENQbDRS?=
+ =?utf-8?B?WHdVL2I5NnV3MmpiNmZBdjF2TXlDRGZBU2p3UmVGNGl3NFQ3cXhYQ2U5NHVm?=
+ =?utf-8?B?cFUvVXBBVHVIMUh0V21ZWDFGcVlrTXNkdzVnQ2dmeTdGV2lDRWxWdUl3ckZE?=
+ =?utf-8?B?R1hUa2JTS1ZIT1l0cGJ1S1pibC9OVXdZRDJWbStzTCsvbURnVHo5MFUzQURy?=
+ =?utf-8?B?VWVoRGgreHpNOHRaSGQ4MXc0MXJzUGNhWisyT0ZMWkJha2dyc2Y2enE0dkZL?=
+ =?utf-8?B?WCtvWW8vVHlRcWtJVkpMaU9RNWl1OXAraThkTU9RMHRrWlFzdi9jVWZKOGl6?=
+ =?utf-8?B?L0RkdDJadHRGVmIyL0xLdG96OHJ1cEZEK2ZXcFlmNmZwR3Z3T1dsUG1YZi9a?=
+ =?utf-8?B?L0dGVWh5TUt1N1dTb1dxTFRLOXJRVThFdWZoK0xhRFV5bm1TTGxTS3FmT3g0?=
+ =?utf-8?B?QkhPK2EzWC9Pc0VXY2ZzbzdQRzFqYWdSTjBwLzVXQmx4RS84OFdZVGZRdTIr?=
+ =?utf-8?B?S1BUMmtYR2l6RVZrUk1PYVQ0cmlFNWc1eUhQWHltUmdTSytkMEUxZ2M0TTBX?=
+ =?utf-8?Q?+2Zg=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL1PR12MB5126.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014)(7053199007); DIR:OUT;
+ SFS:(13230040)(366016)(1800799024)(7416014)(376014)(7053199007); DIR:OUT;
  SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dkU1RHBTOVZ1NE5pMHFmRnZVQTVSaDRZS2pSdnBLNlBMZ0lBdFBuTTRIQmJC?=
- =?utf-8?B?ZEJDVlJzWTFYbmNhdVgwdGx6ekpGdWYxaUtsUW45QzJXaEoyR3h3Z0ZHOFBk?=
- =?utf-8?B?ZFhWUnp4Q054Y2doVHZWM3dYdlh0clJjcGFoQjR3akZQMk5uVzBSQ2dkSHlB?=
- =?utf-8?B?SUJZcE9WMlhMYzZHaUNVdERvK3lZQ0dlT1N6am1QSW1PckN4Zk9KNDlTL1pE?=
- =?utf-8?B?ekZ6SnJwZk5iMDdPR1lreCtIZndDZFVFUUhueXcwanM2TzJ2dXY2REl0d3BK?=
- =?utf-8?B?RlVTSmNEQkd0M0dzM0FxMlc0dUI3bWNXWjZHSTVKZGdWMURkZjJ6ck1yMFk2?=
- =?utf-8?B?RDkxTlhFWnJadTVFWDhrOGFMYklpaVNBTHhybStGdUQveHJMcnVtR2NKZGFx?=
- =?utf-8?B?NFhyb1lNcWtXYjZvODFpd1VFRDdXTTVheGZjWUR5S2JOVXhKZGZJZFMzZDNx?=
- =?utf-8?B?dWhRNm9mb01EWVdpOW91YytwNlBic0xrQ3ZiZlkyT25Mb2FrMnVBT281c3ZW?=
- =?utf-8?B?YnhoakFQQ1pCOVBRbmRybzlVQUtlOC9VOVBXaTRGcUYrWERRSmw0aEZpK011?=
- =?utf-8?B?NTUrOS9wNVdaVEdvcUp2VExDL3loNmRKUkNOOGFPcFBHcnB5TlRNWWdUNThK?=
- =?utf-8?B?WmNMNzJxQTNYZUNwVGdzK1R1ZG4rYkVxalJrdmlIY0hpTUs1emlNUFhjMHEv?=
- =?utf-8?B?MTAveitRc1F2eVZxZ0NEQmZQQkgyeWh6aE9XNTJpQmJGYTg5R296THAvUzVP?=
- =?utf-8?B?ZWRWWElJbE4xS1VvV2hBaVFuU0dTcGxiTEdUWW9nTXRROHJWaWVNSjZ0Wkls?=
- =?utf-8?B?ZzFObWs0WU5mSnl3alVweEpSaXgrbDh2a0xZTFB1TjZMQU1YdVJXYlRMK1c0?=
- =?utf-8?B?a3NLUjIyRVZDRjRnVVduUXhHK2dBMzl6MVg5QWRXUWVzN1BNS0xNSXZvVExW?=
- =?utf-8?B?SFpTc2w3bENNc2ZVZVlNc0pZakFOdFRTNzUzZVlpNHI4K2dGcmJWOGUxdksz?=
- =?utf-8?B?dVpKUElVLzRFUk9nYmVlUU1tclBIc29ML25mNnNOV0xDNUgwRDVBcEZSa3NC?=
- =?utf-8?B?ay9la25Ia1lISGdiZE12U2plTWFIendKNWxzOGpKb3hHNUNjWGkzakIxZEpG?=
- =?utf-8?B?TmJMTzNTTVJvd2xKa1pMdjRkTW9RTVh0MXcwRlJudXVnNkpGWWpCVUJ1M2Vz?=
- =?utf-8?B?SUNMaHBzZ05nVEM5TEpvKzlaTXVEODI0eFJaZTRhRGsxQkpKQ3E4RnNpWndS?=
- =?utf-8?B?d1UxYXlHNmFjVXhYWHpxZU1kQ01INmpvaWJvNnpvUmFiVVN1Q1ByUjJrcmJR?=
- =?utf-8?B?Ylp6TDMyTWc1eTg2UlByYld0dHdNZnpUZkwrT0puVFREaGRKZXlVeXR4S2FL?=
- =?utf-8?B?TXg4RDk3VXlkb0xVZzZyanJYV3RSenRxYVEwRFY2N3ZUZUhMVld0OU9XUjVO?=
- =?utf-8?B?WVpvUzA1T2g5ZU9xT01VS1Z4OERvTCs3ZVpqdGNLUC84Y0tsc0crYTZ6V2Jx?=
- =?utf-8?B?MnNTbXFxL1VwdFNWeENCeFdidHUzM1pCTHQ2d0lLb0Vvbzc2cUlQZHE2MU54?=
- =?utf-8?B?dDlYRFlNd3ZqUFJVNHRXbGY2bXFJTnR3NXRvVUZiSlFka2VPZHJRcTMxNWZB?=
- =?utf-8?B?QWhUa0VDR1Q3WXozUG1HcUEvZ2R1THJNeldOR2liVWNmL2FqOFNkb1B1SVNQ?=
- =?utf-8?B?MUxObmR0dXJTdTcrRkdMdDl1RG5HbnJHdDZNUzBQQ3hnMkJURHZ2cndHKzMy?=
- =?utf-8?B?b1oyNTdKUTJMSCt0MjRjbERXd2N5QnpERFdhMUxwcE1QVmZ6UFJjM2pqWVZv?=
- =?utf-8?B?WTlqNW1OQkJqVkx5b2tKVmtFdTN1SXoxbys2eUpFNENCNlk5ZnM3WkdwWG4r?=
- =?utf-8?B?VUFWbTkxbE8yc2w4SjZreUx1Z2V4ZDFqY28rNU9PSVA0TWNnNUFtVlJwYStJ?=
- =?utf-8?B?MDMzQ2d1OCt1dUsrak83RDhGalhLOEFGYm0wbWp0TFV4cmhhR0RJcDk0VW82?=
- =?utf-8?B?ODBKL1FhMjBVVzN5YXVjV3BkVWppd0RIVDJnbENBL1pid1oxcUluR3dkWnFB?=
- =?utf-8?B?UDBnaXZLS2cvNGx0SnR3VnlZNlBjaDAzOUFva0VjMnBjUlR1N2ZtSGxhVGQ5?=
- =?utf-8?B?YmdlTHBrQTRnMERvRDJkVTlmc2p4dnBOMS94Vy9ucm5NMlhOOGVvNmROaCtp?=
- =?utf-8?B?VzF3ZWdZUWlQdlRPMWUrdWIwYVJsQzlmVFBtaDdNQmE1RzZTekRiL1B4QnA4?=
- =?utf-8?B?ei84bXhzcFZyMVZrNkhLS0xodGlEWXFyRFI5eENGR2xydmJxYXpoKzJUQnNB?=
- =?utf-8?B?Y1VReG1DVE0zZEpUOGhyU1ZGTWRGWFA4RGRPNVFiNXNyTWZrYjZYdz09?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?akpOd0dnM2NOZVYvTnJqVSsvYXJLOXNiQXhpamVCTk9pMmZSbVFLdVJqVCta?=
+ =?utf-8?B?WGtvelpWWlYrc3llWDZWZFFHd3ZDVzFlWTNxQkdKaUZlcTFVOWJURnJVK3Vw?=
+ =?utf-8?B?T2V6NmRoUVlIcnRpTnB5d2lpQ3FhNzR4Q1NwbWY0aTdadzVBSkI4Y2NNcWNk?=
+ =?utf-8?B?dDJNNTQ2eDVOa244bVFNL0ZJSHJELzRxN3hMdUlGYm1uQlRhZHl0V084RlZ5?=
+ =?utf-8?B?dngxZVdhSjI3SnJSM0hqdWlBWENBc0s3TzltOG9tYTk4KzBXUmRQbE1Danoy?=
+ =?utf-8?B?MjNHcE9YRHZ5bmxuUVFuRWpzOUV1R3pkdUlnZ2lFbVRpajE3d1JyRU82K2lW?=
+ =?utf-8?B?UjRzdW0wTG9ycDgvV1VtOUpycXZjOVVkU25IaVVpcndiM1NLdjBNZUFZZjZk?=
+ =?utf-8?B?NzYraDBNaFdoT0pxNVhrZ00yWTRKa3VRMWRnN0YrWGdBc0Zuam5RYUxERTVS?=
+ =?utf-8?B?L3hzNmgrOVRkMkltdk9iOGdVVG1XUUF1c2hiVTRJbUVHbm10MTNJK0tvNWNS?=
+ =?utf-8?B?M0NKcGV3MjZmREp6MjJSSVdoMk9zUHFqUzMxTy9tbVJSRTV4TXJaajVHQWN5?=
+ =?utf-8?B?N0k1RXJoeCtzRkhtK0EwYXA3Z1hqTk1Lb3ZnV0cxSzQrdUlLSHYyTFM0RG5m?=
+ =?utf-8?B?cmdRTHMyMVdKYjRxbE1nd0pFcFZUa3ExeE1IN0d0MFM5SE01cFA2bkZoLzdW?=
+ =?utf-8?B?Q0dmalhYM08wZmhwSGJjMG1admRZZG45RmJEY3lxOTNCUDlOaFp5ZDJRQVhY?=
+ =?utf-8?B?cGhMUFEwYzJScFo3T2dpTWtXeW5BM29XVTU3dW8wNU1CZWlVaWtodnJjazNt?=
+ =?utf-8?B?NVp0N2YxYXJob2tveHF1aGVGMStiZzkzWk5RMzlJWmNYSWttRjIzM2RDbElI?=
+ =?utf-8?B?TFRkTkJuMEMvN255bGNHTWVZcThSTWM1OXg3UXBGdDZEWEVFT29hREJVVVNU?=
+ =?utf-8?B?YmsvMkFZZURjZDh1MnpTd3I4d1ZEb0duYjhPR1hNSmZvME9SaDdpRkFZMUo4?=
+ =?utf-8?B?QU5SRDFXaXY4M296UXdHbStJOHRzVTB6WWpobnFuUytrWndkMWhySkRvSFh2?=
+ =?utf-8?B?SFlVd1I0dTBnRytuRDlQRGQyZm1EYzdwenlZanpub2NJSDNsRmkvQUxEMThB?=
+ =?utf-8?B?Nk1oTVJRVHB4cHZWakIzTkNNVis1eHZnYWRtUTR4R1Uxa3AwaGlLdVNNYUhy?=
+ =?utf-8?B?QmIxeENXMG91Q0xQZndjeVNpYkpwNThqTFdsV3pGQlJFLzJHQURDUExnbHdH?=
+ =?utf-8?B?Wjh4YjlLMGl5WWpUUzFNZlhSVml4ZTl5M1BSVmtTL1V6V0RLV3NWVFU0TXVy?=
+ =?utf-8?B?MEU3a0RrbTdySlJ6ZFFuczF6c3IyTTJpREY2RytuL0JCU1dkVE9WQ2Z1Q3dE?=
+ =?utf-8?B?ODJmTkZ6Zy8za2JzUDVMSi9NRjQyYml4NHNtTktiOFc1NGdvMWF4V0NqeUha?=
+ =?utf-8?B?THl1WDFpYkFPeUpnSFh6U1dKU0ZtSUhORkFpanFYWUF3bXBQZHZzNENpb0U0?=
+ =?utf-8?B?V0hINjcxMkVrdTUrRGVYVkVBeU4vOWVVTVYrS21hR0RkV1EwNnBSTlZubmNC?=
+ =?utf-8?B?b2c0cmxQVy9zcUFHSkN3NnY4ak8vT296TmRSSVV2Zmx4KzJJSVp2aXQzTnFz?=
+ =?utf-8?B?RkZWOFJVdG40ZXNsZUUxWUMwdjM4SDkxYmlQakFQdHlPd2NDcXpaSkxXd0ds?=
+ =?utf-8?B?d1c0MXVBRzJ1Z0gyUHRJcXlON280WllJeU9UVk5MM05zV01BdURQV3kvaTRE?=
+ =?utf-8?B?Z3pOV1UxRXJkTzlWa1VUZndWMDE1M0dKdm1ucEZmMnRJaTRqbjBjdWFhTDFi?=
+ =?utf-8?B?U2FsNldqRWZ1WnE4bG1wbWFtWGRxVE1UbjJQVFpNcmN2emFicS9KOU55OS9o?=
+ =?utf-8?B?YW9FcHNPRmU1cUY2YWJkb2pETnRtZEJya2dYTklDem5kZXdtZkF0WG8rSnRT?=
+ =?utf-8?B?anJQT09GYjFUdnRTa2dyeGpXT3p3dldWRDVGcGVMYVhjY3FZTHVvR3FLYTl0?=
+ =?utf-8?B?SzhXTUoyNlZVUGFpUjhrNjBSdFJ2Rkl6T1d5OU1CWGJ1NG92YzNrQ21qb3hv?=
+ =?utf-8?B?NUIyUEpVVVlhV2NHT3U1L1VleTladXBaU2NMVk1taVc1bGpDZSsreVNTSWwz?=
+ =?utf-8?B?WENkNnpmTS95WG5tVnVEUmRsMnVycm8vRUFpdmhINUkvWkVKZE5YNWJBMWJt?=
+ =?utf-8?B?cThrK0xIZjZHbFJJd2hPZVVnL1RhTGttRzVuQjZ0VmlaNDVSejFVREYyYjg0?=
+ =?utf-8?B?aGxVZlZSYUo5OCt2cUs2aE1Ec3pPOXo1YS9jdU9yUEJlQktKS2RvL2tXNWdF?=
+ =?utf-8?B?NE14dzdhaTBwQkVoK1BMdGVpMjRTQUhheEFpR1BqQUFadzFJNkdDZz09?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c685f124-929e-4cc1-2a5a-08de65af0525
+X-MS-Exchange-CrossTenant-Network-Message-Id: cfbb0660-37a8-4018-6408-08de65b0e482
 X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5126.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 18:39:11.5439 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 18:52:35.6743 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8OE59D4R1MCFck1M0p6MzrqH0Pm3fdMgQ/Nw2MQTBdndYannPGhn+85r/ZGNPYXd0yeFV3G8MKTZcwbdoFrTug==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7649
+X-MS-Exchange-CrossTenant-UserPrincipalName: KZxZo02ZYcbQyFLF4lolVBrKWqT8WGViLievxqOSuV/rdRMB91GlwVusmcddAwb+MStVAmCDCuCqbrCzlTx/qw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9823
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -202,179 +202,231 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[amd.com:+];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-1.000];
 	FROM_NEQ_ENVFROM(0.00)[harry.wentland@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,igalia.com,lists.freedesktop.org,vger.kernel.org,mailbox.org,fooishbar.org,ptr1337.dev];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:mid,amd.com:dkim]
-X-Rspamd-Queue-Id: A56B5102156
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:mid,amd.com:dkim]
+X-Rspamd-Queue-Id: ECFF7102481
 X-Rspamd-Action: no action
 
 On 2026-02-03 13:56, Tomasz Pakuła wrote:
 > [Why]
-> DP->HDMI PCONs prevously entered the DP path
+> Some users prefer to always manually control ALLM/Gaming mode while
+> others might want it permanently forced on.
+> 
+> [How]
+> Since there isn't yet an API to control this, expose module parameter
+> 
+> Changes in v3:
+> - Include a fix for possible NULL pointer dereference by Peter
+> 
+> Closes: https://github.com/CachyOS/linux-cachyos/issues/680
+> 
+> Co-developed-by: Peter Jung <admin@ptr1337.dev>
+> Signed-off-by: Peter Jung <admin@ptr1337.dev>
+> Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h           |  1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       | 14 +++++-
+>  .../gpu/drm/amd/display/dc/core/dc_resource.c |  7 +--
+>  .../amd/display/modules/inc/mod_info_packet.h |  1 +
+>  .../display/modules/info_packet/info_packet.c | 46 ++++++++++++++++---
+>  5 files changed, 56 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> index 447e734c362b..312aa32064d5 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -268,6 +268,7 @@ extern int amdgpu_rebar;
+>  
+>  extern int amdgpu_wbrf;
+>  extern int amdgpu_user_queue;
+> +extern uint amdgpu_allm_mode;
+>  
+>  extern uint amdgpu_hdmi_hpd_debounce_delay_ms;
+>  
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> index d6d0a6e34c6b..4b038c8bbf9f 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -248,6 +248,7 @@ int amdgpu_umsch_mm_fwlog;
+>  int amdgpu_rebar = -1; /* auto */
+>  int amdgpu_user_queue = -1;
+>  uint amdgpu_hdmi_hpd_debounce_delay_ms;
+> +uint amdgpu_allm_mode = 1;
+>  
+>  DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
+>  			"DRM_UT_CORE",
+> @@ -1124,7 +1125,7 @@ module_param_named(rebar, amdgpu_rebar, int, 0444);
+>  MODULE_PARM_DESC(user_queue, "Enable user queues (-1 = auto (default), 0 = disable, 1 = enable, 2 = enable UQs and disable KQs)");
+>  module_param_named(user_queue, amdgpu_user_queue, int, 0444);
+>  
+> -/*
+> +/**
+>   * DOC: hdmi_hpd_debounce_delay_ms (uint)
+>   * HDMI HPD disconnect debounce delay in milliseconds.
+>   *
+> @@ -1134,6 +1135,17 @@ module_param_named(user_queue, amdgpu_user_queue, int, 0444);
+>  MODULE_PARM_DESC(hdmi_hpd_debounce_delay_ms, "HDMI HPD disconnect debounce delay in milliseconds (0 to disable (by default), 1500 is common)");
+>  module_param_named(hdmi_hpd_debounce_delay_ms, amdgpu_hdmi_hpd_debounce_delay_ms, uint, 0644);
+>  
+> +/**
+> + * DOC: allm_mode (int)
+> + * Changes ALLM triggering mode (if sink supports ALLM). Possible values:
+> + *
+> + * - 0 = ALLM disabled
+> + * - 1 = ALLM dynamically triggered based on VRR state / Game Content Type Hint
+> + * - 2 = ALLM forced always on
+> + */
+> +MODULE_PARM_DESC(allm_mode, "Changes ALLM trigger mode (0 = disable, 1 = enable (default), 2 = force enable)");
+> +module_param_named(allm_mode, amdgpu_allm_mode, uint, 0644);
+> +
+>  /* These devices are not supported by amdgpu.
+>   * They are supported by the mach64, r128, radeon drivers
+>   */
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> index 4a7c9f810e35..b779aac28dfa 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
+> @@ -44,6 +44,7 @@
+>  #include "clk_mgr.h"
+>  #include "dc_state_priv.h"
+>  #include "dc_stream_priv.h"
+> +#include "modules/inc/mod_info_packet.h"
 
-Again, not a fan of changing behavior in a "Refactor" commit.
-Maybe drop refactor and put the functional change in the title
-instead? And/or disentangle the non-functional and functional
-portions of the change into two separate commits. Though I'm not
-set on separating this into two commits.
+Architecturally DC can't have a dependency on modules.
+Is there a different way we can handle this?
 
-Otherwise the change looks good.
+Could we do the determination in amdgpu_dm (with help of
+the module) and then set a flag on the stream?
 
 Harry
 
-> 
-> [How]
-> Restructure amdgpu_dm_update_freesync_caps() and move
-> dm_get_adaptive_sync_support_type() to dm_helpers_is_vrr_pcon_allowed()
-> to better reflect what this function does. It never actually gave us any
-> other info.
-> 
-> Signed-off-by: Tomasz Pakuła <tomasz.pakula.oficjalny@gmail.com>
-> ---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 24 +++++++-----
->  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 39 ++++++-------------
->  drivers/gpu/drm/amd/display/dc/dm_helpers.h   |  2 +-
->  3 files changed, 27 insertions(+), 38 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 284f5b326c18..9346b62d981b 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -13278,7 +13278,8 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
->  	struct dpcd_caps dpcd_caps = {0};
->  	const struct edid *edid;
->  	bool freesync_capable = false;
-> -	enum adaptive_sync_type as_type = ADAPTIVE_SYNC_TYPE_NONE;
-> +	bool pcon_allowed = false;
-> +	bool is_pcon = false;
 >  
->  	if (!connector->state) {
->  		drm_err(adev_to_drm(adev), "%s - Connector has no state", __func__);
-> @@ -13306,18 +13307,23 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
->  	if (!adev->dm.freesync_module || !dc_supports_vrr(sink->ctx->dce_version))
->  		goto update;
+>  #include "virtual/virtual_link_hwss.h"
+>  #include "link/hwss/link_hwss_dio.h"
+> @@ -4503,8 +4504,6 @@ static void set_avi_info_frame(
+>  	unsigned int vic = pipe_ctx->stream->timing.vic;
+>  	unsigned int rid = pipe_ctx->stream->timing.rid;
+>  	unsigned int fr_ind = pipe_ctx->stream->timing.fr_index;
+> -	enum dc_timing_3d_format format;
+> -	bool allm;
 >  
-> +	/* Gather all data */
->  	edid = drm_edid_raw(drm_edid); // FIXME: Get rid of drm_edid_raw()
->  	parse_amd_vsdb_cea(amdgpu_dm_connector, edid, &vsdb_info);
+>  	if (stream->avi_infopacket.valid) {
+>  		*info_packet = stream->avi_infopacket;
+> @@ -4658,10 +4657,8 @@ static void set_avi_info_frame(
+>  	///VIC
+>  	if (pipe_ctx->stream->timing.hdmi_vic != 0)
+>  		vic = 0;
+> -	format = stream->timing.timing_3d_format;
+> -	allm = stream->link->local_sink->edid_caps.allm;
+>  	/*todo, add 3DStereo support*/
+> -	if ((format != TIMING_3D_FORMAT_NONE) || allm) {
+> +	if (!is_hdmi_vic_mode(pipe_ctx->stream)) {
+>  		// Based on HDMI specs hdmi vic needs to be converted to cea vic when 3D is enabled
+>  		switch (pipe_ctx->stream->timing.hdmi_vic) {
+>  		case 1:
+> diff --git a/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h b/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
+> index 306eb7355c25..9ec123ecc7c4 100644
+> --- a/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
+> +++ b/drivers/gpu/drm/amd/display/modules/inc/mod_info_packet.h
+> @@ -41,6 +41,7 @@ void set_vsc_packet_colorimetry_data(
+>  		enum dc_color_space cs,
+>  		enum color_transfer_func tf);
 >  
-> -	if (amdgpu_dm_connector->dc_link)
-> +	if (amdgpu_dm_connector->dc_link) {
->  		dpcd_caps = amdgpu_dm_connector->dc_link->dpcd_caps;
-> +		is_pcon = dpcd_caps.dongle_type == DISPLAY_DONGLE_DP_HDMI_CONVERTER;
-> +		pcon_allowed = dm_helpers_is_vrr_pcon_allowed(amdgpu_dm_connector->dc_link);
-> +	}
+> +bool is_hdmi_vic_mode(const struct dc_stream_state *stream);
+>  void mod_build_vsc_infopacket(const struct dc_stream_state *stream,
+>  		struct dc_info_packet *info_packet,
+>  		enum dc_color_space cs,
+> diff --git a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
+> index 53e488fdb4ea..829cce9455db 100644
+> --- a/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
+> +++ b/drivers/gpu/drm/amd/display/modules/info_packet/info_packet.c
+> @@ -23,12 +23,13 @@
+>   *
+>   */
 >  
->  	/* Some eDP panels only have the refresh rate range info in DisplayID */
->  	if (is_monitor_range_invalid(connector))
->  		parse_edid_displayid_vrr(connector, edid);
+> -#include "mod_info_packet.h"
+> +#include "amdgpu.h"
+>  #include "core_types.h"
+> -#include "dc_types.h"
+> -#include "mod_shared.h"
+> -#include "mod_freesync.h"
+>  #include "dc.h"
+> +#include "dc_types.h"
+> +#include "mod_freesync.h"
+> +#include "mod_info_packet.h"
+> +#include "mod_shared.h"
 >  
-> -	if (sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT ||
-> -	    sink->sink_signal == SIGNAL_TYPE_EDP) {
-> +	/* DP & eDP excluding PCONs */
-> +	if ((sink->sink_signal == SIGNAL_TYPE_EDP ||
-> +	     sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT) && !is_pcon) {
->  		/*
->  		 * Many monitors expose AMD vsdb in CAE even for DP and their
->  		 * monitor ranges do not contain Range Limits Only flag
-> @@ -13342,17 +13348,15 @@ void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
->  			amdgpu_dm_connector->as_type = ADAPTIVE_SYNC_TYPE_EDP;
->  		}
+>  enum vsc_packet_revision {
+>  	vsc_packet_undefined = 0,
+> @@ -54,6 +55,12 @@ enum vsc_packet_revision {
+>  #define HF_VSIF_3D_BIT   0
+>  #define HF_VSIF_ALLM_BIT 1
 >  
-> +	/* HDMI */
->  	} else if (sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A && vsdb_info.freesync_supported) {
->  		monitor_range_from_vsdb(&connector->display_info, &vsdb_info);
->  		freesync_capable = copy_range_to_amdgpu_connector(connector);
-> -	}
->  
-> -	if (amdgpu_dm_connector->dc_link)
-> -		as_type = dm_get_adaptive_sync_support_type(amdgpu_dm_connector->dc_link);
-> -
-> -	if (as_type == FREESYNC_TYPE_PCON_IN_WHITELIST && vsdb_info.freesync_supported) {
-> +	/* DP -> HDMI PCON */
-> +	} else if (pcon_allowed && vsdb_info.freesync_supported) {
-> +		amdgpu_dm_connector->as_type = FREESYNC_TYPE_PCON_IN_WHITELIST;
->  		amdgpu_dm_connector->pack_sdp_v1_3 = true;
-> -		amdgpu_dm_connector->as_type = as_type;
->  		amdgpu_dm_connector->vsdb_info = vsdb_info;
->  
->  		monitor_range_from_vsdb(&connector->display_info, &vsdb_info);
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> index 1f41d6540b83..45a91df619d9 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> @@ -1381,40 +1381,25 @@ void dm_helpers_dp_mst_update_branch_bandwidth(
->  	// TODO
->  }
->  
-> -static bool dm_is_freesync_pcon_whitelist(const uint32_t branch_dev_id)
-> +bool dm_helpers_is_vrr_pcon_allowed(const struct dc_link *link)
->  {
-> -	bool ret_val = false;
-> +	if (link->dpcd_caps.dongle_type != DISPLAY_DONGLE_DP_HDMI_CONVERTER)
-> +		return false;
->  
-> -	switch (branch_dev_id) {
-> +	if (!link->dpcd_caps.allow_invalid_MSA_timing_param)
-> +		return false;
+> +enum allm_trigger_mode {
+> +	ALLM_MODE_DISABLED        = 0,
+> +	ALLM_MODE_ENABLED_DYNAMIC = 1,
+> +	ALLM_MODE_ENABLED_FORCED  = 2,
+> +};
 > +
-> +	if (!link->dpcd_caps.adaptive_sync_caps.dp_adap_sync_caps.bits.ADAPTIVE_SYNC_SDP_SUPPORT)
-> +		return false;
-> +
-> +	switch (link->dpcd_caps.branch_dev_id) {
->  	case DP_BRANCH_DEVICE_ID_0060AD:
->  	case DP_BRANCH_DEVICE_ID_00E04C:
->  	case DP_BRANCH_DEVICE_ID_90CC24:
-> -		ret_val = true;
-> -		break;
-> -	default:
-> -		break;
-> +		return true;
+>  // VTEM Byte Offset
+>  #define VTEM_PB0		0
+>  #define VTEM_PB1		1
+> @@ -499,7 +506,32 @@ void mod_build_vsc_infopacket(const struct dc_stream_state *stream,
 >  	}
->  
-> -	return ret_val;
-> -}
-> -
-> -enum adaptive_sync_type dm_get_adaptive_sync_support_type(struct dc_link *link)
-> -{
-> -	struct dpcd_caps *dpcd_caps = &link->dpcd_caps;
-> -	enum adaptive_sync_type as_type = ADAPTIVE_SYNC_TYPE_NONE;
-> -
-> -	switch (dpcd_caps->dongle_type) {
-> -	case DISPLAY_DONGLE_DP_HDMI_CONVERTER:
-> -		if (dpcd_caps->adaptive_sync_caps.dp_adap_sync_caps.bits.ADAPTIVE_SYNC_SDP_SUPPORT == true &&
-> -			dpcd_caps->allow_invalid_MSA_timing_param == true &&
-> -			dm_is_freesync_pcon_whitelist(dpcd_caps->branch_dev_id))
-> -			as_type = FREESYNC_TYPE_PCON_IN_WHITELIST;
-> -		break;
-> -	default:
-> -		break;
-> -	}
-> -
-> -	return as_type;
-> +	return false;
 >  }
 >  
->  bool dm_helpers_is_fullscreen(struct dc_context *ctx, struct dc_stream_state *stream)
-> diff --git a/drivers/gpu/drm/amd/display/dc/dm_helpers.h b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-> index 7014b8c2c956..e51f1e489129 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-> +++ b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
-> @@ -220,10 +220,10 @@ int dm_helpers_dmub_set_config_sync(struct dc_context *ctx,
->  		const struct dc_link *link,
->  		struct set_config_cmd_payload *payload,
->  		enum set_config_status *operation_result);
-> -enum adaptive_sync_type dm_get_adaptive_sync_support_type(struct dc_link *link);
+> -static bool is_hdmi_vic_mode(const struct dc_stream_state *stream)
+> +static bool is_hdmi_allm_mode(const struct dc_stream_state *stream)
+> +{
+> +	/* No local sink */
+> +	if (!stream->link->local_sink)
+> +		return false;
+> +
+> +	/* Sink doesn't expose ALLM support in edid */
+> +	if (!stream->link->local_sink->edid_caps.allm)
+> +		return false;
+> +
+> +	switch (amdgpu_allm_mode) {
+> +	case ALLM_MODE_DISABLED:
+> +		return false;
+> +
+> +	case ALLM_MODE_ENABLED_DYNAMIC:
+> +		break;
+> +
+> +	case ALLM_MODE_ENABLED_FORCED:
+> +		return true;
+> +	}
+> +
+> +	return stream->content_type == DISPLAY_CONTENT_TYPE_GAME ||
+> +	       stream->vrr_active_variable;
+> +}
+> +
+> +bool is_hdmi_vic_mode(const struct dc_stream_state *stream)
+>  {
+>  	if (stream->timing.hdmi_vic == 0)
+>  		return false;
+> @@ -512,7 +544,7 @@ static bool is_hdmi_vic_mode(const struct dc_stream_state *stream)
+>  	if (stream->view_format != VIEW_3D_FORMAT_NONE)
+>  		return false;
 >  
->  enum dc_edid_status dm_helpers_get_sbios_edid(struct dc_link *link, struct dc_edid *edid);
+> -	if (stream->link->local_sink->edid_caps.allm)
+> +	if (is_hdmi_allm_mode(stream))
+>  		return false;
 >  
-> +bool dm_helpers_is_vrr_pcon_allowed(const struct dc_link *link);
->  bool dm_helpers_is_fullscreen(struct dc_context *ctx, struct dc_stream_state *stream);
->  bool dm_helpers_is_hdr_on(struct dc_context *ctx, struct dc_stream_state *stream);
+>  	return true;
+> @@ -541,7 +573,7 @@ void mod_build_hf_vsif_infopacket(const struct dc_stream_state *stream,
 >  
+>  		info_packet->valid = false;
+>  
+> -		allm = stream->link->local_sink->edid_caps.allm;
+> +		allm = is_hdmi_allm_mode(stream);
+>  		format = stream->view_format == VIEW_3D_FORMAT_NONE ?
+>  			 TIMING_3D_FORMAT_NONE :
+>  			 stream->timing.timing_3d_format;
 
