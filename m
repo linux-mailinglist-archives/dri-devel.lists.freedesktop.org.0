@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ONcOGU/yhWlsIgQAu9opvQ
+	id WCbPNFDyhWlsIgQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 14:53:19 +0100
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 14:53:20 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F531FE762
-	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 14:53:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1CDAFE769
+	for <lists+dri-devel@lfdr.de>; Fri, 06 Feb 2026 14:53:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7342310E06D;
-	Fri,  6 Feb 2026 13:53:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2461310E780;
+	Fri,  6 Feb 2026 13:53:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jwgDK9Ge";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="FXAMDs/i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 549CF10E06D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC64B10E06D
  for <dri-devel@lists.freedesktop.org>; Fri,  6 Feb 2026 13:53:15 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 54F824E42443;
- Fri,  6 Feb 2026 13:53:13 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 9826F4E42444;
+ Fri,  6 Feb 2026 13:53:14 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 19CB460729;
- Fri,  6 Feb 2026 13:53:13 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 6E97060729;
+ Fri,  6 Feb 2026 13:53:14 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 5B10D119D1DE5; Fri,  6 Feb 2026 14:53:06 +0100 (CET)
+ with ESMTPSA id CAE58119D1D0B; Fri,  6 Feb 2026 14:53:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1770385992; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1770385993; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:content-language:in-reply-to:references;
- bh=IkegMkQjQ9Huckg5GnwS8w6Cf+9nWxzGJJ7tJM78RNE=;
- b=jwgDK9GepwUjC/MF1b3f9sikxDOTwNUwaCe0/C4F9H18iQxp9poUHflEM1IM7NdezWbVhO
- RdatYMVsxG0s4DiWiKVPocrmGkcWt0KfVqe5PILZeYtmbrDynfpMBt/MPQfrqWiQPREZXm
- FRohhBzQGdpgyHZC5aMiaKiZhKMuYwE4dte3PFKZaGlMZfOCYpBRKmWokvBoYelBUgjDRO
- X2Wu1J79hg6b/wT9LhVh1OWekEZ0/6VHUfkHWRMpg7tfZiWR7T3V+/TOKtGcbVdNChwRk/
- oR5e1xPXkIy08DH1Jm/0YoSV6p8b+b+lOU7SqNh1BR7Asligu226K7cY3wcOUQ==
-Message-ID: <4e8f0724-d747-4712-854c-c231a31e9e2c@bootlin.com>
-Date: Fri, 6 Feb 2026 14:53:34 +0100
+ bh=AKHu5N02Yogs/kPvZcW42Zgu3Eq1uHqj1jEkbTP4ihs=;
+ b=FXAMDs/iw5ghNBQustvfDdQxtZKPxZ1ASesozSqtbLCq8lcPiIlZJq/EQQOoHKrJw30jTj
+ ZMvgOxwXusbEgIJidAZ0FZ+i0TU3uK4XMgPYfLeWLsnH1/WX19wIzsLvT54W9YZbzITJiA
+ Ad1xjOjGn/H4T4R3rsUCwzbdXywryaqpBPZL9cFgcWqmH3Xsz3uxC61thyA4EY5s3dinrs
+ yHTg3wFP+QS4/th9QTxFQGZCNQcpCZ7gAIuInqqQEu7S8cVX+KYDuorbkf4Gzz/FRWCwHS
+ RCYS5HWuz2q0ttSPXiGhYtuB3+SP8BVcSDagCtNQodBPYLYs2WXZj5+dh2qPgQ==
+Message-ID: <5ee4e72c-0862-40b3-b47b-70ca5d8f89c1@bootlin.com>
+Date: Fri, 6 Feb 2026 14:53:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/vkms: Add YUV410, YUV411, YVU410, and YVU411
- support
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: Re: [PATCH] drm/vkms: fix gamma LUT size check
 To: Renjun Wang <renjunw0@foxmail.com>, hamohammed.sa@gmail.com,
  simona@ffwll.ch, melissa.srw@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-References: <tencent_6033C535EB4984626B679256F0A439587007@qq.com>
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <tencent_78CE07AD804905B05466486B299306C51B08@qq.com>
 Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-In-Reply-To: <tencent_6033C535EB4984626B679256F0A439587007@qq.com>
+In-Reply-To: <tencent_78CE07AD804905B05466486B299306C51B08@qq.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -85,14 +83,14 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	ARC_NA(0.00)[];
 	FORGED_SENDER(0.00)[louis.chauvet@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[foxmail.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[foxmail.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.977];
+	NEURAL_HAM(-0.00)[-0.979];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FROM_NEQ_ENVFROM(0.00)[louis.chauvet@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -104,80 +102,47 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[foxmail.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 7F531FE762
+X-Rspamd-Queue-Id: A1CDAFE769
 X-Rspamd-Action: no action
 
 
 
-On 2/2/26 16:11, Renjun Wang wrote:
-> Add support for the following planar YUV formats:
-> - DRM_FORMAT_YUV410
-> - DRM_FORMAT_YUV411
-> - DRM_FORMAT_YVU410
-> - DRM_FORMAT_YVU411
+On 2/4/26 15:15, Renjun Wang wrote:
+> vkms_atomic_check() computed the gamma LUT entry count using
+> sizeof(struct drm_color_lut *), which uses pointer size and
+> can incorrectly reject or accept LUT sizes. Use
+> drm_color_lut_size() instead to validate against VKMS_LUT_SIZE.
 > 
-> These formats are handled by the existing planar_yuv_read_line()
-> function, which correctly handles the subsampling defined in each
-> format's drm_format_info.
-> 
-> The YVU variants (YVU410, YVU411) are also added to
-> get_conversion_matrix_to_argb_u16() to ensure the U and V columns
-> are swapped correctly in the conversion matrix.
+> Signed-off-by: Renjun Wang <renjunw0@foxmail.com>
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-> v2:
->   - update vkms_formats[] to add new formats.
-> 
-> Signed-off-by: Renjun Wang <renjunw0@foxmail.com>
+Like for the YUV patch, were you able to reproduce it using a tool?
+
 > ---
->   drivers/gpu/drm/vkms/vkms_formats.c | 6 ++++++
->   drivers/gpu/drm/vkms/vkms_plane.c   | 4 ++++
->   2 files changed, 10 insertions(+)
+>   drivers/gpu/drm/vkms/vkms_drv.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-> index dfb8e13cba87..5ef5d49a44ef 100644
-> --- a/drivers/gpu/drm/vkms/vkms_formats.c
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> @@ -730,9 +730,13 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
->   	case DRM_FORMAT_P012:
->   	case DRM_FORMAT_P016:
->   		return &YUV161616_semiplanar_read_line;
-> +	case DRM_FORMAT_YUV410:
-> +	case DRM_FORMAT_YUV411:
->   	case DRM_FORMAT_YUV420:
->   	case DRM_FORMAT_YUV422:
->   	case DRM_FORMAT_YUV444:
-> +	case DRM_FORMAT_YVU410:
-> +	case DRM_FORMAT_YVU411:
->   	case DRM_FORMAT_YVU420:
->   	case DRM_FORMAT_YVU422:
->   	case DRM_FORMAT_YVU444:
-> @@ -921,6 +925,8 @@ void get_conversion_matrix_to_argb_u16(u32 format,
->   	memcpy(matrix, matrix_to_copy, sizeof(*matrix_to_copy));
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index dd1402f43773..a09589949f48 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -17,6 +17,7 @@
+>   #include <drm/drm_gem.h>
+>   #include <drm/drm_atomic.h>
+>   #include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_color_mgmt.h>
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_fbdev_shmem.h>
+>   #include <drm/drm_file.h>
+> @@ -111,8 +112,7 @@ static int vkms_atomic_check(struct drm_device *dev, struct drm_atomic_state *st
+>   		if (!new_crtc_state->gamma_lut || !new_crtc_state->color_mgmt_changed)
+>   			continue;
 >   
->   	switch (format) {
-> +	case DRM_FORMAT_YVU410:
-> +	case DRM_FORMAT_YVU411:
->   	case DRM_FORMAT_YVU420:
->   	case DRM_FORMAT_YVU422:
->   	case DRM_FORMAT_YVU444:
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-> index 19fe6acad306..44773a82fbfd 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -35,9 +35,13 @@ static const u32 vkms_formats[] = {
->   	DRM_FORMAT_NV21,
->   	DRM_FORMAT_NV61,
->   	DRM_FORMAT_NV42,
-> +	DRM_FORMAT_YUV410,
-> +	DRM_FORMAT_YUV411,
->   	DRM_FORMAT_YUV420,
->   	DRM_FORMAT_YUV422,
->   	DRM_FORMAT_YUV444,
-> +	DRM_FORMAT_YVU410,
-> +	DRM_FORMAT_YVU411,
->   	DRM_FORMAT_YVU420,
->   	DRM_FORMAT_YVU422,
->   	DRM_FORMAT_YVU444,
+> -		if (new_crtc_state->gamma_lut->length / sizeof(struct drm_color_lut *)
+> -		    > VKMS_LUT_SIZE)
+> +		if (drm_color_lut_size(new_crtc_state->gamma_lut) > VKMS_LUT_SIZE)
+>   			return -EINVAL;
+>   	}
+>   
 
