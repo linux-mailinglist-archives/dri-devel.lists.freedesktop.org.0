@@ -2,97 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qBQ+HqFyh2nAYAQAu9opvQ
+	id uCXcJ26Gh2lRZAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 18:13:05 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 19:37:34 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2C6106A13
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 18:13:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8A97106DF9
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 19:37:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07BA010E289;
-	Sat,  7 Feb 2026 17:13:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4FA110E12C;
+	Sat,  7 Feb 2026 18:37:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="sheTS8Dr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="STazjiv5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B047610E286
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 17:12:59 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-48327b8350dso12842805e9.1
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Feb 2026 09:12:59 -0800 (PST)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5980410E12C
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 18:37:29 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-47edd9024b1so19807905e9.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Feb 2026 10:37:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1770484378; x=1771089178;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AiB07MXR0w3Yv+4X7yqykGv069A3QBCCsoHEyXAvo3w=;
- b=sheTS8DrHHU8WyAlWWHkYN2TFMdfsdRksAFl3HaUIMGMPqQgJJyHL326pA7XADr7Wo
- 9pyTCImNjU1tP4F7YFjbn5ygX4b6+UOfj9ZpcCH4Rgnpx3/0NeD1h+aUXLBoEuoBFeVS
- SWI3N4YprVwjG+qivpgnu1SIM/KeuF11aa4lCmbsE5wTfiUp74OOwOnc/fttrCWrwP/G
- vxSNjqD7FHGVR3qVTbPe3i2AYa4ORWhFxbQSFH08fdNYrb2TdTjekkdPUvVcO0kxYjok
- HwiwFrsBN9w8jZGFq5oiL7hGHEr5RK9A1vsLGkHSgY/LnO4TLARC3GBpVu3J8HFllCc2
- VfPg==
+ d=gmail.com; s=20230601; t=1770489448; x=1771094248; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=1fc9JdHma9XDLTdFb3kvtPOeUV2ZhOtWSv7/jTyQxs8=;
+ b=STazjiv50ohhrxH+BVYwGOHaiv20dITR4xC/eM65N70rqANNdzeXLn071rIXZpIQJD
+ rsZ2X8gCs4L8TuIs4M5geX3GbZ2+Twj9ksbDvFUnyWTDq+nyzwELfa2afidMZfDZuq/1
+ L7eftKimChtBN9c+wJFkKOiTZFmCGdbI5QO1lyMfJxulHbrq5SWcxPNA31g0LXZ1sBmw
+ gzplZoSNnoVYjW/Gbn65RVDGPi9dz3a+Y0s7UUe3e1urt64Hz+dF+jmKv6oQHdRva8z1
+ +j6wBbVjzbPQd68TapGbiTzCQPsWEzdBY8Yr5WomNVKaj5nXwl8lTdZESoP6Ws036Mve
+ lyZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770484378; x=1771089178;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=AiB07MXR0w3Yv+4X7yqykGv069A3QBCCsoHEyXAvo3w=;
- b=hWJHtN0UihtQ5ULDIUsoz0h6rmgPfLxIQ0+x9zS9Rz95PQ1LhwFw6Pw314s4bYpxaO
- tPe8RIeumWTkLh3s74N3JWq3KwPXlC8AhsApmyliTNbESDVbAeOVFijcxJwUXoaxPfdO
- 5Bx+BvBr0QJiiSsZkoruZ7cSA6bup5O2m8PcVD8eZT5W1oMJgwrCcpvOD4REXKj/fZ1u
- RF2PSvdaq6rnyNVj8WcDTjV3t6SgihEACixS5yHgicPUbAAvp+kUDbdcriWMsJa/9f5b
- /dWTKiLUTlUnxm61/pqA3BaHNaiNP4DsXDt4XKpeT2tGqL8yQQqUVN73RLZZQ+tKnw+D
- Ug3g==
+ d=1e100.net; s=20230601; t=1770489448; x=1771094248;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1fc9JdHma9XDLTdFb3kvtPOeUV2ZhOtWSv7/jTyQxs8=;
+ b=C2FmJqxR1KSsQmLvfJjxcJ6FXFRKDp6LvO+qZJ3aP1Eda9eTfg5+HfKMTaVQu8d558
+ KCIEz69KXhxRggfXFj0Uu9Yf7OUKz/DmwPYyfbKMFPPiledqGvYX3v+5j0YJTi2b8W3c
+ qC2d713Va62n4Hvlhho5WR36+Qml4XagG91acFSOWP5ka0w5jxSWNS57cpeIxvsWQYya
+ ryea79aP6XWdEQ9xtt0g8xtmfDIv8klpZ+O3I+C55rZsvHmw524rO7jtz8uPj4ZFn8Vf
+ 0BXGT7Au1vQoSqWtBW1y3taIM2EdNdikc08ZXeCHfV7hvAB5iW933Cd6rz11pkqwJLNa
+ +kJw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUFHEFYc0I85OCFw+9VlSEkCSXasNzE4PwH4Ke2uqJmRTdh3nAODmYaLqhfAIrWzs95vQ1zHa8He/0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwuxBWFbp5/H558pXoEfymWyQcbOtXts2zdLaB4Aij8PD6/Y81i
- M82lyS3fCf3j/u5HRxF/URm/6FLojLR2TW5iRXceK4EXw56rb/lY4FxEjISICeqUhX0=
-X-Gm-Gg: AZuq6aJc4cTIYWpeaOcvgbWI5VsrXMuhd+1KR9jKgUkvkLh4LogoF+/5sPrnfKv3GwX
- KkySNGUjUjthFIo5JxwHdAO/fCQzKk84CWaqqLfoc3uFQwfkavRr4hIBW740R+o068YXtdkTsjO
- z+ZHkzDHegGV07YYVkmbBVtTceCoUg/LfPBUcQ2/cv016/RZGM20bNJ8KVfilpmKAXGljKsthw1
- yTWeSSKPsL9ZS+CjFWfZPiDrlDe+J3R7yI4qj6dN9AHesB0KWabHC0qs7voAf4P79DogYG4a1/O
- 1hkQSGvBr/JIY597KhjzuJOZbiysjxhM4LGF+YdxbIoDR36TDlg4U7VEmQjiKNh+p6lM7vJfeRq
- VrFT4y49X0gSnc4Qk3PYOu3c2fO7YH1ck+PGpPD2TeObFSJhF/RYnoMh5S2xcPtJ/nQ5DHIMzmV
- /Hi4lOuuVYbIJQN48m
-X-Received: by 2002:a05:600c:5253:b0:471:114e:5894 with SMTP id
- 5b1f17b1804b1-4832021c93cmr96031505e9.25.1770484378102; 
- Sat, 07 Feb 2026 09:12:58 -0800 (PST)
-Received: from localhost ([2a02:8071:b783:6940:1d24:d58d:2b65:c291])
- by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-483206cc543sm131926195e9.4.2026.02.07.09.12.57
+ AJvYcCWFrbMo7bXBgv6zEJU5+/12/lhFXdgCxGBwpGiqAZ/NxaeOlSjLoOgWV8V8YYiOw8rq/Gz2ezp/Js8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwFpiAhg8eKR1M5rkKqjDUin72t3lUAnQlUN3xbW97Vei+hhysE
+ hCc7PS5XmraS2QMQzDhIv0e/NzJC1eWNNZmRjqFU/kkN3UfDBE9WE/DB
+X-Gm-Gg: AZuq6aIRtxg/5K1v09ok0ljh1wFukQj/CFo054gNQjXvnEM644t1WkVDQNfCc6S4Wro
+ OnMt5J4+mijozTFTiQymbvrz8hVxyVWAMdIzEkWYNJZn5h5OM5Q0ZWvEV3a/jkvZFGdVjfAzzVy
+ VQ4pryUDrs5xFfJHdVIiePEqNK8VB+kZB/OHFQ8uHkNND4cfpbvhSfWOLGToqbUbmGLZt4gyfAb
+ I01tiIRvjL+9zb/wX8E1M8fFrCwob4Vl3fnoUMm4U6G1+++w/YVVFnWlkmqUPolrUwtzyLxYj2F
+ 9jK2CbL+pveoqTu7n3Hc3Z5Kgr/GpVGsWN5NE9IgVfGBBWIhUEE6JcoifjlfagYMbnH2c9T18l8
+ ju1rg6ROBzJtTjuH+bapsNpi5HVWcnztxp3mlNf5WYxzRgST59KAo5p2lcITGL0KM7nxTKEa/wL
+ Ez7GkbdyliPy388QARvU+MtSO3AKy+mCSiHce6sZEZ5mVt
+X-Received: by 2002:a05:600c:34d1:b0:482:ef72:5787 with SMTP id
+ 5b1f17b1804b1-483201da065mr81990065e9.1.1770489447388; 
+ Sat, 07 Feb 2026 10:37:27 -0800 (PST)
+Received: from osama.. ([197.46.155.47]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4832a38425asm72529845e9.7.2026.02.07.10.37.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Feb 2026 09:12:57 -0800 (PST)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Helge Deller <deller@gmx.de>
-Cc: Chen Ni <nichen@iscas.ac.cn>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 4/4] fbdev: au1100fb: Make driver compilable on non-mips
- platforms
-Date: Sat,  7 Feb 2026 18:12:37 +0100
-Message-ID: <b894247689a7a920d9caa465dbcb840bca806cbf.1770483674.git.u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1770483674.git.u.kleine-koenig@baylibre.com>
-References: <cover.1770483674.git.u.kleine-koenig@baylibre.com>
+ Sat, 07 Feb 2026 10:37:26 -0800 (PST)
+From: Osama Abdelkader <osama.abdelkader@gmail.com>
+To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Osama Abdelkader <osama.abdelkader@gmail.com>
+Subject: [PATCH] drm/bridge: samsung-dsim: Fix memory leak in error path
+Date: Sat,  7 Feb 2026 19:37:20 +0100
+Message-ID: <20260207183721.43087-1-osama.abdelkader@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2874;
- i=u.kleine-koenig@baylibre.com; h=from:subject:message-id;
- bh=oZl+lgADvmA8kbyHw8foSoviF7bUk80UCdSGNLDQ4uE=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBph3KM+wxlKuCbUdrARAzV28ZRbiKy3frerJonv
- /I4UpXIRLKJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaYdyjAAKCRCPgPtYfRL+
- TiZ6B/4rc42teJyAFRENb2o0jpzcl56hH0YTnc4/3umhyWIKJCIFARNgl2O8FiK35lJ+cM9Tphv
- Y+IODwwVqLpUDZGPaX6hgK8B9JilLVV6Kx9Q/sha3UJ3RjCye3LeS/37mocWhe5knb1l536Y886
- SgIwYTtFWvHi9hmPlA8/GGAO7HU8wOKegMVhR77vghyLMHiMJNAUeKkU9oAO1OBD0AUFU1LEUDa
- 4FzqzGE8VSE0mV0VBls/9F02x6y2o/LkKMrCkb/M0EDQjqs8gAAy9pHFWN7Fxb5zLY5dpEMM6Xs
- z9WAmYUl0EP0EDr/jbz2kOsO1NfqR0c/KCd3/pwfUZquf7N/
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -109,122 +99,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[baylibre-com.20230601.gappssmtp.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_TO(0.00)[gmx.de];
+	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	DMARC_NA(0.00)[baylibre.com];
-	ARC_NA(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:deller@gmx.de,m:nichen@iscas.ac.cn,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:inki.dae@samsung.com,m:jagan@amarulasolutions.com,m:m.szyprowski@samsung.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:osama.abdelkader@gmail.com,m:jernejskrabec@gmail.com,m:osamaabdelkader@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[u.kleine-koenig@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[samsung.com,amarulasolutions.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	ARC_NA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[osamaabdelkader@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.984];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[osamaabdelkader@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[gmail.com];
+	NEURAL_HAM(-0.00)[-0.998];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DKIM_TRACE(0.00)[baylibre-com.20230601.gappssmtp.com:+];
-	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 1C2C6106A13
+X-Rspamd-Queue-Id: C8A97106DF9
 X-Rspamd-Action: no action
 
-The header asm/mach-au1x00/au1000.h is unused apart from pulling in
-<linux/delay.h> (for mdelay()) and <linux/io.h> (for KSEG1ADDR()). Then
-the only platform specific part in the driver is the usage of the KSEG1ADDR
-macro, which for the non-mips case can be stubbed.
+In samsung_dsim_host_attach(), drm_bridge_add() is called to add the
+bridge. However, if samsung_dsim_register_te_irq() or
+pdata->host_ops->attach() fails afterwards, the function returns
+without removing the bridge, causing a memory leak.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+Fix this by adding proper error handling with goto labels to ensure
+drm_bridge_remove() is called in all error paths. Also ensure that
+samsung_dsim_unregister_te_irq() is called if the attach operation
+fails after the TE IRQ has been registered.
+
+Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
 ---
- drivers/video/fbdev/Kconfig    |  3 ++-
- drivers/video/fbdev/au1100fb.c | 12 ++++++++++--
- drivers/video/fbdev/au1100fb.h |  2 --
- 3 files changed, 12 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 45733522ff48..4514c42db9fa 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -1345,7 +1345,8 @@ endchoice
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+index eabc4c32f6ab..4712637749f8 100644
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -1881,6 +1881,8 @@ static int samsung_dsim_register_te_irq(struct samsung_dsim *dsi, struct device
+ 	return 0;
+ }
  
- config FB_AU1100
- 	bool "Au1100 LCD Driver"
--	depends on (FB = y) && MIPS_ALCHEMY
-+	depends on FB
-+	depends on MIPS_ALCHEMY || COMPILE_TEST
- 	select FB_IOMEM_HELPERS
- 	help
- 	  This is the framebuffer driver for the AMD Au1100 SOC.  It can drive
-diff --git a/drivers/video/fbdev/au1100fb.c b/drivers/video/fbdev/au1100fb.c
-index a0e1aceaf9a6..758002cb5ea8 100644
---- a/drivers/video/fbdev/au1100fb.c
-+++ b/drivers/video/fbdev/au1100fb.c
-@@ -42,6 +42,8 @@
-  *  675 Mass Ave, Cambridge, MA 02139, USA.
-  */
- #include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/io.h>
- #include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/errno.h>
-@@ -55,12 +57,15 @@
- #include <linux/platform_device.h>
- #include <linux/slab.h>
- 
--#include <asm/mach-au1x00/au1000.h>
--
- #define DEBUG 0
- 
- #include "au1100fb.h"
- 
-+#if defined(CONFIG_COMPILE_TEST) && !defined(CONFIG_MIPS)
-+/* This is only defined to be able to compile this driver on non-mips platforms */
-+#define KSEG1ADDR(x) (x)
-+#endif
++static void samsung_dsim_unregister_te_irq(struct samsung_dsim *dsi);
 +
- #define DRIVER_NAME "au1100fb"
- #define DRIVER_DESC "LCD controller driver for AU1100 processors"
+ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+ 				    struct mipi_dsi_device *device)
+ {
+@@ -1955,13 +1957,13 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+ 	if (!(device->mode_flags & MIPI_DSI_MODE_VIDEO)) {
+ 		ret = samsung_dsim_register_te_irq(dsi, &device->dev);
+ 		if (ret)
+-			return ret;
++			goto err_remove_bridge;
+ 	}
  
-@@ -331,7 +336,10 @@ static int au1100fb_fb_mmap(struct fb_info *fbi, struct vm_area_struct *vma)
+ 	if (pdata->host_ops && pdata->host_ops->attach) {
+ 		ret = pdata->host_ops->attach(dsi, device);
+ 		if (ret)
+-			return ret;
++			goto err_unregister_te_irq;
+ 	}
  
- 	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
+ 	dsi->lanes = device->lanes;
+@@ -1969,6 +1971,13 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+ 	dsi->mode_flags = device->mode_flags;
  
-+#ifndef CONFIG_S390
-+	/* On s390 pgprot_val() is a function and thus not a lvalue */
- 	pgprot_val(vma->vm_page_prot) |= (6 << 9); //CCA=6
-+#endif
+ 	return 0;
++
++err_unregister_te_irq:
++	if (!(device->mode_flags & MIPI_DSI_MODE_VIDEO))
++		samsung_dsim_unregister_te_irq(dsi);
++err_remove_bridge:
++	drm_bridge_remove(&dsi->bridge);
++	return ret;
+ }
  
- 	return dma_mmap_coherent(fbdev->dev, vma, fbdev->fb_mem, fbdev->fb_phys,
- 			fbdev->fb_len);
-diff --git a/drivers/video/fbdev/au1100fb.h b/drivers/video/fbdev/au1100fb.h
-index dc53d063fcc3..998328cd16a2 100644
---- a/drivers/video/fbdev/au1100fb.h
-+++ b/drivers/video/fbdev/au1100fb.h
-@@ -30,8 +30,6 @@
- #ifndef _AU1100LCD_H
- #define _AU1100LCD_H
- 
--#include <asm/mach-au1x00/au1000.h>
--
- #define print_err(f, arg...) printk(KERN_ERR DRIVER_NAME ": " f "\n", ## arg)
- #define print_warn(f, arg...) printk(KERN_WARNING DRIVER_NAME ": " f "\n", ## arg)
- #define print_info(f, arg...) printk(KERN_INFO DRIVER_NAME ": " f "\n", ## arg)
+ static void samsung_dsim_unregister_te_irq(struct samsung_dsim *dsi)
 -- 
-2.47.3
+2.43.0
 
