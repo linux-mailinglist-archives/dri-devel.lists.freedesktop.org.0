@@ -2,76 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gHY4A0sMh2mQTAQAu9opvQ
+	id OMvrM6KAh2lQYwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 10:56:27 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 19:12:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C071056A4
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 10:56:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64CA0106CE3
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 19:12:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D828910E21C;
-	Sat,  7 Feb 2026 09:56:18 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=huawei.com header.i=@huawei.com header.b="uMmtOERG";
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="uMmtOERG";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7761310E297;
+	Sat,  7 Feb 2026 18:12:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0BE010E216
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 09:56:16 +0000 (UTC)
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
- c=relaxed/relaxed; q=dns/txt; h=From;
- bh=lQzJiDlQmkLEbZnwSaMgzOTay0f0SozmEbd6odkr0R8=;
- b=uMmtOERGPMiJeZeBfm0AfN948UHRTG1zTuUVMwa12DYerfLW2gIk4HLuSy+Zylb3C3cpU5oEs
- o95zpVhnXoldz6sIzDKEOIq6/k5IqGocf42R0t8NOWs/9jVKih2j2tBpG3oj9prTXZ8udGcvkD/
- 2W2XtMDMsjjPjWSviJKcyZg=
-Received: from canpmsgout02.his.huawei.com (unknown [172.19.92.185])
- by szxga01-in.huawei.com (SkyGuard) with ESMTPS id 4f7RCd1R4Gz1BFsW
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 17:55:25 +0800 (CST)
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
- c=relaxed/relaxed; q=dns/txt; h=From;
- bh=lQzJiDlQmkLEbZnwSaMgzOTay0f0SozmEbd6odkr0R8=;
- b=uMmtOERGPMiJeZeBfm0AfN948UHRTG1zTuUVMwa12DYerfLW2gIk4HLuSy+Zylb3C3cpU5oEs
- o95zpVhnXoldz6sIzDKEOIq6/k5IqGocf42R0t8NOWs/9jVKih2j2tBpG3oj9prTXZ8udGcvkD/
- 2W2XtMDMsjjPjWSviJKcyZg=
-Received: from mail.maildlp.com (unknown [172.19.162.223])
- by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4f7R7M5BLwzcb0x;
- Sat,  7 Feb 2026 17:51:43 +0800 (CST)
-Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
- by mail.maildlp.com (Postfix) with ESMTPS id BCFD440569;
- Sat,  7 Feb 2026 17:56:11 +0800 (CST)
-Received: from kwepemq100007.china.huawei.com (7.202.195.175) by
- dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Sat, 7 Feb 2026 17:56:11 +0800
-Received: from localhost.huawei.com (10.169.71.169) by
- kwepemq100007.china.huawei.com (7.202.195.175) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Sat, 7 Feb 2026 17:56:10 +0800
-From: Yongbang Shi <shiyongbang@huawei.com>
-To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <kong.kongxinwei@hisilicon.com>, <dmitry.baryshkov@oss.qualcomm.com>
-CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
- <fengsheng5@huawei.com>, <shiyongbang@huawei.com>, <helin52@h-partners.com>,
- <shenjian15@huawei.com>, <shaojijie@huawei.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH drm-dp 4/4] drm/hisilicon/hibmc: use clock to look up the PLL
- value
-Date: Sat, 7 Feb 2026 17:48:37 +0800
-Message-ID: <20260207094837.1468985-5-shiyongbang@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20260207094837.1468985-1-shiyongbang@huawei.com>
-References: <20260207094837.1468985-1-shiyongbang@huawei.com>
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com
+ [74.125.224.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DFEC10E0FA
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 10:35:19 +0000 (UTC)
+Received: by mail-yx1-f50.google.com with SMTP id
+ 956f58d0204a3-64937edbc9eso1459721d50.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Feb 2026 02:35:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770460518; x=1771065318;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=R7Y2cu7AzslvSBJEnBtJDOTsvONwUvJjzxIqlE7f53s=;
+ b=S4I0/vo9d8yLW7hyiieUzIpxzuRmGe1OTd5CGnF7viHRs3oVOwq1sra/zfa+2Z43to
+ J509NtKFC7Zkx6CJ8S86dQqHQm2ZsFXjWkv/l5agsiUhNEnNDWZqWPnY6DZNVwtvlvZy
+ r8ou50sHOHQG2IaEXQwrI1UENvC5Tw9PHEQ/8OlCiU/q9sbJRna2Fvwl0gsG7XOPo7Tl
+ WxXOhzNwT6pa9ApnVSXZSfWuasfLwxpf43DuWmsuzdLV/HpuQwgfGKhhYPoHERUIs1AM
+ 1zPk7ydwpiapAFM7zB5YMao3qPjxboqTMUqo5JCkRdkiynv7KOhFjrl31/i9DqQaiHOQ
+ LoAA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXkUNjHEbbT+el9QARBDNIRnehi9lVe1nviSCJK9eoMJPQdQJhpyd23F1aA2iBNAFpIGr1uhj5/YPI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxzLHzteuYpv3lfFo7lGnfiXduaDGHuAXkNi+lVvNys8ApivSk+
+ HxC14LXN2renbtySPNUq9kCaQwurzLY/mvrt7yCZvSuJl2WwBTENov4oMDNfVA==
+X-Gm-Gg: AZuq6aLKeYaE2O+XuWxuja0MdJvFfgx675KPxSI2p2z5LFoPXoGC9VB/+Vhm+CcSWUv
+ mVc0VojjZDjJsozIJH6SjNhwgQ/wXirjE9I7orZ2dTDgpW7zNdJNqHR/flGSrt2w4V4Gz1crAPC
+ ijC+TTJDePlXZ2GVj7CdAN3flWl/ZH5tt+AXCfC+LncQXOtKDYE84XuYXvrv4ly9FiaGrJC0oy+
+ DjqreereTixgU3ehvM/mP82ZSRN+n5PYgRkp0GU6TJWPCaJL7/64cYiAEI3Yab8e9exgMVO2FaH
+ tZzKrtKr9AvB6F62b/bhKXk7CQPg9+FBrCLuxOM4obJ6AxGoW80SfGzHjOxW7qssTgg2GyJFo2S
+ XXv0B1g/R/OhNtA8tBa3qQIDA5TFa7ME5twXN7TZyFQDRRDMD0VStJEKfjQdaDhDoM6gjVwTY6Z
+ BvGkqrgu1rGWhEHae8u84VEqPHkRKo96TDOst3AU/9+w==
+X-Received: by 2002:a05:690e:4085:b0:64a:db1d:2d57 with SMTP id
+ 956f58d0204a3-64adb1d310bmr160701d50.2.1770460518487; 
+ Sat, 07 Feb 2026 02:35:18 -0800 (PST)
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com.
+ [74.125.224.50]) by smtp.gmail.com with ESMTPSA id
+ 956f58d0204a3-649f256f97asm4739441d50.22.2026.02.07.02.35.18
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 07 Feb 2026 02:35:18 -0800 (PST)
+Received: by mail-yx1-f50.google.com with SMTP id
+ 956f58d0204a3-649d4690174so1396274d50.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Feb 2026 02:35:18 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWYesLgent6LDGr6/OC/PZbD69tlVIgTryAEvVyRxPYZN/Okp88JYgFWA7WUcX7moBM0iawpJoyuSM=@lists.freedesktop.org
+X-Received: by 2002:a05:690e:e8b:b0:649:e94d:ea2f with SMTP id
+ 956f58d0204a3-649f1eb0c01mr4470518d50.39.1770460517932; Sat, 07 Feb 2026
+ 02:35:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.169.71.169]
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- kwepemq100007.china.huawei.com (7.202.195.175)
+References: <20260128-rubikpi-next-20260116-v2-0-ba51ce8d2bd2@thundersoft.com>
+ <20260128-rubikpi-next-20260116-v2-1-ba51ce8d2bd2@thundersoft.com>
+ <20260205-winged-alligator-of-sorcery-aada21@quoll>
+ <CAEQ9gEkkK_qBCq__oSJb1D5J=gLyw-kVDx1OD4SMPry6z-F7nA@mail.gmail.com>
+ <0bcd3cb0-9231-4cb0-a726-c439d01f63e5@kernel.org>
+ <CAEQ9gEnvM1x9zP2RDPpEs3TMZ2Jcah7OU6s0y9zJY-7qFUJJTw@mail.gmail.com>
+ <1fee1990-f525-4559-b121-46fd1e1c9fef@kernel.org>
+ <CAEQ9gE=L3gsnyMtbVDbvHo-jhTSPw-8DJ7L2n9c=SKc6jOAHrg@mail.gmail.com>
+ <f1e0d724-4d71-4003-b690-9bbab3a01cd0@kernel.org>
+In-Reply-To: <f1e0d724-4d71-4003-b690-9bbab3a01cd0@kernel.org>
+From: Roger Shimizu <rosh@debian.org>
+Date: Sat, 7 Feb 2026 02:35:06 -0800
+X-Gmail-Original-Message-ID: <CAEQ9gEkEiNS83b4ptogzXZH8FsoUWHSZ8NabNHMRjJ0LegxXig@mail.gmail.com>
+X-Gm-Features: AZwV_QiOhcyuj2SxtwX--Sp5p_XHyxG-dX_Ewq7SdNxOcGflxqe5mw5T5S_JqvM
+Message-ID: <CAEQ9gEkEiNS83b4ptogzXZH8FsoUWHSZ8NabNHMRjJ0LegxXig@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: display: lt9611: Support single Port
+ B input
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Hongyang Zhao <hongyang.zhao@thundersoft.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Sat, 07 Feb 2026 18:12:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,191 +113,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[huawei.com,quarantine];
+X-Spamd-Result: default: False [0.89 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[huawei.com:s=dkim];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:xinliang.liu@linaro.org,m:tiantao6@hisilicon.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:daniel@ffwll.ch,m:kong.kongxinwei@hisilicon.com,m:dmitry.baryshkov@oss.qualcomm.com,m:liangjian010@huawei.com,m:chenjianmin@huawei.com,m:fengsheng5@huawei.com,m:shiyongbang@huawei.com,m:helin52@h-partners.com,m:shenjian15@huawei.com,m:shaojijie@huawei.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:hongyang.zhao@thundersoft.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:vkoul@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:jernejskrabec@gmail.com,m:conor@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_CC(0.00)[thundersoft.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de,lists.freedesktop.org,vger.kernel.org];
+	DMARC_NA(0.00)[debian.org];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[linaro.org,hisilicon.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,oss.qualcomm.com];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FORGED_SENDER(0.00)[shiyongbang@huawei.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[rosh@debian.org,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[rosh@debian.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[shiyongbang@huawei.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[huawei.com:+];
-	HAS_XOIP(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.940];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[huawei.com:email,huawei.com:dkim,huawei.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: A7C071056A4
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	NEURAL_HAM(-0.00)[-0.823];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_PROHIBIT(0.00)[0.0.0.0:email];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	R_DKIM_NA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,thundersoft.com:email,0.0.0.1:email]
+X-Rspamd-Queue-Id: 64CA0106CE3
 X-Rspamd-Action: no action
 
-From: Lin He <helin52@huawei.com>
+On Sat, Feb 7, 2026 at 1:35=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.org=
+> wrote:
+>
+> On 07/02/2026 06:22, Roger Shimizu wrote:
+> > On Fri, Feb 6, 2026 at 2:56=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel=
+.org> wrote:
+> >>
+> >> On 06/02/2026 10:49, Roger Shimizu wrote:
+> >>> On Thu, Feb 5, 2026 at 11:08=E2=80=AFPM Krzysztof Kozlowski <krzk@ker=
+nel.org> wrote:
+> >>>>
+> >>>> On 05/02/2026 21:31, Roger Shimizu wrote:
+> >>>>> On Thu, Feb 5, 2026 at 5:07=E2=80=AFAM Krzysztof Kozlowski <krzk@ke=
+rnel.org> wrote:
+> >>>>>>
+> >>>>>> On Wed, Jan 28, 2026 at 07:15:45PM +0800, Hongyang Zhao wrote:
+> >>>>>>> The LT9611 has two DSI input ports (Port A and Port B). Update th=
+e
+> >>>>>>> binding to clearly document the port mapping and allow using Port=
+ B
+> >>>>>>> alone when DSI is physically connected to Port B only.
+> >>>>>>>
+> >>>>>>> Changes:
+> >>>>>>> - Clarify port@0 corresponds to DSI Port A input
+> >>>>>>> - Clarify port@1 corresponds to DSI Port B input
+> >>>>>>> - Change port requirement from mandatory port@0 to anyOf port@0/p=
+ort@1,
+> >>>>>>>   allowing either port to be used independently
+> >>>>>>>
+> >>>>>>> Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+> >>>>>>> Reviewed-by: Roger Shimizu <rosh@debian.org>
+> >>>>>>
+> >>>>>> Where did this review happen? V1 had this tag, but the patch was
+> >>>>>> completely different, which means you were supposed to drop the ta=
+g.
+> >>>>>> Please perform review in public.
+> >>>>>
+> >>>>> FYI. v2 was updated per review feedback, which is public:
+> >>>>> https://lore.kernel.org/all/7d9041a3-9d2b-469a-9fa7-89d53bbd2a1f@li=
+naro.org/
+> >>>>
+> >>>> Link above is not from Roger, so again - where did the review leadin=
+g to
+> >>>> above tag happen?
+> >>>
+> >>> Per feedback of v1, v2 was quite different than v1.
+> >>> For v2, it's close to initial review, because it looks like a new pat=
+ch.
+> >>
+> >> Where was the review of v2 given?
+> >>
+> >> The patch is entirely different. I already said it. I also said what i=
+s
+> >> expected in such case. It is also documented:
+> >>
+> >> https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/proces=
+s/submitting-patches.rst#L577
+> >
+> > Thanks for the guide!
+> > Yes, v2 was reviewed in private. I'll inform Hongyang to remove the
+> > tag when he sends the next series.
+>
+> I am repeating myself but only because you really avoid answering.
 
-In the past, we use width and height to look up our PLL value.
-But actually the actual clock check is also necessnary. There are
-some resolutions that width and height same, but its clock different.
-Add the clock check when using pll_table to determine the PLL value.
+Because I just didn't have the time to check when exactly it happened.
+I agree with you that if it's public, then it's easier to check the
+mailing list.
 
-Fixes: da52605eea8f ("drm/hisilicon/hibmc: Add support for display engine")
-Signed-off-by: Lin He <helin52@huawei.com>
-Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
----
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_de.c    | 80 +++++++++++--------
- 1 file changed, 46 insertions(+), 34 deletions(-)
+> I understand v1 was reviewed in private, before posting, but why are you
+> developing in private also v2? After v1 was posted, this should be all
+> done in public.
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-index 89bed78f1466..8561acbbc3c8 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-@@ -22,6 +22,8 @@
- #include "hibmc_drm_drv.h"
- #include "hibmc_drm_regs.h"
- 
-+#define CLOCK_TOLERANCE 100 /* kHz tolerance */
-+
- struct hibmc_display_panel_pll {
- 	u64 M;
- 	u64 N;
-@@ -32,26 +34,43 @@ struct hibmc_display_panel_pll {
- struct hibmc_dislay_pll_config {
- 	u64 hdisplay;
- 	u64 vdisplay;
-+	int clock;
- 	u32 pll1_config_value;
- 	u32 pll2_config_value;
- };
- 
- static const struct hibmc_dislay_pll_config hibmc_pll_table[] = {
--	{640, 480, CRT_PLL1_HS_25MHZ, CRT_PLL2_HS_25MHZ},
--	{800, 600, CRT_PLL1_HS_40MHZ, CRT_PLL2_HS_40MHZ},
--	{1024, 768, CRT_PLL1_HS_65MHZ, CRT_PLL2_HS_65MHZ},
--	{1152, 864, CRT_PLL1_HS_80MHZ_1152, CRT_PLL2_HS_80MHZ},
--	{1280, 768, CRT_PLL1_HS_80MHZ, CRT_PLL2_HS_80MHZ},
--	{1280, 720, CRT_PLL1_HS_74MHZ, CRT_PLL2_HS_74MHZ},
--	{1280, 960, CRT_PLL1_HS_108MHZ, CRT_PLL2_HS_108MHZ},
--	{1280, 1024, CRT_PLL1_HS_108MHZ, CRT_PLL2_HS_108MHZ},
--	{1440, 900, CRT_PLL1_HS_106MHZ, CRT_PLL2_HS_106MHZ},
--	{1600, 900, CRT_PLL1_HS_108MHZ, CRT_PLL2_HS_108MHZ},
--	{1600, 1200, CRT_PLL1_HS_162MHZ, CRT_PLL2_HS_162MHZ},
--	{1920, 1080, CRT_PLL1_HS_148MHZ, CRT_PLL2_HS_148MHZ},
--	{1920, 1200, CRT_PLL1_HS_193MHZ, CRT_PLL2_HS_193MHZ},
-+	{640, 480, 25000, CRT_PLL1_HS_25MHZ, CRT_PLL2_HS_25MHZ},
-+	{800, 600, 40000, CRT_PLL1_HS_40MHZ, CRT_PLL2_HS_40MHZ},
-+	{1024, 768, 65000, CRT_PLL1_HS_65MHZ, CRT_PLL2_HS_65MHZ},
-+	{1152, 864, 78750, CRT_PLL1_HS_80MHZ_1152, CRT_PLL2_HS_80MHZ},
-+	{1280, 768, 80000, CRT_PLL1_HS_80MHZ, CRT_PLL2_HS_80MHZ},
-+	{1280, 720, 74375, CRT_PLL1_HS_74MHZ, CRT_PLL2_HS_74MHZ},
-+	{1280, 960, 108000, CRT_PLL1_HS_108MHZ, CRT_PLL2_HS_108MHZ},
-+	{1280, 1024, 108000, CRT_PLL1_HS_108MHZ, CRT_PLL2_HS_108MHZ},
-+	{1440, 900, 105952, CRT_PLL1_HS_106MHZ, CRT_PLL2_HS_106MHZ},
-+	{1600, 900, 108000, CRT_PLL1_HS_108MHZ, CRT_PLL2_HS_108MHZ},
-+	{1600, 1200, 162500, CRT_PLL1_HS_162MHZ, CRT_PLL2_HS_162MHZ},
-+	{1920, 1080, 148750, CRT_PLL1_HS_148MHZ, CRT_PLL2_HS_148MHZ},
-+	{1920, 1200, 193750, CRT_PLL1_HS_193MHZ, CRT_PLL2_HS_193MHZ},
- };
- 
-+static int hibmc_get_best_clock_idx(const struct drm_display_mode *mode)
-+{
-+	int i, diff;
-+
-+	for (i = 0; i < ARRAY_SIZE(hibmc_pll_table); i++) {
-+		if (hibmc_pll_table[i].hdisplay == mode->hdisplay &&
-+		    hibmc_pll_table[i].vdisplay == mode->vdisplay) {
-+			diff = abs(mode->clock - hibmc_pll_table[i].clock);
-+			if (diff < mode->clock / 100) /* tolerance 1/100 */
-+				return i;
-+		}
-+	}
-+
-+	return -EOPNOTSUPP;
-+}
-+
- static int hibmc_plane_atomic_check(struct drm_plane *plane,
- 				    struct drm_atomic_state *state)
- {
-@@ -214,17 +233,13 @@ static enum drm_mode_status
- hibmc_crtc_mode_valid(struct drm_crtc *crtc,
- 		      const struct drm_display_mode *mode)
- {
--	size_t i = 0;
- 	int vrefresh = drm_mode_vrefresh(mode);
- 
- 	if (vrefresh < 59 || vrefresh > 61)
- 		return MODE_NOCLOCK;
- 
--	for (i = 0; i < ARRAY_SIZE(hibmc_pll_table); i++) {
--		if (hibmc_pll_table[i].hdisplay == mode->hdisplay &&
--		    hibmc_pll_table[i].vdisplay == mode->vdisplay)
--			return MODE_OK;
--	}
-+	if (hibmc_get_best_clock_idx(mode) >= 0)
-+		return MODE_OK;
- 
- 	return MODE_BAD;
- }
-@@ -281,23 +296,20 @@ static void set_vclock_hisilicon(struct drm_device *dev, u64 pll)
- 	writel(val, priv->mmio + CRT_PLL1_HS);
- }
- 
--static void get_pll_config(u64 x, u64 y, u32 *pll1, u32 *pll2)
-+static void get_pll_config(struct drm_display_mode *mode, u32 *pll1, u32 *pll2)
- {
--	size_t i;
--	size_t count = ARRAY_SIZE(hibmc_pll_table);
--
--	for (i = 0; i < count; i++) {
--		if (hibmc_pll_table[i].hdisplay == x &&
--		    hibmc_pll_table[i].vdisplay == y) {
--			*pll1 = hibmc_pll_table[i].pll1_config_value;
--			*pll2 = hibmc_pll_table[i].pll2_config_value;
--			return;
--		}
-+	int idx;
-+
-+	idx = hibmc_get_best_clock_idx(mode);
-+	if (idx < 0) {
-+		/* if found none, we use default value */
-+		*pll1 = CRT_PLL1_HS_25MHZ;
-+		*pll2 = CRT_PLL2_HS_25MHZ;
-+		return;
- 	}
- 
--	/* if found none, we use default value */
--	*pll1 = CRT_PLL1_HS_25MHZ;
--	*pll2 = CRT_PLL2_HS_25MHZ;
-+	*pll1 = hibmc_pll_table[idx].pll1_config_value;
-+	*pll2 = hibmc_pll_table[idx].pll2_config_value;
- }
- 
- /*
-@@ -319,7 +331,7 @@ static u32 display_ctrl_adjust(struct drm_device *dev,
- 	x = mode->hdisplay;
- 	y = mode->vdisplay;
- 
--	get_pll_config(x, y, &pll1, &pll2);
-+	get_pll_config(mode, &pll1, &pll2);
- 	writel(pll2, priv->mmio + CRT_PLL2_HS);
- 	set_vclock_hisilicon(dev, pll1);
- 
--- 
-2.33.0
+Hongyang wrote the patch. Credit to him.
+I just helped to check.
+v2 was a rewrite since feedback of v1, so we think it's like new
+patch, which was reviewed in private.
 
+> I have no trust in private reviews happening between versions.
+> Especially if v1 is send on 27th Jan and next day v2 is sent supposedly
+> reviewed in private. Really?
+
+This patch is not huge amount of work, in spite of rewriting from v1.
+I understand that it's not good to resend a series too quickly, but
+for this specific case, the feedback was very convincing, so v2 was
+sent out without much waiting.
+If you insist on some more waiting period, we can follow it next time.
+
+-Roger
