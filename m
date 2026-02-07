@@ -2,61 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IDNmDx6Ph2kzZwQAu9opvQ
+	id 8DWmASeTh2kYaAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 20:14:38 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 20:31:51 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E150106F13
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 20:14:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E2A106F91
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 20:31:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B76FA10E2B0;
-	Sat,  7 Feb 2026 19:14:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D37F10E2B1;
+	Sat,  7 Feb 2026 19:31:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="KaBmOFSS";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="evBJTQV4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B05B10E2B0
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 19:14:33 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 3D0B82640E;
- Sat,  7 Feb 2026 20:14:32 +0100 (CET)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id IiqnB6U-bqwI; Sat,  7 Feb 2026 20:14:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1770491671; bh=Pw14T46YMvFwxGmDTs4+fN6NLezp7je2HTGomFtgE/k=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=KaBmOFSS3pohHwo8NL9SvAs+l3g3N/2sJoFru1ZQIi/JZ0pgRyG/djTPHn8+OcpPE
- FW2ErdYn9YWSPEi38AnbBm2YuB5Cgo4vOaFCKo3HBhNIBTSPhwbgFzYpLDB9ZTZofK
- lJyoscYGXeo+sYyiUSrVTw1rTTaP2OwxKl4Xh1gQxajZS/yG+ebs0ifbcm2r59s0yy
- XSdisrZt/X65FOTBwRacNQBlsLCdDzd3J/FevSzIS29LTB2giyEb9WGmSWCo5j7mKu
- ISV/xhm5pjyIRHOrdNbXIyFtlLRS3OXZlZrw1LztEHdVE48LdzFNdiNJQAOe6+0kmA
- SgoGIISuOerTQ==
-From: Kaustabh Chakraborty <kauschluss@disroot.org>
-Date: Sun, 08 Feb 2026 00:43:59 +0530
-Subject: [PATCH v2 2/2] drm/bridge: samsung-dsim: use DSIM interrupt to
- wait for PLL stability
+Received: from sender4-pp-g125.zoho.com (sender4-pp-g125.zoho.com
+ [136.143.188.125])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DABC10E2B1;
+ Sat,  7 Feb 2026 19:31:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1770492691; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=RdYdF7c/7RKURWe83WyERwWuC0yeeolV/HdBzGsCxqcpxL0mkFACmfTt3/4NpZ3OPDinHq6e5n7zbReS59t8n4L15hQO7U4nS8Fn2tTltElnkncw44fcngP1AzCyfoM7c8XaQUiSPZqkbCiCu1DktWNekdpxcACDCAt59MRy8aI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1770492691;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=BWnnE4c8SQWwH+plB/G8amDEzU/xZKpBUTD5dL9L0SU=; 
+ b=Re6ehi0jHhfhcXeU5/Wcel1vSM/nbf3eUn4zLT2HuBpR8KwW09QN7DLyDHZbf6ijMUCiRxsF+PCikeRSy3usv/g319xt3au/Kl8FUvyYtHLKZtOGDNMFRu2qD7kpUxw8NRT2SKuuUMvUnFdxsfzPvDT5EKE3EJPl0JkSQmFBjik=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770492691; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=BWnnE4c8SQWwH+plB/G8amDEzU/xZKpBUTD5dL9L0SU=;
+ b=evBJTQV48BJoXeW9eksUfGNDL8f9WrQ191uHnGjm27R4bEhAOi3K2P49kQH5poEp
+ yBkUs87eqn4KX7O6Iw+RewkgV9Vptiu/GBndvntL5vn5lDe9fPnEXqpBgml8bLsfbTW
+ 4iwQ1sonD2B0Akv+l6dv8Hf85aL9HNlIGFgwCxX0=
+Received: by mx.zohomail.com with SMTPS id 1770492689402527.0990853831929;
+ Sat, 7 Feb 2026 11:31:29 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Andy Yan <andyshrk@163.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, kernel@collabora.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 10/22] drm/rockchip: vop2: Fix YUV444 output
+Date: Sat, 07 Feb 2026 20:31:21 +0100
+Message-ID: <1945994.tdWV9SEqCh@workhorse>
+In-Reply-To: <4c9ce287.fbb.19be87814b8.Coremail.andyshrk@163.com>
+References: <20260121-color-format-v7-0-ef790dae780c@collabora.com>
+ <6631107.DvuYhMxLoT@workhorse>
+ <4c9ce287.fbb.19be87814b8.Coremail.andyshrk@163.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260208-exynos-dsim-fixes-v2-2-a857e8130a2a@disroot.org>
-References: <20260208-exynos-dsim-fixes-v2-0-a857e8130a2a@disroot.org>
-In-Reply-To: <20260208-exynos-dsim-fixes-v2-0-a857e8130a2a@disroot.org>
-To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Kaustabh Chakraborty <kauschluss@disroot.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,159 +93,222 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [-0.31 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[disroot.org,reject];
-	R_DKIM_ALLOW(-0.20)[disroot.org:s=mail];
+	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:inki.dae@samsung.com,m:jagan@amarulasolutions.com,m:m.szyprowski@samsung.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:kauschluss@disroot.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[samsung.com,amarulasolutions.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FORGED_SENDER(0.00)[kauschluss@disroot.org,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[163.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[disroot.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[kauschluss@disroot.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.935];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	RCPT_COUNT_TWELVE(0.00)[37];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,intel.com,linaro.org,ideasonboard.com,kwiboo.se,rock-chips.com,sntech.de,ursulin.net,pengutronix.de,lwn.net,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,samsung.com:email,disroot.org:email,disroot.org:dkim,disroot.org:mid]
-X-Rspamd-Queue-Id: 9E150106F13
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 92E2A106F91
 X-Rspamd-Action: no action
 
-Stabilizing PLL needs to be waited for. This is done using a loop,
-checking the PLL_STABLE bit in the status register.
+Hi Andy,
 
-DSIM fires an interrupt when the PLL is stabilized. Rely on this
-functionality for stabilization wait, getting rid of the implicit loop.
+On Friday, 23 January 2026 02:29:02 Central European Standard Time Andy Yan=
+ wrote:
+>=20
+> Hello Nicolas,
+>=20
+> =E5=9C=A8 2026-01-22 20:59:41=EF=BC=8C"Nicolas Frattaroli" <nicolas.fratt=
+aroli@collabora.com> =E5=86=99=E9=81=93=EF=BC=9A
+> >On Thursday, 22 January 2026 09:28:54 Central European Standard Time And=
+y Yan wrote:
+> >>=20
+> >> Hello Nicolas=EF=BC=8C
+> >>=20
+> >> At 2026-01-21 22:45:17, "Nicolas Frattaroli" <nicolas.frattaroli@colla=
+bora.com> wrote:
+> >> >YUV444 (aka YCbCr444) output isn't working quite right on RK3588. The
+> >> >resulting image on the display, while identifying itself as YUV444, h=
+as
+> >> >some components swapped, even after adding the necessary DRM formats =
+to
+> >> >the conversion functions.
+> >> >
+> >> >Judging by downstream, this is because YUV444 also needs an rb swap
+> >> >performed in the AFBC case.
+> >> >
+> >> >Add the DRM formats to the appropriate switch statements, and add a
+> >> >function for checking whether an rb swap needs to be performed in the
+> >> >AFBC case.
+> >> >
+> >> >Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
+> >> >Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> >> >---
+> >> > drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 19 +++++++++++++++++++
+> >> > 1 file changed, 19 insertions(+)
+> >> >
+> >> >diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/g=
+pu/drm/rockchip/rockchip_drm_vop2.c
+> >> >index ec3b4fde10db..469c63dd97d5 100644
+> >> >--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> >> >+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> >> >@@ -176,6 +176,7 @@ static enum vop2_data_format vop2_convert_format(=
+u32 format)
+> >> > 	case DRM_FORMAT_ARGB2101010:
+> >> > 	case DRM_FORMAT_XBGR2101010:
+> >> > 	case DRM_FORMAT_ABGR2101010:
+> >> >+	case DRM_FORMAT_VUY101010:
+> >> > 		return VOP2_FMT_XRGB101010;
+> >> > 	case DRM_FORMAT_XRGB8888:
+> >> > 	case DRM_FORMAT_ARGB8888:
+> >> >@@ -184,6 +185,7 @@ static enum vop2_data_format vop2_convert_format(=
+u32 format)
+> >> > 		return VOP2_FMT_ARGB8888;
+> >> > 	case DRM_FORMAT_RGB888:
+> >> > 	case DRM_FORMAT_BGR888:
+> >> >+	case DRM_FORMAT_VUY888:
+> >> > 		return VOP2_FMT_RGB888;
+> >> > 	case DRM_FORMAT_RGB565:
+> >> > 	case DRM_FORMAT_BGR565:
+> >> >@@ -225,6 +227,7 @@ static enum vop2_afbc_format vop2_convert_afbc_fo=
+rmat(u32 format)
+> >> > 	case DRM_FORMAT_ARGB2101010:
+> >> > 	case DRM_FORMAT_XBGR2101010:
+> >> > 	case DRM_FORMAT_ABGR2101010:
+> >> >+	case DRM_FORMAT_VUY101010:
+> >> > 		return VOP2_AFBC_FMT_ARGB2101010;
+> >> > 	case DRM_FORMAT_XRGB8888:
+> >> > 	case DRM_FORMAT_ARGB8888:
+> >> >@@ -233,6 +236,7 @@ static enum vop2_afbc_format vop2_convert_afbc_fo=
+rmat(u32 format)
+> >> > 		return VOP2_AFBC_FMT_ARGB8888;
+> >> > 	case DRM_FORMAT_RGB888:
+> >> > 	case DRM_FORMAT_BGR888:
+> >> >+	case DRM_FORMAT_VUY888:
+> >>=20
+> >> How did you test this format? It seems tools like modetest don=E2=80=
+=99t support testing this pattern.
+> >>=20
+> >
+> >Hi Andy,
+> >
+> >using the rest of this series, which implements the "color format"
+> >DRM property, and the corresponding weston MR that makes use of it[1].
+> >
+> >I create a ~/.config/weston.ini with the following contents:
+> >
+> >    [output]
+> >    name=3DHDMI-A-1
+> >    color-format=3Dyuv444
+> >
+> >This will make Weston try to set the output format to 10-bit YUV444. To
+> >limit it to 8-bit, you can add `max-bpc=3D8`. The monitor's EDID needs to
+> >report YUV444 support, otherwise that Weston version won't let you set
+> >this property.
+> >
+>=20
+>=20
+> This looks a bit strange. Your commit message and the Weston configuratio=
+n here both target the output format,=20
+> but the patch modifies the functions vop2_convert_format and vop2_convert=
+_afbc_format, which are responsible for
+> converting the data formats of planes/framebuffers (fb)=E2=80=94these hav=
+e nothing to do with the output format.
 
-This has been tested on a Galaxy J6 (Exynos 7870). Unfortunately, since
-testing on all supported devices is less feasible, introduce a stop-gap
-measure where the timeout has a gracious lower bound of 100
-microseconds. This will (hopefully) prevent regressions due to timeout
-on other devices.
+Yep, I've now re-tested this in various ways and this commit doesn't do
+what I thought it did. I think when I authored it, this was still doing
+BCSH based conversion and may have depended on this at some stage. Also
+possible that I didn't do a clean test run of solely these changes to
+come to my conclusions.
 
-Suggested-by: Inki Dae <inki.dae@samsung.com>
-Link: https://lore.kernel.org/r/CAAQKjZMLMbwDVZRb5+Xb_5yz3AEP4uuzFJMuuZy9NFDu13VU5w@mail.gmail.com
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
----
- drivers/gpu/drm/bridge/samsung-dsim.c | 41 +++++++++++++++++++++++------------
- include/drm/bridge/samsung-dsim.h     |  1 +
- 2 files changed, 28 insertions(+), 14 deletions(-)
+YUV444 primary planes aren't supported by RK3588 at all from what I gather,
+so I have no clue where I ran into this and how this fixed it.
 
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 70f8946ad3b24..0ca6c6484c9a6 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -17,6 +17,7 @@
- #include <linux/export.h>
- #include <linux/irq.h>
- #include <linux/media-bus-format.h>
-+#include <linux/minmax.h>
- #include <linux/of.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
-@@ -788,7 +789,7 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
- {
- 	const struct samsung_dsim_driver_data *driver_data = dsi->driver_data;
- 	unsigned long fin, fout;
--	int timeout;
-+	unsigned int timeout;
- 	u8 p, s;
- 	u16 m;
- 	u32 reg;
-@@ -849,19 +850,26 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
- 	if (dsi->swap_dn_dp_data)
- 		reg |= DSIM_PLL_DPDNSWAP_DAT;
- 
-+	/*
-+	 * The PLL_TIMER value is the product of the timeout delay and the APB
-+	 * bus clock rate. Calcutate the timeout delay on-the-fly here.
-+	 * It is assumed that the bus clock is the first clock in the provided
-+	 * bulk clock data.
-+	 */
-+	timeout = 100;
-+	fin = clk_get_rate(dsi->driver_data->clk_data[0].clk) / HZ_PER_MHZ;
-+	if (fin)
-+		timeout = max(dsi->driver_data->reg_values[PLL_TIMER] / fin,
-+			      timeout);
-+
-+	reinit_completion(&dsi->pll_stabilized);
- 	samsung_dsim_write(dsi, DSIM_PLLCTRL_REG, reg);
- 
--	timeout = 3000;
--	do {
--		if (timeout-- == 0) {
--			dev_err(dsi->dev, "PLL failed to stabilize\n");
--			return 0;
--		}
--		if (driver_data->has_legacy_status_reg)
--			reg = samsung_dsim_read(dsi, DSIM_STATUS_REG);
--		else
--			reg = samsung_dsim_read(dsi, DSIM_LINK_STATUS_REG);
--	} while ((reg & BIT(driver_data->pll_stable_bit)) == 0);
-+	if (wait_for_completion_timeout(&dsi->pll_stabilized,
-+					usecs_to_jiffies(timeout))) {
-+		dev_err(dsi->dev, "PLL failed to stabilize\n");
-+		return 0;
-+	}
- 
- 	dsi->hs_clock = fout;
- 
-@@ -1596,8 +1604,12 @@ static irqreturn_t samsung_dsim_irq(int irq, void *dev_id)
- 		return IRQ_HANDLED;
- 	}
- 
--	if (!(status & (DSIM_INT_RX_DONE | DSIM_INT_SFR_FIFO_EMPTY |
--			DSIM_INT_PLL_STABLE)))
-+	if (status & DSIM_INT_PLL_STABLE) {
-+		complete(&dsi->pll_stabilized);
-+		return IRQ_HANDLED;
-+	}
-+
-+	if (!(status & (DSIM_INT_RX_DONE | DSIM_INT_SFR_FIFO_EMPTY)))
- 		return IRQ_HANDLED;
- 
- 	if (samsung_dsim_transfer_finish(dsi))
-@@ -2146,6 +2158,7 @@ int samsung_dsim_probe(struct platform_device *pdev)
- 		return PTR_ERR(dsi);
- 
- 	init_completion(&dsi->completed);
-+	init_completion(&dsi->pll_stabilized);
- 	spin_lock_init(&dsi->transfer_lock);
- 	INIT_LIST_HEAD(&dsi->transfer_list);
- 
-diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
-index 03005e474704b..e3433da21ad08 100644
---- a/include/drm/bridge/samsung-dsim.h
-+++ b/include/drm/bridge/samsung-dsim.h
-@@ -123,6 +123,7 @@ struct samsung_dsim {
- 	int state;
- 	struct drm_property *brightness;
- 	struct completion completed;
-+	struct completion pll_stabilized;
- 
- 	spinlock_t transfer_lock; /* protects transfer_list */
- 	struct list_head transfer_list;
+Testing on RK3576 without this, and also playing around with gbm-format,
+I also don't ever get into the situation where this is needed for correct
+output; it seems like EGLConfig always only exposes RGBA formats anyway,
+so Panfrost may still lack YUV format support for the buffers.
 
--- 
-2.52.0
+I'll drop this patch on the next revision, but I'll keep the changes in
+mind if an atomic modesetting test workload that sets YUV plane formats
+ever comes to be.
+
+Thanks for the reviews!
+
+Kind regards,
+Nicolas Frattaroli
+
+>=20
+>=20
+> >Link: https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/185=
+9 [1]
+> >
+> >Kind regards,
+> >Nicolas Frattaroli
+> >
+> >>=20
+> >>=20
+> >> > 		return VOP2_AFBC_FMT_RGB888;
+> >> > 	case DRM_FORMAT_RGB565:
+> >> > 	case DRM_FORMAT_BGR565:
+> >> >@@ -270,6 +274,19 @@ static bool vop2_win_rb_swap(u32 format)
+> >> > 	}
+> >> > }
+> >> >=20
+> >> >+static bool vop2_afbc_rb_swap(u32 format)
+> >> >+{
+> >> >+	switch (format) {
+> >> >+	case DRM_FORMAT_NV24:
+> >> >+	case DRM_FORMAT_NV30:
+> >> >+	case DRM_FORMAT_VUY888:
+> >> >+	case DRM_FORMAT_VUY101010:
+> >> >+		return true;
+> >> >+	default:
+> >> >+		return false;
+> >> >+	}
+> >> >+}
+> >> >+
+> >> > static bool vop2_afbc_uv_swap(u32 format)
+> >> > {
+> >> > 	switch (format) {
+> >> >@@ -1291,6 +1308,7 @@ static void vop2_plane_atomic_update(struct drm=
+_plane *plane,
+> >> > 		 /* It's for head stride, each head size is 16 byte */
+> >> > 		stride =3D ALIGN(stride, block_w) / block_w * 16;
+> >> >=20
+> >> >+		rb_swap =3D vop2_afbc_rb_swap(fb->format->format);
+> >> > 		uv_swap =3D vop2_afbc_uv_swap(fb->format->format);
+> >> > 		/*
+> >> > 		 * This is a workaround for crazy IC design, Cluster
+> >> >@@ -1308,6 +1326,7 @@ static void vop2_plane_atomic_update(struct drm=
+_plane *plane,
+> >> > 			vop2_win_write(win, VOP2_WIN_AFBC_ENABLE, 1);
+> >> > 		vop2_win_write(win, VOP2_WIN_AFBC_FORMAT, afbc_format);
+> >> > 		vop2_win_write(win, VOP2_WIN_AFBC_UV_SWAP, uv_swap);
+> >> >+		vop2_win_write(win, VOP2_WIN_AFBC_RB_SWAP, rb_swap);
+> >> > 		/*
+> >> > 		 * On rk3566/8, this bit is auto gating enable,
+> >> > 		 * but this function is not work well so we need
+> >> >
+> >>=20
+> >
+> >
+> >
+> >
+>=20
+
+
+
 
