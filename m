@@ -2,40 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WJzrM6aAh2lQYwQAu9opvQ
+	id cAC3MqeAh2lQYwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 19:12:54 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 19:12:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39E31106CF8
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 19:12:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F077106CFF
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 19:12:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88C7610E29F;
-	Sat,  7 Feb 2026 18:12:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01B6710E2A1;
+	Sat,  7 Feb 2026 18:12:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=thundersoft.com header.i=@thundersoft.com header.b="No0SgX4S";
+	dkim=pass (1024-bit key; unprotected) header.d=thundersoft.com header.i=@thundersoft.com header.b="LGCz9P7g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m19731115.qiye.163.com (mail-m19731115.qiye.163.com
- [220.197.31.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 648AC10E034
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 07:33:41 +0000 (UTC)
+Received: from mail-m15599.qiye.163.com (mail-m15599.qiye.163.com
+ [101.71.155.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3E9C10E170
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 07:33:42 +0000 (UTC)
 Received: from [127.0.1.1] (unknown [113.235.123.225])
- by smtp.qiye.163.com (Hmail) with ESMTP id 3372cf65d;
- Sat, 7 Feb 2026 15:33:36 +0800 (GMT+08:00)
+ by smtp.qiye.163.com (Hmail) with ESMTP id 3372cf66b;
+ Sat, 7 Feb 2026 15:33:38 +0800 (GMT+08:00)
 From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-Subject: [PATCH v3 0/3] Add DSI Port B input support for LT9611 HDMI bridge
-Date: Sat, 07 Feb 2026 15:32:53 +0800
-Message-Id: <20260207-rubikpi-next-20260116-v3-0-23b9aa189a3a@thundersoft.com>
+Date: Sat, 07 Feb 2026 15:32:54 +0800
+Subject: [PATCH v3 1/3] dt-bindings: display: lt9611: Support single Port B
+ input
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAKXqhmkC/4XNTQ7CIBCG4as0rMXAKP1x5T2MiwJTS4zQACU1T
- e8urRsTY1y+XzLPzCSgNxjIqZiJx2SCcTbHYVcQ1bf2htTo3AQYlIxDRf0ozX0w1OIU6XvlJW0
- axbXEVjA8knw7eOzMtLmXa+7ehOj8c3uT+Lr+ExOnjDKoS1UJLpgS59iPVqMProt75R5kdRN8W
- vUvC7IlW8EV1hqkhm9rWZYX8790qQwBAAA=
-X-Change-ID: 20260127-rubikpi-next-20260116-99c1dbea50e4
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260207-rubikpi-next-20260116-v3-1-23b9aa189a3a@thundersoft.com>
+References: <20260207-rubikpi-next-20260116-v3-0-23b9aa189a3a@thundersoft.com>
+In-Reply-To: <20260207-rubikpi-next-20260116-v3-0-23b9aa189a3a@thundersoft.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -52,26 +50,25 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Roger Shimizu <rosh@debian.org>, 
  linux-arm-msm@vger.kernel.org, 
- Hongyang Zhao <hongyang.zhao@thundersoft.com>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+ Hongyang Zhao <hongyang.zhao@thundersoft.com>
 X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1770449616; l=1956;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770449616; l=2074;
  i=hongyang.zhao@thundersoft.com; s=20251115; h=from:subject:message-id;
- bh=bDP3hx0259pprjh+K2o5PYpEoQCe2saFDVKumA7/C9A=;
- b=eetxF5m3iGkUNwCp/TkyTHsix9a8PMxhFPpOO5nYZ6xEAGzyAZ4KwkCh1z7NA1joPPXGOWPPZ
- HyS9SwA32JqCMiP3Y7cLkfzAf0l57CaxawWkh3qz7rGxUBty/oSjdnQ
+ bh=EGlbJt4UoSLkYy09+Ujv17dM+4JZjbWnbz1SJ8A7TVQ=;
+ b=VabQBDcaR19gGUsPqBfUFW5+ApjQtXi/6JPTGqKx+qQymjWtrf7Qsp7roy3l9QqMS7y/SlqK6
+ 8hEmEyAng0wAkYlnZQpWK/ajm0VhFF5+Vowt2ko4gZU0Lylro/7lyXJ
 X-Developer-Key: i=hongyang.zhao@thundersoft.com; a=ed25519;
  pk=0M0CJ1s9WiFZwli2JsxLB9ykikp5WkpKzCWgpdANKNI=
-X-HM-Tid: 0a9c37053cb009d5kunm3723250e7f3055
+X-HM-Tid: 0a9c370545c509d5kunm3723250e7f3075
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaQh1OVhpNQhlMGUNOGhkaGVYVFAkWGhdVEwETFh
+ tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZH0JCVkpDT0NPSkMfHh5JQlYVFAkWGhdVEwETFh
  oSFyQUDg9ZV1kYEgtZQVlKSkhVSUhOVUpJSFVJSU5ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0hVSk
  tLVUpCS0tZBg++
 DKIM-Signature: a=rsa-sha256;
- b=No0SgX4SD3TvjSIs1OmDLkBosQ9BsOhjElWSp1RpBWyjnaP7DswSaACfl0Vcevl28l9hzAXIiAbPCxnrNpHP5VmHwj5vfHEmuuXJDjIhqzRtHn8v459jU7/Dtsv0D0PABoGzFWE5whYGYyJ+UCWxXIOgqB5/dvjKOTd5jkt9lNM=;
+ b=LGCz9P7gcDxPocmLXLstQ5nLO+UPYcIl+LO3yYZXUsj35hK0bCDm0SvEG59RAzORhN3dwivCxKLjF5EF3L4a2ExmLqjBBBE418m7dv4GNQIxbvz/5h/ka8qzSXHW3Oqvw+5lN7ZEpAV1ez50yX6xvByrgasoZZ/jevWItPAFo5c=;
  c=relaxed/relaxed; s=default; d=thundersoft.com; v=1; 
- bh=/A8bo6qfto91b4n9cieuLRsSkhHM9gJRuxTe8hTLdC8=;
+ bh=W01jkYSpWbsH8AaTOMMLWBvhB2MlFfUuXRlmTq4crEU=;
  h=date:mime-version:subject:message-id:from;
 X-Mailman-Approved-At: Sat, 07 Feb 2026 18:12:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -100,10 +97,10 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[26];
+	RCPT_COUNT_TWELVE(0.00)[25];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:vkoul@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,m:christopher.obbard@linaro.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:rosh@debian.org,m:linux-arm-msm@vger.kernel.org,m:hongyang.zhao@thundersoft.com,m:konrad.dybcio@oss.qualcomm.com,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:vkoul@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,m:christopher.obbard@linaro.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:rosh@debian.org,m:linux-arm-msm@vger.kernel.org,m:hongyang.zhao@thundersoft.com,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de,oss.qualcomm.com];
 	FORGED_SENDER(0.00)[hongyang.zhao@thundersoft.com,dri-devel-bounces@lists.freedesktop.org];
@@ -118,56 +115,67 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DBL_PROHIBIT(0.00)[0.0.0.0:email];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.954];
+	NEURAL_HAM(-0.00)[-0.926];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,0.0.0.1:email,thundersoft.com:email,thundersoft.com:dkim,thundersoft.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 39E31106CF8
+	DBL_BLOCKED_OPENRESOLVER(0.00)[thundersoft.com:email,thundersoft.com:dkim,thundersoft.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,0.0.0.1:email,0.0.0.2:email]
+X-Rspamd-Queue-Id: 2F077106CFF
 X-Rspamd-Action: no action
 
-The LT9611 HDMI bridge has two DSI input ports (Port A and Port B).
-The current driver only supports Port A or dual-port (A+B) mode, but
-some boards like RubikPi3 connect DSI to Port B only.
+The LT9611 has two DSI input ports (Port A and Port B). Update the
+binding to clearly document the port mapping and allow using Port B
+alone when DSI is physically connected to Port B only.
 
-This series adds support for using DSI Port B as the input source by
-utilizing the existing ports mechanism in devicetree:
+Changes:
+- Clarify port@0 corresponds to DSI Port A input
+- Clarify port@1 corresponds to DSI Port B input
+- Change port requirement from mandatory port@0 to anyOf port@0/port@1,
+  allowing either port to be used independently
 
-- port@0 corresponds to LT9611 DSI Port A input
-- port@1 corresponds to LT9611 DSI Port B input
-
-The driver detects which ports are populated and configures the hardware
-accordingly. When only port@1 is present, it configures port swap
-(register 0x8303 bit 6) and byte_clk source (register 0x8250 bit 3:2)
-for Port B operation.
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
 ---
-Changes in v3:
-- v2 incorporates significant changes based on Neil's review of v1,
-  so remove Roger’s Reviewed-by tag from the v2 commit message.
-- Link to v2: https://patch.msgid.link/20260128-rubikpi-next-20260116-v2-0-ba51ce8d2bd2@thundersoft.com
+ .../bindings/display/bridge/lontium,lt9611.yaml           | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-Changes in v2:
-- Use ports mechanism instead of boolean property
-- port@0 corresponds to LT9611 Port A, port@1 to Port B
-- Driver detects which port is populated and configures accordingly
-- Link to v1: https://lore.kernel.org/r/20260127-rubikpi-next-20260116-v1-0-0286c75150c5@thundersoft.com
+diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
+index 655db8cfdc25..429a06057ae8 100644
+--- a/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
+@@ -44,21 +44,28 @@ properties:
+       port@0:
+         $ref: /schemas/graph.yaml#/properties/port
+         description:
+-          Primary MIPI port-1 for MIPI input
++          DSI Port A input. directly drives the display, or works in
++          combination with Port B for higher resolution displays.
+ 
+       port@1:
+         $ref: /schemas/graph.yaml#/properties/port
+         description:
+-          Additional MIPI port-2 for MIPI input, used in combination
+-          with primary MIPI port-1 to drive higher resolution displays
++          DSI Port B input. Can be used alone if DSI is physically
++          connected to Port B, or in combination with Port A for higher
++          resolution displays.
+ 
+       port@2:
+         $ref: /schemas/graph.yaml#/properties/port
+         description:
+           HDMI port for HDMI output
+ 
++    anyOf:
++      - required:
++          - port@0
++      - required:
++          - port@1
++
+     required:
+-      - port@0
+       - port@2
+ 
+ required:
 
----
-Hongyang Zhao (3):
-      dt-bindings: display: lt9611: Support single Port B input
-      drm/bridge: lt9611: Add support for single Port B input
-      arm64: dts: qcom: qcs6490-rubikpi3: Use lt9611 DSI Port B
-
- .../bindings/display/bridge/lontium,lt9611.yaml    | 15 +++++--
- .../boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts |  8 ++--
- drivers/gpu/drm/bridge/lontium-lt9611.c            | 46 +++++++++++++++-------
- 3 files changed, 47 insertions(+), 22 deletions(-)
----
-base-commit: 46fe65a2c28ecf5df1a7475aba1f08ccf4c0ac1b
-change-id: 20260127-rubikpi-next-20260116-99c1dbea50e4
-
-Best regards,
---  
-Hongyang Zhao <hongyang.zhao@thundersoft.com>
+-- 
+2.43.0
 
