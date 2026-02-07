@@ -2,87 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6A1nCmCvh2mabwQAu9opvQ
+	id XOrXJOOvh2nDbwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 22:32:16 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 22:34:27 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6768310728C
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 22:32:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C9C10729C
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 22:34:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FC1B10E193;
-	Sat,  7 Feb 2026 21:32:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDD1C10E299;
+	Sat,  7 Feb 2026 21:34:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Bt7CsAli";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="AWKVbKa+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59CEB10E193
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 21:32:11 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-482f454be5bso35184665e9.0
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Feb 2026 13:32:11 -0800 (PST)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36F2610E299
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 21:34:23 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-4801d7c72a5so15551205e9.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Feb 2026 13:34:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1770499930; x=1771104730;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1770500062; x=1771104862;
  darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=0BrPLLSWSjiawj1gbSbQ0ZlYLO5BlnXdXTmgTcb/Ius=;
- b=Bt7CsAli22XiFpx7ORvrvV4Nsq1uq1z/7nlS+jvb3WfiXSjNhSZ4RaEC6VU3v8X4Fv
- zsWc4NgUTQQoppGsaoDRTxnX/QkIVINDjkXx83wNRibFOngE/ndc1Kjv6mNVrvwAeRiW
- YKBkG3wT3QAwkSyQwa8Tqz9OEI7yetNVVqHJkhDZ1s8n15Q/n6duGzMxa5zczIIBndTH
- SJGTyGOxQYAsnBP6JGhH62rrsyRMtZ6LODJvBos2ZUGoSTyJTpNAx43+JW+z+qTUjwEo
- knjpSxZZ+TVTaHAINr+o3YL0JVnqbk+LO5o6AwfDe9JFP54eEoM4rK9jDgLiPQcswZCk
- 8BZA==
+ bh=tfrnHsqrS7b6As3CIMHSJTCp+MPpzv+h69MSx8cjWHo=;
+ b=AWKVbKa+tFpRIV4O9hfxQCri9DsorF4yp6x44bxye7ch4eBdlDb2qu1+on8gGLBHMm
+ bXEexoFJGCrX9Hou93sBig2zSGWi0BMWVzR3nK0eVOL2PnmEuRVEi2m1HbcOOF3mieqy
+ bRKGGLQvawkjOztYkj5/CBOEpR6EZ5c27gqcH05vbNuU5x5iVN6Evk6+jJCAZc8uF49j
+ YCyYmGqxKSQr1dkWaBJPLjxncqjc0FVMIXqJ0t8pAjIhA3MayEiazdL+5bwZrvw1TCk6
+ FaQ9ayUubEYNsQ25DsAYOokQmQoDfvJbqj75tAEBJpX+Ps9/w1fanA6N0QVq1hQu1cmf
+ sxVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770499930; x=1771104730;
+ d=1e100.net; s=20230601; t=1770500062; x=1771104862;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0BrPLLSWSjiawj1gbSbQ0ZlYLO5BlnXdXTmgTcb/Ius=;
- b=m8SNyQTed2Mw0Cc8s2GksRFrxNj5+XuCwn3XEwq36AaZScHWJBSy5UQ0ElsdKAyjDv
- ymKHIXgj54o8cLD67jd0O72n9TBFy1bS9kTfKN/Wr8wFDt4dRv0a113RXsb0hesMuOIz
- aHhFrjTTNwr91rNOR5oZWflqfgGcK9HZREfEp9VJgOvDDveqG2ynuGREqDpo8XcmqTh0
- fZ6GVQ2lWlJ761Q1FmG9STGD4OId2gpa+J6niC59oz7cNFv5dHpueEoSg7yorb6peuBi
- nyFT3PhnXYXN0E66hluWWLgIxmYb0tHPudqPgUOzl1W3zhSR7zTzSaWrIbqAaQdjLCbx
- 19kQ==
+ bh=tfrnHsqrS7b6As3CIMHSJTCp+MPpzv+h69MSx8cjWHo=;
+ b=iJpMx1p9nsGuhewOxnhaDDaunTjYZgjf/PfEM6NvwqS5FefngGNqUkywjNkjPL+fp1
+ XujAMDhxBCe28mJuT4xYWkxaCJtR2p0yXnY5o++dLvB4RvC75Yj5VIyim7U/UR5hYdy3
+ Ow87pASRP1FjwcwMYR+fePEdY7njj6f0aUE9cxpSfKZti6EIvTfgfj78FRALbr2UaQcg
+ sa1CAUx0kTKfbKRQMXFgyo33Lg95UdMCFD++wC0xDZdIBcrVcT/KFFHxKtcbkwfQj9jO
+ lWR8A68lHHRxYDkk9CR+4BCmqoivK6jEGpRQSzT1c2TUr1hkWskvGsb6oJBUcilp/t8E
+ TF+w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVTI+JhHlYiEtyJCQe4b1LUFSmqgH8PANiEt4PmOUK7JCjkBcSZGz1OwHdRvXZ3XD4DaMhvcCfg+/o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwPTfkXDBs0LvcwnYe1zqkuF63WEDqXzDGmr+VTML9k5vv8poTr
- eU90EzvR8GI5a7OsEt4NlhYL4D9XH++KFaVZUYOIufXrQ5etJrI+5+cVk614j3BK+9Q=
-X-Gm-Gg: AZuq6aLQ7QYQJ9hwv09bmpfHVpMhANF2b054IWbS2lU8q44oZ8DadEizAYUEn0e+IQT
- qwe0qsHqIt/qtgDcUkH2Wb74iBRqncVxVP95IAtCwTIjYsIJJUMD5Ka3+WjX3vOTcwPe5OhKEeE
- SXP3oNclX5rvA2XzNRmTTrs1DNJIi0Gzz/IVEn4im2bEcZBoQRVAm0lBmdftGCThGYh7B2cCpEA
- XYTxFmOH7qKWCLoXeRHKM/9seIdX2Az+Hszn15z1TODxWrozs69UBZwqIauwoacXYciuEEEFPnQ
- uhd2CBw+PzEloI90RRbWzNpWAbb8QN86+48aEUb+pO9flT8yLmH+RojRKRd1NUmuGRICr/XOGpo
- 8PjpXF36MSxbW1BV6fX5UTaeDuXnOP4mGNsAPV2MuTYKr8cn20t5WSxcVvdbCjAi4cfRD2r6WPg
- ZJBb/DLLsvBWJZ0scl
-X-Received: by 2002:a05:600c:a00f:b0:477:a289:d854 with SMTP id
- 5b1f17b1804b1-483203aaae7mr98657615e9.5.1770499929709; 
- Sat, 07 Feb 2026 13:32:09 -0800 (PST)
+ AJvYcCXNLBoqVQPEz+VZPuBQu5pVZ5+TP/yxrrE7LUrh9TRj9PPtgKvnhBarie05OoOpekVCdnLciHMnrS8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxxWYdapWZgS7GoiD9dSq3YnunYH2tPT41ey3kJY5Ji2NLhJec9
+ 38zrsY5r0cWAQReMFLdV1PeT/WLMWeHYzDwmNs9BI6a/aaoWoeqI7J0b6Ogbhaarrfg=
+X-Gm-Gg: AZuq6aI+sMcnWUwjpTGIyDN7cm2Bm0CGR7ZM9lGfUgIsUEcVUbgaSA6KaVj4YqJW39p
+ LFiLwcnve5JKeuPyHt1iYJ3dRuQxB2MGyQPfKC46w6dA3j22ZrDKCk0xuNFFlDr5mdoOdAHpdrP
+ D1x+zEPLsyOP+cDi6YS5BsiCfyrZRmIGotWnRhDjp8GKkG7EwVtmSna1KDzSxPZpmJaTDEUivPP
+ X9rcMpfFGzmgR1Pg9URPt8k1tnm/hyRBAu520KkVxDxSm3pre91gu1gxns16IIBPiW+xkR0lw3G
+ 6P6iQcowhN9WD37I2k15ox7WCYU68Gek/GQmXJl71sN1q1JaR2nSViChXTdLENRdj7rejV0gCJX
+ 4gSqmJMrNJ7Z3DmBZcUu15EcBCEPXqHlNokIIVzlEuA+4W/m/nTqbjI9diPSaH733xgqXiWGADh
+ VcBZ0H1MvOjfxa8+I4
+X-Received: by 2002:a05:600c:3b03:b0:480:1b65:b741 with SMTP id
+ 5b1f17b1804b1-483201e3b8cmr91225305e9.15.1770500061712; 
+ Sat, 07 Feb 2026 13:34:21 -0800 (PST)
 Received: from localhost ([2a02:8071:b783:6940:1d24:d58d:2b65:c291])
  by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-436296b20fasm16054853f8f.6.2026.02.07.13.32.08
+ ffacd0b85a97d-4376a78d796sm176771f8f.20.2026.02.07.13.34.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Feb 2026 13:32:09 -0800 (PST)
-Date: Sat, 7 Feb 2026 22:32:07 +0100
+ Sat, 07 Feb 2026 13:34:21 -0800 (PST)
+Date: Sat, 7 Feb 2026 22:34:16 +0100
 From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 To: Helge Deller <deller@gmx.de>
 Cc: Chen Ni <nichen@iscas.ac.cn>, linux-fbdev@vger.kernel.org, 
  dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 3/4] fbdev: au1100fb: Use %zu to printk a value of
- type size_t
-Message-ID: <aYeu_fgYxHSk9pjK@monoceros>
+Subject: Re: [PATCH v2 1/4] fbdev: au1100fb: Don't store device specific data
+ in global variables
+Message-ID: <aYevgJ6cfe6JVlJq@monoceros>
 References: <cover.1770483674.git.u.kleine-koenig@baylibre.com>
- <444f0cd1a39cc665a9e2d76454138c3e71c7747f.1770483674.git.u.kleine-koenig@baylibre.com>
- <615c1263-fbdc-40bd-aff6-b1411af012fe@gmx.de>
+ <0e1ecdde447dc32816f1f066812ec8e84b4aad0a.1770483674.git.u.kleine-koenig@baylibre.com>
+ <7334e2a2-d71f-404c-b2b0-170a7117c0c5@gmx.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ajzfog673aerj25p"
+ protocol="application/pgp-signature"; boundary="d35sh22q3uapum4y"
 Content-Disposition: inline
-In-Reply-To: <615c1263-fbdc-40bd-aff6-b1411af012fe@gmx.de>
+In-Reply-To: <7334e2a2-d71f-404c-b2b0-170a7117c0c5@gmx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,27 +101,27 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.41 / 15.00];
 	SIGNED_PGP(-2.00)[];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[baylibre-com.20230601.gappssmtp.com:s=20230601];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_TO(0.00)[gmx.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:deller@gmx.de,m:nichen@iscas.ac.cn,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:deller@gmx.de,m:nichen@iscas.ac.cn,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[u.kleine-koenig@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	DMARC_NA(0.00)[baylibre.com];
 	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORGED_SENDER(0.00)[u.kleine-koenig@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.984];
+	NEURAL_HAM(-0.00)[-0.986];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
@@ -131,81 +131,66 @@ X-Spamd-Result: default: False [-2.41 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	RCPT_COUNT_THREE(0.00)[4];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,baylibre.com:email,baylibre-com.20230601.gappssmtp.com:dkim]
-X-Rspamd-Queue-Id: 6768310728C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[baylibre-com.20230601.gappssmtp.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: D3C9C10729C
 X-Rspamd-Action: no action
 
 
---ajzfog673aerj25p
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+--d35sh22q3uapum4y
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 3/4] fbdev: au1100fb: Use %zu to printk a value of
- type size_t
+Subject: Re: [PATCH v2 1/4] fbdev: au1100fb: Don't store device specific data
+ in global variables
 MIME-Version: 1.0
 
-On Sat, Feb 07, 2026 at 08:06:18PM +0100, Helge Deller wrote:
-> On 2/7/26 18:12, Uwe Kleine-K=F6nig wrote:
-> > %zu is the dedicated type for size_t. %d only works on 32bit
-> > architectures where size_t is typedef'd to be unsigned int. (And then
-> > the signedness doesn't fit, but `gcc -Wformat` doesn't stumble over thi=
-s.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
-> > ---
-> >   drivers/video/fbdev/au1100fb.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/video/fbdev/au1100fb.c b/drivers/video/fbdev/au110=
-0fb.c
-> > index beba8befaec9..a0e1aceaf9a6 100644
-> > --- a/drivers/video/fbdev/au1100fb.c
-> > +++ b/drivers/video/fbdev/au1100fb.c
-> > @@ -456,7 +456,7 @@ static int au1100fb_drv_probe(struct platform_devic=
-e *dev)
-> >   					    PAGE_ALIGN(fbdev->fb_len),
-> >   					    &fbdev->fb_phys, GFP_KERNEL);
-> >   	if (!fbdev->fb_mem) {
-> > -		print_err("fail to allocate framebuffer (size: %dK))",
-> > +		print_err("fail to allocate framebuffer (size: %zuK))",
-> >   			  fbdev->fb_len / 1024);
-> >   		return -ENOMEM;
-> >   	}
->=20
-> I think there is a second hunk missing?
->=20
-> @@ -470,7 +470,7 @@ static int au1100fb_drv_probe(struct platform_device =
-*dev)
->         fbdev->info.fix.smem_len =3D fbdev->fb_len;
->=20
->         print_dbg("Framebuffer memory map at %p", fbdev->fb_mem);
-> -       print_dbg("phys=3D0x%08x, size=3D%dK", fbdev->fb_phys, fbdev->fb_=
-len / 1024);
-> +       print_dbg("phys=3D0x%08x, size=3D%zuK", fbdev->fb_phys, fbdev->fb=
-_len / 1024);
+Hello Helge,
 
-Ah, the compiler didn't stumble about this one because print_dbg is a
-stub without DEBUG defined.
+On Sat, Feb 07, 2026 at 08:04:21PM +0100, Helge Deller wrote:
+> > @@ -547,7 +542,7 @@ void au1100fb_drv_remove(struct platform_device *de=
+v)
+> >   #ifdef CONFIG_PM
+> >   static struct au1100fb_regs fbregs;
+>=20
+> ^ you missed to delete "fbregs" now.
+> Your previous series deleted it.
 
-I will prepare a v3.
+I guess this is a fallout from reordering the patches. Will fix.
+
+> > -int au1100fb_drv_suspend(struct platform_device *dev, pm_message_t sta=
+te)
+> > +static int au1100fb_drv_suspend(struct platform_device *dev, pm_messag=
+e_t state)
+> >   {
+> >   	struct au1100fb_device *fbdev =3D platform_get_drvdata(dev);
+> > @@ -559,7 +554,7 @@ int au1100fb_drv_suspend(struct platform_device *de=
+v, pm_message_t state)
+> >   	clk_disable(fbdev->lcdclk);
+> > -	memcpy(&fbregs, fbdev->regs, sizeof(struct au1100fb_regs));
+> > +	memcpy(&fbdev->pm_regs, fbdev->regs, sizeof(struct au1100fb_regs));
+>=20
+> Although memcpy() was used before, isn't this:
+> 	fbdev->pm_regs =3D *fbdev->regs;
+> sufficient and better?
+
+Probably yes, that's a separate patch then.
 
 Best regards
 Uwe
 
-
---ajzfog673aerj25p
+--d35sh22q3uapum4y
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmmHr1QACgkQj4D7WH0S
-/k4pBAf/SEz7V6p2eFrCGkaO4pc4w8gT474jPM3+vx9iVk0bZtVywgFXYkzkgezN
-Ho315SJi/3R8JIi6FhTnvmbtfty8gNJE6GmWsoKxDcQcXUIzlo/KSgLLU2aeRO1D
-t/ga8kM0ypOCispx8JSLE3qcFzdsAFZVDD8NPSo9/z3nAG6kHi541td5y9sFULQu
-RYojnIyH4vAXwIh2btzh/1L4pyLt5/83+0s3Q0lG3Zpt+pZJzMx4Fuo2jKfnT0Mx
-WnecP/3cEr54Eis5el84SqNfBzORQV5zebPCXrih9etY4779CtvvvCHm2TnfOFn+
-S8RMidMXAG0S++Cq0PfBZ1UGNrmdbw==
-=aNGH
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmmHr9YACgkQj4D7WH0S
+/k6iowf/cO96jiS4X1jREbF+RkH18ZfeRULpcSU/4pi2tHEoKSVZk2VwaPUSja+g
+CBmrtT4AI6FgqfPzFqpGK753YuwPTqTqSpHUYI6MEPaTTrkbL8eZgDpJIbf6wCSp
+7ZW8Rhf4V21/ZkxCbZJ/zvMSui6RG6iaXHDfxFBBRmSKZ9//X8bNreLspMq39R4K
+VHaSUk8fAnSRj5HmTQws44AhWp350sbQvxQVp0zG2WaxtInMvkeMTlL0hnNUn/9L
+nbgI7waNuqpoFH/scoDXzi/NLqdDMVuUE6PzNe4FeEmhJEWm3vyV47uvN7T3RoLB
+GZu4/Ek/pDSQFCCfSZ4ylyO9A0ThNQ==
+=bteR
 -----END PGP SIGNATURE-----
 
---ajzfog673aerj25p--
+--d35sh22q3uapum4y--
