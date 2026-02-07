@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MGi3DxOPh2kzZwQAu9opvQ
+	id IDNmDx6Ph2kzZwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 20:14:27 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 20:14:38 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADEFB106F04
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 20:14:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E150106F13
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 20:14:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D19C10E2AF;
-	Sat,  7 Feb 2026 19:14:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B76FA10E2B0;
+	Sat,  7 Feb 2026 19:14:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="j07UJK2Q";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="KaBmOFSS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09B1710E2AF
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 19:14:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B05B10E2B0
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 19:14:33 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id BB30F264FC;
- Sat,  7 Feb 2026 20:14:22 +0100 (CET)
+ by disroot.org (Postfix) with ESMTP id 3D0B82640E;
+ Sat,  7 Feb 2026 20:14:32 +0100 (CET)
 X-Virus-Scanned: SPAM Filter at disroot.org
 Received: from layka.disroot.org ([127.0.0.1])
  by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Ei-tSKNkFk4u; Sat,  7 Feb 2026 20:14:22 +0100 (CET)
+ id IiqnB6U-bqwI; Sat,  7 Feb 2026 20:14:31 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1770491661; bh=TiYDGvrzsWr6bSZnAbY5TAGgZ/ddNnSDc0QvKT5qZ08=;
+ t=1770491671; bh=Pw14T46YMvFwxGmDTs4+fN6NLezp7je2HTGomFtgE/k=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=j07UJK2QMNRcoEj2Ig2fZARE12zRxDWtJUNBpZOYt2DRHstjPgBry6RywjVEgW52j
- LnWe+l183tzEWtO/tci/XCVr4D+sLJDgvn2RjtyHlo2I5Bxr1ptsdo5beSpxhe3VMr
- 5GYQBjddpnVc+9ksIo9p+S59QTYLEN7FWB9vJaqHvWcZe7gxmZh8EaYPMOTGHSyKbO
- q04KBbMa+OPW4q0+mIf4qm8yg3JC9mk3aOXAEWy7hIXxLLN3HyLZJ6De64ix3DDVkn
- 2RwNiwPOLyC34T3jgtZP2mPo6h2j0oXPiXm/PjDvHDgQmGEAzNS2wLdr+251x3CGVK
- 2bEDboaMKLdNw==
+ b=KaBmOFSS3pohHwo8NL9SvAs+l3g3N/2sJoFru1ZQIi/JZ0pgRyG/djTPHn8+OcpPE
+ FW2ErdYn9YWSPEi38AnbBm2YuB5Cgo4vOaFCKo3HBhNIBTSPhwbgFzYpLDB9ZTZofK
+ lJyoscYGXeo+sYyiUSrVTw1rTTaP2OwxKl4Xh1gQxajZS/yG+ebs0ifbcm2r59s0yy
+ XSdisrZt/X65FOTBwRacNQBlsLCdDzd3J/FevSzIS29LTB2giyEb9WGmSWCo5j7mKu
+ ISV/xhm5pjyIRHOrdNbXIyFtlLRS3OXZlZrw1LztEHdVE48LdzFNdiNJQAOe6+0kmA
+ SgoGIISuOerTQ==
 From: Kaustabh Chakraborty <kauschluss@disroot.org>
-Date: Sun, 08 Feb 2026 00:43:58 +0530
-Subject: [PATCH v2 1/2] drm/bridge: samsung-dsim: enable MFLUSH_VS for
- Exynos 7870 DSIM
+Date: Sun, 08 Feb 2026 00:43:59 +0530
+Subject: [PATCH v2 2/2] drm/bridge: samsung-dsim: use DSIM interrupt to
+ wait for PLL stability
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260208-exynos-dsim-fixes-v2-1-a857e8130a2a@disroot.org>
+Message-Id: <20260208-exynos-dsim-fixes-v2-2-a857e8130a2a@disroot.org>
 References: <20260208-exynos-dsim-fixes-v2-0-a857e8130a2a@disroot.org>
 In-Reply-To: <20260208-exynos-dsim-fixes-v2-0-a857e8130a2a@disroot.org>
 To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
@@ -56,7 +56,7 @@ To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Kaustabh Chakraborty <kauschluss@disroot.org>, stable@vger.kernel.org
+ Kaustabh Chakraborty <kauschluss@disroot.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,10 +84,10 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:inki.dae@samsung.com,m:jagan@amarulasolutions.com,m:m.szyprowski@samsung.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:kauschluss@disroot.org,m:stable@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:inki.dae@samsung.com,m:jagan@amarulasolutions.com,m:m.szyprowski@samsung.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:kauschluss@disroot.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[samsung.com,amarulasolutions.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	FORGED_SENDER(0.00)[kauschluss@disroot.org,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
@@ -99,51 +99,131 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[kauschluss@disroot.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.947];
+	NEURAL_HAM(-0.00)[-0.935];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[disroot.org:email,disroot.org:dkim,disroot.org:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,samsung.com:email]
-X-Rspamd-Queue-Id: ADEFB106F04
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,samsung.com:email,disroot.org:email,disroot.org:dkim,disroot.org:mid]
+X-Rspamd-Queue-Id: 9E150106F13
 X-Rspamd-Action: no action
 
-Commit a36c533ad3e1 ("drm/bridge: samsung-dsim: Always flush display
-FIFO on vsync pulse") intends to enable FIFO flushing at v-sync pulse by
-not setting the active-low MFLUSH_VS bit.
+Stabilizing PLL needs to be waited for. This is done using a loop,
+checking the PLL_STABLE bit in the status register.
 
-However, in Exynos 7870 DSIM, the MFLUSH_VS bit is active-high. There is
-no publicly available documentation to the best of my knowledge, but
-downstream kernel code [1] supports this claim. Enable the bit for
-Exynos 7870.
+DSIM fires an interrupt when the PLL is stabilized. Rely on this
+functionality for stabilization wait, getting rid of the implicit loop.
 
-Cc: stable@vger.kernel.org # v6.17 and later
-Link: https://github.com/samsungexynos7870/android_kernel_samsung_exynos7870/blob/a3762bb1761ae/drivers/video/fbdev/exynos/decon_7870/dsim_reg_7870.c#L699 [1]
+This has been tested on a Galaxy J6 (Exynos 7870). Unfortunately, since
+testing on all supported devices is less feasible, introduce a stop-gap
+measure where the timeout has a gracious lower bound of 100
+microseconds. This will (hopefully) prevent regressions due to timeout
+on other devices.
+
+Suggested-by: Inki Dae <inki.dae@samsung.com>
+Link: https://lore.kernel.org/r/CAAQKjZMLMbwDVZRb5+Xb_5yz3AEP4uuzFJMuuZy9NFDu13VU5w@mail.gmail.com
 Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 41 +++++++++++++++++++++++------------
+ include/drm/bridge/samsung-dsim.h     |  1 +
+ 2 files changed, 28 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 1d85e706c74b9..70f8946ad3b24 100644
+index 70f8946ad3b24..0ca6c6484c9a6 100644
 --- a/drivers/gpu/drm/bridge/samsung-dsim.c
 +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -1089,6 +1089,13 @@ static int samsung_dsim_init_link(struct samsung_dsim *dsi)
- 			reg |= DSIM_HBP_DISABLE_MODE;
- 		if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_NO_HSA)
- 			reg |= DSIM_HSA_DISABLE_MODE;
+@@ -17,6 +17,7 @@
+ #include <linux/export.h>
+ #include <linux/irq.h>
+ #include <linux/media-bus-format.h>
++#include <linux/minmax.h>
+ #include <linux/of.h>
+ #include <linux/phy/phy.h>
+ #include <linux/platform_device.h>
+@@ -788,7 +789,7 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
+ {
+ 	const struct samsung_dsim_driver_data *driver_data = dsi->driver_data;
+ 	unsigned long fin, fout;
+-	int timeout;
++	unsigned int timeout;
+ 	u8 p, s;
+ 	u16 m;
+ 	u32 reg;
+@@ -849,19 +850,26 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
+ 	if (dsi->swap_dn_dp_data)
+ 		reg |= DSIM_PLL_DPDNSWAP_DAT;
+ 
++	/*
++	 * The PLL_TIMER value is the product of the timeout delay and the APB
++	 * bus clock rate. Calcutate the timeout delay on-the-fly here.
++	 * It is assumed that the bus clock is the first clock in the provided
++	 * bulk clock data.
++	 */
++	timeout = 100;
++	fin = clk_get_rate(dsi->driver_data->clk_data[0].clk) / HZ_PER_MHZ;
++	if (fin)
++		timeout = max(dsi->driver_data->reg_values[PLL_TIMER] / fin,
++			      timeout);
 +
-+		/*
-+		 * For some hardware types, DSIM_MFLUSH_VS bit needs to be
-+		 * enabled explicitly.
-+		 */
-+		if (dsi->plat_data->hw_type == DSIM_TYPE_EXYNOS7870)
-+			reg |= DSIM_MFLUSH_VS;
++	reinit_completion(&dsi->pll_stabilized);
+ 	samsung_dsim_write(dsi, DSIM_PLLCTRL_REG, reg);
+ 
+-	timeout = 3000;
+-	do {
+-		if (timeout-- == 0) {
+-			dev_err(dsi->dev, "PLL failed to stabilize\n");
+-			return 0;
+-		}
+-		if (driver_data->has_legacy_status_reg)
+-			reg = samsung_dsim_read(dsi, DSIM_STATUS_REG);
+-		else
+-			reg = samsung_dsim_read(dsi, DSIM_LINK_STATUS_REG);
+-	} while ((reg & BIT(driver_data->pll_stable_bit)) == 0);
++	if (wait_for_completion_timeout(&dsi->pll_stabilized,
++					usecs_to_jiffies(timeout))) {
++		dev_err(dsi->dev, "PLL failed to stabilize\n");
++		return 0;
++	}
+ 
+ 	dsi->hs_clock = fout;
+ 
+@@ -1596,8 +1604,12 @@ static irqreturn_t samsung_dsim_irq(int irq, void *dev_id)
+ 		return IRQ_HANDLED;
  	}
  
- 	if (dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
+-	if (!(status & (DSIM_INT_RX_DONE | DSIM_INT_SFR_FIFO_EMPTY |
+-			DSIM_INT_PLL_STABLE)))
++	if (status & DSIM_INT_PLL_STABLE) {
++		complete(&dsi->pll_stabilized);
++		return IRQ_HANDLED;
++	}
++
++	if (!(status & (DSIM_INT_RX_DONE | DSIM_INT_SFR_FIFO_EMPTY)))
+ 		return IRQ_HANDLED;
+ 
+ 	if (samsung_dsim_transfer_finish(dsi))
+@@ -2146,6 +2158,7 @@ int samsung_dsim_probe(struct platform_device *pdev)
+ 		return PTR_ERR(dsi);
+ 
+ 	init_completion(&dsi->completed);
++	init_completion(&dsi->pll_stabilized);
+ 	spin_lock_init(&dsi->transfer_lock);
+ 	INIT_LIST_HEAD(&dsi->transfer_list);
+ 
+diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
+index 03005e474704b..e3433da21ad08 100644
+--- a/include/drm/bridge/samsung-dsim.h
++++ b/include/drm/bridge/samsung-dsim.h
+@@ -123,6 +123,7 @@ struct samsung_dsim {
+ 	int state;
+ 	struct drm_property *brightness;
+ 	struct completion completed;
++	struct completion pll_stabilized;
+ 
+ 	spinlock_t transfer_lock; /* protects transfer_list */
+ 	struct list_head transfer_list;
 
 -- 
 2.52.0
