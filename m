@@ -2,141 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WBmHLzICh2mQSwQAu9opvQ
+	id ABN1J3UHh2koTAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 10:13:22 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 10:35:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 722BC1054A1
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 10:13:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C17F1055D9
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 10:35:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B064110E18B;
-	Sat,  7 Feb 2026 09:13:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B93710E1AC;
+	Sat,  7 Feb 2026 09:35:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="pb5Yoqmw";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="h+EQjD5S";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oJS9zmL6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2619F10E034
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 09:13:18 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 6174e5K22496916
- for <dri-devel@lists.freedesktop.org>; Sat, 7 Feb 2026 09:13:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=ZnhPfRcyvXmJuJSiZfwzyHe7
- jzBv7YRscb6FfNKJ8LI=; b=pb5YoqmwIkiTWV4BTcm1MMbKPi8Nhj8aVVJ9cG0V
- 76vEeGsPWhJQvNxzHJ8PWKegr7VI+D3ohps176Htydpl7W7TIpa6xyJuwzx77CKv
- 7lnMXr+R44bt00GQQDerJ6tRzTxjKffxtBjdfvazdUICpCLw/lmUx+i/1ZbFBHBN
- SbPYC+3vvn2mIanSL520174D1KMTlY6eWyOP8BvojNVLWmLI2A9V7Y8RQy+Mh5ly
- A35LSKrwrNt2j7/oKzG/S8CON1vrgh2BEasO410oXbLnL2+rkOSK113dj+8wQpnz
- 1OgG7trhbL4JNF077BfOwHlDF6vf9/RYVwJ4hWnIUF0QcQ==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c5xjg8ch1-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Feb 2026 09:13:17 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-89471437f64so109002056d6.3
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Feb 2026 01:13:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1770455596; x=1771060396;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ZnhPfRcyvXmJuJSiZfwzyHe7jzBv7YRscb6FfNKJ8LI=;
- b=h+EQjD5SVJaE7DWdLxdly1/6oVpVoRHT1P2SNJ+mSHj6YN42+JkA1972p+CdG8R7OT
- bfL2onXrNz4O0M0hXPcYyt0j4rqauHJiLWbR+BXOUOa+uG9LFare5/kcpcYlmgs98UC9
- HaajIcbPyu/R7/F/FvXpoJyTwSQHEgS9q+lq40j4ZsZiMU5QKS80TvtXlzfLOaUguR0e
- U8NST51mrTvFAfAuOYQoy4WsQkvWFgWy7a3YkdnbM5zsHdSWXkZaOtZl1DmGKoacYTdE
- FZ2ejTbMALW+EETueZdf9UPCEpiHqSxcgUAoPI8wQtv4OlNFsrNzFgA4NHbUqMgCe1z/
- 6OLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770455596; x=1771060396;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ZnhPfRcyvXmJuJSiZfwzyHe7jzBv7YRscb6FfNKJ8LI=;
- b=pxJ9nZCHmOVnxCSW46I4VQeI2c0sCm2SSX/ELycqvkdhDlYrnnN5RE6s2E0SF8gWAf
- sSAah+BXsWfpIQHekQd0pRyrfCVNJ3JW5jtxmf7as2IdPGOLWJJWwRz3n6QckbYmFLrr
- NGVJK8E3rf1nh8565TTAKFujTaG78qwQeumtSENmXsJVV1udJzY5vQRxGo44WcDLeD8y
- QhWPKLZzqdFiCoSl4n6tK3YnjBdKywlO71mBcfyeW5hebvcADe66krrv5GmlYK6sQ/R9
- 4Z8X52EFedEaPRoYAmMK7/Zi7axLt4U3QB7fksZTh6RJbnxHFXm1P7ia3UGDkv+oYEtE
- ZYbw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVoxNMlzQqX7WkGjHSQnQ+dviyMS7RXzT5tGNQbkKs5vDsmNcrp/HjcQYIqWDYJsJKvOL6S4ADX5EQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy8Sha7jZ1pqnS3MrL0O60B3ud8qSCyJ7BIeNTGVqo59nI1vB3d
- KQv057jGKTKrA1NKHFC8xZGANjm8oP+x68Jm4I5rykh64yM7i0W2s3Gm05eDImKPPx4Ci9sM/kR
- 3L5GwloK2kRrTBtLc5nY6Ctkg2TW/uxUbKeiC4ZkoUMt4kIVuwSTOpzvXl9iSQmkTZ7wxHrU=
-X-Gm-Gg: AZuq6aJ07Un0AaLu8muukbL35PF04R0KdNaZgW9eh3sFN1hudXkZ7xjBgAJ2CavgxSw
- 0eg1Fdiy2L6HUOorwoAqrhzOo8p+8LFA9YmaySamyiekd1ZlQ4RRHMkU94fcYuzkVn0iNnRsIrG
- dJAXPCCXV3b+mng4otfRPEOI5w2N84xxKZUnavx3X0JVbdOMz3HixaqA4n3lDv4Hjmskj8EhXZ6
- Kfbd+j4C5VaUn4H6lL1gIfBpLnzN7dexOdqIi1yYLyfJnw85znvyHkOJO2FHYS18IGW4onHSMr2
- JcLMxsmGWie0PPpGNOn6M7LHlBSHQcsyC1doicSEA1MUoYcGdgF0NJkAPADSS2AeCZCey8AnTig
- cmq6sjPEWQlt+a319O0joQVHJuMEW/mBsY/jAbsuxWAtPcuj7v+ZyTfn7pguyWQaXCKunQyPgAz
- azUdcg6tLJIf8v86fpwfhLaA4=
-X-Received: by 2002:ad4:5dc2:0:b0:896:17e6:b3d7 with SMTP id
- 6a1803df08f44-89617e6b59dmr1403966d6.68.1770455596330; 
- Sat, 07 Feb 2026 01:13:16 -0800 (PST)
-X-Received: by 2002:ad4:5dc2:0:b0:896:17e6:b3d7 with SMTP id
- 6a1803df08f44-89617e6b59dmr1403876d6.68.1770455595931; 
- Sat, 07 Feb 2026 01:13:15 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-386b63adc3fsm10918031fa.26.2026.02.07.01.13.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Feb 2026 01:13:13 -0800 (PST)
-Date: Sat, 7 Feb 2026 11:13:11 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Kees Cook <kees@kernel.org>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] drm/msm: Adjust msm_iommu_pagetable_prealloc_allocate()
- allocation type
-Message-ID: <734wzdoihl2qn4lu4inig5taw5n2aovabpce5y27qb5kiftnwh@ynnugouvaran>
-References: <20260206222151.work.016-kees@kernel.org>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1CBE10E1AC
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 09:35:44 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id A543E6001A;
+ Sat,  7 Feb 2026 09:35:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90652C116D0;
+ Sat,  7 Feb 2026 09:35:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1770456943;
+ bh=7e1o0Smy1PHMk3P5/hdlq6oczCuitxzlPMVzDy+Y9aM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=oJS9zmL6bBJDjIRpbDZxYLwP122P1h8a0n6jJS/ssnBlHVzLi/95d13cq/Pis6WQT
+ bx6dWCUZ1GqtEKWPTLIv1Zc4oY500oYDnKKK64zDHfIhOCGtjYWROGRqBM30SVG0s/
+ e7awShsESHhwJFnf0IDHlfgqYsq7Qy8OLcxw0D30zjSyzGBQ4yrIAuNH42Bfr8x4N0
+ 1yvElR9Y0k0bQLt+mlCcgSV41wg5b+POLeU8tqMN6Gvgpfo8M50N1SHBEnUWymUOK0
+ p/bAVCBjhqANHLS499A2VU9GztAfek8V1ACqMXaOAdzY6ecKaLm3qJhEW6Lby0Te/7
+ 0fibG29DUxARw==
+Message-ID: <f1e0d724-4d71-4003-b690-9bbab3a01cd0@kernel.org>
+Date: Sat, 7 Feb 2026 10:35:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260206222151.work.016-kees@kernel.org>
-X-Authority-Analysis: v=2.4 cv=A99h/qWG c=1 sm=1 tr=0 ts=6987022d cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=tVI0ZWmoAAAA:8 a=e5mUnYsNAAAA:8
- a=parfbKQTulTwLggSwN0A:9 a=CjuIK1q_8ugA:10 a=1HOtulTD9v-eNWfpl4qZ:22
- a=-BPWgnxRz2uhmvdm1NTO:22 a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-ORIG-GUID: K4MRRHgcRSZ6SvNLGa9NR8CaHRk8axcL
-X-Proofpoint-GUID: K4MRRHgcRSZ6SvNLGa9NR8CaHRk8axcL
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA3MDA3MSBTYWx0ZWRfX+NAv2Nv8djmr
- fYIlYMwu7/39K/J9TMBROZtxqxbE14MG7uQRz6JQv16+vIRG4aGQAh/69iblDypNG2daQhIcbng
- J9SNgcs4eIgwNi7u0qRRPzmYRjAXXrflmGpM9LB4hUtf9HIvM+iDt71m3aTZYdJe8IN5MmpkfEQ
- aqot2+C2RGCRUlv+7uw7RO/mPIy7LZqk/eneI+jczqyLy43+7ZEkOfZVyn0F41cdbSu+j0jfy7T
- R9KW3zEGaZgMBdB/YMEcd/nrawZCeP8nhxFQTW4BIq7X9jt+6KC0p0plbjKmf8HKh8E6FyRjd+M
- zz5xNjY5rqQWDsYxrcI+msyahqNR1VmKGeTUl1K9m4PbSyXZ7X2QeqaKpzKogjaQ0LVf68ekCqN
- pimOIglY6cXc9chtmpb5OdEZnR32HKQHuBfMTvflhqvLwxsZqglpmn3rVyCWrTBQy7lyUSCDgWi
- dm1QMqFW478wi5r5Zhg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-06_05,2026-02-05_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
- clxscore=1015 spamscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602070071
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] dt-bindings: display: lt9611: Support single Port
+ B input
+To: Roger Shimizu <rosh@debian.org>
+Cc: Hongyang Zhao <hongyang.zhao@thundersoft.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+References: <20260128-rubikpi-next-20260116-v2-0-ba51ce8d2bd2@thundersoft.com>
+ <20260128-rubikpi-next-20260116-v2-1-ba51ce8d2bd2@thundersoft.com>
+ <20260205-winged-alligator-of-sorcery-aada21@quoll>
+ <CAEQ9gEkkK_qBCq__oSJb1D5J=gLyw-kVDx1OD4SMPry6z-F7nA@mail.gmail.com>
+ <0bcd3cb0-9231-4cb0-a726-c439d01f63e5@kernel.org>
+ <CAEQ9gEnvM1x9zP2RDPpEs3TMZ2Jcah7OU6s0y9zJY-7qFUJJTw@mail.gmail.com>
+ <1fee1990-f525-4559-b121-46fd1e1c9fef@kernel.org>
+ <CAEQ9gE=L3gsnyMtbVDbvHo-jhTSPw-8DJ7L2n9c=SKc6jOAHrg@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <CAEQ9gE=L3gsnyMtbVDbvHo-jhTSPw-8DJ7L2n9c=SKc6jOAHrg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,73 +127,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:kees@kernel.org,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-msm@vger.kernel.org,m:freedreno@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-hardening@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:rosh@debian.org,m:hongyang.zhao@thundersoft.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:vkoul@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	FREEMAIL_CC(0.00)[thundersoft.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de,lists.freedesktop.org,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-0.998];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.999];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linux.dev:email,ffwll.ch:email,lists.freedesktop.org:email]
-X-Rspamd-Queue-Id: 722BC1054A1
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,0.0.0.1:email]
+X-Rspamd-Queue-Id: 0C17F1055D9
 X-Rspamd-Action: no action
 
-On Fri, Feb 06, 2026 at 02:21:52PM -0800, Kees Cook wrote:
-> In preparation for making the kmalloc family of allocators type aware,
-> we need to make sure that the returned type from the allocation matches
-> the type of the variable being assigned. (Before, the allocator would
-> always return "void *", which can be implicitly cast to any pointer type.)
+On 07/02/2026 06:22, Roger Shimizu wrote:
+> On Fri, Feb 6, 2026 at 2:56 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>
+>> On 06/02/2026 10:49, Roger Shimizu wrote:
+>>> On Thu, Feb 5, 2026 at 11:08 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>>>
+>>>> On 05/02/2026 21:31, Roger Shimizu wrote:
+>>>>> On Thu, Feb 5, 2026 at 5:07 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>>>>>
+>>>>>> On Wed, Jan 28, 2026 at 07:15:45PM +0800, Hongyang Zhao wrote:
+>>>>>>> The LT9611 has two DSI input ports (Port A and Port B). Update the
+>>>>>>> binding to clearly document the port mapping and allow using Port B
+>>>>>>> alone when DSI is physically connected to Port B only.
+>>>>>>>
+>>>>>>> Changes:
+>>>>>>> - Clarify port@0 corresponds to DSI Port A input
+>>>>>>> - Clarify port@1 corresponds to DSI Port B input
+>>>>>>> - Change port requirement from mandatory port@0 to anyOf port@0/port@1,
+>>>>>>>   allowing either port to be used independently
+>>>>>>>
+>>>>>>> Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+>>>>>>> Reviewed-by: Roger Shimizu <rosh@debian.org>
+>>>>>>
+>>>>>> Where did this review happen? V1 had this tag, but the patch was
+>>>>>> completely different, which means you were supposed to drop the tag.
+>>>>>> Please perform review in public.
+>>>>>
+>>>>> FYI. v2 was updated per review feedback, which is public:
+>>>>> https://lore.kernel.org/all/7d9041a3-9d2b-469a-9fa7-89d53bbd2a1f@linaro.org/
+>>>>
+>>>> Link above is not from Roger, so again - where did the review leading to
+>>>> above tag happen?
+>>>
+>>> Per feedback of v1, v2 was quite different than v1.
+>>> For v2, it's close to initial review, because it looks like a new patch.
+>>
+>> Where was the review of v2 given?
+>>
+>> The patch is entirely different. I already said it. I also said what is
+>> expected in such case. It is also documented:
+>>
+>> https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
 > 
-> The assigned type is "void **" but the returned type will be "void ***".
-> These are the same allocation size (pointer size), but the types do not
-> match. Adjust the allocation type to match the assignment.
-> 
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
-> Cc: Rob Clark <robin.clark@oss.qualcomm.com>
-> Cc: Dmitry Baryshkov <lumag@kernel.org>
-> Cc: Abhinav Kumar <abhinav.kumar@linux.dev>
-> Cc: Jessica Zhang <jesszhan0024@gmail.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: Marijn Suijten <marijn.suijten@somainline.org>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: <linux-arm-msm@vger.kernel.org>
-> Cc: <dri-devel@lists.freedesktop.org>
-> Cc: <freedreno@lists.freedesktop.org>
-> ---
->  drivers/gpu/drm/msm/msm_iommu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+> Thanks for the guide!
+> Yes, v2 was reviewed in private. I'll inform Hongyang to remove the
+> tag when he sends the next series.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+I am repeating myself but only because you really avoid answering.
+
+I understand v1 was reviewed in private, before posting, but why are you
+developing in private also v2? After v1 was posted, this should be all
+done in public.
+
+I have no trust in private reviews happening between versions.
+Especially if v1 is send on 27th Jan and next day v2 is sent supposedly
+reviewed in private. Really?
 
 
--- 
-With best wishes
-Dmitry
+
+Best regards,
+Krzysztof
