@@ -2,36 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cAC3MqeAh2lQYwQAu9opvQ
+	id cFJSCaqAh2lQYwQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 19:12:55 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 19:12:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F077106CFF
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 19:12:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2464106D15
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 19:12:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01B6710E2A1;
-	Sat,  7 Feb 2026 18:12:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7397610E2A6;
+	Sat,  7 Feb 2026 18:12:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=thundersoft.com header.i=@thundersoft.com header.b="LGCz9P7g";
+	dkim=pass (1024-bit key; unprotected) header.d=thundersoft.com header.i=@thundersoft.com header.b="IT8kiHUS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m15599.qiye.163.com (mail-m15599.qiye.163.com
- [101.71.155.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3E9C10E170
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 07:33:42 +0000 (UTC)
+Received: from mail-m49219.qiye.163.com (mail-m49219.qiye.163.com
+ [45.254.49.219])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC72C10E034
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 07:33:45 +0000 (UTC)
 Received: from [127.0.1.1] (unknown [113.235.123.225])
- by smtp.qiye.163.com (Hmail) with ESMTP id 3372cf66b;
- Sat, 7 Feb 2026 15:33:38 +0800 (GMT+08:00)
+ by smtp.qiye.163.com (Hmail) with ESMTP id 3372cf66c;
+ Sat, 7 Feb 2026 15:33:40 +0800 (GMT+08:00)
 From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-Date: Sat, 07 Feb 2026 15:32:54 +0800
-Subject: [PATCH v3 1/3] dt-bindings: display: lt9611: Support single Port B
- input
+Date: Sat, 07 Feb 2026 15:32:55 +0800
+Subject: [PATCH v3 2/3] drm/bridge: lt9611: Add support for single Port B input
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260207-rubikpi-next-20260116-v3-1-23b9aa189a3a@thundersoft.com>
+Message-Id: <20260207-rubikpi-next-20260116-v3-2-23b9aa189a3a@thundersoft.com>
 References: <20260207-rubikpi-next-20260116-v3-0-23b9aa189a3a@thundersoft.com>
 In-Reply-To: <20260207-rubikpi-next-20260116-v3-0-23b9aa189a3a@thundersoft.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -52,23 +51,23 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, 
  Hongyang Zhao <hongyang.zhao@thundersoft.com>
 X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1770449616; l=2074;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770449616; l=4162;
  i=hongyang.zhao@thundersoft.com; s=20251115; h=from:subject:message-id;
- bh=EGlbJt4UoSLkYy09+Ujv17dM+4JZjbWnbz1SJ8A7TVQ=;
- b=VabQBDcaR19gGUsPqBfUFW5+ApjQtXi/6JPTGqKx+qQymjWtrf7Qsp7roy3l9QqMS7y/SlqK6
- 8hEmEyAng0wAkYlnZQpWK/ajm0VhFF5+Vowt2ko4gZU0Lylro/7lyXJ
+ bh=PTcMGocOGLNZzpDNYg1KuEyBmQ+wecbqFTkvC/xXswA=;
+ b=D6xU4W1qPw4YTCvAhUtr9fmS/t5iXXLLGgCXL/QUflLYt4XU2U/yAknbhEHrR8tCUVIwzJyw5
+ TC0QAxCN6smAVL4ZhAyfsl0sJcU4PWnarpMvbH1VNZZIRGd5rDrsMo0
 X-Developer-Key: i=hongyang.zhao@thundersoft.com; a=ed25519;
  pk=0M0CJ1s9WiFZwli2JsxLB9ykikp5WkpKzCWgpdANKNI=
-X-HM-Tid: 0a9c370545c509d5kunm3723250e7f3075
+X-HM-Tid: 0a9c37054dc609d5kunm3723250e7f307e
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZH0JCVkpDT0NPSkMfHh5JQlYVFAkWGhdVEwETFh
+ tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZTU1IVkoYHRgZTE1OHUhJQlYVFAkWGhdVEwETFh
  oSFyQUDg9ZV1kYEgtZQVlKSkhVSUhOVUpJSFVJSU5ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0hVSk
  tLVUpCS0tZBg++
 DKIM-Signature: a=rsa-sha256;
- b=LGCz9P7gcDxPocmLXLstQ5nLO+UPYcIl+LO3yYZXUsj35hK0bCDm0SvEG59RAzORhN3dwivCxKLjF5EF3L4a2ExmLqjBBBE418m7dv4GNQIxbvz/5h/ka8qzSXHW3Oqvw+5lN7ZEpAV1ez50yX6xvByrgasoZZ/jevWItPAFo5c=;
+ b=IT8kiHUSj4RARAHRV+rCu7+NpdqWtXrnpANLHCEhGApNdyAKlcVqUMkDgOI+UuTkwC9EuHSPdTy5AZeW3OyEKcwVkw+oz4PoC7mVcEfdPSUJ+UeunT79qefO9Ouki1sVIkX4DwwNttZeo7pJKQHPerMxxnYtx+FV28F/h5MJvsI=;
  c=relaxed/relaxed; s=default; d=thundersoft.com; v=1; 
- bh=W01jkYSpWbsH8AaTOMMLWBvhB2MlFfUuXRlmTq4crEU=;
+ bh=pHs0dodq2NjkLOpG7xo8CQbHcYnp5U793Xup4vGHqgY=;
  h=date:mime-version:subject:message-id:from;
 X-Mailman-Approved-At: Sat, 07 Feb 2026 18:12:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,66 +114,126 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	DBL_PROHIBIT(0.00)[0.0.0.0:email];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.926];
+	NEURAL_HAM(-0.00)[-0.928];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[thundersoft.com:email,thundersoft.com:dkim,thundersoft.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,0.0.0.1:email,0.0.0.2:email]
-X-Rspamd-Queue-Id: 2F077106CFF
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.1:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,thundersoft.com:email,thundersoft.com:dkim,thundersoft.com:mid,qualcomm.com:email]
+X-Rspamd-Queue-Id: B2464106D15
 X-Rspamd-Action: no action
 
-The LT9611 has two DSI input ports (Port A and Port B). Update the
-binding to clearly document the port mapping and allow using Port B
-alone when DSI is physically connected to Port B only.
+The LT9611 has two DSI input ports. The driver currently assumes Port A
+is always used for single-port configurations. However, some boards
+connect DSI to Port B only.
 
-Changes:
-- Clarify port@0 corresponds to DSI Port A input
-- Clarify port@1 corresponds to DSI Port B input
-- Change port requirement from mandatory port@0 to anyOf port@0/port@1,
-  allowing either port to be used independently
+Update the driver to detect which ports are populated from devicetree
+and configure the hardware accordingly:
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+- If only port@1 (Port B) is populated, configure port swap (0x8303
+  bit 6) and byte_clk source (0x8250 bit 3:2) for Port B operation
+- If both ports are populated, use dual-port mode (Port A + B)
+- If only port@0 (Port A) is populated, use single Port A (existing
+  behavior)
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
 ---
- .../bindings/display/bridge/lontium,lt9611.yaml           | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/bridge/lontium-lt9611.c | 46 +++++++++++++++++++++++----------
+ 1 file changed, 32 insertions(+), 14 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
-index 655db8cfdc25..429a06057ae8 100644
---- a/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt9611.yaml
-@@ -44,21 +44,28 @@ properties:
-       port@0:
-         $ref: /schemas/graph.yaml#/properties/port
-         description:
--          Primary MIPI port-1 for MIPI input
-+          DSI Port A input. directly drives the display, or works in
-+          combination with Port B for higher resolution displays.
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+index a2d032ee4744..5fc22489b078 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+@@ -116,12 +116,25 @@ static int lt9611_mipi_input_digital(struct lt9611 *lt9611,
+ 		{ 0x830a, 0x00 },
+ 		{ 0x824f, 0x80 },
+ 		{ 0x8250, 0x10 },
++		{ 0x8303, 0x00 },
+ 		{ 0x8302, 0x0a },
+ 		{ 0x8306, 0x0a },
+ 	};
  
-       port@1:
-         $ref: /schemas/graph.yaml#/properties/port
-         description:
--          Additional MIPI port-2 for MIPI input, used in combination
--          with primary MIPI port-1 to drive higher resolution displays
-+          DSI Port B input. Can be used alone if DSI is physically
-+          connected to Port B, or in combination with Port A for higher
-+          resolution displays.
+-	if (lt9611->dsi1_node)
+-		reg_cfg[1].def = 0x03;
++	if (lt9611->dsi1_node) {
++		if (lt9611->dsi0_node) {
++			/* Dual port (Port A + B) */
++			reg_cfg[1].def = 0x03;
++		} else {
++			/*
++			 * Single port B:
++			 * - 0x8303 bit 6: port swap (1=PortB as primary)
++			 * - 0x8250 bit 3:2: byte_clk source (01=PortB)
++			 */
++			reg_cfg[3].def = 0x14;
++			reg_cfg[4].def = 0x40;
++		}
++	}
  
-       port@2:
-         $ref: /schemas/graph.yaml#/properties/port
-         description:
-           HDMI port for HDMI output
+ 	return regmap_multi_reg_write(lt9611->regmap, reg_cfg, ARRAY_SIZE(reg_cfg));
+ }
+@@ -202,7 +215,9 @@ static void lt9611_pcr_setup(struct lt9611 *lt9611, const struct drm_display_mod
+ 	regmap_write(lt9611->regmap, 0x831d, pol);
  
-+    anyOf:
-+      - required:
-+          - port@0
-+      - required:
-+          - port@1
+ 	regmap_multi_reg_write(lt9611->regmap, reg_cfg, ARRAY_SIZE(reg_cfg));
+-	if (lt9611->dsi1_node) {
 +
-     required:
--      - port@0
-       - port@2
++	/* dual port: configure hact for combining two DSI inputs */
++	if (lt9611->dsi0_node && lt9611->dsi1_node) {
+ 		unsigned int hact = mode->hdisplay;
  
- required:
+ 		hact >>= 2;
+@@ -759,7 +774,8 @@ static enum drm_mode_status lt9611_bridge_mode_valid(struct drm_bridge *bridge,
+ 	if (mode->hdisplay > 3840)
+ 		return MODE_BAD_HVALUE;
+ 
+-	if (mode->hdisplay > 2000 && !lt9611->dsi1_node)
++	/* high resolution requires dual port (Port A + B) */
++	if (mode->hdisplay > 2000 && !(lt9611->dsi0_node && lt9611->dsi1_node))
+ 		return MODE_PANEL;
+ 
+ 	return MODE_OK;
+@@ -1015,13 +1031,13 @@ static int lt9611_parse_dt(struct device *dev,
+ 			   struct lt9611 *lt9611)
+ {
+ 	lt9611->dsi0_node = of_graph_get_remote_node(dev->of_node, 0, -1);
+-	if (!lt9611->dsi0_node) {
+-		dev_err(lt9611->dev, "failed to get remote node for primary dsi\n");
++	lt9611->dsi1_node = of_graph_get_remote_node(dev->of_node, 1, -1);
++
++	if (!lt9611->dsi0_node && !lt9611->dsi1_node) {
++		dev_err(lt9611->dev, "failed to get remote node for dsi\n");
+ 		return -ENODEV;
+ 	}
+ 
+-	lt9611->dsi1_node = of_graph_get_remote_node(dev->of_node, 1, -1);
+-
+ 	lt9611->ac_mode = of_property_read_bool(dev->of_node, "lt,ac-mode");
+ 
+ 	return drm_of_find_panel_or_bridge(dev->of_node, 2, -1, NULL, &lt9611->next_bridge);
+@@ -1142,14 +1158,16 @@ static int lt9611_probe(struct i2c_client *client)
+ 
+ 	drm_bridge_add(&lt9611->bridge);
+ 
+-	/* Attach primary DSI */
+-	lt9611->dsi0 = lt9611_attach_dsi(lt9611, lt9611->dsi0_node);
+-	if (IS_ERR(lt9611->dsi0)) {
+-		ret = PTR_ERR(lt9611->dsi0);
+-		goto err_remove_bridge;
++	/* Attach primary DSI (directly drives or Port A in dual-port mode) */
++	if (lt9611->dsi0_node) {
++		lt9611->dsi0 = lt9611_attach_dsi(lt9611, lt9611->dsi0_node);
++		if (IS_ERR(lt9611->dsi0)) {
++			ret = PTR_ERR(lt9611->dsi0);
++			goto err_remove_bridge;
++		}
+ 	}
+ 
+-	/* Attach secondary DSI, if specified */
++	/* Attach secondary DSI (Port B in single or dual-port mode) */
+ 	if (lt9611->dsi1_node) {
+ 		lt9611->dsi1 = lt9611_attach_dsi(lt9611, lt9611->dsi1_node);
+ 		if (IS_ERR(lt9611->dsi1)) {
 
 -- 
 2.43.0
