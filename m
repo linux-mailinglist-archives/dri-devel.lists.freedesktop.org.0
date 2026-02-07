@@ -2,146 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MLIhH7wWh2nBTQQAu9opvQ
+	id gIdUK3o/h2nVVQQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 11:41:00 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 14:34:50 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC5310593D
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 11:40:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 881D4105FE0
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 14:34:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83D4A10E0FA;
-	Sat,  7 Feb 2026 10:40:56 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="GYrtw/AE";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="RBZXRmsq";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5A7610E267;
+	Sat,  7 Feb 2026 13:34:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98CCF10E0FA
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 10:40:55 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 6174NlbY410890
- for <dri-devel@lists.freedesktop.org>; Sat, 7 Feb 2026 10:40:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- mCw7wSL4eGHs+p13won9KVzKu1j034CJcclFyyJMlEs=; b=GYrtw/AEZqpHs3Vf
- C0yazVgvvhdM4ledK+f2K1QS3Mzh1vJq+Vgc/CySD6Ja3Zqe1doQUwncaXjxduKk
- NB3Vl7+UlP26dFgfuvUuzzMez9vrNchFzHF4/x3b+YxLrysEvHGI9d/IXvTQ5eKx
- 7itDffzklrsDoLFcekTQs+KmMKfj9Or3DSkI9OraBnVL6CwNlx+ERqjzujNI4YGD
- DwtI3f8cwCv6aRJajkXDGMd+kbvQ3V9rLWdbxR2+GhkKmD+ZmP6dcoFhhWAvpdTW
- Ri+9S7eb8yTXI6QwEynS8eZ2BNyZG9NTz9qOqp3jKYwfE1kAh2Wk4Zwwt9iFs/KF
- DzXd8A==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c5xb4rhy5-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Feb 2026 10:40:54 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-8c70a62ca32so868170585a.2
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Feb 2026 02:40:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1770460854; x=1771065654;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mCw7wSL4eGHs+p13won9KVzKu1j034CJcclFyyJMlEs=;
- b=RBZXRmsqhNATRtx293irTNkxzqo6QVWY9CTCDEBUeyG3BJAGMdCCVL6Koq1MK7SeBW
- cJNoHDAnjCgThF6Ip5bYQczYLoL+g2NvEYROOfvb+3DBoqS3fzvljH92Sv87LE6nnthh
- SKcgB6FkIxrABiJR0tmqaZ0qYZiFrzUQQHZWKR2vH4G2ASSSc6qezLYSY4rhvBWeqxdc
- yA9sMJ/pToXWdmAXI3icS2jIc7WQOgdHGSXhydlMcJhH1HN5XFhM6jeIymKxZOgxRyLX
- T7TJ83fQRDINVx3db3o40BBh2sVeABdGUXnmMTHK5q/Le8Qzme7GT2DO+82gGt9W5/tA
- yMlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770460854; x=1771065654;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=mCw7wSL4eGHs+p13won9KVzKu1j034CJcclFyyJMlEs=;
- b=Ne+ipnxMLAMUGmS3fAAzKXQFQUxn946DwPuVleqGJg8Kfjj4XUvM6DLrDDA1L4HlXH
- aOedRP27cmS5TyqKqV76I+3ZRf4NU+tl3hrJ4sfAYz/HRuSXJlpWv89sczLcMMsewAwD
- PFUY/VG11BJBG+79iD+pH4Qo7MUUAnz5z7nFhA3dKPYwRaI4WRV2kLLLZgxsUSCk5BvH
- jDdA6QCjDSYNGqIed6W5tb0PfmiHaPsFeDaCnyY5+GxU9JRkaes0RS9EL0ZKzNBmaEpE
- 8/Ry9X/SrqGHUyaQc+9RZQs2rPLKaCWxtJFpOjMlQrxe/teLZficFzJlsOE/xiE2RV6Q
- DKWA==
-X-Gm-Message-State: AOJu0YymOPigXLD3t2tJ57YudfKfnw3KepPmXrT3CrtXmvGjRoWangV6
- mh3pktI5X6TA6f5Bnn17kv/4RiSjj3Fx/3xt2HyVOK7ZLfQZrYJT8J0pgGDtq7aUfx2/iRRbQ7y
- C14qrDJzadVV1+VBrlTLhDW7h/6cH0EE13qceorcxuMmHbqCl4o1vGIq/mctfksx1YdOe01g=
-X-Gm-Gg: AZuq6aLtBovREWhIVaA5RI/MGshgu006HY42G2ZS8aJuSxBvQL63vESIY/DtyF2mxsH
- x7mCaKxf4nFtGtvjCnfUhlRSR6U1IQu9Sc4n2aS+If0daFel107CR006o/H1gNBuDUOXSadQFxn
- 979ePl+9ihddFZKv8489s6UECsDM9J+V5a57pCPtehUKVMdmKAAaeurrtPANHNTCCxOAnUiXpN6
- D60Oi7Reyr7OvvQDgkjS94xVi0MldWybFFQwotFPPYE3LzLVL0G6B7T2l8ooTrhnm/IWLx9T2+d
- qqR2j0UUzTuu0fIfgzAHpun5CP9rq68GG12ucGWlDHgX/4aXqf/+Q4LKR6jIG5bmhwBTp9KUx1q
- YQO9Ogc4jhGf+wp4qMRusxxr6OmUr3I8bsCdyq03VXoFYsRbmEMhdT0eeq5nrjgOOi6eUkbon5J
- fVjMX6RCJJXYhrKoeWt8HIzqA=
-X-Received: by 2002:a05:620a:700d:b0:8be:6733:92ab with SMTP id
- af79cd13be357-8caec1bf257mr730168185a.0.1770460853725; 
- Sat, 07 Feb 2026 02:40:53 -0800 (PST)
-X-Received: by 2002:a05:620a:700d:b0:8be:6733:92ab with SMTP id
- af79cd13be357-8caec1bf257mr730164685a.0.1770460853192; 
- Sat, 07 Feb 2026 02:40:53 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59e44cf6feasm1244990e87.7.2026.02.07.02.40.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Feb 2026 02:40:51 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Received: from OS8PR02CU002.outbound.protection.outlook.com
+ (mail-japanwestazon11022127.outbound.protection.outlook.com [40.107.75.127])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1917910E267
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 13:34:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UiMtmLbHIDsAM3V7L5n7Sjmvd+8sUWmZwqHUBBLsjSRK5qhJHFN5LdoF9SKin+U7QVDjOPg2A1uw26NGndqlEZIoeYZYnfQQX8nxhKJogdQRnco4NkVOJCYrNUXrIJPBKbspl5y0xu89KrKdKU9FcQbDVCLjMEKbGGR44Qw+3s9tQSI4kbWo9/VFpx90lbSvFQbjEXQVQE84FN3yAA/h9sQ6y60UbJJNO+r+kjNdzp/a5XDEqSEfgNMNnHVFuFAWADHEQuA2VPT71hRdsYM9YTCh2utdOJ8rgI3asCrLvHPXDG+88LbskKJWd0+NOFxTOg9vWnAf7iqGwbIWbY4Zbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ggxBO0RAGHsQYgBfJWYEmCjdNWHDmZ30KQFTuzpoUvo=;
+ b=h3Lul9P62ad/TmWD//OS2X2X4nv8r8vckhe8ZVolf5wovg4IbfLUfvyXAc5O85C8v/Pad4a7DQNNDiT3Kt7I/s47eyoORuWwO7qYCFTbv8WyRH1LMlESElJB8lhgXCwitpBzCtAB2wIap46lsCe7GCyyGTtO4akbSQeelHDn2x3fyzto6ugnKztHoLuBovuLXkEkJAab5tLwwMcVx4OeZulhA6AQ8npK7TCQKANUrCjbiL2WhajAFMS9wC6EnXojHZCh74yYnmDqiyXdqOx/nX2PKb7VfI2DhTNXLuRKofW8qCnf49jUb2iv65H/siQriDV68yzJ+S5OrGJGwupPOA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=linumiz.com; dmarc=pass action=none header.from=linumiz.com;
+ dkim=pass header.d=linumiz.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=linumiz.com;
+Received: from TYZPR06MB6935.apcprd06.prod.outlook.com (2603:1096:405:3c::9)
+ by JH0PR06MB6559.apcprd06.prod.outlook.com (2603:1096:990:2f::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.15; Sat, 7 Feb
+ 2026 13:34:38 +0000
+Received: from TYZPR06MB6935.apcprd06.prod.outlook.com
+ ([fe80::30b6:5b0d:1b00:5a01]) by TYZPR06MB6935.apcprd06.prod.outlook.com
+ ([fe80::30b6:5b0d:1b00:5a01%6]) with mapi id 15.20.9587.013; Sat, 7 Feb 2026
+ 13:34:36 +0000
+Message-ID: <a5f6aeb1-b038-462e-8989-c4da65966134@linumiz.com>
+Date: Sat, 7 Feb 2026 14:34:05 +0100
+User-Agent: Mozilla Thunderbird
+Cc: parthiban@linumiz.com, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-phy@lists.infradead.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ paulk@sys-base.io
+Subject: Re: [PATCH v3 0/6] drm/sun4i: Support LVDS on D1s/T113 combo D-PHY
+To: =?UTF-8?Q?Kuba_Szczodrzy=C5=84ski?= <kuba@szczodrzynski.pl>,
+ Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Xin Ji <xji@analogixsemi.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260121-anx7625-typec-v2-0-d14f31256a17@oss.qualcomm.com>
-References: <20260121-anx7625-typec-v2-0-d14f31256a17@oss.qualcomm.com>
-Subject: Re: [PATCH v2 0/3] drm: bridge: anx7625: implement Type-C support
-Message-Id: <177046084993.2611002.7265880027469077346.b4-ty@oss.qualcomm.com>
-Date: Sat, 07 Feb 2026 12:40:49 +0200
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+References: <20250221161751.1278049-1-kuba@szczodrzynski.pl>
+ <20251116134609.447043-1-kuba@szczodrzynski.pl>
+Content-Language: en-US
+From: Parthiban <parthiban@linumiz.com>
+Organization: Linumiz
+In-Reply-To: <20251116134609.447043-1-kuba@szczodrzynski.pl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BMXPR01CA0096.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:54::36) To TYZPR06MB6935.apcprd06.prod.outlook.com
+ (2603:1096:405:3c::9)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
-X-Proofpoint-GUID: axGy_Gvavec2cxuCN68kYZjlfsOxvsti
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA3MDA4NCBTYWx0ZWRfXyNVKZq4pGbQh
- iqzlqFTgngKhwlyFu+LjrXsgF+XeX7aLXhulk73ZCLtA8VtQFyFiH7quPtYnl639XfBKl/1sldT
- ymoi5K5PzGQpXds7DXJ2rSuthU6xAB8t5OhkzayEcaNu6BCVEJWKmb9ypaq3nep1ZkEilGJ1+Vp
- onP5LkMT/YEtrXpeFTeAYpGn6YPtjyVZoRltDpTe1WcB+bRKwVgH3n2QtJCz4uAF3PX9ApJ8mxZ
- vxickTOamyMduqi1VJusKYKBTgGpfj//tr3AGNfd2KFrLLYTVTRLDoywgEElB/OZ8yzmBeYTwiu
- lpQR4Q8Wwlq0+0WtQDBDHTU4PoakggNlhjOHpuUMxI5FPuBtYV39je5lPWhxXLNHuXJnU7DVk6A
- 6AoH+cqrMaUneJEbRNZt2vX/qbUuWb0iRKG5poUD1Zgtl5JtfVB8sALp4YV+/9lsy5jqt0R71j5
- 2rmSMWBmUaTQPwXaT2g==
-X-Authority-Analysis: v=2.4 cv=PYLyRyhd c=1 sm=1 tr=0 ts=698716b6 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=_bsLKE6ODhMN5xNVZ6sA:9
- a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-ORIG-GUID: axGy_Gvavec2cxuCN68kYZjlfsOxvsti
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-06_05,2026-02-05_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 phishscore=0 malwarescore=0 priorityscore=1501
- suspectscore=0 bulkscore=0 impostorscore=0 spamscore=0 clxscore=1015
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2602070084
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYZPR06MB6935:EE_|JH0PR06MB6559:EE_
+X-MS-Office365-Filtering-Correlation-Id: 394bd2ff-3f90-4616-03e1-08de664da294
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|376014|7416014|1800799024|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ckY2RitXRU04WnVXS2k3K2p1WUhWbDZ0a0poRGNVeEJnY2JZZTRlYVNCV2o4?=
+ =?utf-8?B?YlRjdnRMZjFlWWErQmo4ZTFNNFBxQWMzNWgrcG50dkZFekQ5Nys4SUJwWThV?=
+ =?utf-8?B?bTRnZnZDc0NnUzNtTU1LNnpNcm1lZzRBSU5DSkIzTmpMMEJCMkp3NEVxbnhB?=
+ =?utf-8?B?WWZuQSt1bERCYkVUNlRNTlZrcnBFOGdBdTNZalFsK1JqbFJVK2xtbnJVZ3Zy?=
+ =?utf-8?B?bE83Mkd6bUhBK2ZPU1ROU0RTWWd4Mm9PclhXUmVWemxWSXFiOEdQUnlMelAz?=
+ =?utf-8?B?a3Z5dUl3UnFDa1hFSmxDdFdiNnVYeU1DaEF5ck1pM3dRTHVnNXN5a3BlblZq?=
+ =?utf-8?B?cDNsRWdML0RhYXB0RXZNRGRRRTJKTS8zMkFpTnJZRi9Dd3BhY2lXYTNNR0JX?=
+ =?utf-8?B?bXdLSUtqKzUyd3NJWnBTS0FHZzRUcEV1dU5nbDdMbXNUbnFnVlFVQ0pXbHpL?=
+ =?utf-8?B?ZytQOUdXaExIOXZBWGtrOUhqUTd0RnkxbS9rdTlFQXprVjVPMjkxYi9KNnJL?=
+ =?utf-8?B?U3ZoYllhMkJGRVRYc0VRaW5UMHZqTzNyMlVNeVN1bWRVdFg5QmR2OTY4NGxO?=
+ =?utf-8?B?Q1BTTFFhaXoyUlJnMm5haGxKL0EwcGZUR2V4aGZQM21Lc2hwcGJMN0V6elBa?=
+ =?utf-8?B?RVcrck5tMEVsRUFuOVZiTnEvekZZZWN0TXQvVEk4cVdrZzhBV1dpWTFQbko5?=
+ =?utf-8?B?VXNwcFE2elUxWnFlWjl2VWVtUVFoTmFkRjZxY3FyL0ptQytWU1RzL3J4Vmth?=
+ =?utf-8?B?bjlhV3U2VW5nRkdERnNtM0tJWHNuNUtJNnFKcGFvQkpmM2ZJT05HbmM3blY0?=
+ =?utf-8?B?Z3B2dUZwekJ0dUhucC9MTTM4R0ZPdFlNVXI3YkNWMkovZ2NmR3l5c2c4QzR1?=
+ =?utf-8?B?SUswdU5WZG1FWFd0TUdhNzY4YTVTbU42cGY3VVJxdXdRTXhpUXBicVNibzU3?=
+ =?utf-8?B?MTFoWElqY3F2M01uWkxvTWw2SEgzcDNkWFhVSWxTK3FLVkZoazZSQnNRY0kr?=
+ =?utf-8?B?V2JBSWtJci9FWXdnNndQUkdvdmZIVVhBVTkxNGprQjRxaXBiNG11bG00QUJq?=
+ =?utf-8?B?bmx4d1czcmJlaFgyc2M1ZDlURFQyUit2ell4c1EvUlFEd1FZR3gzMzRrcktQ?=
+ =?utf-8?B?ZldEbThnYTdENjk5U2ZhOFdYTjZyUVN6UWxWU1F5ZE0xZFh3V3R4K2NoS1Y1?=
+ =?utf-8?B?eDNBcUlTeCtJL0lzdlVOQlo3Rjd5MkFwYTNFQVJVVWR4NHRGWHNBVE82Tlk5?=
+ =?utf-8?B?dW1LTGlxZ2JKRUpYY0d5Vkh0aW4zZkkrdWxxU3p0OEFpdnRrdUZaSzgvY0dZ?=
+ =?utf-8?B?Q2pQN1VqdnpPNzFxZmVEMzBjL2lGZzhlSGVNNGpHZkVyNDdtS0NmTS9ERTJU?=
+ =?utf-8?B?Z3huK2pRaEQ5a0UySVNBV2ZUSE84V1lZQVR6bEhLTTVaNG9DM1UzVnJUeUVO?=
+ =?utf-8?B?VHA0d0RKYUtlbEdMM1dJekxjckR2V2FHV2piSHM3WUtUaERjRFA3Unh3d1JP?=
+ =?utf-8?B?VGJYay80Wk5MWllXZCtnaHdSRkRkWVFBM0JINlMrVS9qZlZvQ0EzdjNxa2hP?=
+ =?utf-8?B?TVNtKzNWbzJpeTBSWXpMalFWTHdEM0NLRFY2Y1FzRE5mbFE2dnVtOUpncTZG?=
+ =?utf-8?B?dGQwcVdpVDRYSW9QcHVpVUxvTllHK2MwR0J6YUV0OUpyMVBCNW9QN1puRTZJ?=
+ =?utf-8?B?ajBDKzB3TE1mUnNNTythcy9qU1EvOTdSVktLSGhKTUtqZEs2OGFEKzNTNGdW?=
+ =?utf-8?B?bG9sS25XTjFmazg1NSs5clZ2c3N1Y0RFZ2hPdFQrcVpnT0M0TGpMOFg0bnp5?=
+ =?utf-8?B?L2ZxVnFOVUdheEc4Ri9adUZSTnFpUWNaTlBxeEhmaGdRbzlTL2ZLY3dEZy8z?=
+ =?utf-8?B?NFhkdktDc0o1WndlTlNyRXB1TnAvSDBxVWJSVkl5Yit2QzNJamZpcnBSU21w?=
+ =?utf-8?B?ZzZpUDBtQ3BTdkVoNUx5MlpNWkJkd3VjSnRSNmpSUzFLdi9WdHRuTGFGdzJB?=
+ =?utf-8?B?aU9vdXhFVXJ0em1yL0tuVDgxaE53a2hSdjg4eWliV013alR3RkJubzQ4bktl?=
+ =?utf-8?B?YU1CSEh6ZVFQNFZUSnc5UFR0U1NBaTJtRzRyRDIrUG8wZzdFSG92ZDZKRTBr?=
+ =?utf-8?Q?Z7N0=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYZPR06MB6935.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020); DIR:OUT; SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dVdibUJVaDE5YTg5a2xuMzVBazlpdUJDazIyQ3JtakVBWlRvWkY2MmR1Y3ZG?=
+ =?utf-8?B?eHhGVmRYVjJoRDhDdTNiRGwramZrTFdxZ2xCQWpCUFRUdEFsTjhSZ1MzQWd4?=
+ =?utf-8?B?UElyOEpPWXFkRkZ0QVd3R1lHcC9JNzVHQ2g1cEtEVFltWHN3YTBvV2JQT1F5?=
+ =?utf-8?B?dXFVZXh0cWcxVmVVU1QrNW9PV3JxekVJNDRseHROVTdydzNXV2JBZzFUd2Zt?=
+ =?utf-8?B?QVExS3kwdWRQUExtTFRIQVkxWU9uYmlwRnczMVRPd2ZsSzdLVlUvb09udHlj?=
+ =?utf-8?B?WDJZN29sYXh3Tzkyc2FBL2dhM2RaYVlVMmFrczVNZkpQUzM1alo5Z3ViVzAz?=
+ =?utf-8?B?SzZObVAydHBVZWRHaGxEdHViUHNoU3JvRGJBTzRZdWNTWkNCUzB1bVdUZXJD?=
+ =?utf-8?B?VTVyVW01S0tMTG90Lzg3SDZuUU5Wdzh5b3YrUkw5bEhaMFJWOUFUM3djWEV0?=
+ =?utf-8?B?VmliMTkzQmFWSklUdVJacEd0bk1WZ0VxR1hlYzRBUlAzR2UrN1pUSlpONnRy?=
+ =?utf-8?B?NDA2YnNNQ2x6cnFkNElFNXh0NG5VMzhEMkk5cjZvY3BaQmsvU1VEa3oxRHFz?=
+ =?utf-8?B?Wll3MHgxRE1TaFhpQ2dXNGpWOFptdHAxbmpyTnN6V1U3eTlxRC95RE53TlBy?=
+ =?utf-8?B?SUZpdm1LcW5iMWdJTDR2TVA2RDMrVm92YXVHbmpDbXhyeFc1SzhUdmYyU05N?=
+ =?utf-8?B?VDYrY3pab1kyOFJUNysxU2x5enEvL205ck10c2tkN1IxZ0NEOWRMQ1NMYUVw?=
+ =?utf-8?B?Und4SW9KckNXd3VudC9IRitYSVBvTlNUZEhXMjJlK21LWXFvenVHY05Nd0Jm?=
+ =?utf-8?B?L25oSklYbnF2UDF6KzU5SVdkN3Nsc2ZrdnI2dkZrakZGLzBna3Ric2xod1hS?=
+ =?utf-8?B?MGVUdlJjNXpPU0FKQjR2Z1dQcUNLNFkxNTFPbFdoYy91U0lDQnp0SlFWdDli?=
+ =?utf-8?B?MDNHZ0EzQ1ZlZUUvRTBwSVp4ODF0Q3Q2bjVyM3NHZXVTTGNkajcwS0tSV0hW?=
+ =?utf-8?B?VS9HNGtLVUFCZ09OLy9Ed0dBNUdUUWJJcml1Mmx2ODZiWjQxbTVwMERsVHRl?=
+ =?utf-8?B?QXJUZUNrOUljb2s4dzRad0dzZEJUZ1FtWFRoVFVYTzBFQXI4Vlh3Smxjd01F?=
+ =?utf-8?B?VXpDb3hpSVcrYlJQTTRBZS9HZFZLNlR2YWJXV1hXVitnb3V2SmorUm9BUUVy?=
+ =?utf-8?B?TGNDYUdrNFZ2Q0FTSk1ZQ2sxSnpWcGhSbml0TVNPSG5vTW0yZHRhcUcwSHRo?=
+ =?utf-8?B?cS93R3NjR2FLMC9ldDVxd25YUFlRaVhMRHcxbGNHa3J1SXluZEgrVlprWExG?=
+ =?utf-8?B?NVp6Q0N0a0NDR3p4UW9rS1M0azhxZFU5MzNiTDhOL2xLaDY4RE9tU3dNSWMv?=
+ =?utf-8?B?QXpaRkRvTlRITlJTYnVGbER4aHVNQlNhYzUyVGpydHFlV092Q1l4NUVMZWdx?=
+ =?utf-8?B?SnF4OE5IQmVnWDBXVGFua1ozdFZMR1hTblNyTlgvaDZsRHRBK1JOQ0p2emIv?=
+ =?utf-8?B?RW5rTDhEQ3ZNV002UUtzNUt0a1J6ZFFaYTllL0FTbkdFOTJEaGVxVzNVSFE1?=
+ =?utf-8?B?Q09EQTV6Zklpc05tZXZCNEdpWVFOTjZRNFUvdloxenJ1cHpvTmhNL08zcnhI?=
+ =?utf-8?B?d3J5UysxaGw4M1d6ZER5bFhpTUZpc1JnajZ3eWRVMlBoL2pWYlU3VTRxS2Nq?=
+ =?utf-8?B?Znh3VjFJbVFwQ0E3Qi9LY0NBV3Uwa0p1cHAzbWswT3p0YkthNHdVY2tSRWxO?=
+ =?utf-8?B?Vk1FeXllMERsZWJxL0ducDIyeFM1TFZNR2JLNGtqYWw2MzdJcHhrQ1dVdlky?=
+ =?utf-8?B?VE9OUGhxbDJXdUdadEV0TXg3L25XVzJIQmNwaW40czAxanFhVlpYQ0g1ZVJ1?=
+ =?utf-8?B?K3dsYSs5ckxFMTMxZ3lXQy8rQm9LUS9FYmx4ZS8rTzVzZnZ6dGU4UTZISExz?=
+ =?utf-8?B?ZnZSTGZhZURST1Vsem42cmNYVTE3M3AvOTRBa3pCaVJUZzhMUGw1K3JDdnNQ?=
+ =?utf-8?B?UUgvanJBWW9lK1RQVU13QWJOU2hoSXY5UXgrR3JycHREQ3hyTVljQVpWdWtD?=
+ =?utf-8?B?WlFjMmlWM0VkQ212L2RSYVhNQUpSenpiUjdDVldkTC9zemVXM243Ny81TWpq?=
+ =?utf-8?B?NHJUVTBCdlBtWS9nZ1UzSUs4ZUZNVE84K2NlZGRzZWZ6cnZzV0x4c1kza3g1?=
+ =?utf-8?B?N2EwcGZBWUpVbFJSYkJkSEtmbVBBbkxDSFJVOTJKTC8rYk5kNUlDMFJmSktM?=
+ =?utf-8?B?Kyt1ZVFwR2s1T1Q2TnBpMmdUbEF6djBrR3JxTjVLbnZYVk00NG5IY29FZHdT?=
+ =?utf-8?B?VDZDZkxHYTJnam9XNGp1NmZWcWdjckMxWHg4ZWg1dXdBUkZYZVZEdz09?=
+X-OriginatorOrg: linumiz.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 394bd2ff-3f90-4616-03e1-08de664da294
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB6935.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2026 13:34:36.1636 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 808466aa-232a-41f4-ac23-289e3a6840d4
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VLw9u+OCIFXKK1yYpNMka2Ndee5zcfV9ZDzIU0CJV5yWx9i0uZs3MJ2ZvsgT5LzCfT5zYwsnEnHhKQkR4O9ydA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR06MB6559
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,65 +178,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [-0.11 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_NA(0.00)[linumiz.com];
+	FORGED_RECIPIENTS(0.00)[m:parthiban@linumiz.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-arm-kernel@lists.infradead.org,m:linux-sunxi@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:linux-phy@lists.infradead.org,m:devicetree@vger.kernel.org,m:paulk@sys-base.io,m:kuba@szczodrzynski.pl,m:mripard@kernel.org,m:samuel@sholland.org,m:wens@csie.org,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[parthiban@linumiz.com,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:xji@analogixsemi.com,m:heikki.krogerus@linux.intel.com,m:gregkh@linuxfoundation.org,m:dmitry.baryshkov@oss.qualcomm.com,m:devicetree@vger.kernel.org,m:linux-usb@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FREEMAIL_TO(0.00)[szczodrzynski.pl,kernel.org,sholland.org,csie.org,gmail.com,linux.intel.com,suse.de];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,ffwll.ch,linux.intel.com,suse.de,analogixsemi.com,linuxfoundation.org,oss.qualcomm.com];
+	HAS_ORG_HEADER(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[parthiban@linumiz.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linumiz.com,gmail.com,ffwll.ch,lists.infradead.org,lists.linux.dev,vger.kernel.org,lists.freedesktop.org,sys-base.io];
+	NEURAL_HAM(-0.00)[-0.990];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	NEURAL_HAM(-0.00)[-0.967];
+	TO_DN_SOME(0.00)[];
+	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: BFC5310593D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linkedin.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 881D4105FE0
 X-Rspamd-Action: no action
 
-On Wed, 21 Jan 2026 12:15:44 +0200, Dmitry Baryshkov wrote:
-> ANX7625 can be used to mux converted video stream with the USB signals
-> on a Type-C connector. Provide minimal Type-C support necessary for
-> ANX7625 to register the Type-C port device and properly respond to data
-> / power role events from the Type-C partner.
+On 11/16/25 2:46 PM, Kuba Szczodrzyński wrote:
+> Some Allwinner chips (notably the D1s/T113 and the A100) have a "combo
+> MIPI DSI D-PHY" which is required when using single-link LVDS0. The same
+> PD0..PD9 pins are used for either DSI or LVDS.
 > 
-> Notes:
-> - I'm not 100% happy having Type-C code in the DRM subtree. Should I use
->   AUX device and to move Type-C-related code to drivers/usb/typec?
+> Other than having to use the combo D-PHY, LVDS output is configured in
+> the same way as on older chips.
 > 
-> [...]
+> This series enables the sun6i MIPI D-PHY to also work in LVDS mode. It
+> is then configured by the LCD TCON, which allows connecting a
+> single-link LVDS display panel.
 
-Applied to drm-misc-next, thanks!
+Also one additional note is, current LVDS implementation in tcon doesn't
+handle LVDS mode in "0x0084 LCD LVDS Configure". We have only bitwidth
+handled. When using smaller LVDS panels vesa & jeida needs to be handled
+separately. Not sure if the mode support bit is same across all the SoC's TCON,
+but here is the diff which I have used to make it work for vesa-24 by tweaking
+the a133 lvds hook.
 
-[1/3] dt-bindings: drm/bridge: anx7625: describe Type-C connector
-      commit: 1d7532444a32b53ff7344dc52019bab5a4b5ed66
-[2/3] drm: bridge: anx7625: implement minimal Type-C support
-      commit: f81455b2d3327a5685623e7db4050dbbe5513bc3
-[3/3] drm: bridge: anx7625: implement message sending
-      commit: 8ad0f7d2e6fdfc4462a5b168ec64d73b7e952ab9
+commit 1f2d8983f78a11adab759160957a9cf6dc4296aa
+Author: Parthiban Nallathambi <parthiban@linumiz.com>
+Date:   Tue Feb 3 21:55:48 2026 +0530
 
-Best regards,
--- 
-With best wishes
-Dmitry
+    drm/sunxi: a133 add support for LVDS mode handling
+    
+    A133 supports both NS and JEIDA mode. Add support depends on the
+    mode selected from the devicetree data mapping.
+    
+    Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
 
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+index 3bacc897217f..98a2fb7ed015 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+@@ -175,8 +175,34 @@ static void sun6i_tcon_setup_lvds_phy(struct sun4i_tcon *tcon,
+ static void sun20i_tcon_setup_lvds_dphy(struct sun4i_tcon *tcon,
+                                        const struct drm_encoder *encoder)
+ {
++       struct drm_connector *connector;
++       struct drm_display_info *info;
+        union phy_configure_opts opts = { };
+ 
++       connector = sun4i_tcon_get_connector(encoder);
++       if (!connector)
++               return;
++
++       info = &connector->display_info;
++       if (info->num_bus_formats != 1)
++               return;
++
++       switch (info->bus_formats[0]) {
++       case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
++       case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
++       case MEDIA_BUS_FMT_RGB101010_1X7X5_JEIDA:
++               regmap_update_bits(tcon->regs, SUN4I_TCON0_LVDS_IF_REG,
++                                  SUN4I_TCON0_LVDS_IF_MODE,
++                                  SUN4I_TCON0_LVDS_IF_MODE);
++               break;
++       case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
++       case MEDIA_BUS_FMT_RGB101010_1X7X5_SPWG:
++               regmap_update_bits(tcon->regs, SUN4I_TCON0_LVDS_IF_REG,
++                                  SUN4I_TCON0_LVDS_IF_MODE,
++                                  0);
++               break;
++       }
++
+        if (!tcon->quirks->has_combo_dphy || !tcon->dphy)
+                return;
+ 
+@@ -550,7 +576,9 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
+        else
+                reg |= SUN4I_TCON0_LVDS_IF_BITWIDTH_18BITS;
+ 
+-       regmap_write(tcon->regs, SUN4I_TCON0_LVDS_IF_REG, reg);
++       regmap_update_bits(tcon->regs, SUN4I_TCON0_LVDS_IF_REG,
++                          SUN4I_TCON0_LVDS_IF_CLK_SEL_TCON0 | SUN4I_TCON0_LVDS_IF_BITWIDTH_MASK,
++                          reg);
+ 
+        /* Setup the polarity of the various signals */
+        if (!(mode->flags & DRM_MODE_FLAG_PHSYNC))
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.h b/drivers/gpu/drm/sun4i/sun4i_tcon.h
+index 7e6a5f500d37..fa45b070def2 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tcon.h
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon.h
+@@ -101,11 +101,12 @@
+ 
+ #define SUN4I_TCON0_LVDS_IF_REG                        0x84
+ #define SUN4I_TCON0_LVDS_IF_EN                         BIT(31)
++#define SUN4I_TCON0_LVDS_IF_MODE                       BIT(27)
+ #define SUN4I_TCON0_LVDS_IF_BITWIDTH_MASK              BIT(26)
+ #define SUN4I_TCON0_LVDS_IF_BITWIDTH_18BITS            (1 << 26)
+ #define SUN4I_TCON0_LVDS_IF_BITWIDTH_24BITS            (0 << 26)
+ #define SUN4I_TCON0_LVDS_IF_CLK_SEL_MASK               BIT(20)
+-#define SUN4I_TCON0_LVDS_IF_CLK_SEL_TCON0              (1 << 20)
++#define SUN4I_TCON0_LVDS_IF_CLK_SEL_TCON0              BIT(20)
+ #define SUN4I_TCON0_LVDS_IF_CLK_POL_MASK               BIT(4)
+ #define SUN4I_TCON0_LVDS_IF_CLK_POL_NORMAL             (1 << 4)
+ #define SUN4I_TCON0_LVDS_IF_CLK_POL_INV                        (0 << 4)
 
+Shall this be same for all the TCON?
+
+--
+Thanks,
+Parthiban
+https://linumiz.com
+https://www.linkedin.com/company/linumiz
