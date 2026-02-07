@@ -2,84 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uC+4CsCYh2mpaQQAu9opvQ
+	id 4JfYIkibh2l8agQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 20:55:44 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 21:06:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2E75107002
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 20:55:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C6B10704D
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 21:06:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9616310E2BA;
-	Sat,  7 Feb 2026 19:55:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C994910E2BB;
+	Sat,  7 Feb 2026 20:06:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="JOoHFpCT";
+	dkim=pass (2048-bit key; unprotected) header.d=ubuntu.com header.i=@ubuntu.com header.b="gqmEoRJ3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3150A10E1E7;
- Sat,  7 Feb 2026 19:55:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1770494126; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=n4LRiWNq2inbtnEDaGm8SCKsvD4xJsBno1k9RblkDTlSnrmM7T5RomJRKcVz7qlnSyX+XB5gcCiOls661iJUhymLCiIjeN72IK/cD66LT++uSRvt9TF4QxH2bTShBFlnNUYSuGKLCa1LHBFEWql+mGQ8ywTO1YKteUSuM+lfRgM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1770494126;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=NZHbWmG7r3R1HZrqlrB+rsVe8cKm23D2EhBP2uD85pY=; 
- b=m9DHWb9oRABg90RbzT9vh6KvuTKLtEXAdJ57eFkpEklx/nIh1x+etiXzb+qCMEqcWHdvpY5UutZsocwDmANMP8/hjzV1lnd4fUDmlh1VFL4IxUxOPu+KaP97H1aAchVLYfIIro5mWnhNNTodSQSkR2pbpqhpKdc7sWY5fiurS3c=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770494125; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=NZHbWmG7r3R1HZrqlrB+rsVe8cKm23D2EhBP2uD85pY=;
- b=JOoHFpCTlEuC9nka6aLZlVjLCh9/KJnx6zCh6/QAWYNhunIRZvOINl/ALSVN9LX8
- Px9UDqdcYooOf10d9+OcQv3Ac0mmJYq8fUQjNfcW3fqlPzY0dnoNDyWXSuIfPoagt6z
- YUOgoVGCDfpKWU/mEhmm0pCRW2EXcTPuo8RGvxxs=
-Received: by mx.zohomail.com with SMTPS id 177049412353238.2831936561422;
- Sat, 7 Feb 2026 11:55:23 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, kernel@collabora.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org,
- Marius Vlad <marius.vlad@collabora.com>
-Subject: Re: [PATCH v7 03/22] drm: Add enum conversions between
- DRM_COLOR_FORMAT and HDMI_COLORSPACE
-Date: Sat, 07 Feb 2026 20:55:16 +0100
-Message-ID: <2028270.PYKUYFuaPT@workhorse>
-In-Reply-To: <20260206-angelic-crimson-bug-aaab40@houat>
-References: <20260121-color-format-v7-0-ef790dae780c@collabora.com>
- <20260121-color-format-v7-3-ef790dae780c@collabora.com>
- <20260206-angelic-crimson-bug-aaab40@houat>
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB46B10E2BB
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 20:06:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
+ h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
+ To: From; q=dns/txt; s=fe-953a8a3ca9; t=1770494785;
+ bh=RmwdWOZwmcQan0kOQ+7djr1MwkuNrVfIH7mOivfY8Fo=;
+ b=gqmEoRJ3FSPybFvM9NmyGpoRsKRabJX1bOn4atHX+Q3uofFwbp0SiEdgEb0590CEcEFowvYIV
+ kkZF8+lRgmApcxBOCKFAkY+Ch296jQeiOI/SXp8p7ZMTFGt/c89qrJRfrIY9UyZXwGdpZBgG3Ea
+ oAtdiB4PNl95Vp8z4/+rOyEnptJeMd0BH4S5sxQOuUNlPRDR9JowESLT9xvS0G2nJZHF/NV6FRm
+ 9F73xjbd8vkfUO2tPoJZ4YYLUeEAS0eF1VgguCBxLDNUfrUuMeXvuJKraLsXmLVVLZg3LtGbtIW
+ oGifFpg/55m27WBqFyWtsHLKrPMCss9lelEXEO/ghoaw==
+X-Forward-Email-ID: 69879b3f02c0e34621e652dc
+X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
+ 149.28.215.223
+X-Forward-Email-Version: 2.6.2
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
+From: Joshua Peisach <jpeisach@ubuntu.com>
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: Joshua Peisach <jpeisach@ubuntu.com>
+Subject: [PATCH] amdgpu_connector: use struct drm_edid instead of struct edid
+Date: Sat,  7 Feb 2026 15:04:35 -0500
+Message-ID: <20260207200550.42315-1-jpeisach@ubuntu.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,155 +63,225 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	CTE_CASE(0.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ubuntu.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[ubuntu.com:s=fe-953a8a3ca9];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	FROM_NEQ_ENVFROM(0.00)[nicolas.frattaroli@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,suse.de,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,rock-chips.com,sntech.de,ursulin.net,pengutronix.de,lwn.net,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: B2E75107002
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[jpeisach@ubuntu.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:amd-gfx@lists.freedesktop.org,m:jpeisach@ubuntu.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCPT_COUNT_THREE(0.00)[3];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jpeisach@ubuntu.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[ubuntu.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	NEURAL_HAM(-0.00)[-0.995];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 22C6B10704D
 X-Rspamd-Action: no action
 
-On Friday, 6 February 2026 15:08:46 Central European Standard Time Maxime Ripard wrote:
-> On Wed, Jan 21, 2026 at 03:45:10PM +0100, Nicolas Frattaroli wrote:
-> > While the two enums have similar values, they're not identical, and
-> > HDMI's enum is defined as per the HDMI standard.
-> > 
-> > Add a simple conversion function from DRM to HDMI. Unexpected inputs
-> > aren't handled in any clever way, DRM_COLOR_FORMAT_AUTO and any other
-> > value that doesn't cleanly map to HDMI just gets returned as
-> > HDMI_COLORSPACE_RGB.
-> > 
-> > Add a second conversion function that gets a DRM_COLOR_FORMAT from an
-> > HDMI_COLORSPACE as well. In this case, reserved HDMI values that can't
-> > be converted will result in an -EINVAL return value.
-> > 
-> > Co-developed-by: Marius Vlad <marius.vlad@collabora.com>
-> > Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
-> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> > ---
-> >  include/drm/drm_connector.h | 54 +++++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 54 insertions(+)
-> > 
-> > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> > index b5604dca728a..ffeb42f3b4a3 100644
-> > --- a/include/drm/drm_connector.h
-> > +++ b/include/drm/drm_connector.h
-> > @@ -2612,6 +2612,60 @@ int drm_connector_attach_color_format_property(struct drm_connector *connector);
-> >  
-> >  const char *drm_get_color_format_name(enum drm_color_format color_fmt);
-> >  
-> > +/**
-> > + * drm_color_format_to_hdmi_colorspace - convert DRM color format to HDMI
-> > + * @fmt: the &enum drm_color_format to convert
-> > + *
-> > + * Convert a given &enum drm_color_format to an equivalent
-> > + * &enum hdmi_colorspace. For non-representable values and
-> > + * %DRM_COLOR_FORMAT_AUTO, the value %HDMI_COLORSPACE_RGB is returned.
-> > + *
-> > + * Returns: the corresponding &enum hdmi_colorspace value
-> > + */
-> > +static inline enum hdmi_colorspace __pure
-> > +drm_color_format_to_hdmi_colorspace(enum drm_color_format fmt)
-> > +{
-> > +	switch (fmt) {
-> > +	default:
-> > +	case DRM_COLOR_FORMAT_AUTO:
-> > +	case DRM_COLOR_FORMAT_RGB444:
-> > +		return HDMI_COLORSPACE_RGB;
-> 
-> I don't think that's correct. What auto ends up as totally depends on
-> the atomic state it comes with.
-> 
-> At the very least, you should output a warning there, because that case
-> should never happen.
+Some amdgpu code is still using deprecated edid functions. Switch to
+the newer functions and update the amdgpu_connector struct's edid type
+to the drm_edid type.
 
-Yeah, my hope was to keep this function __pure so that the compiler
-has maximum freedom to do whatever. With a WARN, it's got side-effects
-now, and we're no longer pure. With a status return value and an output
-parameter, it's no longer pure either, because the output parameter is
-not local memory.
+At the same time, use the raw EDID when we need to for speaker
+allocations and for determining if the input is digital.
 
-The limiting factor here is that as I understand correctly, I can't
-really extend the hdmi_colorspace enum, as it's basically 1:1 from
-the standard. Doing this would be the ideal solution, because we'd
-keep the function pure and without surprise conversions happening.
+Signed-off-by: Joshua Peisach <jpeisach@ubuntu.com>
+---
+ .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    | 32 +++++++++----------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  2 +-
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  4 +--
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  4 +--
+ drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  4 +--
+ 5 files changed, 23 insertions(+), 23 deletions(-)
 
-Looking at hdmi_colorspace_get_name in drivers/video/hdmi.c, it returns
-"Invalid" for any value not in the enum itself. Would it be allowable
-to tack an HDMI_COLORSPACE_INVALID at the end of the enum with perhaps
-a negative value, or is there a different approach you'd prefer?
-
-I agree that the AUTO-to-RGB conversion shouldn't happen here, that's
-a recipe for things implicitly relying on this behaviour, which isn't
-great. (And I think I even do this in "hdmi-state-helper: Act on color
-format DRM property", where thinking about it again I agree this isn't
-super obvious and should be done explicitly instead.)
-
-> > +	case DRM_COLOR_FORMAT_YCBCR444:
-> > +		return HDMI_COLORSPACE_YUV444;
-> > +	case DRM_COLOR_FORMAT_YCBCR422:
-> > +		return HDMI_COLORSPACE_YUV422;
-> > +	case DRM_COLOR_FORMAT_YCBCR420:
-> > +		return HDMI_COLORSPACE_YUV420;
-> > +	}
-> > +}
-> > +
-> > +/**
-> > + * drm_color_format_from_hdmi_colorspace - convert HDMI color format to DRM
-> > + * @fmt: the &enum hdmi_colorspace to convert
-> > + *
-> > + * Convert a given &enum hdmi_colorspace to an equivalent
-> > + * &enum drm_color_format. For non-representable values,
-> > + * %-EINVAL is returned.
-> > + *
-> > + * Returns: the corresponding &enum drm_color_format value, or %-EINVAL
-> > + */
-> > +static inline enum drm_color_format __pure
-> > +drm_color_format_from_hdmi_colorspace(enum hdmi_colorspace fmt)
-> > +{
-> > +	switch (fmt) {
-> > +	default:
-> > +		return -EINVAL;
-> 
-> Wait, what?
-> 
-> -EINVAL is not a valid value for your enum.
-
-Not the only part of the kernel where we rely on the int-ness of
-enums, but your complaint has been noted :) I guess this means
-this approach won't fly for the opposite direction. Thankfully,
-in this direction, we can extend the drm_color_format enum to
-have an error value.
-
-Kind regards,
-Nicolas Frattaroli
-
-> 
-> Maxime
-> 
-
-
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+index d3e312bda..ab83b3a87 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
+@@ -246,10 +246,10 @@ amdgpu_connector_find_encoder(struct drm_connector *connector,
+ 	return NULL;
+ }
+ 
+-static struct edid *
++static const struct drm_edid *
+ amdgpu_connector_get_hardcoded_edid(struct amdgpu_device *adev)
+ {
+-	return drm_edid_duplicate(drm_edid_raw(adev->mode_info.bios_hardcoded_edid));
++	return drm_edid_dup(adev->mode_info.bios_hardcoded_edid);
+ }
+ 
+ static void amdgpu_connector_get_edid(struct drm_connector *connector)
+@@ -268,8 +268,8 @@ static void amdgpu_connector_get_edid(struct drm_connector *connector)
+ 	if ((amdgpu_connector_encoder_get_dp_bridge_encoder_id(connector) !=
+ 	     ENCODER_OBJECT_ID_NONE) &&
+ 	    amdgpu_connector->ddc_bus->has_aux) {
+-		amdgpu_connector->edid = drm_get_edid(connector,
+-						      &amdgpu_connector->ddc_bus->aux.ddc);
++		amdgpu_connector->edid = drm_edid_read_ddc(connector,
++							  &amdgpu_connector->ddc_bus->aux.ddc);
+ 	} else if ((connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort) ||
+ 		   (connector->connector_type == DRM_MODE_CONNECTOR_eDP)) {
+ 		struct amdgpu_connector_atom_dig *dig = amdgpu_connector->con_priv;
+@@ -277,14 +277,14 @@ static void amdgpu_connector_get_edid(struct drm_connector *connector)
+ 		if ((dig->dp_sink_type == CONNECTOR_OBJECT_ID_DISPLAYPORT ||
+ 		     dig->dp_sink_type == CONNECTOR_OBJECT_ID_eDP) &&
+ 		    amdgpu_connector->ddc_bus->has_aux)
+-			amdgpu_connector->edid = drm_get_edid(connector,
+-							      &amdgpu_connector->ddc_bus->aux.ddc);
++			amdgpu_connector->edid = drm_edid_read_ddc(connector,
++								  &amdgpu_connector->ddc_bus->aux.ddc);
+ 		else if (amdgpu_connector->ddc_bus)
+-			amdgpu_connector->edid = drm_get_edid(connector,
+-							      &amdgpu_connector->ddc_bus->adapter);
++			amdgpu_connector->edid = drm_edid_read_ddc(connector,
++								  &amdgpu_connector->ddc_bus->adapter);
+ 	} else if (amdgpu_connector->ddc_bus) {
+-		amdgpu_connector->edid = drm_get_edid(connector,
+-						      &amdgpu_connector->ddc_bus->adapter);
++		amdgpu_connector->edid = drm_edid_read_ddc(connector,
++							  &amdgpu_connector->ddc_bus->adapter);
+ 	}
+ 
+ 	if (!amdgpu_connector->edid) {
+@@ -292,7 +292,7 @@ static void amdgpu_connector_get_edid(struct drm_connector *connector)
+ 		if (((connector->connector_type == DRM_MODE_CONNECTOR_LVDS) ||
+ 		     (connector->connector_type == DRM_MODE_CONNECTOR_eDP))) {
+ 			amdgpu_connector->edid = amdgpu_connector_get_hardcoded_edid(adev);
+-			drm_connector_update_edid_property(connector, amdgpu_connector->edid);
++			drm_edid_connector_update(connector, amdgpu_connector->edid);
+ 		}
+ 	}
+ }
+@@ -311,11 +311,11 @@ static int amdgpu_connector_ddc_get_modes(struct drm_connector *connector)
+ 	int ret;
+ 
+ 	if (amdgpu_connector->edid) {
+-		drm_connector_update_edid_property(connector, amdgpu_connector->edid);
+-		ret = drm_add_edid_modes(connector, amdgpu_connector->edid);
++		drm_edid_connector_update(connector, amdgpu_connector->edid);
++		ret = drm_edid_connector_add_modes(connector);
+ 		return ret;
+ 	}
+-	drm_connector_update_edid_property(connector, NULL);
++	drm_edid_connector_update(connector, NULL);
+ 	return 0;
+ }
+ 
+@@ -883,7 +883,7 @@ amdgpu_connector_vga_detect(struct drm_connector *connector, bool force)
+ 			ret = connector_status_connected;
+ 		} else {
+ 			amdgpu_connector->use_digital =
+-				!!(amdgpu_connector->edid->input & DRM_EDID_INPUT_DIGITAL);
++				drm_edid_is_digital(amdgpu_connector->edid);
+ 
+ 			/* some oems have boards with separate digital and analog connectors
+ 			 * with a shared ddc line (often vga + hdmi)
+@@ -1063,7 +1063,7 @@ amdgpu_connector_dvi_detect(struct drm_connector *connector, bool force)
+ 			broken_edid = true; /* defer use_digital to later */
+ 		} else {
+ 			amdgpu_connector->use_digital =
+-				!!(amdgpu_connector->edid->input & DRM_EDID_INPUT_DIGITAL);
++				drm_edid_is_digital(amdgpu_connector->edid);
+ 
+ 			/* some oems have boards with separate digital and analog connectors
+ 			 * with a shared ddc line (often vga + hdmi)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+index dc8d2f52c..c4e025581 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+@@ -624,7 +624,7 @@ struct amdgpu_connector {
+ 	bool use_digital;
+ 	/* we need to mind the EDID between detect
+ 	   and get modes due to analog/digital/tvencoder */
+-	struct edid *edid;
++	const struct drm_edid *edid;
+ 	void *con_priv;
+ 	bool dac_load_detect;
+ 	bool detected_by_load; /* if the connection status was determined by load */
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+index 61302204e..3346494c3 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
+@@ -1298,7 +1298,7 @@ static void dce_v10_0_audio_write_speaker_allocation(struct drm_encoder *encoder
+ 		return;
+ 	}
+ 
+-	sad_count = drm_edid_to_speaker_allocation(amdgpu_connector->edid, &sadb);
++	sad_count = drm_edid_to_speaker_allocation(drm_edid_raw(amdgpu_connector->edid), &sadb);
+ 	if (sad_count < 0) {
+ 		DRM_ERROR("Couldn't read Speaker Allocation Data Block: %d\n", sad_count);
+ 		sad_count = 0;
+@@ -1368,7 +1368,7 @@ static void dce_v10_0_audio_write_sad_regs(struct drm_encoder *encoder)
+ 		return;
+ 	}
+ 
+-	sad_count = drm_edid_to_sad(amdgpu_connector->edid, &sads);
++	sad_count = drm_edid_to_sad(drm_edid_raw(amdgpu_connector->edid), &sads);
+ 	if (sad_count < 0)
+ 		DRM_ERROR("Couldn't read SADs: %d\n", sad_count);
+ 	if (sad_count <= 0)
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+index 8f4b4c2e3..508cfe6a8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+@@ -1265,7 +1265,7 @@ static void dce_v6_0_audio_write_speaker_allocation(struct drm_encoder *encoder)
+ 		return;
+ 	}
+ 
+-	sad_count = drm_edid_to_speaker_allocation(amdgpu_connector->edid, &sadb);
++	sad_count = drm_edid_to_speaker_allocation(drm_edid_raw(amdgpu_connector->edid), &sadb);
+ 	if (sad_count < 0) {
+ 		DRM_ERROR("Couldn't read Speaker Allocation Data Block: %d\n", sad_count);
+ 		sad_count = 0;
+@@ -1346,7 +1346,7 @@ static void dce_v6_0_audio_write_sad_regs(struct drm_encoder *encoder)
+ 		return;
+ 	}
+ 
+-	sad_count = drm_edid_to_sad(amdgpu_connector->edid, &sads);
++	sad_count = drm_edid_to_sad(drm_edid_raw(amdgpu_connector->edid), &sads);
+ 	if (sad_count < 0)
+ 		DRM_ERROR("Couldn't read SADs: %d\n", sad_count);
+ 	if (sad_count <= 0)
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+index 9d1853c41..3a6a22926 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
+@@ -1271,7 +1271,7 @@ static void dce_v8_0_audio_write_speaker_allocation(struct drm_encoder *encoder)
+ 		return;
+ 	}
+ 
+-	sad_count = drm_edid_to_speaker_allocation(amdgpu_connector->edid, &sadb);
++	sad_count = drm_edid_to_speaker_allocation(drm_edid_raw(amdgpu_connector->edid), &sadb);
+ 	if (sad_count < 0) {
+ 		DRM_ERROR("Couldn't read Speaker Allocation Data Block: %d\n", sad_count);
+ 		sad_count = 0;
+@@ -1339,7 +1339,7 @@ static void dce_v8_0_audio_write_sad_regs(struct drm_encoder *encoder)
+ 		return;
+ 	}
+ 
+-	sad_count = drm_edid_to_sad(amdgpu_connector->edid, &sads);
++	sad_count = drm_edid_to_sad(drm_edid_raw(amdgpu_connector->edid), &sads);
+ 	if (sad_count < 0)
+ 		DRM_ERROR("Couldn't read SADs: %d\n", sad_count);
+ 	if (sad_count <= 0)
+-- 
+2.51.0
 
