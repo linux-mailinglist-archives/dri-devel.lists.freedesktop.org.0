@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uA1HAkwMh2mQTAQAu9opvQ
+	id gHY4A0sMh2mQTAQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 10:56:28 +0100
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 10:56:27 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A50DB1056AB
-	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 10:56:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7C071056A4
+	for <lists+dri-devel@lfdr.de>; Sat, 07 Feb 2026 10:56:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E05410E230;
-	Sat,  7 Feb 2026 09:56:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D828910E21C;
+	Sat,  7 Feb 2026 09:56:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=huawei.com header.i=@huawei.com header.b="l0DqnOSq";
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="l0DqnOSq";
+	dkim=pass (1024-bit key; unprotected) header.d=huawei.com header.i=@huawei.com header.b="uMmtOERG";
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="uMmtOERG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A444C10E217
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0BE010E216
  for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 09:56:16 +0000 (UTC)
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
  c=relaxed/relaxed; q=dns/txt; h=From;
- bh=gaaccTEGgYSF/Y51slW2XBH57ChBtzMNGdlBF3cTEnw=;
- b=l0DqnOSqYvjKukF9hAc+24Z2WXAINJ3+aTUUGdcBfp0AH8lz6CGNXFr0IvfRHn/DTh7r6JakL
- l6iG2d/x25pZaItMxOtt2jXSMadW+VcVnXL88PtxUtUknexYW/nUbC57BcSe8wcY4+cke2Suz+B
- /xIZuzfFCWL2aH8CmvLb3Jg=
-Received: from canpmsgout03.his.huawei.com (unknown [172.19.92.159])
- by szxga01-in.huawei.com (SkyGuard) with ESMTPS id 4f7RCd15rJz1BFsF
+ bh=lQzJiDlQmkLEbZnwSaMgzOTay0f0SozmEbd6odkr0R8=;
+ b=uMmtOERGPMiJeZeBfm0AfN948UHRTG1zTuUVMwa12DYerfLW2gIk4HLuSy+Zylb3C3cpU5oEs
+ o95zpVhnXoldz6sIzDKEOIq6/k5IqGocf42R0t8NOWs/9jVKih2j2tBpG3oj9prTXZ8udGcvkD/
+ 2W2XtMDMsjjPjWSviJKcyZg=
+Received: from canpmsgout02.his.huawei.com (unknown [172.19.92.185])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTPS id 4f7RCd1R4Gz1BFsW
  for <dri-devel@lists.freedesktop.org>; Sat,  7 Feb 2026 17:55:25 +0800 (CST)
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
  c=relaxed/relaxed; q=dns/txt; h=From;
- bh=gaaccTEGgYSF/Y51slW2XBH57ChBtzMNGdlBF3cTEnw=;
- b=l0DqnOSqYvjKukF9hAc+24Z2WXAINJ3+aTUUGdcBfp0AH8lz6CGNXFr0IvfRHn/DTh7r6JakL
- l6iG2d/x25pZaItMxOtt2jXSMadW+VcVnXL88PtxUtUknexYW/nUbC57BcSe8wcY4+cke2Suz+B
- /xIZuzfFCWL2aH8CmvLb3Jg=
-Received: from mail.maildlp.com (unknown [172.19.162.197])
- by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4f7R7b2DXczpSvG;
- Sat,  7 Feb 2026 17:51:55 +0800 (CST)
-Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
- by mail.maildlp.com (Postfix) with ESMTPS id 538E940569;
+ bh=lQzJiDlQmkLEbZnwSaMgzOTay0f0SozmEbd6odkr0R8=;
+ b=uMmtOERGPMiJeZeBfm0AfN948UHRTG1zTuUVMwa12DYerfLW2gIk4HLuSy+Zylb3C3cpU5oEs
+ o95zpVhnXoldz6sIzDKEOIq6/k5IqGocf42R0t8NOWs/9jVKih2j2tBpG3oj9prTXZ8udGcvkD/
+ 2W2XtMDMsjjPjWSviJKcyZg=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+ by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4f7R7M5BLwzcb0x;
+ Sat,  7 Feb 2026 17:51:43 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+ by mail.maildlp.com (Postfix) with ESMTPS id BCFD440569;
  Sat,  7 Feb 2026 17:56:11 +0800 (CST)
 Received: from kwepemq100007.china.huawei.com (7.202.195.175) by
- dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1544.11; Sat, 7 Feb 2026 17:56:11 +0800
 Received: from localhost.huawei.com (10.169.71.169) by
@@ -59,10 +59,10 @@ CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
  <fengsheng5@huawei.com>, <shiyongbang@huawei.com>, <helin52@h-partners.com>,
  <shenjian15@huawei.com>, <shaojijie@huawei.com>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH drm-dp 3/4] drm/hisilicon/hibmc: move display contrl config to
- hibmc_probe()
-Date: Sat, 7 Feb 2026 17:48:36 +0800
-Message-ID: <20260207094837.1468985-4-shiyongbang@huawei.com>
+Subject: [PATCH drm-dp 4/4] drm/hisilicon/hibmc: use clock to look up the PLL
+ value
+Date: Sat, 7 Feb 2026 17:48:37 +0800
+Message-ID: <20260207094837.1468985-5-shiyongbang@huawei.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20260207094837.1468985-1-shiyongbang@huawei.com>
 References: <20260207094837.1468985-1-shiyongbang@huawei.com>
@@ -117,100 +117,161 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	HAS_XOIP(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	NEURAL_HAM(-0.00)[-0.939];
+	NEURAL_HAM(-0.00)[-0.940];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,huawei.com:email,huawei.com:dkim,huawei.com:mid];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[huawei.com:email,huawei.com:dkim,huawei.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: A50DB1056AB
+X-Rspamd-Queue-Id: A7C071056A4
 X-Rspamd-Action: no action
 
 From: Lin He <helin52@huawei.com>
 
-If there's no VGA output, this encoder modeset won't be called, which
-will cause displaying data from GPU being cut off. It's actually a
-common display config for DP and VGA, so move the vdac encoder modeset
-to driver load stage.
+In the past, we use width and height to look up our PLL value.
+But actually the actual clock check is also necessnary. There are
+some resolutions that width and height same, but its clock different.
+Add the clock check when using pll_table to determine the PLL value.
 
-Fixes: 5294967f4ae4 ("drm/hisilicon/hibmc: Add support for VDAC")
+Fixes: da52605eea8f ("drm/hisilicon/hibmc: Add support for display engine")
 Signed-off-by: Lin He <helin52@huawei.com>
 Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
 ---
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   | 14 ++++++++++++
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c  | 22 -------------------
- 2 files changed, 14 insertions(+), 22 deletions(-)
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_de.c    | 80 +++++++++++--------
+ 1 file changed, 46 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index 289304500ab0..c7ce44a5370b 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -214,6 +214,18 @@ void hibmc_set_current_gate(struct hibmc_drm_private *priv, unsigned int gate)
- 	writel(gate, mmio + gate_reg);
- }
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+index 89bed78f1466..8561acbbc3c8 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+@@ -22,6 +22,8 @@
+ #include "hibmc_drm_drv.h"
+ #include "hibmc_drm_regs.h"
  
-+static void hibmc_display_ctrl(struct hibmc_drm_private *priv)
-+{
-+	u32 reg;
++#define CLOCK_TOLERANCE 100 /* kHz tolerance */
 +
-+	reg = readl(priv->mmio + HIBMC_DISPLAY_CONTROL_HISILE);
-+	reg |= HIBMC_DISPLAY_CONTROL_FPVDDEN(1);
-+	reg |= HIBMC_DISPLAY_CONTROL_PANELDATE(1);
-+	reg |= HIBMC_DISPLAY_CONTROL_FPEN(1);
-+	reg |= HIBMC_DISPLAY_CONTROL_VBIASEN(1);
-+	writel(reg, priv->mmio + HIBMC_DISPLAY_CONTROL_HISILE);
-+}
-+
- static void hibmc_hw_config(struct hibmc_drm_private *priv)
- {
- 	u32 reg;
-@@ -245,6 +257,8 @@ static void hibmc_hw_config(struct hibmc_drm_private *priv)
- 	reg |= HIBMC_MSCCTL_LOCALMEM_RESET(1);
- 
- 	writel(reg, priv->mmio + HIBMC_MISC_CTRL);
-+
-+	hibmc_display_ctrl(priv);
- }
- 
- static int hibmc_hw_map(struct hibmc_drm_private *priv)
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-index 502494cba541..b02e9753112b 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-@@ -85,26 +85,6 @@ static const struct drm_connector_funcs hibmc_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+ struct hibmc_display_panel_pll {
+ 	u64 M;
+ 	u64 N;
+@@ -32,26 +34,43 @@ struct hibmc_display_panel_pll {
+ struct hibmc_dislay_pll_config {
+ 	u64 hdisplay;
+ 	u64 vdisplay;
++	int clock;
+ 	u32 pll1_config_value;
+ 	u32 pll2_config_value;
  };
  
--static void hibmc_encoder_mode_set(struct drm_encoder *encoder,
--				   struct drm_display_mode *mode,
--				   struct drm_display_mode *adj_mode)
--{
--	u32 reg;
--	struct drm_device *dev = encoder->dev;
--	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
--
--	reg = readl(priv->mmio + HIBMC_DISPLAY_CONTROL_HISILE);
--	reg |= HIBMC_DISPLAY_CONTROL_FPVDDEN(1);
--	reg |= HIBMC_DISPLAY_CONTROL_PANELDATE(1);
--	reg |= HIBMC_DISPLAY_CONTROL_FPEN(1);
--	reg |= HIBMC_DISPLAY_CONTROL_VBIASEN(1);
--	writel(reg, priv->mmio + HIBMC_DISPLAY_CONTROL_HISILE);
--}
--
--static const struct drm_encoder_helper_funcs hibmc_encoder_helper_funcs = {
--	.mode_set = hibmc_encoder_mode_set,
--};
--
- int hibmc_vdac_init(struct hibmc_drm_private *priv)
+ static const struct hibmc_dislay_pll_config hibmc_pll_table[] = {
+-	{640, 480, CRT_PLL1_HS_25MHZ, CRT_PLL2_HS_25MHZ},
+-	{800, 600, CRT_PLL1_HS_40MHZ, CRT_PLL2_HS_40MHZ},
+-	{1024, 768, CRT_PLL1_HS_65MHZ, CRT_PLL2_HS_65MHZ},
+-	{1152, 864, CRT_PLL1_HS_80MHZ_1152, CRT_PLL2_HS_80MHZ},
+-	{1280, 768, CRT_PLL1_HS_80MHZ, CRT_PLL2_HS_80MHZ},
+-	{1280, 720, CRT_PLL1_HS_74MHZ, CRT_PLL2_HS_74MHZ},
+-	{1280, 960, CRT_PLL1_HS_108MHZ, CRT_PLL2_HS_108MHZ},
+-	{1280, 1024, CRT_PLL1_HS_108MHZ, CRT_PLL2_HS_108MHZ},
+-	{1440, 900, CRT_PLL1_HS_106MHZ, CRT_PLL2_HS_106MHZ},
+-	{1600, 900, CRT_PLL1_HS_108MHZ, CRT_PLL2_HS_108MHZ},
+-	{1600, 1200, CRT_PLL1_HS_162MHZ, CRT_PLL2_HS_162MHZ},
+-	{1920, 1080, CRT_PLL1_HS_148MHZ, CRT_PLL2_HS_148MHZ},
+-	{1920, 1200, CRT_PLL1_HS_193MHZ, CRT_PLL2_HS_193MHZ},
++	{640, 480, 25000, CRT_PLL1_HS_25MHZ, CRT_PLL2_HS_25MHZ},
++	{800, 600, 40000, CRT_PLL1_HS_40MHZ, CRT_PLL2_HS_40MHZ},
++	{1024, 768, 65000, CRT_PLL1_HS_65MHZ, CRT_PLL2_HS_65MHZ},
++	{1152, 864, 78750, CRT_PLL1_HS_80MHZ_1152, CRT_PLL2_HS_80MHZ},
++	{1280, 768, 80000, CRT_PLL1_HS_80MHZ, CRT_PLL2_HS_80MHZ},
++	{1280, 720, 74375, CRT_PLL1_HS_74MHZ, CRT_PLL2_HS_74MHZ},
++	{1280, 960, 108000, CRT_PLL1_HS_108MHZ, CRT_PLL2_HS_108MHZ},
++	{1280, 1024, 108000, CRT_PLL1_HS_108MHZ, CRT_PLL2_HS_108MHZ},
++	{1440, 900, 105952, CRT_PLL1_HS_106MHZ, CRT_PLL2_HS_106MHZ},
++	{1600, 900, 108000, CRT_PLL1_HS_108MHZ, CRT_PLL2_HS_108MHZ},
++	{1600, 1200, 162500, CRT_PLL1_HS_162MHZ, CRT_PLL2_HS_162MHZ},
++	{1920, 1080, 148750, CRT_PLL1_HS_148MHZ, CRT_PLL2_HS_148MHZ},
++	{1920, 1200, 193750, CRT_PLL1_HS_193MHZ, CRT_PLL2_HS_193MHZ},
+ };
+ 
++static int hibmc_get_best_clock_idx(const struct drm_display_mode *mode)
++{
++	int i, diff;
++
++	for (i = 0; i < ARRAY_SIZE(hibmc_pll_table); i++) {
++		if (hibmc_pll_table[i].hdisplay == mode->hdisplay &&
++		    hibmc_pll_table[i].vdisplay == mode->vdisplay) {
++			diff = abs(mode->clock - hibmc_pll_table[i].clock);
++			if (diff < mode->clock / 100) /* tolerance 1/100 */
++				return i;
++		}
++	}
++
++	return -EOPNOTSUPP;
++}
++
+ static int hibmc_plane_atomic_check(struct drm_plane *plane,
+ 				    struct drm_atomic_state *state)
  {
- 	struct drm_device *dev = &priv->dev;
-@@ -127,8 +107,6 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)
- 		goto err;
+@@ -214,17 +233,13 @@ static enum drm_mode_status
+ hibmc_crtc_mode_valid(struct drm_crtc *crtc,
+ 		      const struct drm_display_mode *mode)
+ {
+-	size_t i = 0;
+ 	int vrefresh = drm_mode_vrefresh(mode);
+ 
+ 	if (vrefresh < 59 || vrefresh > 61)
+ 		return MODE_NOCLOCK;
+ 
+-	for (i = 0; i < ARRAY_SIZE(hibmc_pll_table); i++) {
+-		if (hibmc_pll_table[i].hdisplay == mode->hdisplay &&
+-		    hibmc_pll_table[i].vdisplay == mode->vdisplay)
+-			return MODE_OK;
+-	}
++	if (hibmc_get_best_clock_idx(mode) >= 0)
++		return MODE_OK;
+ 
+ 	return MODE_BAD;
+ }
+@@ -281,23 +296,20 @@ static void set_vclock_hisilicon(struct drm_device *dev, u64 pll)
+ 	writel(val, priv->mmio + CRT_PLL1_HS);
+ }
+ 
+-static void get_pll_config(u64 x, u64 y, u32 *pll1, u32 *pll2)
++static void get_pll_config(struct drm_display_mode *mode, u32 *pll1, u32 *pll2)
+ {
+-	size_t i;
+-	size_t count = ARRAY_SIZE(hibmc_pll_table);
+-
+-	for (i = 0; i < count; i++) {
+-		if (hibmc_pll_table[i].hdisplay == x &&
+-		    hibmc_pll_table[i].vdisplay == y) {
+-			*pll1 = hibmc_pll_table[i].pll1_config_value;
+-			*pll2 = hibmc_pll_table[i].pll2_config_value;
+-			return;
+-		}
++	int idx;
++
++	idx = hibmc_get_best_clock_idx(mode);
++	if (idx < 0) {
++		/* if found none, we use default value */
++		*pll1 = CRT_PLL1_HS_25MHZ;
++		*pll2 = CRT_PLL2_HS_25MHZ;
++		return;
  	}
  
--	drm_encoder_helper_add(encoder, &hibmc_encoder_helper_funcs);
--
- 	ret = drm_connector_init_with_ddc(dev, connector,
- 					  &hibmc_connector_funcs,
- 					  DRM_MODE_CONNECTOR_VGA,
+-	/* if found none, we use default value */
+-	*pll1 = CRT_PLL1_HS_25MHZ;
+-	*pll2 = CRT_PLL2_HS_25MHZ;
++	*pll1 = hibmc_pll_table[idx].pll1_config_value;
++	*pll2 = hibmc_pll_table[idx].pll2_config_value;
+ }
+ 
+ /*
+@@ -319,7 +331,7 @@ static u32 display_ctrl_adjust(struct drm_device *dev,
+ 	x = mode->hdisplay;
+ 	y = mode->vdisplay;
+ 
+-	get_pll_config(x, y, &pll1, &pll2);
++	get_pll_config(mode, &pll1, &pll2);
+ 	writel(pll2, priv->mmio + CRT_PLL2_HS);
+ 	set_vclock_hisilicon(dev, pll1);
+ 
 -- 
 2.33.0
 
