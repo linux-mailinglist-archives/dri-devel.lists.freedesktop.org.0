@@ -2,60 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gGHRMy72iWl7FAAAu9opvQ
+	id qCQSF8r2iWl7FAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 15:58:54 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 16:01:30 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2806D1114F9
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 15:58:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2771211165B
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 16:01:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 558C310E415;
-	Mon,  9 Feb 2026 14:58:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAE8210E40D;
+	Mon,  9 Feb 2026 15:01:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="GpB2RZAi";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="lcdXVf1L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EE2310E420
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 14:58:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9798C10E40D
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 15:01:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1770649128;
- bh=UhHGbo2o5nhkn2rj/Bhqu3+jXS+MqUHIC2qBNSWcUcE=;
+ s=mail; t=1770649274;
+ bh=2Jn6ht9R44NVLk0YTLUNGVwTRbNRIHRw4ncSbNE5+Lc=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=GpB2RZAi5I+r5P9VmYjqN9c5+tDOwUSmpc3S34r/kS2xrkHsdntQyuD84KkuRRQhv
- LhaCiu7GZSjuD08D5Hhjrw0e4gidJXcB/Y6Lur6EFqrO7vWnPjaM+U/xPge+0rI7iP
- n99pEJUS347UtuqVnPZqwbzT65/yBVpAUZbVEKuZ9mhRUUQD4FAUoMUivNrDw+9BFt
- IOznpeEoSHd9wPOl07Z0+PgKulF9A8OClNf3/50tV3KGlQTwds0rJYSoh7zRjtD0iu
- UtthqJPCNphKARXLIK1mlXioe4zG3kE/dtdIEAvKIFyFVJU0DehNfuBnziQPtqsXe7
- Ojc5clpKf006g==
+ b=lcdXVf1L5yg0p/y9x6biLEMw1DINlbMW4X95SONyD4ld0EbDvHzS1bkT7CNbO4Uzp
+ XxXBE+qUzdmMpqwAZxsKySKV5VkgNiv580PwhHr4tpFjCm//KFbLMZ7A0Da2x4wGQt
+ TRxlkmIK/A9nNJ2lkmcLiFf52US8l5HqEkakigsI3Jhlo/7i+NvifzAp4ZaKK06keT
+ ZSvcxO2/vMCqtpm/MmICIRqxWySpmQIGsSFNLm1v5mLUA8Ai+hwUjCfOyZC+7gRpH8
+ IkjUXP0bc0p7ufU6EFBJLSc3gwRpCEXxfx0HQd/PYkTyeVXO90UE14gwBoNKC2emew
+ UJhdxYD4L/pFA==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 87D1417E13D5;
- Mon,  9 Feb 2026 15:58:47 +0100 (CET)
-Date: Mon, 9 Feb 2026 15:58:43 +0100
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id A229217E13D5;
+ Mon,  9 Feb 2026 16:01:13 +0100 (CET)
+Date: Mon, 9 Feb 2026 16:01:09 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Philipp Stanner <phasta@mailbox.org>
-Cc: phasta@kernel.org, Danilo Krummrich <dakr@kernel.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Alice Ryhl
- <aliceryhl@google.com>, Gary Guo <gary@garyguo.net>, Benno Lossin
- <lossin@kernel.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Daniel Almeida <daniel.almeida@collabora.com>,
- Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Subject: Re: [RFC PATCH 2/4] rust: sync: Add dma_fence abstractions
-Message-ID: <20260209155843.725dcfe1@fedora>
-In-Reply-To: <bb57b6837aa8044e679dad5f2589c2e0ba84c221.camel@mailbox.org>
-References: <20260203081403.68733-2-phasta@kernel.org>
- <20260203081403.68733-4-phasta@kernel.org>
- <20260205095727.4c3e2941@fedora>
- <DG7SZND1GWR4.3C5NLKY4SYC0M@kernel.org>
- <bb57b6837aa8044e679dad5f2589c2e0ba84c221.camel@mailbox.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: loic.molinari@collabora.com, willy@infradead.org,
+ frank.binns@imgtec.com, matt.coster@imgtec.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org, linux-mm@kvack.org
+Subject: Re: [PATCH v3 5/6] drm/gem-shmem: Track folio accessed/dirty status
+ in mmap
+Message-ID: <20260209160109.79a020ae@fedora>
+In-Reply-To: <0d00a0f6-d0e4-41db-b48b-77157cd2e968@suse.de>
+References: <20260209133241.238813-1-tzimmermann@suse.de>
+ <20260209133241.238813-6-tzimmermann@suse.de>
+ <20260209152340.16f9b30a@fedora>
+ <0d00a0f6-d0e4-41db-b48b-77157cd2e968@suse.de>
 Organization: Collabora
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -82,85 +79,131 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:phasta@mailbox.org,m:phasta@kernel.org,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:aliceryhl@google.com,m:gary@garyguo.net,m:lossin@kernel.org,m:christian.koenig@amd.com,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:loic.molinari@collabora.com,m:willy@infradead.org,m:frank.binns@imgtec.com,m:matt.coster@imgtec.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-mm@kvack.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	ARC_NA(0.00)[];
+	ASN_FAIL(0.00)[177.210.252.131.asn.rspamd.com:query timed out];
+	RSPAMD_URIBL_FAIL(0.00)[collabora.com:query timed out,suse.de:query timed out];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	HAS_ORG_HEADER(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,ffwll.ch,google.com,garyguo.net,amd.com,collabora.com,nvidia.com,vger.kernel.org,lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[collabora.com,infradead.org,imgtec.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,kvack.org];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mailbox.org:email,collabora.com:dkim]
-X-Rspamd-Queue-Id: 2806D1114F9
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email]
+X-Rspamd-Queue-Id: 2771211165B
 X-Rspamd-Action: no action
 
-On Mon, 09 Feb 2026 09:19:46 +0100
-Philipp Stanner <phasta@mailbox.org> wrote:
+On Mon, 9 Feb 2026 15:46:21 +0100
+Thomas Zimmermann <tzimmermann@suse.de> wrote:
 
-> On Fri, 2026-02-06 at 11:23 +0100, Danilo Krummrich wrote:
-> > On Thu Feb 5, 2026 at 9:57 AM CET, Boris Brezillon wrote: =20
-> > > On Tue,=C2=A0 3 Feb 2026 09:14:01 +0100
-> > > Philipp Stanner <phasta@kernel.org> wrote:
-> > > Unfortunately, I don't know how to translate that in rust, but we
-> > > need a way to check if any path code path does a DmaFence.signal(),
-> > > go back to the entry point (for a WorkItem, that would be
-> > > WorkItem::run() for instance), and make it a DmaFenceSignallingPath.
-> > > Not only that, but we need to know all the deps that make it so
-> > > this path can be called (if I take the WorkItem example, that would
-> > > be the path that leads to the WorkItem being scheduled). =20
-> >=20
-> > I think we need a guard object for this that is not Send, just like for=
- any
-> > other lock.
-> >=20
-> > Internally, those markers rely on lockdep, i.e. they just acquire and r=
-elease a
-> > "fake" lock. =20
+> Hi Boris,
 >=20
-> The guard object would be created through fence.begin_signalling(), would=
-n't it?
-
-It shouldn't be a (&self)-method, because at the start of a DMA
-signaling path, you don't necessarily know which fence you're going to
-signal (you might actually signal several of them).
-
-> And when it drops you call dma_fence_end_signalling()?
-
-Yep, dma_fence_end_signalling() should be called when the guard is
-dropped.
-
+> thanks for reviewing the series.
 >=20
-> How would that ensure that the driver actually marks the signalling regio=
-n correctly?
+> Am 09.02.26 um 15:23 schrieb Boris Brezillon:
+> > On Mon,  9 Feb 2026 14:27:14 +0100
+> > Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > =20
+> >> Invoke folio_mark_accessed() in mmap page faults to add the folio to
+> >> the memory manager's LRU list. Userspace invokes mmap to get the memory
+> >> for software rendering. Compositors do the same when creating the final
+> >> on-screen image, so keeping the pages in LRU makes sense. Avoids paging
+> >> out graphics buffers when under memory pressure.
+> >>
+> >> In pfn_mkwrite, further invoke the folio_mark_dirty() to add the folio
+> >> for writeback should the underlying file be paged out from system memo=
+ry.
+> >> This rarely happens in practice, yet it would corrupt the buffer conte=
+nt.
+> >>
+> >> This has little effect on a system's hardware-accelerated rendering, w=
+hich
+> >> only mmaps for an initial setup of textures, meshes, shaders, etc.
+> >>
+> >> v3:
+> >> - rewrite for VM_PFNMAP
+> >> v2:
+> >> - adapt to changes in drm_gem_shmem_try_mmap_pmd()
+> >>
+> >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> >> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> >> ---
+> >>   drivers/gpu/drm/drm_gem_shmem_helper.c | 20 ++++++++++++++++++++
+> >>   1 file changed, 20 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/=
+drm_gem_shmem_helper.c
+> >> index c3a054899ba3..0c86ad40a049 100644
+> >> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> >> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> >> @@ -598,6 +598,9 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fa=
+ult *vmf)
+> >>   	if (ret !=3D VM_FAULT_NOPAGE)
+> >>   		ret =3D vmf_insert_pfn(vma, vmf->address, pfn);
+> >>  =20
+> >> +	if (likely(!(ret & VM_FAULT_ERROR))) =20
+> > Can't we just go
+> >
+> > 	if (ret =3D=3D VM_FAULT_NOPAGE)
+> >
+> > here? =20
+>=20
+> After reviewing the code in vmf_insert_pfn, I think so. All we'll see is=
+=20
+> _OOM and _SIGBUS; or _NOPAGE on success.=C2=A0 I'll change it then.
+>=20
+>=20
+> > =20
+> >> +		folio_mark_accessed(folio);
+> >> +
+> >>   out:
+> >>   	dma_resv_unlock(obj->resv);
+> >>  =20
+> >> @@ -638,10 +641,27 @@ static void drm_gem_shmem_vm_close(struct vm_are=
+a_struct *vma)
+> >>   	drm_gem_vm_close(vma);
+> >>   }
+> >>  =20
+> >> +static vm_fault_t drm_gem_shmem_pfn_mkwrite(struct vm_fault *vmf)
+> >> +{
+> >> +	struct vm_area_struct *vma =3D vmf->vma;
+> >> +	struct drm_gem_object *obj =3D vma->vm_private_data;
+> >> +	struct drm_gem_shmem_object *shmem =3D to_drm_gem_shmem_obj(obj);
+> >> +	pgoff_t page_offset =3D vmf->pgoff - vma->vm_pgoff; /* page offset w=
+ithin VMA */
+> >> +	struct page *page =3D shmem->pages[page_offset]; =20
+> > Should we have a
+> >
+> > 	if (WARN_ON(!shmem->pages ||
+> > 		    page_offset <=3D (obj->size >> PAGE_SHIFT)))
+> > 		return VM_FAULT_SIGBUS;
+> >
+> >
+> > ? =20
+>=20
+> I left it out because it doesn't seem necessary.=C2=A0 In the fault handl=
+er=20
+> in drm_gem_shmem_fault(), I can see that we could get an OOB access. But=
+=20
+> we only call pfn_mkwrite() after going through _fault() first. I don't=20
+> see a way of getting here unless we've already tested for the page in=20
+> _fault().
 
-Nothing, and that's a problem we have in C: you have no way of telling
-which code section is going to be a DMA-signaling path. I can't think
-of any way to make that safer in rust, unfortunately. The best I can
-think of would be to
-
-- Have a special DmaFenceSignalWorkItem (wrapper a WorkItem with extra
-  constraints) that's designed for DMA-fence signaling, and that takes
-  the DmaSignaling guard around the ::run() call.
-- We would then need to ensure that any code path scheduling this work
-  item is also in a DMA-signaling path by taking a ref to the
-  DmaSignalingGuard. This of course doesn't guarantee that the section
-  is wide enough to prevent any non-authorized operations in any path
-  leading to this WorkItem scheduling, but it would at least force the
-  caller to consider the problem.
+I agree it's not supposed to happen, but isn't it what WARN_ON()s are
+for (catching unexpected situations)?
