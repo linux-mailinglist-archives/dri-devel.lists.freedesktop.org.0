@@ -2,95 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kMYEDuWaiWkv/gQAu9opvQ
+	id WE+dFfKaiWkv/gQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 09:29:25 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 09:29:38 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79F110CF6A
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 09:29:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC5F110CF7F
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 09:29:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D812A10E339;
-	Mon,  9 Feb 2026 08:29:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FE3610E351;
+	Mon,  9 Feb 2026 08:29:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="wusa2wa6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NkMMrhv7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wusa2wa6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NkMMrhv7";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="H3WZOHAL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T5BrNTDs";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="H3WZOHAL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T5BrNTDs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8A1810E339
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 08:29:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95E8010E33A
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 08:29:34 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 789543E6C7;
- Mon,  9 Feb 2026 08:29:20 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 47EC13E6CA;
+ Mon,  9 Feb 2026 08:29:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770625760; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1770625773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jtuTDxY7i+svsyCsq+GKz0aedAFlP9eKwiSdAJ63xQQ=;
- b=wusa2wa6Z2UOWVvigQCwABDu40yx/OEwLgUTNnP4yMHfP545JdD8vuUNktUOjwFvHacXF7
- d/UhsM+f5zqPFayhf/bipdinSKnpHNVWieZ+bcrHLIgxyvynqaqKkvg6jOfGtlD5fPBdL2
- Pn8vU7aVDodAYOdGmXC/75D3jFoLsSU=
+ bh=h0itEcT5zp8U8H7XjZDf1ZFjlcedrtpwv77C6sA7f0I=;
+ b=H3WZOHALSeqjvW38rBZ3d91/IGIbPXgI7rOFG86sMT3xDFa4X3mqMS5q9e8V64pvAWAGGM
+ JvFm0j7IKPLg4V5U0eovWpwtUIt6Exai083m+qRqbZYZTFLUXH2uQ0W8AzGBi7nS3WVVqE
+ zlPjTYu2tz41eRwIoU78m1FSjPqU7ME=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770625760;
+ s=susede2_ed25519; t=1770625773;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jtuTDxY7i+svsyCsq+GKz0aedAFlP9eKwiSdAJ63xQQ=;
- b=NkMMrhv7wLoZOd3p+nYcn/H8eNjZkN1b5R7kVITWmQU59THhcchzisN/8gcbZFc53itdyl
- /srsJaMFcK+ZU4Bg==
+ bh=h0itEcT5zp8U8H7XjZDf1ZFjlcedrtpwv77C6sA7f0I=;
+ b=T5BrNTDsy7JbbPRYmUYEyYhi9w6SJqrkMd+X9vQ147rWvowLssNuSliGnULMQ2NEnLDNEI
+ tQD0QVgZgvDujbBw==
 Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wusa2wa6;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=NkMMrhv7
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=H3WZOHAL;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=T5BrNTDs
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770625760; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1770625773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jtuTDxY7i+svsyCsq+GKz0aedAFlP9eKwiSdAJ63xQQ=;
- b=wusa2wa6Z2UOWVvigQCwABDu40yx/OEwLgUTNnP4yMHfP545JdD8vuUNktUOjwFvHacXF7
- d/UhsM+f5zqPFayhf/bipdinSKnpHNVWieZ+bcrHLIgxyvynqaqKkvg6jOfGtlD5fPBdL2
- Pn8vU7aVDodAYOdGmXC/75D3jFoLsSU=
+ bh=h0itEcT5zp8U8H7XjZDf1ZFjlcedrtpwv77C6sA7f0I=;
+ b=H3WZOHALSeqjvW38rBZ3d91/IGIbPXgI7rOFG86sMT3xDFa4X3mqMS5q9e8V64pvAWAGGM
+ JvFm0j7IKPLg4V5U0eovWpwtUIt6Exai083m+qRqbZYZTFLUXH2uQ0W8AzGBi7nS3WVVqE
+ zlPjTYu2tz41eRwIoU78m1FSjPqU7ME=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770625760;
+ s=susede2_ed25519; t=1770625773;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jtuTDxY7i+svsyCsq+GKz0aedAFlP9eKwiSdAJ63xQQ=;
- b=NkMMrhv7wLoZOd3p+nYcn/H8eNjZkN1b5R7kVITWmQU59THhcchzisN/8gcbZFc53itdyl
- /srsJaMFcK+ZU4Bg==
+ bh=h0itEcT5zp8U8H7XjZDf1ZFjlcedrtpwv77C6sA7f0I=;
+ b=T5BrNTDsy7JbbPRYmUYEyYhi9w6SJqrkMd+X9vQ147rWvowLssNuSliGnULMQ2NEnLDNEI
+ tQD0QVgZgvDujbBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 406063EA63;
- Mon,  9 Feb 2026 08:29:20 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E1CE33EA63;
+ Mon,  9 Feb 2026 08:29:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 2HpJDuCaiWnTNgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 09 Feb 2026 08:29:20 +0000
-Message-ID: <3d62d7de-692b-43fc-9f58-ce79b8d0f4ee@suse.de>
-Date: Mon, 9 Feb 2026 09:29:19 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id rp+PNeyaiWnaOQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 09 Feb 2026 08:29:32 +0000
+Message-ID: <1c0d2246-f7f3-4402-a6a2-120a8ee62eec@suse.de>
+Date: Mon, 9 Feb 2026 09:29:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/15] drm/atomic: Add new atomic_create_state callback
- to drm_private_obj
+Subject: Re: [PATCH v4 03/15] drm/atomic-helper: Add private_obj
+ atomic_create_state helper
 To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org,
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 References: <20260128-drm-private-obj-reset-v4-0-90891fa3d3b0@redhat.com>
- <20260128-drm-private-obj-reset-v4-2-90891fa3d3b0@redhat.com>
+ <20260128-drm-private-obj-reset-v4-3-90891fa3d3b0@redhat.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -117,7 +117,7 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260128-drm-private-obj-reset-v4-2-90891fa3d3b0@redhat.com>
+In-Reply-To: <20260128-drm-private-obj-reset-v4-3-90891fa3d3b0@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Score: -4.51
@@ -150,7 +150,7 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	FORGED_RECIPIENTS(0.00)[m:mripard@kernel.org,m:maarten.lankhorst@linux.intel.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:dmitry.baryshkov@oss.qualcomm.com,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch];
 	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	URIBL_MULTI_FAIL(0.00)[qualcomm.com:server fail,suse.com:server fail,suse.de:server fail,gabe.freedesktop.org:server fail];
+	URIBL_MULTI_FAIL(0.00)[suse.de:server fail,qualcomm.com:server fail,gabe.freedesktop.org:server fail,suse.com:server fail];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -171,108 +171,89 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,suse.com:url,qualcomm.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: A79F110CF6A
+X-Rspamd-Queue-Id: CC5F110CF7F
 X-Rspamd-Action: no action
 
 
 
 Am 28.01.26 um 13:43 schrieb Maxime Ripard:
-> The drm_private_obj initialization was inconsistent with the rest of the
-> KMS objects. Indeed, it required to pass a preallocated state in
-> drm_private_obj_init(), while all the others objects would have a reset
-> callback that would be called later on to create the state.
+> Now that we have an atomic_create_state callback for drm_private_objs,
+> we can provide a helper for it.
 >
-> However, reset really is meant to reset the hardware and software state.
-> That it creates an initial state is a side-effect that has been used in
-> all objects but drm_private_obj. This is made more complex since some
-> drm_private_obj, the DisplayPort ones in particular, need to be
-> persistent across and suspend/resume cycle, and such a cycle would call
-> drm_mode_config_reset().
+> It's somewhat different from the other similar helpers though, because
+> we definitely expect drm_private_obj to be subclassed. It wouldn't make
+> sense for a driver to use it as-is.
 >
-> Thus, we need to add a new callback to allocate a pristine state for a
-> given private object.
+> So we can't provide a straight implementation of the atomic_create_state
+> callback, but rather we provide the parts that will deal with the
+> drm_private_obj initialization, and we will leave the allocation and
+> initialization of the subclass to drivers.
 >
-> This discussion has also came up during the atomic state readout
-> discussion, so it might be introduced into the other objects later on.
->
-> Until all drivers are converted to that new allocation pattern, we will
-> only call it if the passed state is NULL. This will be removed
-> eventually.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 > ---
->   drivers/gpu/drm/drm_atomic.c | 18 ++++++++++++++++--
->   include/drm/drm_atomic.h     | 13 +++++++++++++
->   2 files changed, 29 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/drm_atomic_state_helper.c | 22 ++++++++++++++++++++++
+>   include/drm/drm_atomic_state_helper.h     |  3 +++
+>   2 files changed, 25 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 4191a8333fc4ebdfc10f664c837a3f1693eff022..e3029c8f02e5a3698781117bcc80eff98407cf16 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -939,15 +939,29 @@ int drm_atomic_private_obj_init(struct drm_device *dev,
->   	memset(obj, 0, sizeof(*obj));
->   
->   	drm_modeset_lock_init(&obj->lock);
->   
->   	obj->dev = dev;
-> -	obj->state = state;
->   	obj->funcs = funcs;
->   	list_add_tail(&obj->head, &dev->mode_config.privobj_list);
->   
-> -	state->obj = obj;
-> +	/*
-> +	 * Not all users of drm_atomic_private_obj_init have been
-> +	 * converted to using &drm_private_obj_funcs.atomic_create_state yet.
-> +	 * For the time being, let's only call reset if the passed state is
-> +	 * NULL. Otherwise, we will fallback to the previous behaviour.
-> +	 */
-> +	if (!state) {
-> +		state = obj->funcs->atomic_create_state(obj);
-> +		if (IS_ERR(state))
-> +			return PTR_ERR(state);
-> +
-> +		obj->state = state;
-> +	} else {
-> +		obj->state = state;
-> +		state->obj = obj;
-> +	}
->   
->   	return 0;
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index cee6d8fc44adda6895542d33157d965a2d3c815f..d21f32f0ad51f4305f75d01be58dc404acf7674c 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -712,10 +712,32 @@ void drm_atomic_helper_connector_destroy_state(struct drm_connector *connector,
+>   	__drm_atomic_helper_connector_destroy_state(state);
+>   	kfree(state);
 >   }
->   EXPORT_SYMBOL(drm_atomic_private_obj_init);
+>   EXPORT_SYMBOL(drm_atomic_helper_connector_destroy_state);
 >   
-> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> index 712f5fb977bff8a15592a3949444d9ac306e6c54..0b1b32bcd2bda1b92299fd369ba7c23b1c2d3dfa 100644
-> --- a/include/drm/drm_atomic.h
-> +++ b/include/drm/drm_atomic.h
-> @@ -259,10 +259,23 @@ struct drm_private_state;
->    * added to the atomic states is expected to have an implementation of these
->    * hooks and pass a pointer to its drm_private_state_funcs struct to
->    * drm_atomic_get_private_obj_state().
->    */
->   struct drm_private_state_funcs {
-> +	/**
-> +	 * @atomic_create_state:
-> +	 *
-> +	 * Allocates a pristine, initialized, state for the private
-> +	 * object and returns it.
-> +	 *
-> +	 * RETURNS:
-> +	 *
-> +	 * A new, pristine, private state instance or an error pointer
-> +	 * on failure.
-> +	 */
-> +	struct drm_private_state *(*atomic_create_state)(struct drm_private_obj *obj);
+> +/**
+> + * __drm_atomic_helper_private_obj_create_state - initializes private object state
+> + * @obj: private object
+> + * @state: new state to initialize
+> + *
+> + * Initializes the newly allocated @state, usually required when
+> + * initializing the drivers.
+> + *
+> + * @obj is assumed to be zeroed.
+> + *
+> + * This is useful for drivers that use private states.
+> + */
+> +void __drm_atomic_helper_private_obj_create_state(struct drm_private_obj *obj,
+> +						  struct drm_private_state *state)
+> +{
+> +	if (state)
+> +		state->obj = obj;
 > +
->   	/**
->   	 * @atomic_duplicate_state:
->   	 *
->   	 * Duplicate the current state of the private object and return it. It
->   	 * is an error to call this before obj->state has been initialized.
+> +	obj->state = state;
+> +}
+> +EXPORT_SYMBOL(__drm_atomic_helper_private_obj_create_state);
+> +
+>   /**
+>    * __drm_atomic_helper_private_obj_duplicate_state - copy atomic private state
+>    * @obj: CRTC object
+>    * @state: new private object state
+>    *
+> diff --git a/include/drm/drm_atomic_state_helper.h b/include/drm/drm_atomic_state_helper.h
+> index b9740edb26586d58f99a5223902bb8e333ac75a2..900672c6ea90ba9cb87e38a7c84225972aee43c5 100644
+> --- a/include/drm/drm_atomic_state_helper.h
+> +++ b/include/drm/drm_atomic_state_helper.h
+> @@ -82,10 +82,13 @@ struct drm_connector_state *
+>   drm_atomic_helper_connector_duplicate_state(struct drm_connector *connector);
+>   void
+>   __drm_atomic_helper_connector_destroy_state(struct drm_connector_state *state);
+>   void drm_atomic_helper_connector_destroy_state(struct drm_connector *connector,
+>   					  struct drm_connector_state *state);
+> +
+> +void __drm_atomic_helper_private_obj_create_state(struct drm_private_obj *obj,
+> +						  struct drm_private_state *state);
+>   void __drm_atomic_helper_private_obj_duplicate_state(struct drm_private_obj *obj,
+>   						     struct drm_private_state *state);
+>   
+>   void __drm_atomic_helper_bridge_duplicate_state(struct drm_bridge *bridge,
+>   						struct drm_bridge_state *state);
 >
 
 -- 
