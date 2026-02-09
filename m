@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SORPAVQ0iml5IQAAu9opvQ
+	id OPUKBAg1iml5IQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 20:24:04 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 20:27:04 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CCA61140E6
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 20:24:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A150D11412D
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 20:27:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D822E10E188;
-	Mon,  9 Feb 2026 19:23:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14EB610E46B;
+	Mon,  9 Feb 2026 19:26:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XMB4FAw0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="X4KFy3R+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D5C810E188;
- Mon,  9 Feb 2026 19:23:57 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DA9010E466;
+ Mon,  9 Feb 2026 19:26:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770665038; x=1802201038;
+ t=1770665219; x=1802201219;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=6nuLVSOEgrXcCvXO6+OEZIe+6ktmKPWOCc/zYfPu12U=;
- b=XMB4FAw0ockSB1fR8EI2MS7PF7LpffHpriA/cB0eqyYOItp1LAq71PjJ
- cMtZ6xwkakLhjnCGq2adzaoMiDeYYzmqKIJiG6RqHcMaG+gkciFwqfuPw
- eSvDOEO/ZDrBBXvu23s9PjJqC18mwCG1Du5X0HjBP9LK7AiWvhrs84CSJ
- zlP3zcnlPzg4b5uLIQ15TGcXN51gDaS9hlr6IxPl2BtuFx11p0YlTxMrv
- NvXp6sNJ31tkprbQPXhMPx6TBNOqVAzYBfo/mcjmiIkZ7ociNdbO/e6Ci
- L38a/8xNQjb1U7HZdhAZDV7nuoovFgW0gX4IFwOL8PtXQtj3mQ0fvj9Ar w==;
-X-CSE-ConnectionGUID: kgUVBTmmSP21Rse38QA+BQ==
-X-CSE-MsgGUID: U4fFJjlOTFeJqekp9RCD9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="70995393"
-X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; d="scan'208";a="70995393"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2026 11:23:57 -0800
-X-CSE-ConnectionGUID: +yBxpWfVQ6a/oh5e3aKwsA==
-X-CSE-MsgGUID: FnSbfczqQnSIDYg5SXMEcA==
+ bh=u487StG2GkN0jFcCuAfnRE4AJ4Omr2RTUEADo9vRhTo=;
+ b=X4KFy3R+o1fzlhe04Fn4OEBNbFoLaMpVFyakMMTy651aRjS0e0aYTv8V
+ 3SbQBt4j5iSYf7kuk0VnbcPlw3diyvM4ieitSuMiMUdwpkVIdkUU+K+t8
+ m+UImCdpYYeau3Ienz1Ht+QpLB0mzN3rNzUsogud8+VbZGuePbau3OGUx
+ /1dl6QOjC+RWqyTavVAu+YrBI5OCSR3HVP6NX1UIGncZmvD0DJctYmyUc
+ OpIDrCLbV1SQWIO2oV38CQWl0KMJuLiP5TCYk+0XQF7T/c4Cnfp2OuStf
+ Hxuzr5E7MtWWIJ5ToJl5NUB3WJMm1wR0eFuRFxRXzWx2Wy/Fc8qaoyKds w==;
+X-CSE-ConnectionGUID: b2C2WOmlRjGv/vERMRgAZA==
+X-CSE-MsgGUID: NHkB9ZuXRfiGuLKZRJVDaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="74389443"
+X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; d="scan'208";a="74389443"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2026 11:26:58 -0800
+X-CSE-ConnectionGUID: yC2B4H2NQca1m6PELUSkRg==
+X-CSE-MsgGUID: rtFXkfUMSm6Vr0SGhABuSw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; d="scan'208";a="210817340"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
- by fmviesa006.fm.intel.com with ESMTP; 09 Feb 2026 11:23:54 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vpWrQ-00000000oGa-2xCQ;
- Mon, 09 Feb 2026 19:23:52 +0000
-Date: Tue, 10 Feb 2026 03:23:43 +0800
+X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; d="scan'208";a="211267318"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123)
+ ([10.211.93.152])
+ by fmviesa010.fm.intel.com with ESMTP; 09 Feb 2026 11:26:56 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vpWuL-000000000Lt-3rhQ;
+ Mon, 09 Feb 2026 19:26:53 +0000
+Date: Mon, 9 Feb 2026 20:26:10 +0100
 From: kernel test robot <lkp@intel.com>
 To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
  matthew.auld@intel.com, christian.koenig@amd.com,
@@ -58,7 +59,7 @@ Cc: oe-kbuild-all@lists.linux.dev, alexander.deucher@amd.com,
  Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
 Subject: Re: [PATCH v3 2/2] drm/buddy: Add KUnit test for offset-aligned
  allocations
-Message-ID: <202602100334.WD4wuI8R-lkp@intel.com>
+Message-ID: <202602092035.vOm98J4x-lkp@intel.com>
 References: <20260209083051.13376-2-Arunpravin.PaneerSelvam@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -103,7 +104,7 @@ X-Spamd-Result: default: False [-0.31 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	DKIM_TRACE(0.00)[intel.com:+]
-X-Rspamd-Queue-Id: 8CCA61140E6
+X-Rspamd-Queue-Id: A150D11412D
 X-Rspamd-Action: no action
 
 Hi Arunpravin,
@@ -116,23 +117,23 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Arunpravin-Paneer-Selvam/
 base:   9d757669b2b22cd224c334924f798393ffca537c
 patch link:    https://lore.kernel.org/r/20260209083051.13376-2-Arunpravin.PaneerSelvam%40amd.com
 patch subject: [PATCH v3 2/2] drm/buddy: Add KUnit test for offset-aligned allocations
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260210/202602100334.WD4wuI8R-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602100334.WD4wuI8R-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260209/202602092035.vOm98J4x-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602092035.vOm98J4x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602100334.WD4wuI8R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602092035.vOm98J4x-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
    drivers/gpu/tests/gpu_buddy_test.c: In function 'gpu_test_buddy_subtree_offset_alignment_stress':
->> drivers/gpu/tests/gpu_buddy_test.c:46:49: error: macro 'KUNIT_ASSERT_FALSE' passed 3 arguments, but takes just 2
+>> drivers/gpu/tests/gpu_buddy_test.c:46:49: error: macro "KUNIT_ASSERT_FALSE" passed 3 arguments, but takes just 2
       46 |                            "buddy_init failed\n");
          |                                                 ^
    In file included from drivers/gpu/tests/gpu_buddy_test.c:7:
-   include/kunit/test.h:1390:9: note: macro 'KUNIT_ASSERT_FALSE' defined here
+   include/kunit/test.h:1390:9: note: macro "KUNIT_ASSERT_FALSE" defined here
     1390 | #define KUNIT_ASSERT_FALSE(test, condition) \
          |         ^~~~~~~~~~~~~~~~~~
 >> drivers/gpu/tests/gpu_buddy_test.c:45:9: error: 'KUNIT_ASSERT_FALSE' undeclared (first use in this function); did you mean 'KUNIT_ASSERTION'?
