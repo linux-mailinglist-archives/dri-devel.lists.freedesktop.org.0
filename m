@@ -2,136 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GCn6HnCbiWm1/gQAu9opvQ
+	id uDcnG1SciWkv/gQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 09:31:44 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 09:35:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F8D210D022
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 09:31:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFA4A10D0B2
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 09:35:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EAEE10E349;
-	Mon,  9 Feb 2026 08:31:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 562DF10E33B;
+	Mon,  9 Feb 2026 08:35:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="t8hIq6kQ";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="rr3JMqw1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xa3SH7J0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hnoWJ1r0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yDXwfrba";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com
- (mail-westusazon11010005.outbound.protection.outlook.com [52.101.85.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 960B810E345;
- Mon,  9 Feb 2026 08:31:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=D9pCU2RXCGNLGlQsPeX5PAkzhOoxAMNnlJycoXLuGL5KghgoH2qL6P9vJbEAoTOmN6IEsylWYGDRoKpqWIYl++98OUs9/edO4Qz1FgdnSLQuZbs1uTeSPt4VFn7StyOHLE32ZAFKjR7Jkl3hMyGeb/r4HqZBQXlQflObKpwDDgT+JkbHZXAEccR82CDBCm6lnXqVrbyJ+sW/rixQwEiDdDVlClPL47vOvkkdLiA1uOWzE7oAPAI1jnpyZet7Hxjo5zyVJOsfueRuQYfHOOHbNDdW4yRantsQdfoFO7CqURKVPeyOVgDhaq9BCADWjdRzypbsej4bFlsv94OVdfsf6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6pMBDex6Jz6/myRPUZ72oLaB4YPrzFKpkHqCfCJWwoQ=;
- b=Fpko8Qwt87dAYqMLdumLdtLIIOars52dP9dR4a4I4SATAP/RrtNnFDOhMXYLgsXrcQL2m4NWvTH3xMGRm/aDjpp0rop531ySfJauX/XyLG1DNCx2wQ6MRP8WZantCmeB0282XKmqA63nhOy/e0bMS0GIftVju2btC4bmZ0/xB/r4jTqd5+Xh5oem0+ujeU/9XC/PNUEnETw16h1XBoAiYizRaHh/HgZrv3qVIRkIdj2CAhspI68AjWRafYZO8QsvDayJw3ccFVA0wUUzaZZdrsvEge3lf+MQpM0NtFZeu/wqa/BAOCwwJiIJX7eWT2AQ1Ryb5qiRhNE+syrMyupx3A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6pMBDex6Jz6/myRPUZ72oLaB4YPrzFKpkHqCfCJWwoQ=;
- b=t8hIq6kQ6GmBFKqkYezmrX9t2wmfZUK5BvgtOwLGr9nWYufy8UypM4NSNJkNlprMT0U8kr/ujMuW6lJdZ2dem7vbmsbJyMiRFFggpPvCBOaJiy16MVh8OP0sxs75sepX8pEbo3lOSoAUDABCeQ92hZ60maIHdN/LLUHc+C8QAj0=
-Received: from PH7P220CA0007.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:326::13)
- by PH7PR12MB9066.namprd12.prod.outlook.com (2603:10b6:510:1f6::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.15; Mon, 9 Feb
- 2026 08:31:35 +0000
-Received: from SN1PEPF0002BA50.namprd03.prod.outlook.com
- (2603:10b6:510:326:cafe::6f) by PH7P220CA0007.outlook.office365.com
- (2603:10b6:510:326::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.19 via Frontend Transport; Mon,
- 9 Feb 2026 08:31:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SN1PEPF0002BA50.mail.protection.outlook.com (10.167.242.73) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9587.10 via Frontend Transport; Mon, 9 Feb 2026 08:31:35 +0000
-Received: from arun-nv33.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 9 Feb
- 2026 02:31:32 -0600
-From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-To: <matthew.auld@intel.com>, <christian.koenig@amd.com>,
- <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-CC: <alexander.deucher@amd.com>, Arunpravin Paneer Selvam
- <Arunpravin.PaneerSelvam@amd.com>
-Subject: [PATCH v3 2/2] drm/buddy: Add KUnit test for offset-aligned
- allocations
-Date: Mon, 9 Feb 2026 14:00:51 +0530
-Message-ID: <20260209083051.13376-2-Arunpravin.PaneerSelvam@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260209083051.13376-1-Arunpravin.PaneerSelvam@amd.com>
-References: <20260209083051.13376-1-Arunpravin.PaneerSelvam@amd.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 394F810E33F
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 08:35:27 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id CEBFA5BCEC;
+ Mon,  9 Feb 2026 08:35:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1770626126; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Bo8SJ9TRK1uJVU7GnFe26f6Xv3jjbMc1jKzPfHR3jyE=;
+ b=rr3JMqw1uKEJs1eNm2eFGjA+rb3daN5xtKul7iGerhK4S6WFCZ2kjcx544Qf58UXKzS6RI
+ /7bxaDcqp64zTVXWBkXvQAwcBvx40bqnHBp3jY3VBeBKmW4E7LJ8D1HOgVLbmNQNCsH7CE
+ Dsc/O1KH99/y+9+4xAmNH2MoQ6/mjRQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1770626126;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Bo8SJ9TRK1uJVU7GnFe26f6Xv3jjbMc1jKzPfHR3jyE=;
+ b=xa3SH7J01z+jBKykPYzD9aqEZgRx6kKDl9xL30SKVrD5LnuydR1iTHjAfSWHahdWsrYmS2
+ iVLX5iY7rqmgrUDg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hnoWJ1r0;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=yDXwfrba
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1770626125; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Bo8SJ9TRK1uJVU7GnFe26f6Xv3jjbMc1jKzPfHR3jyE=;
+ b=hnoWJ1r0CcIQCklwWPOdNRtUDRC6GFt6GpODb5nMPMs6rhogk6nPR0nu6hQYGjgQVVdWSk
+ K43Ko+ZWNPcF2Cr8q9FSUksvjDLmfrgbhPRRFBDXPawUX0NLr1T7t4/s4agA7vLDklKmRb
+ h2n4XMUoHtSXKAOq99mrKN4i42Qdj6E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1770626125;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Bo8SJ9TRK1uJVU7GnFe26f6Xv3jjbMc1jKzPfHR3jyE=;
+ b=yDXwfrbamC+y1iwbhV4f8d0oT7eq5HXRwmLzQNletdyZeyTdbudNR13Y/Q5TcZJmahoPaZ
+ sSDKUMDAxrHExTDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7B6AF3EA63;
+ Mon,  9 Feb 2026 08:35:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id TnjgHE2ciWmpGAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 09 Feb 2026 08:35:25 +0000
+Message-ID: <a27e57f1-d170-404d-8023-02d4b0690f88@suse.de>
+Date: Mon, 9 Feb 2026 09:35:25 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH drm-misc-next] drm: verisilicon: suppress snprintf warning
+ for pixel clock name
+To: Icenowy Zheng <zhengxingda@iscas.ac.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel test robot <lkp@intel.com>
+References: <20260207013255.2075294-1-zhengxingda@iscas.ac.cn>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20260207013255.2075294-1-zhengxingda@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA50:EE_|PH7PR12MB9066:EE_
-X-MS-Office365-Filtering-Correlation-Id: a3006789-5eee-4dff-2f4f-08de67b5a2f1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|1800799024|82310400026|376014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?zm2HkvltahKHWQBPuCtFX5vgp3w5Uw470gjYOfzwvWuul4qbYMXgaEKCqrf9?=
- =?us-ascii?Q?gRQUhs+gGneyb5MeXdu8TjXXHOcjAZaiFNRRti6kjR4kMj5pooqDyPGXa864?=
- =?us-ascii?Q?ne8DFfMomsjURE5iJnhQl5om04kwNmUiieT4h6oV3HVh0/ECElHlTBEuohmJ?=
- =?us-ascii?Q?bs4pNSl0lkA/ilEw3edCn1co6J0kx+kRlgGrWPwXrBeqLLcwYc9soQvH4oig?=
- =?us-ascii?Q?/1+OKUZn4N4mbx0lGQl4gjRZ5kkOaXqv25Ilhdz3JYY9rVT3gDXb2i+JJq8j?=
- =?us-ascii?Q?Vp8rG+ByiEnkconhK3UBPfS2TLoOlvue+03aUGgbVSBLHBAMdUWVcR2EVMVr?=
- =?us-ascii?Q?87LWGDEfe3IjtVn2Cm+ESu513LZ9uAAeZHf3XDv3C8QdyfN/14/99CoGQlUw?=
- =?us-ascii?Q?NBZFaVcF5s4o2qIL6f5fJLlbeh15A+mcFkrKtnNjWn5+kDrtn372iMPfg6FN?=
- =?us-ascii?Q?YZ6h376fyUBJ1WgmmUuUhpUxnXXtXFTZe2cDhV/+qnp2CoS4STXd3H4XiOxz?=
- =?us-ascii?Q?lHkt/SOPPUPdIi68XEicXnz85ujrhJR6P4C2FnDE5kxGOTuumx/TwRcbXUp7?=
- =?us-ascii?Q?98mNQ9JAG1jrNw9d7vt3PUMzC1y0EtKYz1c1A+nkynd0iTfeWvgPEX+SBzj7?=
- =?us-ascii?Q?en8apU6rmTSmpE0Gg14N7MAAPqaHgDAwC6vcyjcNdbfFRvhW3fvmhFGRU/K7?=
- =?us-ascii?Q?fJjo0sKZKJVc1j5fNsXjgX7qf5xoruf/0QKemNE4uE2DurQMdrLYITT00Enm?=
- =?us-ascii?Q?NFyc97or1exLZhCVSVZp4FZUjd78qhFqLr9E6hpLjrF5iBOaOkIKe03Ek+Zb?=
- =?us-ascii?Q?/Uk+WpF10XL/oyAJCAYssI1L5G8vZjDca32T4tyy3zTJ7DfHxyTuUKvPuMiW?=
- =?us-ascii?Q?LcNcpmrdtBt0YGeyrXZjuh4CME+OB/rY5dRbw64Rdmy2Uhc1unm0LYfBmpKg?=
- =?us-ascii?Q?y9d/aSuGgXH+VFgIKi3atRiTAqm0HvkSXlkTwX2Ygqg9XlD2ie7q79fHWUFO?=
- =?us-ascii?Q?iFOxSwSiDahoeb0/57fdGuJA6+GCaffPKPrNUpuAvh6Cd9Q+aGZ0V1MPtGs9?=
- =?us-ascii?Q?Ta0Ar+CaYeUsK8K10MroGKroeHzbeUeE+Y9ho9Uc5OBYG9y4wR1apC7UPG24?=
- =?us-ascii?Q?Y+7yyKddmvqmGVt38tYEXYFSyl+6art3QGhbWHVMSCrVwzDPLpVEtQo2HMG6?=
- =?us-ascii?Q?JoQJvs+C00MCy8Fn/2eN9aCrB9aq/dB4V59gbOL6s7GER7Bi++4tZtNHu1kB?=
- =?us-ascii?Q?XUlMCUpFbHoQt9lXAYbhvCX65qmJEkruUsG5R4d/dKq2lCvEwZQLTQDlcrEj?=
- =?us-ascii?Q?560G33pMCpblWyuoyqCA+fyvKdr1Ru0wFTBA1WTgJUkkflzB8+fYN72cuhtD?=
- =?us-ascii?Q?AtJLPuqb0lY2Lf5bKWiAA4oHuFaOSLMI1QVz5BMEGxx3okaJyfpAIp1YTa7w?=
- =?us-ascii?Q?tiVviHXV8R1t15WA24MP1unwS/LqoxrjOy1c+kj9AjdbLnviuEDQ3CnJINcG?=
- =?us-ascii?Q?DrYJQfxhGFtZVwRGnITDjXf0k7Vx1nacc8QamzJxXtBOfYOcwuUvCS8EKmum?=
- =?us-ascii?Q?sM6J/j2NNo4xX0CpBBckpBs4Q8x/XNW5TaWIgK3kGYjwrVxtaErCoAewNQl2?=
- =?us-ascii?Q?xhqcJatI0UWEMEQOMP0BWAozHHh+ArWxkqYIoAEDQbQiniI+4aNAb6TqRI68?=
- =?us-ascii?Q?OY2++w=3D=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: MlqHO1Amb/MkLPDo/chuhecN5Pt0+wO2YpFqptj4el/7I9RoDLC4QeIemIZKNHwHmjdL8OXJcjm6z8hSI4tXQ6TnJUYvNjcV1YviJw1YnET2sWD7V71QB9fx21+iJnkKNOAOK9sW5XkYdoYniRNd44GvPjugiTXoBA8nqR+Sw1zSXjdbgE0zXdnEvwDiC9OfSQjbVQ4YYN4O1w5OpHbvGEVUyD2OiMs0JM9HyozOjreCLl6W/lW4YPej3hw28DgE3HW+EvdaSDof1fmeE+/x6T/2FNyvyD1MPgvrwfrWxIIT8+SHeueFGnamY3EVQtpghfekLZr6IWplDO2pt/9q8rU9KoGFq58SzW9BiMsgle14xKd4JY0UzGVp6G4/Z0mVxcDdECeUaXt6VzW8g4SV/gMRIAzqSTH6Mk7bPyOwMnvmbIb+mL4FQzczgW7QTrHk
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2026 08:31:35.3327 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3006789-5eee-4dff-2f4f-08de67b5a2f1
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002BA50.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9066
+X-Spam-Score: -4.51
+X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,244 +138,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_MISSING_CHARSET(0.50)[];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:zhengxingda@iscas.ac.cn,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:lkp@intel.com,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[Arunpravin.PaneerSelvam@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	NEURAL_HAM(-0.00)[-0.981];
-	HAS_XOIP(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FREEMAIL_TO(0.00)[iscas.ac.cn,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.de:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 2F8D210D022
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.com:url,iscas.ac.cn:email]
+X-Rspamd-Queue-Id: AFA4A10D0B2
 X-Rspamd-Action: no action
 
-Add KUnit test to validate offset-aligned allocations in the DRM buddy
-allocator.
 
-Validate offset-aligned allocation:
-The test covers allocations with sizes smaller than the alignment constraint
-and verifies correct size preservation, offset alignment, and behavior across
-multiple allocation sizes. It also exercises fragmentation by freeing
-alternating blocks and confirms that allocation fails once all aligned offsets
-are consumed.
 
-Stress subtree_max_alignment propagation:
-Exercise subtree_max_alignment tracking by allocating blocks with descending
-alignment constraints and freeing them in reverse order. This verifies that
-free-tree augmentation correctly propagates the maximum offset alignment
-present in each subtree at every stage.
+Am 07.02.26 um 02:32 schrieb Icenowy Zheng:
+> Although it's generally expected that the pixel clock ID will only have
+> one decimal digit, this isn't enforced in vs_dc.c source code, and the
+> compiler will argue about the buffer being not long enough.
+>
+> Enlarge the snprintf() buffer for generating pixel clock name to be
+> enough for a UINT_MAX pixel clock ID in order to suppress the compiler
+> warning.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202602060154.ONBYvM9m-lkp@intel.com/
+> Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 
-v2:
-  - Move the patch to gpu/tests/gpu_buddy_test.c file.
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
----
- drivers/gpu/tests/gpu_buddy_test.c | 166 +++++++++++++++++++++++++++++
- 1 file changed, 166 insertions(+)
+> ---
+>   drivers/gpu/drm/verisilicon/vs_dc.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/verisilicon/vs_dc.c b/drivers/gpu/drm/verisilicon/vs_dc.c
+> index ba1b3f261a3ae..5f629d2d4beac 100644
+> --- a/drivers/gpu/drm/verisilicon/vs_dc.c
+> +++ b/drivers/gpu/drm/verisilicon/vs_dc.c
+> @@ -46,8 +46,8 @@ static int vs_dc_probe(struct platform_device *pdev)
+>   	struct vs_dc *dc;
+>   	void __iomem *regs;
+>   	unsigned int port_count, i;
+> -	/* pix0/pix1 */
+> -	char pixclk_name[5];
+> +	/* pix%u */
+> +	char pixclk_name[14];
+>   	int irq, ret;
+>   
+>   	if (!dev->of_node) {
 
-diff --git a/drivers/gpu/tests/gpu_buddy_test.c b/drivers/gpu/tests/gpu_buddy_test.c
-index 450e71deed90..37f22655b5fb 100644
---- a/drivers/gpu/tests/gpu_buddy_test.c
-+++ b/drivers/gpu/tests/gpu_buddy_test.c
-@@ -21,6 +21,170 @@ static inline u64 get_size(int order, u64 chunk_size)
- 	return (1 << order) * chunk_size;
- }
- 
-+static void gpu_test_buddy_subtree_offset_alignment_stress(struct kunit *test)
-+{
-+	struct gpu_buddy_block *block;
-+	struct rb_node *node = NULL;
-+	const u64 mm_size = SZ_2M;
-+	const u64 alignments[] = {
-+		SZ_1M,
-+		SZ_512K,
-+		SZ_256K,
-+		SZ_128K,
-+		SZ_64K,
-+		SZ_32K,
-+		SZ_16K,
-+		SZ_8K,
-+	};
-+
-+	struct list_head allocated[ARRAY_SIZE(alignments)];
-+	unsigned int i, order, max_subtree_align = 0;
-+	struct gpu_buddy mm;
-+	int ret, tree;
-+
-+	KUNIT_ASSERT_FALSE(test, gpu_buddy_init(&mm, mm_size, SZ_4K),
-+			   "buddy_init failed\n");
-+
-+	for (i = 0; i < ARRAY_SIZE(allocated); i++)
-+		INIT_LIST_HEAD(&allocated[i]);
-+
-+	/*
-+	 * Exercise subtree_max_alignment tracking by allocating blocks with descending
-+	 * alignment constraints and freeing them in reverse order. This verifies that
-+	 * free-tree augmentation correctly propagates the maximum offset alignment
-+	 * present in each subtree at every stage.
-+	 */
-+
-+	for (i = 0; i < ARRAY_SIZE(alignments); i++) {
-+		struct gpu_buddy_block *root = NULL;
-+		unsigned int expected;
-+		u64 align;
-+
-+		align = alignments[i];
-+		expected = ilog2(align) - 1;
-+
-+		for (;;) {
-+			ret = gpu_buddy_alloc_blocks(&mm,
-+						     0, mm_size,
-+						     SZ_4K, align,
-+						     &allocated[i],
-+						     0);
-+			if (ret)
-+				break;
-+
-+			block = list_last_entry(&allocated[i],
-+						struct gpu_buddy_block,
-+						link);
-+			KUNIT_EXPECT_EQ(test, gpu_buddy_block_offset(block) & (align - 1), 0ULL);
-+		}
-+
-+		for (order = mm.max_order + 1; order-- > 0 && !root; ) {
-+			for (tree = 0; tree < 2; tree++) {
-+				node = mm.free_trees[tree][order].rb_node;
-+				if (node) {
-+					root = container_of(node,
-+							    struct gpu_buddy_block,
-+							    rb);
-+					break;
-+				}
-+			}
-+		}
-+
-+		KUNIT_ASSERT_NOT_NULL(test, root);
-+		KUNIT_EXPECT_EQ(test, root->subtree_max_alignment, expected);
-+	}
-+
-+	for (i = ARRAY_SIZE(alignments); i-- > 0; ) {
-+		gpu_buddy_free_list(&mm, &allocated[i], 0);
-+
-+		for (order = 0; order <= mm.max_order; order++) {
-+			for (tree = 0; tree < 2; tree++) {
-+				node = mm.free_trees[tree][order].rb_node;
-+				if (!node)
-+					continue;
-+
-+				block = container_of(node, struct gpu_buddy_block, rb);
-+				max_subtree_align = max(max_subtree_align, block->subtree_max_alignment);
-+			}
-+		}
-+
-+		KUNIT_EXPECT_GE(test, max_subtree_align, ilog2(alignments[i]));
-+	}
-+
-+	gpu_buddy_fini(&mm);
-+}
-+
-+static void gpu_test_buddy_offset_aligned_allocation(struct kunit *test)
-+{
-+	struct gpu_buddy_block *block, *tmp;
-+	int num_blocks, i, count = 0;
-+	LIST_HEAD(allocated);
-+	struct gpu_buddy mm;
-+	u64 mm_size = SZ_4M;
-+	LIST_HEAD(freed);
-+
-+	KUNIT_ASSERT_FALSE_MSG(test, gpu_buddy_init(&mm, mm_size, SZ_4K),
-+			       "buddy_init failed\n");
-+
-+	num_blocks = mm_size / SZ_256K;
-+	/*
-+	 * Allocate multiple sizes under a fixed offset alignment.
-+	 * Ensures alignment handling is independent of allocation size and
-+	 * exercises subtree max-alignment pruning for small requests.
-+	 */
-+	for (i = 0; i < num_blocks; i++)
-+		KUNIT_ASSERT_FALSE_MSG(test, gpu_buddy_alloc_blocks(&mm, 0, mm_size, SZ_8K, SZ_256K,
-+								    &allocated, 0),
-+					"buddy_alloc hit an error size=%u\n", SZ_8K);
-+
-+	list_for_each_entry(block, &allocated, link) {
-+		/* Ensure the allocated block uses the expected 8 KB size */
-+		KUNIT_EXPECT_EQ(test, gpu_buddy_block_size(&mm, block), SZ_8K);
-+		/* Ensure the block starts at a 256 KB-aligned offset for proper alignment */
-+		KUNIT_EXPECT_EQ(test, gpu_buddy_block_offset(block) & (SZ_256K - 1), 0ULL);
-+	}
-+	gpu_buddy_free_list(&mm, &allocated, 0);
-+
-+	for (i = 0; i < num_blocks; i++)
-+		KUNIT_ASSERT_FALSE_MSG(test, gpu_buddy_alloc_blocks(&mm, 0, mm_size, SZ_16K, SZ_256K,
-+								    &allocated, 0),
-+					"buddy_alloc hit an error size=%u\n", SZ_16K);
-+
-+	list_for_each_entry(block, &allocated, link) {
-+		/* Ensure the allocated block uses the expected 16 KB size */
-+		KUNIT_EXPECT_EQ(test, gpu_buddy_block_size(&mm, block), SZ_16K);
-+		/* Ensure the block starts at a 256 KB-aligned offset for proper alignment */
-+		KUNIT_EXPECT_EQ(test, gpu_buddy_block_offset(block) & (SZ_256K - 1), 0ULL);
-+	}
-+
-+	/*
-+	 * Free alternating aligned blocks to introduce fragmentation.
-+	 * Ensures offset-aligned allocations remain valid after frees and
-+	 * verifies subtree max-alignment metadata is correctly maintained.
-+	 */
-+	list_for_each_entry_safe(block, tmp, &allocated, link) {
-+		if (count % 2 == 0)
-+			list_move_tail(&block->link, &freed);
-+		count++;
-+	}
-+	gpu_buddy_free_list(&mm, &freed, 0);
-+
-+	for (i = 0; i < num_blocks / 2; i++)
-+		KUNIT_ASSERT_FALSE_MSG(test, gpu_buddy_alloc_blocks(&mm, 0, mm_size, SZ_16K, SZ_256K,
-+								    &allocated, 0),
-+					"buddy_alloc hit an error size=%u\n", SZ_16K);
-+
-+	/*
-+	 * Allocate with offset alignment after all slots are used; must fail.
-+	 * Confirms that no aligned offsets remain.
-+	 */
-+	KUNIT_ASSERT_TRUE_MSG(test, gpu_buddy_alloc_blocks(&mm, 0, mm_size, SZ_16K, SZ_256K,
-+							   &allocated, 0),
-+			       "buddy_alloc hit an error size=%u\n", SZ_16K);
-+	gpu_buddy_free_list(&mm, &allocated, 0);
-+	gpu_buddy_fini(&mm);
-+}
-+
- static void gpu_test_buddy_fragmentation_performance(struct kunit *test)
- {
- 	struct gpu_buddy_block *block, *tmp;
-@@ -912,6 +1076,8 @@ static struct kunit_case gpu_buddy_tests[] = {
- 	KUNIT_CASE(gpu_test_buddy_alloc_range_bias),
- 	KUNIT_CASE(gpu_test_buddy_fragmentation_performance),
- 	KUNIT_CASE(gpu_test_buddy_alloc_exceeds_max_order),
-+	KUNIT_CASE(gpu_test_buddy_offset_aligned_allocation),
-+	KUNIT_CASE(gpu_test_buddy_subtree_offset_alignment_stress),
- 	{}
- };
- 
 -- 
-2.34.1
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
 
