@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sBM9HZd6iWlm9wQAu9opvQ
+	id 0LBpEJ56iWl39wQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 07:11:35 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 07:11:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 283CD10BF85
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 07:11:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C38FA10BF94
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 07:11:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D6B410E321;
-	Mon,  9 Feb 2026 06:11:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E07FB10E326;
+	Mon,  9 Feb 2026 06:11:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="h2D6Sy61";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Wz8T8sR0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazon11012039.outbound.protection.outlook.com [52.101.43.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58C9110E31D;
- Mon,  9 Feb 2026 06:11:32 +0000 (UTC)
+Received: from PH0PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11011013.outbound.protection.outlook.com [40.107.208.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19E6110E326;
+ Mon,  9 Feb 2026 06:11:39 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CyXKn4+UP659DIZkKsl+zdjunHqIroUKHoIRSTLs3khTqYclqo65xJOim4xpW/cVbrWQX9JApDvciLlz1cndk9qKjgui4G9LQi29yareR69i9HzsKmf+KqzhIInphrSwit5egvnjO8LjcbS5kAOV5RKXqDR0HeasQbULhH0IjLe7nmRlXCPPa7vSMFabCI4VixYf5KlLI1vUMNKRWZlF9FlAK3XhIGhaToFtYahZWY9E/d6w5AQGZWAqXUlKv1/3nSIFkpt/Q3jZWmVLshdDABv/umIlxFS5XiOPnzA1fXn6YTIbjDXoVZUnvDizr+ut08QbmqhcJ/4Cco2pYV6q5w==
+ b=uSwjouzobzZHhR+/yoimlW5oTQfgeZrxxfQuslJA/YQ1tCG5UKqZiTFtNp/Ya8X384IivZb8XRCdf+MnA6slaRz8FKyKh70ThcX8nj3GsygWTLbcLpWZ8Zpcw4X1R64QCFfvGh5DP0YdBcrNpB4RRwzBTZnxZcvHzNAjRQIu25ZE0P34B3qLFrLz+DOkUGxz54ETIixV0zQH9lZk1nOxgPJSZMUM8pEB/OpxFpKE9XrVa89rypsMG8spU+5ghMZrmnTbXn50ekfJPQG77tJMTZaXrqzg5itzT4w+a0ywETeS80I/Y6CxW0MlJZy4XIwdlsNJJn/x5kWzcKZHiMHEyA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vNkXPePT/Vj8OyJiqkm+2BBC099VF0XjU2xt3SArCbA=;
- b=kXZcyWsyTeptFxlbyvSnutE/CCHYX+GKsGFQe9eR3ttczn6udnlTxyNDZe48BdOcdFxbUXR2iX7RX/G/86vBjbyDX62x887QZlcFukoX+fBs5MdtF/sCoW8NhYcj51TOdbylfR0u845+o+w4MJuvISOB2YfaLIdFjQlPJsiTXdDRsHjvuoYRgJ/hKWONNAh8qKnT3DTlywz9oAggyMSKVCsMqZ/bxosNHzM/9lp4hOyO83B+Q6TzAUI6Ip6E64Hs6bIO+GHFo6BtkvQ1fPyV6zFtO0mIu9b/J1tNZBEnma2vAW1LTw1dnG4I2KPwjIYHdiTd28GNSOHf9U3zDIXVLg==
+ bh=VJTtTawA2Hmf4olaQXrPFzgodT38XQ6lbiOfeh8E2SQ=;
+ b=jgvk7RGJfotxjV2UwpzwR40YhvDdB7kHldOV6MRNzO/4B5Q4px9QP8/PEp8wCsMMM4GIrqgpfSNvpVMH4EszpCvAndBJBNfGq2HYkjUXstdVMvLBQycoA05zR75hNLaaXNS6eh3kaXQH127XyRcpA4clrkkE5bTvEaCJKZppmZoRXnOd15MDji2Sx/AmliBWgGK8y1j+RN3yES530P8zMF4/JH7v4dgui4a46YMefqQseXlT2WNoNXQe7nO9KP0bMN646rhpNspi1HnvbNmP3eqN+inUKGh+rLP+IY/53Q6mAS2VAPe/amBKGutNzM5/+sMsdyfl/mhxzczACPjSfA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=collabora.com smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vNkXPePT/Vj8OyJiqkm+2BBC099VF0XjU2xt3SArCbA=;
- b=h2D6Sy61n21e4/AcP4SjvLaDserl8ufNP/Fy28XRG1aTk9vduSxbDYxh3UsNtqSpzzy75LBfS59fek83jzpwMSCg9dwcyS5QFouMAPrIl1Y3mKXkXvEuKuzLb4dR9iQGPFIlIvDK/e/DWkLe+UkOJSSxw6oxUdrUWRE+VhrbykI=
-Received: from PH8PR02CA0027.namprd02.prod.outlook.com (2603:10b6:510:2da::18)
- by BY5PR12MB4099.namprd12.prod.outlook.com (2603:10b6:a03:20f::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.15; Mon, 9 Feb
- 2026 06:11:27 +0000
-Received: from SN1PEPF000397AE.namprd05.prod.outlook.com
- (2603:10b6:510:2da:cafe::26) by PH8PR02CA0027.outlook.office365.com
- (2603:10b6:510:2da::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.18 via Frontend Transport; Mon,
- 9 Feb 2026 06:11:26 +0000
+ bh=VJTtTawA2Hmf4olaQXrPFzgodT38XQ6lbiOfeh8E2SQ=;
+ b=Wz8T8sR0F2xjsN5eD2LZChNsUI7sL9uZsk32mOsPzv0tyxgaaSHAj3PGj3jYzdKkYKPt/TE8d9KxrWnJNqQlXTku8GczLzYEgbj6RTHLvl80MvuDiorieVY/HRHAsv8WqR0t91Ni/LMqxc/aj1S8k2QU4P84wZsd3/0Hwc3X99k=
+Received: from PH5P222CA0011.NAMP222.PROD.OUTLOOK.COM (2603:10b6:510:34b::15)
+ by DM3PR12MB9414.namprd12.prod.outlook.com (2603:10b6:0:47::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.19; Mon, 9 Feb
+ 2026 06:11:31 +0000
+Received: from SN1PEPF000397B3.namprd05.prod.outlook.com
+ (2603:10b6:510:34b:cafe::f0) by PH5P222CA0011.outlook.office365.com
+ (2603:10b6:510:34b::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.19 via Frontend Transport; Mon,
+ 9 Feb 2026 06:11:31 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -53,13 +53,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- SN1PEPF000397AE.mail.protection.outlook.com (10.167.248.52) with Microsoft
+ SN1PEPF000397B3.mail.protection.outlook.com (10.167.248.57) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9587.10 via Frontend Transport; Mon, 9 Feb 2026 06:11:27 +0000
+ 15.20.9587.10 via Frontend Transport; Mon, 9 Feb 2026 06:11:30 +0000
 Received: from honglei-remote.amd.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 9 Feb
- 2026 00:11:23 -0600
+ 2026 00:11:27 -0600
 From: Honglei Huang <honglei1.huang@amd.com>
 To: <Felix.Kuehling@amd.com>, <alexander.deucher@amd.com>,
  <christian.koenig@amd.com>, <Philip.Yang@amd.com>, <Ray.Huang@amd.com>
@@ -67,9 +67,9 @@ CC: <dmitry.osipenko@collabora.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
  <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
  <akpm@linux-foundation.org>, <honghuan@amd.com>
-Subject: [PATCH v4 7/8] drm/amdkfd: Unify userptr cleanup and update paths
-Date: Mon, 9 Feb 2026 14:10:46 +0800
-Message-ID: <20260209061047.3881808-8-honglei1.huang@amd.com>
+Subject: [PATCH v4 8/8] drm/amdkfd: Wire up batch allocation in ioctl handler
+Date: Mon, 9 Feb 2026 14:10:47 +0800
+Message-ID: <20260209061047.3881808-9-honglei1.huang@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260209061047.3881808-1-honglei1.huang@amd.com>
 References: <20260209061047.3881808-1-honglei1.huang@amd.com>
@@ -81,57 +81,57 @@ X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF000397AE:EE_|BY5PR12MB4099:EE_
-X-MS-Office365-Filtering-Correlation-Id: f0860438-ad66-422a-7487-08de67a20f66
+X-MS-TrafficTypeDiagnostic: SN1PEPF000397B3:EE_|DM3PR12MB9414:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0cf27832-5857-4486-f938-08de67a21175
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|36860700013|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?FQW6nW8QGcf/DiSGusNz5qB1RMspC4ouQ9CQqjPafB+ltc8sT5FTC3JDtbFg?=
- =?us-ascii?Q?EJhI0X5A9DCwYyn5UUeZov2nWwdwdzwagmtyyPCmwVtHhAR/C0JCEptY0TRm?=
- =?us-ascii?Q?1ygtgtHXwQOp1FqAyefNpOrVz0OXMSfQ9gEr2K293OpIpUnsBkGPRPo+AI8Z?=
- =?us-ascii?Q?AvFZ563+bR6YQNzbpd7iFFprSZzTaf2reVapb07aMTmPwS1pJpPN9WyNjIEn?=
- =?us-ascii?Q?cH1XQH9YMH4vLtmykXMDBpFWxz4dAI/pEJDqmyZh8fhD6dlSflmpdeNXMTAi?=
- =?us-ascii?Q?Exp7nldIG4PcR1fMnHFepg1YcOaF+Q0nVgvaUolvdj5Ts8CL9/V0bkLhmdMu?=
- =?us-ascii?Q?bhsqE2Puyl/Kci60H06MIfrHn+aJ2wupfxz7RPAfyNHNYzJrYl7rt23892bi?=
- =?us-ascii?Q?SkUfzCY0KUDa6Ik1mkWU00I/VSU8Qzg0cW8lseFy0kDaR9HHWr8f/m1UR1kA?=
- =?us-ascii?Q?lkKdAIZt6ofOJnRitLC5X/JQkvTt39oKLd99DlLjO+oLm5zDVyeHUDUbHyTY?=
- =?us-ascii?Q?RljnWla2cS9VKI1tYjaMVlVsGTJN2JwpbV9MD01pqrOPFu5TX25xHgRgWoCe?=
- =?us-ascii?Q?Frws883J990xeyympUdJFubxl0iWNaLa1Ag5Rm34lusH2bordEBQiihKFe24?=
- =?us-ascii?Q?KmxpFsu06bv/CASUaIvbjRQ6S5/5YK+Pls/PlHZgJ6YgnUzSLRxgiXiU362j?=
- =?us-ascii?Q?h0tJbzO0JhXaIaQopPvECunAokB/arZYYlJG3Dnntay53hEDdUguzKCHfRCM?=
- =?us-ascii?Q?2Kcu6gwFqqQHSqq4MuUbHPuVlr2ZzfiXeg90QOo1DaorOJtHOx7gpcFVzNC9?=
- =?us-ascii?Q?UvPYwCDjPMM5k2mVvjl5Dp0J3x9id/12koA5kz3FnO5rkEI7HtRQHKXWvcJu?=
- =?us-ascii?Q?+u7QAgjc9X8B/odrYrt+LYpva3gP2rVnLNsANmgC+/+TO70CD0LTw5hiKS5V?=
- =?us-ascii?Q?20QA8gSU9k60qLUhySQ+2mXeVtgL05lXV1OIJ6cW97xZS9QfHlJ7naCmcjrq?=
- =?us-ascii?Q?jbmfaMg9YSx7LleOTpU3HtO/qtEQNJFU/OWx271kDqxFAjHjYXfZqB3ktpi7?=
- =?us-ascii?Q?UIAHAgcxj/gB5/2ngH6VRZK3rxrGogVM2I4fn6NgZl++SLJpRTNmJZU3vQQn?=
- =?us-ascii?Q?T9pNsEndQqfdO3XKL0dDLFVwYEpPqx5rzZR5yNWzap20wPMd/Bc7yLiKfcXT?=
- =?us-ascii?Q?pLiytIYhs+i2jSQsRu9r4g4udbhCQyHxquDJq/gsP1hsx+lVtciCrCiUbk6k?=
- =?us-ascii?Q?ja9rXQlOSM8+NEcWnM5B/FfxoNp3lRJNNMKSQSFVbUU9IHG2SUQxf7xnW3im?=
- =?us-ascii?Q?BZedgfr9W/ani7X2P6havFYYU6ZuCXCuuo2is17Jf/xaesyLbqFbVRIseyGT?=
- =?us-ascii?Q?+y1+8uLQ78LXJqdtEytDWAPidCELbgzzn1O4T7XqrMY9E8e/O93ANPXiqD/6?=
- =?us-ascii?Q?sI3s1cRO6zKHUcJagFi2n/VGHcJKlULRtd/gpPvnHtQLPZlS63rgtFj4FSyI?=
- =?us-ascii?Q?P9CH9wDWWG8rTTn7w7Y9uT/U3wqeBbF84njuyOK+P3PKroypAD0X6AUXiYij?=
- =?us-ascii?Q?fb2ODJiem5HBX3lyce2JnFSX/K6+Hxc2EXmDq3Yo3xVAqBMX44EegYIi8WvA?=
- =?us-ascii?Q?DuYXAMRmg6GTNyhtJrOHPWcWJev/h4Q1KZizCDPSYFYVVJFGJ0LMVKn44Ymo?=
- =?us-ascii?Q?Ivmaow=3D=3D?=
+ ARA:13230040|36860700013|82310400026|376014|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?bGowHUmHZeofYiJkV5M8MfsxKjrZyW8/AW/fpcjBiRQUt0bh+k1wu4YblJr0?=
+ =?us-ascii?Q?+weZZ8Vw3xDJb47yW1rE0B7LIyI2+SBshAG9iwh6Non8kOPh/kkdGsbfqs/z?=
+ =?us-ascii?Q?zUqzfIUhNbGFuuesgAoXWZWsPgL1pIEiR9oN2p0yr4bG27kRh6JU70cd6cCQ?=
+ =?us-ascii?Q?fJzf4IvIzrrKVCwdguxJXa8YkdWNWYLQ6bKloS9gMEZ0Yb8HU+/wmedqvyUb?=
+ =?us-ascii?Q?lN6QTHTMu0QZpdH4szSuRoMB8E827uo9xn5vXKgh+XH/rOs8gu//oRPG2wAc?=
+ =?us-ascii?Q?TyiZq2PvN9O4EvucU5tacv3ZVie+MzjqVAtNTA7QGf5UfP/00SXR7jxDhYVV?=
+ =?us-ascii?Q?bHU1/+RCD8A0Tnnaz+tPLtPIC/oI6kedLpp+LJJuFbjrsjJqOb59cQRLuNcH?=
+ =?us-ascii?Q?JbAXZZJEsfO5nOa6cnSEF+iD0H27Ah8bqwkTxFWP78nPAyqnpkvDwR6aQJKl?=
+ =?us-ascii?Q?6vuCLxy3GUi+FgIT18L7dl6czfFvqxD1b1MXAlHSyr4n+aiYnuizmzKwbeZw?=
+ =?us-ascii?Q?IHS+nB5E+3ujblrGHFc28gEEAR+QLtvxCf/Vc3bgYDdW2B5i2MB4mDIni26B?=
+ =?us-ascii?Q?lLeq5cDcwFaPdE8RqQgAMlM6FF66qbzs0w2m6X40tSLZxlwe5raQtfZoG3XH?=
+ =?us-ascii?Q?iMOzhTSGHZ+3S2fKNYM+gn+tQTzfYDLsRO/rJ0zPJ29W6pb73KClMaA2/7fu?=
+ =?us-ascii?Q?MUdyr0b7odTmPFR3IkON7dQEVHpFXWlBRLQRdRSmUSsaIKefydK2GhO6LuNA?=
+ =?us-ascii?Q?9keJt2TceSwO8poaCl6Gyx6iQpFO9A1wOnVDyafIQAKFHMKd0ZI4OMws5fte?=
+ =?us-ascii?Q?P+UWmA79NgoaU64cOKVUNxnnEcBpzi+CaIhcsLF3iFwdrCxsTeDAkdjmj5pi?=
+ =?us-ascii?Q?g1moWxMPYHDXc0SGUymlnBVO4ZKZrvvm9wmvoqUGNivUOtdzuI1hE9wcjFnL?=
+ =?us-ascii?Q?GhsOPmOrl5CkIXUpPGNJfIsKj9y69xxyEplCU0WpVGb1zgNWl6s+2/1jYtyL?=
+ =?us-ascii?Q?qbIBReORjKgdv75/hNCgGW8oOHx2PWRl4O5RVLaTUAkFnYcRU570xOzAjNZn?=
+ =?us-ascii?Q?aOdr7hQJ+TIhwhgjCXCf5TLos4QX9taX/NaY2MO7DYcVu1rurMpCapSTAVgX?=
+ =?us-ascii?Q?02/bJWqe/XhLrf7Sv3tuazUKrIEHeHvNcJajxZwsWaVOR2FjdlztBSyKdfKj?=
+ =?us-ascii?Q?y8T5WjNkLIj1//twmcYsZO0rMNjVZg2uTtE1RFn6/il952DKiN5l3NxYactu?=
+ =?us-ascii?Q?JTXZ4+Yzc1ckHImGgU+8AR+dTk3l8TAj2KSJz6H3cmdDvRXJS9oI+gUqzA95?=
+ =?us-ascii?Q?GTNfZtOfOec9NLFnTnX8WAn9UNJ8CnfLsdh/Zb1F7JoA6cOU7fBhLOFnhi0d?=
+ =?us-ascii?Q?0L5rFI5datupiW4BvOfc0lqpU/414jre3/lObQMXVl2qgJeGMDNo9U7WslBr?=
+ =?us-ascii?Q?X1viDkl/436rLoj5tcsMrWAmDQzTILz2CryPx1IlfiJ58/KbSjrWBM5iEhhv?=
+ =?us-ascii?Q?39gMrE1+OXL1fxPn96K7c5H/B+7AE7QcaQ1qOkVVqxP4JEIE6Thilnw/TjLC?=
+ =?us-ascii?Q?/UdYi4ZqMJILBOTXcLt0wdt9O1ijkHwArPNWp14yife5fvRq1F2ExuMd4FeK?=
+ =?us-ascii?Q?zPLMSl3Fcw3LH/dQRutVeCoW4pkJRnb8uplqSngliLVZ2Azdq1Ncni5o1R2j?=
+ =?us-ascii?Q?H+3jSw=3D=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026); DIR:OUT;
+ SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024); DIR:OUT;
  SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: PTt/gnT0yshQuaRzv5cZu0NSfvDVaqxUvRNVWkNzRdU8sOdmIejkChJ4IlWdhlK2UOIu4FBU5lrgmfYh9rC05LQIlwfJSOz5qEvKqXD2p0t+qe2A1Yq2LmHHW9yjD6WweS3PteVkV7fV94yO1wLPQ5lk7u/eC6NyC7Hk4D/+7AVwvxFGBp2RCHD04Xn6K6NLNqxry6hKCrvVsJu4u/3rLevzCv6qayG4pvUrHmEvp3viTYG6hksbBE+ndq7wSXYO9WD90T4Mf7Rp2hPChe7ly1/8vrfShRn2wgMrWxoSlR48EjAaIHCErq0+rekEfsWXjUXW0jw2GvcBihW2M5sF1EhOz1ry67DUNB508fZ6uOzzd9yIPFte0TR7M6iBEua9nAQlGOKSETzfisJ299gfcEmr4yzfEWGf0g7yEAaA3DtbOcaoSRlTww0zmS8dp+ii
+X-MS-Exchange-AntiSpam-MessageData-0: ksEU1CkqiQCgMzq0NrLjKy27HUY4XVq8MfP/c2atcVp4DaNC0hvsU2PbI/Pa7x9GilSsStXDliHnntI4TC98ISfr6R7ndeNd9d6ZHZJo8qiArc7ZJ9r5DK+qQSD31rM7HHUaGs/p9GZEsrU3rFSUWMUcWxCeX/bIzN3BDx0Oh68wN06oIqF/y7R0kjQijSybErxbT7s4Bt+wAO47hEi7Iynis5BV5mz/+2sgKSg1t8lNN1w0RZhgUabl7bK6MZJmbAJ0TzxY6ouTZq312Ys1eLfOiUd6khjWHYOxfVXIjXKFWfzAagsjBWNcz6nqQrB531UpUvokMTSnH+pETjrhqaomb8B7i1lKzKunWtHjVuOnfc79dYlq7aErxWsJDjCGhtk6RLhIR+I6bqrTI+2ePqq9jktBhNEZjrqtjPV8ZXpI+2gCDQ+6MzzS2WMW5uNK
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2026 06:11:27.3529 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f0860438-ad66-422a-7487-08de67a20f66
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2026 06:11:30.7861 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0cf27832-5857-4486-f938-08de67a21175
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF000397AE.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF000397B3.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4099
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9414
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,265 +174,226 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	NEURAL_HAM(-0.00)[-0.998];
 	HAS_XOIP(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:email,amd.com:dkim,amd.com:mid]
-X-Rspamd-Queue-Id: 283CD10BF85
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,amd.com:dkim,amd.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: C38FA10BF94
 X-Rspamd-Action: no action
 
 From: Honglei Huang <honghuan@amd.com>
 
-Refactor userptr management code to handle both single and batch
-allocations uniformly.
+Integrate batch userptr allocation into the KFD ioctl interface.
 
 This adds:
-- cleanup_userptr_resources(): unified cleanup for single/batch
-- discard_user_pages_batch(): discard pages for batch ranges
-- amdgpu_amdkfd_update_user_pages_batch(): update pages for batch
-- valid_user_pages_batch(): validate batch pages
-
-Modified functions to support batch mode:
-- update_invalid_user_pages(): uses batch update when applicable
-- confirm_valid_user_pages_locked(): checks batch validity
-- amdgpu_amdkfd_gpuvm_free_memory_of_gpu(): uses unified cleanup
+- kfd_copy_userptr_ranges(): validates and copies batch range data
+  from userspace, checking alignment, sizes, and total size match
+- Modifications to kfd_ioctl_alloc_memory_of_gpu() to detect batch
+  mode and route to appropriate allocation function
+- SVM conflict checking extended for batch ranges
 
 Signed-off-by: Honglei Huang <honghuan@amd.com>
 ---
- .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 158 ++++++++++++++++--
- 1 file changed, 141 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 128 +++++++++++++++++++++--
+ 1 file changed, 122 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index c2fc31964..7233b127b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -2281,6 +2281,35 @@ int amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu_batch(
- 	return ret;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+index a72cc980a..d0b56d5cc 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+@@ -1047,10 +1047,79 @@ static int kfd_ioctl_get_available_memory(struct file *filep,
+ 	return 0;
  }
  
-+static void cleanup_userptr_resources(struct kgd_mem *mem,
-+				      struct amdkfd_process_info *process_info)
++static int kfd_copy_userptr_ranges(void __user *user_data, uint64_t expected_size,
++				   struct kfd_ioctl_userptr_range **ranges_out,
++				   uint32_t *num_ranges_out)
 +{
++	struct kfd_ioctl_userptr_ranges_data ranges_header;
++	struct kfd_ioctl_userptr_range *ranges;
++	uint64_t total_size = 0;
++	uint32_t num_ranges;
++	size_t header_size;
 +	uint32_t i;
 +
-+	if (!amdgpu_ttm_tt_get_usermm(mem->bo->tbo.ttm))
-+		return;
-+
-+	if (mem->num_user_ranges > 0 && mem->user_ranges) {
-+		for (i = 0; i < mem->num_user_ranges; i++)
-+			interval_tree_remove(&mem->user_ranges[i].it_node,
-+					     &mem->user_ranges_itree);
-+
-+		if (mem->batch_notifier.mm) {
-+			mmu_interval_notifier_remove(&mem->batch_notifier);
-+			mem->batch_notifier.mm = NULL;
-+		}
-+
-+		kvfree(mem->user_ranges);
-+		mem->user_ranges = NULL;
-+		mem->num_user_ranges = 0;
-+	} else {
-+		amdgpu_hmm_unregister(mem->bo);
-+		mutex_lock(&process_info->notifier_lock);
-+		amdgpu_ttm_tt_discard_user_pages(mem->bo->tbo.ttm, mem->range);
-+		mutex_unlock(&process_info->notifier_lock);
++	if (!user_data) {
++		pr_err("Batch allocation: ranges pointer is NULL\n");
++		return -EINVAL;
 +	}
++
++	header_size = offsetof(struct kfd_ioctl_userptr_ranges_data, ranges);
++	if (copy_from_user(&ranges_header, user_data, header_size)) {
++		pr_err("Failed to copy ranges data header from user space\n");
++		return -EFAULT;
++	}
++
++	num_ranges = ranges_header.num_ranges;
++	if (num_ranges == 0) {
++		pr_err("Batch allocation: invalid number of ranges %u\n", num_ranges);
++		return -EINVAL;
++	}
++
++	if (ranges_header.reserved != 0) {
++		pr_err("Batch allocation: reserved field must be 0\n");
++		return -EINVAL;
++	}
++
++	ranges = kvmalloc_array(num_ranges, sizeof(*ranges), GFP_KERNEL);
++	if (!ranges)
++		return -ENOMEM;
++
++	if (copy_from_user(ranges, user_data + header_size,
++			   num_ranges * sizeof(*ranges))) {
++		pr_err("Failed to copy ranges from user space\n");
++		kvfree(ranges);
++		return -EFAULT;
++	}
++
++	for (i = 0; i < num_ranges; i++) {
++		if (!ranges[i].start || !ranges[i].size ||
++		    (ranges[i].start & ~PAGE_MASK) ||
++		    (ranges[i].size & ~PAGE_MASK)) {
++			pr_err("Invalid range %u: start=0x%llx size=0x%llx\n",
++			       i, ranges[i].start, ranges[i].size);
++			kvfree(ranges);
++			return -EINVAL;
++		}
++		total_size += ranges[i].size;
++	}
++
++	if (total_size != expected_size) {
++		pr_err("Size mismatch: provided %llu != calculated %llu\n",
++		       expected_size, total_size);
++		kvfree(ranges);
++		return -EINVAL;
++	}
++
++	*ranges_out = ranges;
++	*num_ranges_out = num_ranges;
++	return 0;
 +}
 +
- int amdgpu_amdkfd_gpuvm_free_memory_of_gpu(
- 		struct amdgpu_device *adev, struct kgd_mem *mem, void *drm_priv,
- 		uint64_t *size)
-@@ -2322,12 +2351,7 @@ int amdgpu_amdkfd_gpuvm_free_memory_of_gpu(
- 	mutex_unlock(&process_info->lock);
+ static int kfd_ioctl_alloc_memory_of_gpu(struct file *filep,
+ 					struct kfd_process *p, void *data)
+ {
+ 	struct kfd_ioctl_alloc_memory_of_gpu_args *args = data;
++	struct kfd_ioctl_userptr_range *ranges = NULL;
+ 	struct kfd_process_device *pdd;
+ 	void *mem;
+ 	struct kfd_node *dev;
+@@ -1058,16 +1127,32 @@ static int kfd_ioctl_alloc_memory_of_gpu(struct file *filep,
+ 	long err;
+ 	uint64_t offset = args->mmap_offset;
+ 	uint32_t flags = args->flags;
++	uint32_t num_ranges = 0;
++	bool is_batch = false;
  
- 	/* Cleanup user pages and MMU notifiers */
--	if (amdgpu_ttm_tt_get_usermm(mem->bo->tbo.ttm)) {
--		amdgpu_hmm_unregister(mem->bo);
--		mutex_lock(&process_info->notifier_lock);
--		amdgpu_ttm_tt_discard_user_pages(mem->bo->tbo.ttm, mem->range);
--		mutex_unlock(&process_info->notifier_lock);
--	}
-+	cleanup_userptr_resources(mem, process_info);
+ 	if (args->size == 0)
+ 		return -EINVAL;
  
- 	ret = reserve_bo_and_cond_vms(mem, NULL, BO_VM_ALL, &ctx);
- 	if (unlikely(ret))
-@@ -2914,6 +2938,51 @@ int amdgpu_amdkfd_evict_userptr(struct mmu_interval_notifier *mni,
- 	return r;
- }
- 
-+static void discard_user_pages_batch(struct amdgpu_bo *bo, struct kgd_mem *mem)
-+{
-+	uint32_t i;
-+
-+	for (i = 0; i < mem->num_user_ranges; i++) {
-+		if (!mem->user_ranges[i].valid && mem->user_ranges[i].range) {
-+			amdgpu_ttm_tt_discard_user_pages(bo->tbo.ttm,
-+							 mem->user_ranges[i].range);
-+			mem->user_ranges[i].range = NULL;
-+		}
++	if ((flags & KFD_IOC_ALLOC_MEM_FLAGS_USERPTR) &&
++	    (flags & KFD_IOC_ALLOC_MEM_FLAGS_USERPTR_BATCH)) {
++		is_batch = true;
 +	}
-+}
 +
-+static int amdgpu_amdkfd_update_user_pages_batch(struct mm_struct *mm,
-+						 struct amdgpu_bo *bo,
-+						 struct kgd_mem *mem)
-+{
-+	uint32_t i;
-+	int ret = 0;
-+
-+	if (!mmget_not_zero(mm))
-+		return -ESRCH;
-+
-+	mmap_read_lock(mm);
-+	for (i = 0; i < mem->num_user_ranges; i++) {
-+		if (mem->user_ranges[i].valid)
-+			continue;
-+
-+		ret = get_user_pages_batch_locked(
-+			mm, mem, &mem->user_ranges[i],
-+			&mem->user_ranges[i].range, amdgpu_ttm_tt_is_readonly(bo->tbo.ttm));
-+		if (ret) {
-+			pr_debug("Failed %d to get user pages for range %u\n",
-+				 ret, i);
-+			break;
-+		}
-+
-+		mem->user_ranges[i].valid = true;
-+	}
-+	mmap_read_unlock(mm);
-+	mmput(mm);
-+
-+	return ret;
-+}
-+
- /* Update invalid userptr BOs
-  *
-  * Moves invalidated (evicted) userptr BOs from userptr_valid_list to
-@@ -2928,6 +2997,7 @@ static int update_invalid_user_pages(struct amdkfd_process_info *process_info,
- 	struct ttm_operation_ctx ctx = { false, false };
- 	uint32_t invalid;
- 	int ret = 0;
-+	uint32_t i;
+ 	if (p->context_id != KFD_CONTEXT_ID_PRIMARY && (flags & KFD_IOC_ALLOC_MEM_FLAGS_USERPTR)) {
+ 		pr_debug("USERPTR is not supported on non-primary kfd_process\n");
  
- 	mutex_lock(&process_info->notifier_lock);
- 
-@@ -2951,8 +3021,12 @@ static int update_invalid_user_pages(struct amdkfd_process_info *process_info,
- 
- 		bo = mem->bo;
- 
--		amdgpu_ttm_tt_discard_user_pages(bo->tbo.ttm, mem->range);
--		mem->range = NULL;
-+		if (mem->num_user_ranges > 0 && mem->user_ranges)
-+			discard_user_pages_batch(bo, mem);
-+		else {
-+			amdgpu_ttm_tt_discard_user_pages(bo->tbo.ttm, mem->range);
-+			mem->range = NULL;
-+		}
- 
- 		/* BO reservations and getting user pages (hmm_range_fault)
- 		 * must happen outside the notifier lock
-@@ -2976,7 +3050,11 @@ static int update_invalid_user_pages(struct amdkfd_process_info *process_info,
- 		}
- 
- 		/* Get updated user pages */
--		ret = amdgpu_ttm_tt_get_user_pages(bo, &mem->range);
-+		if (mem->num_user_ranges > 0 && mem->user_ranges)
-+			ret = amdgpu_amdkfd_update_user_pages_batch(mm, bo, mem);
-+		else
-+			ret = amdgpu_ttm_tt_get_user_pages(bo, &mem->range);
-+
- 		if (ret) {
- 			pr_debug("Failed %d to get user pages\n", ret);
- 
-@@ -3010,7 +3088,10 @@ static int update_invalid_user_pages(struct amdkfd_process_info *process_info,
- 			ret = 0;
- 		}
- 
--		amdgpu_ttm_tt_set_user_pages(bo->tbo.ttm, mem->range);
-+		if (mem->num_user_ranges == 0)
-+			amdgpu_ttm_tt_set_user_pages(bo->tbo.ttm, mem->range);
-+		else
-+			set_user_pages_batch(bo->tbo.ttm, mem->user_ranges, mem->num_user_ranges);
- 
- 		mutex_lock(&process_info->notifier_lock);
- 
-@@ -3024,6 +3105,17 @@ static int update_invalid_user_pages(struct amdkfd_process_info *process_info,
- 		 /* set mem valid if mem has hmm range associated */
- 		if (mem->range)
- 			mem->invalid = 0;
-+
-+		/* For batch mode, clear global invalid counter and mark ranges as valid.
-+		 * Individual range validity is tracked by valid flag.
-+		 */
-+		if (mem->num_user_ranges > 0 && mem->user_ranges) {
-+			mem->invalid = 0;
-+			for (i = 0; i < mem->num_user_ranges; i++) {
-+				if (mem->user_ranges[i].range)
-+					mem->user_ranges[i].valid = true;
-+			}
-+		}
+ 		return -EOPNOTSUPP;
  	}
  
- unlock_out:
-@@ -3131,6 +3223,33 @@ static int validate_invalid_user_pages(struct amdkfd_process_info *process_info)
- 	return ret;
- }
- 
-+static bool valid_user_pages_batch(struct kgd_mem *mem)
-+{
-+	uint32_t i;
-+	bool all_valid = true;
++	if (is_batch) {
++		err = kfd_copy_userptr_ranges((void __user *)args->mmap_offset,
++					      args->size, &ranges, &num_ranges);
++		if (err)
++			return err;
 +
-+	if (!mem->user_ranges || mem->num_user_ranges == 0)
-+		return true;
-+
-+	for (i = 0; i < mem->num_user_ranges; i++) {
-+		if (!mem->user_ranges[i].valid) {
-+			all_valid = false;
-+			continue;
-+		}
-+
-+		if (!mem->user_ranges[i].range)
-+			continue;
-+
-+		if (!amdgpu_ttm_tt_get_user_pages_done(
-+			mem->bo->tbo.ttm, mem->user_ranges[i].range))
-+			all_valid = false;
-+
-+		mem->user_ranges[i].range = NULL;
++		offset = 0;
 +	}
 +
-+	return all_valid;
-+}
-+
- /* Confirm that all user pages are valid while holding the notifier lock
-  *
-  * Moves valid BOs from the userptr_inval_list back to userptr_val_list.
-@@ -3145,15 +3264,20 @@ static int confirm_valid_user_pages_locked(struct amdkfd_process_info *process_i
- 				 validate_list) {
- 		bool valid;
+ #if IS_ENABLED(CONFIG_HSA_AMD_SVM)
+ 	/* Flush pending deferred work to avoid racing with deferred actions
+ 	 * from previous memory map changes (e.g. munmap).
+@@ -1086,13 +1171,15 @@ static int kfd_ioctl_alloc_memory_of_gpu(struct file *filep,
+ 		pr_err("Address: 0x%llx already allocated by SVM\n",
+ 			args->va_addr);
+ 		mutex_unlock(&p->svms.lock);
+-		return -EADDRINUSE;
++		err = -EADDRINUSE;
++		goto err_free_ranges;
+ 	}
  
--		/* keep mem without hmm range at userptr_inval_list */
--		if (!mem->range)
--			continue;
-+		if (mem->num_user_ranges > 0 && mem->user_ranges)
-+			valid = valid_user_pages_batch(mem);
-+		else {
-+			/* keep mem without hmm range at userptr_inval_list */
-+			if (!mem->range)
-+				continue;
+ 	/* When register user buffer check if it has been registered by svm by
+ 	 * buffer cpu virtual address.
++	 * For batch mode, check each range individually below.
+ 	 */
+-	if ((flags & KFD_IOC_ALLOC_MEM_FLAGS_USERPTR) &&
++	if ((flags & KFD_IOC_ALLOC_MEM_FLAGS_USERPTR) && !is_batch &&
+ 	    interval_tree_iter_first(&p->svms.objects,
+ 				     args->mmap_offset >> PAGE_SHIFT,
+ 				     (args->mmap_offset  + args->size - 1) >> PAGE_SHIFT)) {
+@@ -1102,6 +1189,22 @@ static int kfd_ioctl_alloc_memory_of_gpu(struct file *filep,
+ 		return -EADDRINUSE;
+ 	}
  
--		/* Only check mem with hmm range associated */
--		valid = amdgpu_ttm_tt_get_user_pages_done(
--					mem->bo->tbo.ttm, mem->range);
-+			/* Only check mem with hmm range associated */
-+			valid = amdgpu_ttm_tt_get_user_pages_done(
-+						mem->bo->tbo.ttm, mem->range);
-+
-+			mem->range = NULL;
++	/* Check each userptr range for SVM conflicts in batch mode */
++	if (is_batch) {
++		uint32_t i;
++		for (i = 0; i < num_ranges; i++) {
++			if (interval_tree_iter_first(&p->svms.objects,
++						     ranges[i].start >> PAGE_SHIFT,
++						     (ranges[i].start + ranges[i].size - 1) >> PAGE_SHIFT)) {
++				pr_err("Userptr range %u (0x%llx) already allocated by SVM\n",
++				       i, ranges[i].start);
++				mutex_unlock(&p->svms.lock);
++				err = -EADDRINUSE;
++				goto err_free_ranges;
++			}
 +		}
++	}
++
+ 	mutex_unlock(&p->svms.lock);
+ #endif
+ 	mutex_lock(&p->mutex);
+@@ -1149,10 +1252,17 @@ static int kfd_ioctl_alloc_memory_of_gpu(struct file *filep,
+ 		}
+ 	}
  
--		mem->range = NULL;
- 		if (!valid) {
- 			WARN(!mem->invalid, "Invalid BO not marked invalid");
- 			ret = -EAGAIN;
+-	err = amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu(
+-		dev->adev, args->va_addr, args->size,
+-		pdd->drm_priv, (struct kgd_mem **) &mem, &offset,
+-		flags, false);
++	if (is_batch) {
++		err = amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu_batch(
++			dev->adev, args->va_addr, args->size, pdd->drm_priv,
++			(struct kgd_mem **)&mem, &offset, ranges, num_ranges,
++			flags, false);
++	} else {
++		err = amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu(
++			dev->adev, args->va_addr, args->size,
++			pdd->drm_priv, (struct kgd_mem **) &mem, &offset,
++			flags, false);
++	}
+ 
+ 	if (err)
+ 		goto err_unlock;
+@@ -1184,6 +1294,9 @@ static int kfd_ioctl_alloc_memory_of_gpu(struct file *filep,
+ 		args->mmap_offset = KFD_MMAP_TYPE_MMIO
+ 					| KFD_MMAP_GPU_ID(args->gpu_id);
+ 
++	if (is_batch)
++		kvfree(ranges);
++
+ 	return 0;
+ 
+ err_free:
+@@ -1193,6 +1306,9 @@ static int kfd_ioctl_alloc_memory_of_gpu(struct file *filep,
+ err_pdd:
+ err_large_bar:
+ 	mutex_unlock(&p->mutex);
++err_free_ranges:
++	if (ranges)
++		kvfree(ranges);
+ 	return err;
+ }
+ 
 -- 
 2.34.1
 
