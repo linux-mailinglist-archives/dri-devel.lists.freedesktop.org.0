@@ -2,80 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wOaGE0rXiWkzCQAAu9opvQ
+	id kKm+FqLZiWlFCgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 13:47:06 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 13:57:06 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B081310EF21
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 13:47:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E7410F3F9
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 13:57:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD7010E3C5;
-	Mon,  9 Feb 2026 11:30:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F98110E3C1;
+	Mon,  9 Feb 2026 11:40:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="LkYYdInN";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="LsCNZmAy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com
- [209.85.221.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C0E310E3C5
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 11:30:28 +0000 (UTC)
-Received: by mail-wr1-f74.google.com with SMTP id
- ffacd0b85a97d-437681ecd32so681543f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Feb 2026 03:30:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1770636627; x=1771241427;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=B6UWN0OsE7QW1x3g1701AwzacxmXzQP0I4E5tISve+w=;
- b=LkYYdInN7hLTTnw9NqMDd06n2pFUuOSgzK+BE/lkKOB4FVBJfDFgIR9Kb8eGkeSefD
- GF7NFe66diqCas0lQgGhdVBkH8ziH4x5t9KDi9IIj89Eh8Fz7rh5bLLs6LWcdhaZLZrI
- Fl0ZDc16VdrIheY+Vp/o8b/EYi/beKLY2jESbXVMUYmy5krF70sD1TfvenHouLE/82cb
- pchJoFDUb6sbEogxhbKrPWq6eLDdf6XL07o4EsWMPeP8uSBJN4kZQqE6JOcZm5cGBaG7
- fsP/an0Jed4XP91Nl0+bT8R2baIdRoAKVNclP4b/5MVCyD/jS6+jWiGGdfpgjs4ymsBu
- QlUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770636627; x=1771241427;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=B6UWN0OsE7QW1x3g1701AwzacxmXzQP0I4E5tISve+w=;
- b=nuMzcYzRLWdpe/UW+DPMwUejsQl9zPiqEpmCbcdqjlVphyQyHnFPZFaxaXTwci7mGH
- /xr0stuRTlhm54WkiUQkagRae0j460SE0HaHEy7ZfAUWdmR16i2PpCXaaB/Zu1Cg1aXp
- 6kVmEBwD4V03Vn4UXz2p0fROMm5seF0nBpXGy5+0mEVNQX6k1B0l4Sb0F/m+q/gMyRX8
- ccLPufMB07BWZP2j/aDJs/Kran75E5UWSH/WMRPELoRNhnvNJYWeh2xzavpdvnzrxD44
- M5IcNqXH7qMf4IV/hZsGvMLoWX2ZQ/GjR586bc8MocmN1jj5EkVYmf5F5JIDZ3byOSRR
- 3riw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVsxRbO+5zUNKHdKKvmqS9UorjDD7Kea/1TvdNOjPuad0t/pSlAF8T2nhBTpePYc5wRtXCO0nux5iQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwAmb6WniNwnoXEkZhsywpuS+j02WVVTPx7RM7YsBKQuLhmdxvC
- WvovuPaK5wZQbe/kzWVtPVX/cLZhtKmrOBrQAk0rCpDT6mOWy9bn+vrHV8X5DKOooAZHzXh3COW
- QSqiROct3zI04e/+VVg==
-X-Received: from wrgb9.prod.google.com ([2002:a05:6000:3c9:b0:437:7057:b172])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:230a:b0:437:678b:83ca with SMTP id
- ffacd0b85a97d-437678b8589mr8686513f8f.50.1770636626863; 
- Mon, 09 Feb 2026 03:30:26 -0800 (PST)
-Date: Mon, 9 Feb 2026 11:30:25 +0000
-In-Reply-To: <20260203081403.68733-4-phasta@kernel.org>
-Mime-Version: 1.0
-References: <20260203081403.68733-2-phasta@kernel.org>
- <20260203081403.68733-4-phasta@kernel.org>
-Message-ID: <aYnFUX8mvsrH10RT@google.com>
-Subject: Re: [RFC PATCH 2/4] rust: sync: Add dma_fence abstractions
-From: Alice Ryhl <aliceryhl@google.com>
-To: Philipp Stanner <phasta@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>,
- Benno Lossin <lossin@kernel.org>, 
- "Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>,
- Joel Fernandes <joelagnelf@nvidia.com>, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A88510E3C1
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 11:40:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1770637213;
+ bh=YaTGcZwimloW1kgdEu8K+8Kr1kYVJjhPDsKxgwaC/PM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=LsCNZmAyezhl3cvyfXrtT3fLv3wCWzZ9+ABlrTSDaHixCeCjjxhzsU2Ofp6WSAXOx
+ lTbIG1xnRmaHn9+L82ux7AgGEQB7215cUmY8YwwMGZ6+QpWdjNngskX1QdUsnHtfvZ
+ MOS8CdmxtKmMn6AaDExoUwNnLOiOOJEgpmIjvUProq0KvQrqCUZgmhdcPvBUM3434a
+ 8MsC44jgeZAi5LeDa2lrMuE64kprokKgDPFCcn+OZRCrprZefZgwOMDXyZQLT2rKT3
+ gn5YhQcM1rv8yVHlBQC6JDzp5x6Xv5Rc37TFp/fKZKnuh8TxkaX8tsdXGuuFTxXm8d
+ IvXe1leqXwmZQ==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 7C1E117E13D5;
+ Mon,  9 Feb 2026 12:40:13 +0100 (CET)
+Message-ID: <5535ac41-efb8-4bf5-91bb-9b6f63517e8f@collabora.com>
+Date: Mon, 9 Feb 2026 12:40:13 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/mediatek: dsi: Store driver data before invoking
+ mipi_dsi_host_register
+To: Luca Leonardo Scorcia <l.scorcia@gmail.com>,
+ linux-mediatek@lists.infradead.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20260209090516.14369-1-l.scorcia@gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20260209090516.14369-1-l.scorcia@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,285 +72,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:l.scorcia@gmail.com,m:linux-mediatek@lists.infradead.org,m:chunkuang.hu@kernel.org,m:p.zabel@pengutronix.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:matthias.bgg@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:lscorcia@gmail.com,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:dakr@kernel.org,m:gary@garyguo.net,m:lossin@kernel.org,m:christian.koenig@amd.com,m:boris.brezillon@collabora.com,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,kernel.org,garyguo.net,amd.com,collabora.com,nvidia.com,vger.kernel.org,lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[angelogioacchino.delregno@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[gmail.com,lists.infradead.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[google.com:+];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[angelogioacchino.delregno@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,pengutronix.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: B081310EF21
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:mid,collabora.com:dkim,collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: B5E7410F3F9
 X-Rspamd-Action: no action
 
-On Tue, Feb 03, 2026 at 09:14:01AM +0100, Philipp Stanner wrote:
-> +void rust_helper_dma_fence_get(struct dma_fence *f)
-> +{
-> +	dma_fence_get(f);
-> +}
-> +
-> +void rust_helper_dma_fence_put(struct dma_fence *f)
-> +{
-> +	dma_fence_put(f);
-> +}
-> +
-> +bool rust_helper_dma_fence_begin_signalling(void)
-> +{
-> +	return dma_fence_begin_signalling();
-> +}
-> +
-> +void rust_helper_dma_fence_end_signalling(bool cookie)
-> +{
-> +	dma_fence_end_signalling(cookie);
-> +}
-> +
-> +bool rust_helper_dma_fence_is_signaled(struct dma_fence *f)
-> +{
-> +	return dma_fence_is_signaled(f);
-> +}
-
-These should use the __rust_helper #define. See:
-https://lore.kernel.org/r/20260105-define-rust-helper-v2-0-51da5f454a67@google.com
-
-> +void rust_helper_spin_lock_init(spinlock_t *lock)
-> +{
-> +	spin_lock_init(lock);
-> +}
-> [..]
-> +#[pin_data]
-> +pub struct DmaFenceCtx {
-> +    /// An opaque spinlock. Only ever passed to the C backend, never used by Rust.
-> +    #[pin]
-> +    lock: Opaque<bindings::spinlock_t>,
+Il 09/02/26 10:05, Luca Leonardo Scorcia ha scritto:
+> The call to mipi_dsi_host_register triggers a callback to mtk_dsi_bind,
+> which uses dev_get_drvdata to retrieve the mtk_dsi struct, so this
+> structure needs to be stored inside the driver data before invoking it.
+> 
+> As drvdata is currently uninitialized it leads to a crash when
+> registering the DSI DRM encoder right after acquiring
+> the mode_config.idr_mutex, blocking all subsequent DRM operations.
+> 
+> Fixes the following crash during mediatek-drm probe (tested on Xiaomi
+> Smart Clock x04g):
+> 
+> Unable to handle kernel NULL pointer dereference at virtual address
+>   0000000000000040
 > [...]
-> +}
+> Modules linked in: mediatek_drm(+) drm_display_helper cec drm_client_lib
+>   drm_dma_helper drm_kms_helper panel_simple
+> [...]
+> Call trace:
+>   drm_mode_object_add+0x58/0x98 (P)
+>   __drm_encoder_init+0x48/0x140
+>   drm_encoder_init+0x6c/0xa0
+>   drm_simple_encoder_init+0x20/0x34 [drm_kms_helper]
+>   mtk_dsi_bind+0x34/0x13c [mediatek_drm]
+>   component_bind_all+0x120/0x280
+>   mtk_drm_bind+0x284/0x67c [mediatek_drm]
+>   try_to_bring_up_aggregate_device+0x23c/0x320
+>   __component_add+0xa4/0x198
+>   component_add+0x14/0x20
+>   mtk_dsi_host_attach+0x78/0x100 [mediatek_drm]
+>   mipi_dsi_attach+0x2c/0x50
+>   panel_simple_dsi_probe+0x4c/0x9c [panel_simple]
+>   mipi_dsi_drv_probe+0x1c/0x28
+>   really_probe+0xc0/0x3dc
+>   __driver_probe_device+0x80/0x160
+>   driver_probe_device+0x40/0x120
+>   __device_attach_driver+0xbc/0x17c
+>   bus_for_each_drv+0x88/0xf0
+>   __device_attach+0x9c/0x1cc
+>   device_initial_probe+0x54/0x60
+>   bus_probe_device+0x34/0xa0
+>   device_add+0x5b0/0x800
+>   mipi_dsi_device_register_full+0xdc/0x16c
+>   mipi_dsi_host_register+0xc4/0x17c
+>   mtk_dsi_probe+0x10c/0x260 [mediatek_drm]
+>   platform_probe+0x5c/0xa4
+>   really_probe+0xc0/0x3dc
+>   __driver_probe_device+0x80/0x160
+>   driver_probe_device+0x40/0x120
+>   __driver_attach+0xc8/0x1f8
+>   bus_for_each_dev+0x7c/0xe0
+>   driver_attach+0x24/0x30
+>   bus_add_driver+0x11c/0x240
+>   driver_register+0x68/0x130
+>   __platform_register_drivers+0x64/0x160
+>   mtk_drm_init+0x24/0x1000 [mediatek_drm]
+>   do_one_initcall+0x60/0x1d0
+>   do_init_module+0x54/0x240
+>   load_module+0x1838/0x1dc0
+>   init_module_from_file+0xd8/0xf0
+>   __arm64_sys_finit_module+0x1b4/0x428
+>   invoke_syscall.constprop.0+0x48/0xc8
+>   do_el0_svc+0x3c/0xb8
+>   el0_svc+0x34/0xe8
+>   el0t_64_sync_handler+0xa0/0xe4
+>   el0t_64_sync+0x198/0x19c
+> Code: 52800022 941004ab 2a0003f3 37f80040 (29005a80)
+> ---[ end trace 0000000000000000 ]---
+> 
+> Signed-off-by: Luca Leonardo Scorcia <l.scorcia@gmail.com>
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+... but wait, what have I just read? Xiaomi Smart Clock?! MT8167?
+
+Are you running upstream on this device?
+If so, why don't you also contribute a nice devicetree to get this device finally
+upstream?!?! :-)
+
+Cheers,
+Angelo
+
+> ---
+>   drivers/gpu/drm/mediatek/mtk_dsi.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> index 4c2983852596..2358407b8a6b 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -1232,6 +1232,8 @@ static int mtk_dsi_probe(struct platform_device *pdev)
+>   
+>   	dsi->host.ops = &mtk_dsi_ops;
+>   	dsi->host.dev = dev;
+> +	platform_set_drvdata(pdev, dsi);
 > +
-> +impl DmaFenceCtx {
-> +    /// Create a new `DmaFenceCtx`.
-> +    pub fn new() -> Result<Arc<Self>> {
-> +        let ctx = pin_init!(Self {
-> +            // Feed in a non-Rust spinlock for now, since the Rust side never needs the lock.
-> +            lock <- Opaque::ffi_init(|slot: *mut bindings::spinlock| {
-> +                // SAFETY: `slot` is a valid pointer to an uninitialized `struct spinlock_t`.
-> +                unsafe { bindings::spin_lock_init(slot) };
-> +            }),
-
-We already have a __spin_lock_init() helper used by our SpinLock type. Can we
-just use that one instead of adding a new one?
-
-But actually I think it's simpler to just use SpinLock<()> as the type here. We
-have (or should add) a method to get the `state` field from a SpinLock<()>,
-which gets you a raw spinlock_t you can pass to C code.
-
-> +use core::{
-> [...]
-> +    sync::atomic::{AtomicU64, Ordering},
-> +};
-
-This should use kernel::sync::atomic instead.
-
-> +use kernel::c_str;
-> [...]
-> +    extern "C" fn get_driver_name(_ptr: *mut bindings::dma_fence) -> *const c_char {
-> +        c_str!("DRIVER_NAME_UNUSED").as_char_ptr()
-> +    }
-> +
-> +    extern "C" fn get_timeline_name(_ptr: *mut bindings::dma_fence) -> *const c_char {
-> +        c_str!("TIMELINE_NAME_UNUSED").as_char_ptr()
-> +    }
-
-We have c-strings literals now:
-
-	extern "C" fn get_driver_name(_ptr: *mut bindings::dma_fence) -> *const c_char {
-	    c"DRIVER_NAME_UNUSED".as_char_ptr()
-	}
-	
-	extern "C" fn get_timeline_name(_ptr: *mut bindings::dma_fence) -> *const c_char {
-	    c"TIMELINE_NAME_UNUSED".as_char_ptr()
-	}
-
-> +pub trait DmaFenceCbFunc {
-> +    /// The callback function. `cb` is a container of the data which the driver passed in
-> +    /// [`DmaFence::register_callback`].
-> +    fn callback(cb: Pin<KBox<DmaFenceCb<Self>>>)
-> +    where
-> +        Self: Sized;
-> +}
-
-Just make Sized into a super-trait.
-
-	pub trait DmaFenceCbFunc: Sized {
-	    /// The callback function. `cb` is a container of the data which the driver passed in
-	    /// [`DmaFence::register_callback`].
-	    fn callback(cb: Pin<KBox<DmaFenceCb<Self>>>);
-	}
-
-Probably also include 'static next to Sized instead of specifying it on
-register_callback().
-
-> +impl<T: DmaFenceCbFunc + 'static> DmaFenceCb<T> {
-> +    unsafe extern "C" fn callback(
-> +        _fence_ptr: *mut bindings::dma_fence,
-> +        cb_ptr: *mut bindings::dma_fence_cb,
-> +    ) {
-> [...]
-> +        // SAFETY: `cp_ptr` is the heap memory of a Pin<Kbox<Self>> because it was created by
-> +        // invoking ForeignOwnable::into_foreign() on such an instance.
-> +        let cb = unsafe { <Pin<KBox<Self>> as ForeignOwnable>::from_foreign(cb_ptr) };
-> +    }
-> +}
-> [...]
-> +    pub fn register_callback<U: DmaFenceCbFunc + 'static>(&self, data: impl PinInit<U>) -> Result {
-> +        let cb = DmaFenceCb::new(data)?;
-> +        let ptr = cb.into_foreign() as *mut DmaFenceCb<U>;
-
-The ForeignOwnable trait provides no guarantees about where the void pointer
-points. The only legal usage of such a void pointer is to pass it to
-from_foreign() and borrow() and other similar methods defined on the
-ForeignOwnable trait. Casting it to DmaFenceCb<U> and dereferencing it is
-illegal because it might point elsewhere in the box than at the DmaFenceCb<U>
-value. (Yes for Box it happens to point there, but for e.g. Arc it points at the
-refcount_t value instead.)
-
-Please replace this usage of ForeignOwnable with Box::into_raw() /
-Box::from_raw() calls, or use ForeignOwnable::borrow[_mut]() to access the
-value.
-
-> +    pub fn register_callback<U: DmaFenceCbFunc + 'static>(&self, data: impl PinInit<U>) -> Result {
-> +        let cb = DmaFenceCb::new(data)?;
-> +        let ptr = cb.into_foreign() as *mut DmaFenceCb<U>;
-> +        // SAFETY: `ptr` was created validly directly above.
-> +        let inner_cb = unsafe { (*ptr).inner.get() };
-> +
-> +        // SAFETY: `self.as_raw()` is valid because `self` is refcounted, `inner_cb` was created
-> +        // validly above and was turned into a ForeignOwnable, so it won't be dropped. `callback`
-> +        // has static life time.
-> +        let ret = unsafe {
-> +            bindings::dma_fence_add_callback(
-> +                self.as_raw(),
-> +                inner_cb,
-> +                Some(DmaFenceCb::<U>::callback),
-> +            )
-> +        };
-> +        if ret != 0 {
-> +            return Err(Error::from_errno(ret));
-> +        }
-> +        Ok(())
-
-On error, this function leaks the DmaFenceCb allocation. It should be converted
-back to a Box so that the destructor may run.
-
-	drop(unsafe { Box::from_raw(ptr) });
-	// or perhaps:
-	drop(unsafe { DmaFenceCb::from_raw(...) });
-
-Also this should use to_result().
+>   	ret = mipi_dsi_host_register(&dsi->host);
+>   	if (ret < 0)
+>   		return dev_err_probe(dev, ret, "Failed to register DSI host\n");
+> @@ -1254,8 +1256,6 @@ static int mtk_dsi_probe(struct platform_device *pdev)
+>   
+>   	init_waitqueue_head(&dsi->irq_wait_queue);
+>   
+> -	platform_set_drvdata(pdev, dsi);
+> -
+>   	dsi->bridge.of_node = dev->of_node;
+>   	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
+>   
 
 
-> +impl<T: DmaFenceCbFunc + 'static> DmaFenceCb<T> {
-> +    fn new(data: impl PinInit<T>) -> Result<Pin<KBox<Self>>> {
-> [...]
-> +        KBox::pin_init(cb, GFP_KERNEL)
-> [...]
-> +impl DmaFenceCtx {
-> +    /// Create a new `DmaFenceCtx`.
-> +    pub fn new() -> Result<Arc<Self>> {
-> [...]
-> +        Arc::pin_init(ctx, GFP_KERNEL)
-
-Shouldn't the gfp flags be provided by the caller instead of hard-coding
-GFP_KERNEL here?
-
-> +unsafe impl<T> AlwaysRefCounted for DmaFence<T> {
-> +    /// # Safety
-> +    ///
-> +    /// `ptr`must be a valid pointer to a [`DmaFence`].
-> +    unsafe fn dec_ref(ptr: NonNull<Self>) {
-> +        // SAFETY: `ptr` is never a NULL pointer; and when `dec_ref()` is called
-> +        // the fence is by definition still valid.
-> +        let fence = unsafe { (*ptr.as_ptr()).inner.get() };
-> +
-> +        // SAFETY: Valid because `fence` was created validly above.
-> +        unsafe { bindings::dma_fence_put(fence) }
-
-The safety requirements of `dec_ref()` as described here are incomplete. The
-caller must also give up ownership of one refcount to the value before they may
-call this method. But you may simply delete that section because this is a trait
-implementation, and the safety requirements are inherited from the declaration
-of AlwaysRefCounted.
-
-The safety comment on `let fence` is also not quite right. I don't think it's
-useful to talk about NULL because you require something stronger than NULL for
-this operation - for example `0xDEADBEEF as *mut DmaFence<T>` is not NULL but
-would also be illegal here.
-
-A better wording would be to say that by the safety requirements, the caller
-passes a valid pointer to a `DmaFence<T>`.
-
-And the safety comment on dma_fence_put() is also incomplete. The caller must
-pass ownership of one refcount, so the safety comment should mention why we can
-pass ownership of a refcount here (it is because caller must pass ownership of a
-refcount to us by the safety requirments).
-
-> +    /// Mark the beginning of a DmaFence signalling critical section. Should be called once a fence
-> +    /// gets published.
-> +    ///
-> +    /// The signalling critical section is marked as finished automatically once the fence signals.
-> +    pub fn begin_signalling(&mut self) {
-
-I doubt it's legal to have a `&mut DmaFence<T>` because I could call
-`mem::swap()` with two of them, which likely invalidates stuff inside `inner`.
-
-> +    const fn ops_create() -> bindings::dma_fence_ops {
-> +        // SAFETY: Zeroing out memory on the stack is always safe.
-> +        let mut ops: bindings::dma_fence_ops = unsafe { core::mem::zeroed() };
-
-No it's not always safe. If I have a local variable of type reference,
-then it's not safe to zero that value because NULL is not a legal value
-for references. The reason this is ok is because all fields of
-dma_fence_ops are values that are nullable.
-
-This should probably just use the safe pin_init::zeroed() function.
-
-> +impl<T> DmaFence<T> {
-> +    /// Create an initializer for a new [`DmaFence`].
-> +    fn new(
-> +        fctx: Arc<DmaFenceCtx>,
-> +        data: impl PinInit<T>, // TODO: The driver data should implement PinInit<T, Error>
-> +        lock: &Opaque<bindings::spinlock_t>,
-> +        context: u64,
-> +        seqno: u64,
-> +    ) -> Result<ARef<Self>> {
-
-This function should be unsafe. There are clearly some safety requirements here.
-For example, I suspect it's required that `lock` does not get freed before the
-returned value?
-
-Making this function unsafe reveals that DmaFenceCtx::new_fence is missing a
-safety requirement explaining why self.lock is alive for long enough.
-
-Alice
