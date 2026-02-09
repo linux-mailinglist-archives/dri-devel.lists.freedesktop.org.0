@@ -2,182 +2,199 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IL3EOiQSimk0GgAAu9opvQ
+	id cM6VKzATimlrGAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 17:58:12 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 18:02:40 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2448112C66
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 17:58:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47072112D19
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 18:02:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77A9B10E436;
-	Mon,  9 Feb 2026 16:58:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE9610E43A;
+	Mon,  9 Feb 2026 17:02:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K8g+7dVg";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="G6P74KQd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC8F510E366;
- Mon,  9 Feb 2026 16:58:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770656286; x=1802192286;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=E1Aa5nf+G93uRVa8MnIRrfgEJ/1BkYzMkdmnULBuMR0=;
- b=K8g+7dVgFawXIXdWrabS4WwwwwYobzv6o9M7yGUNBOLs9v3URy5wj6pA
- JK6eVXyLgKYIgT8oK0KEPXwE1mJ2x6ukKz4ESJb9rLxXClSc6Ad+9Cq8b
- sdewcppLTn1Nhn0bfKvHkNGB5x+8SXWYB9rjO58s5HWS7otRBqeHCxEa5
- udI9lDD3Azld5/fRk0apvOez031cd9S54JINniAZydNHLexsUnav45ydF
- eOpRe5T86ggoxSm37wW6r9xKQrUUwQzyC1DctX6Vo7e/C4iFlHugjsPDG
- vmjxB1LqlYe5kJUIS6fNMCyL4UOhC95oiygeBxbGVzMkW+Erl/QyG/X65 A==;
-X-CSE-ConnectionGUID: OYmx+wirQ0yZJP5u5rxj1g==
-X-CSE-MsgGUID: p4vjwAB7TL2yaGuRCnSH1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="75397180"
-X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; d="scan'208";a="75397180"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2026 08:58:06 -0800
-X-CSE-ConnectionGUID: 91B0qCvgTCudeBZIiyi/NQ==
-X-CSE-MsgGUID: e/0GXESRTCmB8sUTlY/h9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; d="scan'208";a="216162402"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2026 08:58:07 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Mon, 9 Feb 2026 08:58:06 -0800
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35 via Frontend Transport; Mon, 9 Feb 2026 08:58:06 -0800
-Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.16) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Mon, 9 Feb 2026 08:58:05 -0800
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010028.outbound.protection.outlook.com
+ [40.93.198.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 927D010E438;
+ Mon,  9 Feb 2026 17:02:34 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Vue+MreXZaIfwiH297gnwUh1bg3mTxtj2dCwzr1RBkH3GDrjAh1Vdj+6YY1licYc5KpSGjkrR67guc4sle+j9XRo5tbKm4A+CWYEedUGIftoazZrE4U0VN691Z2BzN2/k1eEv6zxwsQUFwjAV8dtHj8pGcZtPFa4mwXBixbmwTe8nXrMg5tuBkhbBETdUe2vuzsG5hCqe314oToXCd7797eJPKHcd6W2MfygSu161GV33wvkgTfoAHxzpMIfLP02LsxFpvIsWy6R23IfUbeWUFQBqSAkDVW/l+k+3VTM5mnkJhVZdDnOq+FIZIoHonCFnpzAZ1DKBiy0ct/n1HunNw==
+ b=JNYCEq1Sx51+auUhsln3hoaRj5EuS2N7dXpN1XWwfxxa/hexSP2zlk9ET5OSRlrXHlJFCd/dSpM1969+njDQ+8r+0Cxb+kBWKrndff2IslQ7YOMXQ2b8W3gCCo6rtcMT+Y0ueqgbjCvy7TW5H8TOvQUVA0s0sA23ZbsgIV8S1/Tqgguk2UdrXB64f9IxPhFsKSMWE/knCmambwiFR7vStA1ftkUN3N3+/iLSV2YB21pBLw2HB1wRFf/BE70Mt79U4O3ZKkd+SzVHDASn1u54zsbaMtI43zw0hTZ08rVcN+RsUgm7zzN8BjQgSS8O0RdTw+1EngIZ+pst1jlOSt4i4A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K2uRlsnjXjGTDvCWuwq5CbsaUe62l5mo+pMHTUzhIC8=;
- b=Vw8v8OI+zfi1LJnC4os/wNRHB8pJelNUaiDXLEuI7L74H3K3Tw4tK97r/0fnPSY9bNAeaSWuNkvjLk82BChpObwecsID92z4OqKS9upnJRIDq1v8iJL+nW4w9QvmFyMQHXbJGPh+/t3fvHekA5Vg9g/o1J2J4XdIC9TOnbh8SkcFWC+/V9LuiV1yLUxlYsSCAfWgvzlHYziTHhEcf54XfCq2lQ0a988Kz+/ByjLcYWZr6U+bnNVciQR685J0jCxZgzf0i7fDw1LGzW+rAG3Wc1oKXWEc5YKElNu7sQswWZValS4M/jd8exH1pNEAIPXWg+LyyiF75dexQoBDuSU++Q==
+ bh=y9w4v14vJKaE9dSrkZ8hv0/qSI1SUGhAdT7yl3rmnnU=;
+ b=QTQc1ZIeNpFbhTr6R+/h7uTELzLojLeuGrS0oJQ/75ZghVakIwCq9r6XoLl8RF5yLicp0E1wZww5BQoS5wtK4nwNc4hQEQCF/2LdKVF9qR45ee1O8tgiYjjCSs4roqOsk+ufv59GWu4AAd35Bm9sB/dG67wPWFQqu4RKEot8M/sdBLLM9Dtipbemgs3lYc0ZAIELyZSYDN6emRzkbk/yunfhTfW0ljCs/WbvypnptdTfXn2BSEzFE5aa+Vob/UGUKgyJpJ7MWWg9bM1b27hXki+KTcexfi6T/P1J3Hjs9o3AE8IWbEFB4eEa8IQ1P/JD7EFlN3fJSO5wbtacrlmU1w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y9w4v14vJKaE9dSrkZ8hv0/qSI1SUGhAdT7yl3rmnnU=;
+ b=G6P74KQdeGXhFHfTgPlUOidhnwM0fP6G3BGXmxtTlItRFl2HqFNOWi6cheXKONWIPZvXjCk34tNC8LkQCPzH0KzJD2mfkMhO1Ks1h/w+NAFWHFEmklS14dj5CrgaMvTmmEqBIy0vwpz8SeTbiOPbs6cMPiE0C0f54HAW1xkf4PafFbGqQhUIA4+Jsv2VZjs4w72/gWDDG9pMkoCFlNxB9QKAPaX+ZMXrMEFtLmFnk9JeJEDV5Qe9Jm2j8kI03mLZin062nDuMwGJ2xQJgEBeeJ2G1gzWpyOoWihaNZ8Xq8nh/BwktX/ZfGal3CNI0i7PwkRRtWdcwZ5kfEJMVoKLxg==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by DM6PR11MB4530.namprd11.prod.outlook.com (2603:10b6:5:2a4::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.19; Mon, 9 Feb
- 2026 16:58:03 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::e0c5:6cd8:6e67:dc0c]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::e0c5:6cd8:6e67:dc0c%6]) with mapi id 15.20.9587.017; Mon, 9 Feb 2026
- 16:58:03 +0000
-Date: Mon, 9 Feb 2026 08:58:00 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <leonro@nvidia.com>, <jgg@ziepe.ca>, <francois.dugast@intel.com>,
- <himal.prasad.ghimiray@intel.com>
-Subject: Re: [PATCH v4 3/4] drm/pagemap: Split drm_pagemap_migrate_map_pages
- into device / system
-Message-ID: <aYoSGL5EXaXSD1/6@lstrano-desk.jf.intel.com>
-References: <20260205041921.3781292-1-matthew.brost@intel.com>
- <20260205041921.3781292-4-matthew.brost@intel.com>
- <93d2a45fd5a8af50b23bd15cd45c21300f804768.camel@linux.intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <93d2a45fd5a8af50b23bd15cd45c21300f804768.camel@linux.intel.com>
-X-ClientProxiedBy: MW4PR04CA0328.namprd04.prod.outlook.com
- (2603:10b6:303:82::33) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ BL1PR12MB5756.namprd12.prod.outlook.com (2603:10b6:208:393::6) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9587.19; Mon, 9 Feb 2026 17:02:30 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9587.017; Mon, 9 Feb 2026
+ 17:02:30 +0000
+Message-ID: <5d569c73-6cb6-4d55-8423-c90937049366@nvidia.com>
+Date: Mon, 9 Feb 2026 12:02:25 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next v7 1/2] rust: clist: Add support to interface with C
+ linked lists
+To: Daniel Almeida <daniel.almeida@collabora.com>
+Cc: linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Helge Deller <deller@gmx.de>, Danilo Krummrich <dakr@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>, Andrea Righi <arighi@nvidia.com>,
+ Andy Ritger <aritger@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
+ Balbir Singh <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
+ Elle Rhumsaa <elle@weathered-steel.dev>, joel@joelfernandes.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+References: <20260206004110.1914814-1-joelagnelf@nvidia.com>
+ <20260206004110.1914814-2-joelagnelf@nvidia.com>
+ <73B64D35-6574-4776-962D-865465C40226@collabora.com>
+ <7ed85eca-2a5e-4e8f-8356-e7fbbf7d3a8f@nvidia.com>
+ <E846F3BB-DE64-4E6B-ACA3-00F965038478@collabora.com>
+ <983b7db3-b0e6-45d6-866e-f001b64abde1@nvidia.com>
+ <4A87E3FC-6A04-4A92-9230-4782D75FC05F@collabora.com>
+Content-Language: en-US
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <4A87E3FC-6A04-4A92-9230-4782D75FC05F@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BL1PR13CA0279.namprd13.prod.outlook.com
+ (2603:10b6:208:2bc::14) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DM6PR11MB4530:EE_
-X-MS-Office365-Filtering-Correlation-Id: e742f393-9e9d-4301-82cc-08de67fc63b8
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|BL1PR12MB5756:EE_
+X-MS-Office365-Filtering-Correlation-Id: 73bd8b97-b683-4141-f1e0-08de67fd0298
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?JPCruLkIk4NW3FhsT0duVOSRb7qKYUEcFUn47kqJixKMJE0mkhVOCmZm1P?=
- =?iso-8859-1?Q?HMtiFrLZCLmiYOsBToJX3Nekln2WvgDYOI/ly7L1i3EONa3pUADdoI+FM4?=
- =?iso-8859-1?Q?Pwyc2DrzvO2MjPqRkcGbCH+n8ySE1TeWc6RJkvjW3YnNAmxysQm2MjNpyS?=
- =?iso-8859-1?Q?pdQqKVZ3AtcTT2JUufY2HJ0p4ROMHP3h+5Stmr9MadsMT0kyUm74Cp0A7G?=
- =?iso-8859-1?Q?iIDfArtNfE8XBNOgGFa4PhyECMoT0+nFmyn60hGv+yhdeV/TMEKS7C93Nb?=
- =?iso-8859-1?Q?WRvW+bQbyXGUf4BQ5bX1mFZEzFzNU/+Kw/TEO7gpQe4jgJ8ThU34F2ckpR?=
- =?iso-8859-1?Q?DaO3A/LmqQrIK6SEIMsywPZrKzYyuKkqMAsEy+RpwCZfTflYcsFrEJEXUR?=
- =?iso-8859-1?Q?m/3pdwNzDhQCCCQmdfE9ZU19QKnkOGBJVQYhaQ07Ixw2bhPol1QJ2VEKog?=
- =?iso-8859-1?Q?vTkCrHCYRHdSrJoQpn1AGuFABmzApd0iRqaqawL/BXX7JC8IK7wTEJpng/?=
- =?iso-8859-1?Q?ZQrt14+8rsINxWaWRHl+raHGwZ1OBgPlxd9ZaIoNu8apNrmgiFvkzz3w0e?=
- =?iso-8859-1?Q?n/AJ1MkfF2pyxDz84IMmElc5zwW+L6ZhNdUlZodrYeTUrPDAinNbOg+4QW?=
- =?iso-8859-1?Q?qthLoQYuO4h9qD7ApfuXlENofRnHjhyea9TVJRXxvzyeg4nd+kgI3wvcKr?=
- =?iso-8859-1?Q?gaxkLbXwkS4LKm209DpPgu7GuvwxRIVw+ZUitbgjwfCkYVIzZtTEgC/etz?=
- =?iso-8859-1?Q?Nhl1djgk65pk9I/HgAyJ7UvA+QccOZygUh3dgCR1YB+1dMZTTd7FbEP3K8?=
- =?iso-8859-1?Q?4AuGOoVQxQlKlcReFIcjT5UDe97s8jroISY041JdClgG/UGoGBAlC3ENxM?=
- =?iso-8859-1?Q?RXmzQdgZr/dM+UqkYQStH3EnmAUSKSjxMIYa3CBsgLdxA4i+OHOJF79nRP?=
- =?iso-8859-1?Q?EOvpl9nBh2jqxCdBfIDo1vWu86xKDzV0bIb6NhVWid2/A64dSSYmTQ51j4?=
- =?iso-8859-1?Q?F7e4pgnHZMSBs7kx4g4OC1ekBL+aNtPzg+HUVZRMB//s8Mux2yZ6psgE5v?=
- =?iso-8859-1?Q?wNS+Mahol5RoVTVL8XODC8OuLgpDUZYM/BxX7D0Zezs9hOrYTq4JzKxQxn?=
- =?iso-8859-1?Q?KVZrhwy0sCWYlkfqxQh2/3KYFH9nlPJ9HSQXOm0EzvDUD7ssF+/G7Uwq+T?=
- =?iso-8859-1?Q?Cbu1yPkrt/eHAuNjd4DjDGrb8V4JPchwLW1bsnqmcUiUDL143/mVuCDkm4?=
- =?iso-8859-1?Q?ZDGTvBeMbOdH34Wh90d9uFApOA8s4yMUBMmAX5NH7gw6nHrI9QRuyb5GB/?=
- =?iso-8859-1?Q?dk59mcv+NZWDF8JYYBFKS9SGs1XYiv6iRgRd9DmBC20IExWjxGXkprxWjq?=
- =?iso-8859-1?Q?+NqWJzBoi3siqKeof0NVeGXeZuGPOjOVzRTLbyjxk+rzrsF6dB97TaF+uM?=
- =?iso-8859-1?Q?04qflgY3gKI0B1bhA/bbbkrqVDYLdC1c4kMiMjTpyMYKByP302efluDpeT?=
- =?iso-8859-1?Q?qnwI6n62Rej5aJAyauP3ngcYLcoixIQ7DRxZmfbB06taFtCjnwVf65HFeT?=
- =?iso-8859-1?Q?M6so1yneuJBErhHdjpLSI+ed49ir/c92UkDApxM8Z4nOKvI8GWKcuN9JTf?=
- =?iso-8859-1?Q?+BFN6zTM1lSHY=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TEpIcDVGVDVLNnpGYlVGYjVTd3lnWnVManFuZjZYRlVIY3FIMU5aZVVXQk9K?=
+ =?utf-8?B?eFc5eTVzNWtmZDltcG1uVGtsY3NqTkZZbEVMOXl5MzVWLzllL1d1M3NkalVW?=
+ =?utf-8?B?SDdOVVI1dW8va1cxYmtIbjRkbkp0RHF5eXpaQ2t3dVZPdVF6YVFqZXJLZ0Ru?=
+ =?utf-8?B?VmZGOUxINE9Sc0dPbHczdFBPZ1FEL2NXQ3VSZC9oVGNVYjZzTkp5VnZ3ZVhL?=
+ =?utf-8?B?VVBLaGVQSUJLZkJ1R1JaTlNBZWpuMkxNMlZxek1UVFZNODQwVlFsVmoyVlpI?=
+ =?utf-8?B?cnQvTlp1OHJJbktZNS8zaGNYanhjWGxXTm41NWlsekZHeXpEaVZNSXZvY1F0?=
+ =?utf-8?B?RE1aelhCa2pvQlAycmtMeDR2R1BGalNiSEpFdmVmRU9MNUpGbkVjTG5CeWhW?=
+ =?utf-8?B?KzJKb3dkWkt3R21MNmxxY2RwLy9qcEoyQ3VJdGFLbmR1aU1qb29Sa3dJRzQ1?=
+ =?utf-8?B?dUlROGhSVHBmSW42N2RMYnJIc0xXZG01MzRKTHdqZk0xQm1aN1ZSSWFlUUhG?=
+ =?utf-8?B?YUZpOVhtOUp3TWRjY3UzMWhVazd3d0hiTUN3MFRjL2pKTWFhaGFoR2k1cWxy?=
+ =?utf-8?B?VDYvOVZFOUw5d3RLRHZlODdvc2MvcXhFVmEyejBpR3lvQVA2OHJuWllpdWRt?=
+ =?utf-8?B?OTdodGZ6Sk1MK1E3V0p2cFBrcFQ5aEpDYUFlT1hmNll1RjFJVm40MnRTZGNo?=
+ =?utf-8?B?ODg1MWtUWXgrY3Z0NmE3SUNTRnBIOUh3ZnYyeTVVRDdzaUs3SzBZcTR5SW8v?=
+ =?utf-8?B?TTJ1MDRMSWtpZ2g1SHN4MDRpVVJMVjJqcmQxaVIzc0laUXlaTWo1a3l5dFFn?=
+ =?utf-8?B?bmdiVHRmMjFKMHJYU1FuNXNrQkU1N1VBWDVOckEvdFM2NGRBUFhONTJnQnc5?=
+ =?utf-8?B?VkY2QTZFeXdZZGtEeXI5VDR5RDcwdzBEdWN6bExGU0hCMHNlZldtbE5aZDVF?=
+ =?utf-8?B?cDdOTVlkSm9KaEFxem42YmxIS3krVThneUFOZG5pZ1dVSkRDeUJFVnE3UjN3?=
+ =?utf-8?B?OHF4QjlWUHhQaGVYRUc4eFd5YjI3M25lQWtGQTk2aHZiaWlBVWVtQjdiTFdl?=
+ =?utf-8?B?S01KUy9jUUs0Qk1FTmMwK2hlZWYrNUV4eFZTVXlJVVpFR2E1dWtsa1lwMFI0?=
+ =?utf-8?B?SmJ2OXJXTHB0NHBMRGt3YThVOS9mSkRlblhEaU5vV0dTck55ekFoeUY2VEpE?=
+ =?utf-8?B?YXpqd0lnVWhWUGJIM0IrcU1rOGJLKzkwQ0NEalQ2T1hUWWN3Nm5FSWgzTHA5?=
+ =?utf-8?B?N1RxVTA3aTBTY2lGcGhDSXIwYnBZTE5tODF2VGs2SXBWN1ZPdWFZVHBSOXN5?=
+ =?utf-8?B?RG9tTTVSSFBzcDErQlZKeDBzQjgzT1NST3c4WlR1VHBjV3BDVkhuYkNHWHJC?=
+ =?utf-8?B?VHZIR3V5a0xvaGRUMXlRbVFkSkFmb3E3MU51eTNsYkFzYXd3ZC9rNXpUMUZQ?=
+ =?utf-8?B?akJDMkhOYllITU1wWjR2blJibFNZWXoyMk96aEtONEhnWnJ1Z0ZYeEh5T0hs?=
+ =?utf-8?B?eC9IUWpKVXdDTGJkM3drK3d6WjNyLzl0S0RpY01zdk50Y2Y1aXNKMDRxWmpz?=
+ =?utf-8?B?NXZ3ZXJQeDN3aVhEN1N6TmxGazZyTXd5R3VPVlluZ2hMNGhiUURTaklRWDAw?=
+ =?utf-8?B?NGxJSHA5NUZWRkdWR1FNR0xrNmM1TTY1L2w4OE1YcTdIaHpKSlVSWFZqWE5n?=
+ =?utf-8?B?L1RyVjgxZ0FNR1h6SzhnRmZoQnptaWZnU3k5RXV0WTBObkJTTEJuUitPYU1q?=
+ =?utf-8?B?WlhHSTBGNTU2ZUVlMmNqRG52Y0lpOE45blpLOGZFRXBTQnRXM0NFQ3RCdyty?=
+ =?utf-8?B?SWNDd1h6M24weHpQZFpsNk03RGxkazlqVktvbFlBL2UvZysxY1RFb21sMHhF?=
+ =?utf-8?B?alg3dzBDMTFhTXY1REIwTnVlajc0VGpOdlZQVFhFTzJZMVdMbzVUeVBkNUZ0?=
+ =?utf-8?B?ZlpLdXJFcVo1S0ZXaWQ5WFlnang0aTdsSDh1TkExSUk1Wlp3U0I5bG5Gb0k3?=
+ =?utf-8?B?VllLdVMvbXR6c2cvcEU1S1p6L2hxZVhObGJSa3FYOVArdVRvT0YzL01jdGs0?=
+ =?utf-8?B?cFFaeVZ2RmYvQ3FXQ1psMzhyQk90dVVqU1ArNlN5WVk5WUVLK2Z6MU1seGlm?=
+ =?utf-8?Q?H3eM=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB6486.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?UQJ4zqok6ZAp5OYT+yr9GIGlc8VxZw1CHYkcjU3ql5ssMeCQsoeoXuToVV?=
- =?iso-8859-1?Q?tBFeVTobTysq96CYRGhnmocNksMIfWr+CQ150FDb8/Qba+BYvqWJ4WXFZk?=
- =?iso-8859-1?Q?zJ9foxuTpuKdJ6QXQLzA2zRRy2tBjKb40fnosair8hx8K5xsikgwHoeZrt?=
- =?iso-8859-1?Q?joktrlOPzVYOB3rBKrpUy0Ri11uhjXAmcFIax1+oSP1yjpEqfGwazm+8lS?=
- =?iso-8859-1?Q?tJrJdc17pALuR2tHJ0y4KZTgZy0bpLix426p47OFFdkAMjUwHNBayMqh3z?=
- =?iso-8859-1?Q?u+4KgV3IiHRrOp+KQD5kgFjc1cV6W17SlLJGOcPGWW6Sy2tuo5xPL66Km8?=
- =?iso-8859-1?Q?W8aL9aKji6alrqIkDyLLqxfZmWnW3AYhZDmSBucUf7yiHF2WM6lhaHNEEf?=
- =?iso-8859-1?Q?6RCagGdgtsCDzdBC3Z4ZqI0kCdmR8YM4DmWihlSMagtI2oCkmkIFI574YG?=
- =?iso-8859-1?Q?nPe0cLmWAcIMaPH4E1osEEhngtEaQiJDb1MiDrDS0KRHJC4yWZMAKKbvmH?=
- =?iso-8859-1?Q?oFtkj8XLAEIxvT+U1w0PiQO8RPqzqKZw2h7B4uTzyjeFsFvn6XjFEkYOx6?=
- =?iso-8859-1?Q?KsnFZc++c9kJ+mchbEd+iLZZ3DCkDV6TyZUwpRQ8GONKojOsb+hc9eP3Pr?=
- =?iso-8859-1?Q?LCc3k5fkQM1TYu4xKyXvGM+oOkCWh9Q1CDo4L/P3RWayuxaoaeiGKAAi5E?=
- =?iso-8859-1?Q?QEleur1Lrw16vnJpyLHWA6UhMS3SMFoOrxS6WkJQZx8PBpJ0zXl01b0fqT?=
- =?iso-8859-1?Q?37ho97zFRCMJgteJfItA9TAEw6dpYTn1ZTiOBqlKSTHQ+h9QgZYni+wpYa?=
- =?iso-8859-1?Q?t870Kz4gJ75Y6BRDl5TrErU+sEz2QjuSYLZa2UTC9fFGyOvYVo/5SZu3uA?=
- =?iso-8859-1?Q?/XyPUoy8qNnLxUXm7vu0/JL/M5MRYgY2fACmjdi0b78Jhst/trQZNOAFLN?=
- =?iso-8859-1?Q?TejN2Vh/n49rGMyPn/+2a0IWkKb7r00T3G42VCPuKTDAaXjhktun3RdeF1?=
- =?iso-8859-1?Q?vSMuIpGph/YpJ50D8aoniwg219WiLO0uPMUkbMXyAmnp6/dZ3I2laGmakB?=
- =?iso-8859-1?Q?tgnHVkEyclOMG27iCg1JtgklNQYaQd9bO8QtrTrarNCGPk1IEASIJ3Rzxc?=
- =?iso-8859-1?Q?1UjCVxWaIx5kIuf3l5wnNQqS5xvZ8D2hlpVkoy4D5nkCFrNPFaVNyJh3CZ?=
- =?iso-8859-1?Q?uAjFvt3jJd07S+tfffvCTNTrTlG4bMPrhZGnmYlw92YAHcxGYn4Ozk3t0h?=
- =?iso-8859-1?Q?Yjy8GnXgZRm2Vp2z1HPzaZQpTPoMQxvyzs6+KC7VziScExglOZSU6OkJu6?=
- =?iso-8859-1?Q?qP8oOB14cYhOWvCYg8sBuQHT0/bd/1r09aI5IXDeI7IoHVYS3dExPNnTXC?=
- =?iso-8859-1?Q?vPqtQN0LuUAJqF8dO3VIUMfd55OCUhH+TttPw6q3HX6GrL5K1CleApsOoi?=
- =?iso-8859-1?Q?yx4s8bDaXTo4JlfJ2kvmCaMsJOZwHk1bJxkFmaFqchcjYduKsQuzQkbSvJ?=
- =?iso-8859-1?Q?DoWpe6t97Br+ic/UYCBVWc+FQ17xUb1IKTjy/USqBIJYHhxiNt6E5lnyUq?=
- =?iso-8859-1?Q?RkhJwjW7U9aktCMA6JrBheXmAVwDBAtdKSuF7NjafSdJGtc47jeBgTPgV3?=
- =?iso-8859-1?Q?pt/RTTklel4nRXoPOnAfuj7Jno97pn7iBcKk3x10i3yMWBKY/IOgv+ZOOL?=
- =?iso-8859-1?Q?3XSJiqi1mpghMHnCM3WWNMySg9cT2AGMp40hn4lkW1+pmP3VhpZa67u5F7?=
- =?iso-8859-1?Q?Mc290PGJvNc4wYo5TfsmHa9TGTsjiAsBap0cT/pvfpgaG9GJJAT62RvPCi?=
- =?iso-8859-1?Q?ojqZX2MedWE2bNtvz2v2AsDMgAHm60k=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e742f393-9e9d-4301-82cc-08de67fc63b8
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SDIvbXFCWVZQTEhpU0xOT1VqMEk5blNCeEMxTlJRbmJLc1JydjRBV3dhVm1o?=
+ =?utf-8?B?OEVNRC9kUm00ek5PM0lickE4Zmw5SG1tVGkwaVZCZHJDNDlXV2JDUUV6NjlW?=
+ =?utf-8?B?c0xaTE14aU9UQ2pseS9aLzdkRlMxZzNlSm5CZWF1enp3Z2lSTC8wbFdXUktK?=
+ =?utf-8?B?cWF6SmtHQjA5S053TU8xWk5Qb2VHMDRtcy9nTHdaK3pvRndVWHFOcEhObUw5?=
+ =?utf-8?B?eHhxQ2gzNDEvb21mdzJnWTQzWWJjVFdMNy8xSTg2S0JyNVJ0TWN0bmtUa1FP?=
+ =?utf-8?B?MUJuT0ZCSUFuTkJIMzdpblNuT3AxOVFuL0lzUURuWmZGS1llYnV3M3BsVDlW?=
+ =?utf-8?B?OHU2Qy9iYXBrV3dyZ2pNVnFGeXFscEVyeXg1UTIzTDVrZG94MDhpS1dhLzAv?=
+ =?utf-8?B?dzMrR3pFNDJ4WFNmejhtd0hxMW85VzZ4MzMvVjVzZTljYngzaGJrVkwrMWFU?=
+ =?utf-8?B?U1NtcXhPQmw1RTNNSDlTTEtuM29WZjBQVTgrTEt1WVNNU3FNMmVXUWZhZmJU?=
+ =?utf-8?B?OUoyWGxHNjNYRlFXMC9DS3pnVWZtVDhYcmJWU05iR1ZaQ1NvOVJoV2FpYStT?=
+ =?utf-8?B?RzJ0YVVHSUdxNVpHTk9jSWVKeFVuZHZzcFJlTTRUS2dHU2tUcTVwMTN1eW84?=
+ =?utf-8?B?c1B5YytJS2hDOXllazE0cUtsajlTZGhFOC9USTlIcUlFcjQzaTV4T0xGS3NO?=
+ =?utf-8?B?YVBrVy9YbVI4dDVFS2xUSGg3QjB4N3JXeExLRU1jbTE3V1dNeGJXYTZUSEgw?=
+ =?utf-8?B?c0x0dWxybys1eHFRbExLd1JOSG5mVTdnSmdHSnhZRFV1dGtPSXVDYzErYW9Z?=
+ =?utf-8?B?bldMdTFFTmM3aHE1bTBoSXRnVkJzbGN6c1B4bzJFOTZ6cFd4cVJiQWZXb2c1?=
+ =?utf-8?B?WlFET1JkaW4xQmZFbGhsSThBWmoyR21KUXRHeDFSVWpwS2l3a0Z2R1FMbmtn?=
+ =?utf-8?B?RThoblZRMS9NQmpXaXRFM2ZWcitNQks1STFKaTl0WC9QQkVZVjhudU94UFU2?=
+ =?utf-8?B?dHZOV2NhTU9rNm0wamNqZ3pJQ2xIY3E4dUxlTmwzRWFkTWtqemFic3RQNnR1?=
+ =?utf-8?B?bEpJa0xsYXI1VmN0V3I2UmVxM2tOWm94VjFFeFVuS3d4bTdqc3NVMnRaWWp6?=
+ =?utf-8?B?Nk1DS1MzeDZPcHFOTDRPZnZaRWZFdDJJZ2hUYnM4cVhuQXdMVE1YODBna2Vr?=
+ =?utf-8?B?TVMrbHh5bWFNZ1ZXbGZXTmtZeVBHRVMrUGk0dEcwcTBISTNJVGU3dVZoK0Qv?=
+ =?utf-8?B?UXMrVFVOcGVQK0c0R2JZaUgvNWEwdFh3NndGL1cwUlRHbld5czhIT0tIZHF0?=
+ =?utf-8?B?VVVUZkRKeHRjSW1Ya01CQXM4WGg3eUxPR3RsN2lSdmJTL1BEbFZOai8wSmha?=
+ =?utf-8?B?aHFSRzQwV2VJTWRyWGptelY2STJhTWVLN1pvdVY2QVBOSnhib2VEUHZnR0Nt?=
+ =?utf-8?B?Vnd0SlJ6eEtnQjJTVnBEcUp2Z3B3bG9EdDd5YUcrOGRJSEFnZlpTbVZ2cUFl?=
+ =?utf-8?B?ZFFBdUl4U28rZTlaWTdZSC9lUU5QbzhqNkExSk4zZVZVTEJvY1dtaWFaK3Fu?=
+ =?utf-8?B?ZG1iZ2pXYzcxTWRJZDk1Q1RuaWY2aDhvMmV4NGNtSU5sS0lMb25WY2xmOGZF?=
+ =?utf-8?B?TXg3Z1BWVXB0NGUyY3FsNjNxWVN2VWJGUmJIVFd3UUdlbFRTdzYvN2JWRWdI?=
+ =?utf-8?B?K3U5OVZKREtzanVIVTJJdklTenZMMWVNUXBRU09OYjQ1N3lScHlJMjhPY29K?=
+ =?utf-8?B?TWY4QjVDYmFscG1CZ0Mvdm1zQXBjaTlNM2FGUCtVWDBSNFFLRU9Nc3dkbVpP?=
+ =?utf-8?B?allXTlpOZ21OV1Y5UDZ2RHp0d0UzSWZ4cEpUcDlKajV2TURubzlDTkVHcElC?=
+ =?utf-8?B?dnZqcEd2RW5YYkw0UDBmZjJSTWpQYWpPeDFvVEtydjdBeEV3djJoeDIvTmJm?=
+ =?utf-8?B?aGtkWVRrNjJhL1VJdkJKaTNOREpZU3NLTkR2MUZFV2s5cDFOZXpNaXQ1ZUZy?=
+ =?utf-8?B?Ry9peTF2Y0R4YmdzQzlCMSs3QWpscXFQQkkyZlMrTEJnREpZTjNHSDBFT0xN?=
+ =?utf-8?B?TTdUNmNYTE9iWGpQaFE5OStEcFJHNnF5aUg3YmVEOGVhSzZoQ2VTWldvcnlm?=
+ =?utf-8?B?a3lGMHREVGVsaHlPTnBQNHpyQUFaSVQvV1N3dms0RmdYbTN5aTA5OC9JZzAy?=
+ =?utf-8?B?enprNVJJZUNwM2dvK0lmeEV2WC9HcDVqaE5iQ0wyZnU5SkI5MW5LWUVPa0Ra?=
+ =?utf-8?B?cGMyWmovR01salphdTJVYlJsUEJTcVcrVXV6YnlkMGcrMGNuYVljeXFaV2t0?=
+ =?utf-8?B?SlNMcm1Yajg5aERkM2gzNWtUcVZRNTlld256bGVuRVVmblY5bGR2UT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 73bd8b97-b683-4141-f1e0-08de67fd0298
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2026 16:58:03.7055 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2026 17:02:30.3977 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G4bOYbokBAmMvXxOL5PZRSQjc81mBlu0ZK29Hpk2Le1w73RZsGpoEGlo7xZKcibkDhu6yUpyMXsET9KGurdfmA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4530
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: nbsLAzi+/bmc/agTUQfe2OdRjZ0EddMaGrHcYK2a5/oVMWfYW54Cg9OcHfStegsPOubwqdVkdWZGhzWYJKkZBw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5756
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -193,331 +210,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,intel.com:dkim,lstrano-desk.jf.intel.com:mid];
-	DKIM_TRACE(0.00)[intel.com:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	FREEMAIL_CC(0.00)[vger.kernel.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,google.com,garyguo.net,protonmail.com,umich.edu,nvidia.com,weathered-steel.dev,joelfernandes.org,lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[50];
+	FROM_NEQ_ENVFROM(0.00)[joelagnelf@nvidia.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[9]
-X-Rspamd-Queue-Id: A2448112C66
+	DBL_BLOCKED_OPENRESOLVER(0.00)[Nvidia.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:mid]
+X-Rspamd-Queue-Id: 47072112D19
 X-Rspamd-Action: no action
 
-On Mon, Feb 09, 2026 at 04:49:03PM +0100, Thomas Hellström wrote:
-> On Wed, 2026-02-04 at 20:19 -0800, Matthew Brost wrote:
-> > Split drm_pagemap_migrate_map_pages into device / system helpers
-> > clearly
-> > seperating these operations. Will help with upcoming changes to split
-> > IOVA allocation steps.
-> > 
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >  drivers/gpu/drm/drm_pagemap.c | 146 ++++++++++++++++++++++----------
-> > --
-> >  1 file changed, 96 insertions(+), 50 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_pagemap.c
-> > b/drivers/gpu/drm/drm_pagemap.c
-> > index fbd69f383457..29677b19bb69 100644
-> > --- a/drivers/gpu/drm/drm_pagemap.c
-> > +++ b/drivers/gpu/drm/drm_pagemap.c
-> > @@ -205,7 +205,7 @@ static void drm_pagemap_get_devmem_page(struct
-> > page *page,
-> >  }
-> >  
-> >  /**
-> > - * drm_pagemap_migrate_map_pages() - Map migration pages for GPU SVM
-> > migration
-> > + * drm_pagemap_migrate_map_device_pages() - Map device migration
-> > pages for GPU SVM migration
-> >   * @dev: The device performing the migration.
-> >   * @local_dpagemap: The drm_pagemap local to the migrating device.
-> >   * @pagemap_addr: Array to store DMA information corresponding to
-> > mapped pages.
-> > @@ -221,19 +221,22 @@ static void drm_pagemap_get_devmem_page(struct
-> > page *page,
-> >   *
-> >   * Returns: 0 on success, -EFAULT if an error occurs during mapping.
-> >   */
-> > -static int drm_pagemap_migrate_map_pages(struct device *dev,
-> > -					 struct drm_pagemap
-> > *local_dpagemap,
-> > -					 struct drm_pagemap_addr
-> > *pagemap_addr,
-> > -					 unsigned long *migrate_pfn,
-> > -					 unsigned long npages,
-> > -					 enum dma_data_direction
-> > dir,
-> > -					 const struct
-> > drm_pagemap_migrate_details *mdetails)
-> > +static int
-> > +drm_pagemap_migrate_map_device_pages(struct device *dev,
-> > +				     struct drm_pagemap
-> > *local_dpagemap,
-> > +				     struct drm_pagemap_addr
-> > *pagemap_addr,
-> > +				     unsigned long *migrate_pfn,
-> > +				     unsigned long npages,
-> > +				     enum dma_data_direction dir,
-> > +				     const struct
-> > drm_pagemap_migrate_details *mdetails)
+
+
+On 2/6/2026 5:33 PM, Daniel Almeida wrote:
+>>>
+>>>
+>>> Yeah, but my point being: is there a reason why the underlying list has to
+>>> remain read-only? Is this a safety requirement or an invariant that is established
+>>> by the code above?
+>> I'm not fully sure if it's an invariant or a safety requirement, but anyone
+>> creating a C list head on the rust side must guarantee that it is not modified.
+>> Since rust has no visibility on the C side, I believe it is a Rust invariant
+>> here that the existence of CListHead assumes that the list cannot be modified
+>> once Rust has access over it.  That is up to the creator (user) of the CListHead
+>> to guarantee. In the DRM buddy case, once the list is allocated and accessible
+>> from Rust, C code will not modify it while the Rust object exists.
+>>
+>> Does that make sense, or is there a better way to document this?
+>>
+>> --
+>> Joel Fernandes
 > 
-> We might want to call this device_private pages. Device coherent pages
-> are treated like system pages here, but I figure those are known to the
-> dma subsystem and can be handled by the map_system_pages callback.
 > 
+> In which case, I recommend moving this to a safety requirement when
+> creating the list.
+
+Ok, will do.
+> I assume the purpose of not modifying the list on the C side is to avoid
+> corrupting the list in Rust somehow?
 
 Yes.
 
-Eventually we will have figure out we'd want to handle Device coherent
-pages with a high speed fabric though.
+Thanks,
 
-> >  {
-> >  	unsigned long num_peer_pages = 0, num_local_pages = 0, i;
-> >  
-> >  	for (i = 0; i < npages;) {
-> >  		struct page *page =
-> > migrate_pfn_to_page(migrate_pfn[i]);
-> > -		dma_addr_t dma_addr;
-> > +		struct drm_pagemap_zdd *zdd;
-> > +		struct drm_pagemap *dpagemap;
-> > +		struct drm_pagemap_addr addr;
-> >  		struct folio *folio;
-> >  		unsigned int order = 0;
-> >  
-> > @@ -243,36 +246,26 @@ static int drm_pagemap_migrate_map_pages(struct
-> > device *dev,
-> >  		folio = page_folio(page);
-> >  		order = folio_order(folio);
-> >  
-> > -		if (is_device_private_page(page)) {
-> > -			struct drm_pagemap_zdd *zdd =
-> > drm_pagemap_page_zone_device_data(page);
-> > -			struct drm_pagemap *dpagemap = zdd-
-> > >dpagemap;
-> > -			struct drm_pagemap_addr addr;
-> > -
-> > -			if (dpagemap == local_dpagemap) {
-> > -				if (!mdetails-
-> > >can_migrate_same_pagemap)
-> > -					goto next;
-> > +		WARN_ON_ONCE(!is_device_private_page(page));
-> >  
-> > -				num_local_pages += NR_PAGES(order);
-> > -			} else {
-> > -				num_peer_pages += NR_PAGES(order);
-> > -			}
-> > +		zdd = drm_pagemap_page_zone_device_data(page);
-> > +		dpagemap = zdd->dpagemap;
-> >  
-> > -			addr = dpagemap->ops->device_map(dpagemap,
-> > dev, page, order, dir);
-> > -			if (dma_mapping_error(dev, addr.addr))
-> > -				return -EFAULT;
-> > +		if (dpagemap == local_dpagemap) {
-> > +			if (!mdetails->can_migrate_same_pagemap)
-> > +				goto next;
-> >  
-> > -			pagemap_addr[i] = addr;
-> > +			num_local_pages += NR_PAGES(order);
-> >  		} else {
-> > -			dma_addr = dma_map_page(dev, page, 0,
-> > page_size(page), dir);
-> > -			if (dma_mapping_error(dev, dma_addr))
-> > -				return -EFAULT;
-> > -
-> > -			pagemap_addr[i] =
-> > -				drm_pagemap_addr_encode(dma_addr,
-> > -
-> > 							DRM_INTERCONNECT_SYSTEM,
-> > -							order, dir);
-> > +			num_peer_pages += NR_PAGES(order);
-> >  		}
-> >  
-> > +		addr = dpagemap->ops->device_map(dpagemap, dev,
-> > page, order, dir);
-> > +		if (dma_mapping_error(dev, addr.addr))
-> > +			return -EFAULT;
-> > +
-> > +		pagemap_addr[i] = addr;
-> > +
-> >  next:
-> >  		i += NR_PAGES(order);
-> >  	}
-> > @@ -287,6 +280,59 @@ static int drm_pagemap_migrate_map_pages(struct
-> > device *dev,
-> >  	return 0;
-> >  }
-> >  
-> > +/**
-> > + * drm_pagemap_migrate_map_system_pages() - Map system migration
-> > pages for GPU SVM migration
-> > + * @dev: The device performing the migration.
-> > + * @pagemap_addr: Array to store DMA information corresponding to
-> > mapped pages.
-> > + * @migrate_pfn: Array of page frame numbers of system pages or peer
-> > pages to map.
-> 
-> system pages or device coherent pages? "Peer" pages would typically be
-> device-private pages with the same owner.
-> 
-> > + * @npages: Number of system pages or peer pages to map.
-> 
-> Same here.
+-- 
+Joel Fernandes
 
-Yes, copy paste error.
-
-> 
-> > + * @dir: Direction of data transfer (e.g., DMA_BIDIRECTIONAL)
-> > + *
-> > + * This function maps pages of memory for migration usage in GPU
-> > SVM. It
-> > + * iterates over each page frame number provided in @migrate_pfn,
-> > maps the
-> > + * corresponding page, and stores the DMA address in the provided
-> > @dma_addr
-> > + * array.
-> > + *
-> > + * Returns: 0 on success, -EFAULT if an error occurs during mapping.
-> > + */
-> > +static int
-> > +drm_pagemap_migrate_map_system_pages(struct device *dev,
-> > +				     struct drm_pagemap_addr
-> > *pagemap_addr,
-> > +				     unsigned long *migrate_pfn,
-> > +				     unsigned long npages,
-> > +				     enum dma_data_direction dir)
-> > +{
-> > +	unsigned long i;
-> > +
-> > +	for (i = 0; i < npages;) {
-> > +		struct page *page =
-> > migrate_pfn_to_page(migrate_pfn[i]);
-> > +		dma_addr_t dma_addr;
-> > +		struct folio *folio;
-> > +		unsigned int order = 0;
-> > +
-> > +		if (!page)
-> > +			goto next;
-> > +
-> > +		WARN_ON_ONCE(is_device_private_page(page));
-> > +		folio = page_folio(page);
-> > +		order = folio_order(folio);
-> > +
-> > +		dma_addr = dma_map_page(dev, page, 0,
-> > page_size(page), dir);
-> > +		if (dma_mapping_error(dev, dma_addr))
-> > +			return -EFAULT;
-> > +
-> > +		pagemap_addr[i] =
-> > +			drm_pagemap_addr_encode(dma_addr,
-> > +						DRM_INTERCONNECT_SYS
-> > TEM,
-> > +						order, dir);
-> > +
-> > +next:
-> > +		i += NR_PAGES(order);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  /**
-> >   * drm_pagemap_migrate_unmap_pages() - Unmap pages previously mapped
-> > for GPU SVM migration
-> >   * @dev: The device for which the pages were mapped
-> > @@ -347,9 +393,11 @@ drm_pagemap_migrate_remote_to_local(struct
-> > drm_pagemap_devmem *devmem,
-> >  				    const struct
-> > drm_pagemap_migrate_details *mdetails)
-> >  
-> >  {
-> > -	int err = drm_pagemap_migrate_map_pages(remote_device,
-> > remote_dpagemap,
-> > -						pagemap_addr,
-> > local_pfns,
-> > -						npages,
-> > DMA_FROM_DEVICE, mdetails);
-> > +	int err =
-> > drm_pagemap_migrate_map_device_pages(remote_device,
-> > +						      
-> > remote_dpagemap,
-> > +						       pagemap_addr,
-> > local_pfns,
-> > +						       npages,
-> > DMA_FROM_DEVICE,
-> > +						       mdetails);
-> >  
-> >  	if (err)
-> >  		goto out;
-> > @@ -368,12 +416,11 @@ drm_pagemap_migrate_sys_to_dev(struct
-> > drm_pagemap_devmem *devmem,
-> >  			       struct page *local_pages[],
-> >  			       struct drm_pagemap_addr
-> > pagemap_addr[],
-> >  			       unsigned long npages,
-> > -			       const struct drm_pagemap_devmem_ops
-> > *ops,
-> > -			       const struct
-> > drm_pagemap_migrate_details *mdetails)
-> > +			       const struct drm_pagemap_devmem_ops
-> > *ops)
-> >  {
-> > -	int err = drm_pagemap_migrate_map_pages(devmem->dev, devmem-
-> > >dpagemap,
-> > -						pagemap_addr,
-> > sys_pfns, npages,
-> > -						DMA_TO_DEVICE,
-> > mdetails);
-> > +	int err = drm_pagemap_migrate_map_system_pages(devmem->dev,
-> > +						       pagemap_addr,
-> > sys_pfns,
-> > +						       npages,
-> > DMA_TO_DEVICE);
-> 
-> 
-> Unfortunately it's a bit more complicated than this. If the destination
-> gpu migrates, the range to migrate could be a mix of system pages,
-> device coherent pages and also device private pages, and previously
-> drm_pagemap_migrate_map_pages() took care of that and did the correct
-> thing on a per-page basis. 
-> 
-> You can exercise this by setting mdetails::source_peer_migrates to
-> false on xe. That typically "works" but might generate some errors in
-> the atomic multi-device tests AFAICT because reading from the BAR does
-> not flush the L2 caches on BMG. But should be sufficient to exercise
-> this path.
-
-Ah, yes I see I missed this - this patch isn't strickly required I just
-didn't want drm_pagemap_migrate_map_pages to have massive cascading if
-statements... I can remove for now if that is preferred or should be
-just remove source_peer_migrates and assume a value of '1'.
-
-I suggest the later because looking forward source_peer_migrates == 0
-would bb difficult to support a high speed fabric, which requires a IOVA
-(think UAL with virtual NAs at the target device), plus multiple
-different devices being found in the migration pages. Also, with p2p,
-isn't source_peer_migrates == '1' (write over p2p) faster than
-source_peer_migrates == '0' (read over p2p)?
-
-Matt
-
-> 
-> /Thomas
