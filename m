@@ -2,68 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UHsWKJasiWndAgUAu9opvQ
+	id qH/iGAOuiWndAgUAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 10:44:54 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 10:50:59 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CEA610DB0A
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 10:44:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B38A610DC63
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 10:50:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D07010E3A7;
-	Mon,  9 Feb 2026 09:44:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3E8210E3AC;
+	Mon,  9 Feb 2026 09:50:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NtWjO+ro";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="GAl5PSI0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3D7C10E3A7;
- Mon,  9 Feb 2026 09:44:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770630290; x=1802166290;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=KD91b1JCUOp74C+msSWh6cDBlAST6d4Y9taXBzEFRYo=;
- b=NtWjO+rowi44bGFnGCGKjU9hLZRHZHFAkwYcQmIM1AWAlnsk1VaVdaJD
- ggXMZaZ0jTJ/lrhCLkScXcCnZAsTOhMC0L92ip/NqAgZizpKcG8T9Oj8a
- /6QKXv3W6XgUJFqj4x/pxJT9owM1rvcw1Ed5ZrZ3dn6q081hIHVYTYPxg
- EUN/8beUJtei9k6qCN/8Aq1wXgKfEm+RWcsRSmGSNOuXXoprSA7thO13U
- 55W9qeHofKcRFlxbw1lmXlC2CNtGrc7gTTBo27iJNIvuzcNEXM9j+YAmu
- zx4c8tMVlxpv/atYBDGvCTMp39cuVJDEkFWtbgydem39oWx+7PA8vHVOK A==;
-X-CSE-ConnectionGUID: zoMLxjiDQE+l9TAhV48kMQ==
-X-CSE-MsgGUID: StUorg+tSO2nKmoivEe0Ow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="89321900"
-X-IronPort-AV: E=Sophos;i="6.21,281,1763452800"; d="scan'208";a="89321900"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2026 01:44:48 -0800
-X-CSE-ConnectionGUID: txfGjxD3TLKPvEygI6sHLA==
-X-CSE-MsgGUID: qjt8501ZQlOEFNOCSConmA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,281,1763452800"; d="scan'208";a="216038030"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.245.179])
- ([10.245.245.179])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2026 01:44:46 -0800
-Message-ID: <a49090041ce136443dc75d7f9dcd7e2fddbe90bc.camel@linux.intel.com>
-Subject: Re: [PATCH v4 2/4] drm/gpusvm: Use dma-map IOVA alloc, link, and
- sync API in GPU SVM
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: leonro@nvidia.com, jgg@ziepe.ca, francois.dugast@intel.com, 
- himal.prasad.ghimiray@intel.com
-Date: Mon, 09 Feb 2026 10:44:43 +0100
-In-Reply-To: <20260205041921.3781292-3-matthew.brost@intel.com>
-References: <20260205041921.3781292-1-matthew.brost@intel.com>
- <20260205041921.3781292-3-matthew.brost@intel.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD6C910E3B7
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 09:50:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1770630653;
+ bh=lg8CE3wdX+dcJL6yDeqGzT+IDyDi7+zFMbcdS7bHqvY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=GAl5PSI0gxZCB4fRfIXmb+OCpJY8qNOwXLz9veN8T1muQZoP1SLZuyEN5jFkvF2vC
+ ipEp3b4sMip86VDrIuyv0saU6cadpiIbCjLXvBVVbeZAQqEsKVjT0taFlrKIdQOG5o
+ OZQLZf2qXFX+xYlx0veU9pFtFvMJZFR5drDK3SDbpdlXo4c3lYspdavKG7jiw9NlZW
+ xa/6D7KeI3iQ35tMqN3uTY1pHR6VVhFsLSaG8GVpX+qBCwtkSmIJAVf9ZN5odCFfCe
+ 6XncsOBtXX+6Ns4d6I4xWWAvxrKDHBZuGV6cEunws0xUFhCtHMLYrEcFSnZW8x55/J
+ GOPQBqzU8Vu7A==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id F334C17E12C5;
+ Mon,  9 Feb 2026 10:50:51 +0100 (CET)
+Date: Mon, 9 Feb 2026 10:50:47 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>, Danilo Krummrich
+ <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Drew Fustini <fustini@kernel.org>, Guo Ren
+ <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Uwe =?UTF-8?B?S2xlaW5lLUs=?=
+ =?UTF-8?B?w7ZuaWc=?= <ukleinek@kernel.org>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Miguel Ojeda
+ <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
+ <gary@garyguo.net>, =?UTF-8?B?QmrDtnJu?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
+ Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-riscv@lists.infradead.org,
+ linux-pwm@vger.kernel.org, linux-clk@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] rust: clk: use the type-state pattern
+Message-ID: <20260209105047.693f2515@fedora>
+In-Reply-To: <20260204-angelic-vermilion-beagle-fd1507@houat>
+References: <20260119-thundering-tested-robin-4be817@houat>
+ <aW4lCfUyumOKRRJm@google.com>
+ <518D8B09-B9A1-4DB4-85CD-37A2DD3D5FB1@collabora.com>
+ <DFSLCI9U4NCW.2HI2UPUI7G134@kernel.org>
+ <20260119-weightless-pelican-of-anger-190db0@houat>
+ <DFSN4FDCYHMW.3J3237PEBV2ZP@kernel.org>
+ <20260122-majestic-masterful-jaguarundi-d0abde@houat>
+ <2F3D3A40-6EF9-46FC-A769-E5A3AAF67E65@collabora.com>
+ <20260204-nickel-seal-of-poetry-8fdefb@houat>
+ <91A92D84-1F2E-45F3-82EC-6A97D32E2A78@collabora.com>
+ <20260204-angelic-vermilion-beagle-fd1507@houat>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,225 +92,210 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mripard@kernel.org,m:daniel.almeida@collabora.com,m:dakr@kernel.org,m:aliceryhl@google.com,m:rafael@kernel.org,m:viresh.kumar@linaro.org,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:fustini@kernel.org,m:guoren@kernel.org,m:wefu@redhat.com,m:ukleinek@kernel.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:ojeda@kernel.org,m:boqun.feng@gmail.com,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:linux-pm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-riscv@lists.infradead.org,m:linux-pwm@vger.kernel.org,m:linux-clk@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:boqunfeng@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[30];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[collabora.com,kernel.org,google.com,linaro.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,redhat.com,baylibre.com,garyguo.net,protonmail.com,umich.edu,vger.kernel.org,lists.freedesktop.org,lists.infradead.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email,intel.com:dkim]
-X-Rspamd-Queue-Id: 0CEA610DB0A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: B38A610DC63
 X-Rspamd-Action: no action
 
-On Wed, 2026-02-04 at 20:19 -0800, Matthew Brost wrote:
-> The dma-map IOVA alloc, link, and sync APIs perform significantly
-> better
-> than dma-map / dma-unmap, as they avoid costly IOMMU
-> synchronizations.
-> This difference is especially noticeable when mapping a 2MB region in
-> 4KB pages.
->=20
-> Use the IOVA alloc, link, and sync APIs for GPU SVM, which create DMA
-> mappings between the CPU and GPU.
->=20
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
-> v3:
-> =C2=A0- Always link IOVA in mixed mappings
-> =C2=A0- Sync IOVA
-> v4:
-> =C2=A0- Initialize IOVA state in get_pages
-> =C2=A0- Use pack IOVA linking (Jason)
-> =C2=A0- s/page_to_phys/hmm_pfn_to_phys (Leon)
->=20
-> =C2=A0drivers/gpu/drm/drm_gpusvm.c | 55 ++++++++++++++++++++++++++++++---=
--
-> --
-> =C2=A0include/drm/drm_gpusvm.h=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 ++++
-> =C2=A02 files changed, 52 insertions(+), 8 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_gpusvm.c
-> b/drivers/gpu/drm/drm_gpusvm.c
-> index 4b8130a4ce95..800caaf0a783 100644
-> --- a/drivers/gpu/drm/drm_gpusvm.c
-> +++ b/drivers/gpu/drm/drm_gpusvm.c
-> @@ -1139,11 +1139,19 @@ static void __drm_gpusvm_unmap_pages(struct
-> drm_gpusvm *gpusvm,
-> =C2=A0		struct drm_gpusvm_pages_flags flags =3D {
-> =C2=A0			.__flags =3D svm_pages->flags.__flags,
-> =C2=A0		};
-> +		bool use_iova =3D dma_use_iova(&svm_pages->state);
-> +
-> +		if (use_iova) {
-> +			dma_iova_unlink(dev, &svm_pages->state, 0,
-> +					svm_pages->state_offset,
-> +					svm_pages->dma_addr[0].dir,
-> 0);
-> +			dma_iova_free(dev, &svm_pages->state);
-> +		}
-> =C2=A0
-> =C2=A0		for (i =3D 0, j =3D 0; i < npages; j++) {
-> =C2=A0			struct drm_pagemap_addr *addr =3D &svm_pages-
-> >dma_addr[j];
-> =C2=A0
-> -			if (addr->proto =3D=3D DRM_INTERCONNECT_SYSTEM)
-> +			if (!use_iova && addr->proto =3D=3D
-> DRM_INTERCONNECT_SYSTEM)
-> =C2=A0				dma_unmap_page(dev,
-> =C2=A0					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 addr->addr,
-> =C2=A0					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 PAGE_SIZE << addr-
-> >order,
-> @@ -1408,6 +1416,7 @@ int drm_gpusvm_get_pages(struct drm_gpusvm
-> *gpusvm,
-> =C2=A0	struct drm_gpusvm_pages_flags flags;
-> =C2=A0	enum dma_data_direction dma_dir =3D ctx->read_only ?
-> DMA_TO_DEVICE :
-> =C2=A0							=C2=A0=C2=A0
-> DMA_BIDIRECTIONAL;
-> +	struct dma_iova_state *state =3D &svm_pages->state;
-> =C2=A0
-> =C2=A0retry:
-> =C2=A0	if (time_after(jiffies, timeout))
-> @@ -1446,6 +1455,9 @@ int drm_gpusvm_get_pages(struct drm_gpusvm
-> *gpusvm,
-> =C2=A0	if (err)
-> =C2=A0		goto err_free;
-> =C2=A0
-> +	*state =3D (struct dma_iova_state){};
-> +	svm_pages->state_offset =3D 0;
-> +
-> =C2=A0map_pages:
-> =C2=A0	/*
-> =C2=A0	 * Perform all dma mappings under the notifier lock to not
-> @@ -1539,13 +1551,33 @@ int drm_gpusvm_get_pages(struct drm_gpusvm
-> *gpusvm,
-> =C2=A0				goto err_unmap;
-> =C2=A0			}
-> =C2=A0
-> -			addr =3D dma_map_page(gpusvm->drm->dev,
-> -					=C2=A0=C2=A0=C2=A0 page, 0,
-> -					=C2=A0=C2=A0=C2=A0 PAGE_SIZE << order,
-> -					=C2=A0=C2=A0=C2=A0 dma_dir);
-> -			if (dma_mapping_error(gpusvm->drm->dev,
-> addr)) {
-> -				err =3D -EFAULT;
-> -				goto err_unmap;
-> +			if (!i)
-> +				dma_iova_try_alloc(gpusvm->drm->dev,
-> state,
-> +						=C2=A0=C2=A0 npages *
-> PAGE_SIZE >=3D
-> +						=C2=A0=C2=A0 HPAGE_PMD_SIZE ?
-> +						=C2=A0=C2=A0 HPAGE_PMD_SIZE :
-> 0,
+Hi Maxime,
 
-Doc says "callers that always do PAGE_SIZE aligned transfers can always
-pass 0 here", so can be simplified?
+On Wed, 4 Feb 2026 15:34:29 +0100
+Maxime Ripard <mripard@kernel.org> wrote:
+
+> On Wed, Feb 04, 2026 at 09:43:55AM -0300, Daniel Almeida wrote:
+> > > I'm probably missing something then, but let's assume you have a driv=
+er
+> > > that wants its clock prepared and enabled in an hypothetical enable()
+> > > callback, and disabled / unprepared in a disable() callback.
+> > >=20
+> > > From a PM management perspective, this usecase makes total sense, is a
+> > > valid usecase, is widely used in the kernel, and is currently support=
+ed
+> > > by both the C and Rust clk APIs.
+> > >=20
+> > > The only solution to this you suggested so far (I think?) to implement
+> > > this on top of the new clk API you propose is to have a driver specif=
+ic
+> > > enum that would store each of the possible state transition. =20
+> >=20
+> > Yes, you need an enum _if_ you want to model transitions at runtime. II=
+UC you
+> > only need two variants to implement the pattern you described. I do not
+> > consider this  =E2=80=9Cboilerplate=E2=80=9D, but rather a small cost t=
+o pay. =20
+>=20
+> A maintenance cost to pay by every driver is kind of the textbook
+> definition of boilerplate to me.
+>=20
+> > I would understand if this was some elaborate pattern that had to be
+> > implemented by all drivers, but a two-variant enum is as
+> > straightforward as it gets. =20
+>=20
+> And yet, that framework has dozens of helpers that do not remove
+> anything from drivers but a couple of lines. So surely its users must
+> find value in reducing that boilerplate as much as possible. And you do
+> implement some of them, so you must find value in that too.
+>=20
+> > > That's the boilerplate I'm talking about. If every driver wanting to
+> > > implement that pattern has to make such an enum, with all the relevant
+> > > traits implementation that might come with it, we go from an API where
+> > > everything works at no-cost from a code-size perspective to a situati=
+on
+> > > where every driver has to develop and maintain that enum. =20
+> >
+> > There are no "traits that come with it". It's just an enum, with two
+> > variants.
+> >  =20
+> > > API where everything works at no-cost =20
+> >=20
+> > The previous API was far from =E2=80=9Ceverything works=E2=80=9D. It wa=
+s fundamentally
+> > broken by design in multiple ways, i.e.: =20
+>=20
+> Out of context and not what I meant, but ok.
+>=20
+> > > a) It only keeps track of a count to clk_get(), which means that user=
+s have
+> > > to manually call disable() and unprepare(), or a variation of those, =
+like
+> > > disable_unprepare().
+> > >=20
+> > > b) It allows repeated calls to prepare() or enable(), but it keeps no=
+ track
+> > > of how often these were called, i.e., it's currently legal to write t=
+he
+> > > following:
+> > >=20
+> > > clk.prepare();
+> > > clk.prepare();
+> > > clk.enable();
+> > > clk.enable();
+> > >=20
+> > > And nothing gets undone on drop(). =20
+> >=20
+> > IMHO, what we have here is an improvement that has been long overdue. =
+=20
+>=20
+> Nothing is absolute. It is indeed an improvement on the refcounting side
+> of things and general safety of the API for the general case. I don't
+> think I ever questionned that.
+>=20
+> However, for the use-cases we've been discussing (and dozens of drivers
+> implementing it), it also comes with a regression in the amount of code
+> to create and maintain. They used to be able to only deal with the Clk
+> structure, and now they can't anymore.
+>=20
+> You might find that neglible, you might have a plan to address that in
+> the future, etc. and that's fine, but if you can't acknowledge that it's
+> indeed happening, there's no point in me raising the issue and
+> continuing the discussion.
 
 
-> +						=C2=A0=C2=A0 npages *
-> PAGE_SIZE);
-> +
-> +			if (dma_use_iova(state)) {
-> +				err =3D dma_iova_link(gpusvm->drm-
-> >dev, state,
-> +						=C2=A0=C2=A0=C2=A0
-> hmm_pfn_to_phys(pfns[i]),
-> +						=C2=A0=C2=A0=C2=A0 svm_pages-
-> >state_offset,
-> +						=C2=A0=C2=A0=C2=A0 PAGE_SIZE <<
-> order,
-> +						=C2=A0=C2=A0=C2=A0 dma_dir, 0);
-> +				if (err)
-> +					goto err_unmap;
-> +
-> +				addr =3D state->addr + svm_pages-
-> >state_offset;
-> +				svm_pages->state_offset +=3D PAGE_SIZE
-> << order;
-> +			} else {
-> +				addr =3D dma_map_page(gpusvm->drm-
-> >dev,
-> +						=C2=A0=C2=A0=C2=A0 page, 0,
-> +						=C2=A0=C2=A0=C2=A0 PAGE_SIZE <<
-> order,
-> +						=C2=A0=C2=A0=C2=A0 dma_dir);
-> +				if (dma_mapping_error(gpusvm->drm-
-> >dev, addr)) {
-> +					err =3D -EFAULT;
-> +					goto err_unmap;
-> +				}
-> =C2=A0			}
-> =C2=A0
-> =C2=A0			svm_pages->dma_addr[j] =3D
-> drm_pagemap_addr_encode
-> @@ -1557,6 +1589,13 @@ int drm_gpusvm_get_pages(struct drm_gpusvm
-> *gpusvm,
-> =C2=A0		flags.has_dma_mapping =3D true;
-> =C2=A0	}
-> =C2=A0
-> +	if (dma_use_iova(state)) {
-> +		err =3D dma_iova_sync(gpusvm->drm->dev, state, 0,
-> +				=C2=A0=C2=A0=C2=A0 svm_pages->state_offset);
-> +		if (err)
-> +			goto err_unmap;
-> +	}
-> +
-> =C2=A0	if (pagemap) {
-> =C2=A0		flags.has_devmem_pages =3D true;
-> =C2=A0		drm_pagemap_get(dpagemap);
-> diff --git a/include/drm/drm_gpusvm.h b/include/drm/drm_gpusvm.h
-> index 2578ac92a8d4..cd94bb2ee6ee 100644
-> --- a/include/drm/drm_gpusvm.h
-> +++ b/include/drm/drm_gpusvm.h
-> @@ -6,6 +6,7 @@
-> =C2=A0#ifndef __DRM_GPUSVM_H__
-> =C2=A0#define __DRM_GPUSVM_H__
-> =C2=A0
-> +#include <linux/dma-mapping.h>
-> =C2=A0#include <linux/kref.h>
-> =C2=A0#include <linux/interval_tree.h>
-> =C2=A0#include <linux/mmu_notifier.h>
-> @@ -136,6 +137,8 @@ struct drm_gpusvm_pages_flags {
-> =C2=A0 * @dma_addr: Device address array
-> =C2=A0 * @dpagemap: The struct drm_pagemap of the device pages we're dma-
-> mapping.
-> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 Note this is assuming only one drm_pagemap per range
-> is allowed.
-> + * @state: DMA IOVA state for mapping.
-> + * @state_offset: DMA IOVA offset for mapping.
-> =C2=A0 * @notifier_seq: Notifier sequence number of the range's pages
-> =C2=A0 * @flags: Flags for range
-> =C2=A0 * @flags.migrate_devmem: Flag indicating whether the range can be
-> migrated to device memory
-> @@ -147,6 +150,8 @@ struct drm_gpusvm_pages_flags {
-> =C2=A0struct drm_gpusvm_pages {
-> =C2=A0	struct drm_pagemap_addr *dma_addr;
-> =C2=A0	struct drm_pagemap *dpagemap;
-> +	struct dma_iova_state state;
-> +	unsigned long state_offset;
-> =C2=A0	unsigned long notifier_seq;
-> =C2=A0	struct drm_gpusvm_pages_flags flags;
-> =C2=A0};
+Okay, let's see if I can sum-up the use case you'd like to support. You
+have some PM hooks, which I'm assuming are (or will be) written in
+rust. It will probably take the form of some Device{Rpm,Pm} trait to
+implement for your XxxDeviceData (Xxx being the bus under which is
+device is) object (since I've only recently joined the R4L effort, I
+wouldn't be surprised if what I'm describing already exists or is
+currently being proposed/reviewed somewhere, so please excuse my
+ignorance if that's the case :-)).
 
-Otherwise LGTM.=20
-Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+The way I see it, rather than having one enum per clk/regulator/xxx
+where we keep track of each state individually, what we could have is a
+
+trait DevicePm {
+	type ResumedState;
+	type SuspendedState;
+
+	fn resume(&self, state: SuspendedState) -> Result<ResumedState, Error<Susp=
+endedState>>;
+	fn suspend(&self, state: SuspendedState) -> Result<SuspendedState, Error<R=
+esumedState>>;
+};
+
+enum DeviceState<T: DevicePm> {
+	Resumed(T::ResumedState),
+	Suspended(T::SuspendedState),
+};
+
+and then in your driver:
+
+MySuspendedDeviceResources {
+	xxx_clk: Clk<Unprepared>,
+};
+
+MyResumedDeviceResources {
+	xxx_clk: Clk<Enabled>,
+};
+
+implem DevicePm for MyDevice {
+	type ResumedState =3D MyResumedDeviceResources;
+	type SuspendedState =3D MySuspendedDeviceResources;
+
+	fn resume(&self, state: SuspendedState) -> Result<ResumedState, Error<Susp=
+endedState>> {
+		// FIXME: error propagation not handled
+		let enabled_clk =3D state.xxx_clk.clone().prepare()?.enable()?;
+
+		Ok(ResumedState {
+			xxx_clk: enabled_clk,
+		});
+	}
+
+	fn suspend(&self, state: ResumedState) -> Result<SuspendedState, Error<Res=
+umedState>> {
+		// FIXME: error propagation not handled
+		let unprep_clk =3D state.xxx_clk.clone().disable().unprepare();
+
+		Ok(SuspendedState {
+			xxx_clk: unprep_clk,
+		});
+	}
+};
+
+With this model, I don't think Daniel's refactor goes in the way of more
+generalization at the core level, it's just expressed differently than
+it would be if it was written in C. And I say that as someone who struggles
+with his C developer bias every time I'm looking at or trying to write
+rust code.
+
+As others have said in this thread (Danilo and Gary), and after having
+played myself with both approaches in Tyr, I do see this shift from manual
+prepare/enable to an RAII approach as an improvement, so I hope we can
+find a middle-ground where every one is happy.
+
+Regards,
+
+Boris
