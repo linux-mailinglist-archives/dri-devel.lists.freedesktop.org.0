@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2OKpImr/iWluFQAAu9opvQ
+	id iHgVEmj/iWluFQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 16:38:18 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 16:38:16 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29330111F77
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 16:38:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97271111F70
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 16:38:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B053E10E41B;
-	Mon,  9 Feb 2026 15:38:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F27F10E41A;
+	Mon,  9 Feb 2026 15:38:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="qILKP/e8";
+	dkim=pass (2048-bit key; unprotected) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="VKcxFpGA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60FF310E41A
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 15:38:11 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-483487335c2so5392935e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Feb 2026 07:38:11 -0800 (PST)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFC4510E41A
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 15:38:12 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-483487335c2so5393305e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Feb 2026 07:38:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1770651490; x=1771256290;
+ d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1770651491; x=1771256291;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=BiucukKgd6A5IEwlte0sQaw8GOuaez4s0BdPuzMpI0U=;
- b=qILKP/e8Ja3PqxmhO7Wg1kIqxYi8k6wCCDPcPODxZWXFSkUoq/7FuBCkf592xiv7zi
- m/+N9vo0rxJhsrhqrEPgVrIT47/X0aIuNA6p6C1PDt+frq3UTyenISIcYiKPLd9cG6Lu
- JYWYaTTcVzo8kqq1qRwoyc9Ggjw9upavuw0PV1drbRMgGpDSfCRl2MJdbVSKhnkxY565
- 2k2wXh/Wzqqda9Vyxth0a4RqIJu9TVNRDblMStnsYSDj2/WSCloR5FS6Uvy8IA7Fso5H
- KIJ/XYMSccNHQI4kNzDzhhhTeD4Ivn0BGRdaDyoTuszcP+03MPNyNPjSCOHniUQ6hAYg
- lk1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770651490; x=1771256290;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BiucukKgd6A5IEwlte0sQaw8GOuaez4s0BdPuzMpI0U=;
- b=VsZkmmoVHMB80bdCia9/tdc67mmduJXXCEKtAW77MtwHxtZZc6qfb1TS9AJFm/WG6p
- 42VzlD9m3wQU2Nz4uVz4cNMlLPXcKNBNS4M12zrsTAHI8aKzpHNQfTzyVNLk6m53LbUX
- l0m/7xdYaCtSt3mfFu9y2VzEN91xcNhFTHbD8FdQwLX7cxiNiFenwZ8YDfGK25W35guq
- RWPbysmTcLfHxotDzFEZGzuio8Mgn0D8oIyx+RBANZmpHE8MFRwA+bem8aXDcVsFnjVO
- GcFdiXtso5Lg9Jiu6D+o5xd1CKDd6QVI/4CBxrW5JPxwBYHcrBCGQn5pPYfN0a1QrucM
- qMHw==
-X-Gm-Message-State: AOJu0YxWomoGINXZvB63G5v1v1Orfrx84r6u9zV/6RzPAmYmRFjqEKZM
- Gw/mdxoNcRq3ai76RqNQpyvu44isHmrUAZrbLblnYEK6d6rdAUyC0Hh3QaybixP9yF1EoUuUB7+
- YdIe0
-X-Gm-Gg: AZuq6aJLhFm8D5RZlFBwY8KeYfQV24eTE8Y3QTu1RStg36EH6KK8V5nHbNnLQjMbO7Y
- k3bs3yQPUJePXO0BKecDcfmAvof3FRhGaA/J6fVtXqdabw6IaRWeSRYE0mN2oO/nbefuX3IcJ2c
- H+u+2tYLLI3D/z+KojaWJYhQINHu7W7gLDmQS00LAf0ILxn9ujyEjINcRvlvoIp5xFm+AdepnY2
- yKLBBwl/p5V9WFYJoDuq1ZEqIL7syQeXTqDiK6JvsRDZJEHwptd5tXWWc5r9hHBZybS6/FRfZmV
- pSmiHeBoujQl278Xx1T8m8BcMG7SU/A17lMA9fQK95Md/WWURFbKKyNmDlU1SQuNzModEAImY8B
- pbMkgiKMQsQUS5XHa3oNPBQCfVy54FkbF8kTY8uXJHlfdqhiHmpDzBg6DgX1YFzaQk9jQjxX3vP
- mOWrdqBWaM2/qC
-X-Received: by 2002:a05:600c:621a:b0:480:6852:8d94 with SMTP id
- 5b1f17b1804b1-4832097e2b0mr178535855e9.27.1770651490292; 
- Mon, 09 Feb 2026 07:38:10 -0800 (PST)
+ bh=Jk99TzIHNfOaBko9b1E43IwPHNs+vzenJUms8qd4tnM=;
+ b=VKcxFpGAYvRRyWaTQCJXzhzOGRvs2/ssmoCdyrKYO9RmRnstdQY3ulrSpR/EJXF+Uh
+ FT2IAkvcjuQb7vuQavrFZroVUJn7lVPi7tqvGFxjZFKf7QyewrxGF44cUvc0kfbUi7Oz
+ Oqj6MUGETZlQY9yIBDH5eiSMdwCLGY7TbHOn4Jxo5HBBaXfjEcbgFJU/0+bJXn4gFXPh
+ wz06nEsoAlhZlipYydwcH9+7PC029gBquyJAT4WP7HEktHKjdxFBXRbzTGk4flcAxwfV
+ SYchymdY1QQH62ub/vBCaJCqqUKT81T+hqFuk37QxuZQwqHUkU4W8fLuvFkqxX9zXq5i
+ OZBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770651491; x=1771256291;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=Jk99TzIHNfOaBko9b1E43IwPHNs+vzenJUms8qd4tnM=;
+ b=qVPihooP89SW0szejuwfFOSiZrVS0rZlfctWPgVlaVcByYRZn8pQLGaKlSI0objg34
+ aIJzgCzPf8KYIiVStBZRBGEpIUi6uAvygHA+mj3buGJu1tOBplBme9XM/Kmav/U7Y9vi
+ UKcMjjd+I+t3TdJ2s8uA1jNMFM3f4Ar3yyHlFFb//MRMODin0oJ+lct80oLd4XcsYfAa
+ ramz+9fah8qPQjFQSAYQeLblfEh33qOPEsTmyxqJRmobQjCreasW0rwz4RfzRyEJ4Jp3
+ ClBzAUGk4LZ2pNzNuy74+UHMNMbIfhU6Pf5xenLtuCbCuNvPhLyezzB1x//44tveG8/x
+ 9sZw==
+X-Gm-Message-State: AOJu0YzG7Plk+8nUdG1A31MkY7qnxC4O/XNE06AQUet4Ow6AcDcIn4g4
+ +hg5FwC8DcZNvMRYd27OiErwKS+UbfyB/U1GjJwAnLLPOeeLAdNd67Op7DOVwtcqWsKvkncQrpm
+ SX0SZ
+X-Gm-Gg: AZuq6aJr5XoRewGpMID982VPU7K1tn9J63ImiviRMvGscv624Rf75XI8SHhEgLWRsjh
+ BZYYqR27vKsLxTwHu6KnaQ9JugkhZyZUvJoZPH93pJ727dW3owwoTRebqef6zo2cWAtXJ65RMFs
+ OYNPtAWW9E5On6Tfyzc/WJTunlFnq9hgdO0pMOw7WMiPHn8liZ0hWCa43R33rLKtiYEete4pIxM
+ ohgmFmc2KO94ekISc4C3w6eb9CX/lGg71SmSlXAqzGY1nNrXMk773zdPPzDkPk9K9XB70bGNe4G
+ GyUWA4ldmw4kYVZIqUKILntDFV2Qus9Tv3e8eTyjJEanGUY/6H5EGMIpP4BAFQ9Y94GHwI1vQy3
+ jBu4Safh+6KDH9DMZ6BbELV9UinbXsTR/niCn+j7i++BzKvStGlDIBhqYNn3v6XfIqdRxVU4PUO
+ 6YJA==
+X-Received: by 2002:a05:600c:6592:b0:47e:e7e5:ff32 with SMTP id
+ 5b1f17b1804b1-483209c6dd4mr181313355e9.34.1770651491431; 
+ Mon, 09 Feb 2026 07:38:11 -0800 (PST)
 Received: from localhost ([85.163.81.98]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-48317d8341csm329338275e9.13.2026.02.09.07.38.09
+ ffacd0b85a97d-4376a78d796sm11560760f8f.20.2026.02.09.07.38.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Feb 2026 07:38:09 -0800 (PST)
+ Mon, 09 Feb 2026 07:38:11 -0800 (PST)
 From: Jiri Pirko <jiri@resnulli.us>
 To: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
  iommu@lists.linux.dev, linux-media@vger.kernel.org
@@ -76,11 +77,13 @@ Cc: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
  steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com,
  ashish.kalra@amd.com, suravee.suthikulpanit@amd.com,
  linux-coco@lists.linux.dev
-Subject: [PATCH 0/5] dma-buf: heaps: system: add an option to allocate
- explicitly decrypted memory
-Date: Mon,  9 Feb 2026 16:38:04 +0100
-Message-ID: <20260209153809.250835-1-jiri@resnulli.us>
+Subject: [PATCH 1/5] dma-mapping: avoid random addr value print out on error
+ path
+Date: Mon,  9 Feb 2026 16:38:05 +0100
+Message-ID: <20260209153809.250835-2-jiri@resnulli.us>
 X-Mailer: git-send-email 2.51.1
+In-Reply-To: <20260209153809.250835-1-jiri@resnulli.us>
+References: <20260209153809.250835-1-jiri@resnulli.us>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -124,52 +127,35 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[resnulli.us:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:email]
-X-Rspamd-Queue-Id: 29330111F77
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:email,resnulli.us:mid]
+X-Rspamd-Queue-Id: 97271111F70
 X-Rspamd-Action: no action
 
 From: Jiri Pirko <jiri@nvidia.com>
 
-Confidential computing (CoCo) VMs/guests, such as AMD SEV and Intel TDX,
-run with encrypted/protected memory which creates a challenge
-for devices that do not support DMA to it (no TDISP support).
+dma_addr is unitialized in dma_direct_map_phys() when swiotlb is forced
+and DMA_ATTR_MMIO is set which leads to random value print out in
+warning. Fix that by just returning DMA_MAPPING_ERROR.
 
-For kernel-only DMA operations, swiotlb bounce buffering provides a
-transparent solution by copying data through decrypted memory.
-However, the only way to get this memory into userspace is via the DMA
-API's dma_alloc_pages()/dma_mmap_pages() type interfaces which limits
-the use of the memory to a single DMA device, and is incompatible with
-pin_user_pages().
+Fixes: e53d29f957b3 ("dma-mapping: convert dma_direct_*map_page to be phys_addr_t based")
+Signed-off-by: Jiri Pirko <jiri@nvidia.com>
+---
+ kernel/dma/direct.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-These limitations are particularly problematic for the RDMA subsystem
-which makes heavy use of pin_user_pages() and expects flexible memory
-usage between many different DMA devices.
-
-This patch series enables userspace to explicitly request decrypted
-(shared) memory allocations from the dma-buf system heap.
-Userspace can mmap this memory and pass the dma-buf fd to other
-existing importers such as RDMA or DRM devices to access the
-memory. The DMA API is improved to allow the dma heap exporter to DMA
-map the shared memory to each importing device.
-
-Jiri Pirko (5):
-  dma-mapping: avoid random addr value print out on error path
-  dma-mapping: introduce DMA_ATTR_CC_DECRYPTED for pre-decrypted memory
-  dma-buf: heaps: use designated initializer for exp_info
-  dma-buf: heaps: allow heap to specify valid heap flags
-  dma-buf: heaps: system: add an option to allocate explicitly decrypted
-    memory
-
- drivers/dma-buf/dma-heap.c          |  5 +-
- drivers/dma-buf/heaps/cma_heap.c    |  7 ++-
- drivers/dma-buf/heaps/system_heap.c | 96 ++++++++++++++++++++++++++---
- include/linux/dma-heap.h            |  3 +
- include/linux/dma-mapping.h         |  7 +++
- include/trace/events/dma.h          |  3 +-
- include/uapi/linux/dma-heap.h       | 12 +++-
- kernel/dma/direct.h                 | 14 ++++-
- 8 files changed, 128 insertions(+), 19 deletions(-)
-
+diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
+index da2fadf45bcd..62f0d9d0ba02 100644
+--- a/kernel/dma/direct.h
++++ b/kernel/dma/direct.h
+@@ -88,7 +88,7 @@ static inline dma_addr_t dma_direct_map_phys(struct device *dev,
+ 
+ 	if (is_swiotlb_force_bounce(dev)) {
+ 		if (attrs & DMA_ATTR_MMIO)
+-			goto err_overflow;
++			return DMA_MAPPING_ERROR;
+ 
+ 		return swiotlb_map(dev, phys, size, dir, attrs);
+ 	}
 -- 
 2.51.1
 
