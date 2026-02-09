@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eNuwHgziiWnGCwAAu9opvQ
+	id IA5YAQ3iiWnGCwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 14:33:00 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 14:33:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2117B10FBF2
+	by mail.lfdr.de (Postfix) with ESMTPS id 962A410FBF9
 	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 14:33:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3407D10E3EF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D6F810E3F3;
 	Mon,  9 Feb 2026 13:32:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E3A610E3EF
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 13:32:56 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22A7110E3EF
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 13:32:57 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 799EB3E70F;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D08665BD3E;
  Mon,  9 Feb 2026 13:32:47 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
+Authentication-Results: smtp-out2.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 21E923EA63;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 76F763EA64;
  Mon,  9 Feb 2026 13:32:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id iAfYBv/hiWmTIgAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id qMmaG//hiWmTIgAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Mon, 09 Feb 2026 13:32:47 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: boris.brezillon@collabora.com, loic.molinari@collabora.com,
@@ -42,9 +42,10 @@ To: boris.brezillon@collabora.com, loic.molinari@collabora.com,
  simona@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 4/6] drm/gem-shmem: Refactor drm_gem_shmem_try_map_pmd()
-Date: Mon,  9 Feb 2026 14:27:13 +0100
-Message-ID: <20260209133241.238813-5-tzimmermann@suse.de>
+Subject: [PATCH v3 5/6] drm/gem-shmem: Track folio accessed/dirty status in
+ mmap
+Date: Mon,  9 Feb 2026 14:27:14 +0100
+Message-ID: <20260209133241.238813-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260209133241.238813-1-tzimmermann@suse.de>
 References: <20260209133241.238813-1-tzimmermann@suse.de>
@@ -52,11 +53,11 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Pre-Result: action=no action; module=replies;
  Message is reply to one we originated
-X-Spam-Flag: NO
 X-Spam-Score: -4.00
 X-Rspamd-Pre-Result: action=no action; module=replies;
  Message is reply to one we originated
 X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,86 +103,76 @@ X-Spamd-Result: default: False [0.99 / 15.00];
 	R_DKIM_NA(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 2117B10FBF2
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email,suse.de:mid,suse.de:email]
+X-Rspamd-Queue-Id: 962A410FBF9
 X-Rspamd-Action: no action
 
-The current mmap page-fault handler requires some changes before it
-can track folio access.
+Invoke folio_mark_accessed() in mmap page faults to add the folio to
+the memory manager's LRU list. Userspace invokes mmap to get the memory
+for software rendering. Compositors do the same when creating the final
+on-screen image, so keeping the pages in LRU makes sense. Avoids paging
+out graphics buffers when under memory pressure.
 
-Call to folio_test_pmd_mappable() into the mmap page-fault handler
-before calling drm_gem_shmem_try_map_pmd(). The folio will become
-useful for tracking the access status.
+In pfn_mkwrite, further invoke the folio_mark_dirty() to add the folio
+for writeback should the underlying file be paged out from system memory.
+This rarely happens in practice, yet it would corrupt the buffer content.
 
-Also rename drm_gem_shmem_try_map_pmd() to _try_insert_pfn_pmd()
-and only pass the page fault and page-frame number. The new name and
-parameters make it similar to vmf_insert_pfn_pmd().
+This has little effect on a system's hardware-accelerated rendering, which
+only mmaps for an initial setup of textures, meshes, shaders, etc.
 
-No functional changes. If PMD mapping fails or is not supported,
-insert a regular PFN as before.
+v3:
+- rewrite for VM_PFNMAP
+v2:
+- adapt to changes in drm_gem_shmem_try_mmap_pmd()
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 25 ++++++++++++-------------
- 1 file changed, 12 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index ab8e331005f9..c3a054899ba3 100644
+index c3a054899ba3..0c86ad40a049 100644
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -550,17 +550,14 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
- }
- EXPORT_SYMBOL_GPL(drm_gem_shmem_dumb_create);
+@@ -598,6 +598,9 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+ 	if (ret != VM_FAULT_NOPAGE)
+ 		ret = vmf_insert_pfn(vma, vmf->address, pfn);
  
--static vm_fault_t drm_gem_shmem_try_map_pmd(struct vm_fault *vmf, unsigned long addr,
--					    struct page *page)
-+static vm_fault_t drm_gem_shmem_try_insert_pfn_pmd(struct vm_fault *vmf, unsigned long pfn)
- {
- #ifdef CONFIG_ARCH_SUPPORTS_PMD_PFNMAP
--	unsigned long pfn = page_to_pfn(page);
- 	unsigned long paddr = pfn << PAGE_SHIFT;
--	bool aligned = (addr & ~PMD_MASK) == (paddr & ~PMD_MASK);
-+	bool aligned = (vmf->address & ~PMD_MASK) == (paddr & ~PMD_MASK);
- 
--	if (aligned &&
--	    pmd_none(*vmf->pmd) &&
--	    folio_test_pmd_mappable(page_folio(page))) {
-+	if (aligned && pmd_none(*vmf->pmd)) {
-+		/* Read-only mapping; split upon write fault */
- 		pfn &= PMD_MASK >> PAGE_SHIFT;
- 		return vmf_insert_pfn_pmd(vmf, pfn, false);
- 	}
-@@ -580,6 +577,7 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
- 	struct page **pages = shmem->pages;
- 	pgoff_t page_offset = vmf->pgoff - vma->vm_pgoff; /* page offset within VMA */
- 	struct page *page;
-+	struct folio *folio;
- 	unsigned long pfn;
- 
- 	dma_resv_lock(obj->resv, NULL);
-@@ -591,15 +589,16 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
- 	page = pages[page_offset];
- 	if (drm_WARN_ON_ONCE(dev, !page))
- 		goto out;
--
--	ret = drm_gem_shmem_try_map_pmd(vmf, vmf->address, page);
--	if (ret == VM_FAULT_NOPAGE)
--		goto out;
-+	folio = page_folio(page);
- 
- 	pfn = page_to_pfn(page);
--	ret = vmf_insert_pfn(vma, vmf->address, pfn);
- 
-- out:
-+	if (folio_test_pmd_mappable(folio))
-+		ret = drm_gem_shmem_try_insert_pfn_pmd(vmf, pfn);
-+	if (ret != VM_FAULT_NOPAGE)
-+		ret = vmf_insert_pfn(vma, vmf->address, pfn);
++	if (likely(!(ret & VM_FAULT_ERROR)))
++		folio_mark_accessed(folio);
 +
-+out:
+ out:
  	dma_resv_unlock(obj->resv);
  
- 	return ret;
+@@ -638,10 +641,27 @@ static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
+ 	drm_gem_vm_close(vma);
+ }
+ 
++static vm_fault_t drm_gem_shmem_pfn_mkwrite(struct vm_fault *vmf)
++{
++	struct vm_area_struct *vma = vmf->vma;
++	struct drm_gem_object *obj = vma->vm_private_data;
++	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
++	pgoff_t page_offset = vmf->pgoff - vma->vm_pgoff; /* page offset within VMA */
++	struct page *page = shmem->pages[page_offset];
++	struct folio *folio = page_folio(page);
++
++	file_update_time(vma->vm_file);
++
++	folio_mark_dirty(folio);
++
++	return 0;
++}
++
+ const struct vm_operations_struct drm_gem_shmem_vm_ops = {
+ 	.fault = drm_gem_shmem_fault,
+ 	.open = drm_gem_shmem_vm_open,
+ 	.close = drm_gem_shmem_vm_close,
++	.pfn_mkwrite = drm_gem_shmem_pfn_mkwrite,
+ };
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_vm_ops);
+ 
 -- 
 2.52.0
 
