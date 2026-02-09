@@ -2,55 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CBOzGD7CiWmVBwUAu9opvQ
+	id WJChFkrXiWnZCAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 12:17:18 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 13:47:06 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6AD910E949
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 12:17:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B114D10EF22
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 13:47:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C5BF10E0AC;
-	Mon,  9 Feb 2026 11:17:15 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VQRjsVLj";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8229210E14D;
+	Mon,  9 Feb 2026 11:27:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79B9C10E0AC;
- Mon,  9 Feb 2026 11:17:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4A158444E9;
- Mon,  9 Feb 2026 11:17:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4607CC116C6;
- Mon,  9 Feb 2026 11:17:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770635832;
- bh=rkjWDYmA+Gv4imCPiiPARsynkjj0DK/cDi4XGUpA6Ms=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=VQRjsVLjLWT1MrF1DBlVdjjWR6ga2Wp+NvD/EvTo8QihVuxkXVa0xYQXZQf5ntODl
- aI4IQ1KP67cTrRkYwbZmUHlQ/m8i3A/TsTB8dKV6p2eGJu1ydQ+pa8xuU9wjG8DPVs
- qsB1f6jk4rJJpmaNFylLSsuTQCBA4fUeJ2NRd/zuAbjH2gaU6wNtY/1Xgg4qIB9A2q
- ROQiA1j//1vQK6AUMjJGKB0oLZYMbIDmj0OvKXRu4iKk3EOR2B02yGBFL3Xp8zgDgX
- cz6pjeA2TdjFpA8Fobu8O7w30a4wcxDCL+oHMcpB/9I4mM/8buOxn7hQUo4rM9749S
- ATD+qcWiAUaJw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Feb 2026 12:17:08 +0100
-Message-Id: <DGAE0M87A8X8.3OWL23XSZF7I6@kernel.org>
-Subject: Re: [PATCH v7 6/7] rust: Introduce iosys_map bindings
-Cc: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>, <nouveau@lists.freedesktop.org>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Gary Guo" <gary@garyguo.net>,
- "Benno Lossin" <lossin@kernel.org>, "Alexandre Courbot"
- <acourbot@nvidia.com>, "Janne Grunau" <j@jannau.net>
-To: "Lyude Paul" <lyude@redhat.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260206223431.693765-1-lyude@redhat.com>
- <20260206223431.693765-7-lyude@redhat.com>
-In-Reply-To: <20260206223431.693765-7-lyude@redhat.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9003D10E14D
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 11:27:40 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 76DF9339;
+ Mon,  9 Feb 2026 03:27:33 -0800 (PST)
+Received: from e142607 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1D9553F740;
+ Mon,  9 Feb 2026 03:27:37 -0800 (PST)
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Will Deacon <will@kernel.org>
+Cc: Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, linux-arm-kernel@lists.infradead.org,
+ iommu@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Karunika Choo <karunika.choo@arm.com>,
+ Liviu Dudau <liviu@dudau.co.uk>
+Subject: [RFC PATCH] iommu/io-pgtable: Add support for Arm Mali v10+ GPUs page
+ table format
+Date: Mon,  9 Feb 2026 11:25:42 +0000
+Message-ID: <20260209112542.194140-1-liviu.dudau@arm.com>
+X-Mailer: git-send-email 2.53.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,89 +54,334 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [0.99 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	ARC_NA(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[liviu.dudau@arm.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:will@kernel.org,m:robin.murphy@arm.com,m:joro@8bytes.org,m:robin.clark@oss.qualcomm.com,m:boris.brezillon@collabora.com,m:steven.price@arm.com,m:linux-arm-kernel@lists.infradead.org,m:iommu@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:karunika.choo@arm.com,m:liviu@dudau.co.uk,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[liviu.dudau@arm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	R_DKIM_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: D6AD910E949
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:mid,arm.com:email,dudau.co.uk:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: B114D10EF22
 X-Rspamd-Action: no action
 
-On Fri Feb 6, 2026 at 11:34 PM CET, Lyude Paul wrote:
-> +/// Raw unsized representation of a `struct iosys_map`.
-> +///
-> +/// This struct is a transparent wrapper around `struct iosys_map`. The =
-C API does not provide the
-> +/// size of the mapping by default, and thus this type also does not inc=
-lude the size of the
-> +/// mapping. As such, it cannot be used for actually accessing the under=
-lying data pointed to by the
-> +/// mapping.
-> +///
-> +/// With the exception of kernel crates which may provide their own wrap=
-pers around `RawIoSysMap`,
-> +/// users will typically not interact with this type directly.
-> +#[repr(transparent)]
-> +pub struct RawIoSysMap<const SIZE: usize =3D 0>(bindings::iosys_map);
+From: Liviu Dudau <liviu@dudau.co.uk>
 
-I'm still against using struct iosys_map as a common frontend for I/O memor=
-y and
-system memory.
+The Arm Mali v10+ GPU drivers have been (ab)using the ARM_64_LPAE_S1
+format as they are mostly compatible with it and some of the gaps
+left in the code to allow for ARM_MALI_LPAE format (pre-v10 GPUs)
+is helping to paper over differences. In preparation for adding support
+for changes introduced in v15 GPUs, add a format specific for modern
+Mali GPUs.
 
-Exposing this as another I/O backend instead of just having a Rust structur=
-e as
-frontend for a "real" abstraction around the Rust backends has various
-downsides.
+Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
+---
 
-  (1) We are limited to the features of struct iosys_map. The corresponding=
- Rust
-      backends may provide additional functionality, which we can't access =
-with
-      struct iosys_map. For instance, they Mmio will provide a relaxed() me=
-thod
-      providing access to a borrowed backend providing relaxed ordering
-      accessors.
+This patch is trying to gauge interest in adding proper support for Arm Mali
+CSF GPUs via the simple approach of extending the generic Arm page table code
+to add support for the PTE format of the GPUs. In order to test the changes
+I've decided to add the phba bits to the arm_lpae_s1_cfg struct to validate
+the allocation and setup of the page table entries, but in the end I'm
+targetting the specific arm_mali_csf_cfg structure that will support
+the GPUs PTEs.
 
-  (2) We loose out on the capability to consider compile time checks regard=
-ing
-      the guaranteed minimum size of the mapping. (To be fair this could be
-      implemented on `IoSysMap` itself as well, but it would duplicate code=
- that
-      we already have in the corresponding backends.)
+I'm interested to learn if this approach is considered sane and what I need to
+pay attention to when adding a new struct to the io_pgtable_cfg union. The patch
+is intentionally not complete with all the changes that switching to the new
+struct will entail as I didn't wanted to be dragged into a full code review, but
+I can add them if wanted.
 
-  (3) You have to duplicate the safety requirements of the backends that st=
-ruct
-      iosys_map wraps. In fact, this series ignores that if the backend is =
-I/O
-      memory we have to guarantee the it is revoked when the device this I/=
-O
-      memory originates from is unbound.
 
-Having a look at patch 7, it should be possible to read `is_iomem` and `vad=
-dr` /
-`vaddr_iomem` from the struct iosys_map and just construct the "real" `Mmio=
-`
-backend from it. We also have to create a backend for normal system memory,=
- but
-that should be trivial. :)
+Best regards,
+Liviu
+
+---
+ drivers/iommu/io-pgtable-arm.c | 161 ++++++++++++++++++++++++++++++++-
+ drivers/iommu/io-pgtable.c     |   1 +
+ include/linux/io-pgtable.h     |  18 ++++
+ 3 files changed, 179 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+index 05d63fe92e436..48aea598ab0c9 100644
+--- a/drivers/iommu/io-pgtable-arm.c
++++ b/drivers/iommu/io-pgtable-arm.c
+@@ -482,6 +482,7 @@ static arm_lpae_iopte arm_lpae_prot_to_pte(struct arm_lpae_io_pgtable *data,
+ 	arm_lpae_iopte pte;
+ 
+ 	if (data->iop.fmt == ARM_64_LPAE_S1 ||
++	    data->iop.fmt == ARM_MALI_CSF ||
+ 	    data->iop.fmt == ARM_32_LPAE_S1) {
+ 		pte = ARM_LPAE_PTE_nG;
+ 		if (!(prot & IOMMU_WRITE) && (prot & IOMMU_READ))
+@@ -569,6 +570,8 @@ static int arm_lpae_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
+ 		return -EINVAL;
+ 
+ 	prot = arm_lpae_prot_to_pte(data, iommu_prot);
++	if (data->iop.fmt == ARM_MALI_CSF)
++		prot |= cfg->arm_lpae_s1_cfg.pbha;
+ 	ret = __arm_lpae_map(data, iova, paddr, pgsize, pgcount, prot, lvl,
+ 			     ptep, gfp, mapped);
+ 	/*
+@@ -864,7 +867,8 @@ static int arm_lpae_read_and_clear_dirty(struct io_pgtable_ops *ops,
+ 		return -EINVAL;
+ 	if (WARN_ON((iova + size - 1) & ~(BIT(cfg->ias) - 1)))
+ 		return -EINVAL;
+-	if (data->iop.fmt != ARM_64_LPAE_S1)
++	if (data->iop.fmt != ARM_64_LPAE_S1 ||
++	    data->iop.fmt != ARM_MALI_CSF)
+ 		return -EINVAL;
+ 
+ 	return __arm_lpae_iopte_walk(data, &walk_data, ptep, lvl);
+@@ -1236,6 +1240,155 @@ arm_mali_lpae_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
+ 	return NULL;
+ }
+ 
++static struct io_pgtable *
++arm_mali_csf_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
++{
++	unsigned int max_addr_bits = 48;
++	unsigned long granule, page_sizes;
++	struct arm_lpae_io_pgtable *data;
++	typeof(&cfg->arm_lpae_s1_cfg.tcr) tcr = &cfg->arm_lpae_s1_cfg.tcr;
++	int levels, va_bits, pg_shift;
++	u64 reg;
++
++	if (cfg->quirks & ~(IO_PGTABLE_QUIRK_ARM_TTBR1 |
++			    IO_PGTABLE_QUIRK_NO_WARN))
++		return NULL;
++
++	if (!(cfg->pgsize_bitmap & (SZ_4K | SZ_16K)))
++		return NULL;
++
++	if (cfg->pgsize_bitmap & PAGE_SIZE)
++		granule = PAGE_SIZE;
++	else if (cfg->pgsize_bitmap & ~PAGE_MASK)
++		granule = 1UL << __fls(cfg->pgsize_bitmap & ~PAGE_MASK);
++	else if (cfg->pgsize_bitmap & PAGE_MASK)
++		granule = 1UL << __ffs(cfg->pgsize_bitmap & PAGE_MASK);
++	else
++		granule = 0;
++
++	switch (granule) {
++	case SZ_4K:
++		page_sizes = (SZ_4K | SZ_2M | SZ_1G);
++		break;
++	case SZ_16K:
++		page_sizes = (SZ_16K | SZ_32M | SZ_64G);
++		break;
++	default:
++		page_sizes = 0;
++	}
++
++	cfg->pgsize_bitmap &= page_sizes;
++	cfg->ias = min(cfg->ias, max_addr_bits);
++	cfg->oas = min(cfg->oas, max_addr_bits);
++
++	data = kmalloc(sizeof(*data), GFP_KERNEL);
++	if (!data)
++		return NULL;
++
++	pg_shift = __ffs(cfg->pgsize_bitmap);
++	data->bits_per_level = pg_shift - ilog2(sizeof(arm_lpae_iopte));
++
++	va_bits = cfg->ias - pg_shift;
++	levels = DIV_ROUND_UP(va_bits, data->bits_per_level);
++	data->start_level = ARM_LPAE_MAX_LEVELS - levels;
++
++	/* Calculate the actual size of our pgd (without concatenation) */
++	data->pgd_bits = va_bits - (data->bits_per_level * (levels - 1));
++
++	data->iop.ops = (struct io_pgtable_ops) {
++		.map_pages	= arm_lpae_map_pages,
++		.unmap_pages	= arm_lpae_unmap_pages,
++		.iova_to_phys	= arm_lpae_iova_to_phys,
++		.read_and_clear_dirty = arm_lpae_read_and_clear_dirty,
++		.pgtable_walk	= arm_lpae_pgtable_walk,
++	};
++
++	/* TCR */
++	if (cfg->coherent_walk) {
++		tcr->sh = ARM_LPAE_TCR_SH_IS;
++		tcr->irgn = ARM_LPAE_TCR_RGN_WBWA;
++		tcr->orgn = ARM_LPAE_TCR_RGN_WBWA;
++		if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_OUTER_WBWA)
++			goto out_free_data;
++	} else {
++		tcr->sh = ARM_LPAE_TCR_SH_OS;
++		tcr->irgn = ARM_LPAE_TCR_RGN_NC;
++		if (!(cfg->quirks & IO_PGTABLE_QUIRK_ARM_OUTER_WBWA))
++			tcr->orgn = ARM_LPAE_TCR_RGN_NC;
++		else
++			tcr->orgn = ARM_LPAE_TCR_RGN_WBWA;
++	}
++
++	switch (ARM_LPAE_GRANULE(data)) {
++	case SZ_4K:
++		tcr->tg = ARM_LPAE_TCR_TG0_4K;
++		break;
++	case SZ_16K:
++		tcr->tg = ARM_LPAE_TCR_TG0_16K;
++		break;
++	case SZ_64K:
++		tcr->tg = ARM_LPAE_TCR_TG0_64K;
++		break;
++	}
++
++	switch (cfg->oas) {
++	case 32:
++		tcr->ips = ARM_LPAE_TCR_PS_32_BIT;
++		break;
++	case 36:
++		tcr->ips = ARM_LPAE_TCR_PS_36_BIT;
++		break;
++	case 40:
++		tcr->ips = ARM_LPAE_TCR_PS_40_BIT;
++		break;
++	case 42:
++		tcr->ips = ARM_LPAE_TCR_PS_42_BIT;
++		break;
++	case 44:
++		tcr->ips = ARM_LPAE_TCR_PS_44_BIT;
++		break;
++	case 48:
++		tcr->ips = ARM_LPAE_TCR_PS_48_BIT;
++		break;
++	case 52:
++		tcr->ips = ARM_LPAE_TCR_PS_52_BIT;
++		break;
++	default:
++		goto out_free_data;
++	}
++
++	tcr->tsz = 64ULL - cfg->ias;
++
++	/* MAIRs */
++	reg = (ARM_LPAE_MAIR_ATTR_NC
++	       << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_NC)) |
++	      (ARM_LPAE_MAIR_ATTR_WBRWA
++	       << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_CACHE)) |
++	      (ARM_LPAE_MAIR_ATTR_DEVICE
++	       << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_DEV)) |
++	      (ARM_LPAE_MAIR_ATTR_INC_OWBRWA
++	       << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_INC_OCACHE));
++
++	cfg->arm_lpae_s1_cfg.mair = reg;
++
++	/* Looking good; allocate a pgd */
++	data->pgd = __arm_lpae_alloc_pages(ARM_LPAE_PGD_SIZE(data),
++					   GFP_KERNEL, cfg, cookie);
++	if (!data->pgd)
++		goto out_free_data;
++
++	/* Ensure the empty pgd is visible before any actual TTBR write */
++	wmb();
++
++	/* TTBR */
++	cfg->arm_lpae_s1_cfg.ttbr = virt_to_phys(data->pgd);
++	return &data->iop;
++
++out_free_data:
++	kfree(data);
++	return NULL;
++}
++
+ struct io_pgtable_init_fns io_pgtable_arm_64_lpae_s1_init_fns = {
+ 	.caps	= IO_PGTABLE_CAP_CUSTOM_ALLOCATOR,
+ 	.alloc	= arm_64_lpae_alloc_pgtable_s1,
+@@ -1265,3 +1418,9 @@ struct io_pgtable_init_fns io_pgtable_arm_mali_lpae_init_fns = {
+ 	.alloc	= arm_mali_lpae_alloc_pgtable,
+ 	.free	= arm_lpae_free_pgtable,
+ };
++
++struct io_pgtable_init_fns io_pgtable_arm_mali_csf_init_fns = {
++	.caps	= IO_PGTABLE_CAP_CUSTOM_ALLOCATOR,
++	.alloc	= arm_mali_csf_alloc_pgtable,
++	.free	= arm_lpae_free_pgtable,
++};
+diff --git a/drivers/iommu/io-pgtable.c b/drivers/iommu/io-pgtable.c
+index 843fec8e8a511..1f43f898a8121 100644
+--- a/drivers/iommu/io-pgtable.c
++++ b/drivers/iommu/io-pgtable.c
+@@ -20,6 +20,7 @@ io_pgtable_init_table[IO_PGTABLE_NUM_FMTS] = {
+ 	[ARM_64_LPAE_S1] = &io_pgtable_arm_64_lpae_s1_init_fns,
+ 	[ARM_64_LPAE_S2] = &io_pgtable_arm_64_lpae_s2_init_fns,
+ 	[ARM_MALI_LPAE] = &io_pgtable_arm_mali_lpae_init_fns,
++	[ARM_MALI_CSF] = &io_pgtable_arm_mali_csf_init_fns,
+ #endif
+ #ifdef CONFIG_IOMMU_IO_PGTABLE_DART
+ 	[APPLE_DART] = &io_pgtable_apple_dart_init_fns,
+diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
+index 7a1516011ccf7..fc9776f71a963 100644
+--- a/include/linux/io-pgtable.h
++++ b/include/linux/io-pgtable.h
+@@ -17,6 +17,7 @@ enum io_pgtable_fmt {
+ 	ARM_MALI_LPAE,
+ 	APPLE_DART,
+ 	APPLE_DART2,
++	ARM_MALI_CSF,
+ 	IO_PGTABLE_NUM_FMTS,
+ };
+ 
+@@ -148,6 +149,8 @@ struct io_pgtable_cfg {
+ 				u32	tsz:6;
+ 			}	tcr;
+ 			u64	mair;
++			/* ToDo: remove this when switching to arm_mali_csf_cfg struct */
++			u64	pbha;
+ 		} arm_lpae_s1_cfg;
+ 
+ 		struct {
+@@ -175,6 +178,20 @@ struct io_pgtable_cfg {
+ 			u64	memattr;
+ 		} arm_mali_lpae_cfg;
+ 
++		/* ToDo: switch to this structure for Mali CSF GPUs
++		  struct {
++			u64	transtab;
++			struct {
++				u32	pbha:4;
++				u32	ra:1;
++				u32	sh:2;
++				u32	memattr:2;
++				u32	mode:4;
++			} transcfg;
++			u64 memattr;
++		} arm_mali_csf_cfg;
++		*/
++
+ 		struct {
+ 			u64 ttbr[4];
+ 			u32 n_ttbrs;
+@@ -320,6 +337,7 @@ extern struct io_pgtable_init_fns io_pgtable_arm_64_lpae_s1_init_fns;
+ extern struct io_pgtable_init_fns io_pgtable_arm_64_lpae_s2_init_fns;
+ extern struct io_pgtable_init_fns io_pgtable_arm_v7s_init_fns;
+ extern struct io_pgtable_init_fns io_pgtable_arm_mali_lpae_init_fns;
++extern struct io_pgtable_init_fns io_pgtable_arm_mali_csf_init_fns;
+ extern struct io_pgtable_init_fns io_pgtable_amd_iommu_v1_init_fns;
+ extern struct io_pgtable_init_fns io_pgtable_amd_iommu_v2_init_fns;
+ extern struct io_pgtable_init_fns io_pgtable_apple_dart_init_fns;
+-- 
+2.52.0
+
