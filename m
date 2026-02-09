@@ -2,69 +2,315 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OPUKBAg1iml5IQAAu9opvQ
+	id KFvXJ3M1immhIQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 20:27:04 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 20:28:51 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A150D11412D
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 20:27:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ACAD114153
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 20:28:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14EB610E46B;
-	Mon,  9 Feb 2026 19:26:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 479BE10E46F;
+	Mon,  9 Feb 2026 19:28:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="X4KFy3R+";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="P8xcXh6D";
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="BLMVnivA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DA9010E466;
- Mon,  9 Feb 2026 19:26:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770665219; x=1802201219;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=u487StG2GkN0jFcCuAfnRE4AJ4Omr2RTUEADo9vRhTo=;
- b=X4KFy3R+o1fzlhe04Fn4OEBNbFoLaMpVFyakMMTy651aRjS0e0aYTv8V
- 3SbQBt4j5iSYf7kuk0VnbcPlw3diyvM4ieitSuMiMUdwpkVIdkUU+K+t8
- m+UImCdpYYeau3Ienz1Ht+QpLB0mzN3rNzUsogud8+VbZGuePbau3OGUx
- /1dl6QOjC+RWqyTavVAu+YrBI5OCSR3HVP6NX1UIGncZmvD0DJctYmyUc
- OpIDrCLbV1SQWIO2oV38CQWl0KMJuLiP5TCYk+0XQF7T/c4Cnfp2OuStf
- Hxuzr5E7MtWWIJ5ToJl5NUB3WJMm1wR0eFuRFxRXzWx2Wy/Fc8qaoyKds w==;
-X-CSE-ConnectionGUID: b2C2WOmlRjGv/vERMRgAZA==
-X-CSE-MsgGUID: NHkB9ZuXRfiGuLKZRJVDaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="74389443"
-X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; d="scan'208";a="74389443"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2026 11:26:58 -0800
-X-CSE-ConnectionGUID: yC2B4H2NQca1m6PELUSkRg==
-X-CSE-MsgGUID: rtFXkfUMSm6Vr0SGhABuSw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; d="scan'208";a="211267318"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123)
- ([10.211.93.152])
- by fmviesa010.fm.intel.com with ESMTP; 09 Feb 2026 11:26:56 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vpWuL-000000000Lt-3rhQ;
- Mon, 09 Feb 2026 19:26:53 +0000
-Date: Mon, 9 Feb 2026 20:26:10 +0100
-From: kernel test robot <lkp@intel.com>
-To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- matthew.auld@intel.com, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, alexander.deucher@amd.com,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Subject: Re: [PATCH v3 2/2] drm/buddy: Add KUnit test for offset-aligned
- allocations
-Message-ID: <202602092035.vOm98J4x-lkp@intel.com>
-References: <20260209083051.13376-2-Arunpravin.PaneerSelvam@amd.com>
-MIME-Version: 1.0
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12A6510E46E;
+ Mon,  9 Feb 2026 19:28:47 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 619ECXda1228995; Mon, 9 Feb 2026 19:28:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=corp-2025-04-25; bh=k895XRGI3mWamm9jti
+ TuXb6zSnBRag7IPrPqPpJwD6I=; b=P8xcXh6DrPk80juWisyMJUUOK6t7ubyA1F
+ IS87SubaTesowGLnFgg2InKtA4VorsRIfBSdytDDL6/6F78NbQQxH5fh/tQ43OcY
+ LA9MC00Y9gfr7QUc9YdXqjv+mK2Ubd3NtS4YJ+wtcxMrjZ4QmA6YAZi3X778rlG7
+ Rhf7y/z6J7Ot2qVzbgR2uN5KfulvWKKCegmH0R32P81UevUt0H9+O7gH9Q0mC2af
+ jPDODxpKDzTMHPLZEnMHG0rM+vHPjG4WObx5QIEnmeNRGAhXYgIQqyjzXMIiVsFK
+ Bv2Kc2MQ7beSd0bCBxFFOhGg/rLKT0renVpO7lmKjpWbDpSm16sg==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4c5xes2mnh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 09 Feb 2026 19:28:06 +0000 (GMT)
+Received: from pps.filterd
+ (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 619Heq8k035303; Mon, 9 Feb 2026 19:28:05 GMT
+Received: from co1pr03cu002.outbound.protection.outlook.com
+ (mail-westus2azon11010039.outbound.protection.outlook.com [52.101.46.39])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 4c5uu9fpk0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 09 Feb 2026 19:28:05 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Bty547FpMXNnM7ubsZPuP8kEBWkyxu/QHqMynVL45O39WsUkpKrY3dYi6pVqQdu2lYCI7yTYYGI5qP5YjYxnxun/ixQzNjAUNAEarW0g0OESZpzBMJCJwBrXS/awryNG+eOvx182HTW+qONitPANaz5NxdjqP3qhtxQRA26Ul/CuShV+DaXKQX4Acyoa+K/i+U2P/X0c4e6UwQ2xsMqXz7RviVIlcF8qRMQuOzE971A4bouCxAmkWyzfNdftCNdrdkQ6tRL7c6gTZqEUMWrbjQfMMTdFIEJdCKu8AWZ+CvLoiouCFhaIPUH5tivapEF07a+8npvctpSn9q1sY6po5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k895XRGI3mWamm9jtiTuXb6zSnBRag7IPrPqPpJwD6I=;
+ b=W9GspSXkGW+2nYV73SqvQ4oVrKwhbdS7LrJt4LJhGxm3AkvG9t2Xu8j0lvgMYdYkwACUixHX7KIPEEwl1NI1+JYWo6V8P12f6JpaC8gsBNNKTg5P3wsn5yfeT4P4JhPBjieXcMSrHAPuPZNqVUMzOx9RUCpE6qYGNX/OugWDjb5KIm9StpwQojDtQgGOB/qDiSUYndsnSPzHW4KEEDfRk5eis4Gi6DXcmC4GgyrP1D6JTlYVnvR60bxzI5BgfKXm0oFNIymv0JlSHh+N+gOUT/EUwj9lLnIMrTaYiWHwGCLArjYoZQMnKDv9iCFLFk4F4HQsQrU6o76seMVSxZJE5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k895XRGI3mWamm9jtiTuXb6zSnBRag7IPrPqPpJwD6I=;
+ b=BLMVnivASSuwe+7xK1s/F5g1spMuU+v70Jm8lPUzGZhP3xyBeka3m4H1TZ9Vio3s+eS9N0xxIDsVmfXd0iRI7GDCNQ3LNKzjN5izcRyfI75Fdj8FKSUH2DWDMXAC27f5+0/2IUnMPcPpS8rjasroC/iTNQB1+czVrkEFrtoIaLE=
+Received: from PH0PR10MB5777.namprd10.prod.outlook.com (2603:10b6:510:128::16)
+ by PH8PR10MB6672.namprd10.prod.outlook.com (2603:10b6:510:216::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.17; Mon, 9 Feb
+ 2026 19:27:58 +0000
+Received: from PH0PR10MB5777.namprd10.prod.outlook.com
+ ([fe80::4b84:e58d:c708:c8ce]) by PH0PR10MB5777.namprd10.prod.outlook.com
+ ([fe80::4b84:e58d:c708:c8ce%4]) with mapi id 15.20.9587.017; Mon, 9 Feb 2026
+ 19:27:58 +0000
+Date: Mon, 9 Feb 2026 19:27:46 +0000
+From: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Pedro Falcato <pfalcato@suse.de>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Benjamin LaHaise <bcrl@kvack.org>, Gao Xiang <xiang@kernel.org>,
+ Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>,
+ Jeffle Xu <jefflexu@linux.alibaba.com>,
+ Sandeep Dhavale <dhavale@google.com>,
+ Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>,
+ Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ David Hildenbrand <david@kernel.org>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Mike Marshall <hubcap@omnibond.com>,
+ Martin Brandenburg <martin@omnibond.com>, Tony Luck <tony.luck@intel.com>,
+ Reinette Chatre <reinette.chatre@intel.com>,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ Babu Moger <babu.moger@amd.com>, Carlos Maiolino <cem@kernel.org>,
+ Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>,
+ Johannes Thumshirn <jth@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Zi Yan <ziy@nvidia.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Jann Horn <jannh@google.com>,
+ David Howells <dhowells@redhat.com>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E . Hallyn" <serge@hallyn.com>,
+ Yury Norov <yury.norov@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-sgx@vger.kernel.org,
+ linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ linux-aio@kvack.org, linux-erofs@lists.ozlabs.org,
+ linux-ext4@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev,
+ devel@lists.orangefs.org, linux-xfs@vger.kernel.org,
+ keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v2 09/13] mm: update all remaining mmap_prepare users to
+ use vma_flags_t
+Message-ID: <o5efi5bwwqapscipxhmahknjurb7rfx6vitddc7c67hgbocr2k@ndkfnucwv4k2>
+Mail-Followup-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Pedro Falcato <pfalcato@suse.de>, Jarkko Sakkinen <jarkko@kernel.org>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, Thomas Gleixner <tglx@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Williams <dan.j.williams@intel.com>, 
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Christian Koenig <christian.koenig@amd.com>, 
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, 
+ Matthew Brost <matthew.brost@intel.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Benjamin LaHaise <bcrl@kvack.org>, 
+ Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
+ Yue Hu <zbestahu@gmail.com>, 
+ Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale <dhavale@google.com>, 
+ Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>,
+ Theodore Ts'o <tytso@mit.edu>, 
+ Andreas Dilger <adilger.kernel@dilger.ca>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Mike Marshall <hubcap@omnibond.com>, 
+ Martin Brandenburg <martin@omnibond.com>, Tony Luck <tony.luck@intel.com>, 
+ Reinette Chatre <reinette.chatre@intel.com>, Dave Martin <Dave.Martin@arm.com>,
+ James Morse <james.morse@arm.com>, Babu Moger <babu.moger@amd.com>, 
+ Carlos Maiolino <cem@kernel.org>, Damien Le Moal <dlemoal@kernel.org>, 
+ Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
+ Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Zi Yan <ziy@nvidia.com>,
+ Nico Pache <npache@redhat.com>, 
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, 
+ Lance Yang <lance.yang@linux.dev>, Jann Horn <jannh@google.com>, 
+ David Howells <dhowells@redhat.com>, Paul Moore <paul@paul-moore.com>, 
+ James Morris <jmorris@namei.org>, "Serge E . Hallyn" <serge@hallyn.com>, 
+ Yury Norov <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ linux-sgx@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, 
+ linux-fsdevel@vger.kernel.org, linux-aio@kvack.org,
+ linux-erofs@lists.ozlabs.org, 
+ linux-ext4@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev, 
+ devel@lists.orangefs.org, linux-xfs@vger.kernel.org, keyrings@vger.kernel.org, 
+ linux-security-module@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>
+References: <cover.1769097829.git.lorenzo.stoakes@oracle.com>
+ <fb1f55323799f09fe6a36865b31550c9ec67c225.1769097829.git.lorenzo.stoakes@oracle.com>
+ <hmc2or77xnhrdlncfzjsljljwljnp6zztqsvmgxspfilmzkyty@czxpjpdm66ov>
+ <20260206113153.c443545459474cdef6dfd7ea@linux-foundation.org>
+ <d55a0ba8-46a3-49d4-ba76-aa9658e1e8be@lucifer.local>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260209083051.13376-2-Arunpravin.PaneerSelvam@amd.com>
+In-Reply-To: <d55a0ba8-46a3-49d4-ba76-aa9658e1e8be@lucifer.local>
+User-Agent: NeoMutt/20250510
+X-ClientProxiedBy: YT4PR01CA0149.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:ac::15) To PH0PR10MB5777.namprd10.prod.outlook.com
+ (2603:10b6:510:128::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR10MB5777:EE_|PH8PR10MB6672:EE_
+X-MS-Office365-Filtering-Correlation-Id: 175b5d70-e64a-47fd-6798-08de681154e0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?uoJ+uNfXALKh4cUciPEF62LzRrFu50p0ZQe+BjxVhVt3qOMHFdjsMZjMlCr2?=
+ =?us-ascii?Q?0az8wdLYZXfhaM4nNrG02OCLqbbH9P3XtZBJOyR5Xc4RUZSoBUAu8bs9d6WV?=
+ =?us-ascii?Q?7qHdEu3fzFUnfHV0+ncPvRZl0rOgsk3IbYmDZGr67HQsumAMwU+5q6UO2E6j?=
+ =?us-ascii?Q?5z/Sarw9LUq6Ax81Y0Y7UOhPqNHUuezKmuxkHGU9wQPv+CkyNSUeaqEesHGX?=
+ =?us-ascii?Q?inA4ZZ66tw7pps1lJW00iuoBnQvh8l35Ommr11mUs75dY0ZXKa5nM5tGkps4?=
+ =?us-ascii?Q?AP9/NUti9rYXDWBNe3PT7x3kry/nJkoFD4Clb87sJuZCDXdWObJ+PB5SZCOA?=
+ =?us-ascii?Q?/MhQHTpit/ScG7QF4e2Bb+20hQ4JsDwUMBqkCe6jj1mQ/Gfc7wD+4LvTrX74?=
+ =?us-ascii?Q?GMwzXF4niFRudesS+Wkkidre1ggZDHQRvtTJpljhG+S8KMJQe9lsLQHHglyl?=
+ =?us-ascii?Q?i3zHJfuWnODYamPhApkrYM7nDd5JD0DzA80V/7g/QWtyzTshMiDEJWwtY0F8?=
+ =?us-ascii?Q?H8skqaMJ4qsG2khEdttItf9ams0h2mYoFCSJmplaX5P3XlsmaBJjqpsUbSKZ?=
+ =?us-ascii?Q?H719tdeCPm2BJZdfIq97FexELTv022mZYLuEDwWgqRI0YQmh53HCRp91xjuc?=
+ =?us-ascii?Q?KWN42UCAhJeVB5gYfK6fm1O6uwTsDmZXZ/gAeobIrG9mFRV2UTozm7AkkZCo?=
+ =?us-ascii?Q?+CG/uobMSHN7nfQon+9+xFdLlIzNy3Bn2YGrkkM9Vh0uJOMEjZj325DxV6Nh?=
+ =?us-ascii?Q?XNxJOf4RJM2G8f/xGtnG8OJVN+BvgTUV/LbzN29y+q6XDFzqtRRXzAhYxon/?=
+ =?us-ascii?Q?cnJbdJA9qtVzoHm1pIi4/NT5BUkoH3VmF7zEeQIl5dhrfKjSSIJqPqEHurZV?=
+ =?us-ascii?Q?auYj86MaeZJmusn4F5ZO+yvq/6rzi5bjg+vziGctQG8Zvh3Y2fW2XMCQDNVl?=
+ =?us-ascii?Q?ipnIootWbguV0PxZZ8AfaeUBEmHUdfNX1axQXUD7jEGsA6p0H4I1xxs4rCyR?=
+ =?us-ascii?Q?f6SoMIoC+Uqt0bd5/IwCD4+bLNvxDVcaNlmHaHbgq3Awom3ckbdaR+i7XX9L?=
+ =?us-ascii?Q?rbLOyNIYiExq3Mhvjl+EeXac6s1GL0NNGvy79lhY89Wcfdg+rIskX2/OY0Wr?=
+ =?us-ascii?Q?rPuBoJgXn8IyXm3H1Af2sQZar1UiZB6jDbextHABfhMoVkIZIEFWctHJgf26?=
+ =?us-ascii?Q?toyOUNmgJgspSxdrH5RXPeoFtdZofNPNbdv0kvljYGF2fMHBLXfRxYs3OyQ7?=
+ =?us-ascii?Q?7HEpEODdqfh0Wx4OPKNawwLeUn75WqDaXNfLiGZ+qykiVG5rLx51eqNLfQje?=
+ =?us-ascii?Q?6XaQvRFs34DrsCevjnqfZr2FM1hoytsl63JOqt6nlqJl3g1zTYS3SKvh5SQp?=
+ =?us-ascii?Q?JEWzr33IHIWdmQwX87oMUTxL4Fr207ms1qKS6Yy6HEzYeaIZYRnZKc1v9zQE?=
+ =?us-ascii?Q?TyFlOFEGWa8Bahkq9y4KznBBylOpKRODbH6W0j62VrfxK+wZKlb+rTQeq6Rv?=
+ =?us-ascii?Q?qZ4/hkoXG9UzPHNMAaylF5nfVLuG2BfWEfU5VoWl36nt9bAZitNUHwpW6Oz8?=
+ =?us-ascii?Q?tCwb4HsCaYUKMTpW+zE=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR10MB5777.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?SrLQpeV7yYnlOudAPPlJpsgHDFpyP3KkUmy6I9JEjfVGuMxGZ93whvnK7TSP?=
+ =?us-ascii?Q?2LmP2orh5Ly9FsnditKoXZn7tjar47MQ+JySHJNFzyB1cIypCPUf1VfLgGXM?=
+ =?us-ascii?Q?ULb8wNdkHGoe3GR1y8t7/LVRQZHGJ//8MIujrM29j4tRkqOSiws7bWrHXgxz?=
+ =?us-ascii?Q?dNNozGSLYY3Is9As81tTEp9Pp1gqgT3lCx1OP0CIBx20/KRdVjiX02gIyFRI?=
+ =?us-ascii?Q?qNnAXdIfpcc3MN/AmYrteH4PptmLaa08cuvHWousywNwGHQV9y5f5oqdsKZP?=
+ =?us-ascii?Q?4ORqsRpe7cvVX2Ub0i5qlFDmdrDvI5jKz+1tL1Uy22KPTtOAOv/3FYmq7/4C?=
+ =?us-ascii?Q?MGn7Xz5scAzUEurCd2LCCNZ2tXuJmbAqq6NCNB9YOjzniovUjAGI4zIyRVW+?=
+ =?us-ascii?Q?pOavZ42kuTO9ty7Qb4wF8pQ16RU42Jw71094lGqOSWAeDQadCJts9AABmx2h?=
+ =?us-ascii?Q?ZhBQBgnl+08qO+xwdl+SVbM73lOTTrwyjXqmkMGVyqp5f+cGt8EMBe+sQmnd?=
+ =?us-ascii?Q?qaV8oEeYxNLPFU/0RKN1vEzdf27joWNUZSK1snsB6fi8PJMPTGIMGYRo8/9N?=
+ =?us-ascii?Q?DYMrParDlGbTRY/W1OSECTZOpKZepo9v0LemnnPQ0xrcM7tToN/L9jzPFCn2?=
+ =?us-ascii?Q?ye5RFtnEFskpHSVfCw5V8wBDMjv7cdFFvdL8kjhi3nAi94WQ0NrsjSESSBwR?=
+ =?us-ascii?Q?AOmFmmSiAplZYDBbs8GFJ46EiZn8MLIefbFh88vioq7kWanA3B0SDuDa98ge?=
+ =?us-ascii?Q?kMclW5J3K3FF8GtmZ3hEGq5gc21KUK1iYzCF9OV8WxBGFBBIKYJBSucMKkjb?=
+ =?us-ascii?Q?p+jr1pzE8uRhCQaiYq/C8tc+moRJgYopv/Pc0B50RvnCTV/XcaE+qLz7tuaT?=
+ =?us-ascii?Q?uB9z92n7Nfve8ZBG1gF4MXaxCTh31HBK/EY0R9pIf3OVuF4ezP376rGMk5hc?=
+ =?us-ascii?Q?bjdKhZalP1soIVLyjHEHwxDdXxkY9IsSj8BGTvRhO6NJG3H3MYSyGvtaDDgo?=
+ =?us-ascii?Q?o5dE4b/G0USFzGOngEm3BINgMkeRdP/EcGHOkgrQQPRJQuuHRUVpXRej6UT4?=
+ =?us-ascii?Q?2rQPArMzHPL+0iuCpNY/iVEM+hY8/09ir6zYbWp1EhGT8rRKOhXuyOxZF0r4?=
+ =?us-ascii?Q?Hz3/TPYHEC5HFF3XqnkFJhGt2oAsevAJf44fpSjsSTTeH/eGVVF0tickLlBQ?=
+ =?us-ascii?Q?iGxv1O1nGCntu0tpGP1SVHjfwZy1S37Qa6CEckQs+nkITSHCuryWx48RdNzN?=
+ =?us-ascii?Q?XPACRXEWehl2T/tDdFzAmXNqzCyFlfggOYgaglIQYsoQP+voGJbD8JVPriMo?=
+ =?us-ascii?Q?MHqauqsXvbo9PlES2WDidZIJLiaMA07LXX10ub9914MeRnDGXlQXQMFE6ACj?=
+ =?us-ascii?Q?Oh+bQ2oVlKXXDhKWqkNEMWRjBzsU/LRySFP84uC7v+w2/bmmB/Xk6n92XWjx?=
+ =?us-ascii?Q?jbr7KVmk3/wjDtKqPpSI275avNyGUNhp+qWQ+ICsz7czgA7WASk+QqKtjLgq?=
+ =?us-ascii?Q?+kNztbpfpnGVMPmpalnAi20EOpkUjcqDTRsPcNTfNinjjIxq0CY4X8hzcUfh?=
+ =?us-ascii?Q?ozvvh8VAEAP+V5XkdzBc3zKjIbsZbdLqbKyVv8FYsKJF3m3P+z5Hzi8VTqG1?=
+ =?us-ascii?Q?Zu90a0RKrpJXRXByW40c6ilcL8WmsGXfgC5qNct6/ohM5OlyCb+q8ntO2kNA?=
+ =?us-ascii?Q?r9rftx5g79ijAH3LoYCOrd3mqeotE0ZxJkdATjD35arxDcy1Lm+c/DEy7P3P?=
+ =?us-ascii?Q?XYyBsSHbjw=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: X2knU29KZItDq+clC8Eqtm+xWhC4cKVkDffmBkYGo4REmpG4qrrqF5yJF2QfzDWFcM9X8pVVPJIr7o3lURHXhQID5i3m7mdeYF5AtCF/tug/wQ8lY01AUPWzpCd1k26pm6/2y7TLlN/MjoY4/Ha1+RPH4lfaXG6gJmayVNejZZrrupIhH7NQveJrvtLa4cFvGOzSVrY9IqqxtdYywy3HNjqbb4i8UdpEcp+dd+Pf9Y/5UpZ7arZNPOqlmeqhkPW05xjZVmY+K/qSVd7r0tJYIIiNZY+cv76K+ClgbE2WwB+dADEjpJUgiNPKOTUp1eu0HkEk+IQhkUPU+7bHX2VwTWhX/mZo/BQyYrRWqTixrwE2spTPmEvL6VgaWG1DhFlVTDjui3dsEmjcuQtUTdLoYlOiEx94ElUqYra+b2Emv7USUTGXrRXytvCxuAm4lvhIHmpyxISLEUPfT38eUKMLWBI97G0q89GZv6pOgbYiMv7L3N1SGa60PsjHEX0OSpbhUX4Jkn/3TmSpE+FHJ5/H29MSljbmNoEzVwT3SZCA6qFj+2oRAj6PPraomvQYtTzs41X18lCFJYKVTcq3MXFbAqtoTT9XP1QhOlIoD93FI9o=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 175b5d70-e64a-47fd-6798-08de681154e0
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5777.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2026 19:27:58.3016 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qXAgHTJPi2N6lmDPDMHQ9KxQfZa9A+i40h74ktdTLS3f/QplMHLSHSVAIxcATs2Rae/g+WwZ0WMl51NuoBDvLA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR10MB6672
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-09_01,2026-02-09_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ spamscore=0
+ malwarescore=0 phishscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2601150000 definitions=main-2602090164
+X-Authority-Analysis: v=2.4 cv=KaTfcAYD c=1 sm=1 tr=0 ts=698a3546 b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117
+ a=WeWmnZmh0fydH62SvGsd2A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=HzLeVaNsDn8A:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=yPCof4ZbAAAA:8
+ a=5v1go5wQdWjlzf3N9Q4A:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-GUID: 5eTbkAcIxmLS-T4lFHlmBgbDSzxLcidb
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA5MDE2NCBTYWx0ZWRfX7xoReqbepsWu
+ 1LyzHy0RHvtHPdq6Tme+8Wy29p9fo1M66HFe++j+PBPKO5ESjxTai0eh/3//ONWYJFG3QBsEryK
+ um70IBZpNerF3OfTsjJdzUU1binrmqjzcpKY1MZL0tZZ/BlnmLlMsGPHHfcVvt5tfs1Mm9V38QA
+ KvSmmRdPnhiquok3ZtRbAy7TnLlHPP2yxW15QoqCegKwVfcqo3nObAzC4EUFJKUsmOAV8nyR2F6
+ 5zb6xPmw9mTyrkDkTlaDkHdzVtMXT9YQ5zG5ECmPKTXu1C/3FsJD1F5wQ8MB5tDr+EVMxCI0bRJ
+ nEs5dLH7XSox4XU8i9DlYJzCOAR7yIocN/DJe3S9U7teGTeuvkskmzubwbIYjeHnzqg5sj7t4P/
+ ouLaC9sLwjg0nWw4dyy0OKPni8s2M4vzQjL5KSSRVm3h/sci15EaE1vgVbG2k1KyupFL/3k1JtR
+ xQZoG9cZno3GxaUVT/w==
+X-Proofpoint-ORIG-GUID: 5eTbkAcIxmLS-T4lFHlmBgbDSzxLcidb
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,165 +327,100 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[oracle.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_DKIM_ALLOW(-0.20)[oracle.com:s=corp-2025-04-25,oracle.onmicrosoft.com:s=selector2-oracle-onmicrosoft-com];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url];
-	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCVD_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,oracle.onmicrosoft.com:dkim,oracle.com:email,oracle.com:dkim];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[linux-foundation.org,suse.de,kernel.org,linux.intel.com,redhat.com,alien8.de,zytor.com,arndb.de,linuxfoundation.org,intel.com,gmail.com,ffwll.ch,ursulin.net,amd.com,zeniv.linux.org.uk,suse.cz,kvack.org,linux.alibaba.com,google.com,huawei.com,vivo.com,mit.edu,dilger.ca,linux.dev,paragon-software.com,omnibond.com,arm.com,wdc.com,infradead.org,suse.com,nvidia.com,paul-moore.com,namei.org,hallyn.com,rasmusvillemoes.dk,vger.kernel.org,lists.linux.dev,lists.freedesktop.org,lists.ozlabs.org,lists.orangefs.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	DKIM_TRACE(0.00)[intel.com:+]
-X-Rspamd-Queue-Id: A150D11412D
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[Liam.Howlett@oracle.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[oracle.com:+,oracle.onmicrosoft.com:+];
+	RCPT_COUNT_GT_50(0.00)[93];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_SEVEN(0.00)[8]
+X-Rspamd-Queue-Id: 3ACAD114153
 X-Rspamd-Action: no action
 
-Hi Arunpravin,
+* Lorenzo Stoakes <lorenzo.stoakes@oracle.com> [260206 20:01]:
+> On Fri, Feb 06, 2026 at 11:31:53AM -0800, Andrew Morton wrote:
+> > On Fri, 6 Feb 2026 17:46:36 +0000 Pedro Falcato <pfalcato@suse.de> wrote:
+> >
+> > > > -#define VM_REMAP_FLAGS (VM_IO | VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP)
+> > > > +#define VMA_REMAP_FLAGS mk_vma_flags(VMA_IO_BIT, VMA_PFNMAP_BIT,	\
+> > > > +				     VMA_DONTEXPAND_BIT, VMA_DONTDUMP_BIT)
+> > >
+> > > as a sidenote, these flags are no longer constant expressions and thus
+> > >
+> > > static vma_flags_t flags = VMA_REMAP_FLAGS;
+> 
+> I mean this would be a code smell anyway :) but point taken.
+> 
+> > >
+> > > can't compile.
+> >
+> > Yup, that isn't nice.  An all-caps thing with no () is a compile-time
+> > constant.
+> 
+> There is precedence for this, e.g. TASK_SIZE_MAX and other arch defines like
+> that:
+> 
+>  error: initializer element is not a compile-time constant
+>  3309 | static unsigned long task_max = TASK_SIZE_MAX;
+>       |                                 ^~~~~~~~~~~~~
+> 
+> And this will almost certainly (and certainly in everything I tested) become a
+> compile-time constant via the optimiser so to all intents and purposes it _is_
+> essentially compile-time.
+> 
+> But the point of doing it this way is to maintain, as much as possible,
+> one-to-one translation between the previous approach and the new with as little
+> noise/friction as possible.
+> 
+> Making this a function makes things really horrible honestly.
+> 
+> Because vma_remap_flags() suddenly because a vague thing - I'd assume this was a
+> function doing something. So now do we call it get_vma_remap_flags()? Suddenly
+> something nice-ish like:
+> 
+> 	if (vma_flags_test(flags, VMA_REMAP_FLAGS)) {
+> 		...
+> 	}
+> 
+> Become:
+> 
+> 	if (vma_flags_test(flags, get_vma_remap_flags())) {
+> 		...
+> 	}
+> 
+> And now it's SUPER ambiguous as to what you're doing there. I'd assume right
+> away that get_vma_remap_flags() was going off and doing something or referencing
+> a static variable or something.
+> 
+> Given the compile will treat the former _exactly_ as if it were a compile-time
+> constant it's just adding unnecessary ambiguity.
+> 
+> So is it something we can live with?
 
-kernel test robot noticed the following build errors:
+How many of these are there going to be?  Could we do something like:
 
-[auto build test ERROR on 9d757669b2b22cd224c334924f798393ffca537c]
+        static inline remap_vma_flags_test(..) {
+                return vma_flags_test_all(vma_flags, ...);
+        }
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Arunpravin-Paneer-Selvam/drm-buddy-Add-KUnit-test-for-offset-aligned-allocations/20260209-163512
-base:   9d757669b2b22cd224c334924f798393ffca537c
-patch link:    https://lore.kernel.org/r/20260209083051.13376-2-Arunpravin.PaneerSelvam%40amd.com
-patch subject: [PATCH v3 2/2] drm/buddy: Add KUnit test for offset-aligned allocations
-config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260209/202602092035.vOm98J4x-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260209/202602092035.vOm98J4x-lkp@intel.com/reproduce)
+        if (remap_vma_flags_test(vma_flags)) {
+                ...
+        }
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602092035.vOm98J4x-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/tests/gpu_buddy_test.c: In function 'gpu_test_buddy_subtree_offset_alignment_stress':
->> drivers/gpu/tests/gpu_buddy_test.c:46:49: error: macro "KUNIT_ASSERT_FALSE" passed 3 arguments, but takes just 2
-      46 |                            "buddy_init failed\n");
-         |                                                 ^
-   In file included from drivers/gpu/tests/gpu_buddy_test.c:7:
-   include/kunit/test.h:1390:9: note: macro "KUNIT_ASSERT_FALSE" defined here
-    1390 | #define KUNIT_ASSERT_FALSE(test, condition) \
-         |         ^~~~~~~~~~~~~~~~~~
->> drivers/gpu/tests/gpu_buddy_test.c:45:9: error: 'KUNIT_ASSERT_FALSE' undeclared (first use in this function); did you mean 'KUNIT_ASSERTION'?
-      45 |         KUNIT_ASSERT_FALSE(test, gpu_buddy_init(&mm, mm_size, SZ_4K),
-         |         ^~~~~~~~~~~~~~~~~~
-         |         KUNIT_ASSERTION
-   drivers/gpu/tests/gpu_buddy_test.c:45:9: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +/KUNIT_ASSERT_FALSE +46 drivers/gpu/tests/gpu_buddy_test.c
-
-    23	
-    24	static void gpu_test_buddy_subtree_offset_alignment_stress(struct kunit *test)
-    25	{
-    26		struct gpu_buddy_block *block;
-    27		struct rb_node *node = NULL;
-    28		const u64 mm_size = SZ_2M;
-    29		const u64 alignments[] = {
-    30			SZ_1M,
-    31			SZ_512K,
-    32			SZ_256K,
-    33			SZ_128K,
-    34			SZ_64K,
-    35			SZ_32K,
-    36			SZ_16K,
-    37			SZ_8K,
-    38		};
-    39	
-    40		struct list_head allocated[ARRAY_SIZE(alignments)];
-    41		unsigned int i, order, max_subtree_align = 0;
-    42		struct gpu_buddy mm;
-    43		int ret, tree;
-    44	
-  > 45		KUNIT_ASSERT_FALSE(test, gpu_buddy_init(&mm, mm_size, SZ_4K),
-  > 46				   "buddy_init failed\n");
-    47	
-    48		for (i = 0; i < ARRAY_SIZE(allocated); i++)
-    49			INIT_LIST_HEAD(&allocated[i]);
-    50	
-    51		/*
-    52		 * Exercise subtree_max_alignment tracking by allocating blocks with descending
-    53		 * alignment constraints and freeing them in reverse order. This verifies that
-    54		 * free-tree augmentation correctly propagates the maximum offset alignment
-    55		 * present in each subtree at every stage.
-    56		 */
-    57	
-    58		for (i = 0; i < ARRAY_SIZE(alignments); i++) {
-    59			struct gpu_buddy_block *root = NULL;
-    60			unsigned int expected;
-    61			u64 align;
-    62	
-    63			align = alignments[i];
-    64			expected = ilog2(align) - 1;
-    65	
-    66			for (;;) {
-    67				ret = gpu_buddy_alloc_blocks(&mm,
-    68							     0, mm_size,
-    69							     SZ_4K, align,
-    70							     &allocated[i],
-    71							     0);
-    72				if (ret)
-    73					break;
-    74	
-    75				block = list_last_entry(&allocated[i],
-    76							struct gpu_buddy_block,
-    77							link);
-    78				KUNIT_EXPECT_EQ(test, gpu_buddy_block_offset(block) & (align - 1), 0ULL);
-    79			}
-    80	
-    81			for (order = mm.max_order + 1; order-- > 0 && !root; ) {
-    82				for (tree = 0; tree < 2; tree++) {
-    83					node = mm.free_trees[tree][order].rb_node;
-    84					if (node) {
-    85						root = container_of(node,
-    86								    struct gpu_buddy_block,
-    87								    rb);
-    88						break;
-    89					}
-    90				}
-    91			}
-    92	
-    93			KUNIT_ASSERT_NOT_NULL(test, root);
-    94			KUNIT_EXPECT_EQ(test, root->subtree_max_alignment, expected);
-    95		}
-    96	
-    97		for (i = ARRAY_SIZE(alignments); i-- > 0; ) {
-    98			gpu_buddy_free_list(&mm, &allocated[i], 0);
-    99	
-   100			for (order = 0; order <= mm.max_order; order++) {
-   101				for (tree = 0; tree < 2; tree++) {
-   102					node = mm.free_trees[tree][order].rb_node;
-   103					if (!node)
-   104						continue;
-   105	
-   106					block = container_of(node, struct gpu_buddy_block, rb);
-   107					max_subtree_align = max(max_subtree_align, block->subtree_max_alignment);
-   108				}
-   109			}
-   110	
-   111			KUNIT_EXPECT_GE(test, max_subtree_align, ilog2(alignments[i]));
-   112		}
-   113	
-   114		gpu_buddy_fini(&mm);
-   115	}
-   116	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
