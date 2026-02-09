@@ -2,90 +2,315 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +MniCmcqimm6HwAAu9opvQ
+	id 0KwDLzUrimm6HwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 19:41:43 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 19:45:09 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77CF8113AFE
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 19:41:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B336113C45
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 19:45:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F1E810E44A;
-	Mon,  9 Feb 2026 18:41:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D36010E44F;
+	Mon,  9 Feb 2026 18:45:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eO8xrJyB";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="AetKDTyH";
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="P/Grhj5+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 677B610E44A
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 18:41:39 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-4801eb2c0a5so45792495e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Feb 2026 10:41:39 -0800 (PST)
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7083E10E454;
+ Mon,  9 Feb 2026 18:45:04 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 619ECWuF1945030; Mon, 9 Feb 2026 18:44:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=corp-2025-04-25; bh=B0NYtwB6mvAW7jt5Km
+ iOR5IOjPAKW1mqkBCc7TiTWxU=; b=AetKDTyH68itCGa0Nms49izLSUYlStN1n4
+ eH/cc8nLkoz3iJz4XqF41XgnvdeSEOuAfVpuGPIkNaWP5wJaTSekIQGyryOHqhK9
+ ydiva2UfSM/CQDa/3uvTCRcJqlx1biG/x3Q7DQX7lxJnNBPZwCVb1dObOrOXWJ9a
+ ydX1P6cTOyqomXtlgS7NrDm0fPhqSZ8FinBKJeS4zGOMUxcoTb+J2ReL/BtVh+ol
+ uXJvSWDXRxkEb+w14/8T1hNnGhn4XGBPS1KmjJeWqoloa0kAIslDtQRo7mVHDLJA
+ 47VLNLTO+r/3jDNckvNSKEZdka0ZyGtM0MPdD//Tv8Mx1+X/pzmQ==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4c5xj4jh0x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 09 Feb 2026 18:44:38 +0000 (GMT)
+Received: from pps.filterd
+ (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 619H0Hlg000539; Mon, 9 Feb 2026 18:44:37 GMT
+Received: from ch1pr05cu001.outbound.protection.outlook.com
+ (mail-northcentralusazon11010031.outbound.protection.outlook.com
+ [52.101.193.31])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 4c5uudct68-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 09 Feb 2026 18:44:37 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=atGFNKKB+dGLz8+tnQoVyQv8StVLGKpSfzBhBw1wCUCVFWkryEcrqUOWUuP+nxoAQKoxmDpTUXRFW7GJf7uv+3IStXGLgnKDIxG2yX736TTsg26obi1594BNCiEzj8Jc94s2jMEe8cBvVf2Iu+3b8FEGrfIwSgQbM8UmugHUZ65lmZxiN+izFCteOIrPZpU526rR9O+h3xgHMrOkaXtefYndM5snX32crbq5N0EA/xsFM1pk5mK6yGVYFw/IWV1QKNtopedL3AFyVAzZ/S3sjafCj2Fktj25igbcKZAGfcTYs4SisvXR+Uh61jv7/wbzTQQ5olsaqJjrHEQUuSj3/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=B0NYtwB6mvAW7jt5KmiOR5IOjPAKW1mqkBCc7TiTWxU=;
+ b=IZgJNSoCkNNdVbz/InNl8REcXd6MiL7Tx/T3HFUF35F1OK+2PmPZptV4297WPt9Yg1XGUg0+kStqCTQ5s4zB4WN67Mr/ZRa15tcbKLaU8uSnCi+bnuXxh80q4kKG0v1iRMkfXaEzsb94OE7f2CW9AjiCHRn0Xe2tS9TUmNnr1Buia2aoFAxD/+jjrYgC7rvM7y/ItoczTbHGCnY099k8BHgvm6FJ8Y0xi1BcOWbpyt5WUjmAgobvD5IxTbdufybIKxKpwBJGgigFQq+cu+MxFY77hPOBhb5PpslAwTmfGlX7/U1pShom0seks7+6vLTKLSLvYFEN/uO1oPXlhMuATQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770662498; x=1771267298; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=oMtozXDIGyj09zGXANkEQgHzJkoyCjXc2a15Zop0B9Q=;
- b=eO8xrJyB5fwWcrFreoiT8vj2MuDFL9PdP2eR0nIWlj6jubYiJkJBey03eqVgARd9S6
- LkrN337rN43iMYRZkFmAQeGERBjkBXtfGYmN8pYxFj0vqk7HGjWwHY3ZJ17+rP/rHKQr
- 5kIQBxbVcfhb9Q3jfrqKsKVYQnL5wSdR7CFogO1w05EvMXSEfmUXcIlMGOJ5i5n0uw4H
- Xl5185s6TLakMYgWPj0vAPcdwxWlcLcHTDkuQlWuPfEtfixzDbzqH8H3AvcA5DyRvld6
- n0dRJXVHojkXwrWwZYa6UgCFubXYoi3J9qfquRFkMIWskP7tR+Q35UQNnpNQrO3H5Irf
- mE1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770662498; x=1771267298;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oMtozXDIGyj09zGXANkEQgHzJkoyCjXc2a15Zop0B9Q=;
- b=f1Kax7Ojdcfres+9ktUWD6njxTllhT89Te71G7VJRBhALUNb4YAVogqdsXEbAvlHvm
- ddoAZHNHSXthW8bUqwyilehRn7T0c2IxyMZ/9MT9zuPOkfI5DIjZDKnNNaigDyDV4xmr
- M66FVj810V3sZ5K0xnXLRfuzlQ2kr10m3LGF/Nf5+jN0zZvZ3K3neSgdSliptsR/znff
- ZzE3ksdPW4ORdQIiMVqpJ8639zsJ5CzI882J0y1EaINk0KMnzvJivK9y5ODv7It5W/F3
- 0vi9CuG+mJmpl6Cvx6xs3/sr9XBYBbJMHlCfzV1/0TuCL/8uFaWZGRJYNwmozfRAxK/b
- qs5Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXNmdcXCmIqpvYpn/gcbT/tPm3OZEEOUHh0zUo8gpmsRHaxIwDxzl5ZmyLNBXz8y1k0pFVW3dIFbg8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz8UxAZhv3v0JRk+KtOvvm4c4eAX65dg1ZF8s1ZOr9OgSIJ6XUS
- vzdcm/0wzSG7OcxHgwOfiA95g9y5Z3w6IdOfz0ODszZBQN8iTu9MBaBx
-X-Gm-Gg: AZuq6aJaG+iUwHNsa4tkTLTcK7mWUHJtPf9yb4AC1YKJ2H3QwxqavwwxSbDS5DZP7E7
- nq7S58C51rRLAGXBgfsBInU+9Qj60ONXQhEKCRIlibH1SeZNXyiDHoZfSU31YpfvWKV4SnG4eAx
- 6uEzPWmOxkScyU8a5tnlOPZjhytQv/6SATpjEE1LCpLTiRG8qZ8N3FRUz0r/aWzL7/TckMM3nnj
- Rf9M6jM80Y3nLMvBbua31I+eXZHR//7DLOnueITc2iKHhXLBpa/mDd9YmRKHVwgLx+u5i37+34G
- yLL+Gzd8qfizY4jDHvfO+W89phqsxIkkRytj5gTlFBrfCcV6uxwPMwaJBG+3nzv/ufS6sHQyNOx
- kWo/m9jElMcNs2af82ieUkH/eR8PkLjeJb87ncC9gZBDFCP5iz+bYx+bIp0l4f0qfx9jYlLfUXa
- SzKsD46WVFx4TfZWnzkFWi4kBTzHMZW8a8KCJ7iefsAWQ=
-X-Received: by 2002:a05:600c:4fc8:b0:46f:c55a:5a8d with SMTP id
- 5b1f17b1804b1-483201dc396mr187849515e9.4.1770662497594; 
- Mon, 09 Feb 2026 10:41:37 -0800 (PST)
-Received: from osama.. ([102.47.82.62]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-436297455eesm28931232f8f.29.2026.02.09.10.41.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Feb 2026 10:41:37 -0800 (PST)
-From: Osama Abdelkader <osama.abdelkader@gmail.com>
-To: luca.ceresoli@bootlin.com, Inki Dae <inki.dae@samsung.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=B0NYtwB6mvAW7jt5KmiOR5IOjPAKW1mqkBCc7TiTWxU=;
+ b=P/Grhj5+ObxAEIMk6Fa2MFrODDbHrsZokOBdR1q8bP8E99iGsuMeRZreqVghvWyNcypN4slCFOuTCG7Y8Zwpi9EjzoVXwreE02lGWjzSg6DqU/41A4c727CLd5C5qz/aXD9yXL6Yd/yLvdOf009VxpmokV4dW8tWWpD/cT9ddkc=
+Received: from PH0PR10MB5777.namprd10.prod.outlook.com (2603:10b6:510:128::16)
+ by SJ5PPF9BA2D2998.namprd10.prod.outlook.com
+ (2603:10b6:a0f:fc02::7bd) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.18; Mon, 9 Feb
+ 2026 18:44:30 +0000
+Received: from PH0PR10MB5777.namprd10.prod.outlook.com
+ ([fe80::4b84:e58d:c708:c8ce]) by PH0PR10MB5777.namprd10.prod.outlook.com
+ ([fe80::4b84:e58d:c708:c8ce%4]) with mapi id 15.20.9587.017; Mon, 9 Feb 2026
+ 18:44:30 +0000
+Date: Mon, 9 Feb 2026 18:44:20 +0000
+From: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Jarkko Sakkinen <jarkko@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Marek Vasut <marex@denx.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Osama Abdelkader <osama.abdelkader@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] drm/bridge: samsung-dsim: Fix memory leak in error path
-Date: Mon,  9 Feb 2026 19:41:14 +0100
-Message-ID: <20260209184115.10937-1-osama.abdelkader@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Benjamin LaHaise <bcrl@kvack.org>, Gao Xiang <xiang@kernel.org>,
+ Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>,
+ Jeffle Xu <jefflexu@linux.alibaba.com>,
+ Sandeep Dhavale <dhavale@google.com>,
+ Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>,
+ Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ David Hildenbrand <david@kernel.org>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Mike Marshall <hubcap@omnibond.com>,
+ Martin Brandenburg <martin@omnibond.com>, Tony Luck <tony.luck@intel.com>,
+ Reinette Chatre <reinette.chatre@intel.com>,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ Babu Moger <babu.moger@amd.com>, Carlos Maiolino <cem@kernel.org>,
+ Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>,
+ Johannes Thumshirn <jth@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>,
+ Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Zi Yan <ziy@nvidia.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, David Howells <dhowells@redhat.com>,
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+ "Serge E . Hallyn" <serge@hallyn.com>, Yury Norov <yury.norov@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-sgx@vger.kernel.org,
+ linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ linux-aio@kvack.org, linux-erofs@lists.ozlabs.org,
+ linux-ext4@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev,
+ devel@lists.orangefs.org, linux-xfs@vger.kernel.org,
+ keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v2 03/13] mm: add mk_vma_flags() bitmap flag macro helper
+Message-ID: <2kqlot2zn4a7slndz7rnxqe3mwi2x3v4o4hqan2y5lgqwv2aeo@euwqxzx4b7or>
+Mail-Followup-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Jarkko Sakkinen <jarkko@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, 
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Arnd Bergmann <arnd@arndb.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Williams <dan.j.williams@intel.com>, 
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Christian Koenig <christian.koenig@amd.com>, 
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, 
+ Matthew Brost <matthew.brost@intel.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Benjamin LaHaise <bcrl@kvack.org>, 
+ Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
+ Yue Hu <zbestahu@gmail.com>, 
+ Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale <dhavale@google.com>, 
+ Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>,
+ Theodore Ts'o <tytso@mit.edu>, 
+ Andreas Dilger <adilger.kernel@dilger.ca>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Mike Marshall <hubcap@omnibond.com>, 
+ Martin Brandenburg <martin@omnibond.com>, Tony Luck <tony.luck@intel.com>, 
+ Reinette Chatre <reinette.chatre@intel.com>, Dave Martin <Dave.Martin@arm.com>,
+ James Morse <james.morse@arm.com>, Babu Moger <babu.moger@amd.com>, 
+ Carlos Maiolino <cem@kernel.org>, Damien Le Moal <dlemoal@kernel.org>, 
+ Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
+ Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Hugh Dickins <hughd@google.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Zi Yan <ziy@nvidia.com>,
+ Nico Pache <npache@redhat.com>, 
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, 
+ Lance Yang <lance.yang@linux.dev>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, 
+ David Howells <dhowells@redhat.com>, Paul Moore <paul@paul-moore.com>, 
+ James Morris <jmorris@namei.org>, "Serge E . Hallyn" <serge@hallyn.com>, 
+ Yury Norov <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ linux-sgx@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, 
+ linux-fsdevel@vger.kernel.org, linux-aio@kvack.org,
+ linux-erofs@lists.ozlabs.org, 
+ linux-ext4@vger.kernel.org, linux-mm@kvack.org, ntfs3@lists.linux.dev, 
+ devel@lists.orangefs.org, linux-xfs@vger.kernel.org, keyrings@vger.kernel.org, 
+ linux-security-module@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>
+References: <cover.1769097829.git.lorenzo.stoakes@oracle.com>
+ <fde00df6ff7fb8c4b42cc0defa5a4924c7a1943a.1769097829.git.lorenzo.stoakes@oracle.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fde00df6ff7fb8c4b42cc0defa5a4924c7a1943a.1769097829.git.lorenzo.stoakes@oracle.com>
+User-Agent: NeoMutt/20250510
+X-ClientProxiedBy: YT4P288CA0053.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:b01:d2::10) To PH0PR10MB5777.namprd10.prod.outlook.com
+ (2603:10b6:510:128::16)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR10MB5777:EE_|SJ5PPF9BA2D2998:EE_
+X-MS-Office365-Filtering-Correlation-Id: 835761e0-38bd-4d5d-9514-08de680b4277
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?J6/bZVShZbaOA5lTqGO0fY5oKk3Vz2RKxyv8Xa0FY8sanbl1yUtziCiI+Nqz?=
+ =?us-ascii?Q?6R1/yICdsQNuNET3FZlwwOZbJqBKPnjAqJNQ0Go9Dsvqka7Md/3eHjwSU2uo?=
+ =?us-ascii?Q?eiUmCfDACSHAVI/fNTTBzlcQoWMmN4g+FLPgMHnwk5bkRkNdDQtsElHsMfkv?=
+ =?us-ascii?Q?8y7yTXTvQH6WnFS/jTDqhXgPfhasX5RQVcpNEQyviiZnpwg3YntX+lbf6HBC?=
+ =?us-ascii?Q?r6xr4b/XtVTuNxRqpRYbpOmso6S0Q+oZ8Q2GOvKI7u9LF0jPeaZ40kpl/SjB?=
+ =?us-ascii?Q?Tjg9gUHTvicI9HGv8gLeaupmxXx1pANINXo3edqpmj1UkX+Q22d08ihxUBKz?=
+ =?us-ascii?Q?HhCRA6aiaQzJiAJ8GzDPL0FpoeYvYw5AkMuVDoCOR2kPHk3hgR63C7RqCkCc?=
+ =?us-ascii?Q?6ardWZ1mQ6tDohizUmGXTJXM+yyDHc7XC0hIKBoowiVaamovn33Mm8BLqoT3?=
+ =?us-ascii?Q?Ob98lxRUe1QEQJEhxZ1jH/agS1uG/aGDlRBN2BdCpm2j/p5w9snpQbmCzL//?=
+ =?us-ascii?Q?YAnSViQS5hdeHVgBONTV5TL6ydM3EKLS5x1YPVAoGNlPneZr0RbDrJE9giZT?=
+ =?us-ascii?Q?6znD5DN0x6ie5nUECDHzR3Ro0WlNN1NsmlrEN4J9TkML/pGC5xojNm0TR8EJ?=
+ =?us-ascii?Q?RlVV8IJhQjsjK9MARP8Gtu9+E1AtL5qvvl5nsVWh+hmQeb85knQaXGq7toe7?=
+ =?us-ascii?Q?bsifULyB17+9zNuEqBe7vgeYaC/rzlvdSSqUE8gLTxfrHdUNwbTJdXA9q09v?=
+ =?us-ascii?Q?lSdR0FE7JI37uDE1LTAiyAnpNQlNmkpNKCw1RpAg3Gm9OcyYPfT0TgBGIyZd?=
+ =?us-ascii?Q?OMVchXgb2m+R+rM8Fe+j0xvp1TZrTeb6+LVp4fkdEbQjKd49+zXbXPYqw3qH?=
+ =?us-ascii?Q?hkfDrsiZJN8+Ltzv6EHn8PYcQt0lufPOY90+Ch/xTBU0IrWsEhyvTUiHljjq?=
+ =?us-ascii?Q?VVxdSUCIid4F1FhMo2mXxHSkiSW7yiTx2PwyUUH6gq8eI6/r/4PCfPqKanof?=
+ =?us-ascii?Q?zsNNQ5a0ZJpUOvHFlAeZtlPk6fneieMQquEs1o2JbQRW37O7WmAsXKM5xFka?=
+ =?us-ascii?Q?DUhUScU6R6TbzOXUHNTCfvdt0WVDBlkA6qSxchfosTjlYbiCnJ6ZzlIt/C+d?=
+ =?us-ascii?Q?fEC932BAROusxgER5AM7VvZxNh8tgmQUrcv21/OTpLmh3p0MIq8LD5sF6h18?=
+ =?us-ascii?Q?iO6b/kI0XzKYJ4GARUkKufjlEluO98SmGNuPgjPrkyjjCUf4lWr4qe3S286C?=
+ =?us-ascii?Q?WeiI8Omv4lqWFEPGfYV1eH1uBTGzIo5jZIgT0h7GBZca+WNOG6RKrHVvru93?=
+ =?us-ascii?Q?hNr4vfTsW5CffOYryvdn4EpszQvj/unEVAxeUEcsFKayURU87Ayq0Gy1YLeG?=
+ =?us-ascii?Q?qzYvFxObYCHTLCM4rF2VGQGnCRP77OcCD4YUauTqm5zn9kd0aS1h9swBbh6d?=
+ =?us-ascii?Q?de+W6fyGhA4GmeCgrfjB8TUCQ6Qqa80RcC/jRjgzpe9USeGOqNFiQF6ZvoWQ?=
+ =?us-ascii?Q?4B4s2Evg/iHIkO7ONQ4c4jQSUqREzaSlSS/Qnm5M9epiABBqTL0rk5MPOqaS?=
+ =?us-ascii?Q?ZINh0J32beZSRKL7pi8=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR10MB5777.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8ggLOdY54t/hDOd/mOSVN0ij7suoJb6dsuquZqztUX9DKy+i55Jo2MMUQ/0D?=
+ =?us-ascii?Q?ZcXzMwklveqt8pHu21tOay2f2bsa648OQO5DTuX6SB+ocDo1Lkmk4n+uZY5G?=
+ =?us-ascii?Q?DeKkLzjrahsWdaGxAlwWMaNEit5zhyWDDR9scFeAGUsGdEXFFl8pOhX0uFCb?=
+ =?us-ascii?Q?engvPa6jQai2CqZj4UQIUm9EUB0lDuKP5AzvV90cji3J4AJ6Hlb5h+JKONwW?=
+ =?us-ascii?Q?h8hjxifJhbKPqmbO+xHEwXmI2yo/XGUOQf/L5RFFT7sSIX3ruH2rCa+1lspQ?=
+ =?us-ascii?Q?cm1W7SEAGPHKqmv1CdkF/4UVvpPdvv1klkQ5Y2bqy5H41eDsxlb3fT3SY4+/?=
+ =?us-ascii?Q?9Mjp8mEg5OaLimsvPc5dFKJVt2jwgoX6Ub+VPY+/RRdOZA7/GzCWA5pQ7kBe?=
+ =?us-ascii?Q?Upfa93PsiOhbg1dr744cg+/X0OMSGYq5VXvIV5h91OuW/GCwvswDDnG+Knur?=
+ =?us-ascii?Q?rZEG4/fzZJY6jot7HNp3Tsz3Gqi7rY7THZFFoIGMoPF4tt1Aw0su2UQ26GQ7?=
+ =?us-ascii?Q?ky/pVPGxhEGK9cFuB03k1UAi3p0aeXl9PTe2o9f4kpx2ClEdpFFIuGHz+JJb?=
+ =?us-ascii?Q?zNLxb0ey8PHR2SOl9TVzOnN01Byr6LJcnLibstJ59QVwnK2ASWu7nxha+wjy?=
+ =?us-ascii?Q?P2xOJNyDM0YGWyyWYi2NZCCRHlvNlGhPtUh4RrI2ndtLvYVdQMfTzRvj2TOc?=
+ =?us-ascii?Q?428rpR/pkHooUsEpTEJmtXkRIjBzbpa1e55xNC9pHVPrQfOC3XwgwMVex8uk?=
+ =?us-ascii?Q?KNWh6/sAvDSL2N95jr8zu25lSnuQn+UPil5d/ej+rRVsRqLZ1JjElMcQRLVO?=
+ =?us-ascii?Q?dQp7Gx5hBV1EgOyD68EfWzNsLz+OcR8gCXqqddvcJ6GbL3idNqKlhk2DIHNA?=
+ =?us-ascii?Q?eeacywIP79pBE2xRvPSwQWiNzjQvA0xliMurQgN0FXV8ZpaRNYCfpFLB0WVD?=
+ =?us-ascii?Q?bgFEV3BfZ1eNHf5Ja/zazoaMe/VfdGJUPccrFJMJSQn2SL+5zGrA67iA5iJ0?=
+ =?us-ascii?Q?NdzyWBQg95BaHT/Rrl/JAlcIs0UlraTWg+usXPRlJMfGkYEuwkxyKsWbDLPz?=
+ =?us-ascii?Q?dnTHL8y0UkQORV7zlFC/c6YuMc0E8CkZMGUn/2xhkCy+7WAx17TkK9uB1Gu8?=
+ =?us-ascii?Q?FUEfNVQPV7Q/CxXzssDrnF5JJuUXcf/S3Qz5ANzugumqhAwH9BriFJRrjxX8?=
+ =?us-ascii?Q?esUnbWF/bCZxgKLyfXFWa5u8NB1bhcyBQXsw5vMP5GqP8yimy4RF4JPzC3AO?=
+ =?us-ascii?Q?Tx5gCgQIxV3BRt3JJCxrp4c7JVF3WmMjU2SQm8qEJqRBk0PsE4iXaruHLi0L?=
+ =?us-ascii?Q?daKODNtS0ZW4Bam2/d7Vr7qdQL4dQxTd7jDW9/WTeTz2xywg70IYtySbY9FC?=
+ =?us-ascii?Q?MZ9eaQv7/DMU2HCA/QbKvSmIMN3kOKwzdpwWt7VFsdXEEGbnIEunwby4nS0X?=
+ =?us-ascii?Q?ttPj6SkH1te6qUJmErGSGArLAo4hE3ex985OLRI1JZfxvW/OPLIPk/yPBZHe?=
+ =?us-ascii?Q?FuhuJQTsImhpuQfPOt6ZCUQMnKJRmmfkU9TEQEL4AaaTA+Z9UGFledMrSkbw?=
+ =?us-ascii?Q?KsNupEXqQn9MNVgFXGq4LY61qEkutTXXm2nHJ61l3w/xn38HxRZh/YBvGrOu?=
+ =?us-ascii?Q?hjkro4OR7iyKrn4sCL1fzRpFXkWxeRz0b5S8McxksXbLOqc3E68k5m9y1NdB?=
+ =?us-ascii?Q?+hu/csw8r3rK5yMfzsC3zoT1y6u8oMKu8VI+Upk2ay4QHffIM477m9rS5MEP?=
+ =?us-ascii?Q?IdaYEscqzw=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: +twhLtpIfBfU8tP/B1j8ZGKcEpU+ITwk8wOYlPayRcipzW9bVB8IBFA75CK6SF30wxwFQzDM9g0t9hJIutsjoAxH0i2Dnhu/5vGS2RNRETijAUpt5bSLvbIPEtpq9CNtJOFoji/NvY91AeNtka4cxYZhwBz82Z5j+W6/7RiW81DHYmA1FQzhDN+u7T1TcaXdPicGqHxPxF7Wwwg8WLIpjStcFx20/NbNvKQDfvD5SyrDWfVgnouz1koYHILpg0L5ft+af/UmP9qGA9Iq1K34VOLlUScVzBP2Pj5IC+2L+GCv5m+IDjHJ5gJdjibkLTH3hDSrrrkrSZoHmGROmmN4Rl0KojcE+5x2ddtIuc1FkJUIJa8FQGE6Soay9FiztTKvoSFoU7H3fzuueeEogXzeZRdq+fAdPwJC2pGj7MnRO8rkJm/cgMGSngzmidLYBa5KbZjNn/nuarnpMgGrFY2BexdM7l7DbKeL4wwBVk8003cjS97CLODL5ZiJl3qPjVsgA+0fk9/k2FnEF+CQhsVEvm2ABA0E6MYOHj/r/a8rXEVGVTGC2jhc48f0Rnj7x6oTjmAp2Gq/GPdjGk+OCBL4GAgvJkmUBEaTKKvvmxgd+8w=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 835761e0-38bd-4d5d-9514-08de680b4277
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5777.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2026 18:44:30.3650 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7U8ksQ52ouHCda6JECLJvmgvNqQx+7m8wKepGpuK2mv+NdqaPihsfoCnKTmpyDDHkL/22Nkb/iEcwMyNhh5VbQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF9BA2D2998
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-09_01,2026-02-09_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ adultscore=0 phishscore=0
+ bulkscore=0 mlxlogscore=999 suspectscore=0 mlxscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2601150000
+ definitions=main-2602090158
+X-Authority-Analysis: v=2.4 cv=Adi83nXG c=1 sm=1 tr=0 ts=698a2b16 b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117
+ a=zPCbziy225d3KhSqZt3L1A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=HzLeVaNsDn8A:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=yPCof4ZbAAAA:8
+ a=Ikd4Dj_1AAAA:8 a=cU11hptOtYW8uLkjrFMA:9 a=CjuIK1q_8ugA:10 cc=ntf
+ awl=host:12148
+X-Proofpoint-ORIG-GUID: ICvlLRZA0enzEYO-mW8--q1v8tOfxqVN
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA5MDE1OCBTYWx0ZWRfXwddEpke44M+4
+ gXhVDYpY4NG2OfTQPlnMxosb09Xgdo9GCI+ZyoIGDpMBCiV9zXKvfXzf08WjPNp2OIDmhiP0Tpo
+ rqehI4SjN1vSqCdtDGNh1DjFgsv+iCS1gWRcI+H5vFigQpuvYCeHA/8WVhaAi9BSC1XC2TxeAYC
+ ohVrMHEWLllAZtw6Xuenw2yGcwRuAl1KSL98TK0OvvNZduD5uk4Qk239gFi8WLpe/PsCzp+NpgV
+ SW9HLDKxiAww9BFVoE3M+8HLDcKyKD/+tTtuqqmdhJ9aSyyLgv29LWf9ur5slOXe1UWr/d8PCLw
+ 1Nb44bkf1vtAVtVaOnNboQPx6N1fH1i3M5xDOhuWEQkuu61h7KKTi5Avq1yFM7cgNH9Qryk2c1n
+ ao4+jqN54xd+0NukM83MDJiJeMapEccFSIA5wrf8gry91uL4w9hYDRLoqpAUu+FyYgIAWQG4w02
+ d6nymsQzTCQs4zEWwV3eWgxVeqkySqZV8oVsi9NI=
+X-Proofpoint-GUID: ICvlLRZA0enzEYO-mW8--q1v8tOfxqVN
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,126 +326,158 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
+X-Spamd-Result: default: False [-0.31 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[oracle.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[oracle.com:s=corp-2025-04-25,oracle.onmicrosoft.com:s=selector2-oracle-onmicrosoft-com];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_TO(0.00)[bootlin.com,samsung.com,amarulasolutions.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,denx.de,lists.freedesktop.org,vger.kernel.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:luca.ceresoli@bootlin.com,m:inki.dae@samsung.com,m:jagan@amarulasolutions.com,m:m.szyprowski@samsung.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:marex@denx.de,m:linux-kernel@vger.kernel.org,m:osama.abdelkader@gmail.com,m:stable@vger.kernel.org,m:jernejskrabec@gmail.com,m:osamaabdelkader@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[osamaabdelkader@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,oracle.com:email,oracle.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,oracle.onmicrosoft.com:dkim];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org];
-	FROM_NEQ_ENVFROM(0.00)[osamaabdelkader@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FREEMAIL_CC(0.00)[linux-foundation.org,kernel.org,linux.intel.com,redhat.com,alien8.de,zytor.com,arndb.de,linuxfoundation.org,intel.com,suse.de,gmail.com,ffwll.ch,ursulin.net,amd.com,zeniv.linux.org.uk,suse.cz,kvack.org,linux.alibaba.com,google.com,huawei.com,vivo.com,mit.edu,dilger.ca,linux.dev,paragon-software.com,omnibond.com,arm.com,wdc.com,infradead.org,suse.com,nvidia.com,paul-moore.com,namei.org,hallyn.com,rasmusvillemoes.dk,vger.kernel.org,lists.linux.dev,lists.freedesktop.org,lists.ozlabs.org,lists.orangefs.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 77CF8113AFE
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[Liam.Howlett@oracle.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[oracle.com:+,oracle.onmicrosoft.com:+];
+	RCPT_COUNT_GT_50(0.00)[93];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_SEVEN(0.00)[8]
+X-Rspamd-Queue-Id: 5B336113C45
 X-Rspamd-Action: no action
 
-In samsung_dsim_host_attach(), drm_bridge_add() is called to add the
-bridge. However, if samsung_dsim_register_te_irq() or
-pdata->host_ops->attach() fails afterwards, the function returns
-without removing the bridge, causing a memory leak.
+* Lorenzo Stoakes <lorenzo.stoakes@oracle.com> [260122 16:06]:
+> This patch introduces the mk_vma_flags() macro helper to allow easy
+> manipulation of VMA flags utilising the new bitmap representation
+> implemented of VMA flags defined by the vma_flags_t type.
+> 
+> It is a variadic macro which provides a bitwise-or'd representation of all
+> of each individual VMA flag specified.
+> 
+> Note that, while we maintain VM_xxx flags for backwards compatibility until
+> the conversion is complete, we define VMA flags of type vma_flag_t using
+> VMA_xxx_BIT to avoid confusing the two.
+> 
+> This helper macro therefore can be used thusly:
+> 
+> vma_flags_t flags = mk_vma_flags(VMA_READ_BIT, VMA_WRITE_BIT);
+> 
+> We allow for up to 5 flags to specified at a time which should accommodate
+> all current kernel uses of combined VMA flags.
+> 
+> Testing has demonstrated that the compiler optimises this code such that it
+> generates the same assembly utilising this macro as it does if the flags
+> were specified manually, for instance:
+> 
+> vma_flags_t get_flags(void)
+> {
+> 	return mk_vma_flags(VMA_READ_BIT, VMA_WRITE_BIT, VMA_EXEC_BIT);
+> }
+> 
+> Generates the same code as:
+> 
+> vma_flags_t get_flags(void)
+> {
+> 	vma_flags_t flags;
+> 
+> 	vma_flags_clear_all(&flags);
+> 	vma_flag_set(&flags, VMA_READ_BIT);
+> 	vma_flag_set(&flags, VMA_WRITE_BIT);
+> 	vma_flag_set(&flags, VMA_EXEC_BIT);
+> 
+> 	return flags;
+> }
+> 
+> And:
+> 
+> vma_flags_t get_flags(void)
+> {
+> 	vma_flags_t flags;
+> 	unsigned long *bitmap = ACCESS_PRIVATE(&flags, __vma_flags);
+> 
+> 	*bitmap = 1UL << (__force int)VMA_READ_BIT;
+> 	*bitmap |= 1UL << (__force int)VMA_WRITE_BIT;
+> 	*bitmap |= 1UL << (__force int)VMA_EXEC_BIT;
+> 
+> 	return flags;
+> }
+> 
+> That is:
+> 
+> get_flags:
+>         movl    $7, %eax
+>         ret
+> 
+> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
-Fix this by adding proper error handling with goto labels to ensure
-drm_bridge_remove() is called in all error paths. Also ensure that
-samsung_dsim_unregister_te_irq() is called if the attach operation
-fails after the TE IRQ has been registered.
+Besides the part about 5 arguments that has been discussed,
 
-samsung_dsim_unregister_te_irq() function is moved without changes
-to be before samsung_dsim_host_attach() to avoid forward declaration.
+Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
 
-Fixes: e7447128ca4a ("drm: bridge: Generalize Exynos-DSI driver into a Samsung DSIM bridge")
-Cc: stable@vger.kernel.org
-Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
----
-v2: 
-- Move samsung_dsim_unregister_te_irq() function
-- Add Fixes tag
-- Add Cc tag
----
- drivers/gpu/drm/bridge/samsung-dsim.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index eabc4c32f6ab..ad8c6aa49d48 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -1881,6 +1881,14 @@ static int samsung_dsim_register_te_irq(struct samsung_dsim *dsi, struct device
- 	return 0;
- }
- 
-+static void samsung_dsim_unregister_te_irq(struct samsung_dsim *dsi)
-+{
-+	if (dsi->te_gpio) {
-+		free_irq(gpiod_to_irq(dsi->te_gpio), dsi);
-+		gpiod_put(dsi->te_gpio);
-+	}
-+}
-+
- static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
- 				    struct mipi_dsi_device *device)
- {
-@@ -1955,13 +1963,13 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
- 	if (!(device->mode_flags & MIPI_DSI_MODE_VIDEO)) {
- 		ret = samsung_dsim_register_te_irq(dsi, &device->dev);
- 		if (ret)
--			return ret;
-+			goto err_remove_bridge;
- 	}
- 
- 	if (pdata->host_ops && pdata->host_ops->attach) {
- 		ret = pdata->host_ops->attach(dsi, device);
- 		if (ret)
--			return ret;
-+			goto err_unregister_te_irq;
- 	}
- 
- 	dsi->lanes = device->lanes;
-@@ -1969,14 +1977,13 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
- 	dsi->mode_flags = device->mode_flags;
- 
- 	return 0;
--}
- 
--static void samsung_dsim_unregister_te_irq(struct samsung_dsim *dsi)
--{
--	if (dsi->te_gpio) {
--		free_irq(gpiod_to_irq(dsi->te_gpio), dsi);
--		gpiod_put(dsi->te_gpio);
--	}
-+err_unregister_te_irq:
-+	if (!(device->mode_flags & MIPI_DSI_MODE_VIDEO))
-+		samsung_dsim_unregister_te_irq(dsi);
-+err_remove_bridge:
-+	drm_bridge_remove(&dsi->bridge);
-+	return ret;
- }
- 
- static int samsung_dsim_host_detach(struct mipi_dsi_host *host,
--- 
-2.43.0
-
+> ---
+>  include/linux/mm.h | 33 +++++++++++++++++++++++++++++++++
+>  1 file changed, 33 insertions(+)
+> 
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index e0d31238097c..32c3b5347dc6 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -2,6 +2,7 @@
+>  #ifndef _LINUX_MM_H
+>  #define _LINUX_MM_H
+>  
+> +#include <linux/args.h>
+>  #include <linux/errno.h>
+>  #include <linux/mmdebug.h>
+>  #include <linux/gfp.h>
+> @@ -1026,6 +1027,38 @@ static inline bool vma_test_atomic_flag(struct vm_area_struct *vma, vma_flag_t b
+>  	return false;
+>  }
+>  
+> +/* Set an individual VMA flag in flags, non-atomically. */
+> +static inline void vma_flag_set(vma_flags_t *flags, vma_flag_t bit)
+> +{
+> +	unsigned long *bitmap = flags->__vma_flags;
+> +
+> +	__set_bit((__force int)bit, bitmap);
+> +}
+> +
+> +static inline vma_flags_t __mk_vma_flags(size_t count, const vma_flag_t *bits)
+> +{
+> +	vma_flags_t flags;
+> +	int i;
+> +
+> +	vma_flags_clear_all(&flags);
+> +	for (i = 0; i < count; i++)
+> +		vma_flag_set(&flags, bits[i]);
+> +	return flags;
+> +}
+> +
+> +/*
+> + * Helper macro which bitwise-or combines the specified input flags into a
+> + * vma_flags_t bitmap value. E.g.:
+> + *
+> + * vma_flags_t flags = mk_vma_flags(VMA_IO_BIT, VMA_PFNMAP_BIT,
+> + * 		VMA_DONTEXPAND_BIT, VMA_DONTDUMP_BIT);
+> + *
+> + * The compiler cleverly optimises away all of the work and this ends up being
+> + * equivalent to aggregating the values manually.
+> + */
+> +#define mk_vma_flags(...) __mk_vma_flags(COUNT_ARGS(__VA_ARGS__), \
+> +					 (const vma_flag_t []){__VA_ARGS__})
+> +
+>  static inline void vma_set_anonymous(struct vm_area_struct *vma)
+>  {
+>  	vma->vm_ops = NULL;
+> -- 
+> 2.52.0
+> 
