@@ -2,112 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EGIQFM8EimluFQAAu9opvQ
+	id sAl0IoYFimluFQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 17:01:19 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 17:04:22 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4DB211246A
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 17:01:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE27611249A
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 17:04:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91E0810E42A;
-	Mon,  9 Feb 2026 16:01:11 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jbbzMACV";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87B7710E42D;
+	Mon,  9 Feb 2026 16:04:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C65910E42A
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 16:01:09 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 264CB405A3;
- Mon,  9 Feb 2026 16:01:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15987C116C6;
- Mon,  9 Feb 2026 16:01:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770652869;
- bh=DeCQWTbVo27s9msB334lUp7jD2Hs0FC3zBs7qbX4DIE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=jbbzMACVn99lMmRtfHxd8dRIY/LAYmUKv2EJEsS4iMgpb0sGFq10tw4uQQIgwE2xh
- FvkZvSNwSckvuCTm/4sHtWBfH1WJy1Wc4RwEg7JubwkjzZOb0sqPWPzDcXHQm6ZYN8
- QbMUA+1u3hCZrYwnFPxCxfMqSL15rWtHogHjEMujqcfAkMrKv2QU0iQflTu075VtTG
- e6jTmNFIWyVyN8BBPGnFiWawAyJETEkPZeSWplnQLfWRtxDOf9gk2xKUIDLjwumeaB
- 4FjTg1hZ1eShOOpIXdM5kE5e6fk166lF42LoYPkrrcW9Zcw5MDxJt72wMhsoAcfnPm
- bcLsjUKXcHAlA==
-Message-ID: <e73bdf49-0a6e-4e82-9727-3a241fa9722c@kernel.org>
-Date: Mon, 9 Feb 2026 17:00:57 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id ADC4910E42D
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 16:04:17 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DD2F5150C
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 08:04:10 -0800 (PST)
+Received: from [192.168.0.1] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id
+ 08C943F63F
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 08:04:16 -0800 (PST)
+Date: Mon, 9 Feb 2026 16:02:18 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>, Rob Clark <robin.clark@oss.qualcomm.com>,
+ linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Karunika Choo <karunika.choo@arm.com>, Liviu Dudau <liviu@dudau.co.uk>
+Subject: Re: [RFC PATCH] iommu/io-pgtable: Add support for Arm Mali v10+ GPUs
+ page table format
+Message-ID: <aYoFCsNtwW3uAWXZ@e142607>
+References: <20260209112542.194140-1-liviu.dudau@arm.com>
+ <0af5b5f3-912a-4f16-a68b-032617576537@arm.com>
+ <aYngwtq_GtBYGjOC@e142607>
+ <ac5c3df0-1d94-4a1c-9eec-a359096cfce5@arm.com>
+ <aYn7obNImaI72MhK@e142607> <20260209163534.45b0ec7a@fedora>
+ <d129d0cd-ac01-40e5-92b7-77518bf32b3b@arm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v7 11/16] mm/migrate_device: add THP splitting during migration
-To: Balbir Singh <balbirs@nvidia.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org
-Cc: akpm@linux-foundation.org, Zi Yan <ziy@nvidia.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
- =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Francois Dugast <francois.dugast@intel.com>
-References: <20251001065707.920170-1-balbirs@nvidia.com>
- <20251001065707.920170-12-balbirs@nvidia.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
- ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
- AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
- 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
- g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
- ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
- 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
- /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
- jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
- DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
- HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
- 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
- LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
- 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
- VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
- /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
- iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
- 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
- zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
- azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
- FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
- sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
- 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
- EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
- IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
- 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
- Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
- sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
- yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
- 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
- r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
- 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
- CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
- qIws/H2t
-In-Reply-To: <20251001065707.920170-12-balbirs@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <d129d0cd-ac01-40e5-92b7-77518bf32b3b@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,62 +61,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+X-Spamd-Result: default: False [-0.01 / 15.00];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:balbirs@nvidia.com,m:linux-kernel@vger.kernel.org,m:linux-mm@kvack.org,m:akpm@linux-foundation.org,m:ziy@nvidia.com,m:joshua.hahnjy@gmail.com,m:rakie.kim@sk.com,m:byungchul@sk.com,m:gourry@gourry.net,m:ying.huang@linux.alibaba.com,m:apopple@nvidia.com,m:osalvador@suse.de,m:lorenzo.stoakes@oracle.com,m:baolin.wang@linux.alibaba.com,m:Liam.Howlett@oracle.com,m:npache@redhat.com,m:ryan.roberts@arm.com,m:dev.jain@arm.com,m:baohua@kernel.org,m:lyude@redhat.com,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:rcampbell@nvidia.com,m:mpenttil@redhat.com,m:matthew.brost@intel.com,m:francois.dugast@intel.com,m:joshuahahnjy@gmail.com,s:lists@lfdr.de];
-	ASN_FAIL(0.00)[177.210.252.131.asn.rspamd.com:query timed out];
+	FORGED_RECIPIENTS(0.00)[m:steven.price@arm.com,m:boris.brezillon@collabora.com,m:will@kernel.org,m:robin.murphy@arm.com,m:joro@8bytes.org,m:robin.clark@oss.qualcomm.com,m:linux-arm-kernel@lists.infradead.org,m:iommu@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:karunika.choo@arm.com,m:liviu@dudau.co.uk,s:lists@lfdr.de];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[liviu.dudau@arm.com,dri-devel-bounces@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[david@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[liviu.dudau@arm.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,nvidia.com,gmail.com,sk.com,gourry.net,linux.alibaba.com,suse.de,oracle.com,redhat.com,arm.com,kernel.org,ffwll.ch,intel.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: A4DB211246A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,arm.com:email]
+X-Rspamd-Queue-Id: DE27611249A
 X-Rspamd-Action: no action
 
+On Mon, Feb 09, 2026 at 03:44:07PM +0000, Steven Price wrote:
+> On 09/02/2026 15:35, Boris Brezillon wrote:
+> > On Mon, 9 Feb 2026 15:22:09 +0000
+> > Liviu Dudau <liviu.dudau@arm.com> wrote:
+> > 
+> >>>> Ultimately the role of this RFC is to start a discussion and to figure out a path
+> >>>> forward for CSF GPUs where we want now to tighen a bit the formats we support and
+> >>>> add PBHA and in the future we want to add support for v15+ page formats.  
+> >>>
+> >>> PBHA is definitely an area for discussion. AIUI there are out-of-tree
+> >>> patches floating about for CPU support, but it hasn't been upstreamed. I
+> >>> don't know if any serious attempt has been made to push it upstream, but
+> >>> it's tricky because the architecture basically just says "IMPLEMENTATION
+> >>> DEFINED" which means you are no longer coding to the architecture but a
+> >>> specific implementation - and there's remarkably little documentation
+> >>> about what PBHA is used for in practice.
+> >>>
+> >>> I haven't looked into the GPU situation with PBHA - again it would be
+> >>> good to have more details on how the bits would be set.  
+> >>
+> >> I have a patch series that adds support in Panthor to apply some PBHA bits defined
+> >> in the DT based on an ID also defined in the DT and passed along as a VM_BIND parameter
+> >> if you want to play with it. However I have no direct knowledge on which PBHA values
+> >> would make a difference on the supported platforms (RK3xxx for example).
+> 
+> So we need something better than a DT entry saying e.g. "ID 3 is bit
+> pattern 0100". We need something that describes the actual behaviour of
+> a PBHA value. Otherwise user space will end up needing to know the exact
+> hardware platform it's running on to know what ID values mean.
 
-> index 8c95a658b3ec..022b0729f826 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -3463,15 +3463,6 @@ static void __split_folio_to_order(struct folio *folio, int old_order,
->   		new_folio->mapping = folio->mapping;
->   		new_folio->index = folio->index + i;
->   
-> -		/*
-> -		 * page->private should not be set in tail pages. Fix up and warn once
-> -		 * if private is unexpectedly set.
-> -		 */
-> -		if (unlikely(new_folio->private)) {
-> -			VM_WARN_ON_ONCE_PAGE(true, new_head);
-> -			new_folio->private = NULL;
-> -		}
-> -
+Yes, the reason why I haven't published the Panthor patches yet is because of that.
+DDK currently has a set of memory group classes that we can clean up and publish
+that will define that ID 3 (e.g.) is for "inner shareable memory" and then the
+DT specifies what bits need to be encoded in the PBHA to achieve that on the
+target system. I don't think we can standardise the PBHA bits as their use
+by the system integrator is specific to a vendor or sometimes even to a given SoC.
 
-Balbir, why did you drop this check?
+> 
+> > I don't know if that's what it's going be used for, but one very
+> > specific use case I'd like to see this PBHA extension backed by is
+> > "read-zero/write-discard" behavior that's needed for sparse bindings.
+> > Unfortunately, I've not heard on any HW-support for that in older
+> > gens...
 
--- 
-Cheers,
+I'm not aware of any existing SoC that supports that, but it is something we're
+looking into supporting in the v15+ GPUs.
 
-David
+> 
+> *This* is a good example of something useful that could be exposed. If
+> the DT can describe that the hardware supports a
+> "read-zero/write-discard" with a specific bit pattern, then we can
+> advertise that to user space and provide a flag for VM_BIND which gives
+> that behaviour. And user space can make good use of it.
+> 
+> But from what I've heard the implementations tend to have something more
+> like a hint-mechanism where it affects the behaviour of the caches but
+> not the functional effect. This makes it much harder to expose to user
+> space in a meaningful way because it's highly platform dependant what
+> "don't allocate in the system level cache" actually means in terms of
+> performance effects. But it's possible we could describe more of a usage
+> based flag - i.e. "PBHA bits good for a tiler heap".
+
+See above. The idea is to have up to 255 IDs that have some select values properly
+defined in their intent and leave the rest for partner use. You then add the ID
+to the VM_BIND call and it gets applied to the BO's pages.
+
+Best regards,
+Liviu
+
+> 
+> Thanks,
+> Steve
+> 
