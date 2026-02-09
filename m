@@ -2,46 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gDyTLT7hiWnGCwAAu9opvQ
+	id qEGaA9XgiWnGCwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 14:29:34 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 14:27:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 052B010FB47
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 14:29:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAA0610FAEB
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 14:27:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D86710E3EB;
-	Mon,  9 Feb 2026 13:29:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 320CD10E3E8;
+	Mon,  9 Feb 2026 13:27:45 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="WhPJibks";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id F075810E3EB
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 13:29:30 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 39FBE1063
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 05:29:24 -0800 (PST)
-Received: from [192.168.0.1] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id
- 384A93F740
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 05:29:30 -0800 (PST)
-Date: Mon, 9 Feb 2026 13:27:30 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Rob Clark <robin.clark@oss.qualcomm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Karunika Choo <karunika.choo@arm.com>, Liviu Dudau <liviu@dudau.co.uk>
-Subject: Re: [RFC PATCH] iommu/io-pgtable: Add support for Arm Mali v10+ GPUs
- page table format
-Message-ID: <aYngwtq_GtBYGjOC@e142607>
-References: <20260209112542.194140-1-liviu.dudau@arm.com>
- <0af5b5f3-912a-4f16-a68b-032617576537@arm.com>
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010017.outbound.protection.outlook.com [52.101.56.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA2AC10E29D;
+ Mon,  9 Feb 2026 13:27:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y36wQ10wOnHFze3mRVQiDxd/FQhRaQNFlZ9tUSAE8GQEaGnHJECcgiLZSVg6ll6MnBFf/L+/jaWCYWjegejq+hQu+AIZOD3h4VBisbD515PFr1ImqcO6U7TXygX18wy1rjIBLu8kEhPqhPYkhGFdqRVKN8TJK78Vm0Auynibc9gJuq9boh78ISiOBc8n0wMme2tW9qNG/EWPgK3Vt9EAZHgY2GrccfkPe6NSb3rtKQ0G362z1E9ChA76MZjZVa9DJw082FzdEXQSbd+jekM/+lC82AqgH8s8cE2QMJ3Idu3V0CWusUCBimWkqu9jZhDF60+O635EX3iUdTsZaEw+bQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=plb7mMXhJIHuIhXWsbn4FTfGCPsHFm/TayRUcT4tjJM=;
+ b=K+k3ML9qbLcC1/dJ0Z6PK/ykIhPz6seHz+k1tNNjpnlmdzGhvDVAOJZsU6bwt86iZECcA+sGGGj+1XAsOPLEDZZhPMhSSNQeg4C2q8tDJOhYDzHri4G8xIu7pXe82UMDaTBqYxu+o8pvVskMwaKfAL/OC5PZkvuLQU81bxnzdgLEder8j1mpMi+N1NStMpbMkLTxymEWBmTebLEixtPJk8dpOZ79pLh5ga7lm5liAgRuBTIEuK123rbZWc0l2Ty8ojzh0DrUne74du+1CcV4WJjq56SIYEegwnRD9Mzu+U9JkFwsqzKrikvoCBBZiiPVk/z20bbeeW4sWguu7rrsDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=plb7mMXhJIHuIhXWsbn4FTfGCPsHFm/TayRUcT4tjJM=;
+ b=WhPJibksxAZDWVEXaSf+reTdObkeNzh+/LIYqFAFEjpZPtW/CEoTMQJ6p5NkGAfOmZIvqy2Pr8u1L7yAzm8NQ1cO+p3asc2J7x9zFhL3PUIWXfhc99mcxdW6aWnRr7N/iYWs68iu9byaufd508Qb2lbZqUqjez2nrIC6l2s5XL0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CH2PR12MB4054.namprd12.prod.outlook.com (2603:10b6:610:a6::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.19; Mon, 9 Feb
+ 2026 13:27:40 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9587.017; Mon, 9 Feb 2026
+ 13:27:40 +0000
+Message-ID: <a31082ab-e0f9-45ea-9a8d-cfdef39fc507@amd.com>
+Date: Mon, 9 Feb 2026 14:27:35 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/8] drm/amdkfd: Add batch userptr allocation support
+To: Honglei Huang <honghuan@amd.com>
+Cc: Felix.Kuehling@amd.com, Philip.Yang@amd.com, Ray.Huang@amd.com,
+ alexander.deucher@amd.com, dmitry.osipenko@collabora.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, akpm@linux-foundation.org
+References: <20260206062557.3718801-1-honglei1.huang@amd.com>
+ <da75eadd-865e-41fe-a86b-ed9d9aa45e5a@amd.com>
+ <8ba8e4f2-89f2-4968-a291-e36e6fc8ab9b@amd.com>
+ <f296a928-1ef6-4201-9326-eab43da79a84@amd.com>
+ <38264429-a256-4c2f-bcfd-8a021d9603b2@amd.com>
+ <451400e6-bbe0-4186-bae6-1bf64181c378@amd.com>
+ <0eaf1785-0f84-45e5-b960-c995c1b1cf1e@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <0eaf1785-0f84-45e5-b960-c995c1b1cf1e@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0172.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b7::19) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <0af5b5f3-912a-4f16-a68b-032617576537@arm.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH2PR12MB4054:EE_
+X-MS-Office365-Filtering-Correlation-Id: 175a2e13-6729-48d2-414b-08de67deff89
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0; ARA:13230040|1800799024|376014|366016|14052099004;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OXhKTWswczBXc01zZXRKR3JhREVoSVVGYUxmZDFRNTBWbi9YZmp4ZGFwNGpK?=
+ =?utf-8?B?WmFUdjNnSWVacnhyT29vQ0EzTENaYnVOMVEzWWUwSEt2NjNvZHJHaUZtdkdx?=
+ =?utf-8?B?NVY0bFMvTyt5VFlVNVdZYm5POG5TSXp5ZWF2aTFoUmhsTk1ld2szU1gzZm1z?=
+ =?utf-8?B?Mk9LTkFhY0I2QU53RDVlNHBRWDNKM1JvdnVLcmNZcFVXQjVWV0JYZzdUcE9E?=
+ =?utf-8?B?aE5RQ2E0UU8xbEZPbXZ3OG53d0FRUXVXUDJ6bjRZWExsZ05NME02Q244cEFz?=
+ =?utf-8?B?SUlzQzQvamZ0MXQrWHNwelhzeitFMHE4U3VHbVhMakRIZTF3bGY2RnBHQ0NI?=
+ =?utf-8?B?c2VBZWllYUhESTNJSGRLUUE5SXU1NTlyN1FZMzdLQ0c4QkhldGZpa1Y5aEo5?=
+ =?utf-8?B?RWZZMDNGTmhPQ3VNbkRDMzkzS0lEM0U5UWpjWVRFYkdBVmFibGd0RGZwUTBU?=
+ =?utf-8?B?M3N5a1MwWGJ2ZXJTUjdYTW1nUjBlWnFMczV6c3ZudU5qL0t5RG56a1BqZzFN?=
+ =?utf-8?B?Q3o5TGRsN242cFU5bWYzMjErbnU0NEIwYlJzbmcrTUpWbWlvT1hxczFLWGxa?=
+ =?utf-8?B?aUZhemMvNWx1Tm5GU0x6M0owZmltY1hISlVVYnBWNGV4QW1ldzBsMHpuU21J?=
+ =?utf-8?B?dkdGM3A2LytnTnhOM2M5NkZJRmlkL2lmdnNqeTFuZzhIUHdueGNVMGs1QWwz?=
+ =?utf-8?B?cmpGNyswbHN1ZGllNHZyQzZXaWZiRERvMXRIMVZ5NkJ2UHZrazFIbXJKRmFV?=
+ =?utf-8?B?cHNFbmxuY3lObzhOVlhkOTlEQXdhTndhd0JkN1JTV0FPWFd6ZlhHa2tqdlRk?=
+ =?utf-8?B?cDhCc0YyOTMwVFQ5aisweFJrOURYd2FMdm4weHVQdzQxbnl1WXR1MHBlMUs4?=
+ =?utf-8?B?aFBOc1ZkcGFxSGliYkY5bkMyMWdZdG5DbW5YdHJyUlhKVFYvenFpcWVPclFM?=
+ =?utf-8?B?c04wbm5GY0VDQ3daTTN2ZkhIeDFhU1pHMG1iZTFaL1o0VUtPcm9PQThRVVdo?=
+ =?utf-8?B?R2EwcCtoMDIrRldiMTNuS1lKbFFsZWhhN09Jd1VCTmpTK0NTOVpiUXR6ZmJR?=
+ =?utf-8?B?cnZXM0RVdDMvRHY2N3VpOTc0WWFKTEpwRU5vNGdhOHMvQjc3cDRpUDJqckVJ?=
+ =?utf-8?B?UVFTd1B2aHRLMUpUeG9OSHJTdVZNelpmdE1qRU51cFZBME5xNnByWDFva0ZX?=
+ =?utf-8?B?eE5SdllwYjdOcjVacVVzNVM3cVFWbXdUUGFFVnZUdzUrN09RK1d1MGJhVnBY?=
+ =?utf-8?B?Wi9ZZ2xIZGVTQ29IUUpJWGFGRnJFamhqZUFRaXJmL3lvSWVvTE9wWnNJWXpo?=
+ =?utf-8?B?Ull2YVk2RUJSUm5nSFA0UmdOM21TZmtOd3VVT3JVYXIvVEpscmJsSlJqV2x5?=
+ =?utf-8?B?ZkxyVmpvNm5YalNkaDBUR3MxR25MeWt6d2QwUzF4QzVGZ0RxL2VxeUlxN2FS?=
+ =?utf-8?B?aHl0ZkJUY3BFTDhZVjQ3TmxyMVBkVFI1UXhxUi9sM0dFLytKZ1hGTlNzaDg1?=
+ =?utf-8?B?djlsbjRVQzQ1ampXcmYraFl3SnhvMHRDNWxGQnd2NkVReHVZRDJnQWtBZWZi?=
+ =?utf-8?B?K2J6TmtneFFLaEFiNWRCdGVDT3dLT1VKVUZOZ3BoV0ZXMEV2T012VVlrY0ZE?=
+ =?utf-8?B?WURJdDZ2L2RadnpzQlJaUEEwMWNEUCtGenNUTEw4MUdPZHFTTjBtY0FEaHh5?=
+ =?utf-8?B?VTNkSWU2TGlkT0ErMHVZYVR3TlJUTi9UbVpsdms5S00xTXF2Wmx4alhMUnhn?=
+ =?utf-8?B?UXhtVjlFakdtU0gyNjhNREUwNmpOWGRYU0tnWjhjOTE5RjFETDlQeFpWdXBy?=
+ =?utf-8?B?SHBqcmtEbVpmVFRmeTg2RHdWNzJoaEExMFV5K1dzUmRxY1doSWNHbDBuaDJI?=
+ =?utf-8?B?bTgzYXNDK1FCckVnekhSeDJTdXkrdisyZzFNanNJTzFDcDRLaVhRNWVSb0h3?=
+ =?utf-8?B?NVNzdW43empxSUlQMkhjcHg0RFhsMnhrQU1yZzc0ajVGemFWOFY0MWFtTzd3?=
+ =?utf-8?B?Y2ZCY3Vhckw2MkgzNml1aG1hMTh2QVU2cTRXNEFEci9sOFJYMERUa0pGVy9U?=
+ =?utf-8?B?bmdhMlNNQnY2bUJGYmg4Z2drdmtsSEJjWXRNMlVTQXhoTFlYekE3TldkQ1ll?=
+ =?utf-8?Q?S3wE=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016)(14052099004); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmhpUVJFWWdMQ3JYVGM3LzArc1RkemZDaHIzaVRqZExnOVY3UWFnMlJsR1VO?=
+ =?utf-8?B?dHoyMWs4WmtMT2VtckdGTkVRNVROaEpXOVFVcVFjaHo3RW1YRGpJb0dweFRp?=
+ =?utf-8?B?OTJzU3lNcVdvSWJOcEZtOVpmVGZKS1hRU3BsMDRFc1YxMmlBMkIvSkNWdmdP?=
+ =?utf-8?B?RHJQcDhPTVhMRXV1NUd3dExRV1JaUlk5VllwSDVtTXZDdHNUU3N5SGQzWSs5?=
+ =?utf-8?B?ckZLZjBUK3ZpNUNvbHpCSlp0NlBYcHAzMFB6Q0dYczZmWDJQemZvNENVcG5a?=
+ =?utf-8?B?WWc2aGlUV2dUMHFYR0EvU0xIVGhPbjdESEh2eVNuZXYxeWIvVDBBQzkzRndm?=
+ =?utf-8?B?OUF5UzZyaTc4MWlTK1Z4ZDJKd0JtdmhZdUk4US8rYVFwZHdqbjJrV2FDUmNa?=
+ =?utf-8?B?eDVMV3BnREx4aU9DVEtWb1pQamluR2g2VllwSmlIaXNyWVVkVHVtdkFUMXBK?=
+ =?utf-8?B?dXEwY1FMTGdrK2k0cGlVZm5LL213emJ3b2ZJVVR1RUc5a1Y2RFl1MjgvOUsx?=
+ =?utf-8?B?dlp4WCtnM2UrSkwzZlUwaEQyR0l0bkRPU3p4ZjRNM1dRdEdKazJaVzMxUGR1?=
+ =?utf-8?B?YjFzek5xcEdJOHpGZnZzSlFSbVZ3Qk5DNkUvSTRiY3pxVU4zNEs3SG5uYnls?=
+ =?utf-8?B?V0FaUnlYZFJRL0toTExGMWdUeDRBNWJQWnExLzhRdDBPczlvWDZtM0tkY015?=
+ =?utf-8?B?RGMwbWxVekpNTEpOSjRPMGtwYnVQcmpDS1JiYWQ2cmVXVGsvY29SdUNnVDNh?=
+ =?utf-8?B?cm5FYllBNkRFYjZSV3o2OXZ0ZGhWRW95Z1BQT0JMM3BEcDVwZlNQRWV4bmZR?=
+ =?utf-8?B?UEc3MC84NUhPWEY4OWU0YmtzWU5kTmZRb0NtUGJHcXFqR1hJek54T2g0RzY5?=
+ =?utf-8?B?anc3K1E3TDNkdGplWkdxV3hRTVpjK0dwM2hmSUJIMVoyL1N1OVdMaEtXTjJF?=
+ =?utf-8?B?MWZ0MHpMa2Nkcmdac0J1cXRHMXZkTkhGZEZ4ZThlOUVaMXl1Nkp2NEpqMzEr?=
+ =?utf-8?B?bEhLK3hjbnV6RVllcHRDcHhvWlUrK25WYyt0dEI3VmtDcWQ4MUg0QWVIUngw?=
+ =?utf-8?B?bHNjbmFWYko5WjdEand4WWE0Y2RhZHl6QURXYVl4NmZobVloMDZqNTdGL2hu?=
+ =?utf-8?B?U1hGREhxNEdBM091cmhGazdzZCt1UHM5TDMxdHBQQTd4VHJkL2psbmRDZjlJ?=
+ =?utf-8?B?VysrREdXTjhOWGtCaWtyUDlKN0hjUWdCRk5iNG41QWJiS2pERWQ0cEZZbGlE?=
+ =?utf-8?B?clFIcjVMcE4vZk5URVZRNWFKU1ZQaGFrRTdUeTAxUGp1OUlNVGQwbFAzU1Zv?=
+ =?utf-8?B?RlZJOVU2Rm1yRFZlKzgwQSt6YUN0L213RXp1dVB6Z20wbGY3ellhN01wNzda?=
+ =?utf-8?B?cE5hdlRJazRTNjZhQUJaT0VxdFJYRmxSMEUrTld3WmhiT2hVRndwei9HM2tZ?=
+ =?utf-8?B?Uk05YnJoSzJsdnZocUpHL3lWNG1LM0dWUHpDMlAvY1RaczNFbGRuL3h0aito?=
+ =?utf-8?B?aHBQZnB1cUN5OTJPdFlORzNNQUtuQjdXdjd0M2IzaGVZbEdiV2d5cmtTWjlT?=
+ =?utf-8?B?Y0hRN0NUMDhFVWNraTdsQUNHcmlJUlpLcG1mRldtaVplN282SWozT0JXbDVq?=
+ =?utf-8?B?M3lqT2tMSHlEeDRjUnVzZkJaSVl1aGZQRzRHSlNkV2tzRDZnODQzdjFDaUF5?=
+ =?utf-8?B?dGcxcStnR0J0blpsZDBNZk1uTmZXYy9uNExLVSsxU2xCcGJjRTZ0Z0pBeFlP?=
+ =?utf-8?B?UjI5UFBpSXdKdmJncHV1ckRscDJhWXAvSVpaeitWUFZNbVI2TVZJTVVhUlJX?=
+ =?utf-8?B?M0xOdGFtNDBRWWJvcXIvMWFUaWc3bzFsZVJQY0JYV2RZeGJ3QzdtbjJ6UldU?=
+ =?utf-8?B?NVhjdTBOUVB1MmtiTHBpcUdRcGRCNEc3amFRZVdCK1pIaEQxZlRYbVRlMlhQ?=
+ =?utf-8?B?THdJa2RCTldhNlRYallibG1hVDdRQVpQUkpneDNrclVOV1E4M21kZW5wWnVS?=
+ =?utf-8?B?V09jR0xPNTREdnpkS0JzdWhTcGJOYlVTTHdPbTZWOEV0UGk4WEhWTTkvREVw?=
+ =?utf-8?B?aU1qQzg1Zk5aQVE3SVM3R3NsRWdqQ2VEQTNZWkFlYm9zbG1PMXN5bEpHZVh1?=
+ =?utf-8?B?SVp4WSttOGRCQi8yQ3A4QUc1dks1N3ROU2REZjlDejJtNFZ6UmZBaXRSdDZz?=
+ =?utf-8?B?b0ZlbDJpY1pZUHFFUXl5VXVqWVppZjdLbG1kLzhZT2xrVjU1OGdCSVhvRUhW?=
+ =?utf-8?B?RU9VRWdrZVR0RTRHb1djLzgvZDZUaWdPZk9vOHVvSWx3Zkx6QTZ4NHpsL0JE?=
+ =?utf-8?Q?obk3gdZYlwW3PsEcZI?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 175a2e13-6729-48d2-414b-08de67deff89
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2026 13:27:40.3050 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Oaq04YPCYsbVvR1iHJZE0UtKv54sc+/GVPTrPWBcCOZMtZtp/zDNSKjeGBE9b0xt
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4054
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,389 +182,318 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.01 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:steven.price@arm.com,m:will@kernel.org,m:robin.murphy@arm.com,m:joro@8bytes.org,m:robin.clark@oss.qualcomm.com,m:boris.brezillon@collabora.com,m:linux-arm-kernel@lists.infradead.org,m:iommu@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:karunika.choo@arm.com,m:liviu@dudau.co.uk,s:lists@lfdr.de];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[liviu.dudau@arm.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[liviu.dudau@arm.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,arm.com:email]
-X-Rspamd-Queue-Id: 052B010FB47
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[amd.com,collabora.com,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,kvack.org,linux-foundation.org];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:mid,amd.com:dkim,amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[amd.com:+]
+X-Rspamd-Queue-Id: AAA0610FAEB
 X-Rspamd-Action: no action
 
-On Mon, Feb 09, 2026 at 12:31:36PM +0000, Steven Price wrote:
-> On 09/02/2026 11:25, Liviu Dudau wrote:
-> > From: Liviu Dudau <liviu@dudau.co.uk>
-> > 
-> > The Arm Mali v10+ GPU drivers have been (ab)using the ARM_64_LPAE_S1
-> > format as they are mostly compatible with it and some of the gaps
-> > left in the code to allow for ARM_MALI_LPAE format (pre-v10 GPUs)
-> > is helping to paper over differences. In preparation for adding support
-> > for changes introduced in v15 GPUs, add a format specific for modern
-> > Mali GPUs.
-> > 
-> > Signed-off-by: Liviu Dudau <liviu.dudau@arm.com>
-> > ---
-> > 
-> > This patch is trying to gauge interest in adding proper support for Arm Mali
-> > CSF GPUs via the simple approach of extending the generic Arm page table code
-> > to add support for the PTE format of the GPUs. In order to test the changes
-> > I've decided to add the phba bits to the arm_lpae_s1_cfg struct to validate
-> > the allocation and setup of the page table entries, but in the end I'm
-> > targetting the specific arm_mali_csf_cfg structure that will support
-> > the GPUs PTEs.
+On 2/9/26 14:11, Honglei Huang wrote:
 > 
-> Other than the addition of the PBHA bits (which are part of the VMSAv8
-> page table format anyway) what are we expecting to be different between
-> the Mali format and the CPU architectural format?
-
-The bits at the moment are not that different, mostly renaming. However, v15+
-GPUs are going to introduce a different scheme for the PTEs, so adding the
-code now will help future changes.
-
+> So the drm svm is also a NAK?
 > 
-> For Midgard GPUs the page table format was "inspired" by LPAE but was
-> explicitly different in some cases - so a new format was required. But I
-> can't actually spot any differences in the GPU format to what VMSAv8-64
-> describes (albeit the GPU format is less flexible than all the options
-> the CPU format describes).
+> These codes have passed local testing, opencl and rocr， I also provided a detailed code path and analysis.
+> You only said the conclusion without providing any reasons or evidence. Your statement has no justifiable reasons and is difficult to convince
+> so far.
 
-Yes, the supported page table sizes is a bit of a head scratcher. v10+ claim
-that 16KB pages are not supported, only 4KB and 64KB. v15+ GPUs are going
-to claim that only 4KB and 16KB page sizes are supported, not 64KB.
+That sounds like you don't understand what the issue here is, I will try to explain this once more on pseudo-code. 
 
-> 
-> I can see why we might want more functionality (e.g. PBHA): I'm just not
-> sure what the reason for having another special Mali format is - why
-> can't this be in the generic code?
+Page tables are updated without holding a lock, so when you want to grab physical addresses from the then you need to use an opportunistically retry based approach to make sure that the data you got is still valid.
 
-What do you mean by "generic code"? I thought these files are the most generic
-support code for Arm SMMUs. But to answer your question: I think once we introduce
-the v15+ GPU's page table formats keeping track of which type of page table you're
-using without a CSF specific one will get trickier.
+In other words something like this here is needed:
 
-Ultimately the role of this RFC is to start a discussion and to figure out a path
-forward for CSF GPUs where we want now to tighen a bit the formats we support and
-add PBHA and in the future we want to add support for v15+ page formats.
+retry:
+	hmm_range.notifier_seq = mmu_interval_read_begin(notifier);
+	hmm_range.hmm_pfns = kvmalloc_array(npages, ...);
+...
+	while (true) {
+		mmap_read_lock(mm);
+		err = hmm_range_fault(&hmm_range);
+		mmap_read_unlock(mm);
 
-Best regards,
-Liviu
+		if (err == -EBUSY) {
+			if (time_after(jiffies, timeout))
+				break;
+
+			hmm_range.notifier_seq =
+				mmu_interval_read_begin(notifier);
+			continue;
+		}
+		break;
+	}
+...
+	for (i = 0, j = 0; i < npages; ++j) {
+...
+		dma_map_page(...)
+...
+	grab_notifier_lock();
+	if (mmu_interval_read_retry(notifier, hmm_range.notifier_seq))
+		goto retry;
+	restart_queues();
+	drop_notifier_lock();
+...
+
+Now hmm_range.notifier_seq indicates if your DMA addresses are still valid or not after you grabbed the notifier lock.
+
+The problem is that hmm_range works only on a single range/sequence combination, so when you do multiple calls to hmm_range_fault() for scattered VA is can easily be that one call invalidates the ranges of another call.
+
+So as long as you only have a few hundred hmm_ranges for your userptrs that kind of works, but it doesn't scale up into the thousands of different VA addresses you get for scattered handling.
+
+That's why hmm_range_fault needs to be modified to handle an array of VA addresses instead of just a A..B range.
+
+Regards,
+Christian.
 
 
 > 
-> > 
-> > I'm interested to learn if this approach is considered sane and what I need to
-> > pay attention to when adding a new struct to the io_pgtable_cfg union. The patch
-> > is intentionally not complete with all the changes that switching to the new
-> > struct will entail as I didn't wanted to be dragged into a full code review, but
-> > I can add them if wanted.
-> > 
-> > 
-> > Best regards,
-> > Liviu
-> > 
-> > ---
-> >  drivers/iommu/io-pgtable-arm.c | 161 ++++++++++++++++++++++++++++++++-
-> >  drivers/iommu/io-pgtable.c     |   1 +
-> >  include/linux/io-pgtable.h     |  18 ++++
-> >  3 files changed, 179 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-> > index 05d63fe92e436..48aea598ab0c9 100644
-> > --- a/drivers/iommu/io-pgtable-arm.c
-> > +++ b/drivers/iommu/io-pgtable-arm.c
-> > @@ -482,6 +482,7 @@ static arm_lpae_iopte arm_lpae_prot_to_pte(struct arm_lpae_io_pgtable *data,
-> >  	arm_lpae_iopte pte;
-> >  
-> >  	if (data->iop.fmt == ARM_64_LPAE_S1 ||
-> > +	    data->iop.fmt == ARM_MALI_CSF ||
-> >  	    data->iop.fmt == ARM_32_LPAE_S1) {
-> >  		pte = ARM_LPAE_PTE_nG;
-> >  		if (!(prot & IOMMU_WRITE) && (prot & IOMMU_READ))
-> > @@ -569,6 +570,8 @@ static int arm_lpae_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
-> >  		return -EINVAL;
-> >  
-> >  	prot = arm_lpae_prot_to_pte(data, iommu_prot);
-> > +	if (data->iop.fmt == ARM_MALI_CSF)
-> > +		prot |= cfg->arm_lpae_s1_cfg.pbha;
-> >  	ret = __arm_lpae_map(data, iova, paddr, pgsize, pgcount, prot, lvl,
-> >  			     ptep, gfp, mapped);
-> >  	/*
-> > @@ -864,7 +867,8 @@ static int arm_lpae_read_and_clear_dirty(struct io_pgtable_ops *ops,
-> >  		return -EINVAL;
-> >  	if (WARN_ON((iova + size - 1) & ~(BIT(cfg->ias) - 1)))
-> >  		return -EINVAL;
-> > -	if (data->iop.fmt != ARM_64_LPAE_S1)
-> > +	if (data->iop.fmt != ARM_64_LPAE_S1 ||
-> > +	    data->iop.fmt != ARM_MALI_CSF)
-> >  		return -EINVAL;
-> >  
-> >  	return __arm_lpae_iopte_walk(data, &walk_data, ptep, lvl);
-> > @@ -1236,6 +1240,155 @@ arm_mali_lpae_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
-> >  	return NULL;
-> >  }
-> >  
-> > +static struct io_pgtable *
-> > +arm_mali_csf_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
-> > +{
-> > +	unsigned int max_addr_bits = 48;
-> > +	unsigned long granule, page_sizes;
-> > +	struct arm_lpae_io_pgtable *data;
-> > +	typeof(&cfg->arm_lpae_s1_cfg.tcr) tcr = &cfg->arm_lpae_s1_cfg.tcr;
-> > +	int levels, va_bits, pg_shift;
-> > +	u64 reg;
-> > +
-> > +	if (cfg->quirks & ~(IO_PGTABLE_QUIRK_ARM_TTBR1 |
-> > +			    IO_PGTABLE_QUIRK_NO_WARN))
-> > +		return NULL;
-> > +
-> > +	if (!(cfg->pgsize_bitmap & (SZ_4K | SZ_16K)))
-> > +		return NULL;
+> On 2026/2/9 20:59, Christian König wrote:
+>> On 2/9/26 13:52, Honglei Huang wrote:
+>>> DRM GPU SVM does use hmm_range_fault(), see drm_gpusvm_get_pages()
+>>
+>> I'm not sure what you are talking about, drm_gpusvm_get_pages() only supports a single range as well and not scatter gather of VA addresses.
+>>
+>> As far as I can see that doesn't help the slightest.
+>>
+>>> My implementation follows the same pattern. The detailed comparison
+>>> of invalidation path was provided in the second half of my previous mail.
+>>
+>> Yeah and as I said that is not very valuable because it doesn't solves the sequence problem.
+>>
+>> As far as I can see the approach you try here is a clear NAK from my side.
+>>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>> On 2026/2/9 18:16, Christian König wrote:
+>>>> On 2/9/26 07:14, Honglei Huang wrote:
+>>>>>
+>>>>> I've reworked the implementation in v4. The fix is actually inspired
+>>>>> by the DRM GPU SVM framework (drivers/gpu/drm/drm_gpusvm.c).
+>>>>>
+>>>>> DRM GPU SVM uses wide notifiers (recommended 512M or larger) to track
+>>>>> multiple user virtual address ranges under a single mmu_interval_notifier,
+>>>>> and these ranges can be non-contiguous which is essentially the same
+>>>>> problem that batch userptr needs to solve: one BO backed by multiple
+>>>>> non-contiguous CPU VA ranges sharing one notifier.
+>>>>
+>>>> That still doesn't solve the sequencing problem.
+>>>>
+>>>> As far as I can see you can't use hmm_range_fault with this approach or it would just not be very valuable.
+>>>>
+>>>> So how should that work with your patch set?
+>>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>>
+>>>>> The wide notifier is created in drm_gpusvm_notifier_alloc:
+>>>>>     notifier->itree.start = ALIGN_DOWN(fault_addr, gpusvm->notifier_size);
+>>>>>     notifier->itree.last = ALIGN(fault_addr + 1, gpusvm->notifier_size) - 1;
+>>>>> The Xe driver passes
+>>>>>     xe_modparam.svm_notifier_size * SZ_1M in xe_svm_init
+>>>>> as the notifier_size, so one notifier can cover many of MB of VA space
+>>>>> containing multiple non-contiguous ranges.
+>>>>>
+>>>>> And DRM GPU SVM solves the per-range validity problem with flag-based
+>>>>> validation instead of seq-based validation in:
+>>>>>     - drm_gpusvm_pages_valid() checks
+>>>>>         flags.has_dma_mapping
+>>>>>       not notifier_seq. The comment explicitly states:
+>>>>>         "This is akin to a notifier seqno check in the HMM documentation
+>>>>>          but due to wider notifiers (i.e., notifiers which span multiple
+>>>>>          ranges) this function is required for finer grained checking"
+>>>>>     - __drm_gpusvm_unmap_pages() clears
+>>>>>         flags.has_dma_mapping = false  under notifier_lock
+>>>>>     - drm_gpusvm_get_pages() sets
+>>>>>         flags.has_dma_mapping = true  under notifier_lock
+>>>>> I adopted the same approach.
+>>>>>
+>>>>> DRM GPU SVM:
+>>>>>     drm_gpusvm_notifier_invalidate()
+>>>>>       down_write(&gpusvm->notifier_lock);
+>>>>>       mmu_interval_set_seq(mni, cur_seq);
+>>>>>       gpusvm->ops->invalidate()
+>>>>>         -> xe_svm_invalidate()
+>>>>>            drm_gpusvm_for_each_range()
+>>>>>              -> __drm_gpusvm_unmap_pages()
+>>>>>                 WRITE_ONCE(flags.has_dma_mapping = false);  // clear flag
+>>>>>       up_write(&gpusvm->notifier_lock);
+>>>>>
+>>>>> KFD batch userptr:
+>>>>>     amdgpu_amdkfd_evict_userptr_batch()
+>>>>>       mutex_lock(&process_info->notifier_lock);
+>>>>>       mmu_interval_set_seq(mni, cur_seq);
+>>>>>       discard_invalid_ranges()
+>>>>>         interval_tree_iter_first/next()
+>>>>>           range_info->valid = false;          // clear flag
+>>>>>       mutex_unlock(&process_info->notifier_lock);
+>>>>>
+>>>>> Both implementations:
+>>>>>     - Acquire notifier_lock FIRST, before any flag changes
+>>>>>     - Call mmu_interval_set_seq() under the lock
+>>>>>     - Use interval tree to find affected ranges within the wide notifier
+>>>>>     - Mark per-range flag as invalid/valid under the lock
+>>>>>
+>>>>> The page fault path and final validation path also follow the same
+>>>>> pattern as DRM GPU SVM: fault outside the lock, set/check per-range
+>>>>> flag under the lock.
+>>>>>
+>>>>> Regards,
+>>>>> Honglei
+>>>>>
+>>>>>
+>>>>> On 2026/2/6 21:56, Christian König wrote:
+>>>>>> On 2/6/26 07:25, Honglei Huang wrote:
+>>>>>>> From: Honglei Huang <honghuan@amd.com>
+>>>>>>>
+>>>>>>> Hi all,
+>>>>>>>
+>>>>>>> This is v3 of the patch series to support allocating multiple non-contiguous
+>>>>>>> CPU virtual address ranges that map to a single contiguous GPU virtual address.
+>>>>>>>
+>>>>>>> v3:
+>>>>>>> 1. No new ioctl: Reuses existing AMDKFD_IOC_ALLOC_MEMORY_OF_GPU
+>>>>>>>       - Adds only one flag: KFD_IOC_ALLOC_MEM_FLAGS_USERPTR_BATCH
+>>>>>>
+>>>>>> That is most likely not the best approach, but Felix or Philip need to comment here since I don't know such IOCTLs well either.
+>>>>>>
+>>>>>>>       - When flag is set, mmap_offset field points to range array
+>>>>>>>       - Minimal API surface change
+>>>>>>
+>>>>>> Why range of VA space for each entry?
+>>>>>>
+>>>>>>> 2. Improved MMU notifier handling:
+>>>>>>>       - Single mmu_interval_notifier covering the VA span [va_min, va_max]
+>>>>>>>       - Interval tree for efficient lookup of affected ranges during invalidation
+>>>>>>>       - Avoids per-range notifier overhead mentioned in v2 review
+>>>>>>
+>>>>>> That won't work unless you also modify hmm_range_fault() to take multiple VA addresses (or ranges) at the same time.
+>>>>>>
+>>>>>> The problem is that we must rely on hmm_range.notifier_seq to detect changes to the page tables in question, but that in turn works only if you have one hmm_range structure and not multiple.
+>>>>>>
+>>>>>> What might work is doing an XOR or CRC over all hmm_range.notifier_seq you have, but that is a bit flaky.
+>>>>>>
+>>>>>> Regards,
+>>>>>> Christian.
+>>>>>>
+>>>>>>>
+>>>>>>> 3. Better code organization: Split into 8 focused patches for easier review
+>>>>>>>
+>>>>>>> v2:
+>>>>>>>       - Each CPU VA range gets its own mmu_interval_notifier for invalidation
+>>>>>>>       - All ranges validated together and mapped to contiguous GPU VA
+>>>>>>>       - Single kgd_mem object with array of user_range_info structures
+>>>>>>>       - Unified eviction/restore path for all ranges in a batch
+>>>>>>>
+>>>>>>> Current Implementation Approach
+>>>>>>> ===============================
+>>>>>>>
+>>>>>>> This series implements a practical solution within existing kernel constraints:
+>>>>>>>
+>>>>>>> 1. Single MMU notifier for VA span: Register one notifier covering the
+>>>>>>>       entire range from lowest to highest address in the batch
+>>>>>>>
+>>>>>>> 2. Interval tree filtering: Use interval tree to efficiently identify
+>>>>>>>       which specific ranges are affected during invalidation callbacks,
+>>>>>>>       avoiding unnecessary processing for unrelated address changes
+>>>>>>>
+>>>>>>> 3. Unified eviction/restore: All ranges in a batch share eviction and
+>>>>>>>       restore paths, maintaining consistency with existing userptr handling
+>>>>>>>
+>>>>>>> Patch Series Overview
+>>>>>>> =====================
+>>>>>>>
+>>>>>>> Patch 1/8: Add userptr batch allocation UAPI structures
+>>>>>>>        - KFD_IOC_ALLOC_MEM_FLAGS_USERPTR_BATCH flag
+>>>>>>>        - kfd_ioctl_userptr_range and kfd_ioctl_userptr_ranges_data structures
+>>>>>>>
+>>>>>>> Patch 2/8: Add user_range_info infrastructure to kgd_mem
+>>>>>>>        - user_range_info structure for per-range tracking
+>>>>>>>        - Fields for batch allocation in kgd_mem
+>>>>>>>
+>>>>>>> Patch 3/8: Implement interval tree for userptr ranges
+>>>>>>>        - Interval tree for efficient range lookup during invalidation
+>>>>>>>        - mark_invalid_ranges() function
+>>>>>>>
+>>>>>>> Patch 4/8: Add batch MMU notifier support
+>>>>>>>        - Single notifier for entire VA span
+>>>>>>>        - Invalidation callback using interval tree filtering
+>>>>>>>
+>>>>>>> Patch 5/8: Implement batch userptr page management
+>>>>>>>        - get_user_pages_batch() and set_user_pages_batch()
+>>>>>>>        - Per-range page array management
+>>>>>>>
+>>>>>>> Patch 6/8: Add batch allocation function and export API
+>>>>>>>        - init_user_pages_batch() main initialization
+>>>>>>>        - amdgpu_amdkfd_gpuvm_alloc_memory_of_gpu_batch() entry point
+>>>>>>>
+>>>>>>> Patch 7/8: Unify userptr cleanup and update paths
+>>>>>>>        - Shared eviction/restore handling for batch allocations
+>>>>>>>        - Integration with existing userptr validation flows
+>>>>>>>
+>>>>>>> Patch 8/8: Wire up batch allocation in ioctl handler
+>>>>>>>        - Input validation and range array parsing
+>>>>>>>        - Integration with existing alloc_memory_of_gpu path
+>>>>>>>
+>>>>>>> Testing
+>>>>>>> =======
+>>>>>>>
+>>>>>>> - Multiple scattered malloc() allocations (2-4000+ ranges)
+>>>>>>> - Various allocation sizes (4KB to 1G+ per range)
+>>>>>>> - Memory pressure scenarios and eviction/restore cycles
+>>>>>>> - OpenCL CTS and HIP catch tests in KVM guest environment
+>>>>>>> - AI workloads: Stable Diffusion, ComfyUI in virtualized environments
+>>>>>>> - Small LLM inference (3B-7B models)
+>>>>>>> - Benchmark score: 160,000 - 190,000 (80%-95% of bare metal)
+>>>>>>> - Performance improvement: 2x-2.4x faster than userspace approach
+>>>>>>>
+>>>>>>> Thank you for your review and feedback.
+>>>>>>>
+>>>>>>> Best regards,
+>>>>>>> Honglei Huang
+>>>>>>>
+>>>>>>> Honglei Huang (8):
+>>>>>>>      drm/amdkfd: Add userptr batch allocation UAPI structures
+>>>>>>>      drm/amdkfd: Add user_range_info infrastructure to kgd_mem
+>>>>>>>      drm/amdkfd: Implement interval tree for userptr ranges
+>>>>>>>      drm/amdkfd: Add batch MMU notifier support
+>>>>>>>      drm/amdkfd: Implement batch userptr page management
+>>>>>>>      drm/amdkfd: Add batch allocation function and export API
+>>>>>>>      drm/amdkfd: Unify userptr cleanup and update paths
+>>>>>>>      drm/amdkfd: Wire up batch allocation in ioctl handler
+>>>>>>>
+>>>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |  23 +
+>>>>>>>     .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 539 +++++++++++++++++-
+>>>>>>>     drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      | 128 ++++-
+>>>>>>>     include/uapi/linux/kfd_ioctl.h                |  31 +-
+>>>>>>>     4 files changed, 697 insertions(+), 24 deletions(-)
+>>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
 > 
-> This check should be moved down...
-> 
-> > +
-> > +	if (cfg->pgsize_bitmap & PAGE_SIZE)
-> > +		granule = PAGE_SIZE;
-> > +	else if (cfg->pgsize_bitmap & ~PAGE_MASK)
-> > +		granule = 1UL << __fls(cfg->pgsize_bitmap & ~PAGE_MASK);
-> > +	else if (cfg->pgsize_bitmap & PAGE_MASK)
-> > +		granule = 1UL << __ffs(cfg->pgsize_bitmap & PAGE_MASK);
-> > +	else
-> > +		granule = 0;
-> > +
-> > +	switch (granule) {
-> > +	case SZ_4K:
-> > +		page_sizes = (SZ_4K | SZ_2M | SZ_1G);
-> > +		break;
-> > +	case SZ_16K:
-> > +		page_sizes = (SZ_16K | SZ_32M | SZ_64G);
-> > +		break;
-> > +	default:
-> > +		page_sizes = 0;
-> > +	}
-> > +
-> > +	cfg->pgsize_bitmap &= page_sizes;
-> 
-> ... to after this line. Otherwise we can end up with cfg->pgsize_bitmap
-> being zero and the function succeeding.
-> 
-> Generally this is mostly just a copy of arm_lpae_alloc_pgtable() (with
-> arm_lpae_restrict_pgsizes() inlined) - but with added bugs. Which is why
-> I'm wary of adding another Mali-special unless there's good reason. It
-> still refers to a whole bunch of _LPAE_ defines/functions - which means
-> any refactor to LPAE would have to fix up this code too.
-> 
-> Thanks,
-> Steve
-> 
-> > +	cfg->ias = min(cfg->ias, max_addr_bits);
-> > +	cfg->oas = min(cfg->oas, max_addr_bits);
-> > +
-> > +	data = kmalloc(sizeof(*data), GFP_KERNEL);
-> > +	if (!data)
-> > +		return NULL;
-> > +
-> > +	pg_shift = __ffs(cfg->pgsize_bitmap);
-> > +	data->bits_per_level = pg_shift - ilog2(sizeof(arm_lpae_iopte));
-> > +
-> > +	va_bits = cfg->ias - pg_shift;
-> > +	levels = DIV_ROUND_UP(va_bits, data->bits_per_level);
-> > +	data->start_level = ARM_LPAE_MAX_LEVELS - levels;
-> > +
-> > +	/* Calculate the actual size of our pgd (without concatenation) */
-> > +	data->pgd_bits = va_bits - (data->bits_per_level * (levels - 1));
-> > +
-> > +	data->iop.ops = (struct io_pgtable_ops) {
-> > +		.map_pages	= arm_lpae_map_pages,
-> > +		.unmap_pages	= arm_lpae_unmap_pages,
-> > +		.iova_to_phys	= arm_lpae_iova_to_phys,
-> > +		.read_and_clear_dirty = arm_lpae_read_and_clear_dirty,
-> > +		.pgtable_walk	= arm_lpae_pgtable_walk,
-> > +	};
-> > +
-> > +	/* TCR */
-> > +	if (cfg->coherent_walk) {
-> > +		tcr->sh = ARM_LPAE_TCR_SH_IS;
-> > +		tcr->irgn = ARM_LPAE_TCR_RGN_WBWA;
-> > +		tcr->orgn = ARM_LPAE_TCR_RGN_WBWA;
-> > +		if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_OUTER_WBWA)
-> > +			goto out_free_data;
-> > +	} else {
-> > +		tcr->sh = ARM_LPAE_TCR_SH_OS;
-> > +		tcr->irgn = ARM_LPAE_TCR_RGN_NC;
-> > +		if (!(cfg->quirks & IO_PGTABLE_QUIRK_ARM_OUTER_WBWA))
-> > +			tcr->orgn = ARM_LPAE_TCR_RGN_NC;
-> > +		else
-> > +			tcr->orgn = ARM_LPAE_TCR_RGN_WBWA;
-> > +	}
-> > +
-> > +	switch (ARM_LPAE_GRANULE(data)) {
-> > +	case SZ_4K:
-> > +		tcr->tg = ARM_LPAE_TCR_TG0_4K;
-> > +		break;
-> > +	case SZ_16K:
-> > +		tcr->tg = ARM_LPAE_TCR_TG0_16K;
-> > +		break;
-> > +	case SZ_64K:
-> > +		tcr->tg = ARM_LPAE_TCR_TG0_64K;
-> > +		break;
-> > +	}
-> > +
-> > +	switch (cfg->oas) {
-> > +	case 32:
-> > +		tcr->ips = ARM_LPAE_TCR_PS_32_BIT;
-> > +		break;
-> > +	case 36:
-> > +		tcr->ips = ARM_LPAE_TCR_PS_36_BIT;
-> > +		break;
-> > +	case 40:
-> > +		tcr->ips = ARM_LPAE_TCR_PS_40_BIT;
-> > +		break;
-> > +	case 42:
-> > +		tcr->ips = ARM_LPAE_TCR_PS_42_BIT;
-> > +		break;
-> > +	case 44:
-> > +		tcr->ips = ARM_LPAE_TCR_PS_44_BIT;
-> > +		break;
-> > +	case 48:
-> > +		tcr->ips = ARM_LPAE_TCR_PS_48_BIT;
-> > +		break;
-> > +	case 52:
-> > +		tcr->ips = ARM_LPAE_TCR_PS_52_BIT;
-> > +		break;
-> > +	default:
-> > +		goto out_free_data;
-> > +	}
-> > +
-> > +	tcr->tsz = 64ULL - cfg->ias;
-> > +
-> > +	/* MAIRs */
-> > +	reg = (ARM_LPAE_MAIR_ATTR_NC
-> > +	       << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_NC)) |
-> > +	      (ARM_LPAE_MAIR_ATTR_WBRWA
-> > +	       << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_CACHE)) |
-> > +	      (ARM_LPAE_MAIR_ATTR_DEVICE
-> > +	       << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_DEV)) |
-> > +	      (ARM_LPAE_MAIR_ATTR_INC_OWBRWA
-> > +	       << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_INC_OCACHE));
-> > +
-> > +	cfg->arm_lpae_s1_cfg.mair = reg;
-> > +
-> > +	/* Looking good; allocate a pgd */
-> > +	data->pgd = __arm_lpae_alloc_pages(ARM_LPAE_PGD_SIZE(data),
-> > +					   GFP_KERNEL, cfg, cookie);
-> > +	if (!data->pgd)
-> > +		goto out_free_data;
-> > +
-> > +	/* Ensure the empty pgd is visible before any actual TTBR write */
-> > +	wmb();
-> > +
-> > +	/* TTBR */
-> > +	cfg->arm_lpae_s1_cfg.ttbr = virt_to_phys(data->pgd);
-> > +	return &data->iop;
-> > +
-> > +out_free_data:
-> > +	kfree(data);
-> > +	return NULL;
-> > +}
-> > +
-> >  struct io_pgtable_init_fns io_pgtable_arm_64_lpae_s1_init_fns = {
-> >  	.caps	= IO_PGTABLE_CAP_CUSTOM_ALLOCATOR,
-> >  	.alloc	= arm_64_lpae_alloc_pgtable_s1,
-> > @@ -1265,3 +1418,9 @@ struct io_pgtable_init_fns io_pgtable_arm_mali_lpae_init_fns = {
-> >  	.alloc	= arm_mali_lpae_alloc_pgtable,
-> >  	.free	= arm_lpae_free_pgtable,
-> >  };
-> > +
-> > +struct io_pgtable_init_fns io_pgtable_arm_mali_csf_init_fns = {
-> > +	.caps	= IO_PGTABLE_CAP_CUSTOM_ALLOCATOR,
-> > +	.alloc	= arm_mali_csf_alloc_pgtable,
-> > +	.free	= arm_lpae_free_pgtable,
-> > +};
-> > diff --git a/drivers/iommu/io-pgtable.c b/drivers/iommu/io-pgtable.c
-> > index 843fec8e8a511..1f43f898a8121 100644
-> > --- a/drivers/iommu/io-pgtable.c
-> > +++ b/drivers/iommu/io-pgtable.c
-> > @@ -20,6 +20,7 @@ io_pgtable_init_table[IO_PGTABLE_NUM_FMTS] = {
-> >  	[ARM_64_LPAE_S1] = &io_pgtable_arm_64_lpae_s1_init_fns,
-> >  	[ARM_64_LPAE_S2] = &io_pgtable_arm_64_lpae_s2_init_fns,
-> >  	[ARM_MALI_LPAE] = &io_pgtable_arm_mali_lpae_init_fns,
-> > +	[ARM_MALI_CSF] = &io_pgtable_arm_mali_csf_init_fns,
-> >  #endif
-> >  #ifdef CONFIG_IOMMU_IO_PGTABLE_DART
-> >  	[APPLE_DART] = &io_pgtable_apple_dart_init_fns,
-> > diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
-> > index 7a1516011ccf7..fc9776f71a963 100644
-> > --- a/include/linux/io-pgtable.h
-> > +++ b/include/linux/io-pgtable.h
-> > @@ -17,6 +17,7 @@ enum io_pgtable_fmt {
-> >  	ARM_MALI_LPAE,
-> >  	APPLE_DART,
-> >  	APPLE_DART2,
-> > +	ARM_MALI_CSF,
-> >  	IO_PGTABLE_NUM_FMTS,
-> >  };
-> >  
-> > @@ -148,6 +149,8 @@ struct io_pgtable_cfg {
-> >  				u32	tsz:6;
-> >  			}	tcr;
-> >  			u64	mair;
-> > +			/* ToDo: remove this when switching to arm_mali_csf_cfg struct */
-> > +			u64	pbha;
-> >  		} arm_lpae_s1_cfg;
-> >  
-> >  		struct {
-> > @@ -175,6 +178,20 @@ struct io_pgtable_cfg {
-> >  			u64	memattr;
-> >  		} arm_mali_lpae_cfg;
-> >  
-> > +		/* ToDo: switch to this structure for Mali CSF GPUs
-> > +		  struct {
-> > +			u64	transtab;
-> > +			struct {
-> > +				u32	pbha:4;
-> > +				u32	ra:1;
-> > +				u32	sh:2;
-> > +				u32	memattr:2;
-> > +				u32	mode:4;
-> > +			} transcfg;
-> > +			u64 memattr;
-> > +		} arm_mali_csf_cfg;
-> > +		*/
-> > +
-> >  		struct {
-> >  			u64 ttbr[4];
-> >  			u32 n_ttbrs;
-> > @@ -320,6 +337,7 @@ extern struct io_pgtable_init_fns io_pgtable_arm_64_lpae_s1_init_fns;
-> >  extern struct io_pgtable_init_fns io_pgtable_arm_64_lpae_s2_init_fns;
-> >  extern struct io_pgtable_init_fns io_pgtable_arm_v7s_init_fns;
-> >  extern struct io_pgtable_init_fns io_pgtable_arm_mali_lpae_init_fns;
-> > +extern struct io_pgtable_init_fns io_pgtable_arm_mali_csf_init_fns;
-> >  extern struct io_pgtable_init_fns io_pgtable_amd_iommu_v1_init_fns;
-> >  extern struct io_pgtable_init_fns io_pgtable_amd_iommu_v2_init_fns;
-> >  extern struct io_pgtable_init_fns io_pgtable_apple_dart_init_fns;
-> 
+
