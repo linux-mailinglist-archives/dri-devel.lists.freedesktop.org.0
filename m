@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yDJXMHI4imkeIgAAu9opvQ
+	id qLE/Frk4imkeIgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 20:41:38 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 20:42:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE531142F6
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 20:41:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A580F11433C
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 20:42:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA19610E371;
-	Mon,  9 Feb 2026 19:41:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A82FC10E479;
+	Mon,  9 Feb 2026 19:42:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="W4dK3Lr+";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="L3WKhG0z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com
- (mail-westusazon11010047.outbound.protection.outlook.com [52.101.85.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F400D10E371;
- Mon,  9 Feb 2026 19:41:32 +0000 (UTC)
+Received: from CO1PR03CU002.outbound.protection.outlook.com
+ (mail-westus2azon11010017.outbound.protection.outlook.com [52.101.46.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E09110E479;
+ Mon,  9 Feb 2026 19:42:45 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ocCUbL1T+GtgJD1oFEMzNA6BEoDBlXqOIxT7FD7OKoPbd3CiNQeegWslBgQWrfAwt3+p5bkfCbRZQrb8ENTkHkoiLmb5L6GUNApHbVCiBLbc+7F9HMFCQCjUSybOHzwPO7XlwAkV5WvI1WbWMzju664RAXQrcW18QFTciEyzZOr6WSHVxAPGSfEBk2HBk2YtJ+PhJRgTJnZu6MUUf2+vd7uDkQ3S9oEKDnf/mUQrStUSopz4zLqP3vYVkBQD53/UCDvDXzCSTdzYTyfoQZ8BVOBUjjTT7354XuaxzqZ+sN+e9dzk4N51UzMzj+jjIhHBCrQ0VTs0ZbBVWeOxhRy4rA==
+ b=qz8asb9oit4OvzP/43fppWvzKVeGZYcOs1z3Qmr+BMJnzedUtfJhcvqcfM390G59KdyiTBLKcga2J8PeTdjsK6SeOSituSnk5Izvj+J1cF7aFD0WafMzX/mBSfqUFkSlZNiTdKLSGBjQ44AyUOEjVNpBKGLzY/EwKuiPMgqXRtC/HFdnQNnOGzr6MF6wzDa44Ur3pu76Th3erCyitbCmuG6WVC75afrtaU7Y4064wGSFDpnKofhqGJSH0frzYYfu4nsKV3ZAxJ9bNvZLXCuAx/xUOICRVyDP6WJKuAifUrzvYU06YjUgOHbX8zuTpCvW+oqifZeScIdxgbznMa3oZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fmCbmbZaUMg6dEt3/6LpYv/TocF0j85eJxxEHlHzJ2U=;
- b=BciCHqqIe7+B/KWZN86552oFLALvesHi6MlIPC3irGms52kwAK+2hEf47GTh4ehsJxiIK9qIqcEuczH7jEj2oQHCSbt5LhX1ecMftU9iCWVFMoePlLJNY6v5MFSakLPpw0PAxC4gzHhhw3NUaGFgzXCCkg/iRG9Rb4ritleuiGhAa/zPSf2YMnePrCuTpuSW+wdRDGYsg5/Bp+rRoyxOjKGM+pOL6IbeweF4UMbu6TPxy6ojWiJMy16TtL99zW5iSA5n6/m0Zv+8npjtBeTgNezoy029uvlO6ul9r0iEYvTgxi5SL4giDCa/Uah1FkwJR2m3tedVMGhdD1qXqIGN1w==
+ bh=e7YrgUBT9vwMkfhq4Jdw9YzLROLTAZ42G0vvKbNJl8I=;
+ b=oucUSrZ0CwSvwVJ3nyKbv6ZCPECzj0xAxLWcngoha3g8Nzr1IR2UUXYp+Rk8lYsPG6B1R88Sr4vqgZyNx80gQtd8qKIVBQX27LXUsYkMzyEgDTXZpa0F4EHXv3mDNgbsb46+fnveu6UZp6wqUokk3qiqRMxQS8/dA+VY8EYIX34dJfWAhTmZC3Wy1DxJuRYUz6B7ydVObFxwtmJrXcEI+DVJAx+hv41Zz6hL33ElWQkc8Ko8NC0sfuj+BLCwwApsDwUqdNrj+vKYJa3eQ2RadjmmNKO9Pn2pFUIXSoy8tXdcYlDNoaZI4DwfVXetEXUpOc4ww1afoZfbk7w0FCelRg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fmCbmbZaUMg6dEt3/6LpYv/TocF0j85eJxxEHlHzJ2U=;
- b=W4dK3Lr+oZp/N3n9xKssUBSwPiLvncPxr0fi4shqfpcGFIzCfvCv4YWPMgAp4+6ZmW5ldZ+wE/DhhUHyRnEs8CUC8PHPh6jnCY1V6jO373qS9zG+CO73RhhIliih/rtEmpJH+GaboQO2YOSJbk9x/j0JAgCwilqTNbBTcjhR8+S2u1gIwlvy0ogwDwQIXe0XzY3hNMGB3cPJ9An4oWt5Zg8zSH40OcYN1oA6XXy76UV092CCCalwBIZaAxuRczLfIgZCZmui/QjCiVdgcoaltzvmM/Lwr6WhIDqeu7+2R1qID0AFJ39mqCj6bhD+D/Q8epnpyRAombqLX19FqGBERQ==
+ bh=e7YrgUBT9vwMkfhq4Jdw9YzLROLTAZ42G0vvKbNJl8I=;
+ b=L3WKhG0zo8dE+wsKmuQRaUiFFE77k8jf3Nz+KC6xquJP3PkZdC5n8LY4lvQBLEPoU+J57u66Q56cf9yooXzWgSRSH9fGX/zTQklKXvEeY6yncGmRQoM2zBnwfi5s5Az44y16KooFagog73Zftt3+AwFx0rFY5r6C32fmZQzw2/01vczE6PjDqhGW9Bs14BttFZJq0fMFhWrWgbhHHQ0uUS4amxlJ0Gb+Q/rrJZRXOj/8abx/VYCwaI8QoBUcY5tNxy37F4T2dB4vAyKsFx76+gQ9EUwUEGCregOGxZQVOtbBcuSvBBTUvpCJ0Jy4B4AiIvWHbQ2/j+VwqS9M4hQ6NA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- IA1PR12MB6329.namprd12.prod.outlook.com (2603:10b6:208:3e5::19) with
+ BY5PR12MB4066.namprd12.prod.outlook.com (2603:10b6:a03:207::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.4; Mon, 9 Feb
- 2026 19:41:26 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.19; Mon, 9 Feb
+ 2026 19:42:41 +0000
 Received: from DS0PR12MB6486.namprd12.prod.outlook.com
  ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
  ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9587.017; Mon, 9 Feb 2026
- 19:41:26 +0000
-Message-ID: <859dbf29-dafe-4c04-a0ea-d88c26fd4995@nvidia.com>
-Date: Mon, 9 Feb 2026 14:41:22 -0500
+ 19:42:39 +0000
+Message-ID: <844443eb-b9d2-417b-a72a-4888d50de1fd@nvidia.com>
+Date: Mon, 9 Feb 2026 14:42:36 -0500
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH -next v7 1/2] rust: clist: Add support to interface with C
  linked lists
-To: Gary Guo <gary@garyguo.net>, linux-kernel@vger.kernel.org
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+To: Daniel Almeida <daniel.almeida@collabora.com>,
+ Danilo Krummrich <dakr@kernel.org>
+Cc: Gary Guo <gary@garyguo.net>, linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
@@ -66,132 +68,135 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Matthew Brost <matthew.brost@intel.com>,
  Lucas De Marchi <lucas.demarchi@intel.com>,
  =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Helge Deller <deller@gmx.de>, Danilo Krummrich <dakr@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, John Hubbard <jhubbard@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- Edwin Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
- Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
- Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
- Philipp Stanner <phasta@kernel.org>, Elle Rhumsaa
- <elle@weathered-steel.dev>, Daniel Almeida <daniel.almeida@collabora.com>,
- joel@joelfernandes.org, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org
+ Helge Deller <deller@gmx.de>, Alice Ryhl <aliceryhl@google.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>, Andrea Righi <arighi@nvidia.com>,
+ Andy Ritger <aritger@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
+ Balbir Singh <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
+ Elle Rhumsaa <elle@weathered-steel.dev>, joel@joelfernandes.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
 References: <20260206004110.1914814-1-joelagnelf@nvidia.com>
  <20260206004110.1914814-2-joelagnelf@nvidia.com>
  <DG7ZF1UT98RQ.3F42J3ULGV2OC@garyguo.net>
+ <DG800TDA6OXQ.275PMMS19F1EX@kernel.org>
+ <77ac3274-a962-469d-a2f6-6ccc0670988a@nvidia.com>
+ <DG80FV3VTT6P.2ZP18EM8605GT@garyguo.net>
+ <DG81PJ9QD8FC.2NF6VEKDD3F2Q@kernel.org>
+ <DG81V8NG5RC7.38EYLHQZXKTTO@garyguo.net>
+ <DG820GM5YHJS.11E92OR824CWM@kernel.org>
+ <31AAAF36-093A-46CF-AEEA-709CB1DE1E81@collabora.com>
 Content-Language: en-US
 From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <DG7ZF1UT98RQ.3F42J3ULGV2OC@garyguo.net>
+In-Reply-To: <31AAAF36-093A-46CF-AEEA-709CB1DE1E81@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN0PR04CA0002.namprd04.prod.outlook.com
- (2603:10b6:208:52d::13) To DS0PR12MB6486.namprd12.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MN2PR07CA0023.namprd07.prod.outlook.com
+ (2603:10b6:208:1a0::33) To DS0PR12MB6486.namprd12.prod.outlook.com
  (2603:10b6:8:c5::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|IA1PR12MB6329:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8aee98ba-91ae-4020-ab79-08de68133695
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|BY5PR12MB4066:EE_
+X-MS-Office365-Filtering-Correlation-Id: 79d8a644-e3dd-428b-b106-08de6813622d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|7416014|366016|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dmRJR1F1UWwzTWNJYTBXSHVsZEtxZWZyWjlDVWdhV0VmTC8ySWhVTk44K1hp?=
- =?utf-8?B?TGxRTlZ3bkp4WDBWSFBxdjd0VExOaUthNHBjQm9OeDNBTzlVaWtvZnRMa0tv?=
- =?utf-8?B?c2dxdWRjb2gwM3l6RlU1TU9YS00xQm80WDRYOGd3emhLYWUxU3lBSVIrOG1E?=
- =?utf-8?B?TThvWExTYzYxc0Qrck44d0NIUlc3MElBVTJSdWJtSmtjUGwzd203cGgramJt?=
- =?utf-8?B?NzkwSHMzV0RpOXRFTllMOU93VjhaNDJhUXNkcmdGTUNwUEhETWpjeTY3TXRZ?=
- =?utf-8?B?MHlGa2dSNmdZTWxTTjFXRXdMYlJzckg2b3ZCQ3dLZWVCR2dCVFpicVo2eGhq?=
- =?utf-8?B?LzZoZU5YN1h2MWNxdnY2SjQ3S0hKSndzN2cyeHZ5YktPRVJ6cmxzN0R3TGV1?=
- =?utf-8?B?QmNUMno5OEFHWmhKdmpENlNmZWpHdktnT2Z6dVAwUFgvci81VUxqclQxNGpT?=
- =?utf-8?B?dVdmS1JLWkRkdnYrdkRaQURCYVJoUEpRbkpxUEFYMGR5ZXg5WUl3RUNxVVpV?=
- =?utf-8?B?N05UeHRzWDQ4OW9DTVl0SEFCMUVPZ1AvN21SU2J0czZTV2FjSU05NFFIUFVQ?=
- =?utf-8?B?YmV4RUhRaGFST2J5M3RLOXFRekpqNDF3WTBHZDVtdk1WZVowUEZRQTRGMHNy?=
- =?utf-8?B?K2xnd2FsRGYvNnVORGFidzk0d2Z4OFVmVnZFUUR5ajg4V01BSFdkdnk0NEV2?=
- =?utf-8?B?ZGY3SCtHbmp4STY1Q0h1eGgwMlBBMlNOaFNkZHlXbDVZWVAzSmcrMVNTNzhP?=
- =?utf-8?B?SFdLZTRXSk4zVTR1V0NJcG4rNWQ0RTN4ckNMeWdtUGdSRjYvcFBDSFIxbU5p?=
- =?utf-8?B?YnNlN1h2ZmpOME9sS1dkcWpQbGQzUWJBSlBUeDdjTmlNdDRzQThhMUZMVTdj?=
- =?utf-8?B?am41c1p3TDdkeVdPYXpCS1JKWDhadVFCWXBzY2lmRHdrdjdNdEkyOEVJdkp5?=
- =?utf-8?B?UHI0Uk8vbG96TlUxaGlEdVBPeUpPUUpiU3hxbERWMHczZGkxQlNaVUJDRHVk?=
- =?utf-8?B?dUwrTDhPN1Rib2lBRmdTaXZsOURBbDJab3V4QUMreUprektDSnBaUVZHMGo2?=
- =?utf-8?B?aVJWNzBTeFFmakt2cU0xYmh5VmVpYWhaZTZxN0JESGpGYXc4L2NGQittSzAy?=
- =?utf-8?B?R2ZkSldpUEdEUlVxS1hxM1JqWThNL0UrR0VCOTFhQ2J5RnY4cElwd3FRYTNY?=
- =?utf-8?B?TTVIRnRLeVVVUTVNN1hFNDF1YzU4TEdhZGZWR3hxNUJhMThYUllKMVF5bjJ6?=
- =?utf-8?B?NWxTL2puTXdydGdveUJtd2dFbFVDOXprZk1HcVZURSt4L0V4b0VxUE5zc3JK?=
- =?utf-8?B?bnpaRHVIU1I2eHhsaVFHaU1iZHVlSCs1RERpRzRJcE10YlVoL1p4MzRVRm05?=
- =?utf-8?B?OENpMW1xOEhSYlpYNUFzait1UldleEtWa3ZMTkM5S1FIcE5TcWJZZ0o0Y21p?=
- =?utf-8?B?R0hJZXlvellFSnVYSWRhb3lFQWVzbzhIK3QxRHVSRzNjQlNiZlUxUGR5aUxB?=
- =?utf-8?B?REtEdW03Y0hiMG8rN09yRXRJUmVMUHIyYStnckNNSUtCbjZnUGplbnJwZnhY?=
- =?utf-8?B?SWtMRGFOeEZad1pPMi9VWldQcDhXdVhYN0VETnc2bURFL1VTa0pwdVBtb0xS?=
- =?utf-8?B?cHdEOWdzWWU4MExaVVFXenlwdXU0MTVKeGZ1OHlzTW51SWFVdktPMkRlY3Er?=
- =?utf-8?B?bUYwZVRUUVRkK2pKU0wvOVhVRmtJSW5QeVMvWmFVdGhvTUdyNzZyTklHc1Fv?=
- =?utf-8?B?MUtqbWUzYzNiek13TllHVEtrSitEVUNET3N0aElqMlZJYXRhSHdEemwydzFn?=
- =?utf-8?B?WmRCeHRLVmkyVU1uQlNzOHZYeGlncXRyTDFxZ25HUjNxOWJIL2dJVDNzTzAv?=
- =?utf-8?B?Rmp4SU9Ja2haclpGenlpUHczU0toSUVRYTVvaUhpemdWYlFyaStsYzd0SEcz?=
- =?utf-8?B?SGpDQWhhcCtHZGxCWW9aak0rblcrUGdBZkdQdWwzM21EcThYaUNCVmN5dGR0?=
- =?utf-8?B?bmhqeFhDNiticDZHVHBaSXlya2IxbFNIVGZTTk5NZHBlNzV0YXRVL01VM2hX?=
- =?utf-8?B?VGRkWU1jb1FGUitvK1JwcWtCVnd6L2Q3dGRORk1xTU14MkQ1VjNIaGtPY0px?=
- =?utf-8?Q?RTfc=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?S3JIa25McDNSb0ZGdng1MnFpelJ0OC9SVUNQYUN0anpZWVRsTWVUVzQ5R3Yv?=
+ =?utf-8?B?MVJZVW4zVUdjc2tHVFpNbFhHcmgyRVFLUElNRlNReFBVM0QyVWFDcVJoREEr?=
+ =?utf-8?B?UUhGek5adlljbXRWa2k5eXMxbnRMLys0eGEzbWNML1VlWmd6azdJcGJJRkQz?=
+ =?utf-8?B?UWpUbFMvR1RQaHdlZHVHaXlFSUF3QkxZbFdDMzU0SWQ1TkpGak5xQmd4djR3?=
+ =?utf-8?B?NlFVK1Uzc2dRVGZKK1h2NGdlSEZEMkJaZ2dKRk5KenI5SFFSUWlCL0RTNjhC?=
+ =?utf-8?B?MGFqc0I4VTV1UHNXcDB1KzRkS1N3QnlGYnR2Q3FrYTBVaTU1QkdnU29XTzJr?=
+ =?utf-8?B?UGtROEVhTnEwNjY2OVYwMk5lUVZmMXc2Yk9QR3dFeE4wR0NXeC8wemtlclpV?=
+ =?utf-8?B?emREK3lQQTVwdUUrU1RFRTRmSTk3dk9pNkNUL0JuYWEvTUQyUTVEdGVjdDRJ?=
+ =?utf-8?B?YnlBSHJ0VmcvQzJGd21tZU9VUHJaUm9YRDBWWU40TWttRGNsZnNQeXUzMHBY?=
+ =?utf-8?B?SGZ4UXdEdzBpckp2RUNUYk1La2g4QjlFOG1DTzVNamg2enFXK2lwWlRFdmcz?=
+ =?utf-8?B?UGwyODl0OFBHZHlicUhjM044TnZTc3oxR09WL2kwTkVDMjE1ZFZYWS9teTFw?=
+ =?utf-8?B?WGZBSzRZdElkb3oybURnR1FtbVYvS1ZkN21NYkRDbVlnUms0S0tuZGZtYi9D?=
+ =?utf-8?B?WEkrbkk1VzhpM3k2U05SU1FsaFdXY2lkMm1XV1pZSFdiZmcwZmNubFdYWFJt?=
+ =?utf-8?B?ak1YcmZUS0RUNlNSMS9pSU5VLzlFS2ZoT3lCelgzbDlEYmppbVhHNXdlZ2Rl?=
+ =?utf-8?B?WkV0MkdzRUwyZG9lbDYzT2xVOGRYcVJaWGxsV2IyMUkvQytxVEpXYThmTE5v?=
+ =?utf-8?B?R0VJa29telVncTlKZGx4bmxpa09wWGVBeFlnWDBoTit1dlhoTGExTzljRVNr?=
+ =?utf-8?B?OE5oR1k1dEVqU1prWENmeXpZNmFJS28xb2ZjQ2c5M2pseVhhaU4wM2w5Wlg1?=
+ =?utf-8?B?SE1SSmdXQjgwZy9OUVh6UnF1ZUd2QlQ3QmNoWlFuZENYZlNURmlpR08wdVJx?=
+ =?utf-8?B?aEswTkQyYW5tcWhFbDM5WWo5OUptU0FaWlJOdkxLV3BjQUtOUEZwTXZIUDUy?=
+ =?utf-8?B?NHZYd1lmMVJZWDFwZi9vSW1PZmJxOEpqVmVpYTNBdVViMTNPVUl3ekJid2pM?=
+ =?utf-8?B?WWxkK3dvYjR3SkV1M1ArVG51ZGVtL1dCNEdvaFhBcllIYnkwQk1pM3NzQXpN?=
+ =?utf-8?B?RW03OGFZTjhFZnJPamt4SnN1MlUwSkgrdWRhVGpuT2NFamxtLzFkb1hUUU9j?=
+ =?utf-8?B?aFU4KzJGd09abytXSmd3c09DQmdCUG1jYVNnYWNJU2d4Kzl4T1NJLy9ZZ3FM?=
+ =?utf-8?B?cUtNOEdETVNNVlYrVU85aHFFazUxTUZNMVpSdU5ud3hYeFp2WFVsaG41dmdx?=
+ =?utf-8?B?dWVkU2JrSmREMjAwbnBnSThnYklkdndUNVVGZDZyNWgwNDh0cFl0WlQzYWhK?=
+ =?utf-8?B?elVHL2xzL1REcFRzV3p3dFlPc1JaME5RMDRueitDNWdDejVGY3gvT2lJUEdi?=
+ =?utf-8?B?Nk0wRTR1ZUlBWGhsS3laRkRBcW40UGNyaEpKZ1VKcGxHUU1CNDl6OXc4RHBr?=
+ =?utf-8?B?Y01uM0QyQWlCcDlPN2FKSHFDNUJpd2RRSjI5Rktjc2dVekJJVjZPcWVIU0FR?=
+ =?utf-8?B?aU8wK2dhbCsrZGtSVGcxMDdvNkpQSk9reXJYUElLa0o3Y3VJWkttQU41NWk3?=
+ =?utf-8?B?NFBrNklmU0hQR3lpU2hxekxVSUlaN0E0TW5QTlkrYW5Bdjl0TnZ5MjJxYnd1?=
+ =?utf-8?B?NFFRanNtTm1vODE2NENzenpEMmE5ck1XSCs0L2dkWlYyK3U0aFNLNGtieFJL?=
+ =?utf-8?B?cGU2S0FlUi9xUG9EbUduYk5pd21jTTdZYXFIazR1dkpqeVhtWEJYcnFsSmU4?=
+ =?utf-8?B?S0hBT3dyU290aHNKTkpBaEsvSSt2bmJtRjB4dTVxcHZlbG9Hb2FhdC94ZGo3?=
+ =?utf-8?B?UmhZK21zeGVRbXdJRHNOVXh4M2FGQWFCYU9tZGlvMWg3NURZMUM3Y2sveE9r?=
+ =?utf-8?B?RjdvZ3RoYUR1ei9CZFovelk2NUQ2YklibGhtRVRWMjZXaDJnN2g3Zm4zRldY?=
+ =?utf-8?Q?o5vg=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DS0PR12MB6486.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(7416014)(366016)(7053199007); DIR:OUT;
- SFP:1101; 
+ SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YUJkaUg4TVpmVmFrbFJsYWRlTzdIaHlCOWo0Ty9HbXJIRTMrWWRkZTVpdVVv?=
- =?utf-8?B?QjZScWRaV05iczFyYWVPVGFPVmJYb0VyNUIwUi9PR3RrOWlaaUxwZ1FTd0wy?=
- =?utf-8?B?OWFTYkxIVEVUK3pQTGhlV1loRnhJalgyUHlFeGZCUHRrbEdJT3hORTQrZkd0?=
- =?utf-8?B?MkF6alg4YXRkS0ozdVIwVmlpcjVsUzdKeDc1cG1hdHY5RVcwUWVTajFDR2hF?=
- =?utf-8?B?am1YOERMVWpSVFBuVXh5bm1KbFRlNUl6TkZ0UGZ4NXZFeEdZZkN3OHdqRU9o?=
- =?utf-8?B?eWxRTTFIeGpTRWNYVTN2MVBadVc2eFBobE1ua3krNTNEdGlpU25PV3dRTnp3?=
- =?utf-8?B?d3RGMEVEUGErWmdaRkp2bTQ5UDBhNEl3Lzl0TS84blpjazhFcWx6Z0wrVXVt?=
- =?utf-8?B?OHR3bVZMVkdCWXdnSXJoYVNHWWV1RmdNblFicW5Ld1hwcWc3SXpobWRob1BN?=
- =?utf-8?B?NE93MkpFN0NqbVZwbEJ2QlBtRmtGS016SG9Dd3c3Skd0eU5TRzY1a2l6YUJC?=
- =?utf-8?B?TElwanR1SnNjYjlQamlzTTBPbHJDSHBBNDBhaGhjLzB1dUVwNkRoQlc2UERa?=
- =?utf-8?B?Tmp3bUw5T2sxTUR4c1Uyb0htbVBLSXdSaDA0RXA5M0gxMTVxOU82b2RrMHF0?=
- =?utf-8?B?ZDY3aUdvSkZmWkNtK1YraVhseGphVGYvVXBxQlRNRm0weExwY05VU2p0Vmx0?=
- =?utf-8?B?dHBSVGJvVllqaXdhcnovSXViNW41M3FseVNiWmFCcXIzUU05bEVrQmZEVkdi?=
- =?utf-8?B?ZXNPL3dOb0g2N0FZWEFkWGtkSmhzY3hHWmZPeXJ4ZG9KOGwvaDYrMUxGNmgy?=
- =?utf-8?B?c1RSakNURWZLd2JSa3FKWjIrNzZsWVExeUtmdlFWWUg4NTloNWNEY1lWS1Vl?=
- =?utf-8?B?dlRYK29lUVkrTnhMVERvZEh5eXRPbjVxVmovM3BZTnE5cElGTy9RWGV0TERM?=
- =?utf-8?B?Wjdxd3FPT0RlL0FHaTFxZ3Byd2JDMVU3ZVhkZXNZdjhqeFRYc090UmF2ME1p?=
- =?utf-8?B?RndrUjJkS29NVFBCSkt2UWhkSlNBUXZDVjJNQThPUStRelFVSzZlV1pGZE90?=
- =?utf-8?B?aVNlYkdxekE5UWl0cHhVZUNIOE5aTkJTRE1JN01oWFZ5NlRCS0xwWmNVRlIv?=
- =?utf-8?B?VERhNUNLN3FqcWdUcU1NNjlZNlB2WGc0aXFzS1ZUamQ3elg2OHBhbUZBMXJE?=
- =?utf-8?B?b3VlTVNvRDlOM1QwTkE5ek1Nc0x0OWhhd2hXYTU3QWZPNXFQRkIxOVh3K2Q1?=
- =?utf-8?B?SzJnN3Y0WkIvVllwdXIzM2hnWU5QdnYxL1U0VFZCeWtXaDBYakFUUHFoeVhx?=
- =?utf-8?B?Q3hpbGkzWVdPbnNHOG9sb3BmdHZVZ1hoMnVETHZWK0l4RW9wRG5UcUtEbHYx?=
- =?utf-8?B?QUhIcFpMVk1zNGZ6VWZtQlozN0xhQUxDdEZuOUVFSVRwSlhOZTJKUWVuWWZt?=
- =?utf-8?B?cEpRTHZHSDBKaGhNTExvaEpSeEFHVldFUVdiMWlhWEp2ZFVVaDJPT21oOXlN?=
- =?utf-8?B?ZXE3RjBUaWFoQUs4QXlpb296YzlIQUNkMTR6NCt5MHE5WTVOSERjS2ZLa3Vq?=
- =?utf-8?B?b25yM253UjE1VmFyU2NpMDNuK3JCYVoyUDFFT0hrOFBva2FBSkpvaFNCTVVj?=
- =?utf-8?B?aG1ycnlNakJuNkVZT0lNZ1RTNVlTeThKN0pmOGh2OUIxZllkM0x5RmJoRVA2?=
- =?utf-8?B?ZzRyOFZJYUpZcC9LamRzdnVUTXF4b29DWkVWVUdQQ0wwa0FNbWlrNzE3eXU0?=
- =?utf-8?B?NU05OUhlVk1Ia0pmTjRsWEo2b3U0U3FNUU9ubEhlZCt3QU05aUFwa2hqalMx?=
- =?utf-8?B?OGxUM0YvUXNKSURvUGQ1U2xORFk3U0U0YUhuZ2JtOXhBaFpMdlNQK3hOcHBV?=
- =?utf-8?B?aERzVWNQNkNLQUhxYU9qek1EY0tvMjFSdDRNSkNRdnR4VXY1Z3dOcWFtdUl4?=
- =?utf-8?B?KzlzOThSSnRwOHBkNzVTR0d3dW8rajRQMjErcGdMNGZkV2hKc0pIZFdWZTJ5?=
- =?utf-8?B?WTlKQWJGOXdmSGFPcnNEUXJ4U1dxZFp2V3NPSlVvamcyUFpnS3ltZGwvMmFv?=
- =?utf-8?B?WWhoSUFlWk9lYm5SWDQ4YVFmYW9pajRwWWYzWWJYZ1lpY1ZXbmJna0Y2YnVi?=
- =?utf-8?B?SXI1Umg3Y2J3L0JNWmJDdDJTTW9LTkgxK0F0bGtHdktiMWIrVGVHa1hPQkI4?=
- =?utf-8?B?bXlGMHdiR3QxWnpNUHd2VzRrbWpYUXBaN1FubkVtWHRyWG1PMDhNc3Y4R3Mw?=
- =?utf-8?B?RjlSSURyaFA5RnlOSHFEU2tDVUMvd3FPakZBeG1kY2V1QnBIWjZIVGc0NjZ0?=
- =?utf-8?B?NFYxczRiY2xsUWtHUGlhdlJjd2ZUR0VQRWdoa0lkZGJvQVlkL1ozdz09?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dHFyeE83SGJNTlRDcVB1Z2UwSmFuY0xodzVPN0Y4R29pZmRKUkNkdGJQRXBt?=
+ =?utf-8?B?ZVNBSHQwZGloeCtMN2pZN3luNFFHYnd3MjcvbC9SWVFDN25GSjV1SGRQRzUv?=
+ =?utf-8?B?eS8xakhEYzJvTzcxLzV0ejhqUzI0L1c5d29RM2lxRXdIclNkQTd0YTd4UTJo?=
+ =?utf-8?B?MXZhU2FyQU0xM05EUWVENWUyNDk5SEw3eU9kQzZmYjVobDFuNXNwWDBZM1NV?=
+ =?utf-8?B?MW10M0FsSXNrNVQ0U3FlVDB5cERzN25kNS8yWXg1RjN2UU45Mm1GaHVDTEN0?=
+ =?utf-8?B?Skx1YTJtUG43L0JWcDNGbCs3Skk2aE5kR2lvY2l1dmk2NzUrRjl5RllvWU1T?=
+ =?utf-8?B?S0w1NmI3VWhFaWlic0EwaVhKMHdHSVBNM0hUUjduMmtwZklxSFdKTmhKREVu?=
+ =?utf-8?B?KytEdXg2OTRQdHJhVG1yZVlNNTFvN1loVXgwa0FoRzRCR0F3ZkNnWDFJWTFM?=
+ =?utf-8?B?bkJRRlh3ckp5QzIzUmlzT3VweUJCK1VISWdNY2l3RFNlU0NhUG5mZllJUkQ1?=
+ =?utf-8?B?TWRuOCtrTzRWUlg4VlVhTDBvSGN3cTNpSjlDMEJRVnd5VVdKcmczQTY4MDFE?=
+ =?utf-8?B?YlNlVHhNNlJwZzJrZFhEdVc3aERKZVgvRHhFWDNlemg1ZU8rR1ludWgyZzBQ?=
+ =?utf-8?B?RFEvQVRIUjQ0d1REdUdlTWV5SllrM2wrNjFhR1Y0dGwwY3J6Y0VQS3ZmU2M4?=
+ =?utf-8?B?RCt5Q1RueFFMbVhsL25jbTlLUUlJUzk5WmJJTHVOb0dmQjdEcWpkcFpuZTh0?=
+ =?utf-8?B?L21ycnJtMml6ekdpZi9yL0NQY1VzUE1Nckh1RVo0aWVEMEk4dzNUNzJibXFx?=
+ =?utf-8?B?ZHVGVElpU3lLYWRrQ1ZDeTVhSEZtUmp5eDR1ZHFZWUNBa1BKeDkrcEJEZTRi?=
+ =?utf-8?B?cU1uU3hQeE1oZHRZWWh5bWRJVVVsK0NhWkhOSXBSWHRSZG1UdzBjK1FCM2FU?=
+ =?utf-8?B?SWloeldDL3JzYldzY0NtQllRMmErWDlDNG9ZcWhNSVA5WEdLa21McHN5T1Zz?=
+ =?utf-8?B?MDdSUkhlNUVkZEltS3BRQ0lwc25WSzEyRE9hMjVEdWViSitMQVZHQ2ZyZDF5?=
+ =?utf-8?B?MDdIRzN2MjRyL2tIT2lwNElrZ3pkNmhTSmoxcmRKZ2Y3a0ZmclJJaEtFbVpl?=
+ =?utf-8?B?REt6dFcwMzRpYlhqZDh1TjBoUnAzVElXTURIc0RZOVRDc2FkaHpJM09TOTdp?=
+ =?utf-8?B?cWRwdzU4K3FWeko0S2tpTjFMWnJtNmdnSmFBUXEvSVpFaWxOcCtiYmdOL1Bk?=
+ =?utf-8?B?TktQcUJKR0g5YitRRFp1RHBhd0FzblZlNStXaGxIYnlUN0lSUDdxbFJwYUJJ?=
+ =?utf-8?B?SVZvM1pERExMUUtIRXdGL1RnQTBmaVV3Q1ZESXpQV0ZzYlluTTZDRTF0YTBX?=
+ =?utf-8?B?MFhwd0xYOW5CYUcrS3hGL01mRUFBdzd0T0lVaVNFMnFHa3FpL2tzVll0dmJS?=
+ =?utf-8?B?UUVLYUowQXkwRVNzNVY3WmNKRFZvK1crMmZ4bHdscS9IN1VuSUF6NTZKY3kr?=
+ =?utf-8?B?THRFUHhUem1QV3U1M0JENGlXWDlDemdJeld1SU55d1Jma3Jpd2RuaXgxR1Y3?=
+ =?utf-8?B?WlZnSllBdkdVTFZxWlowWHF4THBrcmNxakczdmd5OGp4SHNwSzA0K09wNUt4?=
+ =?utf-8?B?QUFiZDVVS0xRWXMzS0VMQlR1YzZ6aUhrakVnVUc2MnlKQ0RpbzdHTmd6UmJj?=
+ =?utf-8?B?UnVabnBxb0luY0F4aEtOdjZZVC9FUTBSU2tiWjFJcVpLZHlUSGtja3Vrb0RM?=
+ =?utf-8?B?YURrRWJpYVRUaFllNks0OTVlL2l3U1FWM1NGSGNYSHYyYzlMZm1SK1JJYVhD?=
+ =?utf-8?B?REdXUGl3RUxuMkl5MWNIdlkxazVDUEcrNURSZDVCVjJVYUk5RmlvOTZMUmFL?=
+ =?utf-8?B?MUNZR25BR2doOFRGZ1k5cjk5d2VQNFhvcXBabmxtWU5qWStUTmxxZi9BcWpC?=
+ =?utf-8?B?K2pVUjltdUdYQ2JzdW9xSXA0UlR2bDFRN1dUdk9oM1VnS2VKUDY3c1Zxd04y?=
+ =?utf-8?B?dy9KY2gxY0JDTlNOK0hTRDA2TzlldzBUalY1M0NrckQ0MGc2RUxUc0ZSWG1u?=
+ =?utf-8?B?UWpjUWlqdmxFa1ZoQk5LNmRQRVVicjBRa0poajltbXB5aW5iNjZXdzcvQThP?=
+ =?utf-8?B?akRGZkNuaHFqd1k2dGdtR2xTb09BTWJqY3lHN1VrZTl6NUJEbWQyVDhwUkJV?=
+ =?utf-8?B?TVFNVFliSHUyY0wzOWtoa0lFZ3BiZ1QrSC9LcHpjN1hnNEY1L1BndE8yZ25w?=
+ =?utf-8?B?Yk1OcmRORnZiTm1uOHNPakxPS0lpNlpvYVk3MEJ4VWk0MWJWUFRPUXJKQS9Z?=
+ =?utf-8?B?QXg1ZThoK003aHZSQTBqNERVUS8vM2tXOGVucXI3R2ZoRU5YWndoZz09?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8aee98ba-91ae-4020-ab79-08de68133695
+X-MS-Exchange-CrossTenant-Network-Message-Id: 79d8a644-e3dd-428b-b106-08de6813622d
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2026 19:41:26.5131 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2026 19:42:39.5586 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oechHnPuJAHGpzlqApaP179VUFqW+OpgrVYsLYPQTkUJfbg1KllZzGoYrV/WGNq0uaXRPheny6rxybS4nToBkg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6329
+X-MS-Exchange-CrossTenant-UserPrincipalName: Gu6ajq9p4x6t+9Z1VSu9vAvLlTzXnGWKZzSByvkV6AbvCwtZURXId1HzawJPaC4fQ3TVsHrZOUdmE0zhSIbqTw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4066
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -222,7 +227,7 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,google.com,protonmail.com,umich.edu,nvidia.com,weathered-steel.dev,collabora.com,joelfernandes.org,lists.freedesktop.org,vger.kernel.org];
+	FREEMAIL_CC(0.00)[garyguo.net,vger.kernel.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,google.com,protonmail.com,umich.edu,nvidia.com,weathered-steel.dev,joelfernandes.org,lists.freedesktop.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCPT_COUNT_GT_50(0.00)[50];
@@ -231,317 +236,42 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:mid,nvidia.com:email,Nvidia.com:dkim,garyguo.net:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,auristor.com:email]
-X-Rspamd-Queue-Id: 1BE531142F6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:mid,Nvidia.com:dkim]
+X-Rspamd-Queue-Id: A580F11433C
 X-Rspamd-Action: no action
 
 
 
-On 2/6/2026 10:25 AM, Gary Guo wrote:
-> On Fri Feb 6, 2026 at 12:41 AM GMT, Joel Fernandes wrote:
->> Add a new module `clist` for working with C's doubly circular linked
->> lists. Provide low-level iteration over list nodes.
+On 2/6/2026 4:30 PM, Daniel Almeida wrote:
+> 
+> 
+>> On 6 Feb 2026, at 14:27, Danilo Krummrich <dakr@kernel.org> wrote:
 >>
->> Typed iteration over actual items is provided with a `clist_create`
->> macro to assist in creation of the `CList` type.
+>> On Fri Feb 6, 2026 at 6:20 PM CET, Gary Guo wrote:
+>>> I asked for this to be changed to `pub(crate)` because I think this isn't
+>>> something that should be used by drivers.
+>>>
+>>> As you said, tt might be tricky to enforce that with new build system when
+>>> subsystems are inside different crates. But until then I think it's better to
+>>> limit visibility.
 >>
->> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
->> ---
->>  MAINTAINERS            |   7 +
->>  drivers/gpu/Kconfig    |   7 +
->>  rust/helpers/helpers.c |   1 +
->>  rust/helpers/list.c    |  21 +++
->>  rust/kernel/clist.rs   | 315 +++++++++++++++++++++++++++++++++++++++++
->>  rust/kernel/lib.rs     |   2 +
->>  6 files changed, 353 insertions(+)
->>  create mode 100644 rust/helpers/list.c
->>  create mode 100644 rust/kernel/clist.rs
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 900fc00b73e6..310bb479260c 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -23204,6 +23204,13 @@ S:	Maintained
->>  T:	git https://github.com/Rust-for-Linux/linux.git rust-analyzer-next
->>  F:	scripts/generate_rust_analyzer.py
->>  
->> +RUST TO C LIST INTERFACES
->> +M:	Joel Fernandes <joelagnelf@nvidia.com>
->> +M:	Alexandre Courbot <acourbot@nvidia.com>
->> +L:	rust-for-linux@vger.kernel.org
->> +S:	Maintained
->> +F:	rust/kernel/clist.rs
+>> It should *usually* not be used by drivers, but there are exceptions. For
+>> instance, it is perfectly valid to be used by Rust drivers that interact with C
+>> drivers.
 > 
-> I still think we should try to work on a more powerful list infra that works for
-> both C and Rust, but I reckon that is a longer term effort, and shouldn't
-> prevent a simpler version from getting in and be used by abstractions that need
-> it. So
+> I agree with what Danilo said here.
 > 
-> Acked-by: Gary Guo <gary@garyguo.net>
-
-Thanks! I also replied below.
-
-> 
-> Some nits below:
-> 
->> +
->>  RXRPC SOCKETS (AF_RXRPC)
->>  M:	David Howells <dhowells@redhat.com>
->>  M:	Marc Dionne <marc.dionne@auristor.com>
->> diff --git a/drivers/gpu/Kconfig b/drivers/gpu/Kconfig
->> index 22dd29cd50b5..2c3dec070645 100644
->> --- a/drivers/gpu/Kconfig
->> +++ b/drivers/gpu/Kconfig
->> @@ -1,7 +1,14 @@
->>  # SPDX-License-Identifier: GPL-2.0
->>  
->> +config RUST_CLIST
->> +	bool
->> +	depends on RUST
->> +	help
->> +	  Rust abstraction for interfacing with C linked lists.
-> 
-> I am not sure if we need extra config entry. This is fully generic so shouldn't
-> generate any code unless there is an user.
-
-Yes, I am dropping it now. As per the other discussions, I will change the
-module level and all the items in the module to pub. And then we will not need
-this config.
-
-> 
->> +
->>  config GPU_BUDDY
->>  	bool
->> +	select RUST_CLIST if RUST
->>  	help
->>  	  A page based buddy allocator for GPU memory.
->>  
->> diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
->> index a3c42e51f00a..724fcb8240ac 100644
->> --- a/rust/helpers/helpers.c
->> +++ b/rust/helpers/helpers.c
->> @@ -35,6 +35,7 @@
->>  #include "io.c"
->>  #include "jump_label.c"
->>  #include "kunit.c"
->> +#include "list.c"
->>  #include "maple_tree.c"
->>  #include "mm.c"
->>  #include "mutex.c"
->> diff --git a/rust/helpers/list.c b/rust/helpers/list.c
->> new file mode 100644
->> index 000000000000..3390b154fa36
->> --- /dev/null
->> +++ b/rust/helpers/list.c
->> @@ -0,0 +1,21 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +
->> +/*
->> + * Helpers for C Circular doubly linked list implementation.
->> + */
->> +
->> +#include <linux/list.h>
->> +
->> +#ifndef __rust_helper
->> +#define __rust_helper
->> +#endif
-> 
-> This shouldn't be needed.
-
-I had to add this because a patch was missing in the DRM tree it depended on. I
-believe I should not need it anymore, so I will drop it. Thank you for pointing
-that out.
->> +
->> +__rust_helper void rust_helper_INIT_LIST_HEAD(struct list_head *list)
->> +{
->> +	INIT_LIST_HEAD(list);
->> +}
->> +
->> +__rust_helper void rust_helper_list_add_tail(struct list_head *new, struct list_head *head)
->> +{
->> +	list_add_tail(new, head);
->> +}
->> diff --git a/rust/kernel/clist.rs b/rust/kernel/clist.rs
->> new file mode 100644
->> index 000000000000..1f6d4db13c1d
->> --- /dev/null
->> +++ b/rust/kernel/clist.rs
->> @@ -0,0 +1,315 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +
->> +//! A C doubly circular intrusive linked list interface for rust code.
->> +//!
->> +//! # Examples
->> +//!
->> +//! ```
->> +//! use kernel::{
->> +//!     bindings,
->> +//!     clist_create,
->> +//!     types::Opaque, //
->> +//! };
->> +//! # // Create test list with values (0, 10, 20) - normally done by C code but it is
->> +//! # // emulated here for doctests using the C bindings.
->> +//! # use core::mem::MaybeUninit;
->> +//! #
->> +//! # /// C struct with embedded `list_head` (typically will be allocated by C code).
->> +//! # #[repr(C)]
->> +//! # pub(crate) struct SampleItemC {
->> +//! #     pub value: i32,
->> +//! #     pub link: bindings::list_head,
->> +//! # }
->> +//! #
->> +//! # let mut head = MaybeUninit::<bindings::list_head>::uninit();
->> +//! #
->> +//! # let head = head.as_mut_ptr();
->> +//! # // SAFETY: head and all the items are test objects allocated in this scope.
->> +//! # unsafe { bindings::INIT_LIST_HEAD(head) };
->> +//! #
->> +//! # let mut items = [
->> +//! #     MaybeUninit::<SampleItemC>::uninit(),
->> +//! #     MaybeUninit::<SampleItemC>::uninit(),
->> +//! #     MaybeUninit::<SampleItemC>::uninit(),
->> +//! # ];
->> +//! #
->> +//! # for (i, item) in items.iter_mut().enumerate() {
->> +//! #     let ptr = item.as_mut_ptr();
->> +//! #     // SAFETY: pointers are to allocated test objects with a list_head field.
->> +//! #     unsafe {
->> +//! #         (*ptr).value = i as i32 * 10;
->> +//! #         // addr_of_mut!() computes address of link directly as link is uninitialized.
->> +//! #         bindings::INIT_LIST_HEAD(core::ptr::addr_of_mut!((*ptr).link));
->> +//! #         bindings::list_add_tail(&mut (*ptr).link, head);
->> +//! #     }
->> +//! # }
->> +//!
->> +//! // Rust wrapper for the C struct.
->> +//! // The list item struct in this example is defined in C code as:
->> +//! //   struct SampleItemC {
->> +//! //       int value;
->> +//! //       struct list_head link;
->> +//! //   };
->> +//! //
->> +//! #[repr(transparent)]
->> +//! pub(crate) struct Item(Opaque<SampleItemC>);
->> +//!
->> +//! impl Item {
->> +//!     pub(crate) fn value(&self) -> i32 {
->> +//!         // SAFETY: [`Item`] has same layout as [`SampleItemC`].
->> +//!         unsafe { (*self.0.get()).value }
->> +//!     }
->> +//! }
->> +//!
->> +//! // Create typed [`CList`] from sentinel head.
->> +//! // SAFETY: head is valid, items are [`SampleItemC`] with embedded `link` field.
->> +//! let list = unsafe { clist_create!(head, Item, SampleItemC, link) };
->> +//!
->> +//! // Iterate directly over typed items.
->> +//! let mut found_0 = false;
->> +//! let mut found_10 = false;
->> +//! let mut found_20 = false;
->> +//!
->> +//! for item in list.iter() {
->> +//!     let val = item.value();
->> +//!     if val == 0 { found_0 = true; }
->> +//!     if val == 10 { found_10 = true; }
->> +//!     if val == 20 { found_20 = true; }
->> +//! }
->> +//!
->> +//! assert!(found_0 && found_10 && found_20);
->> +//! ```
->> +
->> +use core::{
->> +    iter::FusedIterator,
->> +    marker::PhantomData, //
->> +};
->> +
->> +use crate::{
->> +    bindings,
->> +    types::Opaque, //
->> +};
->> +
->> +use pin_init::PinInit;
->> +
->> +/// Wraps a `list_head` object for use in intrusive linked lists.
->> +///
->> +/// # Invariants
->> +///
->> +/// - [`CListHead`] represents an allocated and valid `list_head` structure.
->> +/// - Once a [`CListHead`] is created in Rust, it will not be modified by non-Rust code.
->> +/// - All `list_head` for individual items are not modified for the lifetime of [`CListHead`].
->> +#[repr(transparent)]
->> +pub(crate) struct CListHead(Opaque<bindings::list_head>);
->> +
->> +impl CListHead {
->> +    /// Create a `&CListHead` reference from a raw `list_head` pointer.
->> +    ///
->> +    /// # Safety
->> +    ///
->> +    /// - `ptr` must be a valid pointer to an allocated and initialized `list_head` structure.
->> +    /// - `ptr` must remain valid and unmodified for the lifetime `'a`.
->> +    #[inline]
->> +    pub(crate) unsafe fn from_raw<'a>(ptr: *mut bindings::list_head) -> &'a Self {
->> +        // SAFETY:
->> +        // - [`CListHead`] has same layout as `list_head`.
->> +        // - `ptr` is valid and unmodified for 'a.
->> +        unsafe { &*ptr.cast() }
->> +    }
->> +
->> +    /// Get the raw `list_head` pointer.
->> +    #[inline]
->> +    pub(crate) fn as_raw(&self) -> *mut bindings::list_head {
->> +        self.0.get()
->> +    }
->> +
->> +    /// Get the next [`CListHead`] in the list.
->> +    #[inline]
->> +    pub(crate) fn next(&self) -> &Self {
->> +        let raw = self.as_raw();
->> +        // SAFETY:
->> +        // - `self.as_raw()` is valid per type invariants.
->> +        // - The `next` pointer is guaranteed to be non-NULL.
->> +        unsafe { Self::from_raw((*raw).next) }
->> +    }
->> +
->> +    /// Check if this node is linked in a list (not isolated).
->> +    #[inline]
->> +    pub(crate) fn is_linked(&self) -> bool {
->> +        let raw = self.as_raw();
->> +        // SAFETY: self.as_raw() is valid per type invariants.
->> +        unsafe { (*raw).next != raw && (*raw).prev != raw }
->> +    }
->> +
->> +    /// Pin-initializer that initializes the list head.
->> +    pub(crate) fn new() -> impl PinInit<Self> {
->> +        // SAFETY: `INIT_LIST_HEAD` initializes `slot` to a valid empty list.
->> +        unsafe {
->> +            pin_init::pin_init_from_closure(move |slot: *mut Self| {
-> 
-> pin_init::ffi_init should be used for this.
+> I don’t see a reason to forbid drivers from using this. If the reason is
+> the unsafe bits, then isn’t it the same pattern used by impl_has_work!()
+> anyways? i.e.: a macro that implements an unsafe trait so long as the driver
+> gives it the right Work field. Seems equivalent in spirit to the clist_create macro
+> introduced by this patch.
 > 
 
-Will do, thanks.
+Thank you for this suggestion. As I discussed on the other thread, I think the
+consensus is to change the module level to "pub" and all the items in it to
+"pub" as well. So I will do so.
 
->> +                bindings::INIT_LIST_HEAD(slot.cast());
->> +                Ok(())
->> +            })
->> +        }
->> +    }
->> +}
->> +
->> +// SAFETY: [`CListHead`] can be sent to any thread.
->> +unsafe impl Send for CListHead {}
->> +
->> +// SAFETY: [`CListHead`] can be shared among threads as it is not modified
->> +// by non-Rust code per type invariants.
->> +unsafe impl Sync for CListHead {}
->> +
->> +impl PartialEq for CListHead {
-> 
-> #[inline]
-
-Will do.
-
-Thanks,
 -- 
 Joel Fernandes
 
