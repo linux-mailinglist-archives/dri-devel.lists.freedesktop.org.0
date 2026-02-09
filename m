@@ -2,79 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YO7BOgjiiWnGCwAAu9opvQ
+	id YFRBIwTiiWnGCwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 14:32:56 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 14:32:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B7C10FBEB
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 14:32:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA0B310FBD5
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 14:32:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3140B10E3EE;
-	Mon,  9 Feb 2026 13:32:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A06689CAC;
+	Mon,  9 Feb 2026 13:32:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="scVEs+EQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o6jnma8a";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="scVEs+EQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o6jnma8a";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="hpzWxrse";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ttksSl8q";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hpzWxrse";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ttksSl8q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA97910E3ED
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 13:32:52 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E0E589CAC
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 13:32:48 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6EE325BD2D;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C5F033E6FE;
  Mon,  9 Feb 2026 13:32:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1770643966; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9ffSXQJlFwYDdG2RQGzEhBMQ1sIFLJ/JD8jWSjBJRIY=;
- b=scVEs+EQ6euAoziM71pug6l47w6O2dsYvJPvd1olIoHiX+t2HH1DyZsWWg26FkhfTJpc61
- L9FmiA3XU9h0Hik3xfGgDsWriDeJrdEFS6NIKKPTq1FMB4C3thYPA5YAGquLkgOncnuxjY
- d7NpIDGkI7F2/scmMCOKLIK+ZQLYMv0=
+ bh=boj9j/yGfFA2Etm+EvKg+xlbL/fVdgVk5fwC1+4q6MM=;
+ b=hpzWxrseP1PXppnUk79PnOjOcaTbio3BXi5QtKGhtmvJ676U27eI/hJJrDbZ7t7KtpQAVG
+ vtmIHx0zsJlFJ+aFbZxQJlY9b9l7lhJzA4xipS9hwEuAZPu5Xf+oX3UHQypI+zMC5kvFRK
+ Vpw9KEBZv6hVBLNfd/e3dZbnoVk0YBg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1770643966;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9ffSXQJlFwYDdG2RQGzEhBMQ1sIFLJ/JD8jWSjBJRIY=;
- b=o6jnma8aul3PMIzpwxMHmCWW09ILKd/48nniXBrB2VMA1BZxMxpQk915JBCU8YEc3TclI4
- LfC/UfdgdUABtnBw==
-Authentication-Results: smtp-out2.suse.de;
+ bh=boj9j/yGfFA2Etm+EvKg+xlbL/fVdgVk5fwC1+4q6MM=;
+ b=ttksSl8q4A6bVbY31sfbadXvxPQiSjsPFMuFVcYH8KxKtN9Hxb/plpH23/k6Rf3W4V8NpC
+ 5BeSpzVU3g5pVsCQ==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1770643966; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9ffSXQJlFwYDdG2RQGzEhBMQ1sIFLJ/JD8jWSjBJRIY=;
- b=scVEs+EQ6euAoziM71pug6l47w6O2dsYvJPvd1olIoHiX+t2HH1DyZsWWg26FkhfTJpc61
- L9FmiA3XU9h0Hik3xfGgDsWriDeJrdEFS6NIKKPTq1FMB4C3thYPA5YAGquLkgOncnuxjY
- d7NpIDGkI7F2/scmMCOKLIK+ZQLYMv0=
+ bh=boj9j/yGfFA2Etm+EvKg+xlbL/fVdgVk5fwC1+4q6MM=;
+ b=hpzWxrseP1PXppnUk79PnOjOcaTbio3BXi5QtKGhtmvJ676U27eI/hJJrDbZ7t7KtpQAVG
+ vtmIHx0zsJlFJ+aFbZxQJlY9b9l7lhJzA4xipS9hwEuAZPu5Xf+oX3UHQypI+zMC5kvFRK
+ Vpw9KEBZv6hVBLNfd/e3dZbnoVk0YBg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1770643966;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9ffSXQJlFwYDdG2RQGzEhBMQ1sIFLJ/JD8jWSjBJRIY=;
- b=o6jnma8aul3PMIzpwxMHmCWW09ILKd/48nniXBrB2VMA1BZxMxpQk915JBCU8YEc3TclI4
- LfC/UfdgdUABtnBw==
+ bh=boj9j/yGfFA2Etm+EvKg+xlbL/fVdgVk5fwC1+4q6MM=;
+ b=ttksSl8q4A6bVbY31sfbadXvxPQiSjsPFMuFVcYH8KxKtN9Hxb/plpH23/k6Rf3W4V8NpC
+ 5BeSpzVU3g5pVsCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 163B33EA64;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6B32A3EA63;
  Mon,  9 Feb 2026 13:32:46 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id oHMBBP7hiWmTIgAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id QKS8GP7hiWmTIgAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Mon, 09 Feb 2026 13:32:46 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: boris.brezillon@collabora.com, loic.molinari@collabora.com,
@@ -83,18 +83,18 @@ To: boris.brezillon@collabora.com, loic.molinari@collabora.com,
  simona@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 1/6] drm/gem-shmem: Use obj directly where appropriate in
+Subject: [PATCH v3 2/6] drm/gem-shmem: Test for existence of page in mmap
  fault handler
-Date: Mon,  9 Feb 2026 14:27:10 +0100
-Message-ID: <20260209133241.238813-2-tzimmermann@suse.de>
+Date: Mon,  9 Feb 2026 14:27:11 +0100
+Message-ID: <20260209133241.238813-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260209133241.238813-1-tzimmermann@suse.de>
 References: <20260209133241.238813-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
 X-Spam-Score: -6.80
 X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,40 +141,67 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 90B7C10FBEB
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email]
+X-Rspamd-Queue-Id: CA0B310FBD5
 X-Rspamd-Action: no action
 
-Replace shmem->base with obj in several places. It is the same value,
-but the latter is easier to read.
+Not having a page pointer in the mmap fault handler is an error. Test
+for this situation and return VM_FAULT_SIGBUS if so. Also replace several
+lookups of the page with a local variable.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 3871a6d92f77..5bced7db0f1f 100644
+index 5bced7db0f1f..3ee54c24e535 100644
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -584,7 +584,7 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
- 	/* Offset to faulty address in the VMA. */
- 	page_offset = vmf->pgoff - vma->vm_pgoff;
+@@ -574,31 +574,31 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+ {
+ 	struct vm_area_struct *vma = vmf->vma;
+ 	struct drm_gem_object *obj = vma->vm_private_data;
++	struct drm_device *dev = obj->dev;
+ 	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+ 	loff_t num_pages = obj->size >> PAGE_SHIFT;
+-	vm_fault_t ret;
++	vm_fault_t ret = VM_FAULT_SIGBUS;
+ 	struct page **pages = shmem->pages;
+-	pgoff_t page_offset;
++	pgoff_t page_offset = vmf->pgoff - vma->vm_pgoff; /* page offset within VMA */
++	struct page *page;
+ 	unsigned long pfn;
  
--	dma_resv_lock(shmem->base.resv, NULL);
-+	dma_resv_lock(obj->resv, NULL);
+-	/* Offset to faulty address in the VMA. */
+-	page_offset = vmf->pgoff - vma->vm_pgoff;
+-
+ 	dma_resv_lock(obj->resv, NULL);
  
- 	if (page_offset >= num_pages ||
- 	    drm_WARN_ON_ONCE(obj->dev, !shmem->pages) ||
-@@ -602,7 +602,7 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+-	if (page_offset >= num_pages ||
+-	    drm_WARN_ON_ONCE(obj->dev, !shmem->pages) ||
+-	    shmem->madv < 0) {
+-		ret = VM_FAULT_SIGBUS;
++	if (page_offset >= num_pages || drm_WARN_ON_ONCE(dev, !shmem->pages) ||
++	    shmem->madv < 0)
++		goto out;
++
++	page = pages[page_offset];
++	if (drm_WARN_ON_ONCE(dev, !page))
+ 		goto out;
+-	}
+ 
+-	if (drm_gem_shmem_try_map_pmd(vmf, vmf->address, pages[page_offset])) {
++	if (drm_gem_shmem_try_map_pmd(vmf, vmf->address, page)) {
+ 		ret = VM_FAULT_NOPAGE;
+ 		goto out;
+ 	}
+ 
+-	pfn = page_to_pfn(pages[page_offset]);
++	pfn = page_to_pfn(page);
  	ret = vmf_insert_pfn(vma, vmf->address, pfn);
  
   out:
--	dma_resv_unlock(shmem->base.resv);
-+	dma_resv_unlock(obj->resv);
- 
- 	return ret;
- }
 -- 
 2.52.0
 
