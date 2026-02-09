@@ -2,87 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6GfPNVOMiWnP+gQAu9opvQ
+	id UEk9Fe+NiWnP+gQAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 08:27:15 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 08:34:07 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2308310C6A2
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 08:27:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6EEA10C7B3
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 08:34:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9B7110E0A8;
-	Mon,  9 Feb 2026 07:27:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CC4210E304;
+	Mon,  9 Feb 2026 07:34:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="mD1fIMyN";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="SYoe6WlQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29A5A10E0A8
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 07:27:10 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id
- ffacd0b85a97d-4359a302794so1625044f8f.1
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Feb 2026 23:27:10 -0800 (PST)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0058F10E304
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 07:34:02 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-4362d4050c1so2528883f8f.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Feb 2026 23:34:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1770622028; x=1771226828;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1770622441; x=1771227241;
  darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=zSRrUJVvFwAIEAMSQdvLDvax5R1ZcBfYM0Suiw+VTt4=;
- b=mD1fIMyNqJt1rSQzpvhjN0429dozT8sE7gxjS6aownewKU0ieBMt4STZmSKLhyXSWx
- 0ay83zAkZ0oHq5OVosExTVmop4fnMVU1AdYvVonAsqIXRKWXPMR8aeKcIpne/f3Qry6b
- tLKjWuXhlll65hy8REsUmmwTTA5fTKApkl+FMVRAbMeemhhZSMiazMSSiFgGsxMrTHTt
- EuKm8jWLoljUGQqpJ5Jh+tt7V0EFMcjsLJ7eeJxBc+EPgzFvwMcpA1ZtzqnYuSNLSlE4
- 8eeqG4xjUd3uEYWuBdpfF7AoNT5zKYyClE4/9lHFpiskdseAopxY2EU+inTPSyP0JWBa
- 094Q==
+ bh=OCETD2Ir3XdZsZrpCZXE8L7Gxegk6DC6juk+h3rkygY=;
+ b=SYoe6WlQbmSrcnRE/IkgdWA4sbtR9gufwqthglce+CnB5JvRttKo14Uzx2q+6yI576
+ 9b45Fcv4ZnewsdNCFsWlXFLpAEdLcnBCEfklI+2pvnsgxZHnObRvFIftihYTCaueaXj5
+ uOAcYPLKHD+SM9SR19OB6x1jt51KgIIaiD7RYlHzBUtj4E+d0iQS+dnk9VC9QUD7nLWB
+ ao8yhaW8IiX3WFWr/5i2lK6LLr2F+3+0xMt2lxGZsi6jkqSz5oCqGvOQsXCnO2wcw4yu
+ F4ixT4wsHJZ3AAAIK43jCSSIcL/bM714Mj660Hpudrvt20dgw6Z4m9YOuLV+K3hfUBxH
+ vs2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770622028; x=1771226828;
+ d=1e100.net; s=20230601; t=1770622441; x=1771227241;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zSRrUJVvFwAIEAMSQdvLDvax5R1ZcBfYM0Suiw+VTt4=;
- b=DJB19MgBkYVctdRC4X2IBwBrWeNS2x56XfP3x9sjC3lWzqhuaJe/1qCQ99sbX+WQm9
- rycTdp4eRQDlVDKT8KW9Y7M+UelqFAn5wWyIMEuWD7Fol07RYZjY1JqDHOSRRyi74tzm
- G6NkCKeFbqjpfnhfyJdb3jyDCOtKeNlUGIwYsRDgahdyTAAjQAxpuZmiDwI+6vqMEdpH
- 7cii/gIdyy4e2qe0JsjIlSBBnnf+0w6z9LehJf6vhmgL9vCFRIuoxWxKLgaRdnEdH+4c
- 0cP1hhmNbTeID5BZm8smMYC4LcWuEz8F6s2KjaOvl2izLrQ8Da2Mg2FRVQWXcS0F2Vw1
- WZ6A==
+ bh=OCETD2Ir3XdZsZrpCZXE8L7Gxegk6DC6juk+h3rkygY=;
+ b=Xqc1yDb3wi3FK/tkHZuwIFnyYFti3nbWgOjYy5MGIw/r4/TXD/aHLPiGMFwUXuLomb
+ rM/DeFmgBNzsr4mtE7Lo/rf3OWd+yTI3qZk0mXJmEEaC78hK1Ew85ndWEU7URURXduJI
+ I/xXny5zCzVSdUdd1OS6/5a8DnBhKaa67/2M1bdha2QSil2onuUc+vvygqM+h+s7IBlU
+ N65RK8aQtSMwpf5a1YO9rwzk687YxsjcqdbuR7jw6unW1VgVFhMt5QnAOkYyAIIq45iy
+ PAhDZahwULwi5To8ksndLBd6w10wfAOKwrX6Nf7xeWIGv0ntIXi8HW3GkMr6IyDsU7Mk
+ ffqA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUE1hT8rxK4k5jaMhVQlKVqICnWvmis9HjAWylSBRgUkBJRH5As943IDRNyKPFPAty2xw22Qgdb/HM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzC68uJ19AfzKdrjs7ihUIEkP10rVW0QKvTn9ULrxUYqB4g8fzA
- iprwUqWNx6rHO3xcbVKqKfDvtvEf/KoQC+Bgyw8Ze0sJ3oGhxbGJ29LO3Rhb6sbdeyw=
-X-Gm-Gg: AZuq6aIbWpYvAGlTQUyNI1q3zhnoKO/Qu7R32G6qS47joHhEBdTaYtACct4/w3PAMrc
- I4/3vTJ0aMgb/WEZxikgHSk4/8DpycvgFmXHJVPJ/Xhx/r47I9BnGPyA69DFA/xFmnpxZD4DeGF
- xS1VuBLxBBt0NwdDHtxUWeEDmXelhGk+zrtvUjFP/bO3dAMu7ZEqlla0W6EfBoprogwuaXMeumf
- JVPEVVDBgHeGGvgQfvIhbK/44pC0rcN9BN5wdrYx5t+Ye3mXLGWYFphVn1DJja7eE9nxKVFc+PI
- p8cv5bYkKB1gNFAillppzEn5X+o4urCGw5o+CfwKKD+kMK9o4qZMHSbSKpetczCWglgP3xeR9T1
- PUO/+oH1WwALyAhDOosaz+i95+Pwhjs+WatNf2HhiTSzvkFZwP/GraksguwI52sY8D/JsF5ZILG
- YT1hOmffWU4jVFujjB
-X-Received: by 2002:a05:6000:1ace:b0:435:b068:d3c4 with SMTP id
- ffacd0b85a97d-43629380e94mr16340688f8f.33.1770622028402; 
- Sun, 08 Feb 2026 23:27:08 -0800 (PST)
+ AJvYcCX6d2RjzIJvmHGDqTcWdnJYMOUEg30uz6gJhqFuuhdJ7KxvQTof5cRf9x9SkMyf1+kqhL/H09RFiec=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyeBsp9yuAu34qT2bL3vTCT+2LmnWwJhH1HOE4zE/lBhH7YcztK
+ H7UGWnuQEGo6IXFyw2al+LZBJCCl2ZojSOYjYQo7Xm27SeOMj+2fYhpf9rfj+5QDc+4=
+X-Gm-Gg: AZuq6aIY4I7NCtsqfTpu8unvOAKYZjqQ0cesWOzCrK5A8lCP3MrMFNlZ8pLv5wcE9mp
+ NdWCH22Dj4PF9ko3mS8UFJNbd1K4+XjiuTlukGcIBA/we+QhodN1/ZstbwEDp6B5uXk/q78j5ot
+ J4poZ0eIOF9hG4kHr4ouin6hEHgMArTjPDtG6hlEz2ZNrkvFKXmZnVi14VdcO2KrTSTV8TUhpHH
+ M2t3A9CsS6Zbg/smiqTVmf67rCO5WURPdnzuvlfQqWsny9eC4MAUCr/YP1CwmyjxYtCfRLV0haB
+ /vliyRkPhYvxoO51teRwRfuW7s5YdyXYOavV2pTBURdTj92k10n1dFP5QInCMU3LSrsH7eqTBMF
+ plT8nEf8lXwq0ctEyE+C+8OdnIcp1l4iZR+CNS+QVORH6W3WskTBGJkOHcd54nfwv63y+D+SFM1
+ A9T1D5OfGHjv3nCcM0
+X-Received: by 2002:a05:6000:2209:b0:435:9241:37b4 with SMTP id
+ ffacd0b85a97d-4362938ffe3mr17992442f8f.53.1770622441280; 
+ Sun, 08 Feb 2026 23:34:01 -0800 (PST)
 Received: from localhost ([2a02:8071:b783:6940:1d24:d58d:2b65:c291])
  by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-4376686130csm12499489f8f.1.2026.02.08.23.27.07
+ ffacd0b85a97d-4376686130csm12534072f8f.1.2026.02.08.23.34.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Feb 2026 23:27:07 -0800 (PST)
-Date: Mon, 9 Feb 2026 08:27:06 +0100
+ Sun, 08 Feb 2026 23:34:00 -0800 (PST)
+Date: Mon, 9 Feb 2026 08:33:59 +0100
 From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Helge Deller <deller@gmx.de>, oe-kbuild-all@lists.linux.dev, 
- Chen Ni <nichen@iscas.ac.cn>, linux-fbdev@vger.kernel.org,
+To: Helge Deller <deller@gmx.de>
+Cc: Chen Ni <nichen@iscas.ac.cn>, linux-fbdev@vger.kernel.org, 
  dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 5/6] fbdev: au1100fb: Make driver compilable on
- non-mips platforms
-Message-ID: <aYmLysU_q3C-xLfk@monoceros>
-References: <67b7aa0157b9cf5de111ab6b2725d207ec98aae9.1770572936.git.u.kleine-koenig@baylibre.com>
- <202602091447.3HeLynhy-lkp@intel.com>
+Subject: Re: [PATCH v3 3/6] fbdev: au1100fb: Use %zu to printk a value of
+ type size_t
+Message-ID: <aYmMyNMC0z8dLisS@monoceros>
+References: <cover.1770572936.git.u.kleine-koenig@baylibre.com>
+ <3eea98cc14bae12a3ff6c6574971669e15a1f16a.1770572936.git.u.kleine-koenig@baylibre.com>
+ <f4b5c6ec-0960-4c76-be49-ec0236b1e450@gmx.de>
+ <d6891ed3-0a6b-443d-b64f-10e8a17bde49@gmx.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="3b4rsyg56sd3635q"
+ protocol="application/pgp-signature"; boundary="whgo2niphctkkmr6"
 Content-Disposition: inline
-In-Reply-To: <202602091447.3HeLynhy-lkp@intel.com>
+In-Reply-To: <d6891ed3-0a6b-443d-b64f-10e8a17bde49@gmx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,27 +102,27 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.41 / 15.00];
 	SIGNED_PGP(-2.00)[];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[baylibre-com.20230601.gappssmtp.com:s=20230601];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[baylibre.com];
+	FREEMAIL_TO(0.00)[gmx.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:lkp@intel.com,m:deller@gmx.de,m:oe-kbuild-all@lists.linux.dev,m:nichen@iscas.ac.cn,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:deller@gmx.de,m:nichen@iscas.ac.cn,m:linux-fbdev@vger.kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[u.kleine-koenig@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DMARC_NA(0.00)[baylibre.com];
 	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmx.de,lists.linux.dev,iscas.ac.cn,vger.kernel.org,lists.freedesktop.org];
-	RCPT_COUNT_FIVE(0.00)[6];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-0.982];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
@@ -129,111 +130,67 @@ X-Spamd-Result: default: False [-2.41 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DKIM_TRACE(0.00)[baylibre-com.20230601.gappssmtp.com:+];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,baylibre-com.20230601.gappssmtp.com:dkim]
-X-Rspamd-Queue-Id: 2308310C6A2
+	DBL_BLOCKED_OPENRESOLVER(0.00)[baylibre-com.20230601.gappssmtp.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: A6EEA10C7B3
 X-Rspamd-Action: no action
 
 
---3b4rsyg56sd3635q
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--whgo2niphctkkmr6
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 5/6] fbdev: au1100fb: Make driver compilable on
- non-mips platforms
+Subject: Re: [PATCH v3 3/6] fbdev: au1100fb: Use %zu to printk a value of
+ type size_t
 MIME-Version: 1.0
 
-Hello,
+Hello Helge,
 
-On Mon, Feb 09, 2026 at 02:30:13PM +0800, kernel test robot wrote:
-> kernel test robot noticed the following build errors:
+On Sun, Feb 08, 2026 at 08:24:43PM +0100, Helge Deller wrote:
+> On 2/8/26 20:21, Helge Deller wrote:
+> > On 2/8/26 18:58, Uwe Kleine-K=C3=B6nig wrote:
+> > > @@ -465,7 +465,7 @@ static int au1100fb_drv_probe(struct platform_dev=
+ice *dev)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fbdev->info.fix.smem_len =3D fbdev->fb=
+_len;
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 print_dbg("Framebuffer memory map at %=
+p", fbdev->fb_mem);
+> > > -=C2=A0=C2=A0=C2=A0 print_dbg("phys=3D0x%08x, size=3D%dK", fbdev->fb_=
+phys, fbdev->fb_len / 1024);
+> > > +=C2=A0=C2=A0=C2=A0 print_dbg("phys=3D0x%08x, size=3D%zuK", &fbdev->f=
+b_phys, fbdev->fb_len / 1024);
+> >=20
+> > The & seems to be wrong.
 >=20
-> [auto build test ERROR on 0636e6205beed850d985276dc56fd73d785bea5c]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/f=
-bdev-au1100fb-Don-t-store-device-specific-data-in-global-variables/20260209=
--015956
-> base:   0636e6205beed850d985276dc56fd73d785bea5c
-> patch link:    https://lore.kernel.org/r/67b7aa0157b9cf5de111ab6b2725d207=
-ec98aae9.1770572936.git.u.kleine-koenig%40baylibre.com
-> patch subject: [PATCH v3 5/6] fbdev: au1100fb: Make driver compilable on =
-non-mips platforms
-> config: csky-allmodconfig (https://download.01.org/0day-ci/archive/202602=
-09/202602091447.3HeLynhy-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 15.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260209/202602091447.3HeLynhy-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202602091447.3HeLynhy-lkp=
-@intel.com/
->=20
-> All errors (new ones prefixed by >>):
->=20
->    csky-linux-ld: drivers/video/fbdev/au1100fb.o: in function `au1100fb_d=
-rv_remove':
->    au1100fb.c:(.text+0x21c): undefined reference to `unregister_framebuff=
-er'
-> >> csky-linux-ld: au1100fb.c:(.text+0x224): undefined reference to `fb_de=
-alloc_cmap'
->    csky-linux-ld: drivers/video/fbdev/au1100fb.o: in function `au1100fb_f=
-b_mmap':
->    au1100fb.c:(.text+0x2bc): undefined reference to `unregister_framebuff=
-er'
->    csky-linux-ld: au1100fb.c:(.text+0x2c0): undefined reference to `fb_de=
-alloc_cmap'
->    csky-linux-ld: drivers/video/fbdev/au1100fb.o: in function `au1100fb_d=
-rv_probe':
->    au1100fb.c:(.text+0x540): undefined reference to `fb_get_options'
-> >> csky-linux-ld: au1100fb.c:(.text+0x6e4): undefined reference to `fb_ge=
-t_options'
-> >> csky-linux-ld: au1100fb.c:(.text+0x7bc): undefined reference to `fb_al=
-loc_cmap'
-> >> csky-linux-ld: au1100fb.c:(.text+0x7d8): undefined reference to `regis=
-ter_framebuffer'
->    csky-linux-ld: au1100fb.c:(.text+0x818): undefined reference to `fb_de=
-alloc_cmap'
->    csky-linux-ld: au1100fb.c:(.text+0x850): undefined reference to `fb_al=
-loc_cmap'
->    csky-linux-ld: au1100fb.c:(.text+0x860): undefined reference to `regis=
-ter_framebuffer'
->    csky-linux-ld: au1100fb.c:(.text+0x874): undefined reference to `fb_de=
-alloc_cmap'
-> >> csky-linux-ld: drivers/video/fbdev/au1100fb.o:(.rodata+0xc): undefined=
- reference to `fb_io_read'
-> >> csky-linux-ld: drivers/video/fbdev/au1100fb.o:(.rodata+0x10): undefine=
-d reference to `fb_io_write'
-> >> csky-linux-ld: drivers/video/fbdev/au1100fb.o:(.rodata+0x2c): undefine=
-d reference to `cfb_fillrect'
-> >> csky-linux-ld: drivers/video/fbdev/au1100fb.o:(.rodata+0x30): undefine=
-d reference to `cfb_copyarea'
-> >> csky-linux-ld: drivers/video/fbdev/au1100fb.o:(.rodata+0x34): undefine=
-d reference to `cfb_imageblit'
+> I see you fix it up in patch #4.
+> Maybe simply merge them?
 
-The problem is that we have CONFIG_FB_AU1100=3Dy but only CONFIG_FB=3Dm in
-that config. I thought a bool depending on a tristate implies the latter
-to be =3Dy, it seems I'm wrong and FB_AU1100 needs to depend on (FB =3D y).
+I see how my compile testing went wrong: I checked that
+
+	make drivers/video/fbdev/
+
+was happy on several archs (but not mips) but only starting with patch
+#5 this actually compiled the driver. =F0=9F=99=84
+
+I'll give it another go tomorrow or so.
 
 Best regards
 Uwe
 
---3b4rsyg56sd3635q
+--whgo2niphctkkmr6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmmJjEcACgkQj4D7WH0S
-/k4A4Af/UeLSYJO6+3KwCZ0PksM2aIcAZXk4qDEAkK2FWzmYyRF1wwg/pVbsy6gD
-zrJMdbR2BUYwtDBx7OwEMPNA8e/Z1R+K9ngc7YqtEyI8MJGOP/rQ5AvkY5Gqizu6
-ZrAkZOoPdxff3W2cJKJZYAFKx4UXqqFZsXDm0wwh7rmQT2hSdgT7vAhYUE4KYBBn
-tbez40Tu2R3lBAwTsIbE7N03EYCt9OOnfQOXo+cT+yCsMSHwLLUd6deR/XWmdcQ7
-KJMhosrUr4aG+iWgN6//cLG8ruknQqDM+khJRnIrRWdUXoUG9Ns+rUGEg8twntGv
-E6X42zEK5WiKyrAltnYqEq2/jGj5aw==
-=283N
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmmJjeUACgkQj4D7WH0S
+/k59kQf/V6SKzt6FZ8AYhQY7Rmk3hbW5XDpdI3qUpn25p4yU4ZlhAa7es+94axGa
+w4tW7z+a504jbueH8n9CDQTlAuNwvT4RKRTCMKlLEzZOvlXMWiFKxtkPOt/BMY++
+BGLekYKrZqqiqvPBOEjWWkkSAFzKk6BWN4ognAM2lNB1D1ivIjVeqvMD6VPmwSYO
+zh5k5sl4WxG5v2kfZtEfBSR0GL+hHMotp2z7jmoQ36ZMZoNdhjbW5afVE33dTq1m
+snHKSf4mGQ0gYYI2NmOq6GkzUYtoFj+oJrY7heixt5iTYx6O5hsyw/t7BDeTXokd
+50LRfUVUV7KdWbq2qf+tbCTnDxsnzQ==
+=wUKs
 -----END PGP SIGNATURE-----
 
---3b4rsyg56sd3635q--
+--whgo2niphctkkmr6--
