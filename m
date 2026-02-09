@@ -2,128 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KJ9mMUPziWnGEgAAu9opvQ
+	id yIgOHpPziWl+EwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 15:46:27 +0100
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 15:47:47 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A664110EC4
-	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 15:46:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8628110FA3
+	for <lists+dri-devel@lfdr.de>; Mon, 09 Feb 2026 15:47:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FC4B10E407;
-	Mon,  9 Feb 2026 14:46:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3B6010E408;
+	Mon,  9 Feb 2026 14:47:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="xA4TTeHC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z7p2bqVa";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xA4TTeHC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z7p2bqVa";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="X9rpIA9S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAE6E10E407
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Feb 2026 14:46:23 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8272F3E6E7;
- Mon,  9 Feb 2026 14:46:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770648382; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DSGfxZ/EEIX/zXxMZVu8MV7eH8W1DRl9z/K8tChKiW0=;
- b=xA4TTeHCJ7TlIXSdLLZb/zW5GhyL4smc7HDQFRml8dnvNKnPX14PpRB//l7k59kRJ1Gvk4
- VFjBy4pPvHX7E5bXETbCIgouklLBF9WgVLateMdm7Jz7j5afBGM4Rt+0woD+oyA2Zz4pW/
- jOqrHUTAe67z6h0ckm9AftDIDIlQ2x0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770648382;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DSGfxZ/EEIX/zXxMZVu8MV7eH8W1DRl9z/K8tChKiW0=;
- b=z7p2bqVa7t2sf6anYYtLo54Dtftdw4dIX8baa1BvBNssCLhkwNzt5JXR8gJju7MtYlhLXf
- Nw6XobUKsjEoNWCw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xA4TTeHC;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=z7p2bqVa
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770648382; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DSGfxZ/EEIX/zXxMZVu8MV7eH8W1DRl9z/K8tChKiW0=;
- b=xA4TTeHCJ7TlIXSdLLZb/zW5GhyL4smc7HDQFRml8dnvNKnPX14PpRB//l7k59kRJ1Gvk4
- VFjBy4pPvHX7E5bXETbCIgouklLBF9WgVLateMdm7Jz7j5afBGM4Rt+0woD+oyA2Zz4pW/
- jOqrHUTAe67z6h0ckm9AftDIDIlQ2x0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770648382;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DSGfxZ/EEIX/zXxMZVu8MV7eH8W1DRl9z/K8tChKiW0=;
- b=z7p2bqVa7t2sf6anYYtLo54Dtftdw4dIX8baa1BvBNssCLhkwNzt5JXR8gJju7MtYlhLXf
- Nw6XobUKsjEoNWCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 118413EA63;
- Mon,  9 Feb 2026 14:46:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id ZR5mAj7ziWkUQQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 09 Feb 2026 14:46:22 +0000
-Message-ID: <0d00a0f6-d0e4-41db-b48b-77157cd2e968@suse.de>
-Date: Mon, 9 Feb 2026 15:46:21 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A684C10E408;
+ Mon,  9 Feb 2026 14:47:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1770648464; x=1802184464;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=ojeQRBv8bzl/j97EeAF06BrN9pveqc9QIkYGezj3hXM=;
+ b=X9rpIA9S7w3wbRgff0tRaE3xEyyooZ2fvHX7LnCUj265JWJ5BztRinjx
+ QdxOSZu2jLMnhrcZCf82xYW0In2XQi83R76simpuOWoCrinsaJSwa6/HI
+ 9NvLfYuDuvanpfPDshe6TdY+L1Hny9wKlg5Ekey/g9CEX1vyOofszMKuf
+ Qrmla0ZAT9xrEWljB6D1YJgPUAST+1uQGvjdxw82D7T7hvTDSSm+BcWXM
+ /TC7TNF/DC/C6IejBcLW3O4pTJMXQrIzuPL/EX/QskljoHlPiKBUFhi7o
+ dFqiBCm5mevikJz3a4Sim7velt9XLubUMRYBSuIWbIDtGxl+iU780YBKE A==;
+X-CSE-ConnectionGUID: Frv4kLhcTk6aNhkQbNiiOw==
+X-CSE-MsgGUID: jueEIElDSHS4WKh6m7Fc5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="83129948"
+X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; d="scan'208";a="83129948"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2026 06:47:43 -0800
+X-CSE-ConnectionGUID: ON98wxCIRHu35vc14P9ZiA==
+X-CSE-MsgGUID: bjaKtFV/QKqKQsgPUhRYhw==
+X-ExtLoop1: 1
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO [10.245.245.179])
+ ([10.245.245.179])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2026 06:47:40 -0800
+Message-ID: <89cb1d4744789702cd80dba8eb40dd50bf053b4e.camel@linux.intel.com>
+Subject: Re: [PATCH v4] mm: Fix a hmm_range_fault() livelock / starvation
+ problem
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: Alistair Popple <apopple@nvidia.com>, Ralph Campbell
+ <rcampbell@nvidia.com>,  Christoph Hellwig	 <hch@lst.de>, Jason Gunthorpe
+ <jgg@mellanox.com>, Jason Gunthorpe <jgg@ziepe.ca>,  Leon Romanovsky	
+ <leon@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Matthew Brost
+ <matthew.brost@intel.com>, John Hubbard <jhubbard@nvidia.com>, 
+ linux-mm@kvack.org, dri-devel@lists.freedesktop.org, stable@vger.kernel.org
+Date: Mon, 09 Feb 2026 15:47:38 +0100
+In-Reply-To: <20260205111028.200506-1-thomas.hellstrom@linux.intel.com>
+References: <20260205111028.200506-1-thomas.hellstrom@linux.intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/6] drm/gem-shmem: Track folio accessed/dirty status
- in mmap
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: loic.molinari@collabora.com, willy@infradead.org, frank.binns@imgtec.com, 
- matt.coster@imgtec.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org
-References: <20260209133241.238813-1-tzimmermann@suse.de>
- <20260209133241.238813-6-tzimmermann@suse.de>
- <20260209152340.16f9b30a@fedora>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260209152340.16f9b30a@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,150 +81,285 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[collabora.com,infradead.org,imgtec.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,kvack.org];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:loic.molinari@collabora.com,m:willy@infradead.org,m:frank.binns@imgtec.com,m:matt.coster@imgtec.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-mm@kvack.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.de:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email]
-X-Rspamd-Queue-Id: 2A664110EC4
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
+	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[intel.com:+]
+X-Rspamd-Queue-Id: C8628110FA3
 X-Rspamd-Action: no action
 
-Hi Boris,
+@Alistair, any chance of an R-B for the below version?
+@Andrew, will this go through the -mm tree or alternaltively an ack for
+merging through drm-xe-fixes?
 
-thanks for reviewing the series.
+/Thomas
 
-Am 09.02.26 um 15:23 schrieb Boris Brezillon:
-> On Mon,  9 Feb 2026 14:27:14 +0100
-> Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
->> Invoke folio_mark_accessed() in mmap page faults to add the folio to
->> the memory manager's LRU list. Userspace invokes mmap to get the memory
->> for software rendering. Compositors do the same when creating the final
->> on-screen image, so keeping the pages in LRU makes sense. Avoids paging
->> out graphics buffers when under memory pressure.
->>
->> In pfn_mkwrite, further invoke the folio_mark_dirty() to add the folio
->> for writeback should the underlying file be paged out from system memory.
->> This rarely happens in practice, yet it would corrupt the buffer content.
->>
->> This has little effect on a system's hardware-accelerated rendering, which
->> only mmaps for an initial setup of textures, meshes, shaders, etc.
->>
->> v3:
->> - rewrite for VM_PFNMAP
->> v2:
->> - adapt to changes in drm_gem_shmem_try_mmap_pmd()
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
->> ---
->>   drivers/gpu/drm/drm_gem_shmem_helper.c | 20 ++++++++++++++++++++
->>   1 file changed, 20 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
->> index c3a054899ba3..0c86ad40a049 100644
->> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
->> @@ -598,6 +598,9 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
->>   	if (ret != VM_FAULT_NOPAGE)
->>   		ret = vmf_insert_pfn(vma, vmf->address, pfn);
->>   
->> +	if (likely(!(ret & VM_FAULT_ERROR)))
-> Can't we just go
->
-> 	if (ret == VM_FAULT_NOPAGE)
->
-> here?
+8<-------------------------------------------------------------------
 
-After reviewing the code in vmf_insert_pfn, I think so. All we'll see is 
-_OOM and _SIGBUS; or _NOPAGE on success.  I'll change it then.
-
-
->
->> +		folio_mark_accessed(folio);
->> +
->>   out:
->>   	dma_resv_unlock(obj->resv);
->>   
->> @@ -638,10 +641,27 @@ static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
->>   	drm_gem_vm_close(vma);
->>   }
->>   
->> +static vm_fault_t drm_gem_shmem_pfn_mkwrite(struct vm_fault *vmf)
->> +{
->> +	struct vm_area_struct *vma = vmf->vma;
->> +	struct drm_gem_object *obj = vma->vm_private_data;
->> +	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
->> +	pgoff_t page_offset = vmf->pgoff - vma->vm_pgoff; /* page offset within VMA */
->> +	struct page *page = shmem->pages[page_offset];
-> Should we have a
->
-> 	if (WARN_ON(!shmem->pages ||
-> 		    page_offset <= (obj->size >> PAGE_SHIFT)))
-> 		return VM_FAULT_SIGBUS;
->
->
-> ?
-
-I left it out because it doesn't seem necessary.  In the fault handler 
-in drm_gem_shmem_fault(), I can see that we could get an OOB access. But 
-we only call pfn_mkwrite() after going through _fault() first. I don't 
-see a way of getting here unless we've already tested for the page in 
-_fault().
-
-Best regards
-Thomas
-
->
->> +	struct folio *folio = page_folio(page);
->> +
->> +	file_update_time(vma->vm_file);
->> +
->> +	folio_mark_dirty(folio);
->> +
->> +	return 0;
->> +}
->> +
->>   const struct vm_operations_struct drm_gem_shmem_vm_ops = {
->>   	.fault = drm_gem_shmem_fault,
->>   	.open = drm_gem_shmem_vm_open,
->>   	.close = drm_gem_shmem_vm_close,
->> +	.pfn_mkwrite = drm_gem_shmem_pfn_mkwrite,
->>   };
->>   EXPORT_SYMBOL_GPL(drm_gem_shmem_vm_ops);
->>   
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+On Thu, 2026-02-05 at 12:10 +0100, Thomas Hellstr=C3=B6m wrote:
+> If hmm_range_fault() fails a folio_trylock() in do_swap_page,
+> trying to acquire the lock of a device-private folio for migration,
+> to ram, the function will spin until it succeeds grabbing the lock.
+>=20
+> However, if the process holding the lock is depending on a work
+> item to be completed, which is scheduled on the same CPU as the
+> spinning hmm_range_fault(), that work item might be starved and
+> we end up in a livelock / starvation situation which is never
+> resolved.
+>=20
+> This can happen, for example if the process holding the
+> device-private folio lock is stuck in
+> =C2=A0=C2=A0 migrate_device_unmap()->lru_add_drain_all()
+> The lru_add_drain_all() function requires a short work-item
+> to be run on all online cpus to complete.
+>=20
+> A prerequisite for this to happen is:
+> a) Both zone device and system memory folios are considered in
+> =C2=A0=C2=A0 migrate_device_unmap(), so that there is a reason to call
+> =C2=A0=C2=A0 lru_add_drain_all() for a system memory folio while a
+> =C2=A0=C2=A0 folio lock is held on a zone device folio.
+> b) The zone device folio has an initial mapcount > 1 which causes
+> =C2=A0=C2=A0 at least one migration PTE entry insertion to be deferred to
+> =C2=A0=C2=A0 try_to_migrate(), which can happen after the call to
+> =C2=A0=C2=A0 lru_add_drain_all().
+> c) No or voluntary only preemption.
+>=20
+> This all seems pretty unlikely to happen, but indeed is hit by
+> the "xe_exec_system_allocator" igt test.
+>=20
+> Resolve this by waiting for the folio to be unlocked if the
+> folio_trylock() fails in the do_swap_page() function.
+>=20
+> Rename the migration_entry_wait_on_locked() function to
+> softleaf_entry_wait_unlock() and update its documentation to
+> indicate the new use-case.
+>=20
+> Future code improvements might consider moving
+> the lru_add_drain_all() call in migrate_device_unmap() to be
+> called *after* all pages have migration entries inserted.
+> That would eliminate also b) above.
+>=20
+> v2:
+> - Instead of a cond_resched() in the hmm_range_fault() function,
+> =C2=A0 eliminate the problem by waiting for the folio to be unlocked
+> =C2=A0 in do_swap_page() (Alistair Popple, Andrew Morton)
+> v3:
+> - Add a stub migration_entry_wait_on_locked() for the
+> =C2=A0 !CONFIG_MIGRATION case. (Kernel Test Robot)
+> v4:
+> - Rename migrate_entry_wait_on_locked() to
+> =C2=A0 softleaf_entry_wait_on_locked() and update docs (Alistair Popple)
+>=20
+> Suggested-by: Alistair Popple <apopple@nvidia.com>
+> Fixes: 1afaeb8293c9 ("mm/migrate: Trylock device page in
+> do_swap_page")
+> Cc: Ralph Campbell <rcampbell@nvidia.com>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Jason Gunthorpe <jgg@mellanox.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Leon Romanovsky <leon@kernel.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: John Hubbard <jhubbard@nvidia.com>
+> Cc: Alistair Popple <apopple@nvidia.com>
+> Cc: linux-mm@kvack.org
+> Cc: <dri-devel@lists.freedesktop.org>
+> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Cc: <stable@vger.kernel.org> # v6.15+
+> Reviewed-by: John Hubbard <jhubbard@nvidia.com> #v3
+> ---
+> =C2=A0include/linux/migrate.h |=C2=A0 8 +++++++-
+> =C2=A0mm/filemap.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 15 ++++++++++-----
+> =C2=A0mm/memory.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 3 ++-
+> =C2=A0mm/migrate.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0 8 ++++----
+> =C2=A0mm/migrate_device.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
+> =C2=A05 files changed, 24 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/include/linux/migrate.h b/include/linux/migrate.h
+> index 26ca00c325d9..3cc387f1957d 100644
+> --- a/include/linux/migrate.h
+> +++ b/include/linux/migrate.h
+> @@ -65,7 +65,7 @@ bool isolate_folio_to_list(struct folio *folio,
+> struct list_head *list);
+> =C2=A0
+> =C2=A0int migrate_huge_page_move_mapping(struct address_space *mapping,
+> =C2=A0		struct folio *dst, struct folio *src);
+> -void migration_entry_wait_on_locked(softleaf_t entry, spinlock_t
+> *ptl)
+> +void softleaf_entry_wait_on_locked(softleaf_t entry, spinlock_t
+> *ptl)
+> =C2=A0		__releases(ptl);
+> =C2=A0void folio_migrate_flags(struct folio *newfolio, struct folio
+> *folio);
+> =C2=A0int folio_migrate_mapping(struct address_space *mapping,
+> @@ -97,6 +97,12 @@ static inline int set_movable_ops(const struct
+> movable_operations *ops, enum pag
+> =C2=A0	return -ENOSYS;
+> =C2=A0}
+> =C2=A0
+> +static inline void softleaf_entry_wait_on_locked(softleaf_t entry,
+> spinlock_t *ptl)
+> +	__releases(ptl)
+> +{
+> +	spin_unlock(ptl);
+> +}
+> +
+> =C2=A0#endif /* CONFIG_MIGRATION */
+> =C2=A0
+> =C2=A0#ifdef CONFIG_NUMA_BALANCING
+> diff --git a/mm/filemap.c b/mm/filemap.c
+> index ebd75684cb0a..d98e4883f13d 100644
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -1379,14 +1379,16 @@ static inline int
+> folio_wait_bit_common(struct folio *folio, int bit_nr,
+> =C2=A0
+> =C2=A0#ifdef CONFIG_MIGRATION
+> =C2=A0/**
+> - * migration_entry_wait_on_locked - Wait for a migration entry to be
+> removed
+> - * @entry: migration swap entry.
+> + * softleaf_entry_wait_on_locked - Wait for a migration entry or
+> + * device_private entry to be removed.
+> + * @entry: migration or device_private swap entry.
+> =C2=A0 * @ptl: already locked ptl. This function will drop the lock.
+> =C2=A0 *
+> - * Wait for a migration entry referencing the given page to be
+> removed. This is
+> + * Wait for a migration entry referencing the given page, or
+> device_private
+> + * entry referencing a dvice_private page to be unlocked. This is
+> =C2=A0 * equivalent to folio_put_wait_locked(folio, TASK_UNINTERRUPTIBLE)
+> except
+> =C2=A0 * this can be called without taking a reference on the page.
+> Instead this
+> - * should be called while holding the ptl for the migration entry
+> referencing
+> + * should be called while holding the ptl for @entry referencing
+> =C2=A0 * the page.
+> =C2=A0 *
+> =C2=A0 * Returns after unlocking the ptl.
+> @@ -1394,7 +1396,7 @@ static inline int folio_wait_bit_common(struct
+> folio *folio, int bit_nr,
+> =C2=A0 * This follows the same logic as folio_wait_bit_common() so see th=
+e
+> comments
+> =C2=A0 * there.
+> =C2=A0 */
+> -void migration_entry_wait_on_locked(softleaf_t entry, spinlock_t
+> *ptl)
+> +void softleaf_entry_wait_on_locked(softleaf_t entry, spinlock_t
+> *ptl)
+> =C2=A0	__releases(ptl)
+> =C2=A0{
+> =C2=A0	struct wait_page_queue wait_page;
+> @@ -1428,6 +1430,9 @@ void migration_entry_wait_on_locked(softleaf_t
+> entry, spinlock_t *ptl)
+> =C2=A0	 * If a migration entry exists for the page the migration
+> path must hold
+> =C2=A0	 * a valid reference to the page, and it must take the ptl
+> to remove the
+> =C2=A0	 * migration entry. So the page is valid until the ptl is
+> dropped.
+> +	 * Similarly any path attempting to drop the last reference
+> to a
+> +	 * device-private page needs to grab the ptl to remove the
+> device-private
+> +	 * entry.
+> =C2=A0	 */
+> =C2=A0	spin_unlock(ptl);
+> =C2=A0
+> diff --git a/mm/memory.c b/mm/memory.c
+> index da360a6eb8a4..20172476a57f 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -4684,7 +4684,8 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+> =C2=A0				unlock_page(vmf->page);
+> =C2=A0				put_page(vmf->page);
+> =C2=A0			} else {
+> -				pte_unmap_unlock(vmf->pte, vmf-
+> >ptl);
+> +				pte_unmap(vmf->pte);
+> +				softleaf_entry_wait_on_locked(entry,
+> vmf->ptl);
+> =C2=A0			}
+> =C2=A0		} else if (softleaf_is_hwpoison(entry)) {
+> =C2=A0			ret =3D VM_FAULT_HWPOISON;
+> diff --git a/mm/migrate.c b/mm/migrate.c
+> index 4688b9e38cd2..cf6449b4202e 100644
+> --- a/mm/migrate.c
+> +++ b/mm/migrate.c
+> @@ -499,7 +499,7 @@ void migration_entry_wait(struct mm_struct *mm,
+> pmd_t *pmd,
+> =C2=A0	if (!softleaf_is_migration(entry))
+> =C2=A0		goto out;
+> =C2=A0
+> -	migration_entry_wait_on_locked(entry, ptl);
+> +	softleaf_entry_wait_on_locked(entry, ptl);
+> =C2=A0	return;
+> =C2=A0out:
+> =C2=A0	spin_unlock(ptl);
+> @@ -531,10 +531,10 @@ void migration_entry_wait_huge(struct
+> vm_area_struct *vma, unsigned long addr, p
+> =C2=A0		 * If migration entry existed, safe to release vma
+> lock
+> =C2=A0		 * here because the pgtable page won't be freed
+> without the
+> =C2=A0		 * pgtable lock released.=C2=A0 See comment right above
+> pgtable
+> -		 * lock release in migration_entry_wait_on_locked().
+> +		 * lock release in softleaf_entry_wait_on_locked().
+> =C2=A0		 */
+> =C2=A0		hugetlb_vma_unlock_read(vma);
+> -		migration_entry_wait_on_locked(entry, ptl);
+> +		softleaf_entry_wait_on_locked(entry, ptl);
+> =C2=A0		return;
+> =C2=A0	}
+> =C2=A0
+> @@ -552,7 +552,7 @@ void pmd_migration_entry_wait(struct mm_struct
+> *mm, pmd_t *pmd)
+> =C2=A0	ptl =3D pmd_lock(mm, pmd);
+> =C2=A0	if (!pmd_is_migration_entry(*pmd))
+> =C2=A0		goto unlock;
+> -	migration_entry_wait_on_locked(softleaf_from_pmd(*pmd),
+> ptl);
+> +	softleaf_entry_wait_on_locked(softleaf_from_pmd(*pmd), ptl);
+> =C2=A0	return;
+> =C2=A0unlock:
+> =C2=A0	spin_unlock(ptl);
+> diff --git a/mm/migrate_device.c b/mm/migrate_device.c
+> index 23379663b1e1..deab89fd4541 100644
+> --- a/mm/migrate_device.c
+> +++ b/mm/migrate_device.c
+> @@ -176,7 +176,7 @@ static int migrate_vma_collect_huge_pmd(pmd_t
+> *pmdp, unsigned long start,
+> =C2=A0		}
+> =C2=A0
+> =C2=A0		if (softleaf_is_migration(entry)) {
+> -			migration_entry_wait_on_locked(entry, ptl);
+> +			softleaf_entry_wait_on_locked(entry, ptl);
+> =C2=A0			spin_unlock(ptl);
+> =C2=A0			return -EAGAIN;
+> =C2=A0		}
