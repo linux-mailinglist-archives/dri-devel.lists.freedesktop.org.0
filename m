@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QGvPDMZgi2nDUAAAu9opvQ
+	id mAXEB81gi2nDUAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 17:45:58 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 17:46:05 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6987611D641
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 17:45:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF2F211D659
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 17:46:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B41910E199;
-	Tue, 10 Feb 2026 16:45:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 867E110E5DB;
+	Tue, 10 Feb 2026 16:46:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="1Wlh1bjg";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="3S24FElL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010028.outbound.protection.outlook.com [52.101.46.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8854610E199
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 16:45:54 +0000 (UTC)
+Received: from PH8PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11012010.outbound.protection.outlook.com [40.107.209.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F7B810E5D9
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 16:46:00 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FeVCIpnlSZsAD3vdGRZ0PCHgJYlqvfHbkgAl9BhZf4+dbNlUMEKY/gLUdfioc/ZC78C3QNTtRf7UzfzY0hGt01VOmnOd5md7+CvAcMBWJN2ulV7bSP6uk3rNtEq1n/CQ7G9v9ZSYWAnhojaQTDAql9REHx/BruK70L3jIgDFPiP0wMGcX33xUpyEIXA3+p2u4yr2263JNjrbQ5XMo4uoKuyp3+piWyPq1/GsLV9pBr5RXShkSaPyGj4YBm/ORtDVkVOPe6l1n9FF4RogbOMwJC7fZhk+2UqiSKPiOgTE0YKHsBZ8GiBCVxKUVMMtSEwXa3B883eo1CUAgIIdDxNXzA==
+ b=bMX6XEbR3WWnOKz0b1rFloAHH4qmD2DaYQQQCIADq2/H4Zhb7Qze1UJ1W1YPyaXDDp00SAWTN0xh7t/pN4wuOvNDI3Gw6ejnX9v01VtLGi66FOYvxA9b8/1JtqTrfOjorl+ALIhnwEvrQ8JXobUZ4dp1HXjg3L+CUsclXFkg/KGjmfYrThkwPuppVRRR0hgWeJZcDqytBWwAcUKP+L2usyhgiFmYIw0/67goWOuGkQrX306MjjNS4IRtXP0vXN9/nV/lDLc6+9XrSkOaz7KYFE7Mdkjw0wyqZzThUYj2MiRT+C2s6ppJN/X5drpY9lcU+3siOUxqZLwn4WBXw2QeFQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F1XHsjJQwShIG9KqmYLg0b2usJicI2wGUDQW7xitSxI=;
- b=H39hlfBTpXA3x6t2jisdwzZ9GdAnJ7HiLNqY40zzSOV7FOTnvT7tgXNUvz+MnWoTKPZc05tGRhc7AObHkXrPFsLsuD16zCuCqbWDZ2Kau/PUUczKCp5DO4e0Oj9LOLHMojg7JFFo5rXd5jBPl575WzbqPxHPncJmskS+1k3o/9vuqWZBCzREbTOJzA3Mg2SBd3HKftO56ROzcgb8jINIm5fbcIhs8wqT3wPEX6yRXvYVYfq+A28KPMDyBeB70WKcCtTQXWpYbyb9f80xIQqPkB5x0Zf9jV3QQVuCOjWO73zrQKDA4v4iB6Awl+eYJenMw8+fPHG7KGMWOLdY/w07aw==
+ bh=2JlJGI+2K6Up85LfB8ZwabohR7Y1GMdG6xRVYcS5/Bo=;
+ b=RSP/AVXVcCc6zs5Z21RjAwspL2D/rIsvWeZd5KxuL2IhcKSL4MyB4h2kozZCmU8S5tssob8zbZlB7CFOcm+QNs6rVomHBZRxRyFgP2iuIkiinrawRpRAvR82JFD0W9NZKCfCPInkamh2useqBJI4tD1E90o/QBTS9v3RwYMGG35+zJZ79QCPzbsze8Ud48kzbC1kryZ6iavsWzEodDB3O/EITmNhrfK1Ozx6sQoLob5u+mgzi+vjOhFlE5aaxAW2x2abjwXeOiUAat7CH5WNmZv09uTZFKBrESoFTiSSvlRK+k8bUag/vlKkeEaGW+tJUnWtd9006MWMGfXD4B4xdg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F1XHsjJQwShIG9KqmYLg0b2usJicI2wGUDQW7xitSxI=;
- b=1Wlh1bjgdGbLd5YShcASZDsF8EOM/jIjotgSC2qCTH30pHR/GRpo3YfArQg3zKuV4J5TAwCeNyb7VMxocje7Do9x5Rk7xvSkVnpHI7N0JaA1ucvLxj2dfnnh7GPnsJKCwR98Fk1GWXpaO5NmVuxpI+pddl1mgVVc3Ov6pleFUfw=
-Received: from SN6PR16CA0042.namprd16.prod.outlook.com (2603:10b6:805:ca::19)
- by DM6PR12MB4268.namprd12.prod.outlook.com (2603:10b6:5:223::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.8; Tue, 10 Feb
- 2026 16:45:51 +0000
+ bh=2JlJGI+2K6Up85LfB8ZwabohR7Y1GMdG6xRVYcS5/Bo=;
+ b=3S24FElLXKMSWSmSSR8n6zLeqMDR6DJsvhKcy4PIywN52zSNW95QNOsu2eTyjDRzFl07KT+0nU5So9+Jp9s6ljgfMlJX1Y9EQBl5+sGgz9CnJrBy1AExSC2Wfmin+aRxKpDa1+RrpuGL9CKkhErWX9p9g66Gq//5xldySO0H4D8=
+Received: from SN6PR16CA0057.namprd16.prod.outlook.com (2603:10b6:805:ca::34)
+ by CY8PR12MB7148.namprd12.prod.outlook.com (2603:10b6:930:5c::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.19; Tue, 10 Feb
+ 2026 16:45:52 +0000
 Received: from SA2PEPF00003F62.namprd04.prod.outlook.com
- (2603:10b6:805:ca:cafe::37) by SN6PR16CA0042.outlook.office365.com
- (2603:10b6:805:ca::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9611.8 via Frontend Transport; Tue,
- 10 Feb 2026 16:45:50 +0000
+ (2603:10b6:805:ca:cafe::40) by SN6PR16CA0057.outlook.office365.com
+ (2603:10b6:805:ca::34) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.19 via Frontend Transport; Tue,
+ 10 Feb 2026 16:45:51 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -59,15 +59,14 @@ Received: from satlexmb07.amd.com (165.204.84.17) by
 Received: from dogwood-dvt-marlim.amd.com (10.180.168.240) by
  satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 10 Feb 2026 10:45:46 -0600
+ 15.2.2562.17; Tue, 10 Feb 2026 10:45:47 -0600
 From: Mario Limonciello <mario.limonciello@amd.com>
 To: <mario.limonciello@amd.com>, <lizhi.hou@amd.com>, <mamin506@gmail.com>,
  <ogabbay@kernel.org>, <superm1@kernel.org>
 CC: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/2] accel/amdxdna: Fix NULL pointer dereference in mailbox
- channel cleanup
-Date: Tue, 10 Feb 2026 10:42:50 -0600
-Message-ID: <20260210164521.1094274-2-mario.limonciello@amd.com>
+Subject: [PATCH 2/2] accel/amdxdna: Reduce log noise during process termination
+Date: Tue, 10 Feb 2026 10:42:51 -0600
+Message-ID: <20260210164521.1094274-3-mario.limonciello@amd.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260210164521.1094274-1-mario.limonciello@amd.com>
 References: <20260210164521.1094274-1-mario.limonciello@amd.com>
@@ -79,57 +78,57 @@ X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003F62:EE_|DM6PR12MB4268:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f3f654f-ad10-4ff2-01fc-08de68c3d9b4
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F62:EE_|CY8PR12MB7148:EE_
+X-MS-Office365-Filtering-Correlation-Id: cbc5df03-757b-4d3b-b9f3-08de68c3da04
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|82310400026|1800799024|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?RlHORof+nHnqJ7iS5EiRMYia2OlEwEXH3xYn9Fa1EFY/9B7CwGTrvGJ/Cg17?=
- =?us-ascii?Q?yvQxVQrErGbCjne9TXzZ0PNppVMALzYY0wQbnbnr11d2Z8kLsVRO0sHrIi5e?=
- =?us-ascii?Q?e+FCvbQKsD+uk6rjLY4/UEHZBuC8HzhiHt9zZ2amEUkdvBuuSlfU60DeSjSQ?=
- =?us-ascii?Q?YZauue78JDFRmRK3eJht7QpkZ2Wp+gP2GKd2OY+WItTT1Smi/bnRCVVFWALg?=
- =?us-ascii?Q?soIF3Sj2c+LrYbm+G2EB0dZDKLnPiHT8c6ilv1fHGQd3lsA6BjVHCCCA3p2E?=
- =?us-ascii?Q?8VAilDLVtFvQqW/6EBMNW5uSC6Z/0FL5ObPAtTSEiuq+HTOozp5N5fQYxmcd?=
- =?us-ascii?Q?7EhsnMtgFgKfSEaNH6citBrIPMrWZPFwCBnfDyBTr78Y1lXQEPh0zeRg2d0X?=
- =?us-ascii?Q?OAgoEirFg5Nj82o3fQ0mR7IJus38KaC05USEnOUP4U8/Ih0r2IrnV+4HHVGI?=
- =?us-ascii?Q?AQkgCmvpVUSVg3Bm7FWhip/9ABGgmWMDouZwXxK0hDzzUoXUcJrdLAdE3lP9?=
- =?us-ascii?Q?WjLLYFVWooELmMauAKfvLmmcxgjDMkDKHNHVIuygN/F6yM+nsvFT/rwpnUyr?=
- =?us-ascii?Q?97uMAjfIjc0OAWrrBAoMBQZ9kDihG8EuhBr7h7243I5ELAQmh+E/lAvvuVAn?=
- =?us-ascii?Q?SzE8ZqmdgDxHjMdxBRXYkWqDFkK9GS+Tz3+vqRLKxuFOKObB/92qqW4Vwc3o?=
- =?us-ascii?Q?0V7tvxDBnxD4H96q6XoQyu/9LhQj2vgkqGU7GiglX1ZE/a75vBF+UnvOtFep?=
- =?us-ascii?Q?2ldlRHoHR7BOn/3H+oxsiVJsNq8bY9/UZmJZTzwo2x1N465UBbBkxGXzJxxV?=
- =?us-ascii?Q?YH0vqXjbSDNh4aV50ZcY/chtBC878OtPz5mtEunF6IkKb25/geE1hIeS4/Td?=
- =?us-ascii?Q?nkXsq9Ng+Uti1M85ewVPG8ASU3mlKm37JyarxGym0k/yebsygsp9Vm9bNme7?=
- =?us-ascii?Q?/P3dwkCapQxtlGS0ju5H8GmOaYhPP0fSr2q+bd2v28wlriTT924OqEXa6Mi3?=
- =?us-ascii?Q?wr25pTHsLzXK3HKRExlXzllz6ROOeu7Ed7fhOLR2nkxUlTUNi2QzaLn5bG9d?=
- =?us-ascii?Q?dR/PbtMEirzQRlSIH/VYUKCVtCi+aOOwyxjhXtc2LkSlaNyPNRfyKmHKcmeY?=
- =?us-ascii?Q?MgLWWkm6r+UEUg9l3L8s1cFM6qbSYEBMCQOAOIdeqnZ0gqbs4lk5gUXKPkjt?=
- =?us-ascii?Q?RUIslU5xqlWUDTg/JTl3znLvTvE3l5RFSjiuiar16sGEIj9cPV4wGDL6TbNX?=
- =?us-ascii?Q?vB3KIpW1wSaYFRsC8a2HmzHjxmronDbNNibDf8bk4VcthbIBGUKxytzeIFb+?=
- =?us-ascii?Q?BS2o52llzliGcp4m+0VU538Id4jqiY6CBCsgPnXFsXqyDDHNOAuMciomNDCt?=
- =?us-ascii?Q?usBIGoHp2MwyfLerAvsiffDLjkUC5tJvwRsRdtp4qIVABSDcrA7wzfFCOd0q?=
- =?us-ascii?Q?OrevutVgm+FRHwoy2ZG7makerzezK+UpO4a9eTWQkvipMm4qpBU+U3G+oDqV?=
- =?us-ascii?Q?arMKXeZupsfYF+znOczrn8wbmcyYqvcEGbUG5nGY43fVTuAUA1Lo02neXvRZ?=
- =?us-ascii?Q?4aUucHpEt4oZdLtL/bcJE7I37pR+tbd/QLZaAK455gwaE6oGEFr4tv8kr5o6?=
- =?us-ascii?Q?QFnqlmpaujdewPnuWpTxKhKVPb7HHOAW1c527DnlOLDVeYsaObYfDqbzFYg/?=
- =?us-ascii?Q?cwj/ng=3D=3D?=
+ ARA:13230040|1800799024|36860700013|82310400026|376014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Np3ItZxT7mlie6TBfLpXNFmLfhNrnBzEiZIl3DCe5jANXR64tqNt+ZhSFwj7?=
+ =?us-ascii?Q?d9f1vjsz6qweSyz8h+18LJUwXX25TIlosB/Shk9DvutI/5gwetwXKiiz1sRq?=
+ =?us-ascii?Q?rhJ/iS36pwAWNjynwhvok/1n1DzW8W7PqIvAAEt4pyyiVh5rTFVKQf1q8fep?=
+ =?us-ascii?Q?nSUemu8zamkJ/856yp9INtAfuk7PQziC8OAt1HuMuBNaTcGhp34seR+fkjF0?=
+ =?us-ascii?Q?p6LUPegbKRsJl3ozAC9RSPNRZLOo+q8nbQvEYWobOUDgIXIqSu3vXnvfg4u5?=
+ =?us-ascii?Q?2WEqizq6TBBaxJagY0NROzUJN03LuXipBU9tIbfUL5OgI+LRNfeuHvE3m727?=
+ =?us-ascii?Q?9DQx/o6MaT5TZ5NGhKcY/DuiUKe/vIngqi1LdDEtROpMyG1ux4gmsixFOxYb?=
+ =?us-ascii?Q?na/2X3D+Xhf7mCkMKdTeKNYKSj4aK81T10+gCHLi906CnSvid5Izc3i7agNS?=
+ =?us-ascii?Q?PzEcSgi9ApinbTVgIhTO3yBvptqatnyFaZkxFiNcdEnyKlQwD5Lb8dVyJI1U?=
+ =?us-ascii?Q?iRDxSqO26zG9Z0kRaHVN4NHFxkm+Zprxd06/eUOjQs4KC67IXP4Q7GJWSq7/?=
+ =?us-ascii?Q?kNNOJC+PTLSHjRfog33SAi9MDt/pdyil92dFdOKWMhnFzzKYpKErSmO0x+lY?=
+ =?us-ascii?Q?UzNaZiAjWnTRhrgS+DlWEp23WviDjd2KZk8T8f6admcnLwtbAUpEnay9+M1q?=
+ =?us-ascii?Q?aBWX+Mzs/cLhZLrFVqBmt4frjA0UI6+/xDPUmPjY0xrTyQYmtS5LiIcWZUcb?=
+ =?us-ascii?Q?GvK10uE2NBKIHzjTbcFVRFl5dbZCymHPyZ3l2TMfR+hrM7a3hQ+dlHMjN1qn?=
+ =?us-ascii?Q?K14uIE0CTGHSL0aU9iQ2avoot84vlnCjxrl1+yoVrrQ/rnYCO4qPo6dBfueR?=
+ =?us-ascii?Q?4rkZxvdZ9cszY+HIOND8sLnixPzDR/sHA8j0pFv6VD0OQ4uhGpLmot5PR+dZ?=
+ =?us-ascii?Q?Xm82ZoYjU/pWF/IAZTX7jHJeAWpVfQcU5gKKXbrCyjGGCX2UoO+s5frFvvU3?=
+ =?us-ascii?Q?fpLiDfqSBq3UP8deG0RpyUPUKOL7IvNc6zpWsaKK6qTtbzz8+YgwoHTkM/ut?=
+ =?us-ascii?Q?CLwxB5TDmgo7jxOtxg4IW/pxMy5DSTKdp3Lxaw0MrzCl3VHvxCMneqkg4W9m?=
+ =?us-ascii?Q?E2zp5Njxxc7xDdK2bsa5BVhkMDExPMi+h+xK+y6D6C8zKl60iEB9cRX4x0uy?=
+ =?us-ascii?Q?Iwr38ZZpKI/4S4yZeeTmYGXFpo4wP+Ci2ovVLtlTeI0xylZLG1kuQIzTPByr?=
+ =?us-ascii?Q?ayUfFZyJ2UhqW62xWoRFHiWz/NBjTQ+oDSFSUQkM6Zhjgj2+OnUp7uYXOfC6?=
+ =?us-ascii?Q?jYfJTCpDzuwRKBBU6WGddLWq+2FCrslBYGrL9jLr21GS/T0bHGiFmOMZ1iK8?=
+ =?us-ascii?Q?enD87Vqw3osi6yeZhQVpNR+n5FSJAxL805zD/OMFc/EsBEzcUVTm4fyICiIB?=
+ =?us-ascii?Q?cF7n4Yd28JS1bhJfhy/nHCJN/rbE2z05PzvjO4kmFe8ltee/WV0L5/xHC5VI?=
+ =?us-ascii?Q?DWd0R2eqFnDQKOhKuA8I0XUM71LotrzLQwVEfF3u3p8rgijGB/02yrZkZyWJ?=
+ =?us-ascii?Q?2lnHJy1ZyWloJfoGXzcVhrMxqIRIwgvDfY094m535VnmpwpSaEoksa0GHvC2?=
+ =?us-ascii?Q?TPbZzQu/n6QHz2ntWoVPqGCW08jlKUzNtYS5dfIbJiz3Yy3YHCMskY6oZ/5f?=
+ =?us-ascii?Q?zJ/ueQ=3D=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(82310400026)(1800799024)(36860700013); DIR:OUT;
+ SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014); DIR:OUT;
  SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 4I39pKKVNQ0csBtXZhhBTIXKZ5iixMLR/TW8G31Ag9KsIjb61v3IB89NkxuBFAtqBUowPNPx6F11fw9lcwy2Iyzd46Ao2HSXgNSTPUclfumUrRTdWNsB34YmSIs6nmh3EGQZQE/szyNnMw3zM9HxYWBVEKeKm7zgmTZT0aKC2R4fZkrOD8wCk5B0Zaeu9XkK1Fob2oH0wHP/NqkmkeTwWbPnouhQH9NlUkJhAlpUWOi+oe6tD5QAcyyukPDpJ0/g38QEcRCioarWMafVvKMXcJ8j3PgAwiw6tnjGNmj8LugDweuMy12FxxdCh24tLaUFsVk6RUfa0v8oJOiYM5808M+ZRNXmBorvAit7zW3oq9ZCDMtZF7kKJkW3gm3yDOX7L7gJjs3V71yYXn3DM/o/TCOx794zlGQGQN5dvdgSGkAM/iHb4P71Du2V4HFPcWtD
+X-MS-Exchange-AntiSpam-MessageData-0: Y9xWE6WX2XCQeMEknHB7LWnMepcyk7YjGwbtIZMjS7n7w8LThRH6nj4kjyFSMbR3Kxg0iC9vf3CpiJdIhcbFnqM3cp26DQCBbBnhWcVSat/lbj2y+t2iuxwhpBzVXx4wgXI4OW1Buw5rc7bQHPIQk9i3meL0BWTmzaIhBzyKcgQhiBMTc1dCHFWhWMnLFEJL9pnDLtarQnYxz4gpUAzfKhbIjDtDTPDBI0TFS/SXAfyCFz/BINu9hXzxvveCTfgEzWVD208cIvlrWWMl4vHEv9EcGyUT3oy+YJJwyIQJ38uaACKrl/G3ljnDmOYqUTU7qdNI7TtY+ohAfQnx2WfxfjdpCFswcCJzhCxouWqyetrjQOtX3RwXDZAYBdKtOCSU/T1YvWvJqA0hSjxLQvL8Si9SPAUI0DAesfj6FfGK+2vW+ZLGtgukq48b+RWLX3D9
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2026 16:45:51.2947 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f3f654f-ad10-4ff2-01fc-08de68c3d9b4
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2026 16:45:51.8228 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cbc5df03-757b-4d3b-b9f3-08de68c3da04
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF00003F62.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4268
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -178,86 +177,73 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:mid,amd.com:dkim,amd.com:email]
-X-Rspamd-Queue-Id: 6987611D641
+X-Rspamd-Queue-Id: AF2F211D659
 X-Rspamd-Action: no action
 
-aie2_destroy_context() is called during various cleanup paths, including
-when context creation fails partially. If xdna_mailbox_create_channel()
-fails during aie2_create_context(), the hwctx->priv->mbox_chann pointer
-remains NULL. When cleanup occurs (e.g., during process termination via
-amdxdna_hwctx_remove_all), aie2_destroy_context() is invoked and attempts
-to stop and destroy the NULL mailbox channel, leading to a NULL pointer
-dereference.
+During process termination, several error messages are logged that are
+not actual errors but expected conditions when a process is killed or
+interrupted. This creates unnecessary noise in the kernel log.
 
-The issue was observed in the following call path:
-  amdxdna_drm_close
-    amdxdna_hwctx_remove_all
-      aie2_hwctx_fini
-        aie2_release_resource
-          aie2_destroy_context
-            xdna_mailbox_stop_channel <- NULL dereference
+The specific scenarios are:
 
-Add NULL checks in aie2_destroy_context() before calling mailbox channel
-operations. Also add defensive NULL checks in aie2_hw_stop() for both
-mgmt_chann and mbox to prevent similar issues during device shutdown.
+1. HMM invalidation returns -ERESTARTSYS when the wait is interrupted by
+   a signal during process cleanup. This is expected when a process is
+   being terminated and should not be logged as an error.
+
+2. Context destruction returns -ENODEV when the firmware or device has
+   already stopped, which commonly occurs during cleanup if the device
+   was already torn down. This is also an expected condition during
+   orderly shutdown.
+
+Downgrade these expected error conditions from error level to debug level
+to reduce log noise while still keeping genuine errors visible.
 
 Fixes: 97f27573837e ("accel/amdxdna: Fix potential NULL pointer dereference in context cleanup")
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- drivers/accel/amdxdna/aie2_message.c | 14 +++++++++-----
- drivers/accel/amdxdna/aie2_pci.c     | 14 +++++++++-----
- 2 files changed, 18 insertions(+), 10 deletions(-)
+ drivers/accel/amdxdna/aie2_ctx.c     | 6 ++++--
+ drivers/accel/amdxdna/aie2_message.c | 4 +++-
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/accel/amdxdna/aie2_ctx.c b/drivers/accel/amdxdna/aie2_ctx.c
+index 37d05f2e986f9..79f6316655e73 100644
+--- a/drivers/accel/amdxdna/aie2_ctx.c
++++ b/drivers/accel/amdxdna/aie2_ctx.c
+@@ -497,7 +497,7 @@ static void aie2_release_resource(struct amdxdna_hwctx *hwctx)
+ 
+ 	if (AIE2_FEATURE_ON(xdna->dev_handle, AIE2_TEMPORAL_ONLY)) {
+ 		ret = aie2_destroy_context(xdna->dev_handle, hwctx);
+-		if (ret)
++		if (ret && ret != -ENODEV)
+ 			XDNA_ERR(xdna, "Destroy temporal only context failed, ret %d", ret);
+ 	} else {
+ 		ret = xrs_release_resource(xdna->xrs_hdl, (uintptr_t)hwctx);
+@@ -1070,6 +1070,8 @@ void aie2_hmm_invalidate(struct amdxdna_gem_obj *abo,
+ 
+ 	ret = dma_resv_wait_timeout(gobj->resv, DMA_RESV_USAGE_BOOKKEEP,
+ 				    true, MAX_SCHEDULE_TIMEOUT);
+-	if (!ret || ret == -ERESTARTSYS)
++	if (!ret)
+ 		XDNA_ERR(xdna, "Failed to wait for bo, ret %ld", ret);
++	else if (ret == -ERESTARTSYS)
++		XDNA_DBG(xdna, "Wait for bo interrupted by signal");
+ }
 diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
-index 7d7dcfeaf7942..77e3cdf18658b 100644
+index 77e3cdf18658b..5697c0c2dd43f 100644
 --- a/drivers/accel/amdxdna/aie2_message.c
 +++ b/drivers/accel/amdxdna/aie2_message.c
-@@ -318,11 +318,15 @@ int aie2_destroy_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwc
- 	struct amdxdna_dev *xdna = ndev->xdna;
- 	int ret;
+@@ -216,8 +216,10 @@ static int aie2_destroy_context_req(struct amdxdna_dev_hdl *ndev, u32 id)
  
--	xdna_mailbox_stop_channel(hwctx->priv->mbox_chann);
--	ret = aie2_destroy_context_req(ndev, hwctx->fw_ctx_id);
--	xdna_mailbox_destroy_channel(hwctx->priv->mbox_chann);
--	XDNA_DBG(xdna, "Destroyed fw ctx %d", hwctx->fw_ctx_id);
--	hwctx->priv->mbox_chann = NULL;
-+	if (hwctx->priv->mbox_chann) {
-+		xdna_mailbox_stop_channel(hwctx->priv->mbox_chann);
-+		ret = aie2_destroy_context_req(ndev, hwctx->fw_ctx_id);
-+		xdna_mailbox_destroy_channel(hwctx->priv->mbox_chann);
-+		XDNA_DBG(xdna, "Destroyed fw ctx %d", hwctx->fw_ctx_id);
-+		hwctx->priv->mbox_chann = NULL;
-+	} else {
-+		ret = aie2_destroy_context_req(ndev, hwctx->fw_ctx_id);
-+	}
- 	hwctx->fw_ctx_id = -1;
- 	ndev->hwctx_num--;
+ 	req.context_id = id;
+ 	ret = aie2_send_mgmt_msg_wait(ndev, &msg);
+-	if (ret)
++	if (ret && ret != -ENODEV)
+ 		XDNA_WARN(xdna, "Destroy context failed, ret %d", ret);
++	else if (ret == -ENODEV)
++		XDNA_DBG(xdna, "Destroy context: device already stopped");
  
-diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
-index f70ccf0f3c019..9c2572706bf53 100644
---- a/drivers/accel/amdxdna/aie2_pci.c
-+++ b/drivers/accel/amdxdna/aie2_pci.c
-@@ -324,11 +324,15 @@ static void aie2_hw_stop(struct amdxdna_dev *xdna)
- 	}
- 
- 	aie2_mgmt_fw_fini(ndev);
--	xdna_mailbox_stop_channel(ndev->mgmt_chann);
--	xdna_mailbox_destroy_channel(ndev->mgmt_chann);
--	ndev->mgmt_chann = NULL;
--	drmm_kfree(&xdna->ddev, ndev->mbox);
--	ndev->mbox = NULL;
-+	if (ndev->mgmt_chann) {
-+		xdna_mailbox_stop_channel(ndev->mgmt_chann);
-+		xdna_mailbox_destroy_channel(ndev->mgmt_chann);
-+		ndev->mgmt_chann = NULL;
-+	}
-+	if (ndev->mbox) {
-+		drmm_kfree(&xdna->ddev, ndev->mbox);
-+		ndev->mbox = NULL;
-+	}
- 	aie2_psp_stop(ndev->psp_hdl);
- 	aie2_smu_fini(ndev);
- 	aie2_error_async_events_free(ndev);
+ 	return ret;
+ }
 -- 
 2.53.0
 
