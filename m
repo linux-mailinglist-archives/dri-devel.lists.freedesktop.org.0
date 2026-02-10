@@ -2,68 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ENxEAR31imkNPAAAu9opvQ
+	id yHvLLBP1imn2OwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:06:37 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:06:27 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E9E81188C5
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:06:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19CCB1188AF
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:06:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E17110E50B;
-	Tue, 10 Feb 2026 09:06:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4358710E509;
+	Tue, 10 Feb 2026 09:06:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="dzBEltuz";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="rryLx/vv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TgCAGtR1";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rryLx/vv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TgCAGtR1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0CF710E50B
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 09:06:32 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C9E010E509
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 09:06:24 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4f9Fzj0fRhz9vMW;
- Tue, 10 Feb 2026 10:06:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1770714385; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 010B45BCD3;
+ Tue, 10 Feb 2026 09:06:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1770714383; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KoL0DF6UjdxcWuqn+iTCS0biVJL6+6OXe/SqA60fXm4=;
- b=dzBEltuzFxm2uaTXZtNeEqAH1DKiXW2gmx8t6zDbjox61gUxSdfNEd8ElIfRPPPCbVdCQp
- ihAFn1mrZI4kfnKjT9fDIfLcIywheVfFjKtaxI3jhtrjHBngQurzHWFTkaIvZZd89U+qpm
- hJ+VTJEIi78kLw73VA1Xe0pzqoWQnvkNazyHBHh6neO75hfFmzBDY7Wl1PJUBZfsLgZ0a2
- Px8AzunYxx6frFZKYJdr1HzPpLZ3+rZibODzqHoXdTGPJj6Le0caJlWfi0PVUELy/PgIwr
- F3Le2KaL9ao4ihKREr3vIcG0q8RgeIUWb95x/jzMu5NXybg4Yh4IckL0lhig0w==
-Message-ID: <29712ecf50a8dbd6ec13865ab4313a745ea16c14.camel@mailbox.org>
-Subject: Re: [RFC PATCH 2/4] rust: sync: Add dma_fence abstractions
-From: Philipp Stanner <phasta@mailbox.org>
-To: Alice Ryhl <aliceryhl@google.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, phasta@kernel.org, 
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Gary Guo <gary@garyguo.net>, Benno Lossin
- <lossin@kernel.org>,  Daniel Almeida <daniel.almeida@collabora.com>, Joel
- Fernandes <joelagnelf@nvidia.com>,  linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  rust-for-linux@vger.kernel.org
-Date: Tue, 10 Feb 2026 10:06:19 +0100
-In-Reply-To: <aYruaIxn8sMXVI0r@google.com>
-References: <20260203081403.68733-2-phasta@kernel.org>
- <20260203081403.68733-4-phasta@kernel.org> <20260205095727.4c3e2941@fedora>
- <DG7SZND1GWR4.3C5NLKY4SYC0M@kernel.org>
- <bb57b6837aa8044e679dad5f2589c2e0ba84c221.camel@mailbox.org>
- <20260209155843.725dcfe1@fedora>
- <c319c349-eb95-4c38-84fb-47440daefc3b@amd.com>
- <aYruaIxn8sMXVI0r@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2zZ/wKM3Ns11Odbs9dhoE5BBxpUvbuB2Bbz9Jl/8EqU=;
+ b=rryLx/vv4m6GWCSeTlhQd2ZhsZKU4CI8RUJqDIAWB8ly3P0L1s3xUbwLGsoCn6fOk4HJBi
+ hokgLeSWzQqVX1eYy55hxvQd9ak0CjnCAMfMT8MQ+tcA1jqT/Nw+o/zruompoIx7AMiYR8
+ FgrkLyOsG4HS0k8LIlxn5rgXOZslNaU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1770714383;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2zZ/wKM3Ns11Odbs9dhoE5BBxpUvbuB2Bbz9Jl/8EqU=;
+ b=TgCAGtR1ALgaBugqSm0XdwVzsNxCTpOo9TwobehaVH96qmU5iq6WgimPnggye8m/LBTRfU
+ r0wCk0icWRIxM9Dw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1770714383; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2zZ/wKM3Ns11Odbs9dhoE5BBxpUvbuB2Bbz9Jl/8EqU=;
+ b=rryLx/vv4m6GWCSeTlhQd2ZhsZKU4CI8RUJqDIAWB8ly3P0L1s3xUbwLGsoCn6fOk4HJBi
+ hokgLeSWzQqVX1eYy55hxvQd9ak0CjnCAMfMT8MQ+tcA1jqT/Nw+o/zruompoIx7AMiYR8
+ FgrkLyOsG4HS0k8LIlxn5rgXOZslNaU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1770714383;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2zZ/wKM3Ns11Odbs9dhoE5BBxpUvbuB2Bbz9Jl/8EqU=;
+ b=TgCAGtR1ALgaBugqSm0XdwVzsNxCTpOo9TwobehaVH96qmU5iq6WgimPnggye8m/LBTRfU
+ r0wCk0icWRIxM9Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C4CF43EA62;
+ Tue, 10 Feb 2026 09:06:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id puLYLg71imn1VAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 10 Feb 2026 09:06:22 +0000
+Message-ID: <a4f65f26-f577-4029-b0cc-db9da95222dd@suse.de>
+Date: Tue, 10 Feb 2026 10:06:22 +0100
 MIME-Version: 1.0
-X-MBO-RS-META: 1n83koemthymty6o5gddcb7ucmorhu4c
-X-MBO-RS-ID: beb1d6f231ff3455abf
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbcon: Remove struct fbcon_display.inverse
+To: Helge Deller <deller@gmx.de>, geert@linux-m68k.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ stable@vger.kernel.org
+References: <20260209161609.251510-1-tzimmermann@suse.de>
+ <3e70bea8-aa35-4cfd-9e54-eaeaa7b5267a@gmx.de>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <3e70bea8-aa35-4cfd-9e54-eaeaa7b5267a@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,87 +130,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:christian.koenig@amd.com,m:boris.brezillon@collabora.com,m:phasta@kernel.org,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:gary@garyguo.net,m:lossin@kernel.org,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:deller@gmx.de,m:geert@linux-m68k.org,m:linux-fbdev@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmx.de,linux-m68k.org];
 	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[collabora.com,kernel.org,gmail.com,ffwll.ch,garyguo.net,nvidia.com,vger.kernel.org,lists.freedesktop.org];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	HAS_REPLYTO(0.00)[phasta@kernel.org];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.de:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mailbox.org:mid,mailbox.org:dkim]
-X-Rspamd-Queue-Id: 5E9E81188C5
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gmx.de:email,suse.com:url,suse.de:mid,suse.de:dkim,suse.de:email,linux-m68k.org:email]
+X-Rspamd-Queue-Id: 19CCB1188AF
 X-Rspamd-Action: no action
 
-On Tue, 2026-02-10 at 08:38 +0000, Alice Ryhl wrote:
-> On Tue, Feb 10, 2026 at 09:16:34AM +0100, Christian K=C3=B6nig wrote:
-> >=20
-> >=20
-> > On the C side I have a patch set which does something very similar.
-> >=20
-> > It's basically a WARN_ON_ONCE() which triggers as soon as you try to
-> > signal a DMA fence from an IOCTL, or more specific process context.
-> >=20
-> > Signaling a DMA fence from interrupt context, a work item or kernel
-> > thread is still allowed, there is just the hole that you can schedule
-> > a work item from process context as well.
-> >=20
-> > The major problem with that patch set is that we have tons of very
-> > hacky signaling paths in drivers already because we initially didn't
-> > knew how much trouble getting this wrong causes.
-> >=20
-> > I'm strongly in favor of getting this right for the rust side from the
-> > beginning and enforcing strict rules for every code trying to
-> > implement a DMA fence.
->=20
-> Hmm. Could you say a bit more about what the rules are? I just re-read
-> the comments in dma-fence.c, but I have some questions.
+Hi
 
-The rules need to be written down. Elaborately and in detail, once and
-for all.
+Am 09.02.26 um 22:31 schrieb Helge Deller:
+> On 2/9/26 17:15, Thomas Zimmermann wrote:
+>> The field inverse in struct fbcon_display is unused. Remove it.
+>
+> Indeed, seems to be unused.
+>
+>> The field apparently never did anything. Commit c7ef5e285c84 ("video:
+>> fbdev: atari: Fix inverse handling") converted its final user to call
+>> fb_invert_cmaps() instead.
+>
+> That commit seems not to be related, as it touches a static
+> inverse variable inside the atafb driver only.
+> Commit e4fc27618b75 (from 2005) touched it last time, but it seems 
+> even older.
 
-We're having those discussions about the mysterious "dma fence rules"
-for years, but no one has ever seen them, despite knowing that they
-exist.
+Oh well. What a stupid mistake...
 
-They seem to live only in the heads of a small number of GPU developers
-who figured out through long years of experience what works and what
-doesn't.
+>
+> Patch applied to fbdev, but I dropped the wrong commit reference in the
+> commit message.
 
-There are reasons why the state writes the laws on paper somewhere. So
-that you can read them and have a source of authority..
+Thanks a lot.
 
-That would end much of our endless misunderstandings and repetitive
-discussions.
+Best regards,
+Thomas
+
+>
+> Thanks!
+> Helge
+>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Fixes: c7ef5e285c84 ("video: fbdev: atari: Fix inverse handling")
+>> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+>> Cc: Helge Deller <deller@gmx.de>
+>> Cc: <stable@vger.kernel.org> # v6.0+
+>> ---
+>>   drivers/video/fbdev/core/fbcon.h | 1 -
+>>   1 file changed, 1 deletion(-)
+>>
+>> diff --git a/drivers/video/fbdev/core/fbcon.h 
+>> b/drivers/video/fbdev/core/fbcon.h
+>> index 1cd10a7faab0..fca14e9b729b 100644
+>> --- a/drivers/video/fbdev/core/fbcon.h
+>> +++ b/drivers/video/fbdev/core/fbcon.h
+>> @@ -30,7 +30,6 @@ struct fbcon_display {
+>>   #ifdef CONFIG_FRAMEBUFFER_CONSOLE_LEGACY_ACCELERATION
+>>       u_short scrollmode;             /* Scroll Method, use 
+>> fb_scrollmode() */
+>>   #endif
+>> -    u_short inverse;                /* != 0 text black on white as 
+>> default */
+>>       short yscroll;                  /* Hardware scrolling */
+>>       int vrows;                      /* number of virtual rows */
+>>       int cursor_shape;
+>
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
 
 
-P.
