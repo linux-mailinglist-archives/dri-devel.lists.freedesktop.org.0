@@ -2,92 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GDZsHeSJi2nYVgAAu9opvQ
+	id yPZhG5yPi2nYWAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 20:41:24 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 21:05:48 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1D4D11EB4B
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 20:41:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DCA811EE2F
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 21:05:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41DC610E231;
-	Tue, 10 Feb 2026 19:41:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FC4510E095;
+	Tue, 10 Feb 2026 20:05:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Wq4W3NI/";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="JPfg4h+5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B55C210E231
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 19:41:18 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-435f177a8f7so4405865f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 11:41:18 -0800 (PST)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+ [209.85.208.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0FAF10E092
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 20:05:42 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id
+ 4fb4d7f45d1cf-6581234d208so7781116a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 12:05:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770753941; cv=none;
+ d=google.com; s=arc-20240605;
+ b=lIYLEzl4U7+fIMSwJtm83JH9yr9WVfWfoc6GCDqewc7WAY8njflF+w5k7A0+Exn83B
+ /yiQzE7JxIBNEmbxHbZOlL45Joo8DGwqHuyqgOR4gG+vYOyuWzyqBgnd0kMj9BBwnwU/
+ vQLChGWBy0/zAfoaru1dMRSlLG1nGpLS2yGpOD/80RK5mTZBz+Mwz4Bflje+mRBnK6It
+ e3f6ueiPUSiuCyQISHP7J63FtlFQTjh0a/n1g0ydG7nfph395OL03JQt8EEUn1XA7A1R
+ QpQr5pDkv+0VoI/0oYWhYmJtUNUH9oFQeLQ0DAXc8FUxlEbEQmQLBewHZWDDG4vD2cDM
+ BrFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=EUYV2jK4EVNH8IU6ztF+fhRopz1DxZCdX+to/Ge4VzA=;
+ fh=zKdUTshCndYzQAi8bPieMmW21RwyM+ULWzMLvyYihzY=;
+ b=f0CglTwIXlVZ2+TqnlwIsnGa5VYPm0aLG2BrTado8TDPpdgcMvKsuJuyWuRH6NJI0Y
+ XIf/WGuFV/8OakNmbY4GybS1ZPAnwuHUULjngw0HhdiMRxmvztVOnsTQxj2aGDuFZfMl
+ s1JlNhSzCegVzzTlAcBt+MOILdJy5PLtPSX6bDPCst6LQ4VVQbzH7PSTsS/nrRvpdqfg
+ kvwtb/+qzLlVwu9+Jt7rsHeyD8fFvI55E6VHc0XVlzRPviKnZWlyCjtMljm67L8vs7q5
+ E60SW9n5FF/4lTbMd0hdtluhMSQTxO1ts0Z7p3q3gdf2oIXrzi6tOcGBKfsH+W1BM2kp
+ N5uw==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770752477; x=1771357277; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
- :to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=DdY8AetqrIsyAlDkJr11JNPqou7S77GqtWDjoK4rLMM=;
- b=Wq4W3NI/PlhwdvYsPsjFLY12sFe1FLzOMWzXvZ75HAG+VJHCdBjkTNAtXFd9SBsw5A
- 7ckUX3sY/TRYdiZB3DIOcBVMA5wqQt6v+fcpGXZLDFku3gl4aXpyDqvPfTbt0TEqyRKd
- KXnX9HyMwqfTihVrayPaE2RhFndVwmIo1Wmk/Z9tbVASQk6UAPLjt97d03cMufheh27g
- Eyuf4hR4Oz2BgGgsmM7Pz/kFAiHd6H24HBGun0AZ4DtdkGB/Zhsya9sFIb4qwBUfHO+U
- BbM68JeHtj8pD5MtYLXwyL9FciWs+D1mdK23z59u7fq7jGGXAnPyJQjkexiVGTfQSs3H
- Undg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770752477; x=1771357277;
- h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
- :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=google.com; s=20230601; t=1770753941; x=1771358741;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=DdY8AetqrIsyAlDkJr11JNPqou7S77GqtWDjoK4rLMM=;
- b=t+lnQHbuBiCpt10dS9DPVZZL9xTNVepumM5H/toR7QGo0JcNB4Gcm5aKuVaS7RVTA/
- fJobiCnUTL628ybkekEYd3ddxockGApOSzbuMb+IEtYxepcyK78AowcxfGdDvFRlWMfP
- dm/T8y/hlpPoXByoKiRg/w9cXJS713dPtEVBXXfu/ctIGRSkX/mpfwzbxlm7ABK1gER+
- XDRBrryx84yOtt+cSkzpsjLTAbpFYkzyvNtJh1LP49CP6VScrJL1dCX5juSV/Bus+DSP
- j0GAn2XNlN0p68Msf987O9f7AAO+ZvczSjDQxs+/55M5E8npirWRdOXYZxgeCYEQj1t7
- GISA==
+ bh=EUYV2jK4EVNH8IU6ztF+fhRopz1DxZCdX+to/Ge4VzA=;
+ b=JPfg4h+56CELFPUoVLzRA8six6zLqUlXzlG/Tv2DJXJr+gB7+e9dcLOqrU8KdJACUK
+ 3VE7Kp2wN22jz3dJ42yZKnuRbRrpqPpvowgZtFOZFoAu/PcjenLP80NtdMgWoMbYwwde
+ eAEbiU6NTqSEyC/E+9coAnk3IR4jCyAOnWEpw8S9kt+kHnELH+LZMAfeocK5gpy+NlAy
+ iV32I3+tg1d8vs0Inl5jXQobS9arX4ofJ7fIyAUSsKYu/VIbYQ/3SFBd+qLQiGeXLRYd
+ 8XAljvkiwhBnk3ureG90QgzfVuf6sMOpFCkdGmEQFH1XcUpt/9k6+2BvRCzQrjdXPqpN
+ NhBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770753941; x=1771358741;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=EUYV2jK4EVNH8IU6ztF+fhRopz1DxZCdX+to/Ge4VzA=;
+ b=O0TqLERIzIJpiiiGp9DPReKrGBwMVRgL5csJQkHAf86XwIc2k+LO9gE8HVeGCHjiGP
+ 0DuClgJcGNg6uyh2njcvkBCtlzBcWj3B5P6K8aJhxwB8HGD4iSkr5Dv7vuxl0M85fLOz
+ sVbEIbYgzQVKkGFM7sGXl1exqsOxx7kPr2B3V+GiDl9ebYRMqq2ZHpB1pMli5/RBlMNm
+ rzuNDWYCe8TieFZnLz+hfrIlj84SjYjqGlLXCbSSAlxQY1vyw4i03G0BuI1+vOq7hhBC
+ x1m+CkFBDQ/+ntKENo1RxES8ZRMD5QDYxRK8b2i5013aeu9nwHcYpSe9ojpiWrPHXd8y
+ fp4w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV2GA2U/jN93OtjtFpDzWpo5L646IOF3BB89Q57xdhe4sjj1VtSh7GLaI5Cz5h16VuXBTxqH16xMI0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxCS4hPniW1OqRH+7suLxPkCFfgKQiw51WtM45Su41plHP6x/as
- +hloVn4XrGG7W0r8MSzh+3dVlcZH3IQP8mLyjvOJ32jYH+sbAWYZwuak
-X-Gm-Gg: AZuq6aIfr8RWuEofEi2QxRhRjPBESNY0CLTEDcgN9NXdVnOsNtmKr03e7IdLkTg7f/y
- zZoSzjtEQcrcc7wwi3G5CkmdxRKXcoGtP2zXAqf4rgUmaiKtqIYh7NXxgyVovEpDuQnFWK8VHzT
- bLfTOzSEIhSaQoRbI4smh6We6QpFRl/xhbeUjd9zQmPR0dxBhs7FMpxLJAze3nosFnJjaCRi313
- ZlNmx4IJtif9quQOMla+e6h2bFqpB/AbxBkRgFglIYyUapBp55AOlmLFyVmrz6wBI0H4YmPr1/G
- uWSD320cvczb8TUpX6jNxzePdnLabxNjXYCOwGln2mNIGutYhV6FRiqFELM1X/Idh2krbdxzuYI
- ZLnPwiwcuHB8tVFwGzrfd3Bf2UolsTu86WZwR0iKcGaoub5b924i/tVFt7yHKUiyQXOVmSo/S91
- dDUplqyUmDnBWbst+LL2nvW2TlM4rEYuRlvLK8DGQlKGiUhUf1pIyA
-X-Received: by 2002:a5d:649f:0:b0:435:db95:c2d3 with SMTP id
- ffacd0b85a97d-43782c9bc34mr235780f8f.36.1770752477131; 
- Tue, 10 Feb 2026 11:41:17 -0800 (PST)
-Received: from osama ([41.44.59.149]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-43629756bc3sm33615905f8f.39.2026.02.10.11.41.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Feb 2026 11:41:16 -0800 (PST)
-Date: Tue, 10 Feb 2026 20:41:10 +0100
-From: Osama Abdelkader <osama.abdelkader@gmail.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] drm/bridge: samsung-dsim: use
- drm_bridge_clear_and_put() to put the next bridge
-Message-ID: <aYuJ1g5htsuMno__@osama>
+ AJvYcCUfFDYfQNWgToGXes4wZR8AqaOlPi0g2P4N+HPPMKVPEhfOZzZFmN5qVVeohLirSHC4tEx7uD0bSi0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzK+nULAzIc/Ylsx2xJqXOMKy6Z1sXKgKErIFtNjTtSrikoupTW
+ CHaCslOdr/rY/KBvLeNM4ptrI1ssaMCKhXacdHOJE96UyCTnyRaTXPOqo8VGTiuZsxPZbU7phsP
+ AAYP6w1rnNLL+CmO/+pY0bSPnQbxFmG2iFG9F7oU=
+X-Gm-Gg: AZuq6aJOlfi950vak5WEHqr+G1oahUXQJeAiZEdGShqvUhnLxi7yyUaLUxURBjidTjc
+ Xn7Xmn6VDEA2Ygm9zDcuVKyHysIdEnSZKV6WXs0XNDp9ftLhIRgLM/mj5MmghnlxnrcFLCOKjWg
+ fWu+xx/3C0IebMXqCtyZXtoa7cwic66FoacEf2mCnsA+5Fjf4hLO+zq1iNUSVrvEibypX3RBAxR
+ q6dKaFj4kxzC0ihiJc1ICywSZx7SXhJmn9NOBsOKR/NkCUelWYLddzzC9AcUnCg9ttG/YAR+FBM
+ ZBF+CwCDEyEDQkj55QwsjKoSGQjO/PhT8i4P
+X-Received: by 2002:a17:907:720d:b0:b88:48ba:cd7 with SMTP id
+ a640c23a62f3a-b8f6a8e0786mr22320766b.3.1770753940692; Tue, 10 Feb 2026
+ 12:05:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260206-drm-bridge-atomic-vs-remove-clear_and_put-v1-0-6f1a7d03c45f@bootlin.com>
+References: <20260209153809.250835-1-jiri@resnulli.us>
+ <20260209153809.250835-5-jiri@resnulli.us>
+ <CANDhNCoHEZsNRmU+3z5AbeAy05H7PTtUdTq1apNd5k0f9hWW8A@mail.gmail.com>
+ <hwdezwktndbm6hoko3rz5lffgfljodegcygzf6rbdf2ferokj6@ftk2uk3rqfdq>
+ <20260210124819.GC12887@unreal>
+In-Reply-To: <20260210124819.GC12887@unreal>
+From: John Stultz <jstultz@google.com>
+Date: Tue, 10 Feb 2026 12:05:28 -0800
+X-Gm-Features: AZwV_Qgy-DNinnCzC9ZTU6U_Twqy09ClMg2rE0gJxLuPqw6IHh5sTKTnvXMZwaA
+Message-ID: <CANDhNCoaYoe5Ckin9CnZT2LdQJ2K7amBSUS9GBDzbx_1=U9txw@mail.gmail.com>
+Subject: Re: [PATCH 4/5] dma-buf: heaps: allow heap to specify valid heap flags
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Jiri Pirko <jiri@resnulli.us>, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev, 
+ linux-media@vger.kernel.org, sumit.semwal@linaro.org, 
+ benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, tjmercier@google.com, 
+ christian.koenig@amd.com, m.szyprowski@samsung.com, robin.murphy@arm.com, 
+ jgg@ziepe.ca, sean.anderson@linux.dev, ptesarik@suse.com, 
+ catalin.marinas@arm.com, aneesh.kumar@kernel.org, suzuki.poulose@arm.com, 
+ steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com, 
+ ashish.kalra@amd.com, suravee.suthikulpanit@amd.com, 
+ linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,50 +123,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:luca.ceresoli@bootlin.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:inki.dae@samsung.com,m:jagan@amarulasolutions.com,m:m.szyprowski@samsung.com,m:Hui.Pu@gehealthcare.com,m:ian.ray@gehealthcare.com,m:thomas.petazzoni@bootlin.com,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[20];
+	FORGED_RECIPIENTS(0.00)[m:leon@kernel.org,m:jiri@resnulli.us,m:linaro-mm-sig@lists.linaro.org,m:iommu@lists.linux.dev,m:linux-media@vger.kernel.org,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:m.szyprowski@samsung.com,m:robin.murphy@arm.com,m:jgg@ziepe.ca,m:sean.anderson@linux.dev,m:ptesarik@suse.com,m:catalin.marinas@arm.com,m:aneesh.kumar@kernel.org,m:suzuki.poulose@arm.com,m:steven.price@arm.com,m:thomas.lendacky@amd.com,m:john.allen@amd.com,m:ashish.kalra@amd.com,m:suravee.suthikulpanit@amd.com,m:linux-coco@lists.linux.dev,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[jstultz@google.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_TO(0.00)[bootlin.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,samsung.com,amarulasolutions.com];
-	FORGED_SENDER(0.00)[osamaabdelkader@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	ARC_NA(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[osamaabdelkader@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	TAGGED_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FROM_NEQ_ENVFROM(0.00)[jstultz@google.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: C1D4D11EB4B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,resnulli.us:email,nvidia.com:email]
+X-Rspamd-Queue-Id: 9DCA811EE2F
 X-Rspamd-Action: no action
 
-Hi Luca,
+On Tue, Feb 10, 2026 at 4:48=E2=80=AFAM Leon Romanovsky <leon@kernel.org> w=
+rote:
+> On Tue, Feb 10, 2026 at 10:05:14AM +0100, Jiri Pirko wrote:
+> > Mon, Feb 09, 2026 at 09:08:03PM +0100, jstultz@google.com wrote:
+> > >On Mon, Feb 9, 2026 at 7:38=E2=80=AFAM Jiri Pirko <jiri@resnulli.us> w=
+rote:
+> > >>
+> > >> From: Jiri Pirko <jiri@nvidia.com>
+> > >>
+> > >> Currently the flags, which are unused, are validated for all heaps.
+> > >> Since the follow-up patch introduces a flag valid for only one of th=
+e
+> > >> heaps, allow to specify the valid flags per-heap.
+> > >
+> > >I'm not really in this space anymore, so take my feedback with a grain=
+ of salt.
+> > >
+> > >While the heap allocate flags argument is unused, it was intended to
+> > >be used for generic allocation flags that would apply to all or at
+> > >least a wide majority of heaps.
+> > >
+> > >It was definitely not added to allow for per-heap or heap specific
+> > >flags (as this patch tries to utilize it). That was the mess we had
+> > >with ION driver that we were trying to avoid.
+> > >
+> > >The intent of dma-buf heaps is to try to abstract all the different
+> > >device memory constraints so there only needs to be a [usage] ->
+> > >[heap] mapping, and otherwise userland can be generalized so that it
+> > >doesn't need to be re-written to work with different devices/memory
+> > >types.  Adding heap-specific allocation flags prevents that
+> > >generalization.
+> > >
+> > >So instead of adding heap specific flags, the general advice has been
+> > >to add a separate heap name for the flag property.
+> >
+> > Right, my original idea was to add a separate heap. Then I spotted the
+> > flags and seemed like a great fit. Was not aware or the history or
+> > original intention. Would be probably good to document it for
+> > future generations.
+> >
+> > So instead of flag, I will add heap named something
+> > like "system_cc_decrypted" to implement this.
+>
+> It is problematic to expose a user=E2=80=91visible API that depends on a =
+name.
+> Such a design limits our ability to extend the functionality in the
+> future, should new use cases arise.
 
-I just reviewed this patch and it looks good to me.
-I'm not sure if I'm allowed to add review tag:
+Yes, how userland chooses a heap name is an open problem.
 
-Reviewed-by: Osama Abdelkader <osama.abdelkader@gmail.com>
+ The difficulty is that userland is the only thing that knows what
+devices the buffer will be shared (and this knowledge may be
+incomplete if userland passes a buffer between processes) with, so it
+has to pick.  But the kernel doesn't give it a way to solve the
+constraints of what memory types work with what devices. There have
+been some proposals for device sysfs directories to have links to heap
+types they support, but that also requires every driver to understand
+every heap type. And then you get to the fact that performance is what
+folks really want, not compatibility and that may require some system
+specific knowledge to decide.
 
-Best regards,
-Osama
+The working solution right now is to have the system provide a  [use]
+-> [heap] mapping for a specific system.
+
+I think of this as similar to the vfs and /etc/fstab. So /home/ might
+be /dev/sdb1 on one device or dev/sda1 on another.  You need some
+system specific configuration.
+
+In Android, this mapping is done by Gralloc, so buffers are requested
+for a use and then Gralloc decides which heap to allocated from.
+
+Unfortunately there doesn't seem to be a similar standard convention
+elsewhere.  And I'll admit even then the enumeration of uses/pipelines
+in some general form is also difficult problem (and is somewhat more
+bounded for Android).
+
+thanks
+-john
