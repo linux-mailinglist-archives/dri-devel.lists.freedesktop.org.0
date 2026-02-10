@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qK/DBwE9i2neRgAAu9opvQ
+	id QCMDMP88i2neRgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:13:21 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:13:19 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B61C511BC03
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:13:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B64C11BBFC
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:13:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66F4610E596;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6384710E595;
 	Tue, 10 Feb 2026 14:13:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79A5F10E595
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 14:13:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF86810E595
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 14:13:15 +0000 (UTC)
 Received: from edelgard.fodlan.icenowy.me (unknown [112.94.103.253])
- by APP-03 (Coremail) with SMTP id rQCowABXZ87vPItp+RItCA--.18409S4;
- Tue, 10 Feb 2026 22:13:09 +0800 (CST)
+ by APP-03 (Coremail) with SMTP id rQCowABXZ87vPItp+RItCA--.18409S5;
+ Tue, 10 Feb 2026 22:13:10 +0800 (CST)
 From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 To: Icenowy Zheng <zhengxingda@iscas.ac.cn>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -28,21 +28,22 @@ To: Icenowy Zheng <zhengxingda@iscas.ac.cn>,
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH drm-misc-next 2/3] drm: verisilicon: subclass drm_plane_state
-Date: Tue, 10 Feb 2026 22:12:59 +0800
-Message-ID: <20260210141300.749013-3-zhengxingda@iscas.ac.cn>
+Subject: [PATCH drm-misc-next 3/3] drm: verisilicon: fill plane's vs_format in
+ atomic_check
+Date: Tue, 10 Feb 2026 22:13:00 +0800
+Message-ID: <20260210141300.749013-4-zhengxingda@iscas.ac.cn>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260210141300.749013-1-zhengxingda@iscas.ac.cn>
 References: <20260210141300.749013-1-zhengxingda@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: rQCowABXZ87vPItp+RItCA--.18409S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxJF1fuw4fAw1kAF47CF4rZrb_yoWrGFW3pr
- 4DAFy5Kr45Aw4DWr9rJw1jy3y3ua18KryIgrZ7GwnaqF15tr13uF1ktr9xCF43Jry7Gw1x
- tan2ka1DCr4ayrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: rQCowABXZ87vPItp+RItCA--.18409S5
+X-Coremail-Antispam: 1UD129KBjvJXoWxXw1fCryxAFW8ZrWkJF45trb_yoW5Cw1kpr
+ 4DAFyrKr4ftrWUWr9rJrWDtFZxuan3KryIgrW7GwnagF1rt3y3CF1kJrZ3CFs8Jry7Gw4x
+ tanayFs8Aw42yaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnRJUUUBm14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
- x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
+ x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
  Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
  ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I2
  62IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcV
@@ -52,7 +53,7 @@ X-Coremail-Antispam: 1UD129KBjvJXoWxJF1fuw4fAw1kAF47CF4rZrb_yoWrGFW3pr
  GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI4
  8JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4U
  MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I
- 8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU1c_TUUUUU
+ 8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUYdb1UUUUU
 X-Originating-IP: [112.94.103.253]
 X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,113 +103,88 @@ X-Spamd-Result: default: False [0.89 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,iscas.ac.cn:mid,iscas.ac.cn:email]
-X-Rspamd-Queue-Id: B61C511BC03
+X-Rspamd-Queue-Id: 5B64C11BBFC
 X-Rspamd-Action: no action
 
-Create a subclass of drm_plane_state to store hardware-specific state
-information (e.g. hardware plane format settings) in the future.
+Move the conversion from drm_format to vs_format to atomic_check, which
+is before the point of no return and can properly bail out.
 
 Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 ---
- drivers/gpu/drm/verisilicon/vs_plane.c        | 40 +++++++++++++++++++
- drivers/gpu/drm/verisilicon/vs_plane.h        | 14 +++++++
- .../gpu/drm/verisilicon/vs_primary_plane.c    |  6 +--
- 3 files changed, 57 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/verisilicon/vs_plane.h         |  2 ++
+ drivers/gpu/drm/verisilicon/vs_primary_plane.c | 18 ++++++++++++------
+ 2 files changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/verisilicon/vs_plane.c b/drivers/gpu/drm/verisilicon/vs_plane.c
-index df406f565143a..f9d38e0e583f6 100644
---- a/drivers/gpu/drm/verisilicon/vs_plane.c
-+++ b/drivers/gpu/drm/verisilicon/vs_plane.c
-@@ -125,3 +125,43 @@ dma_addr_t vs_fb_get_dma_addr(struct drm_framebuffer *fb,
- 
- 	return dma_addr;
- }
-+
-+struct drm_plane_state *vs_plane_duplicate_state(struct drm_plane *plane)
-+{
-+	struct vs_plane_state *vs_state;
-+
-+	if (WARN_ON(!plane->state))
-+		return NULL;
-+
-+	vs_state = kmemdup(plane->state, sizeof(*vs_state), GFP_KERNEL);
-+	if (!vs_state)
-+		return NULL;
-+
-+	__drm_atomic_helper_plane_duplicate_state(plane, &vs_state->base);
-+
-+	return &vs_state->base;
-+}
-+
-+void vs_plane_destroy_state(struct drm_plane *plane,
-+			    struct drm_plane_state *state)
-+{
-+	__drm_atomic_helper_plane_destroy_state(state);
-+	kfree(state);
-+}
-+
-+/* Called during init to allocate the plane's atomic state. */
-+void vs_plane_reset(struct drm_plane *plane)
-+{
-+	struct vs_plane_state *vs_state;
-+
-+	if (plane->state)
-+		__drm_atomic_helper_plane_destroy_state(plane->state);
-+
-+	kfree(plane->state);
-+
-+	vs_state = kzalloc(sizeof(*vs_state), GFP_KERNEL);
-+	if (!vs_state)
-+		return;
-+
-+	__drm_atomic_helper_plane_reset(plane, &vs_state->base);
-+}
 diff --git a/drivers/gpu/drm/verisilicon/vs_plane.h b/drivers/gpu/drm/verisilicon/vs_plane.h
-index a88cc19f2202e..12848a72af576 100644
+index 12848a72af576..df4b248b52954 100644
 --- a/drivers/gpu/drm/verisilicon/vs_plane.h
 +++ b/drivers/gpu/drm/verisilicon/vs_plane.h
-@@ -63,10 +63,24 @@ struct vs_format {
- 	bool uv_swizzle;
+@@ -65,6 +65,8 @@ struct vs_format {
+ 
+ struct vs_plane_state {
+ 	struct drm_plane_state base;
++
++	struct vs_format format;
  };
  
-+struct vs_plane_state {
-+	struct drm_plane_state base;
-+};
-+
-+static inline struct vs_plane_state *state_to_vs_plane_state(struct drm_plane_state *state)
-+{
-+	return container_of(state, struct vs_plane_state, base);
-+}
-+
- int drm_format_to_vs_format(u32 drm_format, struct vs_format *vs_format);
- dma_addr_t vs_fb_get_dma_addr(struct drm_framebuffer *fb,
- 			      const struct drm_rect *src_rect);
- 
-+struct drm_plane_state *vs_plane_duplicate_state(struct drm_plane *plane);
-+void vs_plane_destroy_state(struct drm_plane *plane,
-+			    struct drm_plane_state *state);
-+void vs_plane_reset(struct drm_plane *plane);
-+
- struct drm_plane *vs_primary_plane_init(struct drm_device *dev, struct vs_dc *dc);
- 
- #endif /* _VS_PLANE_H_ */
+ static inline struct vs_plane_state *state_to_vs_plane_state(struct drm_plane_state *state)
 diff --git a/drivers/gpu/drm/verisilicon/vs_primary_plane.c b/drivers/gpu/drm/verisilicon/vs_primary_plane.c
-index e8fcb5958615c..bad0bc5e3242d 100644
+index bad0bc5e3242d..b5bc6b0078fc3 100644
 --- a/drivers/gpu/drm/verisilicon/vs_primary_plane.c
 +++ b/drivers/gpu/drm/verisilicon/vs_primary_plane.c
-@@ -145,10 +145,10 @@ static const struct drm_plane_helper_funcs vs_primary_plane_helper_funcs = {
- };
+@@ -25,12 +25,19 @@ static int vs_primary_plane_atomic_check(struct drm_plane *plane,
+ {
+ 	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
+ 										 plane);
++	struct vs_plane_state *new_vs_plane_state = state_to_vs_plane_state(new_plane_state);
+ 	struct drm_crtc *crtc = new_plane_state->crtc;
+ 	struct drm_crtc_state *crtc_state;
++	int ret;
  
- static const struct drm_plane_funcs vs_primary_plane_funcs = {
--	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
--	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
-+	.atomic_destroy_state	= vs_plane_destroy_state,
-+	.atomic_duplicate_state	= vs_plane_duplicate_state,
- 	.disable_plane		= drm_atomic_helper_disable_plane,
--	.reset			= drm_atomic_helper_plane_reset,
-+	.reset			= vs_plane_reset,
- 	.update_plane		= drm_atomic_helper_update_plane,
- };
+ 	if (!crtc)
+ 		return 0;
+ 
++	ret = drm_format_to_vs_format(new_plane_state->fb->format->format,
++				      &new_vs_plane_state->format);
++	if (ret)
++		return ret;
++
+ 	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+ 	if (WARN_ON(!crtc_state))
+ 		return -EINVAL;
+@@ -88,11 +95,11 @@ static void vs_primary_plane_atomic_update(struct drm_plane *plane,
+ {
+ 	struct drm_plane_state *state = drm_atomic_get_new_plane_state(atomic_state,
+ 								       plane);
++	struct vs_plane_state *vs_state = state_to_vs_plane_state(state);
+ 	struct drm_framebuffer *fb = state->fb;
+ 	struct drm_crtc *crtc = state->crtc;
+ 	struct vs_dc *dc;
+ 	struct vs_crtc *vcrtc;
+-	struct vs_format fmt;
+ 	unsigned int output;
+ 	dma_addr_t dma_addr;
+ 
+@@ -105,16 +112,15 @@ static void vs_primary_plane_atomic_update(struct drm_plane *plane,
+ 	output = vcrtc->id;
+ 	dc = vcrtc->dc;
+ 
+-	drm_format_to_vs_format(state->fb->format->format, &fmt);
+-
+ 	regmap_update_bits(dc->regs, VSDC_FB_CONFIG(output),
+ 			   VSDC_FB_CONFIG_FMT_MASK,
+-			   VSDC_FB_CONFIG_FMT(fmt.color));
++			   VSDC_FB_CONFIG_FMT(vs_state->format.color));
+ 	regmap_update_bits(dc->regs, VSDC_FB_CONFIG(output),
+ 			   VSDC_FB_CONFIG_SWIZZLE_MASK,
+-			   VSDC_FB_CONFIG_SWIZZLE(fmt.swizzle));
++			   VSDC_FB_CONFIG_SWIZZLE(vs_state->format.swizzle));
+ 	regmap_assign_bits(dc->regs, VSDC_FB_CONFIG(output),
+-			   VSDC_FB_CONFIG_UV_SWIZZLE_EN, fmt.uv_swizzle);
++			   VSDC_FB_CONFIG_UV_SWIZZLE_EN,
++			   vs_state->format.uv_swizzle);
+ 
+ 	dma_addr = vs_fb_get_dma_addr(fb, &state->src);
  
 -- 
 2.52.0
