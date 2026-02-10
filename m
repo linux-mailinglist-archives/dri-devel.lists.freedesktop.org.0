@@ -2,68 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0OCRCNlpi2k1UQAAu9opvQ
+	id aIHmDOdpi2k1UQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 18:24:41 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 18:24:55 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A74A11DE58
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 18:24:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE30111DE66
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 18:24:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CD7810E222;
-	Tue, 10 Feb 2026 17:24:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 622F510E5E0;
+	Tue, 10 Feb 2026 17:24:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="hcKU/u3C";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ng5pmDJN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48DCD10E222
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 17:24:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1770744263; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=bbdJgHxhb0qfTazCwFrPx9bVeGQqzGN+B2zNunthjMrq2y8QvNwu71y0OsczK3JyqRYP4aP7IblMqpm8BcA3wBwLMqZTIpGqUJH1Atzi/PL0qgRyqQs8MaXyImxQNzSIDSgQRIlvu9veK6n8v/UyMAcbEcJC59N5XwRJKCwFxAQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1770744263;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=2SVhTKI6jNUmvhweiBSHXKX4xnnqxteHj08x/32q7JI=; 
- b=KCmfVDX5L4h5xR4P75o8+djnOZ2GJ/VB5EN1fPXax/O3u0iQV5LqapbrcgesNSbjt6W4msCjW7duYLxD2LmCUTH5f3o+m2GRYbWYRm/BagJroLQGXLrwW5n8+miykkqdr+2qkPJ2kKi8B7ZwlmPUHIArr1+F+HX6iEJ1uVan8zA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
- dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770744263; 
- s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=2SVhTKI6jNUmvhweiBSHXKX4xnnqxteHj08x/32q7JI=;
- b=hcKU/u3Cu1sBRH53DO5YRoAp34aSpsMhvqSV5/xGYT4m2xGXAeTPDwbAnvi8CoEv
- vBPEcvSizkZTj6vBuII4JQDMw+2VbNf9jbMGn371TSVIME9aEAcDydjeVMQrtBykXuy
- swu6Td0Nd7/eyLl+7W2MOBKkHDykgNDHbGyX4Z3g=
-Received: by mx.zohomail.com with SMTPS id 1770744262665417.3252309425685;
- Tue, 10 Feb 2026 09:24:22 -0800 (PST)
-Message-ID: <58373d82-d238-4302-b72a-3625b153bd9e@collabora.com>
-Date: Tue, 10 Feb 2026 14:24:15 -0300
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18C2310E22A;
+ Tue, 10 Feb 2026 17:24:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 4E13160141;
+ Tue, 10 Feb 2026 17:24:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70CDBC19424;
+ Tue, 10 Feb 2026 17:24:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1770744289;
+ bh=AybflH6vCiFt0c5IgI0vjl85jJ21G95boT+74nEtcOk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ng5pmDJNkBc2/oSRx4pOQZtMwfVdnyLJCAe+kx5tWyYItYLMZQhdYN1JE+R3ufDCh
+ Sg3MPeIvUefZiasC4ZD9NZ69q61KWUj9jJc70gTsT44q7Q7e4ruOwJ9x+J4guA4lYn
+ 72mmOFfmlEJ0RoX0lX6wRJTTZMjmjgf1RWmc5JylLOP3m0B0ER3uqzfdJ0LU6yYr89
+ 1my9GNZBbWW+nOuxJ33JuBoa0ELUcTqbIRdBPIMnuLKZOhptweV4AQdHhfv2b3RHOk
+ fjvj7G/GuPv4VuzsnknEAcq+Hdt4sUa+ypgV+QzMPvpmipP+okDxfu9/sBzc27vkWV
+ hV0aZRNUVvh5A==
+Date: Tue, 10 Feb 2026 18:24:46 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ kernel@collabora.com, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, Marius Vlad <marius.vlad@collabora.com>
+Subject: Re: [PATCH v7 03/22] drm: Add enum conversions between
+ DRM_COLOR_FORMAT and HDMI_COLORSPACE
+Message-ID: <20260210-prophetic-elk-of-superiority-b0ab03@houat>
+References: <20260121-color-format-v7-0-ef790dae780c@collabora.com>
+ <20260121-color-format-v7-3-ef790dae780c@collabora.com>
+ <20260206-angelic-crimson-bug-aaab40@houat>
+ <2028270.PYKUYFuaPT@workhorse>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/vkms: Fix bad matrix offset component multiplication
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- nfraprado@collabora.com, pekka.paalanen@collabora.com,
- daniels@collabora.com, kernel@collabora.com
-References: <20251223-vkms-composer-fix-matrix-v1-1-10a979e06209@collabora.com>
- <28d9f246-8952-4f03-94bc-60eadca78c2f@bootlin.com>
-Content-Language: en-US
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <28d9f246-8952-4f03-94bc-60eadca78c2f@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="3gcl4wmc7phuuk27"
+Content-Disposition: inline
+In-Reply-To: <2028270.PYKUYFuaPT@workhorse>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,77 +91,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [-1.41 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[zohomail.com:s=zohoarc:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:louis.chauvet@bootlin.com,m:hamohammed.sa@gmail.com,m:simona@ffwll.ch,m:melissa.srw@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:linux-kernel@vger.kernel.org,m:nfraprado@collabora.com,m:pekka.paalanen@collabora.com,m:daniels@collabora.com,m:kernel@collabora.com,m:hamohammedsa@gmail.com,m:melissasrw@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[ariel.dalessandro@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FREEMAIL_TO(0.00)[bootlin.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ariel.dalessandro@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	RCVD_TLS_LAST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[37];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[amd.com,igalia.com,gmail.com,ffwll.ch,linux.intel.com,suse.de,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,rock-chips.com,sntech.de,ursulin.net,pengutronix.de,lwn.net,collabora.com,lists.freedesktop.org,vger.kernel.org,lists.infradead.org];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:mid,collabora.com:dkim,collabora.com:email]
-X-Rspamd-Queue-Id: 9A74A11DE58
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email]
+X-Rspamd-Queue-Id: BE30111DE66
 X-Rspamd-Action: no action
 
-Hi Louis,
 
-Sorry for the delay.
+--3gcl4wmc7phuuk27
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v7 03/22] drm: Add enum conversions between
+ DRM_COLOR_FORMAT and HDMI_COLORSPACE
+MIME-Version: 1.0
 
-On 12/29/25 6:33 AM, Louis Chauvet wrote:
-> 
-> 
-> On 12/23/25 18:26, Ariel D'Alessandro wrote:
->> Pixels values are packed as 16-bit UNORM values, so the matrix offset
->> components must be multiplied properly by the idempotent element -i.e.
->> number 1 encoded as 16-bit UNORM-.
->>
->> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-> 
-> Hi,
-> 
-> Thanks for this patch!
-> 
-> How did you catch the issue? If you have an example of failing color 
-> conversion, can you add a test case in vkms_color_test?
-I found it while working on this IGT tools patch series [0], this patch 
-in particular [1].
+Hi,
 
-I've just added the related kunit test, so I'll send it as a v2 patchset.
+On Sat, Feb 07, 2026 at 08:55:16PM +0100, Nicolas Frattaroli wrote:
+> On Friday, 6 February 2026 15:08:46 Central European Standard Time Maxime=
+ Ripard wrote:
+> > On Wed, Jan 21, 2026 at 03:45:10PM +0100, Nicolas Frattaroli wrote:
+> > > While the two enums have similar values, they're not identical, and
+> > > HDMI's enum is defined as per the HDMI standard.
+> > >=20
+> > > Add a simple conversion function from DRM to HDMI. Unexpected inputs
+> > > aren't handled in any clever way, DRM_COLOR_FORMAT_AUTO and any other
+> > > value that doesn't cleanly map to HDMI just gets returned as
+> > > HDMI_COLORSPACE_RGB.
+> > >=20
+> > > Add a second conversion function that gets a DRM_COLOR_FORMAT from an
+> > > HDMI_COLORSPACE as well. In this case, reserved HDMI values that can't
+> > > be converted will result in an -EINVAL return value.
+> > >=20
+> > > Co-developed-by: Marius Vlad <marius.vlad@collabora.com>
+> > > Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
+> > > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> > > ---
+> > >  include/drm/drm_connector.h | 54 +++++++++++++++++++++++++++++++++++=
+++++++++++
+> > >  1 file changed, 54 insertions(+)
+> > >=20
+> > > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> > > index b5604dca728a..ffeb42f3b4a3 100644
+> > > --- a/include/drm/drm_connector.h
+> > > +++ b/include/drm/drm_connector.h
+> > > @@ -2612,6 +2612,60 @@ int drm_connector_attach_color_format_property=
+(struct drm_connector *connector);
+> > > =20
+> > >  const char *drm_get_color_format_name(enum drm_color_format color_fm=
+t);
+> > > =20
+> > > +/**
+> > > + * drm_color_format_to_hdmi_colorspace - convert DRM color format to=
+ HDMI
+> > > + * @fmt: the &enum drm_color_format to convert
+> > > + *
+> > > + * Convert a given &enum drm_color_format to an equivalent
+> > > + * &enum hdmi_colorspace. For non-representable values and
+> > > + * %DRM_COLOR_FORMAT_AUTO, the value %HDMI_COLORSPACE_RGB is returne=
+d.
+> > > + *
+> > > + * Returns: the corresponding &enum hdmi_colorspace value
+> > > + */
+> > > +static inline enum hdmi_colorspace __pure
+> > > +drm_color_format_to_hdmi_colorspace(enum drm_color_format fmt)
+> > > +{
+> > > +	switch (fmt) {
+> > > +	default:
+> > > +	case DRM_COLOR_FORMAT_AUTO:
+> > > +	case DRM_COLOR_FORMAT_RGB444:
+> > > +		return HDMI_COLORSPACE_RGB;
+> >=20
+> > I don't think that's correct. What auto ends up as totally depends on
+> > the atomic state it comes with.
+> >=20
+> > At the very least, you should output a warning there, because that case
+> > should never happen.
+>=20
+> Yeah, my hope was to keep this function __pure so that the compiler
+> has maximum freedom to do whatever. With a WARN, it's got side-effects
+> now, and we're no longer pure. With a status return value and an output
+> parameter, it's no longer pure either, because the output parameter is
+> not local memory.
+>=20
+> The limiting factor here is that as I understand correctly, I can't
+> really extend the hdmi_colorspace enum, as it's basically 1:1 from
+> the standard. Doing this would be the ideal solution, because we'd
+> keep the function pure and without surprise conversions happening.
 
-[0] 
-https://lore.kernel.org/igt-dev/20251223-post-blend-colorops-v2-0-f40aca9795bd@collabora.com/
-[1] 
-https://lore.kernel.org/igt-dev/20251223-post-blend-colorops-v2-7-f40aca9795bd@collabora.com/
+I feel like this kind of loops back into the other two reviews I did:
+you paint yourself into a corner by having auto in the enum, and by
+passing it directly to that function.
 
-Regards,
+If, instead, you don't allow auto in the drm_color_format enum, and
+resolve auto in the hdmi_compute_config function instead of passing it
+directly, then we don't have to deal with it here.
 
--- 
-Ariel D'Alessandro
-Software Engineer
+> Looking at hdmi_colorspace_get_name in drivers/video/hdmi.c, it returns
+> "Invalid" for any value not in the enum itself. Would it be allowable
+> to tack an HDMI_COLORSPACE_INVALID at the end of the enum with perhaps
+> a negative value, or is there a different approach you'd prefer?
 
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
-Registered in England & Wales, no. 5513718
+And again, if we only ever have to deal with RGB, YUV420, 444 or 422,
+then we always have valid values for HDMI_COLORSPACE.
 
+Plus, the hdmi_colorspace enum matches what the hdmi spec defines, so we
+can't really extend it, and most importantly, hdmi_colorspace_get_name()
+is only ever used for debugging / logging purposes, it's never in the
+"functional" path.
+
+Maxime
+
+--3gcl4wmc7phuuk27
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaYtp3QAKCRAnX84Zoj2+
+dpXQAX9YW7+dFFercH/6Ci5pTtOduK0WFGtCE+czBS0MekL3hIR8Qk0XOe/wCQ0N
+lSl/1g0BfiBZVN1+rZWOQ89eweN9INWHQO3r4Uh4l9OvZzduZolxq+5q62yTdhYG
+QVZ10CHXHA==
+=jFA7
+-----END PGP SIGNATURE-----
+
+--3gcl4wmc7phuuk27--
