@@ -2,96 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QCYYIuj2imkePAAAu9opvQ
+	id GOJDJgn3imn2OwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:14:16 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:14:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9B45118B89
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:14:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB54118BBC
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:14:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2760410E520;
-	Tue, 10 Feb 2026 09:14:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 902EE10E526;
+	Tue, 10 Feb 2026 09:14:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="p0Avxsf2";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="K+qvRaxS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB12710E520
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 09:14:12 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-480142406b3so41497815e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 01:14:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1770714851; x=1771319651;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=1n+Dri69ZtsJrD5f7LTNPULLrK+Vi4bS2T/sVYZliNI=;
- b=p0Avxsf2uZuzqxsF5SUV0UZvFJuzABBZRCQHE7Y000H3uugIiRkfAJFaWZHHFDa7Sf
- JOWnWcDZDJd4Gq1obfy3XI3qBJ5Hrci4XI2CE66mU38iNH8EqYvNYYHrRVA0kZv9tgQG
- H4kxDSWhZd8qmiY58S4WSZrioDEiseoseXAMrjAWn5fU5k+JIdxheAW/7LNBA5dIEXbi
- Elr1FbvO3flxcW4+kx+vFbIa8TOldZNpghaUxmL5me3VPLTZpif5wmPSEJZPL8VP4kwd
- TTXLHSK1aGQV3bQU0E0nY7xf9IWngtwG1t4lrujKDd/XOWXKzok77E+UVcdwKWtlaigW
- OJqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770714851; x=1771319651;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1n+Dri69ZtsJrD5f7LTNPULLrK+Vi4bS2T/sVYZliNI=;
- b=nhsxcEeSl9smUkbjDnhmBmoFQlyUFsjZvoCC6zd8bnUYIKYV8Zgrs1vO59IX5EvDoS
- Q16Y+aeayC5PQK3TChY0lB+8GJ5dCiEgG0KwETaWsRlglsN/SkP0+Y6pkHqUPTmSJ3Ai
- lkKu3OYlnvRTiN3GOW2rajgZNEl68lpaS4GEX2YTIrltNHCVl9ubpErGcJ50f/Um/IdT
- 6cEZuepwLBPwoFhySUHHnACVBiALW2LToXfqUj4PLhxjApEIxmEcwPgUOrLfmFrQN5RO
- 8z8fJDh/ZNi6JoAXDbatLKHoRR73T0JU4jMmTLdaflI7Wr3nL7Z2bxZDE/ZpXPUQ1Quh
- 1qVA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU/fhptFqqa/a1vc7S9uP+C7ADrkxwPj7hsNP8qIFaJHBWdsq6q+Ux/52kyT0rF9XkZKOw1RVUAZXo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxLgWFeGKV971Msl/464rrEEbPL/PdZxzOQr+SSgmcYSb8JP9S4
- bCkCKTUNM2VAldTqilZDZZ2o12gQ95TvZ+2QcescMxyBvFEkhmWXiBiuashDnmMJxzpLx7sUBvu
- +8yVw
-X-Gm-Gg: AZuq6aI3nnwPSusO4hZSE4FT5BlCL6qfBs2a6SXk25CZdS4SbAKc8ND9KeAz9HlpkTm
- 7PmGP60a48U5ZckhI+nFlyCnVFEeNlAuGvD8fNZ4yl1A/pcJiIIDs9JkT9A0fXpPkZcQBU/18k8
- QqYXCbx2CuYvNGJapzE+7jiEd6jOGOPVb98X+g9VeEUY1iAckPCmB+bE2f5RRYL04DNcGMD5WBa
- xJuFQGcOgshxocq7YLbATRg9I5UtLgxDWf0CZjorT4+H36/3s47I9gFk1VHqNnXwo4gwMZQS0h7
- A+jPRPBAWkqDfA06Ta474FB/3R53vXr0PQyJzAVt21VMbSRJ6XAIVBTkbNYsn622Qbn2gSFiVY4
- M5t9cNnjCKo3xAG96mIubTHU5KVNilZqN3v9H19ne8NKTbhbZuOwpvzS0Qcukh35e8C5ejCU6nr
- kP9FL/WhBN8Ew02nbh+W0COyuMUJ3irGCBEp0=
-X-Received: by 2002:a05:600c:1daa:b0:475:da1a:53f9 with SMTP id
- 5b1f17b1804b1-483507f08c6mr21095375e9.14.1770714851014; 
- Tue, 10 Feb 2026 01:14:11 -0800 (PST)
-Received: from FV6GYCPJ69 ([140.209.217.211]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4834d7f1e4fsm61726245e9.15.2026.02.10.01.14.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Feb 2026 01:14:10 -0800 (PST)
-Date: Tue, 10 Feb 2026 10:14:08 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: John Stultz <jstultz@google.com>, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev,
- linux-media@vger.kernel.org, 
- sumit.semwal@linaro.org, benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
- tjmercier@google.com, christian.koenig@amd.com, m.szyprowski@samsung.com, 
- robin.murphy@arm.com, leon@kernel.org, sean.anderson@linux.dev,
- ptesarik@suse.com, 
- catalin.marinas@arm.com, aneesh.kumar@kernel.org, suzuki.poulose@arm.com, 
- steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com, 
- ashish.kalra@amd.com, suravee.suthikulpanit@amd.com, linux-coco@lists.linux.dev
-Subject: Re: [PATCH 4/5] dma-buf: heaps: allow heap to specify valid heap flags
-Message-ID: <tgvdjszwxggr53digbmddcbxvupzl4xcoprofkgrs2kgf6rknx@44ebljjpghjm>
-References: <20260209153809.250835-1-jiri@resnulli.us>
- <20260209153809.250835-5-jiri@resnulli.us>
- <CANDhNCoHEZsNRmU+3z5AbeAy05H7PTtUdTq1apNd5k0f9hWW8A@mail.gmail.com>
- <20260210002927.GC943673@ziepe.ca>
+Received: from PH0PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11011045.outbound.protection.outlook.com [40.107.208.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3486A10E521;
+ Tue, 10 Feb 2026 09:14:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zSo3Ibp1iz1JKd0kCh+VFDrHrbUcntqUiBnXLSlDMfpW64SxgmCGvtHBunTY5n3N+QtzmPqDjuSiYG1LSGfWJWz9wOrRwjHlrs/b0Yq226FvnXn9hZMsIIeJxIp5XGqIvzDYYics+49Xy2nd566WEaB8VH2QtfIA3F8o92nEAbhOrWol7VYyi8iz84iKOQuNFYkdrqrrBJ7wINjdG8Pr5HqN/dI4TWjGqvfJgJyt60eTRUVCqilLAz8N7QUU28blXCQfuQiubdsi2YSTkAgjs7/gfiXIQjqGrXViRwaX2cjCLnSQvVlpW2m4SekDXClRFGkCgdpAMpJxj3dBsazLfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QshxU7kPQZFwe59YhxzWgZZ3PoPqzGkqBcqfr8hca8M=;
+ b=GXW9YPxdJdfoa4I/BIhp7X7DblPOn/vmRoGBNXoFvfy+g81MX6EaOMENFvLo2Djjj0ZRULN2PS2r2ycWf7jsjH6kRoNTqHwFQs2ucE2/MUZqxk9NRRVS9RX5R0JYv6CipvmowBdCD+YiUohP1qdjIjbXEgX1WGxU6v+0pO6qkvz8F/2kTaBzBGZjvpLr2qMt0Fek76/d4tzgS1pJjYgwr9GZXt8iyKKlsUL5aWmqGgEAbKSFgU3j8kpTJdjf1rcWovygWKCpWcaSuf7mO07zcD3s5aUCeki83WeG5jJY58ZLCGRMU1hvRefg4yaj7GAsOh8odIRz0cWYEiLgTZnidA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QshxU7kPQZFwe59YhxzWgZZ3PoPqzGkqBcqfr8hca8M=;
+ b=K+qvRaxSJY3enYZYdtC+mq4bRITzwDa18SStIda7fxmB/eHAQ4BtomDQToLZKUeqbCjzueVtr222MdinZWAVUxSlwXY188gspKmKoypQj6u8IVRg50OJPazk56/AcemaE8gbTZ2Q4+/L9cllKFYj1sUfRKvprF+QWWJDhGlG/As=
+Received: from CH0PR03CA0026.namprd03.prod.outlook.com (2603:10b6:610:b0::31)
+ by CH3PR12MB8903.namprd12.prod.outlook.com (2603:10b6:610:17a::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.8; Tue, 10 Feb
+ 2026 09:14:39 +0000
+Received: from DS3PEPF000099DF.namprd04.prod.outlook.com
+ (2603:10b6:610:b0:cafe::e7) by CH0PR03CA0026.outlook.office365.com
+ (2603:10b6:610:b0::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.19 via Frontend Transport; Tue,
+ 10 Feb 2026 09:14:39 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ DS3PEPF000099DF.mail.protection.outlook.com (10.167.17.202) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9611.8 via Frontend Transport; Tue, 10 Feb 2026 09:14:39 +0000
+Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
+ satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 10 Feb 2026 03:14:36 -0600
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Simona
+ Vetter" <simona.vetter@ffwll.ch>, <amd-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v1] drm/amdgpu: fix sync handling in amdgpu_dma_buf_move_notify
+Date: Tue, 10 Feb 2026 10:14:16 +0100
+Message-ID: <20260210091417.1133-1-pierre-eric.pelloux-prayer@amd.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260210002927.GC943673@ziepe.ca>
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099DF:EE_|CH3PR12MB8903:EE_
+X-MS-Office365-Filtering-Correlation-Id: bc4e4d16-bc77-4fce-538f-08de6884d199
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|1800799024|376014|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?qjeUxIPqPoWxUORcu51TnQL/ge/oaFI87bgh4fXJfI9uamJJxMdc9vWHPIOD?=
+ =?us-ascii?Q?TDx3uWbtCt+Z2b4MFLlz9mLxMLkMBOu7K+/RCL93EeLi3mvrlKcDLaWLB0FE?=
+ =?us-ascii?Q?/vCIM0I67wVlB3qB9hb0H2L71P/6zQzsoQ+fg/H7r8FoIpr7Y82aq7lyEbJ4?=
+ =?us-ascii?Q?cohuAhWnZKfa7qMe+iZXeSvvxdHOFCRlI3+OI7LDch16kzINTzJIf35Q8Sip?=
+ =?us-ascii?Q?Mx7e3iC/SyTZScv2o945Nr8QnOFQY0ybbokME/0C+VpB6FPFh+x/jcMfbxkY?=
+ =?us-ascii?Q?7ct5dxTeJ/EmXyxGAr/Y2yI7/ze6ZqIfRHmfZHCTsdDV2VEOwG7VLNtvXdjb?=
+ =?us-ascii?Q?c/+L+pZhiu//qHsGEmUxqtCbfq7JeC1qWLd2muz42sA1pKKhwngAUNFsnJrA?=
+ =?us-ascii?Q?JhDw8y1kuMzVofJrhffTCMDB6GUHNZarDGAAR0tScbmDaSIDG07bMDHRVp6G?=
+ =?us-ascii?Q?GaYu3RJ7X2uwwUs/RLYDr8uGxQXSoxXCXlTpp5PowoI/Db2DMfOH/8+unRnf?=
+ =?us-ascii?Q?dJYKk/C+s//2NmKjYDqOBhXwqBf5YwLLCxRPWe74RUa2tEuWsmcl+Rs2Qapl?=
+ =?us-ascii?Q?cJx3S7StO330/vXZ3WUVyvoVIll9T26YaVObDr+VjK8g3WS3OoVx+KoXJJFw?=
+ =?us-ascii?Q?nb0Qjx9+lU6YnaReveZPpzs0IshNSiZGMUdwL2LUhUCdqWWAtVuQ5Sumjrzv?=
+ =?us-ascii?Q?cek+mRt3uAwDkubBueQYINGzMC/Me5Xo9t55yvG2B7/NAVL/yQkOVXNqmWxR?=
+ =?us-ascii?Q?o2yHNAMlqhROs0R+UMhNjMd1mpXaeYGwOBiLaxkE2U7tggsXLF9LRts1sHnP?=
+ =?us-ascii?Q?DiEMAwP0j6Sgb6eCALUPp5Pzum5bamRMswhrMg6oZVfNyTxg3vgsa0KC0g7Z?=
+ =?us-ascii?Q?HJtvbjgnFkS8Ob2goHU176rVW31V0CpfK9nNJwOaNfRUumAkUxyk1paNWQ83?=
+ =?us-ascii?Q?PQfqMhIVQi+glU9c0OQuQljf6+QRE/2RRHGERlvrZrAbe7oGURNIpsO2oNwz?=
+ =?us-ascii?Q?4PL/4G/1sLmL9WE+B4unhlq+Por5LyTfaPH6HEQ4yCprIGKI5NX6l0cb31N3?=
+ =?us-ascii?Q?C9zg4lv7FQTV0qB2veWH3AIs6PxoYum7N4aAzfWrvbE8OR2GFtgsH0SQI+fq?=
+ =?us-ascii?Q?4lj8B7OQ/dWPbIhhSpq4+AvoRY31JUQLK90Eklg69jSYBCeR2pM7BKMJdTe0?=
+ =?us-ascii?Q?5wiDIyfM7PGyL9BhIpCIcFbRA4WOUklPNBHn+OatFirecUdoFT9mTO1tzbj3?=
+ =?us-ascii?Q?AtsPQCHxmHfHU0nkrs3RgbESNw9ZVxiVLOHzVUe0XWvMc80sKTuUEzzvX7JU?=
+ =?us-ascii?Q?4poZtRTFJD0s+Tvg9+fVNxGjZMB0b8XM7EE/YYABIiBdMpMoPp3ncQXFVdD7?=
+ =?us-ascii?Q?gxn7f+C4jRY1iEqIfjZjMR1HB/nvqdVT2dK3Admw5sQda1fTrWKvzR29mo+u?=
+ =?us-ascii?Q?lSuBlgcJoHqWfJwKgk0bY9DssxXg1n6QiafzMMXrm6MtMLbaOtdeSXISrcRw?=
+ =?us-ascii?Q?FzXqFdlLO97Wjn+8UJz5zUHE5ihVF11Q23YKMOaqkY72UT+iB85kvaUIJXGh?=
+ =?us-ascii?Q?QZ8f/AdLmmZt69I/9jAj1AJ1WCLqxCGhX2k9aOg1P8sdB4qgfR0dLOWUIW+t?=
+ =?us-ascii?Q?K5Tc5N4GWK4/y62wPWNZvfDQHKF2iH+R0U2CG57A8dVknRwJRcqsqmmiLmA3?=
+ =?us-ascii?Q?bft/wQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 3MubN3PCe3fRVwJr/lYo2rLdQuAcI0HEAW9C57X/KDKjM0QwsglW8Zdq88DDNsBD4VgZd+e6zEE81hc00nrmsixLwzHldTnZ/yKinn/7U6Mlt4DbYjqH6KNCN6fb3xqFVK2OkchEZWJE+EvSfUwTxzRjD4qM28TIQmx6PUJZDDG4PadduGWYhJpo0k+RhuV7sj+9BECb4/YbYfmGeLjSivItFgtr8GxHon3OQ/9z8cqw634HRWvJdiLHZCd1apowa8NZ7fWm0kOn3BbZn0j7nssSr7WubLhtMPiB0hkOl8vGJoYrqpXagVsYohrTS4bW9IdfVDVgRVLFsYsIYewujcICNUDnWV6MNYG/B103PP2diuNQ9NFot36OmmPTl7O1MWus5DuF265glfwbjAyOkT/G+AkpZIa5mClVAbhY35hNenBEqaivrkbhFNebsVd6
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2026 09:14:39.3904 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc4e4d16-bc77-4fce-538f-08de6884d199
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF000099DF.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8903
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,81 +145,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[resnulli-us.20230601.gappssmtp.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[resnulli.us];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:jgg@ziepe.ca,m:jstultz@google.com,m:linaro-mm-sig@lists.linaro.org,m:iommu@lists.linux.dev,m:linux-media@vger.kernel.org,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:m.szyprowski@samsung.com,m:robin.murphy@arm.com,m:leon@kernel.org,m:sean.anderson@linux.dev,m:ptesarik@suse.com,m:catalin.marinas@arm.com,m:aneesh.kumar@kernel.org,m:suzuki.poulose@arm.com,m:steven.price@arm.com,m:thomas.lendacky@amd.com,m:john.allen@amd.com,m:ashish.kalra@amd.com,m:suravee.suthikulpanit@amd.com,m:linux-coco@lists.linux.dev,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[jiri@resnulli.us,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_TO(0.00)[amd.com,gmail.com,ffwll.ch];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[jiri@resnulli.us,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[resnulli-us.20230601.gappssmtp.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,resnulli-us.20230601.gappssmtp.com:dkim,ziepe.ca:email]
-X-Rspamd-Queue-Id: C9B45118B89
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[pierre-eric.pelloux-prayer@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[amd.com:+];
+	HAS_XOIP(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 4CB54118BBC
 X-Rspamd-Action: no action
 
-Tue, Feb 10, 2026 at 01:29:27AM +0100, jgg@ziepe.ca wrote:
->On Mon, Feb 09, 2026 at 12:08:03PM -0800, John Stultz wrote:
->> On Mon, Feb 9, 2026 at 7:38 AM Jiri Pirko <jiri@resnulli.us> wrote:
->> >
->> > From: Jiri Pirko <jiri@nvidia.com>
->> >
->> > Currently the flags, which are unused, are validated for all heaps.
->> > Since the follow-up patch introduces a flag valid for only one of the
->> > heaps, allow to specify the valid flags per-heap.
->> 
->> I'm not really in this space anymore, so take my feedback with a grain of salt.
->> 
->> While the heap allocate flags argument is unused, it was intended to
->> be used for generic allocation flags that would apply to all or at
->> least a wide majority of heaps.
->> 
->> It was definitely not added to allow for per-heap or heap specific
->> flags (as this patch tries to utilize it). That was the mess we had
->> with ION driver that we were trying to avoid.
->
->I don't know alot about DMA heaps..
->
->On a CC VM system the shared/private property is universal and applies
->to every physical address. Not every address can dynamically change
->between shared and private, but every address does have a
->shared/private state.
->
->By default userspace process generally run exclusively in private
->memory and there are very few ways for userspace to even access shared
->memory.
->
->From a heaps perspective the API would be very strange, and perhaps
->even security dangerous, if it is returning shared memory to userspace
->without userspace knowing this is happening.
->
->I'd advocate that the right design is for userspace to positively
->signal via this flag that it wants/accepts shared memory and without
->the flag shared memory should never be returned.
+Invalidating a dmabuf will impact other users of the shared BO.
+In the scenario where process A moves the BO, it needs to inform
+process B about the move and process B will need to update its
+page table.
 
-We can have the same behaviour with the separate heap, can't we?
-Userpace positively signals it wants/accepts the shared memory by
-choosing "system_cc_decrypted" heap name.
+The commit fixes a synchronisation bug caused by the use of the
+ticket: it made amdgpu_vm_handle_moved behave as if updating
+the page table immediately was correct but in this case it's not.
 
-[...]
+An example is the following scenario, with 2 GPUs and glxgears
+running on GPU0 and Xorg running on GPU1, on a system where P2P
+PCI isn't supported:
+
+glxgears:
+  export linear buffer from GPU0 and import using GPU1
+  submit frame rendering to GPU0
+  submit tiled->linear blit
+Xorg:
+  copy of linear buffer
+
+The sequence of jobs would be:
+  drm_sched_job_run                       # GPU0, frame rendering
+  drm_sched_job_queue                     # GPU0, blit
+  drm_sched_job_done                      # GPU0, frame rendering
+  drm_sched_job_run                       # GPU0, blit
+  move linear buffer for GPU1 access      #
+  amdgpu_dma_buf_move_notify -> update pt # GPU0
+
+It this point the blit job on GPU0 is still running and would
+likely produce a page fault.
+
+Fixes: a448cb003edc ("drm/amdgpu: implement amdgpu_gem_prime_move_notify v2")
+Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+index b9c38a4fe546..656c267dbe58 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+@@ -514,8 +514,15 @@ amdgpu_dma_buf_move_notify(struct dma_buf_attachment *attach)
+ 		r = dma_resv_reserve_fences(resv, 2);
+ 		if (!r)
+ 			r = amdgpu_vm_clear_freed(adev, vm, NULL);
++
++		/* Don't pass 'ticket' to amdgpu_vm_handle_moved: we want the clear=true
++		 * path to be used otherwise we might update the PT of another process
++		 * while it's using the BO.
++		 * With clear=true, amdgpu_vm_bo_update will sync to command submission
++		 * from the same VM.
++		 */
+ 		if (!r)
+-			r = amdgpu_vm_handle_moved(adev, vm, ticket);
++			r = amdgpu_vm_handle_moved(adev, vm, NULL);
+ 
+ 		if (r && r != -EBUSY)
+ 			DRM_ERROR("Failed to invalidate VM page tables (%d))\n",
+-- 
+2.43.0
+
