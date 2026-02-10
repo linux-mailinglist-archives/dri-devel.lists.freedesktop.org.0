@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gPVmHi3/imnJPAAAu9opvQ
+	id GHQaIi//imnJPAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:49:33 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:49:35 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0785F119192
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:49:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 385C1119199
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:49:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57EA710E0EE;
-	Tue, 10 Feb 2026 09:49:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B561310E529;
+	Tue, 10 Feb 2026 09:49:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NyPDXIXL";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WMEyudNG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
- [209.85.167.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2E3810E0EE
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 09:49:28 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id
- 2adb3069b0e04-59e499a40easo678787e87.2
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 01:49:28 -0800 (PST)
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+ [209.85.208.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B033510E0EE
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 09:49:29 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id
+ 38308e7fff4ca-385b5174f54so4999111fa.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 01:49:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770716967; x=1771321767; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=5XThuayVTw6ykMsIyLNH4e1i5wnYl+TBF/gMfeuCJW0=;
- b=NyPDXIXLWhyBH9/eYNS8SLH6AF8aEvXdJ4MVppz63VacIhTNGSxLH0isL74vE5IHth
- UzLAbHiTpBAKqxJ8FsDoaiXWsyOjGmy5mM4hnYVxRlrXnfxNKWYfNABEoS+IfMBwBb3l
- aLpkaUqlT6QEebVBHn+eJlqoNNHU+aaKxtl+JOtJRZMix1vIVc2xQ/wpSORkCDdG3TkH
- 01/Pufu/PUDfPXK3NJzPAzx4LkOH6BLngv80YrYyOTr3bmU/5ks+4tv/ezA+lHNOKtTb
- R0whnKLLS/+hpWCKNI4dYZ3Z3glndFuk1mSHXK5YoBLBbsn2/klIKIJBUO7coW+RQmk3
- bfvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770716967; x=1771321767;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1770716968; x=1771321768; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5XThuayVTw6ykMsIyLNH4e1i5wnYl+TBF/gMfeuCJW0=;
- b=feZBVAUn9+Lhm1tMRDHNOkcMgStkHoqJsfthr9Ut/mjm4cHcOFvJk4Y8mSZPKlyQEc
- pQ3Z4leFWQTphLI5UJbllOhKDZwFBMNwyn2LbcX0sX2F5oFgA9uxX1ObignMUH/EyasT
- PbpuqxhFgflEAH8wLY1LbL1St+nu/1I9IOvQuOBppEhN+qdVbc9C4+TYsT2mjGhmiHYz
- 5/J1l/CFhy/jcExrdtjttJcaL5eB5ckHM4qv533ooAvl/DCzaG+637UqW4gKdxDM++TJ
- YnhRGQsWy20WqYmO96OS5vPdkDgEz2VJOnWOvpcov5QhmOBU1yVh549UgJY71khfx4UR
- 4p1g==
-X-Gm-Message-State: AOJu0Yz19X075blWPaXIcDydWLQAC4q9Z+D1BlnkIu8Zxev96XMQSEGC
- VLouAEEOFIXRWHvwEbKvVtB04IY+z1lCXbPMK+/f4GlZC0D+B/kin+Fh
-X-Gm-Gg: AZuq6aKcfyqxgWm0HXmxPK25j8817yWfIaB3DfAAxARvR16CgE0LzXrpsSZGCvVi7Qs
- ZviWgYm7/GmM+XYXfPUBIev+LFIZdSZZEC/M3ffwr6mW0CA176WZ61kz4yGbxc1Uxy67FWEDSvo
- /6F2IVY4kLjh3zgljp9Q8ZYTnXnO7Y7zykE56G1MCRZsjiah59+Q3sdnjUVGer/CedFtUJX+sd+
- /P0UOi0GXVwMf/G76u9/AU0/ZnqvsRWoK0nEnChDTiZDrbaXtpwS6eUINFpz6xW8WZOvaEYk2vG
- lzAimBA7yXBMircGR1vxe+EFT0EEtPy+Z4WfFOcCNpJL0JUt7AbXgboB+7WmZ26LTifsBBAFv06
- Z8SHc/ydPqjYKrs46CawhzwHKtXYJVKJkUiaqJ1vE3ikm3yLHQV0dpJQci7TGrT3YgDxMVv11b2
- gt2QZXiYxEQikI
-X-Received: by 2002:a05:6512:3da7:b0:59e:92e:7d07 with SMTP id
- 2adb3069b0e04-59e4515a360mr4728661e87.24.1770716966455; 
- Tue, 10 Feb 2026 01:49:26 -0800 (PST)
+ bh=MMvCNjWR7MERKti0fKDG3wrcg24MnDacQ8c/Hcdig+U=;
+ b=WMEyudNGhB4sZglnEIk1CTmPGQKBe+y3uBQ5xDm3RaTCxbyAQCs/X8s4mIvdRbN9dx
+ GwdJ+g9wrxqsGxtoOnjwcNJKd8jhHTnq66B1zFJsxDclw8CQGoK6KUj1646xo8KMZpIR
+ yBS4mNSh5ApT/KcYk+ZF9HDQBUOQwSKUTbLYb25m8UScGRAhufuVvBgpR+f2PwdOetpM
+ ih6yd1BD0YzSgrPnbkPkcN/hxtNumNXExBn4+7uH1wnpdv7epADlvKYQqfXWnu5xrXJa
+ 4lQOlOmxVw4M885TKbFC8uW3mOgldoMQadLoo+ulT0BWC7Sso/SB5CfTIkillW1pjEp/
+ XvWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770716968; x=1771321768;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=MMvCNjWR7MERKti0fKDG3wrcg24MnDacQ8c/Hcdig+U=;
+ b=QrjSjEpUdqBH89yIdOV6G+ly6/bOyAdHWg52uhS0SSRmIml9379+2r4A0qgZywO9RF
+ FencIXWEVkpTfaSaS2/3ji1WQohMUBt+WkRH25U5lZatlAso3lFzGdYXAgSLVIjbd5iv
+ W54Zu6/r/rItXMurVVlutnODzsxstBlIB2ey45suoz7M092VMMJgnQ/prBKnYoIfyopi
+ PU05TUlvWOL5g3mlU6Fci0TTo+lxqaORp+2FtCU1xvAIDpuj+XL4HkpkAtf8G/qHndDS
+ oCXOEM4+I3O1Sh0HcmoRjPEpdLE+jLALPjMG/Yi3betrqDf35hTXrXjYIhX18gImE7RA
+ Q6yw==
+X-Gm-Message-State: AOJu0Yyj5FK8w5K/CsLT0pPcey2vQNmLe8R3glEPyvk/cIEaazFP3H+9
+ ogitGyo3LWqxf9cBBmNhypc42jbdeO9hUzxFeMKtVhnm/qDsCZNxD/QI
+X-Gm-Gg: AZuq6aJh+UZ6xFajECPR0UDEEtIRExD5QtK/tPI08aracmc0JkN+Vdch+ixHiWJr1jU
+ 0bPdXVGT4kpttwihqRL98HbLA6LD0Opz1CaTav9aTRgYzIxW4ROqVMp3kCae8ahc9cQ6vDaA0ks
+ 7PYC8ZSpFGoGskTWuBi6EAlUqbSzfP9oRolvZNYDZqT8Sk0nIaAhKCDeK/8GBQ2B1g/mD2RrPTj
+ jXF43zAZhrgpHRfHJZlO6Gn1rRvXahrctM0yyKIrymgl3SKUw83uUJM0mPuy+VuJ+6AThQz4/oX
+ SLKAmRXReq/x/jGdWjQAdMHix3nBAvyKQty3JRyooQUQI35DB2GyMm8Vw6iVJH0x5vPBnjw8rm5
+ dfEE13M/VoCGH2q9oyRJVTufUMuZ2oTXuDMDmt0wikN6dSkgOSwILc4ZCjU0MZYieU1x+n4Nv8Y
+ /etZCIUkhZY6aM
+X-Received: by 2002:a05:6512:4010:b0:59e:3e8f:ccc3 with SMTP id
+ 2adb3069b0e04-59e45153338mr4748050e87.32.1770716967558; 
+ Tue, 10 Feb 2026 01:49:27 -0800 (PST)
 Received: from xeon ([188.163.112.51]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59e44e231d5sm3191691e87.81.2026.02.10.01.49.25
+ 2adb3069b0e04-59e44e231d5sm3191691e87.81.2026.02.10.01.49.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Feb 2026 01:49:26 -0800 (PST)
+ Tue, 10 Feb 2026 01:49:27 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -75,10 +76,12 @@ To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 0/2] ARM: tegra: document Tegra20 HDMI port
-Date: Tue, 10 Feb 2026 11:49:06 +0200
-Message-ID: <20260210094908.14276-1-clamor95@gmail.com>
+Subject: [PATCH v1 1/2] dt-bindings: display: tegra: document Tegra20 HDMI port
+Date: Tue, 10 Feb 2026 11:49:07 +0200
+Message-ID: <20260210094908.14276-2-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260210094908.14276-1-clamor95@gmail.com>
+References: <20260210094908.14276-1-clamor95@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -130,22 +133,47 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 0785F119192
+X-Rspamd-Queue-Id: 385C1119199
 X-Rspamd-Action: no action
 
-Document port which can be used in the HDMI to model it using OF
-graph.
+Tegra HDMI can be modeled using an OF graph. Reflect this in the bindings.
 
-Svyatoslav Ryhel (2):
-  dt-bindings: display: tegra: document Tegra20 HDMI port
-  ARM: tegra: transformers: add connector node
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+---
+ .../bindings/display/tegra/nvidia,tegra20-hdmi.yaml | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
- .../display/tegra/nvidia,tegra20-hdmi.yaml    | 13 +++++++++--
- .../tegra20-asus-transformer-common.dtsi      | 22 ++++++++++++++++---
- .../boot/dts/nvidia/tegra30-asus-tf600t.dts   | 21 ++++++++++++++++--
- .../tegra30-asus-transformer-common.dtsi      | 21 ++++++++++++++++--
- 4 files changed, 68 insertions(+), 9 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml
+index f77197e4869f..f33b700bf0ee 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml
+@@ -82,6 +82,10 @@ properties:
+     description: phandle of a display panel
+     $ref: /schemas/types.yaml#/definitions/phandle
+ 
++  port:
++    description: connection to controller receiving HDMI signals
++    $ref: /schemas/graph.yaml#/properties/port
++
+   "#sound-dai-cells":
+     const: 0
+ 
+@@ -97,8 +101,13 @@ required:
+   - reset-names
+   - pll-supply
+   - vdd-supply
+-  - nvidia,ddc-i2c-bus
+-  - nvidia,hpd-gpio
++
++anyOf:
++  - required:
++    - nvidia,ddc-i2c-bus
++    - nvidia,hpd-gpio
++  - required:
++    - port
+ 
+ examples:
+   - |
 -- 
 2.51.0
 
