@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QCMDMP88i2neRgAAu9opvQ
+	id EDq3HJ49i2neRgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:13:19 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:15:58 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B64C11BBFC
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:13:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC03B11BC81
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:15:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6384710E595;
-	Tue, 10 Feb 2026 14:13:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50C4B10E1B3;
+	Tue, 10 Feb 2026 14:15:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF86810E595
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 14:13:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC9C610E1B3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 14:15:51 +0000 (UTC)
 Received: from edelgard.fodlan.icenowy.me (unknown [112.94.103.253])
- by APP-03 (Coremail) with SMTP id rQCowABXZ87vPItp+RItCA--.18409S5;
- Tue, 10 Feb 2026 22:13:10 +0800 (CST)
+ by APP-03 (Coremail) with SMTP id rQCowABnht2RPYtpmx4tCA--.15725S2;
+ Tue, 10 Feb 2026 22:15:46 +0800 (CST)
 From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 To: Icenowy Zheng <zhengxingda@iscas.ac.cn>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -28,32 +28,30 @@ To: Icenowy Zheng <zhengxingda@iscas.ac.cn>,
  Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH drm-misc-next 3/3] drm: verisilicon: fill plane's vs_format in
- atomic_check
-Date: Tue, 10 Feb 2026 22:13:00 +0800
-Message-ID: <20260210141300.749013-4-zhengxingda@iscas.ac.cn>
+Subject: [PATCH drm-misc-next] drm: verisilicon: assign git tree to drm/misc
+ in MAINTAINERS
+Date: Tue, 10 Feb 2026 22:15:37 +0800
+Message-ID: <20260210141537.752890-1-zhengxingda@iscas.ac.cn>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260210141300.749013-1-zhengxingda@iscas.ac.cn>
-References: <20260210141300.749013-1-zhengxingda@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: rQCowABXZ87vPItp+RItCA--.18409S5
-X-Coremail-Antispam: 1UD129KBjvJXoWxXw1fCryxAFW8ZrWkJF45trb_yoW5Cw1kpr
- 4DAFyrKr4ftrWUWr9rJrWDtFZxuan3KryIgrW7GwnagF1rt3y3CF1kJrZ3CFs8Jry7Gw4x
- tanayFs8Aw42yaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBm14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
- x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
- Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
- ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I2
- 62IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcV
- AFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG
- 0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_JF0_Jw1l42
- xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
- GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI4
- 8JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4U
- MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I
- 8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUYdb1UUUUU
+X-CM-TRANSID: rQCowABnht2RPYtpmx4tCA--.15725S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtF4rWF1UXr1UAr18XF48tFb_yoW3XrX_GF
+ 4kAay8Zw1UGFyrG3yvvF9Ykr4ayay5Jr1fA3Zrtw47A3s8Jryqg3ykKw1jkw15Gr4rGF4D
+ C3y7WF9xKrsxCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb48FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+ Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
+ 6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+ IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VU18sqtUUUU
+ U==
 X-Originating-IP: [112.94.103.253]
 X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,89 +100,31 @@ X-Spamd-Result: default: False [0.89 / 15.00];
 	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,iscas.ac.cn:mid,iscas.ac.cn:email]
-X-Rspamd-Queue-Id: 5B64C11BBFC
+	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:mid,iscas.ac.cn:email,gitlab.freedesktop.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: EC03B11BC81
 X-Rspamd-Action: no action
 
-Move the conversion from drm_format to vs_format to atomic_check, which
-is before the point of no return and can properly bail out.
+Like other SoC display controllers, patches for the verisilicon driver
+go through the drm/misc tree.
+
+Add the T: clause to the MAINTAINERS item.
 
 Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 ---
- drivers/gpu/drm/verisilicon/vs_plane.h         |  2 ++
- drivers/gpu/drm/verisilicon/vs_primary_plane.c | 18 ++++++++++++------
- 2 files changed, 14 insertions(+), 6 deletions(-)
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/verisilicon/vs_plane.h b/drivers/gpu/drm/verisilicon/vs_plane.h
-index 12848a72af576..df4b248b52954 100644
---- a/drivers/gpu/drm/verisilicon/vs_plane.h
-+++ b/drivers/gpu/drm/verisilicon/vs_plane.h
-@@ -65,6 +65,8 @@ struct vs_format {
- 
- struct vs_plane_state {
- 	struct drm_plane_state base;
-+
-+	struct vs_format format;
- };
- 
- static inline struct vs_plane_state *state_to_vs_plane_state(struct drm_plane_state *state)
-diff --git a/drivers/gpu/drm/verisilicon/vs_primary_plane.c b/drivers/gpu/drm/verisilicon/vs_primary_plane.c
-index bad0bc5e3242d..b5bc6b0078fc3 100644
---- a/drivers/gpu/drm/verisilicon/vs_primary_plane.c
-+++ b/drivers/gpu/drm/verisilicon/vs_primary_plane.c
-@@ -25,12 +25,19 @@ static int vs_primary_plane_atomic_check(struct drm_plane *plane,
- {
- 	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
- 										 plane);
-+	struct vs_plane_state *new_vs_plane_state = state_to_vs_plane_state(new_plane_state);
- 	struct drm_crtc *crtc = new_plane_state->crtc;
- 	struct drm_crtc_state *crtc_state;
-+	int ret;
- 
- 	if (!crtc)
- 		return 0;
- 
-+	ret = drm_format_to_vs_format(new_plane_state->fb->format->format,
-+				      &new_vs_plane_state->format);
-+	if (ret)
-+		return ret;
-+
- 	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	if (WARN_ON(!crtc_state))
- 		return -EINVAL;
-@@ -88,11 +95,11 @@ static void vs_primary_plane_atomic_update(struct drm_plane *plane,
- {
- 	struct drm_plane_state *state = drm_atomic_get_new_plane_state(atomic_state,
- 								       plane);
-+	struct vs_plane_state *vs_state = state_to_vs_plane_state(state);
- 	struct drm_framebuffer *fb = state->fb;
- 	struct drm_crtc *crtc = state->crtc;
- 	struct vs_dc *dc;
- 	struct vs_crtc *vcrtc;
--	struct vs_format fmt;
- 	unsigned int output;
- 	dma_addr_t dma_addr;
- 
-@@ -105,16 +112,15 @@ static void vs_primary_plane_atomic_update(struct drm_plane *plane,
- 	output = vcrtc->id;
- 	dc = vcrtc->dc;
- 
--	drm_format_to_vs_format(state->fb->format->format, &fmt);
--
- 	regmap_update_bits(dc->regs, VSDC_FB_CONFIG(output),
- 			   VSDC_FB_CONFIG_FMT_MASK,
--			   VSDC_FB_CONFIG_FMT(fmt.color));
-+			   VSDC_FB_CONFIG_FMT(vs_state->format.color));
- 	regmap_update_bits(dc->regs, VSDC_FB_CONFIG(output),
- 			   VSDC_FB_CONFIG_SWIZZLE_MASK,
--			   VSDC_FB_CONFIG_SWIZZLE(fmt.swizzle));
-+			   VSDC_FB_CONFIG_SWIZZLE(vs_state->format.swizzle));
- 	regmap_assign_bits(dc->regs, VSDC_FB_CONFIG(output),
--			   VSDC_FB_CONFIG_UV_SWIZZLE_EN, fmt.uv_swizzle);
-+			   VSDC_FB_CONFIG_UV_SWIZZLE_EN,
-+			   vs_state->format.uv_swizzle);
- 
- 	dma_addr = vs_fb_get_dma_addr(fb, &state->src);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f2bec2c0d7e39..4a2d5e8f0f630 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8682,6 +8682,7 @@ DRM DRIVERS FOR VERISILICON DISPLAY CONTROLLER IP
+ M:	Icenowy Zheng <zhengxingda@iscas.ac.cn>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/verisilicon,dc.yaml
+ F:	drivers/gpu/drm/verisilicon/
  
 -- 
 2.52.0
