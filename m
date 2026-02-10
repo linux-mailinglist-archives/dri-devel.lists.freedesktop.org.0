@@ -2,175 +2,202 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eIW+JUDqimk8OwAAu9opvQ
+	id OJs2FAHRimluOAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 09:20:16 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 07:32:33 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B6E51182C8
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 09:20:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B648811760D
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 07:32:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B87FD10E388;
-	Tue, 10 Feb 2026 08:20:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D15DC10E229;
+	Tue, 10 Feb 2026 06:32:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=amlogic.com header.i=@amlogic.com header.b="F2Z7R7Kf";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GcHdJFd9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS8PR02CU002.outbound.protection.outlook.com
- (mail-japanwestazon11022095.outbound.protection.outlook.com [40.107.75.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17FE810E4BB
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 06:06:15 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 016A610E1C5;
+ Tue, 10 Feb 2026 06:32:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1770705149; x=1802241149;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=v8Vn7Si35mwTql/y7DNSHyvvnkJEXfyjGuQV5BMC8/M=;
+ b=GcHdJFd9GzEZSZ2RoyVIzGvQ4JUD0fmXT012RiGt0o/ctYHmKnzNPuWY
+ gB7xKO+w2KTRaVbM73BS2PmndwQr4kAb7kCaTgAKQin7QERBVOrW51Jto
+ OJYUsG3pppkp6zyloc9nkn+noXvjsKczZZm7hYHO0LInCngHDAwPYHFID
+ kLL7V7GpPzLncz2gclByevx6mBlYCwKV0Uzs3pQXR2NU9d/MwuN9kjZ2N
+ fgiPQA7R0wO8zC6yE755yqeXNp3O0HdUi4WZWdg4avYBXVJLQjDR959Q8
+ Jj5VTF6YmPUluh4LM+0IB23HhMogWmgLUap9i1y6He56kfA7qZz0xT5Jd g==;
+X-CSE-ConnectionGUID: y11xwrLzQ4yLiKEdAFW/yg==
+X-CSE-MsgGUID: 6K88GQgiQOWHlKP6JYd6kw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="71036251"
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; d="scan'208";a="71036251"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2026 22:32:25 -0800
+X-CSE-ConnectionGUID: wLlpaz8ZRsOWrGXq8XZlvA==
+X-CSE-MsgGUID: g6n258s4Q0eaoVEqSB7vrg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; d="scan'208";a="234779559"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2026 22:32:24 -0800
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Mon, 9 Feb 2026 22:32:24 -0800
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35 via Frontend Transport; Mon, 9 Feb 2026 22:32:24 -0800
+Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.29) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Mon, 9 Feb 2026 22:32:24 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jLzOrlGR5n/qct4GewrADDVtQOxKFqN07Bko2S0vuqfVglRewObsxktmFdtfJWr3xf5zJnihUsNQzrGe9BSCSNyeX4r2xe0QBqqItilcpJb1wrymLr+7znp7Gutq6Hiny1g/maMVQBFa+6BG9X6wXy7URrd1VYoZp6VeA2qxkfWWw6qXgA6gI8LNzK6EzZXCv3PP8fYpxYCedfYkw7pMaggLz0xkFK4LjYeJ1HoJNJ1DHTDbK8oxdnyhm6ixEUQv8qeLa8az4Xc0dP7hcpuvWP8i17BCdX3ZLz7g8dVQRk5wYQRdPUczAF/P+Muik0FLiFcS8IVsmS5zKYYnVINqKg==
+ b=LjHimwaUxutBnLQHOB1NGIo5qGU4GNLncISfrYG20cRB4zBVDvd57Tfm82wp0/cbHfuNiwN4en3kZu8Soj9CY/oII0FyWNXVlqxHMubQCG2Xwhgz5+8zP//p3TMCWy8sGzDrZZMnNyK0cFsLElCLIT60Ca4nUMte/vyjz1l35vK8+Z/ZqM3xPChpMTaFczrF4NxHKX0cNt8TViDPjTVvtZyCg7h80jQFK+Ogr9GKmx7BPIefkS6g1K4qteJRPEUL8SSuFiPt0GXSm9FJDmq9NNy+m5j61szJIWNcru4eBIxg0UWMuMouy63Bh0tj5mcm+u8K0murfwoMGUG/M7bL8Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MZuilx63nf/QJ0AyvKiKHeLNBT2fh6XWd6qn8nlfPY4=;
- b=UeoYZkctQPCqETiuovQfRC99Jz4uEI79WyL3AODSR+Mw89KrDCX6Fp5bNvRSx4grGT+GculRP3ZTtjzkVW3VE2sTCtvTzuPPgHpvZjYlD+waHFwRc0qJXHroONClVAszscbCztOTBeMileKaKguEEYIrdagVH+wqTiXpIZ6x39DnYqRaoe7i+dgDNOdwRfSMxKRvE+7xjXUKyLHeniDzbyUX1Pt7KRu82CJlSlzMiJbvxHvGqyXBpC6ieo437AvANC2QpO8Q674eub79RROxPBaJLJwxBCS+P9Q2FDFWul8htGq+rEiwDDKKFQF453nEhAt2kCduLuJTyxAQU6f/cg==
+ bh=5Uy47CPXCJTtmXET81BsdOrExq4Gk6B/9EjXGW+/Hdk=;
+ b=nbdxT960RkxbJSXnHBeWJSpdrf91FDmMIWaDkLmT1E4dY43Zp9rPqgytfLJwW2H+WfRZQ8a9oDqBYgxf50vcq4ysvaea7i2p/dLuYAFiRtWqEah3TAsvfSqjgkfiCbXC2l3CPMqqsZII2oKi0994OM9UgRDSF/b8+J/p0kFuYtY69Dm5gg+jWWCuoZ/GpKVko9KdGWBjQpuTgYRKSsb/lcw9sS3hFJ+oNrqFpzeakB3MOBnYE3fJiSeyfgRXZpT9Z1oLQZkCGNVmZetrDA/bJjbmM5ClDrBpYl8C9+OQ2e7JDBnezYOVbNTA6IYLQLbxw9gqnUYqQ4d3r2DQyQzRiw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amlogic.com; dmarc=pass action=none header.from=amlogic.com;
- dkim=pass header.d=amlogic.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amlogic.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MZuilx63nf/QJ0AyvKiKHeLNBT2fh6XWd6qn8nlfPY4=;
- b=F2Z7R7Kftj6gM/XWzmzsbUVJY2bIWhRK1G75b4wW7XQWTBrXQB/E0TrywwP/ZzieTrmtp/kULBky/cF/uWldG7tjeTqXOh2lX0lb2dnfrbE5z5maGZBbd3NZ9+Rz002+/PR9OzexVMYScmYPKINCSeYcKfmRadQtE9XmCbv1JgN4Hcu3vr/ClmO/qxoXyf08MH7AqgdfXRb//skfSd/KvJUVdt5zUQoBnhxYe+4Rz7bX0E5VjGJh0ec32rrYybajpmyxfAx2OoXRey+71RjLeKjMjtUCEhcchP/dzKcpsn4i57jDoWe7/2U6TIQkBZ73+5YtPyFS6GsQFfgBHWfcxA==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amlogic.com;
-Received: from TYZPR03MB7155.apcprd03.prod.outlook.com (2603:1096:400:33e::5)
- by KUXPR03MB9642.apcprd03.prod.outlook.com (2603:1096:d10:5f::6) with
- Microsoft SMTP Server (version=TLS1_2,
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from IA0PR11MB7955.namprd11.prod.outlook.com (2603:10b6:208:3dd::6)
+ by SJ2PR11MB7476.namprd11.prod.outlook.com (2603:10b6:a03:4c4::16)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.19; Tue, 10 Feb
- 2026 06:06:11 +0000
-Received: from TYZPR03MB7155.apcprd03.prod.outlook.com
- ([fe80::db31:7a14:6203:fb96]) by TYZPR03MB7155.apcprd03.prod.outlook.com
- ([fe80::db31:7a14:6203:fb96%4]) with mapi id 15.20.9587.017; Tue, 10 Feb 2026
- 06:06:11 +0000
-Message-ID: <1a93d6ad-7f09-467c-9b2d-9e706f66adaf@amlogic.com>
-Date: Tue, 10 Feb 2026 14:05:19 +0800
+ 2026 06:32:22 +0000
+Received: from IA0PR11MB7955.namprd11.prod.outlook.com
+ ([fe80::6021:79ca:45d2:ae46]) by IA0PR11MB7955.namprd11.prod.outlook.com
+ ([fe80::6021:79ca:45d2:ae46%4]) with mapi id 15.20.9587.017; Tue, 10 Feb 2026
+ 06:32:21 +0000
+Message-ID: <b1dc4aea-9c0c-4a47-9d13-c000651e2ec5@intel.com>
+Date: Tue, 10 Feb 2026 12:02:11 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/11] Subject: [PATCH 00/11] Add DRM support for Amlogic
- S4
-To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: neil.armstrong@linaro.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
- Jerome Brunet <jbrunet@baylibre.com>, dri-devel@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org
-References: <20250110-drm-s4-v1-0-cbc2d5edaae8@amlogic.com>
- <2967a475-9fbe-4d20-a27c-04676c74d03c@linaro.org>
- <c94987c4-dd46-4eb5-a56b-8132c0c9a118@amlogic.com>
- <CAFBinCA374KQiKn=_M5JNfY+Re_uw_40A169G=pU2-MghmUV2g@mail.gmail.com>
-From: Ao Xu <ao.xu@amlogic.com>
-In-Reply-To: <CAFBinCA374KQiKn=_M5JNfY+Re_uw_40A169G=pU2-MghmUV2g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: KUZPR02CA0028.apcprd02.prod.outlook.com
- (2603:1096:d10:31::16) To TYZPR03MB7155.apcprd03.prod.outlook.com
- (2603:1096:400:33e::5)
+Subject: Re: [PATCH v5 5/5] drm/xe/xe_hw_error: Add support for PVC SoC errors
+To: Raag Jadav <raag.jadav@intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <aravind.iddamsetty@linux.intel.com>, <anshuman.gupta@intel.com>,
+ <rodrigo.vivi@intel.com>, <joonas.lahtinen@linux.intel.com>,
+ <simona.vetter@ffwll.ch>, <airlied@gmail.com>, <pratik.bari@intel.com>,
+ <joshua.santosh.ranjan@intel.com>, <ashwin.kumar.kulkarni@intel.com>,
+ <shubham.kumar@intel.com>, <ravi.kishore.koppuravuri@intel.com>, "Himal
+ Prasad Ghimiray" <himal.prasad.ghimiray@intel.com>
+References: <20260202064356.286243-7-riana.tauro@intel.com>
+ <20260202064356.286243-12-riana.tauro@intel.com>
+ <aYTdFPXDRUsT7JGe@black.igk.intel.com>
+Content-Language: en-US
+From: Riana Tauro <riana.tauro@intel.com>
+In-Reply-To: <aYTdFPXDRUsT7JGe@black.igk.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA0PR01CA0055.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:ac::11) To IA0PR11MB7955.namprd11.prod.outlook.com
+ (2603:10b6:208:3dd::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZPR03MB7155:EE_|KUXPR03MB9642:EE_
-X-MS-Office365-Filtering-Correlation-Id: ff2f1a51-dc6d-48dc-53f6-08de686a7d55
+X-MS-TrafficTypeDiagnostic: IA0PR11MB7955:EE_|SJ2PR11MB7476:EE_
+X-MS-Office365-Filtering-Correlation-Id: d92ed6cb-bae8-42f7-f72f-08de686e2544
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|42112799006|1800799024|14052099004; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MWR3TTVETDlCRi9ibEk5WndDbG1oQUhXaXVwZjBoeDBnWUY3TTR3cVFMYzcy?=
- =?utf-8?B?bDYvUnVyR2pEeVJWT01xVkNNU3J5SE15elRRK1RWNmJYNmdMQlJBcVZhQ2Nv?=
- =?utf-8?B?ZndvcXhtaDZ0Y2lneEhzYnBJOUp4d0cvUEl4UmhJU3lja282eG9Fc1VRU2RL?=
- =?utf-8?B?UmVHQ3lUTzU5WGlEa0p5d01KN3VkZVZ4UjlkWldlbkI5aUYzdEl6WmdtVmRB?=
- =?utf-8?B?bnBZTUxuN0NTclFYME5ZbzVSU2lyRW03bll3eUF5NkJpTlgwYXNGeVlubklS?=
- =?utf-8?B?dGtyZVRLbzZIaTVGQ0NCeXQ0UzVnQnNyWlZ2SjVjWnVUaGM2RURCUGh4bHdq?=
- =?utf-8?B?Y1c4WHI4amdHV1BMOVZHZm1BdW1yNFVRaFhTVHFvNHdjNE9kTVdOOVpxRGF3?=
- =?utf-8?B?a3hCRGt6ZXN5MFNmZVFiOW4wSTV4NEdVdnBpZXd0djNzNklESnBMdy9UMGNL?=
- =?utf-8?B?emlCdDR3dytocEIzSHpvRFRGSkU3aDRUNTFWVW9CUlp6b0tETHZCbXZQUktT?=
- =?utf-8?B?b3dxNTBkbW5NTm9XNlZ4RUhBd20yWlp3T29FRjFmQWRVRXlONVoyYVdRUjk1?=
- =?utf-8?B?WVJKUlRaWDZ1d1hNYUVKMEpBZ2NFTlpnT1lMOEhEaEpBejFQWGljaWVKZzAv?=
- =?utf-8?B?TnNrRGdtb3pKMHpUeUFlVSthZGFWYXZqZUIydWphLzh6c3VjdXdnQjdSMnVn?=
- =?utf-8?B?QzRUeSsrdlp0YzNRRGNGZWN3U2xhY0hJNUVCSzNlMUZRSWtSK0tnSmREbFhJ?=
- =?utf-8?B?Tjl6RWllVWFHZGJkcFc3dWFTR1Q0Vk9PbTJIQzZ5STBSRGxReVZJU3R1MG4y?=
- =?utf-8?B?QXFPN2ZSejltRkxxM2ZwemJqNnRlZlR4NHUra0poMXVuNzFjV2tPQ2FzWUJE?=
- =?utf-8?B?eDEyZkJZckRQSWs3NXdyYVppZ2dsMGpiVEsxZGMvc3NqbEJSNXJENXVkeUQ5?=
- =?utf-8?B?Z01rZ2cvTW5XazY4YUd3L3BHZmdNWWtlU1lJV1o1N1dWcC92Z3hQWURheUgz?=
- =?utf-8?B?UVhTRlk0WFF2VFlqelcyOCtqYi9Ed2g1Wm15UHl1YnExb2pEWDVKQS9wY055?=
- =?utf-8?B?a3I0UHRrVWF3T1RlM3N2QlhpdWhEMnF4V3pNd0tIVE44ak5ZN3F0TW5vS0Qr?=
- =?utf-8?B?U3B0b3p4MHA3OEI3dGZwVVNpejR5dVRORnJTbEx1QjJaWEtCVlBNaDl1eUdR?=
- =?utf-8?B?QUE3KzgwYWEwd21GTlFkL3pQdXJpMTBkSldqWkZSV0o2bmw0bzdWNE5NU3E1?=
- =?utf-8?B?TlkyRkZVTTBaVHNtSElPMzEyaCsvSWNwNmlEamhydC9iN05MOVlLb1N1WmdO?=
- =?utf-8?B?TEZVcXhndDlqWC9MYlkxR3ZKUHZBVGROM2lyUUV5UGNPNDhCSTJXSERYcnM0?=
- =?utf-8?B?RWtTUkxqR20wUlhUY05jc3M4MDVMcVVBaDBYYjJtNEhPaWlka0lBeW4zbHpl?=
- =?utf-8?B?eWpCTk92aHFTNGVGc29SQW5RYVlWazhoa3hQZzFMaTRjK2RzZC95RHJGdmJx?=
- =?utf-8?B?SElmTEM5YXR4WnRNeEExUzdRdVFwRHEzV2JWYUZTWDhHaGJucXZtaDdSVWZ2?=
- =?utf-8?B?OUMzYUZ2Ti9RUFk3K212aFRRVU9NenhDNlozK25Ydzh3MXVQTUtaZExyZWk5?=
- =?utf-8?B?MG9idytsRkEzRTdNRkFGaGxvdWZKU1dkRlorTGQvOWxqN2lUSnNIVHdYRUNi?=
- =?utf-8?B?YjRzVnhvRzZ3eDV4bHpSRGlsWXhNY3d1NnRMazJKQXAwcW8zanh4b1U4QWor?=
- =?utf-8?B?RVczTTIvNmhibXQwbjkyV3ZlSzVscU9hOFhQd1lJckpoWkcrV1hXMWRYRTRS?=
- =?utf-8?B?TWtPelcxcUhjTncyUit4MFNSS2ZqMGtMcU0rYVQvbllCRzVCemRmWGtUTGhH?=
- =?utf-8?B?R0FoemYzT0xacTUrdy9sdmVVQTdlOGtVdk8zTnV5QlB2MzAzeUtNQ0Y4ZkVB?=
- =?utf-8?B?RFN0VUNOUEN5TklwQmdCZXZobkl0MjV6VHZYdjVQekZQUGxnYXZvS2poQWE1?=
- =?utf-8?B?UWVyL2NPUlUwK0k5dDR1bkptK2tEZmN1WEVJOUVSemNnK2hBaEZpb2YyZUYr?=
- =?utf-8?B?TkxVNTZvOE9xUXZXTEtmZWt1MGVpd2JpSkM5Y2wzVkI2Q3p4QTV3aVkzWDFx?=
- =?utf-8?Q?6Z0g=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RGNoWjZGdDNFY1NBT1hVZ2NVQVU5R3JndThPQnRjMFN2RnhuYWdJMFk5TTUv?=
+ =?utf-8?B?TGxIMUpwVTE1MFJxb2hTRGdlK0FoQk1mQmVKR2E5QzNrZ3Bsa0hLVGpmSGFK?=
+ =?utf-8?B?WStRYXh6NkU5WjRXR3hDL2NtZGsvSjFEeFVHVjNXb2haY0krTlJqbmducGkw?=
+ =?utf-8?B?aHh5NkN5ZHQzdnBPYWwrRlA1NVA1Z3lMOWxNbmQ3Tzd3cGJZUDdsQlpwU1lB?=
+ =?utf-8?B?am5tdi83QVNiclBmcVJsMjJJaWxIcWV3RkhVZE5nQXhRalRVanNyd3Y1QXFi?=
+ =?utf-8?B?cFNpcllIcjhXZDI4MlMrS25qYTk1aHgxUlFEQUg0amJjZnFteElLZlVFWC8x?=
+ =?utf-8?B?VE43NG5GMjh1aG9kQVFKblA4d2Q0NGhaNG5peEVBRGhaSnk1TDJSV3lvRnBy?=
+ =?utf-8?B?NC92aVVtbnpCMzE2R3d5WGhOVmJhNmJ5UTUxbVljWVpCSlNOVDdhczAzRXZM?=
+ =?utf-8?B?Tng2WGlHTDRPNEsrdWhMZmNVMEJlS1NTOVN5WEJaVWRlKzhiVWI3eFZUWUdN?=
+ =?utf-8?B?U0ZBVkM2TklhYkxPbWdaNlNWTkFaQWVrV0x2eWhoZldEb1NnSVBXdUxldUVp?=
+ =?utf-8?B?eEQvTkVud203ekd3amx0bGkxTERXVWd0SUNGUUlSY0xqWU1hUDRHY0pPUjh2?=
+ =?utf-8?B?Tmw3VU9VYzJybE9ibU1nOHlQNnlkYmVuNE1yRlloSlQvZWg3YjhGdy9qUCtL?=
+ =?utf-8?B?N2trcXhPVlZJTkpjSEFNL1loLzk3Ym92K0hoMkRKZnZDamIySXFGOUFyam5F?=
+ =?utf-8?B?RTZqQ0hQT1F4V2lMQ2RJMkpGMW45NFFpS2dYUGVsMks5ZzNBb3cwWVZTa0Vh?=
+ =?utf-8?B?aTRBUit5ZzBPOU5nMWtMNmhVbjdTeVVrNStJOUc2OVU1aEZYME52cG9sbzdE?=
+ =?utf-8?B?SnhmcTRpeFRKT0R0eVlUbGN3R1c2MFIrVE1UczVBM0N0TTgrOGd5ZGxnTGpR?=
+ =?utf-8?B?elRmZ2FoYy9QMU5JMWtNNzRhOTdDSnQ5WnBFZEZmQkZSZm00YXZRa3dYeTNX?=
+ =?utf-8?B?SjVhMms3T1ZFMTIrQWIwelltWUJmRVV4UmJOQmxUa2lLZHpjSUVTZUNwY01Q?=
+ =?utf-8?B?eExhYzRieDQzNDR4OUJiMHZJaTRGWWpxUm1ndnVXZjE4RVErckMwbklqRHVm?=
+ =?utf-8?B?ZjZYNU1na09IMnZubXNEOCtjZ2lMS0FucGt3aGwxK2J5NTBmZGhMRk1TZmFP?=
+ =?utf-8?B?N2Vhd09nQTJ6OWxVYlVBdEZaZ3JOSUgwZHNZZ2JEaWk0d1JDZE9rdW94Z1l5?=
+ =?utf-8?B?eGRNbnd3VDhpM0IzWWtPU2FBcVBZYXNYZHZrd2MyejYvUStEVy9KVE1DSllI?=
+ =?utf-8?B?SC9Dc3I3TGNURStnTVVrOVdMR3RrbTF1aWtRazRBd1VvTGJ5MHpNMGIwSEww?=
+ =?utf-8?B?bDNrVHdFSWkyaFRGM0Qrak5TdE9ISm92L0ZlcTJ6UzU5VURkWmxsemwvY0Yz?=
+ =?utf-8?B?bkhSU25ZNkprZ0V1TzBValovNzhRWDViS2dhZTNXTm5uSVAycDZpMm1OWnBT?=
+ =?utf-8?B?OTcxUWpWMnQrd1dFZ2w3bDFTZDIybG5kNVRmb3BVbEJEcVJhQUNROW5za3dR?=
+ =?utf-8?B?anVWbGxyQW9lS09kZm1WczNzZ2Q5elhNVitsaTVHNEhybW03NklCc3ZzUDFQ?=
+ =?utf-8?B?L2NUaU8xcnk1dndJWVlJdzBuNzZtaDh1Q3dGREpwdXMyN05oRXAwMXM4VUdu?=
+ =?utf-8?B?dXVZUy9xRDRSb1psYXdrcEZmSnJ5ZDA5bVdMVVlnbkFBciszK1VoUGZhMExZ?=
+ =?utf-8?B?N1hmcE9heWltdEhJNzRzMUt1QktVWTdjaHZHOXAzQWhkZHdVdGtsWm9GRUxN?=
+ =?utf-8?B?eERsMDh1bEt0YXg1Tlp3bFRnb2p5WXZXWnBDMUlLV0VSOVlnN0toN1Y0NTJz?=
+ =?utf-8?B?aE8vYTFRMWpiZFBDLzIzajRSVzMwdmV2VmJORmhVYkxzZWkrL2Q4MXQrZTBa?=
+ =?utf-8?B?VVlvdXBLK01YN211dFY3RmRKUlozd0JqT2JnK2NxWngxNFFPYjJ6aDhwcGNp?=
+ =?utf-8?B?RUlUYWFyK0YwdnRvQmlxL3JDSXFORkhRVGk0UVJOK3haQmNwaExZcWY1bWhZ?=
+ =?utf-8?B?S2M2NWh0aTErd2xHdGRoYVptS1JsbXJ4WU1walQrTEVtREJPSkNxSjlac3pI?=
+ =?utf-8?Q?GVIk=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR03MB7155.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(42112799006)(1800799024)(14052099004);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:IA0PR11MB7955.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R2lFcEYyUStNczVqNDFDcXMwc1RpMVRXV2tJUW5VQldyeklEYTlRUFZvZjZ2?=
- =?utf-8?B?Vnk5VWxtOE1PMTBCKzNMeEljSmhaejh5T2JUL0RTaUJOWGZyU0ovaWc3Y2I4?=
- =?utf-8?B?QXNweDhWclcyTXR6Mjk0L04zN3RsYjdvTE5GRHpQVHhOblJTMEljNTVHbFZx?=
- =?utf-8?B?RitiTkZjcXYzcktCdVltRzd2UGk3MHR1a3VFVWRDZHMzU2IwcTNMdWpMZ3E2?=
- =?utf-8?B?KzhoSGQ3U2dCQjhYcHdNSEdyY0pqZHl6OW5PZ1hYank0Q0ZEQ1RvVU0zR2Rm?=
- =?utf-8?B?Tll1cHV1bnZlQ0ZIKzBZQkNlSDhEMlpkdkl5T2ZUanA3ekwzV01FUm5KYTk3?=
- =?utf-8?B?Z2VURHlpTzR0dzQ4SFVYb0FCeTNrN2dSZC9pVTNLK1NUdDlxUHJVUEZXNCtN?=
- =?utf-8?B?dVUrdFRETmRyaXExRDBieWJVbDg0dzNiMW9DOUg4bDBaTWhOdTBrd3RzWkha?=
- =?utf-8?B?WGg0WEdKZHVka2x1US8ydlBHUHRTc0VrNHRacXgraXNHdnczanN1T0dCcHRr?=
- =?utf-8?B?d3lDWktQV1AwQXp1K2c0WlJuWGxtQlZlOEk4Q0piQXNYOHk1b2JQVTBFb1lL?=
- =?utf-8?B?WW1KRUtZQ2V5VjJaQ0RQWHFQMUpXWDlyM0xMZ0RNN2d3NmNJVDBzZFJGUEpp?=
- =?utf-8?B?U0tWUlEreHY2RWxqdE02TmVCdTlYMDR1NHFzYUZZRitReEJOQlpVcEIwbFVQ?=
- =?utf-8?B?U2lQcUtxdE5xeFpXVFNtd25HTWRiMVFhSjVnNzFNRHV5d2paQU5XZ3M5S0k3?=
- =?utf-8?B?MHhISnQrTnhRaFprRzVXSWN3cjRUUjRLR0J3c3B1SjRHRERmaWtzUFFzMGJa?=
- =?utf-8?B?UXRLazUrWm5ENlh0ZDBHM21TdzRMSEV4MVMyZWhTanpGVDZwdE92bVh3T2VI?=
- =?utf-8?B?SGFYcXBqOHlGejFKRXNoMjBsaVZjUS9maU5tK3owNk1EazYvV1hOYVZSNDk0?=
- =?utf-8?B?aE1hcDgwVnY2dkFMYXorSEMweDRoK25ZSFhRamx0elVmeEoyMGtQTTYzcEZS?=
- =?utf-8?B?a3hXZE92eUwxb05vRkp3Ky91ODV5MDBmTmxINnlrTkNJU1M4ZktxVnZKdzQ3?=
- =?utf-8?B?MUM1VDhCM3c5YVpIRUQyWjkyYit1d1d3RFcxRnBQSmRnWnF5SkNJTmZZOVVy?=
- =?utf-8?B?YzlXakYyemRXcHhTaTJrdDQ4SDl1anpYUlhIWUdseTRSS3Rtcmc5WWtyRHl6?=
- =?utf-8?B?dWRJUzBjTXdLV1libHFsdGducGY5dElMUlVJWFVkMDNUbEtGZkVzSCtTUFlx?=
- =?utf-8?B?Tk9YMllwVnJvUHBWZ1poYmR5SWRWVllMNkpiaWJNZHRIVU84UVdVdmtzVzlW?=
- =?utf-8?B?eGdNYWJ3STJpMTV1blc0VmZMWTZ5T1FNZm1wdEtNVE91TUx5QkxueXYwenpL?=
- =?utf-8?B?dmU2cnFwMi9kd3p2c1hvc2xIcTd6THJQKy9TVUtSZ1JycUhaQjVQdWpJZVRC?=
- =?utf-8?B?WWUrTEIzV2RTZ0xjVm8vQUdrNmVNYTRCME92R2ttWVlNMzJiUjlsL2ZsYjdV?=
- =?utf-8?B?R3owanRWaDNlS3BCbEFzNnEvOFZwc0VPWjhybU9oQUx4NnVWNDEyVnVNNlNW?=
- =?utf-8?B?RkQxMG55ZVRKVmFvcUp1SjhrT2xRV0g1clBtL1RJWWU5WUhRRUh2SVJYTlRo?=
- =?utf-8?B?RnVYOFVpREwvWW8rNlgweWozL2o1NzNOWEZTSU0xT0tQSURCUTdYbXMrUDI5?=
- =?utf-8?B?Y3N1Y2M2TkVKaWpSaFJYeVlxcEQ4SU5OZjlDUmV6RUhFaWtrN1FGbCswdHF5?=
- =?utf-8?B?R2x5Y2dnb0pETzd5OVVYclBHVUgxTS9hSlhwV1o2ZGYzcnYzRi9US0J6Z3li?=
- =?utf-8?B?NDQ2Slk5TUd1Y29GYzFaN1hpZWlRcGQ1Z3RDQ1duVHR4RFdtbUJ4WWphaDl4?=
- =?utf-8?B?c2N3bE91THc3N3Mxb1pyRmRiZlFhNk14cmZmQWEzdGJSUE9uVjhFSWJpdHpj?=
- =?utf-8?B?TTlBZUQxT0hjL3A5YmdJRzNNVG1IdlI5Y3JRR1BBTnJoTHFGNEhsL3lwczBV?=
- =?utf-8?B?SCtjUE1kSkdiZ1lWSXZNa2tqZ1M0c25MYmlKemhyYytwWDhzc2dHOHJ0SGps?=
- =?utf-8?B?WjE1Yzl6aHRnTVZWOHp5TFpUN0RjL1EvMG5MYU00NHlySUl1OWRDNzZkeTVq?=
- =?utf-8?B?QytKNThucU5GUURSbVgzVjZRYVVzWFY3VmgvLzdZMm9VZ2tTa1JTYXJSZlp0?=
- =?utf-8?B?RGpMK3BNV1NJY01KMjVvYnBtOCthR2xzRFVpQWxjbHp6VTZKWjhlakc3ZXpT?=
- =?utf-8?B?bWZWeGNSQ0hEczJlS3lpRTBRbVpFdXppSXJZMk5uSFVMZEJ1VFdiS3JueXZt?=
- =?utf-8?B?d05pVHJyQWd3NnkrbmZFeTU4S1VRejAxSkN6RmtTMk8yb1BCN0E4QT09?=
-X-OriginatorOrg: amlogic.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ff2f1a51-dc6d-48dc-53f6-08de686a7d55
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB7155.apcprd03.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L0YzM29KUXFNck8wcFJqQ21nSXQ5cVdVVU94eU5BOEVpdDljcWptcG9peDE0?=
+ =?utf-8?B?ZDdKby8rOEFuNG5yTjFJSVl6UVA2a0hkdHkxMGsydHhHOUR1N0RCN1gybVRG?=
+ =?utf-8?B?SERZUktibEVNaFhSTXVzektzbGdOQ3Y3VENNaHN1SDdXa0J4MlpEYXh2NHEv?=
+ =?utf-8?B?NjhSL3owZ043dGV5d2RRWTlnbmJONW5xZjBTN1JkMGVxQUF0U1g0SVBZQmVZ?=
+ =?utf-8?B?by9VekhjdzZTek94anFQekcxc0R0WUJpa2hOSjQzR2kzK1h2UWRoU3ZVUXZz?=
+ =?utf-8?B?NW1DUHM2emptMzA0QkcvSWR0SFltMU05dkRXaGFsbGR5RkNIV3E1Wnhta1R1?=
+ =?utf-8?B?emtudVQybjJKY21MT1lQSGZBMWZ1eGZobE0vTEJES1FYVTFEZEVTc2NhMmJU?=
+ =?utf-8?B?aDJva0ZmVDlHamszb3JWS2w1WDMrRUxObk1KM3Zad1p5V09TVlVlRXYvK0Rh?=
+ =?utf-8?B?UzBPQWE0Q3RIaVNaa0xDMWk0bUtpY3RVZVo1aWZqZ2VQZlZrVTlVTHd4bVZi?=
+ =?utf-8?B?a0w3dTBUSVd4eitaMFRVdlBYSXJFZndxUXJjc2E3Q1R0b1pLbVR2RDdBdjhZ?=
+ =?utf-8?B?R2FEcmh0NkszK2FYMWt5eUlFM2haMkwrZzN3UGR3Rmo2dzgwMnFheGt3ekFo?=
+ =?utf-8?B?S1VFUEFCdjFJSDBJS2prVjllQ2pTejVxZWdoeG5yRnVhWXVQd2IxdzN3Z2pp?=
+ =?utf-8?B?dmRCcFJmRXhtU05FY1RIbk02aHV5TlFqR0hFc0svV2RLa3o2MnRpU1VXZkhK?=
+ =?utf-8?B?RXBlLzVqVEp6RG9JT1RIbG9hamRmeTQ2dUl6MjFYV3RrQ2E4WkQzS29LMVMr?=
+ =?utf-8?B?SlFNZlJvSUYzMzlVMys2M2s4UTd3b1lHUFVndkd5UXlLWk5HdWQ3dWdzVVFN?=
+ =?utf-8?B?S1dKc29idm1uUkQ4cTlQYkVKZDAybElXUThMWXZlTURNM1oyZ3R4R3RLbXkz?=
+ =?utf-8?B?NXNRckpXUjdJbVhQaSt0YlgwWjlLU0U3QTd1Z2pPM21Sdmw1Umk5eE1KSmpw?=
+ =?utf-8?B?dDExYmVyTCtMeWVwV3ZUN09yQjFEb2J0d2h6QVQwYWFRdGo3SjhwZjRFM0JS?=
+ =?utf-8?B?LzlhOVlWR0tkT2JpUkMra3l4eEhJbWMxTkRpMTFweDF5elJjdTFpakg2bHV6?=
+ =?utf-8?B?TVNYbmc4ejlLUGtmTzVPWWJubEZsZFhrejRZNmg1ZGlNMjZTM2dHSmlsaTEw?=
+ =?utf-8?B?T245ZDNkV0I3Qlc4WHVEanlTejk4QmZYMDhXNzcxMGhuVm5FTHBYcmdPdlFD?=
+ =?utf-8?B?WEJhaEVhTk9LNThocEh3NlBlQ25yUG5ieHFuUm91Sng2VGd6Y2c5UUtJVWd2?=
+ =?utf-8?B?UTZ0aHBmRXVXcUtldXFham9KK2hSTVdiQ2cwdlpQQmRQYkNaa0x4ajlHWUxm?=
+ =?utf-8?B?eGVINlVuMnJwWTRvcm5qc21xQ1RXTnY0Skh3VERmK1VZZncyVGlWcUlXeE42?=
+ =?utf-8?B?Yk1Gd0tFWGR0YlhMUHB3Zko3ZGVNSm1DTSt2U3hsRHdqZ1R2cjNrUS9VRTZz?=
+ =?utf-8?B?bWdnNGlzMG1hZzg0aWdhVVRwMkxaY3dTNThURjd6Q3Q2c2NKc25QRVRLRGZE?=
+ =?utf-8?B?NHdSS0VwMW1iM2RvaTZlYmFCcHNvYks3cllqS0EvNmNpeWJqLzNUM0FlTzBk?=
+ =?utf-8?B?d0lmL1RPNVVsNlhrOUo1d1d1S3BnUG4zODRZK0dHRkVmUnpFVXlBcTliSnd3?=
+ =?utf-8?B?bWxaNUU4WmVFcFZSaTNaNHZsSVVEY3JVNXRIcHA4VElzRkEyYy8rQjlNN0Fy?=
+ =?utf-8?B?NXhFU0lVZVYxZHJVSUt0c2pFcWZhWFVxQko0NFA0OGUrMWN4eDk4aHpsOFRW?=
+ =?utf-8?B?akNueXVCTHhiN2xkazk5aUxob1UzTjd2OVFBSjZ3YTA4QTlPSEpiKzZRYXRK?=
+ =?utf-8?B?S1ZsQXlSTUlKWmZ4OXlLKzZ1dWY3T2NIcitDYUFrbnNLbmVBU2lMWndYb3Vx?=
+ =?utf-8?B?dXlyLytCMnFZbkI1blFCemtmSExuNm5rMCt2cVMzL1RCQy9qU2ZQWG4yOHRX?=
+ =?utf-8?B?dE9yUjdtSHVMeWtuVDJPWVVIWGdaejZOcm83RVlmMVpMMVgyNDV0ZTVwd1BT?=
+ =?utf-8?B?UnVqNzNXWCtucGVKUEt4NGRlM0VKVFAzNEp1U1k1QnRvcElrZWJtS1lVODRX?=
+ =?utf-8?B?cnNRWXgzdmtYYkc3ZSs3dnBGWmIxcmlyYTBuWEFPY0hTaGlVODNwQW9Bb2xO?=
+ =?utf-8?B?SzJwLzZ2RW5Xd3MrSFBpa3VMU29rdGRRNUY0K043aUZTN01jaDkzTTVXdHBD?=
+ =?utf-8?B?NGlmV250d0JBTlY0R1I5RGJ6RzZVZm1nckM4NEVTSzBZWnlxRGQ4eEdFSHhL?=
+ =?utf-8?B?WlFEU1djMmpRZVNmR2w0WWhjd1ZGTHJpVi9KYTV5aTNFTjRVUk5VQT09?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d92ed6cb-bae8-42f7-f72f-08de686e2544
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7955.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2026 06:06:11.4778 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2026 06:32:21.8214 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0df2add9-25ca-4b3a-acb4-c99ddf0b1114
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dlMbdgE6rizzO3MTkp3/HVRHdmdLWv4rb3/YkCXjudd89t/tHEkbRjV05JXk20PHRueNkpfGvnJgpcjtx5rtuw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KUXPR03MB9642
-X-Mailman-Approved-At: Tue, 10 Feb 2026 08:20:08 +0000
+X-MS-Exchange-CrossTenant-UserPrincipalName: WsKWoHFlwX1oEOF9A4IxTcFwQJpipBYKFPwTESSSnu3VuEDpHxx9KZvPJDs1wWAeGTqUEDIyvJrYhBFaBcxDTw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7476
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -186,166 +213,435 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[amlogic.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[amlogic.com:s=selector1];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_TO(0.00)[googlemail.com];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:martin.blumenstingl@googlemail.com,m:neil.armstrong@linaro.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:khilman@baylibre.com,m:jbrunet@baylibre.com,m:linux-amlogic@lists.infradead.org,m:martinblumenstingl@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[ao.xu@amlogic.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ao.xu@amlogic.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[linaro.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,baylibre.com,lists.freedesktop.org,lists.infradead.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	DKIM_TRACE(0.00)[amlogic.com:+];
+	RCVD_COUNT_SEVEN(0.00)[9];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,khadas.com:url,amlogic.com:mid,amlogic.com:dkim,amlogic.com:email]
-X-Rspamd-Queue-Id: 2B6E51182C8
+	FROM_HAS_DN(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FROM_NEQ_ENVFROM(0.00)[riana.tauro@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,linux.intel.com,intel.com,ffwll.ch,gmail.com];
+	DKIM_TRACE(0.00)[intel.com:+]
+X-Rspamd-Queue-Id: B648811760D
 X-Rspamd-Action: no action
 
 
-在 2026/2/10 5:26, Martin Blumenstingl 写道:
-> [ EXTERNAL EMAIL ]
->
-> Hi Ao Xu,
->
-> On Thu, Feb 5, 2026 at 12:56 PM Ao Xu <ao.xu@amlogic.com> wrote:
->> Hi neil, martin, jerome
+
+On 2/5/2026 11:40 PM, Raag Jadav wrote:
+> On Mon, Feb 02, 2026 at 12:14:01PM +0530, Riana Tauro wrote:
+>> Report the SoC nonfatal/fatal hardware error and update the counters.
 >>
->> This email proposes a refactoring of the Meson DRM driver to adopt a
->> component-based pipeline management model, inspired by the ARM Komeda DRM
->> driver.
-> First of all: thanks for working on a plan on how to move things forward!
+>> $ sudo ynl --family drm_ras --do query-error-counter  --json '{"node-id":0, "error-id":2}'
+> 
+> Same comment as last patch.
 
-Hi，martin
+the second line is the output so not necessary
 
-     thanks for your comments.
-
->
->> The current Meson DRM implementation tightly couples drm_plane and
->> drm_crtc logic with specific hardware blocks (OSD MIF, AFBC, scaler,
->> blend, postblend), which makes it increasingly difficult to scale to
->> newer SoCs.
-> I have to admit that I'm new to this part of the DRM driver /
-> subsystem - so I will probably ask some novice questions.
->
->> The attached /vpu-block/ file describes the proposed VPU block pipeline.
+> 
+>> {'error-id': 2, 'error-name': 'soc-internal', 'error-value': 0}
 >>
->> This implement introduces a generic pipeline framework where:
+>> Co-developed-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+>> Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+>> Signed-off-by: Riana Tauro <riana.tauro@intel.com>
+>> ---
+>> v2: Add ID's and names as uAPI (Rodrigo)
 >>
->> - Hardware blocks (MIF, AFBC, SCALER, BLEND, POSTBLEND) are modeled as
->>     independent components with well-defined capabilities.
+>> v3: reorder and align arrays
+>>      remove redundant string err
+>>      use REG_BIT
+>>      fix aesthic review comments (Raag)
+>>      use only correctable/uncorrectable error severity (Aravind)
 >>
->> - drm_plane and drm_crtc are responsible only for building and validating
->>     a pipeline, not for directly programming hardware registers.
->> - Per-block atomic state is separated from SoC-specific register layouts,
->>     similar to Komeda's component_state and pipeline_state model.
-> I have two questions here:
-> - How is per-SoC register access managed?
-> - How are "common" (shared across multiple - or even all SoCs)
-> registers managed?
->
-> It seems that the komeda driver uses komeda_dev_funcs for the
-> per-variant access.
-> However, it's not clear how this scales as only two mostly identical
-> display controllers (D32 and D71) ever made it into the driver.
-
-I would like to first describe the current state.
-
-    In atomic_update and atomic_disable, register values are derived
-    from the property information and stored into the priv->viu and
-    priv->afbc structures.
-    In meson_crtc_irq, the previously saved values are then written into
-    the hardware registers.
-
-In future SoCs, we may encounter the following scenarios:
-
-  * The register addresses of a given block may change. For example, on
-    S905X2, the OSD1 scaler registers are located at 0x1dc0–0x1dcd,
-    while on A311D2, the same OSD1 scaler registers move to 0x5a00–0x5a0d.
-  * A block's functionality may be reduced or extended, which can
-    include changes to existing register bits or the introduction of new
-    control registers. For instance, the OSD MIF block previously
-    required canvas configuration, while on T7C the canvas mechanism is
-    completely removed.
-  * An entire block may be removed or newly added. For example, GFCD,
-    which internally integrates AFBC and AFRC hardware modules, is
-    present on A9.
-
-Register programming is performed through RDMA hardware.When RDMA is 
-available, the flow is different.
-
-    In atomic_update and atomic_disable, register values are written
-    directly into the RDMA register table, and there is no need to cache
-    the register values in software.
-    Once all register writes are prepared, rdma_config is used to let
-    the hardware flush the RDMA register table into the real registers
-    on the next VSync.
-
-On a given SoC, each internal block contains fields that determine which 
-register set it should use.
-This information is SoC-specific and must be provided by the SoC description
-
->
->> This is achieved by introducing four core objects, as shown in the
->> attached class-diagram document.
+>> v4: fix comments
+>>      use master as variable name
+>>      add static_assert (Raag)
+>> ---
+>>   drivers/gpu/drm/xe/regs/xe_hw_error_regs.h |  24 +++
+>>   drivers/gpu/drm/xe/xe_hw_error.c           | 221 ++++++++++++++++++++-
+>>   2 files changed, 244 insertions(+), 1 deletion(-)
 >>
->> - meson_vpu_block
->> - meson_vpu_block_state
->> - meson_pipeline
->> - meson_pipeline_state
+>> diff --git a/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h b/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
+>> index 17982a335941..a89a07d067fc 100644
+>> --- a/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
+>> +++ b/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
+>> @@ -41,6 +41,7 @@
+>>   									  DEV_ERR_STAT_NONFATAL))
+>>   
+>>   #define   XE_CSC_ERROR					17
+> 
+> I overlooked this in the last patch but I think this should be used as
+> 
+> 	if (err_src & REG_BIT(XE_CSC_ERROR))
+
+Thanks for catching this. When i changed the bit i retained previous 
+code. Will fix this and test
+
+> 
+>> +#define   XE_SOC_ERROR					16
+>>   #define   XE_GT_ERROR					0
+>>   
+>>   #define ERR_STAT_GT_FATAL_VECTOR_0			0x100260
+>> @@ -61,4 +62,27 @@
+>>   							ERR_STAT_GT_COR_VECTOR_REG(x) : \
+>>   							ERR_STAT_GT_FATAL_VECTOR_REG(x))
+>>   
+>> +#define SOC_PVC_MASTER_BASE				0x282000
+>> +#define SOC_PVC_SLAVE_BASE				0x283000
+>> +
+>> +#define SOC_GCOERRSTS					0x200
+>> +#define SOC_GNFERRSTS					0x210
+>> +#define SOC_GLOBAL_ERR_STAT_REG(base, x)		XE_REG(_PICK_EVEN((x), \
+>> +									  (base) + SOC_GCOERRSTS, \
+>> +									  (base) + SOC_GNFERRSTS))
+>> +#define   SOC_SLAVE_IEH					REG_BIT(1)
+>> +#define   SOC_IEH0_LOCAL_ERR_STATUS			REG_BIT(0)
+>> +#define   SOC_IEH1_LOCAL_ERR_STATUS			REG_BIT(0)
+>> +
+>> +#define SOC_GSYSEVTCTL					0x264
+>> +#define SOC_GSYSEVTCTL_REG(master, slave, x)		XE_REG(_PICK_EVEN((x), \
+>> +									  (master) + SOC_GSYSEVTCTL, \
+>> +									  (slave) + SOC_GSYSEVTCTL))
+>> +
+>> +#define SOC_LERRUNCSTS					0x280
+>> +#define SOC_LERRCORSTS					0x294
+>> +#define SOC_LOCAL_ERR_STAT_REG(base, hw_err)		XE_REG(hw_err == HARDWARE_ERROR_CORRECTABLE ? \
+>> +							       (base) + SOC_LERRCORSTS : \
+>> +							       (base) + SOC_LERRUNCSTS)
+>> +
+>>   #endif
+>> diff --git a/drivers/gpu/drm/xe/xe_hw_error.c b/drivers/gpu/drm/xe/xe_hw_error.c
+>> index ff31fb322c8a..159ec796386a 100644
+>> --- a/drivers/gpu/drm/xe/xe_hw_error.c
+>> +++ b/drivers/gpu/drm/xe/xe_hw_error.c
+>> @@ -19,6 +19,7 @@
+>>   #define  GT_HW_ERROR_MAX_ERR_BITS	16
+>>   #define  HEC_UNCORR_FW_ERR_BITS		4
+>>   #define  XE_RAS_REG_SIZE		32
+>> +#define  XE_SOC_NUM_IEH			2
+>>   
+>>   #define  PVC_ERROR_MASK_SET(hw_err, err_bit) \
+>>   	((hw_err == HARDWARE_ERROR_CORRECTABLE) ? (BIT(err_bit) & PVC_COR_ERR_MASK) : \
+>> @@ -36,7 +37,8 @@ static const char * const hec_uncorrected_fw_errors[] = {
+>>   };
+>>   
+>>   static const unsigned long xe_hw_error_map[] = {
+>> -	[XE_GT_ERROR] = DRM_XE_RAS_ERR_COMP_CORE_COMPUTE,
+>> +	[XE_GT_ERROR]	= DRM_XE_RAS_ERR_COMP_CORE_COMPUTE,
+> 
+> Unneeded churn, please align in the original patch.
+> 
+>> +	[XE_SOC_ERROR]	= DRM_XE_RAS_ERR_COMP_SOC_INTERNAL,
+>>   };
+>>   
+>>   enum gt_vector_regs {
+>> @@ -60,6 +62,102 @@ static enum drm_xe_ras_error_severity hw_err_to_severity(enum hardware_error hw_
+>>   	return DRM_XE_RAS_ERR_SEV_UNCORRECTABLE;
+>>   }
+>>   
+>> +static const char * const pvc_master_global_err_reg[] = {
+>> +	[0 ... 1]	= "Undefined",
+>> +	[2]		= "HBM SS0: Channel0",
+>> +	[3]		= "HBM SS0: Channel1",
+>> +	[4]		= "HBM SS0: Channel2",
+>> +	[5]		= "HBM SS0: Channel3",
+>> +	[6]		= "HBM SS0: Channel4",
+>> +	[7]		= "HBM SS0: Channel5",
+>> +	[8]		= "HBM SS0: Channel6",
+>> +	[9]		= "HBM SS0: Channel7",
+>> +	[10]		= "HBM SS1: Channel0",
+>> +	[11]		= "HBM SS1: Channel1",
+>> +	[12]		= "HBM SS1: Channel2",
+>> +	[13]		= "HBM SS1: Channel3",
+>> +	[14]		= "HBM SS1: Channel4",
+>> +	[15]		= "HBM SS1: Channel5",
+>> +	[16]		= "HBM SS1: Channel6",
+>> +	[17]		= "HBM SS1: Channel7",
+>> +	[18 ... 31]	= "Undefined",
+>> +};
+>> +
+> 
+> Redundant blank line.
+> 
+
+Then checkpatch complains :(
+
+>> +static_assert(ARRAY_SIZE(pvc_master_global_err_reg) == XE_RAS_REG_SIZE);
+>> +
+>> +static const char * const pvc_slave_global_err_reg[] = {
+>> +	[0]		= "Undefined",
+>> +	[1]		= "HBM SS2: Channel0",
+>> +	[2]		= "HBM SS2: Channel1",
+>> +	[3]		= "HBM SS2: Channel2",
+>> +	[4]		= "HBM SS2: Channel3",
+>> +	[5]		= "HBM SS2: Channel4",
+>> +	[6]		= "HBM SS2: Channel5",
+>> +	[7]		= "HBM SS2: Channel6",
+>> +	[8]		= "HBM SS2: Channel7",
+>> +	[9]		= "HBM SS3: Channel0",
+>> +	[10]		= "HBM SS3: Channel1",
+>> +	[11]		= "HBM SS3: Channel2",
+>> +	[12]		= "HBM SS3: Channel3",
+>> +	[13]		= "HBM SS3: Channel4",
+>> +	[14]		= "HBM SS3: Channel5",
+>> +	[15]		= "HBM SS3: Channel6",
+>> +	[16]		= "HBM SS3: Channel7",
+>> +	[17]		= "Undefined",
+>> +	[18]		= "ANR MDFI",
+>> +	[19 ... 31]	= "Undefined",
+>> +};
+>> +
+> 
+> Ditto.
+> 
+>> +static_assert(ARRAY_SIZE(pvc_slave_global_err_reg) == XE_RAS_REG_SIZE);
+>> +
+>> +static const char * const pvc_slave_local_fatal_err_reg[] = {
+>> +	[0]		= "Local IEH: Malformed PCIe AER",
+>> +	[1]		= "Local IEH: Malformed PCIe ERR",
+>> +	[2]		= "Local IEH: UR conditions in IEH",
+>> +	[3]		= "Local IEH: From SERR Sources",
+>> +	[4 ... 19]	= "Undefined",
+>> +	[20]		= "Malformed MCA error packet (HBM/Punit)",
+>> +	[21 ... 31]	= "Undefined",
+>> +};
+>> +
+> 
+> Ditto.
+> 
+>> +static_assert(ARRAY_SIZE(pvc_slave_local_fatal_err_reg) == XE_RAS_REG_SIZE);
+>> +
+>> +static const char * const pvc_master_local_fatal_err_reg[] = {
+>> +	[0]		= "Local IEH: Malformed IOSF PCIe AER",
+>> +	[1]		= "Local IEH: Malformed IOSF PCIe ERR",
+>> +	[2]		= "Local IEH: UR RESPONSE",
+>> +	[3]		= "Local IEH: From SERR SPI controller",
+>> +	[4]		= "Base Die MDFI T2T",
+>> +	[5]		= "Undefined",
+>> +	[6]		= "Base Die MDFI T2C",
+>> +	[7]		= "Undefined",
+>> +	[8]		= "Invalid CSC PSF Command Parity",
+>> +	[9]		= "Invalid CSC PSF Unexpected Completion",
+>> +	[10]		= "Invalid CSC PSF Unsupported Request",
+>> +	[11]		= "Invalid PCIe PSF Command Parity",
+>> +	[12]		= "PCIe PSF Unexpected Completion",
+>> +	[13]		= "PCIe PSF Unsupported Request",
+>> +	[14 ... 19]	= "Undefined",
+>> +	[20]		= "Malformed MCA error packet (HBM/Punit)",
+>> +	[21 ... 31]	= "Undefined",
+>> +};
+>> +
+> 
+> Ditto.
+> 
+>> +static_assert(ARRAY_SIZE(pvc_master_local_fatal_err_reg) == XE_RAS_REG_SIZE);
+>> +
+>> +static const char * const pvc_master_local_nonfatal_err_reg[] = {
+>> +	[0 ... 3]	= "Undefined",
+>> +	[4]		= "Base Die MDFI T2T",
+>> +	[5]		= "Undefined",
+>> +	[6]		= "Base Die MDFI T2C",
+>> +	[7]		= "Undefined",
+>> +	[8]		= "Invalid CSC PSF Command Parity",
+>> +	[9]		= "Invalid CSC PSF Unexpected Completion",
+>> +	[10]		= "Invalid PCIe PSF Command Parity",
+>> +	[11 ... 31]	= "Undefined",
+>> +};
+>> +
+> 
+> Ditto.
+> 
+>> +static_assert(ARRAY_SIZE(pvc_master_local_nonfatal_err_reg) == XE_RAS_REG_SIZE);
+>> +
+>>   static bool fault_inject_csc_hw_error(void)
+>>   {
+>>   	return IS_ENABLED(CONFIG_DEBUG_FS) && should_fail(&inject_csc_hw_error, 1);
+>> @@ -138,6 +236,26 @@ static void log_gt_err(struct xe_tile *tile, const char *name, int i, u32 err,
+>>   				    name, severity_str, i, err);
+>>   }
+>>   
+>> +static void log_soc_error(struct xe_tile *tile, const char * const *reg_info,
+>> +			  const enum drm_xe_ras_error_severity severity, u32 err_bit, u32 index)
+>> +{
+>> +	const char *severity_str = error_severity[severity];
+>> +	struct xe_device *xe = tile_to_xe(tile);
+>> +	struct xe_drm_ras *ras = &xe->ras;
+>> +	struct xe_drm_ras_counter *info = ras->info[severity];
+>> +	const char *name;
+>> +
+>> +	name = reg_info[err_bit];
+>> +
+>> +	if (strcmp(name, "Undefined")) {
+>> +		if (severity == DRM_XE_RAS_ERR_SEV_CORRECTABLE)
+>> +			drm_warn(&xe->drm, "%s SOC %s detected", name, severity_str);
+>> +		else
+>> +			drm_err_ratelimited(&xe->drm, "%s SOC %s detected", name, severity_str);
+>> +		atomic_inc(&info[index].counter);
+>> +	}
+>> +}
+>> +
+>>   static void gt_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err,
+>>   				u32 error_id)
+>>   {
+>> @@ -221,6 +339,104 @@ static void gt_hw_error_handler(struct xe_tile *tile, const enum hardware_error
+>>   	}
+>>   }
+>>   
+>> +static void soc_slave_ieh_handler(struct xe_tile *tile, const enum hardware_error hw_err, u32 error_id)
+>> +{
+>> +	const enum drm_xe_ras_error_severity severity = hw_err_to_severity(hw_err);
+>> +	unsigned long slave_global_errstat, slave_local_errstat;
+>> +	struct xe_mmio *mmio = &tile->mmio;
+>> +	u32 regbit, slave_base;
+>> +
+>> +	slave_base = SOC_PVC_SLAVE_BASE;
+> 
+> Just name it 'slave' and it'll probably help remove the line wrapping below.
+
+There is no wrapping except the log_soc_error. This change won't fix it
+
+> 
+>> +	slave_global_errstat = xe_mmio_read32(mmio, SOC_GLOBAL_ERR_STAT_REG(slave_base, hw_err));
+>> +
+>> +	if (slave_global_errstat & SOC_IEH1_LOCAL_ERR_STATUS) {
+>> +		slave_local_errstat = xe_mmio_read32(mmio, SOC_LOCAL_ERR_STAT_REG(slave_base, hw_err));
+>> +
+>> +		if (hw_err == HARDWARE_ERROR_FATAL) {
+>> +			for_each_set_bit(regbit, &slave_local_errstat, XE_RAS_REG_SIZE)
+>> +				log_soc_error(tile, pvc_slave_local_fatal_err_reg, severity,
+>> +					      regbit, error_id);
+>> +		}
+>> +
+>> +		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(slave_base, hw_err),
+>> +				slave_local_errstat);
+>> +	}
+>> +
+>> +	for_each_set_bit(regbit, &slave_global_errstat, XE_RAS_REG_SIZE)
+>> +		log_soc_error(tile, pvc_slave_global_err_reg, severity, regbit, error_id);
+>> +
+>> +	xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(slave_base, hw_err), slave_global_errstat);
+>> +}
+>> +
+>> +static void soc_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err,
+>> +				 u32 error_id)
+>> +{
+>> +	const enum drm_xe_ras_error_severity severity = hw_err_to_severity(hw_err);
+>> +	struct xe_device *xe = tile_to_xe(tile);
+>> +	struct xe_mmio *mmio = &tile->mmio;
+>> +	unsigned long master_global_errstat, master_local_errstat;
+>> +	u32 master_base, slave_base, regbit;
+>> +	int i;
+>> +
+>> +	if (xe->info.platform != XE_PVC)
+>> +		return;
+>> +
+>> +	master_base = SOC_PVC_MASTER_BASE;
+>> +	slave_base = SOC_PVC_SLAVE_BASE;
+> 
+> Ditto. Just 'master' and 'slave' will help remove the line wrapping below.
+
+Yeah this will help. Will add this change
+
+> 
+>> +	/* Mask error type in GSYSEVTCTL so that no new errors of the type will be reported */
+>> +	for (i = 0; i < XE_SOC_NUM_IEH; i++)
+>> +		xe_mmio_write32(mmio, SOC_GSYSEVTCTL_REG(master_base, slave_base, i),
+>> +				~REG_BIT(hw_err));
+>> +
+>> +	if (hw_err == HARDWARE_ERROR_CORRECTABLE) {
+>> +		xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(master_base, hw_err),
+>> +				REG_GENMASK(31, 0));
+>> +		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(master_base, hw_err),
+>> +				REG_GENMASK(31, 0));
+>> +		xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(slave_base, hw_err),
+>> +				REG_GENMASK(31, 0));
+>> +		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(slave_base, hw_err),
+>> +				REG_GENMASK(31, 0));
+>> +		goto unmask_gsysevtctl;
+>> +	}
+>> +
+>> +	/*
+>> +	 * Read the master global IEH error register if BIT(1) is set then process
+> 
+> Missing comma after 'register'.
+> 
+>> +	 * the slave IEH first. If BIT(0) in global error register is set then process
+>> +	 * the corresponding local error registers.
+>> +	 */
+>> +	master_global_errstat = xe_mmio_read32(mmio, SOC_GLOBAL_ERR_STAT_REG(master_base, hw_err));
+>> +	if (master_global_errstat & SOC_SLAVE_IEH)
+>> +		soc_slave_ieh_handler(tile, hw_err, error_id);
+>> +
+>> +	if (master_global_errstat & SOC_IEH0_LOCAL_ERR_STATUS) {
+>> +		master_local_errstat = xe_mmio_read32(mmio, SOC_LOCAL_ERR_STAT_REG(master_base, hw_err));
+>> +
+>> +		for_each_set_bit(regbit, &master_local_errstat, XE_RAS_REG_SIZE) {
+>> +			const char * const *reg_info = (hw_err == HARDWARE_ERROR_FATAL) ?
+> 
+> This looks like it can be outside the loop.
+
+will fix it.
+
+
+Thanks
+Riana
+
+
+> 
+> Raag
+> 
+>> +						       pvc_master_local_fatal_err_reg :
+>> +						       pvc_master_local_nonfatal_err_reg;
+>> +
+>> +			log_soc_error(tile, reg_info, severity, regbit, error_id);
+>> +		}
+>> +
+>> +		xe_mmio_write32(mmio, SOC_LOCAL_ERR_STAT_REG(master_base, hw_err),
+>> +				master_local_errstat);
+>> +	}
+>> +
+>> +	for_each_set_bit(regbit, &master_global_errstat, XE_RAS_REG_SIZE)
+>> +		log_soc_error(tile, pvc_master_global_err_reg, severity, regbit, error_id);
+>> +
+>> +	xe_mmio_write32(mmio, SOC_GLOBAL_ERR_STAT_REG(master_base, hw_err),
+>> +			master_global_errstat);
+>> +
+>> +unmask_gsysevtctl:
+>> +	for (i = 0; i < XE_SOC_NUM_IEH; i++)
+>> +		xe_mmio_write32(mmio, SOC_GSYSEVTCTL_REG(master_base, slave_base, i),
+>> +				(HARDWARE_ERROR_MAX << 1) + 1);
+>> +}
+>> +
+>>   static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_error hw_err)
+>>   {
+>>   	const enum drm_xe_ras_error_severity severity = hw_err_to_severity(hw_err);
+>> @@ -283,8 +499,11 @@ static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_er
+>>   					    "TILE%d reported %s %s, bit[%d] is set\n",
+>>   					    tile->id, name, severity_str, err_bit);
+>>   		}
+>> +
+>>   		if (err_bit == XE_GT_ERROR)
+>>   			gt_hw_error_handler(tile, hw_err, error_id);
+>> +		if (err_bit == XE_SOC_ERROR)
+>> +			soc_hw_error_handler(tile, hw_err, error_id);
+>>   	}
+>>   
+>>   clear_reg:
+>> -- 
+>> 2.47.1
 >>
->>
->> The atomic flow is structured as shown in the attached commit-flow document.
-> The public A311D datasheet page 304 [0] shows that CVBS, HDMITX and
-> MIPI_DSI are part of the VPU block.
-> Those aren't mentioned in your flows. Is that because they are "after"
-> POSTBLEND and would therefore be part of a future refactoring
-> approach?
-This proposal focuses only on VPU OSD and video-related blocks.
-Encoder and connector handling is a separate and much larger topic.
-I am currently investigating how to reuse existing PHY and clock tree 
-interfaces for that part, but it is intentionally kept out of this 
-proposal.
->
-> Also RMDA is shown in the same diagram as part of VPU. Neil had to
-> work hard to implement it back then for AFBC.
-> You haven't listed it in your diagrams but I assume it is going to be
-> part of the implementation as it is/was mandatory for AFBC.
-> Can you confirm my understanding here (or clear up my confusion)?
-Yes, we will add RDMA function support firstly.
->
->> The intention of this proposal is not to change hardware behavior, but to
->> gradually restructure the driver to improve maintainability, scalability,
->> and correctness of atomic state handling across different Meson SoCs.
->>
->> This is an initial proposal intended to gather feedback on the overall
->> architecture before converting existing code paths incrementally.
-> Making incremental changes sounds great! The meson DRM driver is too
-> big to "just" copy it and make modifications (or even modifying it
-> directly with one huge patch).
->
->
-> Best regards,
-> Martin
->
->
-> [0] https://dl.khadas.com/products/vim3/datasheet/a311d-datasheet.pdf
+
