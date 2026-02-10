@@ -2,97 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +PfrI8s4jGlZjgAAu9opvQ
+	id ID/fOdZ8i2n6UgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 09:07:39 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 19:45:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6E521220C5
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 09:07:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C7C111E639
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 19:45:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE5910E224;
-	Wed, 11 Feb 2026 08:07:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E3A610E5E6;
+	Tue, 10 Feb 2026 18:45:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="AO1Us83W";
+	dkim=pass (1024-bit key; unprotected) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="hBROQdAq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E03C810E5E6
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 18:09:35 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-482f454be5bso1017785e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 10:09:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1770746974; x=1771351774;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=OBc8TO43XyTU7wmRneZXW7N97Ft8rzp0b55awq4cob4=;
- b=AO1Us83WnDISvXgjVhgksH3rJRP9SqbmXisjQly9Atp477FWrWpwrFgSRFSViUufjJ
- Eb2XPanibWO+TABiI8nEsYmiQZixw23zram9fPssxeGax+sME0YvtCiLGrSFqIFsQ4YO
- mr+OsPtH0RctAvdsHE6GNPzKdRK9RJLyEfrD+ggcYtEwZAUC5ETHQwQ3En3Z+kA3KW1Z
- 5UjcHPncawcCf8ntdgxHQO+XQfVAJape/t6C0GwYE0WLXlZfYuFUkZCQcbdh6dVWHXlP
- R7NaLF1rLcrkmML+ENHs40bXyVM08zdjcgY7OUmlVhfzd+hyWq2LwkqyDxhjzWd5pumT
- FN9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770746974; x=1771351774;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OBc8TO43XyTU7wmRneZXW7N97Ft8rzp0b55awq4cob4=;
- b=Kjm2pbMz4Rwyr7jbky0ozROWz7AHtVguTSLD/s5GUIWJysAVM8RSt/ahkRvbCPqebQ
- 41REGmf3fgl4tcoOkGlJVDILY6xxuVPiuCItwSx/3aMzFybND5IVC0y/RdDwVaOLi0pG
- nz2o8GgAPQ4WPyIiXVVxBEizXQ1u97/5iaZ5dki6YUZxdla4zS6+EG2e7/oq4iE1W5R3
- klVjQk4Uj91bVkfe8S9YEamRrS2vCe+p+BcOXGvbXgP9R+qyfEMhvMcQd0lPYM1qccbN
- hdRlyiwXYn7sJjP8dYmyYz9YUWZ+RQk9ya/a0xe3QJop4rcoDouER8z52FszD2euozYm
- 74RQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXT8xI7M6itWLFkjFsqqHeUzZPxrcoVO1/LIcaednQPmqONfG1xZ+d7Hurvpoi10E5gRNYyJLr7BwE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywhg0Y9UbhQcqgwrYllhcIFdkUqznEUMGiuIRbOGEZKZVMbuWkl
- X+okvOKZCQnCmvXcnybG1KM52A/cJlqLmei1Te7THJPbHHjiy8hELNzN5QpbIxH69Lg=
-X-Gm-Gg: AZuq6aKKbYTVKE2Xp9YSA9RHg0OUHIFmzbV/RQVWZ8o+hyVIT/3tLpywuoJGxU+LeCd
- CTrNX3Y+rpw7g9bXA4JPqMr0SqeH4tXHfEmW5y3LDfK+YazFH8TSDuy48ZBofjDrV4qLXtxAMOq
- 3eJNoOcxbHxi+bztsIzo+LmrK2IkSFXPUeSpq32MnFAB/r1D1/8wSYE7KzEC1z6Osp9Fz0ynFWj
- uF35mYRbUp8g8alFX55aZ1V0UpCSuruUua2S3R5yrTfTahDq9Sj18YLTdMowSGVQmYDuS7FVqtJ
- VtG3rg/RGAl6/iVHfYvSL5VNb2CTJhFvb7nVw965af+BMO2+pWQSUS67dabMtYJPKI2DH7LAqGZ
- S1YqTGxNeWzWZKXJDAVVz9yP4KicR2YkSpTI+Bo/bP0owyYdOzQNUbJBi9Ef9+2ouOw==
-X-Received: by 2002:a05:600c:46cf:b0:483:4b37:8620 with SMTP id
- 5b1f17b1804b1-48350530e24mr45832385e9.10.1770746974027; 
- Tue, 10 Feb 2026 10:09:34 -0800 (PST)
-Received: from localhost ([151.57.64.2]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4834d5e1a8esm68667295e9.5.2026.02.10.10.09.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Feb 2026 10:09:33 -0800 (PST)
-From: Francesco Lavra <flavra@baylibre.com>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/solomon: Fix page start when updating rectangle in page
- addressing mode
-Date: Tue, 10 Feb 2026 19:09:32 +0100
-Message-Id: <20260210180932.736502-1-flavra@baylibre.com>
-X-Mailer: git-send-email 2.39.5
+X-Greylist: delayed 387 seconds by postgrey-1.36 at gabe;
+ Tue, 10 Feb 2026 18:45:38 UTC
+Received: from forward201a.mail.yandex.net (forward201a.mail.yandex.net
+ [178.154.239.92])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2C8510E5E6
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 18:45:38 +0000 (UTC)
+Received: from forward101a.mail.yandex.net (forward101a.mail.yandex.net
+ [IPv6:2a02:6b8:c0e:500:1:45:d181:d101])
+ by forward201a.mail.yandex.net (Yandex) with ESMTPS id 945ED83C1A
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 21:39:11 +0300 (MSK)
+Received: from mail-nwsmtp-smtp-production-main-55.vla.yp-c.yandex.net
+ (mail-nwsmtp-smtp-production-main-55.vla.yp-c.yandex.net
+ [IPv6:2a02:6b8:c1f:582e:0:640:200:0])
+ by forward101a.mail.yandex.net (Yandex) with ESMTPS id AA25D80C69;
+ Tue, 10 Feb 2026 21:39:08 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-55.vla.yp-c.yandex.net
+ (smtp/Yandex) with ESMTPSA id PcXcMe1H0Sw0-2SQWIV15; 
+ Tue, 10 Feb 2026 21:39:07 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
+ s=mail; t=1770748747;
+ bh=Rc5AjI3Knt85NCpzELFh1EO7d2bbaLUNXALLlH/+aDo=;
+ h=Message-ID:Date:Cc:Subject:To:From;
+ b=hBROQdAq0uC7jvfp51qciv3n7QPevHsltrzL05gVHx2ewGXmLIUtR4U4eaOvRDFVq
+ sLsQt3Mdn3P46oKJivHUo0igEWkh7PoltFMWTkHAPPx8OahvIyZDnmTPiokKJQ5I7N
+ Lh2IuFCRYxtF2+43CVVbnO9jnOm8jro2ufLM8R1w=
+Authentication-Results: mail-nwsmtp-smtp-production-main-55.vla.yp-c.yandex.net;
+ dkim=pass header.i=@onurozkan.dev
+From: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
+To: daniel.almeida@collabora.com, aliceryhl@google.com, dakr@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Cc: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
+Subject: [PATCH v1] drm/tyr: gpu: fix GpuInfo::log model/version decoding
+Date: Tue, 10 Feb 2026 21:38:12 +0300
+Message-ID: <20260210183812.261142-1-work@onurozkan.dev>
+X-Mailer: git-send-email 2.51.2
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2209; i=flavra@baylibre.com;
- h=from:subject; bh=SsjbQz0p4M9VAImDhBwIhoE4gChqvQzLxFqedmgaZF0=;
- b=owEB7QES/pANAwAKAe3xO3POlDZfAcsmYgBpi3P1b571zhMCpceu53YyYhnBPEvsHmM08wyAT
- pU3gFmUTamJAbMEAAEKAB0WIQSGV4VPlTvcox7DFObt8TtzzpQ2XwUCaYtz9QAKCRDt8TtzzpQ2
- X+uVC/4tMYK6G3yEcCk0DLVNBn1VxJ1XHZ7w5zNiUOIvULWigS5I6Yb/c8CGfUyV92Ea/beAELB
- c+CjiC0fjWwBAKtWNIfxyBxGuno2mii4+r5foGvLff3Fmy+Qd0PaCUCtz9SwDPoD9JfO2+kaQwq
- Bc/Xv7a4+BrIAJPGwO6U/2ctr9hqb9jaTOOAPfBdBzEY7WMW2RjiqZwzwxgQ5Tbr3KSxfl6C1JD
- OvrNLzRRbJRlr2Yap+FKpRMzdlZh5dVVwLSsmDsVEgiRPhzVLjr6Yo1AVJ00c9h+Cz3+leaOY3y
- qHWJjgAPHY7xTZDE9Q+K/C7hEOd/yLy3x/imMyJrw+Xz8CsuOYH5m/LrPAzVz2MXxu5OYC3z8ea
- 5zl+OILfydzf2uP7gpWzroCNLBLfhfBi07dnaOJxNFOAeUE8fZX+yTOlakMbmRi85D/RM+50OIu
- wELJwYs8HazsDmsPzB5m1NMQH+TNpf78/ZyzzvBLOKFTI4DodkreURr+7dKtEdKWcEbG4=
-X-Developer-Key: i=flavra@baylibre.com; a=openpgp;
- fpr=8657854F953BDCA31EC314E6EDF13B73CE94365F
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 11 Feb 2026 08:07:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,94 +72,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
+X-Spamd-Result: default: False [-0.31 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[onurozkan.dev,reject];
+	R_DKIM_ALLOW(-0.20)[onurozkan.dev:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[baylibre-com.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[baylibre.com];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:javierm@redhat.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:wens@kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[flavra@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:work@onurozkan.dev,s:lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[work@onurozkan.dev,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	FREEMAIL_TO(0.00)[collabora.com,google.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	DKIM_TRACE(0.00)[baylibre-com.20230601.gappssmtp.com:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[flavra@baylibre.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[work@onurozkan.dev,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[onurozkan.dev:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,baylibre-com.20230601.gappssmtp.com:dkim,baylibre.com:mid,baylibre.com:email]
-X-Rspamd-Queue-Id: E6E521220C5
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,onurozkan.dev:mid,onurozkan.dev:dkim,onurozkan.dev:email]
+X-Rspamd-Queue-Id: 3C7C111E639
 X-Rspamd-Action: no action
 
-In page addressing mode, the pixel values of a dirty rectangle must be sent
-to the display controller one page at a time. The range of pages
-corresponding to a given rectangle is being incorrectly calculated as if
-the Y value of the top left coordinate of the rectangle was 0. This can
-result in rectangle updates being displayed on wrong parts of the screen.
+GpuInfo::log() was decoding GPU_ID like this:
 
-Fix the above issue by consolidating the start page calculation in a single
-place at the beginning of the update_rect function, and using the
-calculated value for all addressing modes.
+  major = (self.gpu_id >> 16) & 0xff;
+  minor = (self.gpu_id >> 8) & 0xff;
+  status = self.gpu_id & 0xff;
 
-Fixes: b0daaa5cfaa5 ("drm/ssd130x: Support page addressing mode")
-Signed-off-by: Francesco Lavra <flavra@baylibre.com>
+That does not match the Mali GPU_ID layout and mixes unrelated
+fields. Due to that, model detection becomes `mali-unknown` on
+rk3588s which is wrong.
+
+We can already get all the version information with a single
+GpuId::from call (less code and cleaner), so this patch uses it.
+
+Also renamed `GpuModels` fields from `major/minor` to
+`arch_major/prod_major` to reflect their real meaning.
+
+This change was tested on Orange Pi 5 (rk3588s) board and the
+results are as follows:
+
+Before this change:
+
+$ dmesg | grep 'tyr'
+[   19.698338] tyr fb000000.gpu: mali-unknown id 0xa867 major 0x67 minor 0x0 status 0x5
+[   19.699050] tyr fb000000.gpu: Features: L2:0x7120306 Tiler:0x809 Mem:0x301 MMU:0x2830 AS:0xff
+[   19.699817] tyr fb000000.gpu: shader_present=0x0000000000050005 l2_present=0x0000000000000001 tiler_present=0x0000000000000001
+[   19.702493] tyr fb000000.gpu: Tyr initialized correctly.
+
+After this change:
+
+$ dmesg | grep 'tyr'
+[   19.591692] tyr fb000000.gpu: mali-g610 id 0xa867 major 0x0 minor 0x0 status 0x5
+[   19.592374] tyr fb000000.gpu: Features: L2:0x7120306 Tiler:0x809 Mem:0x301 MMU:0x2830 AS:0xff
+[   19.593141] tyr fb000000.gpu: shader_present=0x0000000000050005 l2_present=0x0000000000000001 tiler_present=0x0000000000000001
+[   19.595831] tyr fb000000.gpu: Tyr initialized correctly.
+
+Signed-off-by: Onur Özkan <work@onurozkan.dev>
 ---
- drivers/gpu/drm/solomon/ssd130x.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/tyr/gpu.rs | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-index 96cf39320137..33ceed86ed36 100644
---- a/drivers/gpu/drm/solomon/ssd130x.c
-+++ b/drivers/gpu/drm/solomon/ssd130x.c
-@@ -737,6 +737,7 @@ static int ssd130x_update_rect(struct ssd130x_device *ssd130x,
- 	unsigned int height = drm_rect_height(rect);
- 	unsigned int line_length = DIV_ROUND_UP(width, 8);
- 	unsigned int page_height = SSD130X_PAGE_HEIGHT;
-+	u8 page_start = ssd130x->page_offset + y / page_height;
- 	unsigned int pages = DIV_ROUND_UP(height, page_height);
- 	struct drm_device *drm = &ssd130x->drm;
- 	u32 array_idx = 0;
-@@ -774,14 +775,11 @@ static int ssd130x_update_rect(struct ssd130x_device *ssd130x,
- 	 */
+diff --git a/drivers/gpu/drm/tyr/gpu.rs b/drivers/gpu/drm/tyr/gpu.rs
+index 6c582910dd5d..da97844efbec 100644
+--- a/drivers/gpu/drm/tyr/gpu.rs
++++ b/drivers/gpu/drm/tyr/gpu.rs
+@@ -99,13 +99,11 @@ pub(crate) fn new(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result<Self> {
+     }
  
- 	if (!ssd130x->page_address_mode) {
--		u8 page_start;
--
- 		/* Set address range for horizontal addressing mode */
- 		ret = ssd130x_set_col_range(ssd130x, ssd130x->col_offset + x, width);
- 		if (ret < 0)
- 			return ret;
+     pub(crate) fn log(&self, pdev: &platform::Device) {
+-        let major = (self.gpu_id >> 16) & 0xff;
+-        let minor = (self.gpu_id >> 8) & 0xff;
+-        let status = self.gpu_id & 0xff;
++        let gpu_id = GpuId::from(self.gpu_id);
  
--		page_start = ssd130x->page_offset + y / page_height;
- 		ret = ssd130x_set_page_range(ssd130x, page_start, pages);
- 		if (ret < 0)
- 			return ret;
-@@ -813,7 +811,7 @@ static int ssd130x_update_rect(struct ssd130x_device *ssd130x,
- 		 */
- 		if (ssd130x->page_address_mode) {
- 			ret = ssd130x_set_page_pos(ssd130x,
--						   ssd130x->page_offset + i,
-+						   page_start + i,
- 						   ssd130x->col_offset + x);
- 			if (ret < 0)
- 				return ret;
+         let model_name = if let Some(model) = GPU_MODELS
+             .iter()
+-            .find(|&f| f.major == major && f.minor == minor)
++            .find(|&f| f.arch_major == gpu_id.arch_major && f.prod_major == gpu_id.prod_major)
+         {
+             model.name
+         } else {
+@@ -117,9 +115,9 @@ pub(crate) fn log(&self, pdev: &platform::Device) {
+             "mali-{} id 0x{:x} major 0x{:x} minor 0x{:x} status 0x{:x}",
+             model_name,
+             self.gpu_id >> 16,
+-            major,
+-            minor,
+-            status
++            gpu_id.ver_major,
++            gpu_id.ver_minor,
++            gpu_id.ver_status
+         );
+ 
+         dev_info!(
+@@ -167,14 +165,14 @@ unsafe impl AsBytes for GpuInfo {}
+ 
+ struct GpuModels {
+     name: &'static str,
+-    major: u32,
+-    minor: u32,
++    arch_major: u32,
++    prod_major: u32,
+ }
+ 
+ const GPU_MODELS: [GpuModels; 1] = [GpuModels {
+     name: "g610",
+-    major: 10,
+-    minor: 7,
++    arch_major: 10,
++    prod_major: 7,
+ }];
+ 
+ #[allow(dead_code)]
 -- 
-2.39.5
+2.51.2
 
