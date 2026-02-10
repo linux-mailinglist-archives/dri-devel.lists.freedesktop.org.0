@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0MIAIYraimnrOAAAu9opvQ
+	id YGlHF7rbimngOQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 08:13:14 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 08:18:18 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01CF117C04
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 08:13:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5BA4117CED
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 08:18:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ECBE10E4E0;
-	Tue, 10 Feb 2026 07:13:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 387F710E4EC;
+	Tue, 10 Feb 2026 07:18:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="I7E4YK54";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="EclEo2y7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49239.qiye.163.com (mail-m49239.qiye.163.com
- [45.254.49.239])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25B7710E4E0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 07:13:09 +0000 (UTC)
+Received: from mail-m3297.qiye.163.com (mail-m3297.qiye.163.com
+ [220.197.32.97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E1A510E4EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 07:18:15 +0000 (UTC)
 Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 33b530bbd;
- Tue, 10 Feb 2026 15:13:05 +0800 (GMT+08:00)
+ by smtp.qiye.163.com (Hmail) with ESMTP id 33b530bce;
+ Tue, 10 Feb 2026 15:13:08 +0800 (GMT+08:00)
 From: Damon Ding <damon.ding@rock-chips.com>
 To: andrzej.hajda@intel.com,
 	neil.armstrong@linaro.org,
@@ -42,25 +42,25 @@ Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
  Damon Ding <damon.ding@rock-chips.com>
-Subject: [PATCH v9 12/15] drm/exynos: exynos_dp: Apply
- analogix_dp_finish_probe()
-Date: Tue, 10 Feb 2026 15:12:22 +0800
-Message-Id: <20260210071225.2566099-13-damon.ding@rock-chips.com>
+Subject: [PATCH v9 13/15] drm/bridge: analogix_dp: Attach the next bridge in
+ analogix_dp_bridge_attach()
+Date: Tue, 10 Feb 2026 15:12:23 +0800
+Message-Id: <20260210071225.2566099-14-damon.ding@rock-chips.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260210071225.2566099-1-damon.ding@rock-chips.com>
 References: <20260210071225.2566099-1-damon.ding@rock-chips.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9c46658b8b03a3kunm1f53a888aefa94
+X-HM-Tid: 0a9c466594fc03a3kunm1f53a888aefabb
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGkNOHlZCQ0IdS0tDQklOHh9WFRQJFh
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQxpMQlZOTk5JHhkdSxlJQktWFRQJFh
  oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpKQk
  1VSktLVUpCWQY+
 DKIM-Signature: a=rsa-sha256;
- b=I7E4YK54xGzEUH1u+W/c+FFfV3vSLWvzUQ4/0jxgQL8BkRXsPuZ2PEZtyzDegGeeOzn+Bk+Hm1Q488qSAxw1sVlTfH0q/Lp1ePdCsOpvaI05nvTPe5tu1vewMlAXesrGwMdQ5eOvC5pLK5LoWsWIxlBNnS1c5ojcBjjDEJN883E=;
+ b=EclEo2y74XGqlN6A+fdjR/YK2FVMMCeH8KFE4aMUE/maUi5jYDbMaB3Nu7M+wpYvFnVdBKytXY+Y5EdEOwQBd0OsSsQYMNWGfJqWjvGM1UHmws+a62KyUUNko4/akKrfUDzz5QRlbYhNWmbo14bbXfuUgRzP5Tr2gnI3RHDZkLw=;
  c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=9+M/PibubAO1ntwaSBMGJlK3TPATJcI6Ax1z4zI4i2Q=;
+ bh=T0KlNYyqUubH/0N39BJghe8vq1lbkdg01jB78NvFgVw=;
  h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -108,90 +108,101 @@ X-Spamd-Result: default: False [1.69 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[damon.ding@rock-chips.com,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sntech.de:email,qualcomm.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,rock-chips.com:mid,rock-chips.com:dkim,rock-chips.com:email]
-X-Rspamd-Queue-Id: E01CF117C04
+	DBL_BLOCKED_OPENRESOLVER(0.00)[rock-chips.com:mid,rock-chips.com:dkim,rock-chips.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,samsung.com:email,sntech.de:email,qualcomm.com:email]
+X-Rspamd-Queue-Id: D5BA4117CED
 X-Rspamd-Action: no action
 
-Apply analogix_dp_finish_probe() in order to move the panel/bridge
-parsing from Exynos side to the Analogix side.
+Uniformly, move the next bridge attachment to the Analogix side
+rather than scattered on Rockchip and Exynos sides. It can also
+help get rid of the callback &analogix_dp_plat_data.attach() and
+make codes more concise.
 
 Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 Tested-by: Heiko Stuebner <heiko@sntech.de> (on rk3588)
 
----
+------
 
-Changes in v4:
-- Rename analogix_dp_find_panel_or_bridge() to
-  analogix_dp_finish_probe().
+Changes in v6:
+- Move the next bridge attachment to the Analogix side rather than
+  scattered on Rockchip and Exynos sides.
 
-Changes in v7:
-- Remove exynos_dp_legacy_bridge_init() and inline API
-  devm_drm_of_display_mode_bridge().
-- If the panel or the next_bridge is parsed from DT, use ptr validity
-  to check whether to call component_add() directly at the end of
-  probing.
-
--Changes in v9:
+Changes in v9:
 - Add Tested-by tag.
 ---
- drivers/gpu/drm/exynos/exynos_dp.c | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+ .../gpu/drm/bridge/analogix/analogix_dp_core.c |  7 ++++---
+ drivers/gpu/drm/exynos/exynos_dp.c             | 18 ------------------
+ include/drm/bridge/analogix_dp.h               |  1 -
+ 3 files changed, 4 insertions(+), 22 deletions(-)
 
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+index 933f1843777f..a6c5601e16ff 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+@@ -930,10 +930,11 @@ static int analogix_dp_bridge_attach(struct drm_bridge *bridge,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (dp->plat_data->attach) {
+-		ret = dp->plat_data->attach(dp->plat_data, bridge);
++	if (dp->plat_data->next_bridge) {
++		ret = drm_bridge_attach(dp->encoder, dp->plat_data->next_bridge, bridge,
++					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+ 		if (ret) {
+-			DRM_ERROR("Failed at platform attach func\n");
++			dev_err(dp->dev, "failed to attach following panel or bridge (%d)\n", ret);
+ 			return ret;
+ 		}
+ 	}
 diff --git a/drivers/gpu/drm/exynos/exynos_dp.c b/drivers/gpu/drm/exynos/exynos_dp.c
-index 478eaa6f3175..6126820aad3b 100644
+index 6126820aad3b..6884ea6d04eb 100644
 --- a/drivers/gpu/drm/exynos/exynos_dp.c
 +++ b/drivers/gpu/drm/exynos/exynos_dp.c
-@@ -157,9 +157,6 @@ static int exynos_dp_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct device_node *np;
- 	struct exynos_dp_device *dp;
--	struct drm_panel *panel;
--	struct drm_bridge *bridge;
+@@ -68,23 +68,6 @@ static int exynos_dp_poweroff(struct analogix_dp_plat_data *plat_data)
+ 	return exynos_dp_crtc_clock_enable(plat_data, false);
+ }
+ 
+-static int exynos_dp_bridge_attach(struct analogix_dp_plat_data *plat_data,
+-				   struct drm_bridge *bridge)
+-{
+-	struct exynos_dp_device *dp = to_dp(plat_data);
 -	int ret;
- 
- 	dp = devm_kzalloc(&pdev->dev, sizeof(struct exynos_dp_device),
- 			  GFP_KERNEL);
-@@ -186,30 +183,30 @@ static int exynos_dp_probe(struct platform_device *pdev)
- 		goto out;
- 	}
- 
--	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0, &panel, &bridge);
--	if (ret == -ENODEV) {
-+	if (of_get_display_timings(dev->of_node)) {
- 		dp->plat_data.next_bridge = devm_drm_of_display_mode_bridge(dp->dev,
- 									dp->dev->of_node,
- 									DRM_MODE_CONNECTOR_eDP);
--		ret = IS_ERR(dp->plat_data.next_bridge) ? PTR_ERR(dp->plat_data.next_bridge) : 0;
-+		if (IS_ERR(dp->plat_data.next_bridge))
-+			return PTR_ERR(dp->plat_data.next_bridge);
- 	}
--	if (ret)
--		return ret;
- 
- 	/* The remote port can be either a panel or a bridge */
--	dp->plat_data.panel = panel;
--	dp->plat_data.next_bridge = bridge;
+-
+-	/* Pre-empt DP connector creation if there's a bridge */
+-	if (plat_data->next_bridge) {
+-		ret = drm_bridge_attach(&dp->encoder, plat_data->next_bridge, bridge,
+-					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+-		if (ret)
+-			return ret;
+-	}
+-
+-	return 0;
+-}
+-
+ static void exynos_dp_mode_set(struct drm_encoder *encoder,
+ 			       struct drm_display_mode *mode,
+ 			       struct drm_display_mode *adjusted_mode)
+@@ -195,7 +178,6 @@ static int exynos_dp_probe(struct platform_device *pdev)
  	dp->plat_data.dev_type = EXYNOS_DP;
  	dp->plat_data.power_on = exynos_dp_poweron;
  	dp->plat_data.power_off = exynos_dp_poweroff;
- 	dp->plat_data.attach = exynos_dp_bridge_attach;
-+	dp->plat_data.ops = &exynos_dp_ops;
+-	dp->plat_data.attach = exynos_dp_bridge_attach;
+ 	dp->plat_data.ops = &exynos_dp_ops;
  
  out:
- 	dp->adp = analogix_dp_probe(dev, &dp->plat_data);
- 	if (IS_ERR(dp->adp))
- 		return PTR_ERR(dp->adp);
+diff --git a/include/drm/bridge/analogix_dp.h b/include/drm/bridge/analogix_dp.h
+index bae969dec63a..854af692229b 100644
+--- a/include/drm/bridge/analogix_dp.h
++++ b/include/drm/bridge/analogix_dp.h
+@@ -34,7 +34,6 @@ struct analogix_dp_plat_data {
  
--	return component_add(&pdev->dev, &exynos_dp_ops);
-+	if (dp->plat_data.panel || dp->plat_data.next_bridge)
-+		return component_add(&pdev->dev, &exynos_dp_ops);
-+	else
-+		return analogix_dp_finish_probe(dp->adp);
- }
+ 	int (*power_on)(struct analogix_dp_plat_data *);
+ 	int (*power_off)(struct analogix_dp_plat_data *);
+-	int (*attach)(struct analogix_dp_plat_data *, struct drm_bridge *);
+ };
  
- static void exynos_dp_remove(struct platform_device *pdev)
+ int analogix_dp_resume(struct analogix_dp_device *dp);
 -- 
 2.34.1
 
