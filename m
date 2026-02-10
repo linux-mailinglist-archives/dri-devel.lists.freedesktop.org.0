@@ -2,71 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OLoJLAT1imn2OwAAu9opvQ
+	id cGUPJdT0imn2OwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:06:12 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:05:24 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883141188A0
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:06:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01759118815
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:05:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA19D10E511;
-	Tue, 10 Feb 2026 09:06:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E07910E284;
+	Tue, 10 Feb 2026 09:05:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HwEN0JPb";
+	dkim=pass (2048-bit key; unprotected) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="HPBghLQA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5339F10E50E;
- Tue, 10 Feb 2026 09:06:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770714369; x=1802250369;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=ITHiJ8mV8MjBhrvl31MX8m6mVWmn+8bPpVNr5l5vxvo=;
- b=HwEN0JPbqkMPMr2a7AmJiuF0Q61Zc0sCr1vocgMyUXMa6SZfEI3Qm4+O
- 4lx8kMVu6Xq5ZQzq9e4ow66bcEAF0AgeQeaRjS1SHgnvhMt2BTqgtP+qC
- CPHM25OsorLAopzUasHrU64QHUNTvTvCexYj+jkJWIwWQqtmrU1YQZLvh
- O91SVovDaOPWgMfQfRoP3hPlLSxe/uuG2Zr4AM2cCIsbkvlrtpRB8QIaj
- WBvjW7T8YCKG/sVOJt8TSVlCfEA+OJjrOb+YVDDy6NPnxSvL67By0vLMB
- PQa2FZ10A3dT5fQeg0gCP4XNIRidmnVq9ggZXSqkLsrcpx/8Q2sZwPRQk w==;
-X-CSE-ConnectionGUID: F7Yg404ZR7SkQyGsFKs+7g==
-X-CSE-MsgGUID: Ej+wMFfqRmedt8NzrA5W9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="94479238"
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; d="scan'208";a="94479238"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2026 01:06:09 -0800
-X-CSE-ConnectionGUID: wf+jMZ0KS96jsbIkGQsl0g==
-X-CSE-MsgGUID: 9czWtVkCQRCBwIkdPS8CbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; d="scan'208";a="242479060"
-Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by orviesa002.jf.intel.com with ESMTP; 10 Feb 2026 01:06:04 -0800
-From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Tue, 10 Feb 2026 14:34:01 +0530
-Subject: [PATCH v9 7/7] drm: Introduce DRM_CAP_ATOMIC_ERROR_REPORTING
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F0C310E284
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 09:05:18 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-4834826e5a0so6591385e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 01:05:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1770714317; x=1771319117;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=OP3VbNx68VcllvOx/t4H1bQXdiTg3vSueeogLKpAveY=;
+ b=HPBghLQAE4i7qEGi58HvUC2Xk8nyElZReT+pbQ8p3vGLhKVAUpBgrlBRgYQN1KvDDF
+ CvTICyPMGdtcXQi0jTHLJBv8zrUSGOp0mww+2zc6KN0S0Jv1dOyqo+2+8XpTvqvGZbw2
+ EcVYJziyNWVNhwo5Mu9c1CLDXPys2UVDKNmUADpe2NhxmMaiPp2apm8FEVDQGwDFvNfB
+ zwNhCvc+LjGxmF9GUdGK9Y3apJ82PEDM3XZcVxAzZ1WdyTq+yytC3LuTz0gSbEpNCgqN
+ ffRaYQgGK6T9XTE4ZYW95TVlohJKRNoBxHHpg4gbCOvElAw+GOrtWgQz4M+lJny4uam/
+ H0Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770714317; x=1771319117;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OP3VbNx68VcllvOx/t4H1bQXdiTg3vSueeogLKpAveY=;
+ b=LNqEwtwHbPXHv2Lizs/39SX4TJYcUQZR7SL5ORKdBLHuV94nr/s5kldutipq0lol1N
+ /Yw9q7f3yHg8a2BTARIvvNsgQGpp9I1dFWUKLsFK7G4SCFl4M1iKl5+XuvgqKE71FHMN
+ j7RH8IbNcVt62a0chHMuCyBqr6xXzPSi0Zjq6hOsKCFksgNaq17iGLGTf0gX7lwF9Or2
+ soWpcWWjg1US+DZAaWyykPcvYRGHkipb6bcWAkOUhHgGTrDyBmS9gFLKg1RZEypAJijN
+ JxjeHKwk9dUhbcHQmksZXvjp5StxbdGtoipm8232KXLhKnVexgas/jDIV1Ga4X+0nB+p
+ o56A==
+X-Gm-Message-State: AOJu0Yxy6hQctr7FWXE05vDwZ55QAnTrr4wOKybmXwbcx5KUx0rF7fHx
+ UQVvBxdclB0gDnlfxoFQ6JrOgp3SeOVP+F0X/fjj065ypiIQqjytcRXtr18tHclUEyk=
+X-Gm-Gg: AZuq6aI6tjsQXlLU4l0NI/2ShtEd8jKuuRzbYhXc1/q+T7yBEmDO8ABiXTbrvohhZXs
+ Eh1qDLhUMDkj0jReB5J2GSIsk4j8IVfu3Wg0m8+oRbx2JPK06W3Fa8KLgFxzvb8S65S3AnMgKm1
+ 37+hvibkqALx2eABPzZqrDYNMIMBStrFw86wx2EjnBxK4tYfx4FUKffMd09xNtSjt630bYisg1i
+ vkLmjDlygPEWQwZqxpaOes9cFsUJ9C2zVVp96RjPVYROJEQzG5csBVU7P1Fo4CUi0DbHQudpSZ4
+ mBou+fQmQO0llezu2hrJIe5wQCRO6LI2e8PXfkTzGgqodcHTtkGMycqQJByvIzvXEWkBqizeH+R
+ uH5M+DEcaE00sXc2gz7Vk9nDyIJiB3Ez+aGBrnBZKu7RN+G3tft3LiKWI2cNHKKR4Tgr7och35x
+ ZjNBEfjQKElOqdkF59B0iF5UK87SMKhTZQZQQ=
+X-Received: by 2002:a05:600c:674f:b0:471:13dd:bae7 with SMTP id
+ 5b1f17b1804b1-4832022aee5mr181770665e9.30.1770714317119; 
+ Tue, 10 Feb 2026 01:05:17 -0800 (PST)
+Received: from FV6GYCPJ69 ([140.209.217.211]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-436296bd4desm32761634f8f.18.2026.02.10.01.05.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Feb 2026 01:05:16 -0800 (PST)
+Date: Tue, 10 Feb 2026 10:05:14 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: John Stultz <jstultz@google.com>
+Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ iommu@lists.linux.dev, linux-media@vger.kernel.org, sumit.semwal@linaro.org, 
+ benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, tjmercier@google.com, 
+ christian.koenig@amd.com, m.szyprowski@samsung.com, robin.murphy@arm.com,
+ jgg@ziepe.ca, 
+ leon@kernel.org, sean.anderson@linux.dev, ptesarik@suse.com, 
+ catalin.marinas@arm.com, aneesh.kumar@kernel.org, suzuki.poulose@arm.com, 
+ steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com, 
+ ashish.kalra@amd.com, suravee.suthikulpanit@amd.com, linux-coco@lists.linux.dev
+Subject: Re: [PATCH 4/5] dma-buf: heaps: allow heap to specify valid heap flags
+Message-ID: <hwdezwktndbm6hoko3rz5lffgfljodegcygzf6rbdf2ferokj6@ftk2uk3rqfdq>
+References: <20260209153809.250835-1-jiri@resnulli.us>
+ <20260209153809.250835-5-jiri@resnulli.us>
+ <CANDhNCoHEZsNRmU+3z5AbeAy05H7PTtUdTq1apNd5k0f9hWW8A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260210-atomic-v9-7-525c88fd2402@intel.com>
-References: <20260210-atomic-v9-0-525c88fd2402@intel.com>
-In-Reply-To: <20260210-atomic-v9-0-525c88fd2402@intel.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, xaver.hugl@kde.org, 
- harry.wentland@amd.com, uma.shankar@intel.com, louis.chauvet@bootlin.com, 
- naveen1.kumar@intel.com, ramya.krishna.yella@intel.com
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, Arun R Murthy <arun.r.murthy@intel.com>, 
- Suraj Kandpal <suraj.kandpal@intel.com>
-X-Mailer: b4 0.15-dev
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANDhNCoHEZsNRmU+3z5AbeAy05H7PTtUdTq1apNd5k0f9hWW8A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,76 +102,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[resnulli-us.20230601.gappssmtp.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,intel.com,ursulin.net,kde.org,amd.com,bootlin.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
-	FROM_NEQ_ENVFROM(0.00)[arun.r.murthy@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCVD_TLS_LAST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	DMARC_NA(0.00)[resnulli.us];
 	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[intel.com:+]
-X-Rspamd-Queue-Id: 883141188A0
+	FORGED_RECIPIENTS(0.00)[m:jstultz@google.com,m:linaro-mm-sig@lists.linaro.org,m:iommu@lists.linux.dev,m:linux-media@vger.kernel.org,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:m.szyprowski@samsung.com,m:robin.murphy@arm.com,m:jgg@ziepe.ca,m:leon@kernel.org,m:sean.anderson@linux.dev,m:ptesarik@suse.com,m:catalin.marinas@arm.com,m:aneesh.kumar@kernel.org,m:suzuki.poulose@arm.com,m:steven.price@arm.com,m:thomas.lendacky@amd.com,m:john.allen@amd.com,m:ashish.kalra@amd.com,m:suravee.suthikulpanit@amd.com,m:linux-coco@lists.linux.dev,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[jiri@resnulli.us,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[jiri@resnulli.us,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[resnulli-us.20230601.gappssmtp.com:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,nvidia.com:email,resnulli-us.20230601.gappssmtp.com:dkim]
+X-Rspamd-Queue-Id: 01759118815
 X-Rspamd-Action: no action
 
-The new capability informs users that atomic_ioctl() supports
-failure reporting when an error occurs.
+Mon, Feb 09, 2026 at 09:08:03PM +0100, jstultz@google.com wrote:
+>On Mon, Feb 9, 2026 at 7:38 AM Jiri Pirko <jiri@resnulli.us> wrote:
+>>
+>> From: Jiri Pirko <jiri@nvidia.com>
+>>
+>> Currently the flags, which are unused, are validated for all heaps.
+>> Since the follow-up patch introduces a flag valid for only one of the
+>> heaps, allow to specify the valid flags per-heap.
+>
+>I'm not really in this space anymore, so take my feedback with a grain of salt.
+>
+>While the heap allocate flags argument is unused, it was intended to
+>be used for generic allocation flags that would apply to all or at
+>least a wide majority of heaps.
+>
+>It was definitely not added to allow for per-heap or heap specific
+>flags (as this patch tries to utilize it). That was the mess we had
+>with ION driver that we were trying to avoid.
+>
+>The intent of dma-buf heaps is to try to abstract all the different
+>device memory constraints so there only needs to be a [usage] ->
+>[heap] mapping, and otherwise userland can be generalized so that it
+>doesn't need to be re-written to work with different devices/memory
+>types.  Adding heap-specific allocation flags prevents that
+>generalization.
+>
+>So instead of adding heap specific flags, the general advice has been
+>to add a separate heap name for the flag property.
 
-Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
-Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
----
- drivers/gpu/drm/drm_ioctl.c | 3 +++
- include/uapi/drm/drm.h      | 7 +++++++
- 2 files changed, 10 insertions(+)
+Right, my original idea was to add a separate heap. Then I spotted the
+flags and seemed like a great fit. Was not aware or the history or
+original intention. Would be probably good to document it for
+future generations.
 
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index ff193155129e7e863888d8958458978566b144f8..59f2b5b53830fd3aadc6e18cf49f0660a99e9c96 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -304,6 +304,9 @@ static int drm_getcap(struct drm_device *dev, void *data, struct drm_file *file_
- 		req->value = drm_core_check_feature(dev, DRIVER_ATOMIC) &&
- 			     dev->mode_config.async_page_flip;
- 		break;
-+	case DRM_CAP_ATOMIC_ERROR_REPORTING:
-+		req->value = drm_core_check_feature(dev, DRIVER_ATOMIC) && 1;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-index 27cc159c1d275c7a7fe057840ef792f30a582bb7..6082410bcabfb4aa37b85e5f03d3611e5aed4aa5 100644
---- a/include/uapi/drm/drm.h
-+++ b/include/uapi/drm/drm.h
-@@ -812,6 +812,13 @@ struct drm_gem_change_handle {
-  * commits.
-  */
- #define DRM_CAP_ATOMIC_ASYNC_PAGE_FLIP	0x15
-+/**
-+ * DRM_CAP_ATOMIC_ERROR_REPORTING
-+ *
-+ * If set to 1, the driver supports reporting of failure codes on error in
-+ * atomic ioctl().
-+ */
-+#define DRM_CAP_ATOMIC_ERROR_REPORTING	0x16
- 
- /* DRM_IOCTL_GET_CAP ioctl argument type */
- struct drm_get_cap {
+So instead of flag, I will add heap named something
+like "system_cc_decrypted" to implement this.
 
--- 
-2.25.1
-
+Thanks!
