@@ -2,124 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WFvRDIZDi2mfRwAAu9opvQ
+	id QFwcC2lFi2mfRwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:41:10 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:49:13 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 790C611BFF7
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:41:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B99511C0E5
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:49:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A73A10E59D;
-	Tue, 10 Feb 2026 14:41:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95E1110E5A5;
+	Tue, 10 Feb 2026 14:49:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="dJiyOaBr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pPsz+5c9";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BdjM6Vhj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2ADB3cYM";
+	dkim=pass (2048-bit key; unprotected) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="jKxfqZ5O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B1D210E59D
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 14:41:04 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EDDEF3E6FE;
- Tue, 10 Feb 2026 14:41:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770734463; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=B2yh9/1hkIj6I511GqVvdvKdVLys1Q1+6ibz6PzmpmM=;
- b=dJiyOaBrZ7Wqk+cY09ypSQ7T78LGM6F2lVIK7j4Bo5Hp2oFvkVwuff3kafcpFTg46i3hHJ
- Wd+g/Oj6oUf5FG6b14GujhXKVYPqlaY8HKDxia8hnw86615FOb3W6awrJ5UT+5c0n7D9U2
- 3R7EHqibPghmadYRj/xCy9RQF/1peKs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770734463;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=B2yh9/1hkIj6I511GqVvdvKdVLys1Q1+6ibz6PzmpmM=;
- b=pPsz+5c98InJzPRNwrKGlQd6nWjeVOeJbU6hFF6kY+jw1xmXiTjAEUrgnguSe1kygCS220
- l9izl8vMLAmNQ5DQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770734462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=B2yh9/1hkIj6I511GqVvdvKdVLys1Q1+6ibz6PzmpmM=;
- b=BdjM6Vhjp7g48zFVjJf/t/G/ArhHn/HWcRYlKta1/ft+ZkXdW1uLwzg084OoN3xuHH+vLL
- RQw34KxQuXsc+m1RTVCOF80az/HHXsE8Yu9pZ56FcOWcRq6xplJAvJZ/k7QtI4BiBbKaLg
- XkRogefaxhZUTvpjSpLVcK5ygmdCrR8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770734462;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=B2yh9/1hkIj6I511GqVvdvKdVLys1Q1+6ibz6PzmpmM=;
- b=2ADB3cYMNz06XjaDeOW0TLDKCzzYcDgekB/PRyDOccCTlWQHGOUhZ6SOchX4WYfsoErAjB
- NB3PfHOEDk+isgAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B28813EA62;
- Tue, 10 Feb 2026 14:41:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id RZ87Kn5Di2kuQAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 10 Feb 2026 14:41:02 +0000
-Message-ID: <ecccb9da-ada6-4a34-97ca-9ed42d25116a@suse.de>
-Date: Tue, 10 Feb 2026 15:41:02 +0100
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5ABD10E5A3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 14:49:08 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-47ee3a63300so10918805e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 06:49:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1770734947; x=1771339747;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=knkS23bKgxD0sGFgNoxwcHFypphehdzY/C+BgKABh1k=;
+ b=jKxfqZ5O1R0bK8xLw9NRRF7R13eGFLt67Y97n9VltOFiR7tof/wGoQ7Og2dLWxzVD3
+ Ymdwm/7cXvTmdJkG4ZygsOiBM/V0DBrBe3tFltrxcT9MibfyYYUqeXk94vNTTdqGg9Up
+ IFbGBLAzEOzgGBg5yN+7Hb6qP/Z3NtJSfTN+Gh/7JhlRqZ+dkfLCy9XxTctnLqgQo5GA
+ c0tjTPEz0ARGTp7/6QSwEB5uv7DBlKPIDqx29DLONDaWJHi3s5MumjBavKqpDMYA+N5E
+ jH/qr6RPDL4rFfnqOtiNlrK6nun+/LDdfA2DEk9Tmy8jsW+HuaJn8soJt+/g/4eztA/z
+ OZtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770734947; x=1771339747;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=knkS23bKgxD0sGFgNoxwcHFypphehdzY/C+BgKABh1k=;
+ b=abGH/chfaWF6iaCo0W0xAOj3OsfCAWQdtca6ITG0HT1zli1WnNimjwf3F57HKxgAzK
+ QHjR07LbnUpdX7rFk3aYXWVz5xaoRBJmLnCvYNYTj3Q/x3y3PINhWE0STfZ2ZLhculrQ
+ PAshmQxC0jUqInDxbEp2AXgNbeL6o12pYpxEfxadtzSZo98zASiD5PxoLnJ6Fxg2RBFV
+ zas1Y1xXo0JpG4eGu/4OLU1j4w8CWUaPp77IUh1hkgEtGp6v83qcki4WW+hoylOWFUTj
+ XpHk7Dp1O0wJZ67BOBYFSltKLJFmA3SxNgsQN4EPrAelo4aE0vY/uvQczA44FPuv6CI6
+ VA6g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWoz+PIzwr6FYNZdklMofQ6KQdBUd/k7NJQq6H3bcmsvWlehVEJFSJt4TSN4zh/kqXhbMs8iuXJWtc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyu/8tNZ/Q0uu/J7NS6vhZIQhTP9ZT4PBoY/W4Bt6Ujc9Me5C1c
+ CL9k7vAj4M0SOaCh1V/js1E9FCnWaYKtNWTtjSSV+GWo87Yjs6JAo/hY5TrZExOTXXs=
+X-Gm-Gg: AZuq6aLdhjoJr+qg1KQ8DmEEqnrbd7TpWxpaEC1fhB25Q2eoBnL11s2YdClgL2CLh9K
+ Dw8rA8z/oq7w3zlnainSxZggvKV+dk70rFs23urEiqFwl14N/VhbQZ/2TGKHrlgz7C35PWkMpW8
+ W2NtZSLu1saxgZ5TUUxbiXKFozd6J3QRiHuMekFhhn7AriZd8scR7tVy+Hs0Yx/7aI2CkaQ9wJo
+ Xa7NqnSEO9EZ0bTPhJkqATVHc0vKWJ8fbxrjiun30Z2X04tN+E7PXlU+HCrND02wY8WL427eLpi
+ UDm8Rqor1ZH8knEHWJH3yAAsnDzKlCitd+k21FJk3mrVN0AUz0o+u0+xEO7ye5uXw53zmIDIE95
+ C0GTS6ZxIXy+A1Dk5Kx7qRDQDfoxqvXwgpYe+drUyRV9l9vSqw2I/PHSbQWrI5t4KIeEC90RDar
+ s4zuiK6dIDuvPhu17dwaoYPPvu0IkFCZyo9ps=
+X-Received: by 2002:a05:600c:3f0a:b0:47e:e712:aa88 with SMTP id
+ 5b1f17b1804b1-48320236ad7mr236498725e9.31.1770734946334; 
+ Tue, 10 Feb 2026 06:49:06 -0800 (PST)
+Received: from FV6GYCPJ69 ([140.209.217.211]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-436296bd1c9sm34022302f8f.15.2026.02.10.06.49.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Feb 2026 06:49:05 -0800 (PST)
+Date: Tue, 10 Feb 2026 15:49:02 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: John Stultz <jstultz@google.com>, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev,
+ linux-media@vger.kernel.org, 
+ sumit.semwal@linaro.org, benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
+ tjmercier@google.com, christian.koenig@amd.com, m.szyprowski@samsung.com, 
+ robin.murphy@arm.com, leon@kernel.org, sean.anderson@linux.dev,
+ ptesarik@suse.com, 
+ catalin.marinas@arm.com, aneesh.kumar@kernel.org, suzuki.poulose@arm.com, 
+ steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com, 
+ ashish.kalra@amd.com, suravee.suthikulpanit@amd.com, linux-coco@lists.linux.dev
+Subject: Re: [PATCH 4/5] dma-buf: heaps: allow heap to specify valid heap flags
+Message-ID: <y7gvezflidmma7odnut2rmlecsbxahrcwpmoevfnhzjveusuwj@6qxqogin45j3>
+References: <20260209153809.250835-1-jiri@resnulli.us>
+ <20260209153809.250835-5-jiri@resnulli.us>
+ <CANDhNCoHEZsNRmU+3z5AbeAy05H7PTtUdTq1apNd5k0f9hWW8A@mail.gmail.com>
+ <20260210002927.GC943673@ziepe.ca>
+ <tgvdjszwxggr53digbmddcbxvupzl4xcoprofkgrs2kgf6rknx@44ebljjpghjm>
+ <20260210124357.GD943673@ziepe.ca>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH drm-misc-next] drm: verisilicon: assign git tree to
- drm/misc in MAINTAINERS
-To: Icenowy Zheng <zhengxingda@iscas.ac.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20260210141537.752890-1-zhengxingda@iscas.ac.cn>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260210141537.752890-1-zhengxingda@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260210124357.GD943673@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,75 +106,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[resnulli-us.20230601.gappssmtp.com:s=20230601];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:zhengxingda@iscas.ac.cn,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[iscas.ac.cn,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DMARC_NA(0.00)[resnulli.us];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:jgg@ziepe.ca,m:jstultz@google.com,m:linaro-mm-sig@lists.linaro.org,m:iommu@lists.linux.dev,m:linux-media@vger.kernel.org,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:m.szyprowski@samsung.com,m:robin.murphy@arm.com,m:leon@kernel.org,m:sean.anderson@linux.dev,m:ptesarik@suse.com,m:catalin.marinas@arm.com,m:aneesh.kumar@kernel.org,m:suzuki.poulose@arm.com,m:steven.price@arm.com,m:thomas.lendacky@amd.com,m:john.allen@amd.com,m:ashish.kalra@amd.com,m:suravee.suthikulpanit@amd.com,m:linux-coco@lists.linux.dev,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[jiri@resnulli.us,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[jiri@resnulli.us,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[resnulli-us.20230601.gappssmtp.com:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:mid,suse.de:dkim,suse.de:email,gitlab.freedesktop.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,iscas.ac.cn:email]
-X-Rspamd-Queue-Id: 790C611BFF7
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,resnulli-us.20230601.gappssmtp.com:dkim,ziepe.ca:email]
+X-Rspamd-Queue-Id: 6B99511C0E5
 X-Rspamd-Action: no action
 
-
-
-Am 10.02.26 um 15:15 schrieb Icenowy Zheng:
-> Like other SoC display controllers, patches for the verisilicon driver
-> go through the drm/misc tree.
+Tue, Feb 10, 2026 at 01:43:57PM +0100, jgg@ziepe.ca wrote:
+>On Tue, Feb 10, 2026 at 10:14:08AM +0100, Jiri Pirko wrote:
 >
-> Add the T: clause to the MAINTAINERS item.
+>> >I'd advocate that the right design is for userspace to positively
+>> >signal via this flag that it wants/accepts shared memory and without
+>> >the flag shared memory should never be returned.
+>> 
+>> We can have the same behaviour with the separate heap, can't we?
+>> Userpace positively signals it wants/accepts the shared memory by
+>> choosing "system_cc_decrypted" heap name.
 >
-> Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+>So what do the other heap names do? Always private? Do you ever get
+>heaps that are unknowably private or shared (eg MMIO backed?)
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+If I understand the code correctly, you may get something like this:
+$ ls /dev/dma_heap/
+default_cma_region
+protected,secure-video
+protected,secure-video-record
+protected,trusted-ui
+system
 
-> ---
->   MAINTAINERS | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f2bec2c0d7e39..4a2d5e8f0f630 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -8682,6 +8682,7 @@ DRM DRIVERS FOR VERISILICON DISPLAY CONTROLLER IP
->   M:	Icenowy Zheng <zhengxingda@iscas.ac.cn>
->   L:	dri-devel@lists.freedesktop.org
->   S:	Maintained
-> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->   F:	Documentation/devicetree/bindings/display/verisilicon,dc.yaml
->   F:	drivers/gpu/drm/verisilicon/
->   
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+The "protected*" ones are created by tee. I believe they handle
+memory that is inaccesible to CPU.
