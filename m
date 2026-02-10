@@ -2,94 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UNDtKJxAi2mfRwAAu9opvQ
+	id WFvRDIZDi2mfRwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:28:44 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:41:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6FD311BE7D
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:28:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 790C611BFF7
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:41:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9427510E1B9;
-	Tue, 10 Feb 2026 14:28:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A73A10E59D;
+	Tue, 10 Feb 2026 14:41:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CYwTvshU";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="dJiyOaBr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pPsz+5c9";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BdjM6Vhj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2ADB3cYM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
- [209.85.208.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12C0410E1B9
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 14:28:39 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id
- 38308e7fff4ca-385b6e77ef9so34240691fa.3
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 06:28:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770733717; x=1771338517; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=jJiTIxfPBm25e93CFQ56nmStRzngUVIEZWb2GhG+yqk=;
- b=CYwTvshUpcfKErQ25eMgrC92BfjHmzZesHWnAdLGCOHgYys8Q38oQM/VV7e3wBqm5V
- QwmOhCPih+dC7Ve82PKMp3rgNR9P02JbmZlD7/7eb0tm54ZPM2uUXQl6oPXBlNltDnKh
- K8jMKUM3yHijTr56tVW3kxbcZtygBG2U5sGtQ8UEiuxQHJlmkSIaj22HigkxExZG0cY8
- PGOPGLeGtf4/0O0CyaHZRDabSY4pIg4qZJZF4BsQ8aPCju152joIZBeQ9uZ8YVSBHdUO
- Q9T/AXr4WkqYFIq6WQPTYuxSng1gzNyQn3JHFNeQuHgr9w+aSgtM6SKpRhHtoZmlMOgC
- i6SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770733717; x=1771338517;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jJiTIxfPBm25e93CFQ56nmStRzngUVIEZWb2GhG+yqk=;
- b=Xn06emhbZVUagI4+xYRs7+3TJPOSE6+H/vLnLCLLKxO6ZxOeSFngi5h9IPL7zxkD79
- I8IqELceyHecnjhts0k/5J/Fskd5jFWjp8QZmZABwUy4Flj/rx3jaV05IzrXlvzZ22IM
- hCtEyK85O3nVvPk0a/vyd/Jnn5t6+57puSGKOXBHMP/l19kzTKbJQV5jMci0n3dX1zTh
- mthLxsSR2k16JJxFEF/EHFM0xzr4wgWzdBNCFAoNWaAiygWiyBxhER9bqS0ox107Ndrl
- neqCTd3JmWk11LNs2KCBLRAkyv1dodyf8JVsh/pLbDmETHpvAkOE8IVMLh1qEuJ76+Kv
- lFTg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVhkswlfXUKB/njBzSTsyEQg0xLc8/VkncYdSZ0Dx9wGYiG+PEkmG9YVjW4ISmSyW64NhGsKjuFI4s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyM//KuGw0TXLpSwFknDR1NtF3hUFGyLKx+OgmbShBk+rOAbhBz
- RSHL6OoL6sOTpbxH3J+dWUqLvcdAyGFLUqKPsHnQ5zKqUYuxNZXt2sBY
-X-Gm-Gg: AZuq6aJmD78r5NU3FUDe8oJ7/CHg+YuVKFRohheQd9WcVqg0r+M+N2z6QSGMslBm1P8
- vqokt1Bf1kkNbQBnU5SehKecMbD3akM522RxHfVdZ++3ACOIPn6tIu/IqWiwkqT6riRJw5g67cE
- hmzT/5AmnhpNUPEAJquYzNfAgRBpSZ1WHlkprzc7hmmvdz7TmoXpIu4Zmsx+n0kyHVrDTnRRxfa
- h43nOFp60MVnRaP6leBojMg1itPiT10WecIxBNIELTwMw6ea1i0vlawdyJ1nihVlHLUuLUeDNXW
- +x7Kg6t6rx8f6f0ZgKa62CJHYuf+qNrLGd6YyPVF5ov0sDwJ+1pxDOoXX0JKQ5RzKrpBj3WWI9U
- RMyNOmrEFxAZEw9+0Fq8p//fi4QRtMH+ZO/9JyMCMF55FiW2PTAzmKt1DhrtgB2e4fIR+P2Aag/
- h7p9IQdOiilXYG/VzpZDUgSdyLJu0FA5gIXs//6qj2EQ==
-X-Received: by 2002:a05:651c:3048:b0:383:1737:5ae1 with SMTP id
- 38308e7fff4ca-386b4ed29e9mr47903091fa.11.1770733716944; 
- Tue, 10 Feb 2026 06:28:36 -0800 (PST)
-Received: from ehlo.thunderbird.net ([178.137.45.117])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-386fb4662bdsm985391fa.29.2026.02.10.06.28.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Feb 2026 06:28:36 -0800 (PST)
-Date: Tue, 10 Feb 2026 16:28:35 +0200
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Rob Herring <robh@kernel.org>
-CC: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v1_1/2=5D_dt-bindings=3A_displ?=
- =?US-ASCII?Q?ay=3A_tegra=3A_document_Tegra20_HDMI_port?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20260210141917.GA2659856-robh@kernel.org>
-References: <20260210094908.14276-1-clamor95@gmail.com>
- <20260210094908.14276-2-clamor95@gmail.com>
- <20260210141917.GA2659856-robh@kernel.org>
-Message-ID: <DB13921D-05FC-4A6C-B5D0-D23D5B47063B@gmail.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B1D210E59D
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 14:41:04 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id EDDEF3E6FE;
+ Tue, 10 Feb 2026 14:41:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1770734463; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=B2yh9/1hkIj6I511GqVvdvKdVLys1Q1+6ibz6PzmpmM=;
+ b=dJiyOaBrZ7Wqk+cY09ypSQ7T78LGM6F2lVIK7j4Bo5Hp2oFvkVwuff3kafcpFTg46i3hHJ
+ Wd+g/Oj6oUf5FG6b14GujhXKVYPqlaY8HKDxia8hnw86615FOb3W6awrJ5UT+5c0n7D9U2
+ 3R7EHqibPghmadYRj/xCy9RQF/1peKs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1770734463;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=B2yh9/1hkIj6I511GqVvdvKdVLys1Q1+6ibz6PzmpmM=;
+ b=pPsz+5c98InJzPRNwrKGlQd6nWjeVOeJbU6hFF6kY+jw1xmXiTjAEUrgnguSe1kygCS220
+ l9izl8vMLAmNQ5DQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1770734462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=B2yh9/1hkIj6I511GqVvdvKdVLys1Q1+6ibz6PzmpmM=;
+ b=BdjM6Vhjp7g48zFVjJf/t/G/ArhHn/HWcRYlKta1/ft+ZkXdW1uLwzg084OoN3xuHH+vLL
+ RQw34KxQuXsc+m1RTVCOF80az/HHXsE8Yu9pZ56FcOWcRq6xplJAvJZ/k7QtI4BiBbKaLg
+ XkRogefaxhZUTvpjSpLVcK5ygmdCrR8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1770734462;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=B2yh9/1hkIj6I511GqVvdvKdVLys1Q1+6ibz6PzmpmM=;
+ b=2ADB3cYMNz06XjaDeOW0TLDKCzzYcDgekB/PRyDOccCTlWQHGOUhZ6SOchX4WYfsoErAjB
+ NB3PfHOEDk+isgAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B28813EA62;
+ Tue, 10 Feb 2026 14:41:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id RZ87Kn5Di2kuQAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 10 Feb 2026 14:41:02 +0000
+Message-ID: <ecccb9da-ada6-4a34-97ca-9ed42d25116a@suse.de>
+Date: Tue, 10 Feb 2026 15:41:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH drm-misc-next] drm: verisilicon: assign git tree to
+ drm/misc in MAINTAINERS
+To: Icenowy Zheng <zhengxingda@iscas.ac.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20260210141537.752890-1-zhengxingda@iscas.ac.cn>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20260210141537.752890-1-zhengxingda@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -4.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,103 +135,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.39 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	SUBJ_EXCESS_QP(1.20)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:thierry.reding@gmail.com,m:jonathanh@nvidia.com,m:devicetree@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,nvidia.com,lists.freedesktop.org,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:zhengxingda@iscas.ac.cn,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[iscas.ac.cn,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.de:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: E6FD311BE7D
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:mid,suse.de:dkim,suse.de:email,gitlab.freedesktop.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,iscas.ac.cn:email]
+X-Rspamd-Queue-Id: 790C611BFF7
 X-Rspamd-Action: no action
 
 
 
-10 =D0=BB=D1=8E=D1=82=D0=BE=D0=B3=D0=BE 2026=E2=80=AF=D1=80=2E 16:19:17 GM=
-T+02:00, Rob Herring <robh@kernel=2Eorg> =D0=BF=D0=B8=D1=88=D0=B5:
->On Tue, Feb 10, 2026 at 11:49:07AM +0200, Svyatoslav Ryhel wrote:
->> Tegra HDMI can be modeled using an OF graph=2E Reflect this in the bind=
-ings=2E
->>=20
->> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail=2Ecom>
->> ---
->>  =2E=2E=2E/bindings/display/tegra/nvidia,tegra20-hdmi=2Eyaml | 13 +++++=
-++++++--
->>  1 file changed, 11 insertions(+), 2 deletions(-)
->>=20
->> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,teg=
-ra20-hdmi=2Eyaml b/Documentation/devicetree/bindings/display/tegra/nvidia,t=
-egra20-hdmi=2Eyaml
->> index f77197e4869f=2E=2Ef33b700bf0ee 100644
->> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hd=
-mi=2Eyaml
->> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hd=
-mi=2Eyaml
->> @@ -82,6 +82,10 @@ properties:
->>      description: phandle of a display panel
->>      $ref: /schemas/types=2Eyaml#/definitions/phandle
->> =20
->> +  port:
->> +    description: connection to controller receiving HDMI signals
+Am 10.02.26 um 15:15 schrieb Icenowy Zheng:
+> Like other SoC display controllers, patches for the verisilicon driver
+> go through the drm/misc tree.
 >
->Describe this in terms of this block, not what it is connected to=2E It=
-=20
->could be an hdmi-connector node or a bridge=2E
+> Add the T: clause to the MAINTAINERS item.
 >
+> Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 
-Isn't the idea of port to provide connection to the remove device=2E How s=
-hould I word it: "links HDMI host with the receiver" or "output of HDMI"? I=
- don't quite understand what you mean=2E Maybe I should remove description =
-entirely, HDMI has a single port and its function is pretty strait forward=
-=2E
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
->> +    $ref: /schemas/graph=2Eyaml#/properties/port
->> +
->>    "#sound-dai-cells":
->>      const: 0
->> =20
->> @@ -97,8 +101,13 @@ required:
->>    - reset-names
->>    - pll-supply
->>    - vdd-supply
->> -  - nvidia,ddc-i2c-bus
->> -  - nvidia,hpd-gpio
->> +
->> +anyOf:
->> +  - required:
->> +    - nvidia,ddc-i2c-bus
->> +    - nvidia,hpd-gpio
->> +  - required:
->> +    - port
->> =20
->>  examples:
->>    - |
->> --=20
->> 2=2E51=2E0
->>=20
+> ---
+>   MAINTAINERS | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f2bec2c0d7e39..4a2d5e8f0f630 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8682,6 +8682,7 @@ DRM DRIVERS FOR VERISILICON DISPLAY CONTROLLER IP
+>   M:	Icenowy Zheng <zhengxingda@iscas.ac.cn>
+>   L:	dri-devel@lists.freedesktop.org
+>   S:	Maintained
+> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>   F:	Documentation/devicetree/bindings/display/verisilicon,dc.yaml
+>   F:	drivers/gpu/drm/verisilicon/
+>   
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
