@@ -2,134 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GOJDJgn3imn2OwAAu9opvQ
+	id kAzJHDb3imn2OwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:14:49 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:15:34 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB54118BBC
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:14:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCBA3118BF6
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:15:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 902EE10E526;
-	Tue, 10 Feb 2026 09:14:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E48B10E521;
+	Tue, 10 Feb 2026 09:15:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="K+qvRaxS";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="hg0UL8Df";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11011045.outbound.protection.outlook.com [40.107.208.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3486A10E521;
- Tue, 10 Feb 2026 09:14:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zSo3Ibp1iz1JKd0kCh+VFDrHrbUcntqUiBnXLSlDMfpW64SxgmCGvtHBunTY5n3N+QtzmPqDjuSiYG1LSGfWJWz9wOrRwjHlrs/b0Yq226FvnXn9hZMsIIeJxIp5XGqIvzDYYics+49Xy2nd566WEaB8VH2QtfIA3F8o92nEAbhOrWol7VYyi8iz84iKOQuNFYkdrqrrBJ7wINjdG8Pr5HqN/dI4TWjGqvfJgJyt60eTRUVCqilLAz8N7QUU28blXCQfuQiubdsi2YSTkAgjs7/gfiXIQjqGrXViRwaX2cjCLnSQvVlpW2m4SekDXClRFGkCgdpAMpJxj3dBsazLfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QshxU7kPQZFwe59YhxzWgZZ3PoPqzGkqBcqfr8hca8M=;
- b=GXW9YPxdJdfoa4I/BIhp7X7DblPOn/vmRoGBNXoFvfy+g81MX6EaOMENFvLo2Djjj0ZRULN2PS2r2ycWf7jsjH6kRoNTqHwFQs2ucE2/MUZqxk9NRRVS9RX5R0JYv6CipvmowBdCD+YiUohP1qdjIjbXEgX1WGxU6v+0pO6qkvz8F/2kTaBzBGZjvpLr2qMt0Fek76/d4tzgS1pJjYgwr9GZXt8iyKKlsUL5aWmqGgEAbKSFgU3j8kpTJdjf1rcWovygWKCpWcaSuf7mO07zcD3s5aUCeki83WeG5jJY58ZLCGRMU1hvRefg4yaj7GAsOh8odIRz0cWYEiLgTZnidA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QshxU7kPQZFwe59YhxzWgZZ3PoPqzGkqBcqfr8hca8M=;
- b=K+qvRaxSJY3enYZYdtC+mq4bRITzwDa18SStIda7fxmB/eHAQ4BtomDQToLZKUeqbCjzueVtr222MdinZWAVUxSlwXY188gspKmKoypQj6u8IVRg50OJPazk56/AcemaE8gbTZ2Q4+/L9cllKFYj1sUfRKvprF+QWWJDhGlG/As=
-Received: from CH0PR03CA0026.namprd03.prod.outlook.com (2603:10b6:610:b0::31)
- by CH3PR12MB8903.namprd12.prod.outlook.com (2603:10b6:610:17a::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.8; Tue, 10 Feb
- 2026 09:14:39 +0000
-Received: from DS3PEPF000099DF.namprd04.prod.outlook.com
- (2603:10b6:610:b0:cafe::e7) by CH0PR03CA0026.outlook.office365.com
- (2603:10b6:610:b0::31) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.19 via Frontend Transport; Tue,
- 10 Feb 2026 09:14:39 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- DS3PEPF000099DF.mail.protection.outlook.com (10.167.17.202) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9611.8 via Frontend Transport; Tue, 10 Feb 2026 09:14:39 +0000
-Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
- satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 10 Feb 2026 03:14:36 -0600
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Simona
- Vetter" <simona.vetter@ffwll.ch>, <amd-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v1] drm/amdgpu: fix sync handling in amdgpu_dma_buf_move_notify
-Date: Tue, 10 Feb 2026 10:14:16 +0100
-Message-ID: <20260210091417.1133-1-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 654D510E521
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 09:15:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1770714928;
+ bh=uzGnY/84mT6k1z70T8UkjashJ5iRRDbX4E/PYG0QaFY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=hg0UL8DffEvPTHz2hrr0zvMNEw/OrV4ejERxd5yCHj/1Xf18JVd1xA1YaXcKBRgrE
+ WSbf+TgtrANOEcnqCElYvFgRilSddX18bF+K/1Bky54annjkHep4YWu8gmmafTmQm/
+ pEPmV0AXIcfMrgKv2aOhXnjCPVWoIAs1icJiD79ZIeNvh3utUvk8tff93130jO37th
+ HBSf8x96J+EfGcjOhyfF2o1cFm6CPYZmRYBhZ99i6NeRnAGvKvZs9uHv0qeIEpOGYn
+ 1EpgLpLtGnT72XVqi/jsbJ1QOicyre/8zPAxt59Kz2q3VFZCrb07vjMaO4cxg8jFS/
+ OuywH9QQAuHeA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 67CD917E0FCE;
+ Tue, 10 Feb 2026 10:15:28 +0100 (CET)
+Date: Tue, 10 Feb 2026 10:15:25 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: "Christian =?UTF-8?B?S8O2bmln?=" <christian.koenig@amd.com>, Philipp
+ Stanner <phasta@mailbox.org>, phasta@kernel.org, Danilo Krummrich
+ <dakr@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Gary Guo <gary@garyguo.net>, Benno Lossin
+ <lossin@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, Joel
+ Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
+Subject: Re: [RFC PATCH 2/4] rust: sync: Add dma_fence abstractions
+Message-ID: <20260210101525.7fb85f25@fedora>
+In-Reply-To: <aYruaIxn8sMXVI0r@google.com>
+References: <20260203081403.68733-2-phasta@kernel.org>
+ <20260203081403.68733-4-phasta@kernel.org>
+ <20260205095727.4c3e2941@fedora>
+ <DG7SZND1GWR4.3C5NLKY4SYC0M@kernel.org>
+ <bb57b6837aa8044e679dad5f2589c2e0ba84c221.camel@mailbox.org>
+ <20260209155843.725dcfe1@fedora>
+ <c319c349-eb95-4c38-84fb-47440daefc3b@amd.com>
+ <aYruaIxn8sMXVI0r@google.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099DF:EE_|CH3PR12MB8903:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc4e4d16-bc77-4fce-538f-08de6884d199
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|1800799024|376014|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?qjeUxIPqPoWxUORcu51TnQL/ge/oaFI87bgh4fXJfI9uamJJxMdc9vWHPIOD?=
- =?us-ascii?Q?TDx3uWbtCt+Z2b4MFLlz9mLxMLkMBOu7K+/RCL93EeLi3mvrlKcDLaWLB0FE?=
- =?us-ascii?Q?/vCIM0I67wVlB3qB9hb0H2L71P/6zQzsoQ+fg/H7r8FoIpr7Y82aq7lyEbJ4?=
- =?us-ascii?Q?cohuAhWnZKfa7qMe+iZXeSvvxdHOFCRlI3+OI7LDch16kzINTzJIf35Q8Sip?=
- =?us-ascii?Q?Mx7e3iC/SyTZScv2o945Nr8QnOFQY0ybbokME/0C+VpB6FPFh+x/jcMfbxkY?=
- =?us-ascii?Q?7ct5dxTeJ/EmXyxGAr/Y2yI7/ze6ZqIfRHmfZHCTsdDV2VEOwG7VLNtvXdjb?=
- =?us-ascii?Q?c/+L+pZhiu//qHsGEmUxqtCbfq7JeC1qWLd2muz42sA1pKKhwngAUNFsnJrA?=
- =?us-ascii?Q?JhDw8y1kuMzVofJrhffTCMDB6GUHNZarDGAAR0tScbmDaSIDG07bMDHRVp6G?=
- =?us-ascii?Q?GaYu3RJ7X2uwwUs/RLYDr8uGxQXSoxXCXlTpp5PowoI/Db2DMfOH/8+unRnf?=
- =?us-ascii?Q?dJYKk/C+s//2NmKjYDqOBhXwqBf5YwLLCxRPWe74RUa2tEuWsmcl+Rs2Qapl?=
- =?us-ascii?Q?cJx3S7StO330/vXZ3WUVyvoVIll9T26YaVObDr+VjK8g3WS3OoVx+KoXJJFw?=
- =?us-ascii?Q?nb0Qjx9+lU6YnaReveZPpzs0IshNSiZGMUdwL2LUhUCdqWWAtVuQ5Sumjrzv?=
- =?us-ascii?Q?cek+mRt3uAwDkubBueQYINGzMC/Me5Xo9t55yvG2B7/NAVL/yQkOVXNqmWxR?=
- =?us-ascii?Q?o2yHNAMlqhROs0R+UMhNjMd1mpXaeYGwOBiLaxkE2U7tggsXLF9LRts1sHnP?=
- =?us-ascii?Q?DiEMAwP0j6Sgb6eCALUPp5Pzum5bamRMswhrMg6oZVfNyTxg3vgsa0KC0g7Z?=
- =?us-ascii?Q?HJtvbjgnFkS8Ob2goHU176rVW31V0CpfK9nNJwOaNfRUumAkUxyk1paNWQ83?=
- =?us-ascii?Q?PQfqMhIVQi+glU9c0OQuQljf6+QRE/2RRHGERlvrZrAbe7oGURNIpsO2oNwz?=
- =?us-ascii?Q?4PL/4G/1sLmL9WE+B4unhlq+Por5LyTfaPH6HEQ4yCprIGKI5NX6l0cb31N3?=
- =?us-ascii?Q?C9zg4lv7FQTV0qB2veWH3AIs6PxoYum7N4aAzfWrvbE8OR2GFtgsH0SQI+fq?=
- =?us-ascii?Q?4lj8B7OQ/dWPbIhhSpq4+AvoRY31JUQLK90Eklg69jSYBCeR2pM7BKMJdTe0?=
- =?us-ascii?Q?5wiDIyfM7PGyL9BhIpCIcFbRA4WOUklPNBHn+OatFirecUdoFT9mTO1tzbj3?=
- =?us-ascii?Q?AtsPQCHxmHfHU0nkrs3RgbESNw9ZVxiVLOHzVUe0XWvMc80sKTuUEzzvX7JU?=
- =?us-ascii?Q?4poZtRTFJD0s+Tvg9+fVNxGjZMB0b8XM7EE/YYABIiBdMpMoPp3ncQXFVdD7?=
- =?us-ascii?Q?gxn7f+C4jRY1iEqIfjZjMR1HB/nvqdVT2dK3Admw5sQda1fTrWKvzR29mo+u?=
- =?us-ascii?Q?lSuBlgcJoHqWfJwKgk0bY9DssxXg1n6QiafzMMXrm6MtMLbaOtdeSXISrcRw?=
- =?us-ascii?Q?FzXqFdlLO97Wjn+8UJz5zUHE5ihVF11Q23YKMOaqkY72UT+iB85kvaUIJXGh?=
- =?us-ascii?Q?QZ8f/AdLmmZt69I/9jAj1AJ1WCLqxCGhX2k9aOg1P8sdB4qgfR0dLOWUIW+t?=
- =?us-ascii?Q?K5Tc5N4GWK4/y62wPWNZvfDQHKF2iH+R0U2CG57A8dVknRwJRcqsqmmiLmA3?=
- =?us-ascii?Q?bft/wQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 3MubN3PCe3fRVwJr/lYo2rLdQuAcI0HEAW9C57X/KDKjM0QwsglW8Zdq88DDNsBD4VgZd+e6zEE81hc00nrmsixLwzHldTnZ/yKinn/7U6Mlt4DbYjqH6KNCN6fb3xqFVK2OkchEZWJE+EvSfUwTxzRjD4qM28TIQmx6PUJZDDG4PadduGWYhJpo0k+RhuV7sj+9BECb4/YbYfmGeLjSivItFgtr8GxHon3OQ/9z8cqw634HRWvJdiLHZCd1apowa8NZ7fWm0kOn3BbZn0j7nssSr7WubLhtMPiB0hkOl8vGJoYrqpXagVsYohrTS4bW9IdfVDVgRVLFsYsIYewujcICNUDnWV6MNYG/B103PP2diuNQ9NFot36OmmPTl7O1MWus5DuF265glfwbjAyOkT/G+AkpZIa5mClVAbhY35hNenBEqaivrkbhFNebsVd6
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2026 09:14:39.3904 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc4e4d16-bc77-4fce-538f-08de6884d199
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF000099DF.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8903
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,93 +80,167 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[amd.com,gmail.com,ffwll.ch];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[pierre-eric.pelloux-prayer@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
-	HAS_XOIP(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:christian.koenig@amd.com,m:phasta@mailbox.org,m:phasta@kernel.org,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:gary@garyguo.net,m:lossin@kernel.org,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 4CB54118BBC
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[amd.com,mailbox.org,kernel.org,gmail.com,ffwll.ch,garyguo.net,collabora.com,nvidia.com,vger.kernel.org,lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mailbox.org:email]
+X-Rspamd-Queue-Id: CCBA3118BF6
 X-Rspamd-Action: no action
 
-Invalidating a dmabuf will impact other users of the shared BO.
-In the scenario where process A moves the BO, it needs to inform
-process B about the move and process B will need to update its
-page table.
+On Tue, 10 Feb 2026 08:38:00 +0000
+Alice Ryhl <aliceryhl@google.com> wrote:
 
-The commit fixes a synchronisation bug caused by the use of the
-ticket: it made amdgpu_vm_handle_moved behave as if updating
-the page table immediately was correct but in this case it's not.
+> On Tue, Feb 10, 2026 at 09:16:34AM +0100, Christian K=C3=B6nig wrote:
+> > On 2/9/26 15:58, Boris Brezillon wrote: =20
+> > > On Mon, 09 Feb 2026 09:19:46 +0100
+> > > Philipp Stanner <phasta@mailbox.org> wrote:
+> > >  =20
+> > >> On Fri, 2026-02-06 at 11:23 +0100, Danilo Krummrich wrote: =20
+> > >>> On Thu Feb 5, 2026 at 9:57 AM CET, Boris Brezillon wrote:   =20
+> > >>>> On Tue,=C2=A0 3 Feb 2026 09:14:01 +0100
+> > >>>> Philipp Stanner <phasta@kernel.org> wrote:
+> > >>>> Unfortunately, I don't know how to translate that in rust, but we
+> > >>>> need a way to check if any path code path does a DmaFence.signal(),
+> > >>>> go back to the entry point (for a WorkItem, that would be
+> > >>>> WorkItem::run() for instance), and make it a DmaFenceSignallingPat=
+h.
+> > >>>> Not only that, but we need to know all the deps that make it so
+> > >>>> this path can be called (if I take the WorkItem example, that would
+> > >>>> be the path that leads to the WorkItem being scheduled).   =20
+> > >>>
+> > >>> I think we need a guard object for this that is not Send, just like=
+ for any
+> > >>> other lock.
+> > >>>
+> > >>> Internally, those markers rely on lockdep, i.e. they just acquire a=
+nd release a
+> > >>> "fake" lock.   =20
+> > >>
+> > >> The guard object would be created through fence.begin_signalling(), =
+wouldn't it? =20
+> > >=20
+> > > It shouldn't be a (&self)-method, because at the start of a DMA
+> > > signaling path, you don't necessarily know which fence you're going to
+> > > signal (you might actually signal several of them).
+> > >  =20
+> > >> And when it drops you call dma_fence_end_signalling()? =20
+> > >=20
+> > > Yep, dma_fence_end_signalling() should be called when the guard is
+> > > dropped.
+> > >  =20
+> > >>
+> > >> How would that ensure that the driver actually marks the signalling =
+region correctly? =20
+> > >=20
+> > > Nothing, and that's a problem we have in C: you have no way of telling
+> > > which code section is going to be a DMA-signaling path. I can't think
+> > > of any way to make that safer in rust, unfortunately. The best I can
+> > > think of would be to
+> > >=20
+> > > - Have a special DmaFenceSignalWorkItem (wrapper a WorkItem with extra
+> > >   constraints) that's designed for DMA-fence signaling, and that takes
+> > >   the DmaSignaling guard around the ::run() call.
+> > > - We would then need to ensure that any code path scheduling this work
+> > >   item is also in a DMA-signaling path by taking a ref to the
+> > >   DmaSignalingGuard. This of course doesn't guarantee that the section
+> > >   is wide enough to prevent any non-authorized operations in any path
+> > >   leading to this WorkItem scheduling, but it would at least force the
+> > >   caller to consider the problem. =20
+> >=20
+> > On the C side I have a patch set which does something very similar.
+> >=20
+> > It's basically a WARN_ON_ONCE() which triggers as soon as you try to
+> > signal a DMA fence from an IOCTL, or more specific process context.
+> >=20
+> > Signaling a DMA fence from interrupt context, a work item or kernel
+> > thread is still allowed, there is just the hole that you can schedule
+> > a work item from process context as well.
+> >=20
+> > The major problem with that patch set is that we have tons of very
+> > hacky signaling paths in drivers already because we initially didn't
+> > knew how much trouble getting this wrong causes.
+> >=20
+> > I'm strongly in favor of getting this right for the rust side from the
+> > beginning and enforcing strict rules for every code trying to
+> > implement a DMA fence. =20
+>=20
+> Hmm. Could you say a bit more about what the rules are? I just re-read
+> the comments in dma-fence.c, but I have some questions.
+>=20
+> First, how does the signalling annotation work when the signalling path
+> crosses thread boundaries?
 
-An example is the following scenario, with 2 GPUs and glxgears
-running on GPU0 and Xorg running on GPU1, on a system where P2P
-PCI isn't supported:
+It's not supposed to cross the thread boundary at all. The annotation
+is per-thread, and it that sense, it matches the lock guard model
+perfectly.
 
-glxgears:
-  export linear buffer from GPU0 and import using GPU1
-  submit frame rendering to GPU0
-  submit tiled->linear blit
-Xorg:
-  copy of linear buffer
+> For example, let's say I call an ioctl to
+> perform an async VM_BIND, then the dma fence signalling critical path
+> starts in the ioctl, but then it moves into a workqueue and finishes
+> there, right?
 
-The sequence of jobs would be:
-  drm_sched_job_run                       # GPU0, frame rendering
-  drm_sched_job_queue                     # GPU0, blit
-  drm_sched_job_done                      # GPU0, frame rendering
-  drm_sched_job_run                       # GPU0, blit
-  move linear buffer for GPU1 access      #
-  amdgpu_dma_buf_move_notify -> update pt # GPU0
+It's a bit trickier. The fence signalling path usually doesn't exist in
+the submitting ioctl until the submission becomes effective and the
+emitted fences are exposed to the outside world. That is, when:
+- syncobjs are updated to point to this new fence
+- fencefd pointing to this new fence is returned
+- fence is added to the dma_resvs inside the gem/dma_buf objects
+- ... (there might be other cases I forgot about)
 
-It this point the blit job on GPU0 is still running and would
-likely produce a page fault.
+In the submission path, what's important is that no blocking allocation
+is done between the moment the fence is exposed, and the moment it's
+queued. In practice what happens is that the job this fence is bound to
+is queued even before the fences are exposed, so if anything, what we
+should ensure is the ordering, and having a guarantee that a job being
+queued means it's going to be dequeued and executed soon enough.
 
-Fixes: a448cb003edc ("drm/amdgpu: implement amdgpu_gem_prime_move_notify v2")
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+The second DMA signaling path exists in the context of the
+workqueue/item dequeuing a job from the JobQueue (or drm_sched) and
+pushing it to the HW. Then there's the IRQ handler being called to
+inform the GPU is done executing this job, which might in some cases
+lead to another work item being queued for further processing from
+which the dma_fence is signaled. In other cases, the dma_fence is
+signaled directly from the IRQ handler. All of these contexts are
+considered being part of the DMA-signaling path. But it's not like the
+fence signaling annotation is passed around, because the cookies
+returned by dma_fence_begin_signalling() are only valid in a single
+thread context, IIRC.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-index b9c38a4fe546..656c267dbe58 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-@@ -514,8 +514,15 @@ amdgpu_dma_buf_move_notify(struct dma_buf_attachment *attach)
- 		r = dma_resv_reserve_fences(resv, 2);
- 		if (!r)
- 			r = amdgpu_vm_clear_freed(adev, vm, NULL);
-+
-+		/* Don't pass 'ticket' to amdgpu_vm_handle_moved: we want the clear=true
-+		 * path to be used otherwise we might update the PT of another process
-+		 * while it's using the BO.
-+		 * With clear=true, amdgpu_vm_bo_update will sync to command submission
-+		 * from the same VM.
-+		 */
- 		if (!r)
--			r = amdgpu_vm_handle_moved(adev, vm, ticket);
-+			r = amdgpu_vm_handle_moved(adev, vm, NULL);
- 
- 		if (r && r != -EBUSY)
- 			DRM_ERROR("Failed to invalidate VM page tables (%d))\n",
--- 
-2.43.0
+>=20
+> Second, it looks like we have the same challenge as with irq locks where
+> you must properly nest dma_fence_begin_signalling() regions, and can't
+> e.g. do this:
+>=20
+> c1 =3D dma_fence_begin_signalling()
+> c2 =3D dma_fence_begin_signalling()
+> dma_fence_end_signalling(c1)
+> dma_fence_end_signalling(c2)
 
+I think that's the case yes, you have to end in reverse being order.
