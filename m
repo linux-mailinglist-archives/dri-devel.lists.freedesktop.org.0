@@ -2,78 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WP3HHqUci2kvQAAAu9opvQ
+	id 2CilEzAdi2nSPwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 12:55:17 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 12:57:36 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D01C011A6F3
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 12:55:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8999B11A7AE
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 12:57:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E521710E562;
-	Tue, 10 Feb 2026 11:55:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC98910E567;
+	Tue, 10 Feb 2026 11:57:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Sxy6aCvE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="G9QQ1Qr4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AB6510E562;
- Tue, 10 Feb 2026 11:55:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E131144390;
- Tue, 10 Feb 2026 11:55:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED62EC116C6;
- Tue, 10 Feb 2026 11:55:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770724512;
- bh=YHEMObMfKBsNNt+IT3C08BQUnMajYKrlxt36jnYTOM0=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=Sxy6aCvEEWcX6KtHkVp86DsMNpHLyi8vxUEzWWv5iEbbJQMUCCLpdLhZIydCwildX
- 7qnplmrrcs0wFBVPQu9lGnb2/Ignd1wgEPIn4qAhM5g1oLSrOwhNxBf6aT6TTU7x+z
- Tp/js3mNnpH1gxO0pS9Gm3YneMYNJXqA8KJzwMGuI4RHhxxB114BVx/RhSy5L84rZl
- BK3A7CP6H9z6jzPCn1MZQg50WLDBKQVinrDnkSXXc+gv93wJgo5zb82EnPNv/5q47m
- rILSI5X2da1963xNdLQeBl2Y4ZW6PANjF0ScCGGfAO9krr86Xnw7BBK6kyiT3pHJFs
- fKSLbeiscHScg==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1005510E563;
+ Tue, 10 Feb 2026 11:57:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1770724651; x=1802260651;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=pwErsOgwLbr3un5GzP9BcdCLJrLywj7KiDxutoyTg04=;
+ b=G9QQ1Qr4Wq8xL20QuK9lLBsysKGfoYN1IK3Y9vM0eU3ftapEfERDfEsy
+ ygQA4VSUKLlY6RyaA+vl+fC05m7GNqoQ+9RWSvJ8rDZJhzfMsibHu61GO
+ 5kmbytSgHEzCScBkoihOmbihAjU+uKteErlVqOx7flCPD2dOqcVhcIpWn
+ LoHOoeKbmgE0ADhtfpZZyuTqREVxCxQ7aJPy33VbgPW4yQqmP8AkSWA8j
+ s4Cv3tT0FfwWm/O+d7sLJKhEtJE5RpBd5RJb5qSZQYGFuV9xcZBaLFbwm
+ yV6CcEohoDg4TLLxlYY2q8sVd/qdqRekZ0/vfAvBp9Ji9ajGji5exHImD g==;
+X-CSE-ConnectionGUID: ptrbspwPTFKsS12izw5L+g==
+X-CSE-MsgGUID: qM63vD6JSQigut6Vi5gusg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="82173454"
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; d="scan'208";a="82173454"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2026 03:57:31 -0800
+X-CSE-ConnectionGUID: FotHYaynQ8i5KDPZZW0qiw==
+X-CSE-MsgGUID: jDhgKCpJR7u9maQ00bUpdQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; d="scan'208";a="211076283"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO fedora)
+ ([10.245.244.80])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2026 03:57:27 -0800
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ Ralph Campbell <rcampbell@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+ Jason Gunthorpe <jgg@mellanox.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ John Hubbard <jhubbard@nvidia.com>, linux-mm@kvack.org,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org
+Subject: [PATCH v5] mm: Fix a hmm_range_fault() livelock / starvation problem
+Date: Tue, 10 Feb 2026 12:56:53 +0100
+Message-ID: <20260210115653.92413-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.52.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 10 Feb 2026 12:55:01 +0100
-Message-Id: <DGB9G697GSWO.3VBFGU5MKFPMR@kernel.org>
-Subject: Re: [PATCH -next v8 2/3] rust: gpu: Add GPU buddy allocator bindings
-Cc: <linux-kernel@vger.kernel.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet"
- <corbet@lwn.net>, "Alex Deucher" <alexander.deucher@amd.com>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Jani Nikula"
- <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
- <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
- "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang Rui" <ray.huang@amd.com>,
- "Matthew Auld" <matthew.auld@intel.com>, "Matthew Brost"
- <matthew.brost@intel.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Helge Deller" <deller@gmx.de>, "Alice Ryhl" <aliceryhl@google.com>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>,
- "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "John Hubbard" <jhubbard@nvidia.com>, "Alistair
- Popple" <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Edwin Peer"
- <epeer@nvidia.com>, "Alexandre Courbot" <acourbot@nvidia.com>, "Andrea
- Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Zhi Wang"
- <zhiw@nvidia.com>, "Balbir Singh" <balbirs@nvidia.com>, "Philipp Stanner"
- <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, <joel@joelfernandes.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260209214246.2783990-1-joelagnelf@nvidia.com>
- <20260209214246.2783990-3-joelagnelf@nvidia.com>
-In-Reply-To: <20260209214246.2783990-3-joelagnelf@nvidia.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,205 +80,248 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,google.com,garyguo.net,protonmail.com,umich.edu,nvidia.com,weathered-steel.dev,collabora.com,joelfernandes.org,lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[50];
-	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	TAGGED_RCPT(0.00)[dri-devel];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: D01C011A6F3
+	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+]
+X-Rspamd-Queue-Id: 8999B11A7AE
 X-Rspamd-Action: no action
 
-On Mon Feb 9, 2026 at 10:42 PM CET, Joel Fernandes wrote:
+If hmm_range_fault() fails a folio_trylock() in do_swap_page,
+trying to acquire the lock of a device-private folio for migration,
+to ram, the function will spin until it succeeds grabbing the lock.
 
-[...]
+However, if the process holding the lock is depending on a work
+item to be completed, which is scheduled on the same CPU as the
+spinning hmm_range_fault(), that work item might be starved and
+we end up in a livelock / starvation situation which is never
+resolved.
 
-> +//! params.size_bytes =3D SZ_8M as u64;
+This can happen, for example if the process holding the
+device-private folio lock is stuck in
+   migrate_device_unmap()->lru_add_drain_all()
+sinc lru_add_drain_all() requires a short work-item
+to be run on all online cpus to complete.
 
-It looks there are ~30 occurences of `as u64` in this example code, which s=
-eems
-quite inconvinient for drivers.
+A prerequisite for this to happen is:
+a) Both zone device and system memory folios are considered in
+   migrate_device_unmap(), so that there is a reason to call
+   lru_add_drain_all() for a system memory folio while a
+   folio lock is held on a zone device folio.
+b) The zone device folio has an initial mapcount > 1 which causes
+   at least one migration PTE entry insertion to be deferred to
+   try_to_migrate(), which can happen after the call to
+   lru_add_drain_all().
+c) No or voluntary only preemption.
 
-In nova-core I proposed to have FromSafeCast / IntoSafeCast for usize, u32 =
-and
-u64, which would help here as well, once factored out.
+This all seems pretty unlikely to happen, but indeed is hit by
+the "xe_exec_system_allocator" igt test.
 
-But even this seems pretty annoying. I wonder if we should just have separa=
-te
-64-bit size constants, as they'd be pretty useful in other places as well, =
-e.g.
-GPUVM.
+Resolve this by waiting for the folio to be unlocked if the
+folio_trylock() fails in do_swap_page().
 
-> +/// Inner structure holding the actual buddy allocator.
-> +///
-> +/// # Synchronization
-> +///
-> +/// The C `gpu_buddy` API requires synchronization (see `include/linux/g=
-pu_buddy.h`).
-> +/// The internal [`GpuBuddyGuard`] ensures that the lock is held for all
-> +/// allocator and free operations, preventing races between concurrent a=
-llocations
-> +/// and the freeing that occurs when [`AllocatedBlocks`] is dropped.
-> +///
-> +/// # Invariants
-> +///
-> +/// The inner [`Opaque`] contains a valid, initialized buddy allocator.
-> +#[pin_data(PinnedDrop)]
-> +struct GpuBuddyInner {
-> +    #[pin]
-> +    inner: Opaque<bindings::gpu_buddy>,
-> +    #[pin]
-> +    lock: Mutex<()>,
+Rename migration_entry_wait_on_locked() to
+softleaf_entry_wait_unlock() and update its documentation to
+indicate the new use-case.
 
-Why don't we have the mutex around the Opaque<bindings::gpu_buddy>? It's th=
-e
-only field the mutex does protect.
+Future code improvements might consider moving
+the lru_add_drain_all() call in migrate_device_unmap() to be
+called *after* all pages have migration entries inserted.
+That would eliminate also b) above.
 
-Is it because mutex does not take an impl PinInit? If so, we should add a
-comment with a proper TODO.
+v2:
+- Instead of a cond_resched() in hmm_range_fault(),
+  eliminate the problem by waiting for the folio to be unlocked
+  in do_swap_page() (Alistair Popple, Andrew Morton)
+v3:
+- Add a stub migration_entry_wait_on_locked() for the
+  !CONFIG_MIGRATION case. (Kernel Test Robot)
+v4:
+- Rename migrate_entry_wait_on_locked() to
+  softleaf_entry_wait_on_locked() and update docs (Alistair Popple)
+v5:
+- Add a WARN_ON_ONCE() for the !CONFIG_MIGRATION
+  version of softleaf_entry_wait_on_locked().
+- Modify wording around function names in the commit message
+  (Andrew Morton)
 
-> +    /// Base offset for all allocations (does not change after init).
-> +    base_offset: u64,
-> +    /// Cached chunk size (does not change after init).
-> +    chunk_size: u64,
-> +    /// Cached total size (does not change after init).
-> +    size: u64,
-> +}
-> +
-> +impl GpuBuddyInner {
-> +    /// Create a pin-initializer for the buddy allocator.
-> +    fn new(params: &GpuBuddyParams) -> impl PinInit<Self, Error> {
+Suggested-by: Alistair Popple <apopple@nvidia.com>
+Fixes: 1afaeb8293c9 ("mm/migrate: Trylock device page in do_swap_page")
+Cc: Ralph Campbell <rcampbell@nvidia.com>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Jason Gunthorpe <jgg@mellanox.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Leon Romanovsky <leon@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: John Hubbard <jhubbard@nvidia.com>
+Cc: Alistair Popple <apopple@nvidia.com>
+Cc: linux-mm@kvack.org
+Cc: <dri-devel@lists.freedesktop.org>
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: <stable@vger.kernel.org> # v6.15+
+Reviewed-by: John Hubbard <jhubbard@nvidia.com> #v3
+---
+ include/linux/migrate.h | 10 +++++++++-
+ mm/filemap.c            | 15 ++++++++++-----
+ mm/memory.c             |  3 ++-
+ mm/migrate.c            |  8 ++++----
+ mm/migrate_device.c     |  2 +-
+ 5 files changed, 26 insertions(+), 12 deletions(-)
 
-I think we can just pass them by value, they shouldn't be needed anymore af=
-ter
-the GpuBuddy instance has been constructed.
+diff --git a/include/linux/migrate.h b/include/linux/migrate.h
+index 26ca00c325d9..d5af2b7f577b 100644
+--- a/include/linux/migrate.h
++++ b/include/linux/migrate.h
+@@ -65,7 +65,7 @@ bool isolate_folio_to_list(struct folio *folio, struct list_head *list);
+ 
+ int migrate_huge_page_move_mapping(struct address_space *mapping,
+ 		struct folio *dst, struct folio *src);
+-void migration_entry_wait_on_locked(softleaf_t entry, spinlock_t *ptl)
++void softleaf_entry_wait_on_locked(softleaf_t entry, spinlock_t *ptl)
+ 		__releases(ptl);
+ void folio_migrate_flags(struct folio *newfolio, struct folio *folio);
+ int folio_migrate_mapping(struct address_space *mapping,
+@@ -97,6 +97,14 @@ static inline int set_movable_ops(const struct movable_operations *ops, enum pag
+ 	return -ENOSYS;
+ }
+ 
++static inline void softleaf_entry_wait_on_locked(softleaf_t entry, spinlock_t *ptl)
++	__releases(ptl)
++{
++	WARN_ON_ONCE(1);
++
++	spin_unlock(ptl);
++}
++
+ #endif /* CONFIG_MIGRATION */
+ 
+ #ifdef CONFIG_NUMA_BALANCING
+diff --git a/mm/filemap.c b/mm/filemap.c
+index ebd75684cb0a..d98e4883f13d 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -1379,14 +1379,16 @@ static inline int folio_wait_bit_common(struct folio *folio, int bit_nr,
+ 
+ #ifdef CONFIG_MIGRATION
+ /**
+- * migration_entry_wait_on_locked - Wait for a migration entry to be removed
+- * @entry: migration swap entry.
++ * softleaf_entry_wait_on_locked - Wait for a migration entry or
++ * device_private entry to be removed.
++ * @entry: migration or device_private swap entry.
+  * @ptl: already locked ptl. This function will drop the lock.
+  *
+- * Wait for a migration entry referencing the given page to be removed. This is
++ * Wait for a migration entry referencing the given page, or device_private
++ * entry referencing a dvice_private page to be unlocked. This is
+  * equivalent to folio_put_wait_locked(folio, TASK_UNINTERRUPTIBLE) except
+  * this can be called without taking a reference on the page. Instead this
+- * should be called while holding the ptl for the migration entry referencing
++ * should be called while holding the ptl for @entry referencing
+  * the page.
+  *
+  * Returns after unlocking the ptl.
+@@ -1394,7 +1396,7 @@ static inline int folio_wait_bit_common(struct folio *folio, int bit_nr,
+  * This follows the same logic as folio_wait_bit_common() so see the comments
+  * there.
+  */
+-void migration_entry_wait_on_locked(softleaf_t entry, spinlock_t *ptl)
++void softleaf_entry_wait_on_locked(softleaf_t entry, spinlock_t *ptl)
+ 	__releases(ptl)
+ {
+ 	struct wait_page_queue wait_page;
+@@ -1428,6 +1430,9 @@ void migration_entry_wait_on_locked(softleaf_t entry, spinlock_t *ptl)
+ 	 * If a migration entry exists for the page the migration path must hold
+ 	 * a valid reference to the page, and it must take the ptl to remove the
+ 	 * migration entry. So the page is valid until the ptl is dropped.
++	 * Similarly any path attempting to drop the last reference to a
++	 * device-private page needs to grab the ptl to remove the device-private
++	 * entry.
+ 	 */
+ 	spin_unlock(ptl);
+ 
+diff --git a/mm/memory.c b/mm/memory.c
+index da360a6eb8a4..20172476a57f 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -4684,7 +4684,8 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+ 				unlock_page(vmf->page);
+ 				put_page(vmf->page);
+ 			} else {
+-				pte_unmap_unlock(vmf->pte, vmf->ptl);
++				pte_unmap(vmf->pte);
++				softleaf_entry_wait_on_locked(entry, vmf->ptl);
+ 			}
+ 		} else if (softleaf_is_hwpoison(entry)) {
+ 			ret = VM_FAULT_HWPOISON;
+diff --git a/mm/migrate.c b/mm/migrate.c
+index 4688b9e38cd2..cf6449b4202e 100644
+--- a/mm/migrate.c
++++ b/mm/migrate.c
+@@ -499,7 +499,7 @@ void migration_entry_wait(struct mm_struct *mm, pmd_t *pmd,
+ 	if (!softleaf_is_migration(entry))
+ 		goto out;
+ 
+-	migration_entry_wait_on_locked(entry, ptl);
++	softleaf_entry_wait_on_locked(entry, ptl);
+ 	return;
+ out:
+ 	spin_unlock(ptl);
+@@ -531,10 +531,10 @@ void migration_entry_wait_huge(struct vm_area_struct *vma, unsigned long addr, p
+ 		 * If migration entry existed, safe to release vma lock
+ 		 * here because the pgtable page won't be freed without the
+ 		 * pgtable lock released.  See comment right above pgtable
+-		 * lock release in migration_entry_wait_on_locked().
++		 * lock release in softleaf_entry_wait_on_locked().
+ 		 */
+ 		hugetlb_vma_unlock_read(vma);
+-		migration_entry_wait_on_locked(entry, ptl);
++		softleaf_entry_wait_on_locked(entry, ptl);
+ 		return;
+ 	}
+ 
+@@ -552,7 +552,7 @@ void pmd_migration_entry_wait(struct mm_struct *mm, pmd_t *pmd)
+ 	ptl = pmd_lock(mm, pmd);
+ 	if (!pmd_is_migration_entry(*pmd))
+ 		goto unlock;
+-	migration_entry_wait_on_locked(softleaf_from_pmd(*pmd), ptl);
++	softleaf_entry_wait_on_locked(softleaf_from_pmd(*pmd), ptl);
+ 	return;
+ unlock:
+ 	spin_unlock(ptl);
+diff --git a/mm/migrate_device.c b/mm/migrate_device.c
+index 23379663b1e1..deab89fd4541 100644
+--- a/mm/migrate_device.c
++++ b/mm/migrate_device.c
+@@ -176,7 +176,7 @@ static int migrate_vma_collect_huge_pmd(pmd_t *pmdp, unsigned long start,
+ 		}
+ 
+ 		if (softleaf_is_migration(entry)) {
+-			migration_entry_wait_on_locked(entry, ptl);
++			softleaf_entry_wait_on_locked(entry, ptl);
+ 			spin_unlock(ptl);
+ 			return -EAGAIN;
+ 		}
+-- 
+2.52.0
 
-> +        let base_offset =3D params.base_offset_bytes;
-> +        let size =3D params.physical_memory_size_bytes;
-> +        let chunk_size =3D params.chunk_size_bytes;
-> +
-> +        try_pin_init!(Self {
-> +            inner <- Opaque::try_ffi_init(|ptr| {
-> +                // SAFETY: ptr points to valid uninitialized memory from=
- the pin-init
-> +                // infrastructure. gpu_buddy_init will initialize the st=
-ructure.
-> +                to_result(unsafe { bindings::gpu_buddy_init(ptr, size, c=
-hunk_size) })
-> +            }),
-> +            lock <- new_mutex!(()),
-> +            base_offset: base_offset,
-> +            chunk_size: chunk_size,
-> +            size: size,
-> +        })
-> +    }
-
-<snip>
-
-> +/// GPU buddy allocator instance.
-> +///
-> +/// This structure wraps the C `gpu_buddy` allocator using reference cou=
-nting.
-> +/// The allocator is automatically cleaned up when all references are dr=
-opped.
-> +///
-> +/// # Invariants
-> +///
-> +/// The inner [`Arc`] points to a valid, initialized GPU buddy allocator=
-.
-> +pub struct GpuBuddy(Arc<GpuBuddyInner>);
-> +
-> +impl GpuBuddy {
-> +    /// Create a new buddy allocator.
-> +    ///
-> +    /// Creates a buddy allocator that manages a contiguous address spac=
-e of the given
-> +    /// size, with the specified minimum allocation unit (chunk_size mus=
-t be at least 4KB).
-> +    pub fn new(params: &GpuBuddyParams) -> Result<Self> {
-
-Same here, we should be able to take this by value.
-
-> +        Ok(Self(Arc::pin_init(
-> +            GpuBuddyInner::new(params),
-> +            GFP_KERNEL,
-> +        )?))
-> +    }
-
-<snip>
-
-> +    /// Allocate blocks from the buddy allocator.
-> +    ///
-> +    /// Returns an [`Arc<AllocatedBlocks>`] structure that owns the allo=
-cated blocks
-> +    /// and automatically frees them when all references are dropped.
-> +    ///
-> +    /// Takes `&self` instead of `&mut self` because the internal [`Mute=
-x`] provides
-> +    /// synchronization - no external `&mut` exclusivity needed.
-> +    pub fn alloc_blocks(&self, params: &GpuBuddyAllocParams) -> Result<A=
-rc<AllocatedBlocks>> {
-
-Why do we force a reference count here? I think we should just return
-impl PinInit<AllocatedBlocks, Error> and let the driver decide where to
-initialize the object, no?
-
-I.e. what if the driver wants to store additional data in a driver private
-structure? Then we'd need two allocations otherwise and another reference c=
-ount
-in the worst case.
-
-> +        let buddy_arc =3D Arc::clone(&self.0);
-> +
-> +        // Create pin-initializer that initializes list and allocates bl=
-ocks.
-> +        let init =3D try_pin_init!(AllocatedBlocks {
-> +            buddy: Arc::clone(&buddy_arc),
-> +            list <- CListHead::new(),
-> +            flags: params.buddy_flags,
-> +            _: {
-> +                // Lock while allocating to serialize with concurrent fr=
-ees.
-> +                let guard =3D buddy.lock();
-> +
-> +                // SAFETY: `guard` provides exclusive access to the budd=
-y allocator.
-> +                to_result(unsafe {
-> +                    bindings::gpu_buddy_alloc_blocks(
-> +                        guard.as_raw(),
-> +                        params.start_range_address,
-> +                        params.end_range_address,
-> +                        params.size_bytes,
-> +                        params.min_block_size_bytes,
-> +                        list.as_raw(),
-> +                        params.buddy_flags.as_raw(),
-> +                    )
-> +                })?
-> +            }
-> +        });
-> +
-> +        Arc::pin_init(init, GFP_KERNEL)
-> +    }
-> +}
