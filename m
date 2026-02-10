@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UF70Kg5Wi2lIUAAAu9opvQ
+	id sLUoHKtYi2ljUAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 17:00:14 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 17:11:23 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C76B11CE04
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 17:00:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 039F011CF18
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 17:11:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB93710E5C4;
-	Tue, 10 Feb 2026 16:00:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 262D910E5D1;
+	Tue, 10 Feb 2026 16:11:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RMyQYHYN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XSXXGD/3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86F7D10E5B8;
- Tue, 10 Feb 2026 16:00:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FBCF10E5C3;
+ Tue, 10 Feb 2026 16:11:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 374C843EC3;
- Tue, 10 Feb 2026 16:00:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A011C116C6;
- Tue, 10 Feb 2026 16:00:07 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 11B16436D0;
+ Tue, 10 Feb 2026 16:11:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67E66C116C6;
+ Tue, 10 Feb 2026 16:11:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770739208;
- bh=zldcbNbjmj+RA7A3DZ3ZkdfjMPm277Yz7u9u9p4QqjQ=;
+ s=k20201202; t=1770739876;
+ bh=ITzsRriLdI5AlO8qTFsF93iE7x8hevfEpKEaEvWHfiY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RMyQYHYNpszMSJqmidkGX2NoEYtO7xOazdfZO2Q5iGJNTMCgJ+znXKLHV3wU+w5mU
- 81P544GiPydpylxVo/SCUj9yY6feDstrxgJOuMw/pWJJz9ndZsgEC2zR4EHbObdpi4
- pfHL1KTzKa1NeezI3wv7aGc81F9plh/aKvv2RW9s5nFZ6rCp0yQ9DhjqSHhHQUn6L/
- vVP41AcOWSjY2uwX18XpLxfND6DbM5L4o9zj0y/UV6PtcPdBVM3ih+N1X0kYONwg9e
- 3ymEssncp804w6MMxkU2DI6GfIPLf5S0gp9wgoKnhCAqL5W9wEcjZ0WXGGTtj4CcEz
- EB95D+CLtTCiQ==
-Date: Tue, 10 Feb 2026 17:00:05 +0100
+ b=XSXXGD/3560UYv7bxgkmpAZgbTUAwlwIcztwT5II4ShE8gEXmGpMND8quWyNmJi+g
+ He+nm9YGb92CvSobiaD08rbOxRJgi00yV7zkNyfq5zpOgtZphiJ2+T6rSlw3U2o/K7
+ UuhDTCszBnAB5Fe5T3XVhC5W5sZOMKv4lDaIpiecXfluZb/8+G4xp/Zs4XjnkXZ++T
+ mvpvlotwNKRfDGVlQuio+OqM1/fF0Ui+GTmnME01SH3J4QlTKv843SYRg+JGERs1ye
+ Hxd+P+8wcYXukEJ/MdkL74ar3rtG+mvvnR2B1TzRuc/iWzz60MWYo/P9z1pfa7MEtU
+ I8W9RRabxeYBQ==
+Date: Tue, 10 Feb 2026 17:11:14 +0100
 From: Maxime Ripard <mripard@kernel.org>
 To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
@@ -64,16 +64,16 @@ Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 20/22] drm/tests: edid: Add __maybe_unused attribute
- to EDID definitions
-Message-ID: <20260210-didactic-okapi-of-modernism-ff00d9@houat>
+Subject: Re: [PATCH v7 21/22] drm/tests: bridge: Add KUnit tests for bridge
+ chain format selection
+Message-ID: <20260210-dancing-thankful-booby-dab0ed@houat>
 References: <20260121-color-format-v7-0-ef790dae780c@collabora.com>
- <20260121-color-format-v7-20-ef790dae780c@collabora.com>
+ <20260121-color-format-v7-21-ef790dae780c@collabora.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="km3cw6v2t5aytgoz"
+ protocol="application/pgp-signature"; boundary="g6geynrgndywzzd4"
 Content-Disposition: inline
-In-Reply-To: <20260121-color-format-v7-20-ef790dae780c@collabora.com>
+In-Reply-To: <20260121-color-format-v7-21-ef790dae780c@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,46 +117,149 @@ X-Spamd-Result: default: False [-1.41 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email]
-X-Rspamd-Queue-Id: 7C76B11CE04
+X-Rspamd-Queue-Id: 039F011CF18
 X-Rspamd-Action: no action
 
 
---km3cw6v2t5aytgoz
+--g6geynrgndywzzd4
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 20/22] drm/tests: edid: Add __maybe_unused attribute
- to EDID definitions
+Subject: Re: [PATCH v7 21/22] drm/tests: bridge: Add KUnit tests for bridge
+ chain format selection
 MIME-Version: 1.0
 
 Hi,
 
-On Wed, Jan 21, 2026 at 03:45:27PM +0100, Nicolas Frattaroli wrote:
-> It's normal for a test suite to need an EDID, but not all EDIDs across
-> every test. Silence compiler warnings caused by unused definitions by
-> using the appropriate attribute.
+On Wed, Jan 21, 2026 at 03:45:28PM +0100, Nicolas Frattaroli wrote:
+> With the "color format" property, the bridge chain format selection has
+> gained increased complexity. Instead of simply finding any sequence of
+> bus formats that works, the bridge chain format selection needs to pick
+> a sequence that results in the requested color format.
+>=20
+> Add KUnit tests for this new logic. These take the form of some pleasant
+> preprocessor macros to make it less cumbersome to define test bridges
+> with a set of possible input and output formats.
+>=20
+> The input and output formats are defined for bridges in the form of
+> tuples, where the first member defines the input format, and the second
+> member defines the output format that can be produced from this input
+> format. This means the tests can construct scenarios in which not all
+> inputs can be converted to all outputs.
+>=20
+> Some tests are added to test interesting scenarios to exercise the bus
+> format selection in the presence of a specific color format request.
+>=20
+> Furthermore, tests are added to verify that bridge chains that end in an
+> HDMI connector will always prefer RGB when the color format is
+> DRM_COLOR_FORMAT_AUTO, as is the behaviour in the HDMI state helpers.
 >=20
 > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> ---
+>  drivers/gpu/drm/tests/drm_bridge_test.c | 812 ++++++++++++++++++++++++++=
+++++++
+>  1 file changed, 812 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/tests/drm_bridge_test.c b/drivers/gpu/drm/te=
+sts/drm_bridge_test.c
+> index 887020141c7f..ac86f3dfe518 100644
+> --- a/drivers/gpu/drm/tests/drm_bridge_test.c
+> +++ b/drivers/gpu/drm/tests/drm_bridge_test.c
+> @@ -2,15 +2,23 @@
+>  /*
+>   * Kunit test for drm_bridge functions
+>   */
+> +#include <linux/cleanup.h>
+> +#include <linux/media-bus-format.h>
+> +
+>  #include <drm/drm_atomic_state_helper.h>
+> +#include <drm/drm_atomic_uapi.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_bridge_connector.h>
+>  #include <drm/drm_bridge_helper.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_kunit_helpers.h>
+> +#include <drm/drm_managed.h>
+> =20
+>  #include <kunit/device.h>
+>  #include <kunit/test.h>
+> =20
+> +#include "drm_kunit_edid.h"
+> +
+>  /*
+>   * Mimick the typical "private" struct defined by a bridge driver, which
+>   * embeds a bridge plus other fields.
+> @@ -37,6 +45,27 @@ struct drm_bridge_init_priv {
+>  	bool destroyed;
+>  };
+> =20
+> +struct drm_bridge_chain_priv {
+> +	struct drm_device drm;
+> +	struct drm_encoder encoder;
+> +	struct drm_plane *plane;
+> +	struct drm_crtc *crtc;
+> +	struct drm_connector *connector;
+> +	unsigned int num_bridges;
+> +
+> +	/**
+> +	 * @test_bridges: array of pointers to &struct drm_bridge_priv entries
+> +	 *                of which the first @num_bridges entries are valid.
+> +	 */
+> +	struct drm_bridge_priv **test_bridges;
+> +	/**
+> +	 * @destroyed: bool array of size @num_bridges serving the same function
+> +	 *             as &struct drm_bridge_init_priv::destroyed does for a
+> +	 *             single bridge test.
+> +	 */
+> +	bool *destroyed;
 
-It's not clear to me when the EDIDs could be compiled but the tests
-wouldn't, and as far as I know it's all part of the same module.
-Expanding a bit on how you can trigger that warning would be great.
+AFAIK, the destroyed field was added to test the refcounting work. We
+don't really need it here, so there's no point in adding it I.
 
-With that fixed,
+> +};
+> +
+>  static struct drm_bridge_priv *bridge_to_priv(struct drm_bridge *bridge)
+>  {
+>  	return container_of(bridge, struct drm_bridge_priv, bridge);
+> @@ -50,6 +79,21 @@ static void drm_test_bridge_priv_destroy(struct drm_br=
+idge *bridge)
+>  	priv->destroyed =3D true;
+>  }
+> =20
+> +static void drm_test_bridge_chain_priv_destroy(struct drm_bridge *bridge)
+> +{
+> +	struct drm_bridge_priv *bridge_priv =3D bridge_to_priv(bridge);
+> +	struct drm_bridge_chain_priv *priv =3D (struct drm_bridge_chain_priv *)=
+bridge_priv->data;
+> +	unsigned int i;
+> +
+> +	for (i =3D 0; i < priv->num_bridges; i++) {
+> +		if (priv->test_bridges[i] !=3D bridge_priv)
+> +			continue;
+> +
+> +		priv->destroyed[i] =3D true;
+> +		break;
+> +	}
+> +}
+> +
+
+And similarly, we probably can drop that hook.
+
+With this fixed,
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
 Maxime
 
---km3cw6v2t5aytgoz
+--g6geynrgndywzzd4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaYtWAAAKCRAnX84Zoj2+
-dt2nAX0UsXzuusEYCVBCqgJwtZ264lcQWo9yWUlALQWTVuR932yQyPhy8y6N7uQn
-emUBNQgBf2NvmzdJa+lE7RXY5eWBX5awNF8H76g5vlBxZXvOQkVir9drD30JTaPa
-AhXIei7HvQ==
-=9Hue
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaYtYoQAKCRAnX84Zoj2+
+di5iAYD/lFm+vxmy4mdgQYgEVgUJL+5WwxuOrzELYFH6kZKY4kAa6NiKoFehFooW
+3mN/uVsBfAq2ELgOmtJcqmMvvYIagFtwn5RS9WWH7gcGFwEMpd6VXibLSJV9d/2M
+arOHW5vuZw==
+=rs25
 -----END PGP SIGNATURE-----
 
---km3cw6v2t5aytgoz--
+--g6geynrgndywzzd4--
