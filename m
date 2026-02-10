@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eBcBEG/2imn2OwAAu9opvQ
+	id sCAZNJT2imn2OwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:12:15 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:12:52 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE55A118A7D
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:12:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41398118AE1
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:12:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 230E110E51D;
-	Tue, 10 Feb 2026 09:12:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 951E110E51E;
+	Tue, 10 Feb 2026 09:12:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M4w+J6vq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lYreCZBk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B38C10E51D
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 09:12:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A60F610E51F
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 09:12:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 5050240B0D;
- Tue, 10 Feb 2026 09:12:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D0C6C116C6;
- Tue, 10 Feb 2026 09:12:07 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 83E7643E8E;
+ Tue, 10 Feb 2026 09:12:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91521C116C6;
+ Tue, 10 Feb 2026 09:12:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770714731;
- bh=Du0O5Gu/g6ofJk1V/Nt2Be4m0aYJ5MMW5ef2B36nSH4=;
+ s=k20201202; t=1770714768;
+ bh=VcHeDJkLSKVCKZWbfezI1w1iAPTYKMlAAq1HC8tWo/c=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=M4w+J6vq0raHkUufPTlrTEkfOkhxWuf8mVsTkBQ43G3XEpeisgRUbMTnEgVXPR0r/
- 05sBeim+97mQ282c2O/DmOtpb/bvWnm9xptJMzAi2rFbwkznmpClcqyovO+417Zi5e
- xRMoPWZSNtid0XemJbZ+XAPlv9/Bl7H+iaYrIUEHCDGeqeeowaRSIGsMfqT70qm+yl
- hC9ZOguKe8g2tCFuxkUl+dz+ysptDJ9Uo4XKLO0acI7Y60XG9MtQziNFqNmPpHrwza
- eBW6WvM/0hrlSTsOhQsejFdDFUy/WJ03QWOKFI+NiuPvco3UCbFix00ScF1QJTnapW
- SZJ66MhBRIDAA==
-Message-ID: <06503bb7-0d82-4407-815f-6f3851069041@kernel.org>
-Date: Tue, 10 Feb 2026 10:12:05 +0100
+ b=lYreCZBkTa5Q8QHFsyzmbGMpJKZnwqkGrwD3KCwz6hWMCIGD7W8QL1MKRSf/h/Feb
+ StpbOzM1yPvNKPkTjb+S0EVj4mSiIHet/U8l+kRXrmnTk3kYefN+3RAEDzpjg/Wcgb
+ XQHUy3RJ+udNOQFi5YSCFGr1a9is7OY9M4ILhEb/xL8ZYueOp/2phqnxHg7CygeZ8G
+ m6aRMoVb//595jf0IbsjWh1L/oPETmWJ8YS4HYcCX+ckHv/VnY00zjikUgjxmG5OT/
+ ScWGhWiPXNVM1rCotyysphd0/wOJmd6d6tiufCUMFTLNjhOV9nTEXZrcmhtmNmrarD
+ OAxmXbiH1iE8A==
+Message-ID: <4d3ec80b-ad91-4e10-8b33-b4f1337069ce@kernel.org>
+Date: Tue, 10 Feb 2026 10:12:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] dt-bindings: arm: qcom: document google, bonito-tianma
- board
+Subject: Re: [PATCH 2/6] dt-bindings: panel-simple-dsi: add nt37700f compatible
 To: Richard Acayan <mailingradian@gmail.com>,
  Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -55,7 +54,7 @@ To: Richard Acayan <mailingradian@gmail.com>,
  dri-devel@lists.freedesktop.org
 Cc: yifei@zhan.science
 References: <20260210023300.15785-1-mailingradian@gmail.com>
- <20260210023300.15785-2-mailingradian@gmail.com>
+ <20260210023300.15785-3-mailingradian@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -101,7 +100,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260210023300.15785-2-mailingradian@gmail.com>
+In-Reply-To: <20260210023300.15785-3-mailingradian@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -119,11 +118,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [3.39 / 15.00];
-	DMARC_POLICY_QUARANTINE(1.50)[kernel.org : SPF not aligned (relaxed),quarantine];
+X-Spamd-Result: default: False [0.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	R_DKIM_REJECT(1.00)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
@@ -138,30 +137,32 @@ X-Spamd-Result: default: False [3.39 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:-];
+	TO_DN_SOME(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: CE55A118A7D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,qualcomm.com:email]
+X-Rspamd-Queue-Id: 41398118AE1
 X-Rspamd-Action: no action
 
 On 10/02/2026 03:32, Richard Acayan wrote:
-> The google,bonito-sdc board compatible represents the Google Pixel 3a XL
+> Add the compatible for the NT37700F panel found on the Pixel 3a XL.
+> 
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> ---
+>  .../devicetree/bindings/display/panel/panel-simple-dsi.yaml     | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-I do not see sdc anywhere in the diff.
-
-> with a Tianma/Novatek NT37700F panel. Document it in the bindings.
-
-What is bonito? Why bonito is compatible with sdm670?
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
 Krzysztof
