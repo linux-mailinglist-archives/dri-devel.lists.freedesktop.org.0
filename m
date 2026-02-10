@@ -2,86 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GDyOLPoGi2kdPQAAu9opvQ
+	id OFf6EXoDi2kMPQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 11:22:50 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 11:07:54 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6678811998E
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 11:22:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB831196A8
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 11:07:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC49510E54B;
-	Tue, 10 Feb 2026 10:22:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D76E10E53D;
+	Tue, 10 Feb 2026 10:07:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="e5kVNLdJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AmE+/FBO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 677B310E549
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 10:22:43 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-4359a302794so2529685f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 02:22:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770718962; x=1771323762; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GLWyZeyXsbIZSumeJDMiBvdpxO3idF+WenF3yOzVdKw=;
- b=e5kVNLdJoP3rLo6qKWj7XGhvr+83ZYcCMSMUYZaZiPSXQcos7aC45U4nQLJanh2UBe
- 7Ier+AKTU2DhvThrGJYf1WTqJm9WQ4ylYYLt/yVyLOxPY3fdtJTRrr4gM2fMB6epEujU
- cjBVub6YPFcpLqFGRHS4h6sZsuT+3I8GoexnnmMw9FQnw0M0CmCZvbc0J/TaNMZ1ixQb
- BFVfQHy1KTqfZT++uB52f9PH/QEyPOrJ/poXc5PsjeWlxO+SlTq79kq5z+qPv9uXoA5L
- 3o3lNSor6O0D+GJkRvCaLKkru6pQOU1fnuRc3gfg7vMOtZQ1pkkm8VFeHOTJx+UIO1jW
- T4rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770718962; x=1771323762;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=GLWyZeyXsbIZSumeJDMiBvdpxO3idF+WenF3yOzVdKw=;
- b=mDMBMQG1I3g2+JEl4nL/1yQW/AYcG49sJFBvNy063OJ1OuPoWDlXZqB5xVNfUV8xfC
- xb9Y7b4rTdNwCpUPkydtRQTyzUlLvU0THtJZQ7Rr9N2p0QVPl1oO3OpTA82CgO5kDItQ
- oowc5QByWwi4ExqwThzJUUgo3iAiBodvJyHx1YYhwQc5cWZp9xljNzq3HJs9/tWyMAN2
- 5OLH+GDFH4iXwuV+Wf7H34lpTLFSP1ZcR8Bt6spDVwelFZMLVfKdjI3uACwC9y+9P94D
- REMcouYg8vp4CB1ZXKcbGSxW1wbu2OWr/zwU35ZvYGvwxXSfIDz5rUmWpbIxyF5U3QNY
- SSfA==
-X-Gm-Message-State: AOJu0YyuLMhAggJWtlf83vZ5R3Ys67hsmMhM5tVEds9GD+3Qx4ijXojd
- XTEocpjUK9PFw4BK465uu+okF0cF8s6p6oxuj94dtM19vlHOGBRYMQEE
-X-Gm-Gg: AZuq6aJiVsJ8+xkvdhPXzz7U9Xza2MNeQnm363FM9B9rUIES96apd/8M+EGG6m746ZB
- ntT7F8plPwoplJgOEiHn6T5EtPj/jgSb2R3i3W7p6xytd5ms+GPu3Po1xtprH4Q60osy9Lw/KRe
- x5tGgBDjyuJ0c7uCpjCmknlVLKsYeLI7+xUyRNlIPDRBDPhBBiqJXla72psGhnezv8LXQwifbY7
- FXgRwkd8f1tPyCr32S4TX357DmiapYJhvjXnn5JFE8uClLWkmft/4mMtuZj2FcYG5cxfyrqL7JV
- 7bBCi4bVYuoPHKucRYvJMCcs7rBhFCflTcTL1q94OMjIGf0N6dI+8YRUAKFWCpR4nDJknu5Rbpq
- xhTYvPf6WyIuRhEu/OewYlX4wrK5VnDWG1zaoEkIdnkC/BDWZZ0SGqMMd6nXf3HK1xNZzisr4HR
- EGU0xQzSWqLQwbflvki00OzpZGmb+KdXta2rRa
-X-Received: by 2002:a05:600c:6290:b0:47e:e78a:c834 with SMTP id
- 5b1f17b1804b1-48320226676mr231371165e9.34.1770718961647; 
- Tue, 10 Feb 2026 02:22:41 -0800 (PST)
-Received: from able.fritz.box ([2a00:e180:152a:6000:83ca:11f0:7e35:a75d])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4834d5d8ebfsm81549605e9.2.2026.02.10.02.22.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Feb 2026 02:22:41 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: phasta@mailbox.org,
-	matthew.brost@intel.com,
-	sumit.semwal@linaro.org
-Cc: dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 8/8] dma-buf: use inline lock for the dma-fence-chain
-Date: Tue, 10 Feb 2026 11:02:03 +0100
-Message-ID: <20260210102232.1642-9-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260210102232.1642-1-christian.koenig@amd.com>
-References: <20260210102232.1642-1-christian.koenig@amd.com>
-MIME-Version: 1.0
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB78A10E53B;
+ Tue, 10 Feb 2026 10:07:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id A21F66013C;
+ Tue, 10 Feb 2026 10:07:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E11BC19423;
+ Tue, 10 Feb 2026 10:07:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1770718068;
+ bh=u8PznRMNHUq4nAGBxZMhRsI1nFCYrCQ3fE2qie4jbrc=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=AmE+/FBOXpx4l68K7mRYkO1VaqodkSC6EYBRpsvdmsAAuCtBUC0Ski789nLR1zq1E
+ TFTDJAvO/WZbEVJGb8S5jNstC+zYelojWUA/Vz701gpxjENKDqf79Whnceiw8FNbBY
+ ut8jot+h95U+T6RJ5kCKlxvUFRclDycYQjjaBjTHT6bLOEcE9HUbcuS+BZFG44DJnu
+ CVAHmq30G99r6V870J6tOn4+Jg52OrlgRgVX3eznZ31pPxPm5cEPxdXhux6nTT538r
+ +/0qFbG/tLyPxoR1S45Ir7yxIN7ouU4u22nUuj5eODPtQ6D7izQW76OuKa/9AuTQs9
+ 71HQcI6dvN+Lw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Tue, 10 Feb 2026 11:07:37 +0100
+Message-Id: <DGB75XMWML8M.DFZY5L52EBQF@kernel.org>
+Subject: Re: [PATCH -next v8 1/3] rust: clist: Add support to interface with
+ C linked lists
+Cc: <linux-kernel@vger.kernel.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Alex Deucher" <alexander.deucher@amd.com>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Jani Nikula"
+ <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
+ <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
+ "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang Rui" <ray.huang@amd.com>,
+ "Matthew Auld" <matthew.auld@intel.com>, "Matthew Brost"
+ <matthew.brost@intel.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ "Helge Deller" <deller@gmx.de>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>,
+ "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "John Hubbard" <jhubbard@nvidia.com>, "Alistair
+ Popple" <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Edwin Peer"
+ <epeer@nvidia.com>, "Alexandre Courbot" <acourbot@nvidia.com>, "Andrea
+ Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Zhi Wang"
+ <zhiw@nvidia.com>, "Balbir Singh" <balbirs@nvidia.com>, "Philipp Stanner"
+ <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, <joel@joelfernandes.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>
+To: "Joel Fernandes" <joelagnelf@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260209214246.2783990-1-joelagnelf@nvidia.com>
+ <20260209214246.2783990-2-joelagnelf@nvidia.com>
+In-Reply-To: <20260209214246.2783990-2-joelagnelf@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,88 +90,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:phasta@mailbox.org,m:matthew.brost@intel.com,m:sumit.semwal@linaro.org,m:linaro-mm-sig@lists.linaro.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[ckoenigleichtzumerken@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCPT_COUNT_FIVE(0.00)[5];
-	TO_DN_NONE(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ckoenigleichtzumerken@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	TAGGED_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,google.com,garyguo.net,protonmail.com,umich.edu,nvidia.com,weathered-steel.dev,collabora.com,joelfernandes.org,lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[50];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:mid,amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,igalia.com:email]
-X-Rspamd-Queue-Id: 6678811998E
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 1DB831196A8
 X-Rspamd-Action: no action
 
-Using the inline lock is now the recommended way for dma_fence
-implementations.
+On Mon Feb 9, 2026 at 10:42 PM CET, Joel Fernandes wrote:
+>  rust/kernel/clist.rs   | 320 +++++++++++++++++++++++++++++++++++++++++
 
-So use this approach for the framework's internal fences as well.
+I think we should move this under rust/kernel/ffi/ to make it obvious that =
+this
+is FFI infrastructure.
 
-Also saves about 4 bytes for the external spinlock.
+> diff --git a/rust/kernel/clist.rs b/rust/kernel/clist.rs
+> new file mode 100644
+> index 000000000000..8aa72b5d54be
+> --- /dev/null
+> +++ b/rust/kernel/clist.rs
+> @@ -0,0 +1,320 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +//! A C doubly circular intrusive linked list interface for rust code.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Reviewed-by: Philipp Stanner <phasta@kernel.org>
----
- drivers/dma-buf/dma-fence-chain.c | 3 +--
- include/linux/dma-fence-chain.h   | 1 -
- 2 files changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
-index a8a90acf4f34..a707792b6025 100644
---- a/drivers/dma-buf/dma-fence-chain.c
-+++ b/drivers/dma-buf/dma-fence-chain.c
-@@ -245,7 +245,6 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
- 	struct dma_fence_chain *prev_chain = to_dma_fence_chain(prev);
- 	uint64_t context;
- 
--	spin_lock_init(&chain->lock);
- 	rcu_assign_pointer(chain->prev, prev);
- 	chain->fence = fence;
- 	chain->prev_seqno = 0;
-@@ -261,7 +260,7 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
- 			seqno = max(prev->seqno, seqno);
- 	}
- 
--	dma_fence_init64(&chain->base, &dma_fence_chain_ops, &chain->lock,
-+	dma_fence_init64(&chain->base, &dma_fence_chain_ops, NULL,
- 			 context, seqno);
- 
- 	/*
-diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
-index 68c3c1e41014..d39ce7a2e599 100644
---- a/include/linux/dma-fence-chain.h
-+++ b/include/linux/dma-fence-chain.h
-@@ -46,7 +46,6 @@ struct dma_fence_chain {
- 		 */
- 		struct irq_work work;
- 	};
--	spinlock_t lock;
- };
- 
- 
--- 
-2.43.0
-
+Here and in the struct documentation, I'd suggest to clearly point out the
+use-cases, i.e. that this infrastructure is for FFI use-cases only and shou=
+ld
+not be used otherwise in drivers, etc.
