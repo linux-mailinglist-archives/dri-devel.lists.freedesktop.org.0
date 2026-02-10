@@ -2,68 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6FHVBL1Fi2mfRwAAu9opvQ
+	id CDZtO6tGi2kJTwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:50:37 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:54:35 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C9011C167
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:50:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C6411C241
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 15:54:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7497910E59E;
-	Tue, 10 Feb 2026 14:50:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D038210E5A3;
+	Tue, 10 Feb 2026 14:54:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="RrkQxPj1";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="gGlXtEfl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 617AC10E59E
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 14:50:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1770735030;
- bh=zqXS7+9v0cGuLTZxO8MLDbvDBVWMgAv9qkIOUn+B0NA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=RrkQxPj1Eg8P6JnkstjcAxetzFQj6qK3DIiNKGNcYjSrT1pfq5JG0AJs+5agNS5Oq
- e5IhNMdzuWisvFiqkdLN722p08ohR4e7iCUFdWbnJju9/n/1d+s1dwUJtAWoZlDjgu
- qqkFi1qYSrXZ0qlRffyoJOWYrWKokTkdDEh/1rAZyo2SozdDk1G2rOayYHX35E3JhL
- vBUvC0f6LRu1/esC9blM1hC2To0qt0fEbQEVol1tKFq1mbmEnV820vVZlZPa0A0ICD
- EZm1NCROc6J7afW4v9pc7zKQj9YpJSix/lc9o52ZzEPWtAbtMwnJ13qjSd4nuiFhrk
- t16ThSD2ie+dQ==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 4CFB617E12A9;
- Tue, 10 Feb 2026 15:50:30 +0100 (CET)
-Date: Tue, 10 Feb 2026 15:50:25 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: "Christian =?UTF-8?B?S8O2bmln?=" <christian.koenig@amd.com>, Philipp
- Stanner <phasta@mailbox.org>, phasta@kernel.org, Danilo Krummrich
- <dakr@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Gary Guo <gary@garyguo.net>, Benno Lossin
- <lossin@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, Joel
- Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Subject: Re: [RFC PATCH 2/4] rust: sync: Add dma_fence abstractions
-Message-ID: <20260210155025.1b9ad2f1@fedora>
-In-Reply-To: <aYs8gN34IVPQiqLk@google.com>
-References: <DG7SZND1GWR4.3C5NLKY4SYC0M@kernel.org>
- <bb57b6837aa8044e679dad5f2589c2e0ba84c221.camel@mailbox.org>
- <20260209155843.725dcfe1@fedora>
- <c319c349-eb95-4c38-84fb-47440daefc3b@amd.com>
- <aYruaIxn8sMXVI0r@google.com> <20260210101525.7fb85f25@fedora>
- <aYsFKOVrsMQeAHoi@google.com> <20260210134913.33cb674f@fedora>
- <aYsyGAwy4rq-H7Hd@google.com> <20260210145156.108ab292@fedora>
- <aYs8gN34IVPQiqLk@google.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
+ [209.85.222.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A32C10E5A3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 14:54:30 +0000 (UTC)
+Received: by mail-qk1-f179.google.com with SMTP id
+ af79cd13be357-8c532d8be8cso534583485a.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 06:54:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1770735269; x=1771340069; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Agj0c4R15XGINXILYWi8Un1ej02BkfWDujptUtk/bVQ=;
+ b=gGlXtEflg0NzCHvsmeZfWFTYrXRpj60wGrBoE9mP2Tc8ZD1IGZTe3UddxespUJv2CK
+ IxJvtdzB4M+AQbacL4i07++9k7LuurJDtOnWQoGVMwHGNfi0JMXYiLcyRS470+cB5WiU
+ t1n0gkjlcGEwuEGJqvZDaGCtyRIpH3Yf+0xc/BHk6XwawI4wm4r5IsutyXTS9VAyET6b
+ gtx0o10hIT7Y0ToTOuZ1k8k5bG+MefWoNxCIRWtOTZjbZK6dF3fWWw7y6Pj+ZfRj5buW
+ XKHMefIlFBIg7ZiJKa4tfizducDr249tXM5yrXDf7Flaz1viIPd6HsJUHwqucfkw2zZW
+ EjUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770735269; x=1771340069;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Agj0c4R15XGINXILYWi8Un1ej02BkfWDujptUtk/bVQ=;
+ b=jP0aGKMsTGVGZMFmXYIHW/FO+HJiy8m0UL2E913OEHkAsoxngCKa3drTxNahJH4E3l
+ W197xLOCF64SGUf/e48cVVBIY1bco7sdIu3QdA6Wqdg1a/u4xgQZut+mm64MZN+d6cDk
+ Ir8En/KR11O3OT7n1DYq+oYHBdy6nbrcJTw3FVYq5hpA31obNcPPw9WcEZbqQgit2X5h
+ Tmy0i0pVrrnOeBXf87ZB1bb67ikvTidp3rcvrt8UX1C8v2rQDVHm7rpLANWOlj+emB+I
+ uX2+SN4g6nErQ66961Pp88mwTflX/orT0GmDPNCegBzhs8pdHSoyqwcBRar8RW/AGTMc
+ zQdQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVylCkUF25KKyzHQMrE2WaqtetxyawtmL/0Zr0ku/bvzOuuDPWn2FSECsL1oXaSAdWh2a1EbsF83AY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxD1jZyAY2A9brsx49pSJ4Sjw2Gw0zFr39IcuA2eIzbvvLXV6Uq
+ 5szSEKc2peQx2YK3ZreijbwrL7wj8L7iD0yFFcOvnqduLJv0ugUpcujjjiEGjMVKrqY=
+X-Gm-Gg: AZuq6aJn9kWVuZD6gf+lKkJAI31pTyy+lJBVLQjazUgyATGHA6AKRj5qlkVYCEpODIa
+ aQ0HVqC5NiqTjEuDcMdQeQa46DBjm6DWm77srMxYCdtPkkuPKwfZQvqGSvJktD13kE89axm2h9h
+ qhmw6trtw6IeSVNHfFIat3c2Su9k44q7xjI+fSIwOhIVQSea9DrTwcLpEC/O9t907DCyFTpLPin
+ cPVdHgyYhvA4ht+bXuIzHds5aIjH7NCGnXF25QQglb82vWi5h/1/z9gymUaDmguHmDZbLE5o1D3
+ /x5BhUeNBB8YI8KW6m0qL0xg6lft9lTTRmni+kFu2hPMmzSMbUlZW8ahCPQjvEp3+bw1F+9EpW8
+ 7krXvnaPuGy6iXsorZWoXJUJMyMcLdK5oGoRp2mLwz4Io5yKjIxTN+FMY3e0ud/qtgePJLaiNxl
+ 7+2AmI2p3WE4ym3U2J3SLGozWdZ25oA6AKrJhWr9cTYBlhDnYTeSDKo+M3xhcLezWdRe3MsoMhR
+ q25oh4=
+X-Received: by 2002:a05:620a:2804:b0:8c5:2f89:6904 with SMTP id
+ af79cd13be357-8caefeb4daemr2082380185a.45.1770735269414; 
+ Tue, 10 Feb 2026 06:54:29 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.112.119]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-8caf9a157ddsm1121052485a.28.2026.02.10.06.54.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Feb 2026 06:54:28 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+ (envelope-from <jgg@ziepe.ca>) id 1vpp8F-00000003mvN-47aU;
+ Tue, 10 Feb 2026 10:54:27 -0400
+Date: Tue, 10 Feb 2026 10:54:27 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: John Stultz <jstultz@google.com>, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev,
+ linux-media@vger.kernel.org, sumit.semwal@linaro.org,
+ benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
+ tjmercier@google.com, christian.koenig@amd.com,
+ m.szyprowski@samsung.com, robin.murphy@arm.com, leon@kernel.org,
+ sean.anderson@linux.dev, ptesarik@suse.com, catalin.marinas@arm.com,
+ aneesh.kumar@kernel.org, suzuki.poulose@arm.com,
+ steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com,
+ ashish.kalra@amd.com, suravee.suthikulpanit@amd.com,
+ linux-coco@lists.linux.dev
+Subject: Re: [PATCH 4/5] dma-buf: heaps: allow heap to specify valid heap flags
+Message-ID: <20260210145427.GA750753@ziepe.ca>
+References: <20260209153809.250835-1-jiri@resnulli.us>
+ <20260209153809.250835-5-jiri@resnulli.us>
+ <CANDhNCoHEZsNRmU+3z5AbeAy05H7PTtUdTq1apNd5k0f9hWW8A@mail.gmail.com>
+ <20260210002927.GC943673@ziepe.ca>
+ <tgvdjszwxggr53digbmddcbxvupzl4xcoprofkgrs2kgf6rknx@44ebljjpghjm>
+ <20260210124357.GD943673@ziepe.ca>
+ <y7gvezflidmma7odnut2rmlecsbxahrcwpmoevfnhzjveusuwj@6qxqogin45j3>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <y7gvezflidmma7odnut2rmlecsbxahrcwpmoevfnhzjveusuwj@6qxqogin45j3>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,148 +114,74 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:christian.koenig@amd.com,m:phasta@mailbox.org,m:phasta@kernel.org,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:gary@garyguo.net,m:lossin@kernel.org,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[amd.com,mailbox.org,kernel.org,gmail.com,ffwll.ch,garyguo.net,collabora.com,nvidia.com,vger.kernel.org,lists.freedesktop.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:jiri@resnulli.us,m:jstultz@google.com,m:linaro-mm-sig@lists.linaro.org,m:iommu@lists.linux.dev,m:linux-media@vger.kernel.org,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:m.szyprowski@samsung.com,m:robin.murphy@arm.com,m:leon@kernel.org,m:sean.anderson@linux.dev,m:ptesarik@suse.com,m:catalin.marinas@arm.com,m:aneesh.kumar@kernel.org,m:suzuki.poulose@arm.com,m:steven.price@arm.com,m:thomas.lendacky@amd.com,m:john.allen@amd.com,m:ashish.kalra@amd.com,m:suravee.suthikulpanit@amd.com,m:linux-coco@lists.linux.dev,s:lists@lfdr.de];
+	DMARC_NA(0.00)[ziepe.ca];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	DKIM_TRACE(0.00)[ziepe.ca:+];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 62C9011C167
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 34C6411C241
 X-Rspamd-Action: no action
 
-On Tue, 10 Feb 2026 14:11:12 +0000
-Alice Ryhl <aliceryhl@google.com> wrote:
-
-> On Tue, Feb 10, 2026 at 02:51:56PM +0100, Boris Brezillon wrote:
-> > On Tue, 10 Feb 2026 13:26:48 +0000
-> > Alice Ryhl <aliceryhl@google.com> wrote:
-> >   
-> > > On Tue, Feb 10, 2026 at 01:49:13PM +0100, Boris Brezillon wrote:  
-> > > > On Tue, 10 Feb 2026 10:15:04 +0000
-> > > > Alice Ryhl <aliceryhl@google.com> wrote:
-> > > >     
-> > > > > /// The owner of this value must ensure that this fence is signalled.
-> > > > > struct MustBeSignalled<'fence> { ... }
-> > > > > /// Proof value indicating that the fence has either already been
-> > > > > /// signalled, or it will be. The lifetime ensures that you cannot mix
-> > > > > /// up the proof value.
-> > > > > struct WillBeSignalled<'fence> { ... }    
-> > > > 
-> > > > Sorry, I have more questions, unfortunately. Seems that
-> > > > {Must,Will}BeSignalled are targeting specific fences (at least that's
-> > > > what the doc and 'fence lifetime says), but in practice, the WorkItem
-> > > > backing the scheduler can queue 0-N jobs (0 if no jobs have their deps
-> > > > met, and N > 1 if more than one job is ready). Similarly, an IRQ
-> > > > handler can signal 0-N fences (can be that the IRQ has nothing to do we
-> > > > job completion, or, it can be that multiple jobs have completed). How
-> > > > is this MustBeSignalled object going to be instantiated in practice if
-> > > > it's done before the DmaFenceWorkItem::run() function is called?    
-> > > 
-> > > The {Must,Will}BeSignalled closure pair needs to wrap the piece of code
-> > > that ensures a specific fence is signalled. If you have code that
-> > > manages a collection of fences and invokes code for specific fences
-> > > depending on outside conditions, then that's a different matter.
-> > > 
-> > > After all, transfer_to_wq() has two components:
-> > > 1. Logic to ensure any spawned workqueue job eventually gets to run.
-> > > 2. Once the individual job runs, logic specific to the one fence ensures
-> > >    that this one fence gets signalled.  
-> > 
-> > Okay, that's a change compared to how things are modeled in C (and in
-> > JobQueue) at the moment: the WorkItem is not embedded in a specific
-> > job, it's something that's attached to the JobQueue. The idea being
-> > that the WorkItem represents a task to be done on the queue itself
-> > (check if the first element in the queue is ready for execution), not on
-> > a particular job. Now, we could change that and have a per-job WorkItem,
-> > but ultimately, we'll have to make sure jobs are dequeued in order
-> > (deps on JobN can be met before deps on Job0, but we still want JobN to
-> > be submitted after Job0), and we'd pay the WorkItem overhead once per
-> > Job instead of once per JobQueue. Probably not the end of the world,
-> > but it's worth considering, still.  
+On Tue, Feb 10, 2026 at 03:49:02PM +0100, Jiri Pirko wrote:
+> Tue, Feb 10, 2026 at 01:43:57PM +0100, jgg@ziepe.ca wrote:
+> >On Tue, Feb 10, 2026 at 10:14:08AM +0100, Jiri Pirko wrote:
+> >
+> >> >I'd advocate that the right design is for userspace to positively
+> >> >signal via this flag that it wants/accepts shared memory and without
+> >> >the flag shared memory should never be returned.
+> >> 
+> >> We can have the same behaviour with the separate heap, can't we?
+> >> Userpace positively signals it wants/accepts the shared memory by
+> >> choosing "system_cc_decrypted" heap name.
+> >
+> >So what do the other heap names do? Always private? Do you ever get
+> >heaps that are unknowably private or shared (eg MMIO backed?)
 > 
-> It sounds like the fix here is to have transfer_to_job_queue() instead
-> of trying to do it at the workqueue level.
-
-Hm, so Job would be something like that (naming/trait-def are just
-suggestions to get the discussion going):
-
-trait JobConsumer {
-	type FenceType;
-	type JobData;
-
-	fn run(self: MustBeSignalled<T::FenceType>) -> Result<WillBeSignaled<Self::FenceType>>;
-}
-
-struct Job<T: JobConsumer> {
-	fence: MustBeSignalled<T::FenceType>,
-	data: T::JobData,
-}
-
-I guess that would do.
-
-And then we need to flag the WorkItem that's exposed by the
-JobQueue as a DmaFenceWorkItem so that
-bindings::dma_fence_begin_signalling() is called before entry and
-lockdep can do its job and check that nothing forbidden happens in
-this WorkItem.
-
+> If I understand the code correctly, you may get something like this:
+> $ ls /dev/dma_heap/
+> default_cma_region
+> protected,secure-video
+> protected,secure-video-record
+> protected,trusted-ui
+> system
 > 
-> > > And {Must,Will}BeSignalled exists to help model part (2.). But what you
-> > > described with the IRQ callback falls into (1.) instead, which is
-> > > outside the scope of {Must,Will}BeSignalled (or at least requires more
-> > > complex APIs).  
-> > 
-> > For IRQ callbacks, it's not just about making sure they run, but also
-> > making sure nothing in there can lead to deadlocks, which is basically
-> > #2, except it's not scoped to a particular fence. It's just a "fences
-> > can be signaled from there" marker. We could restrict it to "fences of
-> > this particular implementation can be signaled from there" but not
-> > "this particular fence instance will be signaled next, if any", because
-> > that we don't know until we've walked some HW state to figure out which
-> > job is complete and thus which fence we need to signal (the interrupt
-> > we get is most likely multiplexing completion on multiple GPU contexts,
-> > so before we can even get to our per-context in-flight-jobs FIFO, we
-> > need to demux this thing).  
-> 
-> All I can say is that this is a different use-case for the C api
-> dma_fence_begin_signalling(). This different usage also seems useful,
-> but it would be one that does not involve {Must,Will}BeSignalled
-> arguments at all.
-> 
-> After all, dma_fence_begin_signalling() only requires those arguments if
-> you want to convert a PrivateFence into a PublishedFence. (I guess a
-> better name is PublishableFence.) If you're not trying to prove that a
-> specific fence will be signalled, then you don't need the
-> {Must,Will}BeSignalled arguments.
+> The "protected*" ones are created by tee. I believe they handle
+> memory that is inaccesible to CPU.
 
-Okay, so that would be another function returning some sort of guard
-then? What I find confusing is the fact
-dma_fence::dma_fence_begin_signalling() matches the C function name
-which is not per-fence, but just this lock-guard model flagging a
-section from which any fence can be signalled, so maybe we should
-name your dma_fence_begin_signalling() proposal differently, dunno.
+If that is the only list of options then maybe just the name will work
+Ok.
+
+I *think* CMA and system should be reliably CC private.
+
+The protected ones seem to have their own internal definition, and
+probably can't exist on CC VM systems..
+
+Meaning we don't have any shared things leaking through which would be
+the point.
+
+Jason
