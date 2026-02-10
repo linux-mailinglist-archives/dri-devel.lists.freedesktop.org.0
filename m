@@ -2,61 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ID/fOdZ8i2n6UgAAu9opvQ
+	id qFjwNpJ8i2n6UgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 19:45:42 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 19:44:34 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C7C111E639
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 19:45:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E2A11E613
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 19:44:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E3A610E5E6;
-	Tue, 10 Feb 2026 18:45:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B88A010E0E5;
+	Tue, 10 Feb 2026 18:44:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="hBROQdAq";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WW3VRSvu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 387 seconds by postgrey-1.36 at gabe;
- Tue, 10 Feb 2026 18:45:38 UTC
-Received: from forward201a.mail.yandex.net (forward201a.mail.yandex.net
- [178.154.239.92])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2C8510E5E6
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 18:45:38 +0000 (UTC)
-Received: from forward101a.mail.yandex.net (forward101a.mail.yandex.net
- [IPv6:2a02:6b8:c0e:500:1:45:d181:d101])
- by forward201a.mail.yandex.net (Yandex) with ESMTPS id 945ED83C1A
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 21:39:11 +0300 (MSK)
-Received: from mail-nwsmtp-smtp-production-main-55.vla.yp-c.yandex.net
- (mail-nwsmtp-smtp-production-main-55.vla.yp-c.yandex.net
- [IPv6:2a02:6b8:c1f:582e:0:640:200:0])
- by forward101a.mail.yandex.net (Yandex) with ESMTPS id AA25D80C69;
- Tue, 10 Feb 2026 21:39:08 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-55.vla.yp-c.yandex.net
- (smtp/Yandex) with ESMTPSA id PcXcMe1H0Sw0-2SQWIV15; 
- Tue, 10 Feb 2026 21:39:07 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
- s=mail; t=1770748747;
- bh=Rc5AjI3Knt85NCpzELFh1EO7d2bbaLUNXALLlH/+aDo=;
- h=Message-ID:Date:Cc:Subject:To:From;
- b=hBROQdAq0uC7jvfp51qciv3n7QPevHsltrzL05gVHx2ewGXmLIUtR4U4eaOvRDFVq
- sLsQt3Mdn3P46oKJivHUo0igEWkh7PoltFMWTkHAPPx8OahvIyZDnmTPiokKJQ5I7N
- Lh2IuFCRYxtF2+43CVVbnO9jnOm8jro2ufLM8R1w=
-Authentication-Results: mail-nwsmtp-smtp-production-main-55.vla.yp-c.yandex.net;
- dkim=pass header.i=@onurozkan.dev
-From: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
-To: daniel.almeida@collabora.com, aliceryhl@google.com, dakr@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Cc: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
-Subject: [PATCH v1] drm/tyr: gpu: fix GpuInfo::log model/version decoding
-Date: Tue, 10 Feb 2026 21:38:12 +0300
-Message-ID: <20260210183812.261142-1-work@onurozkan.dev>
-X-Mailer: git-send-email 2.51.2
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAB9410E5E6
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 18:44:29 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-b8ea0a386cdso73403566b.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 10:44:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1770749068; x=1771353868; darn=lists.freedesktop.org;
+ h=mime-version:user-agent:content-transfer-encoding
+ :disposition-notification-to:references:in-reply-to:date:cc:to:from
+ :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=/vjg7jBZyNSnOMcxeJ/7tKwSwZwzjChFHxfqJ1Ig5Ic=;
+ b=WW3VRSvuEw8CY1Feip3vVxQOcN/Ccy5cbT3ie++CGnMoQiig4DbD0lkSPbDaR3KY62
+ OxkmJKDLJzkS9X1c7ptLgi9t66FnF46GcDC9r/N8xDjUElebEClffaVJ/gDNdQsBJxVe
+ 69hVvznri4HLXYwMXr+m6L22E9GjJDNAUOEpuoHj4Z4VFI7rjKrEP/Z5y/R5Axe0n44t
+ 1Wa4ow6svu2wzva9kesy91gOmJr+CPE7pDoqrOJvVREFJF9I4UQl6CbdboXkzLlR/oMI
+ ElEy9HzuYX2Gqiauqc5A9RGLg3hKVfk+7tI3hrBXY/3uCevY1vA7K/R2BrJfMVWNwfKl
+ niGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770749068; x=1771353868;
+ h=mime-version:user-agent:content-transfer-encoding
+ :disposition-notification-to:references:in-reply-to:date:cc:to:from
+ :subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=/vjg7jBZyNSnOMcxeJ/7tKwSwZwzjChFHxfqJ1Ig5Ic=;
+ b=TnPzaBoKyoMnNfU+h0CPJorNOmMLnJyEkeugC/3Sf77emZeUYAmX0QzFUK29T4BzES
+ wzzDQ1xXUffWFMxvayVqeSuCfPNENjlsLZLU7AUxotGsZWv00xME6blE2tMbINwPsoI4
+ tKvJ9jLxCDNg/uoPuvP/5MFDKYhUbFPeBuSt6QmXwEAAzoTlSpAPNVPEqwwG+jYS+SQF
+ 1CxsZFX/jRAyJ4Gpa9g2X3WPog+HQXyLmddBaXAmvulxaXUm02x1AQbeHakgtnwHhJEC
+ B9ZS+tOzqrJxfVVRhvuDis8WP01wU401GRButpCgdj60RygXRY3PlpOHs3kdvPvNF518
+ /SVA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWCTOngYhzqnW4k8RaJ9H8w2/pJ/H5y+2yTnXexTaZ8xCGzAeT6Ln68fh/jVZRptNz7GLCWgUcCAhw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzssspVF1wYBZtOBPr64hoNQhFV/TmsulaERTp7x7qIhgmLrmkF
+ W1lIBOfcAhN+Kaq/ZV2grlcBd3QOep238yg8C1MJsLinAx8vG96ONqcK
+X-Gm-Gg: AZuq6aKJs8ZZAg9PUhtT+94w5H1l95stxTCUhVjXuLV1obR0R+Y8gLgiKBcaTaCLEXK
+ neWWbY34meiH2awMHeFnOuOM5eWsyZqSaNcE2k+cEPxpEZgwDXoeT498Oecpn1+yvyBaAttAqQN
+ XSD0R1erP1IBjfM8OPcz8yWSDg/AJe6VqV3XJEWA6NoodlteyRma96ErzFe+gkKVjYwnLWbPYWN
+ FJy6b1450yF6Z4YQB29kqY7v3CVCPOTQPlI4HIoxP3nPdwoxfG13oWUQRBHm8YO9Fw/dqRBc6Y1
+ gQHlvNCFO1aaN3irMybgxLuVtWvIcJQGMgfA7IpYk2SgD5XOXuGjL4O7MyEX0S+AHa6fk8iM+EM
+ KEn5oZr3Q2+IaofCpZXVyKzqrIbLw4uZ7t4BsUE6Oovm9jBkRCt9RcYNiPJcvmDdCUWN8JJ2n0p
+ kFgM2kewYRo/2sGk/jN2xq1boYX35C1+4diuBkXSmBlk30lHdSr8kxGQpdfdCgPGXNZuor728s6
+ ZGUX9RZKkE=
+X-Received: by 2002:a17:907:9709:b0:b8d:e665:d653 with SMTP id
+ a640c23a62f3a-b8f54cd45e4mr106196766b.7.1770749068016; 
+ Tue, 10 Feb 2026 10:44:28 -0800 (PST)
+Received: from [192.168.1.239] (87-205-5-123.static.ip.netia.com.pl.
+ [87.205.5.123]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b8edae3bab5sm537503066b.61.2026.02.10.10.44.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Feb 2026 10:44:27 -0800 (PST)
+Message-ID: <1002281ca27d58a47a47fb655a88637e49776706.camel@gmail.com>
+Subject: Re: [PATCH v3 16/19] drm/amd/display: Add parameter to control ALLM
+ behavior
+From: Tomasz =?UTF-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, alexander.deucher@amd.com, 
+ sunpeng.li@amd.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ siqueira@igalia.com, 	dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, 	linux-kernel@vger.kernel.org,
+ bernhard.berger@gmail.com, 	michel.daenzer@mailbox.org,
+ daniel@fooishbar.org, admin@ptr1337.dev
+Date: Tue, 10 Feb 2026 19:44:25 +0100
+In-Reply-To: <CADnq5_PhcNPU=4s1P30OqbWY7qPD3dHmjEtoz4_Md41u=xaxFw@mail.gmail.com>
+References: <20260203185626.55428-1-tomasz.pakula.oficjalny@gmail.com>
+ <20260203185626.55428-17-tomasz.pakula.oficjalny@gmail.com>
+ <f19af3c6-f865-4758-8c50-aba40ec1cf68@amd.com>
+ <79264ab170e48e1372b3b847d75f4635dcc57aa6.camel@gmail.com>
+ <CADnq5_PhcNPU=4s1P30OqbWY7qPD3dHmjEtoz4_Md41u=xaxFw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,132 +107,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[onurozkan.dev,reject];
-	R_DKIM_ALLOW(-0.20)[onurozkan.dev:s=mail];
+X-Spamd-Result: default: False [1.99 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	R_DKIM_REJECT(1.00)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[gmail.com : SPF not aligned (relaxed),none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:work@onurozkan.dev,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:alexdeucher@gmail.com,m:harry.wentland@amd.com,m:alexander.deucher@amd.com,m:sunpeng.li@amd.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:siqueira@igalia.com,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:bernhard.berger@gmail.com,m:michel.daenzer@mailbox.org,m:daniel@fooishbar.org,m:admin@ptr1337.dev,m:bernhardberger@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[work@onurozkan.dev,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[collabora.com,google.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[tomaszpakulaoficjalny@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[];
+	FREEMAIL_CC(0.00)[amd.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,igalia.com,lists.freedesktop.org,vger.kernel.org,mailbox.org,fooishbar.org,ptr1337.dev];
+	DKIM_TRACE(0.00)[gmail.com:-];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[work@onurozkan.dev,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[onurozkan.dev:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[tomaszpakulaoficjalny@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,onurozkan.dev:mid,onurozkan.dev:dkim,onurozkan.dev:email]
-X-Rspamd-Queue-Id: 3C7C111E639
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 21E2A11E613
 X-Rspamd-Action: no action
 
-GpuInfo::log() was decoding GPU_ID like this:
+On Fri, 2026-02-06 at 17:04 -0500, Alex Deucher wrote:
+>=20
+> Also, maybe a per connector kms property would be preferable.  Then
+> you could change it per display.
+>=20
+> Alex
 
-  major = (self.gpu_id >> 16) & 0xff;
-  minor = (self.gpu_id >> 8) & 0xff;
-  status = self.gpu_id & 0xff;
+I've dealt with all Harry's comments but wanted to make sure I
+understand properly. Do you mean, that the two settings should be a
+connector property like VRR_ENABLED? I understand the intent and I think
+in some time, it would be best to have these exposed in compositor
+settings but how would a user control this until then?
 
-That does not match the Mali GPU_ID layout and mixes unrelated
-fields. Due to that, model detection becomes `mali-unknown` on
-rk3588s which is wrong.
+Would it suffice to fire IOCTLs from a third-party tool like LACT where
+support for this could be added in a short time?
 
-We can already get all the version information with a single
-GpuId::from call (less code and cleaner), so this patch uses it.
+I made it a module property in the first place, because I thought such
+settings are pretty set-and-forget and module properties are just easy
+to set :)
 
-Also renamed `GpuModels` fields from `major/minor` to
-`arch_major/prod_major` to reflect their real meaning.
+Still, I think the defaults are sane. If I have to spend some more time
+to get the connector properties working, I could send the patches with
+the module properties ripped out for now.
 
-This change was tested on Orange Pi 5 (rk3588s) board and the
-results are as follows:
-
-Before this change:
-
-$ dmesg | grep 'tyr'
-[   19.698338] tyr fb000000.gpu: mali-unknown id 0xa867 major 0x67 minor 0x0 status 0x5
-[   19.699050] tyr fb000000.gpu: Features: L2:0x7120306 Tiler:0x809 Mem:0x301 MMU:0x2830 AS:0xff
-[   19.699817] tyr fb000000.gpu: shader_present=0x0000000000050005 l2_present=0x0000000000000001 tiler_present=0x0000000000000001
-[   19.702493] tyr fb000000.gpu: Tyr initialized correctly.
-
-After this change:
-
-$ dmesg | grep 'tyr'
-[   19.591692] tyr fb000000.gpu: mali-g610 id 0xa867 major 0x0 minor 0x0 status 0x5
-[   19.592374] tyr fb000000.gpu: Features: L2:0x7120306 Tiler:0x809 Mem:0x301 MMU:0x2830 AS:0xff
-[   19.593141] tyr fb000000.gpu: shader_present=0x0000000000050005 l2_present=0x0000000000000001 tiler_present=0x0000000000000001
-[   19.595831] tyr fb000000.gpu: Tyr initialized correctly.
-
-Signed-off-by: Onur Özkan <work@onurozkan.dev>
----
- drivers/gpu/drm/tyr/gpu.rs | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/gpu/drm/tyr/gpu.rs b/drivers/gpu/drm/tyr/gpu.rs
-index 6c582910dd5d..da97844efbec 100644
---- a/drivers/gpu/drm/tyr/gpu.rs
-+++ b/drivers/gpu/drm/tyr/gpu.rs
-@@ -99,13 +99,11 @@ pub(crate) fn new(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result<Self> {
-     }
- 
-     pub(crate) fn log(&self, pdev: &platform::Device) {
--        let major = (self.gpu_id >> 16) & 0xff;
--        let minor = (self.gpu_id >> 8) & 0xff;
--        let status = self.gpu_id & 0xff;
-+        let gpu_id = GpuId::from(self.gpu_id);
- 
-         let model_name = if let Some(model) = GPU_MODELS
-             .iter()
--            .find(|&f| f.major == major && f.minor == minor)
-+            .find(|&f| f.arch_major == gpu_id.arch_major && f.prod_major == gpu_id.prod_major)
-         {
-             model.name
-         } else {
-@@ -117,9 +115,9 @@ pub(crate) fn log(&self, pdev: &platform::Device) {
-             "mali-{} id 0x{:x} major 0x{:x} minor 0x{:x} status 0x{:x}",
-             model_name,
-             self.gpu_id >> 16,
--            major,
--            minor,
--            status
-+            gpu_id.ver_major,
-+            gpu_id.ver_minor,
-+            gpu_id.ver_status
-         );
- 
-         dev_info!(
-@@ -167,14 +165,14 @@ unsafe impl AsBytes for GpuInfo {}
- 
- struct GpuModels {
-     name: &'static str,
--    major: u32,
--    minor: u32,
-+    arch_major: u32,
-+    prod_major: u32,
- }
- 
- const GPU_MODELS: [GpuModels; 1] = [GpuModels {
-     name: "g610",
--    major: 10,
--    minor: 7,
-+    arch_major: 10,
-+    prod_major: 7,
- }];
- 
- #[allow(dead_code)]
--- 
-2.51.2
-
+Tomasz
+> > >=20
