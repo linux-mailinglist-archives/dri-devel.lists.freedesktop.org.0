@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CNWpN4Jui2lhUQAAu9opvQ
+	id ENzuOIVui2lhUQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 18:44:34 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 18:44:37 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A1F11E0C6
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 18:44:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50DD011E0DE
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 18:44:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B5F310E5E7;
-	Tue, 10 Feb 2026 17:44:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EB0010E5E8;
+	Tue, 10 Feb 2026 17:44:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="UXb3cP1T";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="IFSitOPs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A54F510E5E7
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 17:44:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1770745459; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FD6710E5E8
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 17:44:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1770745465; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=ADy9Ah/jyEJAs50HX5o4Nslb5MGauHR8lPaTxicTkZwhw9c/r9Er3dL+e/Hv+uEFzn2ezc1p14JxukTPJl45npa6pMqHTNa6yszSq8156+glDPltrbt/5NuQk84V7dsiauaXUtlHRrMLMTZlcVPhdzLBdRF1R1THN8j9lDuPlR0=
+ b=eK/Sa7hi9ehtuBz4qeuc37L4Xe8gLnGdKO6Azb/Zve3ZgNSLSfKEsU7eW5ZPwrwCwKxPU41eXvgVtycwxajSs2mYm2Hejt215XCERjH0NZbu7yBKftJl/j5lcOlzK5j1XplfUPsRJKUB8iXmd8nT5ynpMahfrD3jPH2KZD3RLfg=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1770745459;
+ s=zohoarc; t=1770745465;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=LNRovEbtfHkKRh0AXjFuiVuU/ELpmYBmCX00hsih2Nw=; 
- b=YDFNhE530MpOdCGY69R0eLqZpG8Gz/iQ93CuYg6EmGyltj9aGooImQ844MAiiir9U89mtRz12d4QI+hBWMNxBQj/AMBXa9WDMJKiWsWB1but//kcYmb5RhF96N215HRYFa2HARXgWGqGjcI5BoD8ISr4b6RRZlSylVJYG4g3DoE=
+ bh=0vgkSbLWmvC7EDiF9dVV14HZzse+0SaoEp2wQjLogUg=; 
+ b=hOeEb1MMuiG66LOKtt3jja/FE/CZnC1/dezzMh1K3kulTWBBpPPvSsyNHWlsjUxcZAWt01l0Za573V1sOWYxjYy3OnMCiL4xjQwe4wyhtLNgHx9O6wxV6YwLvc6P+B2I5llnBqZdq4VahqaMr66SyST0O1XmTM2fHIzC8w8Em/M=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
  dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770745459; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770745465; 
  s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=LNRovEbtfHkKRh0AXjFuiVuU/ELpmYBmCX00hsih2Nw=;
- b=UXb3cP1Tzi2JXrMjM5KBB/kaycgYtzrUC3yQy+RvOpIKvOFJA0W2mv9hu8IyC8mr
- Piai0+Bu06s8dfFO9dnCzrJl9E3u3GNU9o3+B28Ut2X8u605DRJoe4qDccFtYAcrckk
- RGNDko+DZoJeSrIRAR6+AnF2mE1X+eKyLnUKm504=
-Received: by mx.zohomail.com with SMTPS id 1770745457657929.5746885085033;
- Tue, 10 Feb 2026 09:44:17 -0800 (PST)
+ bh=0vgkSbLWmvC7EDiF9dVV14HZzse+0SaoEp2wQjLogUg=;
+ b=IFSitOPs0Wjl97CqBcBQuwTcjzt4NeqlSltwxKlK0ZMWkofDS4lwsuVH8SwYbzZS
+ Ms0L5+pzXJAmSkdc4S7OZIBYM3NpHXK3rcLRPrMkQhmNRIYflBUfeYgiqPyQ9YbncDt
+ GqmY9YeyRBqfEiqrIMZI9vuaNJpGC/jDilEDdFPE=
+Received: by mx.zohomail.com with SMTPS id 1770745463103698.7909230436375;
+ Tue, 10 Feb 2026 09:44:23 -0800 (PST)
 From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Date: Tue, 10 Feb 2026 14:44:00 -0300
-Subject: [PATCH v2 1/2] drm/vkms: Fix bad matrix offset component
- multiplication
+Date: Tue, 10 Feb 2026 14:44:01 -0300
+Subject: [PATCH v2 2/2] drm/vkms: Add kunit tests for alternative BT709
+ encoding matrix
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260210-vkms-composer-fix-matrix-v2-1-d1ed09cb23e8@collabora.com>
+Message-Id: <20260210-vkms-composer-fix-matrix-v2-2-d1ed09cb23e8@collabora.com>
 References: <20260210-vkms-composer-fix-matrix-v2-0-d1ed09cb23e8@collabora.com>
 In-Reply-To: <20260210-vkms-composer-fix-matrix-v2-0-d1ed09cb23e8@collabora.com>
 To: Louis Chauvet <louis.chauvet@bootlin.com>, 
@@ -63,11 +63,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  daniels@collabora.com, kernel@collabora.com, 
  Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1770745445; l=2157;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770745445; l=5535;
  i=ariel.dalessandro@collabora.com; s=20251223; h=from:subject:message-id;
- bh=ZlVDrOebMLnAkRmLLuKK3IdG4NpxWMM1uSrfJfPkgjs=;
- b=Zo+xvizGvZOUeRZjRkG0WgfpUvFG9gf9oD8w3xi+TP5xB7hzod0b1lVGmf8QzPjvx8y0MWcdp
- BOVpTI2l+p4CH1VcvPg1fZ/+58lFzcn3p1egwH2P4hHfJWyVeXXgXvW
+ bh=4lMPXq2NMEi3Ey0trVDFbPgIcjdkuEcpw4v3vC9NiBY=;
+ b=8QblPWdv0ZO42gRbybZTS2E1pZds5I7mWmtw/K6aZ8iy/A2T3Z3gQbISkQuftNgLZ3MuCuKj2
+ gcq27gKvlL7AFCZZA/oIhdEs0c+B6DUR2MB4wwcSPx7QSP1Fa4Yf5Pj
 X-Developer-Key: i=ariel.dalessandro@collabora.com; a=ed25519;
  pk=QZRL9EsSBV3/FhDHi9L/7ZTz2dwa7iyqgl+y1UYaQXQ=
 X-ZohoMailClient: External
@@ -116,61 +116,196 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:mid,collabora.com:dkim,collabora.com:email]
-X-Rspamd-Queue-Id: 47A1F11E0C6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:mid,collabora.com:dkim,collabora.com:email,itu.int:url]
+X-Rspamd-Queue-Id: 50DD011E0DE
 X-Rspamd-Action: no action
 
-Pixels values are packed as 16-bit UNORM values, so the matrix offset
-components must be multiplied properly by the idempotent element -i.e.
-number 1 encoded as 16-bit UNORM-.
+Currently, BT.709 encoding matrix kunit tests don't cover the offset
+component multiplication.
+
+This commit adds another kunit tests using the BT.709 standard [0]
+alternative representation of colors by three coordinates Y'Cb'Cr',
+which are linear combinations of the (non-linear) RGB coordinates.
+
+According to these formulas, if RGB varies between [0.0, 1.0], then Y'
+will vary between [0.0, 1.0], while Cb' and Cr' will vary between
+[-0.5, 0.5].
+
+The 0.5 offset is added to the Cb' and Cr' components in the 3x4
+encoding matrix, so the resulting pixel values then fits the 16-bit
+UNORM.
+
+[0] https://www.itu.int/rec/R-REC-BT.709-6-201506-I/en
 
 Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 ---
- drivers/gpu/drm/vkms/vkms_composer.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/vkms/tests/vkms_color_test.c | 146 +++++++++++++++++++++++++++
+ 1 file changed, 146 insertions(+)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index cd85de4ffd03d..d53ea4189c97b 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -17,6 +17,8 @@
- #include "vkms_composer.h"
- #include "vkms_luts.h"
+diff --git a/drivers/gpu/drm/vkms/tests/vkms_color_test.c b/drivers/gpu/drm/vkms/tests/vkms_color_test.c
+index 1a1c7cac2f158..53ab88e9e2f9e 100644
+--- a/drivers/gpu/drm/vkms/tests/vkms_color_test.c
++++ b/drivers/gpu/drm/vkms/tests/vkms_color_test.c
+@@ -393,6 +393,151 @@ static void vkms_color_ctm_3x4_bt709(struct kunit *test)
+ 	KUNIT_EXPECT_LT(test, out.b, 0x100);
+ }
  
-+#define UNORM_16BIT_ONE			(1ULL << 16)
++/*
++ * BT.709 encoding matrix: Y'Cb'Cr' coordinates
++ *
++ * BT.709 standard [0] alternative representation of colors by three coordinates
++ * Y'Cb'Cr', which are linear combinations of the (non-linear) RGB coordinates.
++ *
++ * According to these formulas, if RGB varies between [0.0, 1.0], then Y'
++ * will vary between [0.0, 1.0], while Cb' and Cr' will vary between
++ * [-0.5, 0.5].
++ *
++ * The 0.5 offset is added to the Cb' and Cr' components in the 3x4 encoding
++ * matrix, so the resulting pixel values then fits the 16-bit UNORM.
++ *
++ * [0] https://www.itu.int/rec/R-REC-BT.709-6-201506-I/en
++ */
++static const struct drm_color_ctm_3x4 test_matrix_3x4_bt709_alt_enc = { {
++	0x00000000366cf400ull, 0x00000000b7175900ull, 0x0000000127bb300ull, 0,
++	0x800000001d5475a0ull, 0x8000000062ab8a80ull, 0x0000000080000000ull, 0x0000000080000000ull,
++	0x0000000080000000ull, 0x8000000074432c80ull, 0x800000000bbcd360ull, 0x0000000080000000ull,
++} };
 +
- static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
- {
- 	u32 new_color;
-@@ -139,20 +141,25 @@ VISIBLE_IF_KUNIT void apply_3x4_matrix(struct pixel_argb_s32 *pixel,
- 	g = drm_int2fixp(pixel->g);
- 	b = drm_int2fixp(pixel->b);
++static void vkms_color_ctm_3x4_bt709_alt(struct kunit *test)
++{
++	struct pixel_argb_s32 out;
++
++	/* full white to bt709 */
++	out.a = 0xffff;
++	out.r = 0xffff;
++	out.g = 0xffff;
++	out.b = 0xffff;
++
++	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_alt_enc);
++
++	/* Y' 255 */
++	KUNIT_EXPECT_GT(test, out.r, 0x7F00);
++	KUNIT_EXPECT_LT(test, out.r, 0x11000);
++
++	/* Cb' 127 */
++	KUNIT_EXPECT_GT(test, out.g, 0x7F00);
++	KUNIT_EXPECT_LT(test, out.g, 0x8100);
++
++	/* Cr' 127 */
++	KUNIT_EXPECT_GT(test, out.b, 0x7F00);
++	KUNIT_EXPECT_LT(test, out.b, 0x8100);
++
++	/* full black to bt709 */
++	out.a = 0xffff;
++	out.r = 0x0;
++	out.g = 0x0;
++	out.b = 0x0;
++
++	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_alt_enc);
++
++	/* Y' 0 */
++	KUNIT_EXPECT_LT(test, out.r, 0x100);
++
++	/* Cb' 127 */
++	KUNIT_EXPECT_GT(test, out.g, 0x7F00);
++	KUNIT_EXPECT_LT(test, out.g, 0x8100);
++
++	/* Cr' 127 */
++	KUNIT_EXPECT_GT(test, out.b, 0x7F00);
++	KUNIT_EXPECT_LT(test, out.b, 0x8100);
++
++	/* gray to bt709 */
++	out.a = 0xffff;
++	out.r = 0x7fff;
++	out.g = 0x7fff;
++	out.b = 0x7fff;
++
++	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_alt_enc);
++
++	/* Y' 127 */
++	KUNIT_EXPECT_GT(test, out.r, 0x7F00);
++	KUNIT_EXPECT_LT(test, out.r, 0x8100);
++
++	/* Cb' 127 */
++	KUNIT_EXPECT_GT(test, out.g, 0x7F00);
++	KUNIT_EXPECT_LT(test, out.g, 0x8100);
++
++	/* Cr' 127 */
++	KUNIT_EXPECT_GT(test, out.b, 0x7F00);
++	KUNIT_EXPECT_LT(test, out.b, 0x8100);
++
++	/* == red 255 - bt709 enc == */
++	out.a = 0xffff;
++	out.r = 0xffff;
++	out.g = 0x0;
++	out.b = 0x0;
++
++	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_alt_enc);
++
++	/* Y' 54 */
++	KUNIT_EXPECT_GT(test, out.r, 0x3500);
++	KUNIT_EXPECT_LT(test, out.r, 0x3700);
++
++	/* Cb' 99 */
++	KUNIT_EXPECT_GT(test, out.g, 0x6200);
++	KUNIT_EXPECT_LT(test, out.g, 0x6400);
++
++	/* Cr' 255 */
++	KUNIT_EXPECT_GT(test, out.b, 0x7F00);
++	KUNIT_EXPECT_LT(test, out.b, 0x11000);
++
++	/* == green 255 - bt709 enc == */
++	out.a = 0xffff;
++	out.r = 0x0;
++	out.g = 0xffff;
++	out.b = 0x0;
++
++	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_alt_enc);
++
++	/* Y' 182 */
++	KUNIT_EXPECT_GT(test, out.r, 0xB500);
++	KUNIT_EXPECT_LT(test, out.r, 0xB780); /* laxed by half*/
++
++	/* Cb' 29 */
++	KUNIT_EXPECT_GT(test, out.g, 0x1C00);
++	KUNIT_EXPECT_LT(test, out.g, 0x1E00);
++
++	/* Cr' 12 */
++	KUNIT_EXPECT_GT(test, out.b, 0x0B00);
++	KUNIT_EXPECT_LT(test, out.b, 0x0D00);
++
++	/* == blue 255 - bt709 enc == */
++	out.a = 0xffff;
++	out.r = 0x0;
++	out.g = 0x0;
++	out.b = 0xffff;
++
++	apply_3x4_matrix(&out, &test_matrix_3x4_bt709_alt_enc);
++
++	/* Y' 18 */
++	KUNIT_EXPECT_GT(test, out.r, 0x1100);
++	KUNIT_EXPECT_LT(test, out.r, 0x1300);
++
++	/* Cb' 255 */
++	KUNIT_EXPECT_GT(test, out.g, 0x7F00);
++	KUNIT_EXPECT_LT(test, out.g, 0x11000);
++
++	/* Cr' 116 */
++	KUNIT_EXPECT_GT(test, out.b, 0x7300);
++	KUNIT_EXPECT_LT(test, out.b, 0x7500);
++}
++
+ static struct kunit_case vkms_color_test_cases[] = {
+ 	KUNIT_CASE(vkms_color_test_get_lut_index),
+ 	KUNIT_CASE(vkms_color_test_lerp),
+@@ -400,6 +545,7 @@ static struct kunit_case vkms_color_test_cases[] = {
+ 	KUNIT_CASE(vkms_color_srgb_inv_srgb),
+ 	KUNIT_CASE(vkms_color_ctm_3x4_50_desat),
+ 	KUNIT_CASE(vkms_color_ctm_3x4_bt709),
++	KUNIT_CASE(vkms_color_ctm_3x4_bt709_alt),
+ 	{}
+ };
  
-+	/*
-+	 * Pixels values are packed as 16-bit UNORM values, so the matrix offset
-+	 * components must be multiplied properly by the idempotent element -i.e.
-+	 * number 1 encoded as 16-bit UNORM-.
-+	 */
- 	rf = drm_fixp_mul(drm_sm2fixp(matrix->matrix[0]), r) +
- 	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[1]), g) +
- 	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[2]), b) +
--	     drm_sm2fixp(matrix->matrix[3]);
-+	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[3]), drm_int2fixp(UNORM_16BIT_ONE));
- 
- 	gf = drm_fixp_mul(drm_sm2fixp(matrix->matrix[4]), r) +
- 	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[5]), g) +
- 	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[6]), b) +
--	     drm_sm2fixp(matrix->matrix[7]);
-+	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[7]), drm_int2fixp(UNORM_16BIT_ONE));
- 
- 	bf = drm_fixp_mul(drm_sm2fixp(matrix->matrix[8]), r) +
- 	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[9]), g) +
- 	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[10]), b) +
--	     drm_sm2fixp(matrix->matrix[11]);
-+	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[11]), drm_int2fixp(UNORM_16BIT_ONE));
- 
- 	pixel->r = drm_fixp2int_round(rf);
- 	pixel->g = drm_fixp2int_round(gf);
 
 -- 
 2.51.0
