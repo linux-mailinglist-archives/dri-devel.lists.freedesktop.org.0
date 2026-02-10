@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oKoAFGH2imn2OwAAu9opvQ
+	id OEI8EmT2imkePAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:12:01 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:12:04 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26437118A2E
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:12:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA9A118A46
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:12:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E35210E519;
-	Tue, 10 Feb 2026 09:11:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EA7410E51A;
+	Tue, 10 Feb 2026 09:12:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k1GGVEKo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QrTI9gMW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7FBB10E518;
- Tue, 10 Feb 2026 09:11:57 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C98E10E51A;
+ Tue, 10 Feb 2026 09:12:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B0EE240BA0;
- Tue, 10 Feb 2026 09:11:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E5D6C116C6;
- Tue, 10 Feb 2026 09:11:57 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id C32AD60008;
+ Tue, 10 Feb 2026 09:12:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2532C19423;
+ Tue, 10 Feb 2026 09:11:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770714717;
- bh=EupGUQxR5JuECden0J0lKF1mKu53jepjharblcWjrn4=;
+ s=k20201202; t=1770714720;
+ bh=VGvOSd5PWRmZsvyKMBdriUuWlEztjMSBUqGgvPN4GMo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=k1GGVEKosusxV6d698D5iBGtUMZO5qDeRXsXaRdQirnQ7DXMFfGYnL7tLFgrN6PO/
- Ch1vnxpvQIS01FhMlp+LJfz/VVUHHoNCw7eVG+z2kqGQ9oNGEA2vjfjndx2OY9cq/n
- FG5Vt+7Lj0kvjtq6Q734k7jXWEg0x9oVOAfEN6Y/pMqPzeOXvdfQCpIqDI+BXZFFEW
- P700G9Wbf1ahiXL/5MGUfPWVXx9l9KnrmYqltmGzJMikdQGUy6vaCMx23C+LN07A0a
- QXHnT+8c6ExEt/ClkrwWwNzknIVbZYseRw5GBM2jCxcU//YW06pmyFu0y/r5yI2Ava
- CDYq8mqweTo6Q==
+ b=QrTI9gMWumlsbqg5fa3Tf878gLNtqLoqB1qjwYczqFNtvDBcRfWY4VYHiB0KAs5dx
+ babVLdZV/FKg214Fo93U+GWhz7bbN8RNyL/vm9yPjEeb52ERNFXtz2dQMBndO26wSZ
+ R0XKMgydUZ3APqPyA3gvZlhK2uV585Fd1rtrkwVnlK03MUML7JVVBvwigpYRjDY+Hj
+ rIAexG18ttD+/VbX21uhArkgKnJMCv9yvwsiwt6a/SWIs0IQe3M+BcGOG6ypLNaxs4
+ 82G4TMhIftItsgLb0xUJNRmkbL946WeHSOSaC4Q6nXUIyN7AhsLkfIrn3XHzNR7rS9
+ ysGVksgYCcBTw==
 From: Maxime Ripard <mripard@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
@@ -47,14 +47,14 @@ Cc: dri-devel@lists.freedesktop.org,
  Marijn Suijten <marijn.suijten@somainline.org>,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  Jessica Zhang <jesszhan0024@gmail.com>
-Subject: Re: (subset) [PATCH v4 10/15] drm/msm: mdp5: Switch private_obj
+Subject: Re: (subset) [PATCH v4 11/15] drm/msm: dpu1: Switch private_obj
  initialization to atomic_create_state
-Date: Tue, 10 Feb 2026 10:11:24 +0100
-Message-ID: <177071465918.1461206.16095695324634572573.b4-ty@kernel.org>
+Date: Tue, 10 Feb 2026 10:11:25 +0100
+Message-ID: <177071465918.1461206.18051227468252288970.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260128-drm-private-obj-reset-v4-10-90891fa3d3b0@redhat.com>
+In-Reply-To: <20260128-drm-private-obj-reset-v4-11-90891fa3d3b0@redhat.com>
 References: <20260128-drm-private-obj-reset-v4-0-90891fa3d3b0@redhat.com>
- <20260128-drm-private-obj-reset-v4-10-90891fa3d3b0@redhat.com>
+ <20260128-drm-private-obj-reset-v4-11-90891fa3d3b0@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -99,11 +99,11 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 26437118A2E
+X-Rspamd-Queue-Id: 1EA9A118A46
 X-Rspamd-Action: no action
 
-On Wed, 28 Jan 2026 13:43:54 +0100, Maxime Ripard wrote:
-> The MSM mdp5 driver relies on a drm_private_obj, that is initialized by
+On Wed, 28 Jan 2026 13:43:55 +0100, Maxime Ripard wrote:
+> The MSM dpu1 driver relies on a drm_private_obj, that is initialized by
 > allocating and initializing a state, and then passing it to
 > drm_private_obj_init.
 > 
