@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ePSRHwtUi2kMUAAAu9opvQ
+	id OA8eDjZUi2kMUAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 16:51:39 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 16:52:22 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C0A11CC01
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 16:51:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F314011CC44
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 16:52:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F086E10E5BB;
-	Tue, 10 Feb 2026 15:51:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB7E110E5C2;
+	Tue, 10 Feb 2026 15:52:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cnWI6HFr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="L59I9SaT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF0FC10E5B9;
- Tue, 10 Feb 2026 15:51:35 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8648D10E5B4;
+ Tue, 10 Feb 2026 15:52:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 515B2442DF;
- Tue, 10 Feb 2026 15:51:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C8BDC116C6;
- Tue, 10 Feb 2026 15:51:34 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 83C9760137;
+ Tue, 10 Feb 2026 15:52:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACB61C116C6;
+ Tue, 10 Feb 2026 15:52:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770738695;
- bh=q++is72bj4uWTYoc+vkSxji6zhNdE9WWO1UbEw2tudU=;
+ s=k20201202; t=1770738737;
+ bh=RQCwNCcBeQU5tvcCgLx7gzzyD5u89C/R0Ffzky3epSg=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=cnWI6HFr1xnNHjshPC4yDw5r3+LkkXpVxaFR3h2hnFByRL3mXa2IZkAWf26KgNLHG
- P7Qo5hWsg6/4z9qOyshZWKCSOBKbiGeS9Z6a/2f9Dxu4si/Al+lkTj0Wn/QV/jN7N0
- ZBAb2QM7//B7b2eK/anIQ/bEhWHa+8YbEnjMKVdzI5yXLDPyn1cBrAeIL8/DlNtWhr
- tfMPvfCdHpCEpIpG+vveOFecl/QePKAD8y1bvSOV84opabNTBxS0cYwe9z0mUJPL+7
- XiX7IgAzzf2ceJD+gaS3/eAd/8XwnDw1XsQdk86Bb6bC3KRkQ+ReQuaJT5kdQleZK5
- /4xNZoC+I20pg==
-Message-ID: <5c9aeeb9e9d9c0609028dc3637eb9dc4@kernel.org>
-Date: Tue, 10 Feb 2026 15:51:32 +0000
+ b=L59I9SaTtdMvZlOhb5jGb3izQPshIAAA5N0NwrHQ9OHzFRKT2N2aTHa6mubs/+8fT
+ Fd8ClyLKa2PSEiACbqV/S/q35ydzv8P72f6fDEDz7fmEgXd9mNOlAV4RUKfXafs2Pi
+ W3f7efLT91mlI5d8Z2t8uaGyffr+UL9jMyEDKDFRyB2IdVElXspukJmAsg/0p211AK
+ nczKveQhsTZSu7CzRB0lD0yApoKULmjqz0i3Cb+5+0RCtBPgq3lLfFmhAnDXrLoWAV
+ HNBBL+Dh6OWzv8FeSN+ajGyLHIu+c5etcJmxfpXoV80OQf4OewLWzMvnVySHkLp9IR
+ +14wAkevYkQfA==
+Message-ID: <6650ab0f95871398568f6f2c3d2f3e56@kernel.org>
+Date: Tue, 10 Feb 2026 15:52:14 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Nicolas Frattaroli" <nicolas.frattaroli@collabora.com>
-Subject: Re: [PATCH v7 18/22] drm/tests: hdmi: Add tests for the
- color_format property
-In-Reply-To: <20260121-color-format-v7-18-ef790dae780c@collabora.com>
-References: <20260121-color-format-v7-18-ef790dae780c@collabora.com>
+Subject: Re: [PATCH v7 19/22] drm/tests: hdmi: Add tests for HDMI helper's
+ mode_valid
+In-Reply-To: <20260121-color-format-v7-19-ef790dae780c@collabora.com>
+References: <20260121-color-format-v7-19-ef790dae780c@collabora.com>
 Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
@@ -112,15 +112,15 @@ X-Spamd-Result: default: False [2.19 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 48C0A11CC01
+X-Rspamd-Queue-Id: F314011CC44
 X-Rspamd-Action: no action
 
-On Wed, 21 Jan 2026 15:45:25 +0100, Nicolas Frattaroli wrote:
-> Add some KUnit tests to check the color_format property is working as
-> expected with the HDMI state helper.
+On Wed, 21 Jan 2026 15:45:26 +0100, Nicolas Frattaroli wrote:
+> Add some KUnit tests to verify that the HDMI state helper's mode_valid
+> implementation does not improperly reject chroma subsampled modes on the
+> basis of their clock rate not being satisfiable in RGB.
 > 
-> Existing tests are extended to also test the DRM_COLOR_FORMAT_AUTO case,
-> in order to avoid duplicating test cases. For the explicitly selected
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 > 
 > [ ... ]
 
