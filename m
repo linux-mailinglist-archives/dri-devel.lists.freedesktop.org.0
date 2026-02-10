@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WNTwAEz2imkePAAAu9opvQ
+	id YByxBFD2imn2OwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:11:40 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:11:44 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0C61189DB
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:11:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB4311189E2
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:11:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3722310E50E;
-	Tue, 10 Feb 2026 09:11:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 417F210E513;
+	Tue, 10 Feb 2026 09:11:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="B1YE7JBH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rlsxGVPS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AF4910E50E
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 09:11:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EDC410E512
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 09:11:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 1BE5860144;
- Tue, 10 Feb 2026 09:11:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F998C19424;
- Tue, 10 Feb 2026 09:11:36 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id E0BFA60145;
+ Tue, 10 Feb 2026 09:11:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57AF5C19425;
+ Tue, 10 Feb 2026 09:11:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770714696;
- bh=bjT4WH1eTWch5rlt4JV4tl3Vk4FAp7+YrG6Uj2KVxb8=;
+ s=k20201202; t=1770714699;
+ bh=ZppvvzGGlIxQRf5h90knD5FlIFQSP3XqNUtMjACKbPg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=B1YE7JBH6+hogjirMsm+RwC2df6l0OrNa5bkCz+3kyDtwsLeVaFmThWRDMo4lL96E
- 4LGtJyK/0H6Q0UXA/kAiodwzm9fDOg9QTNOceQse45Ub4blhEj9AljVTkdeR874oEV
- Ut2tu/0MWw/4ICS83Bvgs94soYTXKqNXsFSaqWZqxOXkD5ai0+dxeA7SCJw43XeDm1
- 0OQVJm73DR7qZdvo/eq5OtyK52b/apzB1fmZtRJHXjh+2Txfc4QEBxeU041qcEDbw0
- 5UcKrUbmfww5DP4cDPNIMS8Y3BFU2wVaQSup+ZuWleG6t9VALeX7Rd9LIcRtYc8769
- yYM+GR948CSAw==
+ b=rlsxGVPSaKelcyzVWpWGYpd8bLLHspaSObMD+CsCpyL4A1Ywq7he7SuqOq47fW3co
+ x2zQFvypeffIWGsht3+QjU8yW89CN2rJ6+75Ytg2A68bpRn1MimeP55ZYjqoITnE6o
+ ttsxEN3qEj/nMF2PF5EESjQdeQwi7jjgdExixFY5JIDY4xWwbObzj8xcVIEBB5IHCH
+ /UG7k0r0HwpvpH5aEhixxhbgumGogMeE+f2KryjiF1hyFonIloGfo9WmHT/12fL81R
+ J71Wkcg7ZlNwkhJk+p3xqS4ZCqOHb/EE3PlEDvCWcA4svyzRpQl99J7qquNpMMybFt
+ LoBN9Fbr22rNA==
 From: Maxime Ripard <mripard@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, Maxime Ripard <mripard@kernel.org>
 Cc: dri-devel@lists.freedesktop.org,
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH v4 02/15] drm/atomic: Add new atomic_create_state
- callback to drm_private_obj
-Date: Tue, 10 Feb 2026 10:11:17 +0100
-Message-ID: <177071465917.1461206.10904945051896702266.b4-ty@kernel.org>
+Subject: Re: (subset) [PATCH v4 03/15] drm/atomic-helper: Add private_obj
+ atomic_create_state helper
+Date: Tue, 10 Feb 2026 10:11:18 +0100
+Message-ID: <177071465917.1461206.17735005657454717373.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260128-drm-private-obj-reset-v4-2-90891fa3d3b0@redhat.com>
+In-Reply-To: <20260128-drm-private-obj-reset-v4-3-90891fa3d3b0@redhat.com>
 References: <20260128-drm-private-obj-reset-v4-0-90891fa3d3b0@redhat.com>
- <20260128-drm-private-obj-reset-v4-2-90891fa3d3b0@redhat.com>
+ <20260128-drm-private-obj-reset-v4-3-90891fa3d3b0@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -98,21 +98,16 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: CC0C61189DB
+X-Rspamd-Queue-Id: DB4311189E2
 X-Rspamd-Action: no action
 
-On Wed, 28 Jan 2026 13:43:46 +0100, Maxime Ripard wrote:
-> The drm_private_obj initialization was inconsistent with the rest of the
-> KMS objects. Indeed, it required to pass a preallocated state in
-> drm_private_obj_init(), while all the others objects would have a reset
-> callback that would be called later on to create the state.
+On Wed, 28 Jan 2026 13:43:47 +0100, Maxime Ripard wrote:
+> Now that we have an atomic_create_state callback for drm_private_objs,
+> we can provide a helper for it.
 > 
-> However, reset really is meant to reset the hardware and software state.
-> That it creates an initial state is a side-effect that has been used in
-> all objects but drm_private_obj. This is made more complex since some
-> drm_private_obj, the DisplayPort ones in particular, need to be
-> persistent across and suspend/resume cycle, and such a cycle would call
-> drm_mode_config_reset().
+> It's somewhat different from the other similar helpers though, because
+> we definitely expect drm_private_obj to be subclassed. It wouldn't make
+> sense for a driver to use it as-is.
 > 
 > [...]
 
