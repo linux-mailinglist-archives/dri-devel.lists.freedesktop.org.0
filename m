@@ -2,88 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cF/aLeb9imlyPAAAu9opvQ
+	id gPVmHi3/imnJPAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:44:06 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:49:33 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D414E11907B
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:44:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0785F119192
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:49:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79409890CE;
-	Tue, 10 Feb 2026 09:44:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57EA710E0EE;
+	Tue, 10 Feb 2026 09:49:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="hcDEE08C";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NmLPCIom";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hcDEE08C";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NmLPCIom";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NyPDXIXL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33D8B890CE
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 09:44:02 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D94953E71A;
- Tue, 10 Feb 2026 09:44:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770716640; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=tp3/7kKxJDVlRvvsjIgvoPaEEEKscWloYkrvsVEjZHE=;
- b=hcDEE08C1a3jFjodQfaDRnjcuN0J+P4rySv94+rMLfv+dF/aQTWKSYa6SyhpwTT78lAURP
- 0TItJ4I0/nE+bfPqf/sM7VCXcbz2+gcggL//B714Ea/3559juWCE7KDf7ke9oMk0eHC5mK
- P3JodqwGO09oKBRhBjiWRDJEoayF4c4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770716640;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=tp3/7kKxJDVlRvvsjIgvoPaEEEKscWloYkrvsVEjZHE=;
- b=NmLPCIomJCnWzsQ8lacx4be3R8WAuL51yRIPlSjT5tcdaIJXVHMT6PJMAoMBxTAEwAdDQS
- ncMcjzpe3FEiPyCg==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hcDEE08C;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=NmLPCIom
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1770716640; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=tp3/7kKxJDVlRvvsjIgvoPaEEEKscWloYkrvsVEjZHE=;
- b=hcDEE08C1a3jFjodQfaDRnjcuN0J+P4rySv94+rMLfv+dF/aQTWKSYa6SyhpwTT78lAURP
- 0TItJ4I0/nE+bfPqf/sM7VCXcbz2+gcggL//B714Ea/3559juWCE7KDf7ke9oMk0eHC5mK
- P3JodqwGO09oKBRhBjiWRDJEoayF4c4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1770716640;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=tp3/7kKxJDVlRvvsjIgvoPaEEEKscWloYkrvsVEjZHE=;
- b=NmLPCIomJCnWzsQ8lacx4be3R8WAuL51yRIPlSjT5tcdaIJXVHMT6PJMAoMBxTAEwAdDQS
- ncMcjzpe3FEiPyCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A77DE3EA62;
- Tue, 10 Feb 2026 09:44:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id tvCqJ+D9imlbMAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 10 Feb 2026 09:44:00 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: deller@gmx.de
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] fbcon: Declare struct fb_info.fbcon_par as of type struct
- fbcon_par
-Date: Tue, 10 Feb 2026 10:43:32 +0100
-Message-ID: <20260210094356.23645-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.52.0
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
+ [209.85.167.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2E3810E0EE
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 09:49:28 +0000 (UTC)
+Received: by mail-lf1-f65.google.com with SMTP id
+ 2adb3069b0e04-59e499a40easo678787e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 01:49:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1770716967; x=1771321767; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=5XThuayVTw6ykMsIyLNH4e1i5wnYl+TBF/gMfeuCJW0=;
+ b=NyPDXIXLWhyBH9/eYNS8SLH6AF8aEvXdJ4MVppz63VacIhTNGSxLH0isL74vE5IHth
+ UzLAbHiTpBAKqxJ8FsDoaiXWsyOjGmy5mM4hnYVxRlrXnfxNKWYfNABEoS+IfMBwBb3l
+ aLpkaUqlT6QEebVBHn+eJlqoNNHU+aaKxtl+JOtJRZMix1vIVc2xQ/wpSORkCDdG3TkH
+ 01/Pufu/PUDfPXK3NJzPAzx4LkOH6BLngv80YrYyOTr3bmU/5ks+4tv/ezA+lHNOKtTb
+ R0whnKLLS/+hpWCKNI4dYZ3Z3glndFuk1mSHXK5YoBLBbsn2/klIKIJBUO7coW+RQmk3
+ bfvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770716967; x=1771321767;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5XThuayVTw6ykMsIyLNH4e1i5wnYl+TBF/gMfeuCJW0=;
+ b=feZBVAUn9+Lhm1tMRDHNOkcMgStkHoqJsfthr9Ut/mjm4cHcOFvJk4Y8mSZPKlyQEc
+ pQ3Z4leFWQTphLI5UJbllOhKDZwFBMNwyn2LbcX0sX2F5oFgA9uxX1ObignMUH/EyasT
+ PbpuqxhFgflEAH8wLY1LbL1St+nu/1I9IOvQuOBppEhN+qdVbc9C4+TYsT2mjGhmiHYz
+ 5/J1l/CFhy/jcExrdtjttJcaL5eB5ckHM4qv533ooAvl/DCzaG+637UqW4gKdxDM++TJ
+ YnhRGQsWy20WqYmO96OS5vPdkDgEz2VJOnWOvpcov5QhmOBU1yVh549UgJY71khfx4UR
+ 4p1g==
+X-Gm-Message-State: AOJu0Yz19X075blWPaXIcDydWLQAC4q9Z+D1BlnkIu8Zxev96XMQSEGC
+ VLouAEEOFIXRWHvwEbKvVtB04IY+z1lCXbPMK+/f4GlZC0D+B/kin+Fh
+X-Gm-Gg: AZuq6aKcfyqxgWm0HXmxPK25j8817yWfIaB3DfAAxARvR16CgE0LzXrpsSZGCvVi7Qs
+ ZviWgYm7/GmM+XYXfPUBIev+LFIZdSZZEC/M3ffwr6mW0CA176WZ61kz4yGbxc1Uxy67FWEDSvo
+ /6F2IVY4kLjh3zgljp9Q8ZYTnXnO7Y7zykE56G1MCRZsjiah59+Q3sdnjUVGer/CedFtUJX+sd+
+ /P0UOi0GXVwMf/G76u9/AU0/ZnqvsRWoK0nEnChDTiZDrbaXtpwS6eUINFpz6xW8WZOvaEYk2vG
+ lzAimBA7yXBMircGR1vxe+EFT0EEtPy+Z4WfFOcCNpJL0JUt7AbXgboB+7WmZ26LTifsBBAFv06
+ Z8SHc/ydPqjYKrs46CawhzwHKtXYJVKJkUiaqJ1vE3ikm3yLHQV0dpJQci7TGrT3YgDxMVv11b2
+ gt2QZXiYxEQikI
+X-Received: by 2002:a05:6512:3da7:b0:59e:92e:7d07 with SMTP id
+ 2adb3069b0e04-59e4515a360mr4728661e87.24.1770716966455; 
+ Tue, 10 Feb 2026 01:49:26 -0800 (PST)
+Received: from xeon ([188.163.112.51]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-59e44e231d5sm3191691e87.81.2026.02.10.01.49.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Feb 2026 01:49:26 -0800 (PST)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/2] ARM: tegra: document Tegra20 HDMI port
+Date: Tue, 10 Feb 2026 11:49:06 +0200
+Message-ID: <20260210094908.14276-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,71 +96,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
+X-Spamd-Result: default: False [1.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
 	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:deller@gmx.de,m:linux-fbdev@vger.kernel.org,m:tzimmermann@suse.de,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:thierry.reding@gmail.com,m:jonathanh@nvidia.com,m:clamor95@gmail.com,m:devicetree@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,nvidia.com];
+	FORGED_SENDER(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmx.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCPT_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: D414E11907B
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 0785F119192
 X-Rspamd-Action: no action
 
-The only correct type for the field fbcon_par in struct fb_info
-is struct fbcon_par. Declare is as such. The field is a pointer
-to fbcon-private data.
+Document port which can be used in the HDMI to model it using OF
+graph.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- include/linux/fb.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Svyatoslav Ryhel (2):
+  dt-bindings: display: tegra: document Tegra20 HDMI port
+  ARM: tegra: transformers: add connector node
 
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 65fb70382675..b8b6f54f3312 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -18,6 +18,7 @@ struct backlight_device;
- struct device;
- struct device_node;
- struct fb_info;
-+struct fbcon_par;
- struct file;
- struct i2c_adapter;
- struct inode;
-@@ -506,7 +507,7 @@ struct fb_info {
- #define FBINFO_STATE_RUNNING	0
- #define FBINFO_STATE_SUSPENDED	1
- 	u32 state;			/* Hardware state i.e suspend */
--	void *fbcon_par;                /* fbcon use-only private area */
-+	struct fbcon_par *fbcon_par;    /* fbcon use-only private area */
- 	/* From here on everything is device dependent */
- 	void *par;
- 
+ .../display/tegra/nvidia,tegra20-hdmi.yaml    | 13 +++++++++--
+ .../tegra20-asus-transformer-common.dtsi      | 22 ++++++++++++++++---
+ .../boot/dts/nvidia/tegra30-asus-tf600t.dts   | 21 ++++++++++++++++--
+ .../tegra30-asus-transformer-common.dtsi      | 21 ++++++++++++++++--
+ 4 files changed, 68 insertions(+), 9 deletions(-)
+
 -- 
-2.52.0
+2.51.0
 
