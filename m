@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CFNOLvr0imn2OwAAu9opvQ
+	id gKi2Of70imn2OwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:06:02 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:06:06 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FAF111887B
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:06:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D54B11888B
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:06:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCAAC10E50D;
-	Tue, 10 Feb 2026 09:06:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5F7D10E4FD;
+	Tue, 10 Feb 2026 09:06:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kYfmKpMY";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="U0DyMz5l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BD6510E500;
- Tue, 10 Feb 2026 09:05:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B92410E4FD;
+ Tue, 10 Feb 2026 09:06:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770714359; x=1802250359;
+ t=1770714364; x=1802250364;
  h=from:date:subject:mime-version:content-transfer-encoding:
  message-id:references:in-reply-to:to:cc;
- bh=EDqCut6760o59/mhBlcAikvdozOxp/5OiFVbJhPaJTQ=;
- b=kYfmKpMYjWu/z84e2aJnW78ZE3kgByM4O7+fPTazW15ytSLED1kGCzs3
- SrzGphbrVqKE3pCSROge9Zt0dul8jvrnRV7TcE5ga7thXoDTIsPqKvFIl
- ftei3Sy3KagwuefUKsM83V3muCiZB3PARjsqz355veGFV6PLMOGgHf186
- c9t5NvhNL/GIlR3k7ch6AGSGO02hVkWVCSQQGfkBlbTn0D3SGiQ4UcQBk
- kU6Hsc6R937BhlD4QlfmUD+5J3FfQOF3tVNuTp+MVrA0Im2AbOl04aTbo
- n4cn1ui4N7yOLWH+nCx5CQ5o8Rw/3akeqAZLlCmPrCCnsDGbHZ9fkOfoS w==;
-X-CSE-ConnectionGUID: 4H+HAlOfRuqji7gwQKL2aA==
-X-CSE-MsgGUID: 8HwwwH+mSUasTS7kpCTfVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="94479207"
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; d="scan'208";a="94479207"
+ bh=XkpSbIkJV5Tc8uIw6zllllw5O4nhdkW3OT1KYC5vQm0=;
+ b=U0DyMz5lV18MnImTz5QauIAryXTioCApnO5EfCOAF1+4HyJf5z0tA7tG
+ B2c0nQ1ompxv7uXjKNwoR6JKhQDix2NTljh4g4b5saRI39xNqiiHIGAFm
+ THD08ViGMLAZOAucgVyLeQknRV7cYbbq6ZHBNpxx6w5zlnpi8efVtxj9z
+ WHL4yKg3lS22GIfRb0Pi6qtv4krbBF+RjUUiNym/sPE5F2grdyP7OqT/r
+ 5WJx1Zp8KXSmWW4MwX/2DnpV8mdQBE8+v/9YbTAZjBuFYyLQcipUXNLIH
+ xi4WzhRLAVcmJ8ai5IZZOpTr0J4lcwNziWsWkWWp9fknJkkMyGhogrM+5 g==;
+X-CSE-ConnectionGUID: 4zRvwH0CTKyYpx+KUs6mJA==
+X-CSE-MsgGUID: Ii6xN/6mQP+LKOteadk3rw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="94479218"
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; d="scan'208";a="94479218"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2026 01:05:58 -0800
-X-CSE-ConnectionGUID: IR0nQ4BpTia2fF1oeiy0RA==
-X-CSE-MsgGUID: E50hL+GWTsiq2Spfgku+1A==
+ 10 Feb 2026 01:06:04 -0800
+X-CSE-ConnectionGUID: 7BIlTJm9SnunDkIQClX2Yw==
+X-CSE-MsgGUID: WSlvGoWNSB2GLsKe6gdJuw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; d="scan'208";a="242479019"
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; d="scan'208";a="242479042"
 Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by orviesa002.jf.intel.com with ESMTP; 10 Feb 2026 01:05:53 -0800
+ by orviesa002.jf.intel.com with ESMTP; 10 Feb 2026 01:05:58 -0800
 From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Tue, 10 Feb 2026 14:33:59 +0530
-Subject: [PATCH v9 5/7] drm/atomic: Return user readable error in atomic_ioctl
+Date: Tue, 10 Feb 2026 14:34:00 +0530
+Subject: [PATCH v9 6/7] drm/i915/display: Error codes for async flip failures
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260210-atomic-v9-5-525c88fd2402@intel.com>
+Message-Id: <20260210-atomic-v9-6-525c88fd2402@intel.com>
 References: <20260210-atomic-v9-0-525c88fd2402@intel.com>
 In-Reply-To: <20260210-atomic-v9-0-525c88fd2402@intel.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -64,7 +64,8 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  harry.wentland@amd.com, uma.shankar@intel.com, louis.chauvet@bootlin.com, 
  naveen1.kumar@intel.com, ramya.krishna.yella@intel.com
 Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, Arun R Murthy <arun.r.murthy@intel.com>
+ intel-xe@lists.freedesktop.org, Arun R Murthy <arun.r.murthy@intel.com>, 
+ Suraj Kandpal <suraj.kandpal@intel.com>
 X-Mailer: b4 0.15-dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,7 +93,7 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	ARC_NA(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -105,157 +106,71 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	DKIM_TRACE(0.00)[intel.com:+]
-X-Rspamd-Queue-Id: 6FAF111887B
+X-Rspamd-Queue-Id: 9D54B11888B
 X-Rspamd-Action: no action
 
-Add user readable error codes for failure cases in drm_atomic_ioctl() so
-that user can decode the error code and take corrective measurements.
+For failures in async flip atomic check/commit path return user readable
+error codes in struct drm_atomic_state.
 
 v8: Replaced DRM_MODE_ATOMIC_ASYNC_NOT_SUPP_PLANE,
-    DRM_MODE_ATOMIC_ASYNC_MODIFIER_NOT_SUPP with INVALID_API_USAGE
+    DRM_MODE_ATOMIC_ASYNC_MODIFIER_NOT_SUPP with INVALUD_API_USAGE
     (Xaver)
-v9: Move free atomic_state on error to patch 3 (Suraj)
 
 Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
 ---
- drivers/gpu/drm/drm_atomic_uapi.c | 58 +++++++++++++++++++++++++++++----------
- 1 file changed, 44 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/i915/display/intel_display.c | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index bcd12b6eac4f497d2edb8581d9fb0fd54cbef827..f0c3f080f5d66c733dfbfa23f38a22132193adec 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -1196,6 +1196,11 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
- 			ret = drm_atomic_connector_get_property(connector, connector_state,
- 								prop, &old_val);
- 			ret = drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
-+			if (ret) {
-+				drm_mode_atomic_add_error_msg(&state->error_code,
-+							      DRM_MODE_ATOMIC_ASYNC_PROP_CHANGED,
-+							      "property change not allowed in async flip");
-+			}
- 			break;
- 		}
- 
-@@ -1218,6 +1223,11 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
- 			ret = drm_atomic_crtc_get_property(crtc, crtc_state,
- 							   prop, &old_val);
- 			ret = drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
-+			if (ret) {
-+				drm_mode_atomic_add_error_msg(&state->error_code,
-+							      DRM_MODE_ATOMIC_ASYNC_PROP_CHANGED,
-+							      "property change not allowed in async flip");
-+			}
- 			break;
- 		}
- 
-@@ -1256,9 +1266,10 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
- 					ret = plane_funcs->atomic_async_check(plane, state, true);
- 
- 				if (ret) {
--					drm_dbg_atomic(prop->dev,
--						       "[PLANE:%d:%s] does not support async flips\n",
--						       obj->id, plane->name);
-+					drm_mode_atomic_add_error_msg(&state->error_code,
-+								      DRM_MODE_ATOMIC_INVALID_API_USAGE,
-+								      "[PLANE:%d:%s] does not support async flip",
-+								      obj->id, plane->name);
- 					break;
- 				}
- 			}
-@@ -1568,6 +1579,7 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
- 	struct drm_atomic_state *state;
- 	struct drm_modeset_acquire_ctx ctx;
- 	struct drm_out_fence_state *fence_state;
-+	struct drm_mode_atomic_err_code __user *error_code_ptr;
- 	int ret = 0;
- 	unsigned int i, j, num_fences = 0;
- 	bool async_flip = false;
-@@ -1576,6 +1588,14 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
- 	if (!drm_core_check_feature(dev, DRIVER_ATOMIC))
- 		return -EOPNOTSUPP;
- 
-+	if (!arg->reserved)
-+		drm_dbg_atomic(dev,
-+			       "memory not allocated for drm_atomic error reporting\n");
-+	else
-+		/* Update the error code if any error to allow user handling it */
-+		error_code_ptr = (struct drm_mode_atomic_err_code __user *)
-+				 (unsigned long)arg->reserved;
-+
- 	state = drm_atomic_state_alloc(dev);
- 	if (!state)
- 		return -ENOMEM;
-@@ -1584,11 +1604,16 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
- 	state->acquire_ctx = &ctx;
- 	state->allow_modeset = !!(arg->flags & DRM_MODE_ATOMIC_ALLOW_MODESET);
- 
-+	memset(&state->error_code, 0, sizeof(*error_code_ptr));
-+
- 	/* disallow for userspace that has not enabled atomic cap (even
- 	 * though this may be a bit overkill, since legacy userspace
- 	 * wouldn't know how to call this ioctl)
- 	 */
- 	if (!file_priv->atomic) {
-+		drm_mode_atomic_add_error_msg(&state->error_code,
-+					      DRM_MODE_ATOMIC_INVALID_API_USAGE,
-+					      "drm atomic capability not enabled");
- 		drm_dbg_atomic(dev,
- 			       "commit failed: atomic cap not enabled\n");
- 		ret = -EINVAL;
-@@ -1596,21 +1621,18 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 7491e00e385854bde3eb176282e05259cf95b7a3..02ddd7133378ac3c1e3b7ed808beb6e12182e279 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -6016,9 +6016,10 @@ static int intel_async_flip_check_uapi(struct intel_atomic_state *state,
  	}
  
- 	if (arg->flags & ~DRM_MODE_ATOMIC_FLAGS) {
--		drm_dbg_atomic(dev, "commit failed: invalid flag\n");
--		ret = -EINVAL;
--		goto out;
--	}
--
--	if (arg->reserved) {
--		drm_dbg_atomic(dev, "commit failed: reserved field set\n");
-+		drm_mode_atomic_add_error_msg(&state->error_code,
-+					      DRM_MODE_ATOMIC_INVALID_API_USAGE,
-+					      "invalid flag");
- 		ret = -EINVAL;
- 		goto out;
+ 	if (intel_crtc_needs_modeset(new_crtc_state)) {
+-		drm_dbg_kms(display->drm,
+-			    "[CRTC:%d:%s] modeset required\n",
+-			    crtc->base.base.id, crtc->base.name);
++		drm_mode_atomic_add_error_msg(&state->base.error_code,
++					      DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET,
++					      "[CRTC:%d:%s] requires full modeset",
++					      crtc->base.base.id, crtc->base.name);
+ 		return -EINVAL;
  	}
  
- 	if (arg->flags & DRM_MODE_PAGE_FLIP_ASYNC) {
- 		if (!dev->mode_config.async_page_flip) {
--			drm_dbg_atomic(dev,
--				       "commit failed: DRM_MODE_PAGE_FLIP_ASYNC not supported\n");
-+			drm_mode_atomic_add_error_msg(&state->error_code,
+@@ -6085,9 +6086,10 @@ static int intel_async_flip_check_hw(struct intel_atomic_state *state, struct in
+ 	}
+ 
+ 	if (intel_crtc_needs_modeset(new_crtc_state)) {
+-		drm_dbg_kms(display->drm,
+-			    "[CRTC:%d:%s] modeset required\n",
+-			    crtc->base.base.id, crtc->base.name);
++		drm_mode_atomic_add_error_msg(&state->base.error_code,
++					      DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET,
++					      "[CRTC:%d:%s] requires full modeset",
++					      crtc->base.base.id, crtc->base.name);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -6125,11 +6127,12 @@ static int intel_async_flip_check_hw(struct intel_atomic_state *state, struct in
+ 
+ 		if (!intel_plane_can_async_flip(plane, new_plane_state->hw.fb->format,
+ 						new_plane_state->hw.fb->modifier)) {
+-			drm_dbg_kms(display->drm,
+-				    "[PLANE:%d:%s] pixel format %p4cc / modifier 0x%llx does not support async flip\n",
+-				    plane->base.base.id, plane->base.name,
+-				    &new_plane_state->hw.fb->format->format,
+-				    new_plane_state->hw.fb->modifier);
++			drm_mode_atomic_add_error_msg(&state->base.error_code,
 +						      DRM_MODE_ATOMIC_INVALID_API_USAGE,
-+						      "DRM_MODE_PAGE_FLIP_ASYNC not supported with ATOMIC ioctl");
- 			ret = -EINVAL;
- 			goto out;
++						      "[PLANE:%d:%s] pixel format %p4cc / 0x%llx modifier does not support async flip",
++						      plane->base.base.id, plane->base.name,
++						      &new_plane_state->hw.fb->format->format,
++						      new_plane_state->hw.fb->modifier);
+ 			return -EINVAL;
  		}
-@@ -1621,8 +1643,9 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
- 	/* can't test and expect an event at the same time. */
- 	if ((arg->flags & DRM_MODE_ATOMIC_TEST_ONLY) &&
- 			(arg->flags & DRM_MODE_PAGE_FLIP_EVENT)) {
--		drm_dbg_atomic(dev,
--			       "commit failed: page-flip event requested with test-only commit\n");
-+		drm_mode_atomic_add_error_msg(&state->error_code,
-+					      DRM_MODE_ATOMIC_INVALID_API_USAGE,
-+					      "page-flip event requested with test-only commit");
- 		ret = -EINVAL;
- 		goto out;
- 	}
-@@ -1725,6 +1748,13 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
- 	}
- 
- out:
-+	/* Update the error code if any error to allow user handling it */
-+	if (ret < 0 && arg->reserved) {
-+		if (copy_to_user(error_code_ptr, &state->error_code,
-+				 sizeof(state->error_code)))
-+			return -EFAULT;
-+	}
-+
- 	if (num_fences)
- 		complete_signaling(dev, state, fence_state, num_fences, !ret);
  
 
 -- 
