@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qBRbLlv2imn2OwAAu9opvQ
+	id KG/+GV/2imkePAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:11:55 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:11:59 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A0C1189FE
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:11:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B20118A16
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:11:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC51110E512;
-	Tue, 10 Feb 2026 09:11:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68E1010E515;
+	Tue, 10 Feb 2026 09:11:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fmG6H8RQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RxOiS5i9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7411610E518
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 09:11:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A861C10E515
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 09:11:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E9E2560145;
- Tue, 10 Feb 2026 09:11:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 493A2C19425;
- Tue, 10 Feb 2026 09:11:51 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 292B160123;
+ Tue, 10 Feb 2026 09:11:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A0FEC19424;
+ Tue, 10 Feb 2026 09:11:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770714711;
- bh=R0gBLW5cQqUQYsNQQPZzb8WlOCqapQClqffroZ12gBM=;
+ s=k20201202; t=1770714714;
+ bh=3cc14LQq6s8l6cJQEbYbcyIgeKXO7CQ2aFt03lzrcJg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fmG6H8RQ3JEvBcThjz/ZJqsckZoOr6Q3QTRFPE+gT9r10khfjNyJQNlu/H/1zOe1I
- aUfw3STZXAQL3IdB3MWojbMV5baTpp/g5K1u1FeZFudblUJ9MQfUbglZ7NqaJ0S3Mk
- 8ENkfbmo+YAQN41Pf3UBKRl2QLmbQIqFpQoNyeLVyelGP9fqzsuYsOEtVIc8MJlOJW
- irqb77Zsqu1gQaUsNL5IRZGb8EJ5m23hYEcZ8Tj1pZsapfk1XRg1CHEdChk2eMEthJ
- LiUjucXFDIij8JaPa843eY5xXxJrrx19OcgsQt976sQdFGYpUG3UttR65OsL1Dm8IJ
- aLAjiV4zjzU1w==
+ b=RxOiS5i9W9pzZilmXJDpuE0qwvX4wCogbbI7HY2vdBDRmGMagAU1swn3cm7RNENNL
+ 2MHjtmNYQxEWKpgdPWPiI1QuCwdzlwx9m77haH8kQUcxWdT2l+D0TEEJ3n7t3oUtqf
+ JsykcGxinFrudMfjWxh4xnK8NET/hXf/3h6dKA/5aSr9PgDz1/2pXStQxgSMqZp+Sv
+ F3SSUDDFnmIp8vf2K83l6T5rTwCOh9jzYZnbD/YOibJlI7TRxixu9qZw9NPCLOv1K0
+ +ucpxe96rDBHtosdsYfXZSSmdsCu2Z02vw94DaP8PUdDQhglUOcctMlPUl9EmLsWY7
+ RPpeDxX/aRn/A==
 From: Maxime Ripard <mripard@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH v4 08/15] drm/arm: komeda: Switch private_obj
+Cc: dri-devel@lists.freedesktop.org, Paul Cercueil <paul@crapouillou.net>,
+ linux-mips@vger.kernel.org
+Subject: Re: (subset) [PATCH v4 09/15] drm/ingenic: Switch private_obj
  initialization to atomic_create_state
-Date: Tue, 10 Feb 2026 10:11:22 +0100
-Message-ID: <177071465918.1461206.17185646454031999794.b4-ty@kernel.org>
+Date: Tue, 10 Feb 2026 10:11:23 +0100
+Message-ID: <177071465918.1461206.16066343662695065118.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260128-drm-private-obj-reset-v4-8-90891fa3d3b0@redhat.com>
+In-Reply-To: <20260128-drm-private-obj-reset-v4-9-90891fa3d3b0@redhat.com>
 References: <20260128-drm-private-obj-reset-v4-0-90891fa3d3b0@redhat.com>
- <20260128-drm-private-obj-reset-v4-8-90891fa3d3b0@redhat.com>
+ <20260128-drm-private-obj-reset-v4-9-90891fa3d3b0@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -76,7 +76,7 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:mripard@kernel.org,m:liviu.dudau@arm.com,m:dmitry.baryshkov@oss.qualcomm.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:mripard@kernel.org,m:paul@crapouillou.net,m:linux-mips@vger.kernel.org,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[linux.intel.com,suse.de,gmail.com,ffwll.ch,kernel.org];
 	ARC_NA(0.00)[];
 	FORGED_SENDER(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
@@ -98,13 +98,13 @@ X-Spamd-Result: default: False [-1.31 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 91A0C1189FE
+X-Rspamd-Queue-Id: 16B20118A16
 X-Rspamd-Action: no action
 
-On Wed, 28 Jan 2026 13:43:52 +0100, Maxime Ripard wrote:
-> The ARM komeda driver relies on a number of drm_private_objs, that are
-> initialized by allocating and initializing a state, and then passing it
-> to drm_private_obj_init.
+On Wed, 28 Jan 2026 13:43:53 +0100, Maxime Ripard wrote:
+> The ingenic driver relies on two drm_private_objs, that are initialized
+> by allocating and initializing a state, and then passing it to
+> drm_private_obj_init.
 > 
 > Since we're gradually moving away from that pattern to the more
 > established one relying on a atomic_create_state implementation, let's
