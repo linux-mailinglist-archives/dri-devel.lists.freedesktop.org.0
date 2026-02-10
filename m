@@ -2,59 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kKV9Gn5ui2lhUQAAu9opvQ
+	id CNWpN4Jui2lhUQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 18:44:30 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 18:44:34 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B63EB11E0BF
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 18:44:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A1F11E0C6
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 18:44:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 432F110E5C7;
-	Tue, 10 Feb 2026 17:44:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B5F310E5E7;
+	Tue, 10 Feb 2026 17:44:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="OkLhmIXu";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="UXb3cP1T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93FDF10E5C7
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 17:44:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1770745453; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A54F510E5E7
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 17:44:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1770745459; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=h0Adducs1Zi5wPfbd5aSBQsdRLp5SylY2PacQlT5211qm04OF+gqXOvFgK1+U8Zn+yUY+Argw9fU9dyZjw1dQb09fYePdgEFiU4T/Vhy65uxnw5oDI777siru7nlquyntGfHGD1p7OjFV7RWUbO184p+GYbyRzuxx3VwPUN8RzA=
+ b=ADy9Ah/jyEJAs50HX5o4Nslb5MGauHR8lPaTxicTkZwhw9c/r9Er3dL+e/Hv+uEFzn2ezc1p14JxukTPJl45npa6pMqHTNa6yszSq8156+glDPltrbt/5NuQk84V7dsiauaXUtlHRrMLMTZlcVPhdzLBdRF1R1THN8j9lDuPlR0=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1770745453;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=QWsNiC+QFoLc5WceTaLYGAIKhlik7N8ndqcYMmie4ug=; 
- b=h3P7UU5LJa9Ji0ECjRffbjwSFNXhAZObSWyFFZm0Vcpu15Tj0HCo9abZwapzcsTzicexMWQiYTaKgfb+rcTXph06T5jEKoZAl1zz1BRhGKFNdol7e9rFz1S2vXmeGDBroPF3jFjmB4Ltn8IfhKF4kBX34jWdKxAIqmCYjYzZfYw=
+ s=zohoarc; t=1770745459;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=LNRovEbtfHkKRh0AXjFuiVuU/ELpmYBmCX00hsih2Nw=; 
+ b=YDFNhE530MpOdCGY69R0eLqZpG8Gz/iQ93CuYg6EmGyltj9aGooImQ844MAiiir9U89mtRz12d4QI+hBWMNxBQj/AMBXa9WDMJKiWsWB1but//kcYmb5RhF96N215HRYFa2HARXgWGqGjcI5BoD8ISr4b6RRZlSylVJYG4g3DoE=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
  dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770745453; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770745459; 
  s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
- h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
- bh=QWsNiC+QFoLc5WceTaLYGAIKhlik7N8ndqcYMmie4ug=;
- b=OkLhmIXuByc5Sy+lS8av2gEZGDPJCTNiVK7JiCtJZ1fcm4PpzMzBi6YKazsWwyPE
- MInMKMIZtpLTWp5Vdp5POuqH5OK4BM2cdNTpwMapQ2fiq8ufWLsrhc3nJLzKXLYAoTs
- 6wntq3blK20+/fQbPPptgWXu0S3GAynuowJMd3rc=
-Received: by mx.zohomail.com with SMTPS id 1770745452102862.1193155909192;
- Tue, 10 Feb 2026 09:44:12 -0800 (PST)
+ h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
+ bh=LNRovEbtfHkKRh0AXjFuiVuU/ELpmYBmCX00hsih2Nw=;
+ b=UXb3cP1Tzi2JXrMjM5KBB/kaycgYtzrUC3yQy+RvOpIKvOFJA0W2mv9hu8IyC8mr
+ Piai0+Bu06s8dfFO9dnCzrJl9E3u3GNU9o3+B28Ut2X8u605DRJoe4qDccFtYAcrckk
+ RGNDko+DZoJeSrIRAR6+AnF2mE1X+eKyLnUKm504=
+Received: by mx.zohomail.com with SMTPS id 1770745457657929.5746885085033;
+ Tue, 10 Feb 2026 09:44:17 -0800 (PST)
 From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Subject: [PATCH v2 0/2] drm/vkms: Fix bad matrix offset component
+Date: Tue, 10 Feb 2026 14:44:00 -0300
+Subject: [PATCH v2 1/2] drm/vkms: Fix bad matrix offset component
  multiplication
-Date: Tue, 10 Feb 2026 14:43:59 -0300
-Message-Id: <20260210-vkms-composer-fix-matrix-v2-0-d1ed09cb23e8@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAF9ui2kC/4WO0Q6CMAxFf4X02ZltOM188j8MDwOLLDKG21wwh
- H+3wAeYPjS37bm3M0QMFiNcixkCZhutH0jIQwFNZ4YnMvsgDZJLJaQsWX65yBrvRk8ka+3EnEm
- BmjGyUbpsT0ooIHwMSNvN+l7tOuD7QwlpH0JtIq5WzqZrMeCU2J4iNKxAZ2Py4bu9lsVG/P8iC
- 0bFjb5o5GfJ9a3xfW9qH8yR7qFaluUH2aSrx/UAAAA=
-X-Change-ID: 20251223-vkms-composer-fix-matrix-aa2c593f4515
+Message-Id: <20260210-vkms-composer-fix-matrix-v2-1-d1ed09cb23e8@collabora.com>
+References: <20260210-vkms-composer-fix-matrix-v2-0-d1ed09cb23e8@collabora.com>
+In-Reply-To: <20260210-vkms-composer-fix-matrix-v2-0-d1ed09cb23e8@collabora.com>
 To: Louis Chauvet <louis.chauvet@bootlin.com>, 
  Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
  Melissa Wen <melissa.srw@gmail.com>, 
@@ -66,11 +63,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  daniels@collabora.com, kernel@collabora.com, 
  Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1770745445; l=1456;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770745445; l=2157;
  i=ariel.dalessandro@collabora.com; s=20251223; h=from:subject:message-id;
- bh=8eXdw9IMnvviHBd51HjjaDqBFrLTMAvRj6Edq91IDyk=;
- b=H6ZaVo6Rndwd5UaHqIl7GIczmjrEEi60FA8yHyI/7leiVhUfQ5Acb1vhqcAhaconX2aQP607a
- U8knZbyUAcgBokv7ye1J+B3sN+Drznr7hm6/XDOWy+dYqhT/8pmDwx4
+ bh=ZlVDrOebMLnAkRmLLuKK3IdG4NpxWMM1uSrfJfPkgjs=;
+ b=Zo+xvizGvZOUeRZjRkG0WgfpUvFG9gf9oD8w3xi+TP5xB7hzod0b1lVGmf8QzPjvx8y0MWcdp
+ BOVpTI2l+p4CH1VcvPg1fZ/+58lFzcn3p1egwH2P4hHfJWyVeXXgXvW
 X-Developer-Key: i=ariel.dalessandro@collabora.com; a=ed25519;
  pk=QZRL9EsSBV3/FhDHi9L/7ZTz2dwa7iyqgl+y1UYaQXQ=
 X-ZohoMailClient: External
@@ -119,42 +116,62 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:mid,collabora.com:dkim,collabora.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: B63EB11E0BF
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:mid,collabora.com:dkim,collabora.com:email]
+X-Rspamd-Queue-Id: 47A1F11E0C6
 X-Rspamd-Action: no action
 
-This patch series fixes a bug in the 3x4 matrix multiplication for BT709
-enconding/decoding, where the offset component if not handled properly.
-
-Currently, BT.709 encoding matrix kunit tests don't cover the offset
-component multiplication, so a new set of tests is added.
-
-The bug was found while working on the IGT tools CRTC (post-blend) color
-pipelines, see submitted patchset [0] (patch [1] in particular) for the
-full context.
-
-[0] https://lore.kernel.org/igt-dev/20251223-post-blend-colorops-v2-0-f40aca9795bd@collabora.com/
-[1] https://lore.kernel.org/igt-dev/20251223-post-blend-colorops-v2-7-f40aca9795bd@collabora.com/
+Pixels values are packed as 16-bit UNORM values, so the matrix offset
+components must be multiplied properly by the idempotent element -i.e.
+number 1 encoded as 16-bit UNORM-.
 
 Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 ---
-Changes in v2:
-- Added kunit tests for alternative BT709 encoding matrix.
-- Link to v1: https://lore.kernel.org/r/20251223-vkms-composer-fix-matrix-v1-1-10a979e06209@collabora.com
+ drivers/gpu/drm/vkms/vkms_composer.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
----
-Ariel D'Alessandro (2):
-      drm/vkms: Fix bad matrix offset component multiplication
-      drm/vkms: Add kunit tests for alternative BT709 encoding matrix
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index cd85de4ffd03d..d53ea4189c97b 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -17,6 +17,8 @@
+ #include "vkms_composer.h"
+ #include "vkms_luts.h"
+ 
++#define UNORM_16BIT_ONE			(1ULL << 16)
++
+ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
+ {
+ 	u32 new_color;
+@@ -139,20 +141,25 @@ VISIBLE_IF_KUNIT void apply_3x4_matrix(struct pixel_argb_s32 *pixel,
+ 	g = drm_int2fixp(pixel->g);
+ 	b = drm_int2fixp(pixel->b);
+ 
++	/*
++	 * Pixels values are packed as 16-bit UNORM values, so the matrix offset
++	 * components must be multiplied properly by the idempotent element -i.e.
++	 * number 1 encoded as 16-bit UNORM-.
++	 */
+ 	rf = drm_fixp_mul(drm_sm2fixp(matrix->matrix[0]), r) +
+ 	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[1]), g) +
+ 	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[2]), b) +
+-	     drm_sm2fixp(matrix->matrix[3]);
++	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[3]), drm_int2fixp(UNORM_16BIT_ONE));
+ 
+ 	gf = drm_fixp_mul(drm_sm2fixp(matrix->matrix[4]), r) +
+ 	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[5]), g) +
+ 	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[6]), b) +
+-	     drm_sm2fixp(matrix->matrix[7]);
++	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[7]), drm_int2fixp(UNORM_16BIT_ONE));
+ 
+ 	bf = drm_fixp_mul(drm_sm2fixp(matrix->matrix[8]), r) +
+ 	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[9]), g) +
+ 	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[10]), b) +
+-	     drm_sm2fixp(matrix->matrix[11]);
++	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[11]), drm_int2fixp(UNORM_16BIT_ONE));
+ 
+ 	pixel->r = drm_fixp2int_round(rf);
+ 	pixel->g = drm_fixp2int_round(gf);
 
- drivers/gpu/drm/vkms/tests/vkms_color_test.c | 146 +++++++++++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_composer.c         |  13 ++-
- 2 files changed, 156 insertions(+), 3 deletions(-)
----
-base-commit: b96bcfba104c65db41378a04f5ccac186f79578f
-change-id: 20251223-vkms-composer-fix-matrix-aa2c593f4515
-
-Best regards,
 -- 
-Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+2.51.0
 
