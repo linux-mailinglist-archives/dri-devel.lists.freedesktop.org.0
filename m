@@ -2,57 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SDkBMsf2imkePAAAu9opvQ
+	id QCYYIuj2imkePAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:13:43 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:14:16 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D4A118B5A
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:13:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9B45118B89
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 10:14:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 890B510E518;
-	Tue, 10 Feb 2026 09:13:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2760410E520;
+	Tue, 10 Feb 2026 09:14:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aSkuneob";
+	dkim=pass (2048-bit key; unprotected) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="p0Avxsf2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70F1910E518
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 09:13:37 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 8F53D60137;
- Tue, 10 Feb 2026 09:13:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E75B0C116C6;
- Tue, 10 Feb 2026 09:13:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770714816;
- bh=r94bS5lPermEoXkPGXiF/iNxCw6NrAvouaw19DmgW64=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aSkuneobr55lzOv5Rhu/GobRMnha20TvIzpr9yO8/r3aDhgJ1sDStePVvD3LCJYcX
- pPK1PzI3Jqx5ZFRUMXTDTfqcDn9N3yKJcIbnTxR2rk1zxhJfa7DsT2dKthdf+ASDwY
- XxM7VgANqDQ9S/VxR6MpZ+il11csnZr3mKwCVfUH+/vfroxYvjLrP7kRcBMxCtEti2
- DmYVkIDfnCsHncOtJpaUpweC5yk63RMduoZr69i3noqyBdTHSZjhrwGC2i/u1H3NL8
- YPke9Qaofskr02tQdU0ZuS5Ka7PHmcjL/oAXTA+NH/TpoTl7cjHREYhN59bPEJ849E
- /1pCBpCvalftw==
-Date: Tue, 10 Feb 2026 10:13:33 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, kernel-list@raspberrypi.com
-Subject: Re: [PATCH v4 14/15] drm/vc4: Switch private_obj initialization to
- atomic_create_state
-Message-ID: <20260210-impossible-smoky-bullmastiff-a75cc2@houat>
-References: <20260128-drm-private-obj-reset-v4-0-90891fa3d3b0@redhat.com>
- <20260128-drm-private-obj-reset-v4-14-90891fa3d3b0@redhat.com>
- <64a6f534-b94b-4a53-ae7f-4171168837ed@igalia.com>
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB12710E520
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 09:14:12 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-480142406b3so41497815e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 01:14:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1770714851; x=1771319651;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=1n+Dri69ZtsJrD5f7LTNPULLrK+Vi4bS2T/sVYZliNI=;
+ b=p0Avxsf2uZuzqxsF5SUV0UZvFJuzABBZRCQHE7Y000H3uugIiRkfAJFaWZHHFDa7Sf
+ JOWnWcDZDJd4Gq1obfy3XI3qBJ5Hrci4XI2CE66mU38iNH8EqYvNYYHrRVA0kZv9tgQG
+ H4kxDSWhZd8qmiY58S4WSZrioDEiseoseXAMrjAWn5fU5k+JIdxheAW/7LNBA5dIEXbi
+ Elr1FbvO3flxcW4+kx+vFbIa8TOldZNpghaUxmL5me3VPLTZpif5wmPSEJZPL8VP4kwd
+ TTXLHSK1aGQV3bQU0E0nY7xf9IWngtwG1t4lrujKDd/XOWXKzok77E+UVcdwKWtlaigW
+ OJqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770714851; x=1771319651;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1n+Dri69ZtsJrD5f7LTNPULLrK+Vi4bS2T/sVYZliNI=;
+ b=nhsxcEeSl9smUkbjDnhmBmoFQlyUFsjZvoCC6zd8bnUYIKYV8Zgrs1vO59IX5EvDoS
+ Q16Y+aeayC5PQK3TChY0lB+8GJ5dCiEgG0KwETaWsRlglsN/SkP0+Y6pkHqUPTmSJ3Ai
+ lkKu3OYlnvRTiN3GOW2rajgZNEl68lpaS4GEX2YTIrltNHCVl9ubpErGcJ50f/Um/IdT
+ 6cEZuepwLBPwoFhySUHHnACVBiALW2LToXfqUj4PLhxjApEIxmEcwPgUOrLfmFrQN5RO
+ 8z8fJDh/ZNi6JoAXDbatLKHoRR73T0JU4jMmTLdaflI7Wr3nL7Z2bxZDE/ZpXPUQ1Quh
+ 1qVA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU/fhptFqqa/a1vc7S9uP+C7ADrkxwPj7hsNP8qIFaJHBWdsq6q+Ux/52kyT0rF9XkZKOw1RVUAZXo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxLgWFeGKV971Msl/464rrEEbPL/PdZxzOQr+SSgmcYSb8JP9S4
+ bCkCKTUNM2VAldTqilZDZZ2o12gQ95TvZ+2QcescMxyBvFEkhmWXiBiuashDnmMJxzpLx7sUBvu
+ +8yVw
+X-Gm-Gg: AZuq6aI3nnwPSusO4hZSE4FT5BlCL6qfBs2a6SXk25CZdS4SbAKc8ND9KeAz9HlpkTm
+ 7PmGP60a48U5ZckhI+nFlyCnVFEeNlAuGvD8fNZ4yl1A/pcJiIIDs9JkT9A0fXpPkZcQBU/18k8
+ QqYXCbx2CuYvNGJapzE+7jiEd6jOGOPVb98X+g9VeEUY1iAckPCmB+bE2f5RRYL04DNcGMD5WBa
+ xJuFQGcOgshxocq7YLbATRg9I5UtLgxDWf0CZjorT4+H36/3s47I9gFk1VHqNnXwo4gwMZQS0h7
+ A+jPRPBAWkqDfA06Ta474FB/3R53vXr0PQyJzAVt21VMbSRJ6XAIVBTkbNYsn622Qbn2gSFiVY4
+ M5t9cNnjCKo3xAG96mIubTHU5KVNilZqN3v9H19ne8NKTbhbZuOwpvzS0Qcukh35e8C5ejCU6nr
+ kP9FL/WhBN8Ew02nbh+W0COyuMUJ3irGCBEp0=
+X-Received: by 2002:a05:600c:1daa:b0:475:da1a:53f9 with SMTP id
+ 5b1f17b1804b1-483507f08c6mr21095375e9.14.1770714851014; 
+ Tue, 10 Feb 2026 01:14:11 -0800 (PST)
+Received: from FV6GYCPJ69 ([140.209.217.211]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4834d7f1e4fsm61726245e9.15.2026.02.10.01.14.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Feb 2026 01:14:10 -0800 (PST)
+Date: Tue, 10 Feb 2026 10:14:08 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: John Stultz <jstultz@google.com>, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev,
+ linux-media@vger.kernel.org, 
+ sumit.semwal@linaro.org, benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
+ tjmercier@google.com, christian.koenig@amd.com, m.szyprowski@samsung.com, 
+ robin.murphy@arm.com, leon@kernel.org, sean.anderson@linux.dev,
+ ptesarik@suse.com, 
+ catalin.marinas@arm.com, aneesh.kumar@kernel.org, suzuki.poulose@arm.com, 
+ steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com, 
+ ashish.kalra@amd.com, suravee.suthikulpanit@amd.com, linux-coco@lists.linux.dev
+Subject: Re: [PATCH 4/5] dma-buf: heaps: allow heap to specify valid heap flags
+Message-ID: <tgvdjszwxggr53digbmddcbxvupzl4xcoprofkgrs2kgf6rknx@44ebljjpghjm>
+References: <20260209153809.250835-1-jiri@resnulli.us>
+ <20260209153809.250835-5-jiri@resnulli.us>
+ <CANDhNCoHEZsNRmU+3z5AbeAy05H7PTtUdTq1apNd5k0f9hWW8A@mail.gmail.com>
+ <20260210002927.GC943673@ziepe.ca>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="f2i3o44zvbz4ltod"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <64a6f534-b94b-4a53-ae7f-4171168837ed@igalia.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260210002927.GC943673@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,99 +107,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.91 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+X-Spamd-Result: default: False [-0.31 / 15.00];
 	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[resnulli-us.20230601.gappssmtp.com:s=20230601];
+	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[resnulli.us];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:mcanal@igalia.com,m:maarten.lankhorst@linux.intel.com,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:dave.stevenson@raspberrypi.com,m:kernel-list@raspberrypi.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:jgg@ziepe.ca,m:jstultz@google.com,m:linaro-mm-sig@lists.linaro.org,m:iommu@lists.linux.dev,m:linux-media@vger.kernel.org,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:m.szyprowski@samsung.com,m:robin.murphy@arm.com,m:leon@kernel.org,m:sean.anderson@linux.dev,m:ptesarik@suse.com,m:catalin.marinas@arm.com,m:aneesh.kumar@kernel.org,m:suzuki.poulose@arm.com,m:steven.price@arm.com,m:thomas.lendacky@amd.com,m:john.allen@amd.com,m:ashish.kalra@amd.com,m:suravee.suthikulpanit@amd.com,m:linux-coco@lists.linux.dev,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[jiri@resnulli.us,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FREEMAIL_CC(0.00)[linux.intel.com,suse.de,gmail.com,ffwll.ch,lists.freedesktop.org,raspberrypi.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[jiri@resnulli.us,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[resnulli-us.20230601.gappssmtp.com:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 35D4A118B5A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,resnulli-us.20230601.gappssmtp.com:dkim,ziepe.ca:email]
+X-Rspamd-Queue-Id: C9B45118B89
 X-Rspamd-Action: no action
 
+Tue, Feb 10, 2026 at 01:29:27AM +0100, jgg@ziepe.ca wrote:
+>On Mon, Feb 09, 2026 at 12:08:03PM -0800, John Stultz wrote:
+>> On Mon, Feb 9, 2026 at 7:38 AM Jiri Pirko <jiri@resnulli.us> wrote:
+>> >
+>> > From: Jiri Pirko <jiri@nvidia.com>
+>> >
+>> > Currently the flags, which are unused, are validated for all heaps.
+>> > Since the follow-up patch introduces a flag valid for only one of the
+>> > heaps, allow to specify the valid flags per-heap.
+>> 
+>> I'm not really in this space anymore, so take my feedback with a grain of salt.
+>> 
+>> While the heap allocate flags argument is unused, it was intended to
+>> be used for generic allocation flags that would apply to all or at
+>> least a wide majority of heaps.
+>> 
+>> It was definitely not added to allow for per-heap or heap specific
+>> flags (as this patch tries to utilize it). That was the mess we had
+>> with ION driver that we were trying to avoid.
+>
+>I don't know alot about DMA heaps..
+>
+>On a CC VM system the shared/private property is universal and applies
+>to every physical address. Not every address can dynamically change
+>between shared and private, but every address does have a
+>shared/private state.
+>
+>By default userspace process generally run exclusively in private
+>memory and there are very few ways for userspace to even access shared
+>memory.
+>
+>From a heaps perspective the API would be very strange, and perhaps
+>even security dangerous, if it is returning shared memory to userspace
+>without userspace knowing this is happening.
+>
+>I'd advocate that the right design is for userspace to positively
+>signal via this flag that it wants/accepts shared memory and without
+>the flag shared memory should never be returned.
 
---f2i3o44zvbz4ltod
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 14/15] drm/vc4: Switch private_obj initialization to
- atomic_create_state
-MIME-Version: 1.0
+We can have the same behaviour with the separate heap, can't we?
+Userpace positively signals it wants/accepts the shared memory by
+choosing "system_cc_decrypted" heap name.
 
-Hi Maira,
-
-Thanks for the review!
-
-On Sat, Feb 07, 2026 at 05:34:58PM -0300, Ma=EDra Canal wrote:
-> > @@ -716,13 +725,28 @@ static void vc4_load_tracker_destroy_state(struct=
- drm_private_obj *obj,
-> >   	load_state =3D to_vc4_load_tracker_state(state);
-> >   	kfree(load_state);
-> >   }
-> > +static struct drm_private_state *
-> > +vc4_load_tracker_create_state(struct drm_private_obj *obj)
-> > +{
-> > +	struct vc4_load_tracker_state *load_state;
-> > +
-> > +	load_state =3D kzalloc(sizeof(*load_state), GFP_KERNEL);
-> > +	if (!load_state)
-> > +		return ERR_PTR(-ENOMEM);
-> > +
-> > +	__drm_atomic_helper_private_obj_create_state(obj, &load_state->base);
-> > +
-> > +	return &load_state->base;
-> > +}
-> > +
-> >   static const struct drm_private_state_funcs vc4_load_tracker_state_fu=
-ncs =3D {
-> >   	.atomic_duplicate_state =3D vc4_load_tracker_duplicate_state,
-> >   	.atomic_destroy_state =3D vc4_load_tracker_destroy_state,
-> > +	.atomic_create_state =3D vc4_load_tracker_create_state,
->=20
-> Minor nit: just to keep things consistent, could you move this hook to
-> the first line?
-
-Good catch, I've fixed it up while applying.
-
-Thanks!
-Maxime
-
---f2i3o44zvbz4ltod
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaYr2vQAKCRAnX84Zoj2+
-dqIcAYCXlvXcZu5MDerDSBZ/3YdSXV5R3e/BMlucK9gUKDd7cf+dMtcnyP1VV41l
-5+aAW5QBf1bqnRIVorSLMOslKE0teBi3z5tP5tXP6Lk9W8puqWiA5PzLWNTO15r0
-cU7J1tKaOg==
-=1S4T
------END PGP SIGNATURE-----
-
---f2i3o44zvbz4ltod--
+[...]
