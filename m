@@ -2,134 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GKpkKS+Ei2neVAAAu9opvQ
+	id wAx6IkyEi2neVAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 20:17:03 +0100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 20:17:32 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26E2411E911
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 20:17:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C3811E927
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Feb 2026 20:17:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B601D10E3B0;
-	Tue, 10 Feb 2026 19:17:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC9C910E04E;
+	Tue, 10 Feb 2026 19:17:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="uvstinj/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="W/8Auz55";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY3PR05CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11013014.outbound.protection.outlook.com
- [40.93.201.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F95310E3B0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 19:16:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DXI0wFyPgJ2n+n95eF+tH4hy10Inyr6PSf0Fij2mfjyLyHLqdIcJYemZgEL4MpSKfI5Hqbo2ENwizDcsuBhdMTREtARSqNfCQR/L9nmS7OnzfR5R7LF7YbZrVSZccCo2C3OKbcCDgCL9ZRxNxC49Gqq8nRcDQNhRi/RaNYY6NZt6w0svYcvyl7idLIvY8pJZFgKXEgVAiQX3yxtzfLNQQ5ATuE9kxp6UdaYO8M7QgQGEr/oLRI7UlEOP1SHPCg2T/EPFYmEPNo031Rw11vfKYBv0GaGFtUbI1BlBNhOQTo6eaAOpUc79S2kcAW7QWb9BBhnW1gzxFjoGCf5INJtVFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GNT9QtCdhNSePpiRGOOrsGMNZqqkz6KPMDUxwz4aIYA=;
- b=fyVeXV9lATiIHxBaoyI3HXcKdYEOWCnVcoHR9jo3jchmyR1lpjsSFaDj4oQFcQbSJNizvb1mxfegK5g8eZdgS244EiNsv8FwxpF34SFJQFF2laGrIw0V997cD6xrU+skOGfC3XXkdUuzbEyyFz73UkQLEiu/RZj0f17IEWzI/3QhyQnCwihdeMWrdhV+9EYOd6gBLsdj4tE4y4M/baNbpsCO0NmeXKn5Q1tqtV0MuI2EXAycEcC0HRxIjB1wMl7Jvb7Zr58qIlCs9iAaMJ+V9OwCLNaSunuSMsCWZZLUf6d8WWh4mFxnzUUOVXJFm36o/CQOkvfPwvwT8NrbHs7YPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GNT9QtCdhNSePpiRGOOrsGMNZqqkz6KPMDUxwz4aIYA=;
- b=uvstinj/0yQ0+Cx4TWi6iZsAbLm9RRAdPx2k0UACMEnY0kKco9t+sWapBlkVNNohcGIJJqtl1rB1ZaNWe9HaJqdI9Z6xj4ffcrCWr6phaqHiYx7OUnDEgqGPKrFA3BTOWrQv9dtbRucAGX/b83McChkKguuMt52XFpYQvy8GeKU=
-Received: from BY3PR05CA0001.namprd05.prod.outlook.com (2603:10b6:a03:254::6)
- by DS0PR12MB9421.namprd12.prod.outlook.com (2603:10b6:8:1a1::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.19; Tue, 10 Feb
- 2026 19:16:54 +0000
-Received: from CO1PEPF000044F3.namprd05.prod.outlook.com
- (2603:10b6:a03:254:cafe::c5) by BY3PR05CA0001.outlook.office365.com
- (2603:10b6:a03:254::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9611.6 via Frontend Transport; Tue,
- 10 Feb 2026 19:16:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CO1PEPF000044F3.mail.protection.outlook.com (10.167.241.73) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9611.8 via Frontend Transport; Tue, 10 Feb 2026 19:16:53 +0000
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 10 Feb
- 2026 13:16:53 -0600
-Received: from xsjlizhih51.xilinx.com (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Tue, 10 Feb 2026 13:16:52 -0600
-From: Lizhi Hou <lizhi.hou@amd.com>
-To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <maciej.falkowski@linux.intel.com>
-CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
- <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>
-Subject: [PATCH V1] accel/amdxdna: Fix suspend failure after enabling turbo
- mode
-Date: Tue, 10 Feb 2026 11:16:52 -0800
-Message-ID: <20260210191652.312000-1-lizhi.hou@amd.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D566910E079
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 19:17:28 +0000 (UTC)
+Received: by mail-dl1-f43.google.com with SMTP id
+ a92af1059eb24-124b07e5fe4so450966c88.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Feb 2026 11:17:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770751048; cv=none;
+ d=google.com; s=arc-20240605;
+ b=GzsG7yE04SKKEFYR74KvjtC8Q+9CRoOqNECmwchLrEBdNXj0bH+r0DMXlaeSTdj+Kd
+ 3KofbhL9O73yeFrWlzTvnXbFONywZZ3knUXGHAYTTAPVf57zICAad0g8JWW0yFx77lN0
+ efKy9Xw7tW4WYAJG3YekARf7MtrLNfo2kFleRoKKXzGByCCh2hOLiG8ggHiwhwQceBb+
+ NGMZhXJ3qpRViQ8auxDswQKYM1jgUPkcl6iLL6x62tUBaqagGEEU0kmmgd/KcZb1ccDu
+ tf8+vAXm1q5vdWMRUNJEqb8+M5CF4NlppnHiQwbklVfge+IS2nvpyulfYRT9MQ0ed6YN
+ 7XXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=qkTmjGRqOjouXcxynJDTcMNXeIorXeHUOIvClnb8AXo=;
+ fh=JGnzKHDoUwBrOcgoaBIKmM/sigLfipKBU6wDOL4AqqI=;
+ b=HqwFWHb6UX2eio5ne43qKdHP8gghidks3qtTNRrElWLTB7CuQnbf0GM6N3YVAY2vUj
+ Lkz6CnhXN+3gWyNcid28s4EnWwpYoGMKd+nSQkqOWZ5vhzFPrEK4V9n8O3E0sqbcX8W9
+ UT4LXbtTDLQthkupvKbVpJ5ChIRowLr3nIa/hg4f/SyQUhoBjQ7Sv/SNL09wCqCf0MC7
+ 48a/n9MGI8Yx4mELPrsg3mKyUtaoKvxbV02JF/NpulPWl1A8y3WJi/pisqWZwrZtEkhB
+ z7mBrcyJQQ1j8bVfS/B67suywWswpEYnZ7W1soUf1j94b9OtytGOSlTg+qWUrkG1s9Gk
+ qqhA==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1770751048; x=1771355848; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qkTmjGRqOjouXcxynJDTcMNXeIorXeHUOIvClnb8AXo=;
+ b=W/8Auz55yKCaoz4FOl5ook2fi+A52GXtt/gTaZh4hnOC349C4hEG9ybNBSYMOrkTpK
+ cZS0xWx5L57dfOUDLFYm4eHb1W7AdooVPVpmsj18YTzaci5a+ocZ7rMfb83O77V6fWQT
+ 8F05YEARiLy3wCRZLqSzjhqFcmSWr28brYcHmm54Q5PIZEXtdugKoIMc2G/sQzeeEd0U
+ UwcS8sGEXSdyjLl6HaCOCSJtpbB/rDQ5jbNrLG26lCeFN/NVxWLPGuiB3MZQ1dkRysh2
+ EgnMPuBIQggpA16GirJ75UTCzIilbSYGBaLB6FVGyJnEhUJdWosVUYmPsoT0nUFJmDhT
+ NTZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770751048; x=1771355848;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=qkTmjGRqOjouXcxynJDTcMNXeIorXeHUOIvClnb8AXo=;
+ b=AesB2GkVtAKBmcCfWvZh8zeSwJPR2U8KN+BJfrUHWaL723bH6FAXmaWVN4fDUooWUw
+ REK+ezHPuJRODqARQea23qkc7UA91rRmgmgRYQOvC5/tOkZYsCU3FTf6N3d/BBBtOve0
+ U2gHD77gBZnX6/GfQgrrjy/3SADcuDlPkE8L8pMgR2VNnjUprHl0+c2zqR3D9NaNQn7f
+ 0+R0F6vbsfijcRsVzMwHLvbR39xMCCuUKkLb3Da5SfdzjDQjq6T7B9bEu7K98QRd6yHu
+ 8gvQFqYvPQK9sxBqsVY9qTl0HYvwTLmr8e3q6i2nl8jxJlnlJbYb03IFAd6hzeJ1xglB
+ UlQA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXdJySfG0NyekLXUmOyrVha9Unb6Mb0WOD/9vZnMa04W37b9l317iOdy25TyDoHerNIxQtEVUc1M/8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxH3jsCYIHO0rBM7rxhJjODK5GrlY3vtXf1WKMGeCEV1Xqljc9x
+ K7L22BbSzBjMCE5zneTOiSLP0yawOzDbSiTD9+UmakLqUBVHBtD8wS2eh5eLyxEDbZ4JlbCt0pu
+ hTWYR+3sAFvmaDmA/kLrR7PrHPc8irbE=
+X-Gm-Gg: AZuq6aKZnYUbjfhdFmCclPRMSt38TNH6aM9ZuowHPpWfweifSk0eqxLISTLkoFboc+u
+ koaTT8iFYB/SsBcY0DqzxNZNQeGrdNaYoy+AT9SClIQoygC8tq0Z4r9GnSAIoQYJ0+r9FqKdFgZ
+ wTkYdEFsDutoCX/ABtFVUMfLn6oxl7XrnIt6Spr1O1hi0jG2ZujcjnDi4HiWdQj6+1/xbeqWwJ7
+ AAXmRiZRIKFaCUVge7yEv6sQQTwbjbzhgvenskD22bx8gVD9dZKlFSc0QAYKU3b2bWt1JKO9U9m
+ 02AHTQ5O
+X-Received: by 2002:a05:7022:a92:b0:11e:3e9:3e98 with SMTP id
+ a92af1059eb24-1272494f67dmr620116c88.7.1770751047940; Tue, 10 Feb 2026
+ 11:17:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044F3:EE_|DS0PR12MB9421:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3230faef-3ad3-4c47-1b35-08de68d8f35c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|82310400026|36860700013|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?O3EgbkuTCTQZi3fMqK/XExgCQ75mlhjTXmUVx2AQHlIHMvCySZyw49HQB0ic?=
- =?us-ascii?Q?SfrWGxwzuedoLaqHwMh8S6GW98sQs0e6CF14j4WekwnF3bNBwv9BmpTqG3eO?=
- =?us-ascii?Q?Bboi4sBEBAQumg6KaBb0R3rgxq/AixgFPOF4oheYL1vlidjY4w1t3ISF/F9E?=
- =?us-ascii?Q?GVHCfaCplV1Uae2S55SYgB+uhK/etZSwPqdutCXuDgtA/VmhwYIcqbF2nTxC?=
- =?us-ascii?Q?Eb++cJANJHTUNmNxa+F5NEHsJ7mtgfUvmUrGPONWulxesCMrvMzp94NjCMrB?=
- =?us-ascii?Q?kiphwR42chicNkavsOx+xLLAqJe8DiEan5i0Qf/hpRMHTYLbHQFLGI4gYwkm?=
- =?us-ascii?Q?6O14MGaMVTEtJOs9tApW1m7vG7QyQNlOtrpcRDKoFu/C8AivE6aY1TLUzcN/?=
- =?us-ascii?Q?lJ6HxDq2xr49rNXsQW4vOMkHOtNSZpABKPeaOLFi+tstei17TOC9WckEmtRR?=
- =?us-ascii?Q?LZv5++Uu4j8i1aM8dPiwtx/0MWs+hGB4FNSwt402rLC2PwSuyJKoK56s33u/?=
- =?us-ascii?Q?4iTEE288Jiws9+ohauA+T4/7fA7W5JDmLaD/EB5no/1j8jkRKnL3slmvHIf0?=
- =?us-ascii?Q?33uV4S6cSprLIMLOO5/1NX521qBcCU5jPpiNq/h3t+HV37ifuebR/FS8QmI3?=
- =?us-ascii?Q?itDE74HRoe985SeBqVvqrZgU9aBPvZdO92H+hSQuGG6YaagMjaX1hjTKb6ee?=
- =?us-ascii?Q?6WPP7UqJaCO1GiocZ4iTG20qVwMrXlz56ZZ7l9mPDYCZlWNYYvYgD7OSvuuw?=
- =?us-ascii?Q?oK5kIdwOcs/R680/mvJ+DPzukT8FWU1y+QPm2nfHHTAzmBVX7VLQiva2jziL?=
- =?us-ascii?Q?MkXHfVwBMul5qaLBQGqDjULZIvQ1XT81RyzG91KK3WztyxFRHhmVf4YIexVG?=
- =?us-ascii?Q?XgRx5890Fxq2zRYO52N62dt+AX2rUFF+Lja3v+XyhLanQ0Rh78twPR9vJ0+5?=
- =?us-ascii?Q?zCzzUjsyM485evuzANJel5hx/ehGHxoE9gHVqVFqDTjIqef1sMX0SA6nVWdr?=
- =?us-ascii?Q?6Pg50yqfe/JUF4dpFK0Pk0cRDNc1MZyzzPFhU/rD7vWrDRF4mh4fjLKuEn8W?=
- =?us-ascii?Q?I9vOpvwZn1x8ImP+yQ3vV4IfuMF0MLtxUXFdDh1z2MTCxs10nmLWqN/dz2+r?=
- =?us-ascii?Q?wa++4h7/RG/BRciXAvk6kJCGHVUdFCf4KSfxFIm4vQW4a/zNuiMHJROVg4Fi?=
- =?us-ascii?Q?mRP06wyAmRYv8QyiubqDw0jrXSWYWdRrJpLzkMGVTd+XYoNid0FUvp1+wyFY?=
- =?us-ascii?Q?nIu4F5IV6IT2pGpkO6EA7n1AOEAXJotvGqEgaK3zQQlUi7FDThGVsc7axvbE?=
- =?us-ascii?Q?sSU0MlNHEiXbd0ZicytMa6nOeRP/Kk9ZBawd4ZxrhVphyEzCrg0aNJ52SQTU?=
- =?us-ascii?Q?zkcYM8z9+VjcCl7cB4sCfq0MpHK7/p1fZaTUhMWEEMWIkV5RHXwvE9xZyx+F?=
- =?us-ascii?Q?y7R76k5JJFxrGtf13K2noFwLThw2YKtyIcPKFMrjvi5mo+Ir9yPuu7EvSJMB?=
- =?us-ascii?Q?jM82VTIKrwucQiz7pCpes0vlMdoT4ezf3o0iqmTkrnZfi7jvPNctdyiKIcrJ?=
- =?us-ascii?Q?7sp57yXjz0PMHTmNHZL5N8a6Qt5sg0e4TDRRFqWQyKS8tYY5CzoHv6gV3JGb?=
- =?us-ascii?Q?n8ee+AZkBQ2Sm+5gpda1bEFISlQ/DodbfBEjV772BIUYqlMK4yg8knXt/69A?=
- =?us-ascii?Q?zOsa7Q=3D=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: vfLoVrTlv6a+P7ew73ImbwVAh848QAwYBJPQaqoXwGPdG2IXTABOBEdy8FFvg+4KMQciSUq3UqKGvCk7AvunFnh9hCHlk/cHY6a1Eyfc/3wY3aTaYtemsimvTjL4Z+Zb9k4vX7mP3xC5w0HK8A2TG5cBUjaJDWwrMLpOGb1alffrpPy24JA+OVT+Xm9pvDrPgMUcoOONmlyEpE3RCaMxDUG/lV995Ta9nbzikg2CpaGgP0J3TaSDglTEcvnrBLXwJX2ehi8xUnfzA3fR5bsWeuf0Ht6s82LbIzq2h2o4VcCtxAG13Dz2m5GjRSy+e0lCSbw+t5jLo0a1H10EGyn6oqSED/U4GV3/V6AaSf6SB4CQe5mO2rIW2tcOIdp4ZXsgAbzGLvBpScdqLS5Kzex/N5vDs6g8t3TypZ2vP98S1jgjLqiqzvNvuu4PuviWufo4
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2026 19:16:53.7215 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3230faef-3ad3-4c47-1b35-08de68d8f35c
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F3.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9421
+References: <20260203185626.55428-1-tomasz.pakula.oficjalny@gmail.com>
+ <20260203185626.55428-17-tomasz.pakula.oficjalny@gmail.com>
+ <f19af3c6-f865-4758-8c50-aba40ec1cf68@amd.com>
+ <79264ab170e48e1372b3b847d75f4635dcc57aa6.camel@gmail.com>
+ <CADnq5_PhcNPU=4s1P30OqbWY7qPD3dHmjEtoz4_Md41u=xaxFw@mail.gmail.com>
+ <1002281ca27d58a47a47fb655a88637e49776706.camel@gmail.com>
+In-Reply-To: <1002281ca27d58a47a47fb655a88637e49776706.camel@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 10 Feb 2026 14:17:15 -0500
+X-Gm-Features: AZwV_QgJB6v1nKXY2CnqRwBQYAE-sHXcGFH7dydSUxWcivhgCfgEW1B0ZDDvrLE
+Message-ID: <CADnq5_Nrni6_Y7BCn9GH-aF2A1iOjgbr4Ebouf76Qogtb_v3zQ@mail.gmail.com>
+Subject: Re: [PATCH v3 16/19] drm/amd/display: Add parameter to control ALLM
+ behavior
+To: =?UTF-8?Q?Tomasz_Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, alexander.deucher@amd.com,
+ sunpeng.li@amd.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, siqueira@igalia.com, 
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, bernhard.berger@gmail.com, 
+ michel.daenzer@mailbox.org, daniel@fooishbar.org, admin@ptr1337.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,82 +121,73 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
-	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:tomasz.pakula.oficjalny@gmail.com,m:harry.wentland@amd.com,m:alexander.deucher@amd.com,m:sunpeng.li@amd.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:siqueira@igalia.com,m:amd-gfx@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:bernhard.berger@gmail.com,m:michel.daenzer@mailbox.org,m:daniel@fooishbar.org,m:admin@ptr1337.dev,m:tomaszpakulaoficjalny@gmail.com,m:bernhardberger@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:ogabbay@kernel.org,m:quic_jhugo@quicinc.com,m:maciej.falkowski@linux.intel.com,m:lizhi.hou@amd.com,m:linux-kernel@vger.kernel.org,m:max.zhen@amd.com,m:sonal.santan@amd.com,m:mario.limonciello@amd.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[amd.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lizhi.hou@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FORGED_SENDER(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:mid,amd.com:dkim,amd.com:email];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[amd.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,igalia.com,lists.freedesktop.org,vger.kernel.org,mailbox.org,fooishbar.org,ptr1337.dev];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 26E2411E911
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 00C3811E927
 X-Rspamd-Action: no action
 
-Enabling turbo mode disables hardware clock gating. Suspend requires
-hardware clock gating to be re-enabled, otherwise suspend will fail.
-Fix this by calling aie2_runtime_cfg() from aie2_hw_stop() to
-re-enable clock gating during suspend. Also ensure that firmware is
-initialized in aie2_hw_start() before modifying clock-gating
-settings during resume.
+On Tue, Feb 10, 2026 at 1:44=E2=80=AFPM Tomasz Paku=C5=82a
+<tomasz.pakula.oficjalny@gmail.com> wrote:
+>
+> On Fri, 2026-02-06 at 17:04 -0500, Alex Deucher wrote:
+> >
+> > Also, maybe a per connector kms property would be preferable.  Then
+> > you could change it per display.
+> >
+> > Alex
+>
+> I've dealt with all Harry's comments but wanted to make sure I
+> understand properly. Do you mean, that the two settings should be a
+> connector property like VRR_ENABLED? I understand the intent and I think
+> in some time, it would be best to have these exposed in compositor
+> settings but how would a user control this until then?
+>
+> Would it suffice to fire IOCTLs from a third-party tool like LACT where
+> support for this could be added in a short time?
+>
+> I made it a module property in the first place, because I thought such
+> settings are pretty set-and-forget and module properties are just easy
+> to set :)
+>
+> Still, I think the defaults are sane. If I have to spend some more time
+> to get the connector properties working, I could send the patches with
+> the module properties ripped out for now.
 
-Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
----
- drivers/accel/amdxdna/aie2_pci.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+My understanding is that these are something the compositor would like
+to manage.  I'd like to avoid adding module parameters if we can help
+it because they usually cause more trouble than they help due to
+unforeseen interactions with other features or "conventional wisdom"
+blindly followed which leads to a bad user experience.
 
-diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
-index 5b326e4610e6..0d41a6764892 100644
---- a/drivers/accel/amdxdna/aie2_pci.c
-+++ b/drivers/accel/amdxdna/aie2_pci.c
-@@ -323,6 +323,7 @@ static void aie2_hw_stop(struct amdxdna_dev *xdna)
- 		return;
- 	}
- 
-+	aie2_runtime_cfg(ndev, AIE2_RT_CFG_CLK_GATING, NULL);
- 	aie2_mgmt_fw_fini(ndev);
- 	xdna_mailbox_stop_channel(ndev->mgmt_chann);
- 	xdna_mailbox_destroy_channel(ndev->mgmt_chann);
-@@ -406,15 +407,15 @@ static int aie2_hw_start(struct amdxdna_dev *xdna)
- 		goto stop_psp;
- 	}
- 
--	ret = aie2_pm_init(ndev);
-+	ret = aie2_mgmt_fw_init(ndev);
- 	if (ret) {
--		XDNA_ERR(xdna, "failed to init pm, ret %d", ret);
-+		XDNA_ERR(xdna, "initial mgmt firmware failed, ret %d", ret);
- 		goto destroy_mgmt_chann;
- 	}
- 
--	ret = aie2_mgmt_fw_init(ndev);
-+	ret = aie2_pm_init(ndev);
- 	if (ret) {
--		XDNA_ERR(xdna, "initial mgmt firmware failed, ret %d", ret);
-+		XDNA_ERR(xdna, "failed to init pm, ret %d", ret);
- 		goto destroy_mgmt_chann;
- 	}
- 
--- 
-2.34.1
-
+Alex
