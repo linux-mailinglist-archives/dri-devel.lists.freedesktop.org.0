@@ -2,82 +2,183 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oJFtBvjKi2m4bAAAu9opvQ
+	id Bet0KlHLi2n7bAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 01:19:04 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 01:20:33 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A2A6120446
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 01:19:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E41CF12045C
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 01:20:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C587D10E058;
-	Wed, 11 Feb 2026 00:18:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B67DD10E153;
+	Wed, 11 Feb 2026 00:20:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="nSFh00Cd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eQ9GJnNB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (219-87-157-213.static.tfn.net.tw
- [219.87.157.213])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AA1C10E058
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 00:18:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=X8VNOLxVdr6v0QbTbvixpoK8YWaNtPDCEHxIV7FWnYc=;
- b=nSFh00CdZA+VcEW1M8+RDUjf9zA6nip5p6KaUhlYTWaYfW3ZwjWSuqms
- olV5M4GIfEZXeoFRFaY294ji+ONg/FcYhwD/9SJ6ajiFragYW9THXyUg3
- EboLdShUYD0W8jM6xn+H/3LWdJPRaVQGr+5CXFjN0v6ui5ArG0edPFKY6
- SLKF2NEcrNkKfycXwK9IM2wkxl7xMV0YRy4CC+5JF654RG7T8e9UJa0lx
- oyNd1palyCarPY002pJamKthviSe7HqndolS3BHZ/EsBu2JawORtbrATN
- /UF5t9aqWMwAhrcqsocjmcXCB2ZatxSAVB/3yKDndreA7MoG5OzRDUPhp w==;
-X-CSE-ConnectionGUID: HUSOHO6GSZ6nqjsytGGoVg==
-X-CSE-MsgGUID: 8ii6Z/1qQCScnaKShCMFKQ==
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 11 Feb 2026 08:14:25 +0800
-Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL2.internal.ite.com.tw
- [192.168.65.41]) by mse.ite.com.tw with ESMTP id 61B0HiXX098938;
- Wed, 11 Feb 2026 08:17:44 +0800 (+08)
- (envelope-from Pet.Weng@ite.com.tw)
-Received: from CSBMAIL2.internal.ite.com.tw (192.168.65.41) by
- CSBMAIL2.internal.ite.com.tw (192.168.65.41) with Microsoft SMTP Server
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAF3110E14F;
+ Wed, 11 Feb 2026 00:20:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1770769228; x=1802305228;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=2XRU/QOnYSvIWkpAO/ZsoJn61QzvRqvVIfLvqfBvvYQ=;
+ b=eQ9GJnNBunRQ2yISAvXF2M3dv2tPWoDxL468vQRRDhSCp/G5jD72GQP2
+ n5Uf7tCTkoN4uqvZqB8qYU/45UDywvT5doAeA24Ag8UbQRxc3BBtQ5adD
+ Z9R2w2fX/4j9gG+BjTI/f2u66I+YQ+uImGS1pjLWh9dIgrFfu2kivEzgm
+ D6OvyH15oVFORSIHjTM4chYoqKjRr5Wiz4zQqGLEiUHtHdmosEkZ9NGLi
+ skQdkk8qbV2ftFvjRPYt2LKRh7JY3WCC8fAgWIVgxvUl6B9rV6PRIAL18
+ RL1NKW9Bhl3m8O5gpzYV67uMrExJVD8ftNHS9YTY7ZDe4YoU7TJrUSmPL Q==;
+X-CSE-ConnectionGUID: SToBFA4/SEGhr7uOXaiudw==
+X-CSE-MsgGUID: oXNVmh3fSaCjXUUhnGvkEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="71628356"
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; d="scan'208";a="71628356"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2026 16:20:28 -0800
+X-CSE-ConnectionGUID: IpjBG1fpSCOhVmUHlRlIXA==
+X-CSE-MsgGUID: FH1YKlIfQ0SY0P8WXfTKMg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; d="scan'208";a="242689088"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2026 16:20:29 -0800
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Wed, 11 Feb 2026 08:17:42 +0800
-Received: from CSBMAIL2.internal.ite.com.tw ([fe80::9446:9aa0:fea6:7e92]) by
- CSBMAIL2.internal.ite.com.tw ([fe80::9446:9aa0:fea6:7e92%15]) with mapi id
- 15.02.2562.035; Wed, 11 Feb 2026 08:17:42 +0800
-From: <Pet.Weng@ite.com.tw>
-To: <robh@kernel.org>
-CC: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <Hermes.Wu@ite.com.tw>,
- <Kenneth.Hung@ite.com.tw>, <Jau-Chih.Tseng@ite.com.tw>,
- <treapking@google.com>
-Subject: RE: [PATCH v6 1/3] dt-binding: display: Add ITE IT61620 MIPI DSI to
- HDMI bridge
-Thread-Topic: [PATCH v6 1/3] dt-binding: display: Add ITE IT61620 MIPI DSI to
- HDMI bridge
-Thread-Index: AQHclTklgY85MwF+Skm21guaMZWaebV8rCLw
-Date: Wed, 11 Feb 2026 00:17:42 +0000
-Message-ID: <ec0c9019f02f4d3db3498758f9c0fd7d@ite.com.tw>
-References: <20260130-it61620-0714-v6-0-70afa65923b5@ite.com.tw>
- <20260130-it61620-0714-v6-1-70afa65923b5@ite.com.tw>
- <20260203181546.GA3341586-robh@kernel.org>
-In-Reply-To: <20260203181546.GA3341586-robh@kernel.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.70.27]
-x-tm-snts-smtp: 939A3E17BBBADCDF9341C6EA23535C7A814FB5CBDEA5BAC7755381E8927EA15E2002:8
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+ 15.2.2562.35; Tue, 10 Feb 2026 16:20:28 -0800
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35 via Frontend Transport; Tue, 10 Feb 2026 16:20:28 -0800
+Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.0) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Tue, 10 Feb 2026 16:20:27 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NfmLRPqUhU8fseB/SMy2hKhbKMJXAkbSb/yh2R1UNjcELRINBl9faVuqOhYPHj1TSc3uq6tpYblP1kzXomayjdegR2EPzR4QW0DoC8RK5LWjYBoH50QdDl135lx4tDg4tQptv86H5F1qXyElKGVTaQMYwJxNzcBalV8FmeK0tqHAtDpQxXqsN8rJ7o5vJxW5OIrt1+o9RzldzRVXGiXMXuin+E2jzWdLxGkvTqz9abPylT/6AOHVZbX3CNPMsTT6Md3UqCGq5Rt4XXN1bCIGylNOq0GKFxu0zQhHqBg4IWrtnfaepkIP3S9ZDIcGN3NjpNNyq49EPt3gBdvbS+5DLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VV9IDGg728f4CiJ4hFflGY48mfV0YSUqLFtwRM07Z1Y=;
+ b=aYsnOB5kelIY+y9uXb20e+4pTuAZ+srlrsA807LhvmlnmN3KPxwCzcaj6XZZPnP3ufDgkl3NWYggPyU2prSZeAztMtxOUnD6Jo2yVk9s+fBVMMGlqboaH2fLGtpwdRWuMeMu0R0FF+K6lm3t4H/ZH0umcz0Orr6TUue4LU9p8+ZcP5ls0pemcXGZsBq1xGMxWdx6RjvnSWReW1pLUP808+3MqXgeLdSsFQJh7tEYd1VPWehw7Hl37LgUkVCQuFFyDjXaclKyFkna8vQHga/bbHFAQDrVV+ryniSZCpnXlpeNCOudcZLzLMWxd1X0/9yYTNGxhJyTUiKyKMd5kGSsyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by IA0PR11MB8398.namprd11.prod.outlook.com (2603:10b6:208:487::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.19; Wed, 11 Feb
+ 2026 00:20:25 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::e0c5:6cd8:6e67:dc0c]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::e0c5:6cd8:6e67:dc0c%6]) with mapi id 15.20.9587.017; Wed, 11 Feb 2026
+ 00:20:25 +0000
+Date: Tue, 10 Feb 2026 16:20:22 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
+CC: <intel-xe@lists.freedesktop.org>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Michal Wajdeczko
+ <michal.wajdeczko@intel.com>, Matthew Auld <matthew.auld@intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v3 1/3] drm/sa: Split drm_suballoc_new() into SA alloc
+ and init helpers
+Message-ID: <aYvLRig/NgaKhlHy@lstrano-desk.jf.intel.com>
+References: <20260210105929.4089794-5-satyanarayana.k.v.p@intel.com>
+ <20260210105929.4089794-6-satyanarayana.k.v.p@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260210105929.4089794-6-satyanarayana.k.v.p@intel.com>
+X-ClientProxiedBy: MW4P222CA0021.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:303:114::26) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-X-MAIL: mse.ite.com.tw 61B0HiXX098938
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|IA0PR11MB8398:EE_
+X-MS-Office365-Filtering-Correlation-Id: 70550d99-437d-406e-87ab-08de69035a29
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?A3m8W1cKMir/GUXTpuC38s3wSzEqDu8tnWSfC37GKVTrjvfVZVLeKi8ejJ?=
+ =?iso-8859-1?Q?S3PGe/eZCx2Oa2gLvd/vor+d2Am1i18p1ud9rAtEvp742CfLIek07s62tE?=
+ =?iso-8859-1?Q?Osk9owFEAmNgHhHzg/2ie8PHzwhM4407LDRQ3Ex/3pO7Qx/PtGSggy5QU0?=
+ =?iso-8859-1?Q?4llGzWWvDFQslTrQ1XJf7or/mD5qU3qi5Aam/zmbILi6Yb/4ShSIxyagk1?=
+ =?iso-8859-1?Q?QZblCH+jQq0A6NYctFFRrduhHTDsRX58409i890tKyF0zdO2AWrHdG1CzM?=
+ =?iso-8859-1?Q?DgtvinK+R4yTXjL+M85WLlkLaiP25tpmkXlbGkzgwgC/ub/KgxKGrXWNdI?=
+ =?iso-8859-1?Q?orT0FZeKZIhcQwV6msQq3nCnwWUnHkAFpZyk3tc+190jJWeDg1bsiOWTgH?=
+ =?iso-8859-1?Q?lkMpE5I5tW2aD1rYy0+/thoTPdlIRAhLFUDOGwvY9H2tY9hWstbkkySupy?=
+ =?iso-8859-1?Q?g92koh6XdnB5ysJZTfF+vvbh/JAGehXhHhhi4ll6U4YOz88t7knp9Ql/U8?=
+ =?iso-8859-1?Q?fS6g0/nUBuhMa2tmAHPkO0WdezXx196zxNqflJqUccwW8+L6ScXGtE8C2k?=
+ =?iso-8859-1?Q?avtsNMjjDblMWLVj/QVXy2/VO/ohBfqzyWJ4/TAXwnKlc3y3VCyctiP0rC?=
+ =?iso-8859-1?Q?ePW9jCrhFyNkssw2mv1dtvsNhSJ9MTFlJtJ9e0DbHVEJqODFGqvcfZWPoq?=
+ =?iso-8859-1?Q?vLrkCISmCSoGBiQn5NJn3U3O974/jl55nBeCP1NjRAiHzXh0MRp1fuQJ4i?=
+ =?iso-8859-1?Q?IZiRpb7EJvfauC0yu7Mi68h5wFK4GMRB67aOpDEa0RhrR6CJuArQBHzvoO?=
+ =?iso-8859-1?Q?PdfKMpPO2Sna7ZZhi7lJ1s2ePuttw4a+VyNw6b6Bg33dLCXW2TG+d6NIdP?=
+ =?iso-8859-1?Q?xmdCE6G4csI+ZbIHua6KpTqzBC+bIOOqDIYUk5d5ivCswGwuwhXKl/JZGO?=
+ =?iso-8859-1?Q?c1WdgvoZNvfhYmiuNYc8tVcaoJFGaJY8YqW/W7hPphZAAm2QDpclWHmDJv?=
+ =?iso-8859-1?Q?POlUBwDl8BTqfjkD4+f9lofWbX//P76dU60MTyo5m54a4J8/Q8ZRfD5qgA?=
+ =?iso-8859-1?Q?qyy0eXgxpxsZA72lmuIwilOihfJJIByGRm9UEqk8ui2xqu++bdT1AAYrcs?=
+ =?iso-8859-1?Q?eGTeifsfhlvgKrdxIUhgdkHhLaelizf18CG4jyZcfX/mWLb7HdUsF1jeSV?=
+ =?iso-8859-1?Q?lJtdg0FwEuwY3aO8zt2SOarLI8zQzZH+spaoyK4FDzmAIQ/jBzTg0vmJAj?=
+ =?iso-8859-1?Q?3CMDtUWqZ8R37wQINWFZK9fN0NxGaacwqmWBAaIX4grvy7XY2oHclZgR6n?=
+ =?iso-8859-1?Q?NoGlTIRziHUPSQYXCHp57IXSkZkiBjUpEmb2Yfdj7TtjfuwZJk5AkkVX+n?=
+ =?iso-8859-1?Q?a4KmkGO9/vId3nYU/SfQNC6mh2ymgyswj0rlAhVvr4o+HxqofDfFJhduf8?=
+ =?iso-8859-1?Q?hDLhUXVRI6oYUewAUPmJXaws+lSjPcMnPS178OP12njgTfR9lLZY9OxVA7?=
+ =?iso-8859-1?Q?69PBwnvfF6q2GxS1IwTU2RSW1PDNToYrk2POzVOVOK+rlIPcMQK8p2R9dR?=
+ =?iso-8859-1?Q?FzvUIgGlQJAHIl7Bq4sYUmwSbmvrAMrincZZmhG5zpTayJNwdEE91yVhHg?=
+ =?iso-8859-1?Q?84bIQmdqjages=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?fjNAO1KkfQTi/EgS6RJ0XPin922PR8CXpBaGJC+g0YSQ4yfwfQ/qtT4Rw0?=
+ =?iso-8859-1?Q?RMholUP6K+smXF4d/7Lm6sUs52yVz7MA4kpG+XeWk2giwbmMYcnZG33usW?=
+ =?iso-8859-1?Q?QR6WR4VIjhJkptzQJW11G+UpLB1c6jA4R7YKusW7YhQBV+qsz/+g1QjE/o?=
+ =?iso-8859-1?Q?fOAbIBuA8204SWaFuLm1ej2/G9K91Od65a2dBKkE6WlA0Q5QLK2VNxB7W9?=
+ =?iso-8859-1?Q?983+HfnLh8ZZAESfwXVaYub0uieH7RNocGGtF2PNDFj9rCF0TLgghg1Lie?=
+ =?iso-8859-1?Q?kXrxd+GOPd1eS8gq0Ra7nxSFruWYkOkCNArzjzmO18Er13r/P5zJPGyDJ8?=
+ =?iso-8859-1?Q?6vV9oYCtyozDpM1BhQyqnHR/364dRU7W1AzLWxT6hweOVOakQ2yMbG7oAx?=
+ =?iso-8859-1?Q?zq0oOIQFv9rPqU2HipthF+4SviYKsOoKI4MvPxbvPv9Pc2OH/klVOh3yiv?=
+ =?iso-8859-1?Q?jxLqtCJ9Mt7mJ1unxLGJeOei+dS7YuCw4XKBSamOJU0pNLF4aY/PENukuv?=
+ =?iso-8859-1?Q?kl06eMHpUexn23Par0iS/DYMA05OhW6UopPtOQmARy0uRxt7h1NkXP6Iss?=
+ =?iso-8859-1?Q?3gj8PY5rx48Cd3BzsfsvVDm2RRv1ntjJnZBhqqQsgXAyr0fnuzNmpzqjcZ?=
+ =?iso-8859-1?Q?hankLZcbtBBLjsYswn8C6jBWUTFUsOi4HJKLOZvOw2x/dasvts6/rWMbLc?=
+ =?iso-8859-1?Q?E7wk/R5OIiir+P0THSAcyJsPSsRJaX3vueM420y4huw1rVzk3YCvMb3qyJ?=
+ =?iso-8859-1?Q?2cjHehapJWYMpRQNwsFxVehjrbE0K33i++GKBhMwtiZJj8qx8GZ31VOplk?=
+ =?iso-8859-1?Q?Rp4aRQFWXb0BI2nxH1H2pSeuX9fHazbS97lBdhYbAN6cL5pDUxhb7xFL+N?=
+ =?iso-8859-1?Q?cRaQJsrur0cHiRHyjq9+zQeb5QJu2QbjWUQFlWm9rRy2z+ED96tbu4i+0w?=
+ =?iso-8859-1?Q?tJGVnGm1J9B5uBlRDgsCse8I+R4uO/kT7PYz6q3lK1WPyhvjd6+TcaGmQ3?=
+ =?iso-8859-1?Q?PBfNOIHx4b+PJaM+myU0Jv+5mvz7WYpuknKConGIcje7QftbGZDqtEgnV4?=
+ =?iso-8859-1?Q?ep+8t+zjnwFehcXg46GQo6PoflL5xRNfdJuc58vJ0+AACPYP7mv7xXiu2T?=
+ =?iso-8859-1?Q?ZjZuPUIOI2651CVkHawuilu1wVOsd12HVFLbRFLv0Z3nftqaEsFBKEepea?=
+ =?iso-8859-1?Q?RxTXvJGWfYtqxuelHV7ZqX+PzS4TEx8zR1ozS4ORBdkk6H5dXSXMNyfyCX?=
+ =?iso-8859-1?Q?ySQchl8v4V65Cn1187h3AAoJWy+dcCHdtF22Sfg52OKbIpevOdXLiRZf/o?=
+ =?iso-8859-1?Q?vvqxerWMCCTnZZhdlwlNd9TadekjdvMjutYjGPecjIF3uL01I4fUMrl4tb?=
+ =?iso-8859-1?Q?s/04v+80sd9wpsxKbGD+QUN4CD0Ixm+xRnkZc+jQO8NeFiR3r/CEs5V1CJ?=
+ =?iso-8859-1?Q?qSN3e5m6hfyoLd1+uF3kJBO221N44np8EemFDI+1Y8aMA/FBj3ANQgix9d?=
+ =?iso-8859-1?Q?0E94foWHUW9z2nl8i452/3fuAljnfOqWLJ1RudH2DANP0J9/zFNhA2XPva?=
+ =?iso-8859-1?Q?n22P918PLlD+hVViNh1UHeI468lyLVKV2kr2/dQnPwzMcvzI9TAzKHgCVB?=
+ =?iso-8859-1?Q?c0toe3KtGfuJaw5mUpZT6amKRs8NYZMDmd++3HRZJOukHuFu2qmFi5GaF1?=
+ =?iso-8859-1?Q?iIubNPOgVrc0PoV6jvrU5BrgbYCwHEOZ9xr4RYWoXa3brFGMez3GQhdJUE?=
+ =?iso-8859-1?Q?U6bzgKUvSbUrp51dVIfVdUIw4jEAr0iZYiY6SEHJTAWFCeofHaxeJOQhKK?=
+ =?iso-8859-1?Q?FQ+3325p5g=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70550d99-437d-406e-87ab-08de69035a29
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2026 00:20:25.2911 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lGzv8RxT2W/TuT2Cm+IcuQQdgJlEm0p8Clr1s/hBWpvUeVCeW/W6SQ31ARyMrBSVeWPKcGVnm+EAO8TlfC14uw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB8398
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,136 +194,255 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.29 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ite.com.tw,quarantine];
+X-Spamd-Result: default: False [-0.31 / 15.00];
+	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[ite.com.tw:s=dkim];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_BASE64_TEXT(0.10)[];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:Hermes.Wu@ite.com.tw,m:Kenneth.Hung@ite.com.tw,m:Jau-Chih.Tseng@ite.com.tw,m:treapking@google.com,m:jernejskrabec@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
-	FORGED_SENDER(0.00)[Pet.Weng@ite.com.tw,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,lists.freedesktop.org,vger.kernel.org,ite.com.tw,google.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[Pet.Weng@ite.com.tw,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	HAS_XOIP(0.00)[];
-	TO_DN_NONE(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	DKIM_TRACE(0.00)[ite.com.tw:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	MISSING_XM_UA(0.00)[];
-	DBL_PROHIBIT(0.00)[0.0.0.58:email,0.0.0.2:email];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FROM_NO_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,devicetree.org:url,0.0.0.1:email]
-X-Rspamd-Queue-Id: 0A2A6120446
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,intel.com:email,intel.com:dkim,lstrano-desk.jf.intel.com:mid];
+	RCVD_COUNT_SEVEN(0.00)[9];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+]
+X-Rspamd-Queue-Id: E41CF12045C
 X-Rspamd-Action: no action
 
-PiBPbiBGcmksIEphbiAzMCwgMjAyNiBhdCAwMzo1MTozNFBNICswODAwLCBQZXQgV2VuZyB3cm90
-ZToNCj4gPiBUaGlzIGNoaXAgcmVjZWl2ZXMgTUlQSSBEU0kgaW5wdXQgYW5kIG91dHB1dHMgSERN
-SSwgYW5kIGlzIGNvbW1vbmx5DQo+ID4gY29ubmVjdGVkIHRvIFNvQ3MgdmlhIEkyQyBhbmQgRFNJ
-Lg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogUGV0IFdlbmcgPHBldC53ZW5nQGl0ZS5jb20udHc+
-DQo+IA0KPiBNaXNzaW5nIEtyenlzenRvZidzIFJldmlld2VkLWJ5Lg0KPiANCg0KVGhhbmtzIGZv
-ciBwb2ludGluZyB0aGF0IG91dC4NCllvdSdyZSByaWdodCChWCBJIG1pc3NlZCBLcnp5c3p0b2Yn
-cyBSZXZpZXdlZC1ieSB0YWcuIEmhpmxsIGluY2x1ZGUgaXQgaW4gdGhlIG5leHQgcmV2aXNpb24u
-DQpQZXQNCg0KPiA+IC0tLQ0KPiA+ICAuLi4vYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvaXRlLGl0
-NjE2MjAueWFtbCAgICAgICB8IDE0MiArKysrKysrKysrKysrKysrKysrKysNCj4gPiAgMSBmaWxl
-IGNoYW5nZWQsIDE0MiBpbnNlcnRpb25zKCspDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1l
-bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2l0ZSxpdDYxNjIwLnlh
-bWwNCj4gYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2Uv
-aXRlLGl0NjE2MjAueWFtbA0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4gaW5kZXggMDAw
-MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMC4uZTE5NWQxOTJmNmIxYTJkMDky
-YjM3NDVlM2U3ZjYyYjhiMWQyZDhjZQ0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9Eb2N1
-bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvaXRlLGl0NjE2MjAu
-eWFtbA0KPiA+IEBAIC0wLDAgKzEsMTQyIEBADQo+ID4gKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZp
-ZXI6IChHUEwtMi4wLW9ubHkgT1IgQlNELTItQ2xhdXNlKQ0KPiA+ICslWUFNTCAxLjINCj4gPiAr
-LS0tDQo+ID4gKyRpZDogaHR0cDovL2RldmljZXRyZWUub3JnL3NjaGVtYXMvZGlzcGxheS9icmlk
-Z2UvaXRlLGl0NjE2MjAueWFtbCMNCj4gPiArJHNjaGVtYTogaHR0cDovL2RldmljZXRyZWUub3Jn
-L21ldGEtc2NoZW1hcy9jb3JlLnlhbWwjDQo+ID4gKw0KPiA+ICt0aXRsZTogSVRFIElUNjE2MjAg
-TUlQSSBEU0kgdG8gSERNSSBCcmlkZ2UNCj4gPiArDQo+ID4gK21haW50YWluZXJzOg0KPiA+ICsg
-IC0gUGV0IFdlbmcgPHBldC53ZW5nQGl0ZS5jb20udHc+DQo+ID4gKw0KPiA+ICtkZXNjcmlwdGlv
-bjogfA0KPiA+ICsgIFRoZSBJVEUgSVQ2MTYyMCBpcyBhIGhpZ2gtcGVyZm9ybWFuY2UsIGxvdy1w
-b3dlciBIRE1JIGJyaWRnZSB0aGF0IGNvbnZlcnRzDQo+ID4gKyAgTUlQSSBEU0kgaW5wdXQgdG8g
-SERNSSAxLjRiIFRNRFMgb3V0cHV0LiBJdCBzdXBwb3J0cyB1cCB0byA0IGxhbmVzIG9mIE1JUEkN
-Cj4gPiArICBELVBIWSAyLjAgaW5wdXQgYXQgMi41R2JwcyBwZXIgbGFuZSAoMTBHYnBzIHRvdGFs
-KSwgY29tcGF0aWJsZSB3aXRoIERTSS0yDQo+ID4gKyAgdjIuMC4NCj4gPiArDQo+ID4gKyAgVGhl
-IEhETUkgdHJhbnNtaXR0ZXIgc2lkZSBzdXBwb3J0cyB1cCB0byA0S3gyS0AzMEh6IHJlc29sdXRp
-b25zLCBhbmQgaXMNCj4gPiArICBjb21wbGlhbnQgd2l0aCBIRE1JIDEuNGIgYW5kIEhEQ1AgMS40
-Lg0KPiA+ICsNCj4gPiArICBGb3IgYXVkaW8sIHRoZSBJVDYxNjIwIHN1cHBvcnRzIHVwIHRvIDgt
-Y2hhbm5lbCBMUENNIHZpYSBJMlMgKG11bHRpLWxpbmUgb3INCj4gPiArICBURE0gbW9kZSksIHdp
-dGggb3B0aW9uYWwgUy9QRElGIG9yIERTRCAoZm9yIFNBQ0QpLiBJdCBzdXBwb3J0cyBhdWRpbw0K
-PiA+ICsgIHNhbXBsaW5nIHJhdGVzIHVwIHRvIDE5MmtIei4NCj4gPiArDQo+ID4gK2FsbE9mOg0K
-PiA+ICsgIC0gJHJlZjogL3NjaGVtYXMvc291bmQvZGFpLWNvbW1vbi55YW1sIw0KPiA+ICsNCj4g
-PiArcHJvcGVydGllczoNCj4gPiArICBjb21wYXRpYmxlOg0KPiA+ICsgICAgY29uc3Q6IGl0ZSxp
-dDYxNjIwDQo+ID4gKw0KPiA+ICsgIHJlZzoNCj4gPiArICAgIG1heEl0ZW1zOiAxDQo+ID4gKw0K
-PiA+ICsgIGludGVycnVwdHM6DQo+ID4gKyAgICBtYXhJdGVtczogMQ0KPiA+ICsNCj4gPiArICBy
-ZXNldC1ncGlvczoNCj4gPiArICAgIG1heEl0ZW1zOiAxDQo+ID4gKw0KPiA+ICsgIGl2ZGQtc3Vw
-cGx5Og0KPiA+ICsgICAgZGVzY3JpcHRpb246IGNvcmUgdm9sdGFnZQ0KPiA+ICsNCj4gPiArICBv
-dmRkLXN1cHBseToNCj4gPiArICAgIGRlc2NyaXB0aW9uOiBJL08gdm9sdGFnZQ0KPiA+ICsNCj4g
-PiArICBvdmRkMTgzMy1zdXBwbHk6DQo+ID4gKyAgICBkZXNjcmlwdGlvbjogZmxleGlibGUgSS9P
-IHZvbHRhZ2UNCj4gPiArDQo+ID4gKyAgIiNzb3VuZC1kYWktY2VsbHMiOg0KPiA+ICsgICAgY29u
-c3Q6IDANCj4gPiArDQo+ID4gKyAgcG9ydHM6DQo+ID4gKyAgICAkcmVmOiAvc2NoZW1hcy9ncmFw
-aC55YW1sIy9wcm9wZXJ0aWVzL3BvcnRzDQo+ID4gKw0KPiA+ICsgICAgcHJvcGVydGllczoNCj4g
-PiArICAgICAgcG9ydEAwOg0KPiA+ICsgICAgICAgICRyZWY6IC9zY2hlbWFzL2dyYXBoLnlhbWwj
-LyRkZWZzL3BvcnQtYmFzZQ0KPiA+ICsgICAgICAgIHVuZXZhbHVhdGVkUHJvcGVydGllczogZmFs
-c2UNCj4gPiArICAgICAgICBkZXNjcmlwdGlvbjogSW5wdXQgcG9ydCBmb3IgTUlQSSBEU0kNCj4g
-PiArDQo+ID4gKyAgICAgICAgcHJvcGVydGllczoNCj4gPiArICAgICAgICAgIGVuZHBvaW50Og0K
-PiA+ICsgICAgICAgICAgICAkcmVmOiAvc2NoZW1hcy9tZWRpYS92aWRlby1pbnRlcmZhY2VzLnlh
-bWwjDQo+ID4gKyAgICAgICAgICAgIHVuZXZhbHVhdGVkUHJvcGVydGllczogZmFsc2UNCj4gPiAr
-ICAgICAgICAgICAgcmVxdWlyZWQ6DQo+ID4gKyAgICAgICAgICAgICAgLSBkYXRhLWxhbmVzDQo+
-ID4gKw0KPiA+ICsgICAgICBwb3J0QDE6DQo+ID4gKyAgICAgICAgJHJlZjogL3NjaGVtYXMvZ3Jh
-cGgueWFtbCMvcHJvcGVydGllcy9wb3J0DQo+ID4gKyAgICAgICAgZGVzY3JpcHRpb246IE91dHB1
-dCBwb3J0IGZvciBIRE1JIG91dHB1dA0KPiA+ICsNCj4gPiArICAgICAgcG9ydEAyOg0KPiA+ICsg
-ICAgICAgICRyZWY6IC9zY2hlbWFzL2dyYXBoLnlhbWwjL3Byb3BlcnRpZXMvcG9ydA0KPiA+ICsg
-ICAgICAgIGRlc2NyaXB0aW9uOiBBdWRpbyBpbnB1dCBwb3J0IChJMlMpDQo+ID4gKw0KPiA+ICsg
-ICAgcmVxdWlyZWQ6DQo+ID4gKyAgICAgIC0gcG9ydEAwDQo+ID4gKyAgICAgIC0gcG9ydEAxDQo+
-ID4gKw0KPiA+ICtyZXF1aXJlZDoNCj4gPiArICAtIGNvbXBhdGlibGUNCj4gPiArICAtIHJlZw0K
-PiA+ICsgIC0gaW50ZXJydXB0cw0KPiA+ICsgIC0gcmVzZXQtZ3Bpb3MNCj4gPiArICAtIGl2ZGQt
-c3VwcGx5DQo+ID4gKyAgLSBvdmRkLXN1cHBseQ0KPiA+ICsgIC0gb3ZkZDE4MzMtc3VwcGx5DQo+
-ID4gKyAgLSBwb3J0cw0KPiA+ICsNCj4gPiArdW5ldmFsdWF0ZWRQcm9wZXJ0aWVzOiBmYWxzZQ0K
-PiA+ICsNCj4gPiArZXhhbXBsZXM6DQo+ID4gKyAgLSB8DQo+ID4gKyAgICAjaW5jbHVkZSA8ZHQt
-YmluZGluZ3MvZ3Bpby9ncGlvLmg+DQo+ID4gKyAgICAjaW5jbHVkZSA8ZHQtYmluZGluZ3MvaW50
-ZXJydXB0LWNvbnRyb2xsZXIvaXJxLmg+DQo+ID4gKw0KPiA+ICsgICAgaTJjIHsNCj4gPiArICAg
-ICAgICAjYWRkcmVzcy1jZWxscyA9IDwxPjsNCj4gPiArICAgICAgICAjc2l6ZS1jZWxscyA9IDww
-PjsNCj4gPiArDQo+ID4gKyAgICAgICAgYnJpZGdlQDU4IHsNCj4gPiArICAgICAgICAgICAgY29t
-cGF0aWJsZSA9ICJpdGUsaXQ2MTYyMCI7DQo+ID4gKyAgICAgICAgICAgIHJlZyA9IDwweDU4PjsN
-Cj4gPiArICAgICAgICAgICAgI3NvdW5kLWRhaS1jZWxscyA9IDwwPjsNCj4gPiArICAgICAgICAg
-ICAgaW50ZXJydXB0LXBhcmVudCA9IDwmcGlvPjsNCj4gPiArICAgICAgICAgICAgaW50ZXJydXB0
-cyA9IDwxMjggSVJRX1RZUEVfTEVWRUxfTE9XPjsNCj4gPiArICAgICAgICAgICAgcGluY3RybC1u
-YW1lcyA9ICJkZWZhdWx0IjsNCj4gPiArICAgICAgICAgICAgcGluY3RybC0wID0gPCZpdDYxNjIw
-X3BpbnM+Ow0KPiA+ICsgICAgICAgICAgICByZXNldC1ncGlvcyA9IDwmcGlvIDEyNyBHUElPX0FD
-VElWRV9MT1c+Ow0KPiA+ICsgICAgICAgICAgICBpdmRkLXN1cHBseSA9IDwmcHAxMDAwX2hkbWlf
-eD47DQo+ID4gKyAgICAgICAgICAgIG92ZGQtc3VwcGx5ID0gPCZwcDMzMDBfdmlvMjhfeD47DQo+
-ID4gKyAgICAgICAgICAgIG92ZGQxODMzLXN1cHBseSA9IDwmcHAxODAwX3ZjYW1pb194PjsNCj4g
-PiArDQo+ID4gKyAgICAgICAgICAgIHBvcnRzIHsNCj4gPiArICAgICAgICAgICAgICAgICNhZGRy
-ZXNzLWNlbGxzID0gPDE+Ow0KPiA+ICsgICAgICAgICAgICAgICAgI3NpemUtY2VsbHMgPSA8MD47
-DQo+ID4gKw0KPiA+ICsgICAgICAgICAgICAgICAgcG9ydEAwIHsNCj4gPiArICAgICAgICAgICAg
-ICAgICAgICByZWcgPSA8MD47DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgaXQ2MTYyMF9kc2lf
-aW46IGVuZHBvaW50IHsNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgZGF0YS1sYW5lcyA9
-IDwwIDEgMiAzPjsNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgcmVtb3RlLWVuZHBvaW50
-ID0gPCZkc2lfb3V0PjsNCj4gPiArICAgICAgICAgICAgICAgICAgICB9Ow0KPiA+ICsgICAgICAg
-ICAgICAgICAgfTsNCj4gPiArDQo+ID4gKyAgICAgICAgICAgICAgICBwb3J0QDEgew0KPiA+ICsg
-ICAgICAgICAgICAgICAgICAgIHJlZyA9IDwxPjsNCj4gPiArICAgICAgICAgICAgICAgICAgICBp
-dDYxNjIwX2hkbWlfb3V0OiBlbmRwb2ludCB7DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAg
-IHJlbW90ZS1lbmRwb2ludCA9IDwmaGRtaV9jb25uZWN0b3JfaW4+Ow0KPiA+ICsgICAgICAgICAg
-ICAgICAgICAgIH07DQo+ID4gKyAgICAgICAgICAgICAgICB9Ow0KPiA+ICsNCj4gPiArICAgICAg
-ICAgICAgICAgIHBvcnRAMiB7DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgcmVnID0gPDI+Ow0K
-PiA+ICsgICAgICAgICAgICAgICAgICAgIGl0NjE2MjBfYXVkaW9faW46IGVuZHBvaW50IHsNCj4g
-PiArICAgICAgICAgICAgICAgICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0gPCZpMnMwX291dD47
-DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgfTsNCj4gPiArICAgICAgICAgICAgICAgIH07DQo+
-ID4gKyAgICAgICAgICAgIH07DQo+ID4gKyAgICAgICAgfTsNCj4gPiArICAgIH07DQo+ID4NCj4g
-PiAtLQ0KPiA+IDIuMzQuMQ0KPiA+DQo=
+On Tue, Feb 10, 2026 at 10:59:31AM +0000, Satyanarayana K V P wrote:
+> drm_suballoc_new() currently both allocates the SA object using kmalloc()
+> and searches for a suitable hole in the sub-allocator for the requested
+> size. If SA allocation is done by holding sub-allocator mutex, this design
+> can lead to reclaim safety issues.
+> 
+> By splitting the kmalloc() step outside of the critical section, we allow
+> the memory allocation to use GFP_KERNEL (reclaim-safe) while ensuring that
+> the initialization step that holds reclaim-tainted locks (sub-allocator
+> mutex) operates in a reclaim-unsafe context with pre-allocated memory.
+> 
+> This separation prevents potential deadlocks where memory reclaim could
+> attempt to acquire locks that are already held during the sub-allocator
+> operations.
+> 
+> Signed-off-by: Satyanarayana K V P <satyanarayana.k.v.p@intel.com>
+> Suggested-by: Matthew Brost <matthew.brost@intel.com>
+
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: dri-devel@lists.freedesktop.org
+> 
+> ---
+> V2 -> V3:
+> - Updated commit message (Matt, Thomas & Christian).
+> - Removed timeout logic from drm_suballoc_init(). (Thomas & Christian).
+> 
+> V1 -> V2:
+> - Splitted drm_suballoc_new() into drm_suballoc_alloc() and
+> drm_suballoc_init() (Thomas).
+> ---
+>  drivers/gpu/drm/drm_suballoc.c | 110 ++++++++++++++++++++++++++-------
+>  include/drm/drm_suballoc.h     |   8 +++
+>  2 files changed, 97 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_suballoc.c b/drivers/gpu/drm/drm_suballoc.c
+> index 879ea33dbbc4..b97ffcd98d45 100644
+> --- a/drivers/gpu/drm/drm_suballoc.c
+> +++ b/drivers/gpu/drm/drm_suballoc.c
+> @@ -123,7 +123,7 @@ static void drm_suballoc_remove_locked(struct drm_suballoc *sa)
+>  	list_del_init(&sa->olist);
+>  	list_del_init(&sa->flist);
+>  	dma_fence_put(sa->fence);
+> -	kfree(sa);
+> +	drm_suballoc_release(sa);
+>  }
+>  
+>  static void drm_suballoc_try_free(struct drm_suballoc_manager *sa_manager)
+> @@ -293,45 +293,74 @@ static bool drm_suballoc_next_hole(struct drm_suballoc_manager *sa_manager,
+>  }
+>  
+>  /**
+> - * drm_suballoc_new() - Make a suballocation.
+> + * drm_suballoc_alloc() - Allocate uninitialized suballoc object.
+> + * @gfp: gfp flags used for memory allocation.
+> + *
+> + * Allocate memory for an uninitialized suballoc object. Intended usage is
+> + * allocate memory for suballoc object outside of a reclaim tainted context
+> + * and then be initialized at a later time in a reclaim tainted context.
+> + *
+> + * @drm_suballoc_release should be used to release the memory if returned
+> + * suballoc object is in uninitialized state.
+> + *
+> + * Return: a new uninitialized suballoc object, or an ERR_PTR(-ENOMEM).
+> + */
+> +struct drm_suballoc *drm_suballoc_alloc(gfp_t gfp)
+> +{
+> +	struct drm_suballoc *sa;
+> +
+> +	sa = kmalloc(sizeof(*sa), gfp);
+> +	if (!sa)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	return sa;
+> +}
+> +EXPORT_SYMBOL(drm_suballoc_alloc);
+> +
+> +/**
+> + * drm_suballoc_release() - Release memory for suballocation.
+> + * @sa: The struct drm_suballoc.
+> + */
+> +void drm_suballoc_release(struct drm_suballoc *sa)
+> +{
+> +	kfree(sa);
+> +}
+> +EXPORT_SYMBOL(drm_suballoc_release);
+> +
+> +/**
+> + * drm_suballoc_init() - Initialize a suballocation.
+>   * @sa_manager: pointer to the sa_manager
+> + * @sa: The struct drm_suballoc.
+>   * @size: number of bytes we want to suballocate.
+> - * @gfp: gfp flags used for memory allocation. Typically GFP_KERNEL but
+> - *       the argument is provided for suballocations from reclaim context or
+> - *       where the caller wants to avoid pipelining rather than wait for
+> - *       reclaim.
+>   * @intr: Whether to perform waits interruptible. This should typically
+>   *        always be true, unless the caller needs to propagate a
+>   *        non-interruptible context from above layers.
+>   * @align: Alignment. Must not exceed the default manager alignment.
+>   *         If @align is zero, then the manager alignment is used.
+>   *
+> - * Try to make a suballocation of size @size, which will be rounded
+> - * up to the alignment specified in specified in drm_suballoc_manager_init().
+> + * Try to make a suballocation on a pre-allocated suballoc object of size @size,
+> + * which will be rounded up to the alignment specified in specified in
+> + * drm_suballoc_manager_init().
+>   *
+> - * Return: a new suballocated bo, or an ERR_PTR.
+> + * Return: zero on success, errno on failure.
+>   */
+> -struct drm_suballoc *
+> -drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
+> -		 gfp_t gfp, bool intr, size_t align)
+> +int drm_suballoc_init(struct drm_suballoc_manager *sa_manager,
+> +		      struct drm_suballoc *sa, size_t size,
+> +		      bool intr, size_t align)
+>  {
+>  	struct dma_fence *fences[DRM_SUBALLOC_MAX_QUEUES];
+>  	unsigned int tries[DRM_SUBALLOC_MAX_QUEUES];
+>  	unsigned int count;
+>  	int i, r;
+> -	struct drm_suballoc *sa;
+>  
+>  	if (WARN_ON_ONCE(align > sa_manager->align))
+> -		return ERR_PTR(-EINVAL);
+> +		return -EINVAL;
+>  	if (WARN_ON_ONCE(size > sa_manager->size || !size))
+> -		return ERR_PTR(-EINVAL);
+> +		return -EINVAL;
+>  
+>  	if (!align)
+>  		align = sa_manager->align;
+>  
+> -	sa = kmalloc(sizeof(*sa), gfp);
+> -	if (!sa)
+> -		return ERR_PTR(-ENOMEM);
+>  	sa->manager = sa_manager;
+>  	sa->fence = NULL;
+>  	INIT_LIST_HEAD(&sa->olist);
+> @@ -348,7 +377,7 @@ drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
+>  			if (drm_suballoc_try_alloc(sa_manager, sa,
+>  						   size, align)) {
+>  				spin_unlock(&sa_manager->wq.lock);
+> -				return sa;
+> +				return 0;
+>  			}
+>  
+>  			/* see if we can skip over some allocations */
+> @@ -385,8 +414,47 @@ drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
+>  	} while (!r);
+>  
+>  	spin_unlock(&sa_manager->wq.lock);
+> -	kfree(sa);
+> -	return ERR_PTR(r);
+> +	return r;
+> +}
+> +EXPORT_SYMBOL(drm_suballoc_init);
+> +
+> +/**
+> + * drm_suballoc_new() - Make a suballocation.
+> + * @sa_manager: pointer to the sa_manager
+> + * @size: number of bytes we want to suballocate.
+> + * @gfp: gfp flags used for memory allocation. Typically GFP_KERNEL but
+> + *       the argument is provided for suballocations from reclaim context or
+> + *       where the caller wants to avoid pipelining rather than wait for
+> + *       reclaim.
+> + * @intr: Whether to perform waits interruptible. This should typically
+> + *        always be true, unless the caller needs to propagate a
+> + *        non-interruptible context from above layers.
+> + * @align: Alignment. Must not exceed the default manager alignment.
+> + *         If @align is zero, then the manager alignment is used.
+> + *
+> + * Try to make a suballocation of size @size, which will be rounded
+> + * up to the alignment specified in specified in drm_suballoc_manager_init().
+> + *
+> + * Return: a new suballocated bo, or an ERR_PTR.
+> + */
+> +struct drm_suballoc *
+> +drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
+> +		 gfp_t gfp, bool intr, size_t align)
+> +{
+> +	struct drm_suballoc *sa;
+> +	int err;
+> +
+> +	sa = drm_suballoc_alloc(gfp);
+> +	if (IS_ERR(sa))
+> +		return sa;
+> +
+> +	err = drm_suballoc_init(sa_manager, sa, size, intr, align);
+> +	if (err) {
+> +		drm_suballoc_release(sa);
+> +		return ERR_PTR(err);
+> +	}
+> +
+> +	return sa;
+>  }
+>  EXPORT_SYMBOL(drm_suballoc_new);
+>  
+> diff --git a/include/drm/drm_suballoc.h b/include/drm/drm_suballoc.h
+> index 7ba72a81a808..b8d1d5449fd8 100644
+> --- a/include/drm/drm_suballoc.h
+> +++ b/include/drm/drm_suballoc.h
+> @@ -53,6 +53,14 @@ void drm_suballoc_manager_init(struct drm_suballoc_manager *sa_manager,
+>  
+>  void drm_suballoc_manager_fini(struct drm_suballoc_manager *sa_manager);
+>  
+> +struct drm_suballoc *drm_suballoc_alloc(gfp_t gfp);
+> +
+> +void drm_suballoc_release(struct drm_suballoc *sa);
+> +
+> +int drm_suballoc_init(struct drm_suballoc_manager *sa_manager,
+> +		      struct drm_suballoc *sa, size_t size, bool intr,
+> +		      size_t align);
+> +
+>  struct drm_suballoc *
+>  drm_suballoc_new(struct drm_suballoc_manager *sa_manager, size_t size,
+>  		 gfp_t gfp, bool intr, size_t align);
+> -- 
+> 2.43.0
+> 
