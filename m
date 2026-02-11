@@ -2,33 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MOVRINimjGnVrwAAu9opvQ
+	id SFzmOC+njGnVrwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 16:57:12 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 16:58:39 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE250125E36
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 16:57:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20945125E64
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 16:58:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 541C110E0EA;
-	Wed, 11 Feb 2026 15:57:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC85410E623;
+	Wed, 11 Feb 2026 15:58:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9CEA510E0EA
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 15:57:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id AC0B310E623
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 15:58:34 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ADBAE339;
- Wed, 11 Feb 2026 07:57:01 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ED2AB339;
+ Wed, 11 Feb 2026 07:58:27 -0800 (PST)
 Received: from [10.57.54.250] (unknown [10.57.54.250])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6F3193F632;
- Wed, 11 Feb 2026 07:57:03 -0800 (PST)
-Message-ID: <6718246e-0a11-4dae-88b9-ce8192c9dc31@arm.com>
-Date: Wed, 11 Feb 2026 15:57:00 +0000
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D24BD3F632;
+ Wed, 11 Feb 2026 07:58:29 -0800 (PST)
+Message-ID: <4f90ca0b-4291-43a8-b131-19da3ac848e9@arm.com>
+Date: Wed, 11 Feb 2026 15:58:27 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/9] drm/panthor: Don't call drm_gpuvm_bo_extobj_add()
- if the object is private
+Subject: Re: [PATCH v3 5/9] drm/panthor: Part ways with drm_gem_shmem_object
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Liviu Dudau <liviu.dudau@arm.com>,
  =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
@@ -45,10 +44,10 @@ Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
  =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  Alice Ryhl <aliceryhl@google.com>, kernel@collabora.com
 References: <20260211080343.1887134-1-boris.brezillon@collabora.com>
- <20260211080343.1887134-5-boris.brezillon@collabora.com>
+ <20260211080343.1887134-6-boris.brezillon@collabora.com>
 From: Steven Price <steven.price@arm.com>
 Content-Language: en-GB
-In-Reply-To: <20260211080343.1887134-5-boris.brezillon@collabora.com>
+In-Reply-To: <20260211080343.1887134-6-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,43 +94,108 @@ X-Spamd-Result: default: False [-0.51 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,arm.com:mid,arm.com:email]
-X-Rspamd-Queue-Id: EE250125E36
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 20945125E64
 X-Rspamd-Action: no action
 
 On 11/02/2026 08:03, Boris Brezillon wrote:
-> drm_gpuvm_bo_extobj_add() is a NOP if the object is private, but it
-> forces us to take/release the VM resv lock, so let's do that only when
-> we know the object can be shared.
+> While drm_gem_shmem_object does most of the job we need it to do, the
+> way sub-resources (pages, sgt, vmap) are handled and their lifetimes
+> gets in the way of BO reclaim. There has been attempts to address
+> that [1], but in the meantime, new gem_shmem users were introduced
+> (accel drivers), and some of them manually free some of these resources.
+> This makes things harder to control/sanitize/validate.
+> 
+> Thomas Zimmerman is not a huge fan of enforcing lifetimes of sub-resources
+> and forcing gem_shmem users to go through new gem_shmem helpers when they
+> need manual control of some sort, and I believe this is a dead end if
+> we don't force users to follow some stricter rules through carefully
+> designed helpers, because there will always be one user doing crazy things
+> with gem_shmem_object internals, which ends up tripping out the common
+> helpers when they are called.
+> 
+> The consensus we reached was that we would be better off forking
+> gem_shmem in panthor. So here we are, parting ways with gem_shmem. The
+> current transition tries to minimize the changes, but there are still
+> some aspects that are different, the main one being that we no longer
+> have a pages_use_count, and pages stays around until the GEM object is
+> destroyed (or when evicted once we've added a shrinker). The sgt also
+> no longer retains pages. This is losely based on how msm does things by
+> the way.
+> 
+> If there's any interest in sharing code (probably with msm, since the
+> panthor shrinker is going to be losely based on the msm implementation),
+> we can always change gears and do that once we have everything
+> working/merged.
+> 
+> [1]https://patchwork.kernel.org/project/dri-devel/patch/20240105184624.508603-1-dmitry.osipenko@collabora.com/
+> 
+> v2:
+> - Fix refcounting
+> - Add a _locked suffix to a bunch of functions expecting the resv lock
+>   to be held
+> - Take the lock before releasing resources in panthor_gem_free_object()
 > 
 > v3:
-> - New commit
+> - Use ERR_CAST() to fix an ERR-ptr deref
+> - Add missing resv_[un]lock() around a panthor_gem_backing_unpin_locked()
+>   call
 > 
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Looks good, but one issue I missed previously below.
 
-> ---
->  drivers/gpu/drm/panthor/panthor_mmu.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index ba3b7c93303c..99c794c429ca 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -1284,9 +1284,11 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
->  	}
->  
->  	/* Insert BO into the extobj list last, when we know nothing can fail. */
-> -	dma_resv_lock(panthor_vm_resv(vm), NULL);
-> -	drm_gpuvm_bo_extobj_add(op_ctx->map.vm_bo);
-> -	dma_resv_unlock(panthor_vm_resv(vm));
-> +	if (bo->base.base.resv != panthor_vm_resv(vm)) {
-> +		dma_resv_lock(panthor_vm_resv(vm), NULL);
-> +		drm_gpuvm_bo_extobj_add(op_ctx->map.vm_bo);
-> +		dma_resv_unlock(panthor_vm_resv(vm));
+[...]
+
+> +
+> +static void *
+> +panthor_gem_vmap_get_locked(struct panthor_gem_object *bo)
+> +{
+> +	pgprot_t prot = PAGE_KERNEL;
+> +	void *vaddr;
+> +	int ret;
+> +
+> +	dma_resv_assert_held(bo->base.resv);
+> +
+> +	if (drm_WARN_ON_ONCE(bo->base.dev, drm_gem_is_imported(&bo->base)))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	if (refcount_inc_not_zero(&bo->cmap.vaddr_use_count)) {
+> +		drm_WARN_ON_ONCE(bo->base.dev, !bo->cmap.vaddr);
+> +		return bo->cmap.vaddr;
 > +	}
->  
->  	return 0;
->  
+> +
+> +	ret = panthor_gem_backing_pin_locked(bo);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	ret = panthor_gem_prep_for_cpu_map_locked(bo);
+> +	if (ret)
+> +		return ERR_PTR(ret);
 
+This should be "goto err_unpin" to drop the pin.
+
+Thanks,
+Steve
+
+> +
+> +	if (should_map_wc(bo))
+> +		prot = pgprot_writecombine(prot);
+> +
+> +	vaddr = vmap(bo->backing.pages, bo->base.size >> PAGE_SHIFT, VM_MAP, prot);
+> +	if (!vaddr) {
+> +		ret = -ENOMEM;
+> +		goto err_unpin;
+> +	}
+> +
+> +	bo->cmap.vaddr = vaddr;
+> +	refcount_set(&bo->cmap.vaddr_use_count, 1);
+> +	return vaddr;
+> +
+> +err_unpin:
+> +	panthor_gem_backing_unpin_locked(bo);
+> +	return ERR_PTR(ret);
+> +}
+> +
+
+[...]
