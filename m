@@ -2,78 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aMG4BIyJjGmHqgAAu9opvQ
+	id GDKVOfmJjGmHqgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 14:52:12 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 14:54:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E176124F53
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 14:52:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B1F8124F89
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 14:54:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C23610E13F;
-	Wed, 11 Feb 2026 13:52:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECEAA10E19A;
+	Wed, 11 Feb 2026 13:53:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="qpQBzjC9";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="KuJa1X+U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 067EC10E061;
- Wed, 11 Feb 2026 13:52:05 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84C6210E19A
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 13:53:57 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4fB0Gp2fV3z9t7J;
- Wed, 11 Feb 2026 14:52:02 +0100 (CET)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4fB0Jy3VYYz9vBg;
+ Wed, 11 Feb 2026 14:53:54 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1770817922;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mail20150812; 
+ t=1770818034; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yxKEHwbovRnvyc59yNKUzy6FUu2BaNX4jTYntFh9sR8=;
- b=qpQBzjC9EXP5H02oJrmSED079Yuo8g85mf5cR0OJxcwtkPTw5ztRKfmw6ZS1GzobjnLUoi
- ecpdIMDLdluteiNz81RPQRZZuTEk3Xp8iaq11PYalF5/JBRd0y49t3MOLlan3zx7Ua2Mjp
- 9KAkbZdrVzfxDPKhf8nRanamYt+xPnX8Ea8F7OAmz+qOHEFRRT1FKbSLGNrQsjZpAuGTgO
- d2Lv9qC/lpc3aDn2RoNVvMC3ked9rDEpo4BcUpgJlOdtCAXz0+rUM5jBK47yhR1JbfZ1as
- 9renvmamPJBj9mXqSFR7BDAuQrmLlDHrSKWRtrCH8fVGLO6nO6KasQ4J+72GWQ==
-Message-ID: <04f79a47-8237-4170-9729-f5d0ce104921@mailbox.org>
-Date: Wed, 11 Feb 2026 14:51:55 +0100
+ bh=YMMDA1BaSe6r+JjJIbOpvhc0hja6eg+QaZo9U6mphZo=;
+ b=KuJa1X+U9mnN7rCIY65TdVjhrjF9uDXDDiUVuZX2txKfC2PJfWA4YP3wvh3Ow/nk3eVSyu
+ 8DNWpA5CcAl4TQS7LIoELD2UY2KIEFcOP8BNTIop6A+0fFtSOC02nfwMzUS4KJiquM2gSD
+ siwKEyoFqfxz9PJzB8Kv0o18mPM6aJXsrKHW49AKQcO6s3Hm/0o9+P9EVtDqvHsMjxc00c
+ 2Ld8aac1XJB7BE4XG0LYNYHmq5GOesa9D34lNvxmIXCufRMwGw+sIulJCLKUOe8xWlgjC/
+ NE6U+U0OtmzpiAhMJDYuxy/NOm858U4rFa0QfeqRa9fBn//ChHTbFLbeqPL1hg==
+Message-ID: <535d0c8637319f14f2d104a928a75ae872be8786.camel@mailbox.org>
+Subject: Re: [RFC PATCH 3/4] rust/drm: Add DRM Jobqueue
+From: Philipp Stanner <phasta@mailbox.org>
+To: Alice Ryhl <aliceryhl@google.com>, phasta@kernel.org
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Danilo Krummrich
+ <dakr@kernel.org>, Gary Guo <gary@garyguo.net>, Benno Lossin
+ <lossin@kernel.org>,  Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,  rust-for-linux@vger.kernel.org
+Date: Wed, 11 Feb 2026 14:53:49 +0100
+In-Reply-To: <aYx7d21_hIWP93XW@google.com>
+References: <20260203081403.68733-2-phasta@kernel.org>
+ <20260203081403.68733-5-phasta@kernel.org> <20260210155750.5cdbe6cc@fedora>
+ <8ea48ce49f2c7b6fd715dd54c24e755e8ac3262c.camel@mailbox.org>
+ <20260211120742.0e9e7122@fedora>
+ <f3d2e3b370bed55cc2a95287b3c257f878b5e92b.camel@mailbox.org>
+ <aYx0a-2eANbM_vnd@google.com>
+ <e4f3ff81338dd738e1c6d81e255c129c07e9c7fb.camel@mailbox.org>
+ <aYx7d21_hIWP93XW@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Subject: Re: [PATCH RFC v3 0/7] Async Flip in Atomic ioctl corrections
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- "xaver.hugl@kde.org" <xaver.hugl@kde.org>,
- "andrealmeid@igalia.com" <andrealmeid@igalia.com>,
- "Kumar, Naveen1" <naveen1.kumar@intel.com>,
- "Syrjala, Ville" <ville.syrjala@intel.com>,
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
-References: <20260108-async-v3-0-e7730c3fe9ff@intel.com>
- <342abb15-95e6-4ed6-8b86-a900c0f403a4@mailbox.org>
- <IA0PR11MB730722B84E81A0CC9BF80275BA82A@IA0PR11MB7307.namprd11.prod.outlook.com>
- <d1e6ad38-06bf-4139-966d-312bc728225c@mailbox.org>
- <83e50bd4-de11-4298-bab9-7a5255b0c5ca@intel.com>
- <dd0a089c-6591-4fc3-b14e-5acc1c59cf8e@mailbox.org>
- <IA0PR11MB73070E28F07D2BA29C5D5473BA63A@IA0PR11MB7307.namprd11.prod.outlook.com>
- <7c83329b-a730-4e3f-b6d1-c41db4df3bd9@mailbox.org>
- <bebe5a45-85b0-4124-bc8b-c94527d00663@intel.com>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: en-CA
-In-Reply-To: <bebe5a45-85b0-4124-bc8b-c94527d00663@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 12bbf22755a121b727b
-X-MBO-RS-META: 5ywqpfaastfru1kqu4jt6ji111wkpydd
+X-MBO-RS-ID: 80e0c499da5b6706640
+X-MBO-RS-META: cetihdejqmi5azq6j1g58qw9h9ts1z1y
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,111 +77,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[intel.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,ursulin.net,kde.org,igalia.com];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
+	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:phasta@kernel.org,m:boris.brezillon@collabora.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:dakr@kernel.org,m:gary@garyguo.net,m:lossin@kernel.org,m:christian.koenig@amd.com,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[michel.daenzer@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[collabora.com,gmail.com,ffwll.ch,kernel.org,garyguo.net,amd.com,nvidia.com,vger.kernel.org,lists.freedesktop.org];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	HAS_REPLYTO(0.00)[phasta@kernel.org];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:mid,mailbox.org:dkim,mailbox.org:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 9E176124F53
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:mid,mailbox.org:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 6B1F8124F89
 X-Rspamd-Action: no action
 
-On 2/11/26 14:38, Murthy, Arun R wrote:
-> On 11-02-2026 14:27, Michel Dänzer wrote:
->> On 2/11/26 06:48, Murthy, Arun R wrote:
->>>> On 1/12/26 09:23, Murthy, Arun R wrote:
->>>>> On 09-01-2026 16:52, Michel Dänzer wrote:
->>>>>> On 1/9/26 12:07, Murthy, Arun R wrote:
->>>>>>>> From: Michel Dänzer <michel.daenzer@mailbox.org> On 1/8/26 10:43,
->>>>>>>> Arun R Murthy wrote:
->>>>>>>>> struct drm_crtc_state {
->>>>>>>>>           /**
->>>>>>>>>            * @async_flip:
->>>>>>>>>            *
->>>>>>>>>            * This is set when DRM_MODE_PAGE_FLIP_ASYNC is set in the
->>>> legacy
->>>>>>>>>            * PAGE_FLIP IOCTL. It's not wired up for the atomic
->>>>>>>>> IOCTL itself yet.
->>>>>>>>>            */
->>>>>>>>>           bool async_flip;
->>>>>>>>>
->>>>>>>>> In the existing code the flag async_flip was intended for the
->>>>>>>>> legacy PAGE_FLIP IOCTL. But the same is being used for atomic IOCTL.
->>>>>>>>> As per the hardware feature is concerned, async flip is a plane
->>>>>>>>> feature and is to be treated per plane basis and not per pipe basis.
->>>>>>>>> For a given hardware pipe, among the multiple hardware planes, one
->>>>>>>>> can go with sync flip and other 2/3 can go with async flip.
->>>>>>>> FWIW, this kind of mix'n'match doesn't seem useful with current
->>>>>>>> UAPI, since no new commit can be made for the async plane(s) before
->>>>>>>> the previous commit for the sync plane(s) has completed, so the
->>>>>>>> async plane(s) can't actually have higher update rate than the sync one(s).
->>>>>>> That’s right, such mix and match flips will still consume vblank time for
->>>> flipping.
->>>>>> Does a plane property really make sense for this then?
->>>>> As per the hardware this async flip is per plane basis and not per crtc.
->>>> That's not really relevant.
->>>>
->>>>
->>>>> Not that I am trying to clean up this. Recently AMD added async support on
->>>> overlays as well for which  few other hacks were added. The checks that we do
->>>> for async flip were all done in place of copy the objs/properties, but it actually is
->>>> supposed to be done in the check_only() part of the drm core code. This was
->>>> the limitation with the existing implementation.
->>>>
->>>> Those implementation details can be changed without changing UAPI.
->>>>
->>>>
->>>>> As per hardware the async flip is associated with the plane, hence changing it
->>>> to a plane property.
->>>>
->>>> A plane property would only really be needed for mixing async & sync plane
->>>> updates in a single commit. Since that's currently not usefully possible due to
->>>> other restrictions of the UAPI, the DRM_MODE_PAGE_FLIP_ASYNC flag which
->>>> affects the commit as a whole is fine at this point.
->>>>
->>> Sorry for getting back late on this, took some time to collaborate all the feedbacks.
->>>
->>> We can depict the below 3 scenarios based on the discussions so far.
->>> 1. KMD can allow a mix of sync and async only if there is a disable plane req on sync and no plane update on sync flips along with async flips(maybe on multiple planes).  KMD will send the flipdone after sync plane disable is done. (Basically flipdone will send at vblank)
->> What would be the point of allowing that? The compositor can't do the next commit before the sync plane has turned off anyway, so it can just as well do that in a sync commit and the async plane updates in separate commits later.
-> For an async flip to start, the 1st async flip will consume almost a vblank time, so if compositor does a sync flip on a plane along with sync flip to disable the plane, the next async flip will still consume a vblank time. If KMD allows disabling of a sync plane with async flip then we can overcome this.
+On Wed, 2026-02-11 at 12:52 +0000, Alice Ryhl wrote:
+>=20
+> Yes, many people assume "list widely used in kernel" implies "list is a
+> good idea". Unfortunately it is not the case.
+>=20
+> > > This applies to the red/black tree too, by the way.
+> >=20
+> > Can't fully follow, you mean that RB trees are supposedly overused,
+> > too?
+>=20
+> When I first suggested adding red/black tree abstractions in Rust
+> several years ago I was told by Greg that I couldn't do it because the
+> red/black tree was deprecated and no new users should be added.
 
-The HW limitation you describe makes frequent switching between sync & async flips infeasible anyway, so it's doubtful that an additional sync flip before async flips would really make a difference in practice.
+Do you have a link or sth?
 
-So this would essentially complicate the UAPI to avoid a vendor-specific issue, for dubious benefit.
+First time in my life that I hear that RB trees shouldn't be used. If
+something is deprecated for good one would hope that's obvious.
 
+What's the justification? Should everyone use the B-Tree?
+RB trees are super widely used in CS.=20
 
->>> 3. With multiple plane async flips, KMD send flip done per plane basis to the user. (async flag per plane from user)
->>> 4. With supporting a mix of sync and async flips, should KMD allow them and send one flipdone for async flips and one flipdone for sync flips.
->> Again not sure what would be the point of 3 or 4, since the compositor can't do the next commit before all planes have updated anyway.
-> Upon compositor getting a flipdone on the async flip, the buffers will be unpinned and this can be used by the compositor for rendering or for preparing the next flip.
+P.
 
-I have a hard time seeing that make any practical difference.
+>=20
+> Later I found that this was more of a not-written-down recommendation
+> than a full deprecation, and since Rust Binder has codepaths where an
+> ENOMEM failure path is unacceptable for the map, we did end up adding a
+> Rust rb tree abstraction after all. But this is where I first heard of
+> this issue with lists and rb trees.
+>=20
+> Alice
 
-
--- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
