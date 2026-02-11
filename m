@@ -2,82 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wH+ZK1RjjGkFmgAAu9opvQ
+	id UGIAGyZkjGkFmgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 12:09:08 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 12:12:38 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36DF4123C0B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 12:09:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A5F0123C3F
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 12:12:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D20510E3A1;
-	Wed, 11 Feb 2026 11:09:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44E6510E56F;
+	Wed, 11 Feb 2026 11:12:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="nZ+rXX/b";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Y6Wymdv1";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="XjGo25O2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87C9810E3A1;
- Wed, 11 Feb 2026 11:09:04 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2188A10E3AB
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 11:12:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1770808348;
+ bh=AL4gXBUKDvNloYgmDirGwFSPJo0Qc0RUfRg4B9FbWOo=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=XjGo25O2Y7E9uOZRXTw4Sj50pdVL+POGMF5jgV1HpevBvjl5oY/BZ4ec4l95EI3LT
+ vlVRbkRR3POk8l9Td4QdSoHcSRwuLu7VcKqwC7f/4YJqdMv8fIYG9spZql770H/0DG
+ oyPfThXPCrqgsyxuD1l/GfbRDMCgbUI5DlMahKUt4SOs9YYheOK0K0LEaNX3CwZYe0
+ f1/LC8/K7QM73AVLkVoiFMsh3s+og2qnMKln93u/9AYkKqSlLV4HDpTcg2etj3CDU7
+ V5BLGVBJVBhn86wcnUYKN/bJMw1TUDm35UZD6DgcAljC5yEQWG9vhFWXDbIToKpd+a
+ YIanVP6t6ztMA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4f9wfk6ZtHz9sWs;
- Wed, 11 Feb 2026 12:09:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1770808142; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aAt5kr3OeUX5sX1ZVdpkNhANBexAhw4hyuYtW1lDL1E=;
- b=nZ+rXX/bFicHn7CaY6kJtqY30EAKXHP7SRUciP6IlcBuGg4ub+WPwdWkxF/06oByFhfSp6
- zlnWLHjPp+9jhp8dqJPR1eXTdXZ2c8713vj+7/Bm3LckoE/gqZfpL7CEyzdDfdy0ZBsZRW
- vFo9ivwsZtaww7zrtqyFS/V3LkLqttjLL++RuOhZDeg8me0GOPB7I1gN6ZtWGm7BrnfBYl
- 41bAgHqNUtiBSg+8IrPPjRzGPwLhDNduxG9uX4BdKtnJqwJxar7lC6kdwN9aHMMh/4mU9G
- E21skq8VrKhUF+iX7uI2T+97HEtHqVZpb9URDsJ2zixXZSAVS6fTnBrigoPLmg==
-Authentication-Results: outgoing_mbo_mout;
- dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=Y6Wymdv1;
- spf=pass (outgoing_mbo_mout: domain of phasta@mailbox.org designates
- 2001:67c:2050:b231:465::102 as permitted sender)
- smtp.mailfrom=phasta@mailbox.org
-Message-ID: <7fcca1f49427e0279a740b6c1b9bb072eabc2c35.camel@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1770808141; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aAt5kr3OeUX5sX1ZVdpkNhANBexAhw4hyuYtW1lDL1E=;
- b=Y6Wymdv1Zw15ufaZZNWAaKq9uCV9qW/Kkk86hpkFgqxZ83aDE70ukRKMLBglhsQYvYYgMB
- TIZJbm11mVKLaWxUu43acHS5jf2ureRL39xMVAm24PAl6Ba/SNtk7qgm6XxPytjfcQI1Zc
- r3/qqgtARC3K+4Ad55xWDnj6+PgekMjWLhH0xTxl5nqG55SSZYE+npMMueIs5VsEMYVRsc
- gMCJjtBF+dLNgUuQI1vj6lbu6N7e/5mK1PxcVt/vsbW3NUCoaKwOK+PBjMgm6mH6ecKxIl
- bwM1ehk63Qir8fT/uyXAQIpexpX0f3uvTN9/BAnEv3HlklcgGCzUg4iiV1AbAg==
-Subject: Re: [PATCH v6 00/31] Fair(er) DRM scheduler
-From: Philipp Stanner <phasta@mailbox.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- amd-gfx@lists.freedesktop.org,  dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Leo Liu
- <Leo.Liu@amd.com>, Lucas Stach <l.stach@pengutronix.de>, Matthew Brost
- <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>, Pierre-Eric
- Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, Michel
- =?ISO-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>
-Date: Wed, 11 Feb 2026 12:08:53 +0100
-In-Reply-To: <20260128110806.38350-1-tvrtko.ursulin@igalia.com>
-References: <20260128110806.38350-1-tvrtko.ursulin@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 323AA17E1301;
+ Wed, 11 Feb 2026 12:12:28 +0100 (CET)
+Date: Wed, 11 Feb 2026 12:12:23 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: "Danilo Krummrich" <dakr@kernel.org>
+Cc: "Alice Ryhl" <aliceryhl@google.com>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, "Philipp Stanner" <phasta@mailbox.org>,
+ <phasta@kernel.org>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Gary Guo" <gary@garyguo.net>, "Benno Lossin"
+ <lossin@kernel.org>, "Daniel Almeida" <daniel.almeida@collabora.com>, "Joel
+ Fernandes" <joelagnelf@nvidia.com>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <lucas.demarchi@intel.com>, <thomas.hellstrom@linux.intel.com>,
+ <rodrigo.vivi@intel.com>
+Subject: Re: [RFC PATCH 2/4] rust: sync: Add dma_fence abstractions
+Message-ID: <20260211121223.78674f22@fedora>
+In-Reply-To: <DGC2WYUT80B4.3D4QKYP8FVVQJ@kernel.org>
+References: <20260205095727.4c3e2941@fedora>
+ <DG7SZND1GWR4.3C5NLKY4SYC0M@kernel.org>
+ <bb57b6837aa8044e679dad5f2589c2e0ba84c221.camel@mailbox.org>
+ <20260209155843.725dcfe1@fedora>
+ <c319c349-eb95-4c38-84fb-47440daefc3b@amd.com>
+ <aYruaIxn8sMXVI0r@google.com> <20260210101525.7fb85f25@fedora>
+ <aYsFKOVrsMQeAHoi@google.com>
+ <DGB7RWKMPJQZ.2PHB127O6MVVN@kernel.org>
+ <4e84306c-5cec-4048-a7eb-a364788baa89@amd.com>
+ <aYsZHhX2IVO2kOSm@google.com>
+ <DGC1KP1DT6YV.3LQWZXMA22L5A@kernel.org>
+ <20260211112049.089b2656@fedora>
+ <DGC2WYUT80B4.3D4QKYP8FVVQJ@kernel.org>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MBO-RS-ID: d2a89d284befc9df5e4
-X-MBO-RS-META: 3erjtmnqfahqyfy35u51eqq3qng61s43
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,64 +83,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:aliceryhl@google.com,m:christian.koenig@amd.com,m:phasta@mailbox.org,m:phasta@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:gary@garyguo.net,m:lossin@kernel.org,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:lucas.demarchi@intel.com,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	HAS_REPLYTO(0.00)[phasta@kernel.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	HAS_ORG_HEADER(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	FREEMAIL_CC(0.00)[google.com,amd.com,mailbox.org,kernel.org,gmail.com,ffwll.ch,garyguo.net,collabora.com,nvidia.com,vger.kernel.org,lists.freedesktop.org,intel.com,linux.intel.com];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:mid,mailbox.org:dkim]
-X-Rspamd-Queue-Id: 36DF4123C0B
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url]
+X-Rspamd-Queue-Id: 2A5F0123C3F
 X-Rspamd-Action: no action
 
-On Wed, 2026-01-28 at 11:07 +0000, Tvrtko Ursulin wrote:
-> ** NOTE:
-> =C2=A0=C2=A0 First three patches have been already reviewed and are conce=
-ptualy
-> =C2=A0=C2=A0 independent. But as the code conflicts, I am including them =
-while waiting for
-> =C2=A0=C2=A0 them to be merged via amd-next, and until they percolate bac=
-k to drm-tip, in
-> =C2=A0=C2=A0 order to avoid having to maintain two separate patch series.
+On Wed, 11 Feb 2026 12:00:30 +0100
+"Danilo Krummrich" <dakr@kernel.org> wrote:
 
+> On Wed Feb 11, 2026 at 11:20 AM CET, Boris Brezillon wrote:
+> > On Wed, 11 Feb 2026 10:57:27 +0100
+> > "Danilo Krummrich" <dakr@kernel.org> wrote:
+> > =20
+> >> (Cc: Xe maintainers)
+> >>=20
+> >> On Tue Feb 10, 2026 at 12:40 PM CET, Alice Ryhl wrote: =20
+> >> > On Tue, Feb 10, 2026 at 11:46:44AM +0100, Christian K=C3=B6nig wrote=
+:   =20
+> >> >> On 2/10/26 11:36, Danilo Krummrich wrote:   =20
+> >> >> > On Tue Feb 10, 2026 at 11:15 AM CET, Alice Ryhl wrote:   =20
+> >> >> >> One way you can see this is by looking at what we require of the
+> >> >> >> workqueue. For all this to work, it's pretty important that we n=
+ever
+> >> >> >> schedule anything on the workqueue that's not signalling safe, s=
+ince
+> >> >> >> otherwise you could have a deadlock where the workqueue is execu=
+tes some
+> >> >> >> random job calling kmalloc(GFP_KERNEL) and then blocks on our fe=
+nce,
+> >> >> >> meaning that the VM_BIND job never gets scheduled since the work=
+queue
+> >> >> >> is never freed up. Deadlock.   =20
+> >> >> >=20
+> >> >> > Yes, I also pointed this out multiple times in the past in the co=
+ntext of C GPU
+> >> >> > scheduler discussions. It really depends on the workqueue and how=
+ it is used.
+> >> >> >=20
+> >> >> > In the C GPU scheduler the driver can pass its own workqueue to t=
+he scheduler,
+> >> >> > which means that the driver has to ensure that at least one out o=
+f the
+> >> >> > wq->max_active works is free for the scheduler to make progress o=
+n the
+> >> >> > scheduler's run and free job work.
+> >> >> >=20
+> >> >> > Or in other words, there must be no more than wq->max_active - 1 =
+works that
+> >> >> > execute code violating the DMA fence signalling rules.   =20
+> >> >
+> >> > Ouch, is that really the best way to do that? Why not two workqueues=
+?   =20
+> >>=20
+> >> Most drivers making use of this re-use the same workqueue for multiple=
+ GPU
+> >> scheduler instances in firmware scheduling mode (i.e. 1:1 relationship=
+ between
+> >> scheduler and entity). This is equivalent to the JobQ use-case.
+> >>=20
+> >> Note that we will have one JobQ instance per userspace queue, so shari=
+ng the
+> >> workqueue between JobQ instances can make sense. =20
+> >
+> > Definitely, but I think that's orthogonal to allowing this common
+> > workqueue to be used for work items that don't comply with the
+> > dma-fence signalling rules, isn't it? =20
+>=20
+> Yes and no. If we allow passing around shared WQs without a corresponding=
+ type
+> abstraction we open the door for drivers to abuse it the schedule their o=
+wn
+> work.
+>=20
+> I.e. sharing a workqueue between JobQs is fine, but we have to ensure the=
+y can't
+> be used for anything else.
 
-So your intention with this v6 is just to get more reviews? What is the
-purpose?
+Totally agree with that, and that's where I was going with this special
+DmaFenceWorkqueue wrapper/abstract, that would only accept
+scheduling MaySignalDmaFencesWorkItem objects.
 
-And since the plan is supposedly that the drm_sched maintainers take
-it, when will they know that it's ready now?
+>=20
+> >> Besides that, IIRC Xe was re-using the workqueue for something else, b=
+ut that
+> >> doesn't seem to be the case anymore. I can only find [1], which more s=
+eems like
+> >> some custom GPU scheduler extention [2] to me... =20
+> >
+> > Yep, I think it can be the problematic case. It doesn't mean we can't
+> > schedule work items that don't signal fences, but I think it'd be
+> > simpler if we were forcing those to follow the same rules (no blocking
+> > alloc, no locks taken that are also taken in other paths were blocking
+> > allocs happen, etc) regardless of this wq->max_active value.
+> > =20
+> >>=20
+> >> [1] https://elixir.bootlin.com/linux/v6.18.6/source/drivers/gpu/drm/xe=
+/xe_gpu_scheduler.c#L40
+> >> [2] https://elixir.bootlin.com/linux/v6.18.6/source/drivers/gpu/drm/xe=
+/xe_gpu_scheduler_types.h#L28 =20
+>=20
 
-Can we agree on delaying a v7 until all lights are green?
-
-
-For the future, I think the more canonical (and less confusing) way to
-handle situations like this is not to include foreign patches into a
-single-topic patch series, but to hint in the cover letter at the
-situation and provide links: "Series is blocked by [1], [2]".
-
-
-P.
