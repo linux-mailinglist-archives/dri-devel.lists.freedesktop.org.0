@@ -2,66 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QIGaMJFSjGmukgAAu9opvQ
+	id iBlACiVUjGnrlAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 10:57:37 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 11:04:21 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C9291230E8
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 10:57:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 794E3123217
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 11:04:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1655210E09C;
-	Wed, 11 Feb 2026 09:57:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD6C10E35C;
+	Wed, 11 Feb 2026 10:04:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XKSVyD/j";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="qQUO0Nqx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="j5ARazM0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Qcx/7e7V";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WWaoMALo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBEA510E09C
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 09:57:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7829042157;
- Wed, 11 Feb 2026 09:57:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B2DFC4CEF7;
- Wed, 11 Feb 2026 09:57:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770803852;
- bh=UBgpfxg902aoW870xOV+hwMSmO6DTVJ0XdLPOKLXDEE=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=XKSVyD/jlYxSyAQQzxg1VhCxqYxs5R8DWrjW6PuzuHgwsyIL5jkhYBWeslmI2ADd/
- W1H7v3WlAWtJkzuDW/rkx0gDmgDrs/60iNj2RT+NxSJgFdyfALPuIfNmQp/vqvHg3O
- UWlnIrGYGT8pF3dstbMEl7KUtUxNAPVeWGMTvlJbHkph3bRZdisiib50vmNWrbCBRO
- tg7JvovCdnXUx9VFpEJnUPOKHZ6kGhP0A8vQhGFItgHyjECu5hCJ2S6erOwpzhwPFU
- ywvoPweKt4AigCHFJoit0Um08k9aVjd8yEBQYxBL4sIMBEsTghGr0AKJzDwPeRihBA
- OzeluWTW09t+Q==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 11 Feb 2026 10:57:27 +0100
-Message-Id: <DGC1KP1DT6YV.3LQWZXMA22L5A@kernel.org>
-Subject: Re: [RFC PATCH 2/4] rust: sync: Add dma_fence abstractions
-Cc: =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Boris
- Brezillon" <boris.brezillon@collabora.com>, "Philipp Stanner"
- <phasta@mailbox.org>, <phasta@kernel.org>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Gary Guo"
- <gary@garyguo.net>, "Benno Lossin" <lossin@kernel.org>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Joel Fernandes" <joelagnelf@nvidia.com>,
- <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>, <lucas.demarchi@intel.com>,
- <thomas.hellstrom@linux.intel.com>, <rodrigo.vivi@intel.com>
-To: "Alice Ryhl" <aliceryhl@google.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260205095727.4c3e2941@fedora>
- <DG7SZND1GWR4.3C5NLKY4SYC0M@kernel.org>
- <bb57b6837aa8044e679dad5f2589c2e0ba84c221.camel@mailbox.org>
- <20260209155843.725dcfe1@fedora>
- <c319c349-eb95-4c38-84fb-47440daefc3b@amd.com>
- <aYruaIxn8sMXVI0r@google.com> <20260210101525.7fb85f25@fedora>
- <aYsFKOVrsMQeAHoi@google.com> <DGB7RWKMPJQZ.2PHB127O6MVVN@kernel.org>
- <4e84306c-5cec-4048-a7eb-a364788baa89@amd.com>
- <aYsZHhX2IVO2kOSm@google.com>
-In-Reply-To: <aYsZHhX2IVO2kOSm@google.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB69310E35C
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 10:04:15 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 336073E714;
+ Wed, 11 Feb 2026 10:04:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1770804254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hr0fka0SqruIVT4jOSVT1npco3r1m3Roq/HsfhREnpM=;
+ b=qQUO0NqxzDptJqfrv0ngX8hvDtFPXl19jAOEPDoR43cIX0O1gN4jrzcaiVRMZIQSa2FQEw
+ pfbTKzCwBRPlYdlwBVMRxgrPEsz4bfx3qwZQL4mFld4PdjUAspcrXseiigwIKHZqEUFHjR
+ Z70P+pc51HZqSeWuEu9VOMsDwkxTNoM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1770804254;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hr0fka0SqruIVT4jOSVT1npco3r1m3Roq/HsfhREnpM=;
+ b=j5ARazM0DM/XUErdxP2NmiNPfVhTxP94czFooKfCFUwhed0kCuOCgBYHk0TYEmHVBll9Cp
+ r4jtv6s4uiq1ArAA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Qcx/7e7V";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=WWaoMALo
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1770804253; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hr0fka0SqruIVT4jOSVT1npco3r1m3Roq/HsfhREnpM=;
+ b=Qcx/7e7VRhZnrEt4mu+8F7ycOf3Tn6+7we2MTAMa4yEEj9eX3cfmM2AsgraB5YnEzkLCUA
+ jck26uoXAx12L4i9x4niJlA9hVA6qjIiHXkY83nHBFOrGFdZ2vTkYYhZl9lnF/ZoNOyrFm
+ 6X40wIj3WLJ7gmsRoC2BdPYHm6xRAFY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1770804253;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hr0fka0SqruIVT4jOSVT1npco3r1m3Roq/HsfhREnpM=;
+ b=WWaoMALoiOaCOH62M1w+R75ueNEjcgDE2OOswrPwG7HuVeEYDROJ2yB69AeuawyTX5ElUi
+ VzBbceoEZfHpVDDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E3AF93EA62;
+ Wed, 11 Feb 2026 10:04:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id k+knNhxUjGlVdwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 11 Feb 2026 10:04:12 +0000
+Message-ID: <48b93df8-acd9-4fc4-a4e3-7391a26de744@suse.de>
+Date: Wed, 11 Feb 2026 11:03:26 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/fb-helper: Fix clipping when damage area spans a
+ single scanline
+To: Francesco Lavra <flavra@baylibre.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20260210173545.733937-1-flavra@baylibre.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20260210173545.733937-1-flavra@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,90 +138,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:boris.brezillon@collabora.com,m:phasta@mailbox.org,m:phasta@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:gary@garyguo.net,m:lossin@kernel.org,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:lucas.demarchi@intel.com,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,m:aliceryhl@google.com,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[amd.com,collabora.com,mailbox.org,kernel.org,gmail.com,ffwll.ch,garyguo.net,nvidia.com,vger.kernel.org,lists.freedesktop.org,intel.com,linux.intel.com];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:flavra@baylibre.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:javierm@redhat.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FREEMAIL_TO(0.00)[baylibre.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,redhat.com,lists.freedesktop.org,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[suse.de:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 1C9291230E8
+	TAGGED_RCPT(0.00)[dri-devel];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,suse.com:url]
+X-Rspamd-Queue-Id: 794E3123217
 X-Rspamd-Action: no action
 
-(Cc: Xe maintainers)
+Hi
 
-On Tue Feb 10, 2026 at 12:40 PM CET, Alice Ryhl wrote:
-> On Tue, Feb 10, 2026 at 11:46:44AM +0100, Christian K=C3=B6nig wrote:
->> On 2/10/26 11:36, Danilo Krummrich wrote:
->> > On Tue Feb 10, 2026 at 11:15 AM CET, Alice Ryhl wrote:
->> >> One way you can see this is by looking at what we require of the
->> >> workqueue. For all this to work, it's pretty important that we never
->> >> schedule anything on the workqueue that's not signalling safe, since
->> >> otherwise you could have a deadlock where the workqueue is executes s=
-ome
->> >> random job calling kmalloc(GFP_KERNEL) and then blocks on our fence,
->> >> meaning that the VM_BIND job never gets scheduled since the workqueue
->> >> is never freed up. Deadlock.
->> >=20
->> > Yes, I also pointed this out multiple times in the past in the context=
- of C GPU
->> > scheduler discussions. It really depends on the workqueue and how it i=
-s used.
->> >=20
->> > In the C GPU scheduler the driver can pass its own workqueue to the sc=
-heduler,
->> > which means that the driver has to ensure that at least one out of the
->> > wq->max_active works is free for the scheduler to make progress on the
->> > scheduler's run and free job work.
->> >=20
->> > Or in other words, there must be no more than wq->max_active - 1 works=
- that
->> > execute code violating the DMA fence signalling rules.
+Am 10.02.26 um 18:35 schrieb Francesco Lavra:
+> When the damage area resulting from a dirty memory range spans a single
+> scanline, the width of the rectangle is calculated dynamically because it
+> may not coincide with the framebuffer width.
+> If the dirty range ends exactly at the end of the scanline, the `bit_end`
+> variable is incorrectly assigned a 0 value, which results in a bogus clip
+> rectangle where the x2 coordinate is 0. This prevents the dirty scanline
+> from being flushed to the hardware.
+> Change the calculation of the `bit_end` value to fix the x2 coordinate
+> value in the above edge case.
 >
-> Ouch, is that really the best way to do that? Why not two workqueues?
+> Fixes: ded74cafeea9 ("drm/fb-helper: Clip damage area horizontally")
+> Signed-off-by: Francesco Lavra <flavra@baylibre.com>
 
-Most drivers making use of this re-use the same workqueue for multiple GPU
-scheduler instances in firmware scheduling mode (i.e. 1:1 relationship betw=
-een
-scheduler and entity). This is equivalent to the JobQ use-case.
+The whole logic in that helper would need an update. But for now
 
-Note that we will have one JobQ instance per userspace queue, so sharing th=
-e
-workqueue between JobQ instances can make sense.
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Besides that, IIRC Xe was re-using the workqueue for something else, but th=
-at
-doesn't seem to be the case anymore. I can only find [1], which more seems =
-like
-some custom GPU scheduler extention [2] to me...
+Best regards
+Thomas
 
-[1] https://elixir.bootlin.com/linux/v6.18.6/source/drivers/gpu/drm/xe/xe_g=
-pu_scheduler.c#L40
-[2] https://elixir.bootlin.com/linux/v6.18.6/source/drivers/gpu/drm/xe/xe_g=
-pu_scheduler_types.h#L28
+> ---
+>   drivers/gpu/drm/drm_fb_helper.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index 4b47aa0dab35..d545342d24b3 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -608,7 +608,7 @@ static void drm_fb_helper_memory_range_to_clip(struct fb_info *info, off_t off,
+>   		 * the number of horizontal pixels that need an update.
+>   		 */
+>   		off_t bit_off = (off % line_length) * 8;
+> -		off_t bit_end = (end % line_length) * 8;
+> +		off_t bit_end = bit_off + len * 8;
+>   
+>   		x1 = bit_off / info->var.bits_per_pixel;
+>   		x2 = DIV_ROUND_UP(bit_end, info->var.bits_per_pixel);
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
