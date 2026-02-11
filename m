@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SFzmOC+njGnVrwAAu9opvQ
+	id Yl02OIKpjGlHsAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 16:58:39 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 17:08:34 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20945125E64
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 16:58:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D4D125F6F
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 17:08:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC85410E623;
-	Wed, 11 Feb 2026 15:58:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC09810E031;
+	Wed, 11 Feb 2026 16:08:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id AC0B310E623
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 15:58:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id B2AEF10E031
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 16:08:30 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ED2AB339;
- Wed, 11 Feb 2026 07:58:27 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E479F339;
+ Wed, 11 Feb 2026 08:08:23 -0800 (PST)
 Received: from [10.57.54.250] (unknown [10.57.54.250])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D24BD3F632;
- Wed, 11 Feb 2026 07:58:29 -0800 (PST)
-Message-ID: <4f90ca0b-4291-43a8-b131-19da3ac848e9@arm.com>
-Date: Wed, 11 Feb 2026 15:58:27 +0000
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AC1B93F632;
+ Wed, 11 Feb 2026 08:08:25 -0800 (PST)
+Message-ID: <7247f751-ff4b-47fe-a156-d289c288f433@arm.com>
+Date: Wed, 11 Feb 2026 16:08:23 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/9] drm/panthor: Part ways with drm_gem_shmem_object
+Subject: Re: [PATCH v3 8/9] drm/panthor: Track the number of mmap on a BO
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Liviu Dudau <liviu.dudau@arm.com>,
  =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
@@ -44,10 +44,10 @@ Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
  =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  Alice Ryhl <aliceryhl@google.com>, kernel@collabora.com
 References: <20260211080343.1887134-1-boris.brezillon@collabora.com>
- <20260211080343.1887134-6-boris.brezillon@collabora.com>
+ <20260211080343.1887134-9-boris.brezillon@collabora.com>
 From: Steven Price <steven.price@arm.com>
 Content-Language: en-GB
-In-Reply-To: <20260211080343.1887134-6-boris.brezillon@collabora.com>
+In-Reply-To: <20260211080343.1887134-9-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,108 +94,124 @@ X-Spamd-Result: default: False [-0.51 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 20945125E64
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:mid,arm.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 18D4D125F6F
 X-Rspamd-Action: no action
 
 On 11/02/2026 08:03, Boris Brezillon wrote:
-> While drm_gem_shmem_object does most of the job we need it to do, the
-> way sub-resources (pages, sgt, vmap) are handled and their lifetimes
-> gets in the way of BO reclaim. There has been attempts to address
-> that [1], but in the meantime, new gem_shmem users were introduced
-> (accel drivers), and some of them manually free some of these resources.
-> This makes things harder to control/sanitize/validate.
-> 
-> Thomas Zimmerman is not a huge fan of enforcing lifetimes of sub-resources
-> and forcing gem_shmem users to go through new gem_shmem helpers when they
-> need manual control of some sort, and I believe this is a dead end if
-> we don't force users to follow some stricter rules through carefully
-> designed helpers, because there will always be one user doing crazy things
-> with gem_shmem_object internals, which ends up tripping out the common
-> helpers when they are called.
-> 
-> The consensus we reached was that we would be better off forking
-> gem_shmem in panthor. So here we are, parting ways with gem_shmem. The
-> current transition tries to minimize the changes, but there are still
-> some aspects that are different, the main one being that we no longer
-> have a pages_use_count, and pages stays around until the GEM object is
-> destroyed (or when evicted once we've added a shrinker). The sgt also
-> no longer retains pages. This is losely based on how msm does things by
-> the way.
-> 
-> If there's any interest in sharing code (probably with msm, since the
-> panthor shrinker is going to be losely based on the msm implementation),
-> we can always change gears and do that once we have everything
-> working/merged.
-> 
-> [1]https://patchwork.kernel.org/project/dri-devel/patch/20240105184624.508603-1-dmitry.osipenko@collabora.com/
+> This will be used to order things by reclaimability.
 > 
 > v2:
 > - Fix refcounting
-> - Add a _locked suffix to a bunch of functions expecting the resv lock
->   to be held
-> - Take the lock before releasing resources in panthor_gem_free_object()
 > 
 > v3:
-> - Use ERR_CAST() to fix an ERR-ptr deref
-> - Add missing resv_[un]lock() around a panthor_gem_backing_unpin_locked()
->   call
+> - Fix refcounting (again)
 > 
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Looks good, but one issue I missed previously below.
+I think we've got the refcounting correct this time, one minor comment
+below but either way:
 
-[...]
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-> +
-> +static void *
-> +panthor_gem_vmap_get_locked(struct panthor_gem_object *bo)
-> +{
-> +	pgprot_t prot = PAGE_KERNEL;
-> +	void *vaddr;
-> +	int ret;
-> +
-> +	dma_resv_assert_held(bo->base.resv);
-> +
-> +	if (drm_WARN_ON_ONCE(bo->base.dev, drm_gem_is_imported(&bo->base)))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	if (refcount_inc_not_zero(&bo->cmap.vaddr_use_count)) {
-> +		drm_WARN_ON_ONCE(bo->base.dev, !bo->cmap.vaddr);
-> +		return bo->cmap.vaddr;
-> +	}
-> +
-> +	ret = panthor_gem_backing_pin_locked(bo);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	ret = panthor_gem_prep_for_cpu_map_locked(bo);
-> +	if (ret)
-> +		return ERR_PTR(ret);
+> ---
+>  drivers/gpu/drm/panthor/panthor_gem.c | 45 +++++++++++++++++++++++++--
+>  drivers/gpu/drm/panthor/panthor_gem.h |  3 ++
+>  2 files changed, 46 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> index 8905042b856c..e46bfc4f2063 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -491,6 +491,7 @@ static void panthor_gem_print_info(struct drm_printer *p, unsigned int indent,
+>  	drm_printf_indent(p, indent, "vmap_use_count=%u\n",
+>  			  refcount_read(&bo->cmap.vaddr_use_count));
+>  	drm_printf_indent(p, indent, "vaddr=%p\n", bo->cmap.vaddr);
+> +	drm_printf_indent(p, indent, "mmap_count=%u\n", refcount_read(&bo->cmap.mmap_count));
+>  }
+>  
+>  static int panthor_gem_pin_locked(struct drm_gem_object *obj)
+> @@ -606,6 +607,13 @@ static int panthor_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *v
+>  	if (is_cow_mapping(vma->vm_flags))
+>  		return -EINVAL;
+>  
+> +	if (!refcount_inc_not_zero(&bo->cmap.mmap_count)) {
+> +		dma_resv_lock(obj->resv, NULL);
+> +		if (!refcount_inc_not_zero(&bo->cmap.mmap_count))
+> +			refcount_set(&bo->cmap.mmap_count, 1);
 
-This should be "goto err_unpin" to drop the pin.
+It could make sense to put a call to
+panthor_gem_update_reclaim_state_locked() in here as we could transition
+from UNUSED to MMAPPED. Things should work out due to the call in
+panthor_gem_try_evict(), but the shrinker will have to work harder.
 
 Thanks,
 Steve
 
-> +
-> +	if (should_map_wc(bo))
-> +		prot = pgprot_writecombine(prot);
-> +
-> +	vaddr = vmap(bo->backing.pages, bo->base.size >> PAGE_SHIFT, VM_MAP, prot);
-> +	if (!vaddr) {
-> +		ret = -ENOMEM;
-> +		goto err_unpin;
+> +		dma_resv_unlock(obj->resv);
 > +	}
 > +
-> +	bo->cmap.vaddr = vaddr;
-> +	refcount_set(&bo->cmap.vaddr_use_count, 1);
-> +	return vaddr;
+>  	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
+>  	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+>  	if (should_map_wc(bo))
+> @@ -732,10 +740,43 @@ static vm_fault_t panthor_gem_fault(struct vm_fault *vmf)
+>  	return blocking_page_setup(vmf, bo, page_offset, true);
+>  }
+>  
+> +static void panthor_gem_vm_open(struct vm_area_struct *vma)
+> +{
+> +	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
 > +
-> +err_unpin:
-> +	panthor_gem_backing_unpin_locked(bo);
-> +	return ERR_PTR(ret);
+> +	/* mmap_count must have been incremented at mmap time, so it can't be
+> +	 * zero here.
+> +	 */
+> +	if (!drm_gem_is_imported(&bo->base))
+> +		drm_WARN_ON(bo->base.dev, !refcount_inc_not_zero(&bo->cmap.mmap_count));
+> +
+> +	drm_gem_vm_open(vma);
 > +}
 > +
+> +static void panthor_gem_vm_close(struct vm_area_struct *vma)
+> +{
+> +	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
+> +
+> +	if (drm_gem_is_imported(&bo->base))
+> +		goto out;
+> +
+> +	if (refcount_dec_not_one(&bo->cmap.mmap_count))
+> +		goto out;
+> +
+> +	dma_resv_lock(bo->base.resv, NULL);
+> +	if (refcount_dec_and_test(&bo->cmap.mmap_count)) {
+> +		/* Nothing to do, pages are reclaimed lazily. */
+> +	}
+> +	dma_resv_unlock(bo->base.resv);
+> +
+> +out:
+> +	drm_gem_object_put(&bo->base);
+> +}
+> +
+>  const struct vm_operations_struct panthor_gem_vm_ops = {
+>  	.fault = panthor_gem_fault,
+> -	.open = drm_gem_vm_open,
+> -	.close = drm_gem_vm_close,
+> +	.open = panthor_gem_vm_open,
+> +	.close = panthor_gem_vm_close,
+>  };
+>  
+>  static const struct drm_gem_object_funcs panthor_gem_funcs = {
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+> index b66478c9590c..c0a18dca732c 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> @@ -80,6 +80,9 @@ struct panthor_gem_cpu_map {
+>  
+>  	/** @vaddr_use_count: Number of active vmap() requests on this GEM */
+>  	refcount_t vaddr_use_count;
+> +
+> +	/** @mmap_count: Number of active mmap() requests on this GEM */
+> +	refcount_t mmap_count;
+>  };
+>  
+>  /**
 
-[...]
