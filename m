@@ -2,84 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sDPBFPI6jGlZjgAAu9opvQ
+	id yGwgACBCjGnYkAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 09:16:50 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 09:47:28 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8594212224D
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 09:16:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D669122601
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 09:47:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60B6D10E1FC;
-	Wed, 11 Feb 2026 08:16:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30E2C10E07C;
+	Wed, 11 Feb 2026 08:47:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="3Xf6+WlG";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gc0koEG5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com
- [209.85.208.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91E7010E1FC
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 08:16:40 +0000 (UTC)
-Received: by mail-ed1-f73.google.com with SMTP id
- 4fb4d7f45d1cf-6581ab92635so7012354a12.3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 00:16:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1770797799; x=1771402599;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=9T4h+/rjLr1sBmgdVrcdKQN1OfKBnfrGuf/DCV1l4ug=;
- b=3Xf6+WlGavjroEs7ooaJ0RNkCqcFd0h4ybxinBLXEp6D5qDJuh4UquYZqzQT6anmF6
- HNPA8mQ+IRgzQF0lJMElUGPkJtVvkKTxQ8mfGeAxKecfH2NMqPE/W5WjcebRdQIzAaHC
- vQ+Dubcz7fl6ZfYLfNl2oaGZD8sxE+jD2SWvctJ/u53PJfPFOJM15aWuv9buoJpQo17c
- nGp4JjR4NThsLq5cAumQgBqf9LrFthRRKPJ6xNAi9f40wbk2zimKxJC04P2Ix4qQISM+
- nYxMN1jOoewxd2QFj9VLd2Fs/DiR88t9cYtypwgLVQbBPe3MfjvZLVy5QkBBdvnv4eIB
- 9UYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770797799; x=1771402599;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9T4h+/rjLr1sBmgdVrcdKQN1OfKBnfrGuf/DCV1l4ug=;
- b=NDFDVqcn8g4vOgAQKWLDS5l0l2s1m+klI/NjkUhxxbhd9akSCqQEqxGIdaioQSayFO
- CRcwSXihkF0WJwuMETy1iReF1c1ubnkkhud032rBWeo3TB11Pi8miyI4oneVAqqYLMdq
- R1lBdXg93FdYcoYMeXV7FcJcmPQcLR7ZmONriBnT44ZTzo6qSYZZOi9svfgyxH7zfjCh
- QzKJEepTB6cuz9gbdMkM9or5NVpvGXVB0PX2mGt+8LZlVWLYOdUqCU+1qZRs1sqKYwPN
- MqjTDn8Hk0u8sbDs700hO4P6wrB/fu2miQQ3Z5EQf5izgiive8zR1v3+uuzpy5UXNDJM
- dOtw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUtNpAdKe0+dnElYkxT97PmrEFYgfNGLO8rxC+Y8m9IGqcsc8ScTbG4eGx0Lq4cGcwTSofz7d/UVlk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzGezTT9F8RSN1EPg8QXr+kD/DXvQcJ6298LYhm6fvZAV26cC0y
- 6JsxgigUtjezjcFgM0A6Yf+IMwuHeKJR++obPWgtS3TflZul2vt1Ca1rw5uemyzZI08JlOzh/7g
- rJWM99h6D3vwkSHbiJA==
-X-Received: from edhr9.prod.google.com ([2002:a50:8d89:0:b0:65a:3735:74dd])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:5110:b0:659:7d96:f715 with SMTP id
- 4fb4d7f45d1cf-65a4024118amr505843a12.26.1770797798924; 
- Wed, 11 Feb 2026 00:16:38 -0800 (PST)
-Date: Wed, 11 Feb 2026 08:16:38 +0000
-In-Reply-To: <20260210155025.1b9ad2f1@fedora>
-Mime-Version: 1.0
-References: <20260209155843.725dcfe1@fedora>
- <c319c349-eb95-4c38-84fb-47440daefc3b@amd.com>
- <aYruaIxn8sMXVI0r@google.com> <20260210101525.7fb85f25@fedora>
- <aYsFKOVrsMQeAHoi@google.com> <20260210134913.33cb674f@fedora>
- <aYsyGAwy4rq-H7Hd@google.com> <20260210145156.108ab292@fedora>
- <aYs8gN34IVPQiqLk@google.com> <20260210155025.1b9ad2f1@fedora>
-Message-ID: <aYw65omhksM7jjQi@google.com>
-Subject: Re: [RFC PATCH 2/4] rust: sync: Add dma_fence abstractions
-From: Alice Ryhl <aliceryhl@google.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: "Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>,
- Philipp Stanner <phasta@mailbox.org>, phasta@kernel.org, 
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Gary Guo <gary@garyguo.net>, Benno Lossin <lossin@kernel.org>, 
- Daniel Almeida <daniel.almeida@collabora.com>,
- Joel Fernandes <joelagnelf@nvidia.com>, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- rust-for-linux@vger.kernel.org
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72A9610E07C
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 08:47:23 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 0DD114E40C52;
+ Wed, 11 Feb 2026 08:47:22 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id BB367606BE;
+ Wed, 11 Feb 2026 08:47:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 21F7B11948BAF; Wed, 11 Feb 2026 09:47:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1770799640; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=tbYZJPtzfNeGa4KqfQcB7C9ai7mWnC80SXxCFDp2yBE=;
+ b=gc0koEG5d4I+4+aKeG0lyb0aKeJGcOJn57j88++ThKOX92rUt7VF+mraTBEGGzkA0yfFft
+ LYxOd154SeIqbQf84wbKvMqQsBBxcxQ7BSru9O/QNmowaRLBdj1iXD+Bqo9G1cwnYVQb2F
+ 3nU2S1CZg1vRB6CWYTWmHXSfc7xuuwZQzqQ519IBxPwAa/A6A1kIIokPI34dm+DGeYdVvq
+ liq7NStumVbuS+enU3kolkGxbFLlrQgcVNq1dJMpuTH/Ri6CXiFz/6lPdWQKoF9PvpUgHH
+ dnPC0d6sSdtHTq9k3hJ5OlGwrKajBX6y6wHhnB/3CD5HqFFfjbhIUuDvBkEpyA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Jyri Sarha <jyri.sarha@iki.fi>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Russell King <linux@armlinux.org.uk>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Tony Lindgren <tony@atomide.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
+Cc: Markus Schneider-Pargmann <msp@baylibre.com>, 
+ Bajjuri Praneeth <praneeth@ti.com>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Miguel Gazquez <miguel.gazquez@bootlin.com>, 
+ Herve Codina <herve.codina@bootlin.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260123-feature_tilcdc-v5-0-5a44d2aa3f6f@bootlin.com>
+References: <20260123-feature_tilcdc-v5-0-5a44d2aa3f6f@bootlin.com>
+Subject: Re: [PATCH v5 00/25] Clean and update tilcdc driver to support
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR
+Message-Id: <177079962986.1196687.11987437266199565774.b4-ty@bootlin.com>
+Date: Wed, 11 Feb 2026 09:47:09 +0100
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,178 +86,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[32];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:christian.koenig@amd.com,m:phasta@mailbox.org,m:phasta@kernel.org,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:gary@garyguo.net,m:lossin@kernel.org,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:jyri.sarha@iki.fi,m:tomi.valkeinen@ideasonboard.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux@armlinux.org.uk,m:brgl@bgdev.pl,m:tony@atomide.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:kory.maincent@bootlin.com,m:msp@baylibre.com,m:praneeth@ti.com,m:louis.chauvet@bootlin.com,m:thomas.petazzoni@bootlin.com,m:miguel.gazquez@bootlin.com,m:herve.codina@bootlin.com,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-omap@vger.kernel.org,m:krzysztof.kozlowski@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[iki.fi,ideasonboard.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,armlinux.org.uk,bgdev.pl,atomide.com,intel.com,linaro.org,kwiboo.se,bootlin.com];
 	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[amd.com,mailbox.org,kernel.org,gmail.com,ffwll.ch,garyguo.net,collabora.com,nvidia.com,vger.kernel.org,lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_SENDER(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,dri-devel-bounces@lists.freedesktop.org];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[google.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	DKIM_TRACE(0.00)[bootlin.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 8594212224D
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:mid,bootlin.com:dkim,bootlin.com:email,ti.com:url]
+X-Rspamd-Queue-Id: 5D669122601
 X-Rspamd-Action: no action
 
-On Tue, Feb 10, 2026 at 03:50:25PM +0100, Boris Brezillon wrote:
-> On Tue, 10 Feb 2026 14:11:12 +0000
-> Alice Ryhl <aliceryhl@google.com> wrote:
+
+On Fri, 23 Jan 2026 17:12:18 +0100, Kory Maincent (TI.com) wrote:
+> The starting point for this work was adding support for the HDMI cape:
+> https://www.seeedstudio.com/Seeed-Studio-BeagleBone-Green-HDMI-Cape.html
+> This will be sent in a later series.
 > 
-> > On Tue, Feb 10, 2026 at 02:51:56PM +0100, Boris Brezillon wrote:
-> > > On Tue, 10 Feb 2026 13:26:48 +0000
-> > > Alice Ryhl <aliceryhl@google.com> wrote:
-> > >   
-> > > > On Tue, Feb 10, 2026 at 01:49:13PM +0100, Boris Brezillon wrote:  
-> > > > > On Tue, 10 Feb 2026 10:15:04 +0000
-> > > > > Alice Ryhl <aliceryhl@google.com> wrote:
-> > > > >     
-> > > > > > /// The owner of this value must ensure that this fence is signalled.
-> > > > > > struct MustBeSignalled<'fence> { ... }
-> > > > > > /// Proof value indicating that the fence has either already been
-> > > > > > /// signalled, or it will be. The lifetime ensures that you cannot mix
-> > > > > > /// up the proof value.
-> > > > > > struct WillBeSignalled<'fence> { ... }    
-> > > > > 
-> > > > > Sorry, I have more questions, unfortunately. Seems that
-> > > > > {Must,Will}BeSignalled are targeting specific fences (at least that's
-> > > > > what the doc and 'fence lifetime says), but in practice, the WorkItem
-> > > > > backing the scheduler can queue 0-N jobs (0 if no jobs have their deps
-> > > > > met, and N > 1 if more than one job is ready). Similarly, an IRQ
-> > > > > handler can signal 0-N fences (can be that the IRQ has nothing to do we
-> > > > > job completion, or, it can be that multiple jobs have completed). How
-> > > > > is this MustBeSignalled object going to be instantiated in practice if
-> > > > > it's done before the DmaFenceWorkItem::run() function is called?    
-> > > > 
-> > > > The {Must,Will}BeSignalled closure pair needs to wrap the piece of code
-> > > > that ensures a specific fence is signalled. If you have code that
-> > > > manages a collection of fences and invokes code for specific fences
-> > > > depending on outside conditions, then that's a different matter.
-> > > > 
-> > > > After all, transfer_to_wq() has two components:
-> > > > 1. Logic to ensure any spawned workqueue job eventually gets to run.
-> > > > 2. Once the individual job runs, logic specific to the one fence ensures
-> > > >    that this one fence gets signalled.  
-> > > 
-> > > Okay, that's a change compared to how things are modeled in C (and in
-> > > JobQueue) at the moment: the WorkItem is not embedded in a specific
-> > > job, it's something that's attached to the JobQueue. The idea being
-> > > that the WorkItem represents a task to be done on the queue itself
-> > > (check if the first element in the queue is ready for execution), not on
-> > > a particular job. Now, we could change that and have a per-job WorkItem,
-> > > but ultimately, we'll have to make sure jobs are dequeued in order
-> > > (deps on JobN can be met before deps on Job0, but we still want JobN to
-> > > be submitted after Job0), and we'd pay the WorkItem overhead once per
-> > > Job instead of once per JobQueue. Probably not the end of the world,
-> > > but it's worth considering, still.  
-> > 
-> > It sounds like the fix here is to have transfer_to_job_queue() instead
-> > of trying to do it at the workqueue level.
+> Initially, Miguel proposed modifying the ite-it66121 bridge to support
+> the legacy behavior without the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag:
+> https://lore.kernel.org/lkml/20250909-it66121-fix-v1-1-bc79ca83df17@bootlin.com/
+> This patch was NAK'd as we don't want to add more legacy code. Maxime
+> requested that the tilcdc driver be updated to use
+> DRM_BRIDGE_ATTACH_NO_CONNECTOR instead.
 > 
-> Hm, so Job would be something like that (naming/trait-def are just
-> suggestions to get the discussion going):
-> 
-> trait JobConsumer {
-> 	type FenceType;
-> 	type JobData;
-> 
-> 	fn run(self: MustBeSignalled<T::FenceType>) -> Result<WillBeSignaled<Self::FenceType>>;
-> }
-> 
-> struct Job<T: JobConsumer> {
-> 	fence: MustBeSignalled<T::FenceType>,
-> 	data: T::JobData,
-> }
+> [...]
 
-The fence field of Job would be PublishedFence or PrivateFence (or just
-DriverDmaFence). The MustBeSignalled/WillBeSignaled types should only
-exist temporarily in a function scope.
+Applied, thanks!
 
-Any time you transfer from one function scope to another (like our
-transfer_to_job_queue() or transfer_to_wq() examples), that results in
-finishing the MustBeSignalled/WillBeSignaled scope on one thread and
-creating a new MustBeSignalled/WillBeSignaled scope on another thread.
+[01/25] dt-bindings: display: tilcdc: Convert to DT schema
+        commit: e88bb45cf742177a18d63d306be345a294b4c1db
+[02/25] dt-bindings: display: tilcdc: Mark panel binding as deprecated
+        commit: bc3f1e36d12969060c9068b9c7c14407f869270e
+[03/25] drm/tilcdc: Remove simulate_vesa_sync flag
+        commit: 332146d21d1d4211520957458973f4316a6c2fa7
+[04/25] drm/tilcdc: Add support for DRM bus flags and simplify panel config
+        commit: ca062af436593d66ce2afa4cd00a4cb2fb775755
+[05/25] drm/tilcdc: Convert legacy panel binding via DT overlay at boot time
+        commit: 0ff223d991477fa4677dcb0f1fb00065847e2212
+[06/25] drm/tilcdc: Remove tilcdc panel driver
+        commit: 8f1e1ab9c794a6efa7ab2b076405b4984319efec
+[07/25] drm/tilcdc: Remove component framework support
+        commit: b8c3fd741f02b79dceb0489dec49692d447015f9
+[08/25] drm/tilcdc: Remove tilcdc_panel_info structure
+        commit: 1184e7785d0fafd3b111b0eaf1caeaeec32ba88d
+[09/25] drm/tilcdc: Remove redundant #endif/#ifdef in debugfs code
+        commit: da4837fb7513db5da6be7fd32e8d8efe8bff673b
+[10/25] drm/tilcdc: Remove unused encoder and connector tracking arrays
+        commit: e9946e3a869406ed743f64c9fdf8fb5c6af739ba
+[11/25] drm/tilcdc: Rename external_encoder and external_connector to encoder and connector
+        commit: 9a49c20f3360699439035e0d8543292e4b028f04
+[12/25] drm/tilcdc: Rename tilcdc_external to tilcdc_encoder
+        commit: cb18dbb74f46bd0aa612aaae144dd191c548739c
+[13/25] drm/tilcdc: Remove the useless module list support
+        commit: 8fcc0eb34d79d2733ce617073a4c52b42ffeb00f
+[14/25] drm/tilcdc: Use drm_module_platform_driver() helper
+        commit: 87e66f60f63a746094134bc3e0ffdb6bd87afcb1
+[15/25] drm/tilcdc: Move tilcdc_init/fini closer to probe/remove
+        commit: e41591e7474920187be7af0404ec9ed63b5f4614
+[16/25] drm/tilcdc: Modernize driver initialization and cleanup paths
+        commit: 3301302060da8c2034e5e10dc231023ec98051fb
+[17/25] drm/tilcdc: Remove the use of drm_device private_data
+        commit: 968fefee98d80bedbf1765e48201746880bf7277
+[18/25] drm/tilcdc: Convert to DRM managed resources
+        commit: 323401c9a166ea5faa300778f3ca336c01d8835a
+[19/25] drm/tilcdc: Convert to drm_device-based logging helpers
+        commit: 2c6f1b1fa78acd5f3bd80e3519b6b23907ea9c2f
+[20/25] drm/tilcdc: Use devm_drm_of_get_bridge() helper
+        commit: 1b47ea9fddcf89e4b65045d233bc5a2ee7775df7
+[21/25] drm/bridge: tda998x: Remove component support
+        commit: d700fd0ff100f4c301dafeb6b944c7229d0adda7
+[22/25] drm/bridge: tda998x: Move tda998x_create/destroy into probe and remove
+        commit: 22b88deb83af2b94f0441075e5528d16d5dcf5b2
+[23/25] drm/bridge: tda998x: Remove useless tda998x_connector_destroy wrapper
+        commit: 8ab51f56fd711cd9aa3960916cb0cc4bbc978eb5
+[24/25] drm/bridge: tda998x: Add support for DRM_BRIDGE_ATTACH_NO_CONNECTOR
+        commit: c76a8be4feecebbb39095e3c012b67e0f939543d
+[25/25] drm/tilcdc: Add support for DRM_BRIDGE_ATTACH_NO_CONNECTOR
+        commit: 400a84e1f7a3681ef24d58d49b5d07e81c14f4e9
 
-One could imagine a model where there is no lifetime and you can carry
-it around as you wish. That model works okay in most regards, but it
-gives up the ability to ensure that dma_fence_lockdep_map is properly
-configured to catch mistakes.
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-The lifetime prohibits you from using the normal ownership semantics to
-e.g. transfer the MustBeSignalled into a random workqueue, enforcing
-that you can only transfer it into a workqueue by using the provided
-methods, which sets up the lockdep dependencies correctly and ensures
-that dma_fence_lockdep_map is taken in the workqueue job too.
-
-> I guess that would do.
-> 
-> And then we need to flag the WorkItem that's exposed by the
-> JobQueue as a DmaFenceWorkItem so that
-> bindings::dma_fence_begin_signalling() is called before entry and
-> lockdep can do its job and check that nothing forbidden happens in
-> this WorkItem.
-
-In the case of JobQueue, it may make sense to just have the job queue
-implementation do that manually. I do not think the workqueue-level API
-can fully enforce that the job queue can't make mistakes here.
-
-> > > > And {Must,Will}BeSignalled exists to help model part (2.). But what you
-> > > > described with the IRQ callback falls into (1.) instead, which is
-> > > > outside the scope of {Must,Will}BeSignalled (or at least requires more
-> > > > complex APIs).  
-> > > 
-> > > For IRQ callbacks, it's not just about making sure they run, but also
-> > > making sure nothing in there can lead to deadlocks, which is basically
-> > > #2, except it's not scoped to a particular fence. It's just a "fences
-> > > can be signaled from there" marker. We could restrict it to "fences of
-> > > this particular implementation can be signaled from there" but not
-> > > "this particular fence instance will be signaled next, if any", because
-> > > that we don't know until we've walked some HW state to figure out which
-> > > job is complete and thus which fence we need to signal (the interrupt
-> > > we get is most likely multiplexing completion on multiple GPU contexts,
-> > > so before we can even get to our per-context in-flight-jobs FIFO, we
-> > > need to demux this thing).  
-> > 
-> > All I can say is that this is a different use-case for the C api
-> > dma_fence_begin_signalling(). This different usage also seems useful,
-> > but it would be one that does not involve {Must,Will}BeSignalled
-> > arguments at all.
-> > 
-> > After all, dma_fence_begin_signalling() only requires those arguments if
-> > you want to convert a PrivateFence into a PublishedFence. (I guess a
-> > better name is PublishableFence.) If you're not trying to prove that a
-> > specific fence will be signalled, then you don't need the
-> > {Must,Will}BeSignalled arguments.
-> 
-> Okay, so that would be another function returning some sort of guard
-> then? What I find confusing is the fact
-> dma_fence::dma_fence_begin_signalling() matches the C function name
-> which is not per-fence, but just this lock-guard model flagging a
-> section from which any fence can be signalled, so maybe we should
-> name your dma_fence_begin_signalling() proposal differently, dunno.
-
-Yes we would need multiple methods that call dma_fence_begin_signalling()
-depending on why you are calling it.
-
-Alice
