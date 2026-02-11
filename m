@@ -2,105 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cOlZFaePjGlQrAAAu9opvQ
+	id UEhjJ3KUjGlIrQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 15:18:15 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 15:38:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95262125224
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 15:18:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B921254DD
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 15:38:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 270A310E60F;
-	Wed, 11 Feb 2026 14:18:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7401F10E06D;
+	Wed, 11 Feb 2026 14:38:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hrHsy6JG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Bd2QNiC9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4334710E089
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 14:18:10 +0000 (UTC)
-Received: by mail-dl1-f50.google.com with SMTP id
- a92af1059eb24-124a2dc92dbso461112c88.2
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 06:18:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770819489; cv=none;
- d=google.com; s=arc-20240605;
- b=aUvqDbiHi7QUnSZX2KB+MJca/iltUegiMg3/JdOsTFziUEoi7xzXshboPd10fZp/6U
- qu8hoMKFkhwdl4aERszfOF386bOn0Wcg/hKBXbJzciD1tNTGWoJBvxd9492Q1iiNFCi8
- Jv2UNAC08P34HvPnbVMyJQKIVQy8be3ipBMCjAhcK1n1s5m4B4F2+Mi/623ch4YH+2lS
- RWdUmMwmo2lHAeKbg6P6150wxALtKMMFKlJfazBRFZgjAq/YHfP8T6ZUKrlJxdHX7Afc
- qFOkKO4HFRlW7c2oCCeSkB6rZ2uUPriZQeHIZUvTNR05qeyv6xTnqi131HXMsRz1InlP
- Vouw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:dkim-signature;
- bh=goBWqa/XBAUCU/USU+7vOgmq/PVsWb+UivWg7c+q+G4=;
- fh=6CJt3l4bU02K923tftxCOZmIFEuWxzqAHF4EXQbjCnU=;
- b=FkDBk8TZRLVXQ0j961lw4PKybq/MCSGtXEqxi92Kzyej26PRXSl1LP+rxA4PmWP/qN
- XpuOjJ6ofGe9IeRp9MRCqI6MSywmO6HvK7qM0Mx9E11y5WAvEFjbUAuvd5wsA0Bp81RS
- dlRoDPotX4NeVpa/ztCrpBEOW+MFz4NWNcY4cXhitjeSsAld42ztHtXqW+Crje5/VK9w
- lMlEwsZH9H4Plj9j1OtwjVvXFMsSrPkCYMqGhQZgnhM5pLn//D64ofUZTPI2RH/UmEKS
- 6/80vOrBbCyeB5BfxsKZkWm03WtU0vVkPXrutclPsjApf/oh83vdMq4/GHKl4JM50m8E
- QMOA==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770819489; x=1771424289; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=goBWqa/XBAUCU/USU+7vOgmq/PVsWb+UivWg7c+q+G4=;
- b=hrHsy6JG9sD4opKHYeBuVzFRfpYvjneZeYNSUTbwTrZPCCuKha2yB2/JDlkJsibr0T
- DhcJoXlCiNc5xpzUSFr8Ru7I+ezkW39scB/34NPAqEh+S/1dOE3O5/koyVgxv3nYd23m
- vDirWj947IIqJurB/VAxsrMvjEhjSYs7pvG87oNC7sSQFh497v559AWiYlIiaueKZHUx
- 0fw31+QUrSerBMUpUaSMItJI7fEyVqhkMyPgjZppeiYGSyTMIdiAk8B7wSpKopdsUZgD
- Cl0QKlIJlryVBlkrvrRhodH2Y49mcZPTM4tx57T9seQYkcbKTwGu7OHnEt9bXWghNxMN
- ld/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770819489; x=1771424289;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=goBWqa/XBAUCU/USU+7vOgmq/PVsWb+UivWg7c+q+G4=;
- b=MD8Abl/meB5sdnEnwEesBXHAcLydygi/LdonD3pcusAdgtSZL9B3J+/8ft0dteteZF
- RhhM+9DZbo80dpG7JaqWpwIlM1vz6jw/DIUdV0ccHEOuWrdRNdKPKTFL0hzUjAuBRH5D
- F160UsrzrZAwsJw3+Z8RfAInpCzwuyQIpcNysDxD/JXfvov0wBy+VMY0wCn6TGsPEqde
- fspbnOEhKFPyA0VTs4xerceJGYzQHj91DsWZP7Qki+HdGXVs3l0UsqhN1BWzHbyxOjrq
- fcV1O8ixEKIOdazTzcPMa/IuAqWiZPsgk2jsnOEySKzQ+xCfmn5MH5m569goeeRIe9JC
- 2ANg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVVqEVGZcNtCJRc18dji500uNj5HS2hCExkUN6KTh5n6ga+0RMUUpZSzR62IZb28ZkHIZt0cygOehI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyThd8pkpbtf+3OCPgXQmrmxuTb6xqq/Uqe+XZ4fHhen1DP/ls+
- sch5YZ7FKcBhTAiz1ShZLnbioc0+52ENQhHomSGogIrsfHuEnqkBK+a1NGH0whIefphQPsdr9G+
- AuyNfT20YhNG6yGLVpCR9GSzlkqCqxJc=
-X-Gm-Gg: AZuq6aJA16CupB7TZz3R5d64MEDNVYdlFQxoVQD3orPsSdnHFJFS+Xxyu/2APEtoLBo
- vcK50Wts73ywYDFjNfrYQx0Jfc3zxDYQcMfXo8hmokFLLclHJ2e3C3jhXqC+aMF323OeWM1pUAv
- SeVC1F1HblW8RyfQiU6YLmspO5eG8dO7cMBUD29Azk4Ne16GPqdxiGtOEpxWxIiwr4YJwuVM38l
- rRk3My4SFyyCYhauvoLGmEZOfWlLoY2nyYUMZkpiaa/+483FIty/yZ3dR17Pgk2URDRBfqWLq/o
- SzNZa3VCieTwuJjzYwY=
-X-Received: by 2002:a05:7022:ec11:b0:123:308f:667b with SMTP id
- a92af1059eb24-1272a7728cdmr416122c88.2.1770819489253; Wed, 11 Feb 2026
- 06:18:09 -0800 (PST)
-MIME-Version: 1.0
-References: <20260210072309.14911-1-decce6@proton.me>
-In-Reply-To: <20260210072309.14911-1-decce6@proton.me>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 11 Feb 2026 09:17:57 -0500
-X-Gm-Features: AZwV_QiPLTEeETb9o-odEKXS3UkM5PUZZ_yDmvKK0LDZ2SxwLbh-oK6gcsMssh0
-Message-ID: <CADnq5_MRvfNk83C6fd_gFTN8Sv8hgi56vJgEENajxpmQo3xd9Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Add HAINAN clock adjustment
-To: decce6 <decce6@proton.me>
-Cc: amd-gfx@lists.freedesktop.org, Kenneth Feng <kenneth.feng@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>, 
- Lijo Lazar <lijo.lazar@amd.com>,
- Alexandre Demers <alexandre.f.demers@gmail.com>, 
- "chr[]" <chris@rudorff.com>, Sunil Khatri <sunil.khatri@amd.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4B2110E06D
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 14:38:37 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 631A043EC7;
+ Wed, 11 Feb 2026 14:38:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 049C3C4CEF7;
+ Wed, 11 Feb 2026 14:38:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1770820717;
+ bh=LLfEZdrWMC01KnSUzsRLFapK9SAcgEquZEXKmPEaFrM=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=Bd2QNiC91p0a5SzTno7OirdVI6LrmY7vJ82fbNBDgx32FSgEgK69zLP6iCpMAd5QM
+ Wvpj8Def+8gnIzc3VCl0heIAcs+hBaD9yEPc5SHGv8zhY4usuXbusr8pegzM4T5VNE
+ YelRwylzUq33Eu+OFsTma7U9ttrqcb0J32s0OKHx0rVCoEO+UsOmDTuhk5b1xtyS9x
+ FhWscwnesL52cLA/5dcFjr+Gv0iXyrL1eX4T0mb2rK/ntcAOv+96J58+VYJ8pPgUvU
+ 1EsmfJx/9/Zs50c83DqEgEIKgm2opCoAyT07A7dE0C7IrZsOZaIKdK4LyCRYndIrAN
+ 2M/2CVLN9BlgA==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 11 Feb 2026 15:38:32 +0100
+Message-Id: <DGC7JWOL70HH.2AMUEI3M10I9J@kernel.org>
+Subject: Re: [RFC PATCH 2/4] rust: sync: Add dma_fence abstractions
+Cc: "Alice Ryhl" <aliceryhl@google.com>, =?utf-8?q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, "Philipp Stanner" <phasta@mailbox.org>,
+ <phasta@kernel.org>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Gary Guo" <gary@garyguo.net>, "Benno Lossin"
+ <lossin@kernel.org>, "Daniel Almeida" <daniel.almeida@collabora.com>, "Joel
+ Fernandes" <joelagnelf@nvidia.com>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <lucas.demarchi@intel.com>, <thomas.hellstrom@linux.intel.com>,
+ <rodrigo.vivi@intel.com>
+To: "Boris Brezillon" <boris.brezillon@collabora.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260205095727.4c3e2941@fedora>
+ <DG7SZND1GWR4.3C5NLKY4SYC0M@kernel.org>
+ <bb57b6837aa8044e679dad5f2589c2e0ba84c221.camel@mailbox.org>
+ <20260209155843.725dcfe1@fedora>
+ <c319c349-eb95-4c38-84fb-47440daefc3b@amd.com>
+ <aYruaIxn8sMXVI0r@google.com> <20260210101525.7fb85f25@fedora>
+ <aYsFKOVrsMQeAHoi@google.com> <DGB7RWKMPJQZ.2PHB127O6MVVN@kernel.org>
+ <4e84306c-5cec-4048-a7eb-a364788baa89@amd.com>
+ <aYsZHhX2IVO2kOSm@google.com> <DGC1KP1DT6YV.3LQWZXMA22L5A@kernel.org>
+ <20260211112049.089b2656@fedora> <DGC2WYUT80B4.3D4QKYP8FVVQJ@kernel.org>
+ <20260211121223.78674f22@fedora>
+In-Reply-To: <20260211121223.78674f22@fedora>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,75 +80,56 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MAILLIST(-0.20)[mailman];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:decce6@proton.me,m:amd-gfx@lists.freedesktop.org,m:kenneth.feng@amd.com,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:timur.kristof@gmail.com,m:lijo.lazar@amd.com,m:alexandre.f.demers@gmail.com,m:chris@rudorff.com,m:sunil.khatri@amd.com,m:linux-kernel@vger.kernel.org,m:timurkristof@gmail.com,m:alexandrefdemers@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:christian.koenig@amd.com,m:phasta@mailbox.org,m:phasta@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:gary@garyguo.net,m:lossin@kernel.org,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:lucas.demarchi@intel.com,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,m:boris.brezillon@collabora.com,s:lists@lfdr.de];
+	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[google.com,amd.com,mailbox.org,kernel.org,gmail.com,ffwll.ch,garyguo.net,collabora.com,nvidia.com,vger.kernel.org,lists.freedesktop.org,intel.com,linux.intel.com];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,amd.com,gmail.com,ffwll.ch,rudorff.com,vger.kernel.org];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid,proton.me:email]
-X-Rspamd-Queue-Id: 95262125224
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,jobq.rs:url]
+X-Rspamd-Queue-Id: 24B921254DD
 X-Rspamd-Action: no action
 
-Applied both patches.  Thanks!
+On Wed Feb 11, 2026 at 12:12 PM CET, Boris Brezillon wrote:
+> On Wed, 11 Feb 2026 12:00:30 +0100
+> "Danilo Krummrich" <dakr@kernel.org> wrote:
+>> I.e. sharing a workqueue between JobQs is fine, but we have to ensure th=
+ey can't
+>> be used for anything else.
+>
+> Totally agree with that, and that's where I was going with this special
+> DmaFenceWorkqueue wrapper/abstract, that would only accept
+> scheduling MaySignalDmaFencesWorkItem objects.
 
-Alex
-
-On Tue, Feb 10, 2026 at 3:20=E2=80=AFAM decce6 <decce6@proton.me> wrote:
->
-> This patch limits the clock speeds of the AMD Radeon R5 M420 GPU from
-> 850/1000MHz (core/memory) to 800/950 MHz, making it work stably. This
-> patch is for amdgpu.
->
-> Signed-off-by: decce6 <decce6@proton.me>
-> ---
->  drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c b/drivers/gpu/drm=
-/amd/pm/legacy-dpm/si_dpm.c
-> index 1f539cc65f41..b5d895537477 100644
-> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
-> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
-> @@ -3468,6 +3468,11 @@ static void si_apply_state_adjust_rules(struct amd=
-gpu_device *adev,
->                         max_sclk =3D 60000;
->                         max_mclk =3D 80000;
->                 }
-> +               if ((adev->pdev->device =3D=3D 0x666f) &&
-> +                   (adev->pdev->revision =3D=3D 0x00)) {
-> +                       max_sclk =3D 80000;
-> +                       max_mclk =3D 95000;
-> +               }
->         } else if (adev->asic_type =3D=3D CHIP_OLAND) {
->                 if ((adev->pdev->revision =3D=3D 0xC7) ||
->                     (adev->pdev->revision =3D=3D 0x80) ||
-> --
-> 2.43.0
->
->
+Not sure if it has to be that complicated (for a first shot). At least for =
+the
+JobQ it would probably be enough to have a helper to create a new, let's sa=
+y,
+struct JobQueueWorker that encapsulates a (reference counted) workqueue, bu=
+t
+does not give access to it outside of jobq.rs.
