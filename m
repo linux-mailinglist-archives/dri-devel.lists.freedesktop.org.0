@@ -2,108 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GMKLDQxWjGnblAAAu9opvQ
+	id cMtkFA1YjGm9lQAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 11:12:28 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 11:21:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B86112338E
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 11:12:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A80BC12344B
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 11:21:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D96BC10E369;
-	Wed, 11 Feb 2026 10:12:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1896F10E028;
+	Wed, 11 Feb 2026 10:20:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="q8oilSJT";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="H4zxtajf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3060810E369
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 10:12:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 66159600AD;
- Wed, 11 Feb 2026 10:12:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D765DC4CEF7;
- Wed, 11 Feb 2026 10:12:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770804742;
- bh=diywIlvbx1oj2gqAg7hLMlQHaByyJeSC8PBmAl9boa8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=q8oilSJTn8/tsUrjCfCW3dl1SbxB9gNw9m1taFVvMeivbwBf9x16NjMSx/0FCmd0+
- p7//T7M6X8PXRGSHFLcAH6i4FwLSTSNKWwfovmtDnph71C9PFeU9EDi9xNk/lcdDr3
- +79vC04y0LOfG4nmS1vdmORBY1MZMeeGUpU+0IHCNbXVNJwMrX1JMwbh4y9LzXNgvx
- PMhmYZrSBrxXaCtY3W+lt7gvyWXQgAgV0mm66WOcCew5YxR7gOl5ip0PSxwPQ42GNJ
- HV7+5RKIsVauun8Yk5GWFJ23/tQpeT5/k+4tNfxvtb6f6kLuVDXPfTd8WMOM+fysRx
- ZhisT3kcmng1Q==
-Message-ID: <a04d9603-2bf2-4e61-9fde-e484f9c777af@kernel.org>
-Date: Wed, 11 Feb 2026 11:12:17 +0100
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 220AC10E011
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 10:20:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1770805254;
+ bh=45pfldhdQt4T85eRrojkPS8/DdzI6gG/B7+MIFv4muM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=H4zxtajfqECIycH3sO3zivvzj1OVPoLEddAY7m4nJ5dTjjy1Rjn8/HnC1Lapde9WE
+ dXG/0QY23yPReUt7NvqqR1u6ZWbNyIm4BV+3NRBpE83WBrEO8SE7SC+PnaS+XfkEyp
+ BACnj6VSqpJ7xCSAK9fgmK0rulpBofw0r45on5gk75spSz7XpUDSbrqr+GhQwVSIc6
+ s7h7ssBLjGXDLwjKFZa6abk2TXhNeT+ouxXO+ckRhNsVD+Jc52fNeps0FKZVc0GZfH
+ ZKg0VhEN/7d+vQF2Uop5uswPgphah2ttwRTQx6mmHLmHUhcnca4lC0vF2CwArfCXMb
+ rIoRiJ4b5EVCw==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 0094E17E1301;
+ Wed, 11 Feb 2026 11:20:53 +0100 (CET)
+Date: Wed, 11 Feb 2026 11:20:49 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: "Danilo Krummrich" <dakr@kernel.org>
+Cc: "Alice Ryhl" <aliceryhl@google.com>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, "Philipp Stanner" <phasta@mailbox.org>,
+ <phasta@kernel.org>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Gary Guo" <gary@garyguo.net>, "Benno Lossin"
+ <lossin@kernel.org>, "Daniel Almeida" <daniel.almeida@collabora.com>, "Joel
+ Fernandes" <joelagnelf@nvidia.com>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <lucas.demarchi@intel.com>, <thomas.hellstrom@linux.intel.com>,
+ <rodrigo.vivi@intel.com>
+Subject: Re: [RFC PATCH 2/4] rust: sync: Add dma_fence abstractions
+Message-ID: <20260211112049.089b2656@fedora>
+In-Reply-To: <DGC1KP1DT6YV.3LQWZXMA22L5A@kernel.org>
+References: <20260205095727.4c3e2941@fedora>
+ <DG7SZND1GWR4.3C5NLKY4SYC0M@kernel.org>
+ <bb57b6837aa8044e679dad5f2589c2e0ba84c221.camel@mailbox.org>
+ <20260209155843.725dcfe1@fedora>
+ <c319c349-eb95-4c38-84fb-47440daefc3b@amd.com>
+ <aYruaIxn8sMXVI0r@google.com> <20260210101525.7fb85f25@fedora>
+ <aYsFKOVrsMQeAHoi@google.com>
+ <DGB7RWKMPJQZ.2PHB127O6MVVN@kernel.org>
+ <4e84306c-5cec-4048-a7eb-a364788baa89@amd.com>
+ <aYsZHhX2IVO2kOSm@google.com>
+ <DGC1KP1DT6YV.3LQWZXMA22L5A@kernel.org>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] dt-bindings: display: panel: add YAML schema for
- LXD M9189A
-To: Michael Tretter <m.tretter@pengutronix.de>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Rouven Czerwinski <r.czerwinski@pengutronix.de>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kernel@pengutronix.de
-References: <20260210-drm-panel-ek79007ad3-v3-0-cd2974d56937@pengutronix.de>
- <20260210-drm-panel-ek79007ad3-v3-2-cd2974d56937@pengutronix.de>
- <20260211-practical-coyote-of-awe-0dc0a4@quoll>
- <aYxUpoWETYB9vaK2@pengutronix.de>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <aYxUpoWETYB9vaK2@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,75 +84,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.19 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:dakr@kernel.org,m:aliceryhl@google.com,m:christian.koenig@amd.com,m:phasta@mailbox.org,m:phasta@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:gary@garyguo.net,m:lossin@kernel.org,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:lucas.demarchi@intel.com,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FORGED_RECIPIENTS(0.00)[m:m.tretter@pengutronix.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:r.czerwinski@pengutronix.de,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:devicetree@vger.kernel.org,m:kernel@pengutronix.de,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,pengutronix.de,linaro.org,gmail.com,linux.intel.com,suse.de,ffwll.ch,vger.kernel.org,lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
+	FREEMAIL_CC(0.00)[google.com,amd.com,mailbox.org,kernel.org,gmail.com,ffwll.ch,garyguo.net,collabora.com,nvidia.com,vger.kernel.org,lists.freedesktop.org,intel.com,linux.intel.com];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,pengutronix.de:email]
-X-Rspamd-Queue-Id: 9B86112338E
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	HAS_ORG_HEADER(0.00)[]
+X-Rspamd-Queue-Id: A80BC12344B
 X-Rspamd-Action: no action
 
-On 11/02/2026 11:06, Michael Tretter wrote:
-> On Wed, 11 Feb 2026 07:28:55 +0100, Krzysztof Kozlowski wrote:
->> On Tue, Feb 10, 2026 at 12:22:33PM +0100, Michael Tretter wrote:
->>> From: Rouven Czerwinski <r.czerwinski@pengutronix.de>
->>>
->>> The LXD M9189A is a 1024x600 MIPI-DSI panel.
->>>
->>> Signed-off-by: Rouven Czerwinski <r.czerwinski@pengutronix.de>
->>> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
->>
->> I do not see any improvements.
-> 
-> Changes in v3:
-> - [...]
-> - Use panel-common.yaml as base
-> - [...]
-> 
-> This change addresses your comment on v2:
-> 
->>> You should reference proper panel schema in top-level.
-> 
-> I changed the schema to include panel-common.yaml as a $ref. Did I
-> misunderstand the comment?
-> 
-> What else needs improvement?
-> 
-> I am confused and any guidance would be appreciated.
-> 
+On Wed, 11 Feb 2026 10:57:27 +0100
+"Danilo Krummrich" <dakr@kernel.org> wrote:
 
-In such case I find it helpful when you go via previous comments and
-ack/acknowledge each of them. It is not necessary if you implement all
-of them, but that did not happen here. BTW, I stopped review on the
-first missing review feedback to save myself time.
+> (Cc: Xe maintainers)
+>=20
+> On Tue Feb 10, 2026 at 12:40 PM CET, Alice Ryhl wrote:
+> > On Tue, Feb 10, 2026 at 11:46:44AM +0100, Christian K=C3=B6nig wrote: =
+=20
+> >> On 2/10/26 11:36, Danilo Krummrich wrote: =20
+> >> > On Tue Feb 10, 2026 at 11:15 AM CET, Alice Ryhl wrote: =20
+> >> >> One way you can see this is by looking at what we require of the
+> >> >> workqueue. For all this to work, it's pretty important that we never
+> >> >> schedule anything on the workqueue that's not signalling safe, since
+> >> >> otherwise you could have a deadlock where the workqueue is executes=
+ some
+> >> >> random job calling kmalloc(GFP_KERNEL) and then blocks on our fence,
+> >> >> meaning that the VM_BIND job never gets scheduled since the workque=
+ue
+> >> >> is never freed up. Deadlock. =20
+> >> >=20
+> >> > Yes, I also pointed this out multiple times in the past in the conte=
+xt of C GPU
+> >> > scheduler discussions. It really depends on the workqueue and how it=
+ is used.
+> >> >=20
+> >> > In the C GPU scheduler the driver can pass its own workqueue to the =
+scheduler,
+> >> > which means that the driver has to ensure that at least one out of t=
+he
+> >> > wq->max_active works is free for the scheduler to make progress on t=
+he
+> >> > scheduler's run and free job work.
+> >> >=20
+> >> > Or in other words, there must be no more than wq->max_active - 1 wor=
+ks that
+> >> > execute code violating the DMA fence signalling rules. =20
+> >
+> > Ouch, is that really the best way to do that? Why not two workqueues? =
+=20
+>=20
+> Most drivers making use of this re-use the same workqueue for multiple GPU
+> scheduler instances in firmware scheduling mode (i.e. 1:1 relationship be=
+tween
+> scheduler and entity). This is equivalent to the JobQ use-case.
+>=20
+> Note that we will have one JobQ instance per userspace queue, so sharing =
+the
+> workqueue between JobQ instances can make sense.
 
+Definitely, but I think that's orthogonal to allowing this common
+workqueue to be used for work items that don't comply with the
+dma-fence signalling rules, isn't it?
 
-Best regards,
-Krzysztof
+>=20
+> Besides that, IIRC Xe was re-using the workqueue for something else, but =
+that
+> doesn't seem to be the case anymore. I can only find [1], which more seem=
+s like
+> some custom GPU scheduler extention [2] to me...
+
+Yep, I think it can be the problematic case. It doesn't mean we can't
+schedule work items that don't signal fences, but I think it'd be
+simpler if we were forcing those to follow the same rules (no blocking
+alloc, no locks taken that are also taken in other paths were blocking
+allocs happen, etc) regardless of this wq->max_active value.
+
+>=20
+> [1] https://elixir.bootlin.com/linux/v6.18.6/source/drivers/gpu/drm/xe/xe=
+_gpu_scheduler.c#L40
+> [2] https://elixir.bootlin.com/linux/v6.18.6/source/drivers/gpu/drm/xe/xe=
+_gpu_scheduler_types.h#L28
+
