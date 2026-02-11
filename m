@@ -2,56 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oD/sATCNjGn5qwAAu9opvQ
+	id qNJZMDWNjGn5qwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 15:07:44 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 15:07:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 434841250FC
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 15:07:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AAF412510B
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 15:07:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7801610E5C0;
-	Wed, 11 Feb 2026 14:07:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8E2810E5D3;
+	Wed, 11 Feb 2026 14:07:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ubuntu.com header.i=@ubuntu.com header.b="CyZ8c7wQ";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="hMpVAZPD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B395510E5C0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 14:07:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
- h=In-Reply-To: References: To: From: Subject: Message-Id: Date:
- Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
- s=fe-953a8a3ca9; t=1770818858;
- bh=Ove3152/rOAawcpxeWCOveBkHcNtgUY9GmlkSgVIbr8=;
- b=CyZ8c7wQg1fTUD/p3Znz960QmSi9ZYDC9uGmzQB582nkwESmsVZRF+vsgmhppS6jzF5sDa97Q
- p1mRT/nn9uBaUvRfgObfjBWW4mLgK7/giP13QH86DCK3aDukwnUArDwUnzWDiZ26jSZJyebt2cV
- njeuk5YEpFLzzN6Uj6KOpDoJBvmAxI3Aj8vNVHuQgkktvOqNVHOM+4mLQHKvvx2y86okOgjEE14
- JMcn7feBYGCqEINcfn7Hd5329P7/xQaJUULeN/XBp5Vu/OKVYBS3l9ERod0eZteH45UD4AbupTY
- 7e8kR8OulRUZ1vbXxq9MYyfGXDhsfTUbDGYmupqB67VQ==
-X-Forward-Email-ID: 698c8d282138e558edd7a81c
-X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
- 149.28.215.223
-X-Forward-Email-Version: 2.6.3
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
-Mime-Version: 1.0
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C030610E5D3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 14:07:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1770818863;
+ bh=zymFyWB1i9bpCZtAij0v0RD6V026ENlBOWVqUgQQujM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=hMpVAZPDmoG5rR69sgP2ygrmhoB6fQZghIuwZFJm055FPGzglzG0Lz2fKN2pkTLXZ
+ q0lY9XoBHLa68magnhu2PZHnKt4g5E4h5c2eE8Imi9L6v57wIHzYCsIl/NBU9Xloes
+ nqtlUuJ5bcsu2gwf+eRHIgxSns4SQaPMlC2uH6yMhQfW3e0Ri0T9EeDliQZUPtXX/E
+ B9AkZ4N6ZpIKx6iWLF6KpMW+kXb5uTQA0qJ5R2EeqydkPmUBnD+4YTzIG5ONAubDn+
+ wjz+9i0eilD/uE2gXa1FdD2oZjvmJCVU3CUwb3KDf4yekqxtqOREhLesV9A34D//uR
+ ee5Y7nGJDrFZg==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id E798817E13A5;
+ Wed, 11 Feb 2026 15:07:42 +0100 (CET)
+Date: Wed, 11 Feb 2026 15:07:38 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: "Gary Guo" <gary@garyguo.net>
+Cc: "Alice Ryhl" <aliceryhl@google.com>, <phasta@kernel.org>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Benno Lossin" <lossin@kernel.org>, Christian
+ =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Joel Fernandes" <joelagnelf@nvidia.com>,
+ <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <rust-for-linux@vger.kernel.org>
+Subject: Re: [RFC PATCH 3/4] rust/drm: Add DRM Jobqueue
+Message-ID: <20260211150738.049af4bb@fedora>
+In-Reply-To: <DGC6FE14C91M.1BMCS7XHRVP6J@garyguo.net>
+References: <20260203081403.68733-2-phasta@kernel.org>
+ <20260203081403.68733-5-phasta@kernel.org>
+ <20260210155750.5cdbe6cc@fedora>
+ <8ea48ce49f2c7b6fd715dd54c24e755e8ac3262c.camel@mailbox.org>
+ <20260211120742.0e9e7122@fedora>
+ <f3d2e3b370bed55cc2a95287b3c257f878b5e92b.camel@mailbox.org>
+ <aYx0a-2eANbM_vnd@google.com>
+ <DGC6FE14C91M.1BMCS7XHRVP6J@garyguo.net>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8; format=Flowed
-Date: Wed, 11 Feb 2026 09:07:32 -0500
-Message-Id: <DGC6W6ISK6DK.2B9VCFCGAJ2TH@ubuntu.com>
-Subject: Re: [PATCH] amdgpu_connector: use struct drm_edid instead of struct
- edid
-From: "Joshua Peisach" <jpeisach@ubuntu.com>
-To: "Joshua Peisach" <jpeisach@ubuntu.com>, <amd-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <alexander.deucher@amd.com>,
- <christian.koenig@amd.com>
-X-Mailer: aerc 0.21.0
-References: <20260207200550.42315-1-jpeisach@ubuntu.com>
-In-Reply-To: <20260207200550.42315-1-jpeisach@ubuntu.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,261 +80,139 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[ubuntu.com,none];
-	MV_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[ubuntu.com:s=fe-953a8a3ca9];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:jpeisach@ubuntu.com,m:amd-gfx@lists.freedesktop.org,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[jpeisach@ubuntu.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:gary@garyguo.net,m:aliceryhl@google.com,m:phasta@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:dakr@kernel.org,m:lossin@kernel.org,m:christian.koenig@amd.com,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	ARC_NA(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	HAS_ORG_HEADER(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_NEQ_ENVFROM(0.00)[jpeisach@ubuntu.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[ubuntu.com:+];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[google.com,kernel.org,gmail.com,ffwll.ch,amd.com,collabora.com,nvidia.com,vger.kernel.org,lists.freedesktop.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ubuntu.com:mid,ubuntu.com:dkim,ubuntu.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 434841250FC
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mailbox.org:email,garyguo.net:email]
+X-Rspamd-Queue-Id: 0AAF412510B
 X-Rspamd-Action: no action
 
-On Sat Feb 7, 2026 at 3:04 PM EST, Joshua Peisach wrote:
-> Some amdgpu code is still using deprecated edid functions. Switch to
-> the newer functions and update the amdgpu_connector struct's edid type
-> to the drm_edid type.
->
-> At the same time, use the raw EDID when we need to for speaker
-> allocations and for determining if the input is digital.
->
-> Signed-off-by: Joshua Peisach <jpeisach@ubuntu.com>
+On Wed, 11 Feb 2026 21:45:37 +0800
+"Gary Guo" <gary@garyguo.net> wrote:
 
-I think this patch actually has the wrong naming convention: should I
-resubmit and say drm/amdgpu/connectors to be more clear?
+> On Wed Feb 11, 2026 at 8:22 PM CST, Alice Ryhl wrote:
+> > On Wed, Feb 11, 2026 at 12:19:56PM +0100, Philipp Stanner wrote: =20
+> >> On Wed, 2026-02-11 at 12:07 +0100, Boris Brezillon wrote: =20
+> >> > On Wed, 11 Feb 2026 11:47:27 +0100
+> >> > Philipp Stanner <phasta@mailbox.org> wrote:
+> >> >  =20
+> >> > > On Tue, 2026-02-10 at 15:57 +0100, Boris Brezillon wrote: =20
+> >> > > > On Tue,=C2=A0 3 Feb 2026 09:14:02 +0100
+> >> > > > Philipp Stanner <phasta@kernel.org> wrote:
+> >> > > > =C2=A0  =20
+> >> > > > > +/// A jobqueue Job.
+> >> > > > > +///
+> >> > > > > +/// You can stuff your data in it. The job will be borrowed b=
+ack to your driver
+> >> > > > > +/// once the time has come to run it.
+> >> > > > > +///
+> >> > > > > +/// Jobs are consumed by [`Jobqueue::submit_job`] by value (o=
+wnership transfer).
+> >> > > > > +/// You can set multiple [`DmaFence`] as dependencies for a j=
+ob. It will only
+> >> > > > > +/// get run once all dependency fences have been signaled.
+> >> > > > > +///
+> >> > > > > +/// Jobs cost credits. Jobs will only be run if there are is =
+enough capacity in
+> >> > > > > +/// the jobqueue for the job's credits. It is legal to specif=
+y jobs costing 0
+> >> > > > > +/// credits, effectively disabling that mechanism.
+> >> > > > > +#[pin_data]
+> >> > > > > +pub struct Job<T: 'static + Send> {
+> >> > > > > +=C2=A0=C2=A0=C2=A0 cost: u32,
+> >> > > > > +=C2=A0=C2=A0=C2=A0 #[pin]
+> >> > > > > +=C2=A0=C2=A0=C2=A0 pub data: T,
+> >> > > > > +=C2=A0=C2=A0=C2=A0 done_fence: Option<ARef<DmaFence<i32>>>,
+> >> > > > > +=C2=A0=C2=A0=C2=A0 hardware_fence: Option<ARef<DmaFence<i32>>=
+>,
+> >> > > > > +=C2=A0=C2=A0=C2=A0 nr_of_deps: AtomicU32,
+> >> > > > > +=C2=A0=C2=A0=C2=A0 dependencies: List<Dependency>,=C2=A0  =20
+> >> > > >=20
+> >> > > > Given how tricky Lists are in rust, I'd recommend going for an X=
+Array,
+> >> > > > like we have on the C side. There's a bit of overhead when the j=
+ob only
+> >> > > > has a few deps, but I think simplicity beats memory-usage-optimi=
+zations
+> >> > > > in that case (especially since the overhead exists and is accept=
+ed in
+> >> > > > C).=C2=A0  =20
+> >> > >=20
+> >> > > I mean, the list is now already implemented and works. Considering=
+ the
+> >> > > XArray would have made sense during the development difficulties. =
+=20
+> >> >=20
+> >> > I'm sure it does, but that's still more code/tricks to maintain than
+> >> > what you'd have with the XArray abstraction. =20
+> >>=20
+> >> The solution than will rather be to make the linked list implementation
+> >> better.
+> >>=20
+> >> A list is the correct data structure in a huge number of use cases in
+> >> the kernel. We should not begin here to defer to other structures
+> >> because of convenience. =20
+> >
+> > Rust vs C aside, linked lists are often used in the kernel despite not
+> > being the best choice. They are extremely cache unfriendly and
+> > inefficient; most of the time a vector or xarray is far faster if you
+> > can accept an ENOMEM failure path when adding elements. I have heard
+> > several times from C maintainers that overuse of list is making the
+> > kernel slow in a death from a thousand cuts situation. =20
+>=20
+> I would rather argue the other way, other than very hot paths where cache
+> friendliness absolutely matters, if you do not require indexing access th=
+en the
+> list is the correct data strucutre more often than not.
+>=20
+> Vector have the issue where resizing requires moving, so it cannot be use=
+d with
+> pinned types. XArray doesn't require moving because it requires an indire=
+ction
+> and thus an extra allocation, but this means that if you're just iteratin=
+g over
+> all elements it also does not benefit from cache locality.
 
-> ---
->  .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    | 32 +++++++++----------
->  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  2 +-
->  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  4 +--
->  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  4 +--
->  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  4 +--
->  5 files changed, 23 insertions(+), 23 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu=
-/drm/amd/amdgpu/amdgpu_connectors.c
-> index d3e312bda..ab83b3a87 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-> @@ -246,10 +246,10 @@ amdgpu_connector_find_encoder(struct drm_connector =
-*connector,
->  	return NULL;
->  }
-> =20
-> -static struct edid *
-> +static const struct drm_edid *
->  amdgpu_connector_get_hardcoded_edid(struct amdgpu_device *adev)
->  {
-> -	return drm_edid_duplicate(drm_edid_raw(adev->mode_info.bios_hardcoded_e=
-did));
-> +	return drm_edid_dup(adev->mode_info.bios_hardcoded_edid);
->  }
-> =20
->  static void amdgpu_connector_get_edid(struct drm_connector *connector)
-> @@ -268,8 +268,8 @@ static void amdgpu_connector_get_edid(struct drm_conn=
-ector *connector)
->  	if ((amdgpu_connector_encoder_get_dp_bridge_encoder_id(connector) !=3D
->  	     ENCODER_OBJECT_ID_NONE) &&
->  	    amdgpu_connector->ddc_bus->has_aux) {
-> -		amdgpu_connector->edid =3D drm_get_edid(connector,
-> -						      &amdgpu_connector->ddc_bus->aux.ddc);
-> +		amdgpu_connector->edid =3D drm_edid_read_ddc(connector,
-> +							  &amdgpu_connector->ddc_bus->aux.ddc);
->  	} else if ((connector->connector_type =3D=3D DRM_MODE_CONNECTOR_Display=
-Port) ||
->  		   (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_eDP)) {
->  		struct amdgpu_connector_atom_dig *dig =3D amdgpu_connector->con_priv;
-> @@ -277,14 +277,14 @@ static void amdgpu_connector_get_edid(struct drm_co=
-nnector *connector)
->  		if ((dig->dp_sink_type =3D=3D CONNECTOR_OBJECT_ID_DISPLAYPORT ||
->  		     dig->dp_sink_type =3D=3D CONNECTOR_OBJECT_ID_eDP) &&
->  		    amdgpu_connector->ddc_bus->has_aux)
-> -			amdgpu_connector->edid =3D drm_get_edid(connector,
-> -							      &amdgpu_connector->ddc_bus->aux.ddc);
-> +			amdgpu_connector->edid =3D drm_edid_read_ddc(connector,
-> +								  &amdgpu_connector->ddc_bus->aux.ddc);
->  		else if (amdgpu_connector->ddc_bus)
-> -			amdgpu_connector->edid =3D drm_get_edid(connector,
-> -							      &amdgpu_connector->ddc_bus->adapter);
-> +			amdgpu_connector->edid =3D drm_edid_read_ddc(connector,
-> +								  &amdgpu_connector->ddc_bus->adapter);
->  	} else if (amdgpu_connector->ddc_bus) {
-> -		amdgpu_connector->edid =3D drm_get_edid(connector,
-> -						      &amdgpu_connector->ddc_bus->adapter);
-> +		amdgpu_connector->edid =3D drm_edid_read_ddc(connector,
-> +							  &amdgpu_connector->ddc_bus->adapter);
->  	}
-> =20
->  	if (!amdgpu_connector->edid) {
-> @@ -292,7 +292,7 @@ static void amdgpu_connector_get_edid(struct drm_conn=
-ector *connector)
->  		if (((connector->connector_type =3D=3D DRM_MODE_CONNECTOR_LVDS) ||
->  		     (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_eDP))) {
->  			amdgpu_connector->edid =3D amdgpu_connector_get_hardcoded_edid(adev);
-> -			drm_connector_update_edid_property(connector, amdgpu_connector->edid)=
-;
-> +			drm_edid_connector_update(connector, amdgpu_connector->edid);
->  		}
->  	}
->  }
-> @@ -311,11 +311,11 @@ static int amdgpu_connector_ddc_get_modes(struct dr=
-m_connector *connector)
->  	int ret;
-> =20
->  	if (amdgpu_connector->edid) {
-> -		drm_connector_update_edid_property(connector, amdgpu_connector->edid);
-> -		ret =3D drm_add_edid_modes(connector, amdgpu_connector->edid);
-> +		drm_edid_connector_update(connector, amdgpu_connector->edid);
-> +		ret =3D drm_edid_connector_add_modes(connector);
->  		return ret;
->  	}
-> -	drm_connector_update_edid_property(connector, NULL);
-> +	drm_edid_connector_update(connector, NULL);
->  	return 0;
->  }
-> =20
-> @@ -883,7 +883,7 @@ amdgpu_connector_vga_detect(struct drm_connector *con=
-nector, bool force)
->  			ret =3D connector_status_connected;
->  		} else {
->  			amdgpu_connector->use_digital =3D
-> -				!!(amdgpu_connector->edid->input & DRM_EDID_INPUT_DIGITAL);
-> +				drm_edid_is_digital(amdgpu_connector->edid);
-> =20
->  			/* some oems have boards with separate digital and analog connectors
->  			 * with a shared ddc line (often vga + hdmi)
-> @@ -1063,7 +1063,7 @@ amdgpu_connector_dvi_detect(struct drm_connector *c=
-onnector, bool force)
->  			broken_edid =3D true; /* defer use_digital to later */
->  		} else {
->  			amdgpu_connector->use_digital =3D
-> -				!!(amdgpu_connector->edid->input & DRM_EDID_INPUT_DIGITAL);
-> +				drm_edid_is_digital(amdgpu_connector->edid);
-> =20
->  			/* some oems have boards with separate digital and analog connectors
->  			 * with a shared ddc line (often vga + hdmi)
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/a=
-md/amdgpu/amdgpu_mode.h
-> index dc8d2f52c..c4e025581 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> @@ -624,7 +624,7 @@ struct amdgpu_connector {
->  	bool use_digital;
->  	/* we need to mind the EDID between detect
->  	   and get modes due to analog/digital/tvencoder */
-> -	struct edid *edid;
-> +	const struct drm_edid *edid;
->  	void *con_priv;
->  	bool dac_load_detect;
->  	bool detected_by_load; /* if the connection status was determined by lo=
-ad */
-> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd=
-/amdgpu/dce_v10_0.c
-> index 61302204e..3346494c3 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-> @@ -1298,7 +1298,7 @@ static void dce_v10_0_audio_write_speaker_allocatio=
-n(struct drm_encoder *encoder
->  		return;
->  	}
-> =20
-> -	sad_count =3D drm_edid_to_speaker_allocation(amdgpu_connector->edid, &s=
-adb);
-> +	sad_count =3D drm_edid_to_speaker_allocation(drm_edid_raw(amdgpu_connec=
-tor->edid), &sadb);
->  	if (sad_count < 0) {
->  		DRM_ERROR("Couldn't read Speaker Allocation Data Block: %d\n", sad_cou=
-nt);
->  		sad_count =3D 0;
-> @@ -1368,7 +1368,7 @@ static void dce_v10_0_audio_write_sad_regs(struct d=
-rm_encoder *encoder)
->  		return;
->  	}
-> =20
-> -	sad_count =3D drm_edid_to_sad(amdgpu_connector->edid, &sads);
-> +	sad_count =3D drm_edid_to_sad(drm_edid_raw(amdgpu_connector->edid), &sa=
-ds);
->  	if (sad_count < 0)
->  		DRM_ERROR("Couldn't read SADs: %d\n", sad_count);
->  	if (sad_count <=3D 0)
-> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/=
-amdgpu/dce_v6_0.c
-> index 8f4b4c2e3..508cfe6a8 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-> @@ -1265,7 +1265,7 @@ static void dce_v6_0_audio_write_speaker_allocation=
-(struct drm_encoder *encoder)
->  		return;
->  	}
-> =20
-> -	sad_count =3D drm_edid_to_speaker_allocation(amdgpu_connector->edid, &s=
-adb);
-> +	sad_count =3D drm_edid_to_speaker_allocation(drm_edid_raw(amdgpu_connec=
-tor->edid), &sadb);
->  	if (sad_count < 0) {
->  		DRM_ERROR("Couldn't read Speaker Allocation Data Block: %d\n", sad_cou=
-nt);
->  		sad_count =3D 0;
-> @@ -1346,7 +1346,7 @@ static void dce_v6_0_audio_write_sad_regs(struct dr=
-m_encoder *encoder)
->  		return;
->  	}
-> =20
-> -	sad_count =3D drm_edid_to_sad(amdgpu_connector->edid, &sads);
-> +	sad_count =3D drm_edid_to_sad(drm_edid_raw(amdgpu_connector->edid), &sa=
-ds);
->  	if (sad_count < 0)
->  		DRM_ERROR("Couldn't read SADs: %d\n", sad_count);
->  	if (sad_count <=3D 0)
-> diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c b/drivers/gpu/drm/amd/=
-amdgpu/dce_v8_0.c
-> index 9d1853c41..3a6a22926 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-> @@ -1271,7 +1271,7 @@ static void dce_v8_0_audio_write_speaker_allocation=
-(struct drm_encoder *encoder)
->  		return;
->  	}
-> =20
-> -	sad_count =3D drm_edid_to_speaker_allocation(amdgpu_connector->edid, &s=
-adb);
-> +	sad_count =3D drm_edid_to_speaker_allocation(drm_edid_raw(amdgpu_connec=
-tor->edid), &sadb);
->  	if (sad_count < 0) {
->  		DRM_ERROR("Couldn't read Speaker Allocation Data Block: %d\n", sad_cou=
-nt);
->  		sad_count =3D 0;
-> @@ -1339,7 +1339,7 @@ static void dce_v8_0_audio_write_sad_regs(struct dr=
-m_encoder *encoder)
->  		return;
->  	}
-> =20
-> -	sad_count =3D drm_edid_to_sad(amdgpu_connector->edid, &sads);
-> +	sad_count =3D drm_edid_to_sad(drm_edid_raw(amdgpu_connector->edid), &sa=
-ds);
->  	if (sad_count < 0)
->  		DRM_ERROR("Couldn't read SADs: %d\n", sad_count);
->  	if (sad_count <=3D 0)
+Back to this particular job dependencies use case: we have to embed the
+DmaFence pointer in some wrapper with the ListLinks element anyway,
+because DmaFences can be inserted in multiple of those lists in
+parallel. This means that now the overhead is two-pointers per DmaFence
+pointer. Of course, it's not a big issue in practice, because those
+elements are short-lived, it's only 16 bytes, and if we're ending up
+having too many of those deps, we're gonna have other challenging
+scaling issues anyway. But it also means we have the extra-indirection
+that you'd have with an array of pointers or an xarray, with more
+per-item overhead, and none of the advantages a list could provide (O(1)
+removal if you have the list item, O(1) front insertion, ...) would
+really be used in this case (because we use the list as a FIFO, really).
 
+So overall, I'd still lean towards an XArray here, unless there are
+strong objections. Just to make it super clear, I'm not making a case
+against all List usage, just this particular one :-).
