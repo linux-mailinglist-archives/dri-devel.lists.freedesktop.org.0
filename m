@@ -2,80 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2OqjB7RKjGmukgAAu9opvQ
+	id IFeJHcWhjWlh5gAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 10:24:04 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 10:47:49 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5AD5122B01
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 10:24:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1293A12BFF7
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 10:47:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE2A710E34A;
-	Wed, 11 Feb 2026 09:24:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5069C10E70E;
+	Thu, 12 Feb 2026 09:47:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Tskr0izw";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ks7wDTvA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95E2110E2C4;
- Wed, 11 Feb 2026 09:23:59 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C670B60053;
- Wed, 11 Feb 2026 09:23:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 996A8C4CEF7;
- Wed, 11 Feb 2026 09:23:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770801838;
- bh=zMMHzAbccCElgZnTTHunt2AaMFlxEi2Wrnpcdd+qN3s=;
- h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
- b=Tskr0izwQHtPS47ll8VMuwygb2B8/DvwdW0zs9mUMb8ojVZDptC61rB+AcbAm2pjz
- nUqmYFe3UJPLOXlmQw9n66sar+7+PSp/cC8GmrS1MmQ9iG0KyMdAPLMKJUdCoxZF6I
- 9QbdsW4ZD65VV4kE1kktJCbrC6FPhk4Anm7UehAEK8qt/6YjOcQmLzp/ssYL5WZ6TW
- MOXtvGDeRQT+oeG5fGA60KBgPkEGN7WpwC8TBKR5a0M1xmiKZofqk5hKsAPEpN4lyF
- 4Y0TF8++5DSzOgzUVPh2w+ypiVibGAMNBJsmzUnE+jpZwjzko6xDzXMyQDyWcW852Z
- dmaT1NPn5BAbw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 11 Feb 2026 10:23:47 +0100
-Message-Id: <DGC0UXBRSOPZ.PG0X6KTEA3RJ@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH -next v9 1/3] rust: clist: Add support to interface with
- C linked lists
-Cc: <linux-kernel@vger.kernel.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet" <corbet@lwn.net>,
- "Alex Deucher" <alexander.deucher@amd.com>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Jani Nikula"
- <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
- <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
- "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang Rui" <ray.huang@amd.com>,
- "Matthew Auld" <matthew.auld@intel.com>, "Matthew Brost"
- <matthew.brost@intel.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Helge Deller" <deller@gmx.de>, "Alice Ryhl" <aliceryhl@google.com>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>,
- "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Alistair Popple" <apopple@nvidia.com>,
- "Alexandre Courbot" <acourbot@nvidia.com>, "Andrea Righi"
- <arighi@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>, "Philipp Stanner"
- <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "David Airlie"
- <airlied@gmail.com>, "Edwin Peer" <epeer@nvidia.com>, "John Hubbard"
- <jhubbard@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Balbir Singh"
- <balbirs@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- <joel@joelfernandes.org>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <linux-fbdev@vger.kernel.org>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>
-References: <20260210233204.790524-1-joelagnelf@nvidia.com>
- <20260210233204.790524-2-joelagnelf@nvidia.com>
-In-Reply-To: <20260210233204.790524-2-joelagnelf@nvidia.com>
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+ [209.85.210.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D026510E359
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 09:29:08 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id
+ d2e1a72fcca58-81f4f4d4822so849488b3a.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 01:29:08 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770802148; cv=none;
+ d=google.com; s=arc-20240605;
+ b=LPy3UMe8vx2C3Jw1rijRMLm8qcbUzMGke1lvC1FQwR9/wwaF35/LA0WeGORLO0lcgF
+ yfXN9s0zM1PdKvTHzyCdrMRN7quHK4BzvZeyeKHgnx0x1sLbfhyj3kU2Xd04RiPLIVbC
+ DrQq8TzDp5LWXmvM+NOtcoWZESqssQXNhe1Hu8ilfKdMWYksJxr7YdIsRijUg58kPH2P
+ QViNU/FX8WSaNkMLRMLYTRmY8vDemTAq+EfqZbftxRPza4rgLimYwrV1etkZdLWg+akz
+ qkb+g3hf7NYS86L9UeUSj/2zgpMAWodUYHpav4JfA830AeTmQ4G8GdagXIdKR0PTHX6U
+ BSmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+ bh=aUbA9gGxOOEYzhQsTmOgo18IUBnbAndmse6CKYRwrX4=;
+ fh=CHhGetTqrTq7CVL/M2VU/rPaSgeNpbSrZbYM9Sf6Hws=;
+ b=BJtCyv6oXCc5bydgwXwvG8yWRkWeTvDGq/Nhu4tOH4rhEB2hUUffbJQVc79s+Xbd0r
+ YEeHLz8L48Y7+SzW5NXgxVPEOCF1EJraIWHEf2HELln1l53397ZVbR/rIYbV1f87teJE
+ cH0SmMDRm+yxSSDNC7lQgGYp/aKZHzdf356kvmW3Xf7b45/MwgLhuWQXHuOcB4gDIpHl
+ iIYIfz3MXBhNiqOlcTuRqTiQU4BTLbXIrHafOr/yUnEtXQJVYs1X6D5wRLQmXu6vTGix
+ 81vLROBKl0lQDqWNhZlr3Ws1sYmbyh8eMd2FT78JQJHxX5Eg4Z3PY1Custo6SSAdbVQ3
+ i1Gw==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1770802148; x=1771406948; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=aUbA9gGxOOEYzhQsTmOgo18IUBnbAndmse6CKYRwrX4=;
+ b=ks7wDTvApVn4ym33WO4waQRF9G9QlQRRGFTlmnPU20RUu19hKgyKhLaxFI8tOTHn5m
+ hvRJP5ZFaZCEWHucW01AxvEfNAruwwjAMHNzy9yFUsimlfetq/ic6p1grnkCMoF4rVQO
+ /8WsuptXgRnxT95uIAgslWmVM/A3vH+LIChiYFzsdsZMjVCWZkZ1BhMc1Lnc6pKOsgJN
+ uk44ftg+XNgEiLIQmooDo1+cokL9iAMoeyvvKgExgV2LMmjzELadQ9GCYlIzIhUI6Fg1
+ K6Qu2MxIYndxYraDozI/2qNsUgOSuJLazECH45+6xJuAIR48ic4xNf0vVNt8ksni1aUC
+ Paaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770802148; x=1771406948;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aUbA9gGxOOEYzhQsTmOgo18IUBnbAndmse6CKYRwrX4=;
+ b=MkFFGkhKThL88y6fe2PUHrlC6BaTxbKs67yg7tRkygsCywrLMvBVJ/fu6xBNWbgKPq
+ JguoHFhJLnNdLvs02mhpmzVcjZb364bcLfcRBTIKVd9F/+0QdAyCgtjT0XeMWvdwfkr1
+ wgO42Sww9r/9GB56K/4NJLRVIFJgXffQO4rMoA2dZLa9oYzP+vpZAEuBMOPYcur1oAXT
+ /0mMWJd9BLqtMDosMvh/TXfXUm8QshDA0V5gmC9J3KS8dtyfTrjrxlmgb1dyBdVUv8Xq
+ AlXQdtm7gu5qPPSXA0MrQeNTljx26ksFia6ZwLF/8yRuBppl+MqVZEVBksVCYURWjlWA
+ kfBA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXtn3fLrYudL84Ba3FdboFGTYqlUXrKhpKKt/fB40ppPmtpeMj7ld/u42C04y2s6pH2dJB9QnyZXQE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxEay2gO7baevqP9pibyk2Xs655PIiM2WDkl2kvgHHHEhUfNe84
+ R2xNJDZnmWJnFjOcHb8zHpNJLURIZ49OLgURpTx940ltpzRFGWBBolkavxjUip0pwZm/buAk9Xc
+ 6CtF9Tb0pb0RQbpWpALXDM7EIgYaM7Ks=
+X-Gm-Gg: AZuq6aIycCFISLmtiaHp1chyLO/S7C6LdJuO0uq6J771XMDeife95OT/nWRuN7MqsDv
+ WCTmsExRZL4CLGhdv1TMTaY77tZxP/xuYLzfXA2W4XBlSa1ORf6BRdqRyt8U1OjjdG+0FgG6Ss3
+ 54Bp4IrC+wm3PqOozHKQq99rbJDNBr9I0UcNGYdsBdT836gYiALA3JHyREqYFgqObDkvgCCW4o9
+ bYlKFro/2Fnff8Tp38G4dfan+iy2jVJNT5uwXpYf0kjO53iyKkA9ULSeWoS5nCkJp+tWkRSlZGP
+ CI83Hw==
+X-Received: by 2002:a05:6a21:6016:b0:366:14af:9bd8 with SMTP id
+ adf61e73a8af0-393ad3ec860mr18302078637.78.1770802148294; Wed, 11 Feb 2026
+ 01:29:08 -0800 (PST)
+MIME-Version: 1.0
+From: Richard Weinberger <richard.weinberger@gmail.com>
+Date: Wed, 11 Feb 2026 10:28:55 +0100
+X-Gm-Features: AZwV_QiVqa8nk_229fGgFvAqqTvdw2d0iztKljKI9n_cT6yo2PG5Hw6XUKahYLw
+Message-ID: <CAFLxGvyhdpQMnW6VqyXjLPKyZSQvrV-+GFdUogV4JX7DiGePyg@mail.gmail.com>
+Subject: PWM implementation in HWMON and backlight
+To: linux-hwmon@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ DRI mailing list <dri-devel@lists.freedesktop.org>
+Cc: ukleinek@kernel.org, lee@kernel.org, danielt@kernel.org, 
+ jingoohan1@gmail.com, Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Thu, 12 Feb 2026 09:47:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,47 +106,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MV_CASE(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DATE_IN_PAST(1.00)[24];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,linux.intel.com,kernel.org,ffwll.ch,lwn.net,amd.com,intel.com,ursulin.net,gmx.de,google.com,gmail.com,garyguo.net,protonmail.com,umich.edu,nvidia.com,weathered-steel.dev,collabora.com,joelfernandes.org,lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:linux-hwmon@vger.kernel.org,m:linux-pwm@vger.kernel.org,m:ukleinek@kernel.org,m:lee@kernel.org,m:danielt@kernel.org,m:jingoohan1@gmail.com,m:linux@roeck-us.net,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[richardweinberger@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[richardweinberger@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,roeck-us.net];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[49];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: E5AD5122B01
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 1293A12BFF7
 X-Rspamd-Action: no action
 
-On Wed Feb 11, 2026 at 12:32 AM CET, Joel Fernandes wrote:
-> Add a new module `clist` for working with C's doubly circular linked
-> lists. Provide low-level iteration over list nodes.
->
-> Typed iteration over actual items is provided with a `clist_create`
-> macro to assist in creation of the `CList` type.
->
-> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
-> Acked-by: Gary Guo <gary@garyguo.net>
-> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+Hello,
 
-I think you forgot to address my comments from [1].
+The backlight of a board I am working with is controlled via PWM.
+Naturally, I thought this would be a straightforward task using the
+pwm-backlight driver.
 
-[1] https://lore.kernel.org/all/DGB75XMWML8M.DFZY5L52EBQF@kernel.org/
+However, the PWM in question is implemented using an NCT6106D chip.
+The associated HWMON driver, nct6775-core.c, does not implement a
+standard PWM device interface but rather its own custom one.
+
+I am a bit puzzled, is there a specific reason why HWMON does not
+utilize the standard PWM framework in this case?
+Also, in case I have overlooked something: do we have a backlight
+driver available that can interface with an HWMON-based PWM?
+
+-- 
+Thanks,
+//richard
