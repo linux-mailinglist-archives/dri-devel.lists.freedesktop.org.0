@@ -2,76 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KOYpE31EjGlxkQAAu9opvQ
+	id T0tBDzJJjGmJkgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 09:57:33 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 10:17:38 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1626122751
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 09:57:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2101229F1
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 10:17:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A90C10E0B8;
-	Wed, 11 Feb 2026 08:57:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A87410E0FB;
+	Wed, 11 Feb 2026 09:17:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="o/2hLvzQ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BHBPn6Py";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="N5Xl76X6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32D5510E041;
- Wed, 11 Feb 2026 08:57:27 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4f9skq5tS3z9v0d;
- Wed, 11 Feb 2026 09:57:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1770800243;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=15VZocCgwdjn49FZsMGxj4CaQnU6ps1DJMCpIxkgtEQ=;
- b=o/2hLvzQkkbJLyAmUCD+elzcf/EPDgR1tPXHGtBEaBCVAyvjlqd/cfgLUX+AsOsGepp1M8
- 2nGeiQe6pOoNsNU/M2qE1K8m9m269HmsKggRUkKVRevEU3xU+UYu/w/9wDE2umCvbcQk2A
- dHerVPOJSUZcnzPpwmQh26pKTA5423kb1I+BVXc4Zeyxv47UMPPN+HQCb9cT+5OoKRdxbL
- A6m6F+ZQI7/KmYgsVn3RaM9MEe3abaObNFZ/QtbdtlqTvmsqyEX+qELFpLYHnqddBNkp7H
- iyXm/BDR+NHvGP8WB5R6N0xeGbaVYxM3CHQi9LYgTMF7ViU1kvapQymaA50C3w==
-Message-ID: <7c83329b-a730-4e3f-b6d1-c41db4df3bd9@mailbox.org>
-Date: Wed, 11 Feb 2026 09:57:17 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0795810E0FB
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 09:17:34 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 61B97RgF170311
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 09:17:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=sOvJ6FChpp5sD+ZrIanvgz
+ u1hubSgXdK+y6O5OIIiNs=; b=BHBPn6PyqHSKyjCaKCizbaFhzYsUUGpwiwuieH
+ lkGa7derpYpGSc0fXhKEOnXbuWa+KhyWE6ifNfJOm6sKW5UJ0VojKHjqoAuActQU
+ /u/oqBVY6ot7NdvS30YOdUP6uyqDAg10Qt4PNnuiOdqokTUYnnDhROJu9/2wXIXA
+ HaO2BEBueC2bSSgcMl8kXQdyX7eGxUY/ss13tkJ/lg3ZdOZWXQntfrzjT8FzHS+B
+ lypph/05BDviPjXOoF9aOn/pZv4eSEAO/2fvazSzxlYX0uaiLI80iRW1CyuSitKJ
+ SK8Ho0Q6sXfu1JGC6ANEPz755SjDCPO0agQ4BWrZSIeSKXJA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c8f879dj6-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 09:17:33 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-8c70ed6c849so1780818585a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 01:17:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1770801452; x=1771406252;
+ darn=lists.freedesktop.org; 
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=sOvJ6FChpp5sD+ZrIanvgzu1hubSgXdK+y6O5OIIiNs=;
+ b=N5Xl76X6GmkK9C864ICq/qhUeyGvFeq983zEroVMsl9hBs5MLMuuQma3EvbOskMXw8
+ N98LwdUogMCdpMgDjUwJNrdQwx57RNpB4uOLsXBpx1dJGW0T05tFPaw9vkIlDRMgb4i3
+ n/SsoLnVle5Uc8NVaw5ekPpWG4wayNuCvStlauR0UbN/7hgXmMpHoH9qSmvSaYBg9ovt
+ sSRxlLp13ykhxy41nG3gLrCU+W3THrg6WXpQaQUiziHVu9tcHbepVCxtHGIEx0feRrX2
+ GsmG36jU9cDuKQSAPvSDqBugravEq3ilcLdGLrfzgdoqxDyze4G51n2X+s7/IuiImw4z
+ Xr+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770801452; x=1771406252;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sOvJ6FChpp5sD+ZrIanvgzu1hubSgXdK+y6O5OIIiNs=;
+ b=FwNoArPD0LACKgGoafR7zAEPUQEvcwLAZHcIaKIhZZ0tAiBNApItWEZf3+2C2KNkKv
+ Sv/vrjmSVg+ybmuPzC/AS/bGsRwIODsL+rnUspt7yScYOXVIMT3fq+F61KSLk207D95A
+ aUctVEMF6er/V4QR0JBbfQA0oOxzS29Rd1oOQVNgwhk41N0wDlz5rHVlTVa4d0sCNYZq
+ XVBcgOowPtnpMtE4I5zUp14qNCK/eKueCJcCWM0dDSldqxa21YD+OomsEXJK6q1YDi9m
+ QzD4cOtlSWljqEs6nq+npFZf7vPcPWdqfeMcLTc3zsgpSqEsda7zsyKEvSOiDHn2SgoP
+ LMfQ==
+X-Gm-Message-State: AOJu0YwyDhEXgMwEMbu/ihUdV6bjHmPZGePxs4Gty8uKw88b9hbnyneM
+ BDKf+jRSU43zrtK5jydcTfTgSnCJHDiOehzvhq91wxaNq3TiboIxZx6xUDqZ+U5z0Zpv+SzqSOI
+ 8hBOrj6qvDhlE14MXz56EhmCQvDc0GKcJvqYsPrsWaOjR7JpjYIpRHWZoOQTc+2YWE4lgaBw=
+X-Gm-Gg: AZuq6aIsfVxKhKOvPQsOdDqiEDcqZe7CyMw1ns2+mHN1Jxgb2Lv8OzdiKkUgf1qQNaA
+ Gczm/D0F/A2ha59/ynPOLD0Dlae2YeU6gH8iRXeiT20Ltc6+010OVtvc4OmSKp30gjfZFWZJ7oZ
+ CfMr4irh1MjStmP1jyOJ2tCxoKafsaJOqFxQMTM1fnMREHfv4fr8qVJnkmS9XFsfDnlk49A1ckt
+ bCw92rZnJJaluU4M5zm/WzIWZF0dzbad2wTFRSiqgNqV7JwskhODkHcCEJGSd2s6Cx3EHQtvPqS
+ MwA54tkpFCb+QFDpyyYT7+uP3AfW2a1TD0SKq/dvcVTzGaFj10SSSp8ziCIcPDLf6uSsOxdrq9F
+ z9/XyftY2y1IlUg47nATzjqsdPfmt62YTr0+BKhbElQrAMDg6izl7xif5qETI6w+IIY3IjPVwyZ
+ NU1JD5ksX72760DvNixdrtHDLaUIhw2Kc3NuY=
+X-Received: by 2002:a05:620a:4606:b0:8c6:a373:c4a1 with SMTP id
+ af79cd13be357-8cb1f65b939mr646684285a.24.1770801452179; 
+ Wed, 11 Feb 2026 01:17:32 -0800 (PST)
+X-Received: by 2002:a05:620a:4606:b0:8c6:a373:c4a1 with SMTP id
+ af79cd13be357-8cb1f65b939mr646681285a.24.1770801451640; 
+ Wed, 11 Feb 2026 01:17:31 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-59e5f5b2239sm213865e87.81.2026.02.11.01.17.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Feb 2026 01:17:31 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Date: Wed, 11 Feb 2026 11:17:27 +0200
+Subject: [PATCH] drm: bridge: anx7625: correctly detect if PD can be disabled
 MIME-Version: 1.0
-Subject: Re: [PATCH RFC v3 0/7] Async Flip in Atomic ioctl corrections
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260211-anx7625-fix-pd-v1-1-1dd31451b06f@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIACZJjGkC/x2MQQqAMAwEvyI5G2hStNSviAfRqLlUaUEE6d8NH
+ meHnReKZJUCQ/NClluLnsmA2gaWY067oK7GwI57x0Q4pyf03OGmD14rhmh7JM/eE9jpymLmD45
+ TrR9YgHK5YAAAAA==
+X-Change-ID: 20260211-anx7625-fix-pd-792609132331
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- "xaver.hugl@kde.org" <xaver.hugl@kde.org>,
- "andrealmeid@igalia.com" <andrealmeid@igalia.com>,
- "Kumar, Naveen1" <naveen1.kumar@intel.com>,
- "Syrjala, Ville" <ville.syrjala@intel.com>,
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
-References: <20260108-async-v3-0-e7730c3fe9ff@intel.com>
- <342abb15-95e6-4ed6-8b86-a900c0f403a4@mailbox.org>
- <IA0PR11MB730722B84E81A0CC9BF80275BA82A@IA0PR11MB7307.namprd11.prod.outlook.com>
- <d1e6ad38-06bf-4139-966d-312bc728225c@mailbox.org>
- <83e50bd4-de11-4298-bab9-7a5255b0c5ca@intel.com>
- <dd0a089c-6591-4fc3-b14e-5acc1c59cf8e@mailbox.org>
- <IA0PR11MB73070E28F07D2BA29C5D5473BA63A@IA0PR11MB7307.namprd11.prod.outlook.com>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: en-CA
-In-Reply-To: <IA0PR11MB73070E28F07D2BA29C5D5473BA63A@IA0PR11MB7307.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 56e1625dfeba34b3318
-X-MBO-RS-META: jwhgyzkegkkpdqzrbgk44eqfbtpqt4rt
+ Xin Ji <xji@analogixsemi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2259;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=IqxC+fDfJvofB7HPgQuP4gkjImzp0FHOVZc/ziGOgBY=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpjEkqNlPFrg5gObDB7wYMnikVsy/c5WfpVDSej
+ RmPDaCEDlOJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaYxJKgAKCRCLPIo+Aiko
+ 1QPwB/0QRaZ5Y3MvNrnOBPr5oIiEOcHydh5N7mz+PVwmrUVPV7AAJadnHfXMDmG5Zo0LdBg1Tdd
+ FbjbntwkXXNXXeVxEtQwA7ewSeTAI3HpE6DsffK++uH6GRb2Hks/9a+HwIgCL3EQHz157EQspm0
+ Mmb0rVuHcVeODiXFZD6MtJo4uzu4/KcgtJqcHnOsi/FwNHg6HHYmFrBdP2nDnr6YXNAmgc/+2V8
+ z+GOTzbAn9Q1w0tpVKZOmjDesEcEB7U9UI90PzTyVXKD6Luwp5EKMEFMYQMwbRSErkaxnFmXJSw
+ uerstw2lpW4TX//cyNrp8WESeLvodqzlaXLAXnCHx8ICAZyB
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Authority-Analysis: v=2.4 cv=KpNAGGWN c=1 sm=1 tr=0 ts=698c492d cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=EUspDBNiAAAA:8
+ a=Pfnx8xPYPUE69FR7zw8A:9 a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjExMDA3NSBTYWx0ZWRfX1cHqVpYjpD34
+ DgFUOZoFhQgkxQsJ7vXb3rfgm7iFmM4AQvDoW4OpTM5Isz6qfAqXVnJJpMzU+12r8dQrzsecWTU
+ wqurX7d+9nMUm8Hqetd8ACi4ZlXrSYzKUPfgkWkgLx3KZPPdGunBmrU25MCQFNk3x6a5smZP/HE
+ BijemEh5OudKDwgH+IpB2gSRfMBSloe9sIFg3kQzWGQjCom9Dam/vjRLJLWw5YWNn31Tf8P/Qc0
+ lSThJJdGn6tWx4Db/0mDH+PjYyjW6J7TRvd9R660BQlJShpBrXSUTr6T9UTLcOr3HzNMRkdeENU
+ 0cVWwxBdby7PzMtcg9ucxbsHeoO53ask8su9AkVahbMuS6C67UJvVPJwd9ZM9KJKrlJ3FWK0Yli
+ tkqczHz0Qm7F4bfuHQsDgkqjcyjOssAirY2fZDUVSrO8WO2ln0gt5Mb6GI60tuVY1dmGZlzC3Me
+ Zk2aIihUfQIPTUhSizw==
+X-Proofpoint-GUID: 2Mh7fknKOqiSDCoTx5IdIMG6Zoq8vIAh
+X-Proofpoint-ORIG-GUID: 2Mh7fknKOqiSDCoTx5IdIMG6Zoq8vIAh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-10_03,2026-02-10_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 phishscore=0 adultscore=0 impostorscore=0
+ lowpriorityscore=0 clxscore=1015 suspectscore=0 spamscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602110075
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,102 +162,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	MAILLIST(-0.20)[mailman];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
-	MIME_GOOD(-0.10)[text/plain];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[intel.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,ursulin.net,kde.org,igalia.com];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[mailbox.org:+];
+	FORGED_RECIPIENTS(0.00)[m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:xji@analogixsemi.com,m:linux-kernel@vger.kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,analogixsemi.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[michel.daenzer@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mailbox.org:mid,mailbox.org:dkim,mailbox.org:email]
-X-Rspamd-Queue-Id: F1626122751
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 8C2101229F1
 X-Rspamd-Action: no action
 
-On 2/11/26 06:48, Murthy, Arun R wrote:
->> On 1/12/26 09:23, Murthy, Arun R wrote:
->>> On 09-01-2026 16:52, Michel Dänzer wrote:
->>>> On 1/9/26 12:07, Murthy, Arun R wrote:
->>>>>> From: Michel Dänzer <michel.daenzer@mailbox.org> On 1/8/26 10:43,
->>>>>> Arun R Murthy wrote:
->>>>>>> struct drm_crtc_state {
->>>>>>>          /**
->>>>>>>           * @async_flip:
->>>>>>>           *
->>>>>>>           * This is set when DRM_MODE_PAGE_FLIP_ASYNC is set in the
->> legacy
->>>>>>>           * PAGE_FLIP IOCTL. It's not wired up for the atomic
->>>>>>> IOCTL itself yet.
->>>>>>>           */
->>>>>>>          bool async_flip;
->>>>>>>
->>>>>>> In the existing code the flag async_flip was intended for the
->>>>>>> legacy PAGE_FLIP IOCTL. But the same is being used for atomic IOCTL.
->>>>>>> As per the hardware feature is concerned, async flip is a plane
->>>>>>> feature and is to be treated per plane basis and not per pipe basis.
->>>>>>> For a given hardware pipe, among the multiple hardware planes, one
->>>>>>> can go with sync flip and other 2/3 can go with async flip.
->>>>>> FWIW, this kind of mix'n'match doesn't seem useful with current
->>>>>> UAPI, since no new commit can be made for the async plane(s) before
->>>>>> the previous commit for the sync plane(s) has completed, so the
->>>>>> async plane(s) can't actually have higher update rate than the sync one(s).
->>>>> That’s right, such mix and match flips will still consume vblank time for
->> flipping.
->>>> Does a plane property really make sense for this then?
->>>
->>> As per the hardware this async flip is per plane basis and not per crtc.
->>
->> That's not really relevant.
->>
->>
->>> Not that I am trying to clean up this. Recently AMD added async support on
->> overlays as well for which  few other hacks were added. The checks that we do
->> for async flip were all done in place of copy the objs/properties, but it actually is
->> supposed to be done in the check_only() part of the drm core code. This was
->> the limitation with the existing implementation.
->>
->> Those implementation details can be changed without changing UAPI.
->>
->>
->>> As per hardware the async flip is associated with the plane, hence changing it
->> to a plane property.
->>
->> A plane property would only really be needed for mixing async & sync plane
->> updates in a single commit. Since that's currently not usefully possible due to
->> other restrictions of the UAPI, the DRM_MODE_PAGE_FLIP_ASYNC flag which
->> affects the commit as a whole is fine at this point.
->>
-> Sorry for getting back late on this, took some time to collaborate all the feedbacks.
-> 
-> We can depict the below 3 scenarios based on the discussions so far.
-> 1. KMD can allow a mix of sync and async only if there is a disable plane req on sync and no plane update on sync flips along with async flips(maybe on multiple planes).  KMD will send the flipdone after sync plane disable is done. (Basically flipdone will send at vblank)
+During initial checks the ANX7625 bridge can be powered on before
+setting up the Type-C port. At this point, when
+anx7625_ocm_loading_check() checks if it can disable PD or not, it will
+notice that typec_port is not set and disable PD, breaking orientation
+and HPD handling. Unify the check between anx7625_ocm_loading_check()
+anx7625_i2c_probe() and anx7625_typec_register() and check for the
+presence of the "connector" node.
 
-What would be the point of allowing that? The compositor can't do the next commit before the sync plane has turned off anyway, so it can just as well do that in a sync commit and the async plane updates in separate commits later.
+Fixes: 8ad0f7d2e6fd ("drm: bridge: anx7625: implement message sending")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index c43519097a45..1157a58cf1b1 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -1363,6 +1363,18 @@ static void anx7625_configure_hpd(struct anx7625_data *ctx)
+ 	anx7625_hpd_timer_config(ctx);
+ }
+ 
++static bool anx7625_need_pd(struct anx7625_data *ctx)
++{
++	struct fwnode_handle *fwnode;
++
++	fwnode = device_get_named_child_node(ctx->dev, "connector");
++	if (!fwnode)
++		return false;
++
++	fwnode_handle_put(fwnode);
++	return true;
++}
++
+ static int anx7625_ocm_loading_check(struct anx7625_data *ctx)
+ {
+ 	int ret;
+@@ -1378,7 +1390,7 @@ static int anx7625_ocm_loading_check(struct anx7625_data *ctx)
+ 	if ((ret & FLASH_LOAD_STA_CHK) != FLASH_LOAD_STA_CHK)
+ 		return -ENODEV;
+ 
+-	if (!ctx->typec_port)
++	if (!anx7625_need_pd(ctx))
+ 		anx7625_disable_pd_protocol(ctx);
+ 	anx7625_configure_hpd(ctx);
+ 
+@@ -2924,12 +2936,7 @@ static int anx7625_i2c_probe(struct i2c_client *client)
+ 	}
+ 
+ 	if (!platform->pdata.low_power_mode) {
+-		struct fwnode_handle *fwnode;
+-
+-		fwnode = device_get_named_child_node(dev, "connector");
+-		if (fwnode)
+-			fwnode_handle_put(fwnode);
+-		else
++		if (!anx7625_need_pd(platform))
+ 			anx7625_disable_pd_protocol(platform);
+ 
+ 		anx7625_configure_hpd(platform);
 
-> 3. With multiple plane async flips, KMD send flip done per plane basis to the user. (async flag per plane from user)
-> 4. With supporting a mix of sync and async flips, should KMD allow them and send one flipdone for async flips and one flipdone for sync flips.
+---
+base-commit: 400a84e1f7a3681ef24d58d49b5d07e81c14f4e9
+change-id: 20260211-anx7625-fix-pd-792609132331
 
-Again not sure what would be the point of 3 or 4, since the compositor can't do the next commit before all planes have updated anyway.
-
-
+Best regards,
 -- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
+With best wishes
+Dmitry
+
