@@ -2,68 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8KHnCD9pjGkMnQAAu9opvQ
+	id mPjTHSBvjGlmngAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 12:34:23 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 12:59:28 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1B1123E3C
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 12:34:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1A0D12406A
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 12:59:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E1FD10E3AB;
-	Wed, 11 Feb 2026 11:34:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 417B810E027;
+	Wed, 11 Feb 2026 11:59:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VPq8mQGw";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="arlu/v2Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75B6510E00B;
- Wed, 11 Feb 2026 11:34:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770809657; x=1802345657;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=dt512YhhFPAujeUam3PzDdSPOFby+BrzQY48j5/Pk/s=;
- b=VPq8mQGwXh6jAbZJ4iXfECP08Cw8AoQcn8gZR9oDFF9Y5aJrKkTuI5Q4
- TgA/Elp0nMzt36pOLaXPXF2tWqK4FsnaMWQH/R5yWlzDZwI4kjEWWbzGy
- hnf5W8u3oZlpYlynCyyOrWXl/29NxifVtoo92BY0MSCURJjUFLg8t6uh4
- aN3odRHv/+wHKqLmUdKWdCIllmym8wnLdTsJ2nBPNYG7i625XqnvplaE3
- qsHme4lfnn8Wdbh/QBxQgnBPVLn87KuOrnhgd+QMf2ojS1wHZDa33MiPf
- taxWf2dL1o0jNsnAr439l/jVg5mMkaWOMP7zPclwc+XG1xGERewfZHYUf A==;
-X-CSE-ConnectionGUID: O/kKohr+QsCB5dA19X3M2g==
-X-CSE-MsgGUID: pilpXhM/RJiwVBqJjVy2PQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="71997707"
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; d="scan'208";a="71997707"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2026 03:34:17 -0800
-X-CSE-ConnectionGUID: /Zgb0xvzSFSTFfujHUy4yg==
-X-CSE-MsgGUID: wHSdhGAWTBS4pYoezTIYPw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; d="scan'208";a="211537336"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO [10.245.244.235])
- ([10.245.244.235])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2026 03:34:16 -0800
-Message-ID: <6289525edef2a1dca5d9de325ad0efbc1cb79a38.camel@linux.intel.com>
-Subject: Re: [PATCH v4 4/4] drm/pagemap: Use dma-map IOVA alloc, link, and
- sync API for DRM pagemap
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: leonro@nvidia.com, jgg@ziepe.ca, francois.dugast@intel.com, 
- himal.prasad.ghimiray@intel.com
-Date: Wed, 11 Feb 2026 12:34:12 +0100
-In-Reply-To: <20260205041921.3781292-5-matthew.brost@intel.com>
-References: <20260205041921.3781292-1-matthew.brost@intel.com>
- <20260205041921.3781292-5-matthew.brost@intel.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC25910E027
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 11:59:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1770811163;
+ bh=YePnWc5kuw57XGIEWaGONaead5PBtr/HlIQj9QeApGg=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=arlu/v2YbLUiiUP+jKahtg7ISCUyLwnhpidRd39ZUQtJDqQPFhhcOIWD5C40o3Ard
+ snK3VUGKV2YZsydT4GaxH2gvE3JWgtW1Uz2w/gfZtO9tMI6J66Iy2WkDIEMtv15M/k
+ Ac1PMUwf+50XxNr4A4M7BLdHD+Si9i0u8H26Co4hT81VuPuG8wdSvA++GA4lNO41xh
+ 3Wq6DH3LHWeEOZV5enhIkyYj95HFM4tBT0fNV1OqWevM9xZdLAOSv/kzTTuFlVNQjz
+ udBR1UBBP/jyFSsEiKVdz7yf01RGFP7yAT3p7tv2GYcxNVMir88b50vh2BWQ8/8Xqs
+ O9RNU6888S1zQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id D707E17E0097;
+ Wed, 11 Feb 2026 12:59:22 +0100 (CET)
+Date: Wed, 11 Feb 2026 12:59:17 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Philipp Stanner <phasta@mailbox.org>
+Cc: phasta@kernel.org, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Danilo Krummrich <dakr@kernel.org>, Alice Ryhl
+ <aliceryhl@google.com>, Gary Guo <gary@garyguo.net>, Benno Lossin
+ <lossin@kernel.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Daniel Almeida <daniel.almeida@collabora.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
+Subject: Re: [RFC PATCH 3/4] rust/drm: Add DRM Jobqueue
+Message-ID: <20260211125917.286e0fb6@fedora>
+In-Reply-To: <f3d2e3b370bed55cc2a95287b3c257f878b5e92b.camel@mailbox.org>
+References: <20260203081403.68733-2-phasta@kernel.org>
+ <20260203081403.68733-5-phasta@kernel.org>
+ <20260210155750.5cdbe6cc@fedora>
+ <8ea48ce49f2c7b6fd715dd54c24e755e8ac3262c.camel@mailbox.org>
+ <20260211120742.0e9e7122@fedora>
+ <f3d2e3b370bed55cc2a95287b3c257f878b5e92b.camel@mailbox.org>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,358 +77,192 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:phasta@mailbox.org,m:phasta@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:dakr@kernel.org,m:aliceryhl@google.com,m:gary@garyguo.net,m:lossin@kernel.org,m:christian.koenig@amd.com,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	ARC_NA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,linux.intel.com:mid];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[thomas.hellstrom@linux.intel.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+]
-X-Rspamd-Queue-Id: 6F1B1123E3C
+	FORGED_SENDER_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,ffwll.ch,google.com,garyguo.net,amd.com,collabora.com,nvidia.com,vger.kernel.org,lists.freedesktop.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mailbox.org:email,collabora.com:dkim]
+X-Rspamd-Queue-Id: E1A0D12406A
 X-Rspamd-Action: no action
 
-On Wed, 2026-02-04 at 20:19 -0800, Matthew Brost wrote:
-> The dma-map IOVA alloc, link, and sync APIs perform significantly
-> better
-> than dma-map / dma-unmap, as they avoid costly IOMMU
-> synchronizations.
-> This difference is especially noticeable when mapping a 2MB region in
-> 4KB pages.
+On Wed, 11 Feb 2026 12:19:56 +0100
+Philipp Stanner <phasta@mailbox.org> wrote:
+
+> On Wed, 2026-02-11 at 12:07 +0100, Boris Brezillon wrote:
+> > On Wed, 11 Feb 2026 11:47:27 +0100
+> > Philipp Stanner <phasta@mailbox.org> wrote:
+> >  =20
+> > > On Tue, 2026-02-10 at 15:57 +0100, Boris Brezillon wrote: =20
+> > > > On Tue,=C2=A0 3 Feb 2026 09:14:02 +0100
+> > > > Philipp Stanner <phasta@kernel.org> wrote:
+> > > > =C2=A0  =20
+> > > > > +/// A jobqueue Job.
+> > > > > +///
+> > > > > +/// You can stuff your data in it. The job will be borrowed back=
+ to your driver
+> > > > > +/// once the time has come to run it.
+> > > > > +///
+> > > > > +/// Jobs are consumed by [`Jobqueue::submit_job`] by value (owne=
+rship transfer).
+> > > > > +/// You can set multiple [`DmaFence`] as dependencies for a job.=
+ It will only
+> > > > > +/// get run once all dependency fences have been signaled.
+> > > > > +///
+> > > > > +/// Jobs cost credits. Jobs will only be run if there are is eno=
+ugh capacity in
+> > > > > +/// the jobqueue for the job's credits. It is legal to specify j=
+obs costing 0
+> > > > > +/// credits, effectively disabling that mechanism.
+> > > > > +#[pin_data]
+> > > > > +pub struct Job<T: 'static + Send> {
+> > > > > +=C2=A0=C2=A0=C2=A0 cost: u32,
+> > > > > +=C2=A0=C2=A0=C2=A0 #[pin]
+> > > > > +=C2=A0=C2=A0=C2=A0 pub data: T,
+> > > > > +=C2=A0=C2=A0=C2=A0 done_fence: Option<ARef<DmaFence<i32>>>,
+> > > > > +=C2=A0=C2=A0=C2=A0 hardware_fence: Option<ARef<DmaFence<i32>>>,
+> > > > > +=C2=A0=C2=A0=C2=A0 nr_of_deps: AtomicU32,
+> > > > > +=C2=A0=C2=A0=C2=A0 dependencies: List<Dependency>,=C2=A0  =20
+> > > >=20
+> > > > Given how tricky Lists are in rust, I'd recommend going for an XArr=
+ay,
+> > > > like we have on the C side. There's a bit of overhead when the job =
+only
+> > > > has a few deps, but I think simplicity beats memory-usage-optimizat=
+ions
+> > > > in that case (especially since the overhead exists and is accepted =
+in
+> > > > C).=C2=A0  =20
+> > >=20
+> > > I mean, the list is now already implemented and works. Considering the
+> > > XArray would have made sense during the development difficulties. =20
+> >=20
+> > I'm sure it does, but that's still more code/tricks to maintain than
+> > what you'd have with the XArray abstraction. =20
 >=20
-> Use the IOVA alloc, link, and sync APIs for DRM pagemap, which create
-> DMA
-> mappings between the CPU and GPU for copying data.
+> The solution than will rather be to make the linked list implementation
+> better.
 >=20
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
-> v4:
-> =C2=A0- Pack IOVA and drop dummy page (Jason)
+> A list is the correct data structure in a huge number of use cases in
+> the kernel. We should not begin here to defer to other structures
+> because of convenience.
 >=20
-> =C2=A0drivers/gpu/drm/drm_pagemap.c | 84 +++++++++++++++++++++++++++++---=
--
-> --
-> =C2=A01 file changed, 70 insertions(+), 14 deletions(-)
+> Btw. lists in Rust being so horrible has been repeatedly a reason why
+> some other hackers argued that Rust as a language is not suitable for
+> kernel development.
 >=20
-> diff --git a/drivers/gpu/drm/drm_pagemap.c
-> b/drivers/gpu/drm/drm_pagemap.c
-> index 29677b19bb69..52a196bc8459 100644
-> --- a/drivers/gpu/drm/drm_pagemap.c
-> +++ b/drivers/gpu/drm/drm_pagemap.c
-> @@ -280,6 +280,20 @@ drm_pagemap_migrate_map_device_pages(struct
-> device *dev,
-> =C2=A0	return 0;
-> =C2=A0}
-> =C2=A0
-> +/**
-> + * struct drm_pagemap_iova_state - DRM pagemap IOVA state
-> + *
+> So getting that right seems more desirable than capitulating.
 
-No newline=20
+I'm not capitulating, and I'm not saying "No list, never!" either. I'm
+saying, if there's something that fits the bill and is easier to use,
+maybe we should consider it...
 
-> + * @dma_state: DMA IOVA state.
-> + * @offset: Current offset in IOVA.
-> + *
-> + * This structure acts as an iterator for packing all IOVA addresses
-> within a
-> + * contiguous range.
-> + */
-> +struct drm_pagemap_iova_state {
-> +	struct dma_iova_state dma_state;
-> +	unsigned long offset;
-> +};
-> +
-> =C2=A0/**
-> =C2=A0 * drm_pagemap_migrate_map_system_pages() - Map system migration
-> pages for GPU SVM migration
-> =C2=A0 * @dev: The device performing the migration.
-> @@ -287,6 +301,7 @@ drm_pagemap_migrate_map_device_pages(struct
-> device *dev,
-> =C2=A0 * @migrate_pfn: Array of page frame numbers of system pages or pee=
-r
-> pages to map.
-> =C2=A0 * @npages: Number of system pages or peer pages to map.
-> =C2=A0 * @dir: Direction of data transfer (e.g., DMA_BIDIRECTIONAL)
-> + * @state: DMA IOVA state for mapping.
-> =C2=A0 *
-> =C2=A0 * This function maps pages of memory for migration usage in GPU
-> SVM. It
-> =C2=A0 * iterates over each page frame number provided in @migrate_pfn,
-> maps the
-> @@ -300,9 +315,11 @@ drm_pagemap_migrate_map_system_pages(struct
-> device *dev,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_pagemap_addr
-> *pagemap_addr,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long *migrate_pfn,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long npages,
-> -				=C2=A0=C2=A0=C2=A0=C2=A0 enum dma_data_direction dir)
-> +				=C2=A0=C2=A0=C2=A0=C2=A0 enum dma_data_direction dir,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_pagemap_iova_state
-> *state)
-> =C2=A0{
-> =C2=A0	unsigned long i;
-> +	bool try_alloc =3D false;
-> =C2=A0
-> =C2=A0	for (i =3D 0; i < npages;) {
-> =C2=A0		struct page *page =3D
-> migrate_pfn_to_page(migrate_pfn[i]);
-> @@ -317,9 +334,31 @@ drm_pagemap_migrate_map_system_pages(struct
-> device *dev,
-> =C2=A0		folio =3D page_folio(page);
-> =C2=A0		order =3D folio_order(folio);
-> =C2=A0
-> -		dma_addr =3D dma_map_page(dev, page, 0,
-> page_size(page), dir);
-> -		if (dma_mapping_error(dev, dma_addr))
-> -			return -EFAULT;
-> +		if (!try_alloc) {
-> +			dma_iova_try_alloc(dev, &state->dma_state,
-> +					=C2=A0=C2=A0 npages * PAGE_SIZE >=3D
-> +					=C2=A0=C2=A0 HPAGE_PMD_SIZE ?
-> +					=C2=A0=C2=A0 HPAGE_PMD_SIZE : 0,
-> +					=C2=A0=C2=A0 npages * PAGE_SIZE);
-> +			try_alloc =3D true;
-> +		}
+>=20
+> >  =20
+> > >=20
+> > > If it were to make sense we could certainly replace the list with an
+> > > xarray, but I don't see an advantage. The JQ just needs to iterate ov=
+er
+> > > the dependencies to register its events on them, and on drop to
+> > > deregister them perhaps.
+> > >=20
+> > > We have many jobs, but likely only few dependencies per job, so the
+> > > lower memory footprint seems desirable and the XArray's advantages
+> > > don't come to play =E2=80=93 except maybe if we'd want to consider to=
+ avoid the
+> > > current unsafe-rawpointer solution to obtain the job, since obtaining=
+ a
+> > > job from an Xarray is far faster than by list iteration. =20
+> >=20
+> > I don't think we need O(1) for picking random deps in a job, because
+> > that's not something we need at all: the dep list here is used as a
+> > FIFO.
+> >  =20
+>=20
+> Wrong. The dep list here has no ordering requirements at all. JQ does
+> not care in which order it registers its events, it just cares about
+> dealing with dep-fences racing.
 
-What happens if dma_iova_try_alloc() fails for all i < some value x and
-then suddenly succeeds for i =3D=3D x? While the below code looks correct,
-I figure we'd allocate a too large IOVA region and possibly get the
-alignment wrong?
+What I mean is that it's used as a FIFO right now, not that deps have to
+be processed in order.
 
-Otherwise LGTM.
+>=20
+> You could (de-)register your callbacks in random order, it does not
+> matter.
 
+Again, that's not my point, and I think we're just saying the same
+thing here: the list seems to be a good match for this dependency
+array/list, because right now deps are processed in order. Now, being
+the right construct in one language doesn't mean it's the right
+construct in another language.
 
-> +
-> +		if (dma_use_iova(&state->dma_state)) {
-> +			int err =3D dma_iova_link(dev, &state-
-> >dma_state,
-> +						page_to_phys(page),
-> +						state->offset,
-> page_size(page),
-> +						dir, 0);
-> +			if (err)
-> +				return err;
-> +
-> +			dma_addr =3D state->dma_state.addr + state-
-> >offset;
-> +			state->offset +=3D page_size(page);
-> +		} else {
-> +			dma_addr =3D dma_map_page(dev, page, 0,
-> page_size(page),
-> +						dir);
-> +			if (dma_mapping_error(dev, dma_addr))
-> +				return -EFAULT;
-> +		}
-> =C2=A0
-> =C2=A0		pagemap_addr[i] =3D
-> =C2=A0			drm_pagemap_addr_encode(dma_addr,
-> @@ -330,6 +369,9 @@ drm_pagemap_migrate_map_system_pages(struct
-> device *dev,
-> =C2=A0		i +=3D NR_PAGES(order);
-> =C2=A0	}
-> =C2=A0
-> +	if (dma_use_iova(&state->dma_state))
-> +		return dma_iova_sync(dev, &state->dma_state, 0,
-> state->offset);
-> +
-> =C2=A0	return 0;
-> =C2=A0}
-> =C2=A0
-> @@ -341,6 +383,7 @@ drm_pagemap_migrate_map_system_pages(struct
-> device *dev,
-> =C2=A0 * @pagemap_addr: Array of DMA information corresponding to mapped
-> pages
-> =C2=A0 * @npages: Number of pages to unmap
-> =C2=A0 * @dir: Direction of data transfer (e.g., DMA_BIDIRECTIONAL)
-> + * @state: DMA IOVA state for mapping.
-> =C2=A0 *
-> =C2=A0 * This function unmaps previously mapped pages of memory for GPU
-> Shared Virtual
-> =C2=A0 * Memory (SVM). It iterates over each DMA address provided in
-> @dma_addr, checks
-> @@ -350,10 +393,17 @@ static void
-> drm_pagemap_migrate_unmap_pages(struct device *dev,
-> =C2=A0					=C2=A0=C2=A0=C2=A0 struct drm_pagemap_addr
-> *pagemap_addr,
-> =C2=A0					=C2=A0=C2=A0=C2=A0 unsigned long
-> *migrate_pfn,
-> =C2=A0					=C2=A0=C2=A0=C2=A0 unsigned long npages,
-> -					=C2=A0=C2=A0=C2=A0 enum dma_data_direction
-> dir)
-> +					=C2=A0=C2=A0=C2=A0 enum dma_data_direction
-> dir,
-> +					=C2=A0=C2=A0=C2=A0 struct
-> drm_pagemap_iova_state *state)
-> =C2=A0{
-> =C2=A0	unsigned long i;
-> =C2=A0
-> +	if (state && dma_use_iova(&state->dma_state)) {
-> +		dma_iova_unlink(dev, &state->dma_state, 0, state-
-> >offset, dir, 0);
-> +		dma_iova_free(dev, &state->dma_state);
-> +		return;
-> +	}
-> +
-> =C2=A0	for (i =3D 0; i < npages;) {
-> =C2=A0		struct page *page =3D
-> migrate_pfn_to_page(migrate_pfn[i]);
-> =C2=A0
-> @@ -406,7 +456,7 @@ drm_pagemap_migrate_remote_to_local(struct
-> drm_pagemap_devmem *devmem,
-> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 devmem->pre_migrate_fence);
-> =C2=A0out:
-> =C2=A0	drm_pagemap_migrate_unmap_pages(remote_device, pagemap_addr,
-> local_pfns,
-> -					npages, DMA_FROM_DEVICE);
-> +					npages, DMA_FROM_DEVICE,
-> NULL);
-> =C2=A0	return err;
-> =C2=A0}
-> =C2=A0
-> @@ -416,11 +466,13 @@ drm_pagemap_migrate_sys_to_dev(struct
-> drm_pagemap_devmem *devmem,
-> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct page *local_pages[],
-> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_pagemap_addr
-> pagemap_addr[],
-> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long npages,
-> -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct drm_pagemap_devmem_=
-ops
-> *ops)
-> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct drm_pagemap_devmem_=
-ops
-> *ops,
-> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_pagemap_iova_state *s=
-tate)
-> =C2=A0{
-> =C2=A0	int err =3D drm_pagemap_migrate_map_system_pages(devmem->dev,
-> =C2=A0						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pagemap_addr,
-> sys_pfns,
-> -						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 npages,
-> DMA_TO_DEVICE);
-> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 npages,
-> DMA_TO_DEVICE,
-> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 state);
-> =C2=A0
-> =C2=A0	if (err)
-> =C2=A0		goto out;
-> @@ -429,7 +481,7 @@ drm_pagemap_migrate_sys_to_dev(struct
-> drm_pagemap_devmem *devmem,
-> =C2=A0				=C2=A0 devmem->pre_migrate_fence);
-> =C2=A0out:
-> =C2=A0	drm_pagemap_migrate_unmap_pages(devmem->dev, pagemap_addr,
-> sys_pfns, npages,
-> -					DMA_TO_DEVICE);
-> +					DMA_TO_DEVICE, state);
-> =C2=A0	return err;
-> =C2=A0}
-> =C2=A0
-> @@ -457,6 +509,7 @@ static int drm_pagemap_migrate_range(struct
-> drm_pagemap_devmem *devmem,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 const struct migrate_range_loc
-> *cur,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 const struct
-> drm_pagemap_migrate_details *mdetails)
-> =C2=A0{
-> +	struct drm_pagemap_iova_state state =3D {};
-> =C2=A0	int ret =3D 0;
-> =C2=A0
-> =C2=A0	if (cur->start =3D=3D 0)
-> @@ -484,7 +537,7 @@ static int drm_pagemap_migrate_range(struct
-> drm_pagemap_devmem *devmem,
-> =C2=A0						=C2=A0=C2=A0=C2=A0=C2=A0 &pages[last-
-> >start],
-> =C2=A0						=C2=A0=C2=A0=C2=A0=C2=A0
-> &pagemap_addr[last->start],
-> =C2=A0						=C2=A0=C2=A0=C2=A0=C2=A0 cur->start -
-> last->start,
-> -						=C2=A0=C2=A0=C2=A0=C2=A0 last->ops);
-> +						=C2=A0=C2=A0=C2=A0=C2=A0 last->ops,
-> &state);
-> =C2=A0
-> =C2=A0out:
-> =C2=A0	*last =3D *cur;
-> @@ -1001,6 +1054,7 @@ EXPORT_SYMBOL(drm_pagemap_put);
-> =C2=A0int drm_pagemap_evict_to_ram(struct drm_pagemap_devmem
-> *devmem_allocation)
-> =C2=A0{
-> =C2=A0	const struct drm_pagemap_devmem_ops *ops =3D
-> devmem_allocation->ops;
-> +	struct drm_pagemap_iova_state state =3D {};
-> =C2=A0	unsigned long npages, mpages =3D 0;
-> =C2=A0	struct page **pages;
-> =C2=A0	unsigned long *src, *dst;
-> @@ -1042,7 +1096,7 @@ int drm_pagemap_evict_to_ram(struct
-> drm_pagemap_devmem *devmem_allocation)
-> =C2=A0	err =3D
-> drm_pagemap_migrate_map_system_pages(devmem_allocation->dev,
-> =C2=A0						=C2=A0=C2=A0 pagemap_addr,
-> =C2=A0						=C2=A0=C2=A0 dst, npages,
-> -						=C2=A0=C2=A0 DMA_FROM_DEVICE);
-> +						=C2=A0=C2=A0 DMA_FROM_DEVICE,
-> &state);
-> =C2=A0	if (err)
-> =C2=A0		goto err_finalize;
-> =C2=A0
-> @@ -1059,7 +1113,7 @@ int drm_pagemap_evict_to_ram(struct
-> drm_pagemap_devmem *devmem_allocation)
-> =C2=A0	migrate_device_pages(src, dst, npages);
-> =C2=A0	migrate_device_finalize(src, dst, npages);
-> =C2=A0	drm_pagemap_migrate_unmap_pages(devmem_allocation->dev,
-> pagemap_addr, dst, npages,
-> -					DMA_FROM_DEVICE);
-> +					DMA_FROM_DEVICE, &state);
-> =C2=A0
-> =C2=A0err_free:
-> =C2=A0	kvfree(buf);
-> @@ -1103,6 +1157,7 @@ static int __drm_pagemap_migrate_to_ram(struct
-> vm_area_struct *vas,
-> =C2=A0		MIGRATE_VMA_SELECT_DEVICE_COHERENT,
-> =C2=A0		.fault_page	=3D page,
-> =C2=A0	};
-> +	struct drm_pagemap_iova_state state =3D {};
-> =C2=A0	struct drm_pagemap_zdd *zdd;
-> =C2=A0	const struct drm_pagemap_devmem_ops *ops;
-> =C2=A0	struct device *dev =3D NULL;
-> @@ -1162,7 +1217,7 @@ static int __drm_pagemap_migrate_to_ram(struct
-> vm_area_struct *vas,
-> =C2=A0
-> =C2=A0	err =3D drm_pagemap_migrate_map_system_pages(dev,
-> pagemap_addr,
-> =C2=A0						=C2=A0=C2=A0 migrate.dst,
-> npages,
-> -						=C2=A0=C2=A0 DMA_FROM_DEVICE);
-> +						=C2=A0=C2=A0 DMA_FROM_DEVICE,
-> &state);
-> =C2=A0	if (err)
-> =C2=A0		goto err_finalize;
-> =C2=A0
-> @@ -1180,7 +1235,8 @@ static int __drm_pagemap_migrate_to_ram(struct
-> vm_area_struct *vas,
-> =C2=A0	migrate_vma_finalize(&migrate);
-> =C2=A0	if (dev)
-> =C2=A0		drm_pagemap_migrate_unmap_pages(dev, pagemap_addr,
-> migrate.dst,
-> -						npages,
-> DMA_FROM_DEVICE);
-> +						npages,
-> DMA_FROM_DEVICE,
-> +						&state);
-> =C2=A0err_free:
-> =C2=A0	kvfree(buf);
-> =C2=A0err_out:
+>=20
+> List and Xarray might be useful for the unsafe related to the
+> DependencyWaker. There you could avoid a raw pointer by getting the job
+> through a list iteration or through the hypothetical XArray.
+>=20
+> Please take a look at my detailed code comments for DependencyWaker.
+
+Sure, I'll have a closer look.
+
+>=20
+> >  There's the per-dep overhead of the ListLinks object maybe, but
+> > it's certainly acceptable. And I don't think cache locality matters
+> > either, because the XArray stores pointers too, so we'll still be one
+> > deref away from the DmaFence. No, my main concern was maintainability,
+> > because managing lists in rust is far from trivial, and as a developer,
+> > I try to avoid using concepts the language I rely on is not friendly
+> > with. =20
+>=20
+> This would be a decision with wide implications, as detailed above.
+>=20
+> If we were to admit that lists just don't work in Rust, then wouldn't
+> the consequent decision to remove them all together?
+
+I'm not going as far as saying they don't work, I'm just saying they
+are trickier to use, and that's a fact.
+
+>=20
+> "Lists in kernel-Rust are not supported. Too difficult to maintain.
+> We're sorry. Use XArray et al. instead :("
+
+No, there are patterns where an XArray wouldn't be a good fit. For
+instance, LRU lists where objects get moved between lists depending on
+their usage pattern. If we were to use XArrays for that, that would
+imply potential allocations in paths where we don't want them. In this
+dep array case, the deps are added at submit time, and they get
+progressively dropped, so the array can't grow, it can only ever
+shrink, and XArray allows it to shrink from both ends (and even have
+holes), so it sounds like a good match too. Not saying a perfect match,
+not saying better than a list in general, but an XArray is easier to
+use than a list **in rust**, and the fact it fits the bill (if it does
+in C, it should in rust too) had me thinking that maybe it's what we
+should use.
+
+If every one is happy with a list, then lets go for a list.
