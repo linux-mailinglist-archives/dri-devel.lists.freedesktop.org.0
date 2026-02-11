@@ -2,44 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AJqjJiJKjGmukgAAu9opvQ
+	id 2OqjB7RKjGmukgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 10:21:38 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 10:24:04 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D065122A94
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 10:21:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5AD5122B01
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 10:24:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A272F10E329;
-	Wed, 11 Feb 2026 09:21:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE2A710E34A;
+	Wed, 11 Feb 2026 09:24:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WvQ3ewTX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Tskr0izw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96E5310E2C4;
- Wed, 11 Feb 2026 09:21:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95E2110E2C4;
+ Wed, 11 Feb 2026 09:23:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id F00EB600CB;
- Wed, 11 Feb 2026 09:21:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2F38C4CEF7;
- Wed, 11 Feb 2026 09:21:25 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id C670B60053;
+ Wed, 11 Feb 2026 09:23:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 996A8C4CEF7;
+ Wed, 11 Feb 2026 09:23:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770801694;
- bh=bbT8L9yuhCkcKZIt2AwaX5L7rkxzlrBrldrxjRCY6Qc=;
- h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
- b=WvQ3ewTXZ2lQSqYQAAxvDxZIXx23sQMjCI9kZmySTxXf08I7vSWq2wMpO6JUEUGPl
- 84R832HYeYTEN0Sk2sDTMYgyZkGhgpKuuL7Gt2uee/ViV4W3er/rKoAd6jcx/tqQ19
- OiCiuHd9MlBlEh9GPY3AlGmbqCZfyIWufwYIkkLGn7LojPEaoyHXlkqjdE3pLOOABq
- cEOz7Oqh37c+3cpcftV6Nhv8NFmzgTs1tkvuXcpbqOFtPCbG7YslH9I9XRCg0Rs5Bs
- AN7w3KKk1aPoNzeTaCrUukzHvsI39VzMEwYkAqejXLvG4xov+ipmcO0xKsgvmnwAFG
- aTpMU/ppeRiXA==
+ s=k20201202; t=1770801838;
+ bh=zMMHzAbccCElgZnTTHunt2AaMFlxEi2Wrnpcdd+qN3s=;
+ h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
+ b=Tskr0izwQHtPS47ll8VMuwygb2B8/DvwdW0zs9mUMb8ojVZDptC61rB+AcbAm2pjz
+ nUqmYFe3UJPLOXlmQw9n66sar+7+PSp/cC8GmrS1MmQ9iG0KyMdAPLMKJUdCoxZF6I
+ 9QbdsW4ZD65VV4kE1kktJCbrC6FPhk4Anm7UehAEK8qt/6YjOcQmLzp/ssYL5WZ6TW
+ MOXtvGDeRQT+oeG5fGA60KBgPkEGN7WpwC8TBKR5a0M1xmiKZofqk5hKsAPEpN4lyF
+ 4Y0TF8++5DSzOgzUVPh2w+ypiVibGAMNBJsmzUnE+jpZwjzko6xDzXMyQDyWcW852Z
+ dmaT1NPn5BAbw==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 11 Feb 2026 10:21:23 +0100
-Message-Id: <DGC0T35RJU05.2TLS17F5B30B3@kernel.org>
+Date: Wed, 11 Feb 2026 10:23:47 +0100
+Message-Id: <DGC0UXBRSOPZ.PG0X6KTEA3RJ@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH -next v9 1/3] rust: clist: Add support to interface with
+ C linked lists
 Cc: <linux-kernel@vger.kernel.org>, "Maarten Lankhorst"
  <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
  "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet" <corbet@lwn.net>,
@@ -70,12 +73,9 @@ Cc: <linux-kernel@vger.kernel.org>, "Maarten Lankhorst"
  <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
  <linux-fbdev@vger.kernel.org>
 To: "Joel Fernandes" <joelagnelf@nvidia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH -next v9 3/3] nova-core: mm: Select GPU_BUDDY for VRAM
- allocation
 References: <20260210233204.790524-1-joelagnelf@nvidia.com>
- <20260210233204.790524-4-joelagnelf@nvidia.com>
-In-Reply-To: <20260210233204.790524-4-joelagnelf@nvidia.com>
+ <20260210233204.790524-2-joelagnelf@nvidia.com>
+In-Reply-To: <20260210233204.790524-2-joelagnelf@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,37 +118,20 @@ X-Spamd-Result: default: False [0.69 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[49];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 6D065122A94
+X-Rspamd-Queue-Id: E5AD5122B01
 X-Rspamd-Action: no action
 
 On Wed Feb 11, 2026 at 12:32 AM CET, Joel Fernandes wrote:
-> nova-core will use the GPU buddy allocator for physical VRAM management.
-> Enable it in Kconfig.
+> Add a new module `clist` for working with C's doubly circular linked
+> lists. Provide low-level iteration over list nodes.
 >
+> Typed iteration over actual items is provided with a `clist_create`
+> macro to assist in creation of the `CList` type.
+>
+> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+> Acked-by: Gary Guo <gary@garyguo.net>
 > Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
-> ---
->  drivers/gpu/nova-core/Kconfig | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/nova-core/Kconfig b/drivers/gpu/nova-core/Kconfi=
-g
-> index 527920f9c4d3..6513007bf66f 100644
-> --- a/drivers/gpu/nova-core/Kconfig
-> +++ b/drivers/gpu/nova-core/Kconfig
-> @@ -3,8 +3,9 @@ config NOVA_CORE
->  	depends on 64BIT
->  	depends on PCI
->  	depends on RUST
-> -	select RUST_FW_LOADER_ABSTRACTIONS
 
-I think moving this should be a separate patch.
+I think you forgot to address my comments from [1].
 
->  	select AUXILIARY_BUS
-> +	select GPU_BUDDY
-> +	select RUST_FW_LOADER_ABSTRACTIONS
->  	default n
->  	help
->  	  Choose this if you want to build the Nova Core driver for Nvidia
-> --=20
-> 2.34.1
-
+[1] https://lore.kernel.org/all/DGB75XMWML8M.DFZY5L52EBQF@kernel.org/
