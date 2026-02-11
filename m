@@ -2,68 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KEdXL9A1jGnijAAAu9opvQ
+	id wMncAvA3jGkRjgAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 08:54:56 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 09:04:00 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46B29121F72
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 08:54:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67BC712200A
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 09:03:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D7C910E04B;
-	Wed, 11 Feb 2026 07:54:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2E8010E1A3;
+	Wed, 11 Feb 2026 08:03:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Ix7tOxtS";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="KH7nQHeM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0EA510E04B
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 07:54:51 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 151EA1A0DC7;
- Wed, 11 Feb 2026 07:54:50 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id CEA5B606BE;
- Wed, 11 Feb 2026 07:54:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 32D39102F1D15; Wed, 11 Feb 2026 08:54:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1770796488; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=M6p7QAVm3LEu8uPOhecwBjhWqeFWKgLybd3sh1Hl/tA=;
- b=Ix7tOxtSexhjIJsPMnm1myxIJZ3B5WdKX8Ia2P8SY0Fy7pLiKPvhi8KdlbBwIQ2VPGqvhP
- 0Ng5HBXOODvtHiQTosBruKhHVapBorcAT4Jr+uwII6FSZSwT2OWXRVhtSruxjoWoloyiDm
- wTi523pG60Kpw/Jg/uf+PuwsLnLDx8wKwbIlBP22NpiGvksAn92O3NJlq5//18RjDKXejy
- yDQzJZ8BBIKOXjrkD+wH1HjVnYw+XZd0xbTjwv2E4rLOjdtlS7crLmq5ikOe/IZLo31FW8
- VrnONmcWP4D5mmJmDLbzJC3IaG0idK7tr7/IDRtX0T4p+dV8nvyeU3yKqNPBRQ==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 11 Feb 2026 08:54:41 +0100
-Message-Id: <DGBYYPFDNGJ6.3NVPISH7Z702P@bootlin.com>
-Cc: "Hui Pu" <Hui.Pu@gehealthcare.com>, "Ian Ray"
- <ian.ray@gehealthcare.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-To: "Osama Abdelkader" <osama.abdelkader@gmail.com>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Inki Dae"
- <inki.dae@samsung.com>, "Jagan Teki" <jagan@amarulasolutions.com>, "Marek
- Szyprowski" <m.szyprowski@samsung.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH 2/2] drm/bridge: samsung-dsim: use
- drm_bridge_clear_and_put() to put the next bridge
-X-Mailer: aerc 0.20.1
-References: <20260206-drm-bridge-atomic-vs-remove-clear_and_put-v1-0-6f1a7d03c45f@bootlin.com>
- <aYuJ1g5htsuMno__@osama>
-In-Reply-To: <aYuJ1g5htsuMno__@osama>
-X-Last-TLS-Session-Version: TLSv1.3
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E85DA10E1A3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 08:03:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1770797033;
+ bh=ZU6FZFHOSRXrc63LqTJ7D0OPBjQjHNvy3qohHMAZb+M=;
+ h=From:To:Cc:Subject:Date:From;
+ b=KH7nQHeMSnYy2FXHeG6YrWYDDfIT0ingXfMI3ZiX4AwfHKfl4/z/A6dKe3XKMkq6E
+ eXjfpNAn6gGj5qItCGnwjzdwkSDEEmyEyXalq69dVkwHc+lsv5f/XW/xi7ChZsiweL
+ E6JqN/MSTknmbQDDbZGFY6mKh6Fg7roX0deIyaCeIDgKnI1neo+OEpQC8O0dg2d+wA
+ sT7UIQNHczDpQXITcmbOSlpQsY/s6cRLiSo1bwxiJOwywZtbaatv/WELE98cpTW8Ec
+ 59YkTGFWvZKhzRO7C5rMsh4gsxkmPCydo/JjLBW+hLF6bvT+dU3KMWc57ON6RWJCHC
+ 6iKn0lti0xX4A==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id CA47017E110D;
+ Wed, 11 Feb 2026 09:03:52 +0100 (CET)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Chris Diamand <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Alice Ryhl <aliceryhl@google.com>, kernel@collabora.com
+Subject: [PATCH v3 0/9] drm/panthor: Add a GEM shrinker
+Date: Wed, 11 Feb 2026 09:03:34 +0100
+Message-ID: <20260211080343.1887134-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.52.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,59 +75,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+X-Spamd-Result: default: False [0.19 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,gmail.com,ffwll.ch,arm.com,oss.qualcomm.com,poorly.run,kernel.org,linux.intel.com,suse.de,collabora.com,intel.com,google.com];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:Hui.Pu@gehealthcare.com,m:ian.ray@gehealthcare.com,m:thomas.petazzoni@bootlin.com,m:linux-kernel@vger.kernel.org,m:osama.abdelkader@gmail.com,m:andrzej.hajda@intel.com,m:neil.armstrong@linaro.org,m:rfoss@kernel.org,m:Laurent.pinchart@ideasonboard.com,m:jonas@kwiboo.se,m:jernej.skrabec@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:inki.dae@samsung.com,m:jagan@amarulasolutions.com,m:m.szyprowski@samsung.com,m:osamaabdelkader@gmail.com,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,linux.intel.com,suse.de,ffwll.ch,samsung.com,amarulasolutions.com];
-	RCPT_COUNT_TWELVE(0.00)[20];
+	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:steven.price@arm.com,m:liviu.dudau@arm.com,m:adrian.larumbe@collabora.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:akash.goel@arm.com,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:akhilpo@oss.qualcomm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:dmitry.osipenko@collabora.com,m:chris.diamand@arm.com,m:dakr@kernel.org,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:aliceryhl@google.com,m:kernel@collabora.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[22];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[luca.ceresoli@bootlin.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[bootlin.com:+];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:mid,bootlin.com:url,bootlin.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 46B29121F72
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:mid,collabora.com:dkim]
+X-Rspamd-Queue-Id: 67BC712200A
 X-Rspamd-Action: no action
 
-On Tue Feb 10, 2026 at 8:41 PM CET, Osama Abdelkader wrote:
-> Hi Luca,
->
-> I just reviewed this patch and it looks good to me.
-> I'm not sure if I'm allowed to add review tag:
+Hello,
 
-Yes, you are: "Any interested reviewer (who has done the work) can offer
-a Reviewed-by tag for a patch."
-(https://docs.kernel.org/process/submitting-patches.html#reviewer-s-stateme=
-nt-of-oversight)
+This is an attempt at adding a GEM shrinker to panthor so the system
+can finally reclaim GPU memory.
 
-> Reviewed-by: Osama Abdelkader <osama.abdelkader@gmail.com>
+This implementation is losely based on the MSM shrinker (which is why
+I added the MSM maintainers in Cc), and it's relying on the drm_gpuvm
+eviction/validation infrastructure.
 
-Thanks!
+I've only done very basic IGT-based [1] and chromium-based (opening
+a lot of tabs on Aquarium until the system starts reclaiming+swaping
+out GPU buffers) testing, but I'm posting this early so I can get
+preliminary feedback on the implementation. If someone knows about
+better tools/ways to test the shrinker, please let me know.
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+A few words about some design/implementation choices:
+- No MADVISE support because I want to see if we can live with just
+  transparent reclaim
+- We considered basing this implementation on the generic shrinker work
+  started by Dmitry [2], but
+  1. with the activeness/idleness tracking happening at the VM
+     granularity, having per-BO LRUs would caused a lot of
+     list_move()s that are not really needed (the VM as a whole
+     become active/idle, we can track individual BOs)
+  2. Thomas Zimmermann recently suggested that we should have our
+     own GEM implementation instead of trying to add this extra reclaim
+     complexity to gem-shmem. There are some plans to create a
+     gem-uma (Unified Memory Architecture) lib that would do more
+     than gem-shmem but in a way that doesn't force all its users
+     to pay the overhead (size overhead of the gem object, mostly)
+     for features they don't use. Patch "Part ways with
+     drm_gem_shmem_object" is showing what this component-based lib
+     API could look like if it were to be extracted
+- At the moment we only support swapout, but we could add an
+  extra flag to specify when buffer content doesn't need to be
+  preserved to avoid the swapout/swapin dance. First candidate for
+  this DISCARD_ON_RECLAIM flag would probably be the tiler heap chunks.
+- Reclaim uses _try_lock() all the way because of the various lock order
+  inversions between the reclaim path and submission paths. That means
+  we don't try very hard to reclaim hot GPU buffers, but the locking is
+  such a mess that I don't really see a better option to be honest.
+
+
+Changes in v2:
+- No fundamental changes in this v2, since the feedback I got were more
+  focused on bugs than the overall approach. Check the changelog in each
+  patch for more details.
+
+Changes in v3:
+- Mostly fixes (see the changelog in each patch)
+
+Regards,
+
+Boris
+
+[1]https://gitlab.freedesktop.org/bbrezillon/igt-gpu-tools/-/commit/fc76934a5579767d2aabe787d40e38a17c3f4ea4
+[2]https://lkml.org/lkml/2024/1/5/665
+
+Akash Goel (1):
+  drm/panthor: Add a GEM shrinker
+
+Boris Brezillon (8):
+  drm/gem: Consider GEM object reclaimable if shrinking fails
+  drm/panthor: Move panthor_gems_debugfs_init() to panthor_gem.c
+  drm/panthor: Group panthor_kernel_bo_xxx() helpers
+  drm/panthor: Don't call drm_gpuvm_bo_extobj_add() if the object is
+    private
+  drm/panthor: Part ways with drm_gem_shmem_object
+  drm/panthor: Lazily allocate pages on mmap()
+  drm/panthor: Split panthor_vm_prepare_map_op_ctx() to prepare for
+    reclaim
+  drm/panthor: Track the number of mmap on a BO
+
+ drivers/gpu/drm/drm_gem.c                |   10 +
+ drivers/gpu/drm/panthor/Kconfig          |    1 -
+ drivers/gpu/drm/panthor/panthor_device.c |   11 +-
+ drivers/gpu/drm/panthor/panthor_device.h |   73 ++
+ drivers/gpu/drm/panthor/panthor_drv.c    |   33 +-
+ drivers/gpu/drm/panthor/panthor_fw.c     |   16 +-
+ drivers/gpu/drm/panthor/panthor_gem.c    | 1413 ++++++++++++++++++----
+ drivers/gpu/drm/panthor/panthor_gem.h    |  136 ++-
+ drivers/gpu/drm/panthor/panthor_mmu.c    |  460 +++++--
+ drivers/gpu/drm/panthor/panthor_mmu.h    |    8 +
+ drivers/gpu/drm/panthor/panthor_sched.c  |    9 +-
+ 11 files changed, 1833 insertions(+), 337 deletions(-)
+
+-- 
+2.52.0
+
