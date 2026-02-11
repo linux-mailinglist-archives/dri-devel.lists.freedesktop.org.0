@@ -2,67 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qNJZMDWNjGn5qwAAu9opvQ
+	id cOlZFaePjGlQrAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 15:07:49 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 15:18:15 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AAF412510B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 15:07:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95262125224
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 15:18:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8E2810E5D3;
-	Wed, 11 Feb 2026 14:07:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 270A310E60F;
+	Wed, 11 Feb 2026 14:18:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="hMpVAZPD";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hrHsy6JG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C030610E5D3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 14:07:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1770818863;
- bh=zymFyWB1i9bpCZtAij0v0RD6V026ENlBOWVqUgQQujM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=hMpVAZPDmoG5rR69sgP2ygrmhoB6fQZghIuwZFJm055FPGzglzG0Lz2fKN2pkTLXZ
- q0lY9XoBHLa68magnhu2PZHnKt4g5E4h5c2eE8Imi9L6v57wIHzYCsIl/NBU9Xloes
- nqtlUuJ5bcsu2gwf+eRHIgxSns4SQaPMlC2uH6yMhQfW3e0Ri0T9EeDliQZUPtXX/E
- B9AkZ4N6ZpIKx6iWLF6KpMW+kXb5uTQA0qJ5R2EeqydkPmUBnD+4YTzIG5ONAubDn+
- wjz+9i0eilD/uE2gXa1FdD2oZjvmJCVU3CUwb3KDf4yekqxtqOREhLesV9A34D//uR
- ee5Y7nGJDrFZg==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id E798817E13A5;
- Wed, 11 Feb 2026 15:07:42 +0100 (CET)
-Date: Wed, 11 Feb 2026 15:07:38 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: "Gary Guo" <gary@garyguo.net>
-Cc: "Alice Ryhl" <aliceryhl@google.com>, <phasta@kernel.org>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Danilo Krummrich"
- <dakr@kernel.org>, "Benno Lossin" <lossin@kernel.org>, Christian
- =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Joel Fernandes" <joelagnelf@nvidia.com>,
- <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>
-Subject: Re: [RFC PATCH 3/4] rust/drm: Add DRM Jobqueue
-Message-ID: <20260211150738.049af4bb@fedora>
-In-Reply-To: <DGC6FE14C91M.1BMCS7XHRVP6J@garyguo.net>
-References: <20260203081403.68733-2-phasta@kernel.org>
- <20260203081403.68733-5-phasta@kernel.org>
- <20260210155750.5cdbe6cc@fedora>
- <8ea48ce49f2c7b6fd715dd54c24e755e8ac3262c.camel@mailbox.org>
- <20260211120742.0e9e7122@fedora>
- <f3d2e3b370bed55cc2a95287b3c257f878b5e92b.camel@mailbox.org>
- <aYx0a-2eANbM_vnd@google.com>
- <DGC6FE14C91M.1BMCS7XHRVP6J@garyguo.net>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4334710E089
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 14:18:10 +0000 (UTC)
+Received: by mail-dl1-f50.google.com with SMTP id
+ a92af1059eb24-124a2dc92dbso461112c88.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 06:18:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770819489; cv=none;
+ d=google.com; s=arc-20240605;
+ b=aUvqDbiHi7QUnSZX2KB+MJca/iltUegiMg3/JdOsTFziUEoi7xzXshboPd10fZp/6U
+ qu8hoMKFkhwdl4aERszfOF386bOn0Wcg/hKBXbJzciD1tNTGWoJBvxd9492Q1iiNFCi8
+ Jv2UNAC08P34HvPnbVMyJQKIVQy8be3ipBMCjAhcK1n1s5m4B4F2+Mi/623ch4YH+2lS
+ RWdUmMwmo2lHAeKbg6P6150wxALtKMMFKlJfazBRFZgjAq/YHfP8T6ZUKrlJxdHX7Afc
+ qFOkKO4HFRlW7c2oCCeSkB6rZ2uUPriZQeHIZUvTNR05qeyv6xTnqi131HXMsRz1InlP
+ Vouw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:dkim-signature;
+ bh=goBWqa/XBAUCU/USU+7vOgmq/PVsWb+UivWg7c+q+G4=;
+ fh=6CJt3l4bU02K923tftxCOZmIFEuWxzqAHF4EXQbjCnU=;
+ b=FkDBk8TZRLVXQ0j961lw4PKybq/MCSGtXEqxi92Kzyej26PRXSl1LP+rxA4PmWP/qN
+ XpuOjJ6ofGe9IeRp9MRCqI6MSywmO6HvK7qM0Mx9E11y5WAvEFjbUAuvd5wsA0Bp81RS
+ dlRoDPotX4NeVpa/ztCrpBEOW+MFz4NWNcY4cXhitjeSsAld42ztHtXqW+Crje5/VK9w
+ lMlEwsZH9H4Plj9j1OtwjVvXFMsSrPkCYMqGhQZgnhM5pLn//D64ofUZTPI2RH/UmEKS
+ 6/80vOrBbCyeB5BfxsKZkWm03WtU0vVkPXrutclPsjApf/oh83vdMq4/GHKl4JM50m8E
+ QMOA==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1770819489; x=1771424289; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=goBWqa/XBAUCU/USU+7vOgmq/PVsWb+UivWg7c+q+G4=;
+ b=hrHsy6JG9sD4opKHYeBuVzFRfpYvjneZeYNSUTbwTrZPCCuKha2yB2/JDlkJsibr0T
+ DhcJoXlCiNc5xpzUSFr8Ru7I+ezkW39scB/34NPAqEh+S/1dOE3O5/koyVgxv3nYd23m
+ vDirWj947IIqJurB/VAxsrMvjEhjSYs7pvG87oNC7sSQFh497v559AWiYlIiaueKZHUx
+ 0fw31+QUrSerBMUpUaSMItJI7fEyVqhkMyPgjZppeiYGSyTMIdiAk8B7wSpKopdsUZgD
+ Cl0QKlIJlryVBlkrvrRhodH2Y49mcZPTM4tx57T9seQYkcbKTwGu7OHnEt9bXWghNxMN
+ ld/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770819489; x=1771424289;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=goBWqa/XBAUCU/USU+7vOgmq/PVsWb+UivWg7c+q+G4=;
+ b=MD8Abl/meB5sdnEnwEesBXHAcLydygi/LdonD3pcusAdgtSZL9B3J+/8ft0dteteZF
+ RhhM+9DZbo80dpG7JaqWpwIlM1vz6jw/DIUdV0ccHEOuWrdRNdKPKTFL0hzUjAuBRH5D
+ F160UsrzrZAwsJw3+Z8RfAInpCzwuyQIpcNysDxD/JXfvov0wBy+VMY0wCn6TGsPEqde
+ fspbnOEhKFPyA0VTs4xerceJGYzQHj91DsWZP7Qki+HdGXVs3l0UsqhN1BWzHbyxOjrq
+ fcV1O8ixEKIOdazTzcPMa/IuAqWiZPsgk2jsnOEySKzQ+xCfmn5MH5m569goeeRIe9JC
+ 2ANg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVVqEVGZcNtCJRc18dji500uNj5HS2hCExkUN6KTh5n6ga+0RMUUpZSzR62IZb28ZkHIZt0cygOehI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyThd8pkpbtf+3OCPgXQmrmxuTb6xqq/Uqe+XZ4fHhen1DP/ls+
+ sch5YZ7FKcBhTAiz1ShZLnbioc0+52ENQhHomSGogIrsfHuEnqkBK+a1NGH0whIefphQPsdr9G+
+ AuyNfT20YhNG6yGLVpCR9GSzlkqCqxJc=
+X-Gm-Gg: AZuq6aJA16CupB7TZz3R5d64MEDNVYdlFQxoVQD3orPsSdnHFJFS+Xxyu/2APEtoLBo
+ vcK50Wts73ywYDFjNfrYQx0Jfc3zxDYQcMfXo8hmokFLLclHJ2e3C3jhXqC+aMF323OeWM1pUAv
+ SeVC1F1HblW8RyfQiU6YLmspO5eG8dO7cMBUD29Azk4Ne16GPqdxiGtOEpxWxIiwr4YJwuVM38l
+ rRk3My4SFyyCYhauvoLGmEZOfWlLoY2nyYUMZkpiaa/+483FIty/yZ3dR17Pgk2URDRBfqWLq/o
+ SzNZa3VCieTwuJjzYwY=
+X-Received: by 2002:a05:7022:ec11:b0:123:308f:667b with SMTP id
+ a92af1059eb24-1272a7728cdmr416122c88.2.1770819489253; Wed, 11 Feb 2026
+ 06:18:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20260210072309.14911-1-decce6@proton.me>
+In-Reply-To: <20260210072309.14911-1-decce6@proton.me>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 11 Feb 2026 09:17:57 -0500
+X-Gm-Features: AZwV_QiPLTEeETb9o-odEKXS3UkM5PUZZ_yDmvKK0LDZ2SxwLbh-oK6gcsMssh0
+Message-ID: <CADnq5_MRvfNk83C6fd_gFTN8Sv8hgi56vJgEENajxpmQo3xd9Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Add HAINAN clock adjustment
+To: decce6 <decce6@proton.me>
+Cc: amd-gfx@lists.freedesktop.org, Kenneth Feng <kenneth.feng@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>, 
+ Lijo Lazar <lijo.lazar@amd.com>,
+ Alexandre Demers <alexandre.f.demers@gmail.com>, 
+ "chr[]" <chris@rudorff.com>, Sunil Khatri <sunil.khatri@amd.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,139 +117,75 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:gary@garyguo.net,m:aliceryhl@google.com,m:phasta@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:dakr@kernel.org,m:lossin@kernel.org,m:christian.koenig@amd.com,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:decce6@proton.me,m:amd-gfx@lists.freedesktop.org,m:kenneth.feng@amd.com,m:alexander.deucher@amd.com,m:christian.koenig@amd.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:timur.kristof@gmail.com,m:lijo.lazar@amd.com,m:alexandre.f.demers@gmail.com,m:chris@rudorff.com,m:sunil.khatri@amd.com,m:linux-kernel@vger.kernel.org,m:timurkristof@gmail.com,m:alexandrefdemers@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[google.com,kernel.org,gmail.com,ffwll.ch,amd.com,collabora.com,nvidia.com,vger.kernel.org,lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alexdeucher@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,amd.com,gmail.com,ffwll.ch,rudorff.com,vger.kernel.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mailbox.org:email,garyguo.net:email]
-X-Rspamd-Queue-Id: 0AAF412510B
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,mail.gmail.com:mid,proton.me:email]
+X-Rspamd-Queue-Id: 95262125224
 X-Rspamd-Action: no action
 
-On Wed, 11 Feb 2026 21:45:37 +0800
-"Gary Guo" <gary@garyguo.net> wrote:
+Applied both patches.  Thanks!
 
-> On Wed Feb 11, 2026 at 8:22 PM CST, Alice Ryhl wrote:
-> > On Wed, Feb 11, 2026 at 12:19:56PM +0100, Philipp Stanner wrote: =20
-> >> On Wed, 2026-02-11 at 12:07 +0100, Boris Brezillon wrote: =20
-> >> > On Wed, 11 Feb 2026 11:47:27 +0100
-> >> > Philipp Stanner <phasta@mailbox.org> wrote:
-> >> >  =20
-> >> > > On Tue, 2026-02-10 at 15:57 +0100, Boris Brezillon wrote: =20
-> >> > > > On Tue,=C2=A0 3 Feb 2026 09:14:02 +0100
-> >> > > > Philipp Stanner <phasta@kernel.org> wrote:
-> >> > > > =C2=A0  =20
-> >> > > > > +/// A jobqueue Job.
-> >> > > > > +///
-> >> > > > > +/// You can stuff your data in it. The job will be borrowed b=
-ack to your driver
-> >> > > > > +/// once the time has come to run it.
-> >> > > > > +///
-> >> > > > > +/// Jobs are consumed by [`Jobqueue::submit_job`] by value (o=
-wnership transfer).
-> >> > > > > +/// You can set multiple [`DmaFence`] as dependencies for a j=
-ob. It will only
-> >> > > > > +/// get run once all dependency fences have been signaled.
-> >> > > > > +///
-> >> > > > > +/// Jobs cost credits. Jobs will only be run if there are is =
-enough capacity in
-> >> > > > > +/// the jobqueue for the job's credits. It is legal to specif=
-y jobs costing 0
-> >> > > > > +/// credits, effectively disabling that mechanism.
-> >> > > > > +#[pin_data]
-> >> > > > > +pub struct Job<T: 'static + Send> {
-> >> > > > > +=C2=A0=C2=A0=C2=A0 cost: u32,
-> >> > > > > +=C2=A0=C2=A0=C2=A0 #[pin]
-> >> > > > > +=C2=A0=C2=A0=C2=A0 pub data: T,
-> >> > > > > +=C2=A0=C2=A0=C2=A0 done_fence: Option<ARef<DmaFence<i32>>>,
-> >> > > > > +=C2=A0=C2=A0=C2=A0 hardware_fence: Option<ARef<DmaFence<i32>>=
->,
-> >> > > > > +=C2=A0=C2=A0=C2=A0 nr_of_deps: AtomicU32,
-> >> > > > > +=C2=A0=C2=A0=C2=A0 dependencies: List<Dependency>,=C2=A0  =20
-> >> > > >=20
-> >> > > > Given how tricky Lists are in rust, I'd recommend going for an X=
-Array,
-> >> > > > like we have on the C side. There's a bit of overhead when the j=
-ob only
-> >> > > > has a few deps, but I think simplicity beats memory-usage-optimi=
-zations
-> >> > > > in that case (especially since the overhead exists and is accept=
-ed in
-> >> > > > C).=C2=A0  =20
-> >> > >=20
-> >> > > I mean, the list is now already implemented and works. Considering=
- the
-> >> > > XArray would have made sense during the development difficulties. =
-=20
-> >> >=20
-> >> > I'm sure it does, but that's still more code/tricks to maintain than
-> >> > what you'd have with the XArray abstraction. =20
-> >>=20
-> >> The solution than will rather be to make the linked list implementation
-> >> better.
-> >>=20
-> >> A list is the correct data structure in a huge number of use cases in
-> >> the kernel. We should not begin here to defer to other structures
-> >> because of convenience. =20
-> >
-> > Rust vs C aside, linked lists are often used in the kernel despite not
-> > being the best choice. They are extremely cache unfriendly and
-> > inefficient; most of the time a vector or xarray is far faster if you
-> > can accept an ENOMEM failure path when adding elements. I have heard
-> > several times from C maintainers that overuse of list is making the
-> > kernel slow in a death from a thousand cuts situation. =20
->=20
-> I would rather argue the other way, other than very hot paths where cache
-> friendliness absolutely matters, if you do not require indexing access th=
-en the
-> list is the correct data strucutre more often than not.
->=20
-> Vector have the issue where resizing requires moving, so it cannot be use=
-d with
-> pinned types. XArray doesn't require moving because it requires an indire=
-ction
-> and thus an extra allocation, but this means that if you're just iteratin=
-g over
-> all elements it also does not benefit from cache locality.
+Alex
 
-Back to this particular job dependencies use case: we have to embed the
-DmaFence pointer in some wrapper with the ListLinks element anyway,
-because DmaFences can be inserted in multiple of those lists in
-parallel. This means that now the overhead is two-pointers per DmaFence
-pointer. Of course, it's not a big issue in practice, because those
-elements are short-lived, it's only 16 bytes, and if we're ending up
-having too many of those deps, we're gonna have other challenging
-scaling issues anyway. But it also means we have the extra-indirection
-that you'd have with an array of pointers or an xarray, with more
-per-item overhead, and none of the advantages a list could provide (O(1)
-removal if you have the list item, O(1) front insertion, ...) would
-really be used in this case (because we use the list as a FIFO, really).
-
-So overall, I'd still lean towards an XArray here, unless there are
-strong objections. Just to make it super clear, I'm not making a case
-against all List usage, just this particular one :-).
+On Tue, Feb 10, 2026 at 3:20=E2=80=AFAM decce6 <decce6@proton.me> wrote:
+>
+> This patch limits the clock speeds of the AMD Radeon R5 M420 GPU from
+> 850/1000MHz (core/memory) to 800/950 MHz, making it work stably. This
+> patch is for amdgpu.
+>
+> Signed-off-by: decce6 <decce6@proton.me>
+> ---
+>  drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c b/drivers/gpu/drm=
+/amd/pm/legacy-dpm/si_dpm.c
+> index 1f539cc65f41..b5d895537477 100644
+> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+> @@ -3468,6 +3468,11 @@ static void si_apply_state_adjust_rules(struct amd=
+gpu_device *adev,
+>                         max_sclk =3D 60000;
+>                         max_mclk =3D 80000;
+>                 }
+> +               if ((adev->pdev->device =3D=3D 0x666f) &&
+> +                   (adev->pdev->revision =3D=3D 0x00)) {
+> +                       max_sclk =3D 80000;
+> +                       max_mclk =3D 95000;
+> +               }
+>         } else if (adev->asic_type =3D=3D CHIP_OLAND) {
+>                 if ((adev->pdev->revision =3D=3D 0xC7) ||
+>                     (adev->pdev->revision =3D=3D 0x80) ||
+> --
+> 2.43.0
+>
+>
