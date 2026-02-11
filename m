@@ -2,96 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QKxcDDfwjGmSvgAAu9opvQ
+	id cIBmNT/cjGm3uAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 22:10:15 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 20:45:03 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926CF127A31
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 22:10:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 319C71273F4
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 20:45:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8139010E64E;
-	Wed, 11 Feb 2026 21:10:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B79910E0DC;
+	Wed, 11 Feb 2026 19:45:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Vcak2mZ9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fT4W+ZHp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
- [209.85.222.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FA9F10E64E
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 21:10:12 +0000 (UTC)
-Received: by mail-qk1-f170.google.com with SMTP id
- af79cd13be357-8c6a822068eso721211885a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 13:10:11 -0800 (PST)
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
+ [209.85.222.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 822C310E0DC
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 19:44:59 +0000 (UTC)
+Received: by mail-qk1-f176.google.com with SMTP id
+ af79cd13be357-8c6a50c17fdso570585085a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 11:44:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770839098; cv=none;
+ d=google.com; s=arc-20240605;
+ b=XoPztO5186ynSIhjjzcxBV11B2ZJ3rP2bUgoDWZdLKa7tABQv6sFzaXEqevQ92KXhW
+ c9OWZj70HkF1ZmHBRS4ptr5SWTE9vxRhdIyeky5xTS8cJeHOuI4yENNSLzYpfT9IuZL3
+ 9BiFyHNY6ekIqateJEuA8veHb/aGUU10kjoGBxlNZ1g8+CJQ51N5e6IUhRS67plLko63
+ EfCm3O1Bl2aH5DBDQOMjD6Yma+pd92yaH68/I241OSaW4E9PilPyp1ZcCA1TTkmIyoer
+ qeSAwEy4LnFJckIpGLj1fzaGUGg2so8YmVclpkpRdRilNE1d/Usk/AlastYhD3mcIyTQ
+ r96Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
+ s=arc-20240605; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:dkim-signature;
+ bh=uWB2BceE4BBnOEkw5tNncByjukmsZZnlj8sJ/TInWnI=;
+ fh=Szlpv+htmYZ3XB6Aumo3+TumwrKTMsER2/fG1TNa3Z8=;
+ b=DBp6Dy4njGzkYWUlSROiJLBlLcedens612JMIRwPumvRDd2EjQw8iRUF+YhxZ/N3ap
+ dwE1yc3vafqHoWReIHPQyKuZbmjGWIu4yg8Q2GcjLRrGqC64gnFLhOHSf2lhKF2TawIX
+ 3VxSYPU/wQEnCVJPNCJAMtP9sfJn6njYeedqdvw2VVQBVNYNoct2080JDsy5Bk6PDHsL
+ mM6vl5Z4GGGE/ZMGMex0tEL19R4f3bJG5OgPWbTLxnx57pA76MWkrmQPYoKqqzig1f/o
+ fxRGcEPLHsqdGjZJYB5TUVEQhKE7xFKOO+WtiZT3EUIBE4ClKbcwg/y1cAN96nrC55ik
+ wKAg==; darn=lists.freedesktop.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770844211; x=1771449011; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=PU9zPPZ6q/jlj/hCesIMdYrjem+AOCzJA8bXmrZmXNY=;
- b=Vcak2mZ9S5PMWIj0Qp87IPvEj4Z5LwrHbr1TKEh6b+pEAFzcTNuPK/l3spIDIFJ6Bq
- 8inI/wkmmNyUlQEhPfS7yClMNvRgb4ncHkKqjFCOmhpkXBkU0hiMjsDV8OCcruQA81/4
- VWO/Ctg1p8s8lIR6mOGdQ2Ndx+5DII4FdsvjWDfwR3atTA+gZo9SzkEI4gxQNMQo1/3r
- fNHfnkApLeYDmgrtS+kLQtM2zv15owLlhHVuqwK2emN4fUNGgS2FI7RZG34tozoTYTza
- FUSuOi7ztc9phPEP86z7FnZVP9rYDc1EVi8fnxtqx8dp/Cz4VFEUx3oI91YmWDFEx2ot
- 0RIg==
+ d=gmail.com; s=20230601; t=1770839098; x=1771443898; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=uWB2BceE4BBnOEkw5tNncByjukmsZZnlj8sJ/TInWnI=;
+ b=fT4W+ZHpUtHcst1/UyRFRRd/2lKslp8r5qXbAuzerXAeiHZq3J4LY/98nkKcgIdsdw
+ gBl8UCdv4YqoRhidQRHEwOukoSvbkr8ccM3gMGyWrldnA24Do6q/oak0/oUHBeTMIZ1c
+ PANovLk986ekkXudUMgJ0EllDi1v0rNOYdnI7SQrjKWVIpNyfLixSQMXgmx48RVaiCCg
+ 2r9B4wHFzLz3ZNVeZuWxPOCHozY8pO7/iD8DUmoFDfYX9tAiKapYbSd7THfhG8FA9GjX
+ EKlHZmO9muInxarCPwQ8Hjqbg3VpgfZXm9mH7ouhyvvXcQ2LZgeBA2P0/1WmZwkkBX5Z
+ NMbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770844211; x=1771449011;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PU9zPPZ6q/jlj/hCesIMdYrjem+AOCzJA8bXmrZmXNY=;
- b=k7tMaM++2tR+AjGtlUaLsXPYgojYnhaL6x4QAparnrucg9To37e/GiiD3jPmbPRH9+
- LNfLnVwFgPUfwexSJAHVHRTfzvfUm6oeexUXfZ9YUNMxmkYZhp+x0IpBgVZr19eVLIK1
- lNVzCF5aSV+OibrYu77LczYLWSRno6gM2Z3+ktmMMj3Fu1x7MGLB4UdWw53ag7gA4Q4e
- +A8vd2/ji5k8+GG+P8NqxpXdS6sgxtwLSFM92+1b+CTpTLavzlqIDY1O5Bnl06jCYXkk
- aTFH1jdqwYf5U27RVmBiVDBtH6cLBpEyAf5CnUwOHIAvT+R2TE7yrTnQYzwnUxsdGPp/
- Hndw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUp/PuekpKbU7CSzY3ZhvytTcllk/chpkZPDifMPIcginbR09eYK+WYn6VlL0nMS/+IAzoQtE+Oous=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YypMohA/A+pw24haY8zq7mJuIOkYG3Z/ORa6YtCpBItdn01A1hU
- NuLHYLIp0lamPwgwPHoFy7gx6PwMnhnmPsKSFfnbgdXLVb2DVX+obKoXuTOw2g==
-X-Gm-Gg: AZuq6aIxUH8+OTD3WfuGslTdT1iD75yInkTQGYEqtjH5xZBgtmuzJHxOEAtRbY5Jlho
- Vx4d+M46UetdbomSfg9x6U5EcFLK5GfREZ0iRB0dUanfEUO5A9SjQxg01zMBLLuUQ9XDn/BcEu3
- 9YSFvNb38BV0KuLZtkqux6vMYJ2rMYxRVFU4Twi7i+OMKpw8dtNowZAR7O50MZXCBOicX00RXOj
- 7wbEeoukP1Q7A0DkUrCle0GdSvNvLN93XbB7GHbajwho1nC9H2wemxhDlQIxexCuVx3LyVVSwU2
- EmfvxzKecQuwC+Q7zEbtdXGLPJacMpXzuMNg23UMlDyBa1dwVOWM03DFG8Y/zymZ3VtQMvkS7zo
- 5XTEoizIYmuZOaBwLq6GWGFBMXkz1FEQ15jo4UgHs+35Y1MH9M5UjmC4NMCl4u5G1ADVxin/q2C
- 1y7+l4/7cD1M/7CoKXFpcOyPHK4/patMg5kOqR
-X-Received: by 2002:a05:6214:212a:b0:894:68f7:40f2 with SMTP id
- 6a1803df08f44-89727868cfbmr10595546d6.2.1770838373169; 
- Wed, 11 Feb 2026 11:32:53 -0800 (PST)
-Received: from localhost ([184.144.58.243]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-8971cc91eccsm20103146d6.13.2026.02.11.11.32.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Feb 2026 11:32:52 -0800 (PST)
-Date: Wed, 11 Feb 2026 14:33:19 -0500
-From: Richard Acayan <mailingradian@gmail.com>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- yifei@zhan.science
-Subject: Re: [PATCH 6/6] arm64: dts: qcom: add support for pixel 3a xl with
- the tianma panel
-Message-ID: <aYzZf-9rqqBikpNA@rdacayan>
-References: <20260210023300.15785-1-mailingradian@gmail.com>
- <20260210023300.15785-7-mailingradian@gmail.com>
- <037d0771-a802-4ca4-86be-5b032635395a@oss.qualcomm.com>
+ d=1e100.net; s=20230601; t=1770839098; x=1771443898;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uWB2BceE4BBnOEkw5tNncByjukmsZZnlj8sJ/TInWnI=;
+ b=G83FtrjUXtFFx3gNiIdeLeoWr8TU5Bwip00qS6u3vdw0Il0/mtSxGBU6OWS/RB2NQy
+ HW/7jxCPvUUEDm7W4StNrF8wt3WY7MDqXYGmJzGEdFAM5DzVZbhF1OZj06r4Cyrt8+/y
+ sWkicTEklzax+ANiUf3UgaoIostgbCg/O3MxRDLWx9FTK/UqXDqCMZ46qD+y2lv6Nuxi
+ K6Q8RUVXgfSpu5XwKW1zGxsQk2neJmVoawdFGGQ7ZLvFzaYCJDGaz1fFD/zSKfQKkI4C
+ J4f7aeUBR4Knlx0QIMwZLh1qcSvy9/cWmkv3tkh4FKRzPDAHrI5raiu5iSwWSLlz+bYS
+ CJDw==
+X-Gm-Message-State: AOJu0YyornBoXJUEYsX/sBsUJTBjWgMY92Kyfa0SJaoGP6y8g7F3uFKg
+ L4lEenrpl8U2IcnoAwwcbyW5Oi1G/6gvl2IYhAl3sxXaSJ/o2w32rqftYAxJ0L1oSwXBpe4WHJv
+ yKO810ixIHmtVRM/xLSZX92JqhtSbnZkPvUd4yqEvdAGc
+X-Gm-Gg: AZuq6aLYvlWqzY31UGaJI8VhJ98F+Cxki7ESzrj4W9WzlpUU22xMpa7wabSMqEOimwf
+ 08DRxw4thn8d728izL1acg+29Id/pbqDIKdHC/50wNRPnUbcsZHvx0gJJLqQvlfTnOLM+LPOJR/
+ x3DMPn43fR8++eXV9oSGGNWuTrkV6xCjvehM6/4MkZw7P4iLsyEm7ihnVD8/YeaDwAFXgyqcAnk
+ z1W9PfXUk8KdmlD9CTAl11dcyueEzKqMSNyP2vl3Sg1Q2zkMSnZLzRCz5F+rA3wu2M2ImAe7HGR
+ zOpQ8m8h6cpIQ5YOmxT8Em4Bt/fAQBlSimYGbEzFT/QL9G2Jbns/vWYBpTAR2pekueM=
+X-Received: by 2002:a05:620a:191c:b0:89a:2f9b:10d3 with SMTP id
+ af79cd13be357-8cb330a52a9mr48189385a.30.1770839098002; Wed, 11 Feb 2026
+ 11:44:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <037d0771-a802-4ca4-86be-5b032635395a@oss.qualcomm.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 12 Feb 2026 05:44:46 +1000
+X-Gm-Features: AZwV_Qj9EujDd5JkyZLP7xVG-DrfGvVJijrq0VvRrYCV6LycF-vCo-Rsrq9MoWs
+Message-ID: <CAPM=9twmmLhc-DJV2hFKJ1kahzxRUY5j1cLH9JjZ33LEjjBNbQ@mail.gmail.com>
+Subject: drm AI patch review hacks
+To: dri-devel <dri-devel@lists.freedesktop.org>, Sima Vetter <sima@ffwll.ch>
+Cc: "clm@meta.com" <clm@meta.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,54 +105,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:konrad.dybcio@oss.qualcomm.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:jesszhan0024@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:thierry.reding@gmail.com,m:sam@ravnborg.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:yifei@zhan.science,m:krzk@kernel.org,m:conor@kernel.org,m:thierryreding@gmail.com,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[mailingradian@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mailingradian@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[kernel.org,linaro.org,gmail.com,linux.intel.com,suse.de,ffwll.ch,ravnborg.org,vger.kernel.org,lists.freedesktop.org,zhan.science];
-	TAGGED_RCPT(0.00)[dri-devel,dt];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	TAGGED_RCPT(0.00)[dri-devel];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 926CF127A31
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 319C71273F4
 X-Rspamd-Action: no action
 
-On Tue, Feb 10, 2026 at 10:10:46AM +0100, Konrad Dybcio wrote:
-> On 2/10/26 3:33 AM, Richard Acayan wrote:
-> > Some Pixel 3a XL devices have a Tianma panel. Add the separate device
-> > tree for this to support these other devices.
-> 
-> There's not a device upstream for any kind of Pixel 3a XL - should
-> we anticipate a non-Tianma-panel one too (i.e. are you sure those
-> are out in the wild)?
+Hi all,
 
-Yes, some postmarketOS community members self-declared as owning the
-variant with the SDC (Samsung) panel[1].
+This came up at kernel maintainers summit, so I've been trying to see
+what I can piece together, and have a small demonstration that may be
+useful to some people.
 
-[1] https://wiki.postmarketos.org/index.php?title=Google_Pixel_3a_XL_(google-bonito)&oldid=89946#Users_owning_this_device
+I didn't want to pollute the mailing list with AI patch reviews, so I
+decided to set up a public-inbox that the reviews are pushed into.
+This isn't currently automated, I'm just asking claude to pull the
+last 2-3 days of patches and review what is new every so often.
+
+The workflow use lei to pull mails to local PC, use review-prompts +
+my own prompt to try and review a patch series, both as a complete
+work, and per-patch reviews, then create the reply emails and put them
+into a public inbox git tree for publishing.
+
+I've no idea if it's using review-prompts properly or at all, this is
+all very vibe coded so far.
+
+https://lore.gitlab.freedesktop.org/drm-ai-reviews/
+
+This is a public inbox, you can also git clone
+
+https://gitlab.freedesktop.org/drm/ai-reviews-public-inbox
+
+I'm currently just using my Red Hat provided claude with opus 4.6,
+until I get told I've burned enough money.
+
+The list below are the patches with reviews, if someone wants to look
+and give feedback on whether the reviews for their series are useful,
+find any bugs or regressions, that would be cool.
+
+I've bcc'd anyone who has a patch on the list.
+
+This is also just an experiment to see what might stick, it might
+disappear at any time, and it probably needs a lot of tuning.
+
+Thanks,
+Dave.
+
+[PATCH v2 0/2] drm/buddy: Documentation and internal helper cleanup
+[PATCH] drm/amd/display: Remove duplicate include
+[PATCH -next v9 0/3] rust: Add CList and GPU buddy allocator bindings
+[PATCH V1] accel/amdxdna: Fix suspend failure after enabling turbo mode
+[PATCH V1] accel/amdxdna: Fix dead lock for suspend and resume
+[PATCH v1] drm/tyr: gpu: fix GpuInfo::log model/version decoding
+[PATCH v2 0/2] drm/vkms: Fix bad matrix offset component multiplication
+[PATCH 1/2] accel/amdxdna: Fix NULL pointer dereference in mailbox
+channel cleanup
+[PATCH] drm/msm: always recover the gpu
+[PATCH drm-misc-next] drm: verisilicon: assign git tree to drm/misc in
+MAINTAINERS
+[PATCH drm-misc-next 0/3] drm: verisilicon: convert drm_format to
+vs_format in atomic_check
+[PATCH v3 3/3] drm/panel: add LXD M9189A panel driver
+[PATCH v1 0/2] ARM: tegra: document Tegra20 HDMI port
+[PATCH] fbcon: Declare struct fb_info.fbcon_par as of type struct fbcon_par
+[PATCH v1] drm/amdgpu: fix sync handling in amdgpu_dma_buf_move_notify
+[PATCH v9 0/7] User readable error codes on atomic_ioctl failure
+[PATCH] accel/qaic: Fix dma_free_attrs() buffer size
+[PATCH] drm/radeon: Add HAINAN clock adjustment
+[PATCH] drm/amdgpu: Add HAINAN clock adjustment
+[PATCH v9 01/15] drm/bridge: analogix_dp: Add &analogix_dp_plat_data.next_b=
+ridge
+[PATCH v2 0/5] drm/ci: add new jobs, uprev IGT and mesa
+[PATCH] drm/bridge: lt9611: Remove DRM_BRIDGE_OP_MODES flag
+[PATCH 0/6] Support for the Pixel 3a XL with the Tianma panel
+[PATCH -next v8 0/3] rust: Add CList and GPU buddy allocator bindings
+[PATCH] drm/bridge: samsung-dsim: Fix memory leak in error path
+[PATCH] drm/rockchip: vop2: Use drm_err_ratelimited() for wait timeouts
+[PATCH] fbcon: Remove struct fbcon_display.inverse
+[PATCH 1/5] dma-mapping: avoid random addr value print out on error path
+[PATCH v3 2/6] drm/gem-shmem: Test for existence of page in mmap fault hand=
+ler
+[PATCH] gpu: host1x: Fix passing zero to ERR_PTR in host1x_iommu_attach()
+[PATCH AUTOSEL 6.18-5.10] drm/tegra: hdmi: sor: Fix error: variable
+=E2=80=98j=E2=80=99 set but not used
+[PATCH] drm/mediatek: dsi: Store driver data before invoking
+mipi_dsi_host_register
+[PATCH] drm/i915/guc: fix corrupted copyright symbols in selftest files
+[PATCH v7 4/5] ARM: dts: microchip: sam9x7: Add GFX2D GPU
+[PATCH] drm/panel: ilitek-ili9882t: Fine-tune HFP for tianma, tl121bvms07-0=
+0
+[PATCH v4 1/8] drm/amdkfd: Add userptr batch allocation UAPI structures
