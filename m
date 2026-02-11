@@ -2,96 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KD//LyHhjGmcugAAu9opvQ
+	id uMOpOcvjjGkeuwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 21:05:53 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 21:17:15 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16FF712750D
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 21:05:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D8C1275CE
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 21:17:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68D1210E0D8;
-	Wed, 11 Feb 2026 20:05:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4441010E1DE;
+	Wed, 11 Feb 2026 20:17:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="c5YiXmJF";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="BFvS7U5a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
- [209.85.160.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 446D010E0D8
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 20:05:48 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id
- d75a77b69052e-503347dea84so67250061cf.3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 12:05:48 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770840347; cv=none;
- d=google.com; s=arc-20240605;
- b=aYBoIHPDBnMRMM3FeNJpvYNhtXQnq7HTbgHzhiqU3YEutVjd8EjeoMQeO59pGLQMTR
- Y/S3iiBYJrwZ6UHn2IeGnr3UtwGri7zcRPcVToZjJQ1piKoZ6jX6ZQ+FORVptEillHmb
- 6rT3gl4ErbsG9IMAOZsGupXoxfkNWiqPsmYP7/DheseoP7OBZb9wCIzN4ngGnKOzYGEh
- INAtn7QlAyQ6lXJFQ9tAOnpJVZOfHKzyZUzsCEjnh1S6cVwnayAhqjz+HRq7YfarM+2Q
- FsnJeBzbL4qWvp58qqKBSRzVM282yPyrZpIxAgXA2hM/yf4wSi7geIQjJNYAhoXt+N4L
- UiJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20240605; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:dkim-signature;
- bh=bFg8phj+Bxov8gR26gAeP1XLfTHU3qB+0OqnuPI8zAI=;
- fh=aCXs3yCY6uL5bGp7zgz8cciXYTtJKYNL6yPzd8Y0eRE=;
- b=hozeOYuWahoSxpZaexAwfTL0zCqihSwyi9+468ryk4GRVmrYlNRSe7pRw/tdJUzFyv
- jQogXCIj7TIx0kv1i0i7hg2heKuGzn0NEkr0RgbT1HG7klf920wD+f25YcLIUITV3Cgq
- T/G1LVSxA8HLzSdPIuL/XYLGAspHKuFWRd4K5VBth1ImjBBWZcOGbroh0oPFd3zq56+4
- 4CA5YvAuxcoWOi/fef+eImEu3mZ9sHvUYEm5M8QOHjyEeEexGP3almThIPDOq+v7VbVG
- 6fZmcoSya/GFpXKrbNVurDu4uyrzgVHArVTeulgl3UW13J9fqC9nsfIRX/fbi1tVn74t
- fV4A==; darn=lists.freedesktop.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CF6110E0E7
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 20:17:11 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-b87677a8abeso1079686366b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 12:17:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770840347; x=1771445147; darn=lists.freedesktop.org;
+ d=linux-foundation.org; s=google; t=1770841030; x=1771445830;
+ darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=bFg8phj+Bxov8gR26gAeP1XLfTHU3qB+0OqnuPI8zAI=;
- b=c5YiXmJF4dm1WAUkq8cxoIJp0NAXc7IgQOXeg1IZRVZBZJak85W0vIhETu8LsLr252
- HJCDlimOhYWyVdfNqC/RCvWdrNY7bIVhAU5Zh5ud7GewonAKAxjK9BKcC7M7DTIaJ/qj
- UPMflQudh9JwXsjZ7oXI4RZ0OjonpCTapkUErzgZ6OtdJEgd/EgeTaXzXFjwbEWiY2lK
- FSLjriMYQQrpIOsUHZk7vYuD03HTLGXpAgcQjHD2lrndfBY7E2HmJdI7YrE2/v78S5gF
- pyBf4kCxHU4QFanBibUM8NqBfs7LPcTN+SAPcs32733JsR6zO27FljYIxX0zSxtPcz2q
- OZYQ==
+ bh=GYX7c7SNwY4gCgB/MnP4yQFnyaqoeG8GyrZ0LwbHcG8=;
+ b=BFvS7U5akv39s4fOcu2bK8l5K2t3N8jASlpWCjEniOjkDMmsiq1o72ceM14t/dy0MR
+ l8OUuXx7i0NusyelST6uMjr/Zn1xHJfFyQsirPS9oSHqRp5O24WmOKABx4a/PblPWcIv
+ UBzeAWxLa/3Q3An/HStiUAJnNKYznkkUdYTEo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770840347; x=1771445147;
+ d=1e100.net; s=20230601; t=1770841030; x=1771445830;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bFg8phj+Bxov8gR26gAeP1XLfTHU3qB+0OqnuPI8zAI=;
- b=kI5NPBKL0tcNQMFNTChqMH7mmMYVl+7EjhttD35mML/gWoR3IwmGpEQe9gz7nt0gNQ
- k8EmprXuvrqVPjiaT5ZEpSUju9jEqlcVDd5JYoatsmkOk3HxMNHGQ6Z3iB9jebPKRLcE
- x+uQoUmrIINIs1AgY6sXGCEKSGUr+ngAKKRkgRh6Ni/OuLyD1M8zwVg3x5Ycpweasx3E
- IC44rQT68HdsAThOlTFaxk4VFPUQlQtouWwUhF7qG4c93c73TO/1DK4E2+K5zua4MVzg
- 9I6bkJEcqBU5k0ylkHVVjeyGrMH+6wPQTaSAIja24vzWDviPfxTz0dc2HzyAGVW7kkls
- US6g==
-X-Gm-Message-State: AOJu0YydQX1dB5raPwGbpJlcMSoUsy6kDv6ncT5Lt+d/EWDIIUAnl81n
- I5mqWJFKhwReDlmIiiWxiYrKAcc+ep2m15Pp2XB1AQ/ljarsKD+Vv3SN7B0X8jEofUO037HjCR+
- nor+lF1tLYrCb6LXzJhETe/aoy17fGsSnyGiSgss=
-X-Gm-Gg: AZuq6aL7miPZX9+eHJZNb6s+7q338PFtV02B8uGvQD/5ke59xfuJS4IuRjfejHRwc7z
- wmLlHeKKXHxMCz/vjkkKyRLAj8d/Ns0kvWVuKpuvaWR0Zm4GHNcR/47YjmzqaiS0hqW36vj1Mh1
- afYNdOg1SxHiL8QLsXxGGjTj2oHS8zes6nTDAXr8shhWYA2TxjYdiiF1KN0kMGi53XILrKNBghk
- QSuojtHzBybOUicm/dfYtK/eoT6918pePkZP0YD2robl2Wbdl0G8l5vbek8rANEX+8sbTuM3Hcm
- st6WlDF6ZBlocdn4U3e13o2WASam+YF+JgpXzQN8RwIt7wuCIlbrrXWbTIz7ezPe0rYcK0Yyeh6
- hEg==
-X-Received: by 2002:ac8:7d4c:0:b0:506:1d7a:7250 with SMTP id
- d75a77b69052e-50691f5e7b3mr9438881cf.66.1770840347087; Wed, 11 Feb 2026
- 12:05:47 -0800 (PST)
+ bh=GYX7c7SNwY4gCgB/MnP4yQFnyaqoeG8GyrZ0LwbHcG8=;
+ b=b2E9Z0yd+hBKk7XsdAGfAxz5pTFzfg1xQABnYod9tr+7NgtAPf/LWj+4YXppNwhLLH
+ xoN3+uWZuxgKij6ru0N8h6Jb5LBDlc4tXfj5Gth2OUdh/FFHCPOlrohjONpyB5Z46UqR
+ xl4yP1GiL1MwZI32kQHMaaq9jwitDw9R0krKjRgmtYHzv7vPz2Xajaxsm4mKfMHOltlN
+ TjTctXC+X/qz4BT7tWDGo56QzA8oRdPwSCAxW51o9Lh5FLB2IkrLRdiMnpTIO/BSRp98
+ uvgDJqzeU7QhPHSGwP1VFdqR3CAAMiwObrd6CZqrM/YaOg1q2pQ1lHxBe6yRdFeLZqyx
+ JiOw==
+X-Gm-Message-State: AOJu0Yzu/T6aitdhd7+m6V6j+MedoitlLuT3lvF+K6VIx1uRkKitWOIo
+ EZtECCUieQB6P1lUjIivxKqB/jNg/hNZWBNbHblM78oTn3gTis7Ulv4zMn9XknQbocqcWX1b4MR
+ /CaREOcw=
+X-Gm-Gg: AZuq6aL88RLoNp0hWRI1OI+HM6bxk+wOr6viZSG4MrAeiBzdoOBw5WVZ9KIFbJZWnGp
+ rDNkEoxZ5P9+wU6yiunnnSvyLLJ9r4TEC6HYFfeYRTbFDWmZZ6IVgDf9qTdCL+mKij8Ea8OZmgw
+ NjfJnjMFLCuDlKmd4n6/mrZtUHdm5hF0Y9SsRTyjfUljNFJfB6PezGhhMlW2yzTe/vip0qiOtTx
+ UAxm7x39pGvYczjoaCNPI/6+e7mtekBVbaSnn9OaFHi0ANmBMaS7oLp0pL45nEGIpgZezUpCPK0
+ npj04TYo+qgV6Ok5ULjSNW+N2SXbxx3T/kPJwkGKXIDFt6pZZKLJy635ZB7pj1kz8d1CC/YMq4n
+ yvOwDyyoAmulCFeSpCfArPCE17eEMa+DATqgrJjcMB0ZCUwTSLrLG1pG3sdsEbjO+enbSDkG/vu
+ tuJQ9/VySQL3C7IBV2ksPWIfbWPeX5rXPxsMu7BF9SHZzdcUCtYZZtpVqFNtdMRUsHOmkMZNfJ
+X-Received: by 2002:a17:906:99c2:b0:b88:5182:b869 with SMTP id
+ a640c23a62f3a-b8f8f566f25mr20148666b.23.1770841029698; 
+ Wed, 11 Feb 2026 12:17:09 -0800 (PST)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com.
+ [209.85.218.54]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b8f6ec65779sm89609166b.57.2026.02.11.12.17.08
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Feb 2026 12:17:09 -0800 (PST)
+Received: by mail-ej1-f54.google.com with SMTP id
+ a640c23a62f3a-b87677a8abeso1079680266b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 12:17:08 -0800 (PST)
+X-Received: by 2002:a17:906:c10d:b0:b8e:d04e:e4fb with SMTP id
+ a640c23a62f3a-b8f8f70c6femr17335866b.48.1770841028482; Wed, 11 Feb 2026
+ 12:17:08 -0800 (PST)
 MIME-Version: 1.0
 References: <CAPM=9twmmLhc-DJV2hFKJ1kahzxRUY5j1cLH9JjZ33LEjjBNbQ@mail.gmail.com>
- <7de4b6c4-f230-4c66-87d8-7766a95cd10b@meta.com>
-In-Reply-To: <7de4b6c4-f230-4c66-87d8-7766a95cd10b@meta.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 12 Feb 2026 06:05:35 +1000
-X-Gm-Features: AZwV_QjjMgDcj1YVaok6aT5I8updy_ogP5z-cMaTNcmnemGe703uk7ZuXD6TLtU
-Message-ID: <CAPM=9tyPS=B9WEwn8BydwfpY1qLY+umUQxsJBbXT13nqxK1aTA@mail.gmail.com>
+In-Reply-To: <CAPM=9twmmLhc-DJV2hFKJ1kahzxRUY5j1cLH9JjZ33LEjjBNbQ@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 11 Feb 2026 12:16:51 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whJtUu+L9hs9m1n7p1XYRRQPuzCU9RBMF=ssadxznXUJg@mail.gmail.com>
+X-Gm-Features: AZwV_Qif6Q2n_ln-4fz0KNI8gnknKlF_GA4U1xsyPltpS9JVc2SDJnl_iUqib7I
+Message-ID: <CAHk-=whJtUu+L9hs9m1n7p1XYRRQPuzCU9RBMF=ssadxznXUJg@mail.gmail.com>
 Subject: Re: drm AI patch review hacks
-To: Chris Mason <clm@meta.com>
+To: Dave Airlie <airlied@gmail.com>
 Cc: dri-devel <dri-devel@lists.freedesktop.org>, Sima Vetter <sima@ffwll.ch>, 
- Linus Torvalds <torvalds@linux-foundation.org>
+ "clm@meta.com" <clm@meta.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -108,100 +98,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	ARC_ALLOW(-1.00)[google.com:s=arc-20240605:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [-0.81 / 15.00];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_DKIM_ALLOW(-0.20)[linux-foundation.org:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_ALL(0.00)[];
+	DMARC_NA(0.00)[linux-foundation.org];
+	FORGED_RECIPIENTS(0.00)[m:airlied@gmail.com,m:sima@ffwll.ch,m:clm@meta.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS(0.00)[m:clm@meta.com,m:sima@ffwll.ch,m:torvalds@linux-foundation.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_THREE(0.00)[4];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER(0.00)[torvalds@linux-foundation.org,dri-devel-bounces@lists.freedesktop.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[airlied@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	REDIRECTOR_URL(0.00)[urldefense.com];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[torvalds@linux-foundation.org,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[linux-foundation.org:+];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
 	TAGGED_RCPT(0.00)[dri-devel];
 	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,urldefense.com:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,meta.com:email]
-X-Rspamd-Queue-Id: 16FF712750D
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 20D8C1275CE
 X-Rspamd-Action: no action
 
-On Thu, 12 Feb 2026 at 06:02, Chris Mason <clm@meta.com> wrote:
+On Wed, 11 Feb 2026 at 11:45, Dave Airlie <airlied@gmail.com> wrote:
 >
+> Hi all,
+> This is a public inbox, you can also git clone
 >
->
-> On 2/11/26 2:44 PM, Dave Airlie wrote:
-> > Hi all,
-> >
-> > This came up at kernel maintainers summit, so I've been trying to see
-> > what I can piece together, and have a small demonstration that may be
-> > useful to some people.
-> >
-> > I didn't want to pollute the mailing list with AI patch reviews, so I
-> > decided to set up a public-inbox that the reviews are pushed into.
-> > This isn't currently automated, I'm just asking claude to pull the
-> > last 2-3 days of patches and review what is new every so often.
-> >
-> > The workflow use lei to pull mails to local PC, use review-prompts +
-> > my own prompt to try and review a patch series, both as a complete
-> > work, and per-patch reviews, then create the reply emails and put them
-> > into a public inbox git tree for publishing.
-> >
-> > I've no idea if it's using review-prompts properly or at all, this is
-> > all very vibe coded so far.
-> >
-> > https://urldefense.com/v3/__https://lore.gitlab.freedesktop.org/drm-ai-reviews/__;!!Bt8RZUm9aw!7ZGHjZ_cowu_q5cPVL_mOXmzkCeCUgALho-xJLBTCSi_FtnWbpG5rNYrxBZfhrfg24G7LkJ4$
-> >
-> > This is a public inbox, you can also git clone
-> >
-> > https://urldefense.com/v3/__https://gitlab.freedesktop.org/drm/ai-reviews-public-inbox__;!!Bt8RZUm9aw!7ZGHjZ_cowu_q5cPVL_mOXmzkCeCUgALho-xJLBTCSi_FtnWbpG5rNYrxBZfhrfg27r4vy3o$
-> >
-> > I'm currently just using my Red Hat provided claude with opus 4.6,
-> > until I get told I've burned enough money.
-> >
-> > The list below are the patches with reviews, if someone wants to look
-> > and give feedback on whether the reviews for their series are useful,
-> > find any bugs or regressions, that would be cool.
-> >
-> > I've bcc'd anyone who has a patch on the list.
-> >
-> > This is also just an experiment to see what might stick, it might
-> > disappear at any time, and it probably needs a lot of tuning.
->
-> The output is pretty different from netdev/bpf:
->
-> https://lore.kernel.org/bpf/?q=AI+reviewed+your+patch
->
-> Which might be what you want so it's fine of course.  But it looks like
-> it didn't actually go through the report generation from the review
-> prompts, so I'm worried it didn't use the rest of the prompts either.
->
-> My stuff should be creating a review-inline.txt which is the lkml
-> formatted review.
->
-> I'm happy to try things out here if it'll help.
+> https://gitlab.freedesktop.org/drm/ai-reviews-public-inbox
 
-My plan over the next few days is to refine the code to make sure it's
-doing this, my prompt asks it to load the patch and the kernel
-prompts, then do a review across the series and individual patches,
+What an odd format that is, and I don't have anything that reads it
+natively, so I just did a one-liner script for it:
 
-I'm guessing some of the results aren't making it back out the other side.
+  git show $(git rev-list HEAD | sed 's/$/:m/')
 
-Dave.
+and having done that I think the review output format is not exactly
+lovely, but whatever.
+
+But the details in reviews look mostly pretty good to me. I don't know
+the code in question well enough to say whether they are useful to
+*you*, but it certainly doesn't look bad to me.
+
+The one review I reacted to was because I *do* know the code enough.
+So when Claude reacted to this nonsense patch with that whole "Fix
+passing zero to ERR_PTR" thing:
+
+  -       return ERR_PTR(err);
+  +       return err ? ERR_PTR(err) : NULL;
+
+*muy* reaction is that it's the opposite of a "fix" and we should get
+rid of that whole
+
+        err ? ERR_PTR(err) : NULL
+
+pattern, and just admit that ERR_PTR(err) works fine for 0.
+
+I don't know who started doing that "turn 0 into NULL explicitly"
+originally or why, but we certainly shouldn't add to them.
+
+Yes, Claude seems to think that ERR_PTR(0) is "erroneous" and somehow
+different from NULL, and maybe that's where some of the existing users
+came from? People who already used claude and got the wrong impression
+from that?
+
+Claude is correct that casting a non-constant zero value to a pointer
+*technically* isn't NULL according to the C standards. But we don't do
+standard C, and the fact is, we depend on NULL being not just
+"constant 0" at compile time, but also actually have the (dynamic)
+value of zero.
+
+However, Claude's other reaction to it is actually much more
+interesting than my initial "that's just a nonsense patch".  So while
+I disagree with the claude on a detail, I don't think it was overall
+bad.
+
+          Linus
