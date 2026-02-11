@@ -2,68 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sE00Dxd1jGk6ogAAu9opvQ
+	id 4ILBHL11jGk6ogAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 13:24:55 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 13:27:41 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 912C71242BC
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 13:24:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1FE81242F8
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 13:27:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF84E10E083;
-	Wed, 11 Feb 2026 12:24:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F0A810E4C3;
+	Wed, 11 Feb 2026 12:27:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="CowanAXX";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="T9HbIiW+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12DA210E083
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 12:24:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1770812688;
- bh=OY+jtx1joxAKZ8VqjYqwFfsrJQetnVmmI2sYkABZlB8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=CowanAXXSk607TYX0X3IfLpZ0THIuuy+HE9RerpafQ+sZFtckaYm3iuV1i9jCyzOm
- ys9YqUX0zVhwkauQK7+pkuoeIW5xDf5SmjRqr5pwsURo9/6pcbv/ov1rvntAEFaEPo
- jYwW7HNSpMQCpXdanYxJ4wABAEc4/N2TAlgjc37clw8v5KMS5Icr1//WfrVqAuQxVQ
- jDeZ+Q8ZzTeIhd7lgCKEE26uAAMfqnnEz3UjN2eouGTekI1/02dRql1FZ+LNS7sN//
- wvzRZLieIikYJwzIhzE2Nzf41X5GmW0efh+ZFt2Yh56hWS8wqzyznBqMF8AidovKeD
- BHLoFlZfdjtxQ==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3C91217E110D;
- Wed, 11 Feb 2026 13:24:48 +0100 (CET)
-Date: Wed, 11 Feb 2026 13:24:42 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Philipp Stanner <phasta@mailbox.org>
-Cc: phasta@kernel.org, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Danilo Krummrich <dakr@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Gary Guo <gary@garyguo.net>, Benno Lossin
- <lossin@kernel.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Daniel Almeida <daniel.almeida@collabora.com>,
- Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Subject: Re: [RFC PATCH 3/4] rust/drm: Add DRM Jobqueue
-Message-ID: <20260211132442.721db4d8@fedora>
-In-Reply-To: <ed1740dc08d5062ad500b2024b0e21c45f36d63c.camel@mailbox.org>
-References: <20260203081403.68733-2-phasta@kernel.org>
- <20260203081403.68733-5-phasta@kernel.org>
- <20260210155750.5cdbe6cc@fedora>
- <8ea48ce49f2c7b6fd715dd54c24e755e8ac3262c.camel@mailbox.org>
- <20260211120742.0e9e7122@fedora>
- <f3d2e3b370bed55cc2a95287b3c257f878b5e92b.camel@mailbox.org>
- <20260211125917.286e0fb6@fedora>
- <ed1740dc08d5062ad500b2024b0e21c45f36d63c.camel@mailbox.org>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
+Received: from DM1PR04CU001.outbound.protection.outlook.com
+ (mail-centralusazon11010014.outbound.protection.outlook.com [52.101.61.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24D7010E189;
+ Wed, 11 Feb 2026 12:27:36 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EXwVWd2dBMVw2SPhv+HVMvtqPEdWiwqCVNMxWRrO4QcFztlfghF4jgNb9PjZYXqXOAr755/4tdRQgsIZ0QhYbPBfpk3vFG4ofRx210HOtJc1ULqbqcKlhDnoshDnk4sW3nJktNh+6xkrPEVDqR4s6AQHxyAccXRYNxjbC/TkgsYDqwB+H3OIgplLfw+p/+TAORpSDwf4ofV8VaoB2VlLKGyWvwoCFqLYgAXHBHc4yEqcNyxjCThZS0XIQ85sJ7YHBvy0eSmvH6RS+2pJeV5UiZdJHmizkqvAlc9qCVV8K8xWs3XQ78yvirgGQqOmVA1+8bUWRT9mj1Jz3JZ1AtyHKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=E6lFLaEQUbR3+eecr7iojTykn8zFUKdTzM0ZUmhEQOo=;
+ b=W2F5YXs5CFdehr9MZcOSnISz1RgaDp6FsCkNiQb0k2iLjJwg/NspfqJq8s4QcN0q1mbkkSSf3xlfis21habDFU6IHgwvQNiJ9a/FJ3FINTuLAPNDee3JNNW8qe1UlumMC0BbmxjJOGpRGjmJaklWsARKh0gjDhHW9MSNxi0L78evQHBlF+gpQqDD/YwOwlbimv4iMMw1Ne3buFionfyUPdlg0sq1r1fe6J5rzc+55GZD891slqMIvqfRMX+3rRGZlvginDExSJWyVBJn4AMNl0pI5bSW77DNMUu8BGYTB6AmiLM9YjDnnoaduzWVkyARQ8G8qLl7D9Bzkbz1oiVsMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E6lFLaEQUbR3+eecr7iojTykn8zFUKdTzM0ZUmhEQOo=;
+ b=T9HbIiW+eFLw3MGqpBRMZQc1nTeuELG7HwNTlN99zVsg0Yor3eCICLLyV0UOs5qcf346S+JANJAJd+vwBnwxd2re8IRTu2Y29HHvga3wgWoAmnOK3nEKUD5zQDNfxenA+R2BmI9lifkxWs9MQiC+pIjQabAoh3oG54KhUlrCh7M=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by BY5PR12MB4241.namprd12.prod.outlook.com (2603:10b6:a03:20c::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.20; Wed, 11 Feb
+ 2026 12:27:33 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9611.008; Wed, 11 Feb 2026
+ 12:27:33 +0000
+Message-ID: <1db2ea6c-4a0b-4071-9918-5ba756d17a0c@amd.com>
+Date: Wed, 11 Feb 2026 13:27:26 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/4] Add cold reset recovery method for critical errors
+To: Mallesh Koujalagi <mallesh.koujalagi@intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ rodrigo.vivi@intel.com
+Cc: andrealmeid@igalia.com, airlied@gmail.com, simona.vetter@ffwll.ch,
+ mripard@kernel.org, anshuman.gupta@intel.com, badal.nilawar@intel.com,
+ riana.tauro@intel.com, karthik.poosa@intel.com, sk.anirban@intel.com,
+ raag.jadav@intel.com
+References: <20260211115946.2014051-6-mallesh.koujalagi@intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260211115946.2014051-6-mallesh.koujalagi@intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT4PR01CA0252.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:10f::24) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BY5PR12MB4241:EE_
+X-MS-Office365-Filtering-Correlation-Id: ead9696f-adcc-44d0-5467-08de6968ee35
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?REs2SnBtanBZK1RjSmxNZTVwMkN0TTVIVThOSzdFOWd6Nlg3Q0dxenUwbWlP?=
+ =?utf-8?B?c2cwWGNxYjlxL1JtT2QvR2dvZ2JzcW9NTXY5VXJLVk81M1BKNlF6QkpxSG1Z?=
+ =?utf-8?B?MGhrTzZRNWptOExRZVlndE43YXJKeitTMjFDS1luRWxCSFN2MUozN1ZMc2hj?=
+ =?utf-8?B?bTEzS3dOWjRTWXNHNVRoSkxEZTBoS1lBb2Jqd1dNWGlwQVY5dHFlem4vZkw4?=
+ =?utf-8?B?Mk9GRmdXN0dOUWR5b2FQVkorYko4L0ZBVjljaFBJVmFGY3VLRG92cWJGNFNN?=
+ =?utf-8?B?c3ZmMW5RWk1hcHBRbGZ0TVRBckpLWVhsMnBuQ0k5ZmJSYWMxcFI4YTVaQVhv?=
+ =?utf-8?B?clZtYUZqVUZncC91bE9TZDFhWjllcDlWV3dUU2RKbGhwandnRkZnWURsY2pU?=
+ =?utf-8?B?MmYyV3lBYitsTGxxdFRVKzIzUlZPODRRMjBpc3U3M2swYWNwb1BCeFAyWHd0?=
+ =?utf-8?B?UXo0bHZjZUFoL3lkcHhFY0NkZUpRLytkVksxZjdZejNldGNrZHV5Nk5hTkNh?=
+ =?utf-8?B?S0YxQjR4S01NUWNib1d4VVBjQmlOdlJyMm41QWtDcXdkS2xtbms2QStBdEps?=
+ =?utf-8?B?UWo5R3dGTjFGeEtFYmtEVFVtZlU3S0VKY3NqVzl5NDRjYlliaWswSkwwTlJZ?=
+ =?utf-8?B?bFhxell0ZVQ5N0RhbkU3aHFaYVpJM1dVNXJjZUlYbHBOVkxWY3RLVElza3hz?=
+ =?utf-8?B?Z1NQcnIxeG4wQUZuZFFOZlJBbzJRczhRc2liRlhRQlFLeUFHL0twVUc2ZEMr?=
+ =?utf-8?B?TUIwcE5OakdGY2N2bld6a1ViU0ErYk96UitCK0VqRmkwUXh2VTFJaSs3Mlov?=
+ =?utf-8?B?dERjOUExZVJwNkFDTmFtOFhoRWhreUZxWU81YWFWQ0REZkN1cXBTSTE4S0pn?=
+ =?utf-8?B?QTI2cVNLNW1SS3d6RTNTUFBEbTNhOWZHZ2V1ZE5EZXg3M0N5NjE4TGJuYkEw?=
+ =?utf-8?B?VHlhcXFiOFdiMmt6d09PZXV6aWxhYmIxOVJ0aVMxaEpEc2ZiZGdOMWdSQ0hN?=
+ =?utf-8?B?Qm9QaHQ3enlqMkxva0NhMU1MRDQ1RGhwaTRUbmVpUVRRM3dLRnRVVkoyTG9F?=
+ =?utf-8?B?NkszSXVQUVc3WWhKQmVoeGlTU1ZNRVY5VU55YVMzcVM0dUlvSjRiQ3ZUcG1Y?=
+ =?utf-8?B?UmxDSHRmVllDaHZDU3FDM1JFNk5OWS9acFJvMzRqL2ZaUkRWZ3BmWkwyK0Fx?=
+ =?utf-8?B?NlhrL0JVNVF2NnhjWTFpTmNnSVhqUlNQa0dNVWN3QzNrUjEvbGYyOFJiZnhD?=
+ =?utf-8?B?aWNuUk0xN3l2TDZlTG4zdXVrN0QxSll3UG5xSDNFTG52amJlNzFrS0FGZ21F?=
+ =?utf-8?B?eFJOZUVzS08vNFU3MEZhSFY1K3cxZmxMbnE0U3Y3M0RXczNwd1JWYTFGTzN1?=
+ =?utf-8?B?QVE5cjVpdEV1Ly84UDc3NmxWbG9pTGRoYWU5QkM3OE5zVnR2dG1kOU1WcmFP?=
+ =?utf-8?B?QUFENURBRTFGeDMvSkUwbDFMaG5KUy9pTjN4aFU3aHExVWhXVzdNbk4wUzBr?=
+ =?utf-8?B?QXkxckZBbjlNaUQzRmVCMVprZTA4THlBaWNzcG54WGJFdzlCNXcwMlE3VVky?=
+ =?utf-8?B?blBzU285R1VncmRIRjJxbHVKRjRRblR4WjBYTDA1bUoyc3pjTG43REdJOWVa?=
+ =?utf-8?B?a0QrRGRpMGswTEJmMTBrZ0dMdm9mUkg5bmdhNnl2dmx2V1dpZjYwVEFWMzVw?=
+ =?utf-8?B?WVR1UklLbWZWOG1DNDcrdDRrenh0emh3N3FvSDhQQ3hmaE1jbm1jTnJWWVdY?=
+ =?utf-8?B?czdhWWdIY2NpN3FjNkRNQ1dHd2RhbHRaNmJUQ1ExKzFMR0dwZys2N0JjUUkw?=
+ =?utf-8?B?c25yazRsQVlLbXZsaVBYSVJRclBlV2Mxb3RBbllqTm80Q2c4M1U3WVdDVEkw?=
+ =?utf-8?B?TkFTcitnQnFHUzhyNU5VQnNKcGYxaEpzSGt3ZmN0bG41SHF5Y0lUTjQ3TENx?=
+ =?utf-8?B?eEl1KzFoV3FaU1gwSThRL1R3VkZFeGRmeUJ3SUxuZUVnNys3ZTUwamhRU2Zx?=
+ =?utf-8?B?YjJlSWovTEI0UXVzVGdwYUdZcCtqd1hiY0VlY2o2R00yRDJiNDY2dlJRbWww?=
+ =?utf-8?B?VlV4MjU3SmxtQW5uRUVRQWRoYkplVnowQ0lzbG45dlg1bUxyTjhjRjJKQUtG?=
+ =?utf-8?Q?hRug=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cXZkWG5oclJ6VTM2cDB6VzBENXhGMkRoYnYzd25VSnpNOHU3bm9ZZHhXamlY?=
+ =?utf-8?B?MnplNUphbmYvZS9kNXdyRzJJRkxRMDNkSHljOXNMbWcyMWJEK0ZScDBtbnF5?=
+ =?utf-8?B?UXRlV25RMzFTU0hJcmwvUE5ZbmdlYlQvR2FTWGhFRWw3dnZ6QzRXcm92NHE0?=
+ =?utf-8?B?bG04MjlmelczUmk4ZzFpb1VUMW1jTFpCTEFYMHlpUU1YMGxNNWcvSXdwUHFF?=
+ =?utf-8?B?WWhxZWlvSkpUMXRQdGdFek5FN0x3Ty9HQkpDRWxUYUZCaVZFaCtoOVJyTEpy?=
+ =?utf-8?B?dXJRVVdvUVBEKzgwSFFadXNGd3MxMjNTS1F1bGFhSEFuSVNleS80K0pwcVhK?=
+ =?utf-8?B?S2Zsc0NNN29YYnBUQnVZNm94VmxZSlc1M29SazBMZXdmQkVRVjROQVRSQmdJ?=
+ =?utf-8?B?UTZ6MUlXTG5md2REaXJuRUhlZXJmTnpVT1ZUWGxrNG8vbzRJOXNpREhnMURu?=
+ =?utf-8?B?dm9naUw4b3pjWXhrZVR0djRNRWhJRk01ei9ZODh0WnQ5b3BCbEJBcTJYQktm?=
+ =?utf-8?B?bTFJcTZUL0lmbUVadmNjOXlXKzR6K2ZYMU5KTk1kMGdlbkozTTY0cGxJcFJW?=
+ =?utf-8?B?WmxFT25NZWJMTWFHZ3pvbzVqUGo2R0prdk10bzFDUnJnS1JEdk1NZHkvZWhi?=
+ =?utf-8?B?RVU5cVQwck95Wk1sS042ZXowNnZnRnBTSnpLb095V0prSkRBZVNUWVVxZGhh?=
+ =?utf-8?B?RWwyUzhSMGtqUkRZQjd2RDJ5UTZ4STg5VXFQM3hZNWN6Vk8rM1VRNUx4a3VY?=
+ =?utf-8?B?T3NNak9zdEJZREZ6QzcwMVM3VkVIbThhZWVwOVBGUnVKY0YxVTlONjNHblRX?=
+ =?utf-8?B?UXlPRVRneEJMaFVQZVNldzN5aEl3bnd2WElTcjRoWU1GcXYxVmVHODkzUHlm?=
+ =?utf-8?B?YXhVY0JxbHZ1cC9jSG01WE1IQXgyekpNZ2U3YW9adEhOR2pleCtSSG5NNmlq?=
+ =?utf-8?B?cWZXQmVaWjFVdXF0YVhQbVVSQmNJVUZwTWg0aVNrVWRuVnJ6YUxHUDQ1UFMw?=
+ =?utf-8?B?a3ZXYzZuQk10Z3QzQWRmNm1mMnF5anNvQlFpejMwMDR6a1ZUUlRrQ1FUc09a?=
+ =?utf-8?B?OUthYnVISlRUa1JHZSsrNUxFNzM1SWhOVDYwNWJrelhCWDBJaXY4ZVdaSTFu?=
+ =?utf-8?B?ZXB1SDcvVmNZOFZ5a0FPeEtzWlJxOG1nWWgxUDcxWWF4WTlXcm9YazVKOG02?=
+ =?utf-8?B?dG9venA3NlMzMTlQMWl1OEpSNm5RTlpMR2FvclFPSDRScVpaS3YwYVQ2TVFk?=
+ =?utf-8?B?ZWpjeWNrZStrS1dKTEgxQngwb0xaRmlJVnhMbHVGay9ZRGc5dlo1SE1JZVli?=
+ =?utf-8?B?VUpRc2RSYmhzWXdGbDRJdVlyTXZWUzZJYS9zTVVIaysvUVdGdmttNzZlQUg5?=
+ =?utf-8?B?eHlZdFRpSEVNN0ZpV2EyT0FHRWxoR1J0eXQ1Z3QyL1ZJdE4zbGlzZmN3WUpx?=
+ =?utf-8?B?NFNmQWRzUmxxbTBVNEdSQUEwMmw2Sm0yUWRHSStQWWVMK2lRQmU2ZXh6bi9P?=
+ =?utf-8?B?UDJxTFBaTWd6TmF3S0xCVmZCVUhKbWlyeHAxU0JqSXh0TEUwZnAwYis3ajVE?=
+ =?utf-8?B?OEZUbWZqTmtlSjhOekFMRnQydGxodVZmejBTSjVkZm1Gblg4MHZ2bW5XTnNC?=
+ =?utf-8?B?dUhQREdRSm1pSitiRS9tNlNIWUttdHF2WnhYS1FVL2VQNzhsNURCcW11R2Iv?=
+ =?utf-8?B?dENGS1pCVk1penEvQktuWVdwTnFXSlpEbU5OOXZKYzcyVkxhcGtIYklMVnM2?=
+ =?utf-8?B?RzZZTVRmY1Bab0w5K1phd1d1RzcvbFR0K2JJZDRoY1Z2ZGc2d0Z2aGxyVktP?=
+ =?utf-8?B?NHJ1OEp3M2xTUy9rclNVeHBTbHE1bkJFbEs0emkwaTlvVXpIWlZQRTkyaVp3?=
+ =?utf-8?B?WWptamdaVTRKRHgzaURsUC9sRlExZmoxSHBsS0Vkd3QrVTVKRlNicU9BMUNY?=
+ =?utf-8?B?djNhaUIrSUpkN1EyM2Q1MG1RNzVHVXVCckpIdEJRQWVzdXkzWldJaUd5NGl5?=
+ =?utf-8?B?YVlrTDBhK29LeG9QMnlDSGRnU05QOFR1aEFvWCttc0NRSHp5ZXhjd2RQRjZt?=
+ =?utf-8?B?cGNadkc2SkFDOGZRMzE4SDhJbmpiMjRoSC9ROXNJS0FBa3l5aGRGVlJDQ1JN?=
+ =?utf-8?B?NkljY1Y3dm9CMnFBR29ScFN3N0dpM1Y2d2VYYnJlVm13S21tbzNjV2dCKy9k?=
+ =?utf-8?B?WDkrQ0twREV2TVg1VHFoV09pR09abTVoRlRISzhLcHVZV1hZbXE1a3Q5WklH?=
+ =?utf-8?B?SHZhL2p4TjFqSndJOTlybTVZUnN4VFViSThLR3U1NkF6TWhTbTdnRkhKMXRR?=
+ =?utf-8?B?TDdpTGhWTVhDRXVpZnYvZEFyd0lFbWc0eGFyV0pXOEM2ekx2SG56UT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ead9696f-adcc-44d0-5467-08de6968ee35
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2026 12:27:32.9427 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: a3vdeh6C0YKxrjzD7Ro07tRByG5Dh8RYvwPFtE+GKDoG+iBgnrMC59Exj0WYzioI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4241
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,233 +177,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	MAILLIST(-0.20)[mailman];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:phasta@mailbox.org,m:phasta@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:dakr@kernel.org,m:aliceryhl@google.com,m:gary@garyguo.net,m:lossin@kernel.org,m:christian.koenig@amd.com,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[14];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,ffwll.ch,google.com,garyguo.net,amd.com,collabora.com,nvidia.com,vger.kernel.org,lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
 	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:dkim]
-X-Rspamd-Queue-Id: 912C71242BC
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_CC(0.00)[igalia.com,gmail.com,ffwll.ch,kernel.org,intel.com];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:mid,amd.com:dkim,amd.com:email,igalia.com:email];
+	DKIM_TRACE(0.00)[amd.com:+]
+X-Rspamd-Queue-Id: B1FE81242F8
 X-Rspamd-Action: no action
 
-On Wed, 11 Feb 2026 13:14:11 +0100
-Philipp Stanner <phasta@mailbox.org> wrote:
+On 2/11/26 12:59, Mallesh Koujalagi wrote:
+> This RFC patch series introduces a new DRM wedge recovery method
+> 'DRM_WEDGE_RECOVERY_COLD_RESET' for handling critical errors
+> that cannot be recovered through existing software-based mechanisms.
+> 
+> Background
+> ----------
+> Current recovery methods (driver rebind, bus reset, FLR) are effective
+> for most error scenarios. However, certain critical errors
+> affect device-level persistent state that survives warm resets and
+> software recovery attempts. These errors require complete device power
+> cycling to restore functionality.
 
-> On Wed, 2026-02-11 at 12:59 +0100, Boris Brezillon wrote:
-> > On Wed, 11 Feb 2026 12:19:56 +0100
-> > Philipp Stanner <phasta@mailbox.org> wrote:
-> >  =20
-> > > On Wed, 2026-02-11 at 12:07 +0100, Boris Brezillon wrote: =20
-> > > > On Wed, 11 Feb 2026 11:47:27 +0100
-> > > > Philipp Stanner <phasta@mailbox.org> wrote:
-> > > > =C2=A0  =20
-> > > > > On Tue, 2026-02-10 at 15:57 +0100, Boris Brezillon wrote:=C2=A0  =
-=20
-> > > > > > On Tue,=C2=A0 3 Feb 2026 09:14:02 +0100
-> > > > > > Philipp Stanner <phasta@kernel.org> wrote:
-> > > > > > =C2=A0=C2=A0=C2=A0  =20
-> > > > > > > +/// A jobqueue Job.
-> > > > > > > +///
-> > > > > > > +/// You can stuff your data in it. The job will be borrowed =
-back to your driver
-> > > > > > > +/// once the time has come to run it.
-> > > > > > > +///
-> > > > > > > +/// Jobs are consumed by [`Jobqueue::submit_job`] by value (=
-ownership transfer).
-> > > > > > > +/// You can set multiple [`DmaFence`] as dependencies for a =
-job. It will only
-> > > > > > > +/// get run once all dependency fences have been signaled.
-> > > > > > > +///
-> > > > > > > +/// Jobs cost credits. Jobs will only be run if there are is=
- enough capacity in
-> > > > > > > +/// the jobqueue for the job's credits. It is legal to speci=
-fy jobs costing 0
-> > > > > > > +/// credits, effectively disabling that mechanism.
-> > > > > > > +#[pin_data]
-> > > > > > > +pub struct Job<T: 'static + Send> {
-> > > > > > > +=C2=A0=C2=A0=C2=A0 cost: u32,
-> > > > > > > +=C2=A0=C2=A0=C2=A0 #[pin]
-> > > > > > > +=C2=A0=C2=A0=C2=A0 pub data: T,
-> > > > > > > +=C2=A0=C2=A0=C2=A0 done_fence: Option<ARef<DmaFence<i32>>>,
-> > > > > > > +=C2=A0=C2=A0=C2=A0 hardware_fence: Option<ARef<DmaFence<i32>=
->>,
-> > > > > > > +=C2=A0=C2=A0=C2=A0 nr_of_deps: AtomicU32,
-> > > > > > > +=C2=A0=C2=A0=C2=A0 dependencies: List<Dependency>,=C2=A0=C2=
-=A0=C2=A0  =20
-> > > > > >=20
-> > > > > > Given how tricky Lists are in rust, I'd recommend going for an =
-XArray,
-> > > > > > like we have on the C side. There's a bit of overhead when the =
-job only
-> > > > > > has a few deps, but I think simplicity beats memory-usage-optim=
-izations
-> > > > > > in that case (especially since the overhead exists and is accep=
-ted in
-> > > > > > C).=C2=A0=C2=A0=C2=A0  =20
-> > > > >=20
-> > > > > I mean, the list is now already implemented and works. Considerin=
-g the
-> > > > > XArray would have made sense during the development difficulties.=
-=C2=A0  =20
-> > > >=20
-> > > > I'm sure it does, but that's still more code/tricks to maintain than
-> > > > what you'd have with the XArray abstraction.=C2=A0  =20
-> > >=20
-> > > The solution than will rather be to make the linked list implementati=
-on
-> > > better.
-> > >=20
-> > > A list is the correct data structure in a huge number of use cases in
-> > > the kernel. We should not begin here to defer to other structures
-> > > because of convenience.
-> > >=20
-> > > Btw. lists in Rust being so horrible has been repeatedly a reason why
-> > > some other hackers argued that Rust as a language is not suitable for
-> > > kernel development.
-> > >=20
-> > > So getting that right seems more desirable than capitulating. =20
-> >=20
-> > I'm not capitulating, and I'm not saying "No list, never!" either. I'm
-> > saying, if there's something that fits the bill and is easier to use,
-> > maybe we should consider it...
-> >  =20
-> > >  =20
-> > > > =C2=A0  =20
-> > > > >=20
-> > > > > If it were to make sense we could certainly replace the list with=
- an
-> > > > > xarray, but I don't see an advantage. The JQ just needs to iterat=
-e over
-> > > > > the dependencies to register its events on them, and on drop to
-> > > > > deregister them perhaps.
-> > > > >=20
-> > > > > We have many jobs, but likely only few dependencies per job, so t=
-he
-> > > > > lower memory footprint seems desirable and the XArray's advantages
-> > > > > don't come to play =E2=80=93 except maybe if we'd want to conside=
-r to avoid the
-> > > > > current unsafe-rawpointer solution to obtain the job, since obtai=
-ning a
-> > > > > job from an Xarray is far faster than by list iteration.=C2=A0  =
-=20
-> > > >=20
-> > > > I don't think we need O(1) for picking random deps in a job, because
-> > > > that's not something we need at all: the dep list here is used as a
-> > > > FIFO.
-> > > > =C2=A0  =20
-> > >=20
-> > > Wrong. The dep list here has no ordering requirements at all. JQ does
-> > > not care in which order it registers its events, it just cares about
-> > > dealing with dep-fences racing. =20
-> >=20
-> > What I mean is that it's used as a FIFO right now, not that deps have to
-> > be processed in order. =20
->=20
-> Yeah, but it being a FIFO is irrelevant :)
+I don't think that this is a sufficient justification for making those changes.
 
-I do think it's relevant actually. If the implementation does it as a
-FIFO, then that means a container that's capable of providing a FIFO
-abstraction is good enough :P. The fact that in theory it can be random
-order dep checking is not important, because the implementation does
-the check in dependency addition order, and it rightfully does so to
-keep things simple =3D> if we have to wait for all the deps anyway,
-what's the point of trying to give them a fancy
-will-likely-be-signaled-first-order.
+Especially since the patch set doesn't seem to add any detection for those cases, but rather just exposes a debugfs file to trigger them.
 
->=20
-> >  =20
-> > >=20
-> > > You could (de-)register your callbacks in random order, it does not
-> > > matter. =20
-> >=20
-> > Again, that's not my point, and I think we're just saying the same
-> > thing here: the list seems to be a good match for this dependency
-> > array/list, because right now deps are processed in order. Now, being
-> > the right construct in one language doesn't mean it's the right
-> > construct in another language.
-> >  =20
-> > >=20
-> > > List and Xarray might be useful for the unsafe related to the
-> > > DependencyWaker. There you could avoid a raw pointer by getting the j=
-ob
-> > > through a list iteration or through the hypothetical XArray.
-> > >=20
-> > > Please take a look at my detailed code comments for DependencyWaker. =
-=20
-> >=20
-> > Sure, I'll have a closer look.
-> >  =20
-> > >  =20
-> > > > =C2=A0There's the per-dep overhead of the ListLinks object maybe, b=
-ut
-> > > > it's certainly acceptable. And I don't think cache locality matters
-> > > > either, because the XArray stores pointers too, so we'll still be o=
-ne
-> > > > deref away from the DmaFence. No, my main concern was maintainabili=
-ty,
-> > > > because managing lists in rust is far from trivial, and as a develo=
-per,
-> > > > I try to avoid using concepts the language I rely on is not friendly
-> > > > with.=C2=A0  =20
-> > >=20
-> > > This would be a decision with wide implications, as detailed above.
-> > >=20
-> > > If we were to admit that lists just don't work in Rust, then wouldn't
-> > > the consequent decision to remove them all together? =20
-> >=20
-> > I'm not going as far as saying they don't work, I'm just saying they
-> > are trickier to use, and that's a fact.
-> >  =20
-> > >=20
-> > > "Lists in kernel-Rust are not supported. Too difficult to maintain.
-> > > We're sorry. Use XArray et al. instead :(" =20
-> >=20
-> > No, there are patterns where an XArray wouldn't be a good fit. For
-> > instance, LRU lists where objects get moved between lists depending on
-> > their usage pattern. If we were to use XArrays for that, that would
-> > imply potential allocations in paths where we don't want them. In this
-> > dep array case, the deps are added at submit time, and they get
-> > progressively dropped, so the array can't grow, it can only ever
-> > shrink, and XArray allows it to shrink from both ends (and even have
-> > holes), so it sounds like a good match too. Not saying a perfect match,
-> > not saying better than a list in general, but an XArray is easier to
-> > use than a list **in rust**, and the fact it fits the bill (if it does
-> > in C, it should in rust too) had me thinking that maybe it's what we
-> > should use. =20
->=20
-> Yoah, you have valid points.
->=20
-> Since XArray allows for dropping the unsafe {} without the performance
-> penalty of a list-iteration, I think your idea for this particular case
-> is good after all and can be put on the TODO list.
->=20
-> I'm not sure how soon I have the cycles for implementing that, though.
-> Looks as if a ton of work is coming at us for dma_fence.
+So what is the actual technical background? In other words when is that necessary?
 
-Let me know how we (the Tyr devs) can help with that.
+Regards,
+Christian.
+
+> 
+> Proposed Solution
+> -----------------
+> This series adds DRM_WEDGE_RECOVERY_COLD_RESET (BIT(4)) as a new
+> recovery method to the DRM wedging framework. When this method is set,
+> it signals to userspace that only a complete device cold reset (power
+> cycle) can restore normal operation.
+> 
+> Example uevent received:
+>   SUBSYSTEM=drm
+>   WEDGED=cold-reset
+>   DEVPATH=/devices/.../drm/card0
+> 
+> Testing
+> -------
+> The debugfs interface allows testing the cold reset recovery path:
+> 
+>   echo 1 > /sys/kernel/debug/dri/N/trigger_critical_error
+> 
+> This triggers the critical error handler, wedges the device with
+> cold reset method, and sends the appropriate uevent to userspace.
+> 
+> Cc: André Almeida <andrealmeid@igalia.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> 
+> Mallesh Koujalagi (4):
+>   drm: Add DRM_WEDGE_RECOVERY_COLD_RESET for critical error
+>   drm/doc: Document DRM_WEDGE_RECOVERY_COLD_RESET recovery method
+>   drm/xe: Add handler for critical errors which require cold-reset
+>   drm/xe/debugfs: Add interface to trigger critical error handler
+> 
+>  Documentation/gpu/drm-uapi.rst   | 73 +++++++++++++++++++++++++++++++-
+>  drivers/gpu/drm/drm_drv.c        |  2 +
+>  drivers/gpu/drm/xe/xe_debugfs.c  | 38 +++++++++++++++++
+>  drivers/gpu/drm/xe/xe_hw_error.c | 28 ++++++++++++
+>  drivers/gpu/drm/xe/xe_hw_error.h |  1 +
+>  include/drm/drm_device.h         |  1 +
+>  6 files changed, 142 insertions(+), 1 deletion(-)
+> 
+
