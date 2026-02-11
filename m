@@ -2,183 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8Ai2CiyijGlhrwAAu9opvQ
+	id CCagLJijjGlhrwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 16:37:16 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 16:43:20 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 624C8125BD0
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 16:37:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9393125C8C
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 16:43:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B34B910E616;
-	Wed, 11 Feb 2026 15:37:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6425C10E61A;
+	Wed, 11 Feb 2026 15:43:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Nyubs++y";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UVhLEOJA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7295810E616;
- Wed, 11 Feb 2026 15:37:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1770824230; x=1802360230;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=4TScG971C5cuTP7xBa4NPkPX69kJjf+4jTR15I0U+zM=;
- b=Nyubs++ypmczVkcDRDLBGkCNN/Km6LaiFp744Rr6Ref6GhghY5qhA5Go
- qCZyQmlqB47trP0OJqhraoXjrhMf2firfg1shrPGW9A0C72/d44abwxIT
- ftzxIoxFy34KjBj/F6zYZ2yCae86LnPLQfUvq9TzgO+q0wZnH3ViI0wIY
- oFXrjEpPtAQTE5q8CkCUv66qGkJZ2jc3WGYFSWhLbMBGL3EVnGilQEYM9
- W3qrXPnzjVO5EO9PL/UEmsFFxfE4QN3I0qQGQrOi3+3fwXd5x42KOniuw
- 8+fJx5uMNQcf7BRqrNR/RD/FyxJjBfarjkv2zZCnh4BPH4+0qxpV76bf0 Q==;
-X-CSE-ConnectionGUID: y59sSUuRSbmgSKiIrTkLAA==
-X-CSE-MsgGUID: eq2U5ZUyQCWKIKynt6sRCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="71179289"
-X-IronPort-AV: E=Sophos;i="6.21,285,1763452800"; d="scan'208";a="71179289"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2026 07:37:09 -0800
-X-CSE-ConnectionGUID: LkPQPPEFQqKvmzG4oiGawQ==
-X-CSE-MsgGUID: WEx6IF9OQnW4JSMwz1upAA==
-X-Ironport-Invalid-End-Of-Message: True
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,285,1763452800"; d="scan'208";a="216429421"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2026 07:37:09 -0800
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Wed, 11 Feb 2026 07:37:08 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35 via Frontend Transport; Wed, 11 Feb 2026 07:37:08 -0800
-Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.3) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Wed, 11 Feb 2026 07:37:08 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UOqYkQfQfyt7tePkk7s5I+Wj7UUDtfq0fZR9qAssf+umrS8hJ2Fc9EHTjQBhOC+05HLo+rOAkreokv+2eefy/Yvv+AX1S5sg0IbVCnFMpUnaYniILhFujn9QfMQGo7KCt3rFPFIAuDk5M+bv4IW5FU105epumBwiTEhl/Il+wuD3xa/FtRtD+h0EXasKbMFIuQuTj9GkRMWc0uKCuSY5AugXmhkNL1wqsvGlm2YdWGf/2w1YZ9oYCM53fb0TBT4z49GOaatM1R7yPWji/yayXFaiKUFiF5zIB/XK5LZw7huxgeZLDKWWiTMjbrUYn8PW6CxsJOFIs29PcH31Joy9CA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nE5OcmCyoq5rS95BlnrHrt0CPnJQEkdxly/1VXZFnH0=;
- b=Z8vP69Jao8gjmVC+loEyR8F1XsyJOHD3MtIvZjx/0nBzUUSTC1dp0rCFVc3PuyNamvP6MjbquuCCT2tGGqtO1NKLINqPEk+6bZI4nwxrgS3r2fjTvifpO61Ec5ryYoxEY7iPVhVc6MLRtW1fBXsa+nSDoXsAghW6y+t/Iu4xrJLixfVNWafExDJGjUf6ul6cdlQJ5gwfcTuQ21fH04kuMhkGQRWoEcrTS0eF68UVI4kCk5eAmUp60BB2ub/tRBwSvub5H6w+wXesFgV8vDtfO9B/aaBy/nHc9CjqYxyf7FtEGEJqPcN8fuERkXppIFschagyYrk7oUL62Yraf2oOLg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by BL1PR11MB5287.namprd11.prod.outlook.com (2603:10b6:208:31b::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.10; Wed, 11 Feb
- 2026 15:37:04 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::e0c5:6cd8:6e67:dc0c]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::e0c5:6cd8:6e67:dc0c%6]) with mapi id 15.20.9587.017; Wed, 11 Feb 2026
- 15:37:04 +0000
-Date: Wed, 11 Feb 2026 07:37:01 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <leonro@nvidia.com>, <jgg@ziepe.ca>, <francois.dugast@intel.com>,
- <himal.prasad.ghimiray@intel.com>
-Subject: Re: [PATCH v4 4/4] drm/pagemap: Use dma-map IOVA alloc, link, and
- sync API for DRM pagemap
-Message-ID: <aYyiHQ0avcRcti8l@lstrano-desk.jf.intel.com>
-References: <20260205041921.3781292-1-matthew.brost@intel.com>
- <20260205041921.3781292-5-matthew.brost@intel.com>
- <6289525edef2a1dca5d9de325ad0efbc1cb79a38.camel@linux.intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6289525edef2a1dca5d9de325ad0efbc1cb79a38.camel@linux.intel.com>
-X-ClientProxiedBy: MW4PR04CA0235.namprd04.prod.outlook.com
- (2603:10b6:303:87::30) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
+ [209.85.222.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38E7F10E087
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 15:43:15 +0000 (UTC)
+Received: by mail-qk1-f179.google.com with SMTP id
+ af79cd13be357-8c713a6a6f8so118129085a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 07:43:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1770824594; x=1771429394; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Y4PXuACOt4MinSrlklQViseJiS6zxe0SlEXJ+9N6Plk=;
+ b=UVhLEOJAV6ZTYf0IFh/icD/CeP7ayeXm5TXrnyqhuk5ucllbQRhy6OHaZcEgx4YXXk
+ 1YjclSx/75L4P/5Axo7wW0gnnL01N3OwlZoUjyGrBOILptJM5efwZeOvzlioZMU9WSMq
+ KdUE6YqAgB6Lqd673XVOhgiykB4rCU806BieYv1WOw+e5Hes4ZF8RBkPJYUKUHj2+vsy
+ xK09dUKMMzINfg3HZL9L5Hs5DCwDn6PHN7NQLlr04hT93I/vrG+1jK5/ZE1tgbi0k4O5
+ mX8KqDwmhTW3O2qmAdSOgEMSeekS0x0S9SG0kI9XfYhsE1CJlPX5/fzwxwOBQ5aF8bRa
+ zEKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770824594; x=1771429394;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Y4PXuACOt4MinSrlklQViseJiS6zxe0SlEXJ+9N6Plk=;
+ b=mwzFhogF/voL9KfGLrG4PvAq8yCYV6wrD+QDCJRjAt1R10K8Lscsr+uAJ2VfzHvoq+
+ ySkcZaCIepRQps5/MgHo6Q/JL6wU+/CReGPU9y3W/JRV6ehtQod8zrhe5m5tCRdyIXsk
+ uZF7mTIUZ3UumJK/HSRaBOr1cJwuq9gjYLJW2+0k6+KtpO0ptm68E7yiGVSY4B4Bn0zv
+ ZrzfJfbXBp82PrJiqdIZZgbHWuqxFd4zUsJ2jyDdpw99Rm7nyrdmNg4VTvblrFs/GV6n
+ oAaNIc+qxvIWxMRu0SVffwoteo85HVe+EDL65eMfQkHWKSGecV7F3lI2nlSeV765yNii
+ kd9Q==
+X-Gm-Message-State: AOJu0Yy7hdLclLXJIAJG86U1F1JHdiAuT/z3Wm6448T12VjmKJWFH52s
+ pmdbf1HaAqS0ZpVcawUDAT1CJnMaSpQMYGey9E5Vbwx+Wz6EUId/CjJmqvXvUZFB
+X-Gm-Gg: AZuq6aJs1Lxw1a3R/yuJly63SdTbuFRlwTIyFEVT3/GUAW1fubeombA53nb+uynfcG6
+ E6xrHPdndHvCUgmJlHg/oRVkdGkJLBZUsRckHQxQgDdDN//zNHZixh3zRslxG7t7N0fyu46yGLm
+ LifKG7Jj9M9MAk2Hhmntkgf44hmw6TV0pdnGzyzl0JoOOzfsIGVFflm25wi6+hZ/75XCAzKUbCM
+ UKg3KKQTDigly23wAQOyUmSQ5UUJz1nWk6tN2K7siGmDhloYEmmFD3vd3iH8h7uAKpB791i+qNi
+ 1Mfx0ADSU06dBJU2WjzvpJZAN6bB5Yn59fBZ8IZ/T4H+Ox6iRWLQuiG8piV3EM7memLyFu3Y9Or
+ c+B0TGt/KvyWj3wFnhTHXi8I9eUal81vDNoGO2YJZajlBSxx4S8vn9lGO6QV0VG63AABdsrbbOL
+ XYx4ovIPGqHIZebWwvxRF+nvuhJSzDfk6wA37TnZ06/C1CyC+R/bSc0g==
+X-Received: by 2002:ae9:f204:0:b0:8cb:1d7a:3f35 with SMTP id
+ af79cd13be357-8cb1eeeb93bmr658545785a.6.1770824593972; 
+ Wed, 11 Feb 2026 07:43:13 -0800 (PST)
+Received: from [10.254.121.37] (mkmvpn.amd.com. [165.204.54.211])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-8cb2b213ae0sm133642185a.45.2026.02.11.07.43.11
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 11 Feb 2026 07:43:13 -0800 (PST)
+Message-ID: <f357c2fc-3c72-42ac-b079-849222de4c6e@gmail.com>
+Date: Wed, 11 Feb 2026 16:43:10 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|BL1PR11MB5287:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed7d40c3-c991-4328-154b-08de6983683d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?x0KsP6ZpZAYzGkdS/YLDVxeqW/cdagtdqLoCBev3ELM7Kva/5e6jOO/iEf?=
- =?iso-8859-1?Q?v76lQ2haqUOoAqrWkYio+jivPuEwGhPiTHujwSxwTuMZDV5vDd9/B56u4o?=
- =?iso-8859-1?Q?TXERu5vUT2pLnmNmuU3jgprwEEuJaQVyqhgh8tpupG4SSSYRnasC1xRl+Q?=
- =?iso-8859-1?Q?22Bd4Enpx892WdMQbgFG4imAEqVFZtu4C7QgBqMAvFqfvpwAYJfcXMj100?=
- =?iso-8859-1?Q?7NA8LCh2DWdyj+Ff6WoLrO4FVT1CGdIEYssyl5MC8zilJXG0ALNLVObnAt?=
- =?iso-8859-1?Q?VukCti7Qjgs5qPu/nVypSXWKNns3BU8/WFoqwV0Nmz7Ih++HQmPhDfQN9t?=
- =?iso-8859-1?Q?MHC1gzaSoi19gZ9cicwIByF7FBi4nD4TZg25Z7KhBEzYsDfuZ4MTxaRBv0?=
- =?iso-8859-1?Q?aR7+mZxb3ZWksjzp8vlVQObkAmGPryhnOhpXKXCBDC0p8nGK84/Q4jIIEz?=
- =?iso-8859-1?Q?K5AnNDsQBR+8FEQzjPqBQBp/yeU3bSEp0EIrJRYC/F/9sh3IEWzdNERXuS?=
- =?iso-8859-1?Q?LAfaDd98ZQsr6R0RUMhXh4mIJWi0aMVaUbuOHb8XIyTpUCzN5a+Ba/90gK?=
- =?iso-8859-1?Q?ym+jLa055RStOIZC+vrpZKRbnbsWi/ZuYNBf9mM/Mu/S/bpGiNzRk/D7S+?=
- =?iso-8859-1?Q?VuI6v5+xrpZTazyYmTSkRuuuKbCLGDp9IoIAZmfRdQWZSvYxeyKmw7z4gN?=
- =?iso-8859-1?Q?Jmmtrucnp88wGYOrFZXZlLaEZWIm4lfwREaW5UxLnfhhko9EHPrFBLRNDW?=
- =?iso-8859-1?Q?Ak11ID9y/aD9ml5EM/MyyoS8vac+JqeAogX2xYDo3j0/f6NVWwa4ytVKH3?=
- =?iso-8859-1?Q?nYS8+xnIFb5eyE3C5N6ZdMeGoFpKjuS/Z+TMUsavggjwF/C5VE003YEDYE?=
- =?iso-8859-1?Q?NMS46ptn/BLQobgpX25p19zMKiWIY/RtobHAFLW6QYic4RD77OtrwWMow/?=
- =?iso-8859-1?Q?SXky4w12030fcL4w0p/YWKOFMdmOSctOSVbxcaRZfBlB59YO2evl4cPbdk?=
- =?iso-8859-1?Q?VNCJsdNkrKoRZC7+mvdgDRjfkQ48LfWOPwTfte6HpvfXS/fAGGZ14u1yhG?=
- =?iso-8859-1?Q?M/ojJwS8gFkb0eh3OBOlE8YMLSyEyjyP6N/Qr094TPoTB+7oB/Z+DHhztc?=
- =?iso-8859-1?Q?KY0nc2lQr8V4u3JslH93Zuy9jiZL6Ajiyu2s02HHIs64h/WoCQt27j6qpa?=
- =?iso-8859-1?Q?BRlPjBEiYea7nz5Z4vlsV7749QTlF6wqAYAXrQQsm8ytffaBxIilAf9IQz?=
- =?iso-8859-1?Q?rCi/vJAuHqASLpGjFGB6u25bgbySaEb7RUG3S0vqjGoVkezyP7PTP47x0o?=
- =?iso-8859-1?Q?Qq7YJ3exUmwDllIxRqrAHHvqIi+AYYlyhPOFTM8iEq9gN7bIBihYYshZSL?=
- =?iso-8859-1?Q?p1l+BhLb6dSvqRfmZbii+AaBdNxpSuHhy4eiR0166kAFvaVNyxer5KUvuY?=
- =?iso-8859-1?Q?ydt5RylYQK0P2UpTIZmjfXf0sdA6EQmJQMdLiOsApQodmpGMQc2GDZLgB8?=
- =?iso-8859-1?Q?6wiPeN5bLFtkT0ESk5DT23czdT9digImc6oAw/XtzhcdQ8xrXeU1AYR1Hb?=
- =?iso-8859-1?Q?ClKri4X5/whW+BrdLAcAqnVk8M7Tf+VpJOTC+65HAvhs8LfhGVbH1M/tCD?=
- =?iso-8859-1?Q?G9VJ467aVM5lk=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?R3BhYunq4tFwz0NDnWjiw68QpAD/YU6tj5NKKU02H6SH6PFu2aUwBkLQj5?=
- =?iso-8859-1?Q?egAL/k8Wkji24CQ/qGYEX5V4Ejimza+Rq2SyjXQl4hxU/wSN4SLXkuHdi/?=
- =?iso-8859-1?Q?Wfv7cOB4kqUEVfM/FOIYUnfKzGSecwwUO4b++qNgbAzjNdECr45XsKDpAV?=
- =?iso-8859-1?Q?XPKKZRzBYh7OgimH4yKIrIlbxoIk7FFaWN5W/3Icwy8Ma4oKkLi14VlChj?=
- =?iso-8859-1?Q?jQ6s8oXsVAAOnA37Rb8PNwFLqz6nojIjSOxEAHSsiy5IEwOG8gN4dCOz1i?=
- =?iso-8859-1?Q?1wao/RQlyuyYvIOGFMFAfeBYjebnP+T/XBLynSDboJ4fF5mgmY9AQUMDpZ?=
- =?iso-8859-1?Q?mE/kyVFkRT9om0DAK2dxqXefA0uYSoUZsyWkjTfZYRoFCUMowvzqJ3xCEg?=
- =?iso-8859-1?Q?CZqzg4ddoCktU7PmqFPYbI2MbNApOkWoWK27Kl2YWAsjsX5vNjg3jBiJ7h?=
- =?iso-8859-1?Q?9t7sm9PDrvdyl/s+SUnz206qrDuVx9JbDWd+vMSgcGZpKFuvzA+yoLFWvf?=
- =?iso-8859-1?Q?8PYOtPzcnOKDXTfN4XjbkBtcSrmUQOKkAX8Hjv05q9x0Toe1WMfoNZrhf4?=
- =?iso-8859-1?Q?/uTwN4yyvGFNv5avhO7zKHcyy0oIajd+rOVNTkEhQly/HB0BXQv7y6C2Hg?=
- =?iso-8859-1?Q?zR+AEJSLqvQQ4JsN0/pzdNHX1rolh9LVabK7mYlabQ3oleva7h1H8cemWP?=
- =?iso-8859-1?Q?TLtsIfaEyN+naVzTADdnvXvv6SLyPf0UyF8peLq1xRs97QouguW5Xpcz6a?=
- =?iso-8859-1?Q?OV5WCEZAIAojOKiL9fa2Jy9C6y4ZDyLlPpW2Dp2icXTRBCsb+sQzxYM3A0?=
- =?iso-8859-1?Q?oCMkcVjNgTeraDeQvHb3XlFcA05buZb8y8yzROOkIVINWM7vLRo64FjU4e?=
- =?iso-8859-1?Q?/XGD3y25vhqspZle2DFXL7eb44ddeRRtH8CTXs4DbS0SGAECmPtd4uDnzo?=
- =?iso-8859-1?Q?pfg54ZX3rSiDHW80AMJ9dHjMz3dpspUHkLg4JnU+RxkEaUZHhFQpg2zyQs?=
- =?iso-8859-1?Q?ltqAXxgBvFZglVZ+Wc5UNzzPNHnd1TeQOsgMeHcz3+7rOBSK29BjzE/Q4t?=
- =?iso-8859-1?Q?imMllrq71C4Ez6s6ibiCpr+U34lZvkJIxvtBsiBrt8yog0Oqpj9hrWs+Ae?=
- =?iso-8859-1?Q?D/53t8O86OLAYZozck0phIwZzpXck5UswOyqX91qua56Ll9mR+q6Mvyrew?=
- =?iso-8859-1?Q?F4/l93FvHMKWwb8AFu3ky8sPBMtfVzs1H8QmaAMim5BTYEiQIKwDTq2e0D?=
- =?iso-8859-1?Q?qq+2G0xQv09MFsVpKcv2CVfudEe4HalV/rwOhI7EwfFzZJR68kKAuu3tyS?=
- =?iso-8859-1?Q?uSk3oBdl+TnkzvI1godhLIOERxEnCnFS1x/ZT+JKQL0WdowKh5xdlwmWzV?=
- =?iso-8859-1?Q?FU8jQT7zMzE18+g+Ha0OYEQnYpjWKnj/8fukuYwcCQIHVcKNXdyE2kTszG?=
- =?iso-8859-1?Q?X5II5o4kOhiUOb3YHqB6Ib6TAMoDkTu9foKkGzdQbsf6BqxzjnIaj68sWW?=
- =?iso-8859-1?Q?MorrGWBRSz8eXWZTJQ7hDGSbCzt/hKZR7MESYwyAJXvJZjD6c88uXnvjr+?=
- =?iso-8859-1?Q?ZljgC0IPwKhzWLTC7Jv7llGQODiFjkc/jmfsrYAjgdatvrk7LcuC3bH+yP?=
- =?iso-8859-1?Q?bblSqjwiPPckB1xV/Hfd41i6y8hU/WPmA0Zkd0kHPEipDwOl4yWE53otiq?=
- =?iso-8859-1?Q?pAoCcvOYk3afMi3a1kIn+QZroBISaCwb8e50MPQAtHDWxmN6lTUsFZd60o?=
- =?iso-8859-1?Q?rrHUV6CQDZoxHQYd5gXivsbn9KqzLksj6MEyDGaEhYkykcyrYk6tVw+OQV?=
- =?iso-8859-1?Q?AC28lTZdhQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed7d40c3-c991-4328-154b-08de6983683d
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2026 15:37:04.5595 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mEy1zyighcTHD2oBLT7Akjg9A9NdIHlAR/1kxHjKrMb2PN2dHtvezxuS5TgfGz5WudU+nVkN80x4HNW1bFqgGw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5287
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/8] dma-buf: protected fence ops by RCU v5
+To: phasta@kernel.org, matthew.brost@intel.com, sumit.semwal@linaro.org
+Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20260210102232.1642-1-christian.koenig@amd.com>
+ <20260210102232.1642-2-christian.koenig@amd.com>
+ <f1345723cc5a61cdec5a6f168f71a323b822b7e2.camel@mailbox.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <f1345723cc5a61cdec5a6f168f71a323b822b7e2.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -194,371 +96,335 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.31 / 15.00];
-	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+X-Spamd-Result: default: False [-1.31 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim];
-	RCVD_COUNT_SEVEN(0.00)[9];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,dri-devel-bounces@lists.freedesktop.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:matthew.brost@intel.com,m:sumit.semwal@linaro.org,m:linaro-mm-sig@lists.linaro.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+]
-X-Rspamd-Queue-Id: 624C8125BD0
+	RCVD_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[ckoenigleichtzumerken@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_NONE(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ckoenigleichtzumerken@gmail.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: E9393125C8C
 X-Rspamd-Action: no action
 
-On Wed, Feb 11, 2026 at 12:34:12PM +0100, Thomas Hellström wrote:
-> On Wed, 2026-02-04 at 20:19 -0800, Matthew Brost wrote:
-> > The dma-map IOVA alloc, link, and sync APIs perform significantly
-> > better
-> > than dma-map / dma-unmap, as they avoid costly IOMMU
-> > synchronizations.
-> > This difference is especially noticeable when mapping a 2MB region in
-> > 4KB pages.
-> > 
-> > Use the IOVA alloc, link, and sync APIs for DRM pagemap, which create
-> > DMA
-> > mappings between the CPU and GPU for copying data.
-> > 
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> > v4:
-> >  - Pack IOVA and drop dummy page (Jason)
-> > 
-> >  drivers/gpu/drm/drm_pagemap.c | 84 +++++++++++++++++++++++++++++----
-> > --
-> >  1 file changed, 70 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_pagemap.c
-> > b/drivers/gpu/drm/drm_pagemap.c
-> > index 29677b19bb69..52a196bc8459 100644
-> > --- a/drivers/gpu/drm/drm_pagemap.c
-> > +++ b/drivers/gpu/drm/drm_pagemap.c
-> > @@ -280,6 +280,20 @@ drm_pagemap_migrate_map_device_pages(struct
-> > device *dev,
-> >  	return 0;
-> >  }
-> >  
-> > +/**
-> > + * struct drm_pagemap_iova_state - DRM pagemap IOVA state
-> > + *
+On 2/11/26 11:06, Philipp Stanner wrote:
+> On Tue, 2026-02-10 at 11:01 +0100, Christian KÃ¶nig wrote:
+>> At first glance it is counter intuitive to protect a constant function
+>> pointer table by RCU, but this allows modules providing the function
+>> table to unload by waiting for an RCU grace period.
 > 
-> No newline 
+> I think that someone who does not already have a deep understanding
+> about dma-buf and fences will have much trouble understanding *why*
+> this patch is in the log and *what it achieves*.
 > 
+> Good commit messages are at least as important as good code. In
+> drm/sched for example I've been trying so many times to figure out why
+> certain hacks and changes were implemented, but all that git-blame ever
+> gave me was one liners, often hinting at some driver internal work
+> around ._.
 
-+1
+How about something like this:
 
-> > + * @dma_state: DMA IOVA state.
-> > + * @offset: Current offset in IOVA.
-> > + *
-> > + * This structure acts as an iterator for packing all IOVA addresses
-> > within a
-> > + * contiguous range.
-> > + */
-> > +struct drm_pagemap_iova_state {
-> > +	struct dma_iova_state dma_state;
-> > +	unsigned long offset;
-> > +};
-> > +
-> >  /**
-> >   * drm_pagemap_migrate_map_system_pages() - Map system migration
-> > pages for GPU SVM migration
-> >   * @dev: The device performing the migration.
-> > @@ -287,6 +301,7 @@ drm_pagemap_migrate_map_device_pages(struct
-> > device *dev,
-> >   * @migrate_pfn: Array of page frame numbers of system pages or peer
-> > pages to map.
-> >   * @npages: Number of system pages or peer pages to map.
-> >   * @dir: Direction of data transfer (e.g., DMA_BIDIRECTIONAL)
-> > + * @state: DMA IOVA state for mapping.
-> >   *
-> >   * This function maps pages of memory for migration usage in GPU
-> > SVM. It
-> >   * iterates over each page frame number provided in @migrate_pfn,
-> > maps the
-> > @@ -300,9 +315,11 @@ drm_pagemap_migrate_map_system_pages(struct
-> > device *dev,
-> >  				     struct drm_pagemap_addr
-> > *pagemap_addr,
-> >  				     unsigned long *migrate_pfn,
-> >  				     unsigned long npages,
-> > -				     enum dma_data_direction dir)
-> > +				     enum dma_data_direction dir,
-> > +				     struct drm_pagemap_iova_state
-> > *state)
-> >  {
-> >  	unsigned long i;
-> > +	bool try_alloc = false;
-> >  
-> >  	for (i = 0; i < npages;) {
-> >  		struct page *page =
-> > migrate_pfn_to_page(migrate_pfn[i]);
-> > @@ -317,9 +334,31 @@ drm_pagemap_migrate_map_system_pages(struct
-> > device *dev,
-> >  		folio = page_folio(page);
-> >  		order = folio_order(folio);
-> >  
-> > -		dma_addr = dma_map_page(dev, page, 0,
-> > page_size(page), dir);
-> > -		if (dma_mapping_error(dev, dma_addr))
-> > -			return -EFAULT;
-> > +		if (!try_alloc) {
-> > +			dma_iova_try_alloc(dev, &state->dma_state,
-> > +					   npages * PAGE_SIZE >=
-> > +					   HPAGE_PMD_SIZE ?
-> > +					   HPAGE_PMD_SIZE : 0,
-> > +					   npages * PAGE_SIZE);
-> > +			try_alloc = true;
-> > +		}
-> 
-> What happens if dma_iova_try_alloc() fails for all i < some value x and
-> then suddenly succeeds for i == x? While the below code looks correct,
+The fence ops of a dma_fence currently need to life as long as the dma_fence is alive.
 
-We only try to alloc on the first valid page - 'i' may be any value
-based on the first page found  or we may never alloc if the number of
-pages found == 0 (possible, hence why it is inside the loop). This step
-is done at most once. If the allocation fails, we use the map_page path
-for the remaining loop iterations.
+This means that the module who originally issued a dma_fence can't unload unless all of them are freed up.
 
-> I figure we'd allocate a too large IOVA region and possibly get the
-> alignment wrong?
+As first step to solve this issue protect the fence ops by RCU.
 
-The first and only IOVA allocation attempts an aligned allocation. What
-can happen is only a subset of the IOVA is used for the copy but we pack
-in the pages starting at IOVA[0] and end at IOVA[number valid pages - 1].
+While it is counter intuitive to protect a constant function pointer table by RCU it allows modules to wait for an RCU grace period to make sure that nobody is executing their functions any more.
 
-Matt
 
 > 
-> Otherwise LGTM.
+>>
+>> v2: make one the now duplicated lockdep warnings a comment instead.
+>> v3: Add more documentation to ->wait and ->release callback.
+>> v4: fix typo in documentation
+>> v5: rebased on drm-tip
+>>
+>> Signed-off-by: Christian KÃ¶nig <christian.koenig@amd.com>
+>> ---
+>> Â drivers/dma-buf/dma-fence.c | 69 +++++++++++++++++++++++++------------
+>> Â include/linux/dma-fence.hÂ Â  | 29 ++++++++++++++--
+>> Â 2 files changed, 73 insertions(+), 25 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>> index e05beae6e407..de9bf18be3d4 100644
+>> --- a/drivers/dma-buf/dma-fence.c
+>> +++ b/drivers/dma-buf/dma-fence.c
+>> @@ -522,6 +522,7 @@ EXPORT_SYMBOL(dma_fence_signal);
+>> Â signed long
+>> Â dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+>> Â {
+>> +	const struct dma_fence_ops *ops;
+>> Â 	signed long ret;
+>> Â 
+>> Â 	if (WARN_ON(timeout < 0))
+>> @@ -533,15 +534,21 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+>> Â 
+>> Â 	dma_fence_enable_sw_signaling(fence);
+>> Â 
+>> -	if (trace_dma_fence_wait_start_enabled()) {
+> 
+> Why can wait_start_enabled() be removed? Is that related to the life
+> time decoupling or is it a separate topic?
+
+It isn't removed, I've just removed the "if (trace_dma_fence_wait_start_enabled())" optimization which is used by the tracing subsystem as self-patching code (longer story).
+
+The trace_dma_fence_wait_start() trace point function is still called a few lines below.
+
+>> -		rcu_read_lock();
+>> -		trace_dma_fence_wait_start(fence);
+>> +	rcu_read_lock();
+>> +	ops = rcu_dereference(fence->ops);
+>> +	trace_dma_fence_wait_start(fence);
+>> +	if (ops->wait) {
+>> +		/*
+>> +		 * Implementing the wait ops is deprecated and not supported for
+>> +		 * issuer independent fences, so it is ok to use the ops outside
+> 
+> s/issuer/issuers of
+
+Fixed.
+
+> And how do we know that this here is an independent fence?
+> What even is an "independent fence" â€“ one with internal spinlock?
+
+I rephrased the sentence a bit to make that more clearer:
+
+                /*
+                 * Implementing the wait ops is deprecated and not supported for
+                 * issuers of fences who wants them to be independent of their
+                 * module after they signal, so it is ok to use the ops outside
+                 * the RCU protected section.
+                 */
+
+
+> 
+>> +		 * the RCU protected section.
+>> +		 */
+>> +		rcu_read_unlock();
+>> +		ret = ops->wait(fence, intr, timeout);
+>> +	} else {
+>> Â 		rcu_read_unlock();
+>> -	}
+>> -	if (fence->ops->wait)
+>> -		ret = fence->ops->wait(fence, intr, timeout);
+>> -	else
+>> Â 		ret = dma_fence_default_wait(fence, intr, timeout);
+>> +	}
+> 
+> The git diff here looks awkward. Do you use git format-patch --
+> histogram?
+
+Nope, what's the matter?
+
+>> Â 	if (trace_dma_fence_wait_end_enabled()) {
+>> Â 		rcu_read_lock();
+>> Â 		trace_dma_fence_wait_end(fence);
+
+>> Â 
+>> @@ -1049,7 +1067,12 @@ __dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>> Â 	BUG_ON(!ops || !ops->get_driver_name || !ops->get_timeline_name);
+>> Â 
+>> Â 	kref_init(&fence->refcount);
+>> -	fence->ops = ops;
+>> +	/*
+>> +	 * At first glance it is counter intuitive to protect a constant
+>> +	 * function pointer table by RCU, but this allows modules providing the
+>> +	 * function table to unload by waiting for an RCU grace period.
+> 
+> Maybe add a sentence like "Fences can live longer than the module which
+> issued them."
+
+Going to use the same as the commit message here as soon as we synced up on that.
+
+> 
+>> +	 */
+>> +	RCU_INIT_POINTER(fence->ops, ops);
+>> Â 	INIT_LIST_HEAD(&fence->cb_list);
+>> Â 	fence->lock = lock;
+>> Â 	fence->context = context;
+>> @@ -1129,11 +1152,12 @@ EXPORT_SYMBOL(dma_fence_init64);
+>> Â  */
+>> Â const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
+>> Â {
+>> -	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+>> -			 "RCU protection is required for safe access to returned string");
+>> +	const struct dma_fence_ops *ops;
+>> Â 
+>> +	/* RCU protection is required for safe access to returned string */
+>> +	ops = rcu_dereference(fence->ops);
+>> Â 	if (!dma_fence_test_signaled_flag(fence))
+>> -		return (const char __rcu *)fence->ops->get_driver_name(fence);
+>> +		return (const char __rcu *)ops->get_driver_name(fence);
+>> Â 	else
+>> Â 		return (const char __rcu *)"detached-driver";
+>> Â }
+>> @@ -1161,11 +1185,12 @@ EXPORT_SYMBOL(dma_fence_driver_name);
+>> Â  */
+>> Â const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
+>> Â {
+>> -	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+>> -			 "RCU protection is required for safe access to returned string");
+>> +	const struct dma_fence_ops *ops;
+>> Â 
+>> +	/* RCU protection is required for safe access to returned string */
+>> +	ops = rcu_dereference(fence->ops);
+>> Â 	if (!dma_fence_test_signaled_flag(fence))
+>> -		return (const char __rcu *)fence->ops->get_driver_name(fence);
+>> +		return (const char __rcu *)ops->get_driver_name(fence);
+>> Â 	else
+>> Â 		return (const char __rcu *)"signaled-timeline";
+>> Â }
+> 
+> Did we make any progress in our conversation about removing those two
+> functions and callbacks? They're only used by i915.
+
+Actually they are mostly used by the trace points and debugfs, so we certainly can't remove them.
+
+But I'm really wondering why the heck i915 is using them?
+
+>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>> index 9c4d25289239..6bf4feb0e01f 100644
+>> --- a/include/linux/dma-fence.h
+>> +++ b/include/linux/dma-fence.h
+>> @@ -67,7 +67,7 @@ struct seq_file;
+>> Â  */
+>> Â struct dma_fence {
+>> Â 	spinlock_t *lock;
+>> -	const struct dma_fence_ops *ops;
+>> +	const struct dma_fence_ops __rcu *ops;
+>> Â 	/*
+>> Â 	 * We clear the callback list on kref_put so that by the time we
+>> Â 	 * release the fence it is unused. No one should be adding to the
+>> @@ -220,6 +220,10 @@ struct dma_fence_ops {
+>> Â 	 * timed out. Can also return other error values on custom implementations,
+>> Â 	 * which should be treated as if the fence is signaled. For example a hardware
+>> Â 	 * lockup could be reported like that.
+>> +	 *
+>> +	 * Implementing this callback prevents the fence from detaching after
+>> +	 * signaling and so it is mandatory for the module providing the
+> 
+> s/mandatory/necessary ?
+
+Fixed.
+
+> 
+>> +	 * dma_fence_ops to stay loaded as long as the dma_fence exists.
+>> Â 	 */
+>> Â 	signed long (*wait)(struct dma_fence *fence,
+>> Â 			Â Â Â  bool intr, signed long timeout);
+>> @@ -231,6 +235,13 @@ struct dma_fence_ops {
+>> Â 	 * Can be called from irq context.Â  This callback is optional. If it is
+>> Â 	 * NULL, then dma_fence_free() is instead called as the default
+>> Â 	 * implementation.
+>> +	 *
+>> +	 * Implementing this callback prevents the fence from detaching after
+>> +	 * signaling and so it is mandatory for the module providing the
+> 
+> same
+
+Fixed.
+
+> 
+>> +	 * dma_fence_ops to stay loaded as long as the dma_fence exists.
+>> +	 *
+>> +	 * If the callback is implemented the memory backing the dma_fence
+>> +	 * object must be freed RCU safe.
+>> Â 	 */
+>> Â 	void (*release)(struct dma_fence *fence);
+>> Â 
+>> @@ -454,13 +465,19 @@ dma_fence_test_signaled_flag(struct dma_fence *fence)
+>> Â static inline bool
+>> Â dma_fence_is_signaled_locked(struct dma_fence *fence)
+>> Â {
+>> +	const struct dma_fence_ops *ops;
+>> +
+>> Â 	if (dma_fence_test_signaled_flag(fence))
+>> Â 		return true;
+>> Â 
+>> -	if (fence->ops->signaled && fence->ops->signaled(fence)) {
+>> +	rcu_read_lock();
+>> +	ops = rcu_dereference(fence->ops);
+>> +	if (ops->signaled && ops->signaled(fence)) {
+> 
+> Maybe you can educate me a bit about RCU here â€“ couldn't this still
+> race? If the ops were unloaded before you take rcu_read_lock(),
+> rcu_dereference() would give you an invalid pointer here since you
+> don't check for !ops, no?
+
+Perfectly correct thinking, yes.
+
+But the check for !ops is added in patch #2 when we actually start to set ops = NULL when the fence signals.
+
+I intentionally separated that because it is basically the second step in making the solution to detach the fence ops from the module by RCU work.
+
+We could merge the two patches together, but I think the separation actually makes sense should anybody start to complain about the additional RCU overhead.
+
+Thanks,
+Christian.
+
 > 
 > 
-> > +
-> > +		if (dma_use_iova(&state->dma_state)) {
-> > +			int err = dma_iova_link(dev, &state-
-> > >dma_state,
-> > +						page_to_phys(page),
-> > +						state->offset,
-> > page_size(page),
-> > +						dir, 0);
-> > +			if (err)
-> > +				return err;
-> > +
-> > +			dma_addr = state->dma_state.addr + state-
-> > >offset;
-> > +			state->offset += page_size(page);
-> > +		} else {
-> > +			dma_addr = dma_map_page(dev, page, 0,
-> > page_size(page),
-> > +						dir);
-> > +			if (dma_mapping_error(dev, dma_addr))
-> > +				return -EFAULT;
-> > +		}
-> >  
-> >  		pagemap_addr[i] =
-> >  			drm_pagemap_addr_encode(dma_addr,
-> > @@ -330,6 +369,9 @@ drm_pagemap_migrate_map_system_pages(struct
-> > device *dev,
-> >  		i += NR_PAGES(order);
-> >  	}
-> >  
-> > +	if (dma_use_iova(&state->dma_state))
-> > +		return dma_iova_sync(dev, &state->dma_state, 0,
-> > state->offset);
-> > +
-> >  	return 0;
-> >  }
-> >  
-> > @@ -341,6 +383,7 @@ drm_pagemap_migrate_map_system_pages(struct
-> > device *dev,
-> >   * @pagemap_addr: Array of DMA information corresponding to mapped
-> > pages
-> >   * @npages: Number of pages to unmap
-> >   * @dir: Direction of data transfer (e.g., DMA_BIDIRECTIONAL)
-> > + * @state: DMA IOVA state for mapping.
-> >   *
-> >   * This function unmaps previously mapped pages of memory for GPU
-> > Shared Virtual
-> >   * Memory (SVM). It iterates over each DMA address provided in
-> > @dma_addr, checks
-> > @@ -350,10 +393,17 @@ static void
-> > drm_pagemap_migrate_unmap_pages(struct device *dev,
-> >  					    struct drm_pagemap_addr
-> > *pagemap_addr,
-> >  					    unsigned long
-> > *migrate_pfn,
-> >  					    unsigned long npages,
-> > -					    enum dma_data_direction
-> > dir)
-> > +					    enum dma_data_direction
-> > dir,
-> > +					    struct
-> > drm_pagemap_iova_state *state)
-> >  {
-> >  	unsigned long i;
-> >  
-> > +	if (state && dma_use_iova(&state->dma_state)) {
-> > +		dma_iova_unlink(dev, &state->dma_state, 0, state-
-> > >offset, dir, 0);
-> > +		dma_iova_free(dev, &state->dma_state);
-> > +		return;
-> > +	}
-> > +
-> >  	for (i = 0; i < npages;) {
-> >  		struct page *page =
-> > migrate_pfn_to_page(migrate_pfn[i]);
-> >  
-> > @@ -406,7 +456,7 @@ drm_pagemap_migrate_remote_to_local(struct
-> > drm_pagemap_devmem *devmem,
-> >  			       devmem->pre_migrate_fence);
-> >  out:
-> >  	drm_pagemap_migrate_unmap_pages(remote_device, pagemap_addr,
-> > local_pfns,
-> > -					npages, DMA_FROM_DEVICE);
-> > +					npages, DMA_FROM_DEVICE,
-> > NULL);
-> >  	return err;
-> >  }
-> >  
-> > @@ -416,11 +466,13 @@ drm_pagemap_migrate_sys_to_dev(struct
-> > drm_pagemap_devmem *devmem,
-> >  			       struct page *local_pages[],
-> >  			       struct drm_pagemap_addr
-> > pagemap_addr[],
-> >  			       unsigned long npages,
-> > -			       const struct drm_pagemap_devmem_ops
-> > *ops)
-> > +			       const struct drm_pagemap_devmem_ops
-> > *ops,
-> > +			       struct drm_pagemap_iova_state *state)
-> >  {
-> >  	int err = drm_pagemap_migrate_map_system_pages(devmem->dev,
-> >  						       pagemap_addr,
-> > sys_pfns,
-> > -						       npages,
-> > DMA_TO_DEVICE);
-> > +						       npages,
-> > DMA_TO_DEVICE,
-> > +						       state);
-> >  
-> >  	if (err)
-> >  		goto out;
-> > @@ -429,7 +481,7 @@ drm_pagemap_migrate_sys_to_dev(struct
-> > drm_pagemap_devmem *devmem,
-> >  				  devmem->pre_migrate_fence);
-> >  out:
-> >  	drm_pagemap_migrate_unmap_pages(devmem->dev, pagemap_addr,
-> > sys_pfns, npages,
-> > -					DMA_TO_DEVICE);
-> > +					DMA_TO_DEVICE, state);
-> >  	return err;
-> >  }
-> >  
-> > @@ -457,6 +509,7 @@ static int drm_pagemap_migrate_range(struct
-> > drm_pagemap_devmem *devmem,
-> >  				     const struct migrate_range_loc
-> > *cur,
-> >  				     const struct
-> > drm_pagemap_migrate_details *mdetails)
-> >  {
-> > +	struct drm_pagemap_iova_state state = {};
-> >  	int ret = 0;
-> >  
-> >  	if (cur->start == 0)
-> > @@ -484,7 +537,7 @@ static int drm_pagemap_migrate_range(struct
-> > drm_pagemap_devmem *devmem,
-> >  						     &pages[last-
-> > >start],
-> >  						    
-> > &pagemap_addr[last->start],
-> >  						     cur->start -
-> > last->start,
-> > -						     last->ops);
-> > +						     last->ops,
-> > &state);
-> >  
-> >  out:
-> >  	*last = *cur;
-> > @@ -1001,6 +1054,7 @@ EXPORT_SYMBOL(drm_pagemap_put);
-> >  int drm_pagemap_evict_to_ram(struct drm_pagemap_devmem
-> > *devmem_allocation)
-> >  {
-> >  	const struct drm_pagemap_devmem_ops *ops =
-> > devmem_allocation->ops;
-> > +	struct drm_pagemap_iova_state state = {};
-> >  	unsigned long npages, mpages = 0;
-> >  	struct page **pages;
-> >  	unsigned long *src, *dst;
-> > @@ -1042,7 +1096,7 @@ int drm_pagemap_evict_to_ram(struct
-> > drm_pagemap_devmem *devmem_allocation)
-> >  	err =
-> > drm_pagemap_migrate_map_system_pages(devmem_allocation->dev,
-> >  						   pagemap_addr,
-> >  						   dst, npages,
-> > -						   DMA_FROM_DEVICE);
-> > +						   DMA_FROM_DEVICE,
-> > &state);
-> >  	if (err)
-> >  		goto err_finalize;
-> >  
-> > @@ -1059,7 +1113,7 @@ int drm_pagemap_evict_to_ram(struct
-> > drm_pagemap_devmem *devmem_allocation)
-> >  	migrate_device_pages(src, dst, npages);
-> >  	migrate_device_finalize(src, dst, npages);
-> >  	drm_pagemap_migrate_unmap_pages(devmem_allocation->dev,
-> > pagemap_addr, dst, npages,
-> > -					DMA_FROM_DEVICE);
-> > +					DMA_FROM_DEVICE, &state);
-> >  
-> >  err_free:
-> >  	kvfree(buf);
-> > @@ -1103,6 +1157,7 @@ static int __drm_pagemap_migrate_to_ram(struct
-> > vm_area_struct *vas,
-> >  		MIGRATE_VMA_SELECT_DEVICE_COHERENT,
-> >  		.fault_page	= page,
-> >  	};
-> > +	struct drm_pagemap_iova_state state = {};
-> >  	struct drm_pagemap_zdd *zdd;
-> >  	const struct drm_pagemap_devmem_ops *ops;
-> >  	struct device *dev = NULL;
-> > @@ -1162,7 +1217,7 @@ static int __drm_pagemap_migrate_to_ram(struct
-> > vm_area_struct *vas,
-> >  
-> >  	err = drm_pagemap_migrate_map_system_pages(dev,
-> > pagemap_addr,
-> >  						   migrate.dst,
-> > npages,
-> > -						   DMA_FROM_DEVICE);
-> > +						   DMA_FROM_DEVICE,
-> > &state);
-> >  	if (err)
-> >  		goto err_finalize;
-> >  
-> > @@ -1180,7 +1235,8 @@ static int __drm_pagemap_migrate_to_ram(struct
-> > vm_area_struct *vas,
-> >  	migrate_vma_finalize(&migrate);
-> >  	if (dev)
-> >  		drm_pagemap_migrate_unmap_pages(dev, pagemap_addr,
-> > migrate.dst,
-> > -						npages,
-> > DMA_FROM_DEVICE);
-> > +						npages,
-> > DMA_FROM_DEVICE,
-> > +						&state);
-> >  err_free:
-> >  	kvfree(buf);
-> >  err_out:
+>> +		rcu_read_unlock();
+>> Â 		dma_fence_signal_locked(fence);
+>> Â 		return true;
+>> Â 	}
+>> +	rcu_read_unlock();
+>> Â 
+>> Â 	return false;
+>> Â }
+>> @@ -484,13 +501,19 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+>> Â static inline bool
+>> Â dma_fence_is_signaled(struct dma_fence *fence)
+>> Â {
+>> +	const struct dma_fence_ops *ops;
+>> +
+>> Â 	if (dma_fence_test_signaled_flag(fence))
+>> Â 		return true;
+>> Â 
+>> -	if (fence->ops->signaled && fence->ops->signaled(fence)) {
+>> +	rcu_read_lock();
+>> +	ops = rcu_dereference(fence->ops);
+>> +	if (ops->signaled && ops->signaled(fence)) {
+> 
+> same
+> 
+> 
+> Danke,
+> P.
+> 
+>> +		rcu_read_unlock();
+>> Â 		dma_fence_signal(fence);
+>> Â 		return true;
+>> Â 	}
+>> +	rcu_read_unlock();
+>> Â 
+>> Â 	return false;
+>> Â }
+> 
+
