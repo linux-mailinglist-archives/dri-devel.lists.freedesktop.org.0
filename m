@@ -2,63 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OEutM2pgjGmWlwAAu9opvQ
+	id 4JiDA11hjGmWlwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 11:56:42 +0100
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 12:00:45 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CCFD123A9F
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 11:56:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2D4123B2F
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Feb 2026 12:00:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BBD610E394;
-	Wed, 11 Feb 2026 10:56:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F79710E01F;
+	Wed, 11 Feb 2026 11:00:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="AqimoI6M";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eB51r3si";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DBD810E01F;
- Wed, 11 Feb 2026 10:56:37 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4f9wNJ5fDgz9tpf;
- Wed, 11 Feb 2026 11:56:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1770807392; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8D2K+brmcX9jyLHAA/rQuQznyMmiZsmCIlbxqnliqqs=;
- b=AqimoI6MrWRJ/OVq1KjxAIVBZFJ8CbxzfeYbkIgj+wiOrcquAsbvKT9Ma+OrMQQeEJBuDr
- egMts1/FDconUdwxJfr7TpJQBvMexWM1Q6KD2O/puui71a3trxgSVhTlGkFoKK4nyDI5pU
- 0uxWVjzj8soaNgSEWsOzMzeQgYC/FPMS+42dj/OmqtAiJS7HJNmtS5h2s33ENMgh6qqybx
- zt+v2fnjTuBzeQpN5Jl1ZQA+cnQhI/39baMhMV5ubSyK+ykZZxI8SZh4R2iTquG56lfAMZ
- iJHNo/9/7uIXw5paJTSR3JB+DdwdJJX4ZZOrmvftc6GHrTjfpyqEdZW6mr7W3A==
-Message-ID: <ef514066e5771e8ac1deb3ae6baa14b798305fd2.camel@mailbox.org>
-Subject: Re: [PATCH v6 06/31] drm/sched: Add some scheduling quality unit tests
-From: Philipp Stanner <phasta@mailbox.org>
-To: kernel test robot <lkp@intel.com>, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- kernel-dev@igalia.com,  Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
- Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Date: Wed, 11 Feb 2026 11:56:27 +0100
-In-Reply-To: <202601292335.YI2PBzhs-lkp@intel.com>
-References: <20260128110806.38350-7-tvrtko.ursulin@igalia.com>
- <202601292335.YI2PBzhs-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 874E710E01F
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 11:00:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 3321243AA0;
+ Wed, 11 Feb 2026 11:00:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3785C4CEF7;
+ Wed, 11 Feb 2026 11:00:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1770807635;
+ bh=RiqFFN9Tr/evnRpNR/pIaWzHOD53Xki7Iw8z1m2Fs24=;
+ h=Date:Cc:To:From:Subject:References:In-Reply-To:From;
+ b=eB51r3sioEZUO7pAEypGJodRsEl9vJSz63bQBDGLvzLfZtBzbm+bzKuBkBgseHyaX
+ 5UhCEVLynZhEfSp3/QnPRXl1+FEWNHxyZ9C/vCMq49EDG9pgsfRkd1fdjtkgJzFYXM
+ Urfgk/vs95z4Xh1C+E0tK5UcBi+1J1BhpW1K/NZc8A33Kff7eW2FGH+qB+EZc/b0gC
+ dL6HFfuWvOvyf2vWwvmZPhvVifarh31i7yx2zUjJEszR4s+7SibsyduZLSoLIxTlJ0
+ bsN90H1Dz++C+8RSVSXL+PQmpR6c7OCi4F06JMHrPh0IjhX3d63vJFm0gxlIodCPZq
+ Jmv1/AfiveyZA==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MBO-RS-ID: c4318eafb0eaf8ea950
-X-MBO-RS-META: 8856ey5gqawaq6z5rij179qc97fac74p
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 11 Feb 2026 12:00:30 +0100
+Message-Id: <DGC2WYUT80B4.3D4QKYP8FVVQJ@kernel.org>
+Cc: "Alice Ryhl" <aliceryhl@google.com>, =?utf-8?q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, "Philipp Stanner" <phasta@mailbox.org>,
+ <phasta@kernel.org>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Gary Guo" <gary@garyguo.net>, "Benno Lossin"
+ <lossin@kernel.org>, "Daniel Almeida" <daniel.almeida@collabora.com>, "Joel
+ Fernandes" <joelagnelf@nvidia.com>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <lucas.demarchi@intel.com>, <thomas.hellstrom@linux.intel.com>,
+ <rodrigo.vivi@intel.com>
+To: "Boris Brezillon" <boris.brezillon@collabora.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [RFC PATCH 2/4] rust: sync: Add dma_fence abstractions
+References: <20260205095727.4c3e2941@fedora>
+ <DG7SZND1GWR4.3C5NLKY4SYC0M@kernel.org>
+ <bb57b6837aa8044e679dad5f2589c2e0ba84c221.camel@mailbox.org>
+ <20260209155843.725dcfe1@fedora>
+ <c319c349-eb95-4c38-84fb-47440daefc3b@amd.com>
+ <aYruaIxn8sMXVI0r@google.com> <20260210101525.7fb85f25@fedora>
+ <aYsFKOVrsMQeAHoi@google.com> <DGB7RWKMPJQZ.2PHB127O6MVVN@kernel.org>
+ <4e84306c-5cec-4048-a7eb-a364788baa89@amd.com>
+ <aYsZHhX2IVO2kOSm@google.com> <DGC1KP1DT6YV.3LQWZXMA22L5A@kernel.org>
+ <20260211112049.089b2656@fedora>
+In-Reply-To: <20260211112049.089b2656@fedora>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,133 +75,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.31 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	MV_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MAILLIST(-0.20)[mailman];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[google.com,amd.com,mailbox.org,kernel.org,gmail.com,ffwll.ch,garyguo.net,collabora.com,nvidia.com,vger.kernel.org,lists.freedesktop.org,intel.com,linux.intel.com];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	HAS_REPLYTO(0.00)[phasta@kernel.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:christian.koenig@amd.com,m:phasta@mailbox.org,m:phasta@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:gary@garyguo.net,m:lossin@kernel.org,m:daniel.almeida@collabora.com,m:joelagnelf@nvidia.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:lucas.demarchi@intel.com,m:thomas.hellstrom@linux.intel.com,m:rodrigo.vivi@intel.com,m:boris.brezillon@collabora.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RSPAMD_EMAILBL_FAIL(0.00)[dakr.kernel.org:query timed out];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[mailbox.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
 	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:mid,mailbox.org:dkim,intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gitlab.freedesktop.org:url]
-X-Rspamd-Queue-Id: 2CCFD123A9F
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:url]
+X-Rspamd-Queue-Id: AD2D4123B2F
 X-Rspamd-Action: no action
 
-On Thu, 2026-01-29 at 23:31 +0800, kernel test robot wrote:
-> Hi Tvrtko,
->=20
-> kernel test robot noticed the following build errors:
->=20
-> [auto build test ERROR on drm-misc/drm-misc-next]
-> [also build test ERROR on drm-xe/drm-xe-next daeinki-drm-exynos/exynos-dr=
-m-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes d=
-rm-tip/drm-tip linus/master v6.19-rc7 next-20260128]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Wed Feb 11, 2026 at 11:20 AM CET, Boris Brezillon wrote:
+> On Wed, 11 Feb 2026 10:57:27 +0100
+> "Danilo Krummrich" <dakr@kernel.org> wrote:
+>
+>> (Cc: Xe maintainers)
+>>=20
+>> On Tue Feb 10, 2026 at 12:40 PM CET, Alice Ryhl wrote:
+>> > On Tue, Feb 10, 2026 at 11:46:44AM +0100, Christian K=C3=B6nig wrote: =
+=20
+>> >> On 2/10/26 11:36, Danilo Krummrich wrote: =20
+>> >> > On Tue Feb 10, 2026 at 11:15 AM CET, Alice Ryhl wrote: =20
+>> >> >> One way you can see this is by looking at what we require of the
+>> >> >> workqueue. For all this to work, it's pretty important that we nev=
+er
+>> >> >> schedule anything on the workqueue that's not signalling safe, sin=
+ce
+>> >> >> otherwise you could have a deadlock where the workqueue is execute=
+s some
+>> >> >> random job calling kmalloc(GFP_KERNEL) and then blocks on our fenc=
+e,
+>> >> >> meaning that the VM_BIND job never gets scheduled since the workqu=
+eue
+>> >> >> is never freed up. Deadlock. =20
+>> >> >=20
+>> >> > Yes, I also pointed this out multiple times in the past in the cont=
+ext of C GPU
+>> >> > scheduler discussions. It really depends on the workqueue and how i=
+t is used.
+>> >> >=20
+>> >> > In the C GPU scheduler the driver can pass its own workqueue to the=
+ scheduler,
+>> >> > which means that the driver has to ensure that at least one out of =
+the
+>> >> > wq->max_active works is free for the scheduler to make progress on =
+the
+>> >> > scheduler's run and free job work.
+>> >> >=20
+>> >> > Or in other words, there must be no more than wq->max_active - 1 wo=
+rks that
+>> >> > execute code violating the DMA fence signalling rules. =20
+>> >
+>> > Ouch, is that really the best way to do that? Why not two workqueues? =
+=20
+>>=20
+>> Most drivers making use of this re-use the same workqueue for multiple G=
+PU
+>> scheduler instances in firmware scheduling mode (i.e. 1:1 relationship b=
+etween
+>> scheduler and entity). This is equivalent to the JobQ use-case.
+>>=20
+>> Note that we will have one JobQ instance per userspace queue, so sharing=
+ the
+>> workqueue between JobQ instances can make sense.
+>
+> Definitely, but I think that's orthogonal to allowing this common
+> workqueue to be used for work items that don't comply with the
+> dma-fence signalling rules, isn't it?
 
-Hi Tvrtko,
+Yes and no. If we allow passing around shared WQs without a corresponding t=
+ype
+abstraction we open the door for drivers to abuse it the schedule their own
+work.
 
-what about this build error? Seems to be an Xe branch conflict?
+I.e. sharing a workqueue between JobQs is fine, but we have to ensure they =
+can't
+be used for anything else.
 
-
-BTW, I think Danilo and I told you a few times already that we would
-like to get the whole patch series into our inboxes. You seem to
-exclude patches for other components, but it's important for me to see
-all the other driver maintainers' RBs etc. there and be easily able to
-ping those who haven't reacted yet and so on. Also quickly coyping an
-mbox to test-apply something etc. etc. is easier
-
-I guess you want to spare people from noisy mail traffic, but getting
-31 patches is not a problem, those who don't care can simple ignore
-them or collapse the thread in their mail program and so on.
-
-
-Thanks
-P.
-
-
->=20
-> url:=C2=A0=C2=A0=C2=A0 https://github.com/intel-lab-lkp/linux/commits/Tvr=
-tko-Ursulin/drm-amdgpu-Reject-impossible-entities-early/20260128-191117
-> base:=C2=A0=C2=A0 https://gitlab.freedesktop.org/drm/misc/kernel.git=C2=
-=A0drm-misc-next
-> patch link:=C2=A0=C2=A0=C2=A0 https://lore.kernel.org/r/20260128110806.38=
-350-7-tvrtko.ursulin%40igalia.com
-> patch subject: [PATCH v6 06/31] drm/sched: Add some scheduling quality un=
-it tests
-> config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260=
-129/202601292335.YI2PBzhs-lkp@intel.com/config)
-> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project=C2=
-=A07cbf1a2591520c2491aa35339f227775f4d3adf6)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260129/202601292335.YI2PBzhs-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes: https://lore.kernel.org/oe-kbuild-all/202601292335.YI2PBzhs-lkp=
-@intel.com/
->=20
-> All errors (new ones prefixed by >>):
->=20
-> > > drivers/gpu/drm/scheduler/tests/tests_scheduler.c:676:10: error: init=
-ializer element is not a compile-time constant
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_scheduler_two_clien=
-ts_attr),
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-> =C2=A0=C2=A0 include/kunit/test.h:224:13: note: expanded from macro 'KUNI=
-T_CASE_PARAM_ATTR'
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .attr =3D attributes, .mod=
-ule_name =3D KBUILD_MODNAME}
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~
-> =C2=A0=C2=A0 1 error generated.
->=20
->=20
-> vim +676 drivers/gpu/drm/scheduler/tests/tests_scheduler.c
->=20
-> =C2=A0=C2=A0 672=09
-> =C2=A0=C2=A0 673	static struct kunit_case drm_sched_scheduler_two_clients=
-_tests[] =3D {
-> =C2=A0=C2=A0 674		KUNIT_CASE_PARAM_ATTR(drm_sched_scheduler_two_clients_t=
-est,
-> =C2=A0=C2=A0 675				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_scheduler_tw=
-o_clients_gen_params,
-> =C2=A0> 676				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_scheduler_two_cli=
-ents_attr),
-> =C2=A0=C2=A0 677		{}
-> =C2=A0=C2=A0 678	};
-> =C2=A0=C2=A0 679=09
->=20
+>> Besides that, IIRC Xe was re-using the workqueue for something else, but=
+ that
+>> doesn't seem to be the case anymore. I can only find [1], which more see=
+ms like
+>> some custom GPU scheduler extention [2] to me...
+>
+> Yep, I think it can be the problematic case. It doesn't mean we can't
+> schedule work items that don't signal fences, but I think it'd be
+> simpler if we were forcing those to follow the same rules (no blocking
+> alloc, no locks taken that are also taken in other paths were blocking
+> allocs happen, etc) regardless of this wq->max_active value.
+>
+>>=20
+>> [1] https://elixir.bootlin.com/linux/v6.18.6/source/drivers/gpu/drm/xe/x=
+e_gpu_scheduler.c#L40
+>> [2] https://elixir.bootlin.com/linux/v6.18.6/source/drivers/gpu/drm/xe/x=
+e_gpu_scheduler_types.h#L28
 
