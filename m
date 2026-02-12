@@ -2,85 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EJzJOfadjWmD5QAAu9opvQ
+	id ODC7J2GfjWnv5QAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 10:31:34 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 10:37:37 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 580CD12BE1A
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 10:31:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B0FE12BE8E
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 10:37:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BD5B10E708;
-	Thu, 12 Feb 2026 09:31:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E13C310E18B;
+	Thu, 12 Feb 2026 09:37:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="mz9Xf/wg";
+	dkim=pass (1024-bit key; unprotected) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="N4zxHgoe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D094910E708
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 09:31:31 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-4375d4fb4d4so2143862f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 01:31:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1770888690; x=1771493490; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=H+h2ppSdNyLaJK9OBV16J7qsFGIf3feFvw9XiLauzh8=;
- b=mz9Xf/wghBn2eTO3WDM6U187ilqHc+XY/2YkGrLWcMyzig60x8NRg6a85Ygj7ixl5v
- 3wzaqvvqvZKY5JNEJgCIZqNV+ZrPgoPBQcAdqjOGgSmHsBmvGE6IcRTVwdvCQqeY2PLz
- 7i7Q4+mPDeLpLmgmHPVZpWPQYCzprUbo/fTxttZjvsnTQKXKtNJQIuDJKtLb5sPBrw6K
- HMo1tWY5RPNJAZLvZsMpy/+W15gz6DV4JR0ec2dFhvMBbHhftKgC2z4LZ0k6LMwoaOLu
- 5I7x2pt+COpCdxsbsX2tROYTCvrDUlxWqffULeRnT5du3aJj+VRCYG+MVrai2zC8NcuE
- PFPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770888690; x=1771493490;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=H+h2ppSdNyLaJK9OBV16J7qsFGIf3feFvw9XiLauzh8=;
- b=P/gpecrfB2QraMDFrg61Qt4pqGMzz4JtX+8qQve933heC/XWlfaeCvnwEU0dWIA/Xd
- VX0KRmCqMDxIuGIBhtRYzjy19HHHqGRwzsNsBP7pxePKVe79J6LL98kS5R99Tum6net3
- x+g5AkFPk+OdCylYGff+Fu3ch39+w9TpagCqkNzi2E/AGei+miI220P3/dtltrPmYCh0
- g+OnZfPXUXAN9/hOENSpFOqkszKkrrREN4FmLAsA1vKi+CdlKU76Eiz3KZ1bV/80iJWC
- YwHEfFM+r6Gsc+WqVWysRfp1BlN2xIxkfYbY7fIgdcfkDyUn6fzdGu7fJVLuVmkKryyU
- p6+g==
-X-Gm-Message-State: AOJu0YxEfWqzOrlzPNciUPwQ3RiIKoHvBx3s6j+uGChoJBjZt/5wu40s
- ctH1p1E/7n2CkOKR8So5XKxaS/qyM32ECWFZbhTe8kQEy9Qazmr/f+krrfaaFMDuGJs=
-X-Gm-Gg: AZuq6aJ6jaYZT16kHyMJovEWJJLt6H2WL/U/7+66HTBOXjFrju/4zQB/qPhYnBaNKOn
- 4QigQNQxeYXDgAf9PJpICM3fNA2Fslgvdh3U+8XQ4kYc7xXnxVtZ2cP3cG4OhYUjjtw9G78yzXI
- FVeW5sksB7DTnDdMbvtG00Ev7mx+Q3xGwUEUQOfE9/JR4NEDBlMNRnsw31bNGQID3d943l6oySS
- uPxG/UtE448DWYiA18427dIwJvmgjbM1PipnOCMpkRm4/8MjBsBc+zsmOPHdXqtRGz7p5mWF8Ve
- hCfz7AdwETttMkHtBgyKpa1HwYRs+ovCHKKBzHzrhhWVmSHVBM9vA355BaFxuTaK6NKtZcsRgoQ
- HlqR7H/p5oJ2sj9+MlD3+C/JWZNMPCSijzU0GkzCX4Ch1t7ybky7wDpmMJOLvhMheiMcLuDktqs
- 5vZngTp+L/gkDxXpBHyJcD7WIgTXxl6tEki26V7R7Mfa/r
-X-Received: by 2002:a05:6000:61e:b0:42f:b9c6:c894 with SMTP id
- ffacd0b85a97d-4378f16e494mr2696731f8f.52.1770888690240; 
- Thu, 12 Feb 2026 01:31:30 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-4378e122df9sm3820329f8f.15.2026.02.12.01.31.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Feb 2026 01:31:29 -0800 (PST)
-Message-ID: <a6e8fd22-ec2d-4994-a54d-bae07dd99a49@ursulin.net>
-Date: Thu, 12 Feb 2026 09:31:28 +0000
+Received: from forward103d.mail.yandex.net (forward103d.mail.yandex.net
+ [178.154.239.214])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 025CE10E18B
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 09:37:31 +0000 (UTC)
+Received: from mail-nwsmtp-smtp-production-main-77.iva.yp-c.yandex.net
+ (mail-nwsmtp-smtp-production-main-77.iva.yp-c.yandex.net
+ [IPv6:2a02:6b8:c0c:9407:0:640:8fbc:0])
+ by forward103d.mail.yandex.net (Yandex) with ESMTPS id 5F61EC46DC;
+ Thu, 12 Feb 2026 12:37:29 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-77.iva.yp-c.yandex.net
+ (smtp/Yandex) with ESMTPSA id PbQlX87GCeA0-UERPmDVy; 
+ Thu, 12 Feb 2026 12:37:28 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
+ s=mail; t=1770889048;
+ bh=w39PK5ahU618vaBalKGUKLougqCsZIXwtjYe/AMNTAM=;
+ h=Cc:Message-ID:Subject:Date:References:To:From:In-Reply-To;
+ b=N4zxHgoeaeqHqcYQMR8aTQDWvxzWtgEGyYU3WKWdDG1VRRQo6rVEA2ASMgZ5uUABV
+ vgreM03UbtoR20G4uCQ/zo5zn7/YcxQMr/KuTwG909YdXHKDA6QgH5uKyVnB9unM9+
+ RuKqiJ11ynx0aG0E1nthm9DYLqSLAxR/JXAKaUYo=
+Authentication-Results: mail-nwsmtp-smtp-production-main-77.iva.yp-c.yandex.net;
+ dkim=pass header.i=@onurozkan.dev
+Date: Thu, 12 Feb 2026 12:37:23 +0300
+From: Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>
+To: Charalampos Mitrodimas <charmitro@posteo.net>
+Cc: daniel.almeida@collabora.com, aliceryhl@google.com, dakr@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
+ ojeda@kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v1] drm/tyr: make SRAM supply optional like panthor
+Message-ID: <20260212123723.0d028472@nimda>
+In-Reply-To: <87bjhu67kr.fsf@posteo.net>
+References: <20260211195406.289634-1-work@onurozkan.dev>
+ <87bjhu67kr.fsf@posteo.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/8] dma-buf: protected fence ops by RCU v5
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- phasta@mailbox.org, matthew.brost@intel.com, sumit.semwal@linaro.org
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20260210102232.1642-1-christian.koenig@amd.com>
- <20260210102232.1642-2-christian.koenig@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20260210102232.1642-2-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,302 +70,206 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[onurozkan.dev,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[onurozkan.dev:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[ursulin.net:s=google];
 	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com,mailbox.org,intel.com,linaro.org];
-	FORGED_RECIPIENTS(0.00)[m:ckoenig.leichtzumerken@gmail.com,m:phasta@mailbox.org,m:matthew.brost@intel.com,m:sumit.semwal@linaro.org,m:linaro-mm-sig@lists.linaro.org,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:charmitro@posteo.net,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:lgirdwood@gmail.com,m:broonie@kernel.org,m:ojeda@kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[ursulin.net];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[work@onurozkan.dev,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tursulin@ursulin.net,dri-devel-bounces@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[onurozkan.dev:+];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[work@onurozkan.dev,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[collabora.com,google.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[ursulin.net:+];
 	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,igalia.com:email,ursulin.net:mid,ursulin.net:dkim,amd.com:email]
-X-Rspamd-Queue-Id: 580CD12BE1A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,zulipchat.com:url,posteo.net:email]
+X-Rspamd-Queue-Id: 0B0FE12BE8E
 X-Rspamd-Action: no action
 
+On Thu, 12 Feb 2026 02:04:23 +0000
+Charalampos Mitrodimas <charmitro@posteo.net> wrote:
 
-On 10/02/2026 10:01, Christian König wrote:
-> At first glance it is counter intuitive to protect a constant function
-> pointer table by RCU, but this allows modules providing the function
-> table to unload by waiting for an RCU grace period.
-> 
-> v2: make one the now duplicated lockdep warnings a comment instead.
-> v3: Add more documentation to ->wait and ->release callback.
-> v4: fix typo in documentation
-> v5: rebased on drm-tip
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/dma-buf/dma-fence.c | 69 +++++++++++++++++++++++++------------
->   include/linux/dma-fence.h   | 29 ++++++++++++++--
->   2 files changed, 73 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index e05beae6e407..de9bf18be3d4 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -522,6 +522,7 @@ EXPORT_SYMBOL(dma_fence_signal);
->   signed long
->   dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
->   {
-> +	const struct dma_fence_ops *ops;
->   	signed long ret;
->   
->   	if (WARN_ON(timeout < 0))
-> @@ -533,15 +534,21 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
->   
->   	dma_fence_enable_sw_signaling(fence);
->   
-> -	if (trace_dma_fence_wait_start_enabled()) {
-> -		rcu_read_lock();
-> -		trace_dma_fence_wait_start(fence);
-> +	rcu_read_lock();
-> +	ops = rcu_dereference(fence->ops);
-> +	trace_dma_fence_wait_start(fence);
-> +	if (ops->wait) {
-> +		/*
-> +		 * Implementing the wait ops is deprecated and not supported for
-> +		 * issuer independent fences, so it is ok to use the ops outside
-> +		 * the RCU protected section.
-> +		 */
-> +		rcu_read_unlock();
-> +		ret = ops->wait(fence, intr, timeout);
-> +	} else {
->   		rcu_read_unlock();
-> -	}
-> -	if (fence->ops->wait)
-> -		ret = fence->ops->wait(fence, intr, timeout);
-> -	else
->   		ret = dma_fence_default_wait(fence, intr, timeout);
-> +	}
->   	if (trace_dma_fence_wait_end_enabled()) {
->   		rcu_read_lock();
->   		trace_dma_fence_wait_end(fence);
-> @@ -562,6 +569,7 @@ void dma_fence_release(struct kref *kref)
->   {
->   	struct dma_fence *fence =
->   		container_of(kref, struct dma_fence, refcount);
-> +	const struct dma_fence_ops *ops;
->   
->   	rcu_read_lock();
->   	trace_dma_fence_destroy(fence);
-> @@ -593,12 +601,12 @@ void dma_fence_release(struct kref *kref)
->   		spin_unlock_irqrestore(fence->lock, flags);
->   	}
->   
-> -	rcu_read_unlock();
-> -
-> -	if (fence->ops->release)
-> -		fence->ops->release(fence);
-> +	ops = rcu_dereference(fence->ops);
-> +	if (ops->release)
-> +		ops->release(fence);
->   	else
->   		dma_fence_free(fence);
-> +	rcu_read_unlock();
->   }
->   EXPORT_SYMBOL(dma_fence_release);
->   
-> @@ -617,6 +625,7 @@ EXPORT_SYMBOL(dma_fence_free);
->   
->   static bool __dma_fence_enable_signaling(struct dma_fence *fence)
->   {
-> +	const struct dma_fence_ops *ops;
->   	bool was_set;
->   
->   	lockdep_assert_held(fence->lock);
-> @@ -627,14 +636,18 @@ static bool __dma_fence_enable_signaling(struct dma_fence *fence)
->   	if (dma_fence_test_signaled_flag(fence))
->   		return false;
->   
-> -	if (!was_set && fence->ops->enable_signaling) {
-> +	rcu_read_lock();
-> +	ops = rcu_dereference(fence->ops);
-> +	if (!was_set && ops->enable_signaling) {
->   		trace_dma_fence_enable_signal(fence);
->   
-> -		if (!fence->ops->enable_signaling(fence)) {
-> +		if (!ops->enable_signaling(fence)) {
-> +			rcu_read_unlock();
->   			dma_fence_signal_locked(fence);
->   			return false;
->   		}
->   	}
-> +	rcu_read_unlock();
->   
->   	return true;
->   }
-> @@ -1007,8 +1020,13 @@ EXPORT_SYMBOL(dma_fence_wait_any_timeout);
->    */
->   void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
->   {
-> -	if (fence->ops->set_deadline && !dma_fence_is_signaled(fence))
-> -		fence->ops->set_deadline(fence, deadline);
-> +	const struct dma_fence_ops *ops;
-> +
-> +	rcu_read_lock();
-> +	ops = rcu_dereference(fence->ops);
-> +	if (ops->set_deadline && !dma_fence_is_signaled(fence))
-> +		ops->set_deadline(fence, deadline);
-> +	rcu_read_unlock();
->   }
->   EXPORT_SYMBOL(dma_fence_set_deadline);
->   
-> @@ -1049,7 +1067,12 @@ __dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->   	BUG_ON(!ops || !ops->get_driver_name || !ops->get_timeline_name);
->   
->   	kref_init(&fence->refcount);
-> -	fence->ops = ops;
-> +	/*
-> +	 * At first glance it is counter intuitive to protect a constant
-> +	 * function pointer table by RCU, but this allows modules providing the
-> +	 * function table to unload by waiting for an RCU grace period.
-> +	 */
-> +	RCU_INIT_POINTER(fence->ops, ops);
->   	INIT_LIST_HEAD(&fence->cb_list);
->   	fence->lock = lock;
->   	fence->context = context;
-> @@ -1129,11 +1152,12 @@ EXPORT_SYMBOL(dma_fence_init64);
->    */
->   const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
->   {
-> -	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
-> -			 "RCU protection is required for safe access to returned string");
-> +	const struct dma_fence_ops *ops;
->   
-> +	/* RCU protection is required for safe access to returned string */
-> +	ops = rcu_dereference(fence->ops);
->   	if (!dma_fence_test_signaled_flag(fence))
-> -		return (const char __rcu *)fence->ops->get_driver_name(fence);
-> +		return (const char __rcu *)ops->get_driver_name(fence);
->   	else
->   		return (const char __rcu *)"detached-driver";
->   }
-> @@ -1161,11 +1185,12 @@ EXPORT_SYMBOL(dma_fence_driver_name);
->    */
->   const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
->   {
-> -	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
-> -			 "RCU protection is required for safe access to returned string");
-> +	const struct dma_fence_ops *ops;
->   
-> +	/* RCU protection is required for safe access to returned string */
-> +	ops = rcu_dereference(fence->ops);
->   	if (!dma_fence_test_signaled_flag(fence))
-> -		return (const char __rcu *)fence->ops->get_driver_name(fence);
-> +		return (const char __rcu *)ops->get_driver_name(fence);
->   	else
->   		return (const char __rcu *)"signaled-timeline";
->   }
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 9c4d25289239..6bf4feb0e01f 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -67,7 +67,7 @@ struct seq_file;
->    */
->   struct dma_fence {
->   	spinlock_t *lock;
-> -	const struct dma_fence_ops *ops;
-> +	const struct dma_fence_ops __rcu *ops;
->   	/*
->   	 * We clear the callback list on kref_put so that by the time we
->   	 * release the fence it is unused. No one should be adding to the
-> @@ -220,6 +220,10 @@ struct dma_fence_ops {
->   	 * timed out. Can also return other error values on custom implementations,
->   	 * which should be treated as if the fence is signaled. For example a hardware
->   	 * lockup could be reported like that.
-> +	 *
-> +	 * Implementing this callback prevents the fence from detaching after
-> +	 * signaling and so it is mandatory for the module providing the
-> +	 * dma_fence_ops to stay loaded as long as the dma_fence exists.
->   	 */
->   	signed long (*wait)(struct dma_fence *fence,
->   			    bool intr, signed long timeout);
-> @@ -231,6 +235,13 @@ struct dma_fence_ops {
->   	 * Can be called from irq context.  This callback is optional. If it is
->   	 * NULL, then dma_fence_free() is instead called as the default
->   	 * implementation.
-> +	 *
-> +	 * Implementing this callback prevents the fence from detaching after
-> +	 * signaling and so it is mandatory for the module providing the
-> +	 * dma_fence_ops to stay loaded as long as the dma_fence exists.
-> +	 *
-> +	 * If the callback is implemented the memory backing the dma_fence
-> +	 * object must be freed RCU safe.
->   	 */
->   	void (*release)(struct dma_fence *fence);
->   
-> @@ -454,13 +465,19 @@ dma_fence_test_signaled_flag(struct dma_fence *fence)
->   static inline bool
->   dma_fence_is_signaled_locked(struct dma_fence *fence)
->   {
-> +	const struct dma_fence_ops *ops;
-> +
->   	if (dma_fence_test_signaled_flag(fence))
->   		return true;
->   
-> -	if (fence->ops->signaled && fence->ops->signaled(fence)) {
-> +	rcu_read_lock();
-> +	ops = rcu_dereference(fence->ops);
-> +	if (ops->signaled && ops->signaled(fence)) {
-> +		rcu_read_unlock();
->   		dma_fence_signal_locked(fence);
->   		return true;
->   	}
-> +	rcu_read_unlock();
->   
->   	return false;
->   }
-> @@ -484,13 +501,19 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
->   static inline bool
->   dma_fence_is_signaled(struct dma_fence *fence)
->   {
-> +	const struct dma_fence_ops *ops;
-> +
->   	if (dma_fence_test_signaled_flag(fence))
->   		return true;
->   
-> -	if (fence->ops->signaled && fence->ops->signaled(fence)) {
-> +	rcu_read_lock();
-> +	ops = rcu_dereference(fence->ops);
-> +	if (ops->signaled && ops->signaled(fence)) {
-> +		rcu_read_unlock();
->   		dma_fence_signal(fence);
->   		return true;
->   	}
-> +	rcu_read_unlock();
->   
->   	return false;
->   }
+> Onur =C3=96zkan <work@onurozkan.dev> writes:
+>=20
+> > On rk3588s, `dmesg | grep 'tyr'` logs:
+> >
+> >   tyr fb000000.gpu: supply SRAM not found, using dummy regulator
+> >
+> > This happens because Tyr calls Regulator<Enabled>::get() for SRAM,
+> > which goes through the non-optional regulator_get() path. If the
+> > device tree doesn't provide sram-supply, regulator core falls back
+> > to a dummy regulator and writes that log.
+> >
+> > Panthor handles SRAM as optional and tolerates missing sram-supply.
+> > This patch matches that behavior in Tyr by using optional regulator
+> > lookup and storing SRAM as Option<Regulator<Enabled>> which avoids
+> > dummy-regulator fallback/noise when SRAM is not described inside
+> > the device tree.
+> >
+> > Link:
+> > https://rust-for-linux.zulipchat.com/#narrow/stream/x/topic/x/near/5732=
+10018
+> > Signed-off-by: Onur =C3=96zkan <work@onurozkan.dev> ---
+> >  drivers/gpu/drm/tyr/driver.rs |  5 +++--
+> >  rust/kernel/regulator.rs      | 40
+> > +++++++++++++++++++++++++++++++++++ 2 files changed, 43
+> > insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/tyr/driver.rs
+> > b/drivers/gpu/drm/tyr/driver.rs index 0389c558c036..e0856deb83ec
+> > 100644 --- a/drivers/gpu/drm/tyr/driver.rs
+> > +++ b/drivers/gpu/drm/tyr/driver.rs
+> > @@ -113,7 +113,8 @@ fn probe(
+> >          coregroup_clk.prepare_enable()?;
+> > =20
+> >          let mali_regulator =3D
+> > Regulator::<regulator::Enabled>::get(pdev.as_ref(),
+> > c_str!("mali"))?;
+> > -        let sram_regulator =3D
+> > Regulator::<regulator::Enabled>::get(pdev.as_ref(),
+> > c_str!("sram"))?;
+> > +        let sram_regulator =3D
+> > +
+> > Regulator::<regulator::Enabled>::get_optional(pdev.as_ref(),
+> > c_str!("sram"))?; let request =3D
+> > pdev.io_request_by_index(0).ok_or(ENODEV)?; let iomem =3D
+> > Arc::pin_init(request.iomap_sized::<SZ_2M>(), GFP_KERNEL)?; @@
+> > -201,5 +202,5 @@ struct Clocks { #[pin_data]
+> >  struct Regulators {
+> >      mali: Regulator<regulator::Enabled>,
+> > -    sram: Regulator<regulator::Enabled>,
+> > +    sram: Option<Regulator<regulator::Enabled>>,
+> >  }
+> > diff --git a/rust/kernel/regulator.rs b/rust/kernel/regulator.rs
+> > index 2c44827ad0b7..8d95e5e80051 100644
+> > --- a/rust/kernel/regulator.rs
+> > +++ b/rust/kernel/regulator.rs
+> > @@ -283,6 +283,29 @@ fn get_internal(dev: &Device, name: &CStr) ->
+> > Result<Regulator<T>> { })
+> >      }
+> > =20
+> > +    fn get_optional_internal(dev: &Device, name: &CStr) ->
+> > Result<Option<Regulator<T>>> {
+> > +        // SAFETY: It is safe to call `regulator_get_optional()`,
+> > on a
+> > +        // device pointer received from the C code.
+> > +        let inner =3D from_err_ptr(unsafe {
+> > +            bindings::regulator_get_optional(dev.as_raw(),
+> > name.as_char_ptr())
+> > +        });
+>=20
+> Hello,
+>=20
+> When CONFIG_REGULATOR is disabled, regulator_get_optional() becomes a
+> static inline stub in consumer.h, and bindgen cannot export it as a
+> symbol. The other regulator functions all have C helpers for this but
+> regulator_get_optional() is missing one.
+>=20
+> So it causes a E0425 with CONFIG_REGULATOR not set.
+>=20
+>   error[E0425]: cannot find function `regulator_get_optional` in
+> crate `bindings` --> rust/kernel/regulator.rs:290:23
+>        |
+>    290 |             bindings::regulator_get_optional(dev.as_raw(),
+> name.as_char_ptr()) |                       ^^^^^^^^^^^^^^^^^^^^^^
+> help: a function with a similar name exists: `regulator_get_voltage`
 
-Pending parallel discussion on the comment tweaks, the logic and 
-implementation look good to me:
+Yeah, I missed that.
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>=20
+> > +
+> > +        let inner =3D match inner {
+> > +            Ok(inner) =3D> inner,
+> > +            Err(ENODEV) =3D> return Ok(None),
+> > +            Err(err) =3D> return Err(err),
+> > +        };
+> > +
+> > +        // SAFETY: We can safely trust `inner` to be a pointer to
+> > a valid
+> > +        // regulator if `ERR_PTR` was not returned.
+> > +        let inner =3D unsafe { NonNull::new_unchecked(inner) };
+> > +
+> > +        Ok(Some(Self {
+> > +            inner,
+> > +            _phantom: PhantomData,
+> > +        }))
+> > +    }
+>=20
+> The Regulator struct invariant currently says:
+>=20
+>   /// - `inner` is a non-null wrapper over a pointer to a `struct
+>   ///   regulator` obtained from [`regulator_get()`].
+>=20
+> Since get_optional_internal() creates a Regulator from
+> regulator_get_optional(), should we also update it to mention it?
 
-Regards,
+I think we should, will send v2 and cover both changes.
 
-Tvrtko
+Thanks,
+Onur
+
+>=20
+>=20
+> Cheers,
+> C. Mitrodimas
+>=20
+> > +
+> >      fn enable_internal(&self) -> Result {
+> >          // SAFETY: Safe as per the type invariants of `Regulator`.
+> >          to_result(unsafe {
+> > bindings::regulator_enable(self.inner.as_ptr()) }) @@ -300,6
+> > +323,11 @@ pub fn get(dev: &Device, name: &CStr) -> Result<Self> {
+> > Regulator::get_internal(dev, name) }
+> > =20
+> > +    /// Obtains an optional [`Regulator`] instance from the system.
+> > +    pub fn get_optional(dev: &Device, name: &CStr) ->
+> > Result<Option<Self>> {
+> > +        Regulator::get_optional_internal(dev, name)
+> > +    }
+> > +
+> >      /// Attempts to convert the regulator to an enabled state.
+> >      pub fn try_into_enabled(self) -> Result<Regulator<Enabled>,
+> > Error<Disabled>> { // We will be transferring the ownership of our
+> > `regulator_get()` count to @@ -329,6 +357,18 @@ pub fn get(dev:
+> > &Device, name: &CStr) -> Result<Self> { .map_err(|error|
+> > error.error) }
+> > =20
+> > +    /// Obtains an optional [`Regulator`] instance from the system
+> > and enables it.
+> > +    pub fn get_optional(dev: &Device, name: &CStr) ->
+> > Result<Option<Self>> {
+> > +        match Regulator::<Disabled>::get_optional_internal(dev,
+> > name)? {
+> > +            Some(regulator) =3D> {
+> > +                let enabled_regulator =3D
+> > +                    regulator.try_into_enabled().map_err(|error|
+> > error.error)?;
+> > +                Ok(Some(enabled_regulator))
+> > +            }
+> > +            None =3D> Ok(None),
+> > +        }
+> > +    }
+> > +
+> >      /// Attempts to convert the regulator to a disabled state.
+> >      pub fn try_into_disabled(self) -> Result<Regulator<Disabled>,
+> > Error<Enabled>> { // We will be transferring the ownership of our
+> > `regulator_get()` count
 
