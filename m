@@ -2,220 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MKTnLxF9jWng3AAAu9opvQ
+	id KCDxDHKDjWlb3gAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 08:11:13 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 08:38:26 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 150AA12AE0D
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 08:11:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3022012AF9D
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 08:38:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 959E310E111;
-	Thu, 12 Feb 2026 07:11:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BCBC10E6DF;
+	Thu, 12 Feb 2026 07:38:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="upb/xr0T";
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="N7J4rTuW";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="kV/xmHcb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A854810E11D
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 07:11:06 +0000 (UTC)
-X-UUID: fc8a65be07e111f1b7fc4fdb8733b2bc-20260212
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=R7XpoRzWUqZ+I0cHssqzM3huSNvgAiy0HoyHl8gAEEc=; 
- b=upb/xr0TIJKbC181BPGz6z2lSvCP6qOxtaS0Xj6C2caSTtCGtBN7nYAW0CFAsoABMoFHIE4CH5apG5qnbR3U/RSm3SmB2bA7WV0PuT0r5jGi9seeWfDFkEXIGUvr3uD9hW7BOQLwIGGn7A6q1svEvHSdcLPZglVOngaS0vBpfGs=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.11, REQID:8779eb1c-bee2-4712-8dd9-c799d409803a, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:89c9d04, CLOUDID:c5a49df0-16bd-4243-b4ca-b08ca08ab1d8,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|888|898,
- TC:-5,Content:0|15|50,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BE
- C:-1,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: fc8a65be07e111f1b7fc4fdb8733b2bc-20260212
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1141863876; Thu, 12 Feb 2026 15:11:01 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Thu, 12 Feb 2026 15:10:59 +0800
-Received: from SG2PR04CU010.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server id
- 15.2.2562.29 via Frontend Transport; Thu, 12 Feb 2026 15:10:59 +0800
+Received: from CH5PR02CU005.outbound.protection.outlook.com
+ (mail-northcentralusazon11012004.outbound.protection.outlook.com
+ [40.107.200.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3F8410E6DF;
+ Thu, 12 Feb 2026 07:38:19 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QpnCTFrflSa94Gt6V4TaUUKYHIfy3gnBI4/6FDUoso+Z5Y3ktrAEMLlLcnfMmNVbXDS7yMOMO9FuRWZL6YVwC4K//Jh6UN+4lT+1/qNa6B/xP7bYrFmZFcyht2nKiWg6MDzLw2+Y9ZfaJQPlRf5kJP55R6l4iFYjSGHMDocXneLHCWKi9L2/qWSfMD96U9oGsAP8nXpErJRFFFNJ75UF9PS/+hyRP4wKA1AI9QOXco7telt/GSioCxaZfT91BpkiugGiXkdFqUFnoXwhXO+bEkt2+SAvFjI7vs55+5BArNk702QdUl3t4Gn3tFr3HqCHUib5ZufJcrWZHcFu6vuOeQ==
+ b=Ui+OtM5vqPghGvYy8YDFVoayYHluLctUdMLGeSoF0+agpcZZdq78xcX/S5YeScC/QNJkBOYlkm5cZ/LrYb4YEjT2Cwf1z5TqS2WfADmCl0L5Jj6ulWDSxRrS30VOD5nCrKdI+mzFA3k6FzOr9fIqHSIAG854YQ70NVvtvcsOXLpzqOAvq5f3woW/BXCkxIN17cVBzwnd/9Ozhp3cUvC3BVoDf/8eM1ySSa6C39aUURWxN3Ygo1MAVmJqpgvouVh0Cukm0YEIasck4bo4aN6+SMZUx9MC6jiMWIURs1M0gaJau6j3uNq3tNGLMscTM9LGXqxr67T7FKBdw0l8ytPd9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wc53uzVNRevN40zZOq/2ehs/C9Ues93p07JgxrD/3O0=;
- b=FOz3MGyS5HoaJvsaAouIAe9SUm0YLqC0oe+Ks6t+qJeFKyYivRdqGB5xUGBorP8KVYx+999/3ysyCv4Eoz45fatuRn/fv6O21KhvEtt4xN20EJgtmt+HeMRCpbScEQ3N6HJSDUj2PdJq9An4U+W8LMjEW5I/YZ21kdFtyg4+SFkNNqinkmLHPy5Vp7sDlywc1M9RKDz58uJm4lgG0UCFqHBCSDkAtdqZRHB2UWu7mt8szSsTumdRpjg3QQwkb00gLu0WhoaqxfTb/AASCX562WwVqxldQFEnVeBZSTUTgItLECsXHZLoXJ9aUvl12ekgf3W/Ahk+or62D9sq+YTINA==
+ bh=g8mtqKAz/NrfPvlZGDGOT9HA+3oaQURyR3KFqE46XGU=;
+ b=mLzqWflGUIiRN3HnXiGX2yUhKlk6K4z3oo0lIKSRQxfZ/lhKHusbT5BIyg5Dj3+fqe+bwniX9BbrcVXLjlw92qiqfP4PVONjFYVNiffuLUgfDEPWFDp9Mohj33vd/TdcQI74LLrW1/9IAhPr8mF8iFgDDOwBAwrAK0d9K/CeDrwQJN19KpDEARfoV+XLrxd/m1U8dS4D37lpFfNyztsFgYCBfBtEj7oKEP+lYTzABK2A/063FWjQHFj2jiSJox//Y4CTEhE8dQCo6Bjf2TESKLnALADJyVnHNzSInSsmSrdcyROAfBxWPeWrgLOghrLUYLHdw6jvUVAU4sKsZxL9Ww==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wc53uzVNRevN40zZOq/2ehs/C9Ues93p07JgxrD/3O0=;
- b=N7J4rTuWZbazDlqpaeLSQPjzdOM2ndbNI81AxKShuItR/ftuhkT5et+NeP8nGrNYwXVz3SBKK42LhoHri1/3AkllDunM2sc38o8HeXKL6YFqIAAhsIOR6FuZFwzM4NOyqqYYxge4hfY8iNzOy8qHvEM6y/ncPCUwmxf7O5jEprw=
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
- by SEZPR03MB7566.apcprd03.prod.outlook.com (2603:1096:101:128::10)
+ bh=g8mtqKAz/NrfPvlZGDGOT9HA+3oaQURyR3KFqE46XGU=;
+ b=kV/xmHcb8+QIFkkf4XeEvF4LzvrrK5yjaPVeFZikxhNoIi1xgSVyU6MMXRfA0qoUuDXeLSuMGEixA4jEzfd6tPAS1uM04PRPzP+hIkKGjfPnIwDcKXxZHbk000qyIF7VEP3NvU6akHeUN3ZLQpabSrO0LjWyPxv7WV2G2JshWF4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH8PR12MB7301.namprd12.prod.outlook.com (2603:10b6:510:222::12)
+ by CH3PR12MB8657.namprd12.prod.outlook.com (2603:10b6:610:172::6)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.19; Thu, 12 Feb
- 2026 07:10:56 +0000
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::a3c2:b94a:70f:e640]) by TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::a3c2:b94a:70f:e640%5]) with mapi id 15.20.9611.008; Thu, 12 Feb 2026
- 07:10:56 +0000
-From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-To: "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>, "simona@ffwll.ch"
- <simona@ffwll.ch>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, "airlied@gmail.com"
- <airlied@gmail.com>, "greenjustin@chromium.org" <greenjustin@chromium.org>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "matthias.bgg@gmail.com"
- <matthias.bgg@gmail.com>, Nicolas Prado <nfraprado@collabora.com>
-CC: Ariel D'Alessandro <ariel.dalessandro@collabora.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, Daniel Stone <daniels@collabora.com>, 
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "kernel@collabora.com" <kernel@collabora.com>
-Subject: Re: [PATCH RFC 3/6] drm/mediatek: ovl: Fix misaligned layer source
- size on AFBC mode
-Thread-Topic: [PATCH RFC 3/6] drm/mediatek: ovl: Fix misaligned layer source
- size on AFBC mode
-Thread-Index: AQHceZU/SlrIiCW2Fky/SXbbIg72WbVwbskAgARFBwCACd4qAIAAWFCA
-Date: Thu, 12 Feb 2026 07:10:56 +0000
-Message-ID: <1477ea561b7f6be8ef9b9b371878e030ac91baca.camel@mediatek.com>
-References: <20251230-mtk-afbc-fixes-v1-0-6c0247b66e32@collabora.com>
- <20251230-mtk-afbc-fixes-v1-3-6c0247b66e32@collabora.com>
- <3716cf4707924e97c097cfefa11c7feb09a1ee16.camel@mediatek.com>
- <1394a4b34db511c921b2709a58dfaf28c1cce45c.camel@collabora.com>
- <9f458655385bf7d0ba57d9a048075aec1df7fb6e.camel@mediatek.com>
-In-Reply-To: <9f458655385bf7d0ba57d9a048075aec1df7fb6e.camel@mediatek.com>
-Accept-Language: zh-TW, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.52.3-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|SEZPR03MB7566:EE_
-x-ms-office365-filtering-correlation-id: c7dee58d-d38f-4fe7-9873-08de6a05ddc4
-x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|1800799024|376014|7416014|42112799006|366016|38070700021; 
-x-microsoft-antispam-message-info: =?utf-8?B?UjdlN29qcUxPejRJdmtFZGZ1NkVyT0gveUdrQXRWVEw4RmlhbmxIWmF0ZGxi?=
- =?utf-8?B?MU9tMjZFQTk4TzZDYW5lVEc4M0M1bndXQXVDbjU1ZnN4NnF3MWxXckdPaXpi?=
- =?utf-8?B?RkE4azhYcW1WUDJIS3JUYVpyYWlFMnhYWmRKLzNrdzFFQngxdjNyd0RFZ2pX?=
- =?utf-8?B?SXhnc3NZQm51T25PTDNROTFmNVcxTUJIWm9QWityaWxxZGRlQ2RuVms2WTNZ?=
- =?utf-8?B?NzkyMzZER1NwblVUZGE0ZTRObWRoU1lMQ3UrNUdmUGt2aGxtenU3RFFnSE90?=
- =?utf-8?B?K1k0RVkyODZqbWlrWnVjS0xZdTdSMDl3Qk82WXJFRkI1UUdHUStTVHgwRGl0?=
- =?utf-8?B?QWxvU3ZWMndpeFVHTWVGLzFsd3Y5TE5idndmSmlqVkR4K09VdFdoeW5ZYndy?=
- =?utf-8?B?VmVvU1l5K2kyOTE0bjNkVzhOVFVvb3BXbVRrdGJZUEVmQmlndUZGR2JCL3dx?=
- =?utf-8?B?VHNvQzdoT3pIU3NtcjlkK0hRU0xDcnYwUm1pZXFxN2hqZVNZZFdYNXZkanBL?=
- =?utf-8?B?UGZkelZNZzZqNmxIeFB4YkxmYTZSRE5QeHg0NjNHOURtTFZ6V29McHBjY3Fn?=
- =?utf-8?B?Q0tSamdsUjdKMldKSGMra3pHOUR2eXdpMFlIajJ5WkRONTZlNlJ4RnFpaVN3?=
- =?utf-8?B?eGhpV3EvYVJUYlZEdE11ckJTYUpYdC9pSGh6K3VoencvS0NGbHFnSWF1enl0?=
- =?utf-8?B?VXVmVmZPdVV0UmdxWEpmVmZuMHlYSG5vZ2YxWW41aUJVSlpFYWRaN3RvOGdq?=
- =?utf-8?B?NXBvSTkrZExaUThUSE9td0NPZ3F2cWV1YTRHOVRnZEIvMEhZVjhBU3lVVXBL?=
- =?utf-8?B?TUF0RDU5TDFnRk1qL2pOWGVGRUQzR2NoZzdUNXorV2d4UjFvaE9RbTVGNGEv?=
- =?utf-8?B?eVVCeld5V2o1ZWZYWExFTExoUXdUYWxJZ0I5cS9XTTRLNzcxaDJuQ0dyKzVW?=
- =?utf-8?B?NU1yVEtFeFpVVDdWRWN3TVpWcVJPQW9UL2xyZ29WWjFkaXRnTVEyV1kzVEhy?=
- =?utf-8?B?S0RPdTMzMGxjY0JmQjJFRE5qTFJvb2lHdlhsZFd6V3llK2l3MmNKakVieGNX?=
- =?utf-8?B?YVFjWVhsNE5pKzhjdnpyVGxOT0lRTXkyalZpNmlPS2YrSlh2KzFJU0o0SHJH?=
- =?utf-8?B?ZUZQL21CdVp3RkdIVjlSVkNIc1YzVHR0M05iWUZqZk0wM2tHSnN4MXRLM0dJ?=
- =?utf-8?B?dDl2akd6emd1ZktKMDhLWlg3RklsUmdvdjVna2FMbEJ0cE95bWNSTlRLeWRp?=
- =?utf-8?B?YTYyMjVkUyt2VXd3STErUlhvMXJjR0N3dktvcVp3b0hJNHhEVjVWU252ZGRl?=
- =?utf-8?B?ZUZrWTJDeHA5OGRaTUI1N0pRNzg5aDg2WGh1d3AyM2thYndRY0MvSHViYXF4?=
- =?utf-8?B?dGU4azJVdVJ4MmpiVHd4VFZnRkpZdWp4TjJzY3ZkT3BSWVMxb3NaeEtrZWEv?=
- =?utf-8?B?VDV4aXAxS0xzWkNlRFpiaG9iREZoODRMNjhMWXZpQmE2TjBaWENXNms0d01v?=
- =?utf-8?B?R0N3cndoaFZETE1aTWc2L1B5T292eHFCRUJ6TnVyMy9SVnlRNFIwaXVFZnFl?=
- =?utf-8?B?RGNuK3RaSE0zNHZKSnIrUWJ6aTd5THYxK1l3U1hadm9ROEpFMGlrK1ZOc1g3?=
- =?utf-8?B?Tm5sUDNGSWc1bEgwSzA5RTNRNVVYMVVKZ2pXSWFyUTZkeXNPVkQ0L2RYNnFN?=
- =?utf-8?B?ZzBqUGRYaHR2TTNTRHVBb2I4MmFOMmVudUt1aCswYXIwMDFPWnY2N2ZoTm9I?=
- =?utf-8?B?ai9GYkFzK2tXQzNEdGFyVTlqd0prYnhoa0I2T01nRkQ1Rkx2b0F2Y3FEbm11?=
- =?utf-8?B?ZmxoeUwzK3J2SmgraFhWUkp2RUxEM3V3RUdZQ2VseERGblNSampoeDgxZ2R2?=
- =?utf-8?B?OG1ZQXNvejRjcnFBMG4zY1pjazdnTTdqQitvd3FUS2VXSGtjZXFQek95dzBt?=
- =?utf-8?B?bWFOQzNnT2VOenVmL2F1TGc2ZWpqRGdNWC83Y0ZiSnBKVzM2NEtmWUppSW5P?=
- =?utf-8?B?MktIK3NNL3dRd28zUlU1ZFhxbG5ZYUpyNjlYRGhVYUxnZE5Ialo4U3M3ekw4?=
- =?utf-8?B?ckk2WVBjcFBxWWRhSTkzMGFMci9ISlc3ZmJsWUJZYUhOZFppWE95amE4NE9I?=
- =?utf-8?B?ajIzWER6TzZMZG1OUUxYSW9PUHhqL3o1TEc4c3EzZ3plTGczNXQyZmh0aE9N?=
- =?utf-8?Q?gDh6lE3lotD9aHOajyEC4+o=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(7416014)(42112799006)(366016)(38070700021);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZVBaNmM3SFpLdkR2Zkh4V3drM0dnaWYzQ1lBS3pZck51cDh6V2V1Slg4UkNu?=
- =?utf-8?B?ci82NS8rb0UyTDlVV0FsSGtieFdkZ1ZWTWJBSHJmVjBaUFRmemtoNmJKQXVk?=
- =?utf-8?B?b0tleU15QlpsY1o2YWtNdmJWZDFJZDFQbEpFcnVWNXc4QXpKN1NBRlk5eG5T?=
- =?utf-8?B?TTRUVzNlYnNnWE1CcHVBUzNBckU2U2lmWWx6dHdTazdJMFNKQ1NFK0xWRWpF?=
- =?utf-8?B?bWFtNFd1ajVOTFpOeHhxSWgyTm9KOXpwUmttYVhqNFZ5RDBWV3NmREhLdk5D?=
- =?utf-8?B?WGFRSUVJMEhrc0RrQkx1aHZkMHRSZGJzalZQeTY4NWtXa3VkV1lnNFdrQ25J?=
- =?utf-8?B?eldSa0xwaEJVZEd0Yk1wNnkwZ2ZTSHRna1BiNStHdzg0aEVYTTFxNWhRL1Rv?=
- =?utf-8?B?WWJqVVFCTytWV0pCVkRyeWxLazRIbElnZ3JDek5LR0pNRmZWTGVxUTVsc2k0?=
- =?utf-8?B?Sk1BK3JyOFl1dDJWK3E1MmU2dWJ4TUwyU0xvMnBUWlMrMmhzRnBocmRVU0Ra?=
- =?utf-8?B?UEt0akM0U0JoSXpZMzdmZVIxRUdONFZucFEva09LU1JvK3JpMjd3cStldFdV?=
- =?utf-8?B?dlBlaG5tdlJzcnRxVVQ0ODBSalJ3T1JlNXBvNWRveFd2NDJaSXBubWRPcEdm?=
- =?utf-8?B?VFErVXAreDVTZmhrWHc1aWpCUEtkeUlFS3ZsQmYwcVdYT2Noem1uckJrOHYv?=
- =?utf-8?B?TUtiS3h2T1Ztd1RsRDFXMFhBdytrSWVQN2lEMnpxSXF6cytMMlIwd0V2VURt?=
- =?utf-8?B?ZUs1RUZHUmtwWGJPUXBFd0FzQVllUjU0OG11MWg3TWhwenR0eDFCdDdlTitr?=
- =?utf-8?B?clplKy9VYU1RbGMwQXVOdVRVRUxoclZrd2NkczN6ZGJpVmxzci9KanZCY1dZ?=
- =?utf-8?B?UllkZkZaMitLQ3M4bXg0SEdPd0JPZFBBVi9oQ3JvckxuMzBEL3c4U0ozRE8y?=
- =?utf-8?B?UmlYelk1Ymg5d09XYnZQeGk4eDVVcEFsVHdNanlReVJZQmlpMS9pR1Q4MzNF?=
- =?utf-8?B?Y1RHM094d0gxVmZxZGx6Zy93QnZZTlcwTTdlNkdmUnBkM3Vsc3pWOE14ZzU4?=
- =?utf-8?B?ZlEyK0RENUZkY29EWnZLVld3N2lGMnZzaWZCMCtNNXRRNUlVQ2MzaWI2anZi?=
- =?utf-8?B?SURVempOVXIyMWJSTVVrelJXR1FmVFVHRTk3Y0JFQmdiK3VLeDBhQXdOaHVI?=
- =?utf-8?B?QW9DQkZ4RlFaNUg3TVVhWVlCRjNkNzFyOU9sSUhQY3Z1SXgxalNOaGpLUUgr?=
- =?utf-8?B?YzVVUldEQnVUYVhHMXlFN3ZoS2NRWnZFcHJUMWM3UEFtVnY2cno5eTh1Ymxl?=
- =?utf-8?B?UDZueHRCcFJxeGlENGtGSDVLdmRKSUZnV3ZBWGgxZ1FaYnpUeVJ3Y3BiY1M3?=
- =?utf-8?B?QVR0SUxka3IvK29KeWhLNm5zTnQvVE5pVnVmQ1ZqcGVUZ3I0NlpUNFV0ci9Y?=
- =?utf-8?B?TVBtUUxWNjBqVytVeURmVlpKOUdNelhuRXZtVGhSeW1pVWpXbCtSMmlQZUJY?=
- =?utf-8?B?YWxWTzQyMXpjd3NJWkpESU9HdCtGM292Q1MxL0ZENk0vZnBtY0sza0R3MzVy?=
- =?utf-8?B?RWNEUVlBRXYzRFUzZmZrV3ZsZlhNMlFnVmRncFVYai9BWUJTTEpZdXJyeFpQ?=
- =?utf-8?B?TmVoM0VTQzF3Njk1UkpjbVl6TUpzbUNhazVVRVJTeWU3TUorVmRJZDRNcnh0?=
- =?utf-8?B?VnFzUVh5MW9zTFpDeityMngwdWhOL0J1TEZuUFJrZ1NCYmRxcEFWM0NnRjJG?=
- =?utf-8?B?VnpoMmFJODFLY3BIOGIvVHNkaDJGTmljcUNLaTNDWVBGMDNhamc2a0NtY2FV?=
- =?utf-8?B?WnhVbFZVN3V3ZmlEaVZsaW9NekR0QXRHbEdZWFV1RW82bU9oazFuN0ppVXBU?=
- =?utf-8?B?MytlODBZazNHVHBwZVZxNTVuT0pKZ0c3NGVUNHdPL1ZVaG5mTmJrbEZrSjc4?=
- =?utf-8?B?WXlvbE1NNlVsZndVcEIyMDB5ZEJxRUNwNXk4MGRUVGJjNEpYZlVoRS84ZFR6?=
- =?utf-8?B?cDJuY2RzTVNFSCs2SEU1Wm9mVkVhbUE2cUpXK2dQY0VZakVtdExXZ3hybHVu?=
- =?utf-8?B?R2p0SktLa29qeHU5cXNWRnhpWlZMV3hGZTFHNzJ0V2FPb1ptUGJBczNQRmh0?=
- =?utf-8?B?U29Ud0xDOHNXa1V1U1ZpRmtTeERNUkpxNzQ5a1lMbjZBU1BVdTlhbC9TTTlZ?=
- =?utf-8?B?OFNGR0VHWnJFdHZiUG9DWDlSTHpHblo2SlkyeTArRlMvbG5yMHMxTGVkblVJ?=
- =?utf-8?B?RC9XMmUvK2VmSURuaW5pRjV2eCtLazNRMGxBSklLVXhKVWVidWdXWGtrbTFC?=
- =?utf-8?B?c3Axc2MvZlF6ckpVdnc3S3hsb3c0eW1VVHF0T2pNT2txdERFNG9DQT09?=
-Content-ID: <66B63B9861096840855F457A812A9D82@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7dee58d-d38f-4fe7-9873-08de6a05ddc4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Feb 2026 07:10:56.0659 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7FD81W/g8rrXHV0/qqmiNPbC9NSKaYzdu7vZki89LN+ljFxXMq4YVy5+C71XtpmVRgbixSJxo/EwDizRTEZ7Ig==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR03MB7566
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.10; Thu, 12 Feb
+ 2026 07:38:17 +0000
+Received: from PH8PR12MB7301.namprd12.prod.outlook.com
+ ([fe80::8434:dc50:a68d:7bdd]) by PH8PR12MB7301.namprd12.prod.outlook.com
+ ([fe80::8434:dc50:a68d:7bdd%4]) with mapi id 15.20.9611.008; Thu, 12 Feb 2026
+ 07:38:16 +0000
 Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_003_1635750558.265812357"
+ boundary="------------mzIuGTL0pgJokSb989AqzrlX"
+Message-ID: <f1660888-9682-4c74-9241-063750bd63ef@amd.com>
+Date: Thu, 12 Feb 2026 13:08:10 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] drm/buddy: Add kernel-doc for allocator structures
+ and flags
+To: Sanjay Yadav <sanjay.kumar.yadav@intel.com>,
+ dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Matthew Auld <matthew.auld@intel.com>
+References: <20260211053123.260037-4-sanjay.kumar.yadav@intel.com>
+ <20260211053123.260037-5-sanjay.kumar.yadav@intel.com>
+Content-Language: en-US
+From: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
+In-Reply-To: <20260211053123.260037-5-sanjay.kumar.yadav@intel.com>
+X-ClientProxiedBy: PN3PR01CA0070.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:99::22) To PH8PR12MB7301.namprd12.prod.outlook.com
+ (2603:10b6:510:222::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7301:EE_|CH3PR12MB8657:EE_
+X-MS-Office365-Filtering-Correlation-Id: 77bd29b5-12ff-4872-a358-08de6a09af40
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|366016|1800799024|7053199007|8096899003; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UW8yeVBGbUxiR0hTUTVnZ1g0RDcvS2UxL25RcERjMXFCbk00OXN2NTVmYm0v?=
+ =?utf-8?B?TWx0S0pVUU9EMDRzNkFHSWxjMFZtem1pTVFpWXRGNGZRRUQrb01MKzRGU1dp?=
+ =?utf-8?B?S0NlTmo4ZVBHSytuM05JSDRPZnBwdkFKdVY4TFQ2bUZFOEtmR3FHaWplY09r?=
+ =?utf-8?B?VGl1aDRON0hRS0lXRHo4TDF3NHBHV2V4L1dhaWxNUDBMNGZ5cHJpdXZEaFVn?=
+ =?utf-8?B?aXh5SGlUQ0Z0RE5LMk04eUdrekVxbGthbHFmcTRlazJCcWNZMDMvUGYzVWtw?=
+ =?utf-8?B?QVo0YkNqSTZHTHpGanlTb0JJQWk1dHNRbVgrSWpGd3poRmdJL3prMGt0ZXVs?=
+ =?utf-8?B?R2R4SFhMNk8xaGdYbnJERlovWkpIRWlGN2U5eSsvVHcxeW5BQ2NaVzJNeEtI?=
+ =?utf-8?B?TTU1NzFIdHkwV3U3UDNMTjYvL1NSTGpJb1BLdGkyS3FEOFJBVkdUSElFc2I3?=
+ =?utf-8?B?MHdyMm95YVNJUm0wWmFBWWhMaDlwTkJEK0tFcnpMQmkvK3Y5TlZmd05CTVlO?=
+ =?utf-8?B?a05HT3drUW9sMUhmeWR2RFpiV2M2anE2b0E1RFNaZWRuRW43VldTWVBsM3Zl?=
+ =?utf-8?B?REdNZ1B0K1NJbnZEZW15SUxPQklCTktES09tQlVFeVE2c1A0MTdXajc5UWww?=
+ =?utf-8?B?ZWc3QzJUMWFHdjF6SVBZSkd0OEJmWXd4TVdQSWlXSHNCVlorbWl4ZTBUWHYz?=
+ =?utf-8?B?Q3M5cG5pSXRydFBIWXBpMUozYXdiWnUybTBONS9yV3lUNlpBb3lCRFRyZldO?=
+ =?utf-8?B?VWZOREh0MzVmVFUxUjFOMVJ2SHBvZlZrUE5CQzN3Z1UrRkpVMU9GQ1FyazZx?=
+ =?utf-8?B?NnY0czRMSDAwS1hZVFdYa1RNTnRBckFaZmZZdkYwbE1LL1lWaVIzc21qTWxO?=
+ =?utf-8?B?WlhxR25wVUVXYzR5Q2tTaGdSa1FlSThveENtSlUzakhLMDczZDFFdk9OQkFV?=
+ =?utf-8?B?c28xMXVNcmQ4TFVOTTFrR01VNnMzb3l4VmZxKzZGQTdHMFRtdVlnMVhTbkpH?=
+ =?utf-8?B?Z1VmYlE2c3hrcjIzbjJxOGc4eDhlbEhVRGhBV0xBTzVsQ21nT2xwQnZodmZC?=
+ =?utf-8?B?WXU2VlZUQTRyUlpOa2NWbU4yZ2dyNXU2dXUxREtMOTV4bXJ2MndvaW5xYXdr?=
+ =?utf-8?B?TFE2S0VkTXRmMGVkb0xDalBpTE9iSzVmUjFBU2NiNDRoUTRrZVUrSEVRZUJw?=
+ =?utf-8?B?VkM2U0dBZFB4cW9XUUVySUJZRmNZWnQxMnZPZ1llOEZaWUsyMDdOenZaWlQ0?=
+ =?utf-8?B?NU9Xdjc0aTNWQmdCVGVpTW5GY3FqblpSYkhhL1pvR1EzUVBIUnl4Uy9DdUdq?=
+ =?utf-8?B?YWhOZjlCZkV0eURkOHpXVHRvZk1QWkt5NFFyV3pnZTU4QXN2Q1htcmVGUCtV?=
+ =?utf-8?B?NUVLb1MvNmtaSnJHMURxcUN5NUF3ZCt6YkR0TXdOaW1MVXJJcWhzcktTZTM3?=
+ =?utf-8?B?eTl2YmNGa2tsRkEyK0I2NHVXWFUxdTdUazBoUGk1eHMzdnEya0pNeWVWeDNP?=
+ =?utf-8?B?SjlPTjF5KzRvS0pFNHNxUGp3aWpBVUN4Y2VLNWFGZ1N5YTQ0R0NBbnRqRDEr?=
+ =?utf-8?B?dUFyTXM1TmpFWHpWYnZpYi93c0hLeSs0ZFd1bUZYcUprRGQybVBMV0tUTUVp?=
+ =?utf-8?B?RmNIUjZ2anlmL3M5anVZbzhQNThYWko4cG0vNzRDVFJJMmludi9rODVFamdH?=
+ =?utf-8?B?eGxkY0orSndVemE2THpLMGRna3FXWGJQWUVacWFzTzJnbVJocE9OUzE3a1hD?=
+ =?utf-8?B?N3lHQUVQWVc1dVdsYjZZMlkwcW1xNjdHVFJ5WWlqdTBmTkdheFcrNklHUGZF?=
+ =?utf-8?B?OWllb29DNWZsVXBaQW9UdERvM3NmQ1ZFRzNvZy9oUkxWT3V0OUdBVExNakV5?=
+ =?utf-8?B?Z3NiNi9VZTNwMVV5cC9DNkQxYjZRbTVha005enFYTzg2WjJRSytRNmUxRE5N?=
+ =?utf-8?B?dXNFY2JySFFrbk11YXlhUU9FNlNqVUd4VGV2RGFPakJTaWRQdjBRclQyaGd1?=
+ =?utf-8?B?YU9CN0N3a2tNbnc2cW9wL0hMRytBR0hMbGNENFZXQmlydHh6ZTN0WEJ3NVdv?=
+ =?utf-8?B?Yk1wbGxHdkY3UUdDenk5bGdOZmcxaFA3dkluRWdwOXYzaFFIdjNtaHpBcmNx?=
+ =?utf-8?Q?1ZPc=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH8PR12MB7301.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(7053199007)(8096899003); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eEZYeUluYjJHMXFCazJmQU1qRkFxRmdjZ0NlSStFNHIyRHRkUWU2S0Jnando?=
+ =?utf-8?B?Yko4bGozVWcvMUJqYTNoeFJMS2ZxNndpdnBsSkdkb3U3NjAyNTJjcXgxVkwz?=
+ =?utf-8?B?QmFTT05SbE82VDlWVjROODBNTldsS2xGQWVvMmdJcHZ2czRXQ25HcVhqQi9a?=
+ =?utf-8?B?Wk9YYkZMWlA0VWxlVTluWVRMaDVUSzVZU1QzSDRpRHRIK0VNSVdEcFo0R002?=
+ =?utf-8?B?YlFQQ1E0YWh4YjZsaDdwMGlaYUZiM2o2RGxZUW5wenJSNEtyN0VwWjRkdkQ3?=
+ =?utf-8?B?VHdIR3BuY29MWE55Z1UyeUNYK1JOVHIxWWQvWE5YcXVIcXppUjZQQVg3ajQ3?=
+ =?utf-8?B?K2VmUTVrZzQ3QUUyVFIzb1dib0pqTGs2VSs2dGVBbURyeTRBc1hWYXJyKzVo?=
+ =?utf-8?B?QlNtdk9IN09iTTZLTDk5bUVIcm11TUxhZk9HKzNjWUVHYWdXVHRUd2hIeldD?=
+ =?utf-8?B?bEgxb1NLV1Q0cHRzaVM2NU1VclpVTVBFYUpSSzNzQXF0Z00zeG81N3NDY0wx?=
+ =?utf-8?B?Z3dsUW9GblpQaWU5NUJSVjUvTkl4aUs5M2tyRFcxMjVpSEM5S2NDc3A2Mzhz?=
+ =?utf-8?B?aUtBcXhZSTlsbHVTSkJlNWJsMGtmc08zRzJJbFdpZ1RySU5PMFVNeUVjZnVo?=
+ =?utf-8?B?REltUVNWaExyK2hFd3R3b2VhM0NzeGhXZ2VYOVhVZlpvQ001NXRYcmRvbnRS?=
+ =?utf-8?B?TUE4UzFnOWc5U2VldTBORjhZeTNLMmwxcC91bFc5RFJFQkNDY0ZaVDhrbCtq?=
+ =?utf-8?B?U2ZBV05QTnlZNlE2eitrR0ZaME1ESWpyWFNUQXZxV2haUVRNSURvNk1HUHVR?=
+ =?utf-8?B?NittUDFnSlpBTmNYaTd4MEdCNmtucktJY1ovRVo3cHB6ak9ZWFNiTmE5Yllr?=
+ =?utf-8?B?TDc0bFlOTnpYbVQ2WWZNS2FLbmVMQlJkRkJtYTA3VTVFTHl3R0hTZy9aelE0?=
+ =?utf-8?B?akNybE9QWGRDRktadGFEbHcvV3crMlRIcVBIeFd6TmFvcFRYU0Zta243Zyta?=
+ =?utf-8?B?MlVJNWN1bkY3MzlEdTd3bHBuTlNNcng4NHdLMDdWY0hWbHlOZ1ZmZ1UyUXdL?=
+ =?utf-8?B?c0J2ZXNRSnN5eVRTS0drai85MEVFT2E0STJiR29QQ2ZNNHphUWFYWWQvNWlj?=
+ =?utf-8?B?bFdZcXB2MkVsY00ySzNmSzE3eVNyWDdseEFXSkhMV2lybStyOXNEOHVPZGJ2?=
+ =?utf-8?B?MGdHemoyWmpMS2pKSmFNOUhaZFJQaHk3VDJsakR3N0NlV0pKQS9raHVmcEF6?=
+ =?utf-8?B?Rm5GMnkzbms0cngrd1pXUnY0aHF5QVZzRnZKcTg5MHg4aHRHREwyYUhWMlJI?=
+ =?utf-8?B?cUN1cnU2cmVDVDZZNUVjMy9PTlU1M0prTjQ0OFBxUDVWb3lmdU9ZTkM4TThW?=
+ =?utf-8?B?VDBMMnFiYU1sSStwUkFLM3MwN2xMWDBRSDY3RUpnRk5BK1RZZFVXaVdvR0tY?=
+ =?utf-8?B?Z1liQ3ZoN0xzUzZKTFhESEg1bzVkOU1aaUt6aUdKUVBXbFlUU2VSVEY5d1Bi?=
+ =?utf-8?B?QTF5azhTUzhwK2tkMWxpNmFLZXR3QmVjRSt4RElORUNkTU1aNkoxUDJ2bVpH?=
+ =?utf-8?B?T2RZeDQ2L1RwMGh0K3pDRUFHbERzNWVzQW5mWEI1RmdjRkp5dHhrSytMTXhx?=
+ =?utf-8?B?Q2pEOXVIMVQxYUpMS25RcWhTeS9UbGRxbG96K2xOUDZTdXIrR0xJMmpoYlRM?=
+ =?utf-8?B?eUEyandKbnJCMExyWkF2S2dJdkNkMFpZYTdSbFF4a080dmNHRXExVFFCWm50?=
+ =?utf-8?B?RElFS01NUzBIQ0hmY05PVi85aHJlUS9VZ1NTVDd4ODU3Z3ZqTU93aUFOWVZy?=
+ =?utf-8?B?OG1kclM5bUZGWEtYUkNmQkZma2NlNnhtd2twTkNnK29uSGp2Ymk1N3A4MTVh?=
+ =?utf-8?B?bVJlTzdFck1JL0drL2J6aUpYdnZ4YlJmdURlUDhqbmRTbUNwci8wS3QvVWdE?=
+ =?utf-8?B?NVdrUENOaFN3RjR6bHpGUjM1YW1aTVNUMi91djg4TDNMUHVORmZNUXhDc3g4?=
+ =?utf-8?B?YjNaOWZuVFd4RkFJQU1ZL0gzVmZaYzU1VjdSQXphVGxrL2QwdWFIbTdzNnk3?=
+ =?utf-8?B?MGQyYlQ4SEpzQVVsVWZRelVUUWptZ2hncmw5bXBKUDZYcXE1UkVjUGRFU3Vi?=
+ =?utf-8?B?Yzg2YVNYS1ZiaUk5Z1I5ekEwQ2ZzQ0wzWVJXb0ErbXNlR1NVWTVrSDJoSXll?=
+ =?utf-8?B?WnY4dWUvYzNsUWdYaktEQkNYWGtRd2JJRVYvYnNXeWJTWVhrNUd3VlJJanlK?=
+ =?utf-8?B?UDZ4Zk1GU0kwRGx1enRHREFwYW4wNlQ3bjVWZmZXTFA3WHN0aUZzM1kvVWxo?=
+ =?utf-8?B?VTZjUlN6LzZ5QXB2UE5DNnhJRVhQS1FhT0RTSmRqM01yUWhHOUVEUT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77bd29b5-12ff-4872-a358-08de6a09af40
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7301.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2026 07:38:16.6706 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AXK/QOHRimENjZ/todwgVWnJ8qDin+nO4H+u//ENBg3DnUfdG+YavV4yTREW4bTYPeEmjJz49xokvG+Nhdq3sw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8657
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -231,467 +179,472 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [2.29 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:microsoft.com:reject}];
-	MIME_BASE64_TEXT_BOGUS(1.00)[];
-	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	ARC_ALLOW(-1.00)[microsoft.com:s=arcselector10001:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
-	R_DKIM_ALLOW(-0.20)[mediatek.com:s=dk];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_BASE64_TEXT(0.10)[];
+	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:chunkuang.hu@kernel.org,m:simona@ffwll.ch,m:angelogioacchino.delregno@collabora.com,m:airlied@gmail.com,m:greenjustin@chromium.org,m:p.zabel@pengutronix.de,m:matthias.bgg@gmail.com,m:nfraprado@collabora.com,m:ariel.dalessandro@collabora.com,m:Nancy.Lin@mediatek.com,m:linux-kernel@vger.kernel.org,m:Jason-JH.Lin@mediatek.com,m:linux-arm-kernel@lists.infradead.org,m:daniels@collabora.com,m:linux-mediatek@lists.infradead.org,m:kernel@collabora.com,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,ffwll.ch,collabora.com,gmail.com,chromium.org,pengutronix.de];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FORGED_SENDER(0.00)[ck.hu@mediatek.com,dri-devel-bounces@lists.freedesktop.org];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mediatek.com:mid,mediatek.com:dkim,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns];
-	DMARC_POLICY_ALLOW(0.00)[mediatek.com,quarantine];
-	DKIM_MIXED(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ck.hu@mediatek.com,dri-devel-bounces@lists.freedesktop.org];
-	R_DKIM_REJECT(0.00)[mediateko365.onmicrosoft.com:s=selector2-mediateko365-onmicrosoft-com];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[mediatek.com:+,mediateko365.onmicrosoft.com:-];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:mid,amd.com:dkim,amd.com:email];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[arunpravin.paneerselvam@amd.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 150AA12AE0D
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[amd.com:+]
+X-Rspamd-Queue-Id: 3022012AF9D
 X-Rspamd-Action: no action
 
---__=_Part_Boundary_003_1635750558.265812357
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+--------------mzIuGTL0pgJokSb989AqzrlX
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-T24gVGh1LCAyMDI2LTAyLTEyIGF0IDA5OjU0ICswODAwLCBDSyBIdSB3cm90ZToNCj4gT24gVGh1
-LCAyMDI2LTAyLTA1IGF0IDE0OjEzIC0wNTAwLCBOw61jb2xhcyBGLiBSLiBBLiBQcmFkbyB3cm90
-ZToNCj4gPiBPbiBUdWUsIDIwMjYtMDItMDMgYXQgMDI6MDEgKzAwMDAsIENLIEh1ICjog6Hkv4rl
-hYkpIHdyb3RlOg0KPiA+ID4gT24gVHVlLCAyMDI1LTEyLTMwIGF0IDExOjAzIC0wMzAwLCBOw61j
-b2xhcyBGLiBSLiBBLiBQcmFkbyB3cm90ZToNCj4gPiA+ID4gRnJvbTogQXJpZWwgRCdBbGVzc2Fu
-ZHJvIDxhcmllbC5kYWxlc3NhbmRyb0Bjb2xsYWJvcmEuY29tPg0KPiA+ID4gPiANCj4gPiA+ID4g
-SW4gQUZCQyBtb2RlLCBPVkxfU1JDX1NJWkUgbXVzdCBiZSBibG9jayBhbGlnbmVkLiBEdWUgdG8g
-dGhpcw0KPiA+ID4gPiBsaW1pdGF0aW9uDQo+ID4gPiA+IG9mIHRoZSBBRkJDIGZvcm1hdCwgT1ZM
-X0NMSVAgbmVlZHMgdG8gYmUgdXNlZCB0byBhY2hpZXZlIHRoZQ0KPiA+ID4gPiBkZXNpcmVkDQo+
-ID4gPiA+IG91dHB1dCBzaXplIG9mIHRoZSBsYXllciB3aGlsZSBzdGlsbCBtZWV0aW5nIHRoZSBh
-bGlnbm1lbnQNCj4gPiA+ID4gY29uc3RyYWludHMuDQo+ID4gPiA+IEZhaWx1cmUgdG8gZG8gdGhp
-cyB3aWxsIHJlc3VsdCBpbiB2YmxhbmsgdGltZW91dHMgYW5kIG5vIHJlbmRlcmVkDQo+ID4gPiA+
-IG91dHB1dA0KPiA+ID4gPiB3aGVuIHRoZSBBRkJDIGRhdGEgc291cmNlIGlzbid0IGFsaWduZWQg
-dG8gdGhlIEFGQkMgYmxvY2sgKDMyeDgpLg0KPiA+ID4gPiANCj4gPiA+ID4gQ29uZmlndXJlIE9W
-TF9DTElQIHNvIHVuYWxpZ25lZCBBRkJDIGxheWVycyBjYW4gYmUgZGlzcGxheWVkLg0KPiA+ID4g
-PiANCj4gPiA+ID4gVGhlIGZvbGxvd2luZyBpbGx1c3RyYXRlcyBob3cgdGhlIGFsaWdubWVudCBp
-cyBhY2hpZXZlZCB0aHJvdWdoIHRoZQ0KPiA+ID4gPiBjbGlwDQo+ID4gPiA+IHNldHRpbmdzIGZv
-ciB0aGUgaG9yaXpvbnRhbCBjb29yZGluYXRlcywgdGhlIHZlcnRpY2FsIGNvb3JkaW5hdGVzDQo+
-ID4gPiA+IGFyZQ0KPiA+ID4gPiBhbmFsb2dvdXM6DQo+ID4gPiA+IA0KPiA+ID4gPiAvLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tXA0KPiA+ID4gPiA+IMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwNCj4gPiA+ID4gPiDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCAuLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi7CoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IHwNCj4gPiA+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoCAuLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwNCj4gPiA+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCAuLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwNCj4gPiA+
-ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoCAuLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi7CoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIHwNCj4gPiA+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCB8DQo+ID4gPiA+IFwtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0vDQo+ID4gPiA+IMKgwqDCoMKgIHzCoMKgwqDCoMKgwqAgfMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgIHwNCj4gPiA+ID4g
-wqDCoMKgwqAgfMKgwqDCoMKgwqDCoCBzcmMueDHCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBzcmMueDLCoCB8DQo+ID4gPiA+IMKgwqDCoMKgIHzCoMKgwqDCoMKgwqAgfMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgIHwNCj4gPiA+
-ID4gwqDCoMKgwqAgfMKgwqDCoMKgwqDCoCB8PC0tLS0tLS0tLS0tLS0tLS0tLS0tPnzCoMKgwqDC
-oMKgwqAgfA0KPiA+ID4gPiDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3Jj
-X3dpZHRowqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8DQo+ID4gPiA+IMKgwqDCoMKgIHzC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCB8DQo+ID4gPiA+IMKgwqDCoMKgIE4gKiBBRkJDX0RBVEFfQkxPQ0tf
-V0lEVEjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBNICoNCj4gPiA+ID4gQUZCQ19EQVRBX0JM
-T0NLX1dJRFRIDQo+ID4gPiA+IMKgwqDCoMKgIHzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8DQo+ID4gPiA+
-IMKgwqDCoMKgIHw8LS0tLS0+fMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCB8PC0tLS0tPnwNCj4gPiA+ID4gwqDCoMKgwqDCoCBjbGlwX2xlZnTCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY2xpcF9yaWdodA0KPiA+ID4gDQo+ID4gPiBB
-cyBJIGtub3csIGNyb3AgaXMgdXNlZCB0byBkcm9wIHBpeGVsIGRhdGEuDQo+ID4gPiBGcm9tIHRo
-ZSBuYW1lIG9mICdjbGlwX2xlZnQnLCBJIHRoaW5rIGl0IHdvdWxkIGRyb3AgdGhlIGxlZnQgcGFy
-dCBvZg0KPiA+ID4gdGhpcyBpbWFnZS4NCj4gPiA+IEJ1dCB1c3VhbGx5IHRoZSBpbWFnZSBpcyBh
-bGlnbmVkIHRvIHRoZSBsZWZ0IChzdGFydCBmcm9tIGF4aXMgMCkgYW5kDQo+ID4gPiBhcHBlbmQg
-Z2FyYmFnZSBkYXRhIGluIHJpZ2h0IHBhcnQuDQo+ID4gPiBJZiBzbywgY2xpcF9sZWZ0IHNob3Vs
-ZCBiZSB6ZXJvIGFuZCBhbGwgdGhlIGNsaXAgd291bGQgYmUgY2xpcF9yaWdodC4NCj4gPiA+IFRo
-aXMgaXMgdGhlIG5vcm1hbCBiZWhhdmlvci4NCj4gPiA+IElmIE9WTF9DUk9QIGRvZXMgYmVoYXZl
-IGFzIHRoaXMsIGFkZCBjb21tZW50IHRvIGRlc2NyaWJlIHRoYXQNCj4gPiA+IGNsaXBfbGVmdCBk
-b2VzIG5vdCBkcm9wIHBpeGVsIGRhdGEuDQo+ID4gDQo+ID4gQm90aCBjbGlwX2xlZnQgYW5kIGNs
-aXBfcmlnaHQgd29yayBpbiB0aGUgc2FtZSB3YXksIGJ5IGRpc2NhcmRpbmcgdGhhdA0KPiA+IG1h
-bnkgcGl4ZWxzLCBvbiB0aGUgbGVmdCBhbmQgcmlnaHQsIHJlc3BlY3RpdmVseSwgb2YgdGhlIHBs
-YW5lJ3MNCj4gPiBmcmFtZWJ1ZmZlciB3aGVuIGNvbXBvc2l0aW5nIHRoZSBwbGFuZSBvbiB0aGUg
-ZmluYWwgaW1hZ2UuDQo+ID4gDQo+ID4gSW4gdGhlIHNpbXBsZXN0IGNhc2UsIHdoZW4gdGhlIGlt
-YWdlIHRvIGJlIGRpc3BsYXllZCBpcyBsZWZ0LWFsaWduZWQsDQo+ID4gaWUgc3JjLngxID0gMCwg
-dGhlbiB5ZXMsIG9ubHkgY2xpcF9yaWdodCB3aWxsIGJlIHVzZWQgdG8gbWFrZSBzdXJlIHRoYXQN
-Cj4gPiB0aGUgcGxhbmUncyB3aWR0aCBhbGlnbnMgd2l0aCB0aGUgQUZCQ19EQVRBX0JMT0NLX1dJ
-RFRILg0KPiA+IA0KPiA+IEhvd2V2ZXIgaWYgb25seSBhIHN1Yi1yZWdpb24gb2YgdGhlIGltYWdl
-IGlzIHRvIGJlIGRpc3BsYXllZCwgdGhlbg0KPiA+IHNyYy54MSB3aWxsIGJlIG5vbi16ZXJvLiBJ
-ZiB0aGF0IHggb2Zmc2V0IGNvb3JkaW5hdGUgYWxpZ25zIHdpdGggdGhlDQo+ID4gQUZCQ19EQVRB
-X0JMT0NLX1dJRFRILCB0aGVuIGFnYWluIGNsaXBfbGVmdCB3aWxsIGJlIDAsIGFuZCB3ZSdyZSBi
-YWNrDQo+ID4gYXQgdGhlIHNpbXBsZXN0IGNhc2UuDQo+ID4gDQo+ID4gQnV0IGlmIGl0IGRvZXNu
-J3QgYWxpZ24swqB0aGVuIGNsaXBfbGVmdCB3aWxsIG5lZWQgdG8gYmUgdXNlZCB0byBlbnN1cmUN
-Cj4gPiBvbmx5IHRoZSBpbnRlbmRlZCBzdWItcmVnaW9uIGlzIGRpc3BsYXllZCwgZXZlbiB0aG91
-Z2ggaXQgc3RhcnRzIGluIHRoZQ0KPiA+IG1pZGRsZSBvZiBhbiBBRkJDIGRhdGEgYmxvY2suDQo+
-ID4gDQo+ID4gVGhpcyBpcyBiZWNhdXNlIG5vdCBvbmx5IHRoZSB3aWR0aCBhbmQgaGVpZ2h0IGlu
-IERJU1BfUkVHX09WTF9TUkNfU0laRQ0KPiA+IG5lZWQgdG8gYmUgYWxpZ25lZCB0byB0aGUgQUZC
-QyBkYXRhIGJsb2NrLCBidXQgYWxzbyB0aGUgc3RhcnRpbmcNCj4gPiBhZGRyZXNzIGluIERJU1Bf
-UkVHX09WTF9BRERSLCB3aGlsZSBzcmMueDEgYW5kIHNyYy54MiBzdXBwbGllZCBieQ0KPiA+IHVz
-ZXJzcGFjZSBhcmUgYXJiaXRyYXJ5IGFuZCB3b24ndCBuZWNlc3NhcmlseSBhbGlnbiwgaGVuY2Ug
-d2UgdXNlIGJvdGgNCj4gPiBjbGlwcyBhcyBuZWVkZWQgdG8gYWNoaWV2ZSB0aGUgaW50ZW5kZWQg
-ZGlzcGxheSBvdXRjb21lIHJlc3BlY3RpbmcgdGhlDQo+ID4gaGFyZHdhcmUgY29uc3RyYWludHMu
-DQo+IA0KPiBPSywgaW4gbXRrX3BsYW5lX3VwZGF0ZV9uZXdfc3RhdGUoKSwgeF9vZmZzZXRfaW5f
-YmxvY2tzIGhhcyBkb25lIHRoZSBibG9jay1iYXNlZCBjcm9wLg0KPiBBbmQgdGhpcyBwYXRjaCBp
-bnRyb2R1Y2UgY2xpcF9sZWZ0IGZvciBwaXhlbC1iYXNlZCBjcm9wLg0KPiBJIHRoaW5rIHBpeGVs
-LWJhc2VkIGNyb3AgY291bGQgcmVwbGFjZSBibG9jay1iYXNlZCBjcm9wLg0KPiBTbyBkcm9wIHhf
-b2Zmc2V0X2luX2Jsb2NrcyBhbmQgbGV0IGNsaXBfbGVmdCA9IHNyYy54MS4NCj4gDQo+IEluIGFk
-ZGl0aW9uLCB0aGUgY2xpcF9yaWdodCBpcyBhbHNvIG5vdCBuZWNlc3NhcnkuDQo+IFRoZSBwaXRj
-aCBhbHJlYWR5IHRlbGwgaGFyZHdhcmUgdGhlIGJ1ZmZlciB3aWR0aC4NCj4gSSB0aGluayBoYXJk
-d2FyZSB3b3VsZCBub3QgYWNjZXNzIGRhdGEgb3ZlciBzcmNfd2lkdGgsDQo+IHNvIGRyb3AgY2xp
-cF9yaWdodCBhbmQgaXQgY291bGQgYmUgc2ltcGxpZmllZCBhcw0KPiANCj4gPiA8LS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLT58DQo+ICAgICAgICAg
-ICAgICAgICAgICAgcGl0Y2gNCj4gPiA8LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLT58ICAgICAgIA0KPiAgICAgICAgICAgICAgICAgIHZhbGlkIGltYWdlIGRh
-dGEgICANCj4gICAgICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgfCAgICAgICANCj4g
-ICAgICAgICAgICAgIHNyYy54MSAgICAgICAgICAgICAgICAgc3JjLngyICANCj4gICAgICAgICAg
-ICAgIHwgICAgICAgICAgICAgICAgICAgICAgfCAgICAgICANCj4gPiA8LS0tLS0tLS0tLT58ICAg
-ICAgICAgICAgICAgICAgICAgIHwNCj4gICAgY2xpcF9sZWZ0IHwgICAgICAgICAgICAgICAgICAg
-ICAgfA0KPiAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICB8ICANCj4gPiA8LS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tPnwgICAgICAgDQo+ICAgICAgICAgICAgICAg
-ICAgICAgc3JjX3dpZHRoICAgICAgICAgICAgICAgDQo+IA0KPiANCj4gQnV0IGNvbmNlcHR1YWxs
-eSwgc3JjX3dpZHRoIG1lYW5zIHZhbGlkIGltYWdlIGRhdGEsIGl0J3MgYmV0dGVyIHRoYXQNCj4g
-DQo+ID4gPC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0+fA0KPiAgICAgICAgICAgICAgICAgICAgIHBpdGNoDQo+ID4gPC0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0+fCAgICAgICANCj4gICAgICAgICAgICAgICAg
-ICB2YWxpZCBpbWFnZSBkYXRhICAoZmItPndpZHRoKSAgIHwNCj4gICAgICAgICAgICAgIHwgICAg
-ICAgICAgICAgICAgICAgICAgfCAgICAgICAgICAgIHwNCj4gICAgICAgICAgICAgIHNyYy54MSAg
-ICAgICAgICAgICAgICAgc3JjLngyICAgICAgIHwNCj4gICAgICAgICAgICAgIHwgICAgICAgICAg
-ICAgICAgICAgICAgfCAgICAgICAgICAgIHwNCj4gPiA8LS0tLS0tLS0tLT58ICAgICAgICAgICAg
-ICAgICAgICAgIHw8LS0tLS0tLS0tLT58DQo+ICAgIGNsaXBfbGVmdCB8ICAgICAgICAgICAgICAg
-ICAgICAgIHwgY2xpcF9yaWdodCB8DQo+ICAgICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAg
-ICAgIHwgICAgICAgICAgICB8DQo+ID4gPC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0+fCAgICAgICANCj4gICAgICAgICAgICAgICAgICAgICBzcmNfd2lkdGgg
-ICAgICAgICAgDQo+IA0KPiBGb3IgdGhlIG9sZCBTb0MsIHdlIGp1c3QgdGVsbCBoYXJkd2FyZSBi
-dWZmZXIgc3RhcnQgYWRkcmVzcyBpcyBpbiB4MSAsIGFuZCBzcmNfd2lkdGggaXMgKHgyIC0geDEp
-Lg0KPiBUaGlzIGlzIGJlY2F1c2Ugb2xkIFNvQyBoYXMgbm8gY3JvcCBmdW5jdGlvbi4NCj4gV2hl
-biB3ZSBoYXZlIGNyb3AgZnVuY3Rpb24uIEkgd291bGQgbGlrZSB0byBjb25maWd1cmUgdG8gZml0
-IHRoZSBtZWFuaW5nLg0KDQpTb3JyeSwgSSBmaW5kIHRoYXQgY3JvcCBsZWZ0LCByaWdodCwgdG9w
-LCBib3R0b20gYWxsIGhhcyBvbmx5IDggYml0cy4NClRoZSBoYXJkd2FyZSBtYXhpbXVtIGNyb3Ag
-Y291bGQgYmUgMjU1IHBpeGVsLCBidXQgdGhlIGFjdHVhbCBjcm9wIG1heSBiZSBsYXJnZXIgdGhh
-biAyNTUuDQpTbyB3ZSBzdGlsbCBuZWVkIGJsb2NrLWJhc2VkIGNyb3Agd2l0aCB0aGlzIHBpeGVs
-LWJhc2VkIGNyb3AuDQpQbGVhc2UgYWRkIHRoaXMgaW5mb3JtYXRpb24gdG8gZGVzY3JpYmUgd2h5
-IHdlIG5lZWQgdGhpcyBtaXhlZCBjcm9wIG1lY2hhbmlzbS4NCg0KUmVnYXJkcywNCkNLDQoNCj4g
-DQo+IFJlZ2FyZHMsDQo+IENLDQo+IA0KPiANCj4gDQoNCg==
 
---__=_Part_Boundary_003_1635750558.265812357
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
 
-PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KT24mIzMyO1RodSwmIzMyOzIwMjYtMDItMTImIzMyO2F0
-JiMzMjswOTo1NCYjMzI7KzA4MDAsJiMzMjtDSyYjMzI7SHUmIzMyO3dyb3RlOg0KJmd0OyYjMzI7
-T24mIzMyO1RodSwmIzMyOzIwMjYtMDItMDUmIzMyO2F0JiMzMjsxNDoxMyYjMzI7LTA1MDAsJiMz
-MjtOJiMyMzc7Y29sYXMmIzMyO0YuJiMzMjtSLiYjMzI7QS4mIzMyO1ByYWRvJiMzMjt3cm90ZToN
-CiZndDsmIzMyOyZndDsmIzMyO09uJiMzMjtUdWUsJiMzMjsyMDI2LTAyLTAzJiMzMjthdCYjMzI7
-MDI6MDEmIzMyOyswMDAwLCYjMzI7Q0smIzMyO0h1JiMzMjsoJiMzMjk5MzsmIzIwNDI2OyYjMjA4
-MDk7KSYjMzI7d3JvdGU6DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjtPbiYjMzI7VHVlLCYj
-MzI7MjAyNS0xMi0zMCYjMzI7YXQmIzMyOzExOjAzJiMzMjstMDMwMCwmIzMyO04mIzIzNztjb2xh
-cyYjMzI7Ri4mIzMyO1IuJiMzMjtBLiYjMzI7UHJhZG8mIzMyO3dyb3RlOg0KJmd0OyYjMzI7Jmd0
-OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7RnJvbTomIzMyO0FyaWVsJiMzMjtEJiMzOTtBbGVzc2Fu
-ZHJvJiMzMjsmbHQ7YXJpZWwuZGFsZXNzYW5kcm9AY29sbGFib3JhLmNvbSZndDsNCiZndDsmIzMy
-OyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7
-Jmd0OyYjMzI7SW4mIzMyO0FGQkMmIzMyO21vZGUsJiMzMjtPVkxfU1JDX1NJWkUmIzMyO211c3Qm
-IzMyO2JlJiMzMjtibG9jayYjMzI7YWxpZ25lZC4mIzMyO0R1ZSYjMzI7dG8mIzMyO3RoaXMNCiZn
-dDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO2xpbWl0YXRpb24NCiZndDsmIzMyOyZn
-dDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO29mJiMzMjt0aGUmIzMyO0FGQkMmIzMyO2Zvcm1hdCwm
-IzMyO09WTF9DTElQJiMzMjtuZWVkcyYjMzI7dG8mIzMyO2JlJiMzMjt1c2VkJiMzMjt0byYjMzI7
-YWNoaWV2ZSYjMzI7dGhlDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjtkZXNp
-cmVkDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjtvdXRwdXQmIzMyO3NpemUm
-IzMyO29mJiMzMjt0aGUmIzMyO2xheWVyJiMzMjt3aGlsZSYjMzI7c3RpbGwmIzMyO21lZXRpbmcm
-IzMyO3RoZSYjMzI7YWxpZ25tZW50DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMz
-Mjtjb25zdHJhaW50cy4NCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO0ZhaWx1
-cmUmIzMyO3RvJiMzMjtkbyYjMzI7dGhpcyYjMzI7d2lsbCYjMzI7cmVzdWx0JiMzMjtpbiYjMzI7
-dmJsYW5rJiMzMjt0aW1lb3V0cyYjMzI7YW5kJiMzMjtubyYjMzI7cmVuZGVyZWQNCiZndDsmIzMy
-OyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO291dHB1dA0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0
-OyYjMzI7Jmd0OyYjMzI7d2hlbiYjMzI7dGhlJiMzMjtBRkJDJiMzMjtkYXRhJiMzMjtzb3VyY2Um
-IzMyO2lzbiYjMzk7dCYjMzI7YWxpZ25lZCYjMzI7dG8mIzMyO3RoZSYjMzI7QUZCQyYjMzI7Ymxv
-Y2smIzMyOygzMng4KS4NCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOw0KJmd0
-OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Q29uZmlndXJlJiMzMjtPVkxfQ0xJUCYj
-MzI7c28mIzMyO3VuYWxpZ25lZCYjMzI7QUZCQyYjMzI7bGF5ZXJzJiMzMjtjYW4mIzMyO2JlJiMz
-MjtkaXNwbGF5ZWQuDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsm
-IzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO1RoZSYjMzI7Zm9sbG93aW5nJiMzMjtpbGx1
-c3RyYXRlcyYjMzI7aG93JiMzMjt0aGUmIzMyO2FsaWdubWVudCYjMzI7aXMmIzMyO2FjaGlldmVk
-JiMzMjt0aHJvdWdoJiMzMjt0aGUNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMy
-O2NsaXANCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO3NldHRpbmdzJiMzMjtm
-b3ImIzMyO3RoZSYjMzI7aG9yaXpvbnRhbCYjMzI7Y29vcmRpbmF0ZXMsJiMzMjt0aGUmIzMyO3Zl
-cnRpY2FsJiMzMjtjb29yZGluYXRlcw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYj
-MzI7YXJlDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjthbmFsb2dvdXM6DQom
-Z3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyOyZn
-dDsmIzMyOyZndDsmIzMyOy8tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0mIzkyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYj
-MzI7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjt8
-DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyOy4u
-Li4uLi4uLi4uLi4uLi4uLi4uLi4uLiYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7fA0KJmd0OyYjMzI7Jmd0OyYjMzI7
-Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjsuLi4uLi4uLi4uLi4uLi4uLi4uLi4u
-Li4mIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzMyO3wNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZn
-dDsmIzMyOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMzI7Li4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uJiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjt8DQom
-Z3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyOy4uLi4u
-Li4uLi4uLi4uLi4uLi4uLi4uLiYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7fA0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0
-OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMzMjt8DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMz
-MjsmIzkyOy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS8N
-CiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMzI7fCYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7fCYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMzI7fCYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7fA0K
-Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMzMjt8JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtzcmMueDEm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO3NyYy54MiYjMTYwOyYj
-MzI7fA0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMzMjt8JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjt8
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMzMjt8JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMz
-Mjt8DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzMyO3wmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO3wm
-bHQ7LS0tLS0tLS0tLS0tLS0tLS0tLS0mZ3Q7fCYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMzI7fA0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjt8JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtzcmNfd2lk
-dGgmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO3wNCiZndDsmIzMyOyZndDsmIzMyOyZn
-dDsmIzMyOyZndDsmIzMyOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7fCYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7fA0KJmd0OyYjMzI7
-Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtO
-JiMzMjsqJiMzMjtBRkJDX0RBVEFfQkxPQ0tfV0lEVEgmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMy
-O00mIzMyOyoNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO0FGQkNfREFUQV9C
-TE9DS19XSURUSA0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMzMjt8JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMzMjt8DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMz
-MjsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO3wmbHQ7LS0tLS0mZ3Q7fCYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMzI7fCZsdDstLS0tLSZndDt8DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMz
-MjsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO2NsaXBfbGVmdCYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMzI7Y2xpcF9yaWdodA0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsm
-Z3Q7JiMzMjsmZ3Q7JiMzMjtBcyYjMzI7SSYjMzI7a25vdywmIzMyO2Nyb3AmIzMyO2lzJiMzMjt1
-c2VkJiMzMjt0byYjMzI7ZHJvcCYjMzI7cGl4ZWwmIzMyO2RhdGEuDQomZ3Q7JiMzMjsmZ3Q7JiMz
-MjsmZ3Q7JiMzMjtGcm9tJiMzMjt0aGUmIzMyO25hbWUmIzMyO29mJiMzMjsmIzM5O2NsaXBfbGVm
-dCYjMzk7LCYjMzI7SSYjMzI7dGhpbmsmIzMyO2l0JiMzMjt3b3VsZCYjMzI7ZHJvcCYjMzI7dGhl
-JiMzMjtsZWZ0JiMzMjtwYXJ0JiMzMjtvZg0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7dGhp
-cyYjMzI7aW1hZ2UuDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmZ3Q7JiMzMjtCdXQmIzMyO3VzdWFsbHkm
-IzMyO3RoZSYjMzI7aW1hZ2UmIzMyO2lzJiMzMjthbGlnbmVkJiMzMjt0byYjMzI7dGhlJiMzMjts
-ZWZ0JiMzMjsoc3RhcnQmIzMyO2Zyb20mIzMyO2F4aXMmIzMyOzApJiMzMjthbmQNCiZndDsmIzMy
-OyZndDsmIzMyOyZndDsmIzMyO2FwcGVuZCYjMzI7Z2FyYmFnZSYjMzI7ZGF0YSYjMzI7aW4mIzMy
-O3JpZ2h0JiMzMjtwYXJ0Lg0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7SWYmIzMyO3NvLCYj
-MzI7Y2xpcF9sZWZ0JiMzMjtzaG91bGQmIzMyO2JlJiMzMjt6ZXJvJiMzMjthbmQmIzMyO2FsbCYj
-MzI7dGhlJiMzMjtjbGlwJiMzMjt3b3VsZCYjMzI7YmUmIzMyO2NsaXBfcmlnaHQuDQomZ3Q7JiMz
-MjsmZ3Q7JiMzMjsmZ3Q7JiMzMjtUaGlzJiMzMjtpcyYjMzI7dGhlJiMzMjtub3JtYWwmIzMyO2Jl
-aGF2aW9yLg0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmd0OyYjMzI7SWYmIzMyO09WTF9DUk9QJiMzMjtk
-b2VzJiMzMjtiZWhhdmUmIzMyO2FzJiMzMjt0aGlzLCYjMzI7YWRkJiMzMjtjb21tZW50JiMzMjt0
-byYjMzI7ZGVzY3JpYmUmIzMyO3RoYXQNCiZndDsmIzMyOyZndDsmIzMyOyZndDsmIzMyO2NsaXBf
-bGVmdCYjMzI7ZG9lcyYjMzI7bm90JiMzMjtkcm9wJiMzMjtwaXhlbCYjMzI7ZGF0YS4NCiZndDsm
-IzMyOyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7Qm90aCYjMzI7Y2xpcF9sZWZ0JiMzMjth
-bmQmIzMyO2NsaXBfcmlnaHQmIzMyO3dvcmsmIzMyO2luJiMzMjt0aGUmIzMyO3NhbWUmIzMyO3dh
-eSwmIzMyO2J5JiMzMjtkaXNjYXJkaW5nJiMzMjt0aGF0DQomZ3Q7JiMzMjsmZ3Q7JiMzMjttYW55
-JiMzMjtwaXhlbHMsJiMzMjtvbiYjMzI7dGhlJiMzMjtsZWZ0JiMzMjthbmQmIzMyO3JpZ2h0LCYj
-MzI7cmVzcGVjdGl2ZWx5LCYjMzI7b2YmIzMyO3RoZSYjMzI7cGxhbmUmIzM5O3MNCiZndDsmIzMy
-OyZndDsmIzMyO2ZyYW1lYnVmZmVyJiMzMjt3aGVuJiMzMjtjb21wb3NpdGluZyYjMzI7dGhlJiMz
-MjtwbGFuZSYjMzI7b24mIzMyO3RoZSYjMzI7ZmluYWwmIzMyO2ltYWdlLg0KJmd0OyYjMzI7Jmd0
-OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtJbiYjMzI7dGhlJiMzMjtzaW1wbGVzdCYjMzI7Y2Fz
-ZSwmIzMyO3doZW4mIzMyO3RoZSYjMzI7aW1hZ2UmIzMyO3RvJiMzMjtiZSYjMzI7ZGlzcGxheWVk
-JiMzMjtpcyYjMzI7bGVmdC1hbGlnbmVkLA0KJmd0OyYjMzI7Jmd0OyYjMzI7aWUmIzMyO3NyYy54
-MSYjMzI7PSYjMzI7MCwmIzMyO3RoZW4mIzMyO3llcywmIzMyO29ubHkmIzMyO2NsaXBfcmlnaHQm
-IzMyO3dpbGwmIzMyO2JlJiMzMjt1c2VkJiMzMjt0byYjMzI7bWFrZSYjMzI7c3VyZSYjMzI7dGhh
-dA0KJmd0OyYjMzI7Jmd0OyYjMzI7dGhlJiMzMjtwbGFuZSYjMzk7cyYjMzI7d2lkdGgmIzMyO2Fs
-aWducyYjMzI7d2l0aCYjMzI7dGhlJiMzMjtBRkJDX0RBVEFfQkxPQ0tfV0lEVEguDQomZ3Q7JiMz
-MjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyO0hvd2V2ZXImIzMyO2lmJiMzMjtvbmx5JiMz
-MjthJiMzMjtzdWItcmVnaW9uJiMzMjtvZiYjMzI7dGhlJiMzMjtpbWFnZSYjMzI7aXMmIzMyO3Rv
-JiMzMjtiZSYjMzI7ZGlzcGxheWVkLCYjMzI7dGhlbg0KJmd0OyYjMzI7Jmd0OyYjMzI7c3JjLngx
-JiMzMjt3aWxsJiMzMjtiZSYjMzI7bm9uLXplcm8uJiMzMjtJZiYjMzI7dGhhdCYjMzI7eCYjMzI7
-b2Zmc2V0JiMzMjtjb29yZGluYXRlJiMzMjthbGlnbnMmIzMyO3dpdGgmIzMyO3RoZQ0KJmd0OyYj
-MzI7Jmd0OyYjMzI7QUZCQ19EQVRBX0JMT0NLX1dJRFRILCYjMzI7dGhlbiYjMzI7YWdhaW4mIzMy
-O2NsaXBfbGVmdCYjMzI7d2lsbCYjMzI7YmUmIzMyOzAsJiMzMjthbmQmIzMyO3dlJiMzOTtyZSYj
-MzI7YmFjaw0KJmd0OyYjMzI7Jmd0OyYjMzI7YXQmIzMyO3RoZSYjMzI7c2ltcGxlc3QmIzMyO2Nh
-c2UuDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyO0J1dCYjMzI7aWYmIzMy
-O2l0JiMzMjtkb2VzbiYjMzk7dCYjMzI7YWxpZ24sJiMxNjA7dGhlbiYjMzI7Y2xpcF9sZWZ0JiMz
-Mjt3aWxsJiMzMjtuZWVkJiMzMjt0byYjMzI7YmUmIzMyO3VzZWQmIzMyO3RvJiMzMjtlbnN1cmUN
-CiZndDsmIzMyOyZndDsmIzMyO29ubHkmIzMyO3RoZSYjMzI7aW50ZW5kZWQmIzMyO3N1Yi1yZWdp
-b24mIzMyO2lzJiMzMjtkaXNwbGF5ZWQsJiMzMjtldmVuJiMzMjt0aG91Z2gmIzMyO2l0JiMzMjtz
-dGFydHMmIzMyO2luJiMzMjt0aGUNCiZndDsmIzMyOyZndDsmIzMyO21pZGRsZSYjMzI7b2YmIzMy
-O2FuJiMzMjtBRkJDJiMzMjtkYXRhJiMzMjtibG9jay4NCiZndDsmIzMyOyZndDsmIzMyOw0KJmd0
-OyYjMzI7Jmd0OyYjMzI7VGhpcyYjMzI7aXMmIzMyO2JlY2F1c2UmIzMyO25vdCYjMzI7b25seSYj
-MzI7dGhlJiMzMjt3aWR0aCYjMzI7YW5kJiMzMjtoZWlnaHQmIzMyO2luJiMzMjtESVNQX1JFR19P
-VkxfU1JDX1NJWkUNCiZndDsmIzMyOyZndDsmIzMyO25lZWQmIzMyO3RvJiMzMjtiZSYjMzI7YWxp
-Z25lZCYjMzI7dG8mIzMyO3RoZSYjMzI7QUZCQyYjMzI7ZGF0YSYjMzI7YmxvY2ssJiMzMjtidXQm
-IzMyO2Fsc28mIzMyO3RoZSYjMzI7c3RhcnRpbmcNCiZndDsmIzMyOyZndDsmIzMyO2FkZHJlc3Mm
-IzMyO2luJiMzMjtESVNQX1JFR19PVkxfQUREUiwmIzMyO3doaWxlJiMzMjtzcmMueDEmIzMyO2Fu
-ZCYjMzI7c3JjLngyJiMzMjtzdXBwbGllZCYjMzI7YnkNCiZndDsmIzMyOyZndDsmIzMyO3VzZXJz
-cGFjZSYjMzI7YXJlJiMzMjthcmJpdHJhcnkmIzMyO2FuZCYjMzI7d29uJiMzOTt0JiMzMjtuZWNl
-c3NhcmlseSYjMzI7YWxpZ24sJiMzMjtoZW5jZSYjMzI7d2UmIzMyO3VzZSYjMzI7Ym90aA0KJmd0
-OyYjMzI7Jmd0OyYjMzI7Y2xpcHMmIzMyO2FzJiMzMjtuZWVkZWQmIzMyO3RvJiMzMjthY2hpZXZl
-JiMzMjt0aGUmIzMyO2ludGVuZGVkJiMzMjtkaXNwbGF5JiMzMjtvdXRjb21lJiMzMjtyZXNwZWN0
-aW5nJiMzMjt0aGUNCiZndDsmIzMyOyZndDsmIzMyO2hhcmR3YXJlJiMzMjtjb25zdHJhaW50cy4N
-CiZndDsmIzMyOw0KJmd0OyYjMzI7T0ssJiMzMjtpbiYjMzI7bXRrX3BsYW5lX3VwZGF0ZV9uZXdf
-c3RhdGUoKSwmIzMyO3hfb2Zmc2V0X2luX2Jsb2NrcyYjMzI7aGFzJiMzMjtkb25lJiMzMjt0aGUm
-IzMyO2Jsb2NrLWJhc2VkJiMzMjtjcm9wLg0KJmd0OyYjMzI7QW5kJiMzMjt0aGlzJiMzMjtwYXRj
-aCYjMzI7aW50cm9kdWNlJiMzMjtjbGlwX2xlZnQmIzMyO2ZvciYjMzI7cGl4ZWwtYmFzZWQmIzMy
-O2Nyb3AuDQomZ3Q7JiMzMjtJJiMzMjt0aGluayYjMzI7cGl4ZWwtYmFzZWQmIzMyO2Nyb3AmIzMy
-O2NvdWxkJiMzMjtyZXBsYWNlJiMzMjtibG9jay1iYXNlZCYjMzI7Y3JvcC4NCiZndDsmIzMyO1Nv
-JiMzMjtkcm9wJiMzMjt4X29mZnNldF9pbl9ibG9ja3MmIzMyO2FuZCYjMzI7bGV0JiMzMjtjbGlw
-X2xlZnQmIzMyOz0mIzMyO3NyYy54MS4NCiZndDsmIzMyOw0KJmd0OyYjMzI7SW4mIzMyO2FkZGl0
-aW9uLCYjMzI7dGhlJiMzMjtjbGlwX3JpZ2h0JiMzMjtpcyYjMzI7YWxzbyYjMzI7bm90JiMzMjtu
-ZWNlc3NhcnkuDQomZ3Q7JiMzMjtUaGUmIzMyO3BpdGNoJiMzMjthbHJlYWR5JiMzMjt0ZWxsJiMz
-MjtoYXJkd2FyZSYjMzI7dGhlJiMzMjtidWZmZXImIzMyO3dpZHRoLg0KJmd0OyYjMzI7SSYjMzI7
-dGhpbmsmIzMyO2hhcmR3YXJlJiMzMjt3b3VsZCYjMzI7bm90JiMzMjthY2Nlc3MmIzMyO2RhdGEm
-IzMyO292ZXImIzMyO3NyY193aWR0aCwNCiZndDsmIzMyO3NvJiMzMjtkcm9wJiMzMjtjbGlwX3Jp
-Z2h0JiMzMjthbmQmIzMyO2l0JiMzMjtjb3VsZCYjMzI7YmUmIzMyO3NpbXBsaWZpZWQmIzMyO2Fz
-DQomZ3Q7JiMzMjsNCiZndDsmIzMyOyZndDsmIzMyOyZsdDstLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tJmd0O3wNCiZndDsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtwaXRjaA0KJmd0OyYjMzI7Jmd0OyYjMzI7
-Jmx0Oy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0mZ3Q7fCYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7DQomZ3Q7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7dmFsaWQmIzMyO2ltYWdlJiMzMjtkYXRhJiMzMjsmIzMyOyYjMzI7DQom
-Z3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyO3wmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyO3wmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOw0KJmd0OyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjtzcmMueDEmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7c3JjLngyJiMzMjsm
-IzMyOw0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjt8JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjt8JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsN
-CiZndDsmIzMyOyZndDsmIzMyOyZsdDstLS0tLS0tLS0tJmd0O3wmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3wNCiZndDsmIzMyOyYjMzI7JiMzMjsm
-IzMyO2NsaXBfbGVmdCYjMzI7fCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7fA0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjt8JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjt8JiMzMjsmIzMyOw0KJmd0OyYjMzI7Jmd0
-OyYjMzI7Jmx0Oy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSZndDt8JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsNCiZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtzcmNfd2lkdGgmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsNCiZndDsm
-IzMyOw0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtCdXQmIzMyO2NvbmNlcHR1YWxseSwmIzMyO3NyY193
-aWR0aCYjMzI7bWVhbnMmIzMyO3ZhbGlkJiMzMjtpbWFnZSYjMzI7ZGF0YSwmIzMyO2l0JiMzOTtz
-JiMzMjtiZXR0ZXImIzMyO3RoYXQNCiZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7Jmx0Oy0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0mZ3Q7fA0K
-Jmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3BpdGNo
-DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmbHQ7LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLSZndDt8JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsNCiZn
-dDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjt2YWxpZCYjMzI7aW1hZ2UmIzMyO2Rh
-dGEmIzMyOyYjMzI7KGZiLSZndDt3aWR0aCkmIzMyOyYjMzI7JiMzMjt8DQomZ3Q7JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyO3wmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-O3wmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjt8DQomZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3NyYy54MSYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjtzcmMueDImIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3wNCiZndDsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7fCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7fCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyO3wNCiZndDsmIzMyOyZndDsmIzMyOyZsdDstLS0tLS0tLS0tJmd0O3wmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3wmbHQ7LS0tLS0tLS0t
-LSZndDt8DQomZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjtjbGlwX2xlZnQmIzMyO3wmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3wmIzMyO2NsaXBfcmln
-aHQmIzMyO3wNCiZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7fCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7fCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3wNCiZndDsmIzMyOyZndDsmIzMyOyZsdDstLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tJmd0O3wmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOw0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyO3NyY193aWR0aCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7DQomZ3Q7JiMzMjsNCiZndDsmIzMyO0ZvciYjMzI7dGhl
-JiMzMjtvbGQmIzMyO1NvQywmIzMyO3dlJiMzMjtqdXN0JiMzMjt0ZWxsJiMzMjtoYXJkd2FyZSYj
-MzI7YnVmZmVyJiMzMjtzdGFydCYjMzI7YWRkcmVzcyYjMzI7aXMmIzMyO2luJiMzMjt4MSYjMzI7
-LCYjMzI7YW5kJiMzMjtzcmNfd2lkdGgmIzMyO2lzJiMzMjsoeDImIzMyOy0mIzMyO3gxKS4NCiZn
-dDsmIzMyO1RoaXMmIzMyO2lzJiMzMjtiZWNhdXNlJiMzMjtvbGQmIzMyO1NvQyYjMzI7aGFzJiMz
-MjtubyYjMzI7Y3JvcCYjMzI7ZnVuY3Rpb24uDQomZ3Q7JiMzMjtXaGVuJiMzMjt3ZSYjMzI7aGF2
-ZSYjMzI7Y3JvcCYjMzI7ZnVuY3Rpb24uJiMzMjtJJiMzMjt3b3VsZCYjMzI7bGlrZSYjMzI7dG8m
-IzMyO2NvbmZpZ3VyZSYjMzI7dG8mIzMyO2ZpdCYjMzI7dGhlJiMzMjttZWFuaW5nLg0KDQpTb3Jy
-eSwmIzMyO0kmIzMyO2ZpbmQmIzMyO3RoYXQmIzMyO2Nyb3AmIzMyO2xlZnQsJiMzMjtyaWdodCwm
-IzMyO3RvcCwmIzMyO2JvdHRvbSYjMzI7YWxsJiMzMjtoYXMmIzMyO29ubHkmIzMyOzgmIzMyO2Jp
-dHMuDQpUaGUmIzMyO2hhcmR3YXJlJiMzMjttYXhpbXVtJiMzMjtjcm9wJiMzMjtjb3VsZCYjMzI7
-YmUmIzMyOzI1NSYjMzI7cGl4ZWwsJiMzMjtidXQmIzMyO3RoZSYjMzI7YWN0dWFsJiMzMjtjcm9w
-JiMzMjttYXkmIzMyO2JlJiMzMjtsYXJnZXImIzMyO3RoYW4mIzMyOzI1NS4NClNvJiMzMjt3ZSYj
-MzI7c3RpbGwmIzMyO25lZWQmIzMyO2Jsb2NrLWJhc2VkJiMzMjtjcm9wJiMzMjt3aXRoJiMzMjt0
-aGlzJiMzMjtwaXhlbC1iYXNlZCYjMzI7Y3JvcC4NClBsZWFzZSYjMzI7YWRkJiMzMjt0aGlzJiMz
-MjtpbmZvcm1hdGlvbiYjMzI7dG8mIzMyO2Rlc2NyaWJlJiMzMjt3aHkmIzMyO3dlJiMzMjtuZWVk
-JiMzMjt0aGlzJiMzMjttaXhlZCYjMzI7Y3JvcCYjMzI7bWVjaGFuaXNtLg0KDQpSZWdhcmRzLA0K
-Q0sNCg0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtSZWdhcmRzLA0KJmd0OyYjMzI7Q0sNCiZndDsmIzMy
-Ow0KJmd0OyYjMzI7DQomZ3Q7JiMzMjsNCg0KDQo8L3ByZT4NCjwvcD48L2JvZHk+PC9odG1sPjwh
-LS10eXBlOnRleHQtLT48IS0tey0tPjxwcmU+KioqKioqKioqKioqKiBNRURJQVRFSyBDb25maWRl
-bnRpYWxpdHkgTm90aWNlDQogKioqKioqKioqKioqKioqKioqKioNClRoZSBpbmZvcm1hdGlvbiBj
-b250YWluZWQgaW4gdGhpcyBlLW1haWwgbWVzc2FnZSAoaW5jbHVkaW5nIGFueSANCmF0dGFjaG1l
-bnRzKSBtYXkgYmUgY29uZmlkZW50aWFsLCBwcm9wcmlldGFyeSwgcHJpdmlsZWdlZCwgb3Igb3Ro
-ZXJ3aXNlDQpleGVtcHQgZnJvbSBkaXNjbG9zdXJlIHVuZGVyIGFwcGxpY2FibGUgbGF3cy4gSXQg
-aXMgaW50ZW5kZWQgdG8gYmUgDQpjb252ZXllZCBvbmx5IHRvIHRoZSBkZXNpZ25hdGVkIHJlY2lw
-aWVudChzKS4gQW55IHVzZSwgZGlzc2VtaW5hdGlvbiwgDQpkaXN0cmlidXRpb24sIHByaW50aW5n
-LCByZXRhaW5pbmcgb3IgY29weWluZyBvZiB0aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGl0cyANCmF0
-dGFjaG1lbnRzKSBieSB1bmludGVuZGVkIHJlY2lwaWVudChzKSBpcyBzdHJpY3RseSBwcm9oaWJp
-dGVkIGFuZCBtYXkgDQpiZSB1bmxhd2Z1bC4gSWYgeW91IGFyZSBub3QgYW4gaW50ZW5kZWQgcmVj
-aXBpZW50IG9mIHRoaXMgZS1tYWlsLCBvciBiZWxpZXZlDQogDQp0aGF0IHlvdSBoYXZlIHJlY2Vp
-dmVkIHRoaXMgZS1tYWlsIGluIGVycm9yLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgDQppbW1l
-ZGlhdGVseSAoYnkgcmVwbHlpbmcgdG8gdGhpcyBlLW1haWwpLCBkZWxldGUgYW55IGFuZCBhbGwg
-Y29waWVzIG9mIA0KdGhpcyBlLW1haWwgKGluY2x1ZGluZyBhbnkgYXR0YWNobWVudHMpIGZyb20g
-eW91ciBzeXN0ZW0sIGFuZCBkbyBub3QNCmRpc2Nsb3NlIHRoZSBjb250ZW50IG9mIHRoaXMgZS1t
-YWlsIHRvIGFueSBvdGhlciBwZXJzb24uIFRoYW5rIHlvdSENCjwvcHJlPjwhLS19LS0+
+On 2/11/2026 11:01 AM, Sanjay Yadav wrote:
+> Add missing kernel-doc for GPU buddy allocator flags,
+> gpu_buddy_block, and gpu_buddy. The documentation covers block
+> header fields, allocator roots, free trees, and allocation flags
+> such as RANGE, TOPDOWN, CONTIGUOUS, CLEAR, and TRIM_DISABLE.
+> Private members are marked with kernel-doc private markers
+> and documented with regular comments.
+>
+> No functional changes.
+>
+> v2:
+> - Corrected GPU_BUDDY_CLEAR_TREE and GPU_BUDDY_DIRTY_TREE index values (Arun)
+> - Rebased after DRM buddy allocator moved to drivers/gpu/
+> - Updated commit message
+>
+> Cc: Christian König<christian.koenig@amd.com>
+> Cc: Arunpravin Paneer Selvam<Arunpravin.PaneerSelvam@amd.com>
+> Suggested-by: Matthew Auld<matthew.auld@intel.com>
+> Signed-off-by: Sanjay Yadav<sanjay.kumar.yadav@intel.com>
+> ---
+>   include/linux/gpu_buddy.h | 122 +++++++++++++++++++++++++++++++-------
+>   1 file changed, 102 insertions(+), 20 deletions(-)
+>
+> diff --git a/include/linux/gpu_buddy.h b/include/linux/gpu_buddy.h
+> index 07ac65db6d2e..b06241c78437 100644
+> --- a/include/linux/gpu_buddy.h
+> +++ b/include/linux/gpu_buddy.h
+> @@ -12,11 +12,58 @@
+>   #include <linux/sched.h>
+>   #include <linux/rbtree.h>
+>   
+> +/**
+> + * GPU_BUDDY_RANGE_ALLOCATION - Allocate within a specific address range
+> + *
+> + * When set, allocation is restricted to the range [start, end) specified
+> + * in gpu_buddy_alloc_blocks(). Without this flag, start/end are ignored
+> + * and allocation can use any free space.
+> + */
+>   #define GPU_BUDDY_RANGE_ALLOCATION		BIT(0)
+> +
+> +/**
+> + * GPU_BUDDY_TOPDOWN_ALLOCATION - Allocate from top of address space
+> + *
+> + * Allocate starting from high addresses and working down. Useful for
+> + * separating different allocation types (e.g., kernel vs userspace)
+> + * to reduce fragmentation.
+> + */
+>   #define GPU_BUDDY_TOPDOWN_ALLOCATION		BIT(1)
+> +
+> +/**
+> + * GPU_BUDDY_CONTIGUOUS_ALLOCATION - Require physically contiguous blocks
+> + *
+> + * The allocation must be satisfied with a single contiguous block.
+> + * If the requested size cannot be allocated contiguously, the
+> + * allocation fails with -ENOSPC.
+> + */
+>   #define GPU_BUDDY_CONTIGUOUS_ALLOCATION		BIT(2)
+> +
+> +/**
+> + * GPU_BUDDY_CLEAR_ALLOCATION - Prefer pre-cleared (zeroed) memory
+> + *
+> + * Attempt to allocate from the clear tree first. If insufficient clear
+> + * memory is available, falls back to dirty memory. Useful when the
+> + * caller needs zeroed memory and wants to avoid GPU clear operations.
+> + */
+>   #define GPU_BUDDY_CLEAR_ALLOCATION		BIT(3)
+> +
+> +/**
+> + * GPU_BUDDY_CLEARED - Mark returned blocks as cleared
+> + *
+> + * Used with gpu_buddy_free_list() to indicate that the memory being
+> + * freed has been cleared (zeroed). The blocks will be placed in the
+> + * clear tree for future GPU_BUDDY_CLEAR_ALLOCATION requests.
+> + */
+>   #define GPU_BUDDY_CLEARED			BIT(4)
+> +
+> +/**
+> + * GPU_BUDDY_TRIM_DISABLE - Disable automatic block trimming
+> + *
+> + * By default, if an allocation is smaller than the allocated block,
+> + * excess memory is trimmed and returned to the free pool. This flag
+> + * disables trimming, keeping the full power-of-two block size.
+> + */
+>   #define GPU_BUDDY_TRIM_DISABLE			BIT(5)
+>   
+>   enum gpu_buddy_free_tree {
+> @@ -28,7 +75,27 @@ enum gpu_buddy_free_tree {
+>   #define for_each_free_tree(tree) \
+>   	for ((tree) = 0; (tree) < GPU_BUDDY_MAX_FREE_TREES; (tree)++)
+>   
+> +/**
+> + * struct gpu_buddy_block - Block within a buddy allocator
+> + *
+> + * Each block in the buddy allocator is represented by this structure.
+> + * Blocks are organized in a binary tree where each parent block can be
+> + * split into two children (left and right buddies). The allocator manages
+> + * blocks at various orders (power-of-2 sizes) from chunk_size up to the
+> + * largest contiguous region.
+> + *
+> + * @private: Private data owned by the allocator user (e.g., driver-specific data)
+> + * @link: List node for user ownership while block is allocated
+> + */
+>   struct gpu_buddy_block {
+> +/* private: */
+> +	/*
+> +	 * Header bit layout:
+> +	 * - Bits 63:12: block offset within the address space
+> +	 * - Bits 11:10: state (ALLOCATED, FREE, or SPLIT)
+> +	 * - Bit 9: clear bit (1 if memory is zeroed)
+I think we should add
+- Bits 8:9: reserved
 
---__=_Part_Boundary_003_1635750558.265812357--
+Apart from that, looks good to me.
+Reviewed-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> +	 * - Bits 5:0: order (log2 of size relative to chunk_size)
+> +	 */
+>   #define GPU_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)
+>   #define GPU_BUDDY_HEADER_STATE  GENMASK_ULL(11, 10)
+>   #define   GPU_BUDDY_ALLOCATED	   (1 << 10)
+> @@ -43,7 +110,7 @@ struct gpu_buddy_block {
+>   	struct gpu_buddy_block *left;
+>   	struct gpu_buddy_block *right;
+>   	struct gpu_buddy_block *parent;
+> -
+> +/* public: */
+>   	void *private; /* owned by creator */
+>   
+>   	/*
+> @@ -53,43 +120,58 @@ struct gpu_buddy_block {
+>   	 * gpu_buddy_free* ownership is given back to the mm.
+>   	 */
+>   	union {
+> +/* private: */
+>   		struct rb_node rb;
+> +/* public: */
+>   		struct list_head link;
+>   	};
+> -
+> +/* private: */
+>   	struct list_head tmp_link;
+>   };
+>   
+>   /* Order-zero must be at least SZ_4K */
+>   #define GPU_BUDDY_MAX_ORDER (63 - 12)
+>   
+> -/*
+> - * Binary Buddy System.
+> +/**
+> + * struct gpu_buddy - GPU binary buddy allocator
+> + *
+> + * The buddy allocator provides efficient power-of-two memory allocation
+> + * with fast allocation and free operations. It is commonly used for GPU
+> + * memory management where allocations can be split into power-of-two
+> + * block sizes.
+>    *
+> - * Locking should be handled by the user, a simple mutex around
+> - * gpu_buddy_alloc* and gpu_buddy_free* should suffice.
+> + * Locking should be handled by the user; a simple mutex around
+> + * gpu_buddy_alloc_blocks() and gpu_buddy_free_block()/gpu_buddy_free_list()
+> + * should suffice.
+> + *
+> + * @n_roots: Number of root blocks in the roots array.
+> + * @max_order: Maximum block order (log2 of largest block size / chunk_size).
+> + * @chunk_size: Minimum allocation granularity in bytes. Must be at least SZ_4K.
+> + * @size: Total size of the address space managed by this allocator in bytes.
+> + * @avail: Total free space currently available for allocation in bytes.
+> + * @clear_avail: Free space available in the clear tree (zeroed memory) in bytes.
+> + *               This is a subset of @avail.
+>    */
+>   struct gpu_buddy {
+> -	/* Maintain a free list for each order. */
+> -	struct rb_root **free_trees;
+> -
+> +/* private: */
+>   	/*
+> -	 * Maintain explicit binary tree(s) to track the allocation of the
+> -	 * address space. This gives us a simple way of finding a buddy block
+> -	 * and performing the potentially recursive merge step when freeing a
+> -	 * block.  Nodes are either allocated or free, in which case they will
+> -	 * also exist on the respective free list.
+> +	 * Array of red-black trees for free block management.
+> +	 * Indexed as free_trees[clear/dirty][order] where:
+> +	 * - Index 0 (GPU_BUDDY_CLEAR_TREE): blocks with zeroed content
+> +	 * - Index 1 (GPU_BUDDY_DIRTY_TREE): blocks with unknown content
+> +	 * Each tree holds free blocks of the corresponding order.
+>   	 */
+> -	struct gpu_buddy_block **roots;
+> -
+> +	struct rb_root **free_trees;
+>   	/*
+> -	 * Anything from here is public, and remains static for the lifetime of
+> -	 * the mm. Everything above is considered do-not-touch.
+> +	 * Array of root blocks representing the top-level blocks of the
+> +	 * binary tree(s). Multiple roots exist when the total size is not
+> +	 * a power of two, with each root being the largest power-of-two
+> +	 * that fits in the remaining space.
+>   	 */
+> +	struct gpu_buddy_block **roots;
+> +/* public: */
+>   	unsigned int n_roots;
+>   	unsigned int max_order;
+> -
+> -	/* Must be at least SZ_4K */
+>   	u64 chunk_size;
+>   	u64 size;
+>   	u64 avail;
 
+--------------mzIuGTL0pgJokSb989AqzrlX
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 2/11/2026 11:01 AM, Sanjay Yadav
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:20260211053123.260037-5-sanjay.kumar.yadav@intel.com">
+      <pre wrap="" class="moz-quote-pre">Add missing kernel-doc for GPU buddy allocator flags,
+gpu_buddy_block, and gpu_buddy. The documentation covers block
+header fields, allocator roots, free trees, and allocation flags
+such as RANGE, TOPDOWN, CONTIGUOUS, CLEAR, and TRIM_DISABLE.
+Private members are marked with kernel-doc private markers
+and documented with regular comments.
+
+No functional changes.
+
+v2:
+- Corrected GPU_BUDDY_CLEAR_TREE and GPU_BUDDY_DIRTY_TREE index values (Arun)
+- Rebased after DRM buddy allocator moved to drivers/gpu/
+- Updated commit message
+
+Cc: Christian König <a class="moz-txt-link-rfc2396E" href="mailto:christian.koenig@amd.com">&lt;christian.koenig@amd.com&gt;</a>
+Cc: Arunpravin Paneer Selvam <a class="moz-txt-link-rfc2396E" href="mailto:Arunpravin.PaneerSelvam@amd.com">&lt;Arunpravin.PaneerSelvam@amd.com&gt;</a>
+Suggested-by: Matthew Auld <a class="moz-txt-link-rfc2396E" href="mailto:matthew.auld@intel.com">&lt;matthew.auld@intel.com&gt;</a>
+Signed-off-by: Sanjay Yadav <a class="moz-txt-link-rfc2396E" href="mailto:sanjay.kumar.yadav@intel.com">&lt;sanjay.kumar.yadav@intel.com&gt;</a>
+---
+ include/linux/gpu_buddy.h | 122 +++++++++++++++++++++++++++++++-------
+ 1 file changed, 102 insertions(+), 20 deletions(-)
+
+diff --git a/include/linux/gpu_buddy.h b/include/linux/gpu_buddy.h
+index 07ac65db6d2e..b06241c78437 100644
+--- a/include/linux/gpu_buddy.h
++++ b/include/linux/gpu_buddy.h
+@@ -12,11 +12,58 @@
+ #include &lt;linux/sched.h&gt;
+ #include &lt;linux/rbtree.h&gt;
+ 
++/**
++ * GPU_BUDDY_RANGE_ALLOCATION - Allocate within a specific address range
++ *
++ * When set, allocation is restricted to the range [start, end) specified
++ * in gpu_buddy_alloc_blocks(). Without this flag, start/end are ignored
++ * and allocation can use any free space.
++ */
+ #define GPU_BUDDY_RANGE_ALLOCATION		BIT(0)
++
++/**
++ * GPU_BUDDY_TOPDOWN_ALLOCATION - Allocate from top of address space
++ *
++ * Allocate starting from high addresses and working down. Useful for
++ * separating different allocation types (e.g., kernel vs userspace)
++ * to reduce fragmentation.
++ */
+ #define GPU_BUDDY_TOPDOWN_ALLOCATION		BIT(1)
++
++/**
++ * GPU_BUDDY_CONTIGUOUS_ALLOCATION - Require physically contiguous blocks
++ *
++ * The allocation must be satisfied with a single contiguous block.
++ * If the requested size cannot be allocated contiguously, the
++ * allocation fails with -ENOSPC.
++ */
+ #define GPU_BUDDY_CONTIGUOUS_ALLOCATION		BIT(2)
++
++/**
++ * GPU_BUDDY_CLEAR_ALLOCATION - Prefer pre-cleared (zeroed) memory
++ *
++ * Attempt to allocate from the clear tree first. If insufficient clear
++ * memory is available, falls back to dirty memory. Useful when the
++ * caller needs zeroed memory and wants to avoid GPU clear operations.
++ */
+ #define GPU_BUDDY_CLEAR_ALLOCATION		BIT(3)
++
++/**
++ * GPU_BUDDY_CLEARED - Mark returned blocks as cleared
++ *
++ * Used with gpu_buddy_free_list() to indicate that the memory being
++ * freed has been cleared (zeroed). The blocks will be placed in the
++ * clear tree for future GPU_BUDDY_CLEAR_ALLOCATION requests.
++ */
+ #define GPU_BUDDY_CLEARED			BIT(4)
++
++/**
++ * GPU_BUDDY_TRIM_DISABLE - Disable automatic block trimming
++ *
++ * By default, if an allocation is smaller than the allocated block,
++ * excess memory is trimmed and returned to the free pool. This flag
++ * disables trimming, keeping the full power-of-two block size.
++ */
+ #define GPU_BUDDY_TRIM_DISABLE			BIT(5)
+ 
+ enum gpu_buddy_free_tree {
+@@ -28,7 +75,27 @@ enum gpu_buddy_free_tree {
+ #define for_each_free_tree(tree) \
+ 	for ((tree) = 0; (tree) &lt; GPU_BUDDY_MAX_FREE_TREES; (tree)++)
+ 
++/**
++ * struct gpu_buddy_block - Block within a buddy allocator
++ *
++ * Each block in the buddy allocator is represented by this structure.
++ * Blocks are organized in a binary tree where each parent block can be
++ * split into two children (left and right buddies). The allocator manages
++ * blocks at various orders (power-of-2 sizes) from chunk_size up to the
++ * largest contiguous region.
++ *
++ * @private: Private data owned by the allocator user (e.g., driver-specific data)
++ * @link: List node for user ownership while block is allocated
++ */
+ struct gpu_buddy_block {
++/* private: */
++	/*
++	 * Header bit layout:
++	 * - Bits 63:12: block offset within the address space
++	 * - Bits 11:10: state (ALLOCATED, FREE, or SPLIT)
++	 * - Bit 9: clear bit (1 if memory is zeroed)</pre>
+    </blockquote>
+    I think we should add<br>
+    - Bits 8:9: reserved<br>
+    <br>
+    Apart from that, looks good to me.<br>
+    Reviewed-by:
+    Arunpravin Paneer Selvam &lt;<a href="mailto:Arunpravin.PaneerSelvam@amd.com" class="moz-txt-link-freetext">Arunpravin.PaneerSelvam@amd.com</a>&gt;
+    <blockquote type="cite" cite="mid:20260211053123.260037-5-sanjay.kumar.yadav@intel.com">
+      <pre wrap="" class="moz-quote-pre">
++	 * - Bits 5:0: order (log2 of size relative to chunk_size)
++	 */
+ #define GPU_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)
+ #define GPU_BUDDY_HEADER_STATE  GENMASK_ULL(11, 10)
+ #define   GPU_BUDDY_ALLOCATED	   (1 &lt;&lt; 10)
+@@ -43,7 +110,7 @@ struct gpu_buddy_block {
+ 	struct gpu_buddy_block *left;
+ 	struct gpu_buddy_block *right;
+ 	struct gpu_buddy_block *parent;
+-
++/* public: */
+ 	void *private; /* owned by creator */
+ 
+ 	/*
+@@ -53,43 +120,58 @@ struct gpu_buddy_block {
+ 	 * gpu_buddy_free* ownership is given back to the mm.
+ 	 */
+ 	union {
++/* private: */
+ 		struct rb_node rb;
++/* public: */
+ 		struct list_head link;
+ 	};
+-
++/* private: */
+ 	struct list_head tmp_link;
+ };
+ 
+ /* Order-zero must be at least SZ_4K */
+ #define GPU_BUDDY_MAX_ORDER (63 - 12)
+ 
+-/*
+- * Binary Buddy System.
++/**
++ * struct gpu_buddy - GPU binary buddy allocator
++ *
++ * The buddy allocator provides efficient power-of-two memory allocation
++ * with fast allocation and free operations. It is commonly used for GPU
++ * memory management where allocations can be split into power-of-two
++ * block sizes.
+  *
+- * Locking should be handled by the user, a simple mutex around
+- * gpu_buddy_alloc* and gpu_buddy_free* should suffice.
++ * Locking should be handled by the user; a simple mutex around
++ * gpu_buddy_alloc_blocks() and gpu_buddy_free_block()/gpu_buddy_free_list()
++ * should suffice.
++ *
++ * @n_roots: Number of root blocks in the roots array.
++ * @max_order: Maximum block order (log2 of largest block size / chunk_size).
++ * @chunk_size: Minimum allocation granularity in bytes. Must be at least SZ_4K.
++ * @size: Total size of the address space managed by this allocator in bytes.
++ * @avail: Total free space currently available for allocation in bytes.
++ * @clear_avail: Free space available in the clear tree (zeroed memory) in bytes.
++ *               This is a subset of @avail.
+  */
+ struct gpu_buddy {
+-	/* Maintain a free list for each order. */
+-	struct rb_root **free_trees;
+-
++/* private: */
+ 	/*
+-	 * Maintain explicit binary tree(s) to track the allocation of the
+-	 * address space. This gives us a simple way of finding a buddy block
+-	 * and performing the potentially recursive merge step when freeing a
+-	 * block.  Nodes are either allocated or free, in which case they will
+-	 * also exist on the respective free list.
++	 * Array of red-black trees for free block management.
++	 * Indexed as free_trees[clear/dirty][order] where:
++	 * - Index 0 (GPU_BUDDY_CLEAR_TREE): blocks with zeroed content
++	 * - Index 1 (GPU_BUDDY_DIRTY_TREE): blocks with unknown content
++	 * Each tree holds free blocks of the corresponding order.
+ 	 */
+-	struct gpu_buddy_block **roots;
+-
++	struct rb_root **free_trees;
+ 	/*
+-	 * Anything from here is public, and remains static for the lifetime of
+-	 * the mm. Everything above is considered do-not-touch.
++	 * Array of root blocks representing the top-level blocks of the
++	 * binary tree(s). Multiple roots exist when the total size is not
++	 * a power of two, with each root being the largest power-of-two
++	 * that fits in the remaining space.
+ 	 */
++	struct gpu_buddy_block **roots;
++/* public: */
+ 	unsigned int n_roots;
+ 	unsigned int max_order;
+-
+-	/* Must be at least SZ_4K */
+ 	u64 chunk_size;
+ 	u64 size;
+ 	u64 avail;
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------mzIuGTL0pgJokSb989AqzrlX--
