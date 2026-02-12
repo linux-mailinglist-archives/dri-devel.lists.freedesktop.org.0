@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ODC7J2GfjWnv5QAAu9opvQ
+	id wITYDx2hjWky5gAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 10:37:37 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 10:45:01 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0FE12BE8E
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 10:37:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E490C12BFD7
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 10:45:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E13C310E18B;
-	Thu, 12 Feb 2026 09:37:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC59510E711;
+	Thu, 12 Feb 2026 09:44:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="N4zxHgoe";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Y49CTFPQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from forward103d.mail.yandex.net (forward103d.mail.yandex.net
- [178.154.239.214])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 025CE10E18B
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 09:37:31 +0000 (UTC)
-Received: from mail-nwsmtp-smtp-production-main-77.iva.yp-c.yandex.net
- (mail-nwsmtp-smtp-production-main-77.iva.yp-c.yandex.net
- [IPv6:2a02:6b8:c0c:9407:0:640:8fbc:0])
- by forward103d.mail.yandex.net (Yandex) with ESMTPS id 5F61EC46DC;
- Thu, 12 Feb 2026 12:37:29 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-77.iva.yp-c.yandex.net
- (smtp/Yandex) with ESMTPSA id PbQlX87GCeA0-UERPmDVy; 
- Thu, 12 Feb 2026 12:37:28 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
- s=mail; t=1770889048;
- bh=w39PK5ahU618vaBalKGUKLougqCsZIXwtjYe/AMNTAM=;
- h=Cc:Message-ID:Subject:Date:References:To:From:In-Reply-To;
- b=N4zxHgoeaeqHqcYQMR8aTQDWvxzWtgEGyYU3WKWdDG1VRRQo6rVEA2ASMgZ5uUABV
- vgreM03UbtoR20G4uCQ/zo5zn7/YcxQMr/KuTwG909YdXHKDA6QgH5uKyVnB9unM9+
- RuKqiJ11ynx0aG0E1nthm9DYLqSLAxR/JXAKaUYo=
-Authentication-Results: mail-nwsmtp-smtp-production-main-77.iva.yp-c.yandex.net;
- dkim=pass header.i=@onurozkan.dev
-Date: Thu, 12 Feb 2026 12:37:23 +0300
-From: Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>
-To: Charalampos Mitrodimas <charmitro@posteo.net>
-Cc: daniel.almeida@collabora.com, aliceryhl@google.com, dakr@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
- ojeda@kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v1] drm/tyr: make SRAM supply optional like panthor
-Message-ID: <20260212123723.0d028472@nimda>
-In-Reply-To: <87bjhu67kr.fsf@posteo.net>
-References: <20260211195406.289634-1-work@onurozkan.dev>
- <87bjhu67kr.fsf@posteo.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3A7F10E70A;
+ Thu, 12 Feb 2026 09:44:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=833/EZZPoRCNa1CzduKQIDoSq5Xvt+n4Hursud2AlLM=; b=Y49CTFPQsx4CSTnl8tDE/haZBZ
+ Fbl6Ojbi3QC0qEIUQ0oi6xQsLR4nJjD6AGDaF3CXNOsXokkKVAjX0bAnYRXNHjh/fxsMKj8Rm1RhR
+ qgSr11cR1/kF9GR/G9SM5BsepG9vWLiX8OIQD8Ljx4YODmZJefSpSVzybv1otFe7UiLXZAxul0EIf
+ c8+VjbsbPk1EpveDQvWoXliNkPsvYYb7SaJBveLdpMyoQbLbPIgr+BoEVLiBGL1Di0cmJnMCvEmxf
+ pVesWdln762VUEvO/cJA2rVGFxbDhTlwEqjGBo0dEOIcnfe+fNYstm85adBG7Qn+7cks3L0C+GnyJ
+ NmWhUeSw==;
+Received: from [90.240.106.137] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vqTFZ-00HSoJ-EY; Thu, 12 Feb 2026 10:44:41 +0100
+Message-ID: <d5fa40db-c9cc-4dda-8bff-c2f98d7bc421@igalia.com>
+Date: Thu, 12 Feb 2026 09:44:40 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 06/31] drm/sched: Add some scheduling quality unit tests
+To: phasta@kernel.org, kernel test robot <lkp@intel.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+References: <20260128110806.38350-7-tvrtko.ursulin@igalia.com>
+ <202601292335.YI2PBzhs-lkp@intel.com>
+ <ef514066e5771e8ac1deb3ae6baa14b798305fd2.camel@mailbox.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <ef514066e5771e8ac1deb3ae6baa14b798305fd2.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,206 +72,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[onurozkan.dev,reject];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[onurozkan.dev:s=mail];
+X-Spamd-Result: default: False [0.49 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:charmitro@posteo.net,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:lgirdwood@gmail.com,m:broonie@kernel.org,m:ojeda@kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[work@onurozkan.dev,dri-devel-bounces@lists.freedesktop.org];
-	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[onurozkan.dev:+];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[work@onurozkan.dev,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[collabora.com,google.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:mid,gitlab.freedesktop.org:url,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,zulipchat.com:url,posteo.net:email]
-X-Rspamd-Queue-Id: 0B0FE12BE8E
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[igalia.com:-]
+X-Rspamd-Queue-Id: E490C12BFD7
 X-Rspamd-Action: no action
 
-On Thu, 12 Feb 2026 02:04:23 +0000
-Charalampos Mitrodimas <charmitro@posteo.net> wrote:
 
-> Onur =C3=96zkan <work@onurozkan.dev> writes:
->=20
-> > On rk3588s, `dmesg | grep 'tyr'` logs:
-> >
-> >   tyr fb000000.gpu: supply SRAM not found, using dummy regulator
-> >
-> > This happens because Tyr calls Regulator<Enabled>::get() for SRAM,
-> > which goes through the non-optional regulator_get() path. If the
-> > device tree doesn't provide sram-supply, regulator core falls back
-> > to a dummy regulator and writes that log.
-> >
-> > Panthor handles SRAM as optional and tolerates missing sram-supply.
-> > This patch matches that behavior in Tyr by using optional regulator
-> > lookup and storing SRAM as Option<Regulator<Enabled>> which avoids
-> > dummy-regulator fallback/noise when SRAM is not described inside
-> > the device tree.
-> >
-> > Link:
-> > https://rust-for-linux.zulipchat.com/#narrow/stream/x/topic/x/near/5732=
-10018
-> > Signed-off-by: Onur =C3=96zkan <work@onurozkan.dev> ---
-> >  drivers/gpu/drm/tyr/driver.rs |  5 +++--
-> >  rust/kernel/regulator.rs      | 40
-> > +++++++++++++++++++++++++++++++++++ 2 files changed, 43
-> > insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/tyr/driver.rs
-> > b/drivers/gpu/drm/tyr/driver.rs index 0389c558c036..e0856deb83ec
-> > 100644 --- a/drivers/gpu/drm/tyr/driver.rs
-> > +++ b/drivers/gpu/drm/tyr/driver.rs
-> > @@ -113,7 +113,8 @@ fn probe(
-> >          coregroup_clk.prepare_enable()?;
-> > =20
-> >          let mali_regulator =3D
-> > Regulator::<regulator::Enabled>::get(pdev.as_ref(),
-> > c_str!("mali"))?;
-> > -        let sram_regulator =3D
-> > Regulator::<regulator::Enabled>::get(pdev.as_ref(),
-> > c_str!("sram"))?;
-> > +        let sram_regulator =3D
-> > +
-> > Regulator::<regulator::Enabled>::get_optional(pdev.as_ref(),
-> > c_str!("sram"))?; let request =3D
-> > pdev.io_request_by_index(0).ok_or(ENODEV)?; let iomem =3D
-> > Arc::pin_init(request.iomap_sized::<SZ_2M>(), GFP_KERNEL)?; @@
-> > -201,5 +202,5 @@ struct Clocks { #[pin_data]
-> >  struct Regulators {
-> >      mali: Regulator<regulator::Enabled>,
-> > -    sram: Regulator<regulator::Enabled>,
-> > +    sram: Option<Regulator<regulator::Enabled>>,
-> >  }
-> > diff --git a/rust/kernel/regulator.rs b/rust/kernel/regulator.rs
-> > index 2c44827ad0b7..8d95e5e80051 100644
-> > --- a/rust/kernel/regulator.rs
-> > +++ b/rust/kernel/regulator.rs
-> > @@ -283,6 +283,29 @@ fn get_internal(dev: &Device, name: &CStr) ->
-> > Result<Regulator<T>> { })
-> >      }
-> > =20
-> > +    fn get_optional_internal(dev: &Device, name: &CStr) ->
-> > Result<Option<Regulator<T>>> {
-> > +        // SAFETY: It is safe to call `regulator_get_optional()`,
-> > on a
-> > +        // device pointer received from the C code.
-> > +        let inner =3D from_err_ptr(unsafe {
-> > +            bindings::regulator_get_optional(dev.as_raw(),
-> > name.as_char_ptr())
-> > +        });
->=20
-> Hello,
->=20
-> When CONFIG_REGULATOR is disabled, regulator_get_optional() becomes a
-> static inline stub in consumer.h, and bindgen cannot export it as a
-> symbol. The other regulator functions all have C helpers for this but
-> regulator_get_optional() is missing one.
->=20
-> So it causes a E0425 with CONFIG_REGULATOR not set.
->=20
->   error[E0425]: cannot find function `regulator_get_optional` in
-> crate `bindings` --> rust/kernel/regulator.rs:290:23
->        |
->    290 |             bindings::regulator_get_optional(dev.as_raw(),
-> name.as_char_ptr()) |                       ^^^^^^^^^^^^^^^^^^^^^^
-> help: a function with a similar name exists: `regulator_get_voltage`
+On 11/02/2026 10:56, Philipp Stanner wrote:
+> On Thu, 2026-01-29 at 23:31 +0800, kernel test robot wrote:
+>> Hi Tvrtko,
+>>
+>> kernel test robot noticed the following build errors:
+>>
+>> [auto build test ERROR on drm-misc/drm-misc-next]
+>> [also build test ERROR on drm-xe/drm-xe-next daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-tip/drm-tip linus/master v6.19-rc7 next-20260128]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> Hi Tvrtko,
+> 
+> what about this build error? Seems to be an Xe branch conflict?
 
-Yeah, I missed that.
+I don't know what happened there in LKP, it appeared for the first time 
+with v6. Drm_sched_scheduler_two_clients_attr looks constant to me:
 
->=20
-> > +
-> > +        let inner =3D match inner {
-> > +            Ok(inner) =3D> inner,
-> > +            Err(ENODEV) =3D> return Ok(None),
-> > +            Err(err) =3D> return Err(err),
-> > +        };
-> > +
-> > +        // SAFETY: We can safely trust `inner` to be a pointer to
-> > a valid
-> > +        // regulator if `ERR_PTR` was not returned.
-> > +        let inner =3D unsafe { NonNull::new_unchecked(inner) };
-> > +
-> > +        Ok(Some(Self {
-> > +            inner,
-> > +            _phantom: PhantomData,
-> > +        }))
-> > +    }
->=20
-> The Regulator struct invariant currently says:
->=20
->   /// - `inner` is a non-null wrapper over a pointer to a `struct
->   ///   regulator` obtained from [`regulator_get()`].
->=20
-> Since get_optional_internal() creates a Regulator from
-> regulator_get_optional(), should we also update it to mention it?
+static const struct kunit_attributes 
+drm_sched_scheduler_two_clients_attr = {
+	.speed = KUNIT_SPEED_SLOW,
+};
 
-I think we should, will send v2 and cover both changes.
+static struct kunit_case drm_sched_scheduler_two_clients_tests[] = {
+	KUNIT_CASE_PARAM_ATTR(drm_sched_scheduler_two_clients_test,
+			      drm_sched_scheduler_two_clients_gen_params,
+			      drm_sched_scheduler_two_clients_attr),
+	{}
+};
 
-Thanks,
-Onur
+It builds fine for me but I will keep an eye on it.
 
->=20
->=20
-> Cheers,
-> C. Mitrodimas
->=20
-> > +
-> >      fn enable_internal(&self) -> Result {
-> >          // SAFETY: Safe as per the type invariants of `Regulator`.
-> >          to_result(unsafe {
-> > bindings::regulator_enable(self.inner.as_ptr()) }) @@ -300,6
-> > +323,11 @@ pub fn get(dev: &Device, name: &CStr) -> Result<Self> {
-> > Regulator::get_internal(dev, name) }
-> > =20
-> > +    /// Obtains an optional [`Regulator`] instance from the system.
-> > +    pub fn get_optional(dev: &Device, name: &CStr) ->
-> > Result<Option<Self>> {
-> > +        Regulator::get_optional_internal(dev, name)
-> > +    }
-> > +
-> >      /// Attempts to convert the regulator to an enabled state.
-> >      pub fn try_into_enabled(self) -> Result<Regulator<Enabled>,
-> > Error<Disabled>> { // We will be transferring the ownership of our
-> > `regulator_get()` count to @@ -329,6 +357,18 @@ pub fn get(dev:
-> > &Device, name: &CStr) -> Result<Self> { .map_err(|error|
-> > error.error) }
-> > =20
-> > +    /// Obtains an optional [`Regulator`] instance from the system
-> > and enables it.
-> > +    pub fn get_optional(dev: &Device, name: &CStr) ->
-> > Result<Option<Self>> {
-> > +        match Regulator::<Disabled>::get_optional_internal(dev,
-> > name)? {
-> > +            Some(regulator) =3D> {
-> > +                let enabled_regulator =3D
-> > +                    regulator.try_into_enabled().map_err(|error|
-> > error.error)?;
-> > +                Ok(Some(enabled_regulator))
-> > +            }
-> > +            None =3D> Ok(None),
-> > +        }
-> > +    }
-> > +
-> >      /// Attempts to convert the regulator to a disabled state.
-> >      pub fn try_into_disabled(self) -> Result<Regulator<Disabled>,
-> > Error<Enabled>> { // We will be transferring the ownership of our
-> > `regulator_get()` count
+> BTW, I think Danilo and I told you a few times already that we would
+> like to get the whole patch series into our inboxes. You seem to
+> exclude patches for other components, but it's important for me to see
+> all the other driver maintainers' RBs etc. there and be easily able to
+> ping those who haven't reacted yet and so on. Also quickly coyping an
+> mbox to test-apply something etc. etc. is easier
+> 
+> I guess you want to spare people from noisy mail traffic, but getting
+> 31 patches is not a problem, those who don't care can simple ignore
+> them or collapse the thread in their mail program and so on.
+
+I assume all important people are subscribed to dri-devel anyway so all 
+patches should be in their inboxes. But I will try and remember to 
+explicitly cc you two.
+
+Regards,
+
+Tvrtko
+
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Tvrtko-Ursulin/drm-amdgpu-Reject-impossible-entities-early/20260128-191117
+>> base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+>> patch link:    https://lore.kernel.org/r/20260128110806.38350-7-tvrtko.ursulin%40igalia.com
+>> patch subject: [PATCH v6 06/31] drm/sched: Add some scheduling quality unit tests
+>> config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260129/202601292335.YI2PBzhs-lkp@intel.com/config)
+>> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260129/202601292335.YI2PBzhs-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>>> Reported-by: kernel test robot <lkp@intel.com>
+>>> Closes: https://lore.kernel.org/oe-kbuild-all/202601292335.YI2PBzhs-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>>> drivers/gpu/drm/scheduler/tests/tests_scheduler.c:676:10: error: initializer element is not a compile-time constant
+>>                                   drm_sched_scheduler_two_clients_attr),
+>>                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>     include/kunit/test.h:224:13: note: expanded from macro 'KUNIT_CASE_PARAM_ATTR'
+>>                       .attr = attributes, .module_name = KBUILD_MODNAME}
+>>                               ^~~~~~~~~~
+>>     1 error generated.
+>>
+>>
+>> vim +676 drivers/gpu/drm/scheduler/tests/tests_scheduler.c
+>>
+>>     672	
+>>     673	static struct kunit_case drm_sched_scheduler_two_clients_tests[] = {
+>>     674		KUNIT_CASE_PARAM_ATTR(drm_sched_scheduler_two_clients_test,
+>>     675				      drm_sched_scheduler_two_clients_gen_params,
+>>   > 676				      drm_sched_scheduler_two_clients_attr),
+>>     677		{}
+>>     678	};
+>>     679	
+>>
+> 
 
