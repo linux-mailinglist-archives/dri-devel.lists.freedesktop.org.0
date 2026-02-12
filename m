@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2OgCFOYujWk/zwAAu9opvQ
+	id MEt3F+oujWk/zwAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 02:37:42 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 02:37:46 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F6F8128FFC
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 02:37:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C1B12900B
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 02:37:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECFF310E6AD;
-	Thu, 12 Feb 2026 01:37:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CE4A10E6B4;
+	Thu, 12 Feb 2026 01:37:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="hgOZQGzl";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="jPD6NzBb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4E5410E6AD
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 01:37:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1770860255; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBBDB10E6B3
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 01:37:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1770860257; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=n1CzFEGTKviIMX/d15K2//1s9Wv5dTmRu3R9+NQOdFSm3cyPVC7XVgsSwdWA751yL0Qc+n2OFvNFFug3Y3dFYQTzmaS7WTiv+PouCW+7sBxmXmlOIfjrkGevYiTwYi73q6tsJNWIzTJAMKGnRH+tTy/4P6/oWPZqyR7ywc3ysdI=
+ b=ef90pc/KGC3B8e22BusjKTMFJGjKowbVXTWSGkzsEfESZTudqST7kQlr5yUSsmajAg3/vz3x/Qaap2xz14E2lfk6KNAdYJM2DPjwrlw4ZzK2FQ21AkSXYrjtlJIxhXw2r15lYI5kWmSBZBmMlsf3Y0hwxoC14pittSF0hsMOnps=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1770860255;
+ s=zohoarc; t=1770860257;
  h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=Lez+oPXTsx7GivoupNNO0Y6wKAfdFgOevpV5ZU+wW0M=; 
- b=TenFGY1TVnJe78lySi7yFk7SyIfS0mfL6oLLGfXbfaHZFhA/1IIn37zTQj2uyCYAmWW64a2SgHMyKTAyiOeaggwkKOFtCyxTl2T26Jk7kshaf5rR6Wtaw977fLXSM7twyTRNIBeibqt4RWZEDvgSAfDXhrSouliuU3k2Vcu9JWY=
+ bh=WxI0alUh/iTXR4SSXMC0dJb74nKNJ3C6ERTvSFTYYCI=; 
+ b=GZShAn+YeqOXUc2I+dfNz8gCuG1A4vigSqxsYpd8kcWL5P/27zbTJEI0Jh/qkZWi6DyxxfuEjix5LTHc+dstYXJZa7Wx2gOPhTyesaA5wXSzeeKgKg3+5JMFL7jbDK+jQ9QlPpf+nm/0BVW1T8yjJSX5gJ0F9AzxDE7+49fTGUw=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
  dmarc=pass header.from=<deborah.brouwer@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770860255; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770860257; 
  s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com; 
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=Lez+oPXTsx7GivoupNNO0Y6wKAfdFgOevpV5ZU+wW0M=;
- b=hgOZQGzlxu8ykY8BXzSYLBY4zU+X7LyfJo8HWghvxqCckU1F7oaO83FmNxA0zWmM
- UOS4zn9hCN5NH8lnW9I/PgBePiwL8F+y8DjqyZYD7y0H/3Y2iAewtRzqjHyf7fVrk4F
- +MDifukPQDGHCx264QPrbzK5bU1+mM5NiK8u8V0Y=
-Received: by mx.zohomail.com with SMTPS id 1770860253185360.3147245468143;
- Wed, 11 Feb 2026 17:37:33 -0800 (PST)
+ bh=WxI0alUh/iTXR4SSXMC0dJb74nKNJ3C6ERTvSFTYYCI=;
+ b=jPD6NzBbzNoa9cDgPhJ/DntAFEgP+xRX1HpTbRxOI3wlvbq4ij4DvVedl3oYNVyJ
+ N/NRhg+XXPr+32BBTIaIAFd7DC6Fcqr9zfgQhl15uy6H2DuDWtDwwfWL5dHVlAztJ0T
+ OqCoxnO/H+FmAPR6jRCCXD5o4vId2RFM03jaMF60=
+Received: by mx.zohomail.com with SMTPS id 1770860255056638.0660570457901;
+ Wed, 11 Feb 2026 17:37:35 -0800 (PST)
 From: Deborah Brouwer <deborah.brouwer@collabora.com>
 To: dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org
 Cc: daniel.almeida@collabora.com, aliceryhl@google.com,
  boris.brezillon@collabora.com, beata.michalska@arm.com, lyude@redhat.com,
  Deborah Brouwer <deborah.brouwer@collabora.com>
-Subject: [PATCH 01/12] drm/tyr: select DRM abstractions in Kconfig
-Date: Wed, 11 Feb 2026 17:37:02 -0800
-Message-ID: <20260212013713.304343-2-deborah.brouwer@collabora.com>
+Subject: [PATCH 02/12] drm/tyr: move clock cleanup into Clocks Drop impl
+Date: Wed, 11 Feb 2026 17:37:03 -0800
+Message-ID: <20260212013713.304343-3-deborah.brouwer@collabora.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260212013713.304343-1-deborah.brouwer@collabora.com>
 References: <20260212013713.304343-1-deborah.brouwer@collabora.com>
@@ -96,62 +96,76 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[8];
 	TO_DN_SOME(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
-X-Rspamd-Queue-Id: 9F6F8128FFC
+X-Rspamd-Queue-Id: 10C1B12900B
 X-Rspamd-Action: no action
 
-From: Boris Brezillon <boris.brezillon@collabora.com>
+Currently Tyr disables its clocks from TyrDrmDeviceData::drop(), which
+causes them to be shut down before any other fields in TyrDrmDeviceData
+are dropped. This prevents us from using the clocks when dropping the
+other fields in TyrDrmDeviceData.
 
-When Tyr uses GEM_SHMEM_HELPER and GPUVM, these helpers must be enabled
-or the build will fail with undefined symbol errors like:
-  "ld.lld: error: undefined symbol: drm_gem_shmem_free"
+In order to better control when the clocks are dropped, move this cleanup
+logic into a Drop implementation on the Clocks struct itself.
 
-Introduce DRM_TYR_STATIC_DEPS and have Tyr select the required
-abstractions to ensure that they are enabled when Tyr is built.
-
-Also add MMU and IOMMU dependencies that will be required to boot
-the firmware.
-
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 ---
- drivers/gpu/drm/tyr/Kconfig | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/tyr/driver.rs | 23 +++++++++--------------
+ 1 file changed, 9 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/tyr/Kconfig b/drivers/gpu/drm/tyr/Kconfig
-index 4b55308fd2eb..c521fbd950ea 100644
---- a/drivers/gpu/drm/tyr/Kconfig
-+++ b/drivers/gpu/drm/tyr/Kconfig
-@@ -1,11 +1,23 @@
- # SPDX-License-Identifier: GPL-2.0 or MIT
+diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+index ae4daa12b3e5..9bc6ed56c45e 100644
+--- a/drivers/gpu/drm/tyr/driver.rs
++++ b/drivers/gpu/drm/tyr/driver.rs
+@@ -54,7 +54,7 @@ pub(crate) struct TyrPlatformDeviceData {
+     _device: ARef<TyrDrmDevice>,
+ }
  
-+config DRM_TYR_STATIC_DEPS
-+	bool
-+	select DRM_GEM_SHMEM_HELPER
-+	select DRM_GPUVM
-+	help
-+	  Ensure required DRM infrastructure is built-in when enabling Tyr
-+	  even if Tyr is =m
+-#[pin_data(PinnedDrop)]
++#[pin_data]
+ pub(crate) struct TyrDrmDeviceData {
+     pub(crate) pdev: ARef<platform::Device>,
+ 
+@@ -168,17 +168,6 @@ impl PinnedDrop for TyrPlatformDeviceData {
+     fn drop(self: Pin<&mut Self>) {}
+ }
+ 
+-#[pinned_drop]
+-impl PinnedDrop for TyrDrmDeviceData {
+-    fn drop(self: Pin<&mut Self>) {
+-        // TODO: the type-state pattern for Clks will fix this.
+-        let clks = self.clks.lock();
+-        clks.core.disable_unprepare();
+-        clks.stacks.disable_unprepare();
+-        clks.coregroup.disable_unprepare();
+-    }
+-}
+-
+ // We need to retain the name "panthor" to achieve drop-in compatibility with
+ // the C driver in the userspace stack.
+ const INFO: drm::DriverInfo = drm::DriverInfo {
+@@ -202,14 +191,20 @@ impl drm::Driver for TyrDrmDriver {
+     }
+ }
+ 
+-#[pin_data]
+ struct Clocks {
+     core: Clk,
+     stacks: OptionalClk,
+     coregroup: OptionalClk,
+ }
+ 
+-#[pin_data]
++impl Drop for Clocks {
++    fn drop(&mut self) {
++        self.core.disable_unprepare();
++        self.stacks.disable_unprepare();
++        self.coregroup.disable_unprepare();
++    }
++}
 +
- config DRM_TYR
- 	tristate "Tyr (Rust DRM support for ARM Mali CSF-based GPUs)"
- 	depends on DRM=y
- 	depends on RUST
- 	depends on ARM || ARM64 || COMPILE_TEST
- 	depends on !GENERIC_ATOMIC64  # for IOMMU_IO_PGTABLE_LPAE
-+	depends on MMU
-+	select DRM_TYR_STATIC_DEPS
-+	select IOMMU_IO_PGTABLE_LPAE
-+	depends on IOMMU_SUPPORT
- 	default n
- 	help
- 	  Rust DRM driver for ARM Mali CSF-based GPUs.
-@@ -15,5 +27,5 @@ config DRM_TYR
- 	  Note that the Mali-G68 and Mali-G78, while Valhall architecture, will
- 	  be supported with the panfrost driver as they are not CSF GPUs.
- 
--	  if M is selected, the module will be called tyr. This driver is work
-+	  If M is selected, the module will be called tyr. This driver is work
- 	  in progress and may not be functional.
+ struct Regulators {
+     _mali: Regulator<regulator::Enabled>,
+     _sram: Regulator<regulator::Enabled>,
 -- 
 2.52.0
 
