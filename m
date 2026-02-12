@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id fl1mNTjRjWkO7gAAu9opvQ
+	id Bp4gNQbSjWmJ7gAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 14:10:16 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 14:13:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1531F12DBB6
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 14:10:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E83212DBC8
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 14:13:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08EA210E74F;
-	Thu, 12 Feb 2026 13:10:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 203C410E734;
+	Thu, 12 Feb 2026 13:13:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eYoMtjTd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SYFcDVUk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F22B10E74F
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 13:10:11 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1F0F10E734
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 13:13:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 3B88860010;
- Thu, 12 Feb 2026 13:10:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67D73C4CEF7;
- Thu, 12 Feb 2026 13:10:07 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 63B3942A01;
+ Thu, 12 Feb 2026 13:13:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B59AEC4CEF7;
+ Thu, 12 Feb 2026 13:13:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770901809;
- bh=4OGIymvtICOLenGdbfRwIuE8+QmaHpFUy3M6cMFFxAw=;
+ s=k20201202; t=1770902017;
+ bh=BCMcKXyibuY72ZlBsUpi4Tif7N5dBM6mOtsw8Eg567Y=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eYoMtjTdUbc0iEbqzlUIDRCXkuq/9C5H+pf7mCPoF4ngTw+2xYNDIx28mXK3SwJbb
- 5QR5mapIXdNcVstci04N/UOhf+qk9rNNNjMcdfm7WinF4QD63tDmKh43gxYIxjFjBR
- VNgkLiL/fkmIPQHrBvQoAaEdU9MBYuTiQ4uR+Nkr7bcvnYLq4QnetsZ8gARjdkt1ko
- jwRL2tMZS5TS6AgDgvFnlFIHTxDDAqztNw21dA5SF1KryXqp4yLJNZx6ySVeE7K5jh
- pW1VTnBaX7UCfVak8zOtHoIlAzt2ynpKslCjg7qslXBJ4xutTfbU0kZNsbLpw3GBc9
- 7QeO4mbxkpnww==
-Date: Thu, 12 Feb 2026 13:10:04 +0000
+ b=SYFcDVUk8+ORzvt5z7z4RyAoaXeEJ6lMScqhsm1HBC3vao6/oRZ+cqMZ86rCaTQuN
+ go1yQ64Jbmptyj0WZtAZ9Sdu1YW6aAzgtFgUIJHIXd0esI3DYR80eGV+8nqfndCrvZ
+ nEA6tPnJdVelUq1lz3FPhGjwVrz5UH00jlaE2fcDVqlZrRFhVaH0ekn+KXGN6PPRx8
+ jS1JBpwo202JwW1L0qhcj3Vpoi9OAA4Ax2DcMURxp7MMYXJpUowl9WgUsQWJkaoh9S
+ oEClVC+hY78RJd7qVKQqPrMmKKsNEy+8dr/HH+nR0fZEcbW1M+BoIWVIFvUIWungTy
+ X5njY4oC7gJVg==
+Date: Thu, 12 Feb 2026 13:13:31 +0000
 From: Mark Brown <broonie@kernel.org>
 To: Boris Brezillon <boris.brezillon@collabora.com>
 Cc: Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
@@ -44,16 +44,18 @@ Cc: Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
  linux-kernel@vger.kernel.org, lgirdwood@gmail.com, ojeda@kernel.org,
  rust-for-linux@vger.kernel.org
 Subject: Re: [PATCH v2 1/1] drm/tyr: make SRAM supply optional like panthor
-Message-ID: <3507d7d0-a612-4a2f-baf8-c1f19b388e20@sirena.org.uk>
+Message-ID: <a76b1e27-87ea-42e0-88f3-0512b2e1ac0b@sirena.org.uk>
 References: <20260212100538.170445-1-work@onurozkan.dev>
  <20260212100538.170445-2-work@onurozkan.dev>
  <4b00826f-52b1-48a1-b6b5-70ee62f7c014@sirena.org.uk>
- <20260212151644.4c179594@nimda> <20260212132222.0708d190@fedora>
+ <20260212151644.4c179594@nimda>
+ <6704ddce-e0bb-4b50-b81a-a098816f3ba3@sirena.org.uk>
+ <20260212134601.7760f414@fedora>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="cvo5ftwoWWXOz+Ms"
+ protocol="application/pgp-signature"; boundary="eRjwlYwruHn/MzvF"
 Content-Disposition: inline
-In-Reply-To: <20260212132222.0708d190@fedora>
+In-Reply-To: <20260212134601.7760f414@fedora>
 X-Cookie: Save energy: be apathetic.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,7 +77,7 @@ X-Spamd-Result: default: False [-3.41 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	MAILLIST(-0.20)[mailman];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -101,44 +103,47 @@ X-Spamd-Result: default: False [-3.41 / 15.00];
 	TAGGED_RCPT(0.00)[dri-devel];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,sirena.org.uk:mid]
-X-Rspamd-Queue-Id: 1531F12DBB6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sirena.org.uk:mid,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns]
+X-Rspamd-Queue-Id: 4E83212DBC8
 X-Rspamd-Action: no action
 
 
---cvo5ftwoWWXOz+Ms
-Content-Type: text/plain; charset=iso-8859-1
+--eRjwlYwruHn/MzvF
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 12, 2026 at 01:22:22PM +0100, Boris Brezillon wrote:
-> Onur =D6zkan <work@onurozkan.dev> wrote:
+On Thu, Feb 12, 2026 at 01:46:01PM +0100, Boris Brezillon wrote:
+> Mark Brown <broonie@kernel.org> wrote:
 
-> > If the platform has no separate sram-supply (meaning that rail is
-> > coupled to mali), RAM should still be powered and work fine. Panthor
-> > already relies on this model by treating sram-supply as optional and
-> > as far as I can see there are no RAM issues on Panthor.
+> > The panthor driver is buggy here and should be fixed, the driver should
+> > treat the supply as mandatory and let the system integration work out
+> > how it's actually made available.
 
-> Yep, some SoC integration have just one power-rail for everything in
-> the GPU, others have two. The sram-supply is documented as optional in
-> the DT bindings, so I think that's the right thing to do.
+> > Trying to open code this just breaks the error handling.
 
-This is expected to be handled through platform integration of the
-device, not through bodges like this.
+> Maybe, but the thing is, the DT bindings have been accepted already,
+> and it's not something we can easily change. What we can do is make this
+> sram-supply mandatory for new compatibles, but we can't force it on
+> older/existing SoCs without breaking backward-DT compat.
 
---cvo5ftwoWWXOz+Ms
+In practice you can because we do sub in a dummy regulator for missing
+supplies, it produces a warning but works fine.  If we didn't do this
+it'd be basically impossible to add regulator support to anything at any
+point after the original merge which is clearly not reasonable.
+
+--eRjwlYwruHn/MzvF
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmN0SsACgkQJNaLcl1U
-h9CERQf/WPhdYMMN7QryNfnqGHWlAqwjwFuIVKusX9xlNevK6AN0uZKCa9LBUQIN
-1rUOW/F+QqkYLLoAgx2SirPyNNp+iSF73gMR4djkdjDuUGPBOb6pbSR9CB9SL4Ld
-az6CQgA6CJy4FJrHPHUx3DX3r2SBZoxEYHaj62MBrK01NKvnif21vrJhhMi0wdkp
-WBt77vlxguYuftP6Z1Zja9uRiO/uOyTHluEDIG+K4qbTO9RPicF5AtYgG8VzymXK
-vAwLOJ9/COn+HkxMapymldP8m26LZzTrU+gi6zifUXMdPMvE5RMrHT8OofhPG5Yi
-9oEiixP/fVABAEZumt+bZThSqKJ+cg==
-=QE/u
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmN0fsACgkQJNaLcl1U
+h9Cw+wf+P2+piOIgK1GSaH7ikNmVinqDjcyC98yMJbSjrTf10BDJ93IbC65gKLmN
+/XZxE5xRB+p7RO+kxK7SgCGRWHDQU/LeSchhImc28Q3SXSmNULWSYBKiLE95XyQy
+b0eT4ZuJIMulwPkGC/0ht4M1hFp5d065pSbksFh/1lTDWMZYbr+BQGdfzUCodaYK
+d49bTbFgXaPJZtOXUu0Vav00k6L/f7l0xW5rslBKh5qFfCTvy7TEUlmxE1ZzNWcR
+6oZFOnsYE6Lbq+LRMBguN9u8A/kK53oSgbO7AjlzAtdstKb3gSv9NjBq+S0Yz6R1
+hRHTH+pKtJW6rQnlchJiebWis0//ZQ==
+=e+eT
 -----END PGP SIGNATURE-----
 
---cvo5ftwoWWXOz+Ms--
+--eRjwlYwruHn/MzvF--
