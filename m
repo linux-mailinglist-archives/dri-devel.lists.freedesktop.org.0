@@ -2,58 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2F6nJr7FjWnT6gAAu9opvQ
+	id uIk3HU7GjWnT6gAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 13:21:18 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 13:23:42 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 082DC12D641
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 13:21:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F04EC12D6B1
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 13:23:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1775A10E25C;
-	Thu, 12 Feb 2026 12:21:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 921B910E28B;
+	Thu, 12 Feb 2026 12:23:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Jlq1C/A9";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="fdJ9OmYb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07DE410E25C
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 12:21:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 51A8160018;
- Thu, 12 Feb 2026 12:21:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3699C4CEF7;
- Thu, 12 Feb 2026 12:21:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1770898873;
- bh=QEkV3oob5sDVWk9eUL7QetXC3bEgf6Q/cnB6/3i3eEo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Jlq1C/A9Vr9pzMfZHblI+jCIQ8XDhLMzHXbWD7qP6C79mkVzXZf5DwhucEHkQJUXB
- zEaI+Nd36reT2MapYI1TXypSR32lD7QypvqMoh+niwlVyO3y4PkvCN/9wkfLLArZ0t
- +7WAbTUbfe3flnz4kJx9a9UxD3sPvEzI9e4h1r/+SzoKT7KK8Lt1ki/GELFck9xEF1
- 76l+qFmKXubY406Qw6XE8hWxs/H6JBScECEWnwqCV0dFw1etq6FykcY7M2uhuMtyEW
- 4LM0850Qez+GfKKeekQruNpFAbRLxxN7Rz0Y3eNLaXNsLx3iPNn/tDCgZUbOLbDQbE
- dUjUs33SNRCgA==
-Date: Thu, 12 Feb 2026 12:21:07 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>
-Cc: daniel.almeida@collabora.com, aliceryhl@google.com, dakr@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, lgirdwood@gmail.com, ojeda@kernel.org,
- rust-for-linux@vger.kernel.org
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8450810E28B
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 12:23:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1770899017;
+ bh=3nk+50fd7HlNWHaDdsGj1623qHGABv7bsMKtZYB0Qro=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=fdJ9OmYbui5EdEhkPHlyiUTMobzX/RqGMxCzijigSl3ToGUY5IJE2iy7d0RXXekY/
+ ONyeP8Jqy7GqXnBGXGJxfpL6kuELXYUCuZoZsfM2iN9YF4j4Xc4ssstBMoAw1lyJ2p
+ dRjf0qoG6fTg8iJne2wqE/6cMSlf5NUAk7/cWF87iUQBLAM0NT7ZbrTZdkq6Ab1zQf
+ pjLDZkpcxh3Qrp9qfaE5kuyACcPDTYWOQ8If9He4d1U6YfqSaja23u9iRRWKjmoK9w
+ ezdFwjTvLKS/GV9OpYo7eYUzofA8qKWYIbQgHo8HR0EIlARGZYFC48N0r6hdzKkiWy
+ cSF9+L2fHUnBw==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B403717E0E90;
+ Thu, 12 Feb 2026 13:23:36 +0100 (CET)
+Date: Thu, 12 Feb 2026 13:22:22 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>
+Cc: Mark Brown <broonie@kernel.org>, daniel.almeida@collabora.com,
+ aliceryhl@google.com, dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ lgirdwood@gmail.com, ojeda@kernel.org, rust-for-linux@vger.kernel.org
 Subject: Re: [PATCH v2 1/1] drm/tyr: make SRAM supply optional like panthor
-Message-ID: <6704ddce-e0bb-4b50-b81a-a098816f3ba3@sirena.org.uk>
+Message-ID: <20260212132222.0708d190@fedora>
+In-Reply-To: <20260212151644.4c179594@nimda>
 References: <20260212100538.170445-1-work@onurozkan.dev>
  <20260212100538.170445-2-work@onurozkan.dev>
  <4b00826f-52b1-48a1-b6b5-70ee62f7c014@sirena.org.uk>
  <20260212151644.4c179594@nimda>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="BRO4QnJAtMBrNyRi"
-Content-Disposition: inline
-In-Reply-To: <20260212151644.4c179594@nimda>
-X-Cookie: Save energy: be apathetic.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,79 +72,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-3.41 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:work@onurozkan.dev,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:lgirdwood@gmail.com,m:ojeda@kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[broonie@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	FREEMAIL_CC(0.00)[collabora.com,google.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:work@onurozkan.dev,m:broonie@kernel.org,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:lgirdwood@gmail.com,m:ojeda@kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,dri-devel-bounces@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,collabora.com,google.com,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	TAGGED_RCPT(0.00)[dri-devel];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,sirena.org.uk:mid]
-X-Rspamd-Queue-Id: 082DC12D641
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,onurozkan.dev:email,collabora.com:email,collabora.com:dkim]
+X-Rspamd-Queue-Id: F04EC12D6B1
 X-Rspamd-Action: no action
 
+On Thu, 12 Feb 2026 15:16:44 +0300
+Onur =C3=96zkan <work@onurozkan.dev> wrote:
 
---BRO4QnJAtMBrNyRi
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Feb 12, 2026 at 03:16:44PM +0300, Onur =D6zkan wrote:
+> On Thu, 12 Feb 2026 11:34:41 +0000
 > Mark Brown <broonie@kernel.org> wrote:
-> > On Thu, Feb 12, 2026 at 01:05:38PM +0300, Onur =D6zkan wrote:
-
-> > > Panthor handles SRAM as optional and tolerates missing sram-supply.
-
-> > Does the RAM really work without power?
-
+>=20
+> > On Thu, Feb 12, 2026 at 01:05:38PM +0300, Onur =C3=96zkan wrote: =20
+> > > On rk3588s, `dmesg | grep 'tyr'` logs:
+> > >=20
+> > >   tyr fb000000.gpu: supply SRAM not found, using dummy regulator
+> > >=20
+> > > This happens because Tyr calls Regulator<Enabled>::get() for SRAM,
+> > > which goes through the non-optional regulator_get() path. If the
+> > > device tree doesn't provide sram-supply, regulator core falls back
+> > > to a dummy regulator and writes that log. =20
+> >  =20
+> > > Panthor handles SRAM as optional and tolerates missing sram-supply. =
+=20
+> >=20
+> > Does the RAM really work without power? =20
+>=20
 > If the platform has no separate sram-supply (meaning that rail is
 > coupled to mali), RAM should still be powered and work fine. Panthor
 > already relies on this model by treating sram-supply as optional and
 > as far as I can see there are no RAM issues on Panthor.
 
-The panthor driver is buggy here and should be fixed, the driver should
-treat the supply as mandatory and let the system integration work out
-how it's actually made available.
+Yep, some SoC integration have just one power-rail for everything in
+the GPU, others have two. The sram-supply is documented as optional in
+the DT bindings, so I think that's the right thing to do.
 
-Trying to open code this just breaks the error handling.
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
---BRO4QnJAtMBrNyRi
-Content-Type: application/pgp-signature; name="signature.asc"
+>=20
+> - Onur
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmNxbMACgkQJNaLcl1U
-h9Cnvwf/TCuOUm6GYAgjd4gutI6awBtaXVBn0V+7G8ydJyYzWkF9ZTFMGkegkGZK
-FcAYz7fSYOjRGXF6uRG+H6P/22b+yneS6Lrxz0wU65HmeKx4BkDmrEX8L95RQUST
-hkTu6Pqo04er7xH+MQKslDAzzySHu2W3bj1bdNK788u+HAACKYxnfiRrHuX1z8HK
-KzHKko3xvfuCi7Epfs4Xl2ZttC/mq2uZUKzP+oaVWVw7NPsOyItHKVgGH2xnsrxE
-nK/wdLNjI+yqUVZeGlQbiBcBN3aLZLmo/phZe2XERa1NbmP2QW+rNMc+UhZuJncJ
-WzjsEeca5fxwsadCMuwfOLce2lrd5A==
-=dqR6
------END PGP SIGNATURE-----
-
---BRO4QnJAtMBrNyRi--
