@@ -2,83 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QUVLI18bjWm/zAAAu9opvQ
+	id 4DSSJl0bjWmkzAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 01:14:23 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 01:14:21 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4044E12877B
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 01:14:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 440CF12875F
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 01:14:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A42AD10E671;
-	Thu, 12 Feb 2026 00:14:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE6410E67A;
+	Thu, 12 Feb 2026 00:14:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="anK6P6ds";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VLkzF64A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com
- [209.85.167.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92A3F10E675
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 00:14:16 +0000 (UTC)
-Received: by mail-oi1-f176.google.com with SMTP id
- 5614622812f47-45ca17ef16eso2095569b6e.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 16:14:16 -0800 (PST)
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
+ [209.85.167.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFB1010E670
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 00:14:17 +0000 (UTC)
+Received: by mail-oi1-f173.google.com with SMTP id
+ 5614622812f47-45efde72438so1649312b6e.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 16:14:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770855255; x=1771460055; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1770855256; x=1771460056; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vld9IFfyvePqt5M1J9/OwioGOqjnLV2rFk+KzTunpXM=;
- b=anK6P6dsd5FbuivMYY4rw/1A8g5JQpbUJ+wtpB7m1ffd3q4fLWjxnaFy4PxXnyYs3l
- ZFMV8ZVAwW0/mS5ONLnhj+FMFHbuS3GJkSpgxvvmPYsgptryQ8ttiNWH8EiXguLAZR7F
- Jfcz326ELncZ1yIiOoNnT9l+zVvZQDQrAEb4w0asmIU3YC/uNg+brbz2bx3b3OooiF2d
- 7WcWM/5IsoL6/olgL/g5uUXemlR2gCNy+/iwjbaI1UMW4Hai3lcLPdczFbbR4cnhXAey
- xUEDjUmRhqS82+dDPBOB3dUJ5j9peSHFpoji2IYtpJIqRN9nyFn37XrQZKBRHKbZtE0S
- 1pWg==
+ bh=4wIIBK2xLHmy9ZZczWpP2RzFmOx4bELZz7aMw+RGO2w=;
+ b=VLkzF64A+gEP58AA+vQEtRsi8OqMW6zsKHp8/vnEQyHQPmTfFyE6Xk3/qIX3imI88q
+ Hv3FPeEsxo+mXX3ekVQnTEQBD3EMQxW/Z4CJ9nUp5EiWpvNjXTvV6gnMAtINjgeDsUgy
+ tmz27ImTuRNCn8nVALHs9CMcxzk3usMuGGyhr03kVS8hsV0hl9AuMFVvq10etXa7G3IA
+ zVjnd0n+S1qtXNWSRQuk1cOTNkNAnCtyBOomQcU2UI3rxc0a6zXbb15I+212PSOnNvne
+ GB6SMhl/ZEcdLc40Y4NL1E3E81+XqFRc/FA9DZCgxSHhbZUsD5G6n5KcVySwFL93WuyU
+ IU3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770855255; x=1771460055;
+ d=1e100.net; s=20230601; t=1770855256; x=1771460056;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=vld9IFfyvePqt5M1J9/OwioGOqjnLV2rFk+KzTunpXM=;
- b=QcJUbJg7ab8EiPT6WrKNSByvNSlKG1yOOTluf454SvzZ181K7vEQ8tz2EawAjG1QlQ
- zQGK0SkoEVnCC8kmcaiO3vpJzDuNMPnnL/81nBYVRUAh5EIratIx6p/P1q6leuKiG0y4
- 2V0HUaUXQu5P5p9HsSRu2eqrVO/0641/Mv2WUmcQGX+xug1f2zeDWYmXypvrGubMiq74
- RxBjxxOF+3xZUq54RA/FYdGWWC2CAFYqTVY1StuKUv7TfMMSaLBE/PTyV50hQYCOt06e
- 24X9hHHNkGE9A4MvlXAHbkek3c0YQmGvkM3Wqgtr9T2gCqJbBpKtUfSpE9tuk0eo7nj2
- 3ajw==
-X-Gm-Message-State: AOJu0Yx50T1wohuLIMEIP3GeEQQCXd04ADLVaoF2HjkRpl+ntf++vczr
- CXBw3vyPJb4V4wmdEWh2XnOK4Ll4l1fAnH3z5q92VpWnXjgA6cfvjAy11WHIhA==
-X-Gm-Gg: AZuq6aKwTt0YzB5gsTXW3m7g6Dyu3rdE2OUzR/rl6w2fIz8qQyFTxWqNa5ROLlBT7wu
- QJGLY+j/4XTUPbRplgvHIP6qfV58kkaQq6a1fFk14ULyIAz1tFNYrzY85KWCI82TIVn39ULhvYw
- r85VRiD6P4fK8ioym5UdeYAfGRstqSC7g8rLomR4vWfNcf1sVJHuVD4KYHs1UF9GFoBlBj3ytna
- OcHtZ4vHqMcQ9NW4lbfOLso+Iu5kzfxJIDHm1RWkp1lwYzrX1NdwgCP+n2B+234OC3MZpOSL9jy
- 9D5oKtlaA0IlVW0aTXoYb+OLpTz6hBjjc1hVSq4CPp0WwPhs0bVrd8/MY+1b/HsPN06bmLt9E8N
- QJoNVjeLT9FCWqkaOcGnmXFZX6c2GphcrK5Wyv3sCwjSgDCu3g8hvF24mP8A+9IYVGnyrGNDh+/
- Cc/VReYUROO7RLrZfANpSL7m82rpGyY3Hzl3d1S3f6ShG1rLse66mr
-X-Received: by 2002:a05:6808:1799:b0:45e:fbe0:1bf3 with SMTP id
- 5614622812f47-4637b8c6e9amr532472b6e.52.1770855255240; 
- Wed, 11 Feb 2026 16:14:15 -0800 (PST)
+ bh=4wIIBK2xLHmy9ZZczWpP2RzFmOx4bELZz7aMw+RGO2w=;
+ b=lxrjkjpZVsvYt7mMVlRIUMuHIO6M9qEOlUHRR+Mgnx2NPWs7cc4Wa+926yudJgpUAK
+ i7uC3hFbkyIpMM5Ldq1EUqdNbYaB05S2dapSgX8lySe6i1dhoyoEXIVbZaewQvAe/hP9
+ 1W1zvieEe8fWGREA4EKoobMfVAjp1Wsqyl4IvHdMtkXhMKUwX9N1aU5nkPL3d3Bz5Y95
+ stNaPUzjRO8d628lvJsNktJ+X2gLDmV6vlxHGb8Hh2LJnQ10kNbTQJ3PxMCOWaDU4LFK
+ snhTx6UTq0YlHhclRWORxhDhFLSaepq4KDq8CHZOKQPgG6mlPxAHTW+kk0FhL1jreNEz
+ qUzQ==
+X-Gm-Message-State: AOJu0YyDhI0+l8saekS4xPPmz6PFY4gd/Ps6LED+A1+v/iTf05EoMyN6
+ DOZoSw8E5TC0JNflqWHNYV59UZqMAncld8RtOzT0VDCcy9WqWSLnEIGPM+r9Gg==
+X-Gm-Gg: AZuq6aKgeidpnz4kNMXwklI21KrWFFq/Bk8quGqIfhJVVKPhMb8Y4bmGyXHdIhqguOk
+ kRd66DJj+KIo4bKfxnl9iE96fZc+gq8kC/qJ41KyRXYqaV+8oAs/CFjDU/6grKWPddAnWZpktfG
+ GbDnkgS9kAxypNIYAcEn9kDuMr4gfenDc8+w+7Ry9Tg5uuV54+pleNq5M0gIgMBiO5oeH706qRV
+ I+YCAgFYEPiu0pxy341Oeie0PEQVfuMiL2FEACugAXc1EzKU9wsII0stp9nLjV07d2DQwxBH/WY
+ mOaYa7KIj4fJ5zzxjCwgLv2hX76o6DxOFq6bdPXdqlLGwnCYaPrzXyuxG4WsjLYetGPMAQfDGl1
+ VoZW3nBs0PhrWDgStfsgxDZGhYxpK7bl30PKq8oJES0lkFRiXvGb5aPcBPd8NykGo+ytAc7Jiuo
+ iD/kJNgzaqYlvNLpEDqLZ8THyPsiaYI1Z7RsuwSfBdu9K+hn65S3NO
+X-Received: by 2002:a05:6808:c2f9:b0:463:4f2e:c50f with SMTP id
+ 5614622812f47-4637faed46dmr324169b6e.24.1770855256667; 
+ Wed, 11 Feb 2026 16:14:16 -0800 (PST)
 Received: from godzilla (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
  by smtp.googlemail.com with ESMTPSA id
- 586e51a60fabf-40eaf1062ffsm2331939fac.13.2026.02.11.16.14.13
+ 586e51a60fabf-40eaf1062ffsm2331939fac.13.2026.02.11.16.14.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Feb 2026 16:14:14 -0800 (PST)
+ Wed, 11 Feb 2026 16:14:15 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-gfx-trybot@lists.freedesktop.org
-Cc: Jim Cromie <jim.cromie@gmail.com>,
+Cc: Jim Cromie <jim.cromie@gmail.com>, linux-doc@vger.kernel.org,
  Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: [PATCH 04/61] docs/dyndbg: update examples \012 to \n
-Date: Wed, 11 Feb 2026 17:12:59 -0700
-Message-ID: <20260212001359.97296-5-jim.cromie@gmail.com>
+Subject: [PATCH 05/61] docs/dyndbg: explain flags parse 1st
+Date: Wed, 11 Feb 2026 17:13:00 -0700
+Message-ID: <20260212001359.97296-6-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260212001359.97296-4-jim.cromie@gmail.com>
+In-Reply-To: <20260212001359.97296-5-jim.cromie@gmail.com>
 References: <20260212001359.97296-1-jim.cromie@gmail.com>
  <20260212001359.97296-2-jim.cromie@gmail.com>
  <20260212001359.97296-3-jim.cromie@gmail.com>
  <20260212001359.97296-4-jim.cromie@gmail.com>
+ <20260212001359.97296-5-jim.cromie@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,87 +97,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
+X-Spamd-Result: default: False [0.69 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TAGGED_FROM(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,bootlin.com];
 	FROM_NEQ_ENVFROM(0.00)[jimcromie@gmail.com,dri-devel-bounces@lists.freedesktop.org];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,bootlin.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	RCPT_COUNT_THREE(0.00)[4];
+	MID_RHS_MATCH_FROM(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_HAS_DN(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:email]
-X-Rspamd-Queue-Id: 4044E12877B
+X-Rspamd-Queue-Id: 440CF12875F
 X-Rspamd-Action: no action
 
-commit 47ea6f99d06e ("dyndbg: use ESCAPE_SPACE for cat control")
-changed the control-file to display format strings with "\n" rather
-than "\012".  Update the docs to match the new reality.
+When writing queries to >control, flags are parsed 1st, since they are
+the only required field, and they require specific compositions.  So
+if the flags draw an error (on those specifics), then keyword errors
+aren't reported.  This can be mildly confusing/annoying, so explain it
+instead.
 
+cc: linux-doc@vger.kernel.org
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Tested-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- .../admin-guide/dynamic-debug-howto.rst       | 20 +++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ .../admin-guide/dynamic-debug-howto.rst         | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
 diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 095a63892257..4b14d9fd0300 100644
+index 4b14d9fd0300..9c2f096ed1d8 100644
 --- a/Documentation/admin-guide/dynamic-debug-howto.rst
 +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -38,12 +38,12 @@ You can view the currently configured behaviour in the *prdbg* catalog::
+@@ -109,10 +109,19 @@ The match-spec's select *prdbgs* from the catalog, upon which to apply
+ the flags-spec, all constraints are ANDed together.  An absent keyword
+ is the same as keyword "*".
  
-   :#> head -n7 /proc/dynamic_debug/control
-   # filename:lineno [module]function flags format
--  init/main.c:1179 [main]initcall_blacklist =_ "blacklisting initcall %s\012
--  init/main.c:1218 [main]initcall_blacklisted =_ "initcall %s blacklisted\012"
--  init/main.c:1424 [main]run_init_process =_ "  with arguments:\012"
--  init/main.c:1426 [main]run_init_process =_ "    %s\012"
--  init/main.c:1427 [main]run_init_process =_ "  with environment:\012"
--  init/main.c:1429 [main]run_init_process =_ "    %s\012"
-+  init/main.c:1179 [main]initcall_blacklist =_ "blacklisting initcall %s\n"
-+  init/main.c:1218 [main]initcall_blacklisted =_ "initcall %s blacklisted\n"
-+  init/main.c:1424 [main]run_init_process =_ "  with arguments:\n"
-+  init/main.c:1426 [main]run_init_process =_ "    %s\n"
-+  init/main.c:1427 [main]run_init_process =_ "  with environment:\n"
-+  init/main.c:1429 [main]run_init_process =_ "    %s\n"
+-
+-A match specification is a keyword, which selects the attribute of
+-the callsite to be compared, and a value to compare against.  Possible
+-keywords are:::
++Note that since the match-spec can be empty, the flags are checked 1st,
++then the pairs of keyword and value.  Flag errs will hide keyword errs::
++
++  bash-5.2# ddcmd mod bar +foo
++  dyndbg: read 13 bytes from userspace
++  dyndbg: query 0: "mod bar +foo" mod:*
++  dyndbg: unknown flag 'o'
++  dyndbg: flags parse failed
++  dyndbg: processed 1 queries, with 0 matches, 1 errs
++
++So a match-spec is a keyword, which selects the attribute of the
++callsite to be compared, and a value to compare against.  Possible
++keywords are::
  
- The 3rd space-delimited column shows the current flags, preceded by
- a ``=`` for easy use with grep/cut. ``=p`` shows enabled callsites.
-@@ -59,10 +59,10 @@ query/commands to the control file.  Example::
- 
-   :#> ddcmd '-p; module main func run* +p'
-   :#> grep =p /proc/dynamic_debug/control
--  init/main.c:1424 [main]run_init_process =p "  with arguments:\012"
--  init/main.c:1426 [main]run_init_process =p "    %s\012"
--  init/main.c:1427 [main]run_init_process =p "  with environment:\012"
--  init/main.c:1429 [main]run_init_process =p "    %s\012"
-+  init/main.c:1424 [main]run_init_process =p "  with arguments:\n"
-+  init/main.c:1426 [main]run_init_process =p "    %s\n"
-+  init/main.c:1427 [main]run_init_process =p "  with environment:\n"
-+  init/main.c:1429 [main]run_init_process =p "    %s\n"
- 
- Error messages go to console/syslog::
- 
+   match-spec ::= 'func' string |
+ 		 'file' string |
 -- 
 2.53.0
 
