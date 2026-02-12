@@ -2,76 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OLMhAqCzjWlz6AAAu9opvQ
+	id GHaFHkO0jWl96AAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 12:04:00 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 12:06:43 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB8212CCFD
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 12:03:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1367112CD9A
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 12:06:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8105010E217;
-	Thu, 12 Feb 2026 11:03:55 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="Xx/a54SW";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E49110E722;
+	Thu, 12 Feb 2026 11:06:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4EB310E217
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 11:03:53 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20260212110351euoutp02803761828e0013caa1884e99f9d00c85~Teuva8uIr1820518205euoutp02J
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 11:03:51 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20260212110351euoutp02803761828e0013caa1884e99f9d00c85~Teuva8uIr1820518205euoutp02J
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1770894231;
- bh=IxeoTLwSUaIpCJwceeWSECzAXTLUXMKlMHh6nbUcmXo=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=Xx/a54SWOjsDEMxs6qeaSQ7Odmn8OrMA9eLavT6NidMycfeQMK2C1H1vWSJWNhvix
- laAM/BdhN1sHFTCTkESNm8rotB6+HNH4MclqcAX2gYB1AnjTP0nPq25L8Vb+uTCLkM
- AaVKfj2geCnETndy2qmT61FyJvv/qy0ud6RZ3GPI=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20260212110351eucas1p1ffa80cd3fde9ef5c94e6090c508b8f5c~TeuvGNC9M1161211612eucas1p1H;
- Thu, 12 Feb 2026 11:03:51 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20260212110350eusmtip2ef3e41cf3f95e814e053cc0ce9b38a58~Teut9YrGo2457924579eusmtip2j;
- Thu, 12 Feb 2026 11:03:50 +0000 (GMT)
-Message-ID: <621783e8-d77d-4f29-bda0-ef487dd27b5b@samsung.com>
-Date: Thu, 12 Feb 2026 12:03:49 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 80A9610E722
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 11:06:40 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6B77B497
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 03:06:33 -0800 (PST)
+Received: from [192.168.0.1] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id
+ 88AF03F632
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 03:06:39 -0800 (PST)
+Date: Thu, 12 Feb 2026 11:04:39 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>,
+ =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Chris Diamand <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Alice Ryhl <aliceryhl@google.com>, kernel@collabora.com
+Subject: Re: [PATCH v3 4/9] drm/panthor: Don't call drm_gpuvm_bo_extobj_add()
+ if the object is private
+Message-ID: <aY2zx7-GgngOUApJ@e142607>
+References: <20260211080343.1887134-1-boris.brezillon@collabora.com>
+ <20260211080343.1887134-5-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH 1/5] dma-mapping: avoid random addr value print out on
- error path
-To: Jiri Pirko <jiri@resnulli.us>, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev,
- linux-media@vger.kernel.org
-Cc: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
- Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com,
- christian.koenig@amd.com, robin.murphy@arm.com, jgg@ziepe.ca,
- leon@kernel.org, sean.anderson@linux.dev, ptesarik@suse.com,
- catalin.marinas@arm.com, aneesh.kumar@kernel.org, suzuki.poulose@arm.com,
- steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com,
- ashish.kalra@amd.com, suravee.suthikulpanit@amd.com,
- linux-coco@lists.linux.dev
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20260209153809.250835-2-jiri@resnulli.us>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20260212110351eucas1p1ffa80cd3fde9ef5c94e6090c508b8f5c
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20260209153816eucas1p22befaa2c5ef3c6d5e67956eea08424ed
-X-EPHeader: CA
-X-CMS-RootMailID: 20260209153816eucas1p22befaa2c5ef3c6d5e67956eea08424ed
-References: <20260209153809.250835-1-jiri@resnulli.us>
- <CGME20260209153816eucas1p22befaa2c5ef3c6d5e67956eea08424ed@eucas1p2.samsung.com>
- <20260209153809.250835-2-jiri@resnulli.us>
+In-Reply-To: <20260211080343.1887134-5-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,73 +67,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.30 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
+X-Spamd-Result: default: False [-0.01 / 15.00];
+	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
+	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:jiri@resnulli.us,m:linaro-mm-sig@lists.linaro.org,m:iommu@lists.linux.dev,m:linux-media@vger.kernel.org,m:sumit.semwal@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:christian.koenig@amd.com,m:robin.murphy@arm.com,m:jgg@ziepe.ca,m:leon@kernel.org,m:sean.anderson@linux.dev,m:ptesarik@suse.com,m:catalin.marinas@arm.com,m:aneesh.kumar@kernel.org,m:suzuki.poulose@arm.com,m:steven.price@arm.com,m:thomas.lendacky@amd.com,m:john.allen@amd.com,m:ashish.kalra@amd.com,m:suravee.suthikulpanit@amd.com,m:linux-coco@lists.linux.dev,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:steven.price@arm.com,m:adrian.larumbe@collabora.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:akash.goel@arm.com,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:akhilpo@oss.qualcomm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:dmitry.osipenko@collabora.com,m:chris.diamand@arm.com,m:dakr@kernel.org,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:aliceryhl@google.com,m:kernel@collabora.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[m.szyprowski@samsung.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[25];
 	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[liviu.dudau@arm.com,dri-devel-bounces@lists.freedesktop.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
-	DKIM_TRACE(0.00)[samsung.com:+];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[arm.com,collabora.com,lists.freedesktop.org,gmail.com,ffwll.ch,oss.qualcomm.com,poorly.run,kernel.org,linux.intel.com,suse.de,intel.com,google.com];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[m.szyprowski@samsung.com,dri-devel-bounces@lists.freedesktop.org];
+	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[liviu.dudau@arm.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[dri-devel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,samsung.com:mid,samsung.com:dkim]
-X-Rspamd-Queue-Id: CEB8212CCFD
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 1367112CD9A
 X-Rspamd-Action: no action
 
-On 09.02.2026 16:38, Jiri Pirko wrote:
-> From: Jiri Pirko <jiri@nvidia.com>
->
-> dma_addr is unitialized in dma_direct_map_phys() when swiotlb is forced
-> and DMA_ATTR_MMIO is set which leads to random value print out in
-> warning. Fix that by just returning DMA_MAPPING_ERROR.
->
-> Fixes: e53d29f957b3 ("dma-mapping: convert dma_direct_*map_page to be phys_addr_t based")
-> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
+On Wed, Feb 11, 2026 at 09:03:38AM +0100, Boris Brezillon wrote:
+> drm_gpuvm_bo_extobj_add() is a NOP if the object is private, but it
+> forces us to take/release the VM resv lock, so let's do that only when
+> we know the object can be shared.
+> 
+> v3:
+> - New commit
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-I will take this patch when v7.0-rc1 is out, as this fix definitely has 
-to be applied regardless of the discussion about the remaining patches.
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Best regards,
+Liviu
 
 > ---
->   kernel/dma/direct.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
-> index da2fadf45bcd..62f0d9d0ba02 100644
-> --- a/kernel/dma/direct.h
-> +++ b/kernel/dma/direct.h
-> @@ -88,7 +88,7 @@ static inline dma_addr_t dma_direct_map_phys(struct device *dev,
->   
->   	if (is_swiotlb_force_bounce(dev)) {
->   		if (attrs & DMA_ATTR_MMIO)
-> -			goto err_overflow;
-> +			return DMA_MAPPING_ERROR;
->   
->   		return swiotlb_map(dev, phys, size, dir, attrs);
->   	}
+>  drivers/gpu/drm/panthor/panthor_mmu.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index ba3b7c93303c..99c794c429ca 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -1284,9 +1284,11 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+>  	}
+>  
+>  	/* Insert BO into the extobj list last, when we know nothing can fail. */
+> -	dma_resv_lock(panthor_vm_resv(vm), NULL);
+> -	drm_gpuvm_bo_extobj_add(op_ctx->map.vm_bo);
+> -	dma_resv_unlock(panthor_vm_resv(vm));
+> +	if (bo->base.base.resv != panthor_vm_resv(vm)) {
+> +		dma_resv_lock(panthor_vm_resv(vm), NULL);
+> +		drm_gpuvm_bo_extobj_add(op_ctx->map.vm_bo);
+> +		dma_resv_unlock(panthor_vm_resv(vm));
+> +	}
+>  
+>  	return 0;
+>  
+> -- 
+> 2.52.0
+> 
 
-Best regards
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
