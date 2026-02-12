@@ -2,85 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yFtbCGMbjWmkzAAAu9opvQ
+	id wH7YJGMbjWm/zAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
 	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 01:14:27 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC4AA128799
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 01:14:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 495D412879E
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 01:14:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E99910E67B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2226110E67F;
 	Thu, 12 Feb 2026 00:14:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gm0By/9S";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IcXY7APt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-oa1-f65.google.com (mail-oa1-f65.google.com
  [209.85.160.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF3FF10E678
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 00:14:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7A7D10E67C
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 00:14:19 +0000 (UTC)
 Received: by mail-oa1-f65.google.com with SMTP id
- 586e51a60fabf-4043b27ddeaso1479920fac.1
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 16:14:18 -0800 (PST)
+ 586e51a60fabf-4044d3ff57bso2202559fac.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 16:14:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770855258; x=1771460058; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1770855259; x=1771460059; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=R/SjSwC+RMF8YRDI51sil3K6xHtCNjZlX0uljPPVd8o=;
- b=gm0By/9StIUZuWvcX6y1jUrwpz5WYHshMbeJBinTRBUZBN6UVyEXWKmjVpV7KSrEn5
- E+7gVm8ZPaN33BXO0ijQLicsFBOMjuQ2sQTkX5dCDYOQLRD3mEa1psMy6lyGJiGdZhmU
- VrRxHVVb6IpcMZy0hYyKfuArRMj/1GjHHn7/Kd0Y0XAPdWOVVgu5CCA/dUZaj0KhCW5B
- gt7y5zGOk8vjV+D4I9Bi5uQu+LIMWTjITr6K6jx0cJ+6RoPVGuPaLnYIYEMKQ9YHV9KJ
- +9IMkBBUWpMh0OcovJTFRQpqAJORxBXxScGBFdELKuufS5cdzpmfECl5Qk7Rc2Gxy+R5
- 6RdA==
+ bh=/qRceN60ALceVVDtbjqnqaIeAyOWJgUuFn8II6brejM=;
+ b=IcXY7APtTDbPHFSGsEIN/plTcuArzub6hWlyFsDFf/3UvG5Aj0X+eRr61MsmmJkED0
+ RK+Pl+86HLf2l8OuHIb+l86gjVYzNaOpJOHFiwgZxnw+X6sODCRdDCrw9hs2l/L9XN5Q
+ OLviHx8F55ChI3xYqMxIWoLyV9/aF5lHhDYiyAQTPOopkQIWbKcafSCi7OWdoo1349ml
+ Oe33/dWhqFY706KFLyefh/PAxPnP4eUEfo8J4iYtz+McGBInls9UxKRSH4Dn/Q7LEfiD
+ ++70Q3MGMJV17K/CokvLhduw2eSrKhXx7c+/ubT3NVZi7SZvkxVx7iJ4X9xG+H2pHRhC
+ 6vSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770855258; x=1771460058;
+ d=1e100.net; s=20230601; t=1770855259; x=1771460059;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=R/SjSwC+RMF8YRDI51sil3K6xHtCNjZlX0uljPPVd8o=;
- b=EGPuhTkmucBEXYztg/AQa+NoqxFCgNDsP2wp3UWk3lRm7/rhl1lqAuTqyTvuGYAM+2
- cEktUkGFQgwQ8fq0SZUXOnHfqN4yqaaTGxbQYMYWcosNHcFvmpzkjwcNDBHX3cPQxhuG
- pfY8uM5KbvrZdqe4ppaK5bl6GA13rqQa0SlaKaw+35GeQsK5MKAt7gQiwqpSacVxcusv
- cHeelR6GKs6GDE0yUlW7Ti0l46bm1k4aQSRgQIR49VIH7IcO9F/jQ/HuPBjnAhXKl3H7
- P71em5bC3Mtb1zhcs9/xptCkHHsHN0aEB58Z4pai/gKbgA1BBetXh/eY5kXa5LzFmgt4
- HDKw==
-X-Gm-Message-State: AOJu0YwYfqLj8LRVSvNYB7mxIuG4Fy/RHXqe/SWd2gf4z2+xj3iI7s8n
- 3gDmqpXHFV3BF2Lf+Ht6YkWhtvOL9HjDyQQCUGsjo7hyg8H6JPm6gieqkJG7AYeO
-X-Gm-Gg: AZuq6aKSWrVZCexDCUzwxuHwGdAtvLAfzfsUXkk8GCBdHMsHxQys4dAojfHgfJHeiWy
- EYnyIgTMyIVuKmn30xetc72VUTDST2HKr/vyiRtnhJHHjIMf3wH3GGxdkjvdt/7WpemcTPEt3e/
- LydLQaNq9hktsl8muc9UAY7QbotCWYfcFncp+spbVkceOvhzROWqGs8P8M6j7Wm4vYrJA8+1tqr
- ltjceFAuOPq5CdRWo4cndpoGYLv+lUwIyRo7jagrUEzBYVUIuv+A8I0cIokkFTGkp60ZJB8XZbc
- 2oQemXSYgfG7pMao+cys3sdNtwaOWWyUzkW0sNxI8Xd892OLWfESDihT3RC8mBtJNo0jOynsa+l
- HRQlFw2SLdkjswbj/+2gBw/iGwFp9cJJur2isnEYzNh5Bw4v5XEMq4kT4AMbAQgAyR835scQSnv
- wOccTXMTBEMyFSM3qzrOf/LWnv381Y05SkaMVBaCCIWnq5lXJ33H0a
-X-Received: by 2002:a05:6871:3603:b0:409:5241:8aad with SMTP id
- 586e51a60fabf-40eca291522mr376254fac.44.1770855257774; 
- Wed, 11 Feb 2026 16:14:17 -0800 (PST)
+ bh=/qRceN60ALceVVDtbjqnqaIeAyOWJgUuFn8II6brejM=;
+ b=sK4gQeAtpZAoZaIxrChd0tE8AmX+YF9TrBj0ShpuE6Wvr5mZTBzYC/WodSZRXBBb62
+ 86UcylAkLFnzTv80jsGXzP0MGdlE51hotWfl1gNGED0f1f1LMRpbhpNR9ECU14FKd2IF
+ TmU6Nkspon8w9SNrHrH8ZLyV00GKYss6XDvWT72o/Ixz04HHuo8g4aMZ0xYCLJquHcym
+ iXbNGnCtT657ZuBT7qwf7uywUnBZ/4PeJhQtRQ094Es1nLOJ5syl9b6YxPTncVIql3TZ
+ KeAP3Vzv86OrwlhGrMTJe2tsJim+lClZURx6h69ronw3/AUxYAXtVh5Gh8IHPhxVbVg/
+ 3SjQ==
+X-Gm-Message-State: AOJu0Yz4lv1V5oaSfPAvlSR5LlnhEDdqcpZZduLr7ttCMWdViBS00wfP
+ IbyKwhD62R3bffGgHP9ys2Wt/+NZnpi7iWGhSGDfdOT8oY4Ukswl4TEC99/7bGgW
+X-Gm-Gg: AZuq6aLTuhMtu5LilzxiOKaQR0ktYZ4kHJsTEe9jJGOl42wyD5rcTyYvsane1M5PMjO
+ DpYOT82j1tBzUdTIoreG2Kzlpdn6pc0pK+10Bp/BPwd2dQNToW5O0ZOUO8lNdWmfKmDLsy3Sny0
+ LMv1HcLZf61fykrSLpZYzlTop1hQN1xqXqfmg+vBYFQykOIRSpix1BipsDrnpmS+GRQ3IMYq9yQ
+ WBuog/NTBl2/PmA/wftZc767eYi0mmm4wZxfDOmC8AgnYn0v2d1V/0WtqfGCn3gXxoKXrU29+Ky
+ pXviOlgAqW4thTQPlicxyUtsD9czaXtItwArIn2RnsBhnlqSYpdZiYD9lW8FyUzANT+dyo/xA6n
+ 9pNnDPfRZnZwjZY5AlN33UpeJl9YF6w74R919id8sDYMG1meoQ42qSbw1H2cz7BYin5QPix4oC+
+ 97rrj5Wmy5nb8WJoSaQwBqmPRL5vt2euefzJT+GjqMe68poFreARrI
+X-Received: by 2002:a05:6820:2188:b0:663:d58:63f9 with SMTP id
+ 006d021491bc7-6759a558792mr530140eaf.42.1770855258871; 
+ Wed, 11 Feb 2026 16:14:18 -0800 (PST)
 Received: from godzilla (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
  by smtp.googlemail.com with ESMTPSA id
- 586e51a60fabf-40eaf1062ffsm2331939fac.13.2026.02.11.16.14.16
+ 586e51a60fabf-40eaf1062ffsm2331939fac.13.2026.02.11.16.14.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Feb 2026 16:14:17 -0800 (PST)
+ Wed, 11 Feb 2026 16:14:18 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-gfx-trybot@lists.freedesktop.org
 Cc: Jim Cromie <jim.cromie@gmail.com>,
  Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: [PATCH 06/61] test-dyndbg: fixup CLASSMAP usage error
-Date: Wed, 11 Feb 2026 17:13:01 -0700
-Message-ID: <20260212001359.97296-7-jim.cromie@gmail.com>
+Subject: [PATCH 07/61] dyndbg: reword "class unknown," to "class:_UNKNOWN_"
+Date: Wed, 11 Feb 2026 17:13:02 -0700
+Message-ID: <20260212001359.97296-8-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260212001359.97296-6-jim.cromie@gmail.com>
+In-Reply-To: <20260212001359.97296-7-jim.cromie@gmail.com>
 References: <20260212001359.97296-1-jim.cromie@gmail.com>
  <20260212001359.97296-2-jim.cromie@gmail.com>
  <20260212001359.97296-3-jim.cromie@gmail.com>
  <20260212001359.97296-4-jim.cromie@gmail.com>
  <20260212001359.97296-5-jim.cromie@gmail.com>
  <20260212001359.97296-6-jim.cromie@gmail.com>
+ <20260212001359.97296-7-jim.cromie@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -127,45 +128,36 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	RCPT_COUNT_THREE(0.00)[4];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:email]
-X-Rspamd-Queue-Id: AC4AA128799
+X-Rspamd-Queue-Id: 495D412879E
 X-Rspamd-Action: no action
 
-commit 6ea3bf466ac6 ("dyndbg: test DECLARE_DYNDBG_CLASSMAP, sysfs nodes")
+When a dyndbg classname is unknown to a kernel module (as before
+previous patch), the callsite is un-addressable via >control queries.
 
-A closer look at test_dynamic_debug.ko logging output reveals a macro
-usage error:
-
-lib/test_dynamic_debug.c:105 [test_dynamic_debug]do_cats =p "LOW msg\n" class:MID
-lib/test_dynamic_debug.c:106 [test_dynamic_debug]do_cats =p "MID msg\n" class:HI
-lib/test_dynamic_debug.c:107 [test_dynamic_debug]do_cats =_ "HI msg\n" class unknown, _id:13
-
-107 says: HI is unknown, and 105,106 have a LOW/MID and MID/HI skew.
-
-DECLARE_DYNDBG_CLASSMAP() _base arg must equal the enum's 1st value,
-in this case it was _base + 1.  This leaves HI class un-selectable.
-
-NB: the macro could better validate its arguments.
+The control-file displays this condition as "class unknown,"
+currently.  That spelling is sub-optimal/too-generic, so change it to
+"class:_UNKNOWN_" to loudly announce the erroneous situation, and to
+make it uniquely greppable.
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Tested-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/test_dynamic_debug.c | 2 +-
+ lib/dynamic_debug.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/lib/test_dynamic_debug.c b/lib/test_dynamic_debug.c
-index 77c2a669b6af..396144cf351b 100644
---- a/lib/test_dynamic_debug.c
-+++ b/lib/test_dynamic_debug.c
-@@ -75,7 +75,7 @@ DD_SYS_WRAP(disjoint_bits, p);
- DD_SYS_WRAP(disjoint_bits, T);
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index e7578507945a..55e07b706c84 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -1166,7 +1166,7 @@ static int ddebug_proc_show(struct seq_file *m, void *p)
+ 		if (class)
+ 			seq_printf(m, " class:%s", class);
+ 		else
+-			seq_printf(m, " class unknown, _id:%d", dp->class_id);
++			seq_printf(m, " class:_UNKNOWN_ _id:%d", dp->class_id);
+ 	}
+ 	seq_putc(m, '\n');
  
- /* symbolic input, independent bits */
--enum cat_disjoint_names { LOW = 11, MID, HI };
-+enum cat_disjoint_names { LOW = 10, MID, HI };
- DECLARE_DYNDBG_CLASSMAP(map_disjoint_names, DD_CLASS_TYPE_DISJOINT_NAMES, 10,
- 			"LOW", "MID", "HI");
- DD_SYS_WRAP(disjoint_names, p);
 -- 
 2.53.0
 
