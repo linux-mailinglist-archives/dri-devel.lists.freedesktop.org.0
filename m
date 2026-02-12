@@ -2,79 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wH7YJGMbjWm/zAAAu9opvQ
+	id EHUaOGEbjWmkzAAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 01:14:27 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 01:14:25 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 495D412879E
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 01:14:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 952FA12878C
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 01:14:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2226110E67F;
-	Thu, 12 Feb 2026 00:14:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FBD110E67C;
+	Thu, 12 Feb 2026 00:14:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IcXY7APt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ojp2pN+O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f65.google.com (mail-oa1-f65.google.com
- [209.85.160.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7A7D10E67C
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 00:14:19 +0000 (UTC)
-Received: by mail-oa1-f65.google.com with SMTP id
- 586e51a60fabf-4044d3ff57bso2202559fac.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 16:14:19 -0800 (PST)
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+ [209.85.167.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D10E10E676
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 00:14:22 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id
+ 5614622812f47-45f09874c4cso4521966b6e.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Feb 2026 16:14:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1770855259; x=1771460059; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1770855260; x=1771460060; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/qRceN60ALceVVDtbjqnqaIeAyOWJgUuFn8II6brejM=;
- b=IcXY7APtTDbPHFSGsEIN/plTcuArzub6hWlyFsDFf/3UvG5Aj0X+eRr61MsmmJkED0
- RK+Pl+86HLf2l8OuHIb+l86gjVYzNaOpJOHFiwgZxnw+X6sODCRdDCrw9hs2l/L9XN5Q
- OLviHx8F55ChI3xYqMxIWoLyV9/aF5lHhDYiyAQTPOopkQIWbKcafSCi7OWdoo1349ml
- Oe33/dWhqFY706KFLyefh/PAxPnP4eUEfo8J4iYtz+McGBInls9UxKRSH4Dn/Q7LEfiD
- ++70Q3MGMJV17K/CokvLhduw2eSrKhXx7c+/ubT3NVZi7SZvkxVx7iJ4X9xG+H2pHRhC
- 6vSg==
+ bh=/T7xCe3QaPFPQYMK0AQupsD8ReBPm07UYUII+UU2Wzc=;
+ b=Ojp2pN+ORjVMObSN4262Z88rnPG7nRZOBSlUhlfgyJ39o8mJ5bvHMLyu6rq6CcDM/e
+ agHBN0layqyxq3LLw3cT89NAC4RhZs+SoiDR9tvOmmGh8dNoTGu57ZPWBSWvx8FIFj+e
+ TrLrz2LuxHsDvv4/uWlcxUMyxAFxshMhm9e48bNuUxb4l7lt1hIEwhZjLR5SI9lgjujr
+ ndwHee508nJIRFSaCH+tHsIaRT1zS4KpT2fPLE31h6C7ry+3khSsCidkcqe3pkb/GiBu
+ e+r7kpkI9EubP9Os4dYLBswC6yKt/7ea7l2dt7/zZZfS8+LcAzCqXHAlQFx1ZmMBNiH8
+ QBDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1770855259; x=1771460059;
+ d=1e100.net; s=20230601; t=1770855260; x=1771460060;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=/qRceN60ALceVVDtbjqnqaIeAyOWJgUuFn8II6brejM=;
- b=sK4gQeAtpZAoZaIxrChd0tE8AmX+YF9TrBj0ShpuE6Wvr5mZTBzYC/WodSZRXBBb62
- 86UcylAkLFnzTv80jsGXzP0MGdlE51hotWfl1gNGED0f1f1LMRpbhpNR9ECU14FKd2IF
- TmU6Nkspon8w9SNrHrH8ZLyV00GKYss6XDvWT72o/Ixz04HHuo8g4aMZ0xYCLJquHcym
- iXbNGnCtT657ZuBT7qwf7uywUnBZ/4PeJhQtRQ094Es1nLOJ5syl9b6YxPTncVIql3TZ
- KeAP3Vzv86OrwlhGrMTJe2tsJim+lClZURx6h69ronw3/AUxYAXtVh5Gh8IHPhxVbVg/
- 3SjQ==
-X-Gm-Message-State: AOJu0Yz4lv1V5oaSfPAvlSR5LlnhEDdqcpZZduLr7ttCMWdViBS00wfP
- IbyKwhD62R3bffGgHP9ys2Wt/+NZnpi7iWGhSGDfdOT8oY4Ukswl4TEC99/7bGgW
-X-Gm-Gg: AZuq6aLTuhMtu5LilzxiOKaQR0ktYZ4kHJsTEe9jJGOl42wyD5rcTyYvsane1M5PMjO
- DpYOT82j1tBzUdTIoreG2Kzlpdn6pc0pK+10Bp/BPwd2dQNToW5O0ZOUO8lNdWmfKmDLsy3Sny0
- LMv1HcLZf61fykrSLpZYzlTop1hQN1xqXqfmg+vBYFQykOIRSpix1BipsDrnpmS+GRQ3IMYq9yQ
- WBuog/NTBl2/PmA/wftZc767eYi0mmm4wZxfDOmC8AgnYn0v2d1V/0WtqfGCn3gXxoKXrU29+Ky
- pXviOlgAqW4thTQPlicxyUtsD9czaXtItwArIn2RnsBhnlqSYpdZiYD9lW8FyUzANT+dyo/xA6n
- 9pNnDPfRZnZwjZY5AlN33UpeJl9YF6w74R919id8sDYMG1meoQ42qSbw1H2cz7BYin5QPix4oC+
- 97rrj5Wmy5nb8WJoSaQwBqmPRL5vt2euefzJT+GjqMe68poFreARrI
-X-Received: by 2002:a05:6820:2188:b0:663:d58:63f9 with SMTP id
- 006d021491bc7-6759a558792mr530140eaf.42.1770855258871; 
- Wed, 11 Feb 2026 16:14:18 -0800 (PST)
+ bh=/T7xCe3QaPFPQYMK0AQupsD8ReBPm07UYUII+UU2Wzc=;
+ b=F+bU/a7tk7JI3AWL7HYJnd6/aLIiTz5zkpb51oZIBJDUA2cdDwNHa3jKpYXwrb6R9N
+ 0rOVetTSRp9GytwKlazWcf/FRQyUqis80xIQHnDevL2ZPTK5b6aWb535t+11ZSg6tIgh
+ sCfk0rNnv6t00bmtgaJFDnMJkpBbZcm4yOFpxJ6VYU0HXuhnNrOwDc37nCO94y+LrkR1
+ eD9pWWzwduB9ug8FEq8xYUHMxKdnRGcg7HVH8VNSbs6qGQCelRsVRSTJIq6LPbbvG7ZK
+ okd2qqEpro2pAsy5ZbsBIMwt5gmGQQ7ZNpf278jZpfn3e96oxSutm3rmGx9WYdF7YaL5
+ ryKA==
+X-Gm-Message-State: AOJu0YwNEzoCQ1vY3P+adGFp/3HsNDdePODTkmwVu8Yyfd4QPE+Zs4Cj
+ 81SPBQEPqrdH60nHfdvU+I+5rye8LNuYHqsjkavAZ1gJY+Maz6aSzzp/IyD1Q3dG
+X-Gm-Gg: AZuq6aK1AagIFr9BUwgYjZPATYRM8npG5jRCvQxRaf37zuHq++x6R5Vf8XPOtLcTfAF
+ HWfKLMm/ndNXfFLSS48sdP+/Ps4YS6qs7hDEo2JzUAnSEUeAFC0Yb8P+L2lV6ke/Y/C0IjU/FXE
+ 8QgN3O8+f6o+rBY7fzZ0VgWeu8qVysDWpSMxDVQ8A4CgRQxrlnDwwESlzzFpmi3jT0N243gW063
+ yr+/FJdUJPGM0abicyO7Ised6qqxblA0lUxnajLcipgU2pyKjp2eAqrQINaw8TYARLD6rJ2qF94
+ /eIqJt0QjNAztww5wXvDL+09JFhY6VDUhhQTFqonKZkPc3yRACbeUFtfAtAdEebdfz/dv0p8T7H
+ IOFI6pLnQkvoQWeqRzBJN4SfTWBtiYXrvTFghxNfimHCLebMUrN6DsFN+WDWN+3QWPleDr0frMJ
+ 2gBZz+B9R/eyNb+SpF8y2218bPM3UTz+EON+P06u+2959sz5BQ43yb
+X-Received: by 2002:a05:6808:448c:b0:450:d504:9281 with SMTP id
+ 5614622812f47-4637b918ec1mr578408b6e.59.1770855260057; 
+ Wed, 11 Feb 2026 16:14:20 -0800 (PST)
 Received: from godzilla (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
  by smtp.googlemail.com with ESMTPSA id
- 586e51a60fabf-40eaf1062ffsm2331939fac.13.2026.02.11.16.14.17
+ 586e51a60fabf-40eaf1062ffsm2331939fac.13.2026.02.11.16.14.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Feb 2026 16:14:18 -0800 (PST)
+ Wed, 11 Feb 2026 16:14:19 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-gfx-trybot@lists.freedesktop.org
 Cc: Jim Cromie <jim.cromie@gmail.com>,
  Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: [PATCH 07/61] dyndbg: reword "class unknown," to "class:_UNKNOWN_"
-Date: Wed, 11 Feb 2026 17:13:02 -0700
-Message-ID: <20260212001359.97296-8-jim.cromie@gmail.com>
+Subject: [PATCH 08/61] dyndbg: make ddebug_class_param union members same size
+Date: Wed, 11 Feb 2026 17:13:03 -0700
+Message-ID: <20260212001359.97296-9-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260212001359.97296-7-jim.cromie@gmail.com>
+In-Reply-To: <20260212001359.97296-8-jim.cromie@gmail.com>
 References: <20260212001359.97296-1-jim.cromie@gmail.com>
  <20260212001359.97296-2-jim.cromie@gmail.com>
  <20260212001359.97296-3-jim.cromie@gmail.com>
@@ -82,6 +82,7 @@ References: <20260212001359.97296-1-jim.cromie@gmail.com>
  <20260212001359.97296-5-jim.cromie@gmail.com>
  <20260212001359.97296-6-jim.cromie@gmail.com>
  <20260212001359.97296-7-jim.cromie@gmail.com>
+ <20260212001359.97296-8-jim.cromie@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -128,36 +129,49 @@ X-Spamd-Result: default: False [-0.81 / 15.00];
 	RCPT_COUNT_THREE(0.00)[4];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,bootlin.com:email]
-X-Rspamd-Queue-Id: 495D412879E
+X-Rspamd-Queue-Id: 952FA12878C
 X-Rspamd-Action: no action
 
-When a dyndbg classname is unknown to a kernel module (as before
-previous patch), the callsite is un-addressable via >control queries.
+struct ddebug_class_param keeps a ref to the state-storage of the
+param; make both class-types use the same unsigned long storage type.
 
-The control-file displays this condition as "class unknown,"
-currently.  That spelling is sub-optimal/too-generic, so change it to
-"class:_UNKNOWN_" to loudly announce the erroneous situation, and to
-make it uniquely greppable.
+ISTM this is simpler and safer; it avoids an irrelevant difference,
+and if 2 users somehow get class-type mixed up (or refer to the wrong
+union member), at least they will both see the same value.
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/dynamic_debug.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/dynamic_debug.h | 2 +-
+ lib/dynamic_debug.c           | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index a10adac8e8f0..441305277914 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -104,7 +104,7 @@ struct _ddebug_info {
+ struct ddebug_class_param {
+ 	union {
+ 		unsigned long *bits;
+-		unsigned int *lvl;
++		unsigned long *lvl;
+ 	};
+ 	char flags[8];
+ 	const struct ddebug_class_map *map;
 diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index e7578507945a..55e07b706c84 100644
+index 55e07b706c84..1d13e3ee3e12 100644
 --- a/lib/dynamic_debug.c
 +++ b/lib/dynamic_debug.c
-@@ -1166,7 +1166,7 @@ static int ddebug_proc_show(struct seq_file *m, void *p)
- 		if (class)
- 			seq_printf(m, " class:%s", class);
- 		else
--			seq_printf(m, " class unknown, _id:%d", dp->class_id);
-+			seq_printf(m, " class:_UNKNOWN_ _id:%d", dp->class_id);
- 	}
- 	seq_putc(m, '\n');
+@@ -811,7 +811,7 @@ int param_get_dyndbg_classes(char *buffer, const struct kernel_param *kp)
  
+ 	case DD_CLASS_TYPE_LEVEL_NAMES:
+ 	case DD_CLASS_TYPE_LEVEL_NUM:
+-		return scnprintf(buffer, PAGE_SIZE, "%d\n", *dcp->lvl);
++		return scnprintf(buffer, PAGE_SIZE, "%ld\n", *dcp->lvl);
+ 	default:
+ 		return -1;
+ 	}
 -- 
 2.53.0
 
