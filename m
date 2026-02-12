@@ -2,63 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 51XFAJfLjWn87AAAu9opvQ
+	id UARWMvHLjWn87AAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 13:46:15 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 13:47:45 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FDA412D811
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 13:46:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CEB212D85A
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 13:47:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ECC910E72E;
-	Thu, 12 Feb 2026 12:46:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38ADB10E25E;
+	Thu, 12 Feb 2026 12:47:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="L9sxyDAt";
+	dkim=pass (2048-bit key; unprotected) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="shUD9Kt5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3912710E72E
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 12:46:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1770900367;
- bh=O/gsN/oNoD6OdxyEWVVk3ToCx9BOXvmAMQBNhd4XEug=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=L9sxyDAtxLSrw1ojxnBV84pgcZcAlV38Yr6wYYBlVthlnF8jXTCIW5Ame0buJu7cy
- l9jrbhOJPq2Q+zU0nq61EwN1pAtPzEnqHyVYOoxjAxerBE2AF/qrdArqfVSYYyTqq4
- TS4u+xpeN5zcHAKzeK+ZvhgQ44A4uRNVASua/wWSApZ6ou3FhtBE+oRbX4gtOV4rEg
- z8FHCRRqLx+4ajb5lCFQN371EaAjRr8UiaG95odx9vKSkm6oVxeTjbT+llq2jRsYjg
- F08A+WAJ2Kmeph42N/BGo1IO6/bn09E5sN8wQz7JADGAv/YhN0xv5j467AFv+1+rRm
- Y4dBYvivmK8ag==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id D333A17E0C21;
- Thu, 12 Feb 2026 13:46:06 +0100 (CET)
-Date: Thu, 12 Feb 2026 13:46:01 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
- daniel.almeida@collabora.com, aliceryhl@google.com, dakr@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, lgirdwood@gmail.com, ojeda@kernel.org,
- rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] drm/tyr: make SRAM supply optional like panthor
-Message-ID: <20260212134601.7760f414@fedora>
-In-Reply-To: <6704ddce-e0bb-4b50-b81a-a098816f3ba3@sirena.org.uk>
-References: <20260212100538.170445-1-work@onurozkan.dev>
- <20260212100538.170445-2-work@onurozkan.dev>
- <4b00826f-52b1-48a1-b6b5-70ee62f7c014@sirena.org.uk>
- <20260212151644.4c179594@nimda>
- <6704ddce-e0bb-4b50-b81a-a098816f3ba3@sirena.org.uk>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7506A10E25E
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 12:47:41 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-4806cc07ce7so30968205e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 04:47:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1770900459; x=1771505259;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=NKYheizEjIwbgAq1ciyg8mcQ3Le2jvMLR6sdbCSesTg=;
+ b=shUD9Kt5/Ts9uS4nEfcrvTrz+RHXkiWw5bonhHndKMvWC5QHkWpX2/vxNBiE0+2RHc
+ Bb+t0yQyn5ALIngShVeAEftsOzYkIEKrEczr41ea0jLc4jasSQfGlooaEbmePTFxbxaH
+ Kx/mQtzVZtVbIFiQVfyNJHBHUtxOmB2ZHtiuct+p5sJK9G5BQNyy8ec+XbIh1th4vf4o
+ FSRj2TPAm1/xBLNdCtLvGHSA1EAWFkFdCm1xfTpqmDjgMxDYrAkdTmXtQF+hmKq5LK9Y
+ eMRvLx1tThzsXFsPjnozZClgF0DV5rYigViS4JLJGzVcp4GiXyLG1AIJz5DlDo3lD6G/
+ hb/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1770900459; x=1771505259;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NKYheizEjIwbgAq1ciyg8mcQ3Le2jvMLR6sdbCSesTg=;
+ b=ZaUe3J6lwyw/2xYElK9Hra/SXnXyuAAHUBmz0h1jdaUhIj3MbREJwB/dQ1CmUvnHFS
+ 7jO2rI1Te/mS7+vEHzl5IK/nf2O5983IDSBc9zKD0RLMFsFFUCvI5CkH+oiGqu22GX7C
+ BgO2EZG9EFKSaXWSAAyfcbhL/sw/rKKTnNyD8pNcwj0mAXN9Jc4u1aSItxpfQdKVxEHC
+ BFMwZHrrdRO9FoB81OWPBsBAVagGAZKie+I9RScD+cF5Y6wTOfwe6P3t+I5CsPClNRoI
+ Omv4ZGg5FKtU83D+aijJ9QjKtL0rsE/6+WM1AgLIHhS8qdcKyVapUk+vvQX4TTVVuvH2
+ /z1g==
+X-Gm-Message-State: AOJu0YxEwMKNmp4lPYsHmq7pR7dBZntuQB4PkXm7veMLh7u0VB0FPy6c
+ FjaIAF8hCPWvHCk6oK3hJbe1pSXlcxLrVvcx80vsH8W7XDgW+4DG0mCj80c6EKr3ZXM=
+X-Gm-Gg: AZuq6aJrQR+xMuyR3DQF1nkXDUCIe6QEOA2TQkBf7ZcoH/4QkZVKXYwwgXXZLWOur5B
+ 4EjdkR3QOjpFeKPPxYLPLVPGibFBbgvLYYJKQP0bIpGUxg5P01c1gbPgP2wLUl5jXZSJ2kcb2nK
+ IWRwxluzM6yFbXXCII/JGl/VC6NPMT+4CXulLnyWtYnJ4HnXu4PAlFeLJqUahAs7z1yIgXhgpgG
+ cn13yZ4W3mnT1H66w9DukY7CjN7G9IDjFWdqzPnIfSLYiW+5LE7B6dMbTEYr8sH9Nt2xrQ3+VJV
+ zv305+Me255SQJj1Ogyv6P1tXXzgOjtJ9FE0Uq57VDQ1T9Oh0ReqbkuPa2mwfpP70f8A095LHO1
+ vQtOuWy72sDT3ICtVsErnTY/jTkJ35j/kgmNht3pBbHxkVKnZp70Qw3SKyq+ud6qixGScOSzBqc
+ +jrOP2oBhJtPIq4OM3PW5BfJcxAVpKW4g=
+X-Received: by 2002:a05:600c:c08f:b0:483:6e32:50d4 with SMTP id
+ 5b1f17b1804b1-4836e3250ddmr10528405e9.18.1770900459374; 
+ Thu, 12 Feb 2026 04:47:39 -0800 (PST)
+Received: from FV6GYCPJ69 ([208.127.45.21]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4834d5e11f5sm183250905e9.4.2026.02.12.04.47.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Feb 2026 04:47:38 -0800 (PST)
+Date: Thu, 12 Feb 2026 13:47:35 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Dave Airlie <airlied@gmail.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
+ Sima Vetter <sima@ffwll.ch>, "clm@meta.com" <clm@meta.com>, 
+ Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: drm AI patch review hacks
+Message-ID: <s6uh3wrpx7qce2yz3u5oqad74nx6gkpyudragrrpxgfgoyuyrf@umajisatpsv2>
+References: <CAPM=9twmmLhc-DJV2hFKJ1kahzxRUY5j1cLH9JjZ33LEjjBNbQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPM=9twmmLhc-DJV2hFKJ1kahzxRUY5j1cLH9JjZ33LEjjBNbQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,65 +92,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.81 / 15.00];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+X-Spamd-Result: default: False [-0.31 / 15.00];
 	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[resnulli-us.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
 	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:broonie@kernel.org,m:work@onurozkan.dev,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:lgirdwood@gmail.com,m:ojeda@kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	ARC_NA(0.00)[];
+	DMARC_NA(0.00)[resnulli.us];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:airlied@gmail.com,m:sima@ffwll.ch,m:clm@meta.com,m:torvalds@linux-foundation.org,s:lists@lfdr.de];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[jiri@resnulli.us,dri-devel-bounces@lists.freedesktop.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[resnulli-us.20230601.gappssmtp.com:+];
+	RCPT_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[jiri@resnulli.us,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[onurozkan.dev,collabora.com,google.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	TAGGED_RCPT(0.00)[dri-devel];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[dri-devel];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:dkim]
-X-Rspamd-Queue-Id: 6FDA412D811
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,gitlab.freedesktop.org:url]
+X-Rspamd-Queue-Id: 1CEB212D85A
 X-Rspamd-Action: no action
 
-On Thu, 12 Feb 2026 12:21:07 +0000
-Mark Brown <broonie@kernel.org> wrote:
+Wed, Feb 11, 2026 at 08:44:46PM +0100, airlied@gmail.com wrote:
+>Hi all,
+>
+>This came up at kernel maintainers summit, so I've been trying to see
+>what I can piece together, and have a small demonstration that may be
+>useful to some people.
+>
+>I didn't want to pollute the mailing list with AI patch reviews, so I
+>decided to set up a public-inbox that the reviews are pushed into.
+>This isn't currently automated, I'm just asking claude to pull the
+>last 2-3 days of patches and review what is new every so often.
+>
+>The workflow use lei to pull mails to local PC, use review-prompts +
+>my own prompt to try and review a patch series, both as a complete
+>work, and per-patch reviews, then create the reply emails and put them
+>into a public inbox git tree for publishing.
+>
+>I've no idea if it's using review-prompts properly or at all, this is
+>all very vibe coded so far.
+>
+>https://lore.gitlab.freedesktop.org/drm-ai-reviews/
+>
+>This is a public inbox, you can also git clone
+>
+>https://gitlab.freedesktop.org/drm/ai-reviews-public-inbox
+>
+>I'm currently just using my Red Hat provided claude with opus 4.6,
+>until I get told I've burned enough money.
+>
+>The list below are the patches with reviews, if someone wants to look
+>and give feedback on whether the reviews for their series are useful,
+>find any bugs or regressions, that would be cool.
 
-> On Thu, Feb 12, 2026 at 03:16:44PM +0300, Onur =C3=96zkan wrote:
-> > Mark Brown <broonie@kernel.org> wrote: =20
-> > > On Thu, Feb 12, 2026 at 01:05:38PM +0300, Onur =C3=96zkan wrote: =20
->=20
-> > > > Panthor handles SRAM as optional and tolerates missing sram-supply.=
- =20
->=20
-> > > Does the RAM really work without power? =20
->=20
-> > If the platform has no separate sram-supply (meaning that rail is
-> > coupled to mali), RAM should still be powered and work fine. Panthor
-> > already relies on this model by treating sram-supply as optional and
-> > as far as I can see there are no RAM issues on Panthor. =20
->=20
-> The panthor driver is buggy here and should be fixed, the driver should
-> treat the supply as mandatory and let the system integration work out
-> how it's actually made available.
->=20
-> Trying to open code this just breaks the error handling.
+Overall for my patchset I think the feedback looks pretty much accurate.
+What I like is that is even considered the email disscussion about one
+of the patches. But since you ran the AI one-shot, does it make sense?
+The disscussion may evolve and the verdict with arguments may be stall
+(not our case). Eventually when AI-re-run after every reply might be
+needed, in that case, better to have the output publised on
+a continuously updated web somewhere perhaps, not over emails?
 
-Maybe, but the thing is, the DT bindings have been accepted already,
-and it's not something we can easily change. What we can do is make this
-sram-supply mandatory for new compatibles, but we can't force it on
-older/existing SoCs without breaking backward-DT compat.
+[...]
