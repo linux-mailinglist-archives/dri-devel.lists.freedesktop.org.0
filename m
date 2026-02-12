@@ -2,167 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KCDxDHKDjWlb3gAAu9opvQ
+	id c8fcCP+DjWmQ3gAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 08:38:26 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 08:40:47 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3022012AF9D
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 08:38:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715C512AFC4
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 08:40:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BCBC10E6DF;
-	Thu, 12 Feb 2026 07:38:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7811810E6E7;
+	Thu, 12 Feb 2026 07:40:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="kV/xmHcb";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="MmFidTEP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com
- (mail-northcentralusazon11012004.outbound.protection.outlook.com
- [40.107.200.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3F8410E6DF;
- Thu, 12 Feb 2026 07:38:19 +0000 (UTC)
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010068.outbound.protection.outlook.com
+ [40.93.198.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D8A210E063;
+ Thu, 12 Feb 2026 07:40:41 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ui+OtM5vqPghGvYy8YDFVoayYHluLctUdMLGeSoF0+agpcZZdq78xcX/S5YeScC/QNJkBOYlkm5cZ/LrYb4YEjT2Cwf1z5TqS2WfADmCl0L5Jj6ulWDSxRrS30VOD5nCrKdI+mzFA3k6FzOr9fIqHSIAG854YQ70NVvtvcsOXLpzqOAvq5f3woW/BXCkxIN17cVBzwnd/9Ozhp3cUvC3BVoDf/8eM1ySSa6C39aUURWxN3Ygo1MAVmJqpgvouVh0Cukm0YEIasck4bo4aN6+SMZUx9MC6jiMWIURs1M0gaJau6j3uNq3tNGLMscTM9LGXqxr67T7FKBdw0l8ytPd9w==
+ b=a0Ci6ITj0vibniHxcFOEKiv+h9JUc6K//emKqrTiEstBr8pvFyLtl1yrXWTx67OsOudIB73Gpwuo7wNwd17V6FIuiZ7cKtQad3zjXNuL/PQ/FeaEr6vN8iut8VNs2NVAuSu/CTCGDEO2w3rXMlaCvE7OnCztrvCroyQ+Xkxj+09f9lEHuxvI9RIwuBzwTSkOo1YtbDog/eaRFms5kjut9zB2qkIhvhDD9SY5wB+anIN+bsKRO+dU89TryZqCH5HIi0mkaYg5vCtF8kF0352TOOL9dFmapnbSPZeDZzvWrrQ7syxhUYgy02RHT2eYdt1A0uqr6/EjJm6bcSXR7+5vDg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g8mtqKAz/NrfPvlZGDGOT9HA+3oaQURyR3KFqE46XGU=;
- b=mLzqWflGUIiRN3HnXiGX2yUhKlk6K4z3oo0lIKSRQxfZ/lhKHusbT5BIyg5Dj3+fqe+bwniX9BbrcVXLjlw92qiqfP4PVONjFYVNiffuLUgfDEPWFDp9Mohj33vd/TdcQI74LLrW1/9IAhPr8mF8iFgDDOwBAwrAK0d9K/CeDrwQJN19KpDEARfoV+XLrxd/m1U8dS4D37lpFfNyztsFgYCBfBtEj7oKEP+lYTzABK2A/063FWjQHFj2jiSJox//Y4CTEhE8dQCo6Bjf2TESKLnALADJyVnHNzSInSsmSrdcyROAfBxWPeWrgLOghrLUYLHdw6jvUVAU4sKsZxL9Ww==
+ bh=NG6kEKXECdKPZwYl/5ciS40d3I1CqARrFi2egaatcvA=;
+ b=lhArxx50qhIDxi/QRRh3wQg2CiJnMCT2uwq3X0qJfgmJPaHl+hJniKvXsYZbl07V4N9vsjg7kiHavB8ihNwn9fsMatSp7w3bZ2sHd/p9Tn19p1sp8rU08OZyvlABCpYAq78rhRDo+kgKDMmmzgiWX7+JGSdNF43eS1FlH69bu5Ufnf8dSoB2K2eA+OfW5rhT+HlnnFHK7CssarTOkT2YtCyQz86FJuZuUSH9oY3FwD0V/cbjOKPZQPZ5ptH9wxDV6NuCAc6XZa751UGckQa3bZUStsvJsqc4RNJuJ40WWtiadKLle+9Zodr4Vpg3vVaVwlnWA2q0KBOvvHg6KZx82Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g8mtqKAz/NrfPvlZGDGOT9HA+3oaQURyR3KFqE46XGU=;
- b=kV/xmHcb8+QIFkkf4XeEvF4LzvrrK5yjaPVeFZikxhNoIi1xgSVyU6MMXRfA0qoUuDXeLSuMGEixA4jEzfd6tPAS1uM04PRPzP+hIkKGjfPnIwDcKXxZHbk000qyIF7VEP3NvU6akHeUN3ZLQpabSrO0LjWyPxv7WV2G2JshWF4=
+ bh=NG6kEKXECdKPZwYl/5ciS40d3I1CqARrFi2egaatcvA=;
+ b=MmFidTEPK460+DzW46XuPJOivJ5FzqWo8K0yDKFBgQcNoKsuw1Zgnm5BtxcPpVq1OdQhVmu9MVZbXuuBK01Z/awDyD9CM2O4o4ohvtpCtRIazoCEC0zf2YhUm6W9Cfi7MIMSznVjeeWe4NdPrrYdYHCvgeIkrzwFVehcItYFRsg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH8PR12MB7301.namprd12.prod.outlook.com (2603:10b6:510:222::12)
  by CH3PR12MB8657.namprd12.prod.outlook.com (2603:10b6:610:172::6)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.10; Thu, 12 Feb
- 2026 07:38:17 +0000
+ 2026 07:40:38 +0000
 Received: from PH8PR12MB7301.namprd12.prod.outlook.com
  ([fe80::8434:dc50:a68d:7bdd]) by PH8PR12MB7301.namprd12.prod.outlook.com
  ([fe80::8434:dc50:a68d:7bdd%4]) with mapi id 15.20.9611.008; Thu, 12 Feb 2026
- 07:38:16 +0000
-Content-Type: multipart/alternative;
- boundary="------------mzIuGTL0pgJokSb989AqzrlX"
-Message-ID: <f1660888-9682-4c74-9241-063750bd63ef@amd.com>
-Date: Thu, 12 Feb 2026 13:08:10 +0530
+ 07:40:38 +0000
+Message-ID: <3a205ac1-5917-4e24-b6e6-f8989678a54d@amd.com>
+Date: Thu, 12 Feb 2026 13:10:32 +0530
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 1/2] drm/buddy: Add kernel-doc for allocator structures
  and flags
+From: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
 To: Sanjay Yadav <sanjay.kumar.yadav@intel.com>,
  dri-devel@lists.freedesktop.org
 Cc: intel-xe@lists.freedesktop.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
  <christian.koenig@amd.com>, Matthew Auld <matthew.auld@intel.com>
 References: <20260211053123.260037-4-sanjay.kumar.yadav@intel.com>
  <20260211053123.260037-5-sanjay.kumar.yadav@intel.com>
+ <f1660888-9682-4c74-9241-063750bd63ef@amd.com>
 Content-Language: en-US
-From: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
-In-Reply-To: <20260211053123.260037-5-sanjay.kumar.yadav@intel.com>
-X-ClientProxiedBy: PN3PR01CA0070.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:99::22) To PH8PR12MB7301.namprd12.prod.outlook.com
+In-Reply-To: <f1660888-9682-4c74-9241-063750bd63ef@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA5P287CA0168.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1ba::10) To PH8PR12MB7301.namprd12.prod.outlook.com
  (2603:10b6:510:222::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH8PR12MB7301:EE_|CH3PR12MB8657:EE_
-X-MS-Office365-Filtering-Correlation-Id: 77bd29b5-12ff-4872-a358-08de6a09af40
+X-MS-Office365-Filtering-Correlation-Id: 5a0c4ac2-13f8-4301-aeb2-08de6a0a03ae
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|366016|1800799024|7053199007|8096899003; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UW8yeVBGbUxiR0hTUTVnZ1g0RDcvS2UxL25RcERjMXFCbk00OXN2NTVmYm0v?=
- =?utf-8?B?TWx0S0pVUU9EMDRzNkFHSWxjMFZtem1pTVFpWXRGNGZRRUQrb01MKzRGU1dp?=
- =?utf-8?B?S0NlTmo4ZVBHSytuM05JSDRPZnBwdkFKdVY4TFQ2bUZFOEtmR3FHaWplY09r?=
- =?utf-8?B?VGl1aDRON0hRS0lXRHo4TDF3NHBHV2V4L1dhaWxNUDBMNGZ5cHJpdXZEaFVn?=
- =?utf-8?B?aXh5SGlUQ0Z0RE5LMk04eUdrekVxbGthbHFmcTRlazJCcWNZMDMvUGYzVWtw?=
- =?utf-8?B?QVo0YkNqSTZHTHpGanlTb0JJQWk1dHNRbVgrSWpGd3poRmdJL3prMGt0ZXVs?=
- =?utf-8?B?R2R4SFhMNk8xaGdYbnJERlovWkpIRWlGN2U5eSsvVHcxeW5BQ2NaVzJNeEtI?=
- =?utf-8?B?TTU1NzFIdHkwV3U3UDNMTjYvL1NSTGpJb1BLdGkyS3FEOFJBVkdUSElFc2I3?=
- =?utf-8?B?MHdyMm95YVNJUm0wWmFBWWhMaDlwTkJEK0tFcnpMQmkvK3Y5TlZmd05CTVlO?=
- =?utf-8?B?a05HT3drUW9sMUhmeWR2RFpiV2M2anE2b0E1RFNaZWRuRW43VldTWVBsM3Zl?=
- =?utf-8?B?REdNZ1B0K1NJbnZEZW15SUxPQklCTktES09tQlVFeVE2c1A0MTdXajc5UWww?=
- =?utf-8?B?ZWc3QzJUMWFHdjF6SVBZSkd0OEJmWXd4TVdQSWlXSHNCVlorbWl4ZTBUWHYz?=
- =?utf-8?B?Q3M5cG5pSXRydFBIWXBpMUozYXdiWnUybTBONS9yV3lUNlpBb3lCRFRyZldO?=
- =?utf-8?B?VWZOREh0MzVmVFUxUjFOMVJ2SHBvZlZrUE5CQzN3Z1UrRkpVMU9GQ1FyazZx?=
- =?utf-8?B?NnY0czRMSDAwS1hZVFdYa1RNTnRBckFaZmZZdkYwbE1LL1lWaVIzc21qTWxO?=
- =?utf-8?B?WlhxR25wVUVXYzR5Q2tTaGdSa1FlSThveENtSlUzakhLMDczZDFFdk9OQkFV?=
- =?utf-8?B?c28xMXVNcmQ4TFVOTTFrR01VNnMzb3l4VmZxKzZGQTdHMFRtdVlnMVhTbkpH?=
- =?utf-8?B?Z1VmYlE2c3hrcjIzbjJxOGc4eDhlbEhVRGhBV0xBTzVsQ21nT2xwQnZodmZC?=
- =?utf-8?B?WXU2VlZUQTRyUlpOa2NWbU4yZ2dyNXU2dXUxREtMOTV4bXJ2MndvaW5xYXdr?=
- =?utf-8?B?TFE2S0VkTXRmMGVkb0xDalBpTE9iSzVmUjFBU2NiNDRoUTRrZVUrSEVRZUJw?=
- =?utf-8?B?VkM2U0dBZFB4cW9XUUVySUJZRmNZWnQxMnZPZ1llOEZaWUsyMDdOenZaWlQ0?=
- =?utf-8?B?NU9Xdjc0aTNWQmdCVGVpTW5GY3FqblpSYkhhL1pvR1EzUVBIUnl4Uy9DdUdq?=
- =?utf-8?B?YWhOZjlCZkV0eURkOHpXVHRvZk1QWkt5NFFyV3pnZTU4QXN2Q1htcmVGUCtV?=
- =?utf-8?B?NUVLb1MvNmtaSnJHMURxcUN5NUF3ZCt6YkR0TXdOaW1MVXJJcWhzcktTZTM3?=
- =?utf-8?B?eTl2YmNGa2tsRkEyK0I2NHVXWFUxdTdUazBoUGk1eHMzdnEya0pNeWVWeDNP?=
- =?utf-8?B?SjlPTjF5KzRvS0pFNHNxUGp3aWpBVUN4Y2VLNWFGZ1N5YTQ0R0NBbnRqRDEr?=
- =?utf-8?B?dUFyTXM1TmpFWHpWYnZpYi93c0hLeSs0ZFd1bUZYcUprRGQybVBMV0tUTUVp?=
- =?utf-8?B?RmNIUjZ2anlmL3M5anVZbzhQNThYWko4cG0vNzRDVFJJMmludi9rODVFamdH?=
- =?utf-8?B?eGxkY0orSndVemE2THpLMGRna3FXWGJQWUVacWFzTzJnbVJocE9OUzE3a1hD?=
- =?utf-8?B?N3lHQUVQWVc1dVdsYjZZMlkwcW1xNjdHVFJ5WWlqdTBmTkdheFcrNklHUGZF?=
- =?utf-8?B?OWllb29DNWZsVXBaQW9UdERvM3NmQ1ZFRzNvZy9oUkxWT3V0OUdBVExNakV5?=
- =?utf-8?B?Z3NiNi9VZTNwMVV5cC9DNkQxYjZRbTVha005enFYTzg2WjJRSytRNmUxRE5N?=
- =?utf-8?B?dXNFY2JySFFrbk11YXlhUU9FNlNqVUd4VGV2RGFPakJTaWRQdjBRclQyaGd1?=
- =?utf-8?B?YU9CN0N3a2tNbnc2cW9wL0hMRytBR0hMbGNENFZXQmlydHh6ZTN0WEJ3NVdv?=
- =?utf-8?B?Yk1wbGxHdkY3UUdDenk5bGdOZmcxaFA3dkluRWdwOXYzaFFIdjNtaHpBcmNx?=
- =?utf-8?Q?1ZPc=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZlJIM1NwOVA5dURGNkxySTlMUDNDMElGc3QybzRpV2d4a05ZVDNFWnplSDls?=
+ =?utf-8?B?dUFjeHF6OXhMVTBLWnhpOWhhMDlkbnRxdW5oemVqV0x6c045cnVhcTMzMDhx?=
+ =?utf-8?B?WXpmME1naE90a2pZL3pQOENrM21KamlvaWE0WXZoMFRPN1FLU2l1dDNXYVJr?=
+ =?utf-8?B?WEZKWC81TzNIWVpxTnBBbFdzNmlid3R3cHNiNDZhOXhIMk05UlNWSjNCZTls?=
+ =?utf-8?B?dUpxTXh6SE1LV2VoZ1o0cGgyQ0daODQwUy96SGsyQ0lHQWVVaG1qY0hnODUr?=
+ =?utf-8?B?QkRJVnlTdWZSS1hLWnU5U2tySEdQMVBLM2lQaXpKY2g5U0VNSFI1NkhNYU5s?=
+ =?utf-8?B?WnNKdXJhVm9wbWYvTkltaTRLeWdnelpOck9yd0liWnY0enFyM0pOWmRzUldq?=
+ =?utf-8?B?aE14ZlQ0OG54Nk9yT3R1ZXBma1Z1cisxL3QwM1grTVdSbUkwbFd4Y0VJeEUr?=
+ =?utf-8?B?Z2ZHMHUzSks4cGNuSEorZzBPd3FoZ0xIYXJ3b1hWWWNneEN4SklRaGlyWWtW?=
+ =?utf-8?B?Qm9laU9tMU0wRzV4VEpXYnNIaGtlQWdNcS9icGdUenY3YnpYaXRDQ2dCODhp?=
+ =?utf-8?B?amsyb01pTkxyR0ZjM3FHTU5TbmxnV29OQjZac0VVQ0taODRsTy9xZVE1YjIx?=
+ =?utf-8?B?TTJKemRVSXZwNm1YeWJZRVVBQ1VLdVhEa2hQejJYWXRIV2hwRldJT3MxMll0?=
+ =?utf-8?B?SWVDMm8wQmFhaCtuWnJ1ZUgvbnFLNFhDSVlRUlRHZER3YXFYQlVJZzJ1M2tW?=
+ =?utf-8?B?ZXpybGNVbW9ERWFFb0dmeHJjelJKYjVGSGs4ZzNFZFZMTEJ6ellLRW82SGNm?=
+ =?utf-8?B?aFRoZUdLcTZ4TXF1eGNQTU9SdjNOSFhyZW50c2RkUlJieDFranZxL1FWVVdX?=
+ =?utf-8?B?REY1K2kxc25pd2pRdG84aDZYejdZajdkdVhHdkhZUkFhRmkvMHJwWGVCZHVU?=
+ =?utf-8?B?d2VjRUhKZG5HMkkrVTYyeWZpUUVMZitKMFduOEh5K2ZrTTZ5RVlsZENXTXE4?=
+ =?utf-8?B?MHFKYm1ZQ2V6dEJ4eGRUYllvT1JYQ2w5dGJsbkNzU01sb2QyeTZqUjdZWTNZ?=
+ =?utf-8?B?SXZlaFk3N0RJOEhxQzB5aGQzYTIxUWtRaFc0M0NMNlRnZlpGcUVzL1loV0dx?=
+ =?utf-8?B?d01DR1hVcCt5KzlsNUlYMUpzbVd2d3hZaUNkVHp0RGJuNXRIN2M4dTl4d050?=
+ =?utf-8?B?NnEwQnFScitzMW42aXE0eitib25HMWVWa1dPUGtPamN4cDl2Q3djSGw2aVNY?=
+ =?utf-8?B?TUM1UnczQ2FvbTZLNkRTTU53Q0JEUVB2bjNwcURILzBSbEZCUWVlckJSd1dQ?=
+ =?utf-8?B?REJPOUJtQVVtL01Vb1VkSXF0MGdEOEJCR0cveHVvYVFzaEtpME9sVVJWUTl3?=
+ =?utf-8?B?ZXhFeFExbVBHdjR0ZHNZdHM0Q0o4OVJLaFVOblZhQUF2ZWRaVWpOTk1rUzZ3?=
+ =?utf-8?B?d25KNTJVeVdYd3FXeU1ycjR6a21YWnRxVWtzYnIzMVRTZlU0c3JtVDlkdFdq?=
+ =?utf-8?B?OWh1NUhqZWtMcjkzamVVTEFzSHIyeVhIT1ZydE9hYVNic3IrU2UwUTlPN2xD?=
+ =?utf-8?B?c1FzaGxWK3VPSkZhTWlBNWU0SnpRZGI0OFVMZk40Nm5QeWF6Q3hYbGNYZmNQ?=
+ =?utf-8?B?cnpocCtTUjgvNDZlRzV6bzZZUitaSkU5c0JocGJ6NzgzODNBcDQ5SjQ0SWtF?=
+ =?utf-8?B?YUFoNVZHbzI4bkxaaXFFWGMva2J5ZWdscVhONjJvcFNDNHpuMHpsUHJsZkZo?=
+ =?utf-8?B?UmVITzlxVjhubzh0ZGtFVXZza0FJdUxaRmkvZ0ZZY3FxaU9WeldWTy9vWXJZ?=
+ =?utf-8?B?OGtZSmdQek1LMndGOGE3VzZMSkpwUVdLdTFsOXRWUkM5TlljdUM5NStpZzVM?=
+ =?utf-8?B?eTVvVGhrYkhwUHpScFdNOU1OMWZFQnM5Z3dWM0JpRzZnYTV1UFhRaGhKRXJm?=
+ =?utf-8?B?dmpkQjNVZHZSRk1KcE9XQ3JBVmJPK3lVQ3RBSUE0WlROL0JqRTBFbEU3V0pW?=
+ =?utf-8?B?K2twZEVUbVdGN1B2d2VjUXkvUUp1bFNnaTRlbzQ5OTlmc3hCdWpDWmtYNExr?=
+ =?utf-8?B?NVNJNUEwZy93T2VHbE5oMURYTEZFK3YyWThkWGQwTWZ2TDdJQ3BQVTBKSUh6?=
+ =?utf-8?Q?nAgY=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH8PR12MB7301.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024)(7053199007)(8096899003); DIR:OUT;
- SFP:1101; 
+ SFS:(13230040)(376014)(366016)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eEZYeUluYjJHMXFCazJmQU1qRkFxRmdjZ0NlSStFNHIyRHRkUWU2S0Jnando?=
- =?utf-8?B?Yko4bGozVWcvMUJqYTNoeFJMS2ZxNndpdnBsSkdkb3U3NjAyNTJjcXgxVkwz?=
- =?utf-8?B?QmFTT05SbE82VDlWVjROODBNTldsS2xGQWVvMmdJcHZ2czRXQ25HcVhqQi9a?=
- =?utf-8?B?Wk9YYkZMWlA0VWxlVTluWVRMaDVUSzVZU1QzSDRpRHRIK0VNSVdEcFo0R002?=
- =?utf-8?B?YlFQQ1E0YWh4YjZsaDdwMGlaYUZiM2o2RGxZUW5wenJSNEtyN0VwWjRkdkQ3?=
- =?utf-8?B?VHdIR3BuY29MWE55Z1UyeUNYK1JOVHIxWWQvWE5YcXVIcXppUjZQQVg3ajQ3?=
- =?utf-8?B?K2VmUTVrZzQ3QUUyVFIzb1dib0pqTGs2VSs2dGVBbURyeTRBc1hWYXJyKzVo?=
- =?utf-8?B?QlNtdk9IN09iTTZLTDk5bUVIcm11TUxhZk9HKzNjWUVHYWdXVHRUd2hIeldD?=
- =?utf-8?B?bEgxb1NLV1Q0cHRzaVM2NU1VclpVTVBFYUpSSzNzQXF0Z00zeG81N3NDY0wx?=
- =?utf-8?B?Z3dsUW9GblpQaWU5NUJSVjUvTkl4aUs5M2tyRFcxMjVpSEM5S2NDc3A2Mzhz?=
- =?utf-8?B?aUtBcXhZSTlsbHVTSkJlNWJsMGtmc08zRzJJbFdpZ1RySU5PMFVNeUVjZnVo?=
- =?utf-8?B?REltUVNWaExyK2hFd3R3b2VhM0NzeGhXZ2VYOVhVZlpvQ001NXRYcmRvbnRS?=
- =?utf-8?B?TUE4UzFnOWc5U2VldTBORjhZeTNLMmwxcC91bFc5RFJFQkNDY0ZaVDhrbCtq?=
- =?utf-8?B?U2ZBV05QTnlZNlE2eitrR0ZaME1ESWpyWFNUQXZxV2haUVRNSURvNk1HUHVR?=
- =?utf-8?B?NittUDFnSlpBTmNYaTd4MEdCNmtucktJY1ovRVo3cHB6ak9ZWFNiTmE5Yllr?=
- =?utf-8?B?TDc0bFlOTnpYbVQ2WWZNS2FLbmVMQlJkRkJtYTA3VTVFTHl3R0hTZy9aelE0?=
- =?utf-8?B?akNybE9QWGRDRktadGFEbHcvV3crMlRIcVBIeFd6TmFvcFRYU0Zta243Zyta?=
- =?utf-8?B?MlVJNWN1bkY3MzlEdTd3bHBuTlNNcng4NHdLMDdWY0hWbHlOZ1ZmZ1UyUXdL?=
- =?utf-8?B?c0J2ZXNRSnN5eVRTS0drai85MEVFT2E0STJiR29QQ2ZNNHphUWFYWWQvNWlj?=
- =?utf-8?B?bFdZcXB2MkVsY00ySzNmSzE3eVNyWDdseEFXSkhMV2lybStyOXNEOHVPZGJ2?=
- =?utf-8?B?MGdHemoyWmpMS2pKSmFNOUhaZFJQaHk3VDJsakR3N0NlV0pKQS9raHVmcEF6?=
- =?utf-8?B?Rm5GMnkzbms0cngrd1pXUnY0aHF5QVZzRnZKcTg5MHg4aHRHREwyYUhWMlJI?=
- =?utf-8?B?cUN1cnU2cmVDVDZZNUVjMy9PTlU1M0prTjQ0OFBxUDVWb3lmdU9ZTkM4TThW?=
- =?utf-8?B?VDBMMnFiYU1sSStwUkFLM3MwN2xMWDBRSDY3RUpnRk5BK1RZZFVXaVdvR0tY?=
- =?utf-8?B?Z1liQ3ZoN0xzUzZKTFhESEg1bzVkOU1aaUt6aUdKUVBXbFlUU2VSVEY5d1Bi?=
- =?utf-8?B?QTF5azhTUzhwK2tkMWxpNmFLZXR3QmVjRSt4RElORUNkTU1aNkoxUDJ2bVpH?=
- =?utf-8?B?T2RZeDQ2L1RwMGh0K3pDRUFHbERzNWVzQW5mWEI1RmdjRkp5dHhrSytMTXhx?=
- =?utf-8?B?Q2pEOXVIMVQxYUpMS25RcWhTeS9UbGRxbG96K2xOUDZTdXIrR0xJMmpoYlRM?=
- =?utf-8?B?eUEyandKbnJCMExyWkF2S2dJdkNkMFpZYTdSbFF4a080dmNHRXExVFFCWm50?=
- =?utf-8?B?RElFS01NUzBIQ0hmY05PVi85aHJlUS9VZ1NTVDd4ODU3Z3ZqTU93aUFOWVZy?=
- =?utf-8?B?OG1kclM5bUZGWEtYUkNmQkZma2NlNnhtd2twTkNnK29uSGp2Ymk1N3A4MTVh?=
- =?utf-8?B?bVJlTzdFck1JL0drL2J6aUpYdnZ4YlJmdURlUDhqbmRTbUNwci8wS3QvVWdE?=
- =?utf-8?B?NVdrUENOaFN3RjR6bHpGUjM1YW1aTVNUMi91djg4TDNMUHVORmZNUXhDc3g4?=
- =?utf-8?B?YjNaOWZuVFd4RkFJQU1ZL0gzVmZaYzU1VjdSQXphVGxrL2QwdWFIbTdzNnk3?=
- =?utf-8?B?MGQyYlQ4SEpzQVVsVWZRelVUUWptZ2hncmw5bXBKUDZYcXE1UkVjUGRFU3Vi?=
- =?utf-8?B?Yzg2YVNYS1ZiaUk5Z1I5ekEwQ2ZzQ0wzWVJXb0ErbXNlR1NVWTVrSDJoSXll?=
- =?utf-8?B?WnY4dWUvYzNsUWdYaktEQkNYWGtRd2JJRVYvYnNXeWJTWVhrNUd3VlJJanlK?=
- =?utf-8?B?UDZ4Zk1GU0kwRGx1enRHREFwYW4wNlQ3bjVWZmZXTFA3WHN0aUZzM1kvVWxo?=
- =?utf-8?B?VTZjUlN6LzZ5QXB2UE5DNnhJRVhQS1FhT0RTSmRqM01yUWhHOUVEUT09?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cEhNL1FXT3JnSkpYSldxOEY2NjhxMGRzb1F4bG1DY3MzeTMveU9RV2pmdTk1?=
+ =?utf-8?B?Y3RoRjdscnNaNUlnbC9INFFiYmN1eDR4USt3azEvUE9mYlUxRmVpUHlhRlJy?=
+ =?utf-8?B?VFdOdUFNQlVRQ21FUXFDTDBIZCtJWXQwaFhHRDNDd2NOZFVBbm5UQ3JKczFn?=
+ =?utf-8?B?VksrMXNOK3VPbHJzZnRRRXRVRFRZRGVJZm5aM0Y0LzBhL25SdXN3ZGRIMjNt?=
+ =?utf-8?B?VG4renNFZnBLRSswMk90UFhPdWJ6VXFoSWJNS2M1dHpaSkRPNmVpcGpBQStI?=
+ =?utf-8?B?MzFoRWgvTHpiak9WMXMrc3YzanFrTDZtamZOK3FTWDE1N2E3Vmp5TURKN0pO?=
+ =?utf-8?B?Q1pwVHJKUnVmMGpMa1dDQ1BuWExLbHJvck1HUWwwMUNOUlRrVmFIb05nc3hO?=
+ =?utf-8?B?a3hGb1MxdjVtY2lYWDJuR2RFWHBHL0FJeUZuNkMvVDJWOHBVQUVWT1FMTStl?=
+ =?utf-8?B?R1QxZTl6VUNMSHMwWkZGR0FWK1E0WGgwZkJUd3dnOGtSOWdZbEUwcGdmaFpz?=
+ =?utf-8?B?QVFpcEJOQmJyMWtaQ3hpM0Jqd1hGTm5kVjlDL3haMzNGSXk1b2xZU1R1VEI1?=
+ =?utf-8?B?N1Q1MkVpWUs0UHRRaGxid2FrdWROODN5RHVoUzdYb2V4Ulo1T090MS9JdE1w?=
+ =?utf-8?B?UjZXcCtkVnppU2xlMExOSTRJSHlsQlNUbnFFMWV6VFRHaFpNc2p1VWs1bjc5?=
+ =?utf-8?B?SklqUnZWYXFFNVQ5WDBYWWFKZjJudFRxZ3dDYzRkMW8xMHhGbnVXN0hOVWxU?=
+ =?utf-8?B?QTNXVnVhalhqMGNPNnV4V1FnY2E0T1Z1V0NhQ2tVcENwY1E3ZkUwMm0rWmd2?=
+ =?utf-8?B?NDBEUUZqU2xFempQUnh0RXZEOXRFUWJDcnlpcHl0bWxvVFFNY1RuMmhmcEdC?=
+ =?utf-8?B?T3UySEtLbXBtR0VrUFBNdVo5WXBHc21WMXBLTWNMUTVuSlZhaWx6VlhvcXhs?=
+ =?utf-8?B?aG1MU1A4ZGY0WFNUL0swM3BHS3lsaFpOMDlqSDFnOGNubHM4WU5UKzRWVVhh?=
+ =?utf-8?B?SWpVTEVqbEFjamVsVGpBK0F0V1VVc0tITnhCMEpOUEh1TmV0MTRsTmNTRHQ4?=
+ =?utf-8?B?cS9pejJobTJJbml3UGE3dUVxdjBCNEVkWjBwMk9wZ0tweGROSFFVOUVkSExN?=
+ =?utf-8?B?elJ1c09wOE5IVUw0cFlkcG0vZ3c0elh3TU1EQVJ0VWt4T3g5cTFnRWlwbjlZ?=
+ =?utf-8?B?SzNhMUxBb0JIdlpxSWVuRlNqcVBjWm9jLzYvcXRWYThmQzBvU20vZHJLZGhv?=
+ =?utf-8?B?c1AvUHFWdVdaaWJzQjd2YTFkOTNVRVN0YVRPZy8rM3dzdExMaDlxcTU5VVJm?=
+ =?utf-8?B?RXplUlhzYUl0MTgzTEwwcjd3YXJDTGpvUWM0a2dqVmVFMVo4dU1Pb2E5Q2dj?=
+ =?utf-8?B?ZnNjMi90SkxQSWFIenNZMEZZR3FzY3p3V3VaYThOak5Vc2pRd2JHOEtHY2lO?=
+ =?utf-8?B?U0o0YTVEbGZVNU1HMlRZK2pWRDRIVjByNy9GM2FWbElhNUpLVnNtT3dtVnpl?=
+ =?utf-8?B?aFJvTkdLM2tCZlc2TVJ1dW9CMDhCbWlOVm5CZzB6U0FOcHM5WDFxdEVCcEkv?=
+ =?utf-8?B?N04xaG1vNnB6dDAvREV2bE9UaUl2OHJtL2RXTzMwVDJ2amhycGdRQTdQOTZP?=
+ =?utf-8?B?Z1I5MHNlb1hWQ1hKaWhCOVgva08vUjVseWF2RjR5MVFmTmFlamZsZ29qV3lB?=
+ =?utf-8?B?bUJ3RllSMWtCVy9GaThRUTRoK3ZFSkM4OUFjdUVuY3ZmdDk0VjBYbzVFY2ZV?=
+ =?utf-8?B?U2VMcE1IcGJWYlh6eWFqeWNOMHNTajI3MUZ0ZXB5NlFJQzBiblJBUDhaWHBO?=
+ =?utf-8?B?cDJoRUFvRVBUeW04YXd5ZTdOd1IxNzFEY3M0cWI4cWc5aEFNTmRYbVdSU0ZY?=
+ =?utf-8?B?YlZRMGZJRjRzV3hHY0tuSnJTWHN0Y3hoeU9yMlRMK013S0NkR2ZJRmcrTUlG?=
+ =?utf-8?B?UElObzhsSnVGdElpNXYvTDk5MU1ETUIyT1RzV1JPc2RJUXRaalZNem9LRk53?=
+ =?utf-8?B?dS8rNXZpTmpVbFVpWFFKdFpJMDVtUlpsNVlFQmpXM2pzQXd2QnpYRUU1Z0pq?=
+ =?utf-8?B?bm51YkdFT3hkbGNwTTI5RS9sSm5xNC94MjJzM2VjQWdvQ2tjZWIyRXorcUpY?=
+ =?utf-8?B?dnQya3dtUFVzQ2pvTS9SZlRnL2Q4N1dlMGx2UStJS2pib3JlYVZjZCtlS2x6?=
+ =?utf-8?B?N2NGdjVsN003STdKa2JiMjNvYjd2ZXI1Q01palpHUjJ5QUNOZHBpQ25sU3RO?=
+ =?utf-8?B?NnpPWWJ3NkFGTWlMWUVkOU5Pa3pwSXFzNEF0djRPUmhYejh6MExBeElhbVl3?=
+ =?utf-8?B?MzJRQ0d0NGZBbXZWaTRlcitQcFVEazcwSit2Nk53dDJaQWhlcTkydz09?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77bd29b5-12ff-4872-a358-08de6a09af40
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a0c4ac2-13f8-4301-aeb2-08de6a0a03ae
 X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7301.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2026 07:38:16.6706 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2026 07:40:38.0680 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AXK/QOHRimENjZ/todwgVWnJ8qDin+nO4H+u//ENBg3DnUfdG+YavV4yTREW4bTYPeEmjJz49xokvG+Nhdq3sw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: xwjhA4L17OXJHhweh3DcS3GDPDo8Qt6L7+FdvoHNhUFsn/qnGmMcH52V6EgyvtgBYX2/AcKDIwzyVXbt3EADgg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8657
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -184,467 +183,238 @@ X-Spamd-Result: default: False [-2.31 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	MIME_GOOD(-0.10)[text/plain];
 	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
-	TAGGED_RCPT(0.00)[dri-devel];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,amd.com:mid,amd.com:dkim,amd.com:email];
+	TAGGED_RCPT(0.00)[dri-devel];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCPT_COUNT_FIVE(0.00)[5];
 	FROM_NEQ_ENVFROM(0.00)[arunpravin.paneerselvam@amd.com,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:mid,amd.com:dkim,amd.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,intel.com:email];
 	DKIM_TRACE(0.00)[amd.com:+]
-X-Rspamd-Queue-Id: 3022012AF9D
+X-Rspamd-Queue-Id: 715C512AFC4
 X-Rspamd-Action: no action
 
---------------mzIuGTL0pgJokSb989AqzrlX
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
 
-
-On 2/11/2026 11:01 AM, Sanjay Yadav wrote:
-> Add missing kernel-doc for GPU buddy allocator flags,
-> gpu_buddy_block, and gpu_buddy. The documentation covers block
-> header fields, allocator roots, free trees, and allocation flags
-> such as RANGE, TOPDOWN, CONTIGUOUS, CLEAR, and TRIM_DISABLE.
-> Private members are marked with kernel-doc private markers
-> and documented with regular comments.
+On 2/12/2026 1:08 PM, Arunpravin Paneer Selvam wrote:
 >
-> No functional changes.
 >
-> v2:
-> - Corrected GPU_BUDDY_CLEAR_TREE and GPU_BUDDY_DIRTY_TREE index values (Arun)
-> - Rebased after DRM buddy allocator moved to drivers/gpu/
-> - Updated commit message
+> On 2/11/2026 11:01 AM, Sanjay Yadav wrote:
+>> Add missing kernel-doc for GPU buddy allocator flags,
+>> gpu_buddy_block, and gpu_buddy. The documentation covers block
+>> header fields, allocator roots, free trees, and allocation flags
+>> such as RANGE, TOPDOWN, CONTIGUOUS, CLEAR, and TRIM_DISABLE.
+>> Private members are marked with kernel-doc private markers
+>> and documented with regular comments.
+>>
+>> No functional changes.
+>>
+>> v2:
+>> - Corrected GPU_BUDDY_CLEAR_TREE and GPU_BUDDY_DIRTY_TREE index values (Arun)
+>> - Rebased after DRM buddy allocator moved to drivers/gpu/
+>> - Updated commit message
+>>
+>> Cc: Christian König<christian.koenig@amd.com>
+>> Cc: Arunpravin Paneer Selvam<Arunpravin.PaneerSelvam@amd.com>
+>> Suggested-by: Matthew Auld<matthew.auld@intel.com>
+>> Signed-off-by: Sanjay Yadav<sanjay.kumar.yadav@intel.com>
+>> ---
+>>   include/linux/gpu_buddy.h | 122 +++++++++++++++++++++++++++++++-------
+>>   1 file changed, 102 insertions(+), 20 deletions(-)
+>>
+>> diff --git a/include/linux/gpu_buddy.h b/include/linux/gpu_buddy.h
+>> index 07ac65db6d2e..b06241c78437 100644
+>> --- a/include/linux/gpu_buddy.h
+>> +++ b/include/linux/gpu_buddy.h
+>> @@ -12,11 +12,58 @@
+>>   #include <linux/sched.h>
+>>   #include <linux/rbtree.h>
+>>   
+>> +/**
+>> + * GPU_BUDDY_RANGE_ALLOCATION - Allocate within a specific address range
+>> + *
+>> + * When set, allocation is restricted to the range [start, end) specified
+>> + * in gpu_buddy_alloc_blocks(). Without this flag, start/end are ignored
+>> + * and allocation can use any free space.
+>> + */
+>>   #define GPU_BUDDY_RANGE_ALLOCATION		BIT(0)
+>> +
+>> +/**
+>> + * GPU_BUDDY_TOPDOWN_ALLOCATION - Allocate from top of address space
+>> + *
+>> + * Allocate starting from high addresses and working down. Useful for
+>> + * separating different allocation types (e.g., kernel vs userspace)
+>> + * to reduce fragmentation.
+>> + */
+>>   #define GPU_BUDDY_TOPDOWN_ALLOCATION		BIT(1)
+>> +
+>> +/**
+>> + * GPU_BUDDY_CONTIGUOUS_ALLOCATION - Require physically contiguous blocks
+>> + *
+>> + * The allocation must be satisfied with a single contiguous block.
+>> + * If the requested size cannot be allocated contiguously, the
+>> + * allocation fails with -ENOSPC.
+>> + */
+>>   #define GPU_BUDDY_CONTIGUOUS_ALLOCATION		BIT(2)
+>> +
+>> +/**
+>> + * GPU_BUDDY_CLEAR_ALLOCATION - Prefer pre-cleared (zeroed) memory
+>> + *
+>> + * Attempt to allocate from the clear tree first. If insufficient clear
+>> + * memory is available, falls back to dirty memory. Useful when the
+>> + * caller needs zeroed memory and wants to avoid GPU clear operations.
+>> + */
+>>   #define GPU_BUDDY_CLEAR_ALLOCATION		BIT(3)
+>> +
+>> +/**
+>> + * GPU_BUDDY_CLEARED - Mark returned blocks as cleared
+>> + *
+>> + * Used with gpu_buddy_free_list() to indicate that the memory being
+>> + * freed has been cleared (zeroed). The blocks will be placed in the
+>> + * clear tree for future GPU_BUDDY_CLEAR_ALLOCATION requests.
+>> + */
+>>   #define GPU_BUDDY_CLEARED			BIT(4)
+>> +
+>> +/**
+>> + * GPU_BUDDY_TRIM_DISABLE - Disable automatic block trimming
+>> + *
+>> + * By default, if an allocation is smaller than the allocated block,
+>> + * excess memory is trimmed and returned to the free pool. This flag
+>> + * disables trimming, keeping the full power-of-two block size.
+>> + */
+>>   #define GPU_BUDDY_TRIM_DISABLE			BIT(5)
+>>   
+>>   enum gpu_buddy_free_tree {
+>> @@ -28,7 +75,27 @@ enum gpu_buddy_free_tree {
+>>   #define for_each_free_tree(tree) \
+>>   	for ((tree) = 0; (tree) < GPU_BUDDY_MAX_FREE_TREES; (tree)++)
+>>   
+>> +/**
+>> + * struct gpu_buddy_block - Block within a buddy allocator
+>> + *
+>> + * Each block in the buddy allocator is represented by this structure.
+>> + * Blocks are organized in a binary tree where each parent block can be
+>> + * split into two children (left and right buddies). The allocator manages
+>> + * blocks at various orders (power-of-2 sizes) from chunk_size up to the
+>> + * largest contiguous region.
+>> + *
+>> + * @private: Private data owned by the allocator user (e.g., driver-specific data)
+>> + * @link: List node for user ownership while block is allocated
+>> + */
+>>   struct gpu_buddy_block {
+>> +/* private: */
+>> +	/*
+>> +	 * Header bit layout:
+>> +	 * - Bits 63:12: block offset within the address space
+>> +	 * - Bits 11:10: state (ALLOCATED, FREE, or SPLIT)
+>> +	 * - Bit 9: clear bit (1 if memory is zeroed)
+> I think we should add
+> - Bits 8:9: reserved
+it should be -Bits 8:6: reserved
 >
-> Cc: Christian König<christian.koenig@amd.com>
-> Cc: Arunpravin Paneer Selvam<Arunpravin.PaneerSelvam@amd.com>
-> Suggested-by: Matthew Auld<matthew.auld@intel.com>
-> Signed-off-by: Sanjay Yadav<sanjay.kumar.yadav@intel.com>
-> ---
->   include/linux/gpu_buddy.h | 122 +++++++++++++++++++++++++++++++-------
->   1 file changed, 102 insertions(+), 20 deletions(-)
+> Apart from that, looks good to me.
+> Reviewed-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+>> +	 * - Bits 5:0: order (log2 of size relative to chunk_size)
+>> +	 */
+>>   #define GPU_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)
+>>   #define GPU_BUDDY_HEADER_STATE  GENMASK_ULL(11, 10)
+>>   #define   GPU_BUDDY_ALLOCATED	   (1 << 10)
+>> @@ -43,7 +110,7 @@ struct gpu_buddy_block {
+>>   	struct gpu_buddy_block *left;
+>>   	struct gpu_buddy_block *right;
+>>   	struct gpu_buddy_block *parent;
+>> -
+>> +/* public: */
+>>   	void *private; /* owned by creator */
+>>   
+>>   	/*
+>> @@ -53,43 +120,58 @@ struct gpu_buddy_block {
+>>   	 * gpu_buddy_free* ownership is given back to the mm.
+>>   	 */
+>>   	union {
+>> +/* private: */
+>>   		struct rb_node rb;
+>> +/* public: */
+>>   		struct list_head link;
+>>   	};
+>> -
+>> +/* private: */
+>>   	struct list_head tmp_link;
+>>   };
+>>   
+>>   /* Order-zero must be at least SZ_4K */
+>>   #define GPU_BUDDY_MAX_ORDER (63 - 12)
+>>   
+>> -/*
+>> - * Binary Buddy System.
+>> +/**
+>> + * struct gpu_buddy - GPU binary buddy allocator
+>> + *
+>> + * The buddy allocator provides efficient power-of-two memory allocation
+>> + * with fast allocation and free operations. It is commonly used for GPU
+>> + * memory management where allocations can be split into power-of-two
+>> + * block sizes.
+>>    *
+>> - * Locking should be handled by the user, a simple mutex around
+>> - * gpu_buddy_alloc* and gpu_buddy_free* should suffice.
+>> + * Locking should be handled by the user; a simple mutex around
+>> + * gpu_buddy_alloc_blocks() and gpu_buddy_free_block()/gpu_buddy_free_list()
+>> + * should suffice.
+>> + *
+>> + * @n_roots: Number of root blocks in the roots array.
+>> + * @max_order: Maximum block order (log2 of largest block size / chunk_size).
+>> + * @chunk_size: Minimum allocation granularity in bytes. Must be at least SZ_4K.
+>> + * @size: Total size of the address space managed by this allocator in bytes.
+>> + * @avail: Total free space currently available for allocation in bytes.
+>> + * @clear_avail: Free space available in the clear tree (zeroed memory) in bytes.
+>> + *               This is a subset of @avail.
+>>    */
+>>   struct gpu_buddy {
+>> -	/* Maintain a free list for each order. */
+>> -	struct rb_root **free_trees;
+>> -
+>> +/* private: */
+>>   	/*
+>> -	 * Maintain explicit binary tree(s) to track the allocation of the
+>> -	 * address space. This gives us a simple way of finding a buddy block
+>> -	 * and performing the potentially recursive merge step when freeing a
+>> -	 * block.  Nodes are either allocated or free, in which case they will
+>> -	 * also exist on the respective free list.
+>> +	 * Array of red-black trees for free block management.
+>> +	 * Indexed as free_trees[clear/dirty][order] where:
+>> +	 * - Index 0 (GPU_BUDDY_CLEAR_TREE): blocks with zeroed content
+>> +	 * - Index 1 (GPU_BUDDY_DIRTY_TREE): blocks with unknown content
+>> +	 * Each tree holds free blocks of the corresponding order.
+>>   	 */
+>> -	struct gpu_buddy_block **roots;
+>> -
+>> +	struct rb_root **free_trees;
+>>   	/*
+>> -	 * Anything from here is public, and remains static for the lifetime of
+>> -	 * the mm. Everything above is considered do-not-touch.
+>> +	 * Array of root blocks representing the top-level blocks of the
+>> +	 * binary tree(s). Multiple roots exist when the total size is not
+>> +	 * a power of two, with each root being the largest power-of-two
+>> +	 * that fits in the remaining space.
+>>   	 */
+>> +	struct gpu_buddy_block **roots;
+>> +/* public: */
+>>   	unsigned int n_roots;
+>>   	unsigned int max_order;
+>> -
+>> -	/* Must be at least SZ_4K */
+>>   	u64 chunk_size;
+>>   	u64 size;
+>>   	u64 avail;
 >
-> diff --git a/include/linux/gpu_buddy.h b/include/linux/gpu_buddy.h
-> index 07ac65db6d2e..b06241c78437 100644
-> --- a/include/linux/gpu_buddy.h
-> +++ b/include/linux/gpu_buddy.h
-> @@ -12,11 +12,58 @@
->   #include <linux/sched.h>
->   #include <linux/rbtree.h>
->   
-> +/**
-> + * GPU_BUDDY_RANGE_ALLOCATION - Allocate within a specific address range
-> + *
-> + * When set, allocation is restricted to the range [start, end) specified
-> + * in gpu_buddy_alloc_blocks(). Without this flag, start/end are ignored
-> + * and allocation can use any free space.
-> + */
->   #define GPU_BUDDY_RANGE_ALLOCATION		BIT(0)
-> +
-> +/**
-> + * GPU_BUDDY_TOPDOWN_ALLOCATION - Allocate from top of address space
-> + *
-> + * Allocate starting from high addresses and working down. Useful for
-> + * separating different allocation types (e.g., kernel vs userspace)
-> + * to reduce fragmentation.
-> + */
->   #define GPU_BUDDY_TOPDOWN_ALLOCATION		BIT(1)
-> +
-> +/**
-> + * GPU_BUDDY_CONTIGUOUS_ALLOCATION - Require physically contiguous blocks
-> + *
-> + * The allocation must be satisfied with a single contiguous block.
-> + * If the requested size cannot be allocated contiguously, the
-> + * allocation fails with -ENOSPC.
-> + */
->   #define GPU_BUDDY_CONTIGUOUS_ALLOCATION		BIT(2)
-> +
-> +/**
-> + * GPU_BUDDY_CLEAR_ALLOCATION - Prefer pre-cleared (zeroed) memory
-> + *
-> + * Attempt to allocate from the clear tree first. If insufficient clear
-> + * memory is available, falls back to dirty memory. Useful when the
-> + * caller needs zeroed memory and wants to avoid GPU clear operations.
-> + */
->   #define GPU_BUDDY_CLEAR_ALLOCATION		BIT(3)
-> +
-> +/**
-> + * GPU_BUDDY_CLEARED - Mark returned blocks as cleared
-> + *
-> + * Used with gpu_buddy_free_list() to indicate that the memory being
-> + * freed has been cleared (zeroed). The blocks will be placed in the
-> + * clear tree for future GPU_BUDDY_CLEAR_ALLOCATION requests.
-> + */
->   #define GPU_BUDDY_CLEARED			BIT(4)
-> +
-> +/**
-> + * GPU_BUDDY_TRIM_DISABLE - Disable automatic block trimming
-> + *
-> + * By default, if an allocation is smaller than the allocated block,
-> + * excess memory is trimmed and returned to the free pool. This flag
-> + * disables trimming, keeping the full power-of-two block size.
-> + */
->   #define GPU_BUDDY_TRIM_DISABLE			BIT(5)
->   
->   enum gpu_buddy_free_tree {
-> @@ -28,7 +75,27 @@ enum gpu_buddy_free_tree {
->   #define for_each_free_tree(tree) \
->   	for ((tree) = 0; (tree) < GPU_BUDDY_MAX_FREE_TREES; (tree)++)
->   
-> +/**
-> + * struct gpu_buddy_block - Block within a buddy allocator
-> + *
-> + * Each block in the buddy allocator is represented by this structure.
-> + * Blocks are organized in a binary tree where each parent block can be
-> + * split into two children (left and right buddies). The allocator manages
-> + * blocks at various orders (power-of-2 sizes) from chunk_size up to the
-> + * largest contiguous region.
-> + *
-> + * @private: Private data owned by the allocator user (e.g., driver-specific data)
-> + * @link: List node for user ownership while block is allocated
-> + */
->   struct gpu_buddy_block {
-> +/* private: */
-> +	/*
-> +	 * Header bit layout:
-> +	 * - Bits 63:12: block offset within the address space
-> +	 * - Bits 11:10: state (ALLOCATED, FREE, or SPLIT)
-> +	 * - Bit 9: clear bit (1 if memory is zeroed)
-I think we should add
-- Bits 8:9: reserved
 
-Apart from that, looks good to me.
-Reviewed-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-> +	 * - Bits 5:0: order (log2 of size relative to chunk_size)
-> +	 */
->   #define GPU_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)
->   #define GPU_BUDDY_HEADER_STATE  GENMASK_ULL(11, 10)
->   #define   GPU_BUDDY_ALLOCATED	   (1 << 10)
-> @@ -43,7 +110,7 @@ struct gpu_buddy_block {
->   	struct gpu_buddy_block *left;
->   	struct gpu_buddy_block *right;
->   	struct gpu_buddy_block *parent;
-> -
-> +/* public: */
->   	void *private; /* owned by creator */
->   
->   	/*
-> @@ -53,43 +120,58 @@ struct gpu_buddy_block {
->   	 * gpu_buddy_free* ownership is given back to the mm.
->   	 */
->   	union {
-> +/* private: */
->   		struct rb_node rb;
-> +/* public: */
->   		struct list_head link;
->   	};
-> -
-> +/* private: */
->   	struct list_head tmp_link;
->   };
->   
->   /* Order-zero must be at least SZ_4K */
->   #define GPU_BUDDY_MAX_ORDER (63 - 12)
->   
-> -/*
-> - * Binary Buddy System.
-> +/**
-> + * struct gpu_buddy - GPU binary buddy allocator
-> + *
-> + * The buddy allocator provides efficient power-of-two memory allocation
-> + * with fast allocation and free operations. It is commonly used for GPU
-> + * memory management where allocations can be split into power-of-two
-> + * block sizes.
->    *
-> - * Locking should be handled by the user, a simple mutex around
-> - * gpu_buddy_alloc* and gpu_buddy_free* should suffice.
-> + * Locking should be handled by the user; a simple mutex around
-> + * gpu_buddy_alloc_blocks() and gpu_buddy_free_block()/gpu_buddy_free_list()
-> + * should suffice.
-> + *
-> + * @n_roots: Number of root blocks in the roots array.
-> + * @max_order: Maximum block order (log2 of largest block size / chunk_size).
-> + * @chunk_size: Minimum allocation granularity in bytes. Must be at least SZ_4K.
-> + * @size: Total size of the address space managed by this allocator in bytes.
-> + * @avail: Total free space currently available for allocation in bytes.
-> + * @clear_avail: Free space available in the clear tree (zeroed memory) in bytes.
-> + *               This is a subset of @avail.
->    */
->   struct gpu_buddy {
-> -	/* Maintain a free list for each order. */
-> -	struct rb_root **free_trees;
-> -
-> +/* private: */
->   	/*
-> -	 * Maintain explicit binary tree(s) to track the allocation of the
-> -	 * address space. This gives us a simple way of finding a buddy block
-> -	 * and performing the potentially recursive merge step when freeing a
-> -	 * block.  Nodes are either allocated or free, in which case they will
-> -	 * also exist on the respective free list.
-> +	 * Array of red-black trees for free block management.
-> +	 * Indexed as free_trees[clear/dirty][order] where:
-> +	 * - Index 0 (GPU_BUDDY_CLEAR_TREE): blocks with zeroed content
-> +	 * - Index 1 (GPU_BUDDY_DIRTY_TREE): blocks with unknown content
-> +	 * Each tree holds free blocks of the corresponding order.
->   	 */
-> -	struct gpu_buddy_block **roots;
-> -
-> +	struct rb_root **free_trees;
->   	/*
-> -	 * Anything from here is public, and remains static for the lifetime of
-> -	 * the mm. Everything above is considered do-not-touch.
-> +	 * Array of root blocks representing the top-level blocks of the
-> +	 * binary tree(s). Multiple roots exist when the total size is not
-> +	 * a power of two, with each root being the largest power-of-two
-> +	 * that fits in the remaining space.
->   	 */
-> +	struct gpu_buddy_block **roots;
-> +/* public: */
->   	unsigned int n_roots;
->   	unsigned int max_order;
-> -
-> -	/* Must be at least SZ_4K */
->   	u64 chunk_size;
->   	u64 size;
->   	u64 avail;
-
---------------mzIuGTL0pgJokSb989AqzrlX
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <br>
-    <br>
-    <div class="moz-cite-prefix">On 2/11/2026 11:01 AM, Sanjay Yadav
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:20260211053123.260037-5-sanjay.kumar.yadav@intel.com">
-      <pre wrap="" class="moz-quote-pre">Add missing kernel-doc for GPU buddy allocator flags,
-gpu_buddy_block, and gpu_buddy. The documentation covers block
-header fields, allocator roots, free trees, and allocation flags
-such as RANGE, TOPDOWN, CONTIGUOUS, CLEAR, and TRIM_DISABLE.
-Private members are marked with kernel-doc private markers
-and documented with regular comments.
-
-No functional changes.
-
-v2:
-- Corrected GPU_BUDDY_CLEAR_TREE and GPU_BUDDY_DIRTY_TREE index values (Arun)
-- Rebased after DRM buddy allocator moved to drivers/gpu/
-- Updated commit message
-
-Cc: Christian König <a class="moz-txt-link-rfc2396E" href="mailto:christian.koenig@amd.com">&lt;christian.koenig@amd.com&gt;</a>
-Cc: Arunpravin Paneer Selvam <a class="moz-txt-link-rfc2396E" href="mailto:Arunpravin.PaneerSelvam@amd.com">&lt;Arunpravin.PaneerSelvam@amd.com&gt;</a>
-Suggested-by: Matthew Auld <a class="moz-txt-link-rfc2396E" href="mailto:matthew.auld@intel.com">&lt;matthew.auld@intel.com&gt;</a>
-Signed-off-by: Sanjay Yadav <a class="moz-txt-link-rfc2396E" href="mailto:sanjay.kumar.yadav@intel.com">&lt;sanjay.kumar.yadav@intel.com&gt;</a>
----
- include/linux/gpu_buddy.h | 122 +++++++++++++++++++++++++++++++-------
- 1 file changed, 102 insertions(+), 20 deletions(-)
-
-diff --git a/include/linux/gpu_buddy.h b/include/linux/gpu_buddy.h
-index 07ac65db6d2e..b06241c78437 100644
---- a/include/linux/gpu_buddy.h
-+++ b/include/linux/gpu_buddy.h
-@@ -12,11 +12,58 @@
- #include &lt;linux/sched.h&gt;
- #include &lt;linux/rbtree.h&gt;
- 
-+/**
-+ * GPU_BUDDY_RANGE_ALLOCATION - Allocate within a specific address range
-+ *
-+ * When set, allocation is restricted to the range [start, end) specified
-+ * in gpu_buddy_alloc_blocks(). Without this flag, start/end are ignored
-+ * and allocation can use any free space.
-+ */
- #define GPU_BUDDY_RANGE_ALLOCATION		BIT(0)
-+
-+/**
-+ * GPU_BUDDY_TOPDOWN_ALLOCATION - Allocate from top of address space
-+ *
-+ * Allocate starting from high addresses and working down. Useful for
-+ * separating different allocation types (e.g., kernel vs userspace)
-+ * to reduce fragmentation.
-+ */
- #define GPU_BUDDY_TOPDOWN_ALLOCATION		BIT(1)
-+
-+/**
-+ * GPU_BUDDY_CONTIGUOUS_ALLOCATION - Require physically contiguous blocks
-+ *
-+ * The allocation must be satisfied with a single contiguous block.
-+ * If the requested size cannot be allocated contiguously, the
-+ * allocation fails with -ENOSPC.
-+ */
- #define GPU_BUDDY_CONTIGUOUS_ALLOCATION		BIT(2)
-+
-+/**
-+ * GPU_BUDDY_CLEAR_ALLOCATION - Prefer pre-cleared (zeroed) memory
-+ *
-+ * Attempt to allocate from the clear tree first. If insufficient clear
-+ * memory is available, falls back to dirty memory. Useful when the
-+ * caller needs zeroed memory and wants to avoid GPU clear operations.
-+ */
- #define GPU_BUDDY_CLEAR_ALLOCATION		BIT(3)
-+
-+/**
-+ * GPU_BUDDY_CLEARED - Mark returned blocks as cleared
-+ *
-+ * Used with gpu_buddy_free_list() to indicate that the memory being
-+ * freed has been cleared (zeroed). The blocks will be placed in the
-+ * clear tree for future GPU_BUDDY_CLEAR_ALLOCATION requests.
-+ */
- #define GPU_BUDDY_CLEARED			BIT(4)
-+
-+/**
-+ * GPU_BUDDY_TRIM_DISABLE - Disable automatic block trimming
-+ *
-+ * By default, if an allocation is smaller than the allocated block,
-+ * excess memory is trimmed and returned to the free pool. This flag
-+ * disables trimming, keeping the full power-of-two block size.
-+ */
- #define GPU_BUDDY_TRIM_DISABLE			BIT(5)
- 
- enum gpu_buddy_free_tree {
-@@ -28,7 +75,27 @@ enum gpu_buddy_free_tree {
- #define for_each_free_tree(tree) \
- 	for ((tree) = 0; (tree) &lt; GPU_BUDDY_MAX_FREE_TREES; (tree)++)
- 
-+/**
-+ * struct gpu_buddy_block - Block within a buddy allocator
-+ *
-+ * Each block in the buddy allocator is represented by this structure.
-+ * Blocks are organized in a binary tree where each parent block can be
-+ * split into two children (left and right buddies). The allocator manages
-+ * blocks at various orders (power-of-2 sizes) from chunk_size up to the
-+ * largest contiguous region.
-+ *
-+ * @private: Private data owned by the allocator user (e.g., driver-specific data)
-+ * @link: List node for user ownership while block is allocated
-+ */
- struct gpu_buddy_block {
-+/* private: */
-+	/*
-+	 * Header bit layout:
-+	 * - Bits 63:12: block offset within the address space
-+	 * - Bits 11:10: state (ALLOCATED, FREE, or SPLIT)
-+	 * - Bit 9: clear bit (1 if memory is zeroed)</pre>
-    </blockquote>
-    I think we should add<br>
-    - Bits 8:9: reserved<br>
-    <br>
-    Apart from that, looks good to me.<br>
-    Reviewed-by:
-    Arunpravin Paneer Selvam &lt;<a href="mailto:Arunpravin.PaneerSelvam@amd.com" class="moz-txt-link-freetext">Arunpravin.PaneerSelvam@amd.com</a>&gt;
-    <blockquote type="cite" cite="mid:20260211053123.260037-5-sanjay.kumar.yadav@intel.com">
-      <pre wrap="" class="moz-quote-pre">
-+	 * - Bits 5:0: order (log2 of size relative to chunk_size)
-+	 */
- #define GPU_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)
- #define GPU_BUDDY_HEADER_STATE  GENMASK_ULL(11, 10)
- #define   GPU_BUDDY_ALLOCATED	   (1 &lt;&lt; 10)
-@@ -43,7 +110,7 @@ struct gpu_buddy_block {
- 	struct gpu_buddy_block *left;
- 	struct gpu_buddy_block *right;
- 	struct gpu_buddy_block *parent;
--
-+/* public: */
- 	void *private; /* owned by creator */
- 
- 	/*
-@@ -53,43 +120,58 @@ struct gpu_buddy_block {
- 	 * gpu_buddy_free* ownership is given back to the mm.
- 	 */
- 	union {
-+/* private: */
- 		struct rb_node rb;
-+/* public: */
- 		struct list_head link;
- 	};
--
-+/* private: */
- 	struct list_head tmp_link;
- };
- 
- /* Order-zero must be at least SZ_4K */
- #define GPU_BUDDY_MAX_ORDER (63 - 12)
- 
--/*
-- * Binary Buddy System.
-+/**
-+ * struct gpu_buddy - GPU binary buddy allocator
-+ *
-+ * The buddy allocator provides efficient power-of-two memory allocation
-+ * with fast allocation and free operations. It is commonly used for GPU
-+ * memory management where allocations can be split into power-of-two
-+ * block sizes.
-  *
-- * Locking should be handled by the user, a simple mutex around
-- * gpu_buddy_alloc* and gpu_buddy_free* should suffice.
-+ * Locking should be handled by the user; a simple mutex around
-+ * gpu_buddy_alloc_blocks() and gpu_buddy_free_block()/gpu_buddy_free_list()
-+ * should suffice.
-+ *
-+ * @n_roots: Number of root blocks in the roots array.
-+ * @max_order: Maximum block order (log2 of largest block size / chunk_size).
-+ * @chunk_size: Minimum allocation granularity in bytes. Must be at least SZ_4K.
-+ * @size: Total size of the address space managed by this allocator in bytes.
-+ * @avail: Total free space currently available for allocation in bytes.
-+ * @clear_avail: Free space available in the clear tree (zeroed memory) in bytes.
-+ *               This is a subset of @avail.
-  */
- struct gpu_buddy {
--	/* Maintain a free list for each order. */
--	struct rb_root **free_trees;
--
-+/* private: */
- 	/*
--	 * Maintain explicit binary tree(s) to track the allocation of the
--	 * address space. This gives us a simple way of finding a buddy block
--	 * and performing the potentially recursive merge step when freeing a
--	 * block.  Nodes are either allocated or free, in which case they will
--	 * also exist on the respective free list.
-+	 * Array of red-black trees for free block management.
-+	 * Indexed as free_trees[clear/dirty][order] where:
-+	 * - Index 0 (GPU_BUDDY_CLEAR_TREE): blocks with zeroed content
-+	 * - Index 1 (GPU_BUDDY_DIRTY_TREE): blocks with unknown content
-+	 * Each tree holds free blocks of the corresponding order.
- 	 */
--	struct gpu_buddy_block **roots;
--
-+	struct rb_root **free_trees;
- 	/*
--	 * Anything from here is public, and remains static for the lifetime of
--	 * the mm. Everything above is considered do-not-touch.
-+	 * Array of root blocks representing the top-level blocks of the
-+	 * binary tree(s). Multiple roots exist when the total size is not
-+	 * a power of two, with each root being the largest power-of-two
-+	 * that fits in the remaining space.
- 	 */
-+	struct gpu_buddy_block **roots;
-+/* public: */
- 	unsigned int n_roots;
- 	unsigned int max_order;
--
--	/* Must be at least SZ_4K */
- 	u64 chunk_size;
- 	u64 size;
- 	u64 avail;
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------mzIuGTL0pgJokSb989AqzrlX--
