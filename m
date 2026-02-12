@@ -2,55 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yI+eLFkLjmmS+wAAu9opvQ
+	id 4LhAMEMcjmmG/gAAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 18:18:17 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 19:30:27 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F2C12FD73
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 18:18:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F85130414
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 19:30:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3BFE10E1C2;
-	Thu, 12 Feb 2026 17:18:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53A7410E281;
+	Thu, 12 Feb 2026 18:30:22 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="LOeb/DNA";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4E21B10E1C2
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 17:18:13 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 62504339
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 09:18:06 -0800 (PST)
-Received: from [192.168.0.1] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id
- 7F20C3F632
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 09:18:12 -0800 (PST)
-Date: Thu, 12 Feb 2026 17:16:07 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
+Received: from forward502d.mail.yandex.net (forward502d.mail.yandex.net
+ [178.154.239.210])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 416D010E0CC
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 18:30:20 +0000 (UTC)
+Received: from mail-nwsmtp-smtp-production-main-80.klg.yp-c.yandex.net
+ (mail-nwsmtp-smtp-production-main-80.klg.yp-c.yandex.net
+ [IPv6:2a02:6b8:c42:3cca:0:640:f0e1:0])
+ by forward502d.mail.yandex.net (Yandex) with ESMTPS id AF055C124B;
+ Thu, 12 Feb 2026 21:30:17 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-80.klg.yp-c.yandex.net
+ (smtp/Yandex) with ESMTPSA id CUZN5e0GuCg0-zq4VRrB7; 
+ Thu, 12 Feb 2026 21:30:16 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
+ s=mail; t=1770921017;
+ bh=M4YvMAkTJP8B12seetkzf4oSg1vwKwdO9St0DGXCR78=;
+ h=Cc:Message-ID:Subject:Date:References:To:From:In-Reply-To;
+ b=LOeb/DNAFZzkaix10hhb81Ke2HHov99I9ftIETHkcLezhQR8UxXAmWx2BBOtwNjGD
+ tkGirgt5+3/o6FkN5yY7HXOSnlb7BWMeHoJz5Pq1JLGX48g1+AZj32v2X9Tvf2yAXF
+ Ws7pIlWyayhSRMp9JaUqewJ5KblDhMCwxRwwVXAQ=
+Authentication-Results: mail-nwsmtp-smtp-production-main-80.klg.yp-c.yandex.net;
+ dkim=pass header.i=@onurozkan.dev
+Date: Thu, 12 Feb 2026 21:30:10 +0300
+From: Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>
 To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>,
- =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Akash Goel <akash.goel@arm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Chris Diamand <chris.diamand@arm.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Alice Ryhl <aliceryhl@google.com>, kernel@collabora.com
-Subject: Re: [PATCH v3 8/9] drm/panthor: Track the number of mmap on a BO
-Message-ID: <aY4K1wnYTSSm7qFu@e142607>
-References: <20260211080343.1887134-1-boris.brezillon@collabora.com>
- <20260211080343.1887134-9-boris.brezillon@collabora.com>
+Cc: Mark Brown <broonie@kernel.org>, daniel.almeida@collabora.com,
+ aliceryhl@google.com, dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ lgirdwood@gmail.com, ojeda@kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] drm/tyr: make SRAM supply optional like panthor
+Message-ID: <20260212213010.56db1d1d@nimda>
+In-Reply-To: <20260212145134.799bb6fa@fedora>
+References: <20260212100538.170445-1-work@onurozkan.dev>
+ <20260212100538.170445-2-work@onurozkan.dev>
+ <4b00826f-52b1-48a1-b6b5-70ee62f7c014@sirena.org.uk>
+ <20260212151644.4c179594@nimda>
+ <6704ddce-e0bb-4b50-b81a-a098816f3ba3@sirena.org.uk>
+ <20260212134601.7760f414@fedora>
+ <a76b1e27-87ea-42e0-88f3-0512b2e1ac0b@sirena.org.uk>
+ <20260212145134.799bb6fa@fedora>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260211080343.1887134-9-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,157 +76,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.01 / 15.00];
+X-Spamd-Result: default: False [-0.81 / 15.00];
+	DMARC_POLICY_ALLOW(-0.50)[onurozkan.dev,reject];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177:c];
+	R_DKIM_ALLOW(-0.20)[onurozkan.dev:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:131.252.210.177];
 	MAILLIST(-0.20)[mailman];
-	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
-	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
+	RWL_MAILSPIKE_GOOD(-0.10)[131.252.210.177:from];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:broonie@kernel.org,m:daniel.almeida@collabora.com,m:aliceryhl@google.com,m:dakr@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:lgirdwood@gmail.com,m:ojeda@kernel.org,m:rust-for-linux@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:steven.price@arm.com,m:adrian.larumbe@collabora.com,m:airlied@gmail.com,m:simona@ffwll.ch,m:akash.goel@arm.com,m:robin.clark@oss.qualcomm.com,m:sean@poorly.run,m:konradybcio@kernel.org,m:akhilpo@oss.qualcomm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:dmitry.osipenko@collabora.com,m:chris.diamand@arm.com,m:dakr@kernel.org,m:matthew.brost@intel.com,m:thomas.hellstrom@linux.intel.com,m:aliceryhl@google.com,m:kernel@collabora.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[liviu.dudau@arm.com,dri-devel-bounces@lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[work@onurozkan.dev,dri-devel-bounces@lists.freedesktop.org];
 	FORWARDED(0.00)[dri-devel@lists.freedesktop.org];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[arm.com,collabora.com,lists.freedesktop.org,gmail.com,ffwll.ch,oss.qualcomm.com,poorly.run,kernel.org,linux.intel.com,suse.de,intel.com,google.com];
-	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[onurozkan.dev:+];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[dri-devel@lists.freedesktop.org];
-	FROM_NEQ_ENVFROM(0.00)[liviu.dudau@arm.com,dri-devel-bounces@lists.freedesktop.org];
+	FROM_NEQ_ENVFROM(0.00)[work@onurozkan.dev,dri-devel-bounces@lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[dri-devel];
+	FREEMAIL_CC(0.00)[kernel.org,collabora.com,google.com,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,gabe.freedesktop.org:helo,gabe.freedesktop.org:rdns,collabora.com:email]
-X-Rspamd-Queue-Id: D2F2C12FD73
+	TAGGED_RCPT(0.00)[dri-devel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email]
+X-Rspamd-Queue-Id: 12F85130414
 X-Rspamd-Action: no action
 
-On Wed, Feb 11, 2026 at 09:03:42AM +0100, Boris Brezillon wrote:
-> This will be used to order things by reclaimability.
-> 
-> v2:
-> - Fix refcounting
-> 
-> v3:
-> - Fix refcounting (again)
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+On Thu, 12 Feb 2026 14:51:34 +0100
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
-Best regards,
-Liviu
-
-> ---
->  drivers/gpu/drm/panthor/panthor_gem.c | 45 +++++++++++++++++++++++++--
->  drivers/gpu/drm/panthor/panthor_gem.h |  3 ++
->  2 files changed, 46 insertions(+), 2 deletions(-)
+> On Thu, 12 Feb 2026 13:13:31 +0000
+> Mark Brown <broonie@kernel.org> wrote:
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> index 8905042b856c..e46bfc4f2063 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -491,6 +491,7 @@ static void panthor_gem_print_info(struct drm_printer *p, unsigned int indent,
->  	drm_printf_indent(p, indent, "vmap_use_count=%u\n",
->  			  refcount_read(&bo->cmap.vaddr_use_count));
->  	drm_printf_indent(p, indent, "vaddr=%p\n", bo->cmap.vaddr);
-> +	drm_printf_indent(p, indent, "mmap_count=%u\n", refcount_read(&bo->cmap.mmap_count));
->  }
->  
->  static int panthor_gem_pin_locked(struct drm_gem_object *obj)
-> @@ -606,6 +607,13 @@ static int panthor_gem_mmap(struct drm_gem_object *obj, struct vm_area_struct *v
->  	if (is_cow_mapping(vma->vm_flags))
->  		return -EINVAL;
->  
-> +	if (!refcount_inc_not_zero(&bo->cmap.mmap_count)) {
-> +		dma_resv_lock(obj->resv, NULL);
-> +		if (!refcount_inc_not_zero(&bo->cmap.mmap_count))
-> +			refcount_set(&bo->cmap.mmap_count, 1);
-> +		dma_resv_unlock(obj->resv);
-> +	}
-> +
->  	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
->  	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
->  	if (should_map_wc(bo))
-> @@ -732,10 +740,43 @@ static vm_fault_t panthor_gem_fault(struct vm_fault *vmf)
->  	return blocking_page_setup(vmf, bo, page_offset, true);
->  }
->  
-> +static void panthor_gem_vm_open(struct vm_area_struct *vma)
-> +{
-> +	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
-> +
-> +	/* mmap_count must have been incremented at mmap time, so it can't be
-> +	 * zero here.
-> +	 */
-> +	if (!drm_gem_is_imported(&bo->base))
-> +		drm_WARN_ON(bo->base.dev, !refcount_inc_not_zero(&bo->cmap.mmap_count));
-> +
-> +	drm_gem_vm_open(vma);
-> +}
-> +
-> +static void panthor_gem_vm_close(struct vm_area_struct *vma)
-> +{
-> +	struct panthor_gem_object *bo = to_panthor_bo(vma->vm_private_data);
-> +
-> +	if (drm_gem_is_imported(&bo->base))
-> +		goto out;
-> +
-> +	if (refcount_dec_not_one(&bo->cmap.mmap_count))
-> +		goto out;
-> +
-> +	dma_resv_lock(bo->base.resv, NULL);
-> +	if (refcount_dec_and_test(&bo->cmap.mmap_count)) {
-> +		/* Nothing to do, pages are reclaimed lazily. */
-> +	}
-> +	dma_resv_unlock(bo->base.resv);
-> +
-> +out:
-> +	drm_gem_object_put(&bo->base);
-> +}
-> +
->  const struct vm_operations_struct panthor_gem_vm_ops = {
->  	.fault = panthor_gem_fault,
-> -	.open = drm_gem_vm_open,
-> -	.close = drm_gem_vm_close,
-> +	.open = panthor_gem_vm_open,
-> +	.close = panthor_gem_vm_close,
->  };
->  
->  static const struct drm_gem_object_funcs panthor_gem_funcs = {
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-> index b66478c9590c..c0a18dca732c 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.h
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> @@ -80,6 +80,9 @@ struct panthor_gem_cpu_map {
->  
->  	/** @vaddr_use_count: Number of active vmap() requests on this GEM */
->  	refcount_t vaddr_use_count;
-> +
-> +	/** @mmap_count: Number of active mmap() requests on this GEM */
-> +	refcount_t mmap_count;
->  };
->  
->  /**
-> -- 
-> 2.52.0
+> > On Thu, Feb 12, 2026 at 01:46:01PM +0100, Boris Brezillon wrote:
+> > > Mark Brown <broonie@kernel.org> wrote:  
+> > 
+> > > > The panthor driver is buggy here and should be fixed, the
+> > > > driver should treat the supply as mandatory and let the system
+> > > > integration work out how it's actually made available.  
+> > 
+> > > > Trying to open code this just breaks the error handling.  
+> > 
+> > > Maybe, but the thing is, the DT bindings have been accepted
+> > > already, and it's not something we can easily change. What we can
+> > > do is make this sram-supply mandatory for new compatibles, but we
+> > > can't force it on older/existing SoCs without breaking
+> > > backward-DT compat.  
+> > 
+> > In practice you can because we do sub in a dummy regulator for
+> > missing supplies, it produces a warning but works fine.  If we
+> > didn't do this it'd be basically impossible to add regulator
+> > support to anything at any point after the original merge which is
+> > clearly not reasonable.
+> 
+> Okay, I guess we need to fix panthor then...
 > 
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+That + updating the log to something like "sram-supply is missing in
+the DT" would be quite better I think. It would make the issue more
+obvious and convey that the DT file is expected to configure that field
+explicitly. With the current log message, not many people will
+understand the problem at a glance.
+
+As for the bug I described in this patch, we can proceed with the
+alternative solution (updating the DT file) that I mentioned in the
+Zulip thread (the link is included in the patch). Which is this simple
+diff:
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtsi
+b/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtsi
+index dafad29f9854..a30339fd2c10 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtsi
+@@ -177,6 +177,7 @@ &gmac1_rgmii_clk
+
+ &gpu {
+        mali-supply = <&vdd_gpu_s0>;
++       sram-supply = <&vdd_gpu_mem_s0>;
+        status = "okay";
+ };
+
+@@ -537,7 +538,7 @@ rk806_dvs3_null: dvs3-null-pins {
+                };
+
+                regulators {
+-                       vdd_gpu_s0: dcdc-reg1 {
++                       vdd_gpu_s0: vdd_gpu_mem_s0: dcdc-reg1 {
+                                regulator-name = "vdd_gpu_s0";
+                                regulator-boot-on;
+                                regulator-min-microvolt = <550000>;
+
+Note that this only fixes the issue for the Orange Pi 5. If we want
+to go further, the same approach should be applied to many other boards
+as well. I can generate a list of the DT files (using a simple Python
+script) that need this update over the weekend.
+
+If we want to go even further and fix all DT files to properly include
+sram-supply we could also enforce that DT files do not omit sram-supply
+in the future. I am not sure this is strictly necessary but it also
+doesn't seem consistent to leave things as they are. Right now, some DT
+files include sram-supply even when there is no separate SRAM rail,
+while others do not. As a result, some boards will continue to print
+that annoying log message.
+
+It's not very clear which approach is best.
