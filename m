@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EBXfClVSjmmYBgEAu9opvQ
+	id aHiVOVZSjmmYBgEAu9opvQ
 	(envelope-from <dri-devel-bounces@lists.freedesktop.org>)
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 23:21:09 +0100
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 23:21:10 +0100
 X-Original-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0AEA1317F2
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 23:21:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE28131802
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Feb 2026 23:21:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53A2010E2B4;
-	Thu, 12 Feb 2026 22:21:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E60E910E2B7;
+	Thu, 12 Feb 2026 22:21:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ubuntu.com header.i=@ubuntu.com header.b="YxDEpIan";
+	dkim=pass (2048-bit key; unprotected) header.d=ubuntu.com header.i=@ubuntu.com header.b="EKVegII2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DF2C10E299
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 22:21:02 +0000 (UTC)
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CC8210E2B2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Feb 2026 22:21:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
  h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
  Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-953a8a3ca9;
- t=1770934862; bh=ZdD61gljRvIt18ORo8tDhe54NGz5CMuWinFzJxPQCGg=;
- b=YxDEpIanbg1VN4XkGBD0RXbofgHuhUGuAENSi4Tq/RDUTEo+pxSUZ0psgKY4T58oZlQioDNZD
- zPA5E9MuWlnzOtFeX8/ghdLvy23JByFJVUHzQXi7Ycc0YNYy67nQMVPDfQtjAkpP+VI9m7YxsZM
- +l8cW54IOP4OLr7iCDAX+53cIJOmj5p9/A1cadA+/wZ/3dyEAKJ5wk0RYK/FnhBHrw9LzrYR8Tq
- O7hrfbAMAwKXeLz5PvGdvjfsHgx6iqjgfJQQcD/H+j2D67/0L+hnk4eGfuIzkx3ea6jIanpJe91
- tBgkuIgLf+iZyXwRbD3krd6b5HfQV0bcxB3mrQ8xfcIg==
-X-Forward-Email-ID: 698e524d1cff1f790f797192
+ t=1770934865; bh=h/KQP1W2xBojGRSvIriUMX//C4oXkUFCwk6impK46Vc=;
+ b=EKVegII2x1yx8PPvX0FWr1ze6cOWWvvRYfnrduW8BgcB1uWn1f2SHxbOTluRgb24RtAVim73p
+ f1mbY9pHFFj1Bv78Uxx5z5Wc9XCPf9wG7pmgdwhqN6+MXicvt8/0gxvdyszFg4YwrrUCOUwJUKH
+ xz17LjifqyqLLyQI3rh/hoVjxBh5tK6wZAfh3EmO+Ak55xcH0dXOY0m55xZAzezA22zI0y3P0zY
+ VqWWCXg3d4dJUp473FNaYDYGfYKXgE+y+puyl5J8HCqhnWeFPR0XA7qat6cMvBPMA6wR+FUUDH7
+ D/JS+b9qOYKaEJs0PQ26icOpnSljoJ15AnXlMn7hJ1BQ==
+X-Forward-Email-ID: 698e524f1cff1f790f79782b
 X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
- 149.28.215.223
+ 121.127.44.73
 X-Forward-Email-Version: 2.6.3
 X-Forward-Email-Website: https://forwardemail.net
 X-Complaints-To: abuse@forwardemail.net
@@ -42,10 +42,10 @@ To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: alexander.deucher@amd.com, christian.koenig@amd.com,
  Joshua Peisach <jpeisach@ubuntu.com>
-Subject: [PATCH 1/2] drm/amdgpu/amdgpu_connectors: use struct drm_edid instead
- of struct edid
-Date: Thu, 12 Feb 2026 17:20:28 -0500
-Message-ID: <20260212222029.15777-2-jpeisach@ubuntu.com>
+Subject: [PATCH 2/2] drm/amdgpu/amdgpu_connectors: remove
+ amdgpu_connector_free_edid
+Date: Thu, 12 Feb 2026 17:20:29 -0500
+Message-ID: <20260212222029.15777-3-jpeisach@ubuntu.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260212222029.15777-1-jpeisach@ubuntu.com>
 References: <20260212222029.15777-1-jpeisach@ubuntu.com>
@@ -96,195 +96,99 @@ X-Spamd-Result: default: False [0.19 / 15.00];
 	ASN(0.00)[asn:6366, ipnet:131.252.0.0/16, country:US];
 	TAGGED_RCPT(0.00)[dri-devel];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[ubuntu.com:mid,ubuntu.com:dkim,ubuntu.com:email]
-X-Rspamd-Queue-Id: D0AEA1317F2
+X-Rspamd-Queue-Id: 9DE28131802
 X-Rspamd-Action: no action
 
-Some amdgpu code is still using deprecated edid functions. Switch to
-the newer functions and update the amdgpu_connector struct's edid type
-to the drm_edid type.
-
-At the same time, use the raw EDID when we need to for speaker
-allocations and for determining if the input is digital.
+Now that we are using struct drm_edid, we can just call drm_edid_free
+directly. Remove the function and update calls to drm_edid_free.
 
 Signed-off-by: Joshua Peisach <jpeisach@ubuntu.com>
 ---
- .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    | 32 +++++++++----------
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  2 +-
- drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |  4 +--
- drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |  4 +--
- drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |  4 +--
- 5 files changed, 23 insertions(+), 23 deletions(-)
+ .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    | 22 ++++++-------------
+ 1 file changed, 7 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-index d3e312bda..ab83b3a87 100644
+index ab83b3a87..04842e3f1 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-@@ -246,10 +246,10 @@ amdgpu_connector_find_encoder(struct drm_connector *connector,
- 	return NULL;
+@@ -297,14 +297,6 @@ static void amdgpu_connector_get_edid(struct drm_connector *connector)
+ 	}
  }
  
--static struct edid *
-+static const struct drm_edid *
- amdgpu_connector_get_hardcoded_edid(struct amdgpu_device *adev)
+-static void amdgpu_connector_free_edid(struct drm_connector *connector)
+-{
+-	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
+-
+-	kfree(amdgpu_connector->edid);
+-	amdgpu_connector->edid = NULL;
+-}
+-
+ static int amdgpu_connector_ddc_get_modes(struct drm_connector *connector)
  {
--	return drm_edid_duplicate(drm_edid_raw(adev->mode_info.bios_hardcoded_edid));
-+	return drm_edid_dup(adev->mode_info.bios_hardcoded_edid);
- }
+ 	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
+@@ -754,7 +746,7 @@ static void amdgpu_connector_destroy(struct drm_connector *connector)
+ {
+ 	struct amdgpu_connector *amdgpu_connector = to_amdgpu_connector(connector);
  
- static void amdgpu_connector_get_edid(struct drm_connector *connector)
-@@ -268,8 +268,8 @@ static void amdgpu_connector_get_edid(struct drm_connector *connector)
- 	if ((amdgpu_connector_encoder_get_dp_bridge_encoder_id(connector) !=
- 	     ENCODER_OBJECT_ID_NONE) &&
- 	    amdgpu_connector->ddc_bus->has_aux) {
--		amdgpu_connector->edid = drm_get_edid(connector,
--						      &amdgpu_connector->ddc_bus->aux.ddc);
-+		amdgpu_connector->edid = drm_edid_read_ddc(connector,
-+							  &amdgpu_connector->ddc_bus->aux.ddc);
- 	} else if ((connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort) ||
- 		   (connector->connector_type == DRM_MODE_CONNECTOR_eDP)) {
- 		struct amdgpu_connector_atom_dig *dig = amdgpu_connector->con_priv;
-@@ -277,14 +277,14 @@ static void amdgpu_connector_get_edid(struct drm_connector *connector)
- 		if ((dig->dp_sink_type == CONNECTOR_OBJECT_ID_DISPLAYPORT ||
- 		     dig->dp_sink_type == CONNECTOR_OBJECT_ID_eDP) &&
- 		    amdgpu_connector->ddc_bus->has_aux)
--			amdgpu_connector->edid = drm_get_edid(connector,
--							      &amdgpu_connector->ddc_bus->aux.ddc);
-+			amdgpu_connector->edid = drm_edid_read_ddc(connector,
-+								  &amdgpu_connector->ddc_bus->aux.ddc);
- 		else if (amdgpu_connector->ddc_bus)
--			amdgpu_connector->edid = drm_get_edid(connector,
--							      &amdgpu_connector->ddc_bus->adapter);
-+			amdgpu_connector->edid = drm_edid_read_ddc(connector,
-+								  &amdgpu_connector->ddc_bus->adapter);
- 	} else if (amdgpu_connector->ddc_bus) {
--		amdgpu_connector->edid = drm_get_edid(connector,
--						      &amdgpu_connector->ddc_bus->adapter);
-+		amdgpu_connector->edid = drm_edid_read_ddc(connector,
-+							  &amdgpu_connector->ddc_bus->adapter);
- 	}
+-	amdgpu_connector_free_edid(connector);
++	drm_edid_free(amdgpu_connector->edid);
+ 	kfree(amdgpu_connector->con_priv);
+ 	drm_connector_unregister(connector);
+ 	drm_connector_cleanup(connector);
+@@ -873,7 +865,7 @@ amdgpu_connector_vga_detect(struct drm_connector *connector, bool force)
+ 		dret = amdgpu_display_ddc_probe(amdgpu_connector, false);
+ 	if (dret) {
+ 		amdgpu_connector->detected_by_load = false;
+-		amdgpu_connector_free_edid(connector);
++		drm_edid_free(amdgpu_connector->edid);
+ 		amdgpu_connector_get_edid(connector);
  
- 	if (!amdgpu_connector->edid) {
-@@ -292,7 +292,7 @@ static void amdgpu_connector_get_edid(struct drm_connector *connector)
- 		if (((connector->connector_type == DRM_MODE_CONNECTOR_LVDS) ||
- 		     (connector->connector_type == DRM_MODE_CONNECTOR_eDP))) {
- 			amdgpu_connector->edid = amdgpu_connector_get_hardcoded_edid(adev);
--			drm_connector_update_edid_property(connector, amdgpu_connector->edid);
-+			drm_edid_connector_update(connector, amdgpu_connector->edid);
- 		}
- 	}
- }
-@@ -311,11 +311,11 @@ static int amdgpu_connector_ddc_get_modes(struct drm_connector *connector)
- 	int ret;
- 
- 	if (amdgpu_connector->edid) {
--		drm_connector_update_edid_property(connector, amdgpu_connector->edid);
--		ret = drm_add_edid_modes(connector, amdgpu_connector->edid);
-+		drm_edid_connector_update(connector, amdgpu_connector->edid);
-+		ret = drm_edid_connector_add_modes(connector);
- 		return ret;
- 	}
--	drm_connector_update_edid_property(connector, NULL);
-+	drm_edid_connector_update(connector, NULL);
- 	return 0;
- }
- 
-@@ -883,7 +883,7 @@ amdgpu_connector_vga_detect(struct drm_connector *connector, bool force)
- 			ret = connector_status_connected;
- 		} else {
- 			amdgpu_connector->use_digital =
--				!!(amdgpu_connector->edid->input & DRM_EDID_INPUT_DIGITAL);
-+				drm_edid_is_digital(amdgpu_connector->edid);
- 
- 			/* some oems have boards with separate digital and analog connectors
+ 		if (!amdgpu_connector->edid) {
+@@ -889,7 +881,7 @@ amdgpu_connector_vga_detect(struct drm_connector *connector, bool force)
  			 * with a shared ddc line (often vga + hdmi)
-@@ -1063,7 +1063,7 @@ amdgpu_connector_dvi_detect(struct drm_connector *connector, bool force)
- 			broken_edid = true; /* defer use_digital to later */
- 		} else {
- 			amdgpu_connector->use_digital =
--				!!(amdgpu_connector->edid->input & DRM_EDID_INPUT_DIGITAL);
-+				drm_edid_is_digital(amdgpu_connector->edid);
+ 			 */
+ 			if (amdgpu_connector->use_digital && amdgpu_connector->shared_ddc) {
+-				amdgpu_connector_free_edid(connector);
++				drm_edid_free(amdgpu_connector->edid);
+ 				ret = connector_status_disconnected;
+ 			} else {
+ 				ret = connector_status_connected;
+@@ -984,7 +976,7 @@ static void amdgpu_connector_shared_ddc(enum drm_connector_status *status,
+ 					/* hpd is our only option in this case */
+ 					if (!amdgpu_display_hpd_sense(adev,
+ 								      amdgpu_connector->hpd.hpd)) {
+-						amdgpu_connector_free_edid(connector);
++						drm_edid_free(amdgpu_connector->edid);
+ 						*status = connector_status_disconnected;
+ 					}
+ 				}
+@@ -1053,7 +1045,7 @@ amdgpu_connector_dvi_detect(struct drm_connector *connector, bool force)
+ 	}
+ 	if (dret) {
+ 		amdgpu_connector->detected_by_load = false;
+-		amdgpu_connector_free_edid(connector);
++		drm_edid_free(amdgpu_connector->edid);
+ 		amdgpu_connector_get_edid(connector);
  
- 			/* some oems have boards with separate digital and analog connectors
+ 		if (!amdgpu_connector->edid) {
+@@ -1069,7 +1061,7 @@ amdgpu_connector_dvi_detect(struct drm_connector *connector, bool force)
  			 * with a shared ddc line (often vga + hdmi)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-index dc8d2f52c..c4e025581 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-@@ -624,7 +624,7 @@ struct amdgpu_connector {
- 	bool use_digital;
- 	/* we need to mind the EDID between detect
- 	   and get modes due to analog/digital/tvencoder */
--	struct edid *edid;
-+	const struct drm_edid *edid;
- 	void *con_priv;
- 	bool dac_load_detect;
- 	bool detected_by_load; /* if the connection status was determined by load */
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-index 72ca6538b..b456a6ec2 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v10_0.c
-@@ -1298,7 +1298,7 @@ static void dce_v10_0_audio_write_speaker_allocation(struct drm_encoder *encoder
- 		return;
+ 			 */
+ 			if ((!amdgpu_connector->use_digital) && amdgpu_connector->shared_ddc) {
+-				amdgpu_connector_free_edid(connector);
++				drm_edid_free(amdgpu_connector->edid);
+ 				ret = connector_status_disconnected;
+ 			} else {
+ 				ret = connector_status_connected;
+@@ -1417,7 +1409,7 @@ amdgpu_connector_dp_detect(struct drm_connector *connector, bool force)
+ 		goto out;
  	}
  
--	sad_count = drm_edid_to_speaker_allocation(amdgpu_connector->edid, &sadb);
-+	sad_count = drm_edid_to_speaker_allocation(drm_edid_raw(amdgpu_connector->edid), &sadb);
- 	if (sad_count < 0) {
- 		DRM_ERROR("Couldn't read Speaker Allocation Data Block: %d\n", sad_count);
- 		sad_count = 0;
-@@ -1368,7 +1368,7 @@ static void dce_v10_0_audio_write_sad_regs(struct drm_encoder *encoder)
- 		return;
- 	}
+-	amdgpu_connector_free_edid(connector);
++	drm_edid_free(amdgpu_connector->edid);
  
--	sad_count = drm_edid_to_sad(amdgpu_connector->edid, &sads);
-+	sad_count = drm_edid_to_sad(drm_edid_raw(amdgpu_connector->edid), &sads);
- 	if (sad_count < 0)
- 		DRM_ERROR("Couldn't read SADs: %d\n", sad_count);
- 	if (sad_count <= 0)
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-index acc887a58..13496ba38 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
-@@ -1265,7 +1265,7 @@ static void dce_v6_0_audio_write_speaker_allocation(struct drm_encoder *encoder)
- 		return;
- 	}
- 
--	sad_count = drm_edid_to_speaker_allocation(amdgpu_connector->edid, &sadb);
-+	sad_count = drm_edid_to_speaker_allocation(drm_edid_raw(amdgpu_connector->edid), &sadb);
- 	if (sad_count < 0) {
- 		DRM_ERROR("Couldn't read Speaker Allocation Data Block: %d\n", sad_count);
- 		sad_count = 0;
-@@ -1346,7 +1346,7 @@ static void dce_v6_0_audio_write_sad_regs(struct drm_encoder *encoder)
- 		return;
- 	}
- 
--	sad_count = drm_edid_to_sad(amdgpu_connector->edid, &sads);
-+	sad_count = drm_edid_to_sad(drm_edid_raw(amdgpu_connector->edid), &sads);
- 	if (sad_count < 0)
- 		DRM_ERROR("Couldn't read SADs: %d\n", sad_count);
- 	if (sad_count <= 0)
-diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-index 2ccd6aad8..63687c40f 100644
---- a/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/dce_v8_0.c
-@@ -1271,7 +1271,7 @@ static void dce_v8_0_audio_write_speaker_allocation(struct drm_encoder *encoder)
- 		return;
- 	}
- 
--	sad_count = drm_edid_to_speaker_allocation(amdgpu_connector->edid, &sadb);
-+	sad_count = drm_edid_to_speaker_allocation(drm_edid_raw(amdgpu_connector->edid), &sadb);
- 	if (sad_count < 0) {
- 		DRM_ERROR("Couldn't read Speaker Allocation Data Block: %d\n", sad_count);
- 		sad_count = 0;
-@@ -1339,7 +1339,7 @@ static void dce_v8_0_audio_write_sad_regs(struct drm_encoder *encoder)
- 		return;
- 	}
- 
--	sad_count = drm_edid_to_sad(amdgpu_connector->edid, &sads);
-+	sad_count = drm_edid_to_sad(drm_edid_raw(amdgpu_connector->edid), &sads);
- 	if (sad_count < 0)
- 		DRM_ERROR("Couldn't read SADs: %d\n", sad_count);
- 	if (sad_count <= 0)
+ 	if ((connector->connector_type == DRM_MODE_CONNECTOR_eDP) ||
+ 	    (connector->connector_type == DRM_MODE_CONNECTOR_LVDS)) {
 -- 
 2.51.0
 
